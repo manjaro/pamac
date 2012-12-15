@@ -18,19 +18,13 @@ interface.add_from_file('gui/dialogs.glade')
 
 packages_list = interface.get_object('packages_list')
 groups_list = interface.get_object('groups_list')
-transaction_desc = interface.get_object('transaction_desc')
 package_desc = interface.get_object('package_desc')
-conf_label = interface.get_object('conf_label')
 toggle = interface.get_object('cellrenderertoggle1')
 search_entry = interface.get_object('search_entry')
 tree2 = interface.get_object('treeview2_selection')
 tree1 = interface.get_object('treeview1_selection')
 installed_column = interface.get_object('installed_column')
 name_column = interface.get_object('name_column')
-ConfDialog = interface.get_object('ConfDialog')
-ErrorDialog = interface.get_object('ErrorDialog')
-down_label = interface.get_object('down_label')
-
 installed_column.set_sort_column_id(1)
 name_column.set_sort_column_id(0)
 
@@ -204,19 +198,17 @@ class Handler:
 		global t
 		global transaction_type
 		global transaction_dict
-		global transaction_desc
 		if not geteuid() == 0:
-			ErrorDialog.format_secondary_text("You need to be root to run packages transactions")
-			response = ErrorDialog.run()
+			transaction.ErrorDialog.format_secondary_text("You need to be root to run packages transactions")
+			response = transaction.ErrorDialog.run()
 			if response:
-				ErrorDialog.hide()
+				transaction.ErrorDialog.hide()
 		elif not transaction_dict:
-			ErrorDialog.format_secondary_text("No package is selected")
-			response = ErrorDialog.run()
+			transaction.ErrorDialog.format_secondary_text("No package is selected")
+			response = transaction.ErrorDialog.run()
 			if response:
-				ErrorDialog.hide()
+				transaction.ErrorDialog.hide()
 		else: 
-			transaction_desc.clear()
 			t = transaction.init_transaction(config.handle)
 			if transaction_type is "install":
 				for pkg in transaction_dict.values():
@@ -227,47 +219,24 @@ class Handler:
 			try:
 				t.prepare()
 			except pyalpm.error:
-				ErrorDialog.format_secondary_text(traceback.format_exc())
-				response = ErrorDialog.run()
+				transaction.ErrorDialog.format_secondary_text(traceback.format_exc())
+				response = transaction.ErrorDialog.run()
 				if response:
-					ErrorDialog.hide()
+					transaction.ErrorDialog.hide()
 				t.release()
 			transaction.to_remove = t.to_remove
 			transaction.to_add = t.to_add
-			if transaction.to_remove:
-				transaction_desc.append(['To remove:', transaction.to_remove[0].name])
-				i = 1
-				while i <  len(transaction.to_remove):
-					transaction_desc.append([' ', transaction.to_remove[i].name])
-					i += 1
-				down_label.set_markup('')
-			if transaction.to_add:
-				transaction_desc.append(['To install:', transaction.to_add[0].name])
-				i = 1
-				dsize = transaction.to_add[0].size
-				while i <  len(transaction.to_add):
-					transaction_desc.append([' ', transaction.to_add[i].name])
-					dsize += transaction.to_add[i].download_size
-					i += 1
-				down_label.set_markup('<b>Total Download size: </b>'+transaction.format_size(dsize))
-			response = ConfDialog.run()
+			transaction.set_transaction_desc('normal')
+			response = transaction.ConfDialog.run()
 			if response == Gtk.ResponseType.OK:
-				ConfDialog.hide()
-				try:
-					t.commit()
-				except pyalpm.error:
-					ErrorDialog.format_secondary_text(traceback.format_exc())
-					response = ErrorDialog.run()
-					if response:
-						ErrorDialog.hide()
-						t.release()
+				transaction.t_finalize(t)
 				transaction_dict.clear()
 				transaction_type = None
 				set_packages_list()
 				transaction.ProgressWindow.hide()
 			if response == Gtk.ResponseType.CANCEL or Gtk.ResponseType.CLOSE or Gtk.ResponseType.DELETE_EVENT:
 				transaction.ProgressWindow.hide()
-				ConfDialog.hide()
+				transaction.ConfDialog.hide()
 				t.release()
 
 	def on_EraseButton_clicked(self, *arg):
@@ -360,9 +329,10 @@ class Handler:
 		packages_list[line][1] = not packages_list[line][1]
 		packages_list[line][2] = True
 
-#if __name__ == "__main__":
-transaction.do_refresh()
-interface.connect_signals(Handler())
-MainWindow = interface.get_object("MainWindow")
-MainWindow.show_all()
-Gtk.main()
+if __name__ == "__main__":
+	if geteuid() == 0:
+		transaction.do_refresh()
+	interface.connect_signals(Handler())
+	MainWindow = interface.get_object("MainWindow")
+	MainWindow.show_all()
+	Gtk.main()

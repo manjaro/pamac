@@ -6,7 +6,6 @@ from gi.repository import Gtk, GdkPixbuf, Gdk
 import pyalpm
 from time import strftime, localtime
 from os import geteuid
-import sys
 import config
 import transaction
 
@@ -19,6 +18,7 @@ top_label = interface.get_object('top_label')
 
 def have_updates():
 	available_updates = transaction.get_updates()
+	update_listore.clear()
 	if not available_updates:
 		update_listore.append(["", ""])
 		return False
@@ -31,14 +31,15 @@ def have_updates():
 		return True
 
 class Handler:
-	def on_MainWindow_delete_event(self, *arg):
+	def on_UpdateWindow_delete_event(self, *arg):
 		Gtk.main_quit()
 
 	def on_QuitButton_clicked(self, *arg):
 		Gtk.main_quit()
 
 	def on_ApplyButton_clicked(self, *arg):
-		print("Apply")
+		transaction.do_sysupgrade()
+		have_updates()
 
 	def on_RefreshButton_clicked(self, *arg):
 		transaction.do_refresh()
@@ -52,9 +53,11 @@ def main():
 	else:
 		top_label.set_markup("<big><b>Available updates</b></big>")
 	interface.connect_signals(Handler())
-	MainWindow = interface.get_object("MainWindow")
-	MainWindow.show_all()
+	UpdateWindow = interface.get_object("UpdateWindow")
+	UpdateWindow.show_all()
 	Gtk.main()
 
 if __name__ == "__main__":
+	if geteuid() == 0:
+		transaction.do_refresh()
 	main()

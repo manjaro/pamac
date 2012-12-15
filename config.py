@@ -10,6 +10,7 @@ import collections
 import warnings
 
 import pyalpm
+from transaction import ErrorDialog
 
 class InvalidSyntax(Warning):
 	def __init__(self, filename, problem, arg):
@@ -111,6 +112,10 @@ def cb_log(level, line):
 	if not (level & _logmask):
 		return
 	if level & pyalpm.LOG_ERROR:
+		ErrorDialog.format_secondary_text(line)
+		response = ErrorDialog.run()
+		if response:
+			ErrorDialog.hide()
 		line = "ERROR: " + line
 	elif level & pyalpm.LOG_WARNING:
 		line = "WARNING: " + line
