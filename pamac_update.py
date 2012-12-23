@@ -1,5 +1,5 @@
 #! /usr/bin/python
-# -*-coding:utf-8 -*
+# -*-coding:utf-8 -*-
 
 from gi.repository import Gtk, GdkPixbuf, Gdk
 
@@ -44,6 +44,9 @@ class Handler:
 	def on_RefreshButton_clicked(self, *arg):
 		transaction.do_refresh()
 		have_updates()
+
+	def on_ProgressWindow_delete_event(self, *arg):
+		pass
 
 def main():
 	update = have_updates()

@@ -1,5 +1,5 @@
 #! /usr/bin/python
-# -*-coding:utf-8 -*
+# -*-coding:utf-8 -*-
 
 from gi.repository import Gtk, GdkPixbuf, Gdk, GObject
 
@@ -44,7 +44,6 @@ list_dict = None
 current_group = None
 transaction_type = None
 transaction_dict = {}
-t = None
 
 def set_list_dict_search(*patterns):
 	global pkg_name_list
@@ -188,6 +187,9 @@ def set_desc(pkg, style):
 			package_desc.append(['Backup files:', '\n'.join(["%s %s" % (md5, file) for (file, md5) in pkg.backup])])
 
 class Handler:
+	def on_ProgressWindow_delete_event(self, *arg):
+		pass
+
 	def on_MainWindow_delete_event(self, *arg):
 		Gtk.main_quit()
 
@@ -208,36 +210,52 @@ class Handler:
 			response = transaction.ErrorDialog.run()
 			if response:
 				transaction.ErrorDialog.hide()
-		else: 
-			t = transaction.init_transaction(config.handle)
-			if transaction_type is "install":
-				for pkg in transaction_dict.values():
-					t.add_pkg(pkg)
-			if transaction_type is "remove":
-				for pkg in transaction_dict.values():
-					t.remove_pkg(pkg)
-			try:
-				t.prepare()
-			except pyalpm.error:
-				transaction.ErrorDialog.format_secondary_text(traceback.format_exc())
-				response = transaction.ErrorDialog.run()
-				if response:
-					transaction.ErrorDialog.hide()
-				t.release()
-			transaction.to_remove = t.to_remove
-			transaction.to_add = t.to_add
-			transaction.set_transaction_desc('normal')
-			response = transaction.ConfDialog.run()
-			if response == Gtk.ResponseType.OK:
-				transaction.t_finalize(t)
-				transaction_dict.clear()
-				transaction_type = None
-				set_packages_list()
-				transaction.ProgressWindow.hide()
-			if response == Gtk.ResponseType.CANCEL or Gtk.ResponseType.CLOSE or Gtk.ResponseType.DELETE_EVENT:
-				transaction.ProgressWindow.hide()
-				transaction.ConfDialog.hide()
-				t.release()
+		else:
+			if transaction.t_lock is True:
+				pass
+			else:
+				transaction.t = transaction.init_transaction(config.handle, cascade = True)
+				if transaction_type is "install":
+					for pkg in transaction_dict.values():
+						transaction.t.add_pkg(pkg)
+				if transaction_type is "remove":
+					for pkg in transaction_dict.values():
+						transaction.t.remove_pkg(pkg)
+				transaction.check_conflicts()
+				if transaction.conflict_to_remove:
+					for pkg in transaction.conflict_to_remove.values():
+						transaction.t.remove_pkg(pkg)
+				try:
+					transaction.t.prepare()
+				except pyalpm.error:
+					transaction.ErrorDialog.format_secondary_text(traceback.format_exc())
+					response = transaction.ErrorDialog.run()
+					if response:
+						transaction.ErrorDialog.hide()
+					transaction.t.release()
+					transaction.t_lock = False
+				transaction.to_remove = transaction.t.to_remove
+				transaction.to_add = transaction.t.to_add
+				transaction.set_transaction_desc('normal')
+				response = transaction.ConfDialog.run()
+				if response == Gtk.ResponseType.OK:
+					transaction.ConfDialog.hide()
+					try:
+						transaction.t.commit()
+					except pyalpm.error:
+						transaction.ErrorDialog.format_secondary_text(traceback.format_exc())
+						response = transaction.ErrorDialog.run()
+						if response:
+							transaction.ErrorDialog.hide()
+					transaction_dict.clear()
+					transaction_type = None
+					set_packages_list()
+					transaction.ProgressWindow.hide()
+				if response == Gtk.ResponseType.CANCEL or Gtk.ResponseType.CLOSE or Gtk.ResponseType.DELETE_EVENT:
+					transaction.ProgressWindow.hide()
+					transaction.ConfDialog.hide()
+					transaction.t.release()
+					transaction.t_lock = False
 
 	def on_EraseButton_clicked(self, *arg):
 		global transaction_type
