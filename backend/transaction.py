@@ -6,7 +6,7 @@ from gi.repository import Gtk
 import pyalpm
 import traceback
 import sys
-import config
+from backend import config
 
 interface = Gtk.Builder()
 interface.add_from_file('gui/dialogs.glade')
@@ -299,6 +299,9 @@ def cb_event(ID, event, tupel):
 	if ID is 27:
 		progress_label.set_text('Downloading '+format_size(total_size))
 		print('Downloading a file')
+	if ID is 17:
+		progress_label.set_text('Checking signatures')
+		print('Checking signatures')
 	progress_bar.set_fraction(0.0)
 	progress_bar.set_text('')
 	print(ID,event)

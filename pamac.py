@@ -8,9 +8,8 @@ import math
 import sys
 from time import strftime, localtime
 from os import geteuid
-import config
-import transaction
 import traceback
+from backend import transaction, config
 
 interface = Gtk.Builder()
 interface.add_from_file('gui/pamac.glade')
@@ -187,9 +186,6 @@ def set_desc(pkg, style):
 			package_desc.append(['Backup files:', '\n'.join(["%s %s" % (md5, file) for (file, md5) in pkg.backup])])
 
 class Handler:
-	def on_ProgressWindow_delete_event(self, *arg):
-		pass
-
 	def on_MainWindow_delete_event(self, *arg):
 		Gtk.main_quit()
 

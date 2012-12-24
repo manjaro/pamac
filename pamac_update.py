@@ -6,8 +6,7 @@ from gi.repository import Gtk, GdkPixbuf, Gdk
 import pyalpm
 from time import strftime, localtime
 from os import geteuid
-import config
-import transaction
+from backend import transaction
 
 interface = Gtk.Builder()
 interface.add_from_file('gui/pamac_update.glade')
@@ -19,8 +18,10 @@ top_label = interface.get_object('top_label')
 def have_updates():
 	available_updates = transaction.get_updates()
 	update_listore.clear()
+	top_label.set_justify(Gtk.Justification.CENTER)
 	if not available_updates:
 		update_listore.append(["", ""])
+		top_label.set_markup("<big><b>No update available</b></big>")
 		return False
 	else:
 		for pkg in available_updates:
@@ -28,6 +29,7 @@ def have_updates():
 			newversion = transaction.get_new_version_available(pkgname)
 			pkgname = pkg.name+" "+newversion
 			update_listore.append([pkgname, transaction.format_size(pkg.size)])
+		top_label.set_markup("<big><b>Available updates</b></big>")
 		return True
 
 class Handler:
@@ -45,16 +47,8 @@ class Handler:
 		transaction.do_refresh()
 		have_updates()
 
-	def on_ProgressWindow_delete_event(self, *arg):
-		pass
-
 def main():
-	update = have_updates()
-	top_label.set_justify(Gtk.Justification.CENTER)
-	if update is False:
-		top_label.set_markup("<big><b>No update available</b></big>")
-	else:
-		top_label.set_markup("<big><b>Available updates</b></big>")
+	have_updates()
 	interface.connect_signals(Handler())
 	UpdateWindow = interface.get_object("UpdateWindow")
 	UpdateWindow.show_all()
