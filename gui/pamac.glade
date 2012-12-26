@@ -15,6 +15,7 @@
     <property name="title" translatable="yes">Pamac</property>
     <property name="default_width">800</property>
     <property name="default_height">500</property>
+    <property name="icon">/usr/share/icons/hicolor/22x22/status/package-sources.png</property>
     <signal name="delete-event" handler="on_MainWindow_delete_event" swapped="no"/>
     <child>
       <object class="GtkBox" id="box1">
@@ -88,6 +89,7 @@
                         <property name="can_focus">True</property>
                         <property name="model">groups_list</property>
                         <property name="headers_clickable">False</property>
+                        <property name="enable_search">False</property>
                         <child internal-child="selection">
                           <object class="GtkTreeSelection" id="treeview1_selection">
                             <signal name="changed" handler="on_treeview1_selection_changed" swapped="no"/>

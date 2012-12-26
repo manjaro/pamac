@@ -14,6 +14,7 @@ interface.add_from_file('/usr/share/pamac/dialogs.glade')
 ProgressWindow = interface.get_object('ProgressWindow')
 progress_bar = interface.get_object('progressbar2')
 progress_label = interface.get_object('progresslabel2')
+action_icon = interface.get_object('action_icon')
 ErrorDialog = interface.get_object('ErrorDialog')
 WarningDialog = interface.get_object('WarningDialog')
 QuestionDialog = interface.get_object('QuestionDialog')
@@ -290,18 +291,38 @@ def cb_event(ID, event, tupel):
 	ProgressWindow.show_all()
 	while Gtk.events_pending():
 		Gtk.main_iteration()
-	for i in [1,3,5,7,9,11,15]:
-		if ID is i:
-			progress_label.set_text(event)
-			break
-		else :
-			progress_label.set_text(' ')
-	if ID is 27:
-		progress_label.set_text('Downloading '+format_size(total_size))
-		print('Downloading a file')
-	if ID is 17:
+	if ID is 1:
+		progress_label.set_text('Checking dependencies')
+		action_icon.set_from_file('/usr/share/icons/hicolor/24x24/status/package-search.png')
+	elif ID is 3:
+		progress_label.set_text('Checking file conflicts')
+		action_icon.set_from_file('/usr/share/icons/hicolor/24x24/status/package-search.png')
+	elif ID is 5:
+		progress_label.set_text('Resolving dependencies')
+		action_icon.set_from_file('/usr/share/icons/hicolor/24x24/status/setup.png')
+	elif ID is 7:
+		progress_label.set_text('Checking inter conflicts')
+		action_icon.set_from_file('/usr/share/icons/hicolor/24x24/status/package-search.png')
+	elif ID is 9:
+		progress_label.set_text('Installing packages')
+		action_icon.set_from_file('/usr/share/icons/hicolor/24x24/status/package-add.png')
+	elif ID is 11:
+		progress_label.set_text('Removing packages')
+		action_icon.set_from_file('/usr/share/icons/hicolor/24x24/status/package-delete.png')
+	elif ID is 13:
+		progress_label.set_text('Upgrading packages')
+		action_icon.set_from_file('/usr/share/icons/hicolor/24x24/status/package-update.png')
+	elif ID is 15:
+		progress_label.set_text('Checking integrity')
+		action_icon.set_from_file('/usr/share/icons/hicolor/24x24/status/package-search.png')
+	elif ID is 17:
 		progress_label.set_text('Checking signatures')
+		action_icon.set_from_file('/usr/share/icons/hicolor/24x24/status/package-search.png')
 		print('Checking signatures')
+	elif ID is 27:
+		print('Downloading a file')
+	else :
+		progress_label.set_text('')
 	progress_bar.set_fraction(0.0)
 	progress_bar.set_text('')
 	print(ID,event)
@@ -360,10 +381,12 @@ def cb_dl(_target, _transferred, total):
 		progress_label.set_text('Downloading '+format_size(total_size))
 		progress_bar.set_text(_target)
 		progress_bar.set_fraction(fraction)
+		action_icon.set_from_file('/usr/share/icons/hicolor/24x24/status/package-download.png')
 	else:
 		progress_label.set_text('Refreshing...')
 		progress_bar.set_text(_target)
 		progress_bar.pulse()
+		action_icon.set_from_file('/usr/share/icons/hicolor/24x24/status/refresh-cache.png')
 
 def cb_progress(_target, _percent, n, i):
 	while Gtk.events_pending():

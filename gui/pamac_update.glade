@@ -5,6 +5,7 @@
     <property name="can_focus">False</property>
     <property name="title" translatable="yes">Update Manager</property>
     <property name="window_position">center</property>
+    <property name="icon">/usr/share/icons/hicolor/22x22/status/package-update.png</property>
     <signal name="delete-event" handler="on_UpdateWindow_delete_event" swapped="no"/>
     <child>
       <object class="GtkBox" id="box1">
@@ -59,10 +60,34 @@
           </packing>
         </child>
         <child>
-          <object class="GtkLabel" id="top_label">
+          <object class="GtkBox" id="box2">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="label" translatable="yes">label</property>
+            <property name="spacing">10</property>
+            <child>
+              <object class="GtkImage" id="image1">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="pixbuf">/usr/share/icons/hicolor/48x48/status/package-update.png</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkLabel" id="top_label">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="label" translatable="yes">label</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
           </object>
           <packing>
             <property name="expand">False</property>
@@ -72,8 +97,8 @@
         </child>
         <child>
           <object class="GtkScrolledWindow" id="scrolledwindow1">
-            <property name="width_request">390</property>
-            <property name="height_request">490</property>
+            <property name="width_request">300</property>
+            <property name="height_request">420</property>
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="hexpand">True</property>
@@ -116,8 +141,9 @@
             </child>
           </object>
           <packing>
-            <property name="expand">False</property>
+            <property name="expand">True</property>
             <property name="fill">True</property>
+            <property name="padding">6</property>
             <property name="position">2</property>
           </packing>
         </child>
