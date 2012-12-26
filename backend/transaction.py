@@ -9,7 +9,7 @@ import sys
 from backend import config
 
 interface = Gtk.Builder()
-interface.add_from_file('gui/dialogs.glade')
+interface.add_from_file('/usr/share/gui/dialogs.glade')
 
 ProgressWindow = interface.get_object('ProgressWindow')
 progress_bar = interface.get_object('progressbar2')
