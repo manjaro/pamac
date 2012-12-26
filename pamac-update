@@ -9,8 +9,8 @@ from os import geteuid
 from backend import transaction
 
 interface = Gtk.Builder()
-interface.add_from_file('/usr/share/gui/pamac_update.glade')
-interface.add_from_file('/usr/share/gui/dialogs.glade')
+interface.add_from_file('/usr/share/pamac/pamac_update.glade')
+interface.add_from_file('/usr/share/pamac/dialogs.glade')
 
 update_listore = interface.get_object('update_list')
 top_label = interface.get_object('top_label')

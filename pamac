@@ -12,8 +12,8 @@ import traceback
 from backend import transaction, config
 
 interface = Gtk.Builder()
-interface.add_from_file('/usr/share/gui/pamac.glade')
-interface.add_from_file('/usr/share/gui/dialogs.glade')
+interface.add_from_file('/usr/share/pamac/pamac.glade')
+interface.add_from_file('/usr/share/pamac/dialogs.glade')
 
 packages_list = interface.get_object('packages_list')
 groups_list = interface.get_object('groups_list')
