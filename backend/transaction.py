@@ -5,7 +5,7 @@ from gi.repository import Gtk
 
 import pyalpm
 import traceback
-import sys
+
 from backend import config
 
 interface = Gtk.Builder()
@@ -55,43 +55,30 @@ def init_transaction(handle, **options):
 def check_conflicts():
 	global conflict_to_remove
 	conflict_to_remove = {}
-	installed_conflicts = {}
-	for pkg in config.handle.get_localdb().pkgcache:
-		if pkg.conflicts:
-			installed_conflicts[pkg.name] = pkg.conflicts
-	targets_conflicts = {}
-	targets_replaces = {}
-	for pkg in t.to_add:
-		if pkg.replaces:
-			targets_replaces[pkg.name] = pkg.replaces
-		if pkg.conflicts:
-			targets_conflicts[pkg.name] = pkg.conflicts
 	warning = ''
-	if targets_replaces:
-		for key, value in targets_replaces.items():
-			for name in value:
+	for target in t.to_add:
+		if target.replaces:
+			for name in target.replaces:
 				pkg = config.handle.get_localdb().get_pkg(name)
 				if pkg:
 					if not pkg.name in conflict_to_remove.keys():
 						conflict_to_remove[pkg.name] = pkg
 						if warning:
 							warning = warning+'\n'
-						warning = warning+pkg.name+' will be replaced by '+key 
-	if targets_conflicts:
-		for key, value in targets_conflicts.items():
-			for name in value:
+						warning = warning+pkg.name+' will be replaced by '+target.name
+		if target.conflicts:
+			for name in target.conflicts:
 				pkg = config.handle.get_localdb().get_pkg(name)
 				if pkg:
 					if not pkg.name in conflict_to_remove.keys():
 						conflict_to_remove[pkg.name] = pkg
-	if installed_conflicts:
-		for key, value in installed_conflicts.items():
-			for name in value:
-				for pkg in t.to_add:
-					if pkg.name == name:
-						if not pkg.name in conflict_to_remove.keys():
-							conflict_to_remove[pkg.name] = pkg
-	if conflict_to_remove:
+		for installed_pkg in config.handle.get_localdb().pkgcache:
+			if installed_pkg.conflicts:
+				for name in installed_pkg.conflicts:
+					if name == target.name:
+						if not name in conflict_to_remove.keys():
+							conflict_to_remove[installed_pkg.name] = installed_pkg
+	if warning:
 		WarningDialog.format_secondary_text(warning)
 		response = WarningDialog.run()
 		if response:
@@ -101,7 +88,6 @@ def do_refresh():
 	"""Sync databases like pacman -Sy"""
 	global t
 	global t_lock
-	ProgressWindow.show_all()
 	for db in config.handle.get_syncdbs():
 		if t_lock is False:
 			t = init_transaction(config.handle)
@@ -116,7 +102,6 @@ def do_refresh():
 					ErrorDialog.hide()
 				t_lock = False
 				break
-	ProgressWindow.hide()
 	progress_label.set_text('')
 	progress_bar.set_text('')
 
@@ -164,7 +149,7 @@ def do_sysupgrade():
 				print("Nothing to update")
 			else:
 				t.release()
-				t = init_transaction(config.handle, noconflicts = True, nodeps = True, nodepversion = True)
+				t = init_transaction(config.handle, noconflicts = True, nodeps = True)
 				for pkg in to_add:
 					t.add_pkg(pkg)
 				for pkg in conflict_to_remove.values():
@@ -188,6 +173,7 @@ def do_sysupgrade():
 
 def t_finalize(t):
 	ConfDialog.hide()
+	ProgressWindow.show_all()
 	try:
 		t.prepare()
 	except pyalpm.error:
@@ -288,7 +274,6 @@ def set_transaction_desc(mode):
 event_text = ' '
 def cb_event(ID, event, tupel):
 	global event_text
-	ProgressWindow.show_all()
 	while Gtk.events_pending():
 		Gtk.main_iteration()
 	if ID is 1:
@@ -334,10 +319,6 @@ _logmask = pyalpm.LOG_ERROR | pyalpm.LOG_WARNING
 
 def cb_log(level, line):
 	#global t
-	#try:
-	#	_line = str(_line, encoding='utf-8').strip("\n")
-	#except:
-	#	_line = str(_line, encoding='latin-1').strip("\n")
 	if not (level & _logmask):
 		return
 	if level & pyalpm.LOG_ERROR:
@@ -357,7 +338,6 @@ def cb_log(level, line):
 	elif level & pyalpm.LOG_FUNCTION:
 		line = "FUNC: " + line
 		print(line)
-	#sys.stderr.write(line)
 
 total_size = 0
 def totaldlcb(_total_size):
