@@ -25,6 +25,11 @@ tree2 = interface.get_object('treeview2_selection')
 tree1 = interface.get_object('treeview1_selection')
 installed_column = interface.get_object('installed_column')
 name_column = interface.get_object('name_column')
+ConfDialog = interface.get_object('ConfDialog')
+transaction_sum = interface.get_object('transaction_sum')
+top_label = interface.get_object('top_label')
+bottom_label = interface.get_object('bottom_label')
+
 installed_column.set_sort_column_id(1)
 name_column.set_sort_column_id(0)
 
@@ -186,6 +191,42 @@ def set_desc(pkg, style):
 		else:
 			package_desc.append(['Backup files:', '\n'.join(["%s %s" % (md5, file) for (file, md5) in pkg.backup])])
 
+def set_transaction_sum():
+	transaction_sum.clear()
+	if transaction.to_remove:
+		transaction_sum.append(['To remove:', transaction.to_remove[0].name])
+		i = 1
+		while i < len(transaction.to_remove):
+			transaction_sum.append([' ', transaction.to_remove[i].name])
+			i += 1
+		bottom_label.set_markup('')
+	if transaction.to_add:
+		installed_name = []
+		for pkg_object in config.handle.get_localdb().pkgcache:
+			installed_name.append(pkg_object.name)
+		to_add_name = []
+		for pkg_object in transaction.to_add:
+			to_add_name.append(pkg_object.name)
+		transaction.to_update = sorted(set(installed_name).intersection(to_add_name))
+		to_remove_from_add_name = sorted(set(transaction.to_update).intersection(to_add_name))
+		for name in to_remove_from_add_name:
+			to_add_name.remove(name)
+		if to_add_name:
+			transaction_sum.append(['To install:', to_add_name[0]])
+			i = 1
+			while i < len(to_add_name):
+				transaction_sum.append([' ', to_add_name[i]])
+				i += 1
+		if transaction.to_update:
+			transaction_sum.append(['To update:', transaction.to_update[0]])
+			i = 1
+			while i < len(transaction.to_update):
+				transaction_sum.append([' ', transaction.to_update[i]])
+				i += 1
+		bottom_label.set_markup('')
+		#bottom_label.set_markup('<b>Total Download size: </b>'+format_size(totaldlcb))
+		top_label.set_markup('<big><b>Transaction Summary</b></big>')
+
 class Handler:
 	def on_MainWindow_delete_event(self, *arg):
 		Gtk.main_quit()
@@ -209,7 +250,7 @@ class Handler:
 				transaction.ErrorDialog.hide()
 		else:
 			if transaction.t_lock is True:
-				pass
+				print('Transaction locked')
 			else:
 				if transaction_type is "remove":
 					transaction.t = transaction.init_transaction(config.handle, cascade = True)
@@ -226,27 +267,8 @@ class Handler:
 						transaction.t_lock = False
 					transaction.to_remove = transaction.t.to_remove
 					transaction.to_add = transaction.t.to_add
-					transaction.set_transaction_desc('normal')
-					response = transaction.ConfDialog.run()
-					if response == Gtk.ResponseType.OK:
-						transaction.ConfDialog.hide()
-						transaction.ProgressWindow.show_all()
-						try:
-							transaction.t.commit()
-						except pyalpm.error:
-							transaction.ErrorDialog.format_secondary_text(traceback.format_exc())
-							response = transaction.ErrorDialog.run()
-							if response:
-								transaction.ErrorDialog.hide()
-						transaction_dict.clear()
-						transaction_type = None
-						set_packages_list()
-						transaction.ProgressWindow.hide()
-					if response == Gtk.ResponseType.CANCEL or Gtk.ResponseType.CLOSE or Gtk.ResponseType.DELETE_EVENT:
-						transaction.ProgressWindow.hide()
-						transaction.ConfDialog.hide()
-						transaction.t.release()
-						transaction.t_lock = False
+					set_transaction_sum()
+					ConfDialog.show_all()
 				if transaction_type is "install":
 					transaction.t = transaction.init_transaction(config.handle, noconflicts = True)
 					for pkg in transaction_dict.values():
@@ -267,27 +289,8 @@ class Handler:
 						for pkg in transaction.conflict_to_remove.values():
 							transaction.to_remove.append(pkg)
 					transaction.t.release()
-					transaction.set_transaction_desc('normal')
-					response = transaction.ConfDialog.run()
-					if response == Gtk.ResponseType.OK:
-						transaction.ConfDialog.hide()
-						transaction.t = transaction.init_transaction(config.handle, noconflicts = True, nodeps = True)
-						print(transaction.to_add, transaction.to_remove)
-						for pkg in transaction.to_add:
-							print(pkg)
-							transaction.t.add_pkg(pkg)
-						for pkg in transaction.to_remove:
-							print(pkg)
-							transaction.t.remove_pkg(pkg)
-						transaction.t_finalize(transaction.t)
-						transaction_dict.clear()
-						transaction_type = None
-						set_packages_list()
-					if response == Gtk.ResponseType.CANCEL or Gtk.ResponseType.CLOSE or Gtk.ResponseType.DELETE_EVENT:
-						transaction.ProgressWindow.hide()
-						transaction.ConfDialog.hide()
-						transaction.t.release()
-						transaction.t_lock = False
+					set_transaction_sum()
+					ConfDialog.show_all()
 
 	def on_EraseButton_clicked(self, *arg):
 		global transaction_type
@@ -299,6 +302,42 @@ class Handler:
 	def on_RefreshButton_clicked(self, *arg):
 		transaction.do_refresh()
 		refresh_packages_list()
+
+	def on_TransCancelButton_clicked(self, *arg):
+		ConfDialog.hide()
+		transaction.t_lock = False
+		try:
+			transaction.t.release()
+		except:
+			pass
+
+	def on_TransValidButton_clicked(self, *arg):
+		global transaction_type
+		ConfDialog.hide()
+		if transaction_type is "remove":
+			transaction.ProgressWindow.show_all()
+			try:
+				transaction.t.commit()
+			except pyalpm.error:
+				transaction.ErrorDialog.format_secondary_text(traceback.format_exc())
+				response = transaction.ErrorDialog.run()
+				if response:
+					transaction.ErrorDialog.hide()
+			transaction_dict.clear()
+			transaction_type = None
+			set_packages_list()
+			transaction.ProgressWindow.hide()
+		if transaction_type is "install":
+			transaction.t = transaction.init_transaction(config.handle, noconflicts = True, nodeps = True)
+			for pkg in transaction.to_add:
+				transaction.t.add_pkg(pkg)
+			for pkg in transaction.to_remove:
+				transaction.t.remove_pkg(pkg)
+			transaction.t_finalize(transaction.t)
+			transaction_dict.clear()
+			transaction_type = None
+			set_packages_list()
+		transaction.t_lock = False
 
 	def on_search_button_clicked(self, widget):
 		global list_dict

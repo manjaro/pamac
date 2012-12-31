@@ -18,9 +18,6 @@ action_icon = interface.get_object('action_icon')
 ErrorDialog = interface.get_object('ErrorDialog')
 WarningDialog = interface.get_object('WarningDialog')
 QuestionDialog = interface.get_object('QuestionDialog')
-ConfDialog = interface.get_object('ConfDialog')
-transaction_desc = interface.get_object('transaction_desc')
-down_label = interface.get_object('down_label')
 
 t = None
 t_lock = False
@@ -105,74 +102,7 @@ def do_refresh():
 	progress_label.set_text('')
 	progress_bar.set_text('')
 
-def do_sysupgrade():
-	"""Upgrade a system like pacman -Su"""
-	global t
-	global t_lock
-	global to_remove
-	global to_add
-	global to_update
-	if t_lock is False:
-		if do_syncfirst is True:
-			t = init_transaction(config.handle, recurse = True)
-			for pkg in list_first:
-				t.add_pkg(pkg)
-			to_remove = t.to_remove
-			to_add = t.to_add
-			set_transaction_desc('update')
-			response = ConfDialog.run()
-			if response == Gtk.ResponseType.OK:
-				t_finalize(t)
-			if response == Gtk.ResponseType.CANCEL or Gtk.ResponseType.CLOSE or Gtk.ResponseType.DELETE_EVENT:
-				ProgressWindow.hide()
-				ConfDialog.hide()
-				t.release()
-				t_lock = False
-		else:
-			try:
-				t = init_transaction(config.handle)
-				t.sysupgrade(downgrade=False)
-			except pyalpm.error:
-				ErrorDialog.format_secondary_text(traceback.format_exc())
-				response = ErrorDialog.run()
-				if response:
-					ErrorDialog.hide()
-				t.release()
-				t_lock = False
-			check_conflicts()
-			to_add = t.to_add
-			to_remove = []
-			for pkg in conflict_to_remove.values():
-				to_remove.append(pkg)
-			if len(to_add) + len(to_remove) == 0:
-				t.release()
-				print("Nothing to update")
-			else:
-				t.release()
-				t = init_transaction(config.handle, noconflicts = True, nodeps = True)
-				for pkg in to_add:
-					t.add_pkg(pkg)
-				for pkg in conflict_to_remove.values():
-					t.remove_pkg(pkg)
-				to_remove = t.to_remove
-				to_add = t.to_add
-				set_transaction_desc('update')
-				if len(transaction_desc) != 0:
-					response = ConfDialog.run()
-					if response == Gtk.ResponseType.OK:
-								t_finalize(t)
-					if response == Gtk.ResponseType.CANCEL or Gtk.ResponseType.CLOSE or Gtk.ResponseType.DELETE_EVENT:
-						ProgressWindow.hide()
-						ConfDialog.hide()
-						t.release()
-						t_lock = False
-				else:
-					t_finalize(t)
-					t.release()
-					t_lock = False
-
 def t_finalize(t):
-	ConfDialog.hide()
 	ProgressWindow.show_all()
 	try:
 		t.prepare()
@@ -181,8 +111,6 @@ def t_finalize(t):
 		response = ErrorDialog.run()
 		if response:
 			ErrorDialog.hide()
-		t.release()
-		t_lock = False
 	try:
 		t.commit()
 	except pyalpm.error:
@@ -190,7 +118,9 @@ def t_finalize(t):
 		response = ErrorDialog.run()
 		if response:
 			ErrorDialog.hide()
+	t_lock = False
 	ProgressWindow.hide()
+	t.release()
 
 def get_updates():
 	"""Return a list of package objects in local db which can be updated"""
@@ -229,46 +159,6 @@ def format_size(size):
 		size_string = '%.2f MiB' % (KiB_size / 1024)
 		return size_string
 
-def set_transaction_desc(mode):
-	global transaction_desc
-	global down_label
-	global to_add
-	global to_remove
-	global to_update
-	transaction_desc.clear()
-	if to_remove:
-		transaction_desc.append(['To remove:', to_remove[0].name])
-		i = 1
-		while i < len(to_remove):
-			transaction_desc.append([' ', to_remove[i].name])
-			i += 1
-		down_label.set_markup('')
-	if to_add:
-		installed_name = []
-		for pkg_object in config.handle.get_localdb().pkgcache:
-			installed_name.append(pkg_object.name)
-		to_add_name = []
-		for pkg_object in to_add:
-			to_add_name.append(pkg_object.name)
-		to_update = sorted(set(installed_name).intersection(to_add_name))
-		to_remove_from_add_name = sorted(set(to_update).intersection(to_add_name))
-		for name in to_remove_from_add_name:
-			to_add_name.remove(name)
-		if to_add_name:
-			transaction_desc.append(['To install:', to_add_name[0]])
-			i = 1
-			while i < len(to_add_name):
-				transaction_desc.append([' ', to_add_name[i]])
-				i += 1
-		if mode == 'normal':
-			if to_update:
-				transaction_desc.append(['To update:', to_update[0]])
-				i = 1
-				while i < len(to_update):
-					transaction_desc.append([' ', to_update[i]])
-					i += 1
-		down_label.set_markup('')
-	#	down_label.set_markup('<b>Total Download size: </b>'+format_size(totaldlcb))
 
 # Callbacks
 event_text = ' '
