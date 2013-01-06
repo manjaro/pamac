@@ -10,11 +10,13 @@ from time import strftime, localtime
 from os import geteuid
 import traceback
 
-from backend import transaction, config
+from pamac import transaction, config, callbacks
 
 interface = Gtk.Builder()
-interface.add_from_file('/usr/share/pamac/pamac.glade')
-interface.add_from_file('/usr/share/pamac/dialogs.glade')
+interface.add_from_file('/usr/share/pamac/gui/manager.glade')
+interface.add_from_file('/usr/share/pamac/gui/dialogs.glade')
+
+MainWindow = interface.get_object("MainWindow")
 
 packages_list = interface.get_object('packages_list')
 groups_list = interface.get_object('groups_list')
@@ -64,6 +66,7 @@ def set_list_dict_search(*patterns):
 				pkg_object_dict[pkg_object.name] = pkg_object
 				pkg_installed_dict[pkg_object.name] = False
 	for pkg_object in config.handle.get_localdb().search(*patterns):
+		print(pkg_object)
 		if not pkg_object.name in pkg_name_list:
 			pkg_name_list.append(pkg_object.name)
 		pkg_installed_dict[pkg_object.name] = True
@@ -123,6 +126,7 @@ def refresh_packages_list():
 					packages_list.append([name, pkg_installed_dict[name], True])
 			else:
 				packages_list.append([name, pkg_installed_dict[name], True])
+				print(name,pkg_installed_dict[name])
 
 def set_packages_list():
 	global list_dict
@@ -194,28 +198,25 @@ def set_desc(pkg, style):
 def set_transaction_sum():
 	transaction_sum.clear()
 	if transaction.to_remove:
-		transaction_sum.append(['To remove:', transaction.to_remove[0].name])
+		transaction_sum.append(['To remove:', transaction.to_remove[0]])
 		i = 1
 		while i < len(transaction.to_remove):
-			transaction_sum.append([' ', transaction.to_remove[i].name])
+			transaction_sum.append([' ', transaction.to_remove[i]])
 			i += 1
 		bottom_label.set_markup('')
 	if transaction.to_add:
-		installed_name = []
+		installed = []
 		for pkg_object in config.handle.get_localdb().pkgcache:
-			installed_name.append(pkg_object.name)
-		to_add_name = []
-		for pkg_object in transaction.to_add:
-			to_add_name.append(pkg_object.name)
-		transaction.to_update = sorted(set(installed_name).intersection(to_add_name))
-		to_remove_from_add_name = sorted(set(transaction.to_update).intersection(to_add_name))
-		for name in to_remove_from_add_name:
-			to_add_name.remove(name)
-		if to_add_name:
-			transaction_sum.append(['To install:', to_add_name[0]])
+			installed.append(pkg_object.name)
+		transaction.to_update = sorted(set(installed).intersection(transaction.to_add))
+		to_remove_from_add = sorted(set(transaction.to_update).intersection(transaction.to_add))
+		for name in to_remove_from_add:
+			transaction.to_add.remove(name)
+		if transaction.to_add:
+			transaction_sum.append(['To install:', transaction.to_add[0]])
 			i = 1
-			while i < len(to_add_name):
-				transaction_sum.append([' ', to_add_name[i]])
+			while i < len(transaction.to_add):
+				transaction_sum.append([' ', transaction.to_add[i]])
 				i += 1
 		if transaction.to_update:
 			transaction_sum.append(['To update:', transaction.to_update[0]])
@@ -225,25 +226,32 @@ def set_transaction_sum():
 				i += 1
 		bottom_label.set_markup('')
 		#bottom_label.set_markup('<b>Total Download size: </b>'+format_size(totaldlcb))
-		top_label.set_markup('<big><b>Transaction Summary</b></big>')
+	top_label.set_markup('<big><b>Transaction Summary</b></big>')
 
 class Handler:
 	def on_MainWindow_delete_event(self, *arg):
-		Gtk.main_quit()
+		if __name__ == "__main__":
+			Gtk.main_quit()
+		else:
+			MainWindow.hide()
 
 	def on_QuitButton_clicked(self, *arg):
-		Gtk.main_quit()
+		if __name__ == "__main__":
+			Gtk.main_quit()
+		else:
+			MainWindow.hide()
 
 	def on_ValidButton_clicked(self, *arg):
 		global t
 		global transaction_type
 		global transaction_dict
-		if not geteuid() == 0:
-			transaction.ErrorDialog.format_secondary_text("You need to be root to run packages transactions")
-			response = transaction.ErrorDialog.run()
-			if response:
-				transaction.ErrorDialog.hide()
-		elif not transaction_dict:
+		#if not geteuid() == 0:
+			#transaction.ErrorDialog.format_secondary_text("You need to be root to run packages transactions")
+			#response = transaction.ErrorDialog.run()
+			#if response:
+				#transaction.ErrorDialog.hide()
+		#el
+		if not transaction_dict:
 			transaction.ErrorDialog.format_secondary_text("No package is selected")
 			response = transaction.ErrorDialog.run()
 			if response:
@@ -253,42 +261,37 @@ class Handler:
 				print('Transaction locked')
 			else:
 				if transaction_type is "remove":
-					transaction.t = transaction.init_transaction(config.handle, cascade = True)
-					for pkg in transaction_dict.values():
-						transaction.t.remove_pkg(pkg)
-					try:
-						transaction.t.prepare()
-					except pyalpm.error:
-						transaction.ErrorDialog.format_secondary_text(traceback.format_exc())
+					transaction.init_transaction(cascade = True)
+					for pkgname in transaction_dict.keys():
+						transaction.Remove(pkgname)
+					error = transaction.Prepare()
+					if error:
+						transaction.ErrorDialog.format_secondary_text(error)
 						response = transaction.ErrorDialog.run()
 						if response:
 							transaction.ErrorDialog.hide()
-						transaction.t.release()
+						transaction.Release()
 						transaction.t_lock = False
-					transaction.to_remove = transaction.t.to_remove
-					transaction.to_add = transaction.t.to_add
+					transaction.get_to_remove()
+					#transaction.get_to_add()
 					set_transaction_sum()
 					ConfDialog.show_all()
 				if transaction_type is "install":
-					transaction.t = transaction.init_transaction(config.handle, noconflicts = True)
-					for pkg in transaction_dict.values():
-						transaction.t.add_pkg(pkg)
-					try:
-						transaction.t.prepare()
-					except pyalpm.error:
-						transaction.ErrorDialog.format_secondary_text(traceback.format_exc())
+					transaction.init_transaction(noconflicts = True)
+					for pkgname in transaction_dict.keys():
+						transaction.Add(pkgname)
+					error = transaction.Prepare()
+					if error:
+						transaction.ErrorDialog.format_secondary_text(error)
 						response = transaction.ErrorDialog.run()
 						if response:
 							transaction.ErrorDialog.hide()
-						transaction.t.release()
+						transaction.Release()
 						transaction.t_lock = False
+					transaction.get_to_remove()
+					transaction.get_to_add()
 					transaction.check_conflicts()
-					transaction.to_add = transaction.t.to_add
-					transaction.to_remove = []
-					if transaction.conflict_to_remove:
-						for pkg in transaction.conflict_to_remove.values():
-							transaction.to_remove.append(pkg)
-					transaction.t.release()
+					transaction.Release()
 					set_transaction_sum()
 					ConfDialog.show_all()
 
@@ -306,37 +309,31 @@ class Handler:
 	def on_TransCancelButton_clicked(self, *arg):
 		ConfDialog.hide()
 		transaction.t_lock = False
-		try:
-			transaction.t.release()
-		except:
-			pass
+		transaction.Release()
 
 	def on_TransValidButton_clicked(self, *arg):
 		global transaction_type
 		ConfDialog.hide()
+		while Gtk.events_pending():
+			Gtk.main_iteration()
 		if transaction_type is "remove":
-			transaction.ProgressWindow.show_all()
-			try:
-				transaction.t.commit()
-			except pyalpm.error:
-				transaction.ErrorDialog.format_secondary_text(traceback.format_exc())
+			error = transaction.Commit()
+			if error:
+				transaction.ErrorDialog.format_secondary_text(error)
 				response = transaction.ErrorDialog.run()
 				if response:
 					transaction.ErrorDialog.hide()
-			transaction_dict.clear()
-			transaction_type = None
-			set_packages_list()
-			transaction.ProgressWindow.hide()
+			transaction.Release()
 		if transaction_type is "install":
-			transaction.t = transaction.init_transaction(config.handle, noconflicts = True, nodeps = True)
-			for pkg in transaction.to_add:
-				transaction.t.add_pkg(pkg)
-			for pkg in transaction.to_remove:
-				transaction.t.remove_pkg(pkg)
-			transaction.t_finalize(transaction.t)
-			transaction_dict.clear()
-			transaction_type = None
-			set_packages_list()
+			transaction.init_transaction(noconflicts = True, nodeps = True)
+			for pkgname in transaction.to_add:
+				transaction.Add(pkgname)
+			for pkgname in transaction.to_remove:
+				transaction.Remove(pkgname)
+			transaction.finalize()
+		transaction_dict.clear()
+		transaction_type = None
+		set_packages_list()
 		transaction.t_lock = False
 
 	def on_search_button_clicked(self, widget):
@@ -418,15 +415,16 @@ class Handler:
 		packages_list[line][1] = not packages_list[line][1]
 		packages_list[line][2] = True
 
+def main():
+	interface.connect_signals(Handler())
+	MainWindow.show_all()
+
 if __name__ == "__main__":
 	if geteuid() == 0:
 		transaction.progress_label.set_text('Refreshing...')
 		transaction.progress_bar.pulse()
-		transaction.action_icon.set_from_file('/usr/share/icons/hicolor/24x24/status/refresh-cache.png')
-		transaction.ProgressWindow.show_all()
+		transaction.action_icon.set_from_file('/usr/share/pamac/icons/24x24/status/refresh-cache.png')
 		transaction.do_refresh()
-		transaction.ProgressWindow.hide()
-	interface.connect_signals(Handler())
-	MainWindow = interface.get_object("MainWindow")
-	MainWindow.show_all()
+	main()
 	Gtk.main()
+

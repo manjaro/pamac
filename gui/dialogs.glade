@@ -42,7 +42,7 @@
     <property name="window_position">center</property>
     <property name="default_width">250</property>
     <property name="default_height">60</property>
-    <property name="icon">/usr/share/icons/hicolor/22x22/status/setup.png</property>
+    <property name="icon">/usr/share/pamac/icons/22x22/status/setup.png</property>
     <property name="skip_taskbar_hint">True</property>
     <property name="deletable">False</property>
     <child>

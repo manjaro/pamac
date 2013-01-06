@@ -7,7 +7,7 @@
     <property name="window_position">center</property>
     <property name="default_width">350</property>
     <property name="default_height">250</property>
-    <property name="icon">/usr/share/icons/hicolor/22x22/status/package-info.png</property>
+    <property name="icon">/usr/share/pamac/icons/22x22/status/package-info.png</property>
     <property name="skip_taskbar_hint">True</property>
     <property name="deletable">False</property>
     <child>
@@ -16,7 +16,7 @@
         <property name="can_focus">False</property>
         <property name="orientation">vertical</property>
         <child>
-          <object class="GtkLabel" id="top_label1">
+          <object class="GtkLabel" id="top_label">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="label" translatable="yes">label</property>
@@ -147,7 +147,7 @@
     <property name="can_focus">False</property>
     <property name="title" translatable="yes">Update Manager</property>
     <property name="window_position">center</property>
-    <property name="icon">/usr/share/icons/hicolor/22x22/status/package-update.png</property>
+    <property name="icon">/usr/share/pamac/icons/22x22/status/package-update.png</property>
     <signal name="delete-event" handler="on_UpdateWindow_delete_event" swapped="no"/>
     <child>
       <object class="GtkBox" id="box1">

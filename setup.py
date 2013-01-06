@@ -9,5 +9,5 @@ setup(name='Pamac',
       author='Guillaume Benoit',
       author_email='guillaume@manjaro.org',
       url='https://git.manjaro.org/core/pamac',
-      packages=['backend'],
+      packages=['pamac'],
      )

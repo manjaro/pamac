@@ -6,11 +6,13 @@ from gi.repository import Gtk
 import pyalpm
 from os import geteuid
 
-from backend import config, transaction
+from pamac import config, transaction
 
 interface = Gtk.Builder()
-interface.add_from_file('/usr/share/pamac/pamac_update.glade')
-interface.add_from_file('/usr/share/pamac/dialogs.glade')
+interface.add_from_file('/usr/share/pamac/gui/updater.glade')
+interface.add_from_file('/usr/share/pamac/gui/dialogs.glade')
+
+UpdateWindow = interface.get_object("UpdateWindow")
 
 ConfDialog = interface.get_object('ConfDialog')
 transaction_add = interface.get_object('transaction_add')
@@ -62,12 +64,6 @@ def set_transaction_add():
 			while i < len(to_add_name):
 				transaction_add.append([' ', to_add_name[i]])
 				i += 1
-		if transaction.to_update:
-			transaction_add.append(['To update:', transaction.to_update[0]])
-			i = 1
-			while i < len(transaction.to_update):
-				transaction_add.append([' ', transaction.to_update[i]])
-				i += 1
 		bottom_label.set_markup('')
 		#bottom_label.set_markup('<b>Total Download size: </b>'+format_size(totaldlcb))
 		top_label.set_markup('<big><b>Additionnal Transaction(s)</b></big>')
@@ -76,16 +72,21 @@ def do_sysupgrade():
 	"""Upgrade a system like pacman -Su"""
 	if transaction.t_lock is False:
 		if transaction.do_syncfirst is True:
-			transaction.t = transaction.init_transaction(config.handle, recurse = True)
-			for pkg in list_first:
+			transaction.t = transaction.init_transaction(recurse = True)
+			for pkg in transaction.list_first:
 				transaction.t.add_pkg(pkg)
 			transaction.to_remove = transaction.t.to_remove
 			transaction.to_add = transaction.t.to_add
 			set_transaction_add()
-			ConfDialog.show_all()
+			if len(transaction_add) != 0:
+				ConfDialog.show_all()
+			else:
+				transaction.t_finalize(transaction.t)
+			transaction.do_syncfirst = False
+			transaction.list_first = []
 		else:
 			try:
-				transaction.t = transaction.init_transaction(config.handle)
+				transaction.t = transaction.init_transaction()
 				transaction.t.sysupgrade(downgrade=False)
 			except pyalpm.error:
 				ErrorDialog.format_secondary_text(traceback.format_exc())
@@ -105,7 +106,7 @@ def do_sysupgrade():
 				print("Nothing to update")
 			else:
 				transaction.t.release()
-				transaction.t = transaction.init_transaction(config.handle, noconflicts = True, nodeps = True)
+				transaction.t = transaction.init_transaction(noconflicts = True, nodeps = True)
 				for pkg in transaction.to_add:
 					transaction.t.add_pkg(pkg)
 				for pkg in transaction.conflict_to_remove.values():
@@ -113,17 +114,23 @@ def do_sysupgrade():
 				transaction.to_remove = transaction.t.to_remove
 				transaction.to_add = transaction.t.to_add
 				set_transaction_add()
-				if len(transaction.to_update) + len(transaction.to_remove) != 0:
+				if len(transaction_add) != 0:
 					ConfDialog.show_all()
 				else:
-					transaction.t_finalize(t)
+					transaction.t_finalize(transaction.t)
 
 class Handler:
 	def on_UpdateWindow_delete_event(self, *arg):
-		Gtk.main_quit()
+		if __name__ == "__main__":
+			Gtk.main_quit()
+		else:
+			UpdateWindow.hide()
 
 	def on_QuitButton_clicked(self, *arg):
-		Gtk.main_quit()
+		if __name__ == "__main__":
+			Gtk.main_quit()
+		else:
+			UpdateWindow.hide()
 
 	def on_ApplyButton_clicked(self, *arg):
 		do_sysupgrade()
@@ -145,11 +152,15 @@ class Handler:
 def main():
 	have_updates()
 	interface.connect_signals(Handler())
-	UpdateWindow = interface.get_object("UpdateWindow")
 	UpdateWindow.show_all()
-	Gtk.main()
 
 if __name__ == "__main__":
 	if geteuid() == 0:
+		transaction.progress_label.set_text('Refreshing...')
+		transaction.progress_bar.pulse()
+		transaction.action_icon.set_from_file('/usr/share/pamac/icons/24x24/status/refresh-cache.png')
+		transaction.ProgressWindow.show_all()
 		transaction.do_refresh()
+		transaction.ProgressWindow.hide()
 	main()
+	Gtk.main()
