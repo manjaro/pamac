@@ -2,4 +2,4 @@
 Name=org.manjaro.pamac
 Exec=/usr/bin/start-pamac-daemon
 User=root
-
+SystemdService=pamac.service

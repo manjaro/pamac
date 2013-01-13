@@ -5,6 +5,7 @@ from gi.repository import Gtk
 import pyalpm
 from pamac import config
 
+handle = config.handle
 
 # Callbacks
 interface = Gtk.Builder()

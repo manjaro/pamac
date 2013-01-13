@@ -7,7 +7,7 @@ import pyalpm
 import traceback
 import dbus
 
-from pamac import config
+from pamac import config, callbacks
 
 interface = Gtk.Builder()
 interface.add_from_file('/usr/share/pamac/gui/dialogs.glade')
@@ -58,7 +58,7 @@ def check_conflicts():
 	to_check = []
 	warning = ''
 	for pkgname in to_add:
-		for repo in config.handle.get_syncdbs():
+		for repo in callbacks.handle.get_syncdbs():
 			pkg = repo.get_pkg(pkgname)
 			if pkg:
 				to_check.append(pkg)
@@ -66,7 +66,7 @@ def check_conflicts():
 	for target in to_check:
 		if target.replaces:
 			for name in target.replaces:
-				pkg = config.handle.get_localdb().get_pkg(name)
+				pkg = callbacks.handle.get_localdb().get_pkg(name)
 				if pkg:
 					if not pkg.name in to_remove:
 						to_remove.append(pkg.name)
@@ -75,11 +75,11 @@ def check_conflicts():
 						warning = warning+pkg.name+' will be replaced by '+target.name
 		if target.conflicts:
 			for name in target.conflicts:
-				pkg = config.handle.get_localdb().get_pkg(name)
+				pkg = callbacks.handle.get_localdb().get_pkg(name)
 				if pkg:
 					if not pkg.name in to_remove:
 						to_remove.append(pkg.name)
-		for installed_pkg in config.handle.get_localdb().pkgcache:
+		for installed_pkg in callbacks.handle.get_localdb().pkgcache:
 			if installed_pkg.conflicts:
 				for name in installed_pkg.conflicts:
 					if name == target.name:
@@ -122,7 +122,7 @@ def do_refresh():
 	"""Sync databases like pacman -Sy"""
 	global t
 	global t_lock
-	for db in config.handle.get_syncdbs():
+	for db in callbacks.handle.get_syncdbs():
 		if t_lock is False:
 			t = init_transaction()
 			try:
@@ -146,23 +146,23 @@ def get_updates():
 	global list_first
 	if config.syncfirst:
 		for name in config.syncfirst:
-			pkg = config.handle.get_localdb().get_pkg(name)
-			candidate = pyalpm.sync_newversion(pkg, config.handle.get_syncdbs())
+			pkg = callbacks.handle.get_localdb().get_pkg(name)
+			candidate = pyalpm.sync_newversion(pkg, callbacks.handle.get_syncdbs())
 			if candidate:
 				list_first.append(candidate)
 		if list_first:
 			do_syncfirst = True
 			return list_first
 	result = []
-	installed_pkglist = config.handle.get_localdb().pkgcache
+	installed_pkglist = callbacks.handle.get_localdb().pkgcache
 	for pkg in installed_pkglist:
-		candidate = pyalpm.sync_newversion(pkg, config.handle.get_syncdbs())
+		candidate = pyalpm.sync_newversion(pkg, callbacks.handle.get_syncdbs())
 		if candidate:
 			result.append(candidate)
 	return result
 
 def get_new_version_available(pkgname):
-	for repo in config.handle.get_syncdbs():
+	for repo in callbacks.handle.get_syncdbs():
 		pkg = repo.get_pkg(pkgname)
 		if pkg is not None:
 			return pkg.version

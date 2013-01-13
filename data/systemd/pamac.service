@@ -1,0 +1,8 @@
+[Unit]
+Description=Pamac
+
+[Service]
+Type=dbus
+BusName=org.manjaro.pamac
+ExecStart=/usr/bin/start-pamac-daemon
+RemainAfterExit=Yes

@@ -36,7 +36,7 @@ installed_column.set_sort_column_id(1)
 name_column.set_sort_column_id(0)
 
 tmp_list = []
-for repo in config.handle.get_syncdbs():
+for repo in config.pacman_conf.initialize_alpm().get_syncdbs():
 	for name, pkgs in repo.grpcache:
 		if not name in tmp_list:
 			tmp_list.append(name)
@@ -59,13 +59,13 @@ def set_list_dict_search(*patterns):
 	pkg_name_list = []
 	pkg_object_dict = {}
 	pkg_installed_dict = {}
-	for db in config.handle.get_syncdbs():
+	for db in config.pacman_conf.initialize_alpm().get_syncdbs():
 		for pkg_object in db.search(*patterns):
 			if not pkg_object.name in pkg_name_list:
 				pkg_name_list.append(pkg_object.name)
 				pkg_object_dict[pkg_object.name] = pkg_object
 				pkg_installed_dict[pkg_object.name] = False
-	for pkg_object in config.handle.get_localdb().search(*patterns):
+	for pkg_object in config.pacman_conf.initialize_alpm().get_localdb().search(*patterns):
 		print(pkg_object)
 		if not pkg_object.name in pkg_name_list:
 			pkg_name_list.append(pkg_object.name)
@@ -80,7 +80,7 @@ def set_list_dict_group(group):
 	pkg_name_list = []
 	pkg_object_dict = {}
 	pkg_installed_dict = {}
-	for db in config.handle.get_syncdbs():
+	for db in config.pacman_conf.initialize_alpm().get_syncdbs():
 		grp = db.read_grp(group)
 		if grp is not None:
 			name, pkg_list = grp
@@ -89,7 +89,7 @@ def set_list_dict_group(group):
 					pkg_name_list.append(pkg_object.name)
 				pkg_object_dict[pkg_object.name] = pkg_object
 				pkg_installed_dict[pkg_object.name] = False
-	db = config.handle.get_localdb()
+	db = config.pacman_conf.initialize_alpm().get_localdb()
 	grp = db.read_grp(group)
 	if grp is not None:
 		name, pkg_list = grp
@@ -206,7 +206,7 @@ def set_transaction_sum():
 		bottom_label.set_markup('')
 	if transaction.to_add:
 		installed = []
-		for pkg_object in config.handle.get_localdb().pkgcache:
+		for pkg_object in callbacks.handle.get_localdb().pkgcache:
 			installed.append(pkg_object.name)
 		transaction.to_update = sorted(set(installed).intersection(transaction.to_add))
 		to_remove_from_add = sorted(set(transaction.to_update).intersection(transaction.to_add))
@@ -273,7 +273,7 @@ class Handler:
 						transaction.Release()
 						transaction.t_lock = False
 					transaction.get_to_remove()
-					#transaction.get_to_add()
+					transaction.get_to_add()
 					set_transaction_sum()
 					ConfDialog.show_all()
 				if transaction_type is "install":

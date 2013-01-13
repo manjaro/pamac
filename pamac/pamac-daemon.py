@@ -4,14 +4,13 @@
 import dbus
 import dbus.service
 from dbus.mainloop.glib import DBusGMainLoop
-import os
 from gi.repository import GObject, Gtk
 
 import pyalpm
 import traceback
 from pamac import config, callbacks
 
-LANG = os.environ['LANG']
+loop = GObject.MainLoop()
 
 t = None
 error = ''
@@ -42,13 +41,13 @@ class PamacDBusService(dbus.service.Object):
 		if self.policykit_test(sender,connexion,'org.manjaro.pamac.init_release'):
 			error = ''
 			try:
-				config.handle.dlcb = callbacks.cb_dl
-				config.handle.totaldlcb = callbacks.totaldlcb
-				config.handle.eventcb = callbacks.cb_event
-				config.handle.questioncb = callbacks.cb_conv
-				config.handle.progresscb = callbacks.cb_progress
-				config.handle.logcb = callbacks.cb_log
-				t = config.handle.init_transaction(**options)
+				callbacks.handle.dlcb = callbacks.cb_dl
+				callbacks.handle.totaldlcb = callbacks.totaldlcb
+				callbacks.handle.eventcb = callbacks.cb_event
+				callbacks.handle.questioncb = callbacks.cb_conv
+				callbacks.handle.progresscb = callbacks.cb_progress
+				callbacks.handle.logcb = callbacks.cb_log
+				t = callbacks.handle.init_transaction(**options)
 				print('Init:',t.flags)
 			except pyalpm.error:
 				error = traceback.format_exc()
@@ -57,13 +56,13 @@ class PamacDBusService(dbus.service.Object):
 		else :
 			return 'You are not authorized'
 
-	@dbus.service.method('org.manjaro.pamac', 's', 's', sender_keyword='sender', connection_keyword='connexion')
-	def Remove(self, pkgname, sender=None, connexion=None):
+	@dbus.service.method('org.manjaro.pamac', 's', 's')
+	def Remove(self, pkgname):
 		global t
 		global error
 		error = ''
 		try:
-			pkg = config.handle.get_localdb().get_pkg(pkgname)
+			pkg = callbacks.handle.get_localdb().get_pkg(pkgname)
 			if pkg is not None:
 				t.remove_pkg(pkg)
 		except pyalpm.error:
@@ -71,13 +70,13 @@ class PamacDBusService(dbus.service.Object):
 		finally:
 			return error
 
-	@dbus.service.method('org.manjaro.pamac', 's', 's', sender_keyword='sender', connection_keyword='connexion')
-	def Add(self, pkgname, sender=None, connexion=None):
+	@dbus.service.method('org.manjaro.pamac', 's', 's')
+	def Add(self, pkgname):
 		global t
 		global error
 		error = ''
 		try:
-			for repo in config.handle.get_syncdbs():
+			for repo in callbacks.handle.get_syncdbs():
 				pkg = repo.get_pkg(pkgname)
 				if pkg:
 					t.add_pkg(pkg)
@@ -87,8 +86,8 @@ class PamacDBusService(dbus.service.Object):
 		finally:
 			return error
 
-	@dbus.service.method('org.manjaro.pamac', '', 's', sender_keyword='sender', connection_keyword='connexion')
-	def Prepare(self, sender=None, connexion=None):
+	@dbus.service.method('org.manjaro.pamac', '', 's')
+	def Prepare(self):
 		global t
 		global error
 		error = ''
@@ -101,16 +100,16 @@ class PamacDBusService(dbus.service.Object):
 			print('to_remove:',t.to_remove)
 			return error 
 
-	@dbus.service.method('org.manjaro.pamac', '', 'as', sender_keyword='sender', connection_keyword='connexion')
-	def To_Remove(self, sender=None, connexion=None):
+	@dbus.service.method('org.manjaro.pamac', '', 'as')
+	def To_Remove(self):
 		global t
 		liste = []
 		for pkg in t.to_remove:
 			liste.append(pkg.name)
 		return liste 
 
-	@dbus.service.method('org.manjaro.pamac', '', 'as', sender_keyword='sender', connection_keyword='connexion')
-	def To_Add(self, sender=None, connexion=None):
+	@dbus.service.method('org.manjaro.pamac', '', 'as')
+	def To_Add(self):
 		global t
 		liste = []
 		for pkg in t.to_add:
@@ -150,12 +149,11 @@ class PamacDBusService(dbus.service.Object):
 		else :
 			return 'You are not authorized'
 
-	@dbus.service.method('org.manjaro.pamac',sender_keyword='sender', connection_keyword='connexion')
-	def StopDaemon(self,sender=None, connexion=None):
+	@dbus.service.method('org.manjaro.pamac')
+	def StopDaemon(self):
 		loop.quit()
 
 
 DBusGMainLoop(set_as_default=True)
 myservice = PamacDBusService()
-loop = GObject.MainLoop()
 loop.run()
