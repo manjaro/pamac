@@ -1,7 +1,7 @@
 #! /usr/bin/python
 # -*-coding:utf-8 -*-
 
-from gi.repository import Gtk, GdkPixbuf, Gdk, GObject
+from gi.repository import Gtk
 
 import pyalpm
 import math
@@ -10,7 +10,7 @@ from time import strftime, localtime
 from os import geteuid
 import traceback
 
-from pamac import transaction, config, callbacks
+from pamac import config, common, transaction
 
 interface = Gtk.Builder()
 interface.add_from_file('/usr/share/pamac/gui/manager.glade')
@@ -66,7 +66,6 @@ def set_list_dict_search(*patterns):
 				pkg_object_dict[pkg_object.name] = pkg_object
 				pkg_installed_dict[pkg_object.name] = False
 	for pkg_object in config.pacman_conf.initialize_alpm().get_localdb().search(*patterns):
-		print(pkg_object)
 		if not pkg_object.name in pkg_name_list:
 			pkg_name_list.append(pkg_object.name)
 		pkg_installed_dict[pkg_object.name] = True
@@ -126,7 +125,6 @@ def refresh_packages_list():
 					packages_list.append([name, pkg_installed_dict[name], True])
 			else:
 				packages_list.append([name, pkg_installed_dict[name], True])
-				print(name,pkg_installed_dict[name])
 
 def set_packages_list():
 	global list_dict
@@ -165,10 +163,10 @@ def set_desc(pkg, style):
 	package_desc.append(['Conflicts With:', ' '.join(pkg.conflicts)])
 	package_desc.append(['Replaces:', ' '.join(pkg.replaces)])
 	if style == 'sync':
-		package_desc.append(['Download Size:', transaction.format_size(pkg.size)])
+		package_desc.append(['Download Size:', common.format_size(pkg.size)])
 	if style == 'file':
-		package_desc.append(['Compressed Size:', transaction.format_size(pkg.size)])
-	package_desc.append(['Installed Size:', transaction.format_size(pkg.isize)])
+		package_desc.append(['Compressed Size:', common.format_size(pkg.size)])
+	package_desc.append(['Installed Size:', common.format_size(pkg.isize)])
 	package_desc.append(['Packager:', pkg.packager])
 	package_desc.append(['Architecture:', pkg.arch])
 	package_desc.append(['Build Date:', strftime("%a %d %b %Y %X %Z", localtime(pkg.builddate))])
@@ -197,35 +195,35 @@ def set_desc(pkg, style):
 
 def set_transaction_sum():
 	transaction_sum.clear()
-	if transaction.to_remove:
-		transaction_sum.append(['To remove:', transaction.to_remove[0]])
+	if common.to_remove:
+		transaction_sum.append(['To remove:', common.to_remove[0]])
 		i = 1
-		while i < len(transaction.to_remove):
-			transaction_sum.append([' ', transaction.to_remove[i]])
+		while i < len(common.to_remove):
+			transaction_sum.append([' ', common.to_remove[i]])
 			i += 1
 		bottom_label.set_markup('')
-	if transaction.to_add:
+	if common.to_add:
 		installed = []
-		for pkg_object in callbacks.handle.get_localdb().pkgcache:
+		for pkg_object in config.pacman_conf.initialize_alpm().get_localdb().pkgcache:
 			installed.append(pkg_object.name)
-		transaction.to_update = sorted(set(installed).intersection(transaction.to_add))
-		to_remove_from_add = sorted(set(transaction.to_update).intersection(transaction.to_add))
+		common.to_update = sorted(set(installed).intersection(common.to_add))
+		to_remove_from_add = sorted(set(common.to_update).intersection(common.to_add))
 		for name in to_remove_from_add:
-			transaction.to_add.remove(name)
-		if transaction.to_add:
-			transaction_sum.append(['To install:', transaction.to_add[0]])
+			common.to_add.remove(name)
+		if common.to_add:
+			transaction_sum.append(['To install:', common.to_add[0]])
 			i = 1
-			while i < len(transaction.to_add):
-				transaction_sum.append([' ', transaction.to_add[i]])
+			while i < len(common.to_add):
+				transaction_sum.append([' ', common.to_add[i]])
 				i += 1
-		if transaction.to_update:
-			transaction_sum.append(['To update:', transaction.to_update[0]])
+		if common.to_update:
+			transaction_sum.append(['To update:', common.to_update[0]])
 			i = 1
-			while i < len(transaction.to_update):
-				transaction_sum.append([' ', transaction.to_update[i]])
+			while i < len(common.to_update):
+				transaction_sum.append([' ', common.to_update[i]])
 				i += 1
 		bottom_label.set_markup('')
-		#bottom_label.set_markup('<b>Total Download size: </b>'+format_size(totaldlcb))
+		#bottom_label.set_markup('<b>Total Download size: </b>'+common.format_size(totaldlcb))
 	top_label.set_markup('<big><b>Transaction Summary</b></big>')
 
 class Handler:
@@ -261,33 +259,33 @@ class Handler:
 				print('Transaction locked')
 			else:
 				if transaction_type is "remove":
-					transaction.init_transaction(cascade = True)
-					for pkgname in transaction_dict.keys():
-						transaction.Remove(pkgname)
-					error = transaction.Prepare()
-					if error:
-						transaction.ErrorDialog.format_secondary_text(error)
-						response = transaction.ErrorDialog.run()
-						if response:
-							transaction.ErrorDialog.hide()
-						transaction.Release()
-						transaction.t_lock = False
-					transaction.get_to_remove()
-					transaction.get_to_add()
-					set_transaction_sum()
-					ConfDialog.show_all()
+					if transaction.init_transaction(cascade = True):
+						for pkgname in transaction_dict.keys():
+							transaction.Remove(pkgname)
+						error = transaction.Prepare()
+						if error:
+							transaction.ErrorDialog.format_secondary_text(error)
+							response = transaction.ErrorDialog.run()
+							if response:
+								transaction.ErrorDialog.hide()
+							transaction.Release()
+							transaction.t_lock = False
+						transaction.get_to_remove()
+						transaction.get_to_add()
+						set_transaction_sum()
+						ConfDialog.show_all()
 				if transaction_type is "install":
-					transaction.init_transaction(noconflicts = True)
-					for pkgname in transaction_dict.keys():
-						transaction.Add(pkgname)
-					error = transaction.Prepare()
-					if error:
-						transaction.ErrorDialog.format_secondary_text(error)
-						response = transaction.ErrorDialog.run()
-						if response:
-							transaction.ErrorDialog.hide()
-						transaction.Release()
-						transaction.t_lock = False
+					if transaction.init_transaction(noconflicts = True):
+						for pkgname in transaction_dict.keys():
+							transaction.Add(pkgname)
+						error = transaction.Prepare()
+						if error:
+							transaction.ErrorDialog.format_secondary_text(error)
+							response = transaction.ErrorDialog.run()
+							if response:
+								transaction.ErrorDialog.hide()
+							transaction.Release()
+							transaction.t_lock = False
 					transaction.get_to_remove()
 					transaction.get_to_add()
 					transaction.check_conflicts()
@@ -324,13 +322,15 @@ class Handler:
 				if response:
 					transaction.ErrorDialog.hide()
 			transaction.Release()
+			common.to_add = []
+			common.to_remove = []
 		if transaction_type is "install":
-			transaction.init_transaction(noconflicts = True, nodeps = True)
-			for pkgname in transaction.to_add:
-				transaction.Add(pkgname)
-			for pkgname in transaction.to_remove:
-				transaction.Remove(pkgname)
-			transaction.finalize()
+			if transaction.init_transaction(noconflicts = True, nodeps = True):
+				for pkgname in common.to_add:
+					transaction.Add(pkgname)
+				for pkgname in common.to_remove:
+					transaction.Remove(pkgname)
+				transaction.finalize()
 		transaction_dict.clear()
 		transaction_type = None
 		set_packages_list()

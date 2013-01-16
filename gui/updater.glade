@@ -210,7 +210,7 @@
               <object class="GtkImage" id="image1">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="pixbuf">/usr/share/icons/hicolor/48x48/status/package-update.png</property>
+                <property name="pixbuf">/usr/share/pamac/icons/48x48/status/package-update.png</property>
               </object>
               <packing>
                 <property name="expand">False</property>
