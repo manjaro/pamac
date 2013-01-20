@@ -127,10 +127,10 @@ Comment[zh_CN]=更新本系统中安装的软件
 Comment[zh_HK]=更新系統中已安裝的軟件
 Comment[zh_TW]=更新系統中已安裝的軟體
 Icon=system-software-update
-Exec=gksu pamac-updater
+Exec=pamac-updater
 Terminal=false
 Type=Application
 Categories=GNOME;GTK;System;
-NotShowIn=KDE
+#NotShowIn=KDE
 StartupNotify=true
 

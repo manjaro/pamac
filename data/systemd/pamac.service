@@ -4,4 +4,4 @@ Description=Pamac
 [Service]
 Type=dbus
 BusName=org.manjaro.pamac
-ExecStart=/usr/bin/start-pamac-daemon
+ExecStart=/usr/lib/python3.3/site-packages/pamac/pamac-daemon.py

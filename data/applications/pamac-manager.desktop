@@ -131,10 +131,10 @@ Comment[zh_CN]=添加或删除系统中安装的软件
 Comment[zh_HK]=加入或移除系統上安裝的軟件
 Comment[zh_TW]=加入或移除系統上安裝的軟體
 Icon=system-software-install
-Exec=gksu pamac-manager
+Exec=pamac-manager
 Terminal=false
 Type=Application
 Categories=GNOME;GTK;System;
-NotShowIn=KDE;
+#NotShowIn=KDE;
 StartupNotify=true
 

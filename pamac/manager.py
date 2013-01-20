@@ -195,36 +195,65 @@ def set_desc(pkg, style):
 
 def set_transaction_sum():
 	transaction_sum.clear()
-	if common.to_remove:
-		transaction_sum.append(['To remove:', common.to_remove[0]])
+	if transaction.to_remove:
+		transaction_sum.append(['To remove:', transaction.to_remove[0]])
 		i = 1
-		while i < len(common.to_remove):
-			transaction_sum.append([' ', common.to_remove[i]])
+		while i < len(transaction.to_remove):
+			transaction_sum.append([' ', transaction.to_remove[i]])
 			i += 1
 		bottom_label.set_markup('')
-	if common.to_add:
+	if transaction.to_add:
 		installed = []
 		for pkg_object in config.pacman_conf.initialize_alpm().get_localdb().pkgcache:
 			installed.append(pkg_object.name)
-		common.to_update = sorted(set(installed).intersection(common.to_add))
-		to_remove_from_add = sorted(set(common.to_update).intersection(common.to_add))
+		transaction.to_update = sorted(set(installed).intersection(transaction.to_add))
+		to_remove_from_add = sorted(set(transaction.to_update).intersection(transaction.to_add))
 		for name in to_remove_from_add:
-			common.to_add.remove(name)
-		if common.to_add:
-			transaction_sum.append(['To install:', common.to_add[0]])
+			transaction.to_add.remove(name)
+		if transaction.to_add:
+			transaction_sum.append(['To install:', transaction.to_add[0]])
 			i = 1
-			while i < len(common.to_add):
-				transaction_sum.append([' ', common.to_add[i]])
+			while i < len(transaction.to_add):
+				transaction_sum.append([' ', transaction.to_add[i]])
 				i += 1
-		if common.to_update:
-			transaction_sum.append(['To update:', common.to_update[0]])
+		if transaction.to_update:
+			transaction_sum.append(['To update:', transaction.to_update[0]])
 			i = 1
-			while i < len(common.to_update):
-				transaction_sum.append([' ', common.to_update[i]])
+			while i < len(transaction.to_update):
+				transaction_sum.append([' ', transaction.to_update[i]])
 				i += 1
 		bottom_label.set_markup('')
 		#bottom_label.set_markup('<b>Total Download size: </b>'+common.format_size(totaldlcb))
 	top_label.set_markup('<big><b>Transaction Summary</b></big>')
+
+def handle_error(error):
+	global transaction_type
+	global transaction_dict
+	if not 'DBus.Error.NoReply' in str(error):
+		transaction.ErrorDialog.format_secondary_text('Commit Error:\n'+str(error))
+		response = transaction.ErrorDialog.run()
+		if response:
+			transaction.ErrorDialog.hide()
+	transaction.t_lock = False
+	transaction.Release()
+	transaction.ProgressWindow.hide()
+	transaction.to_add = []
+	transaction.to_remove = []
+	transaction_dict.clear()
+	transaction_type = None
+	set_packages_list()
+
+def handle_reply(reply):
+	global transaction_type
+	global transaction_dict
+	transaction.t_lock = False
+	transaction.Release()
+	transaction.ProgressWindow.hide()
+	transaction.to_add = []
+	transaction.to_remove = []
+	transaction_dict.clear()
+	transaction_type = None
+	set_packages_list()
 
 class Handler:
 	def on_MainWindow_delete_event(self, *arg):
@@ -240,9 +269,6 @@ class Handler:
 			MainWindow.hide()
 
 	def on_ValidButton_clicked(self, *arg):
-		global t
-		global transaction_type
-		global transaction_dict
 		#if not geteuid() == 0:
 			#transaction.ErrorDialog.format_secondary_text("You need to be root to run packages transactions")
 			#response = transaction.ErrorDialog.run()
@@ -251,7 +277,7 @@ class Handler:
 		#el
 		if not transaction_dict:
 			transaction.ErrorDialog.format_secondary_text("No package is selected")
-			response = transaction.ErrorDialog.run()
+			response = 	transaction.ErrorDialog.run()
 			if response:
 				transaction.ErrorDialog.hide()
 		else:
@@ -286,12 +312,12 @@ class Handler:
 								transaction.ErrorDialog.hide()
 							transaction.Release()
 							transaction.t_lock = False
-					transaction.get_to_remove()
-					transaction.get_to_add()
-					transaction.check_conflicts()
-					transaction.Release()
-					set_transaction_sum()
-					ConfDialog.show_all()
+						transaction.get_to_remove()
+						transaction.get_to_add()
+						transaction.check_conflicts()
+						transaction.Release()
+						set_transaction_sum()
+						ConfDialog.show_all()
 
 	def on_EraseButton_clicked(self, *arg):
 		global transaction_type
@@ -310,31 +336,33 @@ class Handler:
 		transaction.Release()
 
 	def on_TransValidButton_clicked(self, *arg):
-		global transaction_type
 		ConfDialog.hide()
 		while Gtk.events_pending():
 			Gtk.main_iteration()
 		if transaction_type is "remove":
-			error = transaction.Commit()
-			if error:
-				transaction.ErrorDialog.format_secondary_text(error)
-				response = transaction.ErrorDialog.run()
-				if response:
-					transaction.ErrorDialog.hide()
-			transaction.Release()
-			common.to_add = []
-			common.to_remove = []
+			transaction.ProgressWindow.show_all()
+			while Gtk.events_pending():
+				Gtk.main_iteration()
+			transaction.Commit(reply_handler = handle_reply, error_handler = handle_error, timeout = 2000*1000)
 		if transaction_type is "install":
 			if transaction.init_transaction(noconflicts = True, nodeps = True):
-				for pkgname in common.to_add:
+				for pkgname in transaction.to_add:
 					transaction.Add(pkgname)
-				for pkgname in common.to_remove:
+				for pkgname in transaction.to_remove:
 					transaction.Remove(pkgname)
-				transaction.finalize()
-		transaction_dict.clear()
-		transaction_type = None
-		set_packages_list()
-		transaction.t_lock = False
+				error = transaction.Prepare()
+				if error:
+					transaction.ErrorDialog.format_secondary_text(error)
+					response = transaction.ErrorDialog.run()
+					if response:
+						transaction.ErrorDialog.hide()
+					transaction.Release()
+					transaction.t_lock = False
+				else:
+					transaction.ProgressWindow.show_all()
+					while Gtk.events_pending():
+						Gtk.main_iteration()
+					transaction.Commit(reply_handler = handle_reply, error_handler = handle_error, timeout = 2000*1000)
 
 	def on_search_button_clicked(self, widget):
 		global list_dict
@@ -420,11 +448,6 @@ def main():
 	MainWindow.show_all()
 
 if __name__ == "__main__":
-	if geteuid() == 0:
-		transaction.progress_label.set_text('Refreshing...')
-		transaction.progress_bar.pulse()
-		transaction.action_icon.set_from_file('/usr/share/pamac/icons/24x24/status/refresh-cache.png')
-		transaction.do_refresh()
 	main()
 	Gtk.main()
 

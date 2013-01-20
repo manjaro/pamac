@@ -6,7 +6,7 @@ from gi.repository import Gtk
 import pyalpm
 from os import geteuid
 
-from pamac import config, transaction
+from pamac import config, common, transaction
 
 interface = Gtk.Builder()
 interface.add_from_file('/usr/share/pamac/gui/updater.glade')
@@ -34,90 +34,81 @@ def have_updates():
 			pkgname = pkg.name
 			newversion = transaction.get_new_version_available(pkgname)
 			pkgname = pkg.name+" "+newversion
-			update_listore.append([pkgname, transaction.format_size(pkg.size)])
+			update_listore.append([pkgname, common.format_size(pkg.size)])
 		update_label.set_markup("<big><b>Available updates</b></big>")
 		return True
 
 def set_transaction_add():
 	transaction_add.clear()
 	if transaction.to_remove:
-		transaction_add.append(['To remove:', transaction.to_remove[0].name])
+		transaction_add.append(['To remove:', transaction.to_remove[0]])
 		i = 1
 		while i < len(transaction.to_remove):
-			transaction_add.append([' ', transaction.to_remove[i].name])
+			transaction_add.append([' ', transaction.to_remove[i]])
 			i += 1
 		bottom_label.set_markup('')
 	if transaction.to_add:
 		installed_name = []
 		for pkg_object in config.handle.get_localdb().pkgcache:
 			installed_name.append(pkg_object.name)
-		to_add_name = []
-		for pkg_object in transaction.to_add:
-			to_add_name.append(pkg_object.name)
-		transaction.to_update = sorted(set(installed_name).intersection(to_add_name))
-		to_remove_from_add_name = sorted(set(transaction.to_update).intersection(to_add_name))
+		transaction.to_update = sorted(set(installed_name).intersection(transaction.to_add))
+		to_remove_from_add_name = sorted(set(transaction.to_update).intersection(transaction.to_add))
 		for name in to_remove_from_add_name:
-			to_add_name.remove(name)
-		if to_add_name:
-			transaction_add.append(['To install:', to_add_name[0]])
+			transaction.to_add.remove(name)
+		if transaction.to_add:
+			transaction_add.append(['To install:', transaction.to_add[0]])
 			i = 1
-			while i < len(to_add_name):
-				transaction_add.append([' ', to_add_name[i]])
+			while i < len(transaction.to_add):
+				transaction_add.append([' ', transaction.to_add[i]])
 				i += 1
 		bottom_label.set_markup('')
 		#bottom_label.set_markup('<b>Total Download size: </b>'+format_size(totaldlcb))
-		top_label.set_markup('<big><b>Additionnal Transaction(s)</b></big>')
+	top_label.set_markup('<big><b>Additionnal Transaction(s)</b></big>')
 
 def do_sysupgrade():
 	"""Upgrade a system like pacman -Su"""
 	if transaction.t_lock is False:
 		if transaction.do_syncfirst is True:
-			transaction.t = transaction.init_transaction(recurse = True)
-			for pkg in transaction.list_first:
-				transaction.t.add_pkg(pkg)
-			transaction.to_remove = transaction.t.to_remove
-			transaction.to_add = transaction.t.to_add
-			set_transaction_add()
-			if len(transaction_add) != 0:
-				ConfDialog.show_all()
-			else:
-				transaction.t_finalize(transaction.t)
-			transaction.do_syncfirst = False
-			transaction.list_first = []
-		else:
-			try:
-				transaction.t = transaction.init_transaction()
-				transaction.t.sysupgrade(downgrade=False)
-			except pyalpm.error:
-				ErrorDialog.format_secondary_text(traceback.format_exc())
-				response = ErrorDialog.run()
-				if response:
-					ErrorDialog.hide()
-				transaction.t.release()
-				transaction.t_lock = False
-			transaction.check_conflicts()
-			transaction.to_add = transaction.t.to_add
-			transaction.to_remove = []
-			for pkg in transaction.conflict_to_remove.values():
-				transaction.to_remove.append(pkg)
-			if len(transaction.to_add) + len(transaction.to_remove) == 0:
-				transaction.t.release()
-				transaction.t_lock = False
-				print("Nothing to update")
-			else:
-				transaction.t.release()
-				transaction.t = transaction.init_transaction(noconflicts = True, nodeps = True)
-				for pkg in transaction.to_add:
+			if transaction.init_transaction(recurse = True):
+				for pkg in transaction.list_first:
 					transaction.t.add_pkg(pkg)
-				for pkg in transaction.conflict_to_remove.values():
-					transaction.t.remove_pkg(pkg)
 				transaction.to_remove = transaction.t.to_remove
 				transaction.to_add = transaction.t.to_add
 				set_transaction_add()
 				if len(transaction_add) != 0:
 					ConfDialog.show_all()
 				else:
-					transaction.t_finalize(transaction.t)
+					transaction.t_finalize()
+				transaction.do_syncfirst = False
+				transaction.list_first = []
+		else:
+			if transaction.init_transaction():
+				error = transaction.Sysupgrade()
+				if error:
+					transaction.ErrorDialog.format_secondary_text(error)
+					response = transaction.ErrorDialog.run()
+					if response:
+						transaction.ErrorDialog.hide()
+					transaction.Release()
+					transaction.t_lock = False
+				transaction.get_to_remove()
+				transaction.get_to_add()
+				transaction.check_conflicts()
+				transaction.Release()
+				if len(transaction.to_add) + len(transaction.to_remove) == 0:
+					transaction.t_lock = False
+					print("Nothing to update")
+				else:
+					if transaction.init_transaction(noconflicts = True, nodeps = True):
+						for pkgname in transaction.to_add:
+							transaction.Add(pkgname)
+						for pkgname in transaction.to_remove:
+							transaction.Remove(pkgname)
+						set_transaction_add()
+						if len(transaction_add) != 0:
+							ConfDialog.show_all()
+						else:
+							transaction.t_finalize()
 
 class Handler:
 	def on_UpdateWindow_delete_event(self, *arg):
@@ -155,12 +146,6 @@ def main():
 	UpdateWindow.show_all()
 
 if __name__ == "__main__":
-	if geteuid() == 0:
-		transaction.progress_label.set_text('Refreshing...')
-		transaction.progress_bar.pulse()
-		transaction.action_icon.set_from_file('/usr/share/pamac/icons/24x24/status/refresh-cache.png')
-		transaction.ProgressWindow.show_all()
-		transaction.do_refresh()
-		transaction.ProgressWindow.hide()
+	transaction.do_refresh()
 	main()
 	Gtk.main()
