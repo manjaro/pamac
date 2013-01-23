@@ -121,11 +121,27 @@ def check_conflicts():
 					if name == target.name:
 						if not name in to_remove:
 							to_remove.append(installed_pkg.name)
+	for repo in handle.get_syncdbs():
+		for pkg in repo.pkgcache:
+			if pkg.replaces:
+				for name in pkg.replaces:
+					for installed_pkg in handle.get_localdb().pkgcache:
+						if name == installed_pkg.name:
+							if not name in to_remove:
+								to_remove.append(installed_pkg.name)
+								if warning:
+									warning = warning+'\n'
+								warning = warning+installed_pkg.name+' will be replaced by '+pkg.name
+							print(name)
+							if not pkg.name in to_add:
+								to_add.append(pkg.name)
 	if warning:
 		WarningDialog.format_secondary_text(warning)
 		response = WarningDialog.run()
 		if response:
 			WarningDialog.hide()
+
+
 
 def get_to_remove():
 	global to_remove

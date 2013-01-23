@@ -187,7 +187,7 @@ class Handler:
 		have_updates()
 
 def main():
-	#transaction.do_refresh()
+	transaction.do_refresh()
 	have_updates()
 	interface.connect_signals(Handler())
 	UpdateWindow.show_all()
