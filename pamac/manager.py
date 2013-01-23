@@ -339,8 +339,8 @@ class Handler:
 
 	def on_TransValidButton_clicked(self, *arg):
 		ConfDialog.hide()
-		progress_label.set_text('Preparing...')
-		action_icon.set_from_file('/usr/share/pamac/icons/24x24/status/setup.png')
+		transaction.progress_label.set_text('Preparing...')
+		transaction.action_icon.set_from_file('/usr/share/pamac/icons/24x24/status/setup.png')
 		while Gtk.events_pending():
 			Gtk.main_iteration()
 		if transaction_type is "remove":
