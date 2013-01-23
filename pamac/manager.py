@@ -14,7 +14,7 @@ from pamac import config, common, transaction
 
 interface = Gtk.Builder()
 interface.add_from_file('/usr/share/pamac/gui/manager.glade')
-interface.add_from_file('/usr/share/pamac/gui/dialogs.glade')
+#interface.add_from_file('/usr/share/pamac/gui/dialogs.glade')
 
 MainWindow = interface.get_object("MainWindow")
 
@@ -128,6 +128,7 @@ def refresh_packages_list():
 
 def set_packages_list():
 	global list_dict
+	transaction.get_handle()
 	if list_dict == "search":
 		search_strings_list = search_entry.get_text().split()
 		set_list_dict_search(*search_strings_list)
@@ -246,6 +247,11 @@ def handle_error(error):
 def handle_reply(reply):
 	global transaction_type
 	global transaction_dict
+	if str(reply):
+		transaction.ErrorDialog.format_secondary_text('Commit Error:\n'+str(reply))
+		response = transaction.ErrorDialog.run()
+		if response:
+			transaction.ErrorDialog.hide()
 	transaction.t_lock = False
 	transaction.Release()
 	transaction.ProgressWindow.hide()
@@ -257,24 +263,20 @@ def handle_reply(reply):
 
 class Handler:
 	def on_MainWindow_delete_event(self, *arg):
+		transaction.StopDaemon()
 		if __name__ == "__main__":
 			Gtk.main_quit()
 		else:
 			MainWindow.hide()
 
 	def on_QuitButton_clicked(self, *arg):
+		transaction.StopDaemon()
 		if __name__ == "__main__":
 			Gtk.main_quit()
 		else:
 			MainWindow.hide()
 
 	def on_ValidButton_clicked(self, *arg):
-		#if not geteuid() == 0:
-			#transaction.ErrorDialog.format_secondary_text("You need to be root to run packages transactions")
-			#response = transaction.ErrorDialog.run()
-			#if response:
-				#transaction.ErrorDialog.hide()
-		#el
 		if not transaction_dict:
 			transaction.ErrorDialog.format_secondary_text("No package is selected")
 			response = 	transaction.ErrorDialog.run()
@@ -337,6 +339,8 @@ class Handler:
 
 	def on_TransValidButton_clicked(self, *arg):
 		ConfDialog.hide()
+		progress_label.set_text('Preparing...')
+		action_icon.set_from_file('/usr/share/pamac/icons/24x24/status/setup.png')
 		while Gtk.events_pending():
 			Gtk.main_iteration()
 		if transaction_type is "remove":

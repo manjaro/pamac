@@ -6,9 +6,12 @@
     <property name="border_width">5</property>
     <property name="title" translatable="yes"> </property>
     <property name="resizable">False</property>
+    <property name="modal">True</property>
     <property name="window_position">center-on-parent</property>
     <property name="type_hint">dialog</property>
     <property name="skip_taskbar_hint">True</property>
+    <property name="urgency_hint">True</property>
+    <property name="has_resize_grip">False</property>
     <property name="message_type">error</property>
     <property name="buttons">ok</property>
     <child internal-child="vbox">
@@ -39,12 +42,13 @@
     <property name="can_focus">False</property>
     <property name="title" translatable="yes">Progress</property>
     <property name="resizable">False</property>
-    <property name="window_position">center</property>
+    <property name="modal">True</property>
     <property name="default_width">250</property>
     <property name="default_height">60</property>
     <property name="icon">/usr/share/pamac/icons/22x22/status/setup.png</property>
-    <property name="skip_taskbar_hint">True</property>
+    <property name="type_hint">dialog</property>
     <property name="deletable">False</property>
+    <property name="has_resize_grip">False</property>
     <child>
       <object class="GtkBox" id="box7">
         <property name="visible">True</property>
@@ -54,6 +58,7 @@
         <property name="margin_top">5</property>
         <property name="margin_bottom">5</property>
         <property name="orientation">vertical</property>
+        <property name="spacing">3</property>
         <child>
           <object class="GtkBox" id="box1">
             <property name="visible">True</property>
@@ -97,12 +102,39 @@
             <property name="pulse_step">0.050000000000000003</property>
             <property name="text" translatable="yes"> </property>
             <property name="show_text">True</property>
-            <property name="ellipsize">middle</property>
+            <property name="ellipsize">end</property>
           </object>
           <packing>
             <property name="expand">False</property>
             <property name="fill">True</property>
             <property name="position">1</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkButtonBox" id="buttonbox1">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="layout_style">end</property>
+            <child>
+              <object class="GtkButton" id="ProgressCancelButton">
+                <property name="label">gtk-cancel</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+                <property name="use_stock">True</property>
+                <property name="xalign">1</property>
+                <signal name="clicked" handler="on_ProgressCancelButton_clicked" swapped="no"/>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">2</property>
           </packing>
         </child>
       </object>

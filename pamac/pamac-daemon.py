@@ -18,12 +18,18 @@ class PamacDBusService(dbus.service.Object):
 		self.t = None
 		self.error = ''
 		self.warning = ''
-		self.action = ''
-		self.icon = ''
+		self.action = 'Preparing...'
+		self.icon = '/usr/share/pamac/icons/24x24/status/setup.png'
 		self.target = ''
 		self.percent = 0
 		self.total_size = 0
 		self.already_transferred = 0
+		config.handle.dlcb = self.cb_dl
+		config.handle.totaldlcb = self.totaldlcb
+		config.handle.eventcb = self.cb_event
+		config.handle.questioncb = self.cb_conv
+		config.handle.progresscb = self.cb_progress
+		config.handle.logcb = self.cb_log
 
 	@dbus.service.signal('org.manjaro.pamac')
 	def EmitAction(self, action):
@@ -116,7 +122,10 @@ class PamacDBusService(dbus.service.Object):
 				self.already_transferred += size
 			self.action = 'Downloading '+common.format_size(self.total_size)
 			self.target = _target
-			self.percent = fraction
+			if fraction > 1:
+				self.percent = 0
+			else:
+				self.percent = fraction
 			self.icon = '/usr/share/pamac/icons/24x24/status/package-download.png'
 		else:
 			self.action = 'Refreshing...'
@@ -152,16 +161,10 @@ class PamacDBusService(dbus.service.Object):
 		global t
 		global error
 		error = ''
-		config.handle.dlcb = self.cb_dl
-		config.handle.totaldlcb = self.totaldlcb
-		config.handle.eventcb = self.cb_event
-		config.handle.questioncb = self.cb_conv
-		config.handle.progresscb = self.cb_progress
-		config.handle.logcb = self.cb_log
 		for db in config.handle.get_syncdbs():
 			try:
 				t = config.handle.init_transaction()
-				db.update(force=True)
+				db.update(force=False)
 				print('refresh')
 				t.release()
 			except pyalpm.error:
@@ -175,12 +178,6 @@ class PamacDBusService(dbus.service.Object):
 		global error
 		if self.policykit_test(sender,connexion,'org.manjaro.pamac.init_release'):
 			error = ''
-			config.handle.dlcb = self.cb_dl
-			config.handle.totaldlcb = self.totaldlcb
-			config.handle.eventcb = self.cb_event
-			config.handle.questioncb = self.cb_conv
-			config.handle.progresscb = self.cb_progress
-			config.handle.logcb = self.cb_log
 			try:
 				t = config.handle.init_transaction(**options)
 				print('Init:',t.flags)

@@ -10,7 +10,7 @@ from pamac import config, common, transaction
 
 interface = Gtk.Builder()
 interface.add_from_file('/usr/share/pamac/gui/updater.glade')
-interface.add_from_file('/usr/share/pamac/gui/dialogs.glade')
+#interface.add_from_file('/usr/share/pamac/gui/dialogs.glade')
 
 UpdateWindow = interface.get_object("UpdateWindow")
 
@@ -49,7 +49,7 @@ def set_transaction_add():
 		bottom_label.set_markup('')
 	if transaction.to_add:
 		installed_name = []
-		for pkg_object in config.handle.get_localdb().pkgcache:
+		for pkg_object in transaction.handle.get_localdb().pkgcache:
 			installed_name.append(pkg_object.name)
 		transaction.to_update = sorted(set(installed_name).intersection(transaction.to_add))
 		to_remove_from_add_name = sorted(set(transaction.to_update).intersection(transaction.to_add))
@@ -65,20 +65,59 @@ def set_transaction_add():
 		#bottom_label.set_markup('<b>Total Download size: </b>'+format_size(totaldlcb))
 	top_label.set_markup('<big><b>Additionnal Transaction(s)</b></big>')
 
+def finalize():
+	error = transaction.Prepare()
+	if error:
+		ErrorDialog.format_secondary_text(error)
+		response = ErrorDialog.run()
+		if response:
+			ErrorDialog.hide()
+		transaction.Release()
+		transaction.t_lock = False
+	else:
+		transaction.progress_label.set_text('Preparing...')
+		transaction.action_icon.set_from_file('/usr/share/pamac/icons/24x24/status/setup.png')
+		transaction.ProgressWindow.show_all()
+		while Gtk.events_pending():
+			Gtk.main_iteration()
+		transaction.Commit(reply_handler = handle_reply, error_handler = handle_error, timeout = 2000*1000)
+
+def handle_error(error):
+	if not 'DBus.Error.NoReply' in str(error):
+		transaction.ErrorDialog.format_secondary_text('Commit Error:\n'+str(error))
+		response = transaction.ErrorDialog.run()
+		if response:
+			transaction.ErrorDialog.hide()
+	transaction.t_lock = False
+	transaction.Release()
+	transaction.ProgressWindow.hide()
+	have_updates()
+
+def handle_reply(reply):
+	if str(reply):
+		transaction.ErrorDialog.format_secondary_text('Commit Error:\n'+str(reply))
+		response = transaction.ErrorDialog.run()
+		if response:
+			transaction.ErrorDialog.hide()
+	transaction.t_lock = False
+	transaction.Release()
+	transaction.ProgressWindow.hide()
+	have_updates()
+
 def do_sysupgrade():
 	"""Upgrade a system like pacman -Su"""
 	if transaction.t_lock is False:
 		if transaction.do_syncfirst is True:
 			if transaction.init_transaction(recurse = True):
 				for pkg in transaction.list_first:
-					transaction.t.add_pkg(pkg)
-				transaction.to_remove = transaction.t.to_remove
-				transaction.to_add = transaction.t.to_add
+					transaction.Add(pkg.name)
+				transaction.get_to_remove()
+				transaction.get_to_add()
 				set_transaction_add()
-				if len(transaction_add) != 0:
+				if len(transaction.to_add) != 0:
 					ConfDialog.show_all()
 				else:
-					transaction.t_finalize()
+					finalize()
 				transaction.do_syncfirst = False
 				transaction.list_first = []
 		else:
@@ -108,16 +147,18 @@ def do_sysupgrade():
 						if len(transaction_add) != 0:
 							ConfDialog.show_all()
 						else:
-							transaction.t_finalize()
+							finalize()
 
 class Handler:
 	def on_UpdateWindow_delete_event(self, *arg):
+		transaction.StopDaemon()
 		if __name__ == "__main__":
 			Gtk.main_quit()
 		else:
 			UpdateWindow.hide()
 
 	def on_QuitButton_clicked(self, *arg):
+		transaction.StopDaemon()
 		if __name__ == "__main__":
 			Gtk.main_quit()
 		else:
@@ -125,7 +166,6 @@ class Handler:
 
 	def on_ApplyButton_clicked(self, *arg):
 		do_sysupgrade()
-		have_updates()
 
 	def on_RefreshButton_clicked(self, *arg):
 		transaction.do_refresh()
@@ -134,18 +174,24 @@ class Handler:
 	def on_TransCancelButton_clicked(self, *arg):
 		ConfDialog.hide()
 		transaction.t_lock = False
-		transaction.t.release()
+		transaction.Release()
 
 	def on_TransValidButton_clicked(self, *arg):
 		ConfDialog.hide()
-		transaction.t_finalize(t)
+		finalize()
+
+	def on_ProgressCancelButton_clicked(self, *arg):
+		transaction.t_lock = False
+		transaction.Release()
+		transaction.ProgressWindow.hide()
+		have_updates()
 
 def main():
+	#transaction.do_refresh()
 	have_updates()
 	interface.connect_signals(Handler())
 	UpdateWindow.show_all()
 
 if __name__ == "__main__":
-	transaction.do_refresh()
 	main()
 	Gtk.main()
