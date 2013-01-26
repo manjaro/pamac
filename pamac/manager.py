@@ -99,12 +99,11 @@ def refresh_packages_list():
 	global packages_list
 	packages_list.clear()
 	if not pkg_name_list:
-		packages_list.append([" ", False, False])
+		packages_list.append(["No package found", False, False])
 	else:
 		for name in pkg_name_list:
 			if name in config.holdpkg:
 				packages_list.append([name, pkg_installed_dict[name], False])
-				break
 			elif transaction_type is "install":
 				if pkg_installed_dict[name] is True:
 					packages_list.append([name, pkg_installed_dict[name], False])

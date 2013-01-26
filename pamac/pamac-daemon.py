@@ -49,34 +49,38 @@ class PamacDBusService(dbus.service.Object):
 
 	def cb_event(self, ID, event, tupel):
 		if ID is 1:
-			self.action = 'Checking dependencies'
+			self.action = 'Checking dependencies...'
 			self.icon = '/usr/share/pamac/icons/24x24/status/package-search.png'
 		elif ID is 3:
-			self.action = 'Checking file conflicts'
+			self.action = 'Checking file conflicts...'
 			self.icon = '/usr/share/pamac/icons/24x24/status/package-search.png'
 		elif ID is 5:
-			self.action = 'Resolving dependencies'
+			self.action = 'Resolving dependencies...'
 			self.icon = '/usr/share/pamac/icons/24x24/status/setup.png'
 		elif ID is 7:
-			self.action = 'Checking inter conflicts'
+			self.action = 'Checking inter conflicts...'
 			self.icon = '/usr/share/pamac/icons/24x24/status/package-search.png'
 		elif ID is 9:
-			self.action = 'Installing packages'
+			self.action = 'Installing...'
 			self.icon = '/usr/share/pamac/icons/24x24/status/package-add.png'
 		elif ID is 11:
-			self.action = 'Removing packages'
+			self.action = 'Removing...'
 			self.icon = '/usr/share/pamac/icons/24x24/status/package-delete.png'
 		elif ID is 13:
-			self.action = 'Upgrading packages'
+			self.action = 'Upgrading...'
 			self.icon = '/usr/share/pamac/icons/24x24/status/package-update.png'
 		elif ID is 15:
-			self.action = 'Checking integrity'
+			self.action = 'Checking integrity...'
 			self.icon = '/usr/share/pamac/icons/24x24/status/package-search.png'
 			self.already_transferred = 0
 		elif ID is 17:
-			self.action = 'Checking signatures'
+			self.action = 'Checking signatures...'
 			self.icon = '/usr/share/pamac/icons/24x24/status/package-search.png'
 			print('Checking signatures')
+		elif ID is 26:
+			self.action = 'Configuring...'
+			self.icon = '/usr/share/pamac/icons/24x24/status/setup.png'
+			print('Configuring a package')
 		elif ID is 27:
 			print('Downloading a file')
 		else :

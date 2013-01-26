@@ -92,6 +92,9 @@ def check_conflicts():
 	global to_add
 	global to_remove
 	to_check = []
+	installed_pkg_name = []
+	syncdbs_pkg_name = []
+	depends = []
 	warning = ''
 	for pkgname in to_add:
 		for repo in handle.get_syncdbs():
@@ -99,16 +102,20 @@ def check_conflicts():
 			if pkg:
 				to_check.append(pkg)
 				break
+	for installed_pkg in handle.get_localdb().pkgcache:
+		installed_pkg_name.append(installed_pkg.name)
 	for target in to_check:
+		if target.depends:
+			for name in target.depends:
+				depends.append(name)
 		if target.replaces:
 			for name in target.replaces:
-				pkg = handle.get_localdb().get_pkg(name)
-				if pkg:
-					if not pkg.name in to_remove:
-						to_remove.append(pkg.name)
+				if name in installed_pkg_name:
+					if not name in to_remove:
+						to_remove.append(name)
 						if warning:
 							warning = warning+'\n'
-						warning = warning+pkg.name+' will be replaced by '+target.name
+						warning = warning+name+' will be replaced by '+target.name
 		if target.conflicts:
 			for name in target.conflicts:
 				if name in to_add:
@@ -117,13 +124,12 @@ def check_conflicts():
 					if warning:
 						warning = warning+'\n'
 					warning = warning+name+' conflicts with '+target.name+'\nNone of them will be installed'
-				pkg = handle.get_localdb().get_pkg(name)
-				if pkg:
-					if not pkg.name in to_remove:
-						to_remove.append(pkg.name)
+				if name in installed_pkg_name:
+					if not name in to_remove:
+						to_remove.append(name)
 						if warning:
 							warning = warning+'\n'
-						warning = warning+pkg.name+' conflicts with '+target.name
+						warning = warning+name+' conflicts with '+target.name
 		for installed_pkg in handle.get_localdb().pkgcache:
 			if installed_pkg.conflicts:
 				for name in installed_pkg.conflicts:
@@ -133,20 +139,23 @@ def check_conflicts():
 							if warning:
 								warning = warning+'\n'
 							warning = warning+installed_pkg.name+' conflicts with '+target.name
+			if installed_pkg.name in depends:
+				depends.remove(installed_pkg.name)
 	for repo in handle.get_syncdbs():
 		for pkg in repo.pkgcache:
 			if pkg.replaces:
 				for name in pkg.replaces:
-					for installed_pkg in handle.get_localdb().pkgcache:
-						if name == installed_pkg.name:
-							if not name in to_remove:
-								to_remove.append(installed_pkg.name)
-								if warning:
-									warning = warning+'\n'
-								warning = warning+installed_pkg.name+' will be replaced by '+pkg.name
-							print(name)
-							if not pkg.name in to_add:
-								to_add.append(pkg.name)
+					if name == installed_pkg_name:
+						if not name in to_remove:
+							to_remove.append(name)
+							if warning:
+								warning = warning+'\n'
+							warning = warning+name+' will be replaced by '+pkg.name
+						if not pkg.name in to_add:
+							to_add.append(pkg.name)
+			if pkg.name in depends:
+				depends.remove(pkg.name)
+	print(depends)
 	if warning:
 		WarningDialog.format_secondary_text(warning)
 		response = WarningDialog.run()
