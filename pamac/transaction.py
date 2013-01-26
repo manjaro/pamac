@@ -1,10 +1,9 @@
 #! /usr/bin/python
 # -*-coding:utf-8-*-
 
-from gi.repository import Gtk, GObject
+from gi.repository import Gtk
 
 import pyalpm
-import traceback
 import dbus
 from dbus.mainloop.glib import DBusGMainLoop
 
@@ -15,6 +14,7 @@ interface.add_from_file('/usr/share/pamac/gui/dialogs.glade')
 
 ErrorDialog = interface.get_object('ErrorDialog')
 WarningDialog = interface.get_object('WarningDialog')
+QuestionDialog = interface.get_object('QuestionDialog')
 ProgressWindow = interface.get_object('ProgressWindow')
 progress_bar = interface.get_object('progressbar2')
 progress_label = interface.get_object('progresslabel2')
@@ -64,10 +64,10 @@ def target_signal_handler(target):
 	progress_bar.set_text(target)
 
 def percent_signal_handler(percent):
-	if percent == '0':
-		progress_bar.pulse()
-	else:
-		progress_bar.set_fraction(float(percent))
+	#~ if percent == '0':
+		#~ progress_bar.pulse()
+	#~ else:
+	progress_bar.set_fraction(float(percent))
 
 bus.add_signal_receiver(action_signal_handler, dbus_interface = "org.manjaro.pamac", signal_name = "EmitAction")
 bus.add_signal_receiver(icon_signal_handler, dbus_interface = "org.manjaro.pamac", signal_name = "EmitIcon")
@@ -82,7 +82,7 @@ def init_transaction(**options):
 		t_lock = True
 		return True
 	else:
-		ErrorDialog.format_secondary_text(error)
+		ErrorDialog.format_secondary_text('Init Error:\n'+str(error))
 		response = ErrorDialog.run()
 		if response:
 			ErrorDialog.hide()
@@ -111,16 +111,28 @@ def check_conflicts():
 						warning = warning+pkg.name+' will be replaced by '+target.name
 		if target.conflicts:
 			for name in target.conflicts:
+				if name in to_add:
+					to_add.remove(name)
+					to_add.remove(target.name)
+					if warning:
+						warning = warning+'\n'
+					warning = warning+name+' conflicts with '+target.name+'\nNone of them will be installed'
 				pkg = handle.get_localdb().get_pkg(name)
 				if pkg:
 					if not pkg.name in to_remove:
 						to_remove.append(pkg.name)
+						if warning:
+							warning = warning+'\n'
+						warning = warning+pkg.name+' conflicts with '+target.name
 		for installed_pkg in handle.get_localdb().pkgcache:
 			if installed_pkg.conflicts:
 				for name in installed_pkg.conflicts:
 					if name == target.name:
 						if not name in to_remove:
 							to_remove.append(installed_pkg.name)
+							if warning:
+								warning = warning+'\n'
+							warning = warning+installed_pkg.name+' conflicts with '+target.name
 	for repo in handle.get_syncdbs():
 		for pkg in repo.pkgcache:
 			if pkg.replaces:
@@ -141,8 +153,6 @@ def check_conflicts():
 		if response:
 			WarningDialog.hide()
 
-
-
 def get_to_remove():
 	global to_remove
 	to_remove = To_Remove()
@@ -154,21 +164,31 @@ def get_to_add():
 def do_refresh():
 	"""Sync databases like pacman -Sy"""
 	global t_lock
-	ProgressWindow.show_all()
-	print('show')
+	get_handle()
 	if t_lock is False:
 		t_lock = True
+		progress_label.set_text('Refreshing...')
+		action_icon.set_from_file('/usr/share/pamac/icons/24x24/status/refresh-cache.png')
 		ProgressWindow.show_all()
-		error = Refresh(timeout = 2000*1000)
-		if error:
-			ErrorDialog.format_secondary_text(error)
-			response = ErrorDialog.run()
-			if response:
-				ErrorDialog.hide()
-			Release()
-		ProgressWindow.hide()
-		print('hide')
-		t_lock = False
+		while Gtk.events_pending():
+			Gtk.main_iteration()
+		Refresh(reply_handler = handle_reply, error_handler = handle_error, timeout = 2000*1000)
+
+def handle_error(error):
+	global t_lock
+	if not 'DBus.Error.NoReply' in str(error):
+		transaction.ErrorDialog.format_secondary_text('Refresh Error:\n'+str(error))
+		response = transaction.ErrorDialog.run()
+		if response:
+			transaction.ErrorDialog.hide()
+	t_lock = False
+	Release()
+	ProgressWindow.hide()
+
+def handle_reply(reply):
+	global t_lock
+	t_lock = False
+	ProgressWindow.hide()
 
 def get_updates():
 	"""Return a list of package objects in local db which can be updated"""

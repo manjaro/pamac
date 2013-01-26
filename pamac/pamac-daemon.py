@@ -165,7 +165,6 @@ class PamacDBusService(dbus.service.Object):
 			try:
 				t = config.handle.init_transaction()
 				db.update(force=False)
-				print('refresh')
 				t.release()
 			except pyalpm.error:
 				error = traceback.format_exc()

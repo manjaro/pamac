@@ -4,11 +4,7 @@
 from gi.repository import Gtk
 
 import pyalpm
-import math
-import sys
 from time import strftime, localtime
-from os import geteuid
-import traceback
 
 from pamac import config, common, transaction
 
@@ -227,6 +223,42 @@ def set_transaction_sum():
 		#bottom_label.set_markup('<b>Total Download size: </b>'+common.format_size(totaldlcb))
 	top_label.set_markup('<big><b>Transaction Summary</b></big>')
 
+def do_sysupgrade():
+	global transaction_type
+	"""Upgrade a system like pacman -Su"""
+	if transaction.t_lock is False:
+		transaction_type = "update"
+		if transaction.do_syncfirst is True:
+			if transaction.init_transaction(recurse = True):
+				for pkg in transaction.list_first:
+					transaction.Add(pkg.name)
+				transaction.get_to_remove()
+				transaction.get_to_add()
+				transaction.check_conflicts()
+				transaction.Release()
+				set_transaction_sum()
+				ConfDialog.show_all()
+		else:
+			if transaction.init_transaction():
+				error = transaction.Sysupgrade()
+				if error:
+					transaction.ErrorDialog.format_secondary_text(error)
+					response = transaction.ErrorDialog.run()
+					if response:
+						transaction.ErrorDialog.hide()
+					transaction.Release()
+					transaction.t_lock = False
+				transaction.get_to_remove()
+				transaction.get_to_add()
+				transaction.check_conflicts()
+				transaction.Release()
+				if len(transaction.to_add) + len(transaction.to_update) + len(transaction.to_remove) != 0:
+					set_transaction_sum()
+					ConfDialog.show_all()
+				else:
+					transaction.Release()
+					transaction.t_lock = False
+
 def handle_error(error):
 	global transaction_type
 	global transaction_dict
@@ -252,6 +284,9 @@ def handle_reply(reply):
 		response = transaction.ErrorDialog.run()
 		if response:
 			transaction.ErrorDialog.hide()
+	if transaction.do_syncfirst is True:
+		transaction.do_syncfirst = False
+		transaction.list_first = []
 	transaction.t_lock = False
 	transaction.Release()
 	transaction.ProgressWindow.hide()
@@ -318,8 +353,15 @@ class Handler:
 						transaction.get_to_add()
 						transaction.check_conflicts()
 						transaction.Release()
-						set_transaction_sum()
-						ConfDialog.show_all()
+						if len(transaction.to_add) + len(transaction.to_update) + len(transaction.to_remove) != 0:
+							set_transaction_sum()
+							ConfDialog.show_all()
+						else:
+							transaction.WarningDialog.format_secondary_text('Nothing to do due to packages conflicts')
+							response = transaction.WarningDialog.run()
+							if response:
+								transaction.WarningDialog.hide()
+							transaction.t_lock = False
 
 	def on_EraseButton_clicked(self, *arg):
 		global transaction_type
@@ -333,9 +375,13 @@ class Handler:
 		refresh_packages_list()
 
 	def on_TransCancelButton_clicked(self, *arg):
+		global transaction_type
+		transaction.ProgressWindow.hide()
 		ConfDialog.hide()
 		transaction.t_lock = False
 		transaction.Release()
+		if transaction_type == "update":
+			transaction_type = None
 
 	def on_TransValidButton_clicked(self, *arg):
 		ConfDialog.hide()
@@ -343,13 +389,15 @@ class Handler:
 		transaction.action_icon.set_from_file('/usr/share/pamac/icons/24x24/status/setup.png')
 		while Gtk.events_pending():
 			Gtk.main_iteration()
-		if transaction_type is "remove":
+		if transaction_type == "remove":
 			transaction.ProgressWindow.show_all()
 			while Gtk.events_pending():
 				Gtk.main_iteration()
 			transaction.Commit(reply_handler = handle_reply, error_handler = handle_error, timeout = 2000*1000)
-		if transaction_type is "install":
+		if transaction_type == ("install" or "update"):
 			if transaction.init_transaction(noconflicts = True, nodeps = True):
+				for pkgname in transaction.to_update:
+					transaction.Add(pkgname)
 				for pkgname in transaction.to_add:
 					transaction.Add(pkgname)
 				for pkgname in transaction.to_remove:
@@ -449,7 +497,19 @@ class Handler:
 
 def main():
 	interface.connect_signals(Handler())
+	transaction.do_refresh()
+	do_sysupgrade()
+	#~ if transaction.get_updates():
+		#~ transaction.QuestionDialog.format_secondary_text("Some updates are available.\nIt is higly recommended to update your system before installing/removing software.\nDo you want to update your system now ?")
+		#~ response = transaction.QuestionDialog.run()
+		#~ if response == Gtk.ResponseType.YES:
+			#~ transaction.QuestionDialog.hide()
+			#~ do_sysupgrade()
+		#~ else:
+			#~ transaction.QuestionDialog.hide()
 	MainWindow.show_all()
+	while Gtk.events_pending():
+		Gtk.main_iteration()
 
 if __name__ == "__main__":
 	main()

@@ -3,9 +3,6 @@
 
 from gi.repository import Gtk
 
-import pyalpm
-from os import geteuid
-
 from pamac import config, common, transaction
 
 interface = Gtk.Builder()
@@ -65,13 +62,58 @@ def set_transaction_add():
 		#bottom_label.set_markup('<b>Total Download size: </b>'+format_size(totaldlcb))
 	top_label.set_markup('<big><b>Additionnal Transaction(s)</b></big>')
 
+def do_sysupgrade():
+	"""Upgrade a system like pacman -Su"""
+	if transaction.t_lock is False:
+		if transaction.do_syncfirst is True:
+			if transaction.init_transaction(recurse = True):
+				for pkg in transaction.list_first:
+					transaction.Add(pkg.name)
+				transaction.get_to_remove()
+				transaction.get_to_add()
+				set_transaction_add()
+				if len(transaction.to_add) + len(transaction.to_remove) != 0:
+					ConfDialog.show_all()
+				else:
+					finalize()
+		else:
+			if transaction.init_transaction():
+				error = transaction.Sysupgrade()
+				if error:
+					transaction.ErrorDialog.format_secondary_text(error)
+					response = transaction.ErrorDialog.run()
+					if response:
+						transaction.ErrorDialog.hide()
+					transaction.Release()
+					transaction.t_lock = False
+				transaction.get_to_remove()
+				transaction.get_to_add()
+				transaction.check_conflicts()
+				transaction.Release()
+				if len(transaction.to_update) == 0:
+					transaction.t_lock = False
+					print("Nothing to update")
+				else:
+					if transaction.init_transaction(noconflicts = True, nodeps = True):
+						for pkgname in transaction.to_update:
+							transaction.Add(pkgname)
+						for pkgname in transaction.to_add:
+							transaction.Add(pkgname)
+						for pkgname in transaction.to_remove:
+							transaction.Remove(pkgname)
+						set_transaction_add()
+						if len(transaction.to_add) + len(transaction.to_remove) != 0:
+							ConfDialog.show_all()
+						else:
+							finalize()
+
 def finalize():
 	error = transaction.Prepare()
 	if error:
-		ErrorDialog.format_secondary_text(error)
-		response = ErrorDialog.run()
+		transaction.ErrorDialog.format_secondary_text(error)
+		response = transaction.ErrorDialog.run()
 		if response:
-			ErrorDialog.hide()
+			transaction.ErrorDialog.hide()
 		transaction.Release()
 		transaction.t_lock = False
 	else:
@@ -99,55 +141,13 @@ def handle_reply(reply):
 		response = transaction.ErrorDialog.run()
 		if response:
 			transaction.ErrorDialog.hide()
+	if transaction.do_syncfirst is True:
+		transaction.do_syncfirst = False
+		transaction.list_first = []
 	transaction.t_lock = False
 	transaction.Release()
 	transaction.ProgressWindow.hide()
 	have_updates()
-
-def do_sysupgrade():
-	"""Upgrade a system like pacman -Su"""
-	if transaction.t_lock is False:
-		if transaction.do_syncfirst is True:
-			if transaction.init_transaction(recurse = True):
-				for pkg in transaction.list_first:
-					transaction.Add(pkg.name)
-				transaction.get_to_remove()
-				transaction.get_to_add()
-				set_transaction_add()
-				if len(transaction.to_add) != 0:
-					ConfDialog.show_all()
-				else:
-					finalize()
-				transaction.do_syncfirst = False
-				transaction.list_first = []
-		else:
-			if transaction.init_transaction():
-				error = transaction.Sysupgrade()
-				if error:
-					transaction.ErrorDialog.format_secondary_text(error)
-					response = transaction.ErrorDialog.run()
-					if response:
-						transaction.ErrorDialog.hide()
-					transaction.Release()
-					transaction.t_lock = False
-				transaction.get_to_remove()
-				transaction.get_to_add()
-				transaction.check_conflicts()
-				transaction.Release()
-				if len(transaction.to_add) + len(transaction.to_remove) == 0:
-					transaction.t_lock = False
-					print("Nothing to update")
-				else:
-					if transaction.init_transaction(noconflicts = True, nodeps = True):
-						for pkgname in transaction.to_add:
-							transaction.Add(pkgname)
-						for pkgname in transaction.to_remove:
-							transaction.Remove(pkgname)
-						set_transaction_add()
-						if len(transaction_add) != 0:
-							ConfDialog.show_all()
-						else:
-							finalize()
 
 class Handler:
 	def on_UpdateWindow_delete_event(self, *arg):
@@ -191,6 +191,8 @@ def main():
 	have_updates()
 	interface.connect_signals(Handler())
 	UpdateWindow.show_all()
+	while Gtk.events_pending():
+		Gtk.main_iteration()
 
 if __name__ == "__main__":
 	main()
