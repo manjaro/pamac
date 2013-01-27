@@ -94,8 +94,6 @@ def check_conflicts():
 	to_check = []
 	installed_pkg_name = []
 	syncdbs_pkg_name = []
-	depends = []
-	provides = {}
 	warning = ''
 	for pkgname in to_add:
 		for repo in handle.get_syncdbs():
@@ -106,8 +104,6 @@ def check_conflicts():
 	for installed_pkg in handle.get_localdb().pkgcache:
 		installed_pkg_name.append(installed_pkg.name)
 	for target in to_check:
-		for name in target.depends:
-			depends.append(name)
 		for name in target.replaces:
 			if name in installed_pkg_name:
 				if not name in to_remove:
@@ -129,16 +125,13 @@ def check_conflicts():
 						warning = warning+'\n'
 					warning = warning+name+' conflicts with '+target.name
 		for installed_pkg in handle.get_localdb().pkgcache:
-			if installed_pkg.conflicts:
-				for name in installed_pkg.conflicts:
-					if name == target.name:
-						if not name in to_remove:
-							to_remove.append(installed_pkg.name)
-							if warning:
-								warning = warning+'\n'
-							warning = warning+installed_pkg.name+' conflicts with '+target.name
-			if installed_pkg.name in depends:
-				depends.remove(installed_pkg.name)
+			for name in installed_pkg.conflicts:
+				if name == target.name:
+					if not name in to_remove:
+						to_remove.append(installed_pkg.name)
+						if warning:
+							warning = warning+'\n'
+						warning = warning+installed_pkg.name+' conflicts with '+target.name
 	for repo in handle.get_syncdbs():
 		for pkg in repo.pkgcache:
 			for name in pkg.replaces:
@@ -150,19 +143,6 @@ def check_conflicts():
 						warning = warning+name+' will be replaced by '+pkg.name
 					if not pkg.name in to_add:
 						to_add.append(pkg.name)
-			if pkg.name in depends:
-				depends.remove(pkg.name)
-	if depends:
-		for repo in handle.get_syncdbs():
-			for pkg in repo.pkgcache:
-				for depend in depends:
-					for name in pkg.provides:
-						if name == depend:
-							if not provides.__contains__(depend):
-								provides[depend] = []
-							provides.get(depend).append(pkg.name)
-	if provides:
-		print(provides)
 	if warning:
 		WarningDialog.format_secondary_text(warning)
 		response = WarningDialog.run()

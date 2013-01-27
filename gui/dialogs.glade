@@ -43,6 +43,7 @@
     <property name="title" translatable="yes">Progress</property>
     <property name="resizable">False</property>
     <property name="modal">True</property>
+    <property name="window_position">center-on-parent</property>
     <property name="default_width">250</property>
     <property name="default_height">60</property>
     <property name="icon">/usr/share/pamac/icons/22x22/status/setup.png</property>

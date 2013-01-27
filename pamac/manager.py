@@ -27,12 +27,16 @@ ConfDialog = interface.get_object('ConfDialog')
 transaction_sum = interface.get_object('transaction_sum')
 top_label = interface.get_object('top_label')
 bottom_label = interface.get_object('bottom_label')
+ChooseDialog = interface.get_object('ChooseDialog')
+choose_list = interface.get_object('choose_list')
 
 installed_column.set_sort_column_id(1)
 name_column.set_sort_column_id(0)
 
+transaction.get_handle()
+
 tmp_list = []
-for repo in config.pacman_conf.initialize_alpm().get_syncdbs():
+for repo in transaction.handle.get_syncdbs():
 	for name, pkgs in repo.grpcache:
 		if not name in tmp_list:
 			tmp_list.append(name)
@@ -55,13 +59,13 @@ def set_list_dict_search(*patterns):
 	pkg_name_list = []
 	pkg_object_dict = {}
 	pkg_installed_dict = {}
-	for db in config.pacman_conf.initialize_alpm().get_syncdbs():
+	for db in transaction.handle.get_syncdbs():
 		for pkg_object in db.search(*patterns):
 			if not pkg_object.name in pkg_name_list:
 				pkg_name_list.append(pkg_object.name)
 				pkg_object_dict[pkg_object.name] = pkg_object
 				pkg_installed_dict[pkg_object.name] = False
-	for pkg_object in config.pacman_conf.initialize_alpm().get_localdb().search(*patterns):
+	for pkg_object in transaction.handle.get_localdb().search(*patterns):
 		if not pkg_object.name in pkg_name_list:
 			pkg_name_list.append(pkg_object.name)
 		pkg_installed_dict[pkg_object.name] = True
@@ -75,7 +79,7 @@ def set_list_dict_group(group):
 	pkg_name_list = []
 	pkg_object_dict = {}
 	pkg_installed_dict = {}
-	for db in config.pacman_conf.initialize_alpm().get_syncdbs():
+	for db in transaction.handle.get_syncdbs():
 		grp = db.read_grp(group)
 		if grp is not None:
 			name, pkg_list = grp
@@ -295,6 +299,42 @@ def handle_reply(reply):
 	transaction_type = None
 	set_packages_list()
 
+def choose_provides():
+	to_check = []
+	depends = []
+	provides = {}
+	for pkgname in transaction.to_add:
+		for repo in transaction.handle.get_syncdbs():
+			pkg = repo.get_pkg(pkgname)
+			if pkg:
+				to_check.append(pkg)
+				break
+	for target in to_check:
+		for name in target.depends:
+			depends.append(name)
+	for installed_pkg in transaction.handle.get_localdb().pkgcache:
+		if installed_pkg.name in depends:
+			depends.remove(installed_pkg.name)
+	for repo in transaction.handle.get_syncdbs():
+		for pkg in repo.pkgcache:
+			if pkg.name in depends:
+				depends.remove(pkg.name)
+	if depends:
+		for repo in transaction.handle.get_syncdbs():
+			for pkg in repo.pkgcache:
+				for depend in depends:
+					for name in pkg.provides:
+						if name == depend:
+							if not provides.__contains__(depend):
+								provides[depend] = []
+							provides.get(depend).append(pkg.name)
+	if provides:
+		for virtualdep, liste in provides.items():
+			choose_list.clear()
+			for name in liste:
+				choose_list.append([False, name])
+		ChooseDialog.show_all()
+
 class Handler:
 	def on_MainWindow_delete_event(self, *arg):
 		transaction.StopDaemon()
@@ -350,6 +390,7 @@ class Handler:
 							transaction.t_lock = False
 						transaction.get_to_remove()
 						transaction.get_to_add()
+						#choose_provides()
 						transaction.check_conflicts()
 						transaction.Release()
 						if len(transaction.to_add) + len(transaction.to_update) + len(transaction.to_remove) != 0:
@@ -493,6 +534,19 @@ class Handler:
 					lin += 1
 		packages_list[line][1] = not packages_list[line][1]
 		packages_list[line][2] = True
+
+	def on_cellrenderertoggle2_toggled(self, widget, line):
+		choose_list[line][0] = not choose_list[line][0]
+
+	def on_ChooseButton_clicked(self, *arg):
+		ChooseDialog.hide()
+		line = 0
+		while line <  len(choose_list):
+			if choose_list[line][0] is True:
+				transaction.to_add.append(snap_list[line][1])
+			elif choose_list[line][0] in transaction.to_add:
+				transaction.to_add.remove(snap_list[line][1])
+			line += 1
 
 def main():
 	interface.connect_signals(Handler())
