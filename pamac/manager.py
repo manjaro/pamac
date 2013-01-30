@@ -226,6 +226,61 @@ def set_transaction_sum():
 		#bottom_label.set_markup('<b>Total Download size: </b>'+common.format_size(totaldlcb))
 	top_label.set_markup('<big><b>Transaction Summary</b></big>')
 
+def handle_error(error):
+	global transaction_type
+	global transaction_dict
+	if not 'DBus.Error.NoReply' in str(error):
+		transaction.ErrorDialog.format_secondary_text('Error:\n'+str(error))
+		response = transaction.ErrorDialog.run()
+		if response:
+			transaction.ErrorDialog.hide()
+	transaction.t_lock = False
+	transaction.Release()
+	transaction.ProgressWindow.hide()
+	transaction.to_add = []
+	transaction.to_remove = []
+	transaction_dict.clear()
+	transaction_type = None
+	set_packages_list()
+	print('error',error)
+
+def handle_reply(reply):
+	global transaction_type
+	global transaction_dict
+	if str(reply):
+		transaction.ErrorDialog.format_secondary_text('Error:\n'+str(reply))
+		response = transaction.ErrorDialog.run()
+		if response:
+			transaction.ErrorDialog.hide()
+	if transaction.do_syncfirst is True:
+		transaction.do_syncfirst = False
+		transaction.list_first = []
+	transaction.t_lock = False
+	transaction.Release()
+	transaction.ProgressWindow.hide()
+	transaction.to_add = []
+	transaction.to_remove = []
+	transaction_dict.clear()
+	if (transaction_type == "install") or (transaction_type == "remove"):
+		transaction_type = None
+		set_packages_list()
+	else:
+		transaction_type = None
+	if transaction.get_updates():
+		do_sysupgrade()
+
+def do_refresh():
+	"""Sync databases like pacman -Sy"""
+	transaction.get_handle()
+	if transaction.t_lock is False:
+		transaction.t_lock = True
+		transaction.progress_label.set_text('Refreshing...')
+		transaction.action_icon.set_from_file('/usr/share/pamac/icons/24x24/status/refresh-cache.png')
+		transaction.ProgressWindow.show_all()
+		while Gtk.events_pending():
+			Gtk.main_iteration()
+		transaction.Refresh(reply_handler = handle_reply, error_handler = handle_error, timeout = 2000*1000)
+
 def do_sysupgrade():
 	global transaction_type
 	"""Upgrade a system like pacman -Su"""
@@ -245,59 +300,18 @@ def do_sysupgrade():
 			if transaction.init_transaction():
 				error = transaction.Sysupgrade()
 				if error:
-					transaction.ErrorDialog.format_secondary_text(error)
-					response = transaction.ErrorDialog.run()
-					if response:
-						transaction.ErrorDialog.hide()
-					transaction.Release()
-					transaction.t_lock = False
-				transaction.get_to_remove()
-				transaction.get_to_add()
-				transaction.check_conflicts()
-				transaction.Release()
-				if len(transaction.to_add) + len(transaction.to_update) + len(transaction.to_remove) != 0:
-					set_transaction_sum()
-					ConfDialog.show_all()
+					handle_error(error)
 				else:
+					transaction.get_to_remove()
+					transaction.get_to_add()
+					transaction.check_conflicts()
 					transaction.Release()
-					transaction.t_lock = False
-
-def handle_error(error):
-	global transaction_type
-	global transaction_dict
-	if not 'DBus.Error.NoReply' in str(error):
-		transaction.ErrorDialog.format_secondary_text('Commit Error:\n'+str(error))
-		response = transaction.ErrorDialog.run()
-		if response:
-			transaction.ErrorDialog.hide()
-	transaction.t_lock = False
-	transaction.Release()
-	transaction.ProgressWindow.hide()
-	transaction.to_add = []
-	transaction.to_remove = []
-	transaction_dict.clear()
-	transaction_type = None
-	set_packages_list()
-
-def handle_reply(reply):
-	global transaction_type
-	global transaction_dict
-	if str(reply):
-		transaction.ErrorDialog.format_secondary_text('Commit Error:\n'+str(reply))
-		response = transaction.ErrorDialog.run()
-		if response:
-			transaction.ErrorDialog.hide()
-	if transaction.do_syncfirst is True:
-		transaction.do_syncfirst = False
-		transaction.list_first = []
-	transaction.t_lock = False
-	transaction.Release()
-	transaction.ProgressWindow.hide()
-	transaction.to_add = []
-	transaction.to_remove = []
-	transaction_dict.clear()
-	transaction_type = None
-	set_packages_list()
+					if len(transaction.to_add) + len(transaction.to_update) + len(transaction.to_remove) != 0:
+						set_transaction_sum()
+						ConfDialog.show_all()
+					else:
+						transaction.Release()
+						transaction.t_lock = False
 
 def choose_provides():
 	to_check = []
@@ -311,7 +325,7 @@ def choose_provides():
 				break
 	for target in to_check:
 		for name in target.depends:
-			depends.append(name)
+			depends.append(common.format_pkg_name(name))
 	for installed_pkg in transaction.handle.get_localdb().pkgcache:
 		if installed_pkg.name in depends:
 			depends.remove(installed_pkg.name)
@@ -320,20 +334,55 @@ def choose_provides():
 			if pkg.name in depends:
 				depends.remove(pkg.name)
 	if depends:
+		for installed_pkg in transaction.handle.get_localdb().pkgcache:
+			for name in pkg.provides:
+				if common.format_pkg_name(name) in depends:
+					depends.remove(common.format_pkg_name(name))
 		for repo in transaction.handle.get_syncdbs():
 			for pkg in repo.pkgcache:
 				for depend in depends:
 					for name in pkg.provides:
-						if name == depend:
+						if common.format_pkg_name(name) == depend:
 							if not provides.__contains__(depend):
 								provides[depend] = []
-							provides.get(depend).append(pkg.name)
-	if provides:
+							if not pkg.name in provides.get(depend):
+								provides.get(depend).append(pkg.name)
+	if provides: 
 		for virtualdep, liste in provides.items():
-			choose_list.clear()
-			for name in liste:
-				choose_list.append([False, name])
-		ChooseDialog.show_all()
+			if ('-module' in virtualdep) or ('linux' in virtualdep):
+				print('choose module')
+				pkgs = transaction.handle.get_localdb().search('linux3')
+				installed_linux = []
+				to_remove_from_add = []
+				for i in pkgs:
+					if len(i.name) == 7:
+						installed_linux.append(i.name)
+				for to_install in transaction.to_add:
+					if 'linux3' in to_install:
+						if len(to_install) == 7:
+							if to_install in transaction_dict.keys():
+								installed_linux.append(to_install)
+							else:
+								to_remove_from_add.append(to_install)
+					for name in liste:
+						if name == to_install:
+							if not to_install in transaction_dict.keys():
+								to_remove_from_add.append(to_install)
+				for to_remove in to_remove_from_add:
+					transaction.to_add.remove(to_remove)
+				for name in liste:
+					for linux in installed_linux:
+						if not transaction.handle.get_localdb().get_pkg(name):
+							if linux in name:
+								transaction.to_add.append(name)
+			else:
+				choose_list.clear()
+				for name in liste:
+					if transaction.handle.get_localdb().get_pkg(name):
+						choose_list.append([True, name])
+					else:
+						choose_list.append([False, name])
+				ChooseDialog.run()
 
 class Handler:
 	def on_MainWindow_delete_event(self, *arg):
@@ -366,34 +415,38 @@ class Handler:
 							transaction.Remove(pkgname)
 						error = transaction.Prepare()
 						if error:
-							transaction.ErrorDialog.format_secondary_text(error)
-							response = transaction.ErrorDialog.run()
-							if response:
-								transaction.ErrorDialog.hide()
-							transaction.Release()
-							transaction.t_lock = False
-						transaction.get_to_remove()
-						transaction.get_to_add()
-						set_transaction_sum()
-						ConfDialog.show_all()
+							handle_error(error)
+						else:
+							transaction.get_to_remove()
+							transaction.get_to_add()
+							set_transaction_sum()
+							ConfDialog.show_all()
 				if transaction_type is "install":
 					if transaction.init_transaction(noconflicts = True):
 						for pkgname in transaction_dict.keys():
 							transaction.Add(pkgname)
 						error = transaction.Prepare()
 						if error:
-							transaction.ErrorDialog.format_secondary_text(error)
-							response = transaction.ErrorDialog.run()
-							if response:
-								transaction.ErrorDialog.hide()
+							handle_error(error)
+						else:
+							transaction.get_to_remove()
+							transaction.get_to_add()
 							transaction.Release()
-							transaction.t_lock = False
-						transaction.get_to_remove()
-						transaction.get_to_add()
-						#choose_provides()
-						transaction.check_conflicts()
-						transaction.Release()
-						if len(transaction.to_add) + len(transaction.to_update) + len(transaction.to_remove) != 0:
+							choose_provides()
+							transaction.check_conflicts()
+					if transaction.init_transaction(noconflicts = True):
+						for pkgname in transaction.to_add:
+							transaction.Add(pkgname)
+						for pkgname in transaction.to_remove:
+							transaction.Remove(pkgname)
+						error = transaction.Prepare()
+						if error:
+							handle_error(error)
+						else:
+							transaction.get_to_remove()
+							transaction.get_to_add()
+							transaction.Release()
+						if len(transaction.to_add) + len(transaction.to_remove) != 0:
 							set_transaction_sum()
 							ConfDialog.show_all()
 						else:
@@ -412,7 +465,7 @@ class Handler:
 
 	def on_RefreshButton_clicked(self, *arg):
 		transaction.do_refresh()
-		refresh_packages_list()
+		set_packages_list()
 
 	def on_TransCancelButton_clicked(self, *arg):
 		global transaction_type
@@ -427,6 +480,7 @@ class Handler:
 		ConfDialog.hide()
 		transaction.progress_label.set_text('Preparing...')
 		transaction.action_icon.set_from_file('/usr/share/pamac/icons/24x24/status/setup.png')
+		transaction.progress_bar.set_text('')
 		while Gtk.events_pending():
 			Gtk.main_iteration()
 		if transaction_type == "remove":
@@ -434,7 +488,7 @@ class Handler:
 			while Gtk.events_pending():
 				Gtk.main_iteration()
 			transaction.Commit(reply_handler = handle_reply, error_handler = handle_error, timeout = 2000*1000)
-		if transaction_type == ("install" or "update"):
+		if (transaction_type == "install") or (transaction_type == "update"):
 			if transaction.init_transaction(noconflicts = True, nodeps = True):
 				for pkgname in transaction.to_update:
 					transaction.Add(pkgname)
@@ -444,12 +498,7 @@ class Handler:
 					transaction.Remove(pkgname)
 				error = transaction.Prepare()
 				if error:
-					transaction.ErrorDialog.format_secondary_text(error)
-					response = transaction.ErrorDialog.run()
-					if response:
-						transaction.ErrorDialog.hide()
-					transaction.Release()
-					transaction.t_lock = False
+					handle_error(error)
 				else:
 					transaction.ProgressWindow.show_all()
 					while Gtk.events_pending():
@@ -543,23 +592,18 @@ class Handler:
 		line = 0
 		while line <  len(choose_list):
 			if choose_list[line][0] is True:
-				transaction.to_add.append(snap_list[line][1])
-			elif choose_list[line][0] in transaction.to_add:
-				transaction.to_add.remove(snap_list[line][1])
+				if not choose_list[line][1] in transaction.to_add:
+					if not transaction.handle.get_localdb().get_pkg(choose_list[line][1]):
+						transaction.to_add.append(choose_list[line][1])
+			if choose_list[line][0] is False:
+				if choose_list[line][1] in transaction.to_add:
+					transaction.to_add.remove(choose_list[line][1])
 			line += 1
+		print(transaction.to_add)
 
 def main():
 	interface.connect_signals(Handler())
-	transaction.do_refresh()
-	do_sysupgrade()
-	#~ if transaction.get_updates():
-		#~ transaction.QuestionDialog.format_secondary_text("Some updates are available.\nIt is higly recommended to update your system before installing/removing software.\nDo you want to update your system now ?")
-		#~ response = transaction.QuestionDialog.run()
-		#~ if response == Gtk.ResponseType.YES:
-			#~ transaction.QuestionDialog.hide()
-			#~ do_sysupgrade()
-		#~ else:
-			#~ transaction.QuestionDialog.hide()
+	do_refresh()
 	MainWindow.show_all()
 	while Gtk.events_pending():
 		Gtk.main_iteration()
@@ -567,4 +611,3 @@ def main():
 if __name__ == "__main__":
 	main()
 	Gtk.main()
-

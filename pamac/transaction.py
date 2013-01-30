@@ -7,7 +7,7 @@ import pyalpm
 import dbus
 from dbus.mainloop.glib import DBusGMainLoop
 
-from pamac import config
+from pamac import config, common
 
 interface = Gtk.Builder()
 interface.add_from_file('/usr/share/pamac/gui/dialogs.glade')
@@ -105,29 +105,29 @@ def check_conflicts():
 		installed_pkg_name.append(installed_pkg.name)
 	for target in to_check:
 		for name in target.replaces:
-			if name in installed_pkg_name:
-				if not name in to_remove:
-					to_remove.append(name)
+			if common.format_pkg_name(name) in installed_pkg_name:
+				if not common.format_pkg_name(name) in to_remove:
+					to_remove.append(common.format_pkg_name(name))
 					if warning:
 						warning = warning+'\n'
 					warning = warning+name+' will be replaced by '+target.name
 		for name in target.conflicts:
-			if name in to_add:
-				to_add.remove(name)
+			if common.format_pkg_name(name) in to_add:
+				to_add.remove(common.format_pkg_name(name))
 				to_add.remove(target.name)
 				if warning:
 					warning = warning+'\n'
 				warning = warning+name+' conflicts with '+target.name+'\nNone of them will be installed'
-			if name in installed_pkg_name:
-				if not name in to_remove:
-					to_remove.append(name)
+			if common.format_pkg_name(name) in installed_pkg_name:
+				if not common.format_pkg_name(name) in to_remove:
+					to_remove.append(common.format_pkg_name(name))
 					if warning:
 						warning = warning+'\n'
 					warning = warning+name+' conflicts with '+target.name
 		for installed_pkg in handle.get_localdb().pkgcache:
 			for name in installed_pkg.conflicts:
-				if name == target.name:
-					if not name in to_remove:
+				if common.format_pkg_name(name) == target.name:
+					if not common.format_pkg_name(name) in to_remove:
 						to_remove.append(installed_pkg.name)
 						if warning:
 							warning = warning+'\n'
@@ -135,12 +135,12 @@ def check_conflicts():
 	for repo in handle.get_syncdbs():
 		for pkg in repo.pkgcache:
 			for name in pkg.replaces:
-				if name in installed_pkg_name:
-					if not name in to_remove:
-						to_remove.append(name)
+				if common.format_pkg_name(name) in installed_pkg_name:
+					if not common.format_pkg_name(name) in to_remove:
+						to_remove.append(common.format_pkg_name(name))
 						if warning:
 							warning = warning+'\n'
-						warning = warning+name+' will be replaced by '+pkg.name
+						warning = warning+common.format_pkg_name(name)+' will be replaced by '+pkg.name
 					if not pkg.name in to_add:
 						to_add.append(pkg.name)
 	if warning:
