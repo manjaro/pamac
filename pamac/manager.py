@@ -439,34 +439,38 @@ class Handler:
 							transaction.Release()
 							choose_provides()
 							transaction.check_conflicts()
-					if transaction.init_transaction(noconflicts = True):
-						for pkgname in transaction.to_add:
-							transaction.Add(pkgname)
-						for pkgname in transaction.to_remove:
-							transaction.Remove(pkgname)
-						error = transaction.Prepare()
-						if error:
-							handle_error(error)
-						else:
-							transaction.get_to_remove()
-							transaction.get_to_add()
-							transaction.Release()
-						if len(transaction.to_add) + len(transaction.to_remove) != 0:
-							set_transaction_sum()
-							ConfDialog.show_all()
-						else:
-							transaction.WarningDialog.format_secondary_text('Nothing to do due to packages conflicts')
-							response = transaction.WarningDialog.run()
-							if response:
-								transaction.WarningDialog.hide()
-							transaction.t_lock = False
+					if set(transaction_dict.keys()).intersection(transaction.to_add):
+						if transaction.init_transaction(noconflicts = True):
+							for pkgname in transaction.to_add:
+								transaction.Add(pkgname)
+							for pkgname in transaction.to_remove:
+								transaction.Remove(pkgname)
+							error = transaction.Prepare()
+							if error:
+								handle_error(error)
+							else:
+								transaction.get_to_remove()
+								transaction.get_to_add()
+								transaction.Release()
+							if len(transaction.to_add) + len(transaction.to_remove) != 0:
+								set_transaction_sum()
+								ConfDialog.show_all()
+							else:
+								transaction.WarningDialog.format_secondary_text('Nothing to do due to packages conflicts')
+								response = transaction.WarningDialog.run()
+								if response:
+									transaction.WarningDialog.hide()
+								transaction.t_lock = False
+					else:
+						transaction.t_lock = False
 
 	def on_EraseButton_clicked(self, *arg):
 		global transaction_type
 		global transaction_dict
 		transaction_dict.clear()
-		transaction_type = None
-		refresh_packages_list()
+		if transaction_type:
+			transaction_type = None
+			refresh_packages_list()
 
 	def on_RefreshButton_clicked(self, *arg):
 		transaction.do_refresh()

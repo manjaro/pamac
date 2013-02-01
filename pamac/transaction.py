@@ -112,8 +112,10 @@ def check_conflicts():
 						warning = warning+'\n'
 					warning = warning+name+' will be replaced by '+target.name
 		for name in target.conflicts:
-			if common.format_pkg_name(name) in to_add:
-				to_add.remove(common.format_pkg_name(name))
+			#if common.format_pkg_name(name) in to_add:
+			if name in to_add:
+				#to_add.remove(common.format_pkg_name(name))
+				to_add.remove(name)
 				to_add.remove(target.name)
 				if warning:
 					warning = warning+'\n'
@@ -184,6 +186,7 @@ def handle_error(error):
 def handle_reply(reply):
 	global t_lock
 	t_lock = False
+	Release()
 	ProgressWindow.hide()
 
 def get_updates():
