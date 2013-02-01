@@ -29,6 +29,7 @@ top_label = interface.get_object('top_label')
 bottom_label = interface.get_object('bottom_label')
 ChooseDialog = interface.get_object('ChooseDialog')
 choose_list = interface.get_object('choose_list')
+choose_label = interface.get_object('choose_label')
 
 installed_column.set_sort_column_id(1)
 name_column.set_sort_column_id(0)
@@ -317,6 +318,7 @@ def choose_provides():
 	to_check = []
 	depends = []
 	provides = {}
+	already_provided = False
 	for pkgname in transaction.to_add:
 		for repo in transaction.handle.get_syncdbs():
 			pkg = repo.get_pkg(pkgname)
@@ -334,10 +336,6 @@ def choose_provides():
 			if pkg.name in depends:
 				depends.remove(pkg.name)
 	if depends:
-		for installed_pkg in transaction.handle.get_localdb().pkgcache:
-			for name in pkg.provides:
-				if common.format_pkg_name(name) in depends:
-					depends.remove(common.format_pkg_name(name))
 		for repo in transaction.handle.get_syncdbs():
 			for pkg in repo.pkgcache:
 				for depend in depends:
@@ -350,7 +348,6 @@ def choose_provides():
 	if provides: 
 		for virtualdep, liste in provides.items():
 			if ('-module' in virtualdep) or ('linux' in virtualdep):
-				print('choose module')
 				pkgs = transaction.handle.get_localdb().search('linux3')
 				installed_linux = []
 				to_remove_from_add = []
@@ -375,7 +372,15 @@ def choose_provides():
 						if not transaction.handle.get_localdb().get_pkg(name):
 							if linux in name:
 								transaction.to_add.append(name)
+				already_provided = True
+			for installed_pkg in transaction.handle.get_localdb().pkgcache:
+				for name in installed_pkg.provides:
+					if common.format_pkg_name(name) == virtualdep:
+						already_provided = True
+			if already_provided:
+				pass
 			else:
+				choose_label.set_markup('<b>{} is provided by {} packages.\nPlease choose the one(s) you want to install:</b>'.format(virtualdep,str(len(liste))))
 				choose_list.clear()
 				for name in liste:
 					if transaction.handle.get_localdb().get_pkg(name):
@@ -599,7 +604,6 @@ class Handler:
 				if choose_list[line][1] in transaction.to_add:
 					transaction.to_add.remove(choose_list[line][1])
 			line += 1
-		print(transaction.to_add)
 
 def main():
 	interface.connect_signals(Handler())
