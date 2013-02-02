@@ -1,5 +1,5 @@
 [D-BUS Service]
 Name=org.manjaro.pamac
-Exec=/usr/lib/python3.3/site-packages/pamac/pamac-daemon.py
+Exec=/usr/bin/python /usr/lib/python3.3/site-packages/pamac/pamac-daemon.py
 User=root
 SystemdService=pamac.service

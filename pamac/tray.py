@@ -5,6 +5,8 @@ from gi.repository import Gtk
 
 from pamac import transaction, updater, manager
 
+already_manager = False
+
 class Tray:
 	def __init__(self, icon, info):
 		self.icon = icon
@@ -32,7 +34,13 @@ class Tray:
 		updater.main()
 
 	def execute_manager(self, widget, event, data = None):
-		manager.main()
+		global already_manager
+		if already_manager:
+			manager.MainWindow.show_all()
+			print('show')
+		else:
+			manager.main()
+			already_manager = True
 
 	def quit_tray(self, widget, data = None):
 		Gtk.main_quit()
