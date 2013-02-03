@@ -16,4 +16,4 @@ def format_pkg_name(name):
 		index = name.find(i)
 		if index != -1:
 			name = name[0:index]
-	return name
+		return name

@@ -18,6 +18,18 @@ bottom_label = interface.get_object('bottom_label')
 update_listore = interface.get_object('update_list')
 update_label = interface.get_object('update_label')
 
+def do_refresh():
+	"""Sync databases like pacman -Sy"""
+	transaction.get_handle()
+	if transaction.t_lock is False:
+		transaction.t_lock = True
+		transaction.progress_label.set_text('Refreshing...')
+		transaction.action_icon.set_from_file('/usr/share/pamac/icons/24x24/status/refresh-cache.png')
+		transaction.ProgressWindow.show_all()
+		while Gtk.events_pending():
+			Gtk.main_iteration()
+		transaction.Refresh(reply_handler = handle_reply, error_handler = handle_error, timeout = 2000*1000)
+
 def have_updates():
 	available_updates = transaction.get_updates()
 	update_listore.clear()
@@ -90,11 +102,11 @@ def do_sysupgrade():
 				transaction.get_to_add()
 				transaction.check_conflicts()
 				transaction.Release()
-				if len(transaction.to_update) == 0:
+				if len(transaction.to_add) == 0:
 					transaction.t_lock = False
 					print("Nothing to update")
 				else:
-					if transaction.init_transaction(noconflicts = True, nodeps = True):
+					if transaction.init_transaction(noconflicts = True):
 						for pkgname in transaction.to_update:
 							transaction.Add(pkgname)
 						for pkgname in transaction.to_add:
@@ -169,7 +181,7 @@ class Handler:
 
 	def on_RefreshButton_clicked(self, *arg):
 		transaction.do_refresh()
-		have_updates()
+		#have_updates()
 
 	def on_TransCancelButton_clicked(self, *arg):
 		ConfDialog.hide()
@@ -187,8 +199,9 @@ class Handler:
 		have_updates()
 
 def main():
-	transaction.do_refresh()
-	have_updates()
+	do_refresh()
+	#have_updates()
+	update_label.set_markup("<big><b>Available updates</b></big>")
 	interface.connect_signals(Handler())
 	UpdateWindow.show_all()
 	while Gtk.events_pending():

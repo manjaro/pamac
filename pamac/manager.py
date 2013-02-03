@@ -327,7 +327,7 @@ def choose_provides():
 				break
 	for target in to_check:
 		for name in target.depends:
-			depends.append(common.format_pkg_name(name))
+			depends.append(name)
 	for installed_pkg in transaction.handle.get_localdb().pkgcache:
 		if installed_pkg.name in depends:
 			depends.remove(installed_pkg.name)
@@ -340,7 +340,7 @@ def choose_provides():
 			for pkg in repo.pkgcache:
 				for depend in depends:
 					for name in pkg.provides:
-						if common.format_pkg_name(name) == depend:
+						if name == depend:
 							if not provides.__contains__(depend):
 								provides[depend] = []
 							if not pkg.name in provides.get(depend):
@@ -375,7 +375,7 @@ def choose_provides():
 				already_provided = True
 			for installed_pkg in transaction.handle.get_localdb().pkgcache:
 				for name in installed_pkg.provides:
-					if common.format_pkg_name(name) == virtualdep:
+					if name == virtualdep:
 						already_provided = True
 			if already_provided:
 				pass
@@ -415,7 +415,7 @@ class Handler:
 				print('Transaction locked')
 			else:
 				if transaction_type is "remove":
-					if transaction.init_transaction(cascade = True):
+					if transaction.init_transaction(cascade = True, unneeded = True):
 						for pkgname in transaction_dict.keys():
 							transaction.Remove(pkgname)
 						error = transaction.Prepare()
@@ -498,7 +498,7 @@ class Handler:
 				Gtk.main_iteration()
 			transaction.Commit(reply_handler = handle_reply, error_handler = handle_error, timeout = 2000*1000)
 		if (transaction_type == "install") or (transaction_type == "update"):
-			if transaction.init_transaction(noconflicts = True, nodeps = True):
+			if transaction.init_transaction(noconflicts = True):#, nodeps = True):
 				for pkgname in transaction.to_update:
 					transaction.Add(pkgname)
 				for pkgname in transaction.to_add:

@@ -159,36 +159,6 @@ def get_to_add():
 	global to_add
 	to_add = To_Add()
 
-def do_refresh():
-	"""Sync databases like pacman -Sy"""
-	global t_lock
-	get_handle()
-	if t_lock is False:
-		t_lock = True
-		progress_label.set_text('Refreshing...')
-		action_icon.set_from_file('/usr/share/pamac/icons/24x24/status/refresh-cache.png')
-		ProgressWindow.show_all()
-		while Gtk.events_pending():
-			Gtk.main_iteration()
-		Refresh(reply_handler = handle_reply, error_handler = handle_error, timeout = 2000*1000)
-
-def handle_error(error):
-	global t_lock
-	if not 'DBus.Error.NoReply' in str(error):
-		transaction.ErrorDialog.format_secondary_text('Refresh Error:\n'+str(error))
-		response = transaction.ErrorDialog.run()
-		if response:
-			transaction.ErrorDialog.hide()
-	t_lock = False
-	Release()
-	ProgressWindow.hide()
-
-def handle_reply(reply):
-	global t_lock
-	t_lock = False
-	Release()
-	ProgressWindow.hide()
-
 def get_updates():
 	"""Return a list of package objects in local db which can be updated"""
 	global do_syncfirst
@@ -197,9 +167,10 @@ def get_updates():
 	if config.syncfirst:
 		for name in config.syncfirst:
 			pkg = handle.get_localdb().get_pkg(name)
-			candidate = pyalpm.sync_newversion(pkg, handle.get_syncdbs())
-			if candidate:
-				list_first.append(candidate)
+			if pkg:
+				candidate = pyalpm.sync_newversion(pkg, handle.get_syncdbs())
+				if candidate:
+					list_first.append(candidate)
 		if list_first:
 			do_syncfirst = True
 			return list_first
