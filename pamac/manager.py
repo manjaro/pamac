@@ -4,6 +4,7 @@
 from gi.repository import Gtk
 
 import pyalpm
+from collections import OrderedDict
 from time import strftime, localtime
 
 from pamac import config, common, transaction
@@ -35,7 +36,6 @@ installed_column.set_sort_column_id(1)
 name_column.set_sort_column_id(0)
 
 transaction.get_handle()
-
 tmp_list = []
 for repo in transaction.handle.get_syncdbs():
 	for name, pkgs in repo.grpcache:
@@ -128,7 +128,6 @@ def refresh_packages_list():
 
 def set_packages_list():
 	global list_dict
-	transaction.get_handle()
 	if list_dict == "search":
 		search_strings_list = search_entry.get_text().split()
 		set_list_dict_search(*search_strings_list)
@@ -242,6 +241,7 @@ def handle_error(error):
 	transaction.to_remove = []
 	transaction_dict.clear()
 	transaction_type = None
+	transaction.get_handle()
 	set_packages_list()
 	print('error',error)
 
@@ -253,26 +253,24 @@ def handle_reply(reply):
 		response = transaction.ErrorDialog.run()
 		if response:
 			transaction.ErrorDialog.hide()
-	if transaction.do_syncfirst is True:
-		transaction.do_syncfirst = False
-		transaction.list_first = []
 	transaction.t_lock = False
 	transaction.Release()
 	transaction.ProgressWindow.hide()
 	transaction.to_add = []
 	transaction.to_remove = []
 	transaction_dict.clear()
+	transaction.get_handle()
 	if (transaction_type == "install") or (transaction_type == "remove"):
 		transaction_type = None
 		set_packages_list()
 	else:
 		transaction_type = None
-	if transaction.get_updates():
-		do_sysupgrade()
+	do_syncfirst, updates = transaction.get_updates()
+	if updates:
+		do_sysupgrade(do_syncfirst, updates)
 
 def do_refresh():
 	"""Sync databases like pacman -Sy"""
-	transaction.get_handle()
 	if transaction.t_lock is False:
 		transaction.t_lock = True
 		transaction.progress_label.set_text('Refreshing...')
@@ -282,112 +280,183 @@ def do_refresh():
 			Gtk.main_iteration()
 		transaction.Refresh(reply_handler = handle_reply, error_handler = handle_error, timeout = 2000*1000)
 
-def do_sysupgrade():
+def do_sysupgrade(do_syncfirst, updates_list):
 	global transaction_type
 	"""Upgrade a system like pacman -Su"""
 	if transaction.t_lock is False:
 		transaction_type = "update"
-		if transaction.do_syncfirst is True:
+		do_syncfirst, updates = transaction.get_updates()
+		if updates:
+			transaction.to_add = []
+			transaction.to_remove = []
+			check_conflicts(updates)
+		if do_syncfirst is True:
+			for pkg in updates:
+				transaction.to_add.append(pkg.name)
 			if transaction.init_transaction(recurse = True):
-				for pkg in transaction.list_first:
-					transaction.Add(pkg.name)
-				transaction.get_to_remove()
-				transaction.get_to_add()
-				transaction.check_conflicts()
-				transaction.Release()
-				set_transaction_sum()
-				ConfDialog.show_all()
-		else:
-			if transaction.init_transaction():
-				error = transaction.Sysupgrade()
+				for pkgname in transaction.to_add:
+					transaction.Add(pkgname)
+				for pkgname in transaction.to_remove:
+					transaction.Remove(pkgname)
+				error = transaction.Prepare()
 				if error:
 					handle_error(error)
 				else:
 					transaction.get_to_remove()
 					transaction.get_to_add()
-					transaction.check_conflicts()
-					transaction.Release()
-					if len(transaction.to_add) + len(transaction.to_update) + len(transaction.to_remove) != 0:
+					set_transaction_sum()
+					ConfDialog.show_all()
+		else:
+			if transaction.init_transaction(noconflicts = True):
+				error = transaction.Sysupgrade()
+				if error:
+					handle_error(error)
+				else:
+					for pkgname in transaction.to_add:
+						transaction.Add(pkgname)
+					for pkgname in transaction.to_remove:
+						transaction.Remove(pkgname)
+					error = transaction.Prepare()
+					if error:
+						handle_error(error)
+					else:
+						transaction.get_to_remove()
+						transaction.get_to_add()
 						set_transaction_sum()
 						ConfDialog.show_all()
-					else:
-						transaction.Release()
-						transaction.t_lock = False
 
-def choose_provides():
-	to_check = []
-	depends = []
-	provides = {}
-	already_provided = False
-	for pkgname in transaction.to_add:
-		for repo in transaction.handle.get_syncdbs():
-			pkg = repo.get_pkg(pkgname)
-			if pkg:
-				to_check.append(pkg)
-				break
-	for target in to_check:
-		for name in target.depends:
-			depends.append(name)
-	for installed_pkg in transaction.handle.get_localdb().pkgcache:
-		if installed_pkg.name in depends:
-			depends.remove(installed_pkg.name)
-	for repo in transaction.handle.get_syncdbs():
-		for pkg in repo.pkgcache:
-			if pkg.name in depends:
-				depends.remove(pkg.name)
-	if depends:
-		for repo in transaction.handle.get_syncdbs():
-			for pkg in repo.pkgcache:
-				for depend in depends:
-					for name in pkg.provides:
-						if name == depend:
-							if not provides.__contains__(depend):
-								provides[depend] = []
-							if not pkg.name in provides.get(depend):
-								provides.get(depend).append(pkg.name)
-	if provides: 
-		for virtualdep, liste in provides.items():
-			if ('-module' in virtualdep) or ('linux' in virtualdep):
-				pkgs = transaction.handle.get_localdb().search('linux3')
-				installed_linux = []
-				to_remove_from_add = []
-				for i in pkgs:
-					if len(i.name) == 7:
-						installed_linux.append(i.name)
-				for to_install in transaction.to_add:
-					if 'linux3' in to_install:
-						if len(to_install) == 7:
-							if to_install in transaction_dict.keys():
-								installed_linux.append(to_install)
+def check_conflicts(pkg_list):
+	#~ global to_add
+	#~ global to_remove
+	#~ global to_provide
+	depends = [pkg_list]
+	warning = ''
+	#transaction.get_handle()
+	pkgs = transaction.handle.get_localdb().search('linux3')
+	installed_linux = []
+	for i in pkgs:
+		if len(i.name) == 7:
+			installed_linux.append(i.name)
+	for to_install in transaction.to_add:
+		if 'linux3' in to_install:
+			if len(to_install) == 7:
+				installed_linux.append(to_install)
+	i = 0
+	while depends[i]:
+		depends.append([])
+		for pkg in depends[i]:
+			for depend in pkg.depends:
+				provide = pyalpm.find_satisfier(transaction.localpkgs.values(), depend)
+				if provide:
+					print(i,'local',provide)
+					if provide.name != common.format_pkg_name(depend):
+						if ('linux' in depend) or ('-module' in depend):
+							for pkg in transaction.syncpkgs.values():
+								if not pkg.name in transaction.localpkgs.keys():
+									for name in pkg.provides:
+										for linux in installed_linux:
+											if linux in pkg.name:
+												if common.format_pkg_name(depend) == common.format_pkg_name(name):
+													depends[i+1].append(pkg)
+													transaction.to_add.append(pkg.name)
+				else:
+					provide = pyalpm.find_satisfier(transaction.syncpkgs.values(), depend)
+					if provide:
+						print(i,'sync',provide)
+						if provide.name != common.format_pkg_name(depend):
+							if ('linux' in depend) or ('-module' in depend):
+								for pkg in transaction.syncpkgs.values():
+									if not pkg.name in transaction.localpkgs.keys():
+										for name in pkg.provides:
+											for linux in installed_linux:
+												if linux in pkg.name:
+													if common.format_pkg_name(depend) == common.format_pkg_name(name):
+														depends[i+1].append(pkg)
+														transaction.to_add.append(pkg.name)
 							else:
-								to_remove_from_add.append(to_install)
-					for name in liste:
-						if name == to_install:
-							if not to_install in transaction_dict.keys():
-								to_remove_from_add.append(to_install)
-				for to_remove in to_remove_from_add:
-					transaction.to_add.remove(to_remove)
-				for name in liste:
-					for linux in installed_linux:
-						if not transaction.handle.get_localdb().get_pkg(name):
-							if linux in name:
-								transaction.to_add.append(name)
-				already_provided = True
-			for installed_pkg in transaction.handle.get_localdb().pkgcache:
-				for name in installed_pkg.provides:
-					if name == virtualdep:
-						already_provided = True
-			if already_provided:
-				pass
+								to_add_to_depends = choose_provides(depend)
+								print(to_add_to_depends)
+								for pkg in to_add_to_depends:
+									depends[i+1].append(pkg)
+									transaction.to_add.append(pkg.name)
+						else:
+							depends[i+1].append(provide)
+			for replace in pkg.replaces:
+				provide = pyalpm.find_satisfier(transaction.localpkgs.values(), replace)
+				if provide:
+					if provide.name != pkg.name:
+						if not provide.name in transaction.to_remove:
+							transaction.to_remove.append(provide.name)
+							if warning:
+								warning = warning+'\n'
+							warning = warning+provide.name+' will be replaced by '+pkg.name
+			for conflict in pkg.conflicts:
+				provide = pyalpm.find_satisfier(transaction.localpkgs.values(), conflict)
+				if provide:
+					if provide.name != pkg.name:
+						if not provide.name in transaction.to_remove:
+							transaction.to_remove.append(provide.name)
+							if warning:
+								warning = warning+'\n'
+							warning = warning+pkg.name+' conflicts with '+provide.name
+				provide = pyalpm.find_satisfier(depends[0], conflict)
+				if provide:
+					if not common.format_pkg_name(conflict) in transaction.to_remove:
+						if pkg.name in transaction.to_add and common.format_pkg_name(conflict) in transaction.to_add:
+							transaction.to_add.remove(common.format_pkg_name(conflict))
+							transaction.to_add.remove(pkg.name)
+							if warning:
+								warning = warning+'\n'
+							warning = warning+pkg.name+' conflicts with '+common.format_pkg_name(conflict)+'\nNone of them will be installed'
+		i += 1
+	for pkg in transaction.localpkgs.values():
+		for conflict in pkg.conflicts:
+			provide = pyalpm.find_satisfier(depends[0], conflict)
+			if provide:
+				if provide.name != pkg.name:
+					if not provide.name in transaction.to_remove:
+						transaction.to_remove.append(pkg.name)
+						if warning:
+							warning = warning+'\n'
+						warning = warning+provide.name+' conflicts with '+pkg.name
+	for pkg in transaction.syncpkgs.values():
+		for replace in pkg.replaces:
+			provide = pyalpm.find_satisfier(transaction.localpkgs.values(), replace)
+			if provide:
+				if provide.name != pkg.name:
+					if not provide.name in transaction.localpkgs.keys():
+						if not provide.name in transaction.to_remove:
+							transaction.to_remove.append(provide.name)
+							if warning:
+								warning = warning+'\n'
+							warning = warning+provide.name+' will be replaced by '+pkg.name
+						if not pkg.name in transaction.to_add:
+							transaction.to_add.append(pkg.name)
+	print(transaction.to_add,transaction.to_remove)
+	if warning:
+		transaction.WarningDialog.format_secondary_text(warning)
+		response = transaction.WarningDialog.run()
+		if response:
+			transaction.WarningDialog.hide()
+
+def choose_provides(name):
+	provides = OrderedDict()
+	already_add = []
+	for pkg in transaction.syncpkgs.values():
+		for provide in pkg.provides:
+			if common.format_pkg_name(name) == common.format_pkg_name(provide):
+				if not pkg.name in provides.keys():
+					provides[pkg.name] = pkg
+	if provides:
+		choose_label.set_markup('<b>{} is provided by {} packages.\nPlease choose the one(s) you want to install:</b>'.format(name,str(len(provides.keys()))))
+		choose_list.clear()
+		for name in provides.keys():
+			if transaction.handle.get_localdb().get_pkg(name):
+				choose_list.append([True, name])
 			else:
-				choose_label.set_markup('<b>{} is provided by {} packages.\nPlease choose the one(s) you want to install:</b>'.format(virtualdep,str(len(liste))))
-				choose_list.clear()
-				for name in liste:
-					if transaction.handle.get_localdb().get_pkg(name):
-						choose_list.append([True, name])
-					else:
-						choose_list.append([False, name])
-				ChooseDialog.run()
+				choose_list.append([False, name])
+		ChooseDialog.run()
+		return [provides[pkgname] for pkgname in transaction.to_provide]
 
 class Handler:
 	def on_MainWindow_delete_event(self, *arg):
@@ -427,19 +496,12 @@ class Handler:
 							set_transaction_sum()
 							ConfDialog.show_all()
 				if transaction_type is "install":
-					if transaction.init_transaction(noconflicts = True):
-						for pkgname in transaction_dict.keys():
-							transaction.Add(pkgname)
-						error = transaction.Prepare()
-						if error:
-							handle_error(error)
-						else:
-							transaction.get_to_remove()
-							transaction.get_to_add()
-							transaction.Release()
-							choose_provides()
-							transaction.check_conflicts()
-					if set(transaction_dict.keys()).intersection(transaction.to_add):
+					transaction.to_add = []
+					for pkgname in transaction_dict.keys():
+						transaction.to_add.append(pkgname)
+					transaction.to_remove = []
+					check_conflicts(transaction_dict.values())
+					if transaction.to_add:
 						if transaction.init_transaction(noconflicts = True):
 							for pkgname in transaction.to_add:
 								transaction.Add(pkgname)
@@ -451,17 +513,13 @@ class Handler:
 							else:
 								transaction.get_to_remove()
 								transaction.get_to_add()
-								transaction.Release()
-							if len(transaction.to_add) + len(transaction.to_remove) != 0:
 								set_transaction_sum()
 								ConfDialog.show_all()
-							else:
-								transaction.WarningDialog.format_secondary_text('Nothing to do due to packages conflicts')
-								response = transaction.WarningDialog.run()
-								if response:
-									transaction.WarningDialog.hide()
-								transaction.t_lock = False
 					else:
+						transaction.WarningDialog.format_secondary_text('Nothing to do')
+						response = transaction.WarningDialog.run()
+						if response:
+							transaction.WarningDialog.hide()
 						transaction.t_lock = False
 
 	def on_EraseButton_clicked(self, *arg):
@@ -473,7 +531,7 @@ class Handler:
 			refresh_packages_list()
 
 	def on_RefreshButton_clicked(self, *arg):
-		transaction.do_refresh()
+		do_refresh()
 		set_packages_list()
 
 	def on_TransCancelButton_clicked(self, *arg):
@@ -490,29 +548,10 @@ class Handler:
 		transaction.progress_label.set_text('Preparing...')
 		transaction.action_icon.set_from_file('/usr/share/pamac/icons/24x24/status/setup.png')
 		transaction.progress_bar.set_text('')
+		transaction.ProgressWindow.show_all()
 		while Gtk.events_pending():
 			Gtk.main_iteration()
-		if transaction_type == "remove":
-			transaction.ProgressWindow.show_all()
-			while Gtk.events_pending():
-				Gtk.main_iteration()
-			transaction.Commit(reply_handler = handle_reply, error_handler = handle_error, timeout = 2000*1000)
-		if (transaction_type == "install") or (transaction_type == "update"):
-			if transaction.init_transaction(noconflicts = True):#, nodeps = True):
-				for pkgname in transaction.to_update:
-					transaction.Add(pkgname)
-				for pkgname in transaction.to_add:
-					transaction.Add(pkgname)
-				for pkgname in transaction.to_remove:
-					transaction.Remove(pkgname)
-				error = transaction.Prepare()
-				if error:
-					handle_error(error)
-				else:
-					transaction.ProgressWindow.show_all()
-					while Gtk.events_pending():
-						Gtk.main_iteration()
-					transaction.Commit(reply_handler = handle_reply, error_handler = handle_error, timeout = 2000*1000)
+		transaction.Commit(reply_handler = handle_reply, error_handler = handle_error, timeout = 2000*1000)
 
 	def on_search_button_clicked(self, widget):
 		global list_dict
@@ -599,14 +638,15 @@ class Handler:
 	def on_ChooseButton_clicked(self, *arg):
 		ChooseDialog.hide()
 		line = 0
+		transaction.to_provide = []
 		while line <  len(choose_list):
 			if choose_list[line][0] is True:
-				if not choose_list[line][1] in transaction.to_add:
-					if not transaction.handle.get_localdb().get_pkg(choose_list[line][1]):
-						transaction.to_add.append(choose_list[line][1])
+				if not choose_list[line][1] in transaction.to_provide:
+					if not choose_list[line][1] in transaction.localpkgs.keys():
+						transaction.to_provide.append(choose_list[line][1])
 			if choose_list[line][0] is False:
-				if choose_list[line][1] in transaction.to_add:
-					transaction.to_add.remove(choose_list[line][1])
+				if choose_list[line][1] in transaction.to_provide:
+					transaction.to_provide.remove(choose_list[line][1])
 			line += 1
 
 def main():

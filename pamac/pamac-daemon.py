@@ -198,6 +198,7 @@ class PamacDBusService(dbus.service.Object):
 		error = ''
 		try:
 			t.sysupgrade(downgrade=False)
+			print('to_upgrade:',t.to_add)
 		except pyalpm.error:
 			error = traceback.format_exc()
 		finally:
