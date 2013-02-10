@@ -18,3 +18,18 @@ def format_pkg_name(name):
 			name = name[0:index]
 		return name
 
+from os.path import isfile
+from os import getpid, remove
+
+pid_file = '/tmp/pamac.pid'
+
+def pid_file_exists():
+	return isfile(pid_file)
+
+def write_pid_file():
+	with open(pid_file, "w") as _file:
+		_file.write(str(getpid()))
+
+def rm_pid_file():
+	if isfile(pid_file):
+		remove(pid_file)

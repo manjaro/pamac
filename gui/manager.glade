@@ -125,7 +125,7 @@
         <property name="can_focus">False</property>
         <property name="orientation">vertical</property>
         <child>
-          <object class="GtkLabel" id="top_label">
+          <object class="GtkLabel" id="sum_top_label">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="label" translatable="yes">label</property>
@@ -194,7 +194,7 @@
           </packing>
         </child>
         <child>
-          <object class="GtkLabel" id="bottom_label">
+          <object class="GtkLabel" id="sum_bottom_label">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="label" translatable="yes">label</property>
@@ -252,7 +252,7 @@
       </object>
     </child>
   </object>
-  <object class="GtkWindow" id="MainWindow">
+  <object class="GtkWindow" id="ManagerWindow">
     <property name="width_request">800</property>
     <property name="height_request">500</property>
     <property name="can_focus">False</property>
@@ -260,7 +260,7 @@
     <property name="default_width">800</property>
     <property name="default_height">500</property>
     <property name="icon">/usr/share/pamac/icons/22x22/status/package-sources.png</property>
-    <signal name="delete-event" handler="on_MainWindow_delete_event" swapped="no"/>
+    <signal name="delete-event" handler="on_ManagerWindow_delete_event" swapped="no"/>
     <child>
       <object class="GtkBox" id="box1">
         <property name="visible">True</property>
@@ -533,13 +533,13 @@
                 <property name="homogeneous">True</property>
                 <property name="layout_style">end</property>
                 <child>
-                  <object class="GtkButton" id="RefreshButton">
+                  <object class="GtkButton" id="ManagerRefreshButton">
                     <property name="label">gtk-refresh</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
                     <property name="use_stock">True</property>
-                    <signal name="clicked" handler="on_RefreshButton_clicked" swapped="no"/>
+                    <signal name="clicked" handler="on_Manager_RefreshButton_clicked" swapped="no"/>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -548,13 +548,13 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkButton" id="ValidButton">
+                  <object class="GtkButton" id="ManagerValidButton">
                     <property name="label">gtk-apply</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
                     <property name="use_stock">True</property>
-                    <signal name="clicked" handler="on_ValidButton_clicked" swapped="no"/>
+                    <signal name="clicked" handler="on_Manager_ValidButton_clicked" swapped="no"/>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -563,13 +563,13 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkButton" id="EraseButton">
+                  <object class="GtkButton" id="ManagerEraseButton">
                     <property name="label">gtk-undo</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
                     <property name="use_stock">True</property>
-                    <signal name="clicked" handler="on_EraseButton_clicked" swapped="no"/>
+                    <signal name="clicked" handler="on_Manager_EraseButton_clicked" swapped="no"/>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -578,13 +578,13 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkButton" id="QuitButton">
+                  <object class="GtkButton" id="ManagerQuitButton">
                     <property name="label">gtk-quit</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
                     <property name="use_stock">True</property>
-                    <signal name="clicked" handler="on_QuitButton_clicked" swapped="no"/>
+                    <signal name="clicked" handler="on_Manager_QuitButton_clicked" swapped="no"/>
                   </object>
                   <packing>
                     <property name="expand">False</property>

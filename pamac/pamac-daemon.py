@@ -74,9 +74,9 @@ class PamacDBusService(dbus.service.Object):
 			self.icon = '/usr/share/pamac/icons/24x24/status/package-search.png'
 			self.already_transferred = 0
 		elif ID is 17:
-			self.action = 'Checking signatures...'
+			self.action = 'Loading packages files...'
 			self.icon = '/usr/share/pamac/icons/24x24/status/package-search.png'
-			print('Checking signatures')
+			print('Loading packages files')
 		elif ID is 26:
 			self.action = 'Configuring...'
 			self.icon = '/usr/share/pamac/icons/24x24/status/setup.png'

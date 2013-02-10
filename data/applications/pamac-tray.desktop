@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=Pamac Tray Icon
+Icon=update-notifier
+Exec=pamac-tray
+Terminal=false
+Type=Application
+Categories=GNOME;GTK;System;
+NoDisplay=True
+StartupNotify=true
+

@@ -10,11 +10,19 @@ from time import strftime, localtime
 from pamac import config, common, transaction
 
 interface = Gtk.Builder()
+
+interface.add_from_file('/usr/share/pamac/gui/dialogs.glade')
+ErrorDialog = interface.get_object('ErrorDialog')
+WarningDialog = interface.get_object('WarningDialog')
+QuestionDialog = interface.get_object('QuestionDialog')
+ProgressWindow = interface.get_object('ProgressWindow')
+progress_bar = interface.get_object('progressbar2')
+progress_label = interface.get_object('progresslabel2')
+action_icon = interface.get_object('action_icon')
+ProgressCancelButton = interface.get_object('ProgressCancelButton')
+
 interface.add_from_file('/usr/share/pamac/gui/manager.glade')
-#interface.add_from_file('/usr/share/pamac/gui/dialogs.glade')
-
-MainWindow = interface.get_object("MainWindow")
-
+ManagerWindow = interface.get_object("ManagerWindow")
 packages_list = interface.get_object('packages_list')
 groups_list = interface.get_object('groups_list')
 package_desc = interface.get_object('package_desc')
@@ -26,11 +34,16 @@ installed_column = interface.get_object('installed_column')
 name_column = interface.get_object('name_column')
 ConfDialog = interface.get_object('ConfDialog')
 transaction_sum = interface.get_object('transaction_sum')
-top_label = interface.get_object('top_label')
-bottom_label = interface.get_object('bottom_label')
+sum_top_label = interface.get_object('sum_top_label')
+sum_bottom_label = interface.get_object('sum_bottom_label')
 ChooseDialog = interface.get_object('ChooseDialog')
 choose_list = interface.get_object('choose_list')
 choose_label = interface.get_object('choose_label')
+
+interface.add_from_file('/usr/share/pamac/gui/updater.glade')
+UpdaterWindow = interface.get_object("UpdaterWindow")
+update_listore = interface.get_object('update_list')
+update_label = interface.get_object('update_label')
 
 installed_column.set_sort_column_id(1)
 name_column.set_sort_column_id(0)
@@ -52,6 +65,7 @@ list_dict = None
 current_group = None
 transaction_type = None
 transaction_dict = {}
+mode = None
 
 def set_list_dict_search(*patterns):
 	global pkg_name_list
@@ -201,7 +215,7 @@ def set_transaction_sum():
 		while i < len(transaction.to_remove):
 			transaction_sum.append([' ', transaction.to_remove[i]])
 			i += 1
-		bottom_label.set_markup('')
+		sum_bottom_label.set_markup('')
 	if transaction.to_add:
 		installed = []
 		for pkg_object in config.pacman_conf.initialize_alpm().get_localdb().pkgcache:
@@ -216,39 +230,45 @@ def set_transaction_sum():
 			while i < len(transaction.to_add):
 				transaction_sum.append([' ', transaction.to_add[i]])
 				i += 1
-		if transaction.to_update:
-			transaction_sum.append(['To update:', transaction.to_update[0]])
-			i = 1
-			while i < len(transaction.to_update):
-				transaction_sum.append([' ', transaction.to_update[i]])
-				i += 1
-		bottom_label.set_markup('')
-		#bottom_label.set_markup('<b>Total Download size: </b>'+common.format_size(totaldlcb))
-	top_label.set_markup('<big><b>Transaction Summary</b></big>')
+		if mode == 'manager':
+			if transaction.to_update:
+				transaction_sum.append(['To update:', transaction.to_update[0]])
+				i = 1
+				while i < len(transaction.to_update):
+					transaction_sum.append([' ', transaction.to_update[i]])
+					i += 1
+		sum_bottom_label.set_markup('')
+		#sum_bottom_label.set_markup('<b>Total Download size: </b>'+common.format_size(totaldlcb))
+	sum_top_label.set_markup('<big><b>Transaction Summary</b></big>')
 
 def handle_error(error):
 	global transaction_type
 	global transaction_dict
-	if not 'DBus.Error.NoReply' in str(error):
-		transaction.ErrorDialog.format_secondary_text('Error:\n'+str(error))
-		response = transaction.ErrorDialog.run()
-		if response:
-			transaction.ErrorDialog.hide()
+	if error:
+		if not 'DBus.Error.NoReply' in str(error):
+			print('error',error)
+			transaction.ErrorDialog.format_secondary_text('Error:\n'+str(error))
+			response = transaction.ErrorDialog.run()
+			if response:
+				transaction.ErrorDialog.hide()
 	transaction.t_lock = False
 	transaction.Release()
 	transaction.ProgressWindow.hide()
-	transaction.to_add = []
-	transaction.to_remove = []
-	transaction_dict.clear()
-	transaction_type = None
-	transaction.get_handle()
-	set_packages_list()
+	if mode == 'manager':
+		transaction.to_add = []
+		transaction.to_remove = []
+		transaction_dict.clear()
+		transaction_type = None
+		transaction.get_handle()
+		set_packages_list()
+	if mode == 'updater':
+		have_updates()
 	print('error',error)
 
 def handle_reply(reply):
 	global transaction_type
 	global transaction_dict
-	if str(reply):
+	if reply:
 		transaction.ErrorDialog.format_secondary_text('Error:\n'+str(reply))
 		response = transaction.ErrorDialog.run()
 		if response:
@@ -265,9 +285,9 @@ def handle_reply(reply):
 		set_packages_list()
 	else:
 		transaction_type = None
-	do_syncfirst, updates = transaction.get_updates()
-	if updates:
-		do_sysupgrade(do_syncfirst, updates)
+	if have_updates():
+		if mode == 'manager':
+			do_sysupgrade()
 
 def do_refresh():
 	"""Sync databases like pacman -Sy"""
@@ -280,7 +300,22 @@ def do_refresh():
 			Gtk.main_iteration()
 		transaction.Refresh(reply_handler = handle_reply, error_handler = handle_error, timeout = 2000*1000)
 
-def do_sysupgrade(do_syncfirst, updates_list):
+def have_updates():
+	do_syncfirst, updates = transaction.get_updates()
+	update_listore.clear()
+	update_label.set_justify(Gtk.Justification.CENTER)
+	if not updates:
+		update_listore.append(["", ""])
+		update_label.set_markup("<big><b>No update available</b></big>")
+		return False
+	else:
+		for pkg in updates:
+			pkgname = pkg.name+" "+pkg.version
+			update_listore.append([pkgname, common.format_size(pkg.size)])
+		update_label.set_markup("<big><b>Available updates</b></big>")
+		return True
+
+def do_sysupgrade():
 	global transaction_type
 	"""Upgrade a system like pacman -Su"""
 	if transaction.t_lock is False:
@@ -290,28 +325,10 @@ def do_sysupgrade(do_syncfirst, updates_list):
 			transaction.to_add = []
 			transaction.to_remove = []
 			check_conflicts(updates)
-		if do_syncfirst is True:
-			for pkg in updates:
-				transaction.to_add.append(pkg.name)
-			if transaction.init_transaction(recurse = True):
-				for pkgname in transaction.to_add:
-					transaction.Add(pkgname)
-				for pkgname in transaction.to_remove:
-					transaction.Remove(pkgname)
-				error = transaction.Prepare()
-				if error:
-					handle_error(error)
-				else:
-					transaction.get_to_remove()
-					transaction.get_to_add()
-					set_transaction_sum()
-					ConfDialog.show_all()
-		else:
-			if transaction.init_transaction(noconflicts = True):
-				error = transaction.Sysupgrade()
-				if error:
-					handle_error(error)
-				else:
+			if do_syncfirst:
+				for pkg in updates:
+					transaction.to_add.append(pkg.name)
+				if transaction.init_transaction(recurse = True):
 					for pkgname in transaction.to_add:
 						transaction.Add(pkgname)
 					for pkgname in transaction.to_remove:
@@ -323,12 +340,48 @@ def do_sysupgrade(do_syncfirst, updates_list):
 						transaction.get_to_remove()
 						transaction.get_to_add()
 						set_transaction_sum()
-						ConfDialog.show_all()
+						if mode == 'updater':
+							if len(transaction.to_add) + len(transaction.to_remove) != 0:
+								ConfDialog.show_all()
+							else:
+								finalize()
+						if mode == 'manager':
+							ConfDialog.show_all()
+			else:
+				if transaction.init_transaction(noconflicts = True):
+					error = transaction.Sysupgrade()
+					if error:
+						handle_error(error)
+					else:
+						for pkgname in transaction.to_add:
+							transaction.Add(pkgname)
+						for pkgname in transaction.to_remove:
+							transaction.Remove(pkgname)
+						error = transaction.Prepare()
+						if error:
+							handle_error(error)
+						else:
+							transaction.get_to_remove()
+							transaction.get_to_add()
+							set_transaction_sum()
+							if mode == 'updater':
+								if len(transaction.to_add) + len(transaction.to_remove) != 0:
+									ConfDialog.show_all()
+								else:
+									finalize()
+							if mode == 'manager':
+								ConfDialog.show_all()
+
+def finalize():
+		transaction.progress_label.set_text('Preparing...')
+		transaction.action_icon.set_from_file('/usr/share/pamac/icons/24x24/status/setup.png')
+		transaction.progress_bar.set_text('')
+		transaction.ProgressWindow.show_all()
+		while Gtk.events_pending():
+			Gtk.main_iteration()
+		transaction.Commit(reply_handler = handle_reply, error_handler = handle_error, timeout = 2000*1000)
 
 def check_conflicts(pkg_list):
-	#~ global to_add
-	#~ global to_remove
-	#~ global to_provide
 	depends = [pkg_list]
 	warning = ''
 	#transaction.get_handle()
@@ -424,14 +477,15 @@ def check_conflicts(pkg_list):
 			provide = pyalpm.find_satisfier(transaction.localpkgs.values(), replace)
 			if provide:
 				if provide.name != pkg.name:
-					if not provide.name in transaction.localpkgs.keys():
-						if not provide.name in transaction.to_remove:
-							transaction.to_remove.append(provide.name)
-							if warning:
-								warning = warning+'\n'
-							warning = warning+provide.name+' will be replaced by '+pkg.name
-						if not pkg.name in transaction.to_add:
-							transaction.to_add.append(pkg.name)
+					if not pkg.name in transaction.localpkgs.keys():
+						if common.format_pkg_name(replace) in transaction.localpkgs.keys():
+							if not provide.name in transaction.to_remove:
+								transaction.to_remove.append(provide.name)
+								if warning:
+									warning = warning+'\n'
+								warning = warning+provide.name+' will be replaced by '+pkg.name
+							if not pkg.name in transaction.to_add:
+								transaction.to_add.append(pkg.name)
 	print(transaction.to_add,transaction.to_remove)
 	if warning:
 		transaction.WarningDialog.format_secondary_text(warning)
@@ -459,21 +513,18 @@ def choose_provides(name):
 		return [provides[pkgname] for pkgname in transaction.to_provide]
 
 class Handler:
-	def on_MainWindow_delete_event(self, *arg):
+	#Manager Handlers
+	def on_ManagerWindow_delete_event(self, *arg):
 		transaction.StopDaemon()
-		if __name__ == "__main__":
-			Gtk.main_quit()
-		else:
-			MainWindow.hide()
+		common.rm_pid_file()
+		Gtk.main_quit()
 
-	def on_QuitButton_clicked(self, *arg):
+	def on_Manager_QuitButton_clicked(self, *arg):
 		transaction.StopDaemon()
-		if __name__ == "__main__":
-			Gtk.main_quit()
-		else:
-			MainWindow.hide()
+		common.rm_pid_file()
+		Gtk.main_quit()
 
-	def on_ValidButton_clicked(self, *arg):
+	def on_Manager_ValidButton_clicked(self, *arg):
 		if not transaction_dict:
 			transaction.ErrorDialog.format_secondary_text("No package is selected")
 			response = 	transaction.ErrorDialog.run()
@@ -522,7 +573,7 @@ class Handler:
 							transaction.WarningDialog.hide()
 						transaction.t_lock = False
 
-	def on_EraseButton_clicked(self, *arg):
+	def on_Manager_EraseButton_clicked(self, *arg):
 		global transaction_type
 		global transaction_dict
 		transaction_dict.clear()
@@ -530,7 +581,7 @@ class Handler:
 			transaction_type = None
 			refresh_packages_list()
 
-	def on_RefreshButton_clicked(self, *arg):
+	def on_Manager_RefreshButton_clicked(self, *arg):
 		do_refresh()
 		set_packages_list()
 
@@ -545,13 +596,7 @@ class Handler:
 
 	def on_TransValidButton_clicked(self, *arg):
 		ConfDialog.hide()
-		transaction.progress_label.set_text('Preparing...')
-		transaction.action_icon.set_from_file('/usr/share/pamac/icons/24x24/status/setup.png')
-		transaction.progress_bar.set_text('')
-		transaction.ProgressWindow.show_all()
-		while Gtk.events_pending():
-			Gtk.main_iteration()
-		transaction.Commit(reply_handler = handle_reply, error_handler = handle_error, timeout = 2000*1000)
+		finalize()
 
 	def on_search_button_clicked(self, widget):
 		global list_dict
@@ -649,13 +694,46 @@ class Handler:
 					transaction.to_provide.remove(choose_list[line][1])
 			line += 1
 
-def main():
-	interface.connect_signals(Handler())
-	do_refresh()
-	MainWindow.show_all()
-	while Gtk.events_pending():
-		Gtk.main_iteration()
+#Updater Handlers
+	def on_UpdaterWindow_delete_event(self, *arg):
+		transaction.StopDaemon()
+		common.rm_pid_file()
+		Gtk.main_quit()
 
-if __name__ == "__main__":
-	main()
-	Gtk.main()
+	def on_Updater_QuitButton_clicked(self, *arg):
+		transaction.StopDaemon()
+		common.rm_pid_file()
+		Gtk.main_quit()
+
+	def on_Updater_ApplyButton_clicked(self, *arg):
+		do_sysupgrade()
+
+	def on_Updater_RefreshButton_clicked(self, *arg):
+		do_refresh()
+
+	def on_ProgressCancelButton_clicked(self, *arg):
+		transaction.t_lock = False
+		transaction.Release()
+		transaction.ProgressWindow.hide()
+		have_updates()
+
+def main(_mode):
+	if common.pid_file_exists():
+		transaction.ErrorDialog.format_secondary_text('Another instance of Pamac is running')
+		response = transaction.ErrorDialog.run()
+		if response:
+			transaction.ErrorDialog.hide()
+	else:
+		common.write_pid_file()
+		global mode
+		mode = _mode
+		interface.connect_signals(Handler())
+		do_refresh()
+		if mode == 'manager':
+			ManagerWindow.show_all()
+		if mode == 'updater':
+			update_label.set_markup("<big><b>Available updates</b></big>")
+			UpdaterWindow.show_all()
+		while Gtk.events_pending():
+			Gtk.main_iteration()
+		Gtk.main()

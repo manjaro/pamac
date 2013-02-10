@@ -10,18 +10,6 @@ from dbus.mainloop.glib import DBusGMainLoop
 
 from pamac import config, common
 
-interface = Gtk.Builder()
-interface.add_from_file('/usr/share/pamac/gui/dialogs.glade')
-
-ErrorDialog = interface.get_object('ErrorDialog')
-WarningDialog = interface.get_object('WarningDialog')
-QuestionDialog = interface.get_object('QuestionDialog')
-ProgressWindow = interface.get_object('ProgressWindow')
-progress_bar = interface.get_object('progressbar2')
-progress_label = interface.get_object('progresslabel2')
-action_icon = interface.get_object('action_icon')
-ProgressCancelButton = interface.get_object('ProgressCancelButton')
-
 t_lock = False
 to_remove = []
 to_add = []
@@ -30,6 +18,18 @@ to_update = []
 handle = None
 syncpkgs = OrderedDict()
 localpkgs = OrderedDict()
+
+interface = Gtk.Builder()
+
+interface.add_from_file('/usr/share/pamac/gui/dialogs.glade')
+ErrorDialog = interface.get_object('ErrorDialog')
+WarningDialog = interface.get_object('WarningDialog')
+QuestionDialog = interface.get_object('QuestionDialog')
+ProgressWindow = interface.get_object('ProgressWindow')
+progress_bar = interface.get_object('progressbar2')
+progress_label = interface.get_object('progresslabel2')
+action_icon = interface.get_object('action_icon')
+ProgressCancelButton = interface.get_object('ProgressCancelButton')
 
 def get_handle():
 	global handle
