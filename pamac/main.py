@@ -328,7 +328,7 @@ def do_sysupgrade():
 			if do_syncfirst:
 				for pkg in updates:
 					transaction.to_add.append(pkg.name)
-				if transaction.init_transaction(recurse = True):
+				if transaction.init_transaction(recurse = True, needed = True):
 					for pkgname in transaction.to_add:
 						transaction.Add(pkgname)
 					for pkgname in transaction.to_remove:
@@ -403,35 +403,38 @@ def check_conflicts(pkg_list):
 				if provide:
 					print(i,'local',provide)
 					if provide.name != common.format_pkg_name(depend):
-						if ('linux' in depend) or ('-module' in depend):
+						if '-modules' in depend:
 							for pkg in transaction.syncpkgs.values():
 								if not pkg.name in transaction.localpkgs.keys():
 									for name in pkg.provides:
 										for linux in installed_linux:
 											if linux in pkg.name:
 												if common.format_pkg_name(depend) == common.format_pkg_name(name):
-													depends[i+1].append(pkg)
-													transaction.to_add.append(pkg.name)
+													if not pkg.name in transaction.to_add:
+														depends[i+1].append(pkg)
+														transaction.to_add.append(pkg.name)
 				else:
 					provide = pyalpm.find_satisfier(transaction.syncpkgs.values(), depend)
 					if provide:
 						print(i,'sync',provide)
 						if provide.name != common.format_pkg_name(depend):
-							if ('linux' in depend) or ('-module' in depend):
+							if '-modules' in depend:
 								for pkg in transaction.syncpkgs.values():
 									if not pkg.name in transaction.localpkgs.keys():
 										for name in pkg.provides:
 											for linux in installed_linux:
 												if linux in pkg.name:
 													if common.format_pkg_name(depend) == common.format_pkg_name(name):
-														depends[i+1].append(pkg)
-														transaction.to_add.append(pkg.name)
+														if not pkg.name in transaction.to_add:
+															depends[i+1].append(pkg)
+															transaction.to_add.append(pkg.name)
 							else:
 								to_add_to_depends = choose_provides(depend)
 								print(to_add_to_depends)
 								for pkg in to_add_to_depends:
-									depends[i+1].append(pkg)
-									transaction.to_add.append(pkg.name)
+									if not pkg.name in transaction.to_add:
+										depends[i+1].append(pkg)
+										transaction.to_add.append(pkg.name)
 						else:
 							depends[i+1].append(provide)
 			for replace in pkg.replaces:
@@ -511,6 +514,8 @@ def choose_provides(name):
 				choose_list.append([False, name])
 		ChooseDialog.run()
 		return [provides[pkgname] for pkgname in transaction.to_provide]
+	else:
+		return []
 
 class Handler:
 	#Manager Handlers
@@ -535,7 +540,7 @@ class Handler:
 				print('Transaction locked')
 			else:
 				if transaction_type is "remove":
-					if transaction.init_transaction(cascade = True, unneeded = True):
+					if transaction.init_transaction(cascade = True, recurse = True):
 						for pkgname in transaction_dict.keys():
 							transaction.Remove(pkgname)
 						error = transaction.Prepare()
@@ -553,7 +558,7 @@ class Handler:
 					transaction.to_remove = []
 					check_conflicts(transaction_dict.values())
 					if transaction.to_add:
-						if transaction.init_transaction(noconflicts = True):
+						if transaction.init_transaction(noconflicts = True, unneeded = True):
 							for pkgname in transaction.to_add:
 								transaction.Add(pkgname)
 							for pkgname in transaction.to_remove:

@@ -4,6 +4,9 @@
 from gi.repository import Gtk
 from subprocess import Popen
 from pamac import transaction
+import dbus
+
+bus = dbus.SystemBus()
 
 class Tray:
 	def __init__(self, icon, info):
@@ -65,6 +68,8 @@ def do_refresh():
 	"""Sync databases like pacman -Sy"""
 	transaction.get_handle()
 	transaction.Refresh(reply_handler = handle_reply, error_handler = handle_error, timeout = 2000*1000)
+
+bus.add_signal_receiver(handle_reply, dbus_interface = "org.manjaro.pamac", signal_name = "EmitAvailableUpdates")
 
 if __name__ == "__main__":
 	do_refresh()

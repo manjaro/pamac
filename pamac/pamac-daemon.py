@@ -175,6 +175,18 @@ class PamacDBusService(dbus.service.Object):
 				break
 		return error
 
+	@dbus.service.signal('org.manjaro.pamac')
+	def EmitAvailableUpdates(self, available_updates):
+		pass
+
+	@dbus.service.method('org.manjaro.pamac', '', '')
+	def CheckUpdates(self):
+		for pkg in config.handle.get_localdb().pkgcache:
+			candidate = pyalpm.sync_newversion(pkg, config.handle.get_syncdbs())
+			if candidate:
+				EmitAvailableUpdates(self, True)
+				return
+
 	@dbus.service.method('org.manjaro.pamac', 'a{sb}', 's', sender_keyword='sender', connection_keyword='connexion')
 	def Init(self, options, sender=None, connexion=None):
 		global t
@@ -300,6 +312,11 @@ class PamacDBusService(dbus.service.Object):
 
 	@dbus.service.method('org.manjaro.pamac')
 	def StopDaemon(self):
+		global t
+		try:
+			t.release()
+		except:
+			pass
 		mainloop.quit()
 
 DBusGMainLoop(set_as_default=True)
