@@ -184,7 +184,7 @@ class PamacDBusService(dbus.service.Object):
 		for pkg in config.handle.get_localdb().pkgcache:
 			candidate = pyalpm.sync_newversion(pkg, config.handle.get_syncdbs())
 			if candidate:
-				EmitAvailableUpdates(self, True)
+				self.EmitAvailableUpdates(True)
 				return
 
 	@dbus.service.method('org.manjaro.pamac', 'a{sb}', 's', sender_keyword='sender', connection_keyword='connexion')

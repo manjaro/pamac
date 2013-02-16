@@ -558,7 +558,7 @@ class Handler:
 					transaction.to_remove = []
 					check_conflicts(transaction_dict.values())
 					if transaction.to_add:
-						if transaction.init_transaction(noconflicts = True, unneeded = True):
+						if transaction.init_transaction(noconflicts = True):
 							for pkgname in transaction.to_add:
 								transaction.Add(pkgname)
 							for pkgname in transaction.to_remove:

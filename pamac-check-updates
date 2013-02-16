@@ -1,0 +1,10 @@
+#! /usr/bin/python
+# -*-coding:utf-8-*-
+
+from pamac import transaction
+
+print('check_updates')
+transaction.get_handle()
+transaction.Refresh()
+transaction.CheckUpdates()
+transaction.StopDaemon()

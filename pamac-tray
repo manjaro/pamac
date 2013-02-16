@@ -5,23 +5,20 @@ from gi.repository import Gtk
 from subprocess import Popen
 from pamac import transaction
 import dbus
+import threading
 
 bus = dbus.SystemBus()
 
 class Tray:
-	def __init__(self, icon, info):
-		self.icon = icon
-		self.info = info
+	def __init__(self):
 		self.statusIcon = Gtk.StatusIcon()
-		self.statusIcon.set_from_file(icon)
 		self.statusIcon.set_visible(True)
-		self.statusIcon.set_tooltip_markup(info)
 
 		self.menu = Gtk.Menu()
-		self.menuItem = Gtk.ImageMenuItem('Check for updates')
+		self.menuItem = Gtk.ImageMenuItem('Install/Check for updates')
 		self.menuItem.connect('activate', self.execute_update, self.statusIcon)
 		self.menu.append(self.menuItem)
-		self.menuItem = Gtk.ImageMenuItem('Run pamac')
+		self.menuItem = Gtk.ImageMenuItem('Run pamac-manager')
 		self.menuItem.connect('activate', self.execute_manager, self.statusIcon)
 		self.menu.append(self.menuItem)
 		self.menuItem = Gtk.ImageMenuItem('Quit')
@@ -29,7 +26,6 @@ class Tray:
 		self.menu.append(self.menuItem)
 
 		self.statusIcon.connect('popup-menu', self.popup_menu_cb, self.menu)
-		self.statusIcon.set_visible(1)
 
 	def execute_update(self, widget, event, data = None):
 		Popen(['/usr/bin/pamac-updater'])
@@ -38,6 +34,7 @@ class Tray:
 		Popen(['/usr/bin/pamac-manager'])
 
 	def quit_tray(self, widget, data = None):
+		t.shutdown()
 		Gtk.main_quit()
 
 	def popup_menu_cb(self, widget, button, time, data = None):
@@ -46,14 +43,38 @@ class Tray:
 				data.show_all()
 				data.popup(None, None, Gtk.StatusIcon.position_menu, self.statusIcon, 3, time)
 
-def handle_error(error):
-	print('error',error)
-	icon = '/usr/share/pamac/icons/24x24/status/update-enhancement.png'
-	info = ' No update available'
-	tray = Tray(icon, info)
-	transaction.StopDaemon()
+	def update_icon(self, icon, info):
+		self.statusIcon.set_from_file(icon)
+		self.statusIcon.set_tooltip_markup(info)
 
-def handle_reply(reply):
+class PeriodicTask(threading.Thread):
+	"""Thread that executes a task every N seconds"""
+	def __init__(self):
+		threading.Thread.__init__(self)
+		self._finished = threading.Event()
+		self._interval = 60
+
+	def setInterval(self, interval):
+		"""Set the number of seconds we sleep between executing our task"""
+		self._interval = interval
+
+	def shutdown(self):
+		"""Stop this thread"""
+		self._finished.set()
+
+	def run(self):
+		while 1:
+			if self._finished.isSet():
+				return
+			self.task()
+			# sleep for interval or until shutdown
+			self._finished.wait(self._interval)
+
+	def task(self):
+		Popen(['/usr/bin/pamac-check-updates'])
+
+def set_icon(*arg):
+	print('set-icon')
 	do_syncfirst, updates = transaction.get_updates()
 	if updates:
 		icon = '/usr/share/pamac/icons/24x24/status/update-normal.png'
@@ -61,7 +82,21 @@ def handle_reply(reply):
 	else:
 		icon = '/usr/share/pamac/icons/24x24/status/update-enhancement.png'
 		info = ' No update available'
-	tray = Tray(icon, info)
+	tray.update_icon(icon, info)
+
+def handle_error(error):
+	global tray
+	print('error',error)
+	icon = '/usr/share/pamac/icons/24x24/status/update-enhancement.png'
+	info = ' No update available'
+	tray = Tray()
+	tray.update_icon(icon, info)
+	transaction.StopDaemon()
+
+def handle_reply(reply):
+	global tray
+	tray = Tray()
+	set_icon()
 	transaction.StopDaemon()
 
 def do_refresh():
@@ -69,8 +104,10 @@ def do_refresh():
 	transaction.get_handle()
 	transaction.Refresh(reply_handler = handle_reply, error_handler = handle_error, timeout = 2000*1000)
 
-bus.add_signal_receiver(handle_reply, dbus_interface = "org.manjaro.pamac", signal_name = "EmitAvailableUpdates")
+bus.add_signal_receiver(set_icon, dbus_interface = "org.manjaro.pamac", signal_name = "EmitAvailableUpdates")
 
-if __name__ == "__main__":
-	do_refresh()
-	Gtk.main()
+tray = None
+do_refresh()
+t = PeriodicTask()
+t.start()
+#Gtk.main()
