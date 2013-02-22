@@ -259,7 +259,7 @@ def handle_error(error):
 		transaction.to_remove = []
 		transaction_dict.clear()
 		transaction_type = None
-		transaction.get_handle()
+		transaction.update_db()
 		set_packages_list()
 	if mode == 'updater':
 		have_updates()
@@ -276,10 +276,11 @@ def handle_reply(reply):
 	transaction.t_lock = False
 	transaction.Release()
 	transaction.ProgressWindow.hide()
+	transaction.TransactionDone()
 	transaction.to_add = []
 	transaction.to_remove = []
 	transaction_dict.clear()
-	transaction.get_handle()
+	transaction.update_db()
 	if (transaction_type == "install") or (transaction_type == "remove"):
 		transaction_type = None
 		set_packages_list()
@@ -384,7 +385,6 @@ def finalize():
 def check_conflicts(pkg_list):
 	depends = [pkg_list]
 	warning = ''
-	#transaction.get_handle()
 	pkgs = transaction.handle.get_localdb().search('linux3')
 	installed_linux = []
 	for i in pkgs:
@@ -479,16 +479,17 @@ def check_conflicts(pkg_list):
 		for replace in pkg.replaces:
 			provide = pyalpm.find_satisfier(transaction.localpkgs.values(), replace)
 			if provide:
-				if provide.name != pkg.name:
-					if not pkg.name in transaction.localpkgs.keys():
-						if common.format_pkg_name(replace) in transaction.localpkgs.keys():
-							if not provide.name in transaction.to_remove:
-								transaction.to_remove.append(provide.name)
-								if warning:
-									warning = warning+'\n'
-								warning = warning+provide.name+' will be replaced by '+pkg.name
-							if not pkg.name in transaction.to_add:
-								transaction.to_add.append(pkg.name)
+				if not common.format_pkg_name(replace) in transaction.syncpkgs.keys():
+					if provide.name != pkg.name:
+						if not pkg.name in transaction.localpkgs.keys():
+							if common.format_pkg_name(replace) in transaction.localpkgs.keys():
+								if not provide.name in transaction.to_remove:
+									transaction.to_remove.append(provide.name)
+									if warning:
+										warning = warning+'\n'
+									warning = warning+provide.name+' will be replaced by '+pkg.name
+								if not pkg.name in transaction.to_add:
+									transaction.to_add.append(pkg.name)
 	print(transaction.to_add,transaction.to_remove)
 	if warning:
 		transaction.WarningDialog.format_secondary_text(warning)

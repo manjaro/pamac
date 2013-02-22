@@ -1,12 +1,13 @@
 #! /usr/bin/python
 # -*-coding:utf-8-*-
 
-from gi.repository import Gtk
-from subprocess import Popen
+from gi.repository import Gtk, GObject
+from subprocess import call
 from pamac import transaction
 import dbus
 import threading
 
+GObject.threads_init()
 bus = dbus.SystemBus()
 
 class Tray:
@@ -28,10 +29,10 @@ class Tray:
 		self.statusIcon.connect('popup-menu', self.popup_menu_cb, self.menu)
 
 	def execute_update(self, widget, event, data = None):
-		Popen(['/usr/bin/pamac-updater'])
+		call(['/usr/bin/pamac-updater'])
 
 	def execute_manager(self, widget, event, data = None):
-		Popen(['/usr/bin/pamac-manager'])
+		call(['/usr/bin/pamac-manager'])
 
 	def quit_tray(self, widget, data = None):
 		t.shutdown()
@@ -52,7 +53,7 @@ class PeriodicTask(threading.Thread):
 	def __init__(self):
 		threading.Thread.__init__(self)
 		self._finished = threading.Event()
-		self._interval = 60
+		self._interval = 30
 
 	def setInterval(self, interval):
 		"""Set the number of seconds we sleep between executing our task"""
@@ -71,10 +72,11 @@ class PeriodicTask(threading.Thread):
 			self._finished.wait(self._interval)
 
 	def task(self):
-		Popen(['/usr/bin/pamac-check-updates'])
+		call(['/usr/bin/pamac-check-updates'])
 
 def set_icon(*arg):
 	print('set-icon')
+	transaction.get_handle()
 	do_syncfirst, updates = transaction.get_updates()
 	if updates:
 		icon = '/usr/share/pamac/icons/24x24/status/update-normal.png'
@@ -82,32 +84,13 @@ def set_icon(*arg):
 	else:
 		icon = '/usr/share/pamac/icons/24x24/status/update-enhancement.png'
 		info = ' No update available'
+	print(info)
 	tray.update_icon(icon, info)
 
-def handle_error(error):
-	global tray
-	print('error',error)
-	icon = '/usr/share/pamac/icons/24x24/status/update-enhancement.png'
-	info = ' No update available'
-	tray = Tray()
-	tray.update_icon(icon, info)
-	transaction.StopDaemon()
+bus.add_signal_receiver(set_icon, dbus_interface = "org.manjaro.pamac", signal_name = "EmitTransactionDone")
 
-def handle_reply(reply):
-	global tray
-	tray = Tray()
-	set_icon()
-	transaction.StopDaemon()
-
-def do_refresh():
-	"""Sync databases like pacman -Sy"""
-	transaction.get_handle()
-	transaction.Refresh(reply_handler = handle_reply, error_handler = handle_error, timeout = 2000*1000)
-
-bus.add_signal_receiver(set_icon, dbus_interface = "org.manjaro.pamac", signal_name = "EmitAvailableUpdates")
-
-tray = None
-do_refresh()
+tray = Tray()
+#set_icon()
 t = PeriodicTask()
 t.start()
-#Gtk.main()
+Gtk.main()

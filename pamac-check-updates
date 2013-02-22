@@ -1,10 +1,13 @@
 #! /usr/bin/python
 # -*-coding:utf-8-*-
 
-from pamac import transaction
+from pamac import common, transaction
 
-print('check_updates')
-transaction.get_handle()
-transaction.Refresh()
-transaction.CheckUpdates()
-transaction.StopDaemon()
+if not common.pid_file_exists():
+	print('checking updates')
+	common.write_pid_file()
+	transaction.Refresh()
+	transaction.TransactionDone()
+	transaction.StopDaemon()
+	common.rm_pid_file()
+	print('check updates done')

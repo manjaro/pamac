@@ -176,16 +176,13 @@ class PamacDBusService(dbus.service.Object):
 		return error
 
 	@dbus.service.signal('org.manjaro.pamac')
-	def EmitAvailableUpdates(self, available_updates):
+	def EmitTransactionDone(self, done):
 		pass
 
 	@dbus.service.method('org.manjaro.pamac', '', '')
-	def CheckUpdates(self):
-		for pkg in config.handle.get_localdb().pkgcache:
-			candidate = pyalpm.sync_newversion(pkg, config.handle.get_syncdbs())
-			if candidate:
-				self.EmitAvailableUpdates(True)
-				return
+	def TransactionDone(self):
+		self.EmitTransactionDone(True)
+		return
 
 	@dbus.service.method('org.manjaro.pamac', 'a{sb}', 's', sender_keyword='sender', connection_keyword='connexion')
 	def Init(self, options, sender=None, connexion=None):
