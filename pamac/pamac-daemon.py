@@ -160,6 +160,18 @@ class PamacDBusService(dbus.service.Object):
 		(is_authorized,is_challenge,details) = policykit_authority.CheckAuthorization(Subject, action, {'': ''}, dbus.UInt32(1), '')
 		return is_authorized
 
+	@dbus.service.signal('org.manjaro.pamac')
+	def EmitAvailableUpdates(self, updates_nb):
+		pass
+
+	def CheckUpdates(self):
+		updates = False
+		for pkg in config.handle.get_localdb().pkgcache:
+			candidate = pyalpm.sync_newversion(pkg, config.handle.get_syncdbs())
+			if candidate:
+				updates = True
+		self.EmitAvailableUpdates(updates)
+
 	@dbus.service.method('org.manjaro.pamac', '', 's')
 	def Refresh(self):
 		global t
@@ -173,16 +185,8 @@ class PamacDBusService(dbus.service.Object):
 			except pyalpm.error:
 				error = traceback.format_exc()
 				break
+		self.CheckUpdates()
 		return error
-
-	@dbus.service.signal('org.manjaro.pamac')
-	def EmitTransactionDone(self, done):
-		pass
-
-	@dbus.service.method('org.manjaro.pamac', '', '')
-	def TransactionDone(self):
-		self.EmitTransactionDone(True)
-		return
 
 	@dbus.service.method('org.manjaro.pamac', 'a{sb}', 's', sender_keyword='sender', connection_keyword='connexion')
 	def Init(self, options, sender=None, connexion=None):
@@ -288,6 +292,7 @@ class PamacDBusService(dbus.service.Object):
 			except dbus.exceptions.DBusException:
 				pass
 			finally:
+				self.CheckUpdates()
 				return error
 		else :
 			return 'You are not authorized'

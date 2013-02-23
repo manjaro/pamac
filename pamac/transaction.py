@@ -63,7 +63,6 @@ To_Remove = proxy.get_dbus_method('To_Remove','org.manjaro.pamac')
 To_Add = proxy.get_dbus_method('To_Add','org.manjaro.pamac')
 Commit = proxy.get_dbus_method('Commit','org.manjaro.pamac')
 Release = proxy.get_dbus_method('Release','org.manjaro.pamac')
-TransactionDone = proxy.get_dbus_method('TransactionDone','org.manjaro.pamac')
 StopDaemon = proxy.get_dbus_method('StopDaemon','org.manjaro.pamac')
 
 def action_signal_handler(action):
@@ -133,8 +132,7 @@ def get_updates():
 			do_syncfirst = True
 			return do_syncfirst, list_first
 	result = []
-	installed_pkglist = handle.get_localdb().pkgcache
-	for pkg in installed_pkglist:
+	for pkg in localpkgs.values():
 		candidate = pyalpm.sync_newversion(pkg, handle.get_syncdbs())
 		if candidate:
 			for repo in handle.get_syncdbs():

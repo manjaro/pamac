@@ -276,7 +276,6 @@ def handle_reply(reply):
 	transaction.t_lock = False
 	transaction.Release()
 	transaction.ProgressWindow.hide()
-	transaction.TransactionDone()
 	transaction.to_add = []
 	transaction.to_remove = []
 	transaction_dict.clear()

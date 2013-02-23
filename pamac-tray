@@ -53,7 +53,7 @@ class PeriodicTask(threading.Thread):
 	def __init__(self):
 		threading.Thread.__init__(self)
 		self._finished = threading.Event()
-		self._interval = 30
+		self._interval = 3600*3
 
 	def setInterval(self, interval):
 		"""Set the number of seconds we sleep between executing our task"""
@@ -74,20 +74,20 @@ class PeriodicTask(threading.Thread):
 	def task(self):
 		call(['/usr/bin/pamac-check-updates'])
 
-def set_icon(*arg):
+def set_icon(updates):
 	print('set-icon')
-	transaction.get_handle()
-	do_syncfirst, updates = transaction.get_updates()
+	#transaction.get_handle()
+	#do_syncfirst, updates = transaction.get_updates()
 	if updates:
 		icon = '/usr/share/pamac/icons/24x24/status/update-normal.png'
-		info = str(len(updates))+' update(s) available'
+		info = 'Updates available'
 	else:
 		icon = '/usr/share/pamac/icons/24x24/status/update-enhancement.png'
 		info = ' No update available'
 	print(info)
 	tray.update_icon(icon, info)
 
-bus.add_signal_receiver(set_icon, dbus_interface = "org.manjaro.pamac", signal_name = "EmitTransactionDone")
+bus.add_signal_receiver(set_icon, dbus_interface = "org.manjaro.pamac", signal_name = "EmitAvailableUpdates")
 
 tray = Tray()
 #set_icon()

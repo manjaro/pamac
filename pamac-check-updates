@@ -6,8 +6,11 @@ from pamac import common, transaction
 if not common.pid_file_exists():
 	print('checking updates')
 	common.write_pid_file()
-	transaction.Refresh()
-	transaction.TransactionDone()
-	transaction.StopDaemon()
-	common.rm_pid_file()
-	print('check updates done')
+	try:
+		transaction.Refresh()
+		transaction.StopDaemon()
+	except:
+		pass
+	finally:
+		common.rm_pid_file()
+		print('check updates done')
