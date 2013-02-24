@@ -63,12 +63,24 @@ class PamacDBusService(dbus.service.Object):
 		elif ID is 9:
 			self.action = 'Installing...'
 			self.icon = '/usr/share/pamac/icons/24x24/status/package-add.png'
+		elif ID is 10:
+			formatted_event = 'Installed {} ({})'.format(tupel[0].name, tupel[0].version)
+			common.write_log_file(formatted_event)
+			print(formatted_event)
 		elif ID is 11:
 			self.action = 'Removing...'
 			self.icon = '/usr/share/pamac/icons/24x24/status/package-delete.png'
+		elif ID is 12:
+			formatted_event = 'Removed {} ({})'.format(tupel[0].name, tupel[0].version)
+			common.write_log_file(formatted_event)
+			print(formatted_event)
 		elif ID is 13:
 			self.action = 'Upgrading...'
 			self.icon = '/usr/share/pamac/icons/24x24/status/package-update.png'
+		elif ID is 14:
+			formatted_event = 'Upgraded {} ({} -> {})'.format(tupel[1].name, tupel[1].version, tupel[0].version)
+			common.write_log_file(formatted_event)
+			print(formatted_event)
 		elif ID is 15:
 			self.action = 'Checking integrity...'
 			self.icon = '/usr/share/pamac/icons/24x24/status/package-search.png'

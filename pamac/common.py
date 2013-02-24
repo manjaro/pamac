@@ -33,3 +33,9 @@ def write_pid_file():
 def rm_pid_file():
 	if isfile(pid_file):
 		remove(pid_file)
+
+import time
+
+def write_log_file(string):
+	with open('/var/log/pamac.log', 'a') as logfile:
+		logfile.write(time.strftime('[%Y-%m-%d %H:%M]') + ' {}\n'.format(string))
