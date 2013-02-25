@@ -397,43 +397,57 @@ def check_conflicts(pkg_list):
 	while depends[i]:
 		depends.append([])
 		for pkg in depends[i]:
+			if 'linux3' in pkg.name:
+				for _pkg in transaction.localpkgs.values():
+					for depend in _pkg.depends:
+						if '-modules' in depend:
+							for __pkg in transaction.syncpkgs.values():
+								if not __pkg.name in transaction.localpkgs.keys():
+									for name in __pkg.provides:
+										for linux in installed_linux:
+											if linux in __pkg.name:
+												if common.format_pkg_name(depend) == common.format_pkg_name(name):
+													if not __pkg.name in transaction.to_add:
+														print(i,'module',__pkg)
+														depends[i+1].append(__pkg)
+														transaction.to_add.append(__pkg.name)
 			for depend in pkg.depends:
 				provide = pyalpm.find_satisfier(transaction.localpkgs.values(), depend)
 				if provide:
 					print(i,'local',provide)
 					if provide.name != common.format_pkg_name(depend):
-						if '-modules' in depend:
-							for pkg in transaction.syncpkgs.values():
-								if not pkg.name in transaction.localpkgs.keys():
-									for name in pkg.provides:
+						if ('-modules' in depend) or ('linux' in depend):
+							for _pkg in transaction.syncpkgs.values():
+								if not _pkg.name in transaction.localpkgs.keys():
+									for name in _pkg.provides:
 										for linux in installed_linux:
-											if linux in pkg.name:
+											if linux in _pkg.name:
 												if common.format_pkg_name(depend) == common.format_pkg_name(name):
-													if not pkg.name in transaction.to_add:
-														depends[i+1].append(pkg)
-														transaction.to_add.append(pkg.name)
+													if not _pkg.name in transaction.to_add:
+														depends[i+1].append(_pkg)
+														transaction.to_add.append(_pkg.name)
 				else:
 					provide = pyalpm.find_satisfier(transaction.syncpkgs.values(), depend)
 					if provide:
 						print(i,'sync',provide)
 						if provide.name != common.format_pkg_name(depend):
-							if '-modules' in depend:
-								for pkg in transaction.syncpkgs.values():
-									if not pkg.name in transaction.localpkgs.keys():
-										for name in pkg.provides:
+							if ('-modules' in depend) or ('linux' in depend):
+								for _pkg in transaction.syncpkgs.values():
+									if not _pkg.name in transaction.localpkgs.keys():
+										for name in _pkg.provides:
 											for linux in installed_linux:
-												if linux in pkg.name:
+												if linux in _pkg.name:
 													if common.format_pkg_name(depend) == common.format_pkg_name(name):
-														if not pkg.name in transaction.to_add:
-															depends[i+1].append(pkg)
-															transaction.to_add.append(pkg.name)
+														if not _pkg.name in transaction.to_add:
+															depends[i+1].append(_pkg)
+															transaction.to_add.append(_pkg.name)
 							else:
 								to_add_to_depends = choose_provides(depend)
 								print(to_add_to_depends)
-								for pkg in to_add_to_depends:
-									if not pkg.name in transaction.to_add:
-										depends[i+1].append(pkg)
-										transaction.to_add.append(pkg.name)
+								for _pkg in to_add_to_depends:
+									if not _pkg.name in transaction.to_add:
+										depends[i+1].append(_pkg)
+										transaction.to_add.append(_pkg.name)
 						else:
 							depends[i+1].append(provide)
 			for replace in pkg.replaces:
@@ -456,13 +470,14 @@ def check_conflicts(pkg_list):
 							warning = warning+pkg.name+' conflicts with '+provide.name
 				provide = pyalpm.find_satisfier(depends[0], conflict)
 				if provide:
-					if not common.format_pkg_name(conflict) in transaction.to_remove:
-						if pkg.name in transaction.to_add and common.format_pkg_name(conflict) in transaction.to_add:
-							transaction.to_add.remove(common.format_pkg_name(conflict))
-							transaction.to_add.remove(pkg.name)
-							if warning:
-								warning = warning+'\n'
-							warning = warning+pkg.name+' conflicts with '+common.format_pkg_name(conflict)+'\nNone of them will be installed'
+					if not common.format_pkg_name(conflict) == pkg.name:
+						if not common.format_pkg_name(conflict) in transaction.to_remove:
+							if pkg.name in transaction.to_add and common.format_pkg_name(conflict) in transaction.to_add:
+								transaction.to_add.remove(common.format_pkg_name(conflict))
+								transaction.to_add.remove(pkg.name)
+								if warning:
+									warning = warning+'\n'
+								warning = warning+pkg.name+' conflicts with '+common.format_pkg_name(conflict)+'\nNone of them will be installed'
 		i += 1
 	for pkg in transaction.localpkgs.values():
 		for conflict in pkg.conflicts:

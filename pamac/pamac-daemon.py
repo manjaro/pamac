@@ -112,10 +112,10 @@ class PamacDBusService(dbus.service.Object):
 		if not (level & _logmask):
 			return
 		if level & pyalpm.LOG_ERROR:
-			self.error = "ERROR: "+line
+			self.error += "ERROR: "+line
 				#t.release()
 		elif level & pyalpm.LOG_WARNING:
-			self.warning = "WARNING: "+line
+			self.warning += "WARNING: "+line
 		elif level & pyalpm.LOG_DEBUG:
 			line = "DEBUG: " + line
 			print(line)
@@ -187,18 +187,19 @@ class PamacDBusService(dbus.service.Object):
 	@dbus.service.method('org.manjaro.pamac', '', 's')
 	def Refresh(self):
 		global t
-		global error
-		error = ''
+		#~ global error
+		#~ error = ''
 		for db in config.handle.get_syncdbs():
 			try:
 				t = config.handle.init_transaction()
 				db.update(force=False)
 				t.release()
-			except pyalpm.error:
-				error = traceback.format_exc()
-				break
+			except pyalpm.error as e:
+				self.error += str(e)+'\n'
+				t.release()
+				#break
 		self.CheckUpdates()
-		return error
+		return self.error
 
 	@dbus.service.method('org.manjaro.pamac', 'a{sb}', 's', sender_keyword='sender', connection_keyword='connexion')
 	def Init(self, options, sender=None, connexion=None):
