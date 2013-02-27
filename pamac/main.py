@@ -48,15 +48,15 @@ update_label = interface.get_object('update_label')
 installed_column.set_sort_column_id(1)
 name_column.set_sort_column_id(0)
 
-transaction.get_handle()
-tmp_list = []
-for repo in transaction.handle.get_syncdbs():
-	for name, pkgs in repo.grpcache:
-		if not name in tmp_list:
-			tmp_list.append(name)
-tmp_list = sorted(tmp_list)
-for name in tmp_list:
-	groups_list.append([name])
+def get_groups():
+	tmp_list = []
+	for repo in transaction.handle.get_syncdbs():
+		for name, pkgs in repo.grpcache:
+			if not name in tmp_list:
+				tmp_list.append(name)
+	tmp_list = sorted(tmp_list)
+	for name in tmp_list:
+		groups_list.append([name])
 
 pkg_name_list = []
 pkg_object_dict = {}
@@ -210,6 +210,7 @@ def set_desc(pkg, style):
 def set_transaction_sum():
 	transaction_sum.clear()
 	if transaction.to_remove:
+		transaction.to_remove = sorted(transaction.to_remove)
 		transaction_sum.append(['To remove:', transaction.to_remove[0]])
 		i = 1
 		while i < len(transaction.to_remove):
@@ -217,6 +218,7 @@ def set_transaction_sum():
 			i += 1
 		sum_bottom_label.set_markup('')
 	if transaction.to_add:
+		transaction.to_add = sorted(transaction.to_add)
 		installed = []
 		for pkg_object in config.pacman_conf.initialize_alpm().get_localdb().pkgcache:
 			installed.append(pkg_object.name)
@@ -245,9 +247,9 @@ def handle_error(error):
 	global transaction_type
 	global transaction_dict
 	if error:
-		if not 'DBus.Error.NoReply' in str(error):
+		if not 'DBus.Error.NoReply' in error:
 			print('error',error)
-			transaction.ErrorDialog.format_secondary_text('Error:\n'+str(error))
+			transaction.ErrorDialog.format_secondary_text(error)
 			response = transaction.ErrorDialog.run()
 			if response:
 				transaction.ErrorDialog.hide()
@@ -260,6 +262,7 @@ def handle_error(error):
 		transaction_dict.clear()
 		transaction_type = None
 		transaction.update_db()
+		get_groups()
 		set_packages_list()
 	if mode == 'updater':
 		have_updates()
@@ -269,7 +272,7 @@ def handle_reply(reply):
 	global transaction_type
 	global transaction_dict
 	if reply:
-		transaction.ErrorDialog.format_secondary_text('Error:\n'+str(reply))
+		transaction.ErrorDialog.format_secondary_text(reply)
 		response = transaction.ErrorDialog.run()
 		if response:
 			transaction.ErrorDialog.hide()
@@ -280,6 +283,7 @@ def handle_reply(reply):
 	transaction.to_remove = []
 	transaction_dict.clear()
 	transaction.update_db()
+	get_groups()
 	if (transaction_type == "install") or (transaction_type == "remove"):
 		transaction_type = None
 		set_packages_list()
@@ -384,6 +388,7 @@ def finalize():
 def check_conflicts(pkg_list):
 	depends = [pkg_list]
 	warning = ''
+	error = ''
 	pkgs = transaction.handle.get_localdb().search('linux3')
 	installed_linux = []
 	for i in pkgs:
@@ -442,12 +447,19 @@ def check_conflicts(pkg_list):
 															depends[i+1].append(_pkg)
 															transaction.to_add.append(_pkg.name)
 							else:
-								to_add_to_depends = choose_provides(depend)
-								print(to_add_to_depends)
-								for _pkg in to_add_to_depends:
-									if not _pkg.name in transaction.to_add:
-										depends[i+1].append(_pkg)
-										transaction.to_add.append(_pkg.name)
+								already_provided = False
+								for pkgname in transaction.to_add:
+									_pkg = transaction.syncpkgs[pkgname]
+									print('test',transaction.to_add)
+									provide = pyalpm.find_satisfier([_pkg], depend)
+									if provide:
+										already_provided = True
+								if not already_provided:
+									to_add_to_depends = choose_provides(depend)
+									for _pkg in to_add_to_depends:
+										if not _pkg.name in transaction.to_add:
+											depends[i+1].append(_pkg)
+											transaction.to_add.append(_pkg.name)
 						else:
 							depends[i+1].append(provide)
 			for replace in pkg.replaces:
@@ -510,6 +522,20 @@ def check_conflicts(pkg_list):
 		response = transaction.WarningDialog.run()
 		if response:
 			transaction.WarningDialog.hide()
+	for pkgname in transaction.to_remove:
+		pkg = transaction.localpkgs[pkgname]
+		required = pkg.compute_requiredby()
+		if required:
+			str_required = ''
+			for i in required:
+				if str_required:
+					str_required += ', '
+				str_required += i
+			if error:
+				error = error+'\n'
+			error += 'Cannot remove {} because it is needed by {}'.format(pkgname, str_required)
+	if error:
+			handle_error(error)
 
 def choose_provides(name):
 	provides = OrderedDict()
