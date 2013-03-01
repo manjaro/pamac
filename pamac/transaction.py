@@ -25,11 +25,6 @@ interface.add_from_file('/usr/share/pamac/gui/dialogs.glade')
 ErrorDialog = interface.get_object('ErrorDialog')
 WarningDialog = interface.get_object('WarningDialog')
 QuestionDialog = interface.get_object('QuestionDialog')
-ProgressWindow = interface.get_object('ProgressWindow')
-progress_bar = interface.get_object('progressbar2')
-progress_label = interface.get_object('progresslabel2')
-action_icon = interface.get_object('action_icon')
-ProgressCancelButton = interface.get_object('ProgressCancelButton')
 
 def get_handle():
 	global handle
@@ -65,32 +60,6 @@ Commit = proxy.get_dbus_method('Commit','org.manjaro.pamac')
 Release = proxy.get_dbus_method('Release','org.manjaro.pamac')
 StopDaemon = proxy.get_dbus_method('StopDaemon','org.manjaro.pamac')
 
-def action_signal_handler(action):
-	progress_label.set_text(action)
-	#~ if 'Downloading' in action:
-		#~ print('cancel enabled')
-		#~ ProgressCancelButton.set_visible(True)
-	#~ else:
-	ProgressCancelButton.set_visible(False)
-		#~ print('cancel disabled')
-
-def icon_signal_handler(icon):
-	action_icon.set_from_file(icon)
-
-def target_signal_handler(target):
-	progress_bar.set_text(target)
-
-def percent_signal_handler(percent):
-	#~ if percent == '0':
-		#~ progress_bar.pulse()
-	#~ else:
-	progress_bar.set_fraction(float(percent))
-
-bus.add_signal_receiver(action_signal_handler, dbus_interface = "org.manjaro.pamac", signal_name = "EmitAction")
-bus.add_signal_receiver(icon_signal_handler, dbus_interface = "org.manjaro.pamac", signal_name = "EmitIcon")
-bus.add_signal_receiver(target_signal_handler, dbus_interface = "org.manjaro.pamac", signal_name = "EmitTarget")
-bus.add_signal_receiver(percent_signal_handler, dbus_interface = "org.manjaro.pamac", signal_name = "EmitPercent")
-
 def init_transaction(**options):
 	"Transaction initialization"
 	global t_lock
@@ -123,11 +92,7 @@ def get_updates():
 			if name in localpkgs.keys():
 				candidate = pyalpm.sync_newversion(localpkgs[name], handle.get_syncdbs())
 				if candidate:
-					for repo in handle.get_syncdbs():
-						pkg = repo.get_pkg(candidate.name)
-						if pkg:
-							list_first.append(pkg)
-							break
+					list_first.append(candidate)
 		if list_first:
 			do_syncfirst = True
 			return do_syncfirst, list_first
@@ -135,9 +100,5 @@ def get_updates():
 	for pkg in localpkgs.values():
 		candidate = pyalpm.sync_newversion(pkg, handle.get_syncdbs())
 		if candidate:
-			for repo in handle.get_syncdbs():
-				pkg = repo.get_pkg(candidate.name)
-				if pkg:
-					result.append(pkg)
-					break
+			result.append(candidate)
 	return do_syncfirst, result

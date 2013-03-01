@@ -4,6 +4,7 @@
 from gi.repository import Gtk
 
 import pyalpm
+import dbus
 from collections import OrderedDict
 from time import strftime, localtime
 
@@ -15,11 +16,6 @@ interface.add_from_file('/usr/share/pamac/gui/dialogs.glade')
 ErrorDialog = interface.get_object('ErrorDialog')
 WarningDialog = interface.get_object('WarningDialog')
 QuestionDialog = interface.get_object('QuestionDialog')
-ProgressWindow = interface.get_object('ProgressWindow')
-progress_bar = interface.get_object('progressbar2')
-progress_label = interface.get_object('progresslabel2')
-action_icon = interface.get_object('action_icon')
-ProgressCancelButton = interface.get_object('ProgressCancelButton')
 
 interface.add_from_file('/usr/share/pamac/gui/manager.glade')
 ManagerWindow = interface.get_object("ManagerWindow")
@@ -39,14 +35,55 @@ sum_bottom_label = interface.get_object('sum_bottom_label')
 ChooseDialog = interface.get_object('ChooseDialog')
 choose_list = interface.get_object('choose_list')
 choose_label = interface.get_object('choose_label')
+ProgressWindow = interface.get_object('ProgressWindow')
+progress_bar = interface.get_object('progressbar2')
+progress_label = interface.get_object('progresslabel2')
+action_icon = interface.get_object('action_icon')
+ProgressCancelButton = interface.get_object('ProgressCancelButton')
 
 interface.add_from_file('/usr/share/pamac/gui/updater.glade')
 UpdaterWindow = interface.get_object("UpdaterWindow")
 update_listore = interface.get_object('update_list')
 update_label = interface.get_object('update_label')
 
+def action_signal_handler(action):
+	progress_label.set_text(action)
+	#if 'Downloading' in action:
+	#	print('cancel enabled')
+	#	ProgressCancelButton.set_visible(True)
+	#else:
+	ProgressCancelButton.set_visible(False)
+	#print('cancel disabled')
+
+def icon_signal_handler(icon):
+	action_icon.set_from_file(icon)
+
+def target_signal_handler(target):
+	progress_bar.set_text(target)
+
+def percent_signal_handler(percent):
+	if percent == '0':
+		progress_bar.pulse()
+	else:
+		progress_bar.set_fraction(float(percent))
+
+bus = dbus.SystemBus()
+bus.add_signal_receiver(action_signal_handler, dbus_interface = "org.manjaro.pamac", signal_name = "EmitAction")
+bus.add_signal_receiver(icon_signal_handler, dbus_interface = "org.manjaro.pamac", signal_name = "EmitIcon")
+bus.add_signal_receiver(target_signal_handler, dbus_interface = "org.manjaro.pamac", signal_name = "EmitTarget")
+bus.add_signal_receiver(percent_signal_handler, dbus_interface = "org.manjaro.pamac", signal_name = "EmitPercent")
+
 installed_column.set_sort_column_id(1)
 name_column.set_sort_column_id(0)
+
+pkg_name_list = []
+pkg_object_dict = {}
+pkg_installed_dict = {}
+list_dict = None
+current_group = None
+transaction_type = None
+transaction_dict = {}
+mode = None
 
 def get_groups():
 	tmp_list = []
@@ -57,15 +94,6 @@ def get_groups():
 	tmp_list = sorted(tmp_list)
 	for name in tmp_list:
 		groups_list.append([name])
-
-pkg_name_list = []
-pkg_object_dict = {}
-pkg_installed_dict = {}
-list_dict = None
-current_group = None
-transaction_type = None
-transaction_dict = {}
-mode = None
 
 def set_list_dict_search(*patterns):
 	global pkg_name_list
@@ -255,7 +283,7 @@ def handle_error(error):
 				transaction.ErrorDialog.hide()
 	transaction.t_lock = False
 	transaction.Release()
-	transaction.ProgressWindow.hide()
+	ProgressWindow.hide()
 	if mode == 'manager':
 		transaction.to_add = []
 		transaction.to_remove = []
@@ -278,7 +306,7 @@ def handle_reply(reply):
 			transaction.ErrorDialog.hide()
 	transaction.t_lock = False
 	transaction.Release()
-	transaction.ProgressWindow.hide()
+	ProgressWindow.hide()
 	transaction.to_add = []
 	transaction.to_remove = []
 	transaction_dict.clear()
@@ -297,9 +325,9 @@ def do_refresh():
 	"""Sync databases like pacman -Sy"""
 	if transaction.t_lock is False:
 		transaction.t_lock = True
-		transaction.progress_label.set_text('Refreshing...')
-		transaction.action_icon.set_from_file('/usr/share/pamac/icons/24x24/status/refresh-cache.png')
-		transaction.ProgressWindow.show_all()
+		progress_label.set_text('Refreshing...')
+		action_icon.set_from_file('/usr/share/pamac/icons/24x24/status/refresh-cache.png')
+		ProgressWindow.show_all()
 		while Gtk.events_pending():
 			Gtk.main_iteration()
 		transaction.Refresh(reply_handler = handle_reply, error_handler = handle_error, timeout = 2000*1000)
@@ -377,10 +405,10 @@ def do_sysupgrade():
 								ConfDialog.show_all()
 
 def finalize():
-		transaction.progress_label.set_text('Preparing...')
-		transaction.action_icon.set_from_file('/usr/share/pamac/icons/24x24/status/setup.png')
-		transaction.progress_bar.set_text('')
-		transaction.ProgressWindow.show_all()
+		progress_label.set_text('Preparing...')
+		action_icon.set_from_file('/usr/share/pamac/icons/24x24/status/setup.png')
+		progress_bar.set_text('')
+		ProgressWindow.show_all()
 		while Gtk.events_pending():
 			Gtk.main_iteration()
 		transaction.Commit(reply_handler = handle_reply, error_handler = handle_error, timeout = 2000*1000)
@@ -522,8 +550,16 @@ def check_conflicts(pkg_list):
 		response = transaction.WarningDialog.run()
 		if response:
 			transaction.WarningDialog.hide()
+	pkg_list = {}
 	for pkgname in transaction.to_remove:
-		pkg = transaction.localpkgs[pkgname]
+		pkg_list[pkgname] = transaction.localpkgs[pkgname]
+	for pkgname in transaction.to_add:
+		pkg = transaction.syncpkgs[pkgname]
+		for replace in pkg.replaces:
+			provide = pyalpm.find_satisfier(pkg_list.values(), replace)
+			if provide:
+				pkg_list.pop(provide.name)
+	for pkg in pkg_list.values():
 		required = pkg.compute_requiredby()
 		if required:
 			str_required = ''
@@ -633,7 +669,7 @@ class Handler:
 
 	def on_TransCancelButton_clicked(self, *arg):
 		global transaction_type
-		transaction.ProgressWindow.hide()
+		ProgressWindow.hide()
 		ConfDialog.hide()
 		transaction.t_lock = False
 		transaction.Release()
@@ -758,10 +794,8 @@ class Handler:
 		do_refresh()
 
 	def on_ProgressCancelButton_clicked(self, *arg):
-		transaction.t_lock = False
-		transaction.Release()
-		transaction.ProgressWindow.hide()
-		have_updates()
+		print('cancelled')
+		#handle_reply('')
 
 def main(_mode):
 	if common.pid_file_exists():
