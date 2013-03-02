@@ -92,13 +92,14 @@ class PamacDBusService(dbus.service.Object):
 		elif ID is 26:
 			self.action = 'Configuring...'
 			self.icon = '/usr/share/pamac/icons/24x24/status/setup.png'
+			self.EmitPercent(str(2))
 			print('Configuring a package')
 		elif ID is 27:
 			print('Downloading a file')
 		else :
 			self.action = ''
-		self.EmitTarget('')
-		self.EmitPercent(str(0))
+		#self.EmitTarget('')
+		#self.EmitPercent(str(0))
 		self.EmitAction(self.action)
 		self.EmitIcon(self.icon)
 		print(ID,event)
@@ -139,15 +140,12 @@ class PamacDBusService(dbus.service.Object):
 				self.already_transferred += size
 			self.action = 'Downloading '+common.format_size(self.total_size)
 			self.target = _target
-			if fraction > 1:
-				self.percent = 0
-			else:
-				self.percent = fraction
+			self.percent = fraction
 			self.icon = '/usr/share/pamac/icons/24x24/status/package-download.png'
 		else:
 			self.action = 'Refreshing...'
 			self.target = _target
-			self.percent = 0
+			self.percent = 2
 			self.icon = '/usr/share/pamac/icons/24x24/status/refresh-cache.png'
 		self.EmitAction(self.action)
 		self.EmitIcon(self.icon)

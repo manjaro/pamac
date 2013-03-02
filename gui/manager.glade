@@ -633,6 +633,7 @@
     <property name="icon">/usr/share/pamac/icons/22x22/status/setup.png</property>
     <property name="type_hint">dialog</property>
     <property name="deletable">False</property>
+    <property name="transient_for">ManagerWindow</property>
     <property name="has_resize_grip">False</property>
     <child>
       <object class="GtkBox" id="box8">

@@ -47,7 +47,8 @@ update_listore = interface.get_object('update_list')
 update_label = interface.get_object('update_label')
 
 def action_signal_handler(action):
-	progress_label.set_text(action)
+	if action:
+		progress_label.set_text(action)
 	#if 'Downloading' in action:
 	#	print('cancel enabled')
 	#	ProgressCancelButton.set_visible(True)
@@ -62,7 +63,7 @@ def target_signal_handler(target):
 	progress_bar.set_text(target)
 
 def percent_signal_handler(percent):
-	if percent == '0':
+	if float(percent) > 1:
 		progress_bar.pulse()
 	else:
 		progress_bar.set_fraction(float(percent))
