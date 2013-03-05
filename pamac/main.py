@@ -54,7 +54,7 @@ def action_signal_handler(action):
 	#	ProgressCancelButton.set_visible(True)
 	#else:
 	ProgressCancelButton.set_visible(False)
-	#print('cancel disabled')
+		#print('cancel disabled')
 
 def icon_signal_handler(icon):
 	action_icon.set_from_file(icon)
@@ -276,14 +276,17 @@ def handle_error(error):
 	global transaction_type
 	global transaction_dict
 	if error:
-		if not 'DBus.Error.NoReply' in error:
-			print('error',error)
+		if not 'DBus.Error.NoReply' in str(error):
+			print('error:', error)
 			transaction.ErrorDialog.format_secondary_text(error)
 			response = transaction.ErrorDialog.run()
 			if response:
 				transaction.ErrorDialog.hide()
 	transaction.t_lock = False
-	transaction.Release()
+	try:
+		transaction.Release()
+	except:
+		pass
 	ProgressWindow.hide()
 	if mode == 'manager':
 		transaction.to_add = []
@@ -295,7 +298,6 @@ def handle_error(error):
 		set_packages_list()
 	if mode == 'updater':
 		have_updates()
-	print('error',error)
 
 def handle_reply(reply):
 	global transaction_type
@@ -306,7 +308,10 @@ def handle_reply(reply):
 		if response:
 			transaction.ErrorDialog.hide()
 	transaction.t_lock = False
-	transaction.Release()
+	try:
+		transaction.Release()
+	except:
+		pass
 	ProgressWindow.hide()
 	transaction.to_add = []
 	transaction.to_remove = []
@@ -796,7 +801,7 @@ class Handler:
 
 	def on_ProgressCancelButton_clicked(self, *arg):
 		print('cancelled')
-		#handle_reply('')
+		handle_reply('')
 
 def main(_mode):
 	if common.pid_file_exists():

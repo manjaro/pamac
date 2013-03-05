@@ -7,7 +7,8 @@ from dbus.mainloop.glib import DBusGMainLoop
 from gi.repository import GObject
 
 import pyalpm
-import traceback
+#import traceback
+#import threading
 from pamac import config, common
 
 class PamacDBusService(dbus.service.Object):
@@ -295,7 +296,7 @@ class PamacDBusService(dbus.service.Object):
 			except pyalpm.error as e:
 				#error = traceback.format_exc()
 				self.error += ' --> '+str(e)+'\n'
-				#nosuccess(error)
+				#nosuccess(self.error)
 			#except dbus.exceptions.DBusException:
 				#pass
 			finally:
@@ -303,6 +304,7 @@ class PamacDBusService(dbus.service.Object):
 				return self.error
 		else :
 			return 'You are not authorized'
+			#nosuccess('You are not authorized')
 
 	@dbus.service.method('org.manjaro.pamac', '', 's', sender_keyword='sender', connection_keyword='connexion')
 	def Release(self, sender=None, connexion=None):

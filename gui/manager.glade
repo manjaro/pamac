@@ -11,6 +11,7 @@
     <property name="skip_taskbar_hint">True</property>
     <property name="urgency_hint">True</property>
     <property name="deletable">False</property>
+    <property name="transient_for">ManagerWindow</property>
     <child internal-child="vbox">
       <object class="GtkBox" id="dialog-vbox1">
         <property name="can_focus">False</property>
@@ -122,6 +123,7 @@
     <property name="skip_taskbar_hint">True</property>
     <property name="urgency_hint">True</property>
     <property name="deletable">False</property>
+    <property name="transient_for">ManagerWindow</property>
     <child>
       <object class="GtkBox" id="box7">
         <property name="visible">True</property>
@@ -214,6 +216,7 @@
             <property name="can_focus">False</property>
             <property name="margin_left">7</property>
             <property name="margin_right">7</property>
+            <property name="margin_bottom">9</property>
             <property name="spacing">7</property>
             <property name="homogeneous">True</property>
             <property name="layout_style">end</property>
