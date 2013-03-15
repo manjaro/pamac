@@ -8,7 +8,7 @@ from gi.repository import GObject
 
 import pyalpm
 #import traceback
-#import threading
+from multiprocessing import Process
 from pamac import config, common
 
 class PamacDBusService(dbus.service.Object):
@@ -17,6 +17,7 @@ class PamacDBusService(dbus.service.Object):
 		bus_name = dbus.service.BusName('org.manjaro.pamac', bus)
 		dbus.service.Object.__init__(self, bus_name, '/org/manjaro/pamac')
 		self.t = None
+		self.task = None
 		self.error = ''
 		self.warning = ''
 		self.action = 'Preparing...'
@@ -109,14 +110,13 @@ class PamacDBusService(dbus.service.Object):
 		print("conversation", args)
 
 	def cb_log(self, level, line):
-		#global t
 		_logmask = pyalpm.LOG_ERROR | pyalpm.LOG_WARNING
 		if not (level & _logmask):
 			return
 		if level & pyalpm.LOG_ERROR:
 			self.error += "ERROR: "+line
 			print(self.error)
-			#t.release()
+			#self.t.release()
 		elif level & pyalpm.LOG_WARNING:
 			self.warning += "WARNING: "+line
 		elif level & pyalpm.LOG_DEBUG:
@@ -133,25 +133,28 @@ class PamacDBusService(dbus.service.Object):
 		if self.total_size > 0:
 			fraction = (_transferred+self.already_transferred)/self.total_size
 		size = 0
-		if (t.to_remove or t.to_add):
-			for pkg in t.to_remove+t.to_add:
-				if pkg.name+'-'+pkg.version in _target:
-					size = pkg.size
-			if _transferred == size:
-				self.already_transferred += size
-			self.action = 'Downloading '+common.format_size(self.total_size)
-			self.target = _target
-			self.percent = fraction
-			self.icon = '/usr/share/pamac/icons/24x24/status/package-download.png'
-		else:
-			self.action = 'Refreshing...'
-			self.target = _target
-			self.percent = 2
-			self.icon = '/usr/share/pamac/icons/24x24/status/refresh-cache.png'
-		self.EmitAction(self.action)
-		self.EmitIcon(self.icon)
-		self.EmitTarget(self.target)
-		self.EmitPercent(str(self.percent))
+		try:
+			if (self.t.to_remove or self.t.to_add):
+				for pkg in self.t.to_remove+self.t.to_add:
+					if pkg.name+'-'+pkg.version in _target:
+						size = pkg.size
+				if _transferred == size:
+					self.already_transferred += size
+				self.action = 'Downloading '+common.format_size(self.total_size)
+				self.target = _target
+				self.percent = fraction
+				self.icon = '/usr/share/pamac/icons/24x24/status/package-download.png'
+			else:
+				self.action = 'Refreshing...'
+				self.target = _target
+				self.percent = 2
+				self.icon = '/usr/share/pamac/icons/24x24/status/refresh-cache.png'
+			self.EmitAction(self.action)
+			self.EmitIcon(self.icon)
+			self.EmitTarget(self.target)
+			self.EmitPercent(str(self.percent))
+		except pyalpm.error:
+			pass
 
 	def cb_progress(self, _target, _percent, n, i):
 		self.target = _target+' ('+str(i)+'/'+str(n)+')'
@@ -159,7 +162,7 @@ class PamacDBusService(dbus.service.Object):
 		self.EmitTarget(self.target)
 		self.EmitPercent(str(self.percent))
 
-	def policykit_test(self, sender,connexion, action):
+	def policykit_test(self, sender, connexion, action):
 		bus = dbus.SystemBus()
 		proxy_dbus = connexion.get_object('org.freedesktop.DBus','/org/freedesktop/DBus/Bus', False)
 		dbus_info = dbus.Interface(proxy_dbus,'org.freedesktop.DBus')
@@ -184,30 +187,35 @@ class PamacDBusService(dbus.service.Object):
 				updates = True
 		self.EmitAvailableUpdates(updates)
 
-	@dbus.service.method('org.manjaro.pamac', '', 's')
-	def Refresh(self):
-		global t
-		self.error = ''
-		for db in config.handle.get_syncdbs():
-			try:
-				t = config.handle.init_transaction()
-				db.update(force=False)
-				t.release()
-			except pyalpm.error as e:
-				self.error += ' --> '+str(e)+'\n'
-				t.release()
-				#break
-		self.CheckUpdates()
-		return self.error
+	@dbus.service.method('org.manjaro.pamac', '', 's', async_callbacks=('success', 'nosuccess'))
+	def Refresh(self, success, nosuccess):
+		def refresh():
+			self.target = ''
+			self.percent = 0
+			self.error = ''
+			for db in config.handle.get_syncdbs():
+				try:
+					self.t = config.handle.init_transaction()
+					db.update(force=False)
+				except pyalpm.error as e:
+					self.error += ' --> '+str(e)+'\n'
+					#break
+				finally:
+					self.t.release()
+			self.CheckUpdates()
+			if self.error:
+				self.EmitTransactionError(self.error)
+		self.task = Process(target=refresh)
+		self.task.start()
+		success('')
 
 	@dbus.service.method('org.manjaro.pamac', 'a{sb}', 's', sender_keyword='sender', connection_keyword='connexion')
 	def Init(self, options, sender=None, connexion=None):
-		global t
 		self.error = ''
 		if self.policykit_test(sender,connexion,'org.manjaro.pamac.init_release'):
 			try:
-				t = config.handle.init_transaction(**options)
-				print('Init:',t.flags)
+				self.t = config.handle.init_transaction(**options)
+				print('Init:',self.t.flags)
 			except pyalpm.error as e:
 				self.error += ' --> '+str(e)+'\n'
 			finally:
@@ -217,11 +225,10 @@ class PamacDBusService(dbus.service.Object):
 
 	@dbus.service.method('org.manjaro.pamac', '', 's')
 	def Sysupgrade(self):
-		global t
 		self.error = ''
 		try:
-			t.sysupgrade(downgrade=False)
-			print('to_upgrade:',t.to_add)
+			self.t.sysupgrade(downgrade=False)
+			print('to_upgrade:',self.t.to_add)
 		except pyalpm.error as e:
 			self.error += ' --> '+str(e)+'\n'
 		finally:
@@ -229,12 +236,11 @@ class PamacDBusService(dbus.service.Object):
 
 	@dbus.service.method('org.manjaro.pamac', 's', 's')
 	def Remove(self, pkgname):
-		global t
 		self.error = ''
 		try:
 			pkg = config.handle.get_localdb().get_pkg(pkgname)
 			if pkg is not None:
-				t.remove_pkg(pkg)
+				self.t.remove_pkg(pkg)
 		except pyalpm.error as e:
 			self.error += ' --> '+str(e)+'\n'
 		finally:
@@ -242,13 +248,12 @@ class PamacDBusService(dbus.service.Object):
 
 	@dbus.service.method('org.manjaro.pamac', 's', 's')
 	def Add(self, pkgname):
-		global t
 		self.error = ''
 		try:
 			for repo in config.handle.get_syncdbs():
 				pkg = repo.get_pkg(pkgname)
 				if pkg:
-					t.add_pkg(pkg)
+					self.t.add_pkg(pkg)
 					break
 		except pyalpm.error as e:
 			self.error += ' --> '+str(e)+'\n'
@@ -257,12 +262,11 @@ class PamacDBusService(dbus.service.Object):
 
 	@dbus.service.method('org.manjaro.pamac', '', 's')
 	def Prepare(self):
-		global t
 		self.error = ''
 		try:
-			t.prepare()
-			print('to_add:',t.to_add)
-			print('to_remove:',t.to_remove)
+			self.t.prepare()
+			print('to_add:',self.t.to_add)
+			print('to_remove:',self.t.to_remove)
 		except pyalpm.error as e:
 			print(e)
 			self.error += ' --> '+str(e)+'\n'
@@ -271,48 +275,79 @@ class PamacDBusService(dbus.service.Object):
 
 	@dbus.service.method('org.manjaro.pamac', '', 'as')
 	def To_Remove(self):
-		global t
 		liste = []
-		for pkg in t.to_remove:
+		for pkg in self.t.to_remove:
 			liste.append(pkg.name)
-		return liste 
+		return liste
 
 	@dbus.service.method('org.manjaro.pamac', '', 'as')
 	def To_Add(self):
-		global t
 		liste = []
-		for pkg in t.to_add:
+		for pkg in self.t.to_add:
 			liste.append(pkg.name)
-		return liste 
+		return liste
 
-	@dbus.service.method('org.manjaro.pamac', '', 's', sender_keyword='sender', connection_keyword='connexion')#, async_callbacks=('success', 'nosuccess'))
-	def Commit(self, sender=None, connexion=None):#success, nosuccess, sender=None, connexion=None):
-		global t
-		self.error = ''
-		if self.policykit_test(sender,connexion,'org.manjaro.pamac.commit'): 
+	@dbus.service.method('org.manjaro.pamac', '', 's', async_callbacks=('success', 'nosuccess'))
+	def Interrupt(self, success, nosuccess):
+		def interrupt():
+			self.error = ''
+			#try:
+			#	self.t.interrupt()
+			#except pyalpm.error as e:
+			#	self.error += ' --> '+str(e)+'\n'
 			try:
-				t.commit()
-				#success('')
+				self.t.release()
+			#except pyalpm.error as e:
+				#self.error += ' --> '+str(e)+'\n'
+			except:
+				pass
+			finally:
+				self.CheckUpdates()
+				#if self.error:
+					#self.EmitTransactionError(self.error)
+		self.task.terminate()
+		interrupt()
+		success('')
+
+	@dbus.service.method('org.manjaro.pamac', '', 's', sender_keyword='sender', connection_keyword='connexion', async_callbacks=('success', 'nosuccess'))
+	def Commit(self, success, nosuccess, sender=None, connexion=None):
+		def commit():
+			self.error = ''
+			try:
+				self.t.commit()
 			except pyalpm.error as e:
 				#error = traceback.format_exc()
 				self.error += ' --> '+str(e)+'\n'
-				#nosuccess(self.error)
 			#except dbus.exceptions.DBusException:
 				#pass
 			finally:
 				self.CheckUpdates()
-				return self.error
+				if self.error:
+					self.EmitTransactionError(self.error)
+				else:
+					self.EmitTransactionDone('Transaction successfully finished')
+		if self.policykit_test(sender,connexion,'org.manjaro.pamac.commit'):
+			self.task = Process(target=commit)
+			self.task.start()
 		else :
-			return 'You are not authorized'
-			#nosuccess('You are not authorized')
+			self.t.release()
+			self.EmitTransactionError('You are not authorized')
+		success('')
+
+	@dbus.service.signal('org.manjaro.pamac')
+	def EmitTransactionDone(self, message):
+		pass
+
+	@dbus.service.signal('org.manjaro.pamac')
+	def EmitTransactionError(self, message):
+		pass
 
 	@dbus.service.method('org.manjaro.pamac', '', 's', sender_keyword='sender', connection_keyword='connexion')
 	def Release(self, sender=None, connexion=None):
-		global t
 		self.error = ''
 		if self.policykit_test(sender,connexion,'org.manjaro.pamac.init_release'):
 			try:
-				t.release()
+				self.t.release()
 			except pyalpm.error as e:
 				self.error += ' --> '+str(e)+'\n'
 			finally:
@@ -322,13 +357,13 @@ class PamacDBusService(dbus.service.Object):
 
 	@dbus.service.method('org.manjaro.pamac')
 	def StopDaemon(self):
-		global t
 		try:
-			t.release()
+			self.t.release()
 		except:
 			pass
 		mainloop.quit()
 
+GObject.threads_init()
 DBusGMainLoop(set_as_default=True)
 myservice = PamacDBusService()
 mainloop = GObject.MainLoop()

@@ -24,7 +24,8 @@ interface = Gtk.Builder()
 interface.add_from_file('/usr/share/pamac/gui/dialogs.glade')
 ErrorDialog = interface.get_object('ErrorDialog')
 WarningDialog = interface.get_object('WarningDialog')
-QuestionDialog = interface.get_object('QuestionDialog')
+#QuestionDialog = interface.get_object('QuestionDialog')
+InfoDialog = interface.get_object('InfoDialog')
 
 def get_handle():
 	global handle
@@ -57,6 +58,7 @@ Prepare = proxy.get_dbus_method('Prepare','org.manjaro.pamac')
 To_Remove = proxy.get_dbus_method('To_Remove','org.manjaro.pamac')
 To_Add = proxy.get_dbus_method('To_Add','org.manjaro.pamac')
 Commit = proxy.get_dbus_method('Commit','org.manjaro.pamac')
+Interrupt = proxy.get_dbus_method('Interrupt','org.manjaro.pamac')
 Release = proxy.get_dbus_method('Release','org.manjaro.pamac')
 StopDaemon = proxy.get_dbus_method('StopDaemon','org.manjaro.pamac')
 

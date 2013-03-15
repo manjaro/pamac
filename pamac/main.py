@@ -12,10 +12,11 @@ from pamac import config, common, transaction
 
 interface = Gtk.Builder()
 
-interface.add_from_file('/usr/share/pamac/gui/dialogs.glade')
-ErrorDialog = interface.get_object('ErrorDialog')
-WarningDialog = interface.get_object('WarningDialog')
-QuestionDialog = interface.get_object('QuestionDialog')
+#interface.add_from_file('/usr/share/pamac/gui/dialogs.glade')
+#ErrorDialog = interface.get_object('ErrorDialog')
+#WarningDialog = interface.get_object('WarningDialog')
+#InfoDialog = interface.get_object('InfoDialog')
+#QuestionDialog = interface.get_object('QuestionDialog')
 
 interface.add_from_file('/usr/share/pamac/gui/manager.glade')
 ManagerWindow = interface.get_object("ManagerWindow")
@@ -49,12 +50,10 @@ update_label = interface.get_object('update_label')
 def action_signal_handler(action):
 	if action:
 		progress_label.set_text(action)
-	#if 'Downloading' in action:
-	#	print('cancel enabled')
-	#	ProgressCancelButton.set_visible(True)
-	#else:
-	ProgressCancelButton.set_visible(False)
-		#print('cancel disabled')
+	if ('Refreshing' in action) or ('Preparing' in action) or ('Downloading' in action) or ('Checking' in action) or ('Resolving' in action) or ('Loading' in action):
+		ProgressCancelButton.set_visible(True)
+	else:
+		ProgressCancelButton.set_visible(False)
 
 def icon_signal_handler(icon):
 	action_icon.set_from_file(icon)
@@ -275,6 +274,7 @@ def set_transaction_sum():
 def handle_error(error):
 	global transaction_type
 	global transaction_dict
+	ProgressWindow.hide()
 	if error:
 		if not 'DBus.Error.NoReply' in str(error):
 			print('error:', error)
@@ -283,11 +283,7 @@ def handle_error(error):
 			if response:
 				transaction.ErrorDialog.hide()
 	transaction.t_lock = False
-	try:
-		transaction.Release()
-	except:
-		pass
-	ProgressWindow.hide()
+	transaction.Release()
 	if mode == 'manager':
 		transaction.to_add = []
 		transaction.to_remove = []
@@ -302,17 +298,17 @@ def handle_error(error):
 def handle_reply(reply):
 	global transaction_type
 	global transaction_dict
+	ProgressWindow.hide()
 	if reply:
-		transaction.ErrorDialog.format_secondary_text(reply)
-		response = transaction.ErrorDialog.run()
+		transaction.InfoDialog.format_secondary_text(reply)
+		response = transaction.InfoDialog.run()
 		if response:
-			transaction.ErrorDialog.hide()
+			transaction.InfoDialog.hide()
 	transaction.t_lock = False
 	try:
 		transaction.Release()
 	except:
 		pass
-	ProgressWindow.hide()
 	transaction.to_add = []
 	transaction.to_remove = []
 	transaction_dict.clear()
@@ -327,6 +323,9 @@ def handle_reply(reply):
 		if mode == 'manager':
 			do_sysupgrade()
 
+bus.add_signal_receiver(handle_reply, dbus_interface = "org.manjaro.pamac", signal_name = "EmitTransactionDone")
+bus.add_signal_receiver(handle_error, dbus_interface = "org.manjaro.pamac", signal_name = "EmitTransactionError")
+
 def do_refresh():
 	"""Sync databases like pacman -Sy"""
 	if transaction.t_lock is False:
@@ -336,7 +335,7 @@ def do_refresh():
 		ProgressWindow.show_all()
 		while Gtk.events_pending():
 			Gtk.main_iteration()
-		transaction.Refresh(reply_handler = handle_reply, error_handler = handle_error, timeout = 2000*1000)
+		transaction.Refresh(reply_handler = handle_reply, error_handler = handle_error)#, timeout = 2000*1000)
 
 def have_updates():
 	do_syncfirst, updates = transaction.get_updates()
@@ -417,7 +416,7 @@ def finalize():
 		ProgressWindow.show_all()
 		while Gtk.events_pending():
 			Gtk.main_iteration()
-		transaction.Commit(reply_handler = handle_reply, error_handler = handle_error, timeout = 2000*1000)
+		transaction.Commit()#reply_handler = handle_reply, error_handler = handle_error, timeout = 2000*1000)
 
 def check_conflicts(pkg_list):
 	depends = [pkg_list]
@@ -801,7 +800,11 @@ class Handler:
 
 	def on_ProgressCancelButton_clicked(self, *arg):
 		print('cancelled')
-		handle_reply('')
+		error = transaction.Interrupt()
+		if error:
+			handle_error(error)
+		else:
+			handle_reply('')
 
 def main(_mode):
 	if common.pid_file_exists():

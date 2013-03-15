@@ -9,7 +9,6 @@
     <property name="window_position">center-on-parent</property>
     <property name="type_hint">dialog</property>
     <property name="skip_taskbar_hint">True</property>
-    <property name="urgency_hint">True</property>
     <property name="deletable">False</property>
     <property name="transient_for">ManagerWindow</property>
     <child internal-child="vbox">
@@ -121,7 +120,6 @@
     <property name="icon">/usr/share/pamac/icons/22x22/status/package-info.png</property>
     <property name="type_hint">dialog</property>
     <property name="skip_taskbar_hint">True</property>
-    <property name="urgency_hint">True</property>
     <property name="deletable">False</property>
     <property name="transient_for">ManagerWindow</property>
     <child>
@@ -265,6 +263,7 @@
     <property name="height_request">500</property>
     <property name="can_focus">False</property>
     <property name="title" translatable="yes">Pamac</property>
+    <property name="window_position">center</property>
     <property name="default_width">800</property>
     <property name="default_height">500</property>
     <property name="icon">/usr/share/pamac/icons/22x22/status/package-sources.png</property>
