@@ -180,11 +180,11 @@ class PamacDBusService(dbus.service.Object):
 		pass
 
 	def CheckUpdates(self):
-		updates = False
+		updates = 0
 		for pkg in config.handle.get_localdb().pkgcache:
 			candidate = pyalpm.sync_newversion(pkg, config.handle.get_syncdbs())
 			if candidate:
-				updates = True
+				updates += 1
 		self.EmitAvailableUpdates(updates)
 
 	@dbus.service.method('org.manjaro.pamac', '', 's', async_callbacks=('success', 'nosuccess'))
@@ -205,6 +205,8 @@ class PamacDBusService(dbus.service.Object):
 			self.CheckUpdates()
 			if self.error:
 				self.EmitTransactionError(self.error)
+			else:
+				self.EmitTransactionDone('')
 		self.task = Process(target=refresh)
 		self.task.start()
 		success('')

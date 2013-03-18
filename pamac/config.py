@@ -186,8 +186,8 @@ class PacmanConfig(object):
 
 pacman_conf = PacmanConfig(conf = "/etc/pacman.conf")
 handle = pacman_conf.initialize_alpm()
-holpkg = None
-syncfirst = None
+holdpkg = []
+syncfirst = []
 if 'HoldPkg' in pacman_conf.options:
 	holdpkg = pacman_conf.options['HoldPkg']
 if 'SyncFirst' in pacman_conf.options:

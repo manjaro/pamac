@@ -275,6 +275,8 @@ def handle_error(error):
 	global transaction_type
 	global transaction_dict
 	ProgressWindow.hide()
+	#while Gtk.events_pending():
+	#	Gtk.main_iteration()
 	if error:
 		if not 'DBus.Error.NoReply' in str(error):
 			print('error:', error)
@@ -299,6 +301,8 @@ def handle_reply(reply):
 	global transaction_type
 	global transaction_dict
 	ProgressWindow.hide()
+	#while Gtk.events_pending():
+	#	Gtk.main_iteration()
 	if reply:
 		transaction.InfoDialog.format_secondary_text(reply)
 		response = transaction.InfoDialog.run()
@@ -332,10 +336,12 @@ def do_refresh():
 		transaction.t_lock = True
 		progress_label.set_text('Refreshing...')
 		action_icon.set_from_file('/usr/share/pamac/icons/24x24/status/refresh-cache.png')
+		progress_bar.set_text('')
+		progress_bar.set_fraction(0)
 		ProgressWindow.show_all()
 		while Gtk.events_pending():
 			Gtk.main_iteration()
-		transaction.Refresh(reply_handler = handle_reply, error_handler = handle_error)#, timeout = 2000*1000)
+		transaction.Refresh()#reply_handler = handle_reply, error_handler = handle_error, timeout = 2000*1000)
 
 def have_updates():
 	do_syncfirst, updates = transaction.get_updates()
@@ -361,8 +367,8 @@ def do_sysupgrade():
 		if updates:
 			transaction.to_add = []
 			transaction.to_remove = []
-			check_conflicts(updates)
 			if do_syncfirst:
+				check_conflicts('normal', updates)
 				for pkg in updates:
 					transaction.to_add.append(pkg.name)
 				if transaction.init_transaction(recurse = True, needed = True):
@@ -385,6 +391,7 @@ def do_sysupgrade():
 						if mode == 'manager':
 							ConfDialog.show_all()
 			else:
+				check_conflicts('updating', updates)
 				if transaction.init_transaction(noconflicts = True):
 					error = transaction.Sysupgrade()
 					if error:
@@ -413,12 +420,13 @@ def finalize():
 		progress_label.set_text('Preparing...')
 		action_icon.set_from_file('/usr/share/pamac/icons/24x24/status/setup.png')
 		progress_bar.set_text('')
+		progress_bar.set_fraction(0)
 		ProgressWindow.show_all()
 		while Gtk.events_pending():
 			Gtk.main_iteration()
 		transaction.Commit()#reply_handler = handle_reply, error_handler = handle_error, timeout = 2000*1000)
 
-def check_conflicts(pkg_list):
+def check_conflicts(mode, pkg_list):
 	depends = [pkg_list]
 	warning = ''
 	error = ''
@@ -495,24 +503,35 @@ def check_conflicts(pkg_list):
 											transaction.to_add.append(_pkg.name)
 						else:
 							depends[i+1].append(provide)
-			for replace in pkg.replaces:
-				provide = pyalpm.find_satisfier(transaction.localpkgs.values(), replace)
-				if provide:
-					if provide.name != pkg.name:
-						if not provide.name in transaction.to_remove:
-							transaction.to_remove.append(provide.name)
-							if warning:
-								warning = warning+'\n'
-							warning = warning+provide.name+' will be replaced by '+pkg.name
+			if mode == 'updating':
+				for replace in pkg.replaces:
+					provide = pyalpm.find_satisfier(transaction.localpkgs.values(), replace)
+					if provide:
+						if provide.name != pkg.name:
+							if not provide.name in transaction.to_remove:
+								transaction.to_remove.append(provide.name)
+								if warning:
+									warning += '\n'
+								warning += provide.name+' will be replaced by '+pkg.name
 			for conflict in pkg.conflicts:
 				provide = pyalpm.find_satisfier(transaction.localpkgs.values(), conflict)
 				if provide:
 					if provide.name != pkg.name:
-						if not provide.name in transaction.to_remove:
+						required = pkg.compute_requiredby()
+						if required:
+							str_required = ''
+							for i in required:
+								if str_required:
+									str_required += ', '
+								str_required += i
+							if error:
+								error += '\n'
+							error += '{} conflicts with {} but cannot be removed because it is needed by {}'.format(provide.name, pkg.name, str_required)
+						elif not provide.name in transaction.to_remove:
 							transaction.to_remove.append(provide.name)
 							if warning:
-								warning = warning+'\n'
-							warning = warning+pkg.name+' conflicts with '+provide.name
+								warning += '\n'
+							warning += pkg.name+' conflicts with '+provide.name
 				provide = pyalpm.find_satisfier(depends[0], conflict)
 				if provide:
 					if not common.format_pkg_name(conflict) == pkg.name:
@@ -521,60 +540,51 @@ def check_conflicts(pkg_list):
 								transaction.to_add.remove(common.format_pkg_name(conflict))
 								transaction.to_add.remove(pkg.name)
 								if warning:
-									warning = warning+'\n'
-								warning = warning+pkg.name+' conflicts with '+common.format_pkg_name(conflict)+'\nNone of them will be installed'
+									warning += '\n'
+								warning += pkg.name+' conflicts with '+common.format_pkg_name(conflict)+'\nNone of them will be installed'
 		i += 1
 	for pkg in transaction.localpkgs.values():
 		for conflict in pkg.conflicts:
 			provide = pyalpm.find_satisfier(depends[0], conflict)
 			if provide:
 				if provide.name != pkg.name:
-					if not provide.name in transaction.to_remove:
+					required = pkg.compute_requiredby()
+					if required:
+						str_required = ''
+						for i in required:
+							if str_required:
+								str_required += ', '
+							str_required += i
+						if error:
+							error += '\n'
+						error += '{} conflicts with {} but cannot be removed because it is needed by {}'.format(provide.name, pkg.name, str_required)
+					elif not provide.name in transaction.to_remove:
 						transaction.to_remove.append(pkg.name)
 						if warning:
-							warning = warning+'\n'
-						warning = warning+provide.name+' conflicts with '+pkg.name
-	for pkg in transaction.syncpkgs.values():
-		for replace in pkg.replaces:
-			provide = pyalpm.find_satisfier(transaction.localpkgs.values(), replace)
-			if provide:
-				if not common.format_pkg_name(replace) in transaction.syncpkgs.keys():
-					if provide.name != pkg.name:
-						if not pkg.name in transaction.localpkgs.keys():
-							if common.format_pkg_name(replace) in transaction.localpkgs.keys():
-								if not provide.name in transaction.to_remove:
-									transaction.to_remove.append(provide.name)
-									if warning:
-										warning = warning+'\n'
-									warning = warning+provide.name+' will be replaced by '+pkg.name
-								if not pkg.name in transaction.to_add:
-									transaction.to_add.append(pkg.name)
-	print(transaction.to_add,transaction.to_remove)
+							warning += '\n'
+						warning += provide.name+' conflicts with '+pkg.name
+	if mode == 'updating':
+		for pkg in transaction.syncpkgs.values():
+			for replace in pkg.replaces:
+				provide = pyalpm.find_satisfier(transaction.localpkgs.values(), replace)
+				if provide:
+					if not common.format_pkg_name(replace) in transaction.syncpkgs.keys():
+						if provide.name != pkg.name:
+							if not pkg.name in transaction.localpkgs.keys():
+								if common.format_pkg_name(replace) in transaction.localpkgs.keys():
+									if not provide.name in transaction.to_remove:
+										transaction.to_remove.append(provide.name)
+										if warning:
+											warning += '\n'
+										warning += provide.name+' will be replaced by '+pkg.name
+									if not pkg.name in transaction.to_add:
+										transaction.to_add.append(pkg.name)
+	print('check result:', 'to add:', transaction.to_add, 'to remove:', transaction.to_remove)
 	if warning:
 		transaction.WarningDialog.format_secondary_text(warning)
 		response = transaction.WarningDialog.run()
 		if response:
 			transaction.WarningDialog.hide()
-	pkg_list = {}
-	for pkgname in transaction.to_remove:
-		pkg_list[pkgname] = transaction.localpkgs[pkgname]
-	for pkgname in transaction.to_add:
-		pkg = transaction.syncpkgs[pkgname]
-		for replace in pkg.replaces:
-			provide = pyalpm.find_satisfier(pkg_list.values(), replace)
-			if provide:
-				pkg_list.pop(provide.name)
-	for pkg in pkg_list.values():
-		required = pkg.compute_requiredby()
-		if required:
-			str_required = ''
-			for i in required:
-				if str_required:
-					str_required += ', '
-				str_required += i
-			if error:
-				error = error+'\n'
-			error += 'Cannot remove {} because it is needed by {}'.format(pkgname, str_required)
 	if error:
 			handle_error(error)
 
@@ -638,7 +648,7 @@ class Handler:
 					for pkgname in transaction_dict.keys():
 						transaction.to_add.append(pkgname)
 					transaction.to_remove = []
-					check_conflicts(transaction_dict.values())
+					check_conflicts('normal', transaction_dict.values())
 					if transaction.to_add:
 						if transaction.init_transaction(noconflicts = True):
 							for pkgname in transaction.to_add:
@@ -781,7 +791,7 @@ class Handler:
 					transaction.to_provide.remove(choose_list[line][1])
 			line += 1
 
-#Updater Handlers
+	#Updater Handlers
 	def on_UpdaterWindow_delete_event(self, *arg):
 		transaction.StopDaemon()
 		common.rm_pid_file()

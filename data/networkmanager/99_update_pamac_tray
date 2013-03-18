@@ -5,6 +5,6 @@ STATUS=$2 # The new state of the interface
 
 case "$STATUS" in
     'up') # $INTERFACE is up
-	/usr/bin/pamac-check-updates
+	/usr/bin/pamac-refresh
 	;;
 esac

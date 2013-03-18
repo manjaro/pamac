@@ -3,12 +3,19 @@
 
 from gi.repository import Gtk, GObject
 from subprocess import call
-from pamac import transaction
+from pamac import common, transaction
 import dbus
 import threading
 
 GObject.threads_init()
 bus = dbus.SystemBus()
+
+icon = ''
+info = ''
+update_icon = '/usr/share/pamac/icons/scalable/status/update-normal.svg'
+update_info = '{} Updates Available'
+noupdate_icon = '/usr/share/pamac/icons/scalable/status/update-enhancement.svg'
+noupdate_info = ' No Update Available'
 
 class Tray:
 	def __init__(self):
@@ -27,6 +34,7 @@ class Tray:
 		self.menu.append(self.menuItem)
 
 		self.statusIcon.connect('popup-menu', self.popup_menu_cb, self.menu)
+		self.statusIcon.connect('activate', self.activate_cb, self.menu)
 
 	def execute_update(self, widget, event, data = None):
 		call(['/usr/bin/pamac-updater'])
@@ -43,6 +51,9 @@ class Tray:
 			if data:
 				data.show_all()
 				data.popup(None, None, Gtk.StatusIcon.position_menu, self.statusIcon, 3, time)
+
+	def activate_cb(self, widget, data = None):
+		call(['notify-send', '-i', icon, '-u', 'normal', 'Pamac', info])
 
 	def update_icon(self, icon, info):
 		self.statusIcon.set_from_file(icon)
@@ -72,18 +83,19 @@ class PeriodicTask(threading.Thread):
 			self._finished.wait(self._interval)
 
 	def task(self):
-		call(['/usr/bin/pamac-check-updates'])
+		call(['/usr/bin/pamac-refresh'])
 
 def set_icon(updates):
-	print('set-icon')
-	#transaction.get_handle()
-	#do_syncfirst, updates = transaction.get_updates()
+	global icon
+	global info
 	if updates:
-		icon = '/usr/share/pamac/icons/24x24/status/update-normal.png'
-		info = 'Updates available'
+		icon = update_icon
+		info = update_info.format(updates)
+		if not common.pid_file_exists():
+			call(['notify-send', '-i', icon, '-u', 'normal', 'Pamac', info])
 	else:
-		icon = '/usr/share/pamac/icons/24x24/status/update-enhancement.png'
-		info = ' No update available'
+		icon = noupdate_icon
+		info = noupdate_info
 	print(info)
 	tray.update_icon(icon, info)
 
