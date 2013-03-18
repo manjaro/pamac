@@ -680,7 +680,7 @@ class Handler:
 
 	def on_Manager_RefreshButton_clicked(self, *arg):
 		do_refresh()
-		set_packages_list()
+		#set_packages_list()
 
 	def on_TransCancelButton_clicked(self, *arg):
 		global transaction_type

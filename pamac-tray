@@ -91,8 +91,7 @@ def set_icon(updates):
 	if updates:
 		icon = update_icon
 		info = update_info.format(updates)
-		if not common.pid_file_exists():
-			call(['notify-send', '-i', icon, '-u', 'normal', 'Pamac', info])
+		call(['notify-send', '-i', icon, '-u', 'normal', 'Pamac', info])
 	else:
 		icon = noupdate_icon
 		info = noupdate_info

@@ -185,7 +185,7 @@ class PacmanConfig(object):
 		return("PacmanConfig(options=%s, repos=%s)" % (str(self.options), str(self.repos)))
 
 pacman_conf = PacmanConfig(conf = "/etc/pacman.conf")
-handle = pacman_conf.initialize_alpm()
+handle = pacman_conf.initialize_alpm
 holdpkg = []
 syncfirst = []
 if 'HoldPkg' in pacman_conf.options:

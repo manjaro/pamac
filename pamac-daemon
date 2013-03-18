@@ -26,12 +26,17 @@ class PamacDBusService(dbus.service.Object):
 		self.percent = 0
 		self.total_size = 0
 		self.already_transferred = 0
-		config.handle.dlcb = self.cb_dl
-		config.handle.totaldlcb = self.totaldlcb
-		config.handle.eventcb = self.cb_event
-		config.handle.questioncb = self.cb_conv
-		config.handle.progresscb = self.cb_progress
-		config.handle.logcb = self.cb_log
+		self.handle = config.handle()
+
+	def get_handle(self):
+		print('daemon get handle')
+		self.handle = config.handle()
+		self.handle.dlcb = self.cb_dl
+		self.handle.totaldlcb = self.totaldlcb
+		self.handle.eventcb = self.cb_event
+		self.handle.questioncb = self.cb_conv
+		self.handle.progresscb = self.cb_progress
+		self.handle.logcb = self.cb_log
 
 	@dbus.service.signal('org.manjaro.pamac')
 	def EmitAction(self, action):
@@ -181,10 +186,18 @@ class PamacDBusService(dbus.service.Object):
 
 	def CheckUpdates(self):
 		updates = 0
-		for pkg in config.handle.get_localdb().pkgcache:
-			candidate = pyalpm.sync_newversion(pkg, config.handle.get_syncdbs())
-			if candidate:
-				updates += 1
+		if config.syncfirst:
+			for name in config.syncfirst:
+				pkg = self.handle.get_localdb().get_pkg(name)
+				if pkg:
+					candidate = pyalpm.sync_newversion(pkg, self.handle.get_syncdbs())
+					if candidate:
+						updates += 1
+		if not updates:
+			for pkg in self.handle.get_localdb().pkgcache:
+				candidate = pyalpm.sync_newversion(pkg, self.handle.get_syncdbs())
+				if candidate:
+					updates += 1
 		self.EmitAvailableUpdates(updates)
 
 	@dbus.service.method('org.manjaro.pamac', '', 's', async_callbacks=('success', 'nosuccess'))
@@ -193,20 +206,23 @@ class PamacDBusService(dbus.service.Object):
 			self.target = ''
 			self.percent = 0
 			self.error = ''
-			for db in config.handle.get_syncdbs():
+			for db in self.handle.get_syncdbs():
 				try:
-					self.t = config.handle.init_transaction()
+					self.t = self.handle.init_transaction()
 					db.update(force=False)
 				except pyalpm.error as e:
 					self.error += ' --> '+str(e)+'\n'
 					#break
 				finally:
-					self.t.release()
-			self.CheckUpdates()
+					try:
+						self.t.release()
+					except:
+						pass
 			if self.error:
 				self.EmitTransactionError(self.error)
 			else:
 				self.EmitTransactionDone('')
+				self.CheckUpdates()
 		self.task = Process(target=refresh)
 		self.task.start()
 		success('')
@@ -216,7 +232,8 @@ class PamacDBusService(dbus.service.Object):
 		self.error = ''
 		if self.policykit_test(sender,connexion,'org.manjaro.pamac.init_release'):
 			try:
-				self.t = config.handle.init_transaction(**options)
+				self.get_handle()
+				self.t = self.handle.init_transaction(**options)
 				print('Init:',self.t.flags)
 			except pyalpm.error as e:
 				self.error += ' --> '+str(e)+'\n'
@@ -240,7 +257,7 @@ class PamacDBusService(dbus.service.Object):
 	def Remove(self, pkgname):
 		self.error = ''
 		try:
-			pkg = config.handle.get_localdb().get_pkg(pkgname)
+			pkg = self.handle.get_localdb().get_pkg(pkgname)
 			if pkg is not None:
 				self.t.remove_pkg(pkg)
 		except pyalpm.error as e:
@@ -252,7 +269,7 @@ class PamacDBusService(dbus.service.Object):
 	def Add(self, pkgname):
 		self.error = ''
 		try:
-			for repo in config.handle.get_syncdbs():
+			for repo in self.handle.get_syncdbs():
 				pkg = repo.get_pkg(pkgname)
 				if pkg:
 					self.t.add_pkg(pkg)
