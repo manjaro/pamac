@@ -432,9 +432,9 @@ def check_conflicts(mode, pkg_list):
 	error = ''
 	pkgs = transaction.handle.get_localdb().search('linux3')
 	installed_linux = []
-	for i in pkgs:
-		if len(i.name) == 7:
-			installed_linux.append(i.name)
+	for item in pkgs:
+		if len(item.name) == 7:
+			installed_linux.append(item.name)
 	for to_install in transaction.to_add:
 		if 'linux3' in to_install:
 			if len(to_install) == 7:
@@ -517,21 +517,23 @@ def check_conflicts(mode, pkg_list):
 				provide = pyalpm.find_satisfier(transaction.localpkgs.values(), conflict)
 				if provide:
 					if provide.name != pkg.name:
-						required = pkg.compute_requiredby()
-						if required:
-							str_required = ''
-							for i in required:
-								if str_required:
-									str_required += ', '
-								str_required += i
-							if error:
-								error += '\n'
-							error += '{} conflicts with {} but cannot be removed because it is needed by {}'.format(provide.name, pkg.name, str_required)
-						elif not provide.name in transaction.to_remove:
-							transaction.to_remove.append(provide.name)
-							if warning:
-								warning += '\n'
-							warning += pkg.name+' conflicts with '+provide.name
+						new_provide = pyalpm.find_satisfier([transaction.syncpkgs[provide.name]], conflict)
+						if new_provide:
+							required = pkg.compute_requiredby()
+							if required:
+								str_required = ''
+								for item in required:
+									if str_required:
+										str_required += ', '
+									str_required += item
+								if error:
+									error += '\n'
+								error += '{} conflicts with {} but cannot be removed because it is needed by {}'.format(provide.name, pkg.name, str_required)
+							elif not provide.name in transaction.to_remove:
+								transaction.to_remove.append(provide.name)
+								if warning:
+									warning += '\n'
+								warning += pkg.name+' conflicts with '+provide.name
 				provide = pyalpm.find_satisfier(depends[0], conflict)
 				if provide:
 					if not common.format_pkg_name(conflict) == pkg.name:
@@ -548,21 +550,23 @@ def check_conflicts(mode, pkg_list):
 			provide = pyalpm.find_satisfier(depends[0], conflict)
 			if provide:
 				if provide.name != pkg.name:
-					required = pkg.compute_requiredby()
-					if required:
-						str_required = ''
-						for i in required:
-							if str_required:
-								str_required += ', '
-							str_required += i
-						if error:
-							error += '\n'
-						error += '{} conflicts with {} but cannot be removed because it is needed by {}'.format(provide.name, pkg.name, str_required)
-					elif not provide.name in transaction.to_remove:
-						transaction.to_remove.append(pkg.name)
-						if warning:
-							warning += '\n'
-						warning += provide.name+' conflicts with '+pkg.name
+					new_provide = pyalpm.find_satisfier([transaction.syncpkgs[pkg.name]], conflict)
+					if new_provide:
+						required = pkg.compute_requiredby()
+						if required:
+							str_required = ''
+							for item in required:
+								if str_required:
+									str_required += ', '
+								str_required += item
+							if error:
+								error += '\n'
+							error += '{} conflicts with {} but cannot be removed because it is needed by {}'.format(provide.name, pkg.name, str_required)
+						elif not provide.name in transaction.to_remove:
+							transaction.to_remove.append(pkg.name)
+							if warning:
+								warning += '\n'
+							warning += provide.name+' conflicts with '+pkg.name
 	if mode == 'updating':
 		for pkg in transaction.syncpkgs.values():
 			for replace in pkg.replaces:

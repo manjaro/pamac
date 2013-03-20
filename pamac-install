@@ -26,7 +26,7 @@ def install(pkgnames):
 		if not pkgname in transaction.localpkgs.keys():
 			transaction.to_add.append(pkgname)
 			pkg_to_install.append(transaction.syncpkgs[pkgname])
-	main.check_conflicts(pkg_to_install)
+	main.check_conflicts('normal', pkg_to_install)
 	if transaction.to_add:
 		if transaction.init_transaction(noconflicts = True, needed =True):
 			for pkgname in transaction.to_add:
