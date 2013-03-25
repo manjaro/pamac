@@ -2,7 +2,7 @@
 # -*-coding:utf-8 -*-
 
 from gi.repository import Gtk
-
+from gi.repository.GdkPixbuf import Pixbuf
 import pyalpm
 import dbus
 from collections import OrderedDict
@@ -20,15 +20,21 @@ interface = Gtk.Builder()
 
 interface.add_from_file('/usr/share/pamac/gui/manager.glade')
 ManagerWindow = interface.get_object("ManagerWindow")
-packages_list = interface.get_object('packages_list')
-groups_list = interface.get_object('groups_list')
 package_desc = interface.get_object('package_desc')
-toggle = interface.get_object('cellrenderertoggle1')
+#select_toggle = interface.get_object('cellrenderertoggle1')
 search_entry = interface.get_object('search_entry')
-tree2 = interface.get_object('treeview2_selection')
-tree1 = interface.get_object('treeview1_selection')
+search_list = interface.get_object('search_list')
+search_selection = interface.get_object('search_treeview_selection')
+packages_list = interface.get_object('packages_list')
+list_selection = interface.get_object('list_treeview_selection')
 installed_column = interface.get_object('installed_column')
 name_column = interface.get_object('name_column')
+groups_list = interface.get_object('groups_list')
+groups_selection = interface.get_object('groups_treeview_selection')
+state_list = interface.get_object('state_list')
+state_selection = interface.get_object('state_treeview_selection')
+repos_list = interface.get_object('repos_list')
+repos_selection = interface.get_object('repos_treeview_selection')
 ConfDialog = interface.get_object('ConfDialog')
 transaction_sum = interface.get_object('transaction_sum')
 sum_top_label = interface.get_object('sum_top_label')
@@ -50,10 +56,10 @@ update_label = interface.get_object('update_label')
 def action_signal_handler(action):
 	if action:
 		progress_label.set_text(action)
-	if ('Refreshing' in action) or ('Preparing' in action) or ('Downloading' in action) or ('Checking' in action) or ('Resolving' in action) or ('Loading' in action):
-		ProgressCancelButton.set_visible(True)
-	else:
+	if ('Installing' in action) or ('Removing' in action) or ('Updating' in action):
 		ProgressCancelButton.set_visible(False)
+	else:
+		ProgressCancelButton.set_visible(True)
 
 def icon_signal_handler(icon):
 	action_icon.set_from_file(icon)
@@ -76,14 +82,23 @@ bus.add_signal_receiver(percent_signal_handler, dbus_interface = "org.manjaro.pa
 installed_column.set_sort_column_id(1)
 name_column.set_sort_column_id(0)
 
+installed_icon = Pixbuf.new_from_file('/usr/share/pamac/icons/22x22/status/package-installed.png')
+uninstalled_icon = Pixbuf.new_from_file('/usr/share/pamac/icons/22x22/status/package-available.png')
+to_install_icon = Pixbuf.new_from_file('/usr/share/pamac/icons/22x22/status/package-add.png')
+to_remove_icon = Pixbuf.new_from_file('/usr/share/pamac/icons/22x22/status/package-delete.png')
+locked_icon = Pixbuf.new_from_file('/usr/share/pamac/icons/22x22/status/package-blocked.png')
+search_icon = Pixbuf.new_from_file('/usr/share/pamac/icons/22x22/status/package-search.png')
+ 
 pkg_name_list = []
 pkg_object_dict = {}
 pkg_installed_dict = {}
-list_dict = None
-current_group = None
+current_filter = (None, None)
 transaction_type = None
 transaction_dict = {}
 mode = None
+states = ['Installed', 'Uninstalled', 'Orphans', 'To install', 'To remove']
+for state in states:
+	state_list.append([state])
 
 def get_groups():
 	tmp_list = []
@@ -94,6 +109,11 @@ def get_groups():
 	tmp_list = sorted(tmp_list)
 	for name in tmp_list:
 		groups_list.append([name])
+
+def get_repos():
+	for repo in transaction.handle.get_syncdbs():
+		repos_list.append([repo.name])
+	repos_list.append(['local'])
 
 def set_list_dict_search(*patterns):
 	global pkg_name_list
@@ -114,6 +134,17 @@ def set_list_dict_search(*patterns):
 		pkg_installed_dict[pkg_object.name] = True
 		pkg_object_dict[pkg_object.name] = pkg_object
 	pkg_name_list = sorted(pkg_name_list)
+	if pkg_name_list:
+		joined = ''
+		for term in patterns:
+			joined += term
+		already_in_list = False
+		if len(search_list) != 0:
+			for line in search_list:
+				if joined == line[0]:
+					already_in_list = True
+		if not already_in_list:
+			search_list.append([joined])
 
 def set_list_dict_group(group):
 	global pkg_name_list
@@ -142,39 +173,153 @@ def set_list_dict_group(group):
 			pkg_object_dict[pkg_object.name] = pkg_object
 	pkg_name_list = sorted(pkg_name_list)
 
+def set_list_dict_installed():
+	global pkg_name_list
+	global pkg_object_dict
+	global pkg_installed_dict
+	pkg_name_list = []
+	pkg_object_dict = {}
+	pkg_installed_dict = {}
+	for pkg_object in transaction.localpkgs.values():
+		if not pkg_object.name in pkg_name_list:
+			pkg_name_list.append(pkg_object.name)
+			pkg_installed_dict[pkg_object.name] = True
+			pkg_object_dict[pkg_object.name] = pkg_object
+
+def set_list_dict_uninstalled():
+	global pkg_name_list
+	global pkg_object_dict
+	global pkg_installed_dict
+	pkg_name_list = []
+	pkg_object_dict = {}
+	pkg_installed_dict = {}
+	for pkg_object in transaction.syncpkgs.values():
+		if not pkg_object.name in transaction.localpkgs.keys():
+			if not pkg_object.name in pkg_name_list:
+				pkg_name_list.append(pkg_object.name)
+				pkg_installed_dict[pkg_object.name] = False
+				pkg_object_dict[pkg_object.name] = pkg_object
+
+def set_list_dict_local():
+	global pkg_name_list
+	global pkg_object_dict
+	global pkg_installed_dict
+	pkg_name_list = []
+	pkg_object_dict = {}
+	pkg_installed_dict = {}
+	for pkg_object in transaction.localpkgs.values():
+		if (not pkg_object.name in pkg_name_list) and (not pkg_object.name in transaction.syncpkgs.keys()):
+			pkg_name_list.append(pkg_object.name)
+			pkg_installed_dict[pkg_object.name] = True
+			pkg_object_dict[pkg_object.name] = pkg_object
+
+def set_list_dict_orphans():
+	global pkg_name_list
+	global pkg_object_dict
+	global pkg_installed_dict
+	pkg_name_list = []
+	pkg_object_dict = {}
+	pkg_installed_dict = {}
+	for pkg_object in transaction.localpkgs.values():
+		if (pkg_object.reason == 1) and (not pkg_object.compute_requiredby()):
+			pkg_name_list.append(pkg_object.name)
+			pkg_installed_dict[pkg_object.name] = True
+			pkg_object_dict[pkg_object.name] = pkg_object
+
+def set_list_dict_to_install():
+	global pkg_name_list
+	global pkg_object_dict
+	global pkg_installed_dict
+	pkg_name_list = []
+	pkg_object_dict = {}
+	pkg_installed_dict = {}
+	if transaction_type == "install":
+		for pkg_object in transaction_dict.values():
+			if not pkg_object.name in pkg_name_list:
+				pkg_name_list.append(pkg_object.name)
+				pkg_installed_dict[pkg_object.name] = False
+				pkg_object_dict[pkg_object.name] = pkg_object
+
+def set_list_dict_to_remove():
+	global pkg_name_list
+	global pkg_object_dict
+	global pkg_installed_dict
+	pkg_name_list = []
+	pkg_object_dict = {}
+	pkg_installed_dict = {}
+	if transaction_type == "remove":
+		for pkg_object in transaction_dict.values():
+			if not pkg_object.name in pkg_name_list:
+				pkg_name_list.append(pkg_object.name)
+				pkg_installed_dict[pkg_object.name] = True
+				pkg_object_dict[pkg_object.name] = pkg_object
+
+def set_list_dict_repos(repo):
+	global pkg_name_list
+	global pkg_object_dict
+	global pkg_installed_dict
+	pkg_name_list = []
+	pkg_object_dict = {}
+	pkg_installed_dict = {}
+	for db in  transaction.handle.get_syncdbs():
+		if db.name == repo:
+			for pkg_object in db.pkgcache:
+				if not pkg_object.name in pkg_name_list:
+					pkg_name_list.append(pkg_object.name)
+				if pkg_object.name in transaction.localpkgs.keys():
+					pkg_installed_dict[pkg_object.name] = True
+					pkg_object_dict[pkg_object.name] = transaction.localpkgs[pkg_object.name]
+				else:
+					pkg_installed_dict[pkg_object.name] = False
+					pkg_object_dict[pkg_object.name] = pkg_object
+
 def refresh_packages_list():
-	global packages_list
 	packages_list.clear()
 	if not pkg_name_list:
-		packages_list.append(["No package found", False, False])
+		packages_list.append(["No package found", False, False, False, search_icon])
 	else:
 		for name in pkg_name_list:
 			if name in config.holdpkg:
-				packages_list.append([name, pkg_installed_dict[name], False])
+				packages_list.append([name, True, False, True, locked_icon])
 			elif transaction_type is "install":
 				if pkg_installed_dict[name] is True:
-					packages_list.append([name, pkg_installed_dict[name], False])
+					packages_list.append([name, True, False, True, installed_icon])
 				elif name in transaction_dict.keys():
-					packages_list.append([name, True, True])
+					packages_list.append([name, False, True, True, to_install_icon])
 				else:
-					packages_list.append([name, pkg_installed_dict[name], True])
+					packages_list.append([name, False, True, False, uninstalled_icon])
 			elif transaction_type is "remove":
 				if pkg_installed_dict[name] is False:
-					packages_list.append([name, pkg_installed_dict[name], False])
+					packages_list.append([name, False, False, False, uninstalled_icon])
 				elif name in transaction_dict.keys():
-					packages_list.append([name, False, True])
+					packages_list.append([name, True, True, False, to_remove_icon])
 				else:
-					packages_list.append([name, pkg_installed_dict[name], True])
+					packages_list.append([name, True, True, True, installed_icon])
+			elif pkg_installed_dict[name] is True:
+				packages_list.append([name, True, True, True, installed_icon])
 			else:
-				packages_list.append([name, pkg_installed_dict[name], True])
+				packages_list.append([name, False, True, False, uninstalled_icon])
 
 def set_packages_list():
-	global list_dict
-	if list_dict == "search":
-		search_strings_list = search_entry.get_text().split()
-		set_list_dict_search(*search_strings_list)
-	if list_dict == "group":
-		set_list_dict_group(current_group)
+	if current_filter[0] == 'search':
+		print(current_filter[1])
+		set_list_dict_search(*current_filter[1])
+	if current_filter[0] == 'group':
+		set_list_dict_group(current_filter[1])
+	if current_filter[0] == 'installed':
+		set_list_dict_installed()
+	if current_filter[0] == 'uninstalled':
+		set_list_dict_uninstalled()
+	if current_filter[0] == 'orphans':
+		set_list_dict_orphans()
+	if current_filter[0] == 'local':
+		set_list_dict_local()
+	if current_filter[0] == 'to_install':
+		set_list_dict_to_install()
+	if current_filter[0] == 'to_remove':
+		set_list_dict_to_remove()
+	if current_filter[0] == 'repo':
+		set_list_dict_repos(current_filter[1])
 	refresh_packages_list()
 
 def set_desc(pkg, style):
@@ -292,6 +437,7 @@ def handle_error(error):
 		transaction_dict.clear()
 		transaction_type = None
 		transaction.update_db()
+		get_repos()
 		get_groups()
 		set_packages_list()
 	if mode == 'updater':
@@ -317,6 +463,7 @@ def handle_reply(reply):
 	transaction.to_remove = []
 	transaction_dict.clear()
 	transaction.update_db()
+	get_repos()
 	get_groups()
 	if (transaction_type == "install") or (transaction_type == "remove"):
 		transaction_type = None
@@ -491,7 +638,6 @@ def check_conflicts(mode, pkg_list):
 								already_provided = False
 								for pkgname in transaction.to_add:
 									_pkg = transaction.syncpkgs[pkgname]
-									print('test',transaction.to_add)
 									provide = pyalpm.find_satisfier([_pkg], depend)
 									if provide:
 										already_provided = True
@@ -517,23 +663,24 @@ def check_conflicts(mode, pkg_list):
 				provide = pyalpm.find_satisfier(transaction.localpkgs.values(), conflict)
 				if provide:
 					if provide.name != pkg.name:
-						new_provide = pyalpm.find_satisfier([transaction.syncpkgs[provide.name]], conflict)
-						if new_provide:
-							required = pkg.compute_requiredby()
-							if required:
-								str_required = ''
-								for item in required:
-									if str_required:
-										str_required += ', '
-									str_required += item
-								if error:
-									error += '\n'
-								error += '{} conflicts with {} but cannot be removed because it is needed by {}'.format(provide.name, pkg.name, str_required)
-							elif not provide.name in transaction.to_remove:
-								transaction.to_remove.append(provide.name)
-								if warning:
-									warning += '\n'
-								warning += pkg.name+' conflicts with '+provide.name
+						if transaction.syncpkgs.__contains__(provide.name):
+							new_provide = pyalpm.find_satisfier([transaction.syncpkgs[provide.name]], conflict)
+							if new_provide:
+								required = pkg.compute_requiredby()
+								if required:
+									str_required = ''
+									for item in required:
+										if str_required:
+											str_required += ', '
+										str_required += item
+									if error:
+										error += '\n'
+									error += '{} conflicts with {} but cannot be removed because it is needed by {}'.format(provide.name, pkg.name, str_required)
+								elif not provide.name in transaction.to_remove:
+									transaction.to_remove.append(provide.name)
+									if warning:
+										warning += '\n'
+									warning += pkg.name+' conflicts with '+provide.name
 				provide = pyalpm.find_satisfier(depends[0], conflict)
 				if provide:
 					if not common.format_pkg_name(conflict) == pkg.name:
@@ -550,23 +697,24 @@ def check_conflicts(mode, pkg_list):
 			provide = pyalpm.find_satisfier(depends[0], conflict)
 			if provide:
 				if provide.name != pkg.name:
-					new_provide = pyalpm.find_satisfier([transaction.syncpkgs[pkg.name]], conflict)
-					if new_provide:
-						required = pkg.compute_requiredby()
-						if required:
-							str_required = ''
-							for item in required:
-								if str_required:
-									str_required += ', '
-								str_required += item
-							if error:
-								error += '\n'
-							error += '{} conflicts with {} but cannot be removed because it is needed by {}'.format(provide.name, pkg.name, str_required)
-						elif not provide.name in transaction.to_remove:
-							transaction.to_remove.append(pkg.name)
-							if warning:
-								warning += '\n'
-							warning += provide.name+' conflicts with '+pkg.name
+					if transaction.syncpkgs.__contains__(pkg.name):
+						new_provide = pyalpm.find_satisfier([transaction.syncpkgs[pkg.name]], conflict)
+						if new_provide:
+							required = pkg.compute_requiredby()
+							if required:
+								str_required = ''
+								for item in required:
+									if str_required:
+										str_required += ', '
+									str_required += item
+								if error:
+									error += '\n'
+								error += '{} conflicts with {} but cannot be removed because it is needed by {}'.format(provide.name, pkg.name, str_required)
+							elif not provide.name in transaction.to_remove:
+								transaction.to_remove.append(pkg.name)
+								if warning:
+									warning += '\n'
+								warning += provide.name+' conflicts with '+pkg.name
 	if mode == 'updating':
 		for pkg in transaction.syncpkgs.values():
 			for replace in pkg.replaces:
@@ -684,7 +832,6 @@ class Handler:
 
 	def on_Manager_RefreshButton_clicked(self, *arg):
 		do_refresh()
-		#set_packages_list()
 
 	def on_TransCancelButton_clicked(self, *arg):
 		global transaction_type
@@ -699,23 +846,18 @@ class Handler:
 		ConfDialog.hide()
 		finalize()
 
-	def on_search_button_clicked(self, widget):
-		global list_dict
-		list_dict = "search"
-		set_packages_list()
-
 	def on_search_entry_icon_press(self, *arg):
-		global list_dict
-		list_dict = "search"
+		global current_filter
+		current_filter = ('search', search_entry.get_text().split())
 		set_packages_list()
 
 	def on_search_entry_activate(self, widget):
-		global list_dict
-		list_dict = "search"
+		global current_filter
+		current_filter = ('search', search_entry.get_text().split())
 		set_packages_list()
 
-	def on_treeview2_selection_changed(self, widget):
-		liste, line = tree2.get_selected()
+	def on_list_treeview_selection_changed(self, widget):
+		liste, line = list_selection.get_selected()
 		if line is not None:
 			if packages_list[line][0] in pkg_object_dict.keys():
 				pkg_object = pkg_object_dict[packages_list[line][0]]
@@ -725,13 +867,44 @@ class Handler:
 					style = "sync"
 				set_desc(pkg_object, style)
 
-	def on_treeview1_selection_changed(self, widget):
-		global list_dict
-		global current_group
-		liste, line = tree1.get_selected()
+	def on_search_treeview_selection_changed(self, widget):
+		global current_filter
+		liste, line = search_selection.get_selected()
 		if line is not None:
-			list_dict = "group"
-			current_group = groups_list[line][0]
+			current_filter = ('search', search_list[line][0].split())
+			set_packages_list()
+
+	def on_groups_treeview_selection_changed(self, widget):
+		global current_filter
+		liste, line = groups_selection.get_selected()
+		if line is not None:
+			current_filter = ('group', groups_list[line][0])
+			set_packages_list()
+
+	def on_state_treeview_selection_changed(self, widget):
+		global current_filter
+		liste, line = state_selection.get_selected()
+		if line is not None:
+			if state_list[line][0] == 'Installed':
+				current_filter = ('installed', None)
+			if state_list[line][0] == 'Uninstalled':
+				current_filter = ('uninstalled', None)
+			if state_list[line][0] == 'Orphans':
+				current_filter = ('orphans', None)
+			if state_list[line][0] == 'To install':
+				current_filter = ('to_install', None)
+			if state_list[line][0] == 'To remove':
+				current_filter = ('to_remove', None)
+			set_packages_list()
+
+	def on_repos_treeview_selection_changed(self, widget):
+		global current_filter
+		liste, line = repos_selection.get_selected()
+		if line is not None:
+			if repos_list[line][0] == 'local':
+				current_filter = ('local', None)
+			else:
+				current_filter = ('repo', repos_list[line][0])
 			set_packages_list()
 
 	def on_installed_column_clicked(self, widget):
@@ -745,6 +918,10 @@ class Handler:
 		global transaction_dict
 		global pkg_object_dict
 		if packages_list[line][0] in transaction_dict.keys():
+			if transaction_type == "remove":
+				packages_list[line][4] = installed_icon
+			if transaction_type == "install":
+				packages_list[line][4] = uninstalled_icon
 			transaction_dict.pop(packages_list[line][0])
 			if not transaction_dict:
 				transaction_type = None
@@ -755,11 +932,11 @@ class Handler:
 					else:
 						packages_list[lin][2] = True
 					lin += 1
-			pass
 		else:
 			if packages_list[line][1] is True:
 				transaction_type = "remove"
 				transaction_dict[packages_list[line][0]] = pkg_object_dict[packages_list[line][0]]
+				packages_list[line][4] = to_remove_icon
 				lin = 0
 				while lin <  len(packages_list):
 					if not packages_list[lin][0] in transaction_dict.keys():
@@ -769,13 +946,14 @@ class Handler:
 			if packages_list[line][1] is False:
 				transaction_type = "install"
 				transaction_dict[packages_list[line][0]] = pkg_object_dict[packages_list[line][0]]
+				packages_list[line][4] = to_install_icon
 				lin = 0
 				while lin <  len(packages_list):
 					if not packages_list[lin][0] in transaction_dict.keys():
 						if packages_list[lin][1] is True:
 							packages_list[lin][2] = False
 					lin += 1
-		packages_list[line][1] = not packages_list[line][1]
+		packages_list[line][3] = not packages_list[line][3]
 		packages_list[line][2] = True
 
 	def on_cellrenderertoggle2_toggled(self, widget, line):

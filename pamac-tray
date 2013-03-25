@@ -2,7 +2,7 @@
 # -*-coding:utf-8-*-
 
 from gi.repository import Gtk, GObject
-from subprocess import call
+from subprocess import Popen
 from pamac import common, transaction
 import dbus
 import threading
@@ -37,10 +37,10 @@ class Tray:
 		self.statusIcon.connect('activate', self.activate_cb, self.menu)
 
 	def execute_update(self, widget, event, data = None):
-		call(['/usr/bin/pamac-updater'])
+		Popen(['/usr/bin/pamac-updater'])
 
 	def execute_manager(self, widget, event, data = None):
-		call(['/usr/bin/pamac-manager'])
+		Popen(['/usr/bin/pamac-manager'])
 
 	def quit_tray(self, widget, data = None):
 		t.shutdown()
@@ -53,7 +53,7 @@ class Tray:
 				data.popup(None, None, Gtk.StatusIcon.position_menu, self.statusIcon, 3, time)
 
 	def activate_cb(self, widget, data = None):
-		call(['notify-send', '-i', icon, '-u', 'normal', 'Pamac', info])
+		Popen(['notify-send', '-i', icon, '-u', 'normal', 'Pamac', info])
 
 	def update_icon(self, icon, info):
 		self.statusIcon.set_from_file(icon)
@@ -83,7 +83,7 @@ class PeriodicTask(threading.Thread):
 			self._finished.wait(self._interval)
 
 	def task(self):
-		call(['/usr/bin/pamac-refresh'])
+		Popen(['/usr/bin/pamac-refresh'])
 
 def set_icon(updates):
 	global icon
@@ -91,7 +91,7 @@ def set_icon(updates):
 	if updates:
 		icon = update_icon
 		info = update_info.format(updates)
-		call(['notify-send', '-i', icon, '-u', 'normal', 'Pamac', info])
+		Popen(['notify-send', '-i', icon, '-u', 'normal', 'Pamac', info])
 	else:
 		icon = noupdate_icon
 		info = noupdate_info

@@ -29,7 +29,7 @@ InfoDialog = interface.get_object('InfoDialog')
 
 def get_handle():
 	global handle
-	handle = config.pacman_conf.initialize_alpm()
+	handle = config.handle()
 	print('get handle')
 
 def update_db():
