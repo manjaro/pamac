@@ -51,7 +51,8 @@ ProgressCancelButton = interface.get_object('ProgressCancelButton')
 interface.add_from_file('/usr/share/pamac/gui/updater.glade')
 UpdaterWindow = interface.get_object("UpdaterWindow")
 update_listore = interface.get_object('update_list')
-update_label = interface.get_object('update_label')
+update_top_label = interface.get_object('update_top_label')
+update_bottom_label = interface.get_object('update_bottom_label')
 
 def action_signal_handler(action):
 	if action:
@@ -79,9 +80,6 @@ bus.add_signal_receiver(icon_signal_handler, dbus_interface = "org.manjaro.pamac
 bus.add_signal_receiver(target_signal_handler, dbus_interface = "org.manjaro.pamac", signal_name = "EmitTarget")
 bus.add_signal_receiver(percent_signal_handler, dbus_interface = "org.manjaro.pamac", signal_name = "EmitPercent")
 
-installed_column.set_sort_column_id(1)
-name_column.set_sort_column_id(0)
-
 installed_icon = Pixbuf.new_from_file('/usr/share/pamac/icons/22x22/status/package-installed.png')
 uninstalled_icon = Pixbuf.new_from_file('/usr/share/pamac/icons/22x22/status/package-available.png')
 to_install_icon = Pixbuf.new_from_file('/usr/share/pamac/icons/22x22/status/package-add.png')
@@ -101,6 +99,7 @@ for state in states:
 	state_list.append([state])
 
 def get_groups():
+	groups_list.clear()
 	tmp_list = []
 	for repo in transaction.handle.get_syncdbs():
 		for name, pkgs in repo.grpcache:
@@ -111,6 +110,7 @@ def get_groups():
 		groups_list.append([name])
 
 def get_repos():
+	repos_list.clear()
 	for repo in transaction.handle.get_syncdbs():
 		repos_list.append([repo.name])
 	repos_list.append(['local'])
@@ -276,33 +276,32 @@ def set_list_dict_repos(repo):
 def refresh_packages_list():
 	packages_list.clear()
 	if not pkg_name_list:
-		packages_list.append(["No package found", False, False, False, search_icon])
+		packages_list.append(["No package found", False, False, False, search_icon, '', 0])
 	else:
 		for name in pkg_name_list:
 			if name in config.holdpkg:
-				packages_list.append([name, True, False, True, locked_icon])
+				packages_list.append([name, True, False, True, locked_icon, '', 0])
 			elif transaction_type is "install":
-				if pkg_installed_dict[name] is True:
-					packages_list.append([name, True, False, True, installed_icon])
+				if transaction.localpkgs.__contains__(name):
+					packages_list.append([name, True, False, True, installed_icon, common.format_size(transaction.localpkgs[name].isize), transaction.localpkgs[name].isize])
 				elif name in transaction_dict.keys():
-					packages_list.append([name, False, True, True, to_install_icon])
+					packages_list.append([name, False, True, True, to_install_icon, common.format_size(transaction.syncpkgs[name].size), transaction.syncpkgs[name].size])
 				else:
-					packages_list.append([name, False, True, False, uninstalled_icon])
+					packages_list.append([name, False, True, False, uninstalled_icon, common.format_size(transaction.syncpkgs[name].size), transaction.syncpkgs[name].size])
 			elif transaction_type is "remove":
-				if pkg_installed_dict[name] is False:
-					packages_list.append([name, False, False, False, uninstalled_icon])
+				if not transaction.localpkgs.__contains__(name):
+					packages_list.append([name, False, False, False, uninstalled_icon, common.format_size(transaction.syncpkgs[name].size), transaction.syncpkgs[name].size])
 				elif name in transaction_dict.keys():
-					packages_list.append([name, True, True, False, to_remove_icon])
+					packages_list.append([name, True, True, False, to_remove_icon, common.format_size(transaction.localpkgs[name].isize), transaction.localpkgs[name].isize])
 				else:
-					packages_list.append([name, True, True, True, installed_icon])
-			elif pkg_installed_dict[name] is True:
-				packages_list.append([name, True, True, True, installed_icon])
+					packages_list.append([name, True, True, True, installed_icon, common.format_size(transaction.localpkgs[name].isize), transaction.localpkgs[name].isize])
+			elif transaction.localpkgs.__contains__(name):
+				packages_list.append([name, True, True, True, installed_icon, common.format_size(transaction.localpkgs[name].isize), transaction.localpkgs[name].isize])
 			else:
-				packages_list.append([name, False, True, False, uninstalled_icon])
+				packages_list.append([name, False, True, False, uninstalled_icon, common.format_size(transaction.syncpkgs[name].size), transaction.syncpkgs[name].size])
 
 def set_packages_list():
 	if current_filter[0] == 'search':
-		print(current_filter[1])
 		set_list_dict_search(*current_filter[1])
 	if current_filter[0] == 'group':
 		set_list_dict_group(current_filter[1])
@@ -412,8 +411,10 @@ def set_transaction_sum():
 				while i < len(transaction.to_update):
 					transaction_sum.append([' ', transaction.to_update[i]])
 					i += 1
-		sum_bottom_label.set_markup('')
-		#sum_bottom_label.set_markup('<b>Total Download size: </b>'+common.format_size(totaldlcb))
+		dsize = 0
+		for name in transaction.to_add:
+			dsize += transaction.syncpkgs[name].download_size
+		sum_bottom_label.set_markup('<b>Total Download size: </b>'+common.format_size(dsize))
 	sum_top_label.set_markup('<big><b>Transaction Summary</b></big>')
 
 def handle_error(error):
@@ -493,16 +494,20 @@ def do_refresh():
 def have_updates():
 	do_syncfirst, updates = transaction.get_updates()
 	update_listore.clear()
-	update_label.set_justify(Gtk.Justification.CENTER)
+	update_top_label.set_justify(Gtk.Justification.CENTER)
 	if not updates:
-		update_listore.append(["", ""])
-		update_label.set_markup("<big><b>No update available</b></big>")
+		update_listore.append(['', ''])
+		update_bottom_label.set_markup('')
+		update_top_label.set_markup('<big><b>No update available</b></big>')
 		return False
 	else:
+		dsize = 0
 		for pkg in updates:
 			pkgname = pkg.name+" "+pkg.version
 			update_listore.append([pkgname, common.format_size(pkg.size)])
-		update_label.set_markup("<big><b>Available updates</b></big>")
+			dsize += pkg.download_size
+		update_bottom_label.set_markup('<b>Total Download size: </b>'+common.format_size(dsize))
+		update_top_label.set_markup('<big><b>Available updates</b></big>')
 		return True
 
 def do_sysupgrade():
@@ -907,12 +912,6 @@ class Handler:
 				current_filter = ('repo', repos_list[line][0])
 			set_packages_list()
 
-	def on_installed_column_clicked(self, widget):
-		installed_column.set_sort_column_id(1)
-
-	def on_name_column_clicked(self, widget):
-		name_column.set_sort_column_id(0)
-
 	def on_cellrenderertoggle1_toggled(self, widget, line):
 		global transaction_type
 		global transaction_dict
@@ -1013,7 +1012,8 @@ def main(_mode):
 		if mode == 'manager':
 			ManagerWindow.show_all()
 		if mode == 'updater':
-			update_label.set_markup("<big><b>Available updates</b></big>")
+			update_top_label.set_markup('<big><b>Available updates</b></big>')
+			update_bottom_label.set_markup('')
 			UpdaterWindow.show_all()
 		while Gtk.events_pending():
 			Gtk.main_iteration()
