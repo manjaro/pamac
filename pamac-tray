@@ -3,7 +3,7 @@
 
 from gi.repository import Gtk, GObject
 from subprocess import Popen
-from pamac import common, transaction
+from pamac import transaction
 import dbus
 import threading
 

@@ -53,6 +53,7 @@ bus.add_signal_receiver(error, dbus_interface = "org.manjaro.pamac", signal_name
 
 loop = GObject.MainLoop()
 
+transaction.get_handle()
 transaction.update_db()
 do_syncfirst, updates = transaction.get_updates()
 

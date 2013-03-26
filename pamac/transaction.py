@@ -33,7 +33,7 @@ def get_handle():
 	print('get handle')
 
 def update_db():
-	get_handle()
+	#get_handle()
 	global syncpkgs
 	global localpkgs
 	syncpkgs = OrderedDict()

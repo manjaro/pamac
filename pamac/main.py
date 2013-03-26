@@ -285,12 +285,12 @@ def refresh_packages_list():
 				if transaction.localpkgs.__contains__(name):
 					packages_list.append([name, True, False, True, installed_icon, common.format_size(transaction.localpkgs[name].isize), transaction.localpkgs[name].isize])
 				elif name in transaction_dict.keys():
-					packages_list.append([name, False, True, True, to_install_icon, common.format_size(transaction.syncpkgs[name].size), transaction.syncpkgs[name].size])
+					packages_list.append([name, False, True, True, to_install_icon, common.format_size(transaction.syncpkgs[name].isize), transaction.syncpkgs[name].isize])
 				else:
-					packages_list.append([name, False, True, False, uninstalled_icon, common.format_size(transaction.syncpkgs[name].size), transaction.syncpkgs[name].size])
+					packages_list.append([name, False, True, False, uninstalled_icon, common.format_size(transaction.syncpkgs[name].isize), transaction.syncpkgs[name].isize])
 			elif transaction_type is "remove":
 				if not transaction.localpkgs.__contains__(name):
-					packages_list.append([name, False, False, False, uninstalled_icon, common.format_size(transaction.syncpkgs[name].size), transaction.syncpkgs[name].size])
+					packages_list.append([name, False, False, False, uninstalled_icon, common.format_size(transaction.syncpkgs[name].isize), transaction.syncpkgs[name].isize])
 				elif name in transaction_dict.keys():
 					packages_list.append([name, True, True, False, to_remove_icon, common.format_size(transaction.localpkgs[name].isize), transaction.localpkgs[name].isize])
 				else:
@@ -298,7 +298,7 @@ def refresh_packages_list():
 			elif transaction.localpkgs.__contains__(name):
 				packages_list.append([name, True, True, True, installed_icon, common.format_size(transaction.localpkgs[name].isize), transaction.localpkgs[name].isize])
 			else:
-				packages_list.append([name, False, True, False, uninstalled_icon, common.format_size(transaction.syncpkgs[name].size), transaction.syncpkgs[name].size])
+				packages_list.append([name, False, True, False, uninstalled_icon, common.format_size(transaction.syncpkgs[name].isize), transaction.syncpkgs[name].isize])
 
 def set_packages_list():
 	if current_filter[0] == 'search':
@@ -349,16 +349,15 @@ def set_desc(pkg, style):
 	package_desc.append(['Conflicts With:', ' '.join(pkg.conflicts)])
 	package_desc.append(['Replaces:', ' '.join(pkg.replaces)])
 	if style == 'sync':
-		package_desc.append(['Download Size:', common.format_size(pkg.size)])
-	if style == 'file':
 		package_desc.append(['Compressed Size:', common.format_size(pkg.size)])
-	package_desc.append(['Installed Size:', common.format_size(pkg.isize)])
+		package_desc.append(['Download Size:', common.format_size(pkg.download_size)])
+	if style == 'local':
+		package_desc.append(['Installed Size:', common.format_size(pkg.isize)])
 	package_desc.append(['Packager:', pkg.packager])
 	package_desc.append(['Architecture:', pkg.arch])
-	package_desc.append(['Build Date:', strftime("%a %d %b %Y %X %Z", localtime(pkg.builddate))])
-
+	#package_desc.append(['Build Date:', strftime("%a %d %b %Y %X %Z", localtime(pkg.builddate))])
 	if style == 'local':
-		package_desc.append(['Install Date:', strftime("%a %d %b %Y %X %Z", localtime(pkg.installdate))])
+		#package_desc.append(['Install Date:', strftime("%a %d %b %Y %X %Z", localtime(pkg.installdate))])
 		if pkg.reason == pyalpm.PKG_REASON_EXPLICIT:
 			reason = 'Explicitly installed'
 		elif pkg.reason == pyalpm.PKG_REASON_DEPEND:
@@ -366,18 +365,17 @@ def set_desc(pkg, style):
 		else:
 			reason = 'N/A'
 		package_desc.append(['Install Reason:', reason])
-	if style != 'sync':
-		package_desc.append(['Install Script:', 'Yes' if pkg.has_scriptlet else 'No'])
 	if style == 'sync':
-		package_desc.append(['MD5 Sum:', pkg.md5sum])
-		package_desc.append(['SHA256 Sum:', pkg.sha256sum])
+		#package_desc.append(['Install Script:', 'Yes' if pkg.has_scriptlet else 'No'])
+		#package_desc.append(['MD5 Sum:', pkg.md5sum])
+		#package_desc.append(['SHA256 Sum:', pkg.sha256sum])
 		package_desc.append(['Signatures:', 'Yes' if pkg.base64_sig else 'No'])
-
 	if style == 'local':
 		if len(pkg.backup) == 0:
 			package_desc.append(['Backup files:', ''])
 		else:
-			package_desc.append(['Backup files:', '\n'.join(["%s %s" % (md5, file) for (file, md5) in pkg.backup])])
+			#package_desc.append(['Backup files:', '\n'.join(["%s %s" % (md5, file) for (file, md5) in pkg.backup])])
+			package_desc.append(['Backup files:', '\n'.join(["%s" % (file) for (file, md5) in pkg.backup])])
 
 def set_transaction_sum():
 	transaction_sum.clear()
@@ -437,10 +435,9 @@ def handle_error(error):
 		transaction.to_remove = []
 		transaction_dict.clear()
 		transaction_type = None
+		transaction.get_handle()
 		transaction.update_db()
-		get_repos()
-		get_groups()
-		set_packages_list()
+		refresh_packages_list()
 	if mode == 'updater':
 		have_updates()
 
@@ -463,12 +460,11 @@ def handle_reply(reply):
 	transaction.to_add = []
 	transaction.to_remove = []
 	transaction_dict.clear()
+	transaction.get_handle()
 	transaction.update_db()
-	get_repos()
-	get_groups()
 	if (transaction_type == "install") or (transaction_type == "remove"):
 		transaction_type = None
-		set_packages_list()
+		refresh_packages_list()
 	else:
 		transaction_type = None
 	if have_updates():
@@ -1009,6 +1005,9 @@ def main(_mode):
 		mode = _mode
 		interface.connect_signals(Handler())
 		do_refresh()
+		transaction.get_handle()
+		get_groups()
+		get_repos()
 		if mode == 'manager':
 			ManagerWindow.show_all()
 		if mode == 'updater':
