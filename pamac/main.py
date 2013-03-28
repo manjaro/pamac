@@ -20,8 +20,14 @@ interface = Gtk.Builder()
 
 interface.add_from_file('/usr/share/pamac/gui/manager.glade')
 ManagerWindow = interface.get_object("ManagerWindow")
-package_desc = interface.get_object('package_desc')
-#select_toggle = interface.get_object('cellrenderertoggle1')
+details_list = interface.get_object('details_list')
+deps_list = interface.get_object('deps_list')
+files_list = interface.get_object('files_list')
+files_scrolledwindow = interface.get_object('files_scrolledwindow')
+name_label = interface.get_object('name_label')
+desc_label = interface.get_object('desc_label')
+link_label = interface.get_object('link_label')
+licenses_label = interface.get_object('licenses_label')
 search_entry = interface.get_object('search_entry')
 search_list = interface.get_object('search_list')
 search_selection = interface.get_object('search_treeview_selection')
@@ -57,7 +63,7 @@ update_bottom_label = interface.get_object('update_bottom_label')
 def action_signal_handler(action):
 	if action:
 		progress_label.set_text(action)
-	if ('Installing' in action) or ('Removing' in action) or ('Updating' in action):
+	if ('Installing' in action) or ('Removing' in action) or ('Updating' in action) or ('Configuring' in action):
 		ProgressCancelButton.set_visible(False)
 	else:
 		ProgressCancelButton.set_visible(True)
@@ -321,64 +327,70 @@ def set_packages_list():
 		set_list_dict_repos(current_filter[1])
 	refresh_packages_list()
 
-def set_desc(pkg, style):
-	"""
-	Args :
-	  pkg_object -- the package to display
-	  style -- 'local' or 'sync'
-	"""
+def set_infos_list(pkg):
+	name_label.set_markup('<big><b>{}  {}</b></big>'.format(pkg.name, pkg.version))
+	desc_label.set_markup(pkg.desc)
+	link_label.set_markup('<a href=\"{url}\" title=\"{url}\">{url}</a>'.format(url = pkg.url))
+	licenses_label.set_markup('Licenses: {}'.format(' '.join(pkg.licenses)))
 
-	if style not in ['local', 'sync', 'file']:
-		raise ValueError('Invalid style for package info formatting')
+def set_deps_list(pkg, style):
+	deps_list.clear()
+	if pkg.depends:
+		deps_list.append(['Depends On:', '\n'.join(pkg.depends)])
+	if pkg.optdepends:
+		deps_list.append(['Optional Deps:', '\n'.join(pkg.optdepends)])
+	if style == 'local':
+		if pkg.compute_requiredby():
+			deps_list.append(['Required By:', '\n'.join(pkg.compute_requiredby())])
+	if pkg.provides:
+		details_list.append(['Provides:', ' '.join(pkg.provides)])
+	if pkg.replaces:
+		details_list.append(['Replaces:', ' '.join(pkg.replaces)])
+	if pkg.conflicts:
+		details_list.append(['Conflicts With:', ' '.join(pkg.conflicts)])
 
-	package_desc.clear()
-
+def set_details_list(pkg, style):
+	details_list.clear()
 	if style == 'sync':
-		package_desc.append(['Repository:', pkg.db.name])
-	package_desc.append(['Name:', pkg.name])
-	package_desc.append(['Version:', pkg.version])
-	package_desc.append(['Description:', pkg.desc])
-	package_desc.append(['URL:', pkg.url])
-	package_desc.append(['Licenses:', ' '.join(pkg.licenses)])
-	package_desc.append(['Groups:', ' '.join(pkg.groups)])
-	package_desc.append(['Provides:', ' '.join(pkg.provides)])
-	package_desc.append(['Depends On:', ' '.join(pkg.depends)])
-	package_desc.append(['Optional Deps:', '\n'.join(pkg.optdepends)])
-	if style == 'local':
-		package_desc.append(['Required By:', ' '.join(pkg.compute_requiredby())])
-	package_desc.append(['Conflicts With:', ' '.join(pkg.conflicts)])
-	package_desc.append(['Replaces:', ' '.join(pkg.replaces)])
+		details_list.append(['Repository:', pkg.db.name])
+	if pkg.groups:
+		details_list.append(['Groups:', ' '.join(pkg.groups)])
 	if style == 'sync':
-		package_desc.append(['Compressed Size:', common.format_size(pkg.size)])
-		package_desc.append(['Download Size:', common.format_size(pkg.download_size)])
+		details_list.append(['Compressed Size:', common.format_size(pkg.size)])
+		details_list.append(['Download Size:', common.format_size(pkg.download_size)])
 	if style == 'local':
-		package_desc.append(['Installed Size:', common.format_size(pkg.isize)])
-	package_desc.append(['Packager:', pkg.packager])
-	package_desc.append(['Architecture:', pkg.arch])
-	#package_desc.append(['Build Date:', strftime("%a %d %b %Y %X %Z", localtime(pkg.builddate))])
+		details_list.append(['Installed Size:', common.format_size(pkg.isize)])
+	details_list.append(['Packager:', pkg.packager])
+	details_list.append(['Architecture:', pkg.arch])
+	#details_list.append(['Build Date:', strftime("%a %d %b %Y %X %Z", localtime(pkg.builddate))])
 	if style == 'local':
-		#package_desc.append(['Install Date:', strftime("%a %d %b %Y %X %Z", localtime(pkg.installdate))])
+		details_list.append(['Install Date:', strftime("%a %d %b %Y %X %Z", localtime(pkg.installdate))])
 		if pkg.reason == pyalpm.PKG_REASON_EXPLICIT:
 			reason = 'Explicitly installed'
 		elif pkg.reason == pyalpm.PKG_REASON_DEPEND:
 			reason = 'Installed as a dependency for another package'
 		else:
 			reason = 'N/A'
-		package_desc.append(['Install Reason:', reason])
+		details_list.append(['Install Reason:', reason])
 	if style == 'sync':
-		#package_desc.append(['Install Script:', 'Yes' if pkg.has_scriptlet else 'No'])
-		#package_desc.append(['MD5 Sum:', pkg.md5sum])
-		#package_desc.append(['SHA256 Sum:', pkg.sha256sum])
-		package_desc.append(['Signatures:', 'Yes' if pkg.base64_sig else 'No'])
+		#details_list.append(['Install Script:', 'Yes' if pkg.has_scriptlet else 'No'])
+		#details_list.append(['MD5 Sum:', pkg.md5sum])
+		#details_list.append(['SHA256 Sum:', pkg.sha256sum])
+		details_list.append(['Signatures:', 'Yes' if pkg.base64_sig else 'No'])
 	if style == 'local':
-		if len(pkg.backup) == 0:
-			package_desc.append(['Backup files:', ''])
-		else:
-			#package_desc.append(['Backup files:', '\n'.join(["%s %s" % (md5, file) for (file, md5) in pkg.backup])])
-			package_desc.append(['Backup files:', '\n'.join(["%s" % (file) for (file, md5) in pkg.backup])])
+		if len(pkg.backup) != 0:
+			#details_list.append(['Backup files:', '\n'.join(["%s %s" % (md5, file) for (file, md5) in pkg.backup])])
+			details_list.append(['Backup files:', '\n'.join(["%s" % (file) for (file, md5) in pkg.backup])])
+
+def set_files_list(pkg):
+	files_list.clear()
+	if len(pkg.files) != 0:
+		for file in pkg.files:
+			files_list.append(['/'+file[0]])
 
 def set_transaction_sum():
 	transaction_sum.clear()
+	sum_top_label.set_markup('<big><b>Transaction Summary</b></big>')
 	if transaction.to_remove:
 		transaction.to_remove = sorted(transaction.to_remove)
 		transaction_sum.append(['To remove:', transaction.to_remove[0]])
@@ -389,6 +401,10 @@ def set_transaction_sum():
 		sum_bottom_label.set_markup('')
 	if transaction.to_add:
 		transaction.to_add = sorted(transaction.to_add)
+		dsize = 0
+		for name in transaction.to_add:
+			dsize += transaction.syncpkgs[name].download_size
+		sum_bottom_label.set_markup('<b>Total download size: </b>'+common.format_size(dsize))
 		installed = []
 		for pkg_object in config.pacman_conf.initialize_alpm().get_localdb().pkgcache:
 			installed.append(pkg_object.name)
@@ -409,11 +425,6 @@ def set_transaction_sum():
 				while i < len(transaction.to_update):
 					transaction_sum.append([' ', transaction.to_update[i]])
 					i += 1
-		dsize = 0
-		for name in transaction.to_add:
-			dsize += transaction.syncpkgs[name].download_size
-		sum_bottom_label.set_markup('<b>Total Download size: </b>'+common.format_size(dsize))
-	sum_top_label.set_markup('<big><b>Transaction Summary</b></big>')
 
 def handle_error(error):
 	global transaction_type
@@ -494,7 +505,7 @@ def have_updates():
 	if not updates:
 		update_listore.append(['', ''])
 		update_bottom_label.set_markup('')
-		update_top_label.set_markup('<big><b>No update available</b></big>')
+		update_top_label.set_markup('<big><b>No available update </b></big>')
 		return False
 	else:
 		dsize = 0
@@ -502,8 +513,8 @@ def have_updates():
 			pkgname = pkg.name+" "+pkg.version
 			update_listore.append([pkgname, common.format_size(pkg.size)])
 			dsize += pkg.download_size
-		update_bottom_label.set_markup('<b>Total Download size: </b>'+common.format_size(dsize))
-		update_top_label.set_markup('<big><b>Available updates</b></big>')
+		update_bottom_label.set_markup('<b>Total download size: </b>'+common.format_size(dsize))
+		update_top_label.set_markup('<big><b>{} available updates</b></big>'.format(len(updates)))
 		return True
 
 def do_sysupgrade():
@@ -864,9 +875,14 @@ class Handler:
 				pkg_object = pkg_object_dict[packages_list[line][0]]
 				if pkg_installed_dict[packages_list[line][0]] is True:
 					style = "local"
+					set_files_list(pkg_object)
+					files_scrolledwindow.set_visible(True)
 				else:
 					style = "sync"
-				set_desc(pkg_object, style)
+					files_scrolledwindow.set_visible(False)
+				set_infos_list(pkg_object)
+				set_deps_list(pkg_object, style)
+				set_details_list(pkg_object, style)
 
 	def on_search_treeview_selection_changed(self, widget):
 		global current_filter

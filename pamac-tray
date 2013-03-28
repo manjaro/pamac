@@ -13,9 +13,9 @@ bus = dbus.SystemBus()
 icon = ''
 info = ''
 update_icon = '/usr/share/pamac/icons/scalable/status/update-normal.svg'
-update_info = '{} Updates Available'
+update_info = '{} available updates'
 noupdate_icon = '/usr/share/pamac/icons/scalable/status/update-enhancement.svg'
-noupdate_info = ' No Update Available'
+noupdate_info = ' No available update'
 
 class Tray:
 	def __init__(self):
