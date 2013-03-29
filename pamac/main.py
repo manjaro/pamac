@@ -75,10 +75,10 @@ def target_signal_handler(target):
 	progress_bar.set_text(target)
 
 def percent_signal_handler(percent):
-	if float(percent) > 1:
+	if percent > 1:
 		progress_bar.pulse()
 	else:
-		progress_bar.set_fraction(float(percent))
+		progress_bar.set_fraction(percent)
 
 bus = dbus.SystemBus()
 bus.add_signal_receiver(action_signal_handler, dbus_interface = "org.manjaro.pamac", signal_name = "EmitAction")
@@ -583,7 +583,10 @@ def finalize():
 		ProgressWindow.show_all()
 		while Gtk.events_pending():
 			Gtk.main_iteration()
-		transaction.Commit()#reply_handler = handle_reply, error_handler = handle_error, timeout = 2000*1000)
+		try:
+			transaction.Commit()#reply_handler = handle_reply, error_handler = handle_error, timeout = 2000*1000)
+		except dbus.exceptions.DBusException as e:
+			handle_error(str(e))
 
 def check_conflicts(mode, pkg_list):
 	depends = [pkg_list]

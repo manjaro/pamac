@@ -20,9 +20,13 @@ class PamacDBusService(dbus.service.Object):
 		self.task = None
 		self.error = ''
 		self.warning = ''
+		self.previous_action = ''
 		self.action = 'Preparing...'
+		self.previous_icon = ''
 		self.icon = '/usr/share/pamac/icons/24x24/status/setup.png'
+		self.previous_target = ''
 		self.target = ''
+		self.previous_percent = 0
 		self.percent = 0
 		self.total_size = 0
 		self.already_transferred = 0
@@ -107,8 +111,12 @@ class PamacDBusService(dbus.service.Object):
 			self.action = ''
 		#self.EmitTarget('')
 		#self.EmitPercent(str(0))
-		self.EmitAction(self.action)
-		self.EmitIcon(self.icon)
+		if self.action != self.previous_action:
+			self.previous_action = self.action
+			self.EmitAction(self.action)
+		if self.icon != self.previous_icon:
+			self.previous_icon = self.icon
+			self.EmitIcon(self.icon)
 		print(ID,event)
 
 	def cb_conv(self, *args):
@@ -141,31 +149,43 @@ class PamacDBusService(dbus.service.Object):
 		try:
 			if (self.t.to_remove or self.t.to_add):
 				for pkg in self.t.to_remove+self.t.to_add:
-					if pkg.name+'-'+pkg.version in _target:
+					if pkg.filename == _target:
 						size = pkg.size
 				if _transferred == size:
 					self.already_transferred += size
 				self.action = 'Downloading '+common.format_size(self.total_size)
 				self.target = _target
-				self.percent = fraction
+				self.percent = round(fraction, 2)
 				self.icon = '/usr/share/pamac/icons/24x24/status/package-download.png'
 			else:
 				self.action = 'Refreshing...'
 				self.target = _target
 				self.percent = 2
 				self.icon = '/usr/share/pamac/icons/24x24/status/refresh-cache.png'
-			self.EmitAction(self.action)
-			self.EmitIcon(self.icon)
-			self.EmitTarget(self.target)
-			self.EmitPercent(str(self.percent))
+			if self.action != self.previous_action:
+				self.previous_action = self.action
+				self.EmitAction(self.action)
+			if self.icon != self.previous_icon:
+				self.previous_icon = self.icon
+				self.EmitIcon(self.icon)
+			if self.target != self.previous_target:
+				self.previous_target = self.target
+				self.EmitTarget(self.target)
+			if self.percent != self.previous_percent:
+				self.previous_percent = self.percent
+				self.EmitPercent(self.percent)
 		except pyalpm.error:
 			pass
 
 	def cb_progress(self, _target, _percent, n, i):
 		self.target = _target+' ('+str(i)+'/'+str(n)+')'
-		self.percent = _percent/100
-		self.EmitTarget(self.target)
-		self.EmitPercent(str(self.percent))
+		self.percent = round(_percent/100, 2)
+		if self.target != self.previous_target:
+			self.previous_target = self.target
+			self.EmitTarget(self.target)
+		if self.percent != self.previous_percent:
+			self.previous_percent = self.percent
+			self.EmitPercent(self.percent)
 
 	def policykit_test(self, sender, connexion, action):
 		bus = dbus.SystemBus()
@@ -345,13 +365,19 @@ class PamacDBusService(dbus.service.Object):
 					self.EmitTransactionError(self.error)
 				else:
 					self.EmitTransactionDone('Transaction successfully finished')
-		if self.policykit_test(sender,connexion,'org.manjaro.pamac.commit'):
-			self.task = Process(target=commit)
-			self.task.start()
-		else :
-			self.t.release()
+		try:
+			authorized = self.policykit_test(sender,connexion,'org.manjaro.pamac.commit')
+		except dbus.exceptions.DBusException as e:
 			self.EmitTransactionError('You are not authorized')
-		success('')
+			success('')
+		else:
+			if authorized:
+				self.task = Process(target=commit)
+				self.task.start()
+			else :
+				self.t.release()
+				self.EmitTransactionError('You are not authorized')
+			success('')
 
 	@dbus.service.signal('org.manjaro.pamac')
 	def EmitTransactionDone(self, message):
