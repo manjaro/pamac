@@ -110,7 +110,7 @@ class PamacDBusService(dbus.service.Object):
 		else :
 			self.action = ''
 		#self.EmitTarget('')
-		#self.EmitPercent(str(0))
+		#self.EmitPercent(0)
 		if self.action != self.previous_action:
 			self.previous_action = self.action
 			self.EmitAction(self.action)
@@ -179,7 +179,8 @@ class PamacDBusService(dbus.service.Object):
 
 	def cb_progress(self, _target, _percent, n, i):
 		self.target = _target+' ('+str(i)+'/'+str(n)+')'
-		self.percent = round(_percent/100, 2)
+		#self.percent = round(_percent/100, 2)
+		self.percent = round(i/n, 2)
 		if self.target != self.previous_target:
 			self.previous_target = self.target
 			self.EmitTarget(self.target)

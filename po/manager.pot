@@ -1,0 +1,78 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-03-29 16:23+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: gui/manager.glade:7
+msgid "Choose"
+msgstr ""
+
+#: gui/manager.glade:889
+msgid "Deps"
+msgstr ""
+
+#: gui/manager.glade:954
+msgid "Details"
+msgstr ""
+
+#: gui/manager.glade:1002
+msgid "Files"
+msgstr ""
+
+#: gui/manager.glade:539
+msgid "Groups"
+msgstr ""
+
+#: gui/manager.glade:829
+msgid "Infos"
+msgstr ""
+
+#: gui/manager.glade:680
+msgid "Installed"
+msgstr ""
+
+#: gui/manager.glade:710
+msgid "Name"
+msgstr ""
+
+#: gui/manager.glade:402
+msgid "Package Manager"
+msgstr ""
+
+#: gui/manager.glade:256
+msgid "Progress"
+msgstr ""
+
+#: gui/manager.glade:635
+msgid "Repos"
+msgstr ""
+
+#: gui/manager.glade:492
+msgid "Search"
+msgstr ""
+
+#: gui/manager.glade:728
+msgid "Size"
+msgstr ""
+
+#: gui/manager.glade:587
+msgid "State"
+msgstr ""
+
+#: gui/manager.glade:112
+msgid "Summary"
+msgstr ""

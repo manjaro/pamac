@@ -63,7 +63,7 @@ update_bottom_label = interface.get_object('update_bottom_label')
 def action_signal_handler(action):
 	if action:
 		progress_label.set_text(action)
-	if ('Installing' in action) or ('Removing' in action) or ('Updating' in action) or ('Configuring' in action):
+	if ('Installing' in action) or ('Removing' in action) or ('Upgrading' in action) or ('Configuring' in action):
 		ProgressCancelButton.set_visible(False)
 	else:
 		ProgressCancelButton.set_visible(True)
@@ -205,6 +205,7 @@ def set_list_dict_uninstalled():
 				pkg_name_list.append(pkg_object.name)
 				pkg_installed_dict[pkg_object.name] = False
 				pkg_object_dict[pkg_object.name] = pkg_object
+	pkg_name_list = sorted(pkg_name_list)
 
 def set_list_dict_local():
 	global pkg_name_list
@@ -245,6 +246,7 @@ def set_list_dict_to_install():
 				pkg_name_list.append(pkg_object.name)
 				pkg_installed_dict[pkg_object.name] = False
 				pkg_object_dict[pkg_object.name] = pkg_object
+	pkg_name_list = sorted(pkg_name_list)
 
 def set_list_dict_to_remove():
 	global pkg_name_list
@@ -259,6 +261,7 @@ def set_list_dict_to_remove():
 				pkg_name_list.append(pkg_object.name)
 				pkg_installed_dict[pkg_object.name] = True
 				pkg_object_dict[pkg_object.name] = pkg_object
+	pkg_name_list = sorted(pkg_name_list)
 
 def set_list_dict_repos(repo):
 	global pkg_name_list
@@ -330,7 +333,9 @@ def set_packages_list():
 def set_infos_list(pkg):
 	name_label.set_markup('<big><b>{}  {}</b></big>'.format(pkg.name, pkg.version))
 	desc_label.set_markup(pkg.desc)
-	link_label.set_markup('<a href=\"{url}\" title=\"{url}\">{url}</a>'.format(url = pkg.url))
+	# fix & in url
+	url = pkg.url.replace('&', '&amp;')
+	link_label.set_markup('<a href=\"{_url}\">{_url}</a>'.format(_url = url))
 	licenses_label.set_markup('Licenses: {}'.format(' '.join(pkg.licenses)))
 
 def set_deps_list(pkg, style):
@@ -448,7 +453,7 @@ def handle_error(error):
 		transaction_type = None
 		transaction.get_handle()
 		transaction.update_db()
-		refresh_packages_list()
+		set_packages_list()
 	if mode == 'updater':
 		have_updates()
 
@@ -475,7 +480,7 @@ def handle_reply(reply):
 	transaction.update_db()
 	if (transaction_type == "install") or (transaction_type == "remove"):
 		transaction_type = None
-		refresh_packages_list()
+		set_packages_list()
 	else:
 		transaction_type = None
 	if have_updates():

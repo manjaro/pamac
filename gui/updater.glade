@@ -37,7 +37,6 @@
               <object class="GtkLabel" id="update_top_label">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="label" translatable="yes">label</property>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -132,12 +131,12 @@
                 <property name="headers_visible">False</property>
                 <property name="headers_clickable">False</property>
                 <property name="search_column">0</property>
+                <property name="show_expanders">False</property>
                 <child internal-child="selection">
                   <object class="GtkTreeSelection" id="treeview-selection1"/>
                 </child>
                 <child>
                   <object class="GtkTreeViewColumn" id="treeviewcolumn1">
-                    <property name="title" translatable="yes">column</property>
                     <child>
                       <object class="GtkCellRendererText" id="_name"/>
                       <attributes>
@@ -148,7 +147,6 @@
                 </child>
                 <child>
                   <object class="GtkTreeViewColumn" id="treeviewcolumn2">
-                    <property name="title" translatable="yes">column</property>
                     <child>
                       <object class="GtkCellRendererText" id="_size"/>
                       <attributes>
@@ -171,7 +169,6 @@
           <object class="GtkLabel" id="update_bottom_label">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="label" translatable="yes">label</property>
           </object>
           <packing>
             <property name="expand">False</property>
@@ -182,19 +179,19 @@
       </object>
     </child>
   </object>
-  <object class="GtkListStore" id="update_list">
-    <columns>
-      <!-- column-name name -->
-      <column type="gchararray"/>
-      <!-- column-name size -->
-      <column type="gchararray"/>
-    </columns>
-  </object>
   <object class="GtkListStore" id="transaction_add">
     <columns>
       <!-- column-name action -->
       <column type="gchararray"/>
       <!-- column-name packages -->
+      <column type="gchararray"/>
+    </columns>
+  </object>
+  <object class="GtkListStore" id="update_list">
+    <columns>
+      <!-- column-name name -->
+      <column type="gchararray"/>
+      <!-- column-name size -->
       <column type="gchararray"/>
     </columns>
   </object>
