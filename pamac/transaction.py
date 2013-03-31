@@ -1,5 +1,5 @@
 #! /usr/bin/python
-# -*-coding:utf-8-*-
+# -*- coding:utf-8 -*-
 
 from gi.repository import Gtk
 
@@ -63,7 +63,6 @@ Release = proxy.get_dbus_method('Release','org.manjaro.pamac')
 StopDaemon = proxy.get_dbus_method('StopDaemon','org.manjaro.pamac')
 
 def init_transaction(**options):
-	"Transaction initialization"
 	global t_lock
 	error = Init(dbus.Dictionary(options, signature='sb'))
 	if not error:

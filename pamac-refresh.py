@@ -1,5 +1,5 @@
 #! /usr/bin/python
-# -*-coding:utf-8-*-
+# -*- coding:utf-8 -*-
 
 from gi.repository import GObject
 from pamac import common, transaction

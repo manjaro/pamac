@@ -1,5 +1,5 @@
 #! /usr/bin/python
-# -*-coding:utf-8 -*-
+# -*- coding:utf-8 -*-
 
 from gi.repository import Gtk
 from gi.repository.GdkPixbuf import Pixbuf
@@ -10,7 +10,16 @@ from time import strftime, localtime
 
 from pamac import config, common, transaction
 
+# i18n
+import gettext
+import locale
+locale.bindtextdomain('pamac', '/usr/share/locale')
+gettext.bindtextdomain('pamac', '/usr/share/locale')
+gettext.textdomain('pamac')
+_ = gettext.gettext
+
 interface = Gtk.Builder()
+interface.set_translation_domain('pamac')
 
 #interface.add_from_file('/usr/share/pamac/gui/dialogs.glade')
 #ErrorDialog = interface.get_object('ErrorDialog')
@@ -63,7 +72,7 @@ update_bottom_label = interface.get_object('update_bottom_label')
 def action_signal_handler(action):
 	if action:
 		progress_label.set_text(action)
-	if ('Installing' in action) or ('Removing' in action) or ('Upgrading' in action) or ('Configuring' in action):
+	if (_('Installing') in action) or (_('Removing') in action) or (_('Upgrading') in action) or (_('Configuring') in action):
 		ProgressCancelButton.set_visible(False)
 	else:
 		ProgressCancelButton.set_visible(True)
@@ -100,7 +109,7 @@ current_filter = (None, None)
 transaction_type = None
 transaction_dict = {}
 mode = None
-states = ['Installed', 'Uninstalled', 'Orphans', 'To install', 'To remove']
+states = [_('Installed'), _('Uninstalled'), _('Orphans'), _('To install'), _('To remove')]
 for state in states:
 	state_list.append([state])
 
@@ -119,7 +128,7 @@ def get_repos():
 	repos_list.clear()
 	for repo in transaction.handle.get_syncdbs():
 		repos_list.append([repo.name])
-	repos_list.append(['local'])
+	repos_list.append([_('local')])
 
 def set_list_dict_search(*patterns):
 	global pkg_name_list
@@ -285,7 +294,7 @@ def set_list_dict_repos(repo):
 def refresh_packages_list():
 	packages_list.clear()
 	if not pkg_name_list:
-		packages_list.append(["No package found", False, False, False, search_icon, '', 0])
+		packages_list.append([_('No package found'), False, False, False, search_icon, '', 0])
 	else:
 		for name in pkg_name_list:
 			if name in config.holdpkg:
@@ -336,56 +345,56 @@ def set_infos_list(pkg):
 	# fix & in url
 	url = pkg.url.replace('&', '&amp;')
 	link_label.set_markup('<a href=\"{_url}\">{_url}</a>'.format(_url = url))
-	licenses_label.set_markup('Licenses: {}'.format(' '.join(pkg.licenses)))
+	licenses_label.set_markup(_('Licenses') + ': {}'.format(' '.join(pkg.licenses)))
 
 def set_deps_list(pkg, style):
 	deps_list.clear()
 	if pkg.depends:
-		deps_list.append(['Depends On:', '\n'.join(pkg.depends)])
+		deps_list.append([_('Depends On') + ':', '\n'.join(pkg.depends)])
 	if pkg.optdepends:
-		deps_list.append(['Optional Deps:', '\n'.join(pkg.optdepends)])
+		deps_list.append([_('Optional Deps') + ':', '\n'.join(pkg.optdepends)])
 	if style == 'local':
 		if pkg.compute_requiredby():
-			deps_list.append(['Required By:', '\n'.join(pkg.compute_requiredby())])
+			deps_list.append([_('Required By')+':', '\n'.join(pkg.compute_requiredby())])
 	if pkg.provides:
-		details_list.append(['Provides:', ' '.join(pkg.provides)])
+		details_list.append([_('Provides')+':', ' '.join(pkg.provides)])
 	if pkg.replaces:
-		details_list.append(['Replaces:', ' '.join(pkg.replaces)])
+		details_list.append([_('Replaces')+':', ' '.join(pkg.replaces)])
 	if pkg.conflicts:
-		details_list.append(['Conflicts With:', ' '.join(pkg.conflicts)])
+		details_list.append([_('Conflicts With')+':', ' '.join(pkg.conflicts)])
 
 def set_details_list(pkg, style):
 	details_list.clear()
 	if style == 'sync':
-		details_list.append(['Repository:', pkg.db.name])
+		details_list.append([_('Repository')+':', pkg.db.name])
 	if pkg.groups:
-		details_list.append(['Groups:', ' '.join(pkg.groups)])
+		details_list.append([_('Groups')+':', ' '.join(pkg.groups)])
 	if style == 'sync':
-		details_list.append(['Compressed Size:', common.format_size(pkg.size)])
-		details_list.append(['Download Size:', common.format_size(pkg.download_size)])
+		details_list.append([_('Compressed Size')+':', common.format_size(pkg.size)])
+		details_list.append([_('Download Size')+':', common.format_size(pkg.download_size)])
 	if style == 'local':
-		details_list.append(['Installed Size:', common.format_size(pkg.isize)])
-	details_list.append(['Packager:', pkg.packager])
-	details_list.append(['Architecture:', pkg.arch])
-	#details_list.append(['Build Date:', strftime("%a %d %b %Y %X %Z", localtime(pkg.builddate))])
+		details_list.append([_('Installed Size')+':', common.format_size(pkg.isize)])
+	details_list.append([_('Packager')+':', pkg.packager])
+	details_list.append([('Architecture')+':', pkg.arch])
+	#details_list.append([_('Build Date')+':', strftime("%a %d %b %Y %X %Z", localtime(pkg.builddate))])
 	if style == 'local':
-		details_list.append(['Install Date:', strftime("%a %d %b %Y %X %Z", localtime(pkg.installdate))])
+		details_list.append([_('Install Date')+':', strftime("%a %d %b %Y %X %Z", localtime(pkg.installdate))])
 		if pkg.reason == pyalpm.PKG_REASON_EXPLICIT:
-			reason = 'Explicitly installed'
+			reason = _('Explicitly installed')
 		elif pkg.reason == pyalpm.PKG_REASON_DEPEND:
-			reason = 'Installed as a dependency for another package'
+			reason = _('Installed as a dependency for another package')
 		else:
-			reason = 'N/A'
-		details_list.append(['Install Reason:', reason])
+			reason = _('Unknown')
+		details_list.append([_('Install Reason')+':', reason])
 	if style == 'sync':
-		#details_list.append(['Install Script:', 'Yes' if pkg.has_scriptlet else 'No'])
+		#details_list.append([_('Install Script')':', 'Yes' if pkg.has_scriptlet else 'No'])
 		#details_list.append(['MD5 Sum:', pkg.md5sum])
 		#details_list.append(['SHA256 Sum:', pkg.sha256sum])
-		details_list.append(['Signatures:', 'Yes' if pkg.base64_sig else 'No'])
+		details_list.append([_('Signatures')+':', 'Yes' if pkg.base64_sig else 'No'])
 	if style == 'local':
 		if len(pkg.backup) != 0:
-			#details_list.append(['Backup files:', '\n'.join(["%s %s" % (md5, file) for (file, md5) in pkg.backup])])
-			details_list.append(['Backup files:', '\n'.join(["%s" % (file) for (file, md5) in pkg.backup])])
+			#details_list.append(['_(Backup files)+':', '\n'.join(["%s %s" % (md5, file) for (file, md5) in pkg.backup])])
+			details_list.append([_('Backup files')+':', '\n'.join(["%s" % (file) for (file, md5) in pkg.backup])])
 
 def set_files_list(pkg):
 	files_list.clear()
@@ -395,10 +404,10 @@ def set_files_list(pkg):
 
 def set_transaction_sum():
 	transaction_sum.clear()
-	sum_top_label.set_markup('<big><b>Transaction Summary</b></big>')
+	sum_top_label.set_markup(_('<big><b>Transaction Summary</b></big>'))
 	if transaction.to_remove:
 		transaction.to_remove = sorted(transaction.to_remove)
-		transaction_sum.append(['To remove:', transaction.to_remove[0]])
+		transaction_sum.append([_('To remove')+':', transaction.to_remove[0]])
 		i = 1
 		while i < len(transaction.to_remove):
 			transaction_sum.append([' ', transaction.to_remove[i]])
@@ -409,7 +418,7 @@ def set_transaction_sum():
 		dsize = 0
 		for name in transaction.to_add:
 			dsize += transaction.syncpkgs[name].download_size
-		sum_bottom_label.set_markup('<b>Total download size: </b>'+common.format_size(dsize))
+		sum_bottom_label.set_markup(_('<b>Total download size: </b>')+common.format_size(dsize))
 		installed = []
 		for pkg_object in config.pacman_conf.initialize_alpm().get_localdb().pkgcache:
 			installed.append(pkg_object.name)
@@ -418,14 +427,14 @@ def set_transaction_sum():
 		for name in to_remove_from_add:
 			transaction.to_add.remove(name)
 		if transaction.to_add:
-			transaction_sum.append(['To install:', transaction.to_add[0]])
+			transaction_sum.append([_('To install')+':', transaction.to_add[0]])
 			i = 1
 			while i < len(transaction.to_add):
 				transaction_sum.append([' ', transaction.to_add[i]])
 				i += 1
 		if mode == 'manager':
 			if transaction.to_update:
-				transaction_sum.append(['To update:', transaction.to_update[0]])
+				transaction_sum.append([_('To update')+':', transaction.to_update[0]])
 				i = 1
 				while i < len(transaction.to_update):
 					transaction_sum.append([' ', transaction.to_update[i]])
@@ -494,7 +503,7 @@ def do_refresh():
 	"""Sync databases like pacman -Sy"""
 	if transaction.t_lock is False:
 		transaction.t_lock = True
-		progress_label.set_text('Refreshing...')
+		progress_label.set_text(_('Refreshing')+'...')
 		action_icon.set_from_file('/usr/share/pamac/icons/24x24/status/refresh-cache.png')
 		progress_bar.set_text('')
 		progress_bar.set_fraction(0)
@@ -510,7 +519,7 @@ def have_updates():
 	if not updates:
 		update_listore.append(['', ''])
 		update_bottom_label.set_markup('')
-		update_top_label.set_markup('<big><b>No available update </b></big>')
+		update_top_label.set_markup(_('<big><b>Your system is up-to-date</b></big>'))
 		return False
 	else:
 		dsize = 0
@@ -518,8 +527,11 @@ def have_updates():
 			pkgname = pkg.name+" "+pkg.version
 			update_listore.append([pkgname, common.format_size(pkg.size)])
 			dsize += pkg.download_size
-		update_bottom_label.set_markup('<b>Total download size: </b>'+common.format_size(dsize))
-		update_top_label.set_markup('<big><b>{} available updates</b></big>'.format(len(updates)))
+		update_bottom_label.set_markup(_('<b>Total download size: </b>')+common.format_size(dsize))
+		if len(updates) == 1:
+			update_top_label.set_markup(_('<big><b>1 available update</b></big>'))
+		else:
+			update_top_label.set_markup(_('<big><b>{number} available updates</b></big>').format(number = len(updates)))
 		return True
 
 def do_sysupgrade():
@@ -581,7 +593,7 @@ def do_sysupgrade():
 								ConfDialog.show_all()
 
 def finalize():
-		progress_label.set_text('Preparing...')
+		progress_label.set_text(_('Preparing')+'...')
 		action_icon.set_from_file('/usr/share/pamac/icons/24x24/status/setup.png')
 		progress_bar.set_text('')
 		progress_bar.set_fraction(0)
@@ -678,7 +690,7 @@ def check_conflicts(mode, pkg_list):
 								transaction.to_remove.append(provide.name)
 								if warning:
 									warning += '\n'
-								warning += provide.name+' will be replaced by '+pkg.name
+								warning += _('{pkgname1} will be replaced by {pkgname2}').format(pkgname1 = provide.name, pkgname2 = pkg.name)
 			for conflict in pkg.conflicts:
 				provide = pyalpm.find_satisfier(transaction.localpkgs.values(), conflict)
 				if provide:
@@ -695,12 +707,12 @@ def check_conflicts(mode, pkg_list):
 										str_required += item
 									if error:
 										error += '\n'
-									error += '{} conflicts with {} but cannot be removed because it is needed by {}'.format(provide.name, pkg.name, str_required)
+									error += _('{pkgname1} conflicts with {pkgname2} but cannot be removed because it is needed by {pkgname3}').format(pkgname1 = provide.name, pkgname2 = pkg.name, pkgname3 = str_required)
 								elif not provide.name in transaction.to_remove:
 									transaction.to_remove.append(provide.name)
 									if warning:
 										warning += '\n'
-									warning += pkg.name+' conflicts with '+provide.name
+									warning += _('{pkgname1} conflicts with {pkgname2}').format(pkgname1 = pkg.name, pkgname2 = provide.name)
 				provide = pyalpm.find_satisfier(depends[0], conflict)
 				if provide:
 					if not common.format_pkg_name(conflict) == pkg.name:
@@ -710,7 +722,7 @@ def check_conflicts(mode, pkg_list):
 								transaction.to_add.remove(pkg.name)
 								if warning:
 									warning += '\n'
-								warning += pkg.name+' conflicts with '+common.format_pkg_name(conflict)+'\nNone of them will be installed'
+								warning += _('{pkgname1} conflicts with {pkgname2}\nNone of them will be installed').format(pkgname1 = pkg.name, pkgname2 = common.format_pkg_name(conflict)) 
 		i += 1
 	for pkg in transaction.localpkgs.values():
 		for conflict in pkg.conflicts:
@@ -729,12 +741,12 @@ def check_conflicts(mode, pkg_list):
 									str_required += item
 								if error:
 									error += '\n'
-								error += '{} conflicts with {} but cannot be removed because it is needed by {}'.format(provide.name, pkg.name, str_required)
+								error += _('{pkgname1} conflicts with {pkgname2} but cannot be removed because it is needed by {pkgname3}').format(pkgname1 = provide.name, pkgname2 = pkg.name, pkgname3 = str_required)
 							elif not provide.name in transaction.to_remove:
 								transaction.to_remove.append(pkg.name)
 								if warning:
 									warning += '\n'
-								warning += provide.name+' conflicts with '+pkg.name
+								warning += _('{pkgname1} conflicts with {pkgname2}').format(pkgname1= provide.name, pkgname2 = pkg.name)
 	if mode == 'updating':
 		for pkg in transaction.syncpkgs.values():
 			for replace in pkg.replaces:
@@ -748,7 +760,7 @@ def check_conflicts(mode, pkg_list):
 										transaction.to_remove.append(provide.name)
 										if warning:
 											warning += '\n'
-										warning += provide.name+' will be replaced by '+pkg.name
+										warning += _('{pkgname1} will be replaced by {pkgname2}').format(pkgname1 = provide.name, pkgname2 = pkg.name)
 									if not pkg.name in transaction.to_add:
 										transaction.to_add.append(pkg.name)
 	print('check result:', 'to add:', transaction.to_add, 'to remove:', transaction.to_remove)
@@ -769,7 +781,7 @@ def choose_provides(name):
 				if not pkg.name in provides.keys():
 					provides[pkg.name] = pkg
 	if provides:
-		choose_label.set_markup('<b>{} is provided by {} packages.\nPlease choose the one(s) you want to install:</b>'.format(name,str(len(provides.keys()))))
+		choose_label.set_markup(_('<b>{pkgname} is provided by {number} packages.\nPlease choose the one(s) you want to install:</b>').format(pkgname = name, number = str(len(provides.keys()))))
 		choose_list.clear()
 		for name in provides.keys():
 			if transaction.handle.get_localdb().get_pkg(name):
@@ -795,7 +807,7 @@ class Handler:
 
 	def on_Manager_ValidButton_clicked(self, *arg):
 		if not transaction_dict:
-			transaction.ErrorDialog.format_secondary_text("No package is selected")
+			transaction.ErrorDialog.format_secondary_text(_('No package is selected'))
 			response = 	transaction.ErrorDialog.run()
 			if response:
 				transaction.ErrorDialog.hide()
@@ -836,7 +848,7 @@ class Handler:
 								set_transaction_sum()
 								ConfDialog.show_all()
 					else:
-						transaction.WarningDialog.format_secondary_text('Nothing to do')
+						transaction.WarningDialog.format_secondary_text(_('Nothing to do'))
 						response = transaction.WarningDialog.run()
 						if response:
 							transaction.WarningDialog.hide()
@@ -910,15 +922,15 @@ class Handler:
 		global current_filter
 		liste, line = state_selection.get_selected()
 		if line is not None:
-			if state_list[line][0] == 'Installed':
+			if state_list[line][0] == _('Installed'):
 				current_filter = ('installed', None)
-			if state_list[line][0] == 'Uninstalled':
+			if state_list[line][0] == _('Uninstalled'):
 				current_filter = ('uninstalled', None)
-			if state_list[line][0] == 'Orphans':
+			if state_list[line][0] == _('Orphans'):
 				current_filter = ('orphans', None)
-			if state_list[line][0] == 'To install':
+			if state_list[line][0] == _('To install'):
 				current_filter = ('to_install', None)
-			if state_list[line][0] == 'To remove':
+			if state_list[line][0] == _('To remove'):
 				current_filter = ('to_remove', None)
 			set_packages_list()
 
@@ -926,7 +938,7 @@ class Handler:
 		global current_filter
 		liste, line = repos_selection.get_selected()
 		if line is not None:
-			if repos_list[line][0] == 'local':
+			if repos_list[line][0] == _('local'):
 				current_filter = ('local', None)
 			else:
 				current_filter = ('repo', repos_list[line][0])
@@ -1019,7 +1031,7 @@ class Handler:
 
 def main(_mode):
 	if common.pid_file_exists():
-		transaction.ErrorDialog.format_secondary_text('Another instance of Pamac is running')
+		transaction.ErrorDialog.format_secondary_text(_('Pamac is already running'))
 		response = transaction.ErrorDialog.run()
 		if response:
 			transaction.ErrorDialog.hide()
@@ -1035,7 +1047,7 @@ def main(_mode):
 		if mode == 'manager':
 			ManagerWindow.show_all()
 		if mode == 'updater':
-			update_top_label.set_markup('<big><b>Available updates</b></big>')
+			update_top_label.set_markup(_('<big><b>Your system is up-to-date</b></big>'))
 			update_bottom_label.set_markup('')
 			UpdaterWindow.show_all()
 		while Gtk.events_pending():

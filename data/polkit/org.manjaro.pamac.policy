@@ -4,10 +4,11 @@
  "http://www.freedesktop.org/standards/PolicyKit/1.0/policyconfig.dtd">
 <policyconfig>
   <vendor>Manjaro</vendor>
-  <icon_name>pamac</icon_name>
+  <vendor_url>http://manjaro.org/</vendor_url>
+  <icon_name>package-x-generic</icon_name>
   <action id="org.manjaro.pamac.commit">
-    <message>Authentication is required to change alpm database</message>
-    <message xml:lang="fr">L'authentification est nécessaire pour changer la base de données alpm</message>
+    <message>Authentication is required</message>
+    <message xml:lang="fr">Authentification nécessaire</message>
     <defaults>
       <allow_any>no</allow_any>
       <allow_inactive>no</allow_inactive>

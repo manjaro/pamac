@@ -1,11 +1,17 @@
 #! /usr/bin/python
-# -*-coding:utf-8-*-
+# -*- coding:utf-8 -*-
 
 from gi.repository import Gtk, GObject
 from subprocess import Popen
-from pamac import transaction
+from pamac import transaction, common
 import dbus
 import threading
+
+# i18n
+import gettext
+gettext.bindtextdomain('pamac', '/usr/share/locale')
+gettext.textdomain('pamac')
+_ = gettext.gettext
 
 GObject.threads_init()
 bus = dbus.SystemBus()
@@ -13,9 +19,10 @@ bus = dbus.SystemBus()
 icon = ''
 info = ''
 update_icon = '/usr/share/pamac/icons/scalable/status/update-normal.svg'
-update_info = '{} available updates'
+update_info = _('{number} available updates')
+one_update_info = _('1 available update')
 noupdate_icon = '/usr/share/pamac/icons/scalable/status/update-enhancement.svg'
-noupdate_info = ' No available update'
+noupdate_info = _('Your system is up-to-date')
 
 class Tray:
 	def __init__(self):
@@ -23,13 +30,13 @@ class Tray:
 		self.statusIcon.set_visible(True)
 
 		self.menu = Gtk.Menu()
-		self.menuItem = Gtk.ImageMenuItem('Install/Check for updates')
+		self.menuItem = Gtk.ImageMenuItem(_('Install/Check for updates'))
 		self.menuItem.connect('activate', self.execute_update, self.statusIcon)
 		self.menu.append(self.menuItem)
-		self.menuItem = Gtk.ImageMenuItem('Run pamac-manager')
+		self.menuItem = Gtk.ImageMenuItem(_('Run pamac-manager'))
 		self.menuItem.connect('activate', self.execute_manager, self.statusIcon)
 		self.menu.append(self.menuItem)
-		self.menuItem = Gtk.ImageMenuItem('Quit')
+		self.menuItem = Gtk.ImageMenuItem(_('Quit'))
 		self.menuItem.connect('activate', self.quit_tray, self.statusIcon)
 		self.menu.append(self.menuItem)
 
@@ -90,7 +97,10 @@ def set_icon(updates):
 	global info
 	if updates:
 		icon = update_icon
-		info = update_info.format(updates)
+		if int(updates) == 1:
+			info = one_update_info
+		else:
+			info = update_info.format(number = updates)
 		Popen(['notify-send', '-i', icon, '-u', 'normal', 'Pamac', info])
 	else:
 		icon = noupdate_icon

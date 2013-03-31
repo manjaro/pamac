@@ -677,7 +677,7 @@
                           <object class="GtkTreeViewColumn" id="installed_column">
                             <property name="resizable">True</property>
                             <property name="sizing">autosize</property>
-                            <property name="title" translatable="yes">Installed</property>
+                            <property name="title" translatable="yes">State</property>
                             <property name="clickable">True</property>
                             <property name="sort_indicator">True</property>
                             <property name="sort_column_id">1</property>

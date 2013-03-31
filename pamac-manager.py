@@ -1,6 +1,6 @@
 #! /usr/bin/python
-# -*-coding:utf-8 -*-
+# -*- coding:utf-8 -*-
 
 from pamac import main
 
-main.main('updater')
+main.main('manager')

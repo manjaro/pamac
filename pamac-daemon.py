@@ -1,5 +1,5 @@
 #! /usr/bin/python
-# -*-coding:utf-8-*-
+# -*- coding:utf-8 -*-
 
 import dbus
 import dbus.service
@@ -11,6 +11,12 @@ import pyalpm
 from multiprocessing import Process
 from pamac import config, common
 
+# i18n
+import gettext
+gettext.bindtextdomain('pamac', '/usr/share/locale')
+gettext.textdomain('pamac')
+_ = gettext.gettext
+ 
 class PamacDBusService(dbus.service.Object):
 	def __init__(self):
 		bus=dbus.SystemBus()
@@ -21,7 +27,7 @@ class PamacDBusService(dbus.service.Object):
 		self.error = ''
 		self.warning = ''
 		self.previous_action = ''
-		self.action = 'Preparing...'
+		self.action = _('Preparing')+'...'
 		self.previous_icon = ''
 		self.icon = '/usr/share/pamac/icons/24x24/status/setup.png'
 		self.previous_target = ''
@@ -60,48 +66,48 @@ class PamacDBusService(dbus.service.Object):
 
 	def cb_event(self, ID, event, tupel):
 		if ID is 1:
-			self.action = 'Checking dependencies...'
+			self.action = _('Checking dependencies')+'...'
 			self.icon = '/usr/share/pamac/icons/24x24/status/package-search.png'
 		elif ID is 3:
-			self.action = 'Checking file conflicts...'
+			self.action = _('Checking file conflicts')+'...'
 			self.icon = '/usr/share/pamac/icons/24x24/status/package-search.png'
 		elif ID is 5:
-			self.action = 'Resolving dependencies...'
+			self.action = _('Resolving dependencies')+'...'
 			self.icon = '/usr/share/pamac/icons/24x24/status/setup.png'
 		elif ID is 7:
-			self.action = 'Checking inter conflicts...'
+			self.action = _('Checking inter conflicts')+'...'
 			self.icon = '/usr/share/pamac/icons/24x24/status/package-search.png'
 		elif ID is 9:
-			self.action = 'Installing...'
+			self.action = _('Installing')+'...'
 			self.icon = '/usr/share/pamac/icons/24x24/status/package-add.png'
 		elif ID is 10:
-			formatted_event = 'Installed {} ({})'.format(tupel[0].name, tupel[0].version)
+			formatted_event = 'Installed {pkgname} ({pkgversion})'.format(pkgname = tupel[0].name, pkgversion = tupel[0].version)
 			common.write_log_file(formatted_event)
 			print(formatted_event)
 		elif ID is 11:
-			self.action = 'Removing...'
+			self.action = _('Removing')+'...'
 			self.icon = '/usr/share/pamac/icons/24x24/status/package-delete.png'
 		elif ID is 12:
-			formatted_event = 'Removed {} ({})'.format(tupel[0].name, tupel[0].version)
+			formatted_event = 'Removed {pkgname} ({pkgversion})'.format(pkgname = tupel[0].name, pkgversion = tupel[0].version)
 			common.write_log_file(formatted_event)
 			print(formatted_event)
 		elif ID is 13:
-			self.action = 'Upgrading...'
+			self.action = _('Upgrading')+'...'
 			self.icon = '/usr/share/pamac/icons/24x24/status/package-update.png'
 		elif ID is 14:
-			formatted_event = 'Upgraded {} ({} -> {})'.format(tupel[1].name, tupel[1].version, tupel[0].version)
+			formatted_event = 'Upgraded {pkgname} ({oldversion} -> {newversion})'.format(pkgname = tupel[1].name, oldversion = tupel[1].version, newversion = tupel[0].version)
 			common.write_log_file(formatted_event)
 			print(formatted_event)
 		elif ID is 15:
-			self.action = 'Checking integrity...'
+			self.action = _('Checking integrity')+'...'
 			self.icon = '/usr/share/pamac/icons/24x24/status/package-search.png'
 			self.already_transferred = 0
 		elif ID is 17:
-			self.action = 'Loading packages files...'
+			self.action = _('Loading packages files')+'...'
 			self.icon = '/usr/share/pamac/icons/24x24/status/package-search.png'
 			print('Loading packages files')
 		elif ID is 26:
-			self.action = 'Configuring...'
+			self.action = _('Configuring')+'...'
 			self.icon = '/usr/share/pamac/icons/24x24/status/setup.png'
 			self.EmitPercent(str(2))
 			print('Configuring a package')
@@ -153,12 +159,12 @@ class PamacDBusService(dbus.service.Object):
 						size = pkg.size
 				if _transferred == size:
 					self.already_transferred += size
-				self.action = 'Downloading '+common.format_size(self.total_size)
+				self.action = _('Downloading {size}'.format(size = common.format_size(self.total_size)))
 				self.target = _target
 				self.percent = round(fraction, 2)
 				self.icon = '/usr/share/pamac/icons/24x24/status/package-download.png'
 			else:
-				self.action = 'Refreshing...'
+				self.action = _('Refreshing')+'...'
 				self.target = _target
 				self.percent = 2
 				self.icon = '/usr/share/pamac/icons/24x24/status/refresh-cache.png'
@@ -261,7 +267,7 @@ class PamacDBusService(dbus.service.Object):
 			finally:
 				return self.error 
 		else :
-			return 'You are not authorized'
+			return _('Authentication failed')
 
 	@dbus.service.method('org.manjaro.pamac', '', 's')
 	def Sysupgrade(self):
@@ -365,11 +371,11 @@ class PamacDBusService(dbus.service.Object):
 				if self.error:
 					self.EmitTransactionError(self.error)
 				else:
-					self.EmitTransactionDone('Transaction successfully finished')
+					self.EmitTransactionDone(_('Transaction successfully finished'))
 		try:
 			authorized = self.policykit_test(sender,connexion,'org.manjaro.pamac.commit')
 		except dbus.exceptions.DBusException as e:
-			self.EmitTransactionError('You are not authorized')
+			self.EmitTransactionError(_('Authentication failed'))
 			success('')
 		else:
 			if authorized:
@@ -377,7 +383,7 @@ class PamacDBusService(dbus.service.Object):
 				self.task.start()
 			else :
 				self.t.release()
-				self.EmitTransactionError('You are not authorized')
+				self.EmitTransactionError(_('Authentication failed'))
 			success('')
 
 	@dbus.service.signal('org.manjaro.pamac')
@@ -399,7 +405,7 @@ class PamacDBusService(dbus.service.Object):
 			finally:
 				return self.error 
 		else :
-			return 'You are not authorized'
+			return _('Authentication failed')
 
 	@dbus.service.method('org.manjaro.pamac')
 	def StopDaemon(self):
