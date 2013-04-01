@@ -159,7 +159,7 @@ class PamacDBusService(dbus.service.Object):
 						size = pkg.size
 				if _transferred == size:
 					self.already_transferred += size
-				self.action = _('Downloading {size}'.format(size = common.format_size(self.total_size)))
+				self.action = _('Downloading {size}').format(size = common.format_size(self.total_size))
 				self.target = _target
 				self.percent = round(fraction, 2)
 				self.icon = '/usr/share/pamac/icons/24x24/status/package-download.png'

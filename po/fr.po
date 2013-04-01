@@ -63,7 +63,7 @@ msgstr "Configuration"
 
 #: pamac-daemon.py:162
 msgid "Downloading {size}"
-msgstr "Télécharge {size}"
+msgstr "Téléchargement de {size}"
 
 #: pamac-daemon.py:167 pamac/main.py:504
 msgid "Refreshing"
@@ -255,7 +255,7 @@ msgid ""
 "{pkgname1} conflicts with {pkgname2}\n"
 "None of them will be installed"
 msgstr ""
-"{pkgname1} est en conflit avec {pkgname2}}\n"
+"{pkgname1} est en conflit avec {pkgname2}\n"
 "Aucun d'entre eux ne sera installé"
 
 #: pamac/main.py:782

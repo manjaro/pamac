@@ -345,14 +345,14 @@ def set_infos_list(pkg):
 	# fix & in url
 	url = pkg.url.replace('&', '&amp;')
 	link_label.set_markup('<a href=\"{_url}\">{_url}</a>'.format(_url = url))
-	licenses_label.set_markup(_('Licenses') + ': {}'.format(' '.join(pkg.licenses)))
+	licenses_label.set_markup(_('Licenses')+': {}'.format(' '.join(pkg.licenses)))
 
 def set_deps_list(pkg, style):
 	deps_list.clear()
 	if pkg.depends:
-		deps_list.append([_('Depends On') + ':', '\n'.join(pkg.depends)])
+		deps_list.append([_('Depends On')+':', '\n'.join(pkg.depends)])
 	if pkg.optdepends:
-		deps_list.append([_('Optional Deps') + ':', '\n'.join(pkg.optdepends)])
+		deps_list.append([_('Optional Deps')+':', '\n'.join(pkg.optdepends)])
 	if style == 'local':
 		if pkg.compute_requiredby():
 			deps_list.append([_('Required By')+':', '\n'.join(pkg.compute_requiredby())])
