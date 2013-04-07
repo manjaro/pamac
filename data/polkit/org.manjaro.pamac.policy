@@ -8,7 +8,16 @@
   <icon_name>package-x-generic</icon_name>
   <action id="org.manjaro.pamac.commit">
     <message>Authentication is required</message>
+    <message xml:lang="ca">Autenticació requerida</message>
+    <message xml:lang="da">Autentificering er krævet</message>
+    <message xml:lang="de">Authentifikation wird benötigt</message>
+    <message xml:lang="es">Se requiere autenticación</message>
     <message xml:lang="fr">Authentification nécessaire</message>
+    <message xml:lang="nb">Autentifisering er krevd</message>
+    <message xml:lang="po">Autentyfikacja jest wymagana</message>
+    <message xml:lang="pt_BR">Autenticação é necessária</message>
+    <message xml:lang="ro">Este necesară autentificarea</message>
+    <message xml:lang="tr">Yetkilendirme Gerekiyor</message>
     <defaults>
       <allow_any>no</allow_any>
       <allow_inactive>no</allow_inactive>

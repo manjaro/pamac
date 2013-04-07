@@ -8,34 +8,35 @@ msgstr ""
 "Project-Id-Version: pamac\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-03-31 18:55+0200\n"
-"PO-Revision-Date: 2013-03-30 15:18+0100\n"
-"Last-Translator: <elvirolo@gmail.com>\n"
-"Language-Team: French\n"
-"Language: fr\n"
+"PO-Revision-Date: 2013-04-05 13:34+0100\n"
+"Last-Translator: Philip Müller <philm@manjaro.org>\n"
+"Language-Team: German\n"
+"Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Generator: Poedit 1.5.5\n"
 
 #: pamac-daemon.py:30 pamac/main.py:594
 msgid "Preparing"
-msgstr "Préparation"
+msgstr "Vorbereitung"
 
 #: pamac-daemon.py:69
 msgid "Checking dependencies"
-msgstr "Vérification des dépendances"
+msgstr "Überprüfe Abhängigkeiten"
 
 #: pamac-daemon.py:72
 msgid "Checking file conflicts"
-msgstr "Analyse des conflits entre fichiers"
+msgstr "Überprüfe Datei-Konflikte"
 
 #: pamac-daemon.py:75
 msgid "Resolving dependencies"
-msgstr "Résolution des dépendances"
+msgstr "Auflösung von Abhängigkeiten"
 
 #: pamac-daemon.py:78
 msgid "Checking inter conflicts"
-msgstr "Recherche des conflits entre paquets"
+msgstr "Überprüfe interne Konflikte"
 
 #: pamac-daemon.py:81 pamac/main.py:73
 msgid "Installing"
@@ -43,303 +44,303 @@ msgstr "Installation"
 
 #: pamac-daemon.py:88 pamac/main.py:73
 msgid "Removing"
-msgstr "Désinstallation"
+msgstr "Deinstallation"
 
 #: pamac-daemon.py:95 pamac/main.py:73
 msgid "Upgrading"
-msgstr "Mise à jour"
+msgstr "Erneuerung"
 
 #: pamac-daemon.py:102
 msgid "Checking integrity"
-msgstr "Vérification de l'intégrité des paquets"
+msgstr "Überprüfe Integrität"
 
 #: pamac-daemon.py:106
 msgid "Loading packages files"
-msgstr "Chargement des fichiers des paquets"
+msgstr "Lade Paketdateien"
 
 #: pamac-daemon.py:110 pamac/main.py:73
 msgid "Configuring"
-msgstr "Configuration"
+msgstr "Konfiguration"
 
 #: pamac-daemon.py:162
 msgid "Downloading {size}"
-msgstr "Téléchargement de {size}"
+msgstr "Lade {size}"
 
 #: pamac-daemon.py:167 pamac/main.py:504
 msgid "Refreshing"
-msgstr "Actualisation"
+msgstr "Aktualistation"
 
 #: pamac-daemon.py:270 pamac-daemon.py:378 pamac-daemon.py:386
 #: pamac-daemon.py:408
 msgid "Authentication failed"
-msgstr "L'authentification a échoué"
+msgstr "Authentifikation fehlgeschlagen"
 
 #: pamac-daemon.py:374
 msgid "Transaction successfully finished"
-msgstr "Transaction terminée avec succès"
+msgstr "Vorgang erfolgreich abgeschlossen"
 
 #: pamac-tray.py:22
 msgid "{number} available updates"
-msgstr "{number} mises à jour disponibles"
+msgstr "{number} verfügbare  Erneuerungen"
 
 #: pamac-tray.py:23
 msgid "1 available update"
-msgstr "1 mise à jour disponible"
+msgstr "1 Erneuerung verfügbar"
 
 #: pamac-tray.py:25
 msgid "Your system is up-to-date"
-msgstr "Votre système est à jour"
+msgstr "Ihr System ist auf dem neusten Stand"
 
 #: pamac-tray.py:33
 msgid "Install/Check for updates"
-msgstr "Installer/Vérifier les mises à jour"
+msgstr "Installation/Überprüfung von Updates"
 
 #: pamac-tray.py:36
 msgid "Run pamac-manager"
-msgstr "Exécuter pamac-manager"
+msgstr "Starte pamac-manager"
 
 #: pamac-tray.py:39
 msgid "Quit"
-msgstr "Quitter"
+msgstr "Beenden"
 
 #: pamac/main.py:110 pamac/main.py:923
 msgid "Installed"
-msgstr "Installé"
+msgstr "Installiert"
 
 #: pamac/main.py:110 pamac/main.py:925
 msgid "Uninstalled"
-msgstr "Non installé"
+msgstr "Nicht installiert"
 
 #: pamac/main.py:110 pamac/main.py:927
 msgid "Orphans"
-msgstr "Orphelins"
+msgstr "Verwaist"
 
 #: pamac/main.py:110 pamac/main.py:428 pamac/main.py:929
 msgid "To install"
-msgstr "À installer"
+msgstr "Wird installiert"
 
 #: pamac/main.py:110 pamac/main.py:408 pamac/main.py:931
 msgid "To remove"
-msgstr "À désinstaller"
+msgstr "Wird entfernt"
 
 #: pamac/main.py:129 pamac/main.py:939
 msgid "local"
-msgstr "locaux"
+msgstr "Lokal"
 
 #: pamac/main.py:295
 msgid "No package found"
-msgstr "Aucun paquet trouvé"
+msgstr "Keine Pakete gefunden"
 
 #: pamac/main.py:346
 msgid "Licenses"
-msgstr "Licences"
+msgstr "Lizenzen"
 
 #: pamac/main.py:351
 msgid "Depends On"
-msgstr "Dépend de"
+msgstr "Hängt ab von"
 
 #: pamac/main.py:353
 msgid "Optional Deps"
-msgstr "Dépendances opt."
+msgstr "Opt. Abhängigkeiten"
 
 #: pamac/main.py:356
 msgid "Required By"
-msgstr "Requis par"
+msgstr "Benötigt von"
 
 #: pamac/main.py:358
 msgid "Provides"
-msgstr "Fournit"
+msgstr "Stellt bereit"
 
 #: pamac/main.py:360
 msgid "Replaces"
-msgstr "Remplace"
+msgstr "Ersetzt"
 
 #: pamac/main.py:362
 msgid "Conflicts With"
-msgstr "Est conflit avec"
+msgstr "Konflikt mit"
 
 #: pamac/main.py:367
 msgid "Repository"
-msgstr "Dépôt"
+msgstr "Repositrium"
 
 #: pamac/main.py:369 gui/manager.glade:539
 msgid "Groups"
-msgstr "Groupes"
+msgstr "Gruppen"
 
 #: pamac/main.py:371
 msgid "Compressed Size"
-msgstr "Taille compressée"
+msgstr "Komprimierte Größe"
 
 #: pamac/main.py:372
 msgid "Download Size"
-msgstr "Taille du téléchargement"
+msgstr "Datengröße"
 
 #: pamac/main.py:374
 msgid "Installed Size"
-msgstr "Taille après installation"
+msgstr "Installierte Größe"
 
 #: pamac/main.py:375
 msgid "Packager"
-msgstr "Paqueteur"
+msgstr "Packer"
 
 #: pamac/main.py:379
 msgid "Install Date"
-msgstr "Installé le"
+msgstr "Installiert am"
 
 #: pamac/main.py:381
 msgid "Explicitly installed"
-msgstr "Explicitement installé"
+msgstr "Ausdrücklich installiert"
 
 #: pamac/main.py:383
 msgid "Installed as a dependency for another package"
-msgstr "Installé comme dépendance d'un autre paquet"
+msgstr "Installiert als Abhängigkeit für ein anderes Paket"
 
 #: pamac/main.py:385
 msgid "Unknown"
-msgstr "Inconnu"
+msgstr "Unbekannt"
 
 #: pamac/main.py:386
 msgid "Install Reason"
-msgstr "Motif d'installation"
+msgstr "Installationsgrund"
 
 #: pamac/main.py:391
 msgid "Signatures"
-msgstr "Signatures"
+msgstr "Signaturen"
 
 #: pamac/main.py:395
 msgid "Backup files"
-msgstr "Fichiers sauvegardés"
+msgstr "Dateisicherungen"
 
 #: pamac/main.py:405
 msgid "<big><b>Transaction Summary</b></big>"
-msgstr "<big><b>Résumé de la transaction</b></big>"
+msgstr "<big><b>Vorgang</b></big>"
 
 #: pamac/main.py:419 pamac/main.py:528
 msgid "<b>Total download size: </b>"
-msgstr "<b>Taille totale du téléchargement: </b>"
+msgstr "<b>Gesamtgröße des Downloads: </b>"
 
 #: pamac/main.py:435
 msgid "To update"
-msgstr "À mettre à jour"
+msgstr "Wird erneuert"
 
 #: pamac/main.py:520 pamac/main.py:1048
 msgid "<big><b>Your system is up-to-date</b></big>"
-msgstr "<big><b>Votre système est à jour</b></big>"
+msgstr "<big><b>Ihr System ist auf dem aktuellen Stand</b></big>"
 
 #: pamac/main.py:530
 msgid "<big><b>1 available update</b></big>"
-msgstr "<big><b>1 mise à jour disponible</b></big>"
+msgstr "<big><b>1 Erneuerung verfügbar</b></big>"
 
 #: pamac/main.py:532
 msgid "<big><b>{number} available updates</b></big>"
-msgstr "<big><b>{number} mises à jour disponibles</b></big>"
+msgstr "<big><b>{number} Erneuerungen verfügbar</b></big>"
 
 #: pamac/main.py:691 pamac/main.py:761
 msgid "{pkgname1} will be replaced by {pkgname2}"
-msgstr "{pkgname1} sera remplacé par {pkgname2}"
+msgstr "{pkgname1} wird ersetzt von {pkgname2}"
 
 #: pamac/main.py:708 pamac/main.py:742
 msgid ""
 "{pkgname1} conflicts with {pkgname2} but cannot be removed because it is "
 "needed by {pkgname3}"
 msgstr ""
-"{pkgname1} est en conflit avec {pkgname2} mais ne peut pas être désinstallé "
-"car il est requis par {pkgname3}"
+"{pkgname1} erzeugt einen Konflikt mit {pkgname2}, kann als Abhängigkeit von "
+"{pkgname3} nicht entfernt werden"
 
 #: pamac/main.py:713 pamac/main.py:747
 msgid "{pkgname1} conflicts with {pkgname2}"
-msgstr "{pkgname1} est en conflit avec {pkgname2}"
+msgstr "{pkgname1} erzeugt Konflikt mit {pkgname2}"
 
 #: pamac/main.py:723
 msgid ""
 "{pkgname1} conflicts with {pkgname2}\n"
 "None of them will be installed"
 msgstr ""
-"{pkgname1} est en conflit avec {pkgname2}\n"
-"Aucun d'entre eux ne sera installé"
+"{pkgname1} erzeugt Konflikt mit {pkgname2}\n"
+"Es werden keine Pakete installiert"
 
 #: pamac/main.py:782
 msgid ""
 "<b>{pkgname} is provided by {number} packages.\n"
 "Please choose the one(s) you want to install:</b>"
 msgstr ""
-"<b>{pkgname} est fourni par {number} paquets.\n"
-"Veuillez choisir celui ou ceux que vous voulez installer:</b>"
+"<b>{pkgname} wird von {number} Paket(en) bereitgestellt.\n"
+"Zu installierende Paket(e) aus folgender Liste auswählen:</b>"
 
 #: pamac/main.py:808
 msgid "No package is selected"
-msgstr "Aucun paquet n'est sélectionné"
+msgstr "Kein Paket wurde ausgewählt"
 
 #: pamac/main.py:849
 msgid "Nothing to do"
-msgstr "Rien à faire"
+msgstr "Es gibt nichts zu tun"
 
 #: pamac/main.py:1032
 msgid "Pamac is already running"
-msgstr "Pamac est déjà en cours d'exécution"
+msgstr "Pamac wird bereits ausgeführt"
 
 #: pamac/common.py:13
 #, python-format
 msgid "%.1f KiB"
-msgstr "%.1f Ko"
+msgstr "%.1f KiB"
 
 #: pamac/common.py:16
 #, python-format
 msgid "%.2f MiB"
-msgstr "%.2f Mo"
+msgstr "%.2f MiB"
 
 #: gui/manager.glade:7
 msgid "Choose"
-msgstr "Choisir"
+msgstr "Auswahl"
 
 #: gui/manager.glade:112
 msgid "Summary"
-msgstr "Résumé"
+msgstr "Zusammenfassung"
 
 #: gui/manager.glade:256
 msgid "Progress"
-msgstr "Progression"
+msgstr "Fortschritt"
 
 #: gui/manager.glade:402
 msgid "Package Manager"
-msgstr "Gestionnaire de paquets"
+msgstr "Paketmanager"
 
 #: gui/manager.glade:492
 msgid "Search"
-msgstr "Rechercher"
+msgstr "Suche"
 
 #: gui/manager.glade:587 gui/manager.glade:680
 msgid "State"
-msgstr "État"
+msgstr "Status"
 
 #: gui/manager.glade:635
 msgid "Repos"
-msgstr "Dépôts"
+msgstr "Repos"
 
 #: gui/manager.glade:710
 msgid "Name"
-msgstr "Nom"
+msgstr "Name"
 
 #: gui/manager.glade:728
 msgid "Size"
-msgstr "Taille"
+msgstr "Größe"
 
 #: gui/manager.glade:829
 msgid "Infos"
-msgstr "Infos"
+msgstr "Info"
 
 #: gui/manager.glade:889
 msgid "Deps"
-msgstr "Dépendances"
+msgstr "Abhängigkeiten"
 
 #: gui/manager.glade:954
 msgid "Details"
-msgstr "Détails"
+msgstr "Details"
 
 #: gui/manager.glade:1002
 msgid "Files"
-msgstr "Fichiers"
+msgstr "Dateien"
 
 #: gui/updater.glade:6
 msgid "Update Manager"
-msgstr "Gestionnaire de mises à jour"
+msgstr "Update Manager"

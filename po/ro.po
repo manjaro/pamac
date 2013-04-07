@@ -9,9 +9,9 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-03-31 18:55+0200\n"
 "PO-Revision-Date: 2013-03-30 15:18+0100\n"
-"Last-Translator: <elvirolo@gmail.com>\n"
-"Language-Team: French\n"
-"Language: fr\n"
+"Last-Translator:  <alexandru.ianu@gmail.com>\n"
+"Language-Team: Romanian\n"
+"Language: ro\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -19,298 +19,298 @@ msgstr ""
 
 #: pamac-daemon.py:30 pamac/main.py:594
 msgid "Preparing"
-msgstr "Préparation"
+msgstr "Se prepară"
 
 #: pamac-daemon.py:69
 msgid "Checking dependencies"
-msgstr "Vérification des dépendances"
+msgstr "Se verifică dependențele"
 
 #: pamac-daemon.py:72
 msgid "Checking file conflicts"
-msgstr "Analyse des conflits entre fichiers"
+msgstr "Se analizează conflictele de fișiere"
 
 #: pamac-daemon.py:75
 msgid "Resolving dependencies"
-msgstr "Résolution des dépendances"
+msgstr "Se rezolvă dependențele"
 
 #: pamac-daemon.py:78
 msgid "Checking inter conflicts"
-msgstr "Recherche des conflits entre paquets"
+msgstr "Se verifică inter-conflictele"
 
 #: pamac-daemon.py:81 pamac/main.py:73
 msgid "Installing"
-msgstr "Installation"
+msgstr "Se instalează"
 
 #: pamac-daemon.py:88 pamac/main.py:73
 msgid "Removing"
-msgstr "Désinstallation"
+msgstr "Se dezinstalează"
 
 #: pamac-daemon.py:95 pamac/main.py:73
 msgid "Upgrading"
-msgstr "Mise à jour"
+msgstr "Se înnoiește"
 
 #: pamac-daemon.py:102
 msgid "Checking integrity"
-msgstr "Vérification de l'intégrité des paquets"
+msgstr "Se verifică integritatea"
 
 #: pamac-daemon.py:106
 msgid "Loading packages files"
-msgstr "Chargement des fichiers des paquets"
+msgstr "Se încarcă fișierle pachetelor"
 
 #: pamac-daemon.py:110 pamac/main.py:73
 msgid "Configuring"
-msgstr "Configuration"
+msgstr "Se configurează"
 
 #: pamac-daemon.py:162
 msgid "Downloading {size}"
-msgstr "Téléchargement de {size}"
+msgstr "Se descarcă {size}"
 
 #: pamac-daemon.py:167 pamac/main.py:504
 msgid "Refreshing"
-msgstr "Actualisation"
+msgstr "Se reîmprospătează"
 
 #: pamac-daemon.py:270 pamac-daemon.py:378 pamac-daemon.py:386
 #: pamac-daemon.py:408
 msgid "Authentication failed"
-msgstr "L'authentification a échoué"
+msgstr "Autentificarea a eșuat"
 
 #: pamac-daemon.py:374
 msgid "Transaction successfully finished"
-msgstr "Transaction terminée avec succès"
+msgstr "Tranzacția s-a terminat cu succes"
 
 #: pamac-tray.py:22
 msgid "{number} available updates"
-msgstr "{number} mises à jour disponibles"
+msgstr "{number} actualizări disponibile"
 
 #: pamac-tray.py:23
 msgid "1 available update"
-msgstr "1 mise à jour disponible"
+msgstr "O actualizare disponibilă"
 
 #: pamac-tray.py:25
 msgid "Your system is up-to-date"
-msgstr "Votre système est à jour"
+msgstr "Sistemul vostru este la zi"
 
 #: pamac-tray.py:33
 msgid "Install/Check for updates"
-msgstr "Installer/Vérifier les mises à jour"
+msgstr "Instalează/verifică actualizări"
 
 #: pamac-tray.py:36
 msgid "Run pamac-manager"
-msgstr "Exécuter pamac-manager"
+msgstr "Rulează pamac-manager"
 
 #: pamac-tray.py:39
 msgid "Quit"
-msgstr "Quitter"
+msgstr "Ieși"
 
 #: pamac/main.py:110 pamac/main.py:923
 msgid "Installed"
-msgstr "Installé"
+msgstr "Instalate"
 
 #: pamac/main.py:110 pamac/main.py:925
 msgid "Uninstalled"
-msgstr "Non installé"
+msgstr "Neinstalate"
 
 #: pamac/main.py:110 pamac/main.py:927
 msgid "Orphans"
-msgstr "Orphelins"
+msgstr "Orfani"
 
 #: pamac/main.py:110 pamac/main.py:428 pamac/main.py:929
 msgid "To install"
-msgstr "À installer"
+msgstr "De instalat"
 
 #: pamac/main.py:110 pamac/main.py:408 pamac/main.py:931
 msgid "To remove"
-msgstr "À désinstaller"
+msgstr "De dezinstalat"
 
 #: pamac/main.py:129 pamac/main.py:939
 msgid "local"
-msgstr "locaux"
+msgstr "locale"
 
 #: pamac/main.py:295
 msgid "No package found"
-msgstr "Aucun paquet trouvé"
+msgstr "Niciun pachet găsit"
 
 #: pamac/main.py:346
 msgid "Licenses"
-msgstr "Licences"
+msgstr "Licențe"
 
 #: pamac/main.py:351
 msgid "Depends On"
-msgstr "Dépend de"
+msgstr "Depinde de"
 
 #: pamac/main.py:353
 msgid "Optional Deps"
-msgstr "Dépendances opt."
+msgstr "Dependențe opționale"
 
 #: pamac/main.py:356
 msgid "Required By"
-msgstr "Requis par"
+msgstr "Necesar pentru"
 
 #: pamac/main.py:358
 msgid "Provides"
-msgstr "Fournit"
+msgstr "Furnizează"
 
 #: pamac/main.py:360
 msgid "Replaces"
-msgstr "Remplace"
+msgstr "Înlocuiește"
 
 #: pamac/main.py:362
 msgid "Conflicts With"
-msgstr "Est conflit avec"
+msgstr "Este în conflict cu"
 
 #: pamac/main.py:367
 msgid "Repository"
-msgstr "Dépôt"
+msgstr "Depozit"
 
 #: pamac/main.py:369 gui/manager.glade:539
 msgid "Groups"
-msgstr "Groupes"
+msgstr "Grupe"
 
 #: pamac/main.py:371
 msgid "Compressed Size"
-msgstr "Taille compressée"
+msgstr "Mărime comprimată"
 
 #: pamac/main.py:372
 msgid "Download Size"
-msgstr "Taille du téléchargement"
+msgstr "Mărimea descărcării"
 
 #: pamac/main.py:374
 msgid "Installed Size"
-msgstr "Taille après installation"
+msgstr "Mărimea instalată"
 
 #: pamac/main.py:375
 msgid "Packager"
-msgstr "Paqueteur"
+msgstr "Împachetator"
 
 #: pamac/main.py:379
 msgid "Install Date"
-msgstr "Installé le"
+msgstr "Instalat la"
 
 #: pamac/main.py:381
 msgid "Explicitly installed"
-msgstr "Explicitement installé"
+msgstr "Instalat explicit"
 
 #: pamac/main.py:383
 msgid "Installed as a dependency for another package"
-msgstr "Installé comme dépendance d'un autre paquet"
+msgstr "Instalat ca dependență a unui alt pachet"
 
 #: pamac/main.py:385
 msgid "Unknown"
-msgstr "Inconnu"
+msgstr "Necunoscut"
 
 #: pamac/main.py:386
 msgid "Install Reason"
-msgstr "Motif d'installation"
+msgstr "Motivul instalării"
 
 #: pamac/main.py:391
 msgid "Signatures"
-msgstr "Signatures"
+msgstr "Semnături"
 
 #: pamac/main.py:395
 msgid "Backup files"
-msgstr "Fichiers sauvegardés"
+msgstr "Copii de rezervă"
 
 #: pamac/main.py:405
 msgid "<big><b>Transaction Summary</b></big>"
-msgstr "<big><b>Résumé de la transaction</b></big>"
+msgstr "<big><b>Sumarul tranzacției</b></big>"
 
 #: pamac/main.py:419 pamac/main.py:528
 msgid "<b>Total download size: </b>"
-msgstr "<b>Taille totale du téléchargement: </b>"
+msgstr "<b>Mărimea totală a descărcării: </b>"
 
 #: pamac/main.py:435
 msgid "To update"
-msgstr "À mettre à jour"
+msgstr "De actualizat"
 
 #: pamac/main.py:520 pamac/main.py:1048
 msgid "<big><b>Your system is up-to-date</b></big>"
-msgstr "<big><b>Votre système est à jour</b></big>"
+msgstr "<big><b>Sistemul vostru este la zi</b></big>"
 
 #: pamac/main.py:530
 msgid "<big><b>1 available update</b></big>"
-msgstr "<big><b>1 mise à jour disponible</b></big>"
+msgstr "<big><b>O actualizare disponibilă</b></big>"
 
 #: pamac/main.py:532
 msgid "<big><b>{number} available updates</b></big>"
-msgstr "<big><b>{number} mises à jour disponibles</b></big>"
+msgstr "<big><b>{number} actualizări disponivile</b></big>"
 
 #: pamac/main.py:691 pamac/main.py:761
 msgid "{pkgname1} will be replaced by {pkgname2}"
-msgstr "{pkgname1} sera remplacé par {pkgname2}"
+msgstr "{pkgname1} va fi înlocuit de {pkgname2}"
 
 #: pamac/main.py:708 pamac/main.py:742
 msgid ""
 "{pkgname1} conflicts with {pkgname2} but cannot be removed because it is "
 "needed by {pkgname3}"
 msgstr ""
-"{pkgname1} est en conflit avec {pkgname2} mais ne peut pas être désinstallé "
-"car il est requis par {pkgname3}"
+"{pkgname1} este în conflict cu {pkgname2} dar nu poate fi dezinstalat"
+"pentru că este necesar pentru {pkgname3}"
 
 #: pamac/main.py:713 pamac/main.py:747
 msgid "{pkgname1} conflicts with {pkgname2}"
-msgstr "{pkgname1} est en conflit avec {pkgname2}"
+msgstr "{pkgname1} este în conflict cu {pkgname2}"
 
 #: pamac/main.py:723
 msgid ""
 "{pkgname1} conflicts with {pkgname2}\n"
 "None of them will be installed"
 msgstr ""
-"{pkgname1} est en conflit avec {pkgname2}\n"
-"Aucun d'entre eux ne sera installé"
+"{pkgname1} este în conflict cu {pkgname2}\n"
+"Niciunul nu va fi instalat"
 
 #: pamac/main.py:782
 msgid ""
 "<b>{pkgname} is provided by {number} packages.\n"
 "Please choose the one(s) you want to install:</b>"
 msgstr ""
-"<b>{pkgname} est fourni par {number} paquets.\n"
-"Veuillez choisir celui ou ceux que vous voulez installer:</b>"
+"<b>{pkgname} este furnizate de {number} pachete.\n"
+"Alegeți cel/cele pe care îl/le vreți instalat(e)</b>"
 
 #: pamac/main.py:808
 msgid "No package is selected"
-msgstr "Aucun paquet n'est sélectionné"
+msgstr "Niciun pachet selectat"
 
 #: pamac/main.py:849
 msgid "Nothing to do"
-msgstr "Rien à faire"
+msgstr "Nimic de făcut"
 
 #: pamac/main.py:1032
 msgid "Pamac is already running"
-msgstr "Pamac est déjà en cours d'exécution"
+msgstr "Pamac rulează deja"
 
 #: pamac/common.py:13
 #, python-format
 msgid "%.1f KiB"
-msgstr "%.1f Ko"
+msgstr "%.1f KiB"
 
 #: pamac/common.py:16
 #, python-format
 msgid "%.2f MiB"
-msgstr "%.2f Mo"
+msgstr "%.2f MiB"
 
 #: gui/manager.glade:7
 msgid "Choose"
-msgstr "Choisir"
+msgstr "Alegeți"
 
 #: gui/manager.glade:112
 msgid "Summary"
-msgstr "Résumé"
+msgstr "Sumar"
 
 #: gui/manager.glade:256
 msgid "Progress"
-msgstr "Progression"
+msgstr "Progres"
 
 #: gui/manager.glade:402
 msgid "Package Manager"
-msgstr "Gestionnaire de paquets"
+msgstr "Gestionar de pachete"
 
 #: gui/manager.glade:492
 msgid "Search"
-msgstr "Rechercher"
+msgstr "Caută"
 
 #: gui/manager.glade:587 gui/manager.glade:680
 msgid "State"
-msgstr "État"
+msgstr "Stare"
 
 #: gui/manager.glade:635
 msgid "Repos"
@@ -318,28 +318,28 @@ msgstr "Dépôts"
 
 #: gui/manager.glade:710
 msgid "Name"
-msgstr "Nom"
+msgstr "Nume"
 
 #: gui/manager.glade:728
 msgid "Size"
-msgstr "Taille"
+msgstr "Mărime"
 
 #: gui/manager.glade:829
 msgid "Infos"
-msgstr "Infos"
+msgstr "Informații"
 
 #: gui/manager.glade:889
 msgid "Deps"
-msgstr "Dépendances"
+msgstr "Dependențe"
 
 #: gui/manager.glade:954
 msgid "Details"
-msgstr "Détails"
+msgstr "Detailii"
 
 #: gui/manager.glade:1002
 msgid "Files"
-msgstr "Fichiers"
+msgstr "Fișiere"
 
 #: gui/updater.glade:6
 msgid "Update Manager"
-msgstr "Gestionnaire de mises à jour"
+msgstr "Gestionar de actualizări"

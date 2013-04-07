@@ -1,4 +1,4 @@
-#! /usr/bin/python
+#! /usr/bin/python3
 # -*- coding:utf-8 -*-
 
 from gi.repository import Gtk
@@ -357,11 +357,11 @@ def set_deps_list(pkg, style):
 		if pkg.compute_requiredby():
 			deps_list.append([_('Required By')+':', '\n'.join(pkg.compute_requiredby())])
 	if pkg.provides:
-		details_list.append([_('Provides')+':', ' '.join(pkg.provides)])
+		deps_list.append([_('Provides')+':', '\n'.join(pkg.provides)])
 	if pkg.replaces:
-		details_list.append([_('Replaces')+':', ' '.join(pkg.replaces)])
+		deps_list.append([_('Replaces')+':', '\n'.join(pkg.replaces)])
 	if pkg.conflicts:
-		details_list.append([_('Conflicts With')+':', ' '.join(pkg.conflicts)])
+		deps_list.append([_('Conflicts With')+':', '\n'.join(pkg.conflicts)])
 
 def set_details_list(pkg, style):
 	details_list.clear()
@@ -637,10 +637,10 @@ def check_conflicts(mode, pkg_list):
 														depends[i+1].append(__pkg)
 														transaction.to_add.append(__pkg.name)
 			for depend in pkg.depends:
-				provide = pyalpm.find_satisfier(transaction.localpkgs.values(), depend)
-				if provide:
-					print(i,'local',provide)
-					if provide.name != common.format_pkg_name(depend):
+				found_depend = pyalpm.find_satisfier(transaction.localpkgs.values(), depend)
+				if found_depend:
+					print(i,'local',found_depend)
+					if found_depend.name != common.format_pkg_name(depend):
 						if ('-modules' in depend) or ('linux' in depend):
 							for _pkg in transaction.syncpkgs.values():
 								if not _pkg.name in transaction.localpkgs.keys():
@@ -652,10 +652,10 @@ def check_conflicts(mode, pkg_list):
 														depends[i+1].append(_pkg)
 														transaction.to_add.append(_pkg.name)
 				else:
-					provide = pyalpm.find_satisfier(transaction.syncpkgs.values(), depend)
-					if provide:
-						print(i,'sync',provide)
-						if provide.name != common.format_pkg_name(depend):
+					found_depend = pyalpm.find_satisfier(transaction.syncpkgs.values(), depend)
+					if found_depend:
+						print(i,'sync',found_depend)
+						if found_depend.name != common.format_pkg_name(depend):
 							if ('-modules' in depend) or ('linux' in depend):
 								for _pkg in transaction.syncpkgs.values():
 									if not _pkg.name in transaction.localpkgs.keys():
@@ -670,8 +670,8 @@ def check_conflicts(mode, pkg_list):
 								already_provided = False
 								for pkgname in transaction.to_add:
 									_pkg = transaction.syncpkgs[pkgname]
-									provide = pyalpm.find_satisfier([_pkg], depend)
-									if provide:
+									found_depend = pyalpm.find_satisfier([_pkg], depend)
+									if found_depend:
 										already_provided = True
 								if not already_provided:
 									to_add_to_depends = choose_provides(depend)
@@ -680,41 +680,49 @@ def check_conflicts(mode, pkg_list):
 											depends[i+1].append(_pkg)
 											transaction.to_add.append(_pkg.name)
 						else:
-							depends[i+1].append(provide)
+							depends[i+1].append(found_depend)
 			if mode == 'updating':
 				for replace in pkg.replaces:
-					provide = pyalpm.find_satisfier(transaction.localpkgs.values(), replace)
-					if provide:
-						if provide.name != pkg.name:
-							if not provide.name in transaction.to_remove:
-								transaction.to_remove.append(provide.name)
+					found_replace = pyalpm.find_satisfier(transaction.localpkgs.values(), replace)
+					if found_replace:
+						if found_replace.name != pkg.name:
+							if not found_replace.name in transaction.to_remove:
+								transaction.to_remove.append(found_replace.name)
 								if warning:
 									warning += '\n'
-								warning += _('{pkgname1} will be replaced by {pkgname2}').format(pkgname1 = provide.name, pkgname2 = pkg.name)
+								warning += _('{pkgname1} will be replaced by {pkgname2}').format(pkgname1 = found_replace.name, pkgname2 = pkg.name)
 			for conflict in pkg.conflicts:
-				provide = pyalpm.find_satisfier(transaction.localpkgs.values(), conflict)
-				if provide:
-					if provide.name != pkg.name:
-						if transaction.syncpkgs.__contains__(provide.name):
-							new_provide = pyalpm.find_satisfier([transaction.syncpkgs[provide.name]], conflict)
-							if new_provide:
-								required = pkg.compute_requiredby()
-								if required:
-									str_required = ''
-									for item in required:
-										if str_required:
-											str_required += ', '
-										str_required += item
-									if error:
-										error += '\n'
-									error += _('{pkgname1} conflicts with {pkgname2} but cannot be removed because it is needed by {pkgname3}').format(pkgname1 = provide.name, pkgname2 = pkg.name, pkgname3 = str_required)
-								elif not provide.name in transaction.to_remove:
-									transaction.to_remove.append(provide.name)
-									if warning:
-										warning += '\n'
-									warning += _('{pkgname1} conflicts with {pkgname2}').format(pkgname1 = pkg.name, pkgname2 = provide.name)
-				provide = pyalpm.find_satisfier(depends[0], conflict)
-				if provide:
+				found_conflict = pyalpm.find_satisfier(transaction.localpkgs.values(), conflict)
+				if found_conflict:
+					if found_conflict.name != pkg.name:
+						will_provide_conflict = pyalpm.find_satisfier([pkg], conflict)
+						if will_provide_conflict:
+							if not found_conflict.name in transaction.to_remove:
+								transaction.to_remove.append(found_conflict.name)
+								if warning:
+									warning += '\n'
+								warning += _('{pkgname1} conflicts with {pkgname2}').format(pkgname1 = pkg.name, pkgname2 = found_conflict.name)
+						else:
+							if transaction.syncpkgs.__contains__(found_conflict.name):
+								new_found_conflict = pyalpm.find_satisfier([transaction.syncpkgs[found_conflict.name]], conflict)
+								if new_found_conflict:
+									required = pkg.compute_requiredby()
+									if required:
+										str_required = ''
+										for item in required:
+											if str_required:
+												str_required += ', '
+											str_required += item
+										if error:
+											error += '\n'
+										error += _('{pkgname1} conflicts with {pkgname2} but cannot be removed because it is needed by {pkgname3}').format(pkgname1 = found_conflict.name, pkgname2 = pkg.name, pkgname3 = str_required)
+									elif not found_conflict.name in transaction.to_remove:
+										transaction.to_remove.append(found_conflict.name)
+										if warning:
+											warning += '\n'
+										warning += _('{pkgname1} conflicts with {pkgname2}').format(pkgname1 = pkg.name, pkgname2 = found_conflict.name)
+				found_conflict = pyalpm.find_satisfier(depends[0], conflict)
+				if found_conflict:
 					if not common.format_pkg_name(conflict) == pkg.name:
 						if not common.format_pkg_name(conflict) in transaction.to_remove:
 							if pkg.name in transaction.to_add and common.format_pkg_name(conflict) in transaction.to_add:
@@ -726,41 +734,49 @@ def check_conflicts(mode, pkg_list):
 		i += 1
 	for pkg in transaction.localpkgs.values():
 		for conflict in pkg.conflicts:
-			provide = pyalpm.find_satisfier(depends[0], conflict)
-			if provide:
-				if provide.name != pkg.name:
-					if transaction.syncpkgs.__contains__(pkg.name):
-						new_provide = pyalpm.find_satisfier([transaction.syncpkgs[pkg.name]], conflict)
-						if new_provide:
-							required = pkg.compute_requiredby()
-							if required:
-								str_required = ''
-								for item in required:
-									if str_required:
-										str_required += ', '
-									str_required += item
-								if error:
-									error += '\n'
-								error += _('{pkgname1} conflicts with {pkgname2} but cannot be removed because it is needed by {pkgname3}').format(pkgname1 = provide.name, pkgname2 = pkg.name, pkgname3 = str_required)
-							elif not provide.name in transaction.to_remove:
-								transaction.to_remove.append(pkg.name)
-								if warning:
-									warning += '\n'
-								warning += _('{pkgname1} conflicts with {pkgname2}').format(pkgname1= provide.name, pkgname2 = pkg.name)
+			found_conflict = pyalpm.find_satisfier(depends[0], conflict)
+			if found_conflict:
+				if found_conflict.name != pkg.name:
+					will_provide_conflict = pyalpm.find_satisfier([pkg], conflict)
+					if will_provide_conflict:
+						if not pkg.name in transaction.to_remove:
+							transaction.to_remove.append(pkg.name)
+							if warning:
+								warning += '\n'
+							warning += _('{pkgname1} conflicts with {pkgname2}').format(pkgname1 = found_conflict.name, pkgname2 = pkg.name)
+					else:
+						if transaction.syncpkgs.__contains__(pkg.name):
+							new_found_conflict = pyalpm.find_satisfier([transaction.syncpkgs[pkg.name]], conflict)
+							if new_found_conflict:
+								required = pkg.compute_requiredby()
+								if required:
+									str_required = ''
+									for item in required:
+										if str_required:
+											str_required += ', '
+										str_required += item
+									if error:
+										error += '\n'
+									error += _('{pkgname1} conflicts with {pkgname2} but cannot be removed because it is needed by {pkgname3}').format(pkgname1 = pkg.name, pkgname2 = found_conflict.name, pkgname3 = str_required)
+								elif not pkg.name in transaction.to_remove:
+									transaction.to_remove.append(pkg.name)
+									if warning:
+										warning += '\n'
+									warning += _('{pkgname1} conflicts with {pkgname2}').format(pkgname1= found_conflict.name, pkgname2 = pkg.name)
 	if mode == 'updating':
 		for pkg in transaction.syncpkgs.values():
 			for replace in pkg.replaces:
-				provide = pyalpm.find_satisfier(transaction.localpkgs.values(), replace)
-				if provide:
+				found_replace = pyalpm.find_satisfier(transaction.localpkgs.values(), replace)
+				if found_replace:
 					if not common.format_pkg_name(replace) in transaction.syncpkgs.keys():
-						if provide.name != pkg.name:
+						if found_replace.name != pkg.name:
 							if not pkg.name in transaction.localpkgs.keys():
 								if common.format_pkg_name(replace) in transaction.localpkgs.keys():
-									if not provide.name in transaction.to_remove:
-										transaction.to_remove.append(provide.name)
+									if not found_replace.name in transaction.to_remove:
+										transaction.to_remove.append(found_replace.name)
 										if warning:
 											warning += '\n'
-										warning += _('{pkgname1} will be replaced by {pkgname2}').format(pkgname1 = provide.name, pkgname2 = pkg.name)
+										warning += _('{pkgname1} will be replaced by {pkgname2}').format(pkgname1 = found_replace.name, pkgname2 = pkg.name)
 									if not pkg.name in transaction.to_add:
 										transaction.to_add.append(pkg.name)
 	print('check result:', 'to add:', transaction.to_add, 'to remove:', transaction.to_remove)
@@ -816,7 +832,7 @@ class Handler:
 				print('Transaction locked')
 			else:
 				if transaction_type is "remove":
-					if transaction.init_transaction(cascade = True, recurse = True):
+					if transaction.init_transaction(cascade = True):#, recurse = True):
 						for pkgname in transaction_dict.keys():
 							transaction.Remove(pkgname)
 						error = transaction.Prepare()

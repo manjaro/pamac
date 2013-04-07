@@ -1,4 +1,4 @@
-#! /usr/bin/python
+#! /usr/bin/python3
 # -*- coding:utf-8 -*-
 
 import dbus
@@ -109,7 +109,7 @@ class PamacDBusService(dbus.service.Object):
 		elif ID is 26:
 			self.action = _('Configuring')+'...'
 			self.icon = '/usr/share/pamac/icons/24x24/status/setup.png'
-			self.EmitPercent(str(2))
+			self.EmitPercent(2)
 			print('Configuring a package')
 		elif ID is 27:
 			print('Downloading a file')
