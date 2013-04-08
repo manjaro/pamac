@@ -8,9 +8,9 @@ msgstr ""
 "Project-Id-Version: pamac\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-03-31 18:55+0200\n"
-"PO-Revision-Date: 2013-04-06 17:37+0100\n"
-"Last-Translator: Oriol Fernàndez <ofernandeza@gmail.com>\n"
-"Language-Team: Spanish\n"
+"PO-Revision-Date: 2013-04-08 09:57+0100\n"
+"Last-Translator: Daniel Pérez Galán <danpergal84@gmail.com>\n"
+"Language-Team: Español\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -28,7 +28,7 @@ msgstr "Verificando dependencias"
 
 #: pamac-daemon.py:72
 msgid "Checking file conflicts"
-msgstr "Analitzando conflictos entre ficheros"
+msgstr "Analizando conflictos entre archivos"
 
 #: pamac-daemon.py:75
 msgid "Resolving dependencies"
@@ -56,7 +56,7 @@ msgstr "Verificando la integridad de los paquetes"
 
 #: pamac-daemon.py:106
 msgid "Loading packages files"
-msgstr "Cargando ficheros de paquetes"
+msgstr "Cargando archivos de paquetes"
 
 #: pamac-daemon.py:110 pamac/main.py:73
 msgid "Configuring"
@@ -64,7 +64,7 @@ msgstr "Configurando"
 
 #: pamac-daemon.py:162
 msgid "Downloading {size}"
-msgstr "Bajando {size}"
+msgstr "Descargando {size}"
 
 #: pamac-daemon.py:167 pamac/main.py:504
 msgid "Refreshing"
@@ -77,7 +77,7 @@ msgstr "Autenticación fallida"
 
 #: pamac-daemon.py:374
 msgid "Transaction successfully finished"
-msgstr "Transacción finalizada con éxito"
+msgstr "Operación finalizada con éxito"
 
 #: pamac-tray.py:22
 msgid "{number} available updates"
@@ -93,7 +93,7 @@ msgstr "Tu sistema está actualizado"
 
 #: pamac-tray.py:33
 msgid "Install/Check for updates"
-msgstr "Instalar/Verificar actualizaciones"
+msgstr "Instalar/Comprobar actualizaciones"
 
 #: pamac-tray.py:36
 msgid "Run pamac-manager"
@@ -101,7 +101,7 @@ msgstr "Ejecutar pamac-manager"
 
 #: pamac-tray.py:39
 msgid "Quit"
-msgstr "Salir"
+msgstr "Quitar"
 
 #: pamac/main.py:110 pamac/main.py:923
 msgid "Installed"
@@ -121,7 +121,7 @@ msgstr "A instalar"
 
 #: pamac/main.py:110 pamac/main.py:408 pamac/main.py:931
 msgid "To remove"
-msgstr "A suprimir"
+msgstr "A desinstalar"
 
 #: pamac/main.py:129 pamac/main.py:939
 msgid "local"
@@ -141,7 +141,7 @@ msgstr "Depende de"
 
 #: pamac/main.py:353
 msgid "Optional Deps"
-msgstr "Dependencias Opcionales"
+msgstr "Dependencias opcionales"
 
 #: pamac/main.py:356
 msgid "Required By"
@@ -161,7 +161,7 @@ msgstr "Conflictos con"
 
 #: pamac/main.py:367
 msgid "Repository"
-msgstr "Repositorio"
+msgstr "Repositorios"
 
 #: pamac/main.py:369 gui/manager.glade:539
 msgid "Groups"
@@ -169,15 +169,15 @@ msgstr "Grupos"
 
 #: pamac/main.py:371
 msgid "Compressed Size"
-msgstr "Tamaño Comprimido"
+msgstr "Tamaño comprimido"
 
 #: pamac/main.py:372
 msgid "Download Size"
-msgstr "Tamaño Descargado"
+msgstr "Tamaño descargado"
 
 #: pamac/main.py:374
 msgid "Installed Size"
-msgstr "Tamaño Instalado"
+msgstr "Tamaño instalado"
 
 #: pamac/main.py:375
 msgid "Packager"
@@ -189,11 +189,11 @@ msgstr "Fecha de instalación"
 
 #: pamac/main.py:381
 msgid "Explicitly installed"
-msgstr "Instalado explícitamente"
+msgstr "Explícitamente instalado"
 
 #: pamac/main.py:383
 msgid "Installed as a dependency for another package"
-msgstr "Instalado como dependencia de otro  paquete"
+msgstr "Instalado como dependencia de otro paquete"
 
 #: pamac/main.py:385
 msgid "Unknown"
@@ -201,7 +201,7 @@ msgstr "Desconocido"
 
 #: pamac/main.py:386
 msgid "Install Reason"
-msgstr "Motivo de instalación"
+msgstr "Razón de instalación"
 
 #: pamac/main.py:391
 msgid "Signatures"
@@ -209,15 +209,15 @@ msgstr "Firmas"
 
 #: pamac/main.py:395
 msgid "Backup files"
-msgstr "Ficheros de copia de seguridad"
+msgstr "Archivos de copia de seguridad"
 
 #: pamac/main.py:405
 msgid "<big><b>Transaction Summary</b></big>"
-msgstr "<big><b>Resumen de la transacción</b></big>"
+msgstr "<big><b>Resumen de la operación</b></big>"
 
 #: pamac/main.py:419 pamac/main.py:528
 msgid "<b>Total download size: </b>"
-msgstr "<b>Tamaño total de la bajada: </b>"
+msgstr "<b>Tamaño total de la descarga: </b>"
 
 #: pamac/main.py:435
 msgid "To update"
@@ -244,12 +244,12 @@ msgid ""
 "{pkgname1} conflicts with {pkgname2} but cannot be removed because it is "
 "needed by {pkgname3}"
 msgstr ""
-"{pkgname1} está en conflicto con {pkgname2} pero no se puede desinstalar "
-"porque es requerido por {pkgname3}"
+"{pkgname1} está en conflicto con {pkgname2} pero no se puede desinstalar ya "
+"que es requerido por {pkgname3}"
 
 #: pamac/main.py:713 pamac/main.py:747
 msgid "{pkgname1} conflicts with {pkgname2}"
-msgstr "{pkgname1} está en conflicto con {pkgname2}"
+msgstr "{pkgname1} está en coflicto con {pkgname2}"
 
 #: pamac/main.py:723
 msgid ""
@@ -257,15 +257,15 @@ msgid ""
 "None of them will be installed"
 msgstr ""
 "{pkgname1} está en conflicto con {pkgname2}\n"
-"Ninguno de ellos se instalará."
+"Ninguno de ellos será instalado"
 
 #: pamac/main.py:782
 msgid ""
 "<b>{pkgname} is provided by {number} packages.\n"
 "Please choose the one(s) you want to install:</b>"
 msgstr ""
-"<b>{pkgname} está proporcionado por {number} paquetes.\n"
-"Por favor escoge que paquete/s que quieres instalar:</b>"
+"<b>{pkgname} es proporcionado por {number} paquetes.\n"
+"Por favor elige  el(los) paquete(s) que deseas instalar:</b>"
 
 #: pamac/main.py:808
 msgid "No package is selected"
@@ -277,7 +277,7 @@ msgstr "Nada que hacer"
 
 #: pamac/main.py:1032
 msgid "Pamac is already running"
-msgstr "Pamac ya está ejecutándose"
+msgstr "Pamac ya está siendo ejecutado"
 
 #: pamac/common.py:13
 #, python-format
@@ -291,7 +291,7 @@ msgstr "%.2f MiB"
 
 #: gui/manager.glade:7
 msgid "Choose"
-msgstr "Escoge"
+msgstr "Elegir"
 
 #: gui/manager.glade:112
 msgid "Summary"
@@ -339,7 +339,7 @@ msgstr "Detalles"
 
 #: gui/manager.glade:1002
 msgid "Files"
-msgstr "Ficheros"
+msgstr "Archivos"
 
 #: gui/updater.glade:6
 msgid "Update Manager"
