@@ -8,9 +8,9 @@ msgstr ""
 "Project-Id-Version: pamac\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-03-31 18:55+0200\n"
-"PO-Revision-Date: 2013-04-06 15:18+0100\n"
+"PO-Revision-Date: 2013-03-30 15:18+0100\n"
 "Last-Translator:  <tflovik@online.no>\n"
-"Language-Team: Norwegian\n"
+"Language-Team: Norway\n"
 "Language: nb\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -92,7 +92,7 @@ msgstr "Systemet ditt er oppdatert"
 
 #: pamac-tray.py:33
 msgid "Install/Check for updates"
-msgstr "Installerer/Ser etter oppdateringer "
+msgstr "Installer/Se etter oppdateringer "
 
 #: pamac-tray.py:36
 msgid "Run pamac-manager"
@@ -208,7 +208,7 @@ msgstr "Signaturer"
 
 #: pamac/main.py:395
 msgid "Backup files"
-msgstr "Sikkerhetskopierte filer"
+msgstr "Sikkerhetskopier filene"
 
 #: pamac/main.py:405
 msgid "<big><b>Transaction Summary</b></big>"
@@ -243,7 +243,7 @@ msgid ""
 "{pkgname1} conflicts with {pkgname2} but cannot be removed because it is "
 "needed by {pkgname3}"
 msgstr ""
-"{pkgname1} i konflikt med {pkgname2} men kan ikke bli fjernet fordi det er "
+"{pkgname1} i konflikt med {pkgname2} men kan ikke bli fjernet fordi det "
 "trengs av {pkgname3}"
 
 #: pamac/main.py:713 pamac/main.py:747
@@ -314,7 +314,7 @@ msgstr "Tilstand"
 
 #: gui/manager.glade:635
 msgid "Repos"
-msgstr "Depot"
+msgstr "Depoer"
 
 #: gui/manager.glade:710
 msgid "Name"
@@ -326,7 +326,7 @@ msgstr "Størrelse"
 
 #: gui/manager.glade:829
 msgid "Infos"
-msgstr "Informasjoner"
+msgstr "Informasjon"
 
 #: gui/manager.glade:889
 msgid "Deps"
