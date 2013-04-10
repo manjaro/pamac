@@ -7,7 +7,6 @@ from dbus.mainloop.glib import DBusGMainLoop
 from gi.repository import GObject
 
 import pyalpm
-#import traceback
 from multiprocessing import Process
 from pamac import config, common
 
@@ -98,21 +97,25 @@ class PamacDBusService(dbus.service.Object):
 			formatted_event = 'Upgraded {pkgname} ({oldversion} -> {newversion})'.format(pkgname = tupel[1].name, oldversion = tupel[1].version, newversion = tupel[0].version)
 			common.write_log_file(formatted_event)
 			print(formatted_event)
-		elif ID is 15:
+		elif ID is 19:
 			self.action = _('Checking integrity')+'...'
 			self.icon = '/usr/share/pamac/icons/24x24/status/package-search.png'
 			self.already_transferred = 0
-		elif ID is 17:
+		elif ID is 21:
 			self.action = _('Loading packages files')+'...'
 			self.icon = '/usr/share/pamac/icons/24x24/status/package-search.png'
 			print('Loading packages files')
-		elif ID is 26:
+		elif ID is 30:
 			self.action = _('Configuring')+'...'
 			self.icon = '/usr/share/pamac/icons/24x24/status/setup.png'
 			self.EmitPercent(2)
 			print('Configuring a package')
-		elif ID is 27:
+		elif ID is 31:
 			print('Downloading a file')
+		elif ID is 36:
+			self.action = _('Checking keys in keyring')+'...'
+			self.icon = '/usr/share/pamac/icons/24x24/status/package-search.png'
+			print('Checking keys in keyring')
 		else :
 			self.action = ''
 		#self.EmitTarget('')
@@ -213,6 +216,19 @@ class PamacDBusService(dbus.service.Object):
 
 	def CheckUpdates(self):
 		updates = 0
+		_ignorepkgs = []
+		for group in self.handle.ignoregrps:
+			db = self.handle.get_localdb()
+			grp = db.read_grp(group)
+			if grp:
+				name, pkg_list = grp
+				for pkg in pkg_list:
+					if not pkg.name in _ignorepkgs:
+						_ignorepkgs.append(pkg.name)
+		for pkgname in self.handle.ignorepkgs:
+			if pkgname in localpkgs.keys():
+				if not pkgname in _ignorepkgs:
+					_ignorepkgs.append(pkgname)
 		if config.syncfirst:
 			for name in config.syncfirst:
 				pkg = self.handle.get_localdb().get_pkg(name)
@@ -224,7 +240,8 @@ class PamacDBusService(dbus.service.Object):
 			for pkg in self.handle.get_localdb().pkgcache:
 				candidate = pyalpm.sync_newversion(pkg, self.handle.get_syncdbs())
 				if candidate:
-					updates += 1
+					if not candidate.name in _ignorepkgs:
+						updates += 1
 		self.EmitAvailableUpdates(updates)
 
 	@dbus.service.method('org.manjaro.pamac', '', 's', async_callbacks=('success', 'nosuccess'))
@@ -239,7 +256,7 @@ class PamacDBusService(dbus.service.Object):
 					db.update(force=False)
 				except pyalpm.error as e:
 					self.error += ' --> '+str(e)+'\n'
-					#break
+					break
 				finally:
 					try:
 						self.t.release()
@@ -264,9 +281,11 @@ class PamacDBusService(dbus.service.Object):
 				print('Init:',self.t.flags)
 			except pyalpm.error as e:
 				self.error += ' --> '+str(e)+'\n'
-			finally:
-				return self.error 
-		else :
+			finally: 
+				if self.error:
+					self.EmitTransactionError(self.error)
+				return self.error
+		else:
 			return _('Authentication failed')
 
 	@dbus.service.method('org.manjaro.pamac', '', 's')

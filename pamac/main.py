@@ -21,10 +21,10 @@ _ = gettext.gettext
 interface = Gtk.Builder()
 interface.set_translation_domain('pamac')
 
-#interface.add_from_file('/usr/share/pamac/gui/dialogs.glade')
-#ErrorDialog = interface.get_object('ErrorDialog')
-#WarningDialog = interface.get_object('WarningDialog')
-#InfoDialog = interface.get_object('InfoDialog')
+interface.add_from_file('/usr/share/pamac/gui/dialogs.glade')
+ErrorDialog = interface.get_object('ErrorDialog')
+WarningDialog = interface.get_object('WarningDialog')
+InfoDialog = interface.get_object('InfoDialog')
 #QuestionDialog = interface.get_object('QuestionDialog')
 
 interface.add_from_file('/usr/share/pamac/gui/manager.glade')
@@ -177,7 +177,7 @@ def set_list_dict_group(group):
 					pkg_name_list.append(pkg_object.name)
 				pkg_object_dict[pkg_object.name] = pkg_object
 				pkg_installed_dict[pkg_object.name] = False
-	db = config.pacman_conf.initialize_alpm().get_localdb()
+	db = transaction.handle.get_localdb()
 	grp = db.read_grp(group)
 	if grp is not None:
 		name, pkg_list = grp
@@ -449,20 +449,26 @@ def handle_error(error):
 	if error:
 		if not 'DBus.Error.NoReply' in str(error):
 			print('error:', error)
-			transaction.ErrorDialog.format_secondary_text(error)
-			response = transaction.ErrorDialog.run()
+			ErrorDialog.format_secondary_text(error)
+			response = ErrorDialog.run()
 			if response:
-				transaction.ErrorDialog.hide()
+				ErrorDialog.hide()
 	transaction.t_lock = False
-	transaction.Release()
+	try:
+		transaction.Release()
+	except:
+		pass
 	if mode == 'manager':
 		transaction.to_add = []
 		transaction.to_remove = []
 		transaction_dict.clear()
-		transaction_type = None
 		transaction.get_handle()
 		transaction.update_db()
-		set_packages_list()
+		if (transaction_type == "install") or (transaction_type == "remove"):
+			transaction_type = None
+			set_packages_list()
+		else:
+			transaction_type = None
 	if mode == 'updater':
 		have_updates()
 
@@ -473,10 +479,10 @@ def handle_reply(reply):
 	#while Gtk.events_pending():
 	#	Gtk.main_iteration()
 	if reply:
-		transaction.InfoDialog.format_secondary_text(reply)
-		response = transaction.InfoDialog.run()
+		InfoDialog.format_secondary_text(reply)
+		response = InfoDialog.run()
 		if response:
-			transaction.InfoDialog.hide()
+			InfoDialog.hide()
 	transaction.t_lock = False
 	try:
 		transaction.Release()
@@ -510,7 +516,7 @@ def do_refresh():
 		ProgressWindow.show_all()
 		while Gtk.events_pending():
 			Gtk.main_iteration()
-		transaction.Refresh()#reply_handler = handle_reply, error_handler = handle_error, timeout = 2000*1000)
+		transaction.Refresh()
 
 def have_updates():
 	do_syncfirst, updates = transaction.get_updates()
@@ -601,7 +607,7 @@ def finalize():
 		while Gtk.events_pending():
 			Gtk.main_iteration()
 		try:
-			transaction.Commit()#reply_handler = handle_reply, error_handler = handle_error, timeout = 2000*1000)
+			transaction.Commit()
 		except dbus.exceptions.DBusException as e:
 			handle_error(str(e))
 
@@ -781,10 +787,10 @@ def check_conflicts(mode, pkg_list):
 										transaction.to_add.append(pkg.name)
 	print('check result:', 'to add:', transaction.to_add, 'to remove:', transaction.to_remove)
 	if warning:
-		transaction.WarningDialog.format_secondary_text(warning)
-		response = transaction.WarningDialog.run()
+		WarningDialog.format_secondary_text(warning)
+		response = WarningDialog.run()
 		if response:
-			transaction.WarningDialog.hide()
+			WarningDialog.hide()
 	if error:
 			handle_error(error)
 
@@ -823,10 +829,10 @@ class Handler:
 
 	def on_Manager_ValidButton_clicked(self, *arg):
 		if not transaction_dict:
-			transaction.ErrorDialog.format_secondary_text(_('No package is selected'))
-			response = 	transaction.ErrorDialog.run()
+			ErrorDialog.format_secondary_text(_('No package is selected'))
+			response = ErrorDialog.run()
 			if response:
-				transaction.ErrorDialog.hide()
+				ErrorDialog.hide()
 		else:
 			if transaction.t_lock is True:
 				print('Transaction locked')
@@ -864,10 +870,10 @@ class Handler:
 								set_transaction_sum()
 								ConfDialog.show_all()
 					else:
-						transaction.WarningDialog.format_secondary_text(_('Nothing to do'))
-						response = transaction.WarningDialog.run()
+						WarningDialog.format_secondary_text(_('Nothing to do'))
+						response = WarningDialog.run()
 						if response:
-							transaction.WarningDialog.hide()
+							WarningDialog.hide()
 						transaction.t_lock = False
 
 	def on_Manager_EraseButton_clicked(self, *arg):
@@ -1047,10 +1053,10 @@ class Handler:
 
 def main(_mode):
 	if common.pid_file_exists():
-		transaction.ErrorDialog.format_secondary_text(_('Pamac is already running'))
-		response = transaction.ErrorDialog.run()
+		ErrorDialog.format_secondary_text(_('Pamac is already running'))
+		response = ErrorDialog.run()
 		if response:
-			transaction.ErrorDialog.hide()
+			ErrorDialog.hide()
 	else:
 		common.write_pid_file()
 		global mode

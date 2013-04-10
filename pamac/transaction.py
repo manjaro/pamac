@@ -1,8 +1,6 @@
 #! /usr/bin/python3
 # -*- coding:utf-8 -*-
 
-from gi.repository import Gtk
-
 import pyalpm
 from collections import OrderedDict
 import dbus
@@ -18,14 +16,6 @@ to_update = []
 handle = None
 syncpkgs = OrderedDict()
 localpkgs = OrderedDict()
-
-interface = Gtk.Builder()
-
-interface.add_from_file('/usr/share/pamac/gui/dialogs.glade')
-ErrorDialog = interface.get_object('ErrorDialog')
-WarningDialog = interface.get_object('WarningDialog')
-#QuestionDialog = interface.get_object('QuestionDialog')
-InfoDialog = interface.get_object('InfoDialog')
 
 def get_handle():
 	global handle
@@ -69,10 +59,6 @@ def init_transaction(**options):
 		t_lock = True
 		return True
 	else:
-		ErrorDialog.format_secondary_text('Init Error:\n'+str(error))
-		response = ErrorDialog.run()
-		if response:
-			ErrorDialog.hide()
 		return False
 
 def get_to_remove():
@@ -87,7 +73,20 @@ def get_updates():
 	"""Return a list of package objects in local db which can be updated"""
 	do_syncfirst = False
 	list_first = []
-	#update_db()
+	_ignorepkgs = []
+	update_db()
+	for group in handle.ignoregrps:
+		db = handle.get_localdb()
+		grp = db.read_grp(group)
+		if grp:
+			name, pkg_list = grp
+			for pkg in pkg_list:
+				if not pkg.name in _ignorepkgs:
+					_ignorepkgs.append(pkg.name)
+	for pkgname in handle.ignorepkgs:
+		if pkgname in localpkgs.keys():
+			if not pkgname in _ignorepkgs:
+				_ignorepkgs.append(pkgname)
 	if config.syncfirst:
 		for name in config.syncfirst:
 			if name in localpkgs.keys():
@@ -101,5 +100,6 @@ def get_updates():
 	for pkg in localpkgs.values():
 		candidate = pyalpm.sync_newversion(pkg, handle.get_syncdbs())
 		if candidate:
-			result.append(candidate)
+			if not candidate.name in _ignorepkgs:
+				result.append(candidate)
 	return do_syncfirst, result

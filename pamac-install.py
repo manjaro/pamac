@@ -41,10 +41,10 @@ def install(pkgnames):
 				main.finalize()
 				loop.run()
 	else:
-		transaction.WarningDialog.format_secondary_text('Nothing to do')
-		response = transaction.WarningDialog.run()
+		main.WarningDialog.format_secondary_text('Nothing to do')
+		response = main.WarningDialog.run()
 		if response:
-			transaction.WarningDialog.hide()
+			main.WarningDialog.hide()
 		reply('')
 
 bus = dbus.SystemBus()
@@ -58,16 +58,16 @@ transaction.update_db()
 do_syncfirst, updates = transaction.get_updates()
 
 if common.pid_file_exists():
-	transaction.ErrorDialog.format_secondary_text('Another instance of Pamac is running')
-	response = transaction.ErrorDialog.run()
+	main.ErrorDialog.format_secondary_text('Another instance of Pamac is running')
+	response = main.ErrorDialog.run()
 	if response:
-		transaction.ErrorDialog.hide()
+		main.ErrorDialog.hide()
 	transaction.StopDaemon()
 elif updates:
-		transaction.ErrorDialog.format_secondary_text('Some updates are available.\nPlease update your system first')
-		response = transaction.ErrorDialog.run()
+		main.ErrorDialog.format_secondary_text('Some updates are available.\nPlease update your system first')
+		response = main.ErrorDialog.run()
 		if response:
-			transaction.ErrorDialog.hide()
+			main.ErrorDialog.hide()
 		transaction.StopDaemon()
 else:
 	common.write_pid_file()
