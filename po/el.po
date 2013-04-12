@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pamac\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-03-31 18:55+0200\n"
+"POT-Creation-Date: 2013-04-10 16:13+0200\n"
 "PO-Revision-Date: 2013-04-08 14:35+0200\n"
 "Last-Translator: Angel <angelsolomos@gmail.com>\n"
 "Language-Team: Greek <angelsolomos@gmail.com>\n"
@@ -18,64 +18,68 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Generator: Poedit 1.5.5\n"
 
-#: pamac-daemon.py:30 pamac/main.py:594
+#: pamac-daemon.py:29 pamac/main.py:602
 msgid "Preparing"
 msgstr "Προετοιμασία"
 
-#: pamac-daemon.py:69
+#: pamac-daemon.py:68
 msgid "Checking dependencies"
 msgstr "Έλεγχος εξαρτήσεων"
 
-#: pamac-daemon.py:72
+#: pamac-daemon.py:71
 msgid "Checking file conflicts"
 msgstr "Έλεγχος για συγκρούσεις αρχείων"
 
-#: pamac-daemon.py:75
+#: pamac-daemon.py:74
 msgid "Resolving dependencies"
 msgstr "Επίλυση εξαρτήσεων"
 
-#: pamac-daemon.py:78
+#: pamac-daemon.py:77
 msgid "Checking inter conflicts"
 msgstr "Έλεγχος για συγκρούσεις μεταξύ  πακέτων"
 
-#: pamac-daemon.py:81 pamac/main.py:73
+#: pamac-daemon.py:80 pamac/main.py:75
 msgid "Installing"
 msgstr "Εγκατάσταση"
 
-#: pamac-daemon.py:88 pamac/main.py:73
+#: pamac-daemon.py:87 pamac/main.py:75
 msgid "Removing"
 msgstr "Απεγκατάσταση"
 
-#: pamac-daemon.py:95 pamac/main.py:73
+#: pamac-daemon.py:94 pamac/main.py:75
 msgid "Upgrading"
 msgstr "Αναβάθμιση"
 
-#: pamac-daemon.py:102
+#: pamac-daemon.py:101
 msgid "Checking integrity"
 msgstr "Έλεγχος ακεραιότητας των πακέτων"
 
-#: pamac-daemon.py:106
+#: pamac-daemon.py:105
 msgid "Loading packages files"
 msgstr "Φόρτωση αρχείων πακέτων"
 
-#: pamac-daemon.py:110 pamac/main.py:73
+#: pamac-daemon.py:109 pamac/main.py:75
 msgid "Configuring"
 msgstr "Ρύθμιση"
 
-#: pamac-daemon.py:162
+#: pamac-daemon.py:116
+msgid "Checking keys in keyring"
+msgstr ""
+
+#: pamac-daemon.py:165
 msgid "Downloading {size}"
 msgstr "Κατέβασμα {size}"
 
-#: pamac-daemon.py:167 pamac/main.py:504
+#: pamac-daemon.py:170 pamac/main.py:512
 msgid "Refreshing"
 msgstr "Ανανέωση"
 
-#: pamac-daemon.py:270 pamac-daemon.py:378 pamac-daemon.py:386
-#: pamac-daemon.py:408
+#: pamac-daemon.py:289 pamac-daemon.py:397 pamac-daemon.py:405
+#: pamac-daemon.py:427
 msgid "Authentication failed"
 msgstr "Η πιστοποίηση απέτυχε"
 
-#: pamac-daemon.py:374
+#: pamac-daemon.py:393
 msgid "Transaction successfully finished"
 msgstr "Οι ενέργειες ολοκληρώθηκαν επιτυχώς"
 
@@ -103,143 +107,147 @@ msgstr "Εκτέλεση του pamac-manager"
 msgid "Quit"
 msgstr "Έξοδος"
 
-#: pamac/main.py:110 pamac/main.py:923
+#: pamac/main.py:112 pamac/main.py:947
 msgid "Installed"
 msgstr "Εγκατεστημένα"
 
-#: pamac/main.py:110 pamac/main.py:925
+#: pamac/main.py:112 pamac/main.py:949
 msgid "Uninstalled"
 msgstr "Απεγκατεστημένα"
 
-#: pamac/main.py:110 pamac/main.py:927
+#: pamac/main.py:112 pamac/main.py:951
 msgid "Orphans"
 msgstr "Ορφανά"
 
-#: pamac/main.py:110 pamac/main.py:428 pamac/main.py:929
+#: pamac/main.py:112 pamac/main.py:430 pamac/main.py:953
 msgid "To install"
 msgstr "Προς εγκατάσταση"
 
-#: pamac/main.py:110 pamac/main.py:408 pamac/main.py:931
+#: pamac/main.py:112 pamac/main.py:410 pamac/main.py:955
 msgid "To remove"
 msgstr "Προς απεγκατάσταση"
 
-#: pamac/main.py:129 pamac/main.py:939
+#: pamac/main.py:131 pamac/main.py:963
 msgid "local"
 msgstr "τοπικό"
 
-#: pamac/main.py:295
+#: pamac/main.py:297
 msgid "No package found"
 msgstr "Δεν βρέθηκε κανένα πακέτο"
 
-#: pamac/main.py:346
+#: pamac/main.py:348
 msgid "Licenses"
 msgstr "Άδειες"
 
-#: pamac/main.py:351
+#: pamac/main.py:353
 msgid "Depends On"
 msgstr "Εξαρτάτε από"
 
-#: pamac/main.py:353
+#: pamac/main.py:355
 msgid "Optional Deps"
 msgstr "Προαιρετικές εξαρτήσεις"
 
-#: pamac/main.py:356
+#: pamac/main.py:358
 msgid "Required By"
 msgstr "Απαιτείτε από"
 
-#: pamac/main.py:358
+#: pamac/main.py:360
 msgid "Provides"
 msgstr "Παρέχει"
 
-#: pamac/main.py:360
+#: pamac/main.py:362
 msgid "Replaces"
 msgstr "Αντικαθιστά"
 
-#: pamac/main.py:362
+#: pamac/main.py:364
 msgid "Conflicts With"
 msgstr "Συγκρούεται με"
 
-#: pamac/main.py:367
+#: pamac/main.py:369
 msgid "Repository"
 msgstr "Αποθετήριο"
 
-#: pamac/main.py:369 gui/manager.glade:539
+#: pamac/main.py:371 gui/manager.glade:539
 msgid "Groups"
 msgstr "Ομάδες"
 
-#: pamac/main.py:371
+#: pamac/main.py:373
 msgid "Compressed Size"
 msgstr "Συμπιεσμένο μέγεθος"
 
-#: pamac/main.py:372
+#: pamac/main.py:374
 msgid "Download Size"
 msgstr "Μέγεθος για κατέβασμα"
 
-#: pamac/main.py:374
+#: pamac/main.py:376
 msgid "Installed Size"
 msgstr "Μέγεθος εγκατεστημένου"
 
-#: pamac/main.py:375
+#: pamac/main.py:377
 msgid "Packager"
 msgstr "Δημιουργός πακέτου"
 
-#: pamac/main.py:379
+#: pamac/main.py:381
 msgid "Install Date"
 msgstr "Ημερομηνία εγκατάστασης"
 
-#: pamac/main.py:381
+#: pamac/main.py:383
 msgid "Explicitly installed"
 msgstr "Εγκαταστάθηκε ρητά"
 
-#: pamac/main.py:383
+#: pamac/main.py:385
 msgid "Installed as a dependency for another package"
 msgstr "Εγκαταστήθηκε ως εξάρτηση για ένα άλλο πακέτο"
 
-#: pamac/main.py:385
+#: pamac/main.py:387
 msgid "Unknown"
 msgstr "Άγνωστο"
 
-#: pamac/main.py:386
+#: pamac/main.py:388
 msgid "Install Reason"
 msgstr "Λόγος για εγκατάσταση"
 
-#: pamac/main.py:391
+#: pamac/main.py:393
 msgid "Signatures"
 msgstr "Υπογραφές"
 
-#: pamac/main.py:395
+#: pamac/main.py:397
 msgid "Backup files"
 msgstr "Δημιουργία αντιγράφων ασφαλείας αρχείων"
 
-#: pamac/main.py:405
+#: pamac/main.py:407
 msgid "<big><b>Transaction Summary</b></big>"
 msgstr "<big><b>Περίληψη ενεργειών</b></big>"
 
-#: pamac/main.py:419 pamac/main.py:528
+#: pamac/main.py:421 pamac/main.py:536
 msgid "<b>Total download size: </b>"
 msgstr "<b>Συνολικό μέγεθος προς κατέβασμα: </b>"
 
-#: pamac/main.py:435
+#: pamac/main.py:437
 msgid "To update"
 msgstr "Προς αναβάθμιση"
 
-#: pamac/main.py:520 pamac/main.py:1048
+#: pamac/main.py:528 pamac/main.py:1072
 msgid "<big><b>Your system is up-to-date</b></big>"
 msgstr "<big><b>Το σύστημα σας είναι πλήρως ενημερωμένο</b></big>"
 
-#: pamac/main.py:530
+#: pamac/main.py:538
 msgid "<big><b>1 available update</b></big>"
 msgstr "<big><b>1 διαθέσιμη ενημέρωση</b></big>"
 
-#: pamac/main.py:532
+#: pamac/main.py:540
 msgid "<big><b>{number} available updates</b></big>"
 msgstr "<big><b>{number} διαθέσιμες ενημερώσεις</b></big>"
 
-#: pamac/main.py:691 pamac/main.py:761
+#: pamac/main.py:699 pamac/main.py:785
 msgid "{pkgname1} will be replaced by {pkgname2}"
 msgstr "{pkgname1} θα αντικατασταθεί από {pkgname2}"
 
-#: pamac/main.py:708 pamac/main.py:742
+#: pamac/main.py:710 pamac/main.py:729 pamac/main.py:752 pamac/main.py:771
+msgid "{pkgname1} conflicts with {pkgname2}"
+msgstr "{pkgname1} συγκρούεται με το {pkgname2}"
+
+#: pamac/main.py:724 pamac/main.py:766
 msgid ""
 "{pkgname1} conflicts with {pkgname2} but cannot be removed because it is "
 "needed by {pkgname3}"
@@ -247,11 +255,7 @@ msgstr ""
 "{pkgname1} συγκρούεται με το {pkgname2} αλλά δεν μπορεί να αφαιρεθεί γιατί "
 "απαιτείτε από το {pkgname3}"
 
-#: pamac/main.py:713 pamac/main.py:747
-msgid "{pkgname1} conflicts with {pkgname2}"
-msgstr "{pkgname1} συγκρούεται με το {pkgname2}"
-
-#: pamac/main.py:723
+#: pamac/main.py:739
 msgid ""
 "{pkgname1} conflicts with {pkgname2}\n"
 "None of them will be installed"
@@ -259,7 +263,7 @@ msgstr ""
 "{pkgname1} συγκρούεται με το {pkgname2}\n"
 "Δεν θα εγκατασταθεί κανένα"
 
-#: pamac/main.py:782
+#: pamac/main.py:806
 msgid ""
 "<b>{pkgname} is provided by {number} packages.\n"
 "Please choose the one(s) you want to install:</b>"
@@ -267,15 +271,15 @@ msgstr ""
 "<b>{pkgname} παρέχετε από {number} πακέτα.\n"
 "Παρακαλώ επιλέξτε ποιο(α) θέλετε να εγκατασταθούν:</b>"
 
-#: pamac/main.py:808
+#: pamac/main.py:832
 msgid "No package is selected"
 msgstr "Δεν έχει επιλεγεί κανένα πακέτο"
 
-#: pamac/main.py:849
+#: pamac/main.py:873
 msgid "Nothing to do"
 msgstr "Δεν υπάρχει τίποτε να γίνει"
 
-#: pamac/main.py:1032
+#: pamac/main.py:1056
 msgid "Pamac is already running"
 msgstr "Ο Pamac είναι ήδη ενεργός"
 

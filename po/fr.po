@@ -54,7 +54,6 @@ msgid "Checking integrity"
 msgstr "Vérification de l'intégrité des paquets"
 
 #: pamac-daemon.py:105
-#, fuzzy
 msgid "Loading packages files"
 msgstr "Chargement des fichiers des paquets"
 
@@ -63,7 +62,6 @@ msgid "Configuring"
 msgstr "Configuration"
 
 #: pamac-daemon.py:116
-#, fuzzy
 msgid "Checking keys in keyring"
 msgstr "Vérification des clés dans le trousseau"
 
