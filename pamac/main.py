@@ -103,8 +103,6 @@ locked_icon = Pixbuf.new_from_file('/usr/share/pamac/icons/22x22/status/package-
 search_icon = Pixbuf.new_from_file('/usr/share/pamac/icons/22x22/status/package-search.png')
  
 pkg_name_list = []
-pkg_object_dict = {}
-pkg_installed_dict = {}
 current_filter = (None, None)
 transaction_type = None
 transaction_dict = {}
@@ -132,22 +130,14 @@ def get_repos():
 
 def set_list_dict_search(*patterns):
 	global pkg_name_list
-	global pkg_object_dict
-	global pkg_installed_dict
 	pkg_name_list = []
-	pkg_object_dict = {}
-	pkg_installed_dict = {}
 	for db in transaction.handle.get_syncdbs():
-		for pkg_object in db.search(*patterns):
-			if not pkg_object.name in pkg_name_list:
-				pkg_name_list.append(pkg_object.name)
-				pkg_object_dict[pkg_object.name] = pkg_object
-				pkg_installed_dict[pkg_object.name] = False
-	for pkg_object in transaction.handle.get_localdb().search(*patterns):
-		if not pkg_object.name in pkg_name_list:
-			pkg_name_list.append(pkg_object.name)
-		pkg_installed_dict[pkg_object.name] = True
-		pkg_object_dict[pkg_object.name] = pkg_object
+		for pkg in db.search(*patterns):
+			if not pkg.name in pkg_name_list:
+				pkg_name_list.append(pkg.name)
+	for pkg in transaction.handle.get_localdb().search(*patterns):
+		if not pkg.name in pkg_name_list:
+			pkg_name_list.append(pkg.name)
 	pkg_name_list = sorted(pkg_name_list)
 	if pkg_name_list:
 		joined = ''
@@ -163,133 +153,81 @@ def set_list_dict_search(*patterns):
 
 def set_list_dict_group(group):
 	global pkg_name_list
-	global pkg_object_dict
-	global pkg_installed_dict
 	pkg_name_list = []
-	pkg_object_dict = {}
-	pkg_installed_dict = {}
 	for db in transaction.handle.get_syncdbs():
 		grp = db.read_grp(group)
 		if grp is not None:
 			name, pkg_list = grp
-			for pkg_object in pkg_list:
-				if not pkg_object.name in pkg_name_list:
-					pkg_name_list.append(pkg_object.name)
-				pkg_object_dict[pkg_object.name] = pkg_object
-				pkg_installed_dict[pkg_object.name] = False
+			for pkg in pkg_list:
+				if not pkg.name in pkg_name_list:
+					pkg_name_list.append(pkg.name)
 	db = transaction.handle.get_localdb()
 	grp = db.read_grp(group)
 	if grp is not None:
 		name, pkg_list = grp
-		for pkg_object in pkg_list:
-			if not pkg_object.name in pkg_name_list:
-				pkg_name_list.append(pkg_object.name)
-			pkg_installed_dict[pkg_object.name] = True
-			pkg_object_dict[pkg_object.name] = pkg_object
+		for pkg in pkg_list:
+			if not pkg.name in pkg_name_list:
+				pkg_name_list.append(pkg.name)
 	pkg_name_list = sorted(pkg_name_list)
 
 def set_list_dict_installed():
 	global pkg_name_list
-	global pkg_object_dict
-	global pkg_installed_dict
 	pkg_name_list = []
-	pkg_object_dict = {}
-	pkg_installed_dict = {}
-	for pkg_object in transaction.localpkgs.values():
-		if not pkg_object.name in pkg_name_list:
-			pkg_name_list.append(pkg_object.name)
-			pkg_installed_dict[pkg_object.name] = True
-			pkg_object_dict[pkg_object.name] = pkg_object
+	for pkg in transaction.localpkgs.values():
+		if not pkg.name in pkg_name_list:
+			pkg_name_list.append(pkg.name)
 
 def set_list_dict_uninstalled():
 	global pkg_name_list
-	global pkg_object_dict
-	global pkg_installed_dict
 	pkg_name_list = []
-	pkg_object_dict = {}
-	pkg_installed_dict = {}
-	for pkg_object in transaction.syncpkgs.values():
-		if not pkg_object.name in transaction.localpkgs.keys():
-			if not pkg_object.name in pkg_name_list:
-				pkg_name_list.append(pkg_object.name)
-				pkg_installed_dict[pkg_object.name] = False
-				pkg_object_dict[pkg_object.name] = pkg_object
+	for pkg in transaction.syncpkgs.values():
+		if not pkg.name in transaction.localpkgs.keys():
+			if not pkg.name in pkg_name_list:
+				pkg_name_list.append(pkg.name)
 	pkg_name_list = sorted(pkg_name_list)
 
 def set_list_dict_local():
 	global pkg_name_list
-	global pkg_object_dict
-	global pkg_installed_dict
 	pkg_name_list = []
-	pkg_object_dict = {}
-	pkg_installed_dict = {}
-	for pkg_object in transaction.localpkgs.values():
-		if (not pkg_object.name in pkg_name_list) and (not pkg_object.name in transaction.syncpkgs.keys()):
-			pkg_name_list.append(pkg_object.name)
-			pkg_installed_dict[pkg_object.name] = True
-			pkg_object_dict[pkg_object.name] = pkg_object
+	for pkg in transaction.localpkgs.values():
+		if not pkg.name in transaction.syncpkgs.keys():
+			if not pkg.name in pkg_name_list:
+				pkg_name_list.append(pkg.name)
 
 def set_list_dict_orphans():
 	global pkg_name_list
-	global pkg_object_dict
-	global pkg_installed_dict
 	pkg_name_list = []
-	pkg_object_dict = {}
-	pkg_installed_dict = {}
-	for pkg_object in transaction.localpkgs.values():
-		if (pkg_object.reason == 1) and (not pkg_object.compute_requiredby()):
-			pkg_name_list.append(pkg_object.name)
-			pkg_installed_dict[pkg_object.name] = True
-			pkg_object_dict[pkg_object.name] = pkg_object
+	for pkg in transaction.localpkgs.values():
+		if pkg.reason == 1:
+			if not pkg.compute_requiredby():
+				pkg_name_list.append(pkg.name)
 
 def set_list_dict_to_install():
 	global pkg_name_list
-	global pkg_object_dict
-	global pkg_installed_dict
 	pkg_name_list = []
-	pkg_object_dict = {}
-	pkg_installed_dict = {}
 	if transaction_type == "install":
-		for pkg_object in transaction_dict.values():
-			if not pkg_object.name in pkg_name_list:
-				pkg_name_list.append(pkg_object.name)
-				pkg_installed_dict[pkg_object.name] = False
-				pkg_object_dict[pkg_object.name] = pkg_object
+		for pkg in transaction_dict.values():
+			if not pkg.name in pkg_name_list:
+				pkg_name_list.append(pkg.name)
 	pkg_name_list = sorted(pkg_name_list)
 
 def set_list_dict_to_remove():
 	global pkg_name_list
-	global pkg_object_dict
-	global pkg_installed_dict
 	pkg_name_list = []
-	pkg_object_dict = {}
-	pkg_installed_dict = {}
 	if transaction_type == "remove":
-		for pkg_object in transaction_dict.values():
-			if not pkg_object.name in pkg_name_list:
-				pkg_name_list.append(pkg_object.name)
-				pkg_installed_dict[pkg_object.name] = True
-				pkg_object_dict[pkg_object.name] = pkg_object
+		for pkg in transaction_dict.values():
+			if not pkg.name in pkg_name_list:
+				pkg_name_list.append(pkg.name)
 	pkg_name_list = sorted(pkg_name_list)
 
 def set_list_dict_repos(repo):
 	global pkg_name_list
-	global pkg_object_dict
-	global pkg_installed_dict
 	pkg_name_list = []
-	pkg_object_dict = {}
-	pkg_installed_dict = {}
 	for db in  transaction.handle.get_syncdbs():
 		if db.name == repo:
-			for pkg_object in db.pkgcache:
-				if not pkg_object.name in pkg_name_list:
-					pkg_name_list.append(pkg_object.name)
-				if pkg_object.name in transaction.localpkgs.keys():
-					pkg_installed_dict[pkg_object.name] = True
-					pkg_object_dict[pkg_object.name] = transaction.localpkgs[pkg_object.name]
-				else:
-					pkg_installed_dict[pkg_object.name] = False
-					pkg_object_dict[pkg_object.name] = pkg_object
+			for pkg in db.pkgcache:
+				if not pkg.name in pkg_name_list:
+					pkg_name_list.append(pkg.name)
 
 def refresh_packages_list():
 	packages_list.clear()
@@ -913,18 +851,17 @@ class Handler:
 	def on_list_treeview_selection_changed(self, widget):
 		liste, line = list_selection.get_selected()
 		if line is not None:
-			if packages_list[line][0] in pkg_object_dict.keys():
-				pkg_object = pkg_object_dict[packages_list[line][0]]
-				if pkg_installed_dict[packages_list[line][0]] is True:
-					style = "local"
-					set_files_list(pkg_object)
-					files_scrolledwindow.set_visible(True)
-				else:
-					style = "sync"
-					files_scrolledwindow.set_visible(False)
-				set_infos_list(pkg_object)
-				set_deps_list(pkg_object, style)
-				set_details_list(pkg_object, style)
+			if transaction.localpkgs.__contains__(packages_list[line][0]):
+				set_infos_list(transaction.localpkgs[packages_list[line][0]])
+				set_deps_list(transaction.localpkgs[packages_list[line][0]], "local")
+				set_details_list(transaction.localpkgs[packages_list[line][0]], "local")
+				set_files_list(transaction.localpkgs[packages_list[line][0]])
+				files_scrolledwindow.set_visible(True)
+			else:
+				set_infos_list(transaction.syncpkgs[packages_list[line][0]])
+				set_deps_list(transaction.syncpkgs[packages_list[line][0]], "sync")
+				set_details_list(transaction.syncpkgs[packages_list[line][0]], "sync")
+				files_scrolledwindow.set_visible(False)
 
 	def on_search_treeview_selection_changed(self, widget):
 		global current_filter
@@ -969,7 +906,6 @@ class Handler:
 	def on_cellrenderertoggle1_toggled(self, widget, line):
 		global transaction_type
 		global transaction_dict
-		global pkg_object_dict
 		if packages_list[line][0] in transaction_dict.keys():
 			if transaction_type == "remove":
 				packages_list[line][4] = installed_icon
@@ -988,7 +924,7 @@ class Handler:
 		else:
 			if packages_list[line][1] is True:
 				transaction_type = "remove"
-				transaction_dict[packages_list[line][0]] = pkg_object_dict[packages_list[line][0]]
+				transaction_dict[packages_list[line][0]] = transaction.localpkgs[packages_list[line][0]]
 				packages_list[line][4] = to_remove_icon
 				lin = 0
 				while lin <  len(packages_list):
@@ -998,7 +934,7 @@ class Handler:
 					lin += 1
 			if packages_list[line][1] is False:
 				transaction_type = "install"
-				transaction_dict[packages_list[line][0]] = pkg_object_dict[packages_list[line][0]]
+				transaction_dict[packages_list[line][0]] = transaction.syncpkgs[packages_list[line][0]]
 				packages_list[line][4] = to_install_icon
 				lin = 0
 				while lin <  len(packages_list):
