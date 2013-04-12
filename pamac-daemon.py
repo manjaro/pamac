@@ -225,10 +225,11 @@ class PamacDBusService(dbus.service.Object):
 				for pkg in pkg_list:
 					if not pkg.name in _ignorepkgs:
 						_ignorepkgs.append(pkg.name)
-		for pkgname in self.handle.ignorepkgs:
-			if pkgname in localpkgs.keys():
-				if not pkgname in _ignorepkgs:
-					_ignorepkgs.append(pkgname)
+		for name in self.handle.ignorepkgs:
+			pkg = self.handle.get_localdb().get_pkg(name)
+			if pkg:
+				if not pkg.name in _ignorepkgs:
+					_ignorepkgs.append(pkg.name)
 		if config.syncfirst:
 			for name in config.syncfirst:
 				pkg = self.handle.get_localdb().get_pkg(name)
