@@ -38,17 +38,17 @@ SINGLE_OPTIONS = (
 	'DBPath',
 	'GPGDir',
 	'LogFile',
+	'UseDelta',
 	'Architecture',
 	'XferCommand',
 	'CleanMethod',
 	'SigLevel',
-	'LocalFileSigLevel'
+	'LocalFileSigLevel',
+	'RemoteFileSigLevel'
 )
 
 BOOLEAN_OPTIONS = (
 	'UseSyslog',
-	'ShowSize',
-	'UseDelta',
 	'TotalDownload',
 	'CheckSpace',
 	'VerbosePkgLists',
