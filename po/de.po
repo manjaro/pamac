@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: pamac\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-04-10 16:13+0200\n"
-"PO-Revision-Date: 2013-04-05 13:34+0100\n"
+"PO-Revision-Date: 2013-04-13 14:45+0100\n"
 "Last-Translator: Philip Müller <philm@manjaro.org>\n"
 "Language-Team: German\n"
 "Language: de\n"
@@ -64,7 +64,7 @@ msgstr "Konfiguration"
 
 #: pamac-daemon.py:116
 msgid "Checking keys in keyring"
-msgstr ""
+msgstr "Überprüfe Schlüssel im Schlüsselbund"
 
 #: pamac-daemon.py:165
 msgid "Downloading {size}"
