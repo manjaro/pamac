@@ -279,7 +279,9 @@ def set_packages_list():
 
 def set_infos_list(pkg):
 	name_label.set_markup('<big><b>{}  {}</b></big>'.format(pkg.name, pkg.version))
-	desc_label.set_markup(pkg.desc)
+	# fix & in desc
+	desc = pkg.desc.replace('&', '&amp;')
+	desc_label.set_markup(desc)
 	# fix & in url
 	url = pkg.url.replace('&', '&amp;')
 	link_label.set_markup('<a href=\"{_url}\">{_url}</a>'.format(_url = url))
