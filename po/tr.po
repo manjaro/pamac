@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pamac\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-04-17 14:32+0200\n"
+"POT-Creation-Date: 2013-04-17 15:31+0200\n"
 "PO-Revision-Date: 2013-03-30 15:18+0100\n"
 "Last-Translator: YFDogan <yfdogan@gmail.com>\n"
 "Language-Team: Turkish\n"
@@ -334,22 +334,26 @@ msgid "Name"
 msgstr "İsim"
 
 #: gui/manager.glade:732
+msgid "Version"
+msgstr ""
+
+#: gui/manager.glade:749
 msgid "Size"
 msgstr "Boyut"
 
-#: gui/manager.glade:833
+#: gui/manager.glade:850
 msgid "Infos"
 msgstr "Bilgi"
 
-#: gui/manager.glade:893
+#: gui/manager.glade:910
 msgid "Deps"
 msgstr "Bağımlılıklar"
 
-#: gui/manager.glade:958
+#: gui/manager.glade:975
 msgid "Details"
 msgstr "Ayrıntılar"
 
-#: gui/manager.glade:1006
+#: gui/manager.glade:1023
 msgid "Files"
 msgstr "Dosyalar"
 

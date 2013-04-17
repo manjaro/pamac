@@ -212,7 +212,7 @@ def refresh_packages_list():
 			Gtk.main_iteration()
 		packages_list.clear()
 		if not pkg_name_list:
-			packages_list.append([_('No package found'), False, False, False, search_icon, '', 0])
+			packages_list.append([_('No package found'), False, False, False, search_icon, '', 0, ''])
 		else:
 			#installed = set(transaction.localpkgs.keys()) - transaction.to_remove
 			#uninstalled = (set(transaction.syncpkgs.keys()) - installed) - transaction.to_add
@@ -220,16 +220,16 @@ def refresh_packages_list():
 			name_list = sorted(pkg_name_list)
 			for name in name_list:
 				if name in config.holdpkg:
-					packages_list.append([name, True, False, True, locked_icon, '', 0])
+					packages_list.append([name, True, False, True, locked_icon, common.format_size(transaction.localpkgs[name].isize), transaction.localpkgs[name].isize, transaction.localpkgs[name].version])
 				elif name in transaction.to_add:
-					packages_list.append([name, False, True, True, to_install_icon, common.format_size(transaction.syncpkgs[name].isize), transaction.syncpkgs[name].isize])
+					packages_list.append([name, False, True, True, to_install_icon, common.format_size(transaction.syncpkgs[name].isize), transaction.syncpkgs[name].isize, transaction.syncpkgs[name].version])
 				elif name in transaction.to_remove:
-					packages_list.append([name, True, True, False, to_remove_icon, common.format_size(transaction.localpkgs[name].isize), transaction.localpkgs[name].isize])
+					packages_list.append([name, True, True, False, to_remove_icon, common.format_size(transaction.localpkgs[name].isize), transaction.localpkgs[name].isize, transaction.localpkgs[name].version])
 				elif name in transaction.localpkgs.keys():
-					packages_list.append([name, True, True, True, installed_icon, common.format_size(transaction.localpkgs[name].isize), transaction.localpkgs[name].isize])
+					packages_list.append([name, True, True, True, installed_icon, common.format_size(transaction.localpkgs[name].isize), transaction.localpkgs[name].isize, transaction.localpkgs[name].version])
 				#elif name in uninstalled:
 				else:
-					packages_list.append([name, False, True, False, uninstalled_icon, common.format_size(transaction.syncpkgs[name].isize), transaction.syncpkgs[name].isize])
+					packages_list.append([name, False, True, False, uninstalled_icon, common.format_size(transaction.syncpkgs[name].isize), transaction.syncpkgs[name].isize, transaction.syncpkgs[name].version])
 		ManagerWindow.get_root_window().set_cursor(Gdk.Cursor(Gdk.CursorType.ARROW))
 
 def set_packages_list():

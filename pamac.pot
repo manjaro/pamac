@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pamac\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-04-17 14:32+0200\n"
+"POT-Creation-Date: 2013-04-17 15:31+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -327,22 +327,26 @@ msgid "Name"
 msgstr ""
 
 #: gui/manager.glade:732
+msgid "Version"
+msgstr ""
+
+#: gui/manager.glade:749
 msgid "Size"
 msgstr ""
 
-#: gui/manager.glade:833
+#: gui/manager.glade:850
 msgid "Infos"
 msgstr ""
 
-#: gui/manager.glade:893
+#: gui/manager.glade:910
 msgid "Deps"
 msgstr ""
 
-#: gui/manager.glade:958
+#: gui/manager.glade:975
 msgid "Details"
 msgstr ""
 
-#: gui/manager.glade:1006
+#: gui/manager.glade:1023
 msgid "Files"
 msgstr ""
 

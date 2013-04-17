@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pamac\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-04-17 14:32+0200\n"
+"POT-Creation-Date: 2013-04-17 15:31+0200\n"
 "PO-Revision-Date: 2013-04-08 14:35+0200\n"
 "Last-Translator: Angel <angelsolomos@gmail.com>\n"
 "Language-Team: Greek <angelsolomos@gmail.com>\n"
@@ -335,22 +335,26 @@ msgid "Name"
 msgstr "Όνομα"
 
 #: gui/manager.glade:732
+msgid "Version"
+msgstr ""
+
+#: gui/manager.glade:749
 msgid "Size"
 msgstr "Μέγεθος"
 
-#: gui/manager.glade:833
+#: gui/manager.glade:850
 msgid "Infos"
 msgstr "Πληροφορίες"
 
-#: gui/manager.glade:893
+#: gui/manager.glade:910
 msgid "Deps"
 msgstr "Εξαρτήσεις"
 
-#: gui/manager.glade:958
+#: gui/manager.glade:975
 msgid "Details"
 msgstr "Λεπτομέρειες"
 
-#: gui/manager.glade:1006
+#: gui/manager.glade:1023
 msgid "Files"
 msgstr "Αρχεία"
 

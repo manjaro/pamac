@@ -678,14 +678,14 @@
                           <object class="GtkTreeViewColumn" id="installed_column">
                             <property name="resizable">True</property>
                             <property name="sizing">fixed</property>
-                            <property name="fixed_width">100</property>
+                            <property name="fixed_width">80</property>
                             <property name="title" translatable="yes">State</property>
                             <property name="clickable">True</property>
                             <property name="sort_indicator">True</property>
                             <property name="sort_column_id">1</property>
                             <child>
                               <object class="GtkCellRendererToggle" id="cellrenderertoggle1">
-                                <property name="xpad">15</property>
+                                <property name="xpad">5</property>
                                 <property name="xalign">0</property>
                                 <signal name="toggled" handler="on_cellrenderertoggle1_toggled" swapped="no"/>
                               </object>
@@ -696,7 +696,7 @@
                             </child>
                             <child>
                               <object class="GtkCellRendererPixbuf" id="cellrendererpixbuf1">
-                                <property name="xpad">15</property>
+                                <property name="xpad">5</property>
                                 <property name="xalign">1</property>
                               </object>
                               <attributes>
@@ -725,10 +725,27 @@
                           </object>
                         </child>
                         <child>
+                          <object class="GtkTreeViewColumn" id="version_column">
+                            <property name="resizable">True</property>
+                            <property name="sizing">fixed</property>
+                            <property name="fixed_width">80</property>
+                            <property name="title" translatable="yes">Version</property>
+                            <property name="clickable">True</property>
+                            <property name="sort_indicator">True</property>
+                            <property name="sort_column_id">7</property>
+                            <child>
+                              <object class="GtkCellRendererText" id="cellrenderertext15"/>
+                              <attributes>
+                                <attribute name="text">7</attribute>
+                              </attributes>
+                            </child>
+                          </object>
+                        </child>
+                        <child>
                           <object class="GtkTreeViewColumn" id="size_column">
                             <property name="resizable">True</property>
                             <property name="sizing">fixed</property>
-                            <property name="fixed_width">50</property>
+                            <property name="fixed_width">80</property>
                             <property name="title" translatable="yes">Size</property>
                             <property name="clickable">True</property>
                             <property name="sort_indicator">True</property>
@@ -1123,6 +1140,24 @@
       </object>
     </child>
   </object>
+  <object class="GtkListStore" id="repos_list">
+    <columns>
+      <!-- column-name name -->
+      <column type="gchararray"/>
+    </columns>
+  </object>
+  <object class="GtkListStore" id="search_list">
+    <columns>
+      <!-- column-name terms -->
+      <column type="gchararray"/>
+    </columns>
+  </object>
+  <object class="GtkListStore" id="state_list">
+    <columns>
+      <!-- column-name state -->
+      <column type="gchararray"/>
+    </columns>
+  </object>
   <object class="GtkListStore" id="packages_list">
     <columns>
       <!-- column-name name -->
@@ -1139,23 +1174,7 @@
       <column type="gchararray"/>
       <!-- column-name real_size -->
       <column type="gint"/>
-    </columns>
-  </object>
-  <object class="GtkListStore" id="repos_list">
-    <columns>
-      <!-- column-name name -->
-      <column type="gchararray"/>
-    </columns>
-  </object>
-  <object class="GtkListStore" id="search_list">
-    <columns>
-      <!-- column-name terms -->
-      <column type="gchararray"/>
-    </columns>
-  </object>
-  <object class="GtkListStore" id="state_list">
-    <columns>
-      <!-- column-name state -->
+      <!-- column-name version -->
       <column type="gchararray"/>
     </columns>
   </object>

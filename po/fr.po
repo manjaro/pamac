@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pamac\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-04-17 14:32+0200\n"
+"POT-Creation-Date: 2013-04-17 15:31+0200\n"
 "PO-Revision-Date: 2013-03-30 15:18+0100\n"
 "Last-Translator: <elvirolo@gmail.com>\n"
 "Language-Team: French\n"
@@ -188,7 +188,7 @@ msgstr "Paqueteur"
 
 #: pamac/main.py:296
 msgid "Architecture"
-msgstr ""
+msgstr "Architecture"
 
 #: pamac/main.py:299
 msgid "Install Date"
@@ -247,6 +247,8 @@ msgid ""
 "The transaction cannot be performed because it needs to remove {pkgname1} "
 "which is in HoldPkg"
 msgstr ""
+"La transaction ne peut pas être exécutée car elle nécessite d'enlever {pkgname1} "
+"qui est un paquet bloqué"
 
 #: pamac/main.py:552 pamac/main.py:553 pamac/main.py:655 pamac/main.py:656
 msgid "{pkgname1} will be replaced by {pkgname2}"
@@ -334,22 +336,26 @@ msgid "Name"
 msgstr "Nom"
 
 #: gui/manager.glade:732
+msgid "Version"
+msgstr ""
+
+#: gui/manager.glade:749
 msgid "Size"
 msgstr "Taille"
 
-#: gui/manager.glade:833
+#: gui/manager.glade:850
 msgid "Infos"
 msgstr "Infos"
 
-#: gui/manager.glade:893
+#: gui/manager.glade:910
 msgid "Deps"
 msgstr "Dépendances"
 
-#: gui/manager.glade:958
+#: gui/manager.glade:975
 msgid "Details"
 msgstr "Détails"
 
-#: gui/manager.glade:1006
+#: gui/manager.glade:1023
 msgid "Files"
 msgstr "Fichiers"
 
