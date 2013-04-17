@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pamac\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-04-10 16:13+0200\n"
+"POT-Creation-Date: 2013-04-17 14:32+0200\n"
 "PO-Revision-Date: 2013-03-30 15:18+0100\n"
 "Last-Translator: YFDogan <yfdogan@gmail.com>\n"
 "Language-Team: Turkish\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: pamac-daemon.py:29 pamac/main.py:602
+#: pamac-daemon.py:29 pamac/main.py:483
 msgid "Preparing"
 msgstr "Hazırlanıyor"
 
@@ -69,11 +69,11 @@ msgstr ""
 msgid "Downloading {size}"
 msgstr "Indiriliyor {size}"
 
-#: pamac-daemon.py:170 pamac/main.py:512
+#: pamac-daemon.py:170 pamac/main.py:411 pamac/main.py:995
 msgid "Refreshing"
 msgstr "Yenileniyor"
 
-#: pamac-daemon.py:289 pamac-daemon.py:397 pamac-daemon.py:405
+#: pamac-daemon.py:290 pamac-daemon.py:397 pamac-daemon.py:405
 #: pamac-daemon.py:427
 msgid "Authentication failed"
 msgstr "Doğrulama Hatası"
@@ -106,147 +106,160 @@ msgstr "Pamac-Manager Çalıştırr"
 msgid "Quit"
 msgstr "Çıkış"
 
-#: pamac/main.py:112 pamac/main.py:947
+#: pamac/main.py:108 pamac/main.py:936
 msgid "Installed"
 msgstr "Kuruldu"
 
-#: pamac/main.py:112 pamac/main.py:949
+#: pamac/main.py:108 pamac/main.py:938
 msgid "Uninstalled"
 msgstr "Kurulmaya hazır"
 
-#: pamac/main.py:112 pamac/main.py:951
+#: pamac/main.py:108 pamac/main.py:940
 msgid "Orphans"
 msgstr "Sahipsizler"
 
-#: pamac/main.py:112 pamac/main.py:430 pamac/main.py:953
+#: pamac/main.py:108 pamac/main.py:338 pamac/main.py:942
 msgid "To install"
 msgstr "Kurulacak"
 
-#: pamac/main.py:112 pamac/main.py:410 pamac/main.py:955
+#: pamac/main.py:108 pamac/main.py:350 pamac/main.py:944
 msgid "To remove"
 msgstr "Kaldırılacak"
 
-#: pamac/main.py:131 pamac/main.py:963
+#: pamac/main.py:127 pamac/main.py:952
 msgid "local"
 msgstr "Yerel"
 
-#: pamac/main.py:297
+#: pamac/main.py:215 pamac/main.py:905
 msgid "No package found"
 msgstr "Paket Bulunamadı"
 
-#: pamac/main.py:348
+#: pamac/main.py:266
 msgid "Licenses"
 msgstr "Lisanslar"
 
-#: pamac/main.py:353
+#: pamac/main.py:271
 msgid "Depends On"
 msgstr "Bağımlı"
 
-#: pamac/main.py:355
+#: pamac/main.py:273
 msgid "Optional Deps"
 msgstr "Seçimli Bağımlılıklar"
 
-#: pamac/main.py:358
+#: pamac/main.py:276
 msgid "Required By"
 msgstr "İhtiyac Duyulan"
 
-#: pamac/main.py:360
+#: pamac/main.py:278
 msgid "Provides"
 msgstr "Sağladıkları"
 
-#: pamac/main.py:362
+#: pamac/main.py:280
 msgid "Replaces"
 msgstr "Değistirdigi Paket(ler)"
 
-#: pamac/main.py:364
+#: pamac/main.py:282
 msgid "Conflicts With"
 msgstr "Cakıştığı Paketler"
 
-#: pamac/main.py:369
+#: pamac/main.py:287
 msgid "Repository"
 msgstr "Depo"
 
-#: pamac/main.py:371 gui/manager.glade:539
+#: pamac/main.py:289 gui/manager.glade:539
 msgid "Groups"
 msgstr "Gruplar"
 
-#: pamac/main.py:373
+#: pamac/main.py:291
 msgid "Compressed Size"
 msgstr "Sıkıştırma Boyutu"
 
-#: pamac/main.py:374
+#: pamac/main.py:292
 msgid "Download Size"
 msgstr "İndirme Boyutu"
 
-#: pamac/main.py:376
+#: pamac/main.py:294
 msgid "Installed Size"
 msgstr "Kurulmuş Boyut"
 
-#: pamac/main.py:377
+#: pamac/main.py:295
 msgid "Packager"
 msgstr "Paketçi"
 
-#: pamac/main.py:381
+#: pamac/main.py:296
+msgid "Architecture"
+msgstr ""
+
+#: pamac/main.py:299
 msgid "Install Date"
 msgstr "Kurulum Tarihi"
 
-#: pamac/main.py:383
+#: pamac/main.py:301
 msgid "Explicitly installed"
 msgstr "Doğrudan Yuklenmiş"
 
-#: pamac/main.py:385
+#: pamac/main.py:303
 msgid "Installed as a dependency for another package"
 msgstr "Başka Bir Paketin Bağımlılığı Olarak Yüklenmiş"
 
-#: pamac/main.py:387
+#: pamac/main.py:305
 msgid "Unknown"
 msgstr "Bilinmiyor"
 
-#: pamac/main.py:388
+#: pamac/main.py:306
 msgid "Install Reason"
 msgstr "Kurulum Nedeni"
 
-#: pamac/main.py:393
+#: pamac/main.py:311
 msgid "Signatures"
 msgstr "İmzalar"
 
-#: pamac/main.py:397
+#: pamac/main.py:315
 msgid "Backup files"
 msgstr "Yedek Dosyalar"
 
-#: pamac/main.py:407
+#: pamac/main.py:325
 msgid "<big><b>Transaction Summary</b></big>"
 msgstr "<big><b>İşlem Özeti</b></big>"
 
-#: pamac/main.py:421 pamac/main.py:536
-msgid "<b>Total download size: </b>"
-msgstr "<b>Toplam İndirme Boyutu: </b>"
-
-#: pamac/main.py:437
+#: pamac/main.py:329
 msgid "To update"
 msgstr "Yükseltilecek"
 
-#: pamac/main.py:528 pamac/main.py:1072
+#: pamac/main.py:347 pamac/main.py:435
+msgid "<b>Total download size: </b>"
+msgstr "<b>Toplam İndirme Boyutu: </b>"
+
+#: pamac/main.py:427 pamac/main.py:1037
 msgid "<big><b>Your system is up-to-date</b></big>"
 msgstr "<big><b>Sisteminiz Güncel</b></big>"
 
-#: pamac/main.py:538
+#: pamac/main.py:437
 msgid "<big><b>1 available update</b></big>"
 msgstr "<big><b>1 Güncelleme Var</b></big>"
 
-#: pamac/main.py:540
+#: pamac/main.py:439
 msgid "<big><b>{number} available updates</b></big>"
 msgstr "<big><b>{number} Güncelleme Var</b></big>"
 
-#: pamac/main.py:699 pamac/main.py:785
+#: pamac/main.py:520 pamac/main.py:521
+msgid ""
+"The transaction cannot be performed because it needs to remove {pkgname1} "
+"which is in HoldPkg"
+msgstr ""
+
+#: pamac/main.py:552 pamac/main.py:553 pamac/main.py:655 pamac/main.py:656
 msgid "{pkgname1} will be replaced by {pkgname2}"
 msgstr "{pkgname1} İle Değiştirilecek {pkgname2}"
 
-#: pamac/main.py:710 pamac/main.py:729 pamac/main.py:752 pamac/main.py:771
+#: pamac/main.py:670 pamac/main.py:671 pamac/main.py:694 pamac/main.py:695
+#: pamac/main.py:714 pamac/main.py:715 pamac/main.py:745 pamac/main.py:746
+#: pamac/main.py:769 pamac/main.py:770 pamac/main.py:789 pamac/main.py:790
 msgid "{pkgname1} conflicts with {pkgname2}"
 msgstr "{pkgname1}, {pkgname2} İle Çakışıyor"
 
-#: pamac/main.py:724 pamac/main.py:766
+#: pamac/main.py:688 pamac/main.py:689 pamac/main.py:708 pamac/main.py:709
+#: pamac/main.py:763 pamac/main.py:764 pamac/main.py:783 pamac/main.py:784
 msgid ""
 "{pkgname1} conflicts with {pkgname2} but cannot be removed because it is "
 "needed by {pkgname3}"
@@ -254,7 +267,7 @@ msgstr ""
 "{pkgname1} İle {pkgname2} Çakışıyor Ama {pkgname3} İçin Gerekli Olduğundan "
 "Kaldırılamıyor"
 
-#: pamac/main.py:739
+#: pamac/main.py:726 pamac/main.py:727
 msgid ""
 "{pkgname1} conflicts with {pkgname2}\n"
 "None of them will be installed"
@@ -262,7 +275,7 @@ msgstr ""
 "{pkgname1} İle {pkgname2} Çakışıyor\n"
 "Hiç Bir Paket Yüklenmeyecek"
 
-#: pamac/main.py:806
+#: pamac/main.py:822
 msgid ""
 "<b>{pkgname} is provided by {number} packages.\n"
 "Please choose the one(s) you want to install:</b>"
@@ -270,15 +283,11 @@ msgstr ""
 "<b>{pkgname} Paketi İçin {number} Sağlayıcı Var.\n"
 "Lütfen Yüklemek İçin Seçiminizi Girin:</b>"
 
-#: pamac/main.py:832
-msgid "No package is selected"
-msgstr "Hiç Bir Paket Seçilmedi"
-
-#: pamac/main.py:873
+#: pamac/main.py:867
 msgid "Nothing to do"
 msgstr "Yapılacak Bir Şey Yok"
 
-#: pamac/main.py:1056
+#: pamac/main.py:1021
 msgid "Pamac is already running"
 msgstr "Pamac Zaten Çalışıyor"
 
@@ -312,7 +321,7 @@ msgstr "Paket Yöneticisi"
 msgid "Search"
 msgstr "Ara"
 
-#: gui/manager.glade:587 gui/manager.glade:680
+#: gui/manager.glade:587 gui/manager.glade:682
 msgid "State"
 msgstr "Konum"
 
@@ -320,30 +329,33 @@ msgstr "Konum"
 msgid "Repos"
 msgstr "Depolar"
 
-#: gui/manager.glade:710
+#: gui/manager.glade:713
 msgid "Name"
 msgstr "İsim"
 
-#: gui/manager.glade:728
+#: gui/manager.glade:732
 msgid "Size"
 msgstr "Boyut"
 
-#: gui/manager.glade:829
+#: gui/manager.glade:833
 msgid "Infos"
 msgstr "Bilgi"
 
-#: gui/manager.glade:889
+#: gui/manager.glade:893
 msgid "Deps"
 msgstr "Bağımlılıklar"
 
-#: gui/manager.glade:954
+#: gui/manager.glade:958
 msgid "Details"
 msgstr "Ayrıntılar"
 
-#: gui/manager.glade:1002
+#: gui/manager.glade:1006
 msgid "Files"
 msgstr "Dosyalar"
 
 #: gui/updater.glade:6
 msgid "Update Manager"
 msgstr "Güncelleme Yöneticisi"
+
+#~ msgid "No package is selected"
+#~ msgstr "Hiç Bir Paket Seçilmedi"

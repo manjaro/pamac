@@ -690,7 +690,7 @@
                                 <signal name="toggled" handler="on_cellrenderertoggle1_toggled" swapped="no"/>
                               </object>
                               <attributes>
-                                <attribute name="visible">2</attribute>
+                                <attribute name="activatable">2</attribute>
                                 <attribute name="active">3</attribute>
                               </attributes>
                             </child>

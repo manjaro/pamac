@@ -254,7 +254,7 @@ class PamacDBusService(dbus.service.Object):
 			for db in self.handle.get_syncdbs():
 				try:
 					self.t = self.handle.init_transaction()
-					db.update(force=False)
+					db.update(force = False)
 				except pyalpm.error as e:
 					self.error += ' --> '+str(e)+'\n'
 					break
@@ -367,8 +367,7 @@ class PamacDBusService(dbus.service.Object):
 				#self.error += ' --> '+str(e)+'\n'
 			except:
 				pass
-			finally:
-				self.CheckUpdates()
+			#finally:
 				#if self.error:
 					#self.EmitTransactionError(self.error)
 		self.task.terminate()

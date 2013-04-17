@@ -3,7 +3,7 @@
 from distutils.core import setup
 
 setup(name='Pamac',
-      version='0.6',
+      version='0.7',
       description='A gtk3 frontend for pyalpm',
       license='GPL',
       author='Guillaume Benoit',

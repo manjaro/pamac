@@ -8,11 +8,10 @@ from dbus.mainloop.glib import DBusGMainLoop
 
 from pamac import config, common
 
-t_lock = False
-to_remove = []
-to_add = []
-to_provide = []
-to_update = []
+to_remove = set()
+to_add = set()
+to_update = set()
+to_provide = set()
 handle = None
 syncpkgs = OrderedDict()
 localpkgs = OrderedDict()
@@ -53,21 +52,19 @@ Release = proxy.get_dbus_method('Release','org.manjaro.pamac')
 StopDaemon = proxy.get_dbus_method('StopDaemon','org.manjaro.pamac')
 
 def init_transaction(**options):
-	global t_lock
 	error = Init(dbus.Dictionary(options, signature='sb'))
 	if not error:
-		t_lock = True
 		return True
 	else:
 		return False
 
 def get_to_remove():
 	global to_remove
-	to_remove = To_Remove()
+	to_remove = set(To_Remove())
 
 def get_to_add():
 	global to_add
-	to_add = To_Add()
+	to_add = set(To_Add())
 
 def get_updates():
 	"""Return a list of package objects in local db which can be updated"""
