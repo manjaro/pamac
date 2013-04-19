@@ -517,8 +517,8 @@ def check_conflicts():
 						if requirement == hold:
 							if error:
 								error += '\n'
-							error += _('The transaction cannot be performed because it needs to remove {pkgname1} which is in HoldPkg').format(pkgname1 = hold)
-							print(_('The transaction cannot be performed because it needs to remove {pkgname1} which is in HoldPkg').format(pkgname1 = hold))
+							error += _('The transaction cannot be performed because it needs to remove {pkgname1} which is a locked package').format(pkgname1 = hold)
+							print(_('The transaction cannot be performed because it needs to remove {pkgname1} which is a locked package').format(pkgname1 = hold))
 				else:
 					to_add_to_remove.add(requirement)
 		to_add_to_remove &= set(transaction.localpkgs.keys())

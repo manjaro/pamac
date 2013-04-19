@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pamac\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-04-17 15:31+0200\n"
+"POT-Creation-Date: 2013-04-19 16:16+0200\n"
 "PO-Revision-Date: 2013-04-08 14:35+0200\n"
 "Last-Translator: Angel <angelsolomos@gmail.com>\n"
 "Language-Team: Greek <angelsolomos@gmail.com>\n"
@@ -246,7 +246,7 @@ msgstr "<big><b>{number} διαθέσιμες ενημερώσεις</b></big>"
 #: pamac/main.py:520 pamac/main.py:521
 msgid ""
 "The transaction cannot be performed because it needs to remove {pkgname1} "
-"which is in HoldPkg"
+"which is a locked package"
 msgstr ""
 
 #: pamac/main.py:552 pamac/main.py:553 pamac/main.py:655 pamac/main.py:656
