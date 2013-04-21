@@ -10,6 +10,7 @@ from pamac import config, common
 
 to_remove = set()
 to_add = set()
+to_load = set()
 to_update = set()
 to_provide = set()
 handle = None
@@ -43,6 +44,7 @@ Init = proxy.get_dbus_method('Init','org.manjaro.pamac')
 Sysupgrade = proxy.get_dbus_method('Sysupgrade','org.manjaro.pamac')
 Remove = proxy.get_dbus_method('Remove','org.manjaro.pamac')
 Add = proxy.get_dbus_method('Add','org.manjaro.pamac')
+Load = proxy.get_dbus_method('Load','org.manjaro.pamac')
 Prepare = proxy.get_dbus_method('Prepare','org.manjaro.pamac')
 To_Remove = proxy.get_dbus_method('To_Remove','org.manjaro.pamac')
 To_Add = proxy.get_dbus_method('To_Add','org.manjaro.pamac')

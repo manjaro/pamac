@@ -97,6 +97,22 @@ class PamacDBusService(dbus.service.Object):
 			formatted_event = 'Upgraded {pkgname} ({oldversion} -> {newversion})'.format(pkgname = tupel[1].name, oldversion = tupel[1].version, newversion = tupel[0].version)
 			common.write_log_file(formatted_event)
 			print(formatted_event)
+		elif ID is 15:
+			self.action = _('Downgrading')+'...'
+			self.icon = '/usr/share/pamac/icons/24x24/status/rollback.png'
+			print('Downgrading a package')
+		elif ID is 16:
+			#formatted_event = 'Downgraded {pkgname} ({oldversion} -> {newversion})'.format(pkgname = tupel[1].name, oldversion = tupel[1].version, newversion = tupel[0].version)
+			#common.write_log_file(formatted_event)
+			#print(formatted_event)
+		elif ID is 17:
+			self.action = _('Reinstalling')+'...'
+			self.icon = '/usr/share/pamac/icons/24x24/status/package-add.png'
+			print('Reinstalling a package')
+		#elif ID is 18:
+			#formatted_event = 'Reinstalled {pkgname} ({pkgversion})'.format(pkgname = tupel[0].name, pkgversion = tupel[0].version)
+			#common.write_log_file(formatted_event)
+			#print(formatted_event)
 		elif ID is 19:
 			self.action = _('Checking integrity')+'...'
 			self.icon = '/usr/share/pamac/icons/24x24/status/package-search.png'
@@ -321,6 +337,19 @@ class PamacDBusService(dbus.service.Object):
 				if pkg:
 					self.t.add_pkg(pkg)
 					break
+		except pyalpm.error as e:
+			self.error += ' --> '+str(e)+'\n'
+		finally:
+			return self.error
+
+	@dbus.service.method('org.manjaro.pamac', 's', 's')
+	def Load(self, tarball_path):
+		self.error = ''
+		try:
+			pkg = self.handle.load_pkg(tarball_path)
+			if pkg:
+				self.t.add_pkg(pkg)
+				print(pkg)
 		except pyalpm.error as e:
 			self.error += ' --> '+str(e)+'\n'
 		finally:

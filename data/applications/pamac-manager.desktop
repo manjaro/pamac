@@ -137,4 +137,3 @@ Type=Application
 Categories=GNOME;GTK;System;
 #NotShowIn=KDE;
 StartupNotify=true
-

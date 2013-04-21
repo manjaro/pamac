@@ -72,7 +72,7 @@ update_bottom_label = interface.get_object('update_bottom_label')
 def action_signal_handler(action):
 	if action:
 		progress_label.set_text(action)
-	if (_('Installing') in action) or (_('Removing') in action) or (_('Upgrading') in action) or (_('Configuring') in action):
+	if (_('Installing') in action) or (_('Reinstalling') in action) or (_('Downgrading') in action) or (_('Removing') in action) or (_('Upgrading') in action) or (_('Configuring') in action):
 		ProgressCancelButton.set_visible(False)
 	else:
 		ProgressCancelButton.set_visible(True)
@@ -343,7 +343,8 @@ def set_transaction_sum():
 	if transaction.to_add or transaction.to_update:
 		dsize = 0
 		for name in transaction.to_add | transaction.to_update:
-			dsize += transaction.syncpkgs[name].download_size
+			if name in transaction.syncpkgs.keys():
+				dsize += transaction.syncpkgs[name].download_size
 		sum_bottom_label.set_markup(_('<b>Total download size: </b>')+common.format_size(dsize))
 	if transaction.to_remove:
 		to_remove = sorted(transaction.to_remove)
@@ -498,6 +499,11 @@ def check_conflicts():
 	while Gtk.events_pending():
 		Gtk.main_iteration()
 	to_check = [transaction.syncpkgs[name] for name in transaction.to_add | transaction.to_update]
+	if transaction.to_load:
+		for path in transaction.to_load:
+			pkg = transaction.handle.load_pkg(path)
+			if pkg:
+				to_check.append(pkg)
 	already_checked = set(pkg.name for pkg in to_check)
 	depends = [to_check]
 	warning = ''
@@ -798,6 +804,8 @@ def check_conflicts():
 	ManagerWindow.get_root_window().set_cursor(Gdk.Cursor(Gdk.CursorType.ARROW))
 	print('check result:')
 	print('    to add:', transaction.to_add if transaction.to_add else 'None')
+	if transaction.to_load:
+		print('    to load:', transaction.to_load)
 	print('    will not be removed:', transaction.to_remove & wont_be_removed if transaction.to_remove & wont_be_removed else 'None')
 	transaction.to_remove -= wont_be_removed
 	print('    to remove:', transaction.to_remove if transaction.to_remove else 'None')
@@ -859,7 +867,8 @@ class Handler:
 				else:
 					transaction.get_to_remove()
 					transaction.get_to_add()
-					transaction.to_update = transaction.to_add & set(transaction.localpkgs.keys())
+					do_syncfirst, updates = transaction.get_updates()
+					transaction.to_update = set([pkg.name for pkg in updates])
 					transaction.to_add -= transaction.to_update
 					set_transaction_sum()
 					ConfDialog.show_all()
