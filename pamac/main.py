@@ -1008,6 +1008,20 @@ class Handler:
 			else:
 				handle_reply('')
 
+	def on_notebook1_switch_page(self, notebook, page, page_num):
+		if page_num == 0:
+			liste, line = search_selection.get_selected()
+			if line:
+				self.on_search_treeview_selection_changed(self)
+			elif search_entry.get_text():
+				self.on_search_entry_activate(self)
+		elif page_num == 1:
+			self.on_groups_treeview_selection_changed(self)
+		elif page_num == 2:
+			self.on_state_treeview_selection_changed(self)
+		elif page_num == 3:
+			self.on_repos_treeview_selection_changed(self)
+
 	#Updater Handlers
 	def on_UpdaterWindow_delete_event(self, *arg):
 		transaction.StopDaemon()

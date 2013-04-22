@@ -420,6 +420,7 @@
               <object class="GtkNotebook" id="notebook1">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
+                <signal name="switch-page" handler="on_notebook1_switch_page" swapped="no"/>
                 <child>
                   <object class="GtkBox" id="box2">
                     <property name="visible">True</property>

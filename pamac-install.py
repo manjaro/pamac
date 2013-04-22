@@ -98,12 +98,12 @@ if common.pid_file_exists():
 	response = main.ErrorDialog.run()
 	if response:
 		main.ErrorDialog.hide()
-#~ elif updates:
-		#~ main.ErrorDialog.format_secondary_text(_('Some updates are available.\nPlease update your system first'))
-		#~ response = main.ErrorDialog.run()
-		#~ if response:
-			#~ main.ErrorDialog.hide()
-		#~ transaction.StopDaemon()
+elif updates:
+		main.ErrorDialog.format_secondary_text(_('Some updates are available.\nPlease update your system first'))
+		response = main.ErrorDialog.run()
+		if response:
+			main.ErrorDialog.hide()
+		transaction.StopDaemon()
 else:
 	common.write_pid_file()
 	pkgs_to_install = argv[1:]
