@@ -365,7 +365,7 @@ def set_transaction_sum():
 			transaction_sum.append([' ', transaction_dict['to_reinstall'][i][0]])
 			i += 1
 	if transaction_dict['to_downgrade']:
-		transaction_sum.append([_('To Downgrade')+':', transaction_dict['to_downgrade'][0][0]])
+		transaction_sum.append([_('To downgrade')+':', transaction_dict['to_downgrade'][0][0]])
 		i = 1
 		while i < len(transaction_dict['to_downgrade']):
 			transaction_sum.append([' ', transaction_dict['to_downgrade'][i][0]])
