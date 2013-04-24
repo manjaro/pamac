@@ -1,5 +1,6 @@
 ./pamac-daemon.py
 ./pamac-tray.py
+./pamac-install.py
 ./pamac/main.py
 ./pamac/common.py
 ./gui/manager.glade

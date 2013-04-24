@@ -359,8 +359,8 @@ class PamacDBusService(dbus.service.Object):
 			pkg = self.handle.load_pkg(tarball_path)
 			if pkg:
 				self.t.add_pkg(pkg)
-		except pyalpm.error as e:
-			self.error += ' --> '+str(e)+'\n'
+		except pyalpm.error:
+			self.error += _('{pkgname} is not a valid path or package name').format(pkgname = tarball_path)
 		finally:
 			return self.error
 

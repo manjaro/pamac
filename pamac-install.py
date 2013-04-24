@@ -4,6 +4,7 @@
 from gi.repository import GObject
 from sys import argv
 import dbus
+from os.path import abspath
 from pamac import common, transaction, main
 
 # i18n
@@ -42,7 +43,9 @@ def get_pkgs(pkgs):
 	get_error = ''
 	for pkg in pkgs:
 		if '.pkg.tar.' in pkg:
-			transaction.to_load.add(pkg)
+			full_path = abspath(pkg)
+			print('path',full_path)
+			transaction.to_load.add(full_path)
 		elif pkg in transaction.syncpkgs.keys():
 			transaction.to_add.add(pkg)
 		else:
@@ -73,8 +76,15 @@ def install(pkgs):
 					exiting(_error)
 				else:
 					main.set_transaction_sum()
-					main.ConfDialog.show_all()
-					loop.run()
+					if len(main.transaction_sum) != 0:
+						main.ConfDialog.show_all()
+						loop.run()
+					else:
+						main.WarningDialog.format_secondary_text(_('Nothing to do'))
+						response = main.WarningDialog.run()
+						if response:
+							main.WarningDialog.hide()
+						exiting('')
 		else:
 			main.WarningDialog.format_secondary_text(_('Nothing to do'))
 			response = main.WarningDialog.run()

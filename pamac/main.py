@@ -545,6 +545,8 @@ def finalize():
 		handle_error(str(e))
 
 def check_conflicts():
+	warning = ''
+	error = ''
 	print('checking...')
 	ManagerWindow.get_root_window().set_cursor(Gdk.Cursor(Gdk.CursorType.WATCH))
 	while Gtk.events_pending():
@@ -552,13 +554,14 @@ def check_conflicts():
 	to_check = [transaction.syncpkgs[name] for name in transaction.to_add | transaction.to_update]
 	if transaction.to_load:
 		for path in transaction.to_load:
-			pkg = transaction.handle.load_pkg(path)
-			if pkg:
-				to_check.append(pkg)
+			try:
+				pkg = transaction.handle.load_pkg(path)
+				if pkg:
+					to_check.append(pkg)
+			except pyalpm.error:
+				error += _('{pkgname} is not a valid path or package name').format(pkgname = path)
 	already_checked = set(pkg.name for pkg in to_check)
 	depends = [to_check]
-	warning = ''
-	error = ''
 	pkgs = transaction.handle.get_localdb().search('linux3')
 	installed_linux = []
 	# get packages to remove
