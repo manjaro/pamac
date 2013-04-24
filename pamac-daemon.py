@@ -101,7 +101,7 @@ class PamacDBusService(dbus.service.Object):
 			self.action = _('Downgrading')+'...'
 			self.icon = '/usr/share/pamac/icons/24x24/status/rollback.png'
 			print('Downgrading a package')
-		elif ID is 16:
+		#elif ID is 16:
 			#formatted_event = 'Downgraded {pkgname} ({oldversion} -> {newversion})'.format(pkgname = tupel[1].name, oldversion = tupel[1].version, newversion = tupel[0].version)
 			#common.write_log_file(formatted_event)
 			#print(formatted_event)
@@ -152,17 +152,27 @@ class PamacDBusService(dbus.service.Object):
 		if not (level & _logmask):
 			return
 		if level & pyalpm.LOG_ERROR:
-			self.error += "ERROR: "+line
-			print(self.error)
+			#self.error += "ERROR: "+line
+			self.EmitLogError(line)
+			#print(self.error)
 			#self.t.release()
 		elif level & pyalpm.LOG_WARNING:
-			self.warning += "WARNING: "+line
+			#self.warning += "WARNING: "+line
+			self.EmitLogWarning(line)
 		elif level & pyalpm.LOG_DEBUG:
 			line = "DEBUG: " + line
 			print(line)
 		elif level & pyalpm.LOG_FUNCTION:
 			line = "FUNC: " + line
 			print(line)
+
+	@dbus.service.signal('org.manjaro.pamac')
+	def EmitLogError(self, message):
+		pass
+
+	@dbus.service.signal('org.manjaro.pamac')
+	def EmitLogWarning(self, message):
+		pass
 
 	def totaldlcb(self, _total_size):
 		self.total_size = _total_size
@@ -349,7 +359,6 @@ class PamacDBusService(dbus.service.Object):
 			pkg = self.handle.load_pkg(tarball_path)
 			if pkg:
 				self.t.add_pkg(pkg)
-				print(pkg)
 		except pyalpm.error as e:
 			self.error += ' --> '+str(e)+'\n'
 		finally:
@@ -360,26 +369,24 @@ class PamacDBusService(dbus.service.Object):
 		self.error = ''
 		try:
 			self.t.prepare()
-			print('to_add:',self.t.to_add)
-			print('to_remove:',self.t.to_remove)
 		except pyalpm.error as e:
 			print(e)
 			self.error += ' --> '+str(e)+'\n'
 		finally:
 			return self.error 
 
-	@dbus.service.method('org.manjaro.pamac', '', 'as')
+	@dbus.service.method('org.manjaro.pamac', '', 'a(ss)')
 	def To_Remove(self):
 		liste = []
 		for pkg in self.t.to_remove:
-			liste.append(pkg.name)
+			liste.append((pkg.name, pkg.version))
 		return liste
 
-	@dbus.service.method('org.manjaro.pamac', '', 'as')
+	@dbus.service.method('org.manjaro.pamac', '', 'a(ssi)')
 	def To_Add(self):
 		liste = []
 		for pkg in self.t.to_add:
-			liste.append(pkg.name)
+			liste.append((pkg.name, pkg.version, pkg.download_size))
 		return liste
 
 	@dbus.service.method('org.manjaro.pamac', '', 's', async_callbacks=('success', 'nosuccess'))

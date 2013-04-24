@@ -104,7 +104,7 @@ search_icon = Pixbuf.new_from_file('/usr/share/pamac/icons/22x22/status/package-
  
 pkg_name_list = set()
 current_filter = (None, None)
-mode = None
+mode = 'manager'
 states = [_('Installed'), _('Uninstalled'), _('Orphans'), _('To install'), _('To remove')]
 for state in states:
 	state_list.append([state])
@@ -320,40 +320,76 @@ def set_files_list(pkg):
 		for file in pkg.files:
 			files_list.append(['/'+file[0]])
 
+def get_transaction_sum():
+	transaction_dict = {'to_remove': [], 'to_install': [], 'to_update': [], 'to_reinstall': [], 'to_downgrade': []}
+	to_remove = sorted(transaction.To_Remove())
+	for name, version in to_remove:
+		transaction_dict['to_remove'].append(name+' '+version)
+	others = sorted(transaction.To_Add())
+	for name, version, dsize in others:
+		if name in transaction.localpkgs.keys():
+			if version > transaction.localpkgs[name].version:
+				transaction_dict['to_update'].append((name+' '+version, dsize))
+			elif version == transaction.localpkgs[name].version:
+				transaction_dict['to_reinstall'].append((name+' '+version, dsize))
+			elif version < transaction.localpkgs[name].version:
+				transaction_dict['to_downgrade'].append((name+' '+version, dsize))
+		else:
+			transaction_dict['to_install'].append((name+' '+version, dsize))
+	if transaction_dict['to_install']:
+		print('To install:', [name for name, size in transaction_dict['to_install']])
+	if transaction_dict['to_reinstall']:
+		print('To reinstall:', [name for name, size in transaction_dict['to_reinstall']])
+	if transaction_dict['to_downgrade']:
+		print('To downgrade:', [name for name, size in transaction_dict['to_downgrade']])
+	if transaction_dict['to_remove']:
+		print('To remove:', [name for name in transaction_dict['to_remove']])
+	if transaction_dict['to_update']:
+		print('To update:', [name for name, size in transaction_dict['to_update']])
+	return transaction_dict
+
 def set_transaction_sum():
 	transaction_sum.clear()
+	transaction_dict = get_transaction_sum()
 	sum_top_label.set_markup(_('<big><b>Transaction Summary</b></big>'))
-	if mode == 'manager':
-		if transaction.to_update:
-			to_update = sorted(transaction.to_update)
-			transaction_sum.append([_('To update')+':', to_update[0]])
-			i = 1
-			while i < len(to_update):
-				transaction_sum.append([' ', to_update[i]])
-				i += 1
-	if transaction.to_add:
-		transaction.to_add -= transaction.to_update
-		to_add = sorted(transaction.to_add)
-		if to_add:
-			transaction_sum.append([_('To install')+':', to_add[0]])
-			i = 1
-			while i < len(to_add):
-				transaction_sum.append([' ', to_add[i]])
-				i += 1
-	if transaction.to_add or transaction.to_update:
-		dsize = 0
-		for name in transaction.to_add | transaction.to_update:
-			if name in transaction.syncpkgs.keys():
-				dsize += transaction.syncpkgs[name].download_size
-		sum_bottom_label.set_markup(_('<b>Total download size: </b>')+common.format_size(dsize))
-	if transaction.to_remove:
-		to_remove = sorted(transaction.to_remove)
-		transaction_sum.append([_('To remove')+':', to_remove[0]])
+	if transaction_dict['to_install']:
+		transaction_sum.append([_('To install')+':', transaction_dict['to_install'][0][0]])
 		i = 1
-		while i < len(to_remove):
-			transaction_sum.append([' ', to_remove[i]])
+		while i < len(transaction_dict['to_install']):
+			transaction_sum.append([' ', transaction_dict['to_install'][i][0]])
 			i += 1
+	if transaction_dict['to_reinstall']:
+		transaction_sum.append([_('To reinstall')+':', transaction_dict['to_reinstall'][0][0]])
+		i = 1
+		while i < len(transaction_dict['to_reinstall']):
+			transaction_sum.append([' ', transaction_dict['to_reinstall'][i][0]])
+			i += 1
+	if transaction_dict['to_downgrade']:
+		transaction_sum.append([_('To Downgrade')+':', transaction_dict['to_downgrade'][0][0]])
+		i = 1
+		while i < len(transaction_dict['to_downgrade']):
+			transaction_sum.append([' ', transaction_dict['to_downgrade'][i][0]])
+			i += 1
+	if transaction_dict['to_remove']:
+		transaction_sum.append([_('To remove')+':', transaction_dict['to_remove'][0]])
+		i = 1
+		while i < len(transaction_dict['to_remove']):
+			transaction_sum.append([' ', transaction_dict['to_remove'][i]])
+			i += 1
+	if mode == 'manager':
+		if transaction_dict['to_update']:
+			transaction_sum.append([_('To update')+':', transaction_dict['to_update'][0][0]])
+			i = 1
+			while i < len(transaction_dict['to_update']):
+				transaction_sum.append([' ', transaction_dict['to_update'][i][0]])
+				i += 1
+	dsize = 0
+	for nameversion, size in transaction_dict['to_install'] + transaction_dict['to_update'] + transaction_dict['to_reinstall'] + transaction_dict['to_downgrade']:
+		dsize += size
+	if dsize == 0:
 		sum_bottom_label.set_markup('')
+	else:
+		sum_bottom_label.set_markup(_('<b>Total download size: </b>')+common.format_size(dsize))
 
 def handle_error(error):
 	ProgressWindow.hide()
@@ -404,8 +440,26 @@ def handle_reply(reply):
 		if mode == 'manager':
 			do_sysupgrade()
 
+def log_error(msg):
+	ErrorDialog.format_secondary_text(msg)
+	response = ErrorDialog.run()
+	while Gtk.events_pending():
+		Gtk.main_iteration()
+	if response:
+		ErrorDialog.hide()
+
+def log_warning(msg):
+	WarningDialog.format_secondary_text(msg)
+	response = WarningDialog.run()
+	while Gtk.events_pending():
+		Gtk.main_iteration()
+	if response:
+		WarningDialog.hide()
+
 bus.add_signal_receiver(handle_reply, dbus_interface = "org.manjaro.pamac", signal_name = "EmitTransactionDone")
 bus.add_signal_receiver(handle_error, dbus_interface = "org.manjaro.pamac", signal_name = "EmitTransactionError")
+bus.add_signal_receiver(log_error, dbus_interface = "org.manjaro.pamac", signal_name = "EmitLogError")
+bus.add_signal_receiver(log_warning, dbus_interface = "org.manjaro.pamac", signal_name = "EmitLogWarning")
 
 def do_refresh():
 	"""Sync databases like pacman -Sy"""
@@ -430,7 +484,7 @@ def have_updates():
 	else:
 		dsize = 0
 		for pkg in updates:
-			pkgname = pkg.name+" "+pkg.version
+			pkgname = pkg.name+' '+pkg.version
 			update_listore.append([pkgname, common.format_size(pkg.size)])
 			dsize += pkg.download_size
 		update_bottom_label.set_markup(_('<b>Total download size: </b>')+common.format_size(dsize))
@@ -468,16 +522,13 @@ def do_sysupgrade():
 				if error:
 					handle_error(error)
 				else:
-					transaction.get_to_remove()
-					transaction.get_to_add()
-					transaction.to_add -= transaction.to_update
 					set_transaction_sum()
 					if mode == 'updater':
-						if len(transaction.to_add) + len(transaction.to_remove) != 0:
+						if len(transaction_sum) != 0:
 							ConfDialog.show_all()
 						else:
 							finalize()
-					if mode == 'manager':
+					else:
 						ConfDialog.show_all()
 
 def finalize():
@@ -680,40 +731,42 @@ def check_conflicts():
 							if found_conflict.name in transaction.to_update:
 								new_found_conflict = pyalpm.find_satisfier([transaction.syncpkgs[found_conflict.name]], conflict)
 								if new_found_conflict:
-									# check if the conflict can be safely removed
-									required = set(pkg.compute_requiredby())
-									required &= set(transaction.localpkgs.keys())
-									if required:
-										str_required = ''
-										for item in required:
-											if str_required:
-												str_required += ', '
-											str_required += item
-										if error:
-											error += '\n'
-										error += _('{pkgname1} conflicts with {pkgname2} but cannot be removed because it is needed by {pkgname3}').format(pkgname1 = found_conflict.name, pkgname2 = pkg.name, pkgname3 = str_required)
-										print(_('{pkgname1} conflicts with {pkgname2} but cannot be removed because it is needed by {pkgname3}').format(pkgname1 = found_conflict.name, pkgname2 = pkg.name, pkgname3 = str_required))
-									elif not found_conflict.name in transaction.to_remove:
-										transaction.to_remove.add(found_conflict.name)
+									#~ # check if the conflict can be safely removed
+									#~ required = set(pkg.compute_requiredby())
+									#~ required &= set(transaction.localpkgs.keys())
+									#~ if required:
+										#~ str_required = ''
+										#~ for item in required:
+											#~ if str_required:
+												#~ str_required += ', '
+											#~ str_required += item
+										#~ if error:
+											#~ error += '\n'
+										#~ error += _('{pkgname1} conflicts with {pkgname2} but cannot be removed because it is needed by {pkgname3}').format(pkgname1 = found_conflict.name, pkgname2 = pkg.name, pkgname3 = str_required)
+										#~ print(_('{pkgname1} conflicts with {pkgname2} but cannot be removed because it is needed by {pkgname3}').format(pkgname1 = found_conflict.name, pkgname2 = pkg.name, pkgname3 = str_required))
+									#~ el
+									if not new_found_conflict.name in transaction.to_remove:
+										transaction.to_remove.add(new_found_conflict.name)
 										if warning:
 											warning += '\n'
-										warning += _('{pkgname1} conflicts with {pkgname2}').format(pkgname1 = pkg.name, pkgname2 = found_conflict.name)
-										print(_('{pkgname1} conflicts with {pkgname2}').format(pkgname1 = pkg.name, pkgname2 = found_conflict.name))
+										warning += _('{pkgname1} conflicts with {pkgname2}').format(pkgname1 = pkg.name, pkgname2 = new_found_conflict.name)
+										print(_('{pkgname1} conflicts with {pkgname2}').format(pkgname1 = pkg.name, pkgname2 = new_found_conflict.name))
 							else:
-								# check if the conflict can be safely removed
-								required = set(pkg.compute_requiredby())
-								required &= set(transaction.localpkgs.keys())
-								if required:
-									str_required = ''
-									for item in required:
-										if str_required:
-											str_required += ', '
-										str_required += item
-									if error:
-										error += '\n'
-									error += _('{pkgname1} conflicts with {pkgname2} but cannot be removed because it is needed by {pkgname3}').format(pkgname1 = found_conflict.name, pkgname2 = pkg.name, pkgname3 = str_required)
-									print(_('{pkgname1} conflicts with {pkgname2} but cannot be removed because it is needed by {pkgname3}').format(pkgname1 = found_conflict.name, pkgname2 = pkg.name, pkgname3 = str_required))
-								elif not found_conflict.name in transaction.to_remove:
+								#~ # check if the conflict can be safely removed
+								#~ required = set(pkg.compute_requiredby())
+								#~ required &= set(transaction.localpkgs.keys())
+								#~ if required:
+									#~ str_required = ''
+									#~ for item in required:
+										#~ if str_required:
+											#~ str_required += ', '
+										#~ str_required += item
+									#~ if error:
+										#~ error += '\n'
+									#~ error += _('{pkgname1} conflicts with {pkgname2} but cannot be removed because it is needed by {pkgname3}').format(pkgname1 = found_conflict.name, pkgname2 = pkg.name, pkgname3 = str_required)
+									#~ print(_('{pkgname1} conflicts with {pkgname2} but cannot be removed because it is needed by {pkgname3}').format(pkgname1 = found_conflict.name, pkgname2 = pkg.name, pkgname3 = str_required))
+								#~ el
+								if not found_conflict.name in transaction.to_remove:
 									transaction.to_remove.add(found_conflict.name)
 									if warning:
 										warning += '\n'
@@ -755,40 +808,42 @@ def check_conflicts():
 						if pkg.name in transaction.to_update:
 							for new_conflict in transaction.syncpkgs[pkg.name].conflicts:
 								if new_conflict == conflict:
-									# check if the conflict can be safely removed
-									required = set(pkg.compute_requiredby())
-									required &= set(transaction.localpkgs.keys())
-									if required:
-										str_required = ''
-										for item in required:
-											if str_required:
-												str_required += ', '
-											str_required += item
-										if error:
-											error += '\n'
-										error += _('{pkgname1} conflicts with {pkgname2} but cannot be removed because it is needed by {pkgname3}').format(pkgname1 = pkg.name, pkgname2 = found_conflict.name, pkgname3 = str_required)
-										print(_('{pkgname1} conflicts with {pkgname2} but cannot be removed because it is needed by {pkgname3}').format(pkgname1 = pkg.name, pkgname2 = found_conflict.name, pkgname3 = str_required))
-									elif not pkg.name in transaction.to_remove:
+									#~ # check if the conflict can be safely removed
+									#~ required = set(pkg.compute_requiredby())
+									#~ required &= set(transaction.localpkgs.keys())
+									#~ if required:
+										#~ str_required = ''
+										#~ for item in required:
+											#~ if str_required:
+												#~ str_required += ', '
+											#~ str_required += item
+										#~ if error:
+											#~ error += '\n'
+										#~ error += _('{pkgname1} conflicts with {pkgname2} but cannot be removed because it is needed by {pkgname3}').format(pkgname1 = pkg.name, pkgname2 = found_conflict.name, pkgname3 = str_required)
+										#~ print(_('{pkgname1} conflicts with {pkgname2} but cannot be removed because it is needed by {pkgname3}').format(pkgname1 = pkg.name, pkgname2 = found_conflict.name, pkgname3 = str_required))
+									#~ el
+									if not pkg.name in transaction.to_remove:
 										transaction.to_remove.add(pkg.name)
 										if warning:
 											warning += '\n'
 										warning += _('{pkgname1} conflicts with {pkgname2}').format(pkgname1= found_conflict.name, pkgname2 = pkg.name)
 										print(_('{pkgname1} conflicts with {pkgname2}').format(pkgname1 = found_conflict.name, pkgname2 = pkg.name))
 						else:
-							# check if the conflict can be safely removed
-							required = set(pkg.compute_requiredby())
-							required &= set(transaction.localpkgs.keys())
-							if required:
-								str_required = ''
-								for item in required:
-									if str_required:
-										str_required += ', '
-									str_required += item
-								if error:
-									error += '\n'
-								error += _('{pkgname1} conflicts with {pkgname2} but cannot be removed because it is needed by {pkgname3}').format(pkgname1 = pkg.name, pkgname2 = found_conflict.name, pkgname3 = str_required)
-								print(_('{pkgname1} conflicts with {pkgname2} but cannot be removed because it is needed by {pkgname3}').format(pkgname1 = pkg.name, pkgname2 = found_conflict.name, pkgname3 = str_required))
-							elif not pkg.name in transaction.to_remove:
+							#~ # check if the conflict can be safely removed
+							#~ required = set(pkg.compute_requiredby())
+							#~ required &= set(transaction.localpkgs.keys())
+							#~ if required:
+								#~ str_required = ''
+								#~ for item in required:
+									#~ if str_required:
+										#~ str_required += ', '
+									#~ str_required += item
+								#~ if error:
+									#~ error += '\n'
+								#~ error += _('{pkgname1} conflicts with {pkgname2} but cannot be removed because it is needed by {pkgname3}').format(pkgname1 = pkg.name, pkgname2 = found_conflict.name, pkgname3 = str_required)
+								#~ print(_('{pkgname1} conflicts with {pkgname2} but cannot be removed because it is needed by {pkgname3}').format(pkgname1 = pkg.name, pkgname2 = found_conflict.name, pkgname3 = str_required))
+							#~ el
+							if not pkg.name in transaction.to_remove:
 								transaction.to_remove.add(pkg.name)
 								if warning:
 									warning += '\n'
@@ -802,14 +857,7 @@ def check_conflicts():
 			wont_be_removed.add(pkg.name)
 
 	ManagerWindow.get_root_window().set_cursor(Gdk.Cursor(Gdk.CursorType.ARROW))
-	print('check result:')
-	print('    to add:', transaction.to_add if transaction.to_add else 'None')
-	if transaction.to_load:
-		print('    to load:', transaction.to_load)
-	print('    will not be removed:', transaction.to_remove & wont_be_removed if transaction.to_remove & wont_be_removed else 'None')
-	transaction.to_remove -= wont_be_removed
-	print('    to remove:', transaction.to_remove if transaction.to_remove else 'None')
-	print('    to update:', transaction.to_update if transaction.to_update else 'None')
+	print('check done')
 	if warning:
 		WarningDialog.format_secondary_text(warning)
 		response = WarningDialog.run()
@@ -827,15 +875,20 @@ def choose_provides(name):
 				if not pkg.name in provides.keys():
 					provides[pkg.name] = pkg
 	if provides:
-		choose_label.set_markup(_('<b>{pkgname} is provided by {number} packages.\nPlease choose the one(s) you want to install:</b>').format(pkgname = name, number = str(len(provides.keys()))))
-		choose_list.clear()
-		for name in provides.keys():
-			if transaction.handle.get_localdb().get_pkg(name):
-				choose_list.append([True, name])
-			else:
-				choose_list.append([False, name])
-		ChooseDialog.run()
-		return [provides[pkgname] for pkgname in transaction.to_provide]
+		if len(provides.keys()) == 1:
+			return [pkg for pkgname, pkg in provides.items()]
+		else:
+			choose_label.set_markup(_('<b>{pkgname} is provided by {number} packages.\nPlease choose the one(s) you want to install:</b>').format(pkgname = name, number = str(len(provides.keys()))))
+			choose_list.clear()
+			for name in provides.keys():
+				if transaction.handle.get_localdb().get_pkg(name):
+					choose_list.append([True, name])
+				else:
+					choose_list.append([False, name])
+			ManagerWindow.get_root_window().set_cursor(Gdk.Cursor(Gdk.CursorType.ARROW))
+			ChooseDialog.run()
+			ManagerWindow.get_root_window().set_cursor(Gdk.Cursor(Gdk.CursorType.WATCH))
+			return [provides[pkgname] for pkgname in transaction.to_provide]
 	else:
 		return []
 
@@ -865,11 +918,6 @@ class Handler:
 				if error:
 					handle_error(error)
 				else:
-					transaction.get_to_remove()
-					transaction.get_to_add()
-					do_syncfirst, updates = transaction.get_updates()
-					transaction.to_update = set([pkg.name for pkg in updates])
-					transaction.to_add -= transaction.to_update
 					set_transaction_sum()
 					ConfDialog.show_all()
 		else:
@@ -912,13 +960,13 @@ class Handler:
 		liste, line = list_selection.get_selected()
 		if line:
 			if packages_list[line][0] != _('No package found'):
-				if transaction.localpkgs.__contains__(packages_list[line][0]):
+				if packages_list[line][0] in transaction.localpkgs.keys():
 					set_infos_list(transaction.localpkgs[packages_list[line][0]])
 					set_deps_list(transaction.localpkgs[packages_list[line][0]], "local")
 					set_details_list(transaction.localpkgs[packages_list[line][0]], "local")
 					set_files_list(transaction.localpkgs[packages_list[line][0]])
 					files_scrolledwindow.set_visible(True)
-				else:
+				elif packages_list[line][0] in transaction.syncpkgs.keys():
 					set_infos_list(transaction.syncpkgs[packages_list[line][0]])
 					set_deps_list(transaction.syncpkgs[packages_list[line][0]], "sync")
 					set_details_list(transaction.syncpkgs[packages_list[line][0]], "sync")

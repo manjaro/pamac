@@ -60,14 +60,6 @@ def init_transaction(**options):
 	else:
 		return False
 
-def get_to_remove():
-	global to_remove
-	to_remove = set(To_Remove())
-
-def get_to_add():
-	global to_add
-	to_add = set(To_Add())
-
 def get_updates():
 	"""Return a list of package objects in local db which can be updated"""
 	do_syncfirst = False

@@ -72,11 +72,6 @@ def install(pkgs):
 					main.handle_error(_error)
 					exiting(_error)
 				else:
-					transaction.get_to_remove()
-					transaction.get_to_add()
-					do_syncfirst, updates = transaction.get_updates()
-					transaction.to_update = set([pkg.name for pkg in updates])
-					transaction.to_add -= transaction.to_update
 					main.set_transaction_sum()
 					main.ConfDialog.show_all()
 					loop.run()
@@ -107,4 +102,5 @@ elif updates:
 else:
 	common.write_pid_file()
 	pkgs_to_install = argv[1:]
+	main.mode = 'manager'
 	install(pkgs_to_install)
