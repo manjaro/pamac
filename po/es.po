@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pamac\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-04-24 15:12+0200\n"
+"POT-Creation-Date: 2013-04-29 15:26+0200\n"
 "PO-Revision-Date: 2013-04-08 09:57+0100\n"
 "Last-Translator: Daniel Pérez Galán <danpergal84@gmail.com>\n"
 "Language-Team: Español\n"
@@ -78,7 +78,7 @@ msgstr ""
 msgid "Downloading {size}"
 msgstr "Descargando {size}"
 
-#: pamac-daemon.py:196 pamac/main.py:466 pamac/main.py:1052
+#: pamac-daemon.py:196 pamac/main.py:466 pamac/main.py:1057
 msgid "Refreshing"
 msgstr "Actualizando"
 
@@ -86,6 +86,10 @@ msgstr "Actualizando"
 #: pamac-daemon.py:463
 msgid "Authentication failed"
 msgstr "Autenticación fallida"
+
+#: pamac-daemon.py:363 pamac-install.py:54 pamac/main.py:562
+msgid "{pkgname} is not a valid path or package name"
+msgstr ""
 
 #: pamac-daemon.py:429
 msgid "Transaction successfully finished"
@@ -115,31 +119,45 @@ msgstr "Ejecutar pamac-manager"
 msgid "Quit"
 msgstr "Quitar"
 
-#: pamac/main.py:108 pamac/main.py:993
+#: pamac-install.py:83 pamac-install.py:89 pamac/main.py:927
+msgid "Nothing to do"
+msgstr "Nada que hacer"
+
+#: pamac-install.py:102 pamac/main.py:1097
+msgid "Pamac is already running"
+msgstr "Pamac ya está siendo ejecutado"
+
+#: pamac-install.py:107
+msgid ""
+"Some updates are available.\n"
+"Please update your system first"
+msgstr ""
+
+#: pamac/main.py:108 pamac/main.py:998
 msgid "Installed"
 msgstr "Instalado"
 
-#: pamac/main.py:108 pamac/main.py:995
+#: pamac/main.py:108 pamac/main.py:1000
 msgid "Uninstalled"
 msgstr "No instalado"
 
-#: pamac/main.py:108 pamac/main.py:997
+#: pamac/main.py:108 pamac/main.py:1002
 msgid "Orphans"
 msgstr "Huérfanos"
 
-#: pamac/main.py:108 pamac/main.py:356 pamac/main.py:999
+#: pamac/main.py:108 pamac/main.py:356 pamac/main.py:1004
 msgid "To install"
 msgstr "A instalar"
 
-#: pamac/main.py:108 pamac/main.py:374 pamac/main.py:1001
+#: pamac/main.py:108 pamac/main.py:374 pamac/main.py:1006
 msgid "To remove"
 msgstr "A desinstalar"
 
-#: pamac/main.py:127 pamac/main.py:1009
+#: pamac/main.py:127 pamac/main.py:1014
 msgid "local"
 msgstr "local"
 
-#: pamac/main.py:215 pamac/main.py:962
+#: pamac/main.py:215 pamac/main.py:967
 msgid "No package found"
 msgstr "No se ha encontrado ningún paquete"
 
@@ -175,7 +193,7 @@ msgstr "Conflictos con"
 msgid "Repository"
 msgstr "Repositorios"
 
-#: pamac/main.py:289 gui/manager.glade:540
+#: pamac/main.py:289 gui/manager.glade:538
 msgid "Groups"
 msgstr "Grupos"
 
@@ -247,7 +265,7 @@ msgstr "A actualizar"
 msgid "<b>Total download size: </b>"
 msgstr "<b>Tamaño total de la descarga: </b>"
 
-#: pamac/main.py:482 pamac/main.py:1108
+#: pamac/main.py:482 pamac/main.py:1113
 msgid "<big><b>Your system is up-to-date</b></big>"
 msgstr "<big><b>Tu sistema está actualizado</b></big>"
 
@@ -259,23 +277,23 @@ msgstr "<big><b>1 actualización disponible</b></big>"
 msgid "<big><b>{number} available updates</b></big>"
 msgstr "<big><b>{number} actualizaciones disponibles</b></big>"
 
-#: pamac/main.py:577 pamac/main.py:578
+#: pamac/main.py:580 pamac/main.py:581
 msgid ""
 "The transaction cannot be performed because it needs to remove {pkgname1} "
 "which is a locked package"
 msgstr ""
 
-#: pamac/main.py:609 pamac/main.py:610 pamac/main.py:712 pamac/main.py:713
+#: pamac/main.py:612 pamac/main.py:613 pamac/main.py:715 pamac/main.py:716
 msgid "{pkgname1} will be replaced by {pkgname2}"
 msgstr "{pkgname1} será reemplazado por {pkgname2}"
 
-#: pamac/main.py:727 pamac/main.py:728 pamac/main.py:752 pamac/main.py:753
-#: pamac/main.py:773 pamac/main.py:774 pamac/main.py:804 pamac/main.py:805
-#: pamac/main.py:829 pamac/main.py:830 pamac/main.py:850 pamac/main.py:851
+#: pamac/main.py:730 pamac/main.py:731 pamac/main.py:755 pamac/main.py:756
+#: pamac/main.py:776 pamac/main.py:777 pamac/main.py:807 pamac/main.py:808
+#: pamac/main.py:832 pamac/main.py:833 pamac/main.py:853 pamac/main.py:854
 msgid "{pkgname1} conflicts with {pkgname2}"
 msgstr "{pkgname1} está en coflicto con {pkgname2}"
 
-#: pamac/main.py:785 pamac/main.py:786
+#: pamac/main.py:788 pamac/main.py:789
 msgid ""
 "{pkgname1} conflicts with {pkgname2}\n"
 "None of them will be installed"
@@ -283,21 +301,13 @@ msgstr ""
 "{pkgname1} está en conflicto con {pkgname2}\n"
 "Ninguno de ellos será instalado"
 
-#: pamac/main.py:881
+#: pamac/main.py:884
 msgid ""
 "<b>{pkgname} is provided by {number} packages.\n"
 "Please choose the one(s) you want to install:</b>"
 msgstr ""
 "<b>{pkgname} es proporcionado por {number} paquetes.\n"
 "Por favor elige  el(los) paquete(s) que deseas instalar:</b>"
-
-#: pamac/main.py:924
-msgid "Nothing to do"
-msgstr "Nada que hacer"
-
-#: pamac/main.py:1092
-msgid "Pamac is already running"
-msgstr "Pamac ya está siendo ejecutado"
 
 #: pamac/common.py:13
 #, python-format
@@ -325,43 +335,43 @@ msgstr "Progreso"
 msgid "Package Manager"
 msgstr "Gestor de Paquetes"
 
-#: gui/manager.glade:493
+#: gui/manager.glade:492
 msgid "Search"
 msgstr "Búsqueda"
 
-#: gui/manager.glade:588 gui/manager.glade:683
+#: gui/manager.glade:585 gui/manager.glade:678
 msgid "State"
 msgstr "Estado"
 
-#: gui/manager.glade:636
+#: gui/manager.glade:632
 msgid "Repos"
 msgstr "Repositorios"
 
-#: gui/manager.glade:714
+#: gui/manager.glade:709
 msgid "Name"
 msgstr "Nombre"
 
-#: gui/manager.glade:733
+#: gui/manager.glade:728
 msgid "Version"
 msgstr ""
 
-#: gui/manager.glade:750
+#: gui/manager.glade:745
 msgid "Size"
 msgstr "Tamaño"
 
-#: gui/manager.glade:851
+#: gui/manager.glade:846
 msgid "Infos"
 msgstr "Infos"
 
-#: gui/manager.glade:911
+#: gui/manager.glade:906
 msgid "Deps"
 msgstr "Dependencias"
 
-#: gui/manager.glade:976
+#: gui/manager.glade:971
 msgid "Details"
 msgstr "Detalles"
 
-#: gui/manager.glade:1024
+#: gui/manager.glade:1019
 msgid "Files"
 msgstr "Archivos"
 
