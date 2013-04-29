@@ -959,21 +959,23 @@ class Handler:
 		current_filter = ('search', search_entry.get_text().split())
 		set_packages_list()
 
-	def on_list_treeview_selection_changed(self, widget):
-		liste, line = list_selection.get_selected()
-		if line:
-			if packages_list[line][0] != _('No package found'):
-				if packages_list[line][0] in transaction.localpkgs.keys():
-					set_infos_list(transaction.localpkgs[packages_list[line][0]])
-					set_deps_list(transaction.localpkgs[packages_list[line][0]], "local")
-					set_details_list(transaction.localpkgs[packages_list[line][0]], "local")
-					set_files_list(transaction.localpkgs[packages_list[line][0]])
-					files_scrolledwindow.set_visible(True)
-				elif packages_list[line][0] in transaction.syncpkgs.keys():
-					set_infos_list(transaction.syncpkgs[packages_list[line][0]])
-					set_deps_list(transaction.syncpkgs[packages_list[line][0]], "sync")
-					set_details_list(transaction.syncpkgs[packages_list[line][0]], "sync")
-					files_scrolledwindow.set_visible(False)
+	def on_list_treeview_button_press_event(self, treeview, event):
+		if event.button == 1: # left click
+			treepath, viewcolumn, x, y = treeview.get_path_at_pos(int(event.x), int(event.y))
+			treeiter = packages_list.get_iter(treepath)
+			if treeiter:
+				if packages_list[treeiter][0] != _('No package found'):
+					if packages_list[treeiter][0] in transaction.localpkgs.keys():
+						set_infos_list(transaction.localpkgs[packages_list[treeiter][0]])
+						set_deps_list(transaction.localpkgs[packages_list[treeiter][0]], "local")
+						set_details_list(transaction.localpkgs[packages_list[treeiter][0]], "local")
+						set_files_list(transaction.localpkgs[packages_list[treeiter][0]])
+						files_scrolledwindow.set_visible(True)
+					elif packages_list[treeiter][0] in transaction.syncpkgs.keys():
+						set_infos_list(transaction.syncpkgs[packages_list[treeiter][0]])
+						set_deps_list(transaction.syncpkgs[packages_list[treeiter][0]], "sync")
+						set_details_list(transaction.syncpkgs[packages_list[treeiter][0]], "sync")
+						files_scrolledwindow.set_visible(False)
 
 	def on_search_treeview_selection_changed(self, widget):
 		global current_filter
@@ -1018,7 +1020,7 @@ class Handler:
 	def on_cellrenderertoggle1_toggled(self, widget, line):
 		if packages_list[line][1] is True:
 			if packages_list[line][0] in transaction.to_remove:
-				packages_list[line][3] =True
+				packages_list[line][3] = True
 				packages_list[line][4] = installed_icon
 				transaction.to_remove.discard(packages_list[line][0])
 			else:

@@ -461,7 +461,6 @@
                             <property name="show_expanders">False</property>
                             <child internal-child="selection">
                               <object class="GtkTreeSelection" id="search_treeview_selection">
-                                <property name="mode">browse</property>
                                 <signal name="changed" handler="on_search_treeview_selection_changed" swapped="no"/>
                               </object>
                             </child>
@@ -512,7 +511,6 @@
                         <property name="show_expanders">False</property>
                         <child internal-child="selection">
                           <object class="GtkTreeSelection" id="groups_treeview_selection">
-                            <property name="mode">browse</property>
                             <signal name="changed" handler="on_groups_treeview_selection_changed" swapped="no"/>
                           </object>
                         </child>
@@ -560,7 +558,6 @@
                         <property name="show_expanders">False</property>
                         <child internal-child="selection">
                           <object class="GtkTreeSelection" id="state_treeview_selection">
-                            <property name="mode">browse</property>
                             <signal name="changed" handler="on_state_treeview_selection_changed" swapped="no"/>
                           </object>
                         </child>
@@ -608,7 +605,6 @@
                         <property name="show_expanders">False</property>
                         <child internal-child="selection">
                           <object class="GtkTreeSelection" id="repos_treeview_selection">
-                            <property name="mode">browse</property>
                             <signal name="changed" handler="on_repos_treeview_selection_changed" swapped="no"/>
                           </object>
                         </child>
@@ -670,10 +666,9 @@
                         <property name="search_column">0</property>
                         <property name="fixed_height_mode">True</property>
                         <property name="show_expanders">False</property>
+                        <signal name="button-press-event" handler="on_list_treeview_button_press_event" swapped="no"/>
                         <child internal-child="selection">
-                          <object class="GtkTreeSelection" id="list_treeview_selection">
-                            <signal name="changed" handler="on_list_treeview_selection_changed" swapped="no"/>
-                          </object>
+                          <object class="GtkTreeSelection" id="list_treeview_selection"/>
                         </child>
                         <child>
                           <object class="GtkTreeViewColumn" id="installed_column">
@@ -1141,24 +1136,6 @@
       </object>
     </child>
   </object>
-  <object class="GtkListStore" id="repos_list">
-    <columns>
-      <!-- column-name name -->
-      <column type="gchararray"/>
-    </columns>
-  </object>
-  <object class="GtkListStore" id="search_list">
-    <columns>
-      <!-- column-name terms -->
-      <column type="gchararray"/>
-    </columns>
-  </object>
-  <object class="GtkListStore" id="state_list">
-    <columns>
-      <!-- column-name state -->
-      <column type="gchararray"/>
-    </columns>
-  </object>
   <object class="GtkListStore" id="packages_list">
     <columns>
       <!-- column-name name -->
@@ -1176,6 +1153,24 @@
       <!-- column-name real_size -->
       <column type="gint"/>
       <!-- column-name version -->
+      <column type="gchararray"/>
+    </columns>
+  </object>
+  <object class="GtkListStore" id="repos_list">
+    <columns>
+      <!-- column-name name -->
+      <column type="gchararray"/>
+    </columns>
+  </object>
+  <object class="GtkListStore" id="search_list">
+    <columns>
+      <!-- column-name terms -->
+      <column type="gchararray"/>
+    </columns>
+  </object>
+  <object class="GtkListStore" id="state_list">
+    <columns>
+      <!-- column-name state -->
       <column type="gchararray"/>
     </columns>
   </object>
