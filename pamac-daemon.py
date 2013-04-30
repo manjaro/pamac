@@ -277,6 +277,7 @@ class PamacDBusService(dbus.service.Object):
 			self.target = ''
 			self.percent = 0
 			self.error = ''
+			self.get_handle()
 			for db in self.handle.get_syncdbs():
 				try:
 					self.t = self.handle.init_transaction()
@@ -298,22 +299,22 @@ class PamacDBusService(dbus.service.Object):
 		self.task.start()
 		success('')
 
-	@dbus.service.method('org.manjaro.pamac', 'a{sb}', 's', sender_keyword='sender', connection_keyword='connexion')
-	def Init(self, options, sender=None, connexion=None):
+	@dbus.service.method('org.manjaro.pamac', 'a{sb}', 's')#, sender_keyword='sender', connection_keyword='connexion')
+	def Init(self, options):#, sender=None, connexion=None):
 		self.error = ''
-		if self.policykit_test(sender,connexion,'org.manjaro.pamac.init_release'):
-			try:
-				self.get_handle()
-				self.t = self.handle.init_transaction(**options)
-				print('Init:',self.t.flags)
-			except pyalpm.error as e:
-				self.error += ' --> '+str(e)+'\n'
-			finally: 
-				if self.error:
-					self.EmitTransactionError(self.error)
-				return self.error
-		else:
-			return _('Authentication failed')
+		#if self.policykit_test(sender,connexion,'org.manjaro.pamac.init_release'):
+		try:
+			self.get_handle()
+			self.t = self.handle.init_transaction(**options)
+			print('Init:',self.t.flags)
+		except pyalpm.error as e:
+			self.error += ' --> '+str(e)+'\n'
+		finally:
+			if self.error:
+				self.EmitTransactionError(self.error)
+			return self.error
+		#else:
+		#	return _('Authentication failed')
 
 	@dbus.service.method('org.manjaro.pamac', '', 's')
 	def Sysupgrade(self):
@@ -373,7 +374,7 @@ class PamacDBusService(dbus.service.Object):
 			print(e)
 			self.error += ' --> '+str(e)+'\n'
 		finally:
-			return self.error 
+			return self.error
 
 	@dbus.service.method('org.manjaro.pamac', '', 'a(ss)')
 	def To_Remove(self):
@@ -449,18 +450,18 @@ class PamacDBusService(dbus.service.Object):
 	def EmitTransactionError(self, message):
 		pass
 
-	@dbus.service.method('org.manjaro.pamac', '', 's', sender_keyword='sender', connection_keyword='connexion')
-	def Release(self, sender=None, connexion=None):
+	@dbus.service.method('org.manjaro.pamac', '', 's')#, sender_keyword='sender', connection_keyword='connexion')
+	def Release(self):#, sender=None, connexion=None):
 		self.error = ''
-		if self.policykit_test(sender,connexion,'org.manjaro.pamac.init_release'):
-			try:
-				self.t.release()
-			except pyalpm.error as e:
-				self.error += ' --> '+str(e)+'\n'
-			finally:
-				return self.error 
-		else :
-			return _('Authentication failed')
+		#if self.policykit_test(sender,connexion,'org.manjaro.pamac.init_release'):
+		try:
+			self.t.release()
+		except pyalpm.error as e:
+			self.error += ' --> '+str(e)+'\n'
+		finally:
+			return self.error
+		#else :
+		#	return _('Authentication failed')
 
 	@dbus.service.method('org.manjaro.pamac')
 	def StopDaemon(self):

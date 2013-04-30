@@ -959,6 +959,22 @@ class Handler:
 		current_filter = ('search', search_entry.get_text().split())
 		set_packages_list()
 
+	def on_list_treeview_move_cursor(self, treeview, step, count):
+		liststore, treeiter = treeview.get_selection().get_selected()
+		if treeiter:
+			if packages_list[treeiter][0] != _('No package found'):
+				if packages_list[treeiter][0] in transaction.localpkgs.keys():
+					set_infos_list(transaction.localpkgs[packages_list[treeiter][0]])
+					set_deps_list(transaction.localpkgs[packages_list[treeiter][0]], "local")
+					set_details_list(transaction.localpkgs[packages_list[treeiter][0]], "local")
+					set_files_list(transaction.localpkgs[packages_list[treeiter][0]])
+					files_scrolledwindow.set_visible(True)
+				elif packages_list[treeiter][0] in transaction.syncpkgs.keys():
+					set_infos_list(transaction.syncpkgs[packages_list[treeiter][0]])
+					set_deps_list(transaction.syncpkgs[packages_list[treeiter][0]], "sync")
+					set_details_list(transaction.syncpkgs[packages_list[treeiter][0]], "sync")
+					files_scrolledwindow.set_visible(False)
+
 	def on_list_treeview_button_press_event(self, treeview, event):
 		if event.button == 1: # left click
 			treepath, viewcolumn, x, y = treeview.get_path_at_pos(int(event.x), int(event.y))
