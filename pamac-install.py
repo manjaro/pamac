@@ -112,5 +112,4 @@ elif updates:
 else:
 	common.write_pid_file()
 	pkgs_to_install = argv[1:]
-	main.mode = 'manager'
 	install(pkgs_to_install)

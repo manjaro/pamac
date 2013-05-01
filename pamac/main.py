@@ -42,8 +42,6 @@ search_list = interface.get_object('search_list')
 search_selection = interface.get_object('search_treeview_selection')
 packages_list = interface.get_object('packages_list')
 list_selection = interface.get_object('list_treeview_selection')
-installed_column = interface.get_object('installed_column')
-name_column = interface.get_object('name_column')
 groups_list = interface.get_object('groups_list')
 groups_selection = interface.get_object('groups_treeview_selection')
 state_list = interface.get_object('state_list')
@@ -104,7 +102,8 @@ search_icon = Pixbuf.new_from_file('/usr/share/pamac/icons/22x22/status/package-
  
 pkg_name_list = set()
 current_filter = (None, None)
-mode = 'manager'
+mode = None
+liststore_clearing = False
 states = [_('Installed'), _('Uninstalled'), _('Orphans'), _('To install'), _('To remove')]
 for state in states:
 	state_list.append([state])
@@ -210,7 +209,10 @@ def refresh_packages_list():
 		ManagerWindow.get_root_window().set_cursor(Gdk.Cursor(Gdk.CursorType.WATCH))
 		while Gtk.events_pending():
 			Gtk.main_iteration()
+		global liststore_clearing
+		liststore_clearing = True
 		packages_list.clear()
+		liststore_clearing = False
 		if not pkg_name_list:
 			packages_list.append([_('No package found'), False, False, False, search_icon, '', 0, ''])
 		else:
@@ -376,7 +378,7 @@ def set_transaction_sum():
 		while i < len(transaction_dict['to_remove']):
 			transaction_sum.append([' ', transaction_dict['to_remove'][i]])
 			i += 1
-	if mode == 'manager':
+	if mode != 'updater':
 		if transaction_dict['to_update']:
 			transaction_sum.append([_('To update')+':', transaction_dict['to_update'][0][0]])
 			i = 1
@@ -959,26 +961,27 @@ class Handler:
 		current_filter = ('search', search_entry.get_text().split())
 		set_packages_list()
 
-	def on_list_treeview_move_cursor(self, treeview, step, count):
-		liststore, treeiter = treeview.get_selection().get_selected()
-		if treeiter:
-			if packages_list[treeiter][0] != _('No package found'):
-				if packages_list[treeiter][0] in transaction.localpkgs.keys():
-					set_infos_list(transaction.localpkgs[packages_list[treeiter][0]])
-					set_deps_list(transaction.localpkgs[packages_list[treeiter][0]], "local")
-					set_details_list(transaction.localpkgs[packages_list[treeiter][0]], "local")
-					set_files_list(transaction.localpkgs[packages_list[treeiter][0]])
-					files_scrolledwindow.set_visible(True)
-				elif packages_list[treeiter][0] in transaction.syncpkgs.keys():
-					set_infos_list(transaction.syncpkgs[packages_list[treeiter][0]])
-					set_deps_list(transaction.syncpkgs[packages_list[treeiter][0]], "sync")
-					set_details_list(transaction.syncpkgs[packages_list[treeiter][0]], "sync")
-					files_scrolledwindow.set_visible(False)
+	#~ def on_list_treeview_button_press_event(self, treeview, event):
+		#~ if event.button == 1: # left click
+			#~ treepath, viewcolumn, x, y = treeview.get_path_at_pos(int(event.x), int(event.y))
+			#~ treeiter = packages_list.get_iter(treepath)
+			#~ if treeiter:
+				#~ if packages_list[treeiter][0] != _('No package found'):
+					#~ if packages_list[treeiter][0] in transaction.localpkgs.keys():
+						#~ set_infos_list(transaction.localpkgs[packages_list[treeiter][0]])
+						#~ set_deps_list(transaction.localpkgs[packages_list[treeiter][0]], "local")
+						#~ set_details_list(transaction.localpkgs[packages_list[treeiter][0]], "local")
+						#~ set_files_list(transaction.localpkgs[packages_list[treeiter][0]])
+						#~ files_scrolledwindow.set_visible(True)
+					#~ elif packages_list[treeiter][0] in transaction.syncpkgs.keys():
+						#~ set_infos_list(transaction.syncpkgs[packages_list[treeiter][0]])
+						#~ set_deps_list(transaction.syncpkgs[packages_list[treeiter][0]], "sync")
+						#~ set_details_list(transaction.syncpkgs[packages_list[treeiter][0]], "sync")
+						#~ files_scrolledwindow.set_visible(False)
 
-	def on_list_treeview_button_press_event(self, treeview, event):
-		if event.button == 1: # left click
-			treepath, viewcolumn, x, y = treeview.get_path_at_pos(int(event.x), int(event.y))
-			treeiter = packages_list.get_iter(treepath)
+	def on_list_treeview_selection_changed(self, treeview):
+		if not liststore_clearing:
+			liststore, treeiter = list_selection.get_selected()
 			if treeiter:
 				if packages_list[treeiter][0] != _('No package found'):
 					if packages_list[treeiter][0] in transaction.localpkgs.keys():
