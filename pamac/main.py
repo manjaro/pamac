@@ -330,11 +330,12 @@ def get_transaction_sum():
 	others = sorted(transaction.To_Add())
 	for name, version, dsize in others:
 		if name in transaction.localpkgs.keys():
-			if version > transaction.localpkgs[name].version:
+			comp = pyalpm.vercmp(version, transaction.localpkgs[name].version)
+			if comp == 1:
 				transaction_dict['to_update'].append((name+' '+version, dsize))
-			elif version == transaction.localpkgs[name].version:
+			elif comp == 0:
 				transaction_dict['to_reinstall'].append((name+' '+version, dsize))
-			elif version < transaction.localpkgs[name].version:
+			elif comp == -1:
 				transaction_dict['to_downgrade'].append((name+' '+version, dsize))
 		else:
 			transaction_dict['to_install'].append((name+' '+version, dsize))

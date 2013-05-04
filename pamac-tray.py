@@ -111,7 +111,6 @@ def set_icon(updates):
 bus.add_signal_receiver(set_icon, dbus_interface = "org.manjaro.pamac", signal_name = "EmitAvailableUpdates")
 
 tray = Tray()
-#set_icon()
 t = PeriodicTask()
 t.start()
 Gtk.main()
