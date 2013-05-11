@@ -1,22 +1,23 @@
 # Translation of Pamac.
 # Copyright (C) 2007-2012 Free Software Foundation, Inc.
 # This file is distributed under the same license as the Pamac package.
-# Guillaume Benoit <guillaume@manjaro.org>, 2013.
-#
+# 
+# Translators:
+# Guillaume Benoit <guillaume@manjaro.org>, 2013
+# oriolfa <oriolfa@ono.com>, 2013
 msgid ""
 msgstr ""
-"Project-Id-Version: pamac\n"
+"Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-04-29 15:26+0200\n"
-"PO-Revision-Date: 2013-04-06 18:02+0100\n"
-"Last-Translator: Oriol Fernàndez <ofernandeza@gmail.com>\n"
-"Language-Team: Catalan\n"
-"Language: ca\n"
+"PO-Revision-Date: 2013-05-08 13:23+0000\n"
+"Last-Translator: oriolfa <oriolfa@ono.com>\n"
+"Language-Team: Catalan (http://www.transifex.com/projects/p/manjaro-pamac/language/ca/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Poedit 1.5.5\n"
+"Language: ca\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: pamac-daemon.py:29 pamac/main.py:535
 msgid "Preparing"
@@ -52,15 +53,15 @@ msgstr "Actualitzant"
 
 #: pamac-daemon.py:101 pamac/main.py:75
 msgid "Downgrading"
-msgstr ""
+msgstr "Tornant a versió anterior"
 
 #: pamac-daemon.py:109 pamac/main.py:75
 msgid "Reinstalling"
-msgstr ""
+msgstr "Reinstal·lant"
 
 #: pamac-daemon.py:117
 msgid "Checking integrity"
-msgstr "Verificant la integritat dels paquets"
+msgstr "Verificant integritat"
 
 #: pamac-daemon.py:121
 msgid "Loading packages files"
@@ -72,7 +73,7 @@ msgstr "Configurant"
 
 #: pamac-daemon.py:132
 msgid "Checking keys in keyring"
-msgstr ""
+msgstr "Validant claus a l'anell de claus"
 
 #: pamac-daemon.py:191
 msgid "Downloading {size}"
@@ -89,7 +90,7 @@ msgstr "Autenticació fallida"
 
 #: pamac-daemon.py:363 pamac-install.py:54 pamac/main.py:562
 msgid "{pkgname} is not a valid path or package name"
-msgstr ""
+msgstr "{pkgname} no és un camí vàlid o un nom de paquet"
 
 #: pamac-daemon.py:429
 msgid "Transaction successfully finished"
@@ -131,7 +132,7 @@ msgstr "Pamac ja està executant-se"
 msgid ""
 "Some updates are available.\n"
 "Please update your system first"
-msgstr ""
+msgstr "Algunes actualitzacions estan disponibles\nSi us plau actualitza el teu sistema primer"
 
 #: pamac/main.py:108 pamac/main.py:998
 msgid "Installed"
@@ -175,7 +176,7 @@ msgstr "Dependències Opcionals"
 
 #: pamac/main.py:276
 msgid "Required By"
-msgstr "Requerit per"
+msgstr "Requerit Per"
 
 #: pamac/main.py:278
 msgid "Provides"
@@ -203,7 +204,7 @@ msgstr "Mida comprimit"
 
 #: pamac/main.py:292
 msgid "Download Size"
-msgstr "Mida descarregat"
+msgstr "Mida baixat"
 
 #: pamac/main.py:294
 msgid "Installed Size"
@@ -215,7 +216,7 @@ msgstr "Empaquetador"
 
 #: pamac/main.py:296
 msgid "Architecture"
-msgstr ""
+msgstr "Arquitectura"
 
 #: pamac/main.py:299
 msgid "Install Date"
@@ -251,11 +252,11 @@ msgstr "<big><b>Resum de la transacció</b></big>"
 
 #: pamac/main.py:362
 msgid "To reinstall"
-msgstr ""
+msgstr "A reinstal·lar"
 
 #: pamac/main.py:368
 msgid "To downgrade"
-msgstr ""
+msgstr "A tornar a versió anterior"
 
 #: pamac/main.py:381
 msgid "To update"
@@ -281,7 +282,7 @@ msgstr "<big><b>{number} actualitzacions disponibles</b></big>"
 msgid ""
 "The transaction cannot be performed because it needs to remove {pkgname1} "
 "which is a locked package"
-msgstr ""
+msgstr "La transacció no pot efectuar-se degut a que és necessari eliminar {pkgname1} que és un paquet bloquejat"
 
 #: pamac/main.py:612 pamac/main.py:613 pamac/main.py:715 pamac/main.py:716
 msgid "{pkgname1} will be replaced by {pkgname2}"
@@ -297,17 +298,13 @@ msgstr "{pkgname1} està en conflicte amb {pkgname2}"
 msgid ""
 "{pkgname1} conflicts with {pkgname2}\n"
 "None of them will be installed"
-msgstr ""
-"{pkgname1} està en conflicte amb {pkgname2}\n"
-"Cap d'ells serà instal·lat"
+msgstr "{pkgname1} està en conflicte amb {pkgname2}\nCap d'ells serà instal·lat"
 
 #: pamac/main.py:884
 msgid ""
 "<b>{pkgname} is provided by {number} packages.\n"
 "Please choose the one(s) you want to install:</b>"
-msgstr ""
-"<b>{pkgname} està proveït per {number} paquets.\n"
-"Si us plau tria el(s) paquet(s) que vols instal·lar:</b>"
+msgstr "<b>{pkgname} està proporcionat per {number} paquets.\nSi us plau tria el(s) paquet(s) que vols instal·lar:</b>"
 
 #: pamac/common.py:13
 #, python-format
@@ -353,7 +350,7 @@ msgstr "Nom"
 
 #: gui/manager.glade:728
 msgid "Version"
-msgstr ""
+msgstr "Versió"
 
 #: gui/manager.glade:745
 msgid "Size"
@@ -378,13 +375,3 @@ msgstr "Fitxers"
 #: gui/updater.glade:6
 msgid "Update Manager"
 msgstr "Gestor d'Actualitzacions"
-
-#~ msgid ""
-#~ "{pkgname1} conflicts with {pkgname2} but cannot be removed because it is "
-#~ "needed by {pkgname3}"
-#~ msgstr ""
-#~ "{pkgname1} està en conflicte amb {pkgname2} però no es pot suprimir ja "
-#~ "que és requerit per {pkgname3}"
-
-#~ msgid "No package is selected"
-#~ msgstr "No s'ha sel·leccionat cap paquet"

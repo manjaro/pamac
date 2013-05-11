@@ -1,21 +1,23 @@
 # Translation of Pamac.
 # Copyright (C) 2007-2012 Free Software Foundation, Inc.
 # This file is distributed under the same license as the Pamac package.
-# Guillaume Benoit <guillaume@manjaro.org>, 2013.
-#
+# 
+# Translators:
+# McAnde <andreasmartinmorch@gmail.com>, 2013
+# Guillaume Benoit <guillaume@manjaro.org>, 2013
 msgid ""
 msgstr ""
-"Project-Id-Version: pamac\n"
+"Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-04-29 15:26+0200\n"
-"PO-Revision-Date: 2013-03-30 15:18+0100\n"
-"Last-Translator:  <andreasmartinmorch@gmail.com>\n"
-"Language-Team: Danish\n"
-"Language: da\n"
+"PO-Revision-Date: 2013-05-02 18:54+0000\n"
+"Last-Translator: McAnde <andreasmartinmorch@gmail.com>\n"
+"Language-Team: Danish (http://www.transifex.com/projects/p/manjaro-pamac/language/da/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"Language: da\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: pamac-daemon.py:29 pamac/main.py:535
 msgid "Preparing"
@@ -51,11 +53,11 @@ msgstr "Opgraderer"
 
 #: pamac-daemon.py:101 pamac/main.py:75
 msgid "Downgrading"
-msgstr ""
+msgstr "Nedgraderer"
 
 #: pamac-daemon.py:109 pamac/main.py:75
 msgid "Reinstalling"
-msgstr ""
+msgstr "Geninstallerer"
 
 #: pamac-daemon.py:117
 msgid "Checking integrity"
@@ -71,7 +73,7 @@ msgstr "Konfigurerer"
 
 #: pamac-daemon.py:132
 msgid "Checking keys in keyring"
-msgstr ""
+msgstr "Tjekker nøgler i nøglering"
 
 #: pamac-daemon.py:191
 msgid "Downloading {size}"
@@ -88,7 +90,7 @@ msgstr "Autentificering mislykket"
 
 #: pamac-daemon.py:363 pamac-install.py:54 pamac/main.py:562
 msgid "{pkgname} is not a valid path or package name"
-msgstr ""
+msgstr "{pgkname} er ikke en gyldig sti eller pakke-navn"
 
 #: pamac-daemon.py:429
 msgid "Transaction successfully finished"
@@ -104,7 +106,7 @@ msgstr "1 tilgængelig opdatering"
 
 #: pamac-tray.py:25
 msgid "Your system is up-to-date"
-msgstr "Dit system er up-to-date"
+msgstr "Dit system er opdateret"
 
 #: pamac-tray.py:33
 msgid "Install/Check for updates"
@@ -130,7 +132,7 @@ msgstr "Pamac kører allerede"
 msgid ""
 "Some updates are available.\n"
 "Please update your system first"
-msgstr ""
+msgstr "Opdateringer er tilgængelige\\n\nOpdatér venligst systemet først"
 
 #: pamac/main.py:108 pamac/main.py:998
 msgid "Installed"
@@ -214,7 +216,7 @@ msgstr "Pakker"
 
 #: pamac/main.py:296
 msgid "Architecture"
-msgstr ""
+msgstr "Arkitektur"
 
 #: pamac/main.py:299
 msgid "Install Date"
@@ -250,11 +252,11 @@ msgstr "<big><b>Transaktions oversigt</b></big>"
 
 #: pamac/main.py:362
 msgid "To reinstall"
-msgstr ""
+msgstr "Geninstalleres"
 
 #: pamac/main.py:368
 msgid "To downgrade"
-msgstr ""
+msgstr "Nedgraderes"
 
 #: pamac/main.py:381
 msgid "To update"
@@ -280,7 +282,7 @@ msgstr "<big><b>{number} tilgængelige opdateringer</b></big>"
 msgid ""
 "The transaction cannot be performed because it needs to remove {pkgname1} "
 "which is a locked package"
-msgstr ""
+msgstr "Transaktionen kan ikke udføres, da fjernelse af {pgkname1} kræves, hvilket er en låst pakke"
 
 #: pamac/main.py:612 pamac/main.py:613 pamac/main.py:715 pamac/main.py:716
 msgid "{pkgname1} will be replaced by {pkgname2}"
@@ -296,15 +298,13 @@ msgstr "{pkgname1} er i konflikt med {pkgname2}"
 msgid ""
 "{pkgname1} conflicts with {pkgname2}\n"
 "None of them will be installed"
-msgstr ""
+msgstr "{pkgname1} konflikterer med {pgkname2}\nIngen af dem vil blive installeret."
 
 #: pamac/main.py:884
 msgid ""
 "<b>{pkgname} is provided by {number} packages.\n"
 "Please choose the one(s) you want to install:</b>"
-msgstr ""
-"<b>{pkgname} bliver leveret af {number} pakker.\n"
-"Vælg dem, som du vil installere:</b>"
+msgstr "<b>{pkgname} bliver leveret af {number} pakker.\nVælg dem, som du vil installere:</b>"
 
 #: pamac/common.py:13
 #, python-format
@@ -350,7 +350,7 @@ msgstr "Navn"
 
 #: gui/manager.glade:728
 msgid "Version"
-msgstr ""
+msgstr "Version"
 
 #: gui/manager.glade:745
 msgid "Size"
@@ -375,20 +375,3 @@ msgstr "Filer"
 #: gui/updater.glade:6
 msgid "Update Manager"
 msgstr "Opdaterings-manager"
-
-#~ msgid ""
-#~ "{pkgname1} conflicts with {pkgname2} but cannot be removed because it is "
-#~ "needed by {pkgname3}"
-#~ msgstr ""
-#~ "{pkgname1} er i konflikt med {pkgname2}, men kan ikke fjernes, fordi den "
-#~ "er krævet af {pkgname3}"
-
-#~ msgid "No package is selected"
-#~ msgstr "Ingen pakke er valgt"
-
-#~ msgid ""
-#~ "{pkgname1} conflicts {pkgname2}\n"
-#~ "None of them will be installed"
-#~ msgstr ""
-#~ "{pkgname1} er i konflikt med {pkgname2}\n"
-#~ "Ingen af dem vil blive installeret"

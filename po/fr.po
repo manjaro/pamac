@@ -1,20 +1,21 @@
 # Translation of Pamac.
 # Copyright (C) 2007-2012 Free Software Foundation, Inc.
 # This file is distributed under the same license as the Pamac package.
-# Guillaume Benoit <guillaume@manjaro.org>, 2013.
-#
+# 
+# Translators:
+# guinux <guillaume@manjaro.org>, 2013
 msgid ""
 msgstr ""
-"Project-Id-Version: pamac\n"
+"Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-04-29 15:26+0200\n"
-"PO-Revision-Date: 2013-03-30 15:18+0100\n"
-"Last-Translator: <elvirolo@gmail.com>\n"
-"Language-Team: French\n"
-"Language: fr\n"
+"PO-Revision-Date: 2013-05-02 09:14+0000\n"
+"Last-Translator: guinux <guillaume@manjaro.org>\n"
+"Language-Team: French (France) (http://www.transifex.com/projects/p/manjaro-pamac/language/fr_FR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: fr_FR\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 #: pamac-daemon.py:29 pamac/main.py:535
@@ -88,7 +89,7 @@ msgstr "L'authentification a échoué"
 
 #: pamac-daemon.py:363 pamac-install.py:54 pamac/main.py:562
 msgid "{pkgname} is not a valid path or package name"
-msgstr ""
+msgstr "{pkgname} n'est pas un fichier ou un nom de paquet valide"
 
 #: pamac-daemon.py:429
 msgid "Transaction successfully finished"
@@ -130,7 +131,7 @@ msgstr "Pamac est déjà en cours d'exécution"
 msgid ""
 "Some updates are available.\n"
 "Please update your system first"
-msgstr ""
+msgstr "Des mises à jour sont disponibles.\nMettez d'abord votre système à jour"
 
 #: pamac/main.py:108 pamac/main.py:998
 msgid "Installed"
@@ -186,7 +187,7 @@ msgstr "Remplace"
 
 #: pamac/main.py:282
 msgid "Conflicts With"
-msgstr "Est conflit avec"
+msgstr "Est en conflit avec"
 
 #: pamac/main.py:287
 msgid "Repository"
@@ -250,7 +251,7 @@ msgstr "<big><b>Résumé de la transaction</b></big>"
 
 #: pamac/main.py:362
 msgid "To reinstall"
-msgstr "À réinstaller"
+msgstr "A réinstaller"
 
 #: pamac/main.py:368
 msgid "To downgrade"
@@ -280,9 +281,7 @@ msgstr "<big><b>{number} mises à jour disponibles</b></big>"
 msgid ""
 "The transaction cannot be performed because it needs to remove {pkgname1} "
 "which is a locked package"
-msgstr ""
-"La transaction ne peut pas être réalisée car elle nécessite de désinstaller "
-"{pkgname1} qui est un paquet bloqué"
+msgstr "La transaction ne peut pas être réalisée car elle nécessite de désinstaller {pkgname1} qui est un paquet bloqué"
 
 #: pamac/main.py:612 pamac/main.py:613 pamac/main.py:715 pamac/main.py:716
 msgid "{pkgname1} will be replaced by {pkgname2}"
@@ -298,17 +297,13 @@ msgstr "{pkgname1} est en conflit avec {pkgname2}"
 msgid ""
 "{pkgname1} conflicts with {pkgname2}\n"
 "None of them will be installed"
-msgstr ""
-"{pkgname1} est en conflit avec {pkgname2}\n"
-"Aucun d'entre eux ne sera installé"
+msgstr "{pkgname1} est en conflit avec {pkgname2}\nAucun d'entre eux ne sera installé"
 
 #: pamac/main.py:884
 msgid ""
 "<b>{pkgname} is provided by {number} packages.\n"
 "Please choose the one(s) you want to install:</b>"
-msgstr ""
-"<b>{pkgname} est fourni par {number} paquets.\n"
-"Veuillez choisir celui ou ceux que vous voulez installer:</b>"
+msgstr "<b>{pkgname} est fourni par {number} paquets.\nVeuillez choisir celui ou ceux que vous voulez installer:</b>"
 
 #: pamac/common.py:13
 #, python-format
@@ -379,13 +374,3 @@ msgstr "Fichiers"
 #: gui/updater.glade:6
 msgid "Update Manager"
 msgstr "Gestionnaire de mises à jour"
-
-#~ msgid ""
-#~ "{pkgname1} conflicts with {pkgname2} but cannot be removed because it is "
-#~ "needed by {pkgname3}"
-#~ msgstr ""
-#~ "{pkgname1} est en conflit avec {pkgname2} mais ne peut pas être "
-#~ "désinstallé car il est requis par {pkgname3}"
-
-#~ msgid "No package is selected"
-#~ msgstr "Aucun paquet n'est sélectionné"

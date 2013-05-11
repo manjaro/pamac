@@ -1,22 +1,23 @@
 # Translation of Pamac.
 # Copyright (C) 2007-2012 Free Software Foundation, Inc.
 # This file is distributed under the same license as the Pamac package.
-# Guillaume Benoit <guillaume@manjaro.org>, 2013.
-#
+# 
+# Translators:
+# danpergal84 <danpergal84@gmail.com>, 2013
+# Guillaume Benoit <guillaume@manjaro.org>, 2013
 msgid ""
 msgstr ""
-"Project-Id-Version: pamac\n"
+"Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-04-29 15:26+0200\n"
-"PO-Revision-Date: 2013-04-08 09:57+0100\n"
-"Last-Translator: Daniel Pérez Galán <danpergal84@gmail.com>\n"
-"Language-Team: Español\n"
-"Language: es\n"
+"PO-Revision-Date: 2013-05-02 13:07+0000\n"
+"Last-Translator: danpergal84 <danpergal84@gmail.com>\n"
+"Language-Team: Spanish (http://www.transifex.com/projects/p/manjaro-pamac/language/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Poedit 1.5.5\n"
+"Language: es\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: pamac-daemon.py:29 pamac/main.py:535
 msgid "Preparing"
@@ -24,11 +25,11 @@ msgstr "Preparando"
 
 #: pamac-daemon.py:68
 msgid "Checking dependencies"
-msgstr "Verificando dependencias"
+msgstr "Comprobando dependencias"
 
 #: pamac-daemon.py:71
 msgid "Checking file conflicts"
-msgstr "Analizando conflictos entre archivos"
+msgstr "Verificando conflictos entre paquetes"
 
 #: pamac-daemon.py:74
 msgid "Resolving dependencies"
@@ -36,7 +37,7 @@ msgstr "Resolviendo dependencias"
 
 #: pamac-daemon.py:77
 msgid "Checking inter conflicts"
-msgstr "Verificando conflictos entre paquetes"
+msgstr "Analizando conflictos entre archivos"
 
 #: pamac-daemon.py:80 pamac/main.py:75
 msgid "Installing"
@@ -52,11 +53,11 @@ msgstr "Actualizando"
 
 #: pamac-daemon.py:101 pamac/main.py:75
 msgid "Downgrading"
-msgstr ""
+msgstr "Cambiando a versión anterior"
 
 #: pamac-daemon.py:109 pamac/main.py:75
 msgid "Reinstalling"
-msgstr ""
+msgstr "Reinstalando"
 
 #: pamac-daemon.py:117
 msgid "Checking integrity"
@@ -72,7 +73,7 @@ msgstr "Configurando"
 
 #: pamac-daemon.py:132
 msgid "Checking keys in keyring"
-msgstr ""
+msgstr "Verificando claves en la base de datos"
 
 #: pamac-daemon.py:191
 msgid "Downloading {size}"
@@ -89,7 +90,7 @@ msgstr "Autenticación fallida"
 
 #: pamac-daemon.py:363 pamac-install.py:54 pamac/main.py:562
 msgid "{pkgname} is not a valid path or package name"
-msgstr ""
+msgstr "{pkgname} no es un nombre de paquete o una ruta válida"
 
 #: pamac-daemon.py:429
 msgid "Transaction successfully finished"
@@ -117,7 +118,7 @@ msgstr "Ejecutar pamac-manager"
 
 #: pamac-tray.py:39
 msgid "Quit"
-msgstr "Quitar"
+msgstr "Salir"
 
 #: pamac-install.py:83 pamac-install.py:89 pamac/main.py:927
 msgid "Nothing to do"
@@ -131,15 +132,15 @@ msgstr "Pamac ya está siendo ejecutado"
 msgid ""
 "Some updates are available.\n"
 "Please update your system first"
-msgstr ""
+msgstr "Hay disponibles algunas actualizaciones.⏎\nPor favor, actualiza tu sistema primero"
 
 #: pamac/main.py:108 pamac/main.py:998
 msgid "Installed"
-msgstr "Instalado"
+msgstr "Paquetes instalados"
 
 #: pamac/main.py:108 pamac/main.py:1000
 msgid "Uninstalled"
-msgstr "No instalado"
+msgstr "Paquetes no instalados"
 
 #: pamac/main.py:108 pamac/main.py:1002
 msgid "Orphans"
@@ -147,11 +148,11 @@ msgstr "Huérfanos"
 
 #: pamac/main.py:108 pamac/main.py:356 pamac/main.py:1004
 msgid "To install"
-msgstr "A instalar"
+msgstr "Paquetes a instalar"
 
 #: pamac/main.py:108 pamac/main.py:374 pamac/main.py:1006
 msgid "To remove"
-msgstr "A desinstalar"
+msgstr "Paquetes a desinstalar"
 
 #: pamac/main.py:127 pamac/main.py:1014
 msgid "local"
@@ -191,7 +192,7 @@ msgstr "Conflictos con"
 
 #: pamac/main.py:287
 msgid "Repository"
-msgstr "Repositorios"
+msgstr "Repositorio"
 
 #: pamac/main.py:289 gui/manager.glade:538
 msgid "Groups"
@@ -215,7 +216,7 @@ msgstr "Empaquetador"
 
 #: pamac/main.py:296
 msgid "Architecture"
-msgstr ""
+msgstr "Arquitectura"
 
 #: pamac/main.py:299
 msgid "Install Date"
@@ -251,15 +252,15 @@ msgstr "<big><b>Resumen de la operación</b></big>"
 
 #: pamac/main.py:362
 msgid "To reinstall"
-msgstr ""
+msgstr "Paquetes a reinstalar"
 
 #: pamac/main.py:368
 msgid "To downgrade"
-msgstr ""
+msgstr "Paquetes que volverán a una versión anterior"
 
 #: pamac/main.py:381
 msgid "To update"
-msgstr "A actualizar"
+msgstr "Paquetes a actualizar"
 
 #: pamac/main.py:392 pamac/main.py:490
 msgid "<b>Total download size: </b>"
@@ -281,7 +282,7 @@ msgstr "<big><b>{number} actualizaciones disponibles</b></big>"
 msgid ""
 "The transaction cannot be performed because it needs to remove {pkgname1} "
 "which is a locked package"
-msgstr ""
+msgstr "La operación no puede realizarse porque se necesita eliminar {pkgname1} y es un paquete bloqueado"
 
 #: pamac/main.py:612 pamac/main.py:613 pamac/main.py:715 pamac/main.py:716
 msgid "{pkgname1} will be replaced by {pkgname2}"
@@ -297,17 +298,13 @@ msgstr "{pkgname1} está en coflicto con {pkgname2}"
 msgid ""
 "{pkgname1} conflicts with {pkgname2}\n"
 "None of them will be installed"
-msgstr ""
-"{pkgname1} está en conflicto con {pkgname2}\n"
-"Ninguno de ellos será instalado"
+msgstr "{pkgname1} está en conflicto con {pkgname2}⏎\nNinguno de ellos será instalado"
 
 #: pamac/main.py:884
 msgid ""
 "<b>{pkgname} is provided by {number} packages.\n"
 "Please choose the one(s) you want to install:</b>"
-msgstr ""
-"<b>{pkgname} es proporcionado por {number} paquetes.\n"
-"Por favor elige  el(los) paquete(s) que deseas instalar:</b>"
+msgstr "<b>{pkgname} es proporcionado por {number} paquetes.⏎\nPor favor elige  el(los) paquete(s) que deseas instalar:</b>"
 
 #: pamac/common.py:13
 #, python-format
@@ -353,7 +350,7 @@ msgstr "Nombre"
 
 #: gui/manager.glade:728
 msgid "Version"
-msgstr ""
+msgstr "Versión"
 
 #: gui/manager.glade:745
 msgid "Size"
@@ -361,7 +358,7 @@ msgstr "Tamaño"
 
 #: gui/manager.glade:846
 msgid "Infos"
-msgstr "Infos"
+msgstr "Información"
 
 #: gui/manager.glade:906
 msgid "Deps"
@@ -378,13 +375,3 @@ msgstr "Archivos"
 #: gui/updater.glade:6
 msgid "Update Manager"
 msgstr "Gestor de Actualizaciones"
-
-#~ msgid ""
-#~ "{pkgname1} conflicts with {pkgname2} but cannot be removed because it is "
-#~ "needed by {pkgname3}"
-#~ msgstr ""
-#~ "{pkgname1} está en conflicto con {pkgname2} pero no se puede desinstalar "
-#~ "ya que es requerido por {pkgname3}"
-
-#~ msgid "No package is selected"
-#~ msgstr "No se ha seleccionado ningún paquete"
