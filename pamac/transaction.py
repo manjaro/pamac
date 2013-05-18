@@ -36,9 +36,9 @@ def update_db():
 		if not pkg.name in localpkgs.keys():
 			localpkgs[pkg.name] = pkg
 
-DBusGMainLoop(set_as_default=True)
+DBusGMainLoop(set_as_default = True)
 bus = dbus.SystemBus()
-proxy = bus.get_object('org.manjaro.pamac','/org/manjaro/pamac', introspect=False)
+proxy = bus.get_object('org.manjaro.pamac','/org/manjaro/pamac', introspect = False)
 Refresh = proxy.get_dbus_method('Refresh','org.manjaro.pamac')
 Init = proxy.get_dbus_method('Init','org.manjaro.pamac')
 Sysupgrade = proxy.get_dbus_method('Sysupgrade','org.manjaro.pamac')

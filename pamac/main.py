@@ -8,7 +8,7 @@ import dbus
 from collections import OrderedDict
 from time import strftime, localtime
 
-from pamac import config, common, transaction
+from pamac import config, common
 
 # i18n
 import gettext
@@ -67,6 +67,21 @@ update_listore = interface.get_object('update_list')
 update_top_label = interface.get_object('update_top_label')
 update_bottom_label = interface.get_object('update_bottom_label')
 
+installed_icon = Pixbuf.new_from_file('/usr/share/pamac/icons/22x22/status/package-installed.png')
+uninstalled_icon = Pixbuf.new_from_file('/usr/share/pamac/icons/22x22/status/package-available.png')
+to_install_icon = Pixbuf.new_from_file('/usr/share/pamac/icons/22x22/status/package-add.png')
+to_remove_icon = Pixbuf.new_from_file('/usr/share/pamac/icons/22x22/status/package-delete.png')
+locked_icon = Pixbuf.new_from_file('/usr/share/pamac/icons/22x22/status/package-blocked.png')
+search_icon = Pixbuf.new_from_file('/usr/share/pamac/icons/22x22/status/package-search.png')
+ 
+pkg_name_list = set()
+current_filter = (None, None)
+mode = None
+liststore_clearing = False
+states = [_('Installed'), _('Uninstalled'), _('Orphans'), _('To install'), _('To remove')]
+for state in states:
+	state_list.append([state])
+
 def action_signal_handler(action):
 	if action:
 		progress_label.set_text(action)
@@ -86,27 +101,6 @@ def percent_signal_handler(percent):
 		progress_bar.pulse()
 	else:
 		progress_bar.set_fraction(percent)
-
-bus = dbus.SystemBus()
-bus.add_signal_receiver(action_signal_handler, dbus_interface = "org.manjaro.pamac", signal_name = "EmitAction")
-bus.add_signal_receiver(icon_signal_handler, dbus_interface = "org.manjaro.pamac", signal_name = "EmitIcon")
-bus.add_signal_receiver(target_signal_handler, dbus_interface = "org.manjaro.pamac", signal_name = "EmitTarget")
-bus.add_signal_receiver(percent_signal_handler, dbus_interface = "org.manjaro.pamac", signal_name = "EmitPercent")
-
-installed_icon = Pixbuf.new_from_file('/usr/share/pamac/icons/22x22/status/package-installed.png')
-uninstalled_icon = Pixbuf.new_from_file('/usr/share/pamac/icons/22x22/status/package-available.png')
-to_install_icon = Pixbuf.new_from_file('/usr/share/pamac/icons/22x22/status/package-add.png')
-to_remove_icon = Pixbuf.new_from_file('/usr/share/pamac/icons/22x22/status/package-delete.png')
-locked_icon = Pixbuf.new_from_file('/usr/share/pamac/icons/22x22/status/package-blocked.png')
-search_icon = Pixbuf.new_from_file('/usr/share/pamac/icons/22x22/status/package-search.png')
- 
-pkg_name_list = set()
-current_filter = (None, None)
-mode = None
-liststore_clearing = False
-states = [_('Installed'), _('Uninstalled'), _('Orphans'), _('To install'), _('To remove')]
-for state in states:
-	state_list.append([state])
 
 def get_groups():
 	groups_list.clear()
@@ -206,7 +200,7 @@ def set_list_dict_repos(repo):
 
 def refresh_packages_list():
 	if current_filter[0]:
-		ManagerWindow.get_root_window().set_cursor(Gdk.Cursor(Gdk.CursorType.WATCH))
+		ManagerWindow.get_window().set_cursor(Gdk.Cursor(Gdk.CursorType.WATCH))
 		while Gtk.events_pending():
 			Gtk.main_iteration()
 		global liststore_clearing
@@ -232,7 +226,7 @@ def refresh_packages_list():
 				#elif name in uninstalled:
 				else:
 					packages_list.append([name, False, True, False, uninstalled_icon, common.format_size(transaction.syncpkgs[name].isize), transaction.syncpkgs[name].isize, transaction.syncpkgs[name].version])
-		ManagerWindow.get_root_window().set_cursor(Gdk.Cursor(Gdk.CursorType.LEFT_PTR))
+		ManagerWindow.get_window().set_cursor(Gdk.Cursor(Gdk.CursorType.LEFT_PTR))
 
 def set_packages_list():
 	if current_filter[0] == 'search':
@@ -459,11 +453,6 @@ def log_warning(msg):
 	if response:
 		WarningDialog.hide()
 
-bus.add_signal_receiver(handle_reply, dbus_interface = "org.manjaro.pamac", signal_name = "EmitTransactionDone")
-bus.add_signal_receiver(handle_error, dbus_interface = "org.manjaro.pamac", signal_name = "EmitTransactionError")
-bus.add_signal_receiver(log_error, dbus_interface = "org.manjaro.pamac", signal_name = "EmitLogError")
-bus.add_signal_receiver(log_warning, dbus_interface = "org.manjaro.pamac", signal_name = "EmitLogWarning")
-
 def do_refresh():
 	"""Sync databases like pacman -Sy"""
 	progress_label.set_text(_('Refreshing')+'...')
@@ -551,7 +540,7 @@ def check_conflicts():
 	warning = ''
 	error = ''
 	print('checking...')
-	ManagerWindow.get_root_window().set_cursor(Gdk.Cursor(Gdk.CursorType.WATCH))
+	ManagerWindow.get_window().set_cursor(Gdk.Cursor(Gdk.CursorType.WATCH))
 	while Gtk.events_pending():
 		Gtk.main_iteration()
 	to_check = [transaction.syncpkgs[name] for name in transaction.to_add | transaction.to_update]
@@ -862,7 +851,7 @@ def check_conflicts():
 		for pkg in pkg_list:
 			wont_be_removed.add(pkg.name)
 
-	ManagerWindow.get_root_window().set_cursor(Gdk.Cursor(Gdk.CursorType.LEFT_PTR))
+	ManagerWindow.get_window().set_cursor(Gdk.Cursor(Gdk.CursorType.LEFT_PTR))
 	print('check done')
 	if warning:
 		WarningDialog.format_secondary_text(warning)
@@ -891,9 +880,9 @@ def choose_provides(name):
 					choose_list.append([True, name])
 				else:
 					choose_list.append([False, name])
-			ManagerWindow.get_root_window().set_cursor(Gdk.Cursor(Gdk.CursorType.LEFT_PTR))
+			ManagerWindow.get_window().set_cursor(Gdk.Cursor(Gdk.CursorType.LEFT_PTR))
 			ChooseDialog.run()
-			ManagerWindow.get_root_window().set_cursor(Gdk.Cursor(Gdk.CursorType.WATCH))
+			ManagerWindow.get_window().set_cursor(Gdk.Cursor(Gdk.CursorType.WATCH))
 			return [provides[pkgname] for pkgname in transaction.to_provide]
 	else:
 		return []
@@ -902,12 +891,10 @@ class Handler:
 	#Manager Handlers
 	def on_ManagerWindow_delete_event(self, *arg):
 		transaction.StopDaemon()
-		common.rm_pid_file()
 		Gtk.main_quit()
 
 	def on_Manager_QuitButton_clicked(self, *arg):
 		transaction.StopDaemon()
-		common.rm_pid_file()
 		Gtk.main_quit()
 
 	def on_Manager_ValidButton_clicked(self, *arg):
@@ -1098,12 +1085,10 @@ class Handler:
 	#Updater Handlers
 	def on_UpdaterWindow_delete_event(self, *arg):
 		transaction.StopDaemon()
-		common.rm_pid_file()
 		Gtk.main_quit()
 
 	def on_Updater_QuitButton_clicked(self, *arg):
 		transaction.StopDaemon()
-		common.rm_pid_file()
 		Gtk.main_quit()
 
 	def on_Updater_ApplyButton_clicked(self, *arg):
@@ -1112,6 +1097,19 @@ class Handler:
 	def on_Updater_RefreshButton_clicked(self, *arg):
 		do_refresh()
 
+def config_signals():
+	global transaction
+	from pamac import transaction
+	bus = dbus.SystemBus()
+	bus.add_signal_receiver(action_signal_handler, dbus_interface = "org.manjaro.pamac", signal_name = "EmitAction")
+	bus.add_signal_receiver(icon_signal_handler, dbus_interface = "org.manjaro.pamac", signal_name = "EmitIcon")
+	bus.add_signal_receiver(target_signal_handler, dbus_interface = "org.manjaro.pamac", signal_name = "EmitTarget")
+	bus.add_signal_receiver(percent_signal_handler, dbus_interface = "org.manjaro.pamac", signal_name = "EmitPercent")
+	bus.add_signal_receiver(handle_reply, dbus_interface = "org.manjaro.pamac", signal_name = "EmitTransactionDone")
+	bus.add_signal_receiver(handle_error, dbus_interface = "org.manjaro.pamac", signal_name = "EmitTransactionError")
+	bus.add_signal_receiver(log_error, dbus_interface = "org.manjaro.pamac", signal_name = "EmitLogError")
+	bus.add_signal_receiver(log_warning, dbus_interface = "org.manjaro.pamac", signal_name = "EmitLogWarning")
+
 def main(_mode):
 	if common.pid_file_exists():
 		ErrorDialog.format_secondary_text(_('Pamac is already running'))
@@ -1119,7 +1117,7 @@ def main(_mode):
 		if response:
 			ErrorDialog.hide()
 	else:
-		common.write_pid_file()
+		config_signals()
 		global mode
 		mode = _mode
 		interface.connect_signals(Handler())

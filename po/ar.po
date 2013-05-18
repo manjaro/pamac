@@ -1,24 +1,30 @@
 # Translation of Pamac.
 # Copyright (C) 2007-2012 Free Software Foundation, Inc.
 # This file is distributed under the same license as the Pamac package.
-# 
+#
 # Translators:
 # Karim Oulad Chalha <herr.linux88@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-04-29 15:26+0200\n"
+"POT-Creation-Date: 2013-03-30 15:09+0100\n"
 "PO-Revision-Date: 2013-05-04 21:29+0000\n"
 "Last-Translator: Karim Oulad Chalha <herr.linux88@gmail.com>\n"
-"Language-Team: Arabic (http://www.transifex.com/projects/p/manjaro-pamac/language/ar/)\n"
+"Language-Team: Arabic (http://www.transifex.com/projects/p/manjaro-pamac/"
+"language/ar/)\n"
+"Language: ar\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: ar\n"
-"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
+"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
+"&& n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
 
-#: pamac-daemon.py:29 pamac/main.py:535
+#: data/polkit/org.manjaro.pamac.policy.in:10
+msgid "Authentication is required"
+msgstr ""
+
+#: pamac-daemon.py:29 pamac/main.py:527
 msgid "Preparing"
 msgstr "تحضير"
 
@@ -38,23 +44,23 @@ msgstr "تحليل الإعتماديات"
 msgid "Checking inter conflicts"
 msgstr "تفقد الإنعكاسات الداخلية"
 
-#: pamac-daemon.py:80 pamac/main.py:75
+#: pamac-daemon.py:80 pamac/main.py:88
 msgid "Installing"
 msgstr "تثبيت"
 
-#: pamac-daemon.py:87 pamac/main.py:75
+#: pamac-daemon.py:87 pamac/main.py:88
 msgid "Removing"
 msgstr "حذف"
 
-#: pamac-daemon.py:94 pamac/main.py:75
+#: pamac-daemon.py:94 pamac/main.py:88
 msgid "Upgrading"
 msgstr "ترقية"
 
-#: pamac-daemon.py:101 pamac/main.py:75
+#: pamac-daemon.py:101 pamac/main.py:88
 msgid "Downgrading"
 msgstr "تحميل"
 
-#: pamac-daemon.py:109 pamac/main.py:75
+#: pamac-daemon.py:109 pamac/main.py:88
 msgid "Reinstalling"
 msgstr "إعادة التثبيت"
 
@@ -66,7 +72,7 @@ msgstr "تفقد قابلية الإندماج"
 msgid "Loading packages files"
 msgstr "تحميل الحزم"
 
-#: pamac-daemon.py:125 pamac/main.py:75
+#: pamac-daemon.py:125 pamac/main.py:88
 msgid "Configuring"
 msgstr "إعداد"
 
@@ -78,232 +84,237 @@ msgstr "تفقد المفاتيح في حلقة المفاتيح"
 msgid "Downloading {size}"
 msgstr "تحميل {size}"
 
-#: pamac-daemon.py:196 pamac/main.py:466 pamac/main.py:1057
+#: pamac-daemon.py:196 pamac/main.py:458 pamac/main.py:1064
 msgid "Refreshing"
 msgstr "إنعاش"
 
-#: pamac-daemon.py:316 pamac-daemon.py:433 pamac-daemon.py:441
-#: pamac-daemon.py:463
-msgid "Authentication failed"
-msgstr "فشل الإستوثاق"
-
-#: pamac-daemon.py:363 pamac-install.py:54 pamac/main.py:562
+#: pamac-daemon.py:364 pamac-install.py:45 pamac/main.py:554
 msgid "{pkgname} is not a valid path or package name"
 msgstr "{pkgname} ليس مسار و إسم ملق صالح"
 
-#: pamac-daemon.py:429
+#: pamac-daemon.py:430
 msgid "Transaction successfully finished"
 msgstr "تم إنهاء العملية بنجاح"
 
-#: pamac-tray.py:22
+#: pamac-daemon.py:434 pamac-daemon.py:442
+msgid "Authentication failed"
+msgstr "فشل الإستوثاق"
+
+#: pamac-tray.py:20
 msgid "{number} available updates"
 msgstr "{number} تحديثات متوفرة"
 
-#: pamac-tray.py:23
+#: pamac-tray.py:21
 msgid "1 available update"
 msgstr "تحدبث واحد متوفر"
 
-#: pamac-tray.py:25
+#: pamac-tray.py:23
 msgid "Your system is up-to-date"
 msgstr "نظامك محدث"
 
-#: pamac-tray.py:33
+#: pamac-tray.py:31
 msgid "Install/Check for updates"
 msgstr "تثبيت/تفقد تحديثات"
 
-#: pamac-tray.py:36
+#: pamac-tray.py:34
 msgid "Run pamac-manager"
 msgstr "تنفيذ pamac-manager"
 
-#: pamac-tray.py:39
+#: pamac-tray.py:37
 msgid "Quit"
 msgstr "خروج"
 
-#: pamac-install.py:83 pamac-install.py:89 pamac/main.py:927
+#: pamac-install.py:74 pamac-install.py:80 pamac/main.py:917
 msgid "Nothing to do"
 msgstr "لا يوجد شيء للقيام به"
 
-#: pamac-install.py:102 pamac/main.py:1097
+#: pamac-install.py:87 pamac/main.py:1115
 msgid "Pamac is already running"
 msgstr "Pamac قيد التشغيل حاليا"
 
-#: pamac-install.py:107
+#: pamac-install.py:97
 msgid ""
 "Some updates are available.\n"
 "Please update your system first"
-msgstr "بعض التحديثات متوفرة.\nالمرجوا تحديث نظامك اولا"
+msgstr ""
+"بعض التحديثات متوفرة.\n"
+"المرجوا تحديث نظامك اولا"
 
-#: pamac/main.py:108 pamac/main.py:998
+#: pamac/main.py:81 pamac/main.py:1005
 msgid "Installed"
 msgstr "مثبت"
 
-#: pamac/main.py:108 pamac/main.py:1000
+#: pamac/main.py:81 pamac/main.py:1007
 msgid "Uninstalled"
 msgstr "تم إلغاء التثبيت"
 
-#: pamac/main.py:108 pamac/main.py:1002
+#: pamac/main.py:81 pamac/main.py:1009
 msgid "Orphans"
 msgstr "أيتام"
 
-#: pamac/main.py:108 pamac/main.py:356 pamac/main.py:1004
+#: pamac/main.py:81 pamac/main.py:353 pamac/main.py:1011
 msgid "To install"
 msgstr "للتثبيت"
 
-#: pamac/main.py:108 pamac/main.py:374 pamac/main.py:1006
+#: pamac/main.py:81 pamac/main.py:371 pamac/main.py:1013
 msgid "To remove"
 msgstr "للحذف"
 
-#: pamac/main.py:127 pamac/main.py:1014
+#: pamac/main.py:120 pamac/main.py:1021
 msgid "local"
 msgstr "محلي"
 
-#: pamac/main.py:215 pamac/main.py:967
+#: pamac/main.py:211 pamac/main.py:974
 msgid "No package found"
 msgstr "لم يتم العثور على أي حزم"
 
-#: pamac/main.py:266
+#: pamac/main.py:262
 msgid "Licenses"
 msgstr "الرخص"
 
-#: pamac/main.py:271
+#: pamac/main.py:267
 msgid "Depends On"
 msgstr "يعتمد على"
 
-#: pamac/main.py:273
+#: pamac/main.py:269
 msgid "Optional Deps"
 msgstr "إعتماديات إختيارية"
 
-#: pamac/main.py:276
+#: pamac/main.py:272
 msgid "Required By"
 msgstr "مطلوب من طرف"
 
-#: pamac/main.py:278
+#: pamac/main.py:274
 msgid "Provides"
 msgstr "المزود"
 
-#: pamac/main.py:280
+#: pamac/main.py:276
 msgid "Replaces"
 msgstr "إستبدال"
 
-#: pamac/main.py:282
+#: pamac/main.py:278
 msgid "Conflicts With"
 msgstr "التعارض مع"
 
-#: pamac/main.py:287
+#: pamac/main.py:283
 msgid "Repository"
 msgstr "مستودع"
 
-#: pamac/main.py:289 gui/manager.glade:538
+#: pamac/main.py:285 gui/manager.glade:538
 msgid "Groups"
 msgstr "مجموعات"
 
-#: pamac/main.py:291
+#: pamac/main.py:287
 msgid "Compressed Size"
 msgstr "الحجم المضغوط"
 
-#: pamac/main.py:292
+#: pamac/main.py:288
 msgid "Download Size"
 msgstr "الحجم المحمل"
 
-#: pamac/main.py:294
+#: pamac/main.py:290
 msgid "Installed Size"
 msgstr "الحجم المثبت"
 
-#: pamac/main.py:295
+#: pamac/main.py:291
 msgid "Packager"
 msgstr "محزم"
 
-#: pamac/main.py:296
+#: pamac/main.py:292
 msgid "Architecture"
 msgstr "المعمار"
 
-#: pamac/main.py:299
+#: pamac/main.py:295
 msgid "Install Date"
 msgstr "تاريخ التثبيت"
 
-#: pamac/main.py:301
+#: pamac/main.py:297
 msgid "Explicitly installed"
 msgstr "مثبتة بوضوح"
 
-#: pamac/main.py:303
+#: pamac/main.py:299
 msgid "Installed as a dependency for another package"
 msgstr "تثبيت كإعتمادية لحزمة أخرى"
 
-#: pamac/main.py:305
+#: pamac/main.py:301
 msgid "Unknown"
 msgstr "مجهول"
 
-#: pamac/main.py:306
+#: pamac/main.py:302
 msgid "Install Reason"
 msgstr "سبب التثبيت"
 
-#: pamac/main.py:311
+#: pamac/main.py:307
 msgid "Signatures"
 msgstr "تواقيع"
 
-#: pamac/main.py:315
+#: pamac/main.py:311
 msgid "Backup files"
 msgstr "ملفات النسخ الإحتياطية"
 
-#: pamac/main.py:354
+#: pamac/main.py:351
 msgid "<big><b>Transaction Summary</b></big>"
 msgstr "<big><b>موجز العمليات</b></big>"
 
-#: pamac/main.py:362
+#: pamac/main.py:359
 msgid "To reinstall"
 msgstr "لإعادة التثبيت"
 
-#: pamac/main.py:368
+#: pamac/main.py:365
 msgid "To downgrade"
 msgstr "للتحميل"
 
-#: pamac/main.py:381
+#: pamac/main.py:378
 msgid "To update"
 msgstr "للتحديث"
 
-#: pamac/main.py:392 pamac/main.py:490
+#: pamac/main.py:389 pamac/main.py:482
 msgid "<b>Total download size: </b>"
 msgstr "<b>حجم الإجمالي للتحميل: </b>"
 
-#: pamac/main.py:482 pamac/main.py:1113
+#: pamac/main.py:474 pamac/main.py:1131
 msgid "<big><b>Your system is up-to-date</b></big>"
 msgstr "<big><b>تظامك محدث</b></big>"
 
-#: pamac/main.py:492
+#: pamac/main.py:484
 msgid "<big><b>1 available update</b></big>"
 msgstr "<big><b>تحدبث واحد متوفر</b></big>"
 
-#: pamac/main.py:494
+#: pamac/main.py:486
 msgid "<big><b>{number} available updates</b></big>"
 msgstr "<big><b>{number} تحديثات متوفرة</b></big>"
 
-#: pamac/main.py:580 pamac/main.py:581
+#: pamac/main.py:572 pamac/main.py:573
 msgid ""
 "The transaction cannot be performed because it needs to remove {pkgname1} "
 "which is a locked package"
 msgstr "لا يمكن إتمام العملية لانه يجب حذف الحزمة المغلقة {pkgname1}"
 
-#: pamac/main.py:612 pamac/main.py:613 pamac/main.py:715 pamac/main.py:716
+#: pamac/main.py:604 pamac/main.py:605 pamac/main.py:707 pamac/main.py:708
 msgid "{pkgname1} will be replaced by {pkgname2}"
 msgstr "سيتم إستبدال {pkgname1} بـ {pkgname2}"
 
-#: pamac/main.py:730 pamac/main.py:731 pamac/main.py:755 pamac/main.py:756
-#: pamac/main.py:776 pamac/main.py:777 pamac/main.py:807 pamac/main.py:808
-#: pamac/main.py:832 pamac/main.py:833 pamac/main.py:853 pamac/main.py:854
+#: pamac/main.py:722 pamac/main.py:723 pamac/main.py:747 pamac/main.py:748
+#: pamac/main.py:768 pamac/main.py:769 pamac/main.py:799 pamac/main.py:800
+#: pamac/main.py:824 pamac/main.py:825 pamac/main.py:845 pamac/main.py:846
 msgid "{pkgname1} conflicts with {pkgname2}"
 msgstr "تعاكس {pkgname1} مع {pkgname2}"
 
-#: pamac/main.py:788 pamac/main.py:789
+#: pamac/main.py:780 pamac/main.py:781
 msgid ""
 "{pkgname1} conflicts with {pkgname2}\n"
 "None of them will be installed"
-msgstr "تعاكس {pkgname1} مع {pkgname2}\nلن يتم تثبيت اي واحد فيهم"
+msgstr ""
+"تعاكس {pkgname1} مع {pkgname2}\n"
+"لن يتم تثبيت اي واحد فيهم"
 
-#: pamac/main.py:884
+#: pamac/main.py:876
 msgid ""
 "<b>{pkgname} is provided by {number} packages.\n"
 "Please choose the one(s) you want to install:</b>"
-msgstr "<b>{pkgname} iمزودة من طرف {number} حزم.\nالموجوا إختيار واحدة لتثبيت:</b>"
+msgstr ""
+"<b>{pkgname} iمزودة من طرف {number} حزم.\n"
+"الموجوا إختيار واحدة لتثبيت:</b>"
 
 #: pamac/common.py:13
 #, python-format
@@ -335,7 +346,7 @@ msgstr "مدير الحزم"
 msgid "Search"
 msgstr "بحث"
 
-#: gui/manager.glade:585 gui/manager.glade:678
+#: gui/manager.glade:585 gui/manager.glade:679
 msgid "State"
 msgstr "حالة"
 
@@ -343,31 +354,31 @@ msgstr "حالة"
 msgid "Repos"
 msgstr "مستودع"
 
-#: gui/manager.glade:709
+#: gui/manager.glade:710
 msgid "Name"
 msgstr "إسم"
 
-#: gui/manager.glade:728
+#: gui/manager.glade:729
 msgid "Version"
 msgstr "إصدار"
 
-#: gui/manager.glade:745
+#: gui/manager.glade:746
 msgid "Size"
 msgstr "حجم"
 
-#: gui/manager.glade:846
+#: gui/manager.glade:847
 msgid "Infos"
 msgstr "معلومات"
 
-#: gui/manager.glade:906
+#: gui/manager.glade:907
 msgid "Deps"
 msgstr "إعتماديات"
 
-#: gui/manager.glade:971
+#: gui/manager.glade:972
 msgid "Details"
 msgstr "تفاصيل"
 
-#: gui/manager.glade:1019
+#: gui/manager.glade:1020
 msgid "Files"
 msgstr "ملفات"
 

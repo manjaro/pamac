@@ -5,7 +5,7 @@ from gi.repository import GObject
 from sys import argv
 import dbus
 from os.path import abspath
-from pamac import common, transaction, main
+from pamac import common, main
 
 # i18n
 import gettext
@@ -17,13 +17,8 @@ _ = gettext.gettext
 
 def exiting(msg):
 	transaction.StopDaemon()
-	common.rm_pid_file()
 	print('exiting')
 	loop.quit()
-
-bus = dbus.SystemBus()
-bus.add_signal_receiver(exiting, dbus_interface = "org.manjaro.pamac", signal_name = "EmitTransactionDone")
-bus.add_signal_receiver(exiting, dbus_interface = "org.manjaro.pamac", signal_name = "EmitTransactionError")
 
 def new_on_TransCancelButton_clicked(self, *arg):
 	main.ProgressWindow.hide()
@@ -34,10 +29,6 @@ def new_on_TransCancelButton_clicked(self, *arg):
 def new_on_TransValidButton_clicked(self, *arg):
 	main.ConfDialog.hide()
 	main.finalize()
-
-main.Handler.on_TransCancelButton_clicked = new_on_TransCancelButton_clicked
-main.Handler.on_TransValidButton_clicked = new_on_TransValidButton_clicked
-main.interface.connect_signals(main.Handler())
 
 def get_pkgs(pkgs):
 	get_error = ''
@@ -92,24 +83,30 @@ def install(pkgs):
 				main.WarningDialog.hide()
 			exiting('')
 
-loop = GObject.MainLoop()
-
-transaction.get_handle()
-transaction.update_db()
-do_syncfirst, updates = transaction.get_updates()
-
 if common.pid_file_exists():
 	main.ErrorDialog.format_secondary_text(_('Pamac is already running'))
 	response = main.ErrorDialog.run()
 	if response:
 		main.ErrorDialog.hide()
-elif updates:
+else:
+	from pamac import transaction
+	transaction.get_handle()
+	transaction.update_db()
+	do_syncfirst, updates = transaction.get_updates()
+	if updates:
 		main.ErrorDialog.format_secondary_text(_('Some updates are available.\nPlease update your system first'))
 		response = main.ErrorDialog.run()
 		if response:
 			main.ErrorDialog.hide()
 		transaction.StopDaemon()
-else:
-	common.write_pid_file()
-	pkgs_to_install = argv[1:]
-	install(pkgs_to_install)
+	else:
+		loop = GObject.MainLoop()
+		main.config_signals()
+		bus = dbus.SystemBus()
+		bus.add_signal_receiver(exiting, dbus_interface = "org.manjaro.pamac", signal_name = "EmitTransactionDone")
+		bus.add_signal_receiver(exiting, dbus_interface = "org.manjaro.pamac", signal_name = "EmitTransactionError")
+		main.Handler.on_TransCancelButton_clicked = new_on_TransCancelButton_clicked
+		main.Handler.on_TransValidButton_clicked = new_on_TransValidButton_clicked
+		main.interface.connect_signals(main.Handler())
+		pkgs_to_install = argv[1:]
+		install(pkgs_to_install)

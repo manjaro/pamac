@@ -469,10 +469,12 @@ class PamacDBusService(dbus.service.Object):
 			self.t.release()
 		except:
 			pass
+		common.rm_pid_file()
 		mainloop.quit()
 
 GObject.threads_init()
-DBusGMainLoop(set_as_default=True)
+DBusGMainLoop(set_as_default = True)
 myservice = PamacDBusService()
+common.write_pid_file()
 mainloop = GObject.MainLoop()
 mainloop.run()

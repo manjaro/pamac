@@ -3,7 +3,6 @@
 
 from gi.repository import Gtk, GObject
 from subprocess import Popen
-from pamac import transaction, common
 import dbus
 import threading
 
@@ -14,7 +13,6 @@ gettext.textdomain('pamac')
 _ = gettext.gettext
 
 GObject.threads_init()
-bus = dbus.SystemBus()
 
 icon = ''
 info = ''
@@ -108,7 +106,10 @@ def set_icon(updates):
 	print(info)
 	tray.update_icon(icon, info)
 
+from pamac import transaction
+bus = dbus.SystemBus()
 bus.add_signal_receiver(set_icon, dbus_interface = "org.manjaro.pamac", signal_name = "EmitAvailableUpdates")
+transaction.StopDaemon()
 
 tray = Tray()
 t = PeriodicTask()
