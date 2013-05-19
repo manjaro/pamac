@@ -43,6 +43,8 @@ progress_label = interface.get_object('progresslabel2')
 action_icon = interface.get_object('action_icon')
 ProgressCancelButton = interface.get_object('ProgressCancelButton')
 
+mode = None
+
 def action_signal_handler(action):
 	if action:
 		progress_label.set_text(action)
@@ -361,7 +363,7 @@ def handle_error(error):
 	#	Gtk.main_iteration()
 	if error:
 		if not 'DBus.Error.NoReply' in str(error):
-			print('error:', error)
+			print(error)
 			ErrorDialog.format_secondary_text(error)
 			response = ErrorDialog.run()
 			if response:
@@ -510,7 +512,8 @@ def check_conflicts():
 	warning = ''
 	error = ''
 	print('checking...')
-	Window.get_window().set_cursor(Gdk.Cursor(Gdk.CursorType.WATCH))
+	if mode:
+		Window.get_window().set_cursor(Gdk.Cursor(Gdk.CursorType.WATCH))
 	while Gtk.events_pending():
 		Gtk.main_iteration()
 	to_check = [transaction.syncpkgs[name] for name in transaction.to_add | transaction.to_update]
@@ -821,7 +824,8 @@ def check_conflicts():
 		for pkg in pkg_list:
 			wont_be_removed.add(pkg.name)
 
-	Window.get_window().set_cursor(None)
+	if mode:
+		Window.get_window().set_cursor(None)
 	print('check done')
 	if warning:
 		WarningDialog.format_secondary_text(warning)

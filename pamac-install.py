@@ -5,7 +5,7 @@ from gi.repository import GObject
 from sys import argv
 import dbus
 from os.path import abspath
-from pamac import common, main
+from pamac import common
 
 # i18n
 import gettext
@@ -35,7 +35,6 @@ def get_pkgs(pkgs):
 	for pkg in pkgs:
 		if '.pkg.tar.' in pkg:
 			full_path = abspath(pkg)
-			print('path',full_path)
 			transaction.to_load.add(full_path)
 		elif pkg in transaction.syncpkgs.keys():
 			transaction.to_add.add(pkg)
@@ -84,12 +83,13 @@ def install(pkgs):
 			exiting('')
 
 if common.pid_file_exists():
-	main.ErrorDialog.format_secondary_text(_('Pamac is already running'))
-	response = main.ErrorDialog.run()
+	from pamac.main import ErrorDialog
+	ErrorDialog.format_secondary_text(_('Pamac is already running'))
+	response = ErrorDialog.run()
 	if response:
-		main.ErrorDialog.hide()
+		ErrorDialog.hide()
 else:
-	from pamac import transaction
+	from pamac import transaction, main
 	transaction.get_handle()
 	transaction.update_db()
 	do_syncfirst, updates = transaction.get_updates()

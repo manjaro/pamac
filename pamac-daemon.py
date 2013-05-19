@@ -160,10 +160,9 @@ class PamacDBusService(dbus.service.Object):
 		if not (level & _logmask):
 			return
 		if level & pyalpm.LOG_ERROR:
-			self.error += "ERROR: "+line
+			#self.error += "ERROR: "+line
 			#self.EmitLogError(line)
-			print(self.error)
-			#self.t.release()
+			print(line)
 		elif level & pyalpm.LOG_WARNING:
 			self.warning += "WARNING: "+line
 			#self.EmitLogWarning(line)
@@ -379,7 +378,6 @@ class PamacDBusService(dbus.service.Object):
 		try:
 			self.t.prepare()
 		except pyalpm.error as e:
-			print(e)
 			self.error += ' --> '+str(e)+'\n'
 		finally:
 			return self.error
@@ -426,7 +424,6 @@ class PamacDBusService(dbus.service.Object):
 			try:
 				self.t.commit()
 			except pyalpm.error as e:
-				#error = traceback.format_exc()
 				self.error += ' --> '+str(e)+'\n'
 			#except dbus.exceptions.DBusException:
 				#pass
