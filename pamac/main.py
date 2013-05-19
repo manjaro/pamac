@@ -27,27 +27,9 @@ WarningDialog = interface.get_object('WarningDialog')
 InfoDialog = interface.get_object('InfoDialog')
 #QuestionDialog = interface.get_object('QuestionDialog')
 
+interface.add_from_file('/usr/share/pamac/gui/updater.glade')
+
 interface.add_from_file('/usr/share/pamac/gui/manager.glade')
-ManagerWindow = interface.get_object("ManagerWindow")
-details_list = interface.get_object('details_list')
-deps_list = interface.get_object('deps_list')
-files_list = interface.get_object('files_list')
-files_scrolledwindow = interface.get_object('files_scrolledwindow')
-name_label = interface.get_object('name_label')
-desc_label = interface.get_object('desc_label')
-link_label = interface.get_object('link_label')
-licenses_label = interface.get_object('licenses_label')
-search_entry = interface.get_object('search_entry')
-search_list = interface.get_object('search_list')
-search_selection = interface.get_object('search_treeview_selection')
-packages_list = interface.get_object('packages_list')
-list_selection = interface.get_object('list_treeview_selection')
-groups_list = interface.get_object('groups_list')
-groups_selection = interface.get_object('groups_treeview_selection')
-state_list = interface.get_object('state_list')
-state_selection = interface.get_object('state_treeview_selection')
-repos_list = interface.get_object('repos_list')
-repos_selection = interface.get_object('repos_treeview_selection')
 ConfDialog = interface.get_object('ConfDialog')
 transaction_sum = interface.get_object('transaction_sum')
 sum_top_label = interface.get_object('sum_top_label')
@@ -60,27 +42,6 @@ progress_bar = interface.get_object('progressbar2')
 progress_label = interface.get_object('progresslabel2')
 action_icon = interface.get_object('action_icon')
 ProgressCancelButton = interface.get_object('ProgressCancelButton')
-
-interface.add_from_file('/usr/share/pamac/gui/updater.glade')
-UpdaterWindow = interface.get_object("UpdaterWindow")
-update_listore = interface.get_object('update_list')
-update_top_label = interface.get_object('update_top_label')
-update_bottom_label = interface.get_object('update_bottom_label')
-
-installed_icon = Pixbuf.new_from_file('/usr/share/pamac/icons/22x22/status/package-installed.png')
-uninstalled_icon = Pixbuf.new_from_file('/usr/share/pamac/icons/22x22/status/package-available.png')
-to_install_icon = Pixbuf.new_from_file('/usr/share/pamac/icons/22x22/status/package-add.png')
-to_remove_icon = Pixbuf.new_from_file('/usr/share/pamac/icons/22x22/status/package-delete.png')
-locked_icon = Pixbuf.new_from_file('/usr/share/pamac/icons/22x22/status/package-blocked.png')
-search_icon = Pixbuf.new_from_file('/usr/share/pamac/icons/22x22/status/package-search.png')
- 
-pkg_name_list = set()
-current_filter = (None, None)
-mode = None
-liststore_clearing = False
-states = [_('Installed'), _('Uninstalled'), _('Orphans'), _('To install'), _('To remove')]
-for state in states:
-	state_list.append([state])
 
 def action_signal_handler(action):
 	if action:
@@ -103,7 +64,10 @@ def percent_signal_handler(percent):
 		progress_bar.set_fraction(percent)
 
 def get_groups():
+	global groups_list_clearing
+	groups_list_clearing = True
 	groups_list.clear()
+	groups_list_clearing = False
 	tmp_list = []
 	for repo in transaction.handle.get_syncdbs():
 		for name, pkgs in repo.grpcache:
@@ -114,7 +78,10 @@ def get_groups():
 		groups_list.append([name])
 
 def get_repos():
+	global repos_list_clearing
+	repos_list_clearing = True
 	repos_list.clear()
+	repos_list_clearing = False
 	for repo in transaction.handle.get_syncdbs():
 		repos_list.append([repo.name])
 	repos_list.append([_('local')])
@@ -200,13 +167,13 @@ def set_list_dict_repos(repo):
 
 def refresh_packages_list():
 	if current_filter[0]:
-		ManagerWindow.get_window().set_cursor(Gdk.Cursor(Gdk.CursorType.WATCH))
+		Window.get_window().set_cursor(Gdk.Cursor(Gdk.CursorType.WATCH))
 		while Gtk.events_pending():
 			Gtk.main_iteration()
-		global liststore_clearing
-		liststore_clearing = True
+		global packages_list_clearing
+		packages_list_clearing = True
 		packages_list.clear()
-		liststore_clearing = False
+		packages_list_clearing = False
 		if not pkg_name_list:
 			packages_list.append([_('No package found'), False, False, False, search_icon, '', 0, ''])
 		else:
@@ -226,7 +193,7 @@ def refresh_packages_list():
 				#elif name in uninstalled:
 				else:
 					packages_list.append([name, False, True, False, uninstalled_icon, common.format_size(transaction.syncpkgs[name].isize), transaction.syncpkgs[name].isize, transaction.syncpkgs[name].version])
-		ManagerWindow.get_window().set_cursor(Gdk.Cursor(Gdk.CursorType.LEFT_PTR))
+		Window.get_window().set_cursor(Gdk.Cursor(Gdk.CursorType.LEFT_PTR))
 
 def set_packages_list():
 	if current_filter[0] == 'search':
@@ -409,9 +376,11 @@ def handle_error(error):
 		transaction.to_add.clear()
 		transaction.to_remove.clear()
 		transaction.to_update.clear()
+		get_groups()
+		get_repos()
 		set_packages_list()
-	if mode == 'updater':
-		have_updates()
+	#if mode == 'updater':
+		#have_updates()
 
 def handle_reply(reply):
 	ProgressWindow.hide()
@@ -432,10 +401,14 @@ def handle_reply(reply):
 		transaction.to_add.clear()
 		transaction.to_remove.clear()
 		transaction.to_update.clear()
+		get_groups()
+		get_repos()
 		set_packages_list()
-	if have_updates():
-		if mode == 'manager':
+		do_syncfirst, updates = transaction.get_updates()
+		if updates:
 			do_sysupgrade()
+	if mode == 'updater':
+		have_updates()
 
 def log_error(msg):
 	ErrorDialog.format_secondary_text(msg)
@@ -469,10 +442,8 @@ def have_updates():
 	update_listore.clear()
 	update_top_label.set_justify(Gtk.Justification.CENTER)
 	if not updates:
-		update_listore.append(['', ''])
 		update_bottom_label.set_markup('')
 		update_top_label.set_markup(_('<big><b>Your system is up-to-date</b></big>'))
-		return False
 	else:
 		dsize = 0
 		for pkg in updates:
@@ -484,7 +455,6 @@ def have_updates():
 			update_top_label.set_markup(_('<big><b>1 available update</b></big>'))
 		else:
 			update_top_label.set_markup(_('<big><b>{number} available updates</b></big>').format(number = len(updates)))
-		return True
 
 def do_sysupgrade():
 	"""Upgrade a system like pacman -Su"""
@@ -540,7 +510,7 @@ def check_conflicts():
 	warning = ''
 	error = ''
 	print('checking...')
-	ManagerWindow.get_window().set_cursor(Gdk.Cursor(Gdk.CursorType.WATCH))
+	Window.get_window().set_cursor(Gdk.Cursor(Gdk.CursorType.WATCH))
 	while Gtk.events_pending():
 		Gtk.main_iteration()
 	to_check = [transaction.syncpkgs[name] for name in transaction.to_add | transaction.to_update]
@@ -851,7 +821,7 @@ def check_conflicts():
 		for pkg in pkg_list:
 			wont_be_removed.add(pkg.name)
 
-	ManagerWindow.get_window().set_cursor(Gdk.Cursor(Gdk.CursorType.LEFT_PTR))
+	Window.get_window().set_cursor(Gdk.Cursor(Gdk.CursorType.LEFT_PTR))
 	print('check done')
 	if warning:
 		WarningDialog.format_secondary_text(warning)
@@ -880,9 +850,9 @@ def choose_provides(name):
 					choose_list.append([True, name])
 				else:
 					choose_list.append([False, name])
-			ManagerWindow.get_window().set_cursor(Gdk.Cursor(Gdk.CursorType.LEFT_PTR))
+			Window.get_window().set_cursor(Gdk.Cursor(Gdk.CursorType.LEFT_PTR))
 			ChooseDialog.run()
-			ManagerWindow.get_window().set_cursor(Gdk.Cursor(Gdk.CursorType.WATCH))
+			Window.get_window().set_cursor(Gdk.Cursor(Gdk.CursorType.WATCH))
 			return [provides[pkgname] for pkgname in transaction.to_provide]
 	else:
 		return []
@@ -968,7 +938,7 @@ class Handler:
 						#~ files_scrolledwindow.set_visible(False)
 
 	def on_list_treeview_selection_changed(self, treeview):
-		if not liststore_clearing:
+		if not packages_list_clearing:
 			liststore, treeiter = list_selection.get_selected()
 			if treeiter:
 				if packages_list[treeiter][0] != _('No package found'):
@@ -985,23 +955,24 @@ class Handler:
 						files_scrolledwindow.set_visible(False)
 
 	def on_search_treeview_selection_changed(self, widget):
-		global current_filter
 		liste, line = search_selection.get_selected()
 		if line:
+			global current_filter
 			current_filter = ('search', search_list[line][0].split())
 			set_packages_list()
 
 	def on_groups_treeview_selection_changed(self, widget):
-		global current_filter
-		liste, line = groups_selection.get_selected()
-		if line:
-			current_filter = ('group', groups_list[line][0])
-			set_packages_list()
+		if not groups_list_clearing:
+			liste, line = groups_selection.get_selected()
+			if line:
+				global current_filter
+				current_filter = ('group', groups_list[line][0])
+				set_packages_list()
 
 	def on_state_treeview_selection_changed(self, widget):
-		global current_filter
 		liste, line = state_selection.get_selected()
 		if line:
+			global current_filter
 			if state_list[line][0] == _('Installed'):
 				current_filter = ('installed', None)
 			if state_list[line][0] == _('Uninstalled'):
@@ -1015,14 +986,15 @@ class Handler:
 			set_packages_list()
 
 	def on_repos_treeview_selection_changed(self, widget):
-		global current_filter
-		liste, line = repos_selection.get_selected()
-		if line:
-			if repos_list[line][0] == _('local'):
-				current_filter = ('local', None)
-			else:
-				current_filter = ('repo', repos_list[line][0])
-			set_packages_list()
+		if not repos_list_clearing:
+			liste, line = repos_selection.get_selected()
+			if line:
+				global current_filter
+				if repos_list[line][0] == _('local'):
+					current_filter = ('local', None)
+				else:
+					current_filter = ('repo', repos_list[line][0])
+				set_packages_list()
 
 	def on_cellrenderertoggle1_toggled(self, widget, line):
 		if packages_list[line][1] is True:
@@ -1122,15 +1094,86 @@ def main(_mode):
 		mode = _mode
 		interface.connect_signals(Handler())
 		do_refresh()
-		transaction.get_handle()
-		get_groups()
-		get_repos()
+		global Window
 		if mode == 'manager':
-			ManagerWindow.show_all()
+			ManagerWindow = interface.get_object("ManagerWindow")
+			global details_list
+			global deps_list
+			global files_list
+			global files_scrolledwindow
+			global name_label
+			global desc_label
+			global link_label
+			global licenses_label
+			global search_entry
+			global search_list
+			global search_selection
+			global packages_list
+			global list_selection
+			global groups_list
+			global groups_selection
+			global state_list
+			global state_selection
+			global repos_list
+			global repos_selection
+			details_list = interface.get_object('details_list')
+			deps_list = interface.get_object('deps_list')
+			files_list = interface.get_object('files_list')
+			files_scrolledwindow = interface.get_object('files_scrolledwindow')
+			name_label = interface.get_object('name_label')
+			desc_label = interface.get_object('desc_label')
+			link_label = interface.get_object('link_label')
+			licenses_label = interface.get_object('licenses_label')
+			search_entry = interface.get_object('search_entry')
+			search_list = interface.get_object('search_list')
+			search_selection = interface.get_object('search_treeview_selection')
+			packages_list = interface.get_object('packages_list')
+			list_selection = interface.get_object('list_treeview_selection')
+			groups_list = interface.get_object('groups_list')
+			groups_selection = interface.get_object('groups_treeview_selection')
+			state_list = interface.get_object('state_list')
+			state_selection = interface.get_object('state_treeview_selection')
+			repos_list = interface.get_object('repos_list')
+			repos_selection = interface.get_object('repos_treeview_selection')
+			global installed_icon
+			global uninstalled_icon
+			global to_install_icon
+			global to_remove_icon
+			global locked_icon
+			global search_icon
+			installed_icon = Pixbuf.new_from_file('/usr/share/pamac/icons/22x22/status/package-installed.png')
+			uninstalled_icon = Pixbuf.new_from_file('/usr/share/pamac/icons/22x22/status/package-available.png')
+			to_install_icon = Pixbuf.new_from_file('/usr/share/pamac/icons/22x22/status/package-add.png')
+			to_remove_icon = Pixbuf.new_from_file('/usr/share/pamac/icons/22x22/status/package-delete.png')
+			locked_icon = Pixbuf.new_from_file('/usr/share/pamac/icons/22x22/status/package-blocked.png')
+			search_icon = Pixbuf.new_from_file('/usr/share/pamac/icons/22x22/status/package-search.png')
+			global pkg_name_list
+			pkg_name_list = set()
+			global current_filter
+			current_filter = (None, None)
+			global packages_list_clearing
+			global repos_list_clearing
+			global groups_list_clearing
+			packages_list_clearing = False
+			repos_list_clearing = False
+			groups_list_clearing = False
+			global states
+			states = [_('Installed'), _('Uninstalled'), _('Orphans'), _('To install'), _('To remove')]
+			for state in states:
+				state_list.append([state])
+			Window = ManagerWindow
 		if mode == 'updater':
+			UpdaterWindow = interface.get_object("UpdaterWindow")
+			global update_listore
+			global update_top_label
+			global update_bottom_label
+			update_listore = interface.get_object('update_list')
+			update_top_label = interface.get_object('update_top_label')
+			update_bottom_label = interface.get_object('update_bottom_label')
 			update_top_label.set_markup(_('<big><b>Your system is up-to-date</b></big>'))
 			update_bottom_label.set_markup('')
-			UpdaterWindow.show_all()
+			Window = UpdaterWindow
+		Window.show_all()
 		while Gtk.events_pending():
 			Gtk.main_iteration()
 		Gtk.main()

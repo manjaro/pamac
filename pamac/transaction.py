@@ -28,13 +28,14 @@ def update_db():
 	global localpkgs
 	syncpkgs = OrderedDict()
 	localpkgs = OrderedDict()
-	for repo in handle.get_syncdbs():
-		for pkg in repo.pkgcache:
-			if not pkg.name in syncpkgs.keys():
-				syncpkgs[pkg.name] = pkg
-	for pkg in handle.get_localdb().pkgcache:
-		if not pkg.name in localpkgs.keys():
-			localpkgs[pkg.name] = pkg
+	if handle:
+		for repo in handle.get_syncdbs():
+			for pkg in repo.pkgcache:
+				if not pkg.name in syncpkgs.keys():
+					syncpkgs[pkg.name] = pkg
+		for pkg in handle.get_localdb().pkgcache:
+			if not pkg.name in localpkgs.keys():
+				localpkgs[pkg.name] = pkg
 
 DBusGMainLoop(set_as_default = True)
 bus = dbus.SystemBus()
@@ -66,18 +67,19 @@ def get_updates():
 	list_first = []
 	_ignorepkgs = []
 	update_db()
-	for group in handle.ignoregrps:
-		db = handle.get_localdb()
-		grp = db.read_grp(group)
-		if grp:
-			name, pkg_list = grp
-			for pkg in pkg_list:
-				if not pkg.name in _ignorepkgs:
-					_ignorepkgs.append(pkg.name)
-	for pkgname in handle.ignorepkgs:
-		if pkgname in localpkgs.keys():
-			if not pkgname in _ignorepkgs:
-				_ignorepkgs.append(pkgname)
+	if handle:
+		for group in handle.ignoregrps:
+			db = handle.get_localdb()
+			grp = db.read_grp(group)
+			if grp:
+				name, pkg_list = grp
+				for pkg in pkg_list:
+					if not pkg.name in _ignorepkgs:
+						_ignorepkgs.append(pkg.name)
+		for pkgname in handle.ignorepkgs:
+			if pkgname in localpkgs.keys():
+				if not pkgname in _ignorepkgs:
+					_ignorepkgs.append(pkgname)
 	if config.syncfirst:
 		for name in config.syncfirst:
 			if name in localpkgs.keys():
