@@ -193,7 +193,7 @@ def refresh_packages_list():
 				#elif name in uninstalled:
 				else:
 					packages_list.append([name, False, True, False, uninstalled_icon, common.format_size(transaction.syncpkgs[name].isize), transaction.syncpkgs[name].isize, transaction.syncpkgs[name].version])
-		Window.get_window().set_cursor(Gdk.Cursor(Gdk.CursorType.LEFT_PTR))
+		Window.get_window().set_cursor(None)
 
 def set_packages_list():
 	if current_filter[0] == 'search':
@@ -821,7 +821,7 @@ def check_conflicts():
 		for pkg in pkg_list:
 			wont_be_removed.add(pkg.name)
 
-	Window.get_window().set_cursor(Gdk.Cursor(Gdk.CursorType.LEFT_PTR))
+	Window.get_window().set_cursor(None)
 	print('check done')
 	if warning:
 		WarningDialog.format_secondary_text(warning)
@@ -850,7 +850,7 @@ def choose_provides(name):
 					choose_list.append([True, name])
 				else:
 					choose_list.append([False, name])
-			Window.get_window().set_cursor(Gdk.Cursor(Gdk.CursorType.LEFT_PTR))
+			Window.get_window().set_cursor(None)
 			ChooseDialog.run()
 			Window.get_window().set_cursor(Gdk.Cursor(Gdk.CursorType.WATCH))
 			return [provides[pkgname] for pkgname in transaction.to_provide]
