@@ -67,12 +67,20 @@ class PamacDBusService(dbus.service.Object):
 		if ID is 1:
 			self.action = _('Checking dependencies')+'...'
 			self.icon = '/usr/share/pamac/icons/24x24/status/package-search.png'
+		elif ID is 2:
+			if self.warning:
+				self.EmitLogWarning(self.warning)
+				self.warning = ''
 		elif ID is 3:
 			self.action = _('Checking file conflicts')+'...'
 			self.icon = '/usr/share/pamac/icons/24x24/status/package-search.png'
 		elif ID is 5:
 			self.action = _('Resolving dependencies')+'...'
 			self.icon = '/usr/share/pamac/icons/24x24/status/setup.png'
+		elif ID is 6:
+			if self.warning:
+				self.EmitLogWarning(self.warning)
+				self.warning = ''
 		elif ID is 7:
 			self.action = _('Checking inter conflicts')+'...'
 			self.icon = '/usr/share/pamac/icons/24x24/status/package-search.png'
@@ -152,13 +160,13 @@ class PamacDBusService(dbus.service.Object):
 		if not (level & _logmask):
 			return
 		if level & pyalpm.LOG_ERROR:
-			#self.error += "ERROR: "+line
-			self.EmitLogError(line)
-			#print(self.error)
+			self.error += "ERROR: "+line
+			#self.EmitLogError(line)
+			print(self.error)
 			#self.t.release()
 		elif level & pyalpm.LOG_WARNING:
-			#self.warning += "WARNING: "+line
-			self.EmitLogWarning(line)
+			self.warning += "WARNING: "+line
+			#self.EmitLogWarning(line)
 		elif level & pyalpm.LOG_DEBUG:
 			line = "DEBUG: " + line
 			print(line)
@@ -424,6 +432,9 @@ class PamacDBusService(dbus.service.Object):
 				#pass
 			finally:
 				self.CheckUpdates()
+				if self.warning:
+					self.EmitLogWarning(self.warning)
+					self.warning = ''
 				if self.error:
 					self.EmitTransactionError(self.error)
 				else:
