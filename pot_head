@@ -16,6 +16,6 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ./data/polkit/org.manjaro.pamac.policy.in:10
+#: data/polkit/org.manjaro.pamac.policy:10
 msgid "Authentication is required"
 msgstr ""
