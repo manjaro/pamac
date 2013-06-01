@@ -235,7 +235,13 @@ def set_deps_list(pkg, style):
 	if pkg.depends:
 		deps_list.append([_('Depends On')+':', '\n'.join(pkg.depends)])
 	if pkg.optdepends:
-		deps_list.append([_('Optional Deps')+':', '\n'.join(pkg.optdepends)])
+		optdeps = []
+		for optdep in pkg.optdepends:
+			if optdep.split(':')[0] in transaction.localpkgs.keys():
+				optdeps.append(optdep+' ['+_('Installed')+']')
+			else:
+				optdeps.append(optdep)
+		deps_list.append([_('Optional Deps')+':', '\n'.join(optdeps)])
 	if style == 'local':
 		if pkg.compute_requiredby():
 			deps_list.append([_('Required By')+':', '\n'.join(pkg.compute_requiredby())])
