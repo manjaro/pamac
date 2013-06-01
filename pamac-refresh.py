@@ -23,5 +23,9 @@ if not common.pid_file_exists():
 	bus = dbus.SystemBus()
 	bus.add_signal_receiver(reply, dbus_interface = "org.manjaro.pamac", signal_name = "EmitTransactionDone")
 	bus.add_signal_receiver(error, dbus_interface = "org.manjaro.pamac", signal_name = "EmitTransactionError")
-	transaction.Refresh()
-	loop.run()
+	try:
+		transaction.Refresh()
+	except:
+		pass
+	else:
+		loop.run()

@@ -923,23 +923,72 @@ class Handler:
 		current_filter = ('search', search_entry.get_text().split())
 		set_packages_list()
 
-	#~ def on_list_treeview_button_press_event(self, treeview, event):
-		#~ if event.button == 1: # left click
-			#~ treepath, viewcolumn, x, y = treeview.get_path_at_pos(int(event.x), int(event.y))
-			#~ treeiter = packages_list.get_iter(treepath)
-			#~ if treeiter:
-				#~ if packages_list[treeiter][0] != _('No package found'):
-					#~ if packages_list[treeiter][0] in transaction.localpkgs.keys():
-						#~ set_infos_list(transaction.localpkgs[packages_list[treeiter][0]])
-						#~ set_deps_list(transaction.localpkgs[packages_list[treeiter][0]], "local")
-						#~ set_details_list(transaction.localpkgs[packages_list[treeiter][0]], "local")
-						#~ set_files_list(transaction.localpkgs[packages_list[treeiter][0]])
-						#~ files_scrolledwindow.set_visible(True)
-					#~ elif packages_list[treeiter][0] in transaction.syncpkgs.keys():
-						#~ set_infos_list(transaction.syncpkgs[packages_list[treeiter][0]])
-						#~ set_deps_list(transaction.syncpkgs[packages_list[treeiter][0]], "sync")
-						#~ set_details_list(transaction.syncpkgs[packages_list[treeiter][0]], "sync")
-						#~ files_scrolledwindow.set_visible(False)
+	menu = Gtk.Menu()
+	def on_list_treeview_button_press_event(self, treeview, event):
+		def mark_to_reinstall(widget, treeiter):
+			packages_list[treeiter][3] = True
+			packages_list[treeiter][4] = to_install_icon
+			transaction.to_add.add(packages_list[treeiter][0])
+		def select_optdeps(widget, pkgname, optdeps):
+			choose_label.set_markup(_('<b>{pkgname} has {number} uninstalled optional deps.\nPlease choose the one(s) you want to install:</b>').format(pkgname = pkgname, number = str(len(optdeps))))
+			choose_list.clear()
+			for long_string in optdeps:
+				choose_list.append([False, long_string])
+			ChooseDialog.run()
+			for long_string in transaction.to_provide:
+				transaction.to_add.add(long_string.split(':')[0])
+		def install_with_optdeps(widget, treeiter, pkgname, optdeps):
+			select_optdeps(widget, pkgname, optdeps)
+			mark_to_reinstall(widget, treeiter)
+		# Check if right mouse button was clicked
+		if event.type == Gdk.EventType.BUTTON_PRESS and event.button == 3:
+			treepath, viewcolumn, x, y = treeview.get_path_at_pos(int(event.x), int(event.y))
+			treeiter = packages_list.get_iter(treepath)
+			if treeiter:
+				if packages_list[treeiter][0] != _('No package found'):
+					self.menu = Gtk.Menu()
+					if packages_list[treeiter][0] in transaction.to_remove | transaction.to_add:
+						item = Gtk.MenuItem(_('Unselect'))
+						item.connect('activate', self.on_select_toggle_toggled, treeiter)
+						self.menu.append(item)
+					elif packages_list[treeiter][0] in transaction.localpkgs.keys():
+						item = Gtk.MenuItem(_('Remove'))
+						item.connect('activate', self.on_select_toggle_toggled, treeiter)
+						self.menu.append(item)
+						item = Gtk.MenuItem(_('Reinstall'))
+						item.connect('activate', mark_to_reinstall, treeiter)
+						self.menu.append(item)
+						optdeps_strings = transaction.localpkgs[packages_list[treeiter][0]].optdepends
+						if optdeps_strings:
+							available_optdeps = []
+							for optdep_string in optdeps_strings:
+								optdep = optdep_string.split(':')[0]
+								if not optdep in transaction.localpkgs.keys():
+									available_optdeps.append(optdep_string)
+							if available_optdeps:
+								item = Gtk.MenuItem(_('Install optional deps'))
+								item.connect('activate', select_optdeps, packages_list[treeiter][0], available_optdeps)
+								self.menu.append(item)
+					else:
+						item = Gtk.ImageMenuItem(_('Install'))
+						item.connect('activate', self.on_select_toggle_toggled, treeiter)
+						self.menu.append(item)
+						optdeps_strings = transaction.syncpkgs[packages_list[treeiter][0]].optdepends
+						if optdeps_strings:
+							available_optdeps = []
+							for optdep_string in optdeps_strings:
+								optdep = optdep_string.split(':')[0]
+								if not optdep in transaction.localpkgs.keys():
+									available_optdeps.append(optdep_string)
+							if available_optdeps:
+								item = Gtk.MenuItem(_('Install with optional deps'))
+								item.connect('activate', install_with_optdeps, treeiter, packages_list[treeiter][0], available_optdeps)
+								self.menu.append(item)
+					treeview.grab_focus()
+					treeview.set_cursor(treepath, viewcolumn, 0)
+					self.menu.show_all()
+					self.menu.popup(None, None, None, None, event.button, event.time)
+					return True
 
 	def on_list_treeview_selection_changed(self, treeview):
 		if not packages_list_clearing:
@@ -1000,9 +1049,13 @@ class Handler:
 					current_filter = ('repo', repos_list[line][0])
 				set_packages_list()
 
-	def on_cellrenderertoggle1_toggled(self, widget, line):
+	def on_select_toggle_toggled(self, widget, line):
 		if packages_list[line][1] is True:
-			if packages_list[line][0] in transaction.to_remove:
+			if packages_list[line][0] in transaction.to_add:
+				packages_list[line][3] = True
+				packages_list[line][4] = installed_icon
+				transaction.to_add.discard(packages_list[line][0])
+			elif packages_list[line][0] in transaction.to_remove:
 				packages_list[line][3] = True
 				packages_list[line][4] = installed_icon
 				transaction.to_remove.discard(packages_list[line][0])
