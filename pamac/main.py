@@ -70,11 +70,10 @@ def get_groups():
 	groups_list_clearing = True
 	groups_list.clear()
 	groups_list_clearing = False
-	tmp_list = []
+	tmp_list = set()
 	for repo in transaction.handle.get_syncdbs():
 		for name, pkgs in repo.grpcache:
-			if not name in tmp_list:
-				tmp_list.append(name)
+			tmp_list.add(name)
 	tmp_list = sorted(tmp_list)
 	for name in tmp_list:
 		groups_list.append([name])
@@ -117,8 +116,7 @@ def set_list_dict_group(group):
 			name, pkg_list = grp
 			for pkg in pkg_list:
 				pkg_name_list.add(pkg.name)
-	db = transaction.handle.get_localdb()
-	grp = db.read_grp(group)
+	grp = transaction.handle.get_localdb().read_grp(group)
 	if grp is not None:
 		name, pkg_list = grp
 		for pkg in pkg_list:
@@ -800,7 +798,7 @@ def check_conflicts():
 										transaction.to_remove.add(pkg.name)
 										if warning:
 											warning += '\n'
-										warning += _('{pkgname1} conflicts with {pkgname2}').format(pkgname1= found_conflict.name, pkgname2 = pkg.name)
+										warning += _('{pkgname1} conflicts with {pkgname2}').format(pkgname1 = found_conflict.name, pkgname2 = pkg.name)
 										print(_('{pkgname1} conflicts with {pkgname2}').format(pkgname1 = found_conflict.name, pkgname2 = pkg.name))
 						else:
 							#~ # check if the conflict can be safely removed
@@ -821,7 +819,7 @@ def check_conflicts():
 								transaction.to_remove.add(pkg.name)
 								if warning:
 									warning += '\n'
-								warning += _('{pkgname1} conflicts with {pkgname2}').format(pkgname1= found_conflict.name, pkgname2 = pkg.name)
+								warning += _('{pkgname1} conflicts with {pkgname2}').format(pkgname1 = found_conflict.name, pkgname2 = pkg.name)
 								print(_('{pkgname1} conflicts with {pkgname2}').format(pkgname1 = found_conflict.name, pkgname2 = pkg.name))
 
 	# remove in to_remove the packages which are needed by the names in to_add to avoid conflicts:
@@ -829,6 +827,7 @@ def check_conflicts():
 	for pkg_list in depends:
 		for pkg in pkg_list:
 			wont_be_removed.add(pkg.name)
+	transaction.to_remove -= wont_be_removed
 
 	if mode:
 		Window.get_window().set_cursor(None)
@@ -856,7 +855,7 @@ def choose_provides(name):
 			choose_label.set_markup(_('<b>{pkgname} is provided by {number} packages.\nPlease choose the one(s) you want to install:</b>').format(pkgname = name, number = str(len(provides.keys()))))
 			choose_list.clear()
 			for name in provides.keys():
-				if transaction.handle.get_localdb().get_pkg(name):
+				if name in transaction.localpkgs.keys():
 					choose_list.append([True, name])
 				else:
 					choose_list.append([False, name])
