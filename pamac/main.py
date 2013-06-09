@@ -476,10 +476,10 @@ def do_sysupgrade():
 			init = transaction.init_transaction(noconflicts = True, recurse = True)
 		else:
 			init = transaction.init_transaction(noconflicts = True)
-			if init:
-				error = transaction.Sysupgrade()
-				if error:
-					handle_error(error)
+			#~ if init:
+				#~ error = transaction.Sysupgrade()
+				#~ if error:
+					#~ handle_error(error)
 		if init:
 			if not error:
 				for name in transaction.to_add | transaction.to_update:
@@ -565,25 +565,37 @@ def check_conflicts():
 			if len(to_install) == 7:
 				installed_linux.append(to_install)
 	# check if new pkgs will replace installed ones
+	to_replace = set()
+	do_syncfirst, updates = transaction.get_updates()
 	if transaction.to_update:
-		for pkg in transaction.syncpkgs.values():
-			for replace in pkg.replaces:
-				found_replace = pyalpm.find_satisfier(transaction.localpkgs.values(), replace)
-				if found_replace:
-					if not common.format_pkg_name(replace) in transaction.syncpkgs.keys():
+		if not do_syncfirst:
+			for pkg in transaction.syncpkgs.values():
+				for replace in pkg.replaces:
+					found_replace = pyalpm.find_satisfier(transaction.localpkgs.values(), replace)
+					if found_replace:
+						#if not common.format_pkg_name(replace) in transaction.syncpkgs.keys():
 						if found_replace.name != pkg.name:
 							if not pkg.name in transaction.localpkgs.keys():
 								if common.format_pkg_name(replace) in transaction.localpkgs.keys():
 									if not found_replace.name in transaction.to_remove:
 										transaction.to_remove.add(found_replace.name)
+										to_replace.add(found_replace.name)
 										if warning:
 											warning += '\n'
 										warning += _('{pkgname1} will be replaced by {pkgname2}').format(pkgname1 = found_replace.name, pkgname2 = pkg.name)
 										print(_('{pkgname1} will be replaced by {pkgname2}').format(pkgname1 = found_replace.name, pkgname2 = pkg.name))
+									if found_replace.name in transaction.to_update:
+										transaction.to_update.discard(found_replace.name)
+										index = None
+										for _pkg in depends[0]:
+											if _pkg.name == found_replace.name:
+												index = depends[0].index(_pkg)
+										depends[0].pop(index)
 									if not pkg.name in already_checked:
 										depends[0].append(pkg)
 										already_checked.add(pkg.name)
 									transaction.to_add.add(pkg.name)
+
 	# start loops to check pkgs
 	i = 0
 	while depends[i]:
@@ -679,10 +691,13 @@ def check_conflicts():
 						if found_replace.name != pkg.name:
 							if not found_replace.name in transaction.to_remove:
 								transaction.to_remove.add(found_replace.name)
+								to_replace.add(found_replace.name)
 								if warning:
 									warning += '\n'
 								warning += _('{pkgname1} will be replaced by {pkgname2}').format(pkgname1 = found_replace.name, pkgname2 = pkg.name)
 								print(_('{pkgname1} will be replaced by {pkgname2}').format(pkgname1 = found_replace.name, pkgname2 = pkg.name))
+							if found_replace.name in transaction.to_update:
+								transaction.to_update.discard(found_replace.name)
 			# check pkg conflicts
 			for conflict in pkg.conflicts:
 				# check if the pkg conflicts with installed ones
@@ -827,6 +842,7 @@ def check_conflicts():
 	for pkg_list in depends:
 		for pkg in pkg_list:
 			wont_be_removed.add(pkg.name)
+	wont_be_removed -= to_replace
 	transaction.to_remove -= wont_be_removed
 
 	if mode:
@@ -912,7 +928,8 @@ class Handler:
 		ProgressWindow.hide()
 		ConfDialog.hide()
 		transaction.Release()
-		refresh_packages_list()
+		if mode == 'manager':
+			refresh_packages_list()
 
 	def on_TransValidButton_clicked(self, *arg):
 		ConfDialog.hide()
