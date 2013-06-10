@@ -1,7 +1,7 @@
 # Translation of Pamac.
 # Copyright (C) 2007-2012 Free Software Foundation, Inc.
 # This file is distributed under the same license as the Pamac package.
-#
+# 
 # Translators:
 # Inoki Sakaeru, 2013
 msgid ""
@@ -9,20 +9,20 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-03-30 15:09+0100\n"
-"PO-Revision-Date: 2013-05-08 20:06+0000\n"
-"Last-Translator: Inoki Sakaeru\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: sk_SK\n"
+"PO-Revision-Date: 2013-06-02 08:13+0000\n"
+"Last-Translator: manjarolinux <philm@manjaro.org>\n"
+"Language-Team: Slovak (Slovakia) (http://www.transifex.com/projects/p/manjaro-pamac/language/sk_SK/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: sk_SK\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 
-#: data/polkit/org.manjaro.pamac.policy.in:10
+#: data/polkit/org.manjaro.pamac.policy:10
 msgid "Authentication is required"
 msgstr ""
 
-#: pamac-daemon.py:29 pamac/main.py:527
+#: pamac-daemon.py:29 pamac/main.py:505
 msgid "Preparing"
 msgstr "Pripravuje sa"
 
@@ -30,71 +30,71 @@ msgstr "Pripravuje sa"
 msgid "Checking dependencies"
 msgstr "Overujú sa súvisiace balíčky"
 
-#: pamac-daemon.py:71
+#: pamac-daemon.py:75
 msgid "Checking file conflicts"
 msgstr "Prebieha kontrola pre možné konflikty medzi súbormi"
 
-#: pamac-daemon.py:74
+#: pamac-daemon.py:78
 msgid "Resolving dependencies"
 msgstr "Riešia sa závislosti"
 
-#: pamac-daemon.py:77
+#: pamac-daemon.py:85
 msgid "Checking inter conflicts"
 msgstr "Prebieha kontrola pre možné interné konflikty"
 
-#: pamac-daemon.py:80 pamac/main.py:88
+#: pamac-daemon.py:88 pamac/main.py:51
 msgid "Installing"
 msgstr "Inštaluje sa"
 
-#: pamac-daemon.py:87 pamac/main.py:88
+#: pamac-daemon.py:95 pamac/main.py:51
 msgid "Removing"
 msgstr "Odstraňuje sa"
 
-#: pamac-daemon.py:94 pamac/main.py:88
+#: pamac-daemon.py:102 pamac/main.py:51
 msgid "Upgrading"
 msgstr "Prebieha aktualizácia"
 
-#: pamac-daemon.py:101 pamac/main.py:88
+#: pamac-daemon.py:109 pamac/main.py:51
 msgid "Downgrading"
 msgstr "Prechod na predošlú verziu"
 
-#: pamac-daemon.py:109 pamac/main.py:88
+#: pamac-daemon.py:117 pamac/main.py:51
 msgid "Reinstalling"
 msgstr "Preinštalovanie"
 
-#: pamac-daemon.py:117
+#: pamac-daemon.py:125
 msgid "Checking integrity"
 msgstr "Kontroluje sa integrita"
 
-#: pamac-daemon.py:121
+#: pamac-daemon.py:129
 msgid "Loading packages files"
 msgstr "Načítavajú sa súbory balíčkov"
 
-#: pamac-daemon.py:125 pamac/main.py:88
+#: pamac-daemon.py:133 pamac/main.py:51
 msgid "Configuring"
 msgstr "Prebieha nastavenie"
 
-#: pamac-daemon.py:132
+#: pamac-daemon.py:140
 msgid "Checking keys in keyring"
 msgstr "Overujú sa kľúče"
 
-#: pamac-daemon.py:191
+#: pamac-daemon.py:198
 msgid "Downloading {size}"
 msgstr "Sťahuje sa {size}"
 
-#: pamac-daemon.py:196 pamac/main.py:458 pamac/main.py:1064
+#: pamac-daemon.py:203 pamac/main.py:439 pamac/main.py:1099
 msgid "Refreshing"
 msgstr "Prebieha obnova"
 
-#: pamac-daemon.py:364 pamac-install.py:45 pamac/main.py:554
+#: pamac-daemon.py:371 pamac-install.py:44 pamac/main.py:533
 msgid "{pkgname} is not a valid path or package name"
 msgstr "{pkgname} nie je platná cesta alebo názov súboru"
 
-#: pamac-daemon.py:430
+#: pamac-daemon.py:438
 msgid "Transaction successfully finished"
 msgstr "Transakcia bola úspešná"
 
-#: pamac-daemon.py:434 pamac-daemon.py:442
+#: pamac-daemon.py:442 pamac-daemon.py:450
 msgid "Authentication failed"
 msgstr "Autentifikácia zlyhala"
 
@@ -122,11 +122,11 @@ msgstr "Spustiť správcu balíčkov Pamac"
 msgid "Quit"
 msgstr "Ukončiť"
 
-#: pamac-install.py:74 pamac-install.py:80 pamac/main.py:917
+#: pamac-install.py:73 pamac-install.py:79 pamac/main.py:897
 msgid "Nothing to do"
 msgstr "Niet čo spraviť"
 
-#: pamac-install.py:87 pamac/main.py:1115
+#: pamac-install.py:87 pamac/main.py:1150
 msgid "Pamac is already running"
 msgstr "Pamac už beží"
 
@@ -134,187 +134,209 @@ msgstr "Pamac už beží"
 msgid ""
 "Some updates are available.\n"
 "Please update your system first"
-msgstr ""
-"Niektoré aktualizácie sú dostupné.⏎\n"
-"Najprv však aktualizujte Váš systém"
+msgstr "Niektoré aktualizácie sú dostupné.⏎\nNajprv však aktualizujte Váš systém"
 
-#: pamac/main.py:81 pamac/main.py:1005
-msgid "Installed"
-msgstr "Nainštalované"
-
-#: pamac/main.py:81 pamac/main.py:1007
-msgid "Uninstalled"
-msgstr "Odinštalované"
-
-#: pamac/main.py:81 pamac/main.py:1009
-msgid "Orphans"
-msgstr "Siroty"
-
-#: pamac/main.py:81 pamac/main.py:353 pamac/main.py:1011
-msgid "To install"
-msgstr "Nainštalovať"
-
-#: pamac/main.py:81 pamac/main.py:371 pamac/main.py:1013
-msgid "To remove"
-msgstr "Odstrániť"
-
-#: pamac/main.py:120 pamac/main.py:1021
+#: pamac/main.py:89 pamac/main.py:1052
 msgid "local"
 msgstr "lokálny"
 
-#: pamac/main.py:211 pamac/main.py:974
+#: pamac/main.py:180 pamac/main.py:954 pamac/main.py:1003
 msgid "No package found"
 msgstr "Balíček nebol nájdený"
 
-#: pamac/main.py:262
+#: pamac/main.py:231
 msgid "Licenses"
 msgstr "Licencie"
 
-#: pamac/main.py:267
+#: pamac/main.py:236
 msgid "Depends On"
 msgstr "Závisí na"
 
-#: pamac/main.py:269
+#: pamac/main.py:241 pamac/main.py:1035 pamac/main.py:1224
+msgid "Installed"
+msgstr "Nainštalované"
+
+#: pamac/main.py:244
 msgid "Optional Deps"
 msgstr "Voliteľné závislosti"
 
-#: pamac/main.py:272
+#: pamac/main.py:247
 msgid "Required By"
 msgstr "Požadované"
 
-#: pamac/main.py:274
+#: pamac/main.py:249
 msgid "Provides"
 msgstr "Poskytuje"
 
-#: pamac/main.py:276
+#: pamac/main.py:251
 msgid "Replaces"
 msgstr "Nahradí"
 
-#: pamac/main.py:278
+#: pamac/main.py:253
 msgid "Conflicts With"
 msgstr "Je v konflikte s"
 
-#: pamac/main.py:283
+#: pamac/main.py:258
 msgid "Repository"
 msgstr "Zdroj"
 
-#: pamac/main.py:285 gui/manager.glade:538
+#: pamac/main.py:260 gui/manager.glade:538
 msgid "Groups"
 msgstr "Skupiny"
 
-#: pamac/main.py:287
+#: pamac/main.py:262
 msgid "Compressed Size"
 msgstr "Veľkosť po komprimácii"
 
-#: pamac/main.py:288
+#: pamac/main.py:263
 msgid "Download Size"
 msgstr "Veľkosť sťahovaného súboru"
 
-#: pamac/main.py:290
+#: pamac/main.py:265
 msgid "Installed Size"
 msgstr "Veľkosť súboru po inštalácii"
 
-#: pamac/main.py:291
+#: pamac/main.py:266
 msgid "Packager"
 msgstr "Autor balíčka"
 
-#: pamac/main.py:292
+#: pamac/main.py:267
 msgid "Architecture"
 msgstr "Architektúra"
 
-#: pamac/main.py:295
+#: pamac/main.py:270
 msgid "Install Date"
 msgstr "Dátum inštalácie"
 
-#: pamac/main.py:297
+#: pamac/main.py:272
 msgid "Explicitly installed"
 msgstr "Požadovaná inštalácia"
 
-#: pamac/main.py:299
+#: pamac/main.py:274
 msgid "Installed as a dependency for another package"
 msgstr "Balíček bol nainštalovaný ako súčasť iného balíčka"
 
-#: pamac/main.py:301
+#: pamac/main.py:276
 msgid "Unknown"
 msgstr "Neznáme"
 
-#: pamac/main.py:302
+#: pamac/main.py:277
 msgid "Install Reason"
 msgstr "Dôvod inštalácie"
 
-#: pamac/main.py:307
+#: pamac/main.py:282
 msgid "Signatures"
 msgstr "Signatúry"
 
-#: pamac/main.py:311
+#: pamac/main.py:286
 msgid "Backup files"
 msgstr "Súbory zálohy"
 
-#: pamac/main.py:351
+#: pamac/main.py:326
 msgid "<big><b>Transaction Summary</b></big>"
 msgstr "<big><b>Zhrnutie o vykonanej transakcii</b></big>"
 
-#: pamac/main.py:359
+#: pamac/main.py:328 pamac/main.py:1041 pamac/main.py:1224
+msgid "To install"
+msgstr "Nainštalovať"
+
+#: pamac/main.py:334
 msgid "To reinstall"
 msgstr "Preinštalovať"
 
-#: pamac/main.py:365
+#: pamac/main.py:340
 msgid "To downgrade"
 msgstr "Preinštalovanie na predošlú verziu"
 
-#: pamac/main.py:378
+#: pamac/main.py:346 pamac/main.py:1043 pamac/main.py:1224
+msgid "To remove"
+msgstr "Odstrániť"
+
+#: pamac/main.py:353
 msgid "To update"
 msgstr "Bude sa aktualizovať"
 
-#: pamac/main.py:389 pamac/main.py:482
+#: pamac/main.py:364 pamac/main.py:461
 msgid "<b>Total download size: </b>"
 msgstr "<b>Celková veľkosť sťahovaných súborov: </b>"
 
-#: pamac/main.py:474 pamac/main.py:1131
+#: pamac/main.py:454 pamac/main.py:1236
 msgid "<big><b>Your system is up-to-date</b></big>"
 msgstr "<big><b>Váš systém je aktuálny</b></big>"
 
-#: pamac/main.py:484
+#: pamac/main.py:463
 msgid "<big><b>1 available update</b></big>"
 msgstr "<big><b>1 aktualizácia je dostupná</b></big>"
 
-#: pamac/main.py:486
+#: pamac/main.py:465
 msgid "<big><b>{number} available updates</b></big>"
 msgstr "<big><b>{number} aktualizácií je dostupných</b></big>"
 
-#: pamac/main.py:572 pamac/main.py:573
+#: pamac/main.py:551 pamac/main.py:552
 msgid ""
 "The transaction cannot be performed because it needs to remove {pkgname1} "
 "which is a locked package"
-msgstr ""
-"Transakcia nemohla byť uskutočnená. K jej dokončeniu je nutné odstrániť "
-"{pkgname1}. Jedná sa však o uzamknutý balíček."
+msgstr "Transakcia nemohla byť uskutočnená. K jej dokončeniu je nutné odstrániť {pkgname1}. Jedná sa však o uzamknutý balíček."
 
-#: pamac/main.py:604 pamac/main.py:605 pamac/main.py:707 pamac/main.py:708
+#: pamac/main.py:583 pamac/main.py:584 pamac/main.py:686 pamac/main.py:687
 msgid "{pkgname1} will be replaced by {pkgname2}"
 msgstr "{pkgname1} bude nahradené {pkgname2}"
 
-#: pamac/main.py:722 pamac/main.py:723 pamac/main.py:747 pamac/main.py:748
-#: pamac/main.py:768 pamac/main.py:769 pamac/main.py:799 pamac/main.py:800
-#: pamac/main.py:824 pamac/main.py:825 pamac/main.py:845 pamac/main.py:846
+#: pamac/main.py:701 pamac/main.py:702 pamac/main.py:726 pamac/main.py:727
+#: pamac/main.py:747 pamac/main.py:748 pamac/main.py:778 pamac/main.py:779
+#: pamac/main.py:803 pamac/main.py:804 pamac/main.py:824 pamac/main.py:825
 msgid "{pkgname1} conflicts with {pkgname2}"
 msgstr "{pkgname1} je v rozpore s {pkgname2}"
 
-#: pamac/main.py:780 pamac/main.py:781
+#: pamac/main.py:759 pamac/main.py:760
 msgid ""
 "{pkgname1} conflicts with {pkgname2}\n"
 "None of them will be installed"
-msgstr ""
-"{pkgname1} je v rozpore s {pkgname2}⏎\n"
-"Žiaden z uvedených balíčkov sa nebude inštalovať"
+msgstr "{pkgname1} je v rozpore s {pkgname2}⏎\nŽiaden z uvedených balíčkov sa nebude inštalovať"
 
-#: pamac/main.py:876
+#: pamac/main.py:856
 msgid ""
 "<b>{pkgname} is provided by {number} packages.\n"
 "Please choose the one(s) you want to install:</b>"
+msgstr "<b>{pkgname} je dodávaný s {number} balíčkami.⏎\nVyberte, ktorý/é sa bude/ú inštalovať:</b>"
+
+#: pamac/main.py:939
+msgid ""
+"<b>{pkgname} has {number} uninstalled optional deps.\n"
+"Please choose the one(s) you want to install:</b>"
 msgstr ""
-"<b>{pkgname} je dodávaný s {number} balíčkami.⏎\n"
-"Vyberte, ktorý/é sa bude/ú inštalovať:</b>"
+
+#: pamac/main.py:957
+msgid "Unselect"
+msgstr ""
+
+#: pamac/main.py:961
+msgid "Remove"
+msgstr ""
+
+#: pamac/main.py:964
+msgid "Reinstall"
+msgstr ""
+
+#: pamac/main.py:975
+msgid "Install optional deps"
+msgstr ""
+
+#: pamac/main.py:979
+msgid "Install"
+msgstr ""
+
+#: pamac/main.py:990
+msgid "Install with optional deps"
+msgstr ""
+
+#: pamac/main.py:1037 pamac/main.py:1224
+msgid "Uninstalled"
+msgstr "Odinštalované"
+
+#: pamac/main.py:1039 pamac/main.py:1224
+msgid "Orphans"
+msgstr "Siroty"
 
 #: pamac/common.py:13
 #, python-format
@@ -346,7 +368,7 @@ msgstr "Správca balíčkov"
 msgid "Search"
 msgstr "Vyhľadávanie"
 
-#: gui/manager.glade:585 gui/manager.glade:679
+#: gui/manager.glade:585 gui/manager.glade:680
 msgid "State"
 msgstr "Stav"
 
@@ -354,31 +376,31 @@ msgstr "Stav"
 msgid "Repos"
 msgstr "Zdroje"
 
-#: gui/manager.glade:710
+#: gui/manager.glade:711
 msgid "Name"
 msgstr "Názov"
 
-#: gui/manager.glade:729
+#: gui/manager.glade:730
 msgid "Version"
 msgstr "Verzia"
 
-#: gui/manager.glade:746
+#: gui/manager.glade:747
 msgid "Size"
 msgstr "Veľkosť"
 
-#: gui/manager.glade:847
+#: gui/manager.glade:848
 msgid "Infos"
 msgstr "Informácie"
 
-#: gui/manager.glade:907
+#: gui/manager.glade:908
 msgid "Deps"
 msgstr "Závislosti"
 
-#: gui/manager.glade:972
+#: gui/manager.glade:973
 msgid "Details"
 msgstr "Detaily"
 
-#: gui/manager.glade:1020
+#: gui/manager.glade:1021
 msgid "Files"
 msgstr "Súbory"
 

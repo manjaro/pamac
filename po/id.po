@@ -3,8 +3,8 @@
 # This file is distributed under the same license as the Pamac package.
 # 
 # Translators:
-# Guillaume Benoit <guillaume@manjaro.org>, 2013
-# tflovik <tflovik@online.no>, 2013
+# Mohamad Hasan Al Banna <se7entime@gmail.com>, 2013
+# operamaniac <rizkiaulia.r@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
@@ -12,294 +12,294 @@ msgstr ""
 "POT-Creation-Date: 2013-03-30 15:09+0100\n"
 "PO-Revision-Date: 2013-06-02 08:13+0000\n"
 "Last-Translator: manjarolinux <philm@manjaro.org>\n"
-"Language-Team: Norwegian Bokmål (http://www.transifex.com/projects/p/manjaro-pamac/language/nb/)\n"
+"Language-Team: Indonesian (http://www.transifex.com/projects/p/manjaro-pamac/language/id/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: nb\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Language: id\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 
 #: data/polkit/org.manjaro.pamac.policy:10
 msgid "Authentication is required"
-msgstr "Autentifisering er krevd"
+msgstr "Membutuhkan Otentifikasi"
 
 #: pamac-daemon.py:29 pamac/main.py:505
 msgid "Preparing"
-msgstr "Forbereder"
+msgstr "Menyiapkan"
 
 #: pamac-daemon.py:68
 msgid "Checking dependencies"
-msgstr "Sjekker avhengigheter"
+msgstr "Memeriksa ketergantungan"
 
 #: pamac-daemon.py:75
 msgid "Checking file conflicts"
-msgstr "Sjekker fil konflikter"
+msgstr "Memeriksa konflik berkas"
 
 #: pamac-daemon.py:78
 msgid "Resolving dependencies"
-msgstr "Ordner avhengigheter"
+msgstr "Memecahkan dependensi"
 
 #: pamac-daemon.py:85
 msgid "Checking inter conflicts"
-msgstr "Sjekker inter konflikter"
+msgstr "Memeriksa konflik internal"
 
 #: pamac-daemon.py:88 pamac/main.py:51
 msgid "Installing"
-msgstr "Installerer"
+msgstr "Memasang"
 
 #: pamac-daemon.py:95 pamac/main.py:51
 msgid "Removing"
-msgstr "Fjerner"
+msgstr "Menghapus"
 
 #: pamac-daemon.py:102 pamac/main.py:51
 msgid "Upgrading"
-msgstr "Oppgraderer"
+msgstr "Meningkatkan"
 
 #: pamac-daemon.py:109 pamac/main.py:51
 msgid "Downgrading"
-msgstr "Nedgraderer"
+msgstr "Menurunkan"
 
 #: pamac-daemon.py:117 pamac/main.py:51
 msgid "Reinstalling"
-msgstr "Reinstallerer"
+msgstr "Memasang ulang"
 
 #: pamac-daemon.py:125
 msgid "Checking integrity"
-msgstr "Sjekker integritet"
+msgstr "Memeriksa integritas"
 
 #: pamac-daemon.py:129
 msgid "Loading packages files"
-msgstr "Laster pakke filer"
+msgstr "Pemuatan berkas paket"
 
 #: pamac-daemon.py:133 pamac/main.py:51
 msgid "Configuring"
-msgstr "Konfigurerer"
+msgstr "Mengkonfigurasi"
 
 #: pamac-daemon.py:140
 msgid "Checking keys in keyring"
-msgstr "Sjekker nøkler i nøkkelring"
+msgstr "Memeriksa keys di keyring"
 
 #: pamac-daemon.py:198
 msgid "Downloading {size}"
-msgstr "Laster ned {size}"
+msgstr "Mengunduh {size}"
 
 #: pamac-daemon.py:203 pamac/main.py:439 pamac/main.py:1099
 msgid "Refreshing"
-msgstr "Oppfrisker"
+msgstr "Menyegarkan"
 
 #: pamac-daemon.py:371 pamac-install.py:44 pamac/main.py:533
 msgid "{pkgname} is not a valid path or package name"
-msgstr "{pkgname} er ikke en gyldig sti eller pakke navn"
+msgstr "{pkgname} bukan jalur yang tepat atau nama paket"
 
 #: pamac-daemon.py:438
 msgid "Transaction successfully finished"
-msgstr "Transaksjonen avsluttet vellykket"
+msgstr "Transaksi sukses terselesaikan"
 
 #: pamac-daemon.py:442 pamac-daemon.py:450
 msgid "Authentication failed"
-msgstr "Autentifisering feilet"
+msgstr "Otentifikasi gagal"
 
 #: pamac-tray.py:20
 msgid "{number} available updates"
-msgstr "{number} tilgjengelige oppdateringer"
+msgstr "{number} pemutakhiran tersedia"
 
 #: pamac-tray.py:21
 msgid "1 available update"
-msgstr "1 tilgjengelig oppdatering"
+msgstr "1 pemutakhiran tersedia"
 
 #: pamac-tray.py:23
 msgid "Your system is up-to-date"
-msgstr "Systemet ditt er oppdatert"
+msgstr "Sistem anda sudah dimutakhirkan"
 
 #: pamac-tray.py:31
 msgid "Install/Check for updates"
-msgstr "Installer/Se etter oppdateringer "
+msgstr "Pasang/Periksa untuk pembaharuan"
 
 #: pamac-tray.py:34
 msgid "Run pamac-manager"
-msgstr "Start pamac-manager"
+msgstr "Jalankan pamac-manager"
 
 #: pamac-tray.py:37
 msgid "Quit"
-msgstr "Avslutt"
+msgstr "Keluar"
 
 #: pamac-install.py:73 pamac-install.py:79 pamac/main.py:897
 msgid "Nothing to do"
-msgstr "Ingenting å gjøre"
+msgstr "Tidak ada yang harus dilakukan"
 
 #: pamac-install.py:87 pamac/main.py:1150
 msgid "Pamac is already running"
-msgstr "Pamac kjører allerede"
+msgstr "Pamac sudah berjalan"
 
 #: pamac-install.py:97
 msgid ""
 "Some updates are available.\n"
 "Please update your system first"
-msgstr "Noen oppdateringer er tilgjengelige.⏎\nVennligst oppdater systemet ditt først"
+msgstr "Beberapa pemutakhiran tersedia.\nHarap mutakhirkan sistem terlebih dahulu"
 
 #: pamac/main.py:89 pamac/main.py:1052
 msgid "local"
-msgstr "lokal"
+msgstr "Lokal"
 
 #: pamac/main.py:180 pamac/main.py:954 pamac/main.py:1003
 msgid "No package found"
-msgstr "Ingen pakke funnet"
+msgstr "Tidak ada paket yang ditemukan"
 
 #: pamac/main.py:231
 msgid "Licenses"
-msgstr "Lisenser"
+msgstr "Lisensi"
 
 #: pamac/main.py:236
 msgid "Depends On"
-msgstr "Avhenger av"
+msgstr "Bergantung Pada"
 
 #: pamac/main.py:241 pamac/main.py:1035 pamac/main.py:1224
 msgid "Installed"
-msgstr "Installert"
+msgstr "Terpasang"
 
 #: pamac/main.py:244
 msgid "Optional Deps"
-msgstr "Valgfrie avhengigheter"
+msgstr "Dependensi Opsional"
 
 #: pamac/main.py:247
 msgid "Required By"
-msgstr "Krevd av"
+msgstr "Dibutuhkan Oleh"
 
 #: pamac/main.py:249
 msgid "Provides"
-msgstr "Tilbyr"
+msgstr "Menyediakan"
 
 #: pamac/main.py:251
 msgid "Replaces"
-msgstr "Erstatter"
+msgstr "Gantikan"
 
 #: pamac/main.py:253
 msgid "Conflicts With"
-msgstr "I konflikt med"
+msgstr "Konflik Dengan"
 
 #: pamac/main.py:258
 msgid "Repository"
-msgstr "Arkiv"
+msgstr "Gudang"
 
 #: pamac/main.py:260 gui/manager.glade:538
 msgid "Groups"
-msgstr "Grupper"
+msgstr "Grup"
 
 #: pamac/main.py:262
 msgid "Compressed Size"
-msgstr "Komprimert Størrelse"
+msgstr "Ukuran Termampatkan"
 
 #: pamac/main.py:263
 msgid "Download Size"
-msgstr "Nedlastet Størrelse"
+msgstr "Ukuran Unduhan"
 
 #: pamac/main.py:265
 msgid "Installed Size"
-msgstr "Installert Størrelse"
+msgstr "Ukuran yang terpasang"
 
 #: pamac/main.py:266
 msgid "Packager"
-msgstr "Pakker"
+msgstr "Pemaket"
 
 #: pamac/main.py:267
 msgid "Architecture"
-msgstr "Arkitektur"
+msgstr "Arsitektur"
 
 #: pamac/main.py:270
 msgid "Install Date"
-msgstr "Installasjons Dato"
+msgstr "Waktu Pasang"
 
 #: pamac/main.py:272
 msgid "Explicitly installed"
-msgstr "Explisitt installert"
+msgstr "Terpasang secara jelas"
 
 #: pamac/main.py:274
 msgid "Installed as a dependency for another package"
-msgstr "Installert som en avhengighet for en annen pakke"
+msgstr "Terpasang sebagai dependensi untuk paket yang lain"
 
 #: pamac/main.py:276
 msgid "Unknown"
-msgstr "Ukjent"
+msgstr "Tidak diketahui"
 
 #: pamac/main.py:277
 msgid "Install Reason"
-msgstr "Grunn til Installasjon"
+msgstr "Alasan Pasang"
 
 #: pamac/main.py:282
 msgid "Signatures"
-msgstr "Signaturer"
+msgstr "Tanda Tangan"
 
 #: pamac/main.py:286
 msgid "Backup files"
-msgstr "Sikkerhetskopier filene"
+msgstr "Berkas Cadangan"
 
 #: pamac/main.py:326
 msgid "<big><b>Transaction Summary</b></big>"
-msgstr "<big><b>Transaksjons Resyme</b></big>"
+msgstr "<big><b>Ringkasan Transaksi</b></big>"
 
 #: pamac/main.py:328 pamac/main.py:1041 pamac/main.py:1224
 msgid "To install"
-msgstr "Å installere"
+msgstr "Untuk diPasang"
 
 #: pamac/main.py:334
 msgid "To reinstall"
-msgstr "Å reinstallere"
+msgstr "Untuk diPasang ulang"
 
 #: pamac/main.py:340
 msgid "To downgrade"
-msgstr "Å nedgradere"
+msgstr "Untuk diTurunkan"
 
 #: pamac/main.py:346 pamac/main.py:1043 pamac/main.py:1224
 msgid "To remove"
-msgstr "Å fjerne"
+msgstr "Untuk diHapus"
 
 #: pamac/main.py:353
 msgid "To update"
-msgstr "Å oppdatere"
+msgstr "Untuk dimutakhirkan"
 
 #: pamac/main.py:364 pamac/main.py:461
 msgid "<b>Total download size: </b>"
-msgstr "<b>Total nedlastings størrelse: </b>"
+msgstr "<b>Total ukuran unduhan: </b>"
 
 #: pamac/main.py:454 pamac/main.py:1236
 msgid "<big><b>Your system is up-to-date</b></big>"
-msgstr "<big><b>Systemet ditt er oppdatert</b></big>"
+msgstr "<big><b>Sistem anda sudah paling baru</b></big>"
 
 #: pamac/main.py:463
 msgid "<big><b>1 available update</b></big>"
-msgstr "<big><b>1 tilgjengelig oppdatering</b></big>"
+msgstr "<big><b>Tersedia 1 Pemutakhiran</b></big>"
 
 #: pamac/main.py:465
 msgid "<big><b>{number} available updates</b></big>"
-msgstr "<big><b>{number} tilgjengelige oppdateringer</b></big>"
+msgstr "<big><b>{number} pemutakhiran tersedia</b></big>"
 
 #: pamac/main.py:551 pamac/main.py:552
 msgid ""
 "The transaction cannot be performed because it needs to remove {pkgname1} "
 "which is a locked package"
-msgstr "Transaksjonen kan ikke bli utført fordi den trenger å fjerne\n {pkgname1} som er en låst pakke"
+msgstr "Transaksi tidak bisa dilaksanakan karena membutuhkan untuk menghapus {pkgname1} dimana merupakan paket yang terkunci"
 
 #: pamac/main.py:583 pamac/main.py:584 pamac/main.py:686 pamac/main.py:687
 msgid "{pkgname1} will be replaced by {pkgname2}"
-msgstr "{pkgname1} vil bli erstattet av {pkgname2}"
+msgstr "{pkgname1} Akan digantikan dengan {pkgname2}"
 
 #: pamac/main.py:701 pamac/main.py:702 pamac/main.py:726 pamac/main.py:727
 #: pamac/main.py:747 pamac/main.py:748 pamac/main.py:778 pamac/main.py:779
 #: pamac/main.py:803 pamac/main.py:804 pamac/main.py:824 pamac/main.py:825
 msgid "{pkgname1} conflicts with {pkgname2}"
-msgstr "{pkgname1} i konflikt med {pkgname2}"
+msgstr "{pkgname1} Konflik dengan {pkgname2}"
 
 #: pamac/main.py:759 pamac/main.py:760
 msgid ""
 "{pkgname1} conflicts with {pkgname2}\n"
 "None of them will be installed"
-msgstr "{pkgname1} i konflikt med {pkgname2}⏎\nIngen av dem vil bli installert"
+msgstr "{pkgname1} konflik dengan {pkgname2}\nTidak ada dari paket tersebut yang akan diPasang"
 
 #: pamac/main.py:856
 msgid ""
 "<b>{pkgname} is provided by {number} packages.\n"
 "Please choose the one(s) you want to install:</b>"
-msgstr "<b>{pkgname} er tilbydd av {number} pakker.⏎\nVennligst velg de(n) du ønsker å installere:</b>"
+msgstr "<b>{pkgname} adalah disediakan oleh {number} paket.\nHarap pilih satu yang ingin kamu pasang:</b>"
 
 #: pamac/main.py:939
 msgid ""
@@ -333,78 +333,78 @@ msgstr ""
 
 #: pamac/main.py:1037 pamac/main.py:1224
 msgid "Uninstalled"
-msgstr "Avinstallert"
+msgstr "Dihapus"
 
 #: pamac/main.py:1039 pamac/main.py:1224
 msgid "Orphans"
-msgstr "Foreldreløs"
+msgstr "Yatim"
 
 #: pamac/common.py:13
 #, python-format
 msgid "%.1f KiB"
-msgstr "%.1f Kb"
+msgstr "%.1f KiB"
 
 #: pamac/common.py:16
 #, python-format
 msgid "%.2f MiB"
-msgstr "%.2f Mb"
+msgstr "%.2f MiB"
 
 #: gui/manager.glade:7
 msgid "Choose"
-msgstr "Velg"
+msgstr "Pilih"
 
 #: gui/manager.glade:112
 msgid "Summary"
-msgstr "Resyme"
+msgstr "Ringkasan"
 
 #: gui/manager.glade:256
 msgid "Progress"
-msgstr "Framdrift"
+msgstr "Kemajuan"
 
 #: gui/manager.glade:402
 msgid "Package Manager"
-msgstr "Pakke Behandler"
+msgstr "Manajer Paket"
 
 #: gui/manager.glade:492
 msgid "Search"
-msgstr "Søk"
+msgstr "Cari"
 
 #: gui/manager.glade:585 gui/manager.glade:680
 msgid "State"
-msgstr "Tilstand"
+msgstr "Keadaan"
 
 #: gui/manager.glade:632
 msgid "Repos"
-msgstr "Depoer"
+msgstr "Gudang"
 
 #: gui/manager.glade:711
 msgid "Name"
-msgstr "Navn"
+msgstr "Nama"
 
 #: gui/manager.glade:730
 msgid "Version"
-msgstr "Versjon"
+msgstr "Versi"
 
 #: gui/manager.glade:747
 msgid "Size"
-msgstr "Størrelse"
+msgstr "Ukuran"
 
 #: gui/manager.glade:848
 msgid "Infos"
-msgstr "Informasjon"
+msgstr "Info"
 
 #: gui/manager.glade:908
 msgid "Deps"
-msgstr "Avhengigheter"
+msgstr "Dependensi"
 
 #: gui/manager.glade:973
 msgid "Details"
-msgstr "Detaljer"
+msgstr "Detail"
 
 #: gui/manager.glade:1021
 msgid "Files"
-msgstr "Filer"
+msgstr "Berkas"
 
 #: gui/updater.glade:6
 msgid "Update Manager"
-msgstr "Oppdaterings Behandler"
+msgstr "Manajer Pemutakhiran"

@@ -3,303 +3,302 @@
 # This file is distributed under the same license as the Pamac package.
 # 
 # Translators:
-# Guillaume Benoit <guillaume@manjaro.org>, 2013
-# tflovik <tflovik@online.no>, 2013
+# GenghisKhan <genghiskhan@gmx.ca>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-03-30 15:09+0100\n"
-"PO-Revision-Date: 2013-06-02 08:13+0000\n"
-"Last-Translator: manjarolinux <philm@manjaro.org>\n"
-"Language-Team: Norwegian Bokmål (http://www.transifex.com/projects/p/manjaro-pamac/language/nb/)\n"
+"PO-Revision-Date: 2013-06-09 12:43+0000\n"
+"Last-Translator: GenghisKhan <genghiskhan@gmx.ca>\n"
+"Language-Team: Hebrew (http://www.transifex.com/projects/p/manjaro-pamac/language/he/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: nb\n"
+"Language: he\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: data/polkit/org.manjaro.pamac.policy:10
 msgid "Authentication is required"
-msgstr "Autentifisering er krevd"
+msgstr "אימות נדרש"
 
 #: pamac-daemon.py:29 pamac/main.py:505
 msgid "Preparing"
-msgstr "Forbereder"
+msgstr "מתכונן כעת"
 
 #: pamac-daemon.py:68
 msgid "Checking dependencies"
-msgstr "Sjekker avhengigheter"
+msgstr "בודק כעת תלויות"
 
 #: pamac-daemon.py:75
 msgid "Checking file conflicts"
-msgstr "Sjekker fil konflikter"
+msgstr "בודק כעת התנגשויות קובץ"
 
 #: pamac-daemon.py:78
 msgid "Resolving dependencies"
-msgstr "Ordner avhengigheter"
+msgstr "פותר כעת תלויות"
 
 #: pamac-daemon.py:85
 msgid "Checking inter conflicts"
-msgstr "Sjekker inter konflikter"
+msgstr ""
 
 #: pamac-daemon.py:88 pamac/main.py:51
 msgid "Installing"
-msgstr "Installerer"
+msgstr "מתקין כעת"
 
 #: pamac-daemon.py:95 pamac/main.py:51
 msgid "Removing"
-msgstr "Fjerner"
+msgstr "מסיר כעת"
 
 #: pamac-daemon.py:102 pamac/main.py:51
 msgid "Upgrading"
-msgstr "Oppgraderer"
+msgstr "משדרג כעת"
 
 #: pamac-daemon.py:109 pamac/main.py:51
 msgid "Downgrading"
-msgstr "Nedgraderer"
+msgstr "מנמיך כעת"
 
 #: pamac-daemon.py:117 pamac/main.py:51
 msgid "Reinstalling"
-msgstr "Reinstallerer"
+msgstr "מתקין שוב כעת"
 
 #: pamac-daemon.py:125
 msgid "Checking integrity"
-msgstr "Sjekker integritet"
+msgstr "בודק כעת שלמות"
 
 #: pamac-daemon.py:129
 msgid "Loading packages files"
-msgstr "Laster pakke filer"
+msgstr "טוען כעת קבצי חבילות"
 
 #: pamac-daemon.py:133 pamac/main.py:51
 msgid "Configuring"
-msgstr "Konfigurerer"
+msgstr "מגדיר כעת"
 
 #: pamac-daemon.py:140
 msgid "Checking keys in keyring"
-msgstr "Sjekker nøkler i nøkkelring"
+msgstr "בודק כעת מפתחות בתוך מחזיק מפתחות"
 
 #: pamac-daemon.py:198
 msgid "Downloading {size}"
-msgstr "Laster ned {size}"
+msgstr ""
 
 #: pamac-daemon.py:203 pamac/main.py:439 pamac/main.py:1099
 msgid "Refreshing"
-msgstr "Oppfrisker"
+msgstr "מרענן כעת"
 
 #: pamac-daemon.py:371 pamac-install.py:44 pamac/main.py:533
 msgid "{pkgname} is not a valid path or package name"
-msgstr "{pkgname} er ikke en gyldig sti eller pakke navn"
+msgstr ""
 
 #: pamac-daemon.py:438
 msgid "Transaction successfully finished"
-msgstr "Transaksjonen avsluttet vellykket"
+msgstr ""
 
 #: pamac-daemon.py:442 pamac-daemon.py:450
 msgid "Authentication failed"
-msgstr "Autentifisering feilet"
+msgstr "אימות נכשל"
 
 #: pamac-tray.py:20
 msgid "{number} available updates"
-msgstr "{number} tilgjengelige oppdateringer"
+msgstr "{number} עדכונים זמינים"
 
 #: pamac-tray.py:21
 msgid "1 available update"
-msgstr "1 tilgjengelig oppdatering"
+msgstr "עדכון 1 זמין"
 
 #: pamac-tray.py:23
 msgid "Your system is up-to-date"
-msgstr "Systemet ditt er oppdatert"
+msgstr ""
 
 #: pamac-tray.py:31
 msgid "Install/Check for updates"
-msgstr "Installer/Se etter oppdateringer "
+msgstr "התקן/בדוק עבור עדכונים"
 
 #: pamac-tray.py:34
 msgid "Run pamac-manager"
-msgstr "Start pamac-manager"
+msgstr ""
 
 #: pamac-tray.py:37
 msgid "Quit"
-msgstr "Avslutt"
+msgstr "יציאה"
 
 #: pamac-install.py:73 pamac-install.py:79 pamac/main.py:897
 msgid "Nothing to do"
-msgstr "Ingenting å gjøre"
+msgstr "אין מה לעשות"
 
 #: pamac-install.py:87 pamac/main.py:1150
 msgid "Pamac is already running"
-msgstr "Pamac kjører allerede"
+msgstr ""
 
 #: pamac-install.py:97
 msgid ""
 "Some updates are available.\n"
 "Please update your system first"
-msgstr "Noen oppdateringer er tilgjengelige.⏎\nVennligst oppdater systemet ditt først"
+msgstr "עדכונים מסוימים זמינים כעת.\nאנא עדכן תחילה את מערכתך"
 
 #: pamac/main.py:89 pamac/main.py:1052
 msgid "local"
-msgstr "lokal"
+msgstr "מקומית"
 
 #: pamac/main.py:180 pamac/main.py:954 pamac/main.py:1003
 msgid "No package found"
-msgstr "Ingen pakke funnet"
+msgstr "לא נמצאה חבילה"
 
 #: pamac/main.py:231
 msgid "Licenses"
-msgstr "Lisenser"
+msgstr "רשיונות"
 
 #: pamac/main.py:236
 msgid "Depends On"
-msgstr "Avhenger av"
+msgstr "תלויה על"
 
 #: pamac/main.py:241 pamac/main.py:1035 pamac/main.py:1224
 msgid "Installed"
-msgstr "Installert"
+msgstr ""
 
 #: pamac/main.py:244
 msgid "Optional Deps"
-msgstr "Valgfrie avhengigheter"
+msgstr "תלויות רשות"
 
 #: pamac/main.py:247
 msgid "Required By"
-msgstr "Krevd av"
+msgstr "מחויבת על ידי"
 
 #: pamac/main.py:249
 msgid "Provides"
-msgstr "Tilbyr"
+msgstr "מספקת"
 
 #: pamac/main.py:251
 msgid "Replaces"
-msgstr "Erstatter"
+msgstr "מחליפה"
 
 #: pamac/main.py:253
 msgid "Conflicts With"
-msgstr "I konflikt med"
+msgstr "מתנגשת עם"
 
 #: pamac/main.py:258
 msgid "Repository"
-msgstr "Arkiv"
+msgstr "מאגר"
 
 #: pamac/main.py:260 gui/manager.glade:538
 msgid "Groups"
-msgstr "Grupper"
+msgstr "קבוצה"
 
 #: pamac/main.py:262
 msgid "Compressed Size"
-msgstr "Komprimert Størrelse"
+msgstr "גודל מקובץ"
 
 #: pamac/main.py:263
 msgid "Download Size"
-msgstr "Nedlastet Størrelse"
+msgstr "גודל הורדה"
 
 #: pamac/main.py:265
 msgid "Installed Size"
-msgstr "Installert Størrelse"
+msgstr "גודל מותקן"
 
 #: pamac/main.py:266
 msgid "Packager"
-msgstr "Pakker"
+msgstr "אורז"
 
 #: pamac/main.py:267
 msgid "Architecture"
-msgstr "Arkitektur"
+msgstr "ארכיטקטורה"
 
 #: pamac/main.py:270
 msgid "Install Date"
-msgstr "Installasjons Dato"
+msgstr "תאריך התקנה"
 
 #: pamac/main.py:272
 msgid "Explicitly installed"
-msgstr "Explisitt installert"
+msgstr ""
 
 #: pamac/main.py:274
 msgid "Installed as a dependency for another package"
-msgstr "Installert som en avhengighet for en annen pakke"
+msgstr "מותקנת כתלות עבור חבילה אחרת"
 
 #: pamac/main.py:276
 msgid "Unknown"
-msgstr "Ukjent"
+msgstr "לא ידוע"
 
 #: pamac/main.py:277
 msgid "Install Reason"
-msgstr "Grunn til Installasjon"
+msgstr ""
 
 #: pamac/main.py:282
 msgid "Signatures"
-msgstr "Signaturer"
+msgstr "חתימות"
 
 #: pamac/main.py:286
 msgid "Backup files"
-msgstr "Sikkerhetskopier filene"
+msgstr "קבצי גיבוי"
 
 #: pamac/main.py:326
 msgid "<big><b>Transaction Summary</b></big>"
-msgstr "<big><b>Transaksjons Resyme</b></big>"
+msgstr ""
 
 #: pamac/main.py:328 pamac/main.py:1041 pamac/main.py:1224
 msgid "To install"
-msgstr "Å installere"
+msgstr "להתקנה"
 
 #: pamac/main.py:334
 msgid "To reinstall"
-msgstr "Å reinstallere"
+msgstr "להתקנה חוזרת"
 
 #: pamac/main.py:340
 msgid "To downgrade"
-msgstr "Å nedgradere"
+msgstr "להנמכה"
 
 #: pamac/main.py:346 pamac/main.py:1043 pamac/main.py:1224
 msgid "To remove"
-msgstr "Å fjerne"
+msgstr "להסרה"
 
 #: pamac/main.py:353
 msgid "To update"
-msgstr "Å oppdatere"
+msgstr "לשדרוג"
 
 #: pamac/main.py:364 pamac/main.py:461
 msgid "<b>Total download size: </b>"
-msgstr "<b>Total nedlastings størrelse: </b>"
+msgstr "<b>סך גודל הורדה: </b>"
 
 #: pamac/main.py:454 pamac/main.py:1236
 msgid "<big><b>Your system is up-to-date</b></big>"
-msgstr "<big><b>Systemet ditt er oppdatert</b></big>"
+msgstr ""
 
 #: pamac/main.py:463
 msgid "<big><b>1 available update</b></big>"
-msgstr "<big><b>1 tilgjengelig oppdatering</b></big>"
+msgstr "<big><b>עדכון 1 זמין</b></big>"
 
 #: pamac/main.py:465
 msgid "<big><b>{number} available updates</b></big>"
-msgstr "<big><b>{number} tilgjengelige oppdateringer</b></big>"
+msgstr "<big><b>{number} עדכונים זמינים</b></big>"
 
 #: pamac/main.py:551 pamac/main.py:552
 msgid ""
 "The transaction cannot be performed because it needs to remove {pkgname1} "
 "which is a locked package"
-msgstr "Transaksjonen kan ikke bli utført fordi den trenger å fjerne\n {pkgname1} som er en låst pakke"
+msgstr ""
 
 #: pamac/main.py:583 pamac/main.py:584 pamac/main.py:686 pamac/main.py:687
 msgid "{pkgname1} will be replaced by {pkgname2}"
-msgstr "{pkgname1} vil bli erstattet av {pkgname2}"
+msgstr ""
 
 #: pamac/main.py:701 pamac/main.py:702 pamac/main.py:726 pamac/main.py:727
 #: pamac/main.py:747 pamac/main.py:748 pamac/main.py:778 pamac/main.py:779
 #: pamac/main.py:803 pamac/main.py:804 pamac/main.py:824 pamac/main.py:825
 msgid "{pkgname1} conflicts with {pkgname2}"
-msgstr "{pkgname1} i konflikt med {pkgname2}"
+msgstr ""
 
 #: pamac/main.py:759 pamac/main.py:760
 msgid ""
 "{pkgname1} conflicts with {pkgname2}\n"
 "None of them will be installed"
-msgstr "{pkgname1} i konflikt med {pkgname2}⏎\nIngen av dem vil bli installert"
+msgstr ""
 
 #: pamac/main.py:856
 msgid ""
 "<b>{pkgname} is provided by {number} packages.\n"
 "Please choose the one(s) you want to install:</b>"
-msgstr "<b>{pkgname} er tilbydd av {number} pakker.⏎\nVennligst velg de(n) du ønsker å installere:</b>"
+msgstr ""
 
 #: pamac/main.py:939
 msgid ""
@@ -309,102 +308,102 @@ msgstr ""
 
 #: pamac/main.py:957
 msgid "Unselect"
-msgstr ""
+msgstr "בטל בחירה"
 
 #: pamac/main.py:961
 msgid "Remove"
-msgstr ""
+msgstr "הסר"
 
 #: pamac/main.py:964
 msgid "Reinstall"
-msgstr ""
+msgstr "התקן שוב"
 
 #: pamac/main.py:975
 msgid "Install optional deps"
-msgstr ""
+msgstr "התקן תלויות רשות"
 
 #: pamac/main.py:979
 msgid "Install"
-msgstr ""
+msgstr "התקן"
 
 #: pamac/main.py:990
 msgid "Install with optional deps"
-msgstr ""
+msgstr "התקן עם תלויות רשות"
 
 #: pamac/main.py:1037 pamac/main.py:1224
 msgid "Uninstalled"
-msgstr "Avinstallert"
+msgstr ""
 
 #: pamac/main.py:1039 pamac/main.py:1224
 msgid "Orphans"
-msgstr "Foreldreløs"
+msgstr "יתומות"
 
 #: pamac/common.py:13
 #, python-format
 msgid "%.1f KiB"
-msgstr "%.1f Kb"
+msgstr ""
 
 #: pamac/common.py:16
 #, python-format
 msgid "%.2f MiB"
-msgstr "%.2f Mb"
+msgstr ""
 
 #: gui/manager.glade:7
 msgid "Choose"
-msgstr "Velg"
+msgstr "בחר"
 
 #: gui/manager.glade:112
 msgid "Summary"
-msgstr "Resyme"
+msgstr "סיכום"
 
 #: gui/manager.glade:256
 msgid "Progress"
-msgstr "Framdrift"
+msgstr "התקדמות"
 
 #: gui/manager.glade:402
 msgid "Package Manager"
-msgstr "Pakke Behandler"
+msgstr "מנהל חבילה"
 
 #: gui/manager.glade:492
 msgid "Search"
-msgstr "Søk"
+msgstr "חיפוש"
 
 #: gui/manager.glade:585 gui/manager.glade:680
 msgid "State"
-msgstr "Tilstand"
+msgstr ""
 
 #: gui/manager.glade:632
 msgid "Repos"
-msgstr "Depoer"
+msgstr ""
 
 #: gui/manager.glade:711
 msgid "Name"
-msgstr "Navn"
+msgstr "שם"
 
 #: gui/manager.glade:730
 msgid "Version"
-msgstr "Versjon"
+msgstr "גרסא"
 
 #: gui/manager.glade:747
 msgid "Size"
-msgstr "Størrelse"
+msgstr "גודל"
 
 #: gui/manager.glade:848
 msgid "Infos"
-msgstr "Informasjon"
+msgstr "מידע"
 
 #: gui/manager.glade:908
 msgid "Deps"
-msgstr "Avhengigheter"
+msgstr "תלויות"
 
 #: gui/manager.glade:973
 msgid "Details"
-msgstr "Detaljer"
+msgstr "פרטים"
 
 #: gui/manager.glade:1021
 msgid "Files"
-msgstr "Filer"
+msgstr "קבצים"
 
 #: gui/updater.glade:6
 msgid "Update Manager"
-msgstr "Oppdaterings Behandler"
+msgstr "מנהל עדכונים"
