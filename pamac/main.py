@@ -175,7 +175,7 @@ def refresh_packages_list():
 		packages_list.clear()
 		packages_list_clearing = False
 		if not pkg_name_list:
-			packages_list.append([_('No package found'), False, False, False, search_icon, '', 0, ''])
+			packages_list.append([_('No package found'), False, None, '', 0, ''])
 		else:
 			#installed = set(transaction.localpkgs.keys()) - transaction.to_remove
 			#uninstalled = (set(transaction.syncpkgs.keys()) - installed) - transaction.to_add
@@ -183,16 +183,16 @@ def refresh_packages_list():
 			name_list = sorted(pkg_name_list)
 			for name in name_list:
 				if name in config.holdpkg:
-					packages_list.append([name, True, False, True, locked_icon, common.format_size(transaction.localpkgs[name].isize), transaction.localpkgs[name].isize, transaction.localpkgs[name].version])
+					packages_list.append([name, True, locked_icon, common.format_size(transaction.localpkgs[name].isize), transaction.localpkgs[name].isize, transaction.localpkgs[name].version])
 				elif name in transaction.to_add:
-					packages_list.append([name, False, True, True, to_install_icon, common.format_size(transaction.syncpkgs[name].isize), transaction.syncpkgs[name].isize, transaction.syncpkgs[name].version])
+					packages_list.append([name, False, to_install_icon, common.format_size(transaction.syncpkgs[name].isize), transaction.syncpkgs[name].isize, transaction.syncpkgs[name].version])
 				elif name in transaction.to_remove:
-					packages_list.append([name, True, True, False, to_remove_icon, common.format_size(transaction.localpkgs[name].isize), transaction.localpkgs[name].isize, transaction.localpkgs[name].version])
+					packages_list.append([name, True, to_remove_icon, common.format_size(transaction.localpkgs[name].isize), transaction.localpkgs[name].isize, transaction.localpkgs[name].version])
 				elif name in transaction.localpkgs.keys():
-					packages_list.append([name, True, True, True, installed_icon, common.format_size(transaction.localpkgs[name].isize), transaction.localpkgs[name].isize, transaction.localpkgs[name].version])
+					packages_list.append([name, True, installed_icon, common.format_size(transaction.localpkgs[name].isize), transaction.localpkgs[name].isize, transaction.localpkgs[name].version])
 				#elif name in uninstalled:
 				else:
-					packages_list.append([name, False, True, False, uninstalled_icon, common.format_size(transaction.syncpkgs[name].isize), transaction.syncpkgs[name].isize, transaction.syncpkgs[name].version])
+					packages_list.append([name, False, uninstalled_icon, common.format_size(transaction.syncpkgs[name].isize), transaction.syncpkgs[name].isize, transaction.syncpkgs[name].version])
 		Window.get_window().set_cursor(None)
 
 def set_packages_list():
@@ -501,7 +501,7 @@ def do_sysupgrade():
 
 def finalize():
 	progress_label.set_text(_('Preparing')+'...')
-	action_icon.set_from_file('/usr/share/pamac/icons/24x24/status/setup.png')
+	action_icon.set_from_file('/usr/share/pamac/icons/24x24/status/package-setup.png')
 	progress_bar.set_text('')
 	progress_bar.set_fraction(0)
 	ProgressWindow.show_all()
@@ -843,7 +843,10 @@ def check_conflicts():
 		for pkg in pkg_list:
 			wont_be_removed.add(pkg.name)
 	wont_be_removed -= to_replace
+	print(depends)
+	print(transaction.to_remove)
 	transaction.to_remove -= wont_be_removed
+	print(transaction.to_remove)
 
 	if mode:
 		Window.get_window().set_cursor(None)
@@ -948,8 +951,7 @@ class Handler:
 	menu = Gtk.Menu()
 	def on_list_treeview_button_press_event(self, treeview, event):
 		def mark_to_reinstall(widget, treeiter):
-			packages_list[treeiter][3] = True
-			packages_list[treeiter][4] = to_install_icon
+			packages_list[treeiter][2] = to_reinstall_icon
 			transaction.to_add.add(packages_list[treeiter][0])
 		def select_optdeps(widget, pkgname, optdeps):
 			choose_label.set_markup(_('<b>{pkgname} has {number} uninstalled optional deps.\nPlease choose the one(s) you want to install:</b>').format(pkgname = pkgname, number = str(len(optdeps))))
@@ -961,23 +963,30 @@ class Handler:
 				transaction.to_add.add(long_string.split(':')[0])
 		def install_with_optdeps(widget, treeiter, pkgname, optdeps):
 			select_optdeps(widget, pkgname, optdeps)
-			mark_to_reinstall(widget, treeiter)
+			packages_list[treeiter][2] = to_install_icon
+			transaction.to_add.add(packages_list[treeiter][0])
 		# Check if right mouse button was clicked
 		if event.type == Gdk.EventType.BUTTON_PRESS and event.button == 3:
 			treepath, viewcolumn, x, y = treeview.get_path_at_pos(int(event.x), int(event.y))
 			treeiter = packages_list.get_iter(treepath)
 			if treeiter:
-				if packages_list[treeiter][0] != _('No package found'):
+				if packages_list[treeiter][0] != _('No package found') and not packages_list[treeiter][0] in config.holdpkg:
 					self.menu = Gtk.Menu()
 					if packages_list[treeiter][0] in transaction.to_remove | transaction.to_add:
-						item = Gtk.MenuItem(_('Unselect'))
-						item.connect('activate', self.on_select_toggle_toggled, treeiter)
+						item = Gtk.ImageMenuItem(_('Unselect'))
+						item.set_image(Gtk.Image.new_from_stock('gtk-undo', Gtk.IconSize.MENU))
+						item.set_always_show_image(True)
+						item.connect('activate', self.on_list_treeview_row_activated, treeiter, viewcolumn)
 						self.menu.append(item)
 					elif packages_list[treeiter][0] in transaction.localpkgs.keys():
-						item = Gtk.MenuItem(_('Remove'))
-						item.connect('activate', self.on_select_toggle_toggled, treeiter)
+						item = Gtk.ImageMenuItem(_('Remove'))
+						item.set_image(Gtk.Image.new_from_pixbuf(to_remove_icon))
+						item.set_always_show_image(True)
+						item.connect('activate', self.on_list_treeview_row_activated, treeiter, viewcolumn)
 						self.menu.append(item)
-						item = Gtk.MenuItem(_('Reinstall'))
+						item = Gtk.ImageMenuItem(_('Reinstall'))
+						item.set_image(Gtk.Image.new_from_pixbuf(to_reinstall_icon))
+						item.set_always_show_image(True)
 						item.connect('activate', mark_to_reinstall, treeiter)
 						self.menu.append(item)
 						optdeps_strings = transaction.localpkgs[packages_list[treeiter][0]].optdepends
@@ -988,12 +997,16 @@ class Handler:
 								if not optdep in transaction.localpkgs.keys():
 									available_optdeps.append(optdep_string)
 							if available_optdeps:
-								item = Gtk.MenuItem(_('Install optional deps'))
+								item = Gtk.ImageMenuItem(_('Install optional deps'))
+								item.set_image(Gtk.Image.new_from_pixbuf(to_install_icon))
+								item.set_always_show_image(True)
 								item.connect('activate', select_optdeps, packages_list[treeiter][0], available_optdeps)
 								self.menu.append(item)
 					else:
 						item = Gtk.ImageMenuItem(_('Install'))
-						item.connect('activate', self.on_select_toggle_toggled, treeiter)
+						item.set_image(Gtk.Image.new_from_pixbuf(to_install_icon))
+						item.set_always_show_image(True)
+						item.connect('activate', self.on_list_treeview_row_activated, treeiter, viewcolumn)
 						self.menu.append(item)
 						optdeps_strings = transaction.syncpkgs[packages_list[treeiter][0]].optdepends
 						if optdeps_strings:
@@ -1003,7 +1016,9 @@ class Handler:
 								if not optdep in transaction.localpkgs.keys():
 									available_optdeps.append(optdep_string)
 							if available_optdeps:
-								item = Gtk.MenuItem(_('Install with optional deps'))
+								item = Gtk.ImageMenuItem(_('Install with optional deps'))
+								item.set_image(Gtk.Image.new_from_pixbuf(to_install_icon))
+								item.set_always_show_image(True)
 								item.connect('activate', install_with_optdeps, treeiter, packages_list[treeiter][0], available_optdeps)
 								self.menu.append(item)
 					treeview.grab_focus()
@@ -1071,29 +1086,25 @@ class Handler:
 					current_filter = ('repo', repos_list[line][0])
 				set_packages_list()
 
-	def on_select_toggle_toggled(self, widget, line):
-		if packages_list[line][1] is True:
-			if packages_list[line][0] in transaction.to_add:
-				packages_list[line][3] = True
-				packages_list[line][4] = installed_icon
-				transaction.to_add.discard(packages_list[line][0])
-			elif packages_list[line][0] in transaction.to_remove:
-				packages_list[line][3] = True
-				packages_list[line][4] = installed_icon
-				transaction.to_remove.discard(packages_list[line][0])
-			else:
-				packages_list[line][3] = False
-				packages_list[line][4] = to_remove_icon
-				transaction.to_remove.add(packages_list[line][0])
-		if packages_list[line][1] is False:
-			if packages_list[line][0] in transaction.to_add:
-				packages_list[line][3] = False
-				packages_list[line][4] = uninstalled_icon
-				transaction.to_add.discard(packages_list[line][0])
-			else:
-				packages_list[line][3] = True
-				packages_list[line][4] = to_install_icon
-				transaction.to_add.add(packages_list[line][0])
+	def on_list_treeview_row_activated(self, treeview, treeiter, column):
+		if not packages_list[treeiter][0] in config.holdpkg:
+			if packages_list[treeiter][1] is True:
+				if packages_list[treeiter][0] in transaction.to_add:
+					packages_list[treeiter][2] = installed_icon
+					transaction.to_add.discard(packages_list[treeiter][0])
+				elif packages_list[treeiter][0] in transaction.to_remove:
+					packages_list[treeiter][2] = installed_icon
+					transaction.to_remove.discard(packages_list[treeiter][0])
+				else:
+					packages_list[treeiter][2] = to_remove_icon
+					transaction.to_remove.add(packages_list[treeiter][0])
+			if packages_list[treeiter][1] is False:
+				if packages_list[treeiter][0] in transaction.to_add:
+					packages_list[treeiter][2] = uninstalled_icon
+					transaction.to_add.discard(packages_list[treeiter][0])
+				else:
+					packages_list[treeiter][2] = to_install_icon
+					transaction.to_add.add(packages_list[treeiter][0])
 
 	def on_cellrenderertoggle2_toggled(self, widget, line):
 		choose_list[line][0] = not choose_list[line][0]
@@ -1217,15 +1228,15 @@ def main(_mode):
 			global installed_icon
 			global uninstalled_icon
 			global to_install_icon
+			global to_reinstall_icon
 			global to_remove_icon
 			global locked_icon
-			global search_icon
-			installed_icon = Pixbuf.new_from_file('/usr/share/pamac/icons/22x22/status/package-installed.png')
-			uninstalled_icon = Pixbuf.new_from_file('/usr/share/pamac/icons/22x22/status/package-available.png')
-			to_install_icon = Pixbuf.new_from_file('/usr/share/pamac/icons/22x22/status/package-add.png')
-			to_remove_icon = Pixbuf.new_from_file('/usr/share/pamac/icons/22x22/status/package-delete.png')
-			locked_icon = Pixbuf.new_from_file('/usr/share/pamac/icons/22x22/status/package-blocked.png')
-			search_icon = Pixbuf.new_from_file('/usr/share/pamac/icons/22x22/status/package-search.png')
+			installed_icon = Pixbuf.new_from_file('/usr/share/pamac/icons/16x16/actions/package-installed-updated.png')
+			uninstalled_icon = Pixbuf.new_from_file('/usr/share/pamac/icons/16x16/actions/package-available.png')
+			to_install_icon = Pixbuf.new_from_file('/usr/share/pamac/icons/16x16/actions/package-install.png')
+			to_reinstall_icon = Pixbuf.new_from_file('/usr/share/pamac/icons/16x16/actions/package-reinstall.png')
+			to_remove_icon = Pixbuf.new_from_file('/usr/share/pamac/icons/16x16/actions/package-remove.png')
+			locked_icon = Pixbuf.new_from_file('/usr/share/pamac/icons/16x16/actions/package-installed-locked.png')
 			global pkg_name_list
 			pkg_name_list = set()
 			global current_filter

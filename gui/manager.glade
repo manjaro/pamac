@@ -3,19 +3,17 @@
   <!-- interface-requires gtk+ 3.0 -->
   <object class="GtkDialog" id="ChooseDialog">
     <property name="can_focus">False</property>
-    <property name="border_width">5</property>
     <property name="title" translatable="yes">Choose</property>
     <property name="modal">True</property>
     <property name="window_position">center-on-parent</property>
+    <property name="icon_name">system-software-install</property>
     <property name="type_hint">dialog</property>
-    <property name="skip_taskbar_hint">True</property>
     <property name="deletable">False</property>
     <property name="transient_for">ManagerWindow</property>
     <child internal-child="vbox">
       <object class="GtkBox" id="dialog-vbox1">
         <property name="can_focus">False</property>
         <property name="orientation">vertical</property>
-        <property name="spacing">2</property>
         <child internal-child="action_area">
           <object class="GtkButtonBox" id="dialog-action_area1">
             <property name="can_focus">False</property>
@@ -69,7 +67,6 @@
                 <property name="headers_visible">False</property>
                 <property name="headers_clickable">False</property>
                 <property name="enable_search">False</property>
-                <property name="show_expanders">False</property>
                 <child internal-child="selection">
                   <object class="GtkTreeSelection" id="treeview-selection5"/>
                 </child>
@@ -108,13 +105,12 @@
   </object>
   <object class="GtkWindow" id="ConfDialog">
     <property name="can_focus">False</property>
-    <property name="border_width">3</property>
+    <property name="border_width">5</property>
     <property name="title" translatable="yes">Summary</property>
     <property name="modal">True</property>
     <property name="window_position">center-on-parent</property>
-    <property name="icon">/usr/share/pamac/icons/22x22/status/package-info.png</property>
+    <property name="icon_name">system-software-install</property>
     <property name="type_hint">dialog</property>
-    <property name="skip_taskbar_hint">True</property>
     <property name="deletable">False</property>
     <property name="transient_for">ManagerWindow</property>
     <child>
@@ -122,7 +118,7 @@
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="orientation">vertical</property>
-        <property name="spacing">3</property>
+        <property name="spacing">5</property>
         <child>
           <object class="GtkLabel" id="sum_top_label">
             <property name="visible">True</property>
@@ -249,161 +245,13 @@
       </object>
     </child>
   </object>
-  <object class="GtkWindow" id="ProgressWindow">
-    <property name="width_request">250</property>
-    <property name="height_request">60</property>
-    <property name="can_focus">False</property>
-    <property name="title" translatable="yes">Progress</property>
-    <property name="resizable">False</property>
-    <property name="modal">True</property>
-    <property name="window_position">center-on-parent</property>
-    <property name="default_width">250</property>
-    <property name="default_height">60</property>
-    <property name="icon">/usr/share/pamac/icons/22x22/status/setup.png</property>
-    <property name="type_hint">dialog</property>
-    <property name="deletable">False</property>
-    <property name="transient_for">ManagerWindow</property>
-    <property name="has_resize_grip">False</property>
-    <child>
-      <object class="GtkBox" id="box8">
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="margin_left">5</property>
-        <property name="margin_right">5</property>
-        <property name="margin_top">5</property>
-        <property name="margin_bottom">5</property>
-        <property name="orientation">vertical</property>
-        <property name="spacing">3</property>
-        <child>
-          <object class="GtkBox" id="box9">
-            <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <property name="spacing">6</property>
-            <child>
-              <object class="GtkImage" id="action_icon">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="pixbuf">/usr/share/pamac/icons/24x24/status/setup.png</property>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
-                <property name="position">0</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkLabel" id="progresslabel2">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
-                <property name="position">1</property>
-              </packing>
-            </child>
-          </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">True</property>
-            <property name="position">0</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkProgressBar" id="progressbar2">
-            <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <property name="pulse_step">0.050000000000000003</property>
-            <property name="show_text">True</property>
-            <property name="ellipsize">end</property>
-          </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">True</property>
-            <property name="position">1</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkButtonBox" id="buttonbox3">
-            <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <property name="layout_style">end</property>
-            <child>
-              <object class="GtkButton" id="ProgressCancelButton">
-                <property name="label">gtk-cancel</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">True</property>
-                <property name="use_stock">True</property>
-                <property name="xalign">1</property>
-                <signal name="clicked" handler="on_ProgressCancelButton_clicked" swapped="no"/>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
-                <property name="position">0</property>
-              </packing>
-            </child>
-          </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">True</property>
-            <property name="position">2</property>
-          </packing>
-        </child>
-      </object>
-    </child>
-  </object>
-  <object class="GtkListStore" id="choose_list">
-    <columns>
-      <!-- column-name gboolean1 -->
-      <column type="gboolean"/>
-      <!-- column-name gchararray1 -->
-      <column type="gchararray"/>
-    </columns>
-  </object>
-  <object class="GtkListStore" id="deps_list">
-    <columns>
-      <!-- column-name dep_type -->
-      <column type="gchararray"/>
-      <!-- column-name deps -->
-      <column type="gchararray"/>
-    </columns>
-  </object>
-  <object class="GtkListStore" id="details_list">
-    <columns>
-      <!-- column-name info_type -->
-      <column type="gchararray"/>
-      <!-- column-name _info -->
-      <column type="gchararray"/>
-    </columns>
-    <data>
-      <row>
-        <col id="0" translatable="yes"> </col>
-        <col id="1" translatable="yes"> </col>
-      </row>
-    </data>
-  </object>
-  <object class="GtkListStore" id="files_list">
-    <columns>
-      <!-- column-name file -->
-      <column type="gchararray"/>
-    </columns>
-  </object>
-  <object class="GtkListStore" id="groups_list">
-    <columns>
-      <!-- column-name name -->
-      <column type="gchararray"/>
-    </columns>
-  </object>
   <object class="GtkWindow" id="ManagerWindow">
-    <property name="width_request">800</property>
-    <property name="height_request">500</property>
     <property name="can_focus">False</property>
     <property name="title" translatable="yes">Package Manager</property>
     <property name="window_position">center</property>
-    <property name="default_width">800</property>
-    <property name="default_height">500</property>
-    <property name="icon">/usr/share/pamac/icons/22x22/status/package-sources.png</property>
+    <property name="default_width">900</property>
+    <property name="default_height">550</property>
+    <property name="icon_name">system-software-install</property>
     <signal name="delete-event" handler="on_ManagerWindow_delete_event" swapped="no"/>
     <child>
       <object class="GtkBox" id="box1">
@@ -414,8 +262,6 @@
           <object class="GtkPaned" id="paned1">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
-            <property name="margin_left">5</property>
-            <property name="margin_right">5</property>
             <child>
               <object class="GtkNotebook" id="notebook1">
                 <property name="visible">True</property>
@@ -664,9 +510,8 @@
                         <property name="vexpand">True</property>
                         <property name="model">packages_list</property>
                         <property name="search_column">0</property>
-                        <property name="fixed_height_mode">True</property>
-                        <property name="show_expanders">False</property>
                         <signal name="button-press-event" handler="on_list_treeview_button_press_event" swapped="no"/>
+                        <signal name="row-activated" handler="on_list_treeview_row_activated" swapped="no"/>
                         <child internal-child="selection">
                           <object class="GtkTreeSelection" id="list_treeview_selection">
                             <signal name="changed" handler="on_list_treeview_selection_changed" swapped="no"/>
@@ -675,30 +520,15 @@
                         <child>
                           <object class="GtkTreeViewColumn" id="installed_column">
                             <property name="resizable">True</property>
-                            <property name="sizing">fixed</property>
-                            <property name="fixed_width">80</property>
+                            <property name="sizing">autosize</property>
                             <property name="title" translatable="yes">State</property>
                             <property name="clickable">True</property>
                             <property name="sort_indicator">True</property>
                             <property name="sort_column_id">1</property>
                             <child>
-                              <object class="GtkCellRendererToggle" id="select_toggle">
-                                <property name="xpad">5</property>
-                                <property name="xalign">0</property>
-                                <signal name="toggled" handler="on_select_toggle_toggled" swapped="no"/>
-                              </object>
+                              <object class="GtkCellRendererPixbuf" id="cellrendererpixbuf1"/>
                               <attributes>
-                                <attribute name="activatable">2</attribute>
-                                <attribute name="active">3</attribute>
-                              </attributes>
-                            </child>
-                            <child>
-                              <object class="GtkCellRendererPixbuf" id="cellrendererpixbuf1">
-                                <property name="xpad">5</property>
-                                <property name="xalign">1</property>
-                              </object>
-                              <attributes>
-                                <attribute name="pixbuf">4</attribute>
+                                <attribute name="pixbuf">2</attribute>
                               </attributes>
                             </child>
                           </object>
@@ -706,8 +536,7 @@
                         <child>
                           <object class="GtkTreeViewColumn" id="name_column">
                             <property name="resizable">True</property>
-                            <property name="sizing">fixed</property>
-                            <property name="fixed_width">250</property>
+                            <property name="sizing">autosize</property>
                             <property name="title" translatable="yes">Name</property>
                             <property name="clickable">True</property>
                             <property name="sort_indicator">True</property>
@@ -725,8 +554,7 @@
                         <child>
                           <object class="GtkTreeViewColumn" id="version_column">
                             <property name="resizable">True</property>
-                            <property name="sizing">fixed</property>
-                            <property name="fixed_width">80</property>
+                            <property name="sizing">autosize</property>
                             <property name="title" translatable="yes">Version</property>
                             <property name="clickable">True</property>
                             <property name="sort_indicator">True</property>
@@ -734,7 +562,7 @@
                             <child>
                               <object class="GtkCellRendererText" id="cellrenderertext15"/>
                               <attributes>
-                                <attribute name="text">7</attribute>
+                                <attribute name="text">5</attribute>
                               </attributes>
                             </child>
                           </object>
@@ -742,8 +570,7 @@
                         <child>
                           <object class="GtkTreeViewColumn" id="size_column">
                             <property name="resizable">True</property>
-                            <property name="sizing">fixed</property>
-                            <property name="fixed_width">80</property>
+                            <property name="sizing">autosize</property>
                             <property name="title" translatable="yes">Size</property>
                             <property name="clickable">True</property>
                             <property name="sort_indicator">True</property>
@@ -751,7 +578,7 @@
                             <child>
                               <object class="GtkCellRendererText" id="cellrenderertext11"/>
                               <attributes>
-                                <attribute name="text">5</attribute>
+                                <attribute name="text">3</attribute>
                               </attributes>
                             </child>
                           </object>
@@ -1042,7 +869,7 @@
             <property name="expand">True</property>
             <property name="fill">True</property>
             <property name="padding">5</property>
-            <property name="position">0</property>
+            <property name="position">2</property>
           </packing>
         </child>
         <child>
@@ -1054,9 +881,6 @@
               <object class="GtkButtonBox" id="buttonbox2">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="margin_left">5</property>
-                <property name="margin_right">5</property>
-                <property name="margin_bottom">2</property>
                 <property name="spacing">5</property>
                 <property name="homogeneous">True</property>
                 <property name="layout_style">end</property>
@@ -1132,21 +956,159 @@
           <packing>
             <property name="expand">False</property>
             <property name="fill">True</property>
-            <property name="position">1</property>
+            <property name="position">3</property>
           </packing>
         </child>
       </object>
     </child>
+  </object>
+  <object class="GtkWindow" id="ProgressWindow">
+    <property name="width_request">250</property>
+    <property name="height_request">60</property>
+    <property name="can_focus">False</property>
+    <property name="border_width">5</property>
+    <property name="title" translatable="yes">Progress</property>
+    <property name="resizable">False</property>
+    <property name="modal">True</property>
+    <property name="window_position">center-on-parent</property>
+    <property name="default_width">250</property>
+    <property name="default_height">60</property>
+    <property name="icon_name">system-software-install</property>
+    <property name="type_hint">dialog</property>
+    <property name="deletable">False</property>
+    <property name="transient_for">ManagerWindow</property>
+    <property name="has_resize_grip">False</property>
+    <child>
+      <object class="GtkBox" id="box8">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="orientation">vertical</property>
+        <property name="spacing">5</property>
+        <child>
+          <object class="GtkBox" id="box9">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="spacing">5</property>
+            <child>
+              <object class="GtkImage" id="action_icon">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkLabel" id="progresslabel2">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkProgressBar" id="progressbar2">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="pulse_step">0.050000000000000003</property>
+            <property name="show_text">True</property>
+            <property name="ellipsize">end</property>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">1</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkButtonBox" id="buttonbox3">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="layout_style">end</property>
+            <child>
+              <object class="GtkButton" id="ProgressCancelButton">
+                <property name="label">gtk-cancel</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+                <property name="use_stock">True</property>
+                <property name="xalign">1</property>
+                <signal name="clicked" handler="on_ProgressCancelButton_clicked" swapped="no"/>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">2</property>
+          </packing>
+        </child>
+      </object>
+    </child>
+  </object>
+  <object class="GtkListStore" id="choose_list">
+    <columns>
+      <!-- column-name gboolean1 -->
+      <column type="gboolean"/>
+      <!-- column-name gchararray1 -->
+      <column type="gchararray"/>
+    </columns>
+  </object>
+  <object class="GtkListStore" id="deps_list">
+    <columns>
+      <!-- column-name dep_type -->
+      <column type="gchararray"/>
+      <!-- column-name deps -->
+      <column type="gchararray"/>
+    </columns>
+  </object>
+  <object class="GtkListStore" id="details_list">
+    <columns>
+      <!-- column-name info_type -->
+      <column type="gchararray"/>
+      <!-- column-name _info -->
+      <column type="gchararray"/>
+    </columns>
+    <data>
+      <row>
+        <col id="0" translatable="yes"> </col>
+        <col id="1" translatable="yes"> </col>
+      </row>
+    </data>
+  </object>
+  <object class="GtkListStore" id="files_list">
+    <columns>
+      <!-- column-name file -->
+      <column type="gchararray"/>
+    </columns>
+  </object>
+  <object class="GtkListStore" id="groups_list">
+    <columns>
+      <!-- column-name name -->
+      <column type="gchararray"/>
+    </columns>
   </object>
   <object class="GtkListStore" id="packages_list">
     <columns>
       <!-- column-name name -->
       <column type="gchararray"/>
       <!-- column-name installed -->
-      <column type="gboolean"/>
-      <!-- column-name visible -->
-      <column type="gboolean"/>
-      <!-- column-name active -->
       <column type="gboolean"/>
       <!-- column-name icon -->
       <column type="GdkPixbuf"/>

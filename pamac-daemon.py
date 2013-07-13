@@ -28,7 +28,7 @@ class PamacDBusService(dbus.service.Object):
 		self.previous_action = ''
 		self.action = _('Preparing')+'...'
 		self.previous_icon = ''
-		self.icon = '/usr/share/pamac/icons/24x24/status/setup.png'
+		self.icon = '/usr/share/pamac/icons/24x24/status/package-setup.png'
 		self.previous_target = ''
 		self.target = ''
 		self.previous_percent = 0
@@ -76,7 +76,7 @@ class PamacDBusService(dbus.service.Object):
 			self.icon = '/usr/share/pamac/icons/24x24/status/package-search.png'
 		elif ID is 5:
 			self.action = _('Resolving dependencies')+'...'
-			self.icon = '/usr/share/pamac/icons/24x24/status/setup.png'
+			self.icon = '/usr/share/pamac/icons/24x24/status/package-setup.png'
 		elif ID is 6:
 			if self.warning:
 				self.EmitLogWarning(self.warning)
@@ -107,7 +107,7 @@ class PamacDBusService(dbus.service.Object):
 			print(formatted_event)
 		elif ID is 15:
 			self.action = _('Downgrading')+'...'
-			self.icon = '/usr/share/pamac/icons/24x24/status/rollback.png'
+			self.icon = '/usr/share/pamac/icons/24x24/status/package-add.png'
 			print('Downgrading a package')
 		#elif ID is 16:
 			#formatted_event = 'Downgraded {pkgname} ({oldversion} -> {newversion})'.format(pkgname = tupel[1].name, oldversion = tupel[1].version, newversion = tupel[0].version)
@@ -131,7 +131,7 @@ class PamacDBusService(dbus.service.Object):
 			print('Loading packages files')
 		elif ID is 30:
 			self.action = _('Configuring')+'...'
-			self.icon = '/usr/share/pamac/icons/24x24/status/setup.png'
+			self.icon = '/usr/share/pamac/icons/24x24/status/package-setup.png'
 			self.EmitPercent(2)
 			print('Configuring a package')
 		elif ID is 31:
@@ -300,8 +300,8 @@ class PamacDBusService(dbus.service.Object):
 			if self.error:
 				self.EmitTransactionError(self.error)
 			else:
-				self.EmitTransactionDone('')
 				self.CheckUpdates()
+				self.EmitTransactionDone('')
 		self.task = Process(target=refresh)
 		self.task.start()
 		success('')

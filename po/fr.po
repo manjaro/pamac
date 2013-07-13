@@ -304,7 +304,7 @@ msgstr "<b>{pkgname} est fourni par {number} paquets.\nVeuillez choisir celui ou
 msgid ""
 "<b>{pkgname} has {number} uninstalled optional deps.\n"
 "Please choose the one(s) you want to install:</b>"
-msgstr "<b>{pkgname} a {number} dépendances optionelles non installées.⏎\nVeuillez choisir celui ou ceux que vous voulez installer:</b>"
+msgstr "<b>{pkgname} a {number} dépendances optionelles non installées.\nVeuillez choisir celui ou ceux que vous voulez installer:</b>"
 
 #: pamac/main.py:957
 msgid "Unselect"
