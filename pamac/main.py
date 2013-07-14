@@ -558,11 +558,11 @@ def check_conflicts():
 			break
 	# get installed kernels
 	for item in pkgs:
-		if len(item.name) == 7:
+		if len(item.name) == 7 or len(item.name) == 8:
 			installed_linux.append(item.name)
 	for to_install in transaction.to_add:
 		if 'linux3' in to_install:
-			if len(to_install) == 7:
+			if len(to_install) == 7 or len(to_install) == 8:
 				installed_linux.append(to_install)
 	# check if new pkgs will replace installed ones
 	to_replace = set()
@@ -647,8 +647,8 @@ def check_conflicts():
 					# found the dep in uninstalled pkgs
 					found_depend = pyalpm.find_satisfier(transaction.syncpkgs.values(), depend)
 					if found_depend:
-						# check if the dep is a kernel module to provide and if so, auto-select it
 						if found_depend.name != common.format_pkg_name(depend):
+							# check if the dep is a kernel module to provide and if so, auto-select it
 							if ('-modules' in depend) or ('linux' in depend):
 								for _pkg in transaction.syncpkgs.values():
 									if not _pkg.name in transaction.localpkgs.keys():
@@ -843,10 +843,7 @@ def check_conflicts():
 		for pkg in pkg_list:
 			wont_be_removed.add(pkg.name)
 	wont_be_removed -= to_replace
-	print(depends)
-	print(transaction.to_remove)
 	transaction.to_remove -= wont_be_removed
-	print(transaction.to_remove)
 
 	if mode:
 		Window.get_window().set_cursor(None)
@@ -863,6 +860,9 @@ def choose_provides(name):
 	provides = OrderedDict()
 	already_add = []
 	for pkg in transaction.syncpkgs.values():
+		# fix if find_satisfier misbehaved
+		if pkg.name == name:
+			return [pkg]
 		for provide in pkg.provides:
 			if common.format_pkg_name(name) == common.format_pkg_name(provide):
 				if not pkg.name in provides.keys():
