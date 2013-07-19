@@ -16,50 +16,50 @@ _ = gettext.gettext
 
 GObject.threads_init()
 
-icon = ''
-info = ''
 update_icon = 'software-update-available'
 update_info = _('{number} available updates')
 one_update_info = _('1 available update')
 noupdate_icon = ''
 noupdate_info = _('Your system is up-to-date')
+icon = noupdate_icon
+info = noupdate_info
 
 class Tray:
 	def __init__(self):
 		self.statusIcon = Gtk.StatusIcon()
 
-		#~ self.menu = Gtk.Menu()
-		#~ self.menuItem = Gtk.ImageMenuItem(_('Install/Check for updates'))
-		#~ self.menuItem.set_image(Gtk.Image.new_from_pixbuf(Gtk.IconTheme.get_default().load_icon('system-software-update', 16, 0)))
-		#~ self.menuItem.connect('activate', self.execute_update, self.statusIcon)
-		#~ self.menu.append(self.menuItem)
-		#~ self.menuItem = Gtk.ImageMenuItem(_('Manage packages'))
-		#~ self.menuItem.set_image(Gtk.Image.new_from_pixbuf(Gtk.IconTheme.get_default().load_icon('system-software-install', 16, 0)))
-		#~ self.menuItem.connect('activate', self.execute_manager, self.statusIcon)
-		#~ self.menu.append(self.menuItem)
-		#~ self.menuItem = Gtk.ImageMenuItem(_('Quit'))
-		#~ self.menuItem.set_image(Gtk.Image.new_from_stock('gtk-quit', Gtk.IconSize.MENU))
-		#~ self.menuItem.connect('activate', self.quit_tray, self.statusIcon)
-		#~ self.menu.append(self.menuItem)
+		self.menu = Gtk.Menu()
+		self.menuItem = Gtk.ImageMenuItem(_('Update Manager'))
+		self.menuItem.set_image(Gtk.Image.new_from_pixbuf(Gtk.IconTheme.get_default().load_icon('system-software-update', 16, 0)))
+		self.menuItem.connect('activate', self.execute_update, self.statusIcon)
+		self.menu.append(self.menuItem)
+		self.menuItem = Gtk.ImageMenuItem(_('Package Manager'))
+		self.menuItem.set_image(Gtk.Image.new_from_pixbuf(Gtk.IconTheme.get_default().load_icon('system-software-install', 16, 0)))
+		self.menuItem.connect('activate', self.execute_manager, self.statusIcon)
+		self.menu.append(self.menuItem)
+		self.menuItem = Gtk.ImageMenuItem(_('Quit'))
+		self.menuItem.set_image(Gtk.Image.new_from_stock('gtk-quit', Gtk.IconSize.MENU))
+		self.menuItem.connect('activate', self.quit_tray, self.statusIcon)
+		self.menu.append(self.menuItem)
 
-		#~ self.statusIcon.connect('popup-menu', self.popup_menu_cb, self.menu)
-		self.statusIcon.connect('activate', self.activate_cb)#, self.menu)
+		self.statusIcon.connect('popup-menu', self.popup_menu_cb, self.menu)
+		self.statusIcon.connect('activate', self.activate_cb)
 
-	#~ def execute_update(self, widget, event, data = None):
-		#~ Popen(['/usr/bin/pamac-updater'])
+	def execute_update(self, widget, event, data = None):
+		Popen(['/usr/bin/pamac-updater'])
 
-	#~ def execute_manager(self, widget, event, data = None):
-		#~ Popen(['/usr/bin/pamac-manager'])
+	def execute_manager(self, widget, event, data = None):
+		Popen(['/usr/bin/pamac-manager'])
 
-	#~ def quit_tray(self, widget, data = None):
-		#~ t.shutdown()
-		#~ Gtk.main_quit()
+	def quit_tray(self, widget, data = None):
+		t.shutdown()
+		Gtk.main_quit()
 
-	#~ def popup_menu_cb(self, widget, button, time, data = None):
-		#~ if button == 3:
-			#~ if data:
-				#~ data.show_all()
-				#~ data.popup(None, None, Gtk.StatusIcon.position_menu, self.statusIcon, 3, time)
+	def popup_menu_cb(self, widget, button, time, data = None):
+		if button == 3:
+			if data:
+				data.show_all()
+				data.popup(None, None, Gtk.StatusIcon.position_menu, self.statusIcon, 3, time)
 
 	def activate_cb(self, widget, data = None):
 		if icon == update_icon:

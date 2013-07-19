@@ -247,6 +247,7 @@
   </object>
   <object class="GtkWindow" id="ManagerWindow">
     <property name="can_focus">False</property>
+    <property name="border_width">2</property>
     <property name="title" translatable="yes">Package Manager</property>
     <property name="window_position">center</property>
     <property name="default_width">900</property>
@@ -520,7 +521,6 @@
                         <child>
                           <object class="GtkTreeViewColumn" id="installed_column">
                             <property name="resizable">True</property>
-                            <property name="sizing">autosize</property>
                             <property name="title" translatable="yes">State</property>
                             <property name="clickable">True</property>
                             <property name="sort_indicator">True</property>
@@ -536,7 +536,6 @@
                         <child>
                           <object class="GtkTreeViewColumn" id="name_column">
                             <property name="resizable">True</property>
-                            <property name="sizing">autosize</property>
                             <property name="title" translatable="yes">Name</property>
                             <property name="clickable">True</property>
                             <property name="sort_indicator">True</property>
@@ -554,7 +553,6 @@
                         <child>
                           <object class="GtkTreeViewColumn" id="version_column">
                             <property name="resizable">True</property>
-                            <property name="sizing">autosize</property>
                             <property name="title" translatable="yes">Version</property>
                             <property name="clickable">True</property>
                             <property name="sort_indicator">True</property>
@@ -570,7 +568,6 @@
                         <child>
                           <object class="GtkTreeViewColumn" id="size_column">
                             <property name="resizable">True</property>
-                            <property name="sizing">autosize</property>
                             <property name="title" translatable="yes">Size</property>
                             <property name="clickable">True</property>
                             <property name="sort_indicator">True</property>
