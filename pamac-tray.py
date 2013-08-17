@@ -16,10 +16,10 @@ _ = gettext.gettext
 
 GObject.threads_init()
 
-update_icon = 'software-update-available'
+update_icon = 'software-update-urgent'
 update_info = _('{number} available updates')
 one_update_info = _('1 available update')
-noupdate_icon = ''
+noupdate_icon = 'software-update-available'
 noupdate_info = _('Your system is up-to-date')
 icon = noupdate_icon
 info = noupdate_info
@@ -114,7 +114,7 @@ def set_icon(updates):
 	else:
 		icon = noupdate_icon
 		info = noupdate_info
-		tray.set_visible(False)
+		tray.set_visible(True)
 	print(info)
 	tray.update_icon(icon, info)
 
