@@ -3,395 +3,395 @@
 # This file is distributed under the same license as the Pamac package.
 # 
 # Translators:
-# guinux <guillaume@manjaro.org>, 2013
+# anderflash <nocturne.pe@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-03-30 15:09+0100\n"
-"PO-Revision-Date: 2013-07-14 08:13+0000\n"
-"Last-Translator: manjarolinux <philm@manjaro.org>\n"
-"Language-Team: French (http://www.transifex.com/projects/p/manjaro-pamac/language/fr/)\n"
+"PO-Revision-Date: 2013-08-11 05:15+0000\n"
+"Last-Translator: anderflash <nocturne.pe@gmail.com>\n"
+"Language-Team: Esperanto (http://www.transifex.com/projects/p/manjaro-pamac/language/eo/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: fr\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"Language: eo\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: data/polkit/org.manjaro.pamac.policy:10
 msgid "Authentication is required"
-msgstr "Authentification nécessaire"
+msgstr "Autentikeco estas bezonata"
 
 #: pamac-daemon.py:29 pamac/main.py:503
 msgid "Preparing"
-msgstr "Préparation"
+msgstr "Preparanta"
 
 #: pamac-daemon.py:68
 msgid "Checking dependencies"
-msgstr "Vérification des dépendances"
+msgstr "Kontrolanta Dependecojn"
 
 #: pamac-daemon.py:75
 msgid "Checking file conflicts"
-msgstr "Analyse des conflits entre fichiers"
+msgstr "Kontrolanta dosierajn konfliktojn"
 
 #: pamac-daemon.py:78
 msgid "Resolving dependencies"
-msgstr "Résolution des dépendances"
+msgstr "Solvanta Dependecojn"
 
 #: pamac-daemon.py:85
 msgid "Checking inter conflicts"
-msgstr "Recherche des conflits entre paquets"
+msgstr "Kontrolanta interkonfliktojn"
 
 #: pamac-daemon.py:88 pamac/main.py:51
 msgid "Installing"
-msgstr "Installation"
+msgstr "Instalanta"
 
 #: pamac-daemon.py:95 pamac/main.py:51
 msgid "Removing"
-msgstr "Désinstallation"
+msgstr "Foriganta"
 
 #: pamac-daemon.py:102 pamac/main.py:51
 msgid "Upgrading"
-msgstr "Mise à jour"
+msgstr "Ĝisdatiganta"
 
 #: pamac-daemon.py:109 pamac/main.py:51
 msgid "Downgrading"
-msgstr "Retour à une version antérieure"
+msgstr "Revenanta"
 
 #: pamac-daemon.py:117 pamac/main.py:51
 msgid "Reinstalling"
-msgstr "Réinstallation"
+msgstr "Reinstalanta"
 
 #: pamac-daemon.py:125
 msgid "Checking integrity"
-msgstr "Vérification de l'intégrité des paquets"
+msgstr "Kontrolanta integrecon"
 
 #: pamac-daemon.py:129
 msgid "Loading packages files"
-msgstr "Chargement des fichiers des paquets"
+msgstr "Ŝarĝanta pakaĵajn dosierojn"
 
 #: pamac-daemon.py:133 pamac/main.py:51
 msgid "Configuring"
-msgstr "Configuration"
+msgstr "Agordanta"
 
 #: pamac-daemon.py:140
 msgid "Checking keys in keyring"
-msgstr "Vérification des clés dans le trousseau"
+msgstr "Kontrolanta ŝlosilo en ŝlosilringo"
 
 #: pamac-daemon.py:198
 msgid "Downloading {size}"
-msgstr "Téléchargement de {size}"
+msgstr "Elŝutanta {size}"
 
 #: pamac-daemon.py:203 pamac/main.py:437 pamac/main.py:1126
 msgid "Refreshing"
-msgstr "Actualisation"
+msgstr "Refreŝiganta"
 
 #: pamac-daemon.py:371 pamac-install.py:44 pamac/main.py:531
 msgid "{pkgname} is not a valid path or package name"
-msgstr "{pkgname} n'est pas un fichier ou un nom de paquet valide"
+msgstr "{pkgname} ne estas valida vojo aŭ pakaĵa nomo"
 
 #: pamac-daemon.py:438
 msgid "Transaction successfully finished"
-msgstr "Transaction terminée avec succès"
+msgstr "Finita sukcese transakcio"
 
 #: pamac-daemon.py:442 pamac-daemon.py:450
 msgid "Authentication failed"
-msgstr "L'authentification a échoué"
+msgstr "Malsukcesa autentikeco."
 
 #: pamac-tray.py:22
 msgid "{number} available updates"
-msgstr "{number} mises à jour disponibles"
+msgstr "{number} disponeblaj ĝisdatigoj"
 
 #: pamac-tray.py:23
 msgid "1 available update"
-msgstr "1 mise à jour disponible"
+msgstr "1 disponebla ĝisdatigo"
 
 #: pamac-tray.py:25
 msgid "Your system is up-to-date"
-msgstr "Votre système est à jour"
+msgstr "Via sistemo estas ĝisdatigata"
 
 #: pamac-tray.py:113 gui/updater.glade:7
 msgid "Update Manager"
-msgstr "Gestionnaire de mises à jour"
+msgstr "Ĝisdatigo Administranto"
 
 #: pamac-install.py:73 pamac-install.py:79 pamac/main.py:915
 msgid "Nothing to do"
-msgstr "Rien à faire"
+msgstr "Nenio por fari"
 
 #: pamac-install.py:87 pamac/main.py:1177
 msgid "Pamac is already running"
-msgstr "Pamac est déjà en cours d'exécution"
+msgstr "Pamac jam estas ekzekutanta."
 
 #: pamac-install.py:97
 msgid ""
 "Some updates are available.\n"
 "Please update your system first"
-msgstr "Des mises à jour sont disponibles.\nMettez d'abord votre système à jour"
+msgstr "Kelkaj ĝisdatigoj estas disponeblaj.\nBonvolu ĝisdatigi vian sistemon unue"
 
 #: pamac/main.py:88 pamac/main.py:1083
 msgid "local"
-msgstr "locaux"
+msgstr "loka"
 
 #: pamac/main.py:178 pamac/main.py:973 pamac/main.py:1034
 msgid "No package found"
-msgstr "Aucun paquet trouvé"
+msgstr "Neniu pakaĵo trovita"
 
 #: pamac/main.py:229
 msgid "Licenses"
-msgstr "Licences"
+msgstr "Permesiloj"
 
 #: pamac/main.py:234
 msgid "Depends On"
-msgstr "Dépend de"
+msgstr "Dependas De"
 
 #: pamac/main.py:239 pamac/main.py:1066 pamac/main.py:1251
 msgid "Installed"
-msgstr "Installé"
+msgstr "Instalita"
 
 #: pamac/main.py:242
 msgid "Optional Deps"
-msgstr "Dépendances opt."
+msgstr "Laŭvolaj Dependecoj"
 
 #: pamac/main.py:245
 msgid "Required By"
-msgstr "Requis par"
+msgstr "Postulata De"
 
 #: pamac/main.py:247
 msgid "Provides"
-msgstr "Fournit"
+msgstr "Provizas"
 
 #: pamac/main.py:249
 msgid "Replaces"
-msgstr "Remplace"
+msgstr "Anstataŭigas"
 
 #: pamac/main.py:251
 msgid "Conflicts With"
-msgstr "Est en conflit avec"
+msgstr "Konfliktas Kun"
 
 #: pamac/main.py:256
 msgid "Repository"
-msgstr "Dépôt"
+msgstr "Deponejo"
 
 #: pamac/main.py:258 gui/manager.glade:384
 msgid "Groups"
-msgstr "Groupes"
+msgstr "Grupoj"
 
 #: pamac/main.py:260
 msgid "Compressed Size"
-msgstr "Taille compressée"
+msgstr "Grando Kunpremata"
 
 #: pamac/main.py:261
 msgid "Download Size"
-msgstr "Taille du téléchargement"
+msgstr "Elŝuto Grando"
 
 #: pamac/main.py:263
 msgid "Installed Size"
-msgstr "Taille après installation"
+msgstr "Instalo Grando"
 
 #: pamac/main.py:264
 msgid "Packager"
-msgstr "Paqueteur"
+msgstr "Pakaĵkreanto"
 
 #: pamac/main.py:265
 msgid "Architecture"
-msgstr "Architecture"
+msgstr "Arkitekturo"
 
 #: pamac/main.py:268
 msgid "Install Date"
-msgstr "Installé le"
+msgstr "Instalo Dato"
 
 #: pamac/main.py:270
 msgid "Explicitly installed"
-msgstr "Explicitement installé"
+msgstr "Eksplicite instalita"
 
 #: pamac/main.py:272
 msgid "Installed as a dependency for another package"
-msgstr "Installé comme dépendance d'un autre paquet"
+msgstr "Instalita kiel dependeco por alia pakaĵo"
 
 #: pamac/main.py:274
 msgid "Unknown"
-msgstr "Inconnu"
+msgstr "Nekonata"
 
 #: pamac/main.py:275
 msgid "Install Reason"
-msgstr "Motif d'installation"
+msgstr "Instalo Kialo"
 
 #: pamac/main.py:280
 msgid "Signatures"
-msgstr "Signatures"
+msgstr "Subskriboj"
 
 #: pamac/main.py:284
 msgid "Backup files"
-msgstr "Fichiers sauvegardés"
+msgstr "Kopisekurecaj Dosieroj"
 
 #: pamac/main.py:324
 msgid "<big><b>Transaction Summary</b></big>"
-msgstr "<big><b>Résumé de la transaction</b></big>"
+msgstr "<big><b>Resumo de Transakcio</b></big>"
 
 #: pamac/main.py:326 pamac/main.py:1072 pamac/main.py:1251
 msgid "To install"
-msgstr "À installer"
+msgstr "Instali"
 
 #: pamac/main.py:332
 msgid "To reinstall"
-msgstr "A réinstaller"
+msgstr "Reinstali"
 
 #: pamac/main.py:338
 msgid "To downgrade"
-msgstr "Retour à une version antérieure"
+msgstr "Reveni"
 
 #: pamac/main.py:344 pamac/main.py:1074 pamac/main.py:1251
 msgid "To remove"
-msgstr "À désinstaller"
+msgstr "Forigi"
 
 #: pamac/main.py:351
 msgid "To update"
-msgstr "À mettre à jour"
+msgstr "Ĝisdatigi"
 
 #: pamac/main.py:362 pamac/main.py:459
 msgid "<b>Total download size: </b>"
-msgstr "<b>Taille totale du téléchargement: </b>"
+msgstr "<b>Tuta grando de elŝuto: </b>"
 
 #: pamac/main.py:452 pamac/main.py:1263
 msgid "<big><b>Your system is up-to-date</b></big>"
-msgstr "<big><b>Votre système est à jour</b></big>"
+msgstr "<big><b>Via sistemo estas ĝisdatigita</b></big>"
 
 #: pamac/main.py:461
 msgid "<big><b>1 available update</b></big>"
-msgstr "<big><b>1 mise à jour disponible</b></big>"
+msgstr "<big><b>1 disponebla ĝisdatigo</b></big>"
 
 #: pamac/main.py:463
 msgid "<big><b>{number} available updates</b></big>"
-msgstr "<big><b>{number} mises à jour disponibles</b></big>"
+msgstr "<big><b>{number} disponeblaj ĝisdatigoj</b></big>"
 
 #: pamac/main.py:549 pamac/main.py:550
 msgid ""
 "The transaction cannot be performed because it needs to remove {pkgname1} "
 "which is a locked package"
-msgstr "La transaction ne peut pas être réalisée car elle nécessite de désinstaller {pkgname1} qui est un paquet bloqué"
+msgstr "La transakcio ne povas esti plenumita ĉar ĝi bezonas forigi {pkgname1} kiu estas ŝlosita pakaĵo"
 
 #: pamac/main.py:585 pamac/main.py:586 pamac/main.py:697 pamac/main.py:698
 msgid "{pkgname1} will be replaced by {pkgname2}"
-msgstr "{pkgname1} sera remplacé par {pkgname2}"
+msgstr "{pkgname1} estos anstataŭigota de {pkgname2}"
 
 #: pamac/main.py:714 pamac/main.py:715 pamac/main.py:739 pamac/main.py:740
 #: pamac/main.py:760 pamac/main.py:761 pamac/main.py:791 pamac/main.py:792
 #: pamac/main.py:816 pamac/main.py:817 pamac/main.py:837 pamac/main.py:838
 msgid "{pkgname1} conflicts with {pkgname2}"
-msgstr "{pkgname1} est en conflit avec {pkgname2}"
+msgstr "{pkgname1} konfliktas kun {pkgname2}"
 
 #: pamac/main.py:772 pamac/main.py:773
 msgid ""
 "{pkgname1} conflicts with {pkgname2}\n"
 "None of them will be installed"
-msgstr "{pkgname1} est en conflit avec {pkgname2}\nAucun d'entre eux ne sera installé"
+msgstr "{pkgname1} konfliktas kun {pkgname2}\nNenio el ili estas instalota"
 
 #: pamac/main.py:874
 msgid ""
 "<b>{pkgname} is provided by {number} packages.\n"
 "Please choose the one(s) you want to install:</b>"
-msgstr "<b>{pkgname} est fourni par {number} paquets.\nVeuillez choisir celui ou ceux que vous voulez installer:</b>"
+msgstr "<b>{pkgname} estas provizata de {number} pakaĵoj.\nBonvolu eleki tiuj, kiujn vi volas instali:</b>"
 
 #: pamac/main.py:957
 msgid ""
 "<b>{pkgname} has {number} uninstalled optional deps.\n"
 "Please choose the one(s) you want to install:</b>"
-msgstr "<b>{pkgname} a {number} dépendances optionelles non installées.⏎\nVeuillez choisir celui ou ceux que vous voulez installer:</b>"
+msgstr "<b>{pkgname} havas {number} neinstalitaj opciaj dependecojn.\nBonvolu elekti tiuj, kiujn vi volas instali:</b>"
 
 #: pamac/main.py:976
 msgid "Unselect"
-msgstr "Déselectionner"
+msgstr "Malelekti"
 
 #: pamac/main.py:982
 msgid "Remove"
-msgstr "Désintaller"
+msgstr "Forigi"
 
 #: pamac/main.py:987
 msgid "Reinstall"
-msgstr "Réinstaller"
+msgstr "Reinstali"
 
 #: pamac/main.py:1000
 msgid "Install optional deps"
-msgstr "Installer les dépendances optionnelles"
+msgstr "Instali laŭvolajn dependecojn"
 
 #: pamac/main.py:1006
 msgid "Install"
-msgstr "Installer"
+msgstr "Instali"
 
 #: pamac/main.py:1019
 msgid "Install with optional deps"
-msgstr "Installer avec les dépendances optionnelles"
+msgstr "Instali kun laŭvolaj dependecoj"
 
 #: pamac/main.py:1068 pamac/main.py:1251
 msgid "Uninstalled"
-msgstr "Non installé"
+msgstr "Neinstalita"
 
 #: pamac/main.py:1070 pamac/main.py:1251
 msgid "Orphans"
-msgstr "Orphelins"
+msgstr "Orfoj"
 
 #: pamac/common.py:13
 #, python-format
 msgid "%.1f KiB"
-msgstr "%.1f Ko"
+msgstr "%.1f KiB"
 
 #: pamac/common.py:16
 #, python-format
 msgid "%.2f MiB"
-msgstr "%.2f Mo"
+msgstr "%.2f MiB"
 
 #: gui/manager.glade:6
 msgid "Choose"
-msgstr "Choisir"
+msgstr "Elektu"
 
 #: gui/manager.glade:109
 msgid "Summary"
-msgstr "Résumé"
+msgstr "Resumo"
 
 #: gui/manager.glade:250
 msgid "Package Manager"
-msgstr "Gestionnaire de paquets"
+msgstr "Pakaĵo Administranto"
 
 #: gui/manager.glade:338
 msgid "Search"
-msgstr "Rechercher"
+msgstr "Ŝerĉi"
 
 #: gui/manager.glade:431 gui/manager.glade:524
 msgid "State"
-msgstr "État"
+msgstr "Stato"
 
 #: gui/manager.glade:478
 msgid "Repos"
-msgstr "Dépôts"
+msgstr "Deponejoj"
 
 #: gui/manager.glade:540
 msgid "Name"
-msgstr "Nom"
+msgstr "Nomo"
 
 #: gui/manager.glade:558
 msgid "Version"
-msgstr "Version"
+msgstr "Versio"
 
 #: gui/manager.glade:574
 msgid "Size"
-msgstr "Taille"
+msgstr "Grando"
 
 #: gui/manager.glade:675
 msgid "Infos"
-msgstr "Infos"
+msgstr "Informoj"
 
 #: gui/manager.glade:735
 msgid "Deps"
-msgstr "Dépendances"
+msgstr "Dependecoj"
 
 #: gui/manager.glade:800
 msgid "Details"
-msgstr "Détails"
+msgstr "Detaloj"
 
 #: gui/manager.glade:848
 msgid "Files"
-msgstr "Fichiers"
+msgstr "Dosieroj"
 
 #: gui/manager.glade:970
 msgid "Progress"
-msgstr "Progression"
+msgstr "Progreso"

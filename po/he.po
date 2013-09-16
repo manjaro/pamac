@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-03-30 15:09+0100\n"
-"PO-Revision-Date: 2013-06-09 12:43+0000\n"
+"PO-Revision-Date: 2013-07-14 21:09+0000\n"
 "Last-Translator: GenghisKhan <genghiskhan@gmx.ca>\n"
 "Language-Team: Hebrew (http://www.transifex.com/projects/p/manjaro-pamac/language/he/)\n"
 "MIME-Version: 1.0\n"
@@ -22,17 +22,17 @@ msgstr ""
 msgid "Authentication is required"
 msgstr "אימות נדרש"
 
-#: pamac-daemon.py:29 pamac/main.py:505
+#: pamac-daemon.py:29 pamac/main.py:503
 msgid "Preparing"
 msgstr "מתכונן כעת"
 
 #: pamac-daemon.py:68
 msgid "Checking dependencies"
-msgstr "בודק כעת תלויות"
+msgstr "בוחן כעת תלויות"
 
 #: pamac-daemon.py:75
 msgid "Checking file conflicts"
-msgstr "בודק כעת התנגשויות קובץ"
+msgstr "בוחן כעת התנגשויות קובץ"
 
 #: pamac-daemon.py:78
 msgid "Resolving dependencies"
@@ -40,7 +40,7 @@ msgstr "פותר כעת תלויות"
 
 #: pamac-daemon.py:85
 msgid "Checking inter conflicts"
-msgstr ""
+msgstr "בוחן כעת התנגשויות פנימיות"
 
 #: pamac-daemon.py:88 pamac/main.py:51
 msgid "Installing"
@@ -64,7 +64,7 @@ msgstr "מתקין שוב כעת"
 
 #: pamac-daemon.py:125
 msgid "Checking integrity"
-msgstr "בודק כעת שלמות"
+msgstr "בוחן כעת שלמות"
 
 #: pamac-daemon.py:129
 msgid "Loading packages files"
@@ -76,59 +76,51 @@ msgstr "מגדיר כעת"
 
 #: pamac-daemon.py:140
 msgid "Checking keys in keyring"
-msgstr "בודק כעת מפתחות בתוך מחזיק מפתחות"
+msgstr "בוחן כעת מפתחות בתוך מחזיק מפתחות"
 
 #: pamac-daemon.py:198
 msgid "Downloading {size}"
-msgstr ""
+msgstr "מוריד כעת {size}"
 
-#: pamac-daemon.py:203 pamac/main.py:439 pamac/main.py:1099
+#: pamac-daemon.py:203 pamac/main.py:437 pamac/main.py:1126
 msgid "Refreshing"
 msgstr "מרענן כעת"
 
-#: pamac-daemon.py:371 pamac-install.py:44 pamac/main.py:533
+#: pamac-daemon.py:371 pamac-install.py:44 pamac/main.py:531
 msgid "{pkgname} is not a valid path or package name"
-msgstr ""
+msgstr "‏{pkgname} אינה נתיב תקף או שם חבילה"
 
 #: pamac-daemon.py:438
 msgid "Transaction successfully finished"
-msgstr ""
+msgstr "טרנזקציה הסתיימה בהצלחה"
 
 #: pamac-daemon.py:442 pamac-daemon.py:450
 msgid "Authentication failed"
 msgstr "אימות נכשל"
 
-#: pamac-tray.py:20
+#: pamac-tray.py:22
 msgid "{number} available updates"
 msgstr "{number} עדכונים זמינים"
 
-#: pamac-tray.py:21
+#: pamac-tray.py:23
 msgid "1 available update"
 msgstr "עדכון 1 זמין"
 
-#: pamac-tray.py:23
+#: pamac-tray.py:25
 msgid "Your system is up-to-date"
-msgstr ""
+msgstr "המערכת שלך מעודכנת"
 
-#: pamac-tray.py:31
-msgid "Install/Check for updates"
-msgstr "התקן/בדוק עבור עדכונים"
+#: pamac-tray.py:113 gui/updater.glade:7
+msgid "Update Manager"
+msgstr "מנהל עדכונים"
 
-#: pamac-tray.py:34
-msgid "Run pamac-manager"
-msgstr ""
-
-#: pamac-tray.py:37
-msgid "Quit"
-msgstr "יציאה"
-
-#: pamac-install.py:73 pamac-install.py:79 pamac/main.py:897
+#: pamac-install.py:73 pamac-install.py:79 pamac/main.py:915
 msgid "Nothing to do"
 msgstr "אין מה לעשות"
 
-#: pamac-install.py:87 pamac/main.py:1150
+#: pamac-install.py:87 pamac/main.py:1177
 msgid "Pamac is already running"
-msgstr ""
+msgstr "‏Pamac כבר מורץ כעת"
 
 #: pamac-install.py:97
 msgid ""
@@ -136,274 +128,270 @@ msgid ""
 "Please update your system first"
 msgstr "עדכונים מסוימים זמינים כעת.\nאנא עדכן תחילה את מערכתך"
 
-#: pamac/main.py:89 pamac/main.py:1052
+#: pamac/main.py:88 pamac/main.py:1083
 msgid "local"
 msgstr "מקומית"
 
-#: pamac/main.py:180 pamac/main.py:954 pamac/main.py:1003
+#: pamac/main.py:178 pamac/main.py:973 pamac/main.py:1034
 msgid "No package found"
 msgstr "לא נמצאה חבילה"
 
-#: pamac/main.py:231
+#: pamac/main.py:229
 msgid "Licenses"
 msgstr "רשיונות"
 
-#: pamac/main.py:236
+#: pamac/main.py:234
 msgid "Depends On"
 msgstr "תלויה על"
 
-#: pamac/main.py:241 pamac/main.py:1035 pamac/main.py:1224
+#: pamac/main.py:239 pamac/main.py:1066 pamac/main.py:1251
 msgid "Installed"
-msgstr ""
+msgstr "מותקנות"
 
-#: pamac/main.py:244
+#: pamac/main.py:242
 msgid "Optional Deps"
 msgstr "תלויות רשות"
 
-#: pamac/main.py:247
+#: pamac/main.py:245
 msgid "Required By"
 msgstr "מחויבת על ידי"
 
-#: pamac/main.py:249
+#: pamac/main.py:247
 msgid "Provides"
 msgstr "מספקת"
 
-#: pamac/main.py:251
+#: pamac/main.py:249
 msgid "Replaces"
 msgstr "מחליפה"
 
-#: pamac/main.py:253
+#: pamac/main.py:251
 msgid "Conflicts With"
 msgstr "מתנגשת עם"
 
-#: pamac/main.py:258
+#: pamac/main.py:256
 msgid "Repository"
 msgstr "מאגר"
 
-#: pamac/main.py:260 gui/manager.glade:538
+#: pamac/main.py:258 gui/manager.glade:384
 msgid "Groups"
 msgstr "קבוצה"
 
-#: pamac/main.py:262
+#: pamac/main.py:260
 msgid "Compressed Size"
 msgstr "גודל מקובץ"
 
-#: pamac/main.py:263
+#: pamac/main.py:261
 msgid "Download Size"
 msgstr "גודל הורדה"
 
-#: pamac/main.py:265
+#: pamac/main.py:263
 msgid "Installed Size"
 msgstr "גודל מותקן"
 
-#: pamac/main.py:266
+#: pamac/main.py:264
 msgid "Packager"
 msgstr "אורז"
 
-#: pamac/main.py:267
+#: pamac/main.py:265
 msgid "Architecture"
 msgstr "ארכיטקטורה"
 
-#: pamac/main.py:270
+#: pamac/main.py:268
 msgid "Install Date"
 msgstr "תאריך התקנה"
 
-#: pamac/main.py:272
+#: pamac/main.py:270
 msgid "Explicitly installed"
 msgstr ""
 
-#: pamac/main.py:274
+#: pamac/main.py:272
 msgid "Installed as a dependency for another package"
 msgstr "מותקנת כתלות עבור חבילה אחרת"
 
-#: pamac/main.py:276
+#: pamac/main.py:274
 msgid "Unknown"
 msgstr "לא ידוע"
 
-#: pamac/main.py:277
+#: pamac/main.py:275
 msgid "Install Reason"
 msgstr ""
 
-#: pamac/main.py:282
+#: pamac/main.py:280
 msgid "Signatures"
 msgstr "חתימות"
 
-#: pamac/main.py:286
+#: pamac/main.py:284
 msgid "Backup files"
 msgstr "קבצי גיבוי"
 
-#: pamac/main.py:326
+#: pamac/main.py:324
 msgid "<big><b>Transaction Summary</b></big>"
-msgstr ""
+msgstr "<big><b>סיכום טרנזקציה</b></big>"
 
-#: pamac/main.py:328 pamac/main.py:1041 pamac/main.py:1224
+#: pamac/main.py:326 pamac/main.py:1072 pamac/main.py:1251
 msgid "To install"
 msgstr "להתקנה"
 
-#: pamac/main.py:334
+#: pamac/main.py:332
 msgid "To reinstall"
 msgstr "להתקנה חוזרת"
 
-#: pamac/main.py:340
+#: pamac/main.py:338
 msgid "To downgrade"
 msgstr "להנמכה"
 
-#: pamac/main.py:346 pamac/main.py:1043 pamac/main.py:1224
+#: pamac/main.py:344 pamac/main.py:1074 pamac/main.py:1251
 msgid "To remove"
 msgstr "להסרה"
 
-#: pamac/main.py:353
+#: pamac/main.py:351
 msgid "To update"
 msgstr "לשדרוג"
 
-#: pamac/main.py:364 pamac/main.py:461
+#: pamac/main.py:362 pamac/main.py:459
 msgid "<b>Total download size: </b>"
 msgstr "<b>סך גודל הורדה: </b>"
 
-#: pamac/main.py:454 pamac/main.py:1236
+#: pamac/main.py:452 pamac/main.py:1263
 msgid "<big><b>Your system is up-to-date</b></big>"
-msgstr ""
+msgstr "<big><b>המערכת שלך מעודכנת</b></big>"
 
-#: pamac/main.py:463
+#: pamac/main.py:461
 msgid "<big><b>1 available update</b></big>"
 msgstr "<big><b>עדכון 1 זמין</b></big>"
 
-#: pamac/main.py:465
+#: pamac/main.py:463
 msgid "<big><b>{number} available updates</b></big>"
 msgstr "<big><b>{number} עדכונים זמינים</b></big>"
 
-#: pamac/main.py:551 pamac/main.py:552
+#: pamac/main.py:549 pamac/main.py:550
 msgid ""
 "The transaction cannot be performed because it needs to remove {pkgname1} "
 "which is a locked package"
-msgstr ""
+msgstr "אין אפשרות לבצע את הטרנזקציה מכיוון שזו צריכה להסיר את {pkgname1} שהיא חבילה נעולה"
 
-#: pamac/main.py:583 pamac/main.py:584 pamac/main.py:686 pamac/main.py:687
+#: pamac/main.py:585 pamac/main.py:586 pamac/main.py:697 pamac/main.py:698
 msgid "{pkgname1} will be replaced by {pkgname2}"
-msgstr ""
+msgstr "‏{pkgname1} תוחלף על ידי {pkgname2}"
 
-#: pamac/main.py:701 pamac/main.py:702 pamac/main.py:726 pamac/main.py:727
-#: pamac/main.py:747 pamac/main.py:748 pamac/main.py:778 pamac/main.py:779
-#: pamac/main.py:803 pamac/main.py:804 pamac/main.py:824 pamac/main.py:825
+#: pamac/main.py:714 pamac/main.py:715 pamac/main.py:739 pamac/main.py:740
+#: pamac/main.py:760 pamac/main.py:761 pamac/main.py:791 pamac/main.py:792
+#: pamac/main.py:816 pamac/main.py:817 pamac/main.py:837 pamac/main.py:838
 msgid "{pkgname1} conflicts with {pkgname2}"
-msgstr ""
+msgstr "‏{pkgname1} מתנגשת עם {pkgname2}"
 
-#: pamac/main.py:759 pamac/main.py:760
+#: pamac/main.py:772 pamac/main.py:773
 msgid ""
 "{pkgname1} conflicts with {pkgname2}\n"
 "None of them will be installed"
-msgstr ""
+msgstr "‏{pkgname1} מתנגשת עם {pkgname2}\nאף אחת מאלה לא תותקן"
 
-#: pamac/main.py:856
+#: pamac/main.py:874
 msgid ""
 "<b>{pkgname} is provided by {number} packages.\n"
 "Please choose the one(s) you want to install:</b>"
-msgstr ""
+msgstr "‏<b>{pkgname} מסופקת על ידי {number} חבילות.\nאנא בחר את אלה שברצונך להתקין:</b>"
 
-#: pamac/main.py:939
+#: pamac/main.py:957
 msgid ""
 "<b>{pkgname} has {number} uninstalled optional deps.\n"
 "Please choose the one(s) you want to install:</b>"
-msgstr ""
+msgstr "<b>לחבילה {pkgname} יש {number} תלויות רשות לא מותקנות.\nאנא בחר את אלה שברצונך להתקין:</b>"
 
-#: pamac/main.py:957
+#: pamac/main.py:976
 msgid "Unselect"
 msgstr "בטל בחירה"
 
-#: pamac/main.py:961
+#: pamac/main.py:982
 msgid "Remove"
 msgstr "הסר"
 
-#: pamac/main.py:964
+#: pamac/main.py:987
 msgid "Reinstall"
 msgstr "התקן שוב"
 
-#: pamac/main.py:975
+#: pamac/main.py:1000
 msgid "Install optional deps"
 msgstr "התקן תלויות רשות"
 
-#: pamac/main.py:979
+#: pamac/main.py:1006
 msgid "Install"
 msgstr "התקן"
 
-#: pamac/main.py:990
+#: pamac/main.py:1019
 msgid "Install with optional deps"
 msgstr "התקן עם תלויות רשות"
 
-#: pamac/main.py:1037 pamac/main.py:1224
+#: pamac/main.py:1068 pamac/main.py:1251
 msgid "Uninstalled"
-msgstr ""
+msgstr "לא מותקנות"
 
-#: pamac/main.py:1039 pamac/main.py:1224
+#: pamac/main.py:1070 pamac/main.py:1251
 msgid "Orphans"
 msgstr "יתומות"
 
 #: pamac/common.py:13
 #, python-format
 msgid "%.1f KiB"
-msgstr ""
+msgstr "%.1f קי״ב"
 
 #: pamac/common.py:16
 #, python-format
 msgid "%.2f MiB"
-msgstr ""
+msgstr "%.2f מי״ב"
 
-#: gui/manager.glade:7
+#: gui/manager.glade:6
 msgid "Choose"
 msgstr "בחר"
 
-#: gui/manager.glade:112
+#: gui/manager.glade:109
 msgid "Summary"
 msgstr "סיכום"
 
-#: gui/manager.glade:256
-msgid "Progress"
-msgstr "התקדמות"
-
-#: gui/manager.glade:402
+#: gui/manager.glade:250
 msgid "Package Manager"
 msgstr "מנהל חבילה"
 
-#: gui/manager.glade:492
+#: gui/manager.glade:338
 msgid "Search"
 msgstr "חיפוש"
 
-#: gui/manager.glade:585 gui/manager.glade:680
+#: gui/manager.glade:431 gui/manager.glade:524
 msgid "State"
-msgstr ""
+msgstr "מצב"
 
-#: gui/manager.glade:632
+#: gui/manager.glade:478
 msgid "Repos"
-msgstr ""
+msgstr "מאגרים"
 
-#: gui/manager.glade:711
+#: gui/manager.glade:540
 msgid "Name"
 msgstr "שם"
 
-#: gui/manager.glade:730
+#: gui/manager.glade:558
 msgid "Version"
 msgstr "גרסא"
 
-#: gui/manager.glade:747
+#: gui/manager.glade:574
 msgid "Size"
 msgstr "גודל"
 
-#: gui/manager.glade:848
+#: gui/manager.glade:675
 msgid "Infos"
 msgstr "מידע"
 
-#: gui/manager.glade:908
+#: gui/manager.glade:735
 msgid "Deps"
 msgstr "תלויות"
 
-#: gui/manager.glade:973
+#: gui/manager.glade:800
 msgid "Details"
 msgstr "פרטים"
 
-#: gui/manager.glade:1021
+#: gui/manager.glade:848
 msgid "Files"
 msgstr "קבצים"
 
-#: gui/updater.glade:6
-msgid "Update Manager"
-msgstr "מנהל עדכונים"
+#: gui/manager.glade:970
+msgid "Progress"
+msgstr "התקדמות"

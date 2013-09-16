@@ -16,10 +16,10 @@ _ = gettext.gettext
 
 GObject.threads_init()
 
-update_icon = 'software-update-urgent'
+update_icon = 'pamac-update'
 update_info = _('{number} available updates')
 one_update_info = _('1 available update')
-noupdate_icon = 'software-update-available'
+noupdate_icon = 'pamac-tray'
 noupdate_info = _('Your system is up-to-date')
 icon = noupdate_icon
 info = noupdate_info

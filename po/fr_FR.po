@@ -4,6 +4,7 @@
 # 
 # Translators:
 # guinux <guillaume@manjaro.org>, 2013
+# texaveryfun <texaveryfun@laposte.net>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
@@ -11,11 +12,11 @@ msgstr ""
 "POT-Creation-Date: 2013-03-30 15:09+0100\n"
 "PO-Revision-Date: 2013-07-14 08:13+0000\n"
 "Last-Translator: manjarolinux <philm@manjaro.org>\n"
-"Language-Team: French (http://www.transifex.com/projects/p/manjaro-pamac/language/fr/)\n"
+"Language-Team: French (France) (http://www.transifex.com/projects/p/manjaro-pamac/language/fr_FR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: fr\n"
+"Language: fr_FR\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 #: data/polkit/org.manjaro.pamac.policy:10
@@ -296,15 +297,15 @@ msgstr "<b>{pkgname} est fourni par {number} paquets.\nVeuillez choisir celui ou
 msgid ""
 "<b>{pkgname} has {number} uninstalled optional deps.\n"
 "Please choose the one(s) you want to install:</b>"
-msgstr "<b>{pkgname} a {number} dépendances optionelles non installées.⏎\nVeuillez choisir celui ou ceux que vous voulez installer:</b>"
+msgstr "<b>{pkgname} a {number} dépendances optionnelles non installées.⏎\nVeuillez choisir celle(s) que vous voulez installer :</b>"
 
 #: pamac/main.py:976
 msgid "Unselect"
-msgstr "Déselectionner"
+msgstr "Non sélectionné"
 
 #: pamac/main.py:982
 msgid "Remove"
-msgstr "Désintaller"
+msgstr "Supprimer"
 
 #: pamac/main.py:987
 msgid "Reinstall"
@@ -312,7 +313,7 @@ msgstr "Réinstaller"
 
 #: pamac/main.py:1000
 msgid "Install optional deps"
-msgstr "Installer les dépendances optionnelles"
+msgstr "Installer dépendance(s) optionelle(s)"
 
 #: pamac/main.py:1006
 msgid "Install"
@@ -320,7 +321,7 @@ msgstr "Installer"
 
 #: pamac/main.py:1019
 msgid "Install with optional deps"
-msgstr "Installer avec les dépendances optionnelles"
+msgstr "Installer avec dépendance(s) optionnelle(s)"
 
 #: pamac/main.py:1068 pamac/main.py:1251
 msgid "Uninstalled"
