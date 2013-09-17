@@ -16,10 +16,10 @@ _ = gettext.gettext
 
 GObject.threads_init()
 
-update_icon = 'pamac-update'
+update_icon = '/usr/share/pamac/icons/24x24/status/pamac-update.png'
 update_info = _('{number} available updates')
 one_update_info = _('1 available update')
-noupdate_icon = 'pamac-tray'
+noupdate_icon = '/usr/share/pamac/icons/24x24/status/pamac-tray.png'
 noupdate_info = _('Your system is up-to-date')
 icon = noupdate_icon
 info = noupdate_info
@@ -66,7 +66,7 @@ class Tray:
 			Popen(['/usr/bin/pamac-updater'])
 
 	def update_icon(self, icon, info):
-		self.statusIcon.set_from_icon_name(icon)
+		self.statusIcon.set_from_file(icon)
 		self.statusIcon.set_tooltip_markup(info)
 
 	def set_visible(self, boolean):
