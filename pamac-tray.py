@@ -30,15 +30,15 @@ class Tray:
 
 		self.menu = Gtk.Menu()
 		self.menuItem = Gtk.ImageMenuItem(_('Update Manager'))
-		self.menuItem.set_image(Gtk.Image.new_from_file('/usr/share/pamac/icons/16x16/apps/pamac-updater.png')
+		self.menuItem.set_image(Gtk.Image.new_from_file('/usr/share/pamac/icons/16x16/apps/pamac-updater.png'))
 		self.menuItem.connect('activate', self.execute_update, self.statusIcon)
 		self.menu.append(self.menuItem)
 		self.menuItem = Gtk.ImageMenuItem(_('Package Manager'))
-		self.menuItem.set_image(Gtk.Image.new_from_file('/usr/share/pamac/icons/16x16/apps/pamac.png')
+		self.menuItem.set_image(Gtk.Image.new_from_file('/usr/share/pamac/icons/16x16/apps/pamac.png'))
 		self.menuItem.connect('activate', self.execute_manager, self.statusIcon)
 		self.menu.append(self.menuItem)
 		self.menuItem = Gtk.ImageMenuItem(_('Quit'))
-		self.menuItem.set_image(Gtk.Image.new_from_file('/usr/share/pamac/icons/16x16/apps/exit.png')
+		self.menuItem.set_image(Gtk.Image.new_from_file('/usr/share/pamac/icons/16x16/apps/exit.png'))
 		self.menuItem.connect('activate', self.quit_tray, self.statusIcon)
 		self.menu.append(self.menuItem)
 
