@@ -30,15 +30,15 @@ class Tray:
 
 		self.menu = Gtk.Menu()
 		self.menuItem = Gtk.ImageMenuItem(_('Update Manager'))
-		self.menuItem.set_image(Gtk.Image.new_from_pixbuf(Gtk.IconTheme.get_default().load_icon('system-software-update', 16, 0)))
+		self.menuItem.set_from_file('/usr/share/pamac/icons/16x16/apps/pamac-updater.png')
 		self.menuItem.connect('activate', self.execute_update, self.statusIcon)
 		self.menu.append(self.menuItem)
 		self.menuItem = Gtk.ImageMenuItem(_('Package Manager'))
-		self.menuItem.set_image(Gtk.Image.new_from_pixbuf(Gtk.IconTheme.get_default().load_icon('system-software-install', 16, 0)))
+		self.menuItem.set_from_file('/usr/share/pamac/icons/16x16/apps/pamac.png')
 		self.menuItem.connect('activate', self.execute_manager, self.statusIcon)
 		self.menu.append(self.menuItem)
 		self.menuItem = Gtk.ImageMenuItem(_('Quit'))
-		self.menuItem.set_image(Gtk.Image.new_from_stock('gtk-quit', Gtk.IconSize.MENU))
+		self.menuItem.set_from_file('/usr/share/pamac/icons/16x16/apps/exit.png')
 		self.menuItem.connect('activate', self.quit_tray, self.statusIcon)
 		self.menu.append(self.menuItem)
 
@@ -110,7 +110,7 @@ def set_icon(updates):
 		tray.set_visible(True)
 		sleep(2)
 		if not common.pid_file_exists():
-			Popen(['notify-send', '-i', 'system-software-update', '-u', 'normal', _('Update Manager'), info])
+			Popen(['notify-send', '-i', '/usr/share/pamac/icons/32x32/apps/pamac-updater.png', '-u', 'normal', _('Update Manager'), info])
 	else:
 		icon = noupdate_icon
 		info = noupdate_info
