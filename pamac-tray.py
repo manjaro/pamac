@@ -2,19 +2,18 @@
 # -*- coding:utf-8 -*-
 
 from gi.repository import Gtk, GObject
-from subprocess import Popen
-import dbus
-import threading
-from pamac import common
+from subprocess import call
 from time import sleep
+import threading
+from pamac import common, transaction
+
+GObject.threads_init()
 
 # i18n
 import gettext
 gettext.bindtextdomain('pamac', '/usr/share/locale')
 gettext.textdomain('pamac')
 _ = gettext.gettext
-
-GObject.threads_init()
 
 update_icon = '/usr/share/pamac/icons/24x24/status/pamac-update.png'
 update_info = _('{number} available updates')
@@ -27,6 +26,7 @@ info = noupdate_info
 class Tray:
 	def __init__(self):
 		self.statusIcon = Gtk.StatusIcon()
+		self.statusIcon.set_visible(True)
 
 		self.menu = Gtk.Menu()
 		self.menuItem = Gtk.ImageMenuItem(_('Update Manager'))
@@ -46,13 +46,14 @@ class Tray:
 		self.statusIcon.connect('activate', self.activate_cb)
 
 	def execute_update(self, widget, event, data = None):
-		Popen(['/usr/bin/pamac-updater'])
+		call(['/usr/bin/pamac-updater'])
 
 	def execute_manager(self, widget, event, data = None):
-		Popen(['/usr/bin/pamac-manager'])
+		call(['/usr/bin/pamac-manager'])
 
 	def quit_tray(self, widget, data = None):
-		t.shutdown()
+		t1.shutdown()
+		t2.shutdown()
 		Gtk.main_quit()
 
 	def popup_menu_cb(self, widget, button, time, data = None):
@@ -63,16 +64,16 @@ class Tray:
 
 	def activate_cb(self, widget, data = None):
 		if icon == update_icon:
-			Popen(['/usr/bin/pamac-updater'])
+			call(['/usr/bin/pamac-updater'])
 
 	def update_icon(self, icon, info):
-		self.statusIcon.set_from_file(icon)
-		self.statusIcon.set_tooltip_markup(info)
+		GObject.idle_add(self.statusIcon.set_from_file, icon)
+		GObject.idle_add(self.statusIcon.set_tooltip_markup, info)
 
 	def set_visible(self, boolean):
 		self.statusIcon.set_visible(boolean)
 
-class PeriodicTask(threading.Thread):
+class PeriodicRefresh(threading.Thread):
 	"""Thread that executes a task every N seconds"""
 	def __init__(self):
 		threading.Thread.__init__(self)
@@ -88,15 +89,41 @@ class PeriodicTask(threading.Thread):
 		self._finished.set()
 
 	def run(self):
-		while 1:
+		while True:
 			if self._finished.isSet():
 				return
-			self.task()
-			# sleep for interval or until shutdown
+			call(['/usr/bin/pamac-refresh'])
 			self._finished.wait(self._interval)
 
-	def task(self):
-		Popen(['/usr/bin/pamac-refresh'])
+class PeriodicCheck(threading.Thread):
+	"""Thread that executes a task every N seconds"""
+	def __init__(self):
+		threading.Thread.__init__(self)
+		self._finished = threading.Event()
+		self._interval = 1
+		self.trans = transaction.Transaction()
+
+	def setInterval(self, interval):
+		"""Set the number of seconds we sleep between executing our task"""
+		self._interval = interval
+
+	def shutdown(self):
+		"""Stop this thread"""
+		self._finished.set()
+
+	def run(self):
+		pid_file = True
+		while True:
+			if self._finished.isSet():
+				return
+			if common.pid_file_exists():
+				pid_file = True
+			elif pid_file:
+				self.trans.update_dbs()
+				set_icon(len(self.trans.get_updates()[1]))
+				pid_file = False
+			else:
+				self._finished.wait(self._interval)
 
 def set_icon(updates):
 	global icon
@@ -107,23 +134,18 @@ def set_icon(updates):
 			info = one_update_info
 		else:
 			info = update_info.format(number = updates)
-		tray.set_visible(True)
-		sleep(2)
 		if not common.pid_file_exists():
-			Popen(['notify-send', '-i', '/usr/share/pamac/icons/32x32/apps/pamac-updater.png', '-u', 'normal', _('Update Manager'), info])
+			call(['notify-send', '-i', '/usr/share/pamac/icons/32x32/apps/pamac-updater.png', '-u', 'normal', _('Update Manager'), info])
 	else:
 		icon = noupdate_icon
 		info = noupdate_info
-		tray.set_visible(True)
 	print(info)
 	tray.update_icon(icon, info)
-
-from pamac import transaction
-bus = dbus.SystemBus()
-bus.add_signal_receiver(set_icon, dbus_interface = "org.manjaro.pamac", signal_name = "EmitAvailableUpdates")
-transaction.StopDaemon()
+	return False
 
 tray = Tray()
-t = PeriodicTask()
-t.start()
+t1 = PeriodicRefresh()
+t1.start()
+t2 = PeriodicCheck()
+t2.start()
 Gtk.main()
