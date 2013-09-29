@@ -327,12 +327,12 @@ msgstr ""
 
 #: pamac/transaction.py:331
 #, python-brace-format
-msgid "{pkgname1} will replace by {pkgname2}\n"
+msgid "{pkgname1} will be replaced by {pkgname2}"
 msgstr ""
 
 #: pamac/transaction.py:334
 #, python-brace-format
-msgid "{pkgname1} conflicts with {pkgname2}\n"
+msgid "{pkgname1} conflicts with {pkgname2}"
 msgstr ""
 
 #: pamac/transaction.py:383

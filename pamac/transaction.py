@@ -328,10 +328,10 @@ class Transaction():
 		if event == 'ALPM_QUESTION_INSTALL_IGNOREPKG':
 			return 0 #Do not install package in IgnorePkg/IgnoreGroup
 		if event == 'ALPM_QUESTION_REPLACE_PKG':
-			self.warning += _('{pkgname1} will replace by {pkgname2}\n').format(pkgname1 = data_tupel[0].name, pkgname2 = data_tupel[1].name)
+			self.warning += _('{pkgname1} will be replaced by {pkgname2}').format(pkgname1 = data_tupel[0].name, pkgname2 = data_tupel[1].name)+'\n'
 			return 1 #Auto-remove conflicts in case of replaces
 		if event == 'ALPM_QUESTION_CONFLICT_PKG':
-			self.warning += _('{pkgname1} conflicts with {pkgname2}\n').format(pkgname1 = data_tupel[0], pkgname2 = data_tupel[1])
+			self.warning += _('{pkgname1} conflicts with {pkgname2}').format(pkgname1 = data_tupel[0], pkgname2 = data_tupel[1])+'\n'
 			return 1 #Auto-remove conflicts
 		if event == 'ALPM_QUESTION_CORRUPTED_PKG':
 			return 1 #Auto-remove corrupted pkgs in cache
@@ -352,7 +352,7 @@ class Transaction():
 		if not (level & _logmask):
 			return
 		if level & pyalpm.LOG_ERROR:
-			self.error += line
+			#self.error += line
 			_error = "ERROR: "+line
 			end_iter = progress_buffer.get_end_iter()
 			progress_buffer.insert(end_iter, _error)
