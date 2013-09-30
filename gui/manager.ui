@@ -801,12 +801,6 @@
       <!-- column-name _info -->
       <column type="gchararray"/>
     </columns>
-    <data>
-      <row>
-        <col id="0" translatable="yes"> </col>
-        <col id="1" translatable="yes"> </col>
-      </row>
-    </data>
   </object>
   <object class="GtkListStore" id="files_list">
     <columns>

@@ -446,10 +446,6 @@ msgstr ""
 msgid "Install local packages"
 msgstr ""
 
-#: gui/manager.ui:806 gui/manager.ui:807
-msgid " "
-msgstr ""
-
 #: gui/dialogs.ui:6
 msgid "Choose"
 msgstr ""
