@@ -765,6 +765,99 @@ class Transaction():
 		self.to_remove.clear()
 
 	def run(self):
+		if self.to_add or self.to_load:
+			## check for kernel extra modules ##
+			to_check = [pkg for pkg in self.to_add] + [pkg for pkg in self.to_load]
+			already_checked = set(pkg.name for pkg in to_check)
+			depends = [to_check]
+			# get installed kernels
+			pkgs = self.localdb.search('linux3')
+			installed_linux = []
+			for pkg in pkgs:
+				if len(pkg.name) == 7 or len(pkg.name) == 8:
+					installed_linux.append(pkg.name)
+			for pkg in self.to_add:
+				if 'linux3' in pkg.name:
+					if len(pkg.name) == 7 or len(pkg.name) == 8:
+						installed_linux.append(pkg.name)
+			# start loops to check pkgs
+			i = 0
+			while depends[i]:
+				# add a empty list for new pkgs to check next loop
+				depends.append([])
+				# start to check one pkg
+				for pkg in depends[i]:
+					# check if the current pkg is a kernel and if so, check if a module is required to install
+					if 'linux3' in pkg.name:
+						for _pkg in self.localdb.pkgcache:
+							for depend in _pkg.depends:
+								if '-modules' in depend:
+									for db in self.syncdbs:
+										for __pkg in db.pkgcache:
+											if not self.get_localpkg(__pkg.name):
+												for provide in __pkg.provides:
+													for linux in installed_linux:
+														if linux in __pkg.name:
+															if common.format_pkg_name(depend) == common.format_pkg_name(provide):
+																if not pkg_in_list(__pkg, self.to_add):
+																	if not __pkg.name in already_checked:
+																		depends[i+1].append(__pkg)
+																		already_checked.add(__pkg.name)
+																	self.to_add.append(__pkg)
+					# check pkg deps
+					for depend in pkg.depends:
+						# check if dep is already installed
+						found_depend = pyalpm.find_satisfier(self.localdb.pkgcache, depend)
+						if found_depend:
+							# check if the dep is a kernel module to provide and if so, auto-select it
+							if found_depend.name != common.format_pkg_name(depend):
+								if ('-modules' in depend) or ('linux' in depend):
+									for db in self.syncdbs:
+										for _pkg in db.pkgcache:
+											if not self.get_localpkg(_pkg.name):
+												for name in _pkg.provides:
+													for linux in installed_linux:
+														if linux in _pkg.name:
+															if common.format_pkg_name(depend) == common.format_pkg_name(name):
+																if not pkg_in_list(_pkg, self.to_add):
+																	if not _pkg.name in already_checked:
+																		depends[i+1].append(_pkg)
+																		already_checked.add(_pkg.name)
+																	self.to_add.append(_pkg)
+							else:
+								# add the dep in list to check its deps in next loop 
+								if not found_depend.name in already_checked:
+									depends[i+1].append(found_depend)
+									already_checked.add(found_depend.name)
+						else:
+							# found the dep in uninstalled pkgs
+							for db in self.syncdbs:
+								found_depend = pyalpm.find_satisfier(db.pkgcache, depend)
+								if found_depend:
+									if found_depend.name != common.format_pkg_name(depend):
+										# check if the dep is a kernel module to provide and if so, auto-select it
+										if ('-modules' in depend) or ('linux' in depend):
+											for db in self.syncdbs:
+												for _pkg in db.pkgcache:
+													if not self.get_localpkg(_pkg.name):
+														for name in _pkg.provides:
+															for linux in installed_linux:
+																if linux in _pkg.name:
+																	if common.format_pkg_name(depend) == common.format_pkg_name(name):
+																		if not pkg_in_list(_pkg, self.to_add):
+																			if not _pkg.name in already_checked:
+																				depends[i+1].append(_pkg)
+																				already_checked.add(_pkg.name)
+																			self.to_add.append(_pkg)
+									else:
+										# so the dep is not yet installed, add it in list to check its deps in next loop
+										if not found_depend.name in already_checked:
+											depends[i+1].append(found_depend)
+											already_checked.add(found_depend.name)
+									break
+				i += 1
+				# end of the loop
+
 		if self.to_add or self.to_remove or self.to_load:
 			if self.init(cascade = True):
 				for pkg in self.to_add:

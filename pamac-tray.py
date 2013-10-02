@@ -116,8 +116,10 @@ class PeriodicCheck(threading.Thread):
 		while True:
 			if self._finished.isSet():
 				return
-			if common.pid_file_exists():
-				pid_file = True
+			elif common.pid_file_exists():
+				if not pid_file:
+					pid_file = True
+				self._finished.wait(self._interval)
 			elif pid_file:
 				self.trans.update_dbs()
 				set_icon(len(self.trans.get_updates()[1]))
