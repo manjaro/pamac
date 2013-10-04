@@ -85,14 +85,15 @@ else:
 		args_str = argv[1:]
 		if get_pkgs(args_str):
 			if trans.to_add or trans.to_load:
-				if trans.init(cascade = True):
-					for pkg in trans.to_add:
-						trans.add(pkg)
-					for path in trans.to_load:
-						trans.load(path)
-					if trans.prepare():
-						common.write_pid_file()
-						trans.set_transaction_sum(True)
-						transaction.ConfDialog.show()
-						Gtk.main()
+				if trans.check_extra_modules():
+					if trans.init(cascade = True):
+						for pkg in trans.to_add:
+							trans.add(pkg)
+						for path in trans.to_load:
+							trans.load(path)
+						if trans.prepare():
+							common.write_pid_file()
+							trans.set_transaction_sum(True)
+							transaction.ConfDialog.show()
+							Gtk.main()
 	
