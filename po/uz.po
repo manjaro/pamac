@@ -3,8 +3,7 @@
 # This file is distributed under the same license as the Pamac package.
 # 
 # Translators:
-# Guillaume Benoit <guillaume@manjaro.org>, 2013
-# oriolfa <oriolfa@ono.com>, 2013
+# Umidjon Almasov <u.almasov@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
@@ -12,390 +11,390 @@ msgstr ""
 "POT-Creation-Date: 2013-03-30 15:09+0100\n"
 "PO-Revision-Date: 2013-10-01 08:17+0000\n"
 "Last-Translator: manjarolinux <philm@manjaro.org>\n"
-"Language-Team: Catalan (http://www.transifex.com/projects/p/manjaro-pamac/language/ca/)\n"
+"Language-Team: Uzbek (http://www.transifex.com/projects/p/manjaro-pamac/language/uz/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: ca\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Language: uz\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 
 #: data/polkit/org.manjaro.pamac.policy:10
 msgid "Authentication is required"
-msgstr "Autenticació requerida"
+msgstr ""
 
 #: pamac-manager.py:75 pamac-manager.py:104 pamac-manager.py:105
 #: pamac-manager.py:120 pamac-manager.py:129 pamac-manager.py:235
 #: pamac-manager.py:432 pamac-manager.py:493 pamac-manager.py:555
 msgid "No package found"
-msgstr "No s'ha trobat cap paquet"
+msgstr "Paket topilmadi"
 
 #: pamac-manager.py:149 pamac-manager.py:185 pamac-manager.py:292
 msgid "Installed"
-msgstr "Instal·lat"
+msgstr "O'rnatilgan"
 
 #: pamac-manager.py:149 pamac-manager.py:188
 msgid "Uninstalled"
-msgstr "No instal·lat"
+msgstr "O'chirilgan"
 
 #: pamac-manager.py:149 pamac-manager.py:191
 msgid "Orphans"
-msgstr "Orfes"
+msgstr "Yetimlar"
 
 #: pamac-manager.py:149 pamac-manager.py:171 pamac/transaction.py:668
 msgid "To install"
-msgstr "A instal·lar"
+msgstr "O'rnatish uchun"
 
 #: pamac-manager.py:149 pamac-manager.py:176 pamac/transaction.py:660
 msgid "To remove"
-msgstr "A suprimir"
+msgstr "O'chirish uchun"
 
 #: pamac-manager.py:154 pamac-manager.py:203
 msgid "local"
-msgstr "local"
+msgstr "mahalliy"
 
 #: pamac-manager.py:282
 msgid "Licenses"
-msgstr "Llicències"
+msgstr "Litsenziyalar"
 
 #: pamac-manager.py:287
 msgid "Depends On"
-msgstr "Depèn de"
+msgstr "Bog'langan"
 
 #: pamac-manager.py:295
 msgid "Optional Deps"
-msgstr "Dependències Opcionals"
+msgstr "Qo'shimcha bog'liqliklar"
 
 #: pamac-manager.py:298
 msgid "Required By"
-msgstr "Requerit Per"
+msgstr ""
 
 #: pamac-manager.py:300
 msgid "Provides"
-msgstr "Proporciona"
+msgstr "Ta'minlaydi"
 
 #: pamac-manager.py:302
 msgid "Replaces"
-msgstr "Reemplaça"
+msgstr "Almashtiradi"
 
 #: pamac-manager.py:304
 msgid "Conflicts With"
-msgstr "Conflictes amb"
+msgstr "To'qnashuvda"
 
 #: pamac-manager.py:309
 msgid "Repository"
-msgstr "Dipòsit"
+msgstr "Repozitoriy"
 
 #: pamac-manager.py:311 gui/manager.ui:237
 msgid "Groups"
-msgstr "Grups"
+msgstr "Guruhlar"
 
 #: pamac-manager.py:313
 msgid "Compressed Size"
-msgstr "Mida comprimit"
+msgstr "Siqilgan hajmi"
 
 #: pamac-manager.py:314
 msgid "Download Size"
-msgstr "Mida baixat"
+msgstr "Yuklab olinadigan hajm"
 
 #: pamac-manager.py:316
 msgid "Installed Size"
-msgstr "Mida instal·lat"
+msgstr "O'rnatilgan holda hajm"
 
 #: pamac-manager.py:317
 msgid "Packager"
-msgstr "Empaquetador"
+msgstr "Paket yaratuvchisi"
 
 #: pamac-manager.py:318
 msgid "Architecture"
-msgstr "Arquitectura"
+msgstr "Arxitektura"
 
 #: pamac-manager.py:321
 msgid "Install Date"
-msgstr "Data d'instal·lació"
+msgstr "O'rnatish sanasi"
 
 #: pamac-manager.py:323
 msgid "Explicitly installed"
-msgstr "Explícitament instal·lat"
+msgstr ""
 
 #: pamac-manager.py:325
 msgid "Installed as a dependency for another package"
-msgstr "Instal·lat com a dependència d'un altre paquet"
+msgstr "Boshqa paketning bogliqligi sifatida o'rnatilgan"
 
 #: pamac-manager.py:327
 msgid "Unknown"
-msgstr "Desconegut"
+msgstr "Noma'lum"
 
 #: pamac-manager.py:328
 msgid "Install Reason"
-msgstr "Raó d'instal·lació"
+msgstr "O'rnatish sababi"
 
 #: pamac-manager.py:333
 msgid "Signatures"
-msgstr "Signatures"
+msgstr "Imzolar"
 
 #: pamac-manager.py:337
 msgid "Backup files"
-msgstr "Fitxers de còpia de seguretat"
+msgstr ""
 
 #: pamac-manager.py:408
 #, python-brace-format
 msgid ""
 "<b>{pkgname} has {number} uninstalled optional deps.\n"
 "Please choose the one(s) you want to install:</b>"
-msgstr "<b>{pkgname} té {number} dependències opcionals no instal·lades.⏎\nSi us plau escull la (o les) que vulguis instal·lar:</b>"
+msgstr ""
 
 #: pamac-manager.py:435
 msgid "Unselect"
-msgstr "Desel·lecciona"
+msgstr ""
 
 #: pamac-manager.py:441
 msgid "Remove"
-msgstr "Esborra"
+msgstr "O'chirish"
 
 #: pamac-manager.py:446
 msgid "Reinstall"
-msgstr "Reinstal·la"
+msgstr "Qayta o'rnatish"
 
 #: pamac-manager.py:459
 msgid "Install optional deps"
-msgstr "Instal·la dependències opcionals"
+msgstr "Qo'shimcha bog'liqliklarni o'rnatish"
 
 #: pamac-manager.py:465
 msgid "Install"
-msgstr "Instal·la"
+msgstr "O'rnatish"
 
 #: pamac-manager.py:478
 msgid "Install with optional deps"
-msgstr "Instal·la amb dependències opcionals"
+msgstr "Qo'shimcha bog'liqliklar bilan o'rnatish"
 
 #: pamac-manager.py:702 pamac-updater.py:97 pamac-install.py:71
 msgid "Pamac is already running"
-msgstr "Pamac ja està executant-se"
+msgstr "Pamac ishga tushirilgan"
 
 #: pamac-updater.py:25 pamac-updater.py:34
 msgid "<big><b>Your system is up-to-date</b></big>"
-msgstr "<big><b>El teu sistema està actualitzat</b></big>"
+msgstr "<big><b>Tizim yangilangan</b></big>"
 
 #: pamac-updater.py:44 pamac/transaction.py:655
 msgid "<b>Total download size: </b>"
-msgstr "<b>Mida total de la baixada: </b>"
+msgstr ""
 
 #: pamac-updater.py:46
 msgid "<big><b>1 available update</b></big>"
-msgstr "<big><b>1 actualització disponible</b></big>"
+msgstr "<big><b>1 yangilanish mavjud</b></big>"
 
 #: pamac-updater.py:48
 #, python-brace-format
 msgid "<big><b>{number} available updates</b></big>"
-msgstr "<big><b>{number} actualitzacions disponibles</b></big>"
+msgstr "<big><b>{number} yangilanish mavjud</b></big>"
 
 #: pamac-tray.py:19
 #, python-brace-format
 msgid "{number} available updates"
-msgstr "{number} actualitzacions disponibles"
+msgstr "{number} yangilanishlar mavjud"
 
 #: pamac-tray.py:20
 msgid "1 available update"
-msgstr "1 actualització disponible"
+msgstr "1 yangilanish mavjud"
 
 #: pamac-tray.py:22
 msgid "Your system is up-to-date"
-msgstr "El teu sistema està actualitzat"
+msgstr "Tizim yangilangan"
 
 #: pamac-tray.py:32 pamac-tray.py:138 gui/updater.ui:7
 msgid "Update Manager"
-msgstr "Gestor d'Actualitzacions"
+msgstr "Yangilanish boshqaruvchisi"
 
 #: pamac-tray.py:36 gui/manager.ui:41
 msgid "Package Manager"
-msgstr "Gestor de Paquets"
+msgstr "Paket boshqaruvchisi"
 
 #: pamac-tray.py:40
 msgid "Quit"
-msgstr "Sortir"
+msgstr "Chiqish"
 
 #: pamac-install.py:55 pamac/transaction.py:559
 #, python-brace-format
 msgid "{pkgname} is not a valid path or package name"
-msgstr "{pkgname} no és un camí vàlid o un nom de paquet"
+msgstr "{pkgname} yo'li yoki paket nomi haqiqiy emas"
 
 #: pamac-install.py:79
 msgid ""
 "Some updates are available.\n"
 "Please update your system first"
-msgstr "Algunes actualitzacions estan disponibles\nSi us plau actualitza primer el teu sistema"
+msgstr ""
 
 #: pamac/common.py:13
 #, python-format
 msgid "%.1f KiB"
-msgstr "%.1f KiB"
+msgstr "%.1f KB"
 
 #: pamac/common.py:16
 #, python-format
 msgid "%.2f MiB"
-msgstr "%.2f MiB"
+msgstr "%.2f MB"
 
 #: pamac/transaction.py:50
 #, python-brace-format
 msgid ""
 "<b>{pkgname} is provided by {number} packages.\n"
 "Please choose the one you want to install:</b>"
-msgstr "<b>{pkgname} està proporcionat per {number} paquets.\nSi us plau tria el paquet que vols instal·lar:</b>"
+msgstr ""
 
 #: pamac/transaction.py:174
 msgid "Checking dependencies"
-msgstr "Verificant dependències"
+msgstr "Bog'liqliklar tekshirilmoqda"
 
 #: pamac/transaction.py:182
 msgid "Checking file conflicts"
-msgstr "Analitzant conflictes entre fitxers"
+msgstr "Fayl to'qnashuvlari tekshirilmoqda"
 
 #: pamac/transaction.py:188
 msgid "Resolving dependencies"
-msgstr "Resolent dependències"
+msgstr "Bog'liqliklar yechilmoqda"
 
 #: pamac/transaction.py:194
 msgid "Checking inter conflicts"
-msgstr "Verificant conflictes entre paquets"
+msgstr "O'zaro to'qnashuvlar tekshirilmoqda"
 
 #: pamac/transaction.py:202
 #, python-brace-format
 msgid "Installing {pkgname}"
-msgstr "Instal·lant {pkgname}"
+msgstr "{pkgname} o'rnatilmoqda"
 
 #: pamac/transaction.py:211
 #, python-brace-format
 msgid "Removing {pkgname}"
-msgstr "Suprimint {pkgname}"
+msgstr "{pkgname} o'chirilmoqda"
 
 #: pamac/transaction.py:220
 #, python-brace-format
 msgid "Upgrading {pkgname}"
-msgstr "Actualitzant {pkgname}"
+msgstr "{pkgname} yangilanmoqda"
 
 #: pamac/transaction.py:229
 #, python-brace-format
 msgid "Downgrading {pkgname}"
-msgstr "Tornant a versió anterior de {pkgname}"
+msgstr ""
 
 #: pamac/transaction.py:238
 #, python-brace-format
 msgid "Reinstalling {pkgname}"
-msgstr "Reinstal·lant {pkgname}"
+msgstr "{pkgname} qayta o'rnatilmoqda"
 
 #: pamac/transaction.py:247
 msgid "Checking integrity"
-msgstr "Verificant integritat"
+msgstr "Butunligi tekshirilmoqda"
 
 #: pamac/transaction.py:254
 msgid "Loading packages files"
-msgstr "Carregant fitxers de paquets"
+msgstr "Paketlar fayllari yuklanmoqda"
 
 #: pamac/transaction.py:260
 msgid "Checking delta integrity"
-msgstr "Verificant integritat delta"
+msgstr "Delta butunligi tekshirilmoqda"
 
 #: pamac/transaction.py:266
 msgid "Applying deltas"
-msgstr "Aplicant deltes"
+msgstr ""
 
 #: pamac/transaction.py:272
 msgid "Generating {} with {}"
-msgstr "Generant {} amb {}"
+msgstr ""
 
 #: pamac/transaction.py:276
 msgid "Generation succeeded!"
-msgstr "Generació correcte!"
+msgstr ""
 
 #: pamac/transaction.py:279
 msgid "Generation failed."
-msgstr "Generació incorrecte."
+msgstr ""
 
 #: pamac/transaction.py:282
 #, python-brace-format
 msgid "Configuring {pkgname}"
-msgstr "Configurant {pkgname}"
+msgstr ""
 
 #: pamac/transaction.py:291
 msgid "Checking available disk space"
-msgstr "Verificant espai disponible al disc"
+msgstr ""
 
 #: pamac/transaction.py:301
 msgid "Checking keyring"
-msgstr "Verificant l'anell de claus"
+msgstr "Kalitlar tekshirilmoqda"
 
 #: pamac/transaction.py:308
 msgid "Downloading required keys"
-msgstr "Baixant les claus requerides"
+msgstr "Kerakli kalitlar yuklab olinmoqda"
 
 #: pamac/transaction.py:331
 #, python-brace-format
 msgid "{pkgname1} will be replaced by {pkgname2}"
-msgstr ""
+msgstr "{pkgname1} {pkgname2} bilan almashtiriladi"
 
 #: pamac/transaction.py:334
 #, python-brace-format
 msgid "{pkgname1} conflicts with {pkgname2}"
-msgstr ""
+msgstr "{pkgname1} {pkgname2} bilan to'qnashmoqda"
 
 #: pamac/transaction.py:383
 #, python-brace-format
 msgid "Refreshing {repo}"
-msgstr "Actualitzant {repo}"
+msgstr "{repo} yangilanmoqda"
 
 #: pamac/transaction.py:387
 #, python-brace-format
 msgid "Downloading {pkgname}"
-msgstr "Baixada {pkgname}"
+msgstr "{pkgname} yuklab olinmoqda"
 
 #: pamac/transaction.py:443
 msgid "Refreshing"
-msgstr "Actualitzant"
+msgstr "Yangilanmoqda"
 
 #: pamac/transaction.py:581
 #, python-brace-format
 msgid ""
 "The transaction cannot be performed because it needs to remove {pkgname1} "
 "which is a locked package"
-msgstr "La transacció no pot efectuar-se degut a que és necessari eliminar {pkgname1} que és un paquet bloquejat"
+msgstr ""
 
 #: pamac/transaction.py:600 pamac/transaction.py:603
 msgid "Transaction successfully finished"
-msgstr "Transacció finalitzada amb èxit"
+msgstr "Tranzaksiya muvaffaqiyatli tugadi"
 
 #: pamac/transaction.py:622
 msgid ""
 "The transaction was interrupted.\n"
 "Now Pamac will quit."
-msgstr "La transacció ha estat interrompuda.\nPamac es tancarà ara."
+msgstr "Tranzaksiya to'xtatilgan.\nPamac yopiladi."
 
 #: pamac/transaction.py:632
 msgid "<big><b>Transaction Summary</b></big>"
-msgstr "<big><b>Resum de la transacció</b></big>"
+msgstr ""
 
 #: pamac/transaction.py:676
 msgid "To reinstall"
-msgstr "A reinstal·lar"
+msgstr "Qayta o'rnatish uchun"
 
 #: pamac/transaction.py:684
 msgid "To downgrade"
-msgstr "A tornar a versió anterior"
+msgstr ""
 
 #: pamac/transaction.py:693
 msgid "To update"
-msgstr "A actualitzar"
+msgstr "Yangilanish uchun"
 
 #: pamac/transaction.py:754
 msgid "Preparing"
-msgstr "Preparant"
+msgstr "Tayyorlanmoqda"
 
 #: pamac/transaction.py:782
 msgid "Nothing to do"
-msgstr "Res a fer"
+msgstr "Vazifalar yo'q"
 
 #: gui/manager.ui:7
 msgid "About Pamac"
-msgstr "Quant a Pamac"
+msgstr "Pamac haqida"
 
 #: gui/manager.ui:10
 msgid "Copyright © 2013 Guillaume Benoit"
@@ -403,64 +402,64 @@ msgstr "Copyright © 2013 Guillaume Benoit"
 
 #: gui/manager.ui:11
 msgid "A gtk3 frontend for pyalpm"
-msgstr "Una interfície gtk3 per pyalpm"
+msgstr "Pyalpm uchun gtk3 frontendi"
 
 #: gui/manager.ui:191
 msgid "Search"
-msgstr "Cerca"
+msgstr "Qidirish"
 
 #: gui/manager.ui:284 gui/manager.ui:376
 msgid "State"
-msgstr "Estat"
+msgstr "Holati"
 
 #: gui/manager.ui:331
 msgid "Repos"
-msgstr "Dipòsits"
+msgstr "Repozitoriylar"
 
 #: gui/manager.ui:389
 msgid "Name"
-msgstr "Nom"
+msgstr "Nomi"
 
 #: gui/manager.ui:402
 msgid "Version"
-msgstr "Versió"
+msgstr "Versiya"
 
 #: gui/manager.ui:415
 msgid "Size"
-msgstr "Mida"
+msgstr "Hajmi"
 
 #: gui/manager.ui:513
 msgid "Infos"
-msgstr "Infos"
+msgstr "Ma'lumot"
 
 #: gui/manager.ui:573
 msgid "Deps"
-msgstr "Dependències"
+msgstr "Bog'liqliklar"
 
 #: gui/manager.ui:638
 msgid "Details"
-msgstr "Detalls"
+msgstr "Tafsilotlar"
 
 #: gui/manager.ui:686
 msgid "Files"
-msgstr "Fitxers"
+msgstr "Fayllar"
 
 #: gui/manager.ui:718
 msgid "Install local packages"
-msgstr "Instal·la paquets locals"
+msgstr "Mahalliy paketlarni o'rnatish"
 
 #: gui/dialogs.ui:6
 msgid "Choose"
-msgstr "Triar"
+msgstr "Tanlash"
 
 #: gui/dialogs.ui:108
 msgid "Summary"
-msgstr "Resum"
+msgstr ""
 
 #: gui/dialogs.ui:306
 msgid "Progress"
-msgstr "Progrès"
+msgstr ""
 
 #: gui/dialogs.ui:398
 msgid "details"
-msgstr "detalls"
+msgstr "tafsilotlar"
