@@ -24,7 +24,7 @@ interface.add_from_file('/usr/share/pamac/gui/manager.ui')
 ManagerWindow = interface.get_object("ManagerWindow")
 details_list = interface.get_object('details_list')
 deps_list = interface.get_object('deps_list')
-files_list = interface.get_object('files_list')
+files_textview = interface.get_object('files_textview')
 files_scrolledwindow = interface.get_object('files_scrolledwindow')
 name_label = interface.get_object('name_label')
 desc_label = interface.get_object('desc_label')
@@ -54,6 +54,7 @@ menu_button = interface.get_object('menu_button')
 main_menu = interface.get_object('main_menu')
 PackagesChooserDialog = interface.get_object('PackagesChooserDialog')
 
+files_buffer = files_textview.get_buffer()
 AboutDialog.set_version(version)
 menu_button.set_popup(main_menu)
 
@@ -276,9 +277,11 @@ def set_infos_list(pkg):
 	desc = pkg.desc.replace('&', '&amp;')
 	desc = desc.replace('<->', '/')
 	desc_label.set_markup(desc)
+	## don't make url clickable (http://forum.manjaro.org/index.php?topic=7263.0)
+	link_label.set_markup(pkg.url)
 	# fix & in url
-	url = pkg.url.replace('&', '&amp;')
-	link_label.set_markup('<a href=\"{_url}\">{_url}</a>'.format(_url = url))
+	#url = pkg.url.replace('&', '&amp;')
+	#link_label.set_markup('<a href=\"{_url}\">{_url}</a>'.format(_url = url))
 	licenses_label.set_markup(_('Licenses')+': {}'.format(' '.join(pkg.licenses)))
 
 def set_deps_list(pkg, style):
@@ -337,10 +340,11 @@ def set_details_list(pkg, style):
 			details_list.append([_('Backup files')+':', '\n'.join(["%s" % (file) for (file, md5) in pkg.backup])])
 
 def set_files_list(pkg):
-	files_list.clear()
+	files_buffer.delete(files_buffer.get_start_iter(), files_buffer.get_end_iter())
 	if len(pkg.files) != 0:
 		for file in pkg.files:
-			files_list.append(['/'+file[0]])
+			end_iter = files_buffer.get_end_iter()
+			files_buffer.insert(end_iter, '/'+file[0]+'\n')
 
 def on_ManagerWindow_delete_event(*args):
 	Gtk.main_quit()
@@ -362,7 +366,7 @@ def on_TransValidButton_clicked(*args):
 		refresh_packages_list(current_filter[0](current_filter[1]))
 
 def on_TransCancelButton_clicked(*args):
-	transaction.progress_buffer.delete(transaction.progress_buffer.get_start_iter(),transaction.progress_buffer.get_end_iter())
+	transaction.progress_buffer.delete(transaction.progress_buffer.get_start_iter(), transaction.progress_buffer.get_end_iter())
 	transaction.ConfDialog.hide()
 	trans.release()
 	if current_filter[0]:
@@ -370,7 +374,7 @@ def on_TransCancelButton_clicked(*args):
 
 def on_ProgressCloseButton_clicked(*args):
 	transaction.ProgressWindow.hide()
-	transaction.progress_buffer.delete(transaction.progress_buffer.get_start_iter(),transaction.progress_buffer.get_end_iter())
+	transaction.progress_buffer.delete(transaction.progress_buffer.get_start_iter(), transaction.progress_buffer.get_end_iter())
 	trans.do_sysupgrade(True)
 
 def on_ProgressCancelButton_clicked(*args):

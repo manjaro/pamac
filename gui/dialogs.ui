@@ -384,6 +384,7 @@
                   <object class="GtkTextView" id="progress_textview">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
+                    <property name="editable">False</property>
                     <property name="wrap_mode">word</property>
                     <property name="cursor_visible">False</property>
                     <signal name="size-allocate" handler="on_progress_textview_size_allocate" swapped="no"/>

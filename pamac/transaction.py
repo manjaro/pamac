@@ -860,7 +860,7 @@ class Transaction():
 		action_icon.set_from_file('/usr/share/pamac/icons/24x24/status/package-setup.png')
 		progress_bar.set_text('')
 		progress_bar.set_fraction(0)
-		progress_buffer.delete(progress_buffer.get_start_iter(),progress_buffer.get_end_iter())
+		progress_buffer.delete(progress_buffer.get_start_iter(), progress_buffer.get_end_iter())
 		ProgressCloseButton.set_visible(False)
 		ProgressWindow.show()
 		while Gtk.events_pending():
