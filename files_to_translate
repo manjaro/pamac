@@ -1,9 +1,10 @@
+./pamac-daemon.py
 ./pamac-manager.py
 ./pamac-updater.py
 ./pamac-tray.py
 ./pamac-install.py
-./pamac/common.py
 ./pamac/transaction.py
+./pamac/common.py
 ./gui/manager.ui
 ./gui/updater.ui
 ./gui/dialogs.ui

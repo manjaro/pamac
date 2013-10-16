@@ -1,7 +1,7 @@
 # Translation of Pamac.
 # Copyright (C) 2007-2012 Free Software Foundation, Inc.
 # This file is distributed under the same license as the Pamac package.
-# 
+#
 # Translators:
 # BootZ <d_bootsma@hotmail.com>, 2013
 msgid ""
@@ -11,332 +11,383 @@ msgstr ""
 "POT-Creation-Date: 2013-03-30 15:09+0100\n"
 "PO-Revision-Date: 2013-06-02 22:10+0000\n"
 "Last-Translator: BootZ <d_bootsma@hotmail.com>\n"
-"Language-Team: Dutch (Netherlands) (http://www.transifex.com/projects/p/manjaro-pamac/language/nl_NL/)\n"
+"Language-Team: Dutch (Netherlands) (http://www.transifex.com/projects/p/"
+"manjaro-pamac/language/nl_NL/)\n"
+"Language: nl_NL\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: nl_NL\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: data/polkit/org.manjaro.pamac.policy:10
 msgid "Authentication is required"
 msgstr "Authenticatie is vereist"
 
-#: pamac-daemon.py:29 pamac/main.py:505
-msgid "Preparing"
-msgstr "Voorbereiding"
-
-#: pamac-daemon.py:68
+#: pamac-daemon.py:117
 msgid "Checking dependencies"
 msgstr "Controleren afhankelijkheden"
 
-#: pamac-daemon.py:75
+#: pamac-daemon.py:125
 msgid "Checking file conflicts"
 msgstr "Controle bestandsconflicten"
 
-#: pamac-daemon.py:78
+#: pamac-daemon.py:131
 msgid "Resolving dependencies"
 msgstr "Afhankelijkheden oplossen"
 
-#: pamac-daemon.py:85
+#: pamac-daemon.py:139
 msgid "Checking inter conflicts"
 msgstr "Controle op interne conflicten"
 
-#: pamac-daemon.py:88 pamac/main.py:51
-msgid "Installing"
-msgstr "Installeren"
+#: pamac-daemon.py:147
+#, python-brace-format
+msgid "Installing {pkgname}"
+msgstr ""
 
-#: pamac-daemon.py:95 pamac/main.py:51
-msgid "Removing"
-msgstr "Verwijderen"
+#: pamac-daemon.py:155
+#, python-brace-format
+msgid "Removing {pkgname}"
+msgstr ""
 
-#: pamac-daemon.py:102 pamac/main.py:51
-msgid "Upgrading"
-msgstr "Bijwerken"
+#: pamac-daemon.py:163
+#, python-brace-format
+msgid "Upgrading {pkgname}"
+msgstr ""
 
-#: pamac-daemon.py:109 pamac/main.py:51
-msgid "Downgrading"
-msgstr "Downgraden"
+#: pamac-daemon.py:171
+#, python-brace-format
+msgid "Downgrading {pkgname}"
+msgstr ""
 
-#: pamac-daemon.py:117 pamac/main.py:51
-msgid "Reinstalling"
-msgstr "Herinstalleren"
+#: pamac-daemon.py:179
+#, python-brace-format
+msgid "Reinstalling {pkgname}"
+msgstr ""
 
-#: pamac-daemon.py:125
+#: pamac-daemon.py:187
 msgid "Checking integrity"
 msgstr "Controle op integriteit"
 
-#: pamac-daemon.py:129
+#: pamac-daemon.py:194
 msgid "Loading packages files"
 msgstr "Pakket bestanden laden"
 
-#: pamac-daemon.py:133 pamac/main.py:51
-msgid "Configuring"
-msgstr "Configureren"
+#: pamac-daemon.py:200
+msgid "Checking delta integrity"
+msgstr ""
 
-#: pamac-daemon.py:140
-msgid "Checking keys in keyring"
-msgstr "Controle sleutels in sleutelring"
+#: pamac-daemon.py:206
+msgid "Applying deltas"
+msgstr ""
 
-#: pamac-daemon.py:198
-msgid "Downloading {size}"
-msgstr "Downloaden {size}"
+#: pamac-daemon.py:212
+msgid "Generating {} with {}"
+msgstr ""
 
-#: pamac-daemon.py:203 pamac/main.py:439 pamac/main.py:1099
-msgid "Refreshing"
-msgstr "Verversen"
+#: pamac-daemon.py:216
+msgid "Generation succeeded!"
+msgstr ""
 
-#: pamac-daemon.py:371 pamac-install.py:44 pamac/main.py:533
-msgid "{pkgname} is not a valid path or package name"
-msgstr "{pkgname} is geen geldig pad of pakket naam"
+#: pamac-daemon.py:219
+msgid "Generation failed."
+msgstr ""
 
-#: pamac-daemon.py:438
-msgid "Transaction successfully finished"
-msgstr "Transactie succesvol afgerond"
+#: pamac-daemon.py:222
+#, python-brace-format
+msgid "Configuring {pkgname}"
+msgstr ""
 
-#: pamac-daemon.py:442 pamac-daemon.py:450
-msgid "Authentication failed"
-msgstr "Authenticatie mislukt"
+#: pamac-daemon.py:230
+msgid "Checking available disk space"
+msgstr ""
 
-#: pamac-tray.py:20
-msgid "{number} available updates"
-msgstr "{number} beschikbare updates"
+#: pamac-daemon.py:240
+msgid "Checking keyring"
+msgstr ""
 
-#: pamac-tray.py:21
-msgid "1 available update"
-msgstr "1 beschikbare update"
+#: pamac-daemon.py:246
+msgid "Downloading required keys"
+msgstr ""
 
-#: pamac-tray.py:23
-msgid "Your system is up-to-date"
-msgstr "Uw systeem is up-to-date, Cool!"
-
-#: pamac-tray.py:31
-msgid "Install/Check for updates"
-msgstr "Installeren/Controle op updates"
-
-#: pamac-tray.py:34
-msgid "Run pamac-manager"
-msgstr "Start pamac-manager"
-
-#: pamac-tray.py:37
-msgid "Quit"
-msgstr "Stoppen"
-
-#: pamac-install.py:73 pamac-install.py:79 pamac/main.py:897
-msgid "Nothing to do"
-msgstr "Niets te doen"
-
-#: pamac-install.py:87 pamac/main.py:1150
-msgid "Pamac is already running"
-msgstr "Pamac is reeds gestart"
-
-#: pamac-install.py:97
-msgid ""
-"Some updates are available.\n"
-"Please update your system first"
-msgstr "Er zijn updates beschikbaar.\nWerk uw systeem s.v.p. eerst bij"
-
-#: pamac/main.py:89 pamac/main.py:1052
-msgid "local"
-msgstr "lokaal"
-
-#: pamac/main.py:180 pamac/main.py:954 pamac/main.py:1003
-msgid "No package found"
-msgstr "Geen pakket gevonden"
-
-#: pamac/main.py:231
-msgid "Licenses"
-msgstr "Licenties"
-
-#: pamac/main.py:236
-msgid "Depends On"
-msgstr "Is afhankelijk van"
-
-#: pamac/main.py:241 pamac/main.py:1035 pamac/main.py:1224
-msgid "Installed"
-msgstr "Geïnstalleerd"
-
-#: pamac/main.py:244
-msgid "Optional Deps"
-msgstr "Optionele afhankelijkheden"
-
-#: pamac/main.py:247
-msgid "Required By"
-msgstr "Vereist door"
-
-#: pamac/main.py:249
-msgid "Provides"
-msgstr "Biedt"
-
-#: pamac/main.py:251
-msgid "Replaces"
-msgstr "Vervangt"
-
-#: pamac/main.py:253
-msgid "Conflicts With"
-msgstr "Conflicteert met"
-
-#: pamac/main.py:258
-msgid "Repository"
-msgstr "Repository"
-
-#: pamac/main.py:260 gui/manager.glade:538
-msgid "Groups"
-msgstr "Groepen"
-
-#: pamac/main.py:262
-msgid "Compressed Size"
-msgstr "Gecomprimeerde grootte"
-
-#: pamac/main.py:263
-msgid "Download Size"
-msgstr "Download grootte"
-
-#: pamac/main.py:265
-msgid "Installed Size"
-msgstr "Geïnstalleerde grootte"
-
-#: pamac/main.py:266
-msgid "Packager"
-msgstr "Packager"
-
-#: pamac/main.py:267
-msgid "Architecture"
-msgstr "Architectuur"
-
-#: pamac/main.py:270
-msgid "Install Date"
-msgstr "Installatie Datum"
-
-#: pamac/main.py:272
-msgid "Explicitly installed"
-msgstr "Expliciet geïnstalleerd"
-
-#: pamac/main.py:274
-msgid "Installed as a dependency for another package"
-msgstr "Geïnstalleerd als een afhankelijkheid van een ander pakket"
-
-#: pamac/main.py:276
-msgid "Unknown"
-msgstr "Onbekend"
-
-#: pamac/main.py:277
-msgid "Install Reason"
-msgstr "Installatie reden"
-
-#: pamac/main.py:282
-msgid "Signatures"
-msgstr "Handtekeningen"
-
-#: pamac/main.py:286
-msgid "Backup files"
-msgstr "Back-up bestanden"
-
-#: pamac/main.py:326
-msgid "<big><b>Transaction Summary</b></big>"
-msgstr "<big><b>Transactie Overzicht</b></big>"
-
-#: pamac/main.py:328 pamac/main.py:1041 pamac/main.py:1224
-msgid "To install"
-msgstr "Te installeren"
-
-#: pamac/main.py:334
-msgid "To reinstall"
-msgstr "Opnieuw te installeren"
-
-#: pamac/main.py:340
-msgid "To downgrade"
-msgstr "Te downgraden"
-
-#: pamac/main.py:346 pamac/main.py:1043 pamac/main.py:1224
-msgid "To remove"
-msgstr "Te verwijderen"
-
-#: pamac/main.py:353
-msgid "To update"
-msgstr "Te updaten"
-
-#: pamac/main.py:364 pamac/main.py:461
-msgid "<b>Total download size: </b>"
-msgstr "<b>Totale download grootte: </b>"
-
-#: pamac/main.py:454 pamac/main.py:1236
-msgid "<big><b>Your system is up-to-date</b></big>"
-msgstr "<big><b>Uw systeem is up-to-date, Cool!</b></big>"
-
-#: pamac/main.py:463
-msgid "<big><b>1 available update</b></big>"
-msgstr "<big><b>1 beschikbare update</b></big>"
-
-#: pamac/main.py:465
-msgid "<big><b>{number} available updates</b></big>"
-msgstr "<big><b>{number} beschikbare updates</b></big>"
-
-#: pamac/main.py:551 pamac/main.py:552
-msgid ""
-"The transaction cannot be performed because it needs to remove {pkgname1} "
-"which is a locked package"
-msgstr "De transactie kan niet worden uitgevoerd omdat {pkgname1} moet worden verwijderd maar dit is een 'locked' pakket"
-
-#: pamac/main.py:583 pamac/main.py:584 pamac/main.py:686 pamac/main.py:687
+#: pamac-daemon.py:265
+#, python-brace-format
 msgid "{pkgname1} will be replaced by {pkgname2}"
 msgstr "{pkgname1} zal vervangen worden door {pkgname2}"
 
-#: pamac/main.py:701 pamac/main.py:702 pamac/main.py:726 pamac/main.py:727
-#: pamac/main.py:747 pamac/main.py:748 pamac/main.py:778 pamac/main.py:779
-#: pamac/main.py:803 pamac/main.py:804 pamac/main.py:824 pamac/main.py:825
+#: pamac-daemon.py:268
+#, python-brace-format
 msgid "{pkgname1} conflicts with {pkgname2}"
 msgstr "{pkgname1} conflicteert met {pkgname2}"
 
-#: pamac/main.py:759 pamac/main.py:760
+#: pamac-daemon.py:312
+#, python-brace-format
+msgid "Refreshing {repo}"
+msgstr ""
+
+#: pamac-daemon.py:316
+#, python-brace-format
+msgid "Downloading {pkgname}"
+msgstr ""
+
+#: pamac-daemon.py:487 pamac-install.py:81
+#, python-brace-format
+msgid "{pkgname} is not a valid path or package name"
+msgstr "{pkgname} is geen geldig pad of pakket naam"
+
+#: pamac-daemon.py:601
+#, python-brace-format
 msgid ""
-"{pkgname1} conflicts with {pkgname2}\n"
-"None of them will be installed"
-msgstr "{pkgname1} conflicteert met {pkgname2}\nGeen pakket wordt geïnstalleerd"
+"The transaction cannot be performed because it needs to remove {pkgname1} "
+"which is a locked package"
+msgstr ""
+"De transactie kan niet worden uitgevoerd omdat {pkgname1} moet worden "
+"verwijderd maar dit is een 'locked' pakket"
 
-#: pamac/main.py:856
-msgid ""
-"<b>{pkgname} is provided by {number} packages.\n"
-"Please choose the one(s) you want to install:</b>"
-msgstr "<b>{pkgname} wordt aangeboden in {number} pakketten.\nKies het/de te installeren pakket(ten):</b>"
+#: pamac-daemon.py:662
+msgid "Transaction successfully finished"
+msgstr "Transactie succesvol afgerond"
 
-#: pamac/main.py:939
-msgid ""
-"<b>{pkgname} has {number} uninstalled optional deps.\n"
-"Please choose the one(s) you want to install:</b>"
-msgstr "<b>{pkgname} heeft {number} niet geïnstalleerde optionele afhankelijkheden.\nKies degene(n) die u wilt installeren:</b>"
+#: pamac-daemon.py:666 pamac-daemon.py:674
+msgid "Authentication failed"
+msgstr "Authenticatie mislukt"
 
-#: pamac/main.py:957
-msgid "Unselect"
-msgstr "De-selecteren"
+#: pamac-manager.py:74 pamac-manager.py:103 pamac-manager.py:104
+#: pamac-manager.py:119 pamac-manager.py:128 pamac-manager.py:227
+#: pamac-manager.py:471 pamac-manager.py:532 pamac-manager.py:594
+msgid "No package found"
+msgstr "Geen pakket gevonden"
 
-#: pamac/main.py:961
-msgid "Remove"
-msgstr "Verwijderen"
+#: pamac-manager.py:143 pamac-manager.py:195
+msgid "local"
+msgstr "lokaal"
 
-#: pamac/main.py:964
-msgid "Reinstall"
-msgstr "Herinstalleren"
+#: pamac-manager.py:145 pamac-manager.py:178 pamac-manager.py:284
+msgid "Installed"
+msgstr "Geïnstalleerd"
 
-#: pamac/main.py:975
-msgid "Install optional deps"
-msgstr "Installeer optionele afhankelijkheden"
-
-#: pamac/main.py:979
-msgid "Install"
-msgstr "Installeer"
-
-#: pamac/main.py:990
-msgid "Install with optional deps"
-msgstr "Installeer met optionele afhankelijkheden"
-
-#: pamac/main.py:1037 pamac/main.py:1224
+#: pamac-manager.py:145 pamac-manager.py:181
 msgid "Uninstalled"
 msgstr "Verwijderd"
 
-#: pamac/main.py:1039 pamac/main.py:1224
+#: pamac-manager.py:145 pamac-manager.py:184
 msgid "Orphans"
 msgstr "Wezen"
+
+#: pamac-manager.py:145 pamac-manager.py:164 pamac/transaction.py:352
+msgid "To install"
+msgstr "Te installeren"
+
+#: pamac-manager.py:145 pamac-manager.py:169 pamac/transaction.py:370
+msgid "To remove"
+msgstr "Te verwijderen"
+
+#: pamac-manager.py:274
+msgid "Licenses"
+msgstr "Licenties"
+
+#: pamac-manager.py:279
+msgid "Depends On"
+msgstr "Is afhankelijk van"
+
+#: pamac-manager.py:287
+msgid "Optional Deps"
+msgstr "Optionele afhankelijkheden"
+
+#: pamac-manager.py:290
+msgid "Required By"
+msgstr "Vereist door"
+
+#: pamac-manager.py:292
+msgid "Provides"
+msgstr "Biedt"
+
+#: pamac-manager.py:294
+msgid "Replaces"
+msgstr "Vervangt"
+
+#: pamac-manager.py:296
+msgid "Conflicts With"
+msgstr "Conflicteert met"
+
+#: pamac-manager.py:301
+msgid "Repository"
+msgstr "Repository"
+
+#: pamac-manager.py:303 gui/manager.ui:340
+msgid "Groups"
+msgstr "Groepen"
+
+#: pamac-manager.py:305
+msgid "Compressed Size"
+msgstr "Gecomprimeerde grootte"
+
+#: pamac-manager.py:306
+msgid "Download Size"
+msgstr "Download grootte"
+
+#: pamac-manager.py:308
+msgid "Installed Size"
+msgstr "Geïnstalleerde grootte"
+
+#: pamac-manager.py:309
+msgid "Packager"
+msgstr "Packager"
+
+#: pamac-manager.py:310
+msgid "Architecture"
+msgstr "Architectuur"
+
+#: pamac-manager.py:313
+msgid "Install Date"
+msgstr "Installatie Datum"
+
+#: pamac-manager.py:315
+msgid "Explicitly installed"
+msgstr "Expliciet geïnstalleerd"
+
+#: pamac-manager.py:317
+msgid "Installed as a dependency for another package"
+msgstr "Geïnstalleerd als een afhankelijkheid van een ander pakket"
+
+#: pamac-manager.py:319
+msgid "Unknown"
+msgstr "Onbekend"
+
+#: pamac-manager.py:320
+msgid "Install Reason"
+msgstr "Installatie reden"
+
+#: pamac-manager.py:325
+msgid "Signatures"
+msgstr "Handtekeningen"
+
+#: pamac-manager.py:329
+msgid "Backup files"
+msgstr "Back-up bestanden"
+
+#: pamac-manager.py:451
+#, python-brace-format
+msgid ""
+"<b>{pkgname} has {number} uninstalled optional deps.\n"
+"Please choose the one(s) you want to install:</b>"
+msgstr ""
+"<b>{pkgname} heeft {number} niet geïnstalleerde optionele afhankelijkheden.\n"
+"Kies degene(n) die u wilt installeren:</b>"
+
+#: pamac-manager.py:474
+msgid "Unselect"
+msgstr "De-selecteren"
+
+#: pamac-manager.py:480
+msgid "Remove"
+msgstr "Verwijderen"
+
+#: pamac-manager.py:486
+msgid "Reinstall"
+msgstr "Herinstalleren"
+
+#: pamac-manager.py:499
+msgid "Install optional deps"
+msgstr "Installeer optionele afhankelijkheden"
+
+#: pamac-manager.py:505
+msgid "Install"
+msgstr "Installeer"
+
+#: pamac-manager.py:518
+msgid "Install with optional deps"
+msgstr "Installeer met optionele afhankelijkheden"
+
+#: pamac-manager.py:753 pamac-updater.py:150 pamac-install.py:109
+msgid "Pamac is already running"
+msgstr "Pamac is reeds gestart"
+
+#: pamac-updater.py:27 pamac-updater.py:37
+msgid "<big><b>Your system is up-to-date</b></big>"
+msgstr "<big><b>Uw systeem is up-to-date, Cool!</b></big>"
+
+#: pamac-updater.py:49 pamac/transaction.py:388
+msgid "<b>Total download size: </b>"
+msgstr "<b>Totale download grootte: </b>"
+
+#: pamac-updater.py:51
+msgid "<big><b>1 available update</b></big>"
+msgstr "<big><b>1 beschikbare update</b></big>"
+
+#: pamac-updater.py:53
+#, python-brace-format
+msgid "<big><b>{number} available updates</b></big>"
+msgstr "<big><b>{number} beschikbare updates</b></big>"
+
+#: pamac-tray.py:17
+#, python-brace-format
+msgid "{number} available updates"
+msgstr "{number} beschikbare updates"
+
+#: pamac-tray.py:18
+msgid "1 available update"
+msgstr "1 beschikbare update"
+
+#: pamac-tray.py:20
+msgid "Your system is up-to-date"
+msgstr "Uw systeem is up-to-date, Cool!"
+
+#: pamac-tray.py:30 pamac-tray.py:85 gui/updater.ui:24
+msgid "Update Manager"
+msgstr "Update Manager"
+
+#: pamac-tray.py:34 gui/manager.ui:144
+msgid "Package Manager"
+msgstr "Pakket Manager"
+
+#: pamac-tray.py:38
+msgid "Quit"
+msgstr "Stoppen"
+
+#: pamac-install.py:119
+msgid ""
+"Some updates are available.\n"
+"Please update your system first"
+msgstr ""
+"Er zijn updates beschikbaar.\n"
+"Werk uw systeem s.v.p. eerst bij"
+
+#: pamac/transaction.py:150
+#, python-brace-format
+msgid ""
+"<b>{pkgname} is provided by {number} packages.\n"
+"Please choose the one(s) you want to install:</b>"
+msgstr ""
+"<b>{pkgname} wordt aangeboden in {number} pakketten.\n"
+"Kies het/de te installeren pakket(ten):</b>"
+
+#: pamac/transaction.py:198
+msgid "Refreshing"
+msgstr "Verversen"
+
+#: pamac/transaction.py:229
+msgid "Nothing to do"
+msgstr "Niets te doen"
+
+#: pamac/transaction.py:270
+msgid "Preparing"
+msgstr "Voorbereiding"
+
+#: pamac/transaction.py:350
+msgid "<big><b>Transaction Summary</b></big>"
+msgstr "<big><b>Transactie Overzicht</b></big>"
+
+#: pamac/transaction.py:358
+msgid "To reinstall"
+msgstr "Opnieuw te installeren"
+
+#: pamac/transaction.py:364
+msgid "To downgrade"
+msgstr "Te downgraden"
+
+#: pamac/transaction.py:377
+msgid "To update"
+msgstr "Te updaten"
 
 #: pamac/common.py:13
 #, python-format
@@ -348,62 +399,111 @@ msgstr "%.1f KiB"
 msgid "%.2f MiB"
 msgstr "%.2f MiB"
 
-#: gui/manager.glade:7
-msgid "Choose"
-msgstr "Kies"
+#: gui/manager.ui:8
+msgid "About Pamac"
+msgstr ""
 
-#: gui/manager.glade:112
-msgid "Summary"
-msgstr "Overzicht"
+#: gui/manager.ui:11
+msgid "Copyright © 2013 Guillaume Benoit"
+msgstr ""
 
-#: gui/manager.glade:256
-msgid "Progress"
-msgstr "Voortgang"
+#: gui/manager.ui:12
+msgid "A gtk3 frontend for pyalpm"
+msgstr ""
 
-#: gui/manager.glade:402
-msgid "Package Manager"
-msgstr "Pakket Manager"
+#: gui/manager.ui:42
+msgid "Install local packages"
+msgstr ""
 
-#: gui/manager.glade:492
+#: gui/manager.ui:294
 msgid "Search"
 msgstr "Zoek"
 
-#: gui/manager.glade:585 gui/manager.glade:680
+#: gui/manager.ui:387 gui/manager.ui:479
 msgid "State"
 msgstr "Status"
 
-#: gui/manager.glade:632
+#: gui/manager.ui:434
 msgid "Repos"
 msgstr "Repos"
 
-#: gui/manager.glade:711
+#: gui/manager.ui:492
 msgid "Name"
 msgstr "Naam"
 
-#: gui/manager.glade:730
+#: gui/manager.ui:505
 msgid "Version"
 msgstr "Versie"
 
-#: gui/manager.glade:747
+#: gui/manager.ui:518
 msgid "Size"
 msgstr "Grootte"
 
-#: gui/manager.glade:848
+#: gui/manager.ui:620
 msgid "Infos"
 msgstr "Info"
 
-#: gui/manager.glade:908
+#: gui/manager.ui:684
 msgid "Deps"
 msgstr "Afhankelijkheden"
 
-#: gui/manager.glade:973
+#: gui/manager.ui:753
 msgid "Details"
 msgstr "Details"
 
-#: gui/manager.glade:1021
+#: gui/manager.ui:782
 msgid "Files"
 msgstr "Bestanden"
 
-#: gui/updater.glade:6
-msgid "Update Manager"
-msgstr "Update Manager"
+#: gui/dialogs.ui:7
+msgid "Choose"
+msgstr "Kies"
+
+#: gui/dialogs.ui:113
+msgid "Summary"
+msgstr "Overzicht"
+
+#: gui/dialogs.ui:315
+msgid "Progress"
+msgstr "Voortgang"
+
+#: gui/dialogs.ui:406
+msgid "details"
+msgstr ""
+
+#~ msgid "Installing"
+#~ msgstr "Installeren"
+
+#~ msgid "Removing"
+#~ msgstr "Verwijderen"
+
+#~ msgid "Upgrading"
+#~ msgstr "Bijwerken"
+
+#~ msgid "Downgrading"
+#~ msgstr "Downgraden"
+
+#~ msgid "Reinstalling"
+#~ msgstr "Herinstalleren"
+
+#~ msgid "Configuring"
+#~ msgstr "Configureren"
+
+#~ msgid "Checking keys in keyring"
+#~ msgstr "Controle sleutels in sleutelring"
+
+#~ msgid "Downloading {size}"
+#~ msgstr "Downloaden {size}"
+
+#~ msgid "Install/Check for updates"
+#~ msgstr "Installeren/Controle op updates"
+
+#~ msgid "Run pamac-manager"
+#~ msgstr "Start pamac-manager"
+
+#~ msgid ""
+#~ "{pkgname1} conflicts with {pkgname2}\n"
+#~ "None of them will be installed"
+#~ msgstr ""
+#~ "{pkgname1} conflicteert met {pkgname2}\n"
+#~ "Geen pakket wordt geïnstalleerd"

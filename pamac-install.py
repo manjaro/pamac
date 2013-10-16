@@ -1,8 +1,9 @@
-#! /usr/bin/pkexec /usr/bin/python3
+#! /usr/bin/python3
 # -*- coding:utf-8 -*-
 
-from gi.repository import Gtk
+from gi.repository import GObject, Gtk
 from sys import argv
+import dbus
 from os.path import abspath
 from pamac import common, transaction
 
@@ -15,57 +16,95 @@ gettext.textdomain('pamac')
 _ = gettext.gettext
 
 def exiting(msg):
+	transaction.StopDaemon()
+	print(msg)
 	print('exiting')
 	loop.quit()
 
+def handle_error(error):
+	transaction.ProgressWindow.hide()
+	while Gtk.events_pending():
+		Gtk.main_iteration()
+	if error:
+		if not 'DBus.Error.NoReply' in str(error):
+			transaction.ErrorDialog.format_secondary_text(error)
+			response = transaction.ErrorDialog.run()
+			if response:
+				transaction.ErrorDialog.hide()
+	exiting(error)
+
+def handle_reply(reply):
+	transaction.ProgressCloseButton.set_visible(True)
+	transaction.action_icon.set_from_icon_name('dialog-information', Gtk.IconSize.BUTTON)
+	transaction.progress_label.set_text(str(reply))
+	transaction.progress_bar.set_text('')
+	end_iter = transaction.progress_buffer.get_end_iter()
+	transaction.progress_buffer.insert(end_iter, str(reply))
+
+def on_TransValidButton_clicked(*args):
+	transaction.ConfDialog.hide()
+	while Gtk.events_pending():
+		Gtk.main_iteration()
+	transaction.finalize()
+
+def on_TransCancelButton_clicked(*args):
+	transaction.ConfDialog.hide()
+	while Gtk.events_pending():
+		Gtk.main_iteration()
+	transaction.Release()
+	exiting('')
+
 def on_ProgressCloseButton_clicked(*args):
 	transaction.ProgressWindow.hide()
-	transaction.progress_buffer.delete(transaction.progress_buffer.get_start_iter(),transaction.progress_buffer.get_end_iter())
-	common.rm_pid_file()
-	Gtk.main_quit()
+	while Gtk.events_pending():
+		Gtk.main_iteration()
+	exiting('')
 
 def on_ProgressCancelButton_clicked(*args):
-	trans.interrupt()
+	transaction.Interrupt()
+	transaction.ProgressWindow.hide()
+	while Gtk.events_pending():
+		Gtk.main_iteration()
+	exiting('')
 
-def on_TransCancelButton_clicked(self, *arg):
-	transaction.ConfDialog.hide()
-	trans.release()
-	common.rm_pid_file()
-	Gtk.main_quit()
-
-def on_TransValidButton_clicked(self, *arg):
-	transaction.ConfDialog.hide()
-	trans.finalize()
-	common.rm_pid_file()
-	Gtk.main_quit()
-
-def get_pkgs(pkgstr_list):
-	get_error = ''
-	for pkgstr in pkgstr_list:
-		if '.pkg.tar.' in pkgstr:
-			full_path = abspath(pkgstr)
-			trans.to_load.append(full_path)
+def get_pkgs(pkgs):
+	error = ''
+	for name in pkgs:
+		if '.pkg.tar.' in name:
+			full_path = abspath(name)
+			transaction.to_load.add(full_path)
+		elif transaction.get_syncpkg(name):
+			transaction.to_add.add(name)
 		else:
-			pkg = trans.get_syncpkg(pkgstr)
-			if pkg:
-				trans.to_add.append(pkg)
-			else:
-				if get_error:
-					get_error += '\n'
-				get_error += _('{pkgname} is not a valid path or package name').format(pkgname = pkgstr)
-	if get_error:
-		trans.handle_error(get_error)
+			if error:
+				error += '\n'
+			error += _('{pkgname} is not a valid path or package name').format(pkgname = name)
+	if error:
+		handle_error(error)
 		return False
 	else:
 		return True
 
-signals = {'on_TransValidButton_clicked' : on_TransValidButton_clicked,
-		'on_TransCancelButton_clicked' : on_TransCancelButton_clicked,
-		'on_ChooseButton_clicked' : transaction.on_ChooseButton_clicked,
+def install(pkgs):
+	if get_pkgs(pkgs):
+		error = transaction.run()
+		if error:
+			handle_error(error)
+		else:
+			loop.run()
+
+signals = {'on_ChooseButton_clicked' : transaction.on_ChooseButton_clicked,
 		'on_progress_textview_size_allocate' : transaction.on_progress_textview_size_allocate,
 		'on_choose_renderertoggle_toggled' : transaction.on_choose_renderertoggle_toggled,
-		'on_ProgressCancelButton_clicked' : on_ProgressCancelButton_clicked,
-		'on_ProgressCloseButton_clicked' : on_ProgressCloseButton_clicked}
+		'on_TransValidButton_clicked' :on_TransValidButton_clicked,
+		'on_TransCancelButton_clicked' :on_TransCancelButton_clicked,
+		'on_ProgressCloseButton_clicked' : on_ProgressCloseButton_clicked,
+		'on_ProgressCancelButton_clicked' : on_ProgressCancelButton_clicked}
+
+def config_dbus_signals():
+	bus = dbus.SystemBus()
+	bus.add_signal_receiver(handle_reply, dbus_interface = "org.manjaro.pamac", signal_name = "EmitTransactionDone")
+	bus.add_signal_receiver(handle_error, dbus_interface = "org.manjaro.pamac", signal_name = "EmitTransactionError")
 
 if common.pid_file_exists():
 	transaction.ErrorDialog.format_secondary_text(_('Pamac is already running'))
@@ -73,27 +112,21 @@ if common.pid_file_exists():
 	if response:
 		transaction.ErrorDialog.hide()
 else:
-	trans = transaction.Transaction()
-	do_syncfirst, updates = trans.get_updates()
+	transaction.get_handle()
+	transaction.update_dbs()
+	transaction.get_dbus_methods()
+	do_syncfirst, updates = transaction.get_updates()
 	if updates:
 		transaction.ErrorDialog.format_secondary_text(_('Some updates are available.\nPlease update your system first'))
 		response = transaction.ErrorDialog.run()
 		if response:
 			transaction.ErrorDialog.hide()
+		transaction.StopDaemon()
 	else:
+		common.write_pid_file()
 		transaction.interface.connect_signals(signals)
-		args_str = argv[1:]
-		if get_pkgs(args_str):
-			if trans.to_add or trans.to_load:
-				if trans.check_extra_modules():
-					if trans.init(cascade = True):
-						for pkg in trans.to_add:
-							trans.add(pkg)
-						for path in trans.to_load:
-							trans.load(path)
-						if trans.prepare():
-							common.write_pid_file()
-							trans.set_transaction_sum(True)
-							transaction.ConfDialog.show()
-							Gtk.main()
-	
+		transaction.config_dbus_signals()
+		config_dbus_signals()
+		loop = GObject.MainLoop()
+		pkgs_to_install = argv[1:]
+		install(pkgs_to_install)

@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=Update Notifier
+Icon=update-notifier
+Exec=pamac-tray
+Terminal=false
+Type=Application
+Categories=GNOME;GTK;System;
+NotShowIn=GNOME;XFCE;LXDE;KDE;
+StartupNotify=true

@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- Generated with glade 3.16.0 on Sun Oct 13 17:29:04 2013 -->
 <interface>
   <!-- interface-requires gtk+ 3.6 -->
   <object class="GtkAboutDialog" id="AboutDialog">
@@ -125,6 +126,18 @@
       <column type="gchararray"/>
     </columns>
   </object>
+  <object class="GtkListStore" id="files_list">
+    <columns>
+      <!-- column-name file -->
+      <column type="gchararray"/>
+    </columns>
+  </object>
+  <object class="GtkListStore" id="groups_list">
+    <columns>
+      <!-- column-name name -->
+      <column type="gchararray"/>
+    </columns>
+  </object>
   <object class="GtkWindow" id="ManagerWindow">
     <property name="can_focus">False</property>
     <property name="border_width">2</property>
@@ -187,6 +200,7 @@
                 <property name="image">menu_icon</property>
                 <property name="relief">none</property>
                 <property name="always_show_image">True</property>
+                <property name="popup">main_menu</property>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -223,7 +237,6 @@
                         <property name="is_focus">True</property>
                         <property name="invisible_char">•</property>
                         <property name="width_chars">25</property>
-                        <property name="invisible_char_set">True</property>
                         <property name="primary_icon_stock">gtk-find</property>
                         <signal name="activate" handler="on_search_entry_activate" swapped="no"/>
                         <signal name="icon-press" handler="on_search_entry_icon_press" swapped="no"/>
@@ -634,6 +647,7 @@
                             </child>
                             <child>
                               <object class="GtkTreeViewColumn" id="dep_type">
+                                <property name="sizing">autosize</property>
                                 <child>
                                   <object class="GtkCellRendererText" id="cellrenderertext12">
                                     <property name="yalign">0</property>
@@ -647,6 +661,7 @@
                             </child>
                             <child>
                               <object class="GtkTreeViewColumn" id="deps">
+                                <property name="sizing">autosize</property>
                                 <child>
                                   <object class="GtkCellRendererText" id="cellrenderertext13"/>
                                   <attributes>
@@ -689,6 +704,7 @@
                             <property name="headers_visible">False</property>
                             <property name="headers_clickable">False</property>
                             <property name="enable_search">False</property>
+                            <property name="search_column">0</property>
                             <property name="show_expanders">False</property>
                             <child internal-child="selection">
                               <object class="GtkTreeSelection" id="treeview-selection6">
@@ -697,6 +713,7 @@
                             </child>
                             <child>
                               <object class="GtkTreeViewColumn" id="infotype">
+                                <property name="sizing">autosize</property>
                                 <child>
                                   <object class="GtkCellRendererText" id="cellrenderertext1">
                                     <property name="yalign">0</property>
@@ -711,6 +728,7 @@
                             </child>
                             <child>
                               <object class="GtkTreeViewColumn" id="type">
+                                <property name="sizing">autosize</property>
                                 <child>
                                   <object class="GtkCellRendererText" id="cellrenderertext4">
                                     <property name="wrap_mode">word</property>
@@ -747,6 +765,7 @@
                           <object class="GtkTextView" id="files_textview">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
+                            <property name="pixels_above_lines">2</property>
                             <property name="editable">False</property>
                             <property name="cursor_visible">False</property>
                           </object>
@@ -788,18 +807,6 @@
         </child>
       </object>
     </child>
-  </object>
-  <object class="GtkListStore" id="files_list">
-    <columns>
-      <!-- column-name file -->
-      <column type="gchararray"/>
-    </columns>
-  </object>
-  <object class="GtkListStore" id="groups_list">
-    <columns>
-      <!-- column-name name -->
-      <column type="gchararray"/>
-    </columns>
   </object>
   <object class="GtkImage" id="local_icon">
     <property name="visible">True</property>

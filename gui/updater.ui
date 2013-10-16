@@ -1,6 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- Generated with glade 3.16.0 on Sun Oct 13 12:38:20 2013 -->
 <interface>
   <!-- interface-requires gtk+ 3.6 -->
+  <object class="GtkListStore" id="transaction_add">
+    <columns>
+      <!-- column-name action -->
+      <column type="gchararray"/>
+      <!-- column-name packages -->
+      <column type="gchararray"/>
+    </columns>
+  </object>
+  <object class="GtkListStore" id="update_list">
+    <columns>
+      <!-- column-name name -->
+      <column type="gchararray"/>
+      <!-- column-name size -->
+      <column type="gchararray"/>
+    </columns>
+  </object>
   <object class="GtkWindow" id="UpdaterWindow">
     <property name="can_focus">False</property>
     <property name="border_width">5</property>
@@ -87,6 +104,21 @@
                 <property name="position">1</property>
               </packing>
             </child>
+            <child>
+              <object class="GtkButton" id="UpdaterCloseButton">
+                <property name="label">gtk-close</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+                <property name="use_stock">True</property>
+                <signal name="clicked" handler="on_Updater_CloseButton_clicked" swapped="no"/>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">2</property>
+              </packing>
+            </child>
           </object>
           <packing>
             <property name="expand">False</property>
@@ -157,21 +189,5 @@
         </child>
       </object>
     </child>
-  </object>
-  <object class="GtkListStore" id="transaction_add">
-    <columns>
-      <!-- column-name action -->
-      <column type="gchararray"/>
-      <!-- column-name packages -->
-      <column type="gchararray"/>
-    </columns>
-  </object>
-  <object class="GtkListStore" id="update_list">
-    <columns>
-      <!-- column-name name -->
-      <column type="gchararray"/>
-      <!-- column-name size -->
-      <column type="gchararray"/>
-    </columns>
   </object>
 </interface>

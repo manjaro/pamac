@@ -24,10 +24,13 @@ def format_pkg_name(name):
 			name = name[0:index]
 	return name
 
-from os.path import isfile
+from os.path import isfile, join
 from os import getpid, remove
 
+from pamac import config
+
 pid_file = '/tmp/pamac.pid'
+lock_file = join(config.pacman_conf.options['DBPath'], 'db.lck')
 
 def pid_file_exists():
 	return isfile(pid_file)
@@ -39,6 +42,10 @@ def write_pid_file():
 def rm_pid_file():
 	if isfile(pid_file):
 		remove(pid_file)
+
+def rm_lock_file():
+	if isfile(lock_file):
+		remove(lock_file)
 
 import time
 

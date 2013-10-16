@@ -6,46 +6,12 @@
   <vendor>Manjaro</vendor>
   <vendor_url>http://manjaro.org/</vendor_url>
   <icon_name>package-x-generic</icon_name>
-  <action id="org.manjaro.pamac.pkexec.pamac-manager">
+  <action id="org.manjaro.pamac.commit">
     <message>Authentication is required</message>
     <defaults>
       <allow_any>no</allow_any>
       <allow_inactive>no</allow_inactive>
       <allow_active>auth_admin_keep</allow_active>
     </defaults>
-    <annotate key="org.freedesktop.policykit.exec.path">/usr/bin/python3</annotate>
-    <annotate key="org.freedesktop.policykit.exec.argv1">/usr/bin/pamac-manager</annotate>
-    <annotate key="org.freedesktop.policykit.exec.allow_gui">true</annotate>
-  </action>
-  <action id="org.manjaro.pamac.pkexec.pamac-updater">
-    <message>Authentication is required</message>
-    <defaults>
-      <allow_any>no</allow_any>
-      <allow_inactive>no</allow_inactive>
-      <allow_active>auth_admin_keep</allow_active>
-    </defaults>
-    <annotate key="org.freedesktop.policykit.exec.path">/usr/bin/python3</annotate>
-    <annotate key="org.freedesktop.policykit.exec.argv1">/usr/bin/pamac-updater</annotate>
-    <annotate key="org.freedesktop.policykit.exec.allow_gui">true</annotate>
-  </action>
-  <action id="org.manjaro.pamac.pkexec.pamac-install">
-    <message>Authentication is required</message>
-    <defaults>
-      <allow_any>no</allow_any>
-      <allow_inactive>no</allow_inactive>
-      <allow_active>auth_admin_keep</allow_active>
-    </defaults>
-    <annotate key="org.freedesktop.policykit.exec.path">/usr/bin/python3</annotate>
-    <annotate key="org.freedesktop.policykit.exec.argv1">/usr/bin/pamac-install</annotate>
-    <annotate key="org.freedesktop.policykit.exec.allow_gui">true</annotate>
-  </action>
-    <action id="org.manjaro.pamac.pkexec.pamac-refresh">
-    <defaults>
-      <allow_any>no</allow_any>
-      <allow_inactive>no</allow_inactive>
-      <allow_active>yes</allow_active>
-    </defaults>
-    <annotate key="org.freedesktop.policykit.exec.path">/usr/bin/python3</annotate>
-    <annotate key="org.freedesktop.policykit.exec.argv1">/usr/bin/pamac-refresh</annotate>
   </action>
 </policyconfig>

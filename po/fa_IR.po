@@ -1,7 +1,7 @@
 # Translation of Pamac.
 # Copyright (C) 2007-2012 Free Software Foundation, Inc.
 # This file is distributed under the same license as the Pamac package.
-# 
+#
 # Translators:
 # Vampir3 <h.baraary@yahoo.com>, 2013
 msgid ""
@@ -11,324 +11,381 @@ msgstr ""
 "POT-Creation-Date: 2013-03-30 15:09+0100\n"
 "PO-Revision-Date: 2013-07-14 08:13+0000\n"
 "Last-Translator: manjarolinux <philm@manjaro.org>\n"
-"Language-Team: Persian (Iran) (http://www.transifex.com/projects/p/manjaro-pamac/language/fa_IR/)\n"
+"Language-Team: Persian (Iran) (http://www.transifex.com/projects/p/manjaro-"
+"pamac/language/fa_IR/)\n"
+"Language: fa_IR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: fa_IR\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 #: data/polkit/org.manjaro.pamac.policy:10
 msgid "Authentication is required"
 msgstr ""
 
-#: pamac-daemon.py:29 pamac/main.py:503
-msgid "Preparing"
-msgstr "آماده‌سازی"
-
-#: pamac-daemon.py:68
+#: pamac-daemon.py:117
 msgid "Checking dependencies"
 msgstr "چک‌کردن پیش‌نیازها"
 
-#: pamac-daemon.py:75
+#: pamac-daemon.py:125
 msgid "Checking file conflicts"
 msgstr "چک‌کردن ناسازگاری فایل‌ها"
 
-#: pamac-daemon.py:78
+#: pamac-daemon.py:131
 msgid "Resolving dependencies"
 msgstr "حل وابستگی‌ها"
 
-#: pamac-daemon.py:85
+#: pamac-daemon.py:139
 msgid "Checking inter conflicts"
 msgstr "چک‌کردن ناسزگاری‌های وارد شده"
 
-#: pamac-daemon.py:88 pamac/main.py:51
-msgid "Installing"
-msgstr "نصب"
+#: pamac-daemon.py:147
+#, python-brace-format
+msgid "Installing {pkgname}"
+msgstr ""
 
-#: pamac-daemon.py:95 pamac/main.py:51
-msgid "Removing"
-msgstr "حذف"
+#: pamac-daemon.py:155
+#, python-brace-format
+msgid "Removing {pkgname}"
+msgstr ""
 
-#: pamac-daemon.py:102 pamac/main.py:51
-msgid "Upgrading"
-msgstr "به‌روزرسانی"
+#: pamac-daemon.py:163
+#, python-brace-format
+msgid "Upgrading {pkgname}"
+msgstr ""
 
-#: pamac-daemon.py:109 pamac/main.py:51
-msgid "Downgrading"
-msgstr "به عقب برگرداندن"
+#: pamac-daemon.py:171
+#, python-brace-format
+msgid "Downgrading {pkgname}"
+msgstr ""
 
-#: pamac-daemon.py:117 pamac/main.py:51
-msgid "Reinstalling"
-msgstr "نصب دوباره"
+#: pamac-daemon.py:179
+#, python-brace-format
+msgid "Reinstalling {pkgname}"
+msgstr ""
 
-#: pamac-daemon.py:125
+#: pamac-daemon.py:187
 msgid "Checking integrity"
 msgstr "چک‌کردن یکپارچگی"
 
-#: pamac-daemon.py:129
+#: pamac-daemon.py:194
 msgid "Loading packages files"
 msgstr "بارگذاری فایل‌های بسته‌ها"
 
-#: pamac-daemon.py:133 pamac/main.py:51
-msgid "Configuring"
-msgstr "پیکربندی"
+#: pamac-daemon.py:200
+msgid "Checking delta integrity"
+msgstr ""
 
-#: pamac-daemon.py:140
-msgid "Checking keys in keyring"
-msgstr "چک‌کردن کلیدها در کی‌رینگ"
+#: pamac-daemon.py:206
+msgid "Applying deltas"
+msgstr ""
 
-#: pamac-daemon.py:198
-msgid "Downloading {size}"
-msgstr "دریافت {size}"
+#: pamac-daemon.py:212
+msgid "Generating {} with {}"
+msgstr ""
 
-#: pamac-daemon.py:203 pamac/main.py:437 pamac/main.py:1126
-msgid "Refreshing"
-msgstr "تازه‌کردن"
+#: pamac-daemon.py:216
+msgid "Generation succeeded!"
+msgstr ""
 
-#: pamac-daemon.py:371 pamac-install.py:44 pamac/main.py:531
-msgid "{pkgname} is not a valid path or package name"
-msgstr "{pkgname} مسیر درست یا نام بسته‌ی معتبری نیست"
+#: pamac-daemon.py:219
+msgid "Generation failed."
+msgstr ""
 
-#: pamac-daemon.py:438
-msgid "Transaction successfully finished"
-msgstr "تراکنش با موفقیت به پایان رسید"
+#: pamac-daemon.py:222
+#, python-brace-format
+msgid "Configuring {pkgname}"
+msgstr ""
 
-#: pamac-daemon.py:442 pamac-daemon.py:450
-msgid "Authentication failed"
-msgstr "تائید هویت شکست خورد"
+#: pamac-daemon.py:230
+msgid "Checking available disk space"
+msgstr ""
 
-#: pamac-tray.py:22
-msgid "{number} available updates"
-msgstr "{number} به‌روزرسانی در دسترس"
+#: pamac-daemon.py:240
+msgid "Checking keyring"
+msgstr ""
 
-#: pamac-tray.py:23
-msgid "1 available update"
-msgstr "یک به‌روزرسانی در دسترس"
+#: pamac-daemon.py:246
+msgid "Downloading required keys"
+msgstr ""
 
-#: pamac-tray.py:25
-msgid "Your system is up-to-date"
-msgstr "سیستم شما به روز است"
-
-#: pamac-tray.py:113 gui/updater.glade:7
-msgid "Update Manager"
-msgstr "مدیر به‌روزرسانی"
-
-#: pamac-install.py:73 pamac-install.py:79 pamac/main.py:915
-msgid "Nothing to do"
-msgstr "کاری برای انجام دادن وجود ندارد"
-
-#: pamac-install.py:87 pamac/main.py:1177
-msgid "Pamac is already running"
-msgstr "پاماک در حال حاظر در حال اجرا است"
-
-#: pamac-install.py:97
-msgid ""
-"Some updates are available.\n"
-"Please update your system first"
-msgstr "تعدادی به‌روزرسانی موجود است.\nلطفا ابتدا سیستم خود را به‌روزرسانی کنید"
-
-#: pamac/main.py:88 pamac/main.py:1083
-msgid "local"
-msgstr "محلی"
-
-#: pamac/main.py:178 pamac/main.py:973 pamac/main.py:1034
-msgid "No package found"
-msgstr "هیچ بسته‌ای پیدا نشد"
-
-#: pamac/main.py:229
-msgid "Licenses"
-msgstr "لایسنس"
-
-#: pamac/main.py:234
-msgid "Depends On"
-msgstr "وابسته به"
-
-#: pamac/main.py:239 pamac/main.py:1066 pamac/main.py:1251
-msgid "Installed"
-msgstr "نصد شده"
-
-#: pamac/main.py:242
-msgid "Optional Deps"
-msgstr "وابستگی‌های اختیاری"
-
-#: pamac/main.py:245
-msgid "Required By"
-msgstr "مورد نیاز"
-
-#: pamac/main.py:247
-msgid "Provides"
-msgstr "ارائه شده"
-
-#: pamac/main.py:249
-msgid "Replaces"
-msgstr "جایگزین‌ها"
-
-#: pamac/main.py:251
-msgid "Conflicts With"
-msgstr "ناسازگار با"
-
-#: pamac/main.py:256
-msgid "Repository"
-msgstr "مخزن"
-
-#: pamac/main.py:258 gui/manager.glade:384
-msgid "Groups"
-msgstr "گروه‌ها"
-
-#: pamac/main.py:260
-msgid "Compressed Size"
-msgstr "حجم فشرده"
-
-#: pamac/main.py:261
-msgid "Download Size"
-msgstr "حجم دریافت"
-
-#: pamac/main.py:263
-msgid "Installed Size"
-msgstr "حجم نصب"
-
-#: pamac/main.py:264
-msgid "Packager"
-msgstr "بسته بندی کننده"
-
-#: pamac/main.py:265
-msgid "Architecture"
-msgstr "معماری"
-
-#: pamac/main.py:268
-msgid "Install Date"
-msgstr "تاریخ نصب"
-
-#: pamac/main.py:270
-msgid "Explicitly installed"
-msgstr "آشکارانه نصب شده"
-
-#: pamac/main.py:272
-msgid "Installed as a dependency for another package"
-msgstr "نصب به عنوان یک وابستگی برای بسته‌ای دیگر"
-
-#: pamac/main.py:274
-msgid "Unknown"
-msgstr "نامشخص"
-
-#: pamac/main.py:275
-msgid "Install Reason"
-msgstr "دلیل نصب"
-
-#: pamac/main.py:280
-msgid "Signatures"
-msgstr "امضا"
-
-#: pamac/main.py:284
-msgid "Backup files"
-msgstr "فایل‌های پشتیبان"
-
-#: pamac/main.py:324
-msgid "<big><b>Transaction Summary</b></big>"
-msgstr "<big><b>خلاصه تراکنش</b></big>"
-
-#: pamac/main.py:326 pamac/main.py:1072 pamac/main.py:1251
-msgid "To install"
-msgstr "برای نصب"
-
-#: pamac/main.py:332
-msgid "To reinstall"
-msgstr "برای نصب دوباره"
-
-#: pamac/main.py:338
-msgid "To downgrade"
-msgstr "برای به گذشته برگرداندن"
-
-#: pamac/main.py:344 pamac/main.py:1074 pamac/main.py:1251
-msgid "To remove"
-msgstr "برای حذف"
-
-#: pamac/main.py:351
-msgid "To update"
-msgstr "برای به‌روزرسانی"
-
-#: pamac/main.py:362 pamac/main.py:459
-msgid "<b>Total download size: </b>"
-msgstr "<b>مجموع حجم دریافت: </b>"
-
-#: pamac/main.py:452 pamac/main.py:1263
-msgid "<big><b>Your system is up-to-date</b></big>"
-msgstr "<big><b>سیستم شما به روز است</b></big>"
-
-#: pamac/main.py:461
-msgid "<big><b>1 available update</b></big>"
-msgstr "<big><b>یک به‌روزرسانی موجود است</b></big>"
-
-#: pamac/main.py:463
-msgid "<big><b>{number} available updates</b></big>"
-msgstr "<big><b>{number}به‌روزرسانی موجود است</b></big>"
-
-#: pamac/main.py:549 pamac/main.py:550
-msgid ""
-"The transaction cannot be performed because it needs to remove {pkgname1} "
-"which is a locked package"
-msgstr "به دلیل احتیاج به حذف شدن {pkgname1} که بسته‌ای قفل شده است، تراکنش را نمی‌توان انجام داد"
-
-#: pamac/main.py:585 pamac/main.py:586 pamac/main.py:697 pamac/main.py:698
+#: pamac-daemon.py:265
+#, python-brace-format
 msgid "{pkgname1} will be replaced by {pkgname2}"
 msgstr "{pkgname1} جایگزین می‌شود با {pkgname2}"
 
-#: pamac/main.py:714 pamac/main.py:715 pamac/main.py:739 pamac/main.py:740
-#: pamac/main.py:760 pamac/main.py:761 pamac/main.py:791 pamac/main.py:792
-#: pamac/main.py:816 pamac/main.py:817 pamac/main.py:837 pamac/main.py:838
+#: pamac-daemon.py:268
+#, python-brace-format
 msgid "{pkgname1} conflicts with {pkgname2}"
 msgstr "{pkgname1} ناسازگاری دارد با {pkgname2}"
 
-#: pamac/main.py:772 pamac/main.py:773
-msgid ""
-"{pkgname1} conflicts with {pkgname2}\n"
-"None of them will be installed"
-msgstr "{pkgname1} ناسازگاری دارد با {pkgname2\nهیچ کدام نصب نخواهد شد"
+#: pamac-daemon.py:312
+#, python-brace-format
+msgid "Refreshing {repo}"
+msgstr ""
 
-#: pamac/main.py:874
-msgid ""
-"<b>{pkgname} is provided by {number} packages.\n"
-"Please choose the one(s) you want to install:</b>"
-msgstr "<b>{pkgname} ارائه می‌شود با {number} بسته\n.لطفا آن‌(هایی) را که می‌خواهید نصب شود انتخاب کنید</b>"
+#: pamac-daemon.py:316
+#, python-brace-format
+msgid "Downloading {pkgname}"
+msgstr ""
 
-#: pamac/main.py:957
+#: pamac-daemon.py:487 pamac-install.py:81
+#, python-brace-format
+msgid "{pkgname} is not a valid path or package name"
+msgstr "{pkgname} مسیر درست یا نام بسته‌ی معتبری نیست"
+
+#: pamac-daemon.py:601
+#, python-brace-format
+msgid ""
+"The transaction cannot be performed because it needs to remove {pkgname1} "
+"which is a locked package"
+msgstr ""
+"به دلیل احتیاج به حذف شدن {pkgname1} که بسته‌ای قفل شده است، تراکنش را "
+"نمی‌توان انجام داد"
+
+#: pamac-daemon.py:662
+msgid "Transaction successfully finished"
+msgstr "تراکنش با موفقیت به پایان رسید"
+
+#: pamac-daemon.py:666 pamac-daemon.py:674
+msgid "Authentication failed"
+msgstr "تائید هویت شکست خورد"
+
+#: pamac-manager.py:74 pamac-manager.py:103 pamac-manager.py:104
+#: pamac-manager.py:119 pamac-manager.py:128 pamac-manager.py:227
+#: pamac-manager.py:471 pamac-manager.py:532 pamac-manager.py:594
+msgid "No package found"
+msgstr "هیچ بسته‌ای پیدا نشد"
+
+#: pamac-manager.py:143 pamac-manager.py:195
+msgid "local"
+msgstr "محلی"
+
+#: pamac-manager.py:145 pamac-manager.py:178 pamac-manager.py:284
+msgid "Installed"
+msgstr "نصد شده"
+
+#: pamac-manager.py:145 pamac-manager.py:181
+msgid "Uninstalled"
+msgstr "حذف شده"
+
+#: pamac-manager.py:145 pamac-manager.py:184
+msgid "Orphans"
+msgstr "بی منبع"
+
+#: pamac-manager.py:145 pamac-manager.py:164 pamac/transaction.py:352
+msgid "To install"
+msgstr "برای نصب"
+
+#: pamac-manager.py:145 pamac-manager.py:169 pamac/transaction.py:370
+msgid "To remove"
+msgstr "برای حذف"
+
+#: pamac-manager.py:274
+msgid "Licenses"
+msgstr "لایسنس"
+
+#: pamac-manager.py:279
+msgid "Depends On"
+msgstr "وابسته به"
+
+#: pamac-manager.py:287
+msgid "Optional Deps"
+msgstr "وابستگی‌های اختیاری"
+
+#: pamac-manager.py:290
+msgid "Required By"
+msgstr "مورد نیاز"
+
+#: pamac-manager.py:292
+msgid "Provides"
+msgstr "ارائه شده"
+
+#: pamac-manager.py:294
+msgid "Replaces"
+msgstr "جایگزین‌ها"
+
+#: pamac-manager.py:296
+msgid "Conflicts With"
+msgstr "ناسازگار با"
+
+#: pamac-manager.py:301
+msgid "Repository"
+msgstr "مخزن"
+
+#: pamac-manager.py:303 gui/manager.ui:340
+msgid "Groups"
+msgstr "گروه‌ها"
+
+#: pamac-manager.py:305
+msgid "Compressed Size"
+msgstr "حجم فشرده"
+
+#: pamac-manager.py:306
+msgid "Download Size"
+msgstr "حجم دریافت"
+
+#: pamac-manager.py:308
+msgid "Installed Size"
+msgstr "حجم نصب"
+
+#: pamac-manager.py:309
+msgid "Packager"
+msgstr "بسته بندی کننده"
+
+#: pamac-manager.py:310
+msgid "Architecture"
+msgstr "معماری"
+
+#: pamac-manager.py:313
+msgid "Install Date"
+msgstr "تاریخ نصب"
+
+#: pamac-manager.py:315
+msgid "Explicitly installed"
+msgstr "آشکارانه نصب شده"
+
+#: pamac-manager.py:317
+msgid "Installed as a dependency for another package"
+msgstr "نصب به عنوان یک وابستگی برای بسته‌ای دیگر"
+
+#: pamac-manager.py:319
+msgid "Unknown"
+msgstr "نامشخص"
+
+#: pamac-manager.py:320
+msgid "Install Reason"
+msgstr "دلیل نصب"
+
+#: pamac-manager.py:325
+msgid "Signatures"
+msgstr "امضا"
+
+#: pamac-manager.py:329
+msgid "Backup files"
+msgstr "فایل‌های پشتیبان"
+
+#: pamac-manager.py:451
+#, python-brace-format
 msgid ""
 "<b>{pkgname} has {number} uninstalled optional deps.\n"
 "Please choose the one(s) you want to install:</b>"
 msgstr ""
 
-#: pamac/main.py:976
+#: pamac-manager.py:474
 msgid "Unselect"
 msgstr ""
 
-#: pamac/main.py:982
+#: pamac-manager.py:480
 msgid "Remove"
 msgstr ""
 
-#: pamac/main.py:987
+#: pamac-manager.py:486
 msgid "Reinstall"
 msgstr ""
 
-#: pamac/main.py:1000
+#: pamac-manager.py:499
 msgid "Install optional deps"
 msgstr ""
 
-#: pamac/main.py:1006
+#: pamac-manager.py:505
 msgid "Install"
 msgstr ""
 
-#: pamac/main.py:1019
+#: pamac-manager.py:518
 msgid "Install with optional deps"
 msgstr ""
 
-#: pamac/main.py:1068 pamac/main.py:1251
-msgid "Uninstalled"
-msgstr "حذف شده"
+#: pamac-manager.py:753 pamac-updater.py:150 pamac-install.py:109
+msgid "Pamac is already running"
+msgstr "پاماک در حال حاظر در حال اجرا است"
 
-#: pamac/main.py:1070 pamac/main.py:1251
-msgid "Orphans"
-msgstr "بی منبع"
+#: pamac-updater.py:27 pamac-updater.py:37
+msgid "<big><b>Your system is up-to-date</b></big>"
+msgstr "<big><b>سیستم شما به روز است</b></big>"
+
+#: pamac-updater.py:49 pamac/transaction.py:388
+msgid "<b>Total download size: </b>"
+msgstr "<b>مجموع حجم دریافت: </b>"
+
+#: pamac-updater.py:51
+msgid "<big><b>1 available update</b></big>"
+msgstr "<big><b>یک به‌روزرسانی موجود است</b></big>"
+
+#: pamac-updater.py:53
+#, python-brace-format
+msgid "<big><b>{number} available updates</b></big>"
+msgstr "<big><b>{number}به‌روزرسانی موجود است</b></big>"
+
+#: pamac-tray.py:17
+#, python-brace-format
+msgid "{number} available updates"
+msgstr "{number} به‌روزرسانی در دسترس"
+
+#: pamac-tray.py:18
+msgid "1 available update"
+msgstr "یک به‌روزرسانی در دسترس"
+
+#: pamac-tray.py:20
+msgid "Your system is up-to-date"
+msgstr "سیستم شما به روز است"
+
+#: pamac-tray.py:30 pamac-tray.py:85 gui/updater.ui:24
+msgid "Update Manager"
+msgstr "مدیر به‌روزرسانی"
+
+#: pamac-tray.py:34 gui/manager.ui:144
+msgid "Package Manager"
+msgstr "مدیر بسته"
+
+#: pamac-tray.py:38
+msgid "Quit"
+msgstr ""
+
+#: pamac-install.py:119
+msgid ""
+"Some updates are available.\n"
+"Please update your system first"
+msgstr ""
+"تعدادی به‌روزرسانی موجود است.\n"
+"لطفا ابتدا سیستم خود را به‌روزرسانی کنید"
+
+#: pamac/transaction.py:150
+#, python-brace-format
+msgid ""
+"<b>{pkgname} is provided by {number} packages.\n"
+"Please choose the one(s) you want to install:</b>"
+msgstr ""
+"<b>{pkgname} ارائه می‌شود با {number} بسته\n"
+".لطفا آن‌(هایی) را که می‌خواهید نصب شود انتخاب کنید</b>"
+
+#: pamac/transaction.py:198
+msgid "Refreshing"
+msgstr "تازه‌کردن"
+
+#: pamac/transaction.py:229
+msgid "Nothing to do"
+msgstr "کاری برای انجام دادن وجود ندارد"
+
+#: pamac/transaction.py:270
+msgid "Preparing"
+msgstr "آماده‌سازی"
+
+#: pamac/transaction.py:350
+msgid "<big><b>Transaction Summary</b></big>"
+msgstr "<big><b>خلاصه تراکنش</b></big>"
+
+#: pamac/transaction.py:358
+msgid "To reinstall"
+msgstr "برای نصب دوباره"
+
+#: pamac/transaction.py:364
+msgid "To downgrade"
+msgstr "برای به گذشته برگرداندن"
+
+#: pamac/transaction.py:377
+msgid "To update"
+msgstr "برای به‌روزرسانی"
 
 #: pamac/common.py:13
 #, python-format
@@ -340,58 +397,105 @@ msgstr "%.1f کیبی‌بایت"
 msgid "%.2f MiB"
 msgstr "%.2f میبی‌بایت"
 
-#: gui/manager.glade:6
-msgid "Choose"
-msgstr "انتخاب"
+#: gui/manager.ui:8
+msgid "About Pamac"
+msgstr ""
 
-#: gui/manager.glade:109
-msgid "Summary"
-msgstr "خلاصه"
+#: gui/manager.ui:11
+msgid "Copyright © 2013 Guillaume Benoit"
+msgstr ""
 
-#: gui/manager.glade:250
-msgid "Package Manager"
-msgstr "مدیر بسته"
+#: gui/manager.ui:12
+msgid "A gtk3 frontend for pyalpm"
+msgstr ""
 
-#: gui/manager.glade:338
+#: gui/manager.ui:42
+msgid "Install local packages"
+msgstr ""
+
+#: gui/manager.ui:294
 msgid "Search"
 msgstr "جستجو"
 
-#: gui/manager.glade:431 gui/manager.glade:524
+#: gui/manager.ui:387 gui/manager.ui:479
 msgid "State"
 msgstr "حالت"
 
-#: gui/manager.glade:478
+#: gui/manager.ui:434
 msgid "Repos"
 msgstr "مخازن"
 
-#: gui/manager.glade:540
+#: gui/manager.ui:492
 msgid "Name"
 msgstr "نام"
 
-#: gui/manager.glade:558
+#: gui/manager.ui:505
 msgid "Version"
 msgstr "نسخه"
 
-#: gui/manager.glade:574
+#: gui/manager.ui:518
 msgid "Size"
 msgstr "حجم"
 
-#: gui/manager.glade:675
+#: gui/manager.ui:620
 msgid "Infos"
 msgstr "اطلاعات"
 
-#: gui/manager.glade:735
+#: gui/manager.ui:684
 msgid "Deps"
 msgstr "وابستگی‌ها"
 
-#: gui/manager.glade:800
+#: gui/manager.ui:753
 msgid "Details"
 msgstr "توضیحات"
 
-#: gui/manager.glade:848
+#: gui/manager.ui:782
 msgid "Files"
 msgstr "فایل‌ها"
 
-#: gui/manager.glade:970
+#: gui/dialogs.ui:7
+msgid "Choose"
+msgstr "انتخاب"
+
+#: gui/dialogs.ui:113
+msgid "Summary"
+msgstr "خلاصه"
+
+#: gui/dialogs.ui:315
 msgid "Progress"
 msgstr "پیشرفت"
+
+#: gui/dialogs.ui:406
+msgid "details"
+msgstr ""
+
+#~ msgid "Installing"
+#~ msgstr "نصب"
+
+#~ msgid "Removing"
+#~ msgstr "حذف"
+
+#~ msgid "Upgrading"
+#~ msgstr "به‌روزرسانی"
+
+#~ msgid "Downgrading"
+#~ msgstr "به عقب برگرداندن"
+
+#~ msgid "Reinstalling"
+#~ msgstr "نصب دوباره"
+
+#~ msgid "Configuring"
+#~ msgstr "پیکربندی"
+
+#~ msgid "Checking keys in keyring"
+#~ msgstr "چک‌کردن کلیدها در کی‌رینگ"
+
+#~ msgid "Downloading {size}"
+#~ msgstr "دریافت {size}"
+
+#~ msgid ""
+#~ "{pkgname1} conflicts with {pkgname2}\n"
+#~ "None of them will be installed"
+#~ msgstr ""
+#~ "{pkgname1} ناسازگاری دارد با {pkgname2\n"
+#~ "هیچ کدام نصب نخواهد شد"

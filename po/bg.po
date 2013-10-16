@@ -1,7 +1,7 @@
 # Translation of Pamac.
 # Copyright (C) 2007-2012 Free Software Foundation, Inc.
 # This file is distributed under the same license as the Pamac package.
-# 
+#
 # Translators:
 # loot270 <loot270@abv.bg>, 2013
 msgid ""
@@ -11,332 +11,381 @@ msgstr ""
 "POT-Creation-Date: 2013-03-30 15:09+0100\n"
 "PO-Revision-Date: 2013-06-02 08:13+0000\n"
 "Last-Translator: manjarolinux <philm@manjaro.org>\n"
-"Language-Team: Bulgarian (Bulgaria) (http://www.transifex.com/projects/p/manjaro-pamac/language/bg_BG/)\n"
+"Language-Team: Bulgarian (Bulgaria) (http://www.transifex.com/projects/p/"
+"manjaro-pamac/language/bg_BG/)\n"
+"Language: bg_BG\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: bg_BG\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: data/polkit/org.manjaro.pamac.policy:10
 msgid "Authentication is required"
 msgstr "Необходимо е удостоверяване"
 
-#: pamac-daemon.py:29 pamac/main.py:505
-msgid "Preparing"
-msgstr "Подготвяне"
-
-#: pamac-daemon.py:68
+#: pamac-daemon.py:117
 msgid "Checking dependencies"
 msgstr "Проверка на зависимостите"
 
-#: pamac-daemon.py:75
+#: pamac-daemon.py:125
 msgid "Checking file conflicts"
 msgstr "Проверка за конфликти"
 
-#: pamac-daemon.py:78
+#: pamac-daemon.py:131
 msgid "Resolving dependencies"
 msgstr "Разрешаване на зависимости"
 
-#: pamac-daemon.py:85
+#: pamac-daemon.py:139
 msgid "Checking inter conflicts"
 msgstr "Проверка за вътрешни конфликти"
 
-#: pamac-daemon.py:88 pamac/main.py:51
-msgid "Installing"
-msgstr "Инсталиране"
+#: pamac-daemon.py:147
+#, python-brace-format
+msgid "Installing {pkgname}"
+msgstr ""
 
-#: pamac-daemon.py:95 pamac/main.py:51
-msgid "Removing"
-msgstr "Премахване"
+#: pamac-daemon.py:155
+#, python-brace-format
+msgid "Removing {pkgname}"
+msgstr ""
 
-#: pamac-daemon.py:102 pamac/main.py:51
-msgid "Upgrading"
-msgstr "Обновяване"
+#: pamac-daemon.py:163
+#, python-brace-format
+msgid "Upgrading {pkgname}"
+msgstr ""
 
-#: pamac-daemon.py:109 pamac/main.py:51
-msgid "Downgrading"
-msgstr "Сваляне"
+#: pamac-daemon.py:171
+#, python-brace-format
+msgid "Downgrading {pkgname}"
+msgstr ""
 
-#: pamac-daemon.py:117 pamac/main.py:51
-msgid "Reinstalling"
-msgstr "Преинсталиране"
+#: pamac-daemon.py:179
+#, python-brace-format
+msgid "Reinstalling {pkgname}"
+msgstr ""
 
-#: pamac-daemon.py:125
+#: pamac-daemon.py:187
 msgid "Checking integrity"
 msgstr "Проверка за цялостност"
 
-#: pamac-daemon.py:129
+#: pamac-daemon.py:194
 msgid "Loading packages files"
 msgstr "Зареждане на пакетни файлове"
 
-#: pamac-daemon.py:133 pamac/main.py:51
-msgid "Configuring"
-msgstr "Конфигуриране"
+#: pamac-daemon.py:200
+msgid "Checking delta integrity"
+msgstr ""
 
-#: pamac-daemon.py:140
-msgid "Checking keys in keyring"
-msgstr "Проверка на ключовете"
+#: pamac-daemon.py:206
+msgid "Applying deltas"
+msgstr ""
 
-#: pamac-daemon.py:198
-msgid "Downloading {size}"
-msgstr "Сваляне {size}"
+#: pamac-daemon.py:212
+msgid "Generating {} with {}"
+msgstr ""
 
-#: pamac-daemon.py:203 pamac/main.py:439 pamac/main.py:1099
-msgid "Refreshing"
-msgstr "Обновяване"
+#: pamac-daemon.py:216
+msgid "Generation succeeded!"
+msgstr ""
 
-#: pamac-daemon.py:371 pamac-install.py:44 pamac/main.py:533
-msgid "{pkgname} is not a valid path or package name"
-msgstr "{pkgname} невалиден път или име на пакет"
+#: pamac-daemon.py:219
+msgid "Generation failed."
+msgstr ""
 
-#: pamac-daemon.py:438
-msgid "Transaction successfully finished"
-msgstr "Успешно завършена транзакция"
+#: pamac-daemon.py:222
+#, python-brace-format
+msgid "Configuring {pkgname}"
+msgstr ""
 
-#: pamac-daemon.py:442 pamac-daemon.py:450
-msgid "Authentication failed"
-msgstr "Неуспешно удостоверяване"
+#: pamac-daemon.py:230
+msgid "Checking available disk space"
+msgstr ""
 
-#: pamac-tray.py:20
-msgid "{number} available updates"
-msgstr "{number} достъпни обновявания"
+#: pamac-daemon.py:240
+msgid "Checking keyring"
+msgstr ""
 
-#: pamac-tray.py:21
-msgid "1 available update"
-msgstr "1 достъпно обновяване"
+#: pamac-daemon.py:246
+msgid "Downloading required keys"
+msgstr ""
 
-#: pamac-tray.py:23
-msgid "Your system is up-to-date"
-msgstr "Вашата система е актуална"
-
-#: pamac-tray.py:31
-msgid "Install/Check for updates"
-msgstr "Инсталиране/проверка за обновяване "
-
-#: pamac-tray.py:34
-msgid "Run pamac-manager"
-msgstr "Пускане на pamac-manager"
-
-#: pamac-tray.py:37
-msgid "Quit"
-msgstr "Изход"
-
-#: pamac-install.py:73 pamac-install.py:79 pamac/main.py:897
-msgid "Nothing to do"
-msgstr "Нищо за правене"
-
-#: pamac-install.py:87 pamac/main.py:1150
-msgid "Pamac is already running"
-msgstr "Pamac вече работи"
-
-#: pamac-install.py:97
-msgid ""
-"Some updates are available.\n"
-"Please update your system first"
-msgstr "Достъпни актуализации.\nМоля, първо обновете системата"
-
-#: pamac/main.py:89 pamac/main.py:1052
-msgid "local"
-msgstr "локален"
-
-#: pamac/main.py:180 pamac/main.py:954 pamac/main.py:1003
-msgid "No package found"
-msgstr "Няма открит пакет"
-
-#: pamac/main.py:231
-msgid "Licenses"
-msgstr "Лицензи"
-
-#: pamac/main.py:236
-msgid "Depends On"
-msgstr "Зависи от"
-
-#: pamac/main.py:241 pamac/main.py:1035 pamac/main.py:1224
-msgid "Installed"
-msgstr "Инсталиран"
-
-#: pamac/main.py:244
-msgid "Optional Deps"
-msgstr "Допълнителна зависимост"
-
-#: pamac/main.py:247
-msgid "Required By"
-msgstr "Изискван от"
-
-#: pamac/main.py:249
-msgid "Provides"
-msgstr "Осигуряван"
-
-#: pamac/main.py:251
-msgid "Replaces"
-msgstr "Замяна"
-
-#: pamac/main.py:253
-msgid "Conflicts With"
-msgstr "Конфликт със"
-
-#: pamac/main.py:258
-msgid "Repository"
-msgstr "Хранилище"
-
-#: pamac/main.py:260 gui/manager.glade:538
-msgid "Groups"
-msgstr "Групи"
-
-#: pamac/main.py:262
-msgid "Compressed Size"
-msgstr "Компресиран размер"
-
-#: pamac/main.py:263
-msgid "Download Size"
-msgstr "Размер за сваляне"
-
-#: pamac/main.py:265
-msgid "Installed Size"
-msgstr "Инсталиран размер"
-
-#: pamac/main.py:266
-msgid "Packager"
-msgstr "Опаковчик"
-
-#: pamac/main.py:267
-msgid "Architecture"
-msgstr "Архитектура"
-
-#: pamac/main.py:270
-msgid "Install Date"
-msgstr "Дата на инсталиране"
-
-#: pamac/main.py:272
-msgid "Explicitly installed"
-msgstr "Изрично инсталиран"
-
-#: pamac/main.py:274
-msgid "Installed as a dependency for another package"
-msgstr "Инсталиран като зависим от някой пакет"
-
-#: pamac/main.py:276
-msgid "Unknown"
-msgstr "Непознат"
-
-#: pamac/main.py:277
-msgid "Install Reason"
-msgstr "Причина за инсталиране"
-
-#: pamac/main.py:282
-msgid "Signatures"
-msgstr "Подписи"
-
-#: pamac/main.py:286
-msgid "Backup files"
-msgstr "Архивни файлове"
-
-#: pamac/main.py:326
-msgid "<big><b>Transaction Summary</b></big>"
-msgstr "<big><b>Обобщение за транзакцията</b></big>"
-
-#: pamac/main.py:328 pamac/main.py:1041 pamac/main.py:1224
-msgid "To install"
-msgstr "За инсталиране"
-
-#: pamac/main.py:334
-msgid "To reinstall"
-msgstr "За преинсталиране"
-
-#: pamac/main.py:340
-msgid "To downgrade"
-msgstr "За състаряване"
-
-#: pamac/main.py:346 pamac/main.py:1043 pamac/main.py:1224
-msgid "To remove"
-msgstr "За премахване"
-
-#: pamac/main.py:353
-msgid "To update"
-msgstr "За обновяване"
-
-#: pamac/main.py:364 pamac/main.py:461
-msgid "<b>Total download size: </b>"
-msgstr "<b>Общ свален размер: </b>"
-
-#: pamac/main.py:454 pamac/main.py:1236
-msgid "<big><b>Your system is up-to-date</b></big>"
-msgstr "<big><b>Вашата система е актуална</b></big>"
-
-#: pamac/main.py:463
-msgid "<big><b>1 available update</b></big>"
-msgstr "<big><b>1 достъпно обновяване</b></big>"
-
-#: pamac/main.py:465
-msgid "<big><b>{number} available updates</b></big>"
-msgstr "<big><b>{number} достъпни обновявания</b></big>"
-
-#: pamac/main.py:551 pamac/main.py:552
-msgid ""
-"The transaction cannot be performed because it needs to remove {pkgname1} "
-"which is a locked package"
-msgstr "Транзакцията не може да се извърши, защото трябва да се премахне {pkgname1}, който е заключен "
-
-#: pamac/main.py:583 pamac/main.py:584 pamac/main.py:686 pamac/main.py:687
+#: pamac-daemon.py:265
+#, python-brace-format
 msgid "{pkgname1} will be replaced by {pkgname2}"
 msgstr "{pkgname1} ще бъде заменен от {pkgname2}"
 
-#: pamac/main.py:701 pamac/main.py:702 pamac/main.py:726 pamac/main.py:727
-#: pamac/main.py:747 pamac/main.py:748 pamac/main.py:778 pamac/main.py:779
-#: pamac/main.py:803 pamac/main.py:804 pamac/main.py:824 pamac/main.py:825
+#: pamac-daemon.py:268
+#, python-brace-format
 msgid "{pkgname1} conflicts with {pkgname2}"
 msgstr "{pkgname1} конфликт с {pkgname2}"
 
-#: pamac/main.py:759 pamac/main.py:760
-msgid ""
-"{pkgname1} conflicts with {pkgname2}\n"
-"None of them will be installed"
-msgstr "{pkgname1} конфликт с {pkgname2}\nНикой от тях няма да бъде инсталиран."
+#: pamac-daemon.py:312
+#, python-brace-format
+msgid "Refreshing {repo}"
+msgstr ""
 
-#: pamac/main.py:856
-msgid ""
-"<b>{pkgname} is provided by {number} packages.\n"
-"Please choose the one(s) you want to install:</b>"
-msgstr "<b>{pkgname} се осигурява от {number} пакета.\nМоля избере какво да се инсталира:</b>"
+#: pamac-daemon.py:316
+#, python-brace-format
+msgid "Downloading {pkgname}"
+msgstr ""
 
-#: pamac/main.py:939
+#: pamac-daemon.py:487 pamac-install.py:81
+#, python-brace-format
+msgid "{pkgname} is not a valid path or package name"
+msgstr "{pkgname} невалиден път или име на пакет"
+
+#: pamac-daemon.py:601
+#, python-brace-format
+msgid ""
+"The transaction cannot be performed because it needs to remove {pkgname1} "
+"which is a locked package"
+msgstr ""
+"Транзакцията не може да се извърши, защото трябва да се премахне {pkgname1}, "
+"който е заключен "
+
+#: pamac-daemon.py:662
+msgid "Transaction successfully finished"
+msgstr "Успешно завършена транзакция"
+
+#: pamac-daemon.py:666 pamac-daemon.py:674
+msgid "Authentication failed"
+msgstr "Неуспешно удостоверяване"
+
+#: pamac-manager.py:74 pamac-manager.py:103 pamac-manager.py:104
+#: pamac-manager.py:119 pamac-manager.py:128 pamac-manager.py:227
+#: pamac-manager.py:471 pamac-manager.py:532 pamac-manager.py:594
+msgid "No package found"
+msgstr "Няма открит пакет"
+
+#: pamac-manager.py:143 pamac-manager.py:195
+msgid "local"
+msgstr "локален"
+
+#: pamac-manager.py:145 pamac-manager.py:178 pamac-manager.py:284
+msgid "Installed"
+msgstr "Инсталиран"
+
+#: pamac-manager.py:145 pamac-manager.py:181
+msgid "Uninstalled"
+msgstr "Деинсталиран"
+
+#: pamac-manager.py:145 pamac-manager.py:184
+msgid "Orphans"
+msgstr "Излишни"
+
+#: pamac-manager.py:145 pamac-manager.py:164 pamac/transaction.py:352
+msgid "To install"
+msgstr "За инсталиране"
+
+#: pamac-manager.py:145 pamac-manager.py:169 pamac/transaction.py:370
+msgid "To remove"
+msgstr "За премахване"
+
+#: pamac-manager.py:274
+msgid "Licenses"
+msgstr "Лицензи"
+
+#: pamac-manager.py:279
+msgid "Depends On"
+msgstr "Зависи от"
+
+#: pamac-manager.py:287
+msgid "Optional Deps"
+msgstr "Допълнителна зависимост"
+
+#: pamac-manager.py:290
+msgid "Required By"
+msgstr "Изискван от"
+
+#: pamac-manager.py:292
+msgid "Provides"
+msgstr "Осигуряван"
+
+#: pamac-manager.py:294
+msgid "Replaces"
+msgstr "Замяна"
+
+#: pamac-manager.py:296
+msgid "Conflicts With"
+msgstr "Конфликт със"
+
+#: pamac-manager.py:301
+msgid "Repository"
+msgstr "Хранилище"
+
+#: pamac-manager.py:303 gui/manager.ui:340
+msgid "Groups"
+msgstr "Групи"
+
+#: pamac-manager.py:305
+msgid "Compressed Size"
+msgstr "Компресиран размер"
+
+#: pamac-manager.py:306
+msgid "Download Size"
+msgstr "Размер за сваляне"
+
+#: pamac-manager.py:308
+msgid "Installed Size"
+msgstr "Инсталиран размер"
+
+#: pamac-manager.py:309
+msgid "Packager"
+msgstr "Опаковчик"
+
+#: pamac-manager.py:310
+msgid "Architecture"
+msgstr "Архитектура"
+
+#: pamac-manager.py:313
+msgid "Install Date"
+msgstr "Дата на инсталиране"
+
+#: pamac-manager.py:315
+msgid "Explicitly installed"
+msgstr "Изрично инсталиран"
+
+#: pamac-manager.py:317
+msgid "Installed as a dependency for another package"
+msgstr "Инсталиран като зависим от някой пакет"
+
+#: pamac-manager.py:319
+msgid "Unknown"
+msgstr "Непознат"
+
+#: pamac-manager.py:320
+msgid "Install Reason"
+msgstr "Причина за инсталиране"
+
+#: pamac-manager.py:325
+msgid "Signatures"
+msgstr "Подписи"
+
+#: pamac-manager.py:329
+msgid "Backup files"
+msgstr "Архивни файлове"
+
+#: pamac-manager.py:451
+#, python-brace-format
 msgid ""
 "<b>{pkgname} has {number} uninstalled optional deps.\n"
 "Please choose the one(s) you want to install:</b>"
 msgstr ""
 
-#: pamac/main.py:957
+#: pamac-manager.py:474
 msgid "Unselect"
 msgstr ""
 
-#: pamac/main.py:961
+#: pamac-manager.py:480
 msgid "Remove"
 msgstr ""
 
-#: pamac/main.py:964
+#: pamac-manager.py:486
 msgid "Reinstall"
 msgstr ""
 
-#: pamac/main.py:975
+#: pamac-manager.py:499
 msgid "Install optional deps"
 msgstr ""
 
-#: pamac/main.py:979
+#: pamac-manager.py:505
 msgid "Install"
 msgstr ""
 
-#: pamac/main.py:990
+#: pamac-manager.py:518
 msgid "Install with optional deps"
 msgstr ""
 
-#: pamac/main.py:1037 pamac/main.py:1224
-msgid "Uninstalled"
-msgstr "Деинсталиран"
+#: pamac-manager.py:753 pamac-updater.py:150 pamac-install.py:109
+msgid "Pamac is already running"
+msgstr "Pamac вече работи"
 
-#: pamac/main.py:1039 pamac/main.py:1224
-msgid "Orphans"
-msgstr "Излишни"
+#: pamac-updater.py:27 pamac-updater.py:37
+msgid "<big><b>Your system is up-to-date</b></big>"
+msgstr "<big><b>Вашата система е актуална</b></big>"
+
+#: pamac-updater.py:49 pamac/transaction.py:388
+msgid "<b>Total download size: </b>"
+msgstr "<b>Общ свален размер: </b>"
+
+#: pamac-updater.py:51
+msgid "<big><b>1 available update</b></big>"
+msgstr "<big><b>1 достъпно обновяване</b></big>"
+
+#: pamac-updater.py:53
+#, python-brace-format
+msgid "<big><b>{number} available updates</b></big>"
+msgstr "<big><b>{number} достъпни обновявания</b></big>"
+
+#: pamac-tray.py:17
+#, python-brace-format
+msgid "{number} available updates"
+msgstr "{number} достъпни обновявания"
+
+#: pamac-tray.py:18
+msgid "1 available update"
+msgstr "1 достъпно обновяване"
+
+#: pamac-tray.py:20
+msgid "Your system is up-to-date"
+msgstr "Вашата система е актуална"
+
+#: pamac-tray.py:30 pamac-tray.py:85 gui/updater.ui:24
+msgid "Update Manager"
+msgstr "Обновяващ Менажер"
+
+#: pamac-tray.py:34 gui/manager.ui:144
+msgid "Package Manager"
+msgstr "Пакетен Менажер"
+
+#: pamac-tray.py:38
+msgid "Quit"
+msgstr "Изход"
+
+#: pamac-install.py:119
+msgid ""
+"Some updates are available.\n"
+"Please update your system first"
+msgstr ""
+"Достъпни актуализации.\n"
+"Моля, първо обновете системата"
+
+#: pamac/transaction.py:150
+#, python-brace-format
+msgid ""
+"<b>{pkgname} is provided by {number} packages.\n"
+"Please choose the one(s) you want to install:</b>"
+msgstr ""
+"<b>{pkgname} се осигурява от {number} пакета.\n"
+"Моля избере какво да се инсталира:</b>"
+
+#: pamac/transaction.py:198
+msgid "Refreshing"
+msgstr "Обновяване"
+
+#: pamac/transaction.py:229
+msgid "Nothing to do"
+msgstr "Нищо за правене"
+
+#: pamac/transaction.py:270
+msgid "Preparing"
+msgstr "Подготвяне"
+
+#: pamac/transaction.py:350
+msgid "<big><b>Transaction Summary</b></big>"
+msgstr "<big><b>Обобщение за транзакцията</b></big>"
+
+#: pamac/transaction.py:358
+msgid "To reinstall"
+msgstr "За преинсталиране"
+
+#: pamac/transaction.py:364
+msgid "To downgrade"
+msgstr "За състаряване"
+
+#: pamac/transaction.py:377
+msgid "To update"
+msgstr "За обновяване"
 
 #: pamac/common.py:13
 #, python-format
@@ -348,62 +397,111 @@ msgstr "%.1f KiB"
 msgid "%.2f MiB"
 msgstr "%.2f MiB"
 
-#: gui/manager.glade:7
-msgid "Choose"
-msgstr "Избор"
+#: gui/manager.ui:8
+msgid "About Pamac"
+msgstr ""
 
-#: gui/manager.glade:112
-msgid "Summary"
-msgstr "Обобщение"
+#: gui/manager.ui:11
+msgid "Copyright © 2013 Guillaume Benoit"
+msgstr ""
 
-#: gui/manager.glade:256
-msgid "Progress"
-msgstr "Прогрес"
+#: gui/manager.ui:12
+msgid "A gtk3 frontend for pyalpm"
+msgstr ""
 
-#: gui/manager.glade:402
-msgid "Package Manager"
-msgstr "Пакетен Менажер"
+#: gui/manager.ui:42
+msgid "Install local packages"
+msgstr ""
 
-#: gui/manager.glade:492
+#: gui/manager.ui:294
 msgid "Search"
 msgstr "Търсене"
 
-#: gui/manager.glade:585 gui/manager.glade:680
+#: gui/manager.ui:387 gui/manager.ui:479
 msgid "State"
 msgstr "Състояние"
 
-#: gui/manager.glade:632
+#: gui/manager.ui:434
 msgid "Repos"
 msgstr "Хранилище"
 
-#: gui/manager.glade:711
+#: gui/manager.ui:492
 msgid "Name"
 msgstr "Име"
 
-#: gui/manager.glade:730
+#: gui/manager.ui:505
 msgid "Version"
 msgstr "Версия"
 
-#: gui/manager.glade:747
+#: gui/manager.ui:518
 msgid "Size"
 msgstr "Размер"
 
-#: gui/manager.glade:848
+#: gui/manager.ui:620
 msgid "Infos"
 msgstr "Информация"
 
-#: gui/manager.glade:908
+#: gui/manager.ui:684
 msgid "Deps"
 msgstr "Зависимост"
 
-#: gui/manager.glade:973
+#: gui/manager.ui:753
 msgid "Details"
 msgstr "Детайли"
 
-#: gui/manager.glade:1021
+#: gui/manager.ui:782
 msgid "Files"
 msgstr "Файлове"
 
-#: gui/updater.glade:6
-msgid "Update Manager"
-msgstr "Обновяващ Менажер"
+#: gui/dialogs.ui:7
+msgid "Choose"
+msgstr "Избор"
+
+#: gui/dialogs.ui:113
+msgid "Summary"
+msgstr "Обобщение"
+
+#: gui/dialogs.ui:315
+msgid "Progress"
+msgstr "Прогрес"
+
+#: gui/dialogs.ui:406
+msgid "details"
+msgstr ""
+
+#~ msgid "Installing"
+#~ msgstr "Инсталиране"
+
+#~ msgid "Removing"
+#~ msgstr "Премахване"
+
+#~ msgid "Upgrading"
+#~ msgstr "Обновяване"
+
+#~ msgid "Downgrading"
+#~ msgstr "Сваляне"
+
+#~ msgid "Reinstalling"
+#~ msgstr "Преинсталиране"
+
+#~ msgid "Configuring"
+#~ msgstr "Конфигуриране"
+
+#~ msgid "Checking keys in keyring"
+#~ msgstr "Проверка на ключовете"
+
+#~ msgid "Downloading {size}"
+#~ msgstr "Сваляне {size}"
+
+#~ msgid "Install/Check for updates"
+#~ msgstr "Инсталиране/проверка за обновяване "
+
+#~ msgid "Run pamac-manager"
+#~ msgstr "Пускане на pamac-manager"
+
+#~ msgid ""
+#~ "{pkgname1} conflicts with {pkgname2}\n"
+#~ "None of them will be installed"
+#~ msgstr ""
+#~ "{pkgname1} конфликт с {pkgname2}\n"
+#~ "Никой от тях няма да бъде инсталиран."

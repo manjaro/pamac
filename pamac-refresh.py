@@ -1,26 +1,31 @@
-#! /usr/bin/pkexec /usr/bin/python3
+#! /usr/bin/python3
 # -*- coding:utf-8 -*-
 
-from time import sleep
-from pamac import common, config
+from gi.repository import GObject
+from pamac import common, transaction
+import dbus
+
+def reply(reply):
+	transaction.StopDaemon()
+	print('check updates done')
+	loop.quit()
+
+def error(error):
+	transaction.StopDaemon()
+	print('check updates failed')
+	loop.quit()
+
+loop = GObject.MainLoop()
 
 if not common.pid_file_exists():
-	common.write_pid_file()
-	print('refreshing')
-	handle = config.handle()
-	for db in handle.get_syncdbs():
-		try:
-			t = handle.init_transaction()
-			db.update(force = False)
-			t.release()
-		except:
-			try:
-				t.release()
-			except:
-				pass
-			print('refreshing {} failed'.format(db.name))
-			break
-		else:
-			print('refreshing {} succeeded'.format(db.name))
-	sleep(1)
-	common.rm_pid_file()
+	print('checking updates')
+	bus = dbus.SystemBus()
+	bus.add_signal_receiver(reply, dbus_interface = "org.manjaro.pamac", signal_name = "EmitTransactionDone")
+	bus.add_signal_receiver(error, dbus_interface = "org.manjaro.pamac", signal_name = "EmitTransactionError")
+	transaction.get_dbus_methods()
+	try:
+		transaction.Refresh(False)
+	except:
+		pass
+	else:
+		loop.run()
