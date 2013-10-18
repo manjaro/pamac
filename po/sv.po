@@ -1,7 +1,7 @@
 # Translation of Pamac.
 # Copyright (C) 2007-2012 Free Software Foundation, Inc.
 # This file is distributed under the same license as the Pamac package.
-#
+# 
 # Translators:
 # Alekzanther <alexanderlndbrg@gmail.com>, 2013
 # tsw <tarvidsson7834@gmail.com>, 2013
@@ -9,152 +9,149 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-03-30 15:09+0100\n"
-"PO-Revision-Date: 2013-10-02 17:22+0000\n"
-"Last-Translator: Alekzanther <alexanderlndbrg@gmail.com>\n"
-"Language-Team: Swedish (http://www.transifex.com/projects/p/manjaro-pamac/"
-"language/sv/)\n"
-"Language: sv\n"
+"POT-Creation-Date: 2013-10-18 20:35+0200\n"
+"PO-Revision-Date: 2013-10-18 18:41+0000\n"
+"Last-Translator: manjarolinux <philm@manjaro.org>\n"
+"Language-Team: Swedish (http://www.transifex.com/projects/p/manjaro-pamac/language/sv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: sv\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: data/polkit/org.manjaro.pamac.policy:10
-msgid "Authentication is required"
-msgstr "Autenstiering krävs"
-
-#: pamac-daemon.py:117
+#: pamac-daemon.py:114
 msgid "Checking dependencies"
-msgstr "Kollar beronden"
+msgstr "Kollar beroenden"
 
-#: pamac-daemon.py:125
+#: pamac-daemon.py:122
 msgid "Checking file conflicts"
 msgstr "Kontrollerar konflikter"
 
-#: pamac-daemon.py:131
+#: pamac-daemon.py:128
 msgid "Resolving dependencies"
 msgstr "Undersöker beroenden"
 
-#: pamac-daemon.py:139
+#: pamac-daemon.py:136
 msgid "Checking inter conflicts"
 msgstr "Undersöker interna konflikter"
 
-#: pamac-daemon.py:147
+#: pamac-daemon.py:144
 #, python-brace-format
 msgid "Installing {pkgname}"
 msgstr "Installerar {pkgname}"
 
-#: pamac-daemon.py:155
+#: pamac-daemon.py:152
 #, python-brace-format
 msgid "Removing {pkgname}"
 msgstr "Tar bort {pkgname}"
 
-#: pamac-daemon.py:163
+#: pamac-daemon.py:160
 #, python-brace-format
 msgid "Upgrading {pkgname}"
 msgstr "Upgraderar {pkgname}"
 
-#: pamac-daemon.py:171
+#: pamac-daemon.py:168
 #, python-brace-format
 msgid "Downgrading {pkgname}"
 msgstr "Nedgraderar {pkgname}"
 
-#: pamac-daemon.py:179
+#: pamac-daemon.py:176
 #, python-brace-format
 msgid "Reinstalling {pkgname}"
 msgstr "Ominstallerar {pkgname}"
 
-#: pamac-daemon.py:187
+#: pamac-daemon.py:184
 msgid "Checking integrity"
 msgstr "Undersöker integritet"
 
-#: pamac-daemon.py:194
+#: pamac-daemon.py:191
 msgid "Loading packages files"
 msgstr "Laddar paketfiler"
 
-#: pamac-daemon.py:200
+#: pamac-daemon.py:197
 msgid "Checking delta integrity"
 msgstr "Undersöker skillnadsintegritet"
 
-#: pamac-daemon.py:206
+#: pamac-daemon.py:203
 msgid "Applying deltas"
 msgstr "Applicerar skillnader"
 
-#: pamac-daemon.py:212
+#: pamac-daemon.py:209
 msgid "Generating {} with {}"
 msgstr "Genererar {} med {}"
 
-#: pamac-daemon.py:216
+#: pamac-daemon.py:213
 msgid "Generation succeeded!"
 msgstr "Generering lyckades!"
 
-#: pamac-daemon.py:219
+#: pamac-daemon.py:216
 msgid "Generation failed."
 msgstr "Generering misslyckades."
 
-#: pamac-daemon.py:222
+#: pamac-daemon.py:219
 #, python-brace-format
 msgid "Configuring {pkgname}"
 msgstr "Konfigurerar {pkgname}"
 
-#: pamac-daemon.py:230
+#: pamac-daemon.py:227
 msgid "Checking available disk space"
 msgstr "Kontrollerar tillgängligt diskutrymme"
 
-#: pamac-daemon.py:240
+#: pamac-daemon.py:237
 msgid "Checking keyring"
 msgstr "Undersöker nyckelringen"
 
-#: pamac-daemon.py:246
+#: pamac-daemon.py:243
 msgid "Downloading required keys"
 msgstr "Laddar ned nödvändiga nycklar"
 
-#: pamac-daemon.py:265
+#: pamac-daemon.py:262
 #, python-brace-format
 msgid "{pkgname1} will be replaced by {pkgname2}"
 msgstr "{pkgname1} ersätts av {pkgname2}"
 
-#: pamac-daemon.py:268
+#: pamac-daemon.py:265
 #, python-brace-format
 msgid "{pkgname1} conflicts with {pkgname2}"
 msgstr "{pkgname1} är i konflikt med {pkgname2}"
 
-#: pamac-daemon.py:312
+#: pamac-daemon.py:309
 #, python-brace-format
 msgid "Refreshing {repo}"
 msgstr "Uppdaterar {repo}"
 
-#: pamac-daemon.py:316
+#: pamac-daemon.py:313
 #, python-brace-format
 msgid "Downloading {pkgname}"
 msgstr "Laddar ned {pkgname}"
 
-#: pamac-daemon.py:487 pamac-install.py:81
+#: pamac-daemon.py:480 pamac-install.py:81
 #, python-brace-format
 msgid "{pkgname} is not a valid path or package name"
 msgstr "{pkgname} är inte ett godkänt paketnamn"
 
-#: pamac-daemon.py:601
+#: pamac-daemon.py:589
 #, python-brace-format
 msgid ""
 "The transaction cannot be performed because it needs to remove {pkgname1} "
 "which is a locked package"
-msgstr ""
-"Överföringen kan inte utföras! Behöver ta bort {pkgname1} som är ett låst "
-"paket"
+msgstr "Överföringen kan inte utföras! Behöver ta bort {pkgname1} som är ett låst paket"
 
-#: pamac-daemon.py:662
+#: pamac-daemon.py:596 pamac/transaction.py:230
+msgid "Nothing to do"
+msgstr "Inget att göra"
+
+#: pamac-daemon.py:654
 msgid "Transaction successfully finished"
 msgstr "Överföring lyckades"
 
-#: pamac-daemon.py:666 pamac-daemon.py:674
+#: pamac-daemon.py:658 pamac-daemon.py:666
 msgid "Authentication failed"
 msgstr ""
 
 #: pamac-manager.py:74 pamac-manager.py:103 pamac-manager.py:104
 #: pamac-manager.py:119 pamac-manager.py:128 pamac-manager.py:227
-#: pamac-manager.py:471 pamac-manager.py:532 pamac-manager.py:594
+#: pamac-manager.py:472 pamac-manager.py:533 pamac-manager.py:595
 msgid "No package found"
 msgstr "Inget paket hittat"
 
@@ -174,11 +171,11 @@ msgstr "Avinstallerad"
 msgid "Orphans"
 msgstr "Föräldralösa"
 
-#: pamac-manager.py:145 pamac-manager.py:164 pamac/transaction.py:352
+#: pamac-manager.py:145 pamac-manager.py:164 pamac/transaction.py:353
 msgid "To install"
 msgstr "Att installera"
 
-#: pamac-manager.py:145 pamac-manager.py:169 pamac/transaction.py:370
+#: pamac-manager.py:145 pamac-manager.py:169 pamac/transaction.py:371
 msgid "To remove"
 msgstr "Ta bort"
 
@@ -266,40 +263,38 @@ msgstr "Signatur"
 msgid "Backup files"
 msgstr "Backup filer"
 
-#: pamac-manager.py:451
+#: pamac-manager.py:452
 #, python-brace-format
 msgid ""
 "<b>{pkgname} has {number} uninstalled optional deps.\n"
 "Please choose the one(s) you want to install:</b>"
-msgstr ""
-"<b>{pkgname} erbjuds av {number} paket.⏎\n"
-"Var vänlig välj vilket/vilka att installera:</b>"
+msgstr "<b>{pkgname} erbjuds av {number} paket.⏎\nVar vänlig välj vilket/vilka att installera:</b>"
 
-#: pamac-manager.py:474
+#: pamac-manager.py:475
 msgid "Unselect"
 msgstr "Avmarkera"
 
-#: pamac-manager.py:480
+#: pamac-manager.py:481
 msgid "Remove"
 msgstr "Ta bort"
 
-#: pamac-manager.py:486
+#: pamac-manager.py:487
 msgid "Reinstall"
 msgstr "Återinstallera"
 
-#: pamac-manager.py:499
+#: pamac-manager.py:500
 msgid "Install optional deps"
 msgstr "Installera valfria beroenden"
 
-#: pamac-manager.py:505
+#: pamac-manager.py:506
 msgid "Install"
 msgstr "Installera"
 
-#: pamac-manager.py:518
+#: pamac-manager.py:519
 msgid "Install with optional deps"
 msgstr "Installera med valda beroenden"
 
-#: pamac-manager.py:753 pamac-updater.py:150 pamac-install.py:109
+#: pamac-manager.py:754 pamac-updater.py:159 pamac-install.py:110
 msgid "Pamac is already running"
 msgstr "Pamac körs redan"
 
@@ -307,7 +302,7 @@ msgstr "Pamac körs redan"
 msgid "<big><b>Your system is up-to-date</b></big>"
 msgstr "<big><b>Ditt system är uppdaterat</b></big>"
 
-#: pamac-updater.py:49 pamac/transaction.py:388
+#: pamac-updater.py:49 pamac/transaction.py:389
 msgid "<b>Total download size: </b>"
 msgstr "<b>Total nedladdningsstorlek: </b>"
 
@@ -333,7 +328,7 @@ msgstr "1 tillgänglig uppdatering"
 msgid "Your system is up-to-date"
 msgstr "Ditt system är uppdaterat"
 
-#: pamac-tray.py:30 pamac-tray.py:85 gui/updater.ui:24
+#: pamac-tray.py:30 pamac-tray.py:85 pamac-tray.py:95 gui/updater.ui:24
 msgid "Update Manager"
 msgstr "Uppdateringshanterare"
 
@@ -345,46 +340,40 @@ msgstr "Pakethanterare"
 msgid "Quit"
 msgstr "Avsluta"
 
-#: pamac-install.py:119
+#: pamac-install.py:120
 msgid ""
 "Some updates are available.\n"
 "Please update your system first"
-msgstr ""
-"Uppdateringar är tillgängliga.⏎\n"
-"Uppdatera ditt system först."
+msgstr "Uppdateringar är tillgängliga.⏎\nUppdatera ditt system först."
 
-#: pamac/transaction.py:150
+#: pamac/transaction.py:151
 #, python-brace-format
 msgid ""
 "<b>{pkgname} is provided by {number} packages.\n"
 "Please choose the one(s) you want to install:</b>"
 msgstr ""
 
-#: pamac/transaction.py:198
+#: pamac/transaction.py:199
 msgid "Refreshing"
 msgstr "Uppdaterar"
 
-#: pamac/transaction.py:229
-msgid "Nothing to do"
-msgstr "Inget att göra"
-
-#: pamac/transaction.py:270
+#: pamac/transaction.py:271
 msgid "Preparing"
 msgstr "Förbereder"
 
-#: pamac/transaction.py:350
+#: pamac/transaction.py:351
 msgid "<big><b>Transaction Summary</b></big>"
 msgstr "<big><b>Summering av överföring</b></big>"
 
-#: pamac/transaction.py:358
+#: pamac/transaction.py:359
 msgid "To reinstall"
 msgstr "Att ominstallera"
 
-#: pamac/transaction.py:364
+#: pamac/transaction.py:365
 msgid "To downgrade"
 msgstr "Att nedgradera"
 
-#: pamac/transaction.py:377
+#: pamac/transaction.py:378
 msgid "To update"
 msgstr "Att uppdatera"
 
@@ -466,20 +455,6 @@ msgstr "Summering"
 msgid "Progress"
 msgstr "Status"
 
-#: gui/dialogs.ui:406
+#: gui/dialogs.ui:407
 msgid "details"
 msgstr "detaljer"
-
-#~ msgid ""
-#~ "<b>{pkgname} is provided by {number} packages.\n"
-#~ "Please choose the one you want to install:</b>"
-#~ msgstr ""
-#~ "<b>{pkgname} erbjuds av {number} paket.\n"
-#~ "Vänligen välj vilket eller vilka du vill installera:</b>"
-
-#~ msgid ""
-#~ "The transaction was interrupted.\n"
-#~ "Now Pamac will quit."
-#~ msgstr ""
-#~ "Transaktionen avbröts. \n"
-#~ "Pamac avslutas."

@@ -1,159 +1,156 @@
 # Translation of Pamac.
 # Copyright (C) 2007-2012 Free Software Foundation, Inc.
 # This file is distributed under the same license as the Pamac package.
-#
+# 
 # Translators:
 # anderflash <nocturne.pe@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-03-30 15:09+0100\n"
-"PO-Revision-Date: 2013-08-11 05:15+0000\n"
-"Last-Translator: anderflash <nocturne.pe@gmail.com>\n"
-"Language-Team: Esperanto (http://www.transifex.com/projects/p/manjaro-pamac/"
-"language/eo/)\n"
-"Language: eo\n"
+"POT-Creation-Date: 2013-10-18 20:35+0200\n"
+"PO-Revision-Date: 2013-10-18 18:41+0000\n"
+"Last-Translator: manjarolinux <philm@manjaro.org>\n"
+"Language-Team: Esperanto (http://www.transifex.com/projects/p/manjaro-pamac/language/eo/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: eo\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: data/polkit/org.manjaro.pamac.policy:10
-msgid "Authentication is required"
-msgstr "Autentikeco estas bezonata"
-
-#: pamac-daemon.py:117
+#: pamac-daemon.py:114
 msgid "Checking dependencies"
 msgstr "Kontrolanta Dependecojn"
 
-#: pamac-daemon.py:125
+#: pamac-daemon.py:122
 msgid "Checking file conflicts"
 msgstr "Kontrolanta dosierajn konfliktojn"
 
-#: pamac-daemon.py:131
+#: pamac-daemon.py:128
 msgid "Resolving dependencies"
 msgstr "Solvanta Dependecojn"
 
-#: pamac-daemon.py:139
+#: pamac-daemon.py:136
 msgid "Checking inter conflicts"
 msgstr "Kontrolanta interkonfliktojn"
 
-#: pamac-daemon.py:147
+#: pamac-daemon.py:144
 #, python-brace-format
 msgid "Installing {pkgname}"
 msgstr ""
 
-#: pamac-daemon.py:155
+#: pamac-daemon.py:152
 #, python-brace-format
 msgid "Removing {pkgname}"
 msgstr ""
 
-#: pamac-daemon.py:163
+#: pamac-daemon.py:160
 #, python-brace-format
 msgid "Upgrading {pkgname}"
 msgstr ""
 
-#: pamac-daemon.py:171
+#: pamac-daemon.py:168
 #, python-brace-format
 msgid "Downgrading {pkgname}"
 msgstr ""
 
-#: pamac-daemon.py:179
+#: pamac-daemon.py:176
 #, python-brace-format
 msgid "Reinstalling {pkgname}"
 msgstr ""
 
-#: pamac-daemon.py:187
+#: pamac-daemon.py:184
 msgid "Checking integrity"
 msgstr "Kontrolanta integrecon"
 
-#: pamac-daemon.py:194
+#: pamac-daemon.py:191
 msgid "Loading packages files"
 msgstr "Ŝarĝanta pakaĵajn dosierojn"
 
-#: pamac-daemon.py:200
+#: pamac-daemon.py:197
 msgid "Checking delta integrity"
 msgstr ""
 
-#: pamac-daemon.py:206
+#: pamac-daemon.py:203
 msgid "Applying deltas"
 msgstr ""
 
-#: pamac-daemon.py:212
+#: pamac-daemon.py:209
 msgid "Generating {} with {}"
 msgstr ""
 
-#: pamac-daemon.py:216
+#: pamac-daemon.py:213
 msgid "Generation succeeded!"
 msgstr ""
 
-#: pamac-daemon.py:219
+#: pamac-daemon.py:216
 msgid "Generation failed."
 msgstr ""
 
-#: pamac-daemon.py:222
+#: pamac-daemon.py:219
 #, python-brace-format
 msgid "Configuring {pkgname}"
 msgstr ""
 
-#: pamac-daemon.py:230
+#: pamac-daemon.py:227
 msgid "Checking available disk space"
 msgstr ""
 
-#: pamac-daemon.py:240
+#: pamac-daemon.py:237
 msgid "Checking keyring"
 msgstr ""
 
-#: pamac-daemon.py:246
+#: pamac-daemon.py:243
 msgid "Downloading required keys"
+msgstr ""
+
+#: pamac-daemon.py:262
+#, python-brace-format
+msgid "{pkgname1} will be replaced by {pkgname2}"
 msgstr ""
 
 #: pamac-daemon.py:265
 #, python-brace-format
-msgid "{pkgname1} will be replaced by {pkgname2}"
-msgstr "{pkgname1} estos anstataŭigota de {pkgname2}"
-
-#: pamac-daemon.py:268
-#, python-brace-format
 msgid "{pkgname1} conflicts with {pkgname2}"
-msgstr "{pkgname1} konfliktas kun {pkgname2}"
+msgstr ""
 
-#: pamac-daemon.py:312
+#: pamac-daemon.py:309
 #, python-brace-format
 msgid "Refreshing {repo}"
 msgstr ""
 
-#: pamac-daemon.py:316
+#: pamac-daemon.py:313
 #, python-brace-format
 msgid "Downloading {pkgname}"
 msgstr ""
 
-#: pamac-daemon.py:487 pamac-install.py:81
+#: pamac-daemon.py:480 pamac-install.py:81
 #, python-brace-format
 msgid "{pkgname} is not a valid path or package name"
 msgstr "{pkgname} ne estas valida vojo aŭ pakaĵa nomo"
 
-#: pamac-daemon.py:601
+#: pamac-daemon.py:589
 #, python-brace-format
 msgid ""
 "The transaction cannot be performed because it needs to remove {pkgname1} "
 "which is a locked package"
-msgstr ""
-"La transakcio ne povas esti plenumita ĉar ĝi bezonas forigi {pkgname1} kiu "
-"estas ŝlosita pakaĵo"
+msgstr "La transakcio ne povas esti plenumita ĉar ĝi bezonas forigi {pkgname1} kiu estas ŝlosita pakaĵo"
 
-#: pamac-daemon.py:662
+#: pamac-daemon.py:596 pamac/transaction.py:230
+msgid "Nothing to do"
+msgstr "Nenio por fari"
+
+#: pamac-daemon.py:654
 msgid "Transaction successfully finished"
 msgstr "Finita sukcese transakcio"
 
-#: pamac-daemon.py:666 pamac-daemon.py:674
+#: pamac-daemon.py:658 pamac-daemon.py:666
 msgid "Authentication failed"
-msgstr "Malsukcesa autentikeco."
+msgstr ""
 
 #: pamac-manager.py:74 pamac-manager.py:103 pamac-manager.py:104
 #: pamac-manager.py:119 pamac-manager.py:128 pamac-manager.py:227
-#: pamac-manager.py:471 pamac-manager.py:532 pamac-manager.py:594
+#: pamac-manager.py:472 pamac-manager.py:533 pamac-manager.py:595
 msgid "No package found"
 msgstr "Neniu pakaĵo trovita"
 
@@ -173,11 +170,11 @@ msgstr "Neinstalita"
 msgid "Orphans"
 msgstr "Orfoj"
 
-#: pamac-manager.py:145 pamac-manager.py:164 pamac/transaction.py:352
+#: pamac-manager.py:145 pamac-manager.py:164 pamac/transaction.py:353
 msgid "To install"
 msgstr "Instali"
 
-#: pamac-manager.py:145 pamac-manager.py:169 pamac/transaction.py:370
+#: pamac-manager.py:145 pamac-manager.py:169 pamac/transaction.py:371
 msgid "To remove"
 msgstr "Forigi"
 
@@ -265,40 +262,38 @@ msgstr "Subskriboj"
 msgid "Backup files"
 msgstr "Kopisekurecaj Dosieroj"
 
-#: pamac-manager.py:451
+#: pamac-manager.py:452
 #, python-brace-format
 msgid ""
 "<b>{pkgname} has {number} uninstalled optional deps.\n"
 "Please choose the one(s) you want to install:</b>"
-msgstr ""
-"<b>{pkgname} havas {number} neinstalitaj opciaj dependecojn.\n"
-"Bonvolu elekti tiuj, kiujn vi volas instali:</b>"
+msgstr "<b>{pkgname} havas {number} neinstalitaj opciaj dependecojn.\nBonvolu elekti tiuj, kiujn vi volas instali:</b>"
 
-#: pamac-manager.py:474
+#: pamac-manager.py:475
 msgid "Unselect"
 msgstr "Malelekti"
 
-#: pamac-manager.py:480
+#: pamac-manager.py:481
 msgid "Remove"
 msgstr "Forigi"
 
-#: pamac-manager.py:486
+#: pamac-manager.py:487
 msgid "Reinstall"
 msgstr "Reinstali"
 
-#: pamac-manager.py:499
+#: pamac-manager.py:500
 msgid "Install optional deps"
 msgstr "Instali laŭvolajn dependecojn"
 
-#: pamac-manager.py:505
+#: pamac-manager.py:506
 msgid "Install"
 msgstr "Instali"
 
-#: pamac-manager.py:518
+#: pamac-manager.py:519
 msgid "Install with optional deps"
 msgstr "Instali kun laŭvolaj dependecoj"
 
-#: pamac-manager.py:753 pamac-updater.py:150 pamac-install.py:109
+#: pamac-manager.py:754 pamac-updater.py:159 pamac-install.py:110
 msgid "Pamac is already running"
 msgstr "Pamac jam estas ekzekutanta."
 
@@ -306,7 +301,7 @@ msgstr "Pamac jam estas ekzekutanta."
 msgid "<big><b>Your system is up-to-date</b></big>"
 msgstr "<big><b>Via sistemo estas ĝisdatigita</b></big>"
 
-#: pamac-updater.py:49 pamac/transaction.py:388
+#: pamac-updater.py:49 pamac/transaction.py:389
 msgid "<b>Total download size: </b>"
 msgstr "<b>Tuta grando de elŝuto: </b>"
 
@@ -332,7 +327,7 @@ msgstr "1 disponebla ĝisdatigo"
 msgid "Your system is up-to-date"
 msgstr "Via sistemo estas ĝisdatigata"
 
-#: pamac-tray.py:30 pamac-tray.py:85 gui/updater.ui:24
+#: pamac-tray.py:30 pamac-tray.py:85 pamac-tray.py:95 gui/updater.ui:24
 msgid "Update Manager"
 msgstr "Ĝisdatigo Administranto"
 
@@ -344,48 +339,40 @@ msgstr "Pakaĵo Administranto"
 msgid "Quit"
 msgstr ""
 
-#: pamac-install.py:119
+#: pamac-install.py:120
 msgid ""
 "Some updates are available.\n"
 "Please update your system first"
-msgstr ""
-"Kelkaj ĝisdatigoj estas disponeblaj.\n"
-"Bonvolu ĝisdatigi vian sistemon unue"
+msgstr "Kelkaj ĝisdatigoj estas disponeblaj.\nBonvolu ĝisdatigi vian sistemon unue"
 
-#: pamac/transaction.py:150
+#: pamac/transaction.py:151
 #, python-brace-format
 msgid ""
 "<b>{pkgname} is provided by {number} packages.\n"
 "Please choose the one(s) you want to install:</b>"
 msgstr ""
-"<b>{pkgname} estas provizata de {number} pakaĵoj.\n"
-"Bonvolu eleki tiuj, kiujn vi volas instali:</b>"
 
-#: pamac/transaction.py:198
+#: pamac/transaction.py:199
 msgid "Refreshing"
 msgstr "Refreŝiganta"
 
-#: pamac/transaction.py:229
-msgid "Nothing to do"
-msgstr "Nenio por fari"
-
-#: pamac/transaction.py:270
+#: pamac/transaction.py:271
 msgid "Preparing"
 msgstr "Preparanta"
 
-#: pamac/transaction.py:350
+#: pamac/transaction.py:351
 msgid "<big><b>Transaction Summary</b></big>"
 msgstr "<big><b>Resumo de Transakcio</b></big>"
 
-#: pamac/transaction.py:358
+#: pamac/transaction.py:359
 msgid "To reinstall"
 msgstr "Reinstali"
 
-#: pamac/transaction.py:364
+#: pamac/transaction.py:365
 msgid "To downgrade"
 msgstr "Reveni"
 
-#: pamac/transaction.py:377
+#: pamac/transaction.py:378
 msgid "To update"
 msgstr "Ĝisdatigi"
 
@@ -467,37 +454,6 @@ msgstr "Resumo"
 msgid "Progress"
 msgstr "Progreso"
 
-#: gui/dialogs.ui:406
+#: gui/dialogs.ui:407
 msgid "details"
 msgstr ""
-
-#~ msgid "Installing"
-#~ msgstr "Instalanta"
-
-#~ msgid "Removing"
-#~ msgstr "Foriganta"
-
-#~ msgid "Upgrading"
-#~ msgstr "Ĝisdatiganta"
-
-#~ msgid "Downgrading"
-#~ msgstr "Revenanta"
-
-#~ msgid "Reinstalling"
-#~ msgstr "Reinstalanta"
-
-#~ msgid "Configuring"
-#~ msgstr "Agordanta"
-
-#~ msgid "Checking keys in keyring"
-#~ msgstr "Kontrolanta ŝlosilo en ŝlosilringo"
-
-#~ msgid "Downloading {size}"
-#~ msgstr "Elŝutanta {size}"
-
-#~ msgid ""
-#~ "{pkgname1} conflicts with {pkgname2}\n"
-#~ "None of them will be installed"
-#~ msgstr ""
-#~ "{pkgname1} konfliktas kun {pkgname2}\n"
-#~ "Nenio el ili estas instalota"
