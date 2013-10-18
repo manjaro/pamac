@@ -27,7 +27,7 @@ def pkg_in_list(pkg, pkgs_list):
 
 class PamacDBusService(dbus.service.Object):
 	def __init__(self):
-		bus=dbus.SystemBus()
+		bus = dbus.SystemBus()
 		bus_name = dbus.service.BusName('org.manjaro.pamac', bus)
 		dbus.service.Object.__init__(self, bus_name, '/org/manjaro/pamac')
 		self.t = None
