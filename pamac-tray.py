@@ -1,7 +1,7 @@
 #! /usr/bin/python3
 # -*- coding:utf-8 -*-
 
-from gi.repository import Gtk, GObject
+from gi.repository import Gtk, GObject, Notify
 from subprocess import Popen
 import dbus
 from pamac import common, transaction
@@ -82,17 +82,17 @@ def set_icon(updates):
 		else:
 			info = update_info.format(number = updates)
 		if not common.pid_file_exists():
-			Popen(['notify-send', '-i', '/usr/share/pamac/icons/32x32/apps/pamac-updater.png', '-u', 'normal', _('Update Manager'), info])
+			Notify.Notification.new(_('Update Manager'), info, '/usr/share/pamac/icons/32x32/apps/pamac-updater.png').show()
 	else:
 		icon = noupdate_icon
 		info = noupdate_info
 	print(info)
 	tray.update_icon(icon, info)
-	return False
 
 bus = dbus.SystemBus()
 bus.add_signal_receiver(set_icon, dbus_interface = "org.manjaro.pamac", signal_name = "EmitAvailableUpdates")
 tray = Tray()
+Notify.init(_('Update Manager'))
 refresh()
 GObject.timeout_add(3*3600*1000, refresh)
 Gtk.main()
