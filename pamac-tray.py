@@ -43,6 +43,8 @@ class Tray:
 		self.statusIcon.connect('popup-menu', self.popup_menu_cb, self.menu)
 		self.statusIcon.connect('activate', self.activate_cb)
 
+		self.update_icon(icon, info)
+
 	def execute_update(self, widget, event, data = None):
 		Popen(['/usr/bin/pamac-updater'])
 

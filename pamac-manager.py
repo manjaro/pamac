@@ -280,7 +280,7 @@ def set_deps_list(pkg, style):
 	if pkg.optdepends:
 		optdeps = []
 		for optdep in pkg.optdepends:
-			if transaction.get_localpkg(optdep.split(':')[0]):
+			if pyalpm.find_satisfier(transaction.localdb.pkgcache, optdep.split(':')[0]):
 				optdeps.append(optdep+' ['+_('Installed')+']')
 			else:
 				optdeps.append(optdep)

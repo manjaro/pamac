@@ -86,7 +86,7 @@ class PamacDBusService(dbus.service.Object):
 	def EmitLogWarning(self, message):
 		pass
 
-	@dbus.service.signal('org.manjaro.pamac')
+	@dbus.service.signal('org.manjaro.pamac', signature = 'u')
 	def EmitAvailableUpdates(self, updates_nb):
 		pass
 
