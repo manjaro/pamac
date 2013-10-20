@@ -5,12 +5,13 @@
 # Translators:
 # McAnde <andreasmartinmorch@gmail.com>, 2013
 # Guillaume Benoit <guillaume@manjaro.org>, 2013
+# manjarolinux <philm@manjaro.org>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-10-18 20:35+0200\n"
-"PO-Revision-Date: 2013-10-18 18:41+0000\n"
+"PO-Revision-Date: 2013-10-19 21:34+0000\n"
 "Last-Translator: manjarolinux <philm@manjaro.org>\n"
 "Language-Team: Danish (http://www.transifex.com/projects/p/manjaro-pamac/language/da/)\n"
 "MIME-Version: 1.0\n"
@@ -128,14 +129,14 @@ msgstr ""
 #: pamac-daemon.py:480 pamac-install.py:81
 #, python-brace-format
 msgid "{pkgname} is not a valid path or package name"
-msgstr "{pgkname} er ikke en gyldig sti eller pakke-navn"
+msgstr "{pkgname} er ikke en gyldig sti eller pakke-navn"
 
 #: pamac-daemon.py:589
 #, python-brace-format
 msgid ""
 "The transaction cannot be performed because it needs to remove {pkgname1} "
 "which is a locked package"
-msgstr "Transaktionen kan ikke udføres, da fjernelse af {pgkname1} kræves, hvilket er en låst pakke"
+msgstr "Transaktionen kan ikke udføres, da fjernelse af {pkgname1} kræves, hvilket er en låst pakke"
 
 #: pamac-daemon.py:596 pamac/transaction.py:230
 msgid "Nothing to do"
