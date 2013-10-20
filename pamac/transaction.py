@@ -401,7 +401,7 @@ def sysupgrade(show_updates):
 		if do_syncfirst:
 			error += init_transaction()
 			if not error:
-				for name in to_add:
+				for name in to_update:
 					error += Add(name)
 		else:
 			error += init_transaction()
