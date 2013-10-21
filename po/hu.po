@@ -317,7 +317,7 @@ msgstr "<big><b>{number} elérhető frissítés</b></big>"
 #: pamac-tray.py:17
 #, python-brace-format
 msgid "{number} available updates"
-msgstr "{számú}  elérhető frissítés"
+msgstr "{number}  elérhető frissítés"
 
 #: pamac-tray.py:18
 msgid "1 available update"
