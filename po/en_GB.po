@@ -3,459 +3,457 @@
 # This file is distributed under the same license as the Pamac package.
 # 
 # Translators:
-# Bård Spein <baard.spein@gmail.com>, 2013
-# Guillaume Benoit <guillaume@manjaro.org>, 2013
-# tflovik <tflovik@online.no>, 2013
+# jonathon <j.fernyhough@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-10-18 20:35+0200\n"
-"PO-Revision-Date: 2013-10-21 14:55+0000\n"
-"Last-Translator: Bård Spein <baard.spein@gmail.com>\n"
-"Language-Team: Norwegian Bokmål (http://www.transifex.com/projects/p/manjaro-pamac/language/nb/)\n"
+"PO-Revision-Date: 2013-10-19 19:09+0000\n"
+"Last-Translator: jonathon <j.fernyhough@gmail.com>\n"
+"Language-Team: English (United Kingdom) (http://www.transifex.com/projects/p/manjaro-pamac/language/en_GB/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: nb\n"
+"Language: en_GB\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: pamac-daemon.py:114
 msgid "Checking dependencies"
-msgstr "Sjekker avhengigheter"
+msgstr "Checking dependencies"
 
 #: pamac-daemon.py:122
 msgid "Checking file conflicts"
-msgstr "Sjekker fil konflikter"
+msgstr "Checking file conflicts"
 
 #: pamac-daemon.py:128
 msgid "Resolving dependencies"
-msgstr "Ordner avhengigheter"
+msgstr "Resolving dependencies"
 
 #: pamac-daemon.py:136
 msgid "Checking inter conflicts"
-msgstr "Sjekker inter konflikter"
+msgstr "Checking inter-conflicts"
 
 #: pamac-daemon.py:144
 #, python-brace-format
 msgid "Installing {pkgname}"
-msgstr "Installerer {pkgname}"
+msgstr "Installing {pkgname}"
 
 #: pamac-daemon.py:152
 #, python-brace-format
 msgid "Removing {pkgname}"
-msgstr "Fjerner {pkgname}"
+msgstr "Removing {pkgname}"
 
 #: pamac-daemon.py:160
 #, python-brace-format
 msgid "Upgrading {pkgname}"
-msgstr "Oppdaterer {pkgname}"
+msgstr "Upgrading {pkgname}"
 
 #: pamac-daemon.py:168
 #, python-brace-format
 msgid "Downgrading {pkgname}"
-msgstr "Nedgraderer {pkgname}"
+msgstr "Downgrading {pkgname}"
 
 #: pamac-daemon.py:176
 #, python-brace-format
 msgid "Reinstalling {pkgname}"
-msgstr "Reinstallerer {pkgname}"
+msgstr "Reinstalling {pkgname}"
 
 #: pamac-daemon.py:184
 msgid "Checking integrity"
-msgstr "Sjekker integritet"
+msgstr "Checking integrity"
 
 #: pamac-daemon.py:191
 msgid "Loading packages files"
-msgstr "Laster pakke filer"
+msgstr "Loading package files"
 
 #: pamac-daemon.py:197
 msgid "Checking delta integrity"
-msgstr "Sjekker integritet"
+msgstr "Checking delta integrity"
 
 #: pamac-daemon.py:203
 msgid "Applying deltas"
-msgstr "Anfører deltaer"
+msgstr "Applying deltas"
 
 #: pamac-daemon.py:209
 msgid "Generating {} with {}"
-msgstr "Generer {} med {}"
+msgstr "Generating {} with {}"
 
 #: pamac-daemon.py:213
 msgid "Generation succeeded!"
-msgstr "Generering sukssessful!"
+msgstr "Generation succeeded!"
 
 #: pamac-daemon.py:216
 msgid "Generation failed."
-msgstr "Generering feilet."
+msgstr "Generation failed."
 
 #: pamac-daemon.py:219
 #, python-brace-format
 msgid "Configuring {pkgname}"
-msgstr "Konfigurerer {pkgname}"
+msgstr "Configuring {pkgname}"
 
 #: pamac-daemon.py:227
 msgid "Checking available disk space"
-msgstr "Sjekker ledig diskplass"
+msgstr "Checking available disc space"
 
 #: pamac-daemon.py:237
 msgid "Checking keyring"
-msgstr "Sjekker nøkkelring"
+msgstr "Checking keyring"
 
 #: pamac-daemon.py:243
 msgid "Downloading required keys"
-msgstr "Laster ned nødvendige nøkkelringer"
+msgstr "Downloading required keys"
 
 #: pamac-daemon.py:262
 #, python-brace-format
 msgid "{pkgname1} will be replaced by {pkgname2}"
-msgstr "{pkgname1} vil bli erstattet av {pkgname2}"
+msgstr "{pkgname1} will be replaced by {pkgname2}"
 
 #: pamac-daemon.py:265
 #, python-brace-format
 msgid "{pkgname1} conflicts with {pkgname2}"
-msgstr "{pkgname1} er i konflikt med {pkgname2}"
+msgstr "{pkgname1} conflicts with {pkgname2}"
 
 #: pamac-daemon.py:309
 #, python-brace-format
 msgid "Refreshing {repo}"
-msgstr "Oppfrisker {repo}"
+msgstr "Refreshing {repo}"
 
 #: pamac-daemon.py:313
 #, python-brace-format
 msgid "Downloading {pkgname}"
-msgstr "Laster ned {pkgname}"
+msgstr "Downloading {pkgname}"
 
 #: pamac-daemon.py:480 pamac-install.py:81
 #, python-brace-format
 msgid "{pkgname} is not a valid path or package name"
-msgstr "{pkgname} er ikke en gyldig sti eller pakke navn"
+msgstr "{pkgname} is not a valid path or package name"
 
 #: pamac-daemon.py:589
 #, python-brace-format
 msgid ""
 "The transaction cannot be performed because it needs to remove {pkgname1} "
 "which is a locked package"
-msgstr "Transaksjonen kan ikke bli utført fordi den trenger å fjerne\n {pkgname1} som er en låst pakke"
+msgstr "The transaction cannot be performed because it would remove a locked package: {pkgname1}"
 
 #: pamac-daemon.py:596 pamac/transaction.py:230
 msgid "Nothing to do"
-msgstr "Ingenting å gjøre"
+msgstr "Nothing to do"
 
 #: pamac-daemon.py:654
 msgid "Transaction successfully finished"
-msgstr "Transaksjonen avsluttet vellykket"
+msgstr "Transaction successfully finished"
 
 #: pamac-daemon.py:658 pamac-daemon.py:666
 msgid "Authentication failed"
-msgstr "Autentifisering feilet"
+msgstr "Authentication failed"
 
 #: pamac-manager.py:74 pamac-manager.py:103 pamac-manager.py:104
 #: pamac-manager.py:119 pamac-manager.py:128 pamac-manager.py:227
 #: pamac-manager.py:472 pamac-manager.py:533 pamac-manager.py:595
 msgid "No package found"
-msgstr "Ingen pakke funnet"
+msgstr "No package found"
 
 #: pamac-manager.py:143 pamac-manager.py:195
 msgid "local"
-msgstr "lokal"
+msgstr "local"
 
 #: pamac-manager.py:145 pamac-manager.py:178 pamac-manager.py:284
 msgid "Installed"
-msgstr "Installert"
+msgstr "Installed"
 
 #: pamac-manager.py:145 pamac-manager.py:181
 msgid "Uninstalled"
-msgstr "Avinstallert"
+msgstr "Uninstalled"
 
 #: pamac-manager.py:145 pamac-manager.py:184
 msgid "Orphans"
-msgstr "Foreldreløs"
+msgstr "Orphans"
 
 #: pamac-manager.py:145 pamac-manager.py:164 pamac/transaction.py:353
 msgid "To install"
-msgstr "Å installere"
+msgstr "To install"
 
 #: pamac-manager.py:145 pamac-manager.py:169 pamac/transaction.py:371
 msgid "To remove"
-msgstr "Å fjerne"
+msgstr "To remove"
 
 #: pamac-manager.py:274
 msgid "Licenses"
-msgstr "Lisenser"
+msgstr "Licences"
 
 #: pamac-manager.py:279
 msgid "Depends On"
-msgstr "Avhenger av"
+msgstr "Depends On"
 
 #: pamac-manager.py:287
 msgid "Optional Deps"
-msgstr "Valgfrie avhengigheter"
+msgstr "Optional Deps"
 
 #: pamac-manager.py:290
 msgid "Required By"
-msgstr "Krevd av"
+msgstr "Required By"
 
 #: pamac-manager.py:292
 msgid "Provides"
-msgstr "Tilbyr"
+msgstr "Provides"
 
 #: pamac-manager.py:294
 msgid "Replaces"
-msgstr "Erstatter"
+msgstr "Replaces"
 
 #: pamac-manager.py:296
 msgid "Conflicts With"
-msgstr "I konflikt med"
+msgstr "Conflicts With"
 
 #: pamac-manager.py:301
 msgid "Repository"
-msgstr "Arkiv"
+msgstr "Repository"
 
 #: pamac-manager.py:303 gui/manager.ui:340
 msgid "Groups"
-msgstr "Grupper"
+msgstr "Groups"
 
 #: pamac-manager.py:305
 msgid "Compressed Size"
-msgstr "Komprimert Størrelse"
+msgstr "Compressed Size"
 
 #: pamac-manager.py:306
 msgid "Download Size"
-msgstr "Nedlastet Størrelse"
+msgstr "Download Size"
 
 #: pamac-manager.py:308
 msgid "Installed Size"
-msgstr "Installert Størrelse"
+msgstr "Installed Size"
 
 #: pamac-manager.py:309
 msgid "Packager"
-msgstr "Pakker"
+msgstr "Packager"
 
 #: pamac-manager.py:310
 msgid "Architecture"
-msgstr "Arkitektur"
+msgstr "Architecture"
 
 #: pamac-manager.py:313
 msgid "Install Date"
-msgstr "Installasjons Dato"
+msgstr "Install Date"
 
 #: pamac-manager.py:315
 msgid "Explicitly installed"
-msgstr "Explisitt installert"
+msgstr "Explicitly installed"
 
 #: pamac-manager.py:317
 msgid "Installed as a dependency for another package"
-msgstr "Installert som en avhengighet for en annen pakke"
+msgstr "Installed as a dependency for another package"
 
 #: pamac-manager.py:319
 msgid "Unknown"
-msgstr "Ukjent"
+msgstr "Unknown"
 
 #: pamac-manager.py:320
 msgid "Install Reason"
-msgstr "Grunn til Installasjon"
+msgstr "Install Reason"
 
 #: pamac-manager.py:325
 msgid "Signatures"
-msgstr "Signaturer"
+msgstr "Signatures"
 
 #: pamac-manager.py:329
 msgid "Backup files"
-msgstr "Sikkerhetskopier filene"
+msgstr "Backup files"
 
 #: pamac-manager.py:452
 #, python-brace-format
 msgid ""
 "<b>{pkgname} has {number} uninstalled optional deps.\n"
 "Please choose the one(s) you want to install:</b>"
-msgstr "<b>{pkgname} har {number} uinstallerte valgfrie pakker.⏎\nVennligst velg en(eller flere) som du ønsker å installere:</b>"
+msgstr "<b>{pkgname} has {number} uninstalled optional deps.\nPlease choose those you would like to install:</b>"
 
 #: pamac-manager.py:475
 msgid "Unselect"
-msgstr ""
+msgstr "Deselect"
 
 #: pamac-manager.py:481
 msgid "Remove"
-msgstr "Fjern"
+msgstr "Remove"
 
 #: pamac-manager.py:487
 msgid "Reinstall"
-msgstr "Reinstaller"
+msgstr "Reinstall"
 
 #: pamac-manager.py:500
 msgid "Install optional deps"
-msgstr "Installer valgfrie depositorier"
+msgstr "Install optional dependencies"
 
 #: pamac-manager.py:506
 msgid "Install"
-msgstr "Installer"
+msgstr "Install"
 
 #: pamac-manager.py:519
 msgid "Install with optional deps"
-msgstr "Installer med valgfrie depositorier"
+msgstr "Install with optional dependencies"
 
 #: pamac-manager.py:754 pamac-updater.py:159 pamac-install.py:110
 msgid "Pamac is already running"
-msgstr "Pamac kjører allerede"
+msgstr "Pamac is already running"
 
 #: pamac-updater.py:27 pamac-updater.py:37
 msgid "<big><b>Your system is up-to-date</b></big>"
-msgstr "<big><b>Systemet ditt er oppdatert</b></big>"
+msgstr "<big><b>Your system is up-to-date</b></big>"
 
 #: pamac-updater.py:49 pamac/transaction.py:389
 msgid "<b>Total download size: </b>"
-msgstr "<b>Total nedlastings størrelse: </b>"
+msgstr "<b>Total download size: </b>"
 
 #: pamac-updater.py:51
 msgid "<big><b>1 available update</b></big>"
-msgstr "<big><b>1 tilgjengelig oppdatering</b></big>"
+msgstr "<big><b>1 available update</b></big>"
 
 #: pamac-updater.py:53
 #, python-brace-format
 msgid "<big><b>{number} available updates</b></big>"
-msgstr "<big><b>{number} tilgjengelige oppdateringer</b></big>"
+msgstr "<big><b>{number} available updates</b></big>"
 
 #: pamac-tray.py:17
 #, python-brace-format
 msgid "{number} available updates"
-msgstr "{number} tilgjengelige oppdateringer"
+msgstr "{number} available updates"
 
 #: pamac-tray.py:18
 msgid "1 available update"
-msgstr "1 tilgjengelig oppdatering"
+msgstr "1 available update"
 
 #: pamac-tray.py:20
 msgid "Your system is up-to-date"
-msgstr "Systemet ditt er oppdatert"
+msgstr "Your system is up-to-date"
 
 #: pamac-tray.py:30 pamac-tray.py:85 pamac-tray.py:95 gui/updater.ui:24
 msgid "Update Manager"
-msgstr "Oppdaterings Behandler"
+msgstr "Update Manager"
 
 #: pamac-tray.py:34 gui/manager.ui:144
 msgid "Package Manager"
-msgstr "Pakke Behandler"
+msgstr "Package Manager"
 
 #: pamac-tray.py:38
 msgid "Quit"
-msgstr ""
+msgstr "Exit"
 
 #: pamac-install.py:120
 msgid ""
 "Some updates are available.\n"
 "Please update your system first"
-msgstr "Noen oppdateringer er tilgjengelige.⏎\nVennligst oppdater systemet ditt først"
+msgstr "Some updates are available.\nPlease update your system first."
 
 #: pamac/transaction.py:151
 #, python-brace-format
 msgid ""
 "<b>{pkgname} is provided by {number} packages.\n"
 "Please choose the one(s) you want to install:</b>"
-msgstr "<b>{pkgname} er tilbydd av {number} pakker.⏎\nVennligst velg de(n) du ønsker å installere:</b>"
+msgstr "<b>{pkgname} is provided by {number} packages.\nPlease choose those you would like to install:</b>"
 
 #: pamac/transaction.py:199
 msgid "Refreshing"
-msgstr "Oppfrisker"
+msgstr "Refreshing"
 
 #: pamac/transaction.py:271
 msgid "Preparing"
-msgstr "Forbereder"
+msgstr "Preparing"
 
 #: pamac/transaction.py:351
 msgid "<big><b>Transaction Summary</b></big>"
-msgstr "<big><b>Transaksjons Resyme</b></big>"
+msgstr "<big><b>Transaction Summary</b></big>"
 
 #: pamac/transaction.py:359
 msgid "To reinstall"
-msgstr "Å reinstallere"
+msgstr "To reinstall"
 
 #: pamac/transaction.py:365
 msgid "To downgrade"
-msgstr "Å nedgradere"
+msgstr "To downgrade"
 
 #: pamac/transaction.py:378
 msgid "To update"
-msgstr "Å oppdatere"
+msgstr "To update"
 
 #: pamac/common.py:13
 #, python-format
 msgid "%.1f KiB"
-msgstr "%.1f Kb"
+msgstr "%.1f KiB"
 
 #: pamac/common.py:16
 #, python-format
 msgid "%.2f MiB"
-msgstr "%.2f Mb"
+msgstr "%.2f MiB"
 
 #: gui/manager.ui:8
 msgid "About Pamac"
-msgstr "Om Pamac"
+msgstr "About Pamac"
 
 #: gui/manager.ui:11
 msgid "Copyright © 2013 Guillaume Benoit"
-msgstr "Opphavsrett © 2013 Guillaume Benoit"
+msgstr "Copyright © 2013 Guillaume Benoit and others"
 
 #: gui/manager.ui:12
 msgid "A gtk3 frontend for pyalpm"
-msgstr "En gtk3 frontende for pyalpm"
+msgstr "A gtk3 frontend for pyalpm"
 
 #: gui/manager.ui:42
 msgid "Install local packages"
-msgstr "Installere lokale pakker"
+msgstr "Install local packages"
 
 #: gui/manager.ui:294
 msgid "Search"
-msgstr "Søk"
+msgstr "Search"
 
 #: gui/manager.ui:387 gui/manager.ui:479
 msgid "State"
-msgstr "Tilstand"
+msgstr "State"
 
 #: gui/manager.ui:434
 msgid "Repos"
-msgstr "Depoer"
+msgstr "Repos"
 
 #: gui/manager.ui:492
 msgid "Name"
-msgstr "Navn"
+msgstr "Name"
 
 #: gui/manager.ui:505
 msgid "Version"
-msgstr "Versjon"
+msgstr "Version"
 
 #: gui/manager.ui:518
 msgid "Size"
-msgstr "Størrelse"
+msgstr "Size"
 
 #: gui/manager.ui:620
 msgid "Infos"
-msgstr "Informasjon"
+msgstr "Infos"
 
 #: gui/manager.ui:684
 msgid "Deps"
-msgstr "Avhengigheter"
+msgstr "Deps"
 
 #: gui/manager.ui:753
 msgid "Details"
-msgstr "Detaljer"
+msgstr "Details"
 
 #: gui/manager.ui:782
 msgid "Files"
-msgstr "Filer"
+msgstr "Files"
 
 #: gui/dialogs.ui:7
 msgid "Choose"
-msgstr "Velg"
+msgstr "Choose"
 
 #: gui/dialogs.ui:113
 msgid "Summary"
-msgstr "Resyme"
+msgstr "Summary"
 
 #: gui/dialogs.ui:315
 msgid "Progress"
-msgstr "Framdrift"
+msgstr "Progress"
 
 #: gui/dialogs.ui:407
 msgid "details"
-msgstr "Detaljer"
+msgstr "details"
