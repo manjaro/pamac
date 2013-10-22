@@ -275,10 +275,10 @@ def finalize():
 	progress_buffer.delete(progress_buffer.get_start_iter(), progress_buffer.get_end_iter())
 	ProgressCancelButton.set_visible(True)
 	ProgressCloseButton.set_visible(False)
-	#~ try:
-	Commit()
-	#~ except dbus.exceptions.DBusException as e:
-		#~ handle_error(str(e))
+	try:
+		Commit()
+	except dbus.exceptions.DBusException as e:
+		Release()
 	while Gtk.events_pending():
 		Gtk.main_iteration()
 

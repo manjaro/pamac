@@ -528,35 +528,35 @@ class PamacDBusService(dbus.service.Object):
 				# check if the current pkg is a kernel and if so, check if a module is required to install
 				match = re.match("(linux[0-9]{2,3})(.*)", pkg.name)
 				if match:
-					if not match.group(2):
+					if not match.group(2): # match pkg is a kernel
 						for module in installed_modules:
-							pkgname = match.group(1)+module
+							pkgname = match.group(1) + module
 							if not localdb.get_pkg(pkgname):
 								for db in syncdbs:
-									pkg = db.get_pkg(pkgname)
-									if pkg:
-										if not pkg.name in already_checked:
-											depends[i+1].append(pkg)
-											already_checked.add(pkg.name)
-										if not pkg.name in to_add | to_remove:
-											to_add.add(pkg.name)
-											self.t.add_pkg(pkg)
+									_pkg = db.get_pkg(pkgname)
+									if _pkg:
+										if not _pkg.name in already_checked:
+											depends[i+1].append(_pkg)
+											already_checked.add(_pkg.name)
+										if not _pkg.name in to_add | to_remove:
+											to_add.add(_pkg.name)
+											self.t.add_pkg(_pkg)
 										break
 				# check if the current pkg is a kernel module and if so, install it for all installed kernels
 				match = re.match("(linux[0-9]{2,3})(.*-modules)", pkg.name)
 				if match:
 					for kernel in installed_kernels:
-						pkgname = kernel+match.group(2)
+						pkgname = kernel + match.group(2)
 						if not localdb.get_pkg(pkgname):
 							for db in syncdbs:
-								pkg = db.get_pkg(pkgname)
-								if pkg:
-									if not pkg.name in already_checked:
-										depends[i+1].append(pkg)
-										already_checked.add(pkg.name)
-									if not pkg.name in to_add | to_remove:
-											to_add.add(pkg.name)
-											self.t.add_pkg(pkg)
+								_pkg = db.get_pkg(pkgname)
+								if _pkg:
+									if not _pkg.name in already_checked:
+										depends[i+1].append(_pkg)
+										already_checked.add(_pkg.name)
+									if not _pkg.name in to_add | to_remove:
+											to_add.add(_pkg.name)
+											self.t.add_pkg(_pkg)
 									break
 				for depend in pkg.depends:
 					found_depend = pyalpm.find_satisfier(localdb.pkgcache, depend)
