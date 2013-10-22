@@ -125,7 +125,7 @@ msgstr "Atualizando {repo}"
 #: pamac-daemon.py:313
 #, python-brace-format
 msgid "Downloading {pkgname}"
-msgstr "Baixando pkgname {}"
+msgstr "Baixando pkgname {pkgname}"
 
 #: pamac-daemon.py:480 pamac-install.py:81
 #, python-brace-format
