@@ -163,13 +163,21 @@ def get_state_list(state):
 	global states_dict
 	if state == _('To install'):
 		liststore = Gtk.ListStore(object)
-		for pkg in transaction.to_add:
-			liststore.append([pkg])
+		for name in transaction.to_add:
+			pkg = transaction.get_localpkg(name)
+			if pkg:
+				liststore.append([pkg])
+			else:
+				pkg = transaction.get_syncpkg(name)
+				if pkg:
+					liststore.append([pkg])
 		return liststore
 	elif state == _('To remove'):
 		liststore = Gtk.ListStore(object)
-		for pkg in transaction.to_remove:
-			liststore.append([pkg])
+		for name in transaction.to_remove:
+			pkg = transaction.get_localpkg(name)
+			if pkg:
+				liststore.append([pkg])
 		return liststore
 	elif state in states_dict.keys():
 		return states_dict[state]
