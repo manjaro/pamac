@@ -492,11 +492,12 @@ def on_list_treeview_button_press_event(treeview, event):
 					item.connect('activate', mark_to_remove, liststore[treeiter][0])
 					right_click_menu.append(item)
 					if transaction.get_syncpkg(liststore[treeiter][0].name):
-						item = Gtk.ImageMenuItem(_('Reinstall'))
-						item.set_image(Gtk.Image.new_from_pixbuf(to_reinstall_icon))
-						item.set_always_show_image(True)
-						item.connect('activate', mark_to_reinstall, liststore[treeiter][0])
-						right_click_menu.append(item)
+						if not pyalpm.sync_newversion(liststore[treeiter][0], transaction.syncdbs):
+							item = Gtk.ImageMenuItem(_('Reinstall'))
+							item.set_image(Gtk.Image.new_from_pixbuf(to_reinstall_icon))
+							item.set_always_show_image(True)
+							item.connect('activate', mark_to_reinstall, liststore[treeiter][0])
+							right_click_menu.append(item)
 					optdeps_strings = liststore[treeiter][0].optdepends
 					if optdeps_strings:
 						available_optdeps = []

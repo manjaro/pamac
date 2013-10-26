@@ -367,20 +367,18 @@ class PamacDBusService(dbus.service.Object):
 
 	def CheckUpdates(self):
 		updates = 0
-		_ignorepkgs = []
+		_ignorepkgs = set()
 		for group in self.handle.ignoregrps:
 			db = self.handle.get_localdb()
 			grp = db.read_grp(group)
 			if grp:
 				name, pkg_list = grp
 				for pkg in pkg_list:
-					if not pkg.name in _ignorepkgs:
-						_ignorepkgs.append(pkg.name)
+					_ignorepkgs.add(pkg.name)
 		for name in self.handle.ignorepkgs:
 			pkg = self.handle.get_localdb().get_pkg(name)
 			if pkg:
-				if not pkg.name in _ignorepkgs:
-					_ignorepkgs.append(pkg.name)
+				_ignorepkgs.add(pkg.name)
 		if config.syncfirst:
 			for name in config.syncfirst:
 				pkg = self.handle.get_localdb().get_pkg(name)
