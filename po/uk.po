@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the Pamac package.
 # 
 # Translators:
+# zubr139 <zubr139@ukr.net>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-10-18 20:35+0200\n"
-"PO-Revision-Date: 2013-10-21 19:13+0000\n"
-"Last-Translator: manjarolinux <philm@manjaro.org>\n"
+"PO-Revision-Date: 2013-10-27 19:26+0000\n"
+"Last-Translator: zubr139 <zubr139@ukr.net>\n"
 "Language-Team: Ukrainian (http://www.transifex.com/projects/p/manjaro-pamac/language/uk/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,7 +20,7 @@ msgstr ""
 
 #: pamac-daemon.py:114
 msgid "Checking dependencies"
-msgstr ""
+msgstr "Перевірка залежностей"
 
 #: pamac-daemon.py:122
 msgid "Checking file conflicts"
@@ -64,7 +65,7 @@ msgstr ""
 
 #: pamac-daemon.py:191
 msgid "Loading packages files"
-msgstr ""
+msgstr "Завантаження пакетів файлів"
 
 #: pamac-daemon.py:197
 msgid "Checking delta integrity"
@@ -141,11 +142,11 @@ msgstr ""
 
 #: pamac-daemon.py:654
 msgid "Transaction successfully finished"
-msgstr ""
+msgstr "Операція успішно завершена"
 
 #: pamac-daemon.py:658 pamac-daemon.py:666
 msgid "Authentication failed"
-msgstr ""
+msgstr "Помилка аутентифікації"
 
 #: pamac-manager.py:74 pamac-manager.py:103 pamac-manager.py:104
 #: pamac-manager.py:119 pamac-manager.py:128 pamac-manager.py:227
@@ -357,7 +358,7 @@ msgstr ""
 
 #: pamac/transaction.py:271
 msgid "Preparing"
-msgstr ""
+msgstr "Підготовка"
 
 #: pamac/transaction.py:351
 msgid "<big><b>Transaction Summary</b></big>"
@@ -395,11 +396,11 @@ msgstr ""
 
 #: gui/manager.ui:12
 msgid "A gtk3 frontend for pyalpm"
-msgstr ""
+msgstr "Gtk3 інтерфейс для pyalpm"
 
 #: gui/manager.ui:42
 msgid "Install local packages"
-msgstr ""
+msgstr "Встановлення локальних пакетів"
 
 #: gui/manager.ui:294
 msgid "Search"
@@ -455,4 +456,4 @@ msgstr ""
 
 #: gui/dialogs.ui:407
 msgid "details"
-msgstr ""
+msgstr "деталі"
