@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the Pamac package.
 # 
 # Translators:
+# Asto Banko <kusmis@hot.ee>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-10-18 20:35+0200\n"
-"PO-Revision-Date: 2013-10-20 12:55+0000\n"
-"Last-Translator: guinux <guillaume@manjaro.org>\n"
+"PO-Revision-Date: 2013-10-30 18:34+0000\n"
+"Last-Translator: Asto Banko <kusmis@hot.ee>\n"
 "Language-Team: Estonian (Estonia) (http://www.transifex.com/projects/p/manjaro-pamac/language/et_EE/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,330 +20,330 @@ msgstr ""
 
 #: pamac-daemon.py:114
 msgid "Checking dependencies"
-msgstr ""
+msgstr "Sõltuvuste kontrollimine"
 
 #: pamac-daemon.py:122
 msgid "Checking file conflicts"
-msgstr ""
+msgstr "Kontrollib failides konflikte"
 
 #: pamac-daemon.py:128
 msgid "Resolving dependencies"
-msgstr ""
+msgstr "Sõltuvuste lahendamine"
 
 #: pamac-daemon.py:136
 msgid "Checking inter conflicts"
-msgstr ""
+msgstr "Kontrollib omavahelisi konflikte"
 
 #: pamac-daemon.py:144
 #, python-brace-format
 msgid "Installing {pkgname}"
-msgstr ""
+msgstr "Paigaldatakse {pkgname}"
 
 #: pamac-daemon.py:152
 #, python-brace-format
 msgid "Removing {pkgname}"
-msgstr ""
+msgstr "Eemaldatakse {pkgname}"
 
 #: pamac-daemon.py:160
 #, python-brace-format
 msgid "Upgrading {pkgname}"
-msgstr ""
+msgstr "Uuendatakse {pkgname}"
 
 #: pamac-daemon.py:168
 #, python-brace-format
 msgid "Downgrading {pkgname}"
-msgstr ""
+msgstr "Muudetakse vanemaks versiooniks {pkgname}"
 
 #: pamac-daemon.py:176
 #, python-brace-format
 msgid "Reinstalling {pkgname}"
-msgstr ""
+msgstr "Paigaldatakse uuesti {pkgname}"
 
 #: pamac-daemon.py:184
 msgid "Checking integrity"
-msgstr ""
+msgstr "Tervikluse kontroll"
 
 #: pamac-daemon.py:191
 msgid "Loading packages files"
-msgstr ""
+msgstr "Faili pakettide laadimine"
 
 #: pamac-daemon.py:197
 msgid "Checking delta integrity"
-msgstr ""
+msgstr "Kontrollitakse deltapakettide terviklust"
 
 #: pamac-daemon.py:203
 msgid "Applying deltas"
-msgstr ""
+msgstr "Deltapaketide rakendamine"
 
 #: pamac-daemon.py:209
 msgid "Generating {} with {}"
-msgstr ""
+msgstr "Genereerib {} abil {}"
 
 #: pamac-daemon.py:213
 msgid "Generation succeeded!"
-msgstr ""
+msgstr "Genereerimine õnnestus!"
 
 #: pamac-daemon.py:216
 msgid "Generation failed."
-msgstr ""
+msgstr "Genereerimine ebaõnnestus."
 
 #: pamac-daemon.py:219
 #, python-brace-format
 msgid "Configuring {pkgname}"
-msgstr ""
+msgstr "Häälestub {pkgname}"
 
 #: pamac-daemon.py:227
 msgid "Checking available disk space"
-msgstr ""
+msgstr "Saadaoleva kettaruumi kontroll"
 
 #: pamac-daemon.py:237
 msgid "Checking keyring"
-msgstr ""
+msgstr "Kontrollib võtmerõngast"
 
 #: pamac-daemon.py:243
 msgid "Downloading required keys"
-msgstr ""
+msgstr "Laeb alla vajalikud võtmerõngad"
 
 #: pamac-daemon.py:262
 #, python-brace-format
 msgid "{pkgname1} will be replaced by {pkgname2}"
-msgstr ""
+msgstr "{pkgname1} asendatakse järgnevaga {pkgname2}"
 
 #: pamac-daemon.py:265
 #, python-brace-format
 msgid "{pkgname1} conflicts with {pkgname2}"
-msgstr ""
+msgstr "{pkgname1} ei ühti järgnevaga {pkgname2}"
 
 #: pamac-daemon.py:309
 #, python-brace-format
 msgid "Refreshing {repo}"
-msgstr ""
+msgstr "Värskendab {repo}"
 
 #: pamac-daemon.py:313
 #, python-brace-format
 msgid "Downloading {pkgname}"
-msgstr ""
+msgstr "Laeb alla {pkgname}"
 
 #: pamac-daemon.py:480 pamac-install.py:81
 #, python-brace-format
 msgid "{pkgname} is not a valid path or package name"
-msgstr ""
+msgstr "{pkgname} ei ole sobiv asukoht ega paketi nimi"
 
 #: pamac-daemon.py:589
 #, python-brace-format
 msgid ""
 "The transaction cannot be performed because it needs to remove {pkgname1} "
 "which is a locked package"
-msgstr ""
+msgstr "Operatsiooni pole võimalik teostada, sest on vaja eemaldada {pkgname1} mis on lukustatud pakett"
 
 #: pamac-daemon.py:596 pamac/transaction.py:230
 msgid "Nothing to do"
-msgstr ""
+msgstr "Pole midagi teha"
 
 #: pamac-daemon.py:654
 msgid "Transaction successfully finished"
-msgstr ""
+msgstr "Tehingud edukalt lõpetatud"
 
 #: pamac-daemon.py:658 pamac-daemon.py:666
 msgid "Authentication failed"
-msgstr ""
+msgstr "Autentimine nurjus"
 
 #: pamac-manager.py:74 pamac-manager.py:103 pamac-manager.py:104
 #: pamac-manager.py:119 pamac-manager.py:128 pamac-manager.py:227
 #: pamac-manager.py:472 pamac-manager.py:533 pamac-manager.py:595
 msgid "No package found"
-msgstr ""
+msgstr "Paketti ei leitud"
 
 #: pamac-manager.py:143 pamac-manager.py:195
 msgid "local"
-msgstr ""
+msgstr "kohalik"
 
 #: pamac-manager.py:145 pamac-manager.py:178 pamac-manager.py:284
 msgid "Installed"
-msgstr ""
+msgstr "Paigaldatud"
 
 #: pamac-manager.py:145 pamac-manager.py:181
 msgid "Uninstalled"
-msgstr ""
+msgstr "Eemaldatud"
 
 #: pamac-manager.py:145 pamac-manager.py:184
 msgid "Orphans"
-msgstr ""
+msgstr "Orvud"
 
 #: pamac-manager.py:145 pamac-manager.py:164 pamac/transaction.py:353
 msgid "To install"
-msgstr ""
+msgstr "Paigaldada"
 
 #: pamac-manager.py:145 pamac-manager.py:169 pamac/transaction.py:371
 msgid "To remove"
-msgstr ""
+msgstr "Eemaldada"
 
 #: pamac-manager.py:274
 msgid "Licenses"
-msgstr ""
+msgstr "Litsentsid"
 
 #: pamac-manager.py:279
 msgid "Depends On"
-msgstr ""
+msgstr "Sõltub"
 
 #: pamac-manager.py:287
 msgid "Optional Deps"
-msgstr ""
+msgstr "Valikulised sõltuvused"
 
 #: pamac-manager.py:290
 msgid "Required By"
-msgstr ""
+msgstr "Mida nõuab"
 
 #: pamac-manager.py:292
 msgid "Provides"
-msgstr ""
+msgstr "Pakutavad"
 
 #: pamac-manager.py:294
 msgid "Replaces"
-msgstr ""
+msgstr "Asendab"
 
 #: pamac-manager.py:296
 msgid "Conflicts With"
-msgstr ""
+msgstr "Konfliktid"
 
 #: pamac-manager.py:301
 msgid "Repository"
-msgstr ""
+msgstr "Hoidla"
 
 #: pamac-manager.py:303 gui/manager.ui:340
 msgid "Groups"
-msgstr ""
+msgstr "Grupid"
 
 #: pamac-manager.py:305
 msgid "Compressed Size"
-msgstr ""
+msgstr "Tihendatud Suurus"
 
 #: pamac-manager.py:306
 msgid "Download Size"
-msgstr ""
+msgstr "Allalaadimise Suurus"
 
 #: pamac-manager.py:308
 msgid "Installed Size"
-msgstr ""
+msgstr "Paigaldatud Suurus"
 
 #: pamac-manager.py:309
 msgid "Packager"
-msgstr ""
+msgstr "Pakendaja"
 
 #: pamac-manager.py:310
 msgid "Architecture"
-msgstr ""
+msgstr "Arhitektuur"
 
 #: pamac-manager.py:313
 msgid "Install Date"
-msgstr ""
+msgstr "Paigalduse Kuupäev"
 
 #: pamac-manager.py:315
 msgid "Explicitly installed"
-msgstr ""
+msgstr "Detailselt paigaldatud"
 
 #: pamac-manager.py:317
 msgid "Installed as a dependency for another package"
-msgstr ""
+msgstr "Paigaldatud teise paketi sõltuvusena"
 
 #: pamac-manager.py:319
 msgid "Unknown"
-msgstr ""
+msgstr "Tundmatu"
 
 #: pamac-manager.py:320
 msgid "Install Reason"
-msgstr ""
+msgstr "Paigaldamise põhjus"
 
 #: pamac-manager.py:325
 msgid "Signatures"
-msgstr ""
+msgstr "Signatuur"
 
 #: pamac-manager.py:329
 msgid "Backup files"
-msgstr ""
+msgstr "Varukoopia failid"
 
 #: pamac-manager.py:452
 #, python-brace-format
 msgid ""
 "<b>{pkgname} has {number} uninstalled optional deps.\n"
 "Please choose the one(s) you want to install:</b>"
-msgstr ""
+msgstr "<b>{pkgname} on {number} valikulist sõltuvust eemaldanud.⏎\nVali see(need) mida soovid paigaldada:</b>"
 
 #: pamac-manager.py:475
 msgid "Unselect"
-msgstr ""
+msgstr "Tühista valik"
 
 #: pamac-manager.py:481
 msgid "Remove"
-msgstr ""
+msgstr "Eemalda"
 
 #: pamac-manager.py:487
 msgid "Reinstall"
-msgstr ""
+msgstr "Paigalda uuesti"
 
 #: pamac-manager.py:500
 msgid "Install optional deps"
-msgstr ""
+msgstr "Paigalda valikulised sõltuvused"
 
 #: pamac-manager.py:506
 msgid "Install"
-msgstr ""
+msgstr "Paigalda"
 
 #: pamac-manager.py:519
 msgid "Install with optional deps"
-msgstr ""
+msgstr "Paigalda valikuliste sõltuvustega"
 
 #: pamac-manager.py:754 pamac-updater.py:159 pamac-install.py:110
 msgid "Pamac is already running"
-msgstr ""
+msgstr "Pamac juba töötab"
 
 #: pamac-updater.py:27 pamac-updater.py:37
 msgid "<big><b>Your system is up-to-date</b></big>"
-msgstr ""
+msgstr "<big><b>Teie süsteem on ajakohane</b></big>"
 
 #: pamac-updater.py:49 pamac/transaction.py:389
 msgid "<b>Total download size: </b>"
-msgstr ""
+msgstr "<b>Täielik allalaadimise suurus: </b>"
 
 #: pamac-updater.py:51
 msgid "<big><b>1 available update</b></big>"
-msgstr ""
+msgstr "<big><b>1 saadaolev uuendus</b></big>"
 
 #: pamac-updater.py:53
 #, python-brace-format
 msgid "<big><b>{number} available updates</b></big>"
-msgstr ""
+msgstr "<big><b>{number} saadaolevaid uuendusi</b></big>"
 
 #: pamac-tray.py:17
 #, python-brace-format
 msgid "{number} available updates"
-msgstr ""
+msgstr "{number} saadaolevaid uuendusi"
 
 #: pamac-tray.py:18
 msgid "1 available update"
-msgstr ""
+msgstr "1 saadaolev uuendus"
 
 #: pamac-tray.py:20
 msgid "Your system is up-to-date"
-msgstr ""
+msgstr "Teie süsteem on ajakohane"
 
 #: pamac-tray.py:30 pamac-tray.py:85 pamac-tray.py:95 gui/updater.ui:24
 msgid "Update Manager"
-msgstr ""
+msgstr "Uuenduste haldur"
 
 #: pamac-tray.py:34 gui/manager.ui:144
 msgid "Package Manager"
-msgstr ""
+msgstr "Paketihaldur"
 
 #: pamac-tray.py:38
 msgid "Quit"
-msgstr ""
+msgstr "Välju"
 
 #: pamac-install.py:120
 msgid ""
 "Some updates are available.\n"
 "Please update your system first"
-msgstr ""
+msgstr "Mõned uuendused on saadaval.\nPalun uuendage kõigepealt enda süsteemi"
 
 #: pamac/transaction.py:151
 #, python-brace-format
@@ -353,27 +354,27 @@ msgstr ""
 
 #: pamac/transaction.py:199
 msgid "Refreshing"
-msgstr ""
+msgstr "Värskendab"
 
 #: pamac/transaction.py:271
 msgid "Preparing"
-msgstr ""
+msgstr "Ettevalmistamine"
 
 #: pamac/transaction.py:351
 msgid "<big><b>Transaction Summary</b></big>"
-msgstr ""
+msgstr "<big><b>Muudatuste kokkuvõte</b></big>"
 
 #: pamac/transaction.py:359
 msgid "To reinstall"
-msgstr ""
+msgstr "Uuesti Paigaldada"
 
 #: pamac/transaction.py:365
 msgid "To downgrade"
-msgstr ""
+msgstr "Paigaldada vanem versioon"
 
 #: pamac/transaction.py:378
 msgid "To update"
-msgstr ""
+msgstr "Uuendada"
 
 #: pamac/common.py:13
 #, python-format
@@ -387,72 +388,72 @@ msgstr ""
 
 #: gui/manager.ui:8
 msgid "About Pamac"
-msgstr ""
+msgstr "Teave Pamac kohta"
 
 #: gui/manager.ui:11
 msgid "Copyright © 2013 Guillaume Benoit"
-msgstr ""
+msgstr "Autoriõigused © 2013 Guillaume Benoit"
 
 #: gui/manager.ui:12
 msgid "A gtk3 frontend for pyalpm"
-msgstr ""
+msgstr "GTK3 kasutajaliides pyalpm jaoks"
 
 #: gui/manager.ui:42
 msgid "Install local packages"
-msgstr ""
+msgstr "Paigalda kohalikud paketid"
 
 #: gui/manager.ui:294
 msgid "Search"
-msgstr ""
+msgstr "Otsi"
 
 #: gui/manager.ui:387 gui/manager.ui:479
 msgid "State"
-msgstr ""
+msgstr "Olek"
 
 #: gui/manager.ui:434
 msgid "Repos"
-msgstr ""
+msgstr "Hoidlad"
 
 #: gui/manager.ui:492
 msgid "Name"
-msgstr ""
+msgstr "Nimi"
 
 #: gui/manager.ui:505
 msgid "Version"
-msgstr ""
+msgstr "Versioon"
 
 #: gui/manager.ui:518
 msgid "Size"
-msgstr ""
+msgstr "Suurus"
 
 #: gui/manager.ui:620
 msgid "Infos"
-msgstr ""
+msgstr "Teave"
 
 #: gui/manager.ui:684
 msgid "Deps"
-msgstr ""
+msgstr "Sõltuvused"
 
 #: gui/manager.ui:753
 msgid "Details"
-msgstr ""
+msgstr "Üksikasjad"
 
 #: gui/manager.ui:782
 msgid "Files"
-msgstr ""
+msgstr "Failid"
 
 #: gui/dialogs.ui:7
 msgid "Choose"
-msgstr ""
+msgstr "Vali"
 
 #: gui/dialogs.ui:113
 msgid "Summary"
-msgstr ""
+msgstr "Kokkuvõte"
 
 #: gui/dialogs.ui:315
 msgid "Progress"
-msgstr ""
+msgstr "Edenemine"
 
 #: gui/dialogs.ui:407
 msgid "details"
-msgstr ""
+msgstr "Üksikasjad"
