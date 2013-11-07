@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-10-18 20:35+0200\n"
-"PO-Revision-Date: 2013-10-27 19:26+0000\n"
+"PO-Revision-Date: 2013-11-05 16:50+0000\n"
 "Last-Translator: zubr139 <zubr139@ukr.net>\n"
 "Language-Team: Ukrainian (http://www.transifex.com/projects/p/manjaro-pamac/language/uk/)\n"
 "MIME-Version: 1.0\n"
@@ -337,7 +337,7 @@ msgstr ""
 
 #: pamac-tray.py:38
 msgid "Quit"
-msgstr ""
+msgstr "Вийти"
 
 #: pamac-install.py:120
 msgid ""
@@ -416,15 +416,15 @@ msgstr ""
 
 #: gui/manager.ui:492
 msgid "Name"
-msgstr ""
+msgstr "Ім'я"
 
 #: gui/manager.ui:505
 msgid "Version"
-msgstr ""
+msgstr "Версія"
 
 #: gui/manager.ui:518
 msgid "Size"
-msgstr ""
+msgstr "Розмір"
 
 #: gui/manager.ui:620
 msgid "Infos"
@@ -436,11 +436,11 @@ msgstr ""
 
 #: gui/manager.ui:753
 msgid "Details"
-msgstr ""
+msgstr "Деталі"
 
 #: gui/manager.ui:782
 msgid "Files"
-msgstr ""
+msgstr "Файли"
 
 #: gui/dialogs.ui:7
 msgid "Choose"
