@@ -9,7 +9,7 @@ import re
 
 import pyalpm
 from multiprocessing import Process
-from pamac import config, common
+from pamac import config, common, aur
 
 # i18n
 import gettext
@@ -159,7 +159,7 @@ class PamacDBusService(dbus.service.Object):
 		elif event == 'ALPM_EVENT_UPGRADE_START':
 			string = _('Upgrading {pkgname}').format(pkgname = tupel[1].name)
 			action = string+'...'
-			action_long = '{} ({} -> {})\n'.format(string, tupel[1].version, tupel[0].version)
+			action_long = '{} ({} => {})\n'.format(string, tupel[1].version, tupel[0].version)
 			icon = '/usr/share/pamac/icons/24x24/status/package-update.png'
 		elif event == 'ALPM_EVENT_UPGRADE_DONE':
 			formatted_event = 'Upgraded {pkgname} ({oldversion} -> {newversion})'.format(pkgname = tupel[1].name, oldversion = tupel[1].version, newversion = tupel[0].version)
@@ -167,7 +167,7 @@ class PamacDBusService(dbus.service.Object):
 		elif event == 'ALPM_EVENT_DOWNGRADE_START':
 			string = _('Downgrading {pkgname}').format(pkgname = tupel[1].name)
 			action = string+'...'
-			action_long = '{} ({} -> {})'.format(string, tupel[1].version, tupel[0].version)
+			action_long = '{} ({} => {})'.format(string, tupel[1].version, tupel[0].version)
 			icon = '/usr/share/pamac/icons/24x24/status/package-add.png'
 		elif event == 'ALPM_EVENT_DOWNGRADE_DONE':
 			formatted_event = 'Downgraded {pkgname} ({oldversion} -> {newversion})'.format(pkgname = tupel[1].name, oldversion = tupel[1].version, newversion = tupel[0].version)
@@ -315,7 +315,10 @@ class PamacDBusService(dbus.service.Object):
 			icon = '/usr/share/pamac/icons/24x24/status/package-download.png'
 		if self.total_size > 0:
 			percent = round((_transferred+self.already_transferred)/self.total_size, 2)
-			target = '{transferred}/{size}'.format(transferred = common.format_size(_transferred+self.already_transferred), size = common.format_size(self.total_size))
+			if _transferred+self.already_transferred <= self.total_size:
+				target = '{transferred}/{size}'.format(transferred = common.format_size(_transferred+self.already_transferred), size = common.format_size(self.total_size))
+			else:
+				target = ''
 		else:
 			percent = round(_transferred/_total, 2)
 			target = ''
@@ -388,10 +391,22 @@ class PamacDBusService(dbus.service.Object):
 						updates += 1
 		if not updates:
 			for pkg in self.handle.get_localdb().pkgcache:
-				candidate = pyalpm.sync_newversion(pkg, self.handle.get_syncdbs())
-				if candidate:
-					if not candidate.name in _ignorepkgs:
+				if not pkg.name in _ignorepkgs:
+					candidate = pyalpm.sync_newversion(pkg, self.handle.get_syncdbs())
+					if candidate:
 						updates += 1
+					else:
+						sync_pkg = None
+						for db in self.handle.get_syncdbs():
+							sync_pkg = db.get_pkg(pkg.name)
+							if sync_pkg:
+								break
+						if not sync_pkg:
+							aur_pkg = aur.infos(pkg.name)
+							if aur_pkg:
+								comp = pyalpm.vercmp(aur_pkg.version, pkg.version)
+								if comp == 1:
+									updates += 1
 		self.EmitAvailableUpdates(updates)
 
 	@dbus.service.method('org.manjaro.pamac', 'b', 's', async_callbacks=('success', 'nosuccess'))
@@ -602,15 +617,21 @@ class PamacDBusService(dbus.service.Object):
 	@dbus.service.method('org.manjaro.pamac', '', 'a(ss)')
 	def To_Remove(self):
 		liste = []
-		for pkg in self.t.to_remove:
-			liste.append((pkg.name, pkg.version))
+		try:
+			for pkg in self.t.to_remove:
+				liste.append((pkg.name, pkg.version))
+		except:
+			pass
 		return liste
 
 	@dbus.service.method('org.manjaro.pamac', '', 'a(ssi)')
 	def To_Add(self):
 		liste = []
-		for pkg in self.t.to_add:
-			liste.append((pkg.name, pkg.version, pkg.download_size))
+		try:
+			for pkg in self.t.to_add:
+				liste.append((pkg.name, pkg.version, pkg.download_size))
+		except:
+			pass
 		return liste
 
 	@dbus.service.method('org.manjaro.pamac', '', 's', async_callbacks=('success', 'nosuccess'))

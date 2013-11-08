@@ -9,7 +9,7 @@ import pyalpm
 import dbus
 from time import strftime, localtime
 
-from pamac import config, common, transaction
+from pamac import config, common, transaction, aur
 
 # i18n
 import gettext
@@ -23,25 +23,30 @@ interface = transaction.interface
 
 interface.add_from_file('/usr/share/pamac/gui/manager.ui')
 ManagerWindow = interface.get_object("ManagerWindow")
-details_list = interface.get_object('details_list')
 deps_list = interface.get_object('deps_list')
+details_list = interface.get_object('details_list')
 files_textview = interface.get_object('files_textview')
+deps_scrolledwindow = interface.get_object('deps_scrolledwindow')
 files_scrolledwindow = interface.get_object('files_scrolledwindow')
+details_scrolledwindow = interface.get_object('details_scrolledwindow')
 name_label = interface.get_object('name_label')
 desc_label = interface.get_object('desc_label')
 link_label = interface.get_object('link_label')
 licenses_label = interface.get_object('licenses_label')
 search_entry = interface.get_object('search_entry')
+search_aur_button = interface.get_object('search_aur_button')
 search_list = interface.get_object('search_list')
 search_selection = interface.get_object('search_treeview_selection')
 packages_list_treeview = interface.get_object('packages_list_treeview')
 state_column = interface.get_object('state_column')
 name_column = interface.get_object('name_column')
 version_column = interface.get_object('version_column')
+repo_column = interface.get_object('repo_column')
 size_column = interface.get_object('size_column')
 state_rendererpixbuf = interface.get_object('state_rendererpixbuf')
 name_renderertext = interface.get_object('name_renderertext')
 version_renderertext = interface.get_object('version_renderertext')
+repo_renderertext = interface.get_object('repo_renderertext')
 size_renderertext = interface.get_object('size_renderertext')
 list_selection = interface.get_object('list_treeview_selection')
 groups_list = interface.get_object('groups_list')
@@ -84,6 +89,8 @@ def state_column_display_func(column, cell, treemodel, treeiter, data):
 			pixbuf = installed_icon
 	elif treemodel[treeiter][0].name in transaction.to_add:
 		pixbuf = to_install_icon
+	elif treemodel[treeiter][0] in transaction.to_build:
+		pixbuf = to_install_icon
 	else:
 		pixbuf = uninstalled_icon
 	cell.set_property("pixbuf", pixbuf)
@@ -97,7 +104,7 @@ def state_column_sort_func(treemodel, treeiter1, treeiter2, data):
 		num2 = 1
 	else:
 		num2 = 0
-	return num2 - num1
+	return num1 - num2
 
 def name_column_display_func(column, cell, treemodel, treeiter, data):
 	if treemodel[treeiter][0] == _('No package found'):
@@ -124,15 +131,44 @@ def version_column_display_func(column, cell, treemodel, treeiter, data):
 def version_column_sort_func(treemodel, treeiter1, treeiter2, data):
 	return pyalpm.vercmp(treemodel[treeiter1][0].version, treemodel[treeiter2][0].version)
 
-def size_column_display_func(column, cell, treemodel, treeiter, data):
+def repo_column_display_func(column, cell, treemodel, treeiter, data):
 	if treemodel[treeiter][0] == _('No package found'):
 		cell.set_property("text", '')
 	else:
+		cell.set_property("text", treemodel[treeiter][0].db.name)
+
+def repo_column_sort_func(treemodel, treeiter1, treeiter2, data):
+	servers = list(config.pacman_conf.repos.keys())
+	servers.insert(0, 'local')
+	# display AUR at last
+	if treemodel[treeiter1][0].db.name == 'AUR':
+		num1 = 99
+	else:
+		num1 = servers.index(treemodel[treeiter1][0].db.name)
+	# display AUR at last
+	if treemodel[treeiter2][0].db.name == 'AUR':
+		num2 = 99
+	else:
+		num2 = servers.index(treemodel[treeiter2][0].db.name)
+	return num1 - num2
+
+def size_column_display_func(column, cell, treemodel, treeiter, data):
+	if treemodel[treeiter][0] == _('No package found'):
+		cell.set_property("text", '')
+	elif treemodel[treeiter][0].isize:
 		cell.set_property("text", common.format_size(treemodel[treeiter][0].isize))
+	else:
+		cell.set_property("text", '')
 
 def size_column_sort_func(treemodel, treeiter1, treeiter2, data):
-	num1 = treemodel[treeiter1][0].isize
-	num2 = treemodel[treeiter2][0].isize
+	if treemodel[treeiter1][0].isize:
+		num1 = treemodel[treeiter1][0].isize
+	else:
+		num1 = 0
+	if treemodel[treeiter2][0].isize:
+		num2 = treemodel[treeiter2][0].isize
+	else:
+		num2 = 0
 	return num1 - num2
 
 def update_lists():
@@ -215,28 +251,35 @@ def get_repo_list(repo):
 							repos_dict[repo].append([pkg])
 		return repos_dict[repo]
 
-def search_pkgs(search_string):
+def search_pkgs(data_tupel):
 	global search_dict
-	if search_string in search_dict.keys():
-		return search_dict[search_string]
+	search_string = data_tupel[0]
+	search_aur = data_tupel[1]
+	if (search_string, search_aur) in search_dict.keys():
+		return search_dict[(search_string, search_aur)]
 	else:
-		search_dict[search_string] = Gtk.ListStore(object)
+		search_dict[(search_string, search_aur)] = Gtk.ListStore(object)
 		names_list = []
 		for pkg in transaction.localdb.search(*search_string.split()):
 			if not pkg.name in names_list:
 				names_list.append(pkg.name)
-				search_dict[search_string].append([pkg])
+				search_dict[(search_string, search_aur)].append([pkg])
 		for db in transaction.syncdbs:
 			for pkg in db.search(*search_string.split()):
 				if not pkg.name in names_list:
 					names_list.append(pkg.name)
-					search_dict[search_string].append([pkg])
+					search_dict[(search_string, search_aur)].append([pkg])
+		if search_aur:
+			for pkg in aur.search(*search_string.split()):
+				if not pkg.name in names_list:
+					names_list.append(pkg.name)
+					search_dict[(search_string, search_aur)].append([pkg])
 		if not names_list:
-			search_dict[search_string].append([_('No package found')])
+			search_dict[(search_string, search_aur)].append([_('No package found')])
 		else:
 			if not search_string in [row[0] for row in search_list]:
 				search_list.append([search_string])
-		return search_dict[search_string] 
+		return search_dict[(search_string, search_aur)] 
 
 def get_uninstalled_pkgs():
 	pkgs_list = []
@@ -266,6 +309,7 @@ def refresh_packages_list(liststore):
 	state_column.set_sort_indicator(False)
 	name_column.set_sort_indicator(True)
 	version_column.set_sort_indicator(False)
+	repo_column.set_sort_indicator(False)
 	size_column.set_sort_indicator(False)
 	packages_list_treeview.thaw_child_notify()
 	ManagerWindow.get_window().set_cursor(None)
@@ -356,14 +400,20 @@ def handle_error(error):
 			if response:
 				transaction.ErrorDialog.hide()
 	transaction.progress_buffer.delete(transaction.progress_buffer.get_start_iter(),transaction.progress_buffer.get_end_iter())
+	transaction.Release()
 	transaction.get_handle()
 	transaction.update_dbs()
 	transaction.to_add.clear()
 	transaction.to_remove.clear()
+	transaction.to_update.clear()
 	transaction.to_load.clear()
+	transaction.to_build.clear()
 
 def handle_reply(reply):
-	if reply:
+	if transaction.to_build:
+		transaction.build_next() 
+	elif reply:
+		transaction.Release()
 		transaction.ProgressCloseButton.set_visible(True)
 		transaction.action_icon.set_from_icon_name('dialog-information', Gtk.IconSize.BUTTON)
 		transaction.progress_label.set_text(str(reply))
@@ -374,7 +424,7 @@ def handle_reply(reply):
 		transaction.ProgressWindow.hide()
 		while Gtk.events_pending():
 			Gtk.main_iteration()
-		error = transaction.sysupgrade(True)
+		error = transaction.sysupgrade()
 		ManagerWindow.get_window().set_cursor(None)
 		if error:
 			handle_error(error)
@@ -383,9 +433,12 @@ def handle_reply(reply):
 	transaction.update_dbs()
 	transaction.to_add.clear()
 	transaction.to_remove.clear()
+	transaction.to_update.clear()
+	transaction.to_load.clear()
+	transaction.to_build.clear()
 	global search_dict
 	global groups_dict
-	global states_dict 
+	global states_dict
 	global repos_dict
 	search_dict = {}
 	groups_dict = {}
@@ -411,6 +464,9 @@ def on_TransCancelButton_clicked(*args):
 	while Gtk.events_pending():
 		Gtk.main_iteration()
 	transaction.Release()
+	transaction.to_update.clear()
+	# do it because deps are also added in to_build when check_to_build
+	transaction.to_build.clear()
 	if current_filter[0]:
 		refresh_packages_list(current_filter[0](current_filter[1]))
 
@@ -420,12 +476,25 @@ def on_ProgressCloseButton_clicked(*args):
 		Gtk.main_iteration()
 	transaction.progress_buffer.delete(transaction.progress_buffer.get_start_iter(),transaction.progress_buffer.get_end_iter())
 	ManagerWindow.get_window().set_cursor(Gdk.Cursor(Gdk.CursorType.WATCH))
-	error = transaction.sysupgrade(True)
+	while Gtk.events_pending():
+		Gtk.main_iteration()
+	error = transaction.sysupgrade()
 	ManagerWindow.get_window().set_cursor(None)
 	if error:
 		handle_error(error)
 
 def on_ProgressCancelButton_clicked(*args):
+	ManagerWindow.get_window().set_cursor(Gdk.Cursor(Gdk.CursorType.WATCH))
+	while Gtk.events_pending():
+		Gtk.main_iteration()
+	transaction.progress_buffer.delete(transaction.progress_buffer.get_start_iter(),transaction.progress_buffer.get_end_iter())
+	transaction.cancel_download = True
+	if transaction.build_proc:
+		if transaction.build_proc.poll() is None:
+			transaction.build_proc.kill()
+			transaction.build_proc.wait()
+	# do it because deps are also added in to_build when check_to_build
+	transaction.to_build.clear()
 	transaction.Interrupt()
 	ManagerWindow.get_window().set_cursor(None)
 	transaction.ProgressWindow.hide()
@@ -440,8 +509,8 @@ def on_search_entry_activate(widget):
 	ManagerWindow.get_window().set_cursor(Gdk.Cursor(Gdk.CursorType.WATCH))
 	while Gtk.events_pending():
 		Gtk.main_iteration()
-	current_filter = (search_pkgs, search_entry.get_text())
-	refresh_packages_list(search_pkgs(search_entry.get_text()))
+	current_filter = (search_pkgs, (search_entry.get_text(), search_aur_button.get_active()))
+	refresh_packages_list(search_pkgs((search_entry.get_text(), search_aur_button.get_active())))
 
 def mark_to_install(widget, pkg):
 	transaction.to_add.add(pkg.name)
@@ -452,12 +521,12 @@ def mark_to_reinstall(widget, pkg):
 def mark_to_remove(widget, pkg):
 	transaction.to_remove.add(pkg.name)
 
-def mark_to_unselect(widget, pkg):
+def mark_to_deselect(widget, pkg):
 	transaction.to_remove.discard(pkg.name)
 	transaction.to_add.discard(pkg.name)
 
 def select_optdeps(widget, pkg, optdeps):
-	transaction.choose_label.set_markup(_('<b>{pkgname} has {number} uninstalled optional deps.\nPlease choose the one(s) you want to install:</b>').format(pkgname = pkg.name, number = str(len(optdeps))))
+	transaction.choose_label.set_markup('<b>{}</b>'.format(_('{pkgname} has {number} uninstalled optional deps.\nPlease choose those you would like to install:').format(pkgname = pkg.name, number = str(len(optdeps)))))
 	transaction.choose_list.clear()
 	for long_string in optdeps:
 		transaction.choose_list.append([False, long_string])
@@ -480,10 +549,10 @@ def on_list_treeview_button_press_event(treeview, event):
 			if liststore[treeiter][0] != _('No package found') and not liststore[treeiter][0].name in config.holdpkg:
 				right_click_menu = Gtk.Menu()
 				if liststore[treeiter][0].name in transaction.to_add | transaction.to_remove:
-					item = Gtk.ImageMenuItem(_('Unselect'))
+					item = Gtk.ImageMenuItem(_('Deselect'))
 					item.set_image(Gtk.Image.new_from_stock('gtk-undo', Gtk.IconSize.MENU))
 					item.set_always_show_image(True)
-					item.connect('activate', mark_to_unselect, liststore[treeiter][0])
+					item.connect('activate', mark_to_deselect, liststore[treeiter][0])
 					right_click_menu.append(item)
 				elif liststore[treeiter][0].db.name == 'local':
 					item = Gtk.ImageMenuItem(_('Remove'))
@@ -545,10 +614,18 @@ def on_list_treeview_selection_changed(treeview):
 				set_deps_list(liststore[treeiter][0], "local")
 				set_details_list(liststore[treeiter][0], "local")
 				set_files_list(liststore[treeiter][0])
+				deps_scrolledwindow.set_visible(True)
+				details_scrolledwindow.set_visible(True)
 				files_scrolledwindow.set_visible(True)
+			elif liststore[treeiter][0].db.name == 'AUR':
+				deps_scrolledwindow.set_visible(False)
+				details_scrolledwindow.set_visible(False)
+				files_scrolledwindow.set_visible(False)
 			else:
 				set_deps_list(liststore[treeiter][0], "sync")
 				set_details_list(liststore[treeiter][0], "sync")
+				deps_scrolledwindow.set_visible(True)
+				details_scrolledwindow.set_visible(True)
 				files_scrolledwindow.set_visible(False)
 
 def on_search_treeview_selection_changed(widget):
@@ -560,8 +637,8 @@ def on_search_treeview_selection_changed(widget):
 		ManagerWindow.get_window().set_cursor(Gdk.Cursor(Gdk.CursorType.WATCH))
 		while Gtk.events_pending():
 			Gtk.main_iteration()
-		current_filter = (search_pkgs, search_list[line][0])
-		refresh_packages_list(search_pkgs(search_list[line][0]))
+		current_filter = (search_pkgs, (search_list[line][0], search_aur_button.get_active()))
+		refresh_packages_list(search_pkgs((search_list[line][0], search_aur_button.get_active())))
 
 def on_groups_treeview_selection_changed(widget):
 	global current_filter
@@ -602,19 +679,19 @@ def on_repos_treeview_selection_changed(widget):
 def on_list_treeview_row_activated(treeview, treeiter, column):
 	liststore = treeview.get_model()
 	if not liststore[treeiter][0] == _('No package found'):
-		if not liststore[treeiter][0].name in config.holdpkg:
-			if liststore[treeiter][0].db.name == 'local':
-				if liststore[treeiter][0].name in transaction.to_add:
-					transaction.to_add.discard(liststore[treeiter][0].name)
-				elif liststore[treeiter][0].name in transaction.to_remove:
-					transaction.to_remove.discard(liststore[treeiter][0].name)
-				else:
-					transaction.to_remove.add(liststore[treeiter][0].name)
-			else:
-				if liststore[treeiter][0].name in transaction.to_add:
-					transaction.to_add.discard(liststore[treeiter][0].name)
-				else:
-					transaction.to_add.add(liststore[treeiter][0].name)
+		if liststore[treeiter][0].name in transaction.to_add:
+			transaction.to_add.discard(liststore[treeiter][0].name)
+		elif liststore[treeiter][0] in transaction.to_build:
+			transaction.to_build.remove(liststore[treeiter][0])
+		elif liststore[treeiter][0].name in transaction.to_remove:
+			transaction.to_remove.discard(liststore[treeiter][0].name)
+		elif liststore[treeiter][0].db.name == 'local':
+			if not liststore[treeiter][0].name in config.holdpkg:
+				transaction.to_remove.add(liststore[treeiter][0].name)
+		elif liststore[treeiter][0].db.name == 'AUR':
+			transaction.to_build.append(liststore[treeiter][0])
+		else:
+			transaction.to_add.add(liststore[treeiter][0].name)
 	while Gtk.events_pending():
 		Gtk.main_iteration()
 
@@ -639,6 +716,8 @@ def on_notebook1_switch_page(notebook, page, page_num):
 
 def on_manager_valid_button_clicked(*args):
 	ManagerWindow.get_window().set_cursor(Gdk.Cursor(Gdk.CursorType.WATCH))
+	while Gtk.events_pending():
+		Gtk.main_iteration()
 	error = transaction.run()
 	ManagerWindow.get_window().set_cursor(None)
 	if error:
@@ -647,12 +726,15 @@ def on_manager_valid_button_clicked(*args):
 def on_manager_cancel_button_clicked(*args):
 	transaction.to_add.clear()
 	transaction.to_remove.clear()
+	transaction.to_build.clear()
 	if current_filter[0]:
 		refresh_packages_list(current_filter[0](current_filter[1]))
 
 def on_refresh_item_activate(*args):
 	ManagerWindow.get_window().set_cursor(Gdk.Cursor(Gdk.CursorType.WATCH))
-	transaction.refresh(False)
+	while Gtk.events_pending():
+		Gtk.main_iteration()
+	transaction.refresh()
 
 
 def on_local_item_activate(*args):
@@ -678,6 +760,8 @@ def on_package_open_button_clicked(*args):
 		for path in packages_paths:
 			transaction.to_load.add(path)
 		ManagerWindow.get_window().set_cursor(Gdk.Cursor(Gdk.CursorType.WATCH))
+		while Gtk.events_pending():
+			Gtk.main_iteration()
 		error = transaction.run()
 		ManagerWindow.get_window().set_cursor(None)
 		if error:
@@ -696,6 +780,7 @@ def on_state_column_clicked(column):
 	state_column.set_sort_indicator(True)
 	name_column.set_sort_indicator(False)
 	version_column.set_sort_indicator(False)
+	repo_column.set_sort_indicator(False)
 	size_column.set_sort_indicator(False)
 	liststore.set_sort_func(0, state_column_sort_func, None)
 
@@ -704,6 +789,7 @@ def on_name_column_clicked(column):
 	state_column.set_sort_indicator(False)
 	name_column.set_sort_indicator(True)
 	version_column.set_sort_indicator(False)
+	repo_column.set_sort_indicator(False)
 	size_column.set_sort_indicator(False)
 	liststore.set_sort_func(0, name_column_sort_func, None)
 
@@ -712,14 +798,25 @@ def on_version_column_clicked(column):
 	state_column.set_sort_indicator(False)
 	name_column.set_sort_indicator(False)
 	version_column.set_sort_indicator(True)
+	repo_column.set_sort_indicator(False)
 	size_column.set_sort_indicator(False)
 	liststore.set_sort_func(0, version_column_sort_func, None)
+
+def on_repo_column_clicked(column):
+	liststore = packages_list_treeview.get_model()
+	state_column.set_sort_indicator(False)
+	name_column.set_sort_indicator(False)
+	version_column.set_sort_indicator(False)
+	repo_column.set_sort_indicator(True)
+	size_column.set_sort_indicator(False)
+	liststore.set_sort_func(0, repo_column_sort_func, None)
 
 def on_size_column_clicked(column):
 	liststore = packages_list_treeview.get_model()
 	state_column.set_sort_indicator(False)
 	name_column.set_sort_indicator(False)
 	version_column.set_sort_indicator(False)
+	repo_column.set_sort_indicator(False)
 	size_column.set_sort_indicator(True)
 	liststore.set_sort_func(0, size_column_sort_func, None)
 
@@ -752,6 +849,7 @@ signals = {'on_ManagerWindow_delete_event' : on_ManagerWindow_delete_event,
 		'on_state_column_clicked' : on_state_column_clicked,
 		'on_name_column_clicked' : on_name_column_clicked,
 		'on_version_column_clicked' : on_version_column_clicked,
+		'on_repo_column_clicked' : on_repo_column_clicked,
 		'on_size_column_clicked' : on_size_column_clicked}
 
 def config_dbus_signals():
@@ -773,13 +871,18 @@ else:
 	state_column.set_cell_data_func(state_rendererpixbuf, state_column_display_func)
 	name_column.set_cell_data_func(name_renderertext, name_column_display_func)
 	version_column.set_cell_data_func(version_renderertext, version_column_display_func)
+	repo_column.set_cell_data_func(repo_renderertext, repo_column_display_func)
 	size_column.set_cell_data_func(size_renderertext, size_column_display_func)
 	transaction.get_handle()
 	transaction.update_dbs()
+	# now localdb is defined, populate make_depends
+	for name in transaction.base_devel:
+		if not pyalpm.find_satisfier(transaction.localdb.pkgcache, name):
+			transaction.make_depends.add(name)
 	update_lists()
 	ManagerWindow.show_all()
 	ManagerWindow.get_window().set_cursor(Gdk.Cursor(Gdk.CursorType.WATCH))
-	transaction.refresh(False)
+	transaction.refresh()
 	while Gtk.events_pending():
 		Gtk.main_iteration()
 	Gtk.main()

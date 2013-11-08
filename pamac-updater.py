@@ -5,7 +5,7 @@ from gi.repository import Gtk, Gdk
 import pyalpm
 import dbus
 
-from pamac import config, common, transaction
+from pamac import config, common, transaction, aur
 
 # i18n
 import gettext
@@ -24,33 +24,43 @@ update_top_label = interface.get_object('update_top_label')
 update_bottom_label = interface.get_object('update_bottom_label')
 UpdaterApplyButton = interface.get_object('UpdaterApplyButton')
 
-update_top_label.set_markup(_('<big><b>Your system is up-to-date</b></big>'))
+update_top_label.set_markup('<big><b>{}</b></big>'.format(_('Your system is up-to-date')))
 update_bottom_label.set_markup('')
 UpdaterApplyButton.set_sensitive(False)
 
 def have_updates():
+	while Gtk.events_pending():
+		Gtk.main_iteration()
+	UpdaterWindow.get_window().set_cursor(Gdk.Cursor(Gdk.CursorType.WATCH))
+	while Gtk.events_pending():
+		Gtk.main_iteration()
 	do_syncfirst, updates = transaction.get_updates()
 	update_listore.clear()
 	update_top_label.set_justify(Gtk.Justification.CENTER)
 	if not updates:
 		update_bottom_label.set_markup('')
-		update_top_label.set_markup(_('<big><b>Your system is up-to-date</b></big>'))
+		update_top_label.set_markup('<big><b>{}</b></big>'.format(_('Your system is up-to-date')))
 		UpdaterApplyButton.set_sensitive(False)
 	else:
 		UpdaterApplyButton.set_sensitive(True)
 		dsize = 0
 		for pkg in updates:
 			pkgname = pkg.name+' '+pkg.version
-			update_listore.append([pkgname, common.format_size(pkg.size)])
+			if pkg.size:
+				size_str = common.format_size(pkg.size)
+			else:
+				size_str = ''
+			update_listore.append([pkgname, size_str])
 			dsize += pkg.download_size
 		if dsize == 0:
 			update_bottom_label.set_markup('')
 		else:
-			update_bottom_label.set_markup(_('<b>Total download size: </b>')+common.format_size(dsize))
+			update_bottom_label.set_markup('<b>{} {}</b>'.format(_('Total download size:'), common.format_size(dsize)))
 		if len(updates) == 1:
-			update_top_label.set_markup(_('<big><b>1 available update</b></big>'))
+			update_top_label.set_markup('<big><b>{}</b></big>'.format(_('1 available update')))
 		else:
-			update_top_label.set_markup(_('<big><b>{number} available updates</b></big>').format(number = len(updates)))
+			update_top_label.set_markup('<big><b>{}</b></big>'.format('{number} available updates'.format(number = len(updates))))
+	UpdaterWindow.get_window().set_cursor(None)
 
 def handle_error(error):
 	UpdaterWindow.get_window().set_cursor(None)
@@ -68,7 +78,10 @@ def handle_error(error):
 	transaction.update_dbs()
 
 def handle_reply(reply):
-	if reply:
+	if transaction.to_build:
+		transaction.build_next() 
+	elif reply:
+		transaction.Release()
 		transaction.ProgressCloseButton.set_visible(True)
 		transaction.action_icon.set_from_icon_name('dialog-information', Gtk.IconSize.BUTTON)
 		transaction.progress_label.set_text(str(reply))
@@ -105,6 +118,9 @@ def on_TransCancelButton_clicked(*args):
 	while Gtk.events_pending():
 		Gtk.main_iteration()
 	transaction.Release()
+	transaction.to_update.clear()
+	# do it because deps are also added in to_build when check_to_build
+	transaction.to_build.clear()
 
 def on_ProgressCloseButton_clicked(*args):
 	UpdaterWindow.get_window().set_cursor(None)
@@ -115,6 +131,8 @@ def on_ProgressCloseButton_clicked(*args):
 	have_updates()
 
 def on_ProgressCancelButton_clicked(*args):
+	# do it because deps are also added in to_build when check_to_build
+	transaction.to_build.clear()
 	transaction.Interrupt()
 	UpdaterWindow.get_window().set_cursor(None)
 	transaction.ProgressWindow.hide()
@@ -122,16 +140,20 @@ def on_ProgressCancelButton_clicked(*args):
 		Gtk.main_iteration()
 
 def on_Updater_ApplyButton_clicked(*args):
+	while Gtk.events_pending():
+		Gtk.main_iteration()
 	UpdaterWindow.get_window().set_cursor(Gdk.Cursor(Gdk.CursorType.WATCH))
 	while Gtk.events_pending():
 		Gtk.main_iteration()
-	transaction.sysupgrade(False)
+	transaction.sysupgrade(show_updates = False)
 
 def on_Updater_RefreshButton_clicked(*args):
 	while Gtk.events_pending():
 		Gtk.main_iteration()
 	UpdaterWindow.get_window().set_cursor(Gdk.Cursor(Gdk.CursorType.WATCH))
-	transaction.refresh(False)
+	while Gtk.events_pending():
+		Gtk.main_iteration()
+	transaction.refresh()
 
 def on_Updater_CloseButton_clicked(*args):
 	transaction.StopDaemon()
@@ -170,5 +192,5 @@ else:
 	UpdaterWindow.get_window().set_cursor(Gdk.Cursor(Gdk.CursorType.WATCH))
 	while Gtk.events_pending():
 		Gtk.main_iteration()
-	transaction.refresh(False)
+	transaction.refresh()
 	Gtk.main()
