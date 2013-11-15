@@ -16,7 +16,7 @@ from pamac import config, common, aur
 
 to_remove = set()
 to_add = set()
-to_add_as_dep = set()
+to_mark_as_dep = set()
 to_update = set()
 to_load = set()
 available_updates = (False, [])
@@ -246,9 +246,16 @@ def init_transaction(**options):
 
 def check_to_build():
 	global to_build
-	global to_add_as_dep
+	global to_add
+	global to_mark_as_dep
 	global make_depends
 	global build_depends
+	make_depends = []
+	builds_depends = []
+	# check if base_devel packages are installed
+	for name in base_devel:
+		if not pyalpm.find_satisfier(localdb.pkgcache, name):
+			make_depends.add(name)
 	already_checked = set()
 	build_order = []
 	i = 0
@@ -302,7 +309,7 @@ def check_to_build():
 										build_order.insert(index, raw_makedepend)
 										# add it in already_checked and to_add_as_as_dep 
 										already_checked.add(raw_makedepend)
-										to_add_as_dep.add(raw_makedepend)
+										to_mark_as_dep.add(raw_makedepend)
 									else:
 										if error:
 											error += '\n'
@@ -341,7 +348,7 @@ def check_to_build():
 										build_order.insert(index, raw_depend)
 										# add it in already_checked and to_add_as_as_dep 
 										already_checked.add(raw_depend)
-										to_add_as_dep.add(raw_depend)
+										to_mark_as_dep.add(raw_depend)
 									else:
 										if error:
 											error += '\n'
@@ -353,11 +360,13 @@ def check_to_build():
 		i += 1
 	if error:
 		return error
-	# add pkgname in make_depends and build_depends in to_add_as_dep
+	# add pkgname in make_depends and build_depends in to_add and to_mark_as_dep
 	for name in make_depends:
-		to_add_as_dep.add(name)
+		to_add.add(name)
+		to_mark_as_dep.add(name)
 	for name in build_depends:
-		to_add_as_dep.add(name)
+		to_add.add(name)
+		to_mark_as_dep.add(name)
 	# reorder to_build following build_order
 	to_build.sort(key = lambda pkg: build_order.index(pkg.name))
 	print('order:', build_order)
@@ -387,11 +396,11 @@ def run():
 		while Gtk.events_pending():
 			Gtk.main_iteration()
 		if not error:
-			if to_add or to_remove or to_load or to_add_as_dep:
+			if to_add or to_remove or to_load:
 				trans_flags = {'cascade' : True}
 				error += init_transaction(**trans_flags)
 				if not error:
-					for name in to_add | to_add_as_dep:
+					for name in to_add:
 						error += Add(name)
 					for name in to_remove:
 						error += Remove(name)
@@ -422,7 +431,7 @@ def prepare(**trans_flags):
 			choose_provides(item)
 		error += init_transaction(**trans_flags)
 		if not error:
-			for name in to_add | to_add_as_dep:
+			for name in to_add:
 				error += Add(name)
 			for name in to_remove:
 				error += Remove(name)
@@ -602,13 +611,14 @@ def finalize():
 		build_next()
 
 def mark_needed_pkgs_as_dep():
-	global to_add_as_dep
-	for name in to_add_as_dep.copy():
-		error = SetPkgReason(name, pyalpm.PKG_REASON_DEPEND)
-		if error:
-			print(error)
-		else:
-			to_add_as_dep.discard(name)
+	global to_mark_as_dep
+	for name in to_mark_as_dep.copy():
+		if get_localpkg(name):
+			error = SetPkgReason(name, pyalpm.PKG_REASON_DEPEND)
+			if error:
+				print(error)
+			else:
+				to_mark_as_dep.discard(name)
 
 def get_updates():
 	while Gtk.events_pending():

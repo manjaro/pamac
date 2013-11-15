@@ -892,10 +892,6 @@ else:
 	size_column.set_cell_data_func(size_renderertext, size_column_display_func)
 	transaction.get_handle()
 	transaction.update_dbs()
-	# now localdb is defined, populate make_depends
-	for name in transaction.base_devel:
-		if not pyalpm.find_satisfier(transaction.localdb.pkgcache, name):
-			transaction.make_depends.add(name)
 	update_lists()
 	ManagerWindow.show_all()
 	ManagerWindow.get_window().set_cursor(Gdk.Cursor(Gdk.CursorType.WATCH))

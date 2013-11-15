@@ -496,8 +496,8 @@ class PamacDBusService(dbus.service.Object):
 	def Add(self, pkgname):
 		error = ''
 		try:
-			for repo in self.syncdbs:
-				pkg = repo.get_pkg(pkgname)
+			for db in self.syncdbs:
+				pkg = db.get_pkg(pkgname)
 				if pkg:
 					self.t.add_pkg(pkg)
 					break
