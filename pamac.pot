@@ -20,140 +20,144 @@ msgstr ""
 msgid "Authentication is required"
 msgstr ""
 
-#: pamac-daemon.py:114
+#: pamac-daemon.py:130
 msgid "Checking dependencies"
 msgstr ""
 
-#: pamac-daemon.py:122
+#: pamac-daemon.py:138
 msgid "Checking file conflicts"
 msgstr ""
 
-#: pamac-daemon.py:128
+#: pamac-daemon.py:144
 msgid "Resolving dependencies"
 msgstr ""
 
-#: pamac-daemon.py:136
-msgid "Checking inter conflicts"
-msgstr ""
-
-#: pamac-daemon.py:144
-#, python-brace-format
-msgid "Installing {pkgname}"
-msgstr ""
-
 #: pamac-daemon.py:152
-#, python-brace-format
-msgid "Removing {pkgname}"
+msgid "Checking inter conflicts"
 msgstr ""
 
 #: pamac-daemon.py:160
 #, python-brace-format
-msgid "Upgrading {pkgname}"
+msgid "Installing {pkgname}"
 msgstr ""
 
 #: pamac-daemon.py:168
 #, python-brace-format
-msgid "Downgrading {pkgname}"
+msgid "Removing {pkgname}"
 msgstr ""
 
 #: pamac-daemon.py:176
 #, python-brace-format
-msgid "Reinstalling {pkgname}"
+msgid "Upgrading {pkgname}"
 msgstr ""
 
 #: pamac-daemon.py:184
+#, python-brace-format
+msgid "Downgrading {pkgname}"
+msgstr ""
+
+#: pamac-daemon.py:192
+#, python-brace-format
+msgid "Reinstalling {pkgname}"
+msgstr ""
+
+#: pamac-daemon.py:200
 msgid "Checking integrity"
 msgstr ""
 
-#: pamac-daemon.py:191
+#: pamac-daemon.py:207
 msgid "Loading packages files"
 msgstr ""
 
-#: pamac-daemon.py:197
+#: pamac-daemon.py:213
 msgid "Checking delta integrity"
 msgstr ""
 
-#: pamac-daemon.py:203
+#: pamac-daemon.py:219
 msgid "Applying deltas"
 msgstr ""
 
-#: pamac-daemon.py:209
+#: pamac-daemon.py:225
 msgid "Generating {} with {}"
 msgstr ""
 
-#: pamac-daemon.py:213
+#: pamac-daemon.py:229
 msgid "Generation succeeded!"
 msgstr ""
 
-#: pamac-daemon.py:216
+#: pamac-daemon.py:232
 msgid "Generation failed."
 msgstr ""
 
-#: pamac-daemon.py:219
+#: pamac-daemon.py:235
 #, python-brace-format
 msgid "Configuring {pkgname}"
 msgstr ""
 
-#: pamac-daemon.py:227
+#: pamac-daemon.py:240
+msgid "Downloading"
+msgstr ""
+
+#: pamac-daemon.py:245
 msgid "Checking available disk space"
 msgstr ""
 
-#: pamac-daemon.py:237
+#: pamac-daemon.py:255
 msgid "Checking keyring"
 msgstr ""
 
-#: pamac-daemon.py:243
+#: pamac-daemon.py:261
 msgid "Downloading required keys"
 msgstr ""
 
-#: pamac-daemon.py:262
+#: pamac-daemon.py:280
 #, python-brace-format
 msgid "{pkgname1} will be replaced by {pkgname2}"
 msgstr ""
 
-#: pamac-daemon.py:265
+#: pamac-daemon.py:283
 #, python-brace-format
 msgid "{pkgname1} conflicts with {pkgname2}"
 msgstr ""
 
-#: pamac-daemon.py:309
+#: pamac-daemon.py:327
 #, python-brace-format
 msgid "Refreshing {repo}"
 msgstr ""
 
-#: pamac-daemon.py:313 pamac/transaction.py:465
+#: pamac-daemon.py:331 pamac/transaction.py:539
 #, python-brace-format
 msgid "Downloading {pkgname}"
 msgstr ""
 
-#: pamac-daemon.py:493 pamac-install.py:81
+#: pamac-daemon.py:517 pamac-install.py:99
 #, python-brace-format
 msgid "{pkgname} is not a valid path or package name"
 msgstr ""
 
-#: pamac-daemon.py:602
+#: pamac-daemon.py:624
 #, python-brace-format
 msgid ""
 "The transaction cannot be performed because it needs to remove {pkgname1} "
 "which is a locked package"
 msgstr ""
 
-#: pamac-daemon.py:609 pamac/transaction.py:346
+#: pamac-daemon.py:634 pamac/transaction.py:422
 msgid "Nothing to do"
 msgstr ""
 
-#: pamac-daemon.py:673
+#: pamac-daemon.py:697
 msgid "Transaction successfully finished"
 msgstr ""
 
-#: pamac-daemon.py:677 pamac-daemon.py:685
+#: pamac-daemon.py:701 pamac-daemon.py:710
 msgid "Authentication failed"
 msgstr ""
 
 #: pamac-manager.py:79 pamac-manager.py:110 pamac-manager.py:111
 #: pamac-manager.py:126 pamac-manager.py:135 pamac-manager.py:156
-#: pamac-manager.py:278 pamac-manager.py:549 pamac-manager.py:611
-#: pamac-manager.py:681
+#: pamac-manager.py:278 pamac-manager.py:563 pamac-manager.py:625
+#: pamac-manager.py:695
 msgid "No package found"
 msgstr ""
 
@@ -173,11 +177,11 @@ msgstr ""
 msgid "Orphans"
 msgstr ""
 
-#: pamac-manager.py:181 pamac-manager.py:200 pamac/transaction.py:637
+#: pamac-manager.py:181 pamac-manager.py:200 pamac/transaction.py:697
 msgid "To install"
 msgstr ""
 
-#: pamac-manager.py:181 pamac-manager.py:211 pamac/transaction.py:618
+#: pamac-manager.py:181 pamac-manager.py:211 pamac/transaction.py:678
 msgid "To remove"
 msgstr ""
 
@@ -265,123 +269,127 @@ msgstr ""
 msgid "Backup files"
 msgstr ""
 
-#: pamac-manager.py:529
+#: pamac-manager.py:543
 #, python-brace-format
 msgid ""
 "{pkgname} has {number} uninstalled optional deps.\n"
 "Please choose those you would like to install:"
 msgstr ""
 
-#: pamac-manager.py:552
+#: pamac-manager.py:566
 msgid "Deselect"
 msgstr ""
 
-#: pamac-manager.py:558
+#: pamac-manager.py:572
 msgid "Remove"
 msgstr ""
 
-#: pamac-manager.py:565
+#: pamac-manager.py:579
 msgid "Reinstall"
 msgstr ""
 
-#: pamac-manager.py:578
+#: pamac-manager.py:592
 msgid "Install optional deps"
 msgstr ""
 
-#: pamac-manager.py:584
+#: pamac-manager.py:598
 msgid "Install"
 msgstr ""
 
-#: pamac-manager.py:597
+#: pamac-manager.py:611
 msgid "Install with optional deps"
 msgstr ""
 
-#: pamac-manager.py:861 pamac-updater.py:181 pamac-install.py:110
+#: pamac-manager.py:878 pamac-updater.py:187 pamac-install.py:129
 msgid "Pamac is already running"
 msgstr ""
 
-#: pamac-updater.py:27 pamac-updater.py:42 pamac-tray.py:20
+#: pamac-updater.py:27 pamac-updater.py:42 pamac-tray.py:21
 msgid "Your system is up-to-date"
 msgstr ""
 
-#: pamac-updater.py:58 pamac/transaction.py:661
+#: pamac-updater.py:57 pamac/transaction.py:721
 msgid "Total download size:"
 msgstr ""
 
-#: pamac-updater.py:60 pamac-tray.py:18
+#: pamac-updater.py:59 pamac-tray.py:19
 msgid "1 available update"
 msgstr ""
 
-#: pamac-tray.py:17
+#: pamac-tray.py:18
 #, python-brace-format
 msgid "{number} available updates"
 msgstr ""
 
-#: pamac-tray.py:30 pamac-tray.py:87 pamac-tray.py:97 gui/updater.ui:24
+#: pamac-tray.py:31 pamac-tray.py:89 pamac-tray.py:100 gui/updater.ui:24
 msgid "Update Manager"
 msgstr ""
 
-#: pamac-tray.py:34 gui/manager.ui:144
+#: pamac-tray.py:35 gui/manager.ui:144
 msgid "Package Manager"
 msgstr ""
 
-#: pamac-tray.py:38
+#: pamac-tray.py:39
 msgid "Quit"
 msgstr ""
 
-#: pamac-install.py:120
+#: pamac-install.py:50
 msgid ""
 "Some updates are available.\n"
 "Please update your system first"
 msgstr ""
 
-#: pamac/transaction.py:176
+#: pamac/transaction.py:182
 #, python-brace-format
 msgid ""
 "{pkgname} is provided by {number} packages.\n"
 "Please choose those you would like to install:"
 msgstr ""
 
-#: pamac/transaction.py:224
+#: pamac/transaction.py:232
 msgid "Refreshing"
 msgstr ""
 
-#: pamac/transaction.py:297
+#: pamac/transaction.py:316 pamac/transaction.py:355
 #, python-brace-format
 msgid "{pkgname} depends on {dependname} but it is not installable"
 msgstr ""
 
-#: pamac/transaction.py:301
+#: pamac/transaction.py:359
 #, python-brace-format
 msgid "Failed to get {pkgname} archive from AUR"
 msgstr ""
 
-#: pamac/transaction.py:503
+#: pamac/transaction.py:381 pamac/transaction.py:595
+msgid "Preparing"
+msgstr ""
+
+#: pamac/transaction.py:575
 #, python-brace-format
 msgid "Building {pkgname}"
 msgstr ""
 
-#: pamac/transaction.py:519
-msgid "Preparing"
+#: pamac/transaction.py:626
+msgid "Checking for updates"
 msgstr ""
 
-#: pamac/transaction.py:616
+#: pamac/transaction.py:676
 msgid "Transaction Summary"
 msgstr ""
 
-#: pamac/transaction.py:624
+#: pamac/transaction.py:684
 msgid "To downgrade"
 msgstr ""
 
-#: pamac/transaction.py:631
+#: pamac/transaction.py:691
 msgid "To build"
 msgstr ""
 
-#: pamac/transaction.py:644
+#: pamac/transaction.py:704
 msgid "To reinstall"
 msgstr ""
 
-#: pamac/transaction.py:652
+#: pamac/transaction.py:712
 msgid "To update"
 msgstr ""
 
@@ -471,6 +479,6 @@ msgstr ""
 msgid "Progress"
 msgstr ""
 
-#: gui/dialogs.ui:407
+#: gui/dialogs.ui:408
 msgid "details"
 msgstr ""
