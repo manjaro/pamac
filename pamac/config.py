@@ -1,10 +1,10 @@
 #! /usr/bin/python3
 # -*- coding:utf-8 -*-
 
-import io
+#import io
 import os
 import glob
-import sys
+#import sys
 import argparse
 import collections
 import warnings
@@ -69,13 +69,14 @@ def pacman_conf_enumerator(path):
 			continue
 
 		line = line.strip()
-		if len(line) == 0: continue
+		if len(line) == 0:
+			continue
 		if line[0] == '#':
 			continue
 		if line[0] == '[' and line[-1] == ']':
 			current_section = line[1:-1]
 			continue
-		if current_section is None:
+		if not current_section:
 			raise InvalidSyntax(f.name, 'statement outside of a section', line)
 		# read key, value
 		key, equal, value = [x.strip() for x in line.partition('=')]
@@ -103,11 +104,11 @@ def pacman_conf_enumerator(path):
 				warnings.warn(InvalidSyntax(f.name, 'unrecognized option', key))
 		else:
 			if key in BOOLEAN_OPTIONS:
-				yield (current_section, key, True)
+				yield (current_section, key, 1)
 			else:
 				warnings.warn(InvalidSyntax(f.name, 'unrecognized option', key))
 
-class PacmanConfig(object):
+class PacmanConfig:
 	def __init__(self, conf = None, options = None):
 		self.options = {}
 		self.repos = collections.OrderedDict()
@@ -116,9 +117,9 @@ class PacmanConfig(object):
 		self.options["GPGDir"]  = "/etc/pacman.d/gnupg/"
 		self.options["LogFile"] = "/var/log/pacman.log"
 		self.options["Architecture"] = os.uname()[-1]
-		if conf is not None:
+		if conf:
 			self.load_from_file(conf)
-		if options is not None:
+		if options:
 			self.load_from_options(options)
 
 	def load_from_file(self, filename):
@@ -134,27 +135,28 @@ class PacmanConfig(object):
 				servers = self.repos.setdefault(section, [])
 				if key == 'Server':
 					servers.append(value)
-		if "CacheDir" not in self.options:
+		if not "CacheDir" in self.options:
 			self.options["CacheDir"]= ["/var/cache/pacman/pkg"]
 
 	def load_from_options(self, options):
 		global _logmask
-		if options.root is not None:
+		if options.root:
 			self.options["RootDir"] = options.root
-		if options.dbpath is not None:
+		if options.dbpath:
 			self.options["DBPath"] = options.dbpath
-		if options.gpgdir is not None:
+		if options.gpgdir:
 			self.options["GPGDir"] = options.gpgdir
-		if options.arch is not None:
+		if options.arch:
 			self.options["Architecture"] = options.arch
-		if options.logfile is not None:
+		if options.logfile:
 			self.options["LogFile"] = options.logfile
-		if options.cachedir is not None:
+		if options.cachedir:
 			self.options["CacheDir"] = [option.cachedir]
 		if options.debug:
 			_logmask = 0xffff
 
-	def apply(self, h):
+	def initialize_alpm(self):
+		h = pyalpm.Handle(self.options["RootDir"], self.options["DBPath"])
 		h.arch = self.options["Architecture"]
 		h.logfile = self.options["LogFile"]
 		h.gpgdir = self.options["GPGDir"]
@@ -167,7 +169,10 @@ class PacmanConfig(object):
 			h.noextracts = self.options["NoExtract"]
 		if "NoUpgrade" in self.options:
 			h.noupgrades = self.options["NoUpgrade"]
-
+		if "UseSyslog" in self.options:
+			h.usesyslog = self.options["UseSyslog"]
+		if "CheckSpace" in self.options:
+			h.checkspace = self.options["CheckSpace"]
 		# set sync databases
 		for repo, servers in self.repos.items():
 			db = h.register_syncdb(repo, 0)
@@ -177,10 +182,6 @@ class PacmanConfig(object):
 				url = url.replace("$arch", self.options["Architecture"])
 				db_servers.append(url)
 			db.servers = db_servers
-
-	def initialize_alpm(self):
-		h = pyalpm.Handle(self.options["RootDir"], self.options["DBPath"])
-		self.apply(h)
 		return h
 
 	def __str__(self):

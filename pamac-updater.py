@@ -34,9 +34,9 @@ def have_updates():
 	UpdaterWindow.get_window().set_cursor(Gdk.Cursor(Gdk.CursorType.WATCH))
 	while Gtk.events_pending():
 		Gtk.main_iteration()
-	do_syncfirst, updates = transaction.get_updates()
 	update_listore.clear()
 	update_top_label.set_justify(Gtk.Justification.CENTER)
+	updates = transaction.available_updates[1]
 	if not updates:
 		update_bottom_label.set_markup('')
 		update_top_label.set_markup('<big><b>{}</b></big>'.format(_('Your system is up-to-date')))
@@ -44,14 +44,13 @@ def have_updates():
 	else:
 		UpdaterApplyButton.set_sensitive(True)
 		dsize = 0
-		for pkg in updates:
-			pkgname = pkg.name+' '+pkg.version
-			if pkg.size:
-				size_str = common.format_size(pkg.size)
+		for name, version, db, tarpath, size in updates:
+			dsize += size
+			if size:
+				size_str = common.format_size(size)
 			else:
 				size_str = ''
-			update_listore.append([pkgname, size_str])
-			dsize += pkg.download_size
+			update_listore.append([name+' '+version, size_str])
 		if dsize == 0:
 			update_bottom_label.set_markup('')
 		else:
@@ -78,6 +77,8 @@ def handle_error(error):
 	transaction.update_dbs()
 
 def handle_reply(reply):
+	while Gtk.events_pending():
+		Gtk.main_iteration()
 	if transaction.to_build:
 		transaction.build_next() 
 	elif reply:
@@ -91,13 +92,18 @@ def handle_reply(reply):
 		transaction.get_handle()
 		transaction.update_dbs()
 	else:
-		transaction.ProgressWindow.hide()
-		while Gtk.events_pending():
-			Gtk.main_iteration()
+		#~ transaction.ProgressWindow.hide()
+		#~ while Gtk.events_pending():
+			#~ Gtk.main_iteration()
 		UpdaterWindow.get_window().set_cursor(None)
 		transaction.get_handle()
 		transaction.update_dbs()
-		have_updates()
+		transaction.get_updates()
+
+def handle_updates(updates):
+	transaction.ProgressWindow.hide()
+	transaction.available_updates = updates
+	have_updates()
 
 def on_UpdaterWindow_delete_event(*args):
 	transaction.StopDaemon()
@@ -118,20 +124,23 @@ def on_TransCancelButton_clicked(*args):
 	while Gtk.events_pending():
 		Gtk.main_iteration()
 	transaction.Release()
+	transaction.to_add.clear()
+	transaction.to_add_as_dep.clear()
 	transaction.to_update.clear()
-	# do it because deps are also added in to_build when check_to_build
 	transaction.to_build.clear()
 
 def on_ProgressCloseButton_clicked(*args):
 	UpdaterWindow.get_window().set_cursor(None)
-	transaction.ProgressWindow.hide()
-	while Gtk.events_pending():
-		Gtk.main_iteration()
+	#~ transaction.ProgressWindow.hide()
+	#~ while Gtk.events_pending():
+		#~ Gtk.main_iteration()
 	transaction.progress_buffer.delete(transaction.progress_buffer.get_start_iter(),transaction.progress_buffer.get_end_iter())
-	have_updates()
+	transaction.need_details_handler(False)
+	transaction.get_updates()
 
 def on_ProgressCancelButton_clicked(*args):
-	# do it because deps are also added in to_build when check_to_build
+	transaction.to_add.clear()
+	transaction.to_update.clear()
 	transaction.to_build.clear()
 	transaction.Interrupt()
 	UpdaterWindow.get_window().set_cursor(None)
@@ -140,16 +149,12 @@ def on_ProgressCancelButton_clicked(*args):
 		Gtk.main_iteration()
 
 def on_Updater_ApplyButton_clicked(*args):
-	while Gtk.events_pending():
-		Gtk.main_iteration()
 	UpdaterWindow.get_window().set_cursor(Gdk.Cursor(Gdk.CursorType.WATCH))
 	while Gtk.events_pending():
 		Gtk.main_iteration()
 	transaction.sysupgrade(show_updates = False)
 
 def on_Updater_RefreshButton_clicked(*args):
-	while Gtk.events_pending():
-		Gtk.main_iteration()
 	UpdaterWindow.get_window().set_cursor(Gdk.Cursor(Gdk.CursorType.WATCH))
 	while Gtk.events_pending():
 		Gtk.main_iteration()
@@ -176,6 +181,7 @@ def config_dbus_signals():
 	bus = dbus.SystemBus()
 	bus.add_signal_receiver(handle_reply, dbus_interface = "org.manjaro.pamac", signal_name = "EmitTransactionDone")
 	bus.add_signal_receiver(handle_error, dbus_interface = "org.manjaro.pamac", signal_name = "EmitTransactionError")
+	bus.add_signal_receiver(handle_updates, dbus_interface = "org.manjaro.pamac", signal_name = "EmitAvailableUpdates")
 
 if common.pid_file_exists():
 	transaction.ErrorDialog.format_secondary_text(_('Pamac is already running'))

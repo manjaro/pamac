@@ -16,8 +16,10 @@ from pamac import config, common, aur
 
 to_remove = set()
 to_add = set()
+to_add_as_dep = set()
 to_update = set()
 to_load = set()
+available_updates = (False, [])
 to_build = []
 cancel_download = False
 build_proc = None
@@ -72,6 +74,7 @@ bus = dbus.SystemBus()
 def get_dbus_methods():
 	proxy = bus.get_object('org.manjaro.pamac','/org/manjaro/pamac', introspect = False)
 	global Refresh
+	global CheckUpdates
 	global Init
 	global Sysupgrade
 	global Remove
@@ -84,7 +87,10 @@ def get_dbus_methods():
 	global Interrupt
 	global Release
 	global StopDaemon
+	global SetPkgReason
+	SetPkgReason = proxy.get_dbus_method('SetPkgReason','org.manjaro.pamac')
 	Refresh = proxy.get_dbus_method('Refresh','org.manjaro.pamac')
+	CheckUpdates = proxy.get_dbus_method('CheckUpdates','org.manjaro.pamac')
 	Init = proxy.get_dbus_method('Init','org.manjaro.pamac')
 	Sysupgrade = proxy.get_dbus_method('Sysupgrade','org.manjaro.pamac')
 	Remove = proxy.get_dbus_method('Remove','org.manjaro.pamac')
@@ -113,7 +119,7 @@ def config_dbus_signals():
 def write_to_buffer(fd, condition):
 	if condition == GObject.IO_IN: # if there's something interesting to read
 		line = fd.readline().decode(encoding='UTF-8')
-		print(line.rstrip('\n'))
+		#print(line.rstrip('\n'))
 		progress_buffer.insert_at_cursor(line)
 		progress_bar.pulse()
 		return True # FUNDAMENTAL, otherwise the callback isn't recalled
@@ -221,12 +227,16 @@ def get_syncpkg(name):
 			return pkg
 
 def refresh(force_update = False):
+	while Gtk.events_pending():
+		Gtk.main_iteration()
 	action_handler(_('Refreshing')+'...')
 	icon_handler('/usr/share/pamac/icons/24x24/status/refresh-cache.png')
 	target_handler('')
 	percent_handler(0)
 	ProgressCancelButton.set_visible(True)
 	ProgressCloseButton.set_visible(False)
+	progress_expander.set_visible(True)
+	ProgressWindow.show()
 	while Gtk.events_pending():
 		Gtk.main_iteration()
 	Refresh(force_update)
@@ -236,7 +246,7 @@ def init_transaction(**options):
 
 def check_to_build():
 	global to_build
-	global to_add
+	global to_add_as_dep
 	global make_depends
 	global build_depends
 	already_checked = set()
@@ -244,6 +254,8 @@ def check_to_build():
 	i = 0
 	error = ''
 	while i < len(to_build):
+		while Gtk.events_pending():
+			Gtk.main_iteration()
 		pkg = to_build[i]
 		# if current pkg is not in build_order add it at the end of the list
 		if not pkg.name in build_order:
@@ -254,43 +266,82 @@ def check_to_build():
 			# get PKGBUILD and parse it to create a new pkg object with makedeps and deps 
 			new_pkgs = aur.get_pkgs(srcdir + '/PKGBUILD')
 			for new_pkg in new_pkgs:
+				while Gtk.events_pending():
+					Gtk.main_iteration()
 				print('checking', new_pkg.name)
 				# check if some makedeps must be installed
 				for makedepend in new_pkg.makedepends:
+					while Gtk.events_pending():
+						Gtk.main_iteration()
 					if not makedepend in already_checked:
 						if not pyalpm.find_satisfier(localdb.pkgcache, makedepend):
 							print('found make dep:',makedepend)
 							for db in syncdbs:
-									provider = pyalpm.find_satisfier(db.pkgcache, makedepend)
-									if provider:
-										break
+								provider = pyalpm.find_satisfier(db.pkgcache, makedepend)
+								if provider:
+									break
 							if provider:
 								make_depends.add(provider.name)
 								already_checked.add(makedepend)
+							else:
+								# current makedep need to be built
+								raw_makedepend = common.format_pkg_name(makedepend)
+								if raw_makedepend in build_order:
+									# add it in build_order before pkg
+									build_order.remove(raw_makedepend)
+									index = build_order.index(pkg.name)
+									build_order.insert(index, raw_makedepend)
+								else:
+									# get infos about it
+									makedep_pkg = aur.info(raw_makedepend)
+									if makedep_pkg:
+										# add it in to_build so it will be checked 
+										to_build.append(makedep_pkg)
+										# add it in build_order before pkg
+										index = build_order.index(pkg.name)
+										build_order.insert(index, raw_makedepend)
+										# add it in already_checked and to_add_as_as_dep 
+										already_checked.add(raw_makedepend)
+										to_add_as_dep.add(raw_makedepend)
+									else:
+										if error:
+											error += '\n'
+										error += _('{pkgname} depends on {dependname} but it is not installable').format(pkgname = pkg.name, dependname = makedepend)
 				# check if some deps must be installed or built
 				for depend in new_pkg.depends:
+					while Gtk.events_pending():
+						Gtk.main_iteration()
 					if not depend in already_checked:
 						if not pyalpm.find_satisfier(localdb.pkgcache, depend):
 							print('found dep:',depend)
 							for db in syncdbs:
-									provider = pyalpm.find_satisfier(db.pkgcache, depend)
-									if provider:
-										break
+								provider = pyalpm.find_satisfier(db.pkgcache, depend)
+								if provider:
+									break
 							if provider:
 								# current dep need to be installed
 								build_depends.add(provider.name)
 								already_checked.add(depend)
 							else:
 								# current dep need to be built
-								if not depend in build_order:
+								raw_depend = common.format_pkg_name(depend)
+								if raw_depend in build_order:
+									# add it in build_order before pkg
+									build_order.remove(raw_depend)
+									index = build_order.index(pkg.name)
+									build_order.insert(index, raw_depend)
+								else:
 									# get infos about it
-									dep_pkg = aur.infos(depend)
+									dep_pkg = aur.info(raw_depend)
 									if dep_pkg:
 										# add it in to_build so it will be checked 
 										to_build.append(dep_pkg)
 										# add it in build_order before pkg
 										index = build_order.index(pkg.name)
-										build_order.insert(index, dep_pkg.name)
+										build_order.insert(index, raw_depend)
+										# add it in already_checked and to_add_as_as_dep 
+										already_checked.add(raw_depend)
+										to_add_as_dep.add(raw_depend)
 									else:
 										if error:
 											error += '\n'
@@ -302,11 +353,11 @@ def check_to_build():
 		i += 1
 	if error:
 		return error
-	# add pkgname in make_depends and build_depends in to_add
+	# add pkgname in make_depends and build_depends in to_add_as_dep
 	for name in make_depends:
-		to_add.add(name)
+		to_add_as_dep.add(name)
 	for name in build_depends:
-		to_add.add(name)
+		to_add_as_dep.add(name)
 	# reorder to_build following build_order
 	to_build.sort(key = lambda pkg: build_order.index(pkg.name))
 	print('order:', build_order)
@@ -317,16 +368,30 @@ def check_to_build():
 
 def run():
 	if to_add or to_remove or to_load or to_build:
+		global progress_buffer
+		action_handler(_('Preparing')+'...')
+		icon_handler('/usr/share/pamac/icons/24x24/status/package-setup.png')
+		target_handler('')
+		percent_handler(0)
+		progress_buffer.delete(progress_buffer.get_start_iter(), progress_buffer.get_end_iter())
+		ProgressCancelButton.set_visible(False)
+		ProgressCloseButton.set_visible(False)
+		progress_expander.set_visible(False)
+		ProgressWindow.show()
 		error = ''
+		while Gtk.events_pending():
+			Gtk.main_iteration()
 		if to_build:
 			# check if packages in to_build have deps or makedeps which need to be install first 
 			error += check_to_build()
+		while Gtk.events_pending():
+			Gtk.main_iteration()
 		if not error:
-			if to_add or to_remove or to_load:
+			if to_add or to_remove or to_load or to_add_as_dep:
 				trans_flags = {'cascade' : True}
 				error += init_transaction(**trans_flags)
 				if not error:
-					for name in to_add:
+					for name in to_add | to_add_as_dep:
 						error += Add(name)
 					for name in to_remove:
 						error += Remove(name)
@@ -336,10 +401,12 @@ def run():
 						error += prepare(**trans_flags)
 			if not error:
 				set_transaction_sum()
+				ProgressWindow.hide()
 				ConfDialog.show_all()
 				while Gtk.events_pending():
 					Gtk.main_iteration()
 		if error:
+			ProgressWindow.hide()
 			Release()
 			return(error)
 	else:
@@ -355,7 +422,7 @@ def prepare(**trans_flags):
 			choose_provides(item)
 		error += init_transaction(**trans_flags)
 		if not error:
-			for name in to_add:
+			for name in to_add | to_add_as_dep:
 				error += Add(name)
 			for name in to_remove:
 				error += Remove(name)
@@ -385,16 +452,14 @@ def check_finished_build(data):
 		for new_pkg in new_pkgs:
 			for item in os.listdir(path):
 				if os.path.isfile(os.path.join(path, item)):
-					if fnmatch.fnmatch(item, '{}-{}-*.pkg.tar*'.format(new_pkg.name, new_pkg.version)):
+					if fnmatch.fnmatch(item, '{}-{}-*.pkg.tar.?z'.format(new_pkg.name, new_pkg.version)):
 						built.append(os.path.join(path, item))
 						break
 		if built:
 			print('successfully built:', built)
 			build_proc = None
-			to_build_pkgs = to_build.copy()
-			for to_build_pkg in to_build_pkgs:
-				if pkg.name == to_build_pkg.name:
-					to_build.remove(pkg)
+			if pkg in to_build:
+				to_build.remove(pkg)
 			# install built packages
 			error = ''
 			error += init_transaction()
@@ -498,19 +563,21 @@ def build_next():
 	new_pkgs = aur.get_pkgs(path + '/PKGBUILD')
 	# sources are identicals for splitted packages
 	# (not complete) download(new_pkgs[0].source, path)
-	icon_handler('/usr/share/pamac/icons/24x24/status/package-setup.png')
-	target_handler('')
 	action = _('Building {pkgname}').format(pkgname = pkg.name)+'...'
 	action_handler(action)
 	action_long_handler(action+'\n')
+	icon_handler('/usr/share/pamac/icons/24x24/status/package-setup.png')
+	target_handler('')
+	percent_handler(0)
 	ProgressCancelButton.set_visible(True)
 	ProgressCloseButton.set_visible(False)
+	progress_expander.set_visible(True)
 	progress_expander.set_expanded(True)
 	ProgressWindow.show()
+	build_proc = subprocess.Popen(["makepkg", "-c"], cwd = path, stdout = subprocess.PIPE, stderr=subprocess.STDOUT)
+	GObject.io_add_watch(build_proc.stdout, GObject.IO_IN, write_to_buffer)
 	while Gtk.events_pending():
 		Gtk.main_iteration()
-	build_proc = subprocess.Popen(["makepkg", "-cf"], cwd = path, stdout = subprocess.PIPE, stderr=subprocess.STDOUT)
-	GObject.io_add_watch(build_proc.stdout, GObject.IO_IN, write_to_buffer)
 	GObject.timeout_add(500, check_finished_build, (path, pkg))
 
 def finalize():
@@ -523,57 +590,40 @@ def finalize():
 		progress_buffer.delete(progress_buffer.get_start_iter(), progress_buffer.get_end_iter())
 		ProgressCancelButton.set_visible(True)
 		ProgressCloseButton.set_visible(False)
+		progress_expander.set_visible(True)
 		try:
 			Commit()
 		except dbus.exceptions.DBusException as e:
 			Release()
-		while Gtk.events_pending():
-			Gtk.main_iteration()
 	elif to_build:
 		# packages in to_build have no deps or makedeps 
 		# so we build and install the first one
 		# the next ones will be built by the caller
 		build_next()
 
+def mark_needed_pkgs_as_dep():
+	global to_add_as_dep
+	for name in to_add_as_dep.copy():
+		error = SetPkgReason(name, pyalpm.PKG_REASON_DEPEND)
+		if error:
+			print(error)
+		else:
+			to_add_as_dep.discard(name)
+
 def get_updates():
-	do_syncfirst = False
-	list_first = []
-	_ignorepkgs = set()
-	if handle:
-		for group in handle.ignoregrps:
-			db = localdb
-			grp = db.read_grp(group)
-			if grp:
-				name, pkg_list = grp
-				for pkg in pkg_list:
-					_ignorepkgs.add(pkg.name)
-		for name in handle.ignorepkgs:
-			if get_localpkg(name):
-				_ignorepkgs.add(name)
-	if config.syncfirst:
-		for name in config.syncfirst:
-			pkg = get_localpkg(name)
-			if pkg:
-				candidate = pyalpm.sync_newversion(pkg, syncdbs)
-				if candidate:
-					list_first.append(candidate)
-		if list_first:
-			do_syncfirst = True
-			return do_syncfirst, list_first
-	result = []
-	for pkg in localdb.pkgcache:
-		if not pkg.name in _ignorepkgs:
-			candidate = pyalpm.sync_newversion(pkg, syncdbs)
-			if candidate:
-				result.append(candidate)
-			else:
-				if not get_syncpkg(pkg.name):
-					aur_pkg = aur.infos(pkg.name)
-					if aur_pkg:
-						comp = pyalpm.vercmp(aur_pkg.version, pkg.version)
-						if comp == 1:
-							result.append(aur_pkg)
-	return do_syncfirst, result
+	while Gtk.events_pending():
+		Gtk.main_iteration()
+	action_handler(_('Checking for updates')+'...')
+	icon_handler('/usr/share/pamac/icons/24x24/status/package-search.png')
+	target_handler('')
+	percent_handler(0)
+	ProgressCancelButton.set_visible(False)
+	ProgressCloseButton.set_visible(False)
+	progress_expander.set_visible(False)
+	ProgressWindow.show()
+	while Gtk.events_pending():
+		Gtk.main_iteration()
+	CheckUpdates()
 
 def get_transaction_sum():
 	transaction_dict = {'to_remove': [], 'to_build': [], 'to_install': [], 'to_update': [], 'to_reinstall': [], 'to_downgrade': []}
@@ -595,18 +645,18 @@ def get_transaction_sum():
 				transaction_dict['to_downgrade'].append((name+' '+version, dsize))
 		else:
 			transaction_dict['to_install'].append((name+' '+version, dsize))
-	if transaction_dict['to_build']:
-		print('To build:', [name for name in transaction_dict['to_build']])
-	if transaction_dict['to_install']:
-		print('To install:', [name for name, size in transaction_dict['to_install']])
-	if transaction_dict['to_reinstall']:
-		print('To reinstall:', [name for name, size in transaction_dict['to_reinstall']])
-	if transaction_dict['to_downgrade']:
-		print('To downgrade:', [name for name, size in transaction_dict['to_downgrade']])
-	if transaction_dict['to_remove']:
-		print('To remove:', [name for name in transaction_dict['to_remove']])
-	if transaction_dict['to_update']:
-		print('To update:', [name for name, size in transaction_dict['to_update']])
+	#~ if transaction_dict['to_build']:
+		#~ print('To build:', [name for name in transaction_dict['to_build']])
+	#~ if transaction_dict['to_install']:
+		#~ print('To install:', [name for name, size in transaction_dict['to_install']])
+	#~ if transaction_dict['to_reinstall']:
+		#~ print('To reinstall:', [name for name, size in transaction_dict['to_reinstall']])
+	#~ if transaction_dict['to_downgrade']:
+		#~ print('To downgrade:', [name for name, size in transaction_dict['to_downgrade']])
+	#~ if transaction_dict['to_remove']:
+		#~ print('To remove:', [name for name in transaction_dict['to_remove']])
+	#~ if transaction_dict['to_update']:
+		#~ print('To update:', [name for name, size in transaction_dict['to_update']])
 	return transaction_dict
 
 def set_transaction_sum(show_updates = True):
@@ -664,18 +714,21 @@ def sysupgrade(show_updates = True):
 	global to_update
 	global to_add
 	global to_remove
-	do_syncfirst, updates = get_updates()
+	syncfirst, updates = available_updates
 	if updates:
 		to_update.clear()
 		to_add.clear()
 		to_remove.clear()
-		for pkg in updates:
-			if pkg.db.name == 'AUR':
+		for name, version, db, tarpath, size in updates:
+			if db == 'AUR':
+				# call AURPkg constructor directly to avoid a request to AUR
+				infos = {'name': name, 'version': version, 'Description': '', 'URLPath': tarpath}
+				pkg = aur.AURPkg(infos)
 				to_build.append(pkg)
 			else:
-				to_update.add(pkg.name)
+				to_update.add(name)
 		error = ''
-		if do_syncfirst:
+		if syncfirst:
 			error += init_transaction()
 			if not error:
 				for name in to_update:
@@ -702,16 +755,19 @@ def sysupgrade(show_updates = True):
 		if not error:
 			set_transaction_sum(show_updates = show_updates)
 			if show_updates:
+				ProgressWindow.hide()
 				ConfDialog.show_all()
 				while Gtk.events_pending():
 					Gtk.main_iteration()
 			else:
 				if len(transaction_sum) != 0:
+					ProgressWindow.hide()
 					ConfDialog.show_all()
 					while Gtk.events_pending():
 						Gtk.main_iteration()
 				else:
 					finalize()
 		if error:
+			ProgressWindow.hide()
 			Release()
 		return error

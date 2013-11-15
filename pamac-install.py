@@ -1,7 +1,7 @@
 #! /usr/bin/python3
 # -*- coding:utf-8 -*-
 
-from gi.repository import GObject, Gtk
+from gi.repository import Gtk
 from sys import argv
 import dbus
 from os.path import abspath
@@ -19,7 +19,7 @@ def exiting(msg):
 	transaction.StopDaemon()
 	print(msg)
 	print('exiting')
-	loop.quit()
+	Gtk.main_quit()
 
 def handle_error(error):
 	transaction.ProgressWindow.hide()
@@ -40,6 +40,24 @@ def handle_reply(reply):
 	transaction.progress_bar.set_text('')
 	end_iter = transaction.progress_buffer.get_end_iter()
 	transaction.progress_buffer.insert(end_iter, str(reply))
+
+def handle_updates(update_data):
+	syncfirst, updates = update_data
+	transaction.ProgressWindow.hide()
+	while Gtk.events_pending():
+		Gtk.main_iteration()
+	if updates:
+		transaction.ErrorDialog.format_secondary_text(_('Some updates are available.\nPlease update your system first'))
+		response = transaction.ErrorDialog.run()
+		if response:
+			transaction.ErrorDialog.hide()
+		exiting('')
+	else:
+		common.write_pid_file()
+		transaction.interface.connect_signals(signals)
+		transaction.config_dbus_signals()
+		pkgs_to_install = argv[1:]
+		install(pkgs_to_install)
 
 def on_TransValidButton_clicked(*args):
 	transaction.ConfDialog.hide()
@@ -88,10 +106,10 @@ def get_pkgs(pkgs):
 def install(pkgs):
 	if get_pkgs(pkgs):
 		error = transaction.run()
+		while Gtk.events_pending():
+			Gtk.main_iteration()
 		if error:
 			handle_error(error)
-		else:
-			loop.run()
 
 signals = {'on_ChooseButton_clicked' : transaction.on_ChooseButton_clicked,
 		'on_progress_textview_size_allocate' : transaction.on_progress_textview_size_allocate,
@@ -105,6 +123,7 @@ def config_dbus_signals():
 	bus = dbus.SystemBus()
 	bus.add_signal_receiver(handle_reply, dbus_interface = "org.manjaro.pamac", signal_name = "EmitTransactionDone")
 	bus.add_signal_receiver(handle_error, dbus_interface = "org.manjaro.pamac", signal_name = "EmitTransactionError")
+	bus.add_signal_receiver(handle_updates, dbus_interface = "org.manjaro.pamac", signal_name = "EmitAvailableUpdates")
 
 if common.pid_file_exists():
 	transaction.ErrorDialog.format_secondary_text(_('Pamac is already running'))
@@ -115,18 +134,6 @@ else:
 	transaction.get_handle()
 	transaction.update_dbs()
 	transaction.get_dbus_methods()
-	do_syncfirst, updates = transaction.get_updates()
-	if updates:
-		transaction.ErrorDialog.format_secondary_text(_('Some updates are available.\nPlease update your system first'))
-		response = transaction.ErrorDialog.run()
-		if response:
-			transaction.ErrorDialog.hide()
-		transaction.StopDaemon()
-	else:
-		common.write_pid_file()
-		transaction.interface.connect_signals(signals)
-		transaction.config_dbus_signals()
-		config_dbus_signals()
-		loop = GObject.MainLoop()
-		pkgs_to_install = argv[1:]
-		install(pkgs_to_install)
+	config_dbus_signals()
+	transaction.get_updates()
+	Gtk.main()

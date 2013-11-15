@@ -4,8 +4,9 @@
 from gi.repository import Gtk, GObject, Notify
 from subprocess import Popen
 import dbus
-from pamac import common, transaction
-from time import sleep
+from dbus.mainloop.glib import DBusGMainLoop
+
+from pamac import common
 
 # i18n
 import gettext
@@ -74,15 +75,16 @@ class Tray:
 def refresh():
 	Popen(['/usr/bin/pamac-refresh'])
 
-def set_icon(updates):
+def set_icon(update_data):
 	global icon
 	global info
+	syncfirst, updates = update_data
 	if updates:
 		icon = update_icon
-		if int(updates) == 1:
+		if len(updates) == 1:
 			info = one_update_info
 		else:
-			info = update_info.format(number = updates)
+			info = update_info.format(number = len(updates))
 		if not common.pid_file_exists():
 			Notify.Notification.new(_('Update Manager'), info, '/usr/share/pamac/icons/32x32/apps/pamac-updater.png').show()
 	else:
@@ -91,6 +93,7 @@ def set_icon(updates):
 	print(info)
 	tray.update_icon(icon, info)
 
+DBusGMainLoop(set_as_default = True)
 bus = dbus.SystemBus()
 bus.add_signal_receiver(set_icon, dbus_interface = "org.manjaro.pamac", signal_name = "EmitAvailableUpdates")
 tray = Tray()

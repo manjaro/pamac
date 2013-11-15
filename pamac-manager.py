@@ -403,6 +403,7 @@ def handle_error(error):
 	transaction.Release()
 	transaction.get_handle()
 	transaction.update_dbs()
+	transaction.mark_needed_pkgs_as_dep()
 	transaction.to_add.clear()
 	transaction.to_remove.clear()
 	transaction.to_update.clear()
@@ -413,7 +414,6 @@ def handle_reply(reply):
 	if transaction.to_build:
 		transaction.build_next() 
 	elif reply:
-		transaction.Release()
 		transaction.ProgressCloseButton.set_visible(True)
 		transaction.action_icon.set_from_icon_name('dialog-information', Gtk.IconSize.BUTTON)
 		transaction.progress_label.set_text(str(reply))
@@ -421,21 +421,18 @@ def handle_reply(reply):
 		end_iter = transaction.progress_buffer.get_end_iter()
 		transaction.progress_buffer.insert(end_iter, str(reply))
 	else:
-		transaction.ProgressWindow.hide()
-		while Gtk.events_pending():
-			Gtk.main_iteration()
-		error = transaction.sysupgrade()
-		ManagerWindow.get_window().set_cursor(None)
-		if error:
-			handle_error(error)
-			return
+		#~ transaction.ProgressWindow.hide()
+		#~ while Gtk.events_pending():
+			#~ Gtk.main_iteration()
+		transaction.get_updates()
+	transaction.Release()
 	transaction.get_handle()
 	transaction.update_dbs()
+	transaction.mark_needed_pkgs_as_dep()
 	transaction.to_add.clear()
 	transaction.to_remove.clear()
 	transaction.to_update.clear()
 	transaction.to_load.clear()
-	transaction.to_build.clear()
 	global search_dict
 	global groups_dict
 	global states_dict
@@ -446,6 +443,14 @@ def handle_reply(reply):
 	repos_dict = {}
 	if current_filter[0]:
 		refresh_packages_list(current_filter[0](current_filter[1]))
+
+def handle_updates(updates):
+	ManagerWindow.get_window().set_cursor(None)
+	transaction.ProgressWindow.hide()
+	transaction.available_updates = updates
+	error = transaction.sysupgrade()
+	if error:
+		handle_error(error)
 
 def on_ManagerWindow_delete_event(*args):
 	transaction.StopDaemon()
@@ -464,24 +469,25 @@ def on_TransCancelButton_clicked(*args):
 	while Gtk.events_pending():
 		Gtk.main_iteration()
 	transaction.Release()
+	transaction.to_add.clear()
+	transaction.to_remove.clear()
 	transaction.to_update.clear()
-	# do it because deps are also added in to_build when check_to_build
+	transaction.to_load.clear()
 	transaction.to_build.clear()
 	if current_filter[0]:
 		refresh_packages_list(current_filter[0](current_filter[1]))
 
 def on_ProgressCloseButton_clicked(*args):
-	transaction.ProgressWindow.hide()
-	while Gtk.events_pending():
-		Gtk.main_iteration()
+	#~ transaction.ProgressWindow.hide()
+	#~ while Gtk.events_pending():
+		#~ Gtk.main_iteration()
 	transaction.progress_buffer.delete(transaction.progress_buffer.get_start_iter(),transaction.progress_buffer.get_end_iter())
+	transaction.need_details_handler(False)
 	ManagerWindow.get_window().set_cursor(Gdk.Cursor(Gdk.CursorType.WATCH))
 	while Gtk.events_pending():
 		Gtk.main_iteration()
-	error = transaction.sysupgrade()
-	ManagerWindow.get_window().set_cursor(None)
-	if error:
-		handle_error(error)
+	transaction.to_build.clear()
+	transaction.get_updates()
 
 def on_ProgressCancelButton_clicked(*args):
 	ManagerWindow.get_window().set_cursor(Gdk.Cursor(Gdk.CursorType.WATCH))
@@ -493,7 +499,10 @@ def on_ProgressCancelButton_clicked(*args):
 		if transaction.build_proc.poll() is None:
 			transaction.build_proc.kill()
 			transaction.build_proc.wait()
-	# do it because deps are also added in to_build when check_to_build
+	transaction.to_add.clear()
+	transaction.to_remove.clear()
+	transaction.to_update.clear()
+	transaction.to_load.clear()
 	transaction.to_build.clear()
 	transaction.Interrupt()
 	ManagerWindow.get_window().set_cursor(None)
@@ -513,7 +522,10 @@ def on_search_entry_activate(widget):
 	refresh_packages_list(search_pkgs((search_entry.get_text(), search_aur_button.get_active())))
 
 def mark_to_install(widget, pkg):
-	transaction.to_add.add(pkg.name)
+	if pkg.db.name == 'AUR':
+		transaction.to_build.append(pkg)
+	else:
+		transaction.to_add.add(pkg.name)
 
 def mark_to_reinstall(widget, pkg):
 	transaction.to_add.add(pkg.name)
@@ -524,6 +536,8 @@ def mark_to_remove(widget, pkg):
 def mark_to_deselect(widget, pkg):
 	transaction.to_remove.discard(pkg.name)
 	transaction.to_add.discard(pkg.name)
+	if pkg in transaction.to_build:
+		transaction.to_build.remove(pkg)
 
 def select_optdeps(widget, pkg, optdeps):
 	transaction.choose_label.set_markup('<b>{}</b>'.format(_('{pkgname} has {number} uninstalled optional deps.\nPlease choose those you would like to install:').format(pkgname = pkg.name, number = str(len(optdeps)))))
@@ -548,7 +562,7 @@ def on_list_treeview_button_press_event(treeview, event):
 		if treeiter:
 			if liststore[treeiter][0] != _('No package found') and not liststore[treeiter][0].name in config.holdpkg:
 				right_click_menu = Gtk.Menu()
-				if liststore[treeiter][0].name in transaction.to_add | transaction.to_remove:
+				if liststore[treeiter][0].name in transaction.to_add or transaction.to_remove or transaction.to_build:
 					item = Gtk.ImageMenuItem(_('Deselect'))
 					item.set_image(Gtk.Image.new_from_stock('gtk-undo', Gtk.IconSize.MENU))
 					item.set_always_show_image(True)
@@ -726,6 +740,8 @@ def on_manager_valid_button_clicked(*args):
 def on_manager_cancel_button_clicked(*args):
 	transaction.to_add.clear()
 	transaction.to_remove.clear()
+	transaction.to_update.clear()
+	transaction.to_load.clear()
 	transaction.to_build.clear()
 	if current_filter[0]:
 		refresh_packages_list(current_filter[0](current_filter[1]))
@@ -856,6 +872,7 @@ def config_dbus_signals():
 	bus = dbus.SystemBus()
 	bus.add_signal_receiver(handle_reply, dbus_interface = "org.manjaro.pamac", signal_name = "EmitTransactionDone")
 	bus.add_signal_receiver(handle_error, dbus_interface = "org.manjaro.pamac", signal_name = "EmitTransactionError")
+	bus.add_signal_receiver(handle_updates, dbus_interface = "org.manjaro.pamac", signal_name = "EmitAvailableUpdates")
 
 if common.pid_file_exists():
 	transaction.ErrorDialog.format_secondary_text(_('Pamac is already running'))

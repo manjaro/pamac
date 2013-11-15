@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated with glade 3.16.0 on Wed Oct 16 14:36:20 2013 -->
+<!-- Generated with glade 3.16.0 on Fri Nov 15 10:21:27 2013 -->
 <interface>
   <!-- interface-requires gtk+ 3.6 -->
   <object class="GtkDialog" id="ChooseDialog">
@@ -387,6 +387,7 @@
                 <property name="vexpand">True</property>
                 <property name="window_placement">bottom-left</property>
                 <property name="shadow_type">in</property>
+                <property name="min_content_width">400</property>
                 <property name="min_content_height">200</property>
                 <child>
                   <object class="GtkTextView" id="progress_textview">
@@ -409,7 +410,7 @@
             </child>
           </object>
           <packing>
-            <property name="expand">False</property>
+            <property name="expand">True</property>
             <property name="fill">True</property>
             <property name="position">2</property>
           </packing>

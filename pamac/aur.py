@@ -56,10 +56,10 @@ class AURPkg():
 			self.depends = pkginfo['orig_depends']
 		else:
 			self.depends = []
-		#~ if 'orig_optdepends' in keys:
-			#~ self.optdepends = pkginfo['orig_optdepends']
-		#~ else:
-			#~ self.optdepends = []
+		if 'orig_optdepends' in keys:
+			self.optdepends = pkginfo['orig_optdepends']
+		else:
+			self.optdepends = []
 		#~ if 'orig_provides' in keys:
 			#~ self.provides = pkginfo['orig_provides']
 		#~ else:
@@ -83,6 +83,12 @@ class AURPkg():
 
 	def __repr__(self):
 		return '{}-{}'.format(self.name, self.version)
+
+	def __eq__(self, other):
+		if hasattr(other, 'name') and hasattr(other, 'version'):
+			if self.name == other.name and self.version == other.version:
+				return True
+		return False
 
 class FakeDB():
 	def __init__(self):
@@ -110,12 +116,14 @@ def search(args):
 		return []
 	else:
 		results_dict = r.json()
+		results = results_dict['results']
 		pkgs = []
-		for result in results_dict['results']:
-			pkgs.append(AURPkg(result))
+		if results:
+			for result in results:
+				pkgs.append(AURPkg(result))
 		return pkgs
 
-def infos(pkgname):
+def info(pkgname):
 	spec = {'type':'info', 'arg':pkgname}
 	try:
 		r = requests.get(rpc_url, params = spec)
@@ -133,6 +141,25 @@ def infos(pkgname):
 			print('failed to get infos about {} from AUR'.format(pkgname))
 			return None
 
+def multiinfo(pkgnames):
+	spec = {'type':'multiinfo', 'arg[]':pkgnames}
+	try:
+		r = requests.get(rpc_url, params = spec)
+		r.raise_for_status()
+	except Exception as e:
+		print(e)
+		return []
+	else:
+		results_dict = r.json()
+		results = results_dict['results']
+		pkgs = []
+		if results:
+			for result in results:
+				pkgs.append(AURPkg(result))
+		else:
+			print('failed to get infos about {} from AUR'.format(pkgnames))
+		return pkgs
+
 def get_extract_tarball(pkg):
 	try:
 		r = requests.get(aur_url + pkg.tarpath)
@@ -143,16 +170,16 @@ def get_extract_tarball(pkg):
 	else:
 		if not os.path.exists(srcpkgdir):
 			os.makedirs(srcpkgdir)
-		tarpath = os.path.join(srcpkgdir, os.path.basename(pkg.tarpath))
+		full_tarpath = os.path.join(srcpkgdir, os.path.basename(pkg.tarpath))
 		try:
-			with open(tarpath, 'wb') as f:
+			with open(full_tarpath, 'wb') as f:
 				f.write(r.content)
 		except Exception as e:
 			print(e)
 			return None
 		else:
 			try:
-				tar = tarfile.open(tarpath)
+				tar = tarfile.open(full_tarpath)
 				tar.extractall(path = srcpkgdir)
 			except Exception as e:
 				print(e)

@@ -17,14 +17,6 @@ gettext.bindtextdomain('pamac', '/usr/share/locale')
 gettext.textdomain('pamac')
 _ = gettext.gettext
 
-def pkg_in_list(pkg, pkgs_list):
-	result = False
-	if pkgs_list:
-		for _pkg in pkgs_list:
-			if (pkg.name == _pkg.name and pkg.version == _pkg.version and pkg.arch == _pkg.arch):
-				result = True
-	return result
-
 class PamacDBusService(dbus.service.Object):
 	def __init__(self):
 		bus = dbus.SystemBus()
@@ -43,16 +35,40 @@ class PamacDBusService(dbus.service.Object):
 		self.total_size = 0
 		self.already_transferred = 0
 		self.handle = config.handle()
+		self.local_packages = set()
+		self.localdb = None
+		self.syncdbs = None
+		self.get_handle()
 
 	def get_handle(self):
 		print('daemon get handle')
 		self.handle = config.handle()
+		self.localdb = self.handle.get_localdb()
+		self.syncdbs = self.handle.get_syncdbs()
 		self.handle.dlcb = self.cb_dl
 		self.handle.totaldlcb = self.totaldlcb
 		self.handle.eventcb = self.cb_event
 		self.handle.questioncb = self.cb_question
 		self.handle.progresscb = self.cb_progress
 		self.handle.logcb = self.cb_log
+
+	def get_local_packages(self):
+		self.local_packages = set()
+		sync_pkg = None
+		for pkg in self.localdb.pkgcache:
+			for db in self.syncdbs:
+				sync_pkg = db.get_pkg(pkg.name)
+				if sync_pkg:
+					break
+			if not sync_pkg:
+				self.local_packages.add(pkg.name)
+
+	def check_finished_commit(self):
+		if self.task.is_alive():
+			return True
+		else:
+			self.get_handle()
+			return False
 
 	@dbus.service.signal('org.manjaro.pamac')
 	def EmitAction(self, action):
@@ -86,8 +102,8 @@ class PamacDBusService(dbus.service.Object):
 	def EmitLogWarning(self, message):
 		pass
 
-	@dbus.service.signal('org.manjaro.pamac', signature = 'u')
-	def EmitAvailableUpdates(self, updates_nb):
+	@dbus.service.signal('org.manjaro.pamac', signature = '(ba(ssssu))')
+	def EmitAvailableUpdates(self, updates):
 		pass
 
 	@dbus.service.signal('org.manjaro.pamac')
@@ -143,7 +159,7 @@ class PamacDBusService(dbus.service.Object):
 		elif event == 'ALPM_EVENT_ADD_START':
 			string = _('Installing {pkgname}').format(pkgname = tupel[0].name)
 			action = string+'...'
-			action_long = '{} ({})\n'.format(string, tupel[0].version)
+			action_long = '{} ({})...\n'.format(string, tupel[0].version)
 			icon = '/usr/share/pamac/icons/24x24/status/package-add.png'
 		elif event == 'ALPM_EVENT_ADD_DONE':
 			formatted_event = 'Installed {pkgname} ({pkgversion})'.format(pkgname = tupel[0].name, pkgversion = tupel[0].version)
@@ -151,7 +167,7 @@ class PamacDBusService(dbus.service.Object):
 		elif event == 'ALPM_EVENT_REMOVE_START':
 			string = _('Removing {pkgname}').format(pkgname = tupel[0].name)
 			action = string+'...'
-			action_long = '{} ({})\n'.format(string, tupel[0].version)
+			action_long = '{} ({})...\n'.format(string, tupel[0].version)
 			icon = '/usr/share/pamac/icons/24x24/status/package-delete.png'
 		elif event == 'ALPM_EVENT_REMOVE_DONE':
 			formatted_event = 'Removed {pkgname} ({pkgversion})'.format(pkgname = tupel[0].name, pkgversion = tupel[0].version)
@@ -159,7 +175,7 @@ class PamacDBusService(dbus.service.Object):
 		elif event == 'ALPM_EVENT_UPGRADE_START':
 			string = _('Upgrading {pkgname}').format(pkgname = tupel[1].name)
 			action = string+'...'
-			action_long = '{} ({} => {})\n'.format(string, tupel[1].version, tupel[0].version)
+			action_long = '{} ({} => {})...\n'.format(string, tupel[1].version, tupel[0].version)
 			icon = '/usr/share/pamac/icons/24x24/status/package-update.png'
 		elif event == 'ALPM_EVENT_UPGRADE_DONE':
 			formatted_event = 'Upgraded {pkgname} ({oldversion} -> {newversion})'.format(pkgname = tupel[1].name, oldversion = tupel[1].version, newversion = tupel[0].version)
@@ -167,7 +183,7 @@ class PamacDBusService(dbus.service.Object):
 		elif event == 'ALPM_EVENT_DOWNGRADE_START':
 			string = _('Downgrading {pkgname}').format(pkgname = tupel[1].name)
 			action = string+'...'
-			action_long = '{} ({} => {})'.format(string, tupel[1].version, tupel[0].version)
+			action_long = '{} ({} => {})...\n'.format(string, tupel[1].version, tupel[0].version)
 			icon = '/usr/share/pamac/icons/24x24/status/package-add.png'
 		elif event == 'ALPM_EVENT_DOWNGRADE_DONE':
 			formatted_event = 'Downgraded {pkgname} ({oldversion} -> {newversion})'.format(pkgname = tupel[1].name, oldversion = tupel[1].version, newversion = tupel[0].version)
@@ -175,7 +191,7 @@ class PamacDBusService(dbus.service.Object):
 		elif event == 'ALPM_EVENT_REINSTALL_START':
 			string = _('Reinstalling {pkgname}').format(pkgname = tupel[0].name)
 			action = string+'...'
-			action_long = '{} ({})'.format(string, tupel[0].version)
+			action_long = '{} ({})...\n'.format(string, tupel[0].version)
 			icon = '/usr/share/pamac/icons/24x24/status/package-add.png'
 		elif event == 'ALPM_EVENT_REINSTALL_DONE':
 			formatted_event = 'Reinstalled {pkgname} ({pkgversion})'.format(pkgname = tupel[0].name, pkgversion = tupel[0].version)
@@ -221,7 +237,9 @@ class PamacDBusService(dbus.service.Object):
 			icon = '/usr/share/pamac/icons/24x24/status/package-setup.png'
 			self.EmitNeedDetails(True)
 		elif event == 'ALPM_EVENT_RETRIEVE_START':
-			# handled by download callback
+			action = _('Downloading')+'...'
+			action_long = action+'\n'
+			icon = '/usr/share/pamac/icons/24x24/status/package-download.png'
 			self.EmitDownloadStart('')
 		elif event == 'ALPM_EVENT_DISKSPACE_START':
 			action = _('Checking available disk space')+'...'
@@ -337,8 +355,6 @@ class PamacDBusService(dbus.service.Object):
 		if percent != self.previous_percent:
 			self.previous_percent = percent
 			self.EmitPercent(percent)
-		if _transferred == 0:
-			self.EmitDownloadStart('')
 		elif _transferred == _total:
 			self.already_transferred += _total
 
@@ -368,46 +384,56 @@ class PamacDBusService(dbus.service.Object):
 		(is_authorized,is_challenge,details) = policykit_authority.CheckAuthorization(Subject, action, {'': ''}, dbus.UInt32(1), '')
 		return is_authorized
 
-	def CheckUpdates(self):
-		updates = 0
+	@dbus.service.method('org.manjaro.pamac', 'si', 's')
+	def SetPkgReason(self, pkgname, reason):
+		error = ''
+		try:
+			pkg = self.localdb.get_pkg(pkgname)
+			if pkg:
+				self.handle.set_pkgreason(pkg, reason)
+		except Exception as e:
+			error = str(e)
+		return error
+
+	@dbus.service.method('org.manjaro.pamac', '', 's', async_callbacks=('success', 'nosuccess'))
+	def CheckUpdates(self, success, nosuccess):
+		success('')
+		syncfirst = False
+		updates = []
 		_ignorepkgs = set()
+		self.get_local_packages()
 		for group in self.handle.ignoregrps:
-			db = self.handle.get_localdb()
+			db = self.localdb
 			grp = db.read_grp(group)
 			if grp:
 				name, pkg_list = grp
 				for pkg in pkg_list:
 					_ignorepkgs.add(pkg.name)
 		for name in self.handle.ignorepkgs:
-			pkg = self.handle.get_localdb().get_pkg(name)
+			pkg = self.localdb.get_pkg(name)
 			if pkg:
 				_ignorepkgs.add(pkg.name)
 		if config.syncfirst:
 			for name in config.syncfirst:
-				pkg = self.handle.get_localdb().get_pkg(name)
+				pkg = self.localdb.get_pkg(name)
 				if pkg:
-					candidate = pyalpm.sync_newversion(pkg, self.handle.get_syncdbs())
+					candidate = pyalpm.sync_newversion(pkg, self.syncdbs)
 					if candidate:
-						updates += 1
+						syncfirst = True
+						updates.append((candidate.name, candidate.version, candidate.db.name, '', candidate.download_size))
 		if not updates:
-			for pkg in self.handle.get_localdb().pkgcache:
+			for pkg in self.localdb.pkgcache:
 				if not pkg.name in _ignorepkgs:
-					candidate = pyalpm.sync_newversion(pkg, self.handle.get_syncdbs())
+					candidate = pyalpm.sync_newversion(pkg, self.syncdbs)
 					if candidate:
-						updates += 1
-					else:
-						sync_pkg = None
-						for db in self.handle.get_syncdbs():
-							sync_pkg = db.get_pkg(pkg.name)
-							if sync_pkg:
-								break
-						if not sync_pkg:
-							aur_pkg = aur.infos(pkg.name)
-							if aur_pkg:
-								comp = pyalpm.vercmp(aur_pkg.version, pkg.version)
-								if comp == 1:
-									updates += 1
-		self.EmitAvailableUpdates(updates)
+						updates.append((candidate.name, candidate.version, candidate.db.name, '', candidate.download_size))
+						self.local_packages.discard(pkg.name)
+			aur_pkgs = aur.multiinfo(self.local_packages)
+			for aur_pkg in aur_pkgs:
+				comp = pyalpm.vercmp(aur_pkg.version, self.localdb.get_pkg(aur_pkg.name).version)
+				if comp == 1:
+					updates.append((aur_pkg.name, aur_pkg.version, aur_pkg.db.name, aur_pkg.tarpath, aur_pkg.download_size))
+		self.EmitAvailableUpdates((syncfirst, updates))
 
 	@dbus.service.method('org.manjaro.pamac', 'b', 's', async_callbacks=('success', 'nosuccess'))
 	def Refresh(self, force_update, success, nosuccess):
@@ -415,8 +441,7 @@ class PamacDBusService(dbus.service.Object):
 			self.target = ''
 			self.percent = 0
 			error = ''
-			self.get_handle()
-			for db in self.handle.get_syncdbs():
+			for db in self.syncdbs:
 				try:
 					self.t = self.handle.init_transaction()
 					db.update(force = bool(force_update))
@@ -427,17 +452,16 @@ class PamacDBusService(dbus.service.Object):
 			if error:
 				self.EmitTransactionError(error)
 			else:
-				self.CheckUpdates()
 				self.EmitTransactionDone('')
 		self.task = Process(target=refresh)
 		self.task.start()
+		GObject.timeout_add(500, self.check_finished_commit)
 		success('')
 
 	@dbus.service.method('org.manjaro.pamac', 'a{sb}', 's')
 	def Init(self, options):
 		error = ''
 		try:
-			self.get_handle()
 			self.t = self.handle.init_transaction(**options)
 			print('Init:',self.t.flags)
 		except pyalpm.error as e:
@@ -460,7 +484,7 @@ class PamacDBusService(dbus.service.Object):
 	def Remove(self, pkgname):
 		error = ''
 		try:
-			pkg = self.handle.get_localdb().get_pkg(pkgname)
+			pkg = self.localdb.get_pkg(pkgname)
 			if pkg is not None:
 				self.t.remove_pkg(pkg)
 		except pyalpm.error as e:
@@ -472,7 +496,7 @@ class PamacDBusService(dbus.service.Object):
 	def Add(self, pkgname):
 		error = ''
 		try:
-			for repo in self.handle.get_syncdbs():
+			for repo in self.syncdbs:
 				pkg = repo.get_pkg(pkgname)
 				if pkg:
 					self.t.add_pkg(pkg)
@@ -495,15 +519,13 @@ class PamacDBusService(dbus.service.Object):
 			return error
 
 	def check_extra_modules(self):
-		localdb = self.handle.get_localdb()
-		syncdbs = self.handle.get_syncdbs()
 		to_add = set(pkg.name for pkg in self.t.to_add)
 		to_remove = set(pkg.name for pkg in self.t.to_remove)
 		to_check = [pkg for pkg in self.t.to_add]
 		already_checked = set(pkg.name for pkg in to_check)
 		depends = [to_check]
 		# get installed kernels and modules
-		pkgs = localdb.search('linux')
+		pkgs = self.localdb.search('linux')
 		installed_kernels = set()
 		installed_modules =  set()
 		for pkg in pkgs:
@@ -528,7 +550,7 @@ class PamacDBusService(dbus.service.Object):
 						pkgname = match.group(1)+module
 						if not pkgname in to_remove:
 							to_remove.add(pkgname)
-							_pkg = localdb.get_pkg(pkgname)
+							_pkg = self.localdb.get_pkg(pkgname)
 							if _pkg:
 								self.t.remove_pkg(_pkg)
 		# start loops to check pkgs
@@ -544,8 +566,8 @@ class PamacDBusService(dbus.service.Object):
 					if not match.group(2): # match pkg is a kernel
 						for module in installed_modules:
 							pkgname = match.group(1) + module
-							if not localdb.get_pkg(pkgname):
-								for db in syncdbs:
+							if not self.localdb.get_pkg(pkgname):
+								for db in self.syncdbs:
 									_pkg = db.get_pkg(pkgname)
 									if _pkg:
 										if not _pkg.name in already_checked:
@@ -560,8 +582,8 @@ class PamacDBusService(dbus.service.Object):
 				if match:
 					for kernel in installed_kernels:
 						pkgname = kernel + match.group(2)
-						if not localdb.get_pkg(pkgname):
-							for db in syncdbs:
+						if not self.localdb.get_pkg(pkgname):
+							for db in self.syncdbs:
 								_pkg = db.get_pkg(pkgname)
 								if _pkg:
 									if not _pkg.name in already_checked:
@@ -572,9 +594,9 @@ class PamacDBusService(dbus.service.Object):
 											self.t.add_pkg(_pkg)
 									break
 				for depend in pkg.depends:
-					found_depend = pyalpm.find_satisfier(localdb.pkgcache, depend)
+					found_depend = pyalpm.find_satisfier(self.localdb.pkgcache, depend)
 					if not found_depend:
-						for db in syncdbs:
+						for db in self.syncdbs:
 							found_depend = pyalpm.find_satisfier(db.pkgcache, depend)
 							if found_depend:
 								break
@@ -603,8 +625,11 @@ class PamacDBusService(dbus.service.Object):
 					self.t.release()
 					break
 		finally:
-			print(self.t.to_add, self.t.to_remove)
-			if len(self.t.to_add) + len(self.t.to_remove) == 0:
+			try:
+				summ = len(self.t.to_add) + len(self.t.to_remove)
+			except alpm.error:
+				return [((), '')]
+			if summ == 0:
 				self.t.release()
 				return [((), _('Nothing to do'))]
 			elif error:
@@ -616,23 +641,23 @@ class PamacDBusService(dbus.service.Object):
 
 	@dbus.service.method('org.manjaro.pamac', '', 'a(ss)')
 	def To_Remove(self):
-		liste = []
+		_list = []
 		try:
 			for pkg in self.t.to_remove:
-				liste.append((pkg.name, pkg.version))
+				_list.append((pkg.name, pkg.version))
 		except:
 			pass
-		return liste
+		return _list
 
 	@dbus.service.method('org.manjaro.pamac', '', 'a(ssi)')
 	def To_Add(self):
-		liste = []
+		_list = []
 		try:
 			for pkg in self.t.to_add:
-				liste.append((pkg.name, pkg.version, pkg.download_size))
+				_list.append((pkg.name, pkg.version, pkg.download_size))
 		except:
 			pass
-		return liste
+		return _list
 
 	@dbus.service.method('org.manjaro.pamac', '', 's', async_callbacks=('success', 'nosuccess'))
 	def Interrupt(self, success, nosuccess):
@@ -663,7 +688,6 @@ class PamacDBusService(dbus.service.Object):
 				#pass
 			finally:
 				self.t.release()
-				self.CheckUpdates()
 				if self.warning:
 					self.EmitLogWarning(self.warning)
 					self.warning = ''
@@ -680,6 +704,7 @@ class PamacDBusService(dbus.service.Object):
 			if authorized:
 				self.task = Process(target=commit)
 				self.task.start()
+				GObject.timeout_add(500, self.check_finished_commit)
 			else :
 				self.t.release()
 				self.EmitTransactionError(_('Authentication failed'))
