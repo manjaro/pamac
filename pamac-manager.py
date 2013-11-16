@@ -172,11 +172,14 @@ def size_column_sort_func(treemodel, treeiter1, treeiter2, data):
 	return num1 - num2
 
 def update_lists():
+	grps_set = set()
 	for db in transaction.syncdbs:
 		repos_list.append([db.name])
 		for name, pkgs in db.grpcache:
-			groups_list.append([name])
+			grps_set.add(name)
 	repos_list.append([_('local')])
+	for name in grps_set:
+		groups_list.append([name])
 	groups_list.set_sort_column_id(0, Gtk.SortType.ASCENDING)
 	states = [_('Installed'), _('Uninstalled'), _('Orphans'), _('To install'), _('To remove')]
 	for state in states:
@@ -562,7 +565,7 @@ def on_list_treeview_button_press_event(treeview, event):
 		if treeiter:
 			if liststore[treeiter][0] != _('No package found') and not liststore[treeiter][0].name in config.holdpkg:
 				right_click_menu = Gtk.Menu()
-				if liststore[treeiter][0].name in transaction.to_add or transaction.to_remove or transaction.to_build:
+				if liststore[treeiter][0].name in transaction.to_add | transaction.to_remove or liststore[treeiter][0] in transaction.to_build:
 					item = Gtk.ImageMenuItem(_('Deselect'))
 					item.set_image(Gtk.Image.new_from_stock('gtk-undo', Gtk.IconSize.MENU))
 					item.set_always_show_image(True)
@@ -585,8 +588,7 @@ def on_list_treeview_button_press_event(treeview, event):
 					if optdeps_strings:
 						available_optdeps = []
 						for optdep_string in optdeps_strings:
-							optdep = optdep_string.split(':')[0]
-							if not transaction.get_localpkg(optdep):
+							if not pyalpm.find_satisfier(transaction.localdb.pkgcache, optdep_string.split(':')[0]):
 								available_optdeps.append(optdep_string)
 						if available_optdeps:
 							item = Gtk.ImageMenuItem(_('Install optional deps'))
@@ -604,8 +606,7 @@ def on_list_treeview_button_press_event(treeview, event):
 					if optdeps_strings:
 						available_optdeps = []
 						for optdep_string in optdeps_strings:
-							optdep = optdep_string.split(':')[0]
-							if not transaction.get_localpkg(optdep):
+							if not pyalpm.find_satisfier(transaction.localdb.pkgcache, optdep_string.split(':')[0]):
 								available_optdeps.append(optdep_string)
 						if available_optdeps:
 							item = Gtk.ImageMenuItem(_('Install with optional deps'))
