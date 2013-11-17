@@ -1,7 +1,7 @@
 # Translation of Pamac.
 # Copyright (C) 2007-2012 Free Software Foundation, Inc.
 # This file is distributed under the same license as the Pamac package.
-# 
+#
 # Translators:
 # Ayceman <alexandru.ianu@gmail.com>, 2013
 # Guillaume Benoit <guillaume@manjaro.org>, 2013
@@ -12,379 +12,401 @@ msgstr ""
 "POT-Creation-Date: 2013-03-30 15:09+0100\n"
 "PO-Revision-Date: 2013-11-08 22:40+0000\n"
 "Last-Translator: Ayceman <alexandru.ianu@gmail.com>\n"
-"Language-Team: Romanian (http://www.transifex.com/projects/p/manjaro-pamac/language/ro/)\n"
+"Language-Team: Romanian (http://www.transifex.com/projects/p/manjaro-pamac/"
+"language/ro/)\n"
+"Language: ro\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: ro\n"
-"Plural-Forms: nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));\n"
+"Plural-Forms: nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?"
+"2:1));\n"
 
 #: data/polkit/org.manjaro.pamac.policy:10
 msgid "Authentication is required"
 msgstr "Este necesară autentificarea"
 
-#: pamac-daemon.py:114
+#: pamac-daemon.py:130
 msgid "Checking dependencies"
 msgstr "Se verifică dependențele"
 
-#: pamac-daemon.py:122
+#: pamac-daemon.py:138
 msgid "Checking file conflicts"
 msgstr "Se analizează conflictele de fișiere"
 
-#: pamac-daemon.py:128
+#: pamac-daemon.py:144
 msgid "Resolving dependencies"
 msgstr "Se rezolvă dependențele"
 
-#: pamac-daemon.py:136
+#: pamac-daemon.py:152
 msgid "Checking inter conflicts"
 msgstr "Se verifică inter-conflictele"
 
-#: pamac-daemon.py:144
+#: pamac-daemon.py:160
 #, python-brace-format
 msgid "Installing {pkgname}"
 msgstr "Se instalează {pkgname}"
 
-#: pamac-daemon.py:152
+#: pamac-daemon.py:168
 #, python-brace-format
 msgid "Removing {pkgname}"
 msgstr "Se elimină {pkgname}"
 
-#: pamac-daemon.py:160
+#: pamac-daemon.py:176
 #, python-brace-format
 msgid "Upgrading {pkgname}"
 msgstr "Se actualizează {pkgname}"
 
-#: pamac-daemon.py:168
+#: pamac-daemon.py:184
 #, python-brace-format
 msgid "Downgrading {pkgname}"
 msgstr "Se retrogradează {pkgname}"
 
-#: pamac-daemon.py:176
+#: pamac-daemon.py:192
 #, python-brace-format
 msgid "Reinstalling {pkgname}"
 msgstr "Se reinstalează {pkgname}"
 
-#: pamac-daemon.py:184
+#: pamac-daemon.py:200
 msgid "Checking integrity"
 msgstr "Se verifică integritatea"
 
-#: pamac-daemon.py:191
+#: pamac-daemon.py:207
 msgid "Loading packages files"
 msgstr "Se încarcă fișierele pachetelor"
 
-#: pamac-daemon.py:197
+#: pamac-daemon.py:213
 msgid "Checking delta integrity"
 msgstr "Se verifică delta integritatea"
 
-#: pamac-daemon.py:203
+#: pamac-daemon.py:219
 msgid "Applying deltas"
 msgstr "Se aplică delta"
 
-#: pamac-daemon.py:209
+#: pamac-daemon.py:225
 msgid "Generating {} with {}"
 msgstr "Se generează {} cu {}"
 
-#: pamac-daemon.py:213
+#: pamac-daemon.py:229
 msgid "Generation succeeded!"
 msgstr "Generare reușită!"
 
-#: pamac-daemon.py:216
+#: pamac-daemon.py:232
 msgid "Generation failed."
 msgstr "Generare eșuată."
 
-#: pamac-daemon.py:219
+#: pamac-daemon.py:235
 #, python-brace-format
 msgid "Configuring {pkgname}"
 msgstr "Se configurează {pkgname}"
 
-#: pamac-daemon.py:227
+#: pamac-daemon.py:240
+msgid "Downloading"
+msgstr ""
+
+#: pamac-daemon.py:245
 msgid "Checking available disk space"
 msgstr "Se verifică spațiul pe disc disponibil"
 
-#: pamac-daemon.py:237
+#: pamac-daemon.py:255
 msgid "Checking keyring"
 msgstr "Se verifică inelul de chei"
 
-#: pamac-daemon.py:243
+#: pamac-daemon.py:261
 msgid "Downloading required keys"
 msgstr "Se descarcă cheile necesare"
 
-#: pamac-daemon.py:262
+#: pamac-daemon.py:280
 #, python-brace-format
 msgid "{pkgname1} will be replaced by {pkgname2}"
 msgstr "{pkgname1} va fi înlocuit de {pkgname2}"
 
-#: pamac-daemon.py:265
+#: pamac-daemon.py:283
 #, python-brace-format
 msgid "{pkgname1} conflicts with {pkgname2}"
 msgstr "{pkgname1} este în conflict cu {pkgname2}"
 
-#: pamac-daemon.py:309
+#: pamac-daemon.py:327
 #, python-brace-format
 msgid "Refreshing {repo}"
 msgstr "Se reîmprospătează {repo}"
 
-#: pamac-daemon.py:313 pamac/transaction.py:465
+#: pamac-daemon.py:331 pamac/transaction.py:553
 #, python-brace-format
 msgid "Downloading {pkgname}"
 msgstr "Se descarcă {pkgname}"
 
-#: pamac-daemon.py:493 pamac-install.py:81
+#: pamac-daemon.py:517 pamac-install.py:103
 #, python-brace-format
 msgid "{pkgname} is not a valid path or package name"
 msgstr "{pkgname} nu este o cale sau un nume de pachet valid"
 
-#: pamac-daemon.py:602
+#: pamac-daemon.py:624
 #, python-brace-format
 msgid ""
 "The transaction cannot be performed because it needs to remove {pkgname1} "
 "which is a locked package"
-msgstr "Tranzacția nu poate fi făcută deoarece trebuie eliminat {pkgname1} care este un pachet blocat"
+msgstr ""
+"Tranzacția nu poate fi făcută deoarece trebuie eliminat {pkgname1} care este "
+"un pachet blocat"
 
-#: pamac-daemon.py:609 pamac/transaction.py:346
+#: pamac-daemon.py:634 pamac/transaction.py:425
 msgid "Nothing to do"
 msgstr "Nimic de făcut"
 
-#: pamac-daemon.py:673
+#: pamac-daemon.py:697
 msgid "Transaction successfully finished"
 msgstr "Tranzacția s-a terminat cu succes"
 
-#: pamac-daemon.py:677 pamac-daemon.py:685
+#: pamac-daemon.py:701 pamac-daemon.py:710
 msgid "Authentication failed"
 msgstr "Autentificarea a eșuat"
 
 #: pamac-manager.py:79 pamac-manager.py:110 pamac-manager.py:111
 #: pamac-manager.py:126 pamac-manager.py:135 pamac-manager.py:156
-#: pamac-manager.py:278 pamac-manager.py:549 pamac-manager.py:611
-#: pamac-manager.py:681
+#: pamac-manager.py:281 pamac-manager.py:566 pamac-manager.py:626
+#: pamac-manager.py:696
 msgid "No package found"
 msgstr "Niciun pachet găsit"
 
-#: pamac-manager.py:179 pamac-manager.py:239
+#: pamac-manager.py:180 pamac-manager.py:242
 msgid "local"
 msgstr "locale"
 
-#: pamac-manager.py:181 pamac-manager.py:222 pamac-manager.py:336
+#: pamac-manager.py:184 pamac-manager.py:225 pamac-manager.py:339
 msgid "Installed"
 msgstr "Instalate"
 
-#: pamac-manager.py:181 pamac-manager.py:225
+#: pamac-manager.py:184 pamac-manager.py:228
 msgid "Uninstalled"
 msgstr "Neinstalate"
 
-#: pamac-manager.py:181 pamac-manager.py:228
+#: pamac-manager.py:184 pamac-manager.py:231
 msgid "Orphans"
 msgstr "Orfani"
 
-#: pamac-manager.py:181 pamac-manager.py:200 pamac/transaction.py:637
+#: pamac-manager.py:184 pamac-manager.py:203 pamac/transaction.py:711
 msgid "To install"
 msgstr "De instalat"
 
-#: pamac-manager.py:181 pamac-manager.py:211 pamac/transaction.py:618
+#: pamac-manager.py:184 pamac-manager.py:214 pamac/transaction.py:692
 msgid "To remove"
 msgstr "De eliminat"
 
-#: pamac-manager.py:326
+#: pamac-manager.py:329
 msgid "Licenses"
 msgstr "Licențe"
 
-#: pamac-manager.py:331
+#: pamac-manager.py:334
 msgid "Depends On"
 msgstr "Depinde de"
 
-#: pamac-manager.py:339
+#: pamac-manager.py:342
 msgid "Optional Deps"
 msgstr "Dependențe opționale"
 
-#: pamac-manager.py:342
+#: pamac-manager.py:345
 msgid "Required By"
 msgstr "Necesar pentru"
 
-#: pamac-manager.py:344
+#: pamac-manager.py:347
 msgid "Provides"
 msgstr "Furnizează"
 
-#: pamac-manager.py:346
+#: pamac-manager.py:349
 msgid "Replaces"
 msgstr "Înlocuiește"
 
-#: pamac-manager.py:348
+#: pamac-manager.py:351
 msgid "Conflicts With"
 msgstr "Este în conflict cu"
 
-#: pamac-manager.py:353
+#: pamac-manager.py:356
 msgid "Repository"
 msgstr "Depozit"
 
-#: pamac-manager.py:355 gui/manager.ui:357
+#: pamac-manager.py:358 gui/manager.ui:357
 msgid "Groups"
 msgstr "Grupe"
 
-#: pamac-manager.py:357
+#: pamac-manager.py:360
 msgid "Compressed Size"
 msgstr "Mărime comprimată"
 
-#: pamac-manager.py:358
+#: pamac-manager.py:361
 msgid "Download Size"
 msgstr "Mărimea descărcată"
 
-#: pamac-manager.py:360
+#: pamac-manager.py:363
 msgid "Installed Size"
 msgstr "Mărimea instalată"
 
-#: pamac-manager.py:361
+#: pamac-manager.py:364
 msgid "Packager"
 msgstr "Împachetator"
 
-#: pamac-manager.py:362
+#: pamac-manager.py:365
 msgid "Architecture"
 msgstr "Arhitectură"
 
-#: pamac-manager.py:365
+#: pamac-manager.py:368
 msgid "Install Date"
 msgstr "Instalat la"
 
-#: pamac-manager.py:367
+#: pamac-manager.py:370
 msgid "Explicitly installed"
 msgstr "Instalat explicit"
 
-#: pamac-manager.py:369
+#: pamac-manager.py:372
 msgid "Installed as a dependency for another package"
 msgstr "Instalat ca dependență a unui alt pachet"
 
-#: pamac-manager.py:371
+#: pamac-manager.py:374
 msgid "Unknown"
 msgstr "Necunoscut"
 
-#: pamac-manager.py:372
+#: pamac-manager.py:375
 msgid "Install Reason"
 msgstr "Motivul instalării"
 
-#: pamac-manager.py:377
+#: pamac-manager.py:380
 msgid "Signatures"
 msgstr "Semnături"
 
-#: pamac-manager.py:381
+#: pamac-manager.py:384
 msgid "Backup files"
 msgstr "Copii de rezervă"
 
-#: pamac-manager.py:529
+#: pamac-manager.py:546
 #, python-brace-format
 msgid ""
 "{pkgname} has {number} uninstalled optional deps.\n"
 "Please choose those you would like to install:"
-msgstr "{pkgname} are {number} dependențe opționale neinstalate.\nAlegeți cele pe care le doriți instalate:"
+msgstr ""
+"{pkgname} are {number} dependențe opționale neinstalate.\n"
+"Alegeți cele pe care le doriți instalate:"
 
-#: pamac-manager.py:552
+#: pamac-manager.py:569
 msgid "Deselect"
 msgstr "Deselectează"
 
-#: pamac-manager.py:558
+#: pamac-manager.py:575
 msgid "Remove"
 msgstr "Elimină"
 
-#: pamac-manager.py:565
+#: pamac-manager.py:582
 msgid "Reinstall"
 msgstr "Reinstalează"
 
-#: pamac-manager.py:578
+#: pamac-manager.py:594
 msgid "Install optional deps"
 msgstr "Instalează dependențe opționale"
 
-#: pamac-manager.py:584
+#: pamac-manager.py:600
 msgid "Install"
 msgstr "Instalează"
 
-#: pamac-manager.py:597
+#: pamac-manager.py:612
 msgid "Install with optional deps"
 msgstr "Instalează cu dependențe opționale"
 
-#: pamac-manager.py:861 pamac-updater.py:181 pamac-install.py:110
+#: pamac-manager.py:879 pamac-updater.py:187 pamac-install.py:133
 msgid "Pamac is already running"
 msgstr "Pamac rulează deja"
 
-#: pamac-updater.py:27 pamac-updater.py:42 pamac-tray.py:20
+#: pamac-updater.py:27 pamac-updater.py:42 pamac-tray.py:21
 msgid "Your system is up-to-date"
 msgstr "Sistemul vostru este la zi"
 
-#: pamac-updater.py:58 pamac/transaction.py:661
+#: pamac-updater.py:57 pamac/transaction.py:735
 msgid "Total download size:"
 msgstr "Mărimea totală a descărcării: "
 
-#: pamac-updater.py:60 pamac-tray.py:18
+#: pamac-updater.py:59 pamac-tray.py:19
 msgid "1 available update"
 msgstr "O actualizare disponibilă"
 
-#: pamac-tray.py:17
+#: pamac-tray.py:18
 #, python-brace-format
 msgid "{number} available updates"
 msgstr "{number} actualizări disponibile"
 
-#: pamac-tray.py:30 pamac-tray.py:87 pamac-tray.py:97 gui/updater.ui:24
+#: pamac-tray.py:31 pamac-tray.py:89 pamac-tray.py:100 gui/updater.ui:24
 msgid "Update Manager"
 msgstr "Gestionar de actualizări"
 
-#: pamac-tray.py:34 gui/manager.ui:144
+#: pamac-tray.py:35 gui/manager.ui:144
 msgid "Package Manager"
 msgstr "Gestionar de pachete"
 
-#: pamac-tray.py:38
+#: pamac-tray.py:39
 msgid "Quit"
 msgstr "Ieșire"
 
-#: pamac-install.py:120
+#: pamac-install.py:52
 msgid ""
 "Some updates are available.\n"
 "Please update your system first"
-msgstr "Niște actualizări sunt disponibile.\nActualizați întâi sistemul"
+msgstr ""
+"Niște actualizări sunt disponibile.\n"
+"Actualizați întâi sistemul"
 
-#: pamac/transaction.py:176
+#: pamac/transaction.py:183
 #, python-brace-format
 msgid ""
 "{pkgname} is provided by {number} packages.\n"
 "Please choose those you would like to install:"
-msgstr "{pkgname} este furnizat de {number} pachete.\nAlegeți cele pe care le doriți instalate:"
+msgstr ""
+"{pkgname} este furnizat de {number} pachete.\n"
+"Alegeți cele pe care le doriți instalate:"
 
-#: pamac/transaction.py:224
+#: pamac/transaction.py:233
 msgid "Refreshing"
 msgstr "Se reîmprospătează"
 
-#: pamac/transaction.py:297
+#: pamac/transaction.py:317 pamac/transaction.py:356
 #, python-brace-format
 msgid "{pkgname} depends on {dependname} but it is not installable"
 msgstr "{pkgname} depinde de {dependname}, dar nu este instalabil"
 
-#: pamac/transaction.py:301
+#: pamac/transaction.py:360
 #, python-brace-format
 msgid "Failed to get {pkgname} archive from AUR"
 msgstr "A eșuat preluarea arhivei {pkgname} din AUR"
 
+#: pamac/transaction.py:382 pamac/transaction.py:609
+msgid "Preparing"
+msgstr "Se prepară"
+
 #: pamac/transaction.py:503
+msgid "Build process failed."
+msgstr ""
+
+#: pamac/transaction.py:589
 #, python-brace-format
 msgid "Building {pkgname}"
 msgstr "Se construiește {pkgname}"
 
-#: pamac/transaction.py:519
-msgid "Preparing"
-msgstr "Se prepară"
+#: pamac/transaction.py:640
+msgid "Checking for updates"
+msgstr ""
 
-#: pamac/transaction.py:616
+#: pamac/transaction.py:690
 msgid "Transaction Summary"
 msgstr "Sumar al tranzacției"
 
-#: pamac/transaction.py:624
+#: pamac/transaction.py:698
 msgid "To downgrade"
 msgstr "De retrogradat"
 
-#: pamac/transaction.py:631
+#: pamac/transaction.py:705
 msgid "To build"
 msgstr "De construit"
 
-#: pamac/transaction.py:644
+#: pamac/transaction.py:718
 msgid "To reinstall"
 msgstr "De reinstalat"
 
-#: pamac/transaction.py:652
+#: pamac/transaction.py:726
 msgid "To update"
 msgstr "De actualizat"
 
@@ -474,6 +496,6 @@ msgstr "Sumar"
 msgid "Progress"
 msgstr "Progres"
 
-#: gui/dialogs.ui:407
+#: gui/dialogs.ui:408
 msgid "details"
 msgstr "detalii"

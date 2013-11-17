@@ -46,7 +46,9 @@ def handle_updates(update_data):
 	transaction.ProgressWindow.hide()
 	while Gtk.events_pending():
 		Gtk.main_iteration()
-	if updates:
+	if transaction_done:
+		exiting('')
+	elif updates:
 		transaction.ErrorDialog.format_secondary_text(_('Some updates are available.\nPlease update your system first'))
 		response = transaction.ErrorDialog.run()
 		if response:
@@ -73,10 +75,12 @@ def on_TransCancelButton_clicked(*args):
 	exiting('')
 
 def on_ProgressCloseButton_clicked(*args):
+	global transaction_done
 	transaction.ProgressWindow.hide()
 	while Gtk.events_pending():
 		Gtk.main_iteration()
-	exiting('')
+	transaction_done = True
+	transaction.CheckUpdates()
 
 def on_ProgressCancelButton_clicked(*args):
 	transaction.Interrupt()
@@ -131,6 +135,7 @@ if common.pid_file_exists():
 	if response:
 		transaction.ErrorDialog.hide()
 else:
+	transaction_done = False
 	transaction.get_handle()
 	transaction.update_dbs()
 	transaction.get_dbus_methods()

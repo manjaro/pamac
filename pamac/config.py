@@ -1,10 +1,8 @@
 #! /usr/bin/python3
 # -*- coding:utf-8 -*-
 
-#import io
 import os
 import glob
-#import sys
 import argparse
 import collections
 import warnings

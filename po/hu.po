@@ -1,7 +1,7 @@
 # Translation of Pamac.
 # Copyright (C) 2007-2012 Free Software Foundation, Inc.
 # This file is distributed under the same license as the Pamac package.
-# 
+#
 # Translators:
 # lajos <mrlajos@gmail.com>, 2013
 # lajos <mrlajos@gmail.com>, 2013
@@ -12,379 +12,396 @@ msgstr ""
 "POT-Creation-Date: 2013-03-30 15:09+0100\n"
 "PO-Revision-Date: 2013-11-08 18:58+0000\n"
 "Last-Translator: manjarolinux <philm@manjaro.org>\n"
-"Language-Team: Hungarian (http://www.transifex.com/projects/p/manjaro-pamac/language/hu/)\n"
+"Language-Team: Hungarian (http://www.transifex.com/projects/p/manjaro-pamac/"
+"language/hu/)\n"
+"Language: hu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: hu\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: data/polkit/org.manjaro.pamac.policy:10
 msgid "Authentication is required"
 msgstr ""
 
-#: pamac-daemon.py:114
+#: pamac-daemon.py:130
 msgid "Checking dependencies"
 msgstr "Függőségek ellenőrzése"
 
-#: pamac-daemon.py:122
+#: pamac-daemon.py:138
 msgid "Checking file conflicts"
 msgstr "Fájl konfliktusok ellenőrzése"
 
-#: pamac-daemon.py:128
+#: pamac-daemon.py:144
 msgid "Resolving dependencies"
 msgstr "Függőségek feloldása"
 
-#: pamac-daemon.py:136
+#: pamac-daemon.py:152
 msgid "Checking inter conflicts"
 msgstr "Összeférhetetlenségek ellenőrzése"
 
-#: pamac-daemon.py:144
+#: pamac-daemon.py:160
 #, python-brace-format
 msgid "Installing {pkgname}"
 msgstr "Telepítés {pkgname}"
 
-#: pamac-daemon.py:152
+#: pamac-daemon.py:168
 #, python-brace-format
 msgid "Removing {pkgname}"
 msgstr "Eltávolítás {pkgname}"
 
-#: pamac-daemon.py:160
+#: pamac-daemon.py:176
 #, python-brace-format
 msgid "Upgrading {pkgname}"
 msgstr "Frissítés {pkgname}"
 
-#: pamac-daemon.py:168
+#: pamac-daemon.py:184
 #, python-brace-format
 msgid "Downgrading {pkgname}"
 msgstr "Leépítés {pkgname}"
 
-#: pamac-daemon.py:176
+#: pamac-daemon.py:192
 #, python-brace-format
 msgid "Reinstalling {pkgname}"
 msgstr "Újratelepítés {pkgname}"
 
-#: pamac-daemon.py:184
+#: pamac-daemon.py:200
 msgid "Checking integrity"
 msgstr "Egységesség ellenőrzése"
 
-#: pamac-daemon.py:191
+#: pamac-daemon.py:207
 msgid "Loading packages files"
 msgstr "Csomagfájlok betöltése"
 
-#: pamac-daemon.py:197
+#: pamac-daemon.py:213
 msgid "Checking delta integrity"
 msgstr "Egységesség ellenőrzése"
 
-#: pamac-daemon.py:203
+#: pamac-daemon.py:219
 msgid "Applying deltas"
 msgstr "Változások alkalmazása"
 
-#: pamac-daemon.py:209
+#: pamac-daemon.py:225
 msgid "Generating {} with {}"
 msgstr "Létrehoz {} ezzel {}"
 
-#: pamac-daemon.py:213
+#: pamac-daemon.py:229
 msgid "Generation succeeded!"
 msgstr "Generation succeeded!"
 
-#: pamac-daemon.py:216
+#: pamac-daemon.py:232
 msgid "Generation failed."
 msgstr "Generation failed."
 
-#: pamac-daemon.py:219
+#: pamac-daemon.py:235
 #, python-brace-format
 msgid "Configuring {pkgname}"
 msgstr "Konfigurálás {pkgname}"
 
-#: pamac-daemon.py:227
+#: pamac-daemon.py:240
+msgid "Downloading"
+msgstr ""
+
+#: pamac-daemon.py:245
 msgid "Checking available disk space"
 msgstr "Elérhető tárterület ellenőrzése"
 
-#: pamac-daemon.py:237
+#: pamac-daemon.py:255
 msgid "Checking keyring"
 msgstr "Kulcs ellenőrzése"
 
-#: pamac-daemon.py:243
+#: pamac-daemon.py:261
 msgid "Downloading required keys"
 msgstr "Megkövetelt kulcsok letöltése"
 
-#: pamac-daemon.py:262
+#: pamac-daemon.py:280
 #, python-brace-format
 msgid "{pkgname1} will be replaced by {pkgname2}"
 msgstr "{pkgname1} helyettesítve lesz {pkgname2}"
 
-#: pamac-daemon.py:265
+#: pamac-daemon.py:283
 #, python-brace-format
 msgid "{pkgname1} conflicts with {pkgname2}"
 msgstr "{pkgname1} ütközik ezzel {pkgname2}"
 
-#: pamac-daemon.py:309
+#: pamac-daemon.py:327
 #, python-brace-format
 msgid "Refreshing {repo}"
 msgstr "Frissítés {repo}"
 
-#: pamac-daemon.py:313 pamac/transaction.py:465
+#: pamac-daemon.py:331 pamac/transaction.py:553
 #, python-brace-format
 msgid "Downloading {pkgname}"
 msgstr "Letöltés {pkgname}"
 
-#: pamac-daemon.py:493 pamac-install.py:81
+#: pamac-daemon.py:517 pamac-install.py:103
 #, python-brace-format
 msgid "{pkgname} is not a valid path or package name"
 msgstr "{pkgname} nem megfelelő elérési út vagy csomagnév"
 
-#: pamac-daemon.py:602
+#: pamac-daemon.py:624
 #, python-brace-format
 msgid ""
 "The transaction cannot be performed because it needs to remove {pkgname1} "
 "which is a locked package"
-msgstr "A tranzakció nem hajtható végre mert eltávolításra kerül {pkgname1} ami egy zárolt csomag."
+msgstr ""
+"A tranzakció nem hajtható végre mert eltávolításra kerül {pkgname1} ami egy "
+"zárolt csomag."
 
-#: pamac-daemon.py:609 pamac/transaction.py:346
+#: pamac-daemon.py:634 pamac/transaction.py:425
 msgid "Nothing to do"
 msgstr "Semmi teendő"
 
-#: pamac-daemon.py:673
+#: pamac-daemon.py:697
 msgid "Transaction successfully finished"
 msgstr "A tranzakció sikeresen végrehajtódott"
 
-#: pamac-daemon.py:677 pamac-daemon.py:685
+#: pamac-daemon.py:701 pamac-daemon.py:710
 msgid "Authentication failed"
 msgstr "Hitelesítés nem sikerült"
 
 #: pamac-manager.py:79 pamac-manager.py:110 pamac-manager.py:111
 #: pamac-manager.py:126 pamac-manager.py:135 pamac-manager.py:156
-#: pamac-manager.py:278 pamac-manager.py:549 pamac-manager.py:611
-#: pamac-manager.py:681
+#: pamac-manager.py:281 pamac-manager.py:566 pamac-manager.py:626
+#: pamac-manager.py:696
 msgid "No package found"
 msgstr "Nem található csomag"
 
-#: pamac-manager.py:179 pamac-manager.py:239
+#: pamac-manager.py:180 pamac-manager.py:242
 msgid "local"
 msgstr "helyi"
 
-#: pamac-manager.py:181 pamac-manager.py:222 pamac-manager.py:336
+#: pamac-manager.py:184 pamac-manager.py:225 pamac-manager.py:339
 msgid "Installed"
 msgstr "Telepített"
 
-#: pamac-manager.py:181 pamac-manager.py:225
+#: pamac-manager.py:184 pamac-manager.py:228
 msgid "Uninstalled"
 msgstr "Nem telepített"
 
-#: pamac-manager.py:181 pamac-manager.py:228
+#: pamac-manager.py:184 pamac-manager.py:231
 msgid "Orphans"
 msgstr "Árvák"
 
-#: pamac-manager.py:181 pamac-manager.py:200 pamac/transaction.py:637
+#: pamac-manager.py:184 pamac-manager.py:203 pamac/transaction.py:711
 msgid "To install"
 msgstr "Telepítésre"
 
-#: pamac-manager.py:181 pamac-manager.py:211 pamac/transaction.py:618
+#: pamac-manager.py:184 pamac-manager.py:214 pamac/transaction.py:692
 msgid "To remove"
 msgstr "Eltávolításra"
 
-#: pamac-manager.py:326
+#: pamac-manager.py:329
 msgid "Licenses"
 msgstr "Licenszek"
 
-#: pamac-manager.py:331
+#: pamac-manager.py:334
 msgid "Depends On"
 msgstr "Függőségek"
 
-#: pamac-manager.py:339
+#: pamac-manager.py:342
 msgid "Optional Deps"
 msgstr "Opcionális függőségek"
 
-#: pamac-manager.py:342
+#: pamac-manager.py:345
 msgid "Required By"
 msgstr "Igényelt"
 
-#: pamac-manager.py:344
+#: pamac-manager.py:347
 msgid "Provides"
 msgstr "Szolgáltat"
 
-#: pamac-manager.py:346
+#: pamac-manager.py:349
 msgid "Replaces"
 msgstr "Helyettesít"
 
-#: pamac-manager.py:348
+#: pamac-manager.py:351
 msgid "Conflicts With"
 msgstr "Ütközik vele"
 
-#: pamac-manager.py:353
+#: pamac-manager.py:356
 msgid "Repository"
 msgstr "Tároló"
 
-#: pamac-manager.py:355 gui/manager.ui:357
+#: pamac-manager.py:358 gui/manager.ui:357
 msgid "Groups"
 msgstr "Csoportok"
 
-#: pamac-manager.py:357
+#: pamac-manager.py:360
 msgid "Compressed Size"
 msgstr "Tömörített méret"
 
-#: pamac-manager.py:358
+#: pamac-manager.py:361
 msgid "Download Size"
 msgstr "Letöltési méret"
 
-#: pamac-manager.py:360
+#: pamac-manager.py:363
 msgid "Installed Size"
 msgstr "Telepített méret"
 
-#: pamac-manager.py:361
+#: pamac-manager.py:364
 msgid "Packager"
 msgstr "Csomagoló"
 
-#: pamac-manager.py:362
+#: pamac-manager.py:365
 msgid "Architecture"
 msgstr "Szerkezet"
 
-#: pamac-manager.py:365
+#: pamac-manager.py:368
 msgid "Install Date"
 msgstr "Telepítési dátum"
 
-#: pamac-manager.py:367
+#: pamac-manager.py:370
 msgid "Explicitly installed"
 msgstr "Kifejezetten telepített"
 
-#: pamac-manager.py:369
+#: pamac-manager.py:372
 msgid "Installed as a dependency for another package"
 msgstr "Telepítve csomagfüggőség miatt"
 
-#: pamac-manager.py:371
+#: pamac-manager.py:374
 msgid "Unknown"
 msgstr "Ismeretlen"
 
-#: pamac-manager.py:372
+#: pamac-manager.py:375
 msgid "Install Reason"
 msgstr "Telepítés oka"
 
-#: pamac-manager.py:377
+#: pamac-manager.py:380
 msgid "Signatures"
 msgstr "Aláírások"
 
-#: pamac-manager.py:381
+#: pamac-manager.py:384
 msgid "Backup files"
 msgstr "Mentett fájlok"
 
-#: pamac-manager.py:529
+#: pamac-manager.py:546
 #, python-brace-format
 msgid ""
 "{pkgname} has {number} uninstalled optional deps.\n"
 "Please choose those you would like to install:"
 msgstr ""
 
-#: pamac-manager.py:552
+#: pamac-manager.py:569
 msgid "Deselect"
 msgstr ""
 
-#: pamac-manager.py:558
+#: pamac-manager.py:575
 msgid "Remove"
 msgstr "Eltávolít"
 
-#: pamac-manager.py:565
+#: pamac-manager.py:582
 msgid "Reinstall"
 msgstr "Újra telepít"
 
-#: pamac-manager.py:578
+#: pamac-manager.py:594
 msgid "Install optional deps"
 msgstr "Opcionális függőségek telepítése"
 
-#: pamac-manager.py:584
+#: pamac-manager.py:600
 msgid "Install"
 msgstr "Telepítés"
 
-#: pamac-manager.py:597
+#: pamac-manager.py:612
 msgid "Install with optional deps"
 msgstr "Telepítsd az opcionális függőségekkel"
 
-#: pamac-manager.py:861 pamac-updater.py:181 pamac-install.py:110
+#: pamac-manager.py:879 pamac-updater.py:187 pamac-install.py:133
 msgid "Pamac is already running"
 msgstr "Pamac már el lett indítva"
 
-#: pamac-updater.py:27 pamac-updater.py:42 pamac-tray.py:20
+#: pamac-updater.py:27 pamac-updater.py:42 pamac-tray.py:21
 msgid "Your system is up-to-date"
 msgstr "A rendszer naprakész"
 
-#: pamac-updater.py:58 pamac/transaction.py:661
+#: pamac-updater.py:57 pamac/transaction.py:735
 msgid "Total download size:"
 msgstr ""
 
-#: pamac-updater.py:60 pamac-tray.py:18
+#: pamac-updater.py:59 pamac-tray.py:19
 msgid "1 available update"
 msgstr "1 elérhető frissítés"
 
-#: pamac-tray.py:17
+#: pamac-tray.py:18
 #, python-brace-format
 msgid "{number} available updates"
 msgstr "{number}  elérhető frissítés"
 
-#: pamac-tray.py:30 pamac-tray.py:87 pamac-tray.py:97 gui/updater.ui:24
+#: pamac-tray.py:31 pamac-tray.py:89 pamac-tray.py:100 gui/updater.ui:24
 msgid "Update Manager"
 msgstr "Frissítés kezelő"
 
-#: pamac-tray.py:34 gui/manager.ui:144
+#: pamac-tray.py:35 gui/manager.ui:144
 msgid "Package Manager"
 msgstr "Csomagkezelő"
 
-#: pamac-tray.py:38
+#: pamac-tray.py:39
 msgid "Quit"
 msgstr "Kilépés"
 
-#: pamac-install.py:120
+#: pamac-install.py:52
 msgid ""
 "Some updates are available.\n"
 "Please update your system first"
-msgstr "Néhány frissítés elérhető\nKérlek frissítsd a rendszert először"
+msgstr ""
+"Néhány frissítés elérhető\n"
+"Kérlek frissítsd a rendszert először"
 
-#: pamac/transaction.py:176
+#: pamac/transaction.py:183
 #, python-brace-format
 msgid ""
 "{pkgname} is provided by {number} packages.\n"
 "Please choose those you would like to install:"
 msgstr ""
 
-#: pamac/transaction.py:224
+#: pamac/transaction.py:233
 msgid "Refreshing"
 msgstr "Frissítés"
 
-#: pamac/transaction.py:297
+#: pamac/transaction.py:317 pamac/transaction.py:356
 #, python-brace-format
 msgid "{pkgname} depends on {dependname} but it is not installable"
 msgstr ""
 
-#: pamac/transaction.py:301
+#: pamac/transaction.py:360
 #, python-brace-format
 msgid "Failed to get {pkgname} archive from AUR"
 msgstr ""
 
+#: pamac/transaction.py:382 pamac/transaction.py:609
+msgid "Preparing"
+msgstr "Előkészítés"
+
 #: pamac/transaction.py:503
+msgid "Build process failed."
+msgstr ""
+
+#: pamac/transaction.py:589
 #, python-brace-format
 msgid "Building {pkgname}"
 msgstr ""
 
-#: pamac/transaction.py:519
-msgid "Preparing"
-msgstr "Előkészítés"
+#: pamac/transaction.py:640
+msgid "Checking for updates"
+msgstr ""
 
-#: pamac/transaction.py:616
+#: pamac/transaction.py:690
 msgid "Transaction Summary"
 msgstr ""
 
-#: pamac/transaction.py:624
+#: pamac/transaction.py:698
 msgid "To downgrade"
 msgstr "Visszaállításra"
 
-#: pamac/transaction.py:631
+#: pamac/transaction.py:705
 msgid "To build"
 msgstr ""
 
-#: pamac/transaction.py:644
+#: pamac/transaction.py:718
 msgid "To reinstall"
 msgstr "Újra telepítésre"
 
-#: pamac/transaction.py:652
+#: pamac/transaction.py:726
 msgid "To update"
 msgstr "Frissítésre"
 
@@ -474,6 +491,6 @@ msgstr "Összefoglaló"
 msgid "Progress"
 msgstr "Folyamat"
 
-#: gui/dialogs.ui:407
+#: gui/dialogs.ui:408
 msgid "details"
 msgstr "részletek"

@@ -3,6 +3,7 @@
 
 import pyalpm
 from gi.repository import Gtk, GObject
+from time import sleep
 import subprocess
 import os
 import fnmatch
@@ -387,16 +388,18 @@ def run():
 		ProgressCloseButton.set_visible(False)
 		progress_expander.set_visible(False)
 		ProgressWindow.show()
-		error = ''
 		while Gtk.events_pending():
 			Gtk.main_iteration()
+		# we need to give some time a the window to refresh
+		sleep(0.1)
+		error = ''
 		if to_build:
 			# check if packages in to_build have deps or makedeps which need to be install first 
 			error += check_to_build()
-		while Gtk.events_pending():
-			Gtk.main_iteration()
 		if not error:
 			if to_add or to_remove or to_load:
+				while Gtk.events_pending():
+					Gtk.main_iteration()
 				trans_flags = {'cascade' : True}
 				error += init_transaction(**trans_flags)
 				if not error:
@@ -452,7 +455,7 @@ def check_finished_build(data):
 	pkg = data[1]
 	if build_proc.poll() is None:
 		return True
-	else:
+	elif build_proc.poll() == 0:
 		built = []
 		# parse again PKGBUILD to have new pkg objects in case of a pkgver() function
 		# was used so pkgver was changed during build process
@@ -487,6 +490,17 @@ def check_finished_build(data):
 							finalize()
 				if error:
 					Release()
+					ProgressCancelButton.set_visible(False)
+					ProgressCloseButton.set_visible(True)
+					ErrorDialog.format_secondary_text(error)
+					response = ErrorDialog.run()
+					if response:
+						ErrorDialog.hide()
+		return False
+	elif build_proc.poll() == 1:
+		ProgressCancelButton.set_visible(False)
+		ProgressCloseButton.set_visible(True)
+		action_long_handler(_('Build process failed.'))
 		return False
 
 def download(url_list, path):
@@ -583,7 +597,7 @@ def build_next():
 	progress_expander.set_visible(True)
 	progress_expander.set_expanded(True)
 	ProgressWindow.show()
-	build_proc = subprocess.Popen(["makepkg", "-c"], cwd = path, stdout = subprocess.PIPE, stderr=subprocess.STDOUT)
+	build_proc = subprocess.Popen(["makepkg", "-cf"], cwd = path, stdout = subprocess.PIPE, stderr=subprocess.STDOUT)
 	GObject.io_add_watch(build_proc.stdout, GObject.IO_IN, write_to_buffer)
 	while Gtk.events_pending():
 		Gtk.main_iteration()

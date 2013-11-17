@@ -627,7 +627,7 @@ class PamacDBusService(dbus.service.Object):
 		finally:
 			try:
 				summ = len(self.t.to_add) + len(self.t.to_remove)
-			except alpm.error:
+			except pyalpm.error:
 				return [((), '')]
 			if summ == 0:
 				self.t.release()
