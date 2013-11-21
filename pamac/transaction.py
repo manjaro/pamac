@@ -251,8 +251,8 @@ def check_to_build():
 	global to_mark_as_dep
 	global make_depends
 	global build_depends
-	make_depends = []
-	builds_depends = []
+	make_depends = set()
+	builds_depends = set()
 	# check if base_devel packages are installed
 	for name in base_devel:
 		if not pyalpm.find_satisfier(localdb.pkgcache, name):
