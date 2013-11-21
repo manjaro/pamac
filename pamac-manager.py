@@ -1,7 +1,7 @@
 #! /usr/bin/python3
 # -*- coding:utf-8 -*-
 
-version = '0.9'
+version = '0.9.2'
 
 from gi.repository import Gtk, Gdk
 from gi.repository.GdkPixbuf import Pixbuf
