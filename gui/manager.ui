@@ -865,7 +865,7 @@
     </child>
     <child>
       <object class="GtkImageMenuItem" id="local_item">
-        <property name="label">Install local packages</property>
+        <property name="label" translatable="yes">Install local packages</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="image">local_icon</property>

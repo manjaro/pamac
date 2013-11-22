@@ -58,7 +58,7 @@ def have_updates():
 		if len(updates) == 1:
 			update_top_label.set_markup('<big><b>{}</b></big>'.format(_('1 available update')))
 		else:
-			update_top_label.set_markup('<big><b>{}</b></big>'.format('{number} available updates'.format(number = len(updates))))
+			update_top_label.set_markup('<big><b>{}</b></big>'.format(_('{number} available updates').format(number = len(updates))))
 	UpdaterWindow.get_window().set_cursor(None)
 
 def handle_error(error):
