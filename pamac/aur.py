@@ -133,13 +133,17 @@ def info(pkgname):
 		return []
 	else:
 		results_dict = r.json()
-		result = results_dict['results']
-		if result:
-			pkg = AURPkg(result)
-			return pkg
-		else:
+		if results_dict['type'] == 'error':
 			print('failed to get infos about {} from AUR'.format(pkgname))
 			return None
+		else:
+			result = results_dict['results']
+			if result:
+				pkg = AURPkg(result)
+				return pkg
+			else:
+				print('failed to get infos about {} from AUR'.format(pkgname))
+				return None
 
 def multiinfo(pkgnames):
 	spec = {'type':'multiinfo', 'arg[]':pkgnames}
@@ -151,14 +155,18 @@ def multiinfo(pkgnames):
 		return []
 	else:
 		results_dict = r.json()
-		results = results_dict['results']
-		pkgs = []
-		if results:
-			for result in results:
-				pkgs.append(AURPkg(result))
-		else:
+		if results_dict['type'] == 'error':
 			print('failed to get infos about {} from AUR'.format(pkgnames))
-		return pkgs
+			return []
+		else:
+			pkgs = []
+			results = results_dict['results']
+			if results:
+				for result in results:
+					pkgs.append(AURPkg(result))
+			else:
+				print('failed to get infos about {} from AUR'.format(pkgnames))
+			return pkgs
 
 def get_extract_tarball(pkg):
 	try:

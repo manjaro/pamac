@@ -365,7 +365,7 @@ class PamacDBusService(dbus.service.Object):
 		else:
 			percent = round(_percent/100, 2)
 		if target != self.previous_target:
-			self.previous_target = target.format()
+			self.previous_target = target
 		if percent != self.previous_percent:
 			self.EmitTarget('{}/{}'.format(str(i), str(n)))
 			self.previous_percent = percent
@@ -401,6 +401,7 @@ class PamacDBusService(dbus.service.Object):
 		syncfirst = False
 		updates = []
 		_ignorepkgs = set()
+		self.get_handle()
 		self.get_local_packages()
 		for group in self.handle.ignoregrps:
 			db = self.localdb
@@ -428,11 +429,12 @@ class PamacDBusService(dbus.service.Object):
 					if candidate:
 						updates.append((candidate.name, candidate.version, candidate.db.name, '', candidate.download_size))
 						self.local_packages.discard(pkg.name)
-			aur_pkgs = aur.multiinfo(self.local_packages)
-			for aur_pkg in aur_pkgs:
-				comp = pyalpm.vercmp(aur_pkg.version, self.localdb.get_pkg(aur_pkg.name).version)
-				if comp == 1:
-					updates.append((aur_pkg.name, aur_pkg.version, aur_pkg.db.name, aur_pkg.tarpath, aur_pkg.download_size))
+			if self.local_packages:
+				aur_pkgs = aur.multiinfo(self.local_packages)
+				for aur_pkg in aur_pkgs:
+					comp = pyalpm.vercmp(aur_pkg.version, self.localdb.get_pkg(aur_pkg.name).version)
+					if comp == 1:
+						updates.append((aur_pkg.name, aur_pkg.version, aur_pkg.db.name, aur_pkg.tarpath, aur_pkg.download_size))
 		self.EmitAvailableUpdates((syncfirst, updates))
 
 	@dbus.service.method('org.manjaro.pamac', 'b', 's', async_callbacks=('success', 'nosuccess'))
@@ -455,7 +457,7 @@ class PamacDBusService(dbus.service.Object):
 				self.EmitTransactionDone('')
 		self.task = Process(target=refresh)
 		self.task.start()
-		GObject.timeout_add(500, self.check_finished_commit)
+		GObject.timeout_add(100, self.check_finished_commit)
 		success('')
 
 	@dbus.service.method('org.manjaro.pamac', 'a{sb}', 's')
@@ -704,7 +706,7 @@ class PamacDBusService(dbus.service.Object):
 			if authorized:
 				self.task = Process(target=commit)
 				self.task.start()
-				GObject.timeout_add(500, self.check_finished_commit)
+				GObject.timeout_add(100, self.check_finished_commit)
 			else :
 				self.t.release()
 				self.EmitTransactionError(_('Authentication failed'))

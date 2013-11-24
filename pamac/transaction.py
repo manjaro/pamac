@@ -123,6 +123,8 @@ def write_to_buffer(fd, condition):
 		#print(line.rstrip('\n'))
 		progress_buffer.insert_at_cursor(line)
 		progress_bar.pulse()
+		while Gtk.events_pending():
+			Gtk.main_iteration()
 		return True # FUNDAMENTAL, otherwise the callback isn't recalled
 	else:
 		return False # Raised an error: exit
@@ -454,6 +456,9 @@ def check_finished_build(data):
 	path = data[0]
 	pkg = data[1]
 	if build_proc.poll() is None:
+		progress_bar.pulse()
+		while Gtk.events_pending():
+			Gtk.main_iteration()
 		return True
 	elif build_proc.poll() == 0:
 		built = []
@@ -464,7 +469,8 @@ def check_finished_build(data):
 		for new_pkg in new_pkgs:
 			for item in os.listdir(path):
 				if os.path.isfile(os.path.join(path, item)):
-					if fnmatch.fnmatch(item, '{}-{}-*.pkg.tar.?z'.format(new_pkg.name, new_pkg.version)):
+					# add a * before pkgver if there an epoch variable
+					if fnmatch.fnmatch(item, '{}-*{}-*.pkg.tar.?z'.format(new_pkg.name, new_pkg.version)):
 						built.append(os.path.join(path, item))
 						break
 		if built:
@@ -496,6 +502,10 @@ def check_finished_build(data):
 					response = ErrorDialog.run()
 					if response:
 						ErrorDialog.hide()
+		else:
+			ProgressCancelButton.set_visible(False)
+			ProgressCloseButton.set_visible(True)
+			action_long_handler(_('Build process failed.'))
 		return False
 	elif build_proc.poll() == 1:
 		ProgressCancelButton.set_visible(False)
