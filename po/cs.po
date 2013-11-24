@@ -1,7 +1,7 @@
 # Translation of Pamac.
 # Copyright (C) 2007-2012 Free Software Foundation, Inc.
 # This file is distributed under the same license as the Pamac package.
-#
+# 
 # Translators:
 # Libor Schejbal <libor.schejbal@gmail.com>, 2013
 # Scibex <kroupa@wvw.cz>, 2013
@@ -10,14 +10,13 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-03-30 15:09+0100\n"
-"PO-Revision-Date: 2013-11-14 19:20+0000\n"
+"PO-Revision-Date: 2013-11-20 11:04+0000\n"
 "Last-Translator: manjarolinux <philm@manjaro.org>\n"
-"Language-Team: Czech (http://www.transifex.com/projects/p/manjaro-pamac/"
-"language/cs/)\n"
-"Language: cs\n"
+"Language-Team: Czech (http://www.transifex.com/projects/p/manjaro-pamac/language/cs/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: cs\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 
 #: data/polkit/org.manjaro.pamac.policy:10
@@ -129,12 +128,12 @@ msgstr "{pkgname1} je v konfliktu s {pkgname2}"
 msgid "Refreshing {repo}"
 msgstr "Obnovování {repo}"
 
-#: pamac-daemon.py:331 pamac/transaction.py:553
+#: pamac-daemon.py:331 pamac/transaction.py:539
 #, python-brace-format
 msgid "Downloading {pkgname}"
 msgstr "Stahování {pkgname}"
 
-#: pamac-daemon.py:517 pamac-install.py:103
+#: pamac-daemon.py:517 pamac-install.py:99
 #, python-brace-format
 msgid "{pkgname} is not a valid path or package name"
 msgstr "{pkgname} je neplatná cesta nebo název balíčku"
@@ -144,11 +143,9 @@ msgstr "{pkgname} je neplatná cesta nebo název balíčku"
 msgid ""
 "The transaction cannot be performed because it needs to remove {pkgname1} "
 "which is a locked package"
-msgstr ""
-"Transakce nemůže být provedena, protože je třeba odstranit {pkgname1} "
-"balíček, který je uzamčen"
+msgstr "Transakce nemůže být provedena, protože je třeba odstranit {pkgname1} balíček, který je uzamčen"
 
-#: pamac-daemon.py:634 pamac/transaction.py:425
+#: pamac-daemon.py:634 pamac/transaction.py:422
 msgid "Nothing to do"
 msgstr "Spolu nesouvisí"
 
@@ -162,151 +159,151 @@ msgstr "Autentizace selhala"
 
 #: pamac-manager.py:79 pamac-manager.py:110 pamac-manager.py:111
 #: pamac-manager.py:126 pamac-manager.py:135 pamac-manager.py:156
-#: pamac-manager.py:281 pamac-manager.py:566 pamac-manager.py:626
-#: pamac-manager.py:696
+#: pamac-manager.py:278 pamac-manager.py:563 pamac-manager.py:625
+#: pamac-manager.py:695
 msgid "No package found"
 msgstr "Žádný balíček nalezen"
 
-#: pamac-manager.py:180 pamac-manager.py:242
+#: pamac-manager.py:179 pamac-manager.py:239
 msgid "local"
 msgstr "lokální"
 
-#: pamac-manager.py:184 pamac-manager.py:225 pamac-manager.py:339
+#: pamac-manager.py:181 pamac-manager.py:222 pamac-manager.py:336
 msgid "Installed"
 msgstr "Nainstalováno"
 
-#: pamac-manager.py:184 pamac-manager.py:228
+#: pamac-manager.py:181 pamac-manager.py:225
 msgid "Uninstalled"
 msgstr "Odinstalováno"
 
-#: pamac-manager.py:184 pamac-manager.py:231
+#: pamac-manager.py:181 pamac-manager.py:228
 msgid "Orphans"
 msgstr "Sirotci"
 
-#: pamac-manager.py:184 pamac-manager.py:203 pamac/transaction.py:711
+#: pamac-manager.py:181 pamac-manager.py:200 pamac/transaction.py:697
 msgid "To install"
 msgstr "Pro instalaci"
 
-#: pamac-manager.py:184 pamac-manager.py:214 pamac/transaction.py:692
+#: pamac-manager.py:181 pamac-manager.py:211 pamac/transaction.py:678
 msgid "To remove"
 msgstr "Pro odstranění"
 
-#: pamac-manager.py:329
+#: pamac-manager.py:326
 msgid "Licenses"
 msgstr "Licence"
 
-#: pamac-manager.py:334
+#: pamac-manager.py:331
 msgid "Depends On"
 msgstr "Závisí na"
 
-#: pamac-manager.py:342
+#: pamac-manager.py:339
 msgid "Optional Deps"
 msgstr "Volitelné závislosti"
 
-#: pamac-manager.py:345
+#: pamac-manager.py:342
 msgid "Required By"
 msgstr "Vyžadováno"
 
-#: pamac-manager.py:347
+#: pamac-manager.py:344
 msgid "Provides"
 msgstr "Obsahuje"
 
-#: pamac-manager.py:349
+#: pamac-manager.py:346
 msgid "Replaces"
 msgstr "Nahrazuje"
 
-#: pamac-manager.py:351
+#: pamac-manager.py:348
 msgid "Conflicts With"
 msgstr "Konflikty s"
 
-#: pamac-manager.py:356
+#: pamac-manager.py:353
 msgid "Repository"
 msgstr "Repozitář"
 
-#: pamac-manager.py:358 gui/manager.ui:357
+#: pamac-manager.py:355 gui/manager.ui:357
 msgid "Groups"
 msgstr "Skupiny"
 
-#: pamac-manager.py:360
+#: pamac-manager.py:357
 msgid "Compressed Size"
 msgstr "Komprimovaná velikost"
 
-#: pamac-manager.py:361
+#: pamac-manager.py:358
 msgid "Download Size"
 msgstr "Velikost ke stažení"
 
-#: pamac-manager.py:363
+#: pamac-manager.py:360
 msgid "Installed Size"
 msgstr "Instalovaná velikost"
 
-#: pamac-manager.py:364
+#: pamac-manager.py:361
 msgid "Packager"
 msgstr "Balíčkovač"
 
-#: pamac-manager.py:365
+#: pamac-manager.py:362
 msgid "Architecture"
 msgstr "Architektura"
 
-#: pamac-manager.py:368
+#: pamac-manager.py:365
 msgid "Install Date"
 msgstr "Datum instalace"
 
-#: pamac-manager.py:370
+#: pamac-manager.py:367
 msgid "Explicitly installed"
 msgstr "explicitně nainstalován"
 
-#: pamac-manager.py:372
+#: pamac-manager.py:369
 msgid "Installed as a dependency for another package"
 msgstr "Instalováno jako závislost pro další balíček"
 
-#: pamac-manager.py:374
+#: pamac-manager.py:371
 msgid "Unknown"
 msgstr "Neznámý"
 
-#: pamac-manager.py:375
+#: pamac-manager.py:372
 msgid "Install Reason"
 msgstr "Důvod instalace"
 
-#: pamac-manager.py:380
+#: pamac-manager.py:377
 msgid "Signatures"
 msgstr "Podpisy"
 
-#: pamac-manager.py:384
+#: pamac-manager.py:381
 msgid "Backup files"
 msgstr "Záložní soubory"
 
-#: pamac-manager.py:546
+#: pamac-manager.py:543
 #, python-brace-format
 msgid ""
 "{pkgname} has {number} uninstalled optional deps.\n"
 "Please choose those you would like to install:"
 msgstr ""
 
-#: pamac-manager.py:569
+#: pamac-manager.py:566
 msgid "Deselect"
 msgstr "Zrušit výběr"
 
-#: pamac-manager.py:575
+#: pamac-manager.py:572
 msgid "Remove"
 msgstr "Odstranit"
 
-#: pamac-manager.py:582
+#: pamac-manager.py:579
 msgid "Reinstall"
 msgstr "Přeinstalovat"
 
-#: pamac-manager.py:594
+#: pamac-manager.py:592
 msgid "Install optional deps"
 msgstr "Instalace volitelných závislostí"
 
-#: pamac-manager.py:600
+#: pamac-manager.py:598
 msgid "Install"
 msgstr "Instalace"
 
-#: pamac-manager.py:612
+#: pamac-manager.py:611
 msgid "Install with optional deps"
 msgstr "Instalace volitelných závislostí"
 
-#: pamac-manager.py:879 pamac-updater.py:187 pamac-install.py:133
+#: pamac-manager.py:878 pamac-updater.py:187 pamac-install.py:129
 msgid "Pamac is already running"
 msgstr "Pamac je již spuštěn"
 
@@ -314,7 +311,7 @@ msgstr "Pamac je již spuštěn"
 msgid "Your system is up-to-date"
 msgstr "Váš systém je aktuální"
 
-#: pamac-updater.py:57 pamac/transaction.py:735
+#: pamac-updater.py:57 pamac/transaction.py:721
 msgid "Total download size:"
 msgstr "Celková velikost pro stažení:"
 
@@ -339,69 +336,63 @@ msgstr "Správce balíčků"
 msgid "Quit"
 msgstr "Ukončit"
 
-#: pamac-install.py:52
+#: pamac-install.py:50
 msgid ""
 "Some updates are available.\n"
 "Please update your system first"
-msgstr ""
-"Jsou k dispozici aktualizace.⏎\n"
-"Nejprve aktualizujte váš systém"
+msgstr "Jsou k dispozici aktualizace.⏎\nNejprve aktualizujte váš systém"
 
-#: pamac/transaction.py:183
+#: pamac/transaction.py:182
 #, python-brace-format
 msgid ""
 "{pkgname} is provided by {number} packages.\n"
 "Please choose those you would like to install:"
 msgstr ""
 
-#: pamac/transaction.py:233
+#: pamac/transaction.py:232
 msgid "Refreshing"
 msgstr "Obnovení"
 
-#: pamac/transaction.py:317 pamac/transaction.py:356
+#: pamac/transaction.py:316 pamac/transaction.py:355
 #, python-brace-format
 msgid "{pkgname} depends on {dependname} but it is not installable"
 msgstr "{pkgname} závisí na{dependname}, ten ale není nainstalován"
 
-#: pamac/transaction.py:360
+#: pamac/transaction.py:359
 #, python-brace-format
 msgid "Failed to get {pkgname} archive from AUR"
 msgstr "Nepodařilo se získat archiv {pkgname} z AUR"
 
-#: pamac/transaction.py:382 pamac/transaction.py:609
+#: pamac/transaction.py:381 pamac/transaction.py:595
 msgid "Preparing"
 msgstr "Připravuji"
 
-#: pamac/transaction.py:503
-msgid "Build process failed."
-msgstr ""
-
-#: pamac/transaction.py:589
+#: pamac/transaction.py:575
 #, python-brace-format
 msgid "Building {pkgname}"
 msgstr "Vytvářím {pkgname}"
 
-#: pamac/transaction.py:640
+#: pamac/transaction.py:626
 msgid "Checking for updates"
 msgstr ""
 
-#: pamac/transaction.py:690
+#: pamac/transaction.py:676
 msgid "Transaction Summary"
 msgstr "Shrnutí transakce"
 
-#: pamac/transaction.py:698
+#: pamac/transaction.py:684
 msgid "To downgrade"
 msgstr "Pro downgrade"
 
-#: pamac/transaction.py:705
+#: pamac/transaction.py:691
 msgid "To build"
 msgstr "Vytvářím"
 
-#: pamac/transaction.py:718
+#: pamac/transaction.py:704
 msgid "To reinstall"
 msgstr "Pro přeinstalaci"
 
-#: pamac/transaction.py:726
+#: pamac/transaction.py:712
 msgid "To update"
 msgstr "Pro aktualizaci"
 
