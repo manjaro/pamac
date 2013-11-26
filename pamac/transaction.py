@@ -473,7 +473,6 @@ def check_finished_build(data):
 	path = data[0]
 	pkg = data[1]
 	if build_proc.poll() is None:
-		print('pulse')
 		progress_bar.pulse()
 		while Gtk.events_pending():
 			Gtk.main_iteration()
@@ -626,7 +625,7 @@ def build_next():
 	progress_expander.set_expanded(True)
 	ProgressWindow.show()
 	build_proc = subprocess.Popen(["makepkg", "-cf"], cwd = path, stdout = subprocess.PIPE, stderr=subprocess.STDOUT)
-	#GObject.io_add_watch(build_proc.stdout, GObject.IO_IN, write_to_buffer)
+	GObject.io_add_watch(build_proc.stdout, GObject.IO_IN, write_to_buffer)
 	while Gtk.events_pending():
 		Gtk.main_iteration()
 	GObject.timeout_add(500, check_finished_build, (path, pkg))
@@ -724,6 +723,7 @@ def set_transaction_sum(show_updates = True):
 			i += 1
 	if transaction_dict['to_downgrade']:
 		transaction_sum.append([_('To downgrade')+':', transaction_dict['to_downgrade'][0][0]])
+		dsize += transaction_dict['to_downgrade'][0][1]
 		i = 1
 		while i < len(transaction_dict['to_downgrade']):
 			transaction_sum.append(['', transaction_dict['to_downgrade'][i][0]])
@@ -737,6 +737,7 @@ def set_transaction_sum(show_updates = True):
 			i += 1
 	if transaction_dict['to_install']:
 		transaction_sum.append([_('To install')+':', transaction_dict['to_install'][0][0]])
+		dsize += transaction_dict['to_install'][0][1]
 		i = 1
 		while i < len(transaction_dict['to_install']):
 			transaction_sum.append(['', transaction_dict['to_install'][i][0]])
@@ -744,6 +745,7 @@ def set_transaction_sum(show_updates = True):
 			i += 1
 	if transaction_dict['to_reinstall']:
 		transaction_sum.append([_('To reinstall')+':', transaction_dict['to_reinstall'][0][0]])
+		dsize += transaction_dict['to_reinstall'][0][1]
 		i = 1
 		while i < len(transaction_dict['to_reinstall']):
 			transaction_sum.append(['', transaction_dict['to_reinstall'][i][0]])
@@ -752,11 +754,15 @@ def set_transaction_sum(show_updates = True):
 	if show_updates:
 		if transaction_dict['to_update']:
 			transaction_sum.append([_('To update')+':', transaction_dict['to_update'][0][0]])
+			dsize += transaction_dict['to_update'][0][1]
 			i = 1
 			while i < len(transaction_dict['to_update']):
 				transaction_sum.append(['', transaction_dict['to_update'][i][0]])
 				dsize += transaction_dict['to_update'][i][1]
 				i += 1
+	else:
+		for name, size in transaction_dict['to_update']:
+			dsize += size
 	if dsize == 0:
 		sum_bottom_label.set_markup('')
 	else:
