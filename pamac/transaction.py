@@ -1,6 +1,23 @@
 #! /usr/bin/python3
 # -*- coding:utf-8 -*-
 
+# pamac - A Python implementation of alpm
+# Copyright (C) 2013 Guillaume Benoit <guillaume@manjaro.org>
+#
+#   This program is free software; you can redistribute it and/or modify
+#   it under the terms of the GNU General Public License as published by
+#   the Free Software Foundation; either version 2 of the License, or
+#   (at your option) any later version.
+#
+#   This program is distributed in the hope that it will be useful,
+#   but WITHOUT ANY WARRANTY; without even the implied warranty of
+#   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#   GNU General Public License for more details.
+#
+#   You should have received a copy of the GNU General Public License
+#   along with this program; if not, write to the Free Software
+#   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+
 import pyalpm
 from gi.repository import Gtk, GObject
 from time import sleep
@@ -456,6 +473,7 @@ def check_finished_build(data):
 	path = data[0]
 	pkg = data[1]
 	if build_proc.poll() is None:
+		print('pulse')
 		progress_bar.pulse()
 		while Gtk.events_pending():
 			Gtk.main_iteration()
@@ -608,7 +626,7 @@ def build_next():
 	progress_expander.set_expanded(True)
 	ProgressWindow.show()
 	build_proc = subprocess.Popen(["makepkg", "-cf"], cwd = path, stdout = subprocess.PIPE, stderr=subprocess.STDOUT)
-	GObject.io_add_watch(build_proc.stdout, GObject.IO_IN, write_to_buffer)
+	#GObject.io_add_watch(build_proc.stdout, GObject.IO_IN, write_to_buffer)
 	while Gtk.events_pending():
 		Gtk.main_iteration()
 	GObject.timeout_add(500, check_finished_build, (path, pkg))
