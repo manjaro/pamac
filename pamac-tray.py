@@ -19,9 +19,10 @@
 #   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 from gi.repository import Gtk, GObject, Notify
-from subprocess import Popen
+from subprocess import call
 import dbus
 from dbus.mainloop.glib import DBusGMainLoop
+from threading import Thread
 
 from pamac import common
 
@@ -64,10 +65,10 @@ class Tray:
 		self.update_icon(icon, info)
 
 	def execute_update(self, widget, event, data = None):
-		Popen(['/usr/bin/pamac-updater'])
+		Thread(target = call, args = (['/usr/bin/pamac-updater'],)).start()
 
 	def execute_manager(self, widget, event, data = None):
-		Popen(['/usr/bin/pamac-manager'])
+		Thread(target = call, args = (['/usr/bin/pamac-manager'],)).start()
 
 	def quit_tray(self, widget, data = None):
 		Gtk.main_quit()
@@ -80,7 +81,7 @@ class Tray:
 
 	def activate_cb(self, widget, data = None):
 		if icon == update_icon:
-			Popen(['/usr/bin/pamac-updater'])
+			Thread(target = call, args = (['/usr/bin/pamac-updater'],)).start()
 
 	def update_icon(self, icon, info):
 		self.statusIcon.set_from_file(icon)
@@ -90,7 +91,7 @@ class Tray:
 		self.statusIcon.set_visible(boolean)
 
 def refresh():
-	Popen(['/usr/bin/pamac-refresh'])
+	Thread(target = call, args = (['/usr/bin/pamac-refresh'],)).start()
 
 def set_icon(update_data):
 	global icon

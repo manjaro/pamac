@@ -29,6 +29,7 @@ import fnmatch
 #from urllib.parse import urlparse
 import dbus
 from dbus.mainloop.glib import DBusGMainLoop
+import signal
 
 from pamac import config, common, aur
 
@@ -133,18 +134,6 @@ def config_dbus_signals():
 	bus.add_signal_receiver(transaction_start_handler, dbus_interface = "org.manjaro.pamac", signal_name = "EmitTransactionStart")
 	bus.add_signal_receiver(log_error, dbus_interface = "org.manjaro.pamac", signal_name = "EmitLogError")
 	bus.add_signal_receiver(log_warning, dbus_interface = "org.manjaro.pamac", signal_name = "EmitLogWarning")
-
-def write_to_buffer(fd, condition):
-	if condition == GObject.IO_IN: # if there's something interesting to read
-		line = fd.readline().decode(encoding='UTF-8')
-		#print(line.rstrip('\n'))
-		progress_buffer.insert_at_cursor(line)
-		progress_bar.pulse()
-		while Gtk.events_pending():
-			Gtk.main_iteration()
-		return True # FUNDAMENTAL, otherwise the callback isn't recalled
-	else:
-		return False # Raised an error: exit
 
 def action_handler(action):
 	progress_label.set_text(action)
@@ -468,16 +457,34 @@ def prepare(**trans_flags):
 	return(error)
 
 def check_finished_build(data):
+	def handle_timeout(*args):
+		raise Exception('timeout')
+	
 	global to_build
 	global build_proc
 	path = data[0]
 	pkg = data[1]
 	if build_proc.poll() is None:
-		progress_bar.pulse()
-		while Gtk.events_pending():
-			Gtk.main_iteration()
-		return True
+		# Build no finished : read stdout to push it to text_buffer
+		# add a timeout to stop reading stdout if too long
+		# so the gui won't freeze
+		signal.signal(signal.SIGALRM, handle_timeout)
+		signal.setitimer(signal.ITIMER_REAL, 0.05) # 50 ms timeout
+		try:
+			line = build_proc.stdout.readline().decode(encoding='UTF-8')
+			#print(line.rstrip('\n'))
+			progress_buffer.insert_at_cursor(line)
+			progress_bar.pulse()
+			while Gtk.events_pending():
+				Gtk.main_iteration()
+		except Exception:
+			while Gtk.events_pending():
+				Gtk.main_iteration()
+		finally:
+			signal.alarm(0)
+			return True
 	elif build_proc.poll() == 0:
+		# Build successfully finished
 		built = []
 		# parse again PKGBUILD to have new pkg objects in case of a pkgver() function
 		# was used so pkgver was changed during build process
@@ -525,6 +532,7 @@ def check_finished_build(data):
 			action_long_handler(_('Build process failed.'))
 		return False
 	elif build_proc.poll() == 1:
+		# Build finish with an error
 		ProgressCancelButton.set_visible(False)
 		ProgressCloseButton.set_visible(True)
 		action_long_handler(_('Build process failed.'))
@@ -625,10 +633,9 @@ def build_next():
 	progress_expander.set_expanded(True)
 	ProgressWindow.show()
 	build_proc = subprocess.Popen(["makepkg", "-cf"], cwd = path, stdout = subprocess.PIPE, stderr=subprocess.STDOUT)
-	GObject.io_add_watch(build_proc.stdout, GObject.IO_IN, write_to_buffer)
 	while Gtk.events_pending():
 		Gtk.main_iteration()
-	GObject.timeout_add(500, check_finished_build, (path, pkg))
+	GObject.timeout_add(100, check_finished_build, (path, pkg))
 
 def finalize():
 	if To_Add() or To_Remove():
