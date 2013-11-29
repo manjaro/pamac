@@ -91,7 +91,6 @@ def handle_error(error):
 			if response:
 				transaction.ErrorDialog.hide()
 	transaction.get_handle()
-	transaction.update_dbs()
 
 def handle_reply(reply):
 	while Gtk.events_pending():
@@ -107,14 +106,12 @@ def handle_reply(reply):
 		end_iter = transaction.progress_buffer.get_end_iter()
 		transaction.progress_buffer.insert(end_iter, str(reply))
 		transaction.get_handle()
-		transaction.update_dbs()
 	else:
 		#~ transaction.ProgressWindow.hide()
 		#~ while Gtk.events_pending():
 			#~ Gtk.main_iteration()
 		UpdaterWindow.get_window().set_cursor(None)
 		transaction.get_handle()
-		transaction.update_dbs()
 		transaction.get_updates()
 
 def handle_updates(updates):

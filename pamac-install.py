@@ -154,7 +154,6 @@ if common.pid_file_exists():
 else:
 	transaction_done = False
 	transaction.get_handle()
-	transaction.update_dbs()
 	transaction.get_dbus_methods()
 	config_dbus_signals()
 	transaction.get_updates()

@@ -211,5 +211,3 @@ if 'HoldPkg' in pacman_conf.options:
 	holdpkg = pacman_conf.options['HoldPkg']
 if 'SyncFirst' in pacman_conf.options:
 	syncfirst = pacman_conf.options['SyncFirst']
-#if not 'pamac' in syncfirst:
-#	syncfirst.append('pamac')

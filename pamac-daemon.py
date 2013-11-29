@@ -51,7 +51,6 @@ class PamacDBusService(dbus.service.Object):
 		self.previous_percent = 0
 		self.total_size = 0
 		self.already_transferred = 0
-		self.handle = config.handle()
 		self.local_packages = set()
 		self.localdb = None
 		self.syncdbs = None

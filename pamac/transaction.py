@@ -215,16 +215,12 @@ def on_progress_textview_size_allocate(*arg):
 
 def get_handle():
 	global handle
-	handle = config.handle()
-	print('get handle')
-
-def update_dbs():
-	global handle
 	global syncdbs
 	global localdb
 	handle = config.handle()
 	syncdbs = handle.get_syncdbs()
 	localdb = handle.get_localdb()
+	print('get handle')
 
 def get_localpkg(name):
 	return localdb.get_pkg(name)
@@ -459,7 +455,11 @@ def prepare(**trans_flags):
 def check_finished_build(data):
 	def handle_timeout(*args):
 		raise Exception('timeout')
-	
+	def no_handle_timeout(*args):
+		try:
+			pass
+		except:
+			pass
 	global to_build
 	global build_proc
 	path = data[0]
@@ -474,14 +474,14 @@ def check_finished_build(data):
 			line = build_proc.stdout.readline().decode(encoding='UTF-8')
 			#print(line.rstrip('\n'))
 			progress_buffer.insert_at_cursor(line)
+		except Exception:
+			pass
+		else:
+			signal.signal(signal.SIGALRM, no_handle_timeout)
+		finally:
 			progress_bar.pulse()
 			while Gtk.events_pending():
 				Gtk.main_iteration()
-		except Exception:
-			while Gtk.events_pending():
-				Gtk.main_iteration()
-		finally:
-			signal.alarm(0)
 			return True
 	elif build_proc.poll() == 0:
 		# Build successfully finished
