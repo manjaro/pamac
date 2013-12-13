@@ -29,10 +29,22 @@ from multiprocessing import Process
 from pamac import config, common, aur
 
 # i18n
+import locale
+locale.setlocale(locale.LC_ALL, '')
 import gettext
 gettext.bindtextdomain('pamac', '/usr/share/locale')
 gettext.textdomain('pamac')
 _ = gettext.gettext
+
+def format_error(data):
+	errstr = data[0].strip('\n')
+	errno = data[1]
+	detail = data[2]
+	if detail:
+		# detail is a list of '\n' terminated strings
+		return '{}:\n'.format(errstr) + ''.join(i for i in detail)
+	else:
+		return errstr
 
 class PamacDBusService(dbus.service.Object):
 	def __init__(self):
@@ -52,6 +64,8 @@ class PamacDBusService(dbus.service.Object):
 		self.total_size = 0
 		self.already_transferred = 0
 		self.local_packages = set()
+		self.aur_updates_checked = False
+		self.aur_updates_pkgs = []
 		self.localdb = None
 		self.syncdbs = None
 		self.get_handle()
@@ -320,6 +334,7 @@ class PamacDBusService(dbus.service.Object):
 		if not (level & _logmask):
 			return
 		if level & pyalpm.LOG_ERROR:
+			self.EmitLogError(line)
 			_error = "ERROR: "+line
 			self.EmitActionLong(_error)
 			self.EmitNeedDetails(True)
@@ -408,7 +423,7 @@ class PamacDBusService(dbus.service.Object):
 			if pkg:
 				self.handle.set_pkgreason(pkg, reason)
 		except Exception as e:
-			error = str(e)
+			error = format_error(e.args)
 		return error
 
 	@dbus.service.method('org.manjaro.pamac', '', 's', async_callbacks=('success', 'nosuccess'))
@@ -418,7 +433,6 @@ class PamacDBusService(dbus.service.Object):
 		updates = []
 		_ignorepkgs = set()
 		self.get_handle()
-		self.get_local_packages()
 		for group in self.handle.ignoregrps:
 			db = self.localdb
 			grp = db.read_grp(group)
@@ -439,33 +453,39 @@ class PamacDBusService(dbus.service.Object):
 						syncfirst = True
 						updates.append((candidate.name, candidate.version, candidate.db.name, '', candidate.download_size))
 		if not updates:
+			if not self.aur_updates_checked:
+				self.get_local_packages()
 			for pkg in self.localdb.pkgcache:
 				if not pkg.name in _ignorepkgs:
 					candidate = pyalpm.sync_newversion(pkg, self.syncdbs)
 					if candidate:
 						updates.append((candidate.name, candidate.version, candidate.db.name, '', candidate.download_size))
 						self.local_packages.discard(pkg.name)
-			if self.local_packages:
-				aur_pkgs = aur.multiinfo(self.local_packages)
-				for aur_pkg in aur_pkgs:
-					comp = pyalpm.vercmp(aur_pkg.version, self.localdb.get_pkg(aur_pkg.name).version)
-					if comp == 1:
-						updates.append((aur_pkg.name, aur_pkg.version, aur_pkg.db.name, aur_pkg.tarpath, aur_pkg.download_size))
+			if not self.aur_updates_checked:
+				if self.local_packages:
+					self.aur_updates_pkgs = aur.multiinfo(self.local_packages)
+					self.aur_updates_checked = True
+					for aur_pkg in self.aur_updates_pkgs:
+						comp = pyalpm.vercmp(aur_pkg.version, self.localdb.get_pkg(aur_pkg.name).version)
+						if comp == 1:
+							updates.append((aur_pkg.name, aur_pkg.version, aur_pkg.db.name, aur_pkg.tarpath, aur_pkg.download_size))
 		self.EmitAvailableUpdates((syncfirst, updates))
 
-	@dbus.service.method('org.manjaro.pamac', 'b', 's', async_callbacks=('success', 'nosuccess'))
-	def Refresh(self, force_update, success, nosuccess):
+	@dbus.service.method('org.manjaro.pamac', 'b', '')
+	def Refresh(self, force_update):
 		def refresh():
 			self.target = ''
 			self.percent = 0
 			error = ''
 			for db in self.syncdbs:
 				try:
+					print(db.name)
 					self.t = self.handle.init_transaction()
 					db.update(force = bool(force_update))
 					self.t.release()
 				except pyalpm.error as e:
-					error += str(e)
+					print(e)
+					error += format_error(e.args)
 					break
 			if error:
 				self.EmitTransactionError(error)
@@ -474,7 +494,6 @@ class PamacDBusService(dbus.service.Object):
 		self.task = Process(target=refresh)
 		self.task.start()
 		GObject.timeout_add(100, self.check_finished_commit)
-		success('')
 
 	@dbus.service.method('org.manjaro.pamac', 'a{sb}', 's')
 	def Init(self, options):
@@ -483,7 +502,7 @@ class PamacDBusService(dbus.service.Object):
 			self.t = self.handle.init_transaction(**options)
 			print('Init:',self.t.flags)
 		except pyalpm.error as e:
-			error = str(e)
+			error = format_error(e.args)
 		finally:
 			return error
 
@@ -493,7 +512,7 @@ class PamacDBusService(dbus.service.Object):
 		try:
 			self.t.sysupgrade(downgrade=False)
 		except pyalpm.error as e:
-			error = ' --> '+str(e)+'\n'
+			error = format_error(e.args)
 			self.t.release()
 		finally:
 			return error
@@ -506,7 +525,7 @@ class PamacDBusService(dbus.service.Object):
 			if pkg is not None:
 				self.t.remove_pkg(pkg)
 		except pyalpm.error as e:
-			error = ' --> '+str(e)+'\n'
+			error = format_error(e.args)
 		finally:
 			return error
 
@@ -520,7 +539,7 @@ class PamacDBusService(dbus.service.Object):
 					self.t.add_pkg(pkg)
 					break
 		except pyalpm.error as e:
-			error += ' --> '+str(e)+'\n'
+			error = format_error(e.args)
 		finally:
 			return error
 
@@ -634,7 +653,7 @@ class PamacDBusService(dbus.service.Object):
 		try:
 			self.t.prepare()
 		except pyalpm.error as e:
-			error = str(e)
+			error = format_error(e.args)
 			self.t.release()
 		else:
 			for pkg in self.t.to_remove:
@@ -646,7 +665,7 @@ class PamacDBusService(dbus.service.Object):
 			try:
 				summ = len(self.t.to_add) + len(self.t.to_remove)
 			except pyalpm.error:
-				return [((), '')]
+				return [((), error)]
 			if summ == 0:
 				self.t.release()
 				return [((), _('Nothing to do'))]
@@ -677,8 +696,8 @@ class PamacDBusService(dbus.service.Object):
 			pass
 		return _list
 
-	@dbus.service.method('org.manjaro.pamac', '', 's', async_callbacks=('success', 'nosuccess'))
-	def Interrupt(self, success, nosuccess):
+	@dbus.service.method('org.manjaro.pamac', '', '')
+	def Interrupt(self):
 		def interrupt():
 			try:
 				self.t.interrupt()
@@ -692,16 +711,15 @@ class PamacDBusService(dbus.service.Object):
 				common.rm_lock_file()
 		self.task.terminate()
 		interrupt()
-		success('')
 
-	@dbus.service.method('org.manjaro.pamac', '', 's', sender_keyword='sender', connection_keyword='connexion', async_callbacks=('success', 'nosuccess'))
+	@dbus.service.method('org.manjaro.pamac', '', '', sender_keyword='sender', connection_keyword='connexion', async_callbacks=('success', 'nosuccess'))
 	def Commit(self, success, nosuccess, sender=None, connexion=None):
 		def commit():
 			error = ''
 			try:
 				self.t.commit()
 			except pyalpm.error as e:
-				error = str(e)
+				error = format_error(e.args)
 			#except dbus.exceptions.DBusException:
 				#pass
 			finally:
@@ -713,11 +731,11 @@ class PamacDBusService(dbus.service.Object):
 					self.EmitTransactionError(error)
 				else:
 					self.EmitTransactionDone(_('Transaction successfully finished'))
+		success('')
 		try:
 			authorized = self.policykit_test(sender,connexion,'org.manjaro.pamac.commit')
 		except dbus.exceptions.DBusException as e:
 			self.EmitTransactionError(_('Authentication failed'))
-			success('')
 		else:
 			if authorized:
 				self.task = Process(target=commit)
@@ -726,7 +744,6 @@ class PamacDBusService(dbus.service.Object):
 			else :
 				self.t.release()
 				self.EmitTransactionError(_('Authentication failed'))
-			success('')
 
 	@dbus.service.method('org.manjaro.pamac', '', '')
 	def Release(self):

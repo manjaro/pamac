@@ -72,6 +72,68 @@ BOOLEAN_OPTIONS = (
 	'Color'
 )
 
+def define_siglevel(default_level, conf_string):
+	for directive in conf_string.split():
+		affect_package = False
+		affect_database = False
+		if 'Package' in directive:
+			affect_package = True
+		elif 'Database' in directive:
+			affect_database = True
+		else:
+			affect_package = True
+			affect_database = True
+		if 'Never' in directive:
+			if affect_package:
+				default_level &= ~pyalpm.SIG_PACKAGE
+				default_level |= pyalpm.SIG_PACKAGE_SET
+			if affect_database:
+				default_level &= ~pyalpm.SIG_DATABASE
+		elif 'Optional' in directive:
+			if affect_package:
+				default_level |= pyalpm.SIG_PACKAGE
+				default_level |= pyalpm.SIG_PACKAGE_OPTIONAL
+				default_level |= pyalpm.SIG_PACKAGE_SET
+			if affect_database:
+				default_level |= pyalpm.SIG_DATABASE
+				default_level |= pyalpm.SIG_DATABASE_OPTIONAL
+		elif 'Required' in directive:
+			if affect_package:
+				default_level |= pyalpm.SIG_PACKAGE
+				default_level &= ~pyalpm.SIG_PACKAGE_OPTIONAL
+				default_level |= pyalpm.SIG_PACKAGE_SET
+			if affect_database:
+				default_level |= pyalpm.SIG_DATABASE
+				default_level &= ~pyalpm.SIG_DATABASE_OPTIONAL
+		elif 'TrustedOnly' in directive:
+			if affect_package:
+				default_level &= ~pyalpm.SIG_PACKAGE_MARGINAL_OK
+				default_level &= ~pyalpm.SIG_PACKAGE_UNKNOWN_OK
+				default_level |= pyalpm.SIG_PACKAGE_TRUST_SET
+			if affect_database:
+				default_level &= ~pyalpm.SIG_DATABASE_MARGINAL_OK
+				default_level &= ~pyalpm.SIG_DATABASE_UNKNOWN_OK
+		elif 'TrustAll' in directive:
+			if affect_package:
+				default_level |= pyalpm.SIG_PACKAGE_MARGINAL_OK
+				default_level |= pyalpm.SIG_PACKAGE_UNKNOWN_OK
+				default_level |= pyalpm.SIG_PACKAGE_TRUST_SET
+			if affect_database:
+				default_level |= pyalpm.SIG_DATABASE_MARGINAL_OK
+				default_level |= pyalpm.SIG_DATABASE_UNKNOWN_OK
+		else:
+			print('unrecognized siglevel: {}'.format(conf_string))
+	return default_level
+
+def merge_siglevel(base_level, over_level):
+	if not over_level & pyalpm.SIG_PACKAGE_SET:
+		over_level |= base_level & pyalpm.SIG_PACKAGE
+		over_level |= base_level & pyalpm.SIG_PACKAGE_OPTIONAL
+	if not over_level & pyalpm.SIG_PACKAGE_TRUST_SET:
+		over_level |= base_level & pyalpm.SIG_PACKAGE_MARGINAL_OK
+		over_level |= base_level & pyalpm.SIG_PACKAGE_UNKNOWN_OK
+	return over_level
+
 def pacman_conf_enumerator(path):
 	filestack = []
 	current_section = None
@@ -133,6 +195,7 @@ class PacmanConfig:
 		self.options["GPGDir"]  = "/etc/pacman.d/gnupg/"
 		self.options["LogFile"] = "/var/log/pacman.log"
 		self.options["Architecture"] = os.uname()[-1]
+		self.default_siglevel = pyalpm.SIG_PACKAGE | pyalpm.SIG_PACKAGE_OPTIONAL | pyalpm.SIG_DATABASE | pyalpm.SIG_DATABASE_OPTIONAL
 		if conf:
 			self.load_from_file(conf)
 		if options:
@@ -147,10 +210,18 @@ class PacmanConfig:
 					self.options.setdefault(key, []).append(value)
 				else:
 					self.options[key] = value
+					# define here default_siglevel to make it usable for servers
+					if key == 'SigLevel':
+						self.default_siglevel = define_siglevel(self.default_siglevel, self.options["SigLevel"])
 			else:
-				servers = self.repos.setdefault(section, [])
+				if not self.repos.get(section):
+					self.repos[section] = ([], self.default_siglevel)
 				if key == 'Server':
-					servers.append(value)
+					self.repos[section][0].append(value)
+				elif key == 'SigLevel':
+					urls = self.repos[section][0].copy()
+					new_siglevel = define_siglevel(self.repos[section][1], value)
+					self.repos[section] = (urls, new_siglevel)
 		if not "CacheDir" in self.options:
 			self.options["CacheDir"]= ["/var/cache/pacman/pkg"]
 
@@ -189,11 +260,29 @@ class PacmanConfig:
 			h.usesyslog = self.options["UseSyslog"]
 		if "CheckSpace" in self.options:
 			h.checkspace = self.options["CheckSpace"]
+		# register default siglevel, it should have been updated previously
+		h.siglevel = self.default_siglevel
+		# update localsiglevel
+		if "LocalFileSigLevel" in self.options:
+			localsiglevel = define_siglevel(self.default_siglevel, self.options["LocalFileSigLevel"])
+			localsiglevel = merge_siglevel(self.default_siglevel, localsiglevel)
+		else:
+			localsiglevel = self.default_siglevel
+		# define localsiglevel
+		h.localsiglevel = localsiglevel
+		# update remotesiglevel
+		if "RemoteFileSigLevel" in self.options:
+			remotesiglevel = define_siglevel(self.default_siglevel, self.options["RemoteFileSigLevel"])
+			remotesiglevel = merge_siglevel(self.default_siglevel, remotesiglevel)
+		else:
+			remotesiglevel = self.default_siglevel
+		# define remotesiglevel
+		h.remotesiglevel = remotesiglevel
 		# set sync databases
 		for repo, servers in self.repos.items():
-			db = h.register_syncdb(repo, 0)
+			db = h.register_syncdb(repo, servers[1])
 			db_servers = []
-			for rawurl in servers:
+			for rawurl in servers[0]:
 				url = rawurl.replace("$repo", repo)
 				url = url.replace("$arch", self.options["Architecture"])
 				db_servers.append(url)
@@ -201,7 +290,7 @@ class PacmanConfig:
 		return h
 
 	def __str__(self):
-		return("PacmanConfig(options=%s, repos=%s)" % (str(self.options), str(self.repos)))
+		return("PacmanConfig(options={}, repos={})".format(self.options, self.repos))
 
 pacman_conf = PacmanConfig(conf = "/etc/pacman.conf")
 handle = pacman_conf.initialize_alpm
