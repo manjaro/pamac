@@ -49,6 +49,9 @@ from pamac import config
 pid_file = '/tmp/pamac.pid'
 lock_file = join(config.pacman_conf.options['DBPath'], 'db.lck')
 
+def lock_file_exists():
+	return isfile(lock_file)
+
 def pid_file_exists():
 	return isfile(pid_file)
 

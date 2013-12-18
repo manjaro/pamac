@@ -23,6 +23,7 @@ from subprocess import call
 import dbus
 from dbus.mainloop.glib import DBusGMainLoop
 from threading import Thread
+from time import sleep
 
 from pamac import common
 
@@ -92,6 +93,24 @@ class Tray:
 
 def refresh():
 	Thread(target = call, args = (['/usr/bin/pamac-refresh'],)).start()
+	return True
+
+def check_updates():
+	Thread(target = call, args = (['/usr/bin/pamac-check_updates'],)).start()
+
+locked = False
+def check_pacman_running():
+	global locked
+	if locked:
+		if not common.lock_file_exists():
+			locked = False
+			check_updates()
+	else:
+		if common.lock_file_exists():
+			if not common.pid_file_exists():
+				locked = True
+	sleep(0.5)
+	return True
 
 def set_icon(update_data):
 	global icon
@@ -118,4 +137,5 @@ tray = Tray()
 Notify.init(_('Update Manager'))
 refresh()
 GObject.timeout_add(3*3600*1000, refresh)
+GObject.idle_add(check_pacman_running)
 Gtk.main()

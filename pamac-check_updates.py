@@ -22,34 +22,18 @@ from gi.repository import GObject
 from pamac import common, transaction
 import dbus
 
-
-def handle_reply(reply):
-	print('check updates done')
-	transaction.CheckUpdates()
-
-def handle_error(error):
-	transaction.StopDaemon()
-	common.rm_pid_file()
-	print('check updates failed')
-	loop.quit()
-
 def handle_updates(updates):
-	common.rm_pid_file()
 	transaction.StopDaemon()
 	loop.quit()
 
 loop = GObject.MainLoop()
 
 if not common.pid_file_exists():
-	common.write_pid_file()
-	print('checking updates')
 	bus = dbus.SystemBus()
-	bus.add_signal_receiver(handle_reply, dbus_interface = "org.manjaro.pamac", signal_name = "EmitTransactionDone")
-	bus.add_signal_receiver(handle_error, dbus_interface = "org.manjaro.pamac", signal_name = "EmitTransactionError")
 	bus.add_signal_receiver(handle_updates, dbus_interface = "org.manjaro.pamac", signal_name = "EmitAvailableUpdates")
 	transaction.get_dbus_methods()
 	try:
-		transaction.Refresh(False)
+		transaction.CheckUpdates()
 	except:
 		pass
 	else:

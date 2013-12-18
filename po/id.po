@@ -343,7 +343,7 @@ msgstr "Beberapa pemutakhiran tersedia.\nHarap mutakhirkan sistem terlebih dahul
 msgid ""
 "{pkgname} is provided by {number} packages.\n"
 "Please choose those you would like to install:"
-msgstr "{pkgname{ disediakan oleh {number} paket.\nHarap pilih yang ingin kamu instal:"
+msgstr "{pkgname} disediakan oleh {number} paket.\nHarap pilih yang ingin kamu instal:"
 
 #: pamac/transaction.py:233
 msgid "Refreshing"
