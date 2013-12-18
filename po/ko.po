@@ -3,486 +3,484 @@
 # This file is distributed under the same license as the Pamac package.
 # 
 # Translators:
-# DasFranck <franck97comics@gmail.com>, 2013
-# guinux <guillaume@manjaro.org>, 2013
-# manjarolinux <philm@manjaro.org>, 2013
+# lego37yoon <lego37yoon@outlook.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-11-24 14:15+0100\n"
-"PO-Revision-Date: 2013-12-17 17:42+0000\n"
-"Last-Translator: DasFranck <franck97comics@gmail.com>\n"
-"Language-Team: French (http://www.transifex.com/projects/p/manjaro-pamac/language/fr/)\n"
+"PO-Revision-Date: 2013-12-13 10:47+0000\n"
+"Last-Translator: lego37yoon <lego37yoon@outlook.com>\n"
+"Language-Team: Korean (http://www.transifex.com/projects/p/manjaro-pamac/language/ko/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: fr\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"Language: ko\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 
 #: pamac-daemon.py:130
 msgid "Checking dependencies"
-msgstr "Vérification des dépendances"
+msgstr ""
 
 #: pamac-daemon.py:138
 msgid "Checking file conflicts"
-msgstr "Analyse des conflits entre fichiers"
+msgstr ""
 
 #: pamac-daemon.py:144
 msgid "Resolving dependencies"
-msgstr "Résolution des dépendances"
+msgstr ""
 
 #: pamac-daemon.py:152
 msgid "Checking inter conflicts"
-msgstr "Recherche des conflits entre paquets"
+msgstr ""
 
 #: pamac-daemon.py:160
 #, python-brace-format
 msgid "Installing {pkgname}"
-msgstr "Installation de {pkgname}"
+msgstr ""
 
 #: pamac-daemon.py:168
 #, python-brace-format
 msgid "Removing {pkgname}"
-msgstr "Désinstallation de {pkgname}"
+msgstr ""
 
 #: pamac-daemon.py:176
 #, python-brace-format
 msgid "Upgrading {pkgname}"
-msgstr "Mise à jour de {pkgname}"
+msgstr ""
 
 #: pamac-daemon.py:184
 #, python-brace-format
 msgid "Downgrading {pkgname}"
-msgstr "Retour à une version antérieure de {pkgname}"
+msgstr ""
 
 #: pamac-daemon.py:192
 #, python-brace-format
 msgid "Reinstalling {pkgname}"
-msgstr "Réinstallation de {pkgname}"
+msgstr ""
 
 #: pamac-daemon.py:200
 msgid "Checking integrity"
-msgstr "Vérification de l'intégrité des paquets"
+msgstr ""
 
 #: pamac-daemon.py:207
 msgid "Loading packages files"
-msgstr "Chargement des fichiers des paquets"
+msgstr "꾸러미 파일을 로드중입니다."
 
 #: pamac-daemon.py:213
 msgid "Checking delta integrity"
-msgstr "Vérification de l'intégrité des deltas"
+msgstr ""
 
 #: pamac-daemon.py:219
 msgid "Applying deltas"
-msgstr "Application des deltas"
+msgstr ""
 
 #: pamac-daemon.py:225
 msgid "Generating {} with {}"
-msgstr "Génération de {} avec {} "
+msgstr ""
 
 #: pamac-daemon.py:229
 msgid "Generation succeeded!"
-msgstr "Génération réussi!"
+msgstr ""
 
 #: pamac-daemon.py:232
 msgid "Generation failed."
-msgstr "Génération échoué."
+msgstr ""
 
 #: pamac-daemon.py:235
 #, python-brace-format
 msgid "Configuring {pkgname}"
-msgstr "Configuration de {pkgname}"
+msgstr ""
 
 #: pamac-daemon.py:240
 msgid "Downloading"
-msgstr "Téléchargement"
+msgstr ""
 
 #: pamac-daemon.py:245
 msgid "Checking available disk space"
-msgstr "Vérification de l'espace disque disponible"
+msgstr ""
 
 #: pamac-daemon.py:255
 msgid "Checking keyring"
-msgstr "Vérification du trousseau"
+msgstr ""
 
 #: pamac-daemon.py:261
 msgid "Downloading required keys"
-msgstr "Téléchargement des clés nécessaires"
+msgstr ""
 
 #: pamac-daemon.py:280
 #, python-brace-format
 msgid "{pkgname1} will be replaced by {pkgname2}"
-msgstr "{pkgname1} sera replacé par {pkgname2}"
+msgstr ""
 
 #: pamac-daemon.py:283
 #, python-brace-format
 msgid "{pkgname1} conflicts with {pkgname2}"
-msgstr "{pkgname1} est en conflit avec {pkgname2}"
+msgstr ""
 
 #: pamac-daemon.py:327
 #, python-brace-format
 msgid "Refreshing {repo}"
-msgstr "Actualisation de {repo}"
+msgstr ""
 
 #: pamac-daemon.py:331 pamac/transaction.py:553
 #, python-brace-format
 msgid "Downloading {pkgname}"
-msgstr "Téléchargement de {pkgname}"
+msgstr ""
 
 #: pamac-daemon.py:517 pamac-install.py:103
 #, python-brace-format
 msgid "{pkgname} is not a valid path or package name"
-msgstr "{pkgname} n'est pas un fichier ou un nom de paquet valide"
+msgstr ""
 
 #: pamac-daemon.py:624
 #, python-brace-format
 msgid ""
 "The transaction cannot be performed because it needs to remove {pkgname1} "
 "which is a locked package"
-msgstr "La transaction ne peut pas être réalisée car elle nécessite de désinstaller {pkgname1} qui est un paquet bloqué"
+msgstr ""
 
 #: pamac-daemon.py:634 pamac/transaction.py:425
 msgid "Nothing to do"
-msgstr "Rien à faire"
+msgstr ""
 
 #: pamac-daemon.py:697
 msgid "Transaction successfully finished"
-msgstr "Transaction terminée avec succès"
+msgstr ""
 
 #: pamac-daemon.py:701 pamac-daemon.py:710
 msgid "Authentication failed"
-msgstr "L'authentification a échoué"
+msgstr ""
 
 #: pamac-manager.py:79 pamac-manager.py:110 pamac-manager.py:111
 #: pamac-manager.py:126 pamac-manager.py:135 pamac-manager.py:156
 #: pamac-manager.py:281 pamac-manager.py:566 pamac-manager.py:626
 #: pamac-manager.py:696
 msgid "No package found"
-msgstr "Aucun paquet trouvé"
+msgstr ""
 
 #: pamac-manager.py:180 pamac-manager.py:242
 msgid "local"
-msgstr "locaux"
+msgstr ""
 
 #: pamac-manager.py:184 pamac-manager.py:225 pamac-manager.py:339
 msgid "Installed"
-msgstr "Installé"
+msgstr "설치완료"
 
 #: pamac-manager.py:184 pamac-manager.py:228
 msgid "Uninstalled"
-msgstr "Non installé"
+msgstr "제거완료"
 
 #: pamac-manager.py:184 pamac-manager.py:231
 msgid "Orphans"
-msgstr "Orphelins"
+msgstr ""
 
 #: pamac-manager.py:184 pamac-manager.py:203 pamac/transaction.py:711
 msgid "To install"
-msgstr "À installer"
+msgstr ""
 
 #: pamac-manager.py:184 pamac-manager.py:214 pamac/transaction.py:692
 msgid "To remove"
-msgstr "À désinstaller"
+msgstr ""
 
 #: pamac-manager.py:329
 msgid "Licenses"
-msgstr "Licences"
+msgstr ""
 
 #: pamac-manager.py:334
 msgid "Depends On"
-msgstr "Dépend de"
+msgstr ""
 
 #: pamac-manager.py:342
 msgid "Optional Deps"
-msgstr "Dépendances opt."
+msgstr ""
 
 #: pamac-manager.py:345
 msgid "Required By"
-msgstr "Requis par"
+msgstr ""
 
 #: pamac-manager.py:347
 msgid "Provides"
-msgstr "Fournit"
+msgstr ""
 
 #: pamac-manager.py:349
 msgid "Replaces"
-msgstr "Remplace"
+msgstr ""
 
 #: pamac-manager.py:351
 msgid "Conflicts With"
-msgstr "Est en conflit avec"
+msgstr ""
 
 #: pamac-manager.py:356
 msgid "Repository"
-msgstr "Dépôt"
+msgstr ""
 
 #: pamac-manager.py:358 gui/manager.ui:357
 msgid "Groups"
-msgstr "Groupes"
+msgstr ""
 
 #: pamac-manager.py:360
 msgid "Compressed Size"
-msgstr "Taille compressée"
+msgstr ""
 
 #: pamac-manager.py:361
 msgid "Download Size"
-msgstr "Taille du téléchargement"
+msgstr ""
 
 #: pamac-manager.py:363
 msgid "Installed Size"
-msgstr "Taille après installation"
+msgstr ""
 
 #: pamac-manager.py:364
 msgid "Packager"
-msgstr "Paqueteur"
+msgstr ""
 
 #: pamac-manager.py:365
 msgid "Architecture"
-msgstr "Architecture"
+msgstr ""
 
 #: pamac-manager.py:368
 msgid "Install Date"
-msgstr "Installé le"
+msgstr ""
 
 #: pamac-manager.py:370
 msgid "Explicitly installed"
-msgstr "Explicitement installé"
+msgstr ""
 
 #: pamac-manager.py:372
 msgid "Installed as a dependency for another package"
-msgstr "Installé comme dépendance d'un autre paquet"
+msgstr ""
 
 #: pamac-manager.py:374
 msgid "Unknown"
-msgstr "Inconnu"
+msgstr ""
 
 #: pamac-manager.py:375
 msgid "Install Reason"
-msgstr "Motif d'installation"
+msgstr ""
 
 #: pamac-manager.py:380
 msgid "Signatures"
-msgstr "Signatures"
+msgstr ""
 
 #: pamac-manager.py:384
 msgid "Backup files"
-msgstr "Fichiers sauvegardés"
+msgstr ""
 
 #: pamac-manager.py:546
 #, python-brace-format
 msgid ""
 "{pkgname} has {number} uninstalled optional deps.\n"
 "Please choose those you would like to install:"
-msgstr "{pkgname} a {number} dépendances optionnelles non installées.\nVeuillez choisir ceux que vous voulez installer:"
+msgstr ""
 
 #: pamac-manager.py:569
 msgid "Deselect"
-msgstr "Désélectionner"
+msgstr ""
 
 #: pamac-manager.py:575
 msgid "Remove"
-msgstr "Désintaller"
+msgstr "제거"
 
 #: pamac-manager.py:582
 msgid "Reinstall"
-msgstr "Réinstaller"
+msgstr "재설치"
 
 #: pamac-manager.py:594
 msgid "Install optional deps"
-msgstr "Installer les dépendances optionnelles"
+msgstr ""
 
 #: pamac-manager.py:600
 msgid "Install"
-msgstr "Installer"
+msgstr "설치"
 
 #: pamac-manager.py:612
 msgid "Install with optional deps"
-msgstr "Installer avec les dépendances optionnelles"
+msgstr ""
 
 #: pamac-manager.py:879 pamac-updater.py:187 pamac-install.py:133
 msgid "Pamac is already running"
-msgstr "Pamac est déjà en cours d'exécution"
+msgstr ""
 
 #: pamac-updater.py:27 pamac-updater.py:42 pamac-tray.py:21
 msgid "Your system is up-to-date"
-msgstr "Votre système est à jour"
+msgstr "당신의 시스템은 너무 오래되었습니다."
 
 #: pamac-updater.py:57 pamac/transaction.py:735
 msgid "Total download size:"
-msgstr "Taille totale de téléchargement:"
+msgstr ""
 
 #: pamac-updater.py:59 pamac-tray.py:19
 msgid "1 available update"
-msgstr "1 mise à jour disponible"
+msgstr "1개의 가능한 업데이트가 있습니다."
 
 #: pamac-updater.py:61 pamac-tray.py:18
 #, python-brace-format
 msgid "{number} available updates"
-msgstr "{number} mises à jour disponibles"
+msgstr "{number}개의 업데이트가 있습니다."
 
 #: pamac-tray.py:31 pamac-tray.py:89 pamac-tray.py:100 gui/updater.ui:24
 msgid "Update Manager"
-msgstr "Gestionnaire de mises à jour"
+msgstr ""
 
 #: pamac-tray.py:35 gui/manager.ui:144
 msgid "Package Manager"
-msgstr "Gestionnaire de paquets"
+msgstr ""
 
 #: pamac-tray.py:39
 msgid "Quit"
-msgstr "Quitter"
+msgstr "닫기"
 
 #: pamac-install.py:52
 msgid ""
 "Some updates are available.\n"
 "Please update your system first"
-msgstr "Des mises à jour sont disponibles.\nMettez d'abord votre système à jour"
+msgstr ""
 
 #: pamac/transaction.py:183
 #, python-brace-format
 msgid ""
 "{pkgname} is provided by {number} packages.\n"
 "Please choose those you would like to install:"
-msgstr "{pkgname} est fourni par {number} paquets.\nVeuillez choisir ceux que vous voulez installer:"
+msgstr ""
 
 #: pamac/transaction.py:233
 msgid "Refreshing"
-msgstr "Actualisation"
+msgstr "새로고침중...."
 
 #: pamac/transaction.py:317 pamac/transaction.py:356
 #, python-brace-format
 msgid "{pkgname} depends on {dependname} but it is not installable"
-msgstr "{pkgname} dépend de {dependname} mais il n'est pas installable"
+msgstr ""
 
 #: pamac/transaction.py:360
 #, python-brace-format
 msgid "Failed to get {pkgname} archive from AUR"
-msgstr "La récupération de l'archive de {pkgname} depuis AUR a échoué"
+msgstr ""
 
 #: pamac/transaction.py:382 pamac/transaction.py:609
 msgid "Preparing"
-msgstr "Préparation"
+msgstr ""
 
 #: pamac/transaction.py:503
 msgid "Build process failed."
-msgstr "Processus de construction échoué."
+msgstr ""
 
 #: pamac/transaction.py:589
 #, python-brace-format
 msgid "Building {pkgname}"
-msgstr "Construction de {pkgname}"
+msgstr ""
 
 #: pamac/transaction.py:640
 msgid "Checking for updates"
-msgstr "Vérification des mises à jour"
+msgstr ""
 
 #: pamac/transaction.py:690
 msgid "Transaction Summary"
-msgstr "Résumé de la transaction"
+msgstr ""
 
 #: pamac/transaction.py:698
 msgid "To downgrade"
-msgstr "Retour à une version antérieure"
+msgstr ""
 
 #: pamac/transaction.py:705
 msgid "To build"
-msgstr "À construire"
+msgstr ""
 
 #: pamac/transaction.py:718
 msgid "To reinstall"
-msgstr "A réinstaller"
+msgstr ""
 
 #: pamac/transaction.py:726
 msgid "To update"
-msgstr "À mettre à jour"
+msgstr ""
 
 #: pamac/common.py:13
 #, python-format
 msgid "%.1f KiB"
-msgstr "%.1f Ko"
+msgstr ""
 
 #: pamac/common.py:16
 #, python-format
 msgid "%.2f MiB"
-msgstr "%.2f Mo"
+msgstr ""
 
 #: gui/manager.ui:8
 msgid "About Pamac"
-msgstr "À propos de Pamac"
+msgstr ""
 
 #: gui/manager.ui:11
 msgid "Copyright © 2013 Guillaume Benoit"
-msgstr "Copyright © 2013 Guillaume Benoit"
+msgstr ""
 
 #: gui/manager.ui:12
 msgid "A gtk3 frontend for pyalpm"
-msgstr "Une interface gtk3 pour pyalpm"
+msgstr ""
 
 #: gui/manager.ui:42 gui/manager.ui:868
 msgid "Install local packages"
-msgstr "Installer des paquets locaux"
+msgstr ""
 
 #: gui/manager.ui:253
 msgid "Search in AUR"
-msgstr "Rechercher depuis AUR"
+msgstr ""
 
 #: gui/manager.ui:311
 msgid "Search"
-msgstr "Rechercher"
+msgstr ""
 
 #: gui/manager.ui:404 gui/manager.ui:496
 msgid "State"
-msgstr "État"
+msgstr ""
 
 #: gui/manager.ui:451
 msgid "Repos"
-msgstr "Dépôts"
+msgstr ""
 
 #: gui/manager.ui:509
 msgid "Name"
-msgstr "Nom"
+msgstr ""
 
 #: gui/manager.ui:522
 msgid "Version"
-msgstr "Version"
+msgstr "버전"
 
 #: gui/manager.ui:535
 msgid "Repo"
-msgstr "Dépôt"
+msgstr ""
 
 #: gui/manager.ui:548
 msgid "Size"
-msgstr "Taille"
+msgstr ""
 
 #: gui/manager.ui:650
 msgid "Infos"
-msgstr "Infos"
+msgstr ""
 
 #: gui/manager.ui:714
 msgid "Deps"
-msgstr "Dépendances"
+msgstr ""
 
 #: gui/manager.ui:783
 msgid "Details"
-msgstr "Détails"
+msgstr ""
 
 #: gui/manager.ui:812
 msgid "Files"
-msgstr "Fichiers"
+msgstr ""
 
 #: gui/dialogs.ui:7
 msgid "Choose"
-msgstr "Choisir"
+msgstr ""
 
 #: gui/dialogs.ui:113
 msgid "Summary"
-msgstr "Résumé"
+msgstr ""
 
 #: gui/dialogs.ui:315
 msgid "Progress"
-msgstr "Progression"
+msgstr ""
 
 #: gui/dialogs.ui:408
 msgid "details"
-msgstr "détails"
+msgstr ""

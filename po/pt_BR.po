@@ -11,13 +11,14 @@
 # mattBV <matheus_boni_vicari@hotmail.com>, 2013
 # mattBV <matheus_boni_vicari@hotmail.com>, 2013
 # phormigon <phormigon@gmail.com>, 2013
+# wevertonmarx <wevertonmarx@hotmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-11-24 14:15+0100\n"
-"PO-Revision-Date: 2013-11-24 13:19+0000\n"
-"Last-Translator: manjarolinux <philm@manjaro.org>\n"
+"PO-Revision-Date: 2013-12-17 14:24+0000\n"
+"Last-Translator: wevertonmarx <wevertonmarx@hotmail.com>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/manjaro-pamac/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -76,7 +77,7 @@ msgstr "Carregando arquivos de pacotes"
 
 #: pamac-daemon.py:213
 msgid "Checking delta integrity"
-msgstr ""
+msgstr "Verificando a integridade do delta"
 
 #: pamac-daemon.py:219
 msgid "Applying deltas"
@@ -123,7 +124,7 @@ msgstr "{pkgname1} será substituído por {pkgname2}"
 #: pamac-daemon.py:283
 #, python-brace-format
 msgid "{pkgname1} conflicts with {pkgname2}"
-msgstr ""
+msgstr "{pkgname1} está em conflito com {pkgname2}"
 
 #: pamac-daemon.py:327
 #, python-brace-format
