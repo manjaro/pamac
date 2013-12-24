@@ -455,6 +455,7 @@ class PamacDBusService(dbus.service.Object):
 		if not updates:
 			if not self.aur_updates_checked:
 				self.get_local_packages()
+				self.local_packages -= _ignorepkgs
 			for pkg in self.localdb.pkgcache:
 				if not pkg.name in _ignorepkgs:
 					candidate = pyalpm.sync_newversion(pkg, self.syncdbs)

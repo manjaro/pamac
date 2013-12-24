@@ -18,7 +18,7 @@
 #   along with this program; if not, write to the Free Software
 #   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-version = '0.9.4'
+version = '0.9.5'
 
 from gi.repository import Gtk, Gdk
 from gi.repository.GdkPixbuf import Pixbuf
