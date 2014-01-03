@@ -5,7 +5,7 @@
 # Translators:
 # Guillaume Benoit <guillaume@manjaro.org>, 2013
 # manjarolinux <philm@manjaro.org>, 2013
-# manjarolinux <philm@manjaro.org>, 2013
+# manjarolinux <philm@manjaro.org>, 2013-2014
 # hyradicate <aema-001@kabelmail.de>, 2013
 # hyradicate <aema-001@kabelmail.de>, 2013
 msgid ""
@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-11-24 14:15+0100\n"
-"PO-Revision-Date: 2013-11-24 13:19+0000\n"
+"PO-Revision-Date: 2014-01-03 08:59+0000\n"
 "Last-Translator: manjarolinux <philm@manjaro.org>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/manjaro-pamac/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -339,7 +339,7 @@ msgstr "Beende"
 msgid ""
 "Some updates are available.\n"
 "Please update your system first"
-msgstr "Aktualisierungen verfügbar.⏎\nBitte aktualisieren Sie zuerst Ihr System."
+msgstr "Aktualisierungen verfügbar.\nBitte aktualisieren Sie zuerst Ihr System."
 
 #: pamac/transaction.py:183
 #, python-brace-format

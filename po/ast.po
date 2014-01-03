@@ -3,13 +3,13 @@
 # This file is distributed under the same license as the Pamac package.
 # 
 # Translators:
-# Tornes Llume <l.lumex03.tornes@gmail.com>, 2013
+# Tornes Llume <l.lumex03.tornes@gmail.com>, 2013-2014
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-11-24 14:15+0100\n"
-"PO-Revision-Date: 2013-11-25 16:10+0000\n"
+"PO-Revision-Date: 2014-01-03 01:42+0000\n"
 "Last-Translator: Tornes Llume <l.lumex03.tornes@gmail.com>\n"
 "Language-Team: Asturian (http://www.transifex.com/projects/p/manjaro-pamac/language/ast/)\n"
 "MIME-Version: 1.0\n"
@@ -131,7 +131,7 @@ msgstr "En baxando {pkgname}"
 #: pamac-daemon.py:517 pamac-install.py:103
 #, python-brace-format
 msgid "{pkgname} is not a valid path or package name"
-msgstr "{pkgname} nun ye un camín válidu o viesu de paquete"
+msgstr "{pkgname} nun ye un camín válidu o nome de paquete"
 
 #: pamac-daemon.py:624
 #, python-brace-format
@@ -304,7 +304,7 @@ msgstr "Pamac ta executándose xá"
 
 #: pamac-updater.py:27 pamac-updater.py:42 pamac-tray.py:21
 msgid "Your system is up-to-date"
-msgstr "El sistema to ta anováu"
+msgstr "El to sistema ta anováu"
 
 #: pamac-updater.py:57 pamac/transaction.py:735
 msgid "Total download size:"
@@ -335,7 +335,7 @@ msgstr "Colar"
 msgid ""
 "Some updates are available.\n"
 "Please update your system first"
-msgstr "Hai dalgunes anovaciones disponibles.\nPor favor anova'l sistema to primero"
+msgstr "Hai dalgunes anovaciones disponibles.\nPor favor, anova'l to sistema primero"
 
 #: pamac/transaction.py:183
 #, python-brace-format
@@ -439,7 +439,7 @@ msgstr "Repos"
 
 #: gui/manager.ui:509
 msgid "Name"
-msgstr "Viesu"
+msgstr "Nome"
 
 #: gui/manager.ui:522
 msgid "Version"
@@ -447,7 +447,7 @@ msgstr "Versión"
 
 #: gui/manager.ui:535
 msgid "Repo"
-msgstr "Repo"
+msgstr "Repositoriu"
 
 #: gui/manager.ui:548
 msgid "Size"
