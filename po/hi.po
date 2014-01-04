@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the Pamac package.
 # 
 # Translators:
+# sivananda <kotagirisivananda@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-11-24 14:15+0100\n"
-"PO-Revision-Date: 2013-12-30 09:47+0000\n"
-"Last-Translator: manjarolinux <philm@manjaro.org>\n"
+"PO-Revision-Date: 2014-01-04 11:54+0000\n"
+"Last-Translator: sivananda <kotagirisivananda@gmail.com>\n"
 "Language-Team: Hindi (http://www.transifex.com/projects/p/manjaro-pamac/language/hi/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,467 +20,467 @@ msgstr ""
 
 #: pamac-daemon.py:130
 msgid "Checking dependencies"
-msgstr ""
+msgstr "निर्भरता जाँच हो रही है"
 
 #: pamac-daemon.py:138
 msgid "Checking file conflicts"
-msgstr ""
+msgstr "फ़ाइल विरोध जाँच हो रही है"
 
 #: pamac-daemon.py:144
 msgid "Resolving dependencies"
-msgstr ""
+msgstr "निर्भरता हल"
 
 #: pamac-daemon.py:152
 msgid "Checking inter conflicts"
-msgstr ""
+msgstr "इंटर संघर्ष जाँच हो रही है"
 
 #: pamac-daemon.py:160
 #, python-brace-format
 msgid "Installing {pkgname}"
-msgstr ""
+msgstr "का अधिष्ठापन {pkgname}"
 
 #: pamac-daemon.py:168
 #, python-brace-format
 msgid "Removing {pkgname}"
-msgstr ""
+msgstr "हटा रहा है {pkgname}"
 
 #: pamac-daemon.py:176
 #, python-brace-format
 msgid "Upgrading {pkgname}"
-msgstr ""
+msgstr "उन्नयन {pkgname}"
 
 #: pamac-daemon.py:184
 #, python-brace-format
 msgid "Downgrading {pkgname}"
-msgstr ""
+msgstr "पदावनति {pkgname}"
 
 #: pamac-daemon.py:192
 #, python-brace-format
 msgid "Reinstalling {pkgname}"
-msgstr ""
+msgstr "स्थापित करने पुन {pkgname}"
 
 #: pamac-daemon.py:200
 msgid "Checking integrity"
-msgstr ""
+msgstr "अखंडता की जाँच"
 
 #: pamac-daemon.py:207
 msgid "Loading packages files"
-msgstr ""
+msgstr "लोड हो रहा है संकुल फाइलें"
 
 #: pamac-daemon.py:213
 msgid "Checking delta integrity"
-msgstr ""
+msgstr "डेल्टा अखंडता की जाँच"
 
 #: pamac-daemon.py:219
 msgid "Applying deltas"
-msgstr ""
+msgstr "डेल्टा लागू करना"
 
 #: pamac-daemon.py:225
 msgid "Generating {} with {}"
-msgstr ""
+msgstr "साथ {} सृजन {}"
 
 #: pamac-daemon.py:229
 msgid "Generation succeeded!"
-msgstr ""
+msgstr "जनरेशन सफल रहा!"
 
 #: pamac-daemon.py:232
 msgid "Generation failed."
-msgstr ""
+msgstr "जनरेशन में विफल रहा है."
 
 #: pamac-daemon.py:235
 #, python-brace-format
 msgid "Configuring {pkgname}"
-msgstr ""
+msgstr "का विन्यास {pkgname}"
 
 #: pamac-daemon.py:240
 msgid "Downloading"
-msgstr ""
+msgstr "डाउनलोडिंग"
 
 #: pamac-daemon.py:245
 msgid "Checking available disk space"
-msgstr ""
+msgstr "उपलब्ध डिस्क स्थान जाँच हो रही है"
 
 #: pamac-daemon.py:255
 msgid "Checking keyring"
-msgstr ""
+msgstr "कीरिंग जाँच हो रही है"
 
 #: pamac-daemon.py:261
 msgid "Downloading required keys"
-msgstr ""
+msgstr "आवश्यक चाबियाँ डाउनलोड कर रहा है"
 
 #: pamac-daemon.py:280
 #, python-brace-format
 msgid "{pkgname1} will be replaced by {pkgname2}"
-msgstr ""
+msgstr "{pkgname1} {pkgname2} द्वारा प्रतिस्थापित किया जाएगा"
 
 #: pamac-daemon.py:283
 #, python-brace-format
 msgid "{pkgname1} conflicts with {pkgname2}"
-msgstr ""
+msgstr "{pkgname2} के साथ {pkgname1} संघर्ष"
 
 #: pamac-daemon.py:327
 #, python-brace-format
 msgid "Refreshing {repo}"
-msgstr ""
+msgstr "रिफ्रेशिंग {repo}"
 
 #: pamac-daemon.py:331 pamac/transaction.py:553
 #, python-brace-format
 msgid "Downloading {pkgname}"
-msgstr ""
+msgstr "डाउनलोड कर रहा है {pkgname}"
 
 #: pamac-daemon.py:517 pamac-install.py:103
 #, python-brace-format
 msgid "{pkgname} is not a valid path or package name"
-msgstr ""
+msgstr "{pkgname} एक मान्य पथ या पैकेज नाम नहीं है"
 
 #: pamac-daemon.py:624
 #, python-brace-format
 msgid ""
 "The transaction cannot be performed because it needs to remove {pkgname1} "
 "which is a locked package"
-msgstr ""
+msgstr "यह एक बंद पैकेज है जो {pkgname1} हटाने की जरूरत है क्योंकि लेन - देन नहीं किया जा सकता"
 
 #: pamac-daemon.py:634 pamac/transaction.py:425
 msgid "Nothing to do"
-msgstr ""
+msgstr "ऐसा करने के लिए कुछ भी नहीं"
 
 #: pamac-daemon.py:697
 msgid "Transaction successfully finished"
-msgstr ""
+msgstr "लेन - देन सफलतापूर्वक समाप्त"
 
 #: pamac-daemon.py:701 pamac-daemon.py:710
 msgid "Authentication failed"
-msgstr ""
+msgstr "सत्यापन विफल"
 
 #: pamac-manager.py:79 pamac-manager.py:110 pamac-manager.py:111
 #: pamac-manager.py:126 pamac-manager.py:135 pamac-manager.py:156
 #: pamac-manager.py:281 pamac-manager.py:566 pamac-manager.py:626
 #: pamac-manager.py:696
 msgid "No package found"
-msgstr ""
+msgstr "कोई पैकेज नहीं मिला"
 
 #: pamac-manager.py:180 pamac-manager.py:242
 msgid "local"
-msgstr ""
+msgstr "स्थानीय"
 
 #: pamac-manager.py:184 pamac-manager.py:225 pamac-manager.py:339
 msgid "Installed"
-msgstr ""
+msgstr "स्थापित"
 
 #: pamac-manager.py:184 pamac-manager.py:228
 msgid "Uninstalled"
-msgstr ""
+msgstr "स्थापना हटाई"
 
 #: pamac-manager.py:184 pamac-manager.py:231
 msgid "Orphans"
-msgstr ""
+msgstr "अनाथ"
 
 #: pamac-manager.py:184 pamac-manager.py:203 pamac/transaction.py:711
 msgid "To install"
-msgstr ""
+msgstr "स्थापित करने के लिए"
 
 #: pamac-manager.py:184 pamac-manager.py:214 pamac/transaction.py:692
 msgid "To remove"
-msgstr ""
+msgstr "निकालने के लिए"
 
 #: pamac-manager.py:329
 msgid "Licenses"
-msgstr ""
+msgstr "लाइसेंस"
 
 #: pamac-manager.py:334
 msgid "Depends On"
-msgstr ""
+msgstr "पर निर्भर करता है"
 
 #: pamac-manager.py:342
 msgid "Optional Deps"
-msgstr ""
+msgstr "वैकल्पिक deps"
 
 #: pamac-manager.py:345
 msgid "Required By"
-msgstr ""
+msgstr "द्वारा जरूरी"
 
 #: pamac-manager.py:347
 msgid "Provides"
-msgstr ""
+msgstr "प्रदान करता है"
 
 #: pamac-manager.py:349
 msgid "Replaces"
-msgstr ""
+msgstr "के स्थान"
 
 #: pamac-manager.py:351
 msgid "Conflicts With"
-msgstr ""
+msgstr "इसके साथ मतभेद"
 
 #: pamac-manager.py:356
 msgid "Repository"
-msgstr ""
+msgstr "कोष"
 
 #: pamac-manager.py:358 gui/manager.ui:357
 msgid "Groups"
-msgstr ""
+msgstr "समूह"
 
 #: pamac-manager.py:360
 msgid "Compressed Size"
-msgstr ""
+msgstr "संपीड़ित आकार"
 
 #: pamac-manager.py:361
 msgid "Download Size"
-msgstr ""
+msgstr "डाउनलोड का आकार"
 
 #: pamac-manager.py:363
 msgid "Installed Size"
-msgstr ""
+msgstr "स्थापित आकार"
 
 #: pamac-manager.py:364
 msgid "Packager"
-msgstr ""
+msgstr "Packager"
 
 #: pamac-manager.py:365
 msgid "Architecture"
-msgstr ""
+msgstr "आर्किटेक्चर"
 
 #: pamac-manager.py:368
 msgid "Install Date"
-msgstr ""
+msgstr "तिथि स्थापित करें"
 
 #: pamac-manager.py:370
 msgid "Explicitly installed"
-msgstr ""
+msgstr "स्पष्ट रूप से स्थापित"
 
 #: pamac-manager.py:372
 msgid "Installed as a dependency for another package"
-msgstr ""
+msgstr "एक और पैकेज के लिए एक निर्भरता के रूप में स्थापित"
 
 #: pamac-manager.py:374
 msgid "Unknown"
-msgstr ""
+msgstr "अज्ञात"
 
 #: pamac-manager.py:375
 msgid "Install Reason"
-msgstr ""
+msgstr "कारण स्थापित करें"
 
 #: pamac-manager.py:380
 msgid "Signatures"
-msgstr ""
+msgstr "हस्ताक्षर"
 
 #: pamac-manager.py:384
 msgid "Backup files"
-msgstr ""
+msgstr "बैकअप फाइलें"
 
 #: pamac-manager.py:546
 #, python-brace-format
 msgid ""
 "{pkgname} has {number} uninstalled optional deps.\n"
 "Please choose those you would like to install:"
-msgstr ""
+msgstr "{pkgname} {संख्या} वैकल्पिक deps स्थापना हटाई है. \nआप को स्थापित करना चाहते हैं उन का चयन करें"
 
 #: pamac-manager.py:569
 msgid "Deselect"
-msgstr ""
+msgstr "अचयनित"
 
 #: pamac-manager.py:575
 msgid "Remove"
-msgstr ""
+msgstr "हटाना"
 
 #: pamac-manager.py:582
 msgid "Reinstall"
-msgstr ""
+msgstr "पुन: स्थापित करें"
 
 #: pamac-manager.py:594
 msgid "Install optional deps"
-msgstr ""
+msgstr "वैकल्पिक deps स्थापित करें"
 
 #: pamac-manager.py:600
 msgid "Install"
-msgstr ""
+msgstr "स्थापित करें"
 
 #: pamac-manager.py:612
 msgid "Install with optional deps"
-msgstr ""
+msgstr "वैकल्पिक deps साथ स्थापित करें"
 
 #: pamac-manager.py:879 pamac-updater.py:187 pamac-install.py:133
 msgid "Pamac is already running"
-msgstr ""
+msgstr "Pamac पहले से ही चल रहा है"
 
 #: pamac-updater.py:27 pamac-updater.py:42 pamac-tray.py:21
 msgid "Your system is up-to-date"
-msgstr ""
+msgstr "आपका सिस्टम है अप करने की तारीख"
 
 #: pamac-updater.py:57 pamac/transaction.py:735
 msgid "Total download size:"
-msgstr ""
+msgstr "कुल डाउनलोड आकार:"
 
 #: pamac-updater.py:59 pamac-tray.py:19
 msgid "1 available update"
-msgstr ""
+msgstr "1 उपलब्ध अद्यतन"
 
 #: pamac-updater.py:61 pamac-tray.py:18
 #, python-brace-format
 msgid "{number} available updates"
-msgstr ""
+msgstr "{संख्या} उपलब्ध अद्यतन"
 
 #: pamac-tray.py:31 pamac-tray.py:89 pamac-tray.py:100 gui/updater.ui:24
 msgid "Update Manager"
-msgstr ""
+msgstr "अद्यतन प्रबंधक"
 
 #: pamac-tray.py:35 gui/manager.ui:144
 msgid "Package Manager"
-msgstr ""
+msgstr "संकुल प्रबंधक"
 
 #: pamac-tray.py:39
 msgid "Quit"
-msgstr ""
+msgstr "छोड़ना"
 
 #: pamac-install.py:52
 msgid ""
 "Some updates are available.\n"
 "Please update your system first"
-msgstr ""
+msgstr "कुछ अद्यतन उपलब्ध हैं. \nआपके सिस्टम पहले अपडेट करें"
 
 #: pamac/transaction.py:183
 #, python-brace-format
 msgid ""
 "{pkgname} is provided by {number} packages.\n"
 "Please choose those you would like to install:"
-msgstr ""
+msgstr "{pkgname} {संख्या} संकुल द्वारा प्रदान की जाती है. \nआप को स्थापित करना चाहते हैं उन का चयन करें"
 
 #: pamac/transaction.py:233
 msgid "Refreshing"
-msgstr ""
+msgstr "रिफ्रेशिंग"
 
 #: pamac/transaction.py:317 pamac/transaction.py:356
 #, python-brace-format
 msgid "{pkgname} depends on {dependname} but it is not installable"
-msgstr ""
+msgstr "{pkgname} {dependname} पर निर्भर करता है लेकिन यह स्थापना योग्य नहीं है"
 
 #: pamac/transaction.py:360
 #, python-brace-format
 msgid "Failed to get {pkgname} archive from AUR"
-msgstr ""
+msgstr "AUR से {pkgname} पुरालेख पाने में विफल"
 
 #: pamac/transaction.py:382 pamac/transaction.py:609
 msgid "Preparing"
-msgstr ""
+msgstr "तैयारी"
 
 #: pamac/transaction.py:503
 msgid "Build process failed."
-msgstr ""
+msgstr "निर्माण प्रक्रिया में विफल रहा है."
 
 #: pamac/transaction.py:589
 #, python-brace-format
 msgid "Building {pkgname}"
-msgstr ""
+msgstr "भवन {pkgname}"
 
 #: pamac/transaction.py:640
 msgid "Checking for updates"
-msgstr ""
+msgstr "अद्यतन के लिए जाँच हो रही है"
 
 #: pamac/transaction.py:690
 msgid "Transaction Summary"
-msgstr ""
+msgstr "गतिविधि सारांश"
 
 #: pamac/transaction.py:698
 msgid "To downgrade"
-msgstr ""
+msgstr "डाउनग्रेड करने के लिए"
 
 #: pamac/transaction.py:705
 msgid "To build"
-msgstr ""
+msgstr "निर्माण करने के लिए"
 
 #: pamac/transaction.py:718
 msgid "To reinstall"
-msgstr ""
+msgstr "पुन: स्थापित करने के लिए"
 
 #: pamac/transaction.py:726
 msgid "To update"
-msgstr ""
+msgstr "अद्यतन करने के लिए"
 
 #: pamac/common.py:13
 #, python-format
 msgid "%.1f KiB"
-msgstr ""
+msgstr "%.1f KiB"
 
 #: pamac/common.py:16
 #, python-format
 msgid "%.2f MiB"
-msgstr ""
+msgstr "%.2f MiB"
 
 #: gui/manager.ui:8
 msgid "About Pamac"
-msgstr ""
+msgstr "Pamac बारे में"
 
 #: gui/manager.ui:11
 msgid "Copyright © 2013 Guillaume Benoit"
-msgstr ""
+msgstr "Copyright © 2013 Guillaume Benoit"
 
 #: gui/manager.ui:12
 msgid "A gtk3 frontend for pyalpm"
-msgstr ""
+msgstr "Pyalpm के लिए एक gtk3 दृश्यपटल"
 
 #: gui/manager.ui:42 gui/manager.ui:868
 msgid "Install local packages"
-msgstr ""
+msgstr "स्थानीय संकुल स्थापित करें"
 
 #: gui/manager.ui:253
 msgid "Search in AUR"
-msgstr ""
+msgstr "AUR में खोज"
 
 #: gui/manager.ui:311
 msgid "Search"
-msgstr ""
+msgstr "खोज"
 
 #: gui/manager.ui:404 gui/manager.ui:496
 msgid "State"
-msgstr ""
+msgstr "राज्य"
 
 #: gui/manager.ui:451
 msgid "Repos"
-msgstr ""
+msgstr "आराम"
 
 #: gui/manager.ui:509
 msgid "Name"
-msgstr ""
+msgstr "नाम"
 
 #: gui/manager.ui:522
 msgid "Version"
-msgstr ""
+msgstr "संस्करण"
 
 #: gui/manager.ui:535
 msgid "Repo"
-msgstr ""
+msgstr "रेपो"
 
 #: gui/manager.ui:548
 msgid "Size"
-msgstr ""
+msgstr "आकार"
 
 #: gui/manager.ui:650
 msgid "Infos"
-msgstr ""
+msgstr "जानकारी"
 
 #: gui/manager.ui:714
 msgid "Deps"
-msgstr ""
+msgstr "Deps"
 
 #: gui/manager.ui:783
 msgid "Details"
-msgstr ""
+msgstr "विवरण"
 
 #: gui/manager.ui:812
 msgid "Files"
-msgstr ""
+msgstr "फ़ाइलें"
 
 #: gui/dialogs.ui:7
 msgid "Choose"
-msgstr ""
+msgstr "चुनें"
 
 #: gui/dialogs.ui:113
 msgid "Summary"
-msgstr ""
+msgstr "सारांश"
 
 #: gui/dialogs.ui:315
 msgid "Progress"
-msgstr ""
+msgstr "प्रगति"
 
 #: gui/dialogs.ui:408
 msgid "details"
-msgstr ""
+msgstr "विवरण"
