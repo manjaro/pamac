@@ -4,14 +4,14 @@
 # 
 # Translators:
 # lajos <mrlajos@gmail.com>, 2013
-# lajos <mrlajos@gmail.com>, 2013
+# lajos <mrlajos@gmail.com>, 2013-2014
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-11-24 14:15+0100\n"
-"PO-Revision-Date: 2013-11-24 13:19+0000\n"
-"Last-Translator: manjarolinux <philm@manjaro.org>\n"
+"PO-Revision-Date: 2014-01-06 15:09+0000\n"
+"Last-Translator: lajos <mrlajos@gmail.com>\n"
 "Language-Team: Hungarian (http://www.transifex.com/projects/p/manjaro-pamac/language/hu/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -95,7 +95,7 @@ msgstr "Konfigurálás {pkgname}"
 
 #: pamac-daemon.py:240
 msgid "Downloading"
-msgstr ""
+msgstr "Letöltés"
 
 #: pamac-daemon.py:245
 msgid "Checking available disk space"
@@ -273,11 +273,11 @@ msgstr "Mentett fájlok"
 msgid ""
 "{pkgname} has {number} uninstalled optional deps.\n"
 "Please choose those you would like to install:"
-msgstr ""
+msgstr "{pkgname} -nak {number}  opcionális eltávolított függősége van.\nKérlek válaszd ki azokat amiket telepíteni szeretnél:"
 
 #: pamac-manager.py:569
 msgid "Deselect"
-msgstr ""
+msgstr "Kiválasztás megszüntetése"
 
 #: pamac-manager.py:575
 msgid "Remove"
@@ -309,7 +309,7 @@ msgstr "A rendszer naprakész"
 
 #: pamac-updater.py:57 pamac/transaction.py:735
 msgid "Total download size:"
-msgstr ""
+msgstr "Teljes letöltési méret:"
 
 #: pamac-updater.py:59 pamac-tray.py:19
 msgid "1 available update"
@@ -343,7 +343,7 @@ msgstr "Néhány frissítés elérhető\nKérlek frissítsd a rendszert előszö
 msgid ""
 "{pkgname} is provided by {number} packages.\n"
 "Please choose those you would like to install:"
-msgstr ""
+msgstr "{pkgname} elérhető {number} csomagtól.\nKérlek válaszd ki azokat amiket telepíteni szeretnél:"
 
 #: pamac/transaction.py:233
 msgid "Refreshing"
@@ -352,12 +352,12 @@ msgstr "Frissítés"
 #: pamac/transaction.py:317 pamac/transaction.py:356
 #, python-brace-format
 msgid "{pkgname} depends on {dependname} but it is not installable"
-msgstr ""
+msgstr "{pkgname} függ ettől {dependname} de az nem telepíthető"
 
 #: pamac/transaction.py:360
 #, python-brace-format
 msgid "Failed to get {pkgname} archive from AUR"
-msgstr ""
+msgstr "Nem lehet elérni a {pkgname} az AUR archívumból."
 
 #: pamac/transaction.py:382 pamac/transaction.py:609
 msgid "Preparing"
@@ -365,20 +365,20 @@ msgstr "Előkészítés"
 
 #: pamac/transaction.py:503
 msgid "Build process failed."
-msgstr ""
+msgstr "Az építési folyamat hibával leállt."
 
 #: pamac/transaction.py:589
 #, python-brace-format
 msgid "Building {pkgname}"
-msgstr ""
+msgstr "Csomag létrehozás {pkgname}"
 
 #: pamac/transaction.py:640
 msgid "Checking for updates"
-msgstr ""
+msgstr "Frissítések ellenőrzése"
 
 #: pamac/transaction.py:690
 msgid "Transaction Summary"
-msgstr ""
+msgstr "Tranzakció összefoglaló"
 
 #: pamac/transaction.py:698
 msgid "To downgrade"
@@ -386,7 +386,7 @@ msgstr "Visszaállításra"
 
 #: pamac/transaction.py:705
 msgid "To build"
-msgstr ""
+msgstr "Építeni"
 
 #: pamac/transaction.py:718
 msgid "To reinstall"
@@ -424,7 +424,7 @@ msgstr "Helyi csomagok telepítése"
 
 #: gui/manager.ui:253
 msgid "Search in AUR"
-msgstr ""
+msgstr "Keresés AUR -ban"
 
 #: gui/manager.ui:311
 msgid "Search"
@@ -448,7 +448,7 @@ msgstr "Verzió"
 
 #: gui/manager.ui:535
 msgid "Repo"
-msgstr ""
+msgstr "Tároló"
 
 #: gui/manager.ui:548
 msgid "Size"
