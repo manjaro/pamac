@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-11-24 14:15+0100\n"
-"PO-Revision-Date: 2014-01-06 05:43+0000\n"
+"PO-Revision-Date: 2014-01-06 05:45+0000\n"
 "Last-Translator: manjarolinux <philm@manjaro.org>\n"
 "Language-Team: Greek (http://www.transifex.com/projects/p/manjaro-pamac/language/el/)\n"
 "MIME-Version: 1.0\n"
@@ -346,7 +346,7 @@ msgstr "Κάποιες αναβαθμίσεις είναι διαθέσιμες.
 msgid ""
 "{pkgname} is provided by {number} packages.\n"
 "Please choose those you would like to install:"
-msgstr "{όνομα πακέτου} παρέχεται από {αριθμός} πακέτων.\nΠαρακαλώ επέλεξε αυτά που θέλεις να εγκαταστήσεις."
+msgstr "{pkgname} παρέχεται από {number} πακέτων.\nΠαρακαλώ επέλεξε αυτά που θέλεις να εγκαταστήσεις."
 
 #: pamac/transaction.py:233
 msgid "Refreshing"
