@@ -5,6 +5,7 @@
 # Translators:
 # angel_solomos <angelsolomos@gmail.com>, 2013
 # Guillaume Benoit <guillaume@manjaro.org>, 2013
+# manjarolinux <philm@manjaro.org>, 2014
 # Savoritias <savoritiasshadow@gmail.com>, 2014
 # gasdim <gasdim@hotmail.gr>, 2013
 msgid ""
@@ -12,8 +13,8 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-11-24 14:15+0100\n"
-"PO-Revision-Date: 2014-01-05 13:31+0000\n"
-"Last-Translator: Savoritias <savoritiasshadow@gmail.com>\n"
+"PO-Revision-Date: 2014-01-06 05:43+0000\n"
+"Last-Translator: manjarolinux <philm@manjaro.org>\n"
 "Language-Team: Greek (http://www.transifex.com/projects/p/manjaro-pamac/language/el/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -275,7 +276,7 @@ msgstr "Δημιουργία αντιγράφων ασφαλείας αρχεί�
 msgid ""
 "{pkgname} has {number} uninstalled optional deps.\n"
 "Please choose those you would like to install:"
-msgstr "{όνομα πακέτου} έχει {αριθμό} απεγκατεστημένες προαιρετικές βιβλιοθήκες.\nΠαρακαλώ επέλεξε αυτές που θέλεις να εγκαταστήσεις."
+msgstr "{pkgname} έχει {number} απεγκατεστημένες προαιρετικές βιβλιοθήκες.\nΠαρακαλώ επέλεξε αυτές που θέλεις να εγκαταστήσεις."
 
 #: pamac-manager.py:569
 msgid "Deselect"
@@ -354,12 +355,12 @@ msgstr "Ανανέωση"
 #: pamac/transaction.py:317 pamac/transaction.py:356
 #, python-brace-format
 msgid "{pkgname} depends on {dependname} but it is not installable"
-msgstr "{όνομα πακέτου} εξαρτάται από {όνομα εξαρτόμενου πακέτου} αλλά δεν μπορεί να εγκατασταθεί"
+msgstr "{pkgname} εξαρτάται από {dependname} αλλά δεν μπορεί να εγκατασταθεί"
 
 #: pamac/transaction.py:360
 #, python-brace-format
 msgid "Failed to get {pkgname} archive from AUR"
-msgstr "Αποτυχεία λήψης {όνομα πακέτου} από την AUR"
+msgstr "Αποτυχεία λήψης {pkgname} από την AUR"
 
 #: pamac/transaction.py:382 pamac/transaction.py:609
 msgid "Preparing"
@@ -372,7 +373,7 @@ msgstr "Η προετοιμασία για εγκατάσταση απέτυχε
 #: pamac/transaction.py:589
 #, python-brace-format
 msgid "Building {pkgname}"
-msgstr "Προετοίμασία εγκατάστασης {όνομα πακέτου}"
+msgstr "Προετοίμασία εγκατάστασης {pkgname}"
 
 #: pamac/transaction.py:640
 msgid "Checking for updates"
