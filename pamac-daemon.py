@@ -467,9 +467,10 @@ class PamacDBusService(dbus.service.Object):
 					self.aur_updates_pkgs = aur.multiinfo(self.local_packages)
 					self.aur_updates_checked = True
 			for aur_pkg in self.aur_updates_pkgs:
-				comp = pyalpm.vercmp(aur_pkg.version, self.localdb.get_pkg(aur_pkg.name).version)
-				if comp == 1:
-					updates.append((aur_pkg.name, aur_pkg.version, aur_pkg.db.name, aur_pkg.tarpath, aur_pkg.download_size))
+				if self.localdb.get_pkg(aur_pkg.name):
+					comp = pyalpm.vercmp(aur_pkg.version, self.localdb.get_pkg(aur_pkg.name).version)
+					if comp == 1:
+						updates.append((aur_pkg.name, aur_pkg.version, aur_pkg.db.name, aur_pkg.tarpath, aur_pkg.download_size))
 		self.EmitAvailableUpdates((syncfirst, updates))
 
 	@dbus.service.method('org.manjaro.pamac', 'b', '')
