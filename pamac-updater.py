@@ -166,7 +166,9 @@ def on_Updater_ApplyButton_clicked(*args):
 	UpdaterWindow.get_window().set_cursor(Gdk.Cursor(Gdk.CursorType.WATCH))
 	while Gtk.events_pending():
 		Gtk.main_iteration()
-	transaction.sysupgrade(show_updates = False)
+	error = transaction.sysupgrade(show_updates = False)
+	if error:
+		handle_error(error)
 
 def on_Updater_RefreshButton_clicked(*args):
 	UpdaterWindow.get_window().set_cursor(Gdk.Cursor(Gdk.CursorType.WATCH))
