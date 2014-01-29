@@ -241,7 +241,6 @@ def get_handle():
 	handle = config.handle()
 	syncdbs = handle.get_syncdbs()
 	localdb = handle.get_localdb()
-	print('get handle')
 
 def get_localpkg(name):
 	return localdb.get_pkg(name)
@@ -395,7 +394,7 @@ def check_to_build():
 		to_mark_as_dep.add(name)
 	# reorder to_build following build_order
 	to_build.sort(key = lambda pkg: build_order.index(pkg.name))
-	print('order:', build_order)
+	#print('order:', build_order)
 	print('to build:',to_build)
 	print('makedeps:',make_depends)
 	print('builddeps:',build_depends)

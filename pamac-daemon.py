@@ -71,7 +71,6 @@ class PamacDBusService(dbus.service.Object):
 		self.get_handle()
 
 	def get_handle(self):
-		print('daemon get handle')
 		self.handle = config.handle()
 		self.localdb = self.handle.get_localdb()
 		self.syncdbs = self.handle.get_syncdbs()
@@ -417,7 +416,9 @@ class PamacDBusService(dbus.service.Object):
 
 		Subject = ('unix-process', {'pid': dbus.UInt32(sender_pid, variant_level=1),
 						'start-time': dbus.UInt64(0, variant_level=1)})
-		(is_authorized,is_challenge,details) = policykit_authority.CheckAuthorization(Subject, action, {'': ''}, dbus.UInt32(1), '')
+		# We would like an infinite timeout, but dbus-python won't allow it.
+		# Pass the longest timeout dbus-python will accept
+		(is_authorized,is_challenge,details) = policykit_authority.CheckAuthorization(Subject, action, {'': ''}, dbus.UInt32(1), '',timeout=2147483)
 		return is_authorized
 
 	@dbus.service.method('org.manjaro.pamac', 'si', 's')
@@ -593,10 +594,16 @@ class PamacDBusService(dbus.service.Object):
 					for module in installed_modules:
 						pkgname = match.group(1)+module
 						if not pkgname in to_remove:
-							to_remove.add(pkgname)
 							_pkg = self.localdb.get_pkg(pkgname)
 							if _pkg:
-								self.t.remove_pkg(_pkg)
+								# Check we won't remove a third party kernel
+								third_party = False
+								for provide in _pkg.provides:
+									if 'linux=' in provide:
+										third_party = True
+								if not third_party:
+									to_remove.add(pkgname)
+									self.t.remove_pkg(_pkg)
 		# start loops to check pkgs
 		i = 0
 		while depends[i]:
