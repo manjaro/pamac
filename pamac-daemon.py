@@ -136,10 +136,6 @@ class PamacDBusService(dbus.service.Object):
 		pass
 
 	@dbus.service.signal('org.manjaro.pamac')
-	def EmitDownloadStart(self, message):
-		pass
-
-	@dbus.service.signal('org.manjaro.pamac')
 	def EmitTransactionStart(self, message):
 		pass
 
@@ -153,7 +149,10 @@ class PamacDBusService(dbus.service.Object):
 
 	@dbus.service.signal('org.manjaro.pamac')
 	def EmitReloadConfig(self, message):
-		pass
+		# recheck aur updates next time
+		self.aur_updates_checked = False
+		# reload config
+		config.pamac_conf.reload()
 
 	def cb_event(self, event, tupel):
 		action = self.previous_action
@@ -273,7 +272,6 @@ class PamacDBusService(dbus.service.Object):
 			action = _('Downloading')+'...'
 			action_long = action+'\n'
 			icon = '/usr/share/pamac/icons/24x24/status/package-download.png'
-			self.EmitDownloadStart('')
 		elif event == 'ALPM_EVENT_DISKSPACE_START':
 			action = _('Checking available disk space')+'...'
 			action_long = action+'\n'
@@ -463,12 +461,13 @@ class PamacDBusService(dbus.service.Object):
 				if not self.aur_updates_checked:
 					self.get_local_packages()
 					self.local_packages -= _ignorepkgs
-				for pkg in self.localdb.pkgcache:
-					if not pkg.name in _ignorepkgs:
-						candidate = pyalpm.sync_newversion(pkg, self.syncdbs)
-						if candidate:
-							updates.append((candidate.name, candidate.version, candidate.db.name, '', candidate.download_size))
-							self.local_packages.discard(pkg.name)
+			for pkg in self.localdb.pkgcache:
+				if not pkg.name in _ignorepkgs:
+					candidate = pyalpm.sync_newversion(pkg, self.syncdbs)
+					if candidate:
+						updates.append((candidate.name, candidate.version, candidate.db.name, '', candidate.download_size))
+						self.local_packages.discard(pkg.name)
+			if config.enable_aur:
 				if not self.aur_updates_checked:
 					if self.local_packages:
 						self.aur_updates_pkgs = aur.multiinfo(self.local_packages)

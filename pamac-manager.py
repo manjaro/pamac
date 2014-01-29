@@ -490,6 +490,7 @@ def on_TransValidButton_clicked(*args):
 	transaction.finalize()
 
 def on_TransCancelButton_clicked(*args):
+	transaction.ProgressWindow.hide()
 	transaction.progress_buffer.delete(transaction.progress_buffer.get_start_iter(),transaction.progress_buffer.get_end_iter())
 	transaction.ConfDialog.hide()
 	while Gtk.events_pending():
@@ -504,9 +505,6 @@ def on_TransCancelButton_clicked(*args):
 		refresh_packages_list(current_filter[0](current_filter[1]))
 
 def on_ProgressCloseButton_clicked(*args):
-	#~ transaction.ProgressWindow.hide()
-	#~ while Gtk.events_pending():
-		#~ Gtk.main_iteration()
 	transaction.progress_buffer.delete(transaction.progress_buffer.get_start_iter(),transaction.progress_buffer.get_end_iter())
 	transaction.need_details_handler(False)
 	ManagerWindow.get_window().set_cursor(Gdk.Cursor(Gdk.CursorType.WATCH))

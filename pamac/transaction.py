@@ -136,7 +136,6 @@ def config_dbus_signals():
 	bus.add_signal_receiver(target_handler, dbus_interface = "org.manjaro.pamac", signal_name = "EmitTarget")
 	bus.add_signal_receiver(percent_handler, dbus_interface = "org.manjaro.pamac", signal_name = "EmitPercent")
 	bus.add_signal_receiver(need_details_handler, dbus_interface = "org.manjaro.pamac", signal_name = "EmitNeedDetails")
-	bus.add_signal_receiver(download_start_handler, dbus_interface = "org.manjaro.pamac", signal_name = "EmitDownloadStart")
 	bus.add_signal_receiver(transaction_start_handler, dbus_interface = "org.manjaro.pamac", signal_name = "EmitTransactionStart")
 	bus.add_signal_receiver(log_error, dbus_interface = "org.manjaro.pamac", signal_name = "EmitLogError")
 	bus.add_signal_receiver(log_warning, dbus_interface = "org.manjaro.pamac", signal_name = "EmitLogWarning")
@@ -166,14 +165,6 @@ def percent_handler(percent):
 
 def transaction_start_handler(msg):
 	ProgressCancelButton.set_visible(False)
-	ProgressWindow.show()
-	while Gtk.events_pending():
-		Gtk.main_iteration()
-
-def download_start_handler(msg):
-	ProgressWindow.show()
-	while Gtk.events_pending():
-		Gtk.main_iteration()
 
 def log_error(msg):
 	ErrorDialog.format_secondary_text(msg)
@@ -410,7 +401,7 @@ def run(cascade = True, recurse = False):
 		progress_buffer.delete(progress_buffer.get_start_iter(), progress_buffer.get_end_iter())
 		ProgressCancelButton.set_visible(False)
 		ProgressCloseButton.set_visible(False)
-		progress_expander.set_visible(False)
+		progress_expander.set_visible(True)
 		ProgressWindow.show()
 		while Gtk.events_pending():
 			Gtk.main_iteration()
@@ -422,6 +413,7 @@ def run(cascade = True, recurse = False):
 			error += check_to_build()
 		if not error:
 			if to_add or to_remove or to_load:
+				ProgressCancelButton.set_visible(True)
 				while Gtk.events_pending():
 					Gtk.main_iteration()
 				trans_flags = {'cascade': cascade, 'recurse': recurse}
@@ -437,7 +429,6 @@ def run(cascade = True, recurse = False):
 						error += prepare(**trans_flags)
 			if not error:
 				set_transaction_sum()
-				ProgressWindow.hide()
 				ConfDialog.show_all()
 				while Gtk.events_pending():
 					Gtk.main_iteration()
@@ -659,15 +650,6 @@ def build_next():
 
 def finalize():
 	if To_Add() or To_Remove():
-		global progress_buffer
-		action_handler(_('Preparing')+'...')
-		icon_handler('/usr/share/pamac/icons/24x24/status/package-setup.png')
-		target_handler('')
-		percent_handler(0)
-		progress_buffer.delete(progress_buffer.get_start_iter(), progress_buffer.get_end_iter())
-		ProgressCancelButton.set_visible(True)
-		ProgressCloseButton.set_visible(False)
-		progress_expander.set_visible(True)
 		try:
 			Commit()
 		except dbus.exceptions.DBusException as e:
@@ -796,14 +778,26 @@ def set_transaction_sum(show_updates = True):
 		sum_bottom_label.set_markup('<b>{} {}</b>'.format(_('Total download size:'), common.format_size(dsize)))
 
 def sysupgrade(show_updates = True):
-	global to_update
-	global to_add
-	global to_remove
 	syncfirst, updates = available_updates
 	if updates:
+		global to_update
+		global to_add
+		global to_remove
+		global progress_buffer
 		to_update.clear()
 		to_add.clear()
 		to_remove.clear()
+		action_handler(_('Preparing')+'...')
+		icon_handler('/usr/share/pamac/icons/24x24/status/package-setup.png')
+		target_handler('')
+		percent_handler(0)
+		progress_buffer.delete(progress_buffer.get_start_iter(), progress_buffer.get_end_iter())
+		ProgressCancelButton.set_visible(False)
+		ProgressCloseButton.set_visible(False)
+		progress_expander.set_visible(True)
+		ProgressWindow.show()
+		while Gtk.events_pending():
+			Gtk.main_iteration()
 		for name, version, db, tarpath, size in updates:
 			if db == 'AUR':
 				# call AURPkg constructor directly to avoid a request to AUR
@@ -814,6 +808,7 @@ def sysupgrade(show_updates = True):
 				to_update.add(name)
 		error = ''
 		if syncfirst:
+			ProgressCancelButton.set_visible(True)
 			error += init_transaction()
 			if not error:
 				for name in to_update:
@@ -826,6 +821,7 @@ def sysupgrade(show_updates = True):
 				# grab errors differently here to not break regular updates
 				_error = check_to_build()
 			if to_update or to_add:
+				ProgressCancelButton.set_visible(True)
 				error += init_transaction()
 				if not error:
 					if to_update:
@@ -840,13 +836,11 @@ def sysupgrade(show_updates = True):
 		if not error:
 			set_transaction_sum(show_updates = show_updates)
 			if show_updates:
-				ProgressWindow.hide()
 				ConfDialog.show_all()
 				while Gtk.events_pending():
 					Gtk.main_iteration()
 			else:
 				if len(transaction_sum) != 0:
-					ProgressWindow.hide()
 					ConfDialog.show_all()
 					while Gtk.events_pending():
 						Gtk.main_iteration()

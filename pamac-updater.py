@@ -107,9 +107,6 @@ def handle_reply(reply):
 		transaction.progress_buffer.insert(end_iter, str(reply))
 		transaction.get_handle()
 	else:
-		#~ transaction.ProgressWindow.hide()
-		#~ while Gtk.events_pending():
-			#~ Gtk.main_iteration()
 		UpdaterWindow.get_window().set_cursor(None)
 		transaction.get_handle()
 		transaction.get_updates()
@@ -137,6 +134,7 @@ def on_TransValidButton_clicked(*args):
 
 def on_TransCancelButton_clicked(*args):
 	UpdaterWindow.get_window().set_cursor(None)
+	transaction.ProgressWindow.hide()
 	transaction.progress_buffer.delete(transaction.progress_buffer.get_start_iter(),transaction.progress_buffer.get_end_iter())
 	transaction.ConfDialog.hide()
 	while Gtk.events_pending():
@@ -149,9 +147,6 @@ def on_TransCancelButton_clicked(*args):
 
 def on_ProgressCloseButton_clicked(*args):
 	UpdaterWindow.get_window().set_cursor(None)
-	#~ transaction.ProgressWindow.hide()
-	#~ while Gtk.events_pending():
-		#~ Gtk.main_iteration()
 	transaction.progress_buffer.delete(transaction.progress_buffer.get_start_iter(),transaction.progress_buffer.get_end_iter())
 	transaction.need_details_handler(False)
 	transaction.get_updates()
