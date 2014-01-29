@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated with glade 3.16.0 on Wed Nov  6 15:14:37 2013 -->
+<!-- Generated with glade 3.16.1 -->
 <interface>
-  <!-- interface-requires gtk+ 3.6 -->
+  <requires lib="gtk+" version="3.6"/>
   <object class="GtkAboutDialog" id="AboutDialog">
     <property name="can_focus">False</property>
     <property name="border_width">5</property>
@@ -35,6 +35,116 @@
         </child>
       </object>
     </child>
+  </object>
+  <object class="GtkImage" id="cancel_icon">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="stock">gtk-cancel</property>
+  </object>
+  <object class="GtkListStore" id="deps_list">
+    <columns>
+      <!-- column-name dep_type -->
+      <column type="gchararray"/>
+      <!-- column-name deps -->
+      <column type="gchararray"/>
+    </columns>
+  </object>
+  <object class="GtkListStore" id="details_list">
+    <columns>
+      <!-- column-name info_type -->
+      <column type="gchararray"/>
+      <!-- column-name _info -->
+      <column type="gchararray"/>
+    </columns>
+  </object>
+  <object class="GtkListStore" id="files_list">
+    <columns>
+      <!-- column-name file -->
+      <column type="gchararray"/>
+    </columns>
+  </object>
+  <object class="GtkListStore" id="groups_list">
+    <columns>
+      <!-- column-name name -->
+      <column type="gchararray"/>
+    </columns>
+  </object>
+  <object class="GtkImage" id="local_icon">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="pixel_size">16</property>
+    <property name="icon_name">emblem-package</property>
+  </object>
+  <object class="GtkMenu" id="main_menu">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <child>
+      <object class="GtkImageMenuItem" id="refresh_item">
+        <property name="label">gtk-refresh</property>
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="use_underline">True</property>
+        <property name="use_stock">True</property>
+        <signal name="activate" handler="on_refresh_item_activate" swapped="no"/>
+      </object>
+    </child>
+    <child>
+      <object class="GtkSeparatorMenuItem" id="separatormenuitem1">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+      </object>
+    </child>
+    <child>
+      <object class="GtkImageMenuItem" id="local_item">
+        <property name="label" translatable="yes">Install local packages</property>
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="image">local_icon</property>
+        <property name="use_stock">False</property>
+        <signal name="activate" handler="on_local_item_activate" swapped="no"/>
+      </object>
+    </child>
+    <child>
+      <object class="GtkSeparatorMenuItem" id="separatormenuitem2">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+      </object>
+    </child>
+    <child>
+      <object class="GtkImageMenuItem" id="preferences_item">
+        <property name="label">gtk-preferences</property>
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>>
+        <property name="use_stock">True</property>
+        <signal name="activate" handler="on_preferences_item_activate" swapped="no"/>
+      </object>
+    </child>
+    <child>
+      <object class="GtkSeparatorMenuItem" id="separatormenuitem3">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+      </object>
+    </child>
+    <child>
+      <object class="GtkImageMenuItem" id="about_item">
+        <property name="label">gtk-about</property>
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="use_underline">True</property>
+        <property name="use_stock">True</property>
+        <signal name="activate" handler="on_about_item_activate" swapped="no"/>
+      </object>
+    </child>
+  </object>
+  <object class="GtkImage" id="menu_icon">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="stock">gtk-execute</property>
+  </object>
+  <object class="GtkFileFilter" id="package_filter">
+    <mime-types>
+      <mime-type>application/x-xz-compressed-tar</mime-type>
+    </mime-types>
   </object>
   <object class="GtkFileChooserDialog" id="PackagesChooserDialog">
     <property name="can_focus">False</property>
@@ -105,38 +215,42 @@
       <action-widget response="0">package_open_button</action-widget>
     </action-widgets>
   </object>
-  <object class="GtkImage" id="cancel_icon">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <property name="stock">gtk-cancel</property>
-  </object>
-  <object class="GtkListStore" id="deps_list">
+  <object class="GtkListStore" id="packages_list">
     <columns>
-      <!-- column-name dep_type -->
+      <!-- column-name name -->
       <column type="gchararray"/>
-      <!-- column-name deps -->
+      <!-- column-name installed -->
+      <column type="gboolean"/>
+      <!-- column-name size_string -->
+      <column type="gchararray"/>
+      <!-- column-name real_size -->
+      <column type="gdouble"/>
+      <!-- column-name version -->
       <column type="gchararray"/>
     </columns>
   </object>
-  <object class="GtkListStore" id="details_list">
-    <columns>
-      <!-- column-name info_type -->
-      <column type="gchararray"/>
-      <!-- column-name _info -->
-      <column type="gchararray"/>
-    </columns>
-  </object>
-  <object class="GtkListStore" id="files_list">
-    <columns>
-      <!-- column-name file -->
-      <column type="gchararray"/>
-    </columns>
-  </object>
-  <object class="GtkListStore" id="groups_list">
+  <object class="GtkListStore" id="repos_list">
     <columns>
       <!-- column-name name -->
       <column type="gchararray"/>
     </columns>
+  </object>
+  <object class="GtkListStore" id="search_list">
+    <columns>
+      <!-- column-name terms -->
+      <column type="gchararray"/>
+    </columns>
+  </object>
+  <object class="GtkListStore" id="states_list">
+    <columns>
+      <!-- column-name state -->
+      <column type="gchararray"/>
+    </columns>
+  </object>
+  <object class="GtkImage" id="valid_icon">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="stock">gtk-ok</property>
   </object>
   <object class="GtkWindow" id="ManagerWindow">
     <property name="can_focus">False</property>
@@ -837,104 +951,5 @@
         </child>
       </object>
     </child>
-  </object>
-  <object class="GtkImage" id="local_icon">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <property name="pixel_size">16</property>
-    <property name="icon_name">emblem-package</property>
-  </object>
-  <object class="GtkMenu" id="main_menu">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <child>
-      <object class="GtkImageMenuItem" id="refresh_item">
-        <property name="label">gtk-refresh</property>
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="use_underline">True</property>
-        <property name="use_stock">True</property>
-        <signal name="activate" handler="on_refresh_item_activate" swapped="no"/>
-      </object>
-    </child>
-    <child>
-      <object class="GtkSeparatorMenuItem" id="separatormenuitem1">
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-      </object>
-    </child>
-    <child>
-      <object class="GtkImageMenuItem" id="local_item">
-        <property name="label" translatable="yes">Install local packages</property>
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="image">local_icon</property>
-        <property name="use_stock">False</property>
-        <signal name="activate" handler="on_local_item_activate" swapped="no"/>
-      </object>
-    </child>
-    <child>
-      <object class="GtkSeparatorMenuItem" id="separatormenuitem2">
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-      </object>
-    </child>
-    <child>
-      <object class="GtkImageMenuItem" id="about_item">
-        <property name="label">gtk-about</property>
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="use_underline">True</property>
-        <property name="use_stock">True</property>
-        <signal name="activate" handler="on_about_item_activate" swapped="no"/>
-      </object>
-    </child>
-  </object>
-  <object class="GtkImage" id="menu_icon">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <property name="stock">gtk-execute</property>
-  </object>
-  <object class="GtkFileFilter" id="package_filter">
-    <mime-types>
-      <mime-type>application/x-xz-compressed-tar</mime-type>
-    </mime-types>
-  </object>
-  <object class="GtkListStore" id="packages_list">
-    <columns>
-      <!-- column-name name -->
-      <column type="gchararray"/>
-      <!-- column-name installed -->
-      <column type="gboolean"/>
-      <!-- column-name size_string -->
-      <column type="gchararray"/>
-      <!-- column-name real_size -->
-      <column type="gdouble"/>
-      <!-- column-name version -->
-      <column type="gchararray"/>
-    </columns>
-  </object>
-  <object class="GtkListStore" id="repos_list">
-    <columns>
-      <!-- column-name name -->
-      <column type="gchararray"/>
-    </columns>
-  </object>
-  <object class="GtkListStore" id="search_list">
-    <columns>
-      <!-- column-name terms -->
-      <column type="gchararray"/>
-    </columns>
-  </object>
-  <object class="GtkListStore" id="states_list">
-    <columns>
-      <!-- column-name state -->
-      <column type="gchararray"/>
-    </columns>
-  </object>
-  <object class="GtkImage" id="valid_icon">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <property name="stock">gtk-ok</property>
   </object>
 </interface>

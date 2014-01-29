@@ -60,7 +60,8 @@ SINGLE_OPTIONS = (
 	'CleanMethod',
 	'SigLevel',
 	'LocalFileSigLevel',
-	'RemoteFileSigLevel'
+	'RemoteFileSigLevel',
+	'RefreshPeriod'
 )
 
 BOOLEAN_OPTIONS = (
@@ -69,7 +70,9 @@ BOOLEAN_OPTIONS = (
 	'CheckSpace',
 	'VerbosePkgLists',
 	'ILoveCandy',
-	'Color'
+	'Color',
+	'EnableAUR',
+	'RemoveUnrequiredDeps'
 )
 
 def define_siglevel(default_level, conf_string):
@@ -186,7 +189,7 @@ def pacman_conf_enumerator(path):
 			else:
 				warnings.warn(InvalidSyntax(f.name, 'unrecognized option', key))
 
-class PacmanConfig:
+class PacmanConfig():
 	def __init__(self, conf = None, options = None):
 		self.options = {}
 		self.repos = collections.OrderedDict()
@@ -292,8 +295,79 @@ class PacmanConfig:
 	def __str__(self):
 		return("PacmanConfig(options={}, repos={})".format(self.options, self.repos))
 
+def pamac_conf_enumerator(path):
+	filestack = []
+	current_section = None
+	filestack.append(open(path))
+	while len(filestack) > 0:
+		f = filestack[-1]
+		line = f.readline()
+		if len(line) == 0:
+			# end of file
+			filestack.pop()
+			continue
+
+		line = line.strip()
+		if len(line) == 0:
+			continue
+		if line[0] == '#':
+			continue
+		# read key, value
+		key, equal, value = [x.strip() for x in line.partition('=')]
+
+		if equal == '=':
+			if key in LIST_OPTIONS:
+				for val in value.split():
+					yield (current_section, key, val)
+			elif key in SINGLE_OPTIONS:
+				if key == 'RefreshPeriod':
+					yield (current_section, key, int(value))
+				else:
+					yield (current_section, key, value)
+			else:
+				warnings.warn(InvalidSyntax(f.name, 'unrecognized option', key))
+		else:
+			if key in BOOLEAN_OPTIONS:
+				yield (current_section, key, True)
+			else:
+				warnings.warn(InvalidSyntax(f.name, 'unrecognized option', key))
+
+class PamacConfig():
+	def __init__(self, conf = None):
+		self.options = {}
+		self.options["RefreshPeriod"]  = 3600*3
+		self.options["EnableAUR"]  = False
+		self.options["RemoveUnrequiredDeps"] = False
+		if conf:
+			self.load_from_file(conf)
+
+	def load_from_file(self, filename):
+		for section, key, value in pamac_conf_enumerator(filename):
+			if key in LIST_OPTIONS:
+				self.options.setdefault(key, []).append(value)
+			else:
+				self.options[key] = value
+		self.set_global_variables()
+
+	def set_global_variables(self):
+		global refresh_period
+		global enable_aur
+		global recurse
+		refresh_period = self.options['RefreshPeriod']
+		enable_aur = self.options['EnableAUR']
+		recurse = self.options['RemoveUnrequiredDeps']
+
+	def reload(self):
+		self.options["EnableAUR"]  = False
+		self.options["RemoveUnrequiredDeps"] = False
+		self.load_from_file("/etc/pamac.conf")
+
+	def __str__(self):
+		return("PamacConfig(options={})".format(self.options))
+
 pacman_conf = PacmanConfig(conf = "/etc/pacman.conf")
 handle = pacman_conf.initialize_alpm
+pamac_conf = PamacConfig(conf = "/etc/pamac.conf")
 holdpkg = []
 syncfirst = []
 if 'HoldPkg' in pacman_conf.options:

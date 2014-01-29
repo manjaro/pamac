@@ -77,6 +77,7 @@ PackagesChooserDialog = interface.get_object('PackagesChooserDialog')
 
 files_buffer = files_textview.get_buffer()
 AboutDialog.set_version(version)
+search_aur_button.set_visible(config.enable_aur)
 
 search_dict = {}
 groups_dict = {}
@@ -470,6 +471,13 @@ def handle_updates(updates):
 	if error:
 		handle_error(error)
 
+def reload_config(msg):
+	config.pamac_conf.reload()
+	if config.enable_aur == False:
+		search_aur_button.set_active(False)
+	search_aur_button.set_visible(config.enable_aur)
+	transaction.get_updates()
+
 def on_ManagerWindow_delete_event(*args):
 	transaction.StopDaemon()
 	common.rm_pid_file()
@@ -748,7 +756,7 @@ def on_manager_valid_button_clicked(*args):
 	ManagerWindow.get_window().set_cursor(Gdk.Cursor(Gdk.CursorType.WATCH))
 	while Gtk.events_pending():
 		Gtk.main_iteration()
-	error = transaction.run()
+	error = transaction.run(recurse = config.recurse)
 	ManagerWindow.get_window().set_cursor(None)
 	if error:
 		handle_error(error)
@@ -775,6 +783,12 @@ def on_local_item_activate(*args):
 		PackagesChooserDialog.hide()
 		while Gtk.events_pending():
 			Gtk.main_iteration()
+
+def on_preferences_item_activate(*args):
+	transaction.EnableAURButton.set_active(config.enable_aur)
+	transaction.RemoveUnrequiredDepsButton.set_active(config.recurse)
+	transaction.RefreshPeriodSpinButton.set_value(config.refresh_period)
+	transaction.PreferencesWindow.show()
 
 def on_about_item_activate(*args):
 	response = AboutDialog.run()
@@ -856,6 +870,8 @@ signals = {'on_ManagerWindow_delete_event' : on_ManagerWindow_delete_event,
 		'on_TransValidButton_clicked' : on_TransValidButton_clicked,
 		'on_TransCancelButton_clicked' : on_TransCancelButton_clicked,
 		'on_ChooseButton_clicked' : transaction.on_ChooseButton_clicked,
+		'on_PreferencesCloseButton_clicked' : transaction.on_PreferencesCloseButton_clicked,
+		'on_PreferencesValidButton_clicked' : transaction.on_PreferencesValidButton_clicked,
 		'on_progress_textview_size_allocate' : transaction.on_progress_textview_size_allocate,
 		'on_choose_renderertoggle_toggled' : transaction.on_choose_renderertoggle_toggled,
 		'on_ProgressCancelButton_clicked' : on_ProgressCancelButton_clicked,
@@ -874,6 +890,7 @@ signals = {'on_ManagerWindow_delete_event' : on_ManagerWindow_delete_event,
 		'on_manager_cancel_button_clicked' : on_manager_cancel_button_clicked,
 		'on_refresh_item_activate' : on_refresh_item_activate,
 		'on_local_item_activate' : on_local_item_activate,
+		'on_preferences_item_activate' : on_preferences_item_activate,
 		'on_about_item_activate' : on_about_item_activate,
 		'on_package_open_button_clicked' : on_package_open_button_clicked,
 		'on_package_cancel_button_clicked' : on_package_cancel_button_clicked,
@@ -889,6 +906,7 @@ def config_dbus_signals():
 	bus.add_signal_receiver(handle_reply, dbus_interface = "org.manjaro.pamac", signal_name = "EmitTransactionDone")
 	bus.add_signal_receiver(handle_error, dbus_interface = "org.manjaro.pamac", signal_name = "EmitTransactionError")
 	bus.add_signal_receiver(handle_updates, dbus_interface = "org.manjaro.pamac", signal_name = "EmitAvailableUpdates")
+	bus.add_signal_receiver(reload_config, dbus_interface = "org.manjaro.pamac", signal_name = "EmitReloadConfig")
 
 if common.pid_file_exists():
 	transaction.ErrorDialog.format_secondary_text(_('Pamac is already running'))
@@ -908,7 +926,7 @@ else:
 	size_column.set_cell_data_func(size_renderertext, size_column_display_func)
 	transaction.get_handle()
 	update_lists()
-	ManagerWindow.show_all()
+	ManagerWindow.show()
 	ManagerWindow.get_window().set_cursor(Gdk.Cursor(Gdk.CursorType.WATCH))
 	transaction.refresh()
 	while Gtk.events_pending():

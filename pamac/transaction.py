@@ -67,7 +67,7 @@ interface.add_from_file('/usr/share/pamac/gui/dialogs.ui')
 ErrorDialog = interface.get_object('ErrorDialog')
 WarningDialog = interface.get_object('WarningDialog')
 #InfoDialog = interface.get_object('InfoDialog')
-#QuestionDialog = interface.get_object('QuestionDialog')
+QuestionDialog = interface.get_object('QuestionDialog')
 ConfDialog = interface.get_object('ConfDialog')
 transaction_sum = interface.get_object('transaction_sum')
 sum_top_label = interface.get_object('sum_top_label')
@@ -84,6 +84,10 @@ ProgressCancelButton = interface.get_object('ProgressCancelButton')
 ProgressCloseButton = interface.get_object('ProgressCloseButton')
 progress_expander = interface.get_object('progress_expander')
 progress_textview = interface.get_object('progress_textview')
+PreferencesWindow = interface.get_object('PreferencesWindow')
+EnableAURButton = interface.get_object('EnableAURButton')
+RemoveUnrequiredDepsButton = interface.get_object('RemoveUnrequiredDepsButton')
+RefreshPeriodSpinButton = interface.get_object('RefreshPeriodSpinButton')
 
 progress_buffer = progress_textview.get_buffer()
 
@@ -107,6 +111,7 @@ def get_dbus_methods():
 	global Release
 	global StopDaemon
 	global SetPkgReason
+	global WriteConfig
 	SetPkgReason = proxy.get_dbus_method('SetPkgReason','org.manjaro.pamac')
 	Refresh = proxy.get_dbus_method('Refresh','org.manjaro.pamac')
 	CheckUpdates = proxy.get_dbus_method('CheckUpdates','org.manjaro.pamac')
@@ -122,6 +127,7 @@ def get_dbus_methods():
 	Interrupt = proxy.get_dbus_method('Interrupt','org.manjaro.pamac')
 	Release = proxy.get_dbus_method('Release','org.manjaro.pamac')
 	StopDaemon = proxy.get_dbus_method('StopDaemon','org.manjaro.pamac')
+	WriteConfig = proxy.get_dbus_method('WriteConfig','org.manjaro.pamac')
 
 def config_dbus_signals():
 	bus.add_signal_receiver(action_handler, dbus_interface = "org.manjaro.pamac", signal_name = "EmitAction")
@@ -200,7 +206,7 @@ def choose_provides(data):
 def on_choose_renderertoggle_toggled(widget, line):
 	choose_list[line][0] = not choose_list[line][0]
 
-def on_ChooseButton_clicked(*arg):
+def on_ChooseButton_clicked(*args):
 	ChooseDialog.hide()
 	while Gtk.events_pending():
 		Gtk.main_iteration()
@@ -208,10 +214,25 @@ def on_ChooseButton_clicked(*arg):
 		if row[0] is True:
 			to_add.add(row[1].split(':')[0]) # split done in case of optdep choice
 
-def on_progress_textview_size_allocate(*arg):
+def on_progress_textview_size_allocate(*args):
 	#auto-scrolling method
 	adj = progress_textview.get_vadjustment()
 	adj.set_value(adj.get_upper() - adj.get_page_size())
+
+def on_PreferencesValidButton_clicked(*args):
+	data = []
+	if EnableAURButton.get_active() != config.enable_aur:
+		data.append(('EnableAUR', str(EnableAURButton.get_active())))
+	if RemoveUnrequiredDepsButton.get_active() != config.recurse:
+		data.append(('RemoveUnrequiredDeps', str(RemoveUnrequiredDepsButton.get_active())))
+	if RefreshPeriodSpinButton.get_value() != config.refresh_period:
+		data.append(('RefreshPeriod', str(RefreshPeriodSpinButton.get_value_as_int())))
+	if data:
+		WriteConfig(data)
+	PreferencesWindow.hide()
+
+def on_PreferencesCloseButton_clicked(*args):
+	PreferencesWindow.hide()
 
 def get_handle():
 	global handle
@@ -380,7 +401,7 @@ def check_to_build():
 	print('builddeps:',build_depends)
 	return error
 
-def run():
+def run(cascade = True, recurse = False):
 	if to_add or to_remove or to_load or to_build:
 		global progress_buffer
 		action_handler(_('Preparing')+'...')
@@ -404,7 +425,7 @@ def run():
 			if to_add or to_remove or to_load:
 				while Gtk.events_pending():
 					Gtk.main_iteration()
-				trans_flags = {'cascade' : True}
+				trans_flags = {'cascade': cascade, 'recurse': recurse}
 				error += init_transaction(**trans_flags)
 				if not error:
 					for name in to_add:

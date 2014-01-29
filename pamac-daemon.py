@@ -152,6 +152,10 @@ class PamacDBusService(dbus.service.Object):
 	def EmitTransactionError(self, message):
 		pass
 
+	@dbus.service.signal('org.manjaro.pamac')
+	def EmitReloadConfig(self, message):
+		pass
+
 	def cb_event(self, event, tupel):
 		action = self.previous_action
 		action_long = self.previous_action_long
@@ -392,9 +396,10 @@ class PamacDBusService(dbus.service.Object):
 	def cb_progress(self, event, target, _percent, n, i):
 		if event in ('ALPM_PROGRESS_ADD_START', 'ALPM_PROGRESS_UPGRADE_START', 'ALPM_PROGRESS_DOWNGRADE_START', 'ALPM_PROGRESS_REINSTALL_START', 'ALPM_PROGRESS_REMOVE_START'):
 			percent = round(((i-1)/n)+(_percent/(100*n)), 2)
-			self.EmitTransactionStart('')
 		else:
 			percent = round(_percent/100, 2)
+		if percent == 0:
+			self.EmitTransactionStart('')
 		if target != self.previous_target:
 			self.previous_target = target
 		if percent != self.previous_percent:
@@ -453,24 +458,25 @@ class PamacDBusService(dbus.service.Object):
 						syncfirst = True
 						updates.append((candidate.name, candidate.version, candidate.db.name, '', candidate.download_size))
 		if not updates:
-			if not self.aur_updates_checked:
-				self.get_local_packages()
-				self.local_packages -= _ignorepkgs
-			for pkg in self.localdb.pkgcache:
-				if not pkg.name in _ignorepkgs:
-					candidate = pyalpm.sync_newversion(pkg, self.syncdbs)
-					if candidate:
-						updates.append((candidate.name, candidate.version, candidate.db.name, '', candidate.download_size))
-						self.local_packages.discard(pkg.name)
-			if not self.aur_updates_checked:
-				if self.local_packages:
-					self.aur_updates_pkgs = aur.multiinfo(self.local_packages)
-					self.aur_updates_checked = True
-			for aur_pkg in self.aur_updates_pkgs:
-				if self.localdb.get_pkg(aur_pkg.name):
-					comp = pyalpm.vercmp(aur_pkg.version, self.localdb.get_pkg(aur_pkg.name).version)
-					if comp == 1:
-						updates.append((aur_pkg.name, aur_pkg.version, aur_pkg.db.name, aur_pkg.tarpath, aur_pkg.download_size))
+			if config.enable_aur:
+				if not self.aur_updates_checked:
+					self.get_local_packages()
+					self.local_packages -= _ignorepkgs
+				for pkg in self.localdb.pkgcache:
+					if not pkg.name in _ignorepkgs:
+						candidate = pyalpm.sync_newversion(pkg, self.syncdbs)
+						if candidate:
+							updates.append((candidate.name, candidate.version, candidate.db.name, '', candidate.download_size))
+							self.local_packages.discard(pkg.name)
+				if not self.aur_updates_checked:
+					if self.local_packages:
+						self.aur_updates_pkgs = aur.multiinfo(self.local_packages)
+						self.aur_updates_checked = True
+				for aur_pkg in self.aur_updates_pkgs:
+					if self.localdb.get_pkg(aur_pkg.name):
+						comp = pyalpm.vercmp(aur_pkg.version, self.localdb.get_pkg(aur_pkg.name).version)
+						if comp == 1:
+							updates.append((aur_pkg.name, aur_pkg.version, aur_pkg.db.name, aur_pkg.tarpath, aur_pkg.download_size))
 		self.EmitAvailableUpdates((syncfirst, updates))
 
 	@dbus.service.method('org.manjaro.pamac', 'b', '')
@@ -481,7 +487,6 @@ class PamacDBusService(dbus.service.Object):
 			error = ''
 			for db in self.syncdbs:
 				try:
-					print(db.name)
 					self.t = self.handle.init_transaction()
 					db.update(force = bool(force_update))
 					self.t.release()
@@ -762,6 +767,47 @@ class PamacDBusService(dbus.service.Object):
 			pass
 		common.rm_pid_file()
 		mainloop.quit()
+
+	@dbus.service.method('org.manjaro.pamac', 'a(ss)', '', sender_keyword='sender', connection_keyword='connexion')
+	def WriteConfig(self, array, sender=None, connexion=None):
+		try:
+			authorized = self.policykit_test(sender,connexion,'org.manjaro.pamac.write_config')
+		except dbus.exceptions.DBusException as e:
+			self.EmitLogError(_('Authentication failed'))
+		else:
+			if authorized:
+				with open('/etc/pamac.conf', 'r') as conffile:
+					data = conffile.readlines()
+				i = 0
+				while i < len(data):
+					line = data[i].strip()
+					if len(line) == 0:
+						i += 1
+						continue
+					if line[0] == '#':
+						line = line.lstrip('#')
+					if line == '\n':
+						i += 1
+						continue
+					old_key, equal, old_value = [x.strip() for x in line.partition('=')]
+					for tupel in array:
+						new_key = tupel[0]
+						new_value = tupel[1]
+						if old_key == new_key:
+							# i is equal to the line number where we find the key in the file
+							if new_key in config.SINGLE_OPTIONS:
+								data[i] = '{} = {}\n'.format(new_key, new_value)
+							elif new_key in config.BOOLEAN_OPTIONS:
+								if new_value == 'False': 
+									data[i] = '#{}\n'.format(new_key)
+								else:
+									data[i] = '{}\n'.format(new_key)
+					i += 1
+				with open('/etc/pamac.conf', 'w') as conffile:
+					conffile.writelines(data)
+				self.EmitReloadConfig('')
+			else:
+				self.EmitLogError(_('Authentication failed'))
 
 GObject.threads_init()
 DBusGMainLoop(set_as_default = True)

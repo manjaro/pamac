@@ -25,7 +25,7 @@ from dbus.mainloop.glib import DBusGMainLoop
 from threading import Thread
 from time import sleep
 
-from pamac import common
+from pamac import common, config
 
 # i18n
 import gettext
@@ -130,12 +130,23 @@ def set_icon(update_data):
 	print(info)
 	tray.update_icon(icon, info)
 
+def launch_refresh_timeout():
+	# GObject timeout is in milliseconds
+	global refresh_timeout_id
+	refresh_timeout_id = GObject.timeout_add(config.refresh_period*3600*1000, refresh)
+
+def relaunch_refresh_timeout(msg):
+	config.pamac_conf.reload()
+	GObject.source_remove(refresh_timeout_id)
+	launch_refresh_timeout()
+
 DBusGMainLoop(set_as_default = True)
 bus = dbus.SystemBus()
 bus.add_signal_receiver(set_icon, dbus_interface = "org.manjaro.pamac", signal_name = "EmitAvailableUpdates")
+bus.add_signal_receiver(reload_config, dbus_interface = "org.manjaro.pamac", signal_name = "EmitReloadConfig")
 tray = Tray()
 Notify.init(_('Update Manager'))
 refresh()
-GObject.timeout_add(3*3600*1000, refresh)
+launch_refresh_timeout()
 GObject.idle_add(check_pacman_running)
 Gtk.main()

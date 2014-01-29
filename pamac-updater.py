@@ -22,7 +22,7 @@ from gi.repository import Gtk, Gdk
 import pyalpm
 import dbus
 
-from pamac import config, common, transaction, aur
+from pamac import config, common, transaction
 
 # i18n
 import gettext
@@ -119,6 +119,10 @@ def handle_updates(updates):
 	transaction.available_updates = updates
 	have_updates()
 
+def reload_config(msg):
+	config.pamac_conf.reload()
+	transaction.get_updates()
+
 def on_UpdaterWindow_delete_event(*args):
 	transaction.StopDaemon()
 	common.rm_pid_file()
@@ -162,6 +166,12 @@ def on_ProgressCancelButton_clicked(*args):
 	while Gtk.events_pending():
 		Gtk.main_iteration()
 
+def on_UpdaterPreferencesButton_clicked(*args):
+	transaction.EnableAURButton.set_active(config.enable_aur)
+	transaction.RemoveUnrequiredDepsButton.set_active(config.recurse)
+	transaction.RefreshPeriodSpinButton.set_value(config.refresh_period)
+	transaction.PreferencesWindow.show()
+
 def on_Updater_ApplyButton_clicked(*args):
 	UpdaterWindow.get_window().set_cursor(Gdk.Cursor(Gdk.CursorType.WATCH))
 	while Gtk.events_pending():
@@ -184,11 +194,14 @@ def on_Updater_CloseButton_clicked(*args):
 signals = {'on_ChooseButton_clicked' : transaction.on_ChooseButton_clicked,
 		'on_progress_textview_size_allocate' : transaction.on_progress_textview_size_allocate,
 		'on_choose_renderertoggle_toggled' : transaction.on_choose_renderertoggle_toggled,
+		'on_PreferencesCloseButton_clicked' : transaction.on_PreferencesCloseButton_clicked,
+		'on_PreferencesValidButton_clicked' : transaction.on_PreferencesValidButton_clicked,
 		'on_TransValidButton_clicked' :on_TransValidButton_clicked,
 		'on_TransCancelButton_clicked' :on_TransCancelButton_clicked,
 		'on_ProgressCloseButton_clicked' : on_ProgressCloseButton_clicked,
 		'on_ProgressCancelButton_clicked' : on_ProgressCancelButton_clicked,
 		'on_UpdaterWindow_delete_event' : on_UpdaterWindow_delete_event,
+		'on_UpdaterPreferencesButton_clicked': on_UpdaterPreferencesButton_clicked,
 		'on_Updater_ApplyButton_clicked' : on_Updater_ApplyButton_clicked,
 		'on_Updater_RefreshButton_clicked' : on_Updater_RefreshButton_clicked,
 		'on_Updater_CloseButton_clicked' : on_Updater_CloseButton_clicked}
@@ -198,6 +211,7 @@ def config_dbus_signals():
 	bus.add_signal_receiver(handle_reply, dbus_interface = "org.manjaro.pamac", signal_name = "EmitTransactionDone")
 	bus.add_signal_receiver(handle_error, dbus_interface = "org.manjaro.pamac", signal_name = "EmitTransactionError")
 	bus.add_signal_receiver(handle_updates, dbus_interface = "org.manjaro.pamac", signal_name = "EmitAvailableUpdates")
+	bus.add_signal_receiver(reload_config, dbus_interface = "org.manjaro.pamac", signal_name = "EmitReloadConfig")
 
 if common.pid_file_exists():
 	transaction.ErrorDialog.format_secondary_text(_('Pamac is already running'))
@@ -210,7 +224,7 @@ else:
 	transaction.get_dbus_methods()
 	transaction.config_dbus_signals()
 	config_dbus_signals()
-	UpdaterWindow.show_all()
+	UpdaterWindow.show()
 	UpdaterWindow.get_window().set_cursor(Gdk.Cursor(Gdk.CursorType.WATCH))
 	while Gtk.events_pending():
 		Gtk.main_iteration()
