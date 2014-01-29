@@ -143,7 +143,7 @@ def relaunch_refresh_timeout(msg):
 DBusGMainLoop(set_as_default = True)
 bus = dbus.SystemBus()
 bus.add_signal_receiver(set_icon, dbus_interface = "org.manjaro.pamac", signal_name = "EmitAvailableUpdates")
-bus.add_signal_receiver(reload_config, dbus_interface = "org.manjaro.pamac", signal_name = "EmitReloadConfig")
+bus.add_signal_receiver(relaunch_refresh_timeout, dbus_interface = "org.manjaro.pamac", signal_name = "EmitReloadConfig")
 tray = Tray()
 Notify.init(_('Update Manager'))
 refresh()
