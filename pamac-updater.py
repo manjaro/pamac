@@ -2,7 +2,7 @@
 # -*- coding:utf-8 -*-
 
 # pamac - A Python implementation of alpm
-# Copyright (C) 2013 Guillaume Benoit <guillaume@manjaro.org>
+# Copyright (C) 2013-2014 Guillaume Benoit <guillaume@manjaro.org>
 #
 #   This program is free software; you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
@@ -190,6 +190,7 @@ signals = {'on_ChooseButton_clicked' : transaction.on_ChooseButton_clicked,
 		'on_progress_textview_size_allocate' : transaction.on_progress_textview_size_allocate,
 		'on_choose_renderertoggle_toggled' : transaction.on_choose_renderertoggle_toggled,
 		'on_PreferencesCloseButton_clicked' : transaction.on_PreferencesCloseButton_clicked,
+		'on_PreferencesWindow_delete_event' : transaction.on_PreferencesWindow_delete_event,
 		'on_PreferencesValidButton_clicked' : transaction.on_PreferencesValidButton_clicked,
 		'on_TransValidButton_clicked' :on_TransValidButton_clicked,
 		'on_TransCancelButton_clicked' :on_TransCancelButton_clicked,

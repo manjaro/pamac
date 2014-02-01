@@ -6,6 +6,8 @@
     <property name="can_focus">False</property>
     <property name="border_width">5</property>
     <property name="title" translatable="yes">About Pamac</property>
+    <property name="window_position">center-on-parent</property>
+    <property name="icon_name">system-software-install</property>
     <property name="type_hint">dialog</property>
     <property name="program_name">Pamac</property>
     <property name="copyright" translatable="yes">Copyright © 2013 Guillaume Benoit</property>
@@ -32,6 +34,75 @@
         </child>
         <child>
           <placeholder/>
+        </child>
+      </object>
+    </child>
+  </object>
+  <object class="GtkWindow" id="HistoryWindow">
+    <property name="can_focus">False</property>
+    <property name="border_width">5</property>
+    <property name="title" translatable="yes">Pamac History</property>
+    <property name="window_position">center</property>
+    <property name="default_width">600</property>
+    <property name="default_height">500</property>
+    <property name="icon_name">system-software-install</property>
+    <signal name="delete-event" handler="on_HistoryWindow_delete_event" swapped="no"/>
+    <child>
+      <object class="GtkBox" id="box5">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="orientation">vertical</property>
+        <property name="spacing">5</property>
+        <child>
+          <object class="GtkScrolledWindow" id="scrolledwindow4">
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="shadow_type">in</property>
+            <child>
+              <object class="GtkTextView" id="history_textview">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="pixels_above_lines">2</property>
+                <property name="pixels_below_lines">2</property>
+                <property name="editable">False</property>
+                <signal name="size-allocate" handler="on_history_textview_size_allocate" swapped="no"/>
+              </object>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">True</property>
+            <property name="fill">True</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkButtonBox" id="buttonbox1">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="spacing">5</property>
+            <property name="layout_style">end</property>
+            <child>
+              <object class="GtkButton" id="HistoryCloseButton">
+                <property name="label">gtk-close</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+                <property name="use_stock">True</property>
+                <signal name="clicked" handler="on_HistoryCloseButton_clicked" swapped="no"/>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="pack_type">end</property>
+            <property name="position">1</property>
+          </packing>
         </child>
       </object>
     </child>
@@ -69,6 +140,12 @@
       <column type="gchararray"/>
     </columns>
   </object>
+  <object class="GtkImage" id="image1">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="stock">gtk-file</property>
+    <property name="icon_size">1</property>
+  </object>
   <object class="GtkImage" id="local_icon">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
@@ -89,9 +166,13 @@
       </object>
     </child>
     <child>
-      <object class="GtkSeparatorMenuItem" id="separatormenuitem1">
+      <object class="GtkImageMenuItem" id="history_item">
+        <property name="label" translatable="yes">View History</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
+        <property name="image">image1</property>
+        <property name="use_stock">False</property>
+        <signal name="activate" handler="on_history_item_activate" swapped="no"/>
       </object>
     </child>
     <child>
@@ -105,24 +186,13 @@
       </object>
     </child>
     <child>
-      <object class="GtkSeparatorMenuItem" id="separatormenuitem2">
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-      </object>
-    </child>
-    <child>
       <object class="GtkImageMenuItem" id="preferences_item">
         <property name="label">gtk-preferences</property>
         <property name="visible">True</property>
-        <property name="can_focus">False</property>>
+        <property name="can_focus">False</property>
+        <property name="use_underline">True</property>
         <property name="use_stock">True</property>
         <signal name="activate" handler="on_preferences_item_activate" swapped="no"/>
-      </object>
-    </child>
-    <child>
-      <object class="GtkSeparatorMenuItem" id="separatormenuitem3">
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
       </object>
     </child>
     <child>
@@ -153,6 +223,7 @@
     <property name="role">GtkFileChooserDialog</property>
     <property name="modal">True</property>
     <property name="window_position">center-on-parent</property>
+    <property name="icon_name">system-software-install</property>
     <property name="type_hint">dialog</property>
     <property name="create_folders">False</property>
     <property name="filter">package_filter</property>
@@ -275,6 +346,7 @@
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
+                <property name="tooltip_text" translatable="yes">Apply changes</property>
                 <property name="image">valid_icon</property>
                 <property name="relief">none</property>
                 <property name="focus_on_click">False</property>
@@ -292,6 +364,7 @@
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
+                <property name="tooltip_text" translatable="yes">Cancel</property>
                 <property name="image">cancel_icon</property>
                 <property name="relief">none</property>
                 <property name="focus_on_click">False</property>

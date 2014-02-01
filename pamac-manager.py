@@ -2,7 +2,7 @@
 # -*- coding:utf-8 -*-
 
 # pamac - A Python implementation of alpm
-# Copyright (C) 2013 Guillaume Benoit <guillaume@manjaro.org>
+# Copyright (C) 2013-2014  Guillaume Benoit <guillaume@manjaro.org>
 #
 #   This program is free software; you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
@@ -18,7 +18,7 @@
 #   along with this program; if not, write to the Free Software
 #   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-version = '0.9.6'
+version = '0.9.7'
 
 from gi.repository import Gtk, Gdk
 from gi.repository.GdkPixbuf import Pixbuf
@@ -74,8 +74,11 @@ repos_list = interface.get_object('repos_list')
 repos_selection = interface.get_object('repos_treeview_selection')
 AboutDialog = interface.get_object('AboutDialog')
 PackagesChooserDialog = interface.get_object('PackagesChooserDialog')
+HistoryWindow = interface.get_object('HistoryWindow')
+history_textview = interface.get_object('history_textview')
 
 files_buffer = files_textview.get_buffer()
+history_buffer = history_textview.get_buffer()
 AboutDialog.set_version(version)
 search_aur_button.set_visible(config.enable_aur)
 
@@ -774,6 +777,24 @@ def on_refresh_item_activate(*args):
 		Gtk.main_iteration()
 	transaction.refresh()
 
+def on_history_item_activate(*args):
+	with open('/var/log/pamac.log', 'r') as logfile:
+		data = logfile.read()
+	history_buffer.set_text(data)
+	HistoryWindow.show()
+
+def on_history_textview_size_allocate(*args):
+	#auto-scrolling method
+	adj = history_textview.get_vadjustment()
+	adj.set_value(adj.get_upper() - adj.get_page_size())
+
+def on_HistoryCloseButton_clicked(*args):
+	HistoryWindow.hide()
+
+def on_HistoryWindow_delete_event(*args):
+	HistoryWindow.hide()
+	# return True is needed to not destroy the window
+	return True
 
 def on_local_item_activate(*args):
 	response = PackagesChooserDialog.run()
@@ -869,6 +890,7 @@ signals = {'on_ManagerWindow_delete_event' : on_ManagerWindow_delete_event,
 		'on_TransCancelButton_clicked' : on_TransCancelButton_clicked,
 		'on_ChooseButton_clicked' : transaction.on_ChooseButton_clicked,
 		'on_PreferencesCloseButton_clicked' : transaction.on_PreferencesCloseButton_clicked,
+		'on_PreferencesWindow_delete_event' : transaction.on_PreferencesWindow_delete_event,
 		'on_PreferencesValidButton_clicked' : transaction.on_PreferencesValidButton_clicked,
 		'on_progress_textview_size_allocate' : transaction.on_progress_textview_size_allocate,
 		'on_choose_renderertoggle_toggled' : transaction.on_choose_renderertoggle_toggled,
@@ -887,6 +909,10 @@ signals = {'on_ManagerWindow_delete_event' : on_ManagerWindow_delete_event,
 		'on_manager_valid_button_clicked' : on_manager_valid_button_clicked,
 		'on_manager_cancel_button_clicked' : on_manager_cancel_button_clicked,
 		'on_refresh_item_activate' : on_refresh_item_activate,
+		'on_history_item_activate' : on_history_item_activate,
+		'on_history_textview_size_allocate' : on_history_textview_size_allocate,
+		'on_HistoryCloseButton_clicked' : on_HistoryCloseButton_clicked,
+		'on_HistoryWindow_delete_event' : on_HistoryWindow_delete_event,
 		'on_local_item_activate' : on_local_item_activate,
 		'on_preferences_item_activate' : on_preferences_item_activate,
 		'on_about_item_activate' : on_about_item_activate,

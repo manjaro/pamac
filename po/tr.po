@@ -1,7 +1,7 @@
 # Translation of Pamac.
 # Copyright (C) 2007-2012 Free Software Foundation, Inc.
 # This file is distributed under the same license as the Pamac package.
-# 
+#
 # Translators:
 # tulliana <mdemiray@msn.com>, 2013
 # Guillaume Benoit <guillaume@manjaro.org>, 2013
@@ -10,399 +10,413 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-11-24 14:15+0100\n"
+"POT-Creation-Date: 2013-03-30 15:09+0100\n"
 "PO-Revision-Date: 2013-12-03 16:13+0000\n"
 "Last-Translator: tulliana <mdemiray@msn.com>\n"
-"Language-Team: Turkish (http://www.transifex.com/projects/p/manjaro-pamac/language/tr/)\n"
+"Language-Team: Turkish (http://www.transifex.com/projects/p/manjaro-pamac/"
+"language/tr/)\n"
+"Language: tr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: tr\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: pamac-daemon.py:130
+#: data/polkit/org.manjaro.pamac.policy:10
+msgid "Authentication is required"
+msgstr ""
+
+#: pamac-daemon.py:162
 msgid "Checking dependencies"
 msgstr "Bağımlılıklar Denetleniyor"
 
-#: pamac-daemon.py:138
+#: pamac-daemon.py:170
 msgid "Checking file conflicts"
 msgstr "Dosya Cakışmaları Denetleniyor"
 
-#: pamac-daemon.py:144
+#: pamac-daemon.py:176
 msgid "Resolving dependencies"
 msgstr "Bağımlılıklar Çözümleniyor"
 
-#: pamac-daemon.py:152
+#: pamac-daemon.py:184
 msgid "Checking inter conflicts"
 msgstr "Cakışmalar Denetleniyor"
 
-#: pamac-daemon.py:160
+#: pamac-daemon.py:192
 #, python-brace-format
 msgid "Installing {pkgname}"
 msgstr "Yükleniyor {pkgname}"
 
-#: pamac-daemon.py:168
+#: pamac-daemon.py:200
 #, python-brace-format
 msgid "Removing {pkgname}"
 msgstr "Kaldırılıyor {pkgname}"
 
-#: pamac-daemon.py:176
+#: pamac-daemon.py:208
 #, python-brace-format
 msgid "Upgrading {pkgname}"
 msgstr "Yükseltiliyor {pkgname}"
 
-#: pamac-daemon.py:184
+#: pamac-daemon.py:216
 #, python-brace-format
 msgid "Downgrading {pkgname}"
 msgstr "Sürüm düşürülüyor {pkgname}"
 
-#: pamac-daemon.py:192
+#: pamac-daemon.py:224
 #, python-brace-format
 msgid "Reinstalling {pkgname}"
 msgstr "Tekrar yükleniyor {pkgname}"
 
-#: pamac-daemon.py:200
+#: pamac-daemon.py:232
 msgid "Checking integrity"
 msgstr "Bütünlük Denetleniyor"
 
-#: pamac-daemon.py:207
+#: pamac-daemon.py:239
 msgid "Loading packages files"
 msgstr "Paket Dosyalari Yükleniyor"
 
-#: pamac-daemon.py:213
+#: pamac-daemon.py:245
 msgid "Checking delta integrity"
 msgstr "Delta bütünlüğü kontrol ediliyor"
 
-#: pamac-daemon.py:219
+#: pamac-daemon.py:251
 msgid "Applying deltas"
 msgstr "Deltalar uygulanıyor"
 
-#: pamac-daemon.py:225
+#: pamac-daemon.py:257
 msgid "Generating {} with {}"
 msgstr "Oluşturuluyor {} ile {}"
 
-#: pamac-daemon.py:229
+#: pamac-daemon.py:261
 msgid "Generation succeeded!"
 msgstr "Oluşturma başarılı!"
 
-#: pamac-daemon.py:232
+#: pamac-daemon.py:264
 msgid "Generation failed."
 msgstr "Oluşturulamadı."
 
-#: pamac-daemon.py:235
+#: pamac-daemon.py:267
 #, python-brace-format
 msgid "Configuring {pkgname}"
 msgstr "Ayarlanıyor {pkgname}"
 
-#: pamac-daemon.py:240
+#: pamac-daemon.py:272
 msgid "Downloading"
 msgstr "İndiriliyor"
 
-#: pamac-daemon.py:245
+#: pamac-daemon.py:276
 msgid "Checking available disk space"
 msgstr "Kullanılabilir disk alanı kontrol ediliyor"
 
-#: pamac-daemon.py:255
+#: pamac-daemon.py:286
 msgid "Checking keyring"
 msgstr "Anahtarlar kontrol ediliyor"
 
-#: pamac-daemon.py:261
+#: pamac-daemon.py:292
 msgid "Downloading required keys"
 msgstr "Gerekli anahtarlar yükleniyor"
 
-#: pamac-daemon.py:280
+#: pamac-daemon.py:311
 #, python-brace-format
 msgid "{pkgname1} will be replaced by {pkgname2}"
 msgstr "{pkgname1} şununla değiştirilecektir {pkgname2}"
 
-#: pamac-daemon.py:283
+#: pamac-daemon.py:314
 #, python-brace-format
 msgid "{pkgname1} conflicts with {pkgname2}"
 msgstr "{pkgname1} çakışmalara bakılıyor {pkgname2}"
 
-#: pamac-daemon.py:327
+#: pamac-daemon.py:359
 #, python-brace-format
 msgid "Refreshing {repo}"
 msgstr "Yenileniyor {repo}"
 
-#: pamac-daemon.py:331 pamac/transaction.py:553
+#: pamac-daemon.py:363 pamac/transaction.py:608
 #, python-brace-format
 msgid "Downloading {pkgname}"
 msgstr "İndiriliyor {pkgname}"
 
-#: pamac-daemon.py:517 pamac-install.py:103
+#: pamac-daemon.py:561 pamac-install.py:127
 #, python-brace-format
 msgid "{pkgname} is not a valid path or package name"
 msgstr "{pkgname} geçerli bir yol veya dosya adı değildir"
 
-#: pamac-daemon.py:624
+#: pamac-daemon.py:674
 #, python-brace-format
 msgid ""
 "The transaction cannot be performed because it needs to remove {pkgname1} "
 "which is a locked package"
 msgstr "Bu işlem {pkgname1} kilitli paketi sebebiyle yürütülemiyor "
 
-#: pamac-daemon.py:634 pamac/transaction.py:425
+#: pamac-daemon.py:684 pamac/transaction.py:449
 msgid "Nothing to do"
 msgstr "Yapılacak Bir Şey Yok"
 
-#: pamac-daemon.py:697
+#: pamac-daemon.py:746
 msgid "Transaction successfully finished"
 msgstr "Işlem Başarılı"
 
-#: pamac-daemon.py:701 pamac-daemon.py:710
+#: pamac-daemon.py:751 pamac-daemon.py:759 pamac-daemon.py:782
+#: pamac-daemon.py:816
 msgid "Authentication failed"
 msgstr "Doğrulama başarısız"
 
-#: pamac-manager.py:79 pamac-manager.py:110 pamac-manager.py:111
-#: pamac-manager.py:126 pamac-manager.py:135 pamac-manager.py:156
-#: pamac-manager.py:281 pamac-manager.py:566 pamac-manager.py:626
-#: pamac-manager.py:696
+#: pamac-manager.py:100 pamac-manager.py:131 pamac-manager.py:132
+#: pamac-manager.py:147 pamac-manager.py:156 pamac-manager.py:177
+#: pamac-manager.py:302 pamac-manager.py:590 pamac-manager.py:650
+#: pamac-manager.py:720
 msgid "No package found"
 msgstr "Paket Bulunamadı"
 
-#: pamac-manager.py:180 pamac-manager.py:242
+#: pamac-manager.py:201 pamac-manager.py:263
 msgid "local"
 msgstr "Yerel"
 
-#: pamac-manager.py:184 pamac-manager.py:225 pamac-manager.py:339
+#: pamac-manager.py:205 pamac-manager.py:246 pamac-manager.py:360
 msgid "Installed"
 msgstr "Kuruldu"
 
-#: pamac-manager.py:184 pamac-manager.py:228
+#: pamac-manager.py:205 pamac-manager.py:249
 msgid "Uninstalled"
 msgstr "Kurulmaya hazır"
 
-#: pamac-manager.py:184 pamac-manager.py:231
+#: pamac-manager.py:205 pamac-manager.py:252
 msgid "Orphans"
 msgstr "Sahipsizler"
 
-#: pamac-manager.py:184 pamac-manager.py:203 pamac/transaction.py:711
+#: pamac-manager.py:205 pamac-manager.py:224 pamac/transaction.py:757
 msgid "To install"
 msgstr "Kurulacak"
 
-#: pamac-manager.py:184 pamac-manager.py:214 pamac/transaction.py:692
+#: pamac-manager.py:205 pamac-manager.py:235 pamac/transaction.py:737
 msgid "To remove"
 msgstr "Kaldırılacak"
 
-#: pamac-manager.py:329
+#: pamac-manager.py:350
 msgid "Licenses"
 msgstr "Lisanslar"
 
-#: pamac-manager.py:334
+#: pamac-manager.py:355
 msgid "Depends On"
 msgstr "Bağımlı"
 
-#: pamac-manager.py:342
+#: pamac-manager.py:363
 msgid "Optional Deps"
 msgstr "Seçimli Bağımlılıklar"
 
-#: pamac-manager.py:345
+#: pamac-manager.py:366
 msgid "Required By"
 msgstr "İhtiyac Duyulan"
 
-#: pamac-manager.py:347
+#: pamac-manager.py:368
 msgid "Provides"
 msgstr "Sağladıkları"
 
-#: pamac-manager.py:349
+#: pamac-manager.py:370
 msgid "Replaces"
 msgstr "Değistirdigi Paket(ler)"
 
-#: pamac-manager.py:351
+#: pamac-manager.py:372
 msgid "Conflicts With"
 msgstr "Cakıştığı Paketler"
 
-#: pamac-manager.py:356
+#: pamac-manager.py:377
 msgid "Repository"
 msgstr "Depo"
 
-#: pamac-manager.py:358 gui/manager.ui:357
+#: pamac-manager.py:379 gui/manager.ui:544
 msgid "Groups"
 msgstr "Gruplar"
 
-#: pamac-manager.py:360
+#: pamac-manager.py:381
 msgid "Compressed Size"
 msgstr "Sıkıştırma Boyutu"
 
-#: pamac-manager.py:361
+#: pamac-manager.py:382
 msgid "Download Size"
 msgstr "İndirme Boyutu"
 
-#: pamac-manager.py:363
+#: pamac-manager.py:384
 msgid "Installed Size"
 msgstr "Kurulmuş Boyut"
 
-#: pamac-manager.py:364
+#: pamac-manager.py:385
 msgid "Packager"
 msgstr "Paketçi"
 
-#: pamac-manager.py:365
+#: pamac-manager.py:386
 msgid "Architecture"
 msgstr "Mimari"
 
-#: pamac-manager.py:368
+#: pamac-manager.py:389
 msgid "Install Date"
 msgstr "Kurulum Tarihi"
 
-#: pamac-manager.py:370
+#: pamac-manager.py:391
 msgid "Explicitly installed"
 msgstr "Doğrudan Yuklenmiş"
 
-#: pamac-manager.py:372
+#: pamac-manager.py:393
 msgid "Installed as a dependency for another package"
 msgstr "Başka Bir Paketin Bağımlılığı Olarak Yüklenmiş"
 
-#: pamac-manager.py:374
+#: pamac-manager.py:395
 msgid "Unknown"
 msgstr "Bilinmiyor"
 
-#: pamac-manager.py:375
+#: pamac-manager.py:396
 msgid "Install Reason"
 msgstr "Kurulum Nedeni"
 
-#: pamac-manager.py:380
+#: pamac-manager.py:401
 msgid "Signatures"
 msgstr "İmzalar"
 
-#: pamac-manager.py:384
+#: pamac-manager.py:405
 msgid "Backup files"
 msgstr "Yedek Dosyalar"
 
-#: pamac-manager.py:546
+#: pamac-manager.py:570
 #, python-brace-format
 msgid ""
 "{pkgname} has {number} uninstalled optional deps.\n"
 "Please choose those you would like to install:"
-msgstr "{pkgname} paketinden {number} isteğe tercihli bağımlılıklar kaldırıldı \\n\nYükleme seçeneğini tercih edin lütfen:"
+msgstr ""
+"{pkgname} paketinden {number} isteğe tercihli bağımlılıklar kaldırıldı \\n\n"
+"Yükleme seçeneğini tercih edin lütfen:"
 
-#: pamac-manager.py:569
+#: pamac-manager.py:593
 msgid "Deselect"
 msgstr "Seçimi kaldır"
 
-#: pamac-manager.py:575
+#: pamac-manager.py:599
 msgid "Remove"
 msgstr "Kaldır"
 
-#: pamac-manager.py:582
+#: pamac-manager.py:606
 msgid "Reinstall"
 msgstr "Yeniden yükle"
 
-#: pamac-manager.py:594
+#: pamac-manager.py:618
 msgid "Install optional deps"
 msgstr "Seçimli bağımlılıkları yükle"
 
-#: pamac-manager.py:600
+#: pamac-manager.py:624
 msgid "Install"
 msgstr "Yükle"
 
-#: pamac-manager.py:612
+#: pamac-manager.py:636
 msgid "Install with optional deps"
 msgstr "Seçimli bağımlılıklarıyla birlikte yükle"
 
-#: pamac-manager.py:879 pamac-updater.py:187 pamac-install.py:133
+#: pamac-manager.py:936 pamac-updater.py:213 pamac-install.py:160
 msgid "Pamac is already running"
 msgstr "Pamac Zaten Çalışıyor"
 
-#: pamac-updater.py:27 pamac-updater.py:42 pamac-tray.py:21
+#: pamac-updater.py:44 pamac-updater.py:59 pamac-tray.py:40
 msgid "Your system is up-to-date"
 msgstr "Sisteminiz Güncel"
 
-#: pamac-updater.py:57 pamac/transaction.py:735
+#: pamac-updater.py:74 pamac/transaction.py:787
 msgid "Total download size:"
 msgstr "Toplam indirme boyutu:"
 
-#: pamac-updater.py:59 pamac-tray.py:19
+#: pamac-updater.py:76 pamac-tray.py:38
 msgid "1 available update"
 msgstr "1 Güncelleme Var"
 
-#: pamac-updater.py:61 pamac-tray.py:18
+#: pamac-updater.py:78 pamac-tray.py:37
 #, python-brace-format
 msgid "{number} available updates"
 msgstr "{number} Mevcut Güncellemeler"
 
-#: pamac-tray.py:31 pamac-tray.py:89 pamac-tray.py:100 gui/updater.ui:24
+#: pamac-tray.py:50 pamac-tray.py:126 pamac-tray.py:148 gui/updater.ui:24
 msgid "Update Manager"
 msgstr "Güncelleme Yöneticisi"
 
-#: pamac-tray.py:35 gui/manager.ui:144
+#: pamac-tray.py:54 gui/manager.ui:329
 msgid "Package Manager"
 msgstr "Paket Yöneticisi"
 
-#: pamac-tray.py:39
+#: pamac-tray.py:58
 msgid "Quit"
 msgstr "Çıkış"
 
-#: pamac-install.py:52
+#: pamac-install.py:66
 msgid ""
 "Some updates are available.\n"
 "Please update your system first"
 msgstr "Yeni güncellemeler var. Lütfen önce sisteminizi güncelleyin."
 
-#: pamac/transaction.py:183
+#: pamac-install.py:72 pamac/transaction.py:406 pamac/transaction.py:799
+msgid "Preparing"
+msgstr "Hazırlanıyor"
+
+#: pamac/transaction.py:94 gui/dialogs.ui:356
+msgid "How often to check for updates, value in hours"
+msgstr ""
+
+#: pamac/transaction.py:192
 #, python-brace-format
 msgid ""
 "{pkgname} is provided by {number} packages.\n"
 "Please choose those you would like to install:"
-msgstr "{pkgname} tarafından sağlanan {number} paketler\nLütfen yüklemek istediğinizi seçin:"
+msgstr ""
+"{pkgname} tarafından sağlanan {number} paketler\n"
+"Lütfen yüklemek istediğinizi seçin:"
 
-#: pamac/transaction.py:233
+#: pamac/transaction.py:257
 msgid "Refreshing"
 msgstr "Yenileniyor"
 
-#: pamac/transaction.py:317 pamac/transaction.py:356
+#: pamac/transaction.py:341 pamac/transaction.py:380
 #, python-brace-format
 msgid "{pkgname} depends on {dependname} but it is not installable"
 msgstr "{pkgname} bağımlılıkları {dependname} fakat yüklenebilir değil"
 
-#: pamac/transaction.py:360
+#: pamac/transaction.py:384
 #, python-brace-format
 msgid "Failed to get {pkgname} archive from AUR"
 msgstr "{pkgname} arşiv AUR depolarından alınamadı"
 
-#: pamac/transaction.py:382 pamac/transaction.py:609
-msgid "Preparing"
-msgstr "Hazırlanıyor"
-
-#: pamac/transaction.py:503
+#: pamac/transaction.py:552 pamac/transaction.py:558
 msgid "Build process failed."
 msgstr "İnşa işlemi başarısız oldu."
 
-#: pamac/transaction.py:589
+#: pamac/transaction.py:644
 #, python-brace-format
 msgid "Building {pkgname}"
 msgstr "{pkgname} İnşa ediliyor"
 
-#: pamac/transaction.py:640
+#: pamac/transaction.py:685
 msgid "Checking for updates"
 msgstr "Güncellemeler kontrol ediliyor"
 
-#: pamac/transaction.py:690
+#: pamac/transaction.py:735
 msgid "Transaction Summary"
 msgstr "İşlem Özeti"
 
-#: pamac/transaction.py:698
+#: pamac/transaction.py:743
 msgid "To downgrade"
 msgstr "Geri Yükleme Yapılacak"
 
-#: pamac/transaction.py:705
+#: pamac/transaction.py:751
 msgid "To build"
 msgstr "İnşa et"
 
-#: pamac/transaction.py:718
+#: pamac/transaction.py:765
 msgid "To reinstall"
 msgstr "Kurulacak"
 
-#: pamac/transaction.py:726
+#: pamac/transaction.py:774
 msgid "To update"
 msgstr "Yükseltilecek"
 
-#: pamac/common.py:13
+#: pamac/common.py:30
 #, python-format
 msgid "%.1f KiB"
 msgstr "%.1f KiB"
 
-#: pamac/common.py:16
+#: pamac/common.py:33
 #, python-format
 msgid "%.2f MiB"
 msgstr "%.2f MiB"
@@ -411,78 +425,120 @@ msgstr "%.2f MiB"
 msgid "About Pamac"
 msgstr "Pamac Hakkında"
 
-#: gui/manager.ui:11
+#: gui/manager.ui:13
 msgid "Copyright © 2013 Guillaume Benoit"
 msgstr "Lisans © 2013 Guillaume Benoit"
 
-#: gui/manager.ui:12
+#: gui/manager.ui:14
 msgid "A gtk3 frontend for pyalpm"
 msgstr "Pyalpm için gtk3 arayüzü"
 
-#: gui/manager.ui:42 gui/manager.ui:868
+#: gui/manager.ui:44
+msgid "Pamac History"
+msgstr ""
+
+#: gui/manager.ui:170
+msgid "View History"
+msgstr ""
+
+#: gui/manager.ui:180 gui/manager.ui:222
 msgid "Install local packages"
 msgstr "Bilgisayarından paket yükle"
 
-#: gui/manager.ui:253
+#: gui/manager.ui:349
+msgid "Apply changes"
+msgstr ""
+
+#: gui/manager.ui:367
+msgid "Cancel"
+msgstr ""
+
+#: gui/manager.ui:440
 msgid "Search in AUR"
 msgstr "AUR depolarında ara"
 
-#: gui/manager.ui:311
+#: gui/manager.ui:498
 msgid "Search"
 msgstr "Ara"
 
-#: gui/manager.ui:404 gui/manager.ui:496
+#: gui/manager.ui:591 gui/manager.ui:683
 msgid "State"
 msgstr "Konum"
 
-#: gui/manager.ui:451
+#: gui/manager.ui:638
 msgid "Repos"
 msgstr "Depolar"
 
-#: gui/manager.ui:509
+#: gui/manager.ui:696
 msgid "Name"
 msgstr "İsim"
 
-#: gui/manager.ui:522
+#: gui/manager.ui:709
 msgid "Version"
 msgstr "Sürüm"
 
-#: gui/manager.ui:535
+#: gui/manager.ui:722
 msgid "Repo"
 msgstr "Depo"
 
-#: gui/manager.ui:548
+#: gui/manager.ui:735
 msgid "Size"
 msgstr "Boyut"
 
-#: gui/manager.ui:650
+#: gui/manager.ui:837
 msgid "Infos"
 msgstr "Bilgi"
 
-#: gui/manager.ui:714
+#: gui/manager.ui:901
 msgid "Deps"
 msgstr "Bağımlılıklar"
 
-#: gui/manager.ui:783
+#: gui/manager.ui:970
 msgid "Details"
 msgstr "Ayrıntılar"
 
-#: gui/manager.ui:812
+#: gui/manager.ui:999
 msgid "Files"
 msgstr "Dosyalar"
 
-#: gui/dialogs.ui:7
-msgid "Choose"
-msgstr "Seçin"
-
-#: gui/dialogs.ui:113
-msgid "Summary"
-msgstr "Özet"
-
-#: gui/dialogs.ui:315
+#: gui/dialogs.ui:65
 msgid "Progress"
 msgstr "Süreç"
 
-#: gui/dialogs.ui:408
+#: gui/dialogs.ui:157
 msgid "details"
 msgstr "detaylar"
+
+#: gui/dialogs.ui:280
+msgid "Pamac Preferences"
+msgstr ""
+
+#: gui/dialogs.ui:303
+msgid "Enable AUR support"
+msgstr ""
+
+#: gui/dialogs.ui:307
+msgid "Allow Pamac to search and install packages from AUR"
+msgstr ""
+
+#: gui/dialogs.ui:320
+msgid "Remove unrequired dependencies"
+msgstr ""
+
+#: gui/dialogs.ui:324
+msgid ""
+"When removing a package, also remove those dependencies that are not "
+"required by other packages"
+msgstr ""
+
+#: gui/dialogs.ui:383
+msgid "Options"
+msgstr ""
+
+#: gui/dialogs.ui:452
+msgid "Choose"
+msgstr "Seçin"
+
+#: gui/dialogs.ui:566
+msgid "Summary"
+msgstr "Özet"

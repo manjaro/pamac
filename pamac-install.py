@@ -2,7 +2,7 @@
 # -*- coding:utf-8 -*-
 
 # pamac - A Python implementation of alpm
-# Copyright (C) 2013 Guillaume Benoit <guillaume@manjaro.org>
+# Copyright (C) 2013-2014 Guillaume Benoit <guillaume@manjaro.org>
 #
 #   This program is free software; you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
@@ -22,7 +22,7 @@ from gi.repository import Gtk
 from sys import argv
 import dbus
 from os.path import abspath
-from pamac import common, transaction
+from pamac import common, config, transaction, aur
 
 # i18n
 import gettext
@@ -60,9 +60,6 @@ def handle_reply(reply):
 
 def handle_updates(update_data):
 	syncfirst, updates = update_data
-	transaction.ProgressWindow.hide()
-	while Gtk.events_pending():
-		Gtk.main_iteration()
 	if transaction_done:
 		exiting('')
 	elif updates:
@@ -72,6 +69,10 @@ def handle_updates(update_data):
 			transaction.ErrorDialog.hide()
 		exiting('')
 	else:
+		transaction.action_handler(_('Preparing')+'...')
+		transaction.icon_handler('/usr/share/pamac/icons/24x24/status/package-setup.png')
+		while Gtk.events_pending():
+			Gtk.main_iteration()
 		common.write_pid_file()
 		transaction.interface.connect_signals(signals)
 		transaction.config_dbus_signals()
@@ -115,9 +116,15 @@ def get_pkgs(pkgs):
 		elif transaction.get_syncpkg(name):
 			transaction.to_add.add(name)
 		else:
-			if error:
-				error += '\n'
-			error += _('{pkgname} is not a valid path or package name').format(pkgname = name)
+			aur_pkg = None
+			if config.enable_aur:
+				aur_pkg = aur.info(name)
+				if aur_pkg:
+					transaction.to_build.append(aur_pkg)
+			if not aur_pkg:
+				if error:
+					error += '\n'
+				error += _('{pkgname} is not a valid path or package name').format(pkgname = name)
 	if error:
 		handle_error(error)
 		return False
@@ -135,6 +142,9 @@ def install(pkgs):
 signals = {'on_ChooseButton_clicked' : transaction.on_ChooseButton_clicked,
 		'on_progress_textview_size_allocate' : transaction.on_progress_textview_size_allocate,
 		'on_choose_renderertoggle_toggled' : transaction.on_choose_renderertoggle_toggled,
+		'on_PreferencesCloseButton_clicked' : transaction.on_PreferencesCloseButton_clicked,
+		'on_PreferencesWindow_delete_event' : transaction.on_PreferencesWindow_delete_event,
+		'on_PreferencesValidButton_clicked' : transaction.on_PreferencesValidButton_clicked,
 		'on_TransValidButton_clicked' :on_TransValidButton_clicked,
 		'on_TransCancelButton_clicked' :on_TransCancelButton_clicked,
 		'on_ProgressCloseButton_clicked' : on_ProgressCloseButton_clicked,

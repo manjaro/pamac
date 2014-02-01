@@ -2,7 +2,7 @@
 # -*- coding:utf-8 -*-
 
 # pamac - A Python implementation of alpm
-# Copyright (C) 2013 Guillaume Benoit <guillaume@manjaro.org>
+# Copyright (C) 2013-2014  Guillaume Benoit <guillaume@manjaro.org>
 #
 #   This program is free software; you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
@@ -88,6 +88,10 @@ PreferencesWindow = interface.get_object('PreferencesWindow')
 EnableAURButton = interface.get_object('EnableAURButton')
 RemoveUnrequiredDepsButton = interface.get_object('RemoveUnrequiredDepsButton')
 RefreshPeriodSpinButton = interface.get_object('RefreshPeriodSpinButton')
+RefreshPeriodLabel = interface.get_object('RefreshPeriodLabel')
+
+# Do it for transalation ease
+RefreshPeriodLabel.set_markup(_('How often to check for updates, value in hours')+':')
 
 progress_buffer = progress_textview.get_buffer()
 
@@ -224,6 +228,11 @@ def on_PreferencesValidButton_clicked(*args):
 
 def on_PreferencesCloseButton_clicked(*args):
 	PreferencesWindow.hide()
+
+def on_PreferencesWindow_delete_event(*args):
+	PreferencesWindow.hide()
+	# return True is needed to not destroy the window
+	return True
 
 def get_handle():
 	global handle
@@ -405,7 +414,7 @@ def run(cascade = True, recurse = False):
 		ProgressWindow.show()
 		while Gtk.events_pending():
 			Gtk.main_iteration()
-		# we need to give some time a the window to refresh
+		# we need to give some time to the window to refresh
 		sleep(0.1)
 		error = ''
 		if to_build:

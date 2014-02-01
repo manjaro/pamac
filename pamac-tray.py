@@ -2,7 +2,7 @@
 # -*- coding:utf-8 -*-
 
 # pamac - A Python implementation of alpm
-# Copyright (C) 2013 Guillaume Benoit <guillaume@manjaro.org>
+# Copyright (C) 2013-2014  Guillaume Benoit <guillaume@manjaro.org>
 #
 #   This program is free software; you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
