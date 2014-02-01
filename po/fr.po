@@ -1,29 +1,29 @@
 # Translation of Pamac.
 # Copyright (C) 2007-2012 Free Software Foundation, Inc.
 # This file is distributed under the same license as the Pamac package.
-#
+# Guillaume Benoit <guillaume@manjaro.org>, 2013-2014.
+# 
 # Translators:
 # DasFranck <franck97comics@gmail.com>, 2013
-# guinux <guillaume@manjaro.org>, 2013
+# guinux <guillaume@manjaro.org>, 2013-2014
 # manjarolinux <philm@manjaro.org>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-03-30 15:09+0100\n"
-"PO-Revision-Date: 2013-12-17 17:42+0000\n"
-"Last-Translator: DasFranck <franck97comics@gmail.com>\n"
-"Language-Team: French (http://www.transifex.com/projects/p/manjaro-pamac/"
-"language/fr/)\n"
-"Language: fr\n"
+"PO-Revision-Date: 2014-02-01 16:52+0000\n"
+"Last-Translator: guinux <guillaume@manjaro.org>\n"
+"Language-Team: French (http://www.transifex.com/projects/p/manjaro-pamac/language/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: fr\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 #: data/polkit/org.manjaro.pamac.policy:10
 msgid "Authentication is required"
-msgstr ""
+msgstr "Authentification nécessaire"
 
 #: pamac-daemon.py:162
 msgid "Checking dependencies"
@@ -145,9 +145,7 @@ msgstr "{pkgname} n'est pas un fichier ou un nom de paquet valide"
 msgid ""
 "The transaction cannot be performed because it needs to remove {pkgname1} "
 "which is a locked package"
-msgstr ""
-"La transaction ne peut pas être réalisée car elle nécessite de désinstaller "
-"{pkgname1} qui est un paquet bloqué"
+msgstr "La transaction ne peut pas être réalisée car elle nécessite de désinstaller {pkgname1} qui est un paquet bloqué"
 
 #: pamac-daemon.py:684 pamac/transaction.py:449
 msgid "Nothing to do"
@@ -282,9 +280,7 @@ msgstr "Fichiers sauvegardés"
 msgid ""
 "{pkgname} has {number} uninstalled optional deps.\n"
 "Please choose those you would like to install:"
-msgstr ""
-"{pkgname} a {number} dépendances optionnelles non installées.\n"
-"Veuillez choisir ceux que vous voulez installer:"
+msgstr "{pkgname} a {number} dépendances optionnelles non installées.\nVeuillez choisir ceux que vous voulez installer:"
 
 #: pamac-manager.py:593
 msgid "Deselect"
@@ -347,9 +343,7 @@ msgstr "Quitter"
 msgid ""
 "Some updates are available.\n"
 "Please update your system first"
-msgstr ""
-"Des mises à jour sont disponibles.\n"
-"Mettez d'abord votre système à jour"
+msgstr "Des mises à jour sont disponibles.\nMettez d'abord votre système à jour"
 
 #: pamac-install.py:72 pamac/transaction.py:406 pamac/transaction.py:799
 msgid "Preparing"
@@ -357,16 +351,14 @@ msgstr "Préparation"
 
 #: pamac/transaction.py:94 gui/dialogs.ui:356
 msgid "How often to check for updates, value in hours"
-msgstr ""
+msgstr "Fréquence de vérification des mises à jour, valeur en heures"
 
 #: pamac/transaction.py:192
 #, python-brace-format
 msgid ""
 "{pkgname} is provided by {number} packages.\n"
 "Please choose those you would like to install:"
-msgstr ""
-"{pkgname} est fourni par {number} paquets.\n"
-"Veuillez choisir ceux que vous voulez installer:"
+msgstr "{pkgname} est fourni par {number} paquets.\nVeuillez choisir ceux que vous voulez installer:"
 
 #: pamac/transaction.py:257
 msgid "Refreshing"
@@ -439,11 +431,11 @@ msgstr "Une interface gtk3 pour pyalpm"
 
 #: gui/manager.ui:44
 msgid "Pamac History"
-msgstr ""
+msgstr "Historique de Pamac"
 
 #: gui/manager.ui:170
 msgid "View History"
-msgstr ""
+msgstr "Voir l'historique"
 
 #: gui/manager.ui:180 gui/manager.ui:222
 msgid "Install local packages"
@@ -451,11 +443,11 @@ msgstr "Installer des paquets locaux"
 
 #: gui/manager.ui:349
 msgid "Apply changes"
-msgstr ""
+msgstr "Appliquer les changements"
 
 #: gui/manager.ui:367
 msgid "Cancel"
-msgstr ""
+msgstr "Annuler"
 
 #: gui/manager.ui:440
 msgid "Search in AUR"
@@ -515,29 +507,29 @@ msgstr "détails"
 
 #: gui/dialogs.ui:280
 msgid "Pamac Preferences"
-msgstr ""
+msgstr "Préférences de Pamac"
 
 #: gui/dialogs.ui:303
 msgid "Enable AUR support"
-msgstr ""
+msgstr "Activer le support d'AUR"
 
 #: gui/dialogs.ui:307
 msgid "Allow Pamac to search and install packages from AUR"
-msgstr ""
+msgstr "Permettre à Pamac de chercher et installer des paquets depuis AUR"
 
 #: gui/dialogs.ui:320
 msgid "Remove unrequired dependencies"
-msgstr ""
+msgstr "Désinstaller les dépendances inutiles"
 
 #: gui/dialogs.ui:324
 msgid ""
 "When removing a package, also remove those dependencies that are not "
 "required by other packages"
-msgstr ""
+msgstr "En désinstallant un paquet, désinstaller également les dépendances qui ne sont pas requises par d'autres paquets"
 
 #: gui/dialogs.ui:383
 msgid "Options"
-msgstr ""
+msgstr "Options"
 
 #: gui/dialogs.ui:452
 msgid "Choose"
