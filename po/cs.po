@@ -1,7 +1,8 @@
 # Translation of Pamac.
 # Copyright (C) 2007-2012 Free Software Foundation, Inc.
 # This file is distributed under the same license as the Pamac package.
-#
+# Guillaume Benoit <guillaume@manjaro.org>, 2013-2014.
+# 
 # Translators:
 # Libor Schejbal <libor.schejbal@gmail.com>, 2013
 # Scibex <kroupa@wvw.cz>, 2013
@@ -10,14 +11,13 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-03-30 15:09+0100\n"
-"PO-Revision-Date: 2013-11-24 13:19+0000\n"
+"PO-Revision-Date: 2014-02-01 14:57+0000\n"
 "Last-Translator: manjarolinux <philm@manjaro.org>\n"
-"Language-Team: Czech (http://www.transifex.com/projects/p/manjaro-pamac/"
-"language/cs/)\n"
-"Language: cs\n"
+"Language-Team: Czech (http://www.transifex.com/projects/p/manjaro-pamac/language/cs/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: cs\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 
 #: data/polkit/org.manjaro.pamac.policy:10
@@ -144,9 +144,7 @@ msgstr "{pkgname} je neplatná cesta nebo název balíčku"
 msgid ""
 "The transaction cannot be performed because it needs to remove {pkgname1} "
 "which is a locked package"
-msgstr ""
-"Transakce nemůže být provedena, protože je třeba odstranit {pkgname1} "
-"balíček, který je uzamčen"
+msgstr "Transakce nemůže být provedena, protože je třeba odstranit {pkgname1} balíček, který je uzamčen"
 
 #: pamac-daemon.py:684 pamac/transaction.py:449
 msgid "Nothing to do"
@@ -344,9 +342,7 @@ msgstr "Ukončit"
 msgid ""
 "Some updates are available.\n"
 "Please update your system first"
-msgstr ""
-"Jsou k dispozici aktualizace.⏎\n"
-"Nejprve aktualizujte váš systém"
+msgstr "Jsou k dispozici aktualizace.⏎\nNejprve aktualizujte váš systém"
 
 #: pamac-install.py:72 pamac/transaction.py:406 pamac/transaction.py:799
 msgid "Preparing"

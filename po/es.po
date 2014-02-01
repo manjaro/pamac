@@ -1,7 +1,8 @@
 # Translation of Pamac.
 # Copyright (C) 2007-2012 Free Software Foundation, Inc.
 # This file is distributed under the same license as the Pamac package.
-#
+# Guillaume Benoit <guillaume@manjaro.org>, 2013-2014.
+# 
 # Translators:
 # danpergal84 <danpergal84@gmail.com>, 2013
 # guinux <guillaume@manjaro.org>, 2013
@@ -10,14 +11,13 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-03-30 15:09+0100\n"
-"PO-Revision-Date: 2013-11-27 08:19+0000\n"
-"Last-Translator: danpergal84 <danpergal84@gmail.com>\n"
-"Language-Team: Spanish (http://www.transifex.com/projects/p/manjaro-pamac/"
-"language/es/)\n"
-"Language: es\n"
+"PO-Revision-Date: 2014-02-01 14:57+0000\n"
+"Last-Translator: manjarolinux <philm@manjaro.org>\n"
+"Language-Team: Spanish (http://www.transifex.com/projects/p/manjaro-pamac/language/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: es\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: data/polkit/org.manjaro.pamac.policy:10
@@ -144,9 +144,7 @@ msgstr "{pkgname} no es un nombre de paquete o una ruta válida"
 msgid ""
 "The transaction cannot be performed because it needs to remove {pkgname1} "
 "which is a locked package"
-msgstr ""
-"La operación no puede realizarse porque se necesita eliminar {pkgname1} y es "
-"un paquete bloqueado"
+msgstr "La operación no puede realizarse porque se necesita eliminar {pkgname1} y es un paquete bloqueado"
 
 #: pamac-daemon.py:684 pamac/transaction.py:449
 msgid "Nothing to do"
@@ -281,9 +279,7 @@ msgstr "Archivos de copia de seguridad"
 msgid ""
 "{pkgname} has {number} uninstalled optional deps.\n"
 "Please choose those you would like to install:"
-msgstr ""
-"{pkgname} tiene {number} dependencia/s opcional/es no instalada/s.\n"
-"Por favor, elige cuál/es quieres instalar:</b>"
+msgstr "{pkgname} tiene {number} dependencia/s opcional/es no instalada/s.\nPor favor, elige cuál/es quieres instalar:</b>"
 
 #: pamac-manager.py:593
 msgid "Deselect"
@@ -346,9 +342,7 @@ msgstr "Quitar"
 msgid ""
 "Some updates are available.\n"
 "Please update your system first"
-msgstr ""
-"Hay disponibles algunas actualizaciones.⏎\n"
-"Por favor, actualiza tu sistema primero"
+msgstr "Hay disponibles algunas actualizaciones.⏎\nPor favor, actualiza tu sistema primero"
 
 #: pamac-install.py:72 pamac/transaction.py:406 pamac/transaction.py:799
 msgid "Preparing"
@@ -363,9 +357,7 @@ msgstr ""
 msgid ""
 "{pkgname} is provided by {number} packages.\n"
 "Please choose those you would like to install:"
-msgstr ""
-"{pkgname} es proporcionado por {number} paquete/s.\n"
-"Por favor elige  el/los paquete/s que deseas instalar:"
+msgstr "{pkgname} es proporcionado por {number} paquete/s.\nPor favor elige  el/los paquete/s que deseas instalar:"
 
 #: pamac/transaction.py:257
 msgid "Refreshing"

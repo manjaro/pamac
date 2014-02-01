@@ -1,7 +1,8 @@
 # Translation of Pamac.
 # Copyright (C) 2007-2012 Free Software Foundation, Inc.
 # This file is distributed under the same license as the Pamac package.
-#
+# Guillaume Benoit <guillaume@manjaro.org>, 2013-2014.
+# 
 # Translators:
 # Karim Oulad Chalha <herr.linux88@gmail.com>, 2013
 msgid ""
@@ -9,16 +10,14 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-03-30 15:09+0100\n"
-"PO-Revision-Date: 2013-12-01 13:42+0000\n"
-"Last-Translator: Karim Oulad Chalha <herr.linux88@gmail.com>\n"
-"Language-Team: Arabic (http://www.transifex.com/projects/p/manjaro-pamac/"
-"language/ar/)\n"
-"Language: ar\n"
+"PO-Revision-Date: 2014-02-01 14:57+0000\n"
+"Last-Translator: manjarolinux <philm@manjaro.org>\n"
+"Language-Team: Arabic (http://www.transifex.com/projects/p/manjaro-pamac/language/ar/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
-"&& n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
+"Language: ar\n"
+"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
 
 #: data/polkit/org.manjaro.pamac.policy:10
 msgid "Authentication is required"
@@ -279,9 +278,7 @@ msgstr "ملفات النسخ الإحتياطية"
 msgid ""
 "{pkgname} has {number} uninstalled optional deps.\n"
 "Please choose those you would like to install:"
-msgstr ""
-"{pkgname} له {number} إعتماديات إختيارية غير متبثة.\n"
-"المرجو إختيار التي ترغب بتثبيتها:"
+msgstr "{pkgname} له {number} إعتماديات إختيارية غير متبثة.\nالمرجو إختيار التي ترغب بتثبيتها:"
 
 #: pamac-manager.py:593
 msgid "Deselect"
@@ -344,9 +341,7 @@ msgstr "خروج"
 msgid ""
 "Some updates are available.\n"
 "Please update your system first"
-msgstr ""
-"بعض التحديثات متوفرة.\n"
-"المرجوا تحديث نظامك اولا"
+msgstr "بعض التحديثات متوفرة.\nالمرجوا تحديث نظامك اولا"
 
 #: pamac-install.py:72 pamac/transaction.py:406 pamac/transaction.py:799
 msgid "Preparing"
@@ -361,9 +356,7 @@ msgstr ""
 msgid ""
 "{pkgname} is provided by {number} packages.\n"
 "Please choose those you would like to install:"
-msgstr ""
-"{pkgname} مزود بي {number} حزم.\n"
-"المرجو إختيار التي ترغب بتثبيتها:"
+msgstr "{pkgname} مزود بي {number} حزم.\nالمرجو إختيار التي ترغب بتثبيتها:"
 
 #: pamac/transaction.py:257
 msgid "Refreshing"

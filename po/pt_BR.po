@@ -1,10 +1,11 @@
 # Translation of Pamac.
 # Copyright (C) 2007-2012 Free Software Foundation, Inc.
 # This file is distributed under the same license as the Pamac package.
-#
+# Guillaume Benoit <guillaume@manjaro.org>, 2013-2014.
+# 
 # Translators:
 # guinux <guillaume@manjaro.org>, 2013
-# holmeslinux <holmes_holmes@live.com>, 2013
+# holmeslinux <holmes_holmes@live.com>, 2013-2014
 # holmeslinux <holmes_holmes@live.com>, 2013
 # marcos.oliveira <marcosaurel_ce@hotmail.com>, 2013
 # marcos.oliveira <marcosaurel_ce@hotmail.com>, 2013
@@ -17,14 +18,13 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-03-30 15:09+0100\n"
-"PO-Revision-Date: 2013-12-17 14:24+0000\n"
-"Last-Translator: wevertonmarx <wevertonmarx@hotmail.com>\n"
-"Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/"
-"manjaro-pamac/language/pt_BR/)\n"
-"Language: pt_BR\n"
+"PO-Revision-Date: 2014-02-01 14:57+0000\n"
+"Last-Translator: manjarolinux <philm@manjaro.org>\n"
+"Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/manjaro-pamac/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: pt_BR\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 #: data/polkit/org.manjaro.pamac.policy:10
@@ -65,7 +65,7 @@ msgstr "Atualizando {pkgname}"
 #: pamac-daemon.py:216
 #, python-brace-format
 msgid "Downgrading {pkgname}"
-msgstr ""
+msgstr "Baixando {pkgname}"
 
 #: pamac-daemon.py:224
 #, python-brace-format
@@ -86,7 +86,7 @@ msgstr "Verificando a integridade do delta"
 
 #: pamac-daemon.py:251
 msgid "Applying deltas"
-msgstr ""
+msgstr "Aplicando deltas"
 
 #: pamac-daemon.py:257
 msgid "Generating {} with {}"
@@ -94,7 +94,7 @@ msgstr "Gerando {} com {}"
 
 #: pamac-daemon.py:261
 msgid "Generation succeeded!"
-msgstr ""
+msgstr "Geração com sucesso!"
 
 #: pamac-daemon.py:264
 msgid "Generation failed."
@@ -107,7 +107,7 @@ msgstr "Configurando {pkgname}"
 
 #: pamac-daemon.py:272
 msgid "Downloading"
-msgstr ""
+msgstr "Baixando"
 
 #: pamac-daemon.py:276
 msgid "Checking available disk space"
@@ -115,7 +115,7 @@ msgstr "Verificando espaço disponível em disco"
 
 #: pamac-daemon.py:286
 msgid "Checking keyring"
-msgstr ""
+msgstr "Verificando chaveiro"
 
 #: pamac-daemon.py:292
 msgid "Downloading required keys"
@@ -139,7 +139,7 @@ msgstr "Atualizando {repo}"
 #: pamac-daemon.py:363 pamac/transaction.py:608
 #, python-brace-format
 msgid "Downloading {pkgname}"
-msgstr "Baixando pkgname {pkgname}"
+msgstr "Baixando {pkgname}"
 
 #: pamac-daemon.py:561 pamac-install.py:127
 #, python-brace-format
@@ -151,9 +151,7 @@ msgstr "{pkgname} não é um caminho ou nome de pacto válido"
 msgid ""
 "The transaction cannot be performed because it needs to remove {pkgname1} "
 "which is a locked package"
-msgstr ""
-"A transação não pode ser realizada porque ela precisa remover {pkgname1}, o "
-"qual é um pacote bloqueado"
+msgstr "A transação não pode ser realizada porque ela precisa remover {pkgname1}, o qual é um pacote bloqueado"
 
 #: pamac-daemon.py:684 pamac/transaction.py:449
 msgid "Nothing to do"
@@ -288,11 +286,11 @@ msgstr "Cópia de segurança dos arquivos"
 msgid ""
 "{pkgname} has {number} uninstalled optional deps.\n"
 "Please choose those you would like to install:"
-msgstr ""
+msgstr "{pkgname} tem {number} desinstalado dependências opcionais.\nPor favor, escolha aqueles que você gostaria de instalar:"
 
 #: pamac-manager.py:593
 msgid "Deselect"
-msgstr ""
+msgstr "Desmarque"
 
 #: pamac-manager.py:599
 msgid "Remove"
@@ -324,7 +322,7 @@ msgstr "O seu sistema está atualizado"
 
 #: pamac-updater.py:74 pamac/transaction.py:787
 msgid "Total download size:"
-msgstr ""
+msgstr "Tamanho total do download:"
 
 #: pamac-updater.py:76 pamac-tray.py:38
 msgid "1 available update"
@@ -351,9 +349,7 @@ msgstr "Sair"
 msgid ""
 "Some updates are available.\n"
 "Please update your system first"
-msgstr ""
-"Algumas atualizações estão disponíveis.\n"
-"Por favor, atualize o seu sistema antes"
+msgstr "Algumas atualizações estão disponíveis.\nPor favor, atualize o seu sistema antes"
 
 #: pamac-install.py:72 pamac/transaction.py:406 pamac/transaction.py:799
 msgid "Preparing"
@@ -368,7 +364,7 @@ msgstr ""
 msgid ""
 "{pkgname} is provided by {number} packages.\n"
 "Please choose those you would like to install:"
-msgstr ""
+msgstr "{pkgname} é fornecido pelo {number} pacotes.\nPor favor, escolha aqueles que você gostaria de instalar:"
 
 #: pamac/transaction.py:257
 msgid "Refreshing"
@@ -377,29 +373,29 @@ msgstr "Atualizando"
 #: pamac/transaction.py:341 pamac/transaction.py:380
 #, python-brace-format
 msgid "{pkgname} depends on {dependname} but it is not installable"
-msgstr ""
+msgstr "{pkgname} depende de {dependname} mas não é instalável"
 
 #: pamac/transaction.py:384
 #, python-brace-format
 msgid "Failed to get {pkgname} archive from AUR"
-msgstr ""
+msgstr "Falha ao obter {pkgname} arquivo de AUR"
 
 #: pamac/transaction.py:552 pamac/transaction.py:558
 msgid "Build process failed."
-msgstr ""
+msgstr "Criar processo falhou."
 
 #: pamac/transaction.py:644
 #, python-brace-format
 msgid "Building {pkgname}"
-msgstr ""
+msgstr "Criando {pkgname}"
 
 #: pamac/transaction.py:685
 msgid "Checking for updates"
-msgstr ""
+msgstr "Verificar se há atualizações"
 
 #: pamac/transaction.py:735
 msgid "Transaction Summary"
-msgstr ""
+msgstr "Resumo da transação"
 
 #: pamac/transaction.py:743
 msgid "To downgrade"
@@ -407,7 +403,7 @@ msgstr "Para substituir por versão anterior"
 
 #: pamac/transaction.py:751
 msgid "To build"
-msgstr ""
+msgstr "Para criar"
 
 #: pamac/transaction.py:765
 msgid "To reinstall"
@@ -437,7 +433,7 @@ msgstr "Direitos reservados © 2013 Guillaume Benoit"
 
 #: gui/manager.ui:14
 msgid "A gtk3 frontend for pyalpm"
-msgstr ""
+msgstr "Uma interface gráfica para GTK3 pyalpm"
 
 #: gui/manager.ui:44
 msgid "Pamac History"
@@ -461,7 +457,7 @@ msgstr ""
 
 #: gui/manager.ui:440
 msgid "Search in AUR"
-msgstr ""
+msgstr "Pesquisar em AUR"
 
 #: gui/manager.ui:498
 msgid "Search"
@@ -485,7 +481,7 @@ msgstr "Versão"
 
 #: gui/manager.ui:722
 msgid "Repo"
-msgstr ""
+msgstr "Repo"
 
 #: gui/manager.ui:735
 msgid "Size"

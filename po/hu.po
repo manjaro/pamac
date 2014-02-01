@@ -1,7 +1,8 @@
 # Translation of Pamac.
 # Copyright (C) 2007-2012 Free Software Foundation, Inc.
 # This file is distributed under the same license as the Pamac package.
-#
+# Guillaume Benoit <guillaume@manjaro.org>, 2013-2014.
+# 
 # Translators:
 # lajos <mrlajos@gmail.com>, 2013
 # lajos <mrlajos@gmail.com>, 2013-2014
@@ -10,14 +11,13 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-03-30 15:09+0100\n"
-"PO-Revision-Date: 2014-01-06 15:09+0000\n"
-"Last-Translator: lajos <mrlajos@gmail.com>\n"
-"Language-Team: Hungarian (http://www.transifex.com/projects/p/manjaro-pamac/"
-"language/hu/)\n"
-"Language: hu\n"
+"PO-Revision-Date: 2014-02-01 14:57+0000\n"
+"Last-Translator: manjarolinux <philm@manjaro.org>\n"
+"Language-Team: Hungarian (http://www.transifex.com/projects/p/manjaro-pamac/language/hu/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: hu\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: data/polkit/org.manjaro.pamac.policy:10
@@ -144,9 +144,7 @@ msgstr "{pkgname} nem megfelelő elérési út vagy csomagnév"
 msgid ""
 "The transaction cannot be performed because it needs to remove {pkgname1} "
 "which is a locked package"
-msgstr ""
-"A tranzakció nem hajtható végre mert eltávolításra kerül {pkgname1} ami egy "
-"zárolt csomag."
+msgstr "A tranzakció nem hajtható végre mert eltávolításra kerül {pkgname1} ami egy zárolt csomag."
 
 #: pamac-daemon.py:684 pamac/transaction.py:449
 msgid "Nothing to do"
@@ -281,9 +279,7 @@ msgstr "Mentett fájlok"
 msgid ""
 "{pkgname} has {number} uninstalled optional deps.\n"
 "Please choose those you would like to install:"
-msgstr ""
-"{pkgname} -nak {number}  opcionális eltávolított függősége van.\n"
-"Kérlek válaszd ki azokat amiket telepíteni szeretnél:"
+msgstr "{pkgname} -nak {number}  opcionális eltávolított függősége van.\nKérlek válaszd ki azokat amiket telepíteni szeretnél:"
 
 #: pamac-manager.py:593
 msgid "Deselect"
@@ -346,9 +342,7 @@ msgstr "Kilépés"
 msgid ""
 "Some updates are available.\n"
 "Please update your system first"
-msgstr ""
-"Néhány frissítés elérhető\n"
-"Kérlek frissítsd a rendszert először"
+msgstr "Néhány frissítés elérhető\nKérlek frissítsd a rendszert először"
 
 #: pamac-install.py:72 pamac/transaction.py:406 pamac/transaction.py:799
 msgid "Preparing"
@@ -363,9 +357,7 @@ msgstr ""
 msgid ""
 "{pkgname} is provided by {number} packages.\n"
 "Please choose those you would like to install:"
-msgstr ""
-"{pkgname} elérhető {number} csomagtól.\n"
-"Kérlek válaszd ki azokat amiket telepíteni szeretnél:"
+msgstr "{pkgname} elérhető {number} csomagtól.\nKérlek válaszd ki azokat amiket telepíteni szeretnél:"
 
 #: pamac/transaction.py:257
 msgid "Refreshing"

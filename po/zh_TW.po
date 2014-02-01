@@ -1,7 +1,8 @@
 # Translation of Pamac.
 # Copyright (C) 2007-2012 Free Software Foundation, Inc.
 # This file is distributed under the same license as the Pamac package.
-#
+# Guillaume Benoit <guillaume@manjaro.org>, 2013-2014.
+# 
 # Translators:
 # 柏諺 黃 <s8321414@gmail.com>, 2013
 msgid ""
@@ -9,14 +10,13 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-03-30 15:09+0100\n"
-"PO-Revision-Date: 2013-11-25 04:23+0000\n"
-"Last-Translator: 柏諺 黃 <s8321414@gmail.com>\n"
-"Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/manjaro-"
-"pamac/language/zh_TW/)\n"
-"Language: zh_TW\n"
+"PO-Revision-Date: 2014-02-01 14:57+0000\n"
+"Last-Translator: manjarolinux <philm@manjaro.org>\n"
+"Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/manjaro-pamac/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: zh_TW\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 #: data/polkit/org.manjaro.pamac.policy:10
@@ -278,9 +278,7 @@ msgstr "備份檔案"
 msgid ""
 "{pkgname} has {number} uninstalled optional deps.\n"
 "Please choose those you would like to install:"
-msgstr ""
-"{pkgname} 有 {number} 個未安裝的可選依賴。\n"
-"請選擇那些您想要安裝的："
+msgstr "{pkgname} 有 {number} 個未安裝的可選依賴。\n請選擇那些您想要安裝的："
 
 #: pamac-manager.py:593
 msgid "Deselect"
@@ -343,9 +341,7 @@ msgstr "離開"
 msgid ""
 "Some updates are available.\n"
 "Please update your system first"
-msgstr ""
-"有一些更新可用。\n"
-"請先更新您的系統"
+msgstr "有一些更新可用。\n請先更新您的系統"
 
 #: pamac-install.py:72 pamac/transaction.py:406 pamac/transaction.py:799
 msgid "Preparing"
@@ -360,9 +356,7 @@ msgstr ""
 msgid ""
 "{pkgname} is provided by {number} packages.\n"
 "Please choose those you would like to install:"
-msgstr ""
-"{pkgname} 提供 {number} 個套件。\n"
-"請選擇那些您想要安裝的："
+msgstr "{pkgname} 提供 {number} 個套件。\n請選擇那些您想要安裝的："
 
 #: pamac/transaction.py:257
 msgid "Refreshing"

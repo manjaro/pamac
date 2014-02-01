@@ -1,7 +1,8 @@
 # Translation of Pamac.
 # Copyright (C) 2007-2012 Free Software Foundation, Inc.
 # This file is distributed under the same license as the Pamac package.
-#
+# Guillaume Benoit <guillaume@manjaro.org>, 2013-2014.
+# 
 # Translators:
 # Haiku <reza.gharibi.rg@gmail.com>, 2013
 # Vampir3 <h.baraary@yahoo.com>, 2013
@@ -10,14 +11,13 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-03-30 15:09+0100\n"
-"PO-Revision-Date: 2013-11-24 13:19+0000\n"
+"PO-Revision-Date: 2014-02-01 14:57+0000\n"
 "Last-Translator: manjarolinux <philm@manjaro.org>\n"
-"Language-Team: Persian (http://www.transifex.com/projects/p/manjaro-pamac/"
-"language/fa/)\n"
-"Language: fa\n"
+"Language-Team: Persian (http://www.transifex.com/projects/p/manjaro-pamac/language/fa/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: fa\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 #: data/polkit/org.manjaro.pamac.policy:10
@@ -144,9 +144,7 @@ msgstr "{pkgname} مسیر درست یا نام بسته‌ی معتبری نی�
 msgid ""
 "The transaction cannot be performed because it needs to remove {pkgname1} "
 "which is a locked package"
-msgstr ""
-"به دلیل احتیاج به حذف شدن {pkgname1} که بسته‌ای قفل شده است، تراکنش را "
-"نمی‌توان انجام داد"
+msgstr "به دلیل احتیاج به حذف شدن {pkgname1} که بسته‌ای قفل شده است، تراکنش را نمی‌توان انجام داد"
 
 #: pamac-daemon.py:684 pamac/transaction.py:449
 msgid "Nothing to do"
@@ -344,9 +342,7 @@ msgstr "خروج"
 msgid ""
 "Some updates are available.\n"
 "Please update your system first"
-msgstr ""
-"تعدادی به‌روزرسانی موجود است.\n"
-"لطفا ابتدا سیستم خود را به‌روزرسانی کنید"
+msgstr "تعدادی به‌روزرسانی موجود است.\nلطفا ابتدا سیستم خود را به‌روزرسانی کنید"
 
 #: pamac-install.py:72 pamac/transaction.py:406 pamac/transaction.py:799
 msgid "Preparing"

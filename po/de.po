@@ -1,9 +1,11 @@
 # Translation of Pamac.
 # Copyright (C) 2007-2012 Free Software Foundation, Inc.
 # This file is distributed under the same license as the Pamac package.
-#
+# Guillaume Benoit <guillaume@manjaro.org>, 2013-2014.
+# 
 # Translators:
 # Guillaume Benoit <guillaume@manjaro.org>, 2013
+# Maphardam <L.Polde@gmx.de>, 2014
 # manjarolinux <philm@manjaro.org>, 2013
 # manjarolinux <philm@manjaro.org>, 2013-2014
 # hyradicate <aema-001@kabelmail.de>, 2013
@@ -13,19 +15,18 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-03-30 15:09+0100\n"
-"PO-Revision-Date: 2014-01-03 08:59+0000\n"
+"PO-Revision-Date: 2014-02-01 15:04+0000\n"
 "Last-Translator: manjarolinux <philm@manjaro.org>\n"
-"Language-Team: German (http://www.transifex.com/projects/p/manjaro-pamac/"
-"language/de/)\n"
-"Language: de\n"
+"Language-Team: German (http://www.transifex.com/projects/p/manjaro-pamac/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: de\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: data/polkit/org.manjaro.pamac.policy:10
 msgid "Authentication is required"
-msgstr ""
+msgstr "Authentifikation wird benötigt"
 
 #: pamac-daemon.py:162
 msgid "Checking dependencies"
@@ -120,7 +121,7 @@ msgstr "Lade die benötigten Schlüssel herunter"
 #: pamac-daemon.py:311
 #, python-brace-format
 msgid "{pkgname1} will be replaced by {pkgname2}"
-msgstr "{pkgname1} wird ersetzt von {pkgname2}"
+msgstr "{pkgname1} wird ersetzt durch {pkgname2}"
 
 #: pamac-daemon.py:314
 #, python-brace-format
@@ -147,9 +148,7 @@ msgstr "{pkgname} ist kein zulässiger Pfad oder Paketname"
 msgid ""
 "The transaction cannot be performed because it needs to remove {pkgname1} "
 "which is a locked package"
-msgstr ""
-"Der Vorgang kann nicht durchgeführt werden, da das gesperrte Paket "
-"{pkgname1} entfernt werden müsste."
+msgstr "Der Vorgang kann nicht durchgeführt werden, da das gesperrte Paket {pkgname1} entfernt werden müsste."
 
 #: pamac-daemon.py:684 pamac/transaction.py:449
 msgid "Nothing to do"
@@ -284,9 +283,7 @@ msgstr "Dateisicherungen"
 msgid ""
 "{pkgname} has {number} uninstalled optional deps.\n"
 "Please choose those you would like to install:"
-msgstr ""
-"{pkgname} hat {number} nicht installierte optionale Abhängigkeiten.\n"
-"Bitte wählen Sie die zum Installieren entsprechend aus:"
+msgstr "{pkgname} hat {number} nicht installierte optionale Abhängigkeiten.\nBitte wählen Sie die zum Installieren entsprechend aus:"
 
 #: pamac-manager.py:593
 msgid "Deselect"
@@ -310,7 +307,7 @@ msgstr "Installieren"
 
 #: pamac-manager.py:636
 msgid "Install with optional deps"
-msgstr "Installiere mit optionale Abhängigkeiten"
+msgstr "Installiere mit optionalen Abhängigkeiten"
 
 #: pamac-manager.py:936 pamac-updater.py:213 pamac-install.py:160
 msgid "Pamac is already running"
@@ -349,9 +346,7 @@ msgstr "Beende"
 msgid ""
 "Some updates are available.\n"
 "Please update your system first"
-msgstr ""
-"Aktualisierungen verfügbar.\n"
-"Bitte aktualisieren Sie zuerst Ihr System."
+msgstr "Aktualisierungen verfügbar.\nBitte aktualisieren Sie zuerst Ihr System."
 
 #: pamac-install.py:72 pamac/transaction.py:406 pamac/transaction.py:799
 msgid "Preparing"
@@ -359,16 +354,14 @@ msgstr "Vorbereitung"
 
 #: pamac/transaction.py:94 gui/dialogs.ui:356
 msgid "How often to check for updates, value in hours"
-msgstr ""
+msgstr "Wie oft soll nach Erneuerungen geprüft werden? (Wert in Stunden)"
 
 #: pamac/transaction.py:192
 #, python-brace-format
 msgid ""
 "{pkgname} is provided by {number} packages.\n"
 "Please choose those you would like to install:"
-msgstr ""
-"{pkgname} wird von {number} Paketen bereitgestellt.\n"
-"Bitte wählen Sie das zu Installierende aus:"
+msgstr "{pkgname} wird von {number} Paketen bereitgestellt.\nBitte wählen Sie das zu Installierende aus:"
 
 #: pamac/transaction.py:257
 msgid "Refreshing"
@@ -377,7 +370,7 @@ msgstr "Aktualisierung"
 #: pamac/transaction.py:341 pamac/transaction.py:380
 #, python-brace-format
 msgid "{pkgname} depends on {dependname} but it is not installable"
-msgstr "{pkgname} hängt ab von {dependname} was nicht installierbar ist"
+msgstr "{pkgname} hängt ab von {dependname}, was nicht installierbar ist"
 
 #: pamac/transaction.py:384
 #, python-brace-format
@@ -441,11 +434,11 @@ msgstr "Eine GTK3-Benutzeroberfläche für pyalpm"
 
 #: gui/manager.ui:44
 msgid "Pamac History"
-msgstr ""
+msgstr "Pamac Historie"
 
 #: gui/manager.ui:170
 msgid "View History"
-msgstr ""
+msgstr "Historie ansehen"
 
 #: gui/manager.ui:180 gui/manager.ui:222
 msgid "Install local packages"
@@ -453,11 +446,11 @@ msgstr "Installiere lokale Pakete"
 
 #: gui/manager.ui:349
 msgid "Apply changes"
-msgstr ""
+msgstr "Veränderung anwenden"
 
 #: gui/manager.ui:367
 msgid "Cancel"
-msgstr ""
+msgstr "Abbrechen"
 
 #: gui/manager.ui:440
 msgid "Search in AUR"
@@ -517,29 +510,29 @@ msgstr "Details"
 
 #: gui/dialogs.ui:280
 msgid "Pamac Preferences"
-msgstr ""
+msgstr "Pamac Einstellungen"
 
 #: gui/dialogs.ui:303
 msgid "Enable AUR support"
-msgstr ""
+msgstr "AUR-Support aktivieren"
 
 #: gui/dialogs.ui:307
 msgid "Allow Pamac to search and install packages from AUR"
-msgstr ""
+msgstr "Erlaube Pamac nach Paketen im AUR zu suchen und zu installieren"
 
 #: gui/dialogs.ui:320
 msgid "Remove unrequired dependencies"
-msgstr ""
+msgstr "Entferne nicht benötigte Abhängigkeiten"
 
 #: gui/dialogs.ui:324
 msgid ""
 "When removing a package, also remove those dependencies that are not "
 "required by other packages"
-msgstr ""
+msgstr "Bei Entfernung eines Paketes auch nicht mehr von anderen Paketen benötigte Abhängigkeiten entfernen"
 
 #: gui/dialogs.ui:383
 msgid "Options"
-msgstr ""
+msgstr "Einstellungen"
 
 #: gui/dialogs.ui:452
 msgid "Choose"

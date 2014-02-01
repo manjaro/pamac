@@ -1,7 +1,8 @@
 # Translation of Pamac.
 # Copyright (C) 2007-2012 Free Software Foundation, Inc.
 # This file is distributed under the same license as the Pamac package.
-#
+# Guillaume Benoit <guillaume@manjaro.org>, 2013-2014.
+# 
 # Translators:
 # Guillaume Benoit <guillaume@manjaro.org>, 2013
 # oriolfa <oriolfa@ono.com>, 2013
@@ -11,14 +12,13 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-03-30 15:09+0100\n"
-"PO-Revision-Date: 2013-11-24 13:19+0000\n"
+"PO-Revision-Date: 2014-02-01 14:57+0000\n"
 "Last-Translator: manjarolinux <philm@manjaro.org>\n"
-"Language-Team: Catalan (http://www.transifex.com/projects/p/manjaro-pamac/"
-"language/ca/)\n"
-"Language: ca\n"
+"Language-Team: Catalan (http://www.transifex.com/projects/p/manjaro-pamac/language/ca/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: ca\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: data/polkit/org.manjaro.pamac.policy:10
@@ -145,9 +145,7 @@ msgstr "{pkgname} no és un camí vàlid o un nom de paquet"
 msgid ""
 "The transaction cannot be performed because it needs to remove {pkgname1} "
 "which is a locked package"
-msgstr ""
-"La transacció no pot efectuar-se degut a que és necessari eliminar "
-"{pkgname1} que és un paquet bloquejat"
+msgstr "La transacció no pot efectuar-se degut a que és necessari eliminar {pkgname1} que és un paquet bloquejat"
 
 #: pamac-daemon.py:684 pamac/transaction.py:449
 msgid "Nothing to do"
@@ -282,9 +280,7 @@ msgstr "Fitxers de còpia de seguretat"
 msgid ""
 "{pkgname} has {number} uninstalled optional deps.\n"
 "Please choose those you would like to install:"
-msgstr ""
-"{pkgname} té {number} dependències opcionals no instal·lades.\n"
-"Si us plau escull les que vulguis instal·lar:"
+msgstr "{pkgname} té {number} dependències opcionals no instal·lades.\nSi us plau escull les que vulguis instal·lar:"
 
 #: pamac-manager.py:593
 msgid "Deselect"
@@ -347,9 +343,7 @@ msgstr "Sortir"
 msgid ""
 "Some updates are available.\n"
 "Please update your system first"
-msgstr ""
-"Algunes actualitzacions estan disponibles\n"
-"Si us plau actualitza primer el teu sistema"
+msgstr "Algunes actualitzacions estan disponibles\nSi us plau actualitza primer el teu sistema"
 
 #: pamac-install.py:72 pamac/transaction.py:406 pamac/transaction.py:799
 msgid "Preparing"
@@ -364,9 +358,7 @@ msgstr ""
 msgid ""
 "{pkgname} is provided by {number} packages.\n"
 "Please choose those you would like to install:"
-msgstr ""
-"{pkgname} està proporcionat per {number} paquets.\n"
-"Si us plau tria el paquet que vols instal·lar:"
+msgstr "{pkgname} està proporcionat per {number} paquets.\nSi us plau tria el paquet que vols instal·lar:"
 
 #: pamac/transaction.py:257
 msgid "Refreshing"
