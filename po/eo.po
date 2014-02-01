@@ -1,7 +1,8 @@
 # Translation of Pamac.
 # Copyright (C) 2007-2012 Free Software Foundation, Inc.
 # This file is distributed under the same license as the Pamac package.
-#
+# Guillaume Benoit <guillaume@manjaro.org>, 2013-2014.
+# 
 # Translators:
 # anderflash <nocturne.pe@gmail.com>, 2013
 msgid ""
@@ -9,14 +10,13 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-03-30 15:09+0100\n"
-"PO-Revision-Date: 2013-11-24 13:19+0000\n"
+"PO-Revision-Date: 2014-02-01 14:57+0000\n"
 "Last-Translator: manjarolinux <philm@manjaro.org>\n"
-"Language-Team: Esperanto (http://www.transifex.com/projects/p/manjaro-pamac/"
-"language/eo/)\n"
-"Language: eo\n"
+"Language-Team: Esperanto (http://www.transifex.com/projects/p/manjaro-pamac/language/eo/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: eo\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: data/polkit/org.manjaro.pamac.policy:10
@@ -143,9 +143,7 @@ msgstr "{pkgname} ne estas valida vojo aŭ pakaĵa nomo"
 msgid ""
 "The transaction cannot be performed because it needs to remove {pkgname1} "
 "which is a locked package"
-msgstr ""
-"La transakcio ne povas esti plenumita ĉar ĝi bezonas forigi {pkgname1} kiu "
-"estas ŝlosita pakaĵo"
+msgstr "La transakcio ne povas esti plenumita ĉar ĝi bezonas forigi {pkgname1} kiu estas ŝlosita pakaĵo"
 
 #: pamac-daemon.py:684 pamac/transaction.py:449
 msgid "Nothing to do"
@@ -343,9 +341,7 @@ msgstr ""
 msgid ""
 "Some updates are available.\n"
 "Please update your system first"
-msgstr ""
-"Kelkaj ĝisdatigoj estas disponeblaj.\n"
-"Bonvolu ĝisdatigi vian sistemon unue"
+msgstr "Kelkaj ĝisdatigoj estas disponeblaj.\nBonvolu ĝisdatigi vian sistemon unue"
 
 #: pamac-install.py:72 pamac/transaction.py:406 pamac/transaction.py:799
 msgid "Preparing"

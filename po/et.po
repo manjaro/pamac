@@ -1,7 +1,8 @@
 # Translation of Pamac.
 # Copyright (C) 2007-2012 Free Software Foundation, Inc.
 # This file is distributed under the same license as the Pamac package.
-#
+# Guillaume Benoit <guillaume@manjaro.org>, 2013-2014.
+# 
 # Translators:
 # Asto Banko <kusmis@hot.ee>, 2013
 msgid ""
@@ -9,14 +10,13 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-03-30 15:09+0100\n"
-"PO-Revision-Date: 2013-11-24 13:19+0000\n"
+"PO-Revision-Date: 2014-02-01 14:57+0000\n"
 "Last-Translator: manjarolinux <philm@manjaro.org>\n"
-"Language-Team: Estonian (http://www.transifex.com/projects/p/manjaro-pamac/"
-"language/et/)\n"
-"Language: et\n"
+"Language-Team: Estonian (http://www.transifex.com/projects/p/manjaro-pamac/language/et/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: et\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: data/polkit/org.manjaro.pamac.policy:10
@@ -143,9 +143,7 @@ msgstr "{pkgname} ei ole sobiv asukoht ega paketi nimi"
 msgid ""
 "The transaction cannot be performed because it needs to remove {pkgname1} "
 "which is a locked package"
-msgstr ""
-"Operatsiooni pole võimalik teostada, sest on vaja eemaldada {pkgname1} mis "
-"on lukustatud pakett"
+msgstr "Operatsiooni pole võimalik teostada, sest on vaja eemaldada {pkgname1} mis on lukustatud pakett"
 
 #: pamac-daemon.py:684 pamac/transaction.py:449
 msgid "Nothing to do"
@@ -343,9 +341,7 @@ msgstr "Välju"
 msgid ""
 "Some updates are available.\n"
 "Please update your system first"
-msgstr ""
-"Mõned uuendused on saadaval.\n"
-"Palun uuendage kõigepealt enda süsteemi"
+msgstr "Mõned uuendused on saadaval.\nPalun uuendage kõigepealt enda süsteemi"
 
 #: pamac-install.py:72 pamac/transaction.py:406 pamac/transaction.py:799
 msgid "Preparing"

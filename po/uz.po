@@ -1,7 +1,8 @@
 # Translation of Pamac.
 # Copyright (C) 2007-2012 Free Software Foundation, Inc.
 # This file is distributed under the same license as the Pamac package.
-#
+# Guillaume Benoit <guillaume@manjaro.org>, 2013-2014.
+# 
 # Translators:
 # Umidjon Almasov <u.almasov@gmail.com>, 2013
 # Umidjon Almasov <u.almasov@gmail.com>, 2013
@@ -10,14 +11,13 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-03-30 15:09+0100\n"
-"PO-Revision-Date: 2013-11-24 13:19+0000\n"
+"PO-Revision-Date: 2014-02-01 14:57+0000\n"
 "Last-Translator: manjarolinux <philm@manjaro.org>\n"
-"Language-Team: Uzbek (http://www.transifex.com/projects/p/manjaro-pamac/"
-"language/uz/)\n"
-"Language: uz\n"
+"Language-Team: Uzbek (http://www.transifex.com/projects/p/manjaro-pamac/language/uz/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: uz\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 #: data/polkit/org.manjaro.pamac.policy:10
@@ -144,9 +144,7 @@ msgstr "{pkgname} yo'li yoki paket nomi haqiqiy emas"
 msgid ""
 "The transaction cannot be performed because it needs to remove {pkgname1} "
 "which is a locked package"
-msgstr ""
-"Tranzaksiyani amalga oshirib bo'lmadi chunki u {pkgname1} qulflangan "
-"paketini o'chirishini talab qiladi"
+msgstr "Tranzaksiyani amalga oshirib bo'lmadi chunki u {pkgname1} qulflangan paketini o'chirishini talab qiladi"
 
 #: pamac-daemon.py:684 pamac/transaction.py:449
 msgid "Nothing to do"
@@ -281,9 +279,7 @@ msgstr "Zaxira fayllari"
 msgid ""
 "{pkgname} has {number} uninstalled optional deps.\n"
 "Please choose those you would like to install:"
-msgstr ""
-"{pkgname} uchun {number} o'rnatilmagan qo'shimcha bog'liqliklar mavjud.\n"
-"O'rnatiladiganlarni tanlang:"
+msgstr "{pkgname} uchun {number} o'rnatilmagan qo'shimcha bog'liqliklar mavjud.\nO'rnatiladiganlarni tanlang:"
 
 #: pamac-manager.py:593
 msgid "Deselect"
@@ -346,9 +342,7 @@ msgstr "Chiqish"
 msgid ""
 "Some updates are available.\n"
 "Please update your system first"
-msgstr ""
-"Yangilanishlar mavjud.\n"
-"Avval tizimni yangilang"
+msgstr "Yangilanishlar mavjud.\nAvval tizimni yangilang"
 
 #: pamac-install.py:72 pamac/transaction.py:406 pamac/transaction.py:799
 msgid "Preparing"
@@ -363,9 +357,7 @@ msgstr ""
 msgid ""
 "{pkgname} is provided by {number} packages.\n"
 "Please choose those you would like to install:"
-msgstr ""
-"{pkgname} {number} paketlar bilan taqdim etilgan.\n"
-"O'rnatiladiganlarni tanlang:"
+msgstr "{pkgname} {number} paketlar bilan taqdim etilgan.\nO'rnatiladiganlarni tanlang:"
 
 #: pamac/transaction.py:257
 msgid "Refreshing"

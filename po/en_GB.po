@@ -1,28 +1,28 @@
 # Translation of Pamac.
 # Copyright (C) 2007-2012 Free Software Foundation, Inc.
 # This file is distributed under the same license as the Pamac package.
-#
+# Guillaume Benoit <guillaume@manjaro.org>, 2013-2014.
+# 
 # Translators:
 # jonathon <j.fernyhough@gmail.com>, 2013
-# manjarolinux <philm@manjaro.org>, 2013
+# manjarolinux <philm@manjaro.org>, 2013-2014
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-03-30 15:09+0100\n"
-"PO-Revision-Date: 2013-12-01 10:06+0000\n"
+"PO-Revision-Date: 2014-02-01 14:58+0000\n"
 "Last-Translator: manjarolinux <philm@manjaro.org>\n"
-"Language-Team: English (United Kingdom) (http://www.transifex.com/projects/p/"
-"manjaro-pamac/language/en_GB/)\n"
-"Language: en_GB\n"
+"Language-Team: English (United Kingdom) (http://www.transifex.com/projects/p/manjaro-pamac/language/en_GB/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: en_GB\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: data/polkit/org.manjaro.pamac.policy:10
 msgid "Authentication is required"
-msgstr ""
+msgstr "Authentication is required"
 
 #: pamac-daemon.py:162
 msgid "Checking dependencies"
@@ -144,9 +144,7 @@ msgstr "{pkgname} is not a valid path or package name"
 msgid ""
 "The transaction cannot be performed because it needs to remove {pkgname1} "
 "which is a locked package"
-msgstr ""
-"The transaction cannot be performed because it would remove a locked "
-"package: {pkgname1}"
+msgstr "The transaction cannot be performed because it would remove a locked package: {pkgname1}"
 
 #: pamac-daemon.py:684 pamac/transaction.py:449
 msgid "Nothing to do"
@@ -281,9 +279,7 @@ msgstr "Backup files"
 msgid ""
 "{pkgname} has {number} uninstalled optional deps.\n"
 "Please choose those you would like to install:"
-msgstr ""
-"{pkgname} has {number} uninstalled optional deps.\n"
-"Please choose those you would like to install:"
+msgstr "{pkgname} has {number} uninstalled optional deps.\nPlease choose those you would like to install:"
 
 #: pamac-manager.py:593
 msgid "Deselect"
@@ -346,9 +342,7 @@ msgstr "Exit"
 msgid ""
 "Some updates are available.\n"
 "Please update your system first"
-msgstr ""
-"Some updates are available.\n"
-"Please update your system first."
+msgstr "Some updates are available.\nPlease update your system first."
 
 #: pamac-install.py:72 pamac/transaction.py:406 pamac/transaction.py:799
 msgid "Preparing"
@@ -356,16 +350,14 @@ msgstr "Preparing"
 
 #: pamac/transaction.py:94 gui/dialogs.ui:356
 msgid "How often to check for updates, value in hours"
-msgstr ""
+msgstr "How often to check for updates, value in hours"
 
 #: pamac/transaction.py:192
 #, python-brace-format
 msgid ""
 "{pkgname} is provided by {number} packages.\n"
 "Please choose those you would like to install:"
-msgstr ""
-"{pkgname} is provided by {number} packages.\n"
-"Please choose those you would like to install:"
+msgstr "{pkgname} is provided by {number} packages.\nPlease choose those you would like to install:"
 
 #: pamac/transaction.py:257
 msgid "Refreshing"
@@ -438,11 +430,11 @@ msgstr "A gtk3 frontend for pyalpm"
 
 #: gui/manager.ui:44
 msgid "Pamac History"
-msgstr ""
+msgstr "Pamac History"
 
 #: gui/manager.ui:170
 msgid "View History"
-msgstr ""
+msgstr "View History"
 
 #: gui/manager.ui:180 gui/manager.ui:222
 msgid "Install local packages"
@@ -450,11 +442,11 @@ msgstr "Install local packages"
 
 #: gui/manager.ui:349
 msgid "Apply changes"
-msgstr ""
+msgstr "Apply changes"
 
 #: gui/manager.ui:367
 msgid "Cancel"
-msgstr ""
+msgstr "Cancel"
 
 #: gui/manager.ui:440
 msgid "Search in AUR"
@@ -514,29 +506,29 @@ msgstr "details"
 
 #: gui/dialogs.ui:280
 msgid "Pamac Preferences"
-msgstr ""
+msgstr "Pamac Preferences"
 
 #: gui/dialogs.ui:303
 msgid "Enable AUR support"
-msgstr ""
+msgstr "Enable AUR support"
 
 #: gui/dialogs.ui:307
 msgid "Allow Pamac to search and install packages from AUR"
-msgstr ""
+msgstr "Allow Pamac to search and install packages from AUR"
 
 #: gui/dialogs.ui:320
 msgid "Remove unrequired dependencies"
-msgstr ""
+msgstr "Remove unrequired dependencies"
 
 #: gui/dialogs.ui:324
 msgid ""
 "When removing a package, also remove those dependencies that are not "
 "required by other packages"
-msgstr ""
+msgstr "When removing a package, also remove those dependencies that are not required by other packages"
 
 #: gui/dialogs.ui:383
 msgid "Options"
-msgstr ""
+msgstr "Options"
 
 #: gui/dialogs.ui:452
 msgid "Choose"

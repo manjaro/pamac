@@ -1,7 +1,8 @@
 # Translation of Pamac.
 # Copyright (C) 2007-2012 Free Software Foundation, Inc.
 # This file is distributed under the same license as the Pamac package.
-#
+# Guillaume Benoit <guillaume@manjaro.org>, 2013-2014.
+# 
 # Translators:
 # Ayceman <alexandru.ianu@gmail.com>, 2013
 # Guillaume Benoit <guillaume@manjaro.org>, 2013
@@ -10,16 +11,14 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-03-30 15:09+0100\n"
-"PO-Revision-Date: 2013-11-27 21:28+0000\n"
-"Last-Translator: Ayceman <alexandru.ianu@gmail.com>\n"
-"Language-Team: Romanian (http://www.transifex.com/projects/p/manjaro-pamac/"
-"language/ro/)\n"
-"Language: ro\n"
+"PO-Revision-Date: 2014-02-01 14:57+0000\n"
+"Last-Translator: manjarolinux <philm@manjaro.org>\n"
+"Language-Team: Romanian (http://www.transifex.com/projects/p/manjaro-pamac/language/ro/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?"
-"2:1));\n"
+"Language: ro\n"
+"Plural-Forms: nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));\n"
 
 #: data/polkit/org.manjaro.pamac.policy:10
 msgid "Authentication is required"
@@ -145,9 +144,7 @@ msgstr "{pkgname} nu este o cale sau un nume de pachet valid"
 msgid ""
 "The transaction cannot be performed because it needs to remove {pkgname1} "
 "which is a locked package"
-msgstr ""
-"Tranzacția nu poate fi făcută deoarece trebuie eliminat {pkgname1} care este "
-"un pachet blocat"
+msgstr "Tranzacția nu poate fi făcută deoarece trebuie eliminat {pkgname1} care este un pachet blocat"
 
 #: pamac-daemon.py:684 pamac/transaction.py:449
 msgid "Nothing to do"
@@ -282,9 +279,7 @@ msgstr "Copii de rezervă"
 msgid ""
 "{pkgname} has {number} uninstalled optional deps.\n"
 "Please choose those you would like to install:"
-msgstr ""
-"{pkgname} are {number} dependențe opționale neinstalate.\n"
-"Alegeți cele pe care le doriți instalate:"
+msgstr "{pkgname} are {number} dependențe opționale neinstalate.\nAlegeți cele pe care le doriți instalate:"
 
 #: pamac-manager.py:593
 msgid "Deselect"
@@ -347,9 +342,7 @@ msgstr "Ieșire"
 msgid ""
 "Some updates are available.\n"
 "Please update your system first"
-msgstr ""
-"Niște actualizări sunt disponibile.\n"
-"Actualizați întâi sistemul"
+msgstr "Niște actualizări sunt disponibile.\nActualizați întâi sistemul"
 
 #: pamac-install.py:72 pamac/transaction.py:406 pamac/transaction.py:799
 msgid "Preparing"
@@ -364,9 +357,7 @@ msgstr ""
 msgid ""
 "{pkgname} is provided by {number} packages.\n"
 "Please choose those you would like to install:"
-msgstr ""
-"{pkgname} este furnizat de {number} pachete.\n"
-"Alegeți cele pe care le doriți instalate:"
+msgstr "{pkgname} este furnizat de {number} pachete.\nAlegeți cele pe care le doriți instalate:"
 
 #: pamac/transaction.py:257
 msgid "Refreshing"
