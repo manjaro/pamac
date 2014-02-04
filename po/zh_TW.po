@@ -4,14 +4,14 @@
 # Guillaume Benoit <guillaume@manjaro.org>, 2013-2014.
 # 
 # Translators:
-# 柏諺 黃 <s8321414@gmail.com>, 2013
+# 柏諺 黃 <s8321414@gmail.com>, 2013-2014
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-03-30 15:09+0100\n"
-"PO-Revision-Date: 2014-02-01 14:57+0000\n"
-"Last-Translator: manjarolinux <philm@manjaro.org>\n"
+"PO-Revision-Date: 2014-02-01 23:50+0000\n"
+"Last-Translator: 柏諺 黃 <s8321414@gmail.com>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/manjaro-pamac/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -21,7 +21,7 @@ msgstr ""
 
 #: data/polkit/org.manjaro.pamac.policy:10
 msgid "Authentication is required"
-msgstr ""
+msgstr "授權成功"
 
 #: pamac-daemon.py:162
 msgid "Checking dependencies"
@@ -349,7 +349,7 @@ msgstr "準備中"
 
 #: pamac/transaction.py:94 gui/dialogs.ui:356
 msgid "How often to check for updates, value in hours"
-msgstr ""
+msgstr "請選擇您想要檢查更新的頻率，單位是小時"
 
 #: pamac/transaction.py:192
 #, python-brace-format
@@ -429,11 +429,11 @@ msgstr "一個 pyalpm 的 gtk3 前端"
 
 #: gui/manager.ui:44
 msgid "Pamac History"
-msgstr ""
+msgstr "Pamac 歷史"
 
 #: gui/manager.ui:170
 msgid "View History"
-msgstr ""
+msgstr "檢閱歷史"
 
 #: gui/manager.ui:180 gui/manager.ui:222
 msgid "Install local packages"
@@ -441,11 +441,11 @@ msgstr "安裝本地套件"
 
 #: gui/manager.ui:349
 msgid "Apply changes"
-msgstr ""
+msgstr "套用變更"
 
 #: gui/manager.ui:367
 msgid "Cancel"
-msgstr ""
+msgstr "取消"
 
 #: gui/manager.ui:440
 msgid "Search in AUR"
@@ -505,29 +505,29 @@ msgstr "細節"
 
 #: gui/dialogs.ui:280
 msgid "Pamac Preferences"
-msgstr ""
+msgstr "Pamac 偏好設定"
 
 #: gui/dialogs.ui:303
 msgid "Enable AUR support"
-msgstr ""
+msgstr "啟用 AUR 支援"
 
 #: gui/dialogs.ui:307
 msgid "Allow Pamac to search and install packages from AUR"
-msgstr ""
+msgstr "允許 Pamac 搜尋及安裝 AUR 上的軟體包"
 
 #: gui/dialogs.ui:320
 msgid "Remove unrequired dependencies"
-msgstr ""
+msgstr "移除不需要的相依性"
 
 #: gui/dialogs.ui:324
 msgid ""
 "When removing a package, also remove those dependencies that are not "
 "required by other packages"
-msgstr ""
+msgstr "當移除一個軟體包時，同時移除那些不被其他軟體包需要的相依性"
 
 #: gui/dialogs.ui:383
 msgid "Options"
-msgstr ""
+msgstr "選項"
 
 #: gui/dialogs.ui:452
 msgid "Choose"

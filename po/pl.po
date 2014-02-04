@@ -7,14 +7,14 @@
 # FadeMind <fademind@gmail.com>, 2013
 # Guillaume Benoit <guillaume@manjaro.org>, 2013
 # poker98face <poker98face@gmail.com>, 2013
-# Piotr Strębski <strebski@o2.pl>, 2013
+# Piotr Strębski <strebski@o2.pl>, 2013-2014
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-03-30 15:09+0100\n"
-"PO-Revision-Date: 2014-02-01 14:57+0000\n"
-"Last-Translator: manjarolinux <philm@manjaro.org>\n"
+"PO-Revision-Date: 2014-02-02 10:33+0000\n"
+"Last-Translator: Piotr Strębski <strebski@o2.pl>\n"
 "Language-Team: Polish (http://www.transifex.com/projects/p/manjaro-pamac/language/pl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -24,7 +24,7 @@ msgstr ""
 
 #: data/polkit/org.manjaro.pamac.policy:10
 msgid "Authentication is required"
-msgstr ""
+msgstr "Wymagana autoryzacja"
 
 #: pamac-daemon.py:162
 msgid "Checking dependencies"
@@ -352,7 +352,7 @@ msgstr "Przygotowanie"
 
 #: pamac/transaction.py:94 gui/dialogs.ui:356
 msgid "How often to check for updates, value in hours"
-msgstr ""
+msgstr "Jak często sprawdzać aktualizacje, wartość w godzinach"
 
 #: pamac/transaction.py:192
 #, python-brace-format
@@ -432,11 +432,11 @@ msgstr "Nakładka gtk3 na pyalpm"
 
 #: gui/manager.ui:44
 msgid "Pamac History"
-msgstr ""
+msgstr "Historia Pamaca"
 
 #: gui/manager.ui:170
 msgid "View History"
-msgstr ""
+msgstr "Zobacz historię"
 
 #: gui/manager.ui:180 gui/manager.ui:222
 msgid "Install local packages"
@@ -444,11 +444,11 @@ msgstr "Zainstaluj lokalne pakiety"
 
 #: gui/manager.ui:349
 msgid "Apply changes"
-msgstr ""
+msgstr "Zastosuj zmiany"
 
 #: gui/manager.ui:367
 msgid "Cancel"
-msgstr ""
+msgstr "Anuluj"
 
 #: gui/manager.ui:440
 msgid "Search in AUR"
@@ -508,29 +508,29 @@ msgstr "szczegóły"
 
 #: gui/dialogs.ui:280
 msgid "Pamac Preferences"
-msgstr ""
+msgstr "Preferencje Pamaca"
 
 #: gui/dialogs.ui:303
 msgid "Enable AUR support"
-msgstr ""
+msgstr "Włącz obsługę AUR"
 
 #: gui/dialogs.ui:307
 msgid "Allow Pamac to search and install packages from AUR"
-msgstr ""
+msgstr "Pozwól Pamacowi wyszukiwać i instalować pakiety z AUR"
 
 #: gui/dialogs.ui:320
 msgid "Remove unrequired dependencies"
-msgstr ""
+msgstr "Usuwanie niewymaganych zależności"
 
 #: gui/dialogs.ui:324
 msgid ""
 "When removing a package, also remove those dependencies that are not "
 "required by other packages"
-msgstr ""
+msgstr "Podczas usuwania pakietu usuwać także te zależności, które nie są już wymagane przez inne pakiety"
 
 #: gui/dialogs.ui:383
 msgid "Options"
-msgstr ""
+msgstr "Opcje"
 
 #: gui/dialogs.ui:452
 msgid "Choose"

@@ -4,14 +4,15 @@
 # Guillaume Benoit <guillaume@manjaro.org>, 2013-2014.
 # 
 # Translators:
+# ansich <mojmejlzaforume@gmail.com>, 2014
 # holden1987 <inactive+holden1987@transifex.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-03-30 15:09+0100\n"
-"PO-Revision-Date: 2014-02-01 14:57+0000\n"
-"Last-Translator: manjarolinux <philm@manjaro.org>\n"
+"PO-Revision-Date: 2014-02-03 21:56+0000\n"
+"Last-Translator: ansich <mojmejlzaforume@gmail.com>\n"
 "Language-Team: Slovenian (http://www.transifex.com/projects/p/manjaro-pamac/language/sl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -21,7 +22,7 @@ msgstr ""
 
 #: data/polkit/org.manjaro.pamac.policy:10
 msgid "Authentication is required"
-msgstr ""
+msgstr "Zahtevana je overovitev"
 
 #: pamac-daemon.py:162
 msgid "Checking dependencies"
@@ -42,132 +43,132 @@ msgstr "Razrešujem konflikte"
 #: pamac-daemon.py:192
 #, python-brace-format
 msgid "Installing {pkgname}"
-msgstr ""
+msgstr "Nameščanje {pkgname}"
 
 #: pamac-daemon.py:200
 #, python-brace-format
 msgid "Removing {pkgname}"
-msgstr ""
+msgstr "Odstranjevanje {pkgname}"
 
 #: pamac-daemon.py:208
 #, python-brace-format
 msgid "Upgrading {pkgname}"
-msgstr ""
+msgstr "Nadgrajevanje {pkgname}"
 
 #: pamac-daemon.py:216
 #, python-brace-format
 msgid "Downgrading {pkgname}"
-msgstr ""
+msgstr "Podgrajevanje {pkgname}"
 
 #: pamac-daemon.py:224
 #, python-brace-format
 msgid "Reinstalling {pkgname}"
-msgstr ""
+msgstr "Ponovno nameščanje {pkgname}"
 
 #: pamac-daemon.py:232
 msgid "Checking integrity"
-msgstr ""
+msgstr "Preverjam celovitost"
 
 #: pamac-daemon.py:239
 msgid "Loading packages files"
-msgstr ""
+msgstr "Nalaganje datotek paketov"
 
 #: pamac-daemon.py:245
 msgid "Checking delta integrity"
-msgstr ""
+msgstr "Preverjanje celovitosti delta"
 
 #: pamac-daemon.py:251
 msgid "Applying deltas"
-msgstr ""
+msgstr "Apliciranje delt"
 
 #: pamac-daemon.py:257
 msgid "Generating {} with {}"
-msgstr ""
+msgstr "Generiranje {} z {}"
 
 #: pamac-daemon.py:261
 msgid "Generation succeeded!"
-msgstr ""
+msgstr "Generiranje uspešno!"
 
 #: pamac-daemon.py:264
 msgid "Generation failed."
-msgstr ""
+msgstr "Generiranje ni bilo uspešno!"
 
 #: pamac-daemon.py:267
 #, python-brace-format
 msgid "Configuring {pkgname}"
-msgstr ""
+msgstr "Konfiguriranje {pkgname}"
 
 #: pamac-daemon.py:272
 msgid "Downloading"
-msgstr ""
+msgstr "Nalaganje"
 
 #: pamac-daemon.py:276
 msgid "Checking available disk space"
-msgstr ""
+msgstr "Preverjanje razpoložljivega prostora"
 
 #: pamac-daemon.py:286
 msgid "Checking keyring"
-msgstr ""
+msgstr "Preverjanje keyring-a"
 
 #: pamac-daemon.py:292
 msgid "Downloading required keys"
-msgstr ""
+msgstr "Nalaganje zahtevanih ključev"
 
 #: pamac-daemon.py:311
 #, python-brace-format
 msgid "{pkgname1} will be replaced by {pkgname2}"
-msgstr ""
+msgstr "{pkgname1} bo zamenjan z {pkgname2}"
 
 #: pamac-daemon.py:314
 #, python-brace-format
 msgid "{pkgname1} conflicts with {pkgname2}"
-msgstr ""
+msgstr "{pkgname1} je v konfliktu z {pkgname2}"
 
 #: pamac-daemon.py:359
 #, python-brace-format
 msgid "Refreshing {repo}"
-msgstr ""
+msgstr "Osveževanje {repo}"
 
 #: pamac-daemon.py:363 pamac/transaction.py:608
 #, python-brace-format
 msgid "Downloading {pkgname}"
-msgstr ""
+msgstr "Nalaganje {pkgname}"
 
 #: pamac-daemon.py:561 pamac-install.py:127
 #, python-brace-format
 msgid "{pkgname} is not a valid path or package name"
-msgstr ""
+msgstr "{pkgname} ni veljavna pot ali ime paketa"
 
 #: pamac-daemon.py:674
 #, python-brace-format
 msgid ""
 "The transaction cannot be performed because it needs to remove {pkgname1} "
 "which is a locked package"
-msgstr ""
+msgstr "Transakcija ne more biti opravljena, saj zahteva odstranitev paketa {pkgname1}, ki pa je zaklenjen"
 
 #: pamac-daemon.py:684 pamac/transaction.py:449
 msgid "Nothing to do"
-msgstr ""
+msgstr "Ni nobenih opravil"
 
 #: pamac-daemon.py:746
 msgid "Transaction successfully finished"
-msgstr ""
+msgstr "Transakcija uspešno zaključena"
 
 #: pamac-daemon.py:751 pamac-daemon.py:759 pamac-daemon.py:782
 #: pamac-daemon.py:816
 msgid "Authentication failed"
-msgstr ""
+msgstr "Potrditev identitete ni uspela"
 
 #: pamac-manager.py:100 pamac-manager.py:131 pamac-manager.py:132
 #: pamac-manager.py:147 pamac-manager.py:156 pamac-manager.py:177
 #: pamac-manager.py:302 pamac-manager.py:590 pamac-manager.py:650
 #: pamac-manager.py:720
 msgid "No package found"
-msgstr ""
+msgstr "Najden ni bil noben paket"
 
 #: pamac-manager.py:201 pamac-manager.py:263
 msgid "local"
-msgstr ""
+msgstr "krajevno"
 
 #: pamac-manager.py:205 pamac-manager.py:246 pamac-manager.py:360
 msgid "Installed"
@@ -179,169 +180,169 @@ msgstr "Odstranjeno"
 
 #: pamac-manager.py:205 pamac-manager.py:252
 msgid "Orphans"
-msgstr ""
+msgstr "Osirotele datoteke"
 
 #: pamac-manager.py:205 pamac-manager.py:224 pamac/transaction.py:757
 msgid "To install"
-msgstr ""
+msgstr "Za namestitev"
 
 #: pamac-manager.py:205 pamac-manager.py:235 pamac/transaction.py:737
 msgid "To remove"
-msgstr ""
+msgstr "Za odstranitev"
 
 #: pamac-manager.py:350
 msgid "Licenses"
-msgstr ""
+msgstr "Licence"
 
 #: pamac-manager.py:355
 msgid "Depends On"
-msgstr ""
+msgstr "Odvisen od"
 
 #: pamac-manager.py:363
 msgid "Optional Deps"
-msgstr ""
+msgstr "Izbirne odvisnosti"
 
 #: pamac-manager.py:366
 msgid "Required By"
-msgstr ""
+msgstr "Zahtevano s strani"
 
 #: pamac-manager.py:368
 msgid "Provides"
-msgstr ""
+msgstr "Zagotavlja"
 
 #: pamac-manager.py:370
 msgid "Replaces"
-msgstr ""
+msgstr "Nadomesti"
 
 #: pamac-manager.py:372
 msgid "Conflicts With"
-msgstr ""
+msgstr "Je v sporu s"
 
 #: pamac-manager.py:377
 msgid "Repository"
-msgstr ""
+msgstr "Skladišče"
 
 #: pamac-manager.py:379 gui/manager.ui:544
 msgid "Groups"
-msgstr ""
+msgstr "Skupine"
 
 #: pamac-manager.py:381
 msgid "Compressed Size"
-msgstr ""
+msgstr "Velikost arhiva"
 
 #: pamac-manager.py:382
 msgid "Download Size"
-msgstr ""
+msgstr "Velikost prenosa"
 
 #: pamac-manager.py:384
 msgid "Installed Size"
-msgstr ""
+msgstr "Velikost namestitve"
 
 #: pamac-manager.py:385
 msgid "Packager"
-msgstr ""
+msgstr "Paketni program"
 
 #: pamac-manager.py:386
 msgid "Architecture"
-msgstr ""
+msgstr "Arhitektura"
 
 #: pamac-manager.py:389
 msgid "Install Date"
-msgstr ""
+msgstr "Datum namestitve"
 
 #: pamac-manager.py:391
 msgid "Explicitly installed"
-msgstr ""
+msgstr "Izrecno nameščeno"
 
 #: pamac-manager.py:393
 msgid "Installed as a dependency for another package"
-msgstr ""
+msgstr "Nameščeno kot odvisnost za drugi paket"
 
 #: pamac-manager.py:395
 msgid "Unknown"
-msgstr ""
+msgstr "Neznano"
 
 #: pamac-manager.py:396
 msgid "Install Reason"
-msgstr ""
+msgstr "Namestitveni razlog"
 
 #: pamac-manager.py:401
 msgid "Signatures"
-msgstr ""
+msgstr "Podpisi"
 
 #: pamac-manager.py:405
 msgid "Backup files"
-msgstr ""
+msgstr "Varnostne datoteke"
 
 #: pamac-manager.py:570
 #, python-brace-format
 msgid ""
 "{pkgname} has {number} uninstalled optional deps.\n"
 "Please choose those you would like to install:"
-msgstr ""
+msgstr "{pkgname} ima {number} izbirnih odvisnosti, ki niso nameščene.\nProsimo izberite tiste, ki jih želite namestiti:"
 
 #: pamac-manager.py:593
 msgid "Deselect"
-msgstr ""
+msgstr "Prekliči izbiro"
 
 #: pamac-manager.py:599
 msgid "Remove"
-msgstr ""
+msgstr "Odstrani"
 
 #: pamac-manager.py:606
 msgid "Reinstall"
-msgstr ""
+msgstr "Ponovno namesti"
 
 #: pamac-manager.py:618
 msgid "Install optional deps"
-msgstr ""
+msgstr "Namesti izbirne odvisnosti"
 
 #: pamac-manager.py:624
 msgid "Install"
-msgstr ""
+msgstr "Namesti"
 
 #: pamac-manager.py:636
 msgid "Install with optional deps"
-msgstr ""
+msgstr "Namesti z izbirnimi odvisnostmi"
 
 #: pamac-manager.py:936 pamac-updater.py:213 pamac-install.py:160
 msgid "Pamac is already running"
-msgstr ""
+msgstr "Pamac je že v teku"
 
 #: pamac-updater.py:44 pamac-updater.py:59 pamac-tray.py:40
 msgid "Your system is up-to-date"
-msgstr ""
+msgstr "Vaš sistem je posodobljen"
 
 #: pamac-updater.py:74 pamac/transaction.py:787
 msgid "Total download size:"
-msgstr ""
+msgstr "Celotna velikost prenosa:"
 
 #: pamac-updater.py:76 pamac-tray.py:38
 msgid "1 available update"
-msgstr ""
+msgstr "Na voljo je 1 posodobitev"
 
 #: pamac-updater.py:78 pamac-tray.py:37
 #, python-brace-format
 msgid "{number} available updates"
-msgstr ""
+msgstr "Na voljo je {number} posodobitev"
 
 #: pamac-tray.py:50 pamac-tray.py:126 pamac-tray.py:148 gui/updater.ui:24
 msgid "Update Manager"
-msgstr ""
+msgstr "Upravljalnik posodobitev"
 
 #: pamac-tray.py:54 gui/manager.ui:329
 msgid "Package Manager"
-msgstr ""
+msgstr "Upravljalnik paketov"
 
 #: pamac-tray.py:58
 msgid "Quit"
-msgstr ""
+msgstr "Izhod"
 
 #: pamac-install.py:66
 msgid ""
 "Some updates are available.\n"
 "Please update your system first"
-msgstr ""
+msgstr "Na voljo so posodobitve.\nProsimo, da najprej posodobite vaš sistem"
 
 #: pamac-install.py:72 pamac/transaction.py:406 pamac/transaction.py:799
 msgid "Preparing"
@@ -349,190 +350,190 @@ msgstr "Pripravljam"
 
 #: pamac/transaction.py:94 gui/dialogs.ui:356
 msgid "How often to check for updates, value in hours"
-msgstr ""
+msgstr "Kako pogosto naj se preverja za posodobitve, vrednost v urah"
 
 #: pamac/transaction.py:192
 #, python-brace-format
 msgid ""
 "{pkgname} is provided by {number} packages.\n"
 "Please choose those you would like to install:"
-msgstr ""
+msgstr "{pkgname} je del {number} paketov.\nProsimo izberite tiste, ki bi jih radi namestili:"
 
 #: pamac/transaction.py:257
 msgid "Refreshing"
-msgstr ""
+msgstr "Osveževanje"
 
 #: pamac/transaction.py:341 pamac/transaction.py:380
 #, python-brace-format
 msgid "{pkgname} depends on {dependname} but it is not installable"
-msgstr ""
+msgstr "{pkgname} je odvisen od {dependname}, vendar pa slednjega ni mogoče namestiti"
 
 #: pamac/transaction.py:384
 #, python-brace-format
 msgid "Failed to get {pkgname} archive from AUR"
-msgstr ""
+msgstr "Pridobivanje arhiva {pkgname} iz AUR ni bilo uspešno"
 
 #: pamac/transaction.py:552 pamac/transaction.py:558
 msgid "Build process failed."
-msgstr ""
+msgstr "Proces izgradnje je spodletel"
 
 #: pamac/transaction.py:644
 #, python-brace-format
 msgid "Building {pkgname}"
-msgstr ""
+msgstr "Grajenje {pkgname}"
 
 #: pamac/transaction.py:685
 msgid "Checking for updates"
-msgstr ""
+msgstr "Preverjanje za posodobitve"
 
 #: pamac/transaction.py:735
 msgid "Transaction Summary"
-msgstr ""
+msgstr "Povzetek transakcije"
 
 #: pamac/transaction.py:743
 msgid "To downgrade"
-msgstr ""
+msgstr "Za podgraditev"
 
 #: pamac/transaction.py:751
 msgid "To build"
-msgstr ""
+msgstr "Za izgradnjo"
 
 #: pamac/transaction.py:765
 msgid "To reinstall"
-msgstr ""
+msgstr "Za ponovno namestitev"
 
 #: pamac/transaction.py:774
 msgid "To update"
-msgstr ""
+msgstr "Posodobiti"
 
 #: pamac/common.py:30
 #, python-format
 msgid "%.1f KiB"
-msgstr ""
+msgstr "%.1f KiB"
 
 #: pamac/common.py:33
 #, python-format
 msgid "%.2f MiB"
-msgstr ""
+msgstr "%.2f MiB"
 
 #: gui/manager.ui:8
 msgid "About Pamac"
-msgstr ""
+msgstr "O programu Pamac"
 
 #: gui/manager.ui:13
 msgid "Copyright © 2013 Guillaume Benoit"
-msgstr ""
+msgstr "Copyright © 2013 Guillaume Benoit"
 
 #: gui/manager.ui:14
 msgid "A gtk3 frontend for pyalpm"
-msgstr ""
+msgstr "Gtk3 vmesnik za pyalpm"
 
 #: gui/manager.ui:44
 msgid "Pamac History"
-msgstr ""
+msgstr "Zgodovina Pamac"
 
 #: gui/manager.ui:170
 msgid "View History"
-msgstr ""
+msgstr "Glej zgodovino"
 
 #: gui/manager.ui:180 gui/manager.ui:222
 msgid "Install local packages"
-msgstr ""
+msgstr "Namesti lokalne pakete"
 
 #: gui/manager.ui:349
 msgid "Apply changes"
-msgstr ""
+msgstr "Izvedi spremembe"
 
 #: gui/manager.ui:367
 msgid "Cancel"
-msgstr ""
+msgstr "Prekliči"
 
 #: gui/manager.ui:440
 msgid "Search in AUR"
-msgstr ""
+msgstr "Išči v AUR"
 
 #: gui/manager.ui:498
 msgid "Search"
-msgstr ""
+msgstr "Išči"
 
 #: gui/manager.ui:591 gui/manager.ui:683
 msgid "State"
-msgstr ""
+msgstr "Stanje"
 
 #: gui/manager.ui:638
 msgid "Repos"
-msgstr ""
+msgstr "Skladišča"
 
 #: gui/manager.ui:696
 msgid "Name"
-msgstr ""
+msgstr "Ime"
 
 #: gui/manager.ui:709
 msgid "Version"
-msgstr ""
+msgstr "Različica"
 
 #: gui/manager.ui:722
 msgid "Repo"
-msgstr ""
+msgstr "Skladišče"
 
 #: gui/manager.ui:735
 msgid "Size"
-msgstr ""
+msgstr "Velikost"
 
 #: gui/manager.ui:837
 msgid "Infos"
-msgstr ""
+msgstr "Info"
 
 #: gui/manager.ui:901
 msgid "Deps"
-msgstr ""
+msgstr "Odvisnosti"
 
 #: gui/manager.ui:970
 msgid "Details"
-msgstr ""
+msgstr "Podrobnosti"
 
 #: gui/manager.ui:999
 msgid "Files"
-msgstr ""
+msgstr "Datoteke"
 
 #: gui/dialogs.ui:65
 msgid "Progress"
-msgstr ""
+msgstr "Potek"
 
 #: gui/dialogs.ui:157
 msgid "details"
-msgstr ""
+msgstr "podrobnosti"
 
 #: gui/dialogs.ui:280
 msgid "Pamac Preferences"
-msgstr ""
+msgstr "Nastavitve Pamac"
 
 #: gui/dialogs.ui:303
 msgid "Enable AUR support"
-msgstr ""
+msgstr "Omogoči podporo AUR"
 
 #: gui/dialogs.ui:307
 msgid "Allow Pamac to search and install packages from AUR"
-msgstr ""
+msgstr "Dovoli Pamacu da išče in namešča pakete iz AUR"
 
 #: gui/dialogs.ui:320
 msgid "Remove unrequired dependencies"
-msgstr ""
+msgstr "Odstrani nezahtevane odvisnosti"
 
 #: gui/dialogs.ui:324
 msgid ""
 "When removing a package, also remove those dependencies that are not "
 "required by other packages"
-msgstr ""
+msgstr "Ob odstranjevanju paketa odstrani tudi tiste odvisnosti, ki niso zahtevane s strani drugih paketov"
 
 #: gui/dialogs.ui:383
 msgid "Options"
-msgstr ""
+msgstr "Možnosti"
 
 #: gui/dialogs.ui:452
 msgid "Choose"
-msgstr ""
+msgstr "Izberite"
 
 #: gui/dialogs.ui:566
 msgid "Summary"
-msgstr ""
+msgstr "Pregled"

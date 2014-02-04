@@ -4,13 +4,14 @@
 # Guillaume Benoit <guillaume@manjaro.org>, 2013-2014.
 # 
 # Translators:
+# tarteka <semosa@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-03-30 15:09+0100\n"
-"PO-Revision-Date: 2014-02-01 14:57+0000\n"
-"Last-Translator: manjarolinux <philm@manjaro.org>\n"
+"PO-Revision-Date: 2014-02-01 22:19+0000\n"
+"Last-Translator: tarteka <semosa@gmail.com>\n"
 "Language-Team: Basque (http://www.transifex.com/projects/p/manjaro-pamac/language/eu/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -24,7 +25,7 @@ msgstr ""
 
 #: pamac-daemon.py:162
 msgid "Checking dependencies"
-msgstr ""
+msgstr "Mendekotasunak egiaztatzen"
 
 #: pamac-daemon.py:170
 msgid "Checking file conflicts"
@@ -344,7 +345,7 @@ msgstr ""
 
 #: pamac-install.py:72 pamac/transaction.py:406 pamac/transaction.py:799
 msgid "Preparing"
-msgstr ""
+msgstr "Prestatzen"
 
 #: pamac/transaction.py:94 gui/dialogs.ui:356
 msgid "How often to check for updates, value in hours"
@@ -512,7 +513,7 @@ msgstr ""
 
 #: gui/dialogs.ui:307
 msgid "Allow Pamac to search and install packages from AUR"
-msgstr ""
+msgstr "Pamac AURtik paketeak bilatzeko eta instalatzeko baimendu"
 
 #: gui/dialogs.ui:320
 msgid "Remove unrequired dependencies"
@@ -526,7 +527,7 @@ msgstr ""
 
 #: gui/dialogs.ui:383
 msgid "Options"
-msgstr ""
+msgstr "Aukerak"
 
 #: gui/dialogs.ui:452
 msgid "Choose"

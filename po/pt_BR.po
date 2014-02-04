@@ -12,14 +12,14 @@
 # mattBV <matheus_boni_vicari@hotmail.com>, 2013
 # mattBV <matheus_boni_vicari@hotmail.com>, 2013
 # phormigon <phormigon@gmail.com>, 2013
-# wevertonmarx <wevertonmarx@hotmail.com>, 2013
+# wevertonmarx <wevertonmarx@hotmail.com>, 2013-2014
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-03-30 15:09+0100\n"
-"PO-Revision-Date: 2014-02-01 14:57+0000\n"
-"Last-Translator: manjarolinux <philm@manjaro.org>\n"
+"PO-Revision-Date: 2014-02-02 03:45+0000\n"
+"Last-Translator: wevertonmarx <wevertonmarx@hotmail.com>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/manjaro-pamac/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -437,7 +437,7 @@ msgstr "Uma interface gráfica para GTK3 pyalpm"
 
 #: gui/manager.ui:44
 msgid "Pamac History"
-msgstr ""
+msgstr "Histórico do Pamac"
 
 #: gui/manager.ui:170
 msgid "View History"
