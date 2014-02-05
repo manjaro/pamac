@@ -91,6 +91,7 @@ def handle_error(error):
 			if response:
 				transaction.ErrorDialog.hide()
 	transaction.get_handle()
+	transaction.mark_needed_pkgs_as_dep()
 
 def handle_reply(reply):
 	while Gtk.events_pending():
@@ -110,6 +111,7 @@ def handle_reply(reply):
 		UpdaterWindow.get_window().set_cursor(None)
 		transaction.get_handle()
 		transaction.get_updates()
+	transaction.mark_needed_pkgs_as_dep()
 
 def handle_updates(updates):
 	transaction.ProgressWindow.hide()
@@ -141,7 +143,6 @@ def on_TransCancelButton_clicked(*args):
 		Gtk.main_iteration()
 	transaction.Release()
 	transaction.to_add.clear()
-	transaction.to_add_as_dep.clear()
 	transaction.to_update.clear()
 	transaction.to_build.clear()
 
