@@ -419,16 +419,24 @@ class PamacDBusService(dbus.service.Object):
 		(is_authorized,is_challenge,details) = policykit_authority.CheckAuthorization(Subject, action, {'': ''}, dbus.UInt32(1), '',timeout=2147483)
 		return is_authorized
 
-	@dbus.service.method('org.manjaro.pamac', 'si', 's')
-	def SetPkgReason(self, pkgname, reason):
-		error = ''
+	@dbus.service.method('org.manjaro.pamac', 'si', 's', sender_keyword='sender', connection_keyword='connexion')
+	def SetPkgReason(self, pkgname, reason, sender=None, connexion=None):
 		try:
-			pkg = self.localdb.get_pkg(pkgname)
-			if pkg:
-				self.handle.set_pkgreason(pkg, reason)
-		except Exception as e:
-			error = format_error(e.args)
-		return error
+			authorized = self.policykit_test(sender,connexion,'org.manjaro.pamac.commit')
+		except dbus.exceptions.DBusException as e:
+			return _('Authentication failed')
+		else:
+			if authorized:
+				error = ''
+				try:
+					pkg = self.localdb.get_pkg(pkgname)
+					if pkg:
+						self.handle.set_pkgreason(pkg, reason)
+				except Exception as e:
+					error = format_error(e.args)
+				return error
+			else :
+				return _('Authentication failed')
 
 	@dbus.service.method('org.manjaro.pamac', '', 's', async_callbacks=('success', 'nosuccess'))
 	def CheckUpdates(self, success, nosuccess):

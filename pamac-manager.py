@@ -76,11 +76,15 @@ AboutDialog = interface.get_object('AboutDialog')
 PackagesChooserDialog = interface.get_object('PackagesChooserDialog')
 HistoryWindow = interface.get_object('HistoryWindow')
 history_textview = interface.get_object('history_textview')
+ManagerValidButton = interface.get_object('ManagerValidButton')
+ManagerCancelButton = interface.get_object('ManagerCancelButton')
 
 files_buffer = files_textview.get_buffer()
 history_buffer = history_textview.get_buffer()
 AboutDialog.set_version(version)
 search_aur_button.set_visible(config.enable_aur)
+ManagerValidButton.set_sensitive(False)
+ManagerCancelButton.set_sensitive(False)
 
 search_dict = {}
 groups_dict = {}
@@ -336,6 +340,14 @@ def refresh_packages_list(liststore):
 	repo_column.set_sort_indicator(False)
 	size_column.set_sort_indicator(False)
 	packages_list_treeview.thaw_child_notify()
+	# clear infos tabs
+	name_label.set_markup('')
+	desc_label.set_markup('')
+	link_label.set_markup('')
+	licenses_label.set_markup('')
+	deps_list.clear()
+	details_list.clear()
+	files_buffer.delete(files_buffer.get_start_iter(), files_buffer.get_end_iter())
 	ManagerWindow.get_window().set_cursor(None)
 
 def set_infos_list(pkg):
@@ -432,6 +444,8 @@ def handle_error(error):
 	transaction.to_update.clear()
 	transaction.to_load.clear()
 	transaction.to_build.clear()
+	ManagerValidButton.set_sensitive(False)
+	ManagerCancelButton.set_sensitive(False)
 
 def handle_reply(reply):
 	if transaction.to_build:
@@ -444,9 +458,6 @@ def handle_reply(reply):
 		end_iter = transaction.progress_buffer.get_end_iter()
 		transaction.progress_buffer.insert(end_iter, str(reply))
 	else:
-		#~ transaction.ProgressWindow.hide()
-		#~ while Gtk.events_pending():
-			#~ Gtk.main_iteration()
 		transaction.get_updates()
 	transaction.Release()
 	transaction.get_handle()
@@ -455,6 +466,8 @@ def handle_reply(reply):
 	transaction.to_remove.clear()
 	transaction.to_update.clear()
 	transaction.to_load.clear()
+	ManagerValidButton.set_sensitive(False)
+	ManagerCancelButton.set_sensitive(False)
 	global search_dict
 	global groups_dict
 	global states_dict
@@ -504,6 +517,8 @@ def on_TransCancelButton_clicked(*args):
 	transaction.to_update.clear()
 	transaction.to_load.clear()
 	transaction.to_build.clear()
+	ManagerValidButton.set_sensitive(False)
+	ManagerCancelButton.set_sensitive(False)
 	if current_filter[0]:
 		refresh_packages_list(current_filter[0](current_filter[1]))
 
@@ -531,6 +546,8 @@ def on_ProgressCancelButton_clicked(*args):
 	transaction.to_update.clear()
 	transaction.to_load.clear()
 	transaction.to_build.clear()
+	ManagerValidButton.set_sensitive(False)
+	ManagerCancelButton.set_sensitive(False)
 	transaction.Interrupt()
 	ManagerWindow.get_window().set_cursor(None)
 	transaction.ProgressWindow.hide()
@@ -553,18 +570,27 @@ def mark_to_install(widget, pkg):
 		transaction.to_build.append(pkg)
 	else:
 		transaction.to_add.add(pkg.name)
+	ManagerValidButton.set_sensitive(True)
+	ManagerCancelButton.set_sensitive(True)
 
 def mark_to_reinstall(widget, pkg):
 	transaction.to_add.add(pkg.name)
+	ManagerValidButton.set_sensitive(True)
+	ManagerCancelButton.set_sensitive(True)
 
 def mark_to_remove(widget, pkg):
 	transaction.to_remove.add(pkg.name)
+	ManagerValidButton.set_sensitive(True)
+	ManagerCancelButton.set_sensitive(True)
 
 def mark_to_deselect(widget, pkg):
 	transaction.to_remove.discard(pkg.name)
 	transaction.to_add.discard(pkg.name)
 	if pkg in transaction.to_build:
 		transaction.to_build.remove(pkg)
+	if not transaction.to_add and not transaction.to_remove and not transaction.to_build:
+		ManagerValidButton.set_sensitive(False)
+		ManagerCancelButton.set_sensitive(False)
 
 def select_optdeps(widget, pkg, optdeps):
 	transaction.choose_label.set_markup('<b>{}</b>'.format(_('{pkgname} has {number} uninstalled optional deps.\nPlease choose those you would like to install:').format(pkgname = pkg.name, number = str(len(optdeps)))))
@@ -572,10 +598,31 @@ def select_optdeps(widget, pkg, optdeps):
 	for long_string in optdeps:
 		transaction.choose_list.append([False, long_string])
 	transaction.ChooseDialog.run()
+	if transaction.to_add:
+		ManagerValidButton.set_sensitive(True)
+		ManagerCancelButton.set_sensitive(True)
 
 def install_with_optdeps(widget, pkg, optdeps):
 	select_optdeps(widget, pkg, optdeps)
 	transaction.to_add.add(pkg.name)
+	ManagerValidButton.set_sensitive(True)
+	ManagerCancelButton.set_sensitive(True)
+
+def mark_explicitly_installed(widget, pkg):
+	error = transaction.SetPkgReason(pkg.name, pyalpm.PKG_REASON_EXPLICIT)
+	if error:
+		handle_error(error)
+	transaction.get_handle()
+	global search_dict
+	global groups_dict
+	global states_dict
+	global repos_dict
+	search_dict = {}
+	groups_dict = {}
+	states_dict = {}
+	repos_dict = {}
+	if current_filter[0]:
+		refresh_packages_list(current_filter[0](current_filter[1]))
 
 def on_list_treeview_button_press_event(treeview, event):
 	global right_click_menu
@@ -620,6 +667,10 @@ def on_list_treeview_button_press_event(treeview, event):
 							item.set_always_show_image(True)
 							item.connect('activate', select_optdeps, liststore[treeiter][0], available_optdeps)
 							right_click_menu.append(item)
+					if liststore[treeiter][0].reason == pyalpm.PKG_REASON_DEPEND:
+						item = Gtk.MenuItem(_('Mark as explicitly installed'))
+						item.connect('activate', mark_explicitly_installed, liststore[treeiter][0])
+						right_click_menu.append(item)
 				else:
 					item = Gtk.ImageMenuItem(_('Install'))
 					item.set_image(Gtk.Image.new_from_pixbuf(to_install_icon))
@@ -731,6 +782,12 @@ def on_list_treeview_row_activated(treeview, treeiter, column):
 			transaction.to_build.append(liststore[treeiter][0])
 		else:
 			transaction.to_add.add(liststore[treeiter][0].name)
+		if transaction.to_add or transaction.to_remove or transaction.to_build:
+			ManagerValidButton.set_sensitive(True)
+			ManagerCancelButton.set_sensitive(True)
+		elif not transaction.to_add and not transaction.to_remove and not transaction.to_build:
+			ManagerValidButton.set_sensitive(False)
+			ManagerCancelButton.set_sensitive(False)
 	while Gtk.events_pending():
 		Gtk.main_iteration()
 
@@ -753,7 +810,7 @@ def on_notebook1_switch_page(notebook, page, page_num):
 	elif page_num == 3:
 		on_repos_treeview_selection_changed(None)
 
-def on_manager_valid_button_clicked(*args):
+def on_ManagerValidButton_clicked(*args):
 	ManagerWindow.get_window().set_cursor(Gdk.Cursor(Gdk.CursorType.WATCH))
 	while Gtk.events_pending():
 		Gtk.main_iteration()
@@ -762,12 +819,14 @@ def on_manager_valid_button_clicked(*args):
 	if error:
 		handle_error(error)
 
-def on_manager_cancel_button_clicked(*args):
+def on_ManagerCancelButton_clicked(*args):
 	transaction.to_add.clear()
 	transaction.to_remove.clear()
 	transaction.to_update.clear()
 	transaction.to_load.clear()
 	transaction.to_build.clear()
+	ManagerValidButton.set_sensitive(False)
+	ManagerCancelButton.set_sensitive(False)
 	if current_filter[0]:
 		refresh_packages_list(current_filter[0](current_filter[1]))
 
@@ -906,8 +965,8 @@ signals = {'on_ManagerWindow_delete_event' : on_ManagerWindow_delete_event,
 		'on_repos_treeview_selection_changed' : on_repos_treeview_selection_changed,
 		'on_list_treeview_row_activated' : on_list_treeview_row_activated,
 		'on_notebook1_switch_page' : on_notebook1_switch_page,
-		'on_manager_valid_button_clicked' : on_manager_valid_button_clicked,
-		'on_manager_cancel_button_clicked' : on_manager_cancel_button_clicked,
+		'on_ManagerCancelButton_clicked' : on_ManagerCancelButton_clicked,
+		'on_ManagerValidButton_clicked' : on_ManagerValidButton_clicked,
 		'on_refresh_item_activate' : on_refresh_item_activate,
 		'on_history_item_activate' : on_history_item_activate,
 		'on_history_textview_size_allocate' : on_history_textview_size_allocate,
