@@ -4,14 +4,14 @@
 # Guillaume Benoit <guillaume@manjaro.org>, 2013-2014.
 # 
 # Translators:
-# kakonema <kakonema@gmail.com>, 2013
+# kakonema <kakonema@gmail.com>, 2013-2014
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-03-30 15:09+0100\n"
-"PO-Revision-Date: 2014-02-01 14:57+0000\n"
-"Last-Translator: manjarolinux <philm@manjaro.org>\n"
+"PO-Revision-Date: 2014-02-05 10:09+0000\n"
+"Last-Translator: kakonema <kakonema@gmail.com>\n"
 "Language-Team: Serbian (Latin) (http://www.transifex.com/projects/p/manjaro-pamac/language/sr@latin/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -21,7 +21,7 @@ msgstr ""
 
 #: data/polkit/org.manjaro.pamac.policy:10
 msgid "Authentication is required"
-msgstr ""
+msgstr "Potrebna je potvrda identiteta"
 
 #: pamac-daemon.py:162
 msgid "Checking dependencies"
@@ -99,7 +99,7 @@ msgstr "Konfigurisanje {pkgname}"
 
 #: pamac-daemon.py:272
 msgid "Downloading"
-msgstr ""
+msgstr "Preuzimanje"
 
 #: pamac-daemon.py:276
 msgid "Checking available disk space"
@@ -278,11 +278,11 @@ msgstr "Pravljenje rezervnih kopija datoteka"
 msgid ""
 "{pkgname} has {number} uninstalled optional deps.\n"
 "Please choose those you would like to install:"
-msgstr ""
+msgstr "{pkgname} je {number} uklonio opcione zavisnosti.\nMolimo izaberite one koje želite da instalirate:"
 
 #: pamac-manager.py:593
 msgid "Deselect"
-msgstr ""
+msgstr "Opozovi izbor"
 
 #: pamac-manager.py:599
 msgid "Remove"
@@ -314,7 +314,7 @@ msgstr "Vaš sistem je najnoviji"
 
 #: pamac-updater.py:74 pamac/transaction.py:787
 msgid "Total download size:"
-msgstr ""
+msgstr "Ukupna veličina preuzimanja:"
 
 #: pamac-updater.py:76 pamac-tray.py:38
 msgid "1 available update"
@@ -349,14 +349,14 @@ msgstr "Pripremanje"
 
 #: pamac/transaction.py:94 gui/dialogs.ui:356
 msgid "How often to check for updates, value in hours"
-msgstr ""
+msgstr "Koliko često da proveravam ažuriranja, vrednost u satima"
 
 #: pamac/transaction.py:192
 #, python-brace-format
 msgid ""
 "{pkgname} is provided by {number} packages.\n"
 "Please choose those you would like to install:"
-msgstr ""
+msgstr "{pkgname} je dostupan u {number} paketa.\nIzaberite koji želite da instalirate:"
 
 #: pamac/transaction.py:257
 msgid "Refreshing"
@@ -365,29 +365,29 @@ msgstr "Osvežavanje"
 #: pamac/transaction.py:341 pamac/transaction.py:380
 #, python-brace-format
 msgid "{pkgname} depends on {dependname} but it is not installable"
-msgstr ""
+msgstr "{pkgname} zavisi od {dependname} ali se ne može instalirati"
 
 #: pamac/transaction.py:384
 #, python-brace-format
 msgid "Failed to get {pkgname} archive from AUR"
-msgstr ""
+msgstr "Nije moguće dobiti {pkgname} arhivu sa AUR"
 
 #: pamac/transaction.py:552 pamac/transaction.py:558
 msgid "Build process failed."
-msgstr ""
+msgstr "Proces pravljenja nije uspeo."
 
 #: pamac/transaction.py:644
 #, python-brace-format
 msgid "Building {pkgname}"
-msgstr ""
+msgstr "Pravljenje {pkgname}"
 
 #: pamac/transaction.py:685
 msgid "Checking for updates"
-msgstr ""
+msgstr "Proveravanje ažuriranja"
 
 #: pamac/transaction.py:735
 msgid "Transaction Summary"
-msgstr ""
+msgstr "Rezime transakcije"
 
 #: pamac/transaction.py:743
 msgid "To downgrade"
@@ -395,7 +395,7 @@ msgstr "Za prebacivanje na predhodnu verziju"
 
 #: pamac/transaction.py:751
 msgid "To build"
-msgstr ""
+msgstr "Za pravljenje"
 
 #: pamac/transaction.py:765
 msgid "To reinstall"
@@ -429,11 +429,11 @@ msgstr "gtk3 pročelje za pyalpm"
 
 #: gui/manager.ui:44
 msgid "Pamac History"
-msgstr ""
+msgstr "Istorija Pamac-a"
 
 #: gui/manager.ui:170
 msgid "View History"
-msgstr ""
+msgstr "Vidi istoriju"
 
 #: gui/manager.ui:180 gui/manager.ui:222
 msgid "Install local packages"
@@ -441,15 +441,15 @@ msgstr "Instaliraj lokalne pakete"
 
 #: gui/manager.ui:349
 msgid "Apply changes"
-msgstr ""
+msgstr "Primeni promene"
 
 #: gui/manager.ui:367
 msgid "Cancel"
-msgstr ""
+msgstr "Poništi"
 
 #: gui/manager.ui:440
 msgid "Search in AUR"
-msgstr ""
+msgstr "Pretraži u AUR"
 
 #: gui/manager.ui:498
 msgid "Search"
@@ -473,7 +473,7 @@ msgstr "Verzija"
 
 #: gui/manager.ui:722
 msgid "Repo"
-msgstr ""
+msgstr "Spremište"
 
 #: gui/manager.ui:735
 msgid "Size"
@@ -505,29 +505,29 @@ msgstr "detalji"
 
 #: gui/dialogs.ui:280
 msgid "Pamac Preferences"
-msgstr ""
+msgstr "Pamac opcije"
 
 #: gui/dialogs.ui:303
 msgid "Enable AUR support"
-msgstr ""
+msgstr "Odobri AUR podršku"
 
 #: gui/dialogs.ui:307
 msgid "Allow Pamac to search and install packages from AUR"
-msgstr ""
+msgstr "Dozvoli Pamac-u da pretražuje i instalira pakete sa AUR"
 
 #: gui/dialogs.ui:320
 msgid "Remove unrequired dependencies"
-msgstr ""
+msgstr "Ukloni nepotrebne zavisnosti"
 
 #: gui/dialogs.ui:324
 msgid ""
 "When removing a package, also remove those dependencies that are not "
 "required by other packages"
-msgstr ""
+msgstr "Prilikom uklanjanja paketa takođe ukloni i one zavisnosti koje nisu potrebne ni jednom paketu"
 
 #: gui/dialogs.ui:383
 msgid "Options"
-msgstr ""
+msgstr "Opcije"
 
 #: gui/dialogs.ui:452
 msgid "Choose"

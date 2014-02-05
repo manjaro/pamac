@@ -4,15 +4,15 @@
 # Guillaume Benoit <guillaume@manjaro.org>, 2013-2014.
 # 
 # Translators:
-# Ayceman <alexandru.ianu@gmail.com>, 2013
+# Ayceman <alexandru.ianu@gmail.com>, 2013-2014
 # Guillaume Benoit <guillaume@manjaro.org>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-03-30 15:09+0100\n"
-"PO-Revision-Date: 2014-02-01 14:57+0000\n"
-"Last-Translator: manjarolinux <philm@manjaro.org>\n"
+"PO-Revision-Date: 2014-02-04 23:32+0000\n"
+"Last-Translator: Ayceman <alexandru.ianu@gmail.com>\n"
 "Language-Team: Romanian (http://www.transifex.com/projects/p/manjaro-pamac/language/ro/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -22,7 +22,7 @@ msgstr ""
 
 #: data/polkit/org.manjaro.pamac.policy:10
 msgid "Authentication is required"
-msgstr ""
+msgstr "Este necesară autentificarea"
 
 #: pamac-daemon.py:162
 msgid "Checking dependencies"
@@ -350,7 +350,7 @@ msgstr "Se prepară"
 
 #: pamac/transaction.py:94 gui/dialogs.ui:356
 msgid "How often to check for updates, value in hours"
-msgstr ""
+msgstr "Frecvența de verificare a actualizărilor, în ore"
 
 #: pamac/transaction.py:192
 #, python-brace-format
@@ -430,11 +430,11 @@ msgstr "O interfață gtk3 pentru pyalpm"
 
 #: gui/manager.ui:44
 msgid "Pamac History"
-msgstr ""
+msgstr "Istoric Pamac"
 
 #: gui/manager.ui:170
 msgid "View History"
-msgstr ""
+msgstr "Vezi istoricul"
 
 #: gui/manager.ui:180 gui/manager.ui:222
 msgid "Install local packages"
@@ -442,11 +442,11 @@ msgstr "Instalează pachete locale"
 
 #: gui/manager.ui:349
 msgid "Apply changes"
-msgstr ""
+msgstr "Aplică schimbările"
 
 #: gui/manager.ui:367
 msgid "Cancel"
-msgstr ""
+msgstr "Renunță"
 
 #: gui/manager.ui:440
 msgid "Search in AUR"
@@ -506,29 +506,29 @@ msgstr "detalii"
 
 #: gui/dialogs.ui:280
 msgid "Pamac Preferences"
-msgstr ""
+msgstr "Preferințe Pamac"
 
 #: gui/dialogs.ui:303
 msgid "Enable AUR support"
-msgstr ""
+msgstr "Activează suport AUR"
 
 #: gui/dialogs.ui:307
 msgid "Allow Pamac to search and install packages from AUR"
-msgstr ""
+msgstr "Permite Pamac să caute și să instaleze pachete din AUR"
 
 #: gui/dialogs.ui:320
 msgid "Remove unrequired dependencies"
-msgstr ""
+msgstr "Elimină dependențe ce nu sunt necesare"
 
 #: gui/dialogs.ui:324
 msgid ""
 "When removing a package, also remove those dependencies that are not "
 "required by other packages"
-msgstr ""
+msgstr "Când se elimină un pachet, se vor elimina și acele dependențe ce nu sunt cerute de alte pachete"
 
 #: gui/dialogs.ui:383
 msgid "Options"
-msgstr ""
+msgstr "Opțiuni"
 
 #: gui/dialogs.ui:452
 msgid "Choose"
