@@ -8,13 +8,14 @@
 # BootZ <d_bootsma@hotmail.com>, 2014
 # guinux <guillaume@manjaro.org>, 2013
 # Ringo Be <ringodekroon@gmail.com>, 2013
+# Ringo Be <ringodekroon@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-03-30 15:09+0100\n"
-"PO-Revision-Date: 2014-02-01 14:57+0000\n"
-"Last-Translator: manjarolinux <philm@manjaro.org>\n"
+"PO-Revision-Date: 2014-02-05 20:02+0000\n"
+"Last-Translator: Ringo Be <ringodekroon@gmail.com>\n"
 "Language-Team: Dutch (http://www.transifex.com/projects/p/manjaro-pamac/language/nl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -24,7 +25,7 @@ msgstr ""
 
 #: data/polkit/org.manjaro.pamac.policy:10
 msgid "Authentication is required"
-msgstr ""
+msgstr "Authenticatie is vereist"
 
 #: pamac-daemon.py:162
 msgid "Checking dependencies"
@@ -352,7 +353,7 @@ msgstr "Voorbereiding"
 
 #: pamac/transaction.py:94 gui/dialogs.ui:356
 msgid "How often to check for updates, value in hours"
-msgstr ""
+msgstr "Hoe vaak te controlleren voor updates, Waarde in uren"
 
 #: pamac/transaction.py:192
 #, python-brace-format
@@ -432,11 +433,11 @@ msgstr "Een gtk3 frontend voor pyalpm"
 
 #: gui/manager.ui:44
 msgid "Pamac History"
-msgstr ""
+msgstr "Pamac Geschiedenis"
 
 #: gui/manager.ui:170
 msgid "View History"
-msgstr ""
+msgstr "Bekijk geschiedenis"
 
 #: gui/manager.ui:180 gui/manager.ui:222
 msgid "Install local packages"
@@ -444,11 +445,11 @@ msgstr "Installeer lokale pakketten"
 
 #: gui/manager.ui:349
 msgid "Apply changes"
-msgstr ""
+msgstr "Veranderingen toepassen"
 
 #: gui/manager.ui:367
 msgid "Cancel"
-msgstr ""
+msgstr "Afbreken"
 
 #: gui/manager.ui:440
 msgid "Search in AUR"
@@ -508,29 +509,29 @@ msgstr "details"
 
 #: gui/dialogs.ui:280
 msgid "Pamac Preferences"
-msgstr ""
+msgstr "Pamac Voorkeuren"
 
 #: gui/dialogs.ui:303
 msgid "Enable AUR support"
-msgstr ""
+msgstr "Activeer AUR ondersteuning"
 
 #: gui/dialogs.ui:307
 msgid "Allow Pamac to search and install packages from AUR"
-msgstr ""
+msgstr "Laat Pamac om te zoeken en te installeren pakketten van AUR"
 
 #: gui/dialogs.ui:320
 msgid "Remove unrequired dependencies"
-msgstr ""
+msgstr "Verwijder onnodige Afhankelijkheden"
 
 #: gui/dialogs.ui:324
 msgid ""
 "When removing a package, also remove those dependencies that are not "
 "required by other packages"
-msgstr ""
+msgstr "Wanneer je een pakket verwijderd, Als ook verwijderd afhankelijkheden dat niet nodig is bij andere pakketten."
 
 #: gui/dialogs.ui:383
 msgid "Options"
-msgstr ""
+msgstr "Opties"
 
 #: gui/dialogs.ui:452
 msgid "Choose"
