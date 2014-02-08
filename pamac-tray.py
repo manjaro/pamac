@@ -33,10 +33,10 @@ gettext.bindtextdomain('pamac', '/usr/share/locale')
 gettext.textdomain('pamac')
 _ = gettext.gettext
 
-update_icon = '/usr/share/pamac/icons/24x24/status/pamac-update.png'
+update_icon = 'pamac-tray-update'
 update_info = _('{number} available updates')
 one_update_info = _('1 available update')
-noupdate_icon = '/usr/share/pamac/icons/24x24/status/pamac-tray.png'
+noupdate_icon = 'pamac-tray-no-update'
 noupdate_info = _('Your system is up-to-date')
 icon = noupdate_icon
 info = noupdate_info
@@ -48,15 +48,15 @@ class Tray:
 
 		self.menu = Gtk.Menu()
 		self.menuItem = Gtk.ImageMenuItem(_('Update Manager'))
-		self.menuItem.set_image(Gtk.Image.new_from_file('/usr/share/pamac/icons/16x16/apps/pamac-updater.png'))
+		self.menuItem.set_image(Gtk.Image.new_from_icon_name('system-software-update', Gtk.IconSize.MENU))
 		self.menuItem.connect('activate', self.execute_update, self.statusIcon)
 		self.menu.append(self.menuItem)
 		self.menuItem = Gtk.ImageMenuItem(_('Package Manager'))
-		self.menuItem.set_image(Gtk.Image.new_from_file('/usr/share/pamac/icons/16x16/apps/pamac.png'))
+		self.menuItem.set_image(Gtk.Image.new_from_icon_name('system-software-install', Gtk.IconSize.MENU))
 		self.menuItem.connect('activate', self.execute_manager, self.statusIcon)
 		self.menu.append(self.menuItem)
 		self.menuItem = Gtk.ImageMenuItem(_('Quit'))
-		self.menuItem.set_image(Gtk.Image.new_from_file('/usr/share/pamac/icons/16x16/apps/exit.png'))
+		self.menuItem.set_image(Gtk.Image.new_from_icon_name('application-exit', Gtk.IconSize.MENU))
 		self.menuItem.connect('activate', self.quit_tray, self.statusIcon)
 		self.menu.append(self.menuItem)
 
@@ -85,7 +85,7 @@ class Tray:
 			Thread(target = call, args = (['/usr/bin/pamac-updater'],)).start()
 
 	def update_icon(self, icon, info):
-		self.statusIcon.set_from_file(icon)
+		self.statusIcon.set_from_icon_name(icon)
 		self.statusIcon.set_tooltip_markup(info)
 
 	def set_visible(self, boolean):
@@ -123,7 +123,7 @@ def set_icon(update_data):
 		else:
 			info = update_info.format(number = len(updates))
 		if not common.pid_file_exists():
-			Notify.Notification.new(_('Update Manager'), info, '/usr/share/pamac/icons/32x32/apps/pamac-updater.png').show()
+			Notify.Notification.new(_('Update Manager'), info, 'system-software-update').show()
 	else:
 		icon = noupdate_icon
 		info = noupdate_info

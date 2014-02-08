@@ -281,6 +281,7 @@
     <property name="window_position">center</property>
     <property name="default_width">300</property>
     <property name="default_height">250</property>
+    <property name="icon_name">system-software-install</property>
     <signal name="delete-event" handler="on_PreferencesWindow_delete_event" swapped="no"/>
     <child>
       <object class="GtkBox" id="box1">

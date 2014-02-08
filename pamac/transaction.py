@@ -156,7 +156,7 @@ def need_details_handler(need):
 	progress_expander.set_expanded(need)
 
 def icon_handler(icon):
-	action_icon.set_from_file(icon)
+	action_icon.set_from_icon_name(icon, Gtk.IconSize.BUTTON)
 
 def target_handler(target):
 	progress_bar.set_text(target)
@@ -255,7 +255,7 @@ def refresh(force_update = False):
 	while Gtk.events_pending():
 		Gtk.main_iteration()
 	action_handler(_('Refreshing')+'...')
-	icon_handler('/usr/share/pamac/icons/24x24/status/refresh-cache.png')
+	icon_handler('pamac-refresh')
 	target_handler('')
 	percent_handler(0)
 	ProgressCancelButton.set_visible(True)
@@ -404,7 +404,7 @@ def run(cascade = True, recurse = False):
 	if to_add or to_remove or to_load or to_build:
 		global progress_buffer
 		action_handler(_('Preparing')+'...')
-		icon_handler('/usr/share/pamac/icons/24x24/status/package-setup.png')
+		icon_handler('pamac-setup')
 		target_handler('')
 		percent_handler(0)
 		progress_buffer.delete(progress_buffer.get_start_iter(), progress_buffer.get_end_iter())
@@ -585,7 +585,7 @@ def download(url_list, path):
 	ftp = None
 	total_size = 0
 	transferred = 0
-	icon_handler('/usr/share/pamac/icons/24x24/status/package-download.png')
+	icon_handler('pamac-download')
 	ProgressCancelButton.set_visible(True)
 	ProgressCloseButton.set_visible(False)
 	parsed_urls = []
@@ -644,7 +644,7 @@ def build_next():
 	action = _('Building {pkgname}').format(pkgname = pkg.name)+'...'
 	action_handler(action)
 	action_long_handler(action+'\n')
-	icon_handler('/usr/share/pamac/icons/24x24/status/package-setup.png')
+	icon_handler('pamac-setup')
 	target_handler('')
 	percent_handler(0)
 	ProgressCancelButton.set_visible(True)
@@ -683,7 +683,7 @@ def get_updates():
 	while Gtk.events_pending():
 		Gtk.main_iteration()
 	action_handler(_('Checking for updates')+'...')
-	icon_handler('/usr/share/pamac/icons/24x24/status/package-search.png')
+	icon_handler('pamac-search')
 	target_handler('')
 	percent_handler(0)
 	ProgressCancelButton.set_visible(False)
@@ -797,7 +797,7 @@ def sysupgrade(show_updates = True):
 		to_add.clear()
 		to_remove.clear()
 		action_handler(_('Preparing')+'...')
-		icon_handler('/usr/share/pamac/icons/24x24/status/package-setup.png')
+		icon_handler('pamac-setup')
 		target_handler('')
 		percent_handler(0)
 		progress_buffer.delete(progress_buffer.get_start_iter(), progress_buffer.get_end_iter())

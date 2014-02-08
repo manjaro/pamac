@@ -21,7 +21,6 @@
 version = '0.9.7'
 
 from gi.repository import Gtk, Gdk
-from gi.repository.GdkPixbuf import Pixbuf
 import pyalpm
 import dbus
 from time import strftime, localtime
@@ -93,12 +92,12 @@ repos_dict = {}
 current_filter = (None, None)
 right_click_menu = Gtk.Menu()
 
-installed_icon = Pixbuf.new_from_file('/usr/share/pamac/icons/16x16/actions/package-installed-updated.png')
-uninstalled_icon = Pixbuf.new_from_file('/usr/share/pamac/icons/16x16/actions/package-available.png')
-to_install_icon = Pixbuf.new_from_file('/usr/share/pamac/icons/16x16/actions/package-install.png')
-to_reinstall_icon = Pixbuf.new_from_file('/usr/share/pamac/icons/16x16/actions/package-reinstall.png')
-to_remove_icon = Pixbuf.new_from_file('/usr/share/pamac/icons/16x16/actions/package-remove.png')
-locked_icon = Pixbuf.new_from_file('/usr/share/pamac/icons/16x16/actions/package-installed-locked.png')
+installed_icon = Gtk.IconTheme.get_default().load_icon('package-installed-updated', 16, 0)
+uninstalled_icon = Gtk.IconTheme.get_default().load_icon('package-available', 16, 0)
+to_install_icon = Gtk.IconTheme.get_default().load_icon('package-install', 16, 0)
+to_reinstall_icon = Gtk.IconTheme.get_default().load_icon('package-reinstall', 16, 0)
+to_remove_icon = Gtk.IconTheme.get_default().load_icon('package-remove', 16, 0)
+locked_icon = Gtk.IconTheme.get_default().load_icon('package-installed-locked', 16, 0)
 
 def state_column_display_func(column, cell, treemodel, treeiter, data):
 	if treemodel[treeiter][0] == _('No package found'):
@@ -639,20 +638,17 @@ def on_list_treeview_button_press_event(treeview, event):
 				if liststore[treeiter][0].name in transaction.to_add | transaction.to_remove or liststore[treeiter][0] in transaction.to_build:
 					item = Gtk.ImageMenuItem(_('Deselect'))
 					item.set_image(Gtk.Image.new_from_stock('gtk-undo', Gtk.IconSize.MENU))
-					item.set_always_show_image(True)
 					item.connect('activate', mark_to_deselect, liststore[treeiter][0])
 					right_click_menu.append(item)
 				elif liststore[treeiter][0].db.name == 'local':
 					item = Gtk.ImageMenuItem(_('Remove'))
 					item.set_image(Gtk.Image.new_from_pixbuf(to_remove_icon))
-					item.set_always_show_image(True)
 					item.connect('activate', mark_to_remove, liststore[treeiter][0])
 					right_click_menu.append(item)
 					if transaction.get_syncpkg(liststore[treeiter][0].name):
 						if not pyalpm.sync_newversion(liststore[treeiter][0], transaction.syncdbs):
 							item = Gtk.ImageMenuItem(_('Reinstall'))
 							item.set_image(Gtk.Image.new_from_pixbuf(to_reinstall_icon))
-							item.set_always_show_image(True)
 							item.connect('activate', mark_to_reinstall, liststore[treeiter][0])
 							right_click_menu.append(item)
 					optdeps_strings = liststore[treeiter][0].optdepends
@@ -664,7 +660,6 @@ def on_list_treeview_button_press_event(treeview, event):
 						if available_optdeps:
 							item = Gtk.ImageMenuItem(_('Install optional deps'))
 							item.set_image(Gtk.Image.new_from_pixbuf(to_install_icon))
-							item.set_always_show_image(True)
 							item.connect('activate', select_optdeps, liststore[treeiter][0], available_optdeps)
 							right_click_menu.append(item)
 					if liststore[treeiter][0].reason == pyalpm.PKG_REASON_DEPEND:
@@ -674,7 +669,6 @@ def on_list_treeview_button_press_event(treeview, event):
 				else:
 					item = Gtk.ImageMenuItem(_('Install'))
 					item.set_image(Gtk.Image.new_from_pixbuf(to_install_icon))
-					item.set_always_show_image(True)
 					item.connect('activate', mark_to_install, liststore[treeiter][0])
 					right_click_menu.append(item)
 					optdeps_strings = liststore[treeiter][0].optdepends
@@ -686,7 +680,6 @@ def on_list_treeview_button_press_event(treeview, event):
 						if available_optdeps:
 							item = Gtk.ImageMenuItem(_('Install with optional deps'))
 							item.set_image(Gtk.Image.new_from_pixbuf(to_install_icon))
-							item.set_always_show_image(True)
 							item.connect('activate', install_with_optdeps, liststore[treeiter][0], available_optdeps)
 							right_click_menu.append(item)
 				treeview.grab_focus()

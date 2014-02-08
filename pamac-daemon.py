@@ -161,7 +161,7 @@ class PamacDBusService(dbus.service.Object):
 		if event == 'ALPM_EVENT_CHECKDEPS_START':
 			action = _('Checking dependencies')+'...'
 			action_long = action+'\n'
-			icon = '/usr/share/pamac/icons/24x24/status/package-search.png'
+			icon = 'pamac-search'
 		elif event == 'ALPM_EVENT_CHECKDEPS_DONE':
 			if self.warning:
 				self.EmitLogWarning(self.warning)
@@ -169,13 +169,13 @@ class PamacDBusService(dbus.service.Object):
 		elif event == 'ALPM_EVENT_FILECONFLICTS_START':
 			action = _('Checking file conflicts')+'...'
 			action_long = action+'\n'
-			icon = '/usr/share/pamac/icons/24x24/status/package-search.png'
+			icon = 'pamac-search'
 		elif event == 'ALPM_EVENT_FILECONFLICTS_DONE':
 			pass
 		elif event == 'ALPM_EVENT_RESOLVEDEPS_START':
 			action = _('Resolving dependencies')+'...'
 			action_long = action+'\n'
-			icon = '/usr/share/pamac/icons/24x24/status/package-setup.png'
+			icon = 'pamac-setup'
 		elif event == 'ALPM_EVENT_RESOLVEDEPS_DONE':
 			if self.warning:
 				self.EmitLogWarning(self.warning)
@@ -183,7 +183,7 @@ class PamacDBusService(dbus.service.Object):
 		elif event == 'ALPM_EVENT_INTERCONFLICTS_START':
 			action = _('Checking inter conflicts')+'...'
 			action_long = action+'\n'
-			icon = '/usr/share/pamac/icons/24x24/status/package-search.png'
+			icon = 'pamac-search'
 		elif event == 'ALPM_EVENT_INTERCONFLICTS_DONE':
 			if self.warning:
 				self.EmitLogWarning(self.warning)
@@ -192,7 +192,7 @@ class PamacDBusService(dbus.service.Object):
 			string = _('Installing {pkgname}').format(pkgname = tupel[0].name)
 			action = string+'...'
 			action_long = '{} ({})...\n'.format(string, tupel[0].version)
-			icon = '/usr/share/pamac/icons/24x24/status/package-add.png'
+			icon = 'pamac-add'
 		elif event == 'ALPM_EVENT_ADD_DONE':
 			formatted_event = 'Installed {pkgname} ({pkgversion})'.format(pkgname = tupel[0].name, pkgversion = tupel[0].version)
 			common.write_log_file(formatted_event)
@@ -200,7 +200,7 @@ class PamacDBusService(dbus.service.Object):
 			string = _('Removing {pkgname}').format(pkgname = tupel[0].name)
 			action = string+'...'
 			action_long = '{} ({})...\n'.format(string, tupel[0].version)
-			icon = '/usr/share/pamac/icons/24x24/status/package-delete.png'
+			icon = 'pamac-delete'
 		elif event == 'ALPM_EVENT_REMOVE_DONE':
 			formatted_event = 'Removed {pkgname} ({pkgversion})'.format(pkgname = tupel[0].name, pkgversion = tupel[0].version)
 			common.write_log_file(formatted_event)
@@ -208,7 +208,7 @@ class PamacDBusService(dbus.service.Object):
 			string = _('Upgrading {pkgname}').format(pkgname = tupel[1].name)
 			action = string+'...'
 			action_long = '{} ({} => {})...\n'.format(string, tupel[1].version, tupel[0].version)
-			icon = '/usr/share/pamac/icons/24x24/status/package-update.png'
+			icon = 'pamac-update'
 		elif event == 'ALPM_EVENT_UPGRADE_DONE':
 			formatted_event = 'Upgraded {pkgname} ({oldversion} -> {newversion})'.format(pkgname = tupel[1].name, oldversion = tupel[1].version, newversion = tupel[0].version)
 			common.write_log_file(formatted_event)
@@ -216,7 +216,7 @@ class PamacDBusService(dbus.service.Object):
 			string = _('Downgrading {pkgname}').format(pkgname = tupel[1].name)
 			action = string+'...'
 			action_long = '{} ({} => {})...\n'.format(string, tupel[1].version, tupel[0].version)
-			icon = '/usr/share/pamac/icons/24x24/status/package-add.png'
+			icon = 'pamac-add'
 		elif event == 'ALPM_EVENT_DOWNGRADE_DONE':
 			formatted_event = 'Downgraded {pkgname} ({oldversion} -> {newversion})'.format(pkgname = tupel[1].name, oldversion = tupel[1].version, newversion = tupel[0].version)
 			common.write_log_file(formatted_event)
@@ -224,39 +224,39 @@ class PamacDBusService(dbus.service.Object):
 			string = _('Reinstalling {pkgname}').format(pkgname = tupel[0].name)
 			action = string+'...'
 			action_long = '{} ({})...\n'.format(string, tupel[0].version)
-			icon = '/usr/share/pamac/icons/24x24/status/package-add.png'
+			icon = 'pamac-add'
 		elif event == 'ALPM_EVENT_REINSTALL_DONE':
 			formatted_event = 'Reinstalled {pkgname} ({pkgversion})'.format(pkgname = tupel[0].name, pkgversion = tupel[0].version)
 			common.write_log_file(formatted_event)
 		elif event == 'ALPM_EVENT_INTEGRITY_START':
 			action = _('Checking integrity')+'...'
 			action_long = action+'\n'
-			icon = '/usr/share/pamac/icons/24x24/status/package-search.png'
+			icon = 'pamac-search'
 			self.already_transferred = 0
 		elif event == 'ALPM_EVENT_INTEGRITY_DONE':
 			pass
 		elif event == 'ALPM_EVENT_LOAD_START':
 			action = _('Loading packages files')+'...'
 			action_long = action+'\n'
-			icon = '/usr/share/pamac/icons/24x24/status/package-search.png'
+			icon = 'pamac-search'
 		elif event == 'ALPM_EVENT_LOAD_DONE':
 			pass
 		elif event == 'ALPM_EVENT_DELTA_INTEGRITY_START':
 			action = _('Checking delta integrity')+'...'
 			action_long = action+'\n'
-			icon = '/usr/share/pamac/icons/24x24/status/package-search.png'
+			icon = 'pamac-search'
 		elif event == 'ALPM_EVENT_DELTA_INTEGRITY_DONE':
 			pass
 		elif event == 'ALPM_EVENT_DELTA_PATCHES_START':
 			action = _('Applying deltas')+'...'
 			action_long = action+'\n'
-			icon = '/usr/share/pamac/icons/24x24/status/package-setup.png'
+			icon = 'pamac-setup'
 		elif event == 'ALPM_EVENT_DELTA_PATCHES_DONE':
 			pass
 		elif event == 'ALPM_EVENT_DELTA_PATCH_START':
 			action = _('Generating {} with {}').format(tupel[0], tupel[1])+'...'
 			action_long = action+'\n'
-			icon = '/usr/share/pamac/icons/24x24/status/package-setup.png'
+			icon = 'pamac-setup'
 		elif event == 'ALPM_EVENT_DELTA_PATCH_DONE':
 			action = _('Generation succeeded!')
 			action_long = action+'\n'
@@ -266,16 +266,16 @@ class PamacDBusService(dbus.service.Object):
 		elif event == 'ALPM_EVENT_SCRIPTLET_INFO':
 			action =_('Configuring {pkgname}').format(pkgname = self.previous_target)+'...'
 			action_long = tupel[0]
-			icon = '/usr/share/pamac/icons/24x24/status/package-setup.png'
+			icon = 'pamac-setup'
 			self.EmitNeedDetails(True)
 		elif event == 'ALPM_EVENT_RETRIEVE_START':
 			action = _('Downloading')+'...'
 			action_long = action+'\n'
-			icon = '/usr/share/pamac/icons/24x24/status/package-download.png'
+			icon = 'pamac-download'
 		elif event == 'ALPM_EVENT_DISKSPACE_START':
 			action = _('Checking available disk space')+'...'
 			action_long = action+'\n'
-			icon = '/usr/share/pamac/icons/24x24/status/package-search.png'
+			icon = 'pamac-search'
 		elif event == 'ALPM_EVENT_OPTDEP_REQUIRED':
 			print('Optionnal deps exist')
 		elif event == 'ALPM_EVENT_DATABASE_MISSING':
@@ -285,7 +285,7 @@ class PamacDBusService(dbus.service.Object):
 		elif event == 'ALPM_EVENT_KEYRING_START':
 			action = _('Checking keyring')+'...'
 			action_long = action+'\n'
-			icon = '/usr/share/pamac/icons/24x24/status/package-search.png'
+			icon = 'pamac-search'
 		elif event == 'ALPM_EVENT_KEYRING_DONE':
 			pass
 		elif event == 'ALPM_EVENT_KEY_DOWNLOAD_START':
@@ -358,11 +358,11 @@ class PamacDBusService(dbus.service.Object):
 		if _target.endswith('.db'):
 			action = _('Refreshing {repo}').format(repo = _target.replace('.db', ''))+'...'
 			action_long = ''
-			icon = '/usr/share/pamac/icons/24x24/status/refresh-cache.png'
+			icon = 'pamac-refresh'
 		else:
 			action = _('Downloading {pkgname}').format(pkgname = _target.replace('.pkg.tar.xz', ''))+'...'
 			action_long = action+'\n'
-			icon = '/usr/share/pamac/icons/24x24/status/package-download.png'
+			icon = 'pamac-download'
 		if self.total_size > 0:
 			percent = round((_transferred+self.already_transferred)/self.total_size, 2)
 			if _transferred+self.already_transferred <= self.total_size:
@@ -549,7 +549,7 @@ class PamacDBusService(dbus.service.Object):
 		error = ''
 		try:
 			for db in self.syncdbs:
-				pkg = db.get_pkg(pkgname)
+				pkg = pyalpm.find_satisfier(db.pkgcache, pkgname)
 				if pkg:
 					self.t.add_pkg(pkg)
 					break
