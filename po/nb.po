@@ -6,14 +6,15 @@
 # Translators:
 # Bård Spein <baard.spein@gmail.com>, 2013
 # Guillaume Benoit <guillaume@manjaro.org>, 2013
+# Ulseth85 <ulseth85@gmail.com>, 2014
 # tflovik <tflovik@online.no>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-03-30 15:09+0100\n"
-"PO-Revision-Date: 2014-02-01 14:57+0000\n"
-"Last-Translator: manjarolinux <philm@manjaro.org>\n"
+"PO-Revision-Date: 2014-02-08 12:57+0000\n"
+"Last-Translator: Ulseth85 <ulseth85@gmail.com>\n"
 "Language-Team: Norwegian Bokmål (http://www.transifex.com/projects/p/manjaro-pamac/language/nb/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -23,7 +24,7 @@ msgstr ""
 
 #: data/polkit/org.manjaro.pamac.policy:10
 msgid "Authentication is required"
-msgstr ""
+msgstr "Autentisering kreves"
 
 #: pamac-daemon.py:162
 msgid "Checking dependencies"
@@ -101,7 +102,7 @@ msgstr "Konfigurerer {pkgname}"
 
 #: pamac-daemon.py:272
 msgid "Downloading"
-msgstr ""
+msgstr "Laster ned"
 
 #: pamac-daemon.py:276
 msgid "Checking available disk space"
@@ -280,11 +281,11 @@ msgstr "Sikkerhetskopier filene"
 msgid ""
 "{pkgname} has {number} uninstalled optional deps.\n"
 "Please choose those you would like to install:"
-msgstr ""
+msgstr "{pkgname} har {nummer} avinstallert valgfri deps\nVelg de du ønsker å installere:"
 
 #: pamac-manager.py:593
 msgid "Deselect"
-msgstr ""
+msgstr "Fjern markeringen"
 
 #: pamac-manager.py:599
 msgid "Remove"
@@ -316,7 +317,7 @@ msgstr "Systemet ditt er oppdatert"
 
 #: pamac-updater.py:74 pamac/transaction.py:787
 msgid "Total download size:"
-msgstr ""
+msgstr "Samlet nedlastingsstørrelse:"
 
 #: pamac-updater.py:76 pamac-tray.py:38
 msgid "1 available update"
@@ -351,14 +352,14 @@ msgstr "Forbereder"
 
 #: pamac/transaction.py:94 gui/dialogs.ui:356
 msgid "How often to check for updates, value in hours"
-msgstr ""
+msgstr "Hvor ofte å se etter oppdateringer, verdi i timer"
 
 #: pamac/transaction.py:192
 #, python-brace-format
 msgid ""
 "{pkgname} is provided by {number} packages.\n"
 "Please choose those you would like to install:"
-msgstr ""
+msgstr "{pkgname} kommer fra {nummer} pakker.\nVelg de du ønsker å installere:"
 
 #: pamac/transaction.py:257
 msgid "Refreshing"
@@ -367,29 +368,29 @@ msgstr "Oppfrisker"
 #: pamac/transaction.py:341 pamac/transaction.py:380
 #, python-brace-format
 msgid "{pkgname} depends on {dependname} but it is not installable"
-msgstr ""
+msgstr "{pkgname} avhenger av {dependname} men den er ikke installerbar"
 
 #: pamac/transaction.py:384
 #, python-brace-format
 msgid "Failed to get {pkgname} archive from AUR"
-msgstr ""
+msgstr "Klarte ikke å få {pkgname} arkiv fra AUR"
 
 #: pamac/transaction.py:552 pamac/transaction.py:558
 msgid "Build process failed."
-msgstr ""
+msgstr "Bygge prosessen mislyktes."
 
 #: pamac/transaction.py:644
 #, python-brace-format
 msgid "Building {pkgname}"
-msgstr ""
+msgstr "Bygger {pkgname}"
 
 #: pamac/transaction.py:685
 msgid "Checking for updates"
-msgstr ""
+msgstr "Ser etter oppdateringer"
 
 #: pamac/transaction.py:735
 msgid "Transaction Summary"
-msgstr ""
+msgstr "Transaksjons Oppsummering"
 
 #: pamac/transaction.py:743
 msgid "To downgrade"
@@ -397,7 +398,7 @@ msgstr "Å nedgradere"
 
 #: pamac/transaction.py:751
 msgid "To build"
-msgstr ""
+msgstr "Å bygge"
 
 #: pamac/transaction.py:765
 msgid "To reinstall"
@@ -431,11 +432,11 @@ msgstr "En gtk3 frontende for pyalpm"
 
 #: gui/manager.ui:44
 msgid "Pamac History"
-msgstr ""
+msgstr "Pamac Historie"
 
 #: gui/manager.ui:170
 msgid "View History"
-msgstr ""
+msgstr "Vis Historie"
 
 #: gui/manager.ui:180 gui/manager.ui:222
 msgid "Install local packages"
@@ -443,15 +444,15 @@ msgstr "Installere lokale pakker"
 
 #: gui/manager.ui:349
 msgid "Apply changes"
-msgstr ""
+msgstr "Bruk endringer"
 
 #: gui/manager.ui:367
 msgid "Cancel"
-msgstr ""
+msgstr "Avbryt"
 
 #: gui/manager.ui:440
 msgid "Search in AUR"
-msgstr ""
+msgstr "Søk i AUR"
 
 #: gui/manager.ui:498
 msgid "Search"
@@ -475,7 +476,7 @@ msgstr "Versjon"
 
 #: gui/manager.ui:722
 msgid "Repo"
-msgstr ""
+msgstr "Repo"
 
 #: gui/manager.ui:735
 msgid "Size"
@@ -507,29 +508,29 @@ msgstr "Detaljer"
 
 #: gui/dialogs.ui:280
 msgid "Pamac Preferences"
-msgstr ""
+msgstr "Pamac Innstillinger"
 
 #: gui/dialogs.ui:303
 msgid "Enable AUR support"
-msgstr ""
+msgstr "Aktiver AUR-støtte"
 
 #: gui/dialogs.ui:307
 msgid "Allow Pamac to search and install packages from AUR"
-msgstr ""
+msgstr "Tillat Pamac å søke og installere pakker fra AUR"
 
 #: gui/dialogs.ui:320
 msgid "Remove unrequired dependencies"
-msgstr ""
+msgstr "Fjern unødige avhengigheter"
 
 #: gui/dialogs.ui:324
 msgid ""
 "When removing a package, also remove those dependencies that are not "
 "required by other packages"
-msgstr ""
+msgstr "Når du fjerner en pakke, fjern også de avhengigheter som ikke er nødvendige av andre pakker"
 
 #: gui/dialogs.ui:383
 msgid "Options"
-msgstr ""
+msgstr "Alternativer"
 
 #: gui/dialogs.ui:452
 msgid "Choose"
