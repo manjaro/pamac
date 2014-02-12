@@ -424,7 +424,6 @@ def set_files_list(pkg):
 
 def handle_error(error):
 	ManagerWindow.get_window().set_cursor(None)
-	transaction.ProgressWindow.hide()
 	while Gtk.events_pending():
 		Gtk.main_iteration()
 	if error:
@@ -434,6 +433,7 @@ def handle_error(error):
 			response = transaction.ErrorDialog.run()
 			if response:
 				transaction.ErrorDialog.hide()
+				transaction.ProgressWindow.hide()
 	transaction.progress_buffer.delete(transaction.progress_buffer.get_start_iter(),transaction.progress_buffer.get_end_iter())
 	transaction.Release()
 	transaction.get_handle()
@@ -491,7 +491,7 @@ def reload_config(msg):
 	if config.enable_aur == False:
 		search_aur_button.set_active(False)
 	search_aur_button.set_visible(config.enable_aur)
-	transaction.get_updates()
+	#transaction.get_updates()
 
 def on_ManagerWindow_delete_event(*args):
 	transaction.StopDaemon()
@@ -524,11 +524,13 @@ def on_TransCancelButton_clicked(*args):
 def on_ProgressCloseButton_clicked(*args):
 	transaction.progress_buffer.delete(transaction.progress_buffer.get_start_iter(),transaction.progress_buffer.get_end_iter())
 	transaction.need_details_handler(False)
-	ManagerWindow.get_window().set_cursor(Gdk.Cursor(Gdk.CursorType.WATCH))
-	while Gtk.events_pending():
-		Gtk.main_iteration()
 	transaction.to_build.clear()
-	transaction.get_updates()
+	#ManagerWindow.get_window().set_cursor(Gdk.Cursor(Gdk.CursorType.WATCH))
+	#while Gtk.events_pending():
+		#Gtk.main_iteration()
+	#transaction.get_updates()
+	ManagerWindow.get_window().set_cursor(None)
+	transaction.ProgressWindow.hide()
 
 def on_ProgressCancelButton_clicked(*args):
 	ManagerWindow.get_window().set_cursor(Gdk.Cursor(Gdk.CursorType.WATCH))
@@ -597,6 +599,25 @@ def select_optdeps(widget, pkg, optdeps):
 	for long_string in optdeps:
 		transaction.choose_list.append([False, long_string])
 	transaction.ChooseDialog.run()
+	# some optdep can be virtual package so check for providers
+	for name in transaction.to_add:
+		if not transaction.get_syncpkg(name):
+			transaction.to_add.discard(name)
+			# if a provider is already installed, do nothing
+			if pyalpm.find_satisfier(transaction.localdb.pkgcache, name):
+				continue
+			providers = set()
+			for db in transaction.syncdbs:
+				pkgs = db.pkgcache
+				provider = pyalpm.find_satisfier(pkgs, name)
+				while provider:
+					providers.add(provider.name)
+					for pkg in pkgs:
+						if pkg.name == provider.name:
+							pkgs.remove(pkg)
+							break
+					provider = pyalpm.find_satisfier(pkgs, name)
+			transaction.choose_provides((providers, name))
 	if transaction.to_add:
 		ManagerValidButton.set_sensitive(True)
 		ManagerCancelButton.set_sensitive(True)
@@ -823,7 +844,7 @@ def on_ManagerCancelButton_clicked(*args):
 	if current_filter[0]:
 		refresh_packages_list(current_filter[0](current_filter[1]))
 
-def on_refresh_item_activate(*args):
+def on_ManagerRefreshButton_clicked(*args):
 	ManagerWindow.get_window().set_cursor(Gdk.Cursor(Gdk.CursorType.WATCH))
 	while Gtk.events_pending():
 		Gtk.main_iteration()
@@ -960,7 +981,7 @@ signals = {'on_ManagerWindow_delete_event' : on_ManagerWindow_delete_event,
 		'on_notebook1_switch_page' : on_notebook1_switch_page,
 		'on_ManagerCancelButton_clicked' : on_ManagerCancelButton_clicked,
 		'on_ManagerValidButton_clicked' : on_ManagerValidButton_clicked,
-		'on_refresh_item_activate' : on_refresh_item_activate,
+		'on_ManagerRefreshButton_clicked' : on_ManagerRefreshButton_clicked,
 		'on_history_item_activate' : on_history_item_activate,
 		'on_history_textview_size_allocate' : on_history_textview_size_allocate,
 		'on_HistoryCloseButton_clicked' : on_HistoryCloseButton_clicked,
@@ -1003,8 +1024,8 @@ else:
 	transaction.get_handle()
 	update_lists()
 	ManagerWindow.show()
-	ManagerWindow.get_window().set_cursor(Gdk.Cursor(Gdk.CursorType.WATCH))
-	transaction.refresh()
+	#ManagerWindow.get_window().set_cursor(Gdk.Cursor(Gdk.CursorType.WATCH))
+	#transaction.refresh()
 	while Gtk.events_pending():
 		Gtk.main_iteration()
 	Gtk.main()

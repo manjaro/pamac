@@ -335,14 +335,14 @@ class PamacDBusService(dbus.service.Object):
 		if not (level & _logmask):
 			return
 		if level & pyalpm.LOG_ERROR:
-			self.EmitLogError(line)
-			_error = "ERROR: "+line
+			#self.EmitLogError(line)
+			_error = _('Error: ')+line
 			self.EmitActionLong(_error)
 			self.EmitNeedDetails(True)
 			print(line)
 		elif level & pyalpm.LOG_WARNING:
 			self.warning += line
-			_warning = "WARNING: "+line
+			_warning = _('WARNING: ')+line
 			self.EmitActionLong(_warning)
 		elif level & pyalpm.LOG_DEBUG:
 			line = "DEBUG: " + line
@@ -549,6 +549,9 @@ class PamacDBusService(dbus.service.Object):
 		error = ''
 		try:
 			for db in self.syncdbs:
+				# this is a security, in case of virtual package it will
+				# choose the first provider, the choice should have been
+				# done by the client
 				pkg = pyalpm.find_satisfier(db.pkgcache, pkgname)
 				if pkg:
 					self.t.add_pkg(pkg)

@@ -7,7 +7,9 @@
     <property name="resizable">False</property>
     <property name="modal">True</property>
     <property name="window_position">center-on-parent</property>
+    <property name="icon_name">system-software-install</property>
     <property name="type_hint">dialog</property>
+    <property name="urgency_hint">True</property>
     <property name="has_resize_grip">False</property>
     <property name="message_type">error</property>
     <property name="buttons">ok</property>
@@ -38,7 +40,10 @@
     <property name="resizable">False</property>
     <property name="modal">True</property>
     <property name="window_position">center-on-parent</property>
+    <property name="icon_name">system-software-install</property>
     <property name="type_hint">dialog</property>
+    <property name="urgency_hint">True</property>
+    <property name="has_resize_grip">False</property>
     <property name="buttons">ok</property>
     <child internal-child="vbox">
       <object class="GtkBox" id="messagedialog-vbox9">
@@ -214,8 +219,12 @@
   <object class="GtkMessageDialog" id="QuestionDialog">
     <property name="can_focus">False</property>
     <property name="resizable">False</property>
+    <property name="modal">True</property>
     <property name="window_position">center-on-parent</property>
+    <property name="icon_name">system-software-install</property>
     <property name="type_hint">dialog</property>
+    <property name="urgency_hint">True</property>
+    <property name="has_resize_grip">False</property>
     <property name="message_type">question</property>
     <property name="buttons">yes-no</property>
     <child internal-child="vbox">
@@ -242,8 +251,11 @@
   <object class="GtkMessageDialog" id="WarningDialog">
     <property name="can_focus">False</property>
     <property name="resizable">False</property>
+    <property name="modal">True</property>
     <property name="window_position">center-on-parent</property>
     <property name="type_hint">dialog</property>
+    <property name="urgency_hint">True</property>
+    <property name="has_resize_grip">False</property>
     <property name="message_type">warning</property>
     <property name="buttons">ok</property>
     <child internal-child="vbox">

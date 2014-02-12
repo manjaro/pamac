@@ -80,7 +80,6 @@ def have_updates():
 
 def handle_error(error):
 	UpdaterWindow.get_window().set_cursor(None)
-	transaction.ProgressWindow.hide()
 	while Gtk.events_pending():
 		Gtk.main_iteration()
 	if error:
@@ -90,6 +89,7 @@ def handle_error(error):
 			response = transaction.ErrorDialog.run()
 			if response:
 				transaction.ErrorDialog.hide()
+				transaction.ProgressWindow.hide()
 	transaction.get_handle()
 	transaction.mark_needed_pkgs_as_dep()
 
