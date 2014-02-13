@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-03-30 15:09+0100\n"
-"PO-Revision-Date: 2014-02-02 17:44+0000\n"
+"PO-Revision-Date: 2014-02-13 06:32+0000\n"
 "Last-Translator: Lexyc <nirudak@mail.ru>\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/manjaro-pamac/language/ru/)\n"
 "MIME-Version: 1.0\n"
@@ -40,7 +40,7 @@ msgstr "Разрешение зависимостей"
 
 #: pamac-daemon.py:184
 msgid "Checking inter conflicts"
-msgstr "Проверка конфликтов между"
+msgstr "Проверка взаимных конфликтов"
 
 #: pamac-daemon.py:192
 #, python-brace-format
@@ -110,7 +110,7 @@ msgstr "Проверка доступного дискового простра�
 
 #: pamac-daemon.py:286
 msgid "Checking keyring"
-msgstr "Проверка ключей"
+msgstr "Проверка связки ключей"
 
 #: pamac-daemon.py:292
 msgid "Downloading required keys"

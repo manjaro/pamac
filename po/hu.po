@@ -11,8 +11,8 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-03-30 15:09+0100\n"
-"PO-Revision-Date: 2014-02-01 14:57+0000\n"
-"Last-Translator: manjarolinux <philm@manjaro.org>\n"
+"PO-Revision-Date: 2014-02-12 19:59+0000\n"
+"Last-Translator: lajos <mrlajos@gmail.com>\n"
 "Language-Team: Hungarian (http://www.transifex.com/projects/p/manjaro-pamac/language/hu/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -22,7 +22,7 @@ msgstr ""
 
 #: data/polkit/org.manjaro.pamac.policy:10
 msgid "Authentication is required"
-msgstr ""
+msgstr "Hitelesítés szükséges"
 
 #: pamac-daemon.py:162
 msgid "Checking dependencies"
@@ -350,7 +350,7 @@ msgstr "Előkészítés"
 
 #: pamac/transaction.py:94 gui/dialogs.ui:356
 msgid "How often to check for updates, value in hours"
-msgstr ""
+msgstr "Milyen gyakran ellenőrizze a frissítéseket? Értékek órában"
 
 #: pamac/transaction.py:192
 #, python-brace-format
@@ -430,11 +430,11 @@ msgstr "Egy gtk3 felület pyalpm-hoz"
 
 #: gui/manager.ui:44
 msgid "Pamac History"
-msgstr ""
+msgstr "Pamac előzmények"
 
 #: gui/manager.ui:170
 msgid "View History"
-msgstr ""
+msgstr "Előzmények megtekintése"
 
 #: gui/manager.ui:180 gui/manager.ui:222
 msgid "Install local packages"
@@ -442,11 +442,11 @@ msgstr "Helyi csomagok telepítése"
 
 #: gui/manager.ui:349
 msgid "Apply changes"
-msgstr ""
+msgstr "Változások alkalmazása"
 
 #: gui/manager.ui:367
 msgid "Cancel"
-msgstr ""
+msgstr "Mégse"
 
 #: gui/manager.ui:440
 msgid "Search in AUR"
@@ -506,29 +506,29 @@ msgstr "részletek"
 
 #: gui/dialogs.ui:280
 msgid "Pamac Preferences"
-msgstr ""
+msgstr "Pamac Beállítások"
 
 #: gui/dialogs.ui:303
 msgid "Enable AUR support"
-msgstr ""
+msgstr "AUR támogatás engedélyezése"
 
 #: gui/dialogs.ui:307
 msgid "Allow Pamac to search and install packages from AUR"
-msgstr ""
+msgstr "Pamac kereshet és telepíthet csomagokat az AUR -ból"
 
 #: gui/dialogs.ui:320
 msgid "Remove unrequired dependencies"
-msgstr ""
+msgstr "Nem megkövetelt függőségek eltávolítása"
 
 #: gui/dialogs.ui:324
 msgid ""
 "When removing a package, also remove those dependencies that are not "
 "required by other packages"
-msgstr ""
+msgstr "Csomag eltávolításakor távolítsa el a függőségeket amik nem megköveteltek más csomagok által"
 
 #: gui/dialogs.ui:383
 msgid "Options"
-msgstr ""
+msgstr "Opciók"
 
 #: gui/dialogs.ui:452
 msgid "Choose"
