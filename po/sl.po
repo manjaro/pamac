@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-03-30 15:09+0100\n"
-"PO-Revision-Date: 2014-02-03 21:56+0000\n"
+"PO-Revision-Date: 2014-02-13 18:22+0000\n"
 "Last-Translator: ansich <mojmejlzaforume@gmail.com>\n"
 "Language-Team: Slovenian (http://www.transifex.com/projects/p/manjaro-pamac/language/sl/)\n"
 "MIME-Version: 1.0\n"
@@ -67,7 +67,7 @@ msgstr "Ponovno nameščanje {pkgname}"
 
 #: pamac-daemon.py:232
 msgid "Checking integrity"
-msgstr "Preverjam celovitost"
+msgstr "Preverjanje celovitosti"
 
 #: pamac-daemon.py:239
 msgid "Loading packages files"
@@ -108,7 +108,7 @@ msgstr "Preverjanje razpoložljivega prostora"
 
 #: pamac-daemon.py:286
 msgid "Checking keyring"
-msgstr "Preverjanje keyring-a"
+msgstr "Preverjanje obroča ključev"
 
 #: pamac-daemon.py:292
 msgid "Downloading required keys"
@@ -384,7 +384,7 @@ msgstr "Grajenje {pkgname}"
 
 #: pamac/transaction.py:685
 msgid "Checking for updates"
-msgstr "Preverjanje za posodobitve"
+msgstr "Preverjanje posodobitev"
 
 #: pamac/transaction.py:735
 msgid "Transaction Summary"

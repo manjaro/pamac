@@ -5,14 +5,15 @@
 # 
 # Translators:
 # Alekzanther <alexanderlndbrg@gmail.com>, 2013
+# cashew75 <cashew75s@gmail.com>, 2014
 # tsw <tarvidsson7834@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-03-30 15:09+0100\n"
-"PO-Revision-Date: 2014-02-01 14:57+0000\n"
-"Last-Translator: manjarolinux <philm@manjaro.org>\n"
+"PO-Revision-Date: 2014-02-13 19:15+0000\n"
+"Last-Translator: cashew75 <cashew75s@gmail.com>\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/manjaro-pamac/language/sv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -22,7 +23,7 @@ msgstr ""
 
 #: data/polkit/org.manjaro.pamac.policy:10
 msgid "Authentication is required"
-msgstr ""
+msgstr "Autentisering krävs"
 
 #: pamac-daemon.py:162
 msgid "Checking dependencies"
@@ -100,7 +101,7 @@ msgstr "Konfigurerar {pkgname}"
 
 #: pamac-daemon.py:272
 msgid "Downloading"
-msgstr ""
+msgstr "Laddar ner"
 
 #: pamac-daemon.py:276
 msgid "Checking available disk space"
@@ -157,7 +158,7 @@ msgstr "Överföring lyckades"
 #: pamac-daemon.py:751 pamac-daemon.py:759 pamac-daemon.py:782
 #: pamac-daemon.py:816
 msgid "Authentication failed"
-msgstr ""
+msgstr "Autensiering misslyckades"
 
 #: pamac-manager.py:100 pamac-manager.py:131 pamac-manager.py:132
 #: pamac-manager.py:147 pamac-manager.py:156 pamac-manager.py:177
@@ -279,11 +280,11 @@ msgstr "Backup filer"
 msgid ""
 "{pkgname} has {number} uninstalled optional deps.\n"
 "Please choose those you would like to install:"
-msgstr ""
+msgstr "{pkgname} erbjuds av {number} paket\nVar vänlig välj vilket/vilka att installera:"
 
 #: pamac-manager.py:593
 msgid "Deselect"
-msgstr ""
+msgstr "Avmarkera"
 
 #: pamac-manager.py:599
 msgid "Remove"
@@ -315,7 +316,7 @@ msgstr "Ditt system är uppdaterat"
 
 #: pamac-updater.py:74 pamac/transaction.py:787
 msgid "Total download size:"
-msgstr ""
+msgstr "Total nedladdningsstorlek:"
 
 #: pamac-updater.py:76 pamac-tray.py:38
 msgid "1 available update"
@@ -350,14 +351,14 @@ msgstr "Förbereder"
 
 #: pamac/transaction.py:94 gui/dialogs.ui:356
 msgid "How often to check for updates, value in hours"
-msgstr ""
+msgstr "Hur ofta söka efter uppdateringar, värde i timmar"
 
 #: pamac/transaction.py:192
 #, python-brace-format
 msgid ""
 "{pkgname} is provided by {number} packages.\n"
 "Please choose those you would like to install:"
-msgstr ""
+msgstr "{pkgname} erbjuds av {number} paket.\nVänligen välj vilket eller vilka du vill installera:"
 
 #: pamac/transaction.py:257
 msgid "Refreshing"
@@ -366,29 +367,29 @@ msgstr "Uppdaterar"
 #: pamac/transaction.py:341 pamac/transaction.py:380
 #, python-brace-format
 msgid "{pkgname} depends on {dependname} but it is not installable"
-msgstr ""
+msgstr "{pkgname} är beroende av {dependname} men det går inte att installera"
 
 #: pamac/transaction.py:384
 #, python-brace-format
 msgid "Failed to get {pkgname} archive from AUR"
-msgstr ""
+msgstr "Det gick inte att få {pkgname} arkiv från AUR"
 
 #: pamac/transaction.py:552 pamac/transaction.py:558
 msgid "Build process failed."
-msgstr ""
+msgstr "Kompileringsprocessen misslyckades."
 
 #: pamac/transaction.py:644
 #, python-brace-format
 msgid "Building {pkgname}"
-msgstr ""
+msgstr "Kompilerar {pkgname}"
 
 #: pamac/transaction.py:685
 msgid "Checking for updates"
-msgstr ""
+msgstr "Kollar efter uppdateringar"
 
 #: pamac/transaction.py:735
 msgid "Transaction Summary"
-msgstr ""
+msgstr "Summering av överföring"
 
 #: pamac/transaction.py:743
 msgid "To downgrade"
@@ -396,7 +397,7 @@ msgstr "Att nedgradera"
 
 #: pamac/transaction.py:751
 msgid "To build"
-msgstr ""
+msgstr "Att kompilera"
 
 #: pamac/transaction.py:765
 msgid "To reinstall"
@@ -430,11 +431,11 @@ msgstr "Ett Gtk3-gränssnitt för pyalpm"
 
 #: gui/manager.ui:44
 msgid "Pamac History"
-msgstr ""
+msgstr "Pacman historik"
 
 #: gui/manager.ui:170
 msgid "View History"
-msgstr ""
+msgstr "Visa historik"
 
 #: gui/manager.ui:180 gui/manager.ui:222
 msgid "Install local packages"
@@ -442,15 +443,15 @@ msgstr "Installera lokala paket"
 
 #: gui/manager.ui:349
 msgid "Apply changes"
-msgstr ""
+msgstr "Tillämpa ändringar"
 
 #: gui/manager.ui:367
 msgid "Cancel"
-msgstr ""
+msgstr "Ångra"
 
 #: gui/manager.ui:440
 msgid "Search in AUR"
-msgstr ""
+msgstr "Sök i AUR"
 
 #: gui/manager.ui:498
 msgid "Search"
@@ -474,7 +475,7 @@ msgstr "Version"
 
 #: gui/manager.ui:722
 msgid "Repo"
-msgstr ""
+msgstr "Förråd"
 
 #: gui/manager.ui:735
 msgid "Size"
@@ -506,29 +507,29 @@ msgstr "detaljer"
 
 #: gui/dialogs.ui:280
 msgid "Pamac Preferences"
-msgstr ""
+msgstr "Pacman Inställningar"
 
 #: gui/dialogs.ui:303
 msgid "Enable AUR support"
-msgstr ""
+msgstr "Aktiver AUR stöd"
 
 #: gui/dialogs.ui:307
 msgid "Allow Pamac to search and install packages from AUR"
-msgstr ""
+msgstr "Tillåt Pamac att söka och installera paket från AUR"
 
 #: gui/dialogs.ui:320
 msgid "Remove unrequired dependencies"
-msgstr ""
+msgstr "Ta bort icke nödvändiga beroenden"
 
 #: gui/dialogs.ui:324
 msgid ""
 "When removing a package, also remove those dependencies that are not "
 "required by other packages"
-msgstr ""
+msgstr "När du tar bort ett paket, ta även bort de beroenden som inte behövs av andra paket"
 
 #: gui/dialogs.ui:383
 msgid "Options"
-msgstr ""
+msgstr "Alternativ"
 
 #: gui/dialogs.ui:452
 msgid "Choose"

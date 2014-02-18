@@ -4,13 +4,14 @@
 # Guillaume Benoit <guillaume@manjaro.org>, 2013-2014.
 # 
 # Translators:
+# truongap <truongap.ars@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-03-30 15:09+0100\n"
-"PO-Revision-Date: 2014-02-01 14:57+0000\n"
-"Last-Translator: manjarolinux <philm@manjaro.org>\n"
+"PO-Revision-Date: 2014-02-18 01:22+0000\n"
+"Last-Translator: truongap <truongap.ars@gmail.com>\n"
 "Language-Team: Vietnamese (http://www.transifex.com/projects/p/manjaro-pamac/language/vi/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20,56 +21,56 @@ msgstr ""
 
 #: data/polkit/org.manjaro.pamac.policy:10
 msgid "Authentication is required"
-msgstr ""
+msgstr "Xác nhận được yêu cầu"
 
 #: pamac-daemon.py:162
 msgid "Checking dependencies"
-msgstr ""
+msgstr "Đang kiểm tra các phần phụ thuộc"
 
 #: pamac-daemon.py:170
 msgid "Checking file conflicts"
-msgstr ""
+msgstr "Đang kiểm tra xung đột tệp tin"
 
 #: pamac-daemon.py:176
 msgid "Resolving dependencies"
-msgstr ""
+msgstr "Đang xử lý các phần phụ thuộc"
 
 #: pamac-daemon.py:184
 msgid "Checking inter conflicts"
-msgstr ""
+msgstr "Đang kiểm tra các xung đột liên đới"
 
 #: pamac-daemon.py:192
 #, python-brace-format
 msgid "Installing {pkgname}"
-msgstr ""
+msgstr "Đang cài đặt {pkgname}"
 
 #: pamac-daemon.py:200
 #, python-brace-format
 msgid "Removing {pkgname}"
-msgstr ""
+msgstr "Đang gỡ bỏ {pkgname}"
 
 #: pamac-daemon.py:208
 #, python-brace-format
 msgid "Upgrading {pkgname}"
-msgstr ""
+msgstr "Đang nâng cấp {pkgname}"
 
 #: pamac-daemon.py:216
 #, python-brace-format
 msgid "Downgrading {pkgname}"
-msgstr ""
+msgstr "Đang hạ cấp {pkgname}"
 
 #: pamac-daemon.py:224
 #, python-brace-format
 msgid "Reinstalling {pkgname}"
-msgstr ""
+msgstr "Đang cài lại {pkgname}"
 
 #: pamac-daemon.py:232
 msgid "Checking integrity"
-msgstr ""
+msgstr "Đang kiểm tra tính toàn vẹn"
 
 #: pamac-daemon.py:239
 msgid "Loading packages files"
-msgstr ""
+msgstr "Đang nạp các tệp tin của các gói"
 
 #: pamac-daemon.py:245
 msgid "Checking delta integrity"
@@ -81,457 +82,457 @@ msgstr ""
 
 #: pamac-daemon.py:257
 msgid "Generating {} with {}"
-msgstr ""
+msgstr "Đang tạo lập {} với {}"
 
 #: pamac-daemon.py:261
 msgid "Generation succeeded!"
-msgstr ""
+msgstr "Quá trình tạo lập thành công!"
 
 #: pamac-daemon.py:264
 msgid "Generation failed."
-msgstr ""
+msgstr "Quá trình tạo lâp thất bại."
 
 #: pamac-daemon.py:267
 #, python-brace-format
 msgid "Configuring {pkgname}"
-msgstr ""
+msgstr "Đang thiết lập {pkgname}"
 
 #: pamac-daemon.py:272
 msgid "Downloading"
-msgstr ""
+msgstr "Đang tải về"
 
 #: pamac-daemon.py:276
 msgid "Checking available disk space"
-msgstr ""
+msgstr "Đang kiểm tra không gian đĩa trống"
 
 #: pamac-daemon.py:286
 msgid "Checking keyring"
-msgstr ""
+msgstr "Đang kiểm tra vòng khóa"
 
 #: pamac-daemon.py:292
 msgid "Downloading required keys"
-msgstr ""
+msgstr "Đang tải về các khóa yêu cầu"
 
 #: pamac-daemon.py:311
 #, python-brace-format
 msgid "{pkgname1} will be replaced by {pkgname2}"
-msgstr ""
+msgstr "{pkgname1} sẽ thay thể bởi {pkgname2}"
 
 #: pamac-daemon.py:314
 #, python-brace-format
 msgid "{pkgname1} conflicts with {pkgname2}"
-msgstr ""
+msgstr "{pkgname1} xung đột với {pkgname2}"
 
 #: pamac-daemon.py:359
 #, python-brace-format
 msgid "Refreshing {repo}"
-msgstr ""
+msgstr "Đang làm mới {repo}"
 
 #: pamac-daemon.py:363 pamac/transaction.py:608
 #, python-brace-format
 msgid "Downloading {pkgname}"
-msgstr ""
+msgstr "Đang tải về {pkgname}"
 
 #: pamac-daemon.py:561 pamac-install.py:127
 #, python-brace-format
 msgid "{pkgname} is not a valid path or package name"
-msgstr ""
+msgstr "{pkgname} là một đường dẫn hay tên không phù hợp"
 
 #: pamac-daemon.py:674
 #, python-brace-format
 msgid ""
 "The transaction cannot be performed because it needs to remove {pkgname1} "
 "which is a locked package"
-msgstr ""
+msgstr "Chuyển giao không thể tiến hành bởi nó cần gỡ bỏ {pkgname1} hiện đã bị khóa"
 
 #: pamac-daemon.py:684 pamac/transaction.py:449
 msgid "Nothing to do"
-msgstr ""
+msgstr "Không có gì để thực hiện"
 
 #: pamac-daemon.py:746
 msgid "Transaction successfully finished"
-msgstr ""
+msgstr "Chuyển giao kết thúc thành công"
 
 #: pamac-daemon.py:751 pamac-daemon.py:759 pamac-daemon.py:782
 #: pamac-daemon.py:816
 msgid "Authentication failed"
-msgstr ""
+msgstr "Xác nhận thất bại"
 
 #: pamac-manager.py:100 pamac-manager.py:131 pamac-manager.py:132
 #: pamac-manager.py:147 pamac-manager.py:156 pamac-manager.py:177
 #: pamac-manager.py:302 pamac-manager.py:590 pamac-manager.py:650
 #: pamac-manager.py:720
 msgid "No package found"
-msgstr ""
+msgstr "Không tìm thấy gói nào"
 
 #: pamac-manager.py:201 pamac-manager.py:263
 msgid "local"
-msgstr ""
+msgstr "có sẵn"
 
 #: pamac-manager.py:205 pamac-manager.py:246 pamac-manager.py:360
 msgid "Installed"
-msgstr ""
+msgstr "Đã cài đặt"
 
 #: pamac-manager.py:205 pamac-manager.py:249
 msgid "Uninstalled"
-msgstr ""
+msgstr "Đã gỡ bỏ"
 
 #: pamac-manager.py:205 pamac-manager.py:252
 msgid "Orphans"
-msgstr ""
+msgstr "Không liên quan"
 
 #: pamac-manager.py:205 pamac-manager.py:224 pamac/transaction.py:757
 msgid "To install"
-msgstr ""
+msgstr "Để cài đặt"
 
 #: pamac-manager.py:205 pamac-manager.py:235 pamac/transaction.py:737
 msgid "To remove"
-msgstr ""
+msgstr "Để gỡ bỏ"
 
 #: pamac-manager.py:350
 msgid "Licenses"
-msgstr ""
+msgstr "Giấy phép"
 
 #: pamac-manager.py:355
 msgid "Depends On"
-msgstr ""
+msgstr "Phụ thuộc vào"
 
 #: pamac-manager.py:363
 msgid "Optional Deps"
-msgstr ""
+msgstr "Phần phụ thuộc tùy chọn"
 
 #: pamac-manager.py:366
 msgid "Required By"
-msgstr ""
+msgstr "Được yêu cầu bởi"
 
 #: pamac-manager.py:368
 msgid "Provides"
-msgstr ""
+msgstr "Nhà cung cấp"
 
 #: pamac-manager.py:370
 msgid "Replaces"
-msgstr ""
+msgstr "Thay thế"
 
 #: pamac-manager.py:372
 msgid "Conflicts With"
-msgstr ""
+msgstr "Xung đột với"
 
 #: pamac-manager.py:377
 msgid "Repository"
-msgstr ""
+msgstr "Kho"
 
 #: pamac-manager.py:379 gui/manager.ui:544
 msgid "Groups"
-msgstr ""
+msgstr "Nhóm"
 
 #: pamac-manager.py:381
 msgid "Compressed Size"
-msgstr ""
+msgstr "Kích cỡ khi đã nén"
 
 #: pamac-manager.py:382
 msgid "Download Size"
-msgstr ""
+msgstr "Kích cỡ tải về"
 
 #: pamac-manager.py:384
 msgid "Installed Size"
-msgstr ""
+msgstr "Kích cỡ cài đặt"
 
 #: pamac-manager.py:385
 msgid "Packager"
-msgstr ""
+msgstr "Người đóng gói"
 
 #: pamac-manager.py:386
 msgid "Architecture"
-msgstr ""
+msgstr "Kiến trúc"
 
 #: pamac-manager.py:389
 msgid "Install Date"
-msgstr ""
+msgstr "Ngày cài đặt"
 
 #: pamac-manager.py:391
 msgid "Explicitly installed"
-msgstr ""
+msgstr "Đã cài đặt theo chỉ định"
 
 #: pamac-manager.py:393
 msgid "Installed as a dependency for another package"
-msgstr ""
+msgstr "Được cài đặt như phần phụ thuộc cho một gói khác"
 
 #: pamac-manager.py:395
 msgid "Unknown"
-msgstr ""
+msgstr "Không biết"
 
 #: pamac-manager.py:396
 msgid "Install Reason"
-msgstr ""
+msgstr "Lý do cài đặt"
 
 #: pamac-manager.py:401
 msgid "Signatures"
-msgstr ""
+msgstr "Chữ ký"
 
 #: pamac-manager.py:405
 msgid "Backup files"
-msgstr ""
+msgstr "Tệp tin sao lưu"
 
 #: pamac-manager.py:570
 #, python-brace-format
 msgid ""
 "{pkgname} has {number} uninstalled optional deps.\n"
 "Please choose those you would like to install:"
-msgstr ""
+msgstr "{pkgname} có {number} các phần phụ thuộc tùy chọn chưa được cài đặt.\nHãy chọn những phần mà bạn muốn cài đặt:"
 
 #: pamac-manager.py:593
 msgid "Deselect"
-msgstr ""
+msgstr "Bỏ chọn"
 
 #: pamac-manager.py:599
 msgid "Remove"
-msgstr ""
+msgstr "Gỡ bỏ"
 
 #: pamac-manager.py:606
 msgid "Reinstall"
-msgstr ""
+msgstr "Cài lại"
 
 #: pamac-manager.py:618
 msgid "Install optional deps"
-msgstr ""
+msgstr "Cài đặt các phần phụ thuộc tùy chọn"
 
 #: pamac-manager.py:624
 msgid "Install"
-msgstr ""
+msgstr "Cài đặt"
 
 #: pamac-manager.py:636
 msgid "Install with optional deps"
-msgstr ""
+msgstr "Cài đặt với các phần phụ thuộc tùy chọn"
 
 #: pamac-manager.py:936 pamac-updater.py:213 pamac-install.py:160
 msgid "Pamac is already running"
-msgstr ""
+msgstr "Pamac đang chạy"
 
 #: pamac-updater.py:44 pamac-updater.py:59 pamac-tray.py:40
 msgid "Your system is up-to-date"
-msgstr ""
+msgstr "Hệ thống đã được cập nhật"
 
 #: pamac-updater.py:74 pamac/transaction.py:787
 msgid "Total download size:"
-msgstr ""
+msgstr "Tổng kích cỡ tải về:"
 
 #: pamac-updater.py:76 pamac-tray.py:38
 msgid "1 available update"
-msgstr ""
+msgstr "1 cập nhật sẵn sàng"
 
 #: pamac-updater.py:78 pamac-tray.py:37
 #, python-brace-format
 msgid "{number} available updates"
-msgstr ""
+msgstr "{number} cập nhật sẵn sàng"
 
 #: pamac-tray.py:50 pamac-tray.py:126 pamac-tray.py:148 gui/updater.ui:24
 msgid "Update Manager"
-msgstr ""
+msgstr "Trình quản lý cập nhật"
 
 #: pamac-tray.py:54 gui/manager.ui:329
 msgid "Package Manager"
-msgstr ""
+msgstr "Trình quản lý gói"
 
 #: pamac-tray.py:58
 msgid "Quit"
-msgstr ""
+msgstr "Thoát"
 
 #: pamac-install.py:66
 msgid ""
 "Some updates are available.\n"
 "Please update your system first"
-msgstr ""
+msgstr "Một số cập nhật đã sẵn sàng.\nHãy cập nhật hệ thống trước"
 
 #: pamac-install.py:72 pamac/transaction.py:406 pamac/transaction.py:799
 msgid "Preparing"
-msgstr ""
+msgstr "Đang chuẩn bị"
 
 #: pamac/transaction.py:94 gui/dialogs.ui:356
 msgid "How often to check for updates, value in hours"
-msgstr ""
+msgstr "Bao lâu sẽ kiểm tra cập nhật, tính bằng giờ"
 
 #: pamac/transaction.py:192
 #, python-brace-format
 msgid ""
 "{pkgname} is provided by {number} packages.\n"
 "Please choose those you would like to install:"
-msgstr ""
+msgstr "{pkgname} được cung cấp bởi {number} gói.\nHãy chọn những thứ mà bạn muốn cài đặt:"
 
 #: pamac/transaction.py:257
 msgid "Refreshing"
-msgstr ""
+msgstr "Đang làm tươi"
 
 #: pamac/transaction.py:341 pamac/transaction.py:380
 #, python-brace-format
 msgid "{pkgname} depends on {dependname} but it is not installable"
-msgstr ""
+msgstr "{pkgname} phụ thuộc vào {dependname} nhưng nó không thể cài đặt được"
 
 #: pamac/transaction.py:384
 #, python-brace-format
 msgid "Failed to get {pkgname} archive from AUR"
-msgstr ""
+msgstr "Lấy gói {pkgname} từ AUR thất bại"
 
 #: pamac/transaction.py:552 pamac/transaction.py:558
 msgid "Build process failed."
-msgstr ""
+msgstr "Quá trình kiến tạo thất bại"
 
 #: pamac/transaction.py:644
 #, python-brace-format
 msgid "Building {pkgname}"
-msgstr ""
+msgstr "Đang tạo {pkgname}"
 
 #: pamac/transaction.py:685
 msgid "Checking for updates"
-msgstr ""
+msgstr "Đang kiểm tra cập nhật"
 
 #: pamac/transaction.py:735
 msgid "Transaction Summary"
-msgstr ""
+msgstr "Ghi nhớ chuyển giao"
 
 #: pamac/transaction.py:743
 msgid "To downgrade"
-msgstr ""
+msgstr "Để hạ cấp"
 
 #: pamac/transaction.py:751
 msgid "To build"
-msgstr ""
+msgstr "Để tạo"
 
 #: pamac/transaction.py:765
 msgid "To reinstall"
-msgstr ""
+msgstr "Để cài lại"
 
 #: pamac/transaction.py:774
 msgid "To update"
-msgstr ""
+msgstr "Để cập nhật"
 
 #: pamac/common.py:30
 #, python-format
 msgid "%.1f KiB"
-msgstr ""
+msgstr "%.1f KiB"
 
 #: pamac/common.py:33
 #, python-format
 msgid "%.2f MiB"
-msgstr ""
+msgstr "%.2f MiB"
 
 #: gui/manager.ui:8
 msgid "About Pamac"
-msgstr ""
+msgstr "Giới thiệu Pamac"
 
 #: gui/manager.ui:13
 msgid "Copyright © 2013 Guillaume Benoit"
-msgstr ""
+msgstr "Bản quyền © 2013 Guillaume Benoit"
 
 #: gui/manager.ui:14
 msgid "A gtk3 frontend for pyalpm"
-msgstr ""
+msgstr "Giao diện gtk3 cho pyalpm"
 
 #: gui/manager.ui:44
 msgid "Pamac History"
-msgstr ""
+msgstr "Lịch sử Pamac"
 
 #: gui/manager.ui:170
 msgid "View History"
-msgstr ""
+msgstr "Hiển thị lịch sử"
 
 #: gui/manager.ui:180 gui/manager.ui:222
 msgid "Install local packages"
-msgstr ""
+msgstr "Cài đặt"
 
 #: gui/manager.ui:349
 msgid "Apply changes"
-msgstr ""
+msgstr "Áp dụng những thay đổi"
 
 #: gui/manager.ui:367
 msgid "Cancel"
-msgstr ""
+msgstr "Hủy"
 
 #: gui/manager.ui:440
 msgid "Search in AUR"
-msgstr ""
+msgstr "Tìm trên AUR"
 
 #: gui/manager.ui:498
 msgid "Search"
-msgstr ""
+msgstr "Tìm"
 
 #: gui/manager.ui:591 gui/manager.ui:683
 msgid "State"
-msgstr ""
+msgstr "Tình trạng"
 
 #: gui/manager.ui:638
 msgid "Repos"
-msgstr ""
+msgstr "Kho"
 
 #: gui/manager.ui:696
 msgid "Name"
-msgstr ""
+msgstr "Tên"
 
 #: gui/manager.ui:709
 msgid "Version"
-msgstr ""
+msgstr "Phiên bản"
 
 #: gui/manager.ui:722
 msgid "Repo"
-msgstr ""
+msgstr "Kho"
 
 #: gui/manager.ui:735
 msgid "Size"
-msgstr ""
+msgstr "Cỡ"
 
 #: gui/manager.ui:837
 msgid "Infos"
-msgstr ""
+msgstr "Thông tin"
 
 #: gui/manager.ui:901
 msgid "Deps"
-msgstr ""
+msgstr "Phụ thuộc"
 
 #: gui/manager.ui:970
 msgid "Details"
-msgstr ""
+msgstr "Chi tiết"
 
 #: gui/manager.ui:999
 msgid "Files"
-msgstr ""
+msgstr "Tệp tin"
 
 #: gui/dialogs.ui:65
 msgid "Progress"
-msgstr ""
+msgstr "Tiến trình"
 
 #: gui/dialogs.ui:157
 msgid "details"
-msgstr ""
+msgstr "chi tiết"
 
 #: gui/dialogs.ui:280
 msgid "Pamac Preferences"
-msgstr ""
+msgstr "Thiết lập Pamac"
 
 #: gui/dialogs.ui:303
 msgid "Enable AUR support"
-msgstr ""
+msgstr "Bật hỗ trợ AUR"
 
 #: gui/dialogs.ui:307
 msgid "Allow Pamac to search and install packages from AUR"
-msgstr ""
+msgstr "Cho phép Pamac tìm kiếm và cài đặt gói từ AUR"
 
 #: gui/dialogs.ui:320
 msgid "Remove unrequired dependencies"
-msgstr ""
+msgstr "Gỡ bỏ phần phụ thuộc không cần thiết"
 
 #: gui/dialogs.ui:324
 msgid ""
 "When removing a package, also remove those dependencies that are not "
 "required by other packages"
-msgstr ""
+msgstr "Khi bạn gỡ bỏ một gói đồng thời sẽ gỡ bỏ các phần phụ thuộc không được yêu cầu bởi các gói khác"
 
 #: gui/dialogs.ui:383
 msgid "Options"
-msgstr ""
+msgstr "Các tùy chọn"
 
 #: gui/dialogs.ui:452
 msgid "Choose"
-msgstr ""
+msgstr "Chọn"
 
 #: gui/dialogs.ui:566
 msgid "Summary"
-msgstr ""
+msgstr "Ghi nhớ"

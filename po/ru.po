@@ -6,6 +6,7 @@
 # Translators:
 # macbet <rostovslipknot@gmail.com>, 2013
 # Lexyc <nirudak@mail.ru>, 2014
+# finomeno <finomeno@gmail.com>, 2014
 # Umidjon Almasov <u.almasov@gmail.com>, 2013
 # cetjs2 <andrey0bolkonsky@gmail.com>, 2013
 msgid ""
@@ -13,8 +14,8 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-03-30 15:09+0100\n"
-"PO-Revision-Date: 2014-02-13 06:32+0000\n"
-"Last-Translator: Lexyc <nirudak@mail.ru>\n"
+"PO-Revision-Date: 2014-02-14 14:15+0000\n"
+"Last-Translator: finomeno <finomeno@gmail.com>\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/manjaro-pamac/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -77,11 +78,11 @@ msgstr "Загрузка файлов пакетов"
 
 #: pamac-daemon.py:245
 msgid "Checking delta integrity"
-msgstr "Проверка целостности delta"
+msgstr "Проверка целостности дельт"
 
 #: pamac-daemon.py:251
 msgid "Applying deltas"
-msgstr "Применение deltas"
+msgstr "Применение дельт"
 
 #: pamac-daemon.py:257
 msgid "Generating {} with {}"
@@ -89,7 +90,7 @@ msgstr "Генерация {} с {}"
 
 #: pamac-daemon.py:261
 msgid "Generation succeeded!"
-msgstr "Генерация успешна!"
+msgstr "Генерация успешно завершена!"
 
 #: pamac-daemon.py:264
 msgid "Generation failed."
@@ -119,7 +120,7 @@ msgstr "Загрузка необходимых ключей"
 #: pamac-daemon.py:311
 #, python-brace-format
 msgid "{pkgname1} will be replaced by {pkgname2}"
-msgstr "{pkgname1} будет заменен {pkgname2}"
+msgstr "Пакет {pkgname1} будет заменен пакетом {pkgname2}"
 
 #: pamac-daemon.py:314
 #, python-brace-format
@@ -146,7 +147,7 @@ msgstr "{pkgname} это недействительный путь или наз
 msgid ""
 "The transaction cannot be performed because it needs to remove {pkgname1} "
 "which is a locked package"
-msgstr "Транзакция не может быть выполнена, т.к. требуется удалить {pkgname1}, который заблокирован"
+msgstr "Транзакция не может быть выполнена, т.к. требуется удалить пакет {pkgname1}, который заблокирован"
 
 #: pamac-daemon.py:684 pamac/transaction.py:449
 msgid "Nothing to do"
@@ -178,7 +179,7 @@ msgstr "Установлено"
 
 #: pamac-manager.py:205 pamac-manager.py:249
 msgid "Uninstalled"
-msgstr "Не установлено"
+msgstr "Удалено"
 
 #: pamac-manager.py:205 pamac-manager.py:252
 msgid "Orphans"
@@ -202,11 +203,11 @@ msgstr "Зависит от"
 
 #: pamac-manager.py:363
 msgid "Optional Deps"
-msgstr "Дополнительные зависимости"
+msgstr "Необязательные зависимости"
 
 #: pamac-manager.py:366
 msgid "Required By"
-msgstr "Требуется"
+msgstr "Требуется для"
 
 #: pamac-manager.py:368
 msgid "Provides"
@@ -254,11 +255,11 @@ msgstr "Дата установки"
 
 #: pamac-manager.py:391
 msgid "Explicitly installed"
-msgstr "Установлены явно"
+msgstr "Установлено специально"
 
 #: pamac-manager.py:393
 msgid "Installed as a dependency for another package"
-msgstr "Установлены как зависимости для других пакетов"
+msgstr "Установлено как зависимости для других пакетов"
 
 #: pamac-manager.py:395
 msgid "Unknown"
@@ -289,23 +290,23 @@ msgstr "Снять выделение"
 
 #: pamac-manager.py:599
 msgid "Remove"
-msgstr "Удаление"
+msgstr "Удалить"
 
 #: pamac-manager.py:606
 msgid "Reinstall"
-msgstr "Переустановка"
+msgstr "Переустановить"
 
 #: pamac-manager.py:618
 msgid "Install optional deps"
-msgstr "Установка дополнительных зависимостей"
+msgstr "Установить необязательные зависимости"
 
 #: pamac-manager.py:624
 msgid "Install"
-msgstr "Установка"
+msgstr "Установить"
 
 #: pamac-manager.py:636
 msgid "Install with optional deps"
-msgstr "Установка с дополнительными зависимостями"
+msgstr "Установить с необязательными зависимостями"
 
 #: pamac-manager.py:936 pamac-updater.py:213 pamac-install.py:160
 msgid "Pamac is already running"
@@ -359,7 +360,7 @@ msgstr "Как часто следует проверять наличие об�
 msgid ""
 "{pkgname} is provided by {number} packages.\n"
 "Please choose those you would like to install:"
-msgstr "{pkgname} предоставляется {number} пакетами.\nВыберите нужные для установки:"
+msgstr "{pkgname} предоставляется {number} пакетами.\nПожалуйста, выберите те, которые хотите установить:"
 
 #: pamac/transaction.py:257
 msgid "Refreshing"
@@ -398,7 +399,7 @@ msgstr "К понижению версии"
 
 #: pamac/transaction.py:751
 msgid "To build"
-msgstr "Для сборки"
+msgstr "К сборке"
 
 #: pamac/transaction.py:765
 msgid "To reinstall"
@@ -424,7 +425,7 @@ msgstr "О Pamac"
 
 #: gui/manager.ui:13
 msgid "Copyright © 2013 Guillaume Benoit"
-msgstr "Авторское право © 2013 Guillaume Benoit"
+msgstr "Copyright © 2013 Guillaume Benoit"
 
 #: gui/manager.ui:14
 msgid "A gtk3 frontend for pyalpm"
@@ -504,7 +505,7 @@ msgstr "Прогресс"
 
 #: gui/dialogs.ui:157
 msgid "details"
-msgstr "детали"
+msgstr "подробности"
 
 #: gui/dialogs.ui:280
 msgid "Pamac Preferences"
@@ -534,7 +535,7 @@ msgstr "Параметры"
 
 #: gui/dialogs.ui:452
 msgid "Choose"
-msgstr "Выбор"
+msgstr "Выбрать"
 
 #: gui/dialogs.ui:566
 msgid "Summary"
