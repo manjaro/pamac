@@ -8,14 +8,14 @@
 # Guillaume Benoit <guillaume@manjaro.org>, 2013
 # manjarolinux <philm@manjaro.org>, 2014
 # Savoritias <savoritiasshadow@gmail.com>, 2014
-# gasdim <gasdim@hotmail.gr>, 2013
+# gasdim <gasdim@hotmail.gr>, 2013-2014
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-03-30 15:09+0100\n"
-"PO-Revision-Date: 2014-02-01 14:57+0000\n"
-"Last-Translator: manjarolinux <philm@manjaro.org>\n"
+"PO-Revision-Date: 2014-02-20 16:20+0000\n"
+"Last-Translator: gasdim <gasdim@hotmail.gr>\n"
 "Language-Team: Greek (http://www.transifex.com/projects/p/manjaro-pamac/language/el/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -25,7 +25,7 @@ msgstr ""
 
 #: data/polkit/org.manjaro.pamac.policy:10
 msgid "Authentication is required"
-msgstr ""
+msgstr "Απαιτείται πιστοποίηση"
 
 #: pamac-daemon.py:162
 msgid "Checking dependencies"
@@ -353,7 +353,7 @@ msgstr "Προετοιμασία"
 
 #: pamac/transaction.py:94 gui/dialogs.ui:356
 msgid "How often to check for updates, value in hours"
-msgstr ""
+msgstr "Πόσο συχνά να ελέγχονται αναβαθμίσεις, τιμή σε ώρες"
 
 #: pamac/transaction.py:192
 #, python-brace-format
@@ -433,11 +433,11 @@ msgstr "Ένα gtk3 εμπρόσθιο τμήμα για το pyalpm"
 
 #: gui/manager.ui:44
 msgid "Pamac History"
-msgstr ""
+msgstr "Ιστορικο Pacmac"
 
 #: gui/manager.ui:170
 msgid "View History"
-msgstr ""
+msgstr "Εμφάνιση Ιστορικού"
 
 #: gui/manager.ui:180 gui/manager.ui:222
 msgid "Install local packages"
@@ -445,11 +445,11 @@ msgstr "Εγκατάσταση τοπικών πακέτων"
 
 #: gui/manager.ui:349
 msgid "Apply changes"
-msgstr ""
+msgstr "Εφαρμογή αλλαγών"
 
 #: gui/manager.ui:367
 msgid "Cancel"
-msgstr ""
+msgstr "Άκυρο"
 
 #: gui/manager.ui:440
 msgid "Search in AUR"
@@ -509,29 +509,29 @@ msgstr "Λεπτομέρειες"
 
 #: gui/dialogs.ui:280
 msgid "Pamac Preferences"
-msgstr ""
+msgstr "Επιλογές Pacmac"
 
 #: gui/dialogs.ui:303
 msgid "Enable AUR support"
-msgstr ""
+msgstr "Ενεργοποίηση υποστήριξης AUR"
 
 #: gui/dialogs.ui:307
 msgid "Allow Pamac to search and install packages from AUR"
-msgstr ""
+msgstr "Επέτρεψε τον Pacmac να ψάξει και να εγκαταστήσει πακέτα απο το AUR"
 
 #: gui/dialogs.ui:320
 msgid "Remove unrequired dependencies"
-msgstr ""
+msgstr "Αφαίρεση  αχρησιμοποίητων εξαρτήσεων"
 
 #: gui/dialogs.ui:324
 msgid ""
 "When removing a package, also remove those dependencies that are not "
 "required by other packages"
-msgstr ""
+msgstr "Όταν αφαιρείτε ένα πακέτο, επίσης αφαιρέστε λκαι τις εξαρτήσεις που δεν χρειάζονται απο άλλα πακέτα"
 
 #: gui/dialogs.ui:383
 msgid "Options"
-msgstr ""
+msgstr "Επιλογές"
 
 #: gui/dialogs.ui:452
 msgid "Choose"
