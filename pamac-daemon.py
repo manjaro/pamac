@@ -342,7 +342,7 @@ class PamacDBusService(dbus.service.Object):
 			print(line)
 		elif level & pyalpm.LOG_WARNING:
 			self.warning += line
-			_warning = _('WARNING: ')+line
+			_warning = _('Warning: ')+line
 			self.EmitActionLong(_warning)
 		elif level & pyalpm.LOG_DEBUG:
 			line = "DEBUG: " + line
