@@ -521,11 +521,11 @@ class PamacDBusService(dbus.service.Object):
 		finally:
 			return error
 
-	@dbus.service.method('org.manjaro.pamac', '', 's')
-	def Sysupgrade(self):
+	@dbus.service.method('org.manjaro.pamac', 'b', 's')
+	def Sysupgrade(self, downgrade):
 		error = ''
 		try:
-			self.t.sysupgrade(downgrade=False)
+			self.t.sysupgrade(downgrade = bool(downgrade))
 		except pyalpm.error as e:
 			error = format_error(e.args)
 			self.t.release()

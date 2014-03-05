@@ -786,7 +786,7 @@ def set_transaction_sum(show_updates = True):
 	else:
 		sum_bottom_label.set_markup('<b>{} {}</b>'.format(_('Total download size:'), common.format_size(dsize)))
 
-def sysupgrade(show_updates = True):
+def sysupgrade(show_updates = True, downgrade = False):
 	syncfirst, updates = available_updates
 	if updates:
 		global to_update
@@ -834,7 +834,7 @@ def sysupgrade(show_updates = True):
 				error += init_transaction()
 				if not error:
 					if to_update:
-						error += Sysupgrade()
+						error += Sysupgrade(downgrade)
 					_error = ''
 					for name in to_add:
 						_error += Add(name)
