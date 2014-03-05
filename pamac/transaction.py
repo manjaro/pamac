@@ -30,6 +30,7 @@ import fnmatch
 import dbus
 from dbus.mainloop.glib import DBusGMainLoop
 import signal
+import re
 
 from pamac import config, common, aur
 
@@ -51,6 +52,7 @@ build_depends = set()
 handle = None
 syncdbs = None
 localdb = None
+colors_regexp = re.compile('\\033\[(\d;)?\d*m')
 
 # i18n
 import gettext
@@ -492,6 +494,7 @@ def check_finished_build(data):
 		signal.setitimer(signal.ITIMER_REAL, 0.05) # 50 ms timeout
 		try:
 			line = build_proc.stdout.readline().decode(encoding='UTF-8')
+			line = re.sub(colors_regexp, '', line)
 			#print(line.rstrip('\n'))
 			progress_buffer.insert_at_cursor(line)
 		except Exception:
