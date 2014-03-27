@@ -5,6 +5,7 @@
 # 
 # Translators:
 # McAnde <andreasmartinmorch@gmail.com>, 2013
+# GigoloJoe <Danielbygmarsh@gmail.com>, 2014
 # Guillaume Benoit <guillaume@manjaro.org>, 2013
 # Morten Juhl-Johansen Zölde-Fejér <morten@writtenandread.net>, 2013-2014
 # manjarolinux <philm@manjaro.org>, 2013
@@ -13,8 +14,8 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-03-30 15:09+0100\n"
-"PO-Revision-Date: 2014-03-05 22:14+0000\n"
-"Last-Translator: manjarolinux <philm@manjaro.org>\n"
+"PO-Revision-Date: 2014-03-25 23:25+0000\n"
+"Last-Translator: GigoloJoe <Danielbygmarsh@gmail.com>\n"
 "Language-Team: Danish (http://www.transifex.com/projects/p/manjaro-pamac/language/da/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -128,11 +129,11 @@ msgstr "{pkgname1} er i konflik med {pkgname2}"
 
 #: pamac-daemon.py:339
 msgid "Error: "
-msgstr ""
+msgstr "Fejl:"
 
 #: pamac-daemon.py:345
 msgid "Warning: "
-msgstr ""
+msgstr "Advarsel:"
 
 #: pamac-daemon.py:359
 #, python-brace-format
@@ -309,7 +310,7 @@ msgstr "Installer valgfri afhængigheder"
 
 #: pamac-manager.py:687
 msgid "Mark as explicitly installed"
-msgstr ""
+msgstr "Markér som udtrykkeligt installeret"
 
 #: pamac-manager.py:691
 msgid "Install"
@@ -456,7 +457,7 @@ msgstr "Installer lokale pakker"
 
 #: gui/manager.ui:344
 msgid "Refresh"
-msgstr ""
+msgstr "Genopfrisk:"
 
 #: gui/manager.ui:362
 msgid "Apply changes"
