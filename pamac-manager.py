@@ -48,6 +48,7 @@ details_scrolledwindow = interface.get_object('details_scrolledwindow')
 name_label = interface.get_object('name_label')
 desc_label = interface.get_object('desc_label')
 link_label = interface.get_object('link_label')
+pkg_link_label = interface.get_object('pkg_link_label')
 licenses_label = interface.get_object('licenses_label')
 search_entry = interface.get_object('search_entry')
 search_aur_button = interface.get_object('search_aur_button')
@@ -343,6 +344,7 @@ def refresh_packages_list(liststore):
 	name_label.set_markup('')
 	desc_label.set_markup('')
 	link_label.set_markup('')
+	pkg_link_label.set_markup('')
 	licenses_label.set_markup('')
 	deps_list.clear()
 	details_list.clear()
@@ -350,6 +352,14 @@ def refresh_packages_list(liststore):
 	ManagerWindow.get_window().set_cursor(None)
 
 def set_infos_list(pkg):
+	if pkg.db.name == 'AUR':
+		pkg_url = 'https://aur.archlinux.org/packages/{}/'.format(pkg.name)
+	elif pkg.db.name == 'local':
+		# We don't know the db name, so we can't determine the url
+		pkg_url = ''
+	else:
+		pkg_url = 'https://www.archlinux.org/packages/{0.db.name}/{0.arch}/{0.name}/'.format(pkg)
+
 	name_label.set_markup('<big><b>{}  {}</b></big>'.format(pkg.name, pkg.version))
 	# fix &,-,>,< in desc
 	desc = pkg.desc.replace('&', '&amp;')
@@ -359,6 +369,10 @@ def set_infos_list(pkg):
 	url = pkg.url.replace('&', '&amp;')
 	link_label.set_markup('<a href=\"{_url}\">{_url}</a>'.format(_url = url))
 	licenses_label.set_markup(_('Licenses')+': {}'.format(' '.join(pkg.licenses)))
+	if pkg_url:
+		pkg_link_label.set_markup('Package: <a href=\"{_url}\">{_url}</a>'.format(_url = pkg_url))
+	else:
+		pkg_link_label.set_markup('')
 
 def set_deps_list(pkg, style):
 	deps_list.clear()
