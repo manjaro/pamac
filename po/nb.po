@@ -7,6 +7,7 @@
 # Bård Spein <baard.spein@gmail.com>, 2013
 # Guillaume Benoit <guillaume@manjaro.org>, 2013
 # Ulseth85 <ulseth85@gmail.com>, 2014
+# aryvandaar <arath.inc@gmail.com>, 2014
 # manjarolinux <philm@manjaro.org>, 2014
 # tflovik <tflovik@online.no>, 2013
 msgid ""
@@ -14,8 +15,8 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-03-30 15:09+0100\n"
-"PO-Revision-Date: 2014-03-09 13:35+0000\n"
-"Last-Translator: Ulseth85 <ulseth85@gmail.com>\n"
+"PO-Revision-Date: 2014-05-15 14:22+0000\n"
+"Last-Translator: aryvandaar <arath.inc@gmail.com>\n"
 "Language-Team: Norwegian Bokmål (http://www.transifex.com/projects/p/manjaro-pamac/language/nb/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -306,7 +307,7 @@ msgstr "Reinstaller"
 
 #: pamac-manager.py:682
 msgid "Install optional deps"
-msgstr "Installer valgfrie depositorier"
+msgstr "Installer valgfrie tilleggspakker"
 
 #: pamac-manager.py:687
 msgid "Mark as explicitly installed"
@@ -318,7 +319,7 @@ msgstr "Installer"
 
 #: pamac-manager.py:702
 msgid "Install with optional deps"
-msgstr "Installer med valgfrie depositorier"
+msgstr "Installer med valgfrie tilleggspakker"
 
 #: pamac-manager.py:1009 pamac-updater.py:214 pamac-install.py:160
 msgid "Pamac is already running"
@@ -365,7 +366,7 @@ msgstr "Forbereder"
 
 #: pamac/transaction.py:94 gui/dialogs.ui:369
 msgid "How often to check for updates, value in hours"
-msgstr "Hvor ofte se etter oppdateringer, verdi i timer"
+msgstr "Hvor ofte skal oppdateringer sees etter, verdi i timer "
 
 #: pamac/transaction.py:192
 #, python-brace-format
@@ -381,7 +382,7 @@ msgstr "Oppfrisker"
 #: pamac/transaction.py:341 pamac/transaction.py:380
 #, python-brace-format
 msgid "{pkgname} depends on {dependname} but it is not installable"
-msgstr "{pkgname} avhenger av {dependname} men den er ikke installerbar"
+msgstr "{pkgname} avhenger av {dependname} men den er ikke mulig å installere"
 
 #: pamac/transaction.py:384
 #, python-brace-format
@@ -403,7 +404,7 @@ msgstr "Ser etter oppdateringer"
 
 #: pamac/transaction.py:735
 msgid "Transaction Summary"
-msgstr "Transaksjons Oppsummering"
+msgstr "Oppsummering av transaksjonen"
 
 #: pamac/transaction.py:743
 msgid "To downgrade"
@@ -441,7 +442,7 @@ msgstr "Opphavsrett © 2013 Guillaume Benoit"
 
 #: gui/manager.ui:14
 msgid "A gtk3 frontend for pyalpm"
-msgstr "En gtk3 frontende for pyalpm"
+msgstr "En gtk3 frontend for pyalpm"
 
 #: gui/manager.ui:44
 msgid "Pamac History"
@@ -453,7 +454,7 @@ msgstr "Vis Historie"
 
 #: gui/manager.ui:170 gui/manager.ui:212
 msgid "Install local packages"
-msgstr "Installere lokale pakker"
+msgstr "Installer lokale pakker"
 
 #: gui/manager.ui:344
 msgid "Refresh"
@@ -537,13 +538,13 @@ msgstr "Tillat Pamac å søke og installere pakker fra AUR"
 
 #: gui/dialogs.ui:333
 msgid "Remove unrequired dependencies"
-msgstr "Fjern unødige avhengigheter"
+msgstr "Fjern avhengige pakker som er unødvendige"
 
 #: gui/dialogs.ui:337
 msgid ""
 "When removing a package, also remove those dependencies that are not "
 "required by other packages"
-msgstr "Når du fjerner en pakke, fjern også de avhengigheter som ikke er nødvendige av andre pakker"
+msgstr "Når du fjerner en pakke, så fjern også de avhengige pakkene som ikke brukes av andre pakker"
 
 #: gui/dialogs.ui:396
 msgid "Options"

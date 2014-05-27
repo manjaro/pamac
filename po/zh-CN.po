@@ -4,13 +4,14 @@
 # Guillaume Benoit <guillaume@manjaro.org>, 2013-2014.
 # 
 # Translators:
+# Daetalus <daetalusun@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-03-30 15:09+0100\n"
-"PO-Revision-Date: 2014-03-05 22:14+0000\n"
-"Last-Translator: manjarolinux <philm@manjaro.org>\n"
+"PO-Revision-Date: 2014-05-24 02:35+0000\n"
+"Last-Translator: Daetalus <daetalusun@gmail.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/projects/p/manjaro-pamac/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20,534 +21,534 @@ msgstr ""
 
 #: data/polkit/org.manjaro.pamac.policy:10
 msgid "Authentication is required"
-msgstr ""
+msgstr "需要验证"
 
 #: pamac-daemon.py:162
 msgid "Checking dependencies"
-msgstr ""
+msgstr "正在检查依赖关系"
 
 #: pamac-daemon.py:170
 msgid "Checking file conflicts"
-msgstr ""
+msgstr "正在检查文件冲突"
 
 #: pamac-daemon.py:176
 msgid "Resolving dependencies"
-msgstr ""
+msgstr "正在解决依赖关系"
 
 #: pamac-daemon.py:184
 msgid "Checking inter conflicts"
-msgstr ""
+msgstr "正在检查其中的冲突"
 
 #: pamac-daemon.py:192
 #, python-brace-format
 msgid "Installing {pkgname}"
-msgstr ""
+msgstr "正在安装 {pkgname}"
 
 #: pamac-daemon.py:200
 #, python-brace-format
 msgid "Removing {pkgname}"
-msgstr ""
+msgstr "正在卸载 {pkgname}"
 
 #: pamac-daemon.py:208
 #, python-brace-format
 msgid "Upgrading {pkgname}"
-msgstr ""
+msgstr "正在升级 {pkgname}"
 
 #: pamac-daemon.py:216
 #, python-brace-format
 msgid "Downgrading {pkgname}"
-msgstr ""
+msgstr "正在降级 {pkgname}"
 
 #: pamac-daemon.py:224
 #, python-brace-format
 msgid "Reinstalling {pkgname}"
-msgstr ""
+msgstr "正在重新安装 {pkgname}"
 
 #: pamac-daemon.py:232
 msgid "Checking integrity"
-msgstr ""
+msgstr "正在检查完整性"
 
 #: pamac-daemon.py:239
 msgid "Loading packages files"
-msgstr ""
+msgstr "正在载入包文件"
 
 #: pamac-daemon.py:245
 msgid "Checking delta integrity"
-msgstr ""
+msgstr "正在检查增量完整性"
 
 #: pamac-daemon.py:251
 msgid "Applying deltas"
-msgstr ""
+msgstr "正在应用增量"
 
 #: pamac-daemon.py:257
 msgid "Generating {} with {}"
-msgstr ""
+msgstr "正在生产 {} （使用 {} ）"
 
 #: pamac-daemon.py:261
 msgid "Generation succeeded!"
-msgstr ""
+msgstr "生成成功！"
 
 #: pamac-daemon.py:264
 msgid "Generation failed."
-msgstr ""
+msgstr "生成失败！"
 
 #: pamac-daemon.py:267
 #, python-brace-format
 msgid "Configuring {pkgname}"
-msgstr ""
+msgstr "正在配置 {pkgname}"
 
 #: pamac-daemon.py:272
 msgid "Downloading"
-msgstr ""
+msgstr "正在下载"
 
 #: pamac-daemon.py:276
 msgid "Checking available disk space"
-msgstr ""
+msgstr "正在检查可用磁盘空间"
 
 #: pamac-daemon.py:286
 msgid "Checking keyring"
-msgstr ""
+msgstr "正在检查密钥环"
 
 #: pamac-daemon.py:292
 msgid "Downloading required keys"
-msgstr ""
+msgstr "正在下载所需密钥"
 
 #: pamac-daemon.py:311
 #, python-brace-format
 msgid "{pkgname1} will be replaced by {pkgname2}"
-msgstr ""
+msgstr "{pkgname1} 将会被 {pkgname2} 替换"
 
 #: pamac-daemon.py:314
 #, python-brace-format
 msgid "{pkgname1} conflicts with {pkgname2}"
-msgstr ""
+msgstr "{pkgname1} 与 {pkgname2} 冲突"
 
 #: pamac-daemon.py:339
 msgid "Error: "
-msgstr ""
+msgstr "错误："
 
 #: pamac-daemon.py:345
 msgid "Warning: "
-msgstr ""
+msgstr "警告："
 
 #: pamac-daemon.py:359
 #, python-brace-format
 msgid "Refreshing {repo}"
-msgstr ""
+msgstr "正在更新 {repo}"
 
 #: pamac-daemon.py:363 pamac/transaction.py:608
 #, python-brace-format
 msgid "Downloading {pkgname}"
-msgstr ""
+msgstr "正在下载 {pkgname}"
 
 #: pamac-daemon.py:427 pamac-daemon.py:439 pamac-daemon.py:762
 #: pamac-daemon.py:770 pamac-daemon.py:793 pamac-daemon.py:827
 msgid "Authentication failed"
-msgstr ""
+msgstr "验证失败"
 
 #: pamac-daemon.py:572 pamac-install.py:127
 #, python-brace-format
 msgid "{pkgname} is not a valid path or package name"
-msgstr ""
+msgstr "{pkgname} 不是一个正确的路径或软件包名称"
 
 #: pamac-daemon.py:685
 #, python-brace-format
 msgid ""
 "The transaction cannot be performed because it needs to remove {pkgname1} "
 "which is a locked package"
-msgstr ""
+msgstr "由于需要移除的 {pkgname1} 软件包已被锁定。所以无法执行相关事件。"
 
 #: pamac-daemon.py:695 pamac/transaction.py:449
 msgid "Nothing to do"
-msgstr ""
+msgstr "无需做任何事"
 
 #: pamac-daemon.py:757
 msgid "Transaction successfully finished"
-msgstr ""
+msgstr "事件处理成功完成"
 
 #: pamac-manager.py:103 pamac-manager.py:134 pamac-manager.py:135
 #: pamac-manager.py:150 pamac-manager.py:159 pamac-manager.py:180
 #: pamac-manager.py:305 pamac-manager.py:657 pamac-manager.py:715
 #: pamac-manager.py:785
 msgid "No package found"
-msgstr ""
+msgstr "未发现软件包"
 
 #: pamac-manager.py:204 pamac-manager.py:266
 msgid "local"
-msgstr ""
+msgstr "本地"
 
 #: pamac-manager.py:208 pamac-manager.py:249 pamac-manager.py:371
 msgid "Installed"
-msgstr ""
+msgstr "已安装"
 
 #: pamac-manager.py:208 pamac-manager.py:252
 msgid "Uninstalled"
-msgstr ""
+msgstr "已卸载"
 
 #: pamac-manager.py:208 pamac-manager.py:255
 msgid "Orphans"
-msgstr ""
+msgstr "孤儿包"
 
 #: pamac-manager.py:208 pamac-manager.py:227 pamac/transaction.py:757
 msgid "To install"
-msgstr ""
+msgstr "安装"
 
 #: pamac-manager.py:208 pamac-manager.py:238 pamac/transaction.py:737
 msgid "To remove"
-msgstr ""
+msgstr "卸载"
 
 #: pamac-manager.py:361
 msgid "Licenses"
-msgstr ""
+msgstr "许可"
 
 #: pamac-manager.py:366
 msgid "Depends On"
-msgstr ""
+msgstr "依赖于"
 
 #: pamac-manager.py:374
 msgid "Optional Deps"
-msgstr ""
+msgstr "可选的依赖"
 
 #: pamac-manager.py:377
 msgid "Required By"
-msgstr ""
+msgstr "被后者依赖："
 
 #: pamac-manager.py:379
 msgid "Provides"
-msgstr ""
+msgstr "提供"
 
 #: pamac-manager.py:381
 msgid "Replaces"
-msgstr ""
+msgstr "替换"
 
 #: pamac-manager.py:383
 msgid "Conflicts With"
-msgstr ""
+msgstr "与后者冲突："
 
 #: pamac-manager.py:388
 msgid "Repository"
-msgstr ""
+msgstr "软件仓库"
 
 #: pamac-manager.py:390 gui/manager.ui:557
 msgid "Groups"
-msgstr ""
+msgstr "组"
 
 #: pamac-manager.py:392
 msgid "Compressed Size"
-msgstr ""
+msgstr "压缩后大小"
 
 #: pamac-manager.py:393
 msgid "Download Size"
-msgstr ""
+msgstr "下载大小"
 
 #: pamac-manager.py:395
 msgid "Installed Size"
-msgstr ""
+msgstr "安装后大小"
 
 #: pamac-manager.py:396
 msgid "Packager"
-msgstr ""
+msgstr "打包者"
 
 #: pamac-manager.py:397
 msgid "Architecture"
-msgstr ""
+msgstr "架构"
 
 #: pamac-manager.py:400
 msgid "Install Date"
-msgstr ""
+msgstr "安装日期"
 
 #: pamac-manager.py:402
 msgid "Explicitly installed"
-msgstr ""
+msgstr "单独指定安装"
 
 #: pamac-manager.py:404
 msgid "Installed as a dependency for another package"
-msgstr ""
+msgstr "作为另一个软件包的依赖而安装"
 
 #: pamac-manager.py:406
 msgid "Unknown"
-msgstr ""
+msgstr "未知"
 
 #: pamac-manager.py:407
 msgid "Install Reason"
-msgstr ""
+msgstr "安装原因"
 
 #: pamac-manager.py:412
 msgid "Signatures"
-msgstr ""
+msgstr "签名"
 
 #: pamac-manager.py:416
 msgid "Backup files"
-msgstr ""
+msgstr "备份文件"
 
 #: pamac-manager.py:597
 #, python-brace-format
 msgid ""
 "{pkgname} has {number} uninstalled optional deps.\n"
 "Please choose those you would like to install:"
-msgstr ""
+msgstr "{pkgname} 有 {number} 个未安装的可选依赖。\n请在其中选择想要安装的依赖："
 
 #: pamac-manager.py:660
 msgid "Deselect"
-msgstr ""
+msgstr "取消选择"
 
 #: pamac-manager.py:665
 msgid "Remove"
-msgstr ""
+msgstr "移除"
 
 #: pamac-manager.py:671
 msgid "Reinstall"
-msgstr ""
+msgstr "重新安装"
 
 #: pamac-manager.py:682
 msgid "Install optional deps"
-msgstr ""
+msgstr "安装可选依赖"
 
 #: pamac-manager.py:687
 msgid "Mark as explicitly installed"
-msgstr ""
+msgstr "标记为单独指定安装"
 
 #: pamac-manager.py:691
 msgid "Install"
-msgstr ""
+msgstr "安装"
 
 #: pamac-manager.py:702
 msgid "Install with optional deps"
-msgstr ""
+msgstr "与可选依赖一起安装"
 
 #: pamac-manager.py:1009 pamac-updater.py:214 pamac-install.py:160
 msgid "Pamac is already running"
-msgstr ""
+msgstr "Pamac已经运行"
 
 #: pamac-updater.py:44 pamac-updater.py:59 pamac-tray.py:40
 msgid "Your system is up-to-date"
-msgstr ""
+msgstr "系统为最新状态"
 
 #: pamac-updater.py:74 pamac/transaction.py:787
 msgid "Total download size:"
-msgstr ""
+msgstr "总下载大小："
 
 #: pamac-updater.py:76 pamac-tray.py:38
 msgid "1 available update"
-msgstr ""
+msgstr "1个可用更新"
 
 #: pamac-updater.py:78 pamac-tray.py:37
 #, python-brace-format
 msgid "{number} available updates"
-msgstr ""
+msgstr "{number} 个可用更新"
 
 #: pamac-tray.py:50 pamac-tray.py:126 pamac-tray.py:148 gui/updater.ui:24
 msgid "Update Manager"
-msgstr ""
+msgstr "更新管理器"
 
 #: pamac-tray.py:54 gui/manager.ui:324
 msgid "Package Manager"
-msgstr ""
+msgstr "软件包管理器"
 
 #: pamac-tray.py:58
 msgid "Quit"
-msgstr ""
+msgstr "退出"
 
 #: pamac-install.py:66
 msgid ""
 "Some updates are available.\n"
 "Please update your system first"
-msgstr ""
+msgstr "有可用更新。\n请先更新您的系统"
 
 #: pamac-install.py:72 pamac/transaction.py:406 pamac/transaction.py:799
 msgid "Preparing"
-msgstr ""
+msgstr "准备中"
 
 #: pamac/transaction.py:94 gui/dialogs.ui:369
 msgid "How often to check for updates, value in hours"
-msgstr ""
+msgstr "检查更新的频率，单位为小时"
 
 #: pamac/transaction.py:192
 #, python-brace-format
 msgid ""
 "{pkgname} is provided by {number} packages.\n"
 "Please choose those you would like to install:"
-msgstr ""
+msgstr "有 {number} 个软件包可提供 {pkgname} 。\n请选择您希望安装的软件包："
 
 #: pamac/transaction.py:257
 msgid "Refreshing"
-msgstr ""
+msgstr "正在刷新"
 
 #: pamac/transaction.py:341 pamac/transaction.py:380
 #, python-brace-format
 msgid "{pkgname} depends on {dependname} but it is not installable"
-msgstr ""
+msgstr "{pkgname} 依赖 {dependname}，但无法安装 {dependname}"
 
 #: pamac/transaction.py:384
 #, python-brace-format
 msgid "Failed to get {pkgname} archive from AUR"
-msgstr ""
+msgstr "从AUR获取 {pkgname} 存档失败"
 
 #: pamac/transaction.py:552 pamac/transaction.py:558
 msgid "Build process failed."
-msgstr ""
+msgstr "构建过程失败"
 
 #: pamac/transaction.py:644
 #, python-brace-format
 msgid "Building {pkgname}"
-msgstr ""
+msgstr "正在构建 {pkgname}"
 
 #: pamac/transaction.py:685
 msgid "Checking for updates"
-msgstr ""
+msgstr "正在检查更新"
 
 #: pamac/transaction.py:735
 msgid "Transaction Summary"
-msgstr ""
+msgstr "事件处理概要"
 
 #: pamac/transaction.py:743
 msgid "To downgrade"
-msgstr ""
+msgstr "降级"
 
 #: pamac/transaction.py:751
 msgid "To build"
-msgstr ""
+msgstr "构建"
 
 #: pamac/transaction.py:765
 msgid "To reinstall"
-msgstr ""
+msgstr "重新安装"
 
 #: pamac/transaction.py:774
 msgid "To update"
-msgstr ""
+msgstr "更新"
 
 #: pamac/common.py:30
 #, python-format
 msgid "%.1f KiB"
-msgstr ""
+msgstr "%.1f KB"
 
 #: pamac/common.py:33
 #, python-format
 msgid "%.2f MiB"
-msgstr ""
+msgstr "%.2f MB"
 
 #: gui/manager.ui:8
 msgid "About Pamac"
-msgstr ""
+msgstr "关于Pamac"
 
 #: gui/manager.ui:13
 msgid "Copyright © 2013 Guillaume Benoit"
-msgstr ""
+msgstr "Copyright © 2013 Guillaume Benoit"
 
 #: gui/manager.ui:14
 msgid "A gtk3 frontend for pyalpm"
-msgstr ""
+msgstr "pyalpm的gtk3前端"
 
 #: gui/manager.ui:44
 msgid "Pamac History"
-msgstr ""
+msgstr "Pamac历史记录"
 
 #: gui/manager.ui:160
 msgid "View History"
-msgstr ""
+msgstr "查看历史记录"
 
 #: gui/manager.ui:170 gui/manager.ui:212
 msgid "Install local packages"
-msgstr ""
+msgstr "安装本地软件包"
 
 #: gui/manager.ui:344
 msgid "Refresh"
-msgstr ""
+msgstr "刷新"
 
 #: gui/manager.ui:362
 msgid "Apply changes"
-msgstr ""
+msgstr "应用更改"
 
 #: gui/manager.ui:380
 msgid "Cancel"
-msgstr ""
+msgstr "取消"
 
 #: gui/manager.ui:453
 msgid "Search in AUR"
-msgstr ""
+msgstr "在AUR中搜索"
 
 #: gui/manager.ui:511
 msgid "Search"
-msgstr ""
+msgstr "搜索"
 
 #: gui/manager.ui:604 gui/manager.ui:696
 msgid "State"
-msgstr ""
+msgstr "状态"
 
 #: gui/manager.ui:651
 msgid "Repos"
-msgstr ""
+msgstr "软件仓库"
 
 #: gui/manager.ui:709
 msgid "Name"
-msgstr ""
+msgstr "名称"
 
 #: gui/manager.ui:722
 msgid "Version"
-msgstr ""
+msgstr "版本"
 
 #: gui/manager.ui:735
 msgid "Repo"
-msgstr ""
+msgstr "软件仓库"
 
 #: gui/manager.ui:748
 msgid "Size"
-msgstr ""
+msgstr "大小"
 
 #: gui/manager.ui:850
 msgid "Infos"
-msgstr ""
+msgstr "信息"
 
 #: gui/manager.ui:914
 msgid "Deps"
-msgstr ""
+msgstr "依赖"
 
 #: gui/manager.ui:983
 msgid "Details"
-msgstr ""
+msgstr "详情"
 
 #: gui/manager.ui:1012
 msgid "Files"
-msgstr ""
+msgstr "文件"
 
 #: gui/dialogs.ui:70
 msgid "Progress"
-msgstr ""
+msgstr "进度"
 
 #: gui/dialogs.ui:162
 msgid "details"
-msgstr ""
+msgstr "详情"
 
 #: gui/dialogs.ui:292
 msgid "Pamac Preferences"
-msgstr ""
+msgstr "Pamac首选项"
 
 #: gui/dialogs.ui:316
 msgid "Enable AUR support"
-msgstr ""
+msgstr "启用AUR支持"
 
 #: gui/dialogs.ui:320
 msgid "Allow Pamac to search and install packages from AUR"
-msgstr ""
+msgstr "允许Pamac从AUR中搜索并安装软件包"
 
 #: gui/dialogs.ui:333
 msgid "Remove unrequired dependencies"
-msgstr ""
+msgstr "移除不需要的依赖"
 
 #: gui/dialogs.ui:337
 msgid ""
 "When removing a package, also remove those dependencies that are not "
 "required by other packages"
-msgstr ""
+msgstr "移除软件包时，也移除该软件包需要，但其他软件包不需要的依赖"
 
 #: gui/dialogs.ui:396
 msgid "Options"
-msgstr ""
+msgstr "选项"
 
 #: gui/dialogs.ui:465
 msgid "Choose"
-msgstr ""
+msgstr "选择"
 
 #: gui/dialogs.ui:579
 msgid "Summary"
-msgstr ""
+msgstr "汇总"
