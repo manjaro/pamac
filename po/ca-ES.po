@@ -4,533 +4,531 @@
 # Guillaume Benoit <guillaume@manjaro.org>, 2013-2014.
 # 
 # Translators:
-# GenghisKhan <genghiskhan@gmx.ca>, 2013-2014
-# DirectorX <kassavlt@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-03-30 15:09+0100\n"
-"PO-Revision-Date: 2014-06-08 08:01+0000\n"
-"Last-Translator: DirectorX <kassavlt@gmail.com>\n"
-"Language-Team: Hebrew (http://www.transifex.com/projects/p/manjaro-pamac/language/he/)\n"
+"PO-Revision-Date: 2013-04-16 23:37+0000\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Catalan (Spain) (http://www.transifex.com/projects/p/manjaro-pamac/language/ca_ES/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: he\n"
+"Language: ca_ES\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: data/polkit/org.manjaro.pamac.policy:10
 msgid "Authentication is required"
-msgstr "דרוש אימות"
+msgstr ""
 
 #: pamac-daemon.py:162
 msgid "Checking dependencies"
-msgstr "כעת בוחן תלויות"
+msgstr ""
 
 #: pamac-daemon.py:170
 msgid "Checking file conflicts"
-msgstr "כעת בוחן התנגשויות קובץ"
+msgstr ""
 
 #: pamac-daemon.py:176
 msgid "Resolving dependencies"
-msgstr "כעת פותר תלויות"
+msgstr ""
 
 #: pamac-daemon.py:184
 msgid "Checking inter conflicts"
-msgstr "כעת בוחן התנגשויות פנימיות"
+msgstr ""
 
 #: pamac-daemon.py:192
 #, python-brace-format
 msgid "Installing {pkgname}"
-msgstr "כעת מתקין את {pkgname}"
+msgstr ""
 
 #: pamac-daemon.py:200
 #, python-brace-format
 msgid "Removing {pkgname}"
-msgstr "כעת מסיר את {pkgname}"
+msgstr ""
 
 #: pamac-daemon.py:208
 #, python-brace-format
 msgid "Upgrading {pkgname}"
-msgstr "כעת משדרג את {pkgname}"
+msgstr ""
 
 #: pamac-daemon.py:216
 #, python-brace-format
 msgid "Downgrading {pkgname}"
-msgstr "כעת מנמיך את {pkgname}"
+msgstr ""
 
 #: pamac-daemon.py:224
 #, python-brace-format
 msgid "Reinstalling {pkgname}"
-msgstr "כעת מתקין מחדש את {pkgname}"
+msgstr ""
 
 #: pamac-daemon.py:232
 msgid "Checking integrity"
-msgstr "כעת בוחן שלמות"
+msgstr ""
 
 #: pamac-daemon.py:239
 msgid "Loading packages files"
-msgstr "כעת טוען קבצי חבילות"
+msgstr ""
 
 #: pamac-daemon.py:245
 msgid "Checking delta integrity"
-msgstr "כעת בוחן שלמות דלתא"
+msgstr ""
 
 #: pamac-daemon.py:251
 msgid "Applying deltas"
-msgstr "כעת מחיל דלתא"
+msgstr ""
 
 #: pamac-daemon.py:257
 msgid "Generating {} with {}"
-msgstr "כעת מחולל {} בעזרת {}"
+msgstr ""
 
 #: pamac-daemon.py:261
 msgid "Generation succeeded!"
-msgstr "הפקה צלחה!"
+msgstr ""
 
 #: pamac-daemon.py:264
 msgid "Generation failed."
-msgstr "הפקה כשלה."
+msgstr ""
 
 #: pamac-daemon.py:267
 #, python-brace-format
 msgid "Configuring {pkgname}"
-msgstr "כעת מגדיר את {pkgname}"
+msgstr ""
 
 #: pamac-daemon.py:272
 msgid "Downloading"
-msgstr "כעת מוריד"
+msgstr ""
 
 #: pamac-daemon.py:276
 msgid "Checking available disk space"
-msgstr "כעת בוחן נפח כונן זמין"
+msgstr ""
 
 #: pamac-daemon.py:286
 msgid "Checking keyring"
-msgstr "כעת בוחן מחזיק מפתחות"
+msgstr ""
 
 #: pamac-daemon.py:292
 msgid "Downloading required keys"
-msgstr "כעת מוריד מפתחות נדרשות"
+msgstr ""
 
 #: pamac-daemon.py:311
 #, python-brace-format
 msgid "{pkgname1} will be replaced by {pkgname2}"
-msgstr "‏{pkgname1} תוחלף עם {pkgname2}"
+msgstr ""
 
 #: pamac-daemon.py:314
 #, python-brace-format
 msgid "{pkgname1} conflicts with {pkgname2}"
-msgstr "‏{pkgname1} מתנגשת עם {pkgname2}"
+msgstr ""
 
 #: pamac-daemon.py:339
 msgid "Error: "
-msgstr "שגיאה:"
+msgstr ""
 
 #: pamac-daemon.py:345
 msgid "Warning: "
-msgstr "אזהרה:"
+msgstr ""
 
 #: pamac-daemon.py:359
 #, python-brace-format
 msgid "Refreshing {repo}"
-msgstr "כעת מרענן את {repo}"
+msgstr ""
 
 #: pamac-daemon.py:363 pamac/transaction.py:608
 #, python-brace-format
 msgid "Downloading {pkgname}"
-msgstr "כעת מוריד את {pkgname}"
+msgstr ""
 
 #: pamac-daemon.py:427 pamac-daemon.py:439 pamac-daemon.py:762
 #: pamac-daemon.py:770 pamac-daemon.py:793 pamac-daemon.py:827
 msgid "Authentication failed"
-msgstr "אימות נכשל"
+msgstr ""
 
 #: pamac-daemon.py:572 pamac-install.py:127
 #, python-brace-format
 msgid "{pkgname} is not a valid path or package name"
-msgstr "‏{pkgname} אינה נתיב תקף או שם חבילה"
+msgstr ""
 
 #: pamac-daemon.py:685
 #, python-brace-format
 msgid ""
 "The transaction cannot be performed because it needs to remove {pkgname1} "
 "which is a locked package"
-msgstr "אין אפשרות לבצע את הטרנזקציה מכיוון שזו צריכה להסיר את {pkgname1} שהיא חבילה נעולה"
+msgstr ""
 
 #: pamac-daemon.py:695 pamac/transaction.py:449
 msgid "Nothing to do"
-msgstr "אין מה לעשות"
+msgstr ""
 
 #: pamac-daemon.py:757
 msgid "Transaction successfully finished"
-msgstr "טרנזקציה הסתיימה בהצלחה"
+msgstr ""
 
 #: pamac-manager.py:103 pamac-manager.py:134 pamac-manager.py:135
 #: pamac-manager.py:150 pamac-manager.py:159 pamac-manager.py:180
 #: pamac-manager.py:305 pamac-manager.py:657 pamac-manager.py:715
 #: pamac-manager.py:785
 msgid "No package found"
-msgstr "לא נמצאה חבילה"
+msgstr ""
 
 #: pamac-manager.py:204 pamac-manager.py:266
 msgid "local"
-msgstr "מקומית"
+msgstr ""
 
 #: pamac-manager.py:208 pamac-manager.py:249 pamac-manager.py:371
 msgid "Installed"
-msgstr "מותקנות"
+msgstr ""
 
 #: pamac-manager.py:208 pamac-manager.py:252
 msgid "Uninstalled"
-msgstr "לא מותקנות"
+msgstr ""
 
 #: pamac-manager.py:208 pamac-manager.py:255
 msgid "Orphans"
-msgstr "יתומות"
+msgstr ""
 
 #: pamac-manager.py:208 pamac-manager.py:227 pamac/transaction.py:757
 msgid "To install"
-msgstr "להתקנה"
+msgstr ""
 
 #: pamac-manager.py:208 pamac-manager.py:238 pamac/transaction.py:737
 msgid "To remove"
-msgstr "להסרה"
+msgstr ""
 
 #: pamac-manager.py:361
 msgid "Licenses"
-msgstr "רשיונות"
+msgstr ""
 
 #: pamac-manager.py:366
 msgid "Depends On"
-msgstr "תלויה על"
+msgstr ""
 
 #: pamac-manager.py:374
 msgid "Optional Deps"
-msgstr "תלויות רשות"
+msgstr ""
 
 #: pamac-manager.py:377
 msgid "Required By"
-msgstr "מחויבת על ידי"
+msgstr ""
 
 #: pamac-manager.py:379
 msgid "Provides"
-msgstr "מספקת"
+msgstr ""
 
 #: pamac-manager.py:381
 msgid "Replaces"
-msgstr "מחליפה"
+msgstr ""
 
 #: pamac-manager.py:383
 msgid "Conflicts With"
-msgstr "מתנגשת עם"
+msgstr ""
 
 #: pamac-manager.py:388
 msgid "Repository"
-msgstr "מאגר"
+msgstr ""
 
 #: pamac-manager.py:390 gui/manager.ui:557
 msgid "Groups"
-msgstr "קבוצה"
+msgstr ""
 
 #: pamac-manager.py:392
 msgid "Compressed Size"
-msgstr "גודל מכווץ"
+msgstr ""
 
 #: pamac-manager.py:393
 msgid "Download Size"
-msgstr "גודל הורדה"
+msgstr ""
 
 #: pamac-manager.py:395
 msgid "Installed Size"
-msgstr "גודל מותקן"
+msgstr ""
 
 #: pamac-manager.py:396
 msgid "Packager"
-msgstr "אורז"
+msgstr ""
 
 #: pamac-manager.py:397
 msgid "Architecture"
-msgstr "ארכיטקטורה"
+msgstr ""
 
 #: pamac-manager.py:400
 msgid "Install Date"
-msgstr "תאריך התקנה"
+msgstr ""
 
 #: pamac-manager.py:402
 msgid "Explicitly installed"
-msgstr "מותקנת בברור"
+msgstr ""
 
 #: pamac-manager.py:404
 msgid "Installed as a dependency for another package"
-msgstr "מותקנת כתלות עבור חבילה אחרת"
+msgstr ""
 
 #: pamac-manager.py:406
 msgid "Unknown"
-msgstr "לא ידוע"
+msgstr ""
 
 #: pamac-manager.py:407
 msgid "Install Reason"
-msgstr "סיבת התקנה"
+msgstr ""
 
 #: pamac-manager.py:412
 msgid "Signatures"
-msgstr "חתימות"
+msgstr ""
 
 #: pamac-manager.py:416
 msgid "Backup files"
-msgstr "קבצי גיבוי"
+msgstr ""
 
 #: pamac-manager.py:597
 #, python-brace-format
 msgid ""
 "{pkgname} has {number} uninstalled optional deps.\n"
 "Please choose those you would like to install:"
-msgstr "לחבילה {pkgname} יש {number} תלויות רשות לא מותקנות.\nאנא בחר את אלה אשר ברצונך להתקין:"
+msgstr ""
 
 #: pamac-manager.py:660
 msgid "Deselect"
-msgstr "בטל בחירה"
+msgstr ""
 
 #: pamac-manager.py:665
 msgid "Remove"
-msgstr "הסר"
+msgstr ""
 
 #: pamac-manager.py:671
 msgid "Reinstall"
-msgstr "התקן שוב"
+msgstr ""
 
 #: pamac-manager.py:682
 msgid "Install optional deps"
-msgstr "התקן תלויות רשות"
+msgstr ""
 
 #: pamac-manager.py:687
 msgid "Mark as explicitly installed"
-msgstr "סמן בתור מותקנת בברור"
+msgstr ""
 
 #: pamac-manager.py:691
 msgid "Install"
-msgstr "התקן"
+msgstr ""
 
 #: pamac-manager.py:702
 msgid "Install with optional deps"
-msgstr "התקן עם תלויות רשות"
+msgstr ""
 
 #: pamac-manager.py:1009 pamac-updater.py:214 pamac-install.py:160
 msgid "Pamac is already running"
-msgstr "‏Pamac כבר מורץ כעת"
+msgstr ""
 
 #: pamac-updater.py:44 pamac-updater.py:59 pamac-tray.py:40
 msgid "Your system is up-to-date"
-msgstr "המערכת שלך מעודכנת"
+msgstr ""
 
 #: pamac-updater.py:74 pamac/transaction.py:787
 msgid "Total download size:"
-msgstr "גודל הורדה כולל:"
+msgstr ""
 
 #: pamac-updater.py:76 pamac-tray.py:38
 msgid "1 available update"
-msgstr "עדכון 1 זמין"
+msgstr ""
 
 #: pamac-updater.py:78 pamac-tray.py:37
 #, python-brace-format
 msgid "{number} available updates"
-msgstr "{number} עדכונים זמינים"
+msgstr ""
 
 #: pamac-tray.py:50 pamac-tray.py:126 pamac-tray.py:148 gui/updater.ui:24
 msgid "Update Manager"
-msgstr "מנהל עדכונים"
+msgstr ""
 
 #: pamac-tray.py:54 gui/manager.ui:324
 msgid "Package Manager"
-msgstr "מנהל חבילה"
+msgstr ""
 
 #: pamac-tray.py:58
 msgid "Quit"
-msgstr "יציאה"
+msgstr ""
 
 #: pamac-install.py:66
 msgid ""
 "Some updates are available.\n"
 "Please update your system first"
-msgstr "עדכונים מסוימים זמינים כעת.\nאנא עדכן תחילה את מערכתך"
+msgstr ""
 
 #: pamac-install.py:72 pamac/transaction.py:406 pamac/transaction.py:799
 msgid "Preparing"
-msgstr "כעת מתכונן"
+msgstr ""
 
 #: pamac/transaction.py:94 gui/dialogs.ui:369
 msgid "How often to check for updates, value in hours"
-msgstr "מהי תדירות בדיקת העדכונים, בשעות"
+msgstr ""
 
 #: pamac/transaction.py:192
 #, python-brace-format
 msgid ""
 "{pkgname} is provided by {number} packages.\n"
 "Please choose those you would like to install:"
-msgstr "‏{pkgname} הינה מסופקת על ידי {number} חבילות.\nאנא בחר את אלה אשר ברצונך להתקין:"
+msgstr ""
 
 #: pamac/transaction.py:257
 msgid "Refreshing"
-msgstr "כעת מרענן"
+msgstr ""
 
 #: pamac/transaction.py:341 pamac/transaction.py:380
 #, python-brace-format
 msgid "{pkgname} depends on {dependname} but it is not installable"
-msgstr "‏{pkgname} תלויה על {dependname} אך זו לא מותקנת"
+msgstr ""
 
 #: pamac/transaction.py:384
 #, python-brace-format
 msgid "Failed to get {pkgname} archive from AUR"
-msgstr "נכשל להשיג ארכיון {pkgname} מתוך AUR"
+msgstr ""
 
 #: pamac/transaction.py:552 pamac/transaction.py:558
 msgid "Build process failed."
-msgstr "תהליך בנייה נכשל."
+msgstr ""
 
 #: pamac/transaction.py:644
 #, python-brace-format
 msgid "Building {pkgname}"
-msgstr "כעת בונה את {pkgname}"
+msgstr ""
 
 #: pamac/transaction.py:685
 msgid "Checking for updates"
-msgstr "כעת בוחן עדכונים"
+msgstr ""
 
 #: pamac/transaction.py:735
 msgid "Transaction Summary"
-msgstr "סיכום טרנזקציה"
+msgstr ""
 
 #: pamac/transaction.py:743
 msgid "To downgrade"
-msgstr "להנמכה"
+msgstr ""
 
 #: pamac/transaction.py:751
 msgid "To build"
-msgstr "לבניה"
+msgstr ""
 
 #: pamac/transaction.py:765
 msgid "To reinstall"
-msgstr "להתקנה חוזרת"
+msgstr ""
 
 #: pamac/transaction.py:774
 msgid "To update"
-msgstr "לשדרוג"
+msgstr ""
 
 #: pamac/common.py:30
 #, python-format
 msgid "%.1f KiB"
-msgstr "%.1f קי״ב"
+msgstr ""
 
 #: pamac/common.py:33
 #, python-format
 msgid "%.2f MiB"
-msgstr "%.2f מי״ב"
+msgstr ""
 
 #: gui/manager.ui:8
 msgid "About Pamac"
-msgstr "אודות Pamac"
+msgstr ""
 
 #: gui/manager.ui:13
 msgid "Copyright © 2013 Guillaume Benoit"
-msgstr "זכויות יוצרים © 2013 Guillaume Benoit"
+msgstr ""
 
 #: gui/manager.ui:14
 msgid "A gtk3 frontend for pyalpm"
-msgstr "מגשר חזיתי gtk3 עבור pyalpm"
+msgstr ""
 
 #: gui/manager.ui:44
 msgid "Pamac History"
-msgstr "היסטורית Pamac"
+msgstr ""
 
 #: gui/manager.ui:160
 msgid "View History"
-msgstr "צפה בהיסטוריה"
+msgstr ""
 
 #: gui/manager.ui:170 gui/manager.ui:212
 msgid "Install local packages"
-msgstr "התקן חבילות מקומיות"
+msgstr ""
 
 #: gui/manager.ui:344
 msgid "Refresh"
-msgstr "רענן"
+msgstr ""
 
 #: gui/manager.ui:362
 msgid "Apply changes"
-msgstr "החל שינויים"
+msgstr ""
 
 #: gui/manager.ui:380
 msgid "Cancel"
-msgstr "ביטול"
+msgstr ""
 
 #: gui/manager.ui:453
 msgid "Search in AUR"
-msgstr "חפש בתוך AUR"
+msgstr ""
 
 #: gui/manager.ui:511
 msgid "Search"
-msgstr "חיפוש"
+msgstr ""
 
 #: gui/manager.ui:604 gui/manager.ui:696
 msgid "State"
-msgstr "מצב"
+msgstr ""
 
 #: gui/manager.ui:651
 msgid "Repos"
-msgstr "מאגרים"
+msgstr ""
 
 #: gui/manager.ui:709
 msgid "Name"
-msgstr "שם"
+msgstr ""
 
 #: gui/manager.ui:722
 msgid "Version"
-msgstr "גרסא"
+msgstr ""
 
 #: gui/manager.ui:735
 msgid "Repo"
-msgstr "מאגר"
+msgstr ""
 
 #: gui/manager.ui:748
 msgid "Size"
-msgstr "גודל"
+msgstr ""
 
 #: gui/manager.ui:850
 msgid "Infos"
-msgstr "מידע"
+msgstr ""
 
 #: gui/manager.ui:914
 msgid "Deps"
-msgstr "תלויות"
+msgstr ""
 
 #: gui/manager.ui:983
 msgid "Details"
-msgstr "פרטים"
+msgstr ""
 
 #: gui/manager.ui:1012
 msgid "Files"
-msgstr "קבצים"
+msgstr ""
 
 #: gui/dialogs.ui:70
 msgid "Progress"
-msgstr "התקדמות"
+msgstr ""
 
 #: gui/dialogs.ui:162
 msgid "details"
-msgstr "פרטים"
+msgstr ""
 
 #: gui/dialogs.ui:292
 msgid "Pamac Preferences"
-msgstr "העדפות Pamac"
+msgstr ""
 
 #: gui/dialogs.ui:316
 msgid "Enable AUR support"
-msgstr "אפשר תמיכת AUR"
+msgstr ""
 
 #: gui/dialogs.ui:320
 msgid "Allow Pamac to search and install packages from AUR"
-msgstr "אפשר לPamac לחפש ולהתקין חבילות מAUR"
+msgstr ""
 
 #: gui/dialogs.ui:333
 msgid "Remove unrequired dependencies"
@@ -544,12 +542,12 @@ msgstr ""
 
 #: gui/dialogs.ui:396
 msgid "Options"
-msgstr "אפשרויות"
+msgstr ""
 
 #: gui/dialogs.ui:465
 msgid "Choose"
-msgstr "בחר"
+msgstr ""
 
 #: gui/dialogs.ui:579
 msgid "Summary"
-msgstr "סיכום"
+msgstr ""
