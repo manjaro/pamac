@@ -640,7 +640,7 @@ def download(url_list, path):
 def build_next():
 	global build_proc
 	pkg = to_build[0]
-	path = os.path.join(aur.srcpkgdir, pkg.name)
+	path = os.path.join(aur.srcpkgdir, aur.get_name(pkg))
 	new_pkgs = aur.get_pkgs(path + '/PKGBUILD')
 	# sources are identicals for splitted packages
 	# (not complete) download(new_pkgs[0].source, path)

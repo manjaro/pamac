@@ -210,4 +210,12 @@ def get_extract_tarball(pkg):
 				print(e)
 				return None
 			else:
-				return os.path.join(srcpkgdir, pkg.name)
+				return os.path.join(srcpkgdir, get_name(pkg))
+
+def get_name(pkg):
+	# the splitext is to remove the original extension
+	# which is tar.foo - currently foo is gz, but this can change
+	# the rstrip is to remove the trailing tar part.
+	if pkg.name not in pkg.tarpath:
+		return os.path.splitext(os.path.basename(pkg.tarpath))[0].rstrip('.tar')
+	return pkg.name
