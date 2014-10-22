@@ -1,0 +1,927 @@
+/*
+ *  pamac-vala
+ *
+ *  Copyright (C) 2014 Guillaume Benoit <guillaume@manjaro.org>
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a get of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+using Gtk;
+using Alpm;
+
+const string VERSION = "2.0";
+
+namespace Pamac {
+
+	public struct SortInfo {
+		public int column_number;
+		public Gtk.SortType sort_type;
+	}
+
+	[GtkTemplate (ui = "/org/manjaro/pamac/manager/manager_window.ui")]
+	public class ManagerWindow : Gtk.ApplicationWindow {
+		// icons
+		public Gdk.Pixbuf? installed_icon;
+		public Gdk.Pixbuf? uninstalled_icon;
+		public Gdk.Pixbuf? to_install_icon;
+		public Gdk.Pixbuf? to_reinstall_icon;
+		public Gdk.Pixbuf? to_remove_icon;
+		public Gdk.Pixbuf? locked_icon;
+
+		// manager objects
+		[GtkChild]
+		public TreeView packages_treeview;
+		[GtkChild]
+		public TreeViewColumn state_column;
+		[GtkChild]
+		public TreeViewColumn name_column;
+		[GtkChild]
+		public TreeViewColumn version_column;
+		[GtkChild]
+		public TreeViewColumn repo_column;
+		[GtkChild]
+		public TreeViewColumn size_column;
+		[GtkChild]
+		public Notebook filters_notebook;
+		[GtkChild]
+		public SearchEntry search_entry;
+		[GtkChild]
+		public TreeView search_treeview;
+		[GtkChild]
+		public TreeView groups_treeview;
+		[GtkChild]
+		public TreeView states_treeview;
+		[GtkChild]
+		public TreeView repos_treeview;
+		[GtkChild]
+		public TreeView deps_treeview;
+		[GtkChild]
+		public TreeView details_treeview;
+		[GtkChild]
+		public ScrolledWindow deps_scrolledwindow;
+		[GtkChild]
+		public ScrolledWindow details_scrolledwindow;
+		[GtkChild]
+		public ScrolledWindow files_scrolledwindow;
+		[GtkChild]
+		public Label name_label;
+		[GtkChild]
+		public Label desc_label;
+		[GtkChild]
+		public Label link_label;
+		[GtkChild]
+		public Label licenses_label;
+		[GtkChild]
+		public TextView files_textview;
+		[GtkChild]
+		public Switch search_aur_button;
+		[GtkChild]
+		public Button valid_button;
+		[GtkChild]
+		public Button cancel_button;
+
+		public ListStore search_list;
+		public ListStore groups_list;
+		public ListStore states_list;
+		public ListStore repos_list;
+		public ListStore deps_list;
+		public ListStore details_list;
+
+		PackagesModel packages_list;
+		HashTable<string, Json.Array> aur_results;
+
+		public Pamac.Config pamac_config;
+		public Transaction transaction;
+
+		public SortInfo sortinfo;
+
+		//dialogs
+		HistoryDialog history_dialog;
+		PackagesChooserDialog packages_chooser_dialog;
+		PreferencesDialog preferences_dialog;
+
+		public ManagerWindow (Gtk.Application application) {
+			Object (application: application);
+
+			aur_results = new HashTable<string, Json.Array> (str_hash, str_equal);
+
+			search_list = new Gtk.ListStore (1, typeof (string));
+			search_treeview.set_model (search_list);
+			groups_list = new Gtk.ListStore (1, typeof (string));
+			groups_treeview.set_model (groups_list);
+			states_list = new Gtk.ListStore (1, typeof (string));
+			states_treeview.set_model (states_list);
+			repos_list = new Gtk.ListStore (1, typeof (string));
+			repos_treeview.set_model (repos_list);
+			deps_list = new Gtk.ListStore (2, typeof (string), typeof (string));
+			deps_treeview.set_model (deps_list);
+			details_list = new Gtk.ListStore (2, typeof (string), typeof (string));
+			details_treeview.set_model (details_list);;
+
+			try {
+				installed_icon = new Gdk.Pixbuf.from_resource ("/org/manjaro/pamac/manager/package-installed-updated.png");
+				uninstalled_icon = new Gdk.Pixbuf.from_resource ("/org/manjaro/pamac/manager/package-available.png");
+				to_install_icon = new Gdk.Pixbuf.from_resource ("/org/manjaro/pamac/manager/package-install.png");
+				to_reinstall_icon = new Gdk.Pixbuf.from_resource ("/org/manjaro/pamac/manager/package-reinstall.png");
+				to_remove_icon = new Gdk.Pixbuf.from_resource ("/org/manjaro/pamac/manager/package-remove.png");
+				locked_icon = new Gdk.Pixbuf.from_resource ("/org/manjaro/pamac/manager/package-installed-locked.png");
+			} catch (GLib.Error e) {
+				stderr.printf (e.message);
+			}
+
+			pamac_config = new Pamac.Config ("/etc/pamac.conf");
+
+			transaction = new Pamac.Transaction (this as ApplicationWindow, pamac_config);
+			transaction.finished.connect (on_emit_trans_finished);
+
+			history_dialog = new HistoryDialog (this);
+			packages_chooser_dialog = new PackagesChooserDialog (this, transaction);
+			preferences_dialog = new PreferencesDialog (this as ApplicationWindow);
+
+			set_buttons_sensitive (false);
+			search_aur_button.set_active (pamac_config.enable_aur);
+
+			// sort by name by default
+			sortinfo = {0, SortType.ASCENDING};
+			update_lists ();
+		}
+
+		public void enable_aur (bool enable) {
+			search_aur_button.set_active (enable);
+		}
+
+		public void set_buttons_sensitive (bool sensitive) {
+			valid_button.set_sensitive (sensitive);
+			cancel_button.set_sensitive (sensitive);
+		}
+
+		public void update_lists () {
+			Alpm.List <string?> grps = null;
+			TreeIter iter;
+			foreach (unowned DB db in transaction.alpm_config.handle.syncdbs) {
+				repos_list.insert_with_values (out iter, -1, 0, db.name);
+				foreach (unowned Group grp in db.groupcache) {
+					if (grps.find_str (grp.name) == null)
+						grps.add(grp.name);
+				}
+			}
+			repos_list.insert_with_values (out iter, -1, 0, dgettext (null, "local"));
+			foreach (string name in grps)
+				groups_list.insert_with_values (out iter, -1, 0, name);
+			groups_list.set_sort_column_id (0, SortType.ASCENDING);
+			states_list.insert_with_values (out iter, -1, 0, dgettext (null, "Installed"));
+			//states_list.insert_with_values (out iter, -1, 0, dgettext (null, "Uninstalled"));
+			states_list.insert_with_values (out iter, -1, 0, dgettext (null, "Orphans"));
+			states_list.insert_with_values (out iter, -1, 0, dgettext (null, "To install"));
+			states_list.insert_with_values (out iter, -1, 0, dgettext (null, "To remove"));
+		}
+
+		public void set_infos_list (Pamac.Package pkg) {
+			name_label.set_markup ("<big><b>%s  %s</b></big>".printf (pkg.name, pkg.version));
+			// fix &,-,>,< in desc
+			string desc;
+			if (pkg.alpm_pkg != null)
+				desc = pkg.alpm_pkg.desc;
+			else
+				desc = pkg.aur_json.get_string_member ("Description");
+			desc = desc.replace ("&", "&amp;");
+			desc = desc.replace ("<->", "/");
+			desc_label.set_markup (desc);
+			// fix & in url
+			string url;
+			if (pkg.alpm_pkg != null)
+				url = pkg.alpm_pkg.url;
+			else
+				url = pkg.aur_json.get_string_member ("URL");
+			url = url.replace ("&", "&amp;");
+			link_label.set_markup ("<a href=\"%s\">%s</a>".printf (url, url));
+			StringBuilder licenses = new StringBuilder ();
+			licenses.append (dgettext (null, "Licenses"));
+			licenses.append (":");
+			if (pkg.alpm_pkg != null) {
+				foreach (unowned string license in pkg.alpm_pkg.licenses) {
+					licenses.append (" ");
+					licenses.append (license);
+				}
+			} else {
+				licenses.append (" ");
+				licenses.append (pkg.aur_json.get_string_member ("License"));
+			}
+			licenses_label.set_markup (licenses.str);
+		}
+
+		public void set_deps_list (Alpm.Package pkg) {
+			deps_list.clear ();
+			TreeIter iter;
+			unowned Alpm.List<Depend?> list = pkg.depends;
+			size_t len = list.length;
+			size_t i;
+			if (len != 0) {
+				deps_list.insert_with_values (out iter, -1,
+												0, dgettext (null, "Depends On") + ":",
+												1, list.nth (0).get_data ().compute_string ());
+				i = 1;
+				while (i < len) {
+					deps_list.insert_with_values (out iter, -1,
+												1, list.nth (i).get_data ().compute_string ());
+					i++;
+				}
+			}
+			list = pkg.optdepends;
+			len = list.length;
+			if (len != 0) {
+				unowned Depend optdep = list.nth (0).get_data ();
+				unowned Alpm.Package? satisfier = find_satisfier (
+											transaction.alpm_config.handle.localdb.pkgcache,
+											optdep.name);
+				string optdep_str = optdep.compute_string ();
+				if (satisfier != null)
+					optdep_str = optdep_str + " [" + dgettext (null, "Installed") + "]";
+				deps_list.insert_with_values (out iter, -1,
+												0, dgettext (null, "Optional Deps") + ":",
+												1, optdep_str);
+				i = 1;
+				while (i < len) {
+					optdep = list.nth (i).get_data ();
+					satisfier = find_satisfier (
+											transaction.alpm_config.handle.localdb.pkgcache,
+											optdep.name);
+					optdep_str = optdep.compute_string ();
+					if (satisfier != null)
+						optdep_str = optdep_str + " [" + dgettext (null, "Installed") + "]";
+					deps_list.insert_with_values (out iter, -1, 1, optdep_str);
+					i++;
+				}
+			}
+			if (pkg.origin == PkgFrom.LOCALDB) {
+				unowned Alpm.List<string?> str_list = pkg.compute_requiredby ();
+				len = str_list.length;
+				if (len != 0) {
+					deps_list.insert_with_values (out iter, -1,
+													0, dgettext (null, "Required By") + ":",
+													1, str_list.nth (0).get_data ());
+					i = 1;
+					while (i < len) {
+						deps_list.insert_with_values (out iter, -1,
+													1, str_list.nth (i).get_data ());
+						i++;
+					}
+				}
+			}
+			list = pkg.provides;
+			len = list.length;
+			if (len != 0) {
+				deps_list.insert_with_values (out iter, -1,
+												0, dgettext (null, "Provides") + ":",
+												1, list.nth (0).get_data ().compute_string ());
+				i = 1;
+				while (i < len) {
+					deps_list.insert_with_values (out iter, -1,
+												1, list.nth (i).get_data ().compute_string ());
+					i++;
+				}
+			}
+			list = pkg.replaces;
+			len = list.length;
+			if (len != 0) {
+				deps_list.insert_with_values (out iter, -1,
+												0, dgettext (null, "Replaces") + ":",
+												1, list.nth (0).get_data ().compute_string ());
+				i = 1;
+				while (i < len) {
+					deps_list.insert_with_values (out iter, -1,
+												1, list.nth (i).get_data ().compute_string ());
+					i++;
+				}
+			}
+			list = pkg.conflicts;
+			len = list.length;
+			if (len != 0) {
+				deps_list.insert_with_values (out iter, -1,
+												0, dgettext (null, "Conflicts With") + ":",
+												1, list.nth (0).get_data ().compute_string ());
+				i = 1;
+				while (i < len) {
+					deps_list.insert_with_values (out iter, -1,
+												1, list.nth (i).get_data ().compute_string ());
+					i++;
+				}
+			}
+		}
+
+		public void set_details_list (Alpm.Package pkg) {
+			details_list.clear ();
+			TreeIter iter;
+			if (pkg.origin == PkgFrom.SYNCDB) {
+				details_list.insert_with_values (out iter, -1,
+													0, dgettext (null, "Repository") + ":",
+													1, pkg.db.name);
+			}
+			unowned Alpm.List<string?> list = pkg.groups;
+			size_t len = list.length;
+			size_t i;
+			if (len != 0) {
+				details_list.insert_with_values (out iter, -1,
+												0, dgettext (null, "Groups") + ":",
+												1, list.nth (0).get_data ());
+				i = 1;
+				while (i < len) {
+					details_list.insert_with_values (out iter, -1,
+												1, list.nth (i).get_data ());
+					i++;
+				}
+			}
+			details_list.insert_with_values (out iter, -1,
+													0, dgettext (null, "Packager") + ":",
+													1, pkg.packager);
+			if (pkg.origin == PkgFrom.LOCALDB) {
+				GLib.Time time = GLib.Time.local ((time_t) pkg.installdate);
+				string strtime = time.format ("%a %d %b %Y %X %Z");
+				details_list.insert_with_values (out iter, -1,
+													0, dgettext (null, "Install Date") + ":",
+													1, strtime);
+				string reason;
+				if (pkg.reason == PkgReason.EXPLICIT)
+					reason = dgettext (null, "Explicitly installed");
+				else if (pkg.reason == PkgReason.EXPLICIT)
+					reason = dgettext (null, "Installed as a dependency for another package");
+				else
+					reason = dgettext (null, "Unknown");
+				details_list.insert_with_values (out iter, -1,
+													0, dgettext (null, "Install Reason") + ":",
+													1, reason);
+			}
+			if (pkg.origin == PkgFrom.SYNCDB) {
+				details_list.insert_with_values (out iter, -1,
+													0, dgettext (null, "Signatures") + ":",
+													1, pkg.base64_sig != null ? "Yes" : "No");
+			}
+			if (pkg.origin == PkgFrom.LOCALDB) {
+				unowned Alpm.List<Backup?> backup_list = pkg.backup;
+				len = backup_list.length;
+				if (len != 0) {
+					details_list.insert_with_values (out iter, -1,
+													0, dgettext (null, "Backup files") + ":",
+													1, "/" + backup_list.nth (0).get_data ().name);
+					i = 1;
+					while (i < len) {
+						details_list.insert_with_values (out iter, -1,
+													1, "/" + backup_list.nth (i).get_data ().name);
+						i++;
+					}
+				}
+			}
+		}
+
+		public void set_files_list (Alpm.Package pkg) {
+			StringBuilder text = new StringBuilder (); 
+			foreach (unowned Alpm.File file in pkg.files) {
+				if (text.len != 0)
+					text.append ("\n");
+				text.append ("/");
+				text.append (file.name);
+			}
+			files_textview.buffer.set_text (text.str, (int) text.len);
+		}
+
+		public async unowned Alpm.List<Alpm.Package?> search_pkgs (string search_string, out Json.Array aur_pkgs) {
+			unowned Alpm.List<Alpm.Package?> pkgs = null;
+			unowned Alpm.List<string?> needles = null;
+			string[] splitted = search_string.split (" ");
+			foreach (unowned string part in splitted)
+				needles.add (part);
+			pkgs = search_all_dbs (transaction.alpm_config.handle, needles);
+			if (search_aur_button.get_active()) {
+				if (aur_results.contains (search_string)) {
+					aur_pkgs = aur_results.get (search_string);
+				} else {
+					aur_pkgs = AUR.search (search_string);
+					aur_results.insert (search_string, aur_pkgs);
+				}
+			} else {
+				aur_pkgs = new Json.Array ();
+			}
+			return pkgs;
+		}
+
+		public void populate_packages_list (Alpm.List<Alpm.Package?>? pkgs, Json.Array? aur_pkgs = null) {
+			packages_treeview.freeze_child_notify ();
+			packages_treeview.set_model (null);
+
+			// populate liststore
+			packages_list = new PackagesModel (pkgs, aur_pkgs, this);
+
+			// sort liststore
+			int column = sortinfo.column_number;
+			if (column == 0)
+				packages_list.sort_by_name (sortinfo.sort_type);
+			else if (column == 1)
+				packages_list.sort_by_state (sortinfo.sort_type);
+			else if (column == 2)
+				packages_list.sort_by_version (sortinfo.sort_type);
+			else if (column == 3)
+				packages_list.sort_by_repo (sortinfo.sort_type);
+			else if (column == 4)
+				packages_list.sort_by_size (sortinfo.sort_type);
+
+			packages_treeview.set_model (packages_list);
+			packages_treeview.thaw_child_notify ();
+
+			this.get_window ().set_cursor (null);
+		}
+
+		public void refresh_packages_list () {
+			int current_page = filters_notebook.get_current_page ();
+			if (current_page == 0) {
+				TreeModel model;
+				TreeIter? iter;
+				TreeSelection selection = search_treeview.get_selection ();
+				if (selection.get_selected (out model, out iter)) {
+					on_search_treeview_selection_changed ();
+				}
+			} else if (current_page == 1) {
+				on_groups_treeview_selection_changed ();
+			} else if (current_page == 2) {
+				on_states_treeview_selection_changed ();
+			} else if (current_page == 3) {
+				on_repos_treeview_selection_changed ();
+			}
+		}
+
+		[GtkCallback]
+		public void on_packages_treeview_selection_changed () {
+			TreeModel model;
+			TreeIter? iter;
+			TreeSelection selection = packages_treeview.get_selection ();
+			if (selection.get_selected (out model, out iter)) {
+				Pamac.Package pkg = (Pamac.Package) iter.user_data;
+				if (pkg.alpm_pkg != null) {
+					set_infos_list (pkg);
+					set_deps_list (pkg.alpm_pkg);
+					set_details_list (pkg.alpm_pkg);
+					deps_scrolledwindow.visible = true;
+					details_scrolledwindow.visible =  true;
+					if (pkg.alpm_pkg.origin == PkgFrom.LOCALDB) {
+						set_files_list (pkg.alpm_pkg);
+						files_scrolledwindow.visible = true;
+					} else {
+						files_scrolledwindow.visible = false;
+					}
+				} else if (pkg.aur_json != null) {
+					set_infos_list (pkg);
+					deps_scrolledwindow.visible = false;
+					details_scrolledwindow.visible = false;
+					files_scrolledwindow.visible = false;
+				}
+			}
+		}
+
+		[GtkCallback]
+		public void on_packages_treeview_row_activated (TreeView treeview, TreePath path, TreeViewColumn column) {
+			TreeIter iter;
+			if (packages_list.get_iter (out iter, path)) {
+				GLib.Value val;
+				packages_list.get_value (iter, 0, out val);
+				string name = val.get_string ();
+				if (name != dgettext (null, "No package found")) {
+					if (transaction.data.to_add.contains (name)) {
+						transaction.data.to_add.steal (name);
+					} else if (transaction.data.to_remove.contains (name)) {
+						transaction.data.to_remove.steal (name);
+					} else if (transaction.data.to_build.contains (name)) {
+						transaction.data.to_build.steal (name);
+					} else {
+						packages_list.get_value (iter, 3, out val);
+						string db_name = val.get_string ();
+						if (db_name == "local") {
+							if (!(name in transaction.alpm_config.holdpkg)) {
+								transaction.data.to_remove.insert (name, name);
+							}
+						} else if (db_name == "AUR") {
+							transaction.data.to_build.insert (name, name);
+						} else {
+							transaction.data.to_add.insert (name, name);
+						}
+					}
+				}
+			}
+			if (transaction.data.to_add.size () + transaction.data.to_remove.size () + transaction.data.to_build.size () == 0) {
+				set_buttons_sensitive (false);
+			} else {
+				set_buttons_sensitive (true);
+			}
+			// force a display refresh
+			packages_treeview.queue_draw ();
+		}
+
+		[GtkCallback]
+		public bool on_list_treeview_button_press_event (Gdk.EventButton event) {
+			// to do
+			return false;
+		}
+
+		[GtkCallback]
+		public void on_name_column_clicked () {
+			SortType new_order;
+			if (name_column.sort_indicator == false)
+				new_order = SortType.ASCENDING;
+			else {
+				if (sortinfo.sort_type == SortType.ASCENDING)
+					new_order =  SortType.DESCENDING;
+				else
+					new_order =  SortType.ASCENDING;
+			}
+			packages_list.sort_by_name (new_order);
+			// force a display refresh
+			packages_treeview.queue_draw ();
+		}
+
+		[GtkCallback]
+		public void on_state_column_clicked () {
+			SortType new_order;
+			if (state_column.sort_indicator == false)
+				new_order = SortType.ASCENDING;
+			else {
+				if (sortinfo.sort_type == SortType.ASCENDING)
+					new_order =  SortType.DESCENDING;
+				else
+					new_order =  SortType.ASCENDING;
+			}
+			packages_list.sort_by_state (new_order);
+			// force a display refresh
+			packages_treeview.queue_draw ();
+		}
+
+		[GtkCallback]
+		public void on_version_column_clicked () {
+			SortType new_order;
+			if (version_column.sort_indicator == false)
+				new_order = SortType.ASCENDING;
+			else {
+				if (sortinfo.sort_type == SortType.ASCENDING)
+					new_order =  SortType.DESCENDING;
+				else
+					new_order =  SortType.ASCENDING;
+			}
+			packages_list.sort_by_version (new_order);
+			// force a display refresh
+			packages_treeview.queue_draw ();
+		}
+
+		[GtkCallback]
+		public void on_repo_column_clicked () {
+			SortType new_order;
+			if (repo_column.sort_indicator == false)
+				new_order = SortType.ASCENDING;
+			else {
+				if (sortinfo.sort_type == SortType.ASCENDING)
+					new_order =  SortType.DESCENDING;
+				else
+					new_order =  SortType.ASCENDING;
+			}
+			packages_list.sort_by_repo (new_order);
+			// force a display refresh
+			packages_treeview.queue_draw ();
+		}
+
+		[GtkCallback]
+		public void on_size_column_clicked () {
+			SortType new_order;
+			if (size_column.sort_indicator == false)
+				new_order = SortType.ASCENDING;
+			else {
+				if (sortinfo.sort_type == SortType.ASCENDING)
+					new_order =  SortType.DESCENDING;
+				else
+					new_order =  SortType.ASCENDING;
+			}
+			packages_list.sort_by_size (new_order);
+			// force a display refresh
+			packages_treeview.queue_draw ();
+		}
+
+		[GtkCallback]
+		public void on_search_entry_activate () {
+			string search_string = search_entry.get_text ();
+			if (search_string != "") {
+				this.get_window ().set_cursor (new Gdk.Cursor (Gdk.CursorType.WATCH));
+				while (Gtk.events_pending ())
+					Gtk.main_iteration ();
+				search_pkgs.begin (search_string, (obj, res) => {
+					Json.Array aur_pkgs;
+					unowned Alpm.List<Alpm.Package?> pkgs = search_pkgs.end (res, out aur_pkgs);
+					if (pkgs.length != 0) {
+						// add search string in search_list if needed
+						bool found = false;
+						TreeIter? iter;
+						TreeModel model;
+						TreeSelection selection = search_treeview.get_selection ();
+						// check if search string is already selected in search list
+						if (selection.get_selected (out model, out iter)) {
+							GLib.Value val;
+							model.get_value (iter, 0, out val);
+							string selected_string = val.get_string ();
+							if (selected_string == search_string) {
+								found = true;
+								// we need to populate packages_list
+								populate_packages_list (pkgs, aur_pkgs);
+							} else {
+								search_list.foreach ((_model, _path, _iter) => {
+									GLib.Value line;
+									model.get_value (_iter, 0, out line);
+									if ((string) line == search_string) {
+										found = true;
+										// populate will be done because we select the iter in search_list
+										selection.select_iter (_iter);
+									}
+									return found;
+								});
+							}
+						}
+						if (!found) {
+							search_list.insert_with_values (out iter, -1, 0, search_string);
+							// populate will be done because we select the iter in search_list
+							selection.select_iter (iter);
+						}
+					} else
+						// populate with empty lists
+						populate_packages_list (pkgs, aur_pkgs);
+					});
+			}
+		}
+
+		[GtkCallback]
+		public void  on_search_entry_icon_press (EntryIconPosition p0, Gdk.Event? p1) {
+			on_search_entry_activate ();
+		}
+
+		[GtkCallback]
+		public void on_search_treeview_selection_changed () {
+			TreeModel model;
+			TreeIter? iter;
+			TreeSelection selection = search_treeview.get_selection ();
+			if (selection.get_selected (out model, out iter)) {
+				this.get_window ().set_cursor (new Gdk.Cursor (Gdk.CursorType.WATCH));
+				while (Gtk.events_pending ())
+					Gtk.main_iteration ();
+				GLib.Value val;
+				model.get_value (iter, 0, out val);
+				string search_string = val.get_string ();
+				search_pkgs.begin (search_string, (obj, res) => {
+					Json.Array aur_pkgs;
+					unowned Alpm.List<Alpm.Package?> pkgs = search_pkgs.end (res, out aur_pkgs);
+					populate_packages_list (pkgs, aur_pkgs);
+					});
+			}
+		}
+
+		[GtkCallback]
+		public void on_groups_treeview_selection_changed () {
+			TreeModel model;
+			TreeIter? iter;
+			TreeSelection selection = groups_treeview.get_selection ();
+			if (selection.get_selected (out model, out iter)) {
+				this.get_window ().set_cursor (new Gdk.Cursor (Gdk.CursorType.WATCH));
+				while (Gtk.events_pending ())
+					Gtk.main_iteration ();
+				GLib.Value val;
+				model.get_value (iter, 0, out val);
+				string grp_name = val.get_string ();
+				unowned Alpm.List<Alpm.Package?> pkgs = group_pkgs_all_dbs (transaction.alpm_config.handle, grp_name);
+				populate_packages_list (pkgs);
+			}
+		}
+
+		[GtkCallback]
+		public void on_states_treeview_selection_changed () {
+			TreeModel model;
+			TreeIter? iter;
+			TreeSelection selection = states_treeview.get_selection ();
+			if (selection.get_selected (out model, out iter)) {
+				this.get_window ().set_cursor (new Gdk.Cursor (Gdk.CursorType.WATCH));
+				while (Gtk.events_pending ())
+					Gtk.main_iteration ();
+				GLib.Value val;
+				model.get_value (iter, 0, out val);
+				string state = val.get_string ();
+				unowned Alpm.List<Alpm.Package?> pkgs = null;
+				unowned Alpm.Package? find_pkg = null;
+				if (state == dgettext (null, "To install")) {
+					foreach (string name in transaction.data.to_add.get_keys ()) {
+						find_pkg = transaction.alpm_config.handle.localdb.get_pkg (name);
+						if (find_pkg != null)
+							pkgs.add (find_pkg);
+						else {
+							find_pkg = get_syncpkg (transaction.alpm_config.handle, name);
+							if (find_pkg != null)
+								pkgs.add (find_pkg);
+						}
+					}
+				} else if (state == dgettext (null, "To remove")) {
+					foreach (string name in transaction.data.to_remove.get_keys ()) {
+						find_pkg = transaction.alpm_config.handle.localdb.get_pkg (name);
+						if (find_pkg != null)
+							pkgs.add (find_pkg);
+					}
+				} else if (state == dgettext (null, "Installed")) {
+					pkgs = transaction.alpm_config.handle.localdb.pkgcache;
+				} else if (state == dgettext (null, "Uninstalled")) {
+					unowned Alpm.List<Alpm.Package?> tmp = null;
+					unowned Alpm.List<Alpm.Package?> diff = null;
+					foreach (unowned DB db in transaction.alpm_config.handle.syncdbs) {
+						if (pkgs.length == 0)
+							pkgs = db.pkgcache;
+						else {
+							tmp = db.pkgcache;
+							diff = tmp.diff (pkgs, (Alpm.List.CompareFunc) pkgcmp);
+							pkgs.join (diff);
+						}
+					}
+				} else if (state == dgettext (null, "Orphans")) {
+					foreach (unowned Alpm.Package pkg in transaction.alpm_config.handle.localdb.pkgcache) {
+						if (pkg.reason == PkgReason.DEPEND) {
+							if (pkg.compute_requiredby().length == 0)
+								pkgs.add (pkg);
+						}
+					}
+				}
+			populate_packages_list (pkgs);
+			}
+		}
+
+		[GtkCallback]
+		public void on_repos_treeview_selection_changed () {
+			TreeModel model;
+			TreeIter? iter;
+			TreeSelection selection = repos_treeview.get_selection ();
+			if (selection.get_selected (out model, out iter)) {
+				this.get_window ().set_cursor (new Gdk.Cursor (Gdk.CursorType.WATCH));
+				while (Gtk.events_pending ())
+					Gtk.main_iteration ();
+				GLib.Value val;
+				model.get_value (iter, 0, out val);
+				string repo = val.get_string ();
+				unowned Alpm.List<Alpm.Package?> pkgs = null;
+				unowned Alpm.Package? find_pkg = null;
+				if (repo == dgettext (null, "local")) {
+					foreach (unowned Alpm.Package pkg in transaction.alpm_config.handle.localdb.pkgcache) {
+						find_pkg = get_syncpkg (transaction.alpm_config.handle, pkg.name);
+						if (find_pkg == null)
+							pkgs.add (pkg);
+					}
+				} else {
+					foreach (unowned DB db in transaction.alpm_config.handle.syncdbs) {
+						if (db.name == repo) {
+							foreach (unowned Alpm.Package pkg in db.pkgcache) {
+								find_pkg = transaction.alpm_config.handle.localdb.get_pkg (pkg.name);
+								if (find_pkg != null)
+									pkgs.add (find_pkg);
+								else
+									pkgs.add (pkg);
+							}
+						}
+					}
+				}
+				populate_packages_list (pkgs);
+			}
+		}
+
+		[GtkCallback]
+		public void on_filters_notebook_switch_page (Widget page, uint page_num) {
+			refresh_packages_list ();
+		}
+
+		[GtkCallback]
+		public void  on_history_item_activate () {
+			var file = GLib.File.new_for_path ("/var/log/pamac.log");
+			if (!file.query_exists ())
+				GLib.stderr.printf ("File '%s' doesn't exist.\n", file.get_path ());
+			else {
+				StringBuilder text = new StringBuilder ();
+				try {
+					// Open file for reading and wrap returned FileInputStream into a
+					// DataInputStream, so we can read line by line
+					var dis = new DataInputStream (file.read ());
+					string line;
+					// Read lines until end of file (null) is reached
+					while ((line = dis.read_line (null)) != null) {
+						text.append (line);
+						text.append ("\n");
+					}
+				} catch (GLib.Error e) {
+					GLib.stderr.printf("%s\n", e.message);
+				}
+				history_dialog.textview.buffer.set_text (text.str, (int) text.len);
+				history_dialog.run ();
+				history_dialog.hide ();
+			}
+		}
+
+		[GtkCallback]
+		public void on_local_item_activate () {
+			int response = packages_chooser_dialog.run ();
+			if (response== ResponseType.ACCEPT) {
+				SList<string> packages_paths = packages_chooser_dialog.get_filenames ();
+				if (packages_paths.length () != 0) {
+					foreach (string path in packages_paths) {
+						transaction.data.to_load.insert (path, path);
+					}
+					this.get_window ().set_cursor (new Gdk.Cursor (Gdk.CursorType.WATCH));
+					packages_chooser_dialog.hide ();
+					while (Gtk.events_pending ())
+						Gtk.main_iteration ();
+					transaction.run ();
+				}
+			} else
+				packages_chooser_dialog.hide ();
+		}
+
+		[GtkCallback]
+		public void on_preferences_item_activate () {
+			bool enable_aur = pamac_config.enable_aur;
+			bool recurse = pamac_config.recurse;
+			uint64 refresh_period = pamac_config.refresh_period;
+			preferences_dialog.enable_aur_button.set_active (enable_aur);
+			preferences_dialog.remove_unrequired_deps_button.set_active (recurse);
+			preferences_dialog.refresh_period_spin_button.set_value (refresh_period);
+			int response = preferences_dialog.run ();
+			while (Gtk.events_pending ())
+				Gtk.main_iteration ();
+			if (response == ResponseType.OK) {
+				HashTable<string,string> new_conf = new HashTable<string,string> (str_hash, str_equal);
+				enable_aur = preferences_dialog.enable_aur_button.get_active ();
+				recurse = preferences_dialog.remove_unrequired_deps_button.get_active ();
+				refresh_period = (uint64) preferences_dialog.refresh_period_spin_button.get_value ();
+				if (enable_aur != pamac_config.enable_aur) {
+					search_aur_button.set_active (enable_aur);
+					new_conf.insert ("EnableAUR", enable_aur.to_string ());
+				}
+				if (recurse != pamac_config.recurse)
+					new_conf.insert ("RemoveUnrequiredDeps", recurse.to_string ());
+				if (refresh_period != pamac_config.refresh_period)
+					new_conf.insert ("RefreshPeriod", refresh_period.to_string ());
+				if (new_conf.size () != 0) {
+					transaction.write_config (new_conf);
+					pamac_config.reload ();
+				}
+			}
+			preferences_dialog.hide ();
+		}
+
+		[GtkCallback]
+		public void on_about_item_activate () {
+			Gtk.show_about_dialog (
+				this,
+				"program_name", "Pamac",
+				"logo_icon_name", "system-software-install",
+				"comments", "A GTK3 frontend of libalpm",
+				"copyright", "Copyright © 2014 Guillaume Benoit",
+				"version", VERSION,
+				"license_type", License.GPL_3_0,
+				"website", "http://manjaro.org");
+		}
+
+		[GtkCallback]
+		public void on_valid_button_clicked () {
+			this.get_window ().set_cursor (new Gdk.Cursor (Gdk.CursorType.WATCH));
+			while (Gtk.events_pending ())
+				Gtk.main_iteration ();
+			if (pamac_config.recurse)
+				transaction.data.flags |= Alpm.TransFlag.RECURSE;
+			transaction.run ();
+		}
+
+		[GtkCallback]
+		public void on_cancel_button_clicked () {
+			transaction.clear_lists ();
+			set_buttons_sensitive (false);
+			// force a display refresh
+			packages_treeview.queue_draw ();
+		}
+
+		[GtkCallback]
+		public void on_refresh_button_clicked () {
+			transaction.refresh (0);
+		}
+
+		public void on_emit_trans_finished (bool error) {
+			if (error == false) {
+				set_buttons_sensitive (false);
+				refresh_packages_list ();
+			}
+			transaction.data.to_load.steal_all ();
+			this.get_window ().set_cursor (null);
+		}
+	}
+}

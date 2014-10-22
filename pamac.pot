@@ -1,0 +1,279 @@
+# Translation of Pamac.
+# Copyright (C) 2007-2012 Free Software Foundation, Inc.
+# This file is distributed under the same license as the Pamac package.
+# Guillaume Benoit <guillaume@manjaro.org>, 2013-2014.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: pamac 2.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-13-10 15:09+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: data/polkit/org.manjaro.pamac.policy:10
+msgid "Authentication is required"
+msgstr ""
+
+#: resources/choose_provider_dialog.ui:7
+msgid "Choose a Provider"
+msgstr ""
+
+#: resources/packages_chooser_dialog.ui:7 resources/manager_window.ui:789
+msgid "Install local packages"
+msgstr ""
+
+#: resources/progress_window.ui:16
+msgid "Progress"
+msgstr ""
+
+#: resources/progress_window.ui:63 resources/transaction_info_dialog.ui:84
+msgid "details"
+msgstr ""
+
+#: resources/history_dialog.ui:7
+msgid "Pamac History"
+msgstr ""
+
+#: resources/manager_window.ui:14 src/tray.vala:76
+msgid "Package Manager"
+msgstr ""
+
+#: resources/manager_window.ui:23
+msgid "Refresh"
+msgstr ""
+
+#: resources/manager_window.ui:47
+msgid "Apply changes"
+msgstr ""
+
+#: resources/manager_window.ui:71
+msgid "Cancel"
+msgstr ""
+
+#: resources/manager_window.ui:170
+msgid "Search in AUR"
+msgstr ""
+
+#: resources/manager_window.ui:234
+msgid "Search"
+msgstr ""
+
+#: resources/manager_window.ui:279 src/manager_window.vala:336
+msgid "Groups"
+msgstr ""
+
+#: resources/manager_window.ui:325 resources/manager_window.ui:418
+msgid "State"
+msgstr ""
+
+#: resources/manager_window.ui:371
+msgid "Repos"
+msgstr ""
+
+#: resources/manager_window.ui:433
+msgid "Name"
+msgstr ""
+
+#: resources/manager_window.ui:448
+msgid "Version"
+msgstr ""
+
+#: resources/manager_window.ui:463
+msgid "Repo"
+msgstr ""
+
+#: resources/manager_window.ui:478
+msgid "Size"
+msgstr ""
+
+#: resources/manager_window.ui:582
+msgid "Infos"
+msgstr ""
+
+#: resources/manager_window.ui:642
+msgid "Deps"
+msgstr ""
+
+#: resources/manager_window.ui:707
+msgid "Details"
+msgstr ""
+
+#: resources/manager_window.ui:740
+msgid "Files"
+msgstr ""
+
+#: resources/manager_window.ui:779
+msgid "View History"
+msgstr ""
+
+#: resources/updater_window.ui:14 src/tray.vala:73 src/tray.vala:166
+#: src/tray.vala:238
+msgid "Update Manager"
+msgstr ""
+
+#: resources/preferences_dialog.ui:6
+msgid "Pamac Preferences"
+msgstr ""
+
+#: resources/preferences_dialog.ui:74
+msgid "Enable AUR support"
+msgstr ""
+
+#: resources/preferences_dialog.ui:87
+msgid "Allow Pamac to search and install packages from AUR"
+msgstr ""
+
+#: resources/preferences_dialog.ui:105
+msgid "Remove unrequired dependencies"
+msgstr ""
+
+#: resources/preferences_dialog.ui:118
+msgid ""
+"When removing a package, also remove those dependencies that are not "
+"required by other packages"
+msgstr ""
+
+#: resources/preferences_dialog.ui:152 src/preferences_dialog.vala:37
+msgid "How often to check for updates, value in hours"
+msgstr ""
+
+#: resources/preferences_dialog.ui:177
+msgid "Options"
+msgstr ""
+
+#: src/packages_chooser_dialog.vala:32
+msgid "Packages"
+msgstr ""
+
+#: src/tray.vala:24 src/updater_window.vala:167
+msgid "{number} available updates"
+msgstr ""
+
+#: src/tray.vala:25 src/updater_window.vala:164
+msgid "1 available update"
+msgstr ""
+
+#: src/tray.vala:27 src/updater_window.vala:56 src/updater_window.vala:161
+msgid "Your system is up-to-date"
+msgstr ""
+
+#: src/tray.vala:79
+msgid "Quit"
+msgstr ""
+
+#: src/tray.vala:167
+msgid "Show available updates"
+msgstr ""
+
+#: src/manager_window.vala:179 src/manager_window.vala:777
+msgid "local"
+msgstr ""
+
+#: src/manager_window.vala:183 src/manager_window.vala:250
+#: src/manager_window.vala:262 src/manager_window.vala:737
+msgid "Installed"
+msgstr ""
+
+#: src/manager_window.vala:185 src/manager_window.vala:751
+msgid "Orphans"
+msgstr ""
+
+#: src/manager_window.vala:186 src/manager_window.vala:720
+msgid "To install"
+msgstr ""
+
+#: src/manager_window.vala:187 src/manager_window.vala:731
+msgid "To remove"
+msgstr ""
+
+#: src/manager_window.vala:210
+msgid "Licenses"
+msgstr ""
+
+#: src/manager_window.vala:232
+msgid "Depends On"
+msgstr ""
+
+#: src/manager_window.vala:252
+msgid "Optional Deps"
+msgstr ""
+
+#: src/manager_window.vala:272
+msgid "Required By"
+msgstr ""
+
+#: src/manager_window.vala:286
+msgid "Provides"
+msgstr ""
+
+#: src/manager_window.vala:299
+msgid "Replaces"
+msgstr ""
+
+#: src/manager_window.vala:312
+msgid "Conflicts With"
+msgstr ""
+
+#: src/manager_window.vala:328
+msgid "Repository"
+msgstr ""
+
+#: src/manager_window.vala:346
+msgid "Packager"
+msgstr ""
+
+#: src/manager_window.vala:352
+msgid "Install Date"
+msgstr ""
+
+#: src/manager_window.vala:356
+msgid "Explicitly installed"
+msgstr ""
+
+#: src/manager_window.vala:358
+msgid "Installed as a dependency for another package"
+msgstr ""
+
+#: src/manager_window.vala:360
+msgid "Unknown"
+msgstr ""
+
+#: src/manager_window.vala:362
+msgid "Install Reason"
+msgstr ""
+
+#: src/manager_window.vala:367
+msgid "Signatures"
+msgstr ""
+
+#: src/manager_window.vala:375
+msgid "Backup files"
+msgstr ""
+
+#: src/manager_window.vala:497
+msgid "No package found"
+msgstr ""
+
+#: src/manager_window.vala:739
+msgid "Uninstalled"
+msgstr ""
+
+#: src/updater_window.vala:173
+msgid "Total download size:"
+msgstr ""
+
+#: src/common.vala:62
+#, c-format
+msgid "%.0f KiB"
+msgstr ""
+
+#: src/common.vala:65
+#, c-format
+msgid "%.2f MiB"
+msgstr ""
