@@ -1,0 +1,6 @@
+src/*.c
+src/pamac-daemon
+src/pamac-tray
+src/pamac-manager
+src/pamac-install
+src/pamac-updater
