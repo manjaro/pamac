@@ -71,6 +71,7 @@ namespace Pamac {
 		bool sysupgrade_after_build;
 
 		Terminal term;
+		Pty pty;
 
 		//dialogs
 		ChooseProviderDialog choose_provider_dialog;
@@ -105,6 +106,14 @@ namespace Pamac {
 			term.expand = true;
 			term.height_request = 200;
 			term.set_visible (true);
+			// creating pty for term
+			try {
+				pty = term.pty_new_sync (PtyFlags.NO_HELPER);
+			} catch (Error e) {
+				stderr.printf ("Error: %s\n", e.message);
+			}
+			// connect to child_exited signal which will only be emit after a call to watch_child
+			term.child_exited.connect (on_term_child_exited);
 			// add term in a grid with a scrollbar
 			var grid = new Grid ();
 			grid.expand = true;
@@ -139,12 +148,7 @@ namespace Pamac {
 
 		public void refresh (int force) {
 			string action = dgettext ("pacman", "Synchronizing package databases...\n").replace ("\n", "");
-			try {
-				term.reset (true, true);
-				term.spawn_sync (PtyFlags.DEFAULT, "~/", {"/usr/bin/echo", action}, {}, SpawnFlags.DO_NOT_REAP_CHILD, null, null);
-			} catch (Error e) {
-				stderr.printf ("Error: %s\n", e.message);
-			}
+			spawn_in_term ({"/usr/bin/echo", action}, null);
 			progress_window.action_label.set_text (action);
 			progress_window.progressbar.set_fraction (0);
 			progress_window.progressbar.set_text ("");
@@ -200,11 +204,7 @@ namespace Pamac {
 
 		public void sysupgrade (int enable_downgrade) {
 			string action = dgettext ("pacman", "Starting full system upgrade...\n").replace ("\n", "");
-			try {
-				term.spawn_sync (PtyFlags.DEFAULT, "~/", {"/usr/bin/echo", action}, {}, SpawnFlags.DO_NOT_REAP_CHILD, null, null);
-			} catch (Error e) {
-				stderr.printf ("Error: %s\n", e.message);
-			}
+			spawn_in_term ({"/usr/bin/echo", action}, null);
 			progress_window.action_label.set_text (action);
 			progress_window.progressbar.set_fraction (0);
 			progress_window.progressbar.set_text ("");
@@ -248,12 +248,7 @@ namespace Pamac {
 
 		public void run () {
 			string action = dgettext (null,"Preparing") + "...";
-			try {
-				term.reset (true, true);
-				term.spawn_sync (PtyFlags.DEFAULT, "~/", {"/usr/bin/echo", action}, {}, SpawnFlags.DO_NOT_REAP_CHILD, null, null);
-			} catch (Error e) {
-				stderr.printf ("Error: %s\n", e.message);
-			}
+			spawn_in_term ({"/usr/bin/echo", action}, null);
 			progress_window.action_label.set_text (action);
 			progress_window.progressbar.set_fraction (0);
 			progress_window.progressbar.set_text ("");
@@ -481,16 +476,9 @@ namespace Pamac {
 		}
 
 		public void build_aur_packages () {
-			string[] cmds = {"/usr/bin/yaourt", "-S"};
-			foreach (string name in data.to_build.get_keys ())
-				cmds += name;
+			print ("building packages\n");
 			string action = dgettext (null,"Building packages") + "...";
-			try {
-				term.reset (true, true);
-				term.spawn_sync (PtyFlags.DEFAULT, "~/", {"/usr/bin/echo", action}, {}, SpawnFlags.DO_NOT_REAP_CHILD, null, null);
-			} catch (Error e) {
-				stderr.printf ("Error: %s\n", e.message);
-			}
+			spawn_in_term ({"/usr/bin/echo", "-n", action}, null);
 			progress_window.action_label.set_text (action);
 			progress_window.progressbar.set_fraction (0);
 			progress_window.progressbar.set_text ("");
@@ -498,16 +486,15 @@ namespace Pamac {
 			progress_window.close_button.visible = false;
 			progress_window.expander.set_expanded (true);
 			progress_window.width_request = 700;
-			term.child_exited.connect (on_term_child_exited);
 			term.grab_focus ();
 			build_timeout_id = Timeout.add (500, (GLib.SourceFunc) progress_window.progressbar.pulse);
-			try {
-				Pid child_pid;
-				term.spawn_sync (PtyFlags.DEFAULT, "~/", cmds, {}, SpawnFlags.DO_NOT_REAP_CHILD, null, out child_pid);
-				//term.watch_child (child_pid);
-			} catch (Error e) {
-				stderr.printf ("Error: %s\n", e.message);
-			}
+			string[] cmds = {"/usr/bin/yaourt", "-S"};
+			foreach (string name in data.to_build.get_keys ())
+				cmds += name;
+			Pid child_pid;
+			spawn_in_term (cmds, out child_pid);
+			// watch_child is needed in order to have the child_exited signal emitted
+			term.watch_child (child_pid);
 		}
 
 		public void cancel () {
@@ -532,6 +519,15 @@ namespace Pamac {
 			} catch (IOError e) {
 				stderr.printf ("IOError: %s\n", e.message);
 			}
+		}
+
+		void spawn_in_term (string[] args, out int pid) {
+			try {
+				Process.spawn_async (null, args, null, SpawnFlags.DO_NOT_REAP_CHILD, pty.child_setup, out pid);
+			} catch (SpawnError e) {
+				stderr.printf ("SpawnError: %s\n", e.message);
+			}
+			term.set_pty (pty);
 		}
 
 		void on_emit_event (uint event, string msg) {
@@ -611,11 +607,7 @@ namespace Pamac {
 				default:
 					break;
 			}
-			try {
-				term.spawn_sync (PtyFlags.DEFAULT, "~/", {"/usr/bin/echo", "-n", msg}, {}, SpawnFlags.DO_NOT_REAP_CHILD, null, null);
-			} catch (Error e) {
-				stderr.printf ("Error: %s\n", e.message);
-			}
+			spawn_in_term ({"/usr/bin/echo", "-n", msg}, null);
 		}
 
 		void on_emit_providers (string depend, string[] providers) {
@@ -677,11 +669,7 @@ namespace Pamac {
 				if (label != previous_label) {
 					previous_label = label;
 					progress_window.action_label.set_text (label);
-					try {
-						term.spawn_sync (PtyFlags.DEFAULT, "~/", {"/usr/bin/echo", label}, {}, SpawnFlags.DO_NOT_REAP_CHILD, null, null);
-					} catch (Error e) {
-						stderr.printf ("Error: %s\n", e.message);
-					}
+					spawn_in_term ({"/usr/bin/echo", label}, null);
 				}
 			}
 			if (total_download > 0) {
@@ -721,11 +709,7 @@ namespace Pamac {
 			}
 			if (line != null) {
 				progress_window.expander.set_expanded (true);
-				try {
-					term.spawn_sync (PtyFlags.DEFAULT, "~/", {"/usr/bin/echo", "-n", line}, {}, SpawnFlags.DO_NOT_REAP_CHILD, null, null);
-				} catch (Error e) {
-					stderr.printf ("Error: %s\n", e.message);
-				}
+				spawn_in_term ({"/usr/bin/echo", "-n", line}, null);
 			}
 		}
 
@@ -842,9 +826,13 @@ namespace Pamac {
 
 		public void on_emit_trans_committed (ErrorInfos error) {
 			print("transaction committed\n");
-			term.child_exited.disconnect (on_term_child_exited);
 			if (error.str == "") {
 				if (data.to_build.size () != 0) {
+					if (data.to_add.size () != 0
+							|| data.to_remove.size () != 0
+							|| data.to_load.size () != 0) {
+						spawn_in_term ({"/usr/bin/echo", dgettext (null, "Transaction successfully finished") + "\n"}, null);
+					}
 					build_aur_packages ();
 				} else {
 					//progress_window.action_label.set_text (dgettext (null, "Transaction successfully finished"));
@@ -859,6 +847,7 @@ namespace Pamac {
 						sysupgrade_simple (0);
 					} else {
 						progress_window.hide ();
+						spawn_in_term ({"/usr/bin/echo", dgettext (null, "Transaction successfully finished") + "\n"}, null);
 						finished (false);
 					}
 				}
