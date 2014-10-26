@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pamac 2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-13-10 15:09+0100\n"
+"POT-Creation-Date: 2014-10-23 15:09+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -33,11 +33,16 @@ msgid "Progress"
 msgstr ""
 
 #: resources/progress_window.ui:63 resources/transaction_info_dialog.ui:84
-msgid "details"
+#: resources/manager_window.ui:707
+msgid "Details"
 msgstr ""
 
 #: resources/history_dialog.ui:7
 msgid "Pamac History"
+msgstr ""
+
+#: resources/transaction_sum_dialog.ui:6 src/transaction.vala:356
+msgid "Transaction Summary"
 msgstr ""
 
 #: resources/manager_window.ui:14 src/tray.vala:76
@@ -73,7 +78,7 @@ msgid "State"
 msgstr ""
 
 #: resources/manager_window.ui:371
-msgid "Repos"
+msgid "Repositories"
 msgstr ""
 
 #: resources/manager_window.ui:433
@@ -84,8 +89,8 @@ msgstr ""
 msgid "Version"
 msgstr ""
 
-#: resources/manager_window.ui:463
-msgid "Repo"
+#: resources/manager_window.ui:463 src/manager_window.vala:328
+msgid "Repository"
 msgstr ""
 
 #: resources/manager_window.ui:478
@@ -93,15 +98,11 @@ msgid "Size"
 msgstr ""
 
 #: resources/manager_window.ui:582
-msgid "Infos"
+msgid "Description"
 msgstr ""
 
 #: resources/manager_window.ui:642
-msgid "Deps"
-msgstr ""
-
-#: resources/manager_window.ui:707
-msgid "Details"
+msgid "Dependencies"
 msgstr ""
 
 #: resources/manager_window.ui:740
@@ -135,8 +136,8 @@ msgstr ""
 
 #: resources/preferences_dialog.ui:118
 msgid ""
-"When removing a package, also remove those dependencies that are not "
-"required by other packages"
+"When removing a package, also remove its dependencies that are not required "
+"by other packages"
 msgstr ""
 
 #: resources/preferences_dialog.ui:152 src/preferences_dialog.vala:37
@@ -151,15 +152,261 @@ msgstr ""
 msgid "Packages"
 msgstr ""
 
-#: src/tray.vala:24 src/updater_window.vala:167
-msgid "{number} available updates"
+#: src/daemon.vala:113 src/daemon.vala:120
+msgid "Failed to synchronize any databases"
 msgstr ""
 
-#: src/tray.vala:25 src/updater_window.vala:164
+#: src/daemon.vala:162
+msgid "Failed to init transaction"
+msgstr ""
+
+#: src/daemon.vala:174 src/daemon.vala:192 src/daemon.vala:204
+#: src/daemon.vala:218 src/daemon.vala:230 src/daemon.vala:245
+#: src/daemon.vala:252 src/daemon.vala:266 src/daemon.vala:316
+msgid "Failed to prepare transaction"
+msgstr ""
+
+#: src/daemon.vala:193 src/daemon.vala:246
+#, c-format
+msgid "target not found: %s"
+msgstr ""
+
+#: src/daemon.vala:274
+#, c-format
+msgid "package %s does not have a valid architecture"
+msgstr ""
+
+#: src/daemon.vala:283
+#, c-format
+msgid "%s: requires %s"
+msgstr ""
+
+#: src/daemon.vala:291
+#, c-format
+msgid "%s and %s are in conflict"
+msgstr ""
+
+#: src/daemon.vala:310
+#, c-format
+msgid "%s needs to be removed but it is a locked package"
+msgstr ""
+
+#: src/daemon.vala:378
+msgid "Failed to commit transaction"
+msgstr ""
+
+#: src/daemon.vala:392
+#, c-format
+msgid "%s exists in both %s and %s"
+msgstr ""
+
+#: src/daemon.vala:395
+#, c-format
+msgid "%s: %s already exists in filesystem"
+msgstr ""
+
+#: src/daemon.vala:408
+#, c-format
+msgid "%s is invalid or corrupted"
+msgstr ""
+
+#: src/daemon.vala:436
+msgid "Authentication failed"
+msgstr ""
+
+#: src/transaction.vala:154
+msgid "Synchronizing package databases"
+msgstr ""
+
+#: src/transaction.vala:210
+msgid "Starting full system upgrade"
+msgstr ""
+
+#: src/transaction.vala:254
+msgid "Preparing"
+msgstr ""
+
+#: src/transaction.vala:328
+#, c-format
+msgid "Choose a provider for %s"
+msgstr ""
+
+#: src/transaction.vala:386 src/manager_window.vala:187
+#: src/manager_window.vala:731
+msgid "To remove"
+msgstr ""
+
+#: src/transaction.vala:399
+msgid "To downgrade"
+msgstr ""
+
+#: src/transaction.vala:412
+msgid "To build"
+msgstr ""
+
+#: src/transaction.vala:425 src/manager_window.vala:186
+#: src/manager_window.vala:720
+msgid "To install"
+msgstr ""
+
+#: src/transaction.vala:438
+msgid "To reinstall"
+msgstr ""
+
+#: src/transaction.vala:452
+msgid "To update"
+msgstr ""
+
+#: src/transaction.vala:465 src/updater_window.vala:180
+msgid "Total download size"
+msgstr ""
+
+#: src/transaction.vala:483
+msgid "Building packages"
+msgstr ""
+
+#: src/transaction.vala:540
+msgid "Checking dependencies"
+msgstr ""
+
+#: src/transaction.vala:545
+msgid "Checking file conflicts"
+msgstr ""
+
+#: src/transaction.vala:550
+msgid "Resolving dependencies"
+msgstr ""
+
+#: src/transaction.vala:555
+msgid "Checking inter-conflicts"
+msgstr ""
+
+#: src/transaction.vala:562 src/transaction.vala:564
+#, c-format
+msgid "Installing %s"
+msgstr ""
+
+#: src/transaction.vala:570 src/transaction.vala:572
+#, c-format
+msgid "Reinstalling %s"
+msgstr ""
+
+#: src/transaction.vala:578 src/transaction.vala:580
+#, c-format
+msgid "Removing %s"
+msgstr ""
+
+#: src/transaction.vala:586 src/transaction.vala:588
+#, c-format
+msgid "Upgrading %s"
+msgstr ""
+
+#: src/transaction.vala:594 src/transaction.vala:596
+#, c-format
+msgid "Downgrading %s"
+msgstr ""
+
+#: src/transaction.vala:600
+msgid "Checking integrity"
+msgstr ""
+
+#: src/transaction.vala:605
+msgid "Checking keyring"
+msgstr ""
+
+#: src/transaction.vala:610
+msgid "Downloading required keys"
+msgstr ""
+
+#: src/transaction.vala:615
+msgid "Loading packages files"
+msgstr ""
+
+#: src/transaction.vala:620
+msgid "Checking delta integrity"
+msgstr ""
+
+#: src/transaction.vala:625
+msgid "Applying deltas"
+msgstr ""
+
+#: src/transaction.vala:630
+#, c-format
+msgid "Generating %s with %s"
+msgstr ""
+
+#: src/transaction.vala:635
+msgid "Generation succeeded"
+msgstr ""
+
+#: src/transaction.vala:640
+msgid "Generation failed"
+msgstr ""
+
+#: src/transaction.vala:645
+#, c-format
+msgid "Configuring %s"
+msgstr ""
+
+#: src/transaction.vala:650
+msgid "Downloading"
+msgstr ""
+
+#: src/transaction.vala:655
+msgid "Checking available disk space"
+msgstr ""
+
+#: src/transaction.vala:660
+#, c-format
+msgid "%s optionally requires %s"
+msgstr ""
+
+#: src/transaction.vala:663
+#, c-format
+msgid "Database file for %s does not exist"
+msgstr ""
+
+#: src/transaction.vala:715
+#, c-format
+msgid "Refreshing %s"
+msgstr ""
+
+#: src/transaction.vala:717
+#, c-format
+msgid "Downloading %s"
+msgstr ""
+
+#: src/transaction.vala:754 src/transaction.vala:768
+msgid "Warning"
+msgstr ""
+
+#: src/transaction.vala:758 src/transaction.vala:787
+msgid "Error"
+msgstr ""
+
+#: src/transaction.vala:851 src/transaction.vala:866
+#: src/progress_window.vala:55
+msgid "Transaction cancelled"
+msgstr ""
+
+#: src/transaction.vala:877
+msgid "Nothing to do"
+msgstr ""
+
+#: src/transaction.vala:897 src/transaction.vala:913
+msgid "Transaction successfully finished"
+msgstr ""
+
+#: src/tray.vala:24 src/updater_window.vala:176
+#, c-format
+msgid "%u available updates"
+msgstr ""
+
+#: src/tray.vala:25 src/updater_window.vala:173
 msgid "1 available update"
 msgstr ""
 
-#: src/tray.vala:27 src/updater_window.vala:56 src/updater_window.vala:161
+#: src/tray.vala:27 src/updater_window.vala:56 src/updater_window.vala:170
 msgid "Your system is up-to-date"
 msgstr ""
 
@@ -184,14 +431,6 @@ msgstr ""
 msgid "Orphans"
 msgstr ""
 
-#: src/manager_window.vala:186 src/manager_window.vala:720
-msgid "To install"
-msgstr ""
-
-#: src/manager_window.vala:187 src/manager_window.vala:731
-msgid "To remove"
-msgstr ""
-
 #: src/manager_window.vala:210
 msgid "Licenses"
 msgstr ""
@@ -201,7 +440,7 @@ msgid "Depends On"
 msgstr ""
 
 #: src/manager_window.vala:252
-msgid "Optional Deps"
+msgid "Optional Dependencies"
 msgstr ""
 
 #: src/manager_window.vala:272
@@ -218,10 +457,6 @@ msgstr ""
 
 #: src/manager_window.vala:312
 msgid "Conflicts With"
-msgstr ""
-
-#: src/manager_window.vala:328
-msgid "Repository"
 msgstr ""
 
 #: src/manager_window.vala:346
@@ -264,8 +499,8 @@ msgstr ""
 msgid "Uninstalled"
 msgstr ""
 
-#: src/updater_window.vala:173
-msgid "Total download size:"
+#: src/manager_window.vala:888
+msgid "A Gtk3 frontend for libalpm"
 msgstr ""
 
 #: src/common.vala:62

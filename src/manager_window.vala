@@ -249,7 +249,7 @@ namespace Pamac {
 				if (satisfier != null)
 					optdep_str = optdep_str + " [" + dgettext (null, "Installed") + "]";
 				deps_list.insert_with_values (out iter, -1,
-												0, dgettext (null, "Optional Deps") + ":",
+												0, dgettext (null, "Optional Dependencies") + ":",
 												1, optdep_str);
 				i = 1;
 				while (i < len) {
@@ -885,7 +885,7 @@ namespace Pamac {
 				this,
 				"program_name", "Pamac",
 				"logo_icon_name", "system-software-install",
-				"comments", "A GTK3 frontend of libalpm",
+				"comments", dgettext (null, "A Gtk3 frontend for libalpm"),
 				"copyright", "Copyright © 2014 Guillaume Benoit",
 				"version", VERSION,
 				"license_type", License.GPL_3_0,
@@ -916,6 +916,7 @@ namespace Pamac {
 		}
 
 		public void on_emit_trans_finished (bool error) {
+			print ("transaction finished\n");
 			if (error == false) {
 				set_buttons_sensitive (false);
 				refresh_packages_list ();

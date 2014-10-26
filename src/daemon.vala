@@ -22,7 +22,7 @@ using Pamac;
 using Polkit;
 
 // i18n
-const string GETTEXT_PACKAGE = "pacman";
+const string GETTEXT_PACKAGE = "pamac";
 
 PamacServer server;
 MainLoop loop;
@@ -41,9 +41,9 @@ public class PamacServer : Object {
 	public Mutex provider_mutex;
 	public int? choosen_provider;
 
-	public signal void emit_event (uint event, string msg);
+	public signal void emit_event (uint event, string[] details);
 	public signal void emit_providers (string depend, string[] providers);
-	public signal void emit_progress (uint progress, string action, string pkgname, int percent, uint n_targets, uint current_target);
+	public signal void emit_progress (uint progress, string pkgname, int percent, uint n_targets, uint current_target);
 	public signal void emit_download (string filename, uint64 xfered, uint64 total);
 	public signal void emit_totaldownload (uint64 total);
 	public signal void emit_log (uint level, string msg);
@@ -91,6 +91,10 @@ public class PamacServer : Object {
 		}
 	}
 
+	public void refresh_alpm_config () {
+		get_handle ();
+	}
+
 	private void refresh_real () {
 		ErrorInfos err = ErrorInfos ();
 		string[] details = {};
@@ -106,17 +110,21 @@ public class PamacServer : Object {
 			// We should always succeed if at least one DB was upgraded - we may possibly
 			// fail later with unresolved deps, but that should be rare, and would be expected
 			if (success == 0) {
-				err.str = _("failed to synchronize any databases\n");
-				details += Alpm.strerror (alpm_config.handle.errno ()) + "\n";
+				err.str = _("Failed to synchronize any databases");
+				details += Alpm.strerror (alpm_config.handle.errno ());
 				err.details = details;
 			}
 			trans_release ();
 			get_handle ();
-			if (emit_refreshed_signal)
-				emit_refreshed (err);
-			else
-				emit_refreshed_signal = true;
+		} else {
+			err.str = _("Failed to synchronize any databases");
+			details += Alpm.strerror (alpm_config.handle.errno ());
+			err.details = details;
 		}
+		if (emit_refreshed_signal)
+			emit_refreshed (err);
+		else
+			emit_refreshed_signal = true;
 	}
 
 	public async void refresh (int force, bool emit_signal) {
@@ -148,25 +156,31 @@ public class PamacServer : Object {
 
 	public ErrorInfos trans_init (TransFlag transflags) {
 		ErrorInfos err = ErrorInfos ();
+		string[] details = {};
 		int ret = alpm_config.handle.trans_init (transflags);
 		if (ret == -1) {
-			//err = _("failed to init transaction (%s)\n").printf (Alpm.strerror (errno));
-			err.str = Alpm.strerror (alpm_config.handle.errno ()) + "\n";
+			err.str = _("Failed to init transaction");
+			details += Alpm.strerror (alpm_config.handle.errno ());
+			err.details = details;
 		}
 		return err;
 	}
 
 	public ErrorInfos trans_sysupgrade (int enable_downgrade) {
 		ErrorInfos err = ErrorInfos ();
+		string[] details = {};
 		int ret = alpm_config.handle.trans_sysupgrade (enable_downgrade);
 		if (ret == -1) {;
-			err.str = Alpm.strerror (alpm_config.handle.errno ()) + "\n";
+			err.str = _("Failed to prepare transaction");
+			details += Alpm.strerror (alpm_config.handle.errno ());
+			err.details = details;
 		}
 		return err;
 	}
 
 	public ErrorInfos trans_add_pkg (string pkgname) {
 		ErrorInfos err = ErrorInfos ();
+		string[] details = {};
 		unowned Package? pkg = null;
 		//pkg =  alpm_config.handle.find_dbs_satisfier (syncdbs, pkgname);  
 		foreach (var db in syncdbs) {
@@ -175,7 +189,9 @@ public class PamacServer : Object {
 				break;
 		}
 		if (pkg == null)  {
-			err.str = _("target not found: %s\n").printf (pkgname);
+			err.str = _("Failed to prepare transaction");
+			details += _("target not found: %s").printf (pkgname);
+			err.details = details;
 			return err;
 		}
 		int ret = alpm_config.handle.trans_add_pkg (pkg);
@@ -185,7 +201,9 @@ public class PamacServer : Object {
 				// just skip duplicate or ignored targets
 				return err;
 			else {
-				err.str = "'%s': %s\n".printf (pkg.name, Alpm.strerror (errno));
+				err.str = _("Failed to prepare transaction");
+				details += "%s: %s".printf (pkg.name, Alpm.strerror (errno));
+				err.details = details;
 				return err;
 			}
 		}
@@ -194,19 +212,24 @@ public class PamacServer : Object {
 
 	public ErrorInfos trans_load_pkg (string pkgpath) {
 		ErrorInfos err = ErrorInfos ();
+		string[] details = {};
 		unowned Package? pkg = alpm_config.handle.load_file (pkgpath, 1, alpm_config.handle.localfilesiglevel);
 		if (pkg == null) {
-			err.str = "'%s': %s\n".printf (pkgpath, Alpm.strerror (alpm_config.handle.errno ()));
+			err.str = _("Failed to prepare transaction");
+			details += "%s: %s".printf (pkgpath, Alpm.strerror (alpm_config.handle.errno ()));
+			err.details = details;
 			return err;
 		} else {
 			int ret = alpm_config.handle.trans_add_pkg (pkg);
 			if (ret == -1) {
 				Alpm.Errno errno = alpm_config.handle.errno ();
-				if (errno == Errno.TRANS_DUP_TARGET || errno == Errno.PKG_IGNORED) {
+				if (errno == Errno.TRANS_DUP_TARGET || errno == Errno.PKG_IGNORED)
 					// just skip duplicate or ignored targets
 					return err;
-				} else {
-					err.str = "'%s': %s\n".printf (pkg.name, Alpm.strerror (errno));
+				else {
+					err.str = _("Failed to prepare transaction");
+					details += "%s: %s".printf (pkg.name, Alpm.strerror (errno));
+					err.details = details;
 					return err;
 				}
 			}
@@ -216,14 +239,19 @@ public class PamacServer : Object {
 
 	public ErrorInfos trans_remove_pkg (string pkgname) {
 		ErrorInfos err = ErrorInfos ();
+		string[] details = {};
 		unowned Package? pkg = localdb.get_pkg (pkgname);
 		if (pkg == null) {
-			err.str = _("target not found: %s\n").printf (pkgname);
+			err.str = _("Failed to prepare transaction");
+			details += _("target not found: %s").printf (pkgname);
+			err.details = details;
 			return err;
 		}
 		int ret = alpm_config.handle.trans_remove_pkg (pkg);
 		if (ret == -1) {
-			err.str = "'%s': %s\n".printf (pkg.name, Alpm.strerror (alpm_config.handle.errno ()));
+			err.str = _("Failed to prepare transaction");
+			details += "%s: %s".printf (pkg.name, Alpm.strerror (alpm_config.handle.errno ()));
+			err.details = details;
 		}
 		return err;
 	}
@@ -235,39 +263,60 @@ public class PamacServer : Object {
 		int ret = alpm_config.handle.trans_prepare (out err_data);
 		if (ret == -1) {
 			Alpm.Errno errno = alpm_config.handle.errno ();
-			//err = _("failed to prepare transaction (%s)\n").printf ();
-			err.str = Alpm.strerror (errno) + "\n";
+			err.str = _("Failed to prepare transaction");
+			string detail = Alpm.strerror (errno);
 			switch (errno) {
 				case Errno.PKG_INVALID_ARCH:
+					detail += ":";
+					details += detail;
 					foreach (void *i in err_data) {
 						char *pkgname = i;
-						details += _("package %s does not have a valid architecture\n").printf (pkgname);
+						details += _("package %s does not have a valid architecture").printf (pkgname);
 					}
 					break;
 				case Errno.UNSATISFIED_DEPS:
+					detail += ":";
+					details += detail;
 					foreach (void *i in err_data) {
 						DepMissing *miss = i;
 						string depstring = miss->depend.compute_string ();
-						details += _("%s: requires %s\n").printf (miss->target, depstring);
+						details += _("%s: requires %s").printf (miss->target, depstring);
 					}
 					break;
 				case Errno.CONFLICTING_DEPS:
+					detail += ":";
+					details += detail;
 					foreach (void *i in err_data) {
 						Conflict *conflict = i;
+						detail = _("%s and %s are in conflict").printf (conflict->package1, conflict->package2);
 						// only print reason if it contains new information
-						if (conflict->reason.mod == DepMod.ANY)
-							details += _("%s and %s are in conflict\n").printf (conflict->package1, conflict->package2);
-						else {
-							string reason = conflict->reason.compute_string ();
-							details += _("%s and %s are in conflict (%s)\n").printf (conflict->package1, conflict->package2, reason);
+						if (conflict->reason.mod != DepMod.ANY) {
+							detail += " (%s)".printf (conflict->reason.compute_string ());
 						}
+						details += detail;
 					}
 					break;
 				default:
+					details += detail;
 					break;
 			}
 			err.details = details;
 			trans_release ();
+		} else {
+			// Search for holdpkg in target list
+			bool found_locked_pkg = false;
+			foreach (unowned Package pkg in alpm_config.handle.trans_to_remove ()) {
+				if (pkg.name in alpm_config.holdpkg) {
+					details += _("%s needs to be removed but it is a locked package").printf (pkg.name);
+					found_locked_pkg = true;
+					break;
+				}
+			}
+			if (found_locked_pkg) {
+				err.str = _("Failed to prepare transaction");
+				err.details = details;
+				trans_release ();
+			}
 		}
 		emit_trans_prepared (err);
 	}
@@ -326,22 +375,24 @@ public class PamacServer : Object {
 		int ret = alpm_config.handle.trans_commit (out err_data);
 		if (ret == -1) {
 			Alpm.Errno errno = alpm_config.handle.errno ();
-			//err = _("failed to commit transaction (%s)\n").printf (Alpm.strerror (errno));
-			err.str = Alpm.strerror (errno) + "\n";
+			err.str = _("Failed to commit transaction");
+			string detail = Alpm.strerror (errno);
 			switch (errno) {
 				case Alpm.Errno.FILE_CONFLICTS:
-					TransFlag flags = alpm_config.handle.trans_get_flags ();
-					if ((flags & TransFlag.FORCE) != 0) {
-						details += _("unable to %s directory-file conflicts\n").printf ("--force");
-					}
+					detail += ":";
+					details += detail;
+					//TransFlag flags = alpm_config.handle.trans_get_flags ();
+					//if ((flags & TransFlag.FORCE) != 0) {
+						//details += _("unable to %s directory-file conflicts").printf ("--force");
+					//}
 					foreach (void *i in err_data) {
 						FileConflict *conflict = i;
 						switch (conflict->type) {
 							case FileConflictType.TARGET:
-								details += _("%s exists in both '%s' and '%s'\n").printf (conflict->file, conflict->target, conflict->ctarget);
+								details += _("%s exists in both %s and %s").printf (conflict->file, conflict->target, conflict->ctarget);
 								break;
 							case FileConflictType.FILESYSTEM:
-								details += _("%s: %s exists in filesystem\n").printf (conflict->target, conflict->file);
+								details += _("%s: %s already exists in filesystem").printf (conflict->target, conflict->file);
 								break;
 						}
 					}
@@ -350,12 +401,15 @@ public class PamacServer : Object {
 				case Alpm.Errno.PKG_INVALID_CHECKSUM:
 				case Alpm.Errno.PKG_INVALID_SIG:
 				case Alpm.Errno.DLT_INVALID:
+					detail += ":";
+					details += detail;
 					foreach (void *i in err_data) {
 						char *filename = i;
-						details += _("%s is invalid or corrupted\n").printf (filename);
+						details += _("%s is invalid or corrupted").printf (filename);
 					}
 					break;
 				default:
+					details += detail;
 					break;
 			}
 			err.details = details;
@@ -379,7 +433,7 @@ public class PamacServer : Object {
 				new Thread<void*>.try ("commit thread", (ThreadFunc) trans_commit_real);
 			} else {
 				ErrorInfos err = ErrorInfos ();
-				err.str = "Not Authorized\n";
+				err.str = dgettext ("pamac", "Authentication failed");
 				emit_trans_committed (err);
 				trans_release ();
 			}
@@ -416,143 +470,105 @@ private void write_log_file (string event) {
 		// writing a short string to the stream
 		dos.put_string (log);
 	} catch (GLib.Error e) {
-		GLib.stderr.printf("%s\n", e.message);
+		stderr.printf("%s\n", e.message);
 	}
 }
 
 private void cb_event (Event event, void *data1, void *data2) {
-	string event_str = null;
+	string[] details = {};
 	switch (event) {
-		case Event.CHECKDEPS_START:
-			event_str = _("checking dependencies...\n");
-			break;
-		case Event.FILECONFLICTS_START:
-			event_str = _("checking for file conflicts...\n");
-			break;
-		case Event.RESOLVEDEPS_START:
-			event_str = _("resolving dependencies...\n");
-			break;
-		case Event.INTERCONFLICTS_START:
-			event_str = _("looking for inter-conflicts...\n");
-			break;
 		case Event.ADD_START:
+		case Event.REMOVE_START:
+		case Event.REINSTALL_START:
 			unowned Package pkg = (Package) data1;
-			event_str = _("installing %s...\n").printf ("%s (%s)".printf (pkg.name, pkg.version));
+			details += pkg.name;
+			details += pkg.version;
 			break;
 		case Event.ADD_DONE:
 			unowned Package pkg = (Package) data1;
-			string log = "installed %s (%s)\n".printf (pkg.name, pkg.version);
+			string log = "Installed %s (%s)\n".printf (pkg.name, pkg.version);
 			write_log_file (log);
-			break;
-		case Event.REMOVE_START:
-			unowned Package pkg = (Package) data1;
-			event_str = _("removing %s...\n").printf ("%s (%s)".printf (pkg.name, pkg.version));
 			break;
 		case Event.REMOVE_DONE:
 			unowned Package pkg = (Package) data1;
-			string log = "removed %s (%s)\n".printf (pkg.name, pkg.version);
+			string log = "Removed %s (%s)\n".printf (pkg.name, pkg.version);
+			write_log_file (log);
+			break;
+		case Event.REINSTALL_DONE:
+			unowned Package pkg = (Package) data1;
+			string log = "Reinstalled %s (%s)\n".printf (pkg.name, pkg.version);
 			write_log_file (log);
 			break;
 		case Event.UPGRADE_START:
+		case Event.DOWNGRADE_START:
 			unowned Package new_pkg = (Package) data1;
 			unowned Package old_pkg = (Package) data2;
-			event_str = _("upgrading %s...\n").printf ("%s (%s -> %s)".printf (old_pkg.name, old_pkg.version, new_pkg.version));
+			details += old_pkg.name;
+			details += old_pkg.version;
+			details += new_pkg.version;
 			break;
 		case Event.UPGRADE_DONE:
 			unowned Package new_pkg = (Package) data1;
 			unowned Package old_pkg = (Package) data2;
-			string log = _("upgraded %s (%s -> %s)\n").printf (old_pkg.name, old_pkg.version, new_pkg.version);
+			string log = "Upgraded %s (%s -> %s)\n".printf (old_pkg.name, old_pkg.version, new_pkg.version);
 			write_log_file (log);
-			break;
-		case Event.DOWNGRADE_START:
-			unowned Package new_pkg = (Package) data1;
-			unowned Package old_pkg = (Package) data2;
-			event_str = _("downgrading %s...\n").printf ("%s (%s -> %s)".printf (old_pkg.name, old_pkg.version, new_pkg.version));
 			break;
 		case Event.DOWNGRADE_DONE:
 			unowned Package new_pkg = (Package) data1;
 			unowned Package old_pkg = (Package) data2;
-			string log = _("downgraded %s (%s -> %s)\n").printf (old_pkg.name, old_pkg.version, new_pkg.version);
+			string log = "Downgraded %s (%s -> %s)\n".printf (old_pkg.name, old_pkg.version, new_pkg.version);
 			write_log_file (log);
-			break;
-		case Event.REINSTALL_START:
-			unowned Package pkg = (Package) data1;
-			event_str = _("reinstalling %s...\n").printf ("%s (%s)".printf (pkg.name, pkg.version));
-			break;
-		case Event.REINSTALL_DONE:
-			unowned Package pkg = (Package) data1;
-			string log = "reinstalled %s (%s)\n".printf (pkg.name, pkg.version);
-			write_log_file (log);
-			break;
-		case Event.INTEGRITY_START:
-			event_str = _("checking package integrity...\n");
-			break;
-		case Event.KEYRING_START:
-			event_str = _("checking keyring...\n");
-			break;
-		case Event.KEY_DOWNLOAD_START:
-			event_str = _("downloading required keys...\n");
-			break;
-		case Event.LOAD_START:
-			event_str = _("loading package files...\n");
-			break;
-		case Event.DELTA_INTEGRITY_START:
-			event_str = _("checking delta integrity...\n");
-			break;
-		case Event.DELTA_PATCHES_START:
-			event_str = _("applying deltas...\n");
 			break;
 		case Event.DELTA_PATCH_START:
 			unowned string string1 = (string) data1;
 			unowned string string2 = (string) data2;
-			event_str = _("generating %s with %s... ").printf (string1, string2);
-			break;
-		case Event.DELTA_PATCH_DONE:
-			event_str = _("success!\n");
-			break;
-		case Event.DELTA_PATCH_FAILED:
-			event_str = _("failed.\n");
+			details += string1;
+			details += string2;
 			break;
 		case Event.SCRIPTLET_INFO:
 			unowned string info = (string) data1;
-			event_str = info;
-			write_log_file (event_str);
-			break;
-		case Event.RETRIEVE_START:
-			event_str = _("Retrieving packages ...\n");
-			break;
-		case Event.DISKSPACE_START:
-			event_str = _("checking available disk space...\n");
+			details += info;
+			write_log_file (info);
 			break;
 		case Event.OPTDEP_REQUIRED:
 			unowned Package pkg = (Package) data1;
 			Depend *depend = data2;
-			event_str = _("%s optionally requires %s\n").printf (pkg.name, depend->compute_string ());
+			details += pkg.name;
+			details += depend->compute_string ();
 			break;
 		case Event.DATABASE_MISSING:
-			event_str =  _("database file for '%s' does not exist\n").printf ((char *) data1);
+			unowned string db_name = (string) data1;
+			details += db_name;
 			break;
-		/* all the simple done events, with fallthrough for each */
-		
-		case Event.FILECONFLICTS_DONE:
-		case Event.CHECKDEPS_DONE:
-		case Event.RESOLVEDEPS_DONE:
-		case Event.INTERCONFLICTS_DONE:
-		case Event.INTEGRITY_DONE:
-		case Event.KEYRING_DONE:
-		case Event.KEY_DOWNLOAD_DONE:
-		case Event.LOAD_DONE:
-		case Event.DELTA_INTEGRITY_DONE:
-		case Event.DELTA_PATCHES_DONE:
-		case Event.DISKSPACE_DONE:
-			/* nothing */
-			break;
+//~ 		case Event.CHECKDEPS_START:
+//~ 		case Event.CHECKDEPS_DONE:
+//~ 		case Event.FILECONFLICTS_START:
+//~ 		case Event.FILECONFLICTS_DONE:
+//~ 		case Event.RESOLVEDEPS_START:
+//~ 		case Event.RESOLVEDEPS_DONE:
+//~ 		case Event.INTERCONFLICTS_START:
+//~ 		case Event.INTERCONFLICTS_DONE:
+//~ 		case Event.INTEGRITY_START:
+//~ 		case Event.INTEGRITY_DONE:
+//~ 		case Event.KEYRING_START:
+//~ 		case Event.KEYRING_DONE:
+//~ 		case Event.KEY_DOWNLOAD_START:
+//~ 		case Event.KEY_DOWNLOAD_DONE:
+//~ 		case Event.LOAD_START:
+//~ 		case Event.LOAD_DONE:
+//~ 		case Event.DELTA_INTEGRITY_START:
+//~ 		case Event.DELTA_INTEGRITY_DONE:
+//~ 		case Event.DELTA_PATCHES_START:
+//~ 		case Event.DELTA_PATCHES_DONE:
+//~ 		case Event.DELTA_PATCH_DONE:
+//~ 		case Event.DELTA_PATCH_FAILED:
+//~ 		case Event.RETRIEVE_START:
+//~ 		case Event.DISKSPACE_START:
+//~ 		case Event.DISKSPACE_DONE:
 		default:
-			event_str = "unknown event";
 			break;
 	}
-	if (event_str != null)
-		server.emit_event ((uint) event, event_str);
+	server.emit_event ((uint) event, details);
 }
 
 private void cb_question (Question question, void *data1, void *data2, void *data3,  out int response) {
@@ -610,44 +626,23 @@ private void cb_question (Question question, void *data1, void *data2, void *dat
 }
 
 private void cb_progress (Progress progress, string pkgname, int percent, uint n_targets, uint current_target) {
-	string action = "";
-	switch (progress) {
-		case Progress.ADD_START:
-			action = _("installing");
-			break;
-		case Progress.UPGRADE_START:
-			action = _("upgrading");
-			break;
-		case Progress.DOWNGRADE_START:
-			action = _("downgrading");
-			break;
-		case Progress.REINSTALL_START:
-			action = _("reinstalling");
-			break;
-		case Progress.REMOVE_START:
-			action = _("removing");
-			break;
-		case Progress.CONFLICTS_START:
-			action = _("checking for file conflicts");
-			break;
-		case Progress.DISKSPACE_START:
-			action = _("checking available disk space");
-			break;
-		case Progress.INTEGRITY_START:
-			action = _("checking package integrity");
-			break;
-		case Progress.KEYRING_START:
-			action = _("checking keys in keyring");
-			break;
-		case Progress.LOAD_START:
-			action = _("loading package files");
-			break;
-		default:
-			break;
-	}
+//~ 	switch (progress) {
+//~ 		case Progress.ADD_START:
+//~ 		case Progress.UPGRADE_START:
+//~ 		case Progress.DOWNGRADE_START:
+//~ 		case Progress.REINSTALL_START:
+//~ 		case Progress.REMOVE_START:
+//~ 		case Progress.CONFLICTS_START:
+//~ 		case Progress.DISKSPACE_START:
+//~ 		case Progress.INTEGRITY_START:
+//~ 		case Progress.KEYRING_START:
+//~ 		case Progress.LOAD_START:
+//~ 		default:
+//~ 			break;
+//~ 	}
 	if ((uint64) percent != server.previous_percent) {
 		server.previous_percent = (uint64) percent;
-		server.emit_progress ((uint) progress, action, pkgname, percent, n_targets, current_target);
+		server.emit_progress ((uint) progress, pkgname, percent, n_targets, current_target);
 	}
 }
 

@@ -52,8 +52,9 @@ namespace Pamac {
 		public void on_cancel_button_clicked () {
 			transaction.cancel ();
 			transaction.clear_lists ();
-			transaction.finished (false);
+			transaction.spawn_in_term ({"/usr/bin/echo", dgettext (null, "Transaction cancelled") + ".\n"});
 			this.hide ();
+			transaction.finished (false);
 			while (Gtk.events_pending ())
 				Gtk.main_iteration ();
 		}

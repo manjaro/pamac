@@ -132,7 +132,10 @@ namespace Pamac {
 				updates_nb = syncfirst_updates.length;
 				foreach (UpdatesInfos infos in syncfirst_updates) {
 					name = infos.name + " " + infos.version;
-					size = format_size (infos.download_size);
+					if (infos.download_size != 0)
+						size = format_size (infos.download_size);
+					else
+						size = "";
 					dsize += infos.download_size;
 					updates_list.insert_with_values (out iter, -1, 0, name, 1, size);
 				}
@@ -141,7 +144,10 @@ namespace Pamac {
 				UpdatesInfos[] updates = get_repos_updates (transaction.alpm_config, ignore_pkgs);
 				foreach (UpdatesInfos infos in updates) {
 					name = infos.name + " " + infos.version;
-					size = format_size (infos.download_size);
+					if (infos.download_size != 0)
+						size = format_size (infos.download_size);
+					else
+						size = "";
 					dsize += infos.download_size;
 					updates_list.insert_with_values (out iter, -1, 0, name, 1, size);
 				}
@@ -151,7 +157,10 @@ namespace Pamac {
 					updates_nb += aur_updates.length;
 					foreach (UpdatesInfos infos in aur_updates) {
 						name = infos.name + " " + infos.version;
-						size = format_size (infos.download_size);
+						if (infos.download_size != 0)
+							size = format_size (infos.download_size);
+						else
+							size = "";
 						dsize += infos.download_size;
 						updates_list.insert_with_values (out iter, -1, 0, name, 1, size);
 					}
@@ -164,15 +173,14 @@ namespace Pamac {
 				top_label.set_markup("<b>%s</b>".printf (dgettext (null, "1 available update")));
 				apply_button.set_sensitive (true);
 			} else {
-				top_label.set_markup("<b>%s</b>".printf (dgettext (null, "{number} available updates").replace ("{number}", updates_nb.to_string ())));
+				top_label.set_markup("<b>%s</b>".printf (dgettext (null, "%u available updates").printf (updates_nb)));
 				apply_button.set_sensitive (true);
 			}
-			if (dsize == 0)
-				bottom_label.set_visible (false);
-			else {
-				bottom_label.set_markup("<b>%s %s</b>".printf (dgettext (null, "Total download size:"), format_size(dsize)));
+			if (dsize != 0) {
+				bottom_label.set_markup("<b>%s: %s</b>".printf (dgettext (null, "Total download size"), format_size(dsize)));
 				bottom_label.set_visible (true);
-			}
+			} else
+				bottom_label.set_visible (false);
 		}
 	}
 }

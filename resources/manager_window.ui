@@ -368,7 +368,7 @@
               <object class="GtkLabel" id="tab4">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="label" translatable="yes">Repos</property>
+                <property name="label" translatable="yes">Repositories</property>
               </object>
               <packing>
                 <property name="position">3</property>
@@ -460,7 +460,7 @@
                       <object class="GtkTreeViewColumn" id="repo_column">
                         <property name="resizable">True</property>
                         <property name="sizing">autosize</property>
-                        <property name="title" translatable="yes">Repo</property>
+                        <property name="title" translatable="yes">Repository</property>
                         <property name="clickable">True</property>
                         <signal name="clicked" handler="on_repo_column_clicked" swapped="no"/>
                         <child>
@@ -579,7 +579,7 @@
                   <object class="GtkLabel" id="label1">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="label" translatable="yes">Infos</property>
+                    <property name="label" translatable="yes">Description</property>
                   </object>
                   <packing>
                     <property name="tab_fill">False</property>
@@ -639,7 +639,7 @@
                   <object class="GtkLabel" id="label2">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="label" translatable="yes">Deps</property>
+                    <property name="label" translatable="yes">Dependencies</property>
                   </object>
                   <packing>
                     <property name="position">1</property>

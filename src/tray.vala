@@ -21,7 +21,7 @@
 const string GETTEXT_PACKAGE = "pamac";
 
 const string update_icon_name = "pamac-tray-update";
-const string update_info = _("{number} available updates");
+const string update_info = _("%u available updates");
 const string one_update_info = _("1 available update");
 const string noupdate_icon_name = "pamac-tray-no-update";
 const string noupdate_info = _("Your system is up-to-date");
@@ -142,7 +142,7 @@ namespace Pamac {
 					show_notification (one_update_info);
 			} else {
 				// workaround to use python format string
-				string info = update_info.replace ("{number}", updates_nb.to_string ());
+				string info = update_info.printf (updates_nb);
 				this.update_icon (update_icon_name, info);
 				if (pamac_run == false)
 					show_notification (info);

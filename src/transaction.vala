@@ -25,6 +25,7 @@ namespace Pamac {
 	[DBus (name = "org.manjaro.pamac")]
 	public interface Daemon : Object {
 		public abstract void write_config (HashTable<string,string> new_conf) throws IOError;
+		public abstract void refresh_alpm_config () throws IOError;
 		public abstract async void refresh (int force, bool emit_signal) throws IOError;
 		public abstract ErrorInfos trans_init (TransFlag transflags) throws IOError;
 		public abstract ErrorInfos trans_sysupgrade (int enable_downgrade) throws IOError;
@@ -37,12 +38,13 @@ namespace Pamac {
 		public abstract UpdatesInfos[] trans_to_remove () throws IOError;
 		public abstract async void trans_commit () throws IOError;
 		public abstract void trans_release () throws IOError;
+		[DBus (no_reply = true)]
 		public abstract void trans_cancel () throws IOError;
 		[DBus (no_reply = true)]
 		public abstract void quit () throws IOError;
-		public signal void emit_event (uint event, string msg);
+		public signal void emit_event (uint event, string[] details);
 		public signal void emit_providers (string depend, string[] providers);
-		public signal void emit_progress (uint progress, string action, string pkgname, int percent, uint n_targets, uint current_target);
+		public signal void emit_progress (uint progress, string pkgname, int percent, uint n_targets, uint current_target);
 		public signal void emit_download (string filename, uint64 xfered, uint64 total);
 		public signal void emit_totaldownload (uint64 total);
 		public signal void emit_log (uint level, string msg);
@@ -69,6 +71,7 @@ namespace Pamac {
 		uint build_timeout_id;
 		bool sysupgrade_after_trans;
 		bool sysupgrade_after_build;
+		int build_status;
 
 		Terminal term;
 		Pty pty;
@@ -132,6 +135,7 @@ namespace Pamac {
 			previous_filename = "";
 			sysupgrade_after_trans = false;
 			sysupgrade_after_build = false;
+			build_status = 0;
 		}
 
 		public void write_config (HashTable<string,string> new_conf) {
@@ -147,13 +151,13 @@ namespace Pamac {
 		}
 
 		public void refresh (int force) {
-			string action = dgettext ("pacman", "Synchronizing package databases...\n").replace ("\n", "");
-			spawn_in_term ({"/usr/bin/echo", action}, null);
+			string action = dgettext (null, "Synchronizing package databases") + "...";
+			spawn_in_term ({"/usr/bin/echo", action});
 			progress_window.action_label.set_text (action);
 			progress_window.progressbar.set_fraction (0);
 			progress_window.progressbar.set_text ("");
-			progress_window.cancel_button.visible = true;
-			progress_window.close_button.visible = false;
+			progress_window.cancel_button.set_visible (true);
+			progress_window.close_button.set_visible (false);
 			progress_window.show ();
 			daemon.refresh.begin (force, true, (obj, res) => {
 				try {
@@ -165,9 +169,9 @@ namespace Pamac {
 		}
 
 		public void sysupgrade_simple (int enable_downgrade) {
-			print("simple sysupgrade\n");
+			print ("simple sysupgrade\n");
 			progress_window.progressbar.set_fraction (0);
-			progress_window.cancel_button.visible = true;
+			progress_window.cancel_button.set_visible (true);
 			ErrorInfos err = ErrorInfos ();
 			try {
 				err = daemon.trans_init (0);
@@ -203,17 +207,17 @@ namespace Pamac {
 		}
 
 		public void sysupgrade (int enable_downgrade) {
-			string action = dgettext ("pacman", "Starting full system upgrade...\n").replace ("\n", "");
-			spawn_in_term ({"/usr/bin/echo", action}, null);
+			string action = dgettext (null, "Starting full system upgrade") + "...";
+			spawn_in_term ({"/usr/bin/echo", action});
 			progress_window.action_label.set_text (action);
 			progress_window.progressbar.set_fraction (0);
 			progress_window.progressbar.set_text ("");
-			progress_window.cancel_button.visible = true;
-			progress_window.close_button.visible = false;
+			progress_window.cancel_button.set_visible (true);
+			progress_window.close_button.set_visible (false);
 			while (Gtk.events_pending ())
 				Gtk.main_iteration ();
 			// sysupgrade
-			print("get syncfirst\n");
+			print ("get syncfirst\n");
 			// get syncfirst updates
 			UpdatesInfos[] syncfirst_updates = get_syncfirst_updates (alpm_config);
 			if (syncfirst_updates.length != 0) {
@@ -226,7 +230,7 @@ namespace Pamac {
 				run ();
 			} else {
 				if (pamac_config.enable_aur) {
-					print("get aur updates\n");
+					print ("get aur updates\n");
 					string[] ignore_pkgs = get_ignore_pkgs (alpm_config);
 					UpdatesInfos[] aur_updates = get_aur_updates (alpm_config, ignore_pkgs);
 					if (aur_updates.length != 0) {
@@ -248,12 +252,12 @@ namespace Pamac {
 
 		public void run () {
 			string action = dgettext (null,"Preparing") + "...";
-			spawn_in_term ({"/usr/bin/echo", action}, null);
+			spawn_in_term ({"/usr/bin/echo", action});
 			progress_window.action_label.set_text (action);
 			progress_window.progressbar.set_fraction (0);
 			progress_window.progressbar.set_text ("");
-			progress_window.cancel_button.visible = true;
-			progress_window.close_button.visible = false;
+			progress_window.cancel_button.set_visible (true);
+			progress_window.close_button.set_visible (false);
 			progress_window.show ();
 			while (Gtk.events_pending ())
 				Gtk.main_iteration ();
@@ -321,7 +325,7 @@ namespace Pamac {
 
 		public void choose_provider (string depend, string[] providers) {
 			int len = providers.length;
-			choose_provider_dialog.label.set_markup ("<b>%s</b>".printf (dgettext (null, "Choose a provider for %s:").printf (depend, len)));
+			choose_provider_dialog.label.set_markup ("<b>%s</b>".printf (dgettext (null, "Choose a provider for %s").printf (depend, len)));
 			choose_provider_dialog.comboboxtext.remove_all ();
 			foreach (string provider in providers)
 				choose_provider_dialog.comboboxtext.append_text (provider);
@@ -458,14 +462,13 @@ namespace Pamac {
 			if (dsize == 0)
 				transaction_sum_dialog.bottom_label.set_visible (false);
 			else {
-				transaction_sum_dialog.bottom_label.set_markup ("<b>%s %s</b>".printf (dgettext (null, "Total download size:"), format_size (dsize)));
+				transaction_sum_dialog.bottom_label.set_markup ("<b>%s: %s</b>".printf (dgettext (null, "Total download size"), format_size (dsize)));
 				transaction_sum_dialog.bottom_label.set_visible (true);
 			}
 			return ret;
 		}
 
 		public void commit () {
-			progress_window.cancel_button.visible = false;
 			daemon.trans_commit.begin ((obj, res) => {
 				try {
 					daemon.trans_commit.end (res);
@@ -478,12 +481,12 @@ namespace Pamac {
 		public void build_aur_packages () {
 			print ("building packages\n");
 			string action = dgettext (null,"Building packages") + "...";
-			spawn_in_term ({"/usr/bin/echo", "-n", action}, null);
+			spawn_in_term ({"/usr/bin/echo", "-n", action});
 			progress_window.action_label.set_text (action);
 			progress_window.progressbar.set_fraction (0);
 			progress_window.progressbar.set_text ("");
-			progress_window.cancel_button.visible = false;
-			progress_window.close_button.visible = false;
+			progress_window.cancel_button.set_visible (false);
+			progress_window.close_button.set_visible (false);
 			progress_window.expander.set_expanded (true);
 			progress_window.width_request = 700;
 			term.grab_focus ();
@@ -521,7 +524,7 @@ namespace Pamac {
 			}
 		}
 
-		void spawn_in_term (string[] args, out int pid) {
+		public void spawn_in_term (string[] args, out int pid = null) {
 			try {
 				Process.spawn_async (null, args, null, SpawnFlags.DO_NOT_REAP_CHILD, pty.child_setup, out pid);
 			} catch (SpawnError e) {
@@ -530,91 +533,147 @@ namespace Pamac {
 			term.set_pty (pty);
 		}
 
-		void on_emit_event (uint event, string msg) {
+		void on_emit_event (uint event, string[] details) {
+			string msg;
 			switch (event) {
 				case Event.CHECKDEPS_START:
+					msg = dgettext (null, "Checking dependencies") + "...";
+					progress_window.action_label.set_text (msg);
+					spawn_in_term ({"/usr/bin/echo", msg});
 					break;
 				case Event.FILECONFLICTS_START:
+					msg = dgettext (null, "Checking file conflicts") + "...";
+					progress_window.action_label.set_text (msg);
+					spawn_in_term ({"/usr/bin/echo", msg});
 					break;
 				case Event.RESOLVEDEPS_START:
+					msg = dgettext (null, "Resolving dependencies") + "...";
+					progress_window.action_label.set_text (msg);
+					spawn_in_term ({"/usr/bin/echo", msg});
 					break;
 				case Event.INTERCONFLICTS_START:
+					msg = dgettext (null, "Checking inter-conflicts") + "...";
+					progress_window.action_label.set_text (msg);
+					spawn_in_term ({"/usr/bin/echo", msg});
 					break;
 				case Event.ADD_START:
-					progress_window.cancel_button.visible = false;
-					break;
-				case Event.ADD_DONE:
-					break;
-				case Event.REMOVE_START:
-					progress_window.cancel_button.visible = false;
-					break;
-				case Event.REMOVE_DONE:
-					break;
-				case Event.UPGRADE_START:
-					break;
-				case Event.UPGRADE_DONE:
-					break;
-				case Event.DOWNGRADE_START:
-					break;
-				case Event.DOWNGRADE_DONE:
+					progress_window.cancel_button.set_visible (false);
+					previous_filename = details[0];
+					msg = dgettext (null, "Installing %s").printf (details[0]) + "...";
+					progress_window.action_label.set_text (msg);
+					msg = dgettext (null, "Installing %s").printf ("%s (%s)".printf (details[0], details[1]))+ "...";
+					spawn_in_term ({"/usr/bin/echo", msg});
 					break;
 				case Event.REINSTALL_START:
+					progress_window.cancel_button.set_visible (false);
+					previous_filename = details[0];
+					msg = dgettext (null, "Reinstalling %s").printf (details[0]) + "...";
+					progress_window.action_label.set_text (msg);
+					msg = dgettext (null, "Reinstalling %s").printf ("%s (%s)".printf (details[0], details[1]))+ "...";
+					spawn_in_term ({"/usr/bin/echo", msg});
 					break;
-				case Event.REINSTALL_DONE:
+				case Event.REMOVE_START:
+					progress_window.cancel_button.set_visible (false);
+					previous_filename = details[0];
+					msg = dgettext (null, "Removing %s").printf (details[0]) + "...";
+					progress_window.action_label.set_text (msg);
+					msg = dgettext (null, "Removing %s").printf ("%s (%s)".printf (details[0], details[1]))+ "...";
+					spawn_in_term ({"/usr/bin/echo", msg});
+					break;
+				case Event.UPGRADE_START:
+					progress_window.cancel_button.set_visible (false);
+					previous_filename = details[0];
+					msg = dgettext (null, "Upgrading %s").printf (details[0]) + "...";
+					progress_window.action_label.set_text (msg);
+					msg = dgettext (null, "Upgrading %s").printf ("%s (%s -> %s)".printf (details[0], details[1], details[2]))+ "...";
+					spawn_in_term ({"/usr/bin/echo", msg});
+					break;
+				case Event.DOWNGRADE_START:
+					progress_window.cancel_button.set_visible (false);
+					previous_filename = details[0];
+					msg = dgettext (null, "Downgrading %s").printf (details[0]) + "...";
+					progress_window.action_label.set_text (msg);
+					msg = dgettext (null, "Downgrading %s").printf ("%s (%s -> %s)".printf (details[0], details[1], details[2]))+ "...";
+					spawn_in_term ({"/usr/bin/echo", msg});
 					break;
 				case Event.INTEGRITY_START:
+					msg = dgettext (null, "Checking integrity") + "...";
+					progress_window.action_label.set_text (msg);
+					spawn_in_term ({"/usr/bin/echo", msg});
 					break;
 				case Event.KEYRING_START:
+					msg = dgettext (null, "Checking keyring") + "...";
+					progress_window.action_label.set_text (msg);
+					spawn_in_term ({"/usr/bin/echo", msg});
 					break;
-		//~ 		case Event.KEY_DOWNLOAD_START:
-		//~ 			break;
+				case Event.KEY_DOWNLOAD_START:
+					msg = dgettext (null, "Downloading required keys") + "...";
+					progress_window.action_label.set_text (msg);
+					spawn_in_term ({"/usr/bin/echo", msg});
+					break;
 				case Event.LOAD_START:
+					msg = dgettext (null, "Loading packages files") + "...";
+					progress_window.action_label.set_text (msg);
+					spawn_in_term ({"/usr/bin/echo", msg});
 					break;
-		//~ 		case Event.DELTA_INTEGRITY_START:
-		//~ 			break;
-		//~ 		case Event.DELTA_PATCHES_START:
-		//~ 			break;
-		//~ 		case Event.DELTA_PATCH_START:
-		//~ 			break;
-		//~ 		case Event.DELTA_PATCH_DONE:
-		//~ 			break;
-		//~ 		case Event.DELTA_PATCH_FAILED:
-		//~ 			break;
+				case Event.DELTA_INTEGRITY_START:
+					msg = dgettext (null, "Checking delta integrity") + "...";
+					progress_window.action_label.set_text (msg);
+					spawn_in_term ({"/usr/bin/echo", msg});
+					break;
+				case Event.DELTA_PATCHES_START:
+					msg = dgettext (null, "Applying deltas") + "...";
+					progress_window.action_label.set_text (msg);
+					spawn_in_term ({"/usr/bin/echo", msg});
+					break;
+				case Event.DELTA_PATCH_START:
+					msg = dgettext (null, "Generating %s with %s").printf (details[0], details[1]) + "...";
+					progress_window.action_label.set_text (msg);
+					spawn_in_term ({"/usr/bin/echo", msg});
+					break;
+				case Event.DELTA_PATCH_DONE:
+					msg = dgettext (null, "Generation succeeded") + "...";
+					progress_window.action_label.set_text (msg);
+					spawn_in_term ({"/usr/bin/echo", msg});
+					break;
+				case Event.DELTA_PATCH_FAILED:
+					msg = dgettext (null, "Generation failed") + "...";
+					progress_window.action_label.set_text (msg);
+					spawn_in_term ({"/usr/bin/echo", msg});
+					break;
 				case Event.SCRIPTLET_INFO:
+					progress_window.action_label.set_text (dgettext (null, "Configuring %s").printf (previous_filename) + "...");
 					progress_window.expander.set_expanded (true);
+					spawn_in_term ({"/usr/bin/echo", details[0]});
 					break;
 				case Event.RETRIEVE_START:
-					progress_window.action_label.set_text (msg.replace ("\n", ""));
+					msg = dgettext (null, "Downloading") + "...";
+					progress_window.action_label.set_text (msg);
+					spawn_in_term ({"/usr/bin/echo", msg});
 					break;
 				case Event.DISKSPACE_START:
+					msg = dgettext (null, "Checking available disk space") + "...";
+					progress_window.action_label.set_text (msg);
+					spawn_in_term ({"/usr/bin/echo", msg});
 					break;
-		//~ 		case Event.OPTDEP_REQUIRED:
-		//~ 			break;
-		//~ 		case Event.DATABASE_MISSING:
-		//~ 			break;
-				case Event.FILECONFLICTS_DONE:
-				case Event.CHECKDEPS_DONE:
-				case Event.RESOLVEDEPS_DONE:
-				case Event.INTERCONFLICTS_DONE:
-				case Event.INTEGRITY_DONE:
-				case Event.KEYRING_DONE:
-				case Event.KEY_DOWNLOAD_DONE:
-				case Event.LOAD_DONE:
-				case Event.DELTA_INTEGRITY_DONE:
-				case Event.DELTA_PATCHES_DONE:
-				case Event.DISKSPACE_DONE:
+				case Event.OPTDEP_REQUIRED:
+					spawn_in_term ({"/usr/bin/echo", dgettext (null, "%s optionally requires %s").printf (details[0], details[1])});
+					break;
+				case Event.DATABASE_MISSING:
+					spawn_in_term ({"/usr/bin/echo", dgettext (null, "Database file for %s does not exist").printf (details[0])});
 					break;
 				default:
 					break;
 			}
-			spawn_in_term ({"/usr/bin/echo", "-n", msg}, null);
+			while (Gtk.events_pending ())
+				Gtk.main_iteration ();
 		}
 
 		void on_emit_providers (string depend, string[] providers) {
 			choose_provider (depend, providers);
 		}
 
-		void on_emit_progress (uint progress, string action, string pkgname, int percent, uint n_targets, uint current_target) {
+		void on_emit_progress (uint progress, string pkgname, int percent, uint n_targets, uint current_target) {
 			double fraction;
 			switch (progress) {
 				case Progress.ADD_START:
@@ -632,15 +691,6 @@ namespace Pamac {
 				default:
 					fraction = (float) percent/100;
 					break;
-			}
-			string label;
-			if (pkgname != "")
-				label = "%s %s...".printf (action, pkgname);
-			else
-				label = "%s...".printf (action);
-			if (label != previous_label) {
-				previous_label = label;
-				progress_window.action_label.set_text (label);
 			}
 			string textbar = "%lu/%lu".printf (current_target, n_targets);
 			if (textbar != previous_textbar) {
@@ -662,14 +712,14 @@ namespace Pamac {
 			if (filename != previous_filename) {
 				previous_filename = filename;
 				if (filename.has_suffix (".db")) {
-					label = dgettext (null, "Refreshing {repo}").replace ("{repo}", filename.replace (".db", "")) + "...";
+					label = dgettext (null, "Refreshing %s").printf (filename.replace (".db", "")) + "...";
 				} else {
-					label = dgettext (null, "Downloading {pkgname}").replace ("{pkgname}", filename.replace (".pkg.tar.xz", "")) + "...";
+					label = dgettext (null, "Downloading %s").printf (filename.replace (".pkg.tar.xz", "")) + "...";
 				}
 				if (label != previous_label) {
 					previous_label = label;
 					progress_window.action_label.set_text (label);
-					spawn_in_term ({"/usr/bin/echo", label}, null);
+					spawn_in_term ({"/usr/bin/echo", label});
 				}
 			}
 			if (total_download > 0) {
@@ -709,11 +759,11 @@ namespace Pamac {
 			}
 			if (line != null) {
 				progress_window.expander.set_expanded (true);
-				spawn_in_term ({"/usr/bin/echo", "-n", line}, null);
+				spawn_in_term ({"/usr/bin/echo", "-n", line});
 			}
 		}
 
-		public void handle_warning () {
+		public void show_warnings () {
 			if (transaction_info_dialog.textbuffer.text != "") {
 				transaction_info_dialog.set_title (dgettext (null, "Warning"));
 				transaction_info_dialog.label.set_visible (false);
@@ -730,31 +780,41 @@ namespace Pamac {
 		}
 
 		public void handle_error (ErrorInfos error) {
+			progress_window.expander.set_expanded (true);
+			spawn_in_term ({"/usr/bin/echo", "-n", error.str});
 			TextIter start_iter;
 			TextIter end_iter;
 			transaction_info_dialog.set_title (dgettext (null, "Error"));
 			transaction_info_dialog.label.set_visible (true);
-			transaction_info_dialog.label.set_markup (error.str.replace ("\n", ""));
-			transaction_info_dialog.textbuffer.get_start_iter (out start_iter);
-			transaction_info_dialog.textbuffer.get_end_iter (out end_iter);
-			transaction_info_dialog.textbuffer.delete (ref start_iter, ref end_iter);
+			transaction_info_dialog.label.set_markup (error.str);
 			if (error.details.length != 0) {
-				foreach (string detail in error.details) {
-					transaction_info_dialog.textbuffer.get_end_iter (out end_iter);
-					transaction_info_dialog.textbuffer.insert (ref end_iter, detail, detail.length);
-				}
+				transaction_info_dialog.textbuffer.get_start_iter (out start_iter);
+				transaction_info_dialog.textbuffer.get_end_iter (out end_iter);
+				transaction_info_dialog.textbuffer.delete (ref start_iter, ref end_iter);
 				transaction_info_dialog.expander.set_visible (true);
+				transaction_info_dialog.expander.set_expanded (true);
+				spawn_in_term ({"/usr/bin/echo", ":"});
+				foreach (string detail in error.details) {
+					spawn_in_term ({"/usr/bin/echo", detail});
+					string str = detail + "\n";
+					transaction_info_dialog.textbuffer.get_end_iter (out end_iter);
+					transaction_info_dialog.textbuffer.insert (ref end_iter, str, str.length);
+				}
 			} else
 				transaction_info_dialog.expander.set_visible (false);
+			spawn_in_term ({"/usr/bin/echo"});
 			transaction_info_dialog.run ();
 			transaction_info_dialog.hide ();
 			progress_window.hide ();
+			transaction_info_dialog.textbuffer.get_start_iter (out start_iter);
+			transaction_info_dialog.textbuffer.get_end_iter (out end_iter);
+			transaction_info_dialog.textbuffer.delete (ref start_iter, ref end_iter);
 			while (Gtk.events_pending ())
 				Gtk.main_iteration ();
 		}
 
 		public void on_emit_refreshed (ErrorInfos error) {
-			print("transaction refreshed\n");
+			print ("transaction refreshed\n");
 			refresh_alpm_config ();
 			if (error.str == "") {
 				if (mode == Mode.UPDATER) {
@@ -772,7 +832,7 @@ namespace Pamac {
 		public void on_emit_trans_prepared (ErrorInfos error) {
 			print ("transaction prepared\n");
 			if (error.str == "") {
-				handle_warning ();
+				show_warnings ();
 				int ret = set_transaction_sum ();
 				if (ret == 0) {
 					if (data.to_add.size () == 0
@@ -788,12 +848,13 @@ namespace Pamac {
 							ErrorInfos err = ErrorInfos ();
 							on_emit_trans_committed (err);
 						} else {
+							spawn_in_term ({"/usr/bin/echo", dgettext (null, "Transaction cancelled") + ".\n"});
 							progress_window.hide ();
 							transaction_sum_dialog.hide ();
 							finished (true);
 						}
 					} else if (sysupgrade_after_build) {
-						print("sysupgrade_after_build\n");
+						print ("sysupgrade_after_build\n");
 						sysupgrade_after_build = false;
 						commit ();
 					} else if (transaction_sum_dialog.run () == ResponseType.OK) {
@@ -802,6 +863,7 @@ namespace Pamac {
 							Gtk.main_iteration ();
 						commit ();
 					} else {
+						spawn_in_term ({"/usr/bin/echo", dgettext (null, "Transaction cancelled") + ".\n"});
 						progress_window.hide ();
 						transaction_sum_dialog.hide ();
 						release ();
@@ -812,6 +874,7 @@ namespace Pamac {
 				} else {
 					//ErrorInfos err = ErrorInfos ();
 					//err.str = dgettext (null, "Nothing to do") + "\n";
+					spawn_in_term ({"/usr/bin/echo", dgettext (null, "Nothing to do") + ".\n"});
 					progress_window.hide ();
 					release ();
 					clear_lists ();
@@ -825,20 +888,20 @@ namespace Pamac {
 		}
 
 		public void on_emit_trans_committed (ErrorInfos error) {
-			print("transaction committed\n");
+			print ("transaction committed\n");
 			if (error.str == "") {
 				if (data.to_build.size () != 0) {
 					if (data.to_add.size () != 0
 							|| data.to_remove.size () != 0
 							|| data.to_load.size () != 0) {
-						spawn_in_term ({"/usr/bin/echo", dgettext (null, "Transaction successfully finished") + "\n"}, null);
+						spawn_in_term ({"/usr/bin/echo", dgettext (null, "Transaction successfully finished") + ".\n"});
 					}
 					build_aur_packages ();
 				} else {
 					//progress_window.action_label.set_text (dgettext (null, "Transaction successfully finished"));
 					//progress_window.close_button.set_visible (true);
 					clear_lists ();
-					handle_warning ();
+					show_warnings ();
 					refresh_alpm_config ();
 					if (sysupgrade_after_trans) {
 						sysupgrade_after_trans = false;
@@ -846,22 +909,33 @@ namespace Pamac {
 					} else if (sysupgrade_after_build) {
 						sysupgrade_simple (0);
 					} else {
+						if (build_status == 0)
+							spawn_in_term ({"/usr/bin/echo", dgettext (null, "Transaction successfully finished") + ".\n"});
+						else
+							spawn_in_term ({"/usr/bin/echo"});
 						progress_window.hide ();
-						spawn_in_term ({"/usr/bin/echo", dgettext (null, "Transaction successfully finished") + "\n"}, null);
 						finished (false);
 					}
 				}
 			} else {
+				refresh_alpm_config ();
 				finished (true);
 				handle_error (error);
 			}
 			total_download = 0;
 			already_downloaded = 0;
+			build_status = 0;
 		}
 
 		void on_term_child_exited (int status) {
 			Source.remove (build_timeout_id);
 			data.to_build.steal_all ();
+			build_status = status;
+			try {
+				daemon.refresh_alpm_config ();
+			} catch (IOError e) {
+				stderr.printf ("IOError: %s\n", e.message);
+			}
 			ErrorInfos err = ErrorInfos ();
 			on_emit_trans_committed (err);
 		}

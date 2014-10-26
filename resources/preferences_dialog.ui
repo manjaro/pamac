@@ -115,7 +115,7 @@
                     <child>
                       <object class="GtkSwitch" id="remove_unrequired_deps_button">
                         <property name="visible">True</property>
-                        <property name="tooltip_text" translatable="yes">When removing a package, also remove those dependencies that are not required by other packages</property>
+                        <property name="tooltip_text" translatable="yes">When removing a package, also remove its dependencies that are not required by other packages</property>
                         <property name="halign">2</property>
                         <property name="margin">3</property>
                       </object>
