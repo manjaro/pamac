@@ -19,8 +19,8 @@
 
 namespace Pamac {
 
-	[GtkTemplate (ui = "/org/manjaro/pamac/transaction/progress_window.ui")]
-	public class ProgressWindow : Gtk.Window {
+	[GtkTemplate (ui = "/org/manjaro/pamac/transaction/progress_dialog.ui")]
+	public class ProgressDialog : Gtk.Dialog {
 
 		[GtkChild]
 		public Gtk.ProgressBar progressbar;
@@ -35,8 +35,8 @@ namespace Pamac {
 
 		Transaction transaction;
 
-		public ProgressWindow (Transaction transaction, Gtk.ApplicationWindow? window) {
-			Object (transient_for: window);
+		public ProgressDialog (Transaction transaction, Gtk.ApplicationWindow? window) {
+			Object (transient_for: window, use_header_bar: 0);
 
 			this.transaction = transaction;
 		}

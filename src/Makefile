@@ -6,6 +6,7 @@ COMMON_VALA_FLAGS = 	--pkg=libalpm \
 						--vapidir=../vapi \
 						--Xcc=-I../util \
 						-X -D_FILE_OFFSET_BITS=64 \
+						-X -DGETTEXT_PACKAGE="pamac" \
 						--target-glib=2.38
 
 COMMON_SOURCES = 	../util/alpm-util.c \
@@ -20,7 +21,7 @@ MANAGER_RESOURCES_FILES = 	../resources/manager_window.ui \
 					../resources/packages_chooser_dialog.ui \
 					../resources/history_dialog.ui \
 					../resources/preferences_dialog.ui \
-					../resources/progress_window.ui \
+					../resources/progress_dialog.ui \
 					../resources/choose_provider_dialog.ui \
 					../resources/transaction_sum_dialog.ui \
 					../resources/transaction_info_dialog.ui \
@@ -35,14 +36,14 @@ UPDATER_GRESOURCE_FILE = ../resources/pamac.updater.gresource.xml
 
 UPDATER_RESOURCES_FILES = 	../resources/updater_window.ui \
 					../resources/preferences_dialog.ui \
-					../resources/progress_window.ui \
+					../resources/progress_dialog.ui \
 					../resources/choose_provider_dialog.ui \
 					../resources/transaction_sum_dialog.ui \
 					../resources/transaction_info_dialog.ui
 
 INSTALLER_GRESOURCE_FILE = ../resources/pamac.installer.gresource.xml
 
-INSTALLER_RESOURCES_FILES = 	../resources/progress_window.ui \
+INSTALLER_RESOURCES_FILES = 	../resources/progress_dialog.ui \
 					../resources/choose_provider_dialog.ui \
 					../resources/transaction_sum_dialog.ui \
 					../resources/transaction_info_dialog.ui
@@ -50,23 +51,21 @@ INSTALLER_RESOURCES_FILES = 	../resources/progress_window.ui \
 DIALOGS_FILES = 	choose_provider_dialog.vala \
 					transaction_sum_dialog.vala \
 					transaction_info_dialog.vala \
-					progress_window.vala
+					progress_dialog.vala
 
-pamac-daemon: $(COMMON_SOURCES) daemon.vala
+pamac-daemon: ../vapi/libalpm.vapi ../vapi/polkit-gobject-1.vapi $(COMMON_SOURCES) daemon.vala
 	valac 	-o pamac-daemon \
 			$(COMMON_VALA_FLAGS) \
 			--pkg=polkit-gobject-1 \
-			-X -DGETTEXT_PACKAGE="pacman" \
 			--thread \
 			$(COMMON_SOURCES) \
 			daemon.vala
 
-pamac-tray: $(COMMON_SOURCES) tray.vala
+pamac-tray: ../vapi/libalpm.vapi $(COMMON_SOURCES) tray.vala
 	valac 	-o pamac-tray \
 			$(COMMON_VALA_FLAGS) \
 			--pkg=gtk+-3.0 \
 			--pkg=libnotify \
-			-X -DGETTEXT_PACKAGE="pamac" \
 			$(COMMON_SOURCES) \
 			tray.vala
 
@@ -79,7 +78,7 @@ updater_resources.c: $(UPDATER_GRESOURCE_FILE) $(UPDATER_RESOURCES_FILES)
 installer_resources.c: $(INSTALLER_GRESOURCE_FILE) $(INSTALLER_RESOURCES_FILES)
 	glib-compile-resources $(INSTALLER_GRESOURCE_FILE) --sourcedir=../resources --target=installer_resources.c --generate-source
 
-pamac-manager: $(COMMON_SOURCES) $(DIALOGS_FILES) preferences_dialog.vala history_dialog.vala packages_chooser_dialog.vala manager_resources.c package.vala transaction.vala packages_model.vala manager_window.vala manager.vala
+pamac-manager: ../vapi/libalpm.vapi $(COMMON_SOURCES) $(DIALOGS_FILES) preferences_dialog.vala history_dialog.vala packages_chooser_dialog.vala manager_resources.c package.vala transaction.vala packages_model.vala manager_window.vala manager.vala
 	valac 	-o pamac-manager \
 			$(COMMON_VALA_FLAGS) \
 			--pkg=gtk+-3.0 \
@@ -87,7 +86,6 @@ pamac-manager: $(COMMON_SOURCES) $(DIALOGS_FILES) preferences_dialog.vala histor
 			--pkg=gdk-3.0 \
 			--pkg=vte-2.91 \
 			--gresources=$(MANAGER_GRESOURCE_FILE) \
-			-X -DGETTEXT_PACKAGE="pamac" \
 			$(COMMON_SOURCES) \
 			$(DIALOGS_FILES) \
 			preferences_dialog.vala \
@@ -100,14 +98,13 @@ pamac-manager: $(COMMON_SOURCES) $(DIALOGS_FILES) preferences_dialog.vala histor
 			manager_window.vala \
 			manager.vala
 
-pamac-updater: $(COMMON_SOURCES) $(DIALOGS_FILES) preferences_dialog.vala updater_resources.c transaction.vala updater_window.vala updater.vala
+pamac-updater: ../vapi/libalpm.vapi $(COMMON_SOURCES) $(DIALOGS_FILES) preferences_dialog.vala updater_resources.c transaction.vala updater_window.vala updater.vala
 	valac 	-o pamac-updater \
 			$(COMMON_VALA_FLAGS) \
 			--pkg=gtk+-3.0 \
 			--pkg=gmodule-2.0 \
 			--pkg=vte-2.91 \
 			--gresources=$(UPDATER_GRESOURCE_FILE) \
-			-X -DGETTEXT_PACKAGE="pamac" \
 			$(COMMON_SOURCES) \
 			$(DIALOGS_FILES) \
 			preferences_dialog.vala \
@@ -116,14 +113,13 @@ pamac-updater: $(COMMON_SOURCES) $(DIALOGS_FILES) preferences_dialog.vala update
 			updater_window.vala \
 			updater.vala
 
-pamac-install: $(COMMON_SOURCES) $(DIALOGS_FILES) installer_resources.c transaction.vala installer.vala
+pamac-install: ../vapi/libalpm.vapi $(COMMON_SOURCES) $(DIALOGS_FILES) installer_resources.c transaction.vala installer.vala
 	valac 	-o pamac-install \
 			$(COMMON_VALA_FLAGS) \
 			--pkg=gtk+-3.0 \
 			--pkg=gmodule-2.0 \
 			--pkg=vte-2.91 \
 			--gresources=$(INSTALLER_GRESOURCE_FILE) \
-			-X -DGETTEXT_PACKAGE="pamac" \
 			$(COMMON_SOURCES) \
 			$(DIALOGS_FILES) \
 			installer_resources.c \

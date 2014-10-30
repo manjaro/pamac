@@ -142,9 +142,6 @@ namespace Alpm {
 		[CCode (cname = "alpm_initialize")]
 		public Handle (string root, string dbpath, out Alpm.Errno error);
 
-		//[CCode (cname = "alpm_release")]
-		//public int release();
-
 		public unowned string root {
 			[CCode (cname = "alpm_option_get_root")] get;
 		}
@@ -155,7 +152,7 @@ namespace Alpm {
 			[CCode (cname = "alpm_option_get_arch")] get;
 			[CCode (cname = "alpm_option_set_arch")] set;
 		}
-		public unowned Alpm.List<string?> cachedirs {
+		public unowned Alpm.List<unowned string?> cachedirs {
 			[CCode (cname = "alpm_option_get_cachedirs")] get;
 			[CCode (cname = "alpm_option_set_cachedirs")] set;
 		}
@@ -180,7 +177,7 @@ namespace Alpm {
 			/** Sets whether to use syslog (0 is FALSE, TRUE otherwise). */
 			[CCode (cname = "alpm_option_set_usesyslog")] set;
 		}
-		public unowned Alpm.List<string?> noupgrades {
+		public unowned Alpm.List<unowned string?> noupgrades {
 			[CCode (cname = "alpm_option_get_noupgrades")] get;
 			[CCode (cname = "alpm_option_set_noupgrades")] set;
 		}
@@ -189,7 +186,7 @@ namespace Alpm {
 		[CCode (cname = "alpm_option_remove_noupgrade")]
 		public int remove_noupgrade(string pkg);
 
-		public unowned Alpm.List<string?> noextracts {
+		public unowned Alpm.List<unowned string?> noextracts {
 			[CCode (cname = "alpm_option_get_noextracts")] get;
 			[CCode (cname = "alpm_option_set_noextracts")] set;
 		}
@@ -198,7 +195,7 @@ namespace Alpm {
 		[CCode (cname = "alpm_option_remove_noextract")]
 		public int remove_noextract(string pkg);
 
-		public unowned Alpm.List<string?> ignorepkgs {
+		public unowned Alpm.List<unowned string?> ignorepkgs {
 			[CCode (cname = "alpm_option_get_ignorepkgs")] get;
 			[CCode (cname = "alpm_option_set_ignorepkgs")] set;
 		}
@@ -207,7 +204,7 @@ namespace Alpm {
 		[CCode (cname = "alpm_option_remove_ignorepkg")]
 		public int remove_ignorepkg(string pkg);
 
-		public unowned Alpm.List<string?> ignoregroups {
+		public unowned Alpm.List<unowned string?> ignoregroups {
 			[CCode (cname = "alpm_option_get_ignoregroups")] get;
 			[CCode (cname = "alpm_option_set_ignoregroups")] set;
 		}
@@ -226,6 +223,10 @@ namespace Alpm {
 			[CCode (cname = "alpm_option_set_checkspace")] set;
 		}
 
+		public SigLevel defaultsiglevel {
+			[CCode (cname = "alpm_option_get_default_siglevel")] get;
+			[CCode (cname = "alpm_option_set_default_siglevel")] set;
+		}
 		public SigLevel localfilesiglevel {
 			[CCode (cname = "alpm_option_get_local_file_siglevel")] get;
 			[CCode (cname = "alpm_option_set_local_file_siglevel")] set;
@@ -250,8 +251,10 @@ namespace Alpm {
 				[CCode (cname = "alpm_get_syncdbs")] get;
 		}
 
+		// the return package can be freed except if it is added to a transaction,
+		// it will be freed upon Handle.trans_release() invocation.
 		[CCode (cname = "alpm_pkg_load_file")]
-		public unowned Package? load_file(string filename, int full, SigLevel level);
+		public Package? load_file(string filename, int full, SigLevel level);
 
 //~ 		/** Test if a package should be ignored.
 //~ 		* Checks if the package is ignored via IgnorePkg, or if the package is
@@ -394,11 +397,11 @@ namespace Alpm {
 			[CCode (cname = "alpm_db_get_siglevel")] get;
 		}
 
-		public unowned string url {
-			[CCode (cname = "alpm_db_get_url")] get;
-		}  
+//~ 		public unowned string url {
+//~ 			[CCode (cname = "alpm_db_get_url")] get;
+//~ 		}
 
-		public unowned Alpm.List<string?> servers {
+		public unowned Alpm.List<unowned string?> servers {
 			[CCode (cname = "alpm_db_get_servers")] get;
 			[CCode (cname = "alpm_db_set_servers")] set;
 		}
@@ -425,14 +428,13 @@ namespace Alpm {
 	/**
 	 * Packages
 	 */
-	[CCode (cname = "alpm_pkg_t", cprefix = "alpm_pkg_",
-					free_function = "alpm_pkg_free")]
+	[CCode (cname = "alpm_pkg_t", cprefix = "alpm_pkg_", free_function = "alpm_pkg_free")]
 	[Compact]
 	public class Package {
 		public static int checkmd5sum();
-		
-		public unowned Alpm.List<string?> compute_requiredby();
-		public unowned Alpm.List<string?> compute_optionalfor();
+
+		public Alpm.List<string?> compute_requiredby();
+		public Alpm.List<string?> compute_optionalfor();
 
 		/* properties */
 		[CCode (array_length = false)]
@@ -476,9 +478,14 @@ namespace Alpm {
 		public unowned string arch {
 			[CCode (cname = "alpm_pkg_get_arch")] get;
 		}
+
+		/** Returns the size of the package. This is only available for sync database
+		 * packages and package files, not those loaded from the local database.
+		 */
 		public uint64 size {
 			[CCode (cname = "alpm_pkg_get_size")] get;
 		}
+
 		public uint64 isize {
 			[CCode (cname = "alpm_pkg_get_isize")] get;
 		}
@@ -487,16 +494,15 @@ namespace Alpm {
 		}
 		public PkgReason reason {
 			[CCode (cname = "alpm_pkg_get_reason")] get;
-			/** The provided package object must be from the local database or this method
-			 * will fail. The write to the local database is performed immediately.
-			 * @return 0 on success, -1 on error (Errno is set accordingly)
+			/** The provided package object must be from the local database
+			 * or this method will fail (Errno is set accordingly).
 			 */
 			[CCode (cname = "alpm_pkg_set_reason")] set;
 		}
-		public unowned Alpm.List<string?> licenses {
+		public unowned Alpm.List<unowned string?> licenses {
 			[CCode (cname = "alpm_pkg_get_licenses")] get;
 		}
-		public unowned Alpm.List<string?> groups {
+		public unowned Alpm.List<unowned string?> groups {
 			[CCode (cname = "alpm_pkg_get_groups")] get;
 		}
 		public unowned Alpm.List<Depend?> depends {
@@ -538,7 +544,7 @@ namespace Alpm {
 		public ulong name_hash;
 		public DepMod mod;
 		[CCode (cname = "alpm_dep_compute_string")]
-		public unowned string compute_string();
+		public string compute_string();
 	}
 
 	/** Missing dependency */
@@ -954,8 +960,7 @@ namespace Alpm {
 	}
 
 [CCode (cprefix = "alpm_list_", cheader_filename = "alpm_list.h,alpm-util.h",
-				cname = "alpm_list_t", type_parameters = "G",
-					free_function = "alpm_list_free")]
+		cname = "alpm_list_t", type_parameters = "G", free_function = "alpm_list_free_all")]
 	[Compact]
 	public class List<G> {
 		/* Comparator*/
@@ -966,30 +971,40 @@ namespace Alpm {
 		public size_t length {
 		[CCode (cname = "alpm_list_count")] get;
 		}
+		public unowned G? data {
+		[CCode (cname = "alpm_list_get_data")] get;
+		}
 
 		/* item mutators */
 		[ReturnsModifiedPointer ()]
 		public unowned void add(G data);
+
 		[ReturnsModifiedPointer ()]
 		public unowned void join(List<G> list);
+
 		[CCode (cname = "alpm_list_sort_data"), ReturnsModifiedPointer ()]
 		public unowned void sort(CompareFunc fn);
+
 		[CCode (cname = "alpm_list_remove_data"), ReturnsModifiedPointer ()]
 		public unowned void? remove(G data, CompareFunc fn);
+
 		public List<G> copy();
+
 		[ReturnsModifiedPointer ()]
 		public unowned void reverse ();
 
 		/* item accessors */
 		public unowned List<G>? first();
 		public unowned List<G>? last();
-		public unowned List<G>? nth(size_t n);
+		public unowned List<G>? nth(size_t index);
 		public unowned List<G>? next();
 		public unowned List<G>? previous();
-		public unowned G get_data();
+
+		public unowned G? nth_data(size_t index);
 
 		/* misc */
 		public unowned string? find_str(string needle);
+
 		/** @return a list containing all items in `this` not present in `list` */
 		public unowned List<G>? diff(List<G>? list, CompareFunc fn);
 

@@ -1,6 +1,6 @@
 resources/choose_provider_dialog.ui
 resources/packages_chooser_dialog.ui
-resources/progress_window.ui
+resources/progress_dialog.ui
 resources/history_dialog.ui
 resources/transaction_info_dialog.ui
 resources/transaction_sum_dialog.ui
@@ -21,6 +21,6 @@ src/preferences_dialog.vala
 src/updater.vala
 src/choose_provider_dialog.vala
 src/manager_window.vala
-src/progress_window.vala
+src/progress_dialog.vala
 src/updater_window.vala
 src/common.vala

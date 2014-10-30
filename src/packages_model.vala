@@ -84,21 +84,21 @@ namespace Pamac {
 				case 1:
 					val = Value (typeof (Object));
 					if (pkg.alpm_pkg != null) {
-						if (pkg.name in manager_window.transaction.alpm_config.holdpkg)
+						if (pkg.name in manager_window.transaction.holdpkg)
 							val.set_object (manager_window.locked_icon);
 						else if (pkg.repo == "local") {
-							if (manager_window.transaction.data.to_add.contains (pkg.name))
+							if (manager_window.transaction.to_add.contains (pkg.name))
 								val.set_object (manager_window.to_reinstall_icon);
-							else if (manager_window.transaction.data.to_remove.contains (pkg.name))
+							else if (manager_window.transaction.to_remove.contains (pkg.name))
 								val.set_object (manager_window.to_remove_icon);
 							else
 								val.set_object (manager_window.installed_icon);
-						} else if (manager_window.transaction.data.to_add.contains (pkg.name))
+						} else if (manager_window.transaction.to_add.contains (pkg.name))
 							val.set_object (manager_window.to_install_icon);
 						else
 							val.set_object (manager_window.uninstalled_icon);
 					} else if (pkg.aur_json != null) {
-						if (manager_window.transaction.data.to_build.contains (pkg.name))
+						if (manager_window.transaction.to_build.contains (pkg.name))
 							val.set_object (manager_window.to_install_icon);
 						else
 							val.set_object (manager_window.uninstalled_icon);

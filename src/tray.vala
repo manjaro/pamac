@@ -29,7 +29,7 @@ const string noupdate_info = _("Your system is up-to-date");
 namespace Pamac {
 	[DBus (name = "org.manjaro.pamac")]
 	public interface Daemon : Object {
-		public abstract async void refresh (int force, bool emit_signal) throws IOError;
+		public abstract void refresh (int force, bool emit_signal) throws IOError;
 		public abstract UpdatesInfos[] get_updates () throws IOError;
 		[DBus (no_reply = true)]
 		public abstract void quit () throws IOError;
@@ -76,7 +76,7 @@ namespace Pamac {
 			item = new Gtk.MenuItem.with_label (_("Package Manager"));
 			item.activate.connect (execute_manager);
 			menu.append (item);
-			item = new Gtk.MenuItem.with_label (_("Quit"));
+			item = new Gtk.MenuItem.with_mnemonic (_("_Quit"));
 			item.activate.connect (this.release);
 			menu.append (item);
 			menu.show_all ();
@@ -115,13 +115,11 @@ namespace Pamac {
 
 		bool refresh () {
 			start_daemon ();
-			daemon.refresh.begin (1, false, (obj, res) => {
-				try {
-					daemon.refresh.end (res);
-				} catch (IOError e) {
-					stderr.printf ("IOError: %s\n", e.message);
-				}
-			});
+			try {
+				daemon.refresh (0, false);
+			} catch (IOError e) {
+				stderr.printf ("IOError: %s\n", e.message);
+			}
 			return true;
 		}
 
@@ -141,7 +139,6 @@ namespace Pamac {
 				if (pamac_run == false)
 					show_notification (one_update_info);
 			} else {
-				// workaround to use python format string
 				string info = update_info.printf (updates_nb);
 				this.update_icon (update_icon_name, info);
 				if (pamac_run == false)
@@ -153,10 +150,10 @@ namespace Pamac {
 
 		void show_notification (string info) {
 //~ 				notification = new Notification (_("Update Manager"));
+//~ 				notification.set_body (info);
 //~ 				Gtk.IconTheme icon_theme = Gtk.IconTheme.get_default ();
 //~ 				Gdk.Pixbuf icon = icon_theme.load_icon ("system-software-update", 32, 0);
 //~ 				notification.set_icon (icon);
-//~ 				notification.set_body (info);
 //~ 				var action = new SimpleAction ("update", null);
 //~ 				action.activate.connect (execute_updater);
 //~ 				this.add_action (action);
@@ -235,7 +232,7 @@ namespace Pamac {
 			create_menu ();
 			status_icon.popup_menu.connect (menu_popup);
 
-			Notify.init(_("Update Manager"));
+			Notify.init (_("Update Manager"));
 
 			refresh ();
 			launch_refresh_timeout ();

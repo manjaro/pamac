@@ -30,38 +30,103 @@ namespace Alpm {
 	}
 
 	public class Config {
-		public Handle handle;
-		private string[] priv_holdpkg;
-		private string[] priv_syncfirst;
-		public string[] holdpkg;
-		public string[] syncfirst;
-		SigLevel siglevel;
+		string rootdir;
+		string dbpath;
+		string gpgdir;
+		string logfile;
+		string arch;
+		double deltaratio;
+		int usesyslog;
+		int checkspace;
+		string[] cachedir;
+		string[] ignoregroup;
+		string[] ignorepkg;
+		string[] noextract;
+		string[] noupgrade;
+		string[] holdpkg;
+		string[] syncfirst;
+		SigLevel defaultsiglevel;
 		SigLevel localfilesiglevel;
 		SigLevel remotefilesiglevel;
 		Repo[] repo_order;
 
 		public Config (string path) {
-			// rootdir and dbpath are hardcoded so we parse config file only once
-			const string rootdir = "/";
-			const string dbpath = "/var/lib/pacman";
-			Alpm.Errno error;
-			handle = new Handle (rootdir, dbpath, out error);
-			const string gpgdir = "/etc/pacman.d/gnupg/";
-			const string logfile = "/var/log/pacman.log";
-			const string cachedir = "/var/cache/pacman/pkg/";
-			priv_holdpkg = {};
-			priv_syncfirst = {};
-			siglevel = SigLevel.PACKAGE | SigLevel.PACKAGE_OPTIONAL | SigLevel.DATABASE | SigLevel.DATABASE_OPTIONAL;
+			rootdir = "/";
+			dbpath = "/var/lib/pacman";
+			gpgdir = "/etc/pacman.d/gnupg/";
+			logfile = "/var/log/pacman.log";
+			arch = Posix.utsname().machine;
+			cachedir = {"/var/cache/pacman/pkg/"};
+			holdpkg = {};
+			syncfirst = {};
+			ignoregroup = {};
+			ignorepkg = {};
+			noextract = {};
+			noupgrade = {};
+			usesyslog = 0;
+			checkspace = 0;
+			deltaratio = 0.7;
+			defaultsiglevel = SigLevel.PACKAGE | SigLevel.PACKAGE_OPTIONAL | SigLevel.DATABASE | SigLevel.DATABASE_OPTIONAL;
 			localfilesiglevel = SigLevel.USE_DEFAULT;
 			remotefilesiglevel = SigLevel.USE_DEFAULT;
 			repo_order = {};
 			// parse conf file
 			parse_file (path);
-			// check essential settings
-			if (handle.gpgdir == null) handle.gpgdir = gpgdir;
-			if (handle.logfile == null) handle.logfile = logfile;
-			if (handle.arch == null) handle.arch = Posix.utsname().machine;
-			if (handle.cachedirs == null) handle.add_cachedir(cachedir);
+		}
+
+		public string[] get_syncfirst () {
+			return syncfirst;
+		}
+
+		public string[] get_holdpkg () {
+			return holdpkg;
+		}
+
+		public string[] get_ignore_pkgs () {
+			string[] ignore_pkgs = {};
+			unowned Group? group = null;
+			Handle? handle = this.get_handle ();
+			if (handle != null) {
+				foreach (string name in ignorepkg)
+					ignore_pkgs += name;
+				foreach (string grp_name in ignoregroup) {
+					group = handle.localdb.get_group (grp_name);
+					if (group != null) {
+						foreach (unowned Package found_pkg in group.packages)
+							ignore_pkgs += found_pkg.name;
+					}
+				}
+			}
+			return ignore_pkgs;
+		}
+
+		public Handle? get_handle () {
+			Alpm.Errno error;
+			Handle? handle = new Handle (rootdir, dbpath, out error);
+			if (handle == null) {
+				stderr.printf ("Failed to initialize alpm library" + " (%s)\n".printf(Alpm.strerror (error)));
+				return handle;
+			}
+			// define options
+			handle.gpgdir = gpgdir;
+			handle.logfile = logfile;
+			handle.arch = arch;
+			handle.deltaratio = deltaratio;
+			handle.usesyslog = usesyslog;
+			handle.checkspace = checkspace;
+			handle.defaultsiglevel = defaultsiglevel;
+			handle.localfilesiglevel = localfilesiglevel;
+			handle.remotefilesiglevel = remotefilesiglevel;
+			foreach (string dir in cachedir)
+				handle.add_cachedir (dir);
+			foreach (string name in ignoregroup)
+				handle.add_ignoregroup (name);
+			foreach (string name in ignorepkg)
+				handle.add_ignorepkg (name);
+			foreach (string name in noextract)
+				handle.add_noextract (name);
+			foreach (string name in noupgrade)
+				handle.add_noupgrade (name);
 			// register dbs
 			foreach (Repo repo in repo_order) {
 				unowned DB db = handle.register_syncdb (repo.name, repo.siglevel);
@@ -69,6 +134,7 @@ namespace Alpm {
 					db.add_server (url.replace ("$repo", repo.name).replace ("$arch", handle.arch));
 				}
 			}
+			return handle;
 		}
 
 		public void parse_file (string path, string? section = null) {
@@ -91,7 +157,7 @@ namespace Alpm {
 							current_section = line[1:-1];
 							if (current_section != "options") {
 								Repo repo = new Repo (current_section);
-								repo.siglevel = siglevel;
+								repo.siglevel = defaultsiglevel;
 								repo_order += repo;
 							}
 							continue;
@@ -105,53 +171,53 @@ namespace Alpm {
 							parse_file (_value, current_section);
 						if (current_section == "options") {
 							if (_key == "GPGDir")
-								handle.gpgdir = _value;
+								gpgdir = _value;
 							else if (_key == "LogFile")
-								handle.logfile = _value;
+								logfile = _value;
 							else if (_key == "Architecture") {
 								if (_value == "auto")
-								 handle.arch = Posix.utsname ().machine;
+									arch = Posix.utsname ().machine;
 								else
-									handle.arch = _value;
+									arch = _value;
 							} else if (_key == "UseDelta")
-								handle.deltaratio = double.parse (_value);
+								deltaratio = double.parse (_value);
 							else if (_key == "UseSysLog")
-								handle.usesyslog = 1;
+								usesyslog = 1;
 							else if (_key == "CheckSpace")
-								handle.checkspace = 1;
+								checkspace = 1;
 							else if (_key == "SigLevel")
-								siglevel = define_siglevel (siglevel, _value);
+								defaultsiglevel = define_siglevel (defaultsiglevel, _value);
 							else if (_key == "LocalSigLevel")
-								handle.localfilesiglevel = merge_siglevel (siglevel, define_siglevel (localfilesiglevel, _value));
+								localfilesiglevel = merge_siglevel (defaultsiglevel, define_siglevel (localfilesiglevel, _value));
 							else if (_key == "RemoteSigLevel")
-								handle.remotefilesiglevel = merge_siglevel (siglevel, define_siglevel (remotefilesiglevel, _value));
+								remotefilesiglevel = merge_siglevel (defaultsiglevel, define_siglevel (remotefilesiglevel, _value));
 							else if (_key == "HoldPkg") {
 								foreach (string name in _value.split (" ")) {
-									priv_holdpkg += name;
+									holdpkg += name;
 								}
 							} else if (_key == "SyncFirst") {
 								foreach (string name in _value.split (" ")) {
-									priv_syncfirst += name;
+									syncfirst += name;
 								}
 							} else if (_key == "CacheDir") {
 								foreach (string dir in _value.split (" ")) {
-									handle.add_cachedir (dir);
+									cachedir += dir;
 								}
 							} else if (_key == "IgnoreGroup") {
 								foreach (string name in _value.split (" ")) {
-									handle.add_ignoregroup (name);
+									ignoregroup += name;
 								}
 							} else if (_key == "IgnorePkg") {
 								foreach (string name in _value.split (" ")) {
-									handle.add_ignorepkg (name);
+									ignorepkg += name;
 								}
 							} else if (_key == "Noextract") {
 								foreach (string name in _value.split (" ")) {
-									handle.add_noextract (name);
+									noextract += name;
 								}
 							} else if (_key == "NoUpgrade") {
 								foreach (string name in _value.split (" ")) {
-									handle.add_noupgrade (name);
+									noupgrade += name;
 								}
 							}
 						} else {
@@ -160,7 +226,7 @@ namespace Alpm {
 									if (_key == "Server")
 										_repo.urls += _value;
 									else if (_key == "SigLevel")
-										_repo.siglevel = define_siglevel(siglevel, _value);
+										_repo.siglevel = define_siglevel (defaultsiglevel, _value);
 								}
 							}
 						}
@@ -168,8 +234,6 @@ namespace Alpm {
 				} catch (GLib.Error e) {
 					GLib.stderr.printf("%s\n", e.message);
 				}
-				holdpkg = priv_holdpkg;
-				syncfirst = priv_syncfirst;
 			}
 		}
 

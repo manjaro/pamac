@@ -51,7 +51,7 @@ namespace Pamac {
 		public override void open (File[] files, string hint) {
 			foreach (File file in files) {
 				string? path = file.get_path ();
-				transaction.data.to_load.insert (path, path);
+				transaction.to_load.insert (path, path);
 			}
 			transaction.run ();
 		}

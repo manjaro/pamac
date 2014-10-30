@@ -26,24 +26,10 @@ namespace Pamac {
 		public uint64 download_size;
 	}
 
-	public struct Updates {
-		public bool syncfirst;
-		public UpdatesInfos[] infos;
-	}
-
 	public enum Mode {
 		MANAGER,
 		UPDATER,
 		NO_CONFIRM
-	}
- 
-	public struct TransactionData {
-		public Alpm.TransFlag flags;
-		// those hashtables will be used as set
-		public HashTable<string, string> to_add;
-		public HashTable<string, string> to_remove;
-		public HashTable<string, string> to_load;
-		public HashTable<string, string> to_build;
 	}
 
 	public struct ErrorInfos {
@@ -159,15 +145,15 @@ public unowned Alpm.Package? get_syncpkg (Alpm.Handle handle, string name) {
 	return pkg;
 }
 
-public Pamac.UpdatesInfos[] get_syncfirst_updates (Alpm.Config alpm_config) {
+public Pamac.UpdatesInfos[] get_syncfirst_updates (Alpm.Handle handle, string[] syncfirst) {
 	Pamac.UpdatesInfos infos = Pamac.UpdatesInfos ();
 	Pamac.UpdatesInfos[] syncfirst_infos = {};
 	unowned Alpm.Package? pkg = null;
 	unowned Alpm.Package? candidate = null;
-	foreach (string name in alpm_config.syncfirst) {
-		pkg = Alpm.find_satisfier (alpm_config.handle.localdb.pkgcache, name);
+	foreach (string name in syncfirst) {
+		pkg = Alpm.find_satisfier (handle.localdb.pkgcache, name);
 		if (pkg != null) {
-			candidate = Alpm.sync_newversion (pkg, alpm_config.handle.syncdbs);
+			candidate = Alpm.sync_newversion (pkg, handle.syncdbs);
 			if (candidate != null) {
 				infos.name = candidate.name;
 				infos.version = candidate.version;
@@ -181,29 +167,14 @@ public Pamac.UpdatesInfos[] get_syncfirst_updates (Alpm.Config alpm_config) {
 	return syncfirst_infos;
 }
 
-public string[] get_ignore_pkgs (Alpm.Config alpm_config) {
-	string[] ignore_pkgs = {};
-	unowned Alpm.Group? group = null;
-	foreach (string name in alpm_config.handle.ignorepkgs)
-		ignore_pkgs += name;
-	foreach (string grp_name in alpm_config.handle.ignoregroups) {
-		group = alpm_config.handle.localdb.get_group (grp_name);
-		if (group != null) {
-			foreach (unowned Alpm.Package found_pkg in group.packages)
-				ignore_pkgs += found_pkg.name;
-		}
-	}
-	return ignore_pkgs;
-}
-
-public Pamac.UpdatesInfos[] get_repos_updates (Alpm.Config alpm_config, string[] ignore_pkgs) {
+public Pamac.UpdatesInfos[] get_repos_updates (Alpm.Handle handle, string[] ignore_pkgs) {
 	unowned Alpm.Package? candidate = null;
 	Pamac.UpdatesInfos infos = Pamac.UpdatesInfos ();
 	Pamac.UpdatesInfos[] updates = {};
-	foreach (unowned Alpm.Package local_pkg in alpm_config.handle.localdb.pkgcache) {
+	foreach (unowned Alpm.Package local_pkg in handle.localdb.pkgcache) {
 		// continue only if the local pkg is not in IgnorePkg or IgnoreGroup
 		if ((local_pkg.name in ignore_pkgs) == false) {
-			candidate = Alpm.sync_newversion (local_pkg, alpm_config.handle.syncdbs);
+			candidate = Alpm.sync_newversion (local_pkg, handle.syncdbs);
 			if (candidate != null) {
 				infos.name = candidate.name;
 				infos.version = candidate.version;
@@ -217,25 +188,25 @@ public Pamac.UpdatesInfos[] get_repos_updates (Alpm.Config alpm_config, string[]
 	return updates;
 }
 
-public Pamac.UpdatesInfos[] get_aur_updates (Alpm.Config alpm_config, string[] ignore_pkgs) {
+public Pamac.UpdatesInfos[] get_aur_updates (Alpm.Handle handle, string[] ignore_pkgs) {
 	unowned Alpm.Package? sync_pkg = null;
 	unowned Alpm.Package? candidate = null;
 	string[] local_pkgs = {};
 	Pamac.UpdatesInfos infos = Pamac.UpdatesInfos ();
 	Pamac.UpdatesInfos[] aur_updates = {};
 	// get local pkgs
-	foreach (unowned Alpm.Package local_pkg in alpm_config.handle.localdb.pkgcache) {
+	foreach (unowned Alpm.Package local_pkg in handle.localdb.pkgcache) {
 		// continue only if the local pkg is not in IgnorePkg or IgnoreGroup
 		if ((local_pkg.name in ignore_pkgs) == false) {
 			// check updates from AUR only for local packages
-			foreach (unowned Alpm.DB db in alpm_config.handle.syncdbs) {
+			foreach (unowned Alpm.DB db in handle.syncdbs) {
 				sync_pkg = Alpm.find_satisfier (db.pkgcache, local_pkg.name);
 				if (sync_pkg != null)
 					break;
 			}
 			if (sync_pkg == null) {
 				// check update from AUR only if no package from dbs will replace it
-				candidate = Alpm.sync_newversion (local_pkg, alpm_config.handle.syncdbs);
+				candidate = Alpm.sync_newversion (local_pkg, handle.syncdbs);
 				if (candidate == null) {
 					local_pkgs += local_pkg.name;
 				}
@@ -251,7 +222,7 @@ public Pamac.UpdatesInfos[] get_aur_updates (Alpm.Config alpm_config, string[] i
 		unowned Json.Object pkg_info = node.get_object ();
 		version = pkg_info.get_string_member ("Version");
 		name = pkg_info.get_string_member ("Name");
-		cmp = Alpm.pkg_vercmp (version, alpm_config.handle.localdb.get_pkg (name).version);
+		cmp = Alpm.pkg_vercmp (version, handle.localdb.get_pkg (name).version);
 		if (cmp == 1) {
 			infos.name = name;
 			infos.version = version;

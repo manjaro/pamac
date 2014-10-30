@@ -43,7 +43,7 @@ namespace Pamac {
 			SList<string> packages_paths = this.get_filenames ();
 			if (packages_paths.length () != 0) {
 				foreach (string path in packages_paths) {
-					transaction.data.to_load.insert (path, path);
+					transaction.to_load.insert (path, path);
 				}
 				window.get_window ().set_cursor (new Gdk.Cursor (Gdk.CursorType.WATCH));
 				this.hide ();

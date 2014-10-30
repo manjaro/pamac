@@ -25,6 +25,10 @@ void* alpm_list_get_data (alpm_list_t *list) {
 	return list->data;
 }
 
+void* alpm_list_nth_data (alpm_list_t *list, size_t n) {
+	return alpm_list_nth (list, n)->data;
+}
+
 alpm_list_t* alpm_list_remove_data (alpm_list_t *list, const void *needle, alpm_list_fn_cmp fn) {
 	void *data = NULL;
 	list = alpm_list_remove (list, needle, fn, data);

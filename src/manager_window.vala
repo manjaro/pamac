@@ -59,6 +59,8 @@ namespace Pamac {
 		[GtkChild]
 		public TreeView search_treeview;
 		[GtkChild]
+		public TreeSelection search_treeview_selection;
+		[GtkChild]
 		public TreeView groups_treeview;
 		[GtkChild]
 		public TreeView states_treeview;
@@ -167,13 +169,14 @@ namespace Pamac {
 		}
 
 		public void update_lists () {
-			Alpm.List <string?> grps = null;
+			string[] grps = {};
 			TreeIter iter;
-			foreach (unowned DB db in transaction.alpm_config.handle.syncdbs) {
+			foreach (unowned DB db in transaction.handle.syncdbs) {
 				repos_list.insert_with_values (out iter, -1, 0, db.name);
 				foreach (unowned Group grp in db.groupcache) {
-					if (grps.find_str (grp.name) == null)
-						grps.add(grp.name);
+					if ((grp.name in grps) == false) {
+						grps += grp.name;
+					}
 				}
 			}
 			repos_list.insert_with_values (out iter, -1, 0, dgettext (null, "local"));
@@ -230,20 +233,20 @@ namespace Pamac {
 			if (len != 0) {
 				deps_list.insert_with_values (out iter, -1,
 												0, dgettext (null, "Depends On") + ":",
-												1, list.nth (0).get_data ().compute_string ());
+												1, list.nth_data (0).compute_string ());
 				i = 1;
 				while (i < len) {
 					deps_list.insert_with_values (out iter, -1,
-												1, list.nth (i).get_data ().compute_string ());
+												1, list.nth_data (i).compute_string ());
 					i++;
 				}
 			}
 			list = pkg.optdepends;
 			len = list.length;
 			if (len != 0) {
-				unowned Depend optdep = list.nth (0).get_data ();
+				unowned Depend optdep = list.nth_data (0);
 				unowned Alpm.Package? satisfier = find_satisfier (
-											transaction.alpm_config.handle.localdb.pkgcache,
+											transaction.handle.localdb.pkgcache,
 											optdep.name);
 				string optdep_str = optdep.compute_string ();
 				if (satisfier != null)
@@ -253,9 +256,9 @@ namespace Pamac {
 												1, optdep_str);
 				i = 1;
 				while (i < len) {
-					optdep = list.nth (i).get_data ();
+					optdep = list.nth_data (i);
 					satisfier = find_satisfier (
-											transaction.alpm_config.handle.localdb.pkgcache,
+											transaction.handle.localdb.pkgcache,
 											optdep.name);
 					optdep_str = optdep.compute_string ();
 					if (satisfier != null)
@@ -265,16 +268,16 @@ namespace Pamac {
 				}
 			}
 			if (pkg.origin == PkgFrom.LOCALDB) {
-				unowned Alpm.List<string?> str_list = pkg.compute_requiredby ();
+				Alpm.List<string?> str_list = pkg.compute_requiredby ();
 				len = str_list.length;
 				if (len != 0) {
 					deps_list.insert_with_values (out iter, -1,
 													0, dgettext (null, "Required By") + ":",
-													1, str_list.nth (0).get_data ());
+													1, str_list.nth_data (0));
 					i = 1;
 					while (i < len) {
 						deps_list.insert_with_values (out iter, -1,
-													1, str_list.nth (i).get_data ());
+													1, str_list.nth_data (i));
 						i++;
 					}
 				}
@@ -284,11 +287,11 @@ namespace Pamac {
 			if (len != 0) {
 				deps_list.insert_with_values (out iter, -1,
 												0, dgettext (null, "Provides") + ":",
-												1, list.nth (0).get_data ().compute_string ());
+												1, list.nth_data (0).compute_string ());
 				i = 1;
 				while (i < len) {
 					deps_list.insert_with_values (out iter, -1,
-												1, list.nth (i).get_data ().compute_string ());
+												1, list.nth_data (i).compute_string ());
 					i++;
 				}
 			}
@@ -297,11 +300,11 @@ namespace Pamac {
 			if (len != 0) {
 				deps_list.insert_with_values (out iter, -1,
 												0, dgettext (null, "Replaces") + ":",
-												1, list.nth (0).get_data ().compute_string ());
+												1, list.nth_data (0).compute_string ());
 				i = 1;
 				while (i < len) {
 					deps_list.insert_with_values (out iter, -1,
-												1, list.nth (i).get_data ().compute_string ());
+												1, list.nth_data (i).compute_string ());
 					i++;
 				}
 			}
@@ -310,11 +313,11 @@ namespace Pamac {
 			if (len != 0) {
 				deps_list.insert_with_values (out iter, -1,
 												0, dgettext (null, "Conflicts With") + ":",
-												1, list.nth (0).get_data ().compute_string ());
+												1, list.nth_data (0).compute_string ());
 				i = 1;
 				while (i < len) {
 					deps_list.insert_with_values (out iter, -1,
-												1, list.nth (i).get_data ().compute_string ());
+												1, list.nth_data (i).compute_string ());
 					i++;
 				}
 			}
@@ -334,11 +337,11 @@ namespace Pamac {
 			if (len != 0) {
 				details_list.insert_with_values (out iter, -1,
 												0, dgettext (null, "Groups") + ":",
-												1, list.nth (0).get_data ());
+												1, list.nth_data (0));
 				i = 1;
 				while (i < len) {
 					details_list.insert_with_values (out iter, -1,
-												1, list.nth (i).get_data ());
+												1, list.nth_data (i));
 					i++;
 				}
 			}
@@ -373,11 +376,11 @@ namespace Pamac {
 				if (len != 0) {
 					details_list.insert_with_values (out iter, -1,
 													0, dgettext (null, "Backup files") + ":",
-													1, "/" + backup_list.nth (0).get_data ().name);
+													1, "/" + backup_list.nth_data (0).name);
 					i = 1;
 					while (i < len) {
 						details_list.insert_with_values (out iter, -1,
-													1, "/" + backup_list.nth (i).get_data ().name);
+													1, "/" + backup_list.nth_data (i).name);
 						i++;
 					}
 				}
@@ -396,12 +399,11 @@ namespace Pamac {
 		}
 
 		public async unowned Alpm.List<Alpm.Package?> search_pkgs (string search_string, out Json.Array aur_pkgs) {
-			unowned Alpm.List<Alpm.Package?> pkgs = null;
 			unowned Alpm.List<string?> needles = null;
 			string[] splitted = search_string.split (" ");
 			foreach (unowned string part in splitted)
 				needles.add (part);
-			pkgs = search_all_dbs (transaction.alpm_config.handle, needles);
+			unowned Alpm.List<Alpm.Package?> pkgs = search_all_dbs (transaction.handle, needles);
 			if (search_aur_button.get_active()) {
 				if (aur_results.contains (search_string)) {
 					aur_pkgs = aur_results.get (search_string);
@@ -495,28 +497,28 @@ namespace Pamac {
 				packages_list.get_value (iter, 0, out val);
 				string name = val.get_string ();
 				if (name != dgettext (null, "No package found")) {
-					if (transaction.data.to_add.contains (name)) {
-						transaction.data.to_add.steal (name);
-					} else if (transaction.data.to_remove.contains (name)) {
-						transaction.data.to_remove.steal (name);
-					} else if (transaction.data.to_build.contains (name)) {
-						transaction.data.to_build.steal (name);
+					if (transaction.to_add.contains (name)) {
+						transaction.to_add.steal (name);
+					} else if (transaction.to_remove.contains (name)) {
+						transaction.to_remove.steal (name);
+					} else if (transaction.to_build.contains (name)) {
+						transaction.to_build.steal (name);
 					} else {
 						packages_list.get_value (iter, 3, out val);
 						string db_name = val.get_string ();
 						if (db_name == "local") {
-							if (!(name in transaction.alpm_config.holdpkg)) {
-								transaction.data.to_remove.insert (name, name);
+							if ((name in transaction.holdpkg) == false) {
+								transaction.to_remove.insert (name, name);
 							}
 						} else if (db_name == "AUR") {
-							transaction.data.to_build.insert (name, name);
+							transaction.to_build.insert (name, name);
 						} else {
-							transaction.data.to_add.insert (name, name);
+							transaction.to_add.insert (name, name);
 						}
 					}
 				}
 			}
-			if (transaction.data.to_add.size () + transaction.data.to_remove.size () + transaction.data.to_build.size () == 0) {
+			if (transaction.to_add.size () + transaction.to_remove.size () + transaction.to_build.size () == 0) {
 				set_buttons_sensitive (false);
 			} else {
 				set_buttons_sensitive (true);
@@ -642,8 +644,11 @@ namespace Pamac {
 									model.get_value (_iter, 0, out line);
 									if ((string) line == search_string) {
 										found = true;
-										// populate will be done because we select the iter in search_list
+										// block the signal to not populate when we select the iter in search_list
+										search_treeview_selection.changed.disconnect (on_search_treeview_selection_changed);
 										selection.select_iter (_iter);
+										search_treeview_selection.changed.connect_after (on_search_treeview_selection_changed);
+										populate_packages_list (pkgs, aur_pkgs);
 									}
 									return found;
 								});
@@ -651,8 +656,11 @@ namespace Pamac {
 						}
 						if (!found) {
 							search_list.insert_with_values (out iter, -1, 0, search_string);
-							// populate will be done because we select the iter in search_list
+							// block the signal to not populate when we select the iter in search_list
+							search_treeview_selection.changed.disconnect (on_search_treeview_selection_changed);
 							selection.select_iter (iter);
+							search_treeview_selection.changed.connect_after (on_search_treeview_selection_changed);
+							populate_packages_list (pkgs, aur_pkgs);
 						}
 					} else
 						// populate with empty lists
@@ -698,7 +706,7 @@ namespace Pamac {
 				GLib.Value val;
 				model.get_value (iter, 0, out val);
 				string grp_name = val.get_string ();
-				unowned Alpm.List<Alpm.Package?> pkgs = group_pkgs_all_dbs (transaction.alpm_config.handle, grp_name);
+				unowned Alpm.List<Alpm.Package?> pkgs = group_pkgs_all_dbs (transaction.handle, grp_name);
 				populate_packages_list (pkgs);
 			}
 		}
@@ -718,28 +726,28 @@ namespace Pamac {
 				unowned Alpm.List<Alpm.Package?> pkgs = null;
 				unowned Alpm.Package? find_pkg = null;
 				if (state == dgettext (null, "To install")) {
-					foreach (string name in transaction.data.to_add.get_keys ()) {
-						find_pkg = transaction.alpm_config.handle.localdb.get_pkg (name);
+					foreach (string name in transaction.to_add.get_keys ()) {
+						find_pkg = transaction.handle.localdb.get_pkg (name);
 						if (find_pkg != null)
 							pkgs.add (find_pkg);
 						else {
-							find_pkg = get_syncpkg (transaction.alpm_config.handle, name);
+							find_pkg = get_syncpkg (transaction.handle, name);
 							if (find_pkg != null)
 								pkgs.add (find_pkg);
 						}
 					}
 				} else if (state == dgettext (null, "To remove")) {
-					foreach (string name in transaction.data.to_remove.get_keys ()) {
-						find_pkg = transaction.alpm_config.handle.localdb.get_pkg (name);
+					foreach (string name in transaction.to_remove.get_keys ()) {
+						find_pkg = transaction.handle.localdb.get_pkg (name);
 						if (find_pkg != null)
 							pkgs.add (find_pkg);
 					}
 				} else if (state == dgettext (null, "Installed")) {
-					pkgs = transaction.alpm_config.handle.localdb.pkgcache;
+					pkgs = transaction.handle.localdb.pkgcache;
 				} else if (state == dgettext (null, "Uninstalled")) {
 					unowned Alpm.List<Alpm.Package?> tmp = null;
 					unowned Alpm.List<Alpm.Package?> diff = null;
-					foreach (unowned DB db in transaction.alpm_config.handle.syncdbs) {
+					foreach (unowned DB db in transaction.handle.syncdbs) {
 						if (pkgs.length == 0)
 							pkgs = db.pkgcache;
 						else {
@@ -749,7 +757,7 @@ namespace Pamac {
 						}
 					}
 				} else if (state == dgettext (null, "Orphans")) {
-					foreach (unowned Alpm.Package pkg in transaction.alpm_config.handle.localdb.pkgcache) {
+					foreach (unowned Alpm.Package pkg in transaction.handle.localdb.pkgcache) {
 						if (pkg.reason == PkgReason.DEPEND) {
 							if (pkg.compute_requiredby().length == 0)
 								pkgs.add (pkg);
@@ -775,16 +783,16 @@ namespace Pamac {
 				unowned Alpm.List<Alpm.Package?> pkgs = null;
 				unowned Alpm.Package? find_pkg = null;
 				if (repo == dgettext (null, "local")) {
-					foreach (unowned Alpm.Package pkg in transaction.alpm_config.handle.localdb.pkgcache) {
-						find_pkg = get_syncpkg (transaction.alpm_config.handle, pkg.name);
+					foreach (unowned Alpm.Package pkg in transaction.handle.localdb.pkgcache) {
+						find_pkg = get_syncpkg (transaction.handle, pkg.name);
 						if (find_pkg == null)
 							pkgs.add (pkg);
 					}
 				} else {
-					foreach (unowned DB db in transaction.alpm_config.handle.syncdbs) {
+					foreach (unowned DB db in transaction.handle.syncdbs) {
 						if (db.name == repo) {
 							foreach (unowned Alpm.Package pkg in db.pkgcache) {
-								find_pkg = transaction.alpm_config.handle.localdb.get_pkg (pkg.name);
+								find_pkg = transaction.handle.localdb.get_pkg (pkg.name);
 								if (find_pkg != null)
 									pkgs.add (find_pkg);
 								else
@@ -835,7 +843,7 @@ namespace Pamac {
 				SList<string> packages_paths = packages_chooser_dialog.get_filenames ();
 				if (packages_paths.length () != 0) {
 					foreach (string path in packages_paths) {
-						transaction.data.to_load.insert (path, path);
+						transaction.to_load.insert (path, path);
 					}
 					this.get_window ().set_cursor (new Gdk.Cursor (Gdk.CursorType.WATCH));
 					packages_chooser_dialog.hide ();
@@ -898,7 +906,7 @@ namespace Pamac {
 			while (Gtk.events_pending ())
 				Gtk.main_iteration ();
 			if (pamac_config.recurse)
-				transaction.data.flags |= Alpm.TransFlag.RECURSE;
+				transaction.flags |= Alpm.TransFlag.RECURSE;
 			transaction.run ();
 		}
 
@@ -921,7 +929,7 @@ namespace Pamac {
 				set_buttons_sensitive (false);
 				refresh_packages_list ();
 			}
-			transaction.data.to_load.steal_all ();
+			transaction.to_load.steal_all ();
 			this.get_window ().set_cursor (null);
 		}
 	}

@@ -127,7 +127,7 @@ namespace Pamac {
 			uint updates_nb = 0;
 			updates_list.clear ();
 			// get syncfirst updates
-			UpdatesInfos[] syncfirst_updates = get_syncfirst_updates (transaction.alpm_config);
+			UpdatesInfos[] syncfirst_updates = get_syncfirst_updates (transaction.handle, transaction.syncfirst);
 			if (syncfirst_updates.length != 0) {
 				updates_nb = syncfirst_updates.length;
 				foreach (UpdatesInfos infos in syncfirst_updates) {
@@ -140,8 +140,7 @@ namespace Pamac {
 					updates_list.insert_with_values (out iter, -1, 0, name, 1, size);
 				}
 			} else {
-				string[] ignore_pkgs = get_ignore_pkgs (transaction.alpm_config);
-				UpdatesInfos[] updates = get_repos_updates (transaction.alpm_config, ignore_pkgs);
+				UpdatesInfos[] updates = get_repos_updates (transaction.handle, transaction.ignorepkg);
 				foreach (UpdatesInfos infos in updates) {
 					name = infos.name + " " + infos.version;
 					if (infos.download_size != 0)
@@ -153,7 +152,7 @@ namespace Pamac {
 				}
 				updates_nb += updates.length;
 				if (pamac_config.enable_aur) {
-					UpdatesInfos[] aur_updates = get_aur_updates (transaction.alpm_config, ignore_pkgs);
+					UpdatesInfos[] aur_updates = get_aur_updates (transaction.handle, transaction.ignorepkg);
 					updates_nb += aur_updates.length;
 					foreach (UpdatesInfos infos in aur_updates) {
 						name = infos.name + " " + infos.version;

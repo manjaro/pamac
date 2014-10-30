@@ -20,14 +20,14 @@
             <child>
               <object class="GtkButton" id="refresh_button">
                 <property name="visible">True</property>
-                <property name="tooltip_text" translatable="yes">Refresh</property>
+                <property name="tooltip_text" translatable="yes">Refresh databases</property>
                 <property name="focus_on_click">False</property>
                 <signal name="clicked" handler="on_refresh_button_clicked" swapped="no"/>
                 <style>
                   <class name="image-button"/>
                 </style>
                 <child>
-                  <object class="GtkImage" id="refresh-icon">
+                  <object class="GtkImage" id="refresh_icon">
                     <property name="visible">True</property>
                     <property name="icon-name">view-refresh-symbolic</property>
                     <property name="icon-size">1</property>
@@ -51,7 +51,7 @@
                   <class name="image-button"/>
                 </style>
                 <child>
-                  <object class="GtkImage" id="valid-icon">
+                  <object class="GtkImage" id="valid_icon">
                     <property name="visible">True</property>
                     <property name="icon-name">emblem-ok-symbolic</property>
                     <property name="icon-size">1</property>
@@ -68,14 +68,14 @@
             <child>
               <object class="GtkButton" id="cancel_button">
                 <property name="visible">True</property>
-                <property name="tooltip_text" translatable="yes">Cancel</property>
+                <property name="tooltip_text" translatable="yes">Cancel all planned changes</property>
                 <property name="focus_on_click">False</property>
                 <signal name="clicked" handler="on_cancel_button_clicked" swapped="no"/>
                 <style>
                   <class name="image-button"/>
                 </style>
                 <child>
-                  <object class="GtkImage" id="cancel-icon">
+                  <object class="GtkImage" id="cancel_icon">
                     <property name="visible">True</property>
                     <property name="icon-name">edit-delete-symbolic</property>
                     <property name="icon-size">1</property>
@@ -106,7 +106,7 @@
                   <class name="image-button"/>
                 </style>
                 <child>
-                  <object class="GtkImage" id="menu-icon">
+                  <object class="GtkImage" id="menu_icon">
                     <property name="visible">True</property>
                     <property name="icon-name">emblem-system-symbolic</property>
                     <property name="icon-size">1</property>
@@ -759,58 +759,40 @@
       </object>
     </child>
   </template>
-  <object class="GtkImage" id="file_icon">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <property name="stock">gtk-file</property>
-    <property name="icon_size">1</property>
-  </object>
-  <object class="GtkImage" id="local_icon">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <property name="pixel_size">16</property>
-    <property name="icon_name">emblem-package</property>
-  </object>
   <object class="GtkMenu" id="main_menu">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
     <child>
-      <object class="GtkImageMenuItem" id="history_item">
+      <object class="GtkMenuItem" id="history_item">
         <property name="label" translatable="yes">View History</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
-        <property name="image">file_icon</property>
-        <property name="use_stock">False</property>
         <signal name="activate" handler="on_history_item_activate" swapped="no"/>
       </object>
     </child>
     <child>
-      <object class="GtkImageMenuItem" id="local_item">
+      <object class="GtkMenuItem" id="local_item">
         <property name="label" translatable="yes">Install local packages</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
-        <property name="image">local_icon</property>
-        <property name="use_stock">False</property>
         <signal name="activate" handler="on_local_item_activate" swapped="no"/>
       </object>
     </child>
     <child>
-      <object class="GtkImageMenuItem" id="preferences_item">
-        <property name="label">gtk-preferences</property>
+      <object class="GtkMenuItem" id="preferences_item">
+        <property name="label" translatable="yes">_Preferences</property>
+        <property name="use_underline">True</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
-        <property name="use_underline">True</property>
-        <property name="use_stock">True</property>
         <signal name="activate" handler="on_preferences_item_activate" swapped="no"/>
       </object>
     </child>
     <child>
-      <object class="GtkImageMenuItem" id="about_item">
-        <property name="label">gtk-about</property>
+      <object class="GtkMenuItem" id="about_item">
+        <property name="label" translatable="yes">_About</property>
+        <property name="use_underline">True</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
-        <property name="use_underline">True</property>
-        <property name="use_stock">True</property>
         <signal name="activate" handler="on_about_item_activate" swapped="no"/>
       </object>
     </child>
