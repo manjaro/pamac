@@ -3,24 +3,26 @@
 # This file is distributed under the same license as the Pamac package.
 # Guillaume Benoit <guillaume@manjaro.org>, 2013-2014.
 #
-#, fuzzy
+# Translators:
+# Enindu <enindu@yahoo.com>, 2014
 msgid ""
 msgstr ""
-"Project-Id-Version: pamac 2.0\n"
+"Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-10-23 15:09+0100\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"PO-Revision-Date: 2014-04-21 19:55+0000\n"
+"Last-Translator: Enindu <enindu@yahoo.com>\n"
+"Language-Team: Sinhala (http://www.transifex.com/projects/p/manjaro-pamac/"
+"language/si/)\n"
+"Language: si\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: data/polkit/org.manjaro.pamac.policy:10
 msgid "Authentication is required"
 msgstr ""
-
 
 #: resources/choose_provider_dialog.ui:7
 msgid "Choose a Provider"
@@ -149,8 +151,9 @@ msgid "Update Manager"
 msgstr ""
 
 #: resources/updater_window.ui:135
+#, fuzzy
 msgid "_Refresh"
-msgstr ""
+msgstr "අභිනවන වෙමින් පවතී"
 
 #: resources/updater_window.ui:149
 msgid "_Apply"
@@ -266,7 +269,7 @@ msgstr ""
 
 #: src/transaction.vala:259
 msgid "Preparing"
-msgstr ""
+msgstr "සූදානම් කරමින් පවතී"
 
 #: src/transaction.vala:331
 #, c-format
@@ -276,7 +279,7 @@ msgstr ""
 #: src/transaction.vala:389 src/manager_window.vala:188
 #: src/manager_window.vala:731
 msgid "To remove"
-msgstr ""
+msgstr "ඉවත් කිරීමට"
 
 #: src/transaction.vala:402
 msgid "To downgrade"
@@ -289,7 +292,7 @@ msgstr ""
 #: src/transaction.vala:428 src/manager_window.vala:187
 #: src/manager_window.vala:720
 msgid "To install"
-msgstr ""
+msgstr "ස්ථාපනය කිරීමට"
 
 #: src/transaction.vala:441
 msgid "To reinstall"
@@ -309,19 +312,20 @@ msgstr ""
 
 #: src/transaction.vala:542
 msgid "Checking dependencies"
-msgstr ""
+msgstr "පරායක්තතා පරීක්ෂා කරයි"
 
 #: src/transaction.vala:547
 msgid "Checking file conflicts"
-msgstr ""
+msgstr "එකිනෙකට විරුද්ධ ලිපි ගොනු පරීක්ෂා කරයි"
 
 #: src/transaction.vala:552
 msgid "Resolving dependencies"
-msgstr ""
+msgstr "පරායක්තතා විසදමින් පවතී"
 
 #: src/transaction.vala:557
+#, fuzzy
 msgid "Checking inter-conflicts"
-msgstr ""
+msgstr "අන්තර් ගැටීම් පරීක්ෂා කරයි"
 
 #: src/transaction.vala:564 src/transaction.vala:566
 #, c-format
@@ -350,7 +354,7 @@ msgstr ""
 
 #: src/transaction.vala:602
 msgid "Checking integrity"
-msgstr ""
+msgstr "සම්පූර්ණත්වය පරීක්ෂා කරයි"
 
 #: src/transaction.vala:608
 msgid "Checking keyring"
@@ -362,7 +366,7 @@ msgstr ""
 
 #: src/transaction.vala:618
 msgid "Loading packages files"
-msgstr ""
+msgstr "පැකේජ පූරණය වෙමින් පවතී"
 
 #: src/transaction.vala:623
 msgid "Checking delta integrity"
@@ -437,20 +441,20 @@ msgstr ""
 
 #: src/transaction.vala:901 src/transaction.vala:917
 msgid "Transaction successfully finished"
-msgstr ""
+msgstr "කටයුත්ත සාර්ථක ලෙස අවසන් විය"
 
 #: src/tray.vala:24 src/updater_window.vala:175
 #, c-format
 msgid "%u available updates"
-msgstr ""
+msgstr "යාවත්කාලීන %u ක් ඇත"
 
 #: src/tray.vala:25 src/updater_window.vala:172
 msgid "1 available update"
-msgstr ""
+msgstr "යාවත්කාලීන 1ක් ඇත"
 
 #: src/tray.vala:27 src/updater_window.vala:56 src/updater_window.vala:169
 msgid "Your system is up-to-date"
-msgstr ""
+msgstr "ඔබගේ මෙහෙයුම් පද්ධතිය යාවත්කාලීන කර ඇත."
 
 #: src/tray.vala:79
 msgid "_Quit"
@@ -462,28 +466,29 @@ msgstr ""
 
 #: src/manager_window.vala:180 src/manager_window.vala:777
 msgid "local"
-msgstr ""
+msgstr "දේශීය"
 
 #: src/manager_window.vala:184 src/manager_window.vala:251
 #: src/manager_window.vala:263 src/manager_window.vala:737
 msgid "Installed"
-msgstr ""
+msgstr "ස්ථාපනය කරන ලදි"
 
 #: src/manager_window.vala:186 src/manager_window.vala:751
 msgid "Orphans"
-msgstr ""
+msgstr "අත්හල පැකේජ"
 
 #: src/manager_window.vala:211
 msgid "Licenses"
-msgstr ""
+msgstr "බලපත්‍ර"
 
 #: src/manager_window.vala:233
 msgid "Depends On"
 msgstr ""
 
 #: src/manager_window.vala:253
+#, fuzzy
 msgid "Optional Dependencies"
-msgstr ""
+msgstr "පරායක්තතා පරීක්ෂා කරයි"
 
 #: src/manager_window.vala:273
 msgid "Required By"
@@ -535,11 +540,11 @@ msgstr ""
 
 #: src/manager_window.vala:497
 msgid "No package found"
-msgstr ""
+msgstr "පැකේජය සොයා ගත නොහැක"
 
 #: src/manager_window.vala:739
 msgid "Uninstalled"
-msgstr ""
+msgstr "අස්ථාපනය කරන ලදි"
 
 #: src/manager_window.vala:888
 msgid "A Gtk3 frontend for libalpm"

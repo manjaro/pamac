@@ -3,24 +3,28 @@
 # This file is distributed under the same license as the Pamac package.
 # Guillaume Benoit <guillaume@manjaro.org>, 2013-2014.
 #
-#, fuzzy
+# Translators:
+# Luki <jbkammer@gmail.com>, 2013
+# SamiPerkele, 2014
+# SamiPerkele, 2013
 msgid ""
 msgstr ""
-"Project-Id-Version: pamac 2.0\n"
+"Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-10-23 15:09+0100\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"PO-Revision-Date: 2014-04-08 01:02+0000\n"
+"Last-Translator: SamiPerkele\n"
+"Language-Team: Finnish (http://www.transifex.com/projects/p/manjaro-pamac/"
+"language/fi/)\n"
+"Language: fi\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: data/polkit/org.manjaro.pamac.policy:10
 msgid "Authentication is required"
-msgstr ""
-
+msgstr "Todennus vaaditaan"
 
 #: resources/choose_provider_dialog.ui:7
 msgid "Choose a Provider"
@@ -33,12 +37,13 @@ msgstr ""
 
 #: resources/packages_chooser_dialog.ui:7 resources/manager_window.ui:775
 msgid "Install local packages"
-msgstr ""
+msgstr "Asenna paikallisia paketteja"
 
 #: resources/packages_chooser_dialog.ui:29 resources/progress_dialog.ui:29
 #: resources/transaction_sum_dialog.ui:21
+#, fuzzy
 msgid "_Cancel"
-msgstr ""
+msgstr "Peru"
 
 #: resources/packages_chooser_dialog.ui:42
 msgid "_Open"
@@ -46,7 +51,7 @@ msgstr ""
 
 #: resources/progress_dialog.ui:7
 msgid "Progress"
-msgstr ""
+msgstr "Edistyminen"
 
 #: resources/progress_dialog.ui:41 resources/history_dialog.ui:23
 #: resources/transaction_info_dialog.ui:21 resources/updater_window.ui:163
@@ -57,19 +62,19 @@ msgstr ""
 #: resources/progress_dialog.ui:91 resources/transaction_info_dialog.ui:81
 #: resources/manager_window.ui:707
 msgid "Details"
-msgstr ""
+msgstr "Yksityiskohdat"
 
 #: resources/history_dialog.ui:7
 msgid "Pamac History"
-msgstr ""
+msgstr "Pamacin historia"
 
 #: resources/transaction_sum_dialog.ui:6 src/transaction.vala:359
 msgid "Transaction Summary"
-msgstr ""
+msgstr "Toimenpiteiden yhteenveto"
 
 #: resources/manager_window.ui:14 src/tray.vala:76
 msgid "Package Manager"
-msgstr ""
+msgstr "Paketinhallinta"
 
 #: resources/manager_window.ui:23
 msgid "Refresh databases"
@@ -77,7 +82,7 @@ msgstr ""
 
 #: resources/manager_window.ui:47
 msgid "Apply changes"
-msgstr ""
+msgstr "Toteuta muutokset"
 
 #: resources/manager_window.ui:71
 msgid "Cancel all planned changes"
@@ -85,39 +90,40 @@ msgstr ""
 
 #: resources/manager_window.ui:170
 msgid "Search in AUR"
-msgstr ""
+msgstr "Etsi AUR:sta"
 
 #: resources/manager_window.ui:234
 msgid "Search"
-msgstr ""
+msgstr "Etsi"
 
 #: resources/manager_window.ui:279 src/manager_window.vala:337
 msgid "Groups"
-msgstr ""
+msgstr "Ryhmät"
 
 #: resources/manager_window.ui:325 resources/manager_window.ui:418
 msgid "State"
-msgstr ""
+msgstr "Tila"
 
 #: resources/manager_window.ui:371
+#, fuzzy
 msgid "Repositories"
-msgstr ""
+msgstr "Pakettivarasto"
 
 #: resources/manager_window.ui:433
 msgid "Name"
-msgstr ""
+msgstr "Nimi"
 
 #: resources/manager_window.ui:448
 msgid "Version"
-msgstr ""
+msgstr "Versio"
 
 #: resources/manager_window.ui:463 src/manager_window.vala:329
 msgid "Repository"
-msgstr ""
+msgstr "Pakettivarasto"
 
 #: resources/manager_window.ui:478
 msgid "Size"
-msgstr ""
+msgstr "Koko"
 
 #: resources/manager_window.ui:582
 msgid "Description"
@@ -129,11 +135,11 @@ msgstr ""
 
 #: resources/manager_window.ui:740
 msgid "Files"
-msgstr ""
+msgstr "Tiedostot"
 
 #: resources/manager_window.ui:767
 msgid "View History"
-msgstr ""
+msgstr "Näytä historia"
 
 #: resources/manager_window.ui:783 resources/updater_window.ui:108
 msgid "_Preferences"
@@ -146,11 +152,12 @@ msgstr ""
 #: resources/updater_window.ui:14 src/tray.vala:73 src/tray.vala:163
 #: src/tray.vala:235
 msgid "Update Manager"
-msgstr ""
+msgstr "Päivitystenhallinta"
 
 #: resources/updater_window.ui:135
+#, fuzzy
 msgid "_Refresh"
-msgstr ""
+msgstr "Virkistä"
 
 #: resources/updater_window.ui:149
 msgid "_Apply"
@@ -162,29 +169,32 @@ msgstr ""
 
 #: resources/preferences_dialog.ui:71
 msgid "Enable AUR support"
-msgstr ""
+msgstr "Ota AUR-tuki käyttöön"
 
 #: resources/preferences_dialog.ui:84
 msgid "Allow Pamac to search and install packages from AUR"
-msgstr ""
+msgstr "Anna Pamacin etsiä ja asentaa paketteja AUR:sta"
 
 #: resources/preferences_dialog.ui:102
 msgid "Remove unrequired dependencies"
-msgstr ""
+msgstr "Poista ei-vaaditut riippuvuudet"
 
 #: resources/preferences_dialog.ui:115
+#, fuzzy
 msgid ""
 "When removing a package, also remove its dependencies that are not required "
 "by other packages"
 msgstr ""
+"Pakettia poistettaessa poista myös sellaiset paketit, joita muut paketit "
+"eivät tarvitse"
 
 #: resources/preferences_dialog.ui:149 src/preferences_dialog.vala:37
 msgid "How often to check for updates, value in hours"
-msgstr ""
+msgstr "Kuinka usein tarkistetaan päivityksiä, arvo tunneissa"
 
 #: resources/preferences_dialog.ui:173
 msgid "Options"
-msgstr ""
+msgstr "Asetukset"
 
 #: src/packages_chooser_dialog.vala:32
 msgid "Packages"
@@ -254,7 +264,7 @@ msgstr ""
 
 #: src/daemon.vala:442
 msgid "Authentication failed"
-msgstr ""
+msgstr "Todennus epäonnistui"
 
 #: src/transaction.vala:164
 msgid "Synchronizing package databases"
@@ -266,7 +276,7 @@ msgstr ""
 
 #: src/transaction.vala:259
 msgid "Preparing"
-msgstr ""
+msgstr "Valmistellaan"
 
 #: src/transaction.vala:331
 #, c-format
@@ -276,32 +286,33 @@ msgstr ""
 #: src/transaction.vala:389 src/manager_window.vala:188
 #: src/manager_window.vala:731
 msgid "To remove"
-msgstr ""
+msgstr "Poistettavat"
 
 #: src/transaction.vala:402
 msgid "To downgrade"
-msgstr ""
+msgstr "Varhennettavat"
 
 #: src/transaction.vala:415
 msgid "To build"
-msgstr ""
+msgstr "Käännettävät"
 
 #: src/transaction.vala:428 src/manager_window.vala:187
 #: src/manager_window.vala:720
 msgid "To install"
-msgstr ""
+msgstr "Asennettavat"
 
 #: src/transaction.vala:441
 msgid "To reinstall"
-msgstr ""
+msgstr "Uudelleenasennettavat"
 
 #: src/transaction.vala:455
 msgid "To update"
-msgstr ""
+msgstr "Päivitettävät"
 
 #: src/transaction.vala:468 src/updater_window.vala:179
+#, fuzzy
 msgid "Total download size"
-msgstr ""
+msgstr "Yhteenlaskettu latauksen koko"
 
 #: src/transaction.vala:485
 msgid "Building packages"
@@ -309,60 +320,61 @@ msgstr ""
 
 #: src/transaction.vala:542
 msgid "Checking dependencies"
-msgstr ""
+msgstr "Selvitetään riippuvuuksia"
 
 #: src/transaction.vala:547
 msgid "Checking file conflicts"
-msgstr ""
+msgstr "Tarkastetaan tiedostoristiriitoja"
 
 #: src/transaction.vala:552
 msgid "Resolving dependencies"
-msgstr ""
+msgstr "Selvitetään riippuvuuksia"
 
 #: src/transaction.vala:557
+#, fuzzy
 msgid "Checking inter-conflicts"
-msgstr ""
+msgstr "Tarkastetaan sisäisiä ristiriitoja"
 
 #: src/transaction.vala:564 src/transaction.vala:566
 #, c-format
 msgid "Installing %s"
-msgstr ""
+msgstr "Asennetaan %s"
 
 #: src/transaction.vala:572 src/transaction.vala:574
 #, c-format
 msgid "Reinstalling %s"
-msgstr ""
+msgstr "Uudelleenasennetaan %s"
 
 #: src/transaction.vala:580 src/transaction.vala:582
 #, c-format
 msgid "Removing %s"
-msgstr ""
+msgstr "Poistetaan %s"
 
 #: src/transaction.vala:588 src/transaction.vala:590
 #, c-format
 msgid "Upgrading %s"
-msgstr ""
+msgstr "Päivitetään %s"
 
 #: src/transaction.vala:596 src/transaction.vala:598
 #, c-format
 msgid "Downgrading %s"
-msgstr ""
+msgstr "Varhennetaan %s"
 
 #: src/transaction.vala:602
 msgid "Checking integrity"
-msgstr ""
+msgstr "Tarkastetaan eheyttä"
 
 #: src/transaction.vala:608
 msgid "Checking keyring"
-msgstr ""
+msgstr "Tarkastetaan avainrengasta"
 
 #: src/transaction.vala:613
 msgid "Downloading required keys"
-msgstr ""
+msgstr "Ladataan vaadittuja avaimia"
 
 #: src/transaction.vala:618
 msgid "Loading packages files"
-msgstr ""
+msgstr "Ladataan paketin tiedostoja"
 
 #: src/transaction.vala:623
 msgid "Checking delta integrity"
@@ -382,21 +394,22 @@ msgid "Generation succeeded"
 msgstr ""
 
 #: src/transaction.vala:643
+#, fuzzy
 msgid "Generation failed"
-msgstr ""
+msgstr "Todennus epäonnistui"
 
 #: src/transaction.vala:648
 #, c-format
 msgid "Configuring %s"
-msgstr ""
+msgstr "Konfiguroidaan %s"
 
 #: src/transaction.vala:654
 msgid "Downloading"
-msgstr ""
+msgstr "Ladataan"
 
 #: src/transaction.vala:659
 msgid "Checking available disk space"
-msgstr ""
+msgstr "Tarkistetaan saatavilla olevaa levytilaa"
 
 #: src/transaction.vala:664
 #, c-format
@@ -411,20 +424,20 @@ msgstr ""
 #: src/transaction.vala:719
 #, c-format
 msgid "Refreshing %s"
-msgstr ""
+msgstr "Virkistetään %s"
 
 #: src/transaction.vala:721
 #, c-format
 msgid "Downloading %s"
-msgstr ""
+msgstr "Ladataan %s"
 
 #: src/transaction.vala:758 src/transaction.vala:772
 msgid "Warning"
-msgstr ""
+msgstr "Varoitus"
 
 #: src/transaction.vala:762 src/transaction.vala:791
 msgid "Error"
-msgstr ""
+msgstr "Virhe"
 
 #: src/transaction.vala:855 src/transaction.vala:870
 #: src/progress_dialog.vala:55
@@ -433,28 +446,29 @@ msgstr ""
 
 #: src/transaction.vala:881
 msgid "Nothing to do"
-msgstr ""
+msgstr "Ei mitään tehtävää"
 
 #: src/transaction.vala:901 src/transaction.vala:917
 msgid "Transaction successfully finished"
-msgstr ""
+msgstr "Toimenpide suoritettu onnistuneesti"
 
 #: src/tray.vala:24 src/updater_window.vala:175
 #, c-format
 msgid "%u available updates"
-msgstr ""
+msgstr "%u päivitystä saatavilla"
 
 #: src/tray.vala:25 src/updater_window.vala:172
 msgid "1 available update"
-msgstr ""
+msgstr "1 päivitys saatavilla"
 
 #: src/tray.vala:27 src/updater_window.vala:56 src/updater_window.vala:169
 msgid "Your system is up-to-date"
-msgstr ""
+msgstr "Järjestelmäsi on ajan tasalla"
 
 #: src/tray.vala:79
+#, fuzzy
 msgid "_Quit"
-msgstr ""
+msgstr "Poistu"
 
 #: src/tray.vala:164
 msgid "Show available updates"
@@ -462,95 +476,211 @@ msgstr ""
 
 #: src/manager_window.vala:180 src/manager_window.vala:777
 msgid "local"
-msgstr ""
+msgstr "paikalliset"
 
 #: src/manager_window.vala:184 src/manager_window.vala:251
 #: src/manager_window.vala:263 src/manager_window.vala:737
 msgid "Installed"
-msgstr ""
+msgstr "Asennettuna"
 
 #: src/manager_window.vala:186 src/manager_window.vala:751
 msgid "Orphans"
-msgstr ""
+msgstr "Orvot"
 
 #: src/manager_window.vala:211
 msgid "Licenses"
-msgstr ""
+msgstr "Lisenssit"
 
 #: src/manager_window.vala:233
 msgid "Depends On"
-msgstr ""
+msgstr "Riippuu paketeista"
 
 #: src/manager_window.vala:253
+#, fuzzy
 msgid "Optional Dependencies"
-msgstr ""
+msgstr "Valinnaiset riippuvuudet"
 
 #: src/manager_window.vala:273
 msgid "Required By"
-msgstr ""
+msgstr "Riippuvuutena paketeille"
 
 #: src/manager_window.vala:287
 msgid "Provides"
-msgstr ""
+msgstr "Tarjoaa"
 
 #: src/manager_window.vala:300
 msgid "Replaces"
-msgstr ""
+msgstr "Korvaa"
 
 #: src/manager_window.vala:313
 msgid "Conflicts With"
-msgstr ""
+msgstr "Ristiriidat"
 
 #: src/manager_window.vala:347
 msgid "Packager"
-msgstr ""
+msgstr "Pakkaaja"
 
 #: src/manager_window.vala:353
 msgid "Install Date"
-msgstr ""
+msgstr "Asennuspäivämäärä"
 
 #: src/manager_window.vala:357
 msgid "Explicitly installed"
-msgstr ""
+msgstr "Käyttäjän asentama"
 
 #: src/manager_window.vala:359
 msgid "Installed as a dependency for another package"
-msgstr ""
+msgstr "Asennettu riippuvuutena toiselle paketille"
 
 #: src/manager_window.vala:361
 msgid "Unknown"
-msgstr ""
+msgstr "Tuntematon"
 
 #: src/manager_window.vala:363
 msgid "Install Reason"
-msgstr ""
+msgstr "Asennuksen syy"
 
 #: src/manager_window.vala:368
 msgid "Signatures"
-msgstr ""
+msgstr "Allekirjoitukset"
 
 #: src/manager_window.vala:376
 msgid "Backup files"
-msgstr ""
+msgstr "Varmuuskopiot"
 
 #: src/manager_window.vala:497
 msgid "No package found"
-msgstr ""
+msgstr "Paketteja ei löytynyt"
 
 #: src/manager_window.vala:739
 msgid "Uninstalled"
-msgstr ""
+msgstr "Ei asennettuna"
 
 #: src/manager_window.vala:888
+#, fuzzy
 msgid "A Gtk3 frontend for libalpm"
-msgstr ""
+msgstr "Gtk3-käyttöliittymä libalpm:lle"
 
 #: src/common.vala:48
-#, c-format
+#, fuzzy, c-format
 msgid "%.0f KiB"
-msgstr ""
+msgstr "%.0f KiB"
 
 #: src/common.vala:51
 #, c-format
 msgid "%.2f MiB"
-msgstr ""
+msgstr "%.2f MiB"
+
+#~ msgid "%s will be replaced by %s"
+#~ msgstr "%s korvataan paketilla %s"
+
+#~ msgid "%s conflicts with %s"
+#~ msgstr "%s on ristiriidassa paketin %s kanssa"
+
+#~ msgid "%s is not a valid path or package name"
+#~ msgstr "%s ei ole kunnollinen tiedostopolku tai paketin nimi"
+
+#~ msgid ""
+#~ "The transaction cannot be performed because it needs to remove %s which "
+#~ "is a locked package"
+#~ msgstr ""
+#~ "Toimenpidettä ei voida suorittaa koska lukittu paketti %s täytyisi poistaa"
+
+#~ msgid "Compressed Size"
+#~ msgstr "Pakattu koko"
+
+#~ msgid "Download Size"
+#~ msgstr "Latauksen koko"
+
+#~ msgid "Installed Size"
+#~ msgstr "Koko asennettuna"
+
+#~ msgid "Architecture"
+#~ msgstr "Arkkitehtuuri"
+
+#~ msgid ""
+#~ "%s has %u uninstalled optional deps.\n"
+#~ "Please choose those you would like to install:"
+#~ msgstr ""
+#~ "Paketilla %s on %u asentamatonta valinnaista riippuvuutta.\n"
+#~ "Valitse ne, jotka haluat asentaa:"
+
+#~ msgid "Deselect"
+#~ msgstr "Poista valinta"
+
+#~ msgid "Remove"
+#~ msgstr "Poista"
+
+#~ msgid "Reinstall"
+#~ msgstr "Asenna uudelleen"
+
+#~ msgid "Install optional deps"
+#~ msgstr "Asenna valinnaisia riippuvuuksia"
+
+#~ msgid "Mark as explicitly installed"
+#~ msgstr "Merkitse erikseen asennetuksi"
+
+#~ msgid "Install"
+#~ msgstr "Asenna"
+
+#~ msgid "Install with optional deps"
+#~ msgstr "Asenna valinnaisten riippuvuuksien kanssa"
+
+#~ msgid "Pamac is already running"
+#~ msgstr "Pamac on jo käynnissä"
+
+#~ msgid ""
+#~ "Some updates are available.\n"
+#~ "Please update your system first"
+#~ msgstr ""
+#~ "Joitakin päivityksiä on saatavilla.⏎\n"
+#~ "Päivitä järjestelmäsi ensin"
+
+#~ msgid ""
+#~ "%s is provided by %u packages.\n"
+#~ "Please choose those you would like to install:"
+#~ msgstr ""
+#~ "%s on tarjolla %u:ssä paketissa.\n"
+#~ "Valitse ne, jotka haluat asentaa:"
+
+#~ msgid "Refreshing"
+#~ msgstr "Virkistetään"
+
+#~ msgid "%s depends on %s but it is not installable"
+#~ msgstr "%s riippuu kohteesta %s mutta se ei ole asennettavissa"
+
+#~ msgid "Failed to get %s archive from AUR"
+#~ msgstr "Arkiston %s hakeminen AUR:sta epäonnistui."
+
+#~ msgid "Build process failed."
+#~ msgstr "Kääntöprosessi epäonnistui."
+
+#~ msgid "Checking for updates"
+#~ msgstr "Tarkastetaan päivityksiä"
+
+#~ msgid "About Pamac"
+#~ msgstr "Tietoa Pamacista"
+
+#~ msgid "Copyright © 2013 Guillaume Benoit"
+#~ msgstr "Tekijänoikeudet © 2013 Guillaume Benoit"
+
+#~ msgid "Repos"
+#~ msgstr "Lähteet"
+
+#~ msgid "Repo"
+#~ msgstr "Varasto"
+
+#~ msgid "Infos"
+#~ msgstr "Tiedot"
+
+#~ msgid "Deps"
+#~ msgstr "Riippuvuudet"
+
+#~ msgid "details"
+#~ msgstr "yksityiskohdat"
+
+#~ msgid "Choose"
+#~ msgstr "Valitse"
+
+#~ msgid "Summary"
+#~ msgstr "Yhteenveto"

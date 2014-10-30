@@ -3,24 +3,26 @@
 # This file is distributed under the same license as the Pamac package.
 # Guillaume Benoit <guillaume@manjaro.org>, 2013-2014.
 #
-#, fuzzy
+# Translators:
+# lego37yoon <lego37yoon@outlook.com>, 2013
 msgid ""
 msgstr ""
-"Project-Id-Version: pamac 2.0\n"
+"Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-10-23 15:09+0100\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"PO-Revision-Date: 2014-03-05 22:14+0000\n"
+"Last-Translator: manjarolinux <philm@manjaro.org>\n"
+"Language-Team: Korean (http://www.transifex.com/projects/p/manjaro-pamac/"
+"language/ko/)\n"
+"Language: ko\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 
 #: data/polkit/org.manjaro.pamac.policy:10
 msgid "Authentication is required"
 msgstr ""
-
 
 #: resources/choose_provider_dialog.ui:7
 msgid "Choose a Provider"
@@ -109,7 +111,7 @@ msgstr ""
 
 #: resources/manager_window.ui:448
 msgid "Version"
-msgstr ""
+msgstr "버전"
 
 #: resources/manager_window.ui:463 src/manager_window.vala:329
 msgid "Repository"
@@ -149,8 +151,9 @@ msgid "Update Manager"
 msgstr ""
 
 #: resources/updater_window.ui:135
+#, fuzzy
 msgid "_Refresh"
-msgstr ""
+msgstr "새로고침중...."
 
 #: resources/updater_window.ui:149
 msgid "_Apply"
@@ -362,7 +365,7 @@ msgstr ""
 
 #: src/transaction.vala:618
 msgid "Loading packages files"
-msgstr ""
+msgstr "꾸러미 파일을 로드중입니다."
 
 #: src/transaction.vala:623
 msgid "Checking delta integrity"
@@ -442,19 +445,20 @@ msgstr ""
 #: src/tray.vala:24 src/updater_window.vala:175
 #, c-format
 msgid "%u available updates"
-msgstr ""
+msgstr "%u개의 업데이트가 있습니다."
 
 #: src/tray.vala:25 src/updater_window.vala:172
 msgid "1 available update"
-msgstr ""
+msgstr "1개의 가능한 업데이트가 있습니다."
 
 #: src/tray.vala:27 src/updater_window.vala:56 src/updater_window.vala:169
 msgid "Your system is up-to-date"
-msgstr ""
+msgstr "당신의 시스템은 너무 오래되었습니다."
 
 #: src/tray.vala:79
+#, fuzzy
 msgid "_Quit"
-msgstr ""
+msgstr "닫기"
 
 #: src/tray.vala:164
 msgid "Show available updates"
@@ -467,7 +471,7 @@ msgstr ""
 #: src/manager_window.vala:184 src/manager_window.vala:251
 #: src/manager_window.vala:263 src/manager_window.vala:737
 msgid "Installed"
-msgstr ""
+msgstr "설치완료"
 
 #: src/manager_window.vala:186 src/manager_window.vala:751
 msgid "Orphans"
@@ -539,7 +543,7 @@ msgstr ""
 
 #: src/manager_window.vala:739
 msgid "Uninstalled"
-msgstr ""
+msgstr "제거완료"
 
 #: src/manager_window.vala:888
 msgid "A Gtk3 frontend for libalpm"
@@ -554,3 +558,12 @@ msgstr ""
 #, c-format
 msgid "%.2f MiB"
 msgstr ""
+
+#~ msgid "Remove"
+#~ msgstr "제거"
+
+#~ msgid "Reinstall"
+#~ msgstr "재설치"
+
+#~ msgid "Install"
+#~ msgstr "설치"

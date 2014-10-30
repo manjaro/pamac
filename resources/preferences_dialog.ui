@@ -3,7 +3,7 @@
   <requires lib="gtk+" version="3.12"/>
   <template class="PamacPreferencesDialog" parent="GtkDialog">
     <property name="border_width">12</property>
-    <property name="title" translatable="yes">Pamac Preferences</property>
+    <property name="title" translatable="yes">Preferences</property>
     <property name="window_position">center-on-parent</property>
     <property name="default_width">300</property>
     <property name="default_height">250</property>

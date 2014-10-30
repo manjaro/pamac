@@ -3,24 +3,27 @@
 # This file is distributed under the same license as the Pamac package.
 # Guillaume Benoit <guillaume@manjaro.org>, 2013-2014.
 #
-#, fuzzy
+# Translators:
+# Umidjon Almasov <u.almasov@gmail.com>, 2013
+# Umidjon Almasov <u.almasov@gmail.com>, 2013
 msgid ""
 msgstr ""
-"Project-Id-Version: pamac 2.0\n"
+"Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-10-23 15:09+0100\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"PO-Revision-Date: 2014-03-05 22:14+0000\n"
+"Last-Translator: manjarolinux <philm@manjaro.org>\n"
+"Language-Team: Uzbek (http://www.transifex.com/projects/p/manjaro-pamac/"
+"language/uz/)\n"
+"Language: uz\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 
 #: data/polkit/org.manjaro.pamac.policy:10
 msgid "Authentication is required"
 msgstr ""
-
 
 #: resources/choose_provider_dialog.ui:7
 msgid "Choose a Provider"
@@ -33,7 +36,7 @@ msgstr ""
 
 #: resources/packages_chooser_dialog.ui:7 resources/manager_window.ui:775
 msgid "Install local packages"
-msgstr ""
+msgstr "Mahalliy paketlarni o'rnatish"
 
 #: resources/packages_chooser_dialog.ui:29 resources/progress_dialog.ui:29
 #: resources/transaction_sum_dialog.ui:21
@@ -46,7 +49,7 @@ msgstr ""
 
 #: resources/progress_dialog.ui:7
 msgid "Progress"
-msgstr ""
+msgstr "Jarayon bajarilishi"
 
 #: resources/progress_dialog.ui:41 resources/history_dialog.ui:23
 #: resources/transaction_info_dialog.ui:21 resources/updater_window.ui:163
@@ -57,7 +60,7 @@ msgstr ""
 #: resources/progress_dialog.ui:91 resources/transaction_info_dialog.ui:81
 #: resources/manager_window.ui:707
 msgid "Details"
-msgstr ""
+msgstr "Tafsilotlar"
 
 #: resources/history_dialog.ui:7
 msgid "Pamac History"
@@ -65,11 +68,11 @@ msgstr ""
 
 #: resources/transaction_sum_dialog.ui:6 src/transaction.vala:359
 msgid "Transaction Summary"
-msgstr ""
+msgstr "Tranzaksiya jamlangan ma'lumoti"
 
 #: resources/manager_window.ui:14 src/tray.vala:76
 msgid "Package Manager"
-msgstr ""
+msgstr "Paket boshqaruvchisi"
 
 #: resources/manager_window.ui:23
 msgid "Refresh databases"
@@ -85,39 +88,40 @@ msgstr ""
 
 #: resources/manager_window.ui:170
 msgid "Search in AUR"
-msgstr ""
+msgstr "AUR'da qidirish"
 
 #: resources/manager_window.ui:234
 msgid "Search"
-msgstr ""
+msgstr "Qidirish"
 
 #: resources/manager_window.ui:279 src/manager_window.vala:337
 msgid "Groups"
-msgstr ""
+msgstr "Guruhlar"
 
 #: resources/manager_window.ui:325 resources/manager_window.ui:418
 msgid "State"
-msgstr ""
+msgstr "Holati"
 
 #: resources/manager_window.ui:371
+#, fuzzy
 msgid "Repositories"
-msgstr ""
+msgstr "Repozitoriy"
 
 #: resources/manager_window.ui:433
 msgid "Name"
-msgstr ""
+msgstr "Nomi"
 
 #: resources/manager_window.ui:448
 msgid "Version"
-msgstr ""
+msgstr "Versiya"
 
 #: resources/manager_window.ui:463 src/manager_window.vala:329
 msgid "Repository"
-msgstr ""
+msgstr "Repozitoriy"
 
 #: resources/manager_window.ui:478
 msgid "Size"
-msgstr ""
+msgstr "Hajmi"
 
 #: resources/manager_window.ui:582
 msgid "Description"
@@ -129,7 +133,7 @@ msgstr ""
 
 #: resources/manager_window.ui:740
 msgid "Files"
-msgstr ""
+msgstr "Fayllar"
 
 #: resources/manager_window.ui:767
 msgid "View History"
@@ -146,11 +150,12 @@ msgstr ""
 #: resources/updater_window.ui:14 src/tray.vala:73 src/tray.vala:163
 #: src/tray.vala:235
 msgid "Update Manager"
-msgstr ""
+msgstr "Yangilanish boshqaruvchisi"
 
 #: resources/updater_window.ui:135
+#, fuzzy
 msgid "_Refresh"
-msgstr ""
+msgstr "Yangilanmoqda"
 
 #: resources/updater_window.ui:149
 msgid "_Apply"
@@ -254,7 +259,7 @@ msgstr ""
 
 #: src/daemon.vala:442
 msgid "Authentication failed"
-msgstr ""
+msgstr "Haqiqiylikni tekshirish muvaffaqiyatsiz tugadi"
 
 #: src/transaction.vala:164
 msgid "Synchronizing package databases"
@@ -266,7 +271,7 @@ msgstr ""
 
 #: src/transaction.vala:259
 msgid "Preparing"
-msgstr ""
+msgstr "Tayyorlanmoqda"
 
 #: src/transaction.vala:331
 #, c-format
@@ -276,32 +281,32 @@ msgstr ""
 #: src/transaction.vala:389 src/manager_window.vala:188
 #: src/manager_window.vala:731
 msgid "To remove"
-msgstr ""
+msgstr "O'chirish uchun"
 
 #: src/transaction.vala:402
 msgid "To downgrade"
-msgstr ""
+msgstr "Versiyani pasaytirish uchun"
 
 #: src/transaction.vala:415
 msgid "To build"
-msgstr ""
+msgstr "Yig'ish uchun"
 
 #: src/transaction.vala:428 src/manager_window.vala:187
 #: src/manager_window.vala:720
 msgid "To install"
-msgstr ""
+msgstr "O'rnatish uchun"
 
 #: src/transaction.vala:441
 msgid "To reinstall"
-msgstr ""
+msgstr "Qayta o'rnatish uchun"
 
 #: src/transaction.vala:455
 msgid "To update"
-msgstr ""
+msgstr "Yangilash uchun"
 
 #: src/transaction.vala:468 src/updater_window.vala:179
 msgid "Total download size"
-msgstr ""
+msgstr "Jami yuklab olinadigan hajm"
 
 #: src/transaction.vala:485
 msgid "Building packages"
@@ -309,94 +314,95 @@ msgstr ""
 
 #: src/transaction.vala:542
 msgid "Checking dependencies"
-msgstr ""
+msgstr "Bog'liqliklar tekshirilmoqda"
 
 #: src/transaction.vala:547
 msgid "Checking file conflicts"
-msgstr ""
+msgstr "Fayllar ixtilofi tekshirilmoqda"
 
 #: src/transaction.vala:552
 msgid "Resolving dependencies"
-msgstr ""
+msgstr "Bog'liqliklar bartaraf etilmoqda"
 
 #: src/transaction.vala:557
+#, fuzzy
 msgid "Checking inter-conflicts"
-msgstr ""
+msgstr "O'zaro ixtiloflar tekshirilmoqda"
 
 #: src/transaction.vala:564 src/transaction.vala:566
 #, c-format
 msgid "Installing %s"
-msgstr ""
+msgstr "%s o'rnatilmoqda"
 
 #: src/transaction.vala:572 src/transaction.vala:574
 #, c-format
 msgid "Reinstalling %s"
-msgstr ""
+msgstr "%s qayta o'rnatilmoqda"
 
 #: src/transaction.vala:580 src/transaction.vala:582
 #, c-format
 msgid "Removing %s"
-msgstr ""
+msgstr "%s o'chirilmoqda"
 
 #: src/transaction.vala:588 src/transaction.vala:590
 #, c-format
 msgid "Upgrading %s"
-msgstr ""
+msgstr "%s yangilanmoqda"
 
 #: src/transaction.vala:596 src/transaction.vala:598
 #, c-format
 msgid "Downgrading %s"
-msgstr ""
+msgstr "%s'ning versiyasini pasaytirmoqda"
 
 #: src/transaction.vala:602
 msgid "Checking integrity"
-msgstr ""
+msgstr "Butunligi tekshirilmoqda"
 
 #: src/transaction.vala:608
 msgid "Checking keyring"
-msgstr ""
+msgstr "Kalitlar to'plami tekshirilmoqda"
 
 #: src/transaction.vala:613
 msgid "Downloading required keys"
-msgstr ""
+msgstr "Talab qilingan kalitlar yuklab olinmoqda"
 
 #: src/transaction.vala:618
 msgid "Loading packages files"
-msgstr ""
+msgstr "Paketlar fayllari yuklanmoqda"
 
 #: src/transaction.vala:623
 msgid "Checking delta integrity"
-msgstr ""
+msgstr "Delta butunligi tekshirilmoqda"
 
 #: src/transaction.vala:628
 msgid "Applying deltas"
-msgstr ""
+msgstr "Deltalar qo'llanilmoqda"
 
 #: src/transaction.vala:633
 #, c-format
 msgid "Generating %s with %s"
-msgstr ""
+msgstr "%s'ni %s bilan yaratilmoqda"
 
 #: src/transaction.vala:638
 msgid "Generation succeeded"
-msgstr ""
+msgstr "Yaratish muvaffaqiyatli"
 
 #: src/transaction.vala:643
 msgid "Generation failed"
-msgstr ""
+msgstr "Yaratish muvaffaqiyatsiz"
 
 #: src/transaction.vala:648
 #, c-format
 msgid "Configuring %s"
-msgstr ""
+msgstr "%s'ni sozlamoqda"
 
 #: src/transaction.vala:654
 msgid "Downloading"
-msgstr ""
+msgstr "Yuklab olinmoqda"
 
 #: src/transaction.vala:659
 msgid "Checking available disk space"
-msgstr ""
+msgstr "Bo'sh disk joyi tekshirilmoqda"
 
 #: src/transaction.vala:664
 #, c-format
@@ -411,12 +417,12 @@ msgstr ""
 #: src/transaction.vala:719
 #, c-format
 msgid "Refreshing %s"
-msgstr ""
+msgstr "%s yangilanmoqda"
 
 #: src/transaction.vala:721
 #, c-format
 msgid "Downloading %s"
-msgstr ""
+msgstr "%s yuklab olinmoqda"
 
 #: src/transaction.vala:758 src/transaction.vala:772
 msgid "Warning"
@@ -433,28 +439,29 @@ msgstr ""
 
 #: src/transaction.vala:881
 msgid "Nothing to do"
-msgstr ""
+msgstr "Vazifalar yo'q"
 
 #: src/transaction.vala:901 src/transaction.vala:917
 msgid "Transaction successfully finished"
-msgstr ""
+msgstr "Tranzaksiya muvaffaqiyatli tugadi"
 
 #: src/tray.vala:24 src/updater_window.vala:175
 #, c-format
 msgid "%u available updates"
-msgstr ""
+msgstr "%u yangilanishlar mavjud"
 
 #: src/tray.vala:25 src/updater_window.vala:172
 msgid "1 available update"
-msgstr ""
+msgstr "1 yangilanish mavjud"
 
 #: src/tray.vala:27 src/updater_window.vala:56 src/updater_window.vala:169
 msgid "Your system is up-to-date"
-msgstr ""
+msgstr "Tizim yangilangan"
 
 #: src/tray.vala:79
+#, fuzzy
 msgid "_Quit"
-msgstr ""
+msgstr "Chiqish"
 
 #: src/tray.vala:164
 msgid "Show available updates"
@@ -462,95 +469,203 @@ msgstr ""
 
 #: src/manager_window.vala:180 src/manager_window.vala:777
 msgid "local"
-msgstr ""
+msgstr "mahalliy"
 
 #: src/manager_window.vala:184 src/manager_window.vala:251
 #: src/manager_window.vala:263 src/manager_window.vala:737
 msgid "Installed"
-msgstr ""
+msgstr "O'rnatilgan"
 
 #: src/manager_window.vala:186 src/manager_window.vala:751
 msgid "Orphans"
-msgstr ""
+msgstr "Yetimlar"
 
 #: src/manager_window.vala:211
 msgid "Licenses"
-msgstr ""
+msgstr "Litsenziyalar"
 
 #: src/manager_window.vala:233
 msgid "Depends On"
-msgstr ""
+msgstr "Bog'langan"
 
 #: src/manager_window.vala:253
+#, fuzzy
 msgid "Optional Dependencies"
-msgstr ""
+msgstr "Qo'shimcha bog'liqliklar"
 
 #: src/manager_window.vala:273
 msgid "Required By"
-msgstr ""
+msgstr "Talab qilinadi"
 
 #: src/manager_window.vala:287
 msgid "Provides"
-msgstr ""
+msgstr "Ta'minlaydi"
 
 #: src/manager_window.vala:300
 msgid "Replaces"
-msgstr ""
+msgstr "Almashtiradi"
 
 #: src/manager_window.vala:313
 msgid "Conflicts With"
-msgstr ""
+msgstr "Ixtiloflar"
 
 #: src/manager_window.vala:347
 msgid "Packager"
-msgstr ""
+msgstr "Paket yaratuvchisi"
 
 #: src/manager_window.vala:353
 msgid "Install Date"
-msgstr ""
+msgstr "O'rnatish sanasi"
 
 #: src/manager_window.vala:357
 msgid "Explicitly installed"
-msgstr ""
+msgstr "Aniq o'rnatilgan"
 
 #: src/manager_window.vala:359
 msgid "Installed as a dependency for another package"
-msgstr ""
+msgstr "Boshqa paketning bog'liqligi sifatida o'rnatilgan"
 
 #: src/manager_window.vala:361
 msgid "Unknown"
-msgstr ""
+msgstr "Noma'lum"
 
 #: src/manager_window.vala:363
 msgid "Install Reason"
-msgstr ""
+msgstr "O'rnatish sababi"
 
 #: src/manager_window.vala:368
 msgid "Signatures"
-msgstr ""
+msgstr "Imzolar"
 
 #: src/manager_window.vala:376
 msgid "Backup files"
-msgstr ""
+msgstr "Zaxira fayllari"
 
 #: src/manager_window.vala:497
 msgid "No package found"
-msgstr ""
+msgstr "Paket topilmadi"
 
 #: src/manager_window.vala:739
 msgid "Uninstalled"
-msgstr ""
+msgstr "Olib tashlangan"
 
 #: src/manager_window.vala:888
+#, fuzzy
 msgid "A Gtk3 frontend for libalpm"
-msgstr ""
+msgstr "libalpm uchun gtk3 frontendi"
 
 #: src/common.vala:48
-#, c-format
+#, fuzzy, c-format
 msgid "%.0f KiB"
-msgstr ""
+msgstr "%.0f KB"
 
 #: src/common.vala:51
 #, c-format
 msgid "%.2f MiB"
-msgstr ""
+msgstr "%.2f MB"
+
+#~ msgid "%s will be replaced by %s"
+#~ msgstr "%s %s bilan almashtiriladi"
+
+#~ msgid "%s conflicts with %s"
+#~ msgstr "%s %s bilan ixtilofda"
+
+#~ msgid "%s is not a valid path or package name"
+#~ msgstr "%s yo'li yoki paket nomi haqiqiy emas"
+
+#~ msgid ""
+#~ "The transaction cannot be performed because it needs to remove %s which "
+#~ "is a locked package"
+#~ msgstr ""
+#~ "Tranzaksiyani amalga oshirib bo'lmadi chunki u %s qulflangan paketini "
+#~ "o'chirishini talab qiladi"
+
+#~ msgid "Compressed Size"
+#~ msgstr "Ixchamlashtirilgan hajm"
+
+#~ msgid "Download Size"
+#~ msgstr "Yuklab olinadigan hajm"
+
+#~ msgid "Installed Size"
+#~ msgstr "O'rnatilgan holda hajm"
+
+#~ msgid "Architecture"
+#~ msgstr "Arxitektura"
+
+#~ msgid ""
+#~ "%s has %u uninstalled optional deps.\n"
+#~ "Please choose those you would like to install:"
+#~ msgstr ""
+#~ "%s uchun %u o'rnatilmagan qo'shimcha bog'liqliklar mavjud.\n"
+#~ "O'rnatiladiganlarni tanlang:"
+
+#~ msgid "Deselect"
+#~ msgstr "Tanlashni bekor qilish"
+
+#~ msgid "Remove"
+#~ msgstr "O'chirish"
+
+#~ msgid "Reinstall"
+#~ msgstr "Qayta o'rnatish"
+
+#~ msgid "Install optional deps"
+#~ msgstr "Qo'shimcha bog'liqliklarni o'rnatish"
+
+#~ msgid "Install"
+#~ msgstr "O'rnatish"
+
+#~ msgid "Install with optional deps"
+#~ msgstr "Qo'shimcha bog'liqliklar bilan o'rnatish"
+
+#~ msgid "Pamac is already running"
+#~ msgstr "Pamac ishga tushirilgan"
+
+#~ msgid ""
+#~ "Some updates are available.\n"
+#~ "Please update your system first"
+#~ msgstr ""
+#~ "Yangilanishlar mavjud.\n"
+#~ "Avval tizimni yangilang"
+
+#~ msgid ""
+#~ "%s is provided by %u packages.\n"
+#~ "Please choose those you would like to install:"
+#~ msgstr ""
+#~ "%s %u paketlar bilan taqdim etilgan.\n"
+#~ "O'rnatiladiganlarni tanlang:"
+
+#~ msgid "%s depends on %s but it is not installable"
+#~ msgstr "%s %s'ga bog'langan lekin uni o'rnatib bo'lmaydi"
+
+#~ msgid "Failed to get %s archive from AUR"
+#~ msgstr "AUR'dan %s arxivini olish muvaffaqiyatsiz tugadi"
+
+#~ msgid "Checking for updates"
+#~ msgstr "Yangilanishlar tekshirilmoqda"
+
+#~ msgid "About Pamac"
+#~ msgstr "Pamac haqida"
+
+#~ msgid "Copyright © 2013 Guillaume Benoit"
+#~ msgstr "Mualliflik huquqi © 2013 Guillaume Benoit"
+
+#~ msgid "Repos"
+#~ msgstr "Repozitoriylar"
+
+#~ msgid "Repo"
+#~ msgstr "Repozitoriy"
+
+#~ msgid "Infos"
+#~ msgstr "Ma'lumot"
+
+#~ msgid "Deps"
+#~ msgstr "Bog'liqliklar"
+
+#~ msgid "details"
+#~ msgstr "tafsilotlar"
+
+#~ msgid "Choose"
+#~ msgstr "Tanlash"
+
+#~ msgid "Summary"
+#~ msgstr "Jamlangan ma'lumot"

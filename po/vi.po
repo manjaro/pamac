@@ -3,24 +3,26 @@
 # This file is distributed under the same license as the Pamac package.
 # Guillaume Benoit <guillaume@manjaro.org>, 2013-2014.
 #
-#, fuzzy
+# Translators:
+# truongap <truongap.ars@gmail.com>, 2014
 msgid ""
 msgstr ""
-"Project-Id-Version: pamac 2.0\n"
+"Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-10-23 15:09+0100\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"PO-Revision-Date: 2014-03-05 22:14+0000\n"
+"Last-Translator: manjarolinux <philm@manjaro.org>\n"
+"Language-Team: Vietnamese (http://www.transifex.com/projects/p/manjaro-pamac/"
+"language/vi/)\n"
+"Language: vi\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 
 #: data/polkit/org.manjaro.pamac.policy:10
 msgid "Authentication is required"
-msgstr ""
-
+msgstr "Xác nhận được yêu cầu"
 
 #: resources/choose_provider_dialog.ui:7
 msgid "Choose a Provider"
@@ -33,12 +35,13 @@ msgstr ""
 
 #: resources/packages_chooser_dialog.ui:7 resources/manager_window.ui:775
 msgid "Install local packages"
-msgstr ""
+msgstr "Cài đặt"
 
 #: resources/packages_chooser_dialog.ui:29 resources/progress_dialog.ui:29
 #: resources/transaction_sum_dialog.ui:21
+#, fuzzy
 msgid "_Cancel"
-msgstr ""
+msgstr "Hủy"
 
 #: resources/packages_chooser_dialog.ui:42
 msgid "_Open"
@@ -46,7 +49,7 @@ msgstr ""
 
 #: resources/progress_dialog.ui:7
 msgid "Progress"
-msgstr ""
+msgstr "Tiến trình"
 
 #: resources/progress_dialog.ui:41 resources/history_dialog.ui:23
 #: resources/transaction_info_dialog.ui:21 resources/updater_window.ui:163
@@ -57,19 +60,19 @@ msgstr ""
 #: resources/progress_dialog.ui:91 resources/transaction_info_dialog.ui:81
 #: resources/manager_window.ui:707
 msgid "Details"
-msgstr ""
+msgstr "Chi tiết"
 
 #: resources/history_dialog.ui:7
 msgid "Pamac History"
-msgstr ""
+msgstr "Lịch sử Pamac"
 
 #: resources/transaction_sum_dialog.ui:6 src/transaction.vala:359
 msgid "Transaction Summary"
-msgstr ""
+msgstr "Ghi nhớ chuyển giao"
 
 #: resources/manager_window.ui:14 src/tray.vala:76
 msgid "Package Manager"
-msgstr ""
+msgstr "Trình quản lý gói"
 
 #: resources/manager_window.ui:23
 msgid "Refresh databases"
@@ -77,7 +80,7 @@ msgstr ""
 
 #: resources/manager_window.ui:47
 msgid "Apply changes"
-msgstr ""
+msgstr "Áp dụng những thay đổi"
 
 #: resources/manager_window.ui:71
 msgid "Cancel all planned changes"
@@ -85,39 +88,40 @@ msgstr ""
 
 #: resources/manager_window.ui:170
 msgid "Search in AUR"
-msgstr ""
+msgstr "Tìm trên AUR"
 
 #: resources/manager_window.ui:234
 msgid "Search"
-msgstr ""
+msgstr "Tìm"
 
 #: resources/manager_window.ui:279 src/manager_window.vala:337
 msgid "Groups"
-msgstr ""
+msgstr "Nhóm"
 
 #: resources/manager_window.ui:325 resources/manager_window.ui:418
 msgid "State"
-msgstr ""
+msgstr "Tình trạng"
 
 #: resources/manager_window.ui:371
+#, fuzzy
 msgid "Repositories"
-msgstr ""
+msgstr "Kho"
 
 #: resources/manager_window.ui:433
 msgid "Name"
-msgstr ""
+msgstr "Tên"
 
 #: resources/manager_window.ui:448
 msgid "Version"
-msgstr ""
+msgstr "Phiên bản"
 
 #: resources/manager_window.ui:463 src/manager_window.vala:329
 msgid "Repository"
-msgstr ""
+msgstr "Kho"
 
 #: resources/manager_window.ui:478
 msgid "Size"
-msgstr ""
+msgstr "Cỡ"
 
 #: resources/manager_window.ui:582
 msgid "Description"
@@ -129,11 +133,11 @@ msgstr ""
 
 #: resources/manager_window.ui:740
 msgid "Files"
-msgstr ""
+msgstr "Tệp tin"
 
 #: resources/manager_window.ui:767
 msgid "View History"
-msgstr ""
+msgstr "Hiển thị lịch sử"
 
 #: resources/manager_window.ui:783 resources/updater_window.ui:108
 msgid "_Preferences"
@@ -146,11 +150,12 @@ msgstr ""
 #: resources/updater_window.ui:14 src/tray.vala:73 src/tray.vala:163
 #: src/tray.vala:235
 msgid "Update Manager"
-msgstr ""
+msgstr "Trình quản lý cập nhật"
 
 #: resources/updater_window.ui:135
+#, fuzzy
 msgid "_Refresh"
-msgstr ""
+msgstr "Đang làm tươi"
 
 #: resources/updater_window.ui:149
 msgid "_Apply"
@@ -162,29 +167,32 @@ msgstr ""
 
 #: resources/preferences_dialog.ui:71
 msgid "Enable AUR support"
-msgstr ""
+msgstr "Bật hỗ trợ AUR"
 
 #: resources/preferences_dialog.ui:84
 msgid "Allow Pamac to search and install packages from AUR"
-msgstr ""
+msgstr "Cho phép Pamac tìm kiếm và cài đặt gói từ AUR"
 
 #: resources/preferences_dialog.ui:102
 msgid "Remove unrequired dependencies"
-msgstr ""
+msgstr "Gỡ bỏ phần phụ thuộc không cần thiết"
 
 #: resources/preferences_dialog.ui:115
+#, fuzzy
 msgid ""
 "When removing a package, also remove its dependencies that are not required "
 "by other packages"
 msgstr ""
+"Khi bạn gỡ bỏ một gói đồng thời sẽ gỡ bỏ các phần phụ thuộc không được yêu "
+"cầu bởi các gói khác"
 
 #: resources/preferences_dialog.ui:149 src/preferences_dialog.vala:37
 msgid "How often to check for updates, value in hours"
-msgstr ""
+msgstr "Bao lâu sẽ kiểm tra cập nhật, tính bằng giờ"
 
 #: resources/preferences_dialog.ui:173
 msgid "Options"
-msgstr ""
+msgstr "Các tùy chọn"
 
 #: src/packages_chooser_dialog.vala:32
 msgid "Packages"
@@ -254,7 +262,7 @@ msgstr ""
 
 #: src/daemon.vala:442
 msgid "Authentication failed"
-msgstr ""
+msgstr "Xác nhận thất bại"
 
 #: src/transaction.vala:164
 msgid "Synchronizing package databases"
@@ -266,7 +274,7 @@ msgstr ""
 
 #: src/transaction.vala:259
 msgid "Preparing"
-msgstr ""
+msgstr "Đang chuẩn bị"
 
 #: src/transaction.vala:331
 #, c-format
@@ -276,32 +284,32 @@ msgstr ""
 #: src/transaction.vala:389 src/manager_window.vala:188
 #: src/manager_window.vala:731
 msgid "To remove"
-msgstr ""
+msgstr "Để gỡ bỏ"
 
 #: src/transaction.vala:402
 msgid "To downgrade"
-msgstr ""
+msgstr "Để hạ cấp"
 
 #: src/transaction.vala:415
 msgid "To build"
-msgstr ""
+msgstr "Để tạo"
 
 #: src/transaction.vala:428 src/manager_window.vala:187
 #: src/manager_window.vala:720
 msgid "To install"
-msgstr ""
+msgstr "Để cài đặt"
 
 #: src/transaction.vala:441
 msgid "To reinstall"
-msgstr ""
+msgstr "Để cài lại"
 
 #: src/transaction.vala:455
 msgid "To update"
-msgstr ""
+msgstr "Để cập nhật"
 
 #: src/transaction.vala:468 src/updater_window.vala:179
 msgid "Total download size"
-msgstr ""
+msgstr "Tổng kích cỡ tải về"
 
 #: src/transaction.vala:485
 msgid "Building packages"
@@ -309,60 +317,61 @@ msgstr ""
 
 #: src/transaction.vala:542
 msgid "Checking dependencies"
-msgstr ""
+msgstr "Đang kiểm tra các phần phụ thuộc"
 
 #: src/transaction.vala:547
 msgid "Checking file conflicts"
-msgstr ""
+msgstr "Đang kiểm tra xung đột tệp tin"
 
 #: src/transaction.vala:552
 msgid "Resolving dependencies"
-msgstr ""
+msgstr "Đang xử lý các phần phụ thuộc"
 
 #: src/transaction.vala:557
+#, fuzzy
 msgid "Checking inter-conflicts"
-msgstr ""
+msgstr "Đang kiểm tra các xung đột liên đới"
 
 #: src/transaction.vala:564 src/transaction.vala:566
 #, c-format
 msgid "Installing %s"
-msgstr ""
+msgstr "Đang cài đặt %s"
 
 #: src/transaction.vala:572 src/transaction.vala:574
 #, c-format
 msgid "Reinstalling %s"
-msgstr ""
+msgstr "Đang cài lại %s"
 
 #: src/transaction.vala:580 src/transaction.vala:582
 #, c-format
 msgid "Removing %s"
-msgstr ""
+msgstr "Đang gỡ bỏ %s"
 
 #: src/transaction.vala:588 src/transaction.vala:590
 #, c-format
 msgid "Upgrading %s"
-msgstr ""
+msgstr "Đang nâng cấp %s"
 
 #: src/transaction.vala:596 src/transaction.vala:598
 #, c-format
 msgid "Downgrading %s"
-msgstr ""
+msgstr "Đang hạ cấp %s"
 
 #: src/transaction.vala:602
 msgid "Checking integrity"
-msgstr ""
+msgstr "Đang kiểm tra tính toàn vẹn"
 
 #: src/transaction.vala:608
 msgid "Checking keyring"
-msgstr ""
+msgstr "Đang kiểm tra vòng khóa"
 
 #: src/transaction.vala:613
 msgid "Downloading required keys"
-msgstr ""
+msgstr "Đang tải về các khóa yêu cầu"
 
 #: src/transaction.vala:618
 msgid "Loading packages files"
-msgstr ""
+msgstr "Đang nạp các tệp tin của các gói"
 
 #: src/transaction.vala:623
 msgid "Checking delta integrity"
@@ -375,28 +384,28 @@ msgstr ""
 #: src/transaction.vala:633
 #, c-format
 msgid "Generating %s with %s"
-msgstr ""
+msgstr "Đang tạo lập %s với %s"
 
 #: src/transaction.vala:638
 msgid "Generation succeeded"
-msgstr ""
+msgstr "Quá trình tạo lập thành công"
 
 #: src/transaction.vala:643
 msgid "Generation failed"
-msgstr ""
+msgstr "Quá trình tạo lâp thất bại"
 
 #: src/transaction.vala:648
 #, c-format
 msgid "Configuring %s"
-msgstr ""
+msgstr "Đang thiết lập %s"
 
 #: src/transaction.vala:654
 msgid "Downloading"
-msgstr ""
+msgstr "Đang tải về"
 
 #: src/transaction.vala:659
 msgid "Checking available disk space"
-msgstr ""
+msgstr "Đang kiểm tra không gian đĩa trống"
 
 #: src/transaction.vala:664
 #, c-format
@@ -411,12 +420,12 @@ msgstr ""
 #: src/transaction.vala:719
 #, c-format
 msgid "Refreshing %s"
-msgstr ""
+msgstr "Đang làm mới %s"
 
 #: src/transaction.vala:721
 #, c-format
 msgid "Downloading %s"
-msgstr ""
+msgstr "Đang tải về %s"
 
 #: src/transaction.vala:758 src/transaction.vala:772
 msgid "Warning"
@@ -433,28 +442,29 @@ msgstr ""
 
 #: src/transaction.vala:881
 msgid "Nothing to do"
-msgstr ""
+msgstr "Không có gì để thực hiện"
 
 #: src/transaction.vala:901 src/transaction.vala:917
 msgid "Transaction successfully finished"
-msgstr ""
+msgstr "Chuyển giao kết thúc thành công"
 
 #: src/tray.vala:24 src/updater_window.vala:175
 #, c-format
 msgid "%u available updates"
-msgstr ""
+msgstr "%u cập nhật sẵn sàng"
 
 #: src/tray.vala:25 src/updater_window.vala:172
 msgid "1 available update"
-msgstr ""
+msgstr "1 cập nhật sẵn sàng"
 
 #: src/tray.vala:27 src/updater_window.vala:56 src/updater_window.vala:169
 msgid "Your system is up-to-date"
-msgstr ""
+msgstr "Hệ thống đã được cập nhật"
 
 #: src/tray.vala:79
+#, fuzzy
 msgid "_Quit"
-msgstr ""
+msgstr "Thoát"
 
 #: src/tray.vala:164
 msgid "Show available updates"
@@ -462,95 +472,204 @@ msgstr ""
 
 #: src/manager_window.vala:180 src/manager_window.vala:777
 msgid "local"
-msgstr ""
+msgstr "có sẵn"
 
 #: src/manager_window.vala:184 src/manager_window.vala:251
 #: src/manager_window.vala:263 src/manager_window.vala:737
 msgid "Installed"
-msgstr ""
+msgstr "Đã cài đặt"
 
 #: src/manager_window.vala:186 src/manager_window.vala:751
 msgid "Orphans"
-msgstr ""
+msgstr "Không liên quan"
 
 #: src/manager_window.vala:211
 msgid "Licenses"
-msgstr ""
+msgstr "Giấy phép"
 
 #: src/manager_window.vala:233
 msgid "Depends On"
-msgstr ""
+msgstr "Phụ thuộc vào"
 
 #: src/manager_window.vala:253
+#, fuzzy
 msgid "Optional Dependencies"
-msgstr ""
+msgstr "Phần phụ thuộc tùy chọn"
 
 #: src/manager_window.vala:273
 msgid "Required By"
-msgstr ""
+msgstr "Được yêu cầu bởi"
 
 #: src/manager_window.vala:287
 msgid "Provides"
-msgstr ""
+msgstr "Nhà cung cấp"
 
 #: src/manager_window.vala:300
 msgid "Replaces"
-msgstr ""
+msgstr "Thay thế"
 
 #: src/manager_window.vala:313
 msgid "Conflicts With"
-msgstr ""
+msgstr "Xung đột với"
 
 #: src/manager_window.vala:347
 msgid "Packager"
-msgstr ""
+msgstr "Người đóng gói"
 
 #: src/manager_window.vala:353
 msgid "Install Date"
-msgstr ""
+msgstr "Ngày cài đặt"
 
 #: src/manager_window.vala:357
 msgid "Explicitly installed"
-msgstr ""
+msgstr "Đã cài đặt theo chỉ định"
 
 #: src/manager_window.vala:359
 msgid "Installed as a dependency for another package"
-msgstr ""
+msgstr "Được cài đặt như phần phụ thuộc cho một gói khác"
 
 #: src/manager_window.vala:361
 msgid "Unknown"
-msgstr ""
+msgstr "Không biết"
 
 #: src/manager_window.vala:363
 msgid "Install Reason"
-msgstr ""
+msgstr "Lý do cài đặt"
 
 #: src/manager_window.vala:368
 msgid "Signatures"
-msgstr ""
+msgstr "Chữ ký"
 
 #: src/manager_window.vala:376
 msgid "Backup files"
-msgstr ""
+msgstr "Tệp tin sao lưu"
 
 #: src/manager_window.vala:497
 msgid "No package found"
-msgstr ""
+msgstr "Không tìm thấy gói nào"
 
 #: src/manager_window.vala:739
 msgid "Uninstalled"
-msgstr ""
+msgstr "Đã gỡ bỏ"
 
 #: src/manager_window.vala:888
+#, fuzzy
 msgid "A Gtk3 frontend for libalpm"
-msgstr ""
+msgstr "Giao diện gtk3 cho libalpm"
 
 #: src/common.vala:48
-#, c-format
+#, fuzzy, c-format
 msgid "%.0f KiB"
-msgstr ""
+msgstr "%.0f KiB"
 
 #: src/common.vala:51
 #, c-format
 msgid "%.2f MiB"
-msgstr ""
+msgstr "%.2f MiB"
+
+#~ msgid "%s will be replaced by %s"
+#~ msgstr "%s sẽ thay thể bởi %s"
+
+#~ msgid "%s conflicts with %s"
+#~ msgstr "%s xung đột với %s"
+
+#~ msgid "%s is not a valid path or package name"
+#~ msgstr "%s là một đường dẫn hay tên không phù hợp"
+
+#~ msgid ""
+#~ "The transaction cannot be performed because it needs to remove %s which "
+#~ "is a locked package"
+#~ msgstr "Chuyển giao không thể tiến hành bởi nó cần gỡ bỏ %s hiện đã bị khóa"
+
+#~ msgid "Compressed Size"
+#~ msgstr "Kích cỡ khi đã nén"
+
+#~ msgid "Download Size"
+#~ msgstr "Kích cỡ tải về"
+
+#~ msgid "Installed Size"
+#~ msgstr "Kích cỡ cài đặt"
+
+#~ msgid "Architecture"
+#~ msgstr "Kiến trúc"
+
+#~ msgid ""
+#~ "%s has %u uninstalled optional deps.\n"
+#~ "Please choose those you would like to install:"
+#~ msgstr ""
+#~ "%s có %u các phần phụ thuộc tùy chọn chưa được cài đặt.\n"
+#~ "Hãy chọn những phần mà bạn muốn cài đặt:"
+
+#~ msgid "Deselect"
+#~ msgstr "Bỏ chọn"
+
+#~ msgid "Remove"
+#~ msgstr "Gỡ bỏ"
+
+#~ msgid "Reinstall"
+#~ msgstr "Cài lại"
+
+#~ msgid "Install optional deps"
+#~ msgstr "Cài đặt các phần phụ thuộc tùy chọn"
+
+#~ msgid "Install"
+#~ msgstr "Cài đặt"
+
+#~ msgid "Install with optional deps"
+#~ msgstr "Cài đặt với các phần phụ thuộc tùy chọn"
+
+#~ msgid "Pamac is already running"
+#~ msgstr "Pamac đang chạy"
+
+#~ msgid ""
+#~ "Some updates are available.\n"
+#~ "Please update your system first"
+#~ msgstr ""
+#~ "Một số cập nhật đã sẵn sàng.\n"
+#~ "Hãy cập nhật hệ thống trước"
+
+#~ msgid ""
+#~ "%s is provided by %u packages.\n"
+#~ "Please choose those you would like to install:"
+#~ msgstr ""
+#~ "%s được cung cấp bởi %u gói.\n"
+#~ "Hãy chọn những thứ mà bạn muốn cài đặt:"
+
+#~ msgid "%s depends on %s but it is not installable"
+#~ msgstr "%s phụ thuộc vào %s nhưng nó không thể cài đặt được"
+
+#~ msgid "Failed to get %s archive from AUR"
+#~ msgstr "Lấy gói %s từ AUR thất bại"
+
+#~ msgid "Build process failed."
+#~ msgstr "Quá trình kiến tạo thất bại"
+
+#~ msgid "Checking for updates"
+#~ msgstr "Đang kiểm tra cập nhật"
+
+#~ msgid "About Pamac"
+#~ msgstr "Giới thiệu Pamac"
+
+#~ msgid "Copyright © 2013 Guillaume Benoit"
+#~ msgstr "Bản quyền © 2013 Guillaume Benoit"
+
+#~ msgid "Repos"
+#~ msgstr "Kho"
+
+#~ msgid "Repo"
+#~ msgstr "Kho"
+
+#~ msgid "Infos"
+#~ msgstr "Thông tin"
+
+#~ msgid "Deps"
+#~ msgstr "Phụ thuộc"
+
+#~ msgid "details"
+#~ msgstr "chi tiết"
+
+#~ msgid "Choose"
+#~ msgstr "Chọn"
+
+#~ msgid "Summary"
+#~ msgstr "Ghi nhớ"

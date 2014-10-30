@@ -3,24 +3,28 @@
 # This file is distributed under the same license as the Pamac package.
 # Guillaume Benoit <guillaume@manjaro.org>, 2013-2014.
 #
-#, fuzzy
+# Translators:
+# Guillaume Benoit <guillaume@manjaro.org>, 2013
+# oriolfa <oriolfa@ono.com>, 2013-2014
+# kirek <rbuldo@gmail.com>, 2013
 msgid ""
 msgstr ""
-"Project-Id-Version: pamac 2.0\n"
+"Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-10-23 15:09+0100\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"PO-Revision-Date: 2014-05-07 06:30+0000\n"
+"Last-Translator: oriolfa <oriolfa@ono.com>\n"
+"Language-Team: Catalan (http://www.transifex.com/projects/p/manjaro-pamac/"
+"language/ca/)\n"
+"Language: ca\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: data/polkit/org.manjaro.pamac.policy:10
 msgid "Authentication is required"
-msgstr ""
-
+msgstr "Es requereix autenticació"
 
 #: resources/choose_provider_dialog.ui:7
 msgid "Choose a Provider"
@@ -33,12 +37,13 @@ msgstr ""
 
 #: resources/packages_chooser_dialog.ui:7 resources/manager_window.ui:775
 msgid "Install local packages"
-msgstr ""
+msgstr "Instal·la paquets locals"
 
 #: resources/packages_chooser_dialog.ui:29 resources/progress_dialog.ui:29
 #: resources/transaction_sum_dialog.ui:21
+#, fuzzy
 msgid "_Cancel"
-msgstr ""
+msgstr "Cancel·lar"
 
 #: resources/packages_chooser_dialog.ui:42
 msgid "_Open"
@@ -46,7 +51,7 @@ msgstr ""
 
 #: resources/progress_dialog.ui:7
 msgid "Progress"
-msgstr ""
+msgstr "Progrès"
 
 #: resources/progress_dialog.ui:41 resources/history_dialog.ui:23
 #: resources/transaction_info_dialog.ui:21 resources/updater_window.ui:163
@@ -57,19 +62,19 @@ msgstr ""
 #: resources/progress_dialog.ui:91 resources/transaction_info_dialog.ui:81
 #: resources/manager_window.ui:707
 msgid "Details"
-msgstr ""
+msgstr "Detalls"
 
 #: resources/history_dialog.ui:7
 msgid "Pamac History"
-msgstr ""
+msgstr "Historial del Pamac"
 
 #: resources/transaction_sum_dialog.ui:6 src/transaction.vala:359
 msgid "Transaction Summary"
-msgstr ""
+msgstr "Resum de la transacció"
 
 #: resources/manager_window.ui:14 src/tray.vala:76
 msgid "Package Manager"
-msgstr ""
+msgstr "Gestor de Paquets"
 
 #: resources/manager_window.ui:23
 msgid "Refresh databases"
@@ -77,7 +82,7 @@ msgstr ""
 
 #: resources/manager_window.ui:47
 msgid "Apply changes"
-msgstr ""
+msgstr "Aplicar canvis"
 
 #: resources/manager_window.ui:71
 msgid "Cancel all planned changes"
@@ -85,39 +90,40 @@ msgstr ""
 
 #: resources/manager_window.ui:170
 msgid "Search in AUR"
-msgstr ""
+msgstr "Cerca a AUR"
 
 #: resources/manager_window.ui:234
 msgid "Search"
-msgstr ""
+msgstr "Cerca"
 
 #: resources/manager_window.ui:279 src/manager_window.vala:337
 msgid "Groups"
-msgstr ""
+msgstr "Grups"
 
 #: resources/manager_window.ui:325 resources/manager_window.ui:418
 msgid "State"
-msgstr ""
+msgstr "Estat"
 
 #: resources/manager_window.ui:371
+#, fuzzy
 msgid "Repositories"
-msgstr ""
+msgstr "Dipòsit"
 
 #: resources/manager_window.ui:433
 msgid "Name"
-msgstr ""
+msgstr "Nom"
 
 #: resources/manager_window.ui:448
 msgid "Version"
-msgstr ""
+msgstr "Versió"
 
 #: resources/manager_window.ui:463 src/manager_window.vala:329
 msgid "Repository"
-msgstr ""
+msgstr "Dipòsit"
 
 #: resources/manager_window.ui:478
 msgid "Size"
-msgstr ""
+msgstr "Mida"
 
 #: resources/manager_window.ui:582
 msgid "Description"
@@ -129,11 +135,11 @@ msgstr ""
 
 #: resources/manager_window.ui:740
 msgid "Files"
-msgstr ""
+msgstr "Fitxers"
 
 #: resources/manager_window.ui:767
 msgid "View History"
-msgstr ""
+msgstr "Veure Historial"
 
 #: resources/manager_window.ui:783 resources/updater_window.ui:108
 msgid "_Preferences"
@@ -146,11 +152,12 @@ msgstr ""
 #: resources/updater_window.ui:14 src/tray.vala:73 src/tray.vala:163
 #: src/tray.vala:235
 msgid "Update Manager"
-msgstr ""
+msgstr "Gestor d'Actualitzacions"
 
 #: resources/updater_window.ui:135
+#, fuzzy
 msgid "_Refresh"
-msgstr ""
+msgstr "Actualitza"
 
 #: resources/updater_window.ui:149
 msgid "_Apply"
@@ -162,29 +169,32 @@ msgstr ""
 
 #: resources/preferences_dialog.ui:71
 msgid "Enable AUR support"
-msgstr ""
+msgstr "Habilitar suport per AUR"
 
 #: resources/preferences_dialog.ui:84
 msgid "Allow Pamac to search and install packages from AUR"
-msgstr ""
+msgstr "Permetre a Pamac buscar e instal·lar paquets des d'AUR"
 
 #: resources/preferences_dialog.ui:102
 msgid "Remove unrequired dependencies"
-msgstr ""
+msgstr "Eliminar dependències no requerides"
 
 #: resources/preferences_dialog.ui:115
+#, fuzzy
 msgid ""
 "When removing a package, also remove its dependencies that are not required "
 "by other packages"
 msgstr ""
+"Quan s'elimini un paquet, eliminar també aquelles dependències que no són "
+"requerides per altres paquets"
 
 #: resources/preferences_dialog.ui:149 src/preferences_dialog.vala:37
 msgid "How often to check for updates, value in hours"
-msgstr ""
+msgstr "Freqüència per comprovar actualitzacions, valor en hores"
 
 #: resources/preferences_dialog.ui:173
 msgid "Options"
-msgstr ""
+msgstr "Opcions"
 
 #: src/packages_chooser_dialog.vala:32
 msgid "Packages"
@@ -254,7 +264,7 @@ msgstr ""
 
 #: src/daemon.vala:442
 msgid "Authentication failed"
-msgstr ""
+msgstr "Autenticació fallida"
 
 #: src/transaction.vala:164
 msgid "Synchronizing package databases"
@@ -266,7 +276,7 @@ msgstr ""
 
 #: src/transaction.vala:259
 msgid "Preparing"
-msgstr ""
+msgstr "Preparant"
 
 #: src/transaction.vala:331
 #, c-format
@@ -276,32 +286,33 @@ msgstr ""
 #: src/transaction.vala:389 src/manager_window.vala:188
 #: src/manager_window.vala:731
 msgid "To remove"
-msgstr ""
+msgstr "A suprimir"
 
 #: src/transaction.vala:402
 msgid "To downgrade"
-msgstr ""
+msgstr "A tornar a versió anterior"
 
 #: src/transaction.vala:415
 msgid "To build"
-msgstr ""
+msgstr "Per muntar"
 
 #: src/transaction.vala:428 src/manager_window.vala:187
 #: src/manager_window.vala:720
 msgid "To install"
-msgstr ""
+msgstr "A instal·lar"
 
 #: src/transaction.vala:441
 msgid "To reinstall"
-msgstr ""
+msgstr "A reinstal·lar"
 
 #: src/transaction.vala:455
 msgid "To update"
-msgstr ""
+msgstr "A actualitzar"
 
 #: src/transaction.vala:468 src/updater_window.vala:179
+#, fuzzy
 msgid "Total download size"
-msgstr ""
+msgstr "Mida total de la baixada"
 
 #: src/transaction.vala:485
 msgid "Building packages"
@@ -309,94 +320,97 @@ msgstr ""
 
 #: src/transaction.vala:542
 msgid "Checking dependencies"
-msgstr ""
+msgstr "Verificant dependències"
 
 #: src/transaction.vala:547
 msgid "Checking file conflicts"
-msgstr ""
+msgstr "Analitzant conflictes entre fitxers"
 
 #: src/transaction.vala:552
 msgid "Resolving dependencies"
-msgstr ""
+msgstr "Resolent dependències"
 
 #: src/transaction.vala:557
+#, fuzzy
 msgid "Checking inter-conflicts"
-msgstr ""
+msgstr "Verificant conflictes entre paquets"
 
 #: src/transaction.vala:564 src/transaction.vala:566
 #, c-format
 msgid "Installing %s"
-msgstr ""
+msgstr "Instal·lant %s"
 
 #: src/transaction.vala:572 src/transaction.vala:574
 #, c-format
 msgid "Reinstalling %s"
-msgstr ""
+msgstr "Reinstal·lant %s"
 
 #: src/transaction.vala:580 src/transaction.vala:582
 #, c-format
 msgid "Removing %s"
-msgstr ""
+msgstr "Suprimint %s"
 
 #: src/transaction.vala:588 src/transaction.vala:590
 #, c-format
 msgid "Upgrading %s"
-msgstr ""
+msgstr "Actualitzant %s"
 
 #: src/transaction.vala:596 src/transaction.vala:598
 #, c-format
 msgid "Downgrading %s"
-msgstr ""
+msgstr "Tornant a versió anterior de %s"
 
 #: src/transaction.vala:602
 msgid "Checking integrity"
-msgstr ""
+msgstr "Verificant integritat"
 
 #: src/transaction.vala:608
 msgid "Checking keyring"
-msgstr ""
+msgstr "Verificant l'anell de claus"
 
 #: src/transaction.vala:613
 msgid "Downloading required keys"
-msgstr ""
+msgstr "Baixant les claus requerides"
 
 #: src/transaction.vala:618
 msgid "Loading packages files"
-msgstr ""
+msgstr "Carregant fitxers de paquets"
 
 #: src/transaction.vala:623
 msgid "Checking delta integrity"
-msgstr ""
+msgstr "Verificant integritat delta"
 
 #: src/transaction.vala:628
 msgid "Applying deltas"
-msgstr ""
+msgstr "Aplicant deltes"
 
 #: src/transaction.vala:633
 #, c-format
 msgid "Generating %s with %s"
-msgstr ""
+msgstr "Generant %s amb %s"
 
 #: src/transaction.vala:638
+#, fuzzy
 msgid "Generation succeeded"
-msgstr ""
+msgstr "Generació correcte"
 
 #: src/transaction.vala:643
+#, fuzzy
 msgid "Generation failed"
-msgstr ""
+msgstr "Generació incorrecte"
 
 #: src/transaction.vala:648
 #, c-format
 msgid "Configuring %s"
-msgstr ""
+msgstr "Configurant %s"
 
 #: src/transaction.vala:654
 msgid "Downloading"
-msgstr ""
+msgstr "Baixant"
 
 #: src/transaction.vala:659
 msgid "Checking available disk space"
-msgstr ""
+msgstr "Verificant espai disponible al disc"
 
 #: src/transaction.vala:664
 #, c-format
@@ -411,20 +425,22 @@ msgstr ""
 #: src/transaction.vala:719
 #, c-format
 msgid "Refreshing %s"
-msgstr ""
+msgstr "Actualitzant %s"
 
 #: src/transaction.vala:721
 #, c-format
 msgid "Downloading %s"
-msgstr ""
+msgstr "Baixada %s"
 
 #: src/transaction.vala:758 src/transaction.vala:772
+#, fuzzy
 msgid "Warning"
-msgstr ""
+msgstr "Avís"
 
 #: src/transaction.vala:762 src/transaction.vala:791
+#, fuzzy
 msgid "Error"
-msgstr ""
+msgstr "Error"
 
 #: src/transaction.vala:855 src/transaction.vala:870
 #: src/progress_dialog.vala:55
@@ -433,28 +449,29 @@ msgstr ""
 
 #: src/transaction.vala:881
 msgid "Nothing to do"
-msgstr ""
+msgstr "Res a fer"
 
 #: src/transaction.vala:901 src/transaction.vala:917
 msgid "Transaction successfully finished"
-msgstr ""
+msgstr "Transacció finalitzada amb èxit"
 
 #: src/tray.vala:24 src/updater_window.vala:175
 #, c-format
 msgid "%u available updates"
-msgstr ""
+msgstr "%u actualitzacions disponibles"
 
 #: src/tray.vala:25 src/updater_window.vala:172
 msgid "1 available update"
-msgstr ""
+msgstr "1 actualització disponible"
 
 #: src/tray.vala:27 src/updater_window.vala:56 src/updater_window.vala:169
 msgid "Your system is up-to-date"
-msgstr ""
+msgstr "El teu sistema està actualitzat"
 
 #: src/tray.vala:79
+#, fuzzy
 msgid "_Quit"
-msgstr ""
+msgstr "Sortir"
 
 #: src/tray.vala:164
 msgid "Show available updates"
@@ -462,95 +479,212 @@ msgstr ""
 
 #: src/manager_window.vala:180 src/manager_window.vala:777
 msgid "local"
-msgstr ""
+msgstr "local"
 
 #: src/manager_window.vala:184 src/manager_window.vala:251
 #: src/manager_window.vala:263 src/manager_window.vala:737
 msgid "Installed"
-msgstr ""
+msgstr "Instal·lat"
 
 #: src/manager_window.vala:186 src/manager_window.vala:751
 msgid "Orphans"
-msgstr ""
+msgstr "Orfes"
 
 #: src/manager_window.vala:211
 msgid "Licenses"
-msgstr ""
+msgstr "Llicències"
 
 #: src/manager_window.vala:233
 msgid "Depends On"
-msgstr ""
+msgstr "Depèn de"
 
 #: src/manager_window.vala:253
+#, fuzzy
 msgid "Optional Dependencies"
-msgstr ""
+msgstr "Dependències Opcionals"
 
 #: src/manager_window.vala:273
 msgid "Required By"
-msgstr ""
+msgstr "Requerit Per"
 
 #: src/manager_window.vala:287
 msgid "Provides"
-msgstr ""
+msgstr "Proporciona"
 
 #: src/manager_window.vala:300
 msgid "Replaces"
-msgstr ""
+msgstr "Reemplaça"
 
 #: src/manager_window.vala:313
 msgid "Conflicts With"
-msgstr ""
+msgstr "Conflictes amb"
 
 #: src/manager_window.vala:347
 msgid "Packager"
-msgstr ""
+msgstr "Empaquetador"
 
 #: src/manager_window.vala:353
 msgid "Install Date"
-msgstr ""
+msgstr "Data d'instal·lació"
 
 #: src/manager_window.vala:357
 msgid "Explicitly installed"
-msgstr ""
+msgstr "Explícitament instal·lat"
 
 #: src/manager_window.vala:359
 msgid "Installed as a dependency for another package"
-msgstr ""
+msgstr "Instal·lat com a dependència d'un altre paquet"
 
 #: src/manager_window.vala:361
 msgid "Unknown"
-msgstr ""
+msgstr "Desconegut"
 
 #: src/manager_window.vala:363
 msgid "Install Reason"
-msgstr ""
+msgstr "Raó d'instal·lació"
 
 #: src/manager_window.vala:368
 msgid "Signatures"
-msgstr ""
+msgstr "Signatures"
 
 #: src/manager_window.vala:376
 msgid "Backup files"
-msgstr ""
+msgstr "Fitxers de còpia de seguretat"
 
 #: src/manager_window.vala:497
 msgid "No package found"
-msgstr ""
+msgstr "No s'ha trobat cap paquet"
 
 #: src/manager_window.vala:739
 msgid "Uninstalled"
-msgstr ""
+msgstr "No instal·lat"
 
 #: src/manager_window.vala:888
+#, fuzzy
 msgid "A Gtk3 frontend for libalpm"
-msgstr ""
+msgstr "Una interfície gtk3 per libalpm"
 
 #: src/common.vala:48
-#, c-format
+#, fuzzy, c-format
 msgid "%.0f KiB"
-msgstr ""
+msgstr "%.0f KiB"
 
 #: src/common.vala:51
 #, c-format
 msgid "%.2f MiB"
-msgstr ""
+msgstr "%.2f MiB"
+
+#~ msgid "%s will be replaced by %s"
+#~ msgstr "%s serà remplaçat per %s"
+
+#~ msgid "%s conflicts with %s"
+#~ msgstr "%s entre en conflicte amb %s"
+
+#~ msgid "%s is not a valid path or package name"
+#~ msgstr "%s no és un camí vàlid o un nom de paquet"
+
+#~ msgid ""
+#~ "The transaction cannot be performed because it needs to remove %s which "
+#~ "is a locked package"
+#~ msgstr ""
+#~ "La transacció no pot efectuar-se degut a que és necessari eliminar %s que "
+#~ "és un paquet bloquejat"
+
+#~ msgid "Compressed Size"
+#~ msgstr "Mida comprimit"
+
+#~ msgid "Download Size"
+#~ msgstr "Mida baixat"
+
+#~ msgid "Installed Size"
+#~ msgstr "Mida instal·lat"
+
+#~ msgid "Architecture"
+#~ msgstr "Arquitectura"
+
+#~ msgid ""
+#~ "%s has %u uninstalled optional deps.\n"
+#~ "Please choose those you would like to install:"
+#~ msgstr ""
+#~ "%s té %u dependències opcionals no instal·lades.\n"
+#~ "Si us plau escull les que vulguis instal·lar:"
+
+#~ msgid "Deselect"
+#~ msgstr "Anul·lar sel·lecció"
+
+#~ msgid "Remove"
+#~ msgstr "Esborra"
+
+#~ msgid "Reinstall"
+#~ msgstr "Reinstal·la"
+
+#~ msgid "Install optional deps"
+#~ msgstr "Instal·la dependències opcionals"
+
+#~ msgid "Mark as explicitly installed"
+#~ msgstr "Marca com a instal·lat explícitament"
+
+#~ msgid "Install"
+#~ msgstr "Instal·la"
+
+#~ msgid "Install with optional deps"
+#~ msgstr "Instal·la amb dependències opcionals"
+
+#~ msgid "Pamac is already running"
+#~ msgstr "Pamac ja està executant-se"
+
+#~ msgid ""
+#~ "Some updates are available.\n"
+#~ "Please update your system first"
+#~ msgstr ""
+#~ "Algunes actualitzacions estan disponibles\n"
+#~ "Si us plau actualitza primer el teu sistema"
+
+#~ msgid ""
+#~ "%s is provided by %u packages.\n"
+#~ "Please choose those you would like to install:"
+#~ msgstr ""
+#~ "%s està proporcionat per %u paquets.\n"
+#~ "Si us plau tria el paquet que vols instal·lar:"
+
+#~ msgid "Refreshing"
+#~ msgstr "Actualitzant"
+
+#~ msgid "%s depends on %s but it is not installable"
+#~ msgstr "%s depèn de %s pero no es pot instal·lar"
+
+#~ msgid "Failed to get %s archive from AUR"
+#~ msgstr "No s'ha pogut obtenir l'arxiu de %s des d'AUR"
+
+#~ msgid "Build process failed."
+#~ msgstr "Ha fallat el procés de muntatge."
+
+#~ msgid "Checking for updates"
+#~ msgstr "Verificant actualitzacions"
+
+#~ msgid "About Pamac"
+#~ msgstr "Quant a Pamac"
+
+#~ msgid "Copyright © 2013 Guillaume Benoit"
+#~ msgstr "Copyright © 2013 Guillaume Benoit"
+
+#~ msgid "Repos"
+#~ msgstr "Dipòsits"
+
+#~ msgid "Repo"
+#~ msgstr "Dipòsit"
+
+#~ msgid "Infos"
+#~ msgstr "Infos"
+
+#~ msgid "Deps"
+#~ msgstr "Dependències"
+
+#~ msgid "details"
+#~ msgstr "detalls"
+
+#~ msgid "Choose"
+#~ msgstr "Triar"
+
+#~ msgid "Summary"
+#~ msgstr "Resum"

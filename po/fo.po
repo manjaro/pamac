@@ -3,24 +3,26 @@
 # This file is distributed under the same license as the Pamac package.
 # Guillaume Benoit <guillaume@manjaro.org>, 2013-2014.
 #
-#, fuzzy
+# Translators:
+# klaemint, 2014
 msgid ""
 msgstr ""
-"Project-Id-Version: pamac 2.0\n"
+"Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-10-23 15:09+0100\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"PO-Revision-Date: 2014-03-06 16:58+0000\n"
+"Last-Translator: klaemint\n"
+"Language-Team: Faroese (http://www.transifex.com/projects/p/manjaro-pamac/"
+"language/fo/)\n"
+"Language: fo\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: data/polkit/org.manjaro.pamac.policy:10
 msgid "Authentication is required"
 msgstr ""
-
 
 #: resources/choose_provider_dialog.ui:7
 msgid "Choose a Provider"
@@ -266,7 +268,7 @@ msgstr ""
 
 #: src/transaction.vala:259
 msgid "Preparing"
-msgstr ""
+msgstr "fyrireikar"
 
 #: src/transaction.vala:331
 #, c-format
@@ -309,19 +311,20 @@ msgstr ""
 
 #: src/transaction.vala:542
 msgid "Checking dependencies"
-msgstr ""
+msgstr "Kannar treytir"
 
 #: src/transaction.vala:547
 msgid "Checking file conflicts"
-msgstr ""
+msgstr "Kannar fílu konfliktir"
 
 #: src/transaction.vala:552
 msgid "Resolving dependencies"
-msgstr ""
+msgstr "Loysir treytir"
 
 #: src/transaction.vala:557
+#, fuzzy
 msgid "Checking inter-conflicts"
-msgstr ""
+msgstr "Kannar fílu konfliktir"
 
 #: src/transaction.vala:564 src/transaction.vala:566
 #, c-format
@@ -350,7 +353,7 @@ msgstr ""
 
 #: src/transaction.vala:602
 msgid "Checking integrity"
-msgstr ""
+msgstr "Kannar heilskap"
 
 #: src/transaction.vala:608
 msgid "Checking keyring"
@@ -482,8 +485,9 @@ msgid "Depends On"
 msgstr ""
 
 #: src/manager_window.vala:253
+#, fuzzy
 msgid "Optional Dependencies"
-msgstr ""
+msgstr "Kannar treytir"
 
 #: src/manager_window.vala:273
 msgid "Required By"

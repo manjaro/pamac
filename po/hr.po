@@ -3,24 +3,27 @@
 # This file is distributed under the same license as the Pamac package.
 # Guillaume Benoit <guillaume@manjaro.org>, 2013-2014.
 #
-#, fuzzy
+# Translators:
+# ssik64 <ssik64@gmail.com>, 2014
 msgid ""
 msgstr ""
-"Project-Id-Version: pamac 2.0\n"
+"Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-10-23 15:09+0100\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"PO-Revision-Date: 2014-03-05 22:14+0000\n"
+"Last-Translator: manjarolinux <philm@manjaro.org>\n"
+"Language-Team: Croatian (http://www.transifex.com/projects/p/manjaro-pamac/"
+"language/hr/)\n"
+"Language: hr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 
 #: data/polkit/org.manjaro.pamac.policy:10
 msgid "Authentication is required"
-msgstr ""
-
+msgstr "Autentifikacija je potrebna"
 
 #: resources/choose_provider_dialog.ui:7
 msgid "Choose a Provider"
@@ -37,8 +40,9 @@ msgstr ""
 
 #: resources/packages_chooser_dialog.ui:29 resources/progress_dialog.ui:29
 #: resources/transaction_sum_dialog.ui:21
+#, fuzzy
 msgid "_Cancel"
-msgstr ""
+msgstr "Otkaži"
 
 #: resources/packages_chooser_dialog.ui:42
 msgid "_Open"
@@ -46,7 +50,7 @@ msgstr ""
 
 #: resources/progress_dialog.ui:7
 msgid "Progress"
-msgstr ""
+msgstr "Napredak"
 
 #: resources/progress_dialog.ui:41 resources/history_dialog.ui:23
 #: resources/transaction_info_dialog.ui:21 resources/updater_window.ui:163
@@ -57,11 +61,11 @@ msgstr ""
 #: resources/progress_dialog.ui:91 resources/transaction_info_dialog.ui:81
 #: resources/manager_window.ui:707
 msgid "Details"
-msgstr ""
+msgstr "Detalji"
 
 #: resources/history_dialog.ui:7
 msgid "Pamac History"
-msgstr ""
+msgstr "Pamac Povjest"
 
 #: resources/transaction_sum_dialog.ui:6 src/transaction.vala:359
 msgid "Transaction Summary"
@@ -69,7 +73,7 @@ msgstr ""
 
 #: resources/manager_window.ui:14 src/tray.vala:76
 msgid "Package Manager"
-msgstr ""
+msgstr "Upravitelj Paketima"
 
 #: resources/manager_window.ui:23
 msgid "Refresh databases"
@@ -77,7 +81,7 @@ msgstr ""
 
 #: resources/manager_window.ui:47
 msgid "Apply changes"
-msgstr ""
+msgstr "Potvrdi promjene"
 
 #: resources/manager_window.ui:71
 msgid "Cancel all planned changes"
@@ -85,39 +89,40 @@ msgstr ""
 
 #: resources/manager_window.ui:170
 msgid "Search in AUR"
-msgstr ""
+msgstr "Potraži u AUR-u"
 
 #: resources/manager_window.ui:234
 msgid "Search"
-msgstr ""
+msgstr "Potraži"
 
 #: resources/manager_window.ui:279 src/manager_window.vala:337
 msgid "Groups"
-msgstr ""
+msgstr "Grupe"
 
 #: resources/manager_window.ui:325 resources/manager_window.ui:418
 msgid "State"
-msgstr ""
+msgstr "Stanje"
 
 #: resources/manager_window.ui:371
+#, fuzzy
 msgid "Repositories"
-msgstr ""
+msgstr "Repozitorij"
 
 #: resources/manager_window.ui:433
 msgid "Name"
-msgstr ""
+msgstr "Ime"
 
 #: resources/manager_window.ui:448
 msgid "Version"
-msgstr ""
+msgstr "Verzija"
 
 #: resources/manager_window.ui:463 src/manager_window.vala:329
 msgid "Repository"
-msgstr ""
+msgstr "Repozitorij"
 
 #: resources/manager_window.ui:478
 msgid "Size"
-msgstr ""
+msgstr "Veličina"
 
 #: resources/manager_window.ui:582
 msgid "Description"
@@ -129,11 +134,11 @@ msgstr ""
 
 #: resources/manager_window.ui:740
 msgid "Files"
-msgstr ""
+msgstr "Datoteke"
 
 #: resources/manager_window.ui:767
 msgid "View History"
-msgstr ""
+msgstr "Pregledaj Povjest"
 
 #: resources/manager_window.ui:783 resources/updater_window.ui:108
 msgid "_Preferences"
@@ -146,11 +151,12 @@ msgstr ""
 #: resources/updater_window.ui:14 src/tray.vala:73 src/tray.vala:163
 #: src/tray.vala:235
 msgid "Update Manager"
-msgstr ""
+msgstr "Uparavitelj Nadogradnjama"
 
 #: resources/updater_window.ui:135
+#, fuzzy
 msgid "_Refresh"
-msgstr ""
+msgstr "Osvježavam"
 
 #: resources/updater_window.ui:149
 msgid "_Apply"
@@ -162,15 +168,15 @@ msgstr ""
 
 #: resources/preferences_dialog.ui:71
 msgid "Enable AUR support"
-msgstr ""
+msgstr "Omogući AUR podršku"
 
 #: resources/preferences_dialog.ui:84
 msgid "Allow Pamac to search and install packages from AUR"
-msgstr ""
+msgstr "Dozvoli Pamac-u da potraži i instalira pakete iz AUR-a"
 
 #: resources/preferences_dialog.ui:102
 msgid "Remove unrequired dependencies"
-msgstr ""
+msgstr "Ukloni nepotrebne zavisnosti"
 
 #: resources/preferences_dialog.ui:115
 msgid ""
@@ -180,11 +186,11 @@ msgstr ""
 
 #: resources/preferences_dialog.ui:149 src/preferences_dialog.vala:37
 msgid "How often to check for updates, value in hours"
-msgstr ""
+msgstr "Koliko često provjeravati nadogradnje, vrijednost u satima"
 
 #: resources/preferences_dialog.ui:173
 msgid "Options"
-msgstr ""
+msgstr "Opcije"
 
 #: src/packages_chooser_dialog.vala:32
 msgid "Packages"
@@ -266,7 +272,7 @@ msgstr ""
 
 #: src/transaction.vala:259
 msgid "Preparing"
-msgstr ""
+msgstr "Pripremam"
 
 #: src/transaction.vala:331
 #, c-format
@@ -276,11 +282,11 @@ msgstr ""
 #: src/transaction.vala:389 src/manager_window.vala:188
 #: src/manager_window.vala:731
 msgid "To remove"
-msgstr ""
+msgstr "Za ukloniti"
 
 #: src/transaction.vala:402
 msgid "To downgrade"
-msgstr ""
+msgstr "Unazaditi"
 
 #: src/transaction.vala:415
 msgid "To build"
@@ -289,19 +295,20 @@ msgstr ""
 #: src/transaction.vala:428 src/manager_window.vala:187
 #: src/manager_window.vala:720
 msgid "To install"
-msgstr ""
+msgstr "Za instalirati"
 
 #: src/transaction.vala:441
 msgid "To reinstall"
-msgstr ""
+msgstr "Za reinstalirati"
 
 #: src/transaction.vala:455
 msgid "To update"
-msgstr ""
+msgstr "Za nadograditi"
 
 #: src/transaction.vala:468 src/updater_window.vala:179
+#, fuzzy
 msgid "Total download size"
-msgstr ""
+msgstr "Preuzeta veličina"
 
 #: src/transaction.vala:485
 msgid "Building packages"
@@ -309,39 +316,40 @@ msgstr ""
 
 #: src/transaction.vala:542
 msgid "Checking dependencies"
-msgstr ""
+msgstr "Provjeravam zavisnosti"
 
 #: src/transaction.vala:547
 msgid "Checking file conflicts"
-msgstr ""
+msgstr "Provjeravam konflikte s ostalim datotekama"
 
 #: src/transaction.vala:552
 msgid "Resolving dependencies"
-msgstr ""
+msgstr "Riješavam zavisnosti"
 
 #: src/transaction.vala:557
+#, fuzzy
 msgid "Checking inter-conflicts"
-msgstr ""
+msgstr "Provjeravam konflikte s ostalim datotekama"
 
 #: src/transaction.vala:564 src/transaction.vala:566
 #, c-format
 msgid "Installing %s"
-msgstr ""
+msgstr "Instaliram %s"
 
 #: src/transaction.vala:572 src/transaction.vala:574
 #, c-format
 msgid "Reinstalling %s"
-msgstr ""
+msgstr "Reinstaliraj %s"
 
 #: src/transaction.vala:580 src/transaction.vala:582
 #, c-format
 msgid "Removing %s"
-msgstr ""
+msgstr "Uklanjam %s"
 
 #: src/transaction.vala:588 src/transaction.vala:590
 #, c-format
 msgid "Upgrading %s"
-msgstr ""
+msgstr "Nadograđujem %s"
 
 #: src/transaction.vala:596 src/transaction.vala:598
 #, c-format
@@ -350,7 +358,7 @@ msgstr ""
 
 #: src/transaction.vala:602
 msgid "Checking integrity"
-msgstr ""
+msgstr "Provjeravam integritet"
 
 #: src/transaction.vala:608
 msgid "Checking keyring"
@@ -362,7 +370,7 @@ msgstr ""
 
 #: src/transaction.vala:618
 msgid "Loading packages files"
-msgstr ""
+msgstr "Učitavam datoteke paketa"
 
 #: src/transaction.vala:623
 msgid "Checking delta integrity"
@@ -392,7 +400,7 @@ msgstr ""
 
 #: src/transaction.vala:654
 msgid "Downloading"
-msgstr ""
+msgstr "Preuzimam"
 
 #: src/transaction.vala:659
 msgid "Checking available disk space"
@@ -411,7 +419,7 @@ msgstr ""
 #: src/transaction.vala:719
 #, c-format
 msgid "Refreshing %s"
-msgstr ""
+msgstr "Osvježavam %s"
 
 #: src/transaction.vala:721
 #, c-format
@@ -433,11 +441,11 @@ msgstr ""
 
 #: src/transaction.vala:881
 msgid "Nothing to do"
-msgstr ""
+msgstr "Ništa za učiniti"
 
 #: src/transaction.vala:901 src/transaction.vala:917
 msgid "Transaction successfully finished"
-msgstr ""
+msgstr "Transakcija uspješno završena"
 
 #: src/tray.vala:24 src/updater_window.vala:175
 #, c-format
@@ -446,15 +454,16 @@ msgstr ""
 
 #: src/tray.vala:25 src/updater_window.vala:172
 msgid "1 available update"
-msgstr ""
+msgstr "1 dostupna nadogradnja"
 
 #: src/tray.vala:27 src/updater_window.vala:56 src/updater_window.vala:169
 msgid "Your system is up-to-date"
-msgstr ""
+msgstr "Nema novih nadogradnji"
 
 #: src/tray.vala:79
+#, fuzzy
 msgid "_Quit"
-msgstr ""
+msgstr "Izađi"
 
 #: src/tray.vala:164
 msgid "Show available updates"
@@ -462,12 +471,12 @@ msgstr ""
 
 #: src/manager_window.vala:180 src/manager_window.vala:777
 msgid "local"
-msgstr ""
+msgstr "Lokalno"
 
 #: src/manager_window.vala:184 src/manager_window.vala:251
 #: src/manager_window.vala:263 src/manager_window.vala:737
 msgid "Installed"
-msgstr ""
+msgstr "Instalirano"
 
 #: src/manager_window.vala:186 src/manager_window.vala:751
 msgid "Orphans"
@@ -475,15 +484,16 @@ msgstr ""
 
 #: src/manager_window.vala:211
 msgid "Licenses"
-msgstr ""
+msgstr "Licence"
 
 #: src/manager_window.vala:233
 msgid "Depends On"
-msgstr ""
+msgstr "Zavisi o"
 
 #: src/manager_window.vala:253
+#, fuzzy
 msgid "Optional Dependencies"
-msgstr ""
+msgstr "Provjeravam zavisnosti"
 
 #: src/manager_window.vala:273
 msgid "Required By"
@@ -495,11 +505,11 @@ msgstr ""
 
 #: src/manager_window.vala:300
 msgid "Replaces"
-msgstr ""
+msgstr "Zamjenjuje"
 
 #: src/manager_window.vala:313
 msgid "Conflicts With"
-msgstr ""
+msgstr "U sukobu s"
 
 #: src/manager_window.vala:347
 msgid "Packager"
@@ -519,38 +529,89 @@ msgstr ""
 
 #: src/manager_window.vala:361
 msgid "Unknown"
-msgstr ""
+msgstr "Nepoznato"
 
 #: src/manager_window.vala:363
 msgid "Install Reason"
-msgstr ""
+msgstr "Razlog za instalaciju"
 
 #: src/manager_window.vala:368
 msgid "Signatures"
-msgstr ""
+msgstr "Potpisi"
 
 #: src/manager_window.vala:376
 msgid "Backup files"
-msgstr ""
+msgstr "Pričuvne datoteke"
 
 #: src/manager_window.vala:497
 msgid "No package found"
-msgstr ""
+msgstr "Paket nije pronađen"
 
 #: src/manager_window.vala:739
 msgid "Uninstalled"
-msgstr ""
+msgstr "Deinstalirano"
 
 #: src/manager_window.vala:888
 msgid "A Gtk3 frontend for libalpm"
 msgstr ""
 
 #: src/common.vala:48
-#, c-format
+#, fuzzy, c-format
 msgid "%.0f KiB"
-msgstr ""
+msgstr "%.0f KiB"
 
 #: src/common.vala:51
 #, c-format
 msgid "%.2f MiB"
-msgstr ""
+msgstr "%.2f MiB"
+
+#~ msgid "Installed Size"
+#~ msgstr "Instalirana veličina"
+
+#~ msgid "Architecture"
+#~ msgstr "Arhitektura"
+
+#~ msgid "Remove"
+#~ msgstr "Ukloni"
+
+#~ msgid "Reinstall"
+#~ msgstr "Reinstaliraj"
+
+#~ msgid "Install optional deps"
+#~ msgstr "Instaliraj izborne zavisnosti"
+
+#~ msgid "Install"
+#~ msgstr "Instaliraj"
+
+#~ msgid "Install with optional deps"
+#~ msgstr "Instaliraj s izbornim zavinostima"
+
+#~ msgid "Pamac is already running"
+#~ msgstr "Pamac je već pokrenut"
+
+#~ msgid "Checking for updates"
+#~ msgstr "Provjeravam nadogradnje"
+
+#~ msgid "About Pamac"
+#~ msgstr "O programu Pamac"
+
+#~ msgid "Repos"
+#~ msgstr "Repozitoriji"
+
+#~ msgid "Repo"
+#~ msgstr "Repozitorij"
+
+#~ msgid "Infos"
+#~ msgstr "Informacije"
+
+#~ msgid "Deps"
+#~ msgstr "Zavisnosti"
+
+#~ msgid "details"
+#~ msgstr "detalji"
+
+#~ msgid "Choose"
+#~ msgstr "Izaberi"
+
+#~ msgid "Summary"
+#~ msgstr "Ukratko"

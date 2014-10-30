@@ -3,24 +3,26 @@
 # This file is distributed under the same license as the Pamac package.
 # Guillaume Benoit <guillaume@manjaro.org>, 2013-2014.
 #
-#, fuzzy
+# Translators:
+# Puretech <terjemah.puretech@gmail.com>, 2013
 msgid ""
 msgstr ""
-"Project-Id-Version: pamac 2.0\n"
+"Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-10-23 15:09+0100\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"PO-Revision-Date: 2014-03-05 22:14+0000\n"
+"Last-Translator: manjarolinux <philm@manjaro.org>\n"
+"Language-Team: Malay (http://www.transifex.com/projects/p/manjaro-pamac/"
+"language/ms/)\n"
+"Language: ms\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 
 #: data/polkit/org.manjaro.pamac.policy:10
 msgid "Authentication is required"
 msgstr ""
-
 
 #: resources/choose_provider_dialog.ui:7
 msgid "Choose a Provider"
@@ -33,7 +35,7 @@ msgstr ""
 
 #: resources/packages_chooser_dialog.ui:7 resources/manager_window.ui:775
 msgid "Install local packages"
-msgstr ""
+msgstr "Memasang pakej tempatan"
 
 #: resources/packages_chooser_dialog.ui:29 resources/progress_dialog.ui:29
 #: resources/transaction_sum_dialog.ui:21
@@ -46,7 +48,7 @@ msgstr ""
 
 #: resources/progress_dialog.ui:7
 msgid "Progress"
-msgstr ""
+msgstr "Perkembangan"
 
 #: resources/progress_dialog.ui:41 resources/history_dialog.ui:23
 #: resources/transaction_info_dialog.ui:21 resources/updater_window.ui:163
@@ -57,7 +59,7 @@ msgstr ""
 #: resources/progress_dialog.ui:91 resources/transaction_info_dialog.ui:81
 #: resources/manager_window.ui:707
 msgid "Details"
-msgstr ""
+msgstr "Keterangan"
 
 #: resources/history_dialog.ui:7
 msgid "Pamac History"
@@ -65,11 +67,11 @@ msgstr ""
 
 #: resources/transaction_sum_dialog.ui:6 src/transaction.vala:359
 msgid "Transaction Summary"
-msgstr ""
+msgstr "Ringkasa Transaksi"
 
 #: resources/manager_window.ui:14 src/tray.vala:76
 msgid "Package Manager"
-msgstr ""
+msgstr "Pengurus Pakej"
 
 #: resources/manager_window.ui:23
 msgid "Refresh databases"
@@ -85,39 +87,40 @@ msgstr ""
 
 #: resources/manager_window.ui:170
 msgid "Search in AUR"
-msgstr ""
+msgstr "Cari di AUR"
 
 #: resources/manager_window.ui:234
 msgid "Search"
-msgstr ""
+msgstr "Cari"
 
 #: resources/manager_window.ui:279 src/manager_window.vala:337
 msgid "Groups"
-msgstr ""
+msgstr "Kumpulan"
 
 #: resources/manager_window.ui:325 resources/manager_window.ui:418
 msgid "State"
-msgstr ""
+msgstr "Keadaan"
 
 #: resources/manager_window.ui:371
+#, fuzzy
 msgid "Repositories"
-msgstr ""
+msgstr "Repositori"
 
 #: resources/manager_window.ui:433
 msgid "Name"
-msgstr ""
+msgstr "Nama"
 
 #: resources/manager_window.ui:448
 msgid "Version"
-msgstr ""
+msgstr "Versi"
 
 #: resources/manager_window.ui:463 src/manager_window.vala:329
 msgid "Repository"
-msgstr ""
+msgstr "Repositori"
 
 #: resources/manager_window.ui:478
 msgid "Size"
-msgstr ""
+msgstr "Saiz"
 
 #: resources/manager_window.ui:582
 msgid "Description"
@@ -129,7 +132,7 @@ msgstr ""
 
 #: resources/manager_window.ui:740
 msgid "Files"
-msgstr ""
+msgstr "Fail"
 
 #: resources/manager_window.ui:767
 msgid "View History"
@@ -146,11 +149,12 @@ msgstr ""
 #: resources/updater_window.ui:14 src/tray.vala:73 src/tray.vala:163
 #: src/tray.vala:235
 msgid "Update Manager"
-msgstr ""
+msgstr "Pengurus Naik Taraf"
 
 #: resources/updater_window.ui:135
+#, fuzzy
 msgid "_Refresh"
-msgstr ""
+msgstr "Segarkan"
 
 #: resources/updater_window.ui:149
 msgid "_Apply"
@@ -254,7 +258,7 @@ msgstr ""
 
 #: src/daemon.vala:442
 msgid "Authentication failed"
-msgstr ""
+msgstr "Pengesahan gagal"
 
 #: src/transaction.vala:164
 msgid "Synchronizing package databases"
@@ -266,7 +270,7 @@ msgstr ""
 
 #: src/transaction.vala:259
 msgid "Preparing"
-msgstr ""
+msgstr "Menyediakan"
 
 #: src/transaction.vala:331
 #, c-format
@@ -276,32 +280,33 @@ msgstr ""
 #: src/transaction.vala:389 src/manager_window.vala:188
 #: src/manager_window.vala:731
 msgid "To remove"
-msgstr ""
+msgstr "Untuk dibuang"
 
 #: src/transaction.vala:402
 msgid "To downgrade"
-msgstr ""
+msgstr "Untuk diturun taraf"
 
 #: src/transaction.vala:415
 msgid "To build"
-msgstr ""
+msgstr "Untuk dibina"
 
 #: src/transaction.vala:428 src/manager_window.vala:187
 #: src/manager_window.vala:720
 msgid "To install"
-msgstr ""
+msgstr "Untuk dipasang"
 
 #: src/transaction.vala:441
 msgid "To reinstall"
-msgstr ""
+msgstr "Untuk dinyahpasang"
 
 #: src/transaction.vala:455
 msgid "To update"
-msgstr ""
+msgstr "Untuk dinaik taraf"
 
 #: src/transaction.vala:468 src/updater_window.vala:179
+#, fuzzy
 msgid "Total download size"
-msgstr ""
+msgstr "Jumlah saiz muat turun"
 
 #: src/transaction.vala:485
 msgid "Building packages"
@@ -309,86 +314,89 @@ msgstr ""
 
 #: src/transaction.vala:542
 msgid "Checking dependencies"
-msgstr ""
+msgstr "Memeriksa kebergantungan"
 
 #: src/transaction.vala:547
 msgid "Checking file conflicts"
-msgstr ""
+msgstr "Memeriksa konflik fail"
 
 #: src/transaction.vala:552
 msgid "Resolving dependencies"
-msgstr ""
+msgstr "Menyelesaikan kebergantungan"
 
 #: src/transaction.vala:557
+#, fuzzy
 msgid "Checking inter-conflicts"
-msgstr ""
+msgstr "Memeriksa diantara konflik"
 
 #: src/transaction.vala:564 src/transaction.vala:566
 #, c-format
 msgid "Installing %s"
-msgstr ""
+msgstr "Memasang %s"
 
 #: src/transaction.vala:572 src/transaction.vala:574
 #, c-format
 msgid "Reinstalling %s"
-msgstr ""
+msgstr "Memasang semula %s"
 
 #: src/transaction.vala:580 src/transaction.vala:582
 #, c-format
 msgid "Removing %s"
-msgstr ""
+msgstr "Membuang %s"
 
 #: src/transaction.vala:588 src/transaction.vala:590
 #, c-format
 msgid "Upgrading %s"
-msgstr ""
+msgstr "Menaiktaraf %s"
 
 #: src/transaction.vala:596 src/transaction.vala:598
 #, c-format
 msgid "Downgrading %s"
-msgstr ""
+msgstr "Turuntaraf %s"
 
 #: src/transaction.vala:602
 msgid "Checking integrity"
-msgstr ""
+msgstr "Memeriksa integriti"
 
 #: src/transaction.vala:608
 msgid "Checking keyring"
-msgstr ""
+msgstr "Memeriksa keyring"
 
 #: src/transaction.vala:613
 msgid "Downloading required keys"
-msgstr ""
+msgstr "Memuat turun kunci yang diperlukan"
 
 #: src/transaction.vala:618
 msgid "Loading packages files"
-msgstr ""
+msgstr "Memuatkan fail pakej"
 
 #: src/transaction.vala:623
 msgid "Checking delta integrity"
-msgstr ""
+msgstr "Memeriksa integriti delta"
 
 #: src/transaction.vala:628
 msgid "Applying deltas"
-msgstr ""
+msgstr "Serapkan delta"
 
 #: src/transaction.vala:633
 #, c-format
 msgid "Generating %s with %s"
-msgstr ""
+msgstr "Menjana %s dengan %s"
 
 #: src/transaction.vala:638
+#, fuzzy
 msgid "Generation succeeded"
-msgstr ""
+msgstr "Penjanaan berjaya"
 
 #: src/transaction.vala:643
+#, fuzzy
 msgid "Generation failed"
-msgstr ""
+msgstr "Penjanaan gagal"
 
 #: src/transaction.vala:648
 #, c-format
 msgid "Configuring %s"
-msgstr ""
+msgstr "Mengkonfigurasi %s"
 
 #: src/transaction.vala:654
 msgid "Downloading"
@@ -396,7 +404,7 @@ msgstr ""
 
 #: src/transaction.vala:659
 msgid "Checking available disk space"
-msgstr ""
+msgstr "Memeriksa ruang cakera yang ada"
 
 #: src/transaction.vala:664
 #, c-format
@@ -411,12 +419,12 @@ msgstr ""
 #: src/transaction.vala:719
 #, c-format
 msgid "Refreshing %s"
-msgstr ""
+msgstr "Menyegarkan %s"
 
 #: src/transaction.vala:721
 #, c-format
 msgid "Downloading %s"
-msgstr ""
+msgstr "Memuat turun %s"
 
 #: src/transaction.vala:758 src/transaction.vala:772
 msgid "Warning"
@@ -433,28 +441,29 @@ msgstr ""
 
 #: src/transaction.vala:881
 msgid "Nothing to do"
-msgstr ""
+msgstr "Tiada untuk dibuat"
 
 #: src/transaction.vala:901 src/transaction.vala:917
 msgid "Transaction successfully finished"
-msgstr ""
+msgstr "Transaksi berjaya diselesaikan"
 
 #: src/tray.vala:24 src/updater_window.vala:175
 #, c-format
 msgid "%u available updates"
-msgstr ""
+msgstr "Terdapat %u naik taraf"
 
 #: src/tray.vala:25 src/updater_window.vala:172
 msgid "1 available update"
-msgstr ""
+msgstr "Terdapat 1 naik taraf"
 
 #: src/tray.vala:27 src/updater_window.vala:56 src/updater_window.vala:169
 msgid "Your system is up-to-date"
-msgstr ""
+msgstr "Sistem anda telah dikemaskini"
 
 #: src/tray.vala:79
+#, fuzzy
 msgid "_Quit"
-msgstr ""
+msgstr "Keluar"
 
 #: src/tray.vala:164
 msgid "Show available updates"
@@ -462,95 +471,200 @@ msgstr ""
 
 #: src/manager_window.vala:180 src/manager_window.vala:777
 msgid "local"
-msgstr ""
+msgstr "setempat"
 
 #: src/manager_window.vala:184 src/manager_window.vala:251
 #: src/manager_window.vala:263 src/manager_window.vala:737
 msgid "Installed"
-msgstr ""
+msgstr "Telah dipasang"
 
 #: src/manager_window.vala:186 src/manager_window.vala:751
 msgid "Orphans"
-msgstr ""
+msgstr "Yatim"
 
 #: src/manager_window.vala:211
 msgid "Licenses"
-msgstr ""
+msgstr "Lesen"
 
 #: src/manager_window.vala:233
 msgid "Depends On"
-msgstr ""
+msgstr "Bergantung Pada"
 
 #: src/manager_window.vala:253
+#, fuzzy
 msgid "Optional Dependencies"
-msgstr ""
+msgstr "Deps Tambahan"
 
 #: src/manager_window.vala:273
 msgid "Required By"
-msgstr ""
+msgstr "Diperlukan Oleh"
 
 #: src/manager_window.vala:287
 msgid "Provides"
-msgstr ""
+msgstr "Membekal"
 
 #: src/manager_window.vala:300
 msgid "Replaces"
-msgstr ""
+msgstr "Ganti"
 
 #: src/manager_window.vala:313
 msgid "Conflicts With"
-msgstr ""
+msgstr "Konflik Dengan"
 
 #: src/manager_window.vala:347
 msgid "Packager"
-msgstr ""
+msgstr "Pembungkus"
 
 #: src/manager_window.vala:353
 msgid "Install Date"
-msgstr ""
+msgstr "Tarikh Pasang"
 
 #: src/manager_window.vala:357
 msgid "Explicitly installed"
-msgstr ""
+msgstr "Jelas terpasang"
 
 #: src/manager_window.vala:359
 msgid "Installed as a dependency for another package"
-msgstr ""
+msgstr "Terpasang sebagai kebergantungan untuk pakej lain"
 
 #: src/manager_window.vala:361
 msgid "Unknown"
-msgstr ""
+msgstr "Tidak diketahui"
 
 #: src/manager_window.vala:363
 msgid "Install Reason"
-msgstr ""
+msgstr "Sebab Pasang"
 
 #: src/manager_window.vala:368
 msgid "Signatures"
-msgstr ""
+msgstr "Tandatangan"
 
 #: src/manager_window.vala:376
 msgid "Backup files"
-msgstr ""
+msgstr "Fail sandaran"
 
 #: src/manager_window.vala:497
 msgid "No package found"
-msgstr ""
+msgstr "Tiada pakej ditemui"
 
 #: src/manager_window.vala:739
 msgid "Uninstalled"
-msgstr ""
+msgstr "Telah dibuang"
 
 #: src/manager_window.vala:888
+#, fuzzy
 msgid "A Gtk3 frontend for libalpm"
-msgstr ""
+msgstr "Bahagian depan gtk3 untuk pyalm"
 
 #: src/common.vala:48
-#, c-format
+#, fuzzy, c-format
 msgid "%.0f KiB"
-msgstr ""
+msgstr "%.0f KiB"
 
 #: src/common.vala:51
 #, c-format
 msgid "%.2f MiB"
-msgstr ""
+msgstr "%.2f MiB"
+
+#~ msgid "%s will be replaced by %s"
+#~ msgstr "%s akan diganti dengan %s"
+
+#~ msgid "%s conflicts with %s"
+#~ msgstr "%s konflik dengan %s"
+
+#~ msgid "%s is not a valid path or package name"
+#~ msgstr "%s bukan laluan sah atau nama pakej"
+
+#~ msgid ""
+#~ "The transaction cannot be performed because it needs to remove %s which "
+#~ "is a locked package"
+#~ msgstr ""
+#~ "Transaksi tidak dapat dilakukan kerana ia perlu membuang %s yang "
+#~ "merupakan pakej yang dikunci"
+
+#~ msgid "Compressed Size"
+#~ msgstr "Saiz Mampat"
+
+#~ msgid "Download Size"
+#~ msgstr "Saiz muat turun"
+
+#~ msgid "Installed Size"
+#~ msgstr "Saiz Pasang"
+
+#~ msgid "Architecture"
+#~ msgstr "Seni Bina"
+
+#~ msgid ""
+#~ "%s has %u uninstalled optional deps.\n"
+#~ "Please choose those you would like to install:"
+#~ msgstr ""
+#~ "%s mempunyai %u deps tambahan untuk dinyahpasang.\n"
+#~ "Sila pilih mana yang anda mahu pasang:"
+
+#~ msgid "Deselect"
+#~ msgstr "Nyahpilih"
+
+#~ msgid "Remove"
+#~ msgstr "Buang"
+
+#~ msgid "Reinstall"
+#~ msgstr "Pasang semula"
+
+#~ msgid "Install optional deps"
+#~ msgstr "Pasang deps tambahan"
+
+#~ msgid "Install"
+#~ msgstr "Pasang"
+
+#~ msgid "Install with optional deps"
+#~ msgstr "Pasang dengan deps tambahan"
+
+#~ msgid "Pamac is already running"
+#~ msgstr "Pamac telah pun berjalan"
+
+#~ msgid ""
+#~ "Some updates are available.\n"
+#~ "Please update your system first"
+#~ msgstr ""
+#~ "Terdapat beberapa naik taraf.\n"
+#~ "Sila naik taraf sistem anda dahulu"
+
+#~ msgid ""
+#~ "%s is provided by %u packages.\n"
+#~ "Please choose those you would like to install:"
+#~ msgstr ""
+#~ "%s disediakan dengan %u pakej.\n"
+#~ "Sila pilih mana yang anda mahu pasang:"
+
+#~ msgid "%s depends on %s but it is not installable"
+#~ msgstr "%s bergantung pada %s tetapi tidak boleh dipasang"
+
+#~ msgid "Failed to get %s archive from AUR"
+#~ msgstr "Gagal mendapatkan arkib %s dari AUR"
+
+#~ msgid "About Pamac"
+#~ msgstr "Tentang Pamac"
+
+#~ msgid "Copyright © 2013 Guillaume Benoit"
+#~ msgstr "Hakcipta © 2013 Guillaume Benoit"
+
+#~ msgid "Repos"
+#~ msgstr "Repo"
+
+#~ msgid "Repo"
+#~ msgstr "Repo"
+
+#~ msgid "Infos"
+#~ msgstr "Maklumat"
+
+#~ msgid "Deps"
+#~ msgstr "Dep"
+
+#~ msgid "details"
+#~ msgstr "butiran"
+
+#~ msgid "Choose"
+#~ msgstr "Pilih"
+
+#~ msgid "Summary"
+#~ msgstr "Ringkasan"

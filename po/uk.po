@@ -3,24 +3,31 @@
 # This file is distributed under the same license as the Pamac package.
 # Guillaume Benoit <guillaume@manjaro.org>, 2013-2014.
 #
-#, fuzzy
+# Translators:
+# Rax Garfield <admin@dvizho.ks.ua>, 2012
+# rom85 <rom85@i.ua>, 2013
+# sevenfourk <sevenfourk@gmail.com>, 2012
+# zubr139 <zubr139@ukr.net>, 2013
+# Данило Коростіль <ted.korostiled@gmail.com>, 2011
 msgid ""
 msgstr ""
-"Project-Id-Version: pamac 2.0\n"
+"Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-10-23 15:09+0100\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"PO-Revision-Date: 2014-03-05 22:14+0000\n"
+"Last-Translator: manjarolinux <philm@manjaro.org>\n"
+"Language-Team: Ukrainian (http://www.transifex.com/projects/p/manjaro-pamac/"
+"language/uk/)\n"
+"Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
 #: data/polkit/org.manjaro.pamac.policy:10
 msgid "Authentication is required"
 msgstr ""
-
 
 #: resources/choose_provider_dialog.ui:7
 msgid "Choose a Provider"
@@ -33,7 +40,7 @@ msgstr ""
 
 #: resources/packages_chooser_dialog.ui:7 resources/manager_window.ui:775
 msgid "Install local packages"
-msgstr ""
+msgstr "Встановлення локальних пакетів"
 
 #: resources/packages_chooser_dialog.ui:29 resources/progress_dialog.ui:29
 #: resources/transaction_sum_dialog.ui:21
@@ -46,7 +53,7 @@ msgstr ""
 
 #: resources/progress_dialog.ui:7
 msgid "Progress"
-msgstr ""
+msgstr "Прогрес"
 
 #: resources/progress_dialog.ui:41 resources/history_dialog.ui:23
 #: resources/transaction_info_dialog.ui:21 resources/updater_window.ui:163
@@ -57,7 +64,7 @@ msgstr ""
 #: resources/progress_dialog.ui:91 resources/transaction_info_dialog.ui:81
 #: resources/manager_window.ui:707
 msgid "Details"
-msgstr ""
+msgstr "Деталі"
 
 #: resources/history_dialog.ui:7
 msgid "Pamac History"
@@ -65,11 +72,11 @@ msgstr ""
 
 #: resources/transaction_sum_dialog.ui:6 src/transaction.vala:359
 msgid "Transaction Summary"
-msgstr ""
+msgstr "Інформація по операціях"
 
 #: resources/manager_window.ui:14 src/tray.vala:76
 msgid "Package Manager"
-msgstr ""
+msgstr "Менеджер пакетів"
 
 #: resources/manager_window.ui:23
 msgid "Refresh databases"
@@ -85,39 +92,40 @@ msgstr ""
 
 #: resources/manager_window.ui:170
 msgid "Search in AUR"
-msgstr ""
+msgstr "Пошук в AUR"
 
 #: resources/manager_window.ui:234
 msgid "Search"
-msgstr ""
+msgstr "Пошук"
 
 #: resources/manager_window.ui:279 src/manager_window.vala:337
 msgid "Groups"
-msgstr ""
+msgstr "Групи"
 
 #: resources/manager_window.ui:325 resources/manager_window.ui:418
 msgid "State"
-msgstr ""
+msgstr "Стан"
 
 #: resources/manager_window.ui:371
+#, fuzzy
 msgid "Repositories"
-msgstr ""
+msgstr "Сховище"
 
 #: resources/manager_window.ui:433
 msgid "Name"
-msgstr ""
+msgstr "Назва"
 
 #: resources/manager_window.ui:448
 msgid "Version"
-msgstr ""
+msgstr "Версія"
 
 #: resources/manager_window.ui:463 src/manager_window.vala:329
 msgid "Repository"
-msgstr ""
+msgstr "Сховище"
 
 #: resources/manager_window.ui:478
 msgid "Size"
-msgstr ""
+msgstr "Розмір"
 
 #: resources/manager_window.ui:582
 msgid "Description"
@@ -129,7 +137,7 @@ msgstr ""
 
 #: resources/manager_window.ui:740
 msgid "Files"
-msgstr ""
+msgstr "Файли"
 
 #: resources/manager_window.ui:767
 msgid "View History"
@@ -146,11 +154,12 @@ msgstr ""
 #: resources/updater_window.ui:14 src/tray.vala:73 src/tray.vala:163
 #: src/tray.vala:235
 msgid "Update Manager"
-msgstr ""
+msgstr "Менеджер Оновлень"
 
 #: resources/updater_window.ui:135
+#, fuzzy
 msgid "_Refresh"
-msgstr ""
+msgstr "Оновити"
 
 #: resources/updater_window.ui:149
 msgid "_Apply"
@@ -254,7 +263,7 @@ msgstr ""
 
 #: src/daemon.vala:442
 msgid "Authentication failed"
-msgstr ""
+msgstr "Помилка аутентифікації"
 
 #: src/transaction.vala:164
 msgid "Synchronizing package databases"
@@ -266,7 +275,7 @@ msgstr ""
 
 #: src/transaction.vala:259
 msgid "Preparing"
-msgstr ""
+msgstr "Підготовка"
 
 #: src/transaction.vala:331
 #, c-format
@@ -276,32 +285,32 @@ msgstr ""
 #: src/transaction.vala:389 src/manager_window.vala:188
 #: src/manager_window.vala:731
 msgid "To remove"
-msgstr ""
+msgstr "До видалення"
 
 #: src/transaction.vala:402
 msgid "To downgrade"
-msgstr ""
+msgstr "До пониження"
 
 #: src/transaction.vala:415
 msgid "To build"
-msgstr ""
+msgstr "Почати збірку"
 
 #: src/transaction.vala:428 src/manager_window.vala:187
 #: src/manager_window.vala:720
 msgid "To install"
-msgstr ""
+msgstr "До встановлення"
 
 #: src/transaction.vala:441
 msgid "To reinstall"
-msgstr ""
+msgstr "До перевстановлення"
 
 #: src/transaction.vala:455
 msgid "To update"
-msgstr ""
+msgstr "До оновлення"
 
 #: src/transaction.vala:468 src/updater_window.vala:179
 msgid "Total download size"
-msgstr ""
+msgstr "Загальний розмір завантаження"
 
 #: src/transaction.vala:485
 msgid "Building packages"
@@ -309,94 +318,96 @@ msgstr ""
 
 #: src/transaction.vala:542
 msgid "Checking dependencies"
-msgstr ""
+msgstr "Перевірка залежностей"
 
 #: src/transaction.vala:547
 msgid "Checking file conflicts"
-msgstr ""
+msgstr "Перевірка конфліктування файлів"
 
 #: src/transaction.vala:552
 msgid "Resolving dependencies"
-msgstr ""
+msgstr "Дозволити залежності"
 
 #: src/transaction.vala:557
+#, fuzzy
 msgid "Checking inter-conflicts"
-msgstr ""
+msgstr "Перевірка конфліктів між"
 
 #: src/transaction.vala:564 src/transaction.vala:566
 #, c-format
 msgid "Installing %s"
-msgstr ""
+msgstr "Встановлення %s"
 
 #: src/transaction.vala:572 src/transaction.vala:574
 #, c-format
 msgid "Reinstalling %s"
-msgstr ""
+msgstr "Перевстановлення %s"
 
 #: src/transaction.vala:580 src/transaction.vala:582
 #, c-format
 msgid "Removing %s"
-msgstr ""
+msgstr "Видалення %s"
 
 #: src/transaction.vala:588 src/transaction.vala:590
 #, c-format
 msgid "Upgrading %s"
-msgstr ""
+msgstr "Оновлення %s"
 
 #: src/transaction.vala:596 src/transaction.vala:598
 #, c-format
 msgid "Downgrading %s"
-msgstr ""
+msgstr "Пониження %s"
 
 #: src/transaction.vala:602
 msgid "Checking integrity"
-msgstr ""
+msgstr "Перевірка цілісності"
 
 #: src/transaction.vala:608
 msgid "Checking keyring"
-msgstr ""
+msgstr "Перевірка ключів"
 
 #: src/transaction.vala:613
 msgid "Downloading required keys"
-msgstr ""
+msgstr "Завантаження необхідних ключів"
 
 #: src/transaction.vala:618
 msgid "Loading packages files"
-msgstr ""
+msgstr "Завантаження пакетів файлів"
 
 #: src/transaction.vala:623
 msgid "Checking delta integrity"
-msgstr ""
+msgstr "Перевірка цілісності delta"
 
 #: src/transaction.vala:628
 msgid "Applying deltas"
-msgstr ""
+msgstr "Застосування deltas"
 
 #: src/transaction.vala:633
 #, c-format
 msgid "Generating %s with %s"
-msgstr ""
+msgstr "Генерація %s з %s"
 
 #: src/transaction.vala:638
 msgid "Generation succeeded"
-msgstr ""
+msgstr "Вдала генерація"
 
 #: src/transaction.vala:643
+#, fuzzy
 msgid "Generation failed"
-msgstr ""
+msgstr "Невдала генерація"
 
 #: src/transaction.vala:648
 #, c-format
 msgid "Configuring %s"
-msgstr ""
+msgstr "Налаштування %s"
 
 #: src/transaction.vala:654
 msgid "Downloading"
-msgstr ""
+msgstr "Завантаження"
 
 #: src/transaction.vala:659
 msgid "Checking available disk space"
-msgstr ""
+msgstr "Перевірка вільного місця на диску"
 
 #: src/transaction.vala:664
 #, c-format
@@ -411,12 +422,12 @@ msgstr ""
 #: src/transaction.vala:719
 #, c-format
 msgid "Refreshing %s"
-msgstr ""
+msgstr "Оновлення %s"
 
 #: src/transaction.vala:721
 #, c-format
 msgid "Downloading %s"
-msgstr ""
+msgstr "Завантаження %s"
 
 #: src/transaction.vala:758 src/transaction.vala:772
 msgid "Warning"
@@ -433,28 +444,29 @@ msgstr ""
 
 #: src/transaction.vala:881
 msgid "Nothing to do"
-msgstr ""
+msgstr "Немає роботи"
 
 #: src/transaction.vala:901 src/transaction.vala:917
 msgid "Transaction successfully finished"
-msgstr ""
+msgstr "Операція успішно завершена"
 
 #: src/tray.vala:24 src/updater_window.vala:175
 #, c-format
 msgid "%u available updates"
-msgstr ""
+msgstr "%u доступних оновлень"
 
 #: src/tray.vala:25 src/updater_window.vala:172
 msgid "1 available update"
-msgstr ""
+msgstr "1 доступне оновлення"
 
 #: src/tray.vala:27 src/updater_window.vala:56 src/updater_window.vala:169
 msgid "Your system is up-to-date"
-msgstr ""
+msgstr "Ваша система оновлена"
 
 #: src/tray.vala:79
+#, fuzzy
 msgid "_Quit"
-msgstr ""
+msgstr "Вийти"
 
 #: src/tray.vala:164
 msgid "Show available updates"
@@ -462,95 +474,205 @@ msgstr ""
 
 #: src/manager_window.vala:180 src/manager_window.vala:777
 msgid "local"
-msgstr ""
+msgstr "локальний"
 
 #: src/manager_window.vala:184 src/manager_window.vala:251
 #: src/manager_window.vala:263 src/manager_window.vala:737
 msgid "Installed"
-msgstr ""
+msgstr "Встановлено"
 
 #: src/manager_window.vala:186 src/manager_window.vala:751
 msgid "Orphans"
-msgstr ""
+msgstr "Осиротілі"
 
 #: src/manager_window.vala:211
 msgid "Licenses"
-msgstr ""
+msgstr "Ліцензії"
 
 #: src/manager_window.vala:233
 msgid "Depends On"
-msgstr ""
+msgstr "Залежить від"
 
 #: src/manager_window.vala:253
+#, fuzzy
 msgid "Optional Dependencies"
-msgstr ""
+msgstr "Додаткові залежності"
 
 #: src/manager_window.vala:273
 msgid "Required By"
-msgstr ""
+msgstr "Вимагається"
 
 #: src/manager_window.vala:287
 msgid "Provides"
-msgstr ""
+msgstr "Забезпечує"
 
 #: src/manager_window.vala:300
 msgid "Replaces"
-msgstr ""
+msgstr "Замінює"
 
 #: src/manager_window.vala:313
 msgid "Conflicts With"
-msgstr ""
+msgstr "Конфлікти з"
 
 #: src/manager_window.vala:347
 msgid "Packager"
-msgstr ""
+msgstr "Пакувальник"
 
 #: src/manager_window.vala:353
 msgid "Install Date"
-msgstr ""
+msgstr "Дата встановлення"
 
 #: src/manager_window.vala:357
 msgid "Explicitly installed"
-msgstr ""
+msgstr "Явно встановлено"
 
 #: src/manager_window.vala:359
 msgid "Installed as a dependency for another package"
-msgstr ""
+msgstr "Встановлений як залежність до іншого пакунка"
 
 #: src/manager_window.vala:361
 msgid "Unknown"
-msgstr ""
+msgstr "Невідомо"
 
 #: src/manager_window.vala:363
 msgid "Install Reason"
-msgstr ""
+msgstr "Причина встановлення"
 
 #: src/manager_window.vala:368
 msgid "Signatures"
-msgstr ""
+msgstr "Підписи"
 
 #: src/manager_window.vala:376
 msgid "Backup files"
-msgstr ""
+msgstr "Резервні файли"
 
 #: src/manager_window.vala:497
 msgid "No package found"
-msgstr ""
+msgstr "Пакет не знайдений"
 
 #: src/manager_window.vala:739
 msgid "Uninstalled"
-msgstr ""
+msgstr "Не встановленно"
 
 #: src/manager_window.vala:888
+#, fuzzy
 msgid "A Gtk3 frontend for libalpm"
-msgstr ""
+msgstr "Gtk3 інтерфейс для libalpm"
 
 #: src/common.vala:48
-#, c-format
+#, fuzzy, c-format
 msgid "%.0f KiB"
-msgstr ""
+msgstr "%.0f КБ"
 
 #: src/common.vala:51
 #, c-format
 msgid "%.2f MiB"
-msgstr ""
+msgstr "%.2f МБ"
+
+#~ msgid "%s will be replaced by %s"
+#~ msgstr "%s буде замінено %s"
+
+#~ msgid "%s conflicts with %s"
+#~ msgstr "%s конфліктує з %s"
+
+#~ msgid "%s is not a valid path or package name"
+#~ msgstr "%s не припустимий шлях або ім'я пакету"
+
+#~ msgid ""
+#~ "The transaction cannot be performed because it needs to remove %s which "
+#~ "is a locked package"
+#~ msgstr ""
+#~ "Операція не може бути виконана, оскільки для цього потрібно видалити %s, "
+#~ "якй є заблокованим"
+
+#~ msgid "Compressed Size"
+#~ msgstr "Розмір в стисненому вигляді"
+
+#~ msgid "Download Size"
+#~ msgstr "Розмір звантаження"
+
+#~ msgid "Installed Size"
+#~ msgstr "Розмір у встановленому вигляді"
+
+#~ msgid "Architecture"
+#~ msgstr "Архітектура"
+
+#~ msgid ""
+#~ "%s has %u uninstalled optional deps.\n"
+#~ "Please choose those you would like to install:"
+#~ msgstr ""
+#~ "%s має %u невстановлених необов'язкових залежностей.\n"
+#~ "Будь-ласка оберіть ті, що бажаєте встановити:"
+
+#~ msgid "Deselect"
+#~ msgstr "Скасувати вибір"
+
+#~ msgid "Remove"
+#~ msgstr "Видалення"
+
+#~ msgid "Reinstall"
+#~ msgstr "Перевстановлення"
+
+#~ msgid "Install optional deps"
+#~ msgstr "Встановлення додаткових залежностей"
+
+#~ msgid "Install"
+#~ msgstr "Встановлення"
+
+#~ msgid "Install with optional deps"
+#~ msgstr "Встановлення з додатковими залежностями"
+
+#~ msgid "Pamac is already running"
+#~ msgstr "Pamac вже запущений"
+
+#~ msgid ""
+#~ "Some updates are available.\n"
+#~ "Please update your system first"
+#~ msgstr ""
+#~ "Доступні деякі оновлення. Будь ласка, в першу чергу поновіть систему"
+
+#~ msgid ""
+#~ "%s is provided by %u packages.\n"
+#~ "Please choose those you would like to install:"
+#~ msgstr ""
+#~ "%s надається %u пакунками.\n"
+#~ "Оберіть ті, що бажаєте встановити:"
+
+#~ msgid "%s depends on %s but it is not installable"
+#~ msgstr "%s залежить від %s але він не може бути встановлений"
+
+#~ msgid "Failed to get %s archive from AUR"
+#~ msgstr "Не вдалося отримати %s архів з AUR"
+
+#~ msgid "Build process failed."
+#~ msgstr "Не вдалося спорудити процес."
+
+#~ msgid "Checking for updates"
+#~ msgstr "Перевірка наявності оновлень"
+
+#~ msgid "About Pamac"
+#~ msgstr "Про Pamac"
+
+#~ msgid "Copyright © 2013 Guillaume Benoit"
+#~ msgstr "Авторське право © 2013 Guillaume Benoit"
+
+#~ msgid "Repos"
+#~ msgstr "Сховища"
+
+#~ msgid "Repo"
+#~ msgstr "Сховище"
+
+#~ msgid "Infos"
+#~ msgstr "Інформація"
+
+#~ msgid "Deps"
+#~ msgstr "Залежності"
+
+#~ msgid "details"
+#~ msgstr "деталі"
+
+#~ msgid "Choose"
+#~ msgstr "Вибирати"
+
+#~ msgid "Summary"
+#~ msgstr "Резюме"

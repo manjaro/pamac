@@ -3,24 +3,27 @@
 # This file is distributed under the same license as the Pamac package.
 # Guillaume Benoit <guillaume@manjaro.org>, 2013-2014.
 #
-#, fuzzy
+# Translators:
+# sivananda <kotagirisivananda@gmail.com>, 2014
+# sivananda <kotagirisivananda@gmail.com>, 2014
 msgid ""
 msgstr ""
-"Project-Id-Version: pamac 2.0\n"
+"Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-10-23 15:09+0100\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"PO-Revision-Date: 2014-03-05 22:14+0000\n"
+"Last-Translator: manjarolinux <philm@manjaro.org>\n"
+"Language-Team: Hindi (http://www.transifex.com/projects/p/manjaro-pamac/"
+"language/hi/)\n"
+"Language: hi\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: data/polkit/org.manjaro.pamac.policy:10
 msgid "Authentication is required"
-msgstr ""
-
+msgstr "प्रमाणीकरण की आवश्यकता है"
 
 #: resources/choose_provider_dialog.ui:7
 msgid "Choose a Provider"
@@ -33,12 +36,13 @@ msgstr ""
 
 #: resources/packages_chooser_dialog.ui:7 resources/manager_window.ui:775
 msgid "Install local packages"
-msgstr ""
+msgstr "स्थानीय संकुल स्थापित करें"
 
 #: resources/packages_chooser_dialog.ui:29 resources/progress_dialog.ui:29
 #: resources/transaction_sum_dialog.ui:21
+#, fuzzy
 msgid "_Cancel"
-msgstr ""
+msgstr "रद्द करें"
 
 #: resources/packages_chooser_dialog.ui:42
 msgid "_Open"
@@ -46,7 +50,7 @@ msgstr ""
 
 #: resources/progress_dialog.ui:7
 msgid "Progress"
-msgstr ""
+msgstr "प्रगति"
 
 #: resources/progress_dialog.ui:41 resources/history_dialog.ui:23
 #: resources/transaction_info_dialog.ui:21 resources/updater_window.ui:163
@@ -57,19 +61,19 @@ msgstr ""
 #: resources/progress_dialog.ui:91 resources/transaction_info_dialog.ui:81
 #: resources/manager_window.ui:707
 msgid "Details"
-msgstr ""
+msgstr "विवरण"
 
 #: resources/history_dialog.ui:7
 msgid "Pamac History"
-msgstr ""
+msgstr "Pamac इतिहास"
 
 #: resources/transaction_sum_dialog.ui:6 src/transaction.vala:359
 msgid "Transaction Summary"
-msgstr ""
+msgstr "गतिविधि सारांश"
 
 #: resources/manager_window.ui:14 src/tray.vala:76
 msgid "Package Manager"
-msgstr ""
+msgstr "संकुल प्रबंधक"
 
 #: resources/manager_window.ui:23
 msgid "Refresh databases"
@@ -77,7 +81,7 @@ msgstr ""
 
 #: resources/manager_window.ui:47
 msgid "Apply changes"
-msgstr ""
+msgstr "परिवर्तन लागू करें"
 
 #: resources/manager_window.ui:71
 msgid "Cancel all planned changes"
@@ -85,39 +89,40 @@ msgstr ""
 
 #: resources/manager_window.ui:170
 msgid "Search in AUR"
-msgstr ""
+msgstr "AUR में खोज"
 
 #: resources/manager_window.ui:234
 msgid "Search"
-msgstr ""
+msgstr "खोज"
 
 #: resources/manager_window.ui:279 src/manager_window.vala:337
 msgid "Groups"
-msgstr ""
+msgstr "समूह"
 
 #: resources/manager_window.ui:325 resources/manager_window.ui:418
 msgid "State"
-msgstr ""
+msgstr "राज्य"
 
 #: resources/manager_window.ui:371
+#, fuzzy
 msgid "Repositories"
-msgstr ""
+msgstr "कोष"
 
 #: resources/manager_window.ui:433
 msgid "Name"
-msgstr ""
+msgstr "नाम"
 
 #: resources/manager_window.ui:448
 msgid "Version"
-msgstr ""
+msgstr "संस्करण"
 
 #: resources/manager_window.ui:463 src/manager_window.vala:329
 msgid "Repository"
-msgstr ""
+msgstr "कोष"
 
 #: resources/manager_window.ui:478
 msgid "Size"
-msgstr ""
+msgstr "आकार"
 
 #: resources/manager_window.ui:582
 msgid "Description"
@@ -129,11 +134,11 @@ msgstr ""
 
 #: resources/manager_window.ui:740
 msgid "Files"
-msgstr ""
+msgstr "फ़ाइलें"
 
 #: resources/manager_window.ui:767
 msgid "View History"
-msgstr ""
+msgstr "इतिहास देखें"
 
 #: resources/manager_window.ui:783 resources/updater_window.ui:108
 msgid "_Preferences"
@@ -146,11 +151,12 @@ msgstr ""
 #: resources/updater_window.ui:14 src/tray.vala:73 src/tray.vala:163
 #: src/tray.vala:235
 msgid "Update Manager"
-msgstr ""
+msgstr "अद्यतन प्रबंधक"
 
 #: resources/updater_window.ui:135
+#, fuzzy
 msgid "_Refresh"
-msgstr ""
+msgstr "रिफ्रेशिंग"
 
 #: resources/updater_window.ui:149
 msgid "_Apply"
@@ -162,29 +168,31 @@ msgstr ""
 
 #: resources/preferences_dialog.ui:71
 msgid "Enable AUR support"
-msgstr ""
+msgstr "AUR समर्थन सक्रिय"
 
 #: resources/preferences_dialog.ui:84
 msgid "Allow Pamac to search and install packages from AUR"
-msgstr ""
+msgstr "Pamac AUR से संकुल को खोजने और स्थापित करने की अनुमति"
 
 #: resources/preferences_dialog.ui:102
 msgid "Remove unrequired dependencies"
-msgstr ""
+msgstr "संयुक्त राष्ट्र आवश्यक निर्भरता निकालें"
 
 #: resources/preferences_dialog.ui:115
+#, fuzzy
 msgid ""
 "When removing a package, also remove its dependencies that are not required "
 "by other packages"
 msgstr ""
+"एक पैकेज को दूर करते हैं, तो भी अन्य संकुल द्वारा की आवश्यकता नहीं है कि उन निर्भरता को दूर"
 
 #: resources/preferences_dialog.ui:149 src/preferences_dialog.vala:37
 msgid "How often to check for updates, value in hours"
-msgstr ""
+msgstr "घंटे में अपडेट, मूल्य के लिए जाँच करने के लिए कितनी बार"
 
 #: resources/preferences_dialog.ui:173
 msgid "Options"
-msgstr ""
+msgstr "विकल्प"
 
 #: src/packages_chooser_dialog.vala:32
 msgid "Packages"
@@ -254,7 +262,7 @@ msgstr ""
 
 #: src/daemon.vala:442
 msgid "Authentication failed"
-msgstr ""
+msgstr "सत्यापन विफल"
 
 #: src/transaction.vala:164
 msgid "Synchronizing package databases"
@@ -266,7 +274,7 @@ msgstr ""
 
 #: src/transaction.vala:259
 msgid "Preparing"
-msgstr ""
+msgstr "तैयारी"
 
 #: src/transaction.vala:331
 #, c-format
@@ -276,32 +284,33 @@ msgstr ""
 #: src/transaction.vala:389 src/manager_window.vala:188
 #: src/manager_window.vala:731
 msgid "To remove"
-msgstr ""
+msgstr "निकालने के लिए"
 
 #: src/transaction.vala:402
 msgid "To downgrade"
-msgstr ""
+msgstr "डाउनग्रेड करने के लिए"
 
 #: src/transaction.vala:415
 msgid "To build"
-msgstr ""
+msgstr "निर्माण करने के लिए"
 
 #: src/transaction.vala:428 src/manager_window.vala:187
 #: src/manager_window.vala:720
 msgid "To install"
-msgstr ""
+msgstr "स्थापित करने के लिए"
 
 #: src/transaction.vala:441
 msgid "To reinstall"
-msgstr ""
+msgstr "पुन: स्थापित करने के लिए"
 
 #: src/transaction.vala:455
 msgid "To update"
-msgstr ""
+msgstr "अद्यतन करने के लिए"
 
 #: src/transaction.vala:468 src/updater_window.vala:179
+#, fuzzy
 msgid "Total download size"
-msgstr ""
+msgstr "कुल डाउनलोड आकार"
 
 #: src/transaction.vala:485
 msgid "Building packages"
@@ -309,94 +318,95 @@ msgstr ""
 
 #: src/transaction.vala:542
 msgid "Checking dependencies"
-msgstr ""
+msgstr "निर्भरता जाँच हो रही है"
 
 #: src/transaction.vala:547
 msgid "Checking file conflicts"
-msgstr ""
+msgstr "फ़ाइल विरोध जाँच हो रही है"
 
 #: src/transaction.vala:552
 msgid "Resolving dependencies"
-msgstr ""
+msgstr "निर्भरता हल"
 
 #: src/transaction.vala:557
+#, fuzzy
 msgid "Checking inter-conflicts"
-msgstr ""
+msgstr "इंटर संघर्ष जाँच हो रही है"
 
 #: src/transaction.vala:564 src/transaction.vala:566
 #, c-format
 msgid "Installing %s"
-msgstr ""
+msgstr "का अधिष्ठापन %s"
 
 #: src/transaction.vala:572 src/transaction.vala:574
 #, c-format
 msgid "Reinstalling %s"
-msgstr ""
+msgstr "स्थापित करने पुन %s"
 
 #: src/transaction.vala:580 src/transaction.vala:582
 #, c-format
 msgid "Removing %s"
-msgstr ""
+msgstr "हटा रहा है %s"
 
 #: src/transaction.vala:588 src/transaction.vala:590
 #, c-format
 msgid "Upgrading %s"
-msgstr ""
+msgstr "उन्नयन %s"
 
 #: src/transaction.vala:596 src/transaction.vala:598
 #, c-format
 msgid "Downgrading %s"
-msgstr ""
+msgstr "पदावनति %s"
 
 #: src/transaction.vala:602
 msgid "Checking integrity"
-msgstr ""
+msgstr "अखंडता की जाँच"
 
 #: src/transaction.vala:608
 msgid "Checking keyring"
-msgstr ""
+msgstr "कीरिंग जाँच हो रही है"
 
 #: src/transaction.vala:613
 msgid "Downloading required keys"
-msgstr ""
+msgstr "आवश्यक चाबियाँ डाउनलोड कर रहा है"
 
 #: src/transaction.vala:618
 msgid "Loading packages files"
-msgstr ""
+msgstr "लोड हो रहा है संकुल फाइलें"
 
 #: src/transaction.vala:623
 msgid "Checking delta integrity"
-msgstr ""
+msgstr "डेल्टा अखंडता की जाँच"
 
 #: src/transaction.vala:628
 msgid "Applying deltas"
-msgstr ""
+msgstr "डेल्टा लागू करना"
 
 #: src/transaction.vala:633
 #, c-format
 msgid "Generating %s with %s"
-msgstr ""
+msgstr "साथ %s सृजन %s"
 
 #: src/transaction.vala:638
 msgid "Generation succeeded"
-msgstr ""
+msgstr "जनरेशन सफल रहा"
 
 #: src/transaction.vala:643
 msgid "Generation failed"
-msgstr ""
+msgstr "जनरेशन में विफल रहा है"
 
 #: src/transaction.vala:648
 #, c-format
 msgid "Configuring %s"
-msgstr ""
+msgstr "का विन्यास %s"
 
 #: src/transaction.vala:654
 msgid "Downloading"
-msgstr ""
+msgstr "डाउनलोडिंग"
 
 #: src/transaction.vala:659
 msgid "Checking available disk space"
-msgstr ""
+msgstr "उपलब्ध डिस्क स्थान जाँच हो रही है"
 
 #: src/transaction.vala:664
 #, c-format
@@ -411,12 +421,12 @@ msgstr ""
 #: src/transaction.vala:719
 #, c-format
 msgid "Refreshing %s"
-msgstr ""
+msgstr "रिफ्रेशिंग %s"
 
 #: src/transaction.vala:721
 #, c-format
 msgid "Downloading %s"
-msgstr ""
+msgstr "डाउनलोड कर रहा है %s"
 
 #: src/transaction.vala:758 src/transaction.vala:772
 msgid "Warning"
@@ -433,28 +443,29 @@ msgstr ""
 
 #: src/transaction.vala:881
 msgid "Nothing to do"
-msgstr ""
+msgstr "ऐसा करने के लिए कुछ भी नहीं"
 
 #: src/transaction.vala:901 src/transaction.vala:917
 msgid "Transaction successfully finished"
-msgstr ""
+msgstr "लेन - देन सफलतापूर्वक समाप्त"
 
 #: src/tray.vala:24 src/updater_window.vala:175
 #, c-format
 msgid "%u available updates"
-msgstr ""
+msgstr "%u उपलब्ध अद्यतन"
 
 #: src/tray.vala:25 src/updater_window.vala:172
 msgid "1 available update"
-msgstr ""
+msgstr "1 उपलब्ध अद्यतन"
 
 #: src/tray.vala:27 src/updater_window.vala:56 src/updater_window.vala:169
 msgid "Your system is up-to-date"
-msgstr ""
+msgstr "आपका सिस्टम है अप करने की तारीख"
 
 #: src/tray.vala:79
+#, fuzzy
 msgid "_Quit"
-msgstr ""
+msgstr "छोड़ना"
 
 #: src/tray.vala:164
 msgid "Show available updates"
@@ -462,95 +473,204 @@ msgstr ""
 
 #: src/manager_window.vala:180 src/manager_window.vala:777
 msgid "local"
-msgstr ""
+msgstr "स्थानीय"
 
 #: src/manager_window.vala:184 src/manager_window.vala:251
 #: src/manager_window.vala:263 src/manager_window.vala:737
 msgid "Installed"
-msgstr ""
+msgstr "स्थापित"
 
 #: src/manager_window.vala:186 src/manager_window.vala:751
 msgid "Orphans"
-msgstr ""
+msgstr "अनाथ"
 
 #: src/manager_window.vala:211
 msgid "Licenses"
-msgstr ""
+msgstr "लाइसेंस"
 
 #: src/manager_window.vala:233
 msgid "Depends On"
-msgstr ""
+msgstr "पर निर्भर करता है"
 
 #: src/manager_window.vala:253
+#, fuzzy
 msgid "Optional Dependencies"
-msgstr ""
+msgstr "वैकल्पिक deps"
 
 #: src/manager_window.vala:273
 msgid "Required By"
-msgstr ""
+msgstr "द्वारा जरूरी"
 
 #: src/manager_window.vala:287
 msgid "Provides"
-msgstr ""
+msgstr "प्रदान करता है"
 
 #: src/manager_window.vala:300
 msgid "Replaces"
-msgstr ""
+msgstr "के स्थान"
 
 #: src/manager_window.vala:313
 msgid "Conflicts With"
-msgstr ""
+msgstr "इसके साथ मतभेद"
 
 #: src/manager_window.vala:347
 msgid "Packager"
-msgstr ""
+msgstr "Packager"
 
 #: src/manager_window.vala:353
 msgid "Install Date"
-msgstr ""
+msgstr "तिथि स्थापित करें"
 
 #: src/manager_window.vala:357
 msgid "Explicitly installed"
-msgstr ""
+msgstr "स्पष्ट रूप से स्थापित"
 
 #: src/manager_window.vala:359
 msgid "Installed as a dependency for another package"
-msgstr ""
+msgstr "एक और पैकेज के लिए एक निर्भरता के रूप में स्थापित"
 
 #: src/manager_window.vala:361
 msgid "Unknown"
-msgstr ""
+msgstr "अज्ञात"
 
 #: src/manager_window.vala:363
 msgid "Install Reason"
-msgstr ""
+msgstr "कारण स्थापित करें"
 
 #: src/manager_window.vala:368
 msgid "Signatures"
-msgstr ""
+msgstr "हस्ताक्षर"
 
 #: src/manager_window.vala:376
 msgid "Backup files"
-msgstr ""
+msgstr "बैकअप फाइलें"
 
 #: src/manager_window.vala:497
 msgid "No package found"
-msgstr ""
+msgstr "कोई पैकेज नहीं मिला"
 
 #: src/manager_window.vala:739
 msgid "Uninstalled"
-msgstr ""
+msgstr "स्थापना हटाई"
 
 #: src/manager_window.vala:888
+#, fuzzy
 msgid "A Gtk3 frontend for libalpm"
-msgstr ""
+msgstr "libalpm के लिए एक gtk3 दृश्यपटल"
 
 #: src/common.vala:48
-#, c-format
+#, fuzzy, c-format
 msgid "%.0f KiB"
-msgstr ""
+msgstr "%.0f KiB"
 
 #: src/common.vala:51
 #, c-format
 msgid "%.2f MiB"
-msgstr ""
+msgstr "%.2f MiB"
+
+#~ msgid "%s will be replaced by %s"
+#~ msgstr "%s %s द्वारा प्रतिस्थापित किया जाएगा"
+
+#~ msgid "%s conflicts with %s"
+#~ msgstr "%s के साथ %s संघर्ष"
+
+#~ msgid "%s is not a valid path or package name"
+#~ msgstr "%s एक मान्य पथ या पैकेज नाम नहीं है"
+
+#~ msgid ""
+#~ "The transaction cannot be performed because it needs to remove %s which "
+#~ "is a locked package"
+#~ msgstr "यह एक बंद पैकेज है जो %s हटाने की जरूरत है क्योंकि लेन - देन नहीं किया जा सकता"
+
+#~ msgid "Compressed Size"
+#~ msgstr "संपीड़ित आकार"
+
+#~ msgid "Download Size"
+#~ msgstr "डाउनलोड का आकार"
+
+#~ msgid "Installed Size"
+#~ msgstr "स्थापित आकार"
+
+#~ msgid "Architecture"
+#~ msgstr "आर्किटेक्चर"
+
+#~ msgid ""
+#~ "%s has %u uninstalled optional deps.\n"
+#~ "Please choose those you would like to install:"
+#~ msgstr ""
+#~ "%s %u वैकल्पिक deps स्थापना हटाई है. \n"
+#~ "आप को स्थापित करना चाहते हैं उन का चयन करें"
+
+#~ msgid "Deselect"
+#~ msgstr "अचयनित"
+
+#~ msgid "Remove"
+#~ msgstr "हटाना"
+
+#~ msgid "Reinstall"
+#~ msgstr "पुन: स्थापित करें"
+
+#~ msgid "Install optional deps"
+#~ msgstr "वैकल्पिक deps स्थापित करें"
+
+#~ msgid "Install"
+#~ msgstr "स्थापित करें"
+
+#~ msgid "Install with optional deps"
+#~ msgstr "वैकल्पिक deps साथ स्थापित करें"
+
+#~ msgid "Pamac is already running"
+#~ msgstr "Pamac पहले से ही चल रहा है"
+
+#~ msgid ""
+#~ "Some updates are available.\n"
+#~ "Please update your system first"
+#~ msgstr ""
+#~ "कुछ अद्यतन उपलब्ध हैं. \n"
+#~ "आपके सिस्टम पहले अपडेट करें"
+
+#~ msgid ""
+#~ "%s is provided by %u packages.\n"
+#~ "Please choose those you would like to install:"
+#~ msgstr ""
+#~ "%s %u संकुल द्वारा प्रदान की जाती है. \n"
+#~ "आप को स्थापित करना चाहते हैं उन का चयन करें"
+
+#~ msgid "%s depends on %s but it is not installable"
+#~ msgstr "%s %s पर निर्भर करता है लेकिन यह स्थापना योग्य नहीं है"
+
+#~ msgid "Failed to get %s archive from AUR"
+#~ msgstr "AUR से %s पुरालेख पाने में विफल"
+
+#~ msgid "Build process failed."
+#~ msgstr "निर्माण प्रक्रिया में विफल रहा है."
+
+#~ msgid "Checking for updates"
+#~ msgstr "अद्यतन के लिए जाँच हो रही है"
+
+#~ msgid "About Pamac"
+#~ msgstr "Pamac बारे में"
+
+#~ msgid "Copyright © 2013 Guillaume Benoit"
+#~ msgstr "Copyright © 2013 Guillaume Benoit"
+
+#~ msgid "Repos"
+#~ msgstr "आराम"
+
+#~ msgid "Repo"
+#~ msgstr "रेपो"
+
+#~ msgid "Infos"
+#~ msgstr "जानकारी"
+
+#~ msgid "Deps"
+#~ msgstr "Deps"
+
+#~ msgid "details"
+#~ msgstr "विवरण"
+
+#~ msgid "Choose"
+#~ msgstr "चुनें"
+
+#~ msgid "Summary"
+#~ msgstr "सारांश"

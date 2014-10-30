@@ -3,24 +3,26 @@
 # This file is distributed under the same license as the Pamac package.
 # Guillaume Benoit <guillaume@manjaro.org>, 2013-2014.
 #
-#, fuzzy
+# Translators:
+# anderflash <nocturne.pe@gmail.com>, 2013
 msgid ""
 msgstr ""
-"Project-Id-Version: pamac 2.0\n"
+"Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-10-23 15:09+0100\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"PO-Revision-Date: 2014-03-05 22:14+0000\n"
+"Last-Translator: manjarolinux <philm@manjaro.org>\n"
+"Language-Team: Esperanto (http://www.transifex.com/projects/p/manjaro-pamac/"
+"language/eo/)\n"
+"Language: eo\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: data/polkit/org.manjaro.pamac.policy:10
 msgid "Authentication is required"
 msgstr ""
-
 
 #: resources/choose_provider_dialog.ui:7
 msgid "Choose a Provider"
@@ -46,7 +48,7 @@ msgstr ""
 
 #: resources/progress_dialog.ui:7
 msgid "Progress"
-msgstr ""
+msgstr "Progreso"
 
 #: resources/progress_dialog.ui:41 resources/history_dialog.ui:23
 #: resources/transaction_info_dialog.ui:21 resources/updater_window.ui:163
@@ -57,7 +59,7 @@ msgstr ""
 #: resources/progress_dialog.ui:91 resources/transaction_info_dialog.ui:81
 #: resources/manager_window.ui:707
 msgid "Details"
-msgstr ""
+msgstr "Detaloj"
 
 #: resources/history_dialog.ui:7
 msgid "Pamac History"
@@ -69,7 +71,7 @@ msgstr ""
 
 #: resources/manager_window.ui:14 src/tray.vala:76
 msgid "Package Manager"
-msgstr ""
+msgstr "Pakaĵo Administranto"
 
 #: resources/manager_window.ui:23
 msgid "Refresh databases"
@@ -89,35 +91,36 @@ msgstr ""
 
 #: resources/manager_window.ui:234
 msgid "Search"
-msgstr ""
+msgstr "Ŝerĉi"
 
 #: resources/manager_window.ui:279 src/manager_window.vala:337
 msgid "Groups"
-msgstr ""
+msgstr "Grupoj"
 
 #: resources/manager_window.ui:325 resources/manager_window.ui:418
 msgid "State"
-msgstr ""
+msgstr "Stato"
 
 #: resources/manager_window.ui:371
+#, fuzzy
 msgid "Repositories"
-msgstr ""
+msgstr "Deponejo"
 
 #: resources/manager_window.ui:433
 msgid "Name"
-msgstr ""
+msgstr "Nomo"
 
 #: resources/manager_window.ui:448
 msgid "Version"
-msgstr ""
+msgstr "Versio"
 
 #: resources/manager_window.ui:463 src/manager_window.vala:329
 msgid "Repository"
-msgstr ""
+msgstr "Deponejo"
 
 #: resources/manager_window.ui:478
 msgid "Size"
-msgstr ""
+msgstr "Grando"
 
 #: resources/manager_window.ui:582
 msgid "Description"
@@ -129,7 +132,7 @@ msgstr ""
 
 #: resources/manager_window.ui:740
 msgid "Files"
-msgstr ""
+msgstr "Dosieroj"
 
 #: resources/manager_window.ui:767
 msgid "View History"
@@ -146,11 +149,12 @@ msgstr ""
 #: resources/updater_window.ui:14 src/tray.vala:73 src/tray.vala:163
 #: src/tray.vala:235
 msgid "Update Manager"
-msgstr ""
+msgstr "Ĝisdatigo Administranto"
 
 #: resources/updater_window.ui:135
+#, fuzzy
 msgid "_Refresh"
-msgstr ""
+msgstr "Refreŝiganta"
 
 #: resources/updater_window.ui:149
 msgid "_Apply"
@@ -266,7 +270,7 @@ msgstr ""
 
 #: src/transaction.vala:259
 msgid "Preparing"
-msgstr ""
+msgstr "Preparanta"
 
 #: src/transaction.vala:331
 #, c-format
@@ -276,11 +280,11 @@ msgstr ""
 #: src/transaction.vala:389 src/manager_window.vala:188
 #: src/manager_window.vala:731
 msgid "To remove"
-msgstr ""
+msgstr "Forigi"
 
 #: src/transaction.vala:402
 msgid "To downgrade"
-msgstr ""
+msgstr "Reveni"
 
 #: src/transaction.vala:415
 msgid "To build"
@@ -289,19 +293,20 @@ msgstr ""
 #: src/transaction.vala:428 src/manager_window.vala:187
 #: src/manager_window.vala:720
 msgid "To install"
-msgstr ""
+msgstr "Instali"
 
 #: src/transaction.vala:441
 msgid "To reinstall"
-msgstr ""
+msgstr "Reinstali"
 
 #: src/transaction.vala:455
 msgid "To update"
-msgstr ""
+msgstr "Ĝisdatigi"
 
 #: src/transaction.vala:468 src/updater_window.vala:179
+#, fuzzy
 msgid "Total download size"
-msgstr ""
+msgstr "Elŝuto Grando"
 
 #: src/transaction.vala:485
 msgid "Building packages"
@@ -309,19 +314,20 @@ msgstr ""
 
 #: src/transaction.vala:542
 msgid "Checking dependencies"
-msgstr ""
+msgstr "Kontrolanta Dependecojn"
 
 #: src/transaction.vala:547
 msgid "Checking file conflicts"
-msgstr ""
+msgstr "Kontrolanta dosierajn konfliktojn"
 
 #: src/transaction.vala:552
 msgid "Resolving dependencies"
-msgstr ""
+msgstr "Solvanta Dependecojn"
 
 #: src/transaction.vala:557
+#, fuzzy
 msgid "Checking inter-conflicts"
-msgstr ""
+msgstr "Kontrolanta interkonfliktojn"
 
 #: src/transaction.vala:564 src/transaction.vala:566
 #, c-format
@@ -350,7 +356,7 @@ msgstr ""
 
 #: src/transaction.vala:602
 msgid "Checking integrity"
-msgstr ""
+msgstr "Kontrolanta integrecon"
 
 #: src/transaction.vala:608
 msgid "Checking keyring"
@@ -362,7 +368,7 @@ msgstr ""
 
 #: src/transaction.vala:618
 msgid "Loading packages files"
-msgstr ""
+msgstr "Ŝarĝanta pakaĵajn dosierojn"
 
 #: src/transaction.vala:623
 msgid "Checking delta integrity"
@@ -433,24 +439,24 @@ msgstr ""
 
 #: src/transaction.vala:881
 msgid "Nothing to do"
-msgstr ""
+msgstr "Nenio por fari"
 
 #: src/transaction.vala:901 src/transaction.vala:917
 msgid "Transaction successfully finished"
-msgstr ""
+msgstr "Finita sukcese transakcio"
 
 #: src/tray.vala:24 src/updater_window.vala:175
 #, c-format
 msgid "%u available updates"
-msgstr ""
+msgstr "%u disponeblaj ĝisdatigoj"
 
 #: src/tray.vala:25 src/updater_window.vala:172
 msgid "1 available update"
-msgstr ""
+msgstr "1 disponebla ĝisdatigo"
 
 #: src/tray.vala:27 src/updater_window.vala:56 src/updater_window.vala:169
 msgid "Your system is up-to-date"
-msgstr ""
+msgstr "Via sistemo estas ĝisdatigata"
 
 #: src/tray.vala:79
 msgid "_Quit"
@@ -462,95 +468,155 @@ msgstr ""
 
 #: src/manager_window.vala:180 src/manager_window.vala:777
 msgid "local"
-msgstr ""
+msgstr "loka"
 
 #: src/manager_window.vala:184 src/manager_window.vala:251
 #: src/manager_window.vala:263 src/manager_window.vala:737
 msgid "Installed"
-msgstr ""
+msgstr "Instalita"
 
 #: src/manager_window.vala:186 src/manager_window.vala:751
 msgid "Orphans"
-msgstr ""
+msgstr "Orfoj"
 
 #: src/manager_window.vala:211
 msgid "Licenses"
-msgstr ""
+msgstr "Permesiloj"
 
 #: src/manager_window.vala:233
 msgid "Depends On"
-msgstr ""
+msgstr "Dependas De"
 
 #: src/manager_window.vala:253
+#, fuzzy
 msgid "Optional Dependencies"
-msgstr ""
+msgstr "Laŭvolaj Dependecoj"
 
 #: src/manager_window.vala:273
 msgid "Required By"
-msgstr ""
+msgstr "Postulata De"
 
 #: src/manager_window.vala:287
 msgid "Provides"
-msgstr ""
+msgstr "Provizas"
 
 #: src/manager_window.vala:300
 msgid "Replaces"
-msgstr ""
+msgstr "Anstataŭigas"
 
 #: src/manager_window.vala:313
 msgid "Conflicts With"
-msgstr ""
+msgstr "Konfliktas Kun"
 
 #: src/manager_window.vala:347
 msgid "Packager"
-msgstr ""
+msgstr "Pakaĵkreanto"
 
 #: src/manager_window.vala:353
 msgid "Install Date"
-msgstr ""
+msgstr "Instalo Dato"
 
 #: src/manager_window.vala:357
 msgid "Explicitly installed"
-msgstr ""
+msgstr "Eksplicite instalita"
 
 #: src/manager_window.vala:359
 msgid "Installed as a dependency for another package"
-msgstr ""
+msgstr "Instalita kiel dependeco por alia pakaĵo"
 
 #: src/manager_window.vala:361
 msgid "Unknown"
-msgstr ""
+msgstr "Nekonata"
 
 #: src/manager_window.vala:363
 msgid "Install Reason"
-msgstr ""
+msgstr "Instalo Kialo"
 
 #: src/manager_window.vala:368
 msgid "Signatures"
-msgstr ""
+msgstr "Subskriboj"
 
 #: src/manager_window.vala:376
 msgid "Backup files"
-msgstr ""
+msgstr "Kopisekurecaj Dosieroj"
 
 #: src/manager_window.vala:497
 msgid "No package found"
-msgstr ""
+msgstr "Neniu pakaĵo trovita"
 
 #: src/manager_window.vala:739
 msgid "Uninstalled"
-msgstr ""
+msgstr "Neinstalita"
 
 #: src/manager_window.vala:888
 msgid "A Gtk3 frontend for libalpm"
 msgstr ""
 
 #: src/common.vala:48
-#, c-format
+#, fuzzy, c-format
 msgid "%.0f KiB"
-msgstr ""
+msgstr "%.0f KiB"
 
 #: src/common.vala:51
 #, c-format
 msgid "%.2f MiB"
-msgstr ""
+msgstr "%.2f MiB"
+
+#~ msgid "%s is not a valid path or package name"
+#~ msgstr "%s ne estas valida vojo aŭ pakaĵa nomo"
+
+#~ msgid ""
+#~ "The transaction cannot be performed because it needs to remove %s which "
+#~ "is a locked package"
+#~ msgstr ""
+#~ "La transakcio ne povas esti plenumita ĉar ĝi bezonas forigi %s kiu estas "
+#~ "ŝlosita pakaĵo"
+
+#~ msgid "Compressed Size"
+#~ msgstr "Grando Kunpremata"
+
+#~ msgid "Installed Size"
+#~ msgstr "Instalo Grando"
+
+#~ msgid "Architecture"
+#~ msgstr "Arkitekturo"
+
+#~ msgid "Remove"
+#~ msgstr "Forigi"
+
+#~ msgid "Reinstall"
+#~ msgstr "Reinstali"
+
+#~ msgid "Install optional deps"
+#~ msgstr "Instali laŭvolajn dependecojn"
+
+#~ msgid "Install"
+#~ msgstr "Instali"
+
+#~ msgid "Install with optional deps"
+#~ msgstr "Instali kun laŭvolaj dependecoj"
+
+#~ msgid "Pamac is already running"
+#~ msgstr "Pamac jam estas ekzekutanta."
+
+#~ msgid ""
+#~ "Some updates are available.\n"
+#~ "Please update your system first"
+#~ msgstr ""
+#~ "Kelkaj ĝisdatigoj estas disponeblaj.\n"
+#~ "Bonvolu ĝisdatigi vian sistemon unue"
+
+#~ msgid "Repos"
+#~ msgstr "Deponejoj"
+
+#~ msgid "Infos"
+#~ msgstr "Informoj"
+
+#~ msgid "Deps"
+#~ msgstr "Dependecoj"
+
+#~ msgid "Choose"
+#~ msgstr "Elektu"
+
+#~ msgid "Summary"
+#~ msgstr "Resumo"
