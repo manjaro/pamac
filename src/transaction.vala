@@ -647,7 +647,7 @@ namespace Pamac {
 				case Event.SCRIPTLET_INFO:
 					progress_dialog.action_label.set_text (dgettext (null, "Configuring %s").printf (previous_filename) + "...");
 					progress_dialog.expander.set_expanded (true);
-					spawn_in_term ({"/usr/bin/echo", details[0]});
+					spawn_in_term ({"/usr/bin/echo", "-n", details[0]});
 					break;
 				case Event.RETRIEVE_START:
 					progress_dialog.cancel_button.set_visible (true);
@@ -755,11 +755,11 @@ namespace Pamac {
 			string? line = null;
 			TextIter end_iter;
 			if ((Alpm.LogLevel) level == Alpm.LogLevel.WARNING) {
-				line = dgettext (null, "Warning") + ": " + msg;
+				line = dgettext (null, "Warning") + ": " + previous_filename + ": " + msg;
 				transaction_info_dialog.textbuffer.get_end_iter (out end_iter);
 				transaction_info_dialog.textbuffer.insert (ref end_iter, msg, msg.length);
 			} else if ((Alpm.LogLevel) level == Alpm.LogLevel.ERROR) {
-				line = dgettext (null, "Error") + ": " + msg;
+				line = dgettext (null, "Error") + ": " + previous_filename + ": " + msg;
 			}
 			if (line != null) {
 				progress_dialog.expander.set_expanded (true);

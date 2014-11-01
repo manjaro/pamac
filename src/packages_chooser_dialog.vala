@@ -29,8 +29,7 @@ namespace Pamac {
 			Object (transient_for: window, use_header_bar: 0);
 
 			Gtk.FileFilter package_filter = new Gtk.FileFilter ();
-			package_filter.set_filter_name (dgettext (null, "Packages"));
-			package_filter.add_pattern ("*.pkg.tar.gz");
+			package_filter.set_filter_name (dgettext (null, "Alpm Package"));
 			package_filter.add_pattern ("*.pkg.tar.xz");
 			this.add_filter (package_filter);
 

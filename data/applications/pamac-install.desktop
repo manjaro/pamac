@@ -128,4 +128,4 @@ Type=Application
 Icon=system-software-install
 StartupNotify=true
 NoDisplay=true
-MimeType=application/x-xz-compressed-tar;
+MimeType=application/x-alpm-package;
