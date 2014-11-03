@@ -94,7 +94,7 @@ msgstr "Tìm trên AUR"
 msgid "Search"
 msgstr "Tìm"
 
-#: resources/manager_window.ui:279 src/manager_window.vala:337
+#: resources/manager_window.ui:279 src/manager_window.vala:339
 msgid "Groups"
 msgstr "Nhóm"
 
@@ -115,7 +115,7 @@ msgstr "Tên"
 msgid "Version"
 msgstr "Phiên bản"
 
-#: resources/manager_window.ui:463 src/manager_window.vala:329
+#: resources/manager_window.ui:463 src/manager_window.vala:331
 msgid "Repository"
 msgstr "Kho"
 
@@ -195,8 +195,9 @@ msgid "Options"
 msgstr "Các tùy chọn"
 
 #: src/packages_chooser_dialog.vala:32
-msgid "Packages"
-msgstr ""
+#, fuzzy
+msgid "Alpm Package"
+msgstr "Người đóng gói"
 
 #: src/daemon.vala:64
 msgid "Failed to initialize alpm library"
@@ -281,8 +282,8 @@ msgstr "Đang chuẩn bị"
 msgid "Choose a provider for %s"
 msgstr ""
 
-#: src/transaction.vala:389 src/manager_window.vala:188
-#: src/manager_window.vala:731
+#: src/transaction.vala:389 src/manager_window.vala:190
+#: src/manager_window.vala:739
 msgid "To remove"
 msgstr "Để gỡ bỏ"
 
@@ -294,8 +295,8 @@ msgstr "Để hạ cấp"
 msgid "To build"
 msgstr "Để tạo"
 
-#: src/transaction.vala:428 src/manager_window.vala:187
-#: src/manager_window.vala:720
+#: src/transaction.vala:428 src/manager_window.vala:189
+#: src/manager_window.vala:728
 msgid "To install"
 msgstr "Để cài đặt"
 
@@ -431,7 +432,8 @@ msgstr "Đang tải về %s"
 msgid "Warning"
 msgstr ""
 
-#: src/transaction.vala:762 src/transaction.vala:791
+#: src/transaction.vala:762 src/transaction.vala:791 src/installer.vala:42
+#: src/manager.vala:41 src/updater.vala:41
 msgid "Error"
 msgstr ""
 
@@ -447,6 +449,10 @@ msgstr "Không có gì để thực hiện"
 #: src/transaction.vala:901 src/transaction.vala:917
 msgid "Transaction successfully finished"
 msgstr "Chuyển giao kết thúc thành công"
+
+#: src/installer.vala:44 src/manager.vala:43 src/updater.vala:43
+msgid "Pamac is already running"
+msgstr "Pamac đang chạy"
 
 #: src/tray.vala:24 src/updater_window.vala:175
 #, c-format
@@ -470,89 +476,89 @@ msgstr "Thoát"
 msgid "Show available updates"
 msgstr ""
 
-#: src/manager_window.vala:180 src/manager_window.vala:777
+#: src/manager_window.vala:182 src/manager_window.vala:785
 msgid "local"
 msgstr "có sẵn"
 
-#: src/manager_window.vala:184 src/manager_window.vala:251
-#: src/manager_window.vala:263 src/manager_window.vala:737
+#: src/manager_window.vala:186 src/manager_window.vala:253
+#: src/manager_window.vala:265 src/manager_window.vala:745
 msgid "Installed"
 msgstr "Đã cài đặt"
 
-#: src/manager_window.vala:186 src/manager_window.vala:751
+#: src/manager_window.vala:188 src/manager_window.vala:759
 msgid "Orphans"
 msgstr "Không liên quan"
 
-#: src/manager_window.vala:211
+#: src/manager_window.vala:213
 msgid "Licenses"
 msgstr "Giấy phép"
 
-#: src/manager_window.vala:233
+#: src/manager_window.vala:235
 msgid "Depends On"
 msgstr "Phụ thuộc vào"
 
-#: src/manager_window.vala:253
+#: src/manager_window.vala:255
 #, fuzzy
 msgid "Optional Dependencies"
 msgstr "Phần phụ thuộc tùy chọn"
 
-#: src/manager_window.vala:273
+#: src/manager_window.vala:275
 msgid "Required By"
 msgstr "Được yêu cầu bởi"
 
-#: src/manager_window.vala:287
+#: src/manager_window.vala:289
 msgid "Provides"
 msgstr "Nhà cung cấp"
 
-#: src/manager_window.vala:300
+#: src/manager_window.vala:302
 msgid "Replaces"
 msgstr "Thay thế"
 
-#: src/manager_window.vala:313
+#: src/manager_window.vala:315
 msgid "Conflicts With"
 msgstr "Xung đột với"
 
-#: src/manager_window.vala:347
+#: src/manager_window.vala:349
 msgid "Packager"
 msgstr "Người đóng gói"
 
-#: src/manager_window.vala:353
+#: src/manager_window.vala:355
 msgid "Install Date"
 msgstr "Ngày cài đặt"
 
-#: src/manager_window.vala:357
+#: src/manager_window.vala:359
 msgid "Explicitly installed"
 msgstr "Đã cài đặt theo chỉ định"
 
-#: src/manager_window.vala:359
+#: src/manager_window.vala:361
 msgid "Installed as a dependency for another package"
 msgstr "Được cài đặt như phần phụ thuộc cho một gói khác"
 
-#: src/manager_window.vala:361
+#: src/manager_window.vala:363
 msgid "Unknown"
 msgstr "Không biết"
 
-#: src/manager_window.vala:363
+#: src/manager_window.vala:365
 msgid "Install Reason"
 msgstr "Lý do cài đặt"
 
-#: src/manager_window.vala:368
+#: src/manager_window.vala:370
 msgid "Signatures"
 msgstr "Chữ ký"
 
-#: src/manager_window.vala:376
+#: src/manager_window.vala:378
 msgid "Backup files"
 msgstr "Tệp tin sao lưu"
 
-#: src/manager_window.vala:497
+#: src/manager_window.vala:499
 msgid "No package found"
 msgstr "Không tìm thấy gói nào"
 
-#: src/manager_window.vala:739
+#: src/manager_window.vala:747
 msgid "Uninstalled"
 msgstr "Đã gỡ bỏ"
 
-#: src/manager_window.vala:888
+#: src/manager_window.vala:896
 #, fuzzy
 msgid "A Gtk3 frontend for libalpm"
 msgstr "Giao diện gtk3 cho libalpm"
@@ -617,9 +623,6 @@ msgstr "%.2f MiB"
 
 #~ msgid "Install with optional deps"
 #~ msgstr "Cài đặt với các phần phụ thuộc tùy chọn"
-
-#~ msgid "Pamac is already running"
-#~ msgstr "Pamac đang chạy"
 
 #~ msgid ""
 #~ "Some updates are available.\n"

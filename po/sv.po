@@ -96,7 +96,7 @@ msgstr "Sök i AUR"
 msgid "Search"
 msgstr "Sök"
 
-#: resources/manager_window.ui:279 src/manager_window.vala:337
+#: resources/manager_window.ui:279 src/manager_window.vala:339
 msgid "Groups"
 msgstr "Grupp"
 
@@ -117,7 +117,7 @@ msgstr "Namn"
 msgid "Version"
 msgstr "Version"
 
-#: resources/manager_window.ui:463 src/manager_window.vala:329
+#: resources/manager_window.ui:463 src/manager_window.vala:331
 msgid "Repository"
 msgstr "Repository"
 
@@ -197,8 +197,9 @@ msgid "Options"
 msgstr "Alternativ"
 
 #: src/packages_chooser_dialog.vala:32
-msgid "Packages"
-msgstr ""
+#, fuzzy
+msgid "Alpm Package"
+msgstr "Pakethanterare"
 
 #: src/daemon.vala:64
 msgid "Failed to initialize alpm library"
@@ -283,8 +284,8 @@ msgstr "Förbereder"
 msgid "Choose a provider for %s"
 msgstr ""
 
-#: src/transaction.vala:389 src/manager_window.vala:188
-#: src/manager_window.vala:731
+#: src/transaction.vala:389 src/manager_window.vala:190
+#: src/manager_window.vala:739
 msgid "To remove"
 msgstr "Ta bort"
 
@@ -296,8 +297,8 @@ msgstr "Att nedgradera"
 msgid "To build"
 msgstr "Att kompilera"
 
-#: src/transaction.vala:428 src/manager_window.vala:187
-#: src/manager_window.vala:720
+#: src/transaction.vala:428 src/manager_window.vala:189
+#: src/manager_window.vala:728
 msgid "To install"
 msgstr "Att installera"
 
@@ -435,7 +436,8 @@ msgstr "Laddar ned %s"
 msgid "Warning"
 msgstr "Varning"
 
-#: src/transaction.vala:762 src/transaction.vala:791
+#: src/transaction.vala:762 src/transaction.vala:791 src/installer.vala:42
+#: src/manager.vala:41 src/updater.vala:41
 msgid "Error"
 msgstr "Error"
 
@@ -451,6 +453,10 @@ msgstr "Inget att göra"
 #: src/transaction.vala:901 src/transaction.vala:917
 msgid "Transaction successfully finished"
 msgstr "Överföring lyckades"
+
+#: src/installer.vala:44 src/manager.vala:43 src/updater.vala:43
+msgid "Pamac is already running"
+msgstr "Pamac körs redan"
 
 #: src/tray.vala:24 src/updater_window.vala:175
 #, c-format
@@ -474,89 +480,89 @@ msgstr "Avsluta"
 msgid "Show available updates"
 msgstr ""
 
-#: src/manager_window.vala:180 src/manager_window.vala:777
+#: src/manager_window.vala:182 src/manager_window.vala:785
 msgid "local"
 msgstr "Lokalt"
 
-#: src/manager_window.vala:184 src/manager_window.vala:251
-#: src/manager_window.vala:263 src/manager_window.vala:737
+#: src/manager_window.vala:186 src/manager_window.vala:253
+#: src/manager_window.vala:265 src/manager_window.vala:745
 msgid "Installed"
 msgstr "Installerad"
 
-#: src/manager_window.vala:186 src/manager_window.vala:751
+#: src/manager_window.vala:188 src/manager_window.vala:759
 msgid "Orphans"
 msgstr "Föräldralösa"
 
-#: src/manager_window.vala:211
+#: src/manager_window.vala:213
 msgid "Licenses"
 msgstr "LIcenser"
 
-#: src/manager_window.vala:233
+#: src/manager_window.vala:235
 msgid "Depends On"
 msgstr "Beroende av"
 
-#: src/manager_window.vala:253
+#: src/manager_window.vala:255
 #, fuzzy
 msgid "Optional Dependencies"
 msgstr "Valfria beroenden"
 
-#: src/manager_window.vala:273
+#: src/manager_window.vala:275
 msgid "Required By"
 msgstr "Krävs av"
 
-#: src/manager_window.vala:287
+#: src/manager_window.vala:289
 msgid "Provides"
 msgstr "Erbjuder"
 
-#: src/manager_window.vala:300
+#: src/manager_window.vala:302
 msgid "Replaces"
 msgstr "Ersätter"
 
-#: src/manager_window.vala:313
+#: src/manager_window.vala:315
 msgid "Conflicts With"
 msgstr "Konflikt med"
 
-#: src/manager_window.vala:347
+#: src/manager_window.vala:349
 msgid "Packager"
 msgstr "Pakethanterare"
 
-#: src/manager_window.vala:353
+#: src/manager_window.vala:355
 msgid "Install Date"
 msgstr "Installationsdatum"
 
-#: src/manager_window.vala:357
+#: src/manager_window.vala:359
 msgid "Explicitly installed"
 msgstr "Särskillt installerad"
 
-#: src/manager_window.vala:359
+#: src/manager_window.vala:361
 msgid "Installed as a dependency for another package"
 msgstr "Installerad som ett beroende för ett annat paket"
 
-#: src/manager_window.vala:361
+#: src/manager_window.vala:363
 msgid "Unknown"
 msgstr "Okänd"
 
-#: src/manager_window.vala:363
+#: src/manager_window.vala:365
 msgid "Install Reason"
 msgstr "Installeringsorsak"
 
-#: src/manager_window.vala:368
+#: src/manager_window.vala:370
 msgid "Signatures"
 msgstr "Signatur"
 
-#: src/manager_window.vala:376
+#: src/manager_window.vala:378
 msgid "Backup files"
 msgstr "Backup filer"
 
-#: src/manager_window.vala:497
+#: src/manager_window.vala:499
 msgid "No package found"
 msgstr "Inget paket hittat"
 
-#: src/manager_window.vala:739
+#: src/manager_window.vala:747
 msgid "Uninstalled"
 msgstr "Avinstallerad"
 
-#: src/manager_window.vala:888
+#: src/manager_window.vala:896
 #, fuzzy
 msgid "A Gtk3 frontend for libalpm"
 msgstr "Ett Gtk3-gränssnitt för libalpm"
@@ -625,9 +631,6 @@ msgstr "%.2f MiB"
 
 #~ msgid "Install with optional deps"
 #~ msgstr "Installera med valda beroenden"
-
-#~ msgid "Pamac is already running"
-#~ msgstr "Pamac körs redan"
 
 #~ msgid ""
 #~ "Some updates are available.\n"

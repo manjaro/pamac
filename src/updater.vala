@@ -20,8 +20,8 @@
 namespace Pamac {
 
 	public class Updater : Gtk.Application {
-
 		UpdaterWindow updater_window;
+		bool pamac_run;
 
 		public Updater () {
 			application_id = "org.manjaro.pamac.updater";
@@ -35,16 +35,52 @@ namespace Pamac {
 
 			base.startup ();
 
-			updater_window = new UpdaterWindow (this);
+			pamac_run = check_pamac_running ();
+			if (pamac_run) {
+				var transaction_info_dialog = new TransactionInfoDialog (null);
+				transaction_info_dialog.set_title (dgettext (null, "Error"));
+				transaction_info_dialog.label.set_visible (true);
+				transaction_info_dialog.label.set_markup (dgettext (null, "Pamac is already running"));
+				transaction_info_dialog.expander.set_visible (false);
+				transaction_info_dialog.run ();
+				transaction_info_dialog.hide ();
+			} else
+				updater_window = new UpdaterWindow (this);
 		}
 
 		public override void activate () {
-			updater_window.present ();
+			if (pamac_run == false)
+				updater_window.present ();
 		}
 
 		public override void shutdown () {
 			base.shutdown ();
-			updater_window.transaction.stop_daemon ();
+			if (pamac_run == false)
+				updater_window.transaction.stop_daemon ();
+		}
+
+		bool check_pamac_running () {
+			Application app;
+			bool run = false;
+			app = new Application ("org.manjaro.pamac.manager", 0);
+			try {
+				app.register ();
+			} catch (GLib.Error e) {
+				stderr.printf ("%s\n", e.message);
+			}
+			run =  app.get_is_remote ();
+			if (run)
+				return run;
+			else {
+				app = new Application ("org.manjaro.pamac.install", 0);
+				try {
+					app.register ();
+				} catch (GLib.Error e) {
+					stderr.printf ("%s\n", e.message);
+				}
+				run =  app.get_is_remote ();
+				return run;
+			}
 		}
 	}
 

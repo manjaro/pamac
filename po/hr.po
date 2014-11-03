@@ -95,7 +95,7 @@ msgstr "Potraži u AUR-u"
 msgid "Search"
 msgstr "Potraži"
 
-#: resources/manager_window.ui:279 src/manager_window.vala:337
+#: resources/manager_window.ui:279 src/manager_window.vala:339
 msgid "Groups"
 msgstr "Grupe"
 
@@ -116,7 +116,7 @@ msgstr "Ime"
 msgid "Version"
 msgstr "Verzija"
 
-#: resources/manager_window.ui:463 src/manager_window.vala:329
+#: resources/manager_window.ui:463 src/manager_window.vala:331
 msgid "Repository"
 msgstr "Repozitorij"
 
@@ -193,7 +193,7 @@ msgid "Options"
 msgstr "Opcije"
 
 #: src/packages_chooser_dialog.vala:32
-msgid "Packages"
+msgid "Alpm Package"
 msgstr ""
 
 #: src/daemon.vala:64
@@ -279,8 +279,8 @@ msgstr "Pripremam"
 msgid "Choose a provider for %s"
 msgstr ""
 
-#: src/transaction.vala:389 src/manager_window.vala:188
-#: src/manager_window.vala:731
+#: src/transaction.vala:389 src/manager_window.vala:190
+#: src/manager_window.vala:739
 msgid "To remove"
 msgstr "Za ukloniti"
 
@@ -292,8 +292,8 @@ msgstr "Unazaditi"
 msgid "To build"
 msgstr ""
 
-#: src/transaction.vala:428 src/manager_window.vala:187
-#: src/manager_window.vala:720
+#: src/transaction.vala:428 src/manager_window.vala:189
+#: src/manager_window.vala:728
 msgid "To install"
 msgstr "Za instalirati"
 
@@ -430,7 +430,8 @@ msgstr ""
 msgid "Warning"
 msgstr ""
 
-#: src/transaction.vala:762 src/transaction.vala:791
+#: src/transaction.vala:762 src/transaction.vala:791 src/installer.vala:42
+#: src/manager.vala:41 src/updater.vala:41
 msgid "Error"
 msgstr ""
 
@@ -446,6 +447,10 @@ msgstr "Ništa za učiniti"
 #: src/transaction.vala:901 src/transaction.vala:917
 msgid "Transaction successfully finished"
 msgstr "Transakcija uspješno završena"
+
+#: src/installer.vala:44 src/manager.vala:43 src/updater.vala:43
+msgid "Pamac is already running"
+msgstr "Pamac je već pokrenut"
 
 #: src/tray.vala:24 src/updater_window.vala:175
 #, c-format
@@ -469,89 +474,89 @@ msgstr "Izađi"
 msgid "Show available updates"
 msgstr ""
 
-#: src/manager_window.vala:180 src/manager_window.vala:777
+#: src/manager_window.vala:182 src/manager_window.vala:785
 msgid "local"
 msgstr "Lokalno"
 
-#: src/manager_window.vala:184 src/manager_window.vala:251
-#: src/manager_window.vala:263 src/manager_window.vala:737
+#: src/manager_window.vala:186 src/manager_window.vala:253
+#: src/manager_window.vala:265 src/manager_window.vala:745
 msgid "Installed"
 msgstr "Instalirano"
 
-#: src/manager_window.vala:186 src/manager_window.vala:751
+#: src/manager_window.vala:188 src/manager_window.vala:759
 msgid "Orphans"
 msgstr ""
 
-#: src/manager_window.vala:211
+#: src/manager_window.vala:213
 msgid "Licenses"
 msgstr "Licence"
 
-#: src/manager_window.vala:233
+#: src/manager_window.vala:235
 msgid "Depends On"
 msgstr "Zavisi o"
 
-#: src/manager_window.vala:253
+#: src/manager_window.vala:255
 #, fuzzy
 msgid "Optional Dependencies"
 msgstr "Provjeravam zavisnosti"
 
-#: src/manager_window.vala:273
+#: src/manager_window.vala:275
 msgid "Required By"
 msgstr ""
 
-#: src/manager_window.vala:287
+#: src/manager_window.vala:289
 msgid "Provides"
 msgstr ""
 
-#: src/manager_window.vala:300
+#: src/manager_window.vala:302
 msgid "Replaces"
 msgstr "Zamjenjuje"
 
-#: src/manager_window.vala:313
+#: src/manager_window.vala:315
 msgid "Conflicts With"
 msgstr "U sukobu s"
 
-#: src/manager_window.vala:347
+#: src/manager_window.vala:349
 msgid "Packager"
 msgstr ""
 
-#: src/manager_window.vala:353
+#: src/manager_window.vala:355
 msgid "Install Date"
 msgstr ""
 
-#: src/manager_window.vala:357
+#: src/manager_window.vala:359
 msgid "Explicitly installed"
 msgstr ""
 
-#: src/manager_window.vala:359
+#: src/manager_window.vala:361
 msgid "Installed as a dependency for another package"
 msgstr ""
 
-#: src/manager_window.vala:361
+#: src/manager_window.vala:363
 msgid "Unknown"
 msgstr "Nepoznato"
 
-#: src/manager_window.vala:363
+#: src/manager_window.vala:365
 msgid "Install Reason"
 msgstr "Razlog za instalaciju"
 
-#: src/manager_window.vala:368
+#: src/manager_window.vala:370
 msgid "Signatures"
 msgstr "Potpisi"
 
-#: src/manager_window.vala:376
+#: src/manager_window.vala:378
 msgid "Backup files"
 msgstr "Pričuvne datoteke"
 
-#: src/manager_window.vala:497
+#: src/manager_window.vala:499
 msgid "No package found"
 msgstr "Paket nije pronađen"
 
-#: src/manager_window.vala:739
+#: src/manager_window.vala:747
 msgid "Uninstalled"
 msgstr "Deinstalirano"
 
-#: src/manager_window.vala:888
+#: src/manager_window.vala:896
 msgid "A Gtk3 frontend for libalpm"
 msgstr ""
 
@@ -585,9 +590,6 @@ msgstr "%.2f MiB"
 
 #~ msgid "Install with optional deps"
 #~ msgstr "Instaliraj s izbornim zavinostima"
-
-#~ msgid "Pamac is already running"
-#~ msgstr "Pamac je već pokrenut"
 
 #~ msgid "Checking for updates"
 #~ msgstr "Provjeravam nadogradnje"

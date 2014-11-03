@@ -96,7 +96,7 @@ msgstr "Hledám v AUR"
 msgid "Search"
 msgstr "Vyhledat"
 
-#: resources/manager_window.ui:279 src/manager_window.vala:337
+#: resources/manager_window.ui:279 src/manager_window.vala:339
 msgid "Groups"
 msgstr "Skupiny"
 
@@ -117,7 +117,7 @@ msgstr "Název"
 msgid "Version"
 msgstr "Verze"
 
-#: resources/manager_window.ui:463 src/manager_window.vala:329
+#: resources/manager_window.ui:463 src/manager_window.vala:331
 msgid "Repository"
 msgstr "Repozitář"
 
@@ -197,8 +197,9 @@ msgid "Options"
 msgstr "Volby"
 
 #: src/packages_chooser_dialog.vala:32
-msgid "Packages"
-msgstr ""
+#, fuzzy
+msgid "Alpm Package"
+msgstr "Balíčkovač"
 
 #: src/daemon.vala:64
 msgid "Failed to initialize alpm library"
@@ -283,8 +284,8 @@ msgstr "Připravuji"
 msgid "Choose a provider for %s"
 msgstr ""
 
-#: src/transaction.vala:389 src/manager_window.vala:188
-#: src/manager_window.vala:731
+#: src/transaction.vala:389 src/manager_window.vala:190
+#: src/manager_window.vala:739
 msgid "To remove"
 msgstr "Pro odstranění"
 
@@ -296,8 +297,8 @@ msgstr "Pro downgrade"
 msgid "To build"
 msgstr "Vytvářím"
 
-#: src/transaction.vala:428 src/manager_window.vala:187
-#: src/manager_window.vala:720
+#: src/transaction.vala:428 src/manager_window.vala:189
+#: src/manager_window.vala:728
 msgid "To install"
 msgstr "Pro instalaci"
 
@@ -437,7 +438,8 @@ msgstr "Stahování %s"
 msgid "Warning"
 msgstr "Varování"
 
-#: src/transaction.vala:762 src/transaction.vala:791
+#: src/transaction.vala:762 src/transaction.vala:791 src/installer.vala:42
+#: src/manager.vala:41 src/updater.vala:41
 #, fuzzy
 msgid "Error"
 msgstr "Chyba"
@@ -454,6 +456,10 @@ msgstr "Spolu nesouvisí"
 #: src/transaction.vala:901 src/transaction.vala:917
 msgid "Transaction successfully finished"
 msgstr "Transakce úspěšně dokončena"
+
+#: src/installer.vala:44 src/manager.vala:43 src/updater.vala:43
+msgid "Pamac is already running"
+msgstr "Pamac je již spuštěn"
 
 #: src/tray.vala:24 src/updater_window.vala:175
 #, c-format
@@ -477,89 +483,89 @@ msgstr "Ukončit"
 msgid "Show available updates"
 msgstr ""
 
-#: src/manager_window.vala:180 src/manager_window.vala:777
+#: src/manager_window.vala:182 src/manager_window.vala:785
 msgid "local"
 msgstr "lokální"
 
-#: src/manager_window.vala:184 src/manager_window.vala:251
-#: src/manager_window.vala:263 src/manager_window.vala:737
+#: src/manager_window.vala:186 src/manager_window.vala:253
+#: src/manager_window.vala:265 src/manager_window.vala:745
 msgid "Installed"
 msgstr "Nainstalováno"
 
-#: src/manager_window.vala:186 src/manager_window.vala:751
+#: src/manager_window.vala:188 src/manager_window.vala:759
 msgid "Orphans"
 msgstr "Sirotci"
 
-#: src/manager_window.vala:211
+#: src/manager_window.vala:213
 msgid "Licenses"
 msgstr "Licence"
 
-#: src/manager_window.vala:233
+#: src/manager_window.vala:235
 msgid "Depends On"
 msgstr "Závisí na"
 
-#: src/manager_window.vala:253
+#: src/manager_window.vala:255
 #, fuzzy
 msgid "Optional Dependencies"
 msgstr "Volitelné závislosti"
 
-#: src/manager_window.vala:273
+#: src/manager_window.vala:275
 msgid "Required By"
 msgstr "Vyžadováno"
 
-#: src/manager_window.vala:287
+#: src/manager_window.vala:289
 msgid "Provides"
 msgstr "Obsahuje"
 
-#: src/manager_window.vala:300
+#: src/manager_window.vala:302
 msgid "Replaces"
 msgstr "Nahrazuje"
 
-#: src/manager_window.vala:313
+#: src/manager_window.vala:315
 msgid "Conflicts With"
 msgstr "Konflikty s"
 
-#: src/manager_window.vala:347
+#: src/manager_window.vala:349
 msgid "Packager"
 msgstr "Balíčkovač"
 
-#: src/manager_window.vala:353
+#: src/manager_window.vala:355
 msgid "Install Date"
 msgstr "Datum instalace"
 
-#: src/manager_window.vala:357
+#: src/manager_window.vala:359
 msgid "Explicitly installed"
 msgstr "explicitně nainstalován"
 
-#: src/manager_window.vala:359
+#: src/manager_window.vala:361
 msgid "Installed as a dependency for another package"
 msgstr "Instalováno jako závislost pro další balíček"
 
-#: src/manager_window.vala:361
+#: src/manager_window.vala:363
 msgid "Unknown"
 msgstr "Neznámý"
 
-#: src/manager_window.vala:363
+#: src/manager_window.vala:365
 msgid "Install Reason"
 msgstr "Důvod instalace"
 
-#: src/manager_window.vala:368
+#: src/manager_window.vala:370
 msgid "Signatures"
 msgstr "Podpisy"
 
-#: src/manager_window.vala:376
+#: src/manager_window.vala:378
 msgid "Backup files"
 msgstr "Záložní soubory"
 
-#: src/manager_window.vala:497
+#: src/manager_window.vala:499
 msgid "No package found"
 msgstr "Žádný balíček nalezen"
 
-#: src/manager_window.vala:739
+#: src/manager_window.vala:747
 msgid "Uninstalled"
 msgstr "Odinstalováno"
 
-#: src/manager_window.vala:888
+#: src/manager_window.vala:896
 #, fuzzy
 msgid "A Gtk3 frontend for libalpm"
 msgstr "Gtk3 frontend pro libalpm"
@@ -629,9 +635,6 @@ msgstr "%.2f MiB"
 
 #~ msgid "Install with optional deps"
 #~ msgstr "Instalace volitelných závislostí"
-
-#~ msgid "Pamac is already running"
-#~ msgstr "Pamac je již spuštěn"
 
 #~ msgid ""
 #~ "Some updates are available.\n"

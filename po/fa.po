@@ -94,7 +94,7 @@ msgstr "جست‌و‌جو در AUR"
 msgid "Search"
 msgstr "جستجو"
 
-#: resources/manager_window.ui:279 src/manager_window.vala:337
+#: resources/manager_window.ui:279 src/manager_window.vala:339
 msgid "Groups"
 msgstr "گروه‌ها"
 
@@ -115,7 +115,7 @@ msgstr "نام"
 msgid "Version"
 msgstr "نسخه"
 
-#: resources/manager_window.ui:463 src/manager_window.vala:329
+#: resources/manager_window.ui:463 src/manager_window.vala:331
 msgid "Repository"
 msgstr "مخزن"
 
@@ -192,8 +192,9 @@ msgid "Options"
 msgstr ""
 
 #: src/packages_chooser_dialog.vala:32
-msgid "Packages"
-msgstr ""
+#, fuzzy
+msgid "Alpm Package"
+msgstr "بسته بندی کننده"
 
 #: src/daemon.vala:64
 msgid "Failed to initialize alpm library"
@@ -278,8 +279,8 @@ msgstr "آماده‌سازی"
 msgid "Choose a provider for %s"
 msgstr ""
 
-#: src/transaction.vala:389 src/manager_window.vala:188
-#: src/manager_window.vala:731
+#: src/transaction.vala:389 src/manager_window.vala:190
+#: src/manager_window.vala:739
 msgid "To remove"
 msgstr "برای حذف"
 
@@ -291,8 +292,8 @@ msgstr "برای به گذشته برگرداندن"
 msgid "To build"
 msgstr "برای ساخت"
 
-#: src/transaction.vala:428 src/manager_window.vala:187
-#: src/manager_window.vala:720
+#: src/transaction.vala:428 src/manager_window.vala:189
+#: src/manager_window.vala:728
 msgid "To install"
 msgstr "برای نصب"
 
@@ -431,7 +432,8 @@ msgstr "دریافت %s"
 msgid "Warning"
 msgstr ""
 
-#: src/transaction.vala:762 src/transaction.vala:791
+#: src/transaction.vala:762 src/transaction.vala:791 src/installer.vala:42
+#: src/manager.vala:41 src/updater.vala:41
 msgid "Error"
 msgstr ""
 
@@ -447,6 +449,10 @@ msgstr "کاری برای انجام دادن وجود ندارد"
 #: src/transaction.vala:901 src/transaction.vala:917
 msgid "Transaction successfully finished"
 msgstr "تراکنش با موفقیت به پایان رسید"
+
+#: src/installer.vala:44 src/manager.vala:43 src/updater.vala:43
+msgid "Pamac is already running"
+msgstr "پاماک در حال حاظر در حال اجرا است"
 
 #: src/tray.vala:24 src/updater_window.vala:175
 #, c-format
@@ -470,89 +476,89 @@ msgstr "خروج"
 msgid "Show available updates"
 msgstr ""
 
-#: src/manager_window.vala:180 src/manager_window.vala:777
+#: src/manager_window.vala:182 src/manager_window.vala:785
 msgid "local"
 msgstr "محلی"
 
-#: src/manager_window.vala:184 src/manager_window.vala:251
-#: src/manager_window.vala:263 src/manager_window.vala:737
+#: src/manager_window.vala:186 src/manager_window.vala:253
+#: src/manager_window.vala:265 src/manager_window.vala:745
 msgid "Installed"
 msgstr "نصد شده"
 
-#: src/manager_window.vala:186 src/manager_window.vala:751
+#: src/manager_window.vala:188 src/manager_window.vala:759
 msgid "Orphans"
 msgstr "بی منبع"
 
-#: src/manager_window.vala:211
+#: src/manager_window.vala:213
 msgid "Licenses"
 msgstr "لایسنس"
 
-#: src/manager_window.vala:233
+#: src/manager_window.vala:235
 msgid "Depends On"
 msgstr "وابسته به"
 
-#: src/manager_window.vala:253
+#: src/manager_window.vala:255
 #, fuzzy
 msgid "Optional Dependencies"
 msgstr "وابستگی‌های اختیاری"
 
-#: src/manager_window.vala:273
+#: src/manager_window.vala:275
 msgid "Required By"
 msgstr "مورد نیاز"
 
-#: src/manager_window.vala:287
+#: src/manager_window.vala:289
 msgid "Provides"
 msgstr "ارائه شده"
 
-#: src/manager_window.vala:300
+#: src/manager_window.vala:302
 msgid "Replaces"
 msgstr "جایگزین‌ها"
 
-#: src/manager_window.vala:313
+#: src/manager_window.vala:315
 msgid "Conflicts With"
 msgstr "ناسازگار با"
 
-#: src/manager_window.vala:347
+#: src/manager_window.vala:349
 msgid "Packager"
 msgstr "بسته بندی کننده"
 
-#: src/manager_window.vala:353
+#: src/manager_window.vala:355
 msgid "Install Date"
 msgstr "تاریخ نصب"
 
-#: src/manager_window.vala:357
+#: src/manager_window.vala:359
 msgid "Explicitly installed"
 msgstr "آشکارانه نصب شده"
 
-#: src/manager_window.vala:359
+#: src/manager_window.vala:361
 msgid "Installed as a dependency for another package"
 msgstr "نصب به عنوان یک وابستگی برای بسته‌ای دیگر"
 
-#: src/manager_window.vala:361
+#: src/manager_window.vala:363
 msgid "Unknown"
 msgstr "نامشخص"
 
-#: src/manager_window.vala:363
+#: src/manager_window.vala:365
 msgid "Install Reason"
 msgstr "دلیل نصب"
 
-#: src/manager_window.vala:368
+#: src/manager_window.vala:370
 msgid "Signatures"
 msgstr "امضا"
 
-#: src/manager_window.vala:376
+#: src/manager_window.vala:378
 msgid "Backup files"
 msgstr "فایل‌های پشتیبان"
 
-#: src/manager_window.vala:497
+#: src/manager_window.vala:499
 msgid "No package found"
 msgstr "هیچ بسته‌ای پیدا نشد"
 
-#: src/manager_window.vala:739
+#: src/manager_window.vala:747
 msgid "Uninstalled"
 msgstr "حذف شده"
 
-#: src/manager_window.vala:888
+#: src/manager_window.vala:896
 msgid "A Gtk3 frontend for libalpm"
 msgstr ""
 
@@ -602,9 +608,6 @@ msgstr "%.2f میبی‌بایت"
 
 #~ msgid "Install with optional deps"
 #~ msgstr "نصب با وابستگی‌های اختیاری"
-
-#~ msgid "Pamac is already running"
-#~ msgstr "پاماک در حال حاظر در حال اجرا است"
 
 #~ msgid ""
 #~ "Some updates are available.\n"

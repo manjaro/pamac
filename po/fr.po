@@ -96,7 +96,7 @@ msgstr "Rechercher depuis AUR"
 msgid "Search"
 msgstr "Rechercher"
 
-#: resources/manager_window.ui:279 src/manager_window.vala:337
+#: resources/manager_window.ui:279 src/manager_window.vala:339
 msgid "Groups"
 msgstr "Groupes"
 
@@ -116,7 +116,7 @@ msgstr "Nom"
 msgid "Version"
 msgstr "Version"
 
-#: resources/manager_window.ui:463 src/manager_window.vala:329
+#: resources/manager_window.ui:463 src/manager_window.vala:331
 msgid "Repository"
 msgstr "Dépôt"
 
@@ -154,9 +154,8 @@ msgid "Update Manager"
 msgstr "Gestionnaire de mises à jour"
 
 #: resources/updater_window.ui:135
-#, fuzzy
 msgid "_Refresh"
-msgstr "Actualiser"
+msgstr "_Actualiser"
 
 #: resources/updater_window.ui:149
 msgid "_Apply"
@@ -195,8 +194,8 @@ msgid "Options"
 msgstr "Options"
 
 #: src/packages_chooser_dialog.vala:32
-msgid "Packages"
-msgstr "Paquets"
+msgid "Alpm Package"
+msgstr "Paquet Alpm"
 
 #: src/daemon.vala:64
 msgid "Failed to initialize alpm library"
@@ -281,8 +280,8 @@ msgstr "Préparation"
 msgid "Choose a provider for %s"
 msgstr "Choix d'un fournisseur pour %s"
 
-#: src/transaction.vala:389 src/manager_window.vala:188
-#: src/manager_window.vala:731
+#: src/transaction.vala:389 src/manager_window.vala:190
+#: src/manager_window.vala:739
 msgid "To remove"
 msgstr "À désinstaller"
 
@@ -294,8 +293,8 @@ msgstr "Retour à une version antérieure"
 msgid "To build"
 msgstr "À construire"
 
-#: src/transaction.vala:428 src/manager_window.vala:187
-#: src/manager_window.vala:720
+#: src/transaction.vala:428 src/manager_window.vala:189
+#: src/manager_window.vala:728
 msgid "To install"
 msgstr "À installer"
 
@@ -430,7 +429,8 @@ msgstr "Téléchargement de %s"
 msgid "Warning"
 msgstr "Avertissement"
 
-#: src/transaction.vala:762 src/transaction.vala:791
+#: src/transaction.vala:762 src/transaction.vala:791 src/installer.vala:42
+#: src/manager.vala:41 src/updater.vala:41
 msgid "Error"
 msgstr "Erreur"
 
@@ -446,6 +446,10 @@ msgstr "Rien à faire"
 #: src/transaction.vala:901 src/transaction.vala:917
 msgid "Transaction successfully finished"
 msgstr "Transaction terminée avec succès"
+
+#: src/installer.vala:44 src/manager.vala:43 src/updater.vala:43
+msgid "Pamac is already running"
+msgstr "Pamac est déjà en cours d'exécution"
 
 #: src/tray.vala:24 src/updater_window.vala:175
 #, c-format
@@ -468,93 +472,93 @@ msgstr "_Quitter"
 msgid "Show available updates"
 msgstr "Voir les mises à jour disponibles"
 
-#: src/manager_window.vala:180 src/manager_window.vala:777
+#: src/manager_window.vala:182 src/manager_window.vala:785
 msgid "local"
 msgstr "locaux"
 
-#: src/manager_window.vala:184 src/manager_window.vala:251
-#: src/manager_window.vala:263 src/manager_window.vala:737
+#: src/manager_window.vala:186 src/manager_window.vala:253
+#: src/manager_window.vala:265 src/manager_window.vala:745
 msgid "Installed"
 msgstr "Installés"
 
-#: src/manager_window.vala:186 src/manager_window.vala:751
+#: src/manager_window.vala:188 src/manager_window.vala:759
 msgid "Orphans"
 msgstr "Orphelins"
 
-#: src/manager_window.vala:211
+#: src/manager_window.vala:213
 msgid "Licenses"
 msgstr "Licences"
 
-#: src/manager_window.vala:233
+#: src/manager_window.vala:235
 msgid "Depends On"
 msgstr "Dépend de"
 
-#: src/manager_window.vala:253
+#: src/manager_window.vala:255
 msgid "Optional Dependencies"
 msgstr "Dépendances optionnelles"
 
-#: src/manager_window.vala:273
+#: src/manager_window.vala:275
 msgid "Required By"
 msgstr "Requis par"
 
-#: src/manager_window.vala:287
+#: src/manager_window.vala:289
 msgid "Provides"
 msgstr "Fournit"
 
-#: src/manager_window.vala:300
+#: src/manager_window.vala:302
 msgid "Replaces"
 msgstr "Remplace"
 
-#: src/manager_window.vala:313
+#: src/manager_window.vala:315
 msgid "Conflicts With"
 msgstr "Est en conflit avec"
 
-#: src/manager_window.vala:347
+#: src/manager_window.vala:349
 msgid "Packager"
 msgstr "Paqueteur"
 
-#: src/manager_window.vala:353
+#: src/manager_window.vala:355
 msgid "Install Date"
 msgstr "Installé le"
 
-#: src/manager_window.vala:357
+#: src/manager_window.vala:359
 msgid "Explicitly installed"
 msgstr "Explicitement installé"
 
-#: src/manager_window.vala:359
+#: src/manager_window.vala:361
 msgid "Installed as a dependency for another package"
 msgstr "Installé comme dépendance d'un autre paquet"
 
-#: src/manager_window.vala:361
+#: src/manager_window.vala:363
 msgid "Unknown"
 msgstr "Inconnu"
 
-#: src/manager_window.vala:363
+#: src/manager_window.vala:365
 msgid "Install Reason"
 msgstr "Motif d'installation"
 
-#: src/manager_window.vala:368
+#: src/manager_window.vala:370
 msgid "Signatures"
 msgstr "Signatures"
 
-#: src/manager_window.vala:376
+#: src/manager_window.vala:378
 msgid "Backup files"
 msgstr "Fichiers sauvegardés"
 
-#: src/manager_window.vala:497
+#: src/manager_window.vala:499
 msgid "No package found"
 msgstr "Aucun paquet trouvé"
 
-#: src/manager_window.vala:739
+#: src/manager_window.vala:747
 msgid "Uninstalled"
 msgstr "Non installés"
 
-#: src/manager_window.vala:888
+#: src/manager_window.vala:896
 msgid "A Gtk3 frontend for libalpm"
 msgstr "Une interface Gtk3 pour libalpm"
 
 #: src/common.vala:48
-# c-format
+#, c-format
 msgid "%.0f KiB"
 msgstr "%.0f Ko"
 
@@ -618,9 +622,6 @@ msgstr "%.2f Mo"
 
 #~ msgid "Install with optional deps"
 #~ msgstr "Installer avec les dépendances optionnelles"
-
-#~ msgid "Pamac is already running"
-#~ msgstr "Pamac est déjà en cours d'exécution"
 
 #~ msgid ""
 #~ "Some updates are available.\n"

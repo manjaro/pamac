@@ -21,6 +21,7 @@ msgstr ""
 msgid "Authentication is required"
 msgstr ""
 
+
 #: resources/choose_provider_dialog.ui:7
 msgid "Choose a Provider"
 msgstr ""
@@ -421,7 +422,8 @@ msgstr ""
 msgid "Warning"
 msgstr ""
 
-#: src/transaction.vala:762 src/transaction.vala:791
+#: src/transaction.vala:762 src/transaction.vala:791 src/installer.vala:42
+#: src/manager.vala:41 src/updater.vala:41
 msgid "Error"
 msgstr ""
 
@@ -436,6 +438,10 @@ msgstr ""
 
 #: src/transaction.vala:901 src/transaction.vala:917
 msgid "Transaction successfully finished"
+msgstr ""
+
+#: src/installer.vala:44 src/manager.vala:43 src/updater.vala:43
+msgid "Pamac is already running"
 msgstr ""
 
 #: src/tray.vala:24 src/updater_window.vala:175

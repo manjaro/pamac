@@ -95,7 +95,7 @@ msgstr "AUR में खोज"
 msgid "Search"
 msgstr "खोज"
 
-#: resources/manager_window.ui:279 src/manager_window.vala:337
+#: resources/manager_window.ui:279 src/manager_window.vala:339
 msgid "Groups"
 msgstr "समूह"
 
@@ -116,7 +116,7 @@ msgstr "नाम"
 msgid "Version"
 msgstr "संस्करण"
 
-#: resources/manager_window.ui:463 src/manager_window.vala:329
+#: resources/manager_window.ui:463 src/manager_window.vala:331
 msgid "Repository"
 msgstr "कोष"
 
@@ -195,8 +195,9 @@ msgid "Options"
 msgstr "विकल्प"
 
 #: src/packages_chooser_dialog.vala:32
-msgid "Packages"
-msgstr ""
+#, fuzzy
+msgid "Alpm Package"
+msgstr "Packager"
 
 #: src/daemon.vala:64
 msgid "Failed to initialize alpm library"
@@ -281,8 +282,8 @@ msgstr "तैयारी"
 msgid "Choose a provider for %s"
 msgstr ""
 
-#: src/transaction.vala:389 src/manager_window.vala:188
-#: src/manager_window.vala:731
+#: src/transaction.vala:389 src/manager_window.vala:190
+#: src/manager_window.vala:739
 msgid "To remove"
 msgstr "निकालने के लिए"
 
@@ -294,8 +295,8 @@ msgstr "डाउनग्रेड करने के लिए"
 msgid "To build"
 msgstr "निर्माण करने के लिए"
 
-#: src/transaction.vala:428 src/manager_window.vala:187
-#: src/manager_window.vala:720
+#: src/transaction.vala:428 src/manager_window.vala:189
+#: src/manager_window.vala:728
 msgid "To install"
 msgstr "स्थापित करने के लिए"
 
@@ -432,7 +433,8 @@ msgstr "डाउनलोड कर रहा है %s"
 msgid "Warning"
 msgstr ""
 
-#: src/transaction.vala:762 src/transaction.vala:791
+#: src/transaction.vala:762 src/transaction.vala:791 src/installer.vala:42
+#: src/manager.vala:41 src/updater.vala:41
 msgid "Error"
 msgstr ""
 
@@ -448,6 +450,10 @@ msgstr "ऐसा करने के लिए कुछ भी नहीं"
 #: src/transaction.vala:901 src/transaction.vala:917
 msgid "Transaction successfully finished"
 msgstr "लेन - देन सफलतापूर्वक समाप्त"
+
+#: src/installer.vala:44 src/manager.vala:43 src/updater.vala:43
+msgid "Pamac is already running"
+msgstr "Pamac पहले से ही चल रहा है"
 
 #: src/tray.vala:24 src/updater_window.vala:175
 #, c-format
@@ -471,89 +477,89 @@ msgstr "छोड़ना"
 msgid "Show available updates"
 msgstr ""
 
-#: src/manager_window.vala:180 src/manager_window.vala:777
+#: src/manager_window.vala:182 src/manager_window.vala:785
 msgid "local"
 msgstr "स्थानीय"
 
-#: src/manager_window.vala:184 src/manager_window.vala:251
-#: src/manager_window.vala:263 src/manager_window.vala:737
+#: src/manager_window.vala:186 src/manager_window.vala:253
+#: src/manager_window.vala:265 src/manager_window.vala:745
 msgid "Installed"
 msgstr "स्थापित"
 
-#: src/manager_window.vala:186 src/manager_window.vala:751
+#: src/manager_window.vala:188 src/manager_window.vala:759
 msgid "Orphans"
 msgstr "अनाथ"
 
-#: src/manager_window.vala:211
+#: src/manager_window.vala:213
 msgid "Licenses"
 msgstr "लाइसेंस"
 
-#: src/manager_window.vala:233
+#: src/manager_window.vala:235
 msgid "Depends On"
 msgstr "पर निर्भर करता है"
 
-#: src/manager_window.vala:253
+#: src/manager_window.vala:255
 #, fuzzy
 msgid "Optional Dependencies"
 msgstr "वैकल्पिक deps"
 
-#: src/manager_window.vala:273
+#: src/manager_window.vala:275
 msgid "Required By"
 msgstr "द्वारा जरूरी"
 
-#: src/manager_window.vala:287
+#: src/manager_window.vala:289
 msgid "Provides"
 msgstr "प्रदान करता है"
 
-#: src/manager_window.vala:300
+#: src/manager_window.vala:302
 msgid "Replaces"
 msgstr "के स्थान"
 
-#: src/manager_window.vala:313
+#: src/manager_window.vala:315
 msgid "Conflicts With"
 msgstr "इसके साथ मतभेद"
 
-#: src/manager_window.vala:347
+#: src/manager_window.vala:349
 msgid "Packager"
 msgstr "Packager"
 
-#: src/manager_window.vala:353
+#: src/manager_window.vala:355
 msgid "Install Date"
 msgstr "तिथि स्थापित करें"
 
-#: src/manager_window.vala:357
+#: src/manager_window.vala:359
 msgid "Explicitly installed"
 msgstr "स्पष्ट रूप से स्थापित"
 
-#: src/manager_window.vala:359
+#: src/manager_window.vala:361
 msgid "Installed as a dependency for another package"
 msgstr "एक और पैकेज के लिए एक निर्भरता के रूप में स्थापित"
 
-#: src/manager_window.vala:361
+#: src/manager_window.vala:363
 msgid "Unknown"
 msgstr "अज्ञात"
 
-#: src/manager_window.vala:363
+#: src/manager_window.vala:365
 msgid "Install Reason"
 msgstr "कारण स्थापित करें"
 
-#: src/manager_window.vala:368
+#: src/manager_window.vala:370
 msgid "Signatures"
 msgstr "हस्ताक्षर"
 
-#: src/manager_window.vala:376
+#: src/manager_window.vala:378
 msgid "Backup files"
 msgstr "बैकअप फाइलें"
 
-#: src/manager_window.vala:497
+#: src/manager_window.vala:499
 msgid "No package found"
 msgstr "कोई पैकेज नहीं मिला"
 
-#: src/manager_window.vala:739
+#: src/manager_window.vala:747
 msgid "Uninstalled"
 msgstr "स्थापना हटाई"
 
-#: src/manager_window.vala:888
+#: src/manager_window.vala:896
 #, fuzzy
 msgid "A Gtk3 frontend for libalpm"
 msgstr "libalpm के लिए एक gtk3 दृश्यपटल"
@@ -618,9 +624,6 @@ msgstr "%.2f MiB"
 
 #~ msgid "Install with optional deps"
 #~ msgstr "वैकल्पिक deps साथ स्थापित करें"
-
-#~ msgid "Pamac is already running"
-#~ msgstr "Pamac पहले से ही चल रहा है"
 
 #~ msgid ""
 #~ "Some updates are available.\n"

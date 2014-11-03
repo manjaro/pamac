@@ -21,7 +21,8 @@ namespace Pamac {
 
 	public class Installer: Gtk.Application {
 		Transaction transaction;
-		Pamac.Config pamac_config; 
+		Pamac.Config pamac_config;
+		bool pamac_run;
 
 		public Installer () {
 			application_id = "org.manjaro.pamac.install";
@@ -35,25 +36,63 @@ namespace Pamac {
 
 			base.startup ();
 
-			pamac_config = new Pamac.Config ("/etc/pamac.conf");
-			transaction = new Pamac.Transaction (null, pamac_config);
-			transaction.finished.connect (on_emit_trans_finished);
-
-			this.hold ();
+			pamac_run = check_pamac_running ();
+			if (pamac_run) {
+				var transaction_info_dialog = new TransactionInfoDialog (null);
+				transaction_info_dialog.set_title (dgettext (null, "Error"));
+				transaction_info_dialog.label.set_visible (true);
+				transaction_info_dialog.label.set_markup (dgettext (null, "Pamac is already running"));
+				transaction_info_dialog.expander.set_visible (false);
+				transaction_info_dialog.run ();
+				transaction_info_dialog.hide ();
+			} else {
+				pamac_config = new Pamac.Config ("/etc/pamac.conf");
+				transaction = new Pamac.Transaction (null, pamac_config);
+				transaction.finished.connect (on_emit_trans_finished);
+				this.hold ();
+			}
 		}
 
 		public override void activate () {
-			print ("\nError: Path(s) of tarball(s) to install is needed\n");
-			transaction.stop_daemon ();
-			this.release ();
+			if (pamac_run == false) {
+				print ("\nError: Path(s) of tarball(s) to install is needed\n");
+				transaction.stop_daemon ();
+				this.release ();
+			}
 		}
 
 		public override void open (File[] files, string hint) {
-			foreach (File file in files) {
-				string? path = file.get_path ();
-				transaction.to_load.insert (path, path);
+			if (pamac_run == false) {
+				foreach (File file in files) {
+					string? path = file.get_path ();
+					transaction.to_load.insert (path, path);
+				}
+				transaction.run ();
 			}
-			transaction.run ();
+		}
+
+		bool check_pamac_running () {
+			Application app;
+			bool run = false;
+			app = new Application ("org.manjaro.pamac.manager", 0);
+			try {
+				app.register ();
+			} catch (GLib.Error e) {
+				stderr.printf ("%s\n", e.message);
+			}
+			run =  app.get_is_remote ();
+			if (run)
+				return run;
+			else {
+				app = new Application ("org.manjaro.pamac.updater", 0);
+				try {
+					app.register ();
+				} catch (GLib.Error e) {
+					stderr.printf ("%s\n", e.message);
+				}
+				run =  app.get_is_remote ();
+				return run;
+			}
 		}
 
 		public void on_emit_trans_finished (bool error) {
