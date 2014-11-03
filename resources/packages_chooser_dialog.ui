@@ -2,8 +2,7 @@
 <interface>
   <requires lib="gtk+" version="3.12"/>
   <template class="PamacPackagesChooserDialog" parent="GtkFileChooserDialog">
-    <property name="can_focus">False</property>
-    <property name="border_width">12</property>
+    <property name="border_width">6</property>
     <property name="title" translatable="yes">Install local packages</property>
     <property name="role">GtkFileChooserDialog</property>
     <property name="modal">True</property>

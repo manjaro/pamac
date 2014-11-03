@@ -2,7 +2,7 @@
 <interface>
   <requires lib="gtk+" version="3.12"/>
   <template class="PamacPreferencesDialog" parent="GtkDialog">
-    <property name="border_width">12</property>
+    <property name="border_width">6</property>
     <property name="title" translatable="yes">Preferences</property>
     <property name="window_position">center-on-parent</property>
     <property name="default_width">300</property>
@@ -12,7 +12,7 @@
       <object class="GtkBox" id="dialog-vbox">
         <property name="can_focus">False</property>
         <property name="orientation">vertical</property>
-        <property name="spacing">12</property>
+        <property name="spacing">6</property>
         <child internal-child="action_area">
           <object class="GtkButtonBox" id="dialog-action_area">
             <property name="can_focus">False</property>
