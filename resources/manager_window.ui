@@ -154,7 +154,7 @@
                           <object class="GtkLabel" id="search_aur_label">
                             <property name="label" translatable="yes">Search in AUR</property>
                             <property name="visible">True</property>
-                            <property name="halign">1</property>
+                            <property name="halign">start</property>
                           </object>
                           <packing>
                             <property name="expand">True</property>
@@ -164,7 +164,7 @@
                         <child>
                           <object class="GtkSwitch" id="search_aur_button">
                             <property name="visible">True</property>
-                            <property name="halign">2</property>
+                            <property name="halign">end</property>
                           </object>
                           <packing>
                             <property name="expand">True</property>
@@ -181,7 +181,7 @@
                         <child>
                           <object class="GtkTreeView" id="search_treeview">
                             <property name="visible">True</property>
-                            <property name="can_focus">False</property>
+                            <property name="can_focus">True</property>
                             <property name="headers_visible">False</property>
                             <property name="headers_clickable">False</property>
                             <property name="enable_search">False</property>
@@ -230,7 +230,7 @@
                     <child>
                       <object class="GtkTreeView" id="groups_treeview">
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
+                        <property name="can_focus">True</property>
                         <property name="headers_visible">False</property>
                         <property name="headers_clickable">False</property>
                         <property name="enable_search">False</property>
@@ -276,7 +276,7 @@
                     <child>
                       <object class="GtkTreeView" id="states_treeview">
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
+                        <property name="can_focus">True</property>
                         <property name="headers_visible">False</property>
                         <property name="headers_clickable">False</property>
                         <property name="enable_search">False</property>
@@ -322,7 +322,7 @@
                     <child>
                       <object class="GtkTreeView" id="repos_treeview">
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
+                        <property name="can_focus">True</property>
                         <property name="headers_visible">False</property>
                         <property name="headers_clickable">False</property>
                         <property name="enable_search">False</property>
@@ -389,10 +389,11 @@
                         <property name="reorderable">True</property>
                         <property name="search_column">0</property>
                         <property name="show_expanders">False</property>
-                        <signal name="button-press-event" handler="on_list_treeview_button_press_event" swapped="no"/>
+                        <signal name="button-press-event" handler="on_packages_treeview_button_press_event" swapped="no"/>
                         <signal name="row-activated" handler="on_packages_treeview_row_activated" swapped="no"/>
                         <child internal-child="selection">
                           <object class="GtkTreeSelection" id="packages_treeview_selection">
+                            <property name="mode">multiple</property>
                             <signal name="changed" handler="on_packages_treeview_selection_changed" swapped="no"/>
                           </object>
                         </child>
@@ -502,7 +503,7 @@
                                   <object class="GtkLabel" id="name_label">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
-                                    <property name="halign">1</property>
+                                    <property name="halign">start</property>
                                     <property name="margin">6</property>
                                     <property name="selectable">True</property>
                                   </object>
@@ -516,7 +517,7 @@
                                   <object class="GtkLabel" id="desc_label">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
-                                    <property name="halign">1</property>
+                                    <property name="halign">start</property>
                                     <property name="margin">6</property>
                                     <property name="selectable">True</property>
                                   </object>
@@ -531,7 +532,7 @@
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="has_focus">True</property>
-                                    <property name="halign">1</property>
+                                    <property name="halign">start</property>
                                     <property name="margin">6</property>
                                   </object>
                                   <packing>
@@ -544,7 +545,7 @@
                                   <object class="GtkLabel" id="licenses_label">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
-                                    <property name="halign">1</property>
+                                    <property name="halign">start</property>
                                     <property name="margin">6</property>
                                     <property name="selectable">True</property>
                                   </object>

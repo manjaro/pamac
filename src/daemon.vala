@@ -74,19 +74,42 @@ namespace Pamac {
 			previous_percent = 0;
 		}
 
-		public void write_config (HashTable<string,string> new_conf, GLib.BusName sender) {
+		public async void write_config (HashTable<string,string> new_conf, GLib.BusName sender) {
 			var pamac_config = new Pamac.Config ("/etc/pamac.conf");
 			try {
 				Polkit.Authority authority = Polkit.Authority.get_sync (null);
 				Polkit.Subject subject = Polkit.SystemBusName.new (sender);
-				Polkit.AuthorizationResult result = authority.check_authorization_sync
-								(subject,
-								"org.manjaro.pamac.commit",
-								null,
-								Polkit.CheckAuthorizationFlags.ALLOW_USER_INTERACTION,
-								null);
+				Polkit.AuthorizationResult result = yield authority.check_authorization (
+					subject,
+					"org.manjaro.pamac.commit",
+					null,
+					Polkit.CheckAuthorizationFlags.ALLOW_USER_INTERACTION,
+					null
+				);
 				if (result.get_is_authorized ()) {
 					pamac_config.write (new_conf);
+				}
+			} catch (GLib.Error e) {
+				stderr.printf ("%s\n", e.message);
+			}
+		}
+
+		public async void set_pkgreason (string pkgname, uint reason, GLib.BusName sender) {
+			try {
+				Polkit.Authority authority = Polkit.Authority.get_sync (null);
+				Polkit.Subject subject = Polkit.SystemBusName.new (sender);
+				Polkit.AuthorizationResult result = yield authority.check_authorization (
+					subject,
+					"org.manjaro.pamac.commit",
+					null,
+					Polkit.CheckAuthorizationFlags.ALLOW_USER_INTERACTION,
+					null
+				);
+				if (result.get_is_authorized ()) {
+					init_alpm_config ();
+					unowned Package? pkg = handle.localdb.get_pkg (pkgname);
+					if (pkg != null)
+						pkg.reason = (PkgReason) reason;
 				}
 			} catch (GLib.Error e) {
 				stderr.printf ("%s\n", e.message);
@@ -181,12 +204,12 @@ namespace Pamac {
 			ErrorInfos err = ErrorInfos ();
 			string[] details = {};
 			unowned Package? pkg = null;
-			//pkg =  handle.find_dbs_satisfier (handle.syncdbs, pkgname);
-			foreach (var db in handle.syncdbs) {
-				pkg = find_satisfier (db.pkgcache, pkgname);
-				if (pkg != null)
-					break;
-			}
+			pkg =  handle.find_dbs_satisfier (handle.syncdbs, pkgname);
+			//foreach (var db in handle.syncdbs) {
+				//pkg = find_satisfier (db.pkgcache, pkgname);
+				//if (pkg != null)
+					//break;
+			//}
 			if (pkg == null)  {
 				err.str = _("Failed to prepare transaction");
 				details += _("target not found: %s").printf (pkgname);

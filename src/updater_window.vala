@@ -84,11 +84,16 @@ namespace Pamac {
 				if (refresh_period != pamac_config.refresh_period)
 					new_conf.insert ("RefreshPeriod", refresh_period.to_string ());
 				if (new_conf.size () != 0) {
-					transaction.write_config (new_conf);
-					pamac_config.reload ();
+					transaction.write_config.begin (new_conf, (obj, res) => {
+						transaction.write_config.end (res);
+						pamac_config.reload ();
+						set_updates_list.begin ();
+					});
 				}
 			}
 			preferences_dialog.hide ();
+			while (Gtk.events_pending ())
+				Gtk.main_iteration ();
 		}
 
 		[GtkCallback]
@@ -113,13 +118,15 @@ namespace Pamac {
 		}
 
 		public void on_emit_trans_finished (bool error) {
-			if (error == false) {
-				set_updates_list ();
-			}
-			this.get_window ().set_cursor (null);
+			while (Gtk.events_pending ())
+				Gtk.main_iteration ();
+			set_updates_list.begin ((obj, res) => {
+				set_updates_list.end (res);
+				this.get_window ().set_cursor (null);
+			});
 		}
 
-		public void set_updates_list () {
+		public async void set_updates_list () {
 			TreeIter iter;
 			string name;
 			string size;

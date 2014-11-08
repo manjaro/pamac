@@ -24,7 +24,8 @@ using Alpm;
 namespace Pamac {
 	[DBus (name = "org.manjaro.pamac")]
 	public interface Daemon : Object {
-		public abstract void write_config (HashTable<string,string> new_conf) throws IOError;
+		public abstract async void write_config (HashTable<string,string> new_conf) throws IOError;
+		public abstract async void set_pkgreason (string pkgname, uint reason) throws IOError;
 		public abstract void refresh (int force, bool emit_signal) throws IOError;
 		public abstract ErrorInfos trans_init (TransFlag transflags) throws IOError;
 		public abstract ErrorInfos trans_sysupgrade (int enable_downgrade) throws IOError;
@@ -79,12 +80,12 @@ namespace Pamac {
 		bool sysupgrade_after_trans;
 		bool sysupgrade_after_build;
 		int build_status;
+		int enable_downgrade;
 
 		Terminal term;
 		Pty pty;
 
 		//dialogs
-		ChooseProviderDialog choose_provider_dialog;
 		TransactionSumDialog transaction_sum_dialog;
 		TransactionInfoDialog transaction_info_dialog;
 		ProgressDialog progress_dialog;
@@ -105,7 +106,6 @@ namespace Pamac {
 			connecting_dbus_signals ();
 			//creating dialogs
 			this.window = window;
-			choose_provider_dialog = new ChooseProviderDialog (window);
 			transaction_sum_dialog = new TransactionSumDialog (window);
 			transaction_info_dialog = new TransactionInfoDialog (window);
 			progress_dialog = new ProgressDialog (this, window);
@@ -144,9 +144,18 @@ namespace Pamac {
 			build_status = 0;
 		}
 
-		public void write_config (HashTable<string,string> new_conf) {
+		public async void write_config (HashTable<string,string> new_conf) {
 			try {
-				daemon.write_config (new_conf);
+				yield daemon.write_config (new_conf);
+			} catch (IOError e) {
+				stderr.printf ("IOError: %s\n", e.message);
+			}
+		}
+
+		public async void set_pkgreason (string pkgname, PkgReason reason) {
+			try {
+				yield daemon.set_pkgreason (pkgname, (uint) reason);
+				refresh_alpm_config ();
 			} catch (IOError e) {
 				stderr.printf ("IOError: %s\n", e.message);
 			}
@@ -169,6 +178,8 @@ namespace Pamac {
 			progress_dialog.cancel_button.set_visible (true);
 			progress_dialog.close_button.set_visible (false);
 			progress_dialog.show ();
+			while (Gtk.events_pending ())
+				Gtk.main_iteration ();
 			try {
 				daemon.refresh (force, true);
 			} catch (IOError e) {
@@ -177,7 +188,6 @@ namespace Pamac {
 		}
 
 		public void sysupgrade_simple (int enable_downgrade) {
-			print ("simple sysupgrade\n");
 			progress_dialog.progressbar.set_fraction (0);
 			progress_dialog.cancel_button.set_visible (true);
 			ErrorInfos err = ErrorInfos ();
@@ -213,6 +223,7 @@ namespace Pamac {
 		}
 
 		public void sysupgrade (int enable_downgrade) {
+			this.enable_downgrade = enable_downgrade;
 			string action = dgettext (null, "Starting full system upgrade") + "...";
 			spawn_in_term ({"/usr/bin/echo", action});
 			progress_dialog.action_label.set_text (action);
@@ -223,7 +234,6 @@ namespace Pamac {
 			while (Gtk.events_pending ())
 				Gtk.main_iteration ();
 			// sysupgrade
-			print ("get syncfirst\n");
 			// get syncfirst updates
 			UpdatesInfos[] syncfirst_updates = get_syncfirst_updates (handle, syncfirst);
 			if (syncfirst_updates.length != 0) {
@@ -235,17 +245,27 @@ namespace Pamac {
 				// run as a standard transaction
 				run ();
 			} else {
+				UpdatesInfos[] updates = get_repos_updates (handle, ignorepkg);
+				uint repos_updates_len = updates.length;
 				if (pamac_config.enable_aur) {
-					print ("get aur updates\n");
 					UpdatesInfos[] aur_updates = get_aur_updates (handle, ignorepkg);
 					if (aur_updates.length != 0) {
 						clear_lists ();
-						sysupgrade_after_build = true;
+						if (repos_updates_len != 0)
+							sysupgrade_after_build = true;
 						foreach (UpdatesInfos infos in aur_updates)
 							to_build.insert (infos.name, infos.name);
 					}
 				}
-				sysupgrade_simple (enable_downgrade);
+				if (repos_updates_len != 0)
+					sysupgrade_simple (enable_downgrade);
+				else {
+					progress_dialog.show ();
+					while (Gtk.events_pending ())
+						Gtk.main_iteration ();
+					ErrorInfos err = ErrorInfos ();
+					on_emit_trans_prepared (err);
+				}
 			}
 		}
 
@@ -328,6 +348,7 @@ namespace Pamac {
 
 		public void choose_provider (string depend, string[] providers) {
 			int len = providers.length;
+			var choose_provider_dialog = new ChooseProviderDialog (window);
 			choose_provider_dialog.label.set_markup ("<b>%s</b>".printf (dgettext (null, "Choose a provider for %s").printf (depend, len)));
 			choose_provider_dialog.comboboxtext.remove_all ();
 			foreach (string provider in providers)
@@ -755,11 +776,17 @@ namespace Pamac {
 			string? line = null;
 			TextIter end_iter;
 			if ((Alpm.LogLevel) level == Alpm.LogLevel.WARNING) {
-				line = dgettext (null, "Warning") + ": " + previous_filename + ": " + msg;
+				if (previous_filename != "")
+					line = dgettext (null, "Warning") + ": " + previous_filename + ": " + msg;
+				else
+					line = dgettext (null, "Warning") + ": " + msg;
 				transaction_info_dialog.textbuffer.get_end_iter (out end_iter);
 				transaction_info_dialog.textbuffer.insert (ref end_iter, msg, msg.length);
 			} else if ((Alpm.LogLevel) level == Alpm.LogLevel.ERROR) {
-				line = dgettext (null, "Error") + ": " + previous_filename + ": " + msg;
+				if (previous_filename != "")
+					line = dgettext (null, "Error") + ": " + previous_filename + ": " + msg;
+				else
+					line = dgettext (null, "Error") + ": " + msg;
 			}
 			if (line != null) {
 				progress_dialog.expander.set_expanded (true);
@@ -775,6 +802,8 @@ namespace Pamac {
 				transaction_info_dialog.expander.set_expanded (true);
 				transaction_info_dialog.run ();
 				transaction_info_dialog.hide ();
+				while (Gtk.events_pending ())
+					Gtk.main_iteration ();
 				TextIter start_iter;
 				TextIter end_iter;
 				transaction_info_dialog.textbuffer.get_start_iter (out start_iter);
@@ -823,6 +852,8 @@ namespace Pamac {
 			if (error.str == "") {
 				if (mode == Mode.UPDATER) {
 					progress_dialog.hide ();
+					while (Gtk.events_pending ())
+						Gtk.main_iteration ();
 					finished (false);
 				} else {
 					sysupgrade (0);
@@ -831,6 +862,7 @@ namespace Pamac {
 				handle_error (error);
 				finished (true);
 			}
+			previous_filename = "";
 		}
 
 		public void on_emit_trans_prepared (ErrorInfos error) {
@@ -855,10 +887,11 @@ namespace Pamac {
 							spawn_in_term ({"/usr/bin/echo", dgettext (null, "Transaction cancelled") + ".\n"});
 							progress_dialog.hide ();
 							transaction_sum_dialog.hide ();
+							while (Gtk.events_pending ())
+								Gtk.main_iteration ();
 							finished (true);
 						}
 					} else if (sysupgrade_after_build) {
-						print ("sysupgrade_after_build\n");
 						sysupgrade_after_build = false;
 						commit ();
 					} else if (transaction_sum_dialog.run () == ResponseType.OK) {
@@ -870,16 +903,21 @@ namespace Pamac {
 						spawn_in_term ({"/usr/bin/echo", dgettext (null, "Transaction cancelled") + ".\n"});
 						progress_dialog.hide ();
 						transaction_sum_dialog.hide ();
+						while (Gtk.events_pending ())
+							Gtk.main_iteration ();
 						release ();
 						finished (true);
 					}
 				} else if (mode == Mode.UPDATER) {
+					sysupgrade_after_build = false;
 					commit ();
 				} else {
 					//ErrorInfos err = ErrorInfos ();
 					//err.str = dgettext (null, "Nothing to do") + "\n";
 					spawn_in_term ({"/usr/bin/echo", dgettext (null, "Nothing to do") + ".\n"});
 					progress_dialog.hide ();
+					while (Gtk.events_pending ())
+						Gtk.main_iteration ();
 					release ();
 					clear_lists ();
 					finished (false);
@@ -911,13 +949,15 @@ namespace Pamac {
 						sysupgrade_after_trans = false;
 						sysupgrade (0);
 					} else if (sysupgrade_after_build) {
-						sysupgrade_simple (0);
+						sysupgrade_simple (enable_downgrade);
 					} else {
 						if (build_status == 0)
 							spawn_in_term ({"/usr/bin/echo", dgettext (null, "Transaction successfully finished") + ".\n"});
 						else
 							spawn_in_term ({"/usr/bin/echo"});
 						progress_dialog.hide ();
+						while (Gtk.events_pending ())
+							Gtk.main_iteration ();
 						finished (false);
 					}
 				}
@@ -929,6 +969,7 @@ namespace Pamac {
 			total_download = 0;
 			already_downloaded = 0;
 			build_status = 0;
+			previous_filename = "";
 		}
 
 		void on_term_child_exited (int status) {

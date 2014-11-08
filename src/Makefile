@@ -19,6 +19,7 @@ MANAGER_GRESOURCE_FILE = ../resources/pamac.manager.gresource.xml
 
 MANAGER_RESOURCES_FILES = 	../resources/manager_window.ui \
 					../resources/packages_chooser_dialog.ui \
+					../resources/choose_dep_dialog.ui \
 					../resources/history_dialog.ui \
 					../resources/preferences_dialog.ui \
 					../resources/progress_dialog.ui \
@@ -78,7 +79,7 @@ updater_resources.c: $(UPDATER_GRESOURCE_FILE) $(UPDATER_RESOURCES_FILES)
 installer_resources.c: $(INSTALLER_GRESOURCE_FILE) $(INSTALLER_RESOURCES_FILES)
 	glib-compile-resources $(INSTALLER_GRESOURCE_FILE) --sourcedir=../resources --target=installer_resources.c --generate-source
 
-pamac-manager: ../vapi/libalpm.vapi $(COMMON_SOURCES) $(DIALOGS_FILES) preferences_dialog.vala history_dialog.vala packages_chooser_dialog.vala manager_resources.c package.vala transaction.vala packages_model.vala manager_window.vala manager.vala
+pamac-manager: ../vapi/libalpm.vapi $(COMMON_SOURCES) $(DIALOGS_FILES) choose_dep_dialog.vala preferences_dialog.vala history_dialog.vala packages_chooser_dialog.vala manager_resources.c package.vala transaction.vala packages_model.vala manager_window.vala manager.vala
 	valac 	-o pamac-manager \
 			$(COMMON_VALA_FLAGS) \
 			--pkg=gtk+-3.0 \
@@ -88,6 +89,7 @@ pamac-manager: ../vapi/libalpm.vapi $(COMMON_SOURCES) $(DIALOGS_FILES) preferenc
 			--gresources=$(MANAGER_GRESOURCE_FILE) \
 			$(COMMON_SOURCES) \
 			$(DIALOGS_FILES) \
+			choose_dep_dialog.vala \
 			preferences_dialog.vala \
 			history_dialog.vala \
 			packages_chooser_dialog.vala \

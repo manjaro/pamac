@@ -30,36 +30,36 @@ msgid "Choose a Provider"
 msgstr ""
 
 #: resources/choose_provider_dialog.ui:23
-#: resources/transaction_sum_dialog.ui:35 resources/preferences_dialog.ui:22
+#: resources/transaction_sum_dialog.ui:34 resources/preferences_dialog.ui:22
 msgid "_OK"
 msgstr ""
 
-#: resources/packages_chooser_dialog.ui:7 resources/manager_window.ui:775
+#: resources/packages_chooser_dialog.ui:6 resources/manager_window.ui:763
 msgid "Install local packages"
 msgstr "تثبيت الحزم المحلية"
 
-#: resources/packages_chooser_dialog.ui:29 resources/progress_dialog.ui:29
-#: resources/transaction_sum_dialog.ui:21
+#: resources/packages_chooser_dialog.ui:28 resources/progress_dialog.ui:28
+#: resources/transaction_sum_dialog.ui:20
 #, fuzzy
 msgid "_Cancel"
 msgstr "إلغاء"
 
-#: resources/packages_chooser_dialog.ui:42
+#: resources/packages_chooser_dialog.ui:41
 msgid "_Open"
 msgstr ""
 
-#: resources/progress_dialog.ui:7
+#: resources/progress_dialog.ui:6
 msgid "Progress"
 msgstr "تقدم"
 
-#: resources/progress_dialog.ui:41 resources/history_dialog.ui:23
-#: resources/transaction_info_dialog.ui:21 resources/updater_window.ui:163
+#: resources/progress_dialog.ui:40 resources/history_dialog.ui:23
+#: resources/transaction_info_dialog.ui:20 resources/updater_window.ui:156
 #: resources/preferences_dialog.ui:36
 msgid "_Close"
 msgstr ""
 
-#: resources/progress_dialog.ui:91 resources/transaction_info_dialog.ui:81
-#: resources/manager_window.ui:707
+#: resources/progress_dialog.ui:90 resources/transaction_info_dialog.ui:80
+#: resources/manager_window.ui:693
 msgid "Details"
 msgstr "تفاصيل"
 
@@ -67,19 +67,19 @@ msgstr "تفاصيل"
 msgid "Pamac History"
 msgstr "سجل Pamac"
 
-#: resources/transaction_sum_dialog.ui:6 src/transaction.vala:359
+#: resources/transaction_sum_dialog.ui:5 src/transaction.vala:380
 msgid "Transaction Summary"
 msgstr "موجز العمليات"
 
-#: resources/manager_window.ui:14 src/tray.vala:76
+#: resources/manager_window.ui:7 src/tray.vala:76
 msgid "Package Manager"
 msgstr "مدير الحزم"
 
-#: resources/manager_window.ui:23
+#: resources/manager_window.ui:25
 msgid "Refresh databases"
 msgstr ""
 
-#: resources/manager_window.ui:47
+#: resources/manager_window.ui:48
 msgid "Apply changes"
 msgstr "تطبيق التغييرات"
 
@@ -87,78 +87,78 @@ msgstr "تطبيق التغييرات"
 msgid "Cancel all planned changes"
 msgstr ""
 
-#: resources/manager_window.ui:170
+#: resources/manager_window.ui:155
 msgid "Search in AUR"
 msgstr "بحث في مستودعات "
 
-#: resources/manager_window.ui:234
+#: resources/manager_window.ui:219
 msgid "Search"
 msgstr "بحث"
 
-#: resources/manager_window.ui:279 src/manager_window.vala:339
+#: resources/manager_window.ui:264 src/manager_window.vala:372
 msgid "Groups"
 msgstr "مجموعات"
 
-#: resources/manager_window.ui:325 resources/manager_window.ui:418
+#: resources/manager_window.ui:310 resources/manager_window.ui:404
 msgid "State"
 msgstr "حالة"
 
-#: resources/manager_window.ui:371
+#: resources/manager_window.ui:356
 #, fuzzy
 msgid "Repositories"
 msgstr "مستودع"
 
-#: resources/manager_window.ui:433
+#: resources/manager_window.ui:419
 msgid "Name"
 msgstr "إسم"
 
-#: resources/manager_window.ui:448
+#: resources/manager_window.ui:434
 msgid "Version"
 msgstr "إصدار"
 
-#: resources/manager_window.ui:463 src/manager_window.vala:331
+#: resources/manager_window.ui:449 src/manager_window.vala:364
 msgid "Repository"
 msgstr "مستودع"
 
-#: resources/manager_window.ui:478
+#: resources/manager_window.ui:464
 msgid "Size"
 msgstr "حجم"
 
-#: resources/manager_window.ui:582
+#: resources/manager_window.ui:568
 msgid "Description"
 msgstr ""
 
-#: resources/manager_window.ui:642
+#: resources/manager_window.ui:628
 msgid "Dependencies"
 msgstr ""
 
-#: resources/manager_window.ui:740
+#: resources/manager_window.ui:726
 msgid "Files"
 msgstr "ملفات"
 
-#: resources/manager_window.ui:767
+#: resources/manager_window.ui:755
 msgid "View History"
 msgstr "مشاهدة السجل"
 
-#: resources/manager_window.ui:783 resources/updater_window.ui:108
+#: resources/manager_window.ui:771 resources/updater_window.ui:101
 msgid "_Preferences"
 msgstr ""
 
-#: resources/manager_window.ui:792
+#: resources/manager_window.ui:780
 msgid "_About"
 msgstr ""
 
-#: resources/updater_window.ui:14 src/tray.vala:73 src/tray.vala:163
+#: resources/updater_window.ui:6 src/tray.vala:73 src/tray.vala:163
 #: src/tray.vala:235
 msgid "Update Manager"
 msgstr "مدير التحديثات"
 
-#: resources/updater_window.ui:135
+#: resources/updater_window.ui:128
 #, fuzzy
 msgid "_Refresh"
 msgstr "إنعاش"
 
-#: resources/updater_window.ui:149
+#: resources/updater_window.ui:142
 msgid "_Apply"
 msgstr ""
 
@@ -202,253 +202,253 @@ msgstr "محزم"
 msgid "Failed to initialize alpm library"
 msgstr ""
 
-#: src/daemon.vala:112 src/daemon.vala:118
+#: src/daemon.vala:135 src/daemon.vala:141
 msgid "Failed to synchronize any databases"
 msgstr ""
 
-#: src/daemon.vala:161
+#: src/daemon.vala:184
 msgid "Failed to init transaction"
 msgstr ""
 
-#: src/daemon.vala:173 src/daemon.vala:191 src/daemon.vala:203
-#: src/daemon.vala:217 src/daemon.vala:229 src/daemon.vala:246
-#: src/daemon.vala:253 src/daemon.vala:267 src/daemon.vala:317
+#: src/daemon.vala:196 src/daemon.vala:214 src/daemon.vala:226
+#: src/daemon.vala:240 src/daemon.vala:252 src/daemon.vala:269
+#: src/daemon.vala:276 src/daemon.vala:290 src/daemon.vala:340
 msgid "Failed to prepare transaction"
 msgstr ""
 
-#: src/daemon.vala:192 src/daemon.vala:247
+#: src/daemon.vala:215 src/daemon.vala:270
 #, c-format
 msgid "target not found: %s"
 msgstr ""
 
-#: src/daemon.vala:275
+#: src/daemon.vala:298
 #, c-format
 msgid "package %s does not have a valid architecture"
 msgstr ""
 
-#: src/daemon.vala:284
+#: src/daemon.vala:307
 #, c-format
 msgid "%s: requires %s"
 msgstr ""
 
-#: src/daemon.vala:292
+#: src/daemon.vala:315
 #, c-format
 msgid "%s and %s are in conflict"
 msgstr ""
 
-#: src/daemon.vala:311
+#: src/daemon.vala:334
 #, c-format
 msgid "%s needs to be removed but it is a locked package"
 msgstr ""
 
-#: src/daemon.vala:380
+#: src/daemon.vala:403
 msgid "Failed to commit transaction"
 msgstr ""
 
-#: src/daemon.vala:394
+#: src/daemon.vala:417
 #, c-format
 msgid "%s exists in both %s and %s"
 msgstr ""
 
-#: src/daemon.vala:397
+#: src/daemon.vala:420
 #, c-format
 msgid "%s: %s already exists in filesystem"
 msgstr ""
 
-#: src/daemon.vala:410
+#: src/daemon.vala:433
 #, c-format
 msgid "%s is invalid or corrupted"
 msgstr ""
 
-#: src/daemon.vala:442
+#: src/daemon.vala:465
 msgid "Authentication failed"
 msgstr "فشل الإستوثاق"
 
-#: src/transaction.vala:164
+#: src/transaction.vala:173
 msgid "Synchronizing package databases"
 msgstr ""
 
-#: src/transaction.vala:216
+#: src/transaction.vala:227
 msgid "Starting full system upgrade"
 msgstr ""
 
-#: src/transaction.vala:259
+#: src/transaction.vala:279
 msgid "Preparing"
 msgstr "تحضير"
 
-#: src/transaction.vala:331
+#: src/transaction.vala:352
 #, c-format
 msgid "Choose a provider for %s"
 msgstr ""
 
-#: src/transaction.vala:389 src/manager_window.vala:190
-#: src/manager_window.vala:739
+#: src/transaction.vala:410 src/manager_window.vala:223
+#: src/manager_window.vala:949
 msgid "To remove"
 msgstr "للحذف"
 
-#: src/transaction.vala:402
+#: src/transaction.vala:423
 msgid "To downgrade"
 msgstr "للتثبيت النسخة الأقدم"
 
-#: src/transaction.vala:415
+#: src/transaction.vala:436
 msgid "To build"
 msgstr "للبناء"
 
-#: src/transaction.vala:428 src/manager_window.vala:189
-#: src/manager_window.vala:728
+#: src/transaction.vala:449 src/manager_window.vala:222
+#: src/manager_window.vala:938
 msgid "To install"
 msgstr "للتثبيت"
 
-#: src/transaction.vala:441
+#: src/transaction.vala:462
 msgid "To reinstall"
 msgstr "لإعادة التثبيت"
 
-#: src/transaction.vala:455
+#: src/transaction.vala:476
 msgid "To update"
 msgstr "للتحديث"
 
-#: src/transaction.vala:468 src/updater_window.vala:179
+#: src/transaction.vala:489 src/updater_window.vala:186
 #, fuzzy
 msgid "Total download size"
 msgstr "حجم الإجمالي للتحميل"
 
-#: src/transaction.vala:485
+#: src/transaction.vala:506
 msgid "Building packages"
 msgstr ""
 
-#: src/transaction.vala:542
+#: src/transaction.vala:563
 msgid "Checking dependencies"
 msgstr "تفقد الإعتماديات"
 
-#: src/transaction.vala:547
+#: src/transaction.vala:568
 msgid "Checking file conflicts"
 msgstr "تفقد الملفات المتعاكسة"
 
-#: src/transaction.vala:552
+#: src/transaction.vala:573
 msgid "Resolving dependencies"
 msgstr "تحليل الإعتماديات"
 
-#: src/transaction.vala:557
+#: src/transaction.vala:578
 #, fuzzy
 msgid "Checking inter-conflicts"
 msgstr "تفقد الانعكاسات الداخلية"
 
-#: src/transaction.vala:564 src/transaction.vala:566
+#: src/transaction.vala:585 src/transaction.vala:587
 #, c-format
 msgid "Installing %s"
 msgstr "تثبيت %s"
 
-#: src/transaction.vala:572 src/transaction.vala:574
+#: src/transaction.vala:593 src/transaction.vala:595
 #, c-format
 msgid "Reinstalling %s"
 msgstr "إعادة تثبيت %s"
 
-#: src/transaction.vala:580 src/transaction.vala:582
+#: src/transaction.vala:601 src/transaction.vala:603
 #, c-format
 msgid "Removing %s"
 msgstr "حذف %s"
 
-#: src/transaction.vala:588 src/transaction.vala:590
+#: src/transaction.vala:609 src/transaction.vala:611
 #, c-format
 msgid "Upgrading %s"
 msgstr "ترقية %s"
 
-#: src/transaction.vala:596 src/transaction.vala:598
+#: src/transaction.vala:617 src/transaction.vala:619
 #, c-format
 msgid "Downgrading %s"
 msgstr "الرجوع إلى الإصدار السابق %s"
 
-#: src/transaction.vala:602
+#: src/transaction.vala:623
 msgid "Checking integrity"
 msgstr "تفقد قابلية الإندماج"
 
-#: src/transaction.vala:608
+#: src/transaction.vala:629
 msgid "Checking keyring"
 msgstr "فحص حلقة المفاتيح"
 
-#: src/transaction.vala:613
+#: src/transaction.vala:634
 msgid "Downloading required keys"
 msgstr "تحميل حلقة المفاتيح المطلوبة"
 
-#: src/transaction.vala:618
+#: src/transaction.vala:639
 msgid "Loading packages files"
 msgstr "تحميل الحزم"
 
-#: src/transaction.vala:623
+#: src/transaction.vala:644
 msgid "Checking delta integrity"
 msgstr "فحص إندماج ديلتا"
 
-#: src/transaction.vala:628
+#: src/transaction.vala:649
 msgid "Applying deltas"
 msgstr "تفعيل ديلتا"
 
-#: src/transaction.vala:633
+#: src/transaction.vala:654
 #, c-format
 msgid "Generating %s with %s"
 msgstr "مولد %s بـ %s"
 
-#: src/transaction.vala:638
+#: src/transaction.vala:659
 #, fuzzy
 msgid "Generation succeeded"
 msgstr "تم توليد بنجاح"
 
-#: src/transaction.vala:643
+#: src/transaction.vala:664
 #, fuzzy
 msgid "Generation failed"
 msgstr "فشل عملية التوليد"
 
-#: src/transaction.vala:648
+#: src/transaction.vala:669
 #, c-format
 msgid "Configuring %s"
 msgstr "تكوين %s"
 
-#: src/transaction.vala:654
+#: src/transaction.vala:675
 msgid "Downloading"
 msgstr "يتم التحميل"
 
-#: src/transaction.vala:659
+#: src/transaction.vala:680
 msgid "Checking available disk space"
 msgstr "فحص مساحة القرص المتوفرة"
 
-#: src/transaction.vala:664
+#: src/transaction.vala:685
 #, c-format
 msgid "%s optionally requires %s"
 msgstr ""
 
-#: src/transaction.vala:667
+#: src/transaction.vala:688
 #, c-format
 msgid "Database file for %s does not exist"
 msgstr ""
 
-#: src/transaction.vala:719
+#: src/transaction.vala:740
 #, c-format
 msgid "Refreshing %s"
 msgstr "إنعاش %s"
 
-#: src/transaction.vala:721
+#: src/transaction.vala:742
 #, c-format
 msgid "Downloading %s"
 msgstr "تحميل %s"
 
-#: src/transaction.vala:758 src/transaction.vala:772
+#: src/transaction.vala:780 src/transaction.vala:782 src/transaction.vala:799
 msgid "Warning"
 msgstr ""
 
-#: src/transaction.vala:762 src/transaction.vala:791 src/installer.vala:42
-#: src/manager.vala:41 src/updater.vala:41
+#: src/transaction.vala:787 src/transaction.vala:789 src/transaction.vala:820
+#: src/installer.vala:42 src/manager.vala:41 src/updater.vala:41
 msgid "Error"
 msgstr ""
 
-#: src/transaction.vala:855 src/transaction.vala:870
+#: src/transaction.vala:887 src/transaction.vala:903
 #: src/progress_dialog.vala:55
 msgid "Transaction cancelled"
 msgstr ""
 
-#: src/transaction.vala:881
+#: src/transaction.vala:917
 msgid "Nothing to do"
 msgstr "لا يوجد شيء للقيام به"
 
-#: src/transaction.vala:901 src/transaction.vala:917
+#: src/transaction.vala:939 src/transaction.vala:955
 msgid "Transaction successfully finished"
 msgstr "تم إنهاء العملية بنجاح"
 
@@ -456,16 +456,16 @@ msgstr "تم إنهاء العملية بنجاح"
 msgid "Pamac is already running"
 msgstr "Pamac قيد التشغيل حاليا"
 
-#: src/tray.vala:24 src/updater_window.vala:175
+#: src/tray.vala:24 src/updater_window.vala:182
 #, c-format
 msgid "%u available updates"
 msgstr "%u تحديثات متوفرة"
 
-#: src/tray.vala:25 src/updater_window.vala:172
+#: src/tray.vala:25 src/updater_window.vala:179
 msgid "1 available update"
 msgstr "تحدبث واحد متوفر"
 
-#: src/tray.vala:27 src/updater_window.vala:56 src/updater_window.vala:169
+#: src/tray.vala:27 src/updater_window.vala:56 src/updater_window.vala:176
 msgid "Your system is up-to-date"
 msgstr "نظامك محدث"
 
@@ -478,89 +478,124 @@ msgstr "خروج"
 msgid "Show available updates"
 msgstr ""
 
-#: src/manager_window.vala:182 src/manager_window.vala:785
+#: src/manager_window.vala:132
+msgid "Deselect"
+msgstr "إلغاء التحديد"
+
+#: src/manager_window.vala:135
+msgid "Install"
+msgstr "تثبيت"
+
+#: src/manager_window.vala:138
+msgid "Remove"
+msgstr "حذف"
+
+#: src/manager_window.vala:143
+msgid "Reinstall"
+msgstr "إعادة التثبيت"
+
+#: src/manager_window.vala:146
+#, fuzzy
+msgid "Install optional dependencies"
+msgstr "تثبيت الاعتماديات الإختيارية"
+
+#: src/manager_window.vala:149
+#, fuzzy
+msgid "Mark as explicitly installed"
+msgstr "مثبتة بوضوح"
+
+#: src/manager_window.vala:215 src/manager_window.vala:995
 msgid "local"
 msgstr "محلي"
 
-#: src/manager_window.vala:186 src/manager_window.vala:253
-#: src/manager_window.vala:265 src/manager_window.vala:745
+#: src/manager_window.vala:219 src/manager_window.vala:286
+#: src/manager_window.vala:298 src/manager_window.vala:955
 msgid "Installed"
 msgstr "مثبت"
 
-#: src/manager_window.vala:188 src/manager_window.vala:759
+#: src/manager_window.vala:221 src/manager_window.vala:969
 msgid "Orphans"
 msgstr "أيتام"
 
-#: src/manager_window.vala:213
+#: src/manager_window.vala:246
 msgid "Licenses"
 msgstr "الرخص"
 
-#: src/manager_window.vala:235
+#: src/manager_window.vala:268
 msgid "Depends On"
 msgstr "يعتمد على"
 
-#: src/manager_window.vala:255
+#: src/manager_window.vala:288
 #, fuzzy
 msgid "Optional Dependencies"
 msgstr "إعتماديات إختيارية"
 
-#: src/manager_window.vala:275
+#: src/manager_window.vala:308
 msgid "Required By"
 msgstr "مطلوب من طرف"
 
-#: src/manager_window.vala:289
+#: src/manager_window.vala:322
 msgid "Provides"
 msgstr "المزود"
 
-#: src/manager_window.vala:302
+#: src/manager_window.vala:335
 msgid "Replaces"
 msgstr "إستبدال"
 
-#: src/manager_window.vala:315
+#: src/manager_window.vala:348
 msgid "Conflicts With"
 msgstr "التعارض مع"
 
-#: src/manager_window.vala:349
+#: src/manager_window.vala:382
 msgid "Packager"
 msgstr "محزم"
 
-#: src/manager_window.vala:355
+#: src/manager_window.vala:388
 msgid "Install Date"
 msgstr "تاريخ التثبيت"
 
-#: src/manager_window.vala:359
+#: src/manager_window.vala:392
 msgid "Explicitly installed"
 msgstr "مثبتة بوضوح"
 
-#: src/manager_window.vala:361
+#: src/manager_window.vala:394
 msgid "Installed as a dependency for another package"
 msgstr "تثبيت كإعتمادية لحزمة أخرى"
 
-#: src/manager_window.vala:363
+#: src/manager_window.vala:396
 msgid "Unknown"
 msgstr "مجهول"
 
-#: src/manager_window.vala:365
+#: src/manager_window.vala:398
 msgid "Install Reason"
 msgstr "سبب التثبيت"
 
-#: src/manager_window.vala:370
+#: src/manager_window.vala:403
 msgid "Signatures"
 msgstr "تواقيع"
 
-#: src/manager_window.vala:378
+#: src/manager_window.vala:411
 msgid "Backup files"
 msgstr "ملفات النسخ الإحتياطية"
 
-#: src/manager_window.vala:499
+#: src/manager_window.vala:534 src/manager_window.vala:676
 msgid "No package found"
 msgstr "لم يتم العثور على أي حزم"
 
-#: src/manager_window.vala:747
+#: src/manager_window.vala:628
+#, fuzzy, c-format
+msgid ""
+"%s has %u uninstalled optional dependencies.\n"
+"Choose those you would like to install:"
+msgstr ""
+"%s له %u إعتماديات إختيارية غير متبثة.\n"
+"المرجو إختيار التي ترغب بتثبيتها:"
+
+#: src/manager_window.vala:957
 msgid "Uninstalled"
 msgstr "تم إلغاء التثبيت"
 
-#: src/manager_window.vala:896
+#: src/manager_window.vala:1115
 #, fuzzy
 msgid "A Gtk3 frontend for libalpm"
 msgstr "واجهة جتك3 لـ libalpm"
@@ -600,28 +635,6 @@ msgstr "%.2f مب"
 
 #~ msgid "Architecture"
 #~ msgstr "المعمار"
-
-#~ msgid ""
-#~ "%s has %u uninstalled optional deps.\n"
-#~ "Please choose those you would like to install:"
-#~ msgstr ""
-#~ "%s له %u إعتماديات إختيارية غير متبثة.\n"
-#~ "المرجو إختيار التي ترغب بتثبيتها:"
-
-#~ msgid "Deselect"
-#~ msgstr "إلغاء التحديد"
-
-#~ msgid "Remove"
-#~ msgstr "حذف"
-
-#~ msgid "Reinstall"
-#~ msgstr "إعادة التثبيت"
-
-#~ msgid "Install optional deps"
-#~ msgstr "تثبيت الاعتماديات الإختيارية"
-
-#~ msgid "Install"
-#~ msgstr "تثبيت"
 
 #~ msgid "Install with optional deps"
 #~ msgstr "تثبيت مع الإعتماديات الإختيارية"

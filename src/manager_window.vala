@@ -93,6 +93,16 @@ namespace Pamac {
 		[GtkChild]
 		public Button cancel_button;
 
+		public Gtk.Menu right_click_menu;
+		public Gtk.MenuItem deselect_item;
+		public Gtk.MenuItem install_item;
+		public Gtk.MenuItem remove_item;
+		public Gtk.SeparatorMenuItem separator_item;
+		public Gtk.MenuItem reinstall_item;
+		public Gtk.MenuItem install_optional_deps_item;
+		public Gtk.MenuItem explicitly_installed_item;
+		public GLib.List<Pamac.Package> selected_pkgs;
+
 		public ListStore search_list;
 		public ListStore groups_list;
 		public ListStore states_list;
@@ -117,6 +127,29 @@ namespace Pamac {
 			Object (application: application);
 
 			aur_results = new HashTable<string, Json.Array> (str_hash, str_equal);
+
+			right_click_menu = new Gtk.Menu ();
+			deselect_item = new Gtk.MenuItem.with_label (dgettext (null, "Deselect"));
+			deselect_item.activate.connect (on_deselect_item_activate);
+			right_click_menu.append (deselect_item);
+			install_item = new Gtk.MenuItem.with_label (dgettext (null, "Install"));
+			install_item.activate.connect (on_install_item_activate);
+			right_click_menu.append (install_item);
+			remove_item = new Gtk.MenuItem.with_label (dgettext (null, "Remove"));
+			remove_item.activate.connect (on_remove_item_activate);
+			right_click_menu.append (remove_item);
+			separator_item = new Gtk.SeparatorMenuItem ();
+			right_click_menu.append (separator_item);
+			reinstall_item = new Gtk.MenuItem.with_label (dgettext (null, "Reinstall"));
+			reinstall_item.activate.connect (on_reinstall_item_activate);
+			right_click_menu.append (reinstall_item);
+			install_optional_deps_item = new Gtk.MenuItem.with_label (dgettext (null, "Install optional dependencies"));
+			install_optional_deps_item.activate.connect (on_install_optional_deps_item_activate);
+			right_click_menu.append (install_optional_deps_item);
+			explicitly_installed_item = new Gtk.MenuItem.with_label (dgettext (null, "Mark as explicitly installed"));
+			explicitly_installed_item.activate.connect (on_explicitly_installed_item_activate);
+			right_click_menu.append (explicitly_installed_item);
+			right_click_menu.show_all ();
 
 			search_list = new Gtk.ListStore (1, typeof (string));
 			search_treeview.set_model (search_list);
@@ -464,9 +497,11 @@ namespace Pamac {
 		[GtkCallback]
 		public void on_packages_treeview_selection_changed () {
 			TreeModel model;
-			TreeIter? iter;
 			TreeSelection selection = packages_treeview.get_selection ();
-			if (selection.get_selected (out model, out iter)) {
+			GLib.List<TreePath> selected = selection.get_selected_rows (out model);
+			if (selected.length () == 1) {
+				TreeIter iter;
+				model.get_iter (out iter, selected.nth_data (0));
 				Pamac.Package pkg = (Pamac.Package) iter.user_data;
 				if (pkg.alpm_pkg != null) {
 					set_infos_list (pkg);
@@ -497,12 +532,9 @@ namespace Pamac {
 				packages_list.get_value (iter, 0, out val);
 				string name = val.get_string ();
 				if (name != dgettext (null, "No package found")) {
-					if (transaction.to_add.contains (name)) {
-						transaction.to_add.steal (name);
-					} else if (transaction.to_remove.contains (name)) {
-						transaction.to_remove.steal (name);
-					} else if (transaction.to_build.contains (name)) {
-						transaction.to_build.steal (name);
+					if (transaction.to_add.steal (name)) {
+					} else if (transaction.to_remove.steal (name)) {
+					} else if (transaction.to_build.steal (name)) {
 					} else {
 						packages_list.get_value (iter, 3, out val);
 						string db_name = val.get_string ();
@@ -527,10 +559,188 @@ namespace Pamac {
 			packages_treeview.queue_draw ();
 		}
 
+		void on_install_item_activate () {
+			unowned Alpm.Package? find_pkg = null;
+			foreach (Pamac.Package pkg in selected_pkgs) {
+				if (pkg.repo == "AUR")
+					transaction.to_build.insert (pkg.name, pkg.name);
+				else {
+					find_pkg = transaction.handle.localdb.get_pkg (pkg.name);
+					if (find_pkg == null)
+						transaction.to_add.insert (pkg.name, pkg.name);
+				}
+			}
+			if (transaction.to_add.size () != 0 || transaction.to_build.size () != 0) {
+				set_buttons_sensitive (true);
+			}
+		}
+
+		void on_reinstall_item_activate () {
+			foreach (Pamac.Package pkg in selected_pkgs) {
+				if (pkg.repo == "local")
+					transaction.to_add.insert (pkg.name, pkg.name);
+			}
+			if (transaction.to_add.size () != 0)
+				set_buttons_sensitive (true);
+		}
+
+		void on_remove_item_activate () {
+			foreach (Pamac.Package pkg in selected_pkgs) {
+				if ((pkg.name in transaction.holdpkg) == false) {
+					if (pkg.repo == "local")
+						transaction.to_remove.insert (pkg.name, pkg.name);
+				}
+			}
+			if (transaction.to_remove.size () != 0)
+				set_buttons_sensitive (true);
+		}
+
+		void on_deselect_item_activate () {
+			foreach (Pamac.Package pkg in selected_pkgs) {
+				if (transaction.to_add.steal (pkg.name)) {
+				} else if (transaction.to_remove.steal (pkg.name)) {
+				} else if (transaction.to_build.steal (pkg.name)) {
+				}
+			}
+			if (transaction.to_add.size () == 0 && transaction.to_remove.size () == 0
+					&& transaction.to_load.size () == 0 && transaction.to_build.size () == 0) {
+				set_buttons_sensitive (false);
+			}
+		}
+
+		public void choose_opt_dep (GLib.List<Pamac.Package> pkgs) {
+			uint nb;
+			TreeIter iter;
+			unowned Alpm.Package? found;
+			foreach (Pamac.Package pkg in pkgs) {
+				var choose_dep_dialog = new ChooseDependenciesDialog (this);
+				nb = 0;
+				foreach (unowned Depend opt_dep in pkg.alpm_pkg.optdepends) {
+					found = find_satisfier (transaction.handle.localdb.pkgcache, opt_dep.compute_string ());
+					if (found == null) {
+						choose_dep_dialog.deps_list.insert_with_values (out iter, -1,
+												0, false,
+												1, opt_dep.name,
+												2, opt_dep.desc);
+						nb += 1;
+					}
+				}
+				choose_dep_dialog.label.set_markup ("<b>%s</b>".printf (dgettext (null, "%s has %u uninstalled optional dependencies.\nChoose those you would like to install:").printf (pkg.name, nb)));
+				choose_dep_dialog.run ();
+				choose_dep_dialog.hide ();
+				while (Gtk.events_pending ())
+					Gtk.main_iteration ();
+				choose_dep_dialog.deps_list.foreach ((model, path, iter) => {
+					GLib.Value val;
+					bool selected;
+					string name;
+					choose_dep_dialog.deps_list.get_value (iter, 0, out val);
+					selected = val.get_boolean ();
+					if (selected) {
+						choose_dep_dialog.deps_list.get_value (iter, 1, out val);
+						name = val.get_string ();
+						transaction.to_add.insert (name, name);
+					}
+					return false;
+				}); 
+			}
+		}
+
+		void on_install_optional_deps_item_activate () {
+			choose_opt_dep (selected_pkgs);
+			if (transaction.to_add.size () != 0)
+				set_buttons_sensitive (true);
+		}
+
+		void on_explicitly_installed_item_activate () {
+			foreach (Pamac.Package pkg in selected_pkgs) {
+				transaction.set_pkgreason.begin (pkg.name, PkgReason.EXPLICIT, (obj, res) => {
+					transaction.set_pkgreason.end (res);
+					refresh_packages_list ();
+				});
+			}
+		}
+
 		[GtkCallback]
-		public bool on_list_treeview_button_press_event (Gdk.EventButton event) {
-			// to do
-			return false;
+		public bool on_packages_treeview_button_press_event (Gdk.EventButton event) {
+			packages_treeview.grab_focus ();
+			// Check if right mouse button was clicked
+			if (event.type == Gdk.EventType.BUTTON_PRESS && event.button == 3) {
+				TreeIter iter;
+				TreePath? treepath;
+				Pamac.Package clicked_pkg;
+				TreeSelection selection = packages_treeview.get_selection ();
+				packages_treeview.get_path_at_pos ((int) event.x, (int) event.y, out treepath, null, null, null);
+				packages_list.get_iter (out iter, treepath);
+				clicked_pkg = (Pamac.Package) iter.user_data;
+				if (clicked_pkg.name == dgettext (null, "No package found"))
+					return true;
+				if (selection.path_is_selected (treepath) == false) {
+					selection.unselect_all ();
+					selection.select_path (treepath);
+				}
+				GLib.List<TreePath> selected_paths = selection.get_selected_rows (null);
+				deselect_item.set_sensitive (false);
+				install_item.set_sensitive (false);
+				remove_item.set_sensitive (false);
+				reinstall_item.set_sensitive (false);
+				install_optional_deps_item.set_sensitive (false);
+				explicitly_installed_item.set_sensitive (false);
+				selected_pkgs = new GLib.List<Pamac.Package> ();
+				foreach (TreePath path in selected_paths) {
+					packages_list.get_iter (out iter, path);
+					clicked_pkg = (Pamac.Package) iter.user_data;
+					selected_pkgs.append (clicked_pkg);
+				}
+				foreach (Pamac.Package pkg in selected_pkgs) {
+					if (transaction.to_add.contains (pkg.name)
+							|| transaction.to_remove.contains (pkg.name)
+							|| transaction.to_build.contains (pkg.name)) {
+						deselect_item.set_sensitive (true);
+						break;
+					}
+				}
+				foreach (Pamac.Package pkg in selected_pkgs) {
+					if (pkg.repo != "local") {
+						install_item.set_sensitive (true);
+						break;
+					}
+				}
+				foreach (Pamac.Package pkg in selected_pkgs) {
+					if (pkg.repo == "local") {
+						remove_item.set_sensitive (true);
+						break;
+					}
+				}
+				if (selected_pkgs.length () == 1) {
+					unowned Alpm.Package? find_pkg = null;
+					clicked_pkg = selected_pkgs.nth_data (0);
+					if (clicked_pkg.repo == "local") {
+						unowned Alpm.List<Depend?> optdepends = clicked_pkg.alpm_pkg.optdepends;
+						if (optdepends.length != 0) {
+							uint nb = 0;
+							unowned Alpm.Package? found;
+							foreach (unowned Depend opt_dep in optdepends) {
+								found = find_satisfier (transaction.handle.localdb.pkgcache, opt_dep.compute_string ());
+								if (found == null)
+									nb += 1;
+							}
+							if (nb != 0)
+								install_optional_deps_item.set_sensitive (true);
+						}
+						if (clicked_pkg.alpm_pkg.reason == PkgReason.DEPEND)
+							explicitly_installed_item.set_sensitive (true);
+						find_pkg = get_syncpkg (transaction.handle, clicked_pkg.name);
+						if (find_pkg != null) {
+							if (pkg_vercmp (find_pkg.version, clicked_pkg.version) == 0)
+								reinstall_item.set_sensitive (true);
+						}
+					}
+				}
+				right_click_menu.popup (null, null, null, event.button, event.time);
+				return true;
+			} else
+				return false;
 		}
 
 		[GtkCallback]
@@ -833,6 +1043,8 @@ namespace Pamac {
 				history_dialog.textview.buffer.set_text (text.str, (int) text.len);
 				history_dialog.run ();
 				history_dialog.hide ();
+				while (Gtk.events_pending ())
+					Gtk.main_iteration ();
 			}
 		}
 
@@ -853,6 +1065,8 @@ namespace Pamac {
 				}
 			} else
 				packages_chooser_dialog.hide ();
+				while (Gtk.events_pending ())
+					Gtk.main_iteration ();
 		}
 
 		[GtkCallback]
@@ -880,11 +1094,16 @@ namespace Pamac {
 				if (refresh_period != pamac_config.refresh_period)
 					new_conf.insert ("RefreshPeriod", refresh_period.to_string ());
 				if (new_conf.size () != 0) {
-					transaction.write_config (new_conf);
-					pamac_config.reload ();
+					transaction.write_config.begin (new_conf, (obj, res) => {
+						transaction.write_config.end (res);
+						pamac_config.reload ();
+						search_aur_button.set_active (pamac_config.enable_aur);
+					});
 				}
 			}
 			preferences_dialog.hide ();
+			while (Gtk.events_pending ())
+				Gtk.main_iteration ();
 		}
 
 		[GtkCallback]
