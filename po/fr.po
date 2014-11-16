@@ -408,12 +408,12 @@ msgstr "Vérification de l'espace disque disponible"
 #: src/transaction.vala:685
 #, c-format
 msgid "%s optionally requires %s"
-msgstr ""
+msgstr "%s peut nécessiter %s"
 
 #: src/transaction.vala:688
 #, c-format
 msgid "Database file for %s does not exist"
-msgstr ""
+msgstr "Le dépôt %s n'existe pas"
 
 #: src/transaction.vala:740
 #, c-format

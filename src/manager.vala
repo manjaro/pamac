@@ -49,8 +49,12 @@ namespace Pamac {
 		}
 
 		public override void activate () {
-			if (pamac_run == false)
+			if (pamac_run == false) {
 				manager_window.present ();
+				while (Gtk.events_pending ())
+					Gtk.main_iteration ();
+				manager_window.show_all_pkgs ();
+			}
 		}
 
 		public override void shutdown () {

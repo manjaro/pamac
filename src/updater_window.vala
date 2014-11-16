@@ -47,17 +47,17 @@ namespace Pamac {
 			updates_list = new Gtk.ListStore (2, typeof (string), typeof (string));
 			updates_treeview.set_model (updates_list);
 
-			transaction = new Transaction (this as ApplicationWindow, pamac_config);
+			transaction = new Transaction (this as ApplicationWindow);
 			transaction.mode = Mode.UPDATER;
+			transaction.check_aur = pamac_config.enable_aur;
 			transaction.finished.connect (on_emit_trans_finished);
 
 			preferences_dialog = new PreferencesDialog (this as ApplicationWindow);
 
-			top_label.set_markup("<b>%s</b>".printf (dgettext (null, "Your system is up-to-date")));
 			bottom_label.set_visible (false);
 			apply_button.set_sensitive (false);
 
-			transaction.refresh (0);
+			on_refresh_button_clicked ();
 		}
 
 		[GtkCallback]
@@ -84,11 +84,9 @@ namespace Pamac {
 				if (refresh_period != pamac_config.refresh_period)
 					new_conf.insert ("RefreshPeriod", refresh_period.to_string ());
 				if (new_conf.size () != 0) {
-					transaction.write_config.begin (new_conf, (obj, res) => {
-						transaction.write_config.end (res);
-						pamac_config.reload ();
-						set_updates_list.begin ();
-					});
+					transaction.write_config (new_conf);
+					pamac_config.reload ();
+					set_updates_list.begin ();
 				}
 			}
 			preferences_dialog.hide ();
@@ -118,12 +116,7 @@ namespace Pamac {
 		}
 
 		public void on_emit_trans_finished (bool error) {
-			while (Gtk.events_pending ())
-				Gtk.main_iteration ();
-			set_updates_list.begin ((obj, res) => {
-				set_updates_list.end (res);
-				this.get_window ().set_cursor (null);
-			});
+			set_updates_list.begin ();
 		}
 
 		public async void set_updates_list () {
@@ -132,6 +125,10 @@ namespace Pamac {
 			string size;
 			uint64 dsize = 0;
 			uint updates_nb = 0;
+			this.get_window ().set_cursor (new Gdk.Cursor (Gdk.CursorType.WATCH));
+			while (Gtk.events_pending ())
+				Gtk.main_iteration ();
+			top_label.set_markup ("");
 			updates_list.clear ();
 			// get syncfirst updates
 			UpdatesInfos[] syncfirst_updates = get_syncfirst_updates (transaction.handle, transaction.syncfirst);
@@ -147,6 +144,8 @@ namespace Pamac {
 					updates_list.insert_with_values (out iter, -1, 0, name, 1, size);
 				}
 			} else {
+				while (Gtk.events_pending ())
+					Gtk.main_iteration ();
 				UpdatesInfos[] updates = get_repos_updates (transaction.handle, transaction.ignorepkg);
 				foreach (UpdatesInfos infos in updates) {
 					name = infos.name + " " + infos.version;
@@ -187,6 +186,10 @@ namespace Pamac {
 				bottom_label.set_visible (true);
 			} else
 				bottom_label.set_visible (false);
+
+			this.get_window ().set_cursor (null);
+			while (Gtk.events_pending ())
+				Gtk.main_iteration ();
 		}
 	}
 }

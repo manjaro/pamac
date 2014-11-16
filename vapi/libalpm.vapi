@@ -34,7 +34,7 @@ namespace Alpm {
 	public unowned Package? find_satisfier(Alpm.List<Package> pkgs, string depstring);
 	public unowned Package? pkg_find(Alpm.List<Package> haystack, string needle);
 	public int pkg_vercmp(string a, string b);
-	public unowned Alpm.List<Package?> find_group_pkgs(Alpm.List<DB> dbs, string name);
+	public unowned Alpm.List<unowned Package?> find_group_pkgs(Alpm.List<DB> dbs, string name);
 	public unowned Package? sync_newversion(Package pkg, Alpm.List<DB> dbs);
 	/** Returns the string corresponding to an error number. */
 	public unowned string strerror(Errno err);
@@ -247,7 +247,7 @@ namespace Alpm {
 				[CCode (cname = "alpm_get_localdb")] get;
 		}
 
-		public unowned Alpm.List<DB?> syncdbs {
+		public unowned Alpm.List<unowned DB?> syncdbs {
 				[CCode (cname = "alpm_get_syncdbs")] get;
 		}
 
@@ -281,11 +281,11 @@ namespace Alpm {
 
 		/** Returns a list of packages added by the transaction.*/
 		[CCode (cname = "alpm_trans_get_add")]
-		public unowned Alpm.List<Package?> trans_to_add();
+		public unowned Alpm.List<unowned Package?> trans_to_add();
 
 		/** Returns the list of packages removed by the transaction.*/
 		[CCode (cname = "alpm_trans_get_remove")]
-		public unowned Alpm.List<Package?> trans_to_remove();
+		public unowned Alpm.List<unowned Package?> trans_to_remove();
 
 		public LogCallBack logcb {
 			[CCode (cname = "alpm_option_get_logcb")] get;
@@ -406,11 +406,11 @@ namespace Alpm {
 			[CCode (cname = "alpm_db_set_servers")] set;
 		}
 
-		public unowned Alpm.List<Package?> pkgcache {
+		public unowned Alpm.List<unowned Package?> pkgcache {
 			[CCode (cname = "alpm_db_get_pkgcache")] get;
 		}
 
-		public unowned Alpm.List<Group?> groupcache {
+		public unowned Alpm.List<unowned Group?> groupcache {
 			[CCode (cname = "alpm_db_get_groupcache")] get;
 		}
 
@@ -422,7 +422,7 @@ namespace Alpm {
 
 		public unowned Package? get_pkg(string name);
 		public unowned Group? get_group(string name);
-		public unowned Alpm.List<Package?> search(Alpm.List<string> needles);
+		public unowned Alpm.List<unowned Package?> search(Alpm.List<string> needles);
 	}
 
 	/**
@@ -505,25 +505,25 @@ namespace Alpm {
 		public unowned Alpm.List<unowned string?> groups {
 			[CCode (cname = "alpm_pkg_get_groups")] get;
 		}
-		public unowned Alpm.List<Depend?> depends {
+		public unowned Alpm.List<unowned Depend?> depends {
 			[CCode (cname = "alpm_pkg_get_depends")] get;
 		}
-		public unowned Alpm.List<Depend?> optdepends {
+		public unowned Alpm.List<unowned Depend?> optdepends {
 			[CCode (cname = "alpm_pkg_get_optdepends")] get;
 		}
-		public unowned Alpm.List<Depend?> conflicts {
+		public unowned Alpm.List<unowned Depend?> conflicts {
 			[CCode (cname = "alpm_pkg_get_conflicts")] get;
 		}
-		public unowned Alpm.List<Depend?> provides {
+		public unowned Alpm.List<unowned Depend?> provides {
 			[CCode (cname = "alpm_pkg_get_provides")] get;
 		}
-		public unowned Alpm.List<Depend?> replaces {
+		public unowned Alpm.List<unowned Depend?> replaces {
 			[CCode (cname = "alpm_pkg_get_replaces")] get;
 		}
-		public unowned Alpm.List<File?> files {
+		public unowned Alpm.List<unowned File?> files {
 			[CCode (cname = "alpm_pkg_get_files_list")] get;
 		}
-		public unowned Alpm.List<Backup?> backup {
+		public unowned Alpm.List<unowned Backup?> backup {
 			[CCode (cname = "alpm_pkg_get_backup")] get;
 		}
 		public unowned DB? db {
@@ -579,7 +579,7 @@ namespace Alpm {
 	[CCode (cname = "alpm_group_t", has_type_id = false)]
 	public class Group {
 		public string name;
-		public unowned Alpm.List<Package?> packages;
+		public unowned Alpm.List<unowned Package?> packages;
 	}
 
 	/** Package upgrade delta */
@@ -988,7 +988,8 @@ namespace Alpm {
 		[CCode (cname = "alpm_list_remove_data"), ReturnsModifiedPointer ()]
 		public unowned void? remove(G data, CompareFunc fn);
 
-		public List<G> copy();
+		public unowned List<G> copy();
+		public List<G> copy_data();
 
 		[ReturnsModifiedPointer ()]
 		public unowned void reverse ();

@@ -38,7 +38,7 @@
             <child>
               <object class="GtkTreeView" id="updates_treeview">
                 <property name="visible">True</property>
-                <property name="can_focus">True</property>
+                <property name="can_focus">False</property>
                 <property name="vexpand">True</property>
                 <property name="headers_visible">False</property>
                 <property name="headers_clickable">False</property>
@@ -101,7 +101,6 @@
                     <property name="label" translatable="yes">_Preferences</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
-                    <property name="receives_default">True</property>
                     <property name="use_underline">True</property>
                     <signal name="clicked" handler="on_preferences_button_clicked" swapped="no"/>
                   </object>
@@ -119,8 +118,7 @@
             <child>
               <object class="GtkButtonBox" id="buttonbox1">
                 <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="has_focus">True</property>
+                <property name="can_focus">False</property>
                 <property name="spacing">6</property>
                 <property name="layout_style">end</property>
                 <child>
@@ -128,7 +126,6 @@
                     <property name="label" translatable="yes">_Refresh</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
-                    <property name="receives_default">True</property>
                     <property name="use_underline">True</property>
                     <signal name="clicked" handler="on_refresh_button_clicked" swapped="no"/>
                   </object>
@@ -142,7 +139,7 @@
                     <property name="label" translatable="yes">_Apply</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
-                    <property name="receives_default">True</property>
+                    <property name="has_focus">True</property>
                     <property name="use_underline">True</property>
                     <signal name="clicked" handler="on_apply_button_clicked" swapped="no"/>
                   </object>
@@ -156,7 +153,6 @@
                     <property name="label" translatable="yes">_Close</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
-                    <property name="receives_default">True</property>
                     <property name="use_underline">True</property>
                     <signal name="clicked" handler="on_close_button_clicked" swapped="no"/>
                   </object>

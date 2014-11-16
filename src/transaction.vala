@@ -24,8 +24,8 @@ using Alpm;
 namespace Pamac {
 	[DBus (name = "org.manjaro.pamac")]
 	public interface Daemon : Object {
-		public abstract async void write_config (HashTable<string,string> new_conf) throws IOError;
-		public abstract async void set_pkgreason (string pkgname, uint reason) throws IOError;
+		public abstract void write_config (HashTable<string,string> new_conf) throws IOError;
+		public abstract void set_pkgreason (string pkgname, uint reason) throws IOError;
 		public abstract void refresh (int force, bool emit_signal) throws IOError;
 		public abstract ErrorInfos trans_init (TransFlag transflags) throws IOError;
 		public abstract ErrorInfos trans_sysupgrade (int enable_downgrade) throws IOError;
@@ -59,7 +59,6 @@ namespace Pamac {
 		public string[] holdpkg;
 		public string[] ignorepkg;
 		public Handle handle;
-		public Pamac.Config pamac_config;
 
 		public Alpm.TransFlag flags;
 		// those hashtables will be used as set
@@ -81,6 +80,9 @@ namespace Pamac {
 		bool sysupgrade_after_build;
 		int build_status;
 		int enable_downgrade;
+		public bool check_aur;
+		UpdatesInfos[] aur_updates;
+		bool aur_checked;
 
 		Terminal term;
 		Pty pty;
@@ -94,9 +96,8 @@ namespace Pamac {
 
 		public signal void finished (bool error);
 
-		public Transaction (ApplicationWindow? window, Pamac.Config pamac_config) {
+		public Transaction (ApplicationWindow? window) {
 			refresh_alpm_config ();
-			this.pamac_config = pamac_config;
 			mode = Mode.MANAGER;
 			flags = Alpm.TransFlag.CASCADE;
 			to_add = new HashTable<string, string> (str_hash, str_equal);
@@ -142,19 +143,22 @@ namespace Pamac {
 			sysupgrade_after_trans = false;
 			sysupgrade_after_build = false;
 			build_status = 0;
+			check_aur = false;
+			aur_updates = {};
+			aur_checked = false;
 		}
 
-		public async void write_config (HashTable<string,string> new_conf) {
+		public void write_config (HashTable<string,string> new_conf) {
 			try {
-				yield daemon.write_config (new_conf);
+				daemon.write_config (new_conf);
 			} catch (IOError e) {
 				stderr.printf ("IOError: %s\n", e.message);
 			}
 		}
 
-		public async void set_pkgreason (string pkgname, PkgReason reason) {
+		public void set_pkgreason (string pkgname, PkgReason reason) {
 			try {
-				yield daemon.set_pkgreason (pkgname, (uint) reason);
+				daemon.set_pkgreason (pkgname, (uint) reason);
 				refresh_alpm_config ();
 			} catch (IOError e) {
 				stderr.printf ("IOError: %s\n", e.message);
@@ -247,8 +251,11 @@ namespace Pamac {
 			} else {
 				UpdatesInfos[] updates = get_repos_updates (handle, ignorepkg);
 				uint repos_updates_len = updates.length;
-				if (pamac_config.enable_aur) {
-					UpdatesInfos[] aur_updates = get_aur_updates (handle, ignorepkg);
+				if (check_aur) {
+					if (aur_checked == false) {
+						aur_updates = get_aur_updates (handle, ignorepkg);
+						aur_checked = true;
+					}
 					if (aur_updates.length != 0) {
 						clear_lists ();
 						if (repos_updates_len != 0)
@@ -749,22 +756,32 @@ namespace Pamac {
 			}
 			if (total_download > 0) {
 				fraction = (float) (xfered + already_downloaded) / total_download;
-				textbar = "%s/%s".printf (format_size (xfered + already_downloaded), format_size (total_download));
+				if (fraction > 0)
+					textbar = "%s/%s".printf (format_size (xfered + already_downloaded), format_size (total_download));
+				else
+					textbar = "%s".printf (format_size (xfered + already_downloaded));
 			} else {
 				fraction = (float) xfered / total;
-				textbar = "%s/%s".printf (format_size (xfered), format_size (total));
+				if (fraction > 0)
+					textbar = "%s/%s".printf (format_size (xfered), format_size (total));
+				else
+					textbar = "%s".printf (format_size (xfered));
 			}
-			if (fraction != previous_percent) {
-				previous_percent = fraction;
-				progress_dialog.progressbar.set_fraction (fraction);
-			}
-			
+			if (fraction > 0) {
+				if (fraction != previous_percent) {
+					previous_percent = fraction;
+					progress_dialog.progressbar.set_fraction (fraction);
+				}
+			} else
+				progress_dialog.progressbar.set_fraction (0);
 			if (textbar != previous_textbar) {
 				previous_textbar = textbar;
 				progress_dialog.progressbar.set_text (textbar);
 			}
-			if (xfered == total)
+			if (xfered == total) {
 				already_downloaded += total;
+				previous_filename = "";
+			}
 		}
 
 		void on_emit_totaldownload (uint64 total) {

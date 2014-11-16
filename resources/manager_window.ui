@@ -23,7 +23,7 @@
               <object class="GtkButton" id="refresh_button">
                 <property name="visible">True</property>
                 <property name="tooltip_text" translatable="yes">Refresh databases</property>
-                <property name="focus_on_click">False</property>
+                <property name="can_focus">True</property>
                 <signal name="clicked" handler="on_refresh_button_clicked" swapped="no"/>
                 <style>
                   <class name="image-button"/>
@@ -46,7 +46,7 @@
               <object class="GtkButton" id="valid_button">
                 <property name="visible">True</property>
                 <property name="tooltip_text" translatable="yes">Apply changes</property>
-                <property name="focus_on_click">False</property>
+                <property name="can_focus">True</property>
                 <signal name="clicked" handler="on_valid_button_clicked" swapped="no"/>
                 <style>
                   <class name="image-button"/>
@@ -69,7 +69,7 @@
               <object class="GtkButton" id="cancel_button">
                 <property name="visible">True</property>
                 <property name="tooltip_text" translatable="yes">Cancel all planned changes</property>
-                <property name="focus_on_click">False</property>
+                <property name="can_focus">True</property>
                 <signal name="clicked" handler="on_cancel_button_clicked" swapped="no"/>
                 <style>
                   <class name="image-button"/>
@@ -91,6 +91,7 @@
             <child>
               <object class="GtkMenuButton" id="menu_button">
                 <property name="visible">True</property>
+                <property name="can_focus">True</property>
                 <property name="popup">main_menu</property>
                 <property name="use_popover">True</property>
                 <style>
@@ -164,6 +165,7 @@
                         <child>
                           <object class="GtkSwitch" id="search_aur_button">
                             <property name="visible">True</property>
+                            <property name="tooltip_text" translatable="yes">Search in AUR</property>
                             <property name="halign">end</property>
                           </object>
                           <packing>
@@ -492,7 +494,7 @@
                         <child>
                           <object class="GtkViewport" id="viewport1">
                             <property name="visible">True</property>
-                            <property name="can_focus">False</property>
+                            <property name="can_focus">True</property>
                             <child>
                               <object class="GtkBox" id="box5">
                                 <property name="visible">True</property>
@@ -502,7 +504,7 @@
                                 <child>
                                   <object class="GtkLabel" id="name_label">
                                     <property name="visible">True</property>
-                                    <property name="can_focus">False</property>
+                                    <property name="can_focus">True</property>
                                     <property name="halign">start</property>
                                     <property name="margin">6</property>
                                     <property name="selectable">True</property>
@@ -516,7 +518,7 @@
                                 <child>
                                   <object class="GtkLabel" id="desc_label">
                                     <property name="visible">True</property>
-                                    <property name="can_focus">False</property>
+                                    <property name="can_focus">True</property>
                                     <property name="halign">start</property>
                                     <property name="margin">6</property>
                                     <property name="selectable">True</property>
@@ -544,7 +546,7 @@
                                 <child>
                                   <object class="GtkLabel" id="licenses_label">
                                     <property name="visible">True</property>
-                                    <property name="can_focus">False</property>
+                                    <property name="can_focus">True</property>
                                     <property name="halign">start</property>
                                     <property name="margin">6</property>
                                     <property name="selectable">True</property>
@@ -579,7 +581,7 @@
                         <child>
                           <object class="GtkTreeView" id="deps_treeview">
                             <property name="visible">True</property>
-                            <property name="can_focus">False</property>
+                            <property name="can_focus">True</property>
                             <property name="headers_visible">False</property>
                             <property name="headers_clickable">False</property>
                             <property name="enable_search">False</property>
@@ -640,7 +642,7 @@
                         <child>
                           <object class="GtkTreeView" id="details_treeview">
                             <property name="visible">True</property>
-                            <property name="can_focus">False</property>
+                            <property name="can_focus">True</property>
                             <property name="headers_visible">False</property>
                             <property name="headers_clickable">False</property>
                             <property name="enable_search">False</property>

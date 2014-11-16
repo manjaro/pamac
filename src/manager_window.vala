@@ -59,8 +59,6 @@ namespace Pamac {
 		[GtkChild]
 		public TreeView search_treeview;
 		[GtkChild]
-		public TreeSelection search_treeview_selection;
-		[GtkChild]
 		public TreeView groups_treeview;
 		[GtkChild]
 		public TreeView states_treeview;
@@ -93,27 +91,29 @@ namespace Pamac {
 		[GtkChild]
 		public Button cancel_button;
 
-		public Gtk.Menu right_click_menu;
-		public Gtk.MenuItem deselect_item;
-		public Gtk.MenuItem install_item;
-		public Gtk.MenuItem remove_item;
-		public Gtk.SeparatorMenuItem separator_item;
-		public Gtk.MenuItem reinstall_item;
-		public Gtk.MenuItem install_optional_deps_item;
-		public Gtk.MenuItem explicitly_installed_item;
-		public GLib.List<Pamac.Package> selected_pkgs;
+		// menu
+		Gtk.Menu right_click_menu;
+		Gtk.MenuItem deselect_item;
+		Gtk.MenuItem install_item;
+		Gtk.MenuItem remove_item;
+		Gtk.SeparatorMenuItem separator_item;
+		Gtk.MenuItem reinstall_item;
+		Gtk.MenuItem install_optional_deps_item;
+		Gtk.MenuItem explicitly_installed_item;
+		GLib.List<Pamac.Package> selected_pkgs;
 
-		public ListStore search_list;
-		public ListStore groups_list;
-		public ListStore states_list;
-		public ListStore repos_list;
-		public ListStore deps_list;
-		public ListStore details_list;
+		// liststore
+		ListStore search_list;
+		ListStore groups_list;
+		ListStore states_list;
+		ListStore repos_list;
+		ListStore deps_list;
+		ListStore details_list;
 
 		PackagesModel packages_list;
 		HashTable<string, Json.Array> aur_results;
 
-		public Pamac.Config pamac_config;
+		Pamac.Config pamac_config;
 		public Transaction transaction;
 
 		public SortInfo sortinfo;
@@ -177,7 +177,8 @@ namespace Pamac {
 
 			pamac_config = new Pamac.Config ("/etc/pamac.conf");
 
-			transaction = new Pamac.Transaction (this as ApplicationWindow, pamac_config);
+			transaction = new Pamac.Transaction (this as ApplicationWindow);
+			transaction.check_aur = pamac_config.enable_aur;
 			transaction.finished.connect (on_emit_trans_finished);
 
 			history_dialog = new HistoryDialog (this);
@@ -201,9 +202,18 @@ namespace Pamac {
 			cancel_button.set_sensitive (sensitive);
 		}
 
+		public void show_all_pkgs () {
+			this.get_window ().set_cursor (new Gdk.Cursor (Gdk.CursorType.WATCH));
+			populate_packages_list (get_all_pkgs (transaction.handle));
+			this.get_window ().set_cursor (null);
+		}
+
 		public void update_lists () {
 			string[] grps = {};
 			TreeIter iter;
+			TreeSelection selection;
+			selection = repos_treeview.get_selection ();
+			selection.changed.disconnect (on_repos_treeview_selection_changed);
 			foreach (unowned DB db in transaction.handle.syncdbs) {
 				repos_list.insert_with_values (out iter, -1, 0, db.name);
 				foreach (unowned Group grp in db.groupcache) {
@@ -213,14 +223,29 @@ namespace Pamac {
 				}
 			}
 			repos_list.insert_with_values (out iter, -1, 0, dgettext (null, "local"));
+			repos_list.get_iter_first (out iter);
+			selection.select_iter (iter);
+			selection.changed.connect_after (on_repos_treeview_selection_changed);
+
+			selection = groups_treeview.get_selection ();
+			selection.changed.disconnect (on_groups_treeview_selection_changed);
 			foreach (string name in grps)
 				groups_list.insert_with_values (out iter, -1, 0, name);
 			groups_list.set_sort_column_id (0, SortType.ASCENDING);
+			groups_list.get_iter_first (out iter);
+			selection.select_iter (iter);
+			selection.changed.connect_after (on_groups_treeview_selection_changed);
+
+			selection = states_treeview.get_selection ();
+			selection.changed.disconnect (on_states_treeview_selection_changed);
 			states_list.insert_with_values (out iter, -1, 0, dgettext (null, "Installed"));
 			//states_list.insert_with_values (out iter, -1, 0, dgettext (null, "Uninstalled"));
 			states_list.insert_with_values (out iter, -1, 0, dgettext (null, "Orphans"));
 			states_list.insert_with_values (out iter, -1, 0, dgettext (null, "To install"));
 			states_list.insert_with_values (out iter, -1, 0, dgettext (null, "To remove"));
+			states_list.get_iter_first (out iter);
+			selection.select_iter (iter);
+			selection.changed.connect_after (on_states_treeview_selection_changed);
 		}
 
 		public void set_infos_list (Pamac.Package pkg) {
@@ -654,11 +679,10 @@ namespace Pamac {
 
 		void on_explicitly_installed_item_activate () {
 			foreach (Pamac.Package pkg in selected_pkgs) {
-				transaction.set_pkgreason.begin (pkg.name, PkgReason.EXPLICIT, (obj, res) => {
-					transaction.set_pkgreason.end (res);
-					refresh_packages_list ();
-				});
+				transaction.set_pkgreason (pkg.name, PkgReason.EXPLICIT);
 			}
+			transaction.refresh_alpm_config ();
+			refresh_packages_list ();
 		}
 
 		[GtkCallback]
@@ -833,7 +857,7 @@ namespace Pamac {
 				search_pkgs.begin (search_string, (obj, res) => {
 					Json.Array aur_pkgs;
 					unowned Alpm.List<Alpm.Package?> pkgs = search_pkgs.end (res, out aur_pkgs);
-					if (pkgs.length != 0) {
+					if (pkgs.length != 0 || aur_pkgs.get_length () != 0) {
 						// add search string in search_list if needed
 						bool found = false;
 						TreeIter? iter;
@@ -855,27 +879,28 @@ namespace Pamac {
 									if ((string) line == search_string) {
 										found = true;
 										// block the signal to not populate when we select the iter in search_list
-										search_treeview_selection.changed.disconnect (on_search_treeview_selection_changed);
+										selection.changed.disconnect (on_search_treeview_selection_changed);
 										selection.select_iter (_iter);
-										search_treeview_selection.changed.connect_after (on_search_treeview_selection_changed);
+										selection.changed.connect_after (on_search_treeview_selection_changed);
 										populate_packages_list (pkgs, aur_pkgs);
 									}
 									return found;
 								});
 							}
 						}
-						if (!found) {
+						if (found == false) {
 							search_list.insert_with_values (out iter, -1, 0, search_string);
 							// block the signal to not populate when we select the iter in search_list
-							search_treeview_selection.changed.disconnect (on_search_treeview_selection_changed);
+							selection.changed.disconnect (on_search_treeview_selection_changed);
 							selection.select_iter (iter);
-							search_treeview_selection.changed.connect_after (on_search_treeview_selection_changed);
+							selection.changed.connect_after (on_search_treeview_selection_changed);
 							populate_packages_list (pkgs, aur_pkgs);
 						}
-					} else
+					} else {
 						// populate with empty lists
 						populate_packages_list (pkgs, aur_pkgs);
-					});
+					}
+				});
 			}
 		}
 
@@ -955,15 +980,11 @@ namespace Pamac {
 				} else if (state == dgettext (null, "Installed")) {
 					pkgs = transaction.handle.localdb.pkgcache;
 				} else if (state == dgettext (null, "Uninstalled")) {
-					unowned Alpm.List<Alpm.Package?> tmp = null;
-					unowned Alpm.List<Alpm.Package?> diff = null;
 					foreach (unowned DB db in transaction.handle.syncdbs) {
 						if (pkgs.length == 0)
-							pkgs = db.pkgcache;
+							pkgs = db.pkgcache.copy ();
 						else {
-							tmp = db.pkgcache;
-							diff = tmp.diff (pkgs, (Alpm.List.CompareFunc) pkgcmp);
-							pkgs.join (diff);
+							pkgs.join (db.pkgcache.diff (pkgs, (Alpm.List.CompareFunc) pkgcmp));
 						}
 					}
 				} else if (state == dgettext (null, "Orphans")) {
@@ -1094,11 +1115,9 @@ namespace Pamac {
 				if (refresh_period != pamac_config.refresh_period)
 					new_conf.insert ("RefreshPeriod", refresh_period.to_string ());
 				if (new_conf.size () != 0) {
-					transaction.write_config.begin (new_conf, (obj, res) => {
-						transaction.write_config.end (res);
-						pamac_config.reload ();
-						search_aur_button.set_active (pamac_config.enable_aur);
-					});
+					transaction.write_config (new_conf);
+					pamac_config.reload ();
+					search_aur_button.set_active (pamac_config.enable_aur);
 				}
 			}
 			preferences_dialog.hide ();

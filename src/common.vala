@@ -59,8 +59,6 @@ public int pkgcmp (Alpm.Package pkg1, Alpm.Package pkg2) {
 
 public unowned Alpm.List<Alpm.Package?> search_all_dbs (Alpm.Handle handle, Alpm.List<string?> needles) {
 	unowned Alpm.List<Alpm.Package?> syncpkgs = null;
-	unowned Alpm.List<Alpm.Package?> tmp = null;
-	unowned Alpm.List<Alpm.Package?> diff = null;
 	unowned Alpm.List<Alpm.Package?> result = null;
 
 	result = handle.localdb.search (needles);
@@ -69,15 +67,11 @@ public unowned Alpm.List<Alpm.Package?> search_all_dbs (Alpm.Handle handle, Alpm
 		if (syncpkgs.length == 0)
 			syncpkgs = db.search (needles);
 		else {
-			tmp = db.search (needles);
-			diff = tmp.diff (syncpkgs, (Alpm.List.CompareFunc) pkgcmp);
-			syncpkgs.join (diff);
+			syncpkgs.join (db.search (needles).diff (syncpkgs, (Alpm.List.CompareFunc) pkgcmp));
 		}
 	}
 
-	diff = syncpkgs.diff (result, (Alpm.List.CompareFunc) pkgcmp);
-
-	result.join (diff);
+	result.join (syncpkgs.diff (result, (Alpm.List.CompareFunc) pkgcmp));
 	//result.sort ((Alpm.List.CompareFunc) pkgcmp);
 
 	return result;
@@ -92,17 +86,7 @@ public unowned Alpm.List<Alpm.Package?> group_pkgs_all_dbs (Alpm.Handle handle, 
 			result.add (pkg);
 	}
 
-	// FIX IT: provided methods don't work for syncdbs so it's done manually
-	foreach (unowned Alpm.DB db in handle.syncdbs) {
-		foreach (unowned Alpm.Package pkg in db.pkgcache) {
-			foreach (string name in pkg.groups) {
-				if (name == grp_name) {
-					if (Alpm.pkg_find (result, pkg.name) == null)
-						result.add (pkg);
-				}
-			}
-		}
-	}
+	result.join (Alpm.find_group_pkgs (handle.syncdbs, grp_name).diff (result, (Alpm.List.CompareFunc) pkgcmp));
 
 	//result.sort ((Alpm.List.CompareFunc) pkgcmp);
 
@@ -111,25 +95,19 @@ public unowned Alpm.List<Alpm.Package?> group_pkgs_all_dbs (Alpm.Handle handle, 
 
 public unowned Alpm.List<Alpm.Package?> get_all_pkgs (Alpm.Handle handle) {
 	unowned Alpm.List<Alpm.Package?> syncpkgs = null;
-	unowned Alpm.List<Alpm.Package?> tmp = null;
-	unowned Alpm.List<Alpm.Package?> diff = null;
 	unowned Alpm.List<Alpm.Package?> result = null;
 
-	result = handle.localdb.pkgcache;
+	result = handle.localdb.pkgcache.copy ();
 
 	foreach (unowned Alpm.DB db in handle.syncdbs) {
 		if (syncpkgs.length == 0)
-			syncpkgs = db.pkgcache;
+			syncpkgs = db.pkgcache.copy ();
 		else {
-			tmp = db.pkgcache;
-			diff = tmp.diff (syncpkgs, (Alpm.List.CompareFunc) pkgcmp);
-			syncpkgs.join (diff);
+			syncpkgs.join (db.pkgcache.diff (syncpkgs, (Alpm.List.CompareFunc) pkgcmp));
 		}
 	}
 
-	diff = syncpkgs.diff (result, (Alpm.List.CompareFunc) pkgcmp);
-
-	result.join (diff);
+	result.join (syncpkgs.diff (result, (Alpm.List.CompareFunc) pkgcmp));
 	//result.sort ((Alpm.List.CompareFunc) pkgcmp);
 
 	return result;

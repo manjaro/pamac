@@ -21,7 +21,6 @@ namespace Pamac {
 
 	public class Installer: Gtk.Application {
 		Transaction transaction;
-		Pamac.Config pamac_config;
 		bool pamac_run;
 
 		public Installer () {
@@ -46,8 +45,7 @@ namespace Pamac {
 				transaction_info_dialog.run ();
 				transaction_info_dialog.hide ();
 			} else {
-				pamac_config = new Pamac.Config ("/etc/pamac.conf");
-				transaction = new Pamac.Transaction (null, pamac_config);
+				transaction = new Pamac.Transaction (null);
 				transaction.finished.connect (on_emit_trans_finished);
 				this.hold ();
 			}

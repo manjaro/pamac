@@ -74,12 +74,12 @@ namespace Pamac {
 			previous_percent = 0;
 		}
 
-		public async void write_config (HashTable<string,string> new_conf, GLib.BusName sender) {
+		public void write_config (HashTable<string,string> new_conf, GLib.BusName sender) {
 			var pamac_config = new Pamac.Config ("/etc/pamac.conf");
 			try {
 				Polkit.Authority authority = Polkit.Authority.get_sync (null);
 				Polkit.Subject subject = Polkit.SystemBusName.new (sender);
-				Polkit.AuthorizationResult result = yield authority.check_authorization (
+				Polkit.AuthorizationResult result = authority.check_authorization_sync (
 					subject,
 					"org.manjaro.pamac.commit",
 					null,
@@ -94,11 +94,11 @@ namespace Pamac {
 			}
 		}
 
-		public async void set_pkgreason (string pkgname, uint reason, GLib.BusName sender) {
+		public void set_pkgreason (string pkgname, uint reason, GLib.BusName sender) {
 			try {
 				Polkit.Authority authority = Polkit.Authority.get_sync (null);
 				Polkit.Subject subject = Polkit.SystemBusName.new (sender);
-				Polkit.AuthorizationResult result = yield authority.check_authorization (
+				Polkit.AuthorizationResult result = authority.check_authorization_sync (
 					subject,
 					"org.manjaro.pamac.commit",
 					null,
@@ -483,6 +483,7 @@ namespace Pamac {
 		public void trans_cancel () {
 			handle.trans_interrupt ();
 			handle.trans_release ();
+			init_alpm_config ();
 		}
 
 		public void quit () {
