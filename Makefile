@@ -8,6 +8,7 @@ clean:
 	rm -f src/*.c  src/pamac-daemon  src/pamac-tray  src/pamac-updater  src/pamac-manager  src/pamac-install
 	rm -r resources/*.c
 	rm -rf po/locale
+	rm -f po/*.mo
 	rm -f data/polkit/org.manjaro.pamac.policy
 
 install:

@@ -27,16 +27,16 @@ msgstr ""
 msgid "Authentication is required"
 msgstr "Изисква се идентификация"
 
-#: resources/choose_provider_dialog.ui:7
+#: resources/choose_provider_dialog.ui:6
 msgid "Choose a Provider"
 msgstr ""
 
-#: resources/choose_provider_dialog.ui:23
+#: resources/choose_provider_dialog.ui:22
 #: resources/transaction_sum_dialog.ui:34 resources/preferences_dialog.ui:22
 msgid "_OK"
 msgstr ""
 
-#: resources/packages_chooser_dialog.ui:6 resources/manager_window.ui:763
+#: resources/packages_chooser_dialog.ui:6 resources/manager_window.ui:765
 msgid "Install local packages"
 msgstr "Инсталиране на локални пакети"
 
@@ -46,7 +46,7 @@ msgstr "Инсталиране на локални пакети"
 msgid "_Cancel"
 msgstr "Отказ"
 
-#: resources/packages_chooser_dialog.ui:41
+#: resources/packages_chooser_dialog.ui:40
 msgid "_Open"
 msgstr ""
 
@@ -54,26 +54,26 @@ msgstr ""
 msgid "Progress"
 msgstr "Прогрес"
 
-#: resources/progress_dialog.ui:40 resources/history_dialog.ui:23
-#: resources/transaction_info_dialog.ui:20 resources/updater_window.ui:156
+#: resources/progress_dialog.ui:41 resources/history_dialog.ui:22
+#: resources/transaction_info_dialog.ui:20 resources/updater_window.ui:153
 #: resources/preferences_dialog.ui:36
 msgid "_Close"
 msgstr ""
 
-#: resources/progress_dialog.ui:90 resources/transaction_info_dialog.ui:80
-#: resources/manager_window.ui:693
+#: resources/progress_dialog.ui:92 resources/transaction_info_dialog.ui:79
+#: resources/manager_window.ui:695
 msgid "Details"
 msgstr "Детайли"
 
-#: resources/history_dialog.ui:7
+#: resources/history_dialog.ui:6
 msgid "Pamac History"
 msgstr "История на Pamac"
 
-#: resources/transaction_sum_dialog.ui:5 src/transaction.vala:380
+#: resources/transaction_sum_dialog.ui:5 src/transaction.vala:387
 msgid "Transaction Summary"
 msgstr "Резюме на транзакцията"
 
-#: resources/manager_window.ui:7 src/tray.vala:76
+#: resources/manager_window.ui:7 src/tray.vala:74
 msgid "Package Manager"
 msgstr "Диспечер на пакети"
 
@@ -89,78 +89,78 @@ msgstr "Прилагане на промените"
 msgid "Cancel all planned changes"
 msgstr ""
 
-#: resources/manager_window.ui:155
+#: resources/manager_window.ui:156 resources/manager_window.ui:168
 msgid "Search in AUR"
 msgstr "Търсене в AUR"
 
-#: resources/manager_window.ui:219
+#: resources/manager_window.ui:221
 msgid "Search"
 msgstr "Търсене"
 
-#: resources/manager_window.ui:264 src/manager_window.vala:372
+#: resources/manager_window.ui:266 src/manager_window.vala:397
 msgid "Groups"
 msgstr "Групи"
 
-#: resources/manager_window.ui:310 resources/manager_window.ui:404
+#: resources/manager_window.ui:312 resources/manager_window.ui:406
 msgid "State"
 msgstr "Състояние"
 
-#: resources/manager_window.ui:356
+#: resources/manager_window.ui:358
 #, fuzzy
 msgid "Repositories"
 msgstr "Хранилище"
 
-#: resources/manager_window.ui:419
+#: resources/manager_window.ui:421
 msgid "Name"
 msgstr "Име"
 
-#: resources/manager_window.ui:434
+#: resources/manager_window.ui:436
 msgid "Version"
 msgstr "Версия"
 
-#: resources/manager_window.ui:449 src/manager_window.vala:364
+#: resources/manager_window.ui:451 src/manager_window.vala:389
 msgid "Repository"
 msgstr "Хранилище"
 
-#: resources/manager_window.ui:464
+#: resources/manager_window.ui:466
 msgid "Size"
 msgstr "Размер"
 
-#: resources/manager_window.ui:568
+#: resources/manager_window.ui:570
 msgid "Description"
 msgstr ""
 
-#: resources/manager_window.ui:628
+#: resources/manager_window.ui:630
 msgid "Dependencies"
 msgstr ""
 
-#: resources/manager_window.ui:726
+#: resources/manager_window.ui:728
 msgid "Files"
 msgstr "Файлове"
 
-#: resources/manager_window.ui:755
+#: resources/manager_window.ui:757
 msgid "View History"
 msgstr "Преглед на историята"
 
-#: resources/manager_window.ui:771 resources/updater_window.ui:101
+#: resources/manager_window.ui:773 resources/updater_window.ui:101
 msgid "_Preferences"
 msgstr ""
 
-#: resources/manager_window.ui:780
+#: resources/manager_window.ui:782
 msgid "_About"
 msgstr ""
 
-#: resources/updater_window.ui:6 src/tray.vala:73 src/tray.vala:163
-#: src/tray.vala:235
+#: resources/updater_window.ui:6 src/tray.vala:71 src/tray.vala:157
+#: src/tray.vala:229
 msgid "Update Manager"
 msgstr "Диспечер за обновяване"
 
-#: resources/updater_window.ui:128
+#: resources/updater_window.ui:126
 #, fuzzy
 msgid "_Refresh"
 msgstr "Обнови"
 
-#: resources/updater_window.ui:142
+#: resources/updater_window.ui:139
 msgid "_Apply"
 msgstr ""
 
@@ -268,217 +268,215 @@ msgstr ""
 msgid "Authentication failed"
 msgstr "Неуспешно удостоверяване"
 
-#: src/transaction.vala:173
+#: src/transaction.vala:177
 msgid "Synchronizing package databases"
 msgstr ""
 
-#: src/transaction.vala:227
+#: src/transaction.vala:231
 msgid "Starting full system upgrade"
 msgstr ""
 
-#: src/transaction.vala:279
+#: src/transaction.vala:286
 msgid "Preparing"
 msgstr "Подготвяне"
 
-#: src/transaction.vala:352
+#: src/transaction.vala:359
 #, c-format
 msgid "Choose a provider for %s"
 msgstr ""
 
-#: src/transaction.vala:410 src/manager_window.vala:223
-#: src/manager_window.vala:949
+#: src/transaction.vala:417 src/manager_window.vala:245
+#: src/manager_window.vala:974
 msgid "To remove"
 msgstr "За премахване"
 
-#: src/transaction.vala:423
+#: src/transaction.vala:430
 msgid "To downgrade"
 msgstr "За състаряване"
 
-#: src/transaction.vala:436
+#: src/transaction.vala:443
 msgid "To build"
 msgstr "За изграждане"
 
-#: src/transaction.vala:449 src/manager_window.vala:222
-#: src/manager_window.vala:938
+#: src/transaction.vala:456 src/manager_window.vala:244
+#: src/manager_window.vala:963
 msgid "To install"
 msgstr "За инсталиране"
 
-#: src/transaction.vala:462
+#: src/transaction.vala:469
 msgid "To reinstall"
 msgstr "За преинсталиране"
 
-#: src/transaction.vala:476
+#: src/transaction.vala:483
 msgid "To update"
 msgstr "За обновяване"
 
-#: src/transaction.vala:489 src/updater_window.vala:186
+#: src/transaction.vala:496 src/updater_window.vala:182
 #, fuzzy
 msgid "Total download size"
 msgstr "Пълен размер за сваляне"
 
-#: src/transaction.vala:506
+#: src/transaction.vala:513
 msgid "Building packages"
 msgstr ""
 
-#: src/transaction.vala:563
+#: src/transaction.vala:570
 msgid "Checking dependencies"
 msgstr "Проверка на зависимостите"
 
-#: src/transaction.vala:568
+#: src/transaction.vala:575
 msgid "Checking file conflicts"
 msgstr "Проверка за конфликти"
 
-#: src/transaction.vala:573
+#: src/transaction.vala:580
 msgid "Resolving dependencies"
 msgstr "Разрешаване на зависимости"
 
-#: src/transaction.vala:578
+#: src/transaction.vala:585
 #, fuzzy
 msgid "Checking inter-conflicts"
 msgstr "Проверка за вътрешни конфликти"
 
-#: src/transaction.vala:585 src/transaction.vala:587
+#: src/transaction.vala:592 src/transaction.vala:594
 #, c-format
 msgid "Installing %s"
 msgstr "Инсталиране на %s"
 
-#: src/transaction.vala:593 src/transaction.vala:595
+#: src/transaction.vala:600 src/transaction.vala:602
 #, c-format
 msgid "Reinstalling %s"
 msgstr "Преинсталиране на %s"
 
-#: src/transaction.vala:601 src/transaction.vala:603
+#: src/transaction.vala:608 src/transaction.vala:610
 #, c-format
 msgid "Removing %s"
 msgstr "Премахване на %s"
 
-#: src/transaction.vala:609 src/transaction.vala:611
+#: src/transaction.vala:616 src/transaction.vala:618
 #, c-format
 msgid "Upgrading %s"
 msgstr "Надграждане на %s"
 
-#: src/transaction.vala:617 src/transaction.vala:619
+#: src/transaction.vala:624 src/transaction.vala:626
 #, c-format
 msgid "Downgrading %s"
 msgstr "Понижаване на версията на %s"
 
-#: src/transaction.vala:623
+#: src/transaction.vala:630
 msgid "Checking integrity"
 msgstr "Проверка за цялостност"
 
-#: src/transaction.vala:629
+#: src/transaction.vala:636
 msgid "Checking keyring"
 msgstr "Проверка на пръстена за секретни ключове"
 
-#: src/transaction.vala:634
+#: src/transaction.vala:641
 msgid "Downloading required keys"
 msgstr "Сваляне на нужните ключове"
 
-#: src/transaction.vala:639
+#: src/transaction.vala:646
 msgid "Loading packages files"
 msgstr "Зареждане на пакетни файлове"
 
-#: src/transaction.vala:644
+#: src/transaction.vala:651
 msgid "Checking delta integrity"
 msgstr "Проверка на делта целостта"
 
-#: src/transaction.vala:649
+#: src/transaction.vala:656
 msgid "Applying deltas"
 msgstr "Прилагане на делта фрагментите"
 
-#: src/transaction.vala:654
+#: src/transaction.vala:661
 #, c-format
 msgid "Generating %s with %s"
 msgstr "Генериране на %s с %s"
 
-#: src/transaction.vala:659
+#: src/transaction.vala:666
 msgid "Generation succeeded"
 msgstr "Генерирането е успешно"
 
-#: src/transaction.vala:664
+#: src/transaction.vala:671
 msgid "Generation failed"
 msgstr "Генерирането се провали"
 
-#: src/transaction.vala:669
+#: src/transaction.vala:676
 #, c-format
 msgid "Configuring %s"
 msgstr "Конфигуриране на %s"
 
-#: src/transaction.vala:675
+#: src/transaction.vala:682
 msgid "Downloading"
 msgstr "Сваляне"
 
-#: src/transaction.vala:680
+#: src/transaction.vala:687
 msgid "Checking available disk space"
 msgstr "Проверка за налично пространство на диска"
 
-#: src/transaction.vala:685
+#: src/transaction.vala:692
 #, c-format
 msgid "%s optionally requires %s"
 msgstr ""
 
-#: src/transaction.vala:688
+#: src/transaction.vala:695
 #, c-format
 msgid "Database file for %s does not exist"
 msgstr ""
 
-#: src/transaction.vala:740
+#: src/transaction.vala:747
 #, c-format
 msgid "Refreshing %s"
 msgstr "Обновяване на %s"
 
-#: src/transaction.vala:742
+#: src/transaction.vala:749
 #, c-format
 msgid "Downloading %s"
 msgstr "Изтегляне на %s"
 
-#: src/transaction.vala:780 src/transaction.vala:782 src/transaction.vala:799
+#: src/transaction.vala:797 src/transaction.vala:799 src/transaction.vala:816
 #, fuzzy
 msgid "Warning"
 msgstr "Внимание"
 
-#: src/transaction.vala:787 src/transaction.vala:789 src/transaction.vala:820
-#: src/installer.vala:42 src/manager.vala:41 src/updater.vala:41
+#: src/transaction.vala:804 src/transaction.vala:806 src/transaction.vala:837
+#: src/installer.vala:41 src/manager.vala:41 src/updater.vala:41
 #, fuzzy
 msgid "Error"
 msgstr "Грешка"
 
-#: src/transaction.vala:887 src/transaction.vala:903
+#: src/transaction.vala:904 src/transaction.vala:920
 #: src/progress_dialog.vala:55
 msgid "Transaction cancelled"
 msgstr ""
 
-#: src/transaction.vala:917
+#: src/transaction.vala:934
 msgid "Nothing to do"
 msgstr "Нищо за правене"
 
-#: src/transaction.vala:939 src/transaction.vala:955
+#: src/transaction.vala:956 src/transaction.vala:972
 msgid "Transaction successfully finished"
 msgstr "Успешно завършена транзакция"
 
-#: src/installer.vala:44 src/manager.vala:43 src/updater.vala:43
+#: src/installer.vala:43 src/manager.vala:43 src/updater.vala:43
 msgid "Pamac is already running"
 msgstr "Pamac вече е пуснат"
 
-#: src/tray.vala:24 src/updater_window.vala:182
-#, c-format
-msgid "%u available updates"
-msgstr "%u достъпни обновявания"
-
-#: src/tray.vala:25 src/updater_window.vala:179
-msgid "1 available update"
-msgstr "1 достъпно обновяване"
-
-#: src/tray.vala:27 src/updater_window.vala:56 src/updater_window.vala:176
+#: src/tray.vala:25 src/updater_window.vala:175
 msgid "Your system is up-to-date"
 msgstr "Вашата система е актуална"
 
-#: src/tray.vala:79
+#: src/tray.vala:77
 #, fuzzy
 msgid "_Quit"
 msgstr "Изход"
 
-#: src/tray.vala:164
+#: src/tray.vala:136 src/updater_window.vala:178
+#, fuzzy, c-format
+msgid "%u available update"
+msgid_plural "%u available updates"
+msgstr[0] "%u достъпни обновявания"
+msgstr[1] "%u достъпни обновявания"
+
+#: src/tray.vala:158
 msgid "Show available updates"
 msgstr ""
 
@@ -507,85 +505,85 @@ msgstr "Инсталиране на допълнителни зависимос�
 msgid "Mark as explicitly installed"
 msgstr "Отбелязани като изрични инсталирани:"
 
-#: src/manager_window.vala:215 src/manager_window.vala:995
+#: src/manager_window.vala:225 src/manager_window.vala:1016
 msgid "local"
 msgstr "локален"
 
-#: src/manager_window.vala:219 src/manager_window.vala:286
-#: src/manager_window.vala:298 src/manager_window.vala:955
+#: src/manager_window.vala:241 src/manager_window.vala:311
+#: src/manager_window.vala:323 src/manager_window.vala:980
 msgid "Installed"
 msgstr "Инсталиран"
 
-#: src/manager_window.vala:221 src/manager_window.vala:969
+#: src/manager_window.vala:243 src/manager_window.vala:990
 msgid "Orphans"
 msgstr "Излишни"
 
-#: src/manager_window.vala:246
+#: src/manager_window.vala:271
 msgid "Licenses"
 msgstr "Лицензи"
 
-#: src/manager_window.vala:268
+#: src/manager_window.vala:293
 msgid "Depends On"
 msgstr "Зависи от"
 
-#: src/manager_window.vala:288
+#: src/manager_window.vala:313
 #, fuzzy
 msgid "Optional Dependencies"
 msgstr "Допълнителна зависимост"
 
-#: src/manager_window.vala:308
+#: src/manager_window.vala:333
 msgid "Required By"
 msgstr "Изискван от"
 
-#: src/manager_window.vala:322
+#: src/manager_window.vala:347
 msgid "Provides"
 msgstr "Осигуряван"
 
-#: src/manager_window.vala:335
+#: src/manager_window.vala:360
 msgid "Replaces"
 msgstr "Замяна"
 
-#: src/manager_window.vala:348
+#: src/manager_window.vala:373
 msgid "Conflicts With"
 msgstr "Конфликт със"
 
-#: src/manager_window.vala:382
+#: src/manager_window.vala:407
 msgid "Packager"
 msgstr "Опаковчик"
 
-#: src/manager_window.vala:388
+#: src/manager_window.vala:413
 msgid "Install Date"
 msgstr "Дата на инсталиране"
 
-#: src/manager_window.vala:392
+#: src/manager_window.vala:417
 msgid "Explicitly installed"
 msgstr "Изрично инсталиран"
 
-#: src/manager_window.vala:394
+#: src/manager_window.vala:419
 msgid "Installed as a dependency for another package"
 msgstr "Инсталиран като зависим за някой пакет"
 
-#: src/manager_window.vala:396
+#: src/manager_window.vala:421
 msgid "Unknown"
 msgstr "Непознат"
 
-#: src/manager_window.vala:398
+#: src/manager_window.vala:423
 msgid "Install Reason"
 msgstr "Причина за инсталиране"
 
-#: src/manager_window.vala:403
+#: src/manager_window.vala:428
 msgid "Signatures"
 msgstr "Подписи"
 
-#: src/manager_window.vala:411
+#: src/manager_window.vala:436
 msgid "Backup files"
 msgstr "Архивни файлове"
 
-#: src/manager_window.vala:534 src/manager_window.vala:676
+#: src/manager_window.vala:559 src/manager_window.vala:700
 msgid "No package found"
 msgstr "Няма открит пакет"
 
-#: src/manager_window.vala:628
+#: src/manager_window.vala:653
 #, fuzzy, c-format
 msgid ""
 "%s has %u uninstalled optional dependencies.\n"
@@ -594,11 +592,11 @@ msgstr ""
 "%s има %u неинсталирани допълнителни зависимости.\n"
 "Моля изберете кои да се инсталират:"
 
-#: src/manager_window.vala:957
+#: src/manager_window.vala:982
 msgid "Uninstalled"
 msgstr "Деинсталиран"
 
-#: src/manager_window.vala:1115
+#: src/manager_window.vala:1134
 #, fuzzy
 msgid "A Gtk3 frontend for libalpm"
 msgstr "GTK3 интерфейс за libalpm"
@@ -612,6 +610,9 @@ msgstr "%.0f KiB"
 #, c-format
 msgid "%.2f MiB"
 msgstr "%.2f MiB"
+
+#~ msgid "1 available update"
+#~ msgstr "1 достъпно обновяване"
 
 #~ msgid "%s will be replaced by %s"
 #~ msgstr "%s ще бъде заместен от %s"

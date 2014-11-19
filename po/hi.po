@@ -25,16 +25,16 @@ msgstr ""
 msgid "Authentication is required"
 msgstr "प्रमाणीकरण की आवश्यकता है"
 
-#: resources/choose_provider_dialog.ui:7
+#: resources/choose_provider_dialog.ui:6
 msgid "Choose a Provider"
 msgstr ""
 
-#: resources/choose_provider_dialog.ui:23
+#: resources/choose_provider_dialog.ui:22
 #: resources/transaction_sum_dialog.ui:34 resources/preferences_dialog.ui:22
 msgid "_OK"
 msgstr ""
 
-#: resources/packages_chooser_dialog.ui:6 resources/manager_window.ui:763
+#: resources/packages_chooser_dialog.ui:6 resources/manager_window.ui:765
 msgid "Install local packages"
 msgstr "स्थानीय संकुल स्थापित करें"
 
@@ -44,7 +44,7 @@ msgstr "स्थानीय संकुल स्थापित करें
 msgid "_Cancel"
 msgstr "रद्द करें"
 
-#: resources/packages_chooser_dialog.ui:41
+#: resources/packages_chooser_dialog.ui:40
 msgid "_Open"
 msgstr ""
 
@@ -52,26 +52,26 @@ msgstr ""
 msgid "Progress"
 msgstr "प्रगति"
 
-#: resources/progress_dialog.ui:40 resources/history_dialog.ui:23
-#: resources/transaction_info_dialog.ui:20 resources/updater_window.ui:156
+#: resources/progress_dialog.ui:41 resources/history_dialog.ui:22
+#: resources/transaction_info_dialog.ui:20 resources/updater_window.ui:153
 #: resources/preferences_dialog.ui:36
 msgid "_Close"
 msgstr ""
 
-#: resources/progress_dialog.ui:90 resources/transaction_info_dialog.ui:80
-#: resources/manager_window.ui:693
+#: resources/progress_dialog.ui:92 resources/transaction_info_dialog.ui:79
+#: resources/manager_window.ui:695
 msgid "Details"
 msgstr "विवरण"
 
-#: resources/history_dialog.ui:7
+#: resources/history_dialog.ui:6
 msgid "Pamac History"
 msgstr "Pamac इतिहास"
 
-#: resources/transaction_sum_dialog.ui:5 src/transaction.vala:380
+#: resources/transaction_sum_dialog.ui:5 src/transaction.vala:387
 msgid "Transaction Summary"
 msgstr "गतिविधि सारांश"
 
-#: resources/manager_window.ui:7 src/tray.vala:76
+#: resources/manager_window.ui:7 src/tray.vala:74
 msgid "Package Manager"
 msgstr "संकुल प्रबंधक"
 
@@ -87,78 +87,78 @@ msgstr "परिवर्तन लागू करें"
 msgid "Cancel all planned changes"
 msgstr ""
 
-#: resources/manager_window.ui:155
+#: resources/manager_window.ui:156 resources/manager_window.ui:168
 msgid "Search in AUR"
 msgstr "AUR में खोज"
 
-#: resources/manager_window.ui:219
+#: resources/manager_window.ui:221
 msgid "Search"
 msgstr "खोज"
 
-#: resources/manager_window.ui:264 src/manager_window.vala:372
+#: resources/manager_window.ui:266 src/manager_window.vala:397
 msgid "Groups"
 msgstr "समूह"
 
-#: resources/manager_window.ui:310 resources/manager_window.ui:404
+#: resources/manager_window.ui:312 resources/manager_window.ui:406
 msgid "State"
 msgstr "राज्य"
 
-#: resources/manager_window.ui:356
+#: resources/manager_window.ui:358
 #, fuzzy
 msgid "Repositories"
 msgstr "कोष"
 
-#: resources/manager_window.ui:419
+#: resources/manager_window.ui:421
 msgid "Name"
 msgstr "नाम"
 
-#: resources/manager_window.ui:434
+#: resources/manager_window.ui:436
 msgid "Version"
 msgstr "संस्करण"
 
-#: resources/manager_window.ui:449 src/manager_window.vala:364
+#: resources/manager_window.ui:451 src/manager_window.vala:389
 msgid "Repository"
 msgstr "कोष"
 
-#: resources/manager_window.ui:464
+#: resources/manager_window.ui:466
 msgid "Size"
 msgstr "आकार"
 
-#: resources/manager_window.ui:568
+#: resources/manager_window.ui:570
 msgid "Description"
 msgstr ""
 
-#: resources/manager_window.ui:628
+#: resources/manager_window.ui:630
 msgid "Dependencies"
 msgstr ""
 
-#: resources/manager_window.ui:726
+#: resources/manager_window.ui:728
 msgid "Files"
 msgstr "फ़ाइलें"
 
-#: resources/manager_window.ui:755
+#: resources/manager_window.ui:757
 msgid "View History"
 msgstr "इतिहास देखें"
 
-#: resources/manager_window.ui:771 resources/updater_window.ui:101
+#: resources/manager_window.ui:773 resources/updater_window.ui:101
 msgid "_Preferences"
 msgstr ""
 
-#: resources/manager_window.ui:780
+#: resources/manager_window.ui:782
 msgid "_About"
 msgstr ""
 
-#: resources/updater_window.ui:6 src/tray.vala:73 src/tray.vala:163
-#: src/tray.vala:235
+#: resources/updater_window.ui:6 src/tray.vala:71 src/tray.vala:157
+#: src/tray.vala:229
 msgid "Update Manager"
 msgstr "अद्यतन प्रबंधक"
 
-#: resources/updater_window.ui:128
+#: resources/updater_window.ui:126
 #, fuzzy
 msgid "_Refresh"
 msgstr "रिफ्रेशिंग"
 
-#: resources/updater_window.ui:142
+#: resources/updater_window.ui:139
 msgid "_Apply"
 msgstr ""
 
@@ -265,215 +265,213 @@ msgstr ""
 msgid "Authentication failed"
 msgstr "सत्यापन विफल"
 
-#: src/transaction.vala:173
+#: src/transaction.vala:177
 msgid "Synchronizing package databases"
 msgstr ""
 
-#: src/transaction.vala:227
+#: src/transaction.vala:231
 msgid "Starting full system upgrade"
 msgstr ""
 
-#: src/transaction.vala:279
+#: src/transaction.vala:286
 msgid "Preparing"
 msgstr "तैयारी"
 
-#: src/transaction.vala:352
+#: src/transaction.vala:359
 #, c-format
 msgid "Choose a provider for %s"
 msgstr ""
 
-#: src/transaction.vala:410 src/manager_window.vala:223
-#: src/manager_window.vala:949
+#: src/transaction.vala:417 src/manager_window.vala:245
+#: src/manager_window.vala:974
 msgid "To remove"
 msgstr "निकालने के लिए"
 
-#: src/transaction.vala:423
+#: src/transaction.vala:430
 msgid "To downgrade"
 msgstr "डाउनग्रेड करने के लिए"
 
-#: src/transaction.vala:436
+#: src/transaction.vala:443
 msgid "To build"
 msgstr "निर्माण करने के लिए"
 
-#: src/transaction.vala:449 src/manager_window.vala:222
-#: src/manager_window.vala:938
+#: src/transaction.vala:456 src/manager_window.vala:244
+#: src/manager_window.vala:963
 msgid "To install"
 msgstr "स्थापित करने के लिए"
 
-#: src/transaction.vala:462
+#: src/transaction.vala:469
 msgid "To reinstall"
 msgstr "पुन: स्थापित करने के लिए"
 
-#: src/transaction.vala:476
+#: src/transaction.vala:483
 msgid "To update"
 msgstr "अद्यतन करने के लिए"
 
-#: src/transaction.vala:489 src/updater_window.vala:186
+#: src/transaction.vala:496 src/updater_window.vala:182
 #, fuzzy
 msgid "Total download size"
 msgstr "कुल डाउनलोड आकार"
 
-#: src/transaction.vala:506
+#: src/transaction.vala:513
 msgid "Building packages"
 msgstr ""
 
-#: src/transaction.vala:563
+#: src/transaction.vala:570
 msgid "Checking dependencies"
 msgstr "निर्भरता जाँच हो रही है"
 
-#: src/transaction.vala:568
+#: src/transaction.vala:575
 msgid "Checking file conflicts"
 msgstr "फ़ाइल विरोध जाँच हो रही है"
 
-#: src/transaction.vala:573
+#: src/transaction.vala:580
 msgid "Resolving dependencies"
 msgstr "निर्भरता हल"
 
-#: src/transaction.vala:578
+#: src/transaction.vala:585
 #, fuzzy
 msgid "Checking inter-conflicts"
 msgstr "इंटर संघर्ष जाँच हो रही है"
 
-#: src/transaction.vala:585 src/transaction.vala:587
+#: src/transaction.vala:592 src/transaction.vala:594
 #, c-format
 msgid "Installing %s"
 msgstr "का अधिष्ठापन %s"
 
-#: src/transaction.vala:593 src/transaction.vala:595
+#: src/transaction.vala:600 src/transaction.vala:602
 #, c-format
 msgid "Reinstalling %s"
 msgstr "स्थापित करने पुन %s"
 
-#: src/transaction.vala:601 src/transaction.vala:603
+#: src/transaction.vala:608 src/transaction.vala:610
 #, c-format
 msgid "Removing %s"
 msgstr "हटा रहा है %s"
 
-#: src/transaction.vala:609 src/transaction.vala:611
+#: src/transaction.vala:616 src/transaction.vala:618
 #, c-format
 msgid "Upgrading %s"
 msgstr "उन्नयन %s"
 
-#: src/transaction.vala:617 src/transaction.vala:619
+#: src/transaction.vala:624 src/transaction.vala:626
 #, c-format
 msgid "Downgrading %s"
 msgstr "पदावनति %s"
 
-#: src/transaction.vala:623
+#: src/transaction.vala:630
 msgid "Checking integrity"
 msgstr "अखंडता की जाँच"
 
-#: src/transaction.vala:629
+#: src/transaction.vala:636
 msgid "Checking keyring"
 msgstr "कीरिंग जाँच हो रही है"
 
-#: src/transaction.vala:634
+#: src/transaction.vala:641
 msgid "Downloading required keys"
 msgstr "आवश्यक चाबियाँ डाउनलोड कर रहा है"
 
-#: src/transaction.vala:639
+#: src/transaction.vala:646
 msgid "Loading packages files"
 msgstr "लोड हो रहा है संकुल फाइलें"
 
-#: src/transaction.vala:644
+#: src/transaction.vala:651
 msgid "Checking delta integrity"
 msgstr "डेल्टा अखंडता की जाँच"
 
-#: src/transaction.vala:649
+#: src/transaction.vala:656
 msgid "Applying deltas"
 msgstr "डेल्टा लागू करना"
 
-#: src/transaction.vala:654
+#: src/transaction.vala:661
 #, c-format
 msgid "Generating %s with %s"
 msgstr "साथ %s सृजन %s"
 
-#: src/transaction.vala:659
+#: src/transaction.vala:666
 msgid "Generation succeeded"
 msgstr "जनरेशन सफल रहा"
 
-#: src/transaction.vala:664
+#: src/transaction.vala:671
 msgid "Generation failed"
 msgstr "जनरेशन में विफल रहा है"
 
-#: src/transaction.vala:669
+#: src/transaction.vala:676
 #, c-format
 msgid "Configuring %s"
 msgstr "का विन्यास %s"
 
-#: src/transaction.vala:675
+#: src/transaction.vala:682
 msgid "Downloading"
 msgstr "डाउनलोडिंग"
 
-#: src/transaction.vala:680
+#: src/transaction.vala:687
 msgid "Checking available disk space"
 msgstr "उपलब्ध डिस्क स्थान जाँच हो रही है"
 
-#: src/transaction.vala:685
+#: src/transaction.vala:692
 #, c-format
 msgid "%s optionally requires %s"
 msgstr ""
 
-#: src/transaction.vala:688
+#: src/transaction.vala:695
 #, c-format
 msgid "Database file for %s does not exist"
 msgstr ""
 
-#: src/transaction.vala:740
+#: src/transaction.vala:747
 #, c-format
 msgid "Refreshing %s"
 msgstr "रिफ्रेशिंग %s"
 
-#: src/transaction.vala:742
+#: src/transaction.vala:749
 #, c-format
 msgid "Downloading %s"
 msgstr "डाउनलोड कर रहा है %s"
 
-#: src/transaction.vala:780 src/transaction.vala:782 src/transaction.vala:799
+#: src/transaction.vala:797 src/transaction.vala:799 src/transaction.vala:816
 msgid "Warning"
 msgstr ""
 
-#: src/transaction.vala:787 src/transaction.vala:789 src/transaction.vala:820
-#: src/installer.vala:42 src/manager.vala:41 src/updater.vala:41
+#: src/transaction.vala:804 src/transaction.vala:806 src/transaction.vala:837
+#: src/installer.vala:41 src/manager.vala:41 src/updater.vala:41
 msgid "Error"
 msgstr ""
 
-#: src/transaction.vala:887 src/transaction.vala:903
+#: src/transaction.vala:904 src/transaction.vala:920
 #: src/progress_dialog.vala:55
 msgid "Transaction cancelled"
 msgstr ""
 
-#: src/transaction.vala:917
+#: src/transaction.vala:934
 msgid "Nothing to do"
 msgstr "ऐसा करने के लिए कुछ भी नहीं"
 
-#: src/transaction.vala:939 src/transaction.vala:955
+#: src/transaction.vala:956 src/transaction.vala:972
 msgid "Transaction successfully finished"
 msgstr "लेन - देन सफलतापूर्वक समाप्त"
 
-#: src/installer.vala:44 src/manager.vala:43 src/updater.vala:43
+#: src/installer.vala:43 src/manager.vala:43 src/updater.vala:43
 msgid "Pamac is already running"
 msgstr "Pamac पहले से ही चल रहा है"
 
-#: src/tray.vala:24 src/updater_window.vala:182
-#, c-format
-msgid "%u available updates"
-msgstr "%u उपलब्ध अद्यतन"
-
-#: src/tray.vala:25 src/updater_window.vala:179
-msgid "1 available update"
-msgstr "1 उपलब्ध अद्यतन"
-
-#: src/tray.vala:27 src/updater_window.vala:56 src/updater_window.vala:176
+#: src/tray.vala:25 src/updater_window.vala:175
 msgid "Your system is up-to-date"
 msgstr "आपका सिस्टम है अप करने की तारीख"
 
-#: src/tray.vala:79
+#: src/tray.vala:77
 #, fuzzy
 msgid "_Quit"
 msgstr "छोड़ना"
 
-#: src/tray.vala:164
+#: src/tray.vala:136 src/updater_window.vala:178
+#, fuzzy, c-format
+msgid "%u available update"
+msgid_plural "%u available updates"
+msgstr[0] "%u उपलब्ध अद्यतन"
+msgstr[1] "%u उपलब्ध अद्यतन"
+
+#: src/tray.vala:158
 msgid "Show available updates"
 msgstr ""
 
@@ -503,85 +501,85 @@ msgstr "वैकल्पिक deps स्थापित करें"
 msgid "Mark as explicitly installed"
 msgstr "स्पष्ट रूप से स्थापित"
 
-#: src/manager_window.vala:215 src/manager_window.vala:995
+#: src/manager_window.vala:225 src/manager_window.vala:1016
 msgid "local"
 msgstr "स्थानीय"
 
-#: src/manager_window.vala:219 src/manager_window.vala:286
-#: src/manager_window.vala:298 src/manager_window.vala:955
+#: src/manager_window.vala:241 src/manager_window.vala:311
+#: src/manager_window.vala:323 src/manager_window.vala:980
 msgid "Installed"
 msgstr "स्थापित"
 
-#: src/manager_window.vala:221 src/manager_window.vala:969
+#: src/manager_window.vala:243 src/manager_window.vala:990
 msgid "Orphans"
 msgstr "अनाथ"
 
-#: src/manager_window.vala:246
+#: src/manager_window.vala:271
 msgid "Licenses"
 msgstr "लाइसेंस"
 
-#: src/manager_window.vala:268
+#: src/manager_window.vala:293
 msgid "Depends On"
 msgstr "पर निर्भर करता है"
 
-#: src/manager_window.vala:288
+#: src/manager_window.vala:313
 #, fuzzy
 msgid "Optional Dependencies"
 msgstr "वैकल्पिक deps"
 
-#: src/manager_window.vala:308
+#: src/manager_window.vala:333
 msgid "Required By"
 msgstr "द्वारा जरूरी"
 
-#: src/manager_window.vala:322
+#: src/manager_window.vala:347
 msgid "Provides"
 msgstr "प्रदान करता है"
 
-#: src/manager_window.vala:335
+#: src/manager_window.vala:360
 msgid "Replaces"
 msgstr "के स्थान"
 
-#: src/manager_window.vala:348
+#: src/manager_window.vala:373
 msgid "Conflicts With"
 msgstr "इसके साथ मतभेद"
 
-#: src/manager_window.vala:382
+#: src/manager_window.vala:407
 msgid "Packager"
 msgstr "Packager"
 
-#: src/manager_window.vala:388
+#: src/manager_window.vala:413
 msgid "Install Date"
 msgstr "तिथि स्थापित करें"
 
-#: src/manager_window.vala:392
+#: src/manager_window.vala:417
 msgid "Explicitly installed"
 msgstr "स्पष्ट रूप से स्थापित"
 
-#: src/manager_window.vala:394
+#: src/manager_window.vala:419
 msgid "Installed as a dependency for another package"
 msgstr "एक और पैकेज के लिए एक निर्भरता के रूप में स्थापित"
 
-#: src/manager_window.vala:396
+#: src/manager_window.vala:421
 msgid "Unknown"
 msgstr "अज्ञात"
 
-#: src/manager_window.vala:398
+#: src/manager_window.vala:423
 msgid "Install Reason"
 msgstr "कारण स्थापित करें"
 
-#: src/manager_window.vala:403
+#: src/manager_window.vala:428
 msgid "Signatures"
 msgstr "हस्ताक्षर"
 
-#: src/manager_window.vala:411
+#: src/manager_window.vala:436
 msgid "Backup files"
 msgstr "बैकअप फाइलें"
 
-#: src/manager_window.vala:534 src/manager_window.vala:676
+#: src/manager_window.vala:559 src/manager_window.vala:700
 msgid "No package found"
 msgstr "कोई पैकेज नहीं मिला"
 
-#: src/manager_window.vala:628
+#: src/manager_window.vala:653
 #, fuzzy, c-format
 msgid ""
 "%s has %u uninstalled optional dependencies.\n"
@@ -590,11 +588,11 @@ msgstr ""
 "%s %u वैकल्पिक deps स्थापना हटाई है. \n"
 "आप को स्थापित करना चाहते हैं उन का चयन करें"
 
-#: src/manager_window.vala:957
+#: src/manager_window.vala:982
 msgid "Uninstalled"
 msgstr "स्थापना हटाई"
 
-#: src/manager_window.vala:1115
+#: src/manager_window.vala:1134
 #, fuzzy
 msgid "A Gtk3 frontend for libalpm"
 msgstr "libalpm के लिए एक gtk3 दृश्यपटल"
@@ -608,6 +606,9 @@ msgstr "%.0f KiB"
 #, c-format
 msgid "%.2f MiB"
 msgstr "%.2f MiB"
+
+#~ msgid "1 available update"
+#~ msgstr "1 उपलब्ध अद्यतन"
 
 #~ msgid "%s will be replaced by %s"
 #~ msgstr "%s %s द्वारा प्रतिस्थापित किया जाएगा"

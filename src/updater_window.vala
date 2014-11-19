@@ -174,11 +174,8 @@ namespace Pamac {
 			if (updates_nb == 0) {
 				top_label.set_markup("<b>%s</b>".printf (dgettext (null, "Your system is up-to-date")));
 				apply_button.set_sensitive (false);
-			} else if (updates_nb == 1) {
-				top_label.set_markup("<b>%s</b>".printf (dgettext (null, "1 available update")));
-				apply_button.set_sensitive (true);
 			} else {
-				top_label.set_markup("<b>%s</b>".printf (dgettext (null, "%u available updates").printf (updates_nb)));
+				top_label.set_markup("<b>%s</b>".printf (dngettext (null, "%u available update", "%u available updates", updates_nb).printf (updates_nb)));
 				apply_button.set_sensitive (true);
 			}
 			if (dsize != 0) {

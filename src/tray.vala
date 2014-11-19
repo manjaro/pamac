@@ -21,8 +21,6 @@
 const string GETTEXT_PACKAGE = "pamac";
 
 const string update_icon_name = "pamac-tray-update";
-const string update_info = _("%u available updates");
-const string one_update_info = _("1 available update");
 const string noupdate_icon_name = "pamac-tray-no-update";
 const string noupdate_info = _("Your system is up-to-date");
 
@@ -134,12 +132,8 @@ namespace Pamac {
 			uint updates_nb = updates.length;
 			if (updates_nb == 0) {
 				this.update_icon (noupdate_icon_name, noupdate_info);
-			} else if (updates_nb == 1) {
-				this.update_icon (update_icon_name, one_update_info);
-				if (pamac_run == false)
-					show_notification (one_update_info);
 			} else {
-				string info = update_info.printf (updates_nb);
+				string info = ngettext ("%u available update", "%u available updates", updates_nb).printf (updates_nb);
 				this.update_icon (update_icon_name, info);
 				if (pamac_run == false)
 					show_notification (info);
