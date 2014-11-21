@@ -466,7 +466,7 @@ namespace Pamac {
 				if (aur_results.contains (search_string)) {
 					aur_pkgs = aur_results.get (search_string);
 				} else {
-					aur_pkgs = AUR.search (search_string);
+					aur_pkgs = AUR.search (splitted);
 					aur_results.insert (search_string, aur_pkgs);
 				}
 			} else {
