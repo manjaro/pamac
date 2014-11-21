@@ -12,6 +12,9 @@ clean:
 	rm -f data/polkit/org.manjaro.pamac.policy
 
 install:
+	mkdir -p /usr/share/icons/hicolor
+	cp -r data/icons/* /usr/share/icons/hicolor
+	cp -r po/locale /usr/share
 	install -Dm744 src/pamac-daemon /usr/bin/pamac-daemon
 	install -Dm755 src/pamac-tray /usr/bin/pamac-tray
 	install -Dm755 src/pamac-manager /usr/bin/pamac-manager
@@ -31,6 +34,11 @@ install:
 	install -Dm644 data/polkit/org.manjaro.pamac.policy /usr/share/polkit-1/actions/org.manjaro.pamac.policy
 
 uninstall:
+	rm -f /usr/share/icons/16x16/apps/system-software-install.png
+	rm -f /usr/share/icons/24x24/status/pamac-tray-no-update.png
+	rm -f /usr/share/icons/24x24/status/pamac-tray-update.png
+	rm -f /usr/share/icons/32x32/apps/system-software-install.png
+	rm -f /usr/share/locale/*/LC_MESSAGES/pamac.mo
 	rm -f /usr/bin/pamac-daemon /usr/bin/pamac-updater /usr/bin/pamac-tray /usr/bin/pamac-manager /usr/bin/pamac-install
 	rm -f /etc/xdg/autostart/pamac-tray.desktop
 	rm -f /usr/share/applications/pamac-manager.desktop /usr/share/applications/pamac-updater.desktop /usr/share/applications/pamac-install.desktop

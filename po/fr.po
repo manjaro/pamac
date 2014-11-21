@@ -460,7 +460,7 @@ msgid "_Quit"
 msgstr "_Quitter"
 
 #: src/tray.vala:136 src/updater_window.vala:178
-#, fuzzy, c-format
+#, c-format
 msgid "%u available update"
 msgid_plural "%u available updates"
 msgstr[0] "%u mise à jour disponible"
