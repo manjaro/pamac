@@ -1,4 +1,3 @@
-.tx
 pkgbuild
 resources/*.c
 src/pamac-daemon
