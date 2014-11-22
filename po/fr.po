@@ -5,19 +5,31 @@
 #
 # Translators:
 # DasFranck <franck97comics@gmail.com>, 2013
+<<<<<<< HEAD
 # DasFranck <franck97comics@gmail.com>, 2013
 # Guillaume Benoit <guillaume@manjaro.org>, 2013-2014
 # philm <philm@manjaro.org>, 2013
 # philm <philm@manjaro.org>, 2013
 # Tun_In_A_Cellar <tun.in.a.cellar@gmail.com>, 2014
+=======
+# guinux <guillaume@manjaro.org>, 2013-2014
+# manjarolinux <philm@manjaro.org>, 2013
+>>>>>>> b8153ea47435633a8eb825f30c0976245b417a7e
 # Tun_In_A_Cellar <tun.in.a.cellar@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
+<<<<<<< HEAD
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2014-11-22 11:36+0100\n"
 "PO-Revision-Date: 2014-11-21 09:39+0000\n"
 "Last-Translator: Guillaume Benoit <guillaume@manjaro.org>\n"
+=======
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-10-23 15:09+0100\n"
+"PO-Revision-Date: 2014-03-15 11:04+0000\n"
+"Last-Translator: Tun_In_A_Cellar <tun.in.a.cellar@gmail.com>\n"
+>>>>>>> b8153ea47435633a8eb825f30c0976245b417a7e
 "Language-Team: French (http://www.transifex.com/projects/p/manjaro-pamac/"
 "language/fr/)\n"
 "Language: fr\n"
@@ -26,6 +38,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
+<<<<<<< HEAD
 #: data/polkit/org.manjaro.pamac.policy
 msgid "Authentication is required"
 msgstr "Authentification nécessaire"
@@ -180,6 +193,163 @@ msgid "Remove unrequired dependencies"
 msgstr "Désinstaller les dépendances inutiles"
 
 #: ../resources/preferences_dialog.ui
+=======
+#: data/polkit/org.manjaro.pamac.policy:10
+msgid "Authentication is required"
+msgstr "Authentification nécessaire"
+
+#: resources/choose_provider_dialog.ui:6
+msgid "Choose a Provider"
+msgstr "Choix d'un fournisseur"
+
+#: resources/choose_provider_dialog.ui:22
+#: resources/transaction_sum_dialog.ui:34 resources/preferences_dialog.ui:22
+msgid "_OK"
+msgstr "_Valider"
+
+#: resources/packages_chooser_dialog.ui:6 resources/manager_window.ui:765
+msgid "Install local packages"
+msgstr "Installer des paquets locaux"
+
+#: resources/packages_chooser_dialog.ui:28 resources/progress_dialog.ui:28
+#: resources/transaction_sum_dialog.ui:20
+msgid "_Cancel"
+msgstr "_Annuler"
+
+#: resources/packages_chooser_dialog.ui:40
+msgid "_Open"
+msgstr "_Ouvrir"
+
+#: resources/progress_dialog.ui:6
+msgid "Progress"
+msgstr "Progression"
+
+#: resources/progress_dialog.ui:41 resources/history_dialog.ui:22
+#: resources/transaction_info_dialog.ui:20 resources/updater_window.ui:153
+#: resources/preferences_dialog.ui:36
+msgid "_Close"
+msgstr "_Fermer"
+
+#: resources/progress_dialog.ui:92 resources/transaction_info_dialog.ui:79
+#: resources/manager_window.ui:695
+msgid "Details"
+msgstr "Détails"
+
+#: resources/history_dialog.ui:6
+msgid "Pamac History"
+msgstr "Historique de Pamac"
+
+#: resources/transaction_sum_dialog.ui:5 src/transaction.vala:387
+msgid "Transaction Summary"
+msgstr "Résumé de la transaction"
+
+#: resources/manager_window.ui:7 src/tray.vala:74
+msgid "Package Manager"
+msgstr "Gestionnaire de paquets"
+
+#: resources/manager_window.ui:25
+msgid "Refresh databases"
+msgstr "Actualiser les bases de données"
+
+#: resources/manager_window.ui:48
+msgid "Apply changes"
+msgstr "Appliquer les changements"
+
+#: resources/manager_window.ui:71
+msgid "Cancel all planned changes"
+msgstr "Annuler tous les changements prévus"
+
+#: resources/manager_window.ui:156 resources/manager_window.ui:168
+msgid "Search in AUR"
+msgstr "Rechercher depuis AUR"
+
+#: resources/manager_window.ui:221
+msgid "Search"
+msgstr "Rechercher"
+
+#: resources/manager_window.ui:266 src/manager_window.vala:397
+msgid "Groups"
+msgstr "Groupes"
+
+#: resources/manager_window.ui:312 resources/manager_window.ui:406
+msgid "State"
+msgstr "État"
+
+#: resources/manager_window.ui:358
+msgid "Repositories"
+msgstr "Dépôts"
+
+#: resources/manager_window.ui:421
+msgid "Name"
+msgstr "Nom"
+
+#: resources/manager_window.ui:436
+msgid "Version"
+msgstr "Version"
+
+#: resources/manager_window.ui:451 src/manager_window.vala:389
+msgid "Repository"
+msgstr "Dépôt"
+
+#: resources/manager_window.ui:466
+msgid "Size"
+msgstr "Taille"
+
+#: resources/manager_window.ui:570
+msgid "Description"
+msgstr "Description"
+
+#: resources/manager_window.ui:630
+msgid "Dependencies"
+msgstr "Dépendances"
+
+#: resources/manager_window.ui:728
+msgid "Files"
+msgstr "Fichiers"
+
+#: resources/manager_window.ui:757
+msgid "View History"
+msgstr "Voir l'historique"
+
+#: resources/manager_window.ui:773 resources/updater_window.ui:101
+msgid "_Preferences"
+msgstr "_Préferences"
+
+#: resources/manager_window.ui:782
+msgid "_About"
+msgstr "_A propos"
+
+#: resources/updater_window.ui:6 src/tray.vala:71 src/tray.vala:157
+#: src/tray.vala:229
+msgid "Update Manager"
+msgstr "Gestionnaire de mises à jour"
+
+#: resources/updater_window.ui:126
+msgid "_Refresh"
+msgstr "_Actualiser"
+
+#: resources/updater_window.ui:139
+msgid "_Apply"
+msgstr "_Appliquer"
+
+#: resources/preferences_dialog.ui:6
+msgid "Preferences"
+msgstr "Préferences"
+
+#: resources/preferences_dialog.ui:71
+msgid "Enable AUR support"
+msgstr "Activer le support d'AUR"
+
+#: resources/preferences_dialog.ui:84
+msgid "Allow Pamac to search and install packages from AUR"
+msgstr "Permettre à Pamac de chercher et installer des paquets depuis AUR"
+
+#: resources/preferences_dialog.ui:102
+msgid "Remove unrequired dependencies"
+msgstr "Désinstaller les dépendances inutiles"
+
+#: resources/preferences_dialog.ui:115
+>>>>>>> b8153ea47435633a8eb825f30c0976245b417a7e
 msgid ""
 "When removing a package, also remove its dependencies that are not required "
 "by other packages"
@@ -187,6 +357,7 @@ msgstr ""
 "En désinstallant un paquet, désinstaller également les dépendances qui ne "
 "sont pas requises par d'autres paquets"
 
+<<<<<<< HEAD
 #: ../resources/preferences_dialog.ui ../src/preferences_dialog.vala
 msgid "How often to check for updates, value in hours"
 msgstr "Fréquence de vérification des mises à jour, valeur en heures"
@@ -216,49 +387,115 @@ msgid "Failed to prepare transaction"
 msgstr "La préparation de la transaction a échoué"
 
 #: ../src/daemon.vala
+=======
+#: resources/preferences_dialog.ui:149 src/preferences_dialog.vala:37
+msgid "How often to check for updates, value in hours"
+msgstr "Fréquence de vérification des mises à jour, valeur en heures"
+
+#: resources/preferences_dialog.ui:173
+msgid "Options"
+msgstr "Options"
+
+#: src/packages_chooser_dialog.vala:32
+msgid "Alpm Package"
+msgstr "Paquet Alpm"
+
+#: src/daemon.vala:64
+msgid "Failed to initialize alpm library"
+msgstr "L'initialisation de la librairie alpm a échoué"
+
+#: src/daemon.vala:135 src/daemon.vala:141
+msgid "Failed to synchronize any databases"
+msgstr "La synchronisation a échoué"
+
+#: src/daemon.vala:184
+msgid "Failed to init transaction"
+msgstr "L'initialisation de la transaction a échoué"
+
+#: src/daemon.vala:196 src/daemon.vala:214 src/daemon.vala:226
+#: src/daemon.vala:240 src/daemon.vala:252 src/daemon.vala:269
+#: src/daemon.vala:276 src/daemon.vala:290 src/daemon.vala:340
+msgid "Failed to prepare transaction"
+msgstr "La préparation de la transaction a échoué"
+
+#: src/daemon.vala:215 src/daemon.vala:270
+>>>>>>> b8153ea47435633a8eb825f30c0976245b417a7e
 #, c-format
 msgid "target not found: %s"
 msgstr "impossible de trouver la cible: %s"
 
+<<<<<<< HEAD
 #: ../src/daemon.vala
+=======
+#: src/daemon.vala:298
+>>>>>>> b8153ea47435633a8eb825f30c0976245b417a7e
 #, c-format
 msgid "package %s does not have a valid architecture"
 msgstr "le paquet %s n'a pas d'architecture valide"
 
+<<<<<<< HEAD
 #: ../src/daemon.vala
+=======
+#: src/daemon.vala:307
+>>>>>>> b8153ea47435633a8eb825f30c0976245b417a7e
 #, c-format
 msgid "%s: requires %s"
 msgstr "%s : requiert %s"
 
+<<<<<<< HEAD
 #: ../src/daemon.vala
+=======
+#: src/daemon.vala:315
+>>>>>>> b8153ea47435633a8eb825f30c0976245b417a7e
 #, c-format
 msgid "%s and %s are in conflict"
 msgstr "%s et %s sont en conflit"
 
+<<<<<<< HEAD
 #: ../src/daemon.vala
+=======
+#: src/daemon.vala:334
+>>>>>>> b8153ea47435633a8eb825f30c0976245b417a7e
 #, c-format
 msgid "%s needs to be removed but it is a locked package"
 msgstr "%s doit être désinstaller mais c'est un paquet bloqué"
 
+<<<<<<< HEAD
 #: ../src/daemon.vala
 msgid "Failed to commit transaction"
 msgstr "La validation de la transaction a échoué"
 
 #: ../src/daemon.vala
+=======
+#: src/daemon.vala:403
+msgid "Failed to commit transaction"
+msgstr "La validation de la transaction a échoué"
+
+#: src/daemon.vala:417
+>>>>>>> b8153ea47435633a8eb825f30c0976245b417a7e
 #, c-format
 msgid "%s exists in both %s and %s"
 msgstr "%s est présent à la fois dans %s et %s"
 
+<<<<<<< HEAD
 #: ../src/daemon.vala
+=======
+#: src/daemon.vala:420
+>>>>>>> b8153ea47435633a8eb825f30c0976245b417a7e
 #, c-format
 msgid "%s: %s already exists in filesystem"
 msgstr "%s: %s est déjà présent dans le système de fichiers"
 
+<<<<<<< HEAD
 #: ../src/daemon.vala
+=======
+#: src/daemon.vala:433
+>>>>>>> b8153ea47435633a8eb825f30c0976245b417a7e
 #, c-format
 msgid "%s is invalid or corrupted"
 msgstr "%s est invalide ou corrompu"
 
+<<<<<<< HEAD
 #: ../src/daemon.vala
 msgid "Authentication failed"
 msgstr "L'authentification a échoué"
@@ -276,10 +513,30 @@ msgid "Preparing"
 msgstr "Préparation"
 
 #: ../src/transaction.vala
+=======
+#: src/daemon.vala:465
+msgid "Authentication failed"
+msgstr "L'authentification a échoué"
+
+#: src/transaction.vala:177
+msgid "Synchronizing package databases"
+msgstr "Synchronisation des bases de données de paquets"
+
+#: src/transaction.vala:231
+msgid "Starting full system upgrade"
+msgstr "Début de la mise à jour complète du système"
+
+#: src/transaction.vala:286
+msgid "Preparing"
+msgstr "Préparation"
+
+#: src/transaction.vala:359
+>>>>>>> b8153ea47435633a8eb825f30c0976245b417a7e
 #, c-format
 msgid "Choose a provider for %s"
 msgstr "Choix d'un fournisseur pour %s"
 
+<<<<<<< HEAD
 #: ../src/transaction.vala ../src/manager_window.vala
 msgid "To remove"
 msgstr "À désinstaller"
@@ -329,30 +586,100 @@ msgid "Checking inter-conflicts"
 msgstr "Recherche des conflits entre paquets"
 
 #: ../src/transaction.vala
+=======
+#: src/transaction.vala:417 src/manager_window.vala:245
+#: src/manager_window.vala:974
+msgid "To remove"
+msgstr "À désinstaller"
+
+#: src/transaction.vala:430
+msgid "To downgrade"
+msgstr "Retour à une version antérieure"
+
+#: src/transaction.vala:443
+msgid "To build"
+msgstr "À construire"
+
+#: src/transaction.vala:456 src/manager_window.vala:244
+#: src/manager_window.vala:963
+msgid "To install"
+msgstr "À installer"
+
+#: src/transaction.vala:469
+msgid "To reinstall"
+msgstr "A réinstaller"
+
+#: src/transaction.vala:483
+msgid "To update"
+msgstr "À mettre à jour"
+
+#: src/transaction.vala:496 src/updater_window.vala:182
+msgid "Total download size"
+msgstr "Taille totale de téléchargement"
+
+#: src/transaction.vala:513
+msgid "Building packages"
+msgstr "Construction de paquets"
+
+#: src/transaction.vala:570
+msgid "Checking dependencies"
+msgstr "Vérification des dépendances"
+
+#: src/transaction.vala:575
+msgid "Checking file conflicts"
+msgstr "Analyse des conflits entre fichiers"
+
+#: src/transaction.vala:580
+msgid "Resolving dependencies"
+msgstr "Résolution des dépendances"
+
+#: src/transaction.vala:585
+msgid "Checking inter-conflicts"
+msgstr "Recherche des conflits entre paquets"
+
+#: src/transaction.vala:592 src/transaction.vala:594
+>>>>>>> b8153ea47435633a8eb825f30c0976245b417a7e
 #, c-format
 msgid "Installing %s"
 msgstr "Installation de %s"
 
+<<<<<<< HEAD
 #: ../src/transaction.vala
+=======
+#: src/transaction.vala:600 src/transaction.vala:602
+>>>>>>> b8153ea47435633a8eb825f30c0976245b417a7e
 #, c-format
 msgid "Reinstalling %s"
 msgstr "Réinstallation de %s"
 
+<<<<<<< HEAD
 #: ../src/transaction.vala
+=======
+#: src/transaction.vala:608 src/transaction.vala:610
+>>>>>>> b8153ea47435633a8eb825f30c0976245b417a7e
 #, c-format
 msgid "Removing %s"
 msgstr "Désinstallation de %s"
 
+<<<<<<< HEAD
 #: ../src/transaction.vala
+=======
+#: src/transaction.vala:616 src/transaction.vala:618
+>>>>>>> b8153ea47435633a8eb825f30c0976245b417a7e
 #, c-format
 msgid "Upgrading %s"
 msgstr "Mise à jour de %s"
 
+<<<<<<< HEAD
 #: ../src/transaction.vala
+=======
+#: src/transaction.vala:624 src/transaction.vala:626
+>>>>>>> b8153ea47435633a8eb825f30c0976245b417a7e
 #, c-format
 msgid "Downgrading %s"
 msgstr "Retour à une version antérieure de %s"
 
+<<<<<<< HEAD
 #: ../src/transaction.vala
 msgid "Checking integrity"
 msgstr "Vérification de l'intégrité des paquets"
@@ -378,10 +705,38 @@ msgid "Applying deltas"
 msgstr "Application des deltas"
 
 #: ../src/transaction.vala
+=======
+#: src/transaction.vala:630
+msgid "Checking integrity"
+msgstr "Vérification de l'intégrité des paquets"
+
+#: src/transaction.vala:636
+msgid "Checking keyring"
+msgstr "Vérification du trousseau"
+
+#: src/transaction.vala:641
+msgid "Downloading required keys"
+msgstr "Téléchargement des clés nécessaires"
+
+#: src/transaction.vala:646
+msgid "Loading packages files"
+msgstr "Chargement des fichiers des paquets"
+
+#: src/transaction.vala:651
+msgid "Checking delta integrity"
+msgstr "Vérification de l'intégrité des deltas"
+
+#: src/transaction.vala:656
+msgid "Applying deltas"
+msgstr "Application des deltas"
+
+#: src/transaction.vala:661
+>>>>>>> b8153ea47435633a8eb825f30c0976245b417a7e
 #, c-format
 msgid "Generating %s with %s"
 msgstr "Génération de %s avec %s "
 
+<<<<<<< HEAD
 #: ../src/transaction.vala
 msgid "Generation succeeded"
 msgstr "Génération réussi"
@@ -391,10 +746,22 @@ msgid "Generation failed"
 msgstr "Génération échoué"
 
 #: ../src/transaction.vala
+=======
+#: src/transaction.vala:666
+msgid "Generation succeeded"
+msgstr "Génération réussi"
+
+#: src/transaction.vala:671
+msgid "Generation failed"
+msgstr "Génération échoué"
+
+#: src/transaction.vala:676
+>>>>>>> b8153ea47435633a8eb825f30c0976245b417a7e
 #, c-format
 msgid "Configuring %s"
 msgstr "Configuration de %s"
 
+<<<<<<< HEAD
 #: ../src/transaction.vala
 msgid "Downloading"
 msgstr "Téléchargement"
@@ -404,25 +771,49 @@ msgid "Checking available disk space"
 msgstr "Vérification de l'espace disque disponible"
 
 #: ../src/transaction.vala
+=======
+#: src/transaction.vala:682
+msgid "Downloading"
+msgstr "Téléchargement"
+
+#: src/transaction.vala:687
+msgid "Checking available disk space"
+msgstr "Vérification de l'espace disque disponible"
+
+#: src/transaction.vala:692
+>>>>>>> b8153ea47435633a8eb825f30c0976245b417a7e
 #, c-format
 msgid "%s optionally requires %s"
 msgstr "%s peut nécessiter %s"
 
+<<<<<<< HEAD
 #: ../src/transaction.vala
+=======
+#: src/transaction.vala:695
+>>>>>>> b8153ea47435633a8eb825f30c0976245b417a7e
 #, c-format
 msgid "Database file for %s does not exist"
 msgstr "Le dépôt %s n'existe pas"
 
+<<<<<<< HEAD
 #: ../src/transaction.vala
+=======
+#: src/transaction.vala:747
+>>>>>>> b8153ea47435633a8eb825f30c0976245b417a7e
 #, c-format
 msgid "Refreshing %s"
 msgstr "Actualisation de %s"
 
+<<<<<<< HEAD
 #: ../src/transaction.vala
+=======
+#: src/transaction.vala:749
+>>>>>>> b8153ea47435633a8eb825f30c0976245b417a7e
 #, c-format
 msgid "Downloading %s"
 msgstr "Téléchargement de %s"
 
+<<<<<<< HEAD
 #: ../src/transaction.vala
 msgid "Warning"
 msgstr "Avertissement"
@@ -457,12 +848,50 @@ msgid "_Quit"
 msgstr "_Quitter"
 
 #: ../src/tray.vala ../src/updater_window.vala
+=======
+#: src/transaction.vala:797 src/transaction.vala:799 src/transaction.vala:816
+msgid "Warning"
+msgstr "Avertissement"
+
+#: src/transaction.vala:804 src/transaction.vala:806 src/transaction.vala:837
+#: src/installer.vala:41 src/manager.vala:41 src/updater.vala:41
+msgid "Error"
+msgstr "Erreur"
+
+#: src/transaction.vala:904 src/transaction.vala:920
+#: src/progress_dialog.vala:55
+msgid "Transaction cancelled"
+msgstr "Transaction annulée"
+
+#: src/transaction.vala:934
+msgid "Nothing to do"
+msgstr "Rien à faire"
+
+#: src/transaction.vala:956 src/transaction.vala:972
+msgid "Transaction successfully finished"
+msgstr "Transaction terminée avec succès"
+
+#: src/installer.vala:43 src/manager.vala:43 src/updater.vala:43
+msgid "Pamac is already running"
+msgstr "Pamac est déjà en cours d'exécution"
+
+#: src/tray.vala:25 src/updater_window.vala:175
+msgid "Your system is up-to-date"
+msgstr "Votre système est à jour"
+
+#: src/tray.vala:77
+msgid "_Quit"
+msgstr "_Quitter"
+
+#: src/tray.vala:136 src/updater_window.vala:178
+>>>>>>> b8153ea47435633a8eb825f30c0976245b417a7e
 #, c-format
 msgid "%u available update"
 msgid_plural "%u available updates"
 msgstr[0] "%u mise à jour disponible"
 msgstr[1] "%u mises à jour disponibles"
 
+<<<<<<< HEAD
 #: ../src/tray.vala
 msgid "Show available updates"
 msgstr "Voir les mises à jour disponibles"
@@ -587,18 +1016,239 @@ msgid "A Gtk3 frontend for libalpm"
 msgstr "Une interface Gtk3 pour libalpm"
 
 #: ../src/common.vala
+=======
+#: src/tray.vala:158
+msgid "Show available updates"
+msgstr "Voir les mises à jour disponibles"
+
+#: src/manager_window.vala:132
+msgid "Deselect"
+msgstr "Désélectionner"
+
+#: src/manager_window.vala:135
+msgid "Install"
+msgstr "Installer"
+
+#: src/manager_window.vala:138
+msgid "Remove"
+msgstr "Désintaller"
+
+#: src/manager_window.vala:143
+msgid "Reinstall"
+msgstr "Réinstaller"
+
+#: src/manager_window.vala:146
+msgid "Install optional dependencies"
+msgstr "Installer les dépendances optionnelles"
+
+#: src/manager_window.vala:149
+msgid "Mark as explicitly installed"
+msgstr "Marquer comme explicitement installé"
+
+#: src/manager_window.vala:225 src/manager_window.vala:1016
+msgid "local"
+msgstr "locaux"
+
+#: src/manager_window.vala:241 src/manager_window.vala:311
+#: src/manager_window.vala:323 src/manager_window.vala:980
+msgid "Installed"
+msgstr "Installés"
+
+#: src/manager_window.vala:243 src/manager_window.vala:990
+msgid "Orphans"
+msgstr "Orphelins"
+
+#: src/manager_window.vala:271
+msgid "Licenses"
+msgstr "Licences"
+
+#: src/manager_window.vala:293
+msgid "Depends On"
+msgstr "Dépend de"
+
+#: src/manager_window.vala:313
+msgid "Optional Dependencies"
+msgstr "Dépendances optionnelles"
+
+#: src/manager_window.vala:333
+msgid "Required By"
+msgstr "Requis par"
+
+#: src/manager_window.vala:347
+msgid "Provides"
+msgstr "Fournit"
+
+#: src/manager_window.vala:360
+msgid "Replaces"
+msgstr "Remplace"
+
+#: src/manager_window.vala:373
+msgid "Conflicts With"
+msgstr "Est en conflit avec"
+
+#: src/manager_window.vala:407
+msgid "Packager"
+msgstr "Paqueteur"
+
+#: src/manager_window.vala:413
+msgid "Install Date"
+msgstr "Installé le"
+
+#: src/manager_window.vala:417
+msgid "Explicitly installed"
+msgstr "Explicitement installé"
+
+#: src/manager_window.vala:419
+msgid "Installed as a dependency for another package"
+msgstr "Installé comme dépendance d'un autre paquet"
+
+#: src/manager_window.vala:421
+msgid "Unknown"
+msgstr "Inconnu"
+
+#: src/manager_window.vala:423
+msgid "Install Reason"
+msgstr "Motif d'installation"
+
+#: src/manager_window.vala:428
+msgid "Signatures"
+msgstr "Signatures"
+
+#: src/manager_window.vala:436
+msgid "Backup files"
+msgstr "Fichiers sauvegardés"
+
+#: src/manager_window.vala:559 src/manager_window.vala:700
+msgid "No package found"
+msgstr "Aucun paquet trouvé"
+
+#: src/manager_window.vala:653
+#, c-format
+msgid ""
+"%s has %u uninstalled optional dependencies.\n"
+"Choose those you would like to install:"
+msgstr ""
+"%s a %u dépendances optionnelles non installées.\n"
+"Veuillez choisir celles que vous voulez installer:"
+
+#: src/manager_window.vala:982
+msgid "Uninstalled"
+msgstr "Non installés"
+
+#: src/manager_window.vala:1134
+msgid "A Gtk3 frontend for libalpm"
+msgstr "Une interface Gtk3 pour libalpm"
+
+#: src/common.vala:48
+>>>>>>> b8153ea47435633a8eb825f30c0976245b417a7e
 #, c-format
 msgid "%.0f KiB"
 msgstr "%.0f Ko"
 
+<<<<<<< HEAD
 #: ../src/common.vala
+=======
+#: src/common.vala:51
+>>>>>>> b8153ea47435633a8eb825f30c0976245b417a7e
 #, c-format
 msgid "%.2f MiB"
 msgstr "%.2f Mo"
 
+<<<<<<< HEAD
 #~ msgid ""
 #~ "%s has %u uninstalled optional dependencies.\n"
 #~ "Choose those you would like to install:"
 #~ msgstr ""
 #~ "%s a %u dépendances optionnelles non installées.\n"
 #~ "Veuillez choisir celles que vous voulez installer:"
+=======
+#~ msgid "1 available update"
+#~ msgstr "1 mise à jour disponible"
+
+#~ msgid "%s will be replaced by %s"
+#~ msgstr "%s sera replacé par %s"
+
+#~ msgid "%s conflicts with %s"
+#~ msgstr "%s est en conflit avec %s"
+
+#~ msgid "%s is not a valid path or package name"
+#~ msgstr "%s n'est pas un fichier ou un nom de paquet valide"
+
+#~ msgid ""
+#~ "The transaction cannot be performed because it needs to remove %s which "
+#~ "is a locked package"
+#~ msgstr ""
+#~ "La transaction ne peut pas être réalisée car elle nécessite de "
+#~ "désinstaller %s qui est un paquet bloqué"
+
+#~ msgid "Compressed Size"
+#~ msgstr "Taille compressée"
+
+#~ msgid "Download Size"
+#~ msgstr "Taille du téléchargement"
+
+#~ msgid "Installed Size"
+#~ msgstr "Taille après installation"
+
+#~ msgid "Architecture"
+#~ msgstr "Architecture"
+
+#~ msgid "Install with optional deps"
+#~ msgstr "Installer avec les dépendances optionnelles"
+
+#~ msgid ""
+#~ "Some updates are available.\n"
+#~ "Please update your system first"
+#~ msgstr ""
+#~ "Des mises à jour sont disponibles.\n"
+#~ "Mettez d'abord votre système à jour"
+
+#~ msgid ""
+#~ "%s is provided by %u packages.\n"
+#~ "Please choose those you would like to install:"
+#~ msgstr ""
+#~ "%s est fourni par %u paquets.\n"
+#~ "Veuillez choisir ceux que vous voulez installer:"
+
+#~ msgid "Refreshing"
+#~ msgstr "Actualisation"
+
+#~ msgid "%s depends on %s but it is not installable"
+#~ msgstr "%s dépend de %s mais il n'est pas installable"
+
+#~ msgid "Failed to get %s archive from AUR"
+#~ msgstr "La récupération de l'archive de %s depuis AUR a échoué"
+
+#~ msgid "Build process failed."
+#~ msgstr "Processus de construction échoué."
+
+#~ msgid "Checking for updates"
+#~ msgstr "Vérification des mises à jour"
+
+#~ msgid "About Pamac"
+#~ msgstr "À propos de Pamac"
+
+#~ msgid "Copyright © 2013 Guillaume Benoit"
+#~ msgstr "Copyright © 2013 Guillaume Benoit"
+
+#~ msgid "Repos"
+#~ msgstr "Dépôts"
+
+#~ msgid "Repo"
+#~ msgstr "Dépôt"
+
+#~ msgid "Infos"
+#~ msgstr "Infos"
+
+#~ msgid "Deps"
+#~ msgstr "Dépendances"
+
+#~ msgid "details"
+#~ msgstr "détails"
+
+#~ msgid "Choose"
+#~ msgstr "Choix"
+
+#~ msgid "Summary"
+#~ msgstr "Résumé"
+>>>>>>> b8153ea47435633a8eb825f30c0976245b417a7e
