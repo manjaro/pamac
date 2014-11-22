@@ -650,13 +650,9 @@ namespace Pamac {
 						nb += 1;
 					}
 				}
-<<<<<<< HEAD
 				choose_dep_dialog.label.set_markup ("<b>%s</b>".printf (
 						dngettext (null, "%s has %u uninstalled optional dependency.\nChoose if you would like to install it:",
 								"%s has %u uninstalled optional dependencies.\nChoose those you would like to install:", nb).printf (pkg.name, nb)));
-=======
-				choose_dep_dialog.label.set_markup ("<b>%s</b>".printf (dgettext (null, "%s has %u uninstalled optional dependencies.\nChoose those you would like to install:").printf (pkg.name, nb)));
->>>>>>> b8153ea47435633a8eb825f30c0976245b417a7e
 				choose_dep_dialog.run ();
 				choose_dep_dialog.hide ();
 				while (Gtk.events_pending ())

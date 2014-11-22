@@ -4,8 +4,6 @@
 # Guillaume Benoit <guillaume@manjaro.org>, 2013-2014.
 #
 # Translators:
-<<<<<<< HEAD
-# Lajos Pasztor <mrlajos@gmail.com>, 2013
 # Lajos Pasztor <mrlajos@gmail.com>, 2013-2014
 # sivananda <kotagirisivananda@gmail.com>, 2014
 msgid ""
@@ -15,17 +13,6 @@ msgstr ""
 "POT-Creation-Date: 2014-11-22 11:36+0100\n"
 "PO-Revision-Date: 2014-11-21 09:36+0000\n"
 "Last-Translator: Guillaume Benoit <guillaume@manjaro.org>\n"
-=======
-# lajos <mrlajos@gmail.com>, 2013
-# lajos <mrlajos@gmail.com>, 2013-2014
-msgid ""
-msgstr ""
-"Project-Id-Version: manjaro-pamac\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-10-23 15:09+0100\n"
-"PO-Revision-Date: 2014-03-05 22:14+0000\n"
-"Last-Translator: manjarolinux <philm@manjaro.org>\n"
->>>>>>> b8153ea47435633a8eb825f30c0976245b417a7e
 "Language-Team: Hungarian (http://www.transifex.com/projects/p/manjaro-pamac/"
 "language/hu/)\n"
 "Language: hu\n"
@@ -34,7 +21,6 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-<<<<<<< HEAD
 #: data/polkit/org.manjaro.pamac.policy
 msgid "Authentication is required"
 msgstr "Hitelesítés szükséges"
@@ -189,172 +175,10 @@ msgid "Remove unrequired dependencies"
 msgstr "Nem megkövetelt függőségek eltávolítása"
 
 #: ../resources/preferences_dialog.ui
-=======
-#: data/polkit/org.manjaro.pamac.policy:10
-msgid "Authentication is required"
-msgstr "Hitelesítés szükséges"
-
-#: resources/choose_provider_dialog.ui:6
-msgid "Choose a Provider"
-msgstr ""
-
-#: resources/choose_provider_dialog.ui:22
-#: resources/transaction_sum_dialog.ui:34 resources/preferences_dialog.ui:22
-msgid "_OK"
-msgstr ""
-
-#: resources/packages_chooser_dialog.ui:6 resources/manager_window.ui:765
-msgid "Install local packages"
-msgstr "Helyi csomagok telepítése"
-
-#: resources/packages_chooser_dialog.ui:28 resources/progress_dialog.ui:28
-#: resources/transaction_sum_dialog.ui:20
-#, fuzzy
-msgid "_Cancel"
-msgstr "Mégse"
-
-#: resources/packages_chooser_dialog.ui:40
-msgid "_Open"
-msgstr ""
-
-#: resources/progress_dialog.ui:6
-msgid "Progress"
-msgstr "Folyamat"
-
-#: resources/progress_dialog.ui:41 resources/history_dialog.ui:22
-#: resources/transaction_info_dialog.ui:20 resources/updater_window.ui:153
-#: resources/preferences_dialog.ui:36
-msgid "_Close"
-msgstr ""
-
-#: resources/progress_dialog.ui:92 resources/transaction_info_dialog.ui:79
-#: resources/manager_window.ui:695
-msgid "Details"
-msgstr "Részletek"
-
-#: resources/history_dialog.ui:6
-msgid "Pamac History"
-msgstr "Pamac előzmények"
-
-#: resources/transaction_sum_dialog.ui:5 src/transaction.vala:387
-msgid "Transaction Summary"
-msgstr "Tranzakció összefoglaló"
-
-#: resources/manager_window.ui:7 src/tray.vala:74
-msgid "Package Manager"
-msgstr "Csomagkezelő"
-
-#: resources/manager_window.ui:25
-msgid "Refresh databases"
-msgstr ""
-
-#: resources/manager_window.ui:48
-msgid "Apply changes"
-msgstr "Változások alkalmazása"
-
-#: resources/manager_window.ui:71
-msgid "Cancel all planned changes"
-msgstr ""
-
-#: resources/manager_window.ui:156 resources/manager_window.ui:168
-msgid "Search in AUR"
-msgstr "Keresés AUR -ban"
-
-#: resources/manager_window.ui:221
-msgid "Search"
-msgstr "Keresés"
-
-#: resources/manager_window.ui:266 src/manager_window.vala:397
-msgid "Groups"
-msgstr "Csoportok"
-
-#: resources/manager_window.ui:312 resources/manager_window.ui:406
-msgid "State"
-msgstr "Állapot"
-
-#: resources/manager_window.ui:358
-#, fuzzy
-msgid "Repositories"
-msgstr "Tároló"
-
-#: resources/manager_window.ui:421
-msgid "Name"
-msgstr "Név"
-
-#: resources/manager_window.ui:436
-msgid "Version"
-msgstr "Verzió"
-
-#: resources/manager_window.ui:451 src/manager_window.vala:389
-msgid "Repository"
-msgstr "Tároló"
-
-#: resources/manager_window.ui:466
-msgid "Size"
-msgstr "Méret"
-
-#: resources/manager_window.ui:570
-msgid "Description"
-msgstr ""
-
-#: resources/manager_window.ui:630
-msgid "Dependencies"
-msgstr ""
-
-#: resources/manager_window.ui:728
-msgid "Files"
-msgstr "Fájlok"
-
-#: resources/manager_window.ui:757
-msgid "View History"
-msgstr "Előzmények megtekintése"
-
-#: resources/manager_window.ui:773 resources/updater_window.ui:101
-msgid "_Preferences"
-msgstr ""
-
-#: resources/manager_window.ui:782
-msgid "_About"
-msgstr ""
-
-#: resources/updater_window.ui:6 src/tray.vala:71 src/tray.vala:157
-#: src/tray.vala:229
-msgid "Update Manager"
-msgstr "Frissítés kezelő"
-
-#: resources/updater_window.ui:126
-#, fuzzy
-msgid "_Refresh"
-msgstr "Frissítés"
-
-#: resources/updater_window.ui:139
-msgid "_Apply"
-msgstr ""
-
-#: resources/preferences_dialog.ui:6
-msgid "Preferences"
-msgstr ""
-
-#: resources/preferences_dialog.ui:71
-msgid "Enable AUR support"
-msgstr "AUR támogatás engedélyezése"
-
-#: resources/preferences_dialog.ui:84
-msgid "Allow Pamac to search and install packages from AUR"
-msgstr "Pamac kereshet és telepíthet csomagokat az AUR -ból"
-
-#: resources/preferences_dialog.ui:102
-msgid "Remove unrequired dependencies"
-msgstr "Nem megkövetelt függőségek eltávolítása"
-
-#: resources/preferences_dialog.ui:115
-#, fuzzy
->>>>>>> b8153ea47435633a8eb825f30c0976245b417a7e
 msgid ""
 "When removing a package, also remove its dependencies that are not required "
 "by other packages"
 msgstr ""
-<<<<<<< HEAD
 
 #: ../resources/preferences_dialog.ui ../src/preferences_dialog.vala
 msgid "How often to check for updates, value in hours"
@@ -385,119 +209,49 @@ msgid "Failed to prepare transaction"
 msgstr ""
 
 #: ../src/daemon.vala
-=======
-"Csomag eltávolításakor távolítsa el a függőségeket amik nem megköveteltek "
-"más csomagok által"
-
-#: resources/preferences_dialog.ui:149 src/preferences_dialog.vala:37
-msgid "How often to check for updates, value in hours"
-msgstr "Milyen gyakran ellenőrizze a frissítéseket? Értékek órában"
-
-#: resources/preferences_dialog.ui:173
-msgid "Options"
-msgstr "Opciók"
-
-#: src/packages_chooser_dialog.vala:32
-#, fuzzy
-msgid "Alpm Package"
-msgstr "Csomagoló"
-
-#: src/daemon.vala:64
-msgid "Failed to initialize alpm library"
-msgstr ""
-
-#: src/daemon.vala:135 src/daemon.vala:141
-msgid "Failed to synchronize any databases"
-msgstr ""
-
-#: src/daemon.vala:184
-msgid "Failed to init transaction"
-msgstr ""
-
-#: src/daemon.vala:196 src/daemon.vala:214 src/daemon.vala:226
-#: src/daemon.vala:240 src/daemon.vala:252 src/daemon.vala:269
-#: src/daemon.vala:276 src/daemon.vala:290 src/daemon.vala:340
-msgid "Failed to prepare transaction"
-msgstr ""
-
-#: src/daemon.vala:215 src/daemon.vala:270
->>>>>>> b8153ea47435633a8eb825f30c0976245b417a7e
 #, c-format
 msgid "target not found: %s"
 msgstr ""
 
-<<<<<<< HEAD
 #: ../src/daemon.vala
-=======
-#: src/daemon.vala:298
->>>>>>> b8153ea47435633a8eb825f30c0976245b417a7e
 #, c-format
 msgid "package %s does not have a valid architecture"
 msgstr ""
 
-<<<<<<< HEAD
 #: ../src/daemon.vala
-=======
-#: src/daemon.vala:307
->>>>>>> b8153ea47435633a8eb825f30c0976245b417a7e
 #, c-format
 msgid "%s: requires %s"
 msgstr ""
 
-<<<<<<< HEAD
 #: ../src/daemon.vala
-=======
-#: src/daemon.vala:315
->>>>>>> b8153ea47435633a8eb825f30c0976245b417a7e
 #, c-format
 msgid "%s and %s are in conflict"
 msgstr ""
 
-<<<<<<< HEAD
 #: ../src/daemon.vala
-=======
-#: src/daemon.vala:334
->>>>>>> b8153ea47435633a8eb825f30c0976245b417a7e
 #, c-format
 msgid "%s needs to be removed but it is a locked package"
 msgstr ""
 
-<<<<<<< HEAD
 #: ../src/daemon.vala
 msgid "Failed to commit transaction"
 msgstr ""
 
 #: ../src/daemon.vala
-=======
-#: src/daemon.vala:403
-msgid "Failed to commit transaction"
-msgstr ""
-
-#: src/daemon.vala:417
->>>>>>> b8153ea47435633a8eb825f30c0976245b417a7e
 #, c-format
 msgid "%s exists in both %s and %s"
 msgstr ""
 
-<<<<<<< HEAD
 #: ../src/daemon.vala
-=======
-#: src/daemon.vala:420
->>>>>>> b8153ea47435633a8eb825f30c0976245b417a7e
 #, c-format
 msgid "%s: %s already exists in filesystem"
 msgstr ""
 
-<<<<<<< HEAD
 #: ../src/daemon.vala
-=======
-#: src/daemon.vala:433
->>>>>>> b8153ea47435633a8eb825f30c0976245b417a7e
 #, c-format
 msgid "%s is invalid or corrupted"
 msgstr ""
 
-<<<<<<< HEAD
 #: ../src/daemon.vala
 msgid "Authentication failed"
 msgstr "Hitelesítés nem sikerült"
@@ -515,30 +269,10 @@ msgid "Preparing"
 msgstr "Előkészítés"
 
 #: ../src/transaction.vala
-=======
-#: src/daemon.vala:465
-msgid "Authentication failed"
-msgstr "Hitelesítés nem sikerült"
-
-#: src/transaction.vala:177
-msgid "Synchronizing package databases"
-msgstr ""
-
-#: src/transaction.vala:231
-msgid "Starting full system upgrade"
-msgstr ""
-
-#: src/transaction.vala:286
-msgid "Preparing"
-msgstr "Előkészítés"
-
-#: src/transaction.vala:359
->>>>>>> b8153ea47435633a8eb825f30c0976245b417a7e
 #, c-format
 msgid "Choose a provider for %s"
 msgstr ""
 
-<<<<<<< HEAD
 #: ../src/transaction.vala ../src/manager_window.vala
 msgid "To remove"
 msgstr "Eltávolításra"
@@ -588,101 +322,30 @@ msgid "Checking inter-conflicts"
 msgstr ""
 
 #: ../src/transaction.vala
-=======
-#: src/transaction.vala:417 src/manager_window.vala:245
-#: src/manager_window.vala:974
-msgid "To remove"
-msgstr "Eltávolításra"
-
-#: src/transaction.vala:430
-msgid "To downgrade"
-msgstr "Visszaállításra"
-
-#: src/transaction.vala:443
-msgid "To build"
-msgstr "Építeni"
-
-#: src/transaction.vala:456 src/manager_window.vala:244
-#: src/manager_window.vala:963
-msgid "To install"
-msgstr "Telepítésre"
-
-#: src/transaction.vala:469
-msgid "To reinstall"
-msgstr "Újra telepítésre"
-
-#: src/transaction.vala:483
-msgid "To update"
-msgstr "Frissítésre"
-
-#: src/transaction.vala:496 src/updater_window.vala:182
-msgid "Total download size"
-msgstr "Teljes letöltési méret"
-
-#: src/transaction.vala:513
-msgid "Building packages"
-msgstr ""
-
-#: src/transaction.vala:570
-msgid "Checking dependencies"
-msgstr "Függőségek ellenőrzése"
-
-#: src/transaction.vala:575
-msgid "Checking file conflicts"
-msgstr "Fájl konfliktusok ellenőrzése"
-
-#: src/transaction.vala:580
-msgid "Resolving dependencies"
-msgstr "Függőségek feloldása"
-
-#: src/transaction.vala:585
-#, fuzzy
-msgid "Checking inter-conflicts"
-msgstr "Összeférhetetlenségek ellenőrzése"
-
-#: src/transaction.vala:592 src/transaction.vala:594
->>>>>>> b8153ea47435633a8eb825f30c0976245b417a7e
 #, c-format
 msgid "Installing %s"
 msgstr "Telepítés %s"
 
-<<<<<<< HEAD
 #: ../src/transaction.vala
-=======
-#: src/transaction.vala:600 src/transaction.vala:602
->>>>>>> b8153ea47435633a8eb825f30c0976245b417a7e
 #, c-format
 msgid "Reinstalling %s"
 msgstr "Újratelepítés %s"
 
-<<<<<<< HEAD
 #: ../src/transaction.vala
-=======
-#: src/transaction.vala:608 src/transaction.vala:610
->>>>>>> b8153ea47435633a8eb825f30c0976245b417a7e
 #, c-format
 msgid "Removing %s"
 msgstr "Eltávolítás %s"
 
-<<<<<<< HEAD
 #: ../src/transaction.vala
-=======
-#: src/transaction.vala:616 src/transaction.vala:618
->>>>>>> b8153ea47435633a8eb825f30c0976245b417a7e
 #, c-format
 msgid "Upgrading %s"
 msgstr "Frissítés %s"
 
-<<<<<<< HEAD
 #: ../src/transaction.vala
-=======
-#: src/transaction.vala:624 src/transaction.vala:626
->>>>>>> b8153ea47435633a8eb825f30c0976245b417a7e
 #, c-format
 msgid "Downgrading %s"
 msgstr "Leépítés %s"
 
-<<<<<<< HEAD
 #: ../src/transaction.vala
 msgid "Checking integrity"
 msgstr "Egységesség ellenőrzése"
@@ -708,38 +371,10 @@ msgid "Applying deltas"
 msgstr "Változások alkalmazása"
 
 #: ../src/transaction.vala
-=======
-#: src/transaction.vala:630
-msgid "Checking integrity"
-msgstr "Egységesség ellenőrzése"
-
-#: src/transaction.vala:636
-msgid "Checking keyring"
-msgstr "Kulcs ellenőrzése"
-
-#: src/transaction.vala:641
-msgid "Downloading required keys"
-msgstr "Megkövetelt kulcsok letöltése"
-
-#: src/transaction.vala:646
-msgid "Loading packages files"
-msgstr "Csomagfájlok betöltése"
-
-#: src/transaction.vala:651
-msgid "Checking delta integrity"
-msgstr "Egységesség ellenőrzése"
-
-#: src/transaction.vala:656
-msgid "Applying deltas"
-msgstr "Változások alkalmazása"
-
-#: src/transaction.vala:661
->>>>>>> b8153ea47435633a8eb825f30c0976245b417a7e
 #, c-format
 msgid "Generating %s with %s"
 msgstr "Létrehoz %s ezzel %s"
 
-<<<<<<< HEAD
 #: ../src/transaction.vala
 msgid "Generation succeeded"
 msgstr "जनरेशन सफल रहा"
@@ -749,22 +384,10 @@ msgid "Generation failed"
 msgstr "जनरेशन में विफल रहा है"
 
 #: ../src/transaction.vala
-=======
-#: src/transaction.vala:666
-msgid "Generation succeeded"
-msgstr ""
-
-#: src/transaction.vala:671
-msgid "Generation failed"
-msgstr ""
-
-#: src/transaction.vala:676
->>>>>>> b8153ea47435633a8eb825f30c0976245b417a7e
 #, c-format
 msgid "Configuring %s"
 msgstr "Konfigurálás %s"
 
-<<<<<<< HEAD
 #: ../src/transaction.vala
 msgid "Downloading"
 msgstr "Letöltés"
@@ -774,49 +397,25 @@ msgid "Checking available disk space"
 msgstr "Elérhető tárterület ellenőrzése"
 
 #: ../src/transaction.vala
-=======
-#: src/transaction.vala:682
-msgid "Downloading"
-msgstr "Letöltés"
-
-#: src/transaction.vala:687
-msgid "Checking available disk space"
-msgstr "Elérhető tárterület ellenőrzése"
-
-#: src/transaction.vala:692
->>>>>>> b8153ea47435633a8eb825f30c0976245b417a7e
 #, c-format
 msgid "%s optionally requires %s"
 msgstr ""
 
-<<<<<<< HEAD
 #: ../src/transaction.vala
-=======
-#: src/transaction.vala:695
->>>>>>> b8153ea47435633a8eb825f30c0976245b417a7e
 #, c-format
 msgid "Database file for %s does not exist"
 msgstr ""
 
-<<<<<<< HEAD
 #: ../src/transaction.vala
-=======
-#: src/transaction.vala:747
->>>>>>> b8153ea47435633a8eb825f30c0976245b417a7e
 #, c-format
 msgid "Refreshing %s"
 msgstr "Frissítés %s"
 
-<<<<<<< HEAD
 #: ../src/transaction.vala
-=======
-#: src/transaction.vala:749
->>>>>>> b8153ea47435633a8eb825f30c0976245b417a7e
 #, c-format
 msgid "Downloading %s"
 msgstr "Letöltés %s"
 
-<<<<<<< HEAD
 #: ../src/transaction.vala
 msgid "Warning"
 msgstr ""
@@ -989,269 +588,3 @@ msgstr ""
 #, c-format
 msgid "%.2f MiB"
 msgstr "%.2f MiB"
-=======
-#: src/transaction.vala:797 src/transaction.vala:799 src/transaction.vala:816
-msgid "Warning"
-msgstr ""
-
-#: src/transaction.vala:804 src/transaction.vala:806 src/transaction.vala:837
-#: src/installer.vala:41 src/manager.vala:41 src/updater.vala:41
-msgid "Error"
-msgstr ""
-
-#: src/transaction.vala:904 src/transaction.vala:920
-#: src/progress_dialog.vala:55
-msgid "Transaction cancelled"
-msgstr ""
-
-#: src/transaction.vala:934
-msgid "Nothing to do"
-msgstr "Semmi teendő"
-
-#: src/transaction.vala:956 src/transaction.vala:972
-msgid "Transaction successfully finished"
-msgstr "A tranzakció sikeresen végrehajtódott"
-
-#: src/installer.vala:43 src/manager.vala:43 src/updater.vala:43
-msgid "Pamac is already running"
-msgstr "Pamac már el lett indítva"
-
-#: src/tray.vala:25 src/updater_window.vala:175
-msgid "Your system is up-to-date"
-msgstr "A rendszer naprakész"
-
-#: src/tray.vala:77
-#, fuzzy
-msgid "_Quit"
-msgstr "Kilépés"
-
-#: src/tray.vala:136 src/updater_window.vala:178
-#, fuzzy, c-format
-msgid "%u available update"
-msgid_plural "%u available updates"
-msgstr[0] "%u  elérhető frissítés"
-msgstr[1] "%u  elérhető frissítés"
-
-#: src/tray.vala:158
-msgid "Show available updates"
-msgstr ""
-
-#: src/manager_window.vala:132
-msgid "Deselect"
-msgstr "Kiválasztás megszüntetése"
-
-#: src/manager_window.vala:135
-msgid "Install"
-msgstr "Telepítés"
-
-#: src/manager_window.vala:138
-msgid "Remove"
-msgstr "Eltávolít"
-
-#: src/manager_window.vala:143
-msgid "Reinstall"
-msgstr "Újra telepít"
-
-#: src/manager_window.vala:146
-#, fuzzy
-msgid "Install optional dependencies"
-msgstr "Opcionális függőségek telepítése"
-
-#: src/manager_window.vala:149
-#, fuzzy
-msgid "Mark as explicitly installed"
-msgstr "Kifejezetten telepített"
-
-#: src/manager_window.vala:225 src/manager_window.vala:1016
-msgid "local"
-msgstr "helyi"
-
-#: src/manager_window.vala:241 src/manager_window.vala:311
-#: src/manager_window.vala:323 src/manager_window.vala:980
-msgid "Installed"
-msgstr "Telepített"
-
-#: src/manager_window.vala:243 src/manager_window.vala:990
-msgid "Orphans"
-msgstr "Árvák"
-
-#: src/manager_window.vala:271
-msgid "Licenses"
-msgstr "Licenszek"
-
-#: src/manager_window.vala:293
-msgid "Depends On"
-msgstr "Függőségek"
-
-#: src/manager_window.vala:313
-#, fuzzy
-msgid "Optional Dependencies"
-msgstr "Opcionális függőségek"
-
-#: src/manager_window.vala:333
-msgid "Required By"
-msgstr "Igényelt"
-
-#: src/manager_window.vala:347
-msgid "Provides"
-msgstr "Szolgáltat"
-
-#: src/manager_window.vala:360
-msgid "Replaces"
-msgstr "Helyettesít"
-
-#: src/manager_window.vala:373
-msgid "Conflicts With"
-msgstr "Ütközik vele"
-
-#: src/manager_window.vala:407
-msgid "Packager"
-msgstr "Csomagoló"
-
-#: src/manager_window.vala:413
-msgid "Install Date"
-msgstr "Telepítési dátum"
-
-#: src/manager_window.vala:417
-msgid "Explicitly installed"
-msgstr "Kifejezetten telepített"
-
-#: src/manager_window.vala:419
-msgid "Installed as a dependency for another package"
-msgstr "Telepítve csomagfüggőség miatt"
-
-#: src/manager_window.vala:421
-msgid "Unknown"
-msgstr "Ismeretlen"
-
-#: src/manager_window.vala:423
-msgid "Install Reason"
-msgstr "Telepítés oka"
-
-#: src/manager_window.vala:428
-msgid "Signatures"
-msgstr "Aláírások"
-
-#: src/manager_window.vala:436
-msgid "Backup files"
-msgstr "Mentett fájlok"
-
-#: src/manager_window.vala:559 src/manager_window.vala:700
-msgid "No package found"
-msgstr "Nem található csomag"
-
-#: src/manager_window.vala:653
-#, fuzzy, c-format
-msgid ""
-"%s has %u uninstalled optional dependencies.\n"
-"Choose those you would like to install:"
-msgstr ""
-"%s -nak %u  opcionális eltávolított függősége van.\n"
-"Kérlek válaszd ki azokat amiket telepíteni szeretnél:"
-
-#: src/manager_window.vala:982
-msgid "Uninstalled"
-msgstr "Nem telepített"
-
-#: src/manager_window.vala:1134
-#, fuzzy
-msgid "A Gtk3 frontend for libalpm"
-msgstr "Egy gtk3 felület libalpm-hoz"
-
-#: src/common.vala:48
-#, fuzzy, c-format
-msgid "%.0f KiB"
-msgstr "%.0f KiB"
-
-#: src/common.vala:51
-#, c-format
-msgid "%.2f MiB"
-msgstr "%.2f MiB"
-
-#~ msgid "1 available update"
-#~ msgstr "1 elérhető frissítés"
-
-#~ msgid "%s will be replaced by %s"
-#~ msgstr "%s helyettesítve lesz %s"
-
-#~ msgid "%s conflicts with %s"
-#~ msgstr "%s ütközik ezzel %s"
-
-#~ msgid "%s is not a valid path or package name"
-#~ msgstr "%s nem megfelelő elérési út vagy csomagnév"
-
-#~ msgid ""
-#~ "The transaction cannot be performed because it needs to remove %s which "
-#~ "is a locked package"
-#~ msgstr ""
-#~ "A tranzakció nem hajtható végre mert eltávolításra kerül %s ami egy "
-#~ "zárolt csomag."
-
-#~ msgid "Compressed Size"
-#~ msgstr "Tömörített méret"
-
-#~ msgid "Download Size"
-#~ msgstr "Letöltési méret"
-
-#~ msgid "Installed Size"
-#~ msgstr "Telepített méret"
-
-#~ msgid "Architecture"
-#~ msgstr "Szerkezet"
-
-#~ msgid "Install with optional deps"
-#~ msgstr "Telepítsd az opcionális függőségekkel"
-
-#~ msgid ""
-#~ "Some updates are available.\n"
-#~ "Please update your system first"
-#~ msgstr ""
-#~ "Néhány frissítés elérhető\n"
-#~ "Kérlek frissítsd a rendszert először"
-
-#~ msgid ""
-#~ "%s is provided by %u packages.\n"
-#~ "Please choose those you would like to install:"
-#~ msgstr ""
-#~ "%s elérhető %u csomagtól.\n"
-#~ "Kérlek válaszd ki azokat amiket telepíteni szeretnél:"
-
-#~ msgid "%s depends on %s but it is not installable"
-#~ msgstr "%s függ ettől %s de az nem telepíthető"
-
-#~ msgid "Failed to get %s archive from AUR"
-#~ msgstr "Nem lehet elérni a %s az AUR archívumból."
-
-#~ msgid "Build process failed."
-#~ msgstr "Az építési folyamat hibával leállt."
-
-#~ msgid "Checking for updates"
-#~ msgstr "Frissítések ellenőrzése"
-
-#~ msgid "About Pamac"
-#~ msgstr "A Pamac-ról"
-
-#~ msgid "Copyright © 2013 Guillaume Benoit"
-#~ msgstr "Copyright © 2013 Guillaume Benoit"
-
-#~ msgid "Repos"
-#~ msgstr "Tárolók"
-
-#~ msgid "Repo"
-#~ msgstr "Tároló"
-
-#~ msgid "Infos"
-#~ msgstr "Információ"
-
-#~ msgid "Deps"
-#~ msgstr "Függőségek"
-
-#~ msgid "details"
-#~ msgstr "részletek"
-
-#~ msgid "Choose"
-#~ msgstr "Válassz"
-
-#~ msgid "Summary"
-#~ msgstr "Összefoglaló"
->>>>>>> b8153ea47435633a8eb825f30c0976245b417a7e

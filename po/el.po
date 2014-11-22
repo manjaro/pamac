@@ -5,12 +5,6 @@
 #
 # Translators:
 # angel_solomos <angelsolomos@gmail.com>, 2013
-<<<<<<< HEAD
-# angel_solomos <angelsolomos@gmail.com>, 2013
-# Guillaume Benoit <guillaume@manjaro.org>, 2013
-# philm <philm@manjaro.org>, 2014
-# philm <philm@manjaro.org>, 2014
-# Savoritias <savoritiasshadow@gmail.com>, 2014
 # Savoritias <savoritiasshadow@gmail.com>, 2014
 # ΔΗΜΗΤΡΙΟΥ ΚΩΝΣΤΑΝΤΙΝΟΣ <gasdim@hotmail.gr>, 2013-2014
 msgid ""
@@ -20,19 +14,6 @@ msgstr ""
 "POT-Creation-Date: 2014-11-22 11:36+0100\n"
 "PO-Revision-Date: 2014-11-21 09:36+0000\n"
 "Last-Translator: Guillaume Benoit <guillaume@manjaro.org>\n"
-=======
-# Guillaume Benoit <guillaume@manjaro.org>, 2013
-# manjarolinux <philm@manjaro.org>, 2014
-# Savoritias <savoritiasshadow@gmail.com>, 2014
-# gasdim <gasdim@hotmail.gr>, 2013-2014
-msgid ""
-msgstr ""
-"Project-Id-Version: manjaro-pamac\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-10-23 15:09+0100\n"
-"PO-Revision-Date: 2014-03-05 22:14+0000\n"
-"Last-Translator: manjarolinux <philm@manjaro.org>\n"
->>>>>>> b8153ea47435633a8eb825f30c0976245b417a7e
 "Language-Team: Greek (http://www.transifex.com/projects/p/manjaro-pamac/"
 "language/el/)\n"
 "Language: el\n"
@@ -41,7 +22,6 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-<<<<<<< HEAD
 #: data/polkit/org.manjaro.pamac.policy
 msgid "Authentication is required"
 msgstr "Απαιτείται πιστοποίηση"
@@ -196,172 +176,10 @@ msgid "Remove unrequired dependencies"
 msgstr "Αφαίρεση  αχρησιμοποίητων εξαρτήσεων"
 
 #: ../resources/preferences_dialog.ui
-=======
-#: data/polkit/org.manjaro.pamac.policy:10
-msgid "Authentication is required"
-msgstr "Απαιτείται πιστοποίηση"
-
-#: resources/choose_provider_dialog.ui:6
-msgid "Choose a Provider"
-msgstr ""
-
-#: resources/choose_provider_dialog.ui:22
-#: resources/transaction_sum_dialog.ui:34 resources/preferences_dialog.ui:22
-msgid "_OK"
-msgstr ""
-
-#: resources/packages_chooser_dialog.ui:6 resources/manager_window.ui:765
-msgid "Install local packages"
-msgstr "Εγκατάσταση τοπικών πακέτων"
-
-#: resources/packages_chooser_dialog.ui:28 resources/progress_dialog.ui:28
-#: resources/transaction_sum_dialog.ui:20
-#, fuzzy
-msgid "_Cancel"
-msgstr "Άκυρο"
-
-#: resources/packages_chooser_dialog.ui:40
-msgid "_Open"
-msgstr ""
-
-#: resources/progress_dialog.ui:6
-msgid "Progress"
-msgstr "Πρόοδος"
-
-#: resources/progress_dialog.ui:41 resources/history_dialog.ui:22
-#: resources/transaction_info_dialog.ui:20 resources/updater_window.ui:153
-#: resources/preferences_dialog.ui:36
-msgid "_Close"
-msgstr ""
-
-#: resources/progress_dialog.ui:92 resources/transaction_info_dialog.ui:79
-#: resources/manager_window.ui:695
-msgid "Details"
-msgstr "Λεπτομέρειες"
-
-#: resources/history_dialog.ui:6
-msgid "Pamac History"
-msgstr "Ιστορικο Pacmac"
-
-#: resources/transaction_sum_dialog.ui:5 src/transaction.vala:387
-msgid "Transaction Summary"
-msgstr "<big><b>Περίληψη ενεργειών</b></big>"
-
-#: resources/manager_window.ui:7 src/tray.vala:74
-msgid "Package Manager"
-msgstr "Διαχειριστής πακέτων"
-
-#: resources/manager_window.ui:25
-msgid "Refresh databases"
-msgstr ""
-
-#: resources/manager_window.ui:48
-msgid "Apply changes"
-msgstr "Εφαρμογή αλλαγών"
-
-#: resources/manager_window.ui:71
-msgid "Cancel all planned changes"
-msgstr ""
-
-#: resources/manager_window.ui:156 resources/manager_window.ui:168
-msgid "Search in AUR"
-msgstr "Αναζήτηση στην AUR"
-
-#: resources/manager_window.ui:221
-msgid "Search"
-msgstr "Αναζήτηση"
-
-#: resources/manager_window.ui:266 src/manager_window.vala:397
-msgid "Groups"
-msgstr "Ομάδες"
-
-#: resources/manager_window.ui:312 resources/manager_window.ui:406
-msgid "State"
-msgstr "Κατάσταση"
-
-#: resources/manager_window.ui:358
-#, fuzzy
-msgid "Repositories"
-msgstr "Αποθετήριο"
-
-#: resources/manager_window.ui:421
-msgid "Name"
-msgstr "Όνομα"
-
-#: resources/manager_window.ui:436
-msgid "Version"
-msgstr "Έκδοση"
-
-#: resources/manager_window.ui:451 src/manager_window.vala:389
-msgid "Repository"
-msgstr "Αποθετήριο"
-
-#: resources/manager_window.ui:466
-msgid "Size"
-msgstr "Μέγεθος"
-
-#: resources/manager_window.ui:570
-msgid "Description"
-msgstr ""
-
-#: resources/manager_window.ui:630
-msgid "Dependencies"
-msgstr ""
-
-#: resources/manager_window.ui:728
-msgid "Files"
-msgstr "Αρχεία"
-
-#: resources/manager_window.ui:757
-msgid "View History"
-msgstr "Εμφάνιση Ιστορικού"
-
-#: resources/manager_window.ui:773 resources/updater_window.ui:101
-msgid "_Preferences"
-msgstr ""
-
-#: resources/manager_window.ui:782
-msgid "_About"
-msgstr ""
-
-#: resources/updater_window.ui:6 src/tray.vala:71 src/tray.vala:157
-#: src/tray.vala:229
-msgid "Update Manager"
-msgstr "Διαχειριστής αναβαθμίσεων"
-
-#: resources/updater_window.ui:126
-#, fuzzy
-msgid "_Refresh"
-msgstr "Ανανέωση"
-
-#: resources/updater_window.ui:139
-msgid "_Apply"
-msgstr ""
-
-#: resources/preferences_dialog.ui:6
-msgid "Preferences"
-msgstr ""
-
-#: resources/preferences_dialog.ui:71
-msgid "Enable AUR support"
-msgstr "Ενεργοποίηση υποστήριξης AUR"
-
-#: resources/preferences_dialog.ui:84
-msgid "Allow Pamac to search and install packages from AUR"
-msgstr "Επέτρεψε τον Pacmac να ψάξει και να εγκαταστήσει πακέτα απο το AUR"
-
-#: resources/preferences_dialog.ui:102
-msgid "Remove unrequired dependencies"
-msgstr "Αφαίρεση  αχρησιμοποίητων εξαρτήσεων"
-
-#: resources/preferences_dialog.ui:115
-#, fuzzy
->>>>>>> b8153ea47435633a8eb825f30c0976245b417a7e
 msgid ""
 "When removing a package, also remove its dependencies that are not required "
 "by other packages"
 msgstr ""
-<<<<<<< HEAD
 
 #: ../resources/preferences_dialog.ui ../src/preferences_dialog.vala
 msgid "How often to check for updates, value in hours"
@@ -392,119 +210,49 @@ msgid "Failed to prepare transaction"
 msgstr ""
 
 #: ../src/daemon.vala
-=======
-"Όταν αφαιρείτε ένα πακέτο, επίσης αφαιρέστε λκαι τις εξαρτήσεις που δεν "
-"χρειάζονται απο άλλα πακέτα"
-
-#: resources/preferences_dialog.ui:149 src/preferences_dialog.vala:37
-msgid "How often to check for updates, value in hours"
-msgstr "Πόσο συχνά να ελέγχονται αναβαθμίσεις, τιμή σε ώρες"
-
-#: resources/preferences_dialog.ui:173
-msgid "Options"
-msgstr "Επιλογές"
-
-#: src/packages_chooser_dialog.vala:32
-#, fuzzy
-msgid "Alpm Package"
-msgstr "Δημιουργός πακέτου"
-
-#: src/daemon.vala:64
-msgid "Failed to initialize alpm library"
-msgstr ""
-
-#: src/daemon.vala:135 src/daemon.vala:141
-msgid "Failed to synchronize any databases"
-msgstr ""
-
-#: src/daemon.vala:184
-msgid "Failed to init transaction"
-msgstr ""
-
-#: src/daemon.vala:196 src/daemon.vala:214 src/daemon.vala:226
-#: src/daemon.vala:240 src/daemon.vala:252 src/daemon.vala:269
-#: src/daemon.vala:276 src/daemon.vala:290 src/daemon.vala:340
-msgid "Failed to prepare transaction"
-msgstr ""
-
-#: src/daemon.vala:215 src/daemon.vala:270
->>>>>>> b8153ea47435633a8eb825f30c0976245b417a7e
 #, c-format
 msgid "target not found: %s"
 msgstr ""
 
-<<<<<<< HEAD
 #: ../src/daemon.vala
-=======
-#: src/daemon.vala:298
->>>>>>> b8153ea47435633a8eb825f30c0976245b417a7e
 #, c-format
 msgid "package %s does not have a valid architecture"
 msgstr ""
 
-<<<<<<< HEAD
 #: ../src/daemon.vala
-=======
-#: src/daemon.vala:307
->>>>>>> b8153ea47435633a8eb825f30c0976245b417a7e
 #, c-format
 msgid "%s: requires %s"
 msgstr ""
 
-<<<<<<< HEAD
 #: ../src/daemon.vala
-=======
-#: src/daemon.vala:315
->>>>>>> b8153ea47435633a8eb825f30c0976245b417a7e
 #, c-format
 msgid "%s and %s are in conflict"
 msgstr ""
 
-<<<<<<< HEAD
 #: ../src/daemon.vala
-=======
-#: src/daemon.vala:334
->>>>>>> b8153ea47435633a8eb825f30c0976245b417a7e
 #, c-format
 msgid "%s needs to be removed but it is a locked package"
 msgstr ""
 
-<<<<<<< HEAD
 #: ../src/daemon.vala
 msgid "Failed to commit transaction"
 msgstr ""
 
 #: ../src/daemon.vala
-=======
-#: src/daemon.vala:403
-msgid "Failed to commit transaction"
-msgstr ""
-
-#: src/daemon.vala:417
->>>>>>> b8153ea47435633a8eb825f30c0976245b417a7e
 #, c-format
 msgid "%s exists in both %s and %s"
 msgstr ""
 
-<<<<<<< HEAD
 #: ../src/daemon.vala
-=======
-#: src/daemon.vala:420
->>>>>>> b8153ea47435633a8eb825f30c0976245b417a7e
 #, c-format
 msgid "%s: %s already exists in filesystem"
 msgstr ""
 
-<<<<<<< HEAD
 #: ../src/daemon.vala
-=======
-#: src/daemon.vala:433
->>>>>>> b8153ea47435633a8eb825f30c0976245b417a7e
 #, c-format
 msgid "%s is invalid or corrupted"
 msgstr ""
 
-<<<<<<< HEAD
 #: ../src/daemon.vala
 msgid "Authentication failed"
 msgstr "Η πιστοποίηση απέτυχε"
@@ -522,30 +270,10 @@ msgid "Preparing"
 msgstr "Προετοιμασία"
 
 #: ../src/transaction.vala
-=======
-#: src/daemon.vala:465
-msgid "Authentication failed"
-msgstr "Η πιστοποίηση απέτυχε"
-
-#: src/transaction.vala:177
-msgid "Synchronizing package databases"
-msgstr ""
-
-#: src/transaction.vala:231
-msgid "Starting full system upgrade"
-msgstr ""
-
-#: src/transaction.vala:286
-msgid "Preparing"
-msgstr "Προετοιμασία"
-
-#: src/transaction.vala:359
->>>>>>> b8153ea47435633a8eb825f30c0976245b417a7e
 #, c-format
 msgid "Choose a provider for %s"
 msgstr ""
 
-<<<<<<< HEAD
 #: ../src/transaction.vala ../src/manager_window.vala
 msgid "To remove"
 msgstr "Προς αφαίρεση"
@@ -595,102 +323,30 @@ msgid "Checking inter-conflicts"
 msgstr ""
 
 #: ../src/transaction.vala
-=======
-#: src/transaction.vala:417 src/manager_window.vala:245
-#: src/manager_window.vala:974
-msgid "To remove"
-msgstr "Προς αφαίρεση"
-
-#: src/transaction.vala:430
-msgid "To downgrade"
-msgstr "Προς υποβάθμισ"
-
-#: src/transaction.vala:443
-msgid "To build"
-msgstr "Πρός προετοιμασία για εγκατάσταση"
-
-#: src/transaction.vala:456 src/manager_window.vala:244
-#: src/manager_window.vala:963
-msgid "To install"
-msgstr "Προς εγκατάσταση"
-
-#: src/transaction.vala:469
-msgid "To reinstall"
-msgstr "Προς επανεγκατάσταση"
-
-#: src/transaction.vala:483
-msgid "To update"
-msgstr "Προς αναβάθμιση"
-
-#: src/transaction.vala:496 src/updater_window.vala:182
-#, fuzzy
-msgid "Total download size"
-msgstr "Συνολικό μέγεθος προς λήψη"
-
-#: src/transaction.vala:513
-msgid "Building packages"
-msgstr ""
-
-#: src/transaction.vala:570
-msgid "Checking dependencies"
-msgstr "Έλεγχος εξαρτήσεων"
-
-#: src/transaction.vala:575
-msgid "Checking file conflicts"
-msgstr "Έλεγχος για διενέξεις αρχείων"
-
-#: src/transaction.vala:580
-msgid "Resolving dependencies"
-msgstr "Επίλυση εξαρτήσεων"
-
-#: src/transaction.vala:585
-#, fuzzy
-msgid "Checking inter-conflicts"
-msgstr "Έλεγχος για εσωτερικές διενέξεις"
-
-#: src/transaction.vala:592 src/transaction.vala:594
->>>>>>> b8153ea47435633a8eb825f30c0976245b417a7e
 #, c-format
 msgid "Installing %s"
 msgstr "Εγκατάσταση %s"
 
-<<<<<<< HEAD
 #: ../src/transaction.vala
-=======
-#: src/transaction.vala:600 src/transaction.vala:602
->>>>>>> b8153ea47435633a8eb825f30c0976245b417a7e
 #, c-format
 msgid "Reinstalling %s"
 msgstr "Επανεγκατάσταση %s"
 
-<<<<<<< HEAD
 #: ../src/transaction.vala
-=======
-#: src/transaction.vala:608 src/transaction.vala:610
->>>>>>> b8153ea47435633a8eb825f30c0976245b417a7e
 #, c-format
 msgid "Removing %s"
 msgstr "Αφαίρεση %s"
 
-<<<<<<< HEAD
 #: ../src/transaction.vala
-=======
-#: src/transaction.vala:616 src/transaction.vala:618
->>>>>>> b8153ea47435633a8eb825f30c0976245b417a7e
 #, c-format
 msgid "Upgrading %s"
 msgstr "Αναβάθμιση %s"
 
-<<<<<<< HEAD
 #: ../src/transaction.vala
-=======
-#: src/transaction.vala:624 src/transaction.vala:626
->>>>>>> b8153ea47435633a8eb825f30c0976245b417a7e
 #, c-format
 msgid "Downgrading %s"
 msgstr "Υποβάθμιση %s"
 
-<<<<<<< HEAD
 #: ../src/transaction.vala
 msgid "Checking integrity"
 msgstr "Έλεγχος ακεραιότητας"
@@ -716,38 +372,10 @@ msgid "Applying deltas"
 msgstr "Εφαρμογή deltas"
 
 #: ../src/transaction.vala
-=======
-#: src/transaction.vala:630
-msgid "Checking integrity"
-msgstr "Έλεγχος ακεραιότητας"
-
-#: src/transaction.vala:636
-msgid "Checking keyring"
-msgstr "Έλεγχος keyring"
-
-#: src/transaction.vala:641
-msgid "Downloading required keys"
-msgstr "Μεταφόρτωση των απαιτούμενων κλειδιών"
-
-#: src/transaction.vala:646
-msgid "Loading packages files"
-msgstr "Φόρτωση αρχείων πακέτων"
-
-#: src/transaction.vala:651
-msgid "Checking delta integrity"
-msgstr "Έλεγχος ακεραιότητας delta"
-
-#: src/transaction.vala:656
-msgid "Applying deltas"
-msgstr "Εφαρμογή deltas"
-
-#: src/transaction.vala:661
->>>>>>> b8153ea47435633a8eb825f30c0976245b417a7e
 #, c-format
 msgid "Generating %s with %s"
 msgstr "Δημιουργία %s με %s"
 
-<<<<<<< HEAD
 #: ../src/transaction.vala
 msgid "Generation succeeded"
 msgstr ""
@@ -757,24 +385,10 @@ msgid "Generation failed"
 msgstr ""
 
 #: ../src/transaction.vala
-=======
-#: src/transaction.vala:666
-#, fuzzy
-msgid "Generation succeeded"
-msgstr "Η δημιουργία ολοκληρώθηκε επιτυχώς"
-
-#: src/transaction.vala:671
-#, fuzzy
-msgid "Generation failed"
-msgstr "Η δημιουργία απέτυχε"
-
-#: src/transaction.vala:676
->>>>>>> b8153ea47435633a8eb825f30c0976245b417a7e
 #, c-format
 msgid "Configuring %s"
 msgstr "Ρύθμιση %s"
 
-<<<<<<< HEAD
 #: ../src/transaction.vala
 msgid "Downloading"
 msgstr "Λήψη"
@@ -784,49 +398,25 @@ msgid "Checking available disk space"
 msgstr "Έλεγχος ελεύθερου χώρου στον δίσκο"
 
 #: ../src/transaction.vala
-=======
-#: src/transaction.vala:682
-msgid "Downloading"
-msgstr "Λήψη"
-
-#: src/transaction.vala:687
-msgid "Checking available disk space"
-msgstr "Έλεγχος ελεύθερου χώρου στον δίσκο"
-
-#: src/transaction.vala:692
->>>>>>> b8153ea47435633a8eb825f30c0976245b417a7e
 #, c-format
 msgid "%s optionally requires %s"
 msgstr ""
 
-<<<<<<< HEAD
 #: ../src/transaction.vala
-=======
-#: src/transaction.vala:695
->>>>>>> b8153ea47435633a8eb825f30c0976245b417a7e
 #, c-format
 msgid "Database file for %s does not exist"
 msgstr ""
 
-<<<<<<< HEAD
 #: ../src/transaction.vala
-=======
-#: src/transaction.vala:747
->>>>>>> b8153ea47435633a8eb825f30c0976245b417a7e
 #, c-format
 msgid "Refreshing %s"
 msgstr "Ανανέωση %s"
 
-<<<<<<< HEAD
 #: ../src/transaction.vala
-=======
-#: src/transaction.vala:749
->>>>>>> b8153ea47435633a8eb825f30c0976245b417a7e
 #, c-format
 msgid "Downloading %s"
 msgstr "Μεταφόρτωση %s"
 
-<<<<<<< HEAD
 #: ../src/transaction.vala
 msgid "Warning"
 msgstr ""
@@ -999,269 +589,3 @@ msgstr ""
 #, c-format
 msgid "%.2f MiB"
 msgstr "%.2f MiB"
-=======
-#: src/transaction.vala:797 src/transaction.vala:799 src/transaction.vala:816
-msgid "Warning"
-msgstr ""
-
-#: src/transaction.vala:804 src/transaction.vala:806 src/transaction.vala:837
-#: src/installer.vala:41 src/manager.vala:41 src/updater.vala:41
-msgid "Error"
-msgstr ""
-
-#: src/transaction.vala:904 src/transaction.vala:920
-#: src/progress_dialog.vala:55
-msgid "Transaction cancelled"
-msgstr ""
-
-#: src/transaction.vala:934
-msgid "Nothing to do"
-msgstr "Δεν υπάρχει τίποτε να γίνει"
-
-#: src/transaction.vala:956 src/transaction.vala:972
-msgid "Transaction successfully finished"
-msgstr "Οι ενέργειες ολοκληρώθηκαν επιτυχώς"
-
-#: src/installer.vala:43 src/manager.vala:43 src/updater.vala:43
-msgid "Pamac is already running"
-msgstr "Ο Pamac είναι ήδη ενεργός"
-
-#: src/tray.vala:25 src/updater_window.vala:175
-msgid "Your system is up-to-date"
-msgstr "Το σύστημα σας είναι πλήρως ενημερωμένο"
-
-#: src/tray.vala:77
-#, fuzzy
-msgid "_Quit"
-msgstr "Έξοδος"
-
-#: src/tray.vala:136 src/updater_window.vala:178
-#, fuzzy, c-format
-msgid "%u available update"
-msgid_plural "%u available updates"
-msgstr[0] "%u διαθέσιμες αναβαθμίσεις"
-msgstr[1] "%u διαθέσιμες αναβαθμίσεις"
-
-#: src/tray.vala:158
-msgid "Show available updates"
-msgstr ""
-
-#: src/manager_window.vala:132
-msgid "Deselect"
-msgstr "Αφαίρεσε μία επιλογή"
-
-#: src/manager_window.vala:135
-msgid "Install"
-msgstr "Εγκατάσταση"
-
-#: src/manager_window.vala:138
-msgid "Remove"
-msgstr "Απεγκατάσταση"
-
-#: src/manager_window.vala:143
-msgid "Reinstall"
-msgstr "Επανεγκατάσταση"
-
-#: src/manager_window.vala:146
-#, fuzzy
-msgid "Install optional dependencies"
-msgstr "Εγκατάσταση προαιρετικών εξαρτήσειων"
-
-#: src/manager_window.vala:149
-#, fuzzy
-msgid "Mark as explicitly installed"
-msgstr "Εγκαταστάθηκε ρητά"
-
-#: src/manager_window.vala:225 src/manager_window.vala:1016
-msgid "local"
-msgstr "τοπικό"
-
-#: src/manager_window.vala:241 src/manager_window.vala:311
-#: src/manager_window.vala:323 src/manager_window.vala:980
-msgid "Installed"
-msgstr "Εγκατεστημένα"
-
-#: src/manager_window.vala:243 src/manager_window.vala:990
-msgid "Orphans"
-msgstr "Ορφανά"
-
-#: src/manager_window.vala:271
-msgid "Licenses"
-msgstr "Άδειες"
-
-#: src/manager_window.vala:293
-msgid "Depends On"
-msgstr "Εξαρτάτε από"
-
-#: src/manager_window.vala:313
-#, fuzzy
-msgid "Optional Dependencies"
-msgstr "Προαιρετικές εξαρτήσεις"
-
-#: src/manager_window.vala:333
-msgid "Required By"
-msgstr "Απαιτείτε από"
-
-#: src/manager_window.vala:347
-msgid "Provides"
-msgstr "Παρέχει"
-
-#: src/manager_window.vala:360
-msgid "Replaces"
-msgstr "Αντικαθιστά"
-
-#: src/manager_window.vala:373
-msgid "Conflicts With"
-msgstr "Διένεξη με"
-
-#: src/manager_window.vala:407
-msgid "Packager"
-msgstr "Δημιουργός πακέτου"
-
-#: src/manager_window.vala:413
-msgid "Install Date"
-msgstr "Ημερομηνία εγκατάστασης"
-
-#: src/manager_window.vala:417
-msgid "Explicitly installed"
-msgstr "Εγκαταστάθηκε ρητά"
-
-#: src/manager_window.vala:419
-msgid "Installed as a dependency for another package"
-msgstr "Εγκαταστήθηκε ως εξάρτηση για ένα άλλο πακέτο"
-
-#: src/manager_window.vala:421
-msgid "Unknown"
-msgstr "Άγνωστο"
-
-#: src/manager_window.vala:423
-msgid "Install Reason"
-msgstr "Λόγος για εγκατάσταση"
-
-#: src/manager_window.vala:428
-msgid "Signatures"
-msgstr "Υπογραφές"
-
-#: src/manager_window.vala:436
-msgid "Backup files"
-msgstr "Δημιουργία αντιγράφων ασφαλείας αρχείων"
-
-#: src/manager_window.vala:559 src/manager_window.vala:700
-msgid "No package found"
-msgstr "Δεν βρέθηκε κανένα πακέτο"
-
-#: src/manager_window.vala:653
-#, fuzzy, c-format
-msgid ""
-"%s has %u uninstalled optional dependencies.\n"
-"Choose those you would like to install:"
-msgstr ""
-"%s έχει %u απεγκατεστημένες προαιρετικές βιβλιοθήκες.\n"
-"Παρακαλώ επέλεξε αυτές που θέλεις να εγκαταστήσεις."
-
-#: src/manager_window.vala:982
-msgid "Uninstalled"
-msgstr "Απεγκατεστημένα"
-
-#: src/manager_window.vala:1134
-#, fuzzy
-msgid "A Gtk3 frontend for libalpm"
-msgstr "Ένα gtk3 εμπρόσθιο τμήμα για το libalpm"
-
-#: src/common.vala:48
-#, fuzzy, c-format
-msgid "%.0f KiB"
-msgstr "%.0f KiB"
-
-#: src/common.vala:51
-#, c-format
-msgid "%.2f MiB"
-msgstr "%.2f MiB"
-
-#~ msgid "1 available update"
-#~ msgstr "1 διαθέσιμη αναβάθμιση"
-
-#~ msgid "%s will be replaced by %s"
-#~ msgstr "%s θα αντικατασταθεί από %s"
-
-#~ msgid "%s conflicts with %s"
-#~ msgstr "%s συγκρούεται με το %s"
-
-#~ msgid "%s is not a valid path or package name"
-#~ msgstr "%s δεν είναι έγκυρη διαδρομή ή έγκυρο όνομα πακέτου"
-
-#~ msgid ""
-#~ "The transaction cannot be performed because it needs to remove %s which "
-#~ "is a locked package"
-#~ msgstr ""
-#~ "Η διενέργεια δεν μπορεί να εφαρμοστεί γιατί χρειάζετε να απεγκαταστήσει "
-#~ "το %s που είναι ένα κλειδωμένο πακέτο"
-
-#~ msgid "Compressed Size"
-#~ msgstr "Συμπιεσμένο μέγεθος"
-
-#~ msgid "Download Size"
-#~ msgstr "Μέγεθος για μεταφόρτωση"
-
-#~ msgid "Installed Size"
-#~ msgstr "Μέγεθος εγκατεστημένου"
-
-#~ msgid "Architecture"
-#~ msgstr "Αρχιτεκτονική"
-
-#~ msgid "Install with optional deps"
-#~ msgstr "Εγκατάσταση μαζί με προαιρετικές εξαρτήσεις:"
-
-#~ msgid ""
-#~ "Some updates are available.\n"
-#~ "Please update your system first"
-#~ msgstr ""
-#~ "Κάποιες αναβαθμίσεις είναι διαθέσιμες.⏎\n"
-#~ "Παρακαλώ αναβαθμίστε πρώτα το σύστημα σας"
-
-#~ msgid ""
-#~ "%s is provided by %u packages.\n"
-#~ "Please choose those you would like to install:"
-#~ msgstr ""
-#~ "%s παρέχεται από %u πακέτων.\n"
-#~ "Παρακαλώ επέλεξε αυτά που θέλεις να εγκαταστήσεις."
-
-#~ msgid "%s depends on %s but it is not installable"
-#~ msgstr "%s εξαρτάται από %s αλλά δεν μπορεί να εγκατασταθεί"
-
-#~ msgid "Failed to get %s archive from AUR"
-#~ msgstr "Αποτυχεία λήψης %s από την AUR"
-
-#~ msgid "Build process failed."
-#~ msgstr "Η προετοιμασία για εγκατάσταση απέτυχε"
-
-#~ msgid "Checking for updates"
-#~ msgstr "Έλεγχος για αναβαθμισμένα πακέτα"
-
-#~ msgid "About Pamac"
-#~ msgstr "Σχετικά με τον Pamac"
-
-#~ msgid "Copyright © 2013 Guillaume Benoit"
-#~ msgstr "Copyright © 2013 Guillaume Benoit"
-
-#~ msgid "Repos"
-#~ msgstr "Αποθετήρια"
-
-#~ msgid "Repo"
-#~ msgstr "Βιβλιοθήκη πακέτων"
-
-#~ msgid "Infos"
-#~ msgstr "Πληροφορίες"
-
-#~ msgid "Deps"
-#~ msgstr "Εξαρτήσεις"
-
-#~ msgid "details"
-#~ msgstr "Λεπτομέρειες"
-
-#~ msgid "Choose"
-#~ msgstr "Επιλέξτε"
-
-#~ msgid "Summary"
-#~ msgstr "Περίληψη"
->>>>>>> b8153ea47435633a8eb825f30c0976245b417a7e

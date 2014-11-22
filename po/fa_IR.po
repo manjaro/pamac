@@ -7,9 +7,6 @@
 # Reza Gharibi <reza.gharibi.rg@gmail.com>, 2013
 # Hootan Baraary <h.baraary@yahoo.com>, 2013
 # ramin.najarbashi <ramin.najarbashi@gmail.com>, 2014
-# ramin.najarbashi <ramin.najarbashi@gmail.com>, 2014
-# Reza Gharibi <reza.gharibi.rg@gmail.com>, 2013
-# Hootan Baraary <h.baraary@yahoo.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"

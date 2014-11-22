@@ -3,20 +3,11 @@
 # This file is distributed under the same license as the Pamac package.
 # Guillaume Benoit <guillaume@manjaro.org>, 2013-2014.
 #
-<<<<<<< HEAD
 msgid ""
 msgstr ""
 "Project-Id-Version: Pamac 2.0\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2014-11-22 11:36+0100\n"
-=======
-#, fuzzy
-msgid ""
-msgstr ""
-"Project-Id-Version: pamac 2.0\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-10-23 15:09+0100\n"
->>>>>>> b8153ea47435633a8eb825f30c0976245b417a7e
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"

@@ -5,7 +5,6 @@
 #
 # Translators:
 # Daetalus <daetalusun@gmail.com>, 2014
-# Daetalus <daetalusun@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
