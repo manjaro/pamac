@@ -4,14 +4,15 @@
 # Guillaume Benoit <guillaume@manjaro.org>, 2013-2014.
 #
 # Translators:
-# 柏諺 黃 <s8321414@gmail.com>, 2013-2014
+# Jeff Huang <s8321414@gmail.com>, 2014
+# Jeff Huang <s8321414@gmail.com>, 2013-2014
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-10-23 15:09+0100\n"
-"PO-Revision-Date: 2014-03-05 22:47+0000\n"
-"Last-Translator: 柏諺 黃 <s8321414@gmail.com>\n"
+"Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
+"POT-Creation-Date: 2014-11-22 11:36+0100\n"
+"PO-Revision-Date: 2014-11-21 09:36+0000\n"
+"Last-Translator: Guillaume Benoit <guillaume@manjaro.org>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/manjaro-"
 "pamac/language/zh_TW/)\n"
 "Language: zh_TW\n"
@@ -20,674 +21,575 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: data/polkit/org.manjaro.pamac.policy:10
+#: data/polkit/org.manjaro.pamac.policy
 msgid "Authentication is required"
 msgstr "授權成功"
 
-#: resources/choose_provider_dialog.ui:6
+#: ../resources/choose_provider_dialog.ui
 msgid "Choose a Provider"
-msgstr ""
+msgstr "選擇一個提供者"
 
-#: resources/choose_provider_dialog.ui:22
-#: resources/transaction_sum_dialog.ui:34 resources/preferences_dialog.ui:22
+#: ../resources/choose_provider_dialog.ui
+#: ../resources/transaction_sum_dialog.ui ../resources/preferences_dialog.ui
 msgid "_OK"
-msgstr ""
+msgstr "是(_O)"
 
-#: resources/packages_chooser_dialog.ui:6 resources/manager_window.ui:765
+#: ../resources/packages_chooser_dialog.ui ../resources/manager_window.ui
 msgid "Install local packages"
 msgstr "安裝本地套件"
 
-#: resources/packages_chooser_dialog.ui:28 resources/progress_dialog.ui:28
-#: resources/transaction_sum_dialog.ui:20
-#, fuzzy
+#: ../resources/packages_chooser_dialog.ui ../resources/progress_dialog.ui
+#: ../resources/transaction_sum_dialog.ui
 msgid "_Cancel"
-msgstr "取消"
+msgstr "取消(_C)"
 
-#: resources/packages_chooser_dialog.ui:40
+#: ../resources/packages_chooser_dialog.ui
 msgid "_Open"
-msgstr ""
+msgstr "開啟(_O)"
 
-#: resources/progress_dialog.ui:6
+#: ../resources/progress_dialog.ui
 msgid "Progress"
 msgstr "進度"
 
-#: resources/progress_dialog.ui:41 resources/history_dialog.ui:22
-#: resources/transaction_info_dialog.ui:20 resources/updater_window.ui:153
-#: resources/preferences_dialog.ui:36
+#: ../resources/progress_dialog.ui ../resources/history_dialog.ui
+#: ../resources/transaction_info_dialog.ui ../resources/updater_window.ui
+#: ../resources/preferences_dialog.ui
 msgid "_Close"
-msgstr ""
+msgstr "關閉(_C)"
 
-#: resources/progress_dialog.ui:92 resources/transaction_info_dialog.ui:79
-#: resources/manager_window.ui:695
+#: ../resources/progress_dialog.ui ../resources/transaction_info_dialog.ui
+#: ../resources/manager_window.ui
 msgid "Details"
 msgstr "細節"
 
-#: resources/history_dialog.ui:6
+#: ../resources/history_dialog.ui
 msgid "Pamac History"
 msgstr "Pamac 歷史"
 
-#: resources/transaction_sum_dialog.ui:5 src/transaction.vala:387
+#: ../resources/transaction_sum_dialog.ui ../src/transaction.vala
 msgid "Transaction Summary"
 msgstr "事務處理概要"
 
-#: resources/manager_window.ui:7 src/tray.vala:74
+#: ../resources/manager_window.ui ../src/tray.vala
 msgid "Package Manager"
 msgstr "套件管理員"
 
-#: resources/manager_window.ui:25
+#: ../resources/manager_window.ui
 msgid "Refresh databases"
-msgstr ""
+msgstr "刷新套件庫"
 
-#: resources/manager_window.ui:48
+#: ../resources/manager_window.ui
 msgid "Apply changes"
 msgstr "套用變更"
 
-#: resources/manager_window.ui:71
+#: ../resources/manager_window.ui
 msgid "Cancel all planned changes"
-msgstr ""
+msgstr "取消所有已計畫的變更"
 
-#: resources/manager_window.ui:156 resources/manager_window.ui:168
+#: ../resources/manager_window.ui
 msgid "Search in AUR"
 msgstr "搜尋AUR"
 
-#: resources/manager_window.ui:221
+#: ../resources/manager_window.ui
 msgid "Search"
 msgstr "搜尋"
 
-#: resources/manager_window.ui:266 src/manager_window.vala:397
+#: ../resources/manager_window.ui ../src/manager_window.vala
 msgid "Groups"
 msgstr "套件群組"
 
-#: resources/manager_window.ui:312 resources/manager_window.ui:406
+#: ../resources/manager_window.ui
 msgid "State"
 msgstr "狀態"
 
-#: resources/manager_window.ui:358
-#, fuzzy
+#: ../resources/manager_window.ui
 msgid "Repositories"
 msgstr "套件庫"
 
-#: resources/manager_window.ui:421
+#: ../resources/manager_window.ui
 msgid "Name"
 msgstr "名稱"
 
-#: resources/manager_window.ui:436
+#: ../resources/manager_window.ui
 msgid "Version"
 msgstr "版本"
 
-#: resources/manager_window.ui:451 src/manager_window.vala:389
+#: ../resources/manager_window.ui ../src/manager_window.vala
 msgid "Repository"
 msgstr "套件庫"
 
-#: resources/manager_window.ui:466
+#: ../resources/manager_window.ui
 msgid "Size"
 msgstr "大小"
 
-#: resources/manager_window.ui:570
+#: ../resources/manager_window.ui
 msgid "Description"
-msgstr ""
+msgstr "描述"
 
-#: resources/manager_window.ui:630
+#: ../resources/manager_window.ui
 msgid "Dependencies"
-msgstr ""
+msgstr "依賴關係"
 
-#: resources/manager_window.ui:728
+#: ../resources/manager_window.ui
 msgid "Files"
 msgstr "檔案"
 
-#: resources/manager_window.ui:757
+#: ../resources/manager_window.ui
 msgid "View History"
 msgstr "檢閱歷史"
 
-#: resources/manager_window.ui:773 resources/updater_window.ui:101
+#: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "_Preferences"
-msgstr ""
+msgstr "偏好設定(_P)"
 
-#: resources/manager_window.ui:782
+#: ../resources/manager_window.ui
 msgid "_About"
-msgstr ""
+msgstr "關於(_A)"
 
-#: resources/updater_window.ui:6 src/tray.vala:71 src/tray.vala:157
-#: src/tray.vala:229
+#: ../resources/updater_window.ui ../src/tray.vala
 msgid "Update Manager"
 msgstr "更新管理員"
 
-#: resources/updater_window.ui:126
-#, fuzzy
+#: ../resources/updater_window.ui
 msgid "_Refresh"
-msgstr "更新套件庫內容"
+msgstr "刷新(_R)"
 
-#: resources/updater_window.ui:139
+#: ../resources/updater_window.ui
 msgid "_Apply"
-msgstr ""
+msgstr "套用(_A)"
 
-#: resources/preferences_dialog.ui:6
+#: ../resources/preferences_dialog.ui
 msgid "Preferences"
-msgstr ""
+msgstr "偏好設定"
 
-#: resources/preferences_dialog.ui:71
+#: ../resources/preferences_dialog.ui
 msgid "Enable AUR support"
 msgstr "啟用 AUR 支援"
 
-#: resources/preferences_dialog.ui:84
+#: ../resources/preferences_dialog.ui
 msgid "Allow Pamac to search and install packages from AUR"
 msgstr "允許 Pamac 搜尋及安裝 AUR 上的軟體包"
 
-#: resources/preferences_dialog.ui:102
+#: ../resources/preferences_dialog.ui
 msgid "Remove unrequired dependencies"
 msgstr "移除不需要的相依性"
 
-#: resources/preferences_dialog.ui:115
-#, fuzzy
+#: ../resources/preferences_dialog.ui
 msgid ""
 "When removing a package, also remove its dependencies that are not required "
 "by other packages"
-msgstr "當移除一個軟體包時，同時移除那些不被其他軟體包需要的相依性"
+msgstr "當移除一個軟體包時，同時移除它的不被其他軟體包需要的相依性"
 
-#: resources/preferences_dialog.ui:149 src/preferences_dialog.vala:37
+#: ../resources/preferences_dialog.ui ../src/preferences_dialog.vala
 msgid "How often to check for updates, value in hours"
 msgstr "請選擇您想要檢查更新的頻率，單位是小時"
 
-#: resources/preferences_dialog.ui:173
+#: ../resources/preferences_dialog.ui
 msgid "Options"
 msgstr "選項"
 
-#: src/packages_chooser_dialog.vala:32
-#, fuzzy
+#: ../src/packages_chooser_dialog.vala
 msgid "Alpm Package"
-msgstr "打包者"
+msgstr "Alpm 軟體包"
 
-#: src/daemon.vala:64
+#: ../src/daemon.vala
 msgid "Failed to initialize alpm library"
-msgstr ""
+msgstr "初始化 alpm 函式庫失敗"
 
-#: src/daemon.vala:135 src/daemon.vala:141
+#: ../src/daemon.vala
 msgid "Failed to synchronize any databases"
-msgstr ""
+msgstr "同步任何套件庫失敗"
 
-#: src/daemon.vala:184
+#: ../src/daemon.vala
 msgid "Failed to init transaction"
-msgstr ""
+msgstr "初始化事務處理失敗"
 
-#: src/daemon.vala:196 src/daemon.vala:214 src/daemon.vala:226
-#: src/daemon.vala:240 src/daemon.vala:252 src/daemon.vala:269
-#: src/daemon.vala:276 src/daemon.vala:290 src/daemon.vala:340
+#: ../src/daemon.vala
 msgid "Failed to prepare transaction"
-msgstr ""
+msgstr "準備事務處理失敗"
 
-#: src/daemon.vala:215 src/daemon.vala:270
+#: ../src/daemon.vala
 #, c-format
 msgid "target not found: %s"
-msgstr ""
+msgstr "目標找不到： %s"
 
-#: src/daemon.vala:298
+#: ../src/daemon.vala
 #, c-format
 msgid "package %s does not have a valid architecture"
-msgstr ""
+msgstr "軟體包 %s 沒有有效的架構"
 
-#: src/daemon.vala:307
+#: ../src/daemon.vala
 #, c-format
 msgid "%s: requires %s"
-msgstr ""
+msgstr "%s ：需要 %s"
 
-#: src/daemon.vala:315
+#: ../src/daemon.vala
 #, c-format
 msgid "%s and %s are in conflict"
-msgstr ""
+msgstr "%s 及 %s 衝突"
 
-#: src/daemon.vala:334
+#: ../src/daemon.vala
 #, c-format
 msgid "%s needs to be removed but it is a locked package"
-msgstr ""
+msgstr "%s 需要被移除，但它是一個被鎖定的軟體包"
 
-#: src/daemon.vala:403
+#: ../src/daemon.vala
 msgid "Failed to commit transaction"
-msgstr ""
+msgstr "提交事務處理失敗"
 
-#: src/daemon.vala:417
+#: ../src/daemon.vala
 #, c-format
 msgid "%s exists in both %s and %s"
-msgstr ""
+msgstr "%s 同時存在於 %s 及 %s"
 
-#: src/daemon.vala:420
+#: ../src/daemon.vala
 #, c-format
 msgid "%s: %s already exists in filesystem"
-msgstr ""
+msgstr "%s ： %s 已在檔案系統中存在"
 
-#: src/daemon.vala:433
+#: ../src/daemon.vala
 #, c-format
 msgid "%s is invalid or corrupted"
-msgstr ""
+msgstr "%s 是無效或損毀的"
 
-#: src/daemon.vala:465
+#: ../src/daemon.vala
 msgid "Authentication failed"
 msgstr "授權失敗"
 
-#: src/transaction.vala:177
+#: ../src/transaction.vala
 msgid "Synchronizing package databases"
-msgstr ""
+msgstr "正在同步套件庫"
 
-#: src/transaction.vala:231
+#: ../src/transaction.vala
 msgid "Starting full system upgrade"
-msgstr ""
+msgstr "正在開始全系統升級"
 
-#: src/transaction.vala:286
+#: ../src/transaction.vala
 msgid "Preparing"
 msgstr "準備中"
 
-#: src/transaction.vala:359
+#: ../src/transaction.vala
 #, c-format
 msgid "Choose a provider for %s"
-msgstr ""
+msgstr "選擇一個 %s 的提供者"
 
-#: src/transaction.vala:417 src/manager_window.vala:245
-#: src/manager_window.vala:974
+#: ../src/transaction.vala ../src/manager_window.vala
 msgid "To remove"
 msgstr "移除"
 
-#: src/transaction.vala:430
+#: ../src/transaction.vala
 msgid "To downgrade"
 msgstr "降級"
 
-#: src/transaction.vala:443
+#: ../src/transaction.vala
 msgid "To build"
 msgstr "構建"
 
-#: src/transaction.vala:456 src/manager_window.vala:244
-#: src/manager_window.vala:963
+#: ../src/transaction.vala ../src/manager_window.vala
 msgid "To install"
 msgstr "安裝"
 
-#: src/transaction.vala:469
+#: ../src/transaction.vala
 msgid "To reinstall"
 msgstr "重新安裝"
 
-#: src/transaction.vala:483
+#: ../src/transaction.vala
 msgid "To update"
 msgstr "升級"
 
-#: src/transaction.vala:496 src/updater_window.vala:182
+#: ../src/transaction.vala ../src/updater_window.vala
 msgid "Total download size"
 msgstr "總計下載大小"
 
-#: src/transaction.vala:513
+#: ../src/transaction.vala
 msgid "Building packages"
-msgstr ""
+msgstr "正在構建軟體包"
 
-#: src/transaction.vala:570
+#: ../src/transaction.vala
 msgid "Checking dependencies"
 msgstr "正在檢查依賴關係"
 
-#: src/transaction.vala:575
+#: ../src/transaction.vala
 msgid "Checking file conflicts"
 msgstr "正在檢查檔案衝突"
 
-#: src/transaction.vala:580
+#: ../src/transaction.vala
 msgid "Resolving dependencies"
 msgstr "正在解決依賴關係"
 
-#: src/transaction.vala:585
-#, fuzzy
+#: ../src/transaction.vala
 msgid "Checking inter-conflicts"
-msgstr "正在檢查內部衝突"
+msgstr "正在檢查內部衝途"
 
-#: src/transaction.vala:592 src/transaction.vala:594
+#: ../src/transaction.vala
 #, c-format
 msgid "Installing %s"
 msgstr "正在安裝 %s"
 
-#: src/transaction.vala:600 src/transaction.vala:602
+#: ../src/transaction.vala
 #, c-format
 msgid "Reinstalling %s"
 msgstr "正在重新安裝 %s"
 
-#: src/transaction.vala:608 src/transaction.vala:610
+#: ../src/transaction.vala
 #, c-format
 msgid "Removing %s"
 msgstr "正在移除 %s"
 
-#: src/transaction.vala:616 src/transaction.vala:618
+#: ../src/transaction.vala
 #, c-format
 msgid "Upgrading %s"
 msgstr "正在升級 %s"
 
-#: src/transaction.vala:624 src/transaction.vala:626
+#: ../src/transaction.vala
 #, c-format
 msgid "Downgrading %s"
 msgstr "正在降級 %s"
 
-#: src/transaction.vala:630
+#: ../src/transaction.vala
 msgid "Checking integrity"
 msgstr "正在檢查軟體包完整性"
 
-#: src/transaction.vala:636
+#: ../src/transaction.vala
 msgid "Checking keyring"
 msgstr "正在檢查鑰匙圈"
 
-#: src/transaction.vala:641
+#: ../src/transaction.vala
 msgid "Downloading required keys"
 msgstr "正在下載需要的鑰匙"
 
-#: src/transaction.vala:646
+#: ../src/transaction.vala
 msgid "Loading packages files"
 msgstr "正在載入套件檔案"
 
-#: src/transaction.vala:651
+#: ../src/transaction.vala
 msgid "Checking delta integrity"
 msgstr "正在檢查增量包完整性"
 
-#: src/transaction.vala:656
+#: ../src/transaction.vala
 msgid "Applying deltas"
 msgstr "正在套用增量包"
 
-#: src/transaction.vala:661
+#: ../src/transaction.vala
 #, c-format
 msgid "Generating %s with %s"
 msgstr "正在生成 %s (使用 %s)"
 
-#: src/transaction.vala:666
-#, fuzzy
+#: ../src/transaction.vala
 msgid "Generation succeeded"
-msgstr "生成成功！"
+msgstr "生成成功"
 
-#: src/transaction.vala:671
-#, fuzzy
+#: ../src/transaction.vala
 msgid "Generation failed"
-msgstr "生成失敗。"
+msgstr "生成失敗"
 
-#: src/transaction.vala:676
+#: ../src/transaction.vala
 #, c-format
 msgid "Configuring %s"
 msgstr "正在設定 %s"
 
-#: src/transaction.vala:682
+#: ../src/transaction.vala
 msgid "Downloading"
 msgstr "正在下載"
 
-#: src/transaction.vala:687
+#: ../src/transaction.vala
 msgid "Checking available disk space"
 msgstr "正在檢查可用磁碟空間"
 
-#: src/transaction.vala:692
+#: ../src/transaction.vala
 #, c-format
 msgid "%s optionally requires %s"
-msgstr ""
+msgstr "%s 選擇性需要 %s"
 
-#: src/transaction.vala:695
+#: ../src/transaction.vala
 #, c-format
 msgid "Database file for %s does not exist"
-msgstr ""
+msgstr "%s 資料庫檔案不存在"
 
-#: src/transaction.vala:747
+#: ../src/transaction.vala
 #, c-format
 msgid "Refreshing %s"
 msgstr "正在更新 %s 內容"
 
-#: src/transaction.vala:749
+#: ../src/transaction.vala
 #, c-format
 msgid "Downloading %s"
 msgstr "正在下載 %s"
 
-#: src/transaction.vala:797 src/transaction.vala:799 src/transaction.vala:816
+#: ../src/transaction.vala
 msgid "Warning"
 msgstr "警告"
 
-#: src/transaction.vala:804 src/transaction.vala:806 src/transaction.vala:837
-#: src/installer.vala:41 src/manager.vala:41 src/updater.vala:41
+#: ../src/transaction.vala ../src/installer.vala ../src/manager.vala
+#: ../src/updater.vala
 msgid "Error"
 msgstr "錯誤"
 
-#: src/transaction.vala:904 src/transaction.vala:920
-#: src/progress_dialog.vala:55
+#: ../src/transaction.vala ../src/progress_dialog.vala
 msgid "Transaction cancelled"
-msgstr ""
+msgstr "已取消事務處理"
 
-#: src/transaction.vala:934
+#: ../src/transaction.vala
 msgid "Nothing to do"
 msgstr "已無事可作"
 
-#: src/transaction.vala:956 src/transaction.vala:972
+#: ../src/transaction.vala
 msgid "Transaction successfully finished"
 msgstr "事務處理成功完成"
 
-#: src/installer.vala:43 src/manager.vala:43 src/updater.vala:43
+#: ../src/installer.vala ../src/manager.vala ../src/updater.vala
 msgid "Pamac is already running"
 msgstr "Pamac仍在執行中"
 
-#: src/tray.vala:25 src/updater_window.vala:175
+#: ../src/tray.vala ../src/updater_window.vala
 msgid "Your system is up-to-date"
 msgstr "您的系統已經是最新的"
 
-#: src/tray.vala:77
-#, fuzzy
+#: ../src/tray.vala
 msgid "_Quit"
-msgstr "離開"
+msgstr "離開(_Q)"
 
-#: src/tray.vala:136 src/updater_window.vala:178
-#, fuzzy, c-format
+#: ../src/tray.vala ../src/updater_window.vala
+#, c-format
 msgid "%u available update"
 msgid_plural "%u available updates"
-msgstr[0] "有 %u 個升級"
+msgstr[0] ""
 
-#: src/tray.vala:158
+#: ../src/tray.vala
 msgid "Show available updates"
-msgstr ""
+msgstr "顯示可用的更新"
 
-#: src/manager_window.vala:132
+#: ../src/manager_window.vala
 msgid "Deselect"
 msgstr "取消選擇"
 
-#: src/manager_window.vala:135
+#: ../src/manager_window.vala
 msgid "Install"
 msgstr "安裝"
 
-#: src/manager_window.vala:138
+#: ../src/manager_window.vala
 msgid "Remove"
 msgstr "移除"
 
-#: src/manager_window.vala:143
+#: ../src/manager_window.vala
 msgid "Reinstall"
 msgstr "重新安裝"
 
-#: src/manager_window.vala:146
-#, fuzzy
+#: ../src/manager_window.vala
 msgid "Install optional dependencies"
-msgstr "安裝可選依賴"
+msgstr "安裝選擇性依賴關係"
 
-#: src/manager_window.vala:149
+#: ../src/manager_window.vala
 msgid "Mark as explicitly installed"
 msgstr "標示為單獨指定安裝"
 
-#: src/manager_window.vala:225 src/manager_window.vala:1016
+#: ../src/manager_window.vala
 msgid "local"
 msgstr "本地的"
 
-#: src/manager_window.vala:241 src/manager_window.vala:311
-#: src/manager_window.vala:323 src/manager_window.vala:980
+#: ../src/manager_window.vala
 msgid "Installed"
 msgstr "已安裝"
 
-#: src/manager_window.vala:243 src/manager_window.vala:990
+#: ../src/manager_window.vala
 msgid "Orphans"
 msgstr "孤立的"
 
-#: src/manager_window.vala:271
+#: ../src/manager_window.vala
 msgid "Licenses"
 msgstr "授權條款"
 
-#: src/manager_window.vala:293
+#: ../src/manager_window.vala
 msgid "Depends On"
 msgstr "依賴於"
 
-#: src/manager_window.vala:313
-#, fuzzy
+#: ../src/manager_window.vala
 msgid "Optional Dependencies"
-msgstr "可選依賴"
+msgstr "選擇性依賴關係"
 
-#: src/manager_window.vala:333
+#: ../src/manager_window.vala
 msgid "Required By"
 msgstr "被需要"
 
-#: src/manager_window.vala:347
+#: ../src/manager_window.vala
 msgid "Provides"
 msgstr "提供"
 
-#: src/manager_window.vala:360
+#: ../src/manager_window.vala
 msgid "Replaces"
 msgstr "取代"
 
-#: src/manager_window.vala:373
+#: ../src/manager_window.vala
 msgid "Conflicts With"
 msgstr "與下列套件衝突"
 
-#: src/manager_window.vala:407
+#: ../src/manager_window.vala
 msgid "Packager"
 msgstr "打包者"
 
-#: src/manager_window.vala:413
+#: ../src/manager_window.vala
 msgid "Install Date"
 msgstr "安裝日期"
 
-#: src/manager_window.vala:417
+#: ../src/manager_window.vala
 msgid "Explicitly installed"
 msgstr "單獨指定安裝"
 
-#: src/manager_window.vala:419
+#: ../src/manager_window.vala
 msgid "Installed as a dependency for another package"
 msgstr "作爲其他套件的依賴關係安裝"
 
-#: src/manager_window.vala:421
+#: ../src/manager_window.vala
 msgid "Unknown"
 msgstr "未知的"
 
-#: src/manager_window.vala:423
+#: ../src/manager_window.vala
 msgid "Install Reason"
 msgstr "安裝原因"
 
-#: src/manager_window.vala:428
+#: ../src/manager_window.vala
 msgid "Signatures"
 msgstr "數位簽章"
 
-#: src/manager_window.vala:436
+#: ../src/manager_window.vala
 msgid "Backup files"
 msgstr "備份檔案"
 
-#: src/manager_window.vala:559 src/manager_window.vala:700
+#: ../src/manager_window.vala
 msgid "No package found"
 msgstr "找不到套件"
 
-#: src/manager_window.vala:653
-#, fuzzy, c-format
+#: ../src/manager_window.vala
+#, c-format
 msgid ""
+"%s has %u uninstalled optional dependency.\n"
+"Choose if you would like to install it:"
+msgid_plural ""
 "%s has %u uninstalled optional dependencies.\n"
 "Choose those you would like to install:"
-msgstr ""
-"%s 有 %u 個未安裝的可選依賴。\n"
-"請選擇那些您想要安裝的："
+msgstr[0] ""
 
-#: src/manager_window.vala:982
+#: ../src/manager_window.vala
 msgid "Uninstalled"
 msgstr "未安裝"
 
-#: src/manager_window.vala:1134
-#, fuzzy
+#: ../src/manager_window.vala
 msgid "A Gtk3 frontend for libalpm"
-msgstr "一個 libalpm 的 gtk3 前端"
+msgstr "一個 libalpm 的 Gtk3 前端"
 
-#: src/common.vala:48
-#, fuzzy, c-format
+#: ../src/common.vala
+#, c-format
 msgid "%.0f KiB"
 msgstr "%.0f KiB"
 
-#: src/common.vala:51
+#: ../src/common.vala
 #, c-format
 msgid "%.2f MiB"
 msgstr "%.2f MiB"
 
-#~ msgid "1 available update"
-#~ msgstr "有 1 個升級"
-
-#~ msgid "%s will be replaced by %s"
-#~ msgstr "%s 將會被 %s 取代"
-
-#~ msgid "%s conflicts with %s"
-#~ msgstr "%s 與 %s 有衝突"
-
-#~ msgid "%s is not a valid path or package name"
-#~ msgstr "%s 不是合法的路徑或套件名稱"
-
 #~ msgid ""
-#~ "The transaction cannot be performed because it needs to remove %s which "
-#~ "is a locked package"
-#~ msgstr "因為需要移除被鎖定的 %s 套件，所以無法執行處理項目"
-
-#~ msgid "Compressed Size"
-#~ msgstr "壓縮後大小"
-
-#~ msgid "Download Size"
-#~ msgstr "下載大小"
-
-#~ msgid "Installed Size"
-#~ msgstr "安裝大小"
-
-#~ msgid "Architecture"
-#~ msgstr "架構"
-
-#~ msgid "Install with optional deps"
-#~ msgstr "與可選依賴一起安裝"
-
-#~ msgid ""
-#~ "Some updates are available.\n"
-#~ "Please update your system first"
+#~ "%s has %u uninstalled optional dependencies.\n"
+#~ "Choose those you would like to install:"
 #~ msgstr ""
-#~ "有一些更新可用。\n"
-#~ "請先更新您的系統"
-
-#~ msgid ""
-#~ "%s is provided by %u packages.\n"
-#~ "Please choose those you would like to install:"
-#~ msgstr ""
-#~ "%s 提供 %u 個套件。\n"
-#~ "請選擇那些您想要安裝的："
-
-#~ msgid "Refreshing"
-#~ msgstr "正在更新套件庫內容"
-
-#~ msgid "%s depends on %s but it is not installable"
-#~ msgstr "%s 依賴於 %s 但是它尚未安裝"
-
-#~ msgid "Failed to get %s archive from AUR"
-#~ msgstr "無法從 AUR 取得 %s"
-
-#~ msgid "Build process failed."
-#~ msgstr "構建過程失敗。"
-
-#~ msgid "Checking for updates"
-#~ msgstr "正在檢查更新"
-
-#~ msgid "About Pamac"
-#~ msgstr "關於 Pamac"
-
-#~ msgid "Copyright © 2013 Guillaume Benoit"
-#~ msgstr "版權所有 © 2013 Guillaume Benoit"
-
-#~ msgid "Repos"
-#~ msgstr "套件庫"
-
-#~ msgid "Repo"
-#~ msgstr "套件庫"
-
-#~ msgid "Infos"
-#~ msgstr "資訊"
-
-#~ msgid "Deps"
-#~ msgstr "依賴關係"
-
-#~ msgid "details"
-#~ msgstr "細節"
-
-#~ msgid "Choose"
-#~ msgstr "選擇"
-
-#~ msgid "Summary"
-#~ msgstr "概要"
+#~ "%s 有 %u 個未安裝的選擇性依賴關係。\n"
+#~ "選擇您所想要安裝的："

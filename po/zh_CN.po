@@ -4,7 +4,8 @@
 # Guillaume Benoit <guillaume@manjaro.org>, 2013-2014.
 #
 # Translators:
-# Karim Oulad Chalha <herr.linux88@gmail.com>, 2013-2014
+# Daetalus <daetalusun@gmail.com>, 2014
+# Daetalus <daetalusun@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
@@ -12,18 +13,17 @@ msgstr ""
 "POT-Creation-Date: 2014-11-22 11:36+0100\n"
 "PO-Revision-Date: 2014-11-21 09:36+0000\n"
 "Last-Translator: Guillaume Benoit <guillaume@manjaro.org>\n"
-"Language-Team: Arabic (http://www.transifex.com/projects/p/manjaro-pamac/"
-"language/ar/)\n"
-"Language: ar\n"
+"Language-Team: Chinese (China) (http://www.transifex.com/projects/p/manjaro-"
+"pamac/language/zh_CN/)\n"
+"Language: zh_CN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
-"&& n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 
 #: data/polkit/org.manjaro.pamac.policy
 msgid "Authentication is required"
-msgstr "صلاحيات مطلوبة"
+msgstr "需要验证"
 
 #: ../resources/choose_provider_dialog.ui
 msgid "Choose a Provider"
@@ -36,7 +36,7 @@ msgstr ""
 
 #: ../resources/packages_chooser_dialog.ui ../resources/manager_window.ui
 msgid "Install local packages"
-msgstr "تثبيت الحزم المحلية"
+msgstr "安装本地软件包"
 
 #: ../resources/packages_chooser_dialog.ui ../resources/progress_dialog.ui
 #: ../resources/transaction_sum_dialog.ui
@@ -49,7 +49,7 @@ msgstr ""
 
 #: ../resources/progress_dialog.ui
 msgid "Progress"
-msgstr "تقدم"
+msgstr "进度"
 
 #: ../resources/progress_dialog.ui ../resources/history_dialog.ui
 #: ../resources/transaction_info_dialog.ui ../resources/updater_window.ui
@@ -60,19 +60,19 @@ msgstr ""
 #: ../resources/progress_dialog.ui ../resources/transaction_info_dialog.ui
 #: ../resources/manager_window.ui
 msgid "Details"
-msgstr "تفاصيل"
+msgstr "详情"
 
 #: ../resources/history_dialog.ui
 msgid "Pamac History"
-msgstr "سجل Pamac"
+msgstr "Pamac历史记录"
 
 #: ../resources/transaction_sum_dialog.ui ../src/transaction.vala
 msgid "Transaction Summary"
-msgstr "موجز العمليات"
+msgstr "事件处理概要"
 
 #: ../resources/manager_window.ui ../src/tray.vala
 msgid "Package Manager"
-msgstr "مدير الحزم"
+msgstr "软件包管理器"
 
 #: ../resources/manager_window.ui
 msgid "Refresh databases"
@@ -80,7 +80,7 @@ msgstr ""
 
 #: ../resources/manager_window.ui
 msgid "Apply changes"
-msgstr "تطبيق التغييرات"
+msgstr "应用更改"
 
 #: ../resources/manager_window.ui
 msgid "Cancel all planned changes"
@@ -88,19 +88,19 @@ msgstr ""
 
 #: ../resources/manager_window.ui
 msgid "Search in AUR"
-msgstr "بحث في مستودعات "
+msgstr "在AUR中搜索"
 
 #: ../resources/manager_window.ui
 msgid "Search"
-msgstr "بحث"
+msgstr "搜索"
 
 #: ../resources/manager_window.ui ../src/manager_window.vala
 msgid "Groups"
-msgstr "مجموعات"
+msgstr "组"
 
 #: ../resources/manager_window.ui
 msgid "State"
-msgstr "حالة"
+msgstr "状态"
 
 #: ../resources/manager_window.ui
 msgid "Repositories"
@@ -108,19 +108,19 @@ msgstr ""
 
 #: ../resources/manager_window.ui
 msgid "Name"
-msgstr "إسم"
+msgstr "名称"
 
 #: ../resources/manager_window.ui
 msgid "Version"
-msgstr "إصدار"
+msgstr "版本"
 
 #: ../resources/manager_window.ui ../src/manager_window.vala
 msgid "Repository"
-msgstr "مستودع"
+msgstr "软件仓库"
 
 #: ../resources/manager_window.ui
 msgid "Size"
-msgstr "حجم"
+msgstr "大小"
 
 #: ../resources/manager_window.ui
 msgid "Description"
@@ -132,11 +132,11 @@ msgstr ""
 
 #: ../resources/manager_window.ui
 msgid "Files"
-msgstr "ملفات"
+msgstr "文件"
 
 #: ../resources/manager_window.ui
 msgid "View History"
-msgstr "مشاهدة السجل"
+msgstr "查看历史记录"
 
 #: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "_Preferences"
@@ -148,7 +148,7 @@ msgstr ""
 
 #: ../resources/updater_window.ui ../src/tray.vala
 msgid "Update Manager"
-msgstr "مدير التحديثات"
+msgstr "更新管理器"
 
 #: ../resources/updater_window.ui
 msgid "_Refresh"
@@ -164,15 +164,15 @@ msgstr ""
 
 #: ../resources/preferences_dialog.ui
 msgid "Enable AUR support"
-msgstr "تفعيل دعم مستودعات AUR"
+msgstr "启用AUR支持"
 
 #: ../resources/preferences_dialog.ui
 msgid "Allow Pamac to search and install packages from AUR"
-msgstr "السماح لـPamac بالبحث و تثبيت حزم من مستودعات AUR"
+msgstr "允许Pamac从AUR中搜索并安装软件包"
 
 #: ../resources/preferences_dialog.ui
 msgid "Remove unrequired dependencies"
-msgstr "حذف الاعتماديات الغير مطلوبة"
+msgstr "移除不需要的依赖"
 
 #: ../resources/preferences_dialog.ui
 msgid ""
@@ -182,11 +182,11 @@ msgstr ""
 
 #: ../resources/preferences_dialog.ui ../src/preferences_dialog.vala
 msgid "How often to check for updates, value in hours"
-msgstr "كيف سيتم التحقق من توفر تحديثات في اغلب الأوقات, قيمة بالساعات"
+msgstr "检查更新的频率，单位为小时"
 
 #: ../resources/preferences_dialog.ui
 msgid "Options"
-msgstr "خيارات"
+msgstr "选项"
 
 #: ../src/packages_chooser_dialog.vala
 msgid "Alpm Package"
@@ -254,7 +254,7 @@ msgstr ""
 
 #: ../src/daemon.vala
 msgid "Authentication failed"
-msgstr "فشل الإستوثاق"
+msgstr "验证失败"
 
 #: ../src/transaction.vala
 msgid "Synchronizing package databases"
@@ -266,7 +266,7 @@ msgstr ""
 
 #: ../src/transaction.vala
 msgid "Preparing"
-msgstr "تحضير"
+msgstr "准备中"
 
 #: ../src/transaction.vala
 #, c-format
@@ -275,27 +275,27 @@ msgstr ""
 
 #: ../src/transaction.vala ../src/manager_window.vala
 msgid "To remove"
-msgstr "للحذف"
+msgstr "卸载"
 
 #: ../src/transaction.vala
 msgid "To downgrade"
-msgstr "للتثبيت النسخة الأقدم"
+msgstr "降级"
 
 #: ../src/transaction.vala
 msgid "To build"
-msgstr "للبناء"
+msgstr "构建"
 
 #: ../src/transaction.vala ../src/manager_window.vala
 msgid "To install"
-msgstr "للتثبيت"
+msgstr "安装"
 
 #: ../src/transaction.vala
 msgid "To reinstall"
-msgstr "لإعادة التثبيت"
+msgstr "重新安装"
 
 #: ../src/transaction.vala
 msgid "To update"
-msgstr "للتحديث"
+msgstr "更新"
 
 #: ../src/transaction.vala ../src/updater_window.vala
 msgid "Total download size"
@@ -307,15 +307,15 @@ msgstr ""
 
 #: ../src/transaction.vala
 msgid "Checking dependencies"
-msgstr "تفقد الإعتماديات"
+msgstr "正在检查依赖关系"
 
 #: ../src/transaction.vala
 msgid "Checking file conflicts"
-msgstr "تفقد الملفات المتعاكسة"
+msgstr "正在检查文件冲突"
 
 #: ../src/transaction.vala
 msgid "Resolving dependencies"
-msgstr "تحليل الإعتماديات"
+msgstr "正在解决依赖关系"
 
 #: ../src/transaction.vala
 msgid "Checking inter-conflicts"
@@ -324,56 +324,56 @@ msgstr ""
 #: ../src/transaction.vala
 #, c-format
 msgid "Installing %s"
-msgstr "تثبيت %s"
+msgstr "正在安装 %s"
 
 #: ../src/transaction.vala
 #, c-format
 msgid "Reinstalling %s"
-msgstr "إعادة تثبيت %s"
+msgstr "正在重新安装 %s"
 
 #: ../src/transaction.vala
 #, c-format
 msgid "Removing %s"
-msgstr "حذف %s"
+msgstr "正在卸载 %s"
 
 #: ../src/transaction.vala
 #, c-format
 msgid "Upgrading %s"
-msgstr "ترقية %s"
+msgstr "正在升级 %s"
 
 #: ../src/transaction.vala
 #, c-format
 msgid "Downgrading %s"
-msgstr "الرجوع إلى الإصدار السابق %s"
+msgstr "正在降级 %s"
 
 #: ../src/transaction.vala
 msgid "Checking integrity"
-msgstr "تفقد قابلية الإندماج"
+msgstr "正在检查完整性"
 
 #: ../src/transaction.vala
 msgid "Checking keyring"
-msgstr "فحص حلقة المفاتيح"
+msgstr "正在检查密钥环"
 
 #: ../src/transaction.vala
 msgid "Downloading required keys"
-msgstr "تحميل حلقة المفاتيح المطلوبة"
+msgstr "正在下载所需密钥"
 
 #: ../src/transaction.vala
 msgid "Loading packages files"
-msgstr "تحميل الحزم"
+msgstr "正在载入包文件"
 
 #: ../src/transaction.vala
 msgid "Checking delta integrity"
-msgstr "فحص إندماج ديلتا"
+msgstr "正在检查增量完整性"
 
 #: ../src/transaction.vala
 msgid "Applying deltas"
-msgstr "تفعيل ديلتا"
+msgstr "正在应用增量"
 
 #: ../src/transaction.vala
 #, c-format
 msgid "Generating %s with %s"
-msgstr "مولد %s بـ %s"
+msgstr "正在生产 %s （使用 %s ）"
 
 #: ../src/transaction.vala
 msgid "Generation succeeded"
@@ -386,15 +386,15 @@ msgstr ""
 #: ../src/transaction.vala
 #, c-format
 msgid "Configuring %s"
-msgstr "تكوين %s"
+msgstr "正在配置 %s"
 
 #: ../src/transaction.vala
 msgid "Downloading"
-msgstr "يتم التحميل"
+msgstr "正在下载"
 
 #: ../src/transaction.vala
 msgid "Checking available disk space"
-msgstr "فحص مساحة القرص المتوفرة"
+msgstr "正在检查可用磁盘空间"
 
 #: ../src/transaction.vala
 #, c-format
@@ -409,12 +409,12 @@ msgstr ""
 #: ../src/transaction.vala
 #, c-format
 msgid "Refreshing %s"
-msgstr "إنعاش %s"
+msgstr "正在更新 %s"
 
 #: ../src/transaction.vala
 #, c-format
 msgid "Downloading %s"
-msgstr "تحميل %s"
+msgstr "正在下载 %s"
 
 #: ../src/transaction.vala
 msgid "Warning"
@@ -431,19 +431,19 @@ msgstr ""
 
 #: ../src/transaction.vala
 msgid "Nothing to do"
-msgstr "لا يوجد شيء للقيام به"
+msgstr "无需做任何事"
 
 #: ../src/transaction.vala
 msgid "Transaction successfully finished"
-msgstr "تم إنهاء العملية بنجاح"
+msgstr "事件处理成功完成"
 
 #: ../src/installer.vala ../src/manager.vala ../src/updater.vala
 msgid "Pamac is already running"
-msgstr "Pamac قيد التشغيل حاليا"
+msgstr "Pamac已经运行"
 
 #: ../src/tray.vala ../src/updater_window.vala
 msgid "Your system is up-to-date"
-msgstr "نظامك محدث"
+msgstr "系统为最新状态"
 
 #: ../src/tray.vala
 msgid "_Quit"
@@ -454,11 +454,6 @@ msgstr ""
 msgid "%u available update"
 msgid_plural "%u available updates"
 msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
-msgstr[4] ""
-msgstr[5] ""
 
 #: ../src/tray.vala
 msgid "Show available updates"
@@ -466,19 +461,19 @@ msgstr ""
 
 #: ../src/manager_window.vala
 msgid "Deselect"
-msgstr "إلغاء التحديد"
+msgstr "取消选择"
 
 #: ../src/manager_window.vala
 msgid "Install"
-msgstr "تثبيت"
+msgstr "安装"
 
 #: ../src/manager_window.vala
 msgid "Remove"
-msgstr "حذف"
+msgstr "移除"
 
 #: ../src/manager_window.vala
 msgid "Reinstall"
-msgstr "إعادة التثبيت"
+msgstr "重新安装"
 
 #: ../src/manager_window.vala
 msgid "Install optional dependencies"
@@ -486,27 +481,27 @@ msgstr ""
 
 #: ../src/manager_window.vala
 msgid "Mark as explicitly installed"
-msgstr ""
+msgstr "标记为单独指定安装"
 
 #: ../src/manager_window.vala
 msgid "local"
-msgstr "محلي"
+msgstr "本地"
 
 #: ../src/manager_window.vala
 msgid "Installed"
-msgstr "مثبت"
+msgstr "已安装"
 
 #: ../src/manager_window.vala
 msgid "Orphans"
-msgstr "أيتام"
+msgstr "孤儿包"
 
 #: ../src/manager_window.vala
 msgid "Licenses"
-msgstr "الرخص"
+msgstr "许可"
 
 #: ../src/manager_window.vala
 msgid "Depends On"
-msgstr "يعتمد على"
+msgstr "依赖于"
 
 #: ../src/manager_window.vala
 msgid "Optional Dependencies"
@@ -514,55 +509,55 @@ msgstr ""
 
 #: ../src/manager_window.vala
 msgid "Required By"
-msgstr "مطلوب من طرف"
+msgstr "被后者依赖："
 
 #: ../src/manager_window.vala
 msgid "Provides"
-msgstr "المزود"
+msgstr "提供"
 
 #: ../src/manager_window.vala
 msgid "Replaces"
-msgstr "إستبدال"
+msgstr "替换"
 
 #: ../src/manager_window.vala
 msgid "Conflicts With"
-msgstr "التعارض مع"
+msgstr "与后者冲突："
 
 #: ../src/manager_window.vala
 msgid "Packager"
-msgstr "محزم"
+msgstr "打包者"
 
 #: ../src/manager_window.vala
 msgid "Install Date"
-msgstr "تاريخ التثبيت"
+msgstr "安装日期"
 
 #: ../src/manager_window.vala
 msgid "Explicitly installed"
-msgstr "مثبتة بوضوح"
+msgstr "单独指定安装"
 
 #: ../src/manager_window.vala
 msgid "Installed as a dependency for another package"
-msgstr "تثبيت كإعتمادية لحزمة أخرى"
+msgstr "作为另一个软件包的依赖而安装"
 
 #: ../src/manager_window.vala
 msgid "Unknown"
-msgstr "مجهول"
+msgstr "未知"
 
 #: ../src/manager_window.vala
 msgid "Install Reason"
-msgstr "سبب التثبيت"
+msgstr "安装原因"
 
 #: ../src/manager_window.vala
 msgid "Signatures"
-msgstr "تواقيع"
+msgstr "签名"
 
 #: ../src/manager_window.vala
 msgid "Backup files"
-msgstr "ملفات النسخ الإحتياطية"
+msgstr "备份文件"
 
 #: ../src/manager_window.vala
 msgid "No package found"
-msgstr "لم يتم العثور على أي حزم"
+msgstr "未发现软件包"
 
 #: ../src/manager_window.vala
 #, c-format
@@ -573,15 +568,10 @@ msgid_plural ""
 "%s has %u uninstalled optional dependencies.\n"
 "Choose those you would like to install:"
 msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
-msgstr[4] ""
-msgstr[5] ""
 
 #: ../src/manager_window.vala
 msgid "Uninstalled"
-msgstr "تم إلغاء التثبيت"
+msgstr "已卸载"
 
 #: ../src/manager_window.vala
 msgid "A Gtk3 frontend for libalpm"
@@ -595,4 +585,4 @@ msgstr ""
 #: ../src/common.vala
 #, c-format
 msgid "%.2f MiB"
-msgstr "%.2f مب"
+msgstr "%.2f MB"

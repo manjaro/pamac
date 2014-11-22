@@ -462,7 +462,7 @@ namespace Pamac {
 								new Thread<int>.try ("commit thread", (ThreadFunc) trans_commit_real);
 							} else {
 								ErrorInfos err = ErrorInfos ();
-								err.str = dgettext (null, "Authentication failed");
+								err.str = _("Authentication failed");
 								emit_trans_committed (err);
 								trans_release ();
 							}
