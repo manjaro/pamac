@@ -2,7 +2,7 @@
 # Copyright (C) 2007-2012 Free Software Foundation, Inc.
 # This file is distributed under the same license as the Pamac package.
 # Guillaume Benoit <guillaume@manjaro.org>, 2013-2014.
-# 
+#
 # Translators:
 # Bård Spein <baard.spein@gmail.com>, 2013
 # Guillaume Benoit <guillaume@manjaro.org>, 2013
@@ -14,546 +14,690 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-03-30 15:09+0100\n"
+"POT-Creation-Date: 2014-10-23 15:09+0100\n"
 "PO-Revision-Date: 2014-05-15 14:22+0000\n"
 "Last-Translator: aryvandaar <arath.inc@gmail.com>\n"
-"Language-Team: Norwegian Bokmål (http://www.transifex.com/projects/p/manjaro-pamac/language/nb/)\n"
+"Language-Team: Norwegian Bokmål (http://www.transifex.com/projects/p/manjaro-"
+"pamac/language/nb/)\n"
+"Language: nb\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: nb\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: data/polkit/org.manjaro.pamac.policy:10
 msgid "Authentication is required"
 msgstr "Autentisering kreves"
 
-#: pamac-daemon.py:162
-msgid "Checking dependencies"
-msgstr "Sjekker avhengigheter"
-
-#: pamac-daemon.py:170
-msgid "Checking file conflicts"
-msgstr "Sjekker fil konflikter"
-
-#: pamac-daemon.py:176
-msgid "Resolving dependencies"
-msgstr "Ordner avhengigheter"
-
-#: pamac-daemon.py:184
-msgid "Checking inter conflicts"
-msgstr "Sjekker inter konflikter"
-
-#: pamac-daemon.py:192
-#, python-brace-format
-msgid "Installing {pkgname}"
-msgstr "Installerer {pkgname}"
-
-#: pamac-daemon.py:200
-#, python-brace-format
-msgid "Removing {pkgname}"
-msgstr "Fjerner {pkgname}"
-
-#: pamac-daemon.py:208
-#, python-brace-format
-msgid "Upgrading {pkgname}"
-msgstr "Oppdaterer {pkgname}"
-
-#: pamac-daemon.py:216
-#, python-brace-format
-msgid "Downgrading {pkgname}"
-msgstr "Nedgraderer {pkgname}"
-
-#: pamac-daemon.py:224
-#, python-brace-format
-msgid "Reinstalling {pkgname}"
-msgstr "Reinstallerer {pkgname}"
-
-#: pamac-daemon.py:232
-msgid "Checking integrity"
-msgstr "Sjekker integritet"
-
-#: pamac-daemon.py:239
-msgid "Loading packages files"
-msgstr "Laster pakke filer"
-
-#: pamac-daemon.py:245
-msgid "Checking delta integrity"
-msgstr "Sjekker integritet"
-
-#: pamac-daemon.py:251
-msgid "Applying deltas"
-msgstr "Anfører deltaer"
-
-#: pamac-daemon.py:257
-msgid "Generating {} with {}"
-msgstr "Generer {} med {}"
-
-#: pamac-daemon.py:261
-msgid "Generation succeeded!"
-msgstr "Generering sukssessful!"
-
-#: pamac-daemon.py:264
-msgid "Generation failed."
-msgstr "Generering feilet."
-
-#: pamac-daemon.py:267
-#, python-brace-format
-msgid "Configuring {pkgname}"
-msgstr "Konfigurerer {pkgname}"
-
-#: pamac-daemon.py:272
-msgid "Downloading"
-msgstr "Laster ned"
-
-#: pamac-daemon.py:276
-msgid "Checking available disk space"
-msgstr "Sjekker ledig diskplass"
-
-#: pamac-daemon.py:286
-msgid "Checking keyring"
-msgstr "Sjekker nøkkelring"
-
-#: pamac-daemon.py:292
-msgid "Downloading required keys"
-msgstr "Laster ned nødvendige nøkkelringer"
-
-#: pamac-daemon.py:311
-#, python-brace-format
-msgid "{pkgname1} will be replaced by {pkgname2}"
-msgstr "{pkgname1} vil bli erstattet av {pkgname2}"
-
-#: pamac-daemon.py:314
-#, python-brace-format
-msgid "{pkgname1} conflicts with {pkgname2}"
-msgstr "{pkgname1} er i konflikt med {pkgname2}"
-
-#: pamac-daemon.py:339
-msgid "Error: "
-msgstr "Feil:"
-
-#: pamac-daemon.py:345
-msgid "Warning: "
-msgstr "Advarsel:"
-
-#: pamac-daemon.py:359
-#, python-brace-format
-msgid "Refreshing {repo}"
-msgstr "Oppfrisker {repo}"
-
-#: pamac-daemon.py:363 pamac/transaction.py:608
-#, python-brace-format
-msgid "Downloading {pkgname}"
-msgstr "Laster ned {pkgname}"
-
-#: pamac-daemon.py:427 pamac-daemon.py:439 pamac-daemon.py:762
-#: pamac-daemon.py:770 pamac-daemon.py:793 pamac-daemon.py:827
-msgid "Authentication failed"
-msgstr "Autentifisering feilet"
-
-#: pamac-daemon.py:572 pamac-install.py:127
-#, python-brace-format
-msgid "{pkgname} is not a valid path or package name"
-msgstr "{pkgname} er ikke en gyldig sti eller pakke navn"
-
-#: pamac-daemon.py:685
-#, python-brace-format
-msgid ""
-"The transaction cannot be performed because it needs to remove {pkgname1} "
-"which is a locked package"
-msgstr "Transaksjonen kan ikke bli utført fordi den trenger å fjerne\n {pkgname1} som er en låst pakke"
-
-#: pamac-daemon.py:695 pamac/transaction.py:449
-msgid "Nothing to do"
-msgstr "Ingenting å gjøre"
-
-#: pamac-daemon.py:757
-msgid "Transaction successfully finished"
-msgstr "Transaksjonen avsluttet vellykket"
-
-#: pamac-manager.py:103 pamac-manager.py:134 pamac-manager.py:135
-#: pamac-manager.py:150 pamac-manager.py:159 pamac-manager.py:180
-#: pamac-manager.py:305 pamac-manager.py:657 pamac-manager.py:715
-#: pamac-manager.py:785
-msgid "No package found"
-msgstr "Ingen pakke funnet"
-
-#: pamac-manager.py:204 pamac-manager.py:266
-msgid "local"
-msgstr "lokal"
-
-#: pamac-manager.py:208 pamac-manager.py:249 pamac-manager.py:371
-msgid "Installed"
-msgstr "Installert"
-
-#: pamac-manager.py:208 pamac-manager.py:252
-msgid "Uninstalled"
-msgstr "Avinstallert"
-
-#: pamac-manager.py:208 pamac-manager.py:255
-msgid "Orphans"
-msgstr "Foreldreløs"
-
-#: pamac-manager.py:208 pamac-manager.py:227 pamac/transaction.py:757
-msgid "To install"
-msgstr "Å installere"
-
-#: pamac-manager.py:208 pamac-manager.py:238 pamac/transaction.py:737
-msgid "To remove"
-msgstr "Å fjerne"
-
-#: pamac-manager.py:361
-msgid "Licenses"
-msgstr "Lisenser"
-
-#: pamac-manager.py:366
-msgid "Depends On"
-msgstr "Avhenger av"
-
-#: pamac-manager.py:374
-msgid "Optional Deps"
-msgstr "Valgfrie avhengigheter"
-
-#: pamac-manager.py:377
-msgid "Required By"
-msgstr "Krevd av"
-
-#: pamac-manager.py:379
-msgid "Provides"
-msgstr "Tilbyr"
-
-#: pamac-manager.py:381
-msgid "Replaces"
-msgstr "Erstatter"
-
-#: pamac-manager.py:383
-msgid "Conflicts With"
-msgstr "I konflikt med"
-
-#: pamac-manager.py:388
-msgid "Repository"
-msgstr "Arkiv"
-
-#: pamac-manager.py:390 gui/manager.ui:557
-msgid "Groups"
-msgstr "Grupper"
-
-#: pamac-manager.py:392
-msgid "Compressed Size"
-msgstr "Komprimert Størrelse"
-
-#: pamac-manager.py:393
-msgid "Download Size"
-msgstr "Nedlastet Størrelse"
-
-#: pamac-manager.py:395
-msgid "Installed Size"
-msgstr "Installert Størrelse"
-
-#: pamac-manager.py:396
-msgid "Packager"
-msgstr "Pakker"
-
-#: pamac-manager.py:397
-msgid "Architecture"
-msgstr "Arkitektur"
-
-#: pamac-manager.py:400
-msgid "Install Date"
-msgstr "Installasjons Dato"
-
-#: pamac-manager.py:402
-msgid "Explicitly installed"
-msgstr "Explisitt installert"
-
-#: pamac-manager.py:404
-msgid "Installed as a dependency for another package"
-msgstr "Installert som en avhengighet for en annen pakke"
-
-#: pamac-manager.py:406
-msgid "Unknown"
-msgstr "Ukjent"
-
-#: pamac-manager.py:407
-msgid "Install Reason"
-msgstr "Grunn til Installasjon"
-
-#: pamac-manager.py:412
-msgid "Signatures"
-msgstr "Signaturer"
-
-#: pamac-manager.py:416
-msgid "Backup files"
-msgstr "Sikkerhetskopier filene"
-
-#: pamac-manager.py:597
-#, python-brace-format
-msgid ""
-"{pkgname} has {number} uninstalled optional deps.\n"
-"Please choose those you would like to install:"
-msgstr "{pkgname} har {number} avinstallert valgfri deps\nVelg de du ønsker å installere:"
-
-#: pamac-manager.py:660
-msgid "Deselect"
-msgstr "Fjern markeringen"
-
-#: pamac-manager.py:665
-msgid "Remove"
-msgstr "Fjern"
-
-#: pamac-manager.py:671
-msgid "Reinstall"
-msgstr "Reinstaller"
-
-#: pamac-manager.py:682
-msgid "Install optional deps"
-msgstr "Installer valgfrie tilleggspakker"
-
-#: pamac-manager.py:687
-msgid "Mark as explicitly installed"
-msgstr "Marker som eksplisitt installert"
-
-#: pamac-manager.py:691
-msgid "Install"
-msgstr "Installer"
-
-#: pamac-manager.py:702
-msgid "Install with optional deps"
-msgstr "Installer med valgfrie tilleggspakker"
-
-#: pamac-manager.py:1009 pamac-updater.py:214 pamac-install.py:160
-msgid "Pamac is already running"
-msgstr "Pamac kjører allerede"
-
-#: pamac-updater.py:44 pamac-updater.py:59 pamac-tray.py:40
-msgid "Your system is up-to-date"
-msgstr "Systemet ditt er oppdatert"
-
-#: pamac-updater.py:74 pamac/transaction.py:787
-msgid "Total download size:"
-msgstr "Samlet nedlastingsstørrelse:"
-
-#: pamac-updater.py:76 pamac-tray.py:38
-msgid "1 available update"
-msgstr "1 tilgjengelig oppdatering"
-
-#: pamac-updater.py:78 pamac-tray.py:37
-#, python-brace-format
-msgid "{number} available updates"
-msgstr "{number} tilgjengelige oppdateringer"
-
-#: pamac-tray.py:50 pamac-tray.py:126 pamac-tray.py:148 gui/updater.ui:24
-msgid "Update Manager"
-msgstr "Oppdaterings Behandler"
-
-#: pamac-tray.py:54 gui/manager.ui:324
-msgid "Package Manager"
-msgstr "Pakke Behandler"
-
-#: pamac-tray.py:58
-msgid "Quit"
-msgstr "Avslutt"
-
-#: pamac-install.py:66
-msgid ""
-"Some updates are available.\n"
-"Please update your system first"
-msgstr "Noen oppdateringer er tilgjengelige.⏎\nVennligst oppdater systemet ditt først"
-
-#: pamac-install.py:72 pamac/transaction.py:406 pamac/transaction.py:799
-msgid "Preparing"
-msgstr "Forbereder"
-
-#: pamac/transaction.py:94 gui/dialogs.ui:369
-msgid "How often to check for updates, value in hours"
-msgstr "Hvor ofte skal oppdateringer sees etter, verdi i timer "
-
-#: pamac/transaction.py:192
-#, python-brace-format
-msgid ""
-"{pkgname} is provided by {number} packages.\n"
-"Please choose those you would like to install:"
-msgstr "{pkgname} kommer fra {number} pakker.\nVelg de du ønsker å installere:"
-
-#: pamac/transaction.py:257
-msgid "Refreshing"
-msgstr "Oppfrisker"
-
-#: pamac/transaction.py:341 pamac/transaction.py:380
-#, python-brace-format
-msgid "{pkgname} depends on {dependname} but it is not installable"
-msgstr "{pkgname} avhenger av {dependname} men den er ikke mulig å installere"
-
-#: pamac/transaction.py:384
-#, python-brace-format
-msgid "Failed to get {pkgname} archive from AUR"
-msgstr "Klarte ikke å få {pkgname} arkiv fra AUR"
-
-#: pamac/transaction.py:552 pamac/transaction.py:558
-msgid "Build process failed."
-msgstr "Bygge prosessen mislyktes."
-
-#: pamac/transaction.py:644
-#, python-brace-format
-msgid "Building {pkgname}"
-msgstr "Bygger {pkgname}"
-
-#: pamac/transaction.py:685
-msgid "Checking for updates"
-msgstr "Ser etter oppdateringer"
-
-#: pamac/transaction.py:735
-msgid "Transaction Summary"
-msgstr "Oppsummering av transaksjonen"
-
-#: pamac/transaction.py:743
-msgid "To downgrade"
-msgstr "Å nedgradere"
-
-#: pamac/transaction.py:751
-msgid "To build"
-msgstr "Å bygge"
-
-#: pamac/transaction.py:765
-msgid "To reinstall"
-msgstr "Å reinstallere"
-
-#: pamac/transaction.py:774
-msgid "To update"
-msgstr "Å oppdatere"
-
-#: pamac/common.py:30
-#, python-format
-msgid "%.1f KiB"
-msgstr "%.1f Kb"
-
-#: pamac/common.py:33
-#, python-format
-msgid "%.2f MiB"
-msgstr "%.2f Mb"
-
-#: gui/manager.ui:8
-msgid "About Pamac"
-msgstr "Om Pamac"
-
-#: gui/manager.ui:13
-msgid "Copyright © 2013 Guillaume Benoit"
-msgstr "Opphavsrett © 2013 Guillaume Benoit"
-
-#: gui/manager.ui:14
-msgid "A gtk3 frontend for pyalpm"
-msgstr "En gtk3 frontend for pyalpm"
-
-#: gui/manager.ui:44
-msgid "Pamac History"
-msgstr "Pamac Historie"
-
-#: gui/manager.ui:160
-msgid "View History"
-msgstr "Vis Historie"
-
-#: gui/manager.ui:170 gui/manager.ui:212
+#: resources/choose_provider_dialog.ui:6
+msgid "Choose a Provider"
+msgstr ""
+
+#: resources/choose_provider_dialog.ui:22
+#: resources/transaction_sum_dialog.ui:34 resources/preferences_dialog.ui:22
+msgid "_OK"
+msgstr ""
+
+#: resources/packages_chooser_dialog.ui:6 resources/manager_window.ui:765
 msgid "Install local packages"
 msgstr "Installer lokale pakker"
 
-#: gui/manager.ui:344
-msgid "Refresh"
-msgstr "Oppdater"
-
-#: gui/manager.ui:362
-msgid "Apply changes"
-msgstr "Bruk endringer"
-
-#: gui/manager.ui:380
-msgid "Cancel"
+#: resources/packages_chooser_dialog.ui:28 resources/progress_dialog.ui:28
+#: resources/transaction_sum_dialog.ui:20
+#, fuzzy
+msgid "_Cancel"
 msgstr "Avbryt"
 
-#: gui/manager.ui:453
-msgid "Search in AUR"
-msgstr "Søk i AUR"
+#: resources/packages_chooser_dialog.ui:40
+msgid "_Open"
+msgstr ""
 
-#: gui/manager.ui:511
-msgid "Search"
-msgstr "Søk"
-
-#: gui/manager.ui:604 gui/manager.ui:696
-msgid "State"
-msgstr "Tilstand"
-
-#: gui/manager.ui:651
-msgid "Repos"
-msgstr "Depoer"
-
-#: gui/manager.ui:709
-msgid "Name"
-msgstr "Navn"
-
-#: gui/manager.ui:722
-msgid "Version"
-msgstr "Versjon"
-
-#: gui/manager.ui:735
-msgid "Repo"
-msgstr "Repo"
-
-#: gui/manager.ui:748
-msgid "Size"
-msgstr "Størrelse"
-
-#: gui/manager.ui:850
-msgid "Infos"
-msgstr "Informasjon"
-
-#: gui/manager.ui:914
-msgid "Deps"
-msgstr "Avhengigheter"
-
-#: gui/manager.ui:983
-msgid "Details"
-msgstr "Detaljer"
-
-#: gui/manager.ui:1012
-msgid "Files"
-msgstr "Filer"
-
-#: gui/dialogs.ui:70
+#: resources/progress_dialog.ui:6
 msgid "Progress"
 msgstr "Framdrift"
 
-#: gui/dialogs.ui:162
-msgid "details"
+#: resources/progress_dialog.ui:41 resources/history_dialog.ui:22
+#: resources/transaction_info_dialog.ui:20 resources/updater_window.ui:153
+#: resources/preferences_dialog.ui:36
+msgid "_Close"
+msgstr ""
+
+#: resources/progress_dialog.ui:92 resources/transaction_info_dialog.ui:79
+#: resources/manager_window.ui:695
+msgid "Details"
 msgstr "Detaljer"
 
-#: gui/dialogs.ui:292
-msgid "Pamac Preferences"
-msgstr "Pamac Innstillinger"
+#: resources/history_dialog.ui:6
+msgid "Pamac History"
+msgstr "Pamac Historie"
 
-#: gui/dialogs.ui:316
+#: resources/transaction_sum_dialog.ui:5 src/transaction.vala:387
+msgid "Transaction Summary"
+msgstr "Oppsummering av transaksjonen"
+
+#: resources/manager_window.ui:7 src/tray.vala:74
+msgid "Package Manager"
+msgstr "Pakke Behandler"
+
+#: resources/manager_window.ui:25
+msgid "Refresh databases"
+msgstr ""
+
+#: resources/manager_window.ui:48
+msgid "Apply changes"
+msgstr "Bruk endringer"
+
+#: resources/manager_window.ui:71
+msgid "Cancel all planned changes"
+msgstr ""
+
+#: resources/manager_window.ui:156 resources/manager_window.ui:168
+msgid "Search in AUR"
+msgstr "Søk i AUR"
+
+#: resources/manager_window.ui:221
+msgid "Search"
+msgstr "Søk"
+
+#: resources/manager_window.ui:266 src/manager_window.vala:397
+msgid "Groups"
+msgstr "Grupper"
+
+#: resources/manager_window.ui:312 resources/manager_window.ui:406
+msgid "State"
+msgstr "Tilstand"
+
+#: resources/manager_window.ui:358
+#, fuzzy
+msgid "Repositories"
+msgstr "Arkiv"
+
+#: resources/manager_window.ui:421
+msgid "Name"
+msgstr "Navn"
+
+#: resources/manager_window.ui:436
+msgid "Version"
+msgstr "Versjon"
+
+#: resources/manager_window.ui:451 src/manager_window.vala:389
+msgid "Repository"
+msgstr "Arkiv"
+
+#: resources/manager_window.ui:466
+msgid "Size"
+msgstr "Størrelse"
+
+#: resources/manager_window.ui:570
+msgid "Description"
+msgstr ""
+
+#: resources/manager_window.ui:630
+msgid "Dependencies"
+msgstr ""
+
+#: resources/manager_window.ui:728
+msgid "Files"
+msgstr "Filer"
+
+#: resources/manager_window.ui:757
+msgid "View History"
+msgstr "Vis Historie"
+
+#: resources/manager_window.ui:773 resources/updater_window.ui:101
+msgid "_Preferences"
+msgstr ""
+
+#: resources/manager_window.ui:782
+msgid "_About"
+msgstr ""
+
+#: resources/updater_window.ui:6 src/tray.vala:71 src/tray.vala:157
+#: src/tray.vala:229
+msgid "Update Manager"
+msgstr "Oppdaterings Behandler"
+
+#: resources/updater_window.ui:126
+#, fuzzy
+msgid "_Refresh"
+msgstr "Oppdater"
+
+#: resources/updater_window.ui:139
+msgid "_Apply"
+msgstr ""
+
+#: resources/preferences_dialog.ui:6
+msgid "Preferences"
+msgstr ""
+
+#: resources/preferences_dialog.ui:71
 msgid "Enable AUR support"
 msgstr "Aktiver AUR-støtte"
 
-#: gui/dialogs.ui:320
+#: resources/preferences_dialog.ui:84
 msgid "Allow Pamac to search and install packages from AUR"
 msgstr "Tillat Pamac å søke og installere pakker fra AUR"
 
-#: gui/dialogs.ui:333
+#: resources/preferences_dialog.ui:102
 msgid "Remove unrequired dependencies"
 msgstr "Fjern avhengige pakker som er unødvendige"
 
-#: gui/dialogs.ui:337
+#: resources/preferences_dialog.ui:115
+#, fuzzy
 msgid ""
-"When removing a package, also remove those dependencies that are not "
-"required by other packages"
-msgstr "Når du fjerner en pakke, så fjern også de avhengige pakkene som ikke brukes av andre pakker"
+"When removing a package, also remove its dependencies that are not required "
+"by other packages"
+msgstr ""
+"Når du fjerner en pakke, så fjern også de avhengige pakkene som ikke brukes "
+"av andre pakker"
 
-#: gui/dialogs.ui:396
+#: resources/preferences_dialog.ui:149 src/preferences_dialog.vala:37
+msgid "How often to check for updates, value in hours"
+msgstr "Hvor ofte skal oppdateringer sees etter, verdi i timer "
+
+#: resources/preferences_dialog.ui:173
 msgid "Options"
 msgstr "Alternativer"
 
-#: gui/dialogs.ui:465
-msgid "Choose"
-msgstr "Velg"
+#: src/packages_chooser_dialog.vala:32
+#, fuzzy
+msgid "Alpm Package"
+msgstr "Pakker"
 
-#: gui/dialogs.ui:579
-msgid "Summary"
-msgstr "Resyme"
+#: src/daemon.vala:64
+msgid "Failed to initialize alpm library"
+msgstr ""
+
+#: src/daemon.vala:135 src/daemon.vala:141
+msgid "Failed to synchronize any databases"
+msgstr ""
+
+#: src/daemon.vala:184
+msgid "Failed to init transaction"
+msgstr ""
+
+#: src/daemon.vala:196 src/daemon.vala:214 src/daemon.vala:226
+#: src/daemon.vala:240 src/daemon.vala:252 src/daemon.vala:269
+#: src/daemon.vala:276 src/daemon.vala:290 src/daemon.vala:340
+msgid "Failed to prepare transaction"
+msgstr ""
+
+#: src/daemon.vala:215 src/daemon.vala:270
+#, c-format
+msgid "target not found: %s"
+msgstr ""
+
+#: src/daemon.vala:298
+#, c-format
+msgid "package %s does not have a valid architecture"
+msgstr ""
+
+#: src/daemon.vala:307
+#, c-format
+msgid "%s: requires %s"
+msgstr ""
+
+#: src/daemon.vala:315
+#, c-format
+msgid "%s and %s are in conflict"
+msgstr ""
+
+#: src/daemon.vala:334
+#, c-format
+msgid "%s needs to be removed but it is a locked package"
+msgstr ""
+
+#: src/daemon.vala:403
+msgid "Failed to commit transaction"
+msgstr ""
+
+#: src/daemon.vala:417
+#, c-format
+msgid "%s exists in both %s and %s"
+msgstr ""
+
+#: src/daemon.vala:420
+#, c-format
+msgid "%s: %s already exists in filesystem"
+msgstr ""
+
+#: src/daemon.vala:433
+#, c-format
+msgid "%s is invalid or corrupted"
+msgstr ""
+
+#: src/daemon.vala:465
+msgid "Authentication failed"
+msgstr "Autentifisering feilet"
+
+#: src/transaction.vala:177
+msgid "Synchronizing package databases"
+msgstr ""
+
+#: src/transaction.vala:231
+msgid "Starting full system upgrade"
+msgstr ""
+
+#: src/transaction.vala:286
+msgid "Preparing"
+msgstr "Forbereder"
+
+#: src/transaction.vala:359
+#, c-format
+msgid "Choose a provider for %s"
+msgstr ""
+
+#: src/transaction.vala:417 src/manager_window.vala:245
+#: src/manager_window.vala:974
+msgid "To remove"
+msgstr "Å fjerne"
+
+#: src/transaction.vala:430
+msgid "To downgrade"
+msgstr "Å nedgradere"
+
+#: src/transaction.vala:443
+msgid "To build"
+msgstr "Å bygge"
+
+#: src/transaction.vala:456 src/manager_window.vala:244
+#: src/manager_window.vala:963
+msgid "To install"
+msgstr "Å installere"
+
+#: src/transaction.vala:469
+msgid "To reinstall"
+msgstr "Å reinstallere"
+
+#: src/transaction.vala:483
+msgid "To update"
+msgstr "Å oppdatere"
+
+#: src/transaction.vala:496 src/updater_window.vala:182
+msgid "Total download size"
+msgstr "Samlet nedlastingsstørrelse"
+
+#: src/transaction.vala:513
+msgid "Building packages"
+msgstr ""
+
+#: src/transaction.vala:570
+msgid "Checking dependencies"
+msgstr "Sjekker avhengigheter"
+
+#: src/transaction.vala:575
+msgid "Checking file conflicts"
+msgstr "Sjekker fil konflikter"
+
+#: src/transaction.vala:580
+msgid "Resolving dependencies"
+msgstr "Ordner avhengigheter"
+
+#: src/transaction.vala:585
+#, fuzzy
+msgid "Checking inter-conflicts"
+msgstr "Sjekker inter konflikter"
+
+#: src/transaction.vala:592 src/transaction.vala:594
+#, c-format
+msgid "Installing %s"
+msgstr "Installerer %s"
+
+#: src/transaction.vala:600 src/transaction.vala:602
+#, c-format
+msgid "Reinstalling %s"
+msgstr "Reinstallerer %s"
+
+#: src/transaction.vala:608 src/transaction.vala:610
+#, c-format
+msgid "Removing %s"
+msgstr "Fjerner %s"
+
+#: src/transaction.vala:616 src/transaction.vala:618
+#, c-format
+msgid "Upgrading %s"
+msgstr "Oppdaterer %s"
+
+#: src/transaction.vala:624 src/transaction.vala:626
+#, c-format
+msgid "Downgrading %s"
+msgstr "Nedgraderer %s"
+
+#: src/transaction.vala:630
+msgid "Checking integrity"
+msgstr "Sjekker integritet"
+
+#: src/transaction.vala:636
+msgid "Checking keyring"
+msgstr "Sjekker nøkkelring"
+
+#: src/transaction.vala:641
+msgid "Downloading required keys"
+msgstr "Laster ned nødvendige nøkkelringer"
+
+#: src/transaction.vala:646
+msgid "Loading packages files"
+msgstr "Laster pakke filer"
+
+#: src/transaction.vala:651
+msgid "Checking delta integrity"
+msgstr "Sjekker integritet"
+
+#: src/transaction.vala:656
+msgid "Applying deltas"
+msgstr "Anfører deltaer"
+
+#: src/transaction.vala:661
+#, c-format
+msgid "Generating %s with %s"
+msgstr "Generer %s med %s"
+
+#: src/transaction.vala:666
+#, fuzzy
+msgid "Generation succeeded"
+msgstr "Generering sukssessful"
+
+#: src/transaction.vala:671
+#, fuzzy
+msgid "Generation failed"
+msgstr "Generering feilet"
+
+#: src/transaction.vala:676
+#, c-format
+msgid "Configuring %s"
+msgstr "Konfigurerer %s"
+
+#: src/transaction.vala:682
+msgid "Downloading"
+msgstr "Laster ned"
+
+#: src/transaction.vala:687
+msgid "Checking available disk space"
+msgstr "Sjekker ledig diskplass"
+
+#: src/transaction.vala:692
+#, c-format
+msgid "%s optionally requires %s"
+msgstr ""
+
+#: src/transaction.vala:695
+#, c-format
+msgid "Database file for %s does not exist"
+msgstr ""
+
+#: src/transaction.vala:747
+#, c-format
+msgid "Refreshing %s"
+msgstr "Oppfrisker %s"
+
+#: src/transaction.vala:749
+#, c-format
+msgid "Downloading %s"
+msgstr "Laster ned %s"
+
+#: src/transaction.vala:797 src/transaction.vala:799 src/transaction.vala:816
+msgid "Warning"
+msgstr "Advarsel"
+
+#: src/transaction.vala:804 src/transaction.vala:806 src/transaction.vala:837
+#: src/installer.vala:41 src/manager.vala:41 src/updater.vala:41
+msgid "Error"
+msgstr "Feil"
+
+#: src/transaction.vala:904 src/transaction.vala:920
+#: src/progress_dialog.vala:55
+msgid "Transaction cancelled"
+msgstr ""
+
+#: src/transaction.vala:934
+msgid "Nothing to do"
+msgstr "Ingenting å gjøre"
+
+#: src/transaction.vala:956 src/transaction.vala:972
+msgid "Transaction successfully finished"
+msgstr "Transaksjonen avsluttet vellykket"
+
+#: src/installer.vala:43 src/manager.vala:43 src/updater.vala:43
+msgid "Pamac is already running"
+msgstr "Pamac kjører allerede"
+
+#: src/tray.vala:25 src/updater_window.vala:175
+msgid "Your system is up-to-date"
+msgstr "Systemet ditt er oppdatert"
+
+#: src/tray.vala:77
+#, fuzzy
+msgid "_Quit"
+msgstr "Avslutt"
+
+#: src/tray.vala:136 src/updater_window.vala:178
+#, fuzzy, c-format
+msgid "%u available update"
+msgid_plural "%u available updates"
+msgstr[0] "%u tilgjengelige oppdateringer"
+msgstr[1] "%u tilgjengelige oppdateringer"
+
+#: src/tray.vala:158
+msgid "Show available updates"
+msgstr ""
+
+#: src/manager_window.vala:132
+msgid "Deselect"
+msgstr "Fjern markeringen"
+
+#: src/manager_window.vala:135
+msgid "Install"
+msgstr "Installer"
+
+#: src/manager_window.vala:138
+msgid "Remove"
+msgstr "Fjern"
+
+#: src/manager_window.vala:143
+msgid "Reinstall"
+msgstr "Reinstaller"
+
+#: src/manager_window.vala:146
+#, fuzzy
+msgid "Install optional dependencies"
+msgstr "Installer valgfrie tilleggspakker"
+
+#: src/manager_window.vala:149
+msgid "Mark as explicitly installed"
+msgstr "Marker som eksplisitt installert"
+
+#: src/manager_window.vala:225 src/manager_window.vala:1016
+msgid "local"
+msgstr "lokal"
+
+#: src/manager_window.vala:241 src/manager_window.vala:311
+#: src/manager_window.vala:323 src/manager_window.vala:980
+msgid "Installed"
+msgstr "Installert"
+
+#: src/manager_window.vala:243 src/manager_window.vala:990
+msgid "Orphans"
+msgstr "Foreldreløs"
+
+#: src/manager_window.vala:271
+msgid "Licenses"
+msgstr "Lisenser"
+
+#: src/manager_window.vala:293
+msgid "Depends On"
+msgstr "Avhenger av"
+
+#: src/manager_window.vala:313
+#, fuzzy
+msgid "Optional Dependencies"
+msgstr "Valgfrie avhengigheter"
+
+#: src/manager_window.vala:333
+msgid "Required By"
+msgstr "Krevd av"
+
+#: src/manager_window.vala:347
+msgid "Provides"
+msgstr "Tilbyr"
+
+#: src/manager_window.vala:360
+msgid "Replaces"
+msgstr "Erstatter"
+
+#: src/manager_window.vala:373
+msgid "Conflicts With"
+msgstr "I konflikt med"
+
+#: src/manager_window.vala:407
+msgid "Packager"
+msgstr "Pakker"
+
+#: src/manager_window.vala:413
+msgid "Install Date"
+msgstr "Installasjons Dato"
+
+#: src/manager_window.vala:417
+msgid "Explicitly installed"
+msgstr "Explisitt installert"
+
+#: src/manager_window.vala:419
+msgid "Installed as a dependency for another package"
+msgstr "Installert som en avhengighet for en annen pakke"
+
+#: src/manager_window.vala:421
+msgid "Unknown"
+msgstr "Ukjent"
+
+#: src/manager_window.vala:423
+msgid "Install Reason"
+msgstr "Grunn til Installasjon"
+
+#: src/manager_window.vala:428
+msgid "Signatures"
+msgstr "Signaturer"
+
+#: src/manager_window.vala:436
+msgid "Backup files"
+msgstr "Sikkerhetskopier filene"
+
+#: src/manager_window.vala:559 src/manager_window.vala:700
+msgid "No package found"
+msgstr "Ingen pakke funnet"
+
+#: src/manager_window.vala:653
+#, fuzzy, c-format
+msgid ""
+"%s has %u uninstalled optional dependencies.\n"
+"Choose those you would like to install:"
+msgstr ""
+"%s har %u avinstallert valgfri deps\n"
+"Velg de du ønsker å installere:"
+
+#: src/manager_window.vala:982
+msgid "Uninstalled"
+msgstr "Avinstallert"
+
+#: src/manager_window.vala:1134
+#, fuzzy
+msgid "A Gtk3 frontend for libalpm"
+msgstr "En gtk3 frontend for libalpm"
+
+#: src/common.vala:48
+#, fuzzy, c-format
+msgid "%.0f KiB"
+msgstr "%.0f Kb"
+
+#: src/common.vala:51
+#, c-format
+msgid "%.2f MiB"
+msgstr "%.2f Mb"
+
+#~ msgid "1 available update"
+#~ msgstr "1 tilgjengelig oppdatering"
+
+#~ msgid "%s will be replaced by %s"
+#~ msgstr "%s vil bli erstattet av %s"
+
+#~ msgid "%s conflicts with %s"
+#~ msgstr "%s er i konflikt med %s"
+
+#~ msgid "%s is not a valid path or package name"
+#~ msgstr "%s er ikke en gyldig sti eller pakke navn"
+
+#~ msgid ""
+#~ "The transaction cannot be performed because it needs to remove %s which "
+#~ "is a locked package"
+#~ msgstr ""
+#~ "Transaksjonen kan ikke bli utført fordi den trenger å fjerne\n"
+#~ " %s som er en låst pakke"
+
+#~ msgid "Compressed Size"
+#~ msgstr "Komprimert Størrelse"
+
+#~ msgid "Download Size"
+#~ msgstr "Nedlastet Størrelse"
+
+#~ msgid "Installed Size"
+#~ msgstr "Installert Størrelse"
+
+#~ msgid "Architecture"
+#~ msgstr "Arkitektur"
+
+#~ msgid "Install with optional deps"
+#~ msgstr "Installer med valgfrie tilleggspakker"
+
+#~ msgid ""
+#~ "Some updates are available.\n"
+#~ "Please update your system first"
+#~ msgstr ""
+#~ "Noen oppdateringer er tilgjengelige.⏎\n"
+#~ "Vennligst oppdater systemet ditt først"
+
+#~ msgid ""
+#~ "%s is provided by %u packages.\n"
+#~ "Please choose those you would like to install:"
+#~ msgstr ""
+#~ "%s kommer fra %u pakker.\n"
+#~ "Velg de du ønsker å installere:"
+
+#~ msgid "Refreshing"
+#~ msgstr "Oppfrisker"
+
+#~ msgid "%s depends on %s but it is not installable"
+#~ msgstr "%s avhenger av %s men den er ikke mulig å installere"
+
+#~ msgid "Failed to get %s archive from AUR"
+#~ msgstr "Klarte ikke å få %s arkiv fra AUR"
+
+#~ msgid "Build process failed."
+#~ msgstr "Bygge prosessen mislyktes."
+
+#~ msgid "Checking for updates"
+#~ msgstr "Ser etter oppdateringer"
+
+#~ msgid "About Pamac"
+#~ msgstr "Om Pamac"
+
+#~ msgid "Copyright © 2013 Guillaume Benoit"
+#~ msgstr "Opphavsrett © 2013 Guillaume Benoit"
+
+#~ msgid "Repos"
+#~ msgstr "Depoer"
+
+#~ msgid "Repo"
+#~ msgstr "Repo"
+
+#~ msgid "Infos"
+#~ msgstr "Informasjon"
+
+#~ msgid "Deps"
+#~ msgstr "Avhengigheter"
+
+#~ msgid "details"
+#~ msgstr "Detaljer"
+
+#~ msgid "Choose"
+#~ msgstr "Velg"
+
+#~ msgid "Summary"
+#~ msgstr "Resyme"

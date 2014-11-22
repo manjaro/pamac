@@ -2,553 +2,662 @@
 # Copyright (C) 2007-2012 Free Software Foundation, Inc.
 # This file is distributed under the same license as the Pamac package.
 # Guillaume Benoit <guillaume@manjaro.org>, 2013-2014.
-# 
+#
 # Translators:
 # Asto Banko <kusmis@hot.ee>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-03-30 15:09+0100\n"
+"POT-Creation-Date: 2014-10-23 15:09+0100\n"
 "PO-Revision-Date: 2014-03-05 22:14+0000\n"
 "Last-Translator: manjarolinux <philm@manjaro.org>\n"
-"Language-Team: Estonian (http://www.transifex.com/projects/p/manjaro-pamac/language/et/)\n"
+"Language-Team: Estonian (http://www.transifex.com/projects/p/manjaro-pamac/"
+"language/et/)\n"
+"Language: et\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: et\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: data/polkit/org.manjaro.pamac.policy:10
 msgid "Authentication is required"
 msgstr ""
 
-#: pamac-daemon.py:162
-msgid "Checking dependencies"
-msgstr "Sõltuvuste kontrollimine"
-
-#: pamac-daemon.py:170
-msgid "Checking file conflicts"
-msgstr "Kontrollib failides konflikte"
-
-#: pamac-daemon.py:176
-msgid "Resolving dependencies"
-msgstr "Sõltuvuste lahendamine"
-
-#: pamac-daemon.py:184
-msgid "Checking inter conflicts"
-msgstr "Kontrollib omavahelisi konflikte"
-
-#: pamac-daemon.py:192
-#, python-brace-format
-msgid "Installing {pkgname}"
-msgstr "Paigaldatakse {pkgname}"
-
-#: pamac-daemon.py:200
-#, python-brace-format
-msgid "Removing {pkgname}"
-msgstr "Eemaldatakse {pkgname}"
-
-#: pamac-daemon.py:208
-#, python-brace-format
-msgid "Upgrading {pkgname}"
-msgstr "Uuendatakse {pkgname}"
-
-#: pamac-daemon.py:216
-#, python-brace-format
-msgid "Downgrading {pkgname}"
-msgstr "Muudetakse vanemaks versiooniks {pkgname}"
-
-#: pamac-daemon.py:224
-#, python-brace-format
-msgid "Reinstalling {pkgname}"
-msgstr "Paigaldatakse uuesti {pkgname}"
-
-#: pamac-daemon.py:232
-msgid "Checking integrity"
-msgstr "Tervikluse kontroll"
-
-#: pamac-daemon.py:239
-msgid "Loading packages files"
-msgstr "Faili pakettide laadimine"
-
-#: pamac-daemon.py:245
-msgid "Checking delta integrity"
-msgstr "Kontrollitakse deltapakettide terviklust"
-
-#: pamac-daemon.py:251
-msgid "Applying deltas"
-msgstr "Deltapaketide rakendamine"
-
-#: pamac-daemon.py:257
-msgid "Generating {} with {}"
-msgstr "Genereerib {} abil {}"
-
-#: pamac-daemon.py:261
-msgid "Generation succeeded!"
-msgstr "Genereerimine õnnestus!"
-
-#: pamac-daemon.py:264
-msgid "Generation failed."
-msgstr "Genereerimine ebaõnnestus."
-
-#: pamac-daemon.py:267
-#, python-brace-format
-msgid "Configuring {pkgname}"
-msgstr "Häälestub {pkgname}"
-
-#: pamac-daemon.py:272
-msgid "Downloading"
+#: resources/choose_provider_dialog.ui:6
+msgid "Choose a Provider"
 msgstr ""
 
-#: pamac-daemon.py:276
-msgid "Checking available disk space"
-msgstr "Saadaoleva kettaruumi kontroll"
-
-#: pamac-daemon.py:286
-msgid "Checking keyring"
-msgstr "Kontrollib võtmerõngast"
-
-#: pamac-daemon.py:292
-msgid "Downloading required keys"
-msgstr "Laeb alla vajalikud võtmerõngad"
-
-#: pamac-daemon.py:311
-#, python-brace-format
-msgid "{pkgname1} will be replaced by {pkgname2}"
-msgstr "{pkgname1} asendatakse järgnevaga {pkgname2}"
-
-#: pamac-daemon.py:314
-#, python-brace-format
-msgid "{pkgname1} conflicts with {pkgname2}"
-msgstr "{pkgname1} ei ühti järgnevaga {pkgname2}"
-
-#: pamac-daemon.py:339
-msgid "Error: "
+#: resources/choose_provider_dialog.ui:22
+#: resources/transaction_sum_dialog.ui:34 resources/preferences_dialog.ui:22
+msgid "_OK"
 msgstr ""
 
-#: pamac-daemon.py:345
-msgid "Warning: "
-msgstr ""
-
-#: pamac-daemon.py:359
-#, python-brace-format
-msgid "Refreshing {repo}"
-msgstr "Värskendab {repo}"
-
-#: pamac-daemon.py:363 pamac/transaction.py:608
-#, python-brace-format
-msgid "Downloading {pkgname}"
-msgstr "Laeb alla {pkgname}"
-
-#: pamac-daemon.py:427 pamac-daemon.py:439 pamac-daemon.py:762
-#: pamac-daemon.py:770 pamac-daemon.py:793 pamac-daemon.py:827
-msgid "Authentication failed"
-msgstr "Autentimine nurjus"
-
-#: pamac-daemon.py:572 pamac-install.py:127
-#, python-brace-format
-msgid "{pkgname} is not a valid path or package name"
-msgstr "{pkgname} ei ole sobiv asukoht ega paketi nimi"
-
-#: pamac-daemon.py:685
-#, python-brace-format
-msgid ""
-"The transaction cannot be performed because it needs to remove {pkgname1} "
-"which is a locked package"
-msgstr "Operatsiooni pole võimalik teostada, sest on vaja eemaldada {pkgname1} mis on lukustatud pakett"
-
-#: pamac-daemon.py:695 pamac/transaction.py:449
-msgid "Nothing to do"
-msgstr "Pole midagi teha"
-
-#: pamac-daemon.py:757
-msgid "Transaction successfully finished"
-msgstr "Tehingud edukalt lõpetatud"
-
-#: pamac-manager.py:103 pamac-manager.py:134 pamac-manager.py:135
-#: pamac-manager.py:150 pamac-manager.py:159 pamac-manager.py:180
-#: pamac-manager.py:305 pamac-manager.py:657 pamac-manager.py:715
-#: pamac-manager.py:785
-msgid "No package found"
-msgstr "Paketti ei leitud"
-
-#: pamac-manager.py:204 pamac-manager.py:266
-msgid "local"
-msgstr "kohalik"
-
-#: pamac-manager.py:208 pamac-manager.py:249 pamac-manager.py:371
-msgid "Installed"
-msgstr "Paigaldatud"
-
-#: pamac-manager.py:208 pamac-manager.py:252
-msgid "Uninstalled"
-msgstr "Eemaldatud"
-
-#: pamac-manager.py:208 pamac-manager.py:255
-msgid "Orphans"
-msgstr "Orvud"
-
-#: pamac-manager.py:208 pamac-manager.py:227 pamac/transaction.py:757
-msgid "To install"
-msgstr "Paigaldada"
-
-#: pamac-manager.py:208 pamac-manager.py:238 pamac/transaction.py:737
-msgid "To remove"
-msgstr "Eemaldada"
-
-#: pamac-manager.py:361
-msgid "Licenses"
-msgstr "Litsentsid"
-
-#: pamac-manager.py:366
-msgid "Depends On"
-msgstr "Sõltub"
-
-#: pamac-manager.py:374
-msgid "Optional Deps"
-msgstr "Valikulised sõltuvused"
-
-#: pamac-manager.py:377
-msgid "Required By"
-msgstr "Mida nõuab"
-
-#: pamac-manager.py:379
-msgid "Provides"
-msgstr "Pakutavad"
-
-#: pamac-manager.py:381
-msgid "Replaces"
-msgstr "Asendab"
-
-#: pamac-manager.py:383
-msgid "Conflicts With"
-msgstr "Konfliktid"
-
-#: pamac-manager.py:388
-msgid "Repository"
-msgstr "Hoidla"
-
-#: pamac-manager.py:390 gui/manager.ui:557
-msgid "Groups"
-msgstr "Grupid"
-
-#: pamac-manager.py:392
-msgid "Compressed Size"
-msgstr "Tihendatud Suurus"
-
-#: pamac-manager.py:393
-msgid "Download Size"
-msgstr "Allalaadimise Suurus"
-
-#: pamac-manager.py:395
-msgid "Installed Size"
-msgstr "Paigaldatud Suurus"
-
-#: pamac-manager.py:396
-msgid "Packager"
-msgstr "Pakendaja"
-
-#: pamac-manager.py:397
-msgid "Architecture"
-msgstr "Arhitektuur"
-
-#: pamac-manager.py:400
-msgid "Install Date"
-msgstr "Paigalduse Kuupäev"
-
-#: pamac-manager.py:402
-msgid "Explicitly installed"
-msgstr "Detailselt paigaldatud"
-
-#: pamac-manager.py:404
-msgid "Installed as a dependency for another package"
-msgstr "Paigaldatud teise paketi sõltuvusena"
-
-#: pamac-manager.py:406
-msgid "Unknown"
-msgstr "Tundmatu"
-
-#: pamac-manager.py:407
-msgid "Install Reason"
-msgstr "Paigaldamise põhjus"
-
-#: pamac-manager.py:412
-msgid "Signatures"
-msgstr "Signatuur"
-
-#: pamac-manager.py:416
-msgid "Backup files"
-msgstr "Varukoopia failid"
-
-#: pamac-manager.py:597
-#, python-brace-format
-msgid ""
-"{pkgname} has {number} uninstalled optional deps.\n"
-"Please choose those you would like to install:"
-msgstr ""
-
-#: pamac-manager.py:660
-msgid "Deselect"
-msgstr ""
-
-#: pamac-manager.py:665
-msgid "Remove"
-msgstr "Eemalda"
-
-#: pamac-manager.py:671
-msgid "Reinstall"
-msgstr "Paigalda uuesti"
-
-#: pamac-manager.py:682
-msgid "Install optional deps"
-msgstr "Paigalda valikulised sõltuvused"
-
-#: pamac-manager.py:687
-msgid "Mark as explicitly installed"
-msgstr ""
-
-#: pamac-manager.py:691
-msgid "Install"
-msgstr "Paigalda"
-
-#: pamac-manager.py:702
-msgid "Install with optional deps"
-msgstr "Paigalda valikuliste sõltuvustega"
-
-#: pamac-manager.py:1009 pamac-updater.py:214 pamac-install.py:160
-msgid "Pamac is already running"
-msgstr "Pamac juba töötab"
-
-#: pamac-updater.py:44 pamac-updater.py:59 pamac-tray.py:40
-msgid "Your system is up-to-date"
-msgstr "Teie süsteem on ajakohane"
-
-#: pamac-updater.py:74 pamac/transaction.py:787
-msgid "Total download size:"
-msgstr ""
-
-#: pamac-updater.py:76 pamac-tray.py:38
-msgid "1 available update"
-msgstr "1 saadaolev uuendus"
-
-#: pamac-updater.py:78 pamac-tray.py:37
-#, python-brace-format
-msgid "{number} available updates"
-msgstr "{number} saadaolevaid uuendusi"
-
-#: pamac-tray.py:50 pamac-tray.py:126 pamac-tray.py:148 gui/updater.ui:24
-msgid "Update Manager"
-msgstr "Uuenduste haldur"
-
-#: pamac-tray.py:54 gui/manager.ui:324
-msgid "Package Manager"
-msgstr "Paketihaldur"
-
-#: pamac-tray.py:58
-msgid "Quit"
-msgstr "Välju"
-
-#: pamac-install.py:66
-msgid ""
-"Some updates are available.\n"
-"Please update your system first"
-msgstr "Mõned uuendused on saadaval.\nPalun uuendage kõigepealt enda süsteemi"
-
-#: pamac-install.py:72 pamac/transaction.py:406 pamac/transaction.py:799
-msgid "Preparing"
-msgstr "Ettevalmistamine"
-
-#: pamac/transaction.py:94 gui/dialogs.ui:369
-msgid "How often to check for updates, value in hours"
-msgstr ""
-
-#: pamac/transaction.py:192
-#, python-brace-format
-msgid ""
-"{pkgname} is provided by {number} packages.\n"
-"Please choose those you would like to install:"
-msgstr ""
-
-#: pamac/transaction.py:257
-msgid "Refreshing"
-msgstr "Värskendab"
-
-#: pamac/transaction.py:341 pamac/transaction.py:380
-#, python-brace-format
-msgid "{pkgname} depends on {dependname} but it is not installable"
-msgstr ""
-
-#: pamac/transaction.py:384
-#, python-brace-format
-msgid "Failed to get {pkgname} archive from AUR"
-msgstr ""
-
-#: pamac/transaction.py:552 pamac/transaction.py:558
-msgid "Build process failed."
-msgstr ""
-
-#: pamac/transaction.py:644
-#, python-brace-format
-msgid "Building {pkgname}"
-msgstr ""
-
-#: pamac/transaction.py:685
-msgid "Checking for updates"
-msgstr ""
-
-#: pamac/transaction.py:735
-msgid "Transaction Summary"
-msgstr ""
-
-#: pamac/transaction.py:743
-msgid "To downgrade"
-msgstr "Paigaldada vanem versioon"
-
-#: pamac/transaction.py:751
-msgid "To build"
-msgstr ""
-
-#: pamac/transaction.py:765
-msgid "To reinstall"
-msgstr "Uuesti Paigaldada"
-
-#: pamac/transaction.py:774
-msgid "To update"
-msgstr "Uuendada"
-
-#: pamac/common.py:30
-#, python-format
-msgid "%.1f KiB"
-msgstr ""
-
-#: pamac/common.py:33
-#, python-format
-msgid "%.2f MiB"
-msgstr ""
-
-#: gui/manager.ui:8
-msgid "About Pamac"
-msgstr "Teave Pamac kohta"
-
-#: gui/manager.ui:13
-msgid "Copyright © 2013 Guillaume Benoit"
-msgstr "Autoriõigused © 2013 Guillaume Benoit"
-
-#: gui/manager.ui:14
-msgid "A gtk3 frontend for pyalpm"
-msgstr "GTK3 kasutajaliides pyalpm jaoks"
-
-#: gui/manager.ui:44
-msgid "Pamac History"
-msgstr ""
-
-#: gui/manager.ui:160
-msgid "View History"
-msgstr ""
-
-#: gui/manager.ui:170 gui/manager.ui:212
+#: resources/packages_chooser_dialog.ui:6 resources/manager_window.ui:765
 msgid "Install local packages"
 msgstr "Paigalda kohalikud paketid"
 
-#: gui/manager.ui:344
-msgid "Refresh"
+#: resources/packages_chooser_dialog.ui:28 resources/progress_dialog.ui:28
+#: resources/transaction_sum_dialog.ui:20
+msgid "_Cancel"
 msgstr ""
 
-#: gui/manager.ui:362
-msgid "Apply changes"
+#: resources/packages_chooser_dialog.ui:40
+msgid "_Open"
 msgstr ""
 
-#: gui/manager.ui:380
-msgid "Cancel"
-msgstr ""
-
-#: gui/manager.ui:453
-msgid "Search in AUR"
-msgstr ""
-
-#: gui/manager.ui:511
-msgid "Search"
-msgstr "Otsi"
-
-#: gui/manager.ui:604 gui/manager.ui:696
-msgid "State"
-msgstr "Olek"
-
-#: gui/manager.ui:651
-msgid "Repos"
-msgstr "Hoidlad"
-
-#: gui/manager.ui:709
-msgid "Name"
-msgstr "Nimi"
-
-#: gui/manager.ui:722
-msgid "Version"
-msgstr "Versioon"
-
-#: gui/manager.ui:735
-msgid "Repo"
-msgstr ""
-
-#: gui/manager.ui:748
-msgid "Size"
-msgstr "Suurus"
-
-#: gui/manager.ui:850
-msgid "Infos"
-msgstr "Teave"
-
-#: gui/manager.ui:914
-msgid "Deps"
-msgstr "Sõltuvused"
-
-#: gui/manager.ui:983
-msgid "Details"
-msgstr "Üksikasjad"
-
-#: gui/manager.ui:1012
-msgid "Files"
-msgstr "Failid"
-
-#: gui/dialogs.ui:70
+#: resources/progress_dialog.ui:6
 msgid "Progress"
 msgstr "Edenemine"
 
-#: gui/dialogs.ui:162
-msgid "details"
-msgstr "Üksikasjad"
-
-#: gui/dialogs.ui:292
-msgid "Pamac Preferences"
+#: resources/progress_dialog.ui:41 resources/history_dialog.ui:22
+#: resources/transaction_info_dialog.ui:20 resources/updater_window.ui:153
+#: resources/preferences_dialog.ui:36
+msgid "_Close"
 msgstr ""
 
-#: gui/dialogs.ui:316
+#: resources/progress_dialog.ui:92 resources/transaction_info_dialog.ui:79
+#: resources/manager_window.ui:695
+msgid "Details"
+msgstr "Üksikasjad"
+
+#: resources/history_dialog.ui:6
+msgid "Pamac History"
+msgstr ""
+
+#: resources/transaction_sum_dialog.ui:5 src/transaction.vala:387
+msgid "Transaction Summary"
+msgstr ""
+
+#: resources/manager_window.ui:7 src/tray.vala:74
+msgid "Package Manager"
+msgstr "Paketihaldur"
+
+#: resources/manager_window.ui:25
+msgid "Refresh databases"
+msgstr ""
+
+#: resources/manager_window.ui:48
+msgid "Apply changes"
+msgstr ""
+
+#: resources/manager_window.ui:71
+msgid "Cancel all planned changes"
+msgstr ""
+
+#: resources/manager_window.ui:156 resources/manager_window.ui:168
+msgid "Search in AUR"
+msgstr ""
+
+#: resources/manager_window.ui:221
+msgid "Search"
+msgstr "Otsi"
+
+#: resources/manager_window.ui:266 src/manager_window.vala:397
+msgid "Groups"
+msgstr "Grupid"
+
+#: resources/manager_window.ui:312 resources/manager_window.ui:406
+msgid "State"
+msgstr "Olek"
+
+#: resources/manager_window.ui:358
+#, fuzzy
+msgid "Repositories"
+msgstr "Hoidla"
+
+#: resources/manager_window.ui:421
+msgid "Name"
+msgstr "Nimi"
+
+#: resources/manager_window.ui:436
+msgid "Version"
+msgstr "Versioon"
+
+#: resources/manager_window.ui:451 src/manager_window.vala:389
+msgid "Repository"
+msgstr "Hoidla"
+
+#: resources/manager_window.ui:466
+msgid "Size"
+msgstr "Suurus"
+
+#: resources/manager_window.ui:570
+msgid "Description"
+msgstr ""
+
+#: resources/manager_window.ui:630
+msgid "Dependencies"
+msgstr ""
+
+#: resources/manager_window.ui:728
+msgid "Files"
+msgstr "Failid"
+
+#: resources/manager_window.ui:757
+msgid "View History"
+msgstr ""
+
+#: resources/manager_window.ui:773 resources/updater_window.ui:101
+msgid "_Preferences"
+msgstr ""
+
+#: resources/manager_window.ui:782
+msgid "_About"
+msgstr ""
+
+#: resources/updater_window.ui:6 src/tray.vala:71 src/tray.vala:157
+#: src/tray.vala:229
+msgid "Update Manager"
+msgstr "Uuenduste haldur"
+
+#: resources/updater_window.ui:126
+#, fuzzy
+msgid "_Refresh"
+msgstr "Värskendab"
+
+#: resources/updater_window.ui:139
+msgid "_Apply"
+msgstr ""
+
+#: resources/preferences_dialog.ui:6
+msgid "Preferences"
+msgstr ""
+
+#: resources/preferences_dialog.ui:71
 msgid "Enable AUR support"
 msgstr ""
 
-#: gui/dialogs.ui:320
+#: resources/preferences_dialog.ui:84
 msgid "Allow Pamac to search and install packages from AUR"
 msgstr ""
 
-#: gui/dialogs.ui:333
+#: resources/preferences_dialog.ui:102
 msgid "Remove unrequired dependencies"
 msgstr ""
 
-#: gui/dialogs.ui:337
+#: resources/preferences_dialog.ui:115
 msgid ""
-"When removing a package, also remove those dependencies that are not "
-"required by other packages"
+"When removing a package, also remove its dependencies that are not required "
+"by other packages"
 msgstr ""
 
-#: gui/dialogs.ui:396
+#: resources/preferences_dialog.ui:149 src/preferences_dialog.vala:37
+msgid "How often to check for updates, value in hours"
+msgstr ""
+
+#: resources/preferences_dialog.ui:173
 msgid "Options"
 msgstr ""
 
-#: gui/dialogs.ui:465
-msgid "Choose"
-msgstr "Vali"
+#: src/packages_chooser_dialog.vala:32
+#, fuzzy
+msgid "Alpm Package"
+msgstr "Pakendaja"
 
-#: gui/dialogs.ui:579
-msgid "Summary"
-msgstr "Kokkuvõte"
+#: src/daemon.vala:64
+msgid "Failed to initialize alpm library"
+msgstr ""
+
+#: src/daemon.vala:135 src/daemon.vala:141
+msgid "Failed to synchronize any databases"
+msgstr ""
+
+#: src/daemon.vala:184
+msgid "Failed to init transaction"
+msgstr ""
+
+#: src/daemon.vala:196 src/daemon.vala:214 src/daemon.vala:226
+#: src/daemon.vala:240 src/daemon.vala:252 src/daemon.vala:269
+#: src/daemon.vala:276 src/daemon.vala:290 src/daemon.vala:340
+msgid "Failed to prepare transaction"
+msgstr ""
+
+#: src/daemon.vala:215 src/daemon.vala:270
+#, c-format
+msgid "target not found: %s"
+msgstr ""
+
+#: src/daemon.vala:298
+#, c-format
+msgid "package %s does not have a valid architecture"
+msgstr ""
+
+#: src/daemon.vala:307
+#, c-format
+msgid "%s: requires %s"
+msgstr ""
+
+#: src/daemon.vala:315
+#, c-format
+msgid "%s and %s are in conflict"
+msgstr ""
+
+#: src/daemon.vala:334
+#, c-format
+msgid "%s needs to be removed but it is a locked package"
+msgstr ""
+
+#: src/daemon.vala:403
+msgid "Failed to commit transaction"
+msgstr ""
+
+#: src/daemon.vala:417
+#, c-format
+msgid "%s exists in both %s and %s"
+msgstr ""
+
+#: src/daemon.vala:420
+#, c-format
+msgid "%s: %s already exists in filesystem"
+msgstr ""
+
+#: src/daemon.vala:433
+#, c-format
+msgid "%s is invalid or corrupted"
+msgstr ""
+
+#: src/daemon.vala:465
+msgid "Authentication failed"
+msgstr "Autentimine nurjus"
+
+#: src/transaction.vala:177
+msgid "Synchronizing package databases"
+msgstr ""
+
+#: src/transaction.vala:231
+msgid "Starting full system upgrade"
+msgstr ""
+
+#: src/transaction.vala:286
+msgid "Preparing"
+msgstr "Ettevalmistamine"
+
+#: src/transaction.vala:359
+#, c-format
+msgid "Choose a provider for %s"
+msgstr ""
+
+#: src/transaction.vala:417 src/manager_window.vala:245
+#: src/manager_window.vala:974
+msgid "To remove"
+msgstr "Eemaldada"
+
+#: src/transaction.vala:430
+msgid "To downgrade"
+msgstr "Paigaldada vanem versioon"
+
+#: src/transaction.vala:443
+msgid "To build"
+msgstr ""
+
+#: src/transaction.vala:456 src/manager_window.vala:244
+#: src/manager_window.vala:963
+msgid "To install"
+msgstr "Paigaldada"
+
+#: src/transaction.vala:469
+msgid "To reinstall"
+msgstr "Uuesti Paigaldada"
+
+#: src/transaction.vala:483
+msgid "To update"
+msgstr "Uuendada"
+
+#: src/transaction.vala:496 src/updater_window.vala:182
+msgid "Total download size"
+msgstr "Allalaadimise Suurus"
+
+#: src/transaction.vala:513
+msgid "Building packages"
+msgstr ""
+
+#: src/transaction.vala:570
+msgid "Checking dependencies"
+msgstr "Sõltuvuste kontrollimine"
+
+#: src/transaction.vala:575
+msgid "Checking file conflicts"
+msgstr "Kontrollib failides konflikte"
+
+#: src/transaction.vala:580
+msgid "Resolving dependencies"
+msgstr "Sõltuvuste lahendamine"
+
+#: src/transaction.vala:585
+#, fuzzy
+msgid "Checking inter-conflicts"
+msgstr "Kontrollib omavahelisi konflikte"
+
+#: src/transaction.vala:592 src/transaction.vala:594
+#, c-format
+msgid "Installing %s"
+msgstr "Paigaldatakse %s"
+
+#: src/transaction.vala:600 src/transaction.vala:602
+#, c-format
+msgid "Reinstalling %s"
+msgstr "Paigaldatakse uuesti %s"
+
+#: src/transaction.vala:608 src/transaction.vala:610
+#, c-format
+msgid "Removing %s"
+msgstr "Eemaldatakse %s"
+
+#: src/transaction.vala:616 src/transaction.vala:618
+#, c-format
+msgid "Upgrading %s"
+msgstr "Uuendatakse %s"
+
+#: src/transaction.vala:624 src/transaction.vala:626
+#, c-format
+msgid "Downgrading %s"
+msgstr "Muudetakse vanemaks versiooniks %s"
+
+#: src/transaction.vala:630
+msgid "Checking integrity"
+msgstr "Tervikluse kontroll"
+
+#: src/transaction.vala:636
+msgid "Checking keyring"
+msgstr "Kontrollib võtmerõngast"
+
+#: src/transaction.vala:641
+msgid "Downloading required keys"
+msgstr "Laeb alla vajalikud võtmerõngad"
+
+#: src/transaction.vala:646
+msgid "Loading packages files"
+msgstr "Faili pakettide laadimine"
+
+#: src/transaction.vala:651
+msgid "Checking delta integrity"
+msgstr "Kontrollitakse deltapakettide terviklust"
+
+#: src/transaction.vala:656
+msgid "Applying deltas"
+msgstr "Deltapaketide rakendamine"
+
+#: src/transaction.vala:661
+#, c-format
+msgid "Generating %s with %s"
+msgstr "Genereerib %s abil %s"
+
+#: src/transaction.vala:666
+msgid "Generation succeeded"
+msgstr "Genereerimine õnnestus"
+
+#: src/transaction.vala:671
+msgid "Generation failed"
+msgstr "Genereerimine ebaõnnestus"
+
+#: src/transaction.vala:676
+#, c-format
+msgid "Configuring %s"
+msgstr "Häälestub %s"
+
+#: src/transaction.vala:682
+msgid "Downloading"
+msgstr ""
+
+#: src/transaction.vala:687
+msgid "Checking available disk space"
+msgstr "Saadaoleva kettaruumi kontroll"
+
+#: src/transaction.vala:692
+#, c-format
+msgid "%s optionally requires %s"
+msgstr ""
+
+#: src/transaction.vala:695
+#, c-format
+msgid "Database file for %s does not exist"
+msgstr ""
+
+#: src/transaction.vala:747
+#, c-format
+msgid "Refreshing %s"
+msgstr "Värskendab %s"
+
+#: src/transaction.vala:749
+#, c-format
+msgid "Downloading %s"
+msgstr "Laeb alla %s"
+
+#: src/transaction.vala:797 src/transaction.vala:799 src/transaction.vala:816
+msgid "Warning"
+msgstr ""
+
+#: src/transaction.vala:804 src/transaction.vala:806 src/transaction.vala:837
+#: src/installer.vala:41 src/manager.vala:41 src/updater.vala:41
+msgid "Error"
+msgstr ""
+
+#: src/transaction.vala:904 src/transaction.vala:920
+#: src/progress_dialog.vala:55
+msgid "Transaction cancelled"
+msgstr ""
+
+#: src/transaction.vala:934
+msgid "Nothing to do"
+msgstr "Pole midagi teha"
+
+#: src/transaction.vala:956 src/transaction.vala:972
+msgid "Transaction successfully finished"
+msgstr "Tehingud edukalt lõpetatud"
+
+#: src/installer.vala:43 src/manager.vala:43 src/updater.vala:43
+msgid "Pamac is already running"
+msgstr "Pamac juba töötab"
+
+#: src/tray.vala:25 src/updater_window.vala:175
+msgid "Your system is up-to-date"
+msgstr "Teie süsteem on ajakohane"
+
+#: src/tray.vala:77
+#, fuzzy
+msgid "_Quit"
+msgstr "Välju"
+
+#: src/tray.vala:136 src/updater_window.vala:178
+#, fuzzy, c-format
+msgid "%u available update"
+msgid_plural "%u available updates"
+msgstr[0] "%u saadaolevaid uuendusi"
+msgstr[1] "%u saadaolevaid uuendusi"
+
+#: src/tray.vala:158
+msgid "Show available updates"
+msgstr ""
+
+#: src/manager_window.vala:132
+msgid "Deselect"
+msgstr ""
+
+#: src/manager_window.vala:135
+msgid "Install"
+msgstr "Paigalda"
+
+#: src/manager_window.vala:138
+msgid "Remove"
+msgstr "Eemalda"
+
+#: src/manager_window.vala:143
+msgid "Reinstall"
+msgstr "Paigalda uuesti"
+
+#: src/manager_window.vala:146
+#, fuzzy
+msgid "Install optional dependencies"
+msgstr "Paigalda valikulised sõltuvused"
+
+#: src/manager_window.vala:149
+#, fuzzy
+msgid "Mark as explicitly installed"
+msgstr "Detailselt paigaldatud"
+
+#: src/manager_window.vala:225 src/manager_window.vala:1016
+msgid "local"
+msgstr "kohalik"
+
+#: src/manager_window.vala:241 src/manager_window.vala:311
+#: src/manager_window.vala:323 src/manager_window.vala:980
+msgid "Installed"
+msgstr "Paigaldatud"
+
+#: src/manager_window.vala:243 src/manager_window.vala:990
+msgid "Orphans"
+msgstr "Orvud"
+
+#: src/manager_window.vala:271
+msgid "Licenses"
+msgstr "Litsentsid"
+
+#: src/manager_window.vala:293
+msgid "Depends On"
+msgstr "Sõltub"
+
+#: src/manager_window.vala:313
+#, fuzzy
+msgid "Optional Dependencies"
+msgstr "Valikulised sõltuvused"
+
+#: src/manager_window.vala:333
+msgid "Required By"
+msgstr "Mida nõuab"
+
+#: src/manager_window.vala:347
+msgid "Provides"
+msgstr "Pakutavad"
+
+#: src/manager_window.vala:360
+msgid "Replaces"
+msgstr "Asendab"
+
+#: src/manager_window.vala:373
+msgid "Conflicts With"
+msgstr "Konfliktid"
+
+#: src/manager_window.vala:407
+msgid "Packager"
+msgstr "Pakendaja"
+
+#: src/manager_window.vala:413
+msgid "Install Date"
+msgstr "Paigalduse Kuupäev"
+
+#: src/manager_window.vala:417
+msgid "Explicitly installed"
+msgstr "Detailselt paigaldatud"
+
+#: src/manager_window.vala:419
+msgid "Installed as a dependency for another package"
+msgstr "Paigaldatud teise paketi sõltuvusena"
+
+#: src/manager_window.vala:421
+msgid "Unknown"
+msgstr "Tundmatu"
+
+#: src/manager_window.vala:423
+msgid "Install Reason"
+msgstr "Paigaldamise põhjus"
+
+#: src/manager_window.vala:428
+msgid "Signatures"
+msgstr "Signatuur"
+
+#: src/manager_window.vala:436
+msgid "Backup files"
+msgstr "Varukoopia failid"
+
+#: src/manager_window.vala:559 src/manager_window.vala:700
+msgid "No package found"
+msgstr "Paketti ei leitud"
+
+#: src/manager_window.vala:653
+#, c-format
+msgid ""
+"%s has %u uninstalled optional dependencies.\n"
+"Choose those you would like to install:"
+msgstr ""
+
+#: src/manager_window.vala:982
+msgid "Uninstalled"
+msgstr "Eemaldatud"
+
+#: src/manager_window.vala:1134
+#, fuzzy
+msgid "A Gtk3 frontend for libalpm"
+msgstr "GTK3 kasutajaliides libalpm jaoks"
+
+#: src/common.vala:48
+#, c-format
+msgid "%.0f KiB"
+msgstr ""
+
+#: src/common.vala:51
+#, c-format
+msgid "%.2f MiB"
+msgstr ""
+
+#~ msgid "1 available update"
+#~ msgstr "1 saadaolev uuendus"
+
+#~ msgid "%s will be replaced by %s"
+#~ msgstr "%s asendatakse järgnevaga %s"
+
+#~ msgid "%s conflicts with %s"
+#~ msgstr "%s ei ühti järgnevaga %s"
+
+#~ msgid "%s is not a valid path or package name"
+#~ msgstr "%s ei ole sobiv asukoht ega paketi nimi"
+
+#~ msgid ""
+#~ "The transaction cannot be performed because it needs to remove %s which "
+#~ "is a locked package"
+#~ msgstr ""
+#~ "Operatsiooni pole võimalik teostada, sest on vaja eemaldada %s mis on "
+#~ "lukustatud pakett"
+
+#~ msgid "Compressed Size"
+#~ msgstr "Tihendatud Suurus"
+
+#~ msgid "Installed Size"
+#~ msgstr "Paigaldatud Suurus"
+
+#~ msgid "Architecture"
+#~ msgstr "Arhitektuur"
+
+#~ msgid "Install with optional deps"
+#~ msgstr "Paigalda valikuliste sõltuvustega"
+
+#~ msgid ""
+#~ "Some updates are available.\n"
+#~ "Please update your system first"
+#~ msgstr ""
+#~ "Mõned uuendused on saadaval.\n"
+#~ "Palun uuendage kõigepealt enda süsteemi"
+
+#~ msgid "About Pamac"
+#~ msgstr "Teave Pamac kohta"
+
+#~ msgid "Copyright © 2013 Guillaume Benoit"
+#~ msgstr "Autoriõigused © 2013 Guillaume Benoit"
+
+#~ msgid "Repos"
+#~ msgstr "Hoidlad"
+
+#~ msgid "Infos"
+#~ msgstr "Teave"
+
+#~ msgid "Deps"
+#~ msgstr "Sõltuvused"
+
+#~ msgid "details"
+#~ msgstr "Üksikasjad"
+
+#~ msgid "Choose"
+#~ msgstr "Vali"
+
+#~ msgid "Summary"
+#~ msgstr "Kokkuvõte"

@@ -1,3 +1,11 @@
-__pycache__
-refresh-sources.sh
-*~
+pkgbuild
+resources/*.c
+src/pamac-daemon
+src/pamac-tray
+src/pamac-manager
+src/pamac-install
+src/pamac-updater
+data/polkit/org.manjaro.pamac.policy
+po/*.mo
+po/*~
+po/locale

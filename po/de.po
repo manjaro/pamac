@@ -2,7 +2,7 @@
 # Copyright (C) 2007-2012 Free Software Foundation, Inc.
 # This file is distributed under the same license as the Pamac package.
 # Guillaume Benoit <guillaume@manjaro.org>, 2013-2014.
-# 
+#
 # Translators:
 # Guillaume Benoit <guillaume@manjaro.org>, 2013
 # Maphardam <L.Polde@gmx.de>, 2014
@@ -14,546 +14,693 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-03-30 15:09+0100\n"
+"POT-Creation-Date: 2014-10-23 15:09+0100\n"
 "PO-Revision-Date: 2014-03-05 22:20+0000\n"
 "Last-Translator: manjarolinux <philm@manjaro.org>\n"
-"Language-Team: German (http://www.transifex.com/projects/p/manjaro-pamac/language/de/)\n"
+"Language-Team: German (http://www.transifex.com/projects/p/manjaro-pamac/"
+"language/de/)\n"
+"Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: de\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: data/polkit/org.manjaro.pamac.policy:10
 msgid "Authentication is required"
 msgstr "Authentifikation wird benötigt"
 
-#: pamac-daemon.py:162
-msgid "Checking dependencies"
-msgstr "Abhängigkeiten werden überprüft"
-
-#: pamac-daemon.py:170
-msgid "Checking file conflicts"
-msgstr "Dateikonflikte werden überprüft"
-
-#: pamac-daemon.py:176
-msgid "Resolving dependencies"
-msgstr "Abhängigkeiten werden aufgelöst"
-
-#: pamac-daemon.py:184
-msgid "Checking inter conflicts"
-msgstr "Interne Konflikte werden überprüft"
-
-#: pamac-daemon.py:192
-#, python-brace-format
-msgid "Installing {pkgname}"
-msgstr "Installiere {pkgname}"
-
-#: pamac-daemon.py:200
-#, python-brace-format
-msgid "Removing {pkgname}"
-msgstr "Entferne {pkgname}"
-
-#: pamac-daemon.py:208
-#, python-brace-format
-msgid "Upgrading {pkgname}"
-msgstr "Erneuere {pkgname}"
-
-#: pamac-daemon.py:216
-#, python-brace-format
-msgid "Downgrading {pkgname}"
-msgstr "Downgrade {pkgname}"
-
-#: pamac-daemon.py:224
-#, python-brace-format
-msgid "Reinstalling {pkgname}"
-msgstr "Reinstalliere {pkgname}"
-
-#: pamac-daemon.py:232
-msgid "Checking integrity"
-msgstr "Integrität wird überprüft"
-
-#: pamac-daemon.py:239
-msgid "Loading packages files"
-msgstr "Paketdateien werden geladen"
-
-#: pamac-daemon.py:245
-msgid "Checking delta integrity"
-msgstr "Überprüfe Delta-Integrität"
-
-#: pamac-daemon.py:251
-msgid "Applying deltas"
-msgstr "Wende Deltas an"
-
-#: pamac-daemon.py:257
-msgid "Generating {} with {}"
-msgstr "Erstelle {} mit {}"
-
-#: pamac-daemon.py:261
-msgid "Generation succeeded!"
-msgstr "Erstellung erfolgreich!"
-
-#: pamac-daemon.py:264
-msgid "Generation failed."
-msgstr "Erstellung fehlgeschlagen."
-
-#: pamac-daemon.py:267
-#, python-brace-format
-msgid "Configuring {pkgname}"
-msgstr "Konfiguriere {pkgname}"
-
-#: pamac-daemon.py:272
-msgid "Downloading"
-msgstr "Lade herunter"
-
-#: pamac-daemon.py:276
-msgid "Checking available disk space"
-msgstr "Überprüfe verfügbaren Speicherplatz"
-
-#: pamac-daemon.py:286
-msgid "Checking keyring"
-msgstr "Überprüfe Schlüsselring"
-
-#: pamac-daemon.py:292
-msgid "Downloading required keys"
-msgstr "Lade die benötigten Schlüssel herunter"
-
-#: pamac-daemon.py:311
-#, python-brace-format
-msgid "{pkgname1} will be replaced by {pkgname2}"
-msgstr "{pkgname1} wird ersetzt durch {pkgname2}"
-
-#: pamac-daemon.py:314
-#, python-brace-format
-msgid "{pkgname1} conflicts with {pkgname2}"
-msgstr "{pkgname1} behindert {pkgname2}"
-
-#: pamac-daemon.py:339
-msgid "Error: "
-msgstr "Fehler:"
-
-#: pamac-daemon.py:345
-msgid "Warning: "
-msgstr "Warnung:"
-
-#: pamac-daemon.py:359
-#, python-brace-format
-msgid "Refreshing {repo}"
-msgstr "Aufrischen von {repo}"
-
-#: pamac-daemon.py:363 pamac/transaction.py:608
-#, python-brace-format
-msgid "Downloading {pkgname}"
-msgstr "Herunterladen von {pkgname}"
-
-#: pamac-daemon.py:427 pamac-daemon.py:439 pamac-daemon.py:762
-#: pamac-daemon.py:770 pamac-daemon.py:793 pamac-daemon.py:827
-msgid "Authentication failed"
-msgstr "Authentifizierung fehlgeschlagen"
-
-#: pamac-daemon.py:572 pamac-install.py:127
-#, python-brace-format
-msgid "{pkgname} is not a valid path or package name"
-msgstr "{pkgname} ist kein zulässiger Pfad oder Paketname"
-
-#: pamac-daemon.py:685
-#, python-brace-format
-msgid ""
-"The transaction cannot be performed because it needs to remove {pkgname1} "
-"which is a locked package"
-msgstr "Der Vorgang kann nicht durchgeführt werden, da das gesperrte Paket {pkgname1} entfernt werden müsste."
-
-#: pamac-daemon.py:695 pamac/transaction.py:449
-msgid "Nothing to do"
-msgstr "Es gibt nichts zu tun"
-
-#: pamac-daemon.py:757
-msgid "Transaction successfully finished"
-msgstr "Vorgang erfolgreich abgeschlossen"
-
-#: pamac-manager.py:103 pamac-manager.py:134 pamac-manager.py:135
-#: pamac-manager.py:150 pamac-manager.py:159 pamac-manager.py:180
-#: pamac-manager.py:305 pamac-manager.py:657 pamac-manager.py:715
-#: pamac-manager.py:785
-msgid "No package found"
-msgstr "Keine Pakete gefunden"
-
-#: pamac-manager.py:204 pamac-manager.py:266
-msgid "local"
-msgstr "Lokal"
-
-#: pamac-manager.py:208 pamac-manager.py:249 pamac-manager.py:371
-msgid "Installed"
-msgstr "Installiert"
-
-#: pamac-manager.py:208 pamac-manager.py:252
-msgid "Uninstalled"
-msgstr "Deinstalliert"
-
-#: pamac-manager.py:208 pamac-manager.py:255
-msgid "Orphans"
-msgstr "Verwaist"
-
-#: pamac-manager.py:208 pamac-manager.py:227 pamac/transaction.py:757
-msgid "To install"
-msgstr "Wird installiert"
-
-#: pamac-manager.py:208 pamac-manager.py:238 pamac/transaction.py:737
-msgid "To remove"
-msgstr "Wird entfernt"
-
-#: pamac-manager.py:361
-msgid "Licenses"
-msgstr "Lizenzen"
-
-#: pamac-manager.py:366
-msgid "Depends On"
-msgstr "Hängt ab von"
-
-#: pamac-manager.py:374
-msgid "Optional Deps"
-msgstr "Optionale Abhängigkeiten"
-
-#: pamac-manager.py:377
-msgid "Required By"
-msgstr "Benötigt von"
-
-#: pamac-manager.py:379
-msgid "Provides"
-msgstr "Stellt bereit"
-
-#: pamac-manager.py:381
-msgid "Replaces"
-msgstr "Ersetzt"
-
-#: pamac-manager.py:383
-msgid "Conflicts With"
-msgstr "Konflikt mit"
-
-#: pamac-manager.py:388
-msgid "Repository"
-msgstr "Paketquelle"
-
-#: pamac-manager.py:390 gui/manager.ui:557
-msgid "Groups"
-msgstr "Gruppen"
-
-#: pamac-manager.py:392
-msgid "Compressed Size"
-msgstr "Komprimierte Größe"
-
-#: pamac-manager.py:393
-msgid "Download Size"
-msgstr "Datengröße"
-
-#: pamac-manager.py:395
-msgid "Installed Size"
-msgstr "Installierte Größe"
-
-#: pamac-manager.py:396
-msgid "Packager"
-msgstr "Packer"
-
-#: pamac-manager.py:397
-msgid "Architecture"
-msgstr "Architektur"
-
-#: pamac-manager.py:400
-msgid "Install Date"
-msgstr "Installiert am"
-
-#: pamac-manager.py:402
-msgid "Explicitly installed"
-msgstr "Ausdrücklich installiert"
-
-#: pamac-manager.py:404
-msgid "Installed as a dependency for another package"
-msgstr "Installiert als Abhängigkeit für ein anderes Paket"
-
-#: pamac-manager.py:406
-msgid "Unknown"
-msgstr "Unbekannt"
-
-#: pamac-manager.py:407
-msgid "Install Reason"
-msgstr "Installationsgrund"
-
-#: pamac-manager.py:412
-msgid "Signatures"
-msgstr "Signaturen"
-
-#: pamac-manager.py:416
-msgid "Backup files"
-msgstr "Dateisicherungen"
-
-#: pamac-manager.py:597
-#, python-brace-format
-msgid ""
-"{pkgname} has {number} uninstalled optional deps.\n"
-"Please choose those you would like to install:"
-msgstr "{pkgname} hat {number} nicht installierte optionale Abhängigkeiten.\nBitte wählen Sie die zum Installieren entsprechend aus:"
-
-#: pamac-manager.py:660
-msgid "Deselect"
-msgstr "Abwählen"
-
-#: pamac-manager.py:665
-msgid "Remove"
-msgstr "Entfernen"
-
-#: pamac-manager.py:671
-msgid "Reinstall"
-msgstr "Neu installieren"
-
-#: pamac-manager.py:682
-msgid "Install optional deps"
-msgstr "Optionale Abhängigkeiten installieren"
-
-#: pamac-manager.py:687
-msgid "Mark as explicitly installed"
-msgstr "Als ausdrücklich installiert markieren"
-
-#: pamac-manager.py:691
-msgid "Install"
-msgstr "Installieren"
-
-#: pamac-manager.py:702
-msgid "Install with optional deps"
-msgstr "Installiere mit optionalen Abhängigkeiten"
-
-#: pamac-manager.py:1009 pamac-updater.py:214 pamac-install.py:160
-msgid "Pamac is already running"
-msgstr "Pamac wird bereits ausgeführt"
-
-#: pamac-updater.py:44 pamac-updater.py:59 pamac-tray.py:40
-msgid "Your system is up-to-date"
-msgstr "Ihr System ist auf dem neuesten Stand"
-
-#: pamac-updater.py:74 pamac/transaction.py:787
-msgid "Total download size:"
-msgstr "Download-Größe gesamt:"
-
-#: pamac-updater.py:76 pamac-tray.py:38
-msgid "1 available update"
-msgstr "1 Aktualisierung verfügbar"
-
-#: pamac-updater.py:78 pamac-tray.py:37
-#, python-brace-format
-msgid "{number} available updates"
-msgstr "{number} Aktualisierungen verfügbar"
-
-#: pamac-tray.py:50 pamac-tray.py:126 pamac-tray.py:148 gui/updater.ui:24
-msgid "Update Manager"
-msgstr "Update-Manager"
-
-#: pamac-tray.py:54 gui/manager.ui:324
-msgid "Package Manager"
-msgstr "Paketmanager"
-
-#: pamac-tray.py:58
-msgid "Quit"
-msgstr "Beende"
-
-#: pamac-install.py:66
-msgid ""
-"Some updates are available.\n"
-"Please update your system first"
-msgstr "Aktualisierungen verfügbar.\nBitte aktualisieren Sie zuerst Ihr System."
-
-#: pamac-install.py:72 pamac/transaction.py:406 pamac/transaction.py:799
-msgid "Preparing"
-msgstr "Vorbereitung"
-
-#: pamac/transaction.py:94 gui/dialogs.ui:369
-msgid "How often to check for updates, value in hours"
-msgstr "Wie oft soll nach Erneuerungen geprüft werden? (Wert in Stunden)"
-
-#: pamac/transaction.py:192
-#, python-brace-format
-msgid ""
-"{pkgname} is provided by {number} packages.\n"
-"Please choose those you would like to install:"
-msgstr "{pkgname} wird von {number} Paketen bereitgestellt.\nBitte wählen Sie das zu Installierende aus:"
-
-#: pamac/transaction.py:257
-msgid "Refreshing"
-msgstr "Aktualisierung"
-
-#: pamac/transaction.py:341 pamac/transaction.py:380
-#, python-brace-format
-msgid "{pkgname} depends on {dependname} but it is not installable"
-msgstr "{pkgname} hängt ab von {dependname}, was nicht installierbar ist"
-
-#: pamac/transaction.py:384
-#, python-brace-format
-msgid "Failed to get {pkgname} archive from AUR"
-msgstr "{pkgname} Archiv-Download von AUR fehlgeschlagen"
-
-#: pamac/transaction.py:552 pamac/transaction.py:558
-msgid "Build process failed."
-msgstr "Erstellungsprozess fehlgeschlagen."
-
-#: pamac/transaction.py:644
-#, python-brace-format
-msgid "Building {pkgname}"
-msgstr "Erstelle {pkgname}"
-
-#: pamac/transaction.py:685
-msgid "Checking for updates"
-msgstr "Suche nach Updates"
-
-#: pamac/transaction.py:735
-msgid "Transaction Summary"
-msgstr "Zusammenfassung"
-
-#: pamac/transaction.py:743
-msgid "To downgrade"
-msgstr "Wird zurückgestuft"
-
-#: pamac/transaction.py:751
-msgid "To build"
-msgstr "Zu erstellen"
-
-#: pamac/transaction.py:765
-msgid "To reinstall"
-msgstr "Wird neu installiert"
-
-#: pamac/transaction.py:774
-msgid "To update"
-msgstr "Wird aktualisiert"
-
-#: pamac/common.py:30
-#, python-format
-msgid "%.1f KiB"
-msgstr "%.1f KiB"
-
-#: pamac/common.py:33
-#, python-format
-msgid "%.2f MiB"
-msgstr "%.2f MiB"
-
-#: gui/manager.ui:8
-msgid "About Pamac"
-msgstr "Über Pamac"
-
-#: gui/manager.ui:13
-msgid "Copyright © 2013 Guillaume Benoit"
-msgstr "Copyright © 2013 Guillaume Benoit"
-
-#: gui/manager.ui:14
-msgid "A gtk3 frontend for pyalpm"
-msgstr "Eine GTK3-Benutzeroberfläche für pyalpm"
-
-#: gui/manager.ui:44
-msgid "Pamac History"
-msgstr "Pamac Historie"
-
-#: gui/manager.ui:160
-msgid "View History"
-msgstr "Historie ansehen"
-
-#: gui/manager.ui:170 gui/manager.ui:212
+#: resources/choose_provider_dialog.ui:6
+msgid "Choose a Provider"
+msgstr ""
+
+#: resources/choose_provider_dialog.ui:22
+#: resources/transaction_sum_dialog.ui:34 resources/preferences_dialog.ui:22
+msgid "_OK"
+msgstr ""
+
+#: resources/packages_chooser_dialog.ui:6 resources/manager_window.ui:765
 msgid "Install local packages"
 msgstr "Installiere lokale Pakete"
 
-#: gui/manager.ui:344
-msgid "Refresh"
-msgstr "Refresh"
-
-#: gui/manager.ui:362
-msgid "Apply changes"
-msgstr "Veränderung anwenden"
-
-#: gui/manager.ui:380
-msgid "Cancel"
+#: resources/packages_chooser_dialog.ui:28 resources/progress_dialog.ui:28
+#: resources/transaction_sum_dialog.ui:20
+#, fuzzy
+msgid "_Cancel"
 msgstr "Abbrechen"
 
-#: gui/manager.ui:453
-msgid "Search in AUR"
-msgstr "Suche in AUR"
+#: resources/packages_chooser_dialog.ui:40
+msgid "_Open"
+msgstr ""
 
-#: gui/manager.ui:511
-msgid "Search"
-msgstr "Suche"
-
-#: gui/manager.ui:604 gui/manager.ui:696
-msgid "State"
-msgstr "Status"
-
-#: gui/manager.ui:651
-msgid "Repos"
-msgstr "Paketquellen"
-
-#: gui/manager.ui:709
-msgid "Name"
-msgstr "Name"
-
-#: gui/manager.ui:722
-msgid "Version"
-msgstr "Version"
-
-#: gui/manager.ui:735
-msgid "Repo"
-msgstr "Repo"
-
-#: gui/manager.ui:748
-msgid "Size"
-msgstr "Größe"
-
-#: gui/manager.ui:850
-msgid "Infos"
-msgstr "Info"
-
-#: gui/manager.ui:914
-msgid "Deps"
-msgstr "Abhängigkeiten"
-
-#: gui/manager.ui:983
-msgid "Details"
-msgstr "Details"
-
-#: gui/manager.ui:1012
-msgid "Files"
-msgstr "Dateien"
-
-#: gui/dialogs.ui:70
+#: resources/progress_dialog.ui:6
 msgid "Progress"
 msgstr "Fortschritt"
 
-#: gui/dialogs.ui:162
-msgid "details"
+#: resources/progress_dialog.ui:41 resources/history_dialog.ui:22
+#: resources/transaction_info_dialog.ui:20 resources/updater_window.ui:153
+#: resources/preferences_dialog.ui:36
+msgid "_Close"
+msgstr ""
+
+#: resources/progress_dialog.ui:92 resources/transaction_info_dialog.ui:79
+#: resources/manager_window.ui:695
+msgid "Details"
 msgstr "Details"
 
-#: gui/dialogs.ui:292
-msgid "Pamac Preferences"
-msgstr "Pamac Einstellungen"
+#: resources/history_dialog.ui:6
+msgid "Pamac History"
+msgstr "Pamac Historie"
 
-#: gui/dialogs.ui:316
+#: resources/transaction_sum_dialog.ui:5 src/transaction.vala:387
+msgid "Transaction Summary"
+msgstr "Zusammenfassung"
+
+#: resources/manager_window.ui:7 src/tray.vala:74
+msgid "Package Manager"
+msgstr "Paketmanager"
+
+#: resources/manager_window.ui:25
+msgid "Refresh databases"
+msgstr ""
+
+#: resources/manager_window.ui:48
+msgid "Apply changes"
+msgstr "Veränderung anwenden"
+
+#: resources/manager_window.ui:71
+msgid "Cancel all planned changes"
+msgstr ""
+
+#: resources/manager_window.ui:156 resources/manager_window.ui:168
+msgid "Search in AUR"
+msgstr "Suche in AUR"
+
+#: resources/manager_window.ui:221
+msgid "Search"
+msgstr "Suche"
+
+#: resources/manager_window.ui:266 src/manager_window.vala:397
+msgid "Groups"
+msgstr "Gruppen"
+
+#: resources/manager_window.ui:312 resources/manager_window.ui:406
+msgid "State"
+msgstr "Status"
+
+#: resources/manager_window.ui:358
+#, fuzzy
+msgid "Repositories"
+msgstr "Paketquelle"
+
+#: resources/manager_window.ui:421
+msgid "Name"
+msgstr "Name"
+
+#: resources/manager_window.ui:436
+msgid "Version"
+msgstr "Version"
+
+#: resources/manager_window.ui:451 src/manager_window.vala:389
+msgid "Repository"
+msgstr "Paketquelle"
+
+#: resources/manager_window.ui:466
+msgid "Size"
+msgstr "Größe"
+
+#: resources/manager_window.ui:570
+msgid "Description"
+msgstr ""
+
+#: resources/manager_window.ui:630
+msgid "Dependencies"
+msgstr ""
+
+#: resources/manager_window.ui:728
+msgid "Files"
+msgstr "Dateien"
+
+#: resources/manager_window.ui:757
+msgid "View History"
+msgstr "Historie ansehen"
+
+#: resources/manager_window.ui:773 resources/updater_window.ui:101
+msgid "_Preferences"
+msgstr ""
+
+#: resources/manager_window.ui:782
+msgid "_About"
+msgstr ""
+
+#: resources/updater_window.ui:6 src/tray.vala:71 src/tray.vala:157
+#: src/tray.vala:229
+msgid "Update Manager"
+msgstr "Update-Manager"
+
+#: resources/updater_window.ui:126
+#, fuzzy
+msgid "_Refresh"
+msgstr "Refresh"
+
+#: resources/updater_window.ui:139
+msgid "_Apply"
+msgstr ""
+
+#: resources/preferences_dialog.ui:6
+msgid "Preferences"
+msgstr ""
+
+#: resources/preferences_dialog.ui:71
 msgid "Enable AUR support"
 msgstr "AUR-Support aktivieren"
 
-#: gui/dialogs.ui:320
+#: resources/preferences_dialog.ui:84
 msgid "Allow Pamac to search and install packages from AUR"
 msgstr "Erlaube Pamac nach Paketen im AUR zu suchen und zu installieren"
 
-#: gui/dialogs.ui:333
+#: resources/preferences_dialog.ui:102
 msgid "Remove unrequired dependencies"
 msgstr "Entferne nicht benötigte Abhängigkeiten"
 
-#: gui/dialogs.ui:337
+#: resources/preferences_dialog.ui:115
+#, fuzzy
 msgid ""
-"When removing a package, also remove those dependencies that are not "
-"required by other packages"
-msgstr "Bei Entfernung eines Paketes, auch nicht mehr von anderen Paketen benötigte Abhängigkeiten entfernen"
+"When removing a package, also remove its dependencies that are not required "
+"by other packages"
+msgstr ""
+"Bei Entfernung eines Paketes, auch nicht mehr von anderen Paketen benötigte "
+"Abhängigkeiten entfernen"
 
-#: gui/dialogs.ui:396
+#: resources/preferences_dialog.ui:149 src/preferences_dialog.vala:37
+msgid "How often to check for updates, value in hours"
+msgstr "Wie oft soll nach Erneuerungen geprüft werden? (Wert in Stunden)"
+
+#: resources/preferences_dialog.ui:173
 msgid "Options"
 msgstr "Optionen"
 
-#: gui/dialogs.ui:465
-msgid "Choose"
-msgstr "Auswahl"
+#: src/packages_chooser_dialog.vala:32
+#, fuzzy
+msgid "Alpm Package"
+msgstr "Packer"
 
-#: gui/dialogs.ui:579
-msgid "Summary"
-msgstr "Zusammenfassung"
+#: src/daemon.vala:64
+msgid "Failed to initialize alpm library"
+msgstr ""
+
+#: src/daemon.vala:135 src/daemon.vala:141
+msgid "Failed to synchronize any databases"
+msgstr ""
+
+#: src/daemon.vala:184
+msgid "Failed to init transaction"
+msgstr ""
+
+#: src/daemon.vala:196 src/daemon.vala:214 src/daemon.vala:226
+#: src/daemon.vala:240 src/daemon.vala:252 src/daemon.vala:269
+#: src/daemon.vala:276 src/daemon.vala:290 src/daemon.vala:340
+msgid "Failed to prepare transaction"
+msgstr ""
+
+#: src/daemon.vala:215 src/daemon.vala:270
+#, c-format
+msgid "target not found: %s"
+msgstr ""
+
+#: src/daemon.vala:298
+#, c-format
+msgid "package %s does not have a valid architecture"
+msgstr ""
+
+#: src/daemon.vala:307
+#, c-format
+msgid "%s: requires %s"
+msgstr ""
+
+#: src/daemon.vala:315
+#, c-format
+msgid "%s and %s are in conflict"
+msgstr ""
+
+#: src/daemon.vala:334
+#, c-format
+msgid "%s needs to be removed but it is a locked package"
+msgstr ""
+
+#: src/daemon.vala:403
+msgid "Failed to commit transaction"
+msgstr ""
+
+#: src/daemon.vala:417
+#, c-format
+msgid "%s exists in both %s and %s"
+msgstr ""
+
+#: src/daemon.vala:420
+#, c-format
+msgid "%s: %s already exists in filesystem"
+msgstr ""
+
+#: src/daemon.vala:433
+#, c-format
+msgid "%s is invalid or corrupted"
+msgstr ""
+
+#: src/daemon.vala:465
+msgid "Authentication failed"
+msgstr "Authentifizierung fehlgeschlagen"
+
+#: src/transaction.vala:177
+msgid "Synchronizing package databases"
+msgstr ""
+
+#: src/transaction.vala:231
+msgid "Starting full system upgrade"
+msgstr ""
+
+#: src/transaction.vala:286
+msgid "Preparing"
+msgstr "Vorbereitung"
+
+#: src/transaction.vala:359
+#, c-format
+msgid "Choose a provider for %s"
+msgstr ""
+
+#: src/transaction.vala:417 src/manager_window.vala:245
+#: src/manager_window.vala:974
+msgid "To remove"
+msgstr "Wird entfernt"
+
+#: src/transaction.vala:430
+msgid "To downgrade"
+msgstr "Wird zurückgestuft"
+
+#: src/transaction.vala:443
+msgid "To build"
+msgstr "Zu erstellen"
+
+#: src/transaction.vala:456 src/manager_window.vala:244
+#: src/manager_window.vala:963
+msgid "To install"
+msgstr "Wird installiert"
+
+#: src/transaction.vala:469
+msgid "To reinstall"
+msgstr "Wird neu installiert"
+
+#: src/transaction.vala:483
+msgid "To update"
+msgstr "Wird aktualisiert"
+
+#: src/transaction.vala:496 src/updater_window.vala:182
+#, fuzzy
+msgid "Total download size"
+msgstr "Download-Größe gesamt"
+
+#: src/transaction.vala:513
+msgid "Building packages"
+msgstr ""
+
+#: src/transaction.vala:570
+msgid "Checking dependencies"
+msgstr "Abhängigkeiten werden überprüft"
+
+#: src/transaction.vala:575
+msgid "Checking file conflicts"
+msgstr "Dateikonflikte werden überprüft"
+
+#: src/transaction.vala:580
+msgid "Resolving dependencies"
+msgstr "Abhängigkeiten werden aufgelöst"
+
+#: src/transaction.vala:585
+#, fuzzy
+msgid "Checking inter-conflicts"
+msgstr "Interne Konflikte werden überprüft"
+
+#: src/transaction.vala:592 src/transaction.vala:594
+#, c-format
+msgid "Installing %s"
+msgstr "Installiere %s"
+
+#: src/transaction.vala:600 src/transaction.vala:602
+#, c-format
+msgid "Reinstalling %s"
+msgstr "Reinstalliere %s"
+
+#: src/transaction.vala:608 src/transaction.vala:610
+#, c-format
+msgid "Removing %s"
+msgstr "Entferne %s"
+
+#: src/transaction.vala:616 src/transaction.vala:618
+#, c-format
+msgid "Upgrading %s"
+msgstr "Erneuere %s"
+
+#: src/transaction.vala:624 src/transaction.vala:626
+#, c-format
+msgid "Downgrading %s"
+msgstr "Downgrade %s"
+
+#: src/transaction.vala:630
+msgid "Checking integrity"
+msgstr "Integrität wird überprüft"
+
+#: src/transaction.vala:636
+msgid "Checking keyring"
+msgstr "Überprüfe Schlüsselring"
+
+#: src/transaction.vala:641
+msgid "Downloading required keys"
+msgstr "Lade die benötigten Schlüssel herunter"
+
+#: src/transaction.vala:646
+msgid "Loading packages files"
+msgstr "Paketdateien werden geladen"
+
+#: src/transaction.vala:651
+msgid "Checking delta integrity"
+msgstr "Überprüfe Delta-Integrität"
+
+#: src/transaction.vala:656
+msgid "Applying deltas"
+msgstr "Wende Deltas an"
+
+#: src/transaction.vala:661
+#, c-format
+msgid "Generating %s with %s"
+msgstr "Erstelle %s mit %s"
+
+#: src/transaction.vala:666
+#, fuzzy
+msgid "Generation succeeded"
+msgstr "Erstellung erfolgreich"
+
+#: src/transaction.vala:671
+#, fuzzy
+msgid "Generation failed"
+msgstr "Erstellung fehlgeschlagen"
+
+#: src/transaction.vala:676
+#, c-format
+msgid "Configuring %s"
+msgstr "Konfiguriere %s"
+
+#: src/transaction.vala:682
+msgid "Downloading"
+msgstr "Lade herunter"
+
+#: src/transaction.vala:687
+msgid "Checking available disk space"
+msgstr "Überprüfe verfügbaren Speicherplatz"
+
+#: src/transaction.vala:692
+#, c-format
+msgid "%s optionally requires %s"
+msgstr ""
+
+#: src/transaction.vala:695
+#, c-format
+msgid "Database file for %s does not exist"
+msgstr ""
+
+#: src/transaction.vala:747
+#, c-format
+msgid "Refreshing %s"
+msgstr "Aufrischen von %s"
+
+#: src/transaction.vala:749
+#, c-format
+msgid "Downloading %s"
+msgstr "Herunterladen von %s"
+
+#: src/transaction.vala:797 src/transaction.vala:799 src/transaction.vala:816
+#, fuzzy
+msgid "Warning"
+msgstr "Warnung"
+
+#: src/transaction.vala:804 src/transaction.vala:806 src/transaction.vala:837
+#: src/installer.vala:41 src/manager.vala:41 src/updater.vala:41
+#, fuzzy
+msgid "Error"
+msgstr "Fehler"
+
+#: src/transaction.vala:904 src/transaction.vala:920
+#: src/progress_dialog.vala:55
+msgid "Transaction cancelled"
+msgstr ""
+
+#: src/transaction.vala:934
+msgid "Nothing to do"
+msgstr "Es gibt nichts zu tun"
+
+#: src/transaction.vala:956 src/transaction.vala:972
+msgid "Transaction successfully finished"
+msgstr "Vorgang erfolgreich abgeschlossen"
+
+#: src/installer.vala:43 src/manager.vala:43 src/updater.vala:43
+msgid "Pamac is already running"
+msgstr "Pamac wird bereits ausgeführt"
+
+#: src/tray.vala:25 src/updater_window.vala:175
+msgid "Your system is up-to-date"
+msgstr "Ihr System ist auf dem neuesten Stand"
+
+#: src/tray.vala:77
+#, fuzzy
+msgid "_Quit"
+msgstr "Beende"
+
+#: src/tray.vala:136 src/updater_window.vala:178
+#, fuzzy, c-format
+msgid "%u available update"
+msgid_plural "%u available updates"
+msgstr[0] "%u Aktualisierungen verfügbar"
+msgstr[1] "%u Aktualisierungen verfügbar"
+
+#: src/tray.vala:158
+msgid "Show available updates"
+msgstr ""
+
+#: src/manager_window.vala:132
+msgid "Deselect"
+msgstr "Abwählen"
+
+#: src/manager_window.vala:135
+msgid "Install"
+msgstr "Installieren"
+
+#: src/manager_window.vala:138
+msgid "Remove"
+msgstr "Entfernen"
+
+#: src/manager_window.vala:143
+msgid "Reinstall"
+msgstr "Neu installieren"
+
+#: src/manager_window.vala:146
+#, fuzzy
+msgid "Install optional dependencies"
+msgstr "Optionale Abhängigkeiten installieren"
+
+#: src/manager_window.vala:149
+msgid "Mark as explicitly installed"
+msgstr "Als ausdrücklich installiert markieren"
+
+#: src/manager_window.vala:225 src/manager_window.vala:1016
+msgid "local"
+msgstr "Lokal"
+
+#: src/manager_window.vala:241 src/manager_window.vala:311
+#: src/manager_window.vala:323 src/manager_window.vala:980
+msgid "Installed"
+msgstr "Installiert"
+
+#: src/manager_window.vala:243 src/manager_window.vala:990
+msgid "Orphans"
+msgstr "Verwaist"
+
+#: src/manager_window.vala:271
+msgid "Licenses"
+msgstr "Lizenzen"
+
+#: src/manager_window.vala:293
+msgid "Depends On"
+msgstr "Hängt ab von"
+
+#: src/manager_window.vala:313
+#, fuzzy
+msgid "Optional Dependencies"
+msgstr "Optionale Abhängigkeiten"
+
+#: src/manager_window.vala:333
+msgid "Required By"
+msgstr "Benötigt von"
+
+#: src/manager_window.vala:347
+msgid "Provides"
+msgstr "Stellt bereit"
+
+#: src/manager_window.vala:360
+msgid "Replaces"
+msgstr "Ersetzt"
+
+#: src/manager_window.vala:373
+msgid "Conflicts With"
+msgstr "Konflikt mit"
+
+#: src/manager_window.vala:407
+msgid "Packager"
+msgstr "Packer"
+
+#: src/manager_window.vala:413
+msgid "Install Date"
+msgstr "Installiert am"
+
+#: src/manager_window.vala:417
+msgid "Explicitly installed"
+msgstr "Ausdrücklich installiert"
+
+#: src/manager_window.vala:419
+msgid "Installed as a dependency for another package"
+msgstr "Installiert als Abhängigkeit für ein anderes Paket"
+
+#: src/manager_window.vala:421
+msgid "Unknown"
+msgstr "Unbekannt"
+
+#: src/manager_window.vala:423
+msgid "Install Reason"
+msgstr "Installationsgrund"
+
+#: src/manager_window.vala:428
+msgid "Signatures"
+msgstr "Signaturen"
+
+#: src/manager_window.vala:436
+msgid "Backup files"
+msgstr "Dateisicherungen"
+
+#: src/manager_window.vala:559 src/manager_window.vala:700
+msgid "No package found"
+msgstr "Keine Pakete gefunden"
+
+#: src/manager_window.vala:653
+#, fuzzy, c-format
+msgid ""
+"%s has %u uninstalled optional dependencies.\n"
+"Choose those you would like to install:"
+msgstr ""
+"%s hat %u nicht installierte optionale Abhängigkeiten.\n"
+"Bitte wählen Sie die zum Installieren entsprechend aus:"
+
+#: src/manager_window.vala:982
+msgid "Uninstalled"
+msgstr "Deinstalliert"
+
+#: src/manager_window.vala:1134
+#, fuzzy
+msgid "A Gtk3 frontend for libalpm"
+msgstr "Eine GTK3-Benutzeroberfläche für libalpm"
+
+#: src/common.vala:48
+#, fuzzy, c-format
+msgid "%.0f KiB"
+msgstr "%.0f KiB"
+
+#: src/common.vala:51
+#, c-format
+msgid "%.2f MiB"
+msgstr "%.2f MiB"
+
+#~ msgid "1 available update"
+#~ msgstr "1 Aktualisierung verfügbar"
+
+#~ msgid "%s will be replaced by %s"
+#~ msgstr "%s wird ersetzt durch %s"
+
+#~ msgid "%s conflicts with %s"
+#~ msgstr "%s behindert %s"
+
+#~ msgid "%s is not a valid path or package name"
+#~ msgstr "%s ist kein zulässiger Pfad oder Paketname"
+
+#~ msgid ""
+#~ "The transaction cannot be performed because it needs to remove %s which "
+#~ "is a locked package"
+#~ msgstr ""
+#~ "Der Vorgang kann nicht durchgeführt werden, da das gesperrte Paket %s "
+#~ "entfernt werden müsste."
+
+#~ msgid "Compressed Size"
+#~ msgstr "Komprimierte Größe"
+
+#~ msgid "Download Size"
+#~ msgstr "Datengröße"
+
+#~ msgid "Installed Size"
+#~ msgstr "Installierte Größe"
+
+#~ msgid "Architecture"
+#~ msgstr "Architektur"
+
+#~ msgid "Install with optional deps"
+#~ msgstr "Installiere mit optionalen Abhängigkeiten"
+
+#~ msgid ""
+#~ "Some updates are available.\n"
+#~ "Please update your system first"
+#~ msgstr ""
+#~ "Aktualisierungen verfügbar.\n"
+#~ "Bitte aktualisieren Sie zuerst Ihr System."
+
+#~ msgid ""
+#~ "%s is provided by %u packages.\n"
+#~ "Please choose those you would like to install:"
+#~ msgstr ""
+#~ "%s wird von %u Paketen bereitgestellt.\n"
+#~ "Bitte wählen Sie das zu Installierende aus:"
+
+#~ msgid "Refreshing"
+#~ msgstr "Aktualisierung"
+
+#~ msgid "%s depends on %s but it is not installable"
+#~ msgstr "%s hängt ab von %s, was nicht installierbar ist"
+
+#~ msgid "Failed to get %s archive from AUR"
+#~ msgstr "%s Archiv-Download von AUR fehlgeschlagen"
+
+#~ msgid "Build process failed."
+#~ msgstr "Erstellungsprozess fehlgeschlagen."
+
+#~ msgid "Checking for updates"
+#~ msgstr "Suche nach Updates"
+
+#~ msgid "About Pamac"
+#~ msgstr "Über Pamac"
+
+#~ msgid "Copyright © 2013 Guillaume Benoit"
+#~ msgstr "Copyright © 2013 Guillaume Benoit"
+
+#~ msgid "Repos"
+#~ msgstr "Paketquellen"
+
+#~ msgid "Repo"
+#~ msgstr "Repo"
+
+#~ msgid "Infos"
+#~ msgstr "Info"
+
+#~ msgid "Deps"
+#~ msgstr "Abhängigkeiten"
+
+#~ msgid "details"
+#~ msgstr "Details"
+
+#~ msgid "Choose"
+#~ msgstr "Auswahl"
+
+#~ msgid "Summary"
+#~ msgstr "Zusammenfassung"

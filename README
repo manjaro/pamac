@@ -1,1 +1,12 @@
+A DBus daemon and Gtk3 frontend for libalpm written in Vala
 
+Features:
+- Alpm bindings for Vala
+- a DBus daemon to perform every tasks with root access using polkit to check authorizations
+- a Gtk3 Package Manager
+- a Gtk3 Updates Manager
+- a Tray icon with configurable periodic refresh and updates notifications
+- a complete AUR support:
+	* multiple words search capability
+	* Enable/Disable check updates from AUR
+	* Build and update your AUR packages in a integrated terminal using yaourt
