@@ -187,7 +187,7 @@ static void walk_reverse_deps(Package pkg, int depth) {
   if((max_depth >= 0) && (depth > max_depth)) return;
 
   walked.add(pkg.name);
-  unowned Alpm.List<string?> required_by = pkg.compute_requiredby ();
+  Alpm.List<string?> required_by = pkg.compute_requiredby ();
 
   foreach(string? i in required_by) {
     string pkgname = i;

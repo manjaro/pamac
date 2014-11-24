@@ -121,23 +121,16 @@ namespace Pamac {
 			ErrorInfos err = ErrorInfos ();
 			string[] details = {};
 			int success = 0;
-			int ret = handle.trans_init (0);
-			if (ret == 0) {
-				foreach (var db in handle.syncdbs) {
-					ret = db.update (force_refresh);
-					if (ret >= 0) {
-						success++;
-					}
+			int ret;
+			foreach (var db in handle.syncdbs) {
+				ret = db.update (force_refresh);
+				if (ret >= 0) {
+					success++;
 				}
-				// We should always succeed if at least one DB was upgraded - we may possibly
-				// fail later with unresolved deps, but that should be rare, and would be expected
-				if (success == 0) {
-					err.str = _("Failed to synchronize any databases");
-					details += Alpm.strerror (handle.errno ());
-					err.details = details;
-				}
-				trans_release ();
-			} else {
+			}
+			// We should always succeed if at least one DB was upgraded - we may possibly
+			// fail later with unresolved deps, but that should be rare, and would be expected
+			if (success == 0) {
 				err.str = _("Failed to synchronize any databases");
 				details += Alpm.strerror (handle.errno ());
 				err.details = details;

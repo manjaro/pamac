@@ -249,8 +249,8 @@ namespace Pamac {
 				// run as a standard transaction
 				run ();
 			} else {
-				UpdatesInfos[] updates = get_repos_updates (handle, ignorepkg);
-				uint repos_updates_len = updates.length;
+				UpdatesInfos[] repos_updates = get_repos_updates (handle, ignorepkg);
+				int repos_updates_len = repos_updates.length;
 				if (check_aur) {
 					if (aur_checked == false) {
 						aur_updates = get_aur_updates (handle, ignorepkg);
@@ -554,12 +554,18 @@ namespace Pamac {
 			}
 		}
 
-		public void spawn_in_term (string[] args, out int pid = null) {
+		public void spawn_in_term (string[] args, out Pid child_pid = null) {
+			Pid intern_pid;
 			try {
-				Process.spawn_async (null, args, null, SpawnFlags.DO_NOT_REAP_CHILD, pty.child_setup, out pid);
+				Process.spawn_async (null, args, null, SpawnFlags.DO_NOT_REAP_CHILD, pty.child_setup, out intern_pid);
+				ChildWatch.add (intern_pid, (pid, status) => {
+					// triggered when the child indicated by intern_pid exits
+					Process.close_pid (pid);
+				});
 			} catch (SpawnError e) {
 				stderr.printf ("SpawnError: %s\n", e.message);
 			}
+			child_pid = intern_pid;
 			term.set_pty (pty);
 		}
 
@@ -906,6 +912,10 @@ namespace Pamac {
 							transaction_sum_dialog.hide ();
 							while (Gtk.events_pending ())
 								Gtk.main_iteration ();
+							if (aur_updates.length != 0)
+								to_build.steal_all ();
+							sysupgrade_after_trans = false;
+							sysupgrade_after_build = false;
 							finished (true);
 						}
 					} else if (sysupgrade_after_build) {
@@ -923,6 +933,10 @@ namespace Pamac {
 						while (Gtk.events_pending ())
 							Gtk.main_iteration ();
 						release ();
+						if (aur_updates.length != 0)
+							to_build.steal_all ();
+						sysupgrade_after_trans = false;
+						sysupgrade_after_build = false;
 						finished (true);
 					}
 				} else if (mode == Mode.UPDATER) {
@@ -987,6 +1001,7 @@ namespace Pamac {
 			already_downloaded = 0;
 			build_status = 0;
 			previous_filename = "";
+			aur_checked = false;
 		}
 
 		void on_term_child_exited (int status) {

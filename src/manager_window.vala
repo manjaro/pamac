@@ -250,22 +250,17 @@ namespace Pamac {
 
 		public void set_infos_list (Pamac.Package pkg) {
 			name_label.set_markup ("<big><b>%s  %s</b></big>".printf (pkg.name, pkg.version));
-			// fix &,-,>,< in desc
 			string desc;
 			if (pkg.alpm_pkg != null)
-				desc = pkg.alpm_pkg.desc;
+				desc = Markup.escape_text (pkg.alpm_pkg.desc);
 			else
-				desc = pkg.aur_json.get_string_member ("Description");
-			desc = desc.replace ("&", "&amp;");
-			desc = desc.replace ("<->", "/");
+				desc = Markup.escape_text (pkg.aur_json.get_string_member ("Description"));
 			desc_label.set_markup (desc);
-			// fix & in url
 			string url;
 			if (pkg.alpm_pkg != null)
-				url = pkg.alpm_pkg.url;
+				url = Markup.escape_text (pkg.alpm_pkg.url);
 			else
-				url = pkg.aur_json.get_string_member ("URL");
-			url = url.replace ("&", "&amp;");
+				url = Markup.escape_text (pkg.aur_json.get_string_member ("URL"));
 			link_label.set_markup ("<a href=\"%s\">%s</a>".printf (url, url));
 			StringBuilder licenses = new StringBuilder ();
 			licenses.append (dgettext (null, "Licenses"));
@@ -509,6 +504,8 @@ namespace Pamac {
 				TreeSelection selection = search_treeview.get_selection ();
 				if (selection.get_selected (out model, out iter)) {
 					on_search_treeview_selection_changed ();
+				} else {
+					show_all_pkgs ();
 				}
 			} else if (current_page == 1) {
 				on_groups_treeview_selection_changed ();
