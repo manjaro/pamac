@@ -22,7 +22,7 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2014-11-22 11:36+0100\n"
-"PO-Revision-Date: 2014-11-29 10:25+0000\n"
+"PO-Revision-Date: 2014-11-29 11:21+0000\n"
 "Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/manjaro-pamac/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -150,7 +150,7 @@ msgstr "Historie ansehen"
 
 #: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "_Preferences"
-msgstr "_Einstellungn"
+msgstr "_Einstellungen"
 
 #: ../resources/manager_window.ui
 msgid "_About"
@@ -204,7 +204,7 @@ msgstr "Alpm Paket"
 
 #: ../src/daemon.vala
 msgid "Failed to initialize alpm library"
-msgstr "Fehler beim Initialisieren der alpm library"
+msgstr "Fehler beim Initialisieren der Alpm-Library"
 
 #: ../src/daemon.vala
 msgid "Failed to synchronize any databases"
