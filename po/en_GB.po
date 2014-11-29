@@ -2,36 +2,37 @@
 # Copyright (C) 2007-2012 Free Software Foundation, Inc.
 # This file is distributed under the same license as the Pamac package.
 # Guillaume Benoit <guillaume@manjaro.org>, 2013-2014.
-#
+# 
 # Translators:
 # J Fernyhough <j.fernyhough@gmail.com>, 2013
+# J Fernyhough <j.fernyhough@gmail.com>, 2013
+# philm <philm@manjaro.org>, 2013-2014
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2014-11-22 11:36+0100\n"
-"PO-Revision-Date: 2014-11-21 09:36+0000\n"
-"Last-Translator: Guillaume Benoit <guillaume@manjaro.org>\n"
-"Language-Team: English (United Kingdom) (http://www.transifex.com/projects/p/"
-"manjaro-pamac/language/en_GB/)\n"
-"Language: en_GB\n"
+"PO-Revision-Date: 2014-11-29 10:31+0000\n"
+"Last-Translator: philm <philm@manjaro.org>\n"
+"Language-Team: English (United Kingdom) (http://www.transifex.com/projects/p/manjaro-pamac/language/en_GB/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: en_GB\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: data/polkit/org.manjaro.pamac.policy
+#: data/polkit/org.manjaro.pamac.policy:10
 msgid "Authentication is required"
 msgstr "Authentication is required"
 
 #: ../resources/choose_provider_dialog.ui
 msgid "Choose a Provider"
-msgstr ""
+msgstr "Choose a Provider"
 
 #: ../resources/choose_provider_dialog.ui
 #: ../resources/transaction_sum_dialog.ui ../resources/preferences_dialog.ui
 msgid "_OK"
-msgstr ""
+msgstr "_OK"
 
 #: ../resources/packages_chooser_dialog.ui ../resources/manager_window.ui
 msgid "Install local packages"
@@ -44,7 +45,7 @@ msgstr "_Cancel"
 
 #: ../resources/packages_chooser_dialog.ui
 msgid "_Open"
-msgstr ""
+msgstr "_Open"
 
 #: ../resources/progress_dialog.ui
 msgid "Progress"
@@ -54,7 +55,7 @@ msgstr "Progress"
 #: ../resources/transaction_info_dialog.ui ../resources/updater_window.ui
 #: ../resources/preferences_dialog.ui
 msgid "_Close"
-msgstr ""
+msgstr "_Close"
 
 #: ../resources/progress_dialog.ui ../resources/transaction_info_dialog.ui
 #: ../resources/manager_window.ui
@@ -75,7 +76,7 @@ msgstr "Package Manager"
 
 #: ../resources/manager_window.ui
 msgid "Refresh databases"
-msgstr ""
+msgstr "Refresh databases"
 
 #: ../resources/manager_window.ui
 msgid "Apply changes"
@@ -83,7 +84,7 @@ msgstr "Apply changes"
 
 #: ../resources/manager_window.ui
 msgid "Cancel all planned changes"
-msgstr ""
+msgstr "Cancel all planned changes"
 
 #: ../resources/manager_window.ui
 msgid "Search in AUR"
@@ -123,11 +124,11 @@ msgstr "Size"
 
 #: ../resources/manager_window.ui
 msgid "Description"
-msgstr ""
+msgstr "Description"
 
 #: ../resources/manager_window.ui
 msgid "Dependencies"
-msgstr ""
+msgstr "Dependencies"
 
 #: ../resources/manager_window.ui
 msgid "Files"
@@ -139,11 +140,11 @@ msgstr "View History"
 
 #: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "_Preferences"
-msgstr ""
+msgstr "_Preferences"
 
 #: ../resources/manager_window.ui
 msgid "_About"
-msgstr ""
+msgstr "_About"
 
 #: ../resources/updater_window.ui ../src/tray.vala
 msgid "Update Manager"
@@ -155,11 +156,11 @@ msgstr "_Refresh"
 
 #: ../resources/updater_window.ui
 msgid "_Apply"
-msgstr ""
+msgstr "_Apply"
 
 #: ../resources/preferences_dialog.ui
 msgid "Preferences"
-msgstr ""
+msgstr "Preferences"
 
 #: ../resources/preferences_dialog.ui
 msgid "Enable AUR support"
@@ -177,7 +178,7 @@ msgstr "Remove unrequired dependencies"
 msgid ""
 "When removing a package, also remove its dependencies that are not required "
 "by other packages"
-msgstr ""
+msgstr "When removing a package, also remove its dependencies that are not required by other packages"
 
 #: ../resources/preferences_dialog.ui ../src/preferences_dialog.vala
 msgid "How often to check for updates, value in hours"
@@ -189,67 +190,67 @@ msgstr "Options"
 
 #: ../src/packages_chooser_dialog.vala
 msgid "Alpm Package"
-msgstr ""
+msgstr "Alpm Package"
 
 #: ../src/daemon.vala
 msgid "Failed to initialize alpm library"
-msgstr ""
+msgstr "Failed to initialize alpm library"
 
 #: ../src/daemon.vala
 msgid "Failed to synchronize any databases"
-msgstr ""
+msgstr "Failed to synchronize any databases"
 
 #: ../src/daemon.vala
 msgid "Failed to init transaction"
-msgstr ""
+msgstr "Failed to init transaction"
 
 #: ../src/daemon.vala
 msgid "Failed to prepare transaction"
-msgstr ""
+msgstr "Failed to prepare transaction"
 
 #: ../src/daemon.vala
 #, c-format
 msgid "target not found: %s"
-msgstr ""
+msgstr "target not found: %s"
 
 #: ../src/daemon.vala
 #, c-format
 msgid "package %s does not have a valid architecture"
-msgstr ""
+msgstr "package %s does not have a valid architecture"
 
 #: ../src/daemon.vala
 #, c-format
 msgid "%s: requires %s"
-msgstr ""
+msgstr "%s: requires %s"
 
 #: ../src/daemon.vala
 #, c-format
 msgid "%s and %s are in conflict"
-msgstr ""
+msgstr "%s and %s are in conflict"
 
 #: ../src/daemon.vala
 #, c-format
 msgid "%s needs to be removed but it is a locked package"
-msgstr ""
+msgstr "%s needs to be removed but it is a locked package"
 
 #: ../src/daemon.vala
 msgid "Failed to commit transaction"
-msgstr ""
+msgstr "Failed to commit transaction"
 
 #: ../src/daemon.vala
 #, c-format
 msgid "%s exists in both %s and %s"
-msgstr ""
+msgstr "%s exists in both %s and %s"
 
 #: ../src/daemon.vala
 #, c-format
 msgid "%s: %s already exists in filesystem"
-msgstr ""
+msgstr "%s: %s already exists in filesystem"
 
 #: ../src/daemon.vala
 #, c-format
 msgid "%s is invalid or corrupted"
-msgstr ""
+msgstr "%s is invalid or corrupted"
 
 #: ../src/daemon.vala
 msgid "Authentication failed"
@@ -257,11 +258,11 @@ msgstr "Authentication failed"
 
 #: ../src/transaction.vala
 msgid "Synchronizing package databases"
-msgstr ""
+msgstr "Synchronizing package databases"
 
 #: ../src/transaction.vala
 msgid "Starting full system upgrade"
-msgstr ""
+msgstr "Starting full system upgrade"
 
 #: ../src/transaction.vala
 msgid "Preparing"
@@ -270,7 +271,7 @@ msgstr "Preparing"
 #: ../src/transaction.vala
 #, c-format
 msgid "Choose a provider for %s"
-msgstr ""
+msgstr "Choose a provider for %s"
 
 #: ../src/transaction.vala ../src/manager_window.vala
 msgid "To remove"
@@ -302,7 +303,7 @@ msgstr "Total download size"
 
 #: ../src/transaction.vala
 msgid "Building packages"
-msgstr ""
+msgstr "Building packages"
 
 #: ../src/transaction.vala
 msgid "Checking dependencies"
@@ -398,12 +399,12 @@ msgstr "Checking available disc space"
 #: ../src/transaction.vala
 #, c-format
 msgid "%s optionally requires %s"
-msgstr ""
+msgstr "%s optionally requires %s"
 
 #: ../src/transaction.vala
 #, c-format
 msgid "Database file for %s does not exist"
-msgstr ""
+msgstr "Database file for %s does not exist"
 
 #: ../src/transaction.vala
 #, c-format
@@ -426,7 +427,7 @@ msgstr "Error"
 
 #: ../src/transaction.vala ../src/progress_dialog.vala
 msgid "Transaction cancelled"
-msgstr ""
+msgstr "Transaction cancelled"
 
 #: ../src/transaction.vala
 msgid "Nothing to do"
@@ -446,18 +447,18 @@ msgstr "Your system is up-to-date"
 
 #: ../src/tray.vala
 msgid "_Quit"
-msgstr ""
+msgstr "_Quit"
 
 #: ../src/tray.vala ../src/updater_window.vala
 #, c-format
 msgid "%u available update"
 msgid_plural "%u available updates"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%u available update"
+msgstr[1] "%u available updates"
 
 #: ../src/tray.vala
 msgid "Show available updates"
-msgstr ""
+msgstr "Show available updates"
 
 #: ../src/manager_window.vala
 msgid "Deselect"
@@ -477,7 +478,7 @@ msgstr "Reinstall"
 
 #: ../src/manager_window.vala
 msgid "Install optional dependencies"
-msgstr ""
+msgstr "Install optional dependencies"
 
 #: ../src/manager_window.vala
 msgid "Mark as explicitly installed"
@@ -505,7 +506,7 @@ msgstr "Depends On"
 
 #: ../src/manager_window.vala
 msgid "Optional Dependencies"
-msgstr ""
+msgstr "Optional Dependencies"
 
 #: ../src/manager_window.vala
 msgid "Required By"
@@ -567,8 +568,8 @@ msgid ""
 msgid_plural ""
 "%s has %u uninstalled optional dependencies.\n"
 "Choose those you would like to install:"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%s has %u uninstalled optional dependency.\nChoose if you would like to install it:"
+msgstr[1] "%s has %u uninstalled optional dependencies.\nChoose those you would like to install:"
 
 #: ../src/manager_window.vala
 msgid "Uninstalled"
@@ -576,12 +577,12 @@ msgstr "Uninstalled"
 
 #: ../src/manager_window.vala
 msgid "A Gtk3 frontend for libalpm"
-msgstr ""
+msgstr "A Gtk3 frontend for libalpm"
 
 #: ../src/common.vala
 #, c-format
 msgid "%.0f KiB"
-msgstr ""
+msgstr "%.0f KiB"
 
 #: ../src/common.vala
 #, c-format

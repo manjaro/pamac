@@ -2,30 +2,36 @@
 # Copyright (C) 2007-2012 Free Software Foundation, Inc.
 # This file is distributed under the same license as the Pamac package.
 # Guillaume Benoit <guillaume@manjaro.org>, 2013-2014.
-#
+# 
 # Translators:
+# Guillaume Benoit <guillaume@manjaro.org>, 2013
 # Tobias B. <aema-001@kabelmail.de>, 2013
 # Kai Spindler <kaiwasaki@gmail.com>, 2014
 # Veraendert <kleine@kanzlei-endingen.de>, 2014
 # Maphardam <t.sabsch@arcor.de>, 2014
+# philm <philm@manjaro.org>, 2013
+# Maphardam <L.Polde@gmx.de>, 2014
+# Maphardam <t.sabsch@arcor.de>, 2014
+# philm <philm@manjaro.org>, 2013
 # philm <philm@manjaro.org>, 2013-2014
 # Tobias B. <aema-001@kabelmail.de>, 2013
+# Tobias B. <aema-001@kabelmail.de>, 2013
+# Veraendert <kleine@kanzlei-endingen.de>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2014-11-22 11:36+0100\n"
-"PO-Revision-Date: 2014-11-21 09:36+0000\n"
-"Last-Translator: Guillaume Benoit <guillaume@manjaro.org>\n"
-"Language-Team: German (http://www.transifex.com/projects/p/manjaro-pamac/"
-"language/de/)\n"
-"Language: de\n"
+"PO-Revision-Date: 2014-11-29 10:25+0000\n"
+"Last-Translator: philm <philm@manjaro.org>\n"
+"Language-Team: German (http://www.transifex.com/projects/p/manjaro-pamac/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: de\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: data/polkit/org.manjaro.pamac.policy
+#: data/polkit/org.manjaro.pamac.policy:10
 msgid "Authentication is required"
 msgstr "Authentifikation wird benötigt"
 
@@ -182,9 +188,7 @@ msgstr "Entferne nicht benötigte Abhängigkeiten"
 msgid ""
 "When removing a package, also remove its dependencies that are not required "
 "by other packages"
-msgstr ""
-"Wenn ein Paket entfernt wird, werden auch seine Abhängigkeiten entfernt, "
-"soweit sie nicht von einem anderen Paket benötigt werden"
+msgstr "Wenn ein Paket entfernt wird, werden auch seine Abhängigkeiten entfernt, soweit sie nicht von einem anderen Paket benötigt werden"
 
 #: ../resources/preferences_dialog.ui ../src/preferences_dialog.vala
 msgid "How often to check for updates, value in hours"
@@ -459,8 +463,8 @@ msgstr "_Schließen"
 #, c-format
 msgid "%u available update"
 msgid_plural "%u available updates"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%u Aktualisierung verfügbar"
+msgstr[1] "%u Aktualisierungen verfügbar"
 
 #: ../src/tray.vala
 msgid "Show available updates"
@@ -574,8 +578,8 @@ msgid ""
 msgid_plural ""
 "%s has %u uninstalled optional dependencies.\n"
 "Choose those you would like to install:"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%s hat %u nicht installierte optionale Abhängigkeiten.\nBitte wählen Sie die zum Installieren entsprechend aus:"
+msgstr[1] "%s hat %u nicht installierte optionale Abhängigkeiten.\nBitte wählen Sie die zu installierenden Abhängigkeiten aus:"
 
 #: ../src/manager_window.vala
 msgid "Uninstalled"
@@ -594,10 +598,3 @@ msgstr "%.0f KiB"
 #, c-format
 msgid "%.2f MiB"
 msgstr "%.2f MiB"
-
-#~ msgid ""
-#~ "%s has %u uninstalled optional dependencies.\n"
-#~ "Choose those you would like to install:"
-#~ msgstr ""
-#~ "%s hat %u nicht installierte optionale Abhängigkeiten.\n"
-#~ "Bitte wählen Sie die zu installierenden Abhängigkeiten aus:"
