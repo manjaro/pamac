@@ -2,9 +2,11 @@
 # Copyright (C) 2007-2012 Free Software Foundation, Inc.
 # This file is distributed under the same license as the Pamac package.
 # Guillaume Benoit <guillaume@manjaro.org>, 2013-2014.
-#
+# 
 # Translators:
 # FadeMind <fademind@gmail.com>, 2013
+# Guillaume Benoit <guillaume@manjaro.org>, 2013
+# Kuba Kaczmarzyk <poker98face@gmail.com>, 2013
 # Piotr Strębski <strebski@o2.pl>, 2013-2014
 # Kuba Kaczmarzyk <poker98face@gmail.com>, 2013
 msgid ""
@@ -12,18 +14,16 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2014-11-22 11:36+0100\n"
-"PO-Revision-Date: 2014-11-21 09:50+0000\n"
+"PO-Revision-Date: 2014-11-23 14:25+0000\n"
 "Last-Translator: Piotr Strębski <strebski@o2.pl>\n"
-"Language-Team: Polish (http://www.transifex.com/projects/p/manjaro-pamac/"
-"language/pl/)\n"
-"Language: pl\n"
+"Language-Team: Polish (http://www.transifex.com/projects/p/manjaro-pamac/language/pl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
-"|| n%100>=20) ? 1 : 2);\n"
+"Language: pl\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
-#: data/polkit/org.manjaro.pamac.policy
+#: data/polkit/org.manjaro.pamac.policy:10
 msgid "Authentication is required"
 msgstr "Wymagana autoryzacja"
 
@@ -180,9 +180,7 @@ msgstr "Usuwanie niewymaganych zależności"
 msgid ""
 "When removing a package, also remove its dependencies that are not required "
 "by other packages"
-msgstr ""
-"Podczas usuwania pakietu usuwać także te zależności, które nie są już "
-"wymagane przez inne pakiety"
+msgstr "Podczas usuwania pakietu usuwać także te zależności, które nie są już wymagane przez inne pakiety"
 
 #: ../resources/preferences_dialog.ui ../src/preferences_dialog.vala
 msgid "How often to check for updates, value in hours"
@@ -573,9 +571,9 @@ msgid ""
 msgid_plural ""
 "%s has %u uninstalled optional dependencies.\n"
 "Choose those you would like to install:"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "%s ma %u niezainstalowaną opcjonalną zależność.\nWybierz ją, jeśli chcesz zainstalować:"
+msgstr[1] "%s ma %u niezainstalowane opcjonalne zależności.\nWybierz je, jeśli chcesz zainstalować:"
+msgstr[2] "%s ma %u niezainstalowanych opcjonalnych zależności.\nWybierz te pakiety, które chcesz zainstalować:"
 
 #: ../src/manager_window.vala
 msgid "Uninstalled"
@@ -594,10 +592,3 @@ msgstr "%.0f KB"
 #, c-format
 msgid "%.2f MiB"
 msgstr "%.2f MB"
-
-#~ msgid ""
-#~ "%s has %u uninstalled optional dependencies.\n"
-#~ "Choose those you would like to install:"
-#~ msgstr ""
-#~ "%s ma %u niezainstalowanych opcjonalnych zależności.\n"
-#~ "Wybierz pakiety, które chcesz zainstalować:"
