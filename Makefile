@@ -5,7 +5,7 @@ all:
 	cd po; make gettext
 
 clean:
-	rm -f src/*.c  src/pamac-daemon  src/pamac-tray  src/pamac-updater  src/pamac-manager  src/pamac-install
+	rm -f src/*.c  src/pamac-refresh src/pamac-daemon  src/pamac-tray  src/pamac-updater  src/pamac-manager  src/pamac-install
 	rm -f resources/*.c
 	rm -rf po/locale
 	rm -f po/*.mo
@@ -20,7 +20,7 @@ install:
 	install -Dm755 src/pamac-manager /usr/bin/pamac-manager
 	install -Dm755 src/pamac-updater /usr/bin/pamac-updater
 	install -Dm755 src/pamac-install /usr/bin/pamac-install
-	#install -Dm755 src/pamac-refresh /usr/bin/pamac-refresh
+	install -Dm755 src/pamac-refresh /usr/bin/pamac-refresh
 	install -Dm755 src/pamac-install /usr/bin/pamac-install
 	install -Dm644 data/applications/pamac-tray.desktop /etc/xdg/autostart/pamac-tray.desktop
 	install -Dm644 data/applications/pamac-manager.desktop /usr/share/applications/pamac-manager.desktop
@@ -30,7 +30,7 @@ install:
 	install -Dm644 data/dbus/org.manjaro.pamac.conf /etc/dbus-1/system.d/org.manjaro.pamac.conf
 	install -Dm644 data/dbus/org.manjaro.pamac.service /usr/share/dbus-1/system-services/org.manjaro.pamac.service
 	install -Dm644 data/systemd/pamac.service /usr/lib/systemd/system/pamac.service
-	#install -Dm744 data/networkmanager/99_update_pamac_tray /etc/NetworkManager/dispatcher.d/99_update_pamac_tray
+	install -Dm744 data/networkmanager/99_update_pamac_tray /etc/NetworkManager/dispatcher.d/99_update_pamac_tray
 	install -Dm644 data/polkit/org.manjaro.pamac.policy /usr/share/polkit-1/actions/org.manjaro.pamac.policy
 
 uninstall:
