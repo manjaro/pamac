@@ -41,18 +41,22 @@ alpm_list_t* alpm_list_sort_data (alpm_list_t *list, alpm_list_fn_cmp fn) {
 	return list;
 }
 
-void alpm_list_free_all(alpm_list_t *list) {
-   do { alpm_list_free_inner(list, free); alpm_list_free(list); list = NULL; } while(0);
+alpm_list_t *alpm_list_new () {
+	return NULL;
 }
 
-void alpm_list_iterator(alpm_list_t *list, alpm_list_iterator_t* iter) {
+void alpm_list_free_all (alpm_list_t *list) {
+   do { alpm_list_free_inner (list, free); alpm_list_free (list); list = NULL; } while (0);
+}
+
+void alpm_list_iterator (alpm_list_t *list, alpm_list_iterator_t* iter) {
 	iter->pos = list;
 }
 
 void* alpm_list_iterator_next_value (alpm_list_iterator_t *iter) {
 	if (iter->pos) {
-		void* result = alpm_list_get_data(iter->pos);
-		iter->pos = alpm_list_next(iter->pos);
+		void* result = alpm_list_get_data (iter->pos);
+		iter->pos = alpm_list_next (iter->pos);
 		return result;
 	}
 	else return NULL;

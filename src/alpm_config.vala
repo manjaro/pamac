@@ -20,16 +20,19 @@
 namespace Alpm {
 	class Repo {
 		public string name;
-		public SigLevel siglevel;
+		public Signature.Level siglevel;
+		public DB.Usage usage;
 		public string[] urls;
 
 		public Repo (string name) {
 			this.name = name;
+			usage = 0;
 			urls = {};
 		} 
 	}
 
 	public class Config {
+		string conf_path;
 		string rootdir;
 		string dbpath;
 		string gpgdir;
@@ -43,22 +46,33 @@ namespace Alpm {
 		string[] ignorepkg;
 		string[] noextract;
 		string[] noupgrade;
-		string[] holdpkg;
-		string[] syncfirst;
-		SigLevel defaultsiglevel;
-		SigLevel localfilesiglevel;
-		SigLevel remotefilesiglevel;
+		string[] priv_holdpkg;
+		string[] priv_syncfirst;
+		public string[] holdpkg;
+		public string[] syncfirst;
+		Signature.Level defaultsiglevel;
+		Signature.Level localfilesiglevel;
+		Signature.Level remotefilesiglevel;
 		Repo[] repo_order;
+		public unowned Handle? handle;
+		string[] priv_ignore_pkgs;
+		public string[] ignore_pkgs;
 
 		public Config (string path) {
+			conf_path = path;
+			handle = null;
+			reload ();
+		}
+
+		public void reload () {
 			rootdir = "/";
 			dbpath = "/var/lib/pacman";
 			gpgdir = "/etc/pacman.d/gnupg/";
 			logfile = "/var/log/pacman.log";
 			arch = Posix.utsname().machine;
 			cachedir = {"/var/cache/pacman/pkg/"};
-			holdpkg = {};
-			syncfirst = {};
+			priv_holdpkg = {};
+			priv_syncfirst = {};
 			ignoregroup = {};
 			ignorepkg = {};
 			noextract = {};
@@ -66,46 +80,41 @@ namespace Alpm {
 			usesyslog = 0;
 			checkspace = 0;
 			deltaratio = 0.7;
-			defaultsiglevel = SigLevel.PACKAGE | SigLevel.PACKAGE_OPTIONAL | SigLevel.DATABASE | SigLevel.DATABASE_OPTIONAL;
-			localfilesiglevel = SigLevel.USE_DEFAULT;
-			remotefilesiglevel = SigLevel.USE_DEFAULT;
+			defaultsiglevel = Signature.Level.PACKAGE | Signature.Level.PACKAGE_OPTIONAL | Signature.Level.DATABASE | Signature.Level.DATABASE_OPTIONAL;
+			localfilesiglevel = Signature.Level.USE_DEFAULT;
+			remotefilesiglevel = Signature.Level.USE_DEFAULT;
 			repo_order = {};
 			// parse conf file
-			parse_file (path);
+			parse_file (conf_path);
+			get_handle ();
+			get_ignore_pkgs ();
 		}
 
-		public string[] get_syncfirst () {
-			return syncfirst;
-		}
-
-		public string[] get_holdpkg () {
-			return holdpkg;
-		}
-
-		public string[] get_ignore_pkgs () {
-			string[] ignore_pkgs = {};
+		public void get_ignore_pkgs () {
+			priv_ignore_pkgs = {};
 			unowned Group? group = null;
-			Handle? handle = this.get_handle ();
 			if (handle != null) {
 				foreach (string name in ignorepkg)
-					ignore_pkgs += name;
+					priv_ignore_pkgs += name;
 				foreach (string grp_name in ignoregroup) {
 					group = handle.localdb.get_group (grp_name);
 					if (group != null) {
 						foreach (unowned Package found_pkg in group.packages)
-							ignore_pkgs += found_pkg.name;
+							priv_ignore_pkgs += found_pkg.name;
 					}
 				}
 			}
-			return ignore_pkgs;
+			ignore_pkgs = priv_ignore_pkgs;
 		}
 
-		public Handle? get_handle () {
+		public void get_handle () {
 			Alpm.Errno error;
-			Handle? handle = new Handle (rootdir, dbpath, out error);
+			if (handle != null)
+				Handle.release (handle);
+			handle = Handle.new (rootdir, dbpath, out error);
 			if (handle == null) {
 				stderr.printf ("Failed to initialize alpm library" + " (%s)\n".printf(Alpm.strerror (error)));
-				return handle;
+				return;
 			}
 			// define options
 			handle.gpgdir = gpgdir;
@@ -130,11 +139,13 @@ namespace Alpm {
 			// register dbs
 			foreach (Repo repo in repo_order) {
 				unowned DB db = handle.register_syncdb (repo.name, repo.siglevel);
-				foreach (string url in repo.urls) {
+				foreach (string url in repo.urls)
 					db.add_server (url.replace ("$repo", repo.name).replace ("$arch", handle.arch));
-				}
+				if (repo.usage == 0)
+					db.usage = DB.Usage.ALL;
+				else
+					db.usage = repo.usage;
 			}
-			return handle;
 		}
 
 		public void parse_file (string path, string? section = null) {
@@ -193,11 +204,11 @@ namespace Alpm {
 								remotefilesiglevel = merge_siglevel (defaultsiglevel, define_siglevel (remotefilesiglevel, _value));
 							else if (_key == "HoldPkg") {
 								foreach (string name in _value.split (" ")) {
-									holdpkg += name;
+									priv_holdpkg += name;
 								}
 							} else if (_key == "SyncFirst") {
 								foreach (string name in _value.split (" ")) {
-									syncfirst += name;
+									priv_syncfirst += name;
 								}
 							} else if (_key == "CacheDir") {
 								foreach (string dir in _value.split (" ")) {
@@ -227,6 +238,8 @@ namespace Alpm {
 										_repo.urls += _value;
 									else if (_key == "SigLevel")
 										_repo.siglevel = define_siglevel (defaultsiglevel, _value);
+									else if (_key == "Usage")
+										_repo.usage = define_usage (_value);
 								}
 							}
 						}
@@ -234,10 +247,30 @@ namespace Alpm {
 				} catch (GLib.Error e) {
 					GLib.stderr.printf("%s\n", e.message);
 				}
+				holdpkg = priv_holdpkg;
+				syncfirst = priv_syncfirst;
 			}
 		}
 
-		public SigLevel define_siglevel (SigLevel default_level, string conf_string) {
+		public DB.Usage define_usage (string conf_string) {
+			DB.Usage usage = 0;
+			foreach (string directive in conf_string.split(" ")) {
+				if (directive == "Sync") {
+					usage |= DB.Usage.SYNC;
+				} else if (directive == "Search") {
+					usage |= DB.Usage.SEARCH;
+				} else if (directive == "Install") {
+					usage |= DB.Usage.INSTALL;
+				} else if (directive == "Upgrade") {
+					usage |= DB.Usage.UPGRADE;
+				} else if (directive == "All") {
+					usage |= DB.Usage.ALL;
+				}
+			}
+			return usage;
+		}
+
+		public Signature.Level define_siglevel (Signature.Level default_level, string conf_string) {
 			foreach (string directive in conf_string.split(" ")) {
 				bool affect_package = false;
 				bool affect_database = false;
@@ -249,71 +282,71 @@ namespace Alpm {
 				}
 				if ("Never" in directive) {
 					if (affect_package) {
-						default_level &= ~SigLevel.PACKAGE;
-						default_level |= SigLevel.PACKAGE_SET;
+						default_level &= ~Signature.Level.PACKAGE;
+						default_level |= Signature.Level.PACKAGE_SET;
 					}
-					if (affect_database) default_level &= ~SigLevel.DATABASE;
+					if (affect_database) default_level &= ~Signature.Level.DATABASE;
 				}
 				else if ("Optional" in directive) {
 					if (affect_package) {
-						default_level |= SigLevel.PACKAGE;
-						default_level |= SigLevel.PACKAGE_OPTIONAL;
-						default_level |= SigLevel.PACKAGE_SET;
+						default_level |= Signature.Level.PACKAGE;
+						default_level |= Signature.Level.PACKAGE_OPTIONAL;
+						default_level |= Signature.Level.PACKAGE_SET;
 					}
 					if (affect_database) {
-						default_level |= SigLevel.DATABASE;
-						default_level |= SigLevel.DATABASE_OPTIONAL;
+						default_level |= Signature.Level.DATABASE;
+						default_level |= Signature.Level.DATABASE_OPTIONAL;
 					}
 				}
 				else if ("Required" in directive) {
 					if (affect_package) {
-						default_level |= SigLevel.PACKAGE;
-						default_level &= ~SigLevel.PACKAGE_OPTIONAL;
-						default_level |= SigLevel.PACKAGE_SET;
+						default_level |= Signature.Level.PACKAGE;
+						default_level &= ~Signature.Level.PACKAGE_OPTIONAL;
+						default_level |= Signature.Level.PACKAGE_SET;
 					}
 					if (affect_database) {
-						default_level |= SigLevel.DATABASE;
-						default_level &= ~SigLevel.DATABASE_OPTIONAL;
+						default_level |= Signature.Level.DATABASE;
+						default_level &= ~Signature.Level.DATABASE_OPTIONAL;
 					}
 				}
 				else if ("TrustedOnly" in directive) {
 					if (affect_package) {
-						default_level &= ~SigLevel.PACKAGE_MARGINAL_OK;
-						default_level &= ~SigLevel.PACKAGE_UNKNOWN_OK;
-						default_level |= SigLevel.PACKAGE_TRUST_SET;
+						default_level &= ~Signature.Level.PACKAGE_MARGINAL_OK;
+						default_level &= ~Signature.Level.PACKAGE_UNKNOWN_OK;
+						default_level |= Signature.Level.PACKAGE_TRUST_SET;
 					}
 					if (affect_database) {
-						default_level &= ~SigLevel.DATABASE_MARGINAL_OK;
-						default_level &= ~SigLevel.DATABASE_UNKNOWN_OK;
+						default_level &= ~Signature.Level.DATABASE_MARGINAL_OK;
+						default_level &= ~Signature.Level.DATABASE_UNKNOWN_OK;
 					}
 				}
 				else if ("TrustAll" in directive) {
 					if (affect_package) {
-						default_level |= SigLevel.PACKAGE_MARGINAL_OK;
-						default_level |= SigLevel.PACKAGE_UNKNOWN_OK;
-						default_level |= SigLevel.PACKAGE_TRUST_SET;
+						default_level |= Signature.Level.PACKAGE_MARGINAL_OK;
+						default_level |= Signature.Level.PACKAGE_UNKNOWN_OK;
+						default_level |= Signature.Level.PACKAGE_TRUST_SET;
 					}
 					if (affect_database) {
-						default_level |= SigLevel.DATABASE_MARGINAL_OK;
-						default_level |= SigLevel.DATABASE_UNKNOWN_OK;
+						default_level |= Signature.Level.DATABASE_MARGINAL_OK;
+						default_level |= Signature.Level.DATABASE_UNKNOWN_OK;
 					}
 				}
 				else GLib.stderr.printf("unrecognized siglevel: %s\n", conf_string);
 			}
-			default_level &= ~SigLevel.USE_DEFAULT;
+			default_level &= ~Signature.Level.USE_DEFAULT;
 			return default_level;
 		}
 
-		public SigLevel merge_siglevel (SigLevel base_level, SigLevel over_level) {
-			if ((over_level & SigLevel.USE_DEFAULT) != 0) over_level = base_level;
+		public Signature.Level merge_siglevel (Signature.Level base_level, Signature.Level over_level) {
+			if ((over_level & Signature.Level.USE_DEFAULT) != 0) over_level = base_level;
 			else {
-				if ((over_level & SigLevel.PACKAGE_SET) == 0) {
-					over_level |= base_level & SigLevel.PACKAGE;
-					over_level |= base_level & SigLevel.PACKAGE_OPTIONAL;
+				if ((over_level & Signature.Level.PACKAGE_SET) == 0) {
+					over_level |= base_level & Signature.Level.PACKAGE;
+					over_level |= base_level & Signature.Level.PACKAGE_OPTIONAL;
 				}
-				if ((over_level & SigLevel.PACKAGE_TRUST_SET) == 0) {
-					over_level |= base_level & SigLevel.PACKAGE_MARGINAL_OK;
-					over_level |= base_level & SigLevel.PACKAGE_UNKNOWN_OK;
+				if ((over_level & Signature.Level.PACKAGE_TRUST_SET) == 0) {
+					over_level |= base_level & Signature.Level.PACKAGE_MARGINAL_OK;
+					over_level |= base_level & Signature.Level.PACKAGE_UNKNOWN_OK;
 				}
 			}
 			return over_level;

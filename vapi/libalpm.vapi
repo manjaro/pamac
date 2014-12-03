@@ -29,118 +29,30 @@ namespace Alpm {
 	/**
 	* Library
 	*/
-	public string version();
+	public unowned string version();
 
 	public unowned Package? find_satisfier(Alpm.List<Package> pkgs, string depstring);
+
 	public unowned Package? pkg_find(Alpm.List<Package> haystack, string needle);
+
 	public int pkg_vercmp(string a, string b);
+
 	public unowned Alpm.List<unowned Package?> find_group_pkgs(Alpm.List<DB> dbs, string name);
-	public unowned Package? sync_newversion(Package pkg, Alpm.List<DB> dbs);
+
 	/** Returns the string corresponding to an error number. */
 	public unowned string strerror(Errno err);
-
-	/** Package install reasons. */
-	[CCode (cname = "alpm_pkgreason_t", cprefix = "ALPM_PKG_REASON_")]
-	public enum PkgReason {
-		/** Explicitly requested by the user. */
-		EXPLICIT = 0,
-		/** Installed as a dependency for another package. */
-		DEPEND = 1
-	}
-
-	/** Location a package object was loaded from. */
-	[CCode (cname = "alpm_pkgfrom_t", cprefix = "ALPM_PKG_FROM_")]
-	public enum PkgFrom {
-		FILE = 1,
-		LOCALDB,
-		SYNCDB
-	}
-
-	/** Method used to validate a package. */
-	[CCode (cname = "alpm_pkgvalidation_t", cprefix = "ALPM_PKG_VALIDATION_")]
-	public enum PkgValidation {
-		UNKNOWN = 0,
-		NONE = (1 << 0),
-		MD5SUM = (1 << 1),
-		SHA256SUM = (1 << 2),
-		SIGNATURE = (1 << 3)
-	}
-
-	/** Types of version constraints in dependency specs. */
-	[CCode (cname = "alpm_depmod_t", cprefix = "ALPM_DEP_MOD_")]
-	public enum DepMod {
-		/** No version constraint */
-		ANY = 1,
-		/** Test version equality (package=x.y.z) */
-		EQ,
-		/** Test for at least a version (package>=x.y.z) */
-		GE,
-		/** Test for at most a version (package<=x.y.z) */
-		LE,
-		/** Test for greater than some version (package>x.y.z) */
-		GT,
-		/** Test for less than some version (package<x.y.z) */
-		LT
-	}
-
-	/**
-	* File conflict type.
-	* Whether the conflict results from a file existing on the filesystem, or with
-	* another target in the transaction.
-	*/
-	[CCode (cname = "alpm_fileconflicttype_t", cprefix = "ALPM_FILECONFLICT_")]
-	public enum FileConflictType {
-		TARGET = 1,
-		FILESYSTEM
-	}
-
-	/** PGP signature verification options */
-	[CCode (cname = "alpm_siglevel_t", cprefix = "ALPM_SIG_")]
-	public enum SigLevel {
-		PACKAGE = (1 << 0),
-		PACKAGE_OPTIONAL = (1 << 1),
-		PACKAGE_MARGINAL_OK = (1 << 2),
-		PACKAGE_UNKNOWN_OK = (1 << 3),
-
-		DATABASE = (1 << 10),
-		DATABASE_OPTIONAL = (1 << 11),
-		DATABASE_MARGINAL_OK = (1 << 12),
-		DATABASE_UNKNOWN_OK = (1 << 13),
-
-		PACKAGE_SET = (1 << 27),
-		PACKAGE_TRUST_SET = (1 << 28),
-
-		USE_DEFAULT = (1 << 31)
-	}
-
-	/** PGP signature verification status return codes */
-	[CCode (cname = "alpm_sigstatus_t", cprefix = "ALPM_SIGSTATUS_")]
-	public enum SigStatus {
-		VALID,
-		KEY_EXPIRED,
-		SIG_EXPIRED,
-		KEY_UNKNOWN,
-		KEY_DISABLED,
-		INVALID
-	}
-
-	/** PGP signature verification status return codes */
-	[CCode (cname = "alpm_sigvalidity_t", cprefix = "ALPM_SIGVALIDITY_")]
-	public enum SigValidity {
-		FULL,
-		MARGINAL,
-		NEVER,
-		UNKNOWN
-	}
 
 	/**
 	 * Handle
 	 */
-	[CCode (cname = "alpm_handle_t", free_function = "alpm_release")]
+	[CCode (cname = "alpm_handle_t")]
 	[Compact]
 	public class Handle {
 		[CCode (cname = "alpm_initialize")]
-		public Handle (string root, string dbpath, out Alpm.Errno error);
+		public static unowned Handle @new(string root, string dbpath, out Alpm.Errno error);
+
+		[CCode (cname = "alpm_release")]
+		public static int release (Handle handle);
 
 		public unowned string root {
 			[CCode (cname = "alpm_option_get_root")] get;
@@ -182,18 +94,20 @@ namespace Alpm {
 			[CCode (cname = "alpm_option_set_noupgrades")] set;
 		}
 		[CCode (cname = "alpm_option_add_noupgrade")]
-		public int add_noupgrade(string pkg);
+		public int add_noupgrade(string path);
 		[CCode (cname = "alpm_option_remove_noupgrade")]
-		public int remove_noupgrade(string pkg);
+		public int remove_noupgrade(string path);
 
 		public unowned Alpm.List<unowned string?> noextracts {
 			[CCode (cname = "alpm_option_get_noextracts")] get;
 			[CCode (cname = "alpm_option_set_noextracts")] set;
 		}
 		[CCode (cname = "alpm_option_add_noextract")]
-		public int add_noextract(string pkg);
+		public int add_noextract(string path);
 		[CCode (cname = "alpm_option_remove_noextract")]
-		public int remove_noextract(string pkg);
+		public int remove_noextract(string path);
+		[CCode (cname = "alpm_option_match_noextract")]
+		public int match_noextract(string path);
 
 		public unowned Alpm.List<unowned string?> ignorepkgs {
 			[CCode (cname = "alpm_option_get_ignorepkgs")] get;
@@ -213,6 +127,15 @@ namespace Alpm {
 		[CCode (cname = "alpm_option_remove_ignorepkg")]
 		public int remove_ignoregroup(string grp);
 
+		public unowned Alpm.List<unowned Depend?> assumeinstalled {
+			[CCode (cname = "alpm_option_get_assumeinstalled")] get;
+			[CCode (cname = "alpm_option_set_assumeinstalled")] set;
+		}
+		[CCode (cname = "alpm_option_add_assumeinstalled")]
+		public int add_assumeinstalled(Depend dep);
+		[CCode (cname = "alpm_option_remove_assumeinstalled")]
+		public int remove_assumeinstalled(Depend dep);
+
 		public double deltaratio {
 			[CCode (cname = "alpm_option_get_deltaratio")] get;
 			[CCode (cname = "alpm_option_set_deltaratio")] set;
@@ -223,47 +146,73 @@ namespace Alpm {
 			[CCode (cname = "alpm_option_set_checkspace")] set;
 		}
 
-		public SigLevel defaultsiglevel {
+		public Signature.Level defaultsiglevel {
 			[CCode (cname = "alpm_option_get_default_siglevel")] get;
 			[CCode (cname = "alpm_option_set_default_siglevel")] set;
 		}
-		public SigLevel localfilesiglevel {
+		public Signature.Level localfilesiglevel {
 			[CCode (cname = "alpm_option_get_local_file_siglevel")] get;
 			[CCode (cname = "alpm_option_set_local_file_siglevel")] set;
 		}
-
-		public SigLevel remotefilesiglevel {
+		public Signature.Level remotefilesiglevel {
 			[CCode (cname = "alpm_option_get_remote_file_siglevel")] get;
 			[CCode (cname = "alpm_option_set_remote_file_siglevel")] set;
 		}
 
-		[CCode (cname = "alpm_register_syncdb")]
-		public unowned DB? register_syncdb(string treename, SigLevel level);
-		[CCode (cname = "alpm_unregister_all_syncdbs")]
-		public int unregister_all_syncdbs();
-
-
 		public unowned DB? localdb {
 				[CCode (cname = "alpm_get_localdb")] get;
 		}
-
 		public unowned Alpm.List<unowned DB?> syncdbs {
 				[CCode (cname = "alpm_get_syncdbs")] get;
 		}
 
+		public LogCallBack logcb {
+			[CCode (cname = "alpm_option_get_logcb")] get;
+			[CCode (cname = "alpm_option_set_logcb")] set;
+		}
+		public DownloadCallBack dlcb {
+			[CCode (cname = "alpm_option_get_dlcb")] get;
+			[CCode (cname = "alpm_option_set_dlcb")] set;
+		}
+		public FetchCallBack fetchcb {
+			[CCode (cname = "alpm_option_get_fetchcb")] get;
+			[CCode (cname = "alpm_option_set_fetchcb")] set;
+		}
+		public TotalDownloadCallBack totaldlcb {
+			[CCode (cname = "alpm_option_get_totaldlcb")] get;
+			[CCode (cname = "alpm_option_set_totaldlcb")] set;
+		}
+		public EventCallBack eventcb {
+			[CCode (cname = "alpm_option_get_eventcb")] get;
+			[CCode (cname = "alpm_option_set_eventcb")] set;
+		}
+		public QuestionCallBack questioncb {
+			[CCode (cname = "alpm_option_get_questioncb")] get;
+			[CCode (cname = "alpm_option_set_questioncb")] set;
+		}
+		public ProgressCallBack progresscb {
+			[CCode (cname = "alpm_option_get_progresscb")] get;
+			[CCode (cname = "alpm_option_set_progresscb")] set;
+		}
+
+		[CCode (cname = "alpm_register_syncdb")]
+		public unowned DB? register_syncdb(string treename, Signature.Level level);
+		[CCode (cname = "alpm_unregister_all_syncdbs")]
+		public int unregister_all_syncdbs();
+
 		// the return package can be freed except if it is added to a transaction,
 		// it will be freed upon Handle.trans_release() invocation.
 		[CCode (cname = "alpm_pkg_load_file")]
-		public Package? load_file(string filename, int full, SigLevel level);
+		public Package? load_file(string filename, int full, Signature.Level level);
 
-//~ 		/** Test if a package should be ignored.
-//~ 		* Checks if the package is ignored via IgnorePkg, or if the package is
-//~ 		* in a group ignored via IgnoreGroup.
-//~ 		* @param pkg the package to test
-//~ 		* @return 1 if the package should be ignored, 0 otherwise
-//~ 		*/
-//~ 		[CCode (cname = "alpm_pkg_should_ignore")]
-//~ 		public int should_ignore(Package pkg);
+		/** Test if a package should be ignored.
+		 * Checks if the package is ignored via IgnorePkg, or if the package is
+		 * in a group ignored via IgnoreGroup.
+		 * @param pkg the package to test
+		 * @return 1 if the package should be ignored, 0 otherwise
+		 */
+		[CCode (cname = "alpm_pkg_should_ignore")]
+		public int should_ignore(Package pkg);
 
 		[CCode (cname = "alpm_fetch_pkgurl")]
 		public string? fetch_pkgurl(string url);
@@ -286,41 +235,6 @@ namespace Alpm {
 		/** Returns the list of packages removed by the transaction.*/
 		[CCode (cname = "alpm_trans_get_remove")]
 		public unowned Alpm.List<unowned Package?> trans_to_remove();
-
-		public LogCallBack logcb {
-			[CCode (cname = "alpm_option_get_logcb")] get;
-			[CCode (cname = "alpm_option_set_logcb")] set;
-		}
-
-		public DownloadCallBack dlcb {
-			[CCode (cname = "alpm_option_get_dlcb")] get;
-			[CCode (cname = "alpm_option_set_dlcb")] set;
-		}
-
-		public FetchCallBack fetchcb {
-			[CCode (cname = "alpm_option_get_fetchcb")] get;
-			[CCode (cname = "alpm_option_set_fetchcb")] set;
-		}
-
-		public TotalDownloadCallBack totaldlcb {
-			[CCode (cname = "alpm_option_get_totaldlcb")] get;
-			[CCode (cname = "alpm_option_set_totaldlcb")] set;
-		}
-
-		public EventCallBack eventcb {
-			[CCode (cname = "alpm_option_get_eventcb")] get;
-			[CCode (cname = "alpm_option_set_eventcb")] set;
-		}
-
-		public QuestionCallBack questioncb {
-			[CCode (cname = "alpm_option_get_questioncb")] get;
-			[CCode (cname = "alpm_option_set_questioncb")] set;
-		}
-
-		public ProgressCallBack progresscb {
-			[CCode (cname = "alpm_option_get_progresscb")] get;
-			[CCode (cname = "alpm_option_set_progresscb")] set;
-		}
 
 		/** Initialize the transaction.
 		* @param flags flags of the transaction (like nodeps, etc)
@@ -384,22 +298,18 @@ namespace Alpm {
 	/**
 	 * Databases
 	 */
-	[CCode (cname = "alpm_db_t", cprefix = "alpm_db_")]//,free_function = "alpm_db_unregister")]
+	[CCode (cname = "alpm_db_t", cprefix = "alpm_db_")]
 	[Compact]
 	public class DB {
-		public int unregister();
+		public static int unregister(DB db);
 
 		public unowned string name {
 			[CCode (cname = "alpm_db_get_name")] get;
 		}
 
-		public SigLevel siglevel {
+		public Signature.Level siglevel {
 			[CCode (cname = "alpm_db_get_siglevel")] get;
 		}
-
-//~ 		public unowned string url {
-//~ 			[CCode (cname = "alpm_db_get_url")] get;
-//~ 		}
 
 		public unowned Alpm.List<unowned string?> servers {
 			[CCode (cname = "alpm_db_get_servers")] get;
@@ -414,6 +324,20 @@ namespace Alpm {
 			[CCode (cname = "alpm_db_get_groupcache")] get;
 		}
 
+		public Usage usage {
+			[CCode (cname = "alpm_db_get_usage")] get;
+			[CCode (cname = "alpm_db_set_usage")] set;
+		}
+
+		[CCode (cname = "alpm_db_usage_t", cprefix = "ALPM_DB_USAGE_")]
+		public enum Usage {
+			SYNC = 1,
+			SEARCH = (1 << 1),
+			INSTALL = (1 << 2),
+			UPGRADE = (1 << 3),
+			ALL = (1 << 4) - 1,
+		}
+
 		public int add_server(string url);
 		public int remove_server(string url);
 
@@ -422,41 +346,36 @@ namespace Alpm {
 
 		public unowned Package? get_pkg(string name);
 		public unowned Group? get_group(string name);
-		public unowned Alpm.List<unowned Package?> search(Alpm.List<string> needles);
+		public Alpm.List<unowned Package?> search(Alpm.List<string> needles);
+
+		public int check_pgp_signature(out SigList siglist);
 	}
 
 	/**
 	 * Packages
 	 */
-	[CCode (cname = "alpm_pkg_t", cprefix = "alpm_pkg_", free_function = "alpm_pkg_free")]
+	[CCode (cname = "alpm_pkg_t", cprefix = "alpm_pkg_")]
 	[Compact]
 	public class Package {
-		public static int checkmd5sum();
 
-		public Alpm.List<string?> compute_requiredby();
-		public Alpm.List<string?> compute_optionalfor();
+		public static int free(Package pkg);
 
 		/* properties */
-		[CCode (array_length = false)]
 		public unowned string filename {
 			[CCode (cname = "alpm_pkg_get_filename")] get;
 		}
-		[CCode (array_length = false)]
 		public unowned string name {
 			[CCode (cname = "alpm_pkg_get_name")] get;
 		}
-		[CCode (array_length = false)]
 		public unowned string version {
 			[CCode (cname = "alpm_pkg_get_version")] get;
 		}
-		public PkgFrom origin {
+		public From origin {
 			[CCode (cname = "alpm_pkg_get_origin")] get;
 		}
-		[CCode (array_length = false)]
 		public unowned string desc {
 			[CCode (cname = "alpm_pkg_get_desc")] get;
 		}
-		[CCode (array_length = false)]
 		public unowned string url {
 			[CCode (cname = "alpm_pkg_get_url")] get;
 		}
@@ -466,15 +385,15 @@ namespace Alpm {
 		public Time installdate {
 			[CCode (cname = "alpm_pkg_get_installdate")] get;
 		}
-		[CCode (array_length = false)]
 		public unowned string packager {
 			[CCode (cname = "alpm_pkg_get_packager")] get;
 		}
-		[CCode (array_length = false)]
 		public unowned string md5sum {
 			[CCode (cname = "alpm_pkg_get_md5sum")] get;
 		}
-		[CCode (array_length = false)]
+		public unowned string sha256sum {
+			[CCode (cname = "alpm_pkg_get_sha256sum")] get;
+		}
 		public unowned string arch {
 			[CCode (cname = "alpm_pkg_get_arch")] get;
 		}
@@ -492,9 +411,9 @@ namespace Alpm {
 		public uint64 download_size {
 			[CCode (cname = "alpm_pkg_download_size")] get;
 		}
-		public PkgReason reason {
+		public Reason reason {
 			[CCode (cname = "alpm_pkg_get_reason")] get;
-			/** The provided package object must be from the local database
+			/** This must be a Package from the local database
 			 * or this method will fail (Errno is set accordingly).
 			 */
 			[CCode (cname = "alpm_pkg_set_reason")] set;
@@ -517,11 +436,17 @@ namespace Alpm {
 		public unowned Alpm.List<unowned Depend?> provides {
 			[CCode (cname = "alpm_pkg_get_provides")] get;
 		}
+		public unowned Alpm.List<unowned string?> deltas {
+			[CCode (cname = "alpm_pkg_get_deltas")] get;
+		}
 		public unowned Alpm.List<unowned Depend?> replaces {
 			[CCode (cname = "alpm_pkg_get_replaces")] get;
 		}
 		public unowned Alpm.List<unowned File?> files {
 			[CCode (cname = "alpm_pkg_get_files_list")] get;
+		}
+		public unowned Alpm.List<unowned string?> unused_deltas {
+			[CCode (cname = "alpm_pkg_unused_deltas")] get;
 		}
 		public unowned Alpm.List<unowned Backup?> backup {
 			[CCode (cname = "alpm_pkg_get_backup")] get;
@@ -532,32 +457,110 @@ namespace Alpm {
 		public unowned string base64_sig {
 			[CCode (cname = "alpm_pkg_get_base64_sig")] get;
 		}
-		/* TODO: changelog functions */
+		public Validation validation {
+			[CCode (cname = "alpm_pkg_get_validation")] get;
+		}
+		// TODO: changelog functions
+
+		/** Package install reasons. */
+		[CCode (cname = "alpm_pkgreason_t", cprefix = "ALPM_PKG_REASON_")]
+		public enum Reason {
+			/** Explicitly requested by the user. */
+			EXPLICIT = 0,
+			/** Installed as a dependency for another package. */
+			DEPEND = 1
+		}
+	
+		/** Location a package object was loaded from. */
+		[CCode (cname = "alpm_pkgfrom_t", cprefix = "ALPM_PKG_FROM_")]
+		public enum From {
+			FILE = 1,
+			LOCALDB,
+			SYNCDB
+		}
+	
+		/** Method used to validate a package. */
+		[CCode (cname = "alpm_pkgvalidation_t", cprefix = "ALPM_PKG_VALIDATION_")]
+		public enum Validation {
+			UNKNOWN = 0,
+			NONE = (1 << 0),
+			MD5SUM = (1 << 1),
+			SHA256SUM = (1 << 2),
+			SIGNATURE = (1 << 3)
+		}
+
+		[CCode (cname = "alpm_package_operation_t", cprefix = "ALPM_PACKAGE_")]
+		public enum Operation {
+			/** Package (to be) installed. (No oldpkg) */
+			INSTALL = 1,
+			/** Package (to be) upgraded */
+			UPGRADE,
+			/** Package (to be) re-installed. */
+			REINSTALL,
+			/** Package (to be) downgraded. */
+			DOWNGRADE,
+			/** Package (to be) removed. (No newpkg) */
+			REMOVE
+		}
+
+		public int checkmd5sum();
+		public int has_scriptlet();
+
+		public Alpm.List<string?> compute_requiredby();
+		public Alpm.List<string?> compute_optionalfor();
+
+		[CCode (cname = "alpm_sync_newversion")]
+		public unowned Package? sync_newversion(Alpm.List<DB> dbs);
+
+		public int check_pgp_signature(out SigList siglist);
 	}
 
 	/** Dependency */
-	[CCode (cname = "alpm_depend_t", has_type_id = false)]
+	[CCode (cname = "alpm_depend_t", free_function = "alpm_dep_free")]
+	[Compact]
 	public class Depend {
 		public string name;
 		public string version;
 		public string desc;
 		public ulong name_hash;
-		public DepMod mod;
+		public Mode mod;
+
+		public static Depend from_string(string depstring);
+
 		[CCode (cname = "alpm_dep_compute_string")]
 		public string compute_string();
+
+		/** Types of version constraints in dependency specs. */
+		[CCode (cname = "alpm_depmod_t", cprefix = "ALPM_DEP_MOD_")]
+		public enum Mode {
+			/** No version constraint */
+			ANY = 1,
+			/** Test version equality (package=x.y.z) */
+			EQ,
+			/** Test for at least a version (package>=x.y.z) */
+			GE,
+			/** Test for at most a version (package<=x.y.z) */
+			LE,
+			/** Test for greater than some version (package>x.y.z) */
+			GT,
+			/** Test for less than some version (package<x.y.z) */
+			LT
+		}
 	}
 
 	/** Missing dependency */
-	[CCode (cname = "alpm_depmissing_t", has_type_id = false)]
+	[CCode (cname = "alpm_depmissing_t", free_function = "alpm_depmissing_free")]
+	[Compact]
 	public class DepMissing {
 		public string target;
 		public unowned Depend depend;
-		/* this is used only in the case of a remove dependency error */
+		// this is used only in the case of a remove dependency error
 		public string causingpkg;
 	}
 
 	/** Conflict */
-	[CCode (cname = "alpm_conflict_t", has_type_id = false)]
+	[CCode (cname = "alpm_conflict_t", free_function = "alpm_conflict_free")]
+	[Compact]
 	public class Conflict {
 		public ulong package1_hash;
 		public ulong package2_hash;
@@ -567,12 +570,23 @@ namespace Alpm {
 	}
 
 	/** File conflict */
-	[CCode (cname = "alpm_fileconflict_t", has_type_id = false)]
+	[CCode (cname = "alpm_fileconflict_t", free_function = "alpm_fileconflict_free")]
+	[Compact]
 	public class FileConflict {
 		public string target;
-		public FileConflictType type;
+		public Type type;
 		public string file;
 		public string ctarget;
+		/**
+		* File conflict type.
+		* Whether the conflict results from a file existing on the filesystem, or with
+		* another target in the transaction.
+		*/
+		[CCode (cname = "alpm_fileconflicttype_t", cprefix = "ALPM_FILECONFLICT_")]
+		public enum Type {
+			TARGET = 1,
+			FILESYSTEM
+		}
 	}
 
 	/** Package group */
@@ -608,12 +622,21 @@ namespace Alpm {
 	}
 
 	/** Package filelist container */
-	/*[CCode (cname = "alpm_filelist_t", has_type_id = false)]
+	[CCode (cname = "alpm_filelist_t", has_type_id = false)]
 	public class FileList {
 		public size_t count;
-		public Alpm.File *files;
-		public char **resolved_path;
-	}*/
+		[CCode (array_length_cname = "count", array_length_type = "size_t")]
+		public unowned Alpm.File[] files;
+		/** Determines whether a package filelist contains a given path.
+		 * The provided path should be relative to the install root with no leading
+		 * slashes, e.g. "etc/localtime". When searching for directories, the path must
+		 * have a trailing slash.
+		 * @param path the path to search for in the package
+		 * @return a pointer to the matching file or NULL if not found
+		 */
+		[CCode (cname = "alpm_filelist_contains")]
+		unowned Alpm.File? contains(string path);
+	}
 
 	/** Local package or package file backup entry */
 	[CCode (cname = "alpm_backup_t", has_type_id = false)]
@@ -622,39 +645,78 @@ namespace Alpm {
 		public string hash;
 	}
 
-	[CCode (cname = "alpm_pgpkey_t", has_type_id = false)]
-	public class PGPKey {
-		public void *data;
-		public string fingerprint;
-		public string uid;
-		public string name;
-		public string email;
-		public Time created;
-		public Time expires;
-		public uint length;
-		public uint revoked;
-		public string pubkey_algo;
+	namespace Signature {
+		[CCode (cname = "alpm_pgpkey_t", has_type_id = false)]
+		public class PGPKey {
+			public void *data;
+			public string fingerprint;
+			public string uid;
+			public string name;
+			public string email;
+			public Time created;
+			public Time expires;
+			public uint length;
+			public uint revoked;
+			public string pubkey_algo;
+		}
+
+		/**
+		* Signature result. Contains the key, status, and validity of a given
+		* signature.
+		*/
+		[CCode (cname = "alpm_sigresult_t", has_type_id = false)]
+		public class Result {
+			public PGPKey key;
+			public Status status;
+			public Validity validity;
+		}
+		
+			/** PGP signature verification options */
+		[CCode (cname = "alpm_siglevel_t", cprefix = "ALPM_SIG_")]
+		public enum Level {
+			PACKAGE = (1 << 0),
+			PACKAGE_OPTIONAL = (1 << 1),
+			PACKAGE_MARGINAL_OK = (1 << 2),
+			PACKAGE_UNKNOWN_OK = (1 << 3),
+	
+			DATABASE = (1 << 10),
+			DATABASE_OPTIONAL = (1 << 11),
+			DATABASE_MARGINAL_OK = (1 << 12),
+			DATABASE_UNKNOWN_OK = (1 << 13),
+	
+			PACKAGE_SET = (1 << 27),
+			PACKAGE_TRUST_SET = (1 << 28),
+	
+			USE_DEFAULT = (1 << 31)
+		}
+	
+		/** PGP signature verification status return codes */
+		[CCode (cname = "alpm_sigstatus_t", cprefix = "ALPM_SIGSTATUS_")]
+		public enum Status {
+			VALID,
+			KEY_EXPIRED,
+			SIG_EXPIRED,
+			KEY_UNKNOWN,
+			KEY_DISABLED,
+			INVALID
+		}
+	
+		/** PGP signature verification status return codes */
+		[CCode (cname = "alpm_sigvalidity_t", cprefix = "ALPM_SIGVALIDITY_")]
+		public enum Validity {
+			FULL,
+			MARGINAL,
+			NEVER,
+			UNKNOWN
+		}
 	}
 
-	/**
-	* Signature result. Contains the key, status, and validity of a given
-	* signature.
-	*/
-	[CCode (cname = "alpm_sigresult_t", has_type_id = false)]
-	public class SigResult {
-		public PGPKey key;
-		public SigStatus status;
-		public SigValidity validity;
-	}
-
-	/**
-	* Signature list. Contains the number of signatures found and a pointer to an
-	* array of results. The array is of size count.
-	*/
-	[CCode (cname = "alpm_siglist_t", has_type_id = false)]
+	[CCode (cname = "alpm_siglist_t", free_function = "alpm_siglist_cleanup")]
+	[Compact]
 	public class SigList {
 		public size_t count;
-		public SigResult results;
+		[CCode (array_length_cname = "count", array_length_type = "size_t")]
+		public unowned Signature.Result[] results;
 	}
 
 	/** Logging Levels */
@@ -670,147 +732,418 @@ namespace Alpm {
 	[CCode (cname = "alpm_cb_log", has_type_id = false, has_target = false)]
 	public delegate void LogCallBack(LogLevel level, string fmt, va_list args);
 
-	/**
-	* Events.
-	* NULL parameters are passed to in all events unless specified otherwise.
-	*/
-	[CCode (cname = "alpm_event_t", cprefix = "ALPM_EVENT_")]
-	public enum Event {
-		/** Dependencies will be computed for a package. */
-		CHECKDEPS_START = 1,
-		/** Dependencies were computed for a package. */
-		CHECKDEPS_DONE,
-		/** File conflicts will be computed for a package. */
-		FILECONFLICTS_START,
-		/** File conflicts were computed for a package. */
-		FILECONFLICTS_DONE,
-		/** Dependencies will be resolved for target package. */
-		RESOLVEDEPS_START,
-		/** Dependencies were resolved for target package. */
-		RESOLVEDEPS_DONE,
-		/** Inter-conflicts will be checked for target package. */
-		INTERCONFLICTS_START,
-		/** Inter-conflicts were checked for target package. */
-		INTERCONFLICTS_DONE,
-		/** Package will be installed.
-		 * A pointer to the target package is passed to the callback.
-		 */
-		ADD_START,
-		/** Package was installed.
-		 * A pointer to the new package is passed to the callback.
-		 */
-		ADD_DONE,
-		/** Package will be removed.
-		 * A pointer to the target package is passed to the callback.
-		 */
-		REMOVE_START,
-		/** Package was removed.
-		 * A pointer to the removed package is passed to the callback.
-		 */
-		REMOVE_DONE,
-		/** Package will be upgraded.
-		 * A pointer to the upgraded package is passed to the callback.
-		 */
-		UPGRADE_START,
-		/** Package was upgraded.
-		 * A pointer to the new package, and a pointer to the old package is passed
-		 * to the callback, respectively.
-		 */
-		UPGRADE_DONE,
-		/** Package will be downgraded.
-		 * A pointer to the downgraded package is passed to the callback.
-		 */
-		DOWNGRADE_START,
-		/** Package was downgraded.
-		 * A pointer to the new package, and a pointer to the old package is passed
-		 * to the callback, respectively.
-		 */
-		DOWNGRADE_DONE,
-		/** Package will be reinstalled.
-		 * A pointer to the reinstalled package is passed to the callback.
-		 */
-		REINSTALL_START,
-		/** Package was reinstalled.
-		 * A pointer to the new package, and a pointer to the old package is passed
-		 * to the callback, respectively.
-		 */
-		REINSTALL_DONE,
-		/** Target package's integrity will be checked. */
-		INTEGRITY_START,
-		/** Target package's integrity was checked. */
-		INTEGRITY_DONE,
-		/** Target package will be loaded. */
-		LOAD_START,
-		/** Target package is finished loading. */
-		LOAD_DONE,
-		/** Target delta's integrity will be checked. */
-		DELTA_INTEGRITY_START,
-		/** Target delta's integrity was checked. */
-		DELTA_INTEGRITY_DONE,
-		/** Deltas will be applied to packages. */
-		DELTA_PATCHES_START,
-		/** Deltas were applied to packages. */
-		DELTA_PATCHES_DONE,
-		/** Delta patch will be applied to target package.
-		 * The filename of the package and the filename of the patch is passed to the
-		 * callback.
-		 */
-		DELTA_PATCH_START,
-		/** Delta patch was applied to target package. */
-		DELTA_PATCH_DONE,
-		/** Delta patch failed to apply to target package. */
-		DELTA_PATCH_FAILED,
-		/** Scriptlet has printed information.
-		 * A line of text is passed to the callback.
-		 */
-		SCRIPTLET_INFO,
-		/** Files will be downloaded from a repository.
-		 * The repository's tree name is passed to the callback.
-		 */
-		RETRIEVE_START,
-		/** Disk space usage will be computed for a package */
-		DISKSPACE_START,
-		/** Disk space usage was computed for a package */
-		DISKSPACE_DONE,
-		/** An optdepend for another package is being removed
-		 * The requiring package and its dependency are passed to the callback */
-		OPTDEP_REQUIRED,
-		/** A configured repository database is missing */
-		DATABASE_MISSING,
-		/** Checking keys used to create signatures are in keyring. */
-		KEYRING_START,
-		/** Keyring checking is finished. */
-		KEYRING_DONE,
-		/** Downloading missing keys into keyring. */
-		KEY_DOWNLOAD_START,
-		/** Key downloading is finished. */
-		KEY_DOWNLOAD_DONE
+	namespace Event {
+		/**
+		* Type of events.
+		*/
+		[CCode (cname = "alpm_event_type_t", cprefix = "ALPM_EVENT_")]
+		public enum Type {
+			/** Dependencies will be computed for a package. */
+			CHECKDEPS_START = 1,
+			/** Dependencies were computed for a package. */
+			CHECKDEPS_DONE,
+			/** File conflicts will be computed for a package. */
+			FILECONFLICTS_START,
+			/** File conflicts were computed for a package. */
+			FILECONFLICTS_DONE,
+			/** Dependencies will be resolved for target package. */
+			RESOLVEDEPS_START,
+			/** Dependencies were resolved for target package. */
+			RESOLVEDEPS_DONE,
+			/** Inter-conflicts will be checked for target package. */
+			INTERCONFLICTS_START,
+			/** Inter-conflicts were checked for target package. */
+			INTERCONFLICTS_DONE,
+			/** Package will be installed/upgraded/downgraded/re-installed/removed; See
+			 * PackageOperation for arguments. */
+			PACKAGE_OPERATION_START,
+			/** Package was installed/upgraded/downgraded/re-installed/removed; See
+			 * PackageOperation for arguments. */
+			PACKAGE_OPERATION_DONE,
+			/** Target package's integrity will be checked. */
+			INTEGRITY_START,
+			/** Target package's integrity was checked. */
+			INTEGRITY_DONE,
+			/** Target package will be loaded. */
+			LOAD_START,
+			/** Target package is finished loading. */
+			LOAD_DONE,
+			/** Target delta's integrity will be checked. */
+			DELTA_INTEGRITY_START,
+			/** Target delta's integrity was checked. */
+			DELTA_INTEGRITY_DONE,
+			/** Deltas will be applied to packages. */
+			DELTA_PATCHES_START,
+			/** Deltas were applied to packages. */
+			DELTA_PATCHES_DONE,
+			/** Delta patch will be applied to target package; See
+			* DeltaPatch for arguments. */
+			DELTA_PATCH_START,
+			/** Delta patch was applied to target package. */
+			DELTA_PATCH_DONE,
+			/** Delta patch failed to apply to target package. */
+			DELTA_PATCH_FAILED,
+			/** Scriptlet has printed information; See ScriptletInfo for
+			* arguments. */
+			SCRIPTLET_INFO,
+			/** Files will be downloaded from a repository. */
+			RETRIEVE_START,
+			/** Files were downloaded from a repository. */
+			RETRIEVE_DONE,
+			/** Not all files were successfully downloaded from a repository. */
+			RETRIEVE_FAILED,
+			/** A file will be downloaded from a repository; See PkgDownload
+			 * for arguments */
+			PKGDOWNLOAD_START,
+			/** A file was downloaded from a repository; See PkgDownload
+			 * for arguments */
+			PKGDOWNLOAD_DONE,
+			/** A file failed to be downloaded from a repository; See
+			 * PkgDownload for arguments */
+			PKGDOWNLOAD_FAILED,
+			/** Disk space usage will be computed for a package. */
+			DISKSPACE_START,
+			/** Disk space usage was computed for a package. */
+			DISKSPACE_DONE,
+			/** An optdepend for another package is being removed; See
+			 * OptDepRemoval for arguments. */
+			OPTDEP_REMOVAL,
+			/** A configured repository database is missing; See
+			 * DatabaseMissing for arguments. */
+			DATABASE_MISSING,
+			/** Checking keys used to create signatures are in keyring. */
+			KEYRING_START,
+			/** Keyring checking is finished. */
+			KEYRING_DONE,
+			/** Downloading missing keys into keyring. */
+			KEY_DOWNLOAD_START,
+			/** Key downloading is finished. */
+			KEY_DOWNLOAD_DONE,
+			/** A .pacnew file was created; See PacnewCreated for arguments. */
+			PACNEW_CREATED,
+			/** A .pacsave file was created; See PacsaveCreated for
+			 * arguments */
+			PACSAVE_CREATED,
+			/** A .pacorig file was created; See PacorigCreated for
+			 * arguments */
+			PACORIG_CREATED
+		}
+
+		[CCode (cname = "alpm_event_any_t", has_type_id = false)]
+		public class Any {
+			/** Type of event. */
+			public Type type;
+		}
+
+		[CCode (cname = "alpm_event_package_operation_t", has_type_id = false)]
+		public class PackageOperation {
+			/** Type of event. */
+			public Type type;
+			/** Type of operation. */
+			public Package.Operation operation;
+			/** Old package. */
+			public unowned Package oldpkg;
+			/** New package. */
+			public unowned Package newpkg;
+		}
+
+		[CCode (cname = "alpm_event_optdep_removal_t", has_type_id = false)]
+		public class OptDepRemoval {
+			/** Type of event. */
+			public Type type;
+			/** Package with the optdep. */
+			public unowned Package pkg;
+			/** Optdep being removed. */
+			public unowned Depend optdep;
+		}
+
+		[CCode (cname = "alpm_event_delta_patch_t", has_type_id = false)]
+		public class DeltaPatch {
+			/** Type of event. */
+			public Type type;
+			/** Delta info */
+			public Delta delta;
+		}
+
+		[CCode (cname = "alpm_event_scriptlet_info_t", has_type_id = false)]
+		public class ScriptletInfo {
+			/** Type of event. */
+			public Type type;
+			/** Line of scriptlet output. */
+			public unowned string line;
+		}
+
+		[CCode (cname = "alpm_event_database_missing_t", has_type_id = false)]
+		public class DatabaseMissing {
+			/** Type of event. */
+			public Type type;
+			/** Name of the database. */
+			public unowned string dbname;
+		}
+
+		[CCode (cname = "alpm_event_pkgdownload_t", has_type_id = false)]
+		public class PkgDownload {
+			/** Type of event. */
+			public Type type;
+			/** Name of the file */
+			public unowned string file;
+		}
+
+		[CCode (cname = "alpm_event_pacnew_created_t", has_type_id = false)]
+		public class PacnewCreated {
+			/** Type of event. */
+			public Type type;
+			/** Whether the creation was result of a NoUpgrade or not */
+			public int from_noupgrade;
+			/** Old package. */
+			public unowned Package oldpkg;
+			/** New Package. */
+			public unowned Package newpkg;
+			/** Filename of the file without the .pacnew suffix */
+			public unowned string file;
+		}
+
+		[CCode (cname = "alpm_event_pacsave_created_t", has_type_id = false)]
+		public class PacsaveCreated {
+			/** Type of event. */
+			public Type type;
+			/** Old package. */
+			public unowned Package oldpkg;
+			/** Filename of the file without the .pacsave suffix. */
+			public unowned string file;
+		}
+
+		[CCode (cname = "alpm_event_pacorig_created_t", has_type_id = false)]
+		public class PacorigCreated {
+			/** Type of event. */
+			public Type type;
+			/** New package. */
+			public unowned Package newpkg;
+			/** Filename of the file without the .pacorig suffix. */
+			public unowned string file;
+		}
+
+		/** This is an union passed to the callback, that allows the frontend to know
+		 * which type of event was triggered (via type). It is then possible to
+		 * typecast the pointer to the right structure, or use the union field, in order
+		 * to access event-specific data. */
+		[CCode (cname = "alpm_event_t", has_type_id = false)]
+		public class Data {
+			/** Type of event. */
+			public Type type;
+			// PackageOperation package_operation;
+			[CCode (cname = "package_operation.operation")]
+			public Package.Operation package_operation_operation;
+			[CCode (cname = "package_operation.oldpkg")]
+			public unowned Package package_operation_oldpkg;
+			[CCode (cname = "package_operation.newpkg")]
+			public unowned Package package_operation_newpkg;
+			// OptDepRemoval optdep_removal;
+			[CCode (cname = "optdep_removal.pkg")]
+			public unowned Package optdep_removal_pkg;
+			[CCode (cname = "optdep_removal.optdep")]
+			public unowned Depend optdep_removal_optdep;
+			// DeltaPatch delta_patch;
+			[CCode (cname = "delta_patch.delta")]
+			public Delta delta_patch_delta;
+			// ScriptletInfo scriptlet_info;
+			[CCode (cname = "scriptlet_info.line")]
+			public unowned string scriptlet_info_line;
+			// DatabaseMissing database_missing;
+			[CCode (cname = "database_missing.dbname")]
+			public unowned string database_missing_dbname;
+			// PkgDownload pkgdownload;
+			[CCode (cname = "pkgdownload.file")]
+			public unowned string pkgdownload_file;
+			// PacnewCreated pacnew_created;
+			[CCode (cname = "pacnew_created.from_noupgrade")]
+			public int pacnew_created_from_noupgrade;
+			[CCode (cname = "pacnew_created.oldpkg")]
+			public unowned Package pacnew_created_oldpkg;
+			[CCode (cname = "pacnew_created.newpkg")]
+			public unowned Package pacnew_created_newpkg;
+			[CCode (cname = "pacnew_created.file")]
+			public unowned string pacnew_created_file;
+			// PacsaveCreated pacsave_created;
+			[CCode (cname = "pacsave_created.oldpkg")]
+			public unowned Package pacsave_created_oldpkg;
+			[CCode (cname = "pacsave_created.file")]
+			public unowned string pacsave_created_file;
+			// PacorigCreated pacorig_created;
+			[CCode (cname = "pacorig_created.newpkg")]
+			public unowned Package pacorig_created_newpkg;
+			[CCode (cname = "pacorig_created.file")]
+			public unowned string pacorig_created_file;
+		}
 	}
 
 	/** Event callback */
 	[CCode (cname = "alpm_cb_event", has_type_id = false, has_target = false)]
-	public delegate void EventCallBack (Event event, void *data1, void *data2);
+	public delegate void EventCallBack (Event.Data data);
 
-	/**
-	* Questions.
-	* Unlike the events or progress enumerations, this enum has bitmask values
-	* so a frontend can use a bitmask map to supply preselected answers to the
-	* different types of questions.
-	*/
-	[CCode (cname = "alpm_question_t", cprefix = "ALPM_QUESTION_")]
-	public enum Question {
-		INSTALL_IGNOREPKG = 1,
-		REPLACE_PKG = (1 << 1),
-		CONFLICT_PKG = (1 << 2),
-		CORRUPTED_PKG = (1 << 3),
-		REMOVE_PKGS = (1 << 4),
-		SELECT_PROVIDER = (1 << 5),
-		IMPORT_KEY = (1 << 6)
+	namespace Question {
+		/**
+		* Type of questions.
+		* Unlike the events or progress enumerations, this enum has bitmask values
+		* so a frontend can use a bitmask map to supply preselected answers to the
+		* different types of questions.
+		*/
+		[CCode (cname = "alpm_question_type_t", cprefix = "ALPM_QUESTION_")]
+		public enum Type {
+			INSTALL_IGNOREPKG = (1 << 0),
+			REPLACE_PKG = (1 << 1),
+			CONFLICT_PKG = (1 << 2),
+			CORRUPTED_PKG = (1 << 3),
+			REMOVE_PKGS = (1 << 4),
+			SELECT_PROVIDER = (1 << 5),
+			IMPORT_KEY = (1 << 6)
+		}
+
+		[CCode (cname = "alpm_question_any_t", has_type_id = false)]
+		public class Any {
+			/** Type of question. */
+			public Type type;
+			/** Answer. */
+			public int answer;
+		}
+
+		[CCode (cname = "alpm_question_install_ignorepkg_t", has_type_id = false)]
+		public class InstallIgnorePkg {
+			/** Type of question. */
+			public Type type;
+			/** Answer: whether or not to install pkg anyway. */
+			public int install;
+			// Package in IgnorePkg/IgnoreGroup.
+			public unowned Package pkg;
+		}
+
+		[CCode (cname = "alpm_question_replace_t", has_type_id = false)]
+		public class Replace {
+			/** Type of question. */
+			public Type type;
+			/** Answer: whether or not to replace oldpkg with newpkg. */
+			public int replace;
+			// Package to be replaced.
+			public unowned Package oldpkg;
+			// Package to replace with. */
+			public unowned Package newpkg;
+			// DB of newpkg
+			public unowned DB newdb;
+		}
+
+		[CCode (cname = "alpm_question_conflict_t", has_type_id = false)]
+		public class Conflict {
+			/** Type of question. */
+			public Type type;
+			/** Answer: whether or not to remove conflict->package2. */
+			public int remove;
+			/** Conflict info. */
+			public Alpm.Conflict conflict;
+		}
+
+		[CCode (cname = "alpm_question_corrupted_t", has_type_id = false)]
+		public class Corrupted {
+			/** Type of question. */
+			public Type type;
+			/** Answer: whether or not to remove filepath. */
+			public int remove;
+			/** Filename to remove */
+			public unowned string filepath;
+			/** Error code indicating the reason for package invalidity */
+			public Errno reason;
+		}
+
+		[CCode (cname = "alpm_question_remove_pkgs_t", has_type_id = false)]
+		public class RemovePkgs {
+			/** Type of question. */
+			public Type type;
+			/** Answer: whether or not to skip packages. */
+			public int skip;
+			/** List of alpm_pkg_t* with unresolved dependencies. */
+			public unowned Alpm.List<unowned Package?> packages;
+		}
+
+		[CCode (cname = "alpm_question_select_provider_t", has_type_id = false)]
+		public class SelectProvider {
+			/** Type of question. */
+			public Type type;
+			/** Answer: which provider to use (index from providers). */
+			public int use_index;
+			/** List of alpm_pkg_t* as possible providers. */
+			public unowned Alpm.List<Package?> providers;
+			/** What providers provide for. */
+			public unowned Depend depend;
+		}
+
+		[CCode (cname = "alpm_question_import_key_t", has_type_id = false)]
+		public class ImportKey {
+			/** Type of question. */
+			public Type type;
+			/** Answer: whether or not to import key. */
+			public int import;
+			/** The key to import. */
+			public Signature.PGPKey key;
+		}
+
+		/** This is an union passed to the callback, that allows the frontend to know
+		 * which type of question was triggered (via type). It is then possible to
+		 * typecast the pointer to the right structure, or use the union field, in order
+		 * to access question-specific data. */
+		[CCode (cname = "alpm_question_t", has_type_id = false)]
+		public class Data {
+			public Type type;
+			// Any any;
+			[CCode (cname = "any.answer")]
+			public int any_answer;
+			// InstallIgnorePkg install_ignorepkg;
+			[CCode (cname = "install_ignorepkg.install")]
+			public int install_ignorepkg_install;
+			[CCode (cname = "install_ignorepkg.pkg")]
+			public unowned Package install_ignorepkg_pkg;
+			// Replace replace;
+			[CCode (cname = "replace.replace")]
+			public int replace_replace;
+			[CCode (cname = "replace.oldpkg")]
+			public unowned Package replace_oldpkg;
+			[CCode (cname = "replace.newpkg")]
+			public unowned Package replace_newpkg;
+			[CCode (cname = "replace.newdb")]
+			public unowned DB replace_newdb;
+			// Conflict conflict;
+			[CCode (cname = "conflict.remove")]
+			public int conflict_remove;
+			[CCode (cname = "conflict.conflict")]
+			public Alpm.Conflict conflict_conflict;
+			// Corrupted corrupted;
+			[CCode (cname = "corrupted.remove")]
+			public int corrupted_remove;
+			[CCode (cname = "corrupted.filepath")]
+			public unowned string corrupted_filepath;
+			[CCode (cname = "corrupted.reason")]
+			public Errno corrupted_reason;
+			// RemovePkgs remove_pkgs;
+			[CCode (cname = "remove_pkgs.skip")]
+			public int remove_pkgs_skip;
+			[CCode (cname = "remove_pkgs.packages")]
+			public unowned Alpm.List<unowned Package?> remove_pkgs_packages;
+			// SelectProvider select_provider;
+			[CCode (cname = "select_provider.use_index")]
+			public int select_provider_use_index;
+			[CCode (cname = "select_provider.providers")]
+			public unowned Alpm.List<Package?> select_provider_providers;
+			[CCode (cname = "select_provider.depend")]
+			public unowned Depend select_provider_depend;
+			// ImportKey import_key;
+			[CCode (cname = "import_key.import")]
+			public int import_key_import;
+			[CCode (cname = "import_key.key")]
+			public Signature.PGPKey import_key_key;
+		}
 	}
 
 	/** Question callback */
 	[CCode (cname = "alpm_cb_question", has_type_id = false, has_target = false)]
-	public delegate void QuestionCallBack (Question question, void *data1, void *data2, void *data3,  out int response);
+	public delegate void QuestionCallBack (Question.Data data);
 
 	/** Progress */
 	[CCode (cname = "alpm_progress_t", cprefix = "ALPM_PROGRESS_")]
@@ -934,6 +1267,7 @@ namespace Alpm {
 		PKG_INVALID,
 		PKG_INVALID_CHECKSUM,
 		PKG_INVALID_SIG,
+		PKG_MISSING_SIG,
 		PKG_OPEN,
 		PKG_CANT_REMOVE,
 		PKG_INVALID_NAME,
@@ -960,9 +1294,15 @@ namespace Alpm {
 	}
 
 [CCode (cprefix = "alpm_list_", cheader_filename = "alpm_list.h,alpm-util.h",
-		cname = "alpm_list_t", type_parameters = "G", free_function = "alpm_list_free_all")]
+		cname = "alpm_list_t", type_parameters = "G", free_function = "alpm_list_free")]
 	[Compact]
 	public class List<G> {
+
+		[CCode (cname = "alpm_list_new")]
+		public List ();
+
+		public static void free_all(List list);
+
 		/* Comparator*/
 		[CCode (cname = "alpm_list_fn_cmp", has_target = false)]
 		public delegate int CompareFunc<G>(G a, G b);
@@ -988,7 +1328,7 @@ namespace Alpm {
 		[CCode (cname = "alpm_list_remove_data"), ReturnsModifiedPointer ()]
 		public unowned void? remove(G data, CompareFunc fn);
 
-		public unowned List<G> copy();
+		public List<G> copy();
 		public List<G> copy_data();
 
 		[ReturnsModifiedPointer ()]

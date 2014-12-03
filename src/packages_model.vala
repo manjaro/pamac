@@ -33,7 +33,7 @@ namespace Pamac {
 				unowned Json.Object pkg_info;
 				string name;
 				bool found;
-				foreach (Json.Node node in aur_pkgs.get_elements ()) {
+				foreach (var node in aur_pkgs.get_elements ()) {
 					pkg_info = node.get_object ();
 					name = pkg_info.get_string_member ("Name");
 					// add only the packages which are not already in the list
@@ -84,7 +84,7 @@ namespace Pamac {
 				case 1:
 					val = Value (typeof (Object));
 					if (pkg.alpm_pkg != null) {
-						if (pkg.name in manager_window.transaction.holdpkg)
+						if (pkg.name in manager_window.transaction.alpm_config.holdpkg)
 							val.set_object (manager_window.locked_icon);
 						else if (pkg.repo == "local") {
 							if (manager_window.transaction.to_add.contains (pkg.name))

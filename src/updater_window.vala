@@ -131,7 +131,7 @@ namespace Pamac {
 			top_label.set_markup ("");
 			updates_list.clear ();
 			// get syncfirst updates
-			UpdatesInfos[] syncfirst_updates = get_syncfirst_updates (transaction.handle, transaction.syncfirst);
+			UpdatesInfos[] syncfirst_updates = get_syncfirst_updates (transaction.alpm_config.handle, transaction.alpm_config.syncfirst);
 			if (syncfirst_updates.length != 0) {
 				updates_nb = syncfirst_updates.length;
 				foreach (UpdatesInfos infos in syncfirst_updates) {
@@ -146,7 +146,7 @@ namespace Pamac {
 			} else {
 				while (Gtk.events_pending ())
 					Gtk.main_iteration ();
-				UpdatesInfos[] updates = get_repos_updates (transaction.handle, transaction.ignorepkg);
+				UpdatesInfos[] updates = get_repos_updates (transaction.alpm_config.handle, transaction.alpm_config.ignore_pkgs);
 				foreach (UpdatesInfos infos in updates) {
 					name = infos.name + " " + infos.version;
 					if (infos.download_size != 0)
@@ -158,7 +158,7 @@ namespace Pamac {
 				}
 				updates_nb += updates.length;
 				if (pamac_config.enable_aur) {
-					UpdatesInfos[] aur_updates = get_aur_updates (transaction.handle, transaction.ignorepkg);
+					UpdatesInfos[] aur_updates = get_aur_updates (transaction.alpm_config.handle, transaction.alpm_config.ignore_pkgs);
 					updates_nb += aur_updates.length;
 					foreach (UpdatesInfos infos in aur_updates) {
 						name = infos.name + " " + infos.version;

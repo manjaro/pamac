@@ -28,7 +28,7 @@ namespace AUR {
 	const string aur_url_id =  "/packages.php?setlang=en&ID=";
 
 	public Json.Array search (string[] needles) {
-		Json.Array prev_inter = new Json.Array ();
+		var prev_inter = new Json.Array ();
 		string uri = rpc_url + rpc_search + Uri.escape_string (needles[0]);
 		var session = new Soup.Session ();
 		var message = new Soup.Message ("GET", uri);
@@ -46,8 +46,8 @@ namespace AUR {
 		if (length == 1)
 			return prev_inter;
 		int i = 1;
-		Json.Array inter = new Json.Array ();
-		Json.Array found = new Json.Array ();
+		var inter = new Json.Array ();
+		var found = new Json.Array ();
 		while (i < length) {
 			inter = new Json.Array ();
 			uri = rpc_url + rpc_search + Uri.escape_string (needles[i]);
@@ -60,8 +60,8 @@ namespace AUR {
 			} catch (Error e) {
 				print (e.message);
 			}
-			foreach (Json.Node prev_inter_node in prev_inter.get_elements ()) {
-				foreach (Json.Node found_node in found.get_elements ()) {
+			foreach (var prev_inter_node in prev_inter.get_elements ()) {
+				foreach (var found_node in found.get_elements ()) {
 					if (strcmp (prev_inter_node.get_object ().get_string_member ("Name"),
 								found_node.get_object ().get_string_member ("Name")) == 0) {
 						inter.add_element (prev_inter_node);

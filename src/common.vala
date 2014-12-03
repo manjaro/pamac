@@ -28,8 +28,7 @@ namespace Pamac {
 
 	public enum Mode {
 		MANAGER,
-		UPDATER,
-		NO_CONFIRM
+		UPDATER
 	}
 
 	public struct ErrorInfos {
@@ -57,13 +56,11 @@ public int pkgcmp (Alpm.Package pkg1, Alpm.Package pkg2) {
 	return strcmp (pkg1.name, pkg2.name);
 }
 
-public unowned Alpm.List<Alpm.Package?> search_all_dbs (Alpm.Handle handle, Alpm.List<string?> needles) {
-	unowned Alpm.List<Alpm.Package?> syncpkgs = null;
-	unowned Alpm.List<Alpm.Package?> result = null;
+public Alpm.List<unowned Alpm.Package?> search_all_dbs (Alpm.Handle handle, Alpm.List<string?> needles) {
+	var syncpkgs = new Alpm.List<unowned Alpm.Package?> ();
+	var result = handle.localdb.search (needles);
 
-	result = handle.localdb.search (needles);
-
-	foreach (unowned Alpm.DB db in handle.syncdbs) {
+	foreach (var db in handle.syncdbs) {
 		if (syncpkgs.length == 0)
 			syncpkgs = db.search (needles);
 		else {
@@ -77,12 +74,12 @@ public unowned Alpm.List<Alpm.Package?> search_all_dbs (Alpm.Handle handle, Alpm
 	return result;
 }
 
-public unowned Alpm.List<Alpm.Package?> group_pkgs_all_dbs (Alpm.Handle handle, string grp_name) {
-	unowned Alpm.List<Alpm.Package?> result = null;
+public Alpm.List<unowned Alpm.Package?> group_pkgs_all_dbs (Alpm.Handle handle, string grp_name) {
+	var result = new Alpm.List<unowned Alpm.Package?> ();
 
 	unowned Alpm.Group? grp = handle.localdb.get_group (grp_name);
 	if (grp != null) {
-		foreach (unowned Alpm.Package pkg in grp.packages)
+		foreach (var pkg in grp.packages)
 			result.add (pkg);
 	}
 
@@ -93,13 +90,12 @@ public unowned Alpm.List<Alpm.Package?> group_pkgs_all_dbs (Alpm.Handle handle, 
 	return result;
 }
 
-public unowned Alpm.List<Alpm.Package?> get_all_pkgs (Alpm.Handle handle) {
-	unowned Alpm.List<Alpm.Package?> syncpkgs = null;
-	unowned Alpm.List<Alpm.Package?> result = null;
-
+public Alpm.List<unowned Alpm.Package?> get_all_pkgs (Alpm.Handle handle) {
+	var syncpkgs = new Alpm.List<unowned Alpm.Package?> ();
+	var result = new Alpm.List<unowned Alpm.Package?> ();
 	result = handle.localdb.pkgcache.copy ();
 
-	foreach (unowned Alpm.DB db in handle.syncdbs) {
+	foreach (var db in handle.syncdbs) {
 		if (syncpkgs.length == 0)
 			syncpkgs = db.pkgcache.copy ();
 		else {
@@ -115,7 +111,7 @@ public unowned Alpm.List<Alpm.Package?> get_all_pkgs (Alpm.Handle handle) {
 
 public unowned Alpm.Package? get_syncpkg (Alpm.Handle handle, string name) {
 	unowned Alpm.Package? pkg = null;
-	foreach (unowned Alpm.DB db in handle.syncdbs) {
+	foreach (var db in handle.syncdbs) {
 		pkg = db.get_pkg (name);
 		if (pkg != null)
 			break;
@@ -128,10 +124,10 @@ public Pamac.UpdatesInfos[] get_syncfirst_updates (Alpm.Handle handle, string[] 
 	Pamac.UpdatesInfos[] syncfirst_infos = {};
 	unowned Alpm.Package? pkg = null;
 	unowned Alpm.Package? candidate = null;
-	foreach (string name in syncfirst) {
+	foreach (var name in syncfirst) {
 		pkg = Alpm.find_satisfier (handle.localdb.pkgcache, name);
 		if (pkg != null) {
-			candidate = Alpm.sync_newversion (pkg, handle.syncdbs);
+			candidate = pkg.sync_newversion (handle.syncdbs);
 			if (candidate != null) {
 				infos.name = candidate.name;
 				infos.version = candidate.version;
@@ -149,10 +145,10 @@ public Pamac.UpdatesInfos[] get_repos_updates (Alpm.Handle handle, string[] igno
 	unowned Alpm.Package? candidate = null;
 	Pamac.UpdatesInfos infos = Pamac.UpdatesInfos ();
 	Pamac.UpdatesInfos[] updates = {};
-	foreach (unowned Alpm.Package local_pkg in handle.localdb.pkgcache) {
+	foreach (var local_pkg in handle.localdb.pkgcache) {
 		// continue only if the local pkg is not in IgnorePkg or IgnoreGroup
 		if ((local_pkg.name in ignore_pkgs) == false) {
-			candidate = Alpm.sync_newversion (local_pkg, handle.syncdbs);
+			candidate = local_pkg.sync_newversion (handle.syncdbs);
 			if (candidate != null) {
 				infos.name = candidate.name;
 				infos.version = candidate.version;
@@ -173,18 +169,18 @@ public Pamac.UpdatesInfos[] get_aur_updates (Alpm.Handle handle, string[] ignore
 	Pamac.UpdatesInfos infos = Pamac.UpdatesInfos ();
 	Pamac.UpdatesInfos[] aur_updates = {};
 	// get local pkgs
-	foreach (unowned Alpm.Package local_pkg in handle.localdb.pkgcache) {
+	foreach (var local_pkg in handle.localdb.pkgcache) {
 		// continue only if the local pkg is not in IgnorePkg or IgnoreGroup
 		if ((local_pkg.name in ignore_pkgs) == false) {
 			// check updates from AUR only for local packages
-			foreach (unowned Alpm.DB db in handle.syncdbs) {
+			foreach (var db in handle.syncdbs) {
 				sync_pkg = Alpm.find_satisfier (db.pkgcache, local_pkg.name);
 				if (sync_pkg != null)
 					break;
 			}
 			if (sync_pkg == null) {
 				// check update from AUR only if no package from dbs will replace it
-				candidate = Alpm.sync_newversion (local_pkg, handle.syncdbs);
+				candidate = local_pkg.sync_newversion (handle.syncdbs);
 				if (candidate == null) {
 					local_pkgs += local_pkg.name;
 				}
@@ -192,12 +188,13 @@ public Pamac.UpdatesInfos[] get_aur_updates (Alpm.Handle handle, string[] ignore
 		}
 	}
 	// get aur updates
-	Json.Array aur_pkgs = AUR.multiinfo (local_pkgs);
+	var aur_pkgs = AUR.multiinfo (local_pkgs);
 	int cmp;
+	unowned Json.Object pkg_info;
 	string version;
 	string name;
-	foreach (Json.Node node in aur_pkgs.get_elements ()) {
-		unowned Json.Object pkg_info = node.get_object ();
+	foreach (var node in aur_pkgs.get_elements ()) {
+		pkg_info = node.get_object ();
 		version = pkg_info.get_string_member ("Version");
 		name = pkg_info.get_string_member ("Name");
 		cmp = Alpm.pkg_vercmp (version, handle.localdb.get_pkg (name).version);

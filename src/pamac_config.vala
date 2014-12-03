@@ -19,19 +19,19 @@
 
 namespace Pamac {
 	public class Config: Object {
+		string conf_path;
 		public uint64 refresh_period;
 		public bool enable_aur;
 		public bool recurse;
-		public string conf_path;
 
 		public Config (string path) {
-			this.conf_path = path;
+			conf_path = path;
 			// set default options
-			this.refresh_period = 4;
-			this.enable_aur = false;
-			this.recurse = false;
+			refresh_period = 4;
+			enable_aur = false;
+			recurse = false;
 			// parse conf file
-			this.parse_include_file (conf_path);
+			parse_include_file (conf_path);
 		}
 
 		public void parse_include_file (string path) {
@@ -55,11 +55,11 @@ namespace Pamac {
 						if (splitted[1] != null)
 							_value = splitted[1].strip ();
 						if (_key == "RefreshPeriod")
-							this.refresh_period = uint64.parse (_value);
+							refresh_period = uint64.parse (_value);
 						else if (_key == "EnableAUR")
-							this.enable_aur = true;
+							enable_aur = true;
 						else if (_key == "RemoveUnrequiredDeps")
-							this.recurse = true;
+							recurse = true;
 					}
 				} catch (GLib.Error e) {
 					GLib.stderr.printf("%s\n", e.message);
@@ -68,7 +68,7 @@ namespace Pamac {
 		}
 
 		public void write (HashTable<string,string> new_conf) {
-			var file = GLib.File.new_for_path (this.conf_path);
+			var file = GLib.File.new_for_path (conf_path);
 			if (file.query_exists () == false)
 				GLib.stderr.printf ("File '%s' doesn't exist.\n", file.get_path ());
 			else {
@@ -84,7 +84,7 @@ namespace Pamac {
 							if (new_conf.contains ("RefreshPeriod")) {
 								string _value = new_conf.get ("RefreshPeriod");
 								data += "RefreshPeriod = %s\n".printf (_value);
-								this.refresh_period = uint64.parse (_value);
+								refresh_period = uint64.parse (_value);
 							} else
 								data += line + "\n";
 						} else if (line.contains ("EnableAUR")) {
@@ -94,7 +94,7 @@ namespace Pamac {
 									data += "EnableAUR\n";
 								else
 									data += "#EnableAUR\n";
-								this.enable_aur = _value;
+								enable_aur = _value;
 							} else
 								data += line + "\n";
 						} else if (line.contains ("RemoveUnrequiredDeps")) {
@@ -104,7 +104,7 @@ namespace Pamac {
 									data += "RemoveUnrequiredDeps\n";
 								else
 									data += "#RemoveUnrequiredDeps\n";
-								this.enable_aur = _value;
+								enable_aur = _value;
 							} else
 								data += line + "\n";
 						} else
@@ -125,9 +125,9 @@ namespace Pamac {
 		}
 
 		public void reload () {
-			this.enable_aur = false;
-			this.recurse = false;
-			this.parse_include_file (this.conf_path);
+			enable_aur = false;
+			recurse = false;
+			parse_include_file (conf_path);
 		}
 	}
 }
