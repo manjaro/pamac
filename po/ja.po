@@ -2,7 +2,7 @@
 # Copyright (C) 2007-2012 Free Software Foundation, Inc.
 # This file is distributed under the same license as the Pamac package.
 # Guillaume Benoit <guillaume@manjaro.org>, 2013-2014.
-#
+# 
 # Translators:
 # Takefumi Nagata, 2013-2014
 msgid ""
@@ -10,23 +10,22 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2014-11-22 11:36+0100\n"
-"PO-Revision-Date: 2014-11-21 09:36+0000\n"
+"PO-Revision-Date: 2014-11-22 14:11+0000\n"
 "Last-Translator: Guillaume Benoit <guillaume@manjaro.org>\n"
-"Language-Team: Japanese (http://www.transifex.com/projects/p/manjaro-pamac/"
-"language/ja/)\n"
-"Language: ja\n"
+"Language-Team: Japanese (http://www.transifex.com/projects/p/manjaro-pamac/language/ja/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: ja\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: data/polkit/org.manjaro.pamac.policy
+#: data/polkit/org.manjaro.pamac.policy:10
 msgid "Authentication is required"
 msgstr "認証が必要です"
 
 #: ../resources/choose_provider_dialog.ui
 msgid "Choose a Provider"
-msgstr ""
+msgstr "供給元を選択"
 
 #: ../resources/choose_provider_dialog.ui
 #: ../resources/transaction_sum_dialog.ui ../resources/preferences_dialog.ui
@@ -123,7 +122,7 @@ msgstr "サイズ"
 
 #: ../resources/manager_window.ui
 msgid "Description"
-msgstr ""
+msgstr "説明"
 
 #: ../resources/manager_window.ui
 msgid "Dependencies"
@@ -177,9 +176,7 @@ msgstr "必要ではない依存関係を削除"
 msgid ""
 "When removing a package, also remove its dependencies that are not required "
 "by other packages"
-msgstr ""
-"パッケージを削除する際、他のパッケージでは必要とされていない依存パッケージも"
-"削除"
+msgstr "パッケージを削除する際、他のパッケージでは必要とされていない依存パッケージも削除"
 
 #: ../resources/preferences_dialog.ui ../src/preferences_dialog.vala
 msgid "How often to check for updates, value in hours"
@@ -236,7 +233,7 @@ msgstr "%s は削除される必要がありますが、ロックされていま
 
 #: ../src/daemon.vala
 msgid "Failed to commit transaction"
-msgstr ""
+msgstr "トランザクションのコミットに失敗しました"
 
 #: ../src/daemon.vala
 #, c-format
@@ -272,7 +269,7 @@ msgstr "準備中"
 #: ../src/transaction.vala
 #, c-format
 msgid "Choose a provider for %s"
-msgstr ""
+msgstr "%s についての供給元を選択"
 
 #: ../src/transaction.vala ../src/manager_window.vala
 msgid "To remove"
@@ -400,7 +397,7 @@ msgstr "使用可能なディスク容量を確認中"
 #: ../src/transaction.vala
 #, c-format
 msgid "%s optionally requires %s"
-msgstr ""
+msgstr "%s はオプショナルに %s を必要とします"
 
 #: ../src/transaction.vala
 #, c-format
@@ -454,7 +451,7 @@ msgstr "終了（_Q）"
 #, c-format
 msgid "%u available update"
 msgid_plural "%u available updates"
-msgstr[0] ""
+msgstr[0] "%u 種類の利用可能なアップデート"
 
 #: ../src/tray.vala
 msgid "Show available updates"
@@ -478,7 +475,7 @@ msgstr "再インストール"
 
 #: ../src/manager_window.vala
 msgid "Install optional dependencies"
-msgstr ""
+msgstr "オプショナルに依存するパッケージをインストール"
 
 #: ../src/manager_window.vala
 msgid "Mark as explicitly installed"
@@ -576,7 +573,7 @@ msgstr "アンインストール済み"
 
 #: ../src/manager_window.vala
 msgid "A Gtk3 frontend for libalpm"
-msgstr ""
+msgstr "libalpmのためのGtk3フロントエンド"
 
 #: ../src/common.vala
 #, c-format

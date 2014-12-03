@@ -27,6 +27,11 @@ DIALOGS_FILES = 	choose_provider_dialog.vala \
 					transaction_info_dialog.vala \
 					progress_dialog.vala
 
+pamac-refresh: refresh.vala
+	valac 	-o pamac-refresh \
+			--pkg=gio-2.0 \
+			refresh.vala
+
 pamac-daemon: ../vapi/libalpm.vapi ../vapi/polkit-gobject-1.vapi $(COMMON_SOURCES) daemon.vala
 	valac 	-o pamac-daemon \
 			$(COMMON_VALA_FLAGS) \
@@ -92,4 +97,4 @@ pamac-install: ../vapi/libalpm.vapi $(COMMON_SOURCES) $(DIALOGS_FILES) ../resour
 			transaction.vala \
 			installer.vala
 
-binaries: pamac-daemon  pamac-tray  pamac-updater  pamac-manager  pamac-install
+binaries: pamac-refresh pamac-daemon  pamac-tray  pamac-updater  pamac-manager  pamac-install
