@@ -879,6 +879,8 @@ namespace Pamac {
 						Gtk.main_iteration ();
 					finished (false);
 				} else {
+					clear_lists ();
+					finished (false);
 					sysupgrade (0);
 				}
 			} else {

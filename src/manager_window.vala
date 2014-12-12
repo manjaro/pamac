@@ -410,7 +410,7 @@ namespace Pamac {
 				string reason;
 				if (pkg.reason == PkgReason.EXPLICIT)
 					reason = dgettext (null, "Explicitly installed");
-				else if (pkg.reason == PkgReason.EXPLICIT)
+				else if (pkg.reason == PkgReason.DEPEND)
 					reason = dgettext (null, "Installed as a dependency for another package");
 				else
 					reason = dgettext (null, "Unknown");
