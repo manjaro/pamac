@@ -19,7 +19,7 @@
 
 namespace Pamac {
 
-	[GtkTemplate (ui = "/org/manjaro/pamac/preferences/preferences_dialog.ui")]
+	[GtkTemplate (ui = "/org/manjaro/pamac/transaction/preferences_dialog.ui")]
 	public class PreferencesDialog : Gtk.Dialog {
 
 		[GtkChild]
@@ -27,11 +27,21 @@ namespace Pamac {
 		[GtkChild]
 		public Gtk.Switch remove_unrequired_deps_button;
 		[GtkChild]
+		public Gtk.Switch check_space_button;
+		[GtkChild]
+		public Gtk.Entry syncfirst_entry;
+		[GtkChild]
+		public Gtk.Entry ignore_upgrade_entry;
+		[GtkChild]
 		public Gtk.SpinButton refresh_period_spin_button;
 		[GtkChild]
 		public Gtk.Label refresh_period_label;
+		[GtkChild]
+		public Gtk.ComboBoxText mirrors_country_comboboxtext;
+		[GtkChild]
+		public Gtk.ComboBoxText mirrorlist_generation_method_comboboxtext;
 
-		public PreferencesDialog (Gtk.ApplicationWindow window) {
+		public PreferencesDialog (Gtk.ApplicationWindow? window) {
 			Object (transient_for: window, use_header_bar: 0);
 
 			refresh_period_label.set_markup (dgettext (null, "How often to check for updates, value in hours") +":");

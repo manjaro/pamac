@@ -121,7 +121,6 @@ namespace Pamac {
 		//dialogs
 		HistoryDialog history_dialog;
 		PackagesChooserDialog packages_chooser_dialog;
-		PreferencesDialog preferences_dialog;
 
 		public ManagerWindow (Gtk.Application application) {
 			Object (application: application);
@@ -183,7 +182,6 @@ namespace Pamac {
 
 			history_dialog = new HistoryDialog (this);
 			packages_chooser_dialog = new PackagesChooserDialog (this, transaction);
-			preferences_dialog = new PreferencesDialog (this as ApplicationWindow);
 
 			set_buttons_sensitive (false);
 			search_aur_button.set_active (pamac_config.enable_aur);
@@ -411,7 +409,7 @@ namespace Pamac {
 				string reason;
 				if (pkg.reason == Alpm.Package.Reason.EXPLICIT)
 					reason = dgettext (null, "Explicitly installed");
-				else if (pkg.reason == Alpm.Package.Reason.EXPLICIT)
+				else if (pkg.reason == Alpm.Package.Reason.DEPEND)
 					reason = dgettext (null, "Installed as a dependency for another package");
 				else
 					reason = dgettext (null, "Unknown");
@@ -562,7 +560,7 @@ namespace Pamac {
 						packages_list.get_value (iter, 3, out val);
 						string db_name = val.get_string ();
 						if (db_name == "local") {
-							if ((name in transaction.alpm_config.holdpkg) == false) {
+							if (transaction.alpm_config.holdpkgs.find_custom (name, strcmp) == null) {
 								transaction.to_remove.insert (name, name);
 							}
 						} else if (db_name == "AUR") {
@@ -609,7 +607,7 @@ namespace Pamac {
 
 		void on_remove_item_activate () {
 			foreach (Pamac.Package pkg in selected_pkgs) {
-				if ((pkg.name in transaction.alpm_config.holdpkg) == false) {
+				if (transaction.alpm_config.holdpkgs.find_custom (pkg.name, strcmp) == null) {
 					if (pkg.repo == "local")
 						transaction.to_remove.insert (pkg.name, pkg.name);
 				}
@@ -1091,37 +1089,9 @@ namespace Pamac {
 
 		[GtkCallback]
 		public void on_preferences_item_activate () {
-			bool enable_aur = pamac_config.enable_aur;
-			bool recurse = pamac_config.recurse;
-			uint64 refresh_period = pamac_config.refresh_period;
-			preferences_dialog.enable_aur_button.set_active (enable_aur);
-			preferences_dialog.remove_unrequired_deps_button.set_active (recurse);
-			preferences_dialog.refresh_period_spin_button.set_value (refresh_period);
-			int response = preferences_dialog.run ();
-			while (Gtk.events_pending ())
-				Gtk.main_iteration ();
-			if (response == ResponseType.OK) {
-				HashTable<string,string> new_conf = new HashTable<string,string> (str_hash, str_equal);
-				enable_aur = preferences_dialog.enable_aur_button.get_active ();
-				recurse = preferences_dialog.remove_unrequired_deps_button.get_active ();
-				refresh_period = (uint64) preferences_dialog.refresh_period_spin_button.get_value ();
-				if (enable_aur != pamac_config.enable_aur) {
-					search_aur_button.set_active (enable_aur);
-					new_conf.insert ("EnableAUR", enable_aur.to_string ());
-				}
-				if (recurse != pamac_config.recurse)
-					new_conf.insert ("RemoveUnrequiredDeps", recurse.to_string ());
-				if (refresh_period != pamac_config.refresh_period)
-					new_conf.insert ("RefreshPeriod", refresh_period.to_string ());
-				if (new_conf.size () != 0) {
-					transaction.write_config (new_conf);
-					pamac_config.reload ();
-					search_aur_button.set_active (pamac_config.enable_aur);
-				}
-			}
-			preferences_dialog.hide ();
-			while (Gtk.events_pending ())
-				Gtk.main_iteration ();
+			bool changes = transaction.run_preferences_dialog (pamac_config);
+			if (changes)
+				search_aur_button.set_active (pamac_config.enable_aur);
 		}
 
 		[GtkCallback]

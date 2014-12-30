@@ -84,7 +84,7 @@ namespace Pamac {
 				case 1:
 					val = Value (typeof (Object));
 					if (pkg.alpm_pkg != null) {
-						if (pkg.name in manager_window.transaction.alpm_config.holdpkg)
+						if (manager_window.transaction.alpm_config.holdpkgs.find_custom (pkg.name, strcmp) != null)
 							val.set_object (manager_window.locked_icon);
 						else if (pkg.repo == "local") {
 							if (manager_window.transaction.to_add.contains (pkg.name))

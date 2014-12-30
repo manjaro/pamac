@@ -119,12 +119,12 @@ public unowned Alpm.Package? get_syncpkg (Alpm.Handle handle, string name) {
 	return pkg;
 }
 
-public Pamac.UpdatesInfos[] get_syncfirst_updates (Alpm.Handle handle, string[] syncfirst) {
+public Pamac.UpdatesInfos[] get_syncfirst_updates (Alpm.Handle handle, GLib.List<string> syncfirsts) {
 	Pamac.UpdatesInfos infos = Pamac.UpdatesInfos ();
 	Pamac.UpdatesInfos[] syncfirst_infos = {};
 	unowned Alpm.Package? pkg = null;
 	unowned Alpm.Package? candidate = null;
-	foreach (var name in syncfirst) {
+	foreach (var name in syncfirsts) {
 		pkg = Alpm.find_satisfier (handle.localdb.pkgcache, name);
 		if (pkg != null) {
 			candidate = pkg.sync_newversion (handle.syncdbs);
@@ -141,13 +141,13 @@ public Pamac.UpdatesInfos[] get_syncfirst_updates (Alpm.Handle handle, string[] 
 	return syncfirst_infos;
 }
 
-public Pamac.UpdatesInfos[] get_repos_updates (Alpm.Handle handle, string[] ignore_pkgs) {
+public Pamac.UpdatesInfos[] get_repos_updates (Alpm.Handle handle) {
 	unowned Alpm.Package? candidate = null;
 	Pamac.UpdatesInfos infos = Pamac.UpdatesInfos ();
 	Pamac.UpdatesInfos[] updates = {};
 	foreach (var local_pkg in handle.localdb.pkgcache) {
 		// continue only if the local pkg is not in IgnorePkg or IgnoreGroup
-		if ((local_pkg.name in ignore_pkgs) == false) {
+		if (handle.should_ignore (local_pkg) == 0) {
 			candidate = local_pkg.sync_newversion (handle.syncdbs);
 			if (candidate != null) {
 				infos.name = candidate.name;
@@ -162,7 +162,7 @@ public Pamac.UpdatesInfos[] get_repos_updates (Alpm.Handle handle, string[] igno
 	return updates;
 }
 
-public Pamac.UpdatesInfos[] get_aur_updates (Alpm.Handle handle, string[] ignore_pkgs) {
+public Pamac.UpdatesInfos[] get_aur_updates (Alpm.Handle handle) {
 	unowned Alpm.Package? sync_pkg = null;
 	unowned Alpm.Package? candidate = null;
 	string[] local_pkgs = {};
@@ -171,7 +171,7 @@ public Pamac.UpdatesInfos[] get_aur_updates (Alpm.Handle handle, string[] ignore
 	// get local pkgs
 	foreach (var local_pkg in handle.localdb.pkgcache) {
 		// continue only if the local pkg is not in IgnorePkg or IgnoreGroup
-		if ((local_pkg.name in ignore_pkgs) == false) {
+		if (handle.should_ignore (local_pkg) == 0) {
 			// check updates from AUR only for local packages
 			foreach (var db in handle.syncdbs) {
 				sync_pkg = Alpm.find_satisfier (db.pkgcache, local_pkg.name);

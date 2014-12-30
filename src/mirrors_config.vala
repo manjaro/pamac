@@ -17,25 +17,42 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Pamac {
-	public class Config: Object {
+namespace Alpm {
+	public class MirrorsConfig: Object {
 		string conf_path;
-		public int refresh_period;
-		public bool enable_aur;
-		public bool recurse;
+		string mirrorlists_dir;
+		public string choosen_generation_method;
+		public string choosen_country;
+		public GLib.List<string> countrys;
 
-		public Config (string path) {
+		public MirrorsConfig (string path) {
 			conf_path = path;
-			// set default option
-			refresh_period = 4;
 			reload ();
 		}
 
 		public void reload () {
 			// set default options
-			enable_aur = false;
-			recurse = false;
+			choosen_generation_method = "rank";
+			choosen_country = dgettext (null, "Worldwide");
+			mirrorlists_dir = "/etc/pacman.d/mirrors";
 			parse_file (conf_path);
+		}
+
+		public void get_countrys () {
+			try {
+				var directory = GLib.File.new_for_path (mirrorlists_dir);
+				var enumerator = directory.enumerate_children (FileAttribute.STANDARD_NAME, 0);
+				FileInfo file_info;
+				countrys = new GLib.List<string> ();
+				while ((file_info = enumerator.next_file ()) != null) {
+					countrys.append(file_info.get_name ());
+				}
+				countrys.sort ((a, b) => {
+					return strcmp (a, b);
+				});
+			} catch (Error e) {
+				stderr.printf ("%s\n", e.message);
+			}
 		}
 
 		public void parse_file (string path) {
@@ -58,14 +75,14 @@ namespace Pamac {
 						string _value = null;
 						if (splitted[1] != null)
 							_value = splitted[1].strip ();
-						if (_key == "RefreshPeriod")
-							refresh_period = int.parse (_value);
-						else if (_key == "EnableAUR")
-							enable_aur = true;
-						else if (_key == "RemoveUnrequiredDeps")
-							recurse = true;
+						if (_key == "Method")
+							choosen_generation_method = _value;
+						else if (_key == "OnlyCountry")
+							choosen_country = _value;
+						else if (_key == "MirrorlistsDir")
+							mirrorlists_dir = _value.replace ("\"", "");
 					}
-				} catch (GLib.Error e) {
+				} catch (Error e) {
 					GLib.stderr.printf("%s\n", e.message);
 				}
 			}
@@ -74,7 +91,7 @@ namespace Pamac {
 		public void write (HashTable<string,Variant> new_conf) {
 			var file = GLib.File.new_for_path (conf_path);
 			if (file.query_exists () == false)
-				GLib.stderr.printf ("File '%s' doesn't exist.\n", conf_path);
+				GLib.stderr.printf ("File '%s' doesn't exist.\n", file.get_path ());
 			else {
 				try {
 					// Open file for reading and wrap returned FileInputStream into a
@@ -84,29 +101,19 @@ namespace Pamac {
 					string[] data = {};
 					// Read lines until end of file (null) is reached
 					while ((line = dis.read_line (null)) != null) {
-						if (line.length == 0) continue;
-						if (line.contains ("RefreshPeriod")) {
-							if (new_conf.contains ("RefreshPeriod")) {
-								int _value = new_conf.get ("RefreshPeriod").get_int32 ();
-								data += "RefreshPeriod = %u\n".printf (_value);
+						if (line.contains ("Method")) {
+							if (new_conf.contains ("Method")) {
+								string _value = new_conf.get ("Method").get_string ();
+								data += "Method=%s\n".printf (_value);
 							} else
 								data += line + "\n";
-						} else if (line.contains ("EnableAUR")) {
-							if (new_conf.contains ("EnableAUR")) {
-								bool _value = new_conf.get ("EnableAUR").get_boolean ();
-								if (_value == true)
-									data += "EnableAUR\n";
+						} else if (line.contains ("OnlyCountry")) {
+							if (new_conf.contains ("OnlyCountry")) {
+								string _value = new_conf.get ("OnlyCountry").get_string ();
+								if (_value == dgettext (null, "Worldwide"))
+									data += "#%s\n".printf (line);
 								else
-									data += "#EnableAUR\n";
-							} else
-								data += line + "\n";
-						} else if (line.contains ("RemoveUnrequiredDeps")) {
-							if (new_conf.contains ("RemoveUnrequiredDeps")) {
-								bool _value = new_conf.get ("RemoveUnrequiredDeps").get_boolean ();
-								if (_value == true)
-									data += "RemoveUnrequiredDeps\n";
-								else
-									data += "#RemoveUnrequiredDeps\n";
+									data += "OnlyCountry=%s\n".printf (_value);
 							} else
 								data += line + "\n";
 						} else

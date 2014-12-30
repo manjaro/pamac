@@ -46,6 +46,9 @@ namespace Pamac {
 		public signal void emit_refreshed (ErrorInfos error);
 		public signal void emit_trans_prepared (ErrorInfos error);
 		public signal void emit_trans_committed (ErrorInfos error);
+		public signal void emit_generate_mirrorlist_start ();
+		public signal void emit_generate_mirrorlist_data (string line);
+		public signal void emit_generate_mirrorlist_finished ();
 
 		public Daemon () {
 			alpm_config = new Alpm.Config ("/etc/pacman.conf");
@@ -68,7 +71,7 @@ namespace Pamac {
 			previous_percent = 0;
 		}
 
-		public void write_config (HashTable<string,string> new_conf, GLib.BusName sender) {
+		public void write_pamac_config (HashTable<string,Variant> new_pamac_conf, GLib.BusName sender) {
 			var pamac_config = new Pamac.Config ("/etc/pamac.conf");
 			try {
 				Polkit.Authority authority = Polkit.Authority.get_sync (null);
@@ -81,7 +84,108 @@ namespace Pamac {
 					null
 				);
 				if (result.get_is_authorized ()) {
-					pamac_config.write (new_conf);
+					pamac_config.write (new_pamac_conf);
+				}
+			} catch (GLib.Error e) {
+				stderr.printf ("%s\n", e.message);
+			}
+		}
+
+		public void write_alpm_config (HashTable<string,Variant> new_alpm_conf, GLib.BusName sender) {
+			try {
+				Polkit.Authority authority = Polkit.Authority.get_sync (null);
+				Polkit.Subject subject = Polkit.SystemBusName.new (sender);
+				Polkit.AuthorizationResult result = authority.check_authorization_sync (
+					subject,
+					"org.manjaro.pamac.commit",
+					null,
+					Polkit.CheckAuthorizationFlags.ALLOW_USER_INTERACTION,
+					null
+				);
+				if (result.get_is_authorized ()) {
+					alpm_config.write (new_alpm_conf);
+				}
+			} catch (GLib.Error e) {
+				stderr.printf ("%s\n", e.message);
+			}
+		}
+
+		private bool process_line (IOChannel channel, IOCondition condition, string stream_name) {
+			if (condition == IOCondition.HUP) {
+				stdout.printf ("%s: The fd has been closed.\n", stream_name);
+				return false;
+			}
+			try {
+				string line;
+				channel.read_line (out line, null, null);
+				emit_generate_mirrorlist_data (line);
+			} catch (IOChannelError e) {
+				stdout.printf ("%s: IOChannelError: %s\n", stream_name, e.message);
+				return false;
+			} catch (ConvertError e) {
+				stdout.printf ("%s: ConvertError: %s\n", stream_name, e.message);
+				return false;
+			}
+			return true;
+		}
+
+		private void generate_mirrorlist () {
+			emit_generate_mirrorlist_start ();
+
+			int standard_output;
+			int standard_error;
+			Pid child_pid;
+
+			try {
+				Process.spawn_async_with_pipes (null,
+					{"pacman-mirrors", "-g"},
+					null,
+					SpawnFlags.SEARCH_PATH | SpawnFlags.DO_NOT_REAP_CHILD,
+					null,
+					out child_pid,
+					null,
+					out standard_output,
+					out standard_error);
+			} catch (SpawnError e) {
+				stdout.printf ("SpawnError: %s\n", e.message);
+			}
+
+			// stdout:
+			IOChannel output = new IOChannel.unix_new (standard_output);
+			output.add_watch (IOCondition.IN | IOCondition.HUP, (channel, condition) => {
+				return process_line (channel, condition, "stdout");
+			});
+
+			// stderr:
+			IOChannel error = new IOChannel.unix_new (standard_error);
+			error.add_watch (IOCondition.IN | IOCondition.HUP, (channel, condition) => {
+				return process_line (channel, condition, "stderr");
+			});
+
+			ChildWatch.add (child_pid, (pid, status) => {
+				// Triggered when the child indicated by child_pid exits
+				Process.close_pid (pid);
+				alpm_config.reload ();
+				refresh_handle ();
+				emit_generate_mirrorlist_finished ();
+			});
+		}
+
+		public void write_mirrors_config (HashTable<string,Variant> new_mirrors_conf, GLib.BusName sender) {
+			var mirrors_config = new Alpm.MirrorsConfig ("/etc/pacman-mirrors.conf");
+			try {
+				Polkit.Authority authority = Polkit.Authority.get_sync (null);
+				Polkit.Subject subject = Polkit.SystemBusName.new (sender);
+				Polkit.AuthorizationResult result = authority.check_authorization_sync (
+					subject,
+					"org.manjaro.pamac.commit",
+					null,
+					Polkit.CheckAuthorizationFlags.ALLOW_USER_INTERACTION,
+					null
+				);
+				if (result.get_is_authorized ()) {
+					mirrors_config.write (new_mirrors_conf);
+					generate_mirrorlist ();
 				}
 			} catch (GLib.Error e) {
 				stderr.printf ("%s\n", e.message);
@@ -148,13 +252,13 @@ namespace Pamac {
 			refresh_handle ();
 			var pamac_config = new Pamac.Config ("/etc/pamac.conf");
 			UpdatesInfos[] updates = {};
-			updates = get_syncfirst_updates (alpm_config.handle, alpm_config.syncfirst);
+			updates = get_syncfirst_updates (alpm_config.handle, alpm_config.syncfirsts);
 			if (updates.length != 0) {
 				return updates;
 			} else {
-				updates = get_repos_updates (alpm_config.handle, alpm_config.ignore_pkgs);
+				updates = get_repos_updates (alpm_config.handle);
 				if (pamac_config.enable_aur) {
-					UpdatesInfos[] aur_updates = get_aur_updates (alpm_config.handle, alpm_config.ignore_pkgs);
+					UpdatesInfos[] aur_updates = get_aur_updates (alpm_config.handle);
 					foreach (var infos in aur_updates)
 						updates += infos;
 				}
@@ -320,7 +424,7 @@ namespace Pamac {
 				// Search for holdpkg in target list
 				bool found_locked_pkg = false;
 				foreach (var pkg in alpm_config.handle.trans_to_remove ()) {
-					if (pkg.name in alpm_config.holdpkg) {
+					if (alpm_config.holdpkgs.find_custom (pkg.name, strcmp) != null) {
 						details += _("%s needs to be removed but it is a locked package").printf (pkg.name);
 						found_locked_pkg = true;
 						break;

@@ -159,15 +159,7 @@ msgid "Preferences"
 msgstr ""
 
 #: ../resources/preferences_dialog.ui
-msgid "Enable AUR support"
-msgstr ""
-
-#: ../resources/preferences_dialog.ui
 msgid "Allow Pamac to search and install packages from AUR"
-msgstr ""
-
-#: ../resources/preferences_dialog.ui
-msgid "Remove unrequired dependencies"
 msgstr ""
 
 #: ../resources/preferences_dialog.ui
@@ -176,12 +168,44 @@ msgid ""
 "by other packages"
 msgstr ""
 
+#: ../resources/preferences_dialog.ui
+msgid "Check available disk space"
+msgstr ""
+
 #: ../resources/preferences_dialog.ui ../src/preferences_dialog.vala
 msgid "How often to check for updates, value in hours"
 msgstr ""
 
 #: ../resources/preferences_dialog.ui
+msgid "Remove unrequired dependencies"
+msgstr ""
+
+#: ../resources/preferences_dialog.ui
+msgid "Upgrade first:"
+msgstr ""
+
+#: ../resources/preferences_dialog.ui
+msgid "Ignore upgrades for:"
+msgstr ""
+
+#: ../resources/preferences_dialog.ui
+msgid "Enable AUR support"
+msgstr ""
+
+#: ../resources/preferences_dialog.ui
 msgid "Options"
+msgstr ""
+
+#: ../resources/preferences_dialog.ui
+msgid "Sort mirrors by:"
+msgstr ""
+
+#: ../resources/preferences_dialog.ui
+msgid "Use mirrors from:"
+msgstr ""
+
+#: ../resources/preferences_dialog.ui
+msgid "Official repositories"
 msgstr ""
 
 #: ../src/packages_chooser_dialog.vala
@@ -302,6 +326,18 @@ msgid "Building packages"
 msgstr ""
 
 #: ../src/transaction.vala
+msgid "Worldwide"
+msgstr ""
+
+#: ../src/transaction.vala
+msgid "speed"
+msgstr ""
+
+#: ../src/transaction.vala
+msgid "random"
+msgstr ""
+
+#: ../src/transaction.vala
 msgid "Checking dependencies"
 msgstr ""
 
@@ -404,6 +440,21 @@ msgstr ""
 
 #: ../src/transaction.vala
 #, c-format
+msgid "%s installed as %s.pacnew"
+msgstr ""
+
+#: ../src/transaction.vala
+#, c-format
+msgid "%s installed as %s.pacsave"
+msgstr ""
+
+#: ../src/transaction.vala
+#, c-format
+msgid "%s installed as %s.pacorig"
+msgstr ""
+
+#: ../src/transaction.vala
+#, c-format
 msgid "Refreshing %s"
 msgstr ""
 
@@ -431,6 +482,10 @@ msgstr ""
 
 #: ../src/transaction.vala
 msgid "Transaction successfully finished"
+msgstr ""
+
+#: ../src/transaction.vala
+msgid "Generating mirrorlist"
 msgstr ""
 
 #: ../src/installer.vala ../src/manager.vala ../src/updater.vala

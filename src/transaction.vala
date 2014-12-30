@@ -24,7 +24,9 @@ using Alpm;
 namespace Pamac {
 	[DBus (name = "org.manjaro.pamac")]
 	public interface Daemon : Object {
-		public abstract void write_config (HashTable<string,string> new_conf) throws IOError;
+		public abstract void write_pamac_config (HashTable<string,Variant> new_pamac_conf) throws IOError;
+		public abstract void write_alpm_config (HashTable<string,Variant> new_alpm_conf) throws IOError;
+		public abstract void write_mirrors_config (HashTable<string,Variant> new_mirrors_conf) throws IOError;
 		public abstract void set_pkgreason (string pkgname, uint reason) throws IOError;
 		public abstract void refresh (int force, bool emit_signal) throws IOError;
 		public abstract ErrorInfos trans_init (TransFlag transflags) throws IOError;
@@ -50,19 +52,23 @@ namespace Pamac {
 		public signal void emit_refreshed (ErrorInfos error);
 		public signal void emit_trans_prepared (ErrorInfos error);
 		public signal void emit_trans_committed (ErrorInfos error);
+		public signal void emit_generate_mirrorlist_start ();
+		public signal void emit_generate_mirrorlist_data (string line);
+		public signal void emit_generate_mirrorlist_finished ();
 	}
 
 	public class Transaction: Object {
 		public Daemon daemon;
 
 		public Alpm.Config alpm_config;
+		public Alpm.MirrorsConfig mirrors_config;
 
 		public Alpm.TransFlag flags;
 		// those hashtables will be used as set
-		public HashTable<string, string> to_add;
-		public HashTable<string, string> to_remove;
-		public HashTable<string, string> to_load;
-		public HashTable<string, string> to_build;
+		public HashTable<string,string> to_add;
+		public HashTable<string,string> to_remove;
+		public HashTable<string,string> to_load;
+		public HashTable<string,string> to_build;
 
 		public Mode mode;
 
@@ -72,7 +78,7 @@ namespace Pamac {
 		string previous_textbar;
 		double previous_percent;
 		string previous_filename;
-		uint build_timeout_id;
+		uint pulse_timeout_id;
 		bool sysupgrade_after_trans;
 		bool sysupgrade_after_build;
 		int build_status;
@@ -88,6 +94,7 @@ namespace Pamac {
 		TransactionSumDialog transaction_sum_dialog;
 		TransactionInfoDialog transaction_info_dialog;
 		ProgressDialog progress_dialog;
+		PreferencesDialog preferences_dialog;
 		//parent window
 		ApplicationWindow? window;
 
@@ -95,18 +102,20 @@ namespace Pamac {
 
 		public Transaction (ApplicationWindow? window) {
 			alpm_config = new Alpm.Config ("/etc/pacman.conf");
+			mirrors_config = new Alpm.MirrorsConfig ("/etc/pacman-mirrors.conf");
 			mode = Mode.MANAGER;
 			flags = Alpm.TransFlag.CASCADE;
-			to_add = new HashTable<string, string> (str_hash, str_equal);
-			to_remove = new HashTable<string, string> (str_hash, str_equal);
-			to_load = new HashTable<string, string> (str_hash, str_equal);
-			to_build = new HashTable<string, string> (str_hash, str_equal);
+			to_add = new HashTable<string,string> (str_hash, str_equal);
+			to_remove = new HashTable<string,string> (str_hash, str_equal);
+			to_load = new HashTable<string,string> (str_hash, str_equal);
+			to_build = new HashTable<string,string> (str_hash, str_equal);
 			connecting_dbus_signals ();
 			//creating dialogs
 			this.window = window;
 			transaction_sum_dialog = new TransactionSumDialog (window);
 			transaction_info_dialog = new TransactionInfoDialog (window);
 			progress_dialog = new ProgressDialog (this, window);
+			preferences_dialog = new PreferencesDialog (window);
 			//creating terminal
 			term = new Terminal ();
 			term.scroll_on_output = false;
@@ -145,9 +154,25 @@ namespace Pamac {
 			aur_checked = false;
 		}
 
-		public void write_config (HashTable<string,string> new_conf) {
+		public void write_pamac_config (HashTable<string,Variant> new_pamac_conf) {
 			try {
-				daemon.write_config (new_conf);
+				daemon.write_pamac_config (new_pamac_conf);
+			} catch (IOError e) {
+				stderr.printf ("IOError: %s\n", e.message);
+			}
+		}
+
+		public void write_alpm_config (HashTable<string,Variant> new_alpm_conf) {
+			try {
+				daemon.write_alpm_config (new_alpm_conf);
+			} catch (IOError e) {
+				stderr.printf ("IOError: %s\n", e.message);
+			}
+		}
+
+		public void write_mirrors_config (HashTable<string,Variant> new_mirrors_conf) {
+			try {
+				daemon.write_mirrors_config (new_mirrors_conf);
 			} catch (IOError e) {
 				stderr.printf ("IOError: %s\n", e.message);
 			}
@@ -168,7 +193,7 @@ namespace Pamac {
 
 		public void refresh (int force) {
 			string action = dgettext (null, "Synchronizing package databases") + "...";
-			spawn_in_term ({"/usr/bin/echo", action});
+			spawn_in_term ({"echo", action});
 			progress_dialog.action_label.set_text (action);
 			progress_dialog.progressbar.set_fraction (0);
 			progress_dialog.progressbar.set_text ("");
@@ -222,7 +247,7 @@ namespace Pamac {
 		public void sysupgrade (int enable_downgrade) {
 			this.enable_downgrade = enable_downgrade;
 			string action = dgettext (null, "Starting full system upgrade") + "...";
-			spawn_in_term ({"/usr/bin/echo", action});
+			spawn_in_term ({"echo", action});
 			progress_dialog.action_label.set_text (action);
 			progress_dialog.progressbar.set_fraction (0);
 			progress_dialog.progressbar.set_text ("");
@@ -232,7 +257,7 @@ namespace Pamac {
 				Gtk.main_iteration ();
 			// sysupgrade
 			// get syncfirst updates
-			UpdatesInfos[] syncfirst_updates = get_syncfirst_updates (alpm_config.handle, alpm_config.syncfirst);
+			UpdatesInfos[] syncfirst_updates = get_syncfirst_updates (alpm_config.handle, alpm_config.syncfirsts);
 			if (syncfirst_updates.length != 0) {
 				clear_lists ();
 				if (mode == Mode.MANAGER)
@@ -242,11 +267,11 @@ namespace Pamac {
 				// run as a standard transaction
 				run ();
 			} else {
-				UpdatesInfos[] repos_updates = get_repos_updates (alpm_config.handle, alpm_config.ignore_pkgs);
+				UpdatesInfos[] repos_updates = get_repos_updates (alpm_config.handle);
 				int repos_updates_len = repos_updates.length;
 				if (check_aur) {
 					if (aur_checked == false) {
-						aur_updates = get_aur_updates (alpm_config.handle, alpm_config.ignore_pkgs);
+						aur_updates = get_aur_updates (alpm_config.handle);
 						aur_checked = true;
 					}
 					if (aur_updates.length != 0) {
@@ -277,7 +302,7 @@ namespace Pamac {
 
 		public void run () {
 			string action = dgettext (null,"Preparing") + "...";
-			spawn_in_term ({"/usr/bin/echo", action});
+			spawn_in_term ({"echo", action});
 			progress_dialog.action_label.set_text (action);
 			progress_dialog.progressbar.set_fraction (0);
 			progress_dialog.progressbar.set_text ("");
@@ -504,7 +529,7 @@ namespace Pamac {
 		public void build_aur_packages () {
 			print ("building packages\n");
 			string action = dgettext (null,"Building packages") + "...";
-			spawn_in_term ({"/usr/bin/echo", "-n", action});
+			spawn_in_term ({"echo", "-n", action});
 			progress_dialog.action_label.set_text (action);
 			progress_dialog.progressbar.set_fraction (0);
 			progress_dialog.progressbar.set_text ("");
@@ -513,8 +538,8 @@ namespace Pamac {
 			progress_dialog.expander.set_expanded (true);
 			progress_dialog.width_request = 700;
 			term.grab_focus ();
-			build_timeout_id = Timeout.add (500, (GLib.SourceFunc) progress_dialog.progressbar.pulse);
-			string[] cmds = {"/usr/bin/yaourt", "-S"};
+			pulse_timeout_id = Timeout.add (500, (GLib.SourceFunc) progress_dialog.progressbar.pulse);
+			string[] cmds = {"yaourt", "-S"};
 			foreach (string name in to_build.get_keys ())
 				cmds += name;
 			Pid child_pid;
@@ -550,16 +575,111 @@ namespace Pamac {
 		public void spawn_in_term (string[] args, out Pid child_pid = null) {
 			Pid intern_pid;
 			try {
-				Process.spawn_async (null, args, null, SpawnFlags.DO_NOT_REAP_CHILD, pty.child_setup, out intern_pid);
-				ChildWatch.add (intern_pid, (pid, status) => {
-					// triggered when the child indicated by intern_pid exits
-					Process.close_pid (pid);
-				});
+				Process.spawn_async (null, args, null, SpawnFlags.SEARCH_PATH, pty.child_setup, out intern_pid);
 			} catch (SpawnError e) {
 				stderr.printf ("SpawnError: %s\n", e.message);
 			}
 			child_pid = intern_pid;
 			term.set_pty (pty);
+		}
+
+		public bool run_preferences_dialog (Pamac.Config pamac_config) {
+			bool enable_aur = pamac_config.enable_aur;
+			bool recurse = pamac_config.recurse;
+			int refresh_period = pamac_config.refresh_period;
+			int checkspace = alpm_config.checkspace;
+			string syncfirst = alpm_config.syncfirst;
+			string ignorepkg = alpm_config.ignorepkg;
+			string choosen_generation_method = mirrors_config.choosen_generation_method;
+			string choosen_country = mirrors_config.choosen_country;
+			preferences_dialog.enable_aur_button.set_active (enable_aur);
+			preferences_dialog.remove_unrequired_deps_button.set_active (recurse);
+			preferences_dialog.refresh_period_spin_button.set_value (refresh_period);
+			if (checkspace == 1)
+				preferences_dialog.check_space_button.set_active (true);
+			else
+				preferences_dialog.check_space_button.set_active (false);
+			preferences_dialog.syncfirst_entry.set_text (syncfirst);
+			preferences_dialog.ignore_upgrade_entry.set_text (ignorepkg);
+			preferences_dialog.mirrors_country_comboboxtext.remove_all ();
+			preferences_dialog.mirrors_country_comboboxtext.append_text (dgettext (null, "Worldwide"));
+			preferences_dialog.mirrors_country_comboboxtext.active = 0;
+			int index = 1;
+			mirrors_config.get_countrys ();
+			foreach (string country in mirrors_config.countrys) {
+				preferences_dialog.mirrors_country_comboboxtext.append_text (country);
+				if (country == choosen_country)
+					preferences_dialog.mirrors_country_comboboxtext.active = index;
+				index += 1;
+			}
+			preferences_dialog.mirrorlist_generation_method_comboboxtext.remove_all ();
+			preferences_dialog.mirrorlist_generation_method_comboboxtext.append_text (dgettext (null, "speed"));
+			preferences_dialog.mirrorlist_generation_method_comboboxtext.append_text (dgettext (null, "random"));
+			if (choosen_generation_method == "rank")
+				preferences_dialog.mirrorlist_generation_method_comboboxtext.active = 0;
+			else
+				preferences_dialog.mirrorlist_generation_method_comboboxtext.active = 1;
+			int response = preferences_dialog.run ();
+			while (Gtk.events_pending ())
+				Gtk.main_iteration ();
+			var new_pamac_conf = new HashTable<string,Variant> (str_hash, str_equal);
+			var new_alpm_conf = new HashTable<string,Variant> (str_hash, str_equal);
+			var new_mirrors_conf = new HashTable<string,Variant> (str_hash, str_equal);
+			if (response == ResponseType.OK) {
+				enable_aur = preferences_dialog.enable_aur_button.get_active ();
+				recurse = preferences_dialog.remove_unrequired_deps_button.get_active ();
+				refresh_period = preferences_dialog.refresh_period_spin_button.get_value_as_int ();
+				if (preferences_dialog.check_space_button.get_active () == true)
+					checkspace = 1;
+				else
+					checkspace = 0;
+				syncfirst = preferences_dialog.syncfirst_entry.get_text ();
+				ignorepkg = preferences_dialog.ignore_upgrade_entry.get_text ();
+				choosen_country = preferences_dialog.mirrors_country_comboboxtext.get_active_text ();
+				if (preferences_dialog.mirrorlist_generation_method_comboboxtext.get_active_text () == dgettext (null, "speed"))
+					choosen_generation_method = "rank";
+				else
+					choosen_generation_method = "random";
+				if (enable_aur != pamac_config.enable_aur)
+					new_pamac_conf.insert ("EnableAUR", new Variant.boolean (enable_aur));
+				if (recurse != pamac_config.recurse)
+					new_pamac_conf.insert ("RemoveUnrequiredDeps", new Variant.boolean (recurse));
+				if (refresh_period != pamac_config.refresh_period)
+					new_pamac_conf.insert ("RefreshPeriod", new Variant.int32 (refresh_period));
+				if (checkspace != alpm_config.checkspace)
+					new_alpm_conf.insert ("CheckSpace", new Variant.int32 (checkspace));
+				if (syncfirst != alpm_config.syncfirst)
+					new_alpm_conf.insert ("SyncFirst", new Variant.string (syncfirst));
+				if (ignorepkg != alpm_config.ignorepkg)
+					new_alpm_conf.insert ("IgnorePkg", new Variant.string (ignorepkg));
+				if (choosen_country != mirrors_config.choosen_country)
+					new_mirrors_conf.insert ("OnlyCountry", new Variant.string (choosen_country));
+				if (choosen_generation_method == "rank"
+						&& preferences_dialog.mirrorlist_generation_method_comboboxtext.get_active_text () == dgettext (null, "random"))
+					new_mirrors_conf.insert ("Method", new Variant.string (dgettext (null, "random")));
+				if (choosen_generation_method == "random"
+						&& preferences_dialog.mirrorlist_generation_method_comboboxtext.get_active_text () == dgettext (null, "speed"))
+					new_mirrors_conf.insert ("Method", new Variant.string (dgettext (null, "speed")));
+			}
+			bool pamac_changes = (new_pamac_conf.size () != 0);
+			if (pamac_changes) {
+				write_pamac_config (new_pamac_conf);
+				pamac_config.reload ();
+			}
+			bool alpm_changes = (new_alpm_conf.size () != 0);
+			if (alpm_changes) {
+				write_alpm_config (new_alpm_conf);
+				alpm_config.reload ();
+			}
+			bool mirrors_changes = (new_mirrors_conf.size () != 0);
+			if (mirrors_changes) {
+				write_mirrors_config (new_mirrors_conf);
+				mirrors_config.reload ();
+			}
+			preferences_dialog.hide ();
+			while (Gtk.events_pending ())
+				Gtk.main_iteration ();
+			return (pamac_changes || alpm_changes || mirrors_changes);
 		}
 
 		void on_emit_event (uint primary_event, uint secondary_event, string[] details) {
@@ -568,22 +688,22 @@ namespace Pamac {
 				case Event.Type.CHECKDEPS_START:
 					msg = dgettext (null, "Checking dependencies") + "...";
 					progress_dialog.action_label.set_text (msg);
-					spawn_in_term ({"/usr/bin/echo", msg});
+					spawn_in_term ({"echo", msg});
 					break;
 				case Event.Type.FILECONFLICTS_START:
 					msg = dgettext (null, "Checking file conflicts") + "...";
 					progress_dialog.action_label.set_text (msg);
-					spawn_in_term ({"/usr/bin/echo", msg});
+					spawn_in_term ({"echo", msg});
 					break;
 				case Event.Type.RESOLVEDEPS_START:
 					msg = dgettext (null, "Resolving dependencies") + "...";
 					progress_dialog.action_label.set_text (msg);
-					spawn_in_term ({"/usr/bin/echo", msg});
+					spawn_in_term ({"echo", msg});
 					break;
 				case Event.Type.INTERCONFLICTS_START:
 					msg = dgettext (null, "Checking inter-conflicts") + "...";
 					progress_dialog.action_label.set_text (msg);
-					spawn_in_term ({"/usr/bin/echo", msg});
+					spawn_in_term ({"echo", msg});
 					break;
 				case Event.Type.PACKAGE_OPERATION_START:
 					switch (secondary_event) {
@@ -593,7 +713,7 @@ namespace Pamac {
 							msg = dgettext (null, "Installing %s").printf (details[0]) + "...";
 							progress_dialog.action_label.set_text (msg);
 							msg = dgettext (null, "Installing %s").printf ("%s (%s)".printf (details[0], details[1]))+ "...";
-							spawn_in_term ({"/usr/bin/echo", msg});
+							spawn_in_term ({"echo", msg});
 							break;
 						case Alpm.Package.Operation.REINSTALL:
 							progress_dialog.cancel_button.set_visible (false);
@@ -601,7 +721,7 @@ namespace Pamac {
 							msg = dgettext (null, "Reinstalling %s").printf (details[0]) + "...";
 							progress_dialog.action_label.set_text (msg);
 							msg = dgettext (null, "Reinstalling %s").printf ("%s (%s)".printf (details[0], details[1]))+ "...";
-							spawn_in_term ({"/usr/bin/echo", msg});
+							spawn_in_term ({"echo", msg});
 							break;
 						case Alpm.Package.Operation.REMOVE:
 							progress_dialog.cancel_button.set_visible (false);
@@ -609,7 +729,7 @@ namespace Pamac {
 							msg = dgettext (null, "Removing %s").printf (details[0]) + "...";
 							progress_dialog.action_label.set_text (msg);
 							msg = dgettext (null, "Removing %s").printf ("%s (%s)".printf (details[0], details[1]))+ "...";
-							spawn_in_term ({"/usr/bin/echo", msg});
+							spawn_in_term ({"echo", msg});
 							break;
 						case Alpm.Package.Operation.UPGRADE:
 							progress_dialog.cancel_button.set_visible (false);
@@ -617,7 +737,7 @@ namespace Pamac {
 							msg = dgettext (null, "Upgrading %s").printf (details[0]) + "...";
 							progress_dialog.action_label.set_text (msg);
 							msg = dgettext (null, "Upgrading %s").printf ("%s (%s -> %s)".printf (details[0], details[1], details[2]))+ "...";
-							spawn_in_term ({"/usr/bin/echo", msg});
+							spawn_in_term ({"echo", msg});
 							break;
 						case Alpm.Package.Operation.DOWNGRADE:
 							progress_dialog.cancel_button.set_visible (false);
@@ -625,96 +745,86 @@ namespace Pamac {
 							msg = dgettext (null, "Downgrading %s").printf (details[0]) + "...";
 							progress_dialog.action_label.set_text (msg);
 							msg = dgettext (null, "Downgrading %s").printf ("%s (%s -> %s)".printf (details[0], details[1], details[2]))+ "...";
-							spawn_in_term ({"/usr/bin/echo", msg});
+							spawn_in_term ({"echo", msg});
 							break;
 					}
 					break;
 				case Event.Type.INTEGRITY_START:
 					msg = dgettext (null, "Checking integrity") + "...";
 					progress_dialog.action_label.set_text (msg);
-					spawn_in_term ({"/usr/bin/echo", msg});
+					spawn_in_term ({"echo", msg});
 					break;
 				case Event.Type.KEYRING_START:
 					progress_dialog.cancel_button.set_visible (true);
 					msg = dgettext (null, "Checking keyring") + "...";
 					progress_dialog.action_label.set_text (msg);
-					spawn_in_term ({"/usr/bin/echo", msg});
+					spawn_in_term ({"echo", msg});
 					break;
 				case Event.Type.KEY_DOWNLOAD_START:
 					msg = dgettext (null, "Downloading required keys") + "...";
 					progress_dialog.action_label.set_text (msg);
-					spawn_in_term ({"/usr/bin/echo", msg});
+					spawn_in_term ({"echo", msg});
 					break;
 				case Event.Type.LOAD_START:
 					msg = dgettext (null, "Loading packages files") + "...";
 					progress_dialog.action_label.set_text (msg);
-					spawn_in_term ({"/usr/bin/echo", msg});
+					spawn_in_term ({"echo", msg});
 					break;
 				case Event.Type.DELTA_INTEGRITY_START:
 					msg = dgettext (null, "Checking delta integrity") + "...";
 					progress_dialog.action_label.set_text (msg);
-					spawn_in_term ({"/usr/bin/echo", msg});
+					spawn_in_term ({"echo", msg});
 					break;
 				case Event.Type.DELTA_PATCHES_START:
 					msg = dgettext (null, "Applying deltas") + "...";
 					progress_dialog.action_label.set_text (msg);
-					spawn_in_term ({"/usr/bin/echo", msg});
+					spawn_in_term ({"echo", msg});
 					break;
 				case Event.Type.DELTA_PATCH_START:
 					msg = dgettext (null, "Generating %s with %s").printf (details[0], details[1]) + "...";
 					progress_dialog.action_label.set_text (msg);
-					spawn_in_term ({"/usr/bin/echo", msg});
+					spawn_in_term ({"echo", msg});
 					break;
 				case Event.Type.DELTA_PATCH_DONE:
 					msg = dgettext (null, "Generation succeeded") + "...";
 					progress_dialog.action_label.set_text (msg);
-					spawn_in_term ({"/usr/bin/echo", msg});
+					spawn_in_term ({"echo", msg});
 					break;
 				case Event.Type.DELTA_PATCH_FAILED:
 					msg = dgettext (null, "Generation failed") + "...";
 					progress_dialog.action_label.set_text (msg);
-					spawn_in_term ({"/usr/bin/echo", msg});
+					spawn_in_term ({"echo", msg});
 					break;
 				case Event.Type.SCRIPTLET_INFO:
 					progress_dialog.action_label.set_text (dgettext (null, "Configuring %s").printf (previous_filename) + "...");
 					progress_dialog.expander.set_expanded (true);
-					spawn_in_term ({"/usr/bin/echo", "-n", details[0]});
+					spawn_in_term ({"echo", "-n", details[0]});
 					break;
 				case Event.Type.RETRIEVE_START:
 					progress_dialog.cancel_button.set_visible (true);
 					msg = dgettext (null, "Downloading") + "...";
 					progress_dialog.action_label.set_text (msg);
-					spawn_in_term ({"/usr/bin/echo", msg});
-					break;
-				case Event.Type.PKGDOWNLOAD_START:
-					string label;
-					if (details[0].has_suffix (".db")) {
-						label = dgettext (null, "Refreshing %s").printf (details[0].replace (".db", "")) + "...";
-					} else {
-						label = dgettext (null, "Downloading %s").printf (details[0].replace (".pkg.tar.xz", "")) + "...";
-					}
-					progress_dialog.action_label.set_text (label);
-					spawn_in_term ({"/usr/bin/echo", label});
+					spawn_in_term ({"echo", msg});
 					break;
 				case Event.Type.DISKSPACE_START:
 					msg = dgettext (null, "Checking available disk space") + "...";
 					progress_dialog.action_label.set_text (msg);
-					spawn_in_term ({"/usr/bin/echo", msg});
+					spawn_in_term ({"echo", msg});
 					break;
 				case Event.Type.OPTDEP_REMOVAL:
-					spawn_in_term ({"/usr/bin/echo", dgettext (null, "%s optionally requires %s").printf (details[0], details[1])});
+					spawn_in_term ({"echo", dgettext (null, "%s optionally requires %s").printf (details[0], details[1])});
 					break;
 				case Event.Type.DATABASE_MISSING:
-					spawn_in_term ({"/usr/bin/echo", dgettext (null, "Database file for %s does not exist").printf (details[0])});
+					spawn_in_term ({"echo", dgettext (null, "Database file for %s does not exist").printf (details[0])});
 					break;
 				case Event.Type.PACNEW_CREATED:
-					spawn_in_term ({"/usr/bin/echo", dgettext (null, "%s installed as %s.pacnew").printf (details[0])});
+					spawn_in_term ({"echo", dgettext (null, "%s installed as %s.pacnew").printf (details[0])});
 					break;
 				case Event.Type.PACSAVE_CREATED:
-					spawn_in_term ({"/usr/bin/echo", dgettext (null, "%s installed as %s.pacsave").printf (details[0])});
+					spawn_in_term ({"echo", dgettext (null, "%s installed as %s.pacsave").printf (details[0])});
 					break;
 				case Event.Type.PACORIG_CREATED:
-					spawn_in_term ({"/usr/bin/echo", dgettext (null, "%s installed as %s.pacorig").printf (details[0])});
+					spawn_in_term ({"echo", dgettext (null, "%s installed as %s.pacorig").printf (details[0])});
 					break;
 				default:
 					break;
@@ -760,22 +870,22 @@ namespace Pamac {
 		}
 
 		void on_emit_download (string filename, uint64 xfered, uint64 total) {
-//~ 			string label;
+			string label;
 			string textbar;
 			double fraction;
-//~ 			if (filename != previous_filename) {
-//~ 				previous_filename = filename;
-//~ 				if (filename.has_suffix (".db")) {
-//~ 					label = dgettext (null, "Refreshing %s").printf (filename.replace (".db", "")) + "...";
-//~ 				} else {
-//~ 					label = dgettext (null, "Downloading %s").printf (filename.replace (".pkg.tar.xz", "")) + "...";
-//~ 				}
-//~ 				if (label != previous_label) {
-//~ 					previous_label = label;
-//~ 					progress_dialog.action_label.set_text (label);
-//~ 					spawn_in_term ({"/usr/bin/echo", label});
-//~ 				}
-//~ 			}
+			if (filename != previous_filename) {
+				previous_filename = filename;
+				if (filename.has_suffix (".db")) {
+					label = dgettext (null, "Refreshing %s").printf (filename.replace (".db", "")) + "...";
+				} else {
+					label = dgettext (null, "Downloading %s").printf (filename.replace (".pkg.tar.xz", "")) + "...";
+				}
+				if (label != previous_label) {
+					previous_label = label;
+					progress_dialog.action_label.set_text (label);
+					spawn_in_term ({"echo", label});
+				}
+			}
 			if (total_download > 0) {
 				fraction = (float) (xfered + already_downloaded) / total_download;
 				if (fraction > 0)
@@ -829,7 +939,7 @@ namespace Pamac {
 			}
 			if (line != null) {
 				progress_dialog.expander.set_expanded (true);
-				spawn_in_term ({"/usr/bin/echo", "-n", line});
+				spawn_in_term ({"echo", "-n", line});
 			}
 		}
 
@@ -853,7 +963,7 @@ namespace Pamac {
 
 		public void handle_error (ErrorInfos error) {
 			progress_dialog.expander.set_expanded (true);
-			spawn_in_term ({"/usr/bin/echo", "-n", error.str});
+			spawn_in_term ({"echo", "-n", error.str});
 			TextIter start_iter;
 			TextIter end_iter;
 			transaction_info_dialog.set_title (dgettext (null, "Error"));
@@ -865,16 +975,16 @@ namespace Pamac {
 				transaction_info_dialog.textbuffer.delete (ref start_iter, ref end_iter);
 				transaction_info_dialog.expander.set_visible (true);
 				transaction_info_dialog.expander.set_expanded (true);
-				spawn_in_term ({"/usr/bin/echo", ":"});
+				spawn_in_term ({"echo", ":"});
 				foreach (string detail in error.details) {
-					spawn_in_term ({"/usr/bin/echo", detail});
+					spawn_in_term ({"echo", detail});
 					string str = detail + "\n";
 					transaction_info_dialog.textbuffer.get_end_iter (out end_iter);
 					transaction_info_dialog.textbuffer.insert (ref end_iter, str, str.length);
 				}
 			} else
 				transaction_info_dialog.expander.set_visible (false);
-			spawn_in_term ({"/usr/bin/echo"});
+			spawn_in_term ({"echo"});
 			transaction_info_dialog.run ();
 			transaction_info_dialog.hide ();
 			progress_dialog.hide ();
@@ -895,6 +1005,8 @@ namespace Pamac {
 						Gtk.main_iteration ();
 					finished (false);
 				} else {
+					clear_lists ();
+					finished (false);
 					sysupgrade (0);
 				}
 			} else {
@@ -923,7 +1035,7 @@ namespace Pamac {
 							ErrorInfos err = ErrorInfos ();
 							on_emit_trans_committed (err);
 						} else {
-							spawn_in_term ({"/usr/bin/echo", dgettext (null, "Transaction cancelled") + ".\n"});
+							spawn_in_term ({"echo", dgettext (null, "Transaction cancelled") + ".\n"});
 							progress_dialog.hide ();
 							transaction_sum_dialog.hide ();
 							while (Gtk.events_pending ())
@@ -943,7 +1055,7 @@ namespace Pamac {
 							Gtk.main_iteration ();
 						commit ();
 					} else {
-						spawn_in_term ({"/usr/bin/echo", dgettext (null, "Transaction cancelled") + ".\n"});
+						spawn_in_term ({"echo", dgettext (null, "Transaction cancelled") + ".\n"});
 						progress_dialog.hide ();
 						transaction_sum_dialog.hide ();
 						while (Gtk.events_pending ())
@@ -961,7 +1073,7 @@ namespace Pamac {
 				} else {
 					//ErrorInfos err = ErrorInfos ();
 					//err.str = dgettext (null, "Nothing to do") + "\n";
-					spawn_in_term ({"/usr/bin/echo", dgettext (null, "Nothing to do") + ".\n"});
+					spawn_in_term ({"echo", dgettext (null, "Nothing to do") + ".\n"});
 					progress_dialog.hide ();
 					while (Gtk.events_pending ())
 						Gtk.main_iteration ();
@@ -983,7 +1095,7 @@ namespace Pamac {
 					if (to_add.size () != 0
 							|| to_remove.size () != 0
 							|| to_load.size () != 0) {
-						spawn_in_term ({"/usr/bin/echo", dgettext (null, "Transaction successfully finished") + ".\n"});
+						spawn_in_term ({"echo", dgettext (null, "Transaction successfully finished") + ".\n"});
 					}
 					build_aur_packages ();
 				} else {
@@ -999,9 +1111,9 @@ namespace Pamac {
 						sysupgrade_simple (enable_downgrade);
 					} else {
 						if (build_status == 0)
-							spawn_in_term ({"/usr/bin/echo", dgettext (null, "Transaction successfully finished") + ".\n"});
+							spawn_in_term ({"echo", dgettext (null, "Transaction successfully finished") + ".\n"});
 						else
-							spawn_in_term ({"/usr/bin/echo"});
+							spawn_in_term ({"echo"});
 						progress_dialog.hide ();
 						while (Gtk.events_pending ())
 							Gtk.main_iteration ();
@@ -1021,11 +1133,35 @@ namespace Pamac {
 		}
 
 		void on_term_child_exited (int status) {
-			Source.remove (build_timeout_id);
+			Source.remove (pulse_timeout_id);
 			to_build.steal_all ();
 			build_status = status;
 			ErrorInfos err = ErrorInfos ();
 			on_emit_trans_committed (err);
+		}
+
+		void on_emit_generate_mirrorlist_start () {
+			string action = dgettext (null, "Generating mirrorlist") + "...";
+			spawn_in_term ({"echo", "-n", action});
+			progress_dialog.action_label.set_text (action);
+			progress_dialog.progressbar.set_fraction (0);
+			progress_dialog.progressbar.set_text ("");
+			progress_dialog.cancel_button.set_visible (false);
+			progress_dialog.close_button.set_visible (false);
+			progress_dialog.expander.set_expanded (true);
+			progress_dialog.width_request = 700;
+			pulse_timeout_id = Timeout.add (500, (GLib.SourceFunc) progress_dialog.progressbar.pulse);
+			progress_dialog.show ();
+		}
+
+		void on_emit_generate_mirrorlist_data (string line) {
+			spawn_in_term ({"echo", "-n", line});
+		}
+
+		void on_emit_generate_mirrorlist_finished () {
+			Source.remove (pulse_timeout_id);
+			spawn_in_term ({"echo"});
+			refresh (0);
 		}
 
 		void connecting_dbus_signals () {
@@ -1042,6 +1178,9 @@ namespace Pamac {
 				daemon.emit_refreshed.connect (on_emit_refreshed);
 				daemon.emit_trans_prepared.connect (on_emit_trans_prepared);
 				daemon.emit_trans_committed.connect (on_emit_trans_committed);
+				daemon.emit_generate_mirrorlist_start.connect (on_emit_generate_mirrorlist_start);
+				daemon.emit_generate_mirrorlist_data.connect (on_emit_generate_mirrorlist_data);
+				daemon.emit_generate_mirrorlist_finished.connect (on_emit_generate_mirrorlist_finished);
 			} catch (IOError e) {
 				stderr.printf ("IOError: %s\n", e.message);
 			}

@@ -37,8 +37,6 @@ namespace Pamac {
 		public Pamac.Config pamac_config;
 		public Pamac.Transaction transaction;
 
-		PreferencesDialog preferences_dialog;
-
 		public UpdaterWindow (Gtk.Application application) {
 			Object (application: application);
 
@@ -52,8 +50,6 @@ namespace Pamac {
 			transaction.check_aur = pamac_config.enable_aur;
 			transaction.finished.connect (on_emit_trans_finished);
 
-			preferences_dialog = new PreferencesDialog (this as ApplicationWindow);
-
 			bottom_label.set_visible (false);
 			apply_button.set_sensitive (false);
 
@@ -62,36 +58,9 @@ namespace Pamac {
 
 		[GtkCallback]
 		public void on_preferences_button_clicked () {
-			bool enable_aur = pamac_config.enable_aur;
-			bool recurse = pamac_config.recurse;
-			uint64 refresh_period = pamac_config.refresh_period;
-			preferences_dialog.enable_aur_button.set_active (enable_aur);
-			preferences_dialog.remove_unrequired_deps_button.set_active (recurse);
-			preferences_dialog.refresh_period_spin_button.set_value (refresh_period);
-			int response = preferences_dialog.run ();
-			while (Gtk.events_pending ())
-				Gtk.main_iteration ();
-			if (response == ResponseType.OK) {
-				HashTable<string,string> new_conf = new HashTable<string,string> (str_hash, str_equal);
-				enable_aur = preferences_dialog.enable_aur_button.get_active ();
-				recurse = preferences_dialog.remove_unrequired_deps_button.get_active ();
-				refresh_period = (uint64) preferences_dialog.refresh_period_spin_button.get_value ();
-				if (enable_aur != pamac_config.enable_aur) {
-					new_conf.insert ("EnableAUR", enable_aur.to_string ());
-				}
-				if (recurse != pamac_config.recurse)
-					new_conf.insert ("RemoveUnrequiredDeps", recurse.to_string ());
-				if (refresh_period != pamac_config.refresh_period)
-					new_conf.insert ("RefreshPeriod", refresh_period.to_string ());
-				if (new_conf.size () != 0) {
-					transaction.write_config (new_conf);
-					pamac_config.reload ();
-					set_updates_list.begin ();
-				}
-			}
-			preferences_dialog.hide ();
-			while (Gtk.events_pending ())
-				Gtk.main_iteration ();
+			bool changes = transaction.run_preferences_dialog (pamac_config);
+			if (changes)
+				set_updates_list.begin ();
 		}
 
 		[GtkCallback]
@@ -131,7 +100,7 @@ namespace Pamac {
 			top_label.set_markup ("");
 			updates_list.clear ();
 			// get syncfirst updates
-			UpdatesInfos[] syncfirst_updates = get_syncfirst_updates (transaction.alpm_config.handle, transaction.alpm_config.syncfirst);
+			UpdatesInfos[] syncfirst_updates = get_syncfirst_updates (transaction.alpm_config.handle, transaction.alpm_config.syncfirsts);
 			if (syncfirst_updates.length != 0) {
 				updates_nb = syncfirst_updates.length;
 				foreach (UpdatesInfos infos in syncfirst_updates) {
@@ -146,7 +115,7 @@ namespace Pamac {
 			} else {
 				while (Gtk.events_pending ())
 					Gtk.main_iteration ();
-				UpdatesInfos[] updates = get_repos_updates (transaction.alpm_config.handle, transaction.alpm_config.ignore_pkgs);
+				UpdatesInfos[] updates = get_repos_updates (transaction.alpm_config.handle);
 				foreach (UpdatesInfos infos in updates) {
 					name = infos.name + " " + infos.version;
 					if (infos.download_size != 0)
@@ -158,7 +127,7 @@ namespace Pamac {
 				}
 				updates_nb += updates.length;
 				if (pamac_config.enable_aur) {
-					UpdatesInfos[] aur_updates = get_aur_updates (transaction.alpm_config.handle, transaction.alpm_config.ignore_pkgs);
+					UpdatesInfos[] aur_updates = get_aur_updates (transaction.alpm_config.handle);
 					updates_nb += aur_updates.length;
 					foreach (UpdatesInfos infos in aur_updates) {
 						name = infos.name + " " + infos.version;

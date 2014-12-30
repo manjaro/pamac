@@ -40,23 +40,21 @@ namespace Alpm {
 		string arch;
 		double deltaratio;
 		int usesyslog;
-		int checkspace;
-		string[] cachedir;
-		string[] ignoregroup;
-		string[] ignorepkg;
-		string[] noextract;
-		string[] noupgrade;
-		string[] priv_holdpkg;
-		string[] priv_syncfirst;
-		public string[] holdpkg;
-		public string[] syncfirst;
+		public int checkspace;
+		Alpm.List<string> cachedirs;
+		Alpm.List<string> ignoregrps;
+		public string ignorepkg;
+		Alpm.List<string> ignorepkgs;
+		Alpm.List<string> noextracts;
+		Alpm.List<string> noupgrades;
+		public GLib.List<string> holdpkgs;
+		public GLib.List<string> syncfirsts;
+		public string syncfirst;
 		Signature.Level defaultsiglevel;
 		Signature.Level localfilesiglevel;
 		Signature.Level remotefilesiglevel;
 		Repo[] repo_order;
 		public unowned Handle? handle;
-		string[] priv_ignore_pkgs;
-		public string[] ignore_pkgs;
 
 		public Config (string path) {
 			conf_path = path;
@@ -65,18 +63,22 @@ namespace Alpm {
 		}
 
 		public void reload () {
+			// set default options
 			rootdir = "/";
 			dbpath = "/var/lib/pacman";
 			gpgdir = "/etc/pacman.d/gnupg/";
 			logfile = "/var/log/pacman.log";
 			arch = Posix.utsname().machine;
-			cachedir = {"/var/cache/pacman/pkg/"};
-			priv_holdpkg = {};
-			priv_syncfirst = {};
-			ignoregroup = {};
-			ignorepkg = {};
-			noextract = {};
-			noupgrade = {};
+			holdpkgs = new GLib.List<string> ();
+			syncfirsts = new GLib.List<string> ();
+			syncfirst = "";
+			cachedirs = new Alpm.List<string> ();
+			cachedirs.add ("/var/cache/pacman/pkg/");
+			ignoregrps = new Alpm.List<string> ();
+			ignorepkgs = new Alpm.List<string> ();
+			ignorepkg = "";
+			noextracts = new Alpm.List<string> ();
+			noupgrades = new Alpm.List<string> ();
 			usesyslog = 0;
 			checkspace = 0;
 			deltaratio = 0.7;
@@ -87,24 +89,6 @@ namespace Alpm {
 			// parse conf file
 			parse_file (conf_path);
 			get_handle ();
-			get_ignore_pkgs ();
-		}
-
-		public void get_ignore_pkgs () {
-			priv_ignore_pkgs = {};
-			unowned Group? group = null;
-			if (handle != null) {
-				foreach (string name in ignorepkg)
-					priv_ignore_pkgs += name;
-				foreach (string grp_name in ignoregroup) {
-					group = handle.localdb.get_group (grp_name);
-					if (group != null) {
-						foreach (unowned Package found_pkg in group.packages)
-							priv_ignore_pkgs += found_pkg.name;
-					}
-				}
-			}
-			ignore_pkgs = priv_ignore_pkgs;
 		}
 
 		public void get_handle () {
@@ -126,20 +110,15 @@ namespace Alpm {
 			handle.defaultsiglevel = defaultsiglevel;
 			handle.localfilesiglevel = localfilesiglevel;
 			handle.remotefilesiglevel = remotefilesiglevel;
-			foreach (string dir in cachedir)
-				handle.add_cachedir (dir);
-			foreach (string name in ignoregroup)
-				handle.add_ignoregroup (name);
-			foreach (string name in ignorepkg)
-				handle.add_ignorepkg (name);
-			foreach (string name in noextract)
-				handle.add_noextract (name);
-			foreach (string name in noupgrade)
-				handle.add_noupgrade (name);
+			handle.cachedirs = cachedirs;
+			handle.ignoregroups = ignoregrps;
+			handle.ignorepkgs = ignorepkgs;
+			handle.noextracts = noextracts;
+			handle.noupgrades = noupgrades;
 			// register dbs
-			foreach (Repo repo in repo_order) {
+			foreach (var repo in repo_order) {
 				unowned DB db = handle.register_syncdb (repo.name, repo.siglevel);
-				foreach (string url in repo.urls)
+				foreach (var url in repo.urls)
 					db.add_server (url.replace ("$repo", repo.name).replace ("$arch", handle.arch));
 				if (repo.usage == 0)
 					db.usage = DB.Usage.ALL;
@@ -149,11 +128,11 @@ namespace Alpm {
 		}
 
 		public void parse_file (string path, string? section = null) {
-			string current_section = section;
+			string? current_section = section;
 			var file = GLib.File.new_for_path (path);
-			if (file.query_exists () == false)
-				GLib.stderr.printf ("File '%s' doesn't exist.\n", file.get_path ());
-			else {
+			if (file.query_exists () == false) {
+				GLib.stderr.printf ("File '%s' doesn't exist.\n", path);
+			} else {
 				try {
 					// Open file for reading and wrap returned FileInputStream into a
 					// DataInputStream, so we can read line by line
@@ -161,21 +140,23 @@ namespace Alpm {
 					string line;
 					// Read lines until end of file (null) is reached
 					while ((line = dis.read_line (null)) != null) {
-						line = line.strip ();
 						if (line.length == 0) continue;
-						if (line[0] == '#') continue;
+						// ignore whole line and end of line comments
+						string[] splitted = line.split ("#", 2);
+						line = splitted[0].strip ();
+						if (line.length == 0) continue;
 						if (line[0] == '[' && line[line.length-1] == ']') {
 							current_section = line[1:-1];
 							if (current_section != "options") {
-								Repo repo = new Repo (current_section);
+								var repo = new Repo (current_section);
 								repo.siglevel = defaultsiglevel;
 								repo_order += repo;
 							}
 							continue;
 						}
-						string[] splitted = line.split ("=");
+						splitted = line.split ("=", 2);
 						string _key = splitted[0].strip ();
-						string _value = null;
+						string? _value = null;
 						if (splitted[1] != null)
 							_value = splitted[1].strip ();
 						if (_key == "Include")
@@ -203,43 +184,38 @@ namespace Alpm {
 							else if (_key == "RemoteSigLevel")
 								remotefilesiglevel = merge_siglevel (defaultsiglevel, define_siglevel (remotefilesiglevel, _value));
 							else if (_key == "HoldPkg") {
-								foreach (string name in _value.split (" ")) {
-									priv_holdpkg += name;
-								}
+								foreach (string name in _value.split (" "))
+									holdpkgs.append (name);
 							} else if (_key == "SyncFirst") {
-								foreach (string name in _value.split (" ")) {
-									priv_syncfirst += name;
-								}
+								syncfirst = _value;
+								foreach (string name in _value.split (" "))
+									syncfirsts.append (name);
 							} else if (_key == "CacheDir") {
-								foreach (string dir in _value.split (" ")) {
-									cachedir += dir;
-								}
+								foreach (string dir in _value.split (" "))
+									cachedirs.add (dir);
 							} else if (_key == "IgnoreGroup") {
-								foreach (string name in _value.split (" ")) {
-									ignoregroup += name;
-								}
+								foreach (string name in _value.split (" "))
+									ignoregrps.add (name);
 							} else if (_key == "IgnorePkg") {
-								foreach (string name in _value.split (" ")) {
-									ignorepkg += name;
-								}
+								ignorepkg = _value;
+								foreach (string name in _value.split (" "))
+									ignorepkgs.add (name);
 							} else if (_key == "Noextract") {
-								foreach (string name in _value.split (" ")) {
-									noextract += name;
-								}
+								foreach (string name in _value.split (" "))
+									noextracts.add (name);
 							} else if (_key == "NoUpgrade") {
-								foreach (string name in _value.split (" ")) {
-									noupgrade += name;
-								}
+								foreach (string name in _value.split (" "))
+									noupgrades.add (name);
 							}
 						} else {
-							foreach (Repo _repo in repo_order) {
-								if (_repo.name == current_section) {
+							foreach (var repo in repo_order) {
+								if (repo.name == current_section) {
 									if (_key == "Server")
-										_repo.urls += _value;
+										repo.urls += _value;
 									else if (_key == "SigLevel")
-										_repo.siglevel = define_siglevel (defaultsiglevel, _value);
+										repo.siglevel = define_siglevel (defaultsiglevel, _value);
 									else if (_key == "Usage")
-										_repo.usage = define_usage (_value);
+										repo.usage = define_usage (_value);
 								}
 							}
 						}
@@ -247,8 +223,64 @@ namespace Alpm {
 				} catch (GLib.Error e) {
 					GLib.stderr.printf("%s\n", e.message);
 				}
-				holdpkg = priv_holdpkg;
-				syncfirst = priv_syncfirst;
+			}
+		}
+
+		public void write (HashTable<string,Variant> new_conf) {
+			var file = GLib.File.new_for_path (conf_path);
+			if (file.query_exists () == false)
+				GLib.stderr.printf ("File '%s' doesn't exist.\n", conf_path);
+			else {
+				try {
+					// Open file for reading and wrap returned FileInputStream into a
+					// DataInputStream, so we can read line by line
+					var dis = new DataInputStream (file.read ());
+					string line;
+					string[] data = {};
+					// Read lines until end of file (null) is reached
+					while ((line = dis.read_line (null)) != null) {
+						if (line.length == 0) continue;
+						if (line.contains ("IgnorePkg")) {
+							if (new_conf.contains ("IgnorePkg")) {
+								string _value = new_conf.get ("IgnorePkg").get_string ();
+								if (_value == "")
+									data += "#IgnorePkg   =\n";
+								else
+									data += "IgnorePkg   = %s\n".printf (_value);
+							} else
+								data += line + "\n";
+						} else if (line.contains ("SyncFirst")) {
+							if (new_conf.contains ("SyncFirst")) {
+								string _value = new_conf.get ("SyncFirst").get_string ();
+								if (_value == "")
+									data += "#SyncFirst   =\n";
+								else
+									data += "SyncFirst   = %s\n".printf (_value);
+							} else
+								data += line + "\n";
+						} else if (line.contains ("CheckSpace")) {
+							if (new_conf.contains ("CheckSpace")) {
+								int _value = new_conf.get ("CheckSpace").get_int32 ();
+								if (_value == 1)
+									data += "CheckSpace\n";
+								else
+									data += "#CheckSpace\n";
+							} else
+								data += line + "\n";
+						} else
+							data += line + "\n";
+					}
+					// delete the file before rewrite it
+					file.delete ();
+					// creating a DataOutputStream to the file
+					var dos = new DataOutputStream (file.create (FileCreateFlags.REPLACE_DESTINATION));
+					foreach (string new_line in data) {
+						// writing a short string to the stream
+						dos.put_string (new_line);
+					}
+				} catch (GLib.Error e) {
+					GLib.stderr.printf("%s\n", e.message);
+				}
 			}
 		}
 
