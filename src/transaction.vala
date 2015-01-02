@@ -80,7 +80,9 @@ namespace Pamac {
 		string previous_filename;
 		uint pulse_timeout_id;
 		bool sysupgrade_after_trans;
-		bool sysupgrade_after_build;
+		// it seems that upgrade after build can cause trouble 
+		// so disable it and let's see if it's fine
+		//bool sysupgrade_after_build;
 		int build_status;
 		int enable_downgrade;
 		public bool check_aur;
@@ -147,7 +149,7 @@ namespace Pamac {
 			previous_percent = 0.0;
 			previous_filename = "";
 			sysupgrade_after_trans = false;
-			sysupgrade_after_build = false;
+			//sysupgrade_after_build = false;
 			build_status = 0;
 			check_aur = false;
 			aur_updates = {};
@@ -276,8 +278,8 @@ namespace Pamac {
 					}
 					if (aur_updates.length != 0) {
 						clear_lists ();
-						if (repos_updates_len != 0)
-							sysupgrade_after_build = true;
+						//if (repos_updates_len != 0)
+							//sysupgrade_after_build = true;
 						foreach (UpdatesInfos infos in aur_updates)
 							to_build.insert (infos.name, infos.name);
 					}
@@ -391,8 +393,8 @@ namespace Pamac {
 		}
 
 		public int set_transaction_sum () {
-			// return 1 if transaction_sum is empty, 0 otherwise
-			int ret = 1;
+			// return 0 if transaction_sum is empty, 2, if there are only aur updates, 1 otherwise
+			int ret = 0;
 			uint64 dsize = 0;
 			UpdatesInfos[] prepared_to_add = {};
 			UpdatesInfos[] prepared_to_remove = {};
@@ -430,7 +432,7 @@ namespace Pamac {
 			int len = prepared_to_remove.length;
 			int i;
 			if (len != 0) {
-				ret = 0;
+				ret = 1;
 				transaction_sum_dialog.sum_list.insert_with_values (out iter, -1,
 												0, dgettext (null, "To remove") + ":",
 												1, "%s %s".printf (prepared_to_remove[0].name, prepared_to_remove[0].version));
@@ -443,7 +445,7 @@ namespace Pamac {
 			}
 			len = to_downgrade.length;
 			if (len != 0) {
-				ret = 0;
+				ret = 1;
 				transaction_sum_dialog.sum_list.insert_with_values (out iter, -1,
 												0, dgettext (null, "To downgrade") + ":",
 												1, to_downgrade[0]);
@@ -456,7 +458,6 @@ namespace Pamac {
 			}
 			len = _to_build.length;
 			if (len != 0) {
-				ret = 0;
 				transaction_sum_dialog.sum_list.insert_with_values (out iter, -1,
 												0, dgettext (null, "To build") + ":",
 												1, _to_build[0]);
@@ -469,7 +470,7 @@ namespace Pamac {
 			}
 			len = to_install.length;
 			if (len != 0) {
-				ret = 0;
+				ret = 1;
 				transaction_sum_dialog.sum_list.insert_with_values (out iter, -1,
 												0, dgettext (null, "To install") + ":",
 												1, to_install[0]);
@@ -482,7 +483,7 @@ namespace Pamac {
 			}
 			len = to_reinstall.length;
 			if (len != 0) {
-				ret = 0;
+				ret = 1;
 				transaction_sum_dialog.sum_list.insert_with_values (out iter, -1,
 												0, dgettext (null, "To reinstall") + ":",
 												1, to_reinstall[0]);
@@ -493,10 +494,10 @@ namespace Pamac {
 					i++;
 				}
 			}
-			if (mode == Mode.MANAGER) {
-				len = to_update.length;
-				if (len != 0) {
-					ret = 0;
+			len = to_update.length;
+			if (len != 0) {
+				ret = 1;
+				if (mode == Mode.MANAGER) {
 					transaction_sum_dialog.sum_list.insert_with_values (out iter, -1,
 													0, dgettext (null, "To update") + ":",
 													1, to_update[0]);
@@ -513,6 +514,10 @@ namespace Pamac {
 			else {
 				transaction_sum_dialog.bottom_label.set_markup ("<b>%s: %s</b>".printf (dgettext (null, "Total download size"), format_size (dsize)));
 				transaction_sum_dialog.bottom_label.set_visible (true);
+			}
+			if (ret == 0) {
+				if (_to_build.length != 0)
+					ret = 2;
 			}
 			return ret;
 		}
@@ -575,7 +580,7 @@ namespace Pamac {
 		public void spawn_in_term (string[] args, out Pid child_pid = null) {
 			Pid intern_pid;
 			try {
-				Process.spawn_async (null, args, null, SpawnFlags.SEARCH_PATH, pty.child_setup, out intern_pid);
+				Process.spawn_async (null, args, null, SpawnFlags.SEARCH_PATH | SpawnFlags.DO_NOT_REAP_CHILD, pty.child_setup, out intern_pid);
 			} catch (SpawnError e) {
 				stderr.printf ("SpawnError: %s\n", e.message);
 			}
@@ -1021,35 +1026,12 @@ namespace Pamac {
 			if (error.str == "") {
 				show_warnings ();
 				int ret = set_transaction_sum ();
-				if (ret == 0) {
-					if (to_add.size () == 0
-							&& to_remove.size () == 0
-							&& to_load.size () == 0
-							&& to_build.size () != 0) {
-						// there only AUR packages to build or we update AUR packages first
-						release ();
-						if (transaction_sum_dialog.run () == ResponseType.OK) {
-							transaction_sum_dialog.hide ();
-							while (Gtk.events_pending ())
-								Gtk.main_iteration ();
-							ErrorInfos err = ErrorInfos ();
-							on_emit_trans_committed (err);
-						} else {
-							spawn_in_term ({"echo", dgettext (null, "Transaction cancelled") + ".\n"});
-							progress_dialog.hide ();
-							transaction_sum_dialog.hide ();
-							while (Gtk.events_pending ())
-								Gtk.main_iteration ();
-							if (aur_updates.length != 0)
-								to_build.steal_all ();
-							sysupgrade_after_trans = false;
-							sysupgrade_after_build = false;
-							finished (true);
-						}
-					} else if (sysupgrade_after_build) {
-						sysupgrade_after_build = false;
-						commit ();
-					} else if (transaction_sum_dialog.run () == ResponseType.OK) {
+				if (ret == 2) {
+					// there only AUR packages to build
+					ErrorInfos err = ErrorInfos ();
+					on_emit_trans_committed (err);
+				} else if (ret == 1) {
+					if (transaction_sum_dialog.run () == ResponseType.OK) {
 						transaction_sum_dialog.hide ();
 						while (Gtk.events_pending ())
 							Gtk.main_iteration ();
@@ -1064,11 +1046,11 @@ namespace Pamac {
 						if (aur_updates.length != 0)
 							to_build.steal_all ();
 						sysupgrade_after_trans = false;
-						sysupgrade_after_build = false;
+						//sysupgrade_after_build = false;
 						finished (true);
 					}
 				} else if (mode == Mode.UPDATER) {
-					sysupgrade_after_build = false;
+					//sysupgrade_after_build = false;
 					commit ();
 				} else {
 					//ErrorInfos err = ErrorInfos ();
@@ -1107,8 +1089,8 @@ namespace Pamac {
 					if (sysupgrade_after_trans) {
 						sysupgrade_after_trans = false;
 						sysupgrade (0);
-					} else if (sysupgrade_after_build) {
-						sysupgrade_simple (enable_downgrade);
+					//} else if (sysupgrade_after_build) {
+						//sysupgrade_simple (enable_downgrade);
 					} else {
 						if (build_status == 0)
 							spawn_in_term ({"echo", dgettext (null, "Transaction successfully finished") + ".\n"});
@@ -1133,6 +1115,7 @@ namespace Pamac {
 		}
 
 		void on_term_child_exited (int status) {
+			print ("build finished\n");
 			Source.remove (pulse_timeout_id);
 			to_build.steal_all ();
 			build_status = status;
