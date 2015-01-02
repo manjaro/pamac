@@ -2,7 +2,7 @@
 # Copyright (C) 2007-2012 Free Software Foundation, Inc.
 # This file is distributed under the same license as the Pamac package.
 # Guillaume Benoit <guillaume@manjaro.org>, 2013-2014.
-# 
+#
 # Translators:
 # J Fernyhough <j.fernyhough@gmail.com>, 2013
 # J Fernyhough <j.fernyhough@gmail.com>, 2013
@@ -14,14 +14,15 @@ msgstr ""
 "POT-Creation-Date: 2014-11-22 11:36+0100\n"
 "PO-Revision-Date: 2014-11-29 10:31+0000\n"
 "Last-Translator: philm <philm@manjaro.org>\n"
-"Language-Team: English (United Kingdom) (http://www.transifex.com/projects/p/manjaro-pamac/language/en_GB/)\n"
+"Language-Team: English (United Kingdom) (http://www.transifex.com/projects/p/"
+"manjaro-pamac/language/en_GB/)\n"
+"Language: en_GB\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: en_GB\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: data/polkit/org.manjaro.pamac.policy:10
+#: data/polkit/org.manjaro.pamac.policy
 msgid "Authentication is required"
 msgstr "Authentication is required"
 
@@ -163,30 +164,56 @@ msgid "Preferences"
 msgstr "Preferences"
 
 #: ../resources/preferences_dialog.ui
-msgid "Enable AUR support"
-msgstr "Enable AUR support"
-
-#: ../resources/preferences_dialog.ui
 msgid "Allow Pamac to search and install packages from AUR"
 msgstr "Allow Pamac to search and install packages from AUR"
-
-#: ../resources/preferences_dialog.ui
-msgid "Remove unrequired dependencies"
-msgstr "Remove unrequired dependencies"
 
 #: ../resources/preferences_dialog.ui
 msgid ""
 "When removing a package, also remove its dependencies that are not required "
 "by other packages"
-msgstr "When removing a package, also remove its dependencies that are not required by other packages"
+msgstr ""
+"When removing a package, also remove its dependencies that are not required "
+"by other packages"
+
+#: ../resources/preferences_dialog.ui
+msgid "Check available disk space"
+msgstr ""
 
 #: ../resources/preferences_dialog.ui ../src/preferences_dialog.vala
 msgid "How often to check for updates, value in hours"
 msgstr "How often to check for updates, value in hours"
 
 #: ../resources/preferences_dialog.ui
+msgid "Remove unrequired dependencies"
+msgstr "Remove unrequired dependencies"
+
+#: ../resources/preferences_dialog.ui
+msgid "Upgrade first:"
+msgstr ""
+
+#: ../resources/preferences_dialog.ui
+msgid "Ignore upgrades for:"
+msgstr ""
+
+#: ../resources/preferences_dialog.ui
+msgid "Enable AUR support"
+msgstr "Enable AUR support"
+
+#: ../resources/preferences_dialog.ui
 msgid "Options"
 msgstr "Options"
+
+#: ../resources/preferences_dialog.ui
+msgid "Sort mirrors by:"
+msgstr ""
+
+#: ../resources/preferences_dialog.ui
+msgid "Use mirrors from:"
+msgstr ""
+
+#: ../resources/preferences_dialog.ui
+msgid "Official repositories"
+msgstr ""
 
 #: ../src/packages_chooser_dialog.vala
 msgid "Alpm Package"
@@ -306,6 +333,18 @@ msgid "Building packages"
 msgstr "Building packages"
 
 #: ../src/transaction.vala
+msgid "Worldwide"
+msgstr ""
+
+#: ../src/transaction.vala
+msgid "speed"
+msgstr ""
+
+#: ../src/transaction.vala
+msgid "random"
+msgstr ""
+
+#: ../src/transaction.vala
 msgid "Checking dependencies"
 msgstr "Checking dependencies"
 
@@ -408,6 +447,21 @@ msgstr "Database file for %s does not exist"
 
 #: ../src/transaction.vala
 #, c-format
+msgid "%s installed as %s.pacnew"
+msgstr ""
+
+#: ../src/transaction.vala
+#, c-format
+msgid "%s installed as %s.pacsave"
+msgstr ""
+
+#: ../src/transaction.vala
+#, c-format
+msgid "%s installed as %s.pacorig"
+msgstr ""
+
+#: ../src/transaction.vala
+#, c-format
 msgid "Refreshing %s"
 msgstr "Refreshing %s"
 
@@ -436,6 +490,10 @@ msgstr "Nothing to do"
 #: ../src/transaction.vala
 msgid "Transaction successfully finished"
 msgstr "Transaction successfully finished"
+
+#: ../src/transaction.vala
+msgid "Generating mirrorlist"
+msgstr ""
 
 #: ../src/installer.vala ../src/manager.vala ../src/updater.vala
 msgid "Pamac is already running"
@@ -568,8 +626,12 @@ msgid ""
 msgid_plural ""
 "%s has %u uninstalled optional dependencies.\n"
 "Choose those you would like to install:"
-msgstr[0] "%s has %u uninstalled optional dependency.\nChoose if you would like to install it:"
-msgstr[1] "%s has %u uninstalled optional dependencies.\nChoose those you would like to install:"
+msgstr[0] ""
+"%s has %u uninstalled optional dependency.\n"
+"Choose if you would like to install it:"
+msgstr[1] ""
+"%s has %u uninstalled optional dependencies.\n"
+"Choose those you would like to install:"
 
 #: ../src/manager_window.vala
 msgid "Uninstalled"

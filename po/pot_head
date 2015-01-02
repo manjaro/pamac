@@ -17,6 +17,6 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: data/polkit/org.manjaro.pamac.policy:10
+#: data/polkit/org.manjaro.pamac.policy
 msgid "Authentication is required"
 msgstr ""

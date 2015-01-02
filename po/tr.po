@@ -2,7 +2,7 @@
 # Copyright (C) 2007-2012 Free Software Foundation, Inc.
 # This file is distributed under the same license as the Pamac package.
 # Guillaume Benoit <guillaume@manjaro.org>, 2013-2014.
-# 
+#
 # Translators:
 # Demiray Muhterem <mdemiray@msn.com>, 2013-2014
 # Guillaume Benoit <guillaume@manjaro.org>, 2013
@@ -15,14 +15,15 @@ msgstr ""
 "POT-Creation-Date: 2014-11-22 11:36+0100\n"
 "PO-Revision-Date: 2014-11-23 22:25+0000\n"
 "Last-Translator: Demiray Muhterem <mdemiray@msn.com>\n"
-"Language-Team: Turkish (http://www.transifex.com/projects/p/manjaro-pamac/language/tr/)\n"
+"Language-Team: Turkish (http://www.transifex.com/projects/p/manjaro-pamac/"
+"language/tr/)\n"
+"Language: tr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: tr\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: data/polkit/org.manjaro.pamac.policy:10
+#: data/polkit/org.manjaro.pamac.policy
 msgid "Authentication is required"
 msgstr "Kimlik doğrulama gerekli"
 
@@ -164,30 +165,56 @@ msgid "Preferences"
 msgstr "Tercihler"
 
 #: ../resources/preferences_dialog.ui
-msgid "Enable AUR support"
-msgstr "AUR desteği etkin"
-
-#: ../resources/preferences_dialog.ui
 msgid "Allow Pamac to search and install packages from AUR"
 msgstr "AUR paketleri aramak ve kurmak için izin ver"
-
-#: ../resources/preferences_dialog.ui
-msgid "Remove unrequired dependencies"
-msgstr "Gereksiz bağımlılıkları kaldır"
 
 #: ../resources/preferences_dialog.ui
 msgid ""
 "When removing a package, also remove its dependencies that are not required "
 "by other packages"
-msgstr "Bir paket kaldırılırken, başka bir uygulama aynı bağımlılıkları kullanmıyorsa paketi bağımlılıkları ile birlikte kaldır"
+msgstr ""
+"Bir paket kaldırılırken, başka bir uygulama aynı bağımlılıkları "
+"kullanmıyorsa paketi bağımlılıkları ile birlikte kaldır"
+
+#: ../resources/preferences_dialog.ui
+msgid "Check available disk space"
+msgstr ""
 
 #: ../resources/preferences_dialog.ui ../src/preferences_dialog.vala
 msgid "How often to check for updates, value in hours"
 msgstr "Güncellemeler ne sıklıkta kontrol edilecek, saat belirtin"
 
 #: ../resources/preferences_dialog.ui
+msgid "Remove unrequired dependencies"
+msgstr "Gereksiz bağımlılıkları kaldır"
+
+#: ../resources/preferences_dialog.ui
+msgid "Upgrade first:"
+msgstr ""
+
+#: ../resources/preferences_dialog.ui
+msgid "Ignore upgrades for:"
+msgstr ""
+
+#: ../resources/preferences_dialog.ui
+msgid "Enable AUR support"
+msgstr "AUR desteği etkin"
+
+#: ../resources/preferences_dialog.ui
 msgid "Options"
 msgstr "Seçenekler"
+
+#: ../resources/preferences_dialog.ui
+msgid "Sort mirrors by:"
+msgstr ""
+
+#: ../resources/preferences_dialog.ui
+msgid "Use mirrors from:"
+msgstr ""
+
+#: ../resources/preferences_dialog.ui
+msgid "Official repositories"
+msgstr ""
 
 #: ../src/packages_chooser_dialog.vala
 msgid "Alpm Package"
@@ -307,6 +334,18 @@ msgid "Building packages"
 msgstr "Paketler inşa ediliyor"
 
 #: ../src/transaction.vala
+msgid "Worldwide"
+msgstr ""
+
+#: ../src/transaction.vala
+msgid "speed"
+msgstr ""
+
+#: ../src/transaction.vala
+msgid "random"
+msgstr ""
+
+#: ../src/transaction.vala
 msgid "Checking dependencies"
 msgstr "Bağımlılıklar Denetleniyor"
 
@@ -409,6 +448,21 @@ msgstr "%s veritabanı dosyası yok"
 
 #: ../src/transaction.vala
 #, c-format
+msgid "%s installed as %s.pacnew"
+msgstr ""
+
+#: ../src/transaction.vala
+#, c-format
+msgid "%s installed as %s.pacsave"
+msgstr ""
+
+#: ../src/transaction.vala
+#, c-format
+msgid "%s installed as %s.pacorig"
+msgstr ""
+
+#: ../src/transaction.vala
+#, c-format
 msgid "Refreshing %s"
 msgstr "Yenileniyor %s"
 
@@ -437,6 +491,10 @@ msgstr "Yapılacak Bir Şey Yok"
 #: ../src/transaction.vala
 msgid "Transaction successfully finished"
 msgstr "Işlem Başarılı"
+
+#: ../src/transaction.vala
+msgid "Generating mirrorlist"
+msgstr ""
 
 #: ../src/installer.vala ../src/manager.vala ../src/updater.vala
 msgid "Pamac is already running"
@@ -569,8 +627,12 @@ msgid ""
 msgid_plural ""
 "%s has %u uninstalled optional dependencies.\n"
 "Choose those you would like to install:"
-msgstr[0] "%s %u tercihe bağlı bağımlılıkları kaldırdı.\nYüklemek istiyorsan tekrar seç:"
-msgstr[1] "%s %u tercihe bağlı bağımlılıkları kaldırdı.\nYüklemek istediğini seç:"
+msgstr[0] ""
+"%s %u tercihe bağlı bağımlılıkları kaldırdı.\n"
+"Yüklemek istiyorsan tekrar seç:"
+msgstr[1] ""
+"%s %u tercihe bağlı bağımlılıkları kaldırdı.\n"
+"Yüklemek istediğini seç:"
 
 #: ../src/manager_window.vala
 msgid "Uninstalled"

@@ -2,7 +2,7 @@
 # Copyright (C) 2007-2012 Free Software Foundation, Inc.
 # This file is distributed under the same license as the Pamac package.
 # Guillaume Benoit <guillaume@manjaro.org>, 2013-2014.
-# 
+#
 # Translators:
 # DirectorX <kassavlt@gmail.com>, 2014
 # GenghisKhan <genghiskhan@gmx.ca>, 2013-2014
@@ -14,14 +14,15 @@ msgstr ""
 "POT-Creation-Date: 2014-11-22 11:36+0100\n"
 "PO-Revision-Date: 2014-11-23 11:28+0000\n"
 "Last-Translator: GenghisKhan <genghiskhan@gmx.ca>\n"
-"Language-Team: Hebrew (http://www.transifex.com/projects/p/manjaro-pamac/language/he/)\n"
+"Language-Team: Hebrew (http://www.transifex.com/projects/p/manjaro-pamac/"
+"language/he/)\n"
+"Language: he\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: he\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: data/polkit/org.manjaro.pamac.policy:10
+#: data/polkit/org.manjaro.pamac.policy
 msgid "Authentication is required"
 msgstr "דרוש אימות"
 
@@ -163,16 +164,8 @@ msgid "Preferences"
 msgstr "העדפות"
 
 #: ../resources/preferences_dialog.ui
-msgid "Enable AUR support"
-msgstr "אפשר תמיכת AUR"
-
-#: ../resources/preferences_dialog.ui
 msgid "Allow Pamac to search and install packages from AUR"
 msgstr "אפשר לPamac לחפש ולהתקין חבילות מתוך AUR"
-
-#: ../resources/preferences_dialog.ui
-msgid "Remove unrequired dependencies"
-msgstr "הסר תוספים לא נחוצים"
 
 #: ../resources/preferences_dialog.ui
 msgid ""
@@ -180,13 +173,45 @@ msgid ""
 "by other packages"
 msgstr ""
 
+#: ../resources/preferences_dialog.ui
+msgid "Check available disk space"
+msgstr ""
+
 #: ../resources/preferences_dialog.ui ../src/preferences_dialog.vala
 msgid "How often to check for updates, value in hours"
 msgstr "מהי תדירות בדיקת העדכונים, בשעות"
 
 #: ../resources/preferences_dialog.ui
+msgid "Remove unrequired dependencies"
+msgstr "הסר תוספים לא נחוצים"
+
+#: ../resources/preferences_dialog.ui
+msgid "Upgrade first:"
+msgstr ""
+
+#: ../resources/preferences_dialog.ui
+msgid "Ignore upgrades for:"
+msgstr ""
+
+#: ../resources/preferences_dialog.ui
+msgid "Enable AUR support"
+msgstr "אפשר תמיכת AUR"
+
+#: ../resources/preferences_dialog.ui
 msgid "Options"
 msgstr "אפשרויות"
+
+#: ../resources/preferences_dialog.ui
+msgid "Sort mirrors by:"
+msgstr ""
+
+#: ../resources/preferences_dialog.ui
+msgid "Use mirrors from:"
+msgstr ""
+
+#: ../resources/preferences_dialog.ui
+msgid "Official repositories"
+msgstr ""
 
 #: ../src/packages_chooser_dialog.vala
 msgid "Alpm Package"
@@ -306,6 +331,18 @@ msgid "Building packages"
 msgstr "כעת בונה חבילות"
 
 #: ../src/transaction.vala
+msgid "Worldwide"
+msgstr ""
+
+#: ../src/transaction.vala
+msgid "speed"
+msgstr ""
+
+#: ../src/transaction.vala
+msgid "random"
+msgstr ""
+
+#: ../src/transaction.vala
 msgid "Checking dependencies"
 msgstr "כעת בוחן תלויות"
 
@@ -408,6 +445,21 @@ msgstr "קובץ מסד נתונים עבור %s לא קיים"
 
 #: ../src/transaction.vala
 #, c-format
+msgid "%s installed as %s.pacnew"
+msgstr ""
+
+#: ../src/transaction.vala
+#, c-format
+msgid "%s installed as %s.pacsave"
+msgstr ""
+
+#: ../src/transaction.vala
+#, c-format
+msgid "%s installed as %s.pacorig"
+msgstr ""
+
+#: ../src/transaction.vala
+#, c-format
 msgid "Refreshing %s"
 msgstr "כעת מרענן את %s"
 
@@ -436,6 +488,10 @@ msgstr "אין מה לעשות"
 #: ../src/transaction.vala
 msgid "Transaction successfully finished"
 msgstr "טרנזקציה הסתיימה בהצלחה"
+
+#: ../src/transaction.vala
+msgid "Generating mirrorlist"
+msgstr ""
 
 #: ../src/installer.vala ../src/manager.vala ../src/updater.vala
 msgid "Pamac is already running"
@@ -568,8 +624,12 @@ msgid ""
 msgid_plural ""
 "%s has %u uninstalled optional dependencies.\n"
 "Choose those you would like to install:"
-msgstr[0] "לחבילה %s יש תלות רשות %u לא מותקנת.\nבחר אותה אם ברצונך להתקינה:"
-msgstr[1] "לחבילה %s יש %u תלויות רשות לא מותקנות.\nבחר את אלה אשר ברצונך להתקין:"
+msgstr[0] ""
+"לחבילה %s יש תלות רשות %u לא מותקנת.\n"
+"בחר אותה אם ברצונך להתקינה:"
+msgstr[1] ""
+"לחבילה %s יש %u תלויות רשות לא מותקנות.\n"
+"בחר את אלה אשר ברצונך להתקין:"
 
 #: ../src/manager_window.vala
 msgid "Uninstalled"

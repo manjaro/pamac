@@ -2,7 +2,7 @@
 # Copyright (C) 2007-2012 Free Software Foundation, Inc.
 # This file is distributed under the same license as the Pamac package.
 # Guillaume Benoit <guillaume@manjaro.org>, 2013-2014.
-# 
+#
 # Translators:
 # Karim Oulad Chalha <herr.linux88@gmail.com>, 2013-2014
 msgid ""
@@ -12,14 +12,16 @@ msgstr ""
 "POT-Creation-Date: 2014-11-22 11:36+0100\n"
 "PO-Revision-Date: 2014-11-22 14:10+0000\n"
 "Last-Translator: Guillaume Benoit <guillaume@manjaro.org>\n"
-"Language-Team: Arabic (http://www.transifex.com/projects/p/manjaro-pamac/language/ar/)\n"
+"Language-Team: Arabic (http://www.transifex.com/projects/p/manjaro-pamac/"
+"language/ar/)\n"
+"Language: ar\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: ar\n"
-"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
+"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
+"&& n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
 
-#: data/polkit/org.manjaro.pamac.policy:10
+#: data/polkit/org.manjaro.pamac.policy
 msgid "Authentication is required"
 msgstr "صلاحيات مطلوبة"
 
@@ -161,16 +163,8 @@ msgid "Preferences"
 msgstr ""
 
 #: ../resources/preferences_dialog.ui
-msgid "Enable AUR support"
-msgstr "تفعيل دعم مستودعات AUR"
-
-#: ../resources/preferences_dialog.ui
 msgid "Allow Pamac to search and install packages from AUR"
 msgstr "السماح لـPamac بالبحث و تثبيت حزم من مستودعات AUR"
-
-#: ../resources/preferences_dialog.ui
-msgid "Remove unrequired dependencies"
-msgstr "حذف الاعتماديات الغير مطلوبة"
 
 #: ../resources/preferences_dialog.ui
 msgid ""
@@ -178,13 +172,45 @@ msgid ""
 "by other packages"
 msgstr ""
 
+#: ../resources/preferences_dialog.ui
+msgid "Check available disk space"
+msgstr ""
+
 #: ../resources/preferences_dialog.ui ../src/preferences_dialog.vala
 msgid "How often to check for updates, value in hours"
 msgstr "كيف سيتم التحقق من توفر تحديثات في اغلب الأوقات, قيمة بالساعات"
 
 #: ../resources/preferences_dialog.ui
+msgid "Remove unrequired dependencies"
+msgstr "حذف الاعتماديات الغير مطلوبة"
+
+#: ../resources/preferences_dialog.ui
+msgid "Upgrade first:"
+msgstr ""
+
+#: ../resources/preferences_dialog.ui
+msgid "Ignore upgrades for:"
+msgstr ""
+
+#: ../resources/preferences_dialog.ui
+msgid "Enable AUR support"
+msgstr "تفعيل دعم مستودعات AUR"
+
+#: ../resources/preferences_dialog.ui
 msgid "Options"
 msgstr "خيارات"
+
+#: ../resources/preferences_dialog.ui
+msgid "Sort mirrors by:"
+msgstr ""
+
+#: ../resources/preferences_dialog.ui
+msgid "Use mirrors from:"
+msgstr ""
+
+#: ../resources/preferences_dialog.ui
+msgid "Official repositories"
+msgstr ""
 
 #: ../src/packages_chooser_dialog.vala
 msgid "Alpm Package"
@@ -304,6 +330,18 @@ msgid "Building packages"
 msgstr ""
 
 #: ../src/transaction.vala
+msgid "Worldwide"
+msgstr ""
+
+#: ../src/transaction.vala
+msgid "speed"
+msgstr ""
+
+#: ../src/transaction.vala
+msgid "random"
+msgstr ""
+
+#: ../src/transaction.vala
 msgid "Checking dependencies"
 msgstr "تفقد الإعتماديات"
 
@@ -406,6 +444,21 @@ msgstr ""
 
 #: ../src/transaction.vala
 #, c-format
+msgid "%s installed as %s.pacnew"
+msgstr ""
+
+#: ../src/transaction.vala
+#, c-format
+msgid "%s installed as %s.pacsave"
+msgstr ""
+
+#: ../src/transaction.vala
+#, c-format
+msgid "%s installed as %s.pacorig"
+msgstr ""
+
+#: ../src/transaction.vala
+#, c-format
 msgid "Refreshing %s"
 msgstr "إنعاش %s"
 
@@ -434,6 +487,10 @@ msgstr "لا يوجد شيء للقيام به"
 #: ../src/transaction.vala
 msgid "Transaction successfully finished"
 msgstr "تم إنهاء العملية بنجاح"
+
+#: ../src/transaction.vala
+msgid "Generating mirrorlist"
+msgstr ""
 
 #: ../src/installer.vala ../src/manager.vala ../src/updater.vala
 msgid "Pamac is already running"
