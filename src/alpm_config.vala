@@ -26,6 +26,7 @@ namespace Alpm {
 
 		public Repo (string name) {
 			this.name = name;
+			siglevel = Signature.Level.USE_DEFAULT;
 			usage = 0;
 			urls = {};
 		} 
@@ -108,6 +109,8 @@ namespace Alpm {
 			handle.usesyslog = usesyslog;
 			handle.checkspace = checkspace;
 			handle.defaultsiglevel = defaultsiglevel;
+			localfilesiglevel = merge_siglevel (defaultsiglevel, localfilesiglevel);
+			remotefilesiglevel = merge_siglevel (defaultsiglevel, remotefilesiglevel);
 			handle.localfilesiglevel = localfilesiglevel;
 			handle.remotefilesiglevel = remotefilesiglevel;
 			handle.cachedirs = cachedirs;
@@ -149,7 +152,6 @@ namespace Alpm {
 							current_section = line[1:-1];
 							if (current_section != "options") {
 								var repo = new Repo (current_section);
-								repo.siglevel = defaultsiglevel;
 								repo_order += repo;
 							}
 							continue;
@@ -179,10 +181,10 @@ namespace Alpm {
 								checkspace = 1;
 							else if (_key == "SigLevel")
 								defaultsiglevel = define_siglevel (defaultsiglevel, _value);
-							else if (_key == "LocalSigLevel")
-								localfilesiglevel = merge_siglevel (defaultsiglevel, define_siglevel (localfilesiglevel, _value));
-							else if (_key == "RemoteSigLevel")
-								remotefilesiglevel = merge_siglevel (defaultsiglevel, define_siglevel (remotefilesiglevel, _value));
+							else if (_key == "LocalFileSigLevel")
+								localfilesiglevel = define_siglevel (localfilesiglevel, _value);
+							 else if (_key == "RemoteFileSigLevel")
+								remotefilesiglevel = define_siglevel (remotefilesiglevel, _value);
 							else if (_key == "HoldPkg") {
 								foreach (string name in _value.split (" "))
 									holdpkgs.append (name);
@@ -212,9 +214,11 @@ namespace Alpm {
 								if (repo.name == current_section) {
 									if (_key == "Server")
 										repo.urls += _value;
-									else if (_key == "SigLevel")
-										repo.siglevel = define_siglevel (defaultsiglevel, _value);
-									else if (_key == "Usage")
+									else if (_key == "SigLevel") {
+										if (repo.siglevel == Signature.Level.USE_DEFAULT)
+											repo.siglevel = defaultsiglevel;
+										repo.siglevel = define_siglevel (repo.siglevel, _value);
+									} else if (_key == "Usage")
 										repo.usage = define_usage (_value);
 								}
 							}
@@ -306,8 +310,10 @@ namespace Alpm {
 			foreach (string directive in conf_string.split(" ")) {
 				bool affect_package = false;
 				bool affect_database = false;
-				if ("Package" in directive) affect_package = true;
-				else if ("Database" in directive) affect_database = true;
+				if ("Package" in directive)
+					affect_package = true;
+				else if ("Database" in directive)
+					affect_database = true;
 				else {
 					affect_package = true;
 					affect_database = true;
@@ -317,9 +323,9 @@ namespace Alpm {
 						default_level &= ~Signature.Level.PACKAGE;
 						default_level |= Signature.Level.PACKAGE_SET;
 					}
-					if (affect_database) default_level &= ~Signature.Level.DATABASE;
-				}
-				else if ("Optional" in directive) {
+					if (affect_database)
+						default_level &= ~Signature.Level.DATABASE;
+				} else if ("Optional" in directive) {
 					if (affect_package) {
 						default_level |= Signature.Level.PACKAGE;
 						default_level |= Signature.Level.PACKAGE_OPTIONAL;
@@ -329,8 +335,7 @@ namespace Alpm {
 						default_level |= Signature.Level.DATABASE;
 						default_level |= Signature.Level.DATABASE_OPTIONAL;
 					}
-				}
-				else if ("Required" in directive) {
+				} else if ("Required" in directive) {
 					if (affect_package) {
 						default_level |= Signature.Level.PACKAGE;
 						default_level &= ~Signature.Level.PACKAGE_OPTIONAL;
@@ -340,8 +345,7 @@ namespace Alpm {
 						default_level |= Signature.Level.DATABASE;
 						default_level &= ~Signature.Level.DATABASE_OPTIONAL;
 					}
-				}
-				else if ("TrustedOnly" in directive) {
+				} else if ("TrustedOnly" in directive) {
 					if (affect_package) {
 						default_level &= ~Signature.Level.PACKAGE_MARGINAL_OK;
 						default_level &= ~Signature.Level.PACKAGE_UNKNOWN_OK;
@@ -351,8 +355,7 @@ namespace Alpm {
 						default_level &= ~Signature.Level.DATABASE_MARGINAL_OK;
 						default_level &= ~Signature.Level.DATABASE_UNKNOWN_OK;
 					}
-				}
-				else if ("TrustAll" in directive) {
+				} else if ("TrustAll" in directive) {
 					if (affect_package) {
 						default_level |= Signature.Level.PACKAGE_MARGINAL_OK;
 						default_level |= Signature.Level.PACKAGE_UNKNOWN_OK;
@@ -363,15 +366,15 @@ namespace Alpm {
 						default_level |= Signature.Level.DATABASE_UNKNOWN_OK;
 					}
 				}
-				else GLib.stderr.printf("unrecognized siglevel: %s\n", conf_string);
+				else
+					GLib.stderr.printf("unrecognized siglevel: %s\n", conf_string);
 			}
 			default_level &= ~Signature.Level.USE_DEFAULT;
 			return default_level;
 		}
 
 		public Signature.Level merge_siglevel (Signature.Level base_level, Signature.Level over_level) {
-			if ((over_level & Signature.Level.USE_DEFAULT) != 0) over_level = base_level;
-			else {
+			if ((over_level & Signature.Level.USE_DEFAULT) == 0) {
 				if ((over_level & Signature.Level.PACKAGE_SET) == 0) {
 					over_level |= base_level & Signature.Level.PACKAGE;
 					over_level |= base_level & Signature.Level.PACKAGE_OPTIONAL;

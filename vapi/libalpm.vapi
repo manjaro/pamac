@@ -470,7 +470,7 @@ namespace Alpm {
 			/** Installed as a dependency for another package. */
 			DEPEND = 1
 		}
-	
+
 		/** Location a package object was loaded from. */
 		[CCode (cname = "alpm_pkgfrom_t", cprefix = "ALPM_PKG_FROM_")]
 		public enum From {
@@ -478,7 +478,7 @@ namespace Alpm {
 			LOCALDB,
 			SYNCDB
 		}
-	
+
 		/** Method used to validate a package. */
 		[CCode (cname = "alpm_pkgvalidation_t", cprefix = "ALPM_PKG_VALIDATION_")]
 		public enum Validation {
@@ -670,7 +670,7 @@ namespace Alpm {
 			public Status status;
 			public Validity validity;
 		}
-		
+
 			/** PGP signature verification options */
 		[CCode (cname = "alpm_siglevel_t", cprefix = "ALPM_SIG_")]
 		public enum Level {
@@ -678,18 +678,18 @@ namespace Alpm {
 			PACKAGE_OPTIONAL = (1 << 1),
 			PACKAGE_MARGINAL_OK = (1 << 2),
 			PACKAGE_UNKNOWN_OK = (1 << 3),
-	
+
 			DATABASE = (1 << 10),
 			DATABASE_OPTIONAL = (1 << 11),
 			DATABASE_MARGINAL_OK = (1 << 12),
 			DATABASE_UNKNOWN_OK = (1 << 13),
-	
+
 			PACKAGE_SET = (1 << 27),
 			PACKAGE_TRUST_SET = (1 << 28),
-	
+
 			USE_DEFAULT = (1 << 31)
 		}
-	
+
 		/** PGP signature verification status return codes */
 		[CCode (cname = "alpm_sigstatus_t", cprefix = "ALPM_SIGSTATUS_")]
 		public enum Status {
@@ -700,7 +700,7 @@ namespace Alpm {
 			KEY_DISABLED,
 			INVALID
 		}
-	
+
 		/** PGP signature verification status return codes */
 		[CCode (cname = "alpm_sigvalidity_t", cprefix = "ALPM_SIGVALIDITY_")]
 		public enum Validity {
