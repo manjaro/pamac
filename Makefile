@@ -32,6 +32,7 @@ install:
 	install -Dm644 data/systemd/pamac.service /usr/lib/systemd/system/pamac.service
 	install -Dm744 data/networkmanager/99_update_pamac_tray /etc/NetworkManager/dispatcher.d/99_update_pamac_tray
 	install -Dm644 data/polkit/org.manjaro.pamac.policy /usr/share/polkit-1/actions/org.manjaro.pamac.policy
+	install -Dm644 data/mime/x-alpm-package.xml /usr/share/mime/packages/x-alpm-package.xml
 
 uninstall:
 	rm -f /usr/share/icons/16x16/apps/system-software-install.png
@@ -47,3 +48,4 @@ uninstall:
 	rm -f /usr/share/dbus-1/system-services/org.manjaro.pamac.service
 	rm -f /usr/lib/systemd/system/pamac.service
 	rm -f /usr/share/polkit-1/actions/org.manjaro.pamac.policy
+	rm -f /usr/share/mime/packages/x-alpm-package.xml
