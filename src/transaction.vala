@@ -57,6 +57,12 @@ namespace Pamac {
 		public signal void emit_generate_mirrorlist_finished ();
 	}
 
+	public enum TransactionType {
+		STANDARD = (1 << 0),
+		UPDATE = (1 << 1),
+		BUILD = (1 << 2)
+	}
+
 	public class Transaction: Object {
 		public Daemon daemon;
 
@@ -392,9 +398,9 @@ namespace Pamac {
 			}
 		}
 
-		public int set_transaction_sum () {
+		public TransactionType set_transaction_sum () {
 			// return 0 if transaction_sum is empty, 2, if there are only aur updates, 1 otherwise
-			int ret = 0;
+			TransactionType type = 0;
 			uint64 dsize = 0;
 			UpdatesInfos[] prepared_to_add = {};
 			UpdatesInfos[] prepared_to_remove = {};
@@ -432,7 +438,7 @@ namespace Pamac {
 			int len = prepared_to_remove.length;
 			int i;
 			if (len != 0) {
-				ret = 1;
+				type |= TransactionType.STANDARD;
 				transaction_sum_dialog.sum_list.insert_with_values (out iter, -1,
 												0, dgettext (null, "To remove") + ":",
 												1, "%s %s".printf (prepared_to_remove[0].name, prepared_to_remove[0].version));
@@ -445,7 +451,7 @@ namespace Pamac {
 			}
 			len = to_downgrade.length;
 			if (len != 0) {
-				ret = 1;
+				type |= TransactionType.STANDARD;
 				transaction_sum_dialog.sum_list.insert_with_values (out iter, -1,
 												0, dgettext (null, "To downgrade") + ":",
 												1, to_downgrade[0]);
@@ -458,6 +464,7 @@ namespace Pamac {
 			}
 			len = _to_build.length;
 			if (len != 0) {
+				type |= TransactionType.BUILD;
 				transaction_sum_dialog.sum_list.insert_with_values (out iter, -1,
 												0, dgettext (null, "To build") + ":",
 												1, _to_build[0]);
@@ -470,7 +477,7 @@ namespace Pamac {
 			}
 			len = to_install.length;
 			if (len != 0) {
-				ret = 1;
+				type |= TransactionType.STANDARD;
 				transaction_sum_dialog.sum_list.insert_with_values (out iter, -1,
 												0, dgettext (null, "To install") + ":",
 												1, to_install[0]);
@@ -483,7 +490,7 @@ namespace Pamac {
 			}
 			len = to_reinstall.length;
 			if (len != 0) {
-				ret = 1;
+				type |= TransactionType.STANDARD;
 				transaction_sum_dialog.sum_list.insert_with_values (out iter, -1,
 												0, dgettext (null, "To reinstall") + ":",
 												1, to_reinstall[0]);
@@ -496,8 +503,8 @@ namespace Pamac {
 			}
 			len = to_update.length;
 			if (len != 0) {
-				ret = 1;
-				if (mode == Mode.MANAGER) {
+				type |= TransactionType.UPDATE;
+				if (mode != Mode.UPDATER) {
 					transaction_sum_dialog.sum_list.insert_with_values (out iter, -1,
 													0, dgettext (null, "To update") + ":",
 													1, to_update[0]);
@@ -515,11 +522,7 @@ namespace Pamac {
 				transaction_sum_dialog.bottom_label.set_markup ("<b>%s: %s</b>".printf (dgettext (null, "Total download size"), format_size (dsize)));
 				transaction_sum_dialog.bottom_label.set_visible (true);
 			}
-			if (ret == 0) {
-				if (_to_build.length != 0)
-					ret = 2;
-			}
-			return ret;
+			return type;
 		}
 
 		public void commit () {
@@ -1025,17 +1028,24 @@ namespace Pamac {
 			print ("transaction prepared\n");
 			if (error.str == "") {
 				show_warnings ();
-				int ret = set_transaction_sum ();
-				if (ret == 2) {
-					// there only AUR packages to build
-					ErrorInfos err = ErrorInfos ();
-					on_emit_trans_committed (err);
-				} else if (ret == 1) {
+				TransactionType type = set_transaction_sum ();
+				if (type == TransactionType.UPDATE) {
+					// there only updates
+					if (mode == Mode.UPDATER) {
+						//sysupgrade_after_build = false;
+						commit ();
+					}
+				} else if (type != 0) {
 					if (transaction_sum_dialog.run () == ResponseType.OK) {
 						transaction_sum_dialog.hide ();
 						while (Gtk.events_pending ())
 							Gtk.main_iteration ();
-						commit ();
+						if (type == TransactionType.BUILD) {
+							// there only AUR packages to build
+							ErrorInfos err = ErrorInfos ();
+							on_emit_trans_committed (err);
+						} else
+							commit ();
 					} else {
 						spawn_in_term ({"echo", dgettext (null, "Transaction cancelled") + ".\n"});
 						progress_dialog.hide ();
@@ -1049,9 +1059,6 @@ namespace Pamac {
 						//sysupgrade_after_build = false;
 						finished (true);
 					}
-				} else if (mode == Mode.UPDATER) {
-					//sysupgrade_after_build = false;
-					commit ();
 				} else {
 					//ErrorInfos err = ErrorInfos ();
 					//err.str = dgettext (null, "Nothing to do") + "\n";
