@@ -1,3 +1,4 @@
+#include <string.h>
 #include "alpm-util.h"
 
 alpm_pkg_t* alpm_pkg_load_file (alpm_handle_t *handle, const char *filename, int full, alpm_siglevel_t level) {
@@ -27,6 +28,12 @@ void* alpm_list_get_data (alpm_list_t *list) {
 
 void* alpm_list_nth_data (alpm_list_t *list, size_t n) {
 	return alpm_list_nth (list, n)->data;
+}
+
+alpm_list_t* alpm_list_add_str (alpm_list_t *list, const char *str) {
+	char *dup = strdup (str);
+	list = alpm_list_add (list, dup);
+	return list;
 }
 
 alpm_list_t* alpm_list_remove_data (alpm_list_t *list, const void *needle, alpm_list_fn_cmp fn) {

@@ -43,7 +43,7 @@ namespace Alpm {
 		int usesyslog;
 		public int checkspace;
 		Alpm.List<string> cachedirs;
-		Alpm.List<string> ignoregrps;
+		Alpm.List<string> ignoregroups;
 		public string ignorepkg;
 		Alpm.List<string> ignorepkgs;
 		Alpm.List<string> noextracts;
@@ -75,7 +75,7 @@ namespace Alpm {
 			syncfirst = "";
 			cachedirs = new Alpm.List<string> ();
 			cachedirs.add ("/var/cache/pacman/pkg/");
-			ignoregrps = new Alpm.List<string> ();
+			ignoregroups = new Alpm.List<string> ();
 			ignorepkgs = new Alpm.List<string> ();
 			ignorepkg = "";
 			noextracts = new Alpm.List<string> ();
@@ -114,7 +114,7 @@ namespace Alpm {
 			handle.localfilesiglevel = localfilesiglevel;
 			handle.remotefilesiglevel = remotefilesiglevel;
 			handle.cachedirs = cachedirs;
-			handle.ignoregroups = ignoregrps;
+			handle.ignoregroups = ignoregroups;
 			handle.ignorepkgs = ignorepkgs;
 			handle.noextracts = noextracts;
 			handle.noupgrades = noupgrades;
@@ -194,20 +194,20 @@ namespace Alpm {
 									syncfirsts.append (name);
 							} else if (_key == "CacheDir") {
 								foreach (string dir in _value.split (" "))
-									cachedirs.add (dir);
+									cachedirs.add_str (dir);
 							} else if (_key == "IgnoreGroup") {
 								foreach (string name in _value.split (" "))
-									ignoregrps.add (name);
+									ignoregroups.add_str (name);
 							} else if (_key == "IgnorePkg") {
 								ignorepkg = _value;
 								foreach (string name in _value.split (" "))
-									ignorepkgs.add (name);
+									ignorepkgs.add_str (name);
 							} else if (_key == "Noextract") {
 								foreach (string name in _value.split (" "))
-									noextracts.add (name);
+									noextracts.add_str (name);
 							} else if (_key == "NoUpgrade") {
 								foreach (string name in _value.split (" "))
-									noupgrades.add (name);
+									noupgrades.add_str (name);
 							}
 						} else {
 							foreach (var repo in repo_order) {

@@ -1320,6 +1320,9 @@ namespace Alpm {
 		public unowned void add(G data);
 
 		[ReturnsModifiedPointer ()]
+		public unowned void add_str(string str);
+
+		[ReturnsModifiedPointer ()]
 		public unowned void join(List<G> list);
 
 		[CCode (cname = "alpm_list_sort_data"), ReturnsModifiedPointer ()]

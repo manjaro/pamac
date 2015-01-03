@@ -673,6 +673,7 @@ namespace Pamac {
 			if (pamac_changes) {
 				write_pamac_config (new_pamac_conf);
 				pamac_config.reload ();
+				check_aur = pamac_config.enable_aur;
 			}
 			bool alpm_changes = (new_alpm_conf.size () != 0);
 			if (alpm_changes) {

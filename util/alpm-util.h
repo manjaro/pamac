@@ -9,6 +9,7 @@ typedef struct __alpm_list_iterator_t {
 
 void* alpm_list_get_data (alpm_list_t *list);
 void* alpm_list_nth_data (alpm_list_t *list, size_t n);
+alpm_list_t* alpm_list_add_str (alpm_list_t *list, const char *str);
 alpm_list_t *alpm_list_remove_data (alpm_list_t *list, const void *needle, alpm_list_fn_cmp fn);
 alpm_list_t *alpm_list_sort_data (alpm_list_t *list, alpm_list_fn_cmp fn);
 alpm_list_t *alpm_list_new ();
