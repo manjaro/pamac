@@ -897,13 +897,13 @@ namespace Pamac {
 			}
 			if (total_download > 0) {
 				fraction = (float) (xfered + already_downloaded) / total_download;
-				if (fraction > 0)
+				if (fraction <= 1)
 					textbar = "%s/%s".printf (format_size (xfered + already_downloaded), format_size (total_download));
 				else
 					textbar = "%s".printf (format_size (xfered + already_downloaded));
 			} else {
 				fraction = (float) xfered / total;
-				if (fraction > 0)
+				if (fraction <= 1)
 					textbar = "%s/%s".printf (format_size (xfered), format_size (total));
 				else
 					textbar = "%s".printf (format_size (xfered));
