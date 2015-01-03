@@ -471,6 +471,7 @@
                             <child>
                               <object class="GtkCellRendererPixbuf" id="state_rendererpixbuf">
                                 <property name="width">40</property>
+                                <property name="height">20</property>
                               </object>
                               <attributes>
                                 <attribute name="pixbuf">1</attribute>
@@ -488,6 +489,7 @@
                             <child>
                               <object class="GtkCellRendererText" id="name_renderertext">
                                 <property name="width">150</property>
+                                <property name="height">20</property>
                               </object>
                               <attributes>
                                 <attribute name="text">0</attribute>
@@ -505,6 +507,7 @@
                             <child>
                               <object class="GtkCellRendererText" id="version_renderertext">
                                 <property name="width">80</property>
+                                <property name="height">20</property>
                               </object>
                               <attributes>
                                 <attribute name="text">2</attribute>
@@ -522,6 +525,7 @@
                             <child>
                               <object class="GtkCellRendererText" id="repo_renderertext">
                                 <property name="width">80</property>
+                                <property name="height">20</property>
                               </object>
                               <attributes>
                                 <attribute name="text">3</attribute>
@@ -539,6 +543,7 @@
                             <child>
                               <object class="GtkCellRendererText" id="size_renderertext">
                                 <property name="width">80</property>
+                                <property name="height">20</property>
                               </object>
                               <attributes>
                                 <attribute name="text">4</attribute>
@@ -578,6 +583,7 @@
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="halign">start</property>
+                                    <property name="margin">6</property>
                                     <property name="selectable">True</property>
                                   </object>
                                   <packing>
@@ -591,6 +597,7 @@
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="halign">start</property>
+                                    <property name="margin">6</property>
                                     <property name="selectable">True</property>
                                   </object>
                                   <packing>
@@ -605,6 +612,7 @@
                                     <property name="can_focus">True</property>
                                     <property name="has_focus">True</property>
                                     <property name="halign">start</property>
+                                    <property name="margin">6</property>
                                   </object>
                                   <packing>
                                     <property name="expand">False</property>
@@ -617,6 +625,7 @@
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="halign">start</property>
+                                    <property name="margin">6</property>
                                     <property name="selectable">True</property>
                                   </object>
                                   <packing>
