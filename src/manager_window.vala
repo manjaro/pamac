@@ -451,7 +451,7 @@ namespace Pamac {
 		}
 
 		public async Alpm.List<Alpm.Package?> search_pkgs (string search_string, out Json.Array aur_pkgs) {
-			Alpm.List<string?> needles = null;
+			var needles = new Alpm.List<string> ();
 			string[] splitted = search_string.split (" ");
 			foreach (unowned string part in splitted)
 				needles.add (part);

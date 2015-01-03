@@ -42,12 +42,12 @@ namespace Alpm {
 		double deltaratio;
 		int usesyslog;
 		public int checkspace;
-		Alpm.List<string> cachedirs;
-		Alpm.List<string> ignoregroups;
+		Alpm.List<string> *cachedirs;
+		Alpm.List<string> *ignoregroups;
 		public string ignorepkg;
-		Alpm.List<string> ignorepkgs;
-		Alpm.List<string> noextracts;
-		Alpm.List<string> noupgrades;
+		Alpm.List<string> *ignorepkgs;
+		Alpm.List<string> *noextracts;
+		Alpm.List<string> *noupgrades;
 		public GLib.List<string> holdpkgs;
 		public GLib.List<string> syncfirsts;
 		public string syncfirst;
@@ -69,12 +69,18 @@ namespace Alpm {
 			dbpath = "/var/lib/pacman";
 			gpgdir = "/etc/pacman.d/gnupg/";
 			logfile = "/var/log/pacman.log";
+			string default_cachedir = "/var/cache/pacman/pkg/";
 			arch = Posix.utsname().machine;
 			holdpkgs = new GLib.List<string> ();
 			syncfirsts = new GLib.List<string> ();
 			syncfirst = "";
+			Alpm.List.free_all (cachedirs);
+			Alpm.List.free_all (ignoregroups);
+			Alpm.List.free_all (ignorepkgs);
+			Alpm.List.free_all (noextracts);
+			Alpm.List.free_all (noupgrades);
 			cachedirs = new Alpm.List<string> ();
-			cachedirs.add ("/var/cache/pacman/pkg/");
+			cachedirs->add_str (default_cachedir);
 			ignoregroups = new Alpm.List<string> ();
 			ignorepkgs = new Alpm.List<string> ();
 			ignorepkg = "";
@@ -194,20 +200,20 @@ namespace Alpm {
 									syncfirsts.append (name);
 							} else if (_key == "CacheDir") {
 								foreach (string dir in _value.split (" "))
-									cachedirs.add_str (dir);
+									cachedirs->add_str (dir);
 							} else if (_key == "IgnoreGroup") {
 								foreach (string name in _value.split (" "))
-									ignoregroups.add_str (name);
+									ignoregroups->add_str (name);
 							} else if (_key == "IgnorePkg") {
 								ignorepkg = _value;
 								foreach (string name in _value.split (" "))
-									ignorepkgs.add_str (name);
+									ignorepkgs->add_str (name);
 							} else if (_key == "Noextract") {
 								foreach (string name in _value.split (" "))
-									noextracts.add_str (name);
+									noextracts->add_str (name);
 							} else if (_key == "NoUpgrade") {
 								foreach (string name in _value.split (" "))
-									noupgrades.add_str (name);
+									noupgrades->add_str (name);
 							}
 						} else {
 							foreach (var repo in repo_order) {

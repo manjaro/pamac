@@ -1,10 +1,13 @@
 pkgbuild
+resources/*~
 resources/*.c
+src/*.c
 src/pamac-daemon
 src/pamac-tray
 src/pamac-manager
 src/pamac-install
 src/pamac-updater
+src/pamac-refresh
 data/polkit/org.manjaro.pamac.policy
 po/*.mo
 po/*~
