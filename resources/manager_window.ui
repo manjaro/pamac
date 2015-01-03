@@ -1,118 +1,172 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- Generated with glade 3.18.3 -->
 <interface>
   <requires lib="gtk+" version="3.12"/>
+  <object class="GtkMenu" id="main_menu">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <child>
+      <object class="GtkMenuItem" id="history_item">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="label" translatable="yes">View History</property>
+        <signal name="activate" handler="on_history_item_activate" swapped="no"/>
+      </object>
+    </child>
+    <child>
+      <object class="GtkMenuItem" id="local_item">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="label" translatable="yes">Install local packages</property>
+        <signal name="activate" handler="on_local_item_activate" swapped="no"/>
+      </object>
+    </child>
+    <child>
+      <object class="GtkMenuItem" id="preferences_item">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="label" translatable="yes">_Preferences</property>
+        <property name="use_underline">True</property>
+        <signal name="activate" handler="on_preferences_item_activate" swapped="no"/>
+      </object>
+    </child>
+    <child>
+      <object class="GtkMenuItem" id="about_item">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="label" translatable="yes">_About</property>
+        <property name="use_underline">True</property>
+        <signal name="activate" handler="on_about_item_activate" swapped="no"/>
+      </object>
+    </child>
+  </object>
   <template class="PamacManagerWindow" parent="GtkApplicationWindow">
     <property name="visible">True</property>
+    <property name="can_focus">False</property>
     <property name="border_width">3</property>
     <property name="title" translatable="yes">Package Manager</property>
     <property name="window_position">center</property>
     <property name="default_width">900</property>
     <property name="default_height">600</property>
     <property name="icon_name">system-software-install</property>
-    <property name="show_menubar">True</property>
     <child>
       <object class="GtkBox" id="box0">
         <property name="visible">True</property>
+        <property name="can_focus">False</property>
         <property name="orientation">vertical</property>
         <property name="spacing">6</property>
         <child>
           <object class="GtkBox" id="box1">
             <property name="visible">True</property>
+            <property name="can_focus">False</property>
             <property name="spacing">6</property>
             <child>
               <object class="GtkButton" id="refresh_button">
                 <property name="visible">True</property>
-                <property name="tooltip_text" translatable="yes">Refresh databases</property>
                 <property name="can_focus">True</property>
+                <property name="receives_default">False</property>
+                <property name="tooltip_text" translatable="yes">Refresh databases</property>
                 <signal name="clicked" handler="on_refresh_button_clicked" swapped="no"/>
-                <style>
-                  <class name="image-button"/>
-                </style>
                 <child>
                   <object class="GtkImage" id="refresh_icon">
                     <property name="visible">True</property>
-                    <property name="icon-name">view-refresh-symbolic</property>
-                    <property name="icon-size">1</property>
+                    <property name="can_focus">False</property>
+                    <property name="icon_name">view-refresh-symbolic</property>
+                    <property name="icon_size">1</property>
                   </object>
                 </child>
+                <style>
+                  <class name="image-button"/>
+                </style>
               </object>
               <packing>
                 <property name="expand">False</property>
                 <property name="fill">True</property>
-                <property name="pack_type">start</property>
+                <property name="position">0</property>
               </packing>
             </child>
             <child>
               <object class="GtkButton" id="valid_button">
                 <property name="visible">True</property>
-                <property name="tooltip_text" translatable="yes">Apply changes</property>
                 <property name="can_focus">True</property>
+                <property name="receives_default">False</property>
+                <property name="tooltip_text" translatable="yes">Apply changes</property>
                 <signal name="clicked" handler="on_valid_button_clicked" swapped="no"/>
-                <style>
-                  <class name="image-button"/>
-                </style>
                 <child>
                   <object class="GtkImage" id="valid_icon">
                     <property name="visible">True</property>
-                    <property name="icon-name">emblem-ok-symbolic</property>
-                    <property name="icon-size">1</property>
+                    <property name="can_focus">False</property>
+                    <property name="icon_name">emblem-ok-symbolic</property>
+                    <property name="icon_size">1</property>
                   </object>
                 </child>
+                <style>
+                  <class name="image-button"/>
+                </style>
               </object>
               <packing>
                 <property name="expand">False</property>
                 <property name="fill">True</property>
-                <property name="pack_type">start</property>
+                <property name="position">1</property>
               </packing>
             </child>
             <child>
               <object class="GtkButton" id="cancel_button">
                 <property name="visible">True</property>
-                <property name="tooltip_text" translatable="yes">Cancel all planned changes</property>
                 <property name="can_focus">True</property>
+                <property name="receives_default">False</property>
+                <property name="tooltip_text" translatable="yes">Cancel all planned changes</property>
                 <signal name="clicked" handler="on_cancel_button_clicked" swapped="no"/>
-                <style>
-                  <class name="image-button"/>
-                </style>
                 <child>
                   <object class="GtkImage" id="cancel_icon">
                     <property name="visible">True</property>
-                    <property name="icon-name">edit-delete-symbolic</property>
-                    <property name="icon-size">1</property>
+                    <property name="can_focus">False</property>
+                    <property name="icon_name">edit-delete-symbolic</property>
+                    <property name="icon_size">1</property>
                   </object>
                 </child>
+                <style>
+                  <class name="image-button"/>
+                </style>
               </object>
               <packing>
                 <property name="expand">False</property>
                 <property name="fill">True</property>
-                <property name="pack_type">start</property>
+                <property name="position">2</property>
               </packing>
             </child>
             <child>
               <object class="GtkMenuButton" id="menu_button">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
+                <property name="receives_default">False</property>
                 <property name="popup">main_menu</property>
-                <property name="use_popover">True</property>
-                <style>
-                  <class name="image-button"/>
-                </style>
                 <child>
                   <object class="GtkImage" id="menu_icon">
                     <property name="visible">True</property>
-                    <property name="icon-name">emblem-system-symbolic</property>
-                    <property name="icon-size">1</property>
+                    <property name="can_focus">False</property>
+                    <property name="icon_name">emblem-system-symbolic</property>
+                    <property name="icon_size">1</property>
                   </object>
                 </child>
+                <style>
+                  <class name="image-button"/>
+                </style>
               </object>
               <packing>
                 <property name="expand">False</property>
                 <property name="fill">True</property>
                 <property name="pack_type">end</property>
+                <property name="position">3</property>
               </packing>
             </child>
           </object>
-        </child>  
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
         <child>
           <object class="GtkPaned" id="paned1">
             <property name="visible">True</property>
@@ -153,27 +207,36 @@
                         <property name="spacing">6</property>
                         <child>
                           <object class="GtkLabel" id="search_aur_label">
-                            <property name="label" translatable="yes">Search in AUR</property>
                             <property name="visible">True</property>
+                            <property name="can_focus">False</property>
                             <property name="halign">start</property>
+                            <property name="label" translatable="yes">Search in AUR</property>
                           </object>
                           <packing>
                             <property name="expand">True</property>
                             <property name="fill">True</property>
+                            <property name="position">0</property>
                           </packing>
                         </child>
                         <child>
                           <object class="GtkSwitch" id="search_aur_button">
                             <property name="visible">True</property>
+                            <property name="can_focus">False</property>
                             <property name="tooltip_text" translatable="yes">Search in AUR</property>
                             <property name="halign">end</property>
                           </object>
                           <packing>
                             <property name="expand">True</property>
                             <property name="fill">True</property>
+                            <property name="position">1</property>
                           </packing>
                         </child>
                       </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">True</property>
+                        <property name="position">1</property>
+                      </packing>
                     </child>
                     <child>
                       <object class="GtkScrolledWindow" id="scrolledwindow3">
@@ -388,7 +451,6 @@
                         <property name="can_focus">True</property>
                         <property name="hexpand">True</property>
                         <property name="vexpand">True</property>
-                        <property name="reorderable">True</property>
                         <property name="search_column">0</property>
                         <property name="show_expanders">False</property>
                         <signal name="button-press-event" handler="on_packages_treeview_button_press_event" swapped="no"/>
@@ -402,12 +464,14 @@
                         <child>
                           <object class="GtkTreeViewColumn" id="state_column">
                             <property name="resizable">True</property>
-                            <property name="sizing">autosize</property>
+                            <property name="min_width">20</property>
                             <property name="title" translatable="yes">State</property>
                             <property name="clickable">True</property>
                             <signal name="clicked" handler="on_state_column_clicked" swapped="no"/>
                             <child>
-                              <object class="GtkCellRendererPixbuf" id="state_rendererpixbuf"/>
+                              <object class="GtkCellRendererPixbuf" id="state_rendererpixbuf">
+                                <property name="width">40</property>
+                              </object>
                               <attributes>
                                 <attribute name="pixbuf">1</attribute>
                               </attributes>
@@ -417,12 +481,14 @@
                         <child>
                           <object class="GtkTreeViewColumn" id="name_column">
                             <property name="resizable">True</property>
-                            <property name="sizing">autosize</property>
+                            <property name="min_width">20</property>
                             <property name="title" translatable="yes">Name</property>
                             <property name="clickable">True</property>
                             <signal name="clicked" handler="on_name_column_clicked" swapped="no"/>
                             <child>
-                              <object class="GtkCellRendererText" id="name_renderertext"/>
+                              <object class="GtkCellRendererText" id="name_renderertext">
+                                <property name="width">150</property>
+                              </object>
                               <attributes>
                                 <attribute name="text">0</attribute>
                               </attributes>
@@ -432,12 +498,14 @@
                         <child>
                           <object class="GtkTreeViewColumn" id="version_column">
                             <property name="resizable">True</property>
-                            <property name="sizing">autosize</property>
+                            <property name="min_width">20</property>
                             <property name="title" translatable="yes">Version</property>
                             <property name="clickable">True</property>
                             <signal name="clicked" handler="on_version_column_clicked" swapped="no"/>
                             <child>
-                              <object class="GtkCellRendererText" id="version_renderertext"/>
+                              <object class="GtkCellRendererText" id="version_renderertext">
+                                <property name="width">80</property>
+                              </object>
                               <attributes>
                                 <attribute name="text">2</attribute>
                               </attributes>
@@ -447,12 +515,14 @@
                         <child>
                           <object class="GtkTreeViewColumn" id="repo_column">
                             <property name="resizable">True</property>
-                            <property name="sizing">autosize</property>
+                            <property name="min_width">20</property>
                             <property name="title" translatable="yes">Repository</property>
                             <property name="clickable">True</property>
                             <signal name="clicked" handler="on_repo_column_clicked" swapped="no"/>
                             <child>
-                              <object class="GtkCellRendererText" id="repo_renderertext"/>
+                              <object class="GtkCellRendererText" id="repo_renderertext">
+                                <property name="width">80</property>
+                              </object>
                               <attributes>
                                 <attribute name="text">3</attribute>
                               </attributes>
@@ -462,12 +532,14 @@
                         <child>
                           <object class="GtkTreeViewColumn" id="size_column">
                             <property name="resizable">True</property>
-                            <property name="sizing">autosize</property>
+                            <property name="min_width">20</property>
                             <property name="title" translatable="yes">Size</property>
                             <property name="clickable">True</property>
                             <signal name="clicked" handler="on_size_column_clicked" swapped="no"/>
                             <child>
-                              <object class="GtkCellRendererText" id="size_renderertext"/>
+                              <object class="GtkCellRendererText" id="size_renderertext">
+                                <property name="width">80</property>
+                              </object>
                               <attributes>
                                 <attribute name="text">4</attribute>
                               </attributes>
@@ -506,7 +578,6 @@
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="halign">start</property>
-                                    <property name="margin">6</property>
                                     <property name="selectable">True</property>
                                   </object>
                                   <packing>
@@ -520,7 +591,6 @@
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="halign">start</property>
-                                    <property name="margin">6</property>
                                     <property name="selectable">True</property>
                                   </object>
                                   <packing>
@@ -535,7 +605,6 @@
                                     <property name="can_focus">True</property>
                                     <property name="has_focus">True</property>
                                     <property name="halign">start</property>
-                                    <property name="margin">6</property>
                                   </object>
                                   <packing>
                                     <property name="expand">False</property>
@@ -548,7 +617,6 @@
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="halign">start</property>
-                                    <property name="margin">6</property>
                                     <property name="selectable">True</property>
                                   </object>
                                   <packing>
@@ -745,46 +813,13 @@
               </packing>
             </child>
           </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">1</property>
+          </packing>
         </child>
       </object>
     </child>
   </template>
-  <object class="GtkMenu" id="main_menu">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <child>
-      <object class="GtkMenuItem" id="history_item">
-        <property name="label" translatable="yes">View History</property>
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <signal name="activate" handler="on_history_item_activate" swapped="no"/>
-      </object>
-    </child>
-    <child>
-      <object class="GtkMenuItem" id="local_item">
-        <property name="label" translatable="yes">Install local packages</property>
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <signal name="activate" handler="on_local_item_activate" swapped="no"/>
-      </object>
-    </child>
-    <child>
-      <object class="GtkMenuItem" id="preferences_item">
-        <property name="label" translatable="yes">_Preferences</property>
-        <property name="use_underline">True</property>
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <signal name="activate" handler="on_preferences_item_activate" swapped="no"/>
-      </object>
-    </child>
-    <child>
-      <object class="GtkMenuItem" id="about_item">
-        <property name="label" translatable="yes">_About</property>
-        <property name="use_underline">True</property>
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <signal name="activate" handler="on_about_item_activate" swapped="no"/>
-      </object>
-    </child>
-  </object>
 </interface>
