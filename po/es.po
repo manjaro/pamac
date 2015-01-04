@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2014-11-22 11:36+0100\n"
+"POT-Creation-Date: 2015-01-04 09:18+0100\n"
 "PO-Revision-Date: 2014-11-28 15:39+0000\n"
 "Last-Translator: Leandro Juan <freudian_order@yahoo.es>\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/manjaro-pamac/"
@@ -22,10 +22,6 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-
-#: data/polkit/org.manjaro.pamac.policy
-msgid "Authentication is required"
-msgstr "Se necesita autenticación"
 
 #: ../resources/choose_provider_dialog.ui
 msgid "Choose a Provider"
@@ -71,6 +67,18 @@ msgstr "Historial de Pamac"
 #: ../resources/transaction_sum_dialog.ui ../src/transaction.vala
 msgid "Transaction Summary"
 msgstr "Resumen de la operación"
+
+#: ../resources/manager_window.ui
+msgid "View History"
+msgstr "Ver Historial"
+
+#: ../resources/manager_window.ui ../resources/updater_window.ui
+msgid "_Preferences"
+msgstr "_Preferencias"
+
+#: ../resources/manager_window.ui
+msgid "_About"
+msgstr "_Acerca de"
 
 #: ../resources/manager_window.ui ../src/tray.vala
 msgid "Package Manager"
@@ -135,18 +143,6 @@ msgstr "Dependencias"
 #: ../resources/manager_window.ui
 msgid "Files"
 msgstr "Archivos"
-
-#: ../resources/manager_window.ui
-msgid "View History"
-msgstr "Ver Historial"
-
-#: ../resources/manager_window.ui ../resources/updater_window.ui
-msgid "_Preferences"
-msgstr "_Preferencias"
-
-#: ../resources/manager_window.ui
-msgid "_About"
-msgstr "_Acerca de"
 
 #: ../resources/updater_window.ui ../src/tray.vala
 msgid "Update Manager"
@@ -651,3 +647,6 @@ msgstr "%.0f KiB"
 #, c-format
 msgid "%.2f MiB"
 msgstr "%.2f MiB"
+
+#~ msgid "Authentication is required"
+#~ msgstr "Se necesita autenticación"

@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2014-11-22 11:36+0100\n"
+"POT-Creation-Date: 2015-01-04 09:18+0100\n"
 "PO-Revision-Date: 2014-11-23 11:28+0000\n"
 "Last-Translator: GenghisKhan <genghiskhan@gmx.ca>\n"
 "Language-Team: Hebrew (http://www.transifex.com/projects/p/manjaro-pamac/"
@@ -21,10 +21,6 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-
-#: data/polkit/org.manjaro.pamac.policy
-msgid "Authentication is required"
-msgstr "דרוש אימות"
 
 #: ../resources/choose_provider_dialog.ui
 msgid "Choose a Provider"
@@ -70,6 +66,18 @@ msgstr "היסטורית Pamac"
 #: ../resources/transaction_sum_dialog.ui ../src/transaction.vala
 msgid "Transaction Summary"
 msgstr "סיכום טרנזקציה"
+
+#: ../resources/manager_window.ui
+msgid "View History"
+msgstr "צפה בהיסטוריה"
+
+#: ../resources/manager_window.ui ../resources/updater_window.ui
+msgid "_Preferences"
+msgstr "_העדפות"
+
+#: ../resources/manager_window.ui
+msgid "_About"
+msgstr "_אודות"
 
 #: ../resources/manager_window.ui ../src/tray.vala
 msgid "Package Manager"
@@ -134,18 +142,6 @@ msgstr "תלויות"
 #: ../resources/manager_window.ui
 msgid "Files"
 msgstr "קבצים"
-
-#: ../resources/manager_window.ui
-msgid "View History"
-msgstr "צפה בהיסטוריה"
-
-#: ../resources/manager_window.ui ../resources/updater_window.ui
-msgid "_Preferences"
-msgstr "_העדפות"
-
-#: ../resources/manager_window.ui
-msgid "_About"
-msgstr "_אודות"
 
 #: ../resources/updater_window.ui ../src/tray.vala
 msgid "Update Manager"
@@ -648,3 +644,6 @@ msgstr "%.0f קי״ב"
 #, c-format
 msgid "%.2f MiB"
 msgstr "%.2f מי״ב"
+
+#~ msgid "Authentication is required"
+#~ msgstr "דרוש אימות"

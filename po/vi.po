@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2014-11-22 11:36+0100\n"
+"POT-Creation-Date: 2015-01-04 09:18+0100\n"
 "PO-Revision-Date: 2014-11-22 14:10+0000\n"
 "Last-Translator: Guillaume Benoit <guillaume@manjaro.org>\n"
 "Language-Team: Vietnamese (http://www.transifex.com/projects/p/manjaro-pamac/"
@@ -20,10 +20,6 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-
-#: data/polkit/org.manjaro.pamac.policy
-msgid "Authentication is required"
-msgstr "Xác nhận được yêu cầu"
 
 #: ../resources/choose_provider_dialog.ui
 msgid "Choose a Provider"
@@ -69,6 +65,18 @@ msgstr "Lịch sử Pamac"
 #: ../resources/transaction_sum_dialog.ui ../src/transaction.vala
 msgid "Transaction Summary"
 msgstr "Ghi nhớ chuyển giao"
+
+#: ../resources/manager_window.ui
+msgid "View History"
+msgstr "Hiển thị lịch sử"
+
+#: ../resources/manager_window.ui ../resources/updater_window.ui
+msgid "_Preferences"
+msgstr ""
+
+#: ../resources/manager_window.ui
+msgid "_About"
+msgstr ""
 
 #: ../resources/manager_window.ui ../src/tray.vala
 msgid "Package Manager"
@@ -133,18 +141,6 @@ msgstr ""
 #: ../resources/manager_window.ui
 msgid "Files"
 msgstr "Tệp tin"
-
-#: ../resources/manager_window.ui
-msgid "View History"
-msgstr "Hiển thị lịch sử"
-
-#: ../resources/manager_window.ui ../resources/updater_window.ui
-msgid "_Preferences"
-msgstr ""
-
-#: ../resources/manager_window.ui
-msgid "_About"
-msgstr ""
 
 #: ../resources/updater_window.ui ../src/tray.vala
 msgid "Update Manager"
@@ -641,3 +637,6 @@ msgstr ""
 #, c-format
 msgid "%.2f MiB"
 msgstr "%.2f MiB"
+
+#~ msgid "Authentication is required"
+#~ msgstr "Xác nhận được yêu cầu"
