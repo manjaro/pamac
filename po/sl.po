@@ -1,8 +1,7 @@
-# Translation of Pamac.
-# Copyright (C) 2007-2012 Free Software Foundation, Inc.
-# This file is distributed under the same license as the Pamac package.
-# Guillaume Benoit <guillaume@manjaro.org>, 2013-2014.
-#
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
 # Translators:
 # ansich <mojmejlzaforume@gmail.com>, 2014
 # Nenad Latinović <inactive+holden1987@transifex.com>, 2013
@@ -14,25 +13,23 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2015-01-04 09:18+0100\n"
-"PO-Revision-Date: 2014-11-22 14:10+0000\n"
-"Last-Translator: Guillaume Benoit <guillaume@manjaro.org>\n"
-"Language-Team: Slovenian (http://www.transifex.com/projects/p/manjaro-pamac/"
-"language/sl/)\n"
-"Language: sl\n"
+"PO-Revision-Date: 2015-01-04 08:22+0000\n"
+"Last-Translator: philm <philm@manjaro.org>\n"
+"Language-Team: Slovenian (http://www.transifex.com/projects/p/manjaro-pamac/language/sl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n"
-"%100==4 ? 2 : 3);\n"
+"Language: sl\n"
+"Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);\n"
 
 #: ../resources/choose_provider_dialog.ui
 msgid "Choose a Provider"
-msgstr ""
+msgstr "Izberi ponudnika"
 
 #: ../resources/choose_provider_dialog.ui
 #: ../resources/transaction_sum_dialog.ui ../resources/preferences_dialog.ui
 msgid "_OK"
-msgstr ""
+msgstr "_OK"
 
 #: ../resources/packages_chooser_dialog.ui ../resources/manager_window.ui
 msgid "Install local packages"
@@ -41,11 +38,11 @@ msgstr "Namesti lokalne pakete"
 #: ../resources/packages_chooser_dialog.ui ../resources/progress_dialog.ui
 #: ../resources/transaction_sum_dialog.ui
 msgid "_Cancel"
-msgstr ""
+msgstr "_Prekliči"
 
 #: ../resources/packages_chooser_dialog.ui
 msgid "_Open"
-msgstr ""
+msgstr "_Odpri"
 
 #: ../resources/progress_dialog.ui
 msgid "Progress"
@@ -55,7 +52,7 @@ msgstr "Potek"
 #: ../resources/transaction_info_dialog.ui ../resources/updater_window.ui
 #: ../resources/preferences_dialog.ui
 msgid "_Close"
-msgstr ""
+msgstr "_Zapri"
 
 #: ../resources/progress_dialog.ui ../resources/transaction_info_dialog.ui
 #: ../resources/manager_window.ui
@@ -76,11 +73,11 @@ msgstr "Glej zgodovino"
 
 #: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "_Preferences"
-msgstr ""
+msgstr "_Nastavitve"
 
 #: ../resources/manager_window.ui
 msgid "_About"
-msgstr ""
+msgstr "_O programu"
 
 #: ../resources/manager_window.ui ../src/tray.vala
 msgid "Package Manager"
@@ -88,7 +85,7 @@ msgstr "Upravljalnik paketov"
 
 #: ../resources/manager_window.ui
 msgid "Refresh databases"
-msgstr ""
+msgstr "Osveži baze podatkov"
 
 #: ../resources/manager_window.ui
 msgid "Apply changes"
@@ -96,7 +93,7 @@ msgstr "Izvedi spremembe"
 
 #: ../resources/manager_window.ui
 msgid "Cancel all planned changes"
-msgstr ""
+msgstr "Prekliči vse načrtovane spremembe"
 
 #: ../resources/manager_window.ui
 msgid "Search in AUR"
@@ -116,7 +113,7 @@ msgstr "Stanje"
 
 #: ../resources/manager_window.ui
 msgid "Repositories"
-msgstr ""
+msgstr "Skladišča"
 
 #: ../resources/manager_window.ui
 msgid "Name"
@@ -136,11 +133,11 @@ msgstr "Velikost"
 
 #: ../resources/manager_window.ui
 msgid "Description"
-msgstr ""
+msgstr "Opis"
 
 #: ../resources/manager_window.ui
 msgid "Dependencies"
-msgstr ""
+msgstr "Odvisnosti"
 
 #: ../resources/manager_window.ui
 msgid "Files"
@@ -152,15 +149,15 @@ msgstr "Upravljalnik posodobitev"
 
 #: ../resources/updater_window.ui
 msgid "_Refresh"
-msgstr ""
+msgstr "_Osveži"
 
 #: ../resources/updater_window.ui
 msgid "_Apply"
-msgstr ""
+msgstr "_Uveljavi"
 
 #: ../resources/preferences_dialog.ui
 msgid "Preferences"
-msgstr ""
+msgstr "Nastavitve"
 
 #: ../resources/preferences_dialog.ui
 msgid "Allow Pamac to search and install packages from AUR"
@@ -170,7 +167,7 @@ msgstr "Dovoli Pamacu da išče in namešča pakete iz AUR"
 msgid ""
 "When removing a package, also remove its dependencies that are not required "
 "by other packages"
-msgstr ""
+msgstr "Ob odstranjevanju paketov odstrani tudi tiste odvisnosti, ki niso zahtevani s strani drugih paketov"
 
 #: ../resources/preferences_dialog.ui
 msgid "Check available disk space"
@@ -214,67 +211,67 @@ msgstr ""
 
 #: ../src/packages_chooser_dialog.vala
 msgid "Alpm Package"
-msgstr ""
+msgstr "Paket Alpm"
 
 #: ../src/daemon.vala
 msgid "Failed to initialize alpm library"
-msgstr ""
+msgstr "Začenjanje alpm knjižnice je spodletelo"
 
 #: ../src/daemon.vala
 msgid "Failed to synchronize any databases"
-msgstr ""
+msgstr "Ni bilo mogoče sinhronizirati nobene podatkovne baze"
 
 #: ../src/daemon.vala
 msgid "Failed to init transaction"
-msgstr ""
+msgstr "Ni bilo mogoče začeti transakcije"
 
 #: ../src/daemon.vala
 msgid "Failed to prepare transaction"
-msgstr ""
+msgstr "Pripravljanje transakcije je spodletelo"
 
 #: ../src/daemon.vala
 #, c-format
 msgid "target not found: %s"
-msgstr ""
+msgstr "cilj ni bil najden: %s"
 
 #: ../src/daemon.vala
 #, c-format
 msgid "package %s does not have a valid architecture"
-msgstr ""
+msgstr "paket %s nima veljavne arhitekture"
 
 #: ../src/daemon.vala
 #, c-format
 msgid "%s: requires %s"
-msgstr ""
+msgstr "%s: zahteva %s"
 
 #: ../src/daemon.vala
 #, c-format
 msgid "%s and %s are in conflict"
-msgstr ""
+msgstr "%s in %s sta v sporu"
 
 #: ../src/daemon.vala
 #, c-format
 msgid "%s needs to be removed but it is a locked package"
-msgstr ""
+msgstr "%s je potrebno odstraniti, vendar je ta paket zaklenjen"
 
 #: ../src/daemon.vala
 msgid "Failed to commit transaction"
-msgstr ""
+msgstr "Ni bilo mogoče uveljaviti transakcije"
 
 #: ../src/daemon.vala
 #, c-format
 msgid "%s exists in both %s and %s"
-msgstr ""
+msgstr "%s obstoji tako v %s kot v %s"
 
 #: ../src/daemon.vala
 #, c-format
 msgid "%s: %s already exists in filesystem"
-msgstr ""
+msgstr "%s: %s že obstaja v datotečnem sistemu"
 
 #: ../src/daemon.vala
 #, c-format
 msgid "%s is invalid or corrupted"
-msgstr ""
+msgstr "%s je neveljaven ali pokvarjen"
 
 #: ../src/daemon.vala
 msgid "Authentication failed"
@@ -282,11 +279,11 @@ msgstr "Potrditev identitete ni uspela"
 
 #: ../src/transaction.vala
 msgid "Synchronizing package databases"
-msgstr ""
+msgstr "Sinhroniziranje podatkovnih baz"
 
 #: ../src/transaction.vala
 msgid "Starting full system upgrade"
-msgstr ""
+msgstr "Začenjanje nadgradnje celotnega sistema"
 
 #: ../src/transaction.vala
 msgid "Preparing"
@@ -295,7 +292,7 @@ msgstr "Pripravljam"
 #: ../src/transaction.vala
 #, c-format
 msgid "Choose a provider for %s"
-msgstr ""
+msgstr "Izberite ponudnika za %s"
 
 #: ../src/transaction.vala ../src/manager_window.vala
 msgid "To remove"
@@ -327,7 +324,7 @@ msgstr "Celotna velikost prenosa"
 
 #: ../src/transaction.vala
 msgid "Building packages"
-msgstr ""
+msgstr "Grajenje paketov"
 
 #: ../src/transaction.vala
 msgid "Worldwide"
@@ -355,7 +352,7 @@ msgstr "Razrešujem odvisnosti"
 
 #: ../src/transaction.vala
 msgid "Checking inter-conflicts"
-msgstr ""
+msgstr "Preverjanje medsebojnih sporov"
 
 #: ../src/transaction.vala
 #, c-format
@@ -435,12 +432,12 @@ msgstr "Preverjanje razpoložljivega prostora"
 #: ../src/transaction.vala
 #, c-format
 msgid "%s optionally requires %s"
-msgstr ""
+msgstr "%s izbirno zahteva %s"
 
 #: ../src/transaction.vala
 #, c-format
 msgid "Database file for %s does not exist"
-msgstr ""
+msgstr "Datoteka podatkovne baze za %s ne obstaja"
 
 #: ../src/transaction.vala
 #, c-format
@@ -469,16 +466,16 @@ msgstr "Nalaganje %s"
 
 #: ../src/transaction.vala
 msgid "Warning"
-msgstr ""
+msgstr "Opozorilo"
 
 #: ../src/transaction.vala ../src/installer.vala ../src/manager.vala
 #: ../src/updater.vala
 msgid "Error"
-msgstr ""
+msgstr "Napaka"
 
 #: ../src/transaction.vala ../src/progress_dialog.vala
 msgid "Transaction cancelled"
-msgstr ""
+msgstr "Transakcija preklicana"
 
 #: ../src/transaction.vala
 msgid "Nothing to do"
@@ -502,20 +499,20 @@ msgstr "Vaš sistem je posodobljen"
 
 #: ../src/tray.vala
 msgid "_Quit"
-msgstr ""
+msgstr "_Izhod"
 
 #: ../src/tray.vala ../src/updater_window.vala
 #, c-format
 msgid "%u available update"
 msgid_plural "%u available updates"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] " %u posodobitev je na voljo"
+msgstr[1] " %u posodobitvi sta na voljo"
+msgstr[2] "%u posodobitve so na voljo"
+msgstr[3] "%u posodobitve so na voljo"
 
 #: ../src/tray.vala
 msgid "Show available updates"
-msgstr ""
+msgstr "Pokaži razpoložljive posodobitve"
 
 #: ../src/manager_window.vala
 msgid "Deselect"
@@ -535,7 +532,7 @@ msgstr "Ponovno namesti"
 
 #: ../src/manager_window.vala
 msgid "Install optional dependencies"
-msgstr ""
+msgstr "Namesti izbirne odvisnosti"
 
 #: ../src/manager_window.vala
 msgid "Mark as explicitly installed"
@@ -563,7 +560,7 @@ msgstr "Odvisen od"
 
 #: ../src/manager_window.vala
 msgid "Optional Dependencies"
-msgstr ""
+msgstr "Izbirne odvisnosti"
 
 #: ../src/manager_window.vala
 msgid "Required By"
@@ -625,10 +622,10 @@ msgid ""
 msgid_plural ""
 "%s has %u uninstalled optional dependencies.\n"
 "Choose those you would like to install:"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "%s ima %u odstranjeno izbirno odvisnost.\nIzberite, če jo želite namestiti:"
+msgstr[1] "%s ima %u odstranjeni izbirni odvisnosti.\nIzberite tiste, ki jih želite namestiti:"
+msgstr[2] "%s ima %u odstranjenih izbirnih odvisnosti.\nIzberite tiste, ki jih želite namestiti:"
+msgstr[3] "%s ima %u odstranjenih izbirnih odvisnosti.\nIzberite tiste, ki jih želite namestiti:"
 
 #: ../src/manager_window.vala
 msgid "Uninstalled"
@@ -636,17 +633,14 @@ msgstr "Odstranjeno"
 
 #: ../src/manager_window.vala
 msgid "A Gtk3 frontend for libalpm"
-msgstr ""
+msgstr "Gtk3 začelje za libalpm"
 
 #: ../src/common.vala
 #, c-format
 msgid "%.0f KiB"
-msgstr ""
+msgstr "%.0f KiB"
 
 #: ../src/common.vala
 #, c-format
 msgid "%.2f MiB"
 msgstr "%.2f MiB"
-
-#~ msgid "Authentication is required"
-#~ msgstr "Zahtevana je overovitev"

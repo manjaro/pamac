@@ -1,8 +1,7 @@
-# Translation of Pamac.
-# Copyright (C) 2007-2012 Free Software Foundation, Inc.
-# This file is distributed under the same license as the Pamac package.
-# Guillaume Benoit <guillaume@manjaro.org>, 2013-2014.
-#
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
 # Translators:
 # Ḷḷumex03 <tornes@opmbx.org>, 2013-2014
 # Ḷḷumex03 <tornes@opmbx.org>, 2014
@@ -13,14 +12,13 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2015-01-04 09:18+0100\n"
-"PO-Revision-Date: 2014-11-24 15:54+0000\n"
-"Last-Translator: Ḷḷumex03 <tornes@opmbx.org>\n"
-"Language-Team: Asturian (http://www.transifex.com/projects/p/manjaro-pamac/"
-"language/ast/)\n"
-"Language: ast\n"
+"PO-Revision-Date: 2015-01-04 08:22+0000\n"
+"Last-Translator: philm <philm@manjaro.org>\n"
+"Language-Team: Asturian (http://www.transifex.com/projects/p/manjaro-pamac/language/ast/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: ast\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: ../resources/choose_provider_dialog.ui
@@ -168,9 +166,7 @@ msgstr "Permitir que Pacman guete ya instale paquetes dende AUR"
 msgid ""
 "When removing a package, also remove its dependencies that are not required "
 "by other packages"
-msgstr ""
-"Al desaniciar un paquete tamién se desanicien les sos dependencies que "
-"dengún paquete rique"
+msgstr "Al desaniciar un paquete tamién se desanicien les sos dependencies que dengún paquete rique"
 
 #: ../resources/preferences_dialog.ui
 msgid "Check available disk space"
@@ -623,12 +619,8 @@ msgid ""
 msgid_plural ""
 "%s has %u uninstalled optional dependencies.\n"
 "Choose those you would like to install:"
-msgstr[0] ""
-"%s tien %u dependencia opcional desinstalada.\n"
-"Escueyi si te prestaría instalala:"
-msgstr[1] ""
-"%s tien %u dependencies opcionales desinstalaes.\n"
-"Escueyi si te prestaría instalales:"
+msgstr[0] "%s tien %u dependencia opcional desinstalada.\nEscueyi si te prestaría instalala:"
+msgstr[1] "%s tien %u dependencies opcionales desinstalaes.\nEscueyi si te prestaría instalales:"
 
 #: ../src/manager_window.vala
 msgid "Uninstalled"
@@ -647,6 +639,3 @@ msgstr "%.0f KiB"
 #, c-format
 msgid "%.2f MiB"
 msgstr "%.2f MiB"
-
-#~ msgid "Authentication is required"
-#~ msgstr "Ríquese l'autenticación"

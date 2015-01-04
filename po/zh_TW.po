@@ -1,24 +1,22 @@
-# Translation of Pamac.
-# Copyright (C) 2007-2012 Free Software Foundation, Inc.
-# This file is distributed under the same license as the Pamac package.
-# Guillaume Benoit <guillaume@manjaro.org>, 2013-2014.
-#
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
 # Translators:
-# Jeff Huang <s8321414@gmail.com>, 2014
+# Jeff Huang <s8321414@gmail.com>, 2014-2015
 # Jeff Huang <s8321414@gmail.com>, 2013-2014
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2015-01-04 09:18+0100\n"
-"PO-Revision-Date: 2014-11-23 02:06+0000\n"
-"Last-Translator: Jeff Huang <s8321414@gmail.com>\n"
-"Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/manjaro-"
-"pamac/language/zh_TW/)\n"
-"Language: zh_TW\n"
+"PO-Revision-Date: 2015-01-04 08:22+0000\n"
+"Last-Translator: philm <philm@manjaro.org>\n"
+"Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/manjaro-pamac/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: zh_TW\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 #: ../resources/choose_provider_dialog.ui
@@ -170,7 +168,7 @@ msgstr "當移除一個軟體包時，同時移除它的不被其他軟體包需
 
 #: ../resources/preferences_dialog.ui
 msgid "Check available disk space"
-msgstr ""
+msgstr "檢查可用磁碟空間"
 
 #: ../resources/preferences_dialog.ui ../src/preferences_dialog.vala
 msgid "How often to check for updates, value in hours"
@@ -182,11 +180,11 @@ msgstr "移除不需要的相依性"
 
 #: ../resources/preferences_dialog.ui
 msgid "Upgrade first:"
-msgstr ""
+msgstr "首先更新："
 
 #: ../resources/preferences_dialog.ui
 msgid "Ignore upgrades for:"
-msgstr ""
+msgstr "忽略以下更新："
 
 #: ../resources/preferences_dialog.ui
 msgid "Enable AUR support"
@@ -198,15 +196,15 @@ msgstr "選項"
 
 #: ../resources/preferences_dialog.ui
 msgid "Sort mirrors by:"
-msgstr ""
+msgstr "排序鏡像伺服器由："
 
 #: ../resources/preferences_dialog.ui
 msgid "Use mirrors from:"
-msgstr ""
+msgstr "使用鏡像從："
 
 #: ../resources/preferences_dialog.ui
 msgid "Official repositories"
-msgstr ""
+msgstr "官方套件庫"
 
 #: ../src/packages_chooser_dialog.vala
 msgid "Alpm Package"
@@ -327,15 +325,15 @@ msgstr "正在構建軟體包"
 
 #: ../src/transaction.vala
 msgid "Worldwide"
-msgstr ""
+msgstr "全世界"
 
 #: ../src/transaction.vala
 msgid "speed"
-msgstr ""
+msgstr "速度"
 
 #: ../src/transaction.vala
 msgid "random"
-msgstr ""
+msgstr "隨機"
 
 #: ../src/transaction.vala
 msgid "Checking dependencies"
@@ -441,17 +439,17 @@ msgstr "%s 資料庫檔案不存在"
 #: ../src/transaction.vala
 #, c-format
 msgid "%s installed as %s.pacnew"
-msgstr ""
+msgstr "%s 已安裝為 %s.pacnew"
 
 #: ../src/transaction.vala
 #, c-format
 msgid "%s installed as %s.pacsave"
-msgstr ""
+msgstr "%s 已安裝為 %s.pacsave"
 
 #: ../src/transaction.vala
 #, c-format
 msgid "%s installed as %s.pacorig"
-msgstr ""
+msgstr "%s 已安裝為 %s.pacorig"
 
 #: ../src/transaction.vala
 #, c-format
@@ -486,7 +484,7 @@ msgstr "事務處理成功完成"
 
 #: ../src/transaction.vala
 msgid "Generating mirrorlist"
-msgstr ""
+msgstr "正在生成鏡像列表"
 
 #: ../src/installer.vala ../src/manager.vala ../src/updater.vala
 msgid "Pamac is already running"
@@ -618,9 +616,7 @@ msgid ""
 msgid_plural ""
 "%s has %u uninstalled optional dependencies.\n"
 "Choose those you would like to install:"
-msgstr[0] ""
-"%s 有 %u 個未安裝的選擇性依賴關係。\n"
-"選擇您所想要安裝的："
+msgstr[0] "%s 有 %u 個未安裝的選擇性依賴關係。\n選擇您所想要安裝的："
 
 #: ../src/manager_window.vala
 msgid "Uninstalled"
@@ -639,6 +635,3 @@ msgstr "%.0f KiB"
 #, c-format
 msgid "%.2f MiB"
 msgstr "%.2f MiB"
-
-#~ msgid "Authentication is required"
-#~ msgstr "授權成功"

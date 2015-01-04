@@ -3,167 +3,166 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Takefumi Nagata, 2013-2014
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2015-01-04 09:18+0100\n"
-"PO-Revision-Date: 2015-01-04 08:22+0000\n"
-"Last-Translator: philm <philm@manjaro.org>\n"
-"Language-Team: Japanese (http://www.transifex.com/projects/p/manjaro-pamac/language/ja/)\n"
+"PO-Revision-Date: 2013-04-16 23:37+0000\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Malayalam (http://www.transifex.com/projects/p/manjaro-pamac/language/ml/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: ja\n"
-"Plural-Forms: nplurals=1; plural=0;\n"
+"Language: ml\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: ../resources/choose_provider_dialog.ui
 msgid "Choose a Provider"
-msgstr "供給元を選択"
+msgstr ""
 
 #: ../resources/choose_provider_dialog.ui
 #: ../resources/transaction_sum_dialog.ui ../resources/preferences_dialog.ui
 msgid "_OK"
-msgstr "OK（_O）"
+msgstr ""
 
 #: ../resources/packages_chooser_dialog.ui ../resources/manager_window.ui
 msgid "Install local packages"
-msgstr "ローカルパッケージをインストール"
+msgstr ""
 
 #: ../resources/packages_chooser_dialog.ui ../resources/progress_dialog.ui
 #: ../resources/transaction_sum_dialog.ui
 msgid "_Cancel"
-msgstr "キャンセル（_C）"
+msgstr ""
 
 #: ../resources/packages_chooser_dialog.ui
 msgid "_Open"
-msgstr "開く（_O）"
+msgstr ""
 
 #: ../resources/progress_dialog.ui
 msgid "Progress"
-msgstr "経過"
+msgstr ""
 
 #: ../resources/progress_dialog.ui ../resources/history_dialog.ui
 #: ../resources/transaction_info_dialog.ui ../resources/updater_window.ui
 #: ../resources/preferences_dialog.ui
 msgid "_Close"
-msgstr "閉じる（_C）"
+msgstr ""
 
 #: ../resources/progress_dialog.ui ../resources/transaction_info_dialog.ui
 #: ../resources/manager_window.ui
 msgid "Details"
-msgstr "詳細"
+msgstr ""
 
 #: ../resources/history_dialog.ui
 msgid "Pamac History"
-msgstr "Pamac 履歴"
+msgstr ""
 
 #: ../resources/transaction_sum_dialog.ui ../src/transaction.vala
 msgid "Transaction Summary"
-msgstr "処理の概要"
+msgstr ""
 
 #: ../resources/manager_window.ui
 msgid "View History"
-msgstr "閲覧履歴"
+msgstr ""
 
 #: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "_Preferences"
-msgstr "設定（_P）"
+msgstr ""
 
 #: ../resources/manager_window.ui
 msgid "_About"
-msgstr "概要（_A）"
+msgstr ""
 
 #: ../resources/manager_window.ui ../src/tray.vala
 msgid "Package Manager"
-msgstr "パッケージマネージャー"
+msgstr ""
 
 #: ../resources/manager_window.ui
 msgid "Refresh databases"
-msgstr "データベースの更新"
+msgstr ""
 
 #: ../resources/manager_window.ui
 msgid "Apply changes"
-msgstr "変更を適用"
+msgstr ""
 
 #: ../resources/manager_window.ui
 msgid "Cancel all planned changes"
-msgstr "すべての変更を取り消し"
+msgstr ""
 
 #: ../resources/manager_window.ui
 msgid "Search in AUR"
-msgstr "AURの検索"
+msgstr ""
 
 #: ../resources/manager_window.ui
 msgid "Search"
-msgstr "検索"
+msgstr ""
 
 #: ../resources/manager_window.ui ../src/manager_window.vala
 msgid "Groups"
-msgstr "グループ"
+msgstr ""
 
 #: ../resources/manager_window.ui
 msgid "State"
-msgstr "状態"
+msgstr ""
 
 #: ../resources/manager_window.ui
 msgid "Repositories"
-msgstr "リポジトリ"
+msgstr ""
 
 #: ../resources/manager_window.ui
 msgid "Name"
-msgstr "名前"
+msgstr ""
 
 #: ../resources/manager_window.ui
 msgid "Version"
-msgstr "バージョン"
+msgstr ""
 
 #: ../resources/manager_window.ui ../src/manager_window.vala
 msgid "Repository"
-msgstr "リポジトリ"
+msgstr ""
 
 #: ../resources/manager_window.ui
 msgid "Size"
-msgstr "サイズ"
+msgstr ""
 
 #: ../resources/manager_window.ui
 msgid "Description"
-msgstr "説明"
+msgstr ""
 
 #: ../resources/manager_window.ui
 msgid "Dependencies"
-msgstr "依存"
+msgstr ""
 
 #: ../resources/manager_window.ui
 msgid "Files"
-msgstr "ファイル"
+msgstr ""
 
 #: ../resources/updater_window.ui ../src/tray.vala
 msgid "Update Manager"
-msgstr "アップデートマネージャー"
+msgstr ""
 
 #: ../resources/updater_window.ui
 msgid "_Refresh"
-msgstr "更新（_R）"
+msgstr ""
 
 #: ../resources/updater_window.ui
 msgid "_Apply"
-msgstr "適用（_A）"
+msgstr ""
 
 #: ../resources/preferences_dialog.ui
 msgid "Preferences"
-msgstr "設定"
+msgstr ""
 
 #: ../resources/preferences_dialog.ui
 msgid "Allow Pamac to search and install packages from AUR"
-msgstr "PamacがAURパッケージを探索し、インストールすることを許可する"
+msgstr ""
 
 #: ../resources/preferences_dialog.ui
 msgid ""
 "When removing a package, also remove its dependencies that are not required "
 "by other packages"
-msgstr "パッケージを削除する際、他のパッケージでは必要とされていない依存パッケージも削除"
+msgstr ""
 
 #: ../resources/preferences_dialog.ui
 msgid "Check available disk space"
@@ -171,11 +170,11 @@ msgstr ""
 
 #: ../resources/preferences_dialog.ui ../src/preferences_dialog.vala
 msgid "How often to check for updates, value in hours"
-msgstr "どれくらいの頻度で更新をチェックしますか、時間で指定してください。"
+msgstr ""
 
 #: ../resources/preferences_dialog.ui
 msgid "Remove unrequired dependencies"
-msgstr "必要ではない依存関係を削除"
+msgstr ""
 
 #: ../resources/preferences_dialog.ui
 msgid "Upgrade first:"
@@ -187,11 +186,11 @@ msgstr ""
 
 #: ../resources/preferences_dialog.ui
 msgid "Enable AUR support"
-msgstr "AURのサポートを可能にする"
+msgstr ""
 
 #: ../resources/preferences_dialog.ui
 msgid "Options"
-msgstr "オプション"
+msgstr ""
 
 #: ../resources/preferences_dialog.ui
 msgid "Sort mirrors by:"
@@ -207,120 +206,120 @@ msgstr ""
 
 #: ../src/packages_chooser_dialog.vala
 msgid "Alpm Package"
-msgstr "Alpmパケージ"
+msgstr ""
 
 #: ../src/daemon.vala
 msgid "Failed to initialize alpm library"
-msgstr "Alpmライブラリの初期化に失敗しました"
+msgstr ""
 
 #: ../src/daemon.vala
 msgid "Failed to synchronize any databases"
-msgstr "すべてのデータベースの同期に失敗しました"
+msgstr ""
 
 #: ../src/daemon.vala
 msgid "Failed to init transaction"
-msgstr "初期処理に失敗しました"
+msgstr ""
 
 #: ../src/daemon.vala
 msgid "Failed to prepare transaction"
-msgstr "準備処理に失敗しました"
+msgstr ""
 
 #: ../src/daemon.vala
 #, c-format
 msgid "target not found: %s"
-msgstr "ターゲットが見つかりません: %s"
+msgstr ""
 
 #: ../src/daemon.vala
 #, c-format
 msgid "package %s does not have a valid architecture"
-msgstr "パッケージ %s は適切なアーキテクチャーではありません"
+msgstr ""
 
 #: ../src/daemon.vala
 #, c-format
 msgid "%s: requires %s"
-msgstr "%s: %sが必要です"
+msgstr ""
 
 #: ../src/daemon.vala
 #, c-format
 msgid "%s and %s are in conflict"
-msgstr "%s と %s は衝突しています"
+msgstr ""
 
 #: ../src/daemon.vala
 #, c-format
 msgid "%s needs to be removed but it is a locked package"
-msgstr "%s は削除される必要がありますが、ロックされています"
+msgstr ""
 
 #: ../src/daemon.vala
 msgid "Failed to commit transaction"
-msgstr "トランザクションのコミットに失敗しました"
+msgstr ""
 
 #: ../src/daemon.vala
 #, c-format
 msgid "%s exists in both %s and %s"
-msgstr "%s が %s と %s の両方に存在します"
+msgstr ""
 
 #: ../src/daemon.vala
 #, c-format
 msgid "%s: %s already exists in filesystem"
-msgstr "%s: %s は既にファイルシステムに存在します"
+msgstr ""
 
 #: ../src/daemon.vala
 #, c-format
 msgid "%s is invalid or corrupted"
-msgstr "%s は不適切かあるいは壊れています"
+msgstr ""
 
 #: ../src/daemon.vala
 msgid "Authentication failed"
-msgstr "認証に失敗"
+msgstr ""
 
 #: ../src/transaction.vala
 msgid "Synchronizing package databases"
-msgstr "パッケージのデータベースを同期"
+msgstr ""
 
 #: ../src/transaction.vala
 msgid "Starting full system upgrade"
-msgstr "全てのシステムの更新を開始"
+msgstr ""
 
 #: ../src/transaction.vala
 msgid "Preparing"
-msgstr "準備中"
+msgstr ""
 
 #: ../src/transaction.vala
 #, c-format
 msgid "Choose a provider for %s"
-msgstr "%s についての供給元を選択"
+msgstr ""
 
 #: ../src/transaction.vala ../src/manager_window.vala
 msgid "To remove"
-msgstr "削除"
+msgstr ""
 
 #: ../src/transaction.vala
 msgid "To downgrade"
-msgstr "ダウングレード"
+msgstr ""
 
 #: ../src/transaction.vala
 msgid "To build"
-msgstr "ビルド"
+msgstr ""
 
 #: ../src/transaction.vala ../src/manager_window.vala
 msgid "To install"
-msgstr "インストール"
+msgstr ""
 
 #: ../src/transaction.vala
 msgid "To reinstall"
-msgstr "再インストール"
+msgstr ""
 
 #: ../src/transaction.vala
 msgid "To update"
-msgstr "アップデート"
+msgstr ""
 
 #: ../src/transaction.vala ../src/updater_window.vala
 msgid "Total download size"
-msgstr "全ダウンロードサイズ"
+msgstr ""
 
 #: ../src/transaction.vala
 msgid "Building packages"
-msgstr "パッケージのビルド中"
+msgstr ""
 
 #: ../src/transaction.vala
 msgid "Worldwide"
@@ -336,104 +335,104 @@ msgstr ""
 
 #: ../src/transaction.vala
 msgid "Checking dependencies"
-msgstr "依存関係を解決中"
+msgstr ""
 
 #: ../src/transaction.vala
 msgid "Checking file conflicts"
-msgstr "競合するファイルを確認中"
+msgstr ""
 
 #: ../src/transaction.vala
 msgid "Resolving dependencies"
-msgstr "依存関係を解決中"
+msgstr ""
 
 #: ../src/transaction.vala
 msgid "Checking inter-conflicts"
-msgstr "内部衝突を確認中"
+msgstr ""
 
 #: ../src/transaction.vala
 #, c-format
 msgid "Installing %s"
-msgstr "インストール中%s"
+msgstr ""
 
 #: ../src/transaction.vala
 #, c-format
 msgid "Reinstalling %s"
-msgstr "再インストール中 %s"
+msgstr ""
 
 #: ../src/transaction.vala
 #, c-format
 msgid "Removing %s"
-msgstr "削除中 %s"
+msgstr ""
 
 #: ../src/transaction.vala
 #, c-format
 msgid "Upgrading %s"
-msgstr "アップグレード中 %s"
+msgstr ""
 
 #: ../src/transaction.vala
 #, c-format
 msgid "Downgrading %s"
-msgstr "ダウングレーディング %s"
+msgstr ""
 
 #: ../src/transaction.vala
 msgid "Checking integrity"
-msgstr "ファイルの整合性を確認中"
+msgstr ""
 
 #: ../src/transaction.vala
 msgid "Checking keyring"
-msgstr "キーリングを確認中"
+msgstr ""
 
 #: ../src/transaction.vala
 msgid "Downloading required keys"
-msgstr "要求されたキーをダウンロード中"
+msgstr ""
 
 #: ../src/transaction.vala
 msgid "Loading packages files"
-msgstr "パッケージファイルのロード中"
+msgstr ""
 
 #: ../src/transaction.vala
 msgid "Checking delta integrity"
-msgstr "差分の確認中"
+msgstr ""
 
 #: ../src/transaction.vala
 msgid "Applying deltas"
-msgstr "差分の適用中"
+msgstr ""
 
 #: ../src/transaction.vala
 #, c-format
 msgid "Generating %s with %s"
-msgstr "%sで%sを生成"
+msgstr ""
 
 #: ../src/transaction.vala
 msgid "Generation succeeded"
-msgstr "パッケージの生成が成功しました"
+msgstr ""
 
 #: ../src/transaction.vala
 msgid "Generation failed"
-msgstr "パッケージの生成が失敗しました"
+msgstr ""
 
 #: ../src/transaction.vala
 #, c-format
 msgid "Configuring %s"
-msgstr "設定中 %s"
+msgstr ""
 
 #: ../src/transaction.vala
 msgid "Downloading"
-msgstr "ダウンロード中"
+msgstr ""
 
 #: ../src/transaction.vala
 msgid "Checking available disk space"
-msgstr "使用可能なディスク容量を確認中"
+msgstr ""
 
 #: ../src/transaction.vala
 #, c-format
 msgid "%s optionally requires %s"
-msgstr "%s はオプショナルに %s を必要とします"
+msgstr ""
 
 #: ../src/transaction.vala
 #, c-format
 msgid "Database file for %s does not exist"
-msgstr "%s のためのデーターベースファイルが存在しません"
+msgstr ""
 
 #: ../src/transaction.vala
 #, c-format
@@ -453,33 +452,33 @@ msgstr ""
 #: ../src/transaction.vala
 #, c-format
 msgid "Refreshing %s"
-msgstr "更新 %s"
+msgstr ""
 
 #: ../src/transaction.vala
 #, c-format
 msgid "Downloading %s"
-msgstr "ダウンロード中 %s"
+msgstr ""
 
 #: ../src/transaction.vala
 msgid "Warning"
-msgstr "警告"
+msgstr ""
 
 #: ../src/transaction.vala ../src/installer.vala ../src/manager.vala
 #: ../src/updater.vala
 msgid "Error"
-msgstr "エラー"
+msgstr ""
 
 #: ../src/transaction.vala ../src/progress_dialog.vala
 msgid "Transaction cancelled"
-msgstr "操作がキャンセルされました"
+msgstr ""
 
 #: ../src/transaction.vala
 msgid "Nothing to do"
-msgstr "何もすることがありません"
+msgstr ""
 
 #: ../src/transaction.vala
 msgid "Transaction successfully finished"
-msgstr "処理が正常に終了しました。"
+msgstr ""
 
 #: ../src/transaction.vala
 msgid "Generating mirrorlist"
@@ -487,125 +486,126 @@ msgstr ""
 
 #: ../src/installer.vala ../src/manager.vala ../src/updater.vala
 msgid "Pamac is already running"
-msgstr "pamacは既に起動しています"
+msgstr ""
 
 #: ../src/tray.vala ../src/updater_window.vala
 msgid "Your system is up-to-date"
-msgstr "システムは最新です"
+msgstr ""
 
 #: ../src/tray.vala
 msgid "_Quit"
-msgstr "終了（_Q）"
+msgstr ""
 
 #: ../src/tray.vala ../src/updater_window.vala
 #, c-format
 msgid "%u available update"
 msgid_plural "%u available updates"
-msgstr[0] "%u 種類の利用可能なアップデート"
+msgstr[0] ""
+msgstr[1] ""
 
 #: ../src/tray.vala
 msgid "Show available updates"
-msgstr "利用可能な更新を表示"
+msgstr ""
 
 #: ../src/manager_window.vala
 msgid "Deselect"
-msgstr "非選択"
+msgstr ""
 
 #: ../src/manager_window.vala
 msgid "Install"
-msgstr "インストール"
+msgstr ""
 
 #: ../src/manager_window.vala
 msgid "Remove"
-msgstr "削除"
+msgstr ""
 
 #: ../src/manager_window.vala
 msgid "Reinstall"
-msgstr "再インストール"
+msgstr ""
 
 #: ../src/manager_window.vala
 msgid "Install optional dependencies"
-msgstr "オプショナルに依存するパッケージをインストール"
+msgstr ""
 
 #: ../src/manager_window.vala
 msgid "Mark as explicitly installed"
-msgstr "明示的にインストールされた"
+msgstr ""
 
 #: ../src/manager_window.vala
 msgid "local"
-msgstr "ローカル"
+msgstr ""
 
 #: ../src/manager_window.vala
 msgid "Installed"
-msgstr "インストール済み"
+msgstr ""
 
 #: ../src/manager_window.vala
 msgid "Orphans"
-msgstr "Orphans"
+msgstr ""
 
 #: ../src/manager_window.vala
 msgid "Licenses"
-msgstr "ライセンス"
+msgstr ""
 
 #: ../src/manager_window.vala
 msgid "Depends On"
-msgstr "依存する"
+msgstr ""
 
 #: ../src/manager_window.vala
 msgid "Optional Dependencies"
-msgstr "オプショナルな依存"
+msgstr ""
 
 #: ../src/manager_window.vala
 msgid "Required By"
-msgstr "必要としています"
+msgstr ""
 
 #: ../src/manager_window.vala
 msgid "Provides"
-msgstr "提供"
+msgstr ""
 
 #: ../src/manager_window.vala
 msgid "Replaces"
-msgstr "置換"
+msgstr ""
 
 #: ../src/manager_window.vala
 msgid "Conflicts With"
-msgstr "競合しています"
+msgstr ""
 
 #: ../src/manager_window.vala
 msgid "Packager"
-msgstr "パッケージャー"
+msgstr ""
 
 #: ../src/manager_window.vala
 msgid "Install Date"
-msgstr "インストール時刻"
+msgstr ""
 
 #: ../src/manager_window.vala
 msgid "Explicitly installed"
-msgstr "明示的にインストールされた"
+msgstr ""
 
 #: ../src/manager_window.vala
 msgid "Installed as a dependency for another package"
-msgstr "他のパッケージに依存するプログラムとしてインストールされました"
+msgstr ""
 
 #: ../src/manager_window.vala
 msgid "Unknown"
-msgstr "不明"
+msgstr ""
 
 #: ../src/manager_window.vala
 msgid "Install Reason"
-msgstr "インストールReason"
+msgstr ""
 
 #: ../src/manager_window.vala
 msgid "Signatures"
-msgstr "署名"
+msgstr ""
 
 #: ../src/manager_window.vala
 msgid "Backup files"
-msgstr "バックアップファイル"
+msgstr ""
 
 #: ../src/manager_window.vala
 msgid "No package found"
-msgstr "パッケージが見つかりません"
+msgstr ""
 
 #: ../src/manager_window.vala
 #, c-format
@@ -615,22 +615,23 @@ msgid ""
 msgid_plural ""
 "%s has %u uninstalled optional dependencies.\n"
 "Choose those you would like to install:"
-msgstr[0] "%s は未インストールの %uにオプショナルに依存します。\nインストールするパッケージを選択してください:"
+msgstr[0] ""
+msgstr[1] ""
 
 #: ../src/manager_window.vala
 msgid "Uninstalled"
-msgstr "アンインストール済み"
+msgstr ""
 
 #: ../src/manager_window.vala
 msgid "A Gtk3 frontend for libalpm"
-msgstr "libalpmのためのGtk3フロントエンド"
+msgstr ""
 
 #: ../src/common.vala
 #, c-format
 msgid "%.0f KiB"
-msgstr "%.0f KiB"
+msgstr ""
 
 #: ../src/common.vala
 #, c-format
 msgid "%.2f MiB"
-msgstr "%.2f MiB"
+msgstr ""

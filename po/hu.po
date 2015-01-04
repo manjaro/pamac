@@ -1,8 +1,7 @@
-# Translation of Pamac.
-# Copyright (C) 2007-2012 Free Software Foundation, Inc.
-# This file is distributed under the same license as the Pamac package.
-# Guillaume Benoit <guillaume@manjaro.org>, 2013-2014.
-#
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
 # Translators:
 # Lajos Pasztor <mrlajos@gmail.com>, 2013
 # Lajos Pasztor <mrlajos@gmail.com>, 2013-2014
@@ -12,24 +11,23 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2015-01-04 09:18+0100\n"
-"PO-Revision-Date: 2014-11-22 14:10+0000\n"
-"Last-Translator: Guillaume Benoit <guillaume@manjaro.org>\n"
-"Language-Team: Hungarian (http://www.transifex.com/projects/p/manjaro-pamac/"
-"language/hu/)\n"
-"Language: hu\n"
+"PO-Revision-Date: 2015-01-04 08:22+0000\n"
+"Last-Translator: philm <philm@manjaro.org>\n"
+"Language-Team: Hungarian (http://www.transifex.com/projects/p/manjaro-pamac/language/hu/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: hu\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: ../resources/choose_provider_dialog.ui
 msgid "Choose a Provider"
-msgstr ""
+msgstr "Válassz szolgáltatót"
 
 #: ../resources/choose_provider_dialog.ui
 #: ../resources/transaction_sum_dialog.ui ../resources/preferences_dialog.ui
 msgid "_OK"
-msgstr ""
+msgstr "OK"
 
 #: ../resources/packages_chooser_dialog.ui ../resources/manager_window.ui
 msgid "Install local packages"
@@ -38,11 +36,11 @@ msgstr "Helyi csomagok telepítése"
 #: ../resources/packages_chooser_dialog.ui ../resources/progress_dialog.ui
 #: ../resources/transaction_sum_dialog.ui
 msgid "_Cancel"
-msgstr ""
+msgstr "Mégse"
 
 #: ../resources/packages_chooser_dialog.ui
 msgid "_Open"
-msgstr ""
+msgstr "Megnyit"
 
 #: ../resources/progress_dialog.ui
 msgid "Progress"
@@ -52,7 +50,7 @@ msgstr "Folyamat"
 #: ../resources/transaction_info_dialog.ui ../resources/updater_window.ui
 #: ../resources/preferences_dialog.ui
 msgid "_Close"
-msgstr ""
+msgstr "Bezár"
 
 #: ../resources/progress_dialog.ui ../resources/transaction_info_dialog.ui
 #: ../resources/manager_window.ui
@@ -73,11 +71,11 @@ msgstr "Előzmények megtekintése"
 
 #: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "_Preferences"
-msgstr ""
+msgstr "Beállítások"
 
 #: ../resources/manager_window.ui
 msgid "_About"
-msgstr ""
+msgstr "Rólam"
 
 #: ../resources/manager_window.ui ../src/tray.vala
 msgid "Package Manager"
@@ -85,7 +83,7 @@ msgstr "Csomagkezelő"
 
 #: ../resources/manager_window.ui
 msgid "Refresh databases"
-msgstr ""
+msgstr "Adatbázis frissítése"
 
 #: ../resources/manager_window.ui
 msgid "Apply changes"
@@ -93,7 +91,7 @@ msgstr "Változások alkalmazása"
 
 #: ../resources/manager_window.ui
 msgid "Cancel all planned changes"
-msgstr ""
+msgstr "Minden tervezett változtatás törlése"
 
 #: ../resources/manager_window.ui
 msgid "Search in AUR"
@@ -113,7 +111,7 @@ msgstr "Állapot"
 
 #: ../resources/manager_window.ui
 msgid "Repositories"
-msgstr ""
+msgstr "Tárolók"
 
 #: ../resources/manager_window.ui
 msgid "Name"
@@ -133,11 +131,11 @@ msgstr "Méret"
 
 #: ../resources/manager_window.ui
 msgid "Description"
-msgstr ""
+msgstr "Leírás"
 
 #: ../resources/manager_window.ui
 msgid "Dependencies"
-msgstr ""
+msgstr "Függőségek"
 
 #: ../resources/manager_window.ui
 msgid "Files"
@@ -149,15 +147,15 @@ msgstr "Frissítés kezelő"
 
 #: ../resources/updater_window.ui
 msgid "_Refresh"
-msgstr ""
+msgstr "Frissítés"
 
 #: ../resources/updater_window.ui
 msgid "_Apply"
-msgstr ""
+msgstr "Alkalmaz"
 
 #: ../resources/preferences_dialog.ui
 msgid "Preferences"
-msgstr ""
+msgstr "Beállítások"
 
 #: ../resources/preferences_dialog.ui
 msgid "Allow Pamac to search and install packages from AUR"
@@ -167,7 +165,7 @@ msgstr "Pamac kereshet és telepíthet csomagokat az AUR -ból"
 msgid ""
 "When removing a package, also remove its dependencies that are not required "
 "by other packages"
-msgstr ""
+msgstr "Csomag eltávolításakor távolítsa el a függőségeket amik nem megköveteltek más csomagok által"
 
 #: ../resources/preferences_dialog.ui
 msgid "Check available disk space"
@@ -211,67 +209,67 @@ msgstr ""
 
 #: ../src/packages_chooser_dialog.vala
 msgid "Alpm Package"
-msgstr ""
+msgstr "Alpm csomag"
 
 #: ../src/daemon.vala
 msgid "Failed to initialize alpm library"
-msgstr ""
+msgstr "Nem sikerült inicializálni az alpm könyvtárat"
 
 #: ../src/daemon.vala
 msgid "Failed to synchronize any databases"
-msgstr ""
+msgstr "Nem sikerült egyetlen adatbázist sem szinkronizálni"
 
 #: ../src/daemon.vala
 msgid "Failed to init transaction"
-msgstr ""
+msgstr "Művelet megkezdése sikertelen"
 
 #: ../src/daemon.vala
 msgid "Failed to prepare transaction"
-msgstr ""
+msgstr "Művelet előkészítése sikertelen"
 
 #: ../src/daemon.vala
 #, c-format
 msgid "target not found: %s"
-msgstr ""
+msgstr "cél: %s nem található"
 
 #: ../src/daemon.vala
 #, c-format
 msgid "package %s does not have a valid architecture"
-msgstr ""
+msgstr "a csomag %s nem tartalmaz megfelelő architektúrát"
 
 #: ../src/daemon.vala
 #, c-format
 msgid "%s: requires %s"
-msgstr ""
+msgstr "%s: függősége van %s"
 
 #: ../src/daemon.vala
 #, c-format
 msgid "%s and %s are in conflict"
-msgstr ""
+msgstr "%s és %s konfliktusban van"
 
 #: ../src/daemon.vala
 #, c-format
 msgid "%s needs to be removed but it is a locked package"
-msgstr ""
+msgstr "%s -t el kell távolítani de a csomag zárolva van"
 
 #: ../src/daemon.vala
 msgid "Failed to commit transaction"
-msgstr ""
+msgstr "Művelet végrehajtása sikertelen"
 
 #: ../src/daemon.vala
 #, c-format
 msgid "%s exists in both %s and %s"
-msgstr ""
+msgstr "%s előfordul %s és %s -ben is"
 
 #: ../src/daemon.vala
 #, c-format
 msgid "%s: %s already exists in filesystem"
-msgstr ""
+msgstr "%s: %s már létezik a fájlrendszerben"
 
 #: ../src/daemon.vala
 #, c-format
 msgid "%s is invalid or corrupted"
-msgstr ""
+msgstr "%s hibás vagy sérült"
 
 #: ../src/daemon.vala
 msgid "Authentication failed"
@@ -279,11 +277,11 @@ msgstr "Hitelesítés nem sikerült"
 
 #: ../src/transaction.vala
 msgid "Synchronizing package databases"
-msgstr ""
+msgstr "Csomag adatbázisok szinkronizálása"
 
 #: ../src/transaction.vala
 msgid "Starting full system upgrade"
-msgstr ""
+msgstr "Teljes rendszerfrissítés megkezdése"
 
 #: ../src/transaction.vala
 msgid "Preparing"
@@ -292,7 +290,7 @@ msgstr "Előkészítés"
 #: ../src/transaction.vala
 #, c-format
 msgid "Choose a provider for %s"
-msgstr ""
+msgstr "Válassz szolgáltatót a %s -hez"
 
 #: ../src/transaction.vala ../src/manager_window.vala
 msgid "To remove"
@@ -324,7 +322,7 @@ msgstr "Teljes letöltési méret"
 
 #: ../src/transaction.vala
 msgid "Building packages"
-msgstr ""
+msgstr "Csomagok építése"
 
 #: ../src/transaction.vala
 msgid "Worldwide"
@@ -352,7 +350,7 @@ msgstr "Függőségek feloldása"
 
 #: ../src/transaction.vala
 msgid "Checking inter-conflicts"
-msgstr ""
+msgstr "Összeférhetetlenségek ellenőrzése"
 
 #: ../src/transaction.vala
 #, c-format
@@ -432,12 +430,12 @@ msgstr "Elérhető tárterület ellenőrzése"
 #: ../src/transaction.vala
 #, c-format
 msgid "%s optionally requires %s"
-msgstr ""
+msgstr "%s: opcionális függősége van %s"
 
 #: ../src/transaction.vala
 #, c-format
 msgid "Database file for %s does not exist"
-msgstr ""
+msgstr "adatbázis fájl a %s -hez nem található"
 
 #: ../src/transaction.vala
 #, c-format
@@ -466,16 +464,16 @@ msgstr "Letöltés %s"
 
 #: ../src/transaction.vala
 msgid "Warning"
-msgstr ""
+msgstr "Figyelem"
 
 #: ../src/transaction.vala ../src/installer.vala ../src/manager.vala
 #: ../src/updater.vala
 msgid "Error"
-msgstr ""
+msgstr "Hiba"
 
 #: ../src/transaction.vala ../src/progress_dialog.vala
 msgid "Transaction cancelled"
-msgstr ""
+msgstr "Művelet visszavonva"
 
 #: ../src/transaction.vala
 msgid "Nothing to do"
@@ -499,18 +497,18 @@ msgstr "A rendszer naprakész"
 
 #: ../src/tray.vala
 msgid "_Quit"
-msgstr ""
+msgstr "Kilépés"
 
 #: ../src/tray.vala ../src/updater_window.vala
 #, c-format
 msgid "%u available update"
 msgid_plural "%u available updates"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%u elérhető frissítések"
+msgstr[1] "%u  elérhető frissítések"
 
 #: ../src/tray.vala
 msgid "Show available updates"
-msgstr ""
+msgstr "Mutasd az elérhető frissítéseket"
 
 #: ../src/manager_window.vala
 msgid "Deselect"
@@ -530,7 +528,7 @@ msgstr "Újra telepít"
 
 #: ../src/manager_window.vala
 msgid "Install optional dependencies"
-msgstr ""
+msgstr "Opcionális függőségek telepítése"
 
 #: ../src/manager_window.vala
 msgid "Mark as explicitly installed"
@@ -558,7 +556,7 @@ msgstr "Függőségek"
 
 #: ../src/manager_window.vala
 msgid "Optional Dependencies"
-msgstr ""
+msgstr "Opcionális függőségek"
 
 #: ../src/manager_window.vala
 msgid "Required By"
@@ -620,8 +618,8 @@ msgid ""
 msgid_plural ""
 "%s has %u uninstalled optional dependencies.\n"
 "Choose those you would like to install:"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%s tartalmaz %u eltávolított opcionális függőséget.\nVálaszd ki azokat amiket telepíteni szeretnél:"
+msgstr[1] "%s tartalmaz %u eltávolított opcionális függőséget.\nVálaszd ki azokat amiket telepíteni szeretnél:"
 
 #: ../src/manager_window.vala
 msgid "Uninstalled"
@@ -629,17 +627,14 @@ msgstr "Nem telepített"
 
 #: ../src/manager_window.vala
 msgid "A Gtk3 frontend for libalpm"
-msgstr ""
+msgstr "Egy gtk3 felület libalpm-hoz"
 
 #: ../src/common.vala
 #, c-format
 msgid "%.0f KiB"
-msgstr ""
+msgstr "%.0f KiB"
 
 #: ../src/common.vala
 #, c-format
 msgid "%.2f MiB"
 msgstr "%.2f MiB"
-
-#~ msgid "Authentication is required"
-#~ msgstr "Hitelesítés szükséges"

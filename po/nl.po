@@ -1,15 +1,14 @@
-# Translation of Pamac.
-# Copyright (C) 2007-2012 Free Software Foundation, Inc.
-# This file is distributed under the same license as the Pamac package.
-# Guillaume Benoit <guillaume@manjaro.org>, 2013-2014.
-#
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
 # Translators:
 # Douwe Bootsma <d_bootsma@hotmail.com>, 2013
 # Douwe Bootsma <d_bootsma@hotmail.com>, 2013-2014
 # Guillaume Benoit <guillaume@manjaro.org>, 2013
 # Guillaume Benoit <guillaume@manjaro.org>, 2013
 # ringo.dekroon <ringodekroon@gmail.com>, 2013
-# ringo.dekroon <ringodekroon@gmail.com>, 2014
+# ringo.dekroon <ringodekroon@gmail.com>, 2014-2015
 # ringo.dekroon <ringodekroon@gmail.com>, 2013-2014
 # Ron, 2014
 # Ron, 2014
@@ -18,14 +17,13 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2015-01-04 09:18+0100\n"
-"PO-Revision-Date: 2014-11-22 15:18+0000\n"
-"Last-Translator: ringo.dekroon <ringodekroon@gmail.com>\n"
-"Language-Team: Dutch (http://www.transifex.com/projects/p/manjaro-pamac/"
-"language/nl/)\n"
-"Language: nl\n"
+"PO-Revision-Date: 2015-01-04 08:22+0000\n"
+"Last-Translator: philm <philm@manjaro.org>\n"
+"Language-Team: Dutch (http://www.transifex.com/projects/p/manjaro-pamac/language/nl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: nl\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: ../resources/choose_provider_dialog.ui
@@ -173,13 +171,11 @@ msgstr "Pamac toestaan om AUR pakketten te zoeken en te installeren"
 msgid ""
 "When removing a package, also remove its dependencies that are not required "
 "by other packages"
-msgstr ""
-"Bij het verwijderen van een pakket ook afhankelijkheden verwijderen die niet "
-"meer gebruikt worden door andere pakketten"
+msgstr "Bij het verwijderen van een pakket ook afhankelijkheden verwijderen die niet meer gebruikt worden door andere pakketten"
 
 #: ../resources/preferences_dialog.ui
 msgid "Check available disk space"
-msgstr ""
+msgstr "Controlleer beschikbaar disk ruimte"
 
 #: ../resources/preferences_dialog.ui ../src/preferences_dialog.vala
 msgid "How often to check for updates, value in hours"
@@ -191,7 +187,7 @@ msgstr "Verwijder onnodige afhankelijkheden"
 
 #: ../resources/preferences_dialog.ui
 msgid "Upgrade first:"
-msgstr ""
+msgstr "Opwaardeer eerst:"
 
 #: ../resources/preferences_dialog.ui
 msgid "Ignore upgrades for:"
@@ -628,12 +624,8 @@ msgid ""
 msgid_plural ""
 "%s has %u uninstalled optional dependencies.\n"
 "Choose those you would like to install:"
-msgstr[0] ""
-"%s heeft %u niet geïnstalleerde optionele afhankelijkheden.\n"
-"Selecteer welke u wilt installeren:"
-msgstr[1] ""
-"%s heeft %u niet geïnstalleerde optionele afhankelijkheden.\n"
-"Selecteer welke u wilt installeren:"
+msgstr[0] "%s heeft %u niet geïnstalleerde optionele afhankelijkheden.\nSelecteer welke u wilt installeren:"
+msgstr[1] "%s heeft %u niet geïnstalleerde optionele afhankelijkheden.\nSelecteer welke u wilt installeren:"
 
 #: ../src/manager_window.vala
 msgid "Uninstalled"
@@ -652,6 +644,3 @@ msgstr "%.0f KiB"
 #, c-format
 msgid "%.2f MiB"
 msgstr "%.2f MiB"
-
-#~ msgid "Authentication is required"
-#~ msgstr "Authenticatie is vereist"

@@ -1,11 +1,12 @@
-# Translation of Pamac.
-# Copyright (C) 2007-2012 Free Software Foundation, Inc.
-# This file is distributed under the same license as the Pamac package.
-# Guillaume Benoit <guillaume@manjaro.org>, 2013-2014.
-#
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
 # Translators:
+# Budiman Jojo <budimanjojo@gmail.com>, 2014
 # Guillaume Benoit <guillaume@manjaro.org>, 2013
 # Guillaume Benoit <guillaume@manjaro.org>, 2013
+# Hasan Al Banna, 2014
 # Hasan Al Banna, 2014
 # Mohamad Hasan Al Banna, 2014
 # Hasan Al Banna, 2013-2014
@@ -16,24 +17,23 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2015-01-04 09:18+0100\n"
-"PO-Revision-Date: 2014-11-22 14:10+0000\n"
-"Last-Translator: Guillaume Benoit <guillaume@manjaro.org>\n"
-"Language-Team: Indonesian (http://www.transifex.com/projects/p/manjaro-pamac/"
-"language/id/)\n"
-"Language: id\n"
+"PO-Revision-Date: 2015-01-04 08:22+0000\n"
+"Last-Translator: philm <philm@manjaro.org>\n"
+"Language-Team: Indonesian (http://www.transifex.com/projects/p/manjaro-pamac/language/id/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: id\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 #: ../resources/choose_provider_dialog.ui
 msgid "Choose a Provider"
-msgstr ""
+msgstr "Pilih Provider"
 
 #: ../resources/choose_provider_dialog.ui
 #: ../resources/transaction_sum_dialog.ui ../resources/preferences_dialog.ui
 msgid "_OK"
-msgstr ""
+msgstr "_OK"
 
 #: ../resources/packages_chooser_dialog.ui ../resources/manager_window.ui
 msgid "Install local packages"
@@ -42,11 +42,11 @@ msgstr "Instal paket lokal"
 #: ../resources/packages_chooser_dialog.ui ../resources/progress_dialog.ui
 #: ../resources/transaction_sum_dialog.ui
 msgid "_Cancel"
-msgstr ""
+msgstr "_Batal"
 
 #: ../resources/packages_chooser_dialog.ui
 msgid "_Open"
-msgstr ""
+msgstr "_Buka"
 
 #: ../resources/progress_dialog.ui
 msgid "Progress"
@@ -56,7 +56,7 @@ msgstr "Kemajuan"
 #: ../resources/transaction_info_dialog.ui ../resources/updater_window.ui
 #: ../resources/preferences_dialog.ui
 msgid "_Close"
-msgstr ""
+msgstr "_Tutup"
 
 #: ../resources/progress_dialog.ui ../resources/transaction_info_dialog.ui
 #: ../resources/manager_window.ui
@@ -77,11 +77,11 @@ msgstr "Lihat Riwayat"
 
 #: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "_Preferences"
-msgstr ""
+msgstr "_Preferensi"
 
 #: ../resources/manager_window.ui
 msgid "_About"
-msgstr ""
+msgstr "_Tentang"
 
 #: ../resources/manager_window.ui ../src/tray.vala
 msgid "Package Manager"
@@ -89,7 +89,7 @@ msgstr "Manajer Paket"
 
 #: ../resources/manager_window.ui
 msgid "Refresh databases"
-msgstr ""
+msgstr "Segarkan basis data"
 
 #: ../resources/manager_window.ui
 msgid "Apply changes"
@@ -97,7 +97,7 @@ msgstr "Terapkan perubahan"
 
 #: ../resources/manager_window.ui
 msgid "Cancel all planned changes"
-msgstr ""
+msgstr "Batalkan semua rencana perubahan"
 
 #: ../resources/manager_window.ui
 msgid "Search in AUR"
@@ -117,7 +117,7 @@ msgstr "Keadaan"
 
 #: ../resources/manager_window.ui
 msgid "Repositories"
-msgstr ""
+msgstr "Repositori"
 
 #: ../resources/manager_window.ui
 msgid "Name"
@@ -137,11 +137,11 @@ msgstr "Ukuran"
 
 #: ../resources/manager_window.ui
 msgid "Description"
-msgstr ""
+msgstr "Deskripsi"
 
 #: ../resources/manager_window.ui
 msgid "Dependencies"
-msgstr ""
+msgstr "Dependensi"
 
 #: ../resources/manager_window.ui
 msgid "Files"
@@ -153,15 +153,15 @@ msgstr "Manajer Pemutakhiran"
 
 #: ../resources/updater_window.ui
 msgid "_Refresh"
-msgstr ""
+msgstr "_Segarkan"
 
 #: ../resources/updater_window.ui
 msgid "_Apply"
-msgstr ""
+msgstr "_Terapkan"
 
 #: ../resources/preferences_dialog.ui
 msgid "Preferences"
-msgstr ""
+msgstr "Preferensi"
 
 #: ../resources/preferences_dialog.ui
 msgid "Allow Pamac to search and install packages from AUR"
@@ -171,7 +171,7 @@ msgstr "Biarkan Pamac untuk mencari dan menginstal paket dari AUR"
 msgid ""
 "When removing a package, also remove its dependencies that are not required "
 "by other packages"
-msgstr ""
+msgstr "Ketika menghapus paket, hapus juga dependensi paket tersebut yang tidak dibuthkan paket lainnya"
 
 #: ../resources/preferences_dialog.ui
 msgid "Check available disk space"
@@ -215,67 +215,67 @@ msgstr ""
 
 #: ../src/packages_chooser_dialog.vala
 msgid "Alpm Package"
-msgstr ""
+msgstr "Paket Alpm"
 
 #: ../src/daemon.vala
 msgid "Failed to initialize alpm library"
-msgstr ""
+msgstr "Gagal menginisialisasi library alpm"
 
 #: ../src/daemon.vala
 msgid "Failed to synchronize any databases"
-msgstr ""
+msgstr "Gagal mengsinkronisasikan database apapun"
 
 #: ../src/daemon.vala
 msgid "Failed to init transaction"
-msgstr ""
+msgstr "Gagal inisialisasi transaksi"
 
 #: ../src/daemon.vala
 msgid "Failed to prepare transaction"
-msgstr ""
+msgstr "Gagal mempersiapkan transaksi"
 
 #: ../src/daemon.vala
 #, c-format
 msgid "target not found: %s"
-msgstr ""
+msgstr "target tidak ditemukan: %s"
 
 #: ../src/daemon.vala
 #, c-format
 msgid "package %s does not have a valid architecture"
-msgstr ""
+msgstr "paket %s tidak memiliki arsitektur yang benar"
 
 #: ../src/daemon.vala
 #, c-format
 msgid "%s: requires %s"
-msgstr ""
+msgstr "%s: membutuhkan %s"
 
 #: ../src/daemon.vala
 #, c-format
 msgid "%s and %s are in conflict"
-msgstr ""
+msgstr "%s dan %s bertentangan"
 
 #: ../src/daemon.vala
 #, c-format
 msgid "%s needs to be removed but it is a locked package"
-msgstr ""
+msgstr "%s harus dibuang namun adalah paket yang terkunci"
 
 #: ../src/daemon.vala
 msgid "Failed to commit transaction"
-msgstr ""
+msgstr "Gagal menjalankan transaksi"
 
 #: ../src/daemon.vala
 #, c-format
 msgid "%s exists in both %s and %s"
-msgstr ""
+msgstr "%s ada dalam %s dan %s"
 
 #: ../src/daemon.vala
 #, c-format
 msgid "%s: %s already exists in filesystem"
-msgstr ""
+msgstr "%s: %s telah ada dalam berkas sistem"
 
 #: ../src/daemon.vala
 #, c-format
 msgid "%s is invalid or corrupted"
-msgstr ""
+msgstr "%s tidak benar atau rusak"
 
 #: ../src/daemon.vala
 msgid "Authentication failed"
@@ -283,11 +283,11 @@ msgstr "Otentikasi gagal"
 
 #: ../src/transaction.vala
 msgid "Synchronizing package databases"
-msgstr ""
+msgstr "Mengsinkronisasi database paket"
 
 #: ../src/transaction.vala
 msgid "Starting full system upgrade"
-msgstr ""
+msgstr "Memulai pembaruan keseluruhan sistem"
 
 #: ../src/transaction.vala
 msgid "Preparing"
@@ -296,7 +296,7 @@ msgstr "Menyiapkan"
 #: ../src/transaction.vala
 #, c-format
 msgid "Choose a provider for %s"
-msgstr ""
+msgstr "PIlih provider untuk %s"
 
 #: ../src/transaction.vala ../src/manager_window.vala
 msgid "To remove"
@@ -324,11 +324,11 @@ msgstr "Untuk dimutakhirkan"
 
 #: ../src/transaction.vala ../src/updater_window.vala
 msgid "Total download size"
-msgstr ""
+msgstr "Jumlah ukuran unduhan"
 
 #: ../src/transaction.vala
 msgid "Building packages"
-msgstr ""
+msgstr "Membuat paket"
 
 #: ../src/transaction.vala
 msgid "Worldwide"
@@ -356,7 +356,7 @@ msgstr "Memecahkan dependensi"
 
 #: ../src/transaction.vala
 msgid "Checking inter-conflicts"
-msgstr ""
+msgstr "Memeriksa konflik-internal"
 
 #: ../src/transaction.vala
 #, c-format
@@ -414,11 +414,11 @@ msgstr "Menghasilkan %s dengan %s"
 
 #: ../src/transaction.vala
 msgid "Generation succeeded"
-msgstr ""
+msgstr "Menghasilkan berhasil"
 
 #: ../src/transaction.vala
 msgid "Generation failed"
-msgstr ""
+msgstr "Menghasilkan gagal"
 
 #: ../src/transaction.vala
 #, c-format
@@ -436,12 +436,12 @@ msgstr "Memeriksa ruang diska yang tersedia"
 #: ../src/transaction.vala
 #, c-format
 msgid "%s optionally requires %s"
-msgstr ""
+msgstr "%s secara opsional membutuhkan %s"
 
 #: ../src/transaction.vala
 #, c-format
 msgid "Database file for %s does not exist"
-msgstr ""
+msgstr "Berkas database untuk %s tidak ada"
 
 #: ../src/transaction.vala
 #, c-format
@@ -470,16 +470,16 @@ msgstr "Mengunduh %s"
 
 #: ../src/transaction.vala
 msgid "Warning"
-msgstr ""
+msgstr "Peringatan"
 
 #: ../src/transaction.vala ../src/installer.vala ../src/manager.vala
 #: ../src/updater.vala
 msgid "Error"
-msgstr ""
+msgstr "Kesalahan"
 
 #: ../src/transaction.vala ../src/progress_dialog.vala
 msgid "Transaction cancelled"
-msgstr ""
+msgstr "Transaksi dibatalkan"
 
 #: ../src/transaction.vala
 msgid "Nothing to do"
@@ -503,17 +503,17 @@ msgstr "Sistem anda sudah dimutakhirkan"
 
 #: ../src/tray.vala
 msgid "_Quit"
-msgstr ""
+msgstr "_Keluar"
 
 #: ../src/tray.vala ../src/updater_window.vala
 #, c-format
 msgid "%u available update"
 msgid_plural "%u available updates"
-msgstr[0] ""
+msgstr[0] "%u pemutakhiran tersedia"
 
 #: ../src/tray.vala
 msgid "Show available updates"
-msgstr ""
+msgstr "Tunjukkan pemutakhiran tersedia"
 
 #: ../src/manager_window.vala
 msgid "Deselect"
@@ -533,7 +533,7 @@ msgstr "Memasang ulang"
 
 #: ../src/manager_window.vala
 msgid "Install optional dependencies"
-msgstr ""
+msgstr "Pasang dependensi opsional"
 
 #: ../src/manager_window.vala
 msgid "Mark as explicitly installed"
@@ -561,7 +561,7 @@ msgstr "Bergantung Pada"
 
 #: ../src/manager_window.vala
 msgid "Optional Dependencies"
-msgstr ""
+msgstr "Dependensi Opsional"
 
 #: ../src/manager_window.vala
 msgid "Required By"
@@ -623,7 +623,7 @@ msgid ""
 msgid_plural ""
 "%s has %u uninstalled optional dependencies.\n"
 "Choose those you would like to install:"
-msgstr[0] ""
+msgstr[0] "%s memiliki %u dependensi opsional tidak terpasang.\nPilih yang ingin kamu pasang:"
 
 #: ../src/manager_window.vala
 msgid "Uninstalled"
@@ -631,17 +631,14 @@ msgstr "Dihapus"
 
 #: ../src/manager_window.vala
 msgid "A Gtk3 frontend for libalpm"
-msgstr ""
+msgstr "Sebuah frontend Gtk3 untuk libalpm"
 
 #: ../src/common.vala
 #, c-format
 msgid "%.0f KiB"
-msgstr ""
+msgstr "%.0f KiB"
 
 #: ../src/common.vala
 #, c-format
 msgid "%.2f MiB"
 msgstr "%.2f MiB"
-
-#~ msgid "Authentication is required"
-#~ msgstr "Otentifikasi dibutuhkan"

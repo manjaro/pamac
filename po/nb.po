@@ -1,8 +1,7 @@
-# Translation of Pamac.
-# Copyright (C) 2007-2012 Free Software Foundation, Inc.
-# This file is distributed under the same license as the Pamac package.
-# Guillaume Benoit <guillaume@manjaro.org>, 2013-2014.
-#
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
 # Translators:
 # Morten Rene <arath.inc@gmail.com>, 2014
 # Bård Spein <baard.spein@gmail.com>, 2013
@@ -19,24 +18,23 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2015-01-04 09:18+0100\n"
-"PO-Revision-Date: 2014-11-22 14:10+0000\n"
-"Last-Translator: Guillaume Benoit <guillaume@manjaro.org>\n"
-"Language-Team: Norwegian Bokmål (http://www.transifex.com/projects/p/manjaro-"
-"pamac/language/nb/)\n"
-"Language: nb\n"
+"PO-Revision-Date: 2015-01-04 08:22+0000\n"
+"Last-Translator: philm <philm@manjaro.org>\n"
+"Language-Team: Norwegian Bokmål (http://www.transifex.com/projects/p/manjaro-pamac/language/nb/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: nb\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: ../resources/choose_provider_dialog.ui
 msgid "Choose a Provider"
-msgstr ""
+msgstr "Velg en leverandør"
 
 #: ../resources/choose_provider_dialog.ui
 #: ../resources/transaction_sum_dialog.ui ../resources/preferences_dialog.ui
 msgid "_OK"
-msgstr ""
+msgstr "_OK"
 
 #: ../resources/packages_chooser_dialog.ui ../resources/manager_window.ui
 msgid "Install local packages"
@@ -45,11 +43,11 @@ msgstr "Installer lokale pakker"
 #: ../resources/packages_chooser_dialog.ui ../resources/progress_dialog.ui
 #: ../resources/transaction_sum_dialog.ui
 msgid "_Cancel"
-msgstr ""
+msgstr "_Avbryt"
 
 #: ../resources/packages_chooser_dialog.ui
 msgid "_Open"
-msgstr ""
+msgstr "_Åpne"
 
 #: ../resources/progress_dialog.ui
 msgid "Progress"
@@ -59,7 +57,7 @@ msgstr "Framdrift"
 #: ../resources/transaction_info_dialog.ui ../resources/updater_window.ui
 #: ../resources/preferences_dialog.ui
 msgid "_Close"
-msgstr ""
+msgstr "_Lukk"
 
 #: ../resources/progress_dialog.ui ../resources/transaction_info_dialog.ui
 #: ../resources/manager_window.ui
@@ -80,11 +78,11 @@ msgstr "Vis Historie"
 
 #: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "_Preferences"
-msgstr ""
+msgstr "_Valg"
 
 #: ../resources/manager_window.ui
 msgid "_About"
-msgstr ""
+msgstr "_Om"
 
 #: ../resources/manager_window.ui ../src/tray.vala
 msgid "Package Manager"
@@ -92,7 +90,7 @@ msgstr "Pakke Behandler"
 
 #: ../resources/manager_window.ui
 msgid "Refresh databases"
-msgstr ""
+msgstr "Oppdater databaser"
 
 #: ../resources/manager_window.ui
 msgid "Apply changes"
@@ -100,7 +98,7 @@ msgstr "Bruk endringer"
 
 #: ../resources/manager_window.ui
 msgid "Cancel all planned changes"
-msgstr ""
+msgstr "Kansellere alle planlagte endringer"
 
 #: ../resources/manager_window.ui
 msgid "Search in AUR"
@@ -120,7 +118,7 @@ msgstr "Tilstand"
 
 #: ../resources/manager_window.ui
 msgid "Repositories"
-msgstr ""
+msgstr "Arkivene"
 
 #: ../resources/manager_window.ui
 msgid "Name"
@@ -140,11 +138,11 @@ msgstr "Størrelse"
 
 #: ../resources/manager_window.ui
 msgid "Description"
-msgstr ""
+msgstr "Beskrivelse"
 
 #: ../resources/manager_window.ui
 msgid "Dependencies"
-msgstr ""
+msgstr "Avhengigheter"
 
 #: ../resources/manager_window.ui
 msgid "Files"
@@ -156,15 +154,15 @@ msgstr "Oppdaterings Behandler"
 
 #: ../resources/updater_window.ui
 msgid "_Refresh"
-msgstr ""
+msgstr "_Oppdater"
 
 #: ../resources/updater_window.ui
 msgid "_Apply"
-msgstr ""
+msgstr "_Påfør"
 
 #: ../resources/preferences_dialog.ui
 msgid "Preferences"
-msgstr ""
+msgstr "Valg"
 
 #: ../resources/preferences_dialog.ui
 msgid "Allow Pamac to search and install packages from AUR"
@@ -174,7 +172,7 @@ msgstr "Tillat Pamac å søke og installere pakker fra AUR"
 msgid ""
 "When removing a package, also remove its dependencies that are not required "
 "by other packages"
-msgstr ""
+msgstr "Når du fjerner en pakke, fjern også dets avhengigheter som ikke kreves av andre pakker"
 
 #: ../resources/preferences_dialog.ui
 msgid "Check available disk space"
@@ -218,67 +216,67 @@ msgstr ""
 
 #: ../src/packages_chooser_dialog.vala
 msgid "Alpm Package"
-msgstr ""
+msgstr "Alpm Pakke"
 
 #: ../src/daemon.vala
 msgid "Failed to initialize alpm library"
-msgstr ""
+msgstr "Kunne ikke initialisere alpm bibliotek"
 
 #: ../src/daemon.vala
 msgid "Failed to synchronize any databases"
-msgstr ""
+msgstr "Klarte ikke å synkronisere alle databaser"
 
 #: ../src/daemon.vala
 msgid "Failed to init transaction"
-msgstr ""
+msgstr "Kunne ikke init transaksjon"
 
 #: ../src/daemon.vala
 msgid "Failed to prepare transaction"
-msgstr ""
+msgstr "Mislyktes i å forberede transaksjon"
 
 #: ../src/daemon.vala
 #, c-format
 msgid "target not found: %s"
-msgstr ""
+msgstr "mål ikke funnet: %s"
 
 #: ../src/daemon.vala
 #, c-format
 msgid "package %s does not have a valid architecture"
-msgstr ""
+msgstr "Pakken %s har ikke en gyldig arkitektur"
 
 #: ../src/daemon.vala
 #, c-format
 msgid "%s: requires %s"
-msgstr ""
+msgstr "%s: krever %s"
 
 #: ../src/daemon.vala
 #, c-format
 msgid "%s and %s are in conflict"
-msgstr ""
+msgstr "%s og %s er i konflikt"
 
 #: ../src/daemon.vala
 #, c-format
 msgid "%s needs to be removed but it is a locked package"
-msgstr ""
+msgstr "%s må fjernes, men det er en låst pakke"
 
 #: ../src/daemon.vala
 msgid "Failed to commit transaction"
-msgstr ""
+msgstr "Mislyktes i å begå transaksjonen"
 
 #: ../src/daemon.vala
 #, c-format
 msgid "%s exists in both %s and %s"
-msgstr ""
+msgstr "%s finnes i både %s og %s"
 
 #: ../src/daemon.vala
 #, c-format
 msgid "%s: %s already exists in filesystem"
-msgstr ""
+msgstr "%s: %s eksisterer allerede i filsystemet"
 
 #: ../src/daemon.vala
 #, c-format
 msgid "%s is invalid or corrupted"
-msgstr ""
+msgstr "%s er ugyldig eller skadet"
 
 #: ../src/daemon.vala
 msgid "Authentication failed"
@@ -286,11 +284,11 @@ msgstr "Autentifisering feilet"
 
 #: ../src/transaction.vala
 msgid "Synchronizing package databases"
-msgstr ""
+msgstr "Synkroniserer pakke databaser"
 
 #: ../src/transaction.vala
 msgid "Starting full system upgrade"
-msgstr ""
+msgstr "Starter full systemoppgradering"
 
 #: ../src/transaction.vala
 msgid "Preparing"
@@ -299,7 +297,7 @@ msgstr "Forbereder"
 #: ../src/transaction.vala
 #, c-format
 msgid "Choose a provider for %s"
-msgstr ""
+msgstr "Velg en leverandør for %s"
 
 #: ../src/transaction.vala ../src/manager_window.vala
 msgid "To remove"
@@ -331,7 +329,7 @@ msgstr "Samlet nedlastingsstørrelse"
 
 #: ../src/transaction.vala
 msgid "Building packages"
-msgstr ""
+msgstr "Bygger pakker"
 
 #: ../src/transaction.vala
 msgid "Worldwide"
@@ -359,7 +357,7 @@ msgstr "Ordner avhengigheter"
 
 #: ../src/transaction.vala
 msgid "Checking inter-conflicts"
-msgstr ""
+msgstr "Sjekker inter-konflikter"
 
 #: ../src/transaction.vala
 #, c-format
@@ -417,11 +415,11 @@ msgstr "Generer %s med %s"
 
 #: ../src/transaction.vala
 msgid "Generation succeeded"
-msgstr ""
+msgstr "Generering lyktes"
 
 #: ../src/transaction.vala
 msgid "Generation failed"
-msgstr ""
+msgstr "Generering feilet"
 
 #: ../src/transaction.vala
 #, c-format
@@ -439,12 +437,12 @@ msgstr "Sjekker ledig diskplass"
 #: ../src/transaction.vala
 #, c-format
 msgid "%s optionally requires %s"
-msgstr ""
+msgstr "%s valgfritt krever %s"
 
 #: ../src/transaction.vala
 #, c-format
 msgid "Database file for %s does not exist"
-msgstr ""
+msgstr "Databasefilen for %s finnes ikke"
 
 #: ../src/transaction.vala
 #, c-format
@@ -482,7 +480,7 @@ msgstr "Feil"
 
 #: ../src/transaction.vala ../src/progress_dialog.vala
 msgid "Transaction cancelled"
-msgstr ""
+msgstr "Transaksjon kansellert"
 
 #: ../src/transaction.vala
 msgid "Nothing to do"
@@ -506,18 +504,18 @@ msgstr "Systemet ditt er oppdatert"
 
 #: ../src/tray.vala
 msgid "_Quit"
-msgstr ""
+msgstr "_Avslutt"
 
 #: ../src/tray.vala ../src/updater_window.vala
 #, c-format
 msgid "%u available update"
 msgid_plural "%u available updates"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%u tilgjengelige oppdatering"
+msgstr[1] "%u tilgjengelige oppdateringer"
 
 #: ../src/tray.vala
 msgid "Show available updates"
-msgstr ""
+msgstr "Vis tilgjengelige oppdateringer"
 
 #: ../src/manager_window.vala
 msgid "Deselect"
@@ -537,7 +535,7 @@ msgstr "Reinstaller"
 
 #: ../src/manager_window.vala
 msgid "Install optional dependencies"
-msgstr ""
+msgstr "Installer valgfrie avhengigheter"
 
 #: ../src/manager_window.vala
 msgid "Mark as explicitly installed"
@@ -565,7 +563,7 @@ msgstr "Avhenger av"
 
 #: ../src/manager_window.vala
 msgid "Optional Dependencies"
-msgstr ""
+msgstr "Valgfrie Avhengigheter"
 
 #: ../src/manager_window.vala
 msgid "Required By"
@@ -627,8 +625,8 @@ msgid ""
 msgid_plural ""
 "%s has %u uninstalled optional dependencies.\n"
 "Choose those you would like to install:"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%s har %u avinstallert valgfrie avhengigheter.\nVelg om du ønsker å installere det:"
+msgstr[1] "%s har %u avinstallert valgfrie avhengigheter.\nVelg de du ønsker å installere:"
 
 #: ../src/manager_window.vala
 msgid "Uninstalled"
@@ -636,17 +634,14 @@ msgstr "Avinstallert"
 
 #: ../src/manager_window.vala
 msgid "A Gtk3 frontend for libalpm"
-msgstr ""
+msgstr "En Gtk3 frontend for libalpm"
 
 #: ../src/common.vala
 #, c-format
 msgid "%.0f KiB"
-msgstr ""
+msgstr "%.0f KiB"
 
 #: ../src/common.vala
 #, c-format
 msgid "%.2f MiB"
 msgstr "%.2f Mb"
-
-#~ msgid "Authentication is required"
-#~ msgstr "Autentisering kreves"
