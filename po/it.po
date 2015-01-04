@@ -1,7 +1,7 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# 
+#
 # Translators:
 # Bernardo Miguel Savone <bmsavone@gmail.com>, 2013-2014
 # Guillaume Benoit <guillaume@manjaro.org>, 2013
@@ -14,11 +14,12 @@ msgstr ""
 "POT-Creation-Date: 2015-01-04 09:18+0100\n"
 "PO-Revision-Date: 2015-01-04 08:22+0000\n"
 "Last-Translator: philm <philm@manjaro.org>\n"
-"Language-Team: Italian (http://www.transifex.com/projects/p/manjaro-pamac/language/it/)\n"
+"Language-Team: Italian (http://www.transifex.com/projects/p/manjaro-pamac/"
+"language/it/)\n"
+"Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: it\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: ../resources/choose_provider_dialog.ui
@@ -166,7 +167,9 @@ msgstr "Permette a Pamac cercare e installare pacchetti dal AUR"
 msgid ""
 "When removing a package, also remove its dependencies that are not required "
 "by other packages"
-msgstr "Quando si rimuove un pacchetto, rimuovere anche le dipendenze che non sono richieste da altri pacchetti"
+msgstr ""
+"Quando si rimuove un pacchetto, rimuovere anche le dipendenze che non sono "
+"richieste da altri pacchetti"
 
 #: ../resources/preferences_dialog.ui
 msgid "Check available disk space"
@@ -619,8 +622,12 @@ msgid ""
 msgid_plural ""
 "%s has %u uninstalled optional dependencies.\n"
 "Choose those you would like to install:"
-msgstr[0] "%s ha %u dipendenze opzionali non installate.\nScegliere se si desidera installarlo."
-msgstr[1] "%s ha %u dipendenze opzionali non installate. \nSceglire quelle che si desidera installare"
+msgstr[0] ""
+"%s ha %u dipendenze opzionali non installate.\n"
+"Scegliere se si desidera installarlo."
+msgstr[1] ""
+"%s ha %u dipendenze opzionali non installate. \n"
+"Sceglire quelle che si desidera installare"
 
 #: ../src/manager_window.vala
 msgid "Uninstalled"

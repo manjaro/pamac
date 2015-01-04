@@ -1,7 +1,7 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# 
+#
 # Translators:
 # Dušan Kazik, 2014
 # Dušan Kazik <prescott66@gmail.com>, 2014
@@ -15,11 +15,12 @@ msgstr ""
 "POT-Creation-Date: 2015-01-04 09:18+0100\n"
 "PO-Revision-Date: 2015-01-04 08:22+0000\n"
 "Last-Translator: philm <philm@manjaro.org>\n"
-"Language-Team: Slovak (http://www.transifex.com/projects/p/manjaro-pamac/language/sk/)\n"
+"Language-Team: Slovak (http://www.transifex.com/projects/p/manjaro-pamac/"
+"language/sk/)\n"
+"Language: sk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: sk\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 
 #: ../resources/choose_provider_dialog.ui
@@ -167,7 +168,9 @@ msgstr "Umožniť programu Pamac vyhľadať a inštalovať balíky z repozitára
 msgid ""
 "When removing a package, also remove its dependencies that are not required "
 "by other packages"
-msgstr "Pri odstránení balíka tiež odstráni závislosti, ktoré nie sú potrebné inými balíkmi"
+msgstr ""
+"Pri odstránení balíka tiež odstráni závislosti, ktoré nie sú potrebné inými "
+"balíkmi"
 
 #: ../resources/preferences_dialog.ui
 msgid "Check available disk space"
@@ -621,9 +624,15 @@ msgid ""
 msgid_plural ""
 "%s has %u uninstalled optional dependencies.\n"
 "Choose those you would like to install:"
-msgstr[0] "%s obsahuje %u odinštalovanú voliteľnú závislosť.\nZvoľte ju, ak ju chcete nainštalovať:"
-msgstr[1] "%s obsahuje %u odinštalované voliteľné závislosti. Zvoľte tie, ktoré chcete nainštalovať:"
-msgstr[2] "%s obsahuje %u odinštalovaných voliteľných závislostí. Zvoľte tie, ktoré chcete nainštalovať:"
+msgstr[0] ""
+"%s obsahuje %u odinštalovanú voliteľnú závislosť.\n"
+"Zvoľte ju, ak ju chcete nainštalovať:"
+msgstr[1] ""
+"%s obsahuje %u odinštalované voliteľné závislosti. Zvoľte tie, ktoré chcete "
+"nainštalovať:"
+msgstr[2] ""
+"%s obsahuje %u odinštalovaných voliteľných závislostí. Zvoľte tie, ktoré "
+"chcete nainštalovať:"
 
 #: ../src/manager_window.vala
 msgid "Uninstalled"

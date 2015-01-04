@@ -1,7 +1,7 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# 
+#
 # Translators:
 # Andreas Martin Mørch <andreasmartinmorch@gmail.com>, 2013
 # GigoloJoe <Danielbygmarsh@gmail.com>, 2014
@@ -18,11 +18,12 @@ msgstr ""
 "POT-Creation-Date: 2015-01-04 09:18+0100\n"
 "PO-Revision-Date: 2015-01-04 08:22+0000\n"
 "Last-Translator: philm <philm@manjaro.org>\n"
-"Language-Team: Danish (http://www.transifex.com/projects/p/manjaro-pamac/language/da/)\n"
+"Language-Team: Danish (http://www.transifex.com/projects/p/manjaro-pamac/"
+"language/da/)\n"
+"Language: da\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: da\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: ../resources/choose_provider_dialog.ui

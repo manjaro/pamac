@@ -1,7 +1,7 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# 
+#
 # Translators:
 # Lajos Pasztor <mrlajos@gmail.com>, 2013
 # Lajos Pasztor <mrlajos@gmail.com>, 2013-2014
@@ -13,11 +13,12 @@ msgstr ""
 "POT-Creation-Date: 2015-01-04 09:18+0100\n"
 "PO-Revision-Date: 2015-01-04 08:22+0000\n"
 "Last-Translator: philm <philm@manjaro.org>\n"
-"Language-Team: Hungarian (http://www.transifex.com/projects/p/manjaro-pamac/language/hu/)\n"
+"Language-Team: Hungarian (http://www.transifex.com/projects/p/manjaro-pamac/"
+"language/hu/)\n"
+"Language: hu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: hu\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: ../resources/choose_provider_dialog.ui
@@ -165,7 +166,9 @@ msgstr "Pamac kereshet és telepíthet csomagokat az AUR -ból"
 msgid ""
 "When removing a package, also remove its dependencies that are not required "
 "by other packages"
-msgstr "Csomag eltávolításakor távolítsa el a függőségeket amik nem megköveteltek más csomagok által"
+msgstr ""
+"Csomag eltávolításakor távolítsa el a függőségeket amik nem megköveteltek "
+"más csomagok által"
 
 #: ../resources/preferences_dialog.ui
 msgid "Check available disk space"
@@ -618,8 +621,12 @@ msgid ""
 msgid_plural ""
 "%s has %u uninstalled optional dependencies.\n"
 "Choose those you would like to install:"
-msgstr[0] "%s tartalmaz %u eltávolított opcionális függőséget.\nVálaszd ki azokat amiket telepíteni szeretnél:"
-msgstr[1] "%s tartalmaz %u eltávolított opcionális függőséget.\nVálaszd ki azokat amiket telepíteni szeretnél:"
+msgstr[0] ""
+"%s tartalmaz %u eltávolított opcionális függőséget.\n"
+"Válaszd ki azokat amiket telepíteni szeretnél:"
+msgstr[1] ""
+"%s tartalmaz %u eltávolított opcionális függőséget.\n"
+"Válaszd ki azokat amiket telepíteni szeretnél:"
 
 #: ../src/manager_window.vala
 msgid "Uninstalled"
