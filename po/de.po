@@ -1,6 +1,7 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
+# Translation of Pamac.
+# Copyright (C) 2007-2012 Free Software Foundation, Inc.
+# This file is distributed under the same license as the Pamac package.
+# Guillaume Benoit <guillaume@manjaro.org>, 2013-2015.
 #
 # Translators:
 # Guillaume Benoit <guillaume@manjaro.org>, 2013

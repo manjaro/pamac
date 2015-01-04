@@ -1,24 +1,24 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-#
+# Translation of Pamac.
+# Copyright (C) 2007-2012 Free Software Foundation, Inc.
+# This file is distributed under the same license as the Pamac package.
+# Guillaume Benoit <guillaume@manjaro.org>, 2013-2015.
+# 
 # Translators:
 # DirectorX <kassavlt@gmail.com>, 2014
-# GenghisKhan <genghiskhan@gmx.ca>, 2013-2014
+# GenghisKhan <genghiskhan@gmx.ca>, 2013-2015
 # DirectorX <kassavlt@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2015-01-04 09:18+0100\n"
-"PO-Revision-Date: 2015-01-04 08:22+0000\n"
-"Last-Translator: philm <philm@manjaro.org>\n"
-"Language-Team: Hebrew (http://www.transifex.com/projects/p/manjaro-pamac/"
-"language/he/)\n"
-"Language: he\n"
+"POT-Creation-Date: 2015-01-04 09:41+0100\n"
+"PO-Revision-Date: 2015-01-04 08:49+0000\n"
+"Last-Translator: GenghisKhan <genghiskhan@gmx.ca>\n"
+"Language-Team: Hebrew (http://www.transifex.com/projects/p/manjaro-pamac/language/he/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: he\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: ../resources/choose_provider_dialog.ui
@@ -166,12 +166,11 @@ msgstr "אפשר לPamac לחפש ולהתקין חבילות מתוך AUR"
 msgid ""
 "When removing a package, also remove its dependencies that are not required "
 "by other packages"
-msgstr ""
-"בעת הסרת חבילה, הסר גם את התלויות שלה אשר לא נחוצות על ידי חבילות אחרות"
+msgstr "בעת הסרת חבילה, הסר גם את התלויות שלה אשר לא נחוצות על ידי חבילות אחרות"
 
 #: ../resources/preferences_dialog.ui
 msgid "Check available disk space"
-msgstr ""
+msgstr "בדוק שטח כונן פנוי"
 
 #: ../resources/preferences_dialog.ui ../src/preferences_dialog.vala
 msgid "How often to check for updates, value in hours"
@@ -207,7 +206,7 @@ msgstr ""
 
 #: ../resources/preferences_dialog.ui
 msgid "Official repositories"
-msgstr ""
+msgstr "מאגרים רשמיים"
 
 #: ../src/packages_chooser_dialog.vala
 msgid "Alpm Package"
@@ -223,11 +222,11 @@ msgstr ""
 
 #: ../src/daemon.vala
 msgid "Failed to init transaction"
-msgstr ""
+msgstr "נכשל להתחיל טרנזקציה"
 
 #: ../src/daemon.vala
 msgid "Failed to prepare transaction"
-msgstr ""
+msgstr "נכשל להכין טרנזקציה"
 
 #: ../src/daemon.vala
 #, c-format
@@ -256,7 +255,7 @@ msgstr "%s צריכה להיות מוסרת אך זו חבילה נעולה"
 
 #: ../src/daemon.vala
 msgid "Failed to commit transaction"
-msgstr ""
+msgstr "נכשל לבצע טרנזקציה"
 
 #: ../src/daemon.vala
 #, c-format
@@ -328,15 +327,15 @@ msgstr "כעת בונה חבילות"
 
 #: ../src/transaction.vala
 msgid "Worldwide"
-msgstr ""
+msgstr "כלל עולמי"
 
 #: ../src/transaction.vala
 msgid "speed"
-msgstr ""
+msgstr "מהירות"
 
 #: ../src/transaction.vala
 msgid "random"
-msgstr ""
+msgstr "אקראי"
 
 #: ../src/transaction.vala
 msgid "Checking dependencies"
@@ -487,7 +486,7 @@ msgstr "טרנזקציה הסתיימה בהצלחה"
 
 #: ../src/transaction.vala
 msgid "Generating mirrorlist"
-msgstr ""
+msgstr "מפיק mirrorlist"
 
 #: ../src/installer.vala ../src/manager.vala ../src/updater.vala
 msgid "Pamac is already running"
@@ -620,12 +619,8 @@ msgid ""
 msgid_plural ""
 "%s has %u uninstalled optional dependencies.\n"
 "Choose those you would like to install:"
-msgstr[0] ""
-"לחבילה %s יש תלות רשות %u לא מותקנת.\n"
-"בחר אותה אם ברצונך להתקינה:"
-msgstr[1] ""
-"לחבילה %s יש %u תלויות רשות לא מותקנות.\n"
-"בחר את אלה אשר ברצונך להתקין:"
+msgstr[0] "לחבילה %s יש תלות רשות %u לא מותקנת.\nבחר אותה אם ברצונך להתקינה:"
+msgstr[1] "לחבילה %s יש %u תלויות רשות לא מותקנות.\nבחר את אלה אשר ברצונך להתקין:"
 
 #: ../src/manager_window.vala
 msgid "Uninstalled"
