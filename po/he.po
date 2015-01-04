@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2015-01-04 09:41+0100\n"
-"PO-Revision-Date: 2015-01-04 08:49+0000\n"
+"PO-Revision-Date: 2015-01-04 08:58+0000\n"
 "Last-Translator: GenghisKhan <genghiskhan@gmx.ca>\n"
 "Language-Team: Hebrew (http://www.transifex.com/projects/p/manjaro-pamac/language/he/)\n"
 "MIME-Version: 1.0\n"
@@ -182,11 +182,11 @@ msgstr "הסר תוספים לא נחוצים"
 
 #: ../resources/preferences_dialog.ui
 msgid "Upgrade first:"
-msgstr ""
+msgstr "שדרג תחילה:"
 
 #: ../resources/preferences_dialog.ui
 msgid "Ignore upgrades for:"
-msgstr ""
+msgstr "התעלם משדרוגים עבור:"
 
 #: ../resources/preferences_dialog.ui
 msgid "Enable AUR support"
@@ -198,11 +198,11 @@ msgstr "אפשרויות"
 
 #: ../resources/preferences_dialog.ui
 msgid "Sort mirrors by:"
-msgstr ""
+msgstr "מיין מראות לפי:"
 
 #: ../resources/preferences_dialog.ui
 msgid "Use mirrors from:"
-msgstr ""
+msgstr "השתמש במראות מתוך:"
 
 #: ../resources/preferences_dialog.ui
 msgid "Official repositories"
@@ -236,7 +236,7 @@ msgstr "מטרה לא נמצאה: %s"
 #: ../src/daemon.vala
 #, c-format
 msgid "package %s does not have a valid architecture"
-msgstr ""
+msgstr "לחבילה %s אין ארכיטקטורה תקפה"
 
 #: ../src/daemon.vala
 #, c-format
@@ -278,7 +278,7 @@ msgstr "אימות נכשל"
 
 #: ../src/transaction.vala
 msgid "Synchronizing package databases"
-msgstr ""
+msgstr "כעת מסנכרן מסדי נתוני חבילה"
 
 #: ../src/transaction.vala
 msgid "Starting full system upgrade"
@@ -351,7 +351,7 @@ msgstr "כעת פותר תלויות"
 
 #: ../src/transaction.vala
 msgid "Checking inter-conflicts"
-msgstr ""
+msgstr "כעת בוחן התנגשויות פנימיות"
 
 #: ../src/transaction.vala
 #, c-format
@@ -441,17 +441,17 @@ msgstr "קובץ מסד נתונים עבור %s לא קיים"
 #: ../src/transaction.vala
 #, c-format
 msgid "%s installed as %s.pacnew"
-msgstr ""
+msgstr "%s מותקנת בתור %s.pacnew"
 
 #: ../src/transaction.vala
 #, c-format
 msgid "%s installed as %s.pacsave"
-msgstr ""
+msgstr "%s מותקנת בתור %s.pacsave"
 
 #: ../src/transaction.vala
 #, c-format
 msgid "%s installed as %s.pacorig"
-msgstr ""
+msgstr "%s מותקנת בתור %s.pacorig"
 
 #: ../src/transaction.vala
 #, c-format
@@ -486,7 +486,7 @@ msgstr "טרנזקציה הסתיימה בהצלחה"
 
 #: ../src/transaction.vala
 msgid "Generating mirrorlist"
-msgstr "מפיק mirrorlist"
+msgstr "כעת מפיק mirrorlist"
 
 #: ../src/installer.vala ../src/manager.vala ../src/updater.vala
 msgid "Pamac is already running"

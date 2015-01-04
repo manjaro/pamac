@@ -1,7 +1,8 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-#
+# Translation of Pamac.
+# Copyright (C) 2007-2012 Free Software Foundation, Inc.
+# This file is distributed under the same license as the Pamac package.
+# Guillaume Benoit <guillaume@manjaro.org>, 2013-2015.
+# 
 # Translators:
 # Enindu Alahapperuma <enindu@yahoo.com>, 2014
 # Enindu Alahapperuma <enindu@yahoo.com>, 2014
@@ -9,15 +10,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2015-01-04 09:18+0100\n"
+"POT-Creation-Date: 2015-01-04 09:41+0100\n"
 "PO-Revision-Date: 2015-01-04 08:22+0000\n"
 "Last-Translator: philm <philm@manjaro.org>\n"
-"Language-Team: Sinhala (http://www.transifex.com/projects/p/manjaro-pamac/"
-"language/si/)\n"
-"Language: si\n"
+"Language-Team: Sinhala (http://www.transifex.com/projects/p/manjaro-pamac/language/si/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: si\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: ../resources/choose_provider_dialog.ui

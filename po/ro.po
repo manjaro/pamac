@@ -1,7 +1,8 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-#
+# Translation of Pamac.
+# Copyright (C) 2007-2012 Free Software Foundation, Inc.
+# This file is distributed under the same license as the Pamac package.
+# Guillaume Benoit <guillaume@manjaro.org>, 2013-2015.
+# 
 # Translators:
 # Alexandru Ianu <alexandru.ianu@gmail.com>, 2013-2014
 # Guillaume Benoit <guillaume@manjaro.org>, 2013
@@ -9,17 +10,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2015-01-04 09:18+0100\n"
+"POT-Creation-Date: 2015-01-04 09:41+0100\n"
 "PO-Revision-Date: 2015-01-04 08:22+0000\n"
 "Last-Translator: philm <philm@manjaro.org>\n"
-"Language-Team: Romanian (http://www.transifex.com/projects/p/manjaro-pamac/"
-"language/ro/)\n"
-"Language: ro\n"
+"Language-Team: Romanian (http://www.transifex.com/projects/p/manjaro-pamac/language/ro/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?"
-"2:1));\n"
+"Language: ro\n"
+"Plural-Forms: nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));\n"
 
 #: ../resources/choose_provider_dialog.ui
 msgid "Choose a Provider"
@@ -166,9 +165,7 @@ msgstr "Permite Pamac să caute și să instaleze pachete din AUR"
 msgid ""
 "When removing a package, also remove its dependencies that are not required "
 "by other packages"
-msgstr ""
-"Când se elimină un pachet, se vor elimina și acele dependențe ce nu sunt "
-"cerute de alte pachete"
+msgstr "Când se elimină un pachet, se vor elimina și acele dependențe ce nu sunt cerute de alte pachete"
 
 #: ../resources/preferences_dialog.ui
 msgid "Check available disk space"
@@ -622,15 +619,9 @@ msgid ""
 msgid_plural ""
 "%s has %u uninstalled optional dependencies.\n"
 "Choose those you would like to install:"
-msgstr[0] ""
-"%s are %u dependență opțională neinstalată.\n"
-"Alegeți dacă o doriți instalată:"
-msgstr[1] ""
-"%s are %u dependențe opționale neinstalate.\n"
-"Alegeți cele pe care le doriți instalate:"
-msgstr[2] ""
-"%s are %u de dependențe opționale neinstalate.\n"
-"Alegeți cele pe care le doriți instalate:"
+msgstr[0] "%s are %u dependență opțională neinstalată.\nAlegeți dacă o doriți instalată:"
+msgstr[1] "%s are %u dependențe opționale neinstalate.\nAlegeți cele pe care le doriți instalate:"
+msgstr[2] "%s are %u de dependențe opționale neinstalate.\nAlegeți cele pe care le doriți instalate:"
 
 #: ../src/manager_window.vala
 msgid "Uninstalled"
