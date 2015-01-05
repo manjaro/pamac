@@ -371,7 +371,7 @@ namespace Pamac {
 			return err;
 		}
 
-		public int trans_prepare_real () {
+		private int trans_prepare_real () {
 			ErrorInfos err = ErrorInfos ();
 			string[] details = {};
 			Alpm.List<void*> err_data = null;

@@ -222,6 +222,7 @@ namespace Pamac {
 
 			status_icon = new Gtk.StatusIcon ();
 			status_icon.set_visible (true);
+			this.update_icon (noupdate_icon_name, noupdate_info);
 			status_icon.activate.connect (left_clicked);
 			create_menu ();
 			status_icon.popup_menu.connect (menu_popup);
