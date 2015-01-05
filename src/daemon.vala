@@ -582,6 +582,7 @@ namespace Pamac {
 			refresh_handle ();
 		}
 
+		[DBus (no_reply = true)]
 		public void quit () {
 			GLib.File lockfile = GLib.File.new_for_path ("/var/lib/pacman/db.lck");
 			if (lockfile.query_exists () == false)
