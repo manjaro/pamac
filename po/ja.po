@@ -19,6 +19,10 @@ msgstr ""
 "Language: ja\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
+#: data/polkit/org.manjaro.pamac.policy
+msgid "Authentication is required"
+msgstr "認証が必要です"
+
 #: ../resources/choose_provider_dialog.ui
 msgid "Choose a Provider"
 msgstr "供給元を選択"

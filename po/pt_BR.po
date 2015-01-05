@@ -32,6 +32,10 @@ msgstr ""
 "Language: pt_BR\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
+#: data/polkit/org.manjaro.pamac.policy
+msgid "Authentication is required"
+msgstr "A autenticação é necessária"
+
 #: ../resources/choose_provider_dialog.ui
 msgid "Choose a Provider"
 msgstr "Escolha um Provedor"

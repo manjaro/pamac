@@ -23,6 +23,10 @@ msgstr ""
 "Language: sl\n"
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);\n"
 
+#: data/polkit/org.manjaro.pamac.policy
+msgid "Authentication is required"
+msgstr "Zahtevana je overovitev"
+
 #: ../resources/choose_provider_dialog.ui
 msgid "Choose a Provider"
 msgstr "Izberi ponudnika"

@@ -25,6 +25,10 @@ msgstr ""
 "Language: bg\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
+#: data/polkit/org.manjaro.pamac.policy
+msgid "Authentication is required"
+msgstr "Изисква се идентификация"
+
 #: ../resources/choose_provider_dialog.ui
 msgid "Choose a Provider"
 msgstr "Изберете доставчик"

@@ -20,6 +20,10 @@ msgstr ""
 "Language: uz\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
+#: data/polkit/org.manjaro.pamac.policy
+msgid "Authentication is required"
+msgstr "Haqiqiylikni tekshirish talab qilinadi"
+
 #: ../resources/choose_provider_dialog.ui
 msgid "Choose a Provider"
 msgstr ""

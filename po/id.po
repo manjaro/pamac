@@ -27,6 +27,10 @@ msgstr ""
 "Language: id\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
+#: data/polkit/org.manjaro.pamac.policy:10
+msgid "Authentication is required"
+msgstr "Otentifikasi dibutuhkan"
+
 #: ../resources/choose_provider_dialog.ui
 msgid "Choose a Provider"
 msgstr "Pilih Provider"

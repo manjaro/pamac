@@ -20,6 +20,10 @@ msgstr ""
 "Language: zh_CN\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
+#: data/polkit/org.manjaro.pamac.policy
+msgid "Authentication is required"
+msgstr "需要验证"
+
 #: ../resources/choose_provider_dialog.ui
 msgid "Choose a Provider"
 msgstr ""
