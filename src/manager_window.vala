@@ -598,6 +598,7 @@ namespace Pamac {
 
 		void on_reinstall_item_activate () {
 			foreach (Pamac.Package pkg in selected_pkgs) {
+				transaction.to_remove.steal (pkg.name);
 				if (pkg.repo == "local")
 					transaction.to_add.insert (pkg.name, pkg.name);
 			}
@@ -607,6 +608,7 @@ namespace Pamac {
 
 		void on_remove_item_activate () {
 			foreach (Pamac.Package pkg in selected_pkgs) {
+				transaction.to_add.steal (pkg.name);
 				if (transaction.alpm_config.holdpkgs.find_custom (pkg.name, strcmp) == null) {
 					if (pkg.repo == "local")
 						transaction.to_remove.insert (pkg.name, pkg.name);
