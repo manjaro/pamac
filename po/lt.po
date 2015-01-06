@@ -4,13 +4,14 @@
 # Guillaume Benoit <guillaume@manjaro.org>, 2013-2015.
 # 
 # Translators:
+# Moo, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2015-01-04 09:41+0100\n"
-"PO-Revision-Date: 2013-04-16 23:37+0000\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"PO-Revision-Date: 2015-01-04 18:57+0000\n"
+"Last-Translator: Moo\n"
 "Language-Team: Lithuanian (http://www.transifex.com/projects/p/manjaro-pamac/language/lt/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20,166 +21,166 @@ msgstr ""
 
 #: ../resources/choose_provider_dialog.ui
 msgid "Choose a Provider"
-msgstr ""
+msgstr "Pasirinkite Tiekėją"
 
 #: ../resources/choose_provider_dialog.ui
 #: ../resources/transaction_sum_dialog.ui ../resources/preferences_dialog.ui
 msgid "_OK"
-msgstr ""
+msgstr "_Gerai"
 
 #: ../resources/packages_chooser_dialog.ui ../resources/manager_window.ui
 msgid "Install local packages"
-msgstr ""
+msgstr "Įdiegti vietinius paketus"
 
 #: ../resources/packages_chooser_dialog.ui ../resources/progress_dialog.ui
 #: ../resources/transaction_sum_dialog.ui
 msgid "_Cancel"
-msgstr ""
+msgstr "_Atšaukti"
 
 #: ../resources/packages_chooser_dialog.ui
 msgid "_Open"
-msgstr ""
+msgstr "_Atidaryti"
 
 #: ../resources/progress_dialog.ui
 msgid "Progress"
-msgstr ""
+msgstr "Eiga"
 
 #: ../resources/progress_dialog.ui ../resources/history_dialog.ui
 #: ../resources/transaction_info_dialog.ui ../resources/updater_window.ui
 #: ../resources/preferences_dialog.ui
 msgid "_Close"
-msgstr ""
+msgstr "_Uždaryti"
 
 #: ../resources/progress_dialog.ui ../resources/transaction_info_dialog.ui
 #: ../resources/manager_window.ui
 msgid "Details"
-msgstr ""
+msgstr "Išsamiau"
 
 #: ../resources/history_dialog.ui
 msgid "Pamac History"
-msgstr ""
+msgstr "Pamac Žurnalas"
 
 #: ../resources/transaction_sum_dialog.ui ../src/transaction.vala
 msgid "Transaction Summary"
-msgstr ""
+msgstr "Operacijos Suvestinė"
 
 #: ../resources/manager_window.ui
 msgid "View History"
-msgstr ""
+msgstr "Žiūrėti Žurnalą"
 
 #: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "_Preferences"
-msgstr ""
+msgstr "_Nuostatos"
 
 #: ../resources/manager_window.ui
 msgid "_About"
-msgstr ""
+msgstr "_Apie"
 
 #: ../resources/manager_window.ui ../src/tray.vala
 msgid "Package Manager"
-msgstr ""
+msgstr "Paketų Tvarkytuvė"
 
 #: ../resources/manager_window.ui
 msgid "Refresh databases"
-msgstr ""
+msgstr "Iš naujo įkelti duomenų bazes"
 
 #: ../resources/manager_window.ui
 msgid "Apply changes"
-msgstr ""
+msgstr "Taikyti pakeitimus"
 
 #: ../resources/manager_window.ui
 msgid "Cancel all planned changes"
-msgstr ""
+msgstr "Atšaukti visus suplanuotus pakeitimus"
 
 #: ../resources/manager_window.ui
 msgid "Search in AUR"
-msgstr ""
+msgstr "Ieškoti AUR saugykloje"
 
 #: ../resources/manager_window.ui
 msgid "Search"
-msgstr ""
+msgstr "Paieška"
 
 #: ../resources/manager_window.ui ../src/manager_window.vala
 msgid "Groups"
-msgstr ""
+msgstr "Grupės"
 
 #: ../resources/manager_window.ui
 msgid "State"
-msgstr ""
+msgstr "Būsena"
 
 #: ../resources/manager_window.ui
 msgid "Repositories"
-msgstr ""
+msgstr "Saugyklos"
 
 #: ../resources/manager_window.ui
 msgid "Name"
-msgstr ""
+msgstr "Pavadinimas"
 
 #: ../resources/manager_window.ui
 msgid "Version"
-msgstr ""
+msgstr "Versija"
 
 #: ../resources/manager_window.ui ../src/manager_window.vala
 msgid "Repository"
-msgstr ""
+msgstr "Saugykla"
 
 #: ../resources/manager_window.ui
 msgid "Size"
-msgstr ""
+msgstr "Dydis"
 
 #: ../resources/manager_window.ui
 msgid "Description"
-msgstr ""
+msgstr "Aprašas"
 
 #: ../resources/manager_window.ui
 msgid "Dependencies"
-msgstr ""
+msgstr "Priklausomybės"
 
 #: ../resources/manager_window.ui
 msgid "Files"
-msgstr ""
+msgstr "Failai"
 
 #: ../resources/updater_window.ui ../src/tray.vala
 msgid "Update Manager"
-msgstr ""
+msgstr "Atnaujinimų Tvarkytuvė"
 
 #: ../resources/updater_window.ui
 msgid "_Refresh"
-msgstr ""
+msgstr "A_tnaujinti"
 
 #: ../resources/updater_window.ui
 msgid "_Apply"
-msgstr ""
+msgstr "_Taikyti"
 
 #: ../resources/preferences_dialog.ui
 msgid "Preferences"
-msgstr ""
+msgstr "Nuostatos"
 
 #: ../resources/preferences_dialog.ui
 msgid "Allow Pamac to search and install packages from AUR"
-msgstr ""
+msgstr "Leisti Pamac ieškoti ir diegti paketus iš AUR"
 
 #: ../resources/preferences_dialog.ui
 msgid ""
 "When removing a package, also remove its dependencies that are not required "
 "by other packages"
-msgstr ""
+msgstr "Šalinant paketą, tuo pačiu šalinti ir jo priklausomybes, kurios nėra reikalaujamos kitų paketų"
 
 #: ../resources/preferences_dialog.ui
 msgid "Check available disk space"
-msgstr ""
+msgstr "Tikrinti prieinamą vietą diske"
 
 #: ../resources/preferences_dialog.ui ../src/preferences_dialog.vala
 msgid "How often to check for updates, value in hours"
-msgstr ""
+msgstr "Kaip dažnai tikrinti ar yra atnaujinimai, reikšmė valandomis"
 
 #: ../resources/preferences_dialog.ui
 msgid "Remove unrequired dependencies"
-msgstr ""
+msgstr "Šalinti nereikalingas priklausomybes"
 
 #: ../resources/preferences_dialog.ui
 msgid "Upgrade first:"
-msgstr ""
+msgstr "Pirmiausiai atnaujinti:"
 
 #: ../resources/preferences_dialog.ui
 msgid "Ignore upgrades for:"
@@ -187,72 +188,72 @@ msgstr ""
 
 #: ../resources/preferences_dialog.ui
 msgid "Enable AUR support"
-msgstr ""
+msgstr "Įjungti AUR palaikymą"
 
 #: ../resources/preferences_dialog.ui
 msgid "Options"
-msgstr ""
+msgstr "Parinktys"
 
 #: ../resources/preferences_dialog.ui
 msgid "Sort mirrors by:"
-msgstr ""
+msgstr "Rikiuoti veidrodžius pagal:"
 
 #: ../resources/preferences_dialog.ui
 msgid "Use mirrors from:"
-msgstr ""
+msgstr "Naudoti veidrodžius iš:"
 
 #: ../resources/preferences_dialog.ui
 msgid "Official repositories"
-msgstr ""
+msgstr "Oficialios saugyklos"
 
 #: ../src/packages_chooser_dialog.vala
 msgid "Alpm Package"
-msgstr ""
+msgstr "Alpm Paketas"
 
 #: ../src/daemon.vala
 msgid "Failed to initialize alpm library"
-msgstr ""
+msgstr "Nepavyko inicijuoti alpm bibliotekos"
 
 #: ../src/daemon.vala
 msgid "Failed to synchronize any databases"
-msgstr ""
+msgstr "Nepavyko sinchronizuoti jokių duomenų bazių"
 
 #: ../src/daemon.vala
 msgid "Failed to init transaction"
-msgstr ""
+msgstr "Nepavyko inicijuoti operacijos"
 
 #: ../src/daemon.vala
 msgid "Failed to prepare transaction"
-msgstr ""
+msgstr "Nepavyko paruošti operacijos"
 
 #: ../src/daemon.vala
 #, c-format
 msgid "target not found: %s"
-msgstr ""
+msgstr "objektas nerastas: %s"
 
 #: ../src/daemon.vala
 #, c-format
 msgid "package %s does not have a valid architecture"
-msgstr ""
+msgstr "paketas %s neturi teisingos architektūros"
 
 #: ../src/daemon.vala
 #, c-format
 msgid "%s: requires %s"
-msgstr ""
+msgstr "%s: reikalauja %s"
 
 #: ../src/daemon.vala
 #, c-format
 msgid "%s and %s are in conflict"
-msgstr ""
+msgstr "%s ir %s tarpusavyje konfliktuoja"
 
 #: ../src/daemon.vala
 #, c-format
 msgid "%s needs to be removed but it is a locked package"
-msgstr ""
+msgstr "%s turi būti pašalintas, tačiau tai yra užrakintas paketas"
 
 #: ../src/daemon.vala
 msgid "Failed to commit transaction"
-msgstr ""
+msgstr "Nepavyko atlikti operacijos"
 
 #: ../src/daemon.vala
 #, c-format
@@ -262,65 +263,65 @@ msgstr ""
 #: ../src/daemon.vala
 #, c-format
 msgid "%s: %s already exists in filesystem"
-msgstr ""
+msgstr "%s: %s jau yra failų sistemoje"
 
 #: ../src/daemon.vala
 #, c-format
 msgid "%s is invalid or corrupted"
-msgstr ""
+msgstr "%s yra neteisingas arba pažeistas"
 
 #: ../src/daemon.vala
 msgid "Authentication failed"
-msgstr ""
+msgstr "Nepavyko nustatyti tapatybę"
 
 #: ../src/transaction.vala
 msgid "Synchronizing package databases"
-msgstr ""
+msgstr "Sinchronizuojamos paketų duomenų bazės"
 
 #: ../src/transaction.vala
 msgid "Starting full system upgrade"
-msgstr ""
+msgstr "Pradedamas pilnas sistemos atnaujinimas"
 
 #: ../src/transaction.vala
 msgid "Preparing"
-msgstr ""
+msgstr "Ruošiama"
 
 #: ../src/transaction.vala
 #, c-format
 msgid "Choose a provider for %s"
-msgstr ""
+msgstr "Pasirinkite tiekėją paketui %s"
 
 #: ../src/transaction.vala ../src/manager_window.vala
 msgid "To remove"
-msgstr ""
+msgstr "Planuojami pašalinti"
 
 #: ../src/transaction.vala
 msgid "To downgrade"
-msgstr ""
+msgstr "Sendinti"
 
 #: ../src/transaction.vala
 msgid "To build"
-msgstr ""
+msgstr "Kompiliuoti"
 
 #: ../src/transaction.vala ../src/manager_window.vala
 msgid "To install"
-msgstr ""
+msgstr "Planuojami įdiegti"
 
 #: ../src/transaction.vala
 msgid "To reinstall"
-msgstr ""
+msgstr "Įdiegti iš naujo"
 
 #: ../src/transaction.vala
 msgid "To update"
-msgstr ""
+msgstr "Atnaujinti"
 
 #: ../src/transaction.vala ../src/updater_window.vala
 msgid "Total download size"
-msgstr ""
+msgstr "Visų atsiuntimų dydis"
 
 #: ../src/transaction.vala
 msgid "Building packages"
-msgstr ""
+msgstr "Kompiliuojami paketai"
 
 #: ../src/transaction.vala
 msgid "Worldwide"
@@ -328,7 +329,7 @@ msgstr ""
 
 #: ../src/transaction.vala
 msgid "speed"
-msgstr ""
+msgstr "greitis"
 
 #: ../src/transaction.vala
 msgid "random"
@@ -336,15 +337,15 @@ msgstr ""
 
 #: ../src/transaction.vala
 msgid "Checking dependencies"
-msgstr ""
+msgstr "Tikrinamos priklausomybės"
 
 #: ../src/transaction.vala
 msgid "Checking file conflicts"
-msgstr ""
+msgstr "Tikrinami failų konfliktai"
 
 #: ../src/transaction.vala
 msgid "Resolving dependencies"
-msgstr ""
+msgstr "Nustatomos priklausomybės"
 
 #: ../src/transaction.vala
 msgid "Checking inter-conflicts"
@@ -353,82 +354,82 @@ msgstr ""
 #: ../src/transaction.vala
 #, c-format
 msgid "Installing %s"
-msgstr ""
+msgstr "Diegiama %s"
 
 #: ../src/transaction.vala
 #, c-format
 msgid "Reinstalling %s"
-msgstr ""
+msgstr "Diegiama iš naujo %s"
 
 #: ../src/transaction.vala
 #, c-format
 msgid "Removing %s"
-msgstr ""
+msgstr "Šalinama %s"
 
 #: ../src/transaction.vala
 #, c-format
 msgid "Upgrading %s"
-msgstr ""
+msgstr "Atnaujinama %s"
 
 #: ../src/transaction.vala
 #, c-format
 msgid "Downgrading %s"
-msgstr ""
+msgstr "Sendinama %s"
 
 #: ../src/transaction.vala
 msgid "Checking integrity"
-msgstr ""
+msgstr "Tikrinamas vientisumas"
 
 #: ../src/transaction.vala
 msgid "Checking keyring"
-msgstr ""
+msgstr "Tikrinama raktinė"
 
 #: ../src/transaction.vala
 msgid "Downloading required keys"
-msgstr ""
+msgstr "Atsiunčiami reikiami raiktai"
 
 #: ../src/transaction.vala
 msgid "Loading packages files"
-msgstr ""
+msgstr "Įkeliami paketų failai"
 
 #: ../src/transaction.vala
 msgid "Checking delta integrity"
-msgstr ""
+msgstr "Tikrinamas delta vientisumas"
 
 #: ../src/transaction.vala
 msgid "Applying deltas"
-msgstr ""
+msgstr "Pritaikomos deltos"
 
 #: ../src/transaction.vala
 #, c-format
 msgid "Generating %s with %s"
-msgstr ""
+msgstr "Kuriama %s su %s"
 
 #: ../src/transaction.vala
 msgid "Generation succeeded"
-msgstr ""
+msgstr "Kūrimas sėkmingas"
 
 #: ../src/transaction.vala
 msgid "Generation failed"
-msgstr ""
+msgstr "Kūrimas nepavyko"
 
 #: ../src/transaction.vala
 #, c-format
 msgid "Configuring %s"
-msgstr ""
+msgstr "Konfigūruojama %s"
 
 #: ../src/transaction.vala
 msgid "Downloading"
-msgstr ""
+msgstr "Atsiunčiama"
 
 #: ../src/transaction.vala
 msgid "Checking available disk space"
-msgstr ""
+msgstr "Tikrinama prieinama vieta diske"
 
 #: ../src/transaction.vala
 #, c-format
 msgid "%s optionally requires %s"
-msgstr ""
+msgstr "%s pasirinktinai reikalauja %s"
 
 #: ../src/transaction.vala
 #, c-format
@@ -438,56 +439,56 @@ msgstr ""
 #: ../src/transaction.vala
 #, c-format
 msgid "%s installed as %s.pacnew"
-msgstr ""
+msgstr "%s įdiegta kaip %s.pacnew"
 
 #: ../src/transaction.vala
 #, c-format
 msgid "%s installed as %s.pacsave"
-msgstr ""
+msgstr "%s įdiegta kaip %s.pacsave"
 
 #: ../src/transaction.vala
 #, c-format
 msgid "%s installed as %s.pacorig"
-msgstr ""
+msgstr "%s įdiegta kaip %s.pacorig"
 
 #: ../src/transaction.vala
 #, c-format
 msgid "Refreshing %s"
-msgstr ""
+msgstr "Įkeliama iš naujo %s"
 
 #: ../src/transaction.vala
 #, c-format
 msgid "Downloading %s"
-msgstr ""
+msgstr "Atsiunčiama %s"
 
 #: ../src/transaction.vala
 msgid "Warning"
-msgstr ""
+msgstr "Įspėjimas"
 
 #: ../src/transaction.vala ../src/installer.vala ../src/manager.vala
 #: ../src/updater.vala
 msgid "Error"
-msgstr ""
+msgstr "Klaida"
 
 #: ../src/transaction.vala ../src/progress_dialog.vala
 msgid "Transaction cancelled"
-msgstr ""
+msgstr "Operacija atšaukta"
 
 #: ../src/transaction.vala
 msgid "Nothing to do"
-msgstr ""
+msgstr "Nėra ką atlikti"
 
 #: ../src/transaction.vala
 msgid "Transaction successfully finished"
-msgstr ""
+msgstr "Operacija sėkmingai užbaigta"
 
 #: ../src/transaction.vala
 msgid "Generating mirrorlist"
-msgstr ""
+msgstr "Kuriamas veidrodžių sąrašas"
 
 #: ../src/installer.vala ../src/manager.vala ../src/updater.vala
 msgid "Pamac is already running"
-msgstr ""
+msgstr "Pamac jau yra vykdomas"
 
 #: ../src/tray.vala ../src/updater_window.vala
 msgid "Your system is up-to-date"
@@ -495,39 +496,39 @@ msgstr ""
 
 #: ../src/tray.vala
 msgid "_Quit"
-msgstr ""
+msgstr "_Baigti"
 
 #: ../src/tray.vala ../src/updater_window.vala
 #, c-format
 msgid "%u available update"
 msgid_plural "%u available updates"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "%u prieinamas atnaujinimas"
+msgstr[1] "%u prieinami atnaujinimai"
+msgstr[2] "%u prieinamų atnaujinimų"
 
 #: ../src/tray.vala
 msgid "Show available updates"
-msgstr ""
+msgstr "Rodyti prieinamus atnaujinimus"
 
 #: ../src/manager_window.vala
 msgid "Deselect"
-msgstr ""
+msgstr "Nuimti žymėjimą"
 
 #: ../src/manager_window.vala
 msgid "Install"
-msgstr ""
+msgstr "Įdiegti"
 
 #: ../src/manager_window.vala
 msgid "Remove"
-msgstr ""
+msgstr "Šalinti"
 
 #: ../src/manager_window.vala
 msgid "Reinstall"
-msgstr ""
+msgstr "Įdiegti iš naujo"
 
 #: ../src/manager_window.vala
 msgid "Install optional dependencies"
-msgstr ""
+msgstr "Įdiegti pasirinktinas priklausomybes"
 
 #: ../src/manager_window.vala
 msgid "Mark as explicitly installed"
@@ -535,51 +536,51 @@ msgstr ""
 
 #: ../src/manager_window.vala
 msgid "local"
-msgstr ""
+msgstr "vietinė"
 
 #: ../src/manager_window.vala
 msgid "Installed"
-msgstr ""
+msgstr "Yra įdiegti"
 
 #: ../src/manager_window.vala
 msgid "Orphans"
-msgstr ""
+msgstr "Yra pamesti"
 
 #: ../src/manager_window.vala
 msgid "Licenses"
-msgstr ""
+msgstr "Licencijos"
 
 #: ../src/manager_window.vala
 msgid "Depends On"
-msgstr ""
+msgstr "Priklauso Nuo"
 
 #: ../src/manager_window.vala
 msgid "Optional Dependencies"
-msgstr ""
+msgstr "Pasirinktinės Priklausomybės"
 
 #: ../src/manager_window.vala
 msgid "Required By"
-msgstr ""
+msgstr "Reikalauja"
 
 #: ../src/manager_window.vala
 msgid "Provides"
-msgstr ""
+msgstr "Tiekia"
 
 #: ../src/manager_window.vala
 msgid "Replaces"
-msgstr ""
+msgstr "Pakeičia"
 
 #: ../src/manager_window.vala
 msgid "Conflicts With"
-msgstr ""
+msgstr "Konfliktuoja Su"
 
 #: ../src/manager_window.vala
 msgid "Packager"
-msgstr ""
+msgstr "Pakuotojas"
 
 #: ../src/manager_window.vala
 msgid "Install Date"
-msgstr ""
+msgstr "Įdiegimo Data"
 
 #: ../src/manager_window.vala
 msgid "Explicitly installed"
@@ -587,27 +588,27 @@ msgstr ""
 
 #: ../src/manager_window.vala
 msgid "Installed as a dependency for another package"
-msgstr ""
+msgstr "Įdiegta kaip priklausomybė kitam paketui"
 
 #: ../src/manager_window.vala
 msgid "Unknown"
-msgstr ""
+msgstr "Nežinoma"
 
 #: ../src/manager_window.vala
 msgid "Install Reason"
-msgstr ""
+msgstr "Įdiegimo Priežastis"
 
 #: ../src/manager_window.vala
 msgid "Signatures"
-msgstr ""
+msgstr "Parašai"
 
 #: ../src/manager_window.vala
 msgid "Backup files"
-msgstr ""
+msgstr "Atsarginės kopijos failai"
 
 #: ../src/manager_window.vala
 msgid "No package found"
-msgstr ""
+msgstr "Paketas nerastas"
 
 #: ../src/manager_window.vala
 #, c-format
@@ -617,9 +618,9 @@ msgid ""
 msgid_plural ""
 "%s has %u uninstalled optional dependencies.\n"
 "Choose those you would like to install:"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "%s turi %u neįdiegtą pasirinktinę priklausomybę.\nPasirinkite ar jūs norėtumėte ją įdiegti:"
+msgstr[1] "%s turi %u neįdiegtas pasirinktines priklausomybes.\nPasirinkite tas, kurias norėtumėte įdiegti:"
+msgstr[2] "%s turi %u neįdiegtų pasirinktinų priklausomybių.\nPasirinkite tas, kurias norėtumėte įdiegti:"
 
 #: ../src/manager_window.vala
 msgid "Uninstalled"
@@ -627,14 +628,14 @@ msgstr ""
 
 #: ../src/manager_window.vala
 msgid "A Gtk3 frontend for libalpm"
-msgstr ""
+msgstr "Gtk3 naudotojo sąsaja libalpm bibliotekai"
 
 #: ../src/common.vala
 #, c-format
 msgid "%.0f KiB"
-msgstr ""
+msgstr "%.0f KiB"
 
 #: ../src/common.vala
 #, c-format
 msgid "%.2f MiB"
-msgstr ""
+msgstr "%.2f MiB"
