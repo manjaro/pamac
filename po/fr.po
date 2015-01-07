@@ -8,7 +8,7 @@
 # DasFranck <franck97comics@gmail.com>, 2013
 # Guillaume Benoit <guillaume@manjaro.org>, 2013-2014
 # philm <philm@manjaro.org>, 2013
-# philm <philm@manjaro.org>, 2013
+# philm <philm@manjaro.org>, 2013,2015
 # Tun_In_A_Cellar <tun.in.a.cellar@gmail.com>, 2014
 # Tun_In_A_Cellar <tun.in.a.cellar@gmail.com>, 2014
 msgid ""
@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2015-01-04 09:41+0100\n"
-"PO-Revision-Date: 2015-01-04 08:22+0000\n"
+"PO-Revision-Date: 2015-01-07 17:17+0000\n"
 "Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: French (http://www.transifex.com/projects/p/manjaro-pamac/language/fr/)\n"
 "MIME-Version: 1.0\n"

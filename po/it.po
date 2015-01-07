@@ -6,14 +6,16 @@
 # Translators:
 # Bernardo Miguel Savone <bmsavone@gmail.com>, 2013-2014
 # Guillaume Benoit <guillaume@manjaro.org>, 2013
+# Massimo, 2015
 # Italwizzie, 2014
 # Paolo Dongilli <paolo.dongilli@gmail.com>, 2013
+# philm <philm@manjaro.org>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2015-01-04 09:41+0100\n"
-"PO-Revision-Date: 2015-01-04 08:22+0000\n"
+"PO-Revision-Date: 2015-01-07 17:28+0000\n"
 "Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Italian (http://www.transifex.com/projects/p/manjaro-pamac/language/it/)\n"
 "MIME-Version: 1.0\n"
@@ -175,7 +177,7 @@ msgstr "Quando si rimuove un pacchetto, rimuovere anche le dipendenze che non so
 
 #: ../resources/preferences_dialog.ui
 msgid "Check available disk space"
-msgstr ""
+msgstr "Controllo spazio disponibile su disco"
 
 #: ../resources/preferences_dialog.ui ../src/preferences_dialog.vala
 msgid "How often to check for updates, value in hours"
@@ -260,7 +262,7 @@ msgstr "%s deve essere rimosso ma è un pacchetto bloccato"
 
 #: ../src/daemon.vala
 msgid "Failed to commit transaction"
-msgstr ""
+msgstr "Inizializzazione del trasferimento non riuscita."
 
 #: ../src/daemon.vala
 #, c-format

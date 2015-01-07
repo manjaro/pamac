@@ -8,17 +8,19 @@
 # Guillaume Benoit <guillaume@manjaro.org>, 2013
 # Guillaume Benoit <guillaume@manjaro.org>, 2013
 # Hasan Al Banna, 2014
-# Hasan Al Banna, 2014
+# Hasan Al Banna, 2014-2015
 # Mohamad Hasan Al Banna, 2014
 # Hasan Al Banna, 2013-2014
 # Rizki Aulia Rachman <rizkiaulia.r@gmail.com>, 2013
+# philm <philm@manjaro.org>, 2015
 # Rizki Aulia Rachman <rizkiaulia.r@gmail.com>, 2013
+# Zero <rendi.7936@gmail.com>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2015-01-04 09:41+0100\n"
-"PO-Revision-Date: 2015-01-04 08:22+0000\n"
+"PO-Revision-Date: 2015-01-07 17:38+0000\n"
 "Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Indonesian (http://www.transifex.com/projects/p/manjaro-pamac/language/id/)\n"
 "MIME-Version: 1.0\n"
@@ -27,7 +29,7 @@ msgstr ""
 "Language: id\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: data/polkit/org.manjaro.pamac.policy:10
+#: data/polkit/org.manjaro.pamac.policy
 msgid "Authentication is required"
 msgstr "Otentifikasi dibutuhkan"
 
@@ -180,7 +182,7 @@ msgstr "Ketika menghapus paket, hapus juga dependensi paket tersebut yang tidak 
 
 #: ../resources/preferences_dialog.ui
 msgid "Check available disk space"
-msgstr ""
+msgstr "Periksa ketersediaan ruang disak"
 
 #: ../resources/preferences_dialog.ui ../src/preferences_dialog.vala
 msgid "How often to check for updates, value in hours"
@@ -192,11 +194,11 @@ msgstr "Hapus dependensi yang tidak dibutuhkan"
 
 #: ../resources/preferences_dialog.ui
 msgid "Upgrade first:"
-msgstr ""
+msgstr "Meningkatkan dahulu:"
 
 #: ../resources/preferences_dialog.ui
 msgid "Ignore upgrades for:"
-msgstr ""
+msgstr "Jangan tingkatkan untuk:"
 
 #: ../resources/preferences_dialog.ui
 msgid "Enable AUR support"
@@ -208,15 +210,15 @@ msgstr "Opsi"
 
 #: ../resources/preferences_dialog.ui
 msgid "Sort mirrors by:"
-msgstr ""
+msgstr "Sorting cermin dengan:"
 
 #: ../resources/preferences_dialog.ui
 msgid "Use mirrors from:"
-msgstr ""
+msgstr "Gunakan cermin dari:"
 
 #: ../resources/preferences_dialog.ui
 msgid "Official repositories"
-msgstr ""
+msgstr "Repositori resmi"
 
 #: ../src/packages_chooser_dialog.vala
 msgid "Alpm Package"
@@ -337,15 +339,15 @@ msgstr "Membuat paket"
 
 #: ../src/transaction.vala
 msgid "Worldwide"
-msgstr ""
+msgstr "Seluruh dunia"
 
 #: ../src/transaction.vala
 msgid "speed"
-msgstr ""
+msgstr "kecepatan"
 
 #: ../src/transaction.vala
 msgid "random"
-msgstr ""
+msgstr "acak"
 
 #: ../src/transaction.vala
 msgid "Checking dependencies"
@@ -451,17 +453,17 @@ msgstr "Berkas database untuk %s tidak ada"
 #: ../src/transaction.vala
 #, c-format
 msgid "%s installed as %s.pacnew"
-msgstr ""
+msgstr "%s terpasang sebagai %s.pacnew"
 
 #: ../src/transaction.vala
 #, c-format
 msgid "%s installed as %s.pacsave"
-msgstr ""
+msgstr "%s terpasang sebagai %s.pacsave"
 
 #: ../src/transaction.vala
 #, c-format
 msgid "%s installed as %s.pacorig"
-msgstr ""
+msgstr "%s terpasang sebagai %s.pacorig"
 
 #: ../src/transaction.vala
 #, c-format
@@ -496,7 +498,7 @@ msgstr "Transaksi sukses terselesaikan"
 
 #: ../src/transaction.vala
 msgid "Generating mirrorlist"
-msgstr ""
+msgstr "Mendapatkan daftar cermin"
 
 #: ../src/installer.vala ../src/manager.vala ../src/updater.vala
 msgid "Pamac is already running"

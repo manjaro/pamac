@@ -4,8 +4,9 @@
 # Guillaume Benoit <guillaume@manjaro.org>, 2013-2015.
 # 
 # Translators:
-# Demiray Muhterem <mdemiray@msn.com>, 2013-2014
+# Demiray Muhterem <mdemiray@msn.com>, 2013-2015
 # Guillaume Benoit <guillaume@manjaro.org>, 2013
+# philm <philm@manjaro.org>, 2015
 # Yusuf Faruk DOĞAN <yfdogan@gmail.com>, 2013
 # Yusuf Faruk DOĞAN <yfdogan@gmail.com>, 2013
 msgid ""
@@ -13,7 +14,7 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2015-01-04 09:41+0100\n"
-"PO-Revision-Date: 2015-01-04 08:22+0000\n"
+"PO-Revision-Date: 2015-01-07 17:18+0000\n"
 "Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/manjaro-pamac/language/tr/)\n"
 "MIME-Version: 1.0\n"
@@ -24,7 +25,7 @@ msgstr ""
 
 #: data/polkit/org.manjaro.pamac.policy
 msgid "Authentication is required"
-msgstr "Kimlik doğrulama gerekli"
+msgstr "Yetki doğrulaması gerekiyor"
 
 #: ../resources/choose_provider_dialog.ui
 msgid "Choose a Provider"
@@ -175,7 +176,7 @@ msgstr "Bir paket kaldırılırken, başka bir uygulama aynı bağımlılıklar�
 
 #: ../resources/preferences_dialog.ui
 msgid "Check available disk space"
-msgstr ""
+msgstr "Kullanılabilir disk alanını kontrol et"
 
 #: ../resources/preferences_dialog.ui ../src/preferences_dialog.vala
 msgid "How often to check for updates, value in hours"
@@ -187,11 +188,11 @@ msgstr "Gereksiz bağımlılıkları kaldır"
 
 #: ../resources/preferences_dialog.ui
 msgid "Upgrade first:"
-msgstr ""
+msgstr "İlk yükseltme:"
 
 #: ../resources/preferences_dialog.ui
 msgid "Ignore upgrades for:"
-msgstr ""
+msgstr "Şunun yükseltmesi gözardı edildi:"
 
 #: ../resources/preferences_dialog.ui
 msgid "Enable AUR support"
@@ -203,15 +204,15 @@ msgstr "Seçenekler"
 
 #: ../resources/preferences_dialog.ui
 msgid "Sort mirrors by:"
-msgstr ""
+msgstr "Yansıları sırala:"
 
 #: ../resources/preferences_dialog.ui
 msgid "Use mirrors from:"
-msgstr ""
+msgstr "Yansıyı kullan:"
 
 #: ../resources/preferences_dialog.ui
 msgid "Official repositories"
-msgstr ""
+msgstr "Resmi depolar"
 
 #: ../src/packages_chooser_dialog.vala
 msgid "Alpm Package"
@@ -332,15 +333,15 @@ msgstr "Paketler inşa ediliyor"
 
 #: ../src/transaction.vala
 msgid "Worldwide"
-msgstr ""
+msgstr "Küresel"
 
 #: ../src/transaction.vala
 msgid "speed"
-msgstr ""
+msgstr "hızına göre"
 
 #: ../src/transaction.vala
 msgid "random"
-msgstr ""
+msgstr "rastgele"
 
 #: ../src/transaction.vala
 msgid "Checking dependencies"
@@ -446,17 +447,17 @@ msgstr "%s veritabanı dosyası yok"
 #: ../src/transaction.vala
 #, c-format
 msgid "%s installed as %s.pacnew"
-msgstr ""
+msgstr "%s yüklendi %s.pacnew olarak değiştirildi"
 
 #: ../src/transaction.vala
 #, c-format
 msgid "%s installed as %s.pacsave"
-msgstr ""
+msgstr "%s yüklendi %s.pacsave olarak değiştirildi"
 
 #: ../src/transaction.vala
 #, c-format
 msgid "%s installed as %s.pacorig"
-msgstr ""
+msgstr "%s yüklendi %s.pacorig olarak değiştirildi"
 
 #: ../src/transaction.vala
 #, c-format
@@ -491,7 +492,7 @@ msgstr "Işlem Başarılı"
 
 #: ../src/transaction.vala
 msgid "Generating mirrorlist"
-msgstr ""
+msgstr "Yansı listesi oluşturuluyor"
 
 #: ../src/installer.vala ../src/manager.vala ../src/updater.vala
 msgid "Pamac is already running"

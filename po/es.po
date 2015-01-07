@@ -4,16 +4,17 @@
 # Guillaume Benoit <guillaume@manjaro.org>, 2013-2015.
 # 
 # Translators:
-# danpergal84 <danpergal84@gmail.com>, 2013-2014
+# danpergal84 <danpergal84@gmail.com>, 2013-2015
 # Guillaume Benoit <guillaume@manjaro.org>, 2013
 # Guillaume Benoit <guillaume@manjaro.org>, 2013
 # Leandro Juan <freudian_order@yahoo.es>, 2014
+# philm <philm@manjaro.org>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2015-01-04 09:41+0100\n"
-"PO-Revision-Date: 2015-01-04 08:22+0000\n"
+"PO-Revision-Date: 2015-01-07 17:18+0000\n"
 "Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/manjaro-pamac/language/es/)\n"
 "MIME-Version: 1.0\n"
@@ -175,7 +176,7 @@ msgstr "Al eliminar un paquete,  eliminar también las dependencias que no son r
 
 #: ../resources/preferences_dialog.ui
 msgid "Check available disk space"
-msgstr ""
+msgstr "Comprobando espacio disponible en el disco"
 
 #: ../resources/preferences_dialog.ui ../src/preferences_dialog.vala
 msgid "How often to check for updates, value in hours"
@@ -187,11 +188,11 @@ msgstr "Eliminar dependencias innecesarias "
 
 #: ../resources/preferences_dialog.ui
 msgid "Upgrade first:"
-msgstr ""
+msgstr "Actualizar primero:"
 
 #: ../resources/preferences_dialog.ui
 msgid "Ignore upgrades for:"
-msgstr ""
+msgstr "Ignorar actualizaciones para:"
 
 #: ../resources/preferences_dialog.ui
 msgid "Enable AUR support"
@@ -203,15 +204,15 @@ msgstr "Opciones"
 
 #: ../resources/preferences_dialog.ui
 msgid "Sort mirrors by:"
-msgstr ""
+msgstr "Ordenar mirrors por:"
 
 #: ../resources/preferences_dialog.ui
 msgid "Use mirrors from:"
-msgstr ""
+msgstr "Usar mirrors de:"
 
 #: ../resources/preferences_dialog.ui
 msgid "Official repositories"
-msgstr ""
+msgstr "Repositorios oficiales"
 
 #: ../src/packages_chooser_dialog.vala
 msgid "Alpm Package"
@@ -332,15 +333,15 @@ msgstr "Construyendo paquetes"
 
 #: ../src/transaction.vala
 msgid "Worldwide"
-msgstr ""
+msgstr "Mundial"
 
 #: ../src/transaction.vala
 msgid "speed"
-msgstr ""
+msgstr "velocidad"
 
 #: ../src/transaction.vala
 msgid "random"
-msgstr ""
+msgstr "aleatorio"
 
 #: ../src/transaction.vala
 msgid "Checking dependencies"
@@ -446,17 +447,17 @@ msgstr "No existe entrada para %s en la base de datos"
 #: ../src/transaction.vala
 #, c-format
 msgid "%s installed as %s.pacnew"
-msgstr ""
+msgstr "%s instalado como %s.pacnew"
 
 #: ../src/transaction.vala
 #, c-format
 msgid "%s installed as %s.pacsave"
-msgstr ""
+msgstr "%s instalado como %s.pacsave"
 
 #: ../src/transaction.vala
 #, c-format
 msgid "%s installed as %s.pacorig"
-msgstr ""
+msgstr "%s instalado como %s.pacorig"
 
 #: ../src/transaction.vala
 #, c-format
@@ -491,7 +492,7 @@ msgstr "Operación finalizada con éxito"
 
 #: ../src/transaction.vala
 msgid "Generating mirrorlist"
-msgstr ""
+msgstr "Generando mirrorlist"
 
 #: ../src/installer.vala ../src/manager.vala ../src/updater.vala
 msgid "Pamac is already running"

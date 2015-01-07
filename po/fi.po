@@ -6,6 +6,7 @@
 # Translators:
 # Luki <jbkammer@gmail.com>, 2013
 # Luki <jbkammer@gmail.com>, 2013
+# philm <philm@manjaro.org>, 2015
 # Sami Korkalainen, 2013-2014
 # Sami Korkalainen, 2014
 # SamiPerkele, 2013-2014
@@ -15,7 +16,7 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2015-01-04 09:41+0100\n"
-"PO-Revision-Date: 2015-01-04 08:22+0000\n"
+"PO-Revision-Date: 2015-01-07 17:24+0000\n"
 "Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Finnish (http://www.transifex.com/projects/p/manjaro-pamac/language/fi/)\n"
 "MIME-Version: 1.0\n"

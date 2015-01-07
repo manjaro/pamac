@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2015-01-04 09:41+0100\n"
-"PO-Revision-Date: 2015-01-04 18:57+0000\n"
+"PO-Revision-Date: 2015-01-06 12:56+0000\n"
 "Last-Translator: Moo\n"
 "Language-Team: Lithuanian (http://www.transifex.com/projects/p/manjaro-pamac/language/lt/)\n"
 "MIME-Version: 1.0\n"
@@ -18,6 +18,10 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Language: lt\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+
+#: data/polkit/org.manjaro.pamac.policy
+msgid "Authentication is required"
+msgstr "Reikalingas tapatybės nustatymas"
 
 #: ../resources/choose_provider_dialog.ui
 msgid "Choose a Provider"
@@ -502,9 +506,9 @@ msgstr "_Baigti"
 #, c-format
 msgid "%u available update"
 msgid_plural "%u available updates"
-msgstr[0] "%u prieinamas atnaujinimas"
-msgstr[1] "%u prieinami atnaujinimai"
-msgstr[2] "%u prieinamų atnaujinimų"
+msgstr[0] "Yra %u prieinamas atnaujinimas"
+msgstr[1] "Yra %u prieinami atnaujinimai"
+msgstr[2] "Yra %u prieinamų atnaujinimų"
 
 #: ../src/tray.vala
 msgid "Show available updates"

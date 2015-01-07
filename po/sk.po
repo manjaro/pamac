@@ -5,16 +5,17 @@
 # 
 # Translators:
 # Dušan Kazik, 2014
-# Dušan Kazik <prescott66@gmail.com>, 2014
+# Dušan Kazik <prescott66@gmail.com>, 2014-2015
 # Inoki Sakaeru, 2013
 # Patrik Bubák, 2014
 # Patrik Bubák, 2014
+# philm <philm@manjaro.org>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2015-01-04 09:41+0100\n"
-"PO-Revision-Date: 2015-01-04 08:22+0000\n"
+"PO-Revision-Date: 2015-01-07 17:18+0000\n"
 "Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Slovak (http://www.transifex.com/projects/p/manjaro-pamac/language/sk/)\n"
 "MIME-Version: 1.0\n"
@@ -176,7 +177,7 @@ msgstr "Pri odstránení balíka tiež odstráni závislosti, ktoré nie sú pot
 
 #: ../resources/preferences_dialog.ui
 msgid "Check available disk space"
-msgstr ""
+msgstr "Skontrolovať dostupné miesto"
 
 #: ../resources/preferences_dialog.ui ../src/preferences_dialog.vala
 msgid "How often to check for updates, value in hours"
@@ -188,11 +189,11 @@ msgstr "Odstrániť nepožadované závislosti"
 
 #: ../resources/preferences_dialog.ui
 msgid "Upgrade first:"
-msgstr ""
+msgstr "Aktualizovať najskôr:"
 
 #: ../resources/preferences_dialog.ui
 msgid "Ignore upgrades for:"
-msgstr ""
+msgstr "Ignorovať aktualizácie pre:"
 
 #: ../resources/preferences_dialog.ui
 msgid "Enable AUR support"
@@ -204,15 +205,15 @@ msgstr "Voľby"
 
 #: ../resources/preferences_dialog.ui
 msgid "Sort mirrors by:"
-msgstr ""
+msgstr "Zoradiť zrkadlá podľa:"
 
 #: ../resources/preferences_dialog.ui
 msgid "Use mirrors from:"
-msgstr ""
+msgstr "Použiť zrkadlá z:"
 
 #: ../resources/preferences_dialog.ui
 msgid "Official repositories"
-msgstr ""
+msgstr "Oficiálne repozitáre"
 
 #: ../src/packages_chooser_dialog.vala
 msgid "Alpm Package"
@@ -333,15 +334,15 @@ msgstr "Zostavujú sa balíky"
 
 #: ../src/transaction.vala
 msgid "Worldwide"
-msgstr ""
+msgstr "Celého sveta"
 
 #: ../src/transaction.vala
 msgid "speed"
-msgstr ""
+msgstr "rýchlosti"
 
 #: ../src/transaction.vala
 msgid "random"
-msgstr ""
+msgstr "náhodne"
 
 #: ../src/transaction.vala
 msgid "Checking dependencies"
@@ -447,17 +448,17 @@ msgstr "Súbor databázy pre %s neexistuje"
 #: ../src/transaction.vala
 #, c-format
 msgid "%s installed as %s.pacnew"
-msgstr ""
+msgstr "%s bol nainštalovaný ako %s.pacnew"
 
 #: ../src/transaction.vala
 #, c-format
 msgid "%s installed as %s.pacsave"
-msgstr ""
+msgstr "%s bol nainštalovaný ako %s.pacsave"
 
 #: ../src/transaction.vala
 #, c-format
 msgid "%s installed as %s.pacorig"
-msgstr ""
+msgstr "%s bol nainštalovaný ako %s.pacorig"
 
 #: ../src/transaction.vala
 #, c-format
@@ -492,7 +493,7 @@ msgstr "Transakcia bola úspešná"
 
 #: ../src/transaction.vala
 msgid "Generating mirrorlist"
-msgstr ""
+msgstr "Generuje sa zoznam zrkadiel"
 
 #: ../src/installer.vala ../src/manager.vala ../src/updater.vala
 msgid "Pamac is already running"

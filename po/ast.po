@@ -6,14 +6,15 @@
 # Translators:
 # Ḷḷumex03 <tornes@opmbx.org>, 2013-2014
 # Ḷḷumex03 <tornes@opmbx.org>, 2014
-# Ḷḷumex03 <tornes@opmbx.org>, 2014
+# Ḷḷumex03 <tornes@opmbx.org>, 2014-2015
+# philm <philm@manjaro.org>, 2015
 # Tornes Llume <l.lumex03.tornes@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2015-01-04 09:41+0100\n"
-"PO-Revision-Date: 2015-01-04 08:22+0000\n"
+"PO-Revision-Date: 2015-01-07 17:32+0000\n"
 "Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Asturian (http://www.transifex.com/projects/p/manjaro-pamac/language/ast/)\n"
 "MIME-Version: 1.0\n"
@@ -175,7 +176,7 @@ msgstr "Al desaniciar un paquete tamién se desanicien les sos dependencies que 
 
 #: ../resources/preferences_dialog.ui
 msgid "Check available disk space"
-msgstr ""
+msgstr "Comprobar espaciu en discu disponible"
 
 #: ../resources/preferences_dialog.ui ../src/preferences_dialog.vala
 msgid "How often to check for updates, value in hours"
@@ -183,15 +184,15 @@ msgstr "¿Cuándo quies guetar anovamientos? Valor n'hores"
 
 #: ../resources/preferences_dialog.ui
 msgid "Remove unrequired dependencies"
-msgstr "Desaniciar dependencies non requeríes"
+msgstr "Desaniciar dependencies non riquíes"
 
 #: ../resources/preferences_dialog.ui
 msgid "Upgrade first:"
-msgstr ""
+msgstr "Anovar primero:"
 
 #: ../resources/preferences_dialog.ui
 msgid "Ignore upgrades for:"
-msgstr ""
+msgstr "Inorar anovamientos pa:"
 
 #: ../resources/preferences_dialog.ui
 msgid "Enable AUR support"
@@ -203,15 +204,15 @@ msgstr "Opciones"
 
 #: ../resources/preferences_dialog.ui
 msgid "Sort mirrors by:"
-msgstr ""
+msgstr "Ordenar espeyos per:"
 
 #: ../resources/preferences_dialog.ui
 msgid "Use mirrors from:"
-msgstr ""
+msgstr "Usar espeyos de:"
 
 #: ../resources/preferences_dialog.ui
 msgid "Official repositories"
-msgstr ""
+msgstr "Repositorios oficiales"
 
 #: ../src/packages_chooser_dialog.vala
 msgid "Alpm Package"
@@ -332,15 +333,15 @@ msgstr "Construyendo paquetes"
 
 #: ../src/transaction.vala
 msgid "Worldwide"
-msgstr ""
+msgstr "Mundiu"
 
 #: ../src/transaction.vala
 msgid "speed"
-msgstr ""
+msgstr "velocidá"
 
 #: ../src/transaction.vala
 msgid "random"
-msgstr ""
+msgstr "al debalu"
 
 #: ../src/transaction.vala
 msgid "Checking dependencies"
@@ -393,7 +394,7 @@ msgstr "Comprobando l'aniellu claves"
 
 #: ../src/transaction.vala
 msgid "Downloading required keys"
-msgstr "Baxando les claves requeríes"
+msgstr "Baxando les claves riquíes"
 
 #: ../src/transaction.vala
 msgid "Loading packages files"
@@ -446,17 +447,17 @@ msgstr "El ficheru de base de datos pa %s nun esiste"
 #: ../src/transaction.vala
 #, c-format
 msgid "%s installed as %s.pacnew"
-msgstr ""
+msgstr "%s instalóse como %s.pacnew"
 
 #: ../src/transaction.vala
 #, c-format
 msgid "%s installed as %s.pacsave"
-msgstr ""
+msgstr "%s instalóse como %s.pacsave"
 
 #: ../src/transaction.vala
 #, c-format
 msgid "%s installed as %s.pacorig"
-msgstr ""
+msgstr "%s instalóse como %s.pacoring"
 
 #: ../src/transaction.vala
 #, c-format
@@ -491,7 +492,7 @@ msgstr "Tresaición finada con ésitu"
 
 #: ../src/transaction.vala
 msgid "Generating mirrorlist"
-msgstr ""
+msgstr "Xenerando llista d'espeyos"
 
 #: ../src/installer.vala ../src/manager.vala ../src/updater.vala
 msgid "Pamac is already running"
@@ -566,7 +567,7 @@ msgstr "Dependencies opcionales"
 
 #: ../src/manager_window.vala
 msgid "Required By"
-msgstr "Requeríu por"
+msgstr "Riquíu por"
 
 #: ../src/manager_window.vala
 msgid "Provides"

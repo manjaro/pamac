@@ -6,6 +6,7 @@
 # Translators:
 # halfark <vojtechprecechtel@gmail.com>, 2014
 # Libor Schejbal <libor.schejbal@gmail.com>, 2013
+# philm <philm@manjaro.org>, 2015
 # Scibex <kroupa@wvw.cz>, 2013
 # halfark <vojtechprecechtel@gmail.com>, 2014
 msgid ""
@@ -13,7 +14,7 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2015-01-04 09:41+0100\n"
-"PO-Revision-Date: 2015-01-04 08:22+0000\n"
+"PO-Revision-Date: 2015-01-07 17:33+0000\n"
 "Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Czech (http://www.transifex.com/projects/p/manjaro-pamac/language/cs/)\n"
 "MIME-Version: 1.0\n"

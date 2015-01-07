@@ -10,7 +10,7 @@
 # Kristoffer Ulseth <ulseth85@gmail.com>, 2014
 # philm <philm@manjaro.org>, 2014
 # Morten Rene <arath.inc@gmail.com>, 2014
-# philm <philm@manjaro.org>, 2014
+# philm <philm@manjaro.org>, 2014-2015
 # Tom Eirik Flovik <tflovik@online.no>, 2013
 # Tom Eirik Flovik <tflovik@online.no>, 2013
 # Kristoffer Ulseth <ulseth85@gmail.com>, 2014
@@ -19,7 +19,7 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2015-01-04 09:41+0100\n"
-"PO-Revision-Date: 2015-01-04 08:22+0000\n"
+"PO-Revision-Date: 2015-01-07 17:38+0000\n"
 "Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Norwegian Bokmål (http://www.transifex.com/projects/p/manjaro-pamac/language/nb/)\n"
 "MIME-Version: 1.0\n"
