@@ -1030,12 +1030,10 @@ namespace Pamac {
 			if (error.str == "") {
 				show_warnings ();
 				TransactionType type = set_transaction_sum ();
-				if (type == TransactionType.UPDATE) {
+				if (type == TransactionType.UPDATE && mode == Mode.UPDATER) {
 					// there only updates
-					if (mode == Mode.UPDATER) {
-						//sysupgrade_after_build = false;
-						commit ();
-					}
+					//sysupgrade_after_build = false;
+					commit ();
 				} else if (type != 0) {
 					if (transaction_sum_dialog.run () == ResponseType.OK) {
 						transaction_sum_dialog.hide ();
