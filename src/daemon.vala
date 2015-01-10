@@ -579,7 +579,9 @@ namespace Pamac {
 		public void trans_cancel () {
 			alpm_config.handle.trans_interrupt ();
 			alpm_config.handle.trans_release ();
-			refresh_handle ();
+			// explicitly quit to avoid a crash
+			// this daemon should be auto-restarted
+			quit ();
 		}
 
 		[DBus (no_reply = true)]
