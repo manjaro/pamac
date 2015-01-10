@@ -5,14 +5,14 @@
 # 
 # Translators:
 # philm <philm@manjaro.org>, 2015
-# Takefumi Nagata, 2013-2014
+# Takefumi Nagata, 2013-2015
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2015-01-04 09:41+0100\n"
-"PO-Revision-Date: 2015-01-07 17:29+0000\n"
-"Last-Translator: philm <philm@manjaro.org>\n"
+"PO-Revision-Date: 2015-01-09 21:40+0000\n"
+"Last-Translator: Takefumi Nagata\n"
 "Language-Team: Japanese (http://www.transifex.com/projects/p/manjaro-pamac/language/ja/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -173,7 +173,7 @@ msgstr "パッケージを削除する際、他のパッケージでは必要と
 
 #: ../resources/preferences_dialog.ui
 msgid "Check available disk space"
-msgstr ""
+msgstr "利用可能なディスク容量を確認"
 
 #: ../resources/preferences_dialog.ui ../src/preferences_dialog.vala
 msgid "How often to check for updates, value in hours"
@@ -185,11 +185,11 @@ msgstr "必要ではない依存関係を削除"
 
 #: ../resources/preferences_dialog.ui
 msgid "Upgrade first:"
-msgstr ""
+msgstr "最初にアップグレード;"
 
 #: ../resources/preferences_dialog.ui
 msgid "Ignore upgrades for:"
-msgstr ""
+msgstr "アップグレードを無視:"
 
 #: ../resources/preferences_dialog.ui
 msgid "Enable AUR support"
@@ -201,15 +201,15 @@ msgstr "オプション"
 
 #: ../resources/preferences_dialog.ui
 msgid "Sort mirrors by:"
-msgstr ""
+msgstr "ミラーサーバーのソート;"
 
 #: ../resources/preferences_dialog.ui
 msgid "Use mirrors from:"
-msgstr ""
+msgstr "使用するミラーサーバー:"
 
 #: ../resources/preferences_dialog.ui
 msgid "Official repositories"
-msgstr ""
+msgstr "公式リポジトリ"
 
 #: ../src/packages_chooser_dialog.vala
 msgid "Alpm Package"
@@ -330,15 +330,15 @@ msgstr "パッケージのビルド中"
 
 #: ../src/transaction.vala
 msgid "Worldwide"
-msgstr ""
+msgstr "ワールドワイド"
 
 #: ../src/transaction.vala
 msgid "speed"
-msgstr ""
+msgstr "速度"
 
 #: ../src/transaction.vala
 msgid "random"
-msgstr ""
+msgstr "ランダム"
 
 #: ../src/transaction.vala
 msgid "Checking dependencies"
@@ -444,17 +444,17 @@ msgstr "%s のためのデーターベースファイルが存在しません"
 #: ../src/transaction.vala
 #, c-format
 msgid "%s installed as %s.pacnew"
-msgstr ""
+msgstr "%s は %s.pacnewとしてインストール"
 
 #: ../src/transaction.vala
 #, c-format
 msgid "%s installed as %s.pacsave"
-msgstr ""
+msgstr "%s は %s.pacsaveとしてインストール"
 
 #: ../src/transaction.vala
 #, c-format
 msgid "%s installed as %s.pacorig"
-msgstr ""
+msgstr "%s は %s.pacorigとしてインストール"
 
 #: ../src/transaction.vala
 #, c-format
@@ -489,7 +489,7 @@ msgstr "処理が正常に終了しました。"
 
 #: ../src/transaction.vala
 msgid "Generating mirrorlist"
-msgstr ""
+msgstr "ミラーリストの作成"
 
 #: ../src/installer.vala ../src/manager.vala ../src/updater.vala
 msgid "Pamac is already running"
@@ -547,7 +547,7 @@ msgstr "インストール済み"
 
 #: ../src/manager_window.vala
 msgid "Orphans"
-msgstr "Orphans"
+msgstr "孤児パッケージ"
 
 #: ../src/manager_window.vala
 msgid "Licenses"

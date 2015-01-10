@@ -4,7 +4,7 @@
 # Guillaume Benoit <guillaume@manjaro.org>, 2013-2015.
 # 
 # Translators:
-# Alexandru Ianu <alexandru.ianu@gmail.com>, 2013-2014
+# Alexandru Ianu <alexandru.ianu@gmail.com>, 2013-2015
 # Guillaume Benoit <guillaume@manjaro.org>, 2013
 # philm <philm@manjaro.org>, 2015
 msgid ""
@@ -12,8 +12,8 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2015-01-04 09:41+0100\n"
-"PO-Revision-Date: 2015-01-07 17:40+0000\n"
-"Last-Translator: philm <philm@manjaro.org>\n"
+"PO-Revision-Date: 2015-01-10 02:23+0000\n"
+"Last-Translator: Alexandru Ianu <alexandru.ianu@gmail.com>\n"
 "Language-Team: Romanian (http://www.transifex.com/projects/p/manjaro-pamac/language/ro/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -174,7 +174,7 @@ msgstr "Când se elimină un pachet, se vor elimina și acele dependențe ce nu 
 
 #: ../resources/preferences_dialog.ui
 msgid "Check available disk space"
-msgstr ""
+msgstr "Verifică spațiul disponibil pe disc"
 
 #: ../resources/preferences_dialog.ui ../src/preferences_dialog.vala
 msgid "How often to check for updates, value in hours"
@@ -186,11 +186,11 @@ msgstr "Elimină dependențe ce nu sunt necesare"
 
 #: ../resources/preferences_dialog.ui
 msgid "Upgrade first:"
-msgstr ""
+msgstr "Actualizează prima oară:"
 
 #: ../resources/preferences_dialog.ui
 msgid "Ignore upgrades for:"
-msgstr ""
+msgstr "Ignoră actualizări pentru:"
 
 #: ../resources/preferences_dialog.ui
 msgid "Enable AUR support"
@@ -202,15 +202,15 @@ msgstr "Opțiuni"
 
 #: ../resources/preferences_dialog.ui
 msgid "Sort mirrors by:"
-msgstr ""
+msgstr "Sortează oglinde după:"
 
 #: ../resources/preferences_dialog.ui
 msgid "Use mirrors from:"
-msgstr ""
+msgstr "Folosește oglinde după:"
 
 #: ../resources/preferences_dialog.ui
 msgid "Official repositories"
-msgstr ""
+msgstr "Depozite oficiale"
 
 #: ../src/packages_chooser_dialog.vala
 msgid "Alpm Package"
@@ -331,15 +331,15 @@ msgstr "Se construiesc pachetele"
 
 #: ../src/transaction.vala
 msgid "Worldwide"
-msgstr ""
+msgstr "Mondial"
 
 #: ../src/transaction.vala
 msgid "speed"
-msgstr ""
+msgstr "viteză"
 
 #: ../src/transaction.vala
 msgid "random"
-msgstr ""
+msgstr "aleatoriu"
 
 #: ../src/transaction.vala
 msgid "Checking dependencies"
@@ -430,7 +430,7 @@ msgstr "Se descarcă"
 
 #: ../src/transaction.vala
 msgid "Checking available disk space"
-msgstr "Se verifică spațiul pe disc disponibil"
+msgstr "Se verifică spațiul disponibil pe disc"
 
 #: ../src/transaction.vala
 #, c-format
@@ -445,17 +445,17 @@ msgstr "Fișierul de bază de date pt. %s nu există"
 #: ../src/transaction.vala
 #, c-format
 msgid "%s installed as %s.pacnew"
-msgstr ""
+msgstr "%s instalat ca %s.pacnew"
 
 #: ../src/transaction.vala
 #, c-format
 msgid "%s installed as %s.pacsave"
-msgstr ""
+msgstr "%s instalat ca %s.pacsave"
 
 #: ../src/transaction.vala
 #, c-format
 msgid "%s installed as %s.pacorig"
-msgstr ""
+msgstr "%s instalat ca %s.pacorig"
 
 #: ../src/transaction.vala
 #, c-format
@@ -490,7 +490,7 @@ msgstr "Tranzacția s-a terminat cu succes"
 
 #: ../src/transaction.vala
 msgid "Generating mirrorlist"
-msgstr ""
+msgstr "Se generează lista de oglinzi"
 
 #: ../src/installer.vala ../src/manager.vala ../src/updater.vala
 msgid "Pamac is already running"
