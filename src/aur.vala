@@ -77,11 +77,10 @@ namespace AUR {
 
 	public Json.Object? info (string pkgname) {
 		unowned Json.Object? pkg_info = null;
-		string uri = rpc_url + rpc_info + pkgname;
+		string uri = rpc_url + rpc_info + Uri.escape_string (pkgname);
 		var session = new Soup.Session ();
 		var message = new Soup.Message ("GET", uri);
 		session.send_message (message);
-
 		try {
 			var parser = new Json.Parser ();
 			parser.load_from_data ((string) message.response_body.flatten ().data, -1);
@@ -100,16 +99,14 @@ namespace AUR {
 		builder.append (rpc_multiinfo);
 		foreach (string pkgname in pkgnames) {
 			builder.append (rpc_multiinfo_arg);
-			builder.append (pkgname);
+			builder.append (Uri.escape_string (pkgname));
 		}
 		var session = new Soup.Session ();
 		var message = new Soup.Message ("GET", builder.str);
 		session.send_message (message);
-
 		try {
 			var parser = new Json.Parser ();
 			parser.load_from_data ((string) message.response_body.flatten ().data, -1);
-	
 			unowned Json.Object root_object = parser.get_root ().get_object ();
 			results = root_object.get_array_member ("results");
 		} catch (Error e) {
