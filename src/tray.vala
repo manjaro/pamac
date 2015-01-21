@@ -29,8 +29,8 @@ namespace Pamac {
 	public interface Daemon : Object {
 		public abstract void refresh (int force, bool emit_signal) throws IOError;
 		public abstract UpdatesInfos[] get_updates () throws IOError;
-		[DBus (no_reply = true)]
-		public abstract void quit () throws IOError;
+//~ 		[DBus (no_reply = true)]
+//~ 		public abstract void quit () throws IOError;
 	}
 
 	public class TrayIcon: Gtk.Application {
@@ -56,13 +56,13 @@ namespace Pamac {
 			}
 		}
 
-		void stop_daemon () {
-			try {
-				daemon.quit ();
-			} catch (IOError e) {
-				stderr.printf ("IOError: %s\n", e.message);
-			}
-		}
+//~ 		void stop_daemon () {
+//~ 			try {
+//~ 				daemon.quit ();
+//~ 			} catch (IOError e) {
+//~ 				stderr.printf ("IOError: %s\n", e.message);
+//~ 			}
+//~ 		}
 
 		// Create menu for right button
 		void create_menu () {
@@ -138,8 +138,8 @@ namespace Pamac {
 				if (pamac_run == false)
 					show_notification (info);
 			}
-			if (pamac_run == false)
-				stop_daemon ();
+//~ 			if (pamac_run == false)
+//~ 				stop_daemon ();
 		}
 
 		void show_notification (string info) {
