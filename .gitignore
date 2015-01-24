@@ -12,3 +12,4 @@ data/polkit/org.manjaro.pamac.policy
 po/*.mo
 po/*~
 po/locale
+*.swp
