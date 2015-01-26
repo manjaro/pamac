@@ -33,6 +33,11 @@ INSTALLER_RESOURCES_FILES = 	progress_dialog.ui \
 								transaction_sum_dialog.ui \
 								transaction_info_dialog.ui
 
+resources: manager_resources.c updater_resources.c installer_resources.c
+
+clean:
+	rm -f *.c
+
 manager_resources.c: $(MANAGER_GRESOURCE_FILE) $(MANAGER_RESOURCES_FILES)
 	glib-compile-resources $(MANAGER_GRESOURCE_FILE) --target=manager_resources.c --generate-source
 
@@ -41,5 +46,3 @@ updater_resources.c: $(UPDATER_GRESOURCE_FILE) $(UPDATER_RESOURCES_FILES)
 
 installer_resources.c: $(INSTALLER_GRESOURCE_FILE) $(INSTALLER_RESOURCES_FILES)
 	glib-compile-resources $(INSTALLER_GRESOURCE_FILE) --target=installer_resources.c --generate-source
-
-resources: manager_resources.c updater_resources.c installer_resources.c

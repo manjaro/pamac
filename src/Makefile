@@ -29,6 +29,11 @@ DIALOGS_FILES = 	choose_provider_dialog.vala \
 					preferences_dialog.vala \
 					progress_dialog.vala
 
+binaries: pamac-refresh pamac-daemon  pamac-tray  pamac-updater  pamac-manager  pamac-install
+
+clean:
+	rm -f *.c pamac-refresh pamac-daemon pamac-tray pamac-updater pamac-manager pamac-install
+
 pamac-refresh: refresh.vala
 	valac 	-o pamac-refresh \
 			--pkg=gio-2.0 \
@@ -100,5 +105,3 @@ pamac-install: ../vapi/libalpm.vapi $(COMMON_SOURCES) $(DIALOGS_FILES) ../resour
 			mirrors_config.vala \
 			transaction.vala \
 			installer.vala
-
-binaries: pamac-refresh pamac-daemon  pamac-tray  pamac-updater  pamac-manager  pamac-install

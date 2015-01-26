@@ -1,14 +1,13 @@
 
 all:
-	cd resources; make resources
-	cd src; make binaries
-	cd po; make gettext
+	cd resources && make resources
+	cd src && make binaries
+	cd po && make gettext
 
 clean:
-	rm -f src/*.c  src/pamac-refresh src/pamac-daemon  src/pamac-tray  src/pamac-updater  src/pamac-manager  src/pamac-install
-	rm -f resources/*.c
-	rm -rf po/locale
-	rm -f po/*.mo
+	cd resources && make clean
+	cd src && make clean
+	cd po && make clean
 	rm -f data/polkit/org.manjaro.pamac.policy
 
 install:
