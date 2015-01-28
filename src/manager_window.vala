@@ -469,7 +469,7 @@ namespace Pamac {
 			return pkgs;
 		}
 
-		public void populate_packages_list (Alpm.List<Alpm.Package?>? pkgs, Json.Array? aur_pkgs = null) {
+		public void populate_packages_list (Alpm.List<Alpm.Package?>? pkgs, Json.Array? aur_pkgs = new Json.Array ()) {
 			packages_treeview.freeze_child_notify ();
 			packages_treeview.set_model (null);
 
@@ -924,7 +924,7 @@ namespace Pamac {
 					Json.Array aur_pkgs;
 					Alpm.List<Alpm.Package?> pkgs = search_pkgs.end (res, out aur_pkgs);
 					populate_packages_list (pkgs, aur_pkgs);
-					});
+				});
 			}
 		}
 
@@ -1058,7 +1058,7 @@ namespace Pamac {
 						text.append ("\n");
 					}
 				} catch (GLib.Error e) {
-					GLib.stderr.printf("%s\n", e.message);
+					GLib.stderr.printf ("%s\n", e.message);
 				}
 				history_dialog.textview.buffer.set_text (text.str, (int) text.len);
 				history_dialog.run ();

@@ -33,14 +33,15 @@ namespace AUR {
 		var session = new Soup.Session ();
 		var message = new Soup.Message ("GET", uri);
 		var parser = new Json.Parser ();
-		unowned Json.Object root_object;
 		session.send_message (message);
 		try {
 			parser.load_from_data ((string) message.response_body.flatten ().data, -1);
-			root_object = parser.get_root ().get_object ();
-			prev_inter = root_object.get_array_member ("results");
 		} catch (Error e) {
 			print (e.message);
+		}
+		unowned Json.Node? root = parser.get_root ();
+		if (root != null) {
+			prev_inter = root.get_object ().get_array_member ("results");
 		}
 		int length = needles.length;
 		if (length == 1)
@@ -55,10 +56,12 @@ namespace AUR {
 			session.send_message (message);
 			try {
 				parser.load_from_data ((string) message.response_body.flatten ().data, -1);
-				root_object = parser.get_root ().get_object ();
-				found = root_object.get_array_member ("results");
 			} catch (Error e) {
 				print (e.message);
+			}
+			root = parser.get_root ();
+			if (root != null) {
+				found = root.get_object ().get_array_member ("results");
 			}
 			foreach (var prev_inter_node in prev_inter.get_elements ()) {
 				foreach (var found_node in found.get_elements ()) {
@@ -68,26 +71,30 @@ namespace AUR {
 					}
 				}
 			}
-			if (i != (length -1))
+			if (i != (length -1)) {
 				prev_inter = inter;
+			}
 			i += 1;
 		}
 		return inter;
 	}
 
-	public Json.Object? info (string pkgname) {
-		unowned Json.Object? pkg_info = null;
+	public Json.Object info (string pkgname) {
+		var pkg_info = new Json.Object ();
 		string uri = rpc_url + rpc_info + Uri.escape_string (pkgname);
 		var session = new Soup.Session ();
 		var message = new Soup.Message ("GET", uri);
 		session.send_message (message);
+		var parser = new Json.Parser ();
 		try {
-			var parser = new Json.Parser ();
 			parser.load_from_data ((string) message.response_body.flatten ().data, -1);
-			pkg_info = parser.get_root ().get_object ().get_object_member ("results");
 		} catch (Error e) {
 			stderr.printf ("Failed to get infos about %s from AUR\n", pkgname);
 			print (e.message);
+		}
+		unowned Json.Node? root = parser.get_root ();
+		if (root != null) {
+			pkg_info = root.get_object ().get_object_member ("results");
 		}
 		return pkg_info;
 	}
@@ -104,13 +111,15 @@ namespace AUR {
 		var session = new Soup.Session ();
 		var message = new Soup.Message ("GET", builder.str);
 		session.send_message (message);
+		var parser = new Json.Parser ();
 		try {
-			var parser = new Json.Parser ();
 			parser.load_from_data ((string) message.response_body.flatten ().data, -1);
-			unowned Json.Object root_object = parser.get_root ().get_object ();
-			results = root_object.get_array_member ("results");
 		} catch (Error e) {
 			print (e.message);
+		}
+		unowned Json.Node? root = parser.get_root ();
+		if (root != null) {
+			results = root.get_object ().get_array_member ("results");
 		}
 		return results;
 	}

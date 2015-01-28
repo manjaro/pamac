@@ -537,7 +537,7 @@ namespace Pamac {
 		public void build_aur_packages () {
 			print ("building packages\n");
 			string action = dgettext (null,"Building packages") + "...";
-			spawn_in_term ({"echo", "-n", action});
+			spawn_in_term ({"echo", action});
 			progress_dialog.action_label.set_text (action);
 			progress_dialog.progressbar.set_fraction (0);
 			progress_dialog.progressbar.set_text ("");
@@ -1131,7 +1131,7 @@ namespace Pamac {
 
 		void on_emit_generate_mirrorlist_start () {
 			string action = dgettext (null, "Generating mirrorlist") + "...";
-			spawn_in_term ({"echo", "-n", action});
+			spawn_in_term ({"echo", action});
 			progress_dialog.action_label.set_text (action);
 			progress_dialog.progressbar.set_fraction (0);
 			progress_dialog.progressbar.set_text ("");

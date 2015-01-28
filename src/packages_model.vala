@@ -29,23 +29,18 @@ namespace Pamac {
 			foreach (unowned Alpm.Package alpm_pkg in alpm_pkgs) {
 				all_pkgs.append (new Pamac.Package (alpm_pkg, null));
 			}
-			if (aur_pkgs != null) {
-				unowned Json.Object pkg_info;
-				string name;
-				bool found;
-				foreach (var node in aur_pkgs.get_elements ()) {
-					pkg_info = node.get_object ();
-					name = pkg_info.get_string_member ("Name");
-					// add only the packages which are not already in the list
-					found = false;
-					foreach (Pamac.Package pkg in all_pkgs) {
-						if (pkg.name == name) {
-							found = true;
-							break;
-						}
+			bool found;
+			foreach (var node in aur_pkgs.get_elements ()) {
+				// add only the packages which are not already in the list
+				found = false;
+				foreach (Pamac.Package pkg in all_pkgs) {
+					if (pkg.name == node.get_object ().get_string_member ("Name")) {
+						found = true;
+						break;
 					}
-					if (found == false)
-						all_pkgs.append (new Pamac.Package (null, pkg_info));
+				}
+				if (found == false) {
+					all_pkgs.append (new Pamac.Package (null, node.get_object ()));
 				}
 			}
 			if (all_pkgs.length () == 0) {
