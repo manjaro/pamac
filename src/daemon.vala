@@ -291,22 +291,9 @@ namespace Pamac {
 			return err;
 		}
 
-		public ErrorInfos trans_add_pkg (string pkgname) {
+		private ErrorInfos trans_add_pkg_real (Package pkg) {
 			ErrorInfos err = ErrorInfos ();
 			string[] details = {};
-			unowned Package? pkg = null;
-			pkg =  alpm_config.handle.find_dbs_satisfier (alpm_config.handle.syncdbs, pkgname);
-			//foreach (var db in alpm_config.handle.syncdbs) {
-				//pkg = find_satisfier (db.pkgcache, pkgname);
-				//if (pkg != null)
-					//break;
-			//}
-			if (pkg == null)  {
-				err.str = _("Failed to prepare transaction");
-				details += _("target not found: %s").printf (pkgname);
-				err.details = details;
-				return err;
-			}
 			int ret = alpm_config.handle.trans_add_pkg (pkg);
 			if (ret == -1) {
 				Alpm.Errno errno = alpm_config.handle.errno ();
@@ -321,7 +308,64 @@ namespace Pamac {
 				}
 			}
 			return err;
-	}
+		}
+
+		public ErrorInfos trans_add_pkg (string pkgname) {
+			ErrorInfos err = ErrorInfos ();
+			string[] details = {};
+			unowned Package? pkg = alpm_config.handle.find_dbs_satisfier (alpm_config.handle.syncdbs, pkgname);
+			if (pkg == null)  {
+				err.str = _("Failed to prepare transaction");
+				details += _("target not found: %s").printf (pkgname);
+				err.details = details;
+				return err;
+			} else {
+				err = trans_add_pkg_real (pkg);
+				if (err.str == "") {
+					if ("linux31" in pkg.name) {
+						string[] installed_kernels = {};
+						string[] installed_modules = {};
+						foreach (var local_pkg in alpm_config.handle.localdb.pkgcache) {
+							if ("linux31" in local_pkg.name) {
+								string[] local_pkg_splitted = local_pkg.name.split ("-", 2);
+								if ((local_pkg_splitted[0] in installed_kernels) == false) {
+									installed_kernels += local_pkg_splitted[0];
+								}
+								if (local_pkg_splitted.length == 2) {
+									if ((local_pkg_splitted[1] in installed_modules) == false) {
+										installed_modules += local_pkg_splitted[1];
+									}
+								}
+							}
+						}
+						string[] splitted = pkg.name.split ("-", 2);
+						if (splitted.length == 2) {
+							// we are adding a module
+							// add the same module for other installed kernels
+							foreach (var installed_kernel in installed_kernels) {
+								string module = installed_kernel + "-" + splitted[1];
+								stdout.printf("%s: adding module %s\n", installed_kernel, module);
+								unowned Package? module_pkg = alpm_config.handle.find_dbs_satisfier (alpm_config.handle.syncdbs, module);
+								if (module_pkg != null) {
+									trans_add_pkg_real (module_pkg);
+								}
+							}
+						} else if (splitted.length == 1) {
+							// we are adding a kernel
+							// add all installed module for other kernels
+							foreach (var installed_module in installed_modules) {
+								string module = splitted[0] + "-" + installed_module;
+								unowned Package? module_pkg = alpm_config.handle.find_dbs_satisfier (alpm_config.handle.syncdbs, module);
+								if (module_pkg != null) {
+									trans_add_pkg_real (module_pkg);
+								}
+							}
+						}
+					}
+				}
+				return err;
+			}
+		}
 
 		public ErrorInfos trans_load_pkg (string pkgpath) {
 			ErrorInfos err = ErrorInfos ();
@@ -343,10 +387,10 @@ namespace Pamac {
 						err.str = _("Failed to prepare transaction");
 						details += "%s: %s".printf (pkg->name, Alpm.strerror (errno));
 						err.details = details;
+						// free the package because it will not be used
+						delete pkg;
 						return err;
 					}
-					// free the package because it will not be used
-					delete pkg;
 				}
 			}
 			return err;
