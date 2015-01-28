@@ -249,7 +249,10 @@ namespace Alpm {
 					string[] data = {};
 					// Read lines until end of file (null) is reached
 					while ((line = dis.read_line (null)) != null) {
-						if (line.length == 0) continue;
+						if (line.length == 0) {
+							data += "\n";
+							continue;
+						}
 						if (line.contains ("IgnorePkg")) {
 							if (new_conf.contains ("IgnorePkg")) {
 								string _value = new_conf.get ("IgnorePkg").get_string ();
