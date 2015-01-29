@@ -6,14 +6,14 @@
 # Translators:
 # philm <philm@manjaro.org>, 2015
 # Драгољуб Шишовић, 2014
-# Драгољуб Шишовић, 2014
+# Драгољуб Шишовић, 2014-2015
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2015-01-04 09:41+0100\n"
-"PO-Revision-Date: 2015-01-07 17:42+0000\n"
-"Last-Translator: philm <philm@manjaro.org>\n"
+"PO-Revision-Date: 2015-01-13 22:51+0000\n"
+"Last-Translator: Драгољуб Шишовић\n"
 "Language-Team: Serbian (http://www.transifex.com/projects/p/manjaro-pamac/language/sr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -27,12 +27,12 @@ msgstr "Захтева се аутентикација"
 
 #: ../resources/choose_provider_dialog.ui
 msgid "Choose a Provider"
-msgstr ""
+msgstr "Изаберите \"снабдевача\""
 
 #: ../resources/choose_provider_dialog.ui
 #: ../resources/transaction_sum_dialog.ui ../resources/preferences_dialog.ui
 msgid "_OK"
-msgstr ""
+msgstr "_Уреду"
 
 #: ../resources/packages_chooser_dialog.ui ../resources/manager_window.ui
 msgid "Install local packages"
@@ -41,11 +41,11 @@ msgstr "Инсталирај локалне пакете"
 #: ../resources/packages_chooser_dialog.ui ../resources/progress_dialog.ui
 #: ../resources/transaction_sum_dialog.ui
 msgid "_Cancel"
-msgstr ""
+msgstr "_Прекини"
 
 #: ../resources/packages_chooser_dialog.ui
 msgid "_Open"
-msgstr ""
+msgstr "_Отвори"
 
 #: ../resources/progress_dialog.ui
 msgid "Progress"
@@ -55,7 +55,7 @@ msgstr "Прогрес"
 #: ../resources/transaction_info_dialog.ui ../resources/updater_window.ui
 #: ../resources/preferences_dialog.ui
 msgid "_Close"
-msgstr ""
+msgstr "_Затвори"
 
 #: ../resources/progress_dialog.ui ../resources/transaction_info_dialog.ui
 #: ../resources/manager_window.ui
@@ -76,11 +76,11 @@ msgstr "Прегледај историју"
 
 #: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "_Preferences"
-msgstr ""
+msgstr "_Подешавања"
 
 #: ../resources/manager_window.ui
 msgid "_About"
-msgstr ""
+msgstr "_О"
 
 #: ../resources/manager_window.ui ../src/tray.vala
 msgid "Package Manager"
@@ -88,7 +88,7 @@ msgstr "Менаџер пакета"
 
 #: ../resources/manager_window.ui
 msgid "Refresh databases"
-msgstr ""
+msgstr "Освежи базу"
 
 #: ../resources/manager_window.ui
 msgid "Apply changes"
@@ -96,7 +96,7 @@ msgstr "Примени промене"
 
 #: ../resources/manager_window.ui
 msgid "Cancel all planned changes"
-msgstr ""
+msgstr "Поништи све планиране измене"
 
 #: ../resources/manager_window.ui
 msgid "Search in AUR"
@@ -116,7 +116,7 @@ msgstr "Стање"
 
 #: ../resources/manager_window.ui
 msgid "Repositories"
-msgstr ""
+msgstr "\"Складишта\" - репозиторије"
 
 #: ../resources/manager_window.ui
 msgid "Name"
@@ -136,11 +136,11 @@ msgstr "Величина"
 
 #: ../resources/manager_window.ui
 msgid "Description"
-msgstr ""
+msgstr "Опис"
 
 #: ../resources/manager_window.ui
 msgid "Dependencies"
-msgstr ""
+msgstr "Зависности"
 
 #: ../resources/manager_window.ui
 msgid "Files"
@@ -152,15 +152,15 @@ msgstr "Менаџер ажурирања \"update manager\""
 
 #: ../resources/updater_window.ui
 msgid "_Refresh"
-msgstr ""
+msgstr "_Освежи"
 
 #: ../resources/updater_window.ui
 msgid "_Apply"
-msgstr ""
+msgstr "_Примени"
 
 #: ../resources/preferences_dialog.ui
 msgid "Preferences"
-msgstr ""
+msgstr "Подешавања"
 
 #: ../resources/preferences_dialog.ui
 msgid "Allow Pamac to search and install packages from AUR"
@@ -170,11 +170,11 @@ msgstr "Омогући Памаку да претражује и инстали�
 msgid ""
 "When removing a package, also remove its dependencies that are not required "
 "by other packages"
-msgstr ""
+msgstr "При уклањању пакета, такође уклони и све његове зависности које више нису потребне ни једном другом пакету"
 
 #: ../resources/preferences_dialog.ui
 msgid "Check available disk space"
-msgstr ""
+msgstr "Провери доступан простор на диску"
 
 #: ../resources/preferences_dialog.ui ../src/preferences_dialog.vala
 msgid "How often to check for updates, value in hours"
@@ -186,11 +186,11 @@ msgstr "Уклони непотребне зависности"
 
 #: ../resources/preferences_dialog.ui
 msgid "Upgrade first:"
-msgstr ""
+msgstr "Прво надогради:"
 
 #: ../resources/preferences_dialog.ui
 msgid "Ignore upgrades for:"
-msgstr ""
+msgstr "Игнориши надоградње за:"
 
 #: ../resources/preferences_dialog.ui
 msgid "Enable AUR support"
@@ -202,79 +202,79 @@ msgstr "Опције"
 
 #: ../resources/preferences_dialog.ui
 msgid "Sort mirrors by:"
-msgstr ""
+msgstr "Уреди \"огледала\" на основу:"
 
 #: ../resources/preferences_dialog.ui
 msgid "Use mirrors from:"
-msgstr ""
+msgstr "Користи \"огледала\" од:"
 
 #: ../resources/preferences_dialog.ui
 msgid "Official repositories"
-msgstr ""
+msgstr "Званична складишта - \"репозиторије\""
 
 #: ../src/packages_chooser_dialog.vala
 msgid "Alpm Package"
-msgstr ""
+msgstr "Alpm пакет"
 
 #: ../src/daemon.vala
 msgid "Failed to initialize alpm library"
-msgstr ""
+msgstr "Неуспешна иницијализација alpm \"библиотеке\""
 
 #: ../src/daemon.vala
 msgid "Failed to synchronize any databases"
-msgstr ""
+msgstr "Неуспех синхронизације било које базе података"
 
 #: ../src/daemon.vala
 msgid "Failed to init transaction"
-msgstr ""
+msgstr "Неуспех да се успостави трансакција"
 
 #: ../src/daemon.vala
 msgid "Failed to prepare transaction"
-msgstr ""
+msgstr "Неуспех да се припреми трансакција"
 
 #: ../src/daemon.vala
 #, c-format
 msgid "target not found: %s"
-msgstr ""
+msgstr "није пронађен циљ: %s"
 
 #: ../src/daemon.vala
 #, c-format
 msgid "package %s does not have a valid architecture"
-msgstr ""
+msgstr "пакет %s нема одговарајућу архитектуру"
 
 #: ../src/daemon.vala
 #, c-format
 msgid "%s: requires %s"
-msgstr ""
+msgstr "%s: захтева %s"
 
 #: ../src/daemon.vala
 #, c-format
 msgid "%s and %s are in conflict"
-msgstr ""
+msgstr "%s и %s су у сукобу"
 
 #: ../src/daemon.vala
 #, c-format
 msgid "%s needs to be removed but it is a locked package"
-msgstr ""
+msgstr "неопходно је уклонити %s али тај пакет је закључан"
 
 #: ../src/daemon.vala
 msgid "Failed to commit transaction"
-msgstr ""
+msgstr "Неуспех у започињању трансакције"
 
 #: ../src/daemon.vala
 #, c-format
 msgid "%s exists in both %s and %s"
-msgstr ""
+msgstr "%s постоји у %s и такође у %s"
 
 #: ../src/daemon.vala
 #, c-format
 msgid "%s: %s already exists in filesystem"
-msgstr ""
+msgstr "%s: %s већ постоји у фајл систему"
 
 #: ../src/daemon.vala
 #, c-format
 msgid "%s is invalid or corrupted"
-msgstr ""
+msgstr "%s је неважећи или корумпиран"
 
 #: ../src/daemon.vala
 msgid "Authentication failed"
@@ -282,11 +282,11 @@ msgstr "Аутентикација неуспешна"
 
 #: ../src/transaction.vala
 msgid "Synchronizing package databases"
-msgstr ""
+msgstr "Синхронизација пакета базе података"
 
 #: ../src/transaction.vala
 msgid "Starting full system upgrade"
-msgstr ""
+msgstr "Отпочиње потпуна надоградња система"
 
 #: ../src/transaction.vala
 msgid "Preparing"
@@ -295,7 +295,7 @@ msgstr "Припрема"
 #: ../src/transaction.vala
 #, c-format
 msgid "Choose a provider for %s"
-msgstr ""
+msgstr "Изаберите провајдера за %s"
 
 #: ../src/transaction.vala ../src/manager_window.vala
 msgid "To remove"
@@ -323,23 +323,23 @@ msgstr "За надоградњу"
 
 #: ../src/transaction.vala ../src/updater_window.vala
 msgid "Total download size"
-msgstr ""
+msgstr "Укупна величина приликом преузимања"
 
 #: ../src/transaction.vala
 msgid "Building packages"
-msgstr ""
+msgstr "Грађење пакета"
 
 #: ../src/transaction.vala
 msgid "Worldwide"
-msgstr ""
+msgstr "Широм света"
 
 #: ../src/transaction.vala
 msgid "speed"
-msgstr ""
+msgstr "брзина"
 
 #: ../src/transaction.vala
 msgid "random"
-msgstr ""
+msgstr "насумично"
 
 #: ../src/transaction.vala
 msgid "Checking dependencies"
@@ -355,32 +355,32 @@ msgstr "Решавање зависности"
 
 #: ../src/transaction.vala
 msgid "Checking inter-conflicts"
-msgstr ""
+msgstr "Проверавање унутрашњих сукоба"
 
 #: ../src/transaction.vala
 #, c-format
 msgid "Installing %s"
-msgstr ""
+msgstr "Инсталирање %s"
 
 #: ../src/transaction.vala
 #, c-format
 msgid "Reinstalling %s"
-msgstr ""
+msgstr "Поновно инсталирање %s"
 
 #: ../src/transaction.vala
 #, c-format
 msgid "Removing %s"
-msgstr ""
+msgstr "Уклањање %s"
 
 #: ../src/transaction.vala
 #, c-format
 msgid "Upgrading %s"
-msgstr ""
+msgstr "Надоградња %s"
 
 #: ../src/transaction.vala
 #, c-format
 msgid "Downgrading %s"
-msgstr ""
+msgstr "Снижавање категорије - \"даунгрејдинг\" %s"
 
 #: ../src/transaction.vala
 msgid "Checking integrity"
@@ -409,20 +409,20 @@ msgstr "Примени делте"
 #: ../src/transaction.vala
 #, c-format
 msgid "Generating %s with %s"
-msgstr ""
+msgstr "Грађење %s са %s"
 
 #: ../src/transaction.vala
 msgid "Generation succeeded"
-msgstr ""
+msgstr "Грађење успешно"
 
 #: ../src/transaction.vala
 msgid "Generation failed"
-msgstr ""
+msgstr "Грађење неуспешно"
 
 #: ../src/transaction.vala
 #, c-format
 msgid "Configuring %s"
-msgstr ""
+msgstr "Конфигурисање %s"
 
 #: ../src/transaction.vala
 msgid "Downloading"
@@ -435,50 +435,50 @@ msgstr "Проверавање доступног места на диску"
 #: ../src/transaction.vala
 #, c-format
 msgid "%s optionally requires %s"
-msgstr ""
+msgstr "%s опционо захтева %s"
 
 #: ../src/transaction.vala
 #, c-format
 msgid "Database file for %s does not exist"
-msgstr ""
+msgstr "Фајл базе података за %s не постоји"
 
 #: ../src/transaction.vala
 #, c-format
 msgid "%s installed as %s.pacnew"
-msgstr ""
+msgstr "%s је иснталиран као %s.pacnew"
 
 #: ../src/transaction.vala
 #, c-format
 msgid "%s installed as %s.pacsave"
-msgstr ""
+msgstr "%s је инсталиран као %s.pacsave"
 
 #: ../src/transaction.vala
 #, c-format
 msgid "%s installed as %s.pacorig"
-msgstr ""
+msgstr "%s је инсталиран као %s.pacorig"
 
 #: ../src/transaction.vala
 #, c-format
 msgid "Refreshing %s"
-msgstr ""
+msgstr "Освежавање %s"
 
 #: ../src/transaction.vala
 #, c-format
 msgid "Downloading %s"
-msgstr ""
+msgstr "Преузимање %s"
 
 #: ../src/transaction.vala
 msgid "Warning"
-msgstr ""
+msgstr "Упозорење"
 
 #: ../src/transaction.vala ../src/installer.vala ../src/manager.vala
 #: ../src/updater.vala
 msgid "Error"
-msgstr ""
+msgstr "Грешка"
 
 #: ../src/transaction.vala ../src/progress_dialog.vala
 msgid "Transaction cancelled"
-msgstr ""
+msgstr "Трансакција прекинута"
 
 #: ../src/transaction.vala
 msgid "Nothing to do"
@@ -490,7 +490,7 @@ msgstr "Трансакција успешно обављена"
 
 #: ../src/transaction.vala
 msgid "Generating mirrorlist"
-msgstr ""
+msgstr "Генерисање листе \"огледала\""
 
 #: ../src/installer.vala ../src/manager.vala ../src/updater.vala
 msgid "Pamac is already running"
@@ -502,19 +502,19 @@ msgstr "Ваш систем је већ ажуриран"
 
 #: ../src/tray.vala
 msgid "_Quit"
-msgstr ""
+msgstr "_Одустани"
 
 #: ../src/tray.vala ../src/updater_window.vala
 #, c-format
 msgid "%u available update"
 msgid_plural "%u available updates"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "%u доступно ажурирање"
+msgstr[1] "%u доступних ажурирања"
+msgstr[2] "%u доступних ажурирања"
 
 #: ../src/tray.vala
 msgid "Show available updates"
-msgstr ""
+msgstr "Прикажи доступна ажурирања"
 
 #: ../src/manager_window.vala
 msgid "Deselect"
@@ -534,7 +534,7 @@ msgstr "Поново инсталирај"
 
 #: ../src/manager_window.vala
 msgid "Install optional dependencies"
-msgstr ""
+msgstr "Инсталирај опционе зависности"
 
 #: ../src/manager_window.vala
 msgid "Mark as explicitly installed"
@@ -562,7 +562,7 @@ msgstr "Зависности"
 
 #: ../src/manager_window.vala
 msgid "Optional Dependencies"
-msgstr ""
+msgstr "Опционе зависности"
 
 #: ../src/manager_window.vala
 msgid "Required By"
@@ -624,9 +624,9 @@ msgid ""
 msgid_plural ""
 "%s has %u uninstalled optional dependencies.\n"
 "Choose those you would like to install:"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "%s има %u уклоњену опциону зависност.\nИзабери да ли би желео да је инсталираш:"
+msgstr[1] "%s има %u уклоњених опционих зависности.\nИзабери оне које би желео да инсталираш:"
+msgstr[2] "%s има %u уклоњених опционих зависности.\nИзабери оне које би желео да инсталираш:"
 
 #: ../src/manager_window.vala
 msgid "Uninstalled"
@@ -634,12 +634,12 @@ msgstr "Уклоњено"
 
 #: ../src/manager_window.vala
 msgid "A Gtk3 frontend for libalpm"
-msgstr ""
+msgstr "Gtk3 приказ за libalpm"
 
 #: ../src/common.vala
 #, c-format
 msgid "%.0f KiB"
-msgstr ""
+msgstr "%.0f KiB"
 
 #: ../src/common.vala
 #, c-format
