@@ -50,8 +50,11 @@
                 </child>
                 <child>
                   <object class="GtkTreeViewColumn" id="treeviewcolumn1">
+                    <property name="expand">True</property>
                     <child>
-                      <object class="GtkCellRendererText" id="_name"/>
+                      <object class="GtkCellRendererText" id="_name">
+                        <property name="width">200</property>
+                      </object>
                       <attributes>
                         <attribute name="text">0</attribute>
                       </attributes>
