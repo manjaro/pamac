@@ -29,13 +29,12 @@ MainLoop loop;
 namespace Pamac {
 	[DBus (name = "org.manjaro.pamac")]
 	public class Daemon : Object {
-		Alpm.Config alpm_config;
+		private Alpm.Config alpm_config;
 		public uint64 previous_percent;
-		int force_refresh;
-		bool emit_refreshed_signal;
 		public Cond provider_cond;
 		public Mutex provider_mutex;
 		public int? choosen_provider;
+		private Mutex databases_lock_mutex;
 
 		public signal void emit_event (uint primary_event, uint secondary_event, string[] details);
 		public signal void emit_providers (string depend, string[] providers);
@@ -52,6 +51,7 @@ namespace Pamac {
 
 		public Daemon () {
 			alpm_config = new Alpm.Config ("/etc/pacman.conf");
+			databases_lock_mutex = Mutex ();
 		}
 
 		private void refresh_handle () {
@@ -206,43 +206,44 @@ namespace Pamac {
 				if (result.get_is_authorized ()) {
 					refresh_handle ();
 					unowned Package? pkg = alpm_config.handle.localdb.get_pkg (pkgname);
-					if (pkg != null)
+					if (pkg != null) {
 						pkg.reason = (Package.Reason) reason;
+					}
 				}
 			} catch (GLib.Error e) {
 				stderr.printf ("%s\n", e.message);
 			}
 		}
 
-		private int refresh_real () {
-			refresh_handle ();
-			ErrorInfos err = ErrorInfos ();
-			string[] details = {};
-			int success = 0;
-			int ret;
-			foreach (var db in alpm_config.handle.syncdbs) {
-				ret = db.update (force_refresh);
-				if (ret >= 0) {
-					success++;
-				}
-			}
-			// We should always succeed if at least one DB was upgraded - we may possibly
-			// fail later with unresolved deps, but that should be rare, and would be expected
-			if (success == 0) {
-				err.str = _("Failed to synchronize any databases");
-				details += Alpm.strerror (alpm_config.handle.errno ());
-				err.details = details;
-			}
-			if (emit_refreshed_signal)
-				emit_refreshed (err);
-			return success;
-		}
-
 		public void refresh (int force, bool emit_signal) {
-			force_refresh = force;
-			emit_refreshed_signal = emit_signal;
 			try {
-				new Thread<int>.try ("refresh thread", (ThreadFunc) refresh_real);
+				new Thread<int>.try ("refresh thread", () => {
+					databases_lock_mutex.lock ();
+					ErrorInfos err = ErrorInfos ();
+					string[] details = {};
+					int success = 0;
+					int ret;
+					refresh_handle ();
+					foreach (var db in alpm_config.handle.syncdbs) {
+						ret = db.update (force);
+						if (ret >= 0) {
+							success++;
+						}
+					}
+					// We should always succeed if at least one DB was upgraded - we may possibly
+					// fail later with unresolved deps, but that should be rare, and would be expected
+					if (success == 0) {
+						err.str = _("Failed to synchronize any databases");
+						details += Alpm.strerror (alpm_config.handle.errno ());
+						err.details = details;
+					}
+					if (emit_signal) {
+						emit_refreshed (err);
+					}
+					print("done\n");
+					databases_lock_mutex.unlock ();
+					return success;
+				});
 			} catch (GLib.Error e) {
 				stderr.printf ("%s\n", e.message);
 			}
@@ -259,8 +260,9 @@ namespace Pamac {
 				updates = get_repos_updates (alpm_config.handle);
 				if (pamac_config.enable_aur) {
 					UpdatesInfos[] aur_updates = get_aur_updates (alpm_config.handle);
-					foreach (var infos in aur_updates)
+					foreach (var infos in aur_updates) {
 						updates += infos;
+					}
 				}
 				return updates;
 			}
@@ -297,10 +299,10 @@ namespace Pamac {
 			int ret = alpm_config.handle.trans_add_pkg (pkg);
 			if (ret == -1) {
 				Alpm.Errno errno = alpm_config.handle.errno ();
-				if (errno == Errno.TRANS_DUP_TARGET || errno == Errno.PKG_IGNORED)
+				if (errno == Errno.TRANS_DUP_TARGET || errno == Errno.PKG_IGNORED) {
 					// just skip duplicate or ignored targets
 					return err;
-				else {
+				} else {
 					err.str = _("Failed to prepare transaction");
 					details += "%s: %s".printf (pkg.name, Alpm.strerror (errno));
 					err.details = details;
@@ -344,7 +346,6 @@ namespace Pamac {
 							// add the same module for other installed kernels
 							foreach (var installed_kernel in installed_kernels) {
 								string module = installed_kernel + "-" + splitted[1];
-								stdout.printf("%s: adding module %s\n", installed_kernel, module);
 								unowned Package? module_pkg = alpm_config.handle.find_dbs_satisfier (alpm_config.handle.syncdbs, module);
 								if (module_pkg != null) {
 									trans_add_pkg_real (module_pkg);
@@ -380,10 +381,10 @@ namespace Pamac {
 				int ret = alpm_config.handle.trans_add_pkg (pkg);
 				if (ret == -1) {
 					Alpm.Errno errno = alpm_config.handle.errno ();
-					if (errno == Errno.TRANS_DUP_TARGET || errno == Errno.PKG_IGNORED)
+					if (errno == Errno.TRANS_DUP_TARGET || errno == Errno.PKG_IGNORED) {
 						// just skip duplicate or ignored targets
 						return err;
-					else {
+					 } else {
 						err.str = _("Failed to prepare transaction");
 						details += "%s: %s".printf (pkg->name, Alpm.strerror (errno));
 						err.details = details;
@@ -416,6 +417,7 @@ namespace Pamac {
 		}
 
 		private int trans_prepare_real () {
+			databases_lock_mutex.lock ();
 			ErrorInfos err = ErrorInfos ();
 			string[] details = {};
 			Alpm.List<void*> err_data = null;
@@ -481,6 +483,7 @@ namespace Pamac {
 				}
 			}
 			emit_trans_prepared (err);
+			databases_lock_mutex.unlock ();
 			return ret;
 		}
 
@@ -506,10 +509,11 @@ namespace Pamac {
 				info.name = pkg.name;
 				info.version = pkg.version;
 				// if pkg was load from a file, pkg.db is null
-				if (pkg.db != null)
+				if (pkg.db != null) {
 					info.db_name = pkg.db.name;
-				else
+				} else {
 					info.db_name = "";
+				}
 				info.tarpath = "";
 				info.download_size = pkg.download_size;
 				infos += info;
@@ -532,6 +536,7 @@ namespace Pamac {
 		}
 
 		private int trans_commit_real () {
+			databases_lock_mutex.lock ();
 			ErrorInfos err = ErrorInfos ();
 			string[] details = {};
 			Alpm.List<void*> err_data = null;
@@ -581,6 +586,7 @@ namespace Pamac {
 			}
 			trans_release ();
 			emit_trans_committed (err);
+			databases_lock_mutex.unlock ();
 			return ret;
 		}
 
@@ -631,8 +637,9 @@ namespace Pamac {
 		[DBus (no_reply = true)]
 		public void quit () {
 			GLib.File lockfile = GLib.File.new_for_path ("/var/lib/pacman/db.lck");
-			if (lockfile.query_exists () == false)
+			if (lockfile.query_exists () == false) {
 				loop.quit ();
+			}
 		}
 	// End of Daemon Object
 	}
@@ -648,7 +655,7 @@ private void write_log_file (string event) {
 		// writing a short string to the stream
 		dos.put_string (log);
 	} catch (GLib.Error e) {
-		stderr.printf("%s\n", e.message);
+		stderr.printf ("%s\n", e.message);
 	}
 }
 
@@ -784,12 +791,13 @@ private void cb_question (Question.Data data) {
 			data.corrupted_remove = 1;
 			break;
 		case Question.Type.IMPORT_KEY:
-			// Do not get revoked key
-			if (data.import_key_key.revoked == 1)
+			if (data.import_key_key.revoked == 1) {
+				// Do not get revoked key
 				data.import_key_import = 0;
-			// Auto get not revoked key
-			else
+			} else {
+				// Auto get not revoked key
 				data.import_key_import = 1;
+			}
 			break;
 		default:
 			data.any_answer = 0;
@@ -843,7 +851,7 @@ void main () {
 	Bus.own_name (BusType.SYSTEM, "org.manjaro.pamac", BusNameOwnerFlags.NONE,
 				on_bus_acquired,
 				() => {},
-				() => stderr.printf("Could not acquire name\n"));
+				() => stderr.printf ("Could not acquire name\n"));
 
 	loop = new MainLoop ();
 	loop.run ();

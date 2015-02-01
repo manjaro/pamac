@@ -29,8 +29,8 @@ namespace Pamac {
 	public interface Daemon : Object {
 		public abstract void refresh (int force, bool emit_signal) throws IOError;
 		public abstract UpdatesInfos[] get_updates () throws IOError;
-//~ 		[DBus (no_reply = true)]
-//~ 		public abstract void quit () throws IOError;
+		[DBus (no_reply = true)]
+		public abstract void quit () throws IOError;
 	}
 
 	public class TrayIcon: Gtk.Application {
@@ -56,13 +56,15 @@ namespace Pamac {
 			}
 		}
 
-//~ 		void stop_daemon () {
-//~ 			try {
-//~ 				daemon.quit ();
-//~ 			} catch (IOError e) {
-//~ 				stderr.printf ("IOError: %s\n", e.message);
-//~ 			}
-//~ 		}
+		void stop_daemon () {
+			if (check_pamac_running () == false) {
+				try {
+					daemon.quit ();
+				} catch (IOError e) {
+					stderr.printf ("IOError: %s\n", e.message);
+				}
+			}
+		}
 
 		// Create menu for right button
 		void create_menu () {
@@ -112,18 +114,19 @@ namespace Pamac {
 		}
 
 		bool refresh () {
-			start_daemon ();
-			try {
-				daemon.refresh (0, false);
-			} catch (IOError e) {
-				stderr.printf ("IOError: %s\n", e.message);
+			if (check_pamac_running () == false) {
+				start_daemon ();
+				try {
+					daemon.refresh (0, false);
+				} catch (IOError e) {
+					stderr.printf ("IOError: %s\n", e.message);
+				}
 			}
 			return true;
 		}
 
 		void check_updates () {
 			UpdatesInfos[] updates = {};
-			bool pamac_run = check_pamac_running ();
 			try {
 				updates = daemon.get_updates ();
 			} catch (IOError e) {
@@ -135,11 +138,11 @@ namespace Pamac {
 			} else {
 				string info = ngettext ("%u available update", "%u available updates", updates_nb).printf (updates_nb);
 				this.update_icon (update_icon_name, info);
-				if (pamac_run == false)
+				if (check_pamac_running () == false) {
 					show_notification (info);
+				}
 			}
-//~ 			if (pamac_run == false)
-//~ 				stop_daemon ();
+			stop_daemon ();
 		}
 
 		void show_notification (string info) {
@@ -201,7 +204,7 @@ namespace Pamac {
 			return true;
 		}
 
-		void launch_refresh_timeout (string? msg = null) {
+		void launch_refresh_timeout () {
 			if (refresh_timeout_id != 0) {
 				pamac_config.reload ();
 				Source.remove (refresh_timeout_id);
