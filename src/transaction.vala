@@ -29,6 +29,7 @@ namespace Pamac {
 		public abstract void write_mirrors_config (HashTable<string,Variant> new_mirrors_conf) throws IOError;
 		public abstract void set_pkgreason (string pkgname, uint reason) throws IOError;
 		public abstract void refresh (int force, bool emit_signal) throws IOError;
+		public abstract UpdatesInfos[] get_updates () throws IOError;
 		public abstract ErrorInfos trans_init (TransFlag transflags) throws IOError;
 		public abstract ErrorInfos trans_sysupgrade (int enable_downgrade) throws IOError;
 		public abstract ErrorInfos trans_add_pkg (string pkgname) throws IOError;

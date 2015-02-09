@@ -59,23 +59,26 @@ namespace Pamac {
 		[GtkCallback]
 		public void on_preferences_button_clicked () {
 			bool changes = transaction.run_preferences_dialog (pamac_config);
-			if (changes)
+			if (changes) {
 				set_updates_list.begin ();
+			}
 		}
 
 		[GtkCallback]
 		public void on_apply_button_clicked () {
 			this.get_window ().set_cursor (new Gdk.Cursor (Gdk.CursorType.WATCH));
-			while (Gtk.events_pending ())
+			while (Gtk.events_pending ()) {
 				Gtk.main_iteration ();
+			}
 			transaction.sysupgrade (0);
 		}
 
 		[GtkCallback]
 		public void on_refresh_button_clicked () {
 			this.get_window ().set_cursor (new Gdk.Cursor (Gdk.CursorType.WATCH));
-			while (Gtk.events_pending ())
+			while (Gtk.events_pending ()) {
 				Gtk.main_iteration ();
+			}
 			transaction.refresh (0);
 		}
 
@@ -89,57 +92,35 @@ namespace Pamac {
 		}
 
 		public async void set_updates_list () {
+			this.get_window ().set_cursor (new Gdk.Cursor (Gdk.CursorType.WATCH));
+			while (Gtk.events_pending ()) {
+				Gtk.main_iteration ();
+			}
+
+			top_label.set_markup ("");
+			updates_list.clear ();
+			UpdatesInfos[] updates = {};
+			try {
+				updates = transaction.daemon.get_updates ();
+			} catch (IOError e) {
+				stderr.printf ("IOError: %s\n", e.message);
+			}
 			TreeIter iter;
 			string name;
 			string size;
 			uint64 dsize = 0;
 			uint updates_nb = 0;
-			this.get_window ().set_cursor (new Gdk.Cursor (Gdk.CursorType.WATCH));
-			while (Gtk.events_pending ())
-				Gtk.main_iteration ();
-			top_label.set_markup ("");
-			updates_list.clear ();
-			// get syncfirst updates
-			UpdatesInfos[] syncfirst_updates = get_syncfirst_updates (transaction.alpm_config.handle, transaction.alpm_config.syncfirsts);
-			if (syncfirst_updates.length != 0) {
-				updates_nb = syncfirst_updates.length;
-				foreach (UpdatesInfos infos in syncfirst_updates) {
-					name = infos.name + " " + infos.version;
-					if (infos.download_size != 0)
-						size = format_size (infos.download_size);
-					else
-						size = "";
-					dsize += infos.download_size;
-					updates_list.insert_with_values (out iter, -1, 0, name, 1, size);
+			foreach (UpdatesInfos infos in updates) {
+				name = infos.name + " " + infos.version;
+				if (infos.download_size != 0) {
+					size = format_size (infos.download_size);
+				} else {
+					size = "";
 				}
-			} else {
-				while (Gtk.events_pending ())
-					Gtk.main_iteration ();
-				UpdatesInfos[] updates = get_repos_updates (transaction.alpm_config.handle);
-				foreach (UpdatesInfos infos in updates) {
-					name = infos.name + " " + infos.version;
-					if (infos.download_size != 0)
-						size = format_size (infos.download_size);
-					else
-						size = "";
-					dsize += infos.download_size;
-					updates_list.insert_with_values (out iter, -1, 0, name, 1, size);
-				}
-				updates_nb += updates.length;
-				if (pamac_config.enable_aur) {
-					UpdatesInfos[] aur_updates = get_aur_updates (transaction.alpm_config.handle);
-					updates_nb += aur_updates.length;
-					foreach (UpdatesInfos infos in aur_updates) {
-						name = infos.name + " " + infos.version;
-						if (infos.download_size != 0)
-							size = format_size (infos.download_size);
-						else
-							size = "";
-						dsize += infos.download_size;
-						updates_list.insert_with_values (out iter, -1, 0, name, 1, size);
-					}
-				}
+				dsize += infos.download_size;
+				updates_list.insert_with_values (out iter, -1, 0, name, 1, size);
 			}
+			updates_nb = updates.length;
 			if (updates_nb == 0) {
 				top_label.set_markup("<b>%s</b>".printf (dgettext (null, "Your system is up-to-date")));
 				apply_button.set_sensitive (false);
@@ -150,12 +131,14 @@ namespace Pamac {
 			if (dsize != 0) {
 				bottom_label.set_markup("<b>%s: %s</b>".printf (dgettext (null, "Total download size"), format_size(dsize)));
 				bottom_label.set_visible (true);
-			} else
+			} else {
 				bottom_label.set_visible (false);
+			}
 
 			this.get_window ().set_cursor (null);
-			while (Gtk.events_pending ())
+			while (Gtk.events_pending ()) {
 				Gtk.main_iteration ();
+			}
 		}
 	}
 }
