@@ -240,7 +240,6 @@ namespace Pamac {
 					if (emit_signal) {
 						emit_refreshed (err);
 					}
-					print("done\n");
 					databases_lock_mutex.unlock ();
 					return success;
 				});
