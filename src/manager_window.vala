@@ -17,6 +17,9 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+using Gtk;
+using Alpm;
+
 const string VERSION = "2.2";
 
 namespace Pamac {
