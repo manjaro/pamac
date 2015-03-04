@@ -1,7 +1,7 @@
 /*
  *  pamac-vala
  *
- *  Copyright (C) 2014  Guillaume Benoit <guillaume@manjaro.org>
+ *  Copyright (C) 2014-2015 Guillaume Benoit <guillaume@manjaro.org>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -17,38 +17,33 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-using Gtk;
-
 namespace Pamac {
 
 	[GtkTemplate (ui = "/org/manjaro/pamac/updater/updater_window.ui")]
 	public class UpdaterWindow : Gtk.ApplicationWindow {
 
 		[GtkChild]
-		public Label top_label;
+		public Gtk.Label top_label;
 		[GtkChild]
-		public TreeView updates_treeview;
+		public Gtk.TreeView updates_treeview;
 		[GtkChild]
-		public Label bottom_label;
+		public Gtk.Label bottom_label;
 		[GtkChild]
-		public Button apply_button;
+		public Gtk.Button apply_button;
 
-		public ListStore updates_list;
-		public Pamac.Config pamac_config;
+		public Gtk.ListStore updates_list;
+
 		public Pamac.Transaction transaction;
 
 		public UpdaterWindow (Gtk.Application application) {
 			Object (application: application);
 
-			pamac_config = new Pamac.Config ("/etc/pamac.conf");
-
 			updates_list = new Gtk.ListStore (2, typeof (string), typeof (string));
 			updates_treeview.set_model (updates_list);
 
-			transaction = new Transaction (this as ApplicationWindow);
+			transaction = new Transaction (this as Gtk.ApplicationWindow);
 			transaction.mode = Mode.UPDATER;
-			transaction.check_aur = pamac_config.enable_aur;
-			transaction.finished.connect (on_emit_trans_finished);
+			transaction.finished.connect (on_transaction_finished);
 
 			bottom_label.set_visible (false);
 			apply_button.set_sensitive (false);
@@ -58,10 +53,9 @@ namespace Pamac {
 
 		[GtkCallback]
 		public void on_preferences_button_clicked () {
-			bool changes = transaction.run_preferences_dialog (pamac_config);
-			if (changes) {
+			transaction.run_preferences_dialog.begin (() => {
 				set_updates_list.begin ();
-			}
+			});
 		}
 
 		[GtkCallback]
@@ -79,7 +73,7 @@ namespace Pamac {
 			while (Gtk.events_pending ()) {
 				Gtk.main_iteration ();
 			}
-			transaction.refresh (0);
+			transaction.start_refresh (0);
 		}
 
 		[GtkCallback]
@@ -87,7 +81,7 @@ namespace Pamac {
 			this.application.quit ();
 		}
 
-		public void on_emit_trans_finished (bool error) {
+		public void on_transaction_finished (bool error) {
 			set_updates_list.begin ();
 		}
 
@@ -96,21 +90,16 @@ namespace Pamac {
 			while (Gtk.events_pending ()) {
 				Gtk.main_iteration ();
 			}
-
 			top_label.set_markup ("");
 			updates_list.clear ();
-			UpdatesInfos[] updates = {};
-			try {
-				updates = transaction.daemon.get_updates ();
-			} catch (IOError e) {
-				stderr.printf ("IOError: %s\n", e.message);
-			}
-			TreeIter iter;
+			bottom_label.set_visible (false);
+			Gtk.TreeIter iter;
 			string name;
 			string size;
 			uint64 dsize = 0;
 			uint updates_nb = 0;
-			foreach (UpdatesInfos infos in updates) {
+			Updates updates = yield transaction.get_updates ();
+			foreach (UpdateInfos infos in updates.repos_updates) {
 				name = infos.name + " " + infos.version;
 				if (infos.download_size != 0) {
 					size = format_size (infos.download_size);
@@ -118,9 +107,15 @@ namespace Pamac {
 					size = "";
 				}
 				dsize += infos.download_size;
+				updates_nb++;
 				updates_list.insert_with_values (out iter, -1, 0, name, 1, size);
 			}
-			updates_nb = updates.length;
+			foreach (UpdateInfos infos in updates.aur_updates) {
+				name = infos.name + " " + infos.version;
+				size = "";
+				updates_nb++;
+				updates_list.insert_with_values (out iter, -1, 0, name, 1, size);
+			}
 			if (updates_nb == 0) {
 				top_label.set_markup("<b>%s</b>".printf (dgettext (null, "Your system is up-to-date")));
 				apply_button.set_sensitive (false);
@@ -134,7 +129,6 @@ namespace Pamac {
 			} else {
 				bottom_label.set_visible (false);
 			}
-
 			this.get_window ().set_cursor (null);
 			while (Gtk.events_pending ()) {
 				Gtk.main_iteration ();

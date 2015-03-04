@@ -1,7 +1,7 @@
 /*
  *  pamac-vala
  *
- *  Copyright (C) 2014  Guillaume Benoit <guillaume@manjaro.org>
+ *  Copyright (C) 2014-2015 Guillaume Benoit <guillaume@manjaro.org>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -41,11 +41,16 @@ namespace AUR {
 		}
 		unowned Json.Node? root = parser.get_root ();
 		if (root != null) {
-			prev_inter = root.get_object ().get_array_member ("results");
+			if (root.get_object ().get_string_member ("type") == "error") {
+				stderr.printf ("Failed to search %s from AUR\n", needles[0]);
+			} else {
+				prev_inter = root.get_object ().get_array_member ("results");
+			}
 		}
 		int length = needles.length;
-		if (length == 1)
+		if (length == 1) {
 			return prev_inter;
+		}
 		int i = 1;
 		var inter = new Json.Array ();
 		var found = new Json.Array ();
@@ -61,7 +66,11 @@ namespace AUR {
 			}
 			root = parser.get_root ();
 			if (root != null) {
-				found = root.get_object ().get_array_member ("results");
+				if (root.get_object ().get_string_member ("type") == "error") {
+					stderr.printf ("Failed to search %s from AUR\n", needles[i]);
+				} else {
+					found = root.get_object ().get_array_member ("results");
+				}
 			}
 			foreach (var prev_inter_node in prev_inter.get_elements ()) {
 				foreach (var found_node in found.get_elements ()) {
@@ -94,7 +103,11 @@ namespace AUR {
 		}
 		unowned Json.Node? root = parser.get_root ();
 		if (root != null) {
-			pkg_info = root.get_object ().get_object_member ("results");
+			if (root.get_object ().get_string_member ("type") == "error") {
+				stderr.printf ("Failed to get infos about %s from AUR\n", pkgname);
+			} else {
+				pkg_info = root.get_object ().get_object_member ("results");
+			}
 		}
 		return pkg_info;
 	}
@@ -119,7 +132,11 @@ namespace AUR {
 		}
 		unowned Json.Node? root = parser.get_root ();
 		if (root != null) {
-			results = root.get_object ().get_array_member ("results");
+			if (root.get_object ().get_string_member ("type") == "error") {
+				stderr.printf ("Failed to multiinfo %s from AUR\n", builder.str);
+			} else {
+				results = root.get_object ().get_array_member ("results");
+			}
 		}
 		return results;
 	}

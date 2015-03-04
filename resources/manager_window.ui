@@ -559,9 +559,10 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkNotebook" id="notebook2">
+                  <object class="GtkNotebook" id="properties_notebook">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
+                    <signal name="switch-page" handler="on_properties_notebook_switch_page" after="yes" swapped="no"/>
                     <child>
                       <object class="GtkScrolledWindow" id="infos_scrolledwindow">
                         <property name="visible">True</property>

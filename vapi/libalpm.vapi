@@ -448,7 +448,7 @@ namespace Alpm {
 		public unowned Alpm.List<unowned string?> unused_deltas {
 			[CCode (cname = "alpm_pkg_unused_deltas")] get;
 		}
-		public unowned Alpm.List<unowned Backup?> backup {
+		public unowned Alpm.List<unowned Backup?> backups {
 			[CCode (cname = "alpm_pkg_get_backup")] get;
 		}
 		public unowned DB? db {

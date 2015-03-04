@@ -1,7 +1,7 @@
 /*
  *  pamac-vala
  *
- *  Copyright (C) 2014  Guillaume Benoit <guillaume@manjaro.org>
+ *  Copyright (C) 2014-2015 Guillaume Benoit <guillaume@manjaro.org>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -46,8 +46,9 @@ namespace Pamac {
 				}
 				window.get_window ().set_cursor (new Gdk.Cursor (Gdk.CursorType.WATCH));
 				this.hide ();
-				while (Gtk.events_pending ())
+				while (Gtk.events_pending ()) {
 					Gtk.main_iteration ();
+				}
 				transaction.run ();
 			}
 		}

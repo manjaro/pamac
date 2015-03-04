@@ -1,7 +1,7 @@
 /*
  *  pamac-vala
  *
- *  Copyright (C) 2014  Guillaume Benoit <guillaume@manjaro.org>
+ *  Copyright (C) 2014-2015 Guillaume Benoit <guillaume@manjaro.org>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -27,16 +27,14 @@ const string noupdate_info = _("Your system is up-to-date");
 namespace Pamac {
 	[DBus (name = "org.manjaro.pamac")]
 	public interface Daemon : Object {
-		public abstract void refresh (int force, bool emit_signal) throws IOError;
-		public abstract UpdatesInfos[] get_updates () throws IOError;
+		public abstract void start_refresh (int force, bool emit_signal) throws IOError;
+		public abstract async Updates get_updates () throws IOError;
 		[DBus (no_reply = true)]
 		public abstract void quit () throws IOError;
 	}
 
 	public class TrayIcon: Gtk.Application {
-		Notify.Notification notification;
 		Daemon daemon;
-		Pamac.Config pamac_config;
 		bool locked;
 		uint refresh_timeout_id;
 		Gtk.StatusIcon status_icon;
@@ -88,8 +86,9 @@ namespace Pamac {
 		}
 
 		void left_clicked () {
-			if (status_icon.icon_name == "pamac-tray-update")
+			if (status_icon.icon_name == "pamac-tray-update") {
 				execute_updater ();
+			}
 		}
 
 		void execute_updater () {
@@ -117,7 +116,7 @@ namespace Pamac {
 			if (check_pamac_running () == false) {
 				start_daemon ();
 				try {
-					daemon.refresh (0, false);
+					daemon.start_refresh (0, false);
 				} catch (IOError e) {
 					stderr.printf ("IOError: %s\n", e.message);
 				}
@@ -126,27 +125,29 @@ namespace Pamac {
 		}
 
 		void check_updates () {
-			UpdatesInfos[] updates = {};
-			try {
-				updates = daemon.get_updates ();
-			} catch (IOError e) {
-				stderr.printf ("IOError: %s\n", e.message);
-			}
-			uint updates_nb = updates.length;
-			if (updates_nb == 0) {
-				this.update_icon (noupdate_icon_name, noupdate_info);
-			} else {
-				string info = ngettext ("%u available update", "%u available updates", updates_nb).printf (updates_nb);
-				this.update_icon (update_icon_name, info);
-				if (check_pamac_running () == false) {
-					show_notification (info);
+			daemon.get_updates.begin ((obj, res) => {
+				var updates = Updates ();
+				try {
+					updates = daemon.get_updates.end (res);
+				} catch (IOError e) {
+					stderr.printf ("IOError: %s\n", e.message);
 				}
-			}
-			stop_daemon ();
+				uint updates_nb = updates.repos_updates.length + updates.aur_updates.length;
+				if (updates_nb == 0) {
+					this.update_icon (noupdate_icon_name, noupdate_info);
+				} else {
+					string info = ngettext ("%u available update", "%u available updates", updates_nb).printf (updates_nb);
+					this.update_icon (update_icon_name, info);
+					if (check_pamac_running () == false) {
+						show_notification (info);
+					}
+				}
+				stop_daemon ();
+			});
 		}
 
 		void show_notification (string info) {
-//~ 				notification = new Notification (_("Update Manager"));
+//~ 				var notification = new Notification (_("Update Manager"));
 //~ 				notification.set_body (info);
 //~ 				Gtk.IconTheme icon_theme = Gtk.IconTheme.get_default ();
 //~ 				Gdk.Pixbuf icon = icon_theme.load_icon ("system-software-update", 32, 0);
@@ -157,7 +158,7 @@ namespace Pamac {
 //~ 				notification.add_button (_("Show available updates"), "app.update");
 //~ 				this.send_notification (_("Update Manager"), notification);
 			try {
-				notification = new Notify.Notification (_("Update Manager"), info, "system-software-update");
+				var notification = new Notify.Notification (_("Update Manager"), info, "system-software-update");
 				notification.add_action ("update", _("Show available updates"), execute_updater);
 				notification.show ();
 			} catch (Error e) {
@@ -204,12 +205,11 @@ namespace Pamac {
 			return true;
 		}
 
-		void launch_refresh_timeout () {
+		void launch_refresh_timeout (uint refresh_period_in_hours) {
 			if (refresh_timeout_id != 0) {
-				pamac_config.reload ();
 				Source.remove (refresh_timeout_id);
 			}
-			refresh_timeout_id = Timeout.add_seconds ((uint) pamac_config.refresh_period*3600, refresh);
+			refresh_timeout_id = Timeout.add_seconds (refresh_period_in_hours*3600, refresh);
 		}
 
 		public override void startup () {
@@ -219,7 +219,6 @@ namespace Pamac {
 
 			base.startup ();
 
-			pamac_config = new Pamac.Config ("/etc/pamac.conf");
 			locked = false;
 			refresh_timeout_id = 0;
 
@@ -233,7 +232,8 @@ namespace Pamac {
 			Notify.init (_("Update Manager"));
 
 			refresh ();
-			launch_refresh_timeout ();
+			var pamac_config = new Pamac.Config ("/etc/pamac.conf");
+			launch_refresh_timeout ((uint) pamac_config.refresh_period);
 			Timeout.add (500, check_pacman_running);
 
 			this.hold ();

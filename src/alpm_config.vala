@@ -1,7 +1,7 @@
 /*
  *  pamac-vala
  *
- *  Copyright (C) 2014, 2015 Guillaume Benoit <guillaume@manjaro.org>
+ *  Copyright (C) 2014-2015 Guillaume Benoit <guillaume@manjaro.org>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -100,8 +100,9 @@ namespace Alpm {
 
 		public void get_handle () {
 			Alpm.Errno error;
-			if (handle != null)
+			if (handle != null) {
 				Handle.release (handle);
+			}
 			handle = Handle.new (rootdir, dbpath, out error);
 			if (handle == null) {
 				stderr.printf ("Failed to initialize alpm library" + " (%s)\n".printf(Alpm.strerror (error)));
@@ -127,12 +128,14 @@ namespace Alpm {
 			// register dbs
 			foreach (var repo in repo_order) {
 				unowned DB db = handle.register_syncdb (repo.name, repo.siglevel);
-				foreach (var url in repo.urls)
+				foreach (var url in repo.urls) {
 					db.add_server (url.replace ("$repo", repo.name).replace ("$arch", handle.arch));
-				if (repo.usage == 0)
+				}
+				if (repo.usage == 0) {
 					db.usage = DB.Usage.ALL;
-				else
+				} else {
 					db.usage = repo.usage;
+				}
 			}
 		}
 
@@ -149,11 +152,15 @@ namespace Alpm {
 					string line;
 					// Read lines until end of file (null) is reached
 					while ((line = dis.read_line (null)) != null) {
-						if (line.length == 0) continue;
+						if (line.length == 0) {
+							continue;
+						}
 						// ignore whole line and end of line comments
 						string[] splitted = line.split ("#", 2);
 						line = splitted[0].strip ();
-						if (line.length == 0) continue;
+						if (line.length == 0) {
+							continue;
+						}
 						if (line[0] == '[' && line[line.length-1] == ']') {
 							current_section = line[1:-1];
 							if (current_section != "options") {
@@ -165,67 +172,79 @@ namespace Alpm {
 						splitted = line.split ("=", 2);
 						string _key = splitted[0].strip ();
 						string? _value = null;
-						if (splitted[1] != null)
+						if (splitted[1] != null) {
 							_value = splitted[1].strip ();
-						if (_key == "Include")
+						}
+						if (_key == "Include") {
 							parse_file (_value, current_section);
+						}
 						if (current_section == "options") {
-							if (_key == "GPGDir")
+							if (_key == "GPGDir") {
 								gpgdir = _value;
-							else if (_key == "LogFile")
+							} else if (_key == "LogFile") {
 								logfile = _value;
-							else if (_key == "Architecture") {
-								if (_value == "auto")
+							} else if (_key == "Architecture") {
+								if (_value == "auto") {
 									arch = Posix.utsname ().machine;
-								else
+								} else {
 									arch = _value;
-							} else if (_key == "UseDelta")
+								}
+							} else if (_key == "UseDelta") {
 								deltaratio = double.parse (_value);
-							else if (_key == "UseSysLog")
+							} else if (_key == "UseSysLog") {
 								usesyslog = 1;
-							else if (_key == "CheckSpace")
+							} else if (_key == "CheckSpace") {
 								checkspace = 1;
-							else if (_key == "SigLevel")
+							} else if (_key == "SigLevel") {
 								defaultsiglevel = define_siglevel (defaultsiglevel, _value);
-							else if (_key == "LocalFileSigLevel")
+							} else if (_key == "LocalFileSigLevel") {
 								localfilesiglevel = define_siglevel (localfilesiglevel, _value);
-							 else if (_key == "RemoteFileSigLevel")
+							} else if (_key == "RemoteFileSigLevel") {
 								remotefilesiglevel = define_siglevel (remotefilesiglevel, _value);
-							else if (_key == "HoldPkg") {
-								foreach (string name in _value.split (" "))
+							} else if (_key == "HoldPkg") {
+								foreach (string name in _value.split (" ")) {
 									holdpkgs.append (name);
+								}
 							} else if (_key == "SyncFirst") {
 								syncfirst = _value;
-								foreach (string name in _value.split (" "))
+								foreach (string name in _value.split (" ")) {
 									syncfirsts.append (name);
+								}
 							} else if (_key == "CacheDir") {
-								foreach (string dir in _value.split (" "))
+								foreach (string dir in _value.split (" ")) {
 									cachedirs->add_str (dir);
+								}
 							} else if (_key == "IgnoreGroup") {
-								foreach (string name in _value.split (" "))
+								foreach (string name in _value.split (" ")) {
 									ignoregroups->add_str (name);
+								}
 							} else if (_key == "IgnorePkg") {
 								ignorepkg = _value;
-								foreach (string name in _value.split (" "))
+								foreach (string name in _value.split (" ")) {
 									ignorepkgs->add_str (name);
+								}
 							} else if (_key == "Noextract") {
-								foreach (string name in _value.split (" "))
+								foreach (string name in _value.split (" ")) {
 									noextracts->add_str (name);
+								}
 							} else if (_key == "NoUpgrade") {
-								foreach (string name in _value.split (" "))
+								foreach (string name in _value.split (" ")) {
 									noupgrades->add_str (name);
+								}
 							}
 						} else {
 							foreach (var repo in repo_order) {
 								if (repo.name == current_section) {
-									if (_key == "Server")
+									if (_key == "Server") {
 										repo.urls += _value;
-									else if (_key == "SigLevel") {
-										if (repo.siglevel == Signature.Level.USE_DEFAULT)
+									} else if (_key == "SigLevel") {
+										if (repo.siglevel == Signature.Level.USE_DEFAULT) {
 											repo.siglevel = defaultsiglevel;
+										}
 										repo.siglevel = define_siglevel (repo.siglevel, _value);
-									} else if (_key == "Usage")
+									} else if (_key == "Usage") {
 										repo.usage = define_usage (_value);
+									}
 								}
 							}
 						}
@@ -238,9 +257,9 @@ namespace Alpm {
 
 		public void write (HashTable<string,Variant> new_conf) {
 			var file = GLib.File.new_for_path (conf_path);
-			if (file.query_exists () == false)
+			if (file.query_exists () == false) {
 				GLib.stderr.printf ("File '%s' doesn't exist.\n", conf_path);
-			else {
+			} else {
 				try {
 					// Open file for reading and wrap returned FileInputStream into a
 					// DataInputStream, so we can read line by line
@@ -256,32 +275,39 @@ namespace Alpm {
 						if (line.contains ("IgnorePkg")) {
 							if (new_conf.contains ("IgnorePkg")) {
 								string _value = new_conf.get ("IgnorePkg").get_string ();
-								if (_value == "")
+								if (_value == "") {
 									data += "#IgnorePkg   =\n";
-								else
+								} else {
 									data += "IgnorePkg   = %s\n".printf (_value);
-							} else
+								}
+							} else {
 								data += line + "\n";
+							}
 						} else if (line.contains ("SyncFirst")) {
 							if (new_conf.contains ("SyncFirst")) {
 								string _value = new_conf.get ("SyncFirst").get_string ();
-								if (_value == "")
+								if (_value == "") {
 									data += "#SyncFirst   =\n";
-								else
+								} else {
 									data += "SyncFirst   = %s\n".printf (_value);
-							} else
+								}
+							} else {
 								data += line + "\n";
+							}
 						} else if (line.contains ("CheckSpace")) {
 							if (new_conf.contains ("CheckSpace")) {
-								int _value = new_conf.get ("CheckSpace").get_int32 ();
-								if (_value == 1)
+								bool _value = new_conf.get ("CheckSpace").get_boolean ();
+								if (_value == true) {
 									data += "CheckSpace\n";
-								else
+								} else {
 									data += "#CheckSpace\n";
-							} else
+								}
+							} else {
 								data += line + "\n";
-						} else
+							}
+						} else {
 							data += line + "\n";
+						}
 					}
 					// delete the file before rewrite it
 					file.delete ();
@@ -319,11 +345,11 @@ namespace Alpm {
 			foreach (string directive in conf_string.split(" ")) {
 				bool affect_package = false;
 				bool affect_database = false;
-				if ("Package" in directive)
+				if ("Package" in directive) {
 					affect_package = true;
-				else if ("Database" in directive)
+				} else if ("Database" in directive) {
 					affect_database = true;
-				else {
+				} else {
 					affect_package = true;
 					affect_database = true;
 				}
@@ -332,8 +358,9 @@ namespace Alpm {
 						default_level &= ~Signature.Level.PACKAGE;
 						default_level |= Signature.Level.PACKAGE_SET;
 					}
-					if (affect_database)
+					if (affect_database) {
 						default_level &= ~Signature.Level.DATABASE;
+					}
 				} else if ("Optional" in directive) {
 					if (affect_package) {
 						default_level |= Signature.Level.PACKAGE;
@@ -374,9 +401,9 @@ namespace Alpm {
 						default_level |= Signature.Level.DATABASE_MARGINAL_OK;
 						default_level |= Signature.Level.DATABASE_UNKNOWN_OK;
 					}
-				}
-				else
+				} else {
 					GLib.stderr.printf("unrecognized siglevel: %s\n", conf_string);
+				}
 			}
 			default_level &= ~Signature.Level.USE_DEFAULT;
 			return default_level;

@@ -2,7 +2,7 @@
 # Copyright (C) 2007-2012 Free Software Foundation, Inc.
 # This file is distributed under the same license as the Pamac package.
 # Guillaume Benoit <guillaume@manjaro.org>, 2013-2015.
-# 
+#
 # Translators:
 # Guillaume Benoit <guillaume@manjaro.org>, 2013
 # Tobias B. <aema-001@kabelmail.de>, 2013
@@ -21,14 +21,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2015-01-04 09:41+0100\n"
+"POT-Creation-Date: 2015-03-04 14:36+0100\n"
 "PO-Revision-Date: 2015-01-07 17:17+0000\n"
 "Last-Translator: philm <philm@manjaro.org>\n"
-"Language-Team: German (http://www.transifex.com/projects/p/manjaro-pamac/language/de/)\n"
+"Language-Team: German (http://www.transifex.com/projects/p/manjaro-pamac/"
+"language/de/)\n"
+"Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: de\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: data/polkit/org.manjaro.pamac.policy
@@ -180,7 +181,9 @@ msgstr "Erlaube Pamac nach Paketen im AUR zu suchen und zu installieren"
 msgid ""
 "When removing a package, also remove its dependencies that are not required "
 "by other packages"
-msgstr "Wenn ein Paket entfernt wird, werden auch seine Abhängigkeiten entfernt, soweit sie nicht von einem anderen Paket benötigt werden"
+msgstr ""
+"Wenn ein Paket entfernt wird, werden auch seine Abhängigkeiten entfernt, "
+"soweit sie nicht von einem anderen Paket benötigt werden"
 
 #: ../resources/preferences_dialog.ui
 msgid "Check available disk space"
@@ -233,6 +236,14 @@ msgstr "Fehler beim Initialisieren der Alpm-Library"
 #: ../src/daemon.vala
 msgid "Failed to synchronize any databases"
 msgstr "Synchronisieren der Datenbanken fehlgeschlagen"
+
+#: ../src/daemon.vala
+msgid "No"
+msgstr ""
+
+#: ../src/daemon.vala
+msgid "Yes"
+msgstr ""
 
 #: ../src/daemon.vala
 msgid "Failed to init transaction"
@@ -633,8 +644,12 @@ msgid ""
 msgid_plural ""
 "%s has %u uninstalled optional dependencies.\n"
 "Choose those you would like to install:"
-msgstr[0] "%s hat %u nicht installierte optionale Abhängigkeiten.\nBitte wählen Sie die zum Installieren entsprechend aus:"
-msgstr[1] "%s hat %u nicht installierte optionale Abhängigkeiten.\nBitte wählen Sie die zu installierenden Abhängigkeiten aus:"
+msgstr[0] ""
+"%s hat %u nicht installierte optionale Abhängigkeiten.\n"
+"Bitte wählen Sie die zum Installieren entsprechend aus:"
+msgstr[1] ""
+"%s hat %u nicht installierte optionale Abhängigkeiten.\n"
+"Bitte wählen Sie die zu installierenden Abhängigkeiten aus:"
 
 #: ../src/manager_window.vala
 msgid "Uninstalled"

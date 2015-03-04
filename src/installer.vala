@@ -1,7 +1,7 @@
 /*
  *  pamac-vala
  *
- *  Copyright (C) 2014  Guillaume Benoit <guillaume@manjaro.org>
+ *  Copyright (C) 2014-2015 Guillaume Benoit <guillaume@manjaro.org>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -79,9 +79,9 @@ namespace Pamac {
 				stderr.printf ("%s\n", e.message);
 			}
 			run =  app.get_is_remote ();
-			if (run)
+			if (run) {
 				return run;
-			else {
+			} else {
 				app = new Application ("org.manjaro.pamac.updater", 0);
 				try {
 					app.register ();

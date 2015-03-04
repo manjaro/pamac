@@ -1,7 +1,7 @@
 /*
  *  pamac-vala
  *
- *  Copyright (C) 2014  Guillaume Benoit <guillaume@manjaro.org>
+ *  Copyright (C) 2014-2015 Guillaume Benoit <guillaume@manjaro.org>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -18,44 +18,77 @@
  */
 
 namespace Pamac {
-	public class Package: Object {
-		public unowned Alpm.Package? alpm_pkg;
-		public unowned Json.Object? aur_json;
+	public struct Package {
 		public string name;
 		public string version;
+		public string desc;
 		public string repo;
 		public uint64 size;
 		public string size_string;
+		public string url;
+		public string licenses;
+		public int reason;
 
 		public Package (Alpm.Package? alpm_pkg, Json.Object? aur_json) {
 			if (alpm_pkg != null) {
-				this.alpm_pkg = alpm_pkg;
-				this.aur_json = null;
 				name = alpm_pkg.name;
 				version = alpm_pkg.version;
-				if (alpm_pkg.db != null)
-					repo = alpm_pkg.db.name;
-				else 
-					repo = "";
+				desc = alpm_pkg.desc;
+				repo = alpm_pkg.db != null ? alpm_pkg.db.name : "";
 				size = alpm_pkg.isize;
 				size_string = format_size (alpm_pkg.isize);
+				// alpm pkg url can be null
+				url = alpm_pkg.url ?? "";
+				StringBuilder licenses_build = new StringBuilder ();
+				foreach (var license in alpm_pkg.licenses) {
+					if (licenses_build.len != 0) {
+						licenses_build.append (" ");
+					}
+					licenses_build.append (license);
+				}
+				licenses = licenses_build.str;
+				reason = alpm_pkg.reason;
 			} else if (aur_json != null ) {
-				this.alpm_pkg = null;
-				this.aur_json = aur_json;
 				name = aur_json.get_string_member ("Name");
 				version = aur_json.get_string_member ("Version");
+				desc = aur_json.get_string_member ("Description");
 				repo = "AUR";
 				size = 0;
 				size_string = "";
+				url = aur_json.get_string_member ("URL");
+				licenses = aur_json.get_string_member ("License");
+				reason = 0;
 			} else {
-				this.alpm_pkg = null;
-				this.aur_json = null;
-				name = dgettext (null, "No package found");
+				name = "";
 				version = "";
+				desc = "";
 				repo = "";
 				size = 0;
 				size_string = "";
+				url = "";
+				licenses= "";
+				reason = 0;
 			}
 		}
+	}
+
+	public struct PackageDetails {
+		string repo;
+		string has_signature;
+		int reason;
+		string packager;
+		string install_date;
+		string[] groups;
+		string[] backups;
+	}
+
+	public struct PackageDeps {
+		string repo;
+		string[] depends;
+		string[] optdepends;
+		string[] requiredby;
+		string[] provides;
+		string[] replaces;
+		string[] conflicts;
 	}
 }

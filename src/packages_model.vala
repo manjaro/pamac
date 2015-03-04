@@ -1,7 +1,7 @@
 /*
  *  pamac-vala
  *
- *  Copyright (C) 2014  Guillaume Benoit <guillaume@manjaro.org>
+ *  Copyright (C) 2014-2015 Guillaume Benoit <guillaume@manjaro.org>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -20,32 +20,20 @@
 namespace Pamac {
 
 	public class PackagesModel : Object, Gtk.TreeModel {
-		private GLib.List<Pamac.Package> all_pkgs;
+		private GLib.List<Pamac.Package?> all_pkgs;
 		public ManagerWindow manager_window;
 
-		public PackagesModel (Alpm.List<Alpm.Package?>? alpm_pkgs, Json.Array? aur_pkgs, ManagerWindow manager_window) {
+		public PackagesModel (Pamac.Package[] pkgs, ManagerWindow manager_window) {
 			this.manager_window = manager_window;
-			all_pkgs = new GLib.List<Pamac.Package> ();
-			foreach (unowned Alpm.Package alpm_pkg in alpm_pkgs) {
-				all_pkgs.append (new Pamac.Package (alpm_pkg, null));
-			}
-			bool found;
-			foreach (var node in aur_pkgs.get_elements ()) {
-				// add only the packages which are not already in the list
-				found = false;
-				foreach (Pamac.Package pkg in all_pkgs) {
-					if (pkg.name == node.get_object ().get_string_member ("Name")) {
-						found = true;
-						break;
-					}
-				}
-				if (found == false) {
-					all_pkgs.append (new Pamac.Package (null, node.get_object ()));
-				}
+			all_pkgs = new GLib.List<Pamac.Package?> ();
+			foreach (var pkg in pkgs) {
+				all_pkgs.append (pkg);
 			}
 			if (all_pkgs.length () == 0) {
 				// create a fake "No package found" package
-				all_pkgs.append (new Pamac.Package (null, null));
+				var fake_pkg = Pamac.Package (null, null);
+				fake_pkg.name = dgettext (null, "No package found");
+				all_pkgs.append (fake_pkg);
 			}
 		}
 
@@ -69,8 +57,7 @@ namespace Pamac {
 		}
 
 		public void get_value (Gtk.TreeIter iter, int column, out Value val) {
-			Pamac.Package pkg = (Pamac.Package) iter.user_data;
-			return_if_fail (pkg != null);
+			Pamac.Package pkg = all_pkgs.nth_data (iter.stamp);
 			switch (column) {
 				case 0:
 					val = Value (typeof (string));
@@ -78,29 +65,30 @@ namespace Pamac {
 					break;
 				case 1:
 					val = Value (typeof (Object));
-					if (pkg.alpm_pkg != null) {
-						if (manager_window.transaction.alpm_config.holdpkgs.find_custom (pkg.name, strcmp) != null)
-							val.set_object (manager_window.locked_icon);
-						else if (pkg.repo == "local") {
-							if (manager_window.transaction.to_add.contains (pkg.name))
+						if (pkg.repo == "local") {
+							if (manager_window.transaction.should_hold (pkg.name)) {
+								val.set_object (manager_window.locked_icon);
+							} else if (manager_window.transaction.to_add.contains (pkg.name)) {
 								val.set_object (manager_window.to_reinstall_icon);
-							else if (manager_window.transaction.to_remove.contains (pkg.name))
+							} else if (manager_window.transaction.to_remove.contains (pkg.name)) {
 								val.set_object (manager_window.to_remove_icon);
-							else
+							} else {
 								val.set_object (manager_window.installed_icon);
-						} else if (manager_window.transaction.to_add.contains (pkg.name))
+							}
+						} else if (pkg.repo == "AUR") {
+							if (manager_window.transaction.to_build.contains (pkg.name)) {
+								val.set_object (manager_window.to_install_icon);
+							} else {
+								val.set_object (manager_window.uninstalled_icon);
+							}
+						} else if (pkg.name == dgettext (null, "No package found")) {
+							Object? object = null;
+							val.set_object (object);
+						} else if (manager_window.transaction.to_add.contains (pkg.name)) {
 							val.set_object (manager_window.to_install_icon);
-						else
+						} else {
 							val.set_object (manager_window.uninstalled_icon);
-					} else if (pkg.aur_json != null) {
-						if (manager_window.transaction.to_build.contains (pkg.name))
-							val.set_object (manager_window.to_install_icon);
-						else
-							val.set_object (manager_window.uninstalled_icon);
-					} else {
-						Object? object = null;
-						val.set_object (object);
-					}
+						}
 					break;
 				case 2:
 					val = Value (typeof (string));
@@ -127,8 +115,6 @@ namespace Pamac {
 			iter = Gtk.TreeIter ();
 			int pos = path.get_indices ()[0];
 			iter.stamp = pos;
-			Pamac.Package pkg = all_pkgs.nth_data((uint) pos);
-			iter.user_data = pkg;
 			return true;
 		}
 
@@ -151,8 +137,6 @@ namespace Pamac {
 				return false;
 			}
 			iter.stamp = pos;
-			Pamac.Package pkg = all_pkgs.nth_data((uint) pos);
-			iter.user_data = pkg;
 			return true;
 		}
 
@@ -162,8 +146,6 @@ namespace Pamac {
 				return false;
 			}
 			iter.stamp = (--pos);
-			Pamac.Package pkg = all_pkgs.nth_data((uint) pos);
-			iter.user_data = pkg;
 			return true;
 		}
 
@@ -189,14 +171,20 @@ namespace Pamac {
 			return false;
 		}
 
+		// custom get pkg function
+		public Pamac.Package get_pkg_at_path (Gtk.TreePath path) {
+			return all_pkgs.nth_data (path.get_indices ()[0]);
+		}
+
 		// custom sort functions
 		public void sort_by_name (Gtk.SortType order) {
-			CompareFunc<Pamac.Package> namecmp = (pkg_a, pkg_b) => {
+			CompareFunc<Pamac.Package?> namecmp = (pkg_a, pkg_b) => {
 				return strcmp (pkg_a.name, pkg_b.name);
 			};
 			all_pkgs.sort (namecmp);
-			if (order == Gtk.SortType.DESCENDING)
+			if (order == Gtk.SortType.DESCENDING) {
 				all_pkgs.reverse ();
+			}
 			manager_window.name_column.sort_order = order;
 			manager_window.state_column.sort_indicator = false;
 			manager_window.name_column.sort_indicator = true;
@@ -208,28 +196,25 @@ namespace Pamac {
 		}
 
 		public void sort_by_state (Gtk.SortType order) {
-			CompareFunc<Pamac.Package> statecmp = (pkg_a, pkg_b) => {
+			CompareFunc<Pamac.Package?> statecmp = (pkg_a, pkg_b) => {
 				int state_a;
 				int state_b;
-				if (pkg_a.alpm_pkg != null) {
-					if (pkg_a.repo == "local")
+					if (pkg_a.repo == "local") {
 						state_a = 0;
-					else
+					} else {
 						state_a = 1;
-				} else
-					state_a = 1;
-				if (pkg_b.alpm_pkg != null) {
-					if (pkg_b.repo == "local")
+					}
+					if (pkg_b.repo == "local") {
 						state_b = 0;
-					else
+					} else {
 						state_b = 1;
-				} else
-					state_b = 1;
+					}
 				return (int) (state_a > state_b) - (int) (state_a < state_b);
 			};
 			all_pkgs.sort (statecmp);
-			if (order == Gtk.SortType.DESCENDING)
+			if (order == Gtk.SortType.DESCENDING) {
 				all_pkgs.reverse ();
+			}
 			manager_window.state_column.sort_order = order;
 			manager_window.state_column.sort_indicator = true;
 			manager_window.name_column.sort_indicator = false;
@@ -241,12 +226,13 @@ namespace Pamac {
 		}
 
 		public void sort_by_version (Gtk.SortType order) {
-			CompareFunc<Pamac.Package> versioncmp = (pkg_a, pkg_b) => {
+			CompareFunc<Pamac.Package?> versioncmp = (pkg_a, pkg_b) => {
 				return Alpm.pkg_vercmp (pkg_a.version, pkg_b.version);
 			};
 			all_pkgs.sort (versioncmp);
-			if (order == Gtk.SortType.DESCENDING)
+			if (order == Gtk.SortType.DESCENDING) {
 				all_pkgs.reverse ();
+			}
 			manager_window.version_column.sort_order = order;
 			manager_window.state_column.sort_indicator = false;
 			manager_window.name_column.sort_indicator = false;
@@ -258,12 +244,13 @@ namespace Pamac {
 		}
 
 		public void sort_by_repo (Gtk.SortType order) {
-			CompareFunc<Pamac.Package> repocmp = (pkg_a, pkg_b) => {
+			CompareFunc<Pamac.Package?> repocmp = (pkg_a, pkg_b) => {
 				return strcmp (pkg_a.repo, pkg_b.repo);
 			};
 			all_pkgs.sort (repocmp);
-			if (order == Gtk.SortType.DESCENDING)
+			if (order == Gtk.SortType.DESCENDING) {
 				all_pkgs.reverse ();
+			}
 			manager_window.repo_column.sort_order = order;
 			manager_window.state_column.sort_indicator = false;
 			manager_window.name_column.sort_indicator = false;
@@ -275,22 +262,13 @@ namespace Pamac {
 		}
 
 		public void sort_by_size (Gtk.SortType order) {
-			CompareFunc<Pamac.Package> sizecmp = (pkg_a, pkg_b) => {
-				uint64 size_a;
-				uint64 size_b;
-				if (pkg_a.alpm_pkg != null)
-					size_a = pkg_a.size;
-				else
-					size_a = 0;
-				if (pkg_b.alpm_pkg != null)
-					size_b = pkg_b.size;
-				else
-					size_b = 0;
-				return (int) (size_a > size_b) - (int) (size_a < size_b);
+			CompareFunc<Pamac.Package?> sizecmp = (pkg_a, pkg_b) => {
+				return (int) (pkg_a.size > pkg_b.size) - (int) (pkg_a.size < pkg_b.size);
 			};
 			all_pkgs.sort (sizecmp);
-			if (order == Gtk.SortType.DESCENDING)
+			if (order == Gtk.SortType.DESCENDING) {
 				all_pkgs.reverse ();
+			}
 			manager_window.size_column.sort_order = order;
 			manager_window.state_column.sort_indicator = false;
 			manager_window.name_column.sort_indicator = false;

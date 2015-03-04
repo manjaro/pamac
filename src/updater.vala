@@ -1,7 +1,7 @@
 /*
  *  pamac-vala
  *
- *  Copyright (C) 2014  Guillaume Benoit <guillaume@manjaro.org>
+ *  Copyright (C) 2014-2015 Guillaume Benoit <guillaume@manjaro.org>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -44,19 +44,22 @@ namespace Pamac {
 				transaction_info_dialog.expander.set_visible (false);
 				transaction_info_dialog.run ();
 				transaction_info_dialog.hide ();
-			} else
+			} else {
 				updater_window = new UpdaterWindow (this);
+			}
 		}
 
 		public override void activate () {
-			if (pamac_run == false)
+			if (pamac_run == false) {
 				updater_window.present ();
+			}
 		}
 
 		public override void shutdown () {
 			base.shutdown ();
-			if (pamac_run == false)
+			if (pamac_run == false) {
 				updater_window.transaction.stop_daemon ();
+			}
 		}
 
 		bool check_pamac_running () {
@@ -69,9 +72,9 @@ namespace Pamac {
 				stderr.printf ("%s\n", e.message);
 			}
 			run =  app.get_is_remote ();
-			if (run)
+			if (run) {
 				return run;
-			else {
+			} else {
 				app = new Application ("org.manjaro.pamac.install", 0);
 				try {
 					app.register ();

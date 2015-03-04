@@ -1,7 +1,7 @@
 /*
  *  pamac-vala
  *
- *  Copyright (C) 2014  Guillaume Benoit <guillaume@manjaro.org>
+ *  Copyright (C) 2014-2015 Guillaume Benoit <guillaume@manjaro.org>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -40,9 +40,9 @@ namespace Pamac {
 
 		public void parse_file (string path) {
 			var file = GLib.File.new_for_path (path);
-			if (file.query_exists () == false)
+			if (file.query_exists () == false) {
 				GLib.stderr.printf ("File '%s' doesn't exist.\n", path);
-			else {
+			} else {
 				try {
 					// Open file for reading and wrap returned FileInputStream into a
 					// DataInputStream, so we can read line by line
@@ -51,19 +51,25 @@ namespace Pamac {
 					// Read lines until end of file (null) is reached
 					while ((line = dis.read_line (null)) != null) {
 						line = line.strip ();
-						if (line.length == 0) continue;
-						if (line[0] == '#') continue;
+						if (line.length == 0) {
+							continue;
+						}
+						if (line[0] == '#') {
+							continue;
+						}
 						string[] splitted = line.split ("=");
 						string _key = splitted[0].strip ();
 						string _value = null;
-						if (splitted[1] != null)
+						if (splitted[1] != null) {
 							_value = splitted[1].strip ();
-						if (_key == "RefreshPeriod")
+						}
+						if (_key == "RefreshPeriod") {
 							refresh_period = int.parse (_value);
-						else if (_key == "EnableAUR")
+						} else if (_key == "EnableAUR") {
 							enable_aur = true;
-						else if (_key == "RemoveUnrequiredDeps")
+						} else if (_key == "RemoveUnrequiredDeps") {
 							recurse = true;
+						}
 					}
 				} catch (GLib.Error e) {
 					GLib.stderr.printf("%s\n", e.message);
@@ -73,9 +79,9 @@ namespace Pamac {
 
 		public void write (HashTable<string,Variant> new_conf) {
 			var file = GLib.File.new_for_path (conf_path);
-			if (file.query_exists () == false)
+			if (file.query_exists () == false) {
 				GLib.stderr.printf ("File '%s' doesn't exist.\n", conf_path);
-			else {
+			} else {
 				try {
 					// Open file for reading and wrap returned FileInputStream into a
 					// DataInputStream, so we can read line by line
@@ -84,33 +90,41 @@ namespace Pamac {
 					string[] data = {};
 					// Read lines until end of file (null) is reached
 					while ((line = dis.read_line (null)) != null) {
-						if (line.length == 0) continue;
+						if (line.length == 0) {
+							continue;
+						}
 						if (line.contains ("RefreshPeriod")) {
 							if (new_conf.contains ("RefreshPeriod")) {
 								int _value = new_conf.get ("RefreshPeriod").get_int32 ();
 								data += "RefreshPeriod = %u\n".printf (_value);
-							} else
+							} else {
 								data += line + "\n";
+							}
 						} else if (line.contains ("EnableAUR")) {
 							if (new_conf.contains ("EnableAUR")) {
 								bool _value = new_conf.get ("EnableAUR").get_boolean ();
-								if (_value == true)
+								if (_value == true) {
 									data += "EnableAUR\n";
-								else
+								} else {
 									data += "#EnableAUR\n";
-							} else
+								}
+							} else {
 								data += line + "\n";
+							}
 						} else if (line.contains ("RemoveUnrequiredDeps")) {
 							if (new_conf.contains ("RemoveUnrequiredDeps")) {
 								bool _value = new_conf.get ("RemoveUnrequiredDeps").get_boolean ();
-								if (_value == true)
+								if (_value == true) {
 									data += "RemoveUnrequiredDeps\n";
-								else
+								} else {
 									data += "#RemoveUnrequiredDeps\n";
-							} else
+								}
+							} else {
 								data += line + "\n";
-						} else
+							}
+						} else {
 							data += line + "\n";
+						}
 					}
 					// delete the file before rewrite it
 					file.delete ();

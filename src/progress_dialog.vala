@@ -1,7 +1,7 @@
 /*
  *  pamac-vala
  *
- *  Copyright (C) 2014  Guillaume Benoit <guillaume@manjaro.org>
+ *  Copyright (C) 2014-2015 Guillaume Benoit <guillaume@manjaro.org>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -44,8 +44,9 @@ namespace Pamac {
 		[GtkCallback]
 		public void on_close_button_clicked () {
 			this.hide ();
-			while (Gtk.events_pending ())
+			while (Gtk.events_pending ()) {
 				Gtk.main_iteration ();
+			}
 		}
 
 		[GtkCallback]
@@ -55,8 +56,9 @@ namespace Pamac {
 			transaction.spawn_in_term ({"/usr/bin/echo", dgettext (null, "Transaction cancelled") + ".\n"});
 			this.hide ();
 			transaction.finished (false);
-			while (Gtk.events_pending ())
+			while (Gtk.events_pending ()) {
 				Gtk.main_iteration ();
+			}
 		}
 	}
 }

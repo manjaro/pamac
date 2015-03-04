@@ -1,7 +1,7 @@
 /*
  *  pamac-vala
  *
- *  Copyright (C) 2014  Guillaume Benoit <guillaume@manjaro.org>
+ *  Copyright (C) 2014-2015 Guillaume Benoit <guillaume@manjaro.org>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -35,6 +35,9 @@ namespace Pamac {
 		public Mutex provider_mutex;
 		public int? choosen_provider;
 		private Mutex databases_lock_mutex;
+		private HashTable<string, Json.Array> aur_results;
+		private UpdateInfos[] aur_updates;
+		private bool aur_updates_checked;
 
 		public signal void emit_event (uint primary_event, uint secondary_event, string[] details);
 		public signal void emit_providers (string depend, string[] providers);
@@ -42,16 +45,24 @@ namespace Pamac {
 		public signal void emit_download (string filename, uint64 xfered, uint64 total);
 		public signal void emit_totaldownload (uint64 total);
 		public signal void emit_log (uint level, string msg);
-		public signal void emit_refreshed (ErrorInfos error);
-		public signal void emit_trans_prepared (ErrorInfos error);
-		public signal void emit_trans_committed (ErrorInfos error);
-		public signal void emit_generate_mirrorlist_start ();
-		public signal void emit_generate_mirrorlist_data (string line);
-		public signal void emit_generate_mirrorlist_finished ();
+		public signal void set_pkgreason_finished ();
+		public signal void refresh_finished (ErrorInfos error);
+		public signal void trans_prepare_finished (ErrorInfos error);
+		public signal void trans_commit_finished (ErrorInfos error);
+		public signal void write_pamac_config_finished (int refresh_period, bool enable_aur, bool recurse);
+		public signal void write_alpm_config_finished ();
+		public signal void write_mirrors_config_finished ();
+		public signal void generate_mirrorlist_start ();
+		public signal void generate_mirrorlist_data (string line);
+		public signal void generate_mirrorlist_finished ();
 
 		public Daemon () {
 			alpm_config = new Alpm.Config ("/etc/pacman.conf");
 			databases_lock_mutex = Mutex ();
+			aur_results = new HashTable<string, Json.Array> (str_hash, str_equal);
+			aur_updates = {};
+			aur_updates_checked = false;
+			refresh_handle ();
 		}
 
 		private void refresh_handle () {
@@ -59,7 +70,7 @@ namespace Pamac {
 			if (alpm_config.handle == null) {
 				ErrorInfos err = ErrorInfos ();
 				err.str = _("Failed to initialize alpm library");
-				emit_trans_committed (err);
+				trans_commit_finished (err);
 			} else {
 				alpm_config.handle.eventcb = (EventCallBack) cb_event;
 				alpm_config.handle.progresscb = (ProgressCallBack) cb_progress;
@@ -71,40 +82,58 @@ namespace Pamac {
 			previous_percent = 0;
 		}
 
-		public void write_pamac_config (HashTable<string,Variant> new_pamac_conf, GLib.BusName sender) {
+		public void start_write_pamac_config (HashTable<string,Variant> new_pamac_conf, GLib.BusName sender) {
 			var pamac_config = new Pamac.Config ("/etc/pamac.conf");
 			try {
 				Polkit.Authority authority = Polkit.Authority.get_sync (null);
 				Polkit.Subject subject = Polkit.SystemBusName.new (sender);
-				Polkit.AuthorizationResult result = authority.check_authorization_sync (
+				authority.check_authorization.begin (
 					subject,
 					"org.manjaro.pamac.commit",
 					null,
 					Polkit.CheckAuthorizationFlags.ALLOW_USER_INTERACTION,
-					null
+					null,
+					(obj, res) => {
+						try {
+							var result = authority.check_authorization.end (res);
+							if (result.get_is_authorized ()) {
+								pamac_config.write (new_pamac_conf);
+								pamac_config.reload ();
+								write_pamac_config_finished (pamac_config.refresh_period, pamac_config.enable_aur, pamac_config.recurse);
+							}
+						} catch (GLib.Error e) {
+							stderr.printf ("%s\n", e.message);
+						}
+					}
 				);
-				if (result.get_is_authorized ()) {
-					pamac_config.write (new_pamac_conf);
-				}
 			} catch (GLib.Error e) {
 				stderr.printf ("%s\n", e.message);
 			}
 		}
 
-		public void write_alpm_config (HashTable<string,Variant> new_alpm_conf, GLib.BusName sender) {
+		public void start_write_alpm_config (HashTable<string,Variant> new_alpm_conf, GLib.BusName sender) {
 			try {
 				Polkit.Authority authority = Polkit.Authority.get_sync (null);
 				Polkit.Subject subject = Polkit.SystemBusName.new (sender);
-				Polkit.AuthorizationResult result = authority.check_authorization_sync (
+				authority.check_authorization.begin (
 					subject,
 					"org.manjaro.pamac.commit",
 					null,
 					Polkit.CheckAuthorizationFlags.ALLOW_USER_INTERACTION,
-					null
+					null,
+					(obj, res) => {
+						try {
+							var result = authority.check_authorization.end (res);
+							if (result.get_is_authorized ()) {
+								alpm_config.write (new_alpm_conf);
+								alpm_config.reload ();
+								write_alpm_config_finished ();
+							}
+						} catch (GLib.Error e) {
+							stderr.printf ("%s\n", e.message);
+						}
+					}
 				);
-				if (result.get_is_authorized ()) {
-					alpm_config.write (new_alpm_conf);
-				}
 			} catch (GLib.Error e) {
 				stderr.printf ("%s\n", e.message);
 			}
@@ -112,30 +141,27 @@ namespace Pamac {
 
 		private bool process_line (IOChannel channel, IOCondition condition, string stream_name) {
 			if (condition == IOCondition.HUP) {
-				stdout.printf ("%s: The fd has been closed.\n", stream_name);
 				return false;
 			}
 			try {
 				string line;
 				channel.read_line (out line, null, null);
-				emit_generate_mirrorlist_data (line);
+				generate_mirrorlist_data (line);
 			} catch (IOChannelError e) {
-				stdout.printf ("%s: IOChannelError: %s\n", stream_name, e.message);
+				stderr.printf ("%s: IOChannelError: %s\n", stream_name, e.message);
 				return false;
 			} catch (ConvertError e) {
-				stdout.printf ("%s: ConvertError: %s\n", stream_name, e.message);
+				stderr.printf ("%s: ConvertError: %s\n", stream_name, e.message);
 				return false;
 			}
 			return true;
 		}
 
 		private void generate_mirrorlist () {
-			emit_generate_mirrorlist_start ();
-
+			generate_mirrorlist_start ();
 			int standard_output;
 			int standard_error;
 			Pid child_pid;
-
 			try {
 				Process.spawn_async_with_pipes (null,
 					{"pacman-mirrors", "-g"},
@@ -149,81 +175,94 @@ namespace Pamac {
 			} catch (SpawnError e) {
 				stdout.printf ("SpawnError: %s\n", e.message);
 			}
-
 			// stdout:
 			IOChannel output = new IOChannel.unix_new (standard_output);
 			output.add_watch (IOCondition.IN | IOCondition.HUP, (channel, condition) => {
 				return process_line (channel, condition, "stdout");
 			});
-
 			// stderr:
 			IOChannel error = new IOChannel.unix_new (standard_error);
 			error.add_watch (IOCondition.IN | IOCondition.HUP, (channel, condition) => {
 				return process_line (channel, condition, "stderr");
 			});
-
 			ChildWatch.add (child_pid, (pid, status) => {
 				// Triggered when the child indicated by child_pid exits
 				Process.close_pid (pid);
 				alpm_config.reload ();
 				refresh_handle ();
-				emit_generate_mirrorlist_finished ();
+				generate_mirrorlist_finished ();
 			});
 		}
 
-		public void write_mirrors_config (HashTable<string,Variant> new_mirrors_conf, GLib.BusName sender) {
+		public void start_write_mirrors_config (HashTable<string,Variant> new_mirrors_conf, GLib.BusName sender) {
 			var mirrors_config = new Alpm.MirrorsConfig ("/etc/pacman-mirrors.conf");
 			try {
 				Polkit.Authority authority = Polkit.Authority.get_sync (null);
 				Polkit.Subject subject = Polkit.SystemBusName.new (sender);
-				Polkit.AuthorizationResult result = authority.check_authorization_sync (
+				authority.check_authorization.begin (
 					subject,
 					"org.manjaro.pamac.commit",
 					null,
 					Polkit.CheckAuthorizationFlags.ALLOW_USER_INTERACTION,
-					null
+					null,
+					(obj, res) => {
+						try {
+							var result = authority.check_authorization.end (res);
+							if (result.get_is_authorized ()) {
+								mirrors_config.write (new_mirrors_conf);
+								write_mirrors_config_finished ();
+								generate_mirrorlist ();
+							}
+						} catch (GLib.Error e) {
+							stderr.printf ("%s\n", e.message);
+						}
+					}
 				);
-				if (result.get_is_authorized ()) {
-					mirrors_config.write (new_mirrors_conf);
-					generate_mirrorlist ();
-				}
 			} catch (GLib.Error e) {
 				stderr.printf ("%s\n", e.message);
 			}
 		}
 
-		public void set_pkgreason (string pkgname, uint reason, GLib.BusName sender) {
+		public void start_set_pkgreason (string pkgname, uint reason, GLib.BusName sender) {
 			try {
 				Polkit.Authority authority = Polkit.Authority.get_sync (null);
 				Polkit.Subject subject = Polkit.SystemBusName.new (sender);
-				Polkit.AuthorizationResult result = authority.check_authorization_sync (
+				authority.check_authorization.begin (
 					subject,
 					"org.manjaro.pamac.commit",
 					null,
 					Polkit.CheckAuthorizationFlags.ALLOW_USER_INTERACTION,
-					null
-				);
-				if (result.get_is_authorized ()) {
-					refresh_handle ();
-					unowned Package? pkg = alpm_config.handle.localdb.get_pkg (pkgname);
-					if (pkg != null) {
-						pkg.reason = (Package.Reason) reason;
+					null,
+					(obj, res) => {
+						try {
+							var result = authority.check_authorization.end (res);
+							if (result.get_is_authorized ()) {
+								unowned Alpm.Package? pkg = alpm_config.handle.localdb.get_pkg (pkgname);
+								if (pkg != null) {
+									pkg.reason = (Alpm.Package.Reason) reason;
+									refresh_handle ();
+									set_pkgreason_finished ();
+								}
+							}
+						} catch (GLib.Error e) {
+							stderr.printf ("%s\n", e.message);
+						}
 					}
-				}
+				);
 			} catch (GLib.Error e) {
 				stderr.printf ("%s\n", e.message);
 			}
 		}
 
-		public void refresh (int force, bool emit_signal) {
+		private async ErrorInfos refresh (int force) {
+			SourceFunc callback = refresh.callback;
+			ErrorInfos err = ErrorInfos ();
 			try {
 				new Thread<int>.try ("refresh thread", () => {
 					databases_lock_mutex.lock ();
-					ErrorInfos err = ErrorInfos ();
 					string[] details = {};
 					int success = 0;
 					int ret;
-					refresh_handle ();
 					foreach (var db in alpm_config.handle.syncdbs) {
 						ret = db.update (force);
 						if (ret >= 0) {
@@ -237,39 +276,405 @@ namespace Pamac {
 						details += Alpm.strerror (alpm_config.handle.errno ());
 						err.details = details;
 					}
-					if (emit_signal) {
-						emit_refreshed (err);
-					}
-					print("done\n");
 					databases_lock_mutex.unlock ();
+					Idle.add((owned) callback);
 					return success;
 				});
 			} catch (GLib.Error e) {
 				stderr.printf ("%s\n", e.message);
 			}
+			yield;
+			return err;
 		}
 
-		public UpdatesInfos[] get_updates () {
-			refresh_handle ();
+		public void start_refresh (int force, bool emit_finish_signal) {
+			refresh.begin (force, (obj, res) => {
+				var err = refresh.end (res);
+				refresh_handle ();
+				if (emit_finish_signal) {
+					refresh_finished (err);
+				}
+			});
+		}
+
+		public bool get_checkspace () {
+			if (alpm_config.checkspace == 1) {
+				return true;
+			}
+			return false;
+		}
+
+		public string get_syncfirst (){
+			return alpm_config.syncfirst;
+		}
+
+		public string get_ignorepkg () {
+			return alpm_config.ignorepkg;
+		}
+
+		public bool should_hold (string pkgname) {
+			if (alpm_config.holdpkgs.find_custom (pkgname, strcmp) != null) {
+				return true;
+			}
+			return false;
+		}
+
+		public async Pamac.Package[] get_all_pkgs () {
+			Pamac.Package[] pkgs = {};
+			var alpm_pkgs = all_pkgs (alpm_config.handle);
+			foreach (var alpm_pkg in alpm_pkgs) {
+				pkgs += Pamac.Package (alpm_pkg, null);
+			}
+			return pkgs;
+		}
+
+		public async Pamac.Package[] get_installed_pkgs () {
+			Pamac.Package[] pkgs = {};
+			foreach (var alpm_pkg in alpm_config.handle.localdb.pkgcache) {
+				pkgs += Pamac.Package (alpm_pkg, null);
+			}
+			return pkgs;
+		}
+
+		public async Pamac.Package[] get_local_pkgs () {
+			Pamac.Package[] pkgs = {};
+			foreach (var alpm_pkg in alpm_config.handle.localdb.pkgcache) {
+				bool sync_found = false;
+				foreach (var db in alpm_config.handle.syncdbs) {
+					unowned Alpm.Package? sync_pkg = db.get_pkg (alpm_pkg.name);
+					if (sync_pkg != null) {
+						sync_found = true;
+						break;
+					}
+				}
+				if (sync_found == false) {
+					pkgs += Pamac.Package (alpm_pkg, null);
+				}
+			}
+			return pkgs;
+		}
+
+		public async Pamac.Package[] get_orphans () {
+			Pamac.Package[] pkgs = {};
+			foreach (var alpm_pkg in alpm_config.handle.localdb.pkgcache) {
+				if (alpm_pkg.reason == Alpm.Package.Reason.DEPEND) {
+					Alpm.List<string?> *list = alpm_pkg.compute_requiredby ();
+					if (list->length == 0) {
+						pkgs += Pamac.Package (alpm_pkg, null);
+					}
+					Alpm.List.free_all (list);
+				}
+			}
+			return pkgs;
+		}
+
+		public Pamac.Package find_local_pkg (string pkgname) {
+			return Pamac.Package (alpm_config.handle.localdb.get_pkg (pkgname), null);
+		}
+
+		private unowned Alpm.Package? get_syncpkg (string name) {
+			unowned Alpm.Package? pkg = null;
+			foreach (var db in alpm_config.handle.syncdbs) {
+				pkg = db.get_pkg (name);
+				if (pkg != null) {
+					break;
+				}
+			}
+			return pkg;
+		}
+
+		public Pamac.Package find_sync_pkg (string pkgname) {
+			return Pamac.Package (get_syncpkg (pkgname), null);
+		}
+
+		public async Pamac.Package[] search_pkgs (string search_string, bool search_aur) {
+			Pamac.Package[] result = {};
+			var needles = new Alpm.List<string> ();
+			string[] splitted = search_string.split (" ");
+			foreach (unowned string part in splitted) {
+				needles.add (part);
+			}
+			var alpm_pkgs = search_all_dbs (alpm_config.handle, needles);
+			foreach (var alpm_pkg in alpm_pkgs) {
+				result += Pamac.Package (alpm_pkg, null);
+			}
+			if (search_aur) {
+				Json.Array aur_pkgs;
+				if (aur_results.contains (search_string)) {
+					aur_pkgs = aur_results.get (search_string);
+				} else {
+					aur_pkgs = AUR.search (splitted);
+					aur_results.insert (search_string, aur_pkgs);
+				}
+				foreach (var node in aur_pkgs.get_elements ()) {
+					var aur_pkg = node.get_object ();
+					var pamac_pkg = Pamac.Package (null, aur_pkg);
+					bool found = false;
+					foreach (var pkg in result) {
+						if (pkg.name == pamac_pkg.name) {
+							found = true;
+							break;
+						}
+					}
+					if (found == false) {
+						result += pamac_pkg;
+					}
+				}
+			}
+			return result;
+		}
+
+		public string[] get_repos_names () {
+			string[] repos_names = {};
+			foreach (var db in alpm_config.handle.syncdbs) {
+				repos_names += db.name;
+			}
+			return repos_names;
+		}
+
+		public async Pamac.Package[] get_repo_pkgs (string repo) {
+			Pamac.Package[] pkgs = {};
+			unowned Alpm.Package? local_pkg = null;
+			foreach (var db in alpm_config.handle.syncdbs) {
+				if (db.name == repo) {
+					foreach (var sync_pkg in db.pkgcache) {
+						local_pkg = alpm_config.handle.localdb.get_pkg (sync_pkg.name);
+						if (local_pkg != null) {
+							pkgs += Pamac.Package (local_pkg, null);
+						} else {
+							pkgs += Pamac.Package (sync_pkg, null);
+						}
+					}
+				}
+			}
+			return pkgs;
+		}
+
+		public string[] get_groups_names () {
+			string[] groups_names = {};
+			foreach (var db in alpm_config.handle.syncdbs) {
+				foreach (var group in db.groupcache) {
+					if ((group.name in groups_names) == false) { 
+						groups_names += group.name;
+					}
+				}
+			}
+			return groups_names;
+		}
+
+		public async Pamac.Package[] get_group_pkgs (string group_name) {
+			Pamac.Package[] pkgs = {};
+			var alpm_pkgs = group_pkgs (alpm_config.handle, group_name);
+			foreach (var alpm_pkg in alpm_pkgs) {
+				pkgs += Pamac.Package (alpm_pkg, null);
+			}
+			return pkgs;
+		}
+
+		public string[] get_pkg_files (string pkgname) {
+			string[] files = {};
+			unowned Alpm.Package? alpm_pkg = alpm_config.handle.localdb.get_pkg (pkgname);
+			if (alpm_pkg != null) {
+				foreach (var file in alpm_pkg.files) {
+					files += file.name;
+				}
+			}
+			return files;
+		}
+
+		public string[] get_pkg_uninstalled_optdeps (string pkgname) {
+			string[] optdeps = {};
+			unowned Alpm.Package? alpm_pkg = alpm_config.handle.localdb.get_pkg (pkgname);
+			if (alpm_pkg != null) {
+				foreach (unowned Depend optdep in alpm_pkg.optdepends) {
+					if (find_satisfier (alpm_config.handle.localdb.pkgcache, optdep.name) == null) {
+						optdeps += optdep.compute_string ();
+					}
+				}
+			}
+			return optdeps;
+		}
+
+		public PackageDetails get_pkg_details (string pkgname) {
+			string repo = "";
+			string has_signature = _("No");
+			int reason = 0;
+			string packager = "";
+			string install_date = "";
+			string[] groups = {};
+			string[] backups = {};
+			var details = PackageDetails ();
+			unowned Alpm.Package? alpm_pkg = alpm_config.handle.localdb.get_pkg (pkgname);
+			if (alpm_pkg == null) {
+				alpm_pkg = get_syncpkg (pkgname);
+			}
+			if (alpm_pkg != null) {
+				repo = alpm_pkg.db.name;
+				packager = alpm_pkg.packager;
+				foreach (var group in alpm_pkg.groups) {
+					groups += group;
+				}
+				if (alpm_pkg.db.name == "local") {
+					reason = alpm_pkg.reason;
+					GLib.Time time = GLib.Time.local ((time_t) alpm_pkg.installdate);
+					install_date = time.format ("%a %d %b %Y %X %Z");
+					foreach (var backup in alpm_pkg.backups) {
+						backups += backup.name;
+					}
+				} else {
+					has_signature = alpm_pkg.base64_sig != null ? _("Yes") : _("No");
+				}
+			}
+			details.repo = repo;
+			details.has_signature = has_signature;
+			details.reason = reason;
+			details.packager = packager;
+			details.install_date = install_date;
+			details.groups = groups;
+			details.backups = backups;
+			return details;
+		}
+
+		public PackageDeps get_pkg_deps (string pkgname) {
+			string repo = "";
+			string[] depends = {};
+			string[] optdepends = {};
+			string[] requiredby = {};
+			string[] provides = {};
+			string[] replaces = {};
+			string[] conflicts = {};
+			var deps = PackageDeps ();
+			unowned Alpm.Package? alpm_pkg = alpm_config.handle.localdb.get_pkg (pkgname);
+			if (alpm_pkg == null) {
+				alpm_pkg = get_syncpkg (pkgname);
+			}
+			if (alpm_pkg != null) {
+				repo = alpm_pkg.db.name;
+				foreach (var depend in alpm_pkg.depends) {
+					depends += depend.compute_string ();
+				}
+				foreach (var optdepend in alpm_pkg.optdepends) {
+					optdepends += optdepend.compute_string ();
+				}
+				foreach (var provide in alpm_pkg.provides) {
+					provides += provide.compute_string ();
+				}
+				foreach (var replace in alpm_pkg.replaces) {
+					replaces += replace.compute_string ();
+				}
+				foreach (var conflict in alpm_pkg.conflicts) {
+					conflicts += conflict.compute_string ();
+				}
+				if (alpm_pkg.db.name == "local") {
+					Alpm.List<string?> *list = alpm_pkg.compute_requiredby ();
+					int i = 0;
+					while (i < list->length) {
+						requiredby += list->nth_data (i);
+						i++;
+					}
+					Alpm.List.free_all (list);
+				}
+			}
+			deps.repo = repo;
+			deps.depends = depends;
+			deps.optdepends = optdepends;
+			deps.requiredby = requiredby;
+			deps.provides = provides;
+			deps.replaces = replaces;
+			deps.conflicts = conflicts;
+			return deps;
+		}
+
+		public async Updates get_updates () {
 			var pamac_config = new Pamac.Config ("/etc/pamac.conf");
-			UpdatesInfos[] updates = {};
-			updates = get_syncfirst_updates (alpm_config.handle, alpm_config.syncfirsts);
-			if (updates.length != 0) {
+			var infos = UpdateInfos ();
+			UpdateInfos[] updates_infos = {};
+			var updates = Updates ();
+			updates.aur_updates = {};
+			unowned Alpm.Package? pkg = null;
+			unowned Alpm.Package? candidate = null;
+			foreach (var name in alpm_config.syncfirsts) {
+				pkg = Alpm.find_satisfier (alpm_config.handle.localdb.pkgcache, name);
+				if (pkg != null) {
+					candidate = pkg.sync_newversion (alpm_config.handle.syncdbs);
+					if (candidate != null) {
+						infos.name = candidate.name;
+						infos.version = candidate.version;
+						infos.db_name = candidate.db.name;
+						infos.tarpath = "";
+						infos.download_size = candidate.download_size;
+						updates_infos += infos;
+					}
+				}
+			}
+			if (updates_infos.length != 0) {
+				updates.is_syncfirst = true;
+				updates.repos_updates = updates_infos;
 				return updates;
 			} else {
-				updates = get_repos_updates (alpm_config.handle);
-				if (pamac_config.enable_aur) {
-					UpdatesInfos[] aur_updates = get_aur_updates (alpm_config.handle);
-					foreach (var infos in aur_updates) {
-						updates += infos;
+				string[] local_pkgs = {};
+				foreach (var local_pkg in alpm_config.handle.localdb.pkgcache) {
+					// continue only if the local pkg is not in IgnorePkg or IgnoreGroup
+					if (alpm_config.handle.should_ignore (local_pkg) == 0) {
+						candidate = local_pkg.sync_newversion (alpm_config.handle.syncdbs);
+						if (candidate != null) {
+							infos.name = candidate.name;
+							infos.version = candidate.version;
+							infos.db_name = candidate.db.name;
+							infos.tarpath = "";
+							infos.download_size = candidate.download_size;
+							updates_infos += infos;
+						} else {
+							if (pamac_config.enable_aur) {
+								// check if it is a local pkg
+								foreach (var db in alpm_config.handle.syncdbs) {
+									pkg = Alpm.find_satisfier (db.pkgcache, local_pkg.name);
+									if (pkg != null) {
+										break;
+									}
+								}
+								if (pkg == null) {
+									local_pkgs += local_pkg.name;
+								}
+							}
+						}
 					}
+				}
+				updates.is_syncfirst = false;
+				updates.repos_updates = updates_infos;
+				if (pamac_config.enable_aur) {
+					if (aur_updates_checked == false) {
+						// get aur updates
+						updates_infos = {};
+						var aur_pkgs = AUR.multiinfo (local_pkgs);
+						int cmp;
+						unowned Json.Object pkg_info;
+						string version;
+						string name;
+						foreach (var node in aur_pkgs.get_elements ()) {
+							pkg_info = node.get_object ();
+							version = pkg_info.get_string_member ("Version");
+							name = pkg_info.get_string_member ("Name");
+							cmp = Alpm.pkg_vercmp (version, alpm_config.handle.localdb.get_pkg (name).version);
+							if (cmp == 1) {
+								infos.name = name;
+								infos.version = version;
+								infos.db_name = "AUR";
+								infos.tarpath = pkg_info.get_string_member ("URLPath");
+								infos.download_size = 0;
+								updates_infos += infos;
+							}
+						}
+						aur_updates = updates_infos;
+						aur_updates_checked = true;
+					}
+					updates.aur_updates = aur_updates;
 				}
 				return updates;
 			}
 		}
 
 		public ErrorInfos trans_init (TransFlag transflags) {
-			refresh_handle ();
 			ErrorInfos err = ErrorInfos ();
 			string[] details = {};
 			int ret = alpm_config.handle.trans_init (transflags);
@@ -293,7 +698,7 @@ namespace Pamac {
 			return err;
 		}
 
-		private ErrorInfos trans_add_pkg_real (Package pkg) {
+		private ErrorInfos trans_add_pkg_real (Alpm.Package pkg) {
 			ErrorInfos err = ErrorInfos ();
 			string[] details = {};
 			int ret = alpm_config.handle.trans_add_pkg (pkg);
@@ -315,7 +720,7 @@ namespace Pamac {
 		public ErrorInfos trans_add_pkg (string pkgname) {
 			ErrorInfos err = ErrorInfos ();
 			string[] details = {};
-			unowned Package? pkg = alpm_config.handle.find_dbs_satisfier (alpm_config.handle.syncdbs, pkgname);
+			unowned Alpm.Package? pkg = get_syncpkg (pkgname);
 			if (pkg == null)  {
 				err.str = _("Failed to prepare transaction");
 				details += _("target not found: %s").printf (pkgname);
@@ -346,7 +751,7 @@ namespace Pamac {
 							// add the same module for other installed kernels
 							foreach (var installed_kernel in installed_kernels) {
 								string module = installed_kernel + "-" + splitted[1];
-								unowned Package? module_pkg = alpm_config.handle.find_dbs_satisfier (alpm_config.handle.syncdbs, module);
+								unowned Alpm.Package? module_pkg = get_syncpkg (module);
 								if (module_pkg != null) {
 									trans_add_pkg_real (module_pkg);
 								}
@@ -356,7 +761,7 @@ namespace Pamac {
 							// add all installed module for other kernels
 							foreach (var installed_module in installed_modules) {
 								string module = splitted[0] + "-" + installed_module;
-								unowned Package? module_pkg = alpm_config.handle.find_dbs_satisfier (alpm_config.handle.syncdbs, module);
+								unowned Alpm.Package? module_pkg = get_syncpkg (module);
 								if (module_pkg != null) {
 									trans_add_pkg_real (module_pkg);
 								}
@@ -371,7 +776,7 @@ namespace Pamac {
 		public ErrorInfos trans_load_pkg (string pkgpath) {
 			ErrorInfos err = ErrorInfos ();
 			string[] details = {};
-			Package* pkg = alpm_config.handle.load_file (pkgpath, 1, alpm_config.handle.localfilesiglevel);
+			Alpm.Package* pkg = alpm_config.handle.load_file (pkgpath, 1, alpm_config.handle.localfilesiglevel);
 			if (pkg == null) {
 				err.str = _("Failed to prepare transaction");
 				details += "%s: %s".printf (pkgpath, Alpm.strerror (alpm_config.handle.errno ()));
@@ -400,7 +805,7 @@ namespace Pamac {
 		public ErrorInfos trans_remove_pkg (string pkgname) {
 			ErrorInfos err = ErrorInfos ();
 			string[] details = {};
-			unowned Package? pkg =  alpm_config.handle.localdb.get_pkg (pkgname);
+			unowned Alpm.Package? pkg =  alpm_config.handle.localdb.get_pkg (pkgname);
 			if (pkg == null) {
 				err.str = _("Failed to prepare transaction");
 				details += _("target not found: %s").printf (pkgname);
@@ -416,83 +821,91 @@ namespace Pamac {
 			return err;
 		}
 
-		private int trans_prepare_real () {
-			databases_lock_mutex.lock ();
+		private async ErrorInfos trans_prepare () {
+			SourceFunc callback = trans_prepare.callback;
 			ErrorInfos err = ErrorInfos ();
-			string[] details = {};
-			Alpm.List<void*> err_data = null;
-			int ret = alpm_config.handle.trans_prepare (out err_data);
-			if (ret == -1) {
-				Alpm.Errno errno = alpm_config.handle.errno ();
-				err.str = _("Failed to prepare transaction");
-				string detail = Alpm.strerror (errno);
-				switch (errno) {
-					case Errno.PKG_INVALID_ARCH:
-						detail += ":";
-						details += detail;
-						foreach (void *i in err_data) {
-							char *pkgname = i;
-							details += _("package %s does not have a valid architecture").printf (pkgname);
-							delete pkgname;
-						}
-						break;
-					case Errno.UNSATISFIED_DEPS:
-						detail += ":";
-						details += detail;
-						foreach (void *i in err_data) {
-							DepMissing *miss = i;
-							string depstring = miss->depend.compute_string ();
-							details += _("%s: requires %s").printf (miss->target, depstring);
-							delete miss;
-						}
-						break;
-					case Errno.CONFLICTING_DEPS:
-						detail += ":";
-						details += detail;
-						foreach (void *i in err_data) {
-							Conflict *conflict = i;
-							detail = _("%s and %s are in conflict").printf (conflict->package1, conflict->package2);
-							// only print reason if it contains new information
-							if (conflict->reason.mod != Depend.Mode.ANY) {
-								detail += " (%s)".printf (conflict->reason.compute_string ());
-							}
-							details += detail;
-							delete conflict;
-						}
-						break;
-					default:
-						details += detail;
-						break;
-				}
-				err.details = details;
-				trans_release ();
-			} else {
-				// Search for holdpkg in target list
-				bool found_locked_pkg = false;
-				foreach (var pkg in alpm_config.handle.trans_to_remove ()) {
-					if (alpm_config.holdpkgs.find_custom (pkg.name, strcmp) != null) {
-						details += _("%s needs to be removed but it is a locked package").printf (pkg.name);
-						found_locked_pkg = true;
-						break;
-					}
-				}
-				if (found_locked_pkg) {
-					err.str = _("Failed to prepare transaction");
-					err.details = details;
-					trans_release ();
-				}
-			}
-			emit_trans_prepared (err);
-			databases_lock_mutex.unlock ();
-			return ret;
-		}
-
-		public void trans_prepare () {
 			try {
-				new Thread<int>.try ("prepare thread", (ThreadFunc) trans_prepare_real);
+				new Thread<int>.try ("prepare thread", () => {
+					databases_lock_mutex.lock ();
+					string[] details = {};
+					Alpm.List<void*> err_data = null;
+					int ret = alpm_config.handle.trans_prepare (out err_data);
+					if (ret == -1) {
+						Alpm.Errno errno = alpm_config.handle.errno ();
+						err.str = _("Failed to prepare transaction");
+						string detail = Alpm.strerror (errno);
+						switch (errno) {
+							case Errno.PKG_INVALID_ARCH:
+								detail += ":";
+								details += detail;
+								foreach (void *i in err_data) {
+									string *pkgname = i;
+									details += _("package %s does not have a valid architecture").printf (pkgname);
+									delete pkgname;
+								}
+								break;
+							case Errno.UNSATISFIED_DEPS:
+								detail += ":";
+								details += detail;
+								foreach (void *i in err_data) {
+									DepMissing *miss = i;
+									string depstring = miss->depend.compute_string ();
+									details += _("%s: requires %s").printf (miss->target, depstring);
+									delete miss;
+								}
+								break;
+							case Errno.CONFLICTING_DEPS:
+								detail += ":";
+								details += detail;
+								foreach (void *i in err_data) {
+									Conflict *conflict = i;
+									detail = _("%s and %s are in conflict").printf (conflict->package1, conflict->package2);
+									// only print reason if it contains new information
+									if (conflict->reason.mod != Depend.Mode.ANY) {
+										detail += " (%s)".printf (conflict->reason.compute_string ());
+									}
+									details += detail;
+									delete conflict;
+								}
+								break;
+							default:
+								details += detail;
+								break;
+						}
+						err.details = details;
+						trans_release ();
+					} else {
+						// Search for holdpkg in target list
+						bool found_locked_pkg = false;
+						foreach (var pkg in alpm_config.handle.trans_to_remove ()) {
+							if (alpm_config.holdpkgs.find_custom (pkg.name, strcmp) != null) {
+								details += _("%s needs to be removed but it is a locked package").printf (pkg.name);
+								found_locked_pkg = true;
+								break;
+							}
+						}
+						if (found_locked_pkg) {
+							err.str = _("Failed to prepare transaction");
+							err.details = details;
+							trans_release ();
+						}
+					}
+					databases_lock_mutex.unlock ();
+					Idle.add((owned) callback);
+					return ret;
+				});
 			} catch (GLib.Error e) {
 				stderr.printf ("%s\n", e.message);
 			}
+			yield;
+			return err;
+		}
+
+		public void start_trans_prepare () {
+			trans_prepare.begin ((obj, res) => {
+				var err = trans_prepare.end (res);
+				trans_prepare_finished (err);
+			});
 		}
 
 		public void choose_provider (int provider) {
@@ -502,9 +915,9 @@ namespace Pamac {
 			provider_mutex.unlock ();
 		}
 
-		public UpdatesInfos[] trans_to_add () {
-			UpdatesInfos info = UpdatesInfos ();
-			UpdatesInfos[] infos = {};
+		public UpdateInfos[] trans_to_add () {
+			UpdateInfos info = UpdateInfos ();
+			UpdateInfos[] infos = {};
 			foreach (var pkg in alpm_config.handle.trans_to_add ()) {
 				info.name = pkg.name;
 				info.version = pkg.version;
@@ -521,9 +934,9 @@ namespace Pamac {
 			return infos;
 		}
 
-		public UpdatesInfos[] trans_to_remove () {
-			UpdatesInfos info = UpdatesInfos ();
-			UpdatesInfos[] infos = {};
+		public UpdateInfos[] trans_to_remove () {
+			UpdateInfos info = UpdateInfos ();
+			UpdateInfos[] infos = {};
 			foreach (var pkg in alpm_config.handle.trans_to_remove ()) {
 				info.name = pkg.name;
 				info.version = pkg.version;
@@ -535,66 +948,12 @@ namespace Pamac {
 			return infos;
 		}
 
-		private int trans_commit_real () {
-			databases_lock_mutex.lock ();
+		private async ErrorInfos trans_commit (GLib.BusName sender) {
+			SourceFunc callback = trans_commit.callback;
 			ErrorInfos err = ErrorInfos ();
-			string[] details = {};
-			Alpm.List<void*> err_data = null;
-			int ret = alpm_config.handle.trans_commit (out err_data);
-			if (ret == -1) {
-				Alpm.Errno errno = alpm_config.handle.errno ();
-				err.str = _("Failed to commit transaction");
-				string detail = Alpm.strerror (errno);
-				switch (errno) {
-					case Alpm.Errno.FILE_CONFLICTS:
-						detail += ":";
-						details += detail;
-						//TransFlag flags = alpm_config.handle.trans_get_flags ();
-						//if ((flags & TransFlag.FORCE) != 0) {
-							//details += _("unable to %s directory-file conflicts").printf ("--force");
-						//}
-						foreach (void *i in err_data) {
-							FileConflict *conflict = i;
-							switch (conflict->type) {
-								case FileConflict.Type.TARGET:
-									details += _("%s exists in both %s and %s").printf (conflict->file, conflict->target, conflict->ctarget);
-									break;
-								case FileConflict.Type.FILESYSTEM:
-									details += _("%s: %s already exists in filesystem").printf (conflict->target, conflict->file);
-									break;
-							}
-							delete conflict;
-						}
-						break;
-					case Alpm.Errno.PKG_INVALID:
-					case Alpm.Errno.PKG_INVALID_CHECKSUM:
-					case Alpm.Errno.PKG_INVALID_SIG:
-					case Alpm.Errno.DLT_INVALID:
-						detail += ":";
-						details += detail;
-						foreach (void *i in err_data) {
-							char *filename = i;
-							details += _("%s is invalid or corrupted").printf (filename);
-							delete filename;
-						}
-						break;
-					default:
-						details += detail;
-						break;
-				}
-				err.details = details;
-			}
-			trans_release ();
-			emit_trans_committed (err);
-			databases_lock_mutex.unlock ();
-			return ret;
-		}
-
-		public void trans_commit (GLib.BusName sender) {
 			try {
 				Polkit.Authority authority = Polkit.Authority.get_sync (null);
 				Polkit.Subject subject = Polkit.SystemBusName.new (sender);
-				var result = new Polkit.AuthorizationResult (false, false, null);
 				authority.check_authorization.begin (
 					subject,
 					"org.manjaro.pamac.commit",
@@ -603,23 +962,83 @@ namespace Pamac {
 					null,
 					(obj, res) => {
 						try {
-							result = authority.check_authorization.end (res);
+							var result = authority.check_authorization.end (res);
 							if (result.get_is_authorized ()) {
-								new Thread<int>.try ("commit thread", (ThreadFunc) trans_commit_real);
+								new Thread<int>.try ("commit thread", () => {
+									databases_lock_mutex.lock ();
+									string[] details = {};
+									Alpm.List<void*> err_data = null;
+									int ret = alpm_config.handle.trans_commit (out err_data);
+									if (ret == -1) {
+										Alpm.Errno errno = alpm_config.handle.errno ();
+										err.str = _("Failed to commit transaction");
+										string detail = Alpm.strerror (errno);
+										switch (errno) {
+											case Alpm.Errno.FILE_CONFLICTS:
+												detail += ":";
+												details += detail;
+												//TransFlag flags = alpm_config.handle.trans_get_flags ();
+												//if ((flags & TransFlag.FORCE) != 0) {
+													//details += _("unable to %s directory-file conflicts").printf ("--force");
+												//}
+												foreach (void *i in err_data) {
+													FileConflict *conflict = i;
+													switch (conflict->type) {
+														case FileConflict.Type.TARGET:
+															details += _("%s exists in both %s and %s").printf (conflict->file, conflict->target, conflict->ctarget);
+															break;
+														case FileConflict.Type.FILESYSTEM:
+															details += _("%s: %s already exists in filesystem").printf (conflict->target, conflict->file);
+															break;
+													}
+													delete conflict;
+												}
+												break;
+											case Alpm.Errno.PKG_INVALID:
+											case Alpm.Errno.PKG_INVALID_CHECKSUM:
+											case Alpm.Errno.PKG_INVALID_SIG:
+											case Alpm.Errno.DLT_INVALID:
+												detail += ":";
+												details += detail;
+												foreach (void *i in err_data) {
+													string *filename = i;
+													details += _("%s is invalid or corrupted").printf (filename);
+													delete filename;
+												}
+												break;
+											default:
+												details += detail;
+												break;
+										}
+										err.details = details;
+									}
+									trans_release ();
+									databases_lock_mutex.unlock ();
+									Idle.add((owned) callback);
+									return ret;
+								});
 							} else {
-								ErrorInfos err = ErrorInfos ();
 								err.str = _("Authentication failed");
-								emit_trans_committed (err);
 								trans_release ();
 							}
 						} catch (GLib.Error e) {
-							stderr.printf ("Polkit Error: %s\n", e.message);
+							stderr.printf ("%s\n", e.message);
 						}
 					}
 				);
 			} catch (GLib.Error e) {
-				stderr.printf ("Polkit Error: %s\n", e.message);
+				stderr.printf ("%s\n", e.message);
 			}
+			yield;
+			return err;
+		}
+
+		public void start_trans_commit (GLib.BusName sender) {
+			trans_commit.begin (sender, (obj, res) => {
+				var err = trans_commit.end (res);
+				refresh_handle ();
+				trans_commit_finished (err);
+			});
 		}
 
 		public int trans_release () {
@@ -665,54 +1084,54 @@ private void cb_event (Event.Data data) {
 	switch (data.type) {
 		case Event.Type.PACKAGE_OPERATION_START:
 			switch (data.package_operation_operation) {
-				case Package.Operation.REMOVE:
+				case Alpm.Package.Operation.REMOVE:
 					details += data.package_operation_oldpkg.name;
 					details += data.package_operation_oldpkg.version;
-					secondary_type = (uint) Package.Operation.REMOVE;
+					secondary_type = (uint) Alpm.Package.Operation.REMOVE;
 					break;
-				case Package.Operation.INSTALL:
+				case Alpm.Package.Operation.INSTALL:
 					details += data.package_operation_newpkg.name;
 					details += data.package_operation_newpkg.version;
-					secondary_type = (uint) Package.Operation.INSTALL;
+					secondary_type = (uint) Alpm.Package.Operation.INSTALL;
 					break;
-				case Package.Operation.REINSTALL:
+				case Alpm.Package.Operation.REINSTALL:
 					details += data.package_operation_newpkg.name;
 					details += data.package_operation_newpkg.version;
-					secondary_type = (uint) Package.Operation.REINSTALL;
+					secondary_type = (uint) Alpm.Package.Operation.REINSTALL;
 					break;
-				case Package.Operation.UPGRADE:
+				case Alpm.Package.Operation.UPGRADE:
 					details += data.package_operation_oldpkg.name;
 					details += data.package_operation_oldpkg.version;
 					details += data.package_operation_newpkg.version;
-					secondary_type = (uint) Package.Operation.UPGRADE;
+					secondary_type = (uint) Alpm.Package.Operation.UPGRADE;
 					break;
-				case Package.Operation.DOWNGRADE:
+				case Alpm.Package.Operation.DOWNGRADE:
 					details += data.package_operation_oldpkg.name;
 					details += data.package_operation_oldpkg.version;
 					details += data.package_operation_newpkg.version;
-					secondary_type = (uint) Package.Operation.DOWNGRADE;
+					secondary_type = (uint) Alpm.Package.Operation.DOWNGRADE;
 					break;
 			}
 			break;
 		case Event.Type.PACKAGE_OPERATION_DONE:
 			switch (data.package_operation_operation) {
-				case Package.Operation.INSTALL:
+				case Alpm.Package.Operation.INSTALL:
 					string log = "Installed %s (%s)\n".printf (data.package_operation_newpkg.name, data.package_operation_newpkg.version);
 					write_log_file (log);
 					break;
-				case Package.Operation.REMOVE:
+				case Alpm.Package.Operation.REMOVE:
 					string log = "Removed %s (%s)\n".printf (data.package_operation_oldpkg.name, data.package_operation_oldpkg.version);
 					write_log_file (log);
 					break;
-				case Package.Operation.REINSTALL:
+				case Alpm.Package.Operation.REINSTALL:
 					string log = "Reinstalled %s (%s)\n".printf (data.package_operation_newpkg.name, data.package_operation_newpkg.version);
 					write_log_file (log);
 					break;
-				case Package.Operation.UPGRADE:
+				case Alpm.Package.Operation.UPGRADE:
 					string log = "Upgraded %s (%s -> %s)\n".printf (data.package_operation_oldpkg.name, data.package_operation_oldpkg.version, data.package_operation_newpkg.version);
 					write_log_file (log);
 					break;
-				case Package.Operation.DOWNGRADE:
+				case Alpm.Package.Operation.DOWNGRADE:
 					string log = "Downgraded %s (%s -> %s)\n".printf (data.package_operation_oldpkg.name, data.package_operation_oldpkg.version, data.package_operation_newpkg.version);
 					write_log_file (log);
 					break;
@@ -772,7 +1191,7 @@ private void cb_question (Question.Data data) {
 		case Question.Type.SELECT_PROVIDER:
 			string depend_str = data.select_provider_depend.compute_string ();
 			string[] providers_str = {};
-			foreach (unowned Package pkg in data.select_provider_providers) {
+			foreach (unowned Alpm.Package pkg in data.select_provider_providers) {
 				providers_str += pkg.name;
 			}
 			pamac_daemon.provider_cond = Cond ();

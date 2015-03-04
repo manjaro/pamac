@@ -2,7 +2,7 @@
 # Copyright (C) 2007-2012 Free Software Foundation, Inc.
 # This file is distributed under the same license as the Pamac package.
 # Guillaume Benoit <guillaume@manjaro.org>, 2013-2015.
-# 
+#
 # Translators:
 # Виктор Кукшиев <andrey0bolkonsky@gmail.com>, 2013
 # Daniil <rostovslipknot@gmail.com>, 2013
@@ -23,15 +23,17 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2015-01-04 09:41+0100\n"
+"POT-Creation-Date: 2015-03-04 14:36+0100\n"
 "PO-Revision-Date: 2015-01-07 17:10+0000\n"
 "Last-Translator: Виктор Кукшиев <andrey0bolkonsky@gmail.com>\n"
-"Language-Team: Russian (http://www.transifex.com/projects/p/manjaro-pamac/language/ru/)\n"
+"Language-Team: Russian (http://www.transifex.com/projects/p/manjaro-pamac/"
+"language/ru/)\n"
+"Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: ru\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
 #: data/polkit/org.manjaro.pamac.policy
 msgid "Authentication is required"
@@ -182,7 +184,9 @@ msgstr "Разрешить Pamac искать и устанавливать па
 msgid ""
 "When removing a package, also remove its dependencies that are not required "
 "by other packages"
-msgstr "При удалении пакета, также произвести удаление неиспользуемых сопутствующих зависимостей"
+msgstr ""
+"При удалении пакета, также произвести удаление неиспользуемых сопутствующих "
+"зависимостей"
 
 #: ../resources/preferences_dialog.ui
 msgid "Check available disk space"
@@ -235,6 +239,14 @@ msgstr "Ошибка инициализации библиотеки alpm"
 #: ../src/daemon.vala
 msgid "Failed to synchronize any databases"
 msgstr "Ошибка синхронизации со всеми базами данных"
+
+#: ../src/daemon.vala
+msgid "No"
+msgstr ""
+
+#: ../src/daemon.vala
+msgid "Yes"
+msgstr ""
 
 #: ../src/daemon.vala
 msgid "Failed to init transaction"
@@ -636,9 +648,15 @@ msgid ""
 msgid_plural ""
 "%s has %u uninstalled optional dependencies.\n"
 "Choose those you would like to install:"
-msgstr[0] "%s имеет %u неустановленную дополнительную зависимость.\nУкажите, если вы хотите их установить:"
-msgstr[1] "%s имеет %u несколько неустановленных дополнительных зависимостей.\nВыберите те, которые вы хотели бы установить:"
-msgstr[2] "%s имеет %u неустановленныx дополнительных зависимостей.\nВыберите те, которые вы хотели бы установить:"
+msgstr[0] ""
+"%s имеет %u неустановленную дополнительную зависимость.\n"
+"Укажите, если вы хотите их установить:"
+msgstr[1] ""
+"%s имеет %u несколько неустановленных дополнительных зависимостей.\n"
+"Выберите те, которые вы хотели бы установить:"
+msgstr[2] ""
+"%s имеет %u неустановленныx дополнительных зависимостей.\n"
+"Выберите те, которые вы хотели бы установить:"
 
 #: ../src/manager_window.vala
 msgid "Uninstalled"
