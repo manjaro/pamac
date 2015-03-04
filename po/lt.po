@@ -2,24 +2,23 @@
 # Copyright (C) 2007-2012 Free Software Foundation, Inc.
 # This file is distributed under the same license as the Pamac package.
 # Guillaume Benoit <guillaume@manjaro.org>, 2013-2015.
-#
+# 
 # Translators:
+# Moo, 2015
 # Moo, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2015-03-04 14:36+0100\n"
-"PO-Revision-Date: 2015-01-19 21:47+0000\n"
-"Last-Translator: Moo\n"
-"Language-Team: Lithuanian (http://www.transifex.com/projects/p/manjaro-pamac/"
-"language/lt/)\n"
-"Language: lt\n"
+"PO-Revision-Date: 2015-03-04 15:07+0000\n"
+"Last-Translator: Guillaume Benoit <guillaume@manjaro.org>\n"
+"Language-Team: Lithuanian (http://www.transifex.com/projects/p/manjaro-pamac/language/lt/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && (n"
-"%100<10 || n%100>=20) ? 1 : 2);\n"
+"Language: lt\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
 #: data/polkit/org.manjaro.pamac.policy
 msgid "Authentication is required"
@@ -170,9 +169,7 @@ msgstr "Leisti Pamac ieškoti ir diegti paketus iš AUR"
 msgid ""
 "When removing a package, also remove its dependencies that are not required "
 "by other packages"
-msgstr ""
-"Šalinant paketą, tuo pačiu šalinti ir jo priklausomybes, kurios nėra "
-"reikalaujamos kitų paketų"
+msgstr "Šalinant paketą, tuo pačiu šalinti ir jo priklausomybes, kurios nėra reikalaujamos kitų paketų"
 
 #: ../resources/preferences_dialog.ui
 msgid "Check available disk space"
@@ -634,15 +631,9 @@ msgid ""
 msgid_plural ""
 "%s has %u uninstalled optional dependencies.\n"
 "Choose those you would like to install:"
-msgstr[0] ""
-"%s turi %u neįdiegtą pasirinktinę priklausomybę.\n"
-"Pasirinkite ar jūs norėtumėte ją įdiegti:"
-msgstr[1] ""
-"%s turi %u neįdiegtas pasirinktines priklausomybes.\n"
-"Pasirinkite tas, kurias norėtumėte įdiegti:"
-msgstr[2] ""
-"%s turi %u neįdiegtų pasirinktinų priklausomybių.\n"
-"Pasirinkite tas, kurias norėtumėte įdiegti:"
+msgstr[0] "%s turi %u neįdiegtą pasirinktinę priklausomybę.\nPasirinkite ar jūs norėtumėte ją įdiegti:"
+msgstr[1] "%s turi %u neįdiegtas pasirinktines priklausomybes.\nPasirinkite tas, kurias norėtumėte įdiegti:"
+msgstr[2] "%s turi %u neįdiegtų pasirinktinų priklausomybių.\nPasirinkite tas, kurias norėtumėte įdiegti:"
 
 #: ../src/manager_window.vala
 msgid "Uninstalled"

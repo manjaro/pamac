@@ -2,10 +2,10 @@
 # Copyright (C) 2007-2012 Free Software Foundation, Inc.
 # This file is distributed under the same license as the Pamac package.
 # Guillaume Benoit <guillaume@manjaro.org>, 2013-2015.
-#
+# 
 # Translators:
-# António Correia <arcorreia@gmx.com>, 2014
-# António Correia <arcorreia@gmx.com>, 2014
+# António Correia, 2014-2015
+# António Correia, 2014
 # Hugo Carvalho <hugokarvalho@hotmail.com>, 2014
 # philm <philm@manjaro.org>, 2015
 msgid ""
@@ -13,14 +13,13 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2015-03-04 14:36+0100\n"
-"PO-Revision-Date: 2015-01-07 17:40+0000\n"
-"Last-Translator: philm <philm@manjaro.org>\n"
-"Language-Team: Portuguese (Portugal) (http://www.transifex.com/projects/p/"
-"manjaro-pamac/language/pt_PT/)\n"
-"Language: pt_PT\n"
+"PO-Revision-Date: 2015-03-04 15:07+0000\n"
+"Last-Translator: Guillaume Benoit <guillaume@manjaro.org>\n"
+"Language-Team: Portuguese (Portugal) (http://www.transifex.com/projects/p/manjaro-pamac/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: pt_PT\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: data/polkit/org.manjaro.pamac.policy
@@ -29,7 +28,7 @@ msgstr "Autenticação requerida"
 
 #: ../resources/choose_provider_dialog.ui
 msgid "Choose a Provider"
-msgstr ""
+msgstr "Escolha um Fornecedor"
 
 #: ../resources/choose_provider_dialog.ui
 #: ../resources/transaction_sum_dialog.ui ../resources/preferences_dialog.ui
@@ -90,7 +89,7 @@ msgstr "Gestor de pacotes"
 
 #: ../resources/manager_window.ui
 msgid "Refresh databases"
-msgstr ""
+msgstr "Actualizar bases de dados"
 
 #: ../resources/manager_window.ui
 msgid "Apply changes"
@@ -98,7 +97,7 @@ msgstr "Aplicar mudanças"
 
 #: ../resources/manager_window.ui
 msgid "Cancel all planned changes"
-msgstr ""
+msgstr "Cancelar todas as alterações planeadas"
 
 #: ../resources/manager_window.ui
 msgid "Search in AUR"
@@ -172,11 +171,11 @@ msgstr "Permitir que o Pamac procure e instale pacotes do AUR"
 msgid ""
 "When removing a package, also remove its dependencies that are not required "
 "by other packages"
-msgstr ""
+msgstr "Ao remover um pacote, remover também todas as suas dependências que não sejam requeridas por outros pacotes"
 
 #: ../resources/preferences_dialog.ui
 msgid "Check available disk space"
-msgstr ""
+msgstr "Verificar espaço disponível em disco"
 
 #: ../resources/preferences_dialog.ui ../src/preferences_dialog.vala
 msgid "How often to check for updates, value in hours"
@@ -188,11 +187,11 @@ msgstr "Remover dependências não-requeridas"
 
 #: ../resources/preferences_dialog.ui
 msgid "Upgrade first:"
-msgstr ""
+msgstr "Actualizar primeiro:"
 
 #: ../resources/preferences_dialog.ui
 msgid "Ignore upgrades for:"
-msgstr ""
+msgstr "Ignorar actualizações para:"
 
 #: ../resources/preferences_dialog.ui
 msgid "Enable AUR support"
@@ -204,27 +203,27 @@ msgstr "Opções"
 
 #: ../resources/preferences_dialog.ui
 msgid "Sort mirrors by:"
-msgstr ""
+msgstr "Ordenar mirrors por:"
 
 #: ../resources/preferences_dialog.ui
 msgid "Use mirrors from:"
-msgstr ""
+msgstr "Usar mirrors de:"
 
 #: ../resources/preferences_dialog.ui
 msgid "Official repositories"
-msgstr ""
+msgstr "Repositórios oficiais"
 
 #: ../src/packages_chooser_dialog.vala
 msgid "Alpm Package"
-msgstr ""
+msgstr "Pacote alpm"
 
 #: ../src/daemon.vala
 msgid "Failed to initialize alpm library"
-msgstr ""
+msgstr "Falhei inicialização da biblioteca alpm"
 
 #: ../src/daemon.vala
 msgid "Failed to synchronize any databases"
-msgstr ""
+msgstr "Falhei sincronizar quaisquer bases de dados"
 
 #: ../src/daemon.vala
 msgid "No"
@@ -236,55 +235,55 @@ msgstr ""
 
 #: ../src/daemon.vala
 msgid "Failed to init transaction"
-msgstr ""
+msgstr "Falhei iniciar transacção"
 
 #: ../src/daemon.vala
 msgid "Failed to prepare transaction"
-msgstr ""
+msgstr "Falhei preparar a transacção"
 
 #: ../src/daemon.vala
 #, c-format
 msgid "target not found: %s"
-msgstr ""
+msgstr "Objecto não encontrado: %s"
 
 #: ../src/daemon.vala
 #, c-format
 msgid "package %s does not have a valid architecture"
-msgstr ""
+msgstr "O pacote %s não tem uma arquitectura válida"
 
 #: ../src/daemon.vala
 #, c-format
 msgid "%s: requires %s"
-msgstr ""
+msgstr "%s: necessita %s"
 
 #: ../src/daemon.vala
 #, c-format
 msgid "%s and %s are in conflict"
-msgstr ""
+msgstr "%s e %s estão em conflito"
 
 #: ../src/daemon.vala
 #, c-format
 msgid "%s needs to be removed but it is a locked package"
-msgstr ""
+msgstr "%s necessita ser removido mas é um pacote bloqueado"
 
 #: ../src/daemon.vala
 msgid "Failed to commit transaction"
-msgstr ""
+msgstr "Falhei submeter transacção"
 
 #: ../src/daemon.vala
 #, c-format
 msgid "%s exists in both %s and %s"
-msgstr ""
+msgstr "%s existe tanto em %s como em %s"
 
 #: ../src/daemon.vala
 #, c-format
 msgid "%s: %s already exists in filesystem"
-msgstr ""
+msgstr "%s: %s já existe no sistema de ficheiros"
 
 #: ../src/daemon.vala
 #, c-format
 msgid "%s is invalid or corrupted"
-msgstr ""
+msgstr "%s é inválido ou está corrompido"
 
 #: ../src/daemon.vala
 msgid "Authentication failed"
@@ -292,11 +291,11 @@ msgstr "Autenticação falhou"
 
 #: ../src/transaction.vala
 msgid "Synchronizing package databases"
-msgstr ""
+msgstr "Sincronizando bases de dados de pacotes"
 
 #: ../src/transaction.vala
 msgid "Starting full system upgrade"
-msgstr ""
+msgstr "Iniciando actualização total do sistema"
 
 #: ../src/transaction.vala
 msgid "Preparing"
@@ -305,7 +304,7 @@ msgstr "Preparando"
 #: ../src/transaction.vala
 #, c-format
 msgid "Choose a provider for %s"
-msgstr ""
+msgstr "Escolha um fornecedor para %s"
 
 #: ../src/transaction.vala ../src/manager_window.vala
 msgid "To remove"
@@ -333,23 +332,23 @@ msgstr "Para actualizar"
 
 #: ../src/transaction.vala ../src/updater_window.vala
 msgid "Total download size"
-msgstr ""
+msgstr "Tamanho total do download"
 
 #: ../src/transaction.vala
 msgid "Building packages"
-msgstr ""
+msgstr "Construindo pacotes"
 
 #: ../src/transaction.vala
 msgid "Worldwide"
-msgstr ""
+msgstr "Mundial"
 
 #: ../src/transaction.vala
 msgid "speed"
-msgstr ""
+msgstr "velocidade"
 
 #: ../src/transaction.vala
 msgid "random"
-msgstr ""
+msgstr "aleatório"
 
 #: ../src/transaction.vala
 msgid "Checking dependencies"
@@ -365,7 +364,7 @@ msgstr "Resolvendo dependências"
 
 #: ../src/transaction.vala
 msgid "Checking inter-conflicts"
-msgstr ""
+msgstr "Verificando inter-conflitos"
 
 #: ../src/transaction.vala
 #, c-format
@@ -423,11 +422,11 @@ msgstr "Gerando %s com %s"
 
 #: ../src/transaction.vala
 msgid "Generation succeeded"
-msgstr ""
+msgstr "Geração bem sucedida"
 
 #: ../src/transaction.vala
 msgid "Generation failed"
-msgstr ""
+msgstr "Geração falhou"
 
 #: ../src/transaction.vala
 #, c-format
@@ -445,27 +444,27 @@ msgstr "Verificação de espaço disponível em disco"
 #: ../src/transaction.vala
 #, c-format
 msgid "%s optionally requires %s"
-msgstr ""
+msgstr "%s requer opcionalmente %s"
 
 #: ../src/transaction.vala
 #, c-format
 msgid "Database file for %s does not exist"
-msgstr ""
+msgstr "Ficheiro da base de dados para %s não existe"
 
 #: ../src/transaction.vala
 #, c-format
 msgid "%s installed as %s.pacnew"
-msgstr ""
+msgstr "%s instalado como %s.pacnew"
 
 #: ../src/transaction.vala
 #, c-format
 msgid "%s installed as %s.pacsave"
-msgstr ""
+msgstr "%s instalado como %s.pacsave"
 
 #: ../src/transaction.vala
 #, c-format
 msgid "%s installed as %s.pacorig"
-msgstr ""
+msgstr "%s instalado como %s.pacorig"
 
 #: ../src/transaction.vala
 #, c-format
@@ -479,7 +478,7 @@ msgstr "Baixando %s"
 
 #: ../src/transaction.vala
 msgid "Warning"
-msgstr ""
+msgstr "Aviso"
 
 #: ../src/transaction.vala ../src/installer.vala ../src/manager.vala
 #: ../src/updater.vala
@@ -488,7 +487,7 @@ msgstr "Erro"
 
 #: ../src/transaction.vala ../src/progress_dialog.vala
 msgid "Transaction cancelled"
-msgstr ""
+msgstr "Transacção cancelada"
 
 #: ../src/transaction.vala
 msgid "Nothing to do"
@@ -500,7 +499,7 @@ msgstr "Transacção finalizada com êxito"
 
 #: ../src/transaction.vala
 msgid "Generating mirrorlist"
-msgstr ""
+msgstr "Gerando lista de mirrors"
 
 #: ../src/installer.vala ../src/manager.vala ../src/updater.vala
 msgid "Pamac is already running"
@@ -512,18 +511,18 @@ msgstr "O seu sistema está actualizado"
 
 #: ../src/tray.vala
 msgid "_Quit"
-msgstr ""
+msgstr "_Sair"
 
 #: ../src/tray.vala ../src/updater_window.vala
 #, c-format
 msgid "%u available update"
 msgid_plural "%u available updates"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%u actualizações didponíveis"
+msgstr[1] "%u actualizações disponíveis"
 
 #: ../src/tray.vala
 msgid "Show available updates"
-msgstr ""
+msgstr "Mostrar actualizações disponíveis"
 
 #: ../src/manager_window.vala
 msgid "Deselect"
@@ -543,11 +542,11 @@ msgstr "Re-instalar"
 
 #: ../src/manager_window.vala
 msgid "Install optional dependencies"
-msgstr ""
+msgstr "Instalar dependências opcionais"
 
 #: ../src/manager_window.vala
 msgid "Mark as explicitly installed"
-msgstr ""
+msgstr "Marcar como explícitamente instalado"
 
 #: ../src/manager_window.vala
 msgid "local"
@@ -571,7 +570,7 @@ msgstr "Depende de"
 
 #: ../src/manager_window.vala
 msgid "Optional Dependencies"
-msgstr ""
+msgstr "Dependências Opcionais"
 
 #: ../src/manager_window.vala
 msgid "Required By"
@@ -633,8 +632,8 @@ msgid ""
 msgid_plural ""
 "%s has %u uninstalled optional dependencies.\n"
 "Choose those you would like to install:"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%s tem %u dependências opcionais não instaladas.\nEscolha as que gostaria de instalar:"
+msgstr[1] "%s tem %u dependências opcionais não instaladas.\nEscolha as que gostaria de instalar:"
 
 #: ../src/manager_window.vala
 msgid "Uninstalled"
@@ -642,12 +641,12 @@ msgstr "Desinstalado"
 
 #: ../src/manager_window.vala
 msgid "A Gtk3 frontend for libalpm"
-msgstr ""
+msgstr "Uma interface Gtk3 para libalpm"
 
 #: ../src/common.vala
 #, c-format
 msgid "%.0f KiB"
-msgstr ""
+msgstr "%.0f KiB"
 
 #: ../src/common.vala
 #, c-format
