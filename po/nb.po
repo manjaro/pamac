@@ -7,6 +7,7 @@
 # Morten Rene <arath.inc@gmail.com>, 2014
 # Bård Spein <baard.spein@gmail.com>, 2013
 # Guillaume Benoit <guillaume@manjaro.org>, 2013
+# Harald <haarektrans@gmail.com>, 2015
 # Kristoffer Ulseth <ulseth85@gmail.com>, 2014
 # philm <philm@manjaro.org>, 2014
 # Morten Rene <arath.inc@gmail.com>, 2014
@@ -19,8 +20,8 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2015-03-04 14:36+0100\n"
-"PO-Revision-Date: 2015-03-04 15:07+0000\n"
-"Last-Translator: Guillaume Benoit <guillaume@manjaro.org>\n"
+"PO-Revision-Date: 2015-03-05 13:05+0000\n"
+"Last-Translator: Harald <haarektrans@gmail.com>\n"
 "Language-Team: Norwegian Bokmål (http://www.transifex.com/projects/p/manjaro-pamac/language/nb/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -181,7 +182,7 @@ msgstr "Når du fjerner en pakke, fjern også dets avhengigheter som ikke kreves
 
 #: ../resources/preferences_dialog.ui
 msgid "Check available disk space"
-msgstr ""
+msgstr "Sjekk tilgjengelig diskplass"
 
 #: ../resources/preferences_dialog.ui ../src/preferences_dialog.vala
 msgid "How often to check for updates, value in hours"
@@ -193,11 +194,11 @@ msgstr "Fjern avhengige pakker som er unødvendige"
 
 #: ../resources/preferences_dialog.ui
 msgid "Upgrade first:"
-msgstr ""
+msgstr "Oppgrader først:"
 
 #: ../resources/preferences_dialog.ui
 msgid "Ignore upgrades for:"
-msgstr ""
+msgstr "Ignorer oppgraderinger for:"
 
 #: ../resources/preferences_dialog.ui
 msgid "Enable AUR support"
@@ -233,11 +234,11 @@ msgstr "Klarte ikke å synkronisere alle databaser"
 
 #: ../src/daemon.vala
 msgid "No"
-msgstr ""
+msgstr "Nei"
 
 #: ../src/daemon.vala
 msgid "Yes"
-msgstr ""
+msgstr "Ja"
 
 #: ../src/daemon.vala
 msgid "Failed to init transaction"
@@ -354,7 +355,7 @@ msgstr ""
 
 #: ../src/transaction.vala
 msgid "random"
-msgstr ""
+msgstr "tilfeldig"
 
 #: ../src/transaction.vala
 msgid "Checking dependencies"
