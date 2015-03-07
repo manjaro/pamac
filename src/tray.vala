@@ -28,7 +28,7 @@ namespace Pamac {
 	[DBus (name = "org.manjaro.pamac")]
 	public interface Daemon : Object {
 		public abstract void start_refresh (int force, bool emit_signal) throws IOError;
-		public abstract async Updates get_updates () throws IOError;
+		public abstract async Updates get_updates (bool enable_aur) throws IOError;
 		[DBus (no_reply = true)]
 		public abstract void quit () throws IOError;
 	}
@@ -125,7 +125,8 @@ namespace Pamac {
 		}
 
 		void check_updates () {
-			daemon.get_updates.begin ((obj, res) => {
+			var pamac_config = new Pamac.Config ("/etc/pamac.conf");
+			daemon.get_updates.begin (pamac_config.enable_aur, (obj, res) => {
 				var updates = Updates ();
 				try {
 					updates = daemon.get_updates.end (res);
