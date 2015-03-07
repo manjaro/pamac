@@ -1375,7 +1375,8 @@ namespace Pamac {
 		void on_generate_mirrorlist_finished () {
 			Source.remove (pulse_timeout_id);
 			spawn_in_term ({"echo"});
-			start_refresh (0);
+			// force a dbs refresh
+			start_refresh (1);
 		}
 
 		void connecting_dbus_signals () {
