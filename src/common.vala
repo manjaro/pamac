@@ -38,10 +38,10 @@ namespace Pamac {
 	}
 
 	public struct ErrorInfos {
-		public string str;
+		public string message;
 		public string[] details;
 		public ErrorInfos () {
-			str = "";
+			message = "";
 			details = {};
 		}
 	}

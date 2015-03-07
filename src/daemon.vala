@@ -68,8 +68,8 @@ namespace Pamac {
 		private void refresh_handle () {
 			alpm_config.get_handle ();
 			if (alpm_config.handle == null) {
-				ErrorInfos err = ErrorInfos ();
-				err.str = _("Failed to initialize alpm library");
+				var err = ErrorInfos ();
+				err.message = _("Failed to initialize alpm library");
 				trans_commit_finished (err);
 			} else {
 				alpm_config.handle.eventcb = (EventCallBack) cb_event;
@@ -256,7 +256,7 @@ namespace Pamac {
 
 		private async ErrorInfos refresh (int force) {
 			SourceFunc callback = refresh.callback;
-			ErrorInfos err = ErrorInfos ();
+			var err = ErrorInfos ();
 			try {
 				new Thread<int>.try ("refresh thread", () => {
 					databases_lock_mutex.lock ();
@@ -272,7 +272,7 @@ namespace Pamac {
 					// We should always succeed if at least one DB was upgraded - we may possibly
 					// fail later with unresolved deps, but that should be rare, and would be expected
 					if (success == 0) {
-						err.str = _("Failed to synchronize any databases");
+						err.message = _("Failed to synchronize any databases");
 						details += Alpm.strerror (alpm_config.handle.errno ());
 						err.details = details;
 					}
@@ -387,7 +387,7 @@ namespace Pamac {
 			return Pamac.Package (get_syncpkg (pkgname), null);
 		}
 
-		public async Pamac.Package[] search_pkgs (string search_string, bool search_aur) {
+		public async Pamac.Package[] search_pkgs (string search_string, bool search_from_aur) {
 			Pamac.Package[] result = {};
 			var needles = new Alpm.List<string> ();
 			string[] splitted = search_string.split (" ");
@@ -398,7 +398,7 @@ namespace Pamac {
 			foreach (var alpm_pkg in alpm_pkgs) {
 				result += Pamac.Package (alpm_pkg, null);
 			}
-			if (search_aur) {
+			if (search_from_aur) {
 				Json.Array aur_pkgs;
 				if (aur_results.contains (search_string)) {
 					aur_pkgs = aur_results.get (search_string);
@@ -462,9 +462,9 @@ namespace Pamac {
 			return groups_names;
 		}
 
-		public async Pamac.Package[] get_group_pkgs (string group_name) {
+		public async Pamac.Package[] get_group_pkgs (string groupname) {
 			Pamac.Package[] pkgs = {};
-			var alpm_pkgs = group_pkgs (alpm_config.handle, group_name);
+			var alpm_pkgs = group_pkgs (alpm_config.handle, groupname);
 			foreach (var alpm_pkg in alpm_pkgs) {
 				pkgs += Pamac.Package (alpm_pkg, null);
 			}
@@ -585,8 +585,7 @@ namespace Pamac {
 			return deps;
 		}
 
-		public async Updates get_updates () {
-			var pamac_config = new Pamac.Config ("/etc/pamac.conf");
+		public async Updates get_updates (bool enable_aur) {
 			var infos = UpdateInfos ();
 			UpdateInfos[] updates_infos = {};
 			var updates = Updates ();
@@ -625,7 +624,7 @@ namespace Pamac {
 							infos.download_size = candidate.download_size;
 							updates_infos += infos;
 						} else {
-							if (pamac_config.enable_aur) {
+							if (enable_aur) {
 								// check if it is a local pkg
 								foreach (var db in alpm_config.handle.syncdbs) {
 									pkg = Alpm.find_satisfier (db.pkgcache, local_pkg.name);
@@ -642,7 +641,7 @@ namespace Pamac {
 				}
 				updates.is_syncfirst = false;
 				updates.repos_updates = updates_infos;
-				if (pamac_config.enable_aur) {
+				if (enable_aur) {
 					if (aur_updates_checked == false) {
 						// get aur updates
 						updates_infos = {};
@@ -675,11 +674,11 @@ namespace Pamac {
 		}
 
 		public ErrorInfos trans_init (TransFlag transflags) {
-			ErrorInfos err = ErrorInfos ();
+			var err = ErrorInfos ();
 			string[] details = {};
 			int ret = alpm_config.handle.trans_init (transflags);
 			if (ret == -1) {
-				err.str = _("Failed to init transaction");
+				err.message = _("Failed to init transaction");
 				details += Alpm.strerror (alpm_config.handle.errno ());
 				err.details = details;
 			}
@@ -687,11 +686,11 @@ namespace Pamac {
 		}
 
 		public ErrorInfos trans_sysupgrade (int enable_downgrade) {
-			ErrorInfos err = ErrorInfos ();
+			var err = ErrorInfos ();
 			string[] details = {};
 			int ret = alpm_config.handle.trans_sysupgrade (enable_downgrade);
 			if (ret == -1) {;
-				err.str = _("Failed to prepare transaction");
+				err.message = _("Failed to prepare transaction");
 				details += Alpm.strerror (alpm_config.handle.errno ());
 				err.details = details;
 			}
@@ -699,7 +698,7 @@ namespace Pamac {
 		}
 
 		private ErrorInfos trans_add_pkg_real (Alpm.Package pkg) {
-			ErrorInfos err = ErrorInfos ();
+			var err = ErrorInfos ();
 			string[] details = {};
 			int ret = alpm_config.handle.trans_add_pkg (pkg);
 			if (ret == -1) {
@@ -708,7 +707,7 @@ namespace Pamac {
 					// just skip duplicate or ignored targets
 					return err;
 				} else {
-					err.str = _("Failed to prepare transaction");
+					err.message = _("Failed to prepare transaction");
 					details += "%s: %s".printf (pkg.name, Alpm.strerror (errno));
 					err.details = details;
 					return err;
@@ -718,17 +717,17 @@ namespace Pamac {
 		}
 
 		public ErrorInfos trans_add_pkg (string pkgname) {
-			ErrorInfos err = ErrorInfos ();
+			var err = ErrorInfos ();
 			string[] details = {};
 			unowned Alpm.Package? pkg = get_syncpkg (pkgname);
 			if (pkg == null)  {
-				err.str = _("Failed to prepare transaction");
+				err.message = _("Failed to prepare transaction");
 				details += _("target not found: %s").printf (pkgname);
 				err.details = details;
 				return err;
 			} else {
 				err = trans_add_pkg_real (pkg);
-				if (err.str == "") {
+				if (err.message == "") {
 					if ("linux31" in pkg.name) {
 						string[] installed_kernels = {};
 						string[] installed_modules = {};
@@ -774,11 +773,11 @@ namespace Pamac {
 		}
 
 		public ErrorInfos trans_load_pkg (string pkgpath) {
-			ErrorInfos err = ErrorInfos ();
+			var err = ErrorInfos ();
 			string[] details = {};
 			Alpm.Package* pkg = alpm_config.handle.load_file (pkgpath, 1, alpm_config.handle.localfilesiglevel);
 			if (pkg == null) {
-				err.str = _("Failed to prepare transaction");
+				err.message = _("Failed to prepare transaction");
 				details += "%s: %s".printf (pkgpath, Alpm.strerror (alpm_config.handle.errno ()));
 				err.details = details;
 				return err;
@@ -790,7 +789,7 @@ namespace Pamac {
 						// just skip duplicate or ignored targets
 						return err;
 					 } else {
-						err.str = _("Failed to prepare transaction");
+						err.message = _("Failed to prepare transaction");
 						details += "%s: %s".printf (pkg->name, Alpm.strerror (errno));
 						err.details = details;
 						// free the package because it will not be used
@@ -803,18 +802,18 @@ namespace Pamac {
 		}
 
 		public ErrorInfos trans_remove_pkg (string pkgname) {
-			ErrorInfos err = ErrorInfos ();
+			var err = ErrorInfos ();
 			string[] details = {};
 			unowned Alpm.Package? pkg =  alpm_config.handle.localdb.get_pkg (pkgname);
 			if (pkg == null) {
-				err.str = _("Failed to prepare transaction");
+				err.message = _("Failed to prepare transaction");
 				details += _("target not found: %s").printf (pkgname);
 				err.details = details;
 				return err;
 			}
 			int ret = alpm_config.handle.trans_remove_pkg (pkg);
 			if (ret == -1) {
-				err.str = _("Failed to prepare transaction");
+				err.message = _("Failed to prepare transaction");
 				details += "%s: %s".printf (pkg.name, Alpm.strerror (alpm_config.handle.errno ()));
 				err.details = details;
 			}
@@ -823,7 +822,7 @@ namespace Pamac {
 
 		private async ErrorInfos trans_prepare () {
 			SourceFunc callback = trans_prepare.callback;
-			ErrorInfos err = ErrorInfos ();
+			var err = ErrorInfos ();
 			try {
 				new Thread<int>.try ("prepare thread", () => {
 					databases_lock_mutex.lock ();
@@ -832,7 +831,7 @@ namespace Pamac {
 					int ret = alpm_config.handle.trans_prepare (out err_data);
 					if (ret == -1) {
 						Alpm.Errno errno = alpm_config.handle.errno ();
-						err.str = _("Failed to prepare transaction");
+						err.message = _("Failed to prepare transaction");
 						string detail = Alpm.strerror (errno);
 						switch (errno) {
 							case Errno.PKG_INVALID_ARCH:
@@ -885,7 +884,7 @@ namespace Pamac {
 							}
 						}
 						if (found_locked_pkg) {
-							err.str = _("Failed to prepare transaction");
+							err.message = _("Failed to prepare transaction");
 							err.details = details;
 							trans_release ();
 						}
@@ -950,7 +949,7 @@ namespace Pamac {
 
 		private async ErrorInfos trans_commit (GLib.BusName sender) {
 			SourceFunc callback = trans_commit.callback;
-			ErrorInfos err = ErrorInfos ();
+			var err = ErrorInfos ();
 			try {
 				Polkit.Authority authority = Polkit.Authority.get_sync (null);
 				Polkit.Subject subject = Polkit.SystemBusName.new (sender);
@@ -971,7 +970,7 @@ namespace Pamac {
 									int ret = alpm_config.handle.trans_commit (out err_data);
 									if (ret == -1) {
 										Alpm.Errno errno = alpm_config.handle.errno ();
-										err.str = _("Failed to commit transaction");
+										err.message = _("Failed to commit transaction");
 										string detail = Alpm.strerror (errno);
 										switch (errno) {
 											case Alpm.Errno.FILE_CONFLICTS:
@@ -1018,7 +1017,7 @@ namespace Pamac {
 									return ret;
 								});
 							} else {
-								err.str = _("Authentication failed");
+								err.message = _("Authentication failed");
 								trans_release ();
 							}
 						} catch (GLib.Error e) {

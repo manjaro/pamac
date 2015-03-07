@@ -35,7 +35,7 @@ namespace Pamac {
 		public abstract async Pamac.Package[] get_orphans () throws IOError;
 		public abstract Pamac.Package find_local_pkg (string pkgname) throws IOError;
 		public abstract Pamac.Package find_sync_pkg (string pkgname) throws IOError;
-		public abstract async Pamac.Package[] search_pkgs (string search_string, bool search_aur) throws IOError;
+		public abstract async Pamac.Package[] search_pkgs (string search_string, bool search_from_aur) throws IOError;
 		public abstract string[] get_repos_names () throws IOError;
 		public abstract async Pamac.Package[] get_repo_pkgs (string repo) throws IOError;
 		public abstract string[] get_groups_names () throws IOError;
@@ -44,7 +44,7 @@ namespace Pamac {
 		public abstract string[] get_pkg_uninstalled_optdeps (string pkgname) throws IOError;
 		public abstract PackageDeps get_pkg_deps (string pkgname) throws IOError;
 		public abstract PackageDetails get_pkg_details (string pkgname) throws IOError;
-		public abstract async Updates get_updates () throws IOError;
+		public abstract async Updates get_updates (bool enable_aur) throws IOError;
 		public abstract ErrorInfos trans_init (Alpm.TransFlag transflags) throws IOError;
 		public abstract ErrorInfos trans_sysupgrade (int enable_downgrade) throws IOError;
 		public abstract ErrorInfos trans_add_pkg (string pkgname) throws IOError;
@@ -414,8 +414,9 @@ namespace Pamac {
 
 		public async Updates get_updates () {
 			var updates = Updates ();
+			var pamac_config = new Pamac.Config ("/etc/pamac.conf");
 			try {
-				updates = yield daemon.get_updates ();
+				updates = yield daemon.get_updates (pamac_config.enable_aur);
 			} catch (IOError e) {
 				stderr.printf ("IOError: %s\n", e.message);
 			}
@@ -425,13 +426,13 @@ namespace Pamac {
 		public void sysupgrade_simple (int enable_downgrade) {
 			progress_dialog.progressbar.set_fraction (0);
 			progress_dialog.cancel_button.set_visible (true);
-			ErrorInfos err = ErrorInfos ();
+			var err = ErrorInfos ();
 			try {
 				err = daemon.trans_init (0);
 			} catch (IOError e) {
 				stderr.printf ("IOError: %s\n", e.message);
 			}
-			if (err.str != "") {
+			if (err.message != "") {
 				finished (true);
 				handle_error (err);
 			} else {
@@ -440,7 +441,7 @@ namespace Pamac {
 				} catch (IOError e) {
 					stderr.printf ("IOError: %s\n", e.message);
 				}
-				if (err.str == "") {
+				if (err.message == "") {
 					progress_dialog.show ();
 					while (Gtk.events_pending ())
 						Gtk.main_iteration ();
@@ -500,7 +501,7 @@ namespace Pamac {
 						while (Gtk.events_pending ()) {
 							Gtk.main_iteration ();
 						}
-						ErrorInfos err = ErrorInfos ();
+						var err = ErrorInfos ();
 						on_trans_prepare_finished (err);
 					}
 				}
@@ -525,7 +526,7 @@ namespace Pamac {
 			while (Gtk.events_pending ())
 				Gtk.main_iteration ();
 			// run
-			ErrorInfos err = ErrorInfos ();
+			var err = ErrorInfos ();
 			if (to_add.size () == 0
 					&& to_remove.size () == 0
 					&& to_load.size () == 0
@@ -538,7 +539,7 @@ namespace Pamac {
 				} catch (IOError e) {
 					stderr.printf ("IOError: %s\n", e.message);
 				}
-				if (err.str != "") {
+				if (err.message != "") {
 					finished (true);
 					handle_error (err);
 				} else {
@@ -548,7 +549,7 @@ namespace Pamac {
 						} catch (IOError e) {
 							stderr.printf ("IOError: %s\n", e.message);
 						}
-						if (err.str != "")
+						if (err.message != "")
 							break;
 					}
 					foreach (string name in to_remove.get_keys ()) {
@@ -557,7 +558,7 @@ namespace Pamac {
 						} catch (IOError e) {
 							stderr.printf ("IOError: %s\n", e.message);
 						}
-						if (err.str != "")
+						if (err.message != "")
 							break;
 					}
 					foreach (string path in to_load.get_keys ()) {
@@ -566,10 +567,10 @@ namespace Pamac {
 						} catch (IOError e) {
 							stderr.printf ("IOError: %s\n", e.message);
 						}
-						if (err.str != "")
+						if (err.message != "")
 							break;
 					}
-					if (err.str == "") {
+					if (err.message == "") {
 						try {
 							daemon.start_trans_prepare ();
 						} catch (IOError e) {
@@ -1198,12 +1199,12 @@ namespace Pamac {
 
 		public void handle_error (ErrorInfos error) {
 			progress_dialog.expander.set_expanded (true);
-			spawn_in_term ({"echo", "-n", error.str});
+			spawn_in_term ({"echo", "-n", error.message});
 			Gtk.TextIter start_iter;
 			Gtk.TextIter end_iter;
 			transaction_info_dialog.set_title (dgettext (null, "Error"));
 			transaction_info_dialog.label.set_visible (true);
-			transaction_info_dialog.label.set_markup (error.str);
+			transaction_info_dialog.label.set_markup (error.message);
 			if (error.details.length != 0) {
 				transaction_info_dialog.textbuffer.get_start_iter (out start_iter);
 				transaction_info_dialog.textbuffer.get_end_iter (out end_iter);
@@ -1231,7 +1232,7 @@ namespace Pamac {
 		}
 
 		public void on_refresh_finished (ErrorInfos error) {
-			if (error.str == "") {
+			if (error.message == "") {
 				if (mode == Mode.UPDATER) {
 					progress_dialog.hide ();
 					while (Gtk.events_pending ()) {
@@ -1250,7 +1251,7 @@ namespace Pamac {
 		}
 
 		public void on_trans_prepare_finished (ErrorInfos error) {
-			if (error.str == "") {
+			if (error.message == "") {
 				show_warnings ();
 				TransactionType type = set_transaction_sum ();
 				if (type == TransactionType.UPDATE && mode == Mode.UPDATER) {
@@ -1264,7 +1265,7 @@ namespace Pamac {
 							Gtk.main_iteration ();
 						if (type == TransactionType.BUILD) {
 							// there only AUR packages to build
-							ErrorInfos err = ErrorInfos ();
+							var err = ErrorInfos ();
 							on_trans_commit_finished (err);
 						} else
 							start_commit ();
@@ -1281,8 +1282,8 @@ namespace Pamac {
 						finished (true);
 					}
 				} else {
-					//ErrorInfos err = ErrorInfos ();
-					//err.str = dgettext (null, "Nothing to do") + "\n";
+					//var err = ErrorInfos ();
+					//err.message = dgettext (null, "Nothing to do") + "\n";
 					spawn_in_term ({"echo", dgettext (null, "Nothing to do") + ".\n"});
 					progress_dialog.hide ();
 					while (Gtk.events_pending ())
@@ -1299,7 +1300,7 @@ namespace Pamac {
 		}
 
 		public void on_trans_commit_finished (ErrorInfos error) {
-			if (error.str == "") {
+			if (error.message == "") {
 				if (to_build.size () != 0) {
 					if (to_add.size () != 0
 							|| to_remove.size () != 0
@@ -1342,7 +1343,7 @@ namespace Pamac {
 			Source.remove (pulse_timeout_id);
 			to_build.steal_all ();
 			build_status = status;
-			ErrorInfos err = ErrorInfos ();
+			var err = ErrorInfos ();
 			on_trans_commit_finished (err);
 		}
 
