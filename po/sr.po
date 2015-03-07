@@ -2,7 +2,7 @@
 # Copyright (C) 2007-2012 Free Software Foundation, Inc.
 # This file is distributed under the same license as the Pamac package.
 # Guillaume Benoit <guillaume@manjaro.org>, 2013-2015.
-#
+# 
 # Translators:
 # philm <philm@manjaro.org>, 2015
 # Драгољуб Шишовић, 2014
@@ -12,16 +12,14 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2015-03-04 14:36+0100\n"
-"PO-Revision-Date: 2015-01-13 22:51+0000\n"
-"Last-Translator: Драгољуб Шишовић\n"
-"Language-Team: Serbian (http://www.transifex.com/projects/p/manjaro-pamac/"
-"language/sr/)\n"
-"Language: sr\n"
+"PO-Revision-Date: 2015-03-04 15:07+0000\n"
+"Last-Translator: Guillaume Benoit <guillaume@manjaro.org>\n"
+"Language-Team: Serbian (http://www.transifex.com/projects/p/manjaro-pamac/language/sr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Language: sr\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
 #: data/polkit/org.manjaro.pamac.policy
 msgid "Authentication is required"
@@ -172,9 +170,7 @@ msgstr "Омогући Памаку да претражује и инстали�
 msgid ""
 "When removing a package, also remove its dependencies that are not required "
 "by other packages"
-msgstr ""
-"При уклањању пакета, такође уклони и све његове зависности које више нису "
-"потребне ни једном другом пакету"
+msgstr "При уклањању пакета, такође уклони и све његове зависности које више нису потребне ни једном другом пакету"
 
 #: ../resources/preferences_dialog.ui
 msgid "Check available disk space"
@@ -636,15 +632,9 @@ msgid ""
 msgid_plural ""
 "%s has %u uninstalled optional dependencies.\n"
 "Choose those you would like to install:"
-msgstr[0] ""
-"%s има %u уклоњену опциону зависност.\n"
-"Изабери да ли би желео да је инсталираш:"
-msgstr[1] ""
-"%s има %u уклоњених опционих зависности.\n"
-"Изабери оне које би желео да инсталираш:"
-msgstr[2] ""
-"%s има %u уклоњених опционих зависности.\n"
-"Изабери оне које би желео да инсталираш:"
+msgstr[0] "%s има %u уклоњену опциону зависност.\nИзабери да ли би желео да је инсталираш:"
+msgstr[1] "%s има %u уклоњених опционих зависности.\nИзабери оне које би желео да инсталираш:"
+msgstr[2] "%s има %u уклоњених опционих зависности.\nИзабери оне које би желео да инсталираш:"
 
 #: ../src/manager_window.vala
 msgid "Uninstalled"

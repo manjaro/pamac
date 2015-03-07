@@ -2,27 +2,26 @@
 # Copyright (C) 2007-2012 Free Software Foundation, Inc.
 # This file is distributed under the same license as the Pamac package.
 # Guillaume Benoit <guillaume@manjaro.org>, 2013-2015.
-#
+# 
 # Translators:
 # Guillaume Benoit <guillaume@manjaro.org>, 2013
 # Ramon Buldó <rbuldo@gmail.com>, 2013
 # Oriol Fernandez <oriolfa@ono.com>, 2013-2014
 # philm <philm@manjaro.org>, 2015
 # Ramon Buldó <rbuldo@gmail.com>, 2013
-# Tomàs Mallafré Gispert <tomas@mallafre.cat>, 2014
+# Tomàs Mallafré Gispert <tomas@mallafre.cat>, 2014-2015
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2015-03-04 14:36+0100\n"
-"PO-Revision-Date: 2015-01-07 17:33+0000\n"
-"Last-Translator: philm <philm@manjaro.org>\n"
-"Language-Team: Catalan (http://www.transifex.com/projects/p/manjaro-pamac/"
-"language/ca/)\n"
-"Language: ca\n"
+"PO-Revision-Date: 2015-03-04 15:07+0000\n"
+"Last-Translator: Guillaume Benoit <guillaume@manjaro.org>\n"
+"Language-Team: Catalan (http://www.transifex.com/projects/p/manjaro-pamac/language/ca/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: ca\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: data/polkit/org.manjaro.pamac.policy
@@ -174,13 +173,11 @@ msgstr "Permetre a Pamac buscar e instal·lar paquets des d'AUR"
 msgid ""
 "When removing a package, also remove its dependencies that are not required "
 "by other packages"
-msgstr ""
-"En eliminar un paquet, elimina també les seves dependències que no siguin "
-"requerides per altres paquets"
+msgstr "En eliminar un paquet, elimina també les seves dependències que no siguin requerides per altres paquets"
 
 #: ../resources/preferences_dialog.ui
 msgid "Check available disk space"
-msgstr ""
+msgstr "Comprova l'espai disponible al disc"
 
 #: ../resources/preferences_dialog.ui ../src/preferences_dialog.vala
 msgid "How often to check for updates, value in hours"
@@ -192,11 +189,11 @@ msgstr "Eliminar dependències no requerides"
 
 #: ../resources/preferences_dialog.ui
 msgid "Upgrade first:"
-msgstr ""
+msgstr "Abans actualitza:"
 
 #: ../resources/preferences_dialog.ui
 msgid "Ignore upgrades for:"
-msgstr ""
+msgstr "Ignora les actualitzacions per a:"
 
 #: ../resources/preferences_dialog.ui
 msgid "Enable AUR support"
@@ -208,15 +205,15 @@ msgstr "Opcions"
 
 #: ../resources/preferences_dialog.ui
 msgid "Sort mirrors by:"
-msgstr ""
+msgstr "Ordena els dipòsits per:"
 
 #: ../resources/preferences_dialog.ui
 msgid "Use mirrors from:"
-msgstr ""
+msgstr "Utilitza els dipòsits de:"
 
 #: ../resources/preferences_dialog.ui
 msgid "Official repositories"
-msgstr ""
+msgstr "Dipòsits oficials"
 
 #: ../src/packages_chooser_dialog.vala
 msgid "Alpm Package"
@@ -345,15 +342,15 @@ msgstr "Construint els paquets"
 
 #: ../src/transaction.vala
 msgid "Worldwide"
-msgstr ""
+msgstr "Tot el món"
 
 #: ../src/transaction.vala
 msgid "speed"
-msgstr ""
+msgstr "velocitat"
 
 #: ../src/transaction.vala
 msgid "random"
-msgstr ""
+msgstr "aleatori"
 
 #: ../src/transaction.vala
 msgid "Checking dependencies"
@@ -459,17 +456,17 @@ msgstr "El fitxer de base de dades per a %s no existeix"
 #: ../src/transaction.vala
 #, c-format
 msgid "%s installed as %s.pacnew"
-msgstr ""
+msgstr "%s instal·lat com a %s.pacnew"
 
 #: ../src/transaction.vala
 #, c-format
 msgid "%s installed as %s.pacsave"
-msgstr ""
+msgstr "%s instal·lat com a %s.pacsave"
 
 #: ../src/transaction.vala
 #, c-format
 msgid "%s installed as %s.pacorig"
-msgstr ""
+msgstr "%s instal·lat com a %s.pacorig"
 
 #: ../src/transaction.vala
 #, c-format
@@ -504,7 +501,7 @@ msgstr "Transacció finalitzada amb èxit"
 
 #: ../src/transaction.vala
 msgid "Generating mirrorlist"
-msgstr ""
+msgstr "Generant llista de dipòsits"
 
 #: ../src/installer.vala ../src/manager.vala ../src/updater.vala
 msgid "Pamac is already running"

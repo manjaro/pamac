@@ -2,11 +2,12 @@
 # Copyright (C) 2007-2012 Free Software Foundation, Inc.
 # This file is distributed under the same license as the Pamac package.
 # Guillaume Benoit <guillaume@manjaro.org>, 2013-2015.
-#
+# 
 # Translators:
 # Morten Rene <arath.inc@gmail.com>, 2014
 # Bård Spein <baard.spein@gmail.com>, 2013
 # Guillaume Benoit <guillaume@manjaro.org>, 2013
+# Harald <haarektrans@gmail.com>, 2015
 # Kristoffer Ulseth <ulseth85@gmail.com>, 2014
 # philm <philm@manjaro.org>, 2014
 # Morten Rene <arath.inc@gmail.com>, 2014
@@ -19,14 +20,13 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2015-03-04 14:36+0100\n"
-"PO-Revision-Date: 2015-01-07 17:38+0000\n"
-"Last-Translator: philm <philm@manjaro.org>\n"
-"Language-Team: Norwegian Bokmål (http://www.transifex.com/projects/p/manjaro-"
-"pamac/language/nb/)\n"
-"Language: nb\n"
+"PO-Revision-Date: 2015-03-05 13:05+0000\n"
+"Last-Translator: Harald <haarektrans@gmail.com>\n"
+"Language-Team: Norwegian Bokmål (http://www.transifex.com/projects/p/manjaro-pamac/language/nb/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: nb\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: data/polkit/org.manjaro.pamac.policy
@@ -178,13 +178,11 @@ msgstr "Tillat Pamac å søke og installere pakker fra AUR"
 msgid ""
 "When removing a package, also remove its dependencies that are not required "
 "by other packages"
-msgstr ""
-"Når du fjerner en pakke, fjern også dets avhengigheter som ikke kreves av "
-"andre pakker"
+msgstr "Når du fjerner en pakke, fjern også dets avhengigheter som ikke kreves av andre pakker"
 
 #: ../resources/preferences_dialog.ui
 msgid "Check available disk space"
-msgstr ""
+msgstr "Sjekk tilgjengelig diskplass"
 
 #: ../resources/preferences_dialog.ui ../src/preferences_dialog.vala
 msgid "How often to check for updates, value in hours"
@@ -196,11 +194,11 @@ msgstr "Fjern avhengige pakker som er unødvendige"
 
 #: ../resources/preferences_dialog.ui
 msgid "Upgrade first:"
-msgstr ""
+msgstr "Oppgrader først:"
 
 #: ../resources/preferences_dialog.ui
 msgid "Ignore upgrades for:"
-msgstr ""
+msgstr "Ignorer oppgraderinger for:"
 
 #: ../resources/preferences_dialog.ui
 msgid "Enable AUR support"
@@ -236,11 +234,11 @@ msgstr "Klarte ikke å synkronisere alle databaser"
 
 #: ../src/daemon.vala
 msgid "No"
-msgstr ""
+msgstr "Nei"
 
 #: ../src/daemon.vala
 msgid "Yes"
-msgstr ""
+msgstr "Ja"
 
 #: ../src/daemon.vala
 msgid "Failed to init transaction"
@@ -357,7 +355,7 @@ msgstr ""
 
 #: ../src/transaction.vala
 msgid "random"
-msgstr ""
+msgstr "tilfeldig"
 
 #: ../src/transaction.vala
 msgid "Checking dependencies"
@@ -641,12 +639,8 @@ msgid ""
 msgid_plural ""
 "%s has %u uninstalled optional dependencies.\n"
 "Choose those you would like to install:"
-msgstr[0] ""
-"%s har %u avinstallert valgfrie avhengigheter.\n"
-"Velg om du ønsker å installere det:"
-msgstr[1] ""
-"%s har %u avinstallert valgfrie avhengigheter.\n"
-"Velg de du ønsker å installere:"
+msgstr[0] "%s har %u avinstallert valgfrie avhengigheter.\nVelg om du ønsker å installere det:"
+msgstr[1] "%s har %u avinstallert valgfrie avhengigheter.\nVelg de du ønsker å installere:"
 
 #: ../src/manager_window.vala
 msgid "Uninstalled"

@@ -2,225 +2,225 @@
 # Copyright (C) 2007-2012 Free Software Foundation, Inc.
 # This file is distributed under the same license as the Pamac package.
 # Guillaume Benoit <guillaume@manjaro.org>, 2013-2015.
-#
+# 
 # Translators:
+# Taimur <smt.mymail@gmail.com>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2015-03-04 14:36+0100\n"
-"PO-Revision-Date: 2015-01-06 09:22+0000\n"
-"Last-Translator: philm <philm@manjaro.org>\n"
-"Language-Team: Urdu (Pakistan) (http://www.transifex.com/projects/p/manjaro-"
-"pamac/language/ur_PK/)\n"
-"Language: ur_PK\n"
+"PO-Revision-Date: 2015-03-04 15:07+0000\n"
+"Last-Translator: Guillaume Benoit <guillaume@manjaro.org>\n"
+"Language-Team: Urdu (Pakistan) (http://www.transifex.com/projects/p/manjaro-pamac/language/ur_PK/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: ur_PK\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: data/polkit/org.manjaro.pamac.policy
 msgid "Authentication is required"
-msgstr ""
+msgstr "تصدیق کی ضرورت ہے"
 
 #: ../resources/choose_provider_dialog.ui
 msgid "Choose a Provider"
-msgstr ""
+msgstr "سروس فراہم  کردا کا انتخاب کریں"
 
 #: ../resources/choose_provider_dialog.ui
 #: ../resources/transaction_sum_dialog.ui ../resources/preferences_dialog.ui
 msgid "_OK"
-msgstr ""
+msgstr "ٹھیک"
 
 #: ../resources/packages_chooser_dialog.ui ../resources/manager_window.ui
 msgid "Install local packages"
-msgstr ""
+msgstr "مقامی پیکیج کی انسٹالیشن کریں"
 
 #: ../resources/packages_chooser_dialog.ui ../resources/progress_dialog.ui
 #: ../resources/transaction_sum_dialog.ui
 msgid "_Cancel"
-msgstr ""
+msgstr "_منسوخ "
 
 #: ../resources/packages_chooser_dialog.ui
 msgid "_Open"
-msgstr ""
+msgstr "_کھولیں"
 
 #: ../resources/progress_dialog.ui
 msgid "Progress"
-msgstr ""
+msgstr "پروگریس"
 
 #: ../resources/progress_dialog.ui ../resources/history_dialog.ui
 #: ../resources/transaction_info_dialog.ui ../resources/updater_window.ui
 #: ../resources/preferences_dialog.ui
 msgid "_Close"
-msgstr ""
+msgstr "_بند کریں"
 
 #: ../resources/progress_dialog.ui ../resources/transaction_info_dialog.ui
 #: ../resources/manager_window.ui
 msgid "Details"
-msgstr ""
+msgstr "تفصیلات"
 
 #: ../resources/history_dialog.ui
 msgid "Pamac History"
-msgstr ""
+msgstr "پمیک  کی تاریخ"
 
 #: ../resources/transaction_sum_dialog.ui ../src/transaction.vala
 msgid "Transaction Summary"
-msgstr ""
+msgstr "کاروائی کا خلاصہ"
 
 #: ../resources/manager_window.ui
 msgid "View History"
-msgstr ""
+msgstr "ہسٹری "
 
 #: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "_Preferences"
-msgstr ""
+msgstr "_ترجیحات"
 
 #: ../resources/manager_window.ui
 msgid "_About"
-msgstr ""
+msgstr "_معلومات"
 
 #: ../resources/manager_window.ui ../src/tray.vala
 msgid "Package Manager"
-msgstr ""
+msgstr "پیکیج مینیجر"
 
 #: ../resources/manager_window.ui
 msgid "Refresh databases"
-msgstr ""
+msgstr "ڈیٹا بیس اپ ڈیٹ کریں"
 
 #: ../resources/manager_window.ui
 msgid "Apply changes"
-msgstr ""
+msgstr "تبدیلیوں پر عمل  کریں"
 
 #: ../resources/manager_window.ui
 msgid "Cancel all planned changes"
-msgstr ""
+msgstr "تمام تبدیلیوں کو منسوخ کریں"
 
 #: ../resources/manager_window.ui
 msgid "Search in AUR"
-msgstr ""
+msgstr "AUR میں تلاش کریں"
 
 #: ../resources/manager_window.ui
 msgid "Search"
-msgstr ""
+msgstr "تلاش کریں"
 
 #: ../resources/manager_window.ui ../src/manager_window.vala
 msgid "Groups"
-msgstr ""
+msgstr "گروپس"
 
 #: ../resources/manager_window.ui
 msgid "State"
-msgstr ""
+msgstr "حال"
 
 #: ../resources/manager_window.ui
 msgid "Repositories"
-msgstr ""
+msgstr "ریپوزی ٹوری (ذخائر)"
 
 #: ../resources/manager_window.ui
 msgid "Name"
-msgstr ""
+msgstr "نام"
 
 #: ../resources/manager_window.ui
 msgid "Version"
-msgstr ""
+msgstr "ورژن"
 
 #: ../resources/manager_window.ui ../src/manager_window.vala
 msgid "Repository"
-msgstr ""
+msgstr "ریپوزی ٹوری (ذخیرہ)"
 
 #: ../resources/manager_window.ui
 msgid "Size"
-msgstr ""
+msgstr "حجم"
 
 #: ../resources/manager_window.ui
 msgid "Description"
-msgstr ""
+msgstr "تفصیل"
 
 #: ../resources/manager_window.ui
 msgid "Dependencies"
-msgstr ""
+msgstr "انحصار ی پیکج"
 
 #: ../resources/manager_window.ui
 msgid "Files"
-msgstr ""
+msgstr "فائلیں"
 
 #: ../resources/updater_window.ui ../src/tray.vala
 msgid "Update Manager"
-msgstr ""
+msgstr "اپ ڈیٹ مینیجر"
 
 #: ../resources/updater_window.ui
 msgid "_Refresh"
-msgstr ""
+msgstr "_تازہ کریں"
 
 #: ../resources/updater_window.ui
 msgid "_Apply"
-msgstr ""
+msgstr "_عمل کریں"
 
 #: ../resources/preferences_dialog.ui
 msgid "Preferences"
-msgstr ""
+msgstr "ترجیحات"
 
 #: ../resources/preferences_dialog.ui
 msgid "Allow Pamac to search and install packages from AUR"
-msgstr ""
+msgstr "Pamac کو  AUR پیکجز   انسٹال کرنے کی اجازت ہے"
 
 #: ../resources/preferences_dialog.ui
 msgid ""
 "When removing a package, also remove its dependencies that are not required "
 "by other packages"
-msgstr ""
+msgstr "تمام  انحصاری پیکجز جو کہ کسی دوسرے پیکیج کی ضروری نہ ہوں،  ان کو بھی پیکیج کو  غیر انسٹال کرتے وقت نکال دیں"
 
 #: ../resources/preferences_dialog.ui
 msgid "Check available disk space"
-msgstr ""
+msgstr "ڈسک میں موجود خالی جگہ کی جانچ کریں"
 
 #: ../resources/preferences_dialog.ui ../src/preferences_dialog.vala
 msgid "How often to check for updates, value in hours"
-msgstr ""
+msgstr "اپ ڈیٹس چیک کرنے کی کثرت کی وضاحت  گھنٹوں  میں کریں"
 
 #: ../resources/preferences_dialog.ui
 msgid "Remove unrequired dependencies"
-msgstr ""
+msgstr "غیر ضروری انحصار پیکج نکال دیں"
 
 #: ../resources/preferences_dialog.ui
 msgid "Upgrade first:"
-msgstr ""
+msgstr "پہلے اپ گریذ کریں"
 
 #: ../resources/preferences_dialog.ui
 msgid "Ignore upgrades for:"
-msgstr ""
+msgstr "ان کے لیے اپ گریڈ زکو نظرانداز کریں:"
 
 #: ../resources/preferences_dialog.ui
 msgid "Enable AUR support"
-msgstr ""
+msgstr "AUR سپورٹ کو فعال کریں"
 
 #: ../resources/preferences_dialog.ui
 msgid "Options"
-msgstr ""
+msgstr "اختیارات"
 
 #: ../resources/preferences_dialog.ui
 msgid "Sort mirrors by:"
-msgstr ""
+msgstr "مررز (Mirrors  )کو ترتیب دیں"
 
 #: ../resources/preferences_dialog.ui
 msgid "Use mirrors from:"
-msgstr ""
+msgstr "سافٹ ویئر  مرر:"
 
 #: ../resources/preferences_dialog.ui
 msgid "Official repositories"
-msgstr ""
+msgstr "آفیشیل رپوزیٹوری"
 
 #: ../src/packages_chooser_dialog.vala
 msgid "Alpm Package"
-msgstr ""
+msgstr "Alpm پیکیج"
 
 #: ../src/daemon.vala
 msgid "Failed to initialize alpm library"
-msgstr ""
+msgstr "Alpm لائبریری    شروع نہیں ہو سکی"
 
 #: ../src/daemon.vala
 msgid "Failed to synchronize any databases"
-msgstr ""
+msgstr " ڈیٹا بیس اپ ڈیٹ نہیں ہو سکے"
 
 #: ../src/daemon.vala
 msgid "No"
@@ -241,7 +241,7 @@ msgstr ""
 #: ../src/daemon.vala
 #, c-format
 msgid "target not found: %s"
-msgstr ""
+msgstr "مطوب%s نہیں ملا"
 
 #: ../src/daemon.vala
 #, c-format
@@ -284,7 +284,7 @@ msgstr ""
 
 #: ../src/daemon.vala
 msgid "Authentication failed"
-msgstr ""
+msgstr "تصدیق ناکام ہوئی"
 
 #: ../src/transaction.vala
 msgid "Synchronizing package databases"
@@ -292,11 +292,11 @@ msgstr ""
 
 #: ../src/transaction.vala
 msgid "Starting full system upgrade"
-msgstr ""
+msgstr "نظام کا مکمل اپ گریڈ شروع ہو رہا ہے"
 
 #: ../src/transaction.vala
 msgid "Preparing"
-msgstr ""
+msgstr "تیاری جاری ہے"
 
 #: ../src/transaction.vala
 #, c-format
@@ -305,31 +305,31 @@ msgstr ""
 
 #: ../src/transaction.vala ../src/manager_window.vala
 msgid "To remove"
-msgstr ""
+msgstr "نکال دیں"
 
 #: ../src/transaction.vala
 msgid "To downgrade"
-msgstr ""
+msgstr "ڈاون گریڈ کریں"
 
 #: ../src/transaction.vala
 msgid "To build"
-msgstr ""
+msgstr "بنانے کے لئے"
 
 #: ../src/transaction.vala ../src/manager_window.vala
 msgid "To install"
-msgstr ""
+msgstr "انسٹال کرنے کے لئے"
 
 #: ../src/transaction.vala
 msgid "To reinstall"
-msgstr ""
+msgstr "پھرسے انسٹال کرنے کے لئے"
 
 #: ../src/transaction.vala
 msgid "To update"
-msgstr ""
+msgstr "اپ ڈیٹ کرنے کے لئے"
 
 #: ../src/transaction.vala ../src/updater_window.vala
 msgid "Total download size"
-msgstr ""
+msgstr "ڈاون لوڈ کا ٹوٹل سائز"
 
 #: ../src/transaction.vala
 msgid "Building packages"
@@ -337,15 +337,15 @@ msgstr ""
 
 #: ../src/transaction.vala
 msgid "Worldwide"
-msgstr ""
+msgstr "بین القوامی"
 
 #: ../src/transaction.vala
 msgid "speed"
-msgstr ""
+msgstr "رفتار"
 
 #: ../src/transaction.vala
 msgid "random"
-msgstr ""
+msgstr "غیر ترتیب"
 
 #: ../src/transaction.vala
 msgid "Checking dependencies"
@@ -366,27 +366,27 @@ msgstr ""
 #: ../src/transaction.vala
 #, c-format
 msgid "Installing %s"
-msgstr ""
+msgstr "%s انسٹال ہو رہا ہے"
 
 #: ../src/transaction.vala
 #, c-format
 msgid "Reinstalling %s"
-msgstr ""
+msgstr "%s پھر سے انسٹال ہو رہا ہے"
 
 #: ../src/transaction.vala
 #, c-format
 msgid "Removing %s"
-msgstr ""
+msgstr "%s  غیر انسٹال ہو رہا ہے"
 
 #: ../src/transaction.vala
 #, c-format
 msgid "Upgrading %s"
-msgstr ""
+msgstr "%s اپ گریڈ ہو رہا ہے"
 
 #: ../src/transaction.vala
 #, c-format
 msgid "Downgrading %s"
-msgstr ""
+msgstr "%s ڈاون گریڈ ہو رہا ہے"
 
 #: ../src/transaction.vala
 msgid "Checking integrity"
@@ -398,7 +398,7 @@ msgstr ""
 
 #: ../src/transaction.vala
 msgid "Downloading required keys"
-msgstr ""
+msgstr "لازمی کیز کو ڈاون لوڈ کرا جا رہاہے"
 
 #: ../src/transaction.vala
 msgid "Loading packages files"
@@ -432,7 +432,7 @@ msgstr ""
 
 #: ../src/transaction.vala
 msgid "Downloading"
-msgstr ""
+msgstr "ڈاون لود جاری ہے"
 
 #: ../src/transaction.vala
 msgid "Checking available disk space"
@@ -475,24 +475,24 @@ msgstr ""
 
 #: ../src/transaction.vala
 msgid "Warning"
-msgstr ""
+msgstr "انتباہ"
 
 #: ../src/transaction.vala ../src/installer.vala ../src/manager.vala
 #: ../src/updater.vala
 msgid "Error"
-msgstr ""
+msgstr "خطاء"
 
 #: ../src/transaction.vala ../src/progress_dialog.vala
 msgid "Transaction cancelled"
-msgstr ""
+msgstr "عمل منسوخ ہوا"
 
 #: ../src/transaction.vala
 msgid "Nothing to do"
-msgstr ""
+msgstr "کرنے کو کچھ نہیں"
 
 #: ../src/transaction.vala
 msgid "Transaction successfully finished"
-msgstr ""
+msgstr "عمل کامیابی سے مکمل ہوا"
 
 #: ../src/transaction.vala
 msgid "Generating mirrorlist"
@@ -500,15 +500,15 @@ msgstr ""
 
 #: ../src/installer.vala ../src/manager.vala ../src/updater.vala
 msgid "Pamac is already running"
-msgstr ""
+msgstr "پامیک پہلے سے چل رہا ہے"
 
 #: ../src/tray.vala ../src/updater_window.vala
 msgid "Your system is up-to-date"
-msgstr ""
+msgstr "آپ کا سسٹم اپ ٹو ڈیٹ ہے"
 
 #: ../src/tray.vala
 msgid "_Quit"
-msgstr ""
+msgstr "_برخواست"
 
 #: ../src/tray.vala ../src/updater_window.vala
 #, c-format
@@ -519,23 +519,23 @@ msgstr[1] ""
 
 #: ../src/tray.vala
 msgid "Show available updates"
-msgstr ""
+msgstr "دستیاب اپ ڈیٹس ظاہر کریں"
 
 #: ../src/manager_window.vala
 msgid "Deselect"
-msgstr ""
+msgstr "غیرمنتخب کریں"
 
 #: ../src/manager_window.vala
 msgid "Install"
-msgstr ""
+msgstr "انسٹال کریں"
 
 #: ../src/manager_window.vala
 msgid "Remove"
-msgstr ""
+msgstr "نکال دیں"
 
 #: ../src/manager_window.vala
 msgid "Reinstall"
-msgstr ""
+msgstr "دوبارہ انسٹال کریں"
 
 #: ../src/manager_window.vala
 msgid "Install optional dependencies"
@@ -547,11 +547,11 @@ msgstr ""
 
 #: ../src/manager_window.vala
 msgid "local"
-msgstr ""
+msgstr "مقامی"
 
 #: ../src/manager_window.vala
 msgid "Installed"
-msgstr ""
+msgstr "انسٹالیشن ہو گئی"
 
 #: ../src/manager_window.vala
 msgid "Orphans"
@@ -559,31 +559,31 @@ msgstr ""
 
 #: ../src/manager_window.vala
 msgid "Licenses"
-msgstr ""
+msgstr "لائسنسز"
 
 #: ../src/manager_window.vala
 msgid "Depends On"
-msgstr ""
+msgstr "پر انحصار کرتا ہے"
 
 #: ../src/manager_window.vala
 msgid "Optional Dependencies"
-msgstr ""
+msgstr "اختیاری انحصاریاں"
 
 #: ../src/manager_window.vala
 msgid "Required By"
-msgstr ""
+msgstr "مطلوب ہے"
 
 #: ../src/manager_window.vala
 msgid "Provides"
-msgstr ""
+msgstr "فراہم کرتا ہے"
 
 #: ../src/manager_window.vala
 msgid "Replaces"
-msgstr ""
+msgstr "متبادل"
 
 #: ../src/manager_window.vala
 msgid "Conflicts With"
-msgstr ""
+msgstr "کا تنازع ہے"
 
 #: ../src/manager_window.vala
 msgid "Packager"
@@ -591,7 +591,7 @@ msgstr ""
 
 #: ../src/manager_window.vala
 msgid "Install Date"
-msgstr ""
+msgstr "انسٹالیشن کی تاریخ"
 
 #: ../src/manager_window.vala
 msgid "Explicitly installed"
@@ -603,11 +603,11 @@ msgstr ""
 
 #: ../src/manager_window.vala
 msgid "Unknown"
-msgstr ""
+msgstr "نا معلوم"
 
 #: ../src/manager_window.vala
 msgid "Install Reason"
-msgstr ""
+msgstr "انسٹال کرنے کی وجہ"
 
 #: ../src/manager_window.vala
 msgid "Signatures"
@@ -619,7 +619,7 @@ msgstr ""
 
 #: ../src/manager_window.vala
 msgid "No package found"
-msgstr ""
+msgstr "کوئی پیکج نہیں ملا"
 
 #: ../src/manager_window.vala
 #, c-format
@@ -634,7 +634,7 @@ msgstr[1] ""
 
 #: ../src/manager_window.vala
 msgid "Uninstalled"
-msgstr ""
+msgstr "غیر انسٹال ہو گیا"
 
 #: ../src/manager_window.vala
 msgid "A Gtk3 frontend for libalpm"
