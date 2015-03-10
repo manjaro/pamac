@@ -34,6 +34,7 @@ namespace Pamac {
 	}
 
 	public class TrayIcon: Gtk.Application {
+		Notify.Notification notification;
 		Daemon daemon;
 		bool locked;
 		uint refresh_timeout_id;
@@ -93,16 +94,16 @@ namespace Pamac {
 
 		void execute_updater () {
 			try {
-				Process.spawn_async(null, new string[]{"/usr/bin/pamac-updater"}, null, SpawnFlags.SEARCH_PATH, null, null);
-			} catch (Error e) {
+				Process.spawn_command_line_async ("pamac-updater");
+			} catch (SpawnError e) {
 				print(e.message);
 			}
 		}
 
 		void execute_manager () {
 			try {
-				Process.spawn_async(null, new string[]{"/usr/bin/pamac-manager"}, null, SpawnFlags.SEARCH_PATH, null, null);
-			} catch (Error e) {
+				Process.spawn_command_line_async ("pamac-manager");
+			} catch (SpawnError e) {
 				print(e.message);
 			}
 		}
@@ -148,7 +149,7 @@ namespace Pamac {
 		}
 
 		void show_notification (string info) {
-//~ 				var notification = new Notification (_("Update Manager"));
+//~ 				notification = new Notification (_("Update Manager"));
 //~ 				notification.set_body (info);
 //~ 				Gtk.IconTheme icon_theme = Gtk.IconTheme.get_default ();
 //~ 				Gdk.Pixbuf icon = icon_theme.load_icon ("system-software-update", 32, 0);
@@ -159,7 +160,7 @@ namespace Pamac {
 //~ 				notification.add_button (_("Show available updates"), "app.update");
 //~ 				this.send_notification (_("Update Manager"), notification);
 			try {
-				var notification = new Notify.Notification (_("Update Manager"), info, "system-software-update");
+				notification = new Notify.Notification (_("Update Manager"), info, "system-software-update");
 				notification.add_action ("update", _("Show available updates"), execute_updater);
 				notification.show ();
 			} catch (Error e) {
