@@ -20,7 +20,7 @@
 namespace Pamac {
 	[DBus (name = "org.manjaro.pamac")]
 	public interface Daemon : Object {
-		public abstract void refresh (int force, bool emit_signal) throws IOError;
+		public abstract void start_refresh (int force, bool emit_signal) throws IOError;
 	}
 }
 
@@ -29,7 +29,7 @@ int main (string[] args) {
 	try {
 		daemon = Bus.get_proxy_sync (BusType.SYSTEM, "org.manjaro.pamac",
 												"/org/manjaro/pamac");
-		daemon.refresh (0, false);
+		daemon.start_refresh (0, false);
 	} catch (IOError e) {
 		stderr.printf ("IOError: %s\n", e.message);
 	}
