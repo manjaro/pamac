@@ -60,7 +60,6 @@ namespace Pamac {
 			alpm_config = new Alpm.Config ("/etc/pacman.conf");
 			databases_lock_mutex = Mutex ();
 			aur_results = new HashTable<string, Json.Array> (str_hash, str_equal);
-			aur_updates = {};
 			aur_updates_checked = false;
 			refresh_handle ();
 		}
@@ -644,7 +643,7 @@ namespace Pamac {
 				if (enable_aur) {
 					if (aur_updates_checked == false) {
 						// get aur updates
-						updates_infos = {};
+						aur_updates = {};
 						var aur_pkgs = AUR.multiinfo (local_pkgs);
 						int cmp;
 						unowned Json.Object pkg_info;
@@ -661,10 +660,9 @@ namespace Pamac {
 								infos.db_name = "AUR";
 								infos.tarpath = pkg_info.get_string_member ("URLPath");
 								infos.download_size = 0;
-								updates_infos += infos;
+								aur_updates += infos;
 							}
 						}
-						aur_updates = updates_infos;
 						aur_updates_checked = true;
 					}
 					updates.aur_updates = aur_updates;
@@ -1036,6 +1034,7 @@ namespace Pamac {
 			trans_commit.begin (sender, (obj, res) => {
 				var err = trans_commit.end (res);
 				refresh_handle ();
+				aur_updates_checked = false;
 				trans_commit_finished (err);
 			});
 		}
