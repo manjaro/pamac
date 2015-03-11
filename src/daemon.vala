@@ -38,6 +38,7 @@ namespace Pamac {
 		private HashTable<string, Json.Array> aur_results;
 		private UpdateInfos[] aur_updates;
 		private bool aur_updates_checked;
+		private bool locked;
 
 		public signal void emit_event (uint primary_event, uint secondary_event, string[] details);
 		public signal void emit_providers (string depend, string[] providers);
@@ -61,6 +62,8 @@ namespace Pamac {
 			databases_lock_mutex = Mutex ();
 			aur_results = new HashTable<string, Json.Array> (str_hash, str_equal);
 			aur_updates_checked = false;
+			locked = false;
+			Timeout.add (500, check_pacman_running);
 			refresh_handle ();
 		}
 
@@ -79,6 +82,21 @@ namespace Pamac {
 				alpm_config.handle.logcb = (LogCallBack) cb_log;
 			}
 			previous_percent = 0;
+		}
+
+		private bool check_pacman_running () {
+			var lockfile = File.new_for_path ("/var/lib/pacman/db.lck");
+			if (locked) {
+				if (lockfile.query_exists () == false) {
+					locked = false;
+					refresh_handle ();
+				}
+			} else {
+				if (lockfile.query_exists () == true) {
+					locked = true;
+				}
+			}
+			return true;
 		}
 
 		public void start_write_pamac_config (HashTable<string,Variant> new_pamac_conf, GLib.BusName sender) {
@@ -289,7 +307,6 @@ namespace Pamac {
 		public void start_refresh (int force, bool emit_finish_signal) {
 			refresh.begin (force, (obj, res) => {
 				var err = refresh.end (res);
-				refresh_handle ();
 				if (emit_finish_signal) {
 					refresh_finished (err);
 				}
@@ -1033,7 +1050,6 @@ namespace Pamac {
 		public void start_trans_commit (GLib.BusName sender) {
 			trans_commit.begin (sender, (obj, res) => {
 				var err = trans_commit.end (res);
-				refresh_handle ();
 				aur_updates_checked = false;
 				trans_commit_finished (err);
 			});

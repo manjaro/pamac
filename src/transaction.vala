@@ -1319,13 +1319,15 @@ namespace Pamac {
 					//} else if (sysupgrade_after_build) {
 						//sysupgrade_simple (enable_downgrade);
 					} else {
-						if (build_status == 0)
+						if (build_status == 0) {
 							spawn_in_term ({"echo", dgettext (null, "Transaction successfully finished") + ".\n"});
-						else
+						} else {
 							spawn_in_term ({"echo"});
+						}
 						progress_dialog.hide ();
-						while (Gtk.events_pending ())
+						while (Gtk.events_pending ()) {
 							Gtk.main_iteration ();
+						}
 						finished (false);
 					}
 				}
