@@ -85,7 +85,7 @@ namespace Pamac {
 		}
 
 		private bool check_pacman_running () {
-			var lockfile = File.new_for_path ("/var/lib/pacman/db.lck");
+			var lockfile = GLib.File.new_for_path ("/var/lib/pacman/db.lck");
 			if (locked) {
 				if (lockfile.query_exists () == false) {
 					locked = false;
