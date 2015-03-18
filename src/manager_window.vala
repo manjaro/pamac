@@ -595,8 +595,9 @@ namespace Pamac {
 					transaction.to_add.insert (pkg.name, pkg.name);
 				}
 			}
-			if (transaction.to_add.size () != 0)
+			if (transaction.to_add.size () != 0) {
 				set_buttons_sensitive (true);
+			}
 		}
 
 		void on_remove_item_activate () {
@@ -1025,9 +1026,9 @@ namespace Pamac {
 		[GtkCallback]
 		public void  on_history_item_activate () {
 			var file = GLib.File.new_for_path ("/var/log/pamac.log");
-			if (!file.query_exists ())
+			if (!file.query_exists ()) {
 				GLib.stderr.printf ("File '%s' doesn't exist.\n", file.get_path ());
-			else {
+			} else {
 				StringBuilder text = new StringBuilder ();
 				try {
 					// Open file for reading and wrap returned FileInputStream into a
@@ -1045,8 +1046,9 @@ namespace Pamac {
 				history_dialog.textview.buffer.set_text (text.str, (int) text.len);
 				history_dialog.run ();
 				history_dialog.hide ();
-				while (Gtk.events_pending ())
+				while (Gtk.events_pending ()) {
 					Gtk.main_iteration ();
+				}
 			}
 		}
 
@@ -1061,8 +1063,9 @@ namespace Pamac {
 					}
 					this.get_window ().set_cursor (new Gdk.Cursor (Gdk.CursorType.WATCH));
 					packages_chooser_dialog.hide ();
-					while (Gtk.events_pending ())
+					while (Gtk.events_pending ()) {
 						Gtk.main_iteration ();
+					}
 					transaction.run ();
 				}
 			} else {

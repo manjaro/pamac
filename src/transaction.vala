@@ -443,8 +443,9 @@ namespace Pamac {
 				}
 				if (err.message == "") {
 					progress_dialog.show ();
-					while (Gtk.events_pending ())
+					while (Gtk.events_pending ()) {
 						Gtk.main_iteration ();
+					}
 					try {
 						daemon.start_trans_prepare ();
 					} catch (IOError e) {
@@ -523,8 +524,9 @@ namespace Pamac {
 			progress_dialog.cancel_button.set_visible (true);
 			progress_dialog.close_button.set_visible (false);
 			progress_dialog.show ();
-			while (Gtk.events_pending ())
+			while (Gtk.events_pending ()) {
 				Gtk.main_iteration ();
+			}
 			// run
 			var err = ErrorInfos ();
 			if (to_add.size () == 0
@@ -549,8 +551,9 @@ namespace Pamac {
 						} catch (IOError e) {
 							stderr.printf ("IOError: %s\n", e.message);
 						}
-						if (err.message != "")
+						if (err.message != "") {
 							break;
+						}
 					}
 					foreach (string name in to_remove.get_keys ()) {
 						try {
@@ -558,8 +561,9 @@ namespace Pamac {
 						} catch (IOError e) {
 							stderr.printf ("IOError: %s\n", e.message);
 						}
-						if (err.message != "")
+						if (err.message != "") {
 							break;
+						}
 					}
 					foreach (string path in to_load.get_keys ()) {
 						try {
@@ -567,8 +571,9 @@ namespace Pamac {
 						} catch (IOError e) {
 							stderr.printf ("IOError: %s\n", e.message);
 						}
-						if (err.message != "")
+						if (err.message != "") {
 							break;
+						}
 					}
 					if (err.message == "") {
 						try {
@@ -595,8 +600,9 @@ namespace Pamac {
 			choose_provider_dialog.comboboxtext.active = 0;
 			choose_provider_dialog.run ();
 			choose_provider_dialog.hide ();
-			while (Gtk.events_pending ())
+			while (Gtk.events_pending ()) {
 				Gtk.main_iteration ();
+			}
 			try {
 				daemon.choose_provider (choose_provider_dialog.comboboxtext.active);
 			} catch (IOError e) {
@@ -1065,8 +1071,9 @@ namespace Pamac {
 				default:
 					break;
 			}
-			while (Gtk.events_pending ())
+			while (Gtk.events_pending ()) {
 				Gtk.main_iteration ();
+			}
 		}
 
 		void on_emit_providers (string depend, string[] providers) {
@@ -1101,8 +1108,9 @@ namespace Pamac {
 				previous_percent = fraction;
 				progress_dialog.progressbar.set_fraction (fraction);
 			}
-			while (Gtk.events_pending ())
+			while (Gtk.events_pending ()) {
 				Gtk.main_iteration ();
+			}
 		}
 
 		void on_emit_download (string filename, uint64 xfered, uint64 total) {
@@ -1124,24 +1132,27 @@ namespace Pamac {
 			}
 			if (total_download > 0) {
 				fraction = (float) (xfered + already_downloaded) / total_download;
-				if (fraction <= 1)
+				if (fraction <= 1) {
 					textbar = "%s/%s".printf (format_size (xfered + already_downloaded), format_size (total_download));
-				else
+				} else {
 					textbar = "%s".printf (format_size (xfered + already_downloaded));
+				}
 			} else {
 				fraction = (float) xfered / total;
-				if (fraction <= 1)
+				if (fraction <= 1) {
 					textbar = "%s/%s".printf (format_size (xfered), format_size (total));
-				else
+				} else {
 					textbar = "%s".printf (format_size (xfered));
+				}
 			}
 			if (fraction > 0) {
 				if (fraction != previous_percent) {
 					previous_percent = fraction;
 					progress_dialog.progressbar.set_fraction (fraction);
 				}
-			} else
+			} else {
 				progress_dialog.progressbar.set_fraction (0);
+			}
 			if (textbar != previous_textbar) {
 				previous_textbar = textbar;
 				progress_dialog.progressbar.set_text (textbar);
@@ -1161,17 +1172,19 @@ namespace Pamac {
 			string? line = null;
 			Gtk.TextIter end_iter;
 			if ((Alpm.LogLevel) level == Alpm.LogLevel.WARNING) {
-				if (previous_filename != "")
+				if (previous_filename != "") {
 					line = dgettext (null, "Warning") + ": " + previous_filename + ": " + msg;
-				else
+				} else {
 					line = dgettext (null, "Warning") + ": " + msg;
+				}
 				transaction_info_dialog.textbuffer.get_end_iter (out end_iter);
 				transaction_info_dialog.textbuffer.insert (ref end_iter, msg, msg.length);
 			} else if ((Alpm.LogLevel) level == Alpm.LogLevel.ERROR) {
-				if (previous_filename != "")
+				if (previous_filename != "") {
 					line = dgettext (null, "Error") + ": " + previous_filename + ": " + msg;
-				else
+				} else {
 					line = dgettext (null, "Error") + ": " + msg;
+				}
 			}
 			if (line != null) {
 				progress_dialog.expander.set_expanded (true);
@@ -1187,8 +1200,9 @@ namespace Pamac {
 				transaction_info_dialog.expander.set_expanded (true);
 				transaction_info_dialog.run ();
 				transaction_info_dialog.hide ();
-				while (Gtk.events_pending ())
+				while (Gtk.events_pending ()) {
 					Gtk.main_iteration ();
+				}
 				Gtk.TextIter start_iter;
 				Gtk.TextIter end_iter;
 				transaction_info_dialog.textbuffer.get_start_iter (out start_iter);
@@ -1218,8 +1232,9 @@ namespace Pamac {
 					transaction_info_dialog.textbuffer.get_end_iter (out end_iter);
 					transaction_info_dialog.textbuffer.insert (ref end_iter, str, str.length);
 				}
-			} else
+			} else {
 				transaction_info_dialog.expander.set_visible (false);
+			}
 			spawn_in_term ({"echo"});
 			transaction_info_dialog.run ();
 			transaction_info_dialog.hide ();
@@ -1227,8 +1242,9 @@ namespace Pamac {
 			transaction_info_dialog.textbuffer.get_start_iter (out start_iter);
 			transaction_info_dialog.textbuffer.get_end_iter (out end_iter);
 			transaction_info_dialog.textbuffer.delete (ref start_iter, ref end_iter);
-			while (Gtk.events_pending ())
+			while (Gtk.events_pending ()) {
 				Gtk.main_iteration ();
+			}
 		}
 
 		public void on_refresh_finished (ErrorInfos error) {
@@ -1261,20 +1277,23 @@ namespace Pamac {
 				} else if (type != 0) {
 					if (transaction_sum_dialog.run () == Gtk.ResponseType.OK) {
 						transaction_sum_dialog.hide ();
-						while (Gtk.events_pending ())
+						while (Gtk.events_pending ()) {
 							Gtk.main_iteration ();
+						}
 						if (type == TransactionType.BUILD) {
 							// there only AUR packages to build
 							var err = ErrorInfos ();
 							on_trans_commit_finished (err);
-						} else
+						} else {
 							start_commit ();
+						}
 					} else {
 						spawn_in_term ({"echo", dgettext (null, "Transaction cancelled") + ".\n"});
 						progress_dialog.hide ();
 						transaction_sum_dialog.hide ();
-						while (Gtk.events_pending ())
+						while (Gtk.events_pending ()) {
 							Gtk.main_iteration ();
+						}
 						release ();
 						to_build.steal_all ();
 						sysupgrade_after_trans = false;
@@ -1286,8 +1305,9 @@ namespace Pamac {
 					//err.message = dgettext (null, "Nothing to do") + "\n";
 					spawn_in_term ({"echo", dgettext (null, "Nothing to do") + ".\n"});
 					progress_dialog.hide ();
-					while (Gtk.events_pending ())
+					while (Gtk.events_pending ()) {
 						Gtk.main_iteration ();
+					}
 					release ();
 					clear_lists ();
 					finished (false);
