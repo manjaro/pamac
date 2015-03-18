@@ -38,7 +38,8 @@ namespace Pamac {
 		private HashTable<string, Json.Array> aur_results;
 		private UpdateInfos[] aur_updates;
 		private bool aur_updates_checked;
-		private bool locked;
+		private bool intern_lock;
+		private bool extern_lock;
 
 		public signal void emit_event (uint primary_event, uint secondary_event, string[] details);
 		public signal void emit_providers (string depend, string[] providers);
@@ -62,7 +63,8 @@ namespace Pamac {
 			databases_lock_mutex = Mutex ();
 			aur_results = new HashTable<string, Json.Array> (str_hash, str_equal);
 			aur_updates_checked = false;
-			locked = false;
+			intern_lock = false;
+			extern_lock = false;
 			Timeout.add (500, check_pacman_running);
 			refresh_handle ();
 		}
@@ -86,14 +88,17 @@ namespace Pamac {
 
 		private bool check_pacman_running () {
 			var lockfile = GLib.File.new_for_path ("/var/lib/pacman/db.lck");
-			if (locked) {
+			if (extern_lock) {
 				if (lockfile.query_exists () == false) {
-					locked = false;
+					extern_lock = false;
+					aur_updates_checked = false;
 					refresh_handle ();
 				}
 			} else {
 				if (lockfile.query_exists () == true) {
-					locked = true;
+					if (intern_lock == false) {
+						extern_lock = true;
+					}
 				}
 			}
 			return true;
@@ -305,8 +310,11 @@ namespace Pamac {
 		}
 
 		public void start_refresh (int force, bool emit_finish_signal) {
+			intern_lock = true;
 			refresh.begin (force, (obj, res) => {
 				var err = refresh.end (res);
+				intern_lock = false;
+				refresh_handle ();
 				if (emit_finish_signal) {
 					refresh_finished (err);
 				}
@@ -696,6 +704,8 @@ namespace Pamac {
 				err.message = _("Failed to init transaction");
 				details += Alpm.strerror (alpm_config.handle.errno ());
 				err.details = details;
+			} else {
+				intern_lock = true;
 			}
 			return err;
 		}
@@ -1050,7 +1060,8 @@ namespace Pamac {
 		public void start_trans_commit (GLib.BusName sender) {
 			trans_commit.begin (sender, (obj, res) => {
 				var err = trans_commit.end (res);
-				aur_updates_checked = false;
+				intern_lock = false;
+				refresh_handle ();
 				trans_commit_finished (err);
 			});
 		}
