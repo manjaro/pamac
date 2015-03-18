@@ -638,6 +638,10 @@ msgstr ""
 msgid "A Gtk3 frontend for libalpm"
 msgstr ""
 
+#: ../src/manager_window.vala
+msgid "Copyright © 2015 Guillaume Benoit"
+msgstr ""
+
 #: ../src/common.vala
 #, c-format
 msgid "%.0f KiB"
