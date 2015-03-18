@@ -1172,13 +1172,16 @@ namespace Pamac {
 			string? line = null;
 			Gtk.TextIter end_iter;
 			if ((Alpm.LogLevel) level == Alpm.LogLevel.WARNING) {
-				if (previous_filename != "") {
-					line = dgettext (null, "Warning") + ": " + previous_filename + ": " + msg;
-				} else {
-					line = dgettext (null, "Warning") + ": " + msg;
+				// do not show warning when manjaro-system remove db.lck
+				if (previous_filename != "manjaro-system") {
+					if (previous_filename != "") {
+						line = dgettext (null, "Warning") + ": " + previous_filename + ": " + msg;
+					} else {
+						line = dgettext (null, "Warning") + ": " + msg;
+					}
+					transaction_info_dialog.textbuffer.get_end_iter (out end_iter);
+					transaction_info_dialog.textbuffer.insert (ref end_iter, msg, msg.length);
 				}
-				transaction_info_dialog.textbuffer.get_end_iter (out end_iter);
-				transaction_info_dialog.textbuffer.insert (ref end_iter, msg, msg.length);
 			} else if ((Alpm.LogLevel) level == Alpm.LogLevel.ERROR) {
 				if (previous_filename != "") {
 					line = dgettext (null, "Error") + ": " + previous_filename + ": " + msg;
