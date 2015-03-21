@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2015-03-04 14:36+0100\n"
-"PO-Revision-Date: 2015-03-06 23:17+0000\n"
+"PO-Revision-Date: 2015-03-21 07:29+0000\n"
 "Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: English (United Kingdom) (http://www.transifex.com/projects/p/manjaro-pamac/language/en_GB/)\n"
 "MIME-Version: 1.0\n"
@@ -641,6 +641,10 @@ msgstr "Uninstalled"
 #: ../src/manager_window.vala
 msgid "A Gtk3 frontend for libalpm"
 msgstr "A Gtk3 frontend for libalpm"
+
+#: ../src/manager_window.vala
+msgid "Copyright © 2015 Guillaume Benoit"
+msgstr "Copyright © 2015 Guillaume Benoit"
 
 #: ../src/common.vala
 #, c-format

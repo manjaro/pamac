@@ -4,6 +4,7 @@
 # Guillaume Benoit <guillaume@manjaro.org>, 2013-2015.
 # 
 # Translators:
+# Aaron <aaron8xx@yahoo.co.uk>, 2015
 # Alexandru Ianu <alexandru.ianu@gmail.com>, 2013-2015
 # Guillaume Benoit <guillaume@manjaro.org>, 2013
 # philm <philm@manjaro.org>, 2015
@@ -12,8 +13,8 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2015-03-04 14:36+0100\n"
-"PO-Revision-Date: 2015-03-04 15:07+0000\n"
-"Last-Translator: Guillaume Benoit <guillaume@manjaro.org>\n"
+"PO-Revision-Date: 2015-03-21 06:24+0000\n"
+"Last-Translator: Aaron <aaron8xx@yahoo.co.uk>\n"
 "Language-Team: Romanian (http://www.transifex.com/projects/p/manjaro-pamac/language/ro/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -226,11 +227,11 @@ msgstr "Nu s-au sincronizat bazele de date"
 
 #: ../src/daemon.vala
 msgid "No"
-msgstr ""
+msgstr "Nu"
 
 #: ../src/daemon.vala
 msgid "Yes"
-msgstr ""
+msgstr "Da"
 
 #: ../src/daemon.vala
 msgid "Failed to init transaction"
@@ -643,6 +644,10 @@ msgstr "Neinstalate"
 #: ../src/manager_window.vala
 msgid "A Gtk3 frontend for libalpm"
 msgstr "O interfață Gtk3 pentru libalpm"
+
+#: ../src/manager_window.vala
+msgid "Copyright © 2015 Guillaume Benoit"
+msgstr "Drepturi de autor © 2015 Guillaume Benoit"
 
 #: ../src/common.vala
 #, c-format

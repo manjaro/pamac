@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2015-03-04 14:36+0100\n"
-"PO-Revision-Date: 2015-03-04 20:36+0000\n"
+"PO-Revision-Date: 2015-03-18 15:47+0000\n"
 "Last-Translator: Moo\n"
 "Language-Team: Lithuanian (http://www.transifex.com/projects/p/manjaro-pamac/language/lt/)\n"
 "MIME-Version: 1.0\n"
@@ -151,7 +151,7 @@ msgstr "Atnaujinimų Tvarkytuvė"
 
 #: ../resources/updater_window.ui
 msgid "_Refresh"
-msgstr "A_tnaujinti"
+msgstr "Įkelti iš n_aujo"
 
 #: ../resources/updater_window.ui
 msgid "_Apply"
@@ -642,6 +642,10 @@ msgstr "Pašalinta"
 #: ../src/manager_window.vala
 msgid "A Gtk3 frontend for libalpm"
 msgstr "Gtk3 naudotojo sąsaja libalpm bibliotekai"
+
+#: ../src/manager_window.vala
+msgid "Copyright © 2015 Guillaume Benoit"
+msgstr "Autorinės Teisės © 2015 Guillaume Benoit"
 
 #: ../src/common.vala
 #, c-format
