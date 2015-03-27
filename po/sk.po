@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2015-03-04 14:36+0100\n"
-"PO-Revision-Date: 2015-03-05 14:03+0000\n"
+"PO-Revision-Date: 2015-03-18 16:12+0000\n"
 "Last-Translator: Dušan Kazik <prescott66@gmail.com>\n"
 "Language-Team: Slovak (http://www.transifex.com/projects/p/manjaro-pamac/language/sk/)\n"
 "MIME-Version: 1.0\n"
@@ -91,19 +91,19 @@ msgstr "Správca balíkov"
 
 #: ../resources/manager_window.ui
 msgid "Refresh databases"
-msgstr "Obnoviť databázy"
+msgstr "Obnoví databázy"
 
 #: ../resources/manager_window.ui
 msgid "Apply changes"
-msgstr "Aplikovať zmeny"
+msgstr "Aplikuje zmeny"
 
 #: ../resources/manager_window.ui
 msgid "Cancel all planned changes"
-msgstr "Zrušiť všetky naplánované zmeny"
+msgstr "Zruší všetky naplánované zmeny"
 
 #: ../resources/manager_window.ui
 msgid "Search in AUR"
-msgstr "Vyhľadávať v repozitári AUR"
+msgstr "Prepne vyhľadávanie v repozitári AUR"
 
 #: ../resources/manager_window.ui
 msgid "Search"
@@ -167,7 +167,7 @@ msgstr "Predvoľby"
 
 #: ../resources/preferences_dialog.ui
 msgid "Allow Pamac to search and install packages from AUR"
-msgstr "Umožniť programu Pamac vyhľadať a inštalovať balíky z repozitára AUR"
+msgstr "Umožní programu Pamac vyhľadať a inštalovať balíky z repozitára AUR"
 
 #: ../resources/preferences_dialog.ui
 msgid ""
@@ -646,6 +646,10 @@ msgstr "Odinštalované"
 #: ../src/manager_window.vala
 msgid "A Gtk3 frontend for libalpm"
 msgstr "Rozhranie Gtk3 pre knižnicu libalpm"
+
+#: ../src/manager_window.vala
+msgid "Copyright © 2015 Guillaume Benoit"
+msgstr "Autorské práva © 2015 Guillaume Benoit"
 
 #: ../src/common.vala
 #, c-format

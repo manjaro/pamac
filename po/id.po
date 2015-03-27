@@ -4,7 +4,7 @@
 # Guillaume Benoit <guillaume@manjaro.org>, 2013-2015.
 # 
 # Translators:
-# Budiman Jojo <budimanjojo@gmail.com>, 2014
+# Budiman Jojo <budimanjojo@gmail.com>, 2014-2015
 # Guillaume Benoit <guillaume@manjaro.org>, 2013
 # Guillaume Benoit <guillaume@manjaro.org>, 2013
 # Hasan Al Banna, 2014
@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2015-03-04 14:36+0100\n"
-"PO-Revision-Date: 2015-03-04 15:07+0000\n"
+"PO-Revision-Date: 2015-03-18 15:17+0000\n"
 "Last-Translator: Guillaume Benoit <guillaume@manjaro.org>\n"
 "Language-Team: Indonesian (http://www.transifex.com/projects/p/manjaro-pamac/language/id/)\n"
 "MIME-Version: 1.0\n"
@@ -234,11 +234,11 @@ msgstr "Gagal mengsinkronisasikan database apapun"
 
 #: ../src/daemon.vala
 msgid "No"
-msgstr ""
+msgstr "Tidak"
 
 #: ../src/daemon.vala
 msgid "Yes"
-msgstr ""
+msgstr "Iya"
 
 #: ../src/daemon.vala
 msgid "Failed to init transaction"
@@ -647,6 +647,10 @@ msgstr "Dihapus"
 #: ../src/manager_window.vala
 msgid "A Gtk3 frontend for libalpm"
 msgstr "Sebuah frontend Gtk3 untuk libalpm"
+
+#: ../src/manager_window.vala
+msgid "Copyright © 2015 Guillaume Benoit"
+msgstr ""
 
 #: ../src/common.vala
 #, c-format
