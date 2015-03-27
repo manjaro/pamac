@@ -30,6 +30,11 @@ namespace Pamac {
 		public bool is_syncfirst;
 		public UpdateInfos[] repos_updates;
 		public UpdateInfos[] aur_updates;
+		public Updates () {
+			is_syncfirst = false;
+			repos_updates = {};
+			aur_updates = {};
+		}
 	}
 
 	public enum Mode {

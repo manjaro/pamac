@@ -35,9 +35,8 @@ namespace Pamac {
 		public Mutex provider_mutex;
 		public int? choosen_provider;
 		private Mutex databases_lock_mutex;
-		private HashTable<string, Json.Array> aur_results;
-		private UpdateInfos[] aur_updates;
-		private bool aur_updates_checked;
+		private HashTable<string, Json.Array> aur_search_results;
+		private Json.Array aur_updates_results;
 		private bool intern_lock;
 		private bool extern_lock;
 
@@ -61,8 +60,8 @@ namespace Pamac {
 		public Daemon () {
 			alpm_config = new Alpm.Config ("/etc/pacman.conf");
 			databases_lock_mutex = Mutex ();
-			aur_results = new HashTable<string, Json.Array> (str_hash, str_equal);
-			aur_updates_checked = false;
+			aur_search_results = new HashTable<string, Json.Array> (str_hash, str_equal);
+			aur_updates_results = new Json.Array ();
 			intern_lock = false;
 			extern_lock = false;
 			Timeout.add (500, check_pacman_running);
@@ -91,7 +90,6 @@ namespace Pamac {
 			if (extern_lock) {
 				if (lockfile.query_exists () == false) {
 					extern_lock = false;
-					aur_updates_checked = false;
 					refresh_handle ();
 				}
 			} else {
@@ -424,11 +422,11 @@ namespace Pamac {
 			}
 			if (search_from_aur) {
 				Json.Array aur_pkgs;
-				if (aur_results.contains (search_string)) {
-					aur_pkgs = aur_results.get (search_string);
+				if (aur_search_results.contains (search_string)) {
+					aur_pkgs = aur_search_results.get (search_string);
 				} else {
 					aur_pkgs = AUR.search (splitted);
-					aur_results.insert (search_string, aur_pkgs);
+					aur_search_results.insert (search_string, aur_pkgs);
 				}
 				foreach (var node in aur_pkgs.get_elements ()) {
 					var aur_pkg = node.get_object ();
@@ -613,7 +611,6 @@ namespace Pamac {
 			var infos = UpdateInfos ();
 			UpdateInfos[] updates_infos = {};
 			var updates = Updates ();
-			updates.aur_updates = {};
 			unowned Alpm.Package? pkg = null;
 			unowned Alpm.Package? candidate = null;
 			foreach (var name in alpm_config.syncfirsts) {
@@ -663,34 +660,32 @@ namespace Pamac {
 						}
 					}
 				}
-				updates.is_syncfirst = false;
 				updates.repos_updates = updates_infos;
 				if (enable_aur) {
-					if (aur_updates_checked == false) {
-						// get aur updates
-						aur_updates = {};
-						var aur_pkgs = AUR.multiinfo (local_pkgs);
-						int cmp;
-						unowned Json.Object pkg_info;
-						string version;
-						string name;
-						foreach (var node in aur_pkgs.get_elements ()) {
-							pkg_info = node.get_object ();
-							version = pkg_info.get_string_member ("Version");
-							name = pkg_info.get_string_member ("Name");
-							cmp = Alpm.pkg_vercmp (version, alpm_config.handle.localdb.get_pkg (name).version);
-							if (cmp == 1) {
-								infos.name = name;
-								infos.version = version;
-								infos.db_name = "AUR";
-								infos.tarpath = pkg_info.get_string_member ("URLPath");
-								infos.download_size = 0;
-								aur_updates += infos;
-							}
-						}
-						aur_updates_checked = true;
+					// get aur updates
+					if (aur_updates_results.get_length () == 0) {
+						aur_updates_results = AUR.multiinfo (local_pkgs);
 					}
-					updates.aur_updates = aur_updates;
+					int cmp;
+					unowned Json.Object pkg_info;
+					string version;
+					string name;
+					updates_infos = {};
+					foreach (var node in aur_updates_results.get_elements ()) {
+						pkg_info = node.get_object ();
+						version = pkg_info.get_string_member ("Version");
+						name = pkg_info.get_string_member ("Name");
+						cmp = Alpm.pkg_vercmp (version, alpm_config.handle.localdb.get_pkg (name).version);
+						if (cmp == 1) {
+							infos.name = name;
+							infos.version = version;
+							infos.db_name = "AUR";
+							infos.tarpath = pkg_info.get_string_member ("URLPath");
+							infos.download_size = 0;
+							updates_infos += infos;
+						}
+					}
+					updates.aur_updates = updates_infos;
 				}
 				return updates;
 			}

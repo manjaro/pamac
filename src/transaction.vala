@@ -1368,8 +1368,12 @@ namespace Pamac {
 			Source.remove (pulse_timeout_id);
 			to_build.steal_all ();
 			build_status = status;
-			var err = ErrorInfos ();
-			on_trans_commit_finished (err);
+			// let the time to the daemon to update packages
+			Timeout.add (1000, () => {
+				var err = ErrorInfos ();
+				on_trans_commit_finished (err);
+				return false;
+			});
 		}
 
 		void on_write_pamac_config_finished (int refresh_period, bool aur_enabled, bool recurse) {
