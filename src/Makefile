@@ -43,13 +43,20 @@ pamac-refresh: refresh.vala
 			--pkg=gio-2.0 \
 			refresh.vala
 
-pamac-tray: common.vala pamac_config.vala tray.vala
+pamac-tray: ../util/alpm-util.c common.vala alpm_config.vala pamac_config.vala tray.vala
 	valac 	-o pamac-tray \
+			--pkg=posix \
+			--pkg=libalpm \
 			--pkg=gio-2.0 \
 			--pkg=gtk+-3.0 \
 			--pkg=libnotify \
+			--vapidir=../vapi \
+			--Xcc=-I../util \
+			-X -D_FILE_OFFSET_BITS=64 \
 			-X -DGETTEXT_PACKAGE="pamac" \
+			../util/alpm-util.c \
 			common.vala \
+			alpm_config.vala \
 			pamac_config.vala \
 			tray.vala
 

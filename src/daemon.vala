@@ -39,6 +39,7 @@ namespace Pamac {
 		private Json.Array aur_updates_results;
 		private bool intern_lock;
 		private bool extern_lock;
+		private GLib.File lockfile;
 
 		public signal void emit_event (uint primary_event, uint secondary_event, string[] details);
 		public signal void emit_providers (string depend, string[] providers);
@@ -64,8 +65,8 @@ namespace Pamac {
 			aur_updates_results = new Json.Array ();
 			intern_lock = false;
 			extern_lock = false;
-			Timeout.add (500, check_pacman_running);
 			refresh_handle ();
+			Timeout.add (500, check_pacman_running);
 		}
 
 		private void refresh_handle () {
@@ -81,12 +82,12 @@ namespace Pamac {
 				alpm_config.handle.dlcb = (DownloadCallBack) cb_download;
 				alpm_config.handle.totaldlcb = (TotalDownloadCallBack) cb_totaldownload;
 				alpm_config.handle.logcb = (LogCallBack) cb_log;
+				lockfile = GLib.File.new_for_path (alpm_config.handle.lockfile);
 			}
 			previous_percent = 0;
 		}
 
 		private bool check_pacman_running () {
-			var lockfile = GLib.File.new_for_path ("/var/lib/pacman/db.lck");
 			if (extern_lock) {
 				if (lockfile.query_exists () == false) {
 					extern_lock = false;
@@ -1066,8 +1067,6 @@ namespace Pamac {
 		}
 
 		public void trans_cancel () {
-			alpm_config.handle.trans_interrupt ();
-			alpm_config.handle.trans_release ();
 			// explicitly quit to avoid a crash
 			// this daemon should be auto-restarted
 			quit ();
@@ -1075,7 +1074,9 @@ namespace Pamac {
 
 		[DBus (no_reply = true)]
 		public void quit () {
-			GLib.File lockfile = GLib.File.new_for_path ("/var/lib/pacman/db.lck");
+			// be sure to not quit with locked databases
+			alpm_config.handle.trans_interrupt ();
+			alpm_config.handle.trans_release ();
 			if (lockfile.query_exists () == false) {
 				loop.quit ();
 			}

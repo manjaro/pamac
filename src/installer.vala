@@ -78,19 +78,18 @@ namespace Pamac {
 			} catch (GLib.Error e) {
 				stderr.printf ("%s\n", e.message);
 			}
-			run =  app.get_is_remote ();
+			run = app.get_is_remote ();
 			if (run) {
 				return run;
-			} else {
-				app = new Application ("org.manjaro.pamac.updater", 0);
-				try {
-					app.register ();
-				} catch (GLib.Error e) {
-					stderr.printf ("%s\n", e.message);
-				}
-				run =  app.get_is_remote ();
-				return run;
 			}
+			app = new Application ("org.manjaro.pamac.updater", 0);
+			try {
+				app.register ();
+			} catch (GLib.Error e) {
+				stderr.printf ("%s\n", e.message);
+			}
+			run = app.get_is_remote ();
+			return run;
 		}
 
 		public void on_emit_trans_finished (bool error) {

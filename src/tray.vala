@@ -40,6 +40,7 @@ namespace Pamac {
 		uint refresh_timeout_id;
 		Gtk.StatusIcon status_icon;
 		Gtk.Menu menu;
+		GLib.File lockfile;
 
 		public TrayIcon () {
 			application_id = "org.manjaro.pamac.tray";
@@ -56,7 +57,7 @@ namespace Pamac {
 		}
 
 		void stop_daemon () {
-			if (check_pamac_running () == false) {
+			if (check_pamac_running () == false && lockfile.query_exists () == false) {
 				try {
 					daemon.quit ();
 				} catch (IOError e) {
@@ -177,23 +178,31 @@ namespace Pamac {
 			} catch (GLib.Error e) {
 				stderr.printf ("%s\n", e.message);
 			}
-			run =  app.get_is_remote ();
-			if (run)
-				return run;
-			else {
-				app = new Application ("org.manjaro.pamac.updater", 0);
-				try {
-					app.register ();
-				} catch (GLib.Error e) {
-					stderr.printf ("%s\n", e.message);
-				}
-				run =  app.get_is_remote ();
+			run = app.get_is_remote ();
+			if (run) {
 				return run;
 			}
+			app = new Application ("org.manjaro.pamac.updater", 0);
+			try {
+				app.register ();
+			} catch (GLib.Error e) {
+				stderr.printf ("%s\n", e.message);
+			}
+			run = app.get_is_remote ();
+			if (run) {
+				return run;
+			}
+			app = new Application ("org.manjaro.pamac.install", 0);
+			try {
+				app.register ();
+			} catch (GLib.Error e) {
+				stderr.printf ("%s\n", e.message);
+			}
+			run = app.get_is_remote ();
+			return run;
 		}
 
 		bool check_pacman_running () {
-			GLib.File lockfile = GLib.File.new_for_path ("/var/lib/pacman/db.lck");
 			if (locked) {
 				if (lockfile.query_exists () == false) {
 					locked = false;
@@ -237,10 +246,12 @@ namespace Pamac {
 
 			Notify.init (_("Update Manager"));
 
+			var alpm_config = new Alpm.Config ("/etc/pacman.conf");
+			lockfile = GLib.File.new_for_path (alpm_config.handle.lockfile);
+			Timeout.add (500, check_pacman_running);
 			refresh ();
 			var pamac_config = new Pamac.Config ("/etc/pamac.conf");
 			launch_refresh_timeout ((uint) pamac_config.refresh_period);
-			Timeout.add (500, check_pacman_running);
 
 			this.hold ();
 		}
