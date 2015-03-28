@@ -197,7 +197,11 @@ namespace Pamac {
 			if (locked) {
 				if (lockfile.query_exists () == false) {
 					locked = false;
-					check_updates ();
+					// let the time to the daemon to update packages
+					Timeout.add (1000, () => {
+						check_updates ();
+						return false;
+					});
 				}
 			} else {
 				if (lockfile.query_exists () == true) {
