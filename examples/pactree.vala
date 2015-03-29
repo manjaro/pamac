@@ -1,7 +1,7 @@
 /*
  *  pactree.vala - a simple dependency tree viewer translated in Vala
  *
- *  Copyright (C) 2014  Guillaume Benoit <guillaume@manjaro.org>
+ *  Copyright (C) 2014-2015  Guillaume Benoit <guillaume@manjaro.org>
  *  Copyright (c) 2010-2011 Pacman Development Team <pacman-dev@archlinux.org>
  *
  *  This program is free software; you can redistribute it and/or modify
@@ -37,7 +37,7 @@ string leaf2_color;
 string color_off;
 
 /* globals */
-Handle handle;
+unowned Handle? handle;
 unowned DB localdb;
 Alpm.List<string?> walked = null;
 Alpm.List<string?> provisions = null;
@@ -127,7 +127,7 @@ static int parse_options(ref unowned string[] args) {
 
 static void local_init() {
   Alpm.Errno error;
-  handle = new Handle ("/", dbpath, out error);
+  handle = Handle.new ("/", dbpath, out error);
   assert (error == 0);
   localdb = handle.localdb;
   assert (localdb != null);
@@ -167,16 +167,16 @@ static void print_text(string? pkg, string? provision, int depth)
   if (pkg == null) {
     /* we failed to resolve provision */
     stdout.printf("%s%*s%s%s%s%s%s\n", branch1_color, indent_sz, branch_tip1,
-		  leaf1_color, provision, branch1_color, unresolvable, color_off);
+      leaf1_color, provision, branch1_color, unresolvable, color_off);
   } else if ((provision != null) && (provision != pkg)) {
     /* pkg provides provision */
     stdout.printf("%s%*s%s%s%s%s %s%s%s\n", branch2_color, indent_sz, branch_tip2,
-				leaf1_color, pkg, leaf2_color, provides, leaf1_color, provision,
-				color_off);
+        leaf1_color, pkg, leaf2_color, provides, leaf1_color, provision,
+        color_off);
   } else {
     /* pkg is a normal package */
     stdout.printf("%s%*s%s%s%s\n", branch1_color, indent_sz, branch_tip1, leaf1_color,
-	   pkg, color_off);
+     pkg, color_off);
   }
 }
 
@@ -187,19 +187,24 @@ static void walk_reverse_deps(Package pkg, int depth) {
   if((max_depth >= 0) && (depth > max_depth)) return;
 
   walked.add(pkg.name);
-  Alpm.List<string?> required_by = pkg.compute_requiredby ();
+  Alpm.List<string?> *required_by = pkg.compute_requiredby();
 
-  foreach(string? i in required_by) {
-    string pkgname = i;
+  int i = 0;
+  while (i < required_by->length) {
+    string? pkgname = required_by->nth_data(i);
     if (walked.find_str(pkgname) != null) {
       /* if we've already seen this package, don't print in "unique" output
        * and don't recurse */
-      if (!unique) print(pkg.name, pkgname, null, depth);
+      if (!unique) {
+        print(pkg.name, pkgname, null, depth);
+      }
     } else {
       print(pkg.name, pkgname, null, depth);
       walk_reverse_deps(localdb.get_pkg(pkgname), depth + 1);
     }
+    i++;
   }
+  Alpm.List.free_all(required_by);
 }
 
 /**
@@ -262,8 +267,8 @@ static void print_start(string pkgname, string provname)
 {
   if(graphviz) {
     stdout.printf("digraph G { START [color=red, style=filled];\n" +
-		  "node [style=filled, color=green];\n" +
-		  " \"START\" -> \"%s\";\n", pkgname);
+      "node [style=filled, color=green];\n" +
+      " \"START\" -> \"%s\";\n", pkgname);
   } else {
     print_text(pkgname, provname, 0);
   }
