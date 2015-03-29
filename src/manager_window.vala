@@ -20,7 +20,7 @@
 using Gtk;
 using Alpm;
 
-const string VERSION = "2.2.1";
+const string VERSION = "2.2.2";
 
 namespace Pamac {
 
