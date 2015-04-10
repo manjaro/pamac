@@ -443,6 +443,7 @@
                     <property name="hexpand">True</property>
                     <property name="vexpand">True</property>
                     <property name="shadow_type">in</property>
+                    <property name="min_content_height">350</property>
                     <child>
                       <object class="GtkTreeView" id="packages_treeview">
                         <property name="visible">True</property>
@@ -583,7 +584,6 @@
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="halign">start</property>
-                                    <property name="margin">6</property>
                                     <property name="selectable">True</property>
                                   </object>
                                   <packing>
@@ -597,7 +597,6 @@
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="halign">start</property>
-                                    <property name="margin">6</property>
                                     <property name="selectable">True</property>
                                   </object>
                                   <packing>
@@ -612,7 +611,6 @@
                                     <property name="can_focus">True</property>
                                     <property name="has_focus">True</property>
                                     <property name="halign">start</property>
-                                    <property name="margin">6</property>
                                   </object>
                                   <packing>
                                     <property name="expand">False</property>
@@ -625,7 +623,6 @@
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="halign">start</property>
-                                    <property name="margin">6</property>
                                     <property name="selectable">True</property>
                                   </object>
                                   <packing>
