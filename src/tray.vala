@@ -27,16 +27,17 @@ const string noupdate_info = _("Your system is up-to-date");
 namespace Pamac {
 	[DBus (name = "org.manjaro.pamac")]
 	public interface Daemon : Object {
-		public abstract void start_refresh (int force, bool emit_signal) throws IOError;
+		public abstract void start_refresh (int force) throws IOError;
 		public abstract async Updates get_updates (bool enable_aur) throws IOError;
-		[DBus (no_reply = true)]
-		public abstract void quit () throws IOError;
+		public abstract async void quit () throws IOError;
+		public signal void refresh_finished (ErrorInfos error);
 	}
 
 	public class TrayIcon: Gtk.Application {
 		Notify.Notification notification;
 		Daemon daemon;
-		bool locked;
+		bool intern_lock;
+		bool extern_lock;
 		uint refresh_timeout_id;
 		Gtk.StatusIcon status_icon;
 		Gtk.Menu menu;
@@ -54,15 +55,13 @@ namespace Pamac {
 			} catch (IOError e) {
 				stderr.printf ("IOError: %s\n", e.message);
 			}
+			// Connecting to signal
+			daemon.refresh_finished.connect (on_refresh_finished);
 		}
 
 		void stop_daemon () {
 			if (check_pamac_running () == false && lockfile.query_exists () == false) {
-				try {
-					daemon.quit ();
-				} catch (IOError e) {
-					stderr.printf ("IOError: %s\n", e.message);
-				}
+				daemon.quit.begin ();
 			}
 		}
 
@@ -97,7 +96,7 @@ namespace Pamac {
 			try {
 				Process.spawn_command_line_async ("pamac-updater");
 			} catch (SpawnError e) {
-				print(e.message);
+				stderr.printf ("SpawnError: %s\n", e.message);
 			}
 		}
 
@@ -105,7 +104,7 @@ namespace Pamac {
 			try {
 				Process.spawn_command_line_async ("pamac-manager");
 			} catch (SpawnError e) {
-				print(e.message);
+				stderr.printf ("SpawnError: %s\n", e.message);
 			}
 		}
 
@@ -114,16 +113,22 @@ namespace Pamac {
 			status_icon.set_tooltip_markup (info);
 		}
 
-		bool refresh () {
+		bool start_refresh () {
 			if (check_pamac_running () == false) {
 				start_daemon ();
 				try {
-					daemon.start_refresh (0, false);
+					daemon.start_refresh (0);
+					intern_lock = true;
 				} catch (IOError e) {
 					stderr.printf ("IOError: %s\n", e.message);
 				}
 			}
 			return true;
+		}
+
+		void on_refresh_finished () {
+			intern_lock = false;
+			check_updates ();
 		}
 
 		void check_updates () {
@@ -203,9 +208,9 @@ namespace Pamac {
 		}
 
 		bool check_pacman_running () {
-			if (locked) {
+			if (extern_lock) {
 				if (lockfile.query_exists () == false) {
-					locked = false;
+					extern_lock = false;
 					// let the time to the daemon to update packages
 					Timeout.add (1000, () => {
 						check_updates ();
@@ -214,7 +219,9 @@ namespace Pamac {
 				}
 			} else {
 				if (lockfile.query_exists () == true) {
-					locked = true;
+					if (intern_lock == false) {
+						extern_lock = true;
+					}
 				}
 			}
 			return true;
@@ -224,7 +231,7 @@ namespace Pamac {
 			if (refresh_timeout_id != 0) {
 				Source.remove (refresh_timeout_id);
 			}
-			refresh_timeout_id = Timeout.add_seconds (refresh_period_in_hours*3600, refresh);
+			refresh_timeout_id = Timeout.add_seconds (refresh_period_in_hours*3600, start_refresh);
 		}
 
 		public override void startup () {
@@ -234,7 +241,8 @@ namespace Pamac {
 
 			base.startup ();
 
-			locked = false;
+			intern_lock = false;
+			extern_lock = false;
 			refresh_timeout_id = 0;
 
 			status_icon = new Gtk.StatusIcon ();
@@ -249,7 +257,7 @@ namespace Pamac {
 			var alpm_config = new Alpm.Config ("/etc/pacman.conf");
 			lockfile = GLib.File.new_for_path (alpm_config.handle.lockfile);
 			Timeout.add (500, check_pacman_running);
-			refresh ();
+			start_refresh ();
 			var pamac_config = new Pamac.Config ("/etc/pamac.conf");
 			launch_refresh_timeout ((uint) pamac_config.refresh_period);
 

@@ -74,7 +74,7 @@ pamac-daemon: ../vapi/libalpm.vapi ../vapi/polkit-gobject-1.vapi $(COMMON_SOURCE
 			alpm_utils.vala \
 			daemon.vala
 
-pamac-manager: ../vapi/libalpm.vapi $(COMMON_SOURCES) $(TRANSACTION_SOURCES) choose_dep_dialog.vala history_dialog.vala packages_chooser_dialog.vala ../resources/manager_resources.c packages_model.vala manager_window.vala manager.vala
+pamac-manager: ../vapi/libalpm.vapi $(COMMON_SOURCES) $(TRANSACTION_SOURCES) choose_dep_dialog.vala history_dialog.vala ../resources/manager_resources.c packages_model.vala manager_window.vala manager.vala
 	valac 	-o pamac-manager \
 			$(COMMON_VALA_FLAGS) \
 			$(TRANSACTION_VALA_FLAGS) \
@@ -83,7 +83,6 @@ pamac-manager: ../vapi/libalpm.vapi $(COMMON_SOURCES) $(TRANSACTION_SOURCES) cho
 			$(TRANSACTION_SOURCES) \
 			choose_dep_dialog.vala \
 			history_dialog.vala \
-			packages_chooser_dialog.vala \
 			../resources/manager_resources.c \
 			packages_model.vala \
 			manager_window.vala \

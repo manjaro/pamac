@@ -106,7 +106,7 @@ namespace Pamac {
 		public void start_write_pamac_config (HashTable<string,Variant> new_pamac_conf, GLib.BusName sender) {
 			var pamac_config = new Pamac.Config ("/etc/pamac.conf");
 			try {
-				Polkit.Authority authority = Polkit.Authority.get_sync (null);
+				Polkit.Authority authority = Polkit.Authority.get_sync ();
 				Polkit.Subject subject = Polkit.SystemBusName.new (sender);
 				authority.check_authorization.begin (
 					subject,
@@ -120,21 +120,23 @@ namespace Pamac {
 							if (result.get_is_authorized ()) {
 								pamac_config.write (new_pamac_conf);
 								pamac_config.reload ();
-								write_pamac_config_finished (pamac_config.refresh_period, pamac_config.enable_aur, pamac_config.recurse);
 							}
 						} catch (GLib.Error e) {
 							stderr.printf ("%s\n", e.message);
+						} finally {
+							write_pamac_config_finished (pamac_config.refresh_period, pamac_config.enable_aur, pamac_config.recurse);
 						}
 					}
 				);
 			} catch (GLib.Error e) {
+				write_pamac_config_finished (pamac_config.refresh_period, pamac_config.enable_aur, pamac_config.recurse);
 				stderr.printf ("%s\n", e.message);
 			}
 		}
 
 		public void start_write_alpm_config (HashTable<string,Variant> new_alpm_conf, GLib.BusName sender) {
 			try {
-				Polkit.Authority authority = Polkit.Authority.get_sync (null);
+				Polkit.Authority authority = Polkit.Authority.get_sync ();
 				Polkit.Subject subject = Polkit.SystemBusName.new (sender);
 				authority.check_authorization.begin (
 					subject,
@@ -148,14 +150,17 @@ namespace Pamac {
 							if (result.get_is_authorized ()) {
 								alpm_config.write (new_alpm_conf);
 								alpm_config.reload ();
-								write_alpm_config_finished ();
+								refresh_handle ();
 							}
 						} catch (GLib.Error e) {
 							stderr.printf ("%s\n", e.message);
+						} finally {
+							write_alpm_config_finished ();
 						}
 					}
 				);
 			} catch (GLib.Error e) {
+				write_alpm_config_finished ();
 				stderr.printf ("%s\n", e.message);
 			}
 		}
@@ -193,32 +198,33 @@ namespace Pamac {
 					null,
 					out standard_output,
 					out standard_error);
+				// stdout
+				IOChannel output = new IOChannel.unix_new (standard_output);
+				output.add_watch (IOCondition.IN | IOCondition.HUP, (channel, condition) => {
+					return process_line (channel, condition, "stdout");
+				});
+				// stderr
+				IOChannel error = new IOChannel.unix_new (standard_error);
+				error.add_watch (IOCondition.IN | IOCondition.HUP, (channel, condition) => {
+					return process_line (channel, condition, "stderr");
+				});
+				ChildWatch.add (child_pid, (pid, status) => {
+					// Triggered when the child indicated by child_pid exits
+					Process.close_pid (pid);
+					alpm_config.reload ();
+					refresh_handle ();
+					generate_mirrorlist_finished ();
+				});
 			} catch (SpawnError e) {
+				generate_mirrorlist_finished ();
 				stdout.printf ("SpawnError: %s\n", e.message);
 			}
-			// stdout:
-			IOChannel output = new IOChannel.unix_new (standard_output);
-			output.add_watch (IOCondition.IN | IOCondition.HUP, (channel, condition) => {
-				return process_line (channel, condition, "stdout");
-			});
-			// stderr:
-			IOChannel error = new IOChannel.unix_new (standard_error);
-			error.add_watch (IOCondition.IN | IOCondition.HUP, (channel, condition) => {
-				return process_line (channel, condition, "stderr");
-			});
-			ChildWatch.add (child_pid, (pid, status) => {
-				// Triggered when the child indicated by child_pid exits
-				Process.close_pid (pid);
-				alpm_config.reload ();
-				refresh_handle ();
-				generate_mirrorlist_finished ();
-			});
 		}
 
 		public void start_write_mirrors_config (HashTable<string,Variant> new_mirrors_conf, GLib.BusName sender) {
 			var mirrors_config = new Alpm.MirrorsConfig ("/etc/pacman-mirrors.conf");
 			try {
-				Polkit.Authority authority = Polkit.Authority.get_sync (null);
+				Polkit.Authority authority = Polkit.Authority.get_sync ();
 				Polkit.Subject subject = Polkit.SystemBusName.new (sender);
 				authority.check_authorization.begin (
 					subject,
@@ -231,22 +237,24 @@ namespace Pamac {
 							var result = authority.check_authorization.end (res);
 							if (result.get_is_authorized ()) {
 								mirrors_config.write (new_mirrors_conf);
-								write_mirrors_config_finished ();
 								generate_mirrorlist ();
 							}
 						} catch (GLib.Error e) {
 							stderr.printf ("%s\n", e.message);
+						} finally {
+							write_mirrors_config_finished ();
 						}
 					}
 				);
 			} catch (GLib.Error e) {
+				write_mirrors_config_finished ();
 				stderr.printf ("%s\n", e.message);
 			}
 		}
 
 		public void start_set_pkgreason (string pkgname, uint reason, GLib.BusName sender) {
 			try {
-				Polkit.Authority authority = Polkit.Authority.get_sync (null);
+				Polkit.Authority authority = Polkit.Authority.get_sync ();
 				Polkit.Subject subject = Polkit.SystemBusName.new (sender);
 				authority.check_authorization.begin (
 					subject,
@@ -262,15 +270,17 @@ namespace Pamac {
 								if (pkg != null) {
 									pkg.reason = (Alpm.Package.Reason) reason;
 									refresh_handle ();
-									set_pkgreason_finished ();
 								}
 							}
 						} catch (GLib.Error e) {
 							stderr.printf ("%s\n", e.message);
+						} finally {
+							set_pkgreason_finished ();
 						}
 					}
 				);
 			} catch (GLib.Error e) {
+				set_pkgreason_finished ();
 				stderr.printf ("%s\n", e.message);
 			}
 		}
@@ -298,25 +308,23 @@ namespace Pamac {
 						err.details = details;
 					}
 					databases_lock_mutex.unlock ();
-					Idle.add((owned) callback);
+					Idle.add ((owned) callback);
 					return success;
 				});
+				yield;
 			} catch (GLib.Error e) {
 				stderr.printf ("%s\n", e.message);
 			}
-			yield;
 			return err;
 		}
 
-		public void start_refresh (int force, bool emit_finish_signal) {
+		public void start_refresh (int force) {
 			intern_lock = true;
 			refresh.begin (force, (obj, res) => {
 				var err = refresh.end (res);
 				intern_lock = false;
 				refresh_handle ();
-				if (emit_finish_signal) {
-					refresh_finished (err);
-				}
+				refresh_finished (err);
 			});
 		}
 
@@ -333,6 +341,14 @@ namespace Pamac {
 
 		public string get_ignorepkg () {
 			return alpm_config.ignorepkg;
+		}
+
+		public void add_ignorepkg (string pkgname) {
+			alpm_config.handle.add_ignorepkg (pkgname);
+		}
+
+		public void remove_ignorepkg (string pkgname) {
+			alpm_config.handle.remove_ignorepkg (pkgname);
 		}
 
 		public bool should_hold (string pkgname) {
@@ -634,10 +650,10 @@ namespace Pamac {
 				return updates;
 			} else {
 				string[] local_pkgs = {};
-				foreach (var local_pkg in alpm_config.handle.localdb.pkgcache) {
-					// continue only if the local pkg is not in IgnorePkg or IgnoreGroup
-					if (alpm_config.handle.should_ignore (local_pkg) == 0) {
-						candidate = local_pkg.sync_newversion (alpm_config.handle.syncdbs);
+				foreach (var installed_pkg in alpm_config.handle.localdb.pkgcache) {
+					// check if installed_pkg is in IgnorePkg or IgnoreGroup
+					if (alpm_config.handle.should_ignore (installed_pkg) == 0) {
+						candidate = installed_pkg.sync_newversion (alpm_config.handle.syncdbs);
 						if (candidate != null) {
 							infos.name = candidate.name;
 							infos.version = candidate.version;
@@ -647,15 +663,15 @@ namespace Pamac {
 							updates_infos += infos;
 						} else {
 							if (enable_aur) {
-								// check if it is a local pkg
+								// check if installed_pkg is a local pkg
 								foreach (var db in alpm_config.handle.syncdbs) {
-									pkg = Alpm.find_satisfier (db.pkgcache, local_pkg.name);
+									pkg = Alpm.find_satisfier (db.pkgcache, installed_pkg.name);
 									if (pkg != null) {
 										break;
 									}
 								}
 								if (pkg == null) {
-									local_pkgs += local_pkg.name;
+									local_pkgs += installed_pkg.name;
 								}
 							}
 						}
@@ -911,13 +927,13 @@ namespace Pamac {
 						}
 					}
 					databases_lock_mutex.unlock ();
-					Idle.add((owned) callback);
+					Idle.add ((owned) callback);
 					return ret;
 				});
+				yield;
 			} catch (GLib.Error e) {
 				stderr.printf ("%s\n", e.message);
 			}
-			yield;
 			return err;
 		}
 
@@ -972,7 +988,7 @@ namespace Pamac {
 			SourceFunc callback = trans_commit.callback;
 			var err = ErrorInfos ();
 			try {
-				Polkit.Authority authority = Polkit.Authority.get_sync (null);
+				Polkit.Authority authority = Polkit.Authority.get_sync ();
 				Polkit.Subject subject = Polkit.SystemBusName.new (sender);
 				authority.check_authorization.begin (
 					subject,
@@ -1034,22 +1050,24 @@ namespace Pamac {
 									}
 									trans_release ();
 									databases_lock_mutex.unlock ();
-									Idle.add((owned) callback);
+									Idle.add ((owned) callback);
 									return ret;
 								});
 							} else {
 								err.message = _("Authentication failed");
 								trans_release ();
+								Idle.add ((owned) callback);
 							}
 						} catch (GLib.Error e) {
+							Idle.add ((owned) callback);
 							stderr.printf ("%s\n", e.message);
 						}
 					}
 				);
+				yield;
 			} catch (GLib.Error e) {
 				stderr.printf ("%s\n", e.message);
 			}
-			yield;
 			return err;
 		}
 
@@ -1067,6 +1085,10 @@ namespace Pamac {
 		}
 
 		public void trans_cancel () {
+			if (alpm_config.handle.trans_interrupt () == 0) {
+				// a transaction is being interrupted
+				return;
+			}
 			// explicitly quit to avoid a crash
 			// this daemon should be auto-restarted
 			quit ();
@@ -1074,11 +1096,19 @@ namespace Pamac {
 
 		[DBus (no_reply = true)]
 		public void quit () {
-			// be sure to not quit with locked databases
-			alpm_config.handle.trans_interrupt ();
-			alpm_config.handle.trans_release ();
-			if (lockfile.query_exists () == false) {
-				loop.quit ();
+			try {
+				new Thread<int>.try ("quit thread", () => {
+					databases_lock_mutex.lock ();
+					// be sure to not quit with locked databases
+					alpm_config.handle.trans_release ();
+					if (lockfile.query_exists () == false) {
+						loop.quit ();
+					}
+					databases_lock_mutex.unlock ();
+					return 0;
+				});
+			} catch (GLib.Error e) {
+				stderr.printf ("%s\n", e.message);
 			}
 		}
 	// End of Daemon Object
@@ -1280,6 +1310,7 @@ void on_bus_acquired (DBusConnection conn) {
 	}
 	catch (IOError e) {
 		stderr.printf ("Could not register service\n");
+		loop.quit ();
 	}
 }
 
@@ -1290,8 +1321,11 @@ void main () {
 
 	Bus.own_name (BusType.SYSTEM, "org.manjaro.pamac", BusNameOwnerFlags.NONE,
 				on_bus_acquired,
-				() => {},
-				() => stderr.printf ("Could not acquire name\n"));
+				null,
+				() => {
+					stderr.printf ("Could not acquire name\n");
+					loop.quit ();
+				});
 
 	loop = new MainLoop ();
 	loop.run ();

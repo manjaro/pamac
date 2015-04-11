@@ -27,6 +27,8 @@ namespace Pamac {
 		[GtkChild]
 		public Gtk.TreeView updates_treeview;
 		[GtkChild]
+		public Gtk.CellRendererToggle select_update;
+		[GtkChild]
 		public Gtk.Label bottom_label;
 		[GtkChild]
 		public Gtk.Button apply_button;
@@ -38,7 +40,7 @@ namespace Pamac {
 		public UpdaterWindow (Gtk.Application application) {
 			Object (application: application);
 
-			updates_list = new Gtk.ListStore (2, typeof (string), typeof (string));
+			updates_list = new Gtk.ListStore (3, typeof (bool), typeof (string), typeof (string));
 			updates_treeview.set_model (updates_list);
 
 			transaction = new Transaction (this as Gtk.ApplicationWindow);
@@ -49,6 +51,14 @@ namespace Pamac {
 			apply_button.set_sensitive (false);
 
 			on_refresh_button_clicked ();
+		}
+
+		[GtkCallback]
+		public void on_select_update_toggled (string path) {
+			Gtk.TreePath treepath = new Gtk.TreePath.from_string (path);
+			Gtk.TreeIter iter;
+			updates_list.get_iter (out iter, treepath);
+			updates_list.set (iter, 0, !select_update.active);
 		}
 
 		[GtkCallback]
@@ -64,6 +74,23 @@ namespace Pamac {
 			while (Gtk.events_pending ()) {
 				Gtk.main_iteration ();
 			}
+			updates_list.foreach ((model, path, iter) => {
+				GLib.Value val;
+				updates_list.get_value (iter, 0, out val);
+				bool selected = val.get_boolean ();
+				if (selected) {
+					updates_list.get_value (iter, 1, out val);
+					// string has the form "pkgname pkgversion"
+					string pkgname = val.get_string ().split (" ", 2)[0];
+					transaction.special_ignorepkgs.remove (pkgname);
+				} else {
+					updates_list.get_value (iter, 1, out val);
+					// string has the form "pkgname pkgversion"
+					string pkgname = val.get_string ().split (" ", 2)[0];
+					transaction.special_ignorepkgs.add ((owned) pkgname);
+				}
+				return false;
+			});
 			transaction.sysupgrade (0);
 		}
 
@@ -108,13 +135,17 @@ namespace Pamac {
 				}
 				dsize += infos.download_size;
 				updates_nb++;
-				updates_list.insert_with_values (out iter, -1, 0, name, 1, size);
+				if (infos.name in transaction.special_ignorepkgs) {
+					updates_list.insert_with_values (out iter, -1, 0, false, 1, name, 2, size);
+				} else {
+					updates_list.insert_with_values (out iter, -1, 0, true, 1, name, 2, size);
+				}
 			}
 			foreach (UpdateInfos infos in updates.aur_updates) {
 				name = infos.name + " " + infos.version;
 				size = "";
 				updates_nb++;
-				updates_list.insert_with_values (out iter, -1, 0, name, 1, size);
+				updates_list.insert_with_values (out iter, -1, 0, true, 1, name, 2, size);
 			}
 			if (updates_nb == 0) {
 				top_label.set_markup("<b>%s</b>".printf (dgettext (null, "Your system is up-to-date")));

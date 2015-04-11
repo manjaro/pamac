@@ -63,7 +63,7 @@ namespace Pamac {
 			if (pamac_run == false) {
 				foreach (File file in files) {
 					string? path = file.get_path ();
-					transaction.to_load.insert (path, path);
+					transaction.to_load.add ((owned) path);
 				}
 				transaction.run ();
 			}

@@ -114,6 +114,9 @@ namespace AUR {
 
 	public Json.Array multiinfo (string[] pkgnames) {
 		Json.Array results = new Json.Array ();
+		if (pkgnames.length == 0) {
+			return results;
+		}
 		var builder = new StringBuilder ();
 		builder.append (rpc_url);
 		builder.append (rpc_multiinfo);

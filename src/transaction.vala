@@ -24,10 +24,12 @@ namespace Pamac {
 		public abstract void start_write_alpm_config (HashTable<string,Variant> new_alpm_conf) throws IOError;
 		public abstract void start_write_mirrors_config (HashTable<string,Variant> new_mirrors_conf) throws IOError;
 		public abstract void start_set_pkgreason (string pkgname, uint reason) throws IOError;
-		public abstract void start_refresh (int force, bool emit_finish_signal) throws IOError;
+		public abstract void start_refresh (int force) throws IOError;
 		public abstract bool get_checkspace () throws IOError;
 		public abstract string get_syncfirst () throws IOError;
 		public abstract string get_ignorepkg () throws IOError;
+		public abstract void add_ignorepkg (string pkgname) throws IOError;
+		public abstract void remove_ignorepkg (string pkgname) throws IOError;
 		public abstract bool should_hold (string pkgname) throws IOError;
 		public abstract async Pamac.Package[] get_all_pkgs () throws IOError;
 		public abstract async Pamac.Package[] get_installed_pkgs () throws IOError;
@@ -88,10 +90,11 @@ namespace Pamac {
 
 		public Alpm.TransFlag flags;
 		// those hashtables will be used as set
-		public HashTable<string,string> to_add;
-		public HashTable<string,string> to_remove;
-		public HashTable<string,string> to_load;
-		public HashTable<string,string> to_build;
+		public GenericSet<string?> to_add;
+		public GenericSet<string?> to_remove;
+		public GenericSet<string?> to_load;
+		public GenericSet<string?> to_build;
+		public GenericSet<string?> special_ignorepkgs;
 
 		public Mode mode;
 
@@ -103,9 +106,6 @@ namespace Pamac {
 		string previous_filename;
 		uint pulse_timeout_id;
 		bool sysupgrade_after_trans;
-		// it seems that upgrade after build can cause trouble 
-		// so disable it and let's see if it's fine
-		//bool sysupgrade_after_build;
 		int build_status;
 		int enable_downgrade;
 
@@ -116,7 +116,6 @@ namespace Pamac {
 		TransactionSumDialog transaction_sum_dialog;
 		TransactionInfoDialog transaction_info_dialog;
 		ProgressDialog progress_dialog;
-		PreferencesDialog preferences_dialog;
 		//parent window
 		Gtk.ApplicationWindow? window;
 
@@ -125,17 +124,17 @@ namespace Pamac {
 
 		public Transaction (Gtk.ApplicationWindow? window) {
 			flags = Alpm.TransFlag.CASCADE;
-			to_add = new HashTable<string,string> (str_hash, str_equal);
-			to_remove = new HashTable<string,string> (str_hash, str_equal);
-			to_load = new HashTable<string,string> (str_hash, str_equal);
-			to_build = new HashTable<string,string> (str_hash, str_equal);
+			to_add = new GenericSet<string?> (str_hash, str_equal);
+			to_remove = new GenericSet<string?> (str_hash, str_equal);
+			to_load = new GenericSet<string?> (str_hash, str_equal);
+			to_build = new GenericSet<string?> (str_hash, str_equal);
+			special_ignorepkgs = new GenericSet<string?> (str_hash, str_equal);
 			connecting_dbus_signals ();
 			//creating dialogs
 			this.window = window;
 			transaction_sum_dialog = new TransactionSumDialog (window);
 			transaction_info_dialog = new TransactionInfoDialog (window);
 			progress_dialog = new ProgressDialog (this, window);
-			preferences_dialog = new PreferencesDialog (window);
 			//creating terminal
 			term = new Vte.Terminal ();
 			term.scroll_on_output = false;
@@ -167,7 +166,6 @@ namespace Pamac {
 			previous_percent = 0.0;
 			previous_filename = "";
 			sysupgrade_after_trans = false;
-			//sysupgrade_after_build = false;
 			build_status = 0;
 		}
 
@@ -216,7 +214,7 @@ namespace Pamac {
 				Gtk.main_iteration ();
 			}
 			try {
-				daemon.start_refresh (force, true);
+				daemon.start_refresh (force);
 			} catch (IOError e) {
 				stderr.printf ("IOError: %s\n", e.message);
 			}
@@ -250,6 +248,23 @@ namespace Pamac {
 				stderr.printf ("IOError: %s\n", e.message);
 			}
 			return ignorepkg;
+		}
+
+		public void add_ignorepkg (string pkgname) {
+			try {
+				daemon.add_ignorepkg (pkgname);
+				special_ignorepkgs.add (pkgname);
+			} catch (IOError e) {
+				stderr.printf ("IOError: %s\n", e.message);
+			}
+		}
+
+		public void remove_ignorepkg (string pkgname) {
+			try {
+				daemon.remove_ignorepkg (pkgname);
+			} catch (IOError e) {
+				stderr.printf ("IOError: %s\n", e.message);
+			}
 		}
 
 		public bool should_hold (string pkgname) {
@@ -423,15 +438,23 @@ namespace Pamac {
 			return updates;
 		}
 
-		public void sysupgrade_simple (int enable_downgrade) {
-			progress_dialog.progressbar.set_fraction (0);
-			progress_dialog.cancel_button.set_visible (true);
+		public ErrorInfos init () {
 			var err = ErrorInfos ();
+			foreach (string pkgname in special_ignorepkgs) {
+				add_ignorepkg (pkgname);
+			}
 			try {
 				err = daemon.trans_init (0);
 			} catch (IOError e) {
 				stderr.printf ("IOError: %s\n", e.message);
 			}
+			return err;
+		}
+
+		public void sysupgrade_simple (int enable_downgrade) {
+			progress_dialog.progressbar.set_fraction (0);
+			progress_dialog.cancel_button.set_visible (true);
+			var err = init ();
 			if (err.message != "") {
 				finished (true);
 				handle_error (err);
@@ -481,18 +504,15 @@ namespace Pamac {
 						sysupgrade_after_trans = true;
 					}
 					foreach (UpdateInfos infos in updates.repos_updates) {
-						to_add.insert (infos.name, infos.name);
+						to_add.add (infos.name);
 					}
 					// run as a standard transaction
 					run ();
 				} else {
 					if (updates.aur_updates.length != 0) {
 						clear_lists ();
-						//if (repos_updates_len != 0) {
-							//sysupgrade_after_build = true;
-						//}
 						foreach (UpdateInfos infos in updates.aur_updates) {
-							to_build.insert (infos.name, infos.name);
+							to_build.add (infos.name);
 						}
 					}
 					if (updates.repos_updates.length != 0) {
@@ -510,9 +530,9 @@ namespace Pamac {
 		}
 
 		public void clear_lists () {
-			to_add.steal_all ();
-			to_remove.steal_all ();
-			to_build.steal_all ();
+			to_add.remove_all ();
+			to_remove.remove_all ();
+			to_build.remove_all ();
 		}
 
 		public void run () {
@@ -529,10 +549,10 @@ namespace Pamac {
 			}
 			// run
 			var err = ErrorInfos ();
-			if (to_add.size () == 0
-					&& to_remove.size () == 0
-					&& to_load.size () == 0
-					&& to_build.size () != 0) {
+			if (to_add.length == 0
+					&& to_remove.length == 0
+					&& to_load.length == 0
+					&& to_build.length != 0) {
 				// there only AUR packages to build so no need to prepare transaction
 				on_trans_prepare_finished (err);
 			} else {
@@ -545,7 +565,7 @@ namespace Pamac {
 					finished (true);
 					handle_error (err);
 				} else {
-					foreach (string name in to_add.get_keys ()) {
+					foreach (string name in to_add) {
 						try {
 							err = daemon.trans_add_pkg (name);
 						} catch (IOError e) {
@@ -555,7 +575,7 @@ namespace Pamac {
 							break;
 						}
 					}
-					foreach (string name in to_remove.get_keys ()) {
+					foreach (string name in to_remove) {
 						try {
 							err = daemon.trans_remove_pkg (name);
 						} catch (IOError e) {
@@ -565,7 +585,7 @@ namespace Pamac {
 							break;
 						}
 					}
-					foreach (string path in to_load.get_keys ()) {
+					foreach (string path in to_load) {
 						try {
 							err = daemon.trans_load_pkg (path);
 						} catch (IOError e) {
@@ -595,18 +615,19 @@ namespace Pamac {
 			var choose_provider_dialog = new ChooseProviderDialog (window);
 			choose_provider_dialog.label.set_markup ("<b>%s</b>".printf (dgettext (null, "Choose a provider for %s").printf (depend, len)));
 			choose_provider_dialog.comboboxtext.remove_all ();
-			foreach (string provider in providers)
+			foreach (string provider in providers) {
 				choose_provider_dialog.comboboxtext.append_text (provider);
+			}
 			choose_provider_dialog.comboboxtext.active = 0;
 			choose_provider_dialog.run ();
-			choose_provider_dialog.hide ();
-			while (Gtk.events_pending ()) {
-				Gtk.main_iteration ();
-			}
 			try {
 				daemon.choose_provider (choose_provider_dialog.comboboxtext.active);
 			} catch (IOError e) {
 				stderr.printf ("IOError: %s\n", e.message);
+			}
+			choose_provider_dialog.destroy ();
+			while (Gtk.events_pending ()) {
+				Gtk.main_iteration ();
 			}
 		}
 
@@ -646,7 +667,7 @@ namespace Pamac {
 					}
 				}
 			}
-			foreach (string name in to_build.get_keys ()) {
+			foreach (string name in to_build) {
 				_to_build += name;
 			}
 			int len = prepared_to_remove.length;
@@ -761,8 +782,9 @@ namespace Pamac {
 			term.grab_focus ();
 			pulse_timeout_id = Timeout.add (500, (GLib.SourceFunc) progress_dialog.progressbar.pulse);
 			string[] cmds = {"yaourt", "-S"};
-			foreach (string name in to_build.get_keys ())
+			foreach (string name in to_build) {
 				cmds += name;
+			}
 			Pid child_pid;
 			spawn_in_term (cmds, out child_pid);
 			// watch_child is needed in order to have the child_exited signal emitted
@@ -782,6 +804,9 @@ namespace Pamac {
 				daemon.trans_release ();
 			} catch (IOError e) {
 				stderr.printf ("IOError: %s\n", e.message);
+			}
+			foreach (string pkgname in special_ignorepkgs) {
+				remove_ignorepkg (pkgname);
 			}
 		}
 
@@ -807,6 +832,7 @@ namespace Pamac {
 		public async void run_preferences_dialog () {
 			var pamac_config = new Pamac.Config ("/etc/pamac.conf");
 			var mirrors_config = new Alpm.MirrorsConfig ("/etc/pacman-mirrors.conf");
+			var preferences_dialog = new PreferencesDialog (window);
 			bool enable_aur = pamac_config.enable_aur;
 			bool recurse = pamac_config.recurse;
 			int refresh_period = pamac_config.refresh_period;
@@ -841,14 +867,10 @@ namespace Pamac {
 			} else {
 				preferences_dialog.mirrorlist_generation_method_comboboxtext.active = 1;
 			}
-			int response = preferences_dialog.run ();
-			while (Gtk.events_pending ()) {
-				Gtk.main_iteration ();
-			}
-			var new_pamac_conf = new HashTable<string,Variant> (str_hash, str_equal);
-			var new_alpm_conf = new HashTable<string,Variant> (str_hash, str_equal);
-			var new_mirrors_conf = new HashTable<string,Variant> (str_hash, str_equal);
-			if (response == Gtk.ResponseType.OK) {
+			if (preferences_dialog.run () == Gtk.ResponseType.OK) {
+				var new_pamac_conf = new HashTable<string,Variant> (str_hash, str_equal);
+				var new_alpm_conf = new HashTable<string,Variant> (str_hash, str_equal);
+				var new_mirrors_conf = new HashTable<string,Variant> (str_hash, str_equal);
 				enable_aur = preferences_dialog.enable_aur_button.get_active ();
 				recurse = preferences_dialog.remove_unrequired_deps_button.get_active ();
 				refresh_period = preferences_dialog.refresh_period_spin_button.get_value_as_int ();
@@ -890,35 +912,35 @@ namespace Pamac {
 						&& preferences_dialog.mirrorlist_generation_method_comboboxtext.get_active_text () == dgettext (null, "speed")) {
 					new_mirrors_conf.insert ("Method", new Variant.string (dgettext (null, "speed")));
 				}
+				if (new_pamac_conf.size () != 0) {
+					start_write_pamac_config (new_pamac_conf);
+					SourceFunc callback = run_preferences_dialog.callback;
+					ulong handler_id = daemon.write_pamac_config_finished.connect (() => {
+						Idle.add((owned) callback);
+					});
+					yield;
+					daemon.disconnect (handler_id);
+				}
+				if (new_alpm_conf.size () != 0) {
+					start_write_alpm_config (new_alpm_conf);
+					SourceFunc callback = run_preferences_dialog.callback;
+					ulong handler_id = daemon.write_alpm_config_finished.connect (() => {
+						Idle.add((owned) callback);
+					});
+					yield;
+					daemon.disconnect (handler_id);
+				}
+				if (new_mirrors_conf.size () != 0) {
+					start_write_mirrors_config (new_mirrors_conf);
+					SourceFunc callback = run_preferences_dialog.callback;
+					ulong handler_id = daemon.write_mirrors_config_finished.connect (() => {
+						Idle.add((owned) callback);
+					});
+					yield;
+					daemon.disconnect (handler_id);
+				}
 			}
-			if (new_pamac_conf.size () != 0) {
-				start_write_pamac_config (new_pamac_conf);
-				SourceFunc callback = run_preferences_dialog.callback;
-				ulong handler_id = daemon.write_pamac_config_finished.connect (() => {
-					Idle.add((owned) callback);
-				});
-				yield;
-				daemon.disconnect (handler_id);
-			}
-			if (new_alpm_conf.size () != 0) {
-				start_write_alpm_config (new_alpm_conf);
-				SourceFunc callback = run_preferences_dialog.callback;
-				ulong handler_id = daemon.write_alpm_config_finished.connect (() => {
-					Idle.add((owned) callback);
-				});
-				yield;
-				daemon.disconnect (handler_id);
-			}
-			if (new_mirrors_conf.size () != 0) {
-				start_write_mirrors_config (new_mirrors_conf);
-				SourceFunc callback = run_preferences_dialog.callback;
-				ulong handler_id = daemon.write_mirrors_config_finished.connect (() => {
-					Idle.add((owned) callback);
-				});
-				yield;
-				daemon.disconnect (handler_id);
-			}
-			preferences_dialog.hide ();
+			preferences_dialog.destroy ();
 			while (Gtk.events_pending ()) {
 				Gtk.main_iteration ();
 			}
@@ -1263,8 +1285,8 @@ namespace Pamac {
 					sysupgrade (0);
 				}
 			} else {
-				handle_error (error);
 				finished (true);
+				handle_error (error);
 			}
 			previous_filename = "";
 		}
@@ -1275,7 +1297,6 @@ namespace Pamac {
 				TransactionType type = set_transaction_sum ();
 				if (type == TransactionType.UPDATE && mode == Mode.UPDATER) {
 					// there only updates
-					//sysupgrade_after_build = false;
 					start_commit ();
 				} else if (type != 0) {
 					if (transaction_sum_dialog.run () == Gtk.ResponseType.OK) {
@@ -1298,9 +1319,8 @@ namespace Pamac {
 							Gtk.main_iteration ();
 						}
 						release ();
-						to_build.steal_all ();
+						to_build.remove_all ();
 						sysupgrade_after_trans = false;
-						//sysupgrade_after_build = false;
 						finished (true);
 					}
 				} else {
@@ -1324,32 +1344,32 @@ namespace Pamac {
 
 		public void on_trans_commit_finished (ErrorInfos error) {
 			if (error.message == "") {
-				if (to_build.size () != 0) {
-					if (to_add.size () != 0
-							|| to_remove.size () != 0
-							|| to_load.size () != 0) {
+				if (to_build.length != 0) {
+					if (to_add.length != 0
+							|| to_remove.length != 0
+							|| to_load.length != 0) {
 						spawn_in_term ({"echo", dgettext (null, "Transaction successfully finished") + ".\n"});
 					}
 					build_aur_packages ();
 				} else {
 					//progress_dialog.action_label.set_text (dgettext (null, "Transaction successfully finished"));
-					//progress_dialog.close_button.set_visible (true);
 					clear_lists ();
 					show_warnings ();
 					if (sysupgrade_after_trans) {
 						sysupgrade_after_trans = false;
 						sysupgrade (0);
-					//} else if (sysupgrade_after_build) {
-						//sysupgrade_simple (enable_downgrade);
 					} else {
 						if (build_status == 0) {
 							spawn_in_term ({"echo", dgettext (null, "Transaction successfully finished") + ".\n"});
+							progress_dialog.hide ();
+							while (Gtk.events_pending ()) {
+								Gtk.main_iteration ();
+							}
 						} else {
+							progress_dialog.progressbar.set_fraction (0);
+							progress_dialog.cancel_button.set_visible (false);
+							progress_dialog.close_button.set_visible (true);
 							spawn_in_term ({"echo"});
-						}
-						progress_dialog.hide ();
-						while (Gtk.events_pending ()) {
-							Gtk.main_iteration ();
 						}
 						finished (false);
 					}
@@ -1366,7 +1386,7 @@ namespace Pamac {
 
 		void on_term_child_exited (int status) {
 			Source.remove (pulse_timeout_id);
-			to_build.steal_all ();
+			to_build.remove_all ();
 			build_status = status;
 			// let the time to the daemon to update packages
 			Timeout.add (1000, () => {
