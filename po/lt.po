@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2015-03-04 14:36+0100\n"
-"PO-Revision-Date: 2015-03-18 15:47+0000\n"
+"PO-Revision-Date: 2015-04-07 20:57+0000\n"
 "Last-Translator: Moo\n"
 "Language-Team: Lithuanian (http://www.transifex.com/projects/p/manjaro-pamac/language/lt/)\n"
 "MIME-Version: 1.0\n"
@@ -399,7 +399,7 @@ msgstr "Tikrinama raktinė"
 
 #: ../src/transaction.vala
 msgid "Downloading required keys"
-msgstr "Atsiunčiami reikiami raiktai"
+msgstr "Atsiunčiami reikalingi raktai"
 
 #: ../src/transaction.vala
 msgid "Loading packages files"
