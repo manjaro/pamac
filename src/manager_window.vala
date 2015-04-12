@@ -466,29 +466,26 @@ namespace Pamac {
 			if (selected.length () > 0) {
 				// display info for the first package of the selection
 				Pamac.Package pkg = packages_list.get_pkg_at_path (selected.nth_data (0));
-				int current_page = properties_notebook.get_current_page ();
-				switch (current_page) {
+				if (pkg.repo == "local") {
+					files_scrolledwindow.visible = true;
+				} else {
+					files_scrolledwindow.visible = false;
+				}
+				switch (properties_notebook.get_current_page ()) {
 					case 0:
 						set_infos_list (pkg);
 						if (pkg.repo == "AUR") {
 							deps_scrolledwindow.visible = false;
 							details_scrolledwindow.visible = false;
-							files_scrolledwindow.visible = false;
 						} else {
 							deps_scrolledwindow.visible = true;
 							details_scrolledwindow.visible = true;
-							if (pkg.repo == "local") {
-								files_scrolledwindow.visible = true;
-							} else {
-								files_scrolledwindow.visible = false;
-							}
 						}
 						break;
 					case 1:
 						if (pkg.repo == "AUR") {
 							deps_scrolledwindow.visible = false;
 							details_scrolledwindow.visible = false;
-							files_scrolledwindow.visible = false;
 						} else {
 							set_deps_list (pkg.name);
 						}
@@ -497,7 +494,6 @@ namespace Pamac {
 						if (pkg.repo == "AUR") {
 							deps_scrolledwindow.visible = false;
 							details_scrolledwindow.visible = false;
-							files_scrolledwindow.visible = false;
 						} else {
 							set_details_list (pkg.name);
 						}
