@@ -197,7 +197,7 @@ namespace Pamac {
 		}
 
 		public void show_all_pkgs () {
-			this.get_window ().set_cursor (new Gdk.Cursor (Gdk.CursorType.WATCH));
+			this.get_window ().set_cursor (new Gdk.Cursor.for_display (Gdk.Display.get_default (), Gdk.CursorType.WATCH));
 			transaction.get_all_pkgs.begin ((obj, res) => {
 				var pkgs = transaction.get_all_pkgs.end (res);
 				populate_packages_list (pkgs);
@@ -829,7 +829,7 @@ namespace Pamac {
 		public void on_search_entry_activate () {
 			string search_string = search_entry.get_text ();
 			if (search_string != "") {
-				this.get_window ().set_cursor (new Gdk.Cursor (Gdk.CursorType.WATCH));
+				this.get_window ().set_cursor (new Gdk.Cursor.for_display (Gdk.Display.get_default (), Gdk.CursorType.WATCH));
 				while (Gtk.events_pending ()) {
 					Gtk.main_iteration ();
 				}
@@ -893,7 +893,7 @@ namespace Pamac {
 			Gtk.TreeIter? iter;
 			Gtk.TreeSelection selection = search_treeview.get_selection ();
 			if (selection.get_selected (out model, out iter)) {
-				this.get_window ().set_cursor (new Gdk.Cursor (Gdk.CursorType.WATCH));
+				this.get_window ().set_cursor (new Gdk.Cursor.for_display (Gdk.Display.get_default (), Gdk.CursorType.WATCH));
 				while (Gtk.events_pending ()) {
 					Gtk.main_iteration ();
 				}
@@ -913,7 +913,7 @@ namespace Pamac {
 			Gtk.TreeIter? iter;
 			Gtk.TreeSelection selection = groups_treeview.get_selection ();
 			if (selection.get_selected (out model, out iter)) {
-				this.get_window ().set_cursor (new Gdk.Cursor (Gdk.CursorType.WATCH));
+				this.get_window ().set_cursor (new Gdk.Cursor.for_display (Gdk.Display.get_default (), Gdk.CursorType.WATCH));
 				while (Gtk.events_pending ()) {
 					Gtk.main_iteration ();
 				}
@@ -933,7 +933,7 @@ namespace Pamac {
 			Gtk.TreeIter? iter;
 			Gtk.TreeSelection selection = states_treeview.get_selection ();
 			if (selection.get_selected (out model, out iter)) {
-				this.get_window ().set_cursor (new Gdk.Cursor (Gdk.CursorType.WATCH));
+				this.get_window ().set_cursor (new Gdk.Cursor.for_display (Gdk.Display.get_default (), Gdk.CursorType.WATCH));
 				while (Gtk.events_pending ()) {
 					Gtk.main_iteration ();
 				}
@@ -988,7 +988,7 @@ namespace Pamac {
 			Gtk.TreeIter? iter;
 			Gtk.TreeSelection selection = repos_treeview.get_selection ();
 			if (selection.get_selected (out model, out iter)) {
-				this.get_window ().set_cursor (new Gdk.Cursor (Gdk.CursorType.WATCH));
+				this.get_window ().set_cursor (new Gdk.Cursor.for_display (Gdk.Display.get_default (), Gdk.CursorType.WATCH));
 				while (Gtk.events_pending ()) {
 					Gtk.main_iteration ();
 				}
@@ -1066,7 +1066,7 @@ namespace Pamac {
 					foreach (string path in packages_paths) {
 						transaction.to_load.add (path);
 					}
-					this.get_window ().set_cursor (new Gdk.Cursor (Gdk.CursorType.WATCH));
+					this.get_window ().set_cursor (new Gdk.Cursor.for_display (Gdk.Display.get_default (), Gdk.CursorType.WATCH));
 					chooser.destroy ();
 					while (Gtk.events_pending ()) {
 						Gtk.main_iteration ();
@@ -1102,7 +1102,7 @@ namespace Pamac {
 
 		[GtkCallback]
 		public void on_valid_button_clicked () {
-			this.get_window ().set_cursor (new Gdk.Cursor (Gdk.CursorType.WATCH));
+			this.get_window ().set_cursor (new Gdk.Cursor.for_display (Gdk.Display.get_default (), Gdk.CursorType.WATCH));
 			while (Gtk.events_pending ()) {
 				Gtk.main_iteration ();
 			}
@@ -1119,7 +1119,7 @@ namespace Pamac {
 
 		[GtkCallback]
 		public void on_refresh_button_clicked () {
-			this.get_window ().set_cursor (new Gdk.Cursor (Gdk.CursorType.WATCH));
+			this.get_window ().set_cursor (new Gdk.Cursor.for_display (Gdk.Display.get_default (), Gdk.CursorType.WATCH));
 			while (Gtk.events_pending ()) {
 				Gtk.main_iteration ();
 			}

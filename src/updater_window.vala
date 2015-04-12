@@ -70,7 +70,7 @@ namespace Pamac {
 
 		[GtkCallback]
 		public void on_apply_button_clicked () {
-			this.get_window ().set_cursor (new Gdk.Cursor (Gdk.CursorType.WATCH));
+			this.get_window ().set_cursor (new Gdk.Cursor.for_display (Gdk.Display.get_default (), Gdk.CursorType.WATCH));
 			while (Gtk.events_pending ()) {
 				Gtk.main_iteration ();
 			}
@@ -96,7 +96,7 @@ namespace Pamac {
 
 		[GtkCallback]
 		public void on_refresh_button_clicked () {
-			this.get_window ().set_cursor (new Gdk.Cursor (Gdk.CursorType.WATCH));
+			this.get_window ().set_cursor (new Gdk.Cursor.for_display (Gdk.Display.get_default (), Gdk.CursorType.WATCH));
 			while (Gtk.events_pending ()) {
 				Gtk.main_iteration ();
 			}
@@ -113,7 +113,7 @@ namespace Pamac {
 		}
 
 		public async void set_updates_list () {
-			this.get_window ().set_cursor (new Gdk.Cursor (Gdk.CursorType.WATCH));
+			this.get_window ().set_cursor (new Gdk.Cursor.for_display (Gdk.Display.get_default (), Gdk.CursorType.WATCH));
 			while (Gtk.events_pending ()) {
 				Gtk.main_iteration ();
 			}

@@ -2,7 +2,7 @@
  *  libalpm-vala
  *  Vala bindings for libalpm
  *
- *  Copyright (C) 2014 Guillaume Benoit <guillaume@manjaro.org>
+ *  Copyright (C) 2014-2015 Guillaume Benoit <guillaume@manjaro.org>
  *  Copyright (c) 2011 Rémy Oudompheng <remy@archlinux.org>
  *
  *  This program is free software; you can redistribute it and/or modify
@@ -1293,8 +1293,8 @@ namespace Alpm {
 		GPGME
 	}
 
-[CCode (cprefix = "alpm_list_", cheader_filename = "alpm_list.h,alpm-util.h",
-		cname = "alpm_list_t", type_parameters = "G", free_function = "alpm_list_free")]
+[CCode (cname = "alpm_list_t", cprefix = "alpm_list_", cheader_filename = "alpm_list.h,alpm-util.h",
+		free_function = "alpm_list_free")]
 	[Compact]
 	public class List<G> {
 
