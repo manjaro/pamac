@@ -20,18 +20,53 @@
 namespace Pamac {
 	[DBus (name = "org.manjaro.pamac")]
 	public interface Daemon : Object {
-		public abstract void start_refresh (int force, bool emit_signal) throws IOError;
+		public abstract void start_refresh (int force) throws IOError;
 	}
+}
+
+bool check_pamac_running () {
+	Application app;
+	bool run = false;
+	app = new Application ("org.manjaro.pamac.manager", 0);
+	try {
+		app.register ();
+	} catch (GLib.Error e) {
+		stderr.printf ("%s\n", e.message);
+	}
+	run = app.get_is_remote ();
+	if (run) {
+		return run;
+	}
+	app = new Application ("org.manjaro.pamac.updater", 0);
+	try {
+		app.register ();
+	} catch (GLib.Error e) {
+		stderr.printf ("%s\n", e.message);
+	}
+	run = app.get_is_remote ();
+	if (run) {
+		return run;
+	}
+	app = new Application ("org.manjaro.pamac.install", 0);
+	try {
+		app.register ();
+	} catch (GLib.Error e) {
+		stderr.printf ("%s\n", e.message);
+	}
+	run = app.get_is_remote ();
+	return run;
 }
 
 int main (string[] args) {
 	Pamac.Daemon daemon;
-	try {
-		daemon = Bus.get_proxy_sync (BusType.SYSTEM, "org.manjaro.pamac",
-												"/org/manjaro/pamac");
-		daemon.start_refresh (0, false);
-	} catch (IOError e) {
-		stderr.printf ("IOError: %s\n", e.message);
+	if (check_pamac_running () == false) {
+		try {
+			daemon = Bus.get_proxy_sync (BusType.SYSTEM, "org.manjaro.pamac",
+													"/org/manjaro/pamac");
+			daemon.start_refresh (0);
+		} catch (IOError e) {
+			stderr.printf ("IOError: %s\n", e.message);
+		}
 	}
 	return 0;
 }

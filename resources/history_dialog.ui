@@ -52,7 +52,6 @@
                 <property name="pixels_below_lines">2</property>
                 <property name="editable">False</property>
                 <property name="cursor_visible">False</property>
-                <signal name="size-allocate" handler="on_textview_size_allocate" swapped="no"/>
               </object>
             </child>
           </object>

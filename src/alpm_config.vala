@@ -95,7 +95,6 @@ namespace Alpm {
 			repo_order = {};
 			// parse conf file
 			parse_file (conf_path);
-			get_handle ();
 		}
 
 		public void get_handle () {

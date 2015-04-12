@@ -20,7 +20,7 @@
 using Gtk;
 using Alpm;
 
-const string VERSION = "2.2.2";
+const string VERSION = "2.3";
 
 namespace Pamac {
 
@@ -118,10 +118,6 @@ namespace Pamac {
 
 		public SortInfo sortinfo;
 
-		//dialogs
-		HistoryDialog history_dialog;
-		PackagesChooserDialog packages_chooser_dialog;
-
 		public ManagerWindow (Gtk.Application application) {
 			Object (application: application);
 
@@ -184,9 +180,6 @@ namespace Pamac {
 			}
 			enable_aur (pamac_config.enable_aur);
 
-			history_dialog = new HistoryDialog (this);
-			packages_chooser_dialog = new PackagesChooserDialog (this, transaction);
-
 			set_buttons_sensitive (false);
 
 			// sort by name by default
@@ -204,7 +197,7 @@ namespace Pamac {
 		}
 
 		public void show_all_pkgs () {
-			this.get_window ().set_cursor (new Gdk.Cursor (Gdk.CursorType.WATCH));
+			this.get_window ().set_cursor (new Gdk.Cursor.for_display (Gdk.Display.get_default (), Gdk.CursorType.WATCH));
 			transaction.get_all_pkgs.begin ((obj, res) => {
 				var pkgs = transaction.get_all_pkgs.end (res);
 				populate_packages_list (pkgs);
@@ -473,29 +466,26 @@ namespace Pamac {
 			if (selected.length () > 0) {
 				// display info for the first package of the selection
 				Pamac.Package pkg = packages_list.get_pkg_at_path (selected.nth_data (0));
-				int current_page = properties_notebook.get_current_page ();
-				switch (current_page) {
+				if (pkg.repo == "local") {
+					files_scrolledwindow.visible = true;
+				} else {
+					files_scrolledwindow.visible = false;
+				}
+				switch (properties_notebook.get_current_page ()) {
 					case 0:
 						set_infos_list (pkg);
 						if (pkg.repo == "AUR") {
 							deps_scrolledwindow.visible = false;
 							details_scrolledwindow.visible = false;
-							files_scrolledwindow.visible = false;
 						} else {
 							deps_scrolledwindow.visible = true;
 							details_scrolledwindow.visible = true;
-							if (pkg.repo == "local") {
-								files_scrolledwindow.visible = true;
-							} else {
-								files_scrolledwindow.visible = false;
-							}
 						}
 						break;
 					case 1:
 						if (pkg.repo == "AUR") {
 							deps_scrolledwindow.visible = false;
 							details_scrolledwindow.visible = false;
-							files_scrolledwindow.visible = false;
 						} else {
 							set_deps_list (pkg.name);
 						}
@@ -504,7 +494,6 @@ namespace Pamac {
 						if (pkg.repo == "AUR") {
 							deps_scrolledwindow.visible = false;
 							details_scrolledwindow.visible = false;
-							files_scrolledwindow.visible = false;
 						} else {
 							set_details_list (pkg.name);
 						}
@@ -544,25 +533,25 @@ namespace Pamac {
 				packages_list.get_value (iter, 0, out val);
 				string name = val.get_string ();
 				if (name != dgettext (null, "No package found")) {
-					if (transaction.to_add.steal (name)) {
-					} else if (transaction.to_remove.steal (name)) {
-					} else if (transaction.to_build.steal (name)) {
+					if (transaction.to_add.remove (name)) {
+					} else if (transaction.to_remove.remove (name)) {
+					} else if (transaction.to_build.remove (name)) {
 					} else {
 						packages_list.get_value (iter, 3, out val);
 						string db_name = val.get_string ();
 						if (db_name == "local") {
 							if (transaction.should_hold (name) == false) {
-								transaction.to_remove.insert (name, name);
+								transaction.to_remove.add ((owned) name);
 							}
 						} else if (db_name == "AUR") {
-							transaction.to_build.insert (name, name);
+							transaction.to_build.add ((owned) name);
 						} else {
-							transaction.to_add.insert (name, name);
+							transaction.to_add.add ((owned) name);
 						}
 					}
 				}
 			}
-			if (transaction.to_add.size () + transaction.to_remove.size () + transaction.to_build.size () == 0) {
+			if (transaction.to_add.length + transaction.to_remove.length + transaction.to_build.length == 0) {
 				set_buttons_sensitive (false);
 			} else {
 				set_buttons_sensitive (true);
@@ -575,54 +564,54 @@ namespace Pamac {
 			Pamac.Package find_pkg;
 			foreach (Pamac.Package pkg in selected_pkgs) {
 				if (pkg.repo == "AUR") {
-					transaction.to_build.insert (pkg.name, pkg.name);
+					transaction.to_build.add (pkg.name);
 				} else {
 					find_pkg = transaction.find_local_pkg (pkg.name);
 					if (find_pkg.name == "") {
-						transaction.to_add.insert (pkg.name, pkg.name);
+						transaction.to_add.add (pkg.name);
 					}
 				}
 			}
-			if (transaction.to_add.size () != 0 || transaction.to_build.size () != 0) {
+			if (transaction.to_add.length != 0 || transaction.to_build.length != 0) {
 				set_buttons_sensitive (true);
 			}
 		}
 
 		void on_reinstall_item_activate () {
 			foreach (Pamac.Package pkg in selected_pkgs) {
-				transaction.to_remove.steal (pkg.name);
+				transaction.to_remove.remove (pkg.name);
 				if (pkg.repo == "local") {
-					transaction.to_add.insert (pkg.name, pkg.name);
+					transaction.to_add.add (pkg.name);
 				}
 			}
-			if (transaction.to_add.size () != 0) {
+			if (transaction.to_add.length != 0) {
 				set_buttons_sensitive (true);
 			}
 		}
 
 		void on_remove_item_activate () {
 			foreach (Pamac.Package pkg in selected_pkgs) {
-				transaction.to_add.steal (pkg.name);
+				transaction.to_add.remove (pkg.name);
 				if (transaction.should_hold (pkg.name) == false) {
 					if (pkg.repo == "local") {
-						transaction.to_remove.insert (pkg.name, pkg.name);
+						transaction.to_remove.add (pkg.name);
 					}
 				}
 			}
-			if (transaction.to_remove.size () != 0) {
+			if (transaction.to_remove.length != 0) {
 				set_buttons_sensitive (true);
 			}
 		}
 
 		void on_deselect_item_activate () {
 			foreach (Pamac.Package pkg in selected_pkgs) {
-				if (transaction.to_add.steal (pkg.name)) {
-				} else if (transaction.to_remove.steal (pkg.name)) {
-				} else if (transaction.to_build.steal (pkg.name)) {
+				if (transaction.to_add.remove (pkg.name)) {
+				} else if (transaction.to_remove.remove (pkg.name)) {
+				} else if (transaction.to_build.remove (pkg.name)) {
 				}
 			}
-			if (transaction.to_add.size () == 0 && transaction.to_remove.size () == 0
-					&& transaction.to_load.size () == 0 && transaction.to_build.size () == 0) {
+			if (transaction.to_add.length == 0 && transaction.to_remove.length == 0
+					&& transaction.to_load.length == 0 && transaction.to_build.length == 0) {
 				set_buttons_sensitive (false);
 			}
 		}
@@ -643,29 +632,27 @@ namespace Pamac {
 						dngettext (null, "%s has %u uninstalled optional dependency.\nChoose if you would like to install it:",
 								"%s has %u uninstalled optional dependencies.\nChoose those you would like to install:", optdeps.length).printf (pkg.name, optdeps.length)));
 				choose_dep_dialog.run ();
-				choose_dep_dialog.hide ();
+				choose_dep_dialog.deps_list.foreach ((model, path, iter) => {
+					GLib.Value val;
+					choose_dep_dialog.deps_list.get_value (iter, 0, out val);
+					bool selected = val.get_boolean ();
+					if (selected) {
+						choose_dep_dialog.deps_list.get_value (iter, 1, out val);
+						string name = val.get_string ();
+						transaction.to_add.add ((owned) name);
+					}
+					return false;
+				});
+				choose_dep_dialog.destroy ();
 				while (Gtk.events_pending ()) {
 					Gtk.main_iteration ();
 				}
-				choose_dep_dialog.deps_list.foreach ((model, path, iter) => {
-					GLib.Value val;
-					bool selected;
-					string name;
-					choose_dep_dialog.deps_list.get_value (iter, 0, out val);
-					selected = val.get_boolean ();
-					if (selected) {
-						choose_dep_dialog.deps_list.get_value (iter, 1, out val);
-						name = val.get_string ();
-						transaction.to_add.insert (name, name);
-					}
-					return false;
-				}); 
 			}
 		}
 
 		void on_install_optional_deps_item_activate () {
 			choose_opt_dep (selected_pkgs);
-			if (transaction.to_add.size () != 0) {
+			if (transaction.to_add.length != 0) {
 				set_buttons_sensitive (true);
 			}
 		}
@@ -838,7 +825,7 @@ namespace Pamac {
 		public void on_search_entry_activate () {
 			string search_string = search_entry.get_text ();
 			if (search_string != "") {
-				this.get_window ().set_cursor (new Gdk.Cursor (Gdk.CursorType.WATCH));
+				this.get_window ().set_cursor (new Gdk.Cursor.for_display (Gdk.Display.get_default (), Gdk.CursorType.WATCH));
 				while (Gtk.events_pending ()) {
 					Gtk.main_iteration ();
 				}
@@ -902,7 +889,7 @@ namespace Pamac {
 			Gtk.TreeIter? iter;
 			Gtk.TreeSelection selection = search_treeview.get_selection ();
 			if (selection.get_selected (out model, out iter)) {
-				this.get_window ().set_cursor (new Gdk.Cursor (Gdk.CursorType.WATCH));
+				this.get_window ().set_cursor (new Gdk.Cursor.for_display (Gdk.Display.get_default (), Gdk.CursorType.WATCH));
 				while (Gtk.events_pending ()) {
 					Gtk.main_iteration ();
 				}
@@ -922,7 +909,7 @@ namespace Pamac {
 			Gtk.TreeIter? iter;
 			Gtk.TreeSelection selection = groups_treeview.get_selection ();
 			if (selection.get_selected (out model, out iter)) {
-				this.get_window ().set_cursor (new Gdk.Cursor (Gdk.CursorType.WATCH));
+				this.get_window ().set_cursor (new Gdk.Cursor.for_display (Gdk.Display.get_default (), Gdk.CursorType.WATCH));
 				while (Gtk.events_pending ()) {
 					Gtk.main_iteration ();
 				}
@@ -942,7 +929,7 @@ namespace Pamac {
 			Gtk.TreeIter? iter;
 			Gtk.TreeSelection selection = states_treeview.get_selection ();
 			if (selection.get_selected (out model, out iter)) {
-				this.get_window ().set_cursor (new Gdk.Cursor (Gdk.CursorType.WATCH));
+				this.get_window ().set_cursor (new Gdk.Cursor.for_display (Gdk.Display.get_default (), Gdk.CursorType.WATCH));
 				while (Gtk.events_pending ()) {
 					Gtk.main_iteration ();
 				}
@@ -952,7 +939,7 @@ namespace Pamac {
 				Pamac.Package[] pkgs = {};
 				Pamac.Package find_pkg;
 				if (state == dgettext (null, "To install")) {
-					foreach (string name in transaction.to_add.get_keys ()) {
+					foreach (string name in transaction.to_add) {
 						find_pkg = transaction.find_local_pkg (name);
 						if (find_pkg.name != "") {
 							pkgs += find_pkg;
@@ -965,7 +952,7 @@ namespace Pamac {
 					}
 					populate_packages_list (pkgs);
 				} else if (state == dgettext (null, "To remove")) {
-					foreach (string name in transaction.to_remove.get_keys ()) {
+					foreach (string name in transaction.to_remove) {
 						find_pkg = transaction.find_local_pkg (name);
 						if (find_pkg.name != "") {
 							pkgs += find_pkg;
@@ -997,7 +984,7 @@ namespace Pamac {
 			Gtk.TreeIter? iter;
 			Gtk.TreeSelection selection = repos_treeview.get_selection ();
 			if (selection.get_selected (out model, out iter)) {
-				this.get_window ().set_cursor (new Gdk.Cursor (Gdk.CursorType.WATCH));
+				this.get_window ().set_cursor (new Gdk.Cursor.for_display (Gdk.Display.get_default (), Gdk.CursorType.WATCH));
 				while (Gtk.events_pending ()) {
 					Gtk.main_iteration ();
 				}
@@ -1024,7 +1011,7 @@ namespace Pamac {
 		}
 
 		[GtkCallback]
-		public void  on_history_item_activate () {
+		public void on_history_item_activate () {
 			var file = GLib.File.new_for_path ("/var/log/pamac.log");
 			if (!file.query_exists ()) {
 				GLib.stderr.printf ("File '%s' doesn't exist.\n", file.get_path ());
@@ -1036,16 +1023,17 @@ namespace Pamac {
 					var dis = new DataInputStream (file.read ());
 					string line;
 					// Read lines until end of file (null) is reached
-					while ((line = dis.read_line (null)) != null) {
-						text.append (line);
-						text.append ("\n");
+					while ((line = dis.read_line ()) != null) {
+						// construct text in reverse order
+						text.prepend (line + "\n");
 					}
 				} catch (GLib.Error e) {
 					GLib.stderr.printf ("%s\n", e.message);
 				}
+				var history_dialog = new HistoryDialog (this);
 				history_dialog.textview.buffer.set_text (text.str, (int) text.len);
 				history_dialog.run ();
-				history_dialog.hide ();
+				history_dialog.destroy ();
 				while (Gtk.events_pending ()) {
 					Gtk.main_iteration ();
 				}
@@ -1054,26 +1042,40 @@ namespace Pamac {
 
 		[GtkCallback]
 		public void on_local_item_activate () {
-			int response = packages_chooser_dialog.run ();
-			if (response== Gtk.ResponseType.ACCEPT) {
-				SList<string> packages_paths = packages_chooser_dialog.get_filenames ();
+			Gtk.FileChooserDialog chooser = new Gtk.FileChooserDialog (
+					dgettext (null, "Install local packages"), this, Gtk.FileChooserAction.OPEN,
+					dgettext (null, "_Cancel"), Gtk.ResponseType.CANCEL,
+					dgettext (null, "_Open"),Gtk.ResponseType.ACCEPT);
+			chooser.window_position = Gtk.WindowPosition.CENTER_ON_PARENT;
+			chooser.icon_name = "system-software-install";
+			chooser.default_width = 900;
+			chooser.select_multiple = true;
+			chooser.local_only = false;
+			chooser.create_folders = false;
+			Gtk.FileFilter package_filter = new Gtk.FileFilter ();
+			package_filter.set_filter_name (dgettext (null, "Alpm Package"));
+			package_filter.add_pattern ("*.pkg.tar.xz");
+			chooser.add_filter (package_filter);
+			if (chooser.run () == Gtk.ResponseType.ACCEPT) {
+				SList<string> packages_paths = chooser.get_filenames ();
 				if (packages_paths.length () != 0) {
 					foreach (string path in packages_paths) {
-						transaction.to_load.insert (path, path);
+						transaction.to_load.add (path);
 					}
-					this.get_window ().set_cursor (new Gdk.Cursor (Gdk.CursorType.WATCH));
-					packages_chooser_dialog.hide ();
+					this.get_window ().set_cursor (new Gdk.Cursor.for_display (Gdk.Display.get_default (), Gdk.CursorType.WATCH));
+					chooser.destroy ();
 					while (Gtk.events_pending ()) {
 						Gtk.main_iteration ();
 					}
 					transaction.run ();
 				}
 			} else {
-				packages_chooser_dialog.hide ();
+				chooser.destroy ();
 				while (Gtk.events_pending ()) {
 					Gtk.main_iteration ();
 				}
 			}
+
 		}
 
 		[GtkCallback]
@@ -1096,7 +1098,7 @@ namespace Pamac {
 
 		[GtkCallback]
 		public void on_valid_button_clicked () {
-			this.get_window ().set_cursor (new Gdk.Cursor (Gdk.CursorType.WATCH));
+			this.get_window ().set_cursor (new Gdk.Cursor.for_display (Gdk.Display.get_default (), Gdk.CursorType.WATCH));
 			while (Gtk.events_pending ()) {
 				Gtk.main_iteration ();
 			}
@@ -1113,7 +1115,7 @@ namespace Pamac {
 
 		[GtkCallback]
 		public void on_refresh_button_clicked () {
-			this.get_window ().set_cursor (new Gdk.Cursor (Gdk.CursorType.WATCH));
+			this.get_window ().set_cursor (new Gdk.Cursor.for_display (Gdk.Display.get_default (), Gdk.CursorType.WATCH));
 			while (Gtk.events_pending ()) {
 				Gtk.main_iteration ();
 			}
@@ -1125,7 +1127,7 @@ namespace Pamac {
 				set_buttons_sensitive (false);
 				refresh_packages_list ();
 			}
-			transaction.to_load.steal_all ();
+			transaction.to_load.remove_all ();
 			this.get_window ().set_cursor (null);
 		}
 	}

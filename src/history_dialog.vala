@@ -28,13 +28,5 @@ namespace Pamac {
 		public HistoryDialog (ManagerWindow window) {
 			Object (transient_for: window, use_header_bar: 0);
 		}
-
-		[GtkCallback]
-		public void on_textview_size_allocate () {
-			// auto-scrolling method
-			var scrollable = textview as Gtk.Scrollable;
-			var adj = scrollable.get_vadjustment ();
-			adj.set_value (adj.get_upper () - adj.get_page_size ());
-		}
 	}
 }

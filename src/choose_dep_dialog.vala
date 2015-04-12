@@ -46,8 +46,7 @@ namespace Pamac {
 			if (deps_list.get_iter_from_string (out iter, path)) {;
 				deps_list.get_value (iter, 0, out val);
 				selected = val.get_boolean ();
-				selected = (!selected);
-				deps_list.set_value (iter, 0, selected);
+				deps_list.set_value (iter, 0, !selected);
 			}
 		}
 	}

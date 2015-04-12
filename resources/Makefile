@@ -2,7 +2,6 @@
 MANAGER_GRESOURCE_FILE = pamac.manager.gresource.xml
 
 MANAGER_RESOURCES_FILES = 	manager_window.ui \
-							packages_chooser_dialog.ui \
 							choose_dep_dialog.ui \
 							history_dialog.ui \
 							preferences_dialog.ui \
