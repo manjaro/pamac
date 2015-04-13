@@ -59,6 +59,17 @@ namespace Pamac {
 			Gtk.TreeIter iter;
 			updates_list.get_iter (out iter, treepath);
 			updates_list.set (iter, 0, !select_update.active);
+			updates_list.foreach ((model, path, iter) => {
+				GLib.Value val;
+				updates_list.get_value (iter, 0, out val);
+				bool selected = val.get_boolean ();
+				if (selected) {
+					apply_button.set_sensitive (true);
+					return true;
+				}
+				apply_button.set_sensitive (false);
+				return false;
+			});
 		}
 
 		[GtkCallback]

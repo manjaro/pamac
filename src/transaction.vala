@@ -512,7 +512,9 @@ namespace Pamac {
 					if (updates.aur_updates.length != 0) {
 						clear_lists ();
 						foreach (UpdateInfos infos in updates.aur_updates) {
-							to_build.add (infos.name);
+							if ((infos.name in special_ignorepkgs) == false) {
+								to_build.add (infos.name);
+							}
 						}
 					}
 					if (updates.repos_updates.length != 0) {
