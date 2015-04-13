@@ -255,6 +255,7 @@ namespace Pamac {
 			Notify.init (_("Update Manager"));
 
 			var alpm_config = new Alpm.Config ("/etc/pacman.conf");
+			alpm_config.get_handle ();
 			lockfile = GLib.File.new_for_path (alpm_config.handle.lockfile);
 			Timeout.add (500, check_pacman_running);
 			start_refresh ();
