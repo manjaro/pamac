@@ -5,7 +5,7 @@
 # 
 # Translators:
 # EscoP, 2015
-# Luki <jbkammer@gmail.com>, 2013
+# Luki <jbkammer@gmail.com>, 2013,2015
 # Luki <jbkammer@gmail.com>, 2013
 # philm <philm@manjaro.org>, 2015
 # Sami Korkalainen, 2013-2014
@@ -17,8 +17,8 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2015-03-04 14:36+0100\n"
-"PO-Revision-Date: 2015-03-24 07:40+0000\n"
-"Last-Translator: EscoP\n"
+"PO-Revision-Date: 2015-04-05 16:59+0000\n"
+"Last-Translator: Luki <jbkammer@gmail.com>\n"
 "Language-Team: Finnish (http://www.transifex.com/projects/p/manjaro-pamac/language/fi/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -32,12 +32,12 @@ msgstr "Todennus vaaditaan"
 
 #: ../resources/choose_provider_dialog.ui
 msgid "Choose a Provider"
-msgstr ""
+msgstr "Valitse toimittaja"
 
 #: ../resources/choose_provider_dialog.ui
 #: ../resources/transaction_sum_dialog.ui ../resources/preferences_dialog.ui
 msgid "_OK"
-msgstr ""
+msgstr "_Ok"
 
 #: ../resources/packages_chooser_dialog.ui ../resources/manager_window.ui
 msgid "Install local packages"
@@ -46,11 +46,11 @@ msgstr "Asenna paikallisia paketteja"
 #: ../resources/packages_chooser_dialog.ui ../resources/progress_dialog.ui
 #: ../resources/transaction_sum_dialog.ui
 msgid "_Cancel"
-msgstr ""
+msgstr "_Peruuta"
 
 #: ../resources/packages_chooser_dialog.ui
 msgid "_Open"
-msgstr ""
+msgstr "_Avaa"
 
 #: ../resources/progress_dialog.ui
 msgid "Progress"
@@ -60,7 +60,7 @@ msgstr "Edistyminen"
 #: ../resources/transaction_info_dialog.ui ../resources/updater_window.ui
 #: ../resources/preferences_dialog.ui
 msgid "_Close"
-msgstr ""
+msgstr "_Sulje"
 
 #: ../resources/progress_dialog.ui ../resources/transaction_info_dialog.ui
 #: ../resources/manager_window.ui
@@ -81,11 +81,11 @@ msgstr "Näytä historia"
 
 #: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "_Preferences"
-msgstr ""
+msgstr "_Asetukset"
 
 #: ../resources/manager_window.ui
 msgid "_About"
-msgstr ""
+msgstr "_Tietoja Softasta"
 
 #: ../resources/manager_window.ui ../src/tray.vala
 msgid "Package Manager"
@@ -93,7 +93,7 @@ msgstr "Paketinhallinta"
 
 #: ../resources/manager_window.ui
 msgid "Refresh databases"
-msgstr ""
+msgstr "Päivitä tietokannat"
 
 #: ../resources/manager_window.ui
 msgid "Apply changes"
@@ -101,7 +101,7 @@ msgstr "Toteuta muutokset"
 
 #: ../resources/manager_window.ui
 msgid "Cancel all planned changes"
-msgstr ""
+msgstr "Peruuta kaikki suunnitellut muutokset"
 
 #: ../resources/manager_window.ui
 msgid "Search in AUR"
@@ -121,7 +121,7 @@ msgstr "Tila"
 
 #: ../resources/manager_window.ui
 msgid "Repositories"
-msgstr ""
+msgstr "Pakettivarastot"
 
 #: ../resources/manager_window.ui
 msgid "Name"
@@ -141,11 +141,11 @@ msgstr "Koko"
 
 #: ../resources/manager_window.ui
 msgid "Description"
-msgstr ""
+msgstr "Kuvaus"
 
 #: ../resources/manager_window.ui
 msgid "Dependencies"
-msgstr ""
+msgstr "Riippuvuudet"
 
 #: ../resources/manager_window.ui
 msgid "Files"
@@ -157,15 +157,15 @@ msgstr "Päivitystenhallinta"
 
 #: ../resources/updater_window.ui
 msgid "_Refresh"
-msgstr ""
+msgstr "_päivitä"
 
 #: ../resources/updater_window.ui
 msgid "_Apply"
-msgstr ""
+msgstr "_hyväksy"
 
 #: ../resources/preferences_dialog.ui
 msgid "Preferences"
-msgstr ""
+msgstr "Asetukset"
 
 #: ../resources/preferences_dialog.ui
 msgid "Allow Pamac to search and install packages from AUR"
@@ -175,11 +175,11 @@ msgstr "Anna Pamacin etsiä ja asentaa paketteja AUR:sta"
 msgid ""
 "When removing a package, also remove its dependencies that are not required "
 "by other packages"
-msgstr ""
+msgstr "Pakettia poistettaessa, poista myös pakettiriippuvuudet jotka eivät ole muiden pakettien käytössä"
 
 #: ../resources/preferences_dialog.ui
 msgid "Check available disk space"
-msgstr ""
+msgstr "Tarkista kovalevyn käytettävissä oleva koko"
 
 #: ../resources/preferences_dialog.ui ../src/preferences_dialog.vala
 msgid "How often to check for updates, value in hours"
@@ -191,11 +191,11 @@ msgstr "Poista ei-vaaditut riippuvuudet"
 
 #: ../resources/preferences_dialog.ui
 msgid "Upgrade first:"
-msgstr ""
+msgstr "Päivitä ensin:"
 
 #: ../resources/preferences_dialog.ui
 msgid "Ignore upgrades for:"
-msgstr ""
+msgstr "Jätä huomitta nämä paketit:"
 
 #: ../resources/preferences_dialog.ui
 msgid "Enable AUR support"
@@ -207,7 +207,7 @@ msgstr "Asetukset"
 
 #: ../resources/preferences_dialog.ui
 msgid "Sort mirrors by:"
-msgstr ""
+msgstr "Järjestä mirrorit seuraavasti:"
 
 #: ../resources/preferences_dialog.ui
 msgid "Use mirrors from:"
@@ -215,11 +215,11 @@ msgstr ""
 
 #: ../resources/preferences_dialog.ui
 msgid "Official repositories"
-msgstr ""
+msgstr "viralliset pakettilähteet"
 
 #: ../src/packages_chooser_dialog.vala
 msgid "Alpm Package"
-msgstr ""
+msgstr "Alpm paketti"
 
 #: ../src/daemon.vala
 msgid "Failed to initialize alpm library"
