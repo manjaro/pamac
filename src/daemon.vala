@@ -524,6 +524,9 @@ namespace Pamac {
 		public string[] get_pkg_uninstalled_optdeps (string pkgname) {
 			string[] optdeps = {};
 			unowned Alpm.Package? alpm_pkg = alpm_config.handle.localdb.get_pkg (pkgname);
+			if (alpm_pkg == null) {
+				alpm_pkg = get_syncpkg (pkgname);
+			}
 			if (alpm_pkg != null) {
 				foreach (unowned Depend optdep in alpm_pkg.optdepends) {
 					if (find_satisfier (alpm_config.handle.localdb.pkgcache, optdep.name) == null) {
@@ -726,7 +729,7 @@ namespace Pamac {
 			var err = ErrorInfos ();
 			string[] details = {};
 			int ret = alpm_config.handle.trans_sysupgrade (enable_downgrade);
-			if (ret == -1) {;
+			if (ret == -1) {
 				err.message = _("Failed to prepare transaction");
 				details += Alpm.strerror (alpm_config.handle.errno ());
 				err.details = details;
@@ -757,7 +760,7 @@ namespace Pamac {
 			var err = ErrorInfos ();
 			string[] details = {};
 			unowned Alpm.Package? pkg = get_syncpkg (pkgname);
-			if (pkg == null)  {
+			if (pkg == null) {
 				err.message = _("Failed to prepare transaction");
 				details += _("target not found: %s").printf (pkgname);
 				err.details = details;
@@ -1295,12 +1298,14 @@ private void cb_totaldownload (uint64 total) {
 
 private void cb_log (LogLevel level, string fmt, va_list args) {
 	LogLevel logmask = LogLevel.ERROR | LogLevel.WARNING;
-	if ((level & logmask) == 0)
+	if ((level & logmask) == 0) {
 		return;
+	}
 	string? log = null;
 	log = fmt.vprintf (args);
-	if (log != null)
+	if (log != null) {
 		pamac_daemon.emit_log ((uint) level, log);
+	}
 }
 
 void on_bus_acquired (DBusConnection conn) {
