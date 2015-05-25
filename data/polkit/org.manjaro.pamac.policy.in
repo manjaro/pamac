@@ -10,7 +10,7 @@
     <message>Authentication is required</message>
     <defaults>
       <allow_any>no</allow_any>
-      <allow_inactive>no</allow_inactive>
+      <allow_inactive>auth_admin_keep</allow_inactive>
       <allow_active>auth_admin_keep</allow_active>
     </defaults>
   </action>
