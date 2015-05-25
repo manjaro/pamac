@@ -6,14 +6,16 @@
 # Translators:
 # Daetalus <daetalusun@gmail.com>, 2014
 # Daetalus <daetalusun@gmail.com>, 2014
+# Dean Chen <wsxy162@gmail.com>, 2015
+# Dean Chen <wsxy162@gmail.com>, 2015
 # philm <philm@manjaro.org>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2015-03-04 14:36+0100\n"
-"PO-Revision-Date: 2015-03-18 15:17+0000\n"
-"Last-Translator: Guillaume Benoit <guillaume@manjaro.org>\n"
+"PO-Revision-Date: 2015-05-11 05:56+0000\n"
+"Last-Translator: Dean Chen <wsxy162@gmail.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/projects/p/manjaro-pamac/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -27,12 +29,12 @@ msgstr "需要验证"
 
 #: ../resources/choose_provider_dialog.ui
 msgid "Choose a Provider"
-msgstr ""
+msgstr "选择提供者"
 
 #: ../resources/choose_provider_dialog.ui
 #: ../resources/transaction_sum_dialog.ui ../resources/preferences_dialog.ui
 msgid "_OK"
-msgstr ""
+msgstr "确定(_O)"
 
 #: ../resources/packages_chooser_dialog.ui ../resources/manager_window.ui
 msgid "Install local packages"
@@ -41,11 +43,11 @@ msgstr "安装本地软件包"
 #: ../resources/packages_chooser_dialog.ui ../resources/progress_dialog.ui
 #: ../resources/transaction_sum_dialog.ui
 msgid "_Cancel"
-msgstr ""
+msgstr "取消(_C)"
 
 #: ../resources/packages_chooser_dialog.ui
 msgid "_Open"
-msgstr ""
+msgstr "打开(_O)"
 
 #: ../resources/progress_dialog.ui
 msgid "Progress"
@@ -55,7 +57,7 @@ msgstr "进度"
 #: ../resources/transaction_info_dialog.ui ../resources/updater_window.ui
 #: ../resources/preferences_dialog.ui
 msgid "_Close"
-msgstr ""
+msgstr "关闭(_C)"
 
 #: ../resources/progress_dialog.ui ../resources/transaction_info_dialog.ui
 #: ../resources/manager_window.ui
@@ -68,7 +70,7 @@ msgstr "Pamac历史记录"
 
 #: ../resources/transaction_sum_dialog.ui ../src/transaction.vala
 msgid "Transaction Summary"
-msgstr "事件处理概要"
+msgstr "事务概要"
 
 #: ../resources/manager_window.ui
 msgid "View History"
@@ -76,11 +78,11 @@ msgstr "查看历史记录"
 
 #: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "_Preferences"
-msgstr ""
+msgstr "首选项(_P)"
 
 #: ../resources/manager_window.ui
 msgid "_About"
-msgstr ""
+msgstr "关于(_A)"
 
 #: ../resources/manager_window.ui ../src/tray.vala
 msgid "Package Manager"
@@ -88,7 +90,7 @@ msgstr "软件包管理器"
 
 #: ../resources/manager_window.ui
 msgid "Refresh databases"
-msgstr ""
+msgstr "刷新数据库"
 
 #: ../resources/manager_window.ui
 msgid "Apply changes"
@@ -96,7 +98,7 @@ msgstr "应用更改"
 
 #: ../resources/manager_window.ui
 msgid "Cancel all planned changes"
-msgstr ""
+msgstr "取消所有计划更改"
 
 #: ../resources/manager_window.ui
 msgid "Search in AUR"
@@ -116,7 +118,7 @@ msgstr "状态"
 
 #: ../resources/manager_window.ui
 msgid "Repositories"
-msgstr ""
+msgstr "库"
 
 #: ../resources/manager_window.ui
 msgid "Name"
@@ -136,11 +138,11 @@ msgstr "大小"
 
 #: ../resources/manager_window.ui
 msgid "Description"
-msgstr ""
+msgstr "描述"
 
 #: ../resources/manager_window.ui
 msgid "Dependencies"
-msgstr ""
+msgstr "依赖"
 
 #: ../resources/manager_window.ui
 msgid "Files"
@@ -152,29 +154,29 @@ msgstr "更新管理器"
 
 #: ../resources/updater_window.ui
 msgid "_Refresh"
-msgstr ""
+msgstr "刷新(_R)"
 
 #: ../resources/updater_window.ui
 msgid "_Apply"
-msgstr ""
+msgstr "应用(_A)"
 
 #: ../resources/preferences_dialog.ui
 msgid "Preferences"
-msgstr ""
+msgstr "首选项"
 
 #: ../resources/preferences_dialog.ui
 msgid "Allow Pamac to search and install packages from AUR"
-msgstr "允许Pamac从AUR中搜索并安装软件包"
+msgstr "允许 Pamac 从 AUR 中搜索并安装软件包"
 
 #: ../resources/preferences_dialog.ui
 msgid ""
 "When removing a package, also remove its dependencies that are not required "
 "by other packages"
-msgstr ""
+msgstr "移除软件包时，也移除该软件包需要，但其他软件包不需要的依赖"
 
 #: ../resources/preferences_dialog.ui
 msgid "Check available disk space"
-msgstr ""
+msgstr "检查可用磁盘空间"
 
 #: ../resources/preferences_dialog.ui ../src/preferences_dialog.vala
 msgid "How often to check for updates, value in hours"
@@ -186,11 +188,11 @@ msgstr "移除不需要的依赖"
 
 #: ../resources/preferences_dialog.ui
 msgid "Upgrade first:"
-msgstr ""
+msgstr "首先升级："
 
 #: ../resources/preferences_dialog.ui
 msgid "Ignore upgrades for:"
-msgstr ""
+msgstr "忽略以下升级："
 
 #: ../resources/preferences_dialog.ui
 msgid "Enable AUR support"
@@ -202,87 +204,87 @@ msgstr "选项"
 
 #: ../resources/preferences_dialog.ui
 msgid "Sort mirrors by:"
-msgstr ""
+msgstr "镜像排列按："
 
 #: ../resources/preferences_dialog.ui
 msgid "Use mirrors from:"
-msgstr ""
+msgstr "使用镜像从："
 
 #: ../resources/preferences_dialog.ui
 msgid "Official repositories"
-msgstr ""
+msgstr "官方软件仓库"
 
 #: ../src/packages_chooser_dialog.vala
 msgid "Alpm Package"
-msgstr ""
+msgstr "Alpm 软件包"
 
 #: ../src/daemon.vala
 msgid "Failed to initialize alpm library"
-msgstr ""
+msgstr "初始化 Alpm 库失败"
 
 #: ../src/daemon.vala
 msgid "Failed to synchronize any databases"
-msgstr ""
+msgstr "同步数据库失败"
 
 #: ../src/daemon.vala
 msgid "No"
-msgstr ""
+msgstr "否"
 
 #: ../src/daemon.vala
 msgid "Yes"
-msgstr ""
+msgstr "是"
 
 #: ../src/daemon.vala
 msgid "Failed to init transaction"
-msgstr ""
+msgstr "初始化事务失败"
 
 #: ../src/daemon.vala
 msgid "Failed to prepare transaction"
-msgstr ""
+msgstr "准备事务失败"
 
 #: ../src/daemon.vala
 #, c-format
 msgid "target not found: %s"
-msgstr ""
+msgstr "目标未找到：%s"
 
 #: ../src/daemon.vala
 #, c-format
 msgid "package %s does not have a valid architecture"
-msgstr ""
+msgstr "软件包 %s 没有适用的架构"
 
 #: ../src/daemon.vala
 #, c-format
 msgid "%s: requires %s"
-msgstr ""
+msgstr "%s：依赖于 %s"
 
 #: ../src/daemon.vala
 #, c-format
 msgid "%s and %s are in conflict"
-msgstr ""
+msgstr "%s 和 %s 有冲突"
 
 #: ../src/daemon.vala
 #, c-format
 msgid "%s needs to be removed but it is a locked package"
-msgstr ""
+msgstr "%s 需要移除但已锁定"
 
 #: ../src/daemon.vala
 msgid "Failed to commit transaction"
-msgstr ""
+msgstr "提交事务失败"
 
 #: ../src/daemon.vala
 #, c-format
 msgid "%s exists in both %s and %s"
-msgstr ""
+msgstr "%s 存在于 %s 和 %s"
 
 #: ../src/daemon.vala
 #, c-format
 msgid "%s: %s already exists in filesystem"
-msgstr ""
+msgstr "%s： %s 已经在文件系统中存在"
 
 #: ../src/daemon.vala
 #, c-format
 msgid "%s is invalid or corrupted"
-msgstr ""
+msgstr "%s 无效或已损坏"
 
 #: ../src/daemon.vala
 msgid "Authentication failed"
@@ -290,11 +292,11 @@ msgstr "验证失败"
 
 #: ../src/transaction.vala
 msgid "Synchronizing package databases"
-msgstr ""
+msgstr "正在同步包数据库"
 
 #: ../src/transaction.vala
 msgid "Starting full system upgrade"
-msgstr ""
+msgstr "正在进行全面系统升级"
 
 #: ../src/transaction.vala
 msgid "Preparing"
@@ -303,7 +305,7 @@ msgstr "准备中"
 #: ../src/transaction.vala
 #, c-format
 msgid "Choose a provider for %s"
-msgstr ""
+msgstr "选择 %s 的提供者"
 
 #: ../src/transaction.vala ../src/manager_window.vala
 msgid "To remove"
@@ -331,23 +333,23 @@ msgstr "更新"
 
 #: ../src/transaction.vala ../src/updater_window.vala
 msgid "Total download size"
-msgstr ""
+msgstr "总下载大小"
 
 #: ../src/transaction.vala
 msgid "Building packages"
-msgstr ""
+msgstr "正在构建软件包"
 
 #: ../src/transaction.vala
 msgid "Worldwide"
-msgstr ""
+msgstr "全世界"
 
 #: ../src/transaction.vala
 msgid "speed"
-msgstr ""
+msgstr "速度"
 
 #: ../src/transaction.vala
 msgid "random"
-msgstr ""
+msgstr "随机"
 
 #: ../src/transaction.vala
 msgid "Checking dependencies"
@@ -363,7 +365,7 @@ msgstr "正在解决依赖关系"
 
 #: ../src/transaction.vala
 msgid "Checking inter-conflicts"
-msgstr ""
+msgstr "正在检查内部冲突"
 
 #: ../src/transaction.vala
 #, c-format
@@ -417,15 +419,15 @@ msgstr "正在应用增量"
 #: ../src/transaction.vala
 #, c-format
 msgid "Generating %s with %s"
-msgstr "正在生产 %s （使用 %s ）"
+msgstr "正在生成 %s （使用 %s ）"
 
 #: ../src/transaction.vala
 msgid "Generation succeeded"
-msgstr ""
+msgstr "生成成功"
 
 #: ../src/transaction.vala
 msgid "Generation failed"
-msgstr ""
+msgstr "生成失败"
 
 #: ../src/transaction.vala
 #, c-format
@@ -443,27 +445,27 @@ msgstr "正在检查可用磁盘空间"
 #: ../src/transaction.vala
 #, c-format
 msgid "%s optionally requires %s"
-msgstr ""
+msgstr "%s 可选依赖于 %s"
 
 #: ../src/transaction.vala
 #, c-format
 msgid "Database file for %s does not exist"
-msgstr ""
+msgstr "%s 的数据库文件不存在"
 
 #: ../src/transaction.vala
 #, c-format
 msgid "%s installed as %s.pacnew"
-msgstr ""
+msgstr "%s 安装作 %s.pacnew"
 
 #: ../src/transaction.vala
 #, c-format
 msgid "%s installed as %s.pacsave"
-msgstr ""
+msgstr "%s 安装作 %s.pacsave"
 
 #: ../src/transaction.vala
 #, c-format
 msgid "%s installed as %s.pacorig"
-msgstr ""
+msgstr "%s 安装作 %s.pacorig"
 
 #: ../src/transaction.vala
 #, c-format
@@ -477,16 +479,16 @@ msgstr "正在下载 %s"
 
 #: ../src/transaction.vala
 msgid "Warning"
-msgstr ""
+msgstr "警告"
 
 #: ../src/transaction.vala ../src/installer.vala ../src/manager.vala
 #: ../src/updater.vala
 msgid "Error"
-msgstr ""
+msgstr "错误"
 
 #: ../src/transaction.vala ../src/progress_dialog.vala
 msgid "Transaction cancelled"
-msgstr ""
+msgstr "事务已经取消"
 
 #: ../src/transaction.vala
 msgid "Nothing to do"
@@ -494,11 +496,11 @@ msgstr "无需做任何事"
 
 #: ../src/transaction.vala
 msgid "Transaction successfully finished"
-msgstr "事件处理成功完成"
+msgstr "事务成功完成"
 
 #: ../src/transaction.vala
 msgid "Generating mirrorlist"
-msgstr ""
+msgstr "正在生成 mirrorlist"
 
 #: ../src/installer.vala ../src/manager.vala ../src/updater.vala
 msgid "Pamac is already running"
@@ -510,17 +512,17 @@ msgstr "系统为最新状态"
 
 #: ../src/tray.vala
 msgid "_Quit"
-msgstr ""
+msgstr "退出(_Q)"
 
 #: ../src/tray.vala ../src/updater_window.vala
 #, c-format
 msgid "%u available update"
 msgid_plural "%u available updates"
-msgstr[0] ""
+msgstr[0] "%u 个可用更新"
 
 #: ../src/tray.vala
 msgid "Show available updates"
-msgstr ""
+msgstr "显示可用更新"
 
 #: ../src/manager_window.vala
 msgid "Deselect"
@@ -540,7 +542,7 @@ msgstr "重新安装"
 
 #: ../src/manager_window.vala
 msgid "Install optional dependencies"
-msgstr ""
+msgstr "安装可选依赖"
 
 #: ../src/manager_window.vala
 msgid "Mark as explicitly installed"
@@ -548,7 +550,7 @@ msgstr "标记为单独指定安装"
 
 #: ../src/manager_window.vala
 msgid "local"
-msgstr "本地"
+msgstr "local(本地)"
 
 #: ../src/manager_window.vala
 msgid "Installed"
@@ -556,7 +558,7 @@ msgstr "已安装"
 
 #: ../src/manager_window.vala
 msgid "Orphans"
-msgstr "孤儿包"
+msgstr "孤包"
 
 #: ../src/manager_window.vala
 msgid "Licenses"
@@ -568,11 +570,11 @@ msgstr "依赖于"
 
 #: ../src/manager_window.vala
 msgid "Optional Dependencies"
-msgstr ""
+msgstr "可选依赖"
 
 #: ../src/manager_window.vala
 msgid "Required By"
-msgstr "被后者依赖："
+msgstr "被后者依赖"
 
 #: ../src/manager_window.vala
 msgid "Provides"
@@ -584,7 +586,7 @@ msgstr "替换"
 
 #: ../src/manager_window.vala
 msgid "Conflicts With"
-msgstr "与后者冲突："
+msgstr "与后者冲突"
 
 #: ../src/manager_window.vala
 msgid "Packager"
@@ -630,7 +632,7 @@ msgid ""
 msgid_plural ""
 "%s has %u uninstalled optional dependencies.\n"
 "Choose those you would like to install:"
-msgstr[0] ""
+msgstr[0] "%s 有 %u 个未安装的可选依赖。\n请选择您想要安装的依赖："
 
 #: ../src/manager_window.vala
 msgid "Uninstalled"
@@ -638,16 +640,16 @@ msgstr "已卸载"
 
 #: ../src/manager_window.vala
 msgid "A Gtk3 frontend for libalpm"
-msgstr ""
+msgstr "libalpm 的 GTK3 前端"
 
 #: ../src/manager_window.vala
 msgid "Copyright © 2015 Guillaume Benoit"
-msgstr ""
+msgstr "Copyright © 2015 Guillaume Benoit"
 
 #: ../src/common.vala
 #, c-format
 msgid "%.0f KiB"
-msgstr ""
+msgstr "%.0f KiB"
 
 #: ../src/common.vala
 #, c-format

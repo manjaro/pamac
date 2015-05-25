@@ -4,6 +4,7 @@
 # Guillaume Benoit <guillaume@manjaro.org>, 2013-2015.
 # 
 # Translators:
+# Davidmp <medipas@gmail.com>, 2015
 # Guillaume Benoit <guillaume@manjaro.org>, 2013
 # Ramon Buldó <rbuldo@gmail.com>, 2013
 # Davidmp <medipas@gmail.com>, 2015
@@ -16,7 +17,7 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2015-03-04 14:36+0100\n"
-"PO-Revision-Date: 2015-03-25 18:58+0000\n"
+"PO-Revision-Date: 2015-04-24 16:13+0000\n"
 "Last-Translator: Davidmp <medipas@gmail.com>\n"
 "Language-Team: Catalan (http://www.transifex.com/projects/p/manjaro-pamac/language/ca/)\n"
 "MIME-Version: 1.0\n"
@@ -477,7 +478,7 @@ msgstr "Actualitzant %s"
 #: ../src/transaction.vala
 #, c-format
 msgid "Downloading %s"
-msgstr "Baixada %s"
+msgstr "Baixant %s"
 
 #: ../src/transaction.vala
 msgid "Warning"
