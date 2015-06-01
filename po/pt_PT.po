@@ -518,7 +518,7 @@ msgstr "_Sair"
 #, c-format
 msgid "%u available update"
 msgid_plural "%u available updates"
-msgstr[0] "%u actualizações didponíveis"
+msgstr[0] "%u actualização disponível"
 msgstr[1] "%u actualizações disponíveis"
 
 #: ../src/tray.vala
