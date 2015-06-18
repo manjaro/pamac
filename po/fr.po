@@ -537,7 +537,7 @@ msgstr "Installer"
 
 #: ../src/manager_window.vala
 msgid "Remove"
-msgstr "Désintaller"
+msgstr "Désinstaller"
 
 #: ../src/manager_window.vala
 msgid "Reinstall"
