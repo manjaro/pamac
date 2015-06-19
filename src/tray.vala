@@ -29,7 +29,8 @@ namespace Pamac {
 	public interface Daemon : Object {
 		public abstract void start_refresh (int force) throws IOError;
 		public abstract async Updates get_updates (bool enable_aur) throws IOError;
-		public abstract async void quit () throws IOError;
+		[DBus (no_reply = true)]
+		public abstract void quit () throws IOError;
 		public signal void refresh_finished (ErrorInfos error);
 	}
 
@@ -52,16 +53,21 @@ namespace Pamac {
 			try {
 				daemon = Bus.get_proxy_sync (BusType.SYSTEM, "org.manjaro.pamac",
 														"/org/manjaro/pamac");
+				// Connecting to signal
+				daemon.refresh_finished.connect (on_refresh_finished);
 			} catch (IOError e) {
 				stderr.printf ("IOError: %s\n", e.message);
 			}
-			// Connecting to signal
-			daemon.refresh_finished.connect (on_refresh_finished);
 		}
 
 		void stop_daemon () {
-			if (check_pamac_running () == false && lockfile.query_exists () == false) {
-				daemon.quit.begin ();
+			if (check_pamac_running () == false) {
+				daemon.refresh_finished.disconnect (on_refresh_finished);
+				try {
+					daemon.quit ();
+				} catch (IOError e) {
+					stderr.printf ("IOError: %s\n", e.message);
+				}
 			}
 		}
 

@@ -1099,20 +1099,16 @@ namespace Pamac {
 
 		[DBus (no_reply = true)]
 		public void quit () {
-			try {
-				new Thread<int>.try ("quit thread", () => {
-					databases_lock_mutex.lock ();
-					// be sure to not quit with locked databases
-					alpm_config.handle.trans_release ();
-					if (lockfile.query_exists () == false) {
-						loop.quit ();
-					}
-					databases_lock_mutex.unlock ();
-					return 0;
-				});
-			} catch (GLib.Error e) {
-				stderr.printf ("%s\n", e.message);
+			// be sure to not quit with locked databases
+			alpm_config.handle.trans_release ();
+			if (lockfile.query_exists () == true) {
+				try {
+					lockfile.delete ();
+				} catch (GLib.Error e) {
+					GLib.stderr.printf("%s\n", e.message);
+				}
 			}
+			loop.quit ();
 		}
 	// End of Daemon Object
 	}

@@ -18,11 +18,21 @@
  */
 
 namespace Pamac {
+	public struct ErrorInfos {
+		public string message;
+		public string[] details;
+	}
 	[DBus (name = "org.manjaro.pamac")]
 	public interface Daemon : Object {
 		public abstract void start_refresh (int force) throws IOError;
+		[DBus (no_reply = true)]
+		public abstract void quit () throws IOError;
+		public signal void refresh_finished (ErrorInfos error);
 	}
 }
+
+Pamac.Daemon pamac_daemon;
+MainLoop loop;
 
 bool check_pamac_running () {
 	Application app;
@@ -57,16 +67,27 @@ bool check_pamac_running () {
 	return run;
 }
 
-int main (string[] args) {
-	Pamac.Daemon daemon;
+void on_refresh_finished () {
+	try {
+		pamac_daemon.quit ();
+	} catch (IOError e) {
+		stderr.printf ("IOError: %s\n", e.message);
+	}
+	loop.quit ();
+}
+
+int main () {
 	if (check_pamac_running () == false) {
 		try {
-			daemon = Bus.get_proxy_sync (BusType.SYSTEM, "org.manjaro.pamac",
+			pamac_daemon = Bus.get_proxy_sync (BusType.SYSTEM, "org.manjaro.pamac",
 													"/org/manjaro/pamac");
-			daemon.start_refresh (0);
+			pamac_daemon.refresh_finished.connect (on_refresh_finished);
+			pamac_daemon.start_refresh (0);
 		} catch (IOError e) {
 			stderr.printf ("IOError: %s\n", e.message);
 		}
 	}
+	loop = new MainLoop ();
+	loop.run ();
 	return 0;
 }
