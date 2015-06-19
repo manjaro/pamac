@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2015-03-04 14:36+0100\n"
-"PO-Revision-Date: 2015-04-24 16:13+0000\n"
+"PO-Revision-Date: 2015-06-16 07:29+0000\n"
 "Last-Translator: Davidmp <medipas@gmail.com>\n"
 "Language-Team: Catalan (http://www.transifex.com/projects/p/manjaro-pamac/language/ca/)\n"
 "MIME-Version: 1.0\n"
@@ -85,7 +85,7 @@ msgstr "_Preferències"
 
 #: ../resources/manager_window.ui
 msgid "_About"
-msgstr "_Quan a"
+msgstr "_Quant a"
 
 #: ../resources/manager_window.ui ../src/tray.vala
 msgid "Package Manager"

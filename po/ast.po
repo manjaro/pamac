@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2015-03-04 14:36+0100\n"
-"PO-Revision-Date: 2015-03-31 16:19+0000\n"
+"PO-Revision-Date: 2015-06-10 13:28+0000\n"
 "Last-Translator: Ḷḷumex03 <tornes@opmbx.org>\n"
 "Language-Team: Asturian (http://www.transifex.com/projects/p/manjaro-pamac/language/ast/)\n"
 "MIME-Version: 1.0\n"
@@ -86,7 +86,7 @@ msgstr "_Tocante a"
 
 #: ../resources/manager_window.ui ../src/tray.vala
 msgid "Package Manager"
-msgstr "Alministrador de paquetes"
+msgstr "Xestor de paquetes"
 
 #: ../resources/manager_window.ui
 msgid "Refresh databases"
@@ -150,7 +150,7 @@ msgstr "Ficheros"
 
 #: ../resources/updater_window.ui ../src/tray.vala
 msgid "Update Manager"
-msgstr "Alministrador d'anovamientos"
+msgstr "Xestor d'anovamientos"
 
 #: ../resources/updater_window.ui
 msgid "_Refresh"
