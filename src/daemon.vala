@@ -768,11 +768,11 @@ namespace Pamac {
 			} else {
 				err = trans_add_pkg_real (pkg);
 				if (err.message == "") {
-					if ("linux31" in pkg.name) {
+					if (("linux31" in pkg.name) || ("linux4" in pkg.name)) {
 						string[] installed_kernels = {};
 						string[] installed_modules = {};
 						foreach (var local_pkg in alpm_config.handle.localdb.pkgcache) {
-							if ("linux31" in local_pkg.name) {
+							if (("linux31" in local_pkg.name) || ("linux4" in local_pkg.name)) {
 								string[] local_pkg_splitted = local_pkg.name.split ("-", 2);
 								if ((local_pkg_splitted[0] in installed_kernels) == false) {
 									installed_kernels += local_pkg_splitted[0];
@@ -797,7 +797,7 @@ namespace Pamac {
 							}
 						} else if (splitted.length == 1) {
 							// we are adding a kernel
-							// add all installed module for other kernels
+							// add all installed modules for other kernels
 							foreach (var installed_module in installed_modules) {
 								string module = splitted[0] + "-" + installed_module;
 								unowned Alpm.Package? module_pkg = get_syncpkg (module);
