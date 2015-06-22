@@ -66,10 +66,7 @@
                   <object class="GtkTreeViewColumn" id="treeviewcolumn1">
                     <property name="expand">True</property>
                     <child>
-                      <object class="GtkCellRendererText" id="update_name">
-                        <property name="width">200</property>
-                        <property name="height">22</property>
-                      </object>
+                      <object class="GtkCellRendererText" id="update_name"/>
                       <attributes>
                         <attribute name="text">1</attribute>
                       </attributes>
@@ -79,10 +76,7 @@
                 <child>
                   <object class="GtkTreeViewColumn" id="treeviewcolumn2">
                     <child>
-                      <object class="GtkCellRendererText" id="download_size">
-                        <property name="width">80</property>
-                        <property name="height">22</property>
-                      </object>
+                      <object class="GtkCellRendererText" id="download_size"/>
                       <attributes>
                         <attribute name="text">2</attribute>
                       </attributes>
