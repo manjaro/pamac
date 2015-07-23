@@ -114,11 +114,6 @@ namespace Pamac {
 			transaction.start_refresh (0);
 		}
 
-		[GtkCallback]
-		public void on_close_button_clicked () {
-			this.application.quit ();
-		}
-
 		public void on_transaction_finished (bool error) {
 			set_updates_list.begin ();
 		}
