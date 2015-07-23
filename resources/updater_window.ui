@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated with glade 3.18.3 -->
+<!-- Generated with glade 3.19.0 -->
 <interface>
   <requires lib="gtk+" version="3.12"/>
   <template class="PamacUpdaterWindow" parent="GtkApplicationWindow">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
     <property name="border_width">6</property>
-    <property name="title" translatable="yes">Update Manager</property>
     <property name="window_position">center</property>
     <property name="default_width">500</property>
     <property name="icon_name">system-software-update</property>
@@ -19,9 +18,32 @@
         <property name="orientation">vertical</property>
         <property name="spacing">12</property>
         <child>
-          <object class="GtkLabel" id="top_label">
+          <object class="GtkBox" id="box3">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
+            <property name="homogeneous">True</property>
+            <child>
+              <object class="GtkLabel" id="top_label">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkLabel" id="bottom_label">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
           </object>
           <packing>
             <property name="expand">False</property>
@@ -92,41 +114,31 @@
             <property name="position">1</property>
           </packing>
         </child>
+      </object>
+    </child>
+    <child type="titlebar">
+      <object class="GtkHeaderBar" id="headerbar1">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="title">Update Manager</property>
+        <property name="show_close_button">True</property>
         <child>
-          <object class="GtkLabel" id="bottom_label">
+          <object class="GtkBox" id="box2">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-          </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">True</property>
-            <property name="position">2</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkBox" id="box6">
-            <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <property name="spacing">12</property>
             <child>
-              <object class="GtkButtonBox" id="buttonbox2">
+              <object class="GtkButton" id="refresh_button">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="layout_style">start</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">False</property>
+                <property name="use_underline">True</property>
+                <signal name="clicked" handler="on_refresh_button_clicked" swapped="no"/>
                 <child>
-                  <object class="GtkButton" id="preferences_button">
-                    <property name="label" translatable="yes">_Preferences</property>
+                  <object class="GtkImage" id="image3">
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">False</property>
-                    <property name="use_underline">True</property>
-                    <signal name="clicked" handler="on_preferences_button_clicked" swapped="no"/>
+                    <property name="can_focus">False</property>
+                    <property name="icon_name">view-refresh-symbolic</property>
                   </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">0</property>
-                  </packing>
                 </child>
               </object>
               <packing>
@@ -136,70 +148,50 @@
               </packing>
             </child>
             <child>
-              <object class="GtkButtonBox" id="buttonbox1">
+              <object class="GtkButton" id="apply_button">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="spacing">6</property>
-                <property name="layout_style">end</property>
+                <property name="can_focus">True</property>
+                <property name="has_focus">True</property>
+                <property name="receives_default">False</property>
+                <property name="use_underline">True</property>
+                <signal name="clicked" handler="on_apply_button_clicked" swapped="no"/>
                 <child>
-                  <object class="GtkButton" id="refresh_button">
-                    <property name="label" translatable="yes">_Refresh</property>
+                  <object class="GtkImage" id="image2">
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">False</property>
-                    <property name="use_underline">True</property>
-                    <signal name="clicked" handler="on_refresh_button_clicked" swapped="no"/>
+                    <property name="can_focus">False</property>
+                    <property name="icon_name">software-update-available-symbolic</property>
                   </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">0</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkButton" id="apply_button">
-                    <property name="label" translatable="yes">_Apply</property>
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="has_focus">True</property>
-                    <property name="receives_default">False</property>
-                    <property name="use_underline">True</property>
-                    <signal name="clicked" handler="on_apply_button_clicked" swapped="no"/>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">1</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkButton" id="close_button">
-                    <property name="label" translatable="yes">_Close</property>
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">False</property>
-                    <property name="use_underline">True</property>
-                    <signal name="clicked" handler="on_close_button_clicked" swapped="no"/>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">2</property>
-                  </packing>
                 </child>
               </object>
               <packing>
                 <property name="expand">False</property>
                 <property name="fill">True</property>
-                <property name="pack_type">end</property>
                 <property name="position">1</property>
               </packing>
             </child>
+            <style>
+              <class name="linked"/>
+            </style>
+          </object>
+        </child>
+        <child>
+          <object class="GtkButton" id="preferences_button">
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="receives_default">False</property>
+            <property name="use_underline">True</property>
+            <signal name="clicked" handler="on_preferences_button_clicked" swapped="no"/>
+            <child>
+              <object class="GtkImage" id="image1">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="icon_name">emblem-system-symbolic</property>
+              </object>
+            </child>
           </object>
           <packing>
-            <property name="expand">False</property>
-            <property name="fill">True</property>
-            <property name="position">3</property>
+            <property name="pack_type">end</property>
+            <property name="position">1</property>
           </packing>
         </child>
       </object>
