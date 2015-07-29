@@ -87,6 +87,8 @@ namespace Pamac {
 		[GtkChild]
 		public Gtk.TextView files_textview;
 		[GtkChild]
+		public Gtk.Box search_aur_box;
+		[GtkChild]
 		public Gtk.Switch search_aur_button;
 		[GtkChild]
 		public Gtk.Button valid_button;
@@ -189,6 +191,7 @@ namespace Pamac {
 
 		public void enable_aur (bool enable) {
 			search_aur_button.set_active (enable);
+			search_aur_box.set_visible (enable);
 		}
 
 		public void set_buttons_sensitive (bool sensitive) {
