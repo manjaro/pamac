@@ -126,6 +126,17 @@ namespace Pamac {
 							} else {
 								data += line + "\n";
 							}
+						} else if (line.contains ("NoUpdateHideIcon")) {
+							if (new_conf.contains ("NoUpdateHideIcon")) {
+								bool _value = new_conf.get ("NoUpdateHideIcon").get_boolean ();
+								if (_value == true) {
+									data += "NoUpdateHideIcon\n";
+								} else {
+									data += "#NoUpdateHideIcon\n";
+								}
+							} else {
+								data += line + "\n";
+							}
 						} else {
 							data += line + "\n";
 						}
