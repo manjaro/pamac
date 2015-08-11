@@ -55,7 +55,7 @@ namespace Pamac {
 				repo = "AUR";
 				size = 0;
 				size_string = "";
-				url = aur_json.get_string_member ("URL");
+				url = aur_json.get_string_member ("URL") ?? "";
 				licenses = aur_json.get_string_member ("License") ?? dgettext (null, "Unknown");
 				reason = 0;
 			} else {
