@@ -837,6 +837,7 @@ namespace Pamac {
 			var preferences_dialog = new PreferencesDialog (window);
 			bool enable_aur = pamac_config.enable_aur;
 			bool recurse = pamac_config.recurse;
+			bool noupdate_hide_icon = pamac_config.noupdate_hide_icon;
 			int refresh_period = pamac_config.refresh_period;
 			bool checkspace = get_checkspace ();
 			string syncfirst = get_syncfirst ();
@@ -845,6 +846,7 @@ namespace Pamac {
 			string choosen_country = mirrors_config.choosen_country;
 			preferences_dialog.enable_aur_button.set_active (enable_aur);
 			preferences_dialog.remove_unrequired_deps_button.set_active (recurse);
+			preferences_dialog.noupdate_hide_icon_button.set_active (noupdate_hide_icon);
 			preferences_dialog.refresh_period_spin_button.set_value (refresh_period);
 			preferences_dialog.check_space_button.set_active (checkspace);
 			preferences_dialog.syncfirst_entry.set_text (syncfirst);
@@ -875,6 +877,7 @@ namespace Pamac {
 				var new_mirrors_conf = new HashTable<string,Variant> (str_hash, str_equal);
 				enable_aur = preferences_dialog.enable_aur_button.get_active ();
 				recurse = preferences_dialog.remove_unrequired_deps_button.get_active ();
+				noupdate_hide_icon = preferences_dialog.noupdate_hide_icon_button.get_active ();
 				refresh_period = preferences_dialog.refresh_period_spin_button.get_value_as_int ();
 				checkspace = preferences_dialog.check_space_button.get_active ();
 				syncfirst = preferences_dialog.syncfirst_entry.get_text ();
@@ -890,6 +893,9 @@ namespace Pamac {
 				}
 				if (recurse != pamac_config.recurse) {
 					new_pamac_conf.insert ("RemoveUnrequiredDeps", new Variant.boolean (recurse));
+				}
+				if (noupdate_hide_icon != pamac_config.noupdate_hide_icon) {
+					new_pamac_conf.insert ("NoUpdateHideIcon", new Variant.boolean (noupdate_hide_icon));
 				}
 				if (refresh_period != pamac_config.refresh_period) {
 					new_pamac_conf.insert ("RefreshPeriod", new Variant.int32 (refresh_period));

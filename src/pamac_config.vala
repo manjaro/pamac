@@ -23,6 +23,7 @@ namespace Pamac {
 		public int refresh_period;
 		public bool enable_aur;
 		public bool recurse;
+		public bool noupdate_hide_icon;
 
 		public Config (string path) {
 			conf_path = path;
@@ -35,6 +36,7 @@ namespace Pamac {
 			// set default options
 			enable_aur = false;
 			recurse = false;
+			noupdate_hide_icon = false;
 			parse_file (conf_path);
 		}
 
@@ -69,6 +71,8 @@ namespace Pamac {
 							enable_aur = true;
 						} else if (_key == "RemoveUnrequiredDeps") {
 							recurse = true;
+						} else if (_key == "NoUpdateHideIcon") {
+							noupdate_hide_icon = true;
 						}
 					}
 				} catch (GLib.Error e) {
@@ -118,6 +122,17 @@ namespace Pamac {
 									data += "RemoveUnrequiredDeps\n";
 								} else {
 									data += "#RemoveUnrequiredDeps\n";
+								}
+							} else {
+								data += line + "\n";
+							}
+						} else if (line.contains ("NoUpdateHideIcon")) {
+							if (new_conf.contains ("NoUpdateHideIcon")) {
+								bool _value = new_conf.get ("NoUpdateHideIcon").get_boolean ();
+								if (_value == true) {
+									data += "NoUpdateHideIcon\n";
+								} else {
+									data += "#NoUpdateHideIcon\n";
 								}
 							} else {
 								data += line + "\n";

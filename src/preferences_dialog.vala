@@ -29,6 +29,8 @@ namespace Pamac {
 		[GtkChild]
 		public Gtk.Switch check_space_button;
 		[GtkChild]
+		public Gtk.Switch noupdate_hide_icon_button;
+		[GtkChild]
 		public Gtk.Entry syncfirst_entry;
 		[GtkChild]
 		public Gtk.Entry ignore_upgrade_entry;

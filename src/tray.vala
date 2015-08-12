@@ -156,6 +156,11 @@ namespace Pamac {
 						show_notification (info);
 					}
 				}
+				if (updates_nb == 0 && pamac_config.noupdate_hide_icon) {
+					status_icon.set_visible(false);
+				} else {
+					status_icon.set_visible(true);
+				}
 				stop_daemon ();
 			});
 		}
