@@ -17,21 +17,23 @@ TRANSACTION_VALA_FLAGS = 	--pkg=json-glib-1.0 \
 COMMON_SOURCES = 	../util/alpm-util.c \
 					common.vala \
 					pamac_config.vala \
-					mirrors_config.vala \
 					package.vala \
+
+TRANSACTION_SOURCES = 	transaction.vala \
+						choose_provider_dialog.vala \
+						transaction_sum_dialog.vala \
+						transaction_info_dialog.vala \
+						progress_dialog.vala
+
+PREFERENCES_SOURCES = 	preferences_dialog.vala \
+						choose_ignorepkgs_dialog.vala \
+						mirrors_config.vala
 
 MANAGER_GRESOURCE_FILE = ../resources/pamac.manager.gresource.xml
 
 UPDATER_GRESOURCE_FILE = ../resources/pamac.updater.gresource.xml
 
 INSTALLER_GRESOURCE_FILE = ../resources/pamac.installer.gresource.xml
-
-TRANSACTION_SOURCES = 	transaction.vala \
-						choose_provider_dialog.vala \
-						transaction_sum_dialog.vala \
-						transaction_info_dialog.vala \
-						preferences_dialog.vala \
-						progress_dialog.vala
 
 binaries: pamac-refresh pamac-daemon  pamac-tray  pamac-updater  pamac-manager  pamac-install
 
@@ -55,7 +57,7 @@ pamac-tray: ../vapi/libalpm.vapi ../util/alpm-util.c common.vala alpm_config.val
 			pamac_config.vala \
 			tray.vala
 
-pamac-daemon: ../vapi/libalpm.vapi ../vapi/polkit-gobject-1.vapi $(COMMON_SOURCES) alpm_config.vala alpm_utils.vala aur.vala daemon.vala
+pamac-daemon: ../vapi/libalpm.vapi ../vapi/polkit-gobject-1.vapi $(COMMON_SOURCES) mirrors_config.vala alpm_config.vala alpm_utils.vala aur.vala daemon.vala
 	valac 	-o pamac-daemon \
 			$(COMMON_VALA_FLAGS) \
 			--pkg=posix \
@@ -64,33 +66,36 @@ pamac-daemon: ../vapi/libalpm.vapi ../vapi/polkit-gobject-1.vapi $(COMMON_SOURCE
 			--pkg=polkit-gobject-1 \
 			--thread \
 			$(COMMON_SOURCES) \
+			mirrors_config.vala \
 			alpm_config.vala \
 			aur.vala \
 			alpm_utils.vala \
 			daemon.vala
 
-pamac-manager: ../vapi/libalpm.vapi $(COMMON_SOURCES) $(TRANSACTION_SOURCES) choose_dep_dialog.vala history_dialog.vala ../resources/manager_resources.c packages_model.vala manager_window.vala manager.vala
+pamac-manager: ../vapi/libalpm.vapi $(COMMON_SOURCES) $(TRANSACTION_SOURCES) $(PREFERENCES_SOURCES) choose_dep_dialog.vala history_dialog.vala ../resources/manager_resources.c packages_model.vala manager_window.vala manager.vala
 	valac 	-o pamac-manager \
 			$(COMMON_VALA_FLAGS) \
 			$(TRANSACTION_VALA_FLAGS) \
 			--gresources=$(MANAGER_GRESOURCE_FILE) \
+			../resources/manager_resources.c \
 			$(COMMON_SOURCES) \
 			$(TRANSACTION_SOURCES) \
+			$(PREFERENCES_SOURCES) \
 			choose_dep_dialog.vala \
 			history_dialog.vala \
-			../resources/manager_resources.c \
 			packages_model.vala \
 			manager_window.vala \
 			manager.vala
 
-pamac-updater: ../vapi/libalpm.vapi $(COMMON_SOURCES) $(TRANSACTION_SOURCES) ../resources/updater_resources.c updater_window.vala updater.vala
+pamac-updater: ../vapi/libalpm.vapi $(COMMON_SOURCES) $(TRANSACTION_SOURCES) $(PREFERENCES_SOURCES) ../resources/updater_resources.c updater_window.vala updater.vala
 	valac 	-o pamac-updater \
 			$(COMMON_VALA_FLAGS) \
 			$(TRANSACTION_VALA_FLAGS) \
 			--gresources=$(UPDATER_GRESOURCE_FILE) \
+			../resources/updater_resources.c \
 			$(COMMON_SOURCES) \
 			$(TRANSACTION_SOURCES) \
-			../resources/updater_resources.c \
+			$(PREFERENCES_SOURCES) \
 			updater_window.vala \
 			updater.vala
 
@@ -99,7 +104,7 @@ pamac-install: ../vapi/libalpm.vapi $(COMMON_SOURCES) $(TRANSACTION_SOURCES) ../
 			$(COMMON_VALA_FLAGS) \
 			$(TRANSACTION_VALA_FLAGS) \
 			--gresources=$(INSTALLER_GRESOURCE_FILE) \
+			../resources/installer_resources.c \
 			$(COMMON_SOURCES) \
 			$(TRANSACTION_SOURCES) \
-			../resources/installer_resources.c \
 			installer.vala

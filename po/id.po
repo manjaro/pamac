@@ -2,7 +2,7 @@
 # Copyright (C) 2007-2012 Free Software Foundation, Inc.
 # This file is distributed under the same license as the Pamac package.
 # Guillaume Benoit <guillaume@manjaro.org>, 2013-2015.
-# 
+#
 # Translators:
 # Budiman Jojo <budimanjojo@gmail.com>, 2014-2015
 # Guillaume Benoit <guillaume@manjaro.org>, 2013
@@ -20,210 +20,30 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2015-03-04 14:36+0100\n"
+"POT-Creation-Date: 2015-08-20 11:53+0200\n"
 "PO-Revision-Date: 2015-04-17 21:13+0000\n"
 "Last-Translator: Rendiyono Wahyu Saputro <rendi.7936@gmail.com>\n"
-"Language-Team: Indonesian (http://www.transifex.com/projects/p/manjaro-pamac/language/id/)\n"
+"Language-Team: Indonesian (http://www.transifex.com/projects/p/manjaro-pamac/"
+"language/id/)\n"
+"Language: id\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: id\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 #: data/polkit/org.manjaro.pamac.policy
 msgid "Authentication is required"
 msgstr "Otentifikasi dibutuhkan"
 
-#: ../resources/choose_provider_dialog.ui
-msgid "Choose a Provider"
-msgstr "Pilih Provider"
+#: ../src/common.vala
+#, c-format
+msgid "%.0f KiB"
+msgstr "%.0f KiB"
 
-#: ../resources/choose_provider_dialog.ui
-#: ../resources/transaction_sum_dialog.ui ../resources/preferences_dialog.ui
-msgid "_OK"
-msgstr "_OK"
-
-#: ../resources/packages_chooser_dialog.ui ../resources/manager_window.ui
-msgid "Install local packages"
-msgstr "Instal paket lokal"
-
-#: ../resources/packages_chooser_dialog.ui ../resources/progress_dialog.ui
-#: ../resources/transaction_sum_dialog.ui
-msgid "_Cancel"
-msgstr "_Batal"
-
-#: ../resources/packages_chooser_dialog.ui
-msgid "_Open"
-msgstr "_Buka"
-
-#: ../resources/progress_dialog.ui
-msgid "Progress"
-msgstr "Kemajuan"
-
-#: ../resources/progress_dialog.ui ../resources/history_dialog.ui
-#: ../resources/transaction_info_dialog.ui ../resources/updater_window.ui
-#: ../resources/preferences_dialog.ui
-msgid "_Close"
-msgstr "_Tutup"
-
-#: ../resources/progress_dialog.ui ../resources/transaction_info_dialog.ui
-#: ../resources/manager_window.ui
-msgid "Details"
-msgstr "Detail"
-
-#: ../resources/history_dialog.ui
-msgid "Pamac History"
-msgstr "Riwayat Pamac"
-
-#: ../resources/transaction_sum_dialog.ui ../src/transaction.vala
-msgid "Transaction Summary"
-msgstr "Ringkasan Transaksi"
-
-#: ../resources/manager_window.ui
-msgid "View History"
-msgstr "Lihat Riwayat"
-
-#: ../resources/manager_window.ui ../resources/updater_window.ui
-msgid "_Preferences"
-msgstr "_Preferensi"
-
-#: ../resources/manager_window.ui
-msgid "_About"
-msgstr "_Tentang"
-
-#: ../resources/manager_window.ui ../src/tray.vala
-msgid "Package Manager"
-msgstr "Manajer Paket"
-
-#: ../resources/manager_window.ui
-msgid "Refresh databases"
-msgstr "Segarkan basis data"
-
-#: ../resources/manager_window.ui
-msgid "Apply changes"
-msgstr "Terapkan perubahan"
-
-#: ../resources/manager_window.ui
-msgid "Cancel all planned changes"
-msgstr "Batalkan semua rencana perubahan"
-
-#: ../resources/manager_window.ui
-msgid "Search in AUR"
-msgstr "Cari di AUR"
-
-#: ../resources/manager_window.ui
-msgid "Search"
-msgstr "Cari"
-
-#: ../resources/manager_window.ui ../src/manager_window.vala
-msgid "Groups"
-msgstr "Grup"
-
-#: ../resources/manager_window.ui
-msgid "State"
-msgstr "Keadaan"
-
-#: ../resources/manager_window.ui
-msgid "Repositories"
-msgstr "Repositori"
-
-#: ../resources/manager_window.ui
-msgid "Name"
-msgstr "Nama"
-
-#: ../resources/manager_window.ui
-msgid "Version"
-msgstr "Versi"
-
-#: ../resources/manager_window.ui ../src/manager_window.vala
-msgid "Repository"
-msgstr "Gudang"
-
-#: ../resources/manager_window.ui
-msgid "Size"
-msgstr "Ukuran"
-
-#: ../resources/manager_window.ui
-msgid "Description"
-msgstr "Deskripsi"
-
-#: ../resources/manager_window.ui
-msgid "Dependencies"
-msgstr "Dependensi"
-
-#: ../resources/manager_window.ui
-msgid "Files"
-msgstr "Berkas"
-
-#: ../resources/updater_window.ui ../src/tray.vala
-msgid "Update Manager"
-msgstr "Manajer Pemutakhiran"
-
-#: ../resources/updater_window.ui
-msgid "_Refresh"
-msgstr "_Segarkan"
-
-#: ../resources/updater_window.ui
-msgid "_Apply"
-msgstr "_Terapkan"
-
-#: ../resources/preferences_dialog.ui
-msgid "Preferences"
-msgstr "Preferensi"
-
-#: ../resources/preferences_dialog.ui
-msgid "Allow Pamac to search and install packages from AUR"
-msgstr "Biarkan Pamac untuk mencari dan menginstal paket dari AUR"
-
-#: ../resources/preferences_dialog.ui
-msgid ""
-"When removing a package, also remove its dependencies that are not required "
-"by other packages"
-msgstr "Ketika menghapus paket, hapus juga dependensi paket tersebut yang tidak dibuthkan paket lainnya"
-
-#: ../resources/preferences_dialog.ui
-msgid "Check available disk space"
-msgstr "Periksa ketersediaan ruang disak"
-
-#: ../resources/preferences_dialog.ui ../src/preferences_dialog.vala
-msgid "How often to check for updates, value in hours"
-msgstr "Berapa lama untuk memeriksa pembaharuan, angka dalam jam"
-
-#: ../resources/preferences_dialog.ui
-msgid "Remove unrequired dependencies"
-msgstr "Hapus dependensi yang tidak dibutuhkan"
-
-#: ../resources/preferences_dialog.ui
-msgid "Upgrade first:"
-msgstr "Meningkatkan dahulu:"
-
-#: ../resources/preferences_dialog.ui
-msgid "Ignore upgrades for:"
-msgstr "Jangan tingkatkan untuk:"
-
-#: ../resources/preferences_dialog.ui
-msgid "Enable AUR support"
-msgstr "Izinkan dukungan AUR"
-
-#: ../resources/preferences_dialog.ui
-msgid "Options"
-msgstr "Opsi"
-
-#: ../resources/preferences_dialog.ui
-msgid "Sort mirrors by:"
-msgstr "Sorting cermin dengan:"
-
-#: ../resources/preferences_dialog.ui
-msgid "Use mirrors from:"
-msgstr "Gunakan cermin dari:"
-
-#: ../resources/preferences_dialog.ui
-msgid "Official repositories"
-msgstr "Repositori resmi"
-
-#: ../src/packages_chooser_dialog.vala
-msgid "Alpm Package"
-msgstr "Paket Alpm"
+#: ../src/common.vala
+#, c-format
+msgid "%.2f MiB"
+msgstr "%.2f MiB"
 
 #: ../src/daemon.vala
 msgid "Failed to initialize alpm library"
@@ -298,6 +118,10 @@ msgid "Authentication failed"
 msgstr "Otentikasi gagal"
 
 #: ../src/transaction.vala
+msgid "Refreshing mirrors list"
+msgstr ""
+
+#: ../src/transaction.vala
 msgid "Synchronizing package databases"
 msgstr "Mengsinkronisasi database paket"
 
@@ -309,10 +133,9 @@ msgstr "Memulai pembaruan keseluruhan sistem"
 msgid "Preparing"
 msgstr "Menyiapkan"
 
-#: ../src/transaction.vala
-#, c-format
-msgid "Choose a provider for %s"
-msgstr "PIlih provider untuk %s"
+#: ../src/transaction.vala ../resources/transaction_sum_dialog.ui
+msgid "Transaction Summary"
+msgstr "Ringkasan Transaksi"
 
 #: ../src/transaction.vala ../src/manager_window.vala
 msgid "To remove"
@@ -345,18 +168,6 @@ msgstr "Jumlah ukuran unduhan"
 #: ../src/transaction.vala
 msgid "Building packages"
 msgstr "Membuat paket"
-
-#: ../src/transaction.vala
-msgid "Worldwide"
-msgstr "Seluruh dunia"
-
-#: ../src/transaction.vala
-msgid "speed"
-msgstr "kecepatan"
-
-#: ../src/transaction.vala
-msgid "random"
-msgstr "acak"
 
 #: ../src/transaction.vala
 msgid "Checking dependencies"
@@ -505,10 +316,6 @@ msgstr "Tidak ada yang harus dilakukan"
 msgid "Transaction successfully finished"
 msgstr "Transaksi sukses terselesaikan"
 
-#: ../src/transaction.vala
-msgid "Generating mirrorlist"
-msgstr "Mendapatkan daftar cermin"
-
 #: ../src/installer.vala ../src/manager.vala ../src/updater.vala
 msgid "Pamac is already running"
 msgstr "Pamac sudah berjalan"
@@ -516,6 +323,14 @@ msgstr "Pamac sudah berjalan"
 #: ../src/tray.vala ../src/updater_window.vala
 msgid "Your system is up-to-date"
 msgstr "Sistem anda sudah dimutakhirkan"
+
+#: ../src/tray.vala ../resources/updater_window.ui
+msgid "Update Manager"
+msgstr "Manajer Pemutakhiran"
+
+#: ../src/tray.vala ../resources/manager_window.ui
+msgid "Package Manager"
+msgstr "Manajer Paket"
 
 #: ../src/tray.vala
 msgid "_Quit"
@@ -530,6 +345,21 @@ msgstr[0] "%u pemutakhiran tersedia"
 #: ../src/tray.vala
 msgid "Show available updates"
 msgstr "Tunjukkan pemutakhiran tersedia"
+
+#: ../src/choose_provider_dialog.vala
+#, c-format
+msgid "Choose a provider for %s"
+msgstr "PIlih provider untuk %s"
+
+#: ../src/choose_dep_dialog.vala
+#, c-format
+msgid ""
+"%s has %u uninstalled optional dependency.\n"
+"Choose if you would like to install it"
+msgid_plural ""
+"%s has %u uninstalled optional dependencies.\n"
+"Choose those you would like to install"
+msgstr[0] ""
 
 #: ../src/manager_window.vala
 msgid "Deselect"
@@ -595,6 +425,14 @@ msgstr "Gantikan"
 msgid "Conflicts With"
 msgstr "Konflik Dengan"
 
+#: ../src/manager_window.vala ../resources/manager_window.ui
+msgid "Repository"
+msgstr "Gudang"
+
+#: ../src/manager_window.vala ../resources/manager_window.ui
+msgid "Groups"
+msgstr "Grup"
+
 #: ../src/manager_window.vala
 msgid "Packager"
 msgstr "Pemaket"
@@ -632,18 +470,26 @@ msgid "No package found"
 msgstr "Tidak ada paket yang ditemukan"
 
 #: ../src/manager_window.vala
-#, c-format
-msgid ""
-"%s has %u uninstalled optional dependency.\n"
-"Choose if you would like to install it:"
-msgid_plural ""
-"%s has %u uninstalled optional dependencies.\n"
-"Choose those you would like to install:"
-msgstr[0] "%s memiliki %u dependensi opsional tidak terpasang.\nPilih yang ingin kamu pasang:"
-
-#: ../src/manager_window.vala
 msgid "Uninstalled"
 msgstr "Dihapus"
+
+#: ../src/manager_window.vala ../resources/manager_window.ui
+msgid "Install Local Packages"
+msgstr ""
+
+#: ../src/manager_window.vala ../resources/progress_dialog.ui
+#: ../resources/transaction_sum_dialog.ui ../resources/choose_dep_dialog.ui
+#: ../resources/choose_ignorepkgs_dialog.ui
+msgid "_Cancel"
+msgstr "_Batal"
+
+#: ../src/manager_window.vala
+msgid "_Open"
+msgstr "_Buka"
+
+#: ../src/manager_window.vala
+msgid "Alpm Package"
+msgstr "Paket Alpm"
 
 #: ../src/manager_window.vala
 msgid "A Gtk3 frontend for libalpm"
@@ -653,12 +499,241 @@ msgstr "Sebuah frontend Gtk3 untuk libalpm"
 msgid "Copyright © 2015 Guillaume Benoit"
 msgstr "Hack Cipta © 2015 Guillaume Benoit"
 
-#: ../src/common.vala
-#, c-format
-msgid "%.0f KiB"
-msgstr "%.0f KiB"
+#: ../src/preferences_dialog.vala ../resources/preferences_dialog.ui
+msgid "How often to check for updates, value in hours"
+msgstr "Berapa lama untuk memeriksa pembaharuan, angka dalam jam"
 
-#: ../src/common.vala
-#, c-format
-msgid "%.2f MiB"
-msgstr "%.2f MiB"
+#: ../src/preferences_dialog.vala
+msgid "Worldwide"
+msgstr "Seluruh dunia"
+
+#: ../src/preferences_dialog.vala
+msgid "Speed"
+msgstr ""
+
+#: ../src/preferences_dialog.vala
+msgid "Random"
+msgstr ""
+
+#: ../src/choose_ignorepkgs_dialog.vala
+msgid "Choose the packages you do not want to upgrade"
+msgstr ""
+
+#: ../resources/choose_provider_dialog.ui
+msgid "Choose a Provider"
+msgstr "Pilih Provider"
+
+#: ../resources/choose_provider_dialog.ui
+#: ../resources/transaction_sum_dialog.ui ../resources/choose_dep_dialog.ui
+#: ../resources/choose_ignorepkgs_dialog.ui
+msgid "_OK"
+msgstr "_OK"
+
+#: ../resources/progress_dialog.ui
+msgid "Progress"
+msgstr "Kemajuan"
+
+#: ../resources/progress_dialog.ui ../resources/history_dialog.ui
+#: ../resources/transaction_info_dialog.ui ../resources/updater_window.ui
+#: ../resources/preferences_dialog.ui
+msgid "_Close"
+msgstr "_Tutup"
+
+#: ../resources/progress_dialog.ui ../resources/transaction_info_dialog.ui
+#: ../resources/manager_window.ui
+msgid "Details"
+msgstr "Detail"
+
+#: ../resources/history_dialog.ui
+msgid "Pamac History"
+msgstr "Riwayat Pamac"
+
+#: ../resources/choose_dep_dialog.ui
+msgid "Choose Optional Dependencies"
+msgstr ""
+
+#: ../resources/manager_window.ui
+msgid "View History"
+msgstr "Lihat Riwayat"
+
+#: ../resources/manager_window.ui ../resources/updater_window.ui
+msgid "_Preferences"
+msgstr "_Preferensi"
+
+#: ../resources/manager_window.ui
+msgid "_About"
+msgstr "_Tentang"
+
+#: ../resources/manager_window.ui
+msgid "Refresh databases"
+msgstr "Segarkan basis data"
+
+#: ../resources/manager_window.ui
+msgid "Apply changes"
+msgstr "Terapkan perubahan"
+
+#: ../resources/manager_window.ui
+msgid "Cancel all planned changes"
+msgstr "Batalkan semua rencana perubahan"
+
+#: ../resources/manager_window.ui
+msgid "Search in AUR"
+msgstr "Cari di AUR"
+
+#: ../resources/manager_window.ui
+msgid "Search"
+msgstr "Cari"
+
+#: ../resources/manager_window.ui
+msgid "State"
+msgstr "Keadaan"
+
+#: ../resources/manager_window.ui
+msgid "Repositories"
+msgstr "Repositori"
+
+#: ../resources/manager_window.ui
+msgid "Name"
+msgstr "Nama"
+
+#: ../resources/manager_window.ui
+msgid "Version"
+msgstr "Versi"
+
+#: ../resources/manager_window.ui
+msgid "Size"
+msgstr "Ukuran"
+
+#: ../resources/manager_window.ui
+msgid "Description"
+msgstr "Deskripsi"
+
+#: ../resources/manager_window.ui
+msgid "Dependencies"
+msgstr "Dependensi"
+
+#: ../resources/manager_window.ui
+msgid "Files"
+msgstr "Berkas"
+
+#: ../resources/updater_window.ui
+msgid "_Refresh"
+msgstr "_Segarkan"
+
+#: ../resources/updater_window.ui
+msgid "_Apply"
+msgstr "_Terapkan"
+
+#: ../resources/preferences_dialog.ui
+msgid "Preferences"
+msgstr "Preferensi"
+
+#: ../resources/preferences_dialog.ui
+msgid "Remove unrequired dependencies"
+msgstr "Hapus dependensi yang tidak dibutuhkan"
+
+#: ../resources/preferences_dialog.ui
+msgid ""
+"When removing a package, also remove its dependencies that are not required "
+"by other packages"
+msgstr ""
+"Ketika menghapus paket, hapus juga dependensi paket tersebut yang tidak "
+"dibuthkan paket lainnya"
+
+#: ../resources/preferences_dialog.ui
+msgid "Check available disk space"
+msgstr "Periksa ketersediaan ruang disak"
+
+#: ../resources/preferences_dialog.ui
+msgid "Check for updates"
+msgstr ""
+
+#: ../resources/preferences_dialog.ui
+msgid "Hide tray icon when no update available"
+msgstr ""
+
+#: ../resources/preferences_dialog.ui
+msgid "Ignore upgrades for:"
+msgstr "Jangan tingkatkan untuk:"
+
+#: ../resources/preferences_dialog.ui
+msgid "General"
+msgstr ""
+
+#: ../resources/preferences_dialog.ui
+msgid "Use mirrors from:"
+msgstr "Gunakan cermin dari:"
+
+#: ../resources/preferences_dialog.ui
+msgid "Sort mirrors by:"
+msgstr "Sorting cermin dengan:"
+
+#: ../resources/preferences_dialog.ui
+msgid "Refresh Mirrors List"
+msgstr ""
+
+#: ../resources/preferences_dialog.ui
+msgid "Official Repositories"
+msgstr ""
+
+#: ../resources/preferences_dialog.ui
+msgid ""
+"AUR is a community maintained repository so it presents potential risks and "
+"problems.\n"
+"All AUR users should be familiar with the build process."
+msgstr ""
+
+#: ../resources/preferences_dialog.ui
+msgid "Enable AUR support"
+msgstr "Izinkan dukungan AUR"
+
+#: ../resources/preferences_dialog.ui
+msgid "Allow Pamac to search and install packages from AUR"
+msgstr "Biarkan Pamac untuk mencari dan menginstal paket dari AUR"
+
+#: ../resources/preferences_dialog.ui
+msgid "Check for updates from AUR"
+msgstr ""
+
+#: ../resources/preferences_dialog.ui
+msgid "Do not ask for confirmation when building packages"
+msgstr ""
+
+#: ../resources/preferences_dialog.ui
+msgid "AUR"
+msgstr ""
+
+#: ../resources/choose_ignorepkgs_dialog.ui
+msgid "Choose Ignored Upgrades"
+msgstr ""
+
+#~ msgid "Install local packages"
+#~ msgstr "Instal paket lokal"
+
+#~ msgid "Upgrade first:"
+#~ msgstr "Meningkatkan dahulu:"
+
+#~ msgid "Options"
+#~ msgstr "Opsi"
+
+#~ msgid "Official repositories"
+#~ msgstr "Repositori resmi"
+
+#~ msgid "speed"
+#~ msgstr "kecepatan"
+
+#~ msgid "random"
+#~ msgstr "acak"
+
+#~ msgid "Generating mirrorlist"
+#~ msgstr "Mendapatkan daftar cermin"
+
+#~ msgid ""
+#~ "%s has %u uninstalled optional dependency.\n"
+#~ "Choose if you would like to install it:"
+#~ msgid_plural ""
+#~ "%s has %u uninstalled optional dependencies.\n"
+#~ "Choose those you would like to install:"
+#~ msgstr[0] ""
+#~ "%s memiliki %u dependensi opsional tidak terpasang.\n"
+#~ "Pilih yang ingin kamu pasang:"

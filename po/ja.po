@@ -2,7 +2,7 @@
 # Copyright (C) 2007-2012 Free Software Foundation, Inc.
 # This file is distributed under the same license as the Pamac package.
 # Guillaume Benoit <guillaume@manjaro.org>, 2013-2015.
-# 
+#
 # Translators:
 # philm <philm@manjaro.org>, 2015
 # Takefumi Nagata, 2013-2015
@@ -10,210 +10,30 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2015-03-04 14:36+0100\n"
+"POT-Creation-Date: 2015-08-20 11:53+0200\n"
 "PO-Revision-Date: 2015-05-12 13:08+0000\n"
 "Last-Translator: Takefumi Nagata\n"
-"Language-Team: Japanese (http://www.transifex.com/projects/p/manjaro-pamac/language/ja/)\n"
+"Language-Team: Japanese (http://www.transifex.com/projects/p/manjaro-pamac/"
+"language/ja/)\n"
+"Language: ja\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: ja\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 #: data/polkit/org.manjaro.pamac.policy
 msgid "Authentication is required"
 msgstr "認証が必要です"
 
-#: ../resources/choose_provider_dialog.ui
-msgid "Choose a Provider"
-msgstr "供給元を選択"
+#: ../src/common.vala
+#, c-format
+msgid "%.0f KiB"
+msgstr "%.0f KiB"
 
-#: ../resources/choose_provider_dialog.ui
-#: ../resources/transaction_sum_dialog.ui ../resources/preferences_dialog.ui
-msgid "_OK"
-msgstr "OK（_O）"
-
-#: ../resources/packages_chooser_dialog.ui ../resources/manager_window.ui
-msgid "Install local packages"
-msgstr "ローカルパッケージをインストール"
-
-#: ../resources/packages_chooser_dialog.ui ../resources/progress_dialog.ui
-#: ../resources/transaction_sum_dialog.ui
-msgid "_Cancel"
-msgstr "キャンセル（_C）"
-
-#: ../resources/packages_chooser_dialog.ui
-msgid "_Open"
-msgstr "開く（_O）"
-
-#: ../resources/progress_dialog.ui
-msgid "Progress"
-msgstr "経過"
-
-#: ../resources/progress_dialog.ui ../resources/history_dialog.ui
-#: ../resources/transaction_info_dialog.ui ../resources/updater_window.ui
-#: ../resources/preferences_dialog.ui
-msgid "_Close"
-msgstr "閉じる（_C）"
-
-#: ../resources/progress_dialog.ui ../resources/transaction_info_dialog.ui
-#: ../resources/manager_window.ui
-msgid "Details"
-msgstr "詳細"
-
-#: ../resources/history_dialog.ui
-msgid "Pamac History"
-msgstr "Pamac 履歴"
-
-#: ../resources/transaction_sum_dialog.ui ../src/transaction.vala
-msgid "Transaction Summary"
-msgstr "処理の概要"
-
-#: ../resources/manager_window.ui
-msgid "View History"
-msgstr "閲覧履歴"
-
-#: ../resources/manager_window.ui ../resources/updater_window.ui
-msgid "_Preferences"
-msgstr "設定（_P）"
-
-#: ../resources/manager_window.ui
-msgid "_About"
-msgstr "概要（_A）"
-
-#: ../resources/manager_window.ui ../src/tray.vala
-msgid "Package Manager"
-msgstr "パッケージマネージャー"
-
-#: ../resources/manager_window.ui
-msgid "Refresh databases"
-msgstr "データベースの更新"
-
-#: ../resources/manager_window.ui
-msgid "Apply changes"
-msgstr "変更を適用"
-
-#: ../resources/manager_window.ui
-msgid "Cancel all planned changes"
-msgstr "すべての変更を取り消し"
-
-#: ../resources/manager_window.ui
-msgid "Search in AUR"
-msgstr "AURの検索"
-
-#: ../resources/manager_window.ui
-msgid "Search"
-msgstr "検索"
-
-#: ../resources/manager_window.ui ../src/manager_window.vala
-msgid "Groups"
-msgstr "グループ"
-
-#: ../resources/manager_window.ui
-msgid "State"
-msgstr "状態"
-
-#: ../resources/manager_window.ui
-msgid "Repositories"
-msgstr "リポジトリ"
-
-#: ../resources/manager_window.ui
-msgid "Name"
-msgstr "名前"
-
-#: ../resources/manager_window.ui
-msgid "Version"
-msgstr "バージョン"
-
-#: ../resources/manager_window.ui ../src/manager_window.vala
-msgid "Repository"
-msgstr "リポジトリ"
-
-#: ../resources/manager_window.ui
-msgid "Size"
-msgstr "サイズ"
-
-#: ../resources/manager_window.ui
-msgid "Description"
-msgstr "説明"
-
-#: ../resources/manager_window.ui
-msgid "Dependencies"
-msgstr "依存"
-
-#: ../resources/manager_window.ui
-msgid "Files"
-msgstr "ファイル"
-
-#: ../resources/updater_window.ui ../src/tray.vala
-msgid "Update Manager"
-msgstr "アップデートマネージャー"
-
-#: ../resources/updater_window.ui
-msgid "_Refresh"
-msgstr "更新（_R）"
-
-#: ../resources/updater_window.ui
-msgid "_Apply"
-msgstr "適用（_A）"
-
-#: ../resources/preferences_dialog.ui
-msgid "Preferences"
-msgstr "設定"
-
-#: ../resources/preferences_dialog.ui
-msgid "Allow Pamac to search and install packages from AUR"
-msgstr "PamacがAURパッケージを探索し、インストールすることを許可する"
-
-#: ../resources/preferences_dialog.ui
-msgid ""
-"When removing a package, also remove its dependencies that are not required "
-"by other packages"
-msgstr "パッケージを削除する際、他のパッケージでは必要とされていない依存パッケージも削除"
-
-#: ../resources/preferences_dialog.ui
-msgid "Check available disk space"
-msgstr "利用可能なディスク容量を確認"
-
-#: ../resources/preferences_dialog.ui ../src/preferences_dialog.vala
-msgid "How often to check for updates, value in hours"
-msgstr "どれくらいの頻度で更新をチェックしますか、時間で指定してください。"
-
-#: ../resources/preferences_dialog.ui
-msgid "Remove unrequired dependencies"
-msgstr "必要ではない依存関係を削除"
-
-#: ../resources/preferences_dialog.ui
-msgid "Upgrade first:"
-msgstr "最初にアップグレード;"
-
-#: ../resources/preferences_dialog.ui
-msgid "Ignore upgrades for:"
-msgstr "アップグレードを無視:"
-
-#: ../resources/preferences_dialog.ui
-msgid "Enable AUR support"
-msgstr "AURのサポートを可能にする"
-
-#: ../resources/preferences_dialog.ui
-msgid "Options"
-msgstr "オプション"
-
-#: ../resources/preferences_dialog.ui
-msgid "Sort mirrors by:"
-msgstr "ミラーサーバーのソート;"
-
-#: ../resources/preferences_dialog.ui
-msgid "Use mirrors from:"
-msgstr "使用するミラーサーバー:"
-
-#: ../resources/preferences_dialog.ui
-msgid "Official repositories"
-msgstr "公式リポジトリ"
-
-#: ../src/packages_chooser_dialog.vala
-msgid "Alpm Package"
-msgstr "Alpmパケージ"
+#: ../src/common.vala
+#, c-format
+msgid "%.2f MiB"
+msgstr "%.2f MiB"
 
 #: ../src/daemon.vala
 msgid "Failed to initialize alpm library"
@@ -288,6 +108,10 @@ msgid "Authentication failed"
 msgstr "認証に失敗"
 
 #: ../src/transaction.vala
+msgid "Refreshing mirrors list"
+msgstr ""
+
+#: ../src/transaction.vala
 msgid "Synchronizing package databases"
 msgstr "パッケージのデータベースを同期"
 
@@ -299,10 +123,9 @@ msgstr "全てのシステムの更新を開始"
 msgid "Preparing"
 msgstr "準備中"
 
-#: ../src/transaction.vala
-#, c-format
-msgid "Choose a provider for %s"
-msgstr "%s についての供給元を選択"
+#: ../src/transaction.vala ../resources/transaction_sum_dialog.ui
+msgid "Transaction Summary"
+msgstr "処理の概要"
 
 #: ../src/transaction.vala ../src/manager_window.vala
 msgid "To remove"
@@ -335,18 +158,6 @@ msgstr "全ダウンロードサイズ"
 #: ../src/transaction.vala
 msgid "Building packages"
 msgstr "パッケージのビルド中"
-
-#: ../src/transaction.vala
-msgid "Worldwide"
-msgstr "ワールドワイド"
-
-#: ../src/transaction.vala
-msgid "speed"
-msgstr "速度"
-
-#: ../src/transaction.vala
-msgid "random"
-msgstr "ランダム"
 
 #: ../src/transaction.vala
 msgid "Checking dependencies"
@@ -495,10 +306,6 @@ msgstr "何もすることがありません"
 msgid "Transaction successfully finished"
 msgstr "処理が正常に終了しました。"
 
-#: ../src/transaction.vala
-msgid "Generating mirrorlist"
-msgstr "ミラーリストの作成"
-
 #: ../src/installer.vala ../src/manager.vala ../src/updater.vala
 msgid "Pamac is already running"
 msgstr "pamacは既に起動しています"
@@ -506,6 +313,14 @@ msgstr "pamacは既に起動しています"
 #: ../src/tray.vala ../src/updater_window.vala
 msgid "Your system is up-to-date"
 msgstr "システムは最新です"
+
+#: ../src/tray.vala ../resources/updater_window.ui
+msgid "Update Manager"
+msgstr "アップデートマネージャー"
+
+#: ../src/tray.vala ../resources/manager_window.ui
+msgid "Package Manager"
+msgstr "パッケージマネージャー"
 
 #: ../src/tray.vala
 msgid "_Quit"
@@ -520,6 +335,21 @@ msgstr[0] "%u 種類の利用可能なアップデート"
 #: ../src/tray.vala
 msgid "Show available updates"
 msgstr "利用可能な更新を表示"
+
+#: ../src/choose_provider_dialog.vala
+#, c-format
+msgid "Choose a provider for %s"
+msgstr "%s についての供給元を選択"
+
+#: ../src/choose_dep_dialog.vala
+#, c-format
+msgid ""
+"%s has %u uninstalled optional dependency.\n"
+"Choose if you would like to install it"
+msgid_plural ""
+"%s has %u uninstalled optional dependencies.\n"
+"Choose those you would like to install"
+msgstr[0] ""
 
 #: ../src/manager_window.vala
 msgid "Deselect"
@@ -585,6 +415,14 @@ msgstr "置換"
 msgid "Conflicts With"
 msgstr "競合しています"
 
+#: ../src/manager_window.vala ../resources/manager_window.ui
+msgid "Repository"
+msgstr "リポジトリ"
+
+#: ../src/manager_window.vala ../resources/manager_window.ui
+msgid "Groups"
+msgstr "グループ"
+
 #: ../src/manager_window.vala
 msgid "Packager"
 msgstr "パッケージャー"
@@ -622,18 +460,26 @@ msgid "No package found"
 msgstr "パッケージが見つかりません"
 
 #: ../src/manager_window.vala
-#, c-format
-msgid ""
-"%s has %u uninstalled optional dependency.\n"
-"Choose if you would like to install it:"
-msgid_plural ""
-"%s has %u uninstalled optional dependencies.\n"
-"Choose those you would like to install:"
-msgstr[0] "%s は未インストールの %uにオプショナルに依存します。\nインストールするパッケージを選択してください:"
-
-#: ../src/manager_window.vala
 msgid "Uninstalled"
 msgstr "アンインストール済み"
+
+#: ../src/manager_window.vala ../resources/manager_window.ui
+msgid "Install Local Packages"
+msgstr ""
+
+#: ../src/manager_window.vala ../resources/progress_dialog.ui
+#: ../resources/transaction_sum_dialog.ui ../resources/choose_dep_dialog.ui
+#: ../resources/choose_ignorepkgs_dialog.ui
+msgid "_Cancel"
+msgstr "キャンセル（_C）"
+
+#: ../src/manager_window.vala
+msgid "_Open"
+msgstr "開く（_O）"
+
+#: ../src/manager_window.vala
+msgid "Alpm Package"
+msgstr "Alpmパケージ"
 
 #: ../src/manager_window.vala
 msgid "A Gtk3 frontend for libalpm"
@@ -643,12 +489,241 @@ msgstr "libalpmのためのGtk3フロントエンド"
 msgid "Copyright © 2015 Guillaume Benoit"
 msgstr "Copyright © 2015 Guillaume Benoit"
 
-#: ../src/common.vala
-#, c-format
-msgid "%.0f KiB"
-msgstr "%.0f KiB"
+#: ../src/preferences_dialog.vala ../resources/preferences_dialog.ui
+msgid "How often to check for updates, value in hours"
+msgstr "どれくらいの頻度で更新をチェックしますか、時間で指定してください。"
 
-#: ../src/common.vala
-#, c-format
-msgid "%.2f MiB"
-msgstr "%.2f MiB"
+#: ../src/preferences_dialog.vala
+msgid "Worldwide"
+msgstr "ワールドワイド"
+
+#: ../src/preferences_dialog.vala
+msgid "Speed"
+msgstr ""
+
+#: ../src/preferences_dialog.vala
+msgid "Random"
+msgstr ""
+
+#: ../src/choose_ignorepkgs_dialog.vala
+msgid "Choose the packages you do not want to upgrade"
+msgstr ""
+
+#: ../resources/choose_provider_dialog.ui
+msgid "Choose a Provider"
+msgstr "供給元を選択"
+
+#: ../resources/choose_provider_dialog.ui
+#: ../resources/transaction_sum_dialog.ui ../resources/choose_dep_dialog.ui
+#: ../resources/choose_ignorepkgs_dialog.ui
+msgid "_OK"
+msgstr "OK（_O）"
+
+#: ../resources/progress_dialog.ui
+msgid "Progress"
+msgstr "経過"
+
+#: ../resources/progress_dialog.ui ../resources/history_dialog.ui
+#: ../resources/transaction_info_dialog.ui ../resources/updater_window.ui
+#: ../resources/preferences_dialog.ui
+msgid "_Close"
+msgstr "閉じる（_C）"
+
+#: ../resources/progress_dialog.ui ../resources/transaction_info_dialog.ui
+#: ../resources/manager_window.ui
+msgid "Details"
+msgstr "詳細"
+
+#: ../resources/history_dialog.ui
+msgid "Pamac History"
+msgstr "Pamac 履歴"
+
+#: ../resources/choose_dep_dialog.ui
+msgid "Choose Optional Dependencies"
+msgstr ""
+
+#: ../resources/manager_window.ui
+msgid "View History"
+msgstr "閲覧履歴"
+
+#: ../resources/manager_window.ui ../resources/updater_window.ui
+msgid "_Preferences"
+msgstr "設定（_P）"
+
+#: ../resources/manager_window.ui
+msgid "_About"
+msgstr "概要（_A）"
+
+#: ../resources/manager_window.ui
+msgid "Refresh databases"
+msgstr "データベースの更新"
+
+#: ../resources/manager_window.ui
+msgid "Apply changes"
+msgstr "変更を適用"
+
+#: ../resources/manager_window.ui
+msgid "Cancel all planned changes"
+msgstr "すべての変更を取り消し"
+
+#: ../resources/manager_window.ui
+msgid "Search in AUR"
+msgstr "AURの検索"
+
+#: ../resources/manager_window.ui
+msgid "Search"
+msgstr "検索"
+
+#: ../resources/manager_window.ui
+msgid "State"
+msgstr "状態"
+
+#: ../resources/manager_window.ui
+msgid "Repositories"
+msgstr "リポジトリ"
+
+#: ../resources/manager_window.ui
+msgid "Name"
+msgstr "名前"
+
+#: ../resources/manager_window.ui
+msgid "Version"
+msgstr "バージョン"
+
+#: ../resources/manager_window.ui
+msgid "Size"
+msgstr "サイズ"
+
+#: ../resources/manager_window.ui
+msgid "Description"
+msgstr "説明"
+
+#: ../resources/manager_window.ui
+msgid "Dependencies"
+msgstr "依存"
+
+#: ../resources/manager_window.ui
+msgid "Files"
+msgstr "ファイル"
+
+#: ../resources/updater_window.ui
+msgid "_Refresh"
+msgstr "更新（_R）"
+
+#: ../resources/updater_window.ui
+msgid "_Apply"
+msgstr "適用（_A）"
+
+#: ../resources/preferences_dialog.ui
+msgid "Preferences"
+msgstr "設定"
+
+#: ../resources/preferences_dialog.ui
+msgid "Remove unrequired dependencies"
+msgstr "必要ではない依存関係を削除"
+
+#: ../resources/preferences_dialog.ui
+msgid ""
+"When removing a package, also remove its dependencies that are not required "
+"by other packages"
+msgstr ""
+"パッケージを削除する際、他のパッケージでは必要とされていない依存パッケージも"
+"削除"
+
+#: ../resources/preferences_dialog.ui
+msgid "Check available disk space"
+msgstr "利用可能なディスク容量を確認"
+
+#: ../resources/preferences_dialog.ui
+msgid "Check for updates"
+msgstr ""
+
+#: ../resources/preferences_dialog.ui
+msgid "Hide tray icon when no update available"
+msgstr ""
+
+#: ../resources/preferences_dialog.ui
+msgid "Ignore upgrades for:"
+msgstr "アップグレードを無視:"
+
+#: ../resources/preferences_dialog.ui
+msgid "General"
+msgstr ""
+
+#: ../resources/preferences_dialog.ui
+msgid "Use mirrors from:"
+msgstr "使用するミラーサーバー:"
+
+#: ../resources/preferences_dialog.ui
+msgid "Sort mirrors by:"
+msgstr "ミラーサーバーのソート;"
+
+#: ../resources/preferences_dialog.ui
+msgid "Refresh Mirrors List"
+msgstr ""
+
+#: ../resources/preferences_dialog.ui
+msgid "Official Repositories"
+msgstr ""
+
+#: ../resources/preferences_dialog.ui
+msgid ""
+"AUR is a community maintained repository so it presents potential risks and "
+"problems.\n"
+"All AUR users should be familiar with the build process."
+msgstr ""
+
+#: ../resources/preferences_dialog.ui
+msgid "Enable AUR support"
+msgstr "AURのサポートを可能にする"
+
+#: ../resources/preferences_dialog.ui
+msgid "Allow Pamac to search and install packages from AUR"
+msgstr "PamacがAURパッケージを探索し、インストールすることを許可する"
+
+#: ../resources/preferences_dialog.ui
+msgid "Check for updates from AUR"
+msgstr ""
+
+#: ../resources/preferences_dialog.ui
+msgid "Do not ask for confirmation when building packages"
+msgstr ""
+
+#: ../resources/preferences_dialog.ui
+msgid "AUR"
+msgstr ""
+
+#: ../resources/choose_ignorepkgs_dialog.ui
+msgid "Choose Ignored Upgrades"
+msgstr ""
+
+#~ msgid "Install local packages"
+#~ msgstr "ローカルパッケージをインストール"
+
+#~ msgid "Upgrade first:"
+#~ msgstr "最初にアップグレード;"
+
+#~ msgid "Options"
+#~ msgstr "オプション"
+
+#~ msgid "Official repositories"
+#~ msgstr "公式リポジトリ"
+
+#~ msgid "speed"
+#~ msgstr "速度"
+
+#~ msgid "random"
+#~ msgstr "ランダム"
+
+#~ msgid "Generating mirrorlist"
+#~ msgstr "ミラーリストの作成"
+
+#~ msgid ""
+#~ "%s has %u uninstalled optional dependency.\n"
+#~ "Choose if you would like to install it:"
+#~ msgid_plural ""
+#~ "%s has %u uninstalled optional dependencies.\n"
+#~ "Choose those you would like to install:"
+#~ msgstr[0] ""
+#~ "%s は未インストールの %uにオプショナルに依存します。\n"
+#~ "インストールするパッケージを選択してください:"

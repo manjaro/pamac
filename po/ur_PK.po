@@ -2,217 +2,37 @@
 # Copyright (C) 2007-2012 Free Software Foundation, Inc.
 # This file is distributed under the same license as the Pamac package.
 # Guillaume Benoit <guillaume@manjaro.org>, 2013-2015.
-# 
+#
 # Translators:
 # Taimur <smt.mymail@gmail.com>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2015-03-04 14:36+0100\n"
+"POT-Creation-Date: 2015-08-20 11:53+0200\n"
 "PO-Revision-Date: 2015-03-18 15:17+0000\n"
 "Last-Translator: Guillaume Benoit <guillaume@manjaro.org>\n"
-"Language-Team: Urdu (Pakistan) (http://www.transifex.com/projects/p/manjaro-pamac/language/ur_PK/)\n"
+"Language-Team: Urdu (Pakistan) (http://www.transifex.com/projects/p/manjaro-"
+"pamac/language/ur_PK/)\n"
+"Language: ur_PK\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: ur_PK\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: data/polkit/org.manjaro.pamac.policy
 msgid "Authentication is required"
 msgstr "تصدیق کی ضرورت ہے"
 
-#: ../resources/choose_provider_dialog.ui
-msgid "Choose a Provider"
-msgstr "سروس فراہم  کردا کا انتخاب کریں"
+#: ../src/common.vala
+#, c-format
+msgid "%.0f KiB"
+msgstr ""
 
-#: ../resources/choose_provider_dialog.ui
-#: ../resources/transaction_sum_dialog.ui ../resources/preferences_dialog.ui
-msgid "_OK"
-msgstr "ٹھیک"
-
-#: ../resources/packages_chooser_dialog.ui ../resources/manager_window.ui
-msgid "Install local packages"
-msgstr "مقامی پیکیج کی انسٹالیشن کریں"
-
-#: ../resources/packages_chooser_dialog.ui ../resources/progress_dialog.ui
-#: ../resources/transaction_sum_dialog.ui
-msgid "_Cancel"
-msgstr "_منسوخ "
-
-#: ../resources/packages_chooser_dialog.ui
-msgid "_Open"
-msgstr "_کھولیں"
-
-#: ../resources/progress_dialog.ui
-msgid "Progress"
-msgstr "پروگریس"
-
-#: ../resources/progress_dialog.ui ../resources/history_dialog.ui
-#: ../resources/transaction_info_dialog.ui ../resources/updater_window.ui
-#: ../resources/preferences_dialog.ui
-msgid "_Close"
-msgstr "_بند کریں"
-
-#: ../resources/progress_dialog.ui ../resources/transaction_info_dialog.ui
-#: ../resources/manager_window.ui
-msgid "Details"
-msgstr "تفصیلات"
-
-#: ../resources/history_dialog.ui
-msgid "Pamac History"
-msgstr "پمیک  کی تاریخ"
-
-#: ../resources/transaction_sum_dialog.ui ../src/transaction.vala
-msgid "Transaction Summary"
-msgstr "کاروائی کا خلاصہ"
-
-#: ../resources/manager_window.ui
-msgid "View History"
-msgstr "ہسٹری "
-
-#: ../resources/manager_window.ui ../resources/updater_window.ui
-msgid "_Preferences"
-msgstr "_ترجیحات"
-
-#: ../resources/manager_window.ui
-msgid "_About"
-msgstr "_معلومات"
-
-#: ../resources/manager_window.ui ../src/tray.vala
-msgid "Package Manager"
-msgstr "پیکیج مینیجر"
-
-#: ../resources/manager_window.ui
-msgid "Refresh databases"
-msgstr "ڈیٹا بیس اپ ڈیٹ کریں"
-
-#: ../resources/manager_window.ui
-msgid "Apply changes"
-msgstr "تبدیلیوں پر عمل  کریں"
-
-#: ../resources/manager_window.ui
-msgid "Cancel all planned changes"
-msgstr "تمام تبدیلیوں کو منسوخ کریں"
-
-#: ../resources/manager_window.ui
-msgid "Search in AUR"
-msgstr "AUR میں تلاش کریں"
-
-#: ../resources/manager_window.ui
-msgid "Search"
-msgstr "تلاش کریں"
-
-#: ../resources/manager_window.ui ../src/manager_window.vala
-msgid "Groups"
-msgstr "گروپس"
-
-#: ../resources/manager_window.ui
-msgid "State"
-msgstr "حال"
-
-#: ../resources/manager_window.ui
-msgid "Repositories"
-msgstr "ریپوزی ٹوری (ذخائر)"
-
-#: ../resources/manager_window.ui
-msgid "Name"
-msgstr "نام"
-
-#: ../resources/manager_window.ui
-msgid "Version"
-msgstr "ورژن"
-
-#: ../resources/manager_window.ui ../src/manager_window.vala
-msgid "Repository"
-msgstr "ریپوزی ٹوری (ذخیرہ)"
-
-#: ../resources/manager_window.ui
-msgid "Size"
-msgstr "حجم"
-
-#: ../resources/manager_window.ui
-msgid "Description"
-msgstr "تفصیل"
-
-#: ../resources/manager_window.ui
-msgid "Dependencies"
-msgstr "انحصار ی پیکج"
-
-#: ../resources/manager_window.ui
-msgid "Files"
-msgstr "فائلیں"
-
-#: ../resources/updater_window.ui ../src/tray.vala
-msgid "Update Manager"
-msgstr "اپ ڈیٹ مینیجر"
-
-#: ../resources/updater_window.ui
-msgid "_Refresh"
-msgstr "_تازہ کریں"
-
-#: ../resources/updater_window.ui
-msgid "_Apply"
-msgstr "_عمل کریں"
-
-#: ../resources/preferences_dialog.ui
-msgid "Preferences"
-msgstr "ترجیحات"
-
-#: ../resources/preferences_dialog.ui
-msgid "Allow Pamac to search and install packages from AUR"
-msgstr "Pamac کو  AUR پیکجز   انسٹال کرنے کی اجازت ہے"
-
-#: ../resources/preferences_dialog.ui
-msgid ""
-"When removing a package, also remove its dependencies that are not required "
-"by other packages"
-msgstr "تمام  انحصاری پیکجز جو کہ کسی دوسرے پیکیج کی ضروری نہ ہوں،  ان کو بھی پیکیج کو  غیر انسٹال کرتے وقت نکال دیں"
-
-#: ../resources/preferences_dialog.ui
-msgid "Check available disk space"
-msgstr "ڈسک میں موجود خالی جگہ کی جانچ کریں"
-
-#: ../resources/preferences_dialog.ui ../src/preferences_dialog.vala
-msgid "How often to check for updates, value in hours"
-msgstr "اپ ڈیٹس چیک کرنے کی کثرت کی وضاحت  گھنٹوں  میں کریں"
-
-#: ../resources/preferences_dialog.ui
-msgid "Remove unrequired dependencies"
-msgstr "غیر ضروری انحصار پیکج نکال دیں"
-
-#: ../resources/preferences_dialog.ui
-msgid "Upgrade first:"
-msgstr "پہلے اپ گریذ کریں"
-
-#: ../resources/preferences_dialog.ui
-msgid "Ignore upgrades for:"
-msgstr "ان کے لیے اپ گریڈ زکو نظرانداز کریں:"
-
-#: ../resources/preferences_dialog.ui
-msgid "Enable AUR support"
-msgstr "AUR سپورٹ کو فعال کریں"
-
-#: ../resources/preferences_dialog.ui
-msgid "Options"
-msgstr "اختیارات"
-
-#: ../resources/preferences_dialog.ui
-msgid "Sort mirrors by:"
-msgstr "مررز (Mirrors  )کو ترتیب دیں"
-
-#: ../resources/preferences_dialog.ui
-msgid "Use mirrors from:"
-msgstr "سافٹ ویئر  مرر:"
-
-#: ../resources/preferences_dialog.ui
-msgid "Official repositories"
-msgstr "آفیشیل رپوزیٹوری"
-
-#: ../src/packages_chooser_dialog.vala
-msgid "Alpm Package"
-msgstr "Alpm پیکیج"
+#: ../src/common.vala
+#, c-format
+msgid "%.2f MiB"
+msgstr ""
 
 #: ../src/daemon.vala
 msgid "Failed to initialize alpm library"
@@ -287,6 +107,10 @@ msgid "Authentication failed"
 msgstr "تصدیق ناکام ہوئی"
 
 #: ../src/transaction.vala
+msgid "Refreshing mirrors list"
+msgstr ""
+
+#: ../src/transaction.vala
 msgid "Synchronizing package databases"
 msgstr ""
 
@@ -298,10 +122,9 @@ msgstr "نظام کا مکمل اپ گریڈ شروع ہو رہا ہے"
 msgid "Preparing"
 msgstr "تیاری جاری ہے"
 
-#: ../src/transaction.vala
-#, c-format
-msgid "Choose a provider for %s"
-msgstr ""
+#: ../src/transaction.vala ../resources/transaction_sum_dialog.ui
+msgid "Transaction Summary"
+msgstr "کاروائی کا خلاصہ"
 
 #: ../src/transaction.vala ../src/manager_window.vala
 msgid "To remove"
@@ -334,18 +157,6 @@ msgstr "ڈاون لوڈ کا ٹوٹل سائز"
 #: ../src/transaction.vala
 msgid "Building packages"
 msgstr ""
-
-#: ../src/transaction.vala
-msgid "Worldwide"
-msgstr "بین القوامی"
-
-#: ../src/transaction.vala
-msgid "speed"
-msgstr "رفتار"
-
-#: ../src/transaction.vala
-msgid "random"
-msgstr "غیر ترتیب"
 
 #: ../src/transaction.vala
 msgid "Checking dependencies"
@@ -494,10 +305,6 @@ msgstr "کرنے کو کچھ نہیں"
 msgid "Transaction successfully finished"
 msgstr "عمل کامیابی سے مکمل ہوا"
 
-#: ../src/transaction.vala
-msgid "Generating mirrorlist"
-msgstr ""
-
 #: ../src/installer.vala ../src/manager.vala ../src/updater.vala
 msgid "Pamac is already running"
 msgstr "پامیک پہلے سے چل رہا ہے"
@@ -505,6 +312,14 @@ msgstr "پامیک پہلے سے چل رہا ہے"
 #: ../src/tray.vala ../src/updater_window.vala
 msgid "Your system is up-to-date"
 msgstr "آپ کا سسٹم اپ ٹو ڈیٹ ہے"
+
+#: ../src/tray.vala ../resources/updater_window.ui
+msgid "Update Manager"
+msgstr "اپ ڈیٹ مینیجر"
+
+#: ../src/tray.vala ../resources/manager_window.ui
+msgid "Package Manager"
+msgstr "پیکیج مینیجر"
 
 #: ../src/tray.vala
 msgid "_Quit"
@@ -520,6 +335,22 @@ msgstr[1] ""
 #: ../src/tray.vala
 msgid "Show available updates"
 msgstr "دستیاب اپ ڈیٹس ظاہر کریں"
+
+#: ../src/choose_provider_dialog.vala
+#, c-format
+msgid "Choose a provider for %s"
+msgstr ""
+
+#: ../src/choose_dep_dialog.vala
+#, c-format
+msgid ""
+"%s has %u uninstalled optional dependency.\n"
+"Choose if you would like to install it"
+msgid_plural ""
+"%s has %u uninstalled optional dependencies.\n"
+"Choose those you would like to install"
+msgstr[0] ""
+msgstr[1] ""
 
 #: ../src/manager_window.vala
 msgid "Deselect"
@@ -585,6 +416,14 @@ msgstr "متبادل"
 msgid "Conflicts With"
 msgstr "کا تنازع ہے"
 
+#: ../src/manager_window.vala ../resources/manager_window.ui
+msgid "Repository"
+msgstr "ریپوزی ٹوری (ذخیرہ)"
+
+#: ../src/manager_window.vala ../resources/manager_window.ui
+msgid "Groups"
+msgstr "گروپس"
+
 #: ../src/manager_window.vala
 msgid "Packager"
 msgstr ""
@@ -622,19 +461,26 @@ msgid "No package found"
 msgstr "کوئی پیکج نہیں ملا"
 
 #: ../src/manager_window.vala
-#, c-format
-msgid ""
-"%s has %u uninstalled optional dependency.\n"
-"Choose if you would like to install it:"
-msgid_plural ""
-"%s has %u uninstalled optional dependencies.\n"
-"Choose those you would like to install:"
-msgstr[0] ""
-msgstr[1] ""
-
-#: ../src/manager_window.vala
 msgid "Uninstalled"
 msgstr "غیر انسٹال ہو گیا"
+
+#: ../src/manager_window.vala ../resources/manager_window.ui
+msgid "Install Local Packages"
+msgstr ""
+
+#: ../src/manager_window.vala ../resources/progress_dialog.ui
+#: ../resources/transaction_sum_dialog.ui ../resources/choose_dep_dialog.ui
+#: ../resources/choose_ignorepkgs_dialog.ui
+msgid "_Cancel"
+msgstr "_منسوخ "
+
+#: ../src/manager_window.vala
+msgid "_Open"
+msgstr "_کھولیں"
+
+#: ../src/manager_window.vala
+msgid "Alpm Package"
+msgstr "Alpm پیکیج"
 
 #: ../src/manager_window.vala
 msgid "A Gtk3 frontend for libalpm"
@@ -644,12 +490,228 @@ msgstr ""
 msgid "Copyright © 2015 Guillaume Benoit"
 msgstr ""
 
-#: ../src/common.vala
-#, c-format
-msgid "%.0f KiB"
+#: ../src/preferences_dialog.vala ../resources/preferences_dialog.ui
+msgid "How often to check for updates, value in hours"
+msgstr "اپ ڈیٹس چیک کرنے کی کثرت کی وضاحت  گھنٹوں  میں کریں"
+
+#: ../src/preferences_dialog.vala
+msgid "Worldwide"
+msgstr "بین القوامی"
+
+#: ../src/preferences_dialog.vala
+msgid "Speed"
 msgstr ""
 
-#: ../src/common.vala
-#, c-format
-msgid "%.2f MiB"
+#: ../src/preferences_dialog.vala
+msgid "Random"
 msgstr ""
+
+#: ../src/choose_ignorepkgs_dialog.vala
+msgid "Choose the packages you do not want to upgrade"
+msgstr ""
+
+#: ../resources/choose_provider_dialog.ui
+msgid "Choose a Provider"
+msgstr "سروس فراہم  کردا کا انتخاب کریں"
+
+#: ../resources/choose_provider_dialog.ui
+#: ../resources/transaction_sum_dialog.ui ../resources/choose_dep_dialog.ui
+#: ../resources/choose_ignorepkgs_dialog.ui
+msgid "_OK"
+msgstr "ٹھیک"
+
+#: ../resources/progress_dialog.ui
+msgid "Progress"
+msgstr "پروگریس"
+
+#: ../resources/progress_dialog.ui ../resources/history_dialog.ui
+#: ../resources/transaction_info_dialog.ui ../resources/updater_window.ui
+#: ../resources/preferences_dialog.ui
+msgid "_Close"
+msgstr "_بند کریں"
+
+#: ../resources/progress_dialog.ui ../resources/transaction_info_dialog.ui
+#: ../resources/manager_window.ui
+msgid "Details"
+msgstr "تفصیلات"
+
+#: ../resources/history_dialog.ui
+msgid "Pamac History"
+msgstr "پمیک  کی تاریخ"
+
+#: ../resources/choose_dep_dialog.ui
+msgid "Choose Optional Dependencies"
+msgstr ""
+
+#: ../resources/manager_window.ui
+msgid "View History"
+msgstr "ہسٹری "
+
+#: ../resources/manager_window.ui ../resources/updater_window.ui
+msgid "_Preferences"
+msgstr "_ترجیحات"
+
+#: ../resources/manager_window.ui
+msgid "_About"
+msgstr "_معلومات"
+
+#: ../resources/manager_window.ui
+msgid "Refresh databases"
+msgstr "ڈیٹا بیس اپ ڈیٹ کریں"
+
+#: ../resources/manager_window.ui
+msgid "Apply changes"
+msgstr "تبدیلیوں پر عمل  کریں"
+
+#: ../resources/manager_window.ui
+msgid "Cancel all planned changes"
+msgstr "تمام تبدیلیوں کو منسوخ کریں"
+
+#: ../resources/manager_window.ui
+msgid "Search in AUR"
+msgstr "AUR میں تلاش کریں"
+
+#: ../resources/manager_window.ui
+msgid "Search"
+msgstr "تلاش کریں"
+
+#: ../resources/manager_window.ui
+msgid "State"
+msgstr "حال"
+
+#: ../resources/manager_window.ui
+msgid "Repositories"
+msgstr "ریپوزی ٹوری (ذخائر)"
+
+#: ../resources/manager_window.ui
+msgid "Name"
+msgstr "نام"
+
+#: ../resources/manager_window.ui
+msgid "Version"
+msgstr "ورژن"
+
+#: ../resources/manager_window.ui
+msgid "Size"
+msgstr "حجم"
+
+#: ../resources/manager_window.ui
+msgid "Description"
+msgstr "تفصیل"
+
+#: ../resources/manager_window.ui
+msgid "Dependencies"
+msgstr "انحصار ی پیکج"
+
+#: ../resources/manager_window.ui
+msgid "Files"
+msgstr "فائلیں"
+
+#: ../resources/updater_window.ui
+msgid "_Refresh"
+msgstr "_تازہ کریں"
+
+#: ../resources/updater_window.ui
+msgid "_Apply"
+msgstr "_عمل کریں"
+
+#: ../resources/preferences_dialog.ui
+msgid "Preferences"
+msgstr "ترجیحات"
+
+#: ../resources/preferences_dialog.ui
+msgid "Remove unrequired dependencies"
+msgstr "غیر ضروری انحصار پیکج نکال دیں"
+
+#: ../resources/preferences_dialog.ui
+msgid ""
+"When removing a package, also remove its dependencies that are not required "
+"by other packages"
+msgstr ""
+"تمام  انحصاری پیکجز جو کہ کسی دوسرے پیکیج کی ضروری نہ ہوں،  ان کو بھی پیکیج "
+"کو  غیر انسٹال کرتے وقت نکال دیں"
+
+#: ../resources/preferences_dialog.ui
+msgid "Check available disk space"
+msgstr "ڈسک میں موجود خالی جگہ کی جانچ کریں"
+
+#: ../resources/preferences_dialog.ui
+msgid "Check for updates"
+msgstr ""
+
+#: ../resources/preferences_dialog.ui
+msgid "Hide tray icon when no update available"
+msgstr ""
+
+#: ../resources/preferences_dialog.ui
+msgid "Ignore upgrades for:"
+msgstr "ان کے لیے اپ گریڈ زکو نظرانداز کریں:"
+
+#: ../resources/preferences_dialog.ui
+msgid "General"
+msgstr ""
+
+#: ../resources/preferences_dialog.ui
+msgid "Use mirrors from:"
+msgstr "سافٹ ویئر  مرر:"
+
+#: ../resources/preferences_dialog.ui
+msgid "Sort mirrors by:"
+msgstr "مررز (Mirrors  )کو ترتیب دیں"
+
+#: ../resources/preferences_dialog.ui
+msgid "Refresh Mirrors List"
+msgstr ""
+
+#: ../resources/preferences_dialog.ui
+msgid "Official Repositories"
+msgstr ""
+
+#: ../resources/preferences_dialog.ui
+msgid ""
+"AUR is a community maintained repository so it presents potential risks and "
+"problems.\n"
+"All AUR users should be familiar with the build process."
+msgstr ""
+
+#: ../resources/preferences_dialog.ui
+msgid "Enable AUR support"
+msgstr "AUR سپورٹ کو فعال کریں"
+
+#: ../resources/preferences_dialog.ui
+msgid "Allow Pamac to search and install packages from AUR"
+msgstr "Pamac کو  AUR پیکجز   انسٹال کرنے کی اجازت ہے"
+
+#: ../resources/preferences_dialog.ui
+msgid "Check for updates from AUR"
+msgstr ""
+
+#: ../resources/preferences_dialog.ui
+msgid "Do not ask for confirmation when building packages"
+msgstr ""
+
+#: ../resources/preferences_dialog.ui
+msgid "AUR"
+msgstr ""
+
+#: ../resources/choose_ignorepkgs_dialog.ui
+msgid "Choose Ignored Upgrades"
+msgstr ""
+
+#~ msgid "Install local packages"
+#~ msgstr "مقامی پیکیج کی انسٹالیشن کریں"
+
+#~ msgid "Upgrade first:"
+#~ msgstr "پہلے اپ گریذ کریں"
+
+#~ msgid "Options"
+#~ msgstr "اختیارات"
+
+#~ msgid "Official repositories"
+#~ msgstr "آفیشیل رپوزیٹوری"
+
+#~ msgid "speed"
+#~ msgstr "رفتار"
+
+#~ msgid "random"
+#~ msgstr "غیر ترتیب"

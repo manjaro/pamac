@@ -26,6 +26,18 @@ const string GETTEXT_PACKAGE = "pamac";
 Pamac.Daemon pamac_daemon;
 MainLoop loop;
 
+public delegate void AlpmActionDelegate ();
+ 
+public class AlpmAction: Object {
+		unowned AlpmActionDelegate action_delegate;
+		public AlpmAction (AlpmActionDelegate action_delegate) {
+			this.action_delegate = action_delegate;
+		}
+		public void run () {
+			action_delegate ();
+		}
+	}
+
 namespace Pamac {
 	[DBus (name = "org.manjaro.pamac")]
 	public class Daemon : Object {
@@ -34,6 +46,8 @@ namespace Pamac {
 		public Cond provider_cond;
 		public Mutex provider_mutex;
 		public int? choosen_provider;
+		private int force_refresh;
+		private ThreadPool<AlpmAction> thread_pool;
 		private Mutex databases_lock_mutex;
 		private HashTable<string, Json.Array> aur_search_results;
 		private Json.Array aur_updates_results;
@@ -51,12 +65,14 @@ namespace Pamac {
 		public signal void refresh_finished (ErrorInfos error);
 		public signal void trans_prepare_finished (ErrorInfos error);
 		public signal void trans_commit_finished (ErrorInfos error);
-		public signal void write_pamac_config_finished (int refresh_period, bool enable_aur, bool recurse);
-		public signal void write_alpm_config_finished ();
-		public signal void write_mirrors_config_finished ();
-		public signal void generate_mirrorlist_start ();
-		public signal void generate_mirrorlist_data (string line);
-		public signal void generate_mirrorlist_finished ();
+		public signal void get_authorization_finished (bool authorized);
+		public signal void write_pamac_config_finished (int refresh_period, bool aur_enabled, bool recurse,
+														bool no_update_hide_icon, bool check_aur_updates,
+														bool no_confirm_build);
+		public signal void write_alpm_config_finished (bool checkspace);
+		public signal void write_mirrors_config_finished (string choosen_country, string choosen_generation_method);
+		public signal void generate_mirrors_list_data (string line);
+		public signal void generate_mirrors_list_finished ();
 
 		public Daemon () {
 			alpm_config = new Alpm.Config ("/etc/pacman.conf");
@@ -65,8 +81,28 @@ namespace Pamac {
 			aur_updates_results = new Json.Array ();
 			intern_lock = false;
 			extern_lock = false;
+			force_refresh = 0;
 			refresh_handle ();
 			Timeout.add (500, check_pacman_running);
+			create_thread_pool ();
+		}
+
+		private void create_thread_pool () {
+			// create a thread pool which will run alpm action one after one
+			try {
+				thread_pool = new ThreadPool<AlpmAction>.with_owned_data (
+					// call alpm_action.run () on thread start
+					(alpm_action) => {
+						alpm_action.run ();
+					},
+					// only one thread created so alpm action will run one after one 
+					1,
+					// exclusive thread
+					true
+				);
+			} catch (ThreadError e) {
+				stderr.printf ("Thread Error %s\n", e.message);
+			}
 		}
 
 		private void refresh_handle () {
@@ -103,6 +139,34 @@ namespace Pamac {
 			return true;
 		}
 
+		public void start_get_authorization (GLib.BusName sender) {
+			bool authorized = false;
+			try {
+				Polkit.Authority authority = Polkit.Authority.get_sync ();
+				Polkit.Subject subject = Polkit.SystemBusName.new (sender);
+				authority.check_authorization.begin (
+					subject,
+					"org.manjaro.pamac.commit",
+					null,
+					Polkit.CheckAuthorizationFlags.ALLOW_USER_INTERACTION,
+					null,
+					(obj, res) => {
+						try {
+							var result = authority.check_authorization.end (res);
+							authorized = result.get_is_authorized ();
+						} catch (GLib.Error e) {
+							stderr.printf ("%s\n", e.message);
+						} finally {
+							get_authorization_finished (authorized);
+						}
+					}
+				);
+			} catch (GLib.Error e) {
+				get_authorization_finished (authorized);
+				stderr.printf ("%s\n", e.message);
+			}
+		}
+
 		public void start_write_pamac_config (HashTable<string,Variant> new_pamac_conf, GLib.BusName sender) {
 			var pamac_config = new Pamac.Config ("/etc/pamac.conf");
 			try {
@@ -124,12 +188,16 @@ namespace Pamac {
 						} catch (GLib.Error e) {
 							stderr.printf ("%s\n", e.message);
 						} finally {
-							write_pamac_config_finished (pamac_config.refresh_period, pamac_config.enable_aur, pamac_config.recurse);
+							write_pamac_config_finished (pamac_config.refresh_period, pamac_config.enable_aur,
+														pamac_config.recurse, pamac_config.no_update_hide_icon,
+														pamac_config.check_aur_updates, pamac_config.no_confirm_build);
 						}
 					}
 				);
 			} catch (GLib.Error e) {
-				write_pamac_config_finished (pamac_config.refresh_period, pamac_config.enable_aur, pamac_config.recurse);
+				write_pamac_config_finished (pamac_config.refresh_period, pamac_config.enable_aur,
+											pamac_config.recurse, pamac_config.no_update_hide_icon,
+											pamac_config.check_aur_updates, pamac_config.no_confirm_build);
 				stderr.printf ("%s\n", e.message);
 			}
 		}
@@ -155,12 +223,12 @@ namespace Pamac {
 						} catch (GLib.Error e) {
 							stderr.printf ("%s\n", e.message);
 						} finally {
-							write_alpm_config_finished ();
+							write_alpm_config_finished (get_checkspace ());
 						}
 					}
 				);
 			} catch (GLib.Error e) {
-				write_alpm_config_finished ();
+				write_alpm_config_finished (get_checkspace ());
 				stderr.printf ("%s\n", e.message);
 			}
 		}
@@ -172,7 +240,7 @@ namespace Pamac {
 			try {
 				string line;
 				channel.read_line (out line, null, null);
-				generate_mirrorlist_data (line);
+				generate_mirrors_list_data (line);
 			} catch (IOChannelError e) {
 				stderr.printf ("%s: IOChannelError: %s\n", stream_name, e.message);
 				return false;
@@ -183,8 +251,7 @@ namespace Pamac {
 			return true;
 		}
 
-		private void generate_mirrorlist () {
-			generate_mirrorlist_start ();
+		public void start_generate_mirrors_list () {
 			int standard_output;
 			int standard_error;
 			Pid child_pid;
@@ -213,10 +280,10 @@ namespace Pamac {
 					Process.close_pid (pid);
 					alpm_config.reload ();
 					refresh_handle ();
-					generate_mirrorlist_finished ();
+					generate_mirrors_list_finished ();
 				});
 			} catch (SpawnError e) {
-				generate_mirrorlist_finished ();
+				generate_mirrors_list_finished ();
 				stdout.printf ("SpawnError: %s\n", e.message);
 			}
 		}
@@ -237,17 +304,17 @@ namespace Pamac {
 							var result = authority.check_authorization.end (res);
 							if (result.get_is_authorized ()) {
 								mirrors_config.write (new_mirrors_conf);
-								generate_mirrorlist ();
+								mirrors_config.reload ();
 							}
 						} catch (GLib.Error e) {
 							stderr.printf ("%s\n", e.message);
 						} finally {
-							write_mirrors_config_finished ();
+							write_mirrors_config_finished (mirrors_config.choosen_country, mirrors_config.choosen_generation_method);
 						}
 					}
 				);
 			} catch (GLib.Error e) {
-				write_mirrors_config_finished ();
+				write_mirrors_config_finished (mirrors_config.choosen_country, mirrors_config.choosen_generation_method);
 				stderr.printf ("%s\n", e.message);
 			}
 		}
@@ -285,62 +352,50 @@ namespace Pamac {
 			}
 		}
 
-		private async ErrorInfos refresh (int force) {
-			SourceFunc callback = refresh.callback;
+		private void refresh () {
+			intern_lock = true;
 			var err = ErrorInfos ();
-			try {
-				new Thread<int>.try ("refresh thread", () => {
-					databases_lock_mutex.lock ();
-					string[] details = {};
-					int success = 0;
-					int ret;
-					foreach (var db in alpm_config.handle.syncdbs) {
-						ret = db.update (force);
-						if (ret >= 0) {
-							success++;
-						}
-					}
-					// We should always succeed if at least one DB was upgraded - we may possibly
-					// fail later with unresolved deps, but that should be rare, and would be expected
-					if (success == 0) {
-						err.message = _("Failed to synchronize any databases");
-						details += Alpm.strerror (alpm_config.handle.errno ());
-						err.details = details;
-					}
-					databases_lock_mutex.unlock ();
-					Idle.add ((owned) callback);
-					return success;
-				});
-				yield;
-			} catch (GLib.Error e) {
-				stderr.printf ("%s\n", e.message);
+			string[] details = {};
+			int success = 0;
+			int ret;
+			foreach (var db in alpm_config.handle.syncdbs) {
+				ret = db.update (force_refresh);
+				if (ret >= 0) {
+					success++;
+				}
 			}
-			return err;
+			// We should always succeed if at least one DB was upgraded - we may possibly
+			// fail later with unresolved deps, but that should be rare, and would be expected
+			if (success == 0) {
+				err.message = _("Failed to synchronize any databases");
+				details += Alpm.strerror (alpm_config.handle.errno ());
+				err.details = details;
+			}
+			refresh_handle ();
+			refresh_finished (err);
+			force_refresh = 0;
+			intern_lock = false;
 		}
 
 		public void start_refresh (int force) {
-			intern_lock = true;
-			refresh.begin (force, (obj, res) => {
-				var err = refresh.end (res);
-				intern_lock = false;
-				refresh_handle ();
-				refresh_finished (err);
-			});
+			force_refresh = force;
+			try {
+				thread_pool.add (new AlpmAction (refresh));
+			} catch (ThreadError e) {
+				stderr.printf ("Thread Error %s\n", e.message);
+			}
 		}
 
 		public bool get_checkspace () {
-			if (alpm_config.checkspace == 1) {
-				return true;
+			return alpm_config.checkspace == 1 ? true : false;
+		}
+
+		public string[] get_ignorepkgs () {
+			string[] ignorepkgs = {};
+			for (size_t i = 0; i < alpm_config.ignorepkgs->length; i++) {
+				ignorepkgs += alpm_config.ignorepkgs->nth_data (i);
 			}
-			return false;
-		}
-
-		public string get_syncfirst (){
-			return alpm_config.syncfirst;
-		}
-
-		public string get_ignorepkg () {
-			return alpm_config.ignorepkg;
+			return ignorepkgs;
 		}
 
 		public void add_ignorepkg (string pkgname) {
@@ -627,7 +682,7 @@ namespace Pamac {
 			return deps;
 		}
 
-		public async Updates get_updates (bool enable_aur) {
+		public async Updates get_updates (bool check_aur_updates) {
 			var infos = UpdateInfos ();
 			UpdateInfos[] updates_infos = {};
 			var updates = Updates ();
@@ -665,7 +720,7 @@ namespace Pamac {
 							infos.download_size = candidate.download_size;
 							updates_infos += infos;
 						} else {
-							if (enable_aur) {
+							if (check_aur_updates) {
 								// check if installed_pkg is a local pkg
 								foreach (var db in alpm_config.handle.syncdbs) {
 									pkg = Alpm.find_satisfier (db.pkgcache, installed_pkg.name);
@@ -681,7 +736,7 @@ namespace Pamac {
 					}
 				}
 				updates.repos_updates = updates_infos;
-				if (enable_aur) {
+				if (check_aur_updates) {
 					// get aur updates
 					if (aur_updates_results.get_length () == 0) {
 						aur_updates_results = AUR.multiinfo (local_pkgs);
@@ -860,91 +915,80 @@ namespace Pamac {
 			return err;
 		}
 
-		private async ErrorInfos trans_prepare () {
-			SourceFunc callback = trans_prepare.callback;
+		private void trans_prepare () {
 			var err = ErrorInfos ();
-			try {
-				new Thread<int>.try ("prepare thread", () => {
-					databases_lock_mutex.lock ();
-					string[] details = {};
-					Alpm.List<void*> err_data = null;
-					int ret = alpm_config.handle.trans_prepare (out err_data);
-					if (ret == -1) {
-						Alpm.Errno errno = alpm_config.handle.errno ();
-						err.message = _("Failed to prepare transaction");
-						string detail = Alpm.strerror (errno);
-						switch (errno) {
-							case Errno.PKG_INVALID_ARCH:
-								detail += ":";
-								details += detail;
-								foreach (void *i in err_data) {
-									string *pkgname = i;
-									details += _("package %s does not have a valid architecture").printf (pkgname);
-									delete pkgname;
-								}
-								break;
-							case Errno.UNSATISFIED_DEPS:
-								detail += ":";
-								details += detail;
-								foreach (void *i in err_data) {
-									DepMissing *miss = i;
-									string depstring = miss->depend.compute_string ();
-									details += _("%s: requires %s").printf (miss->target, depstring);
-									delete miss;
-								}
-								break;
-							case Errno.CONFLICTING_DEPS:
-								detail += ":";
-								details += detail;
-								foreach (void *i in err_data) {
-									Conflict *conflict = i;
-									detail = _("%s and %s are in conflict").printf (conflict->package1, conflict->package2);
-									// only print reason if it contains new information
-									if (conflict->reason.mod != Depend.Mode.ANY) {
-										detail += " (%s)".printf (conflict->reason.compute_string ());
-									}
-									details += detail;
-									delete conflict;
-								}
-								break;
-							default:
-								details += detail;
-								break;
+			string[] details = {};
+			Alpm.List<void*> err_data = null;
+			int ret = alpm_config.handle.trans_prepare (out err_data);
+			if (ret == -1) {
+				Alpm.Errno errno = alpm_config.handle.errno ();
+				err.message = _("Failed to prepare transaction");
+				string detail = Alpm.strerror (errno);
+				switch (errno) {
+					case Errno.PKG_INVALID_ARCH:
+						detail += ":";
+						details += detail;
+						foreach (void *i in err_data) {
+							string *pkgname = i;
+							details += _("package %s does not have a valid architecture").printf (pkgname);
+							delete pkgname;
 						}
-						err.details = details;
-						trans_release ();
-					} else {
-						// Search for holdpkg in target list
-						bool found_locked_pkg = false;
-						foreach (var pkg in alpm_config.handle.trans_to_remove ()) {
-							if (alpm_config.holdpkgs.find_custom (pkg.name, strcmp) != null) {
-								details += _("%s needs to be removed but it is a locked package").printf (pkg.name);
-								found_locked_pkg = true;
-								break;
+						break;
+					case Errno.UNSATISFIED_DEPS:
+						detail += ":";
+						details += detail;
+						foreach (void *i in err_data) {
+							DepMissing *miss = i;
+							string depstring = miss->depend.compute_string ();
+							details += _("%s: requires %s").printf (miss->target, depstring);
+							delete miss;
+						}
+						break;
+					case Errno.CONFLICTING_DEPS:
+						detail += ":";
+						details += detail;
+						foreach (void *i in err_data) {
+							Conflict *conflict = i;
+							detail = _("%s and %s are in conflict").printf (conflict->package1, conflict->package2);
+							// only print reason if it contains new information
+							if (conflict->reason.mod != Depend.Mode.ANY) {
+								detail += " (%s)".printf (conflict->reason.compute_string ());
 							}
+							details += detail;
+							delete conflict;
 						}
-						if (found_locked_pkg) {
-							err.message = _("Failed to prepare transaction");
-							err.details = details;
-							trans_release ();
-						}
+						break;
+					default:
+						details += detail;
+						break;
+				}
+				err.details = details;
+				trans_release ();
+			} else {
+				// Search for holdpkg in target list
+				bool found_locked_pkg = false;
+				foreach (var pkg in alpm_config.handle.trans_to_remove ()) {
+					if (alpm_config.holdpkgs.find_custom (pkg.name, strcmp) != null) {
+						details += _("%s needs to be removed but it is a locked package").printf (pkg.name);
+						found_locked_pkg = true;
+						break;
 					}
-					databases_lock_mutex.unlock ();
-					Idle.add ((owned) callback);
-					return ret;
-				});
-				yield;
-			} catch (GLib.Error e) {
-				stderr.printf ("%s\n", e.message);
+				}
+				if (found_locked_pkg) {
+					err.message = _("Failed to prepare transaction");
+					err.details = details;
+					trans_release ();
+				}
 			}
-			return err;
+			trans_prepare_finished (err);
 		}
 
 		public void start_trans_prepare () {
-			trans_prepare.begin ((obj, res) => {
-				var err = trans_prepare.end (res);
-				trans_prepare_finished (err);
-			});
+			try {
+				thread_pool.add (new AlpmAction (trans_prepare));
+			} catch (ThreadError e) {
+				stderr.printf ("Thread Error %s\n", e.message);
+			}
 		}
 
 		public void choose_provider (int provider) {
@@ -987,8 +1031,61 @@ namespace Pamac {
 			return infos;
 		}
 
-		private async ErrorInfos trans_commit (GLib.BusName sender) {
-			SourceFunc callback = trans_commit.callback;
+		private void trans_commit () {
+			var err = ErrorInfos ();
+			string[] details = {};
+			Alpm.List<void*> err_data = null;
+			int ret = alpm_config.handle.trans_commit (out err_data);
+			if (ret == -1) {
+				Alpm.Errno errno = alpm_config.handle.errno ();
+				err.message = _("Failed to commit transaction");
+				string detail = Alpm.strerror (errno);
+				switch (errno) {
+					case Alpm.Errno.FILE_CONFLICTS:
+						detail += ":";
+						details += detail;
+						//TransFlag flags = alpm_config.handle.trans_get_flags ();
+						//if ((flags & TransFlag.FORCE) != 0) {
+							//details += _("unable to %s directory-file conflicts").printf ("--force");
+						//}
+						foreach (void *i in err_data) {
+							FileConflict *conflict = i;
+							switch (conflict->type) {
+								case FileConflict.Type.TARGET:
+									details += _("%s exists in both %s and %s").printf (conflict->file, conflict->target, conflict->ctarget);
+									break;
+								case FileConflict.Type.FILESYSTEM:
+									details += _("%s: %s already exists in filesystem").printf (conflict->target, conflict->file);
+									break;
+							}
+							delete conflict;
+						}
+						break;
+					case Alpm.Errno.PKG_INVALID:
+					case Alpm.Errno.PKG_INVALID_CHECKSUM:
+					case Alpm.Errno.PKG_INVALID_SIG:
+					case Alpm.Errno.DLT_INVALID:
+						detail += ":";
+						details += detail;
+						foreach (void *i in err_data) {
+							string *filename = i;
+							details += _("%s is invalid or corrupted").printf (filename);
+							delete filename;
+						}
+						break;
+					default:
+						details += detail;
+						break;
+				}
+				err.details = details;
+			}
+			trans_release ();
+			refresh_handle ();
+			trans_commit_finished (err);
+			intern_lock = false;
+		}
+
+		public void start_trans_commit (GLib.BusName sender) {
 			var err = ErrorInfos ();
 			try {
 				Polkit.Authority authority = Polkit.Authority.get_sync ();
@@ -1003,84 +1100,30 @@ namespace Pamac {
 						try {
 							var result = authority.check_authorization.end (res);
 							if (result.get_is_authorized ()) {
-								new Thread<int>.try ("commit thread", () => {
-									databases_lock_mutex.lock ();
-									string[] details = {};
-									Alpm.List<void*> err_data = null;
-									int ret = alpm_config.handle.trans_commit (out err_data);
-									if (ret == -1) {
-										Alpm.Errno errno = alpm_config.handle.errno ();
-										err.message = _("Failed to commit transaction");
-										string detail = Alpm.strerror (errno);
-										switch (errno) {
-											case Alpm.Errno.FILE_CONFLICTS:
-												detail += ":";
-												details += detail;
-												//TransFlag flags = alpm_config.handle.trans_get_flags ();
-												//if ((flags & TransFlag.FORCE) != 0) {
-													//details += _("unable to %s directory-file conflicts").printf ("--force");
-												//}
-												foreach (void *i in err_data) {
-													FileConflict *conflict = i;
-													switch (conflict->type) {
-														case FileConflict.Type.TARGET:
-															details += _("%s exists in both %s and %s").printf (conflict->file, conflict->target, conflict->ctarget);
-															break;
-														case FileConflict.Type.FILESYSTEM:
-															details += _("%s: %s already exists in filesystem").printf (conflict->target, conflict->file);
-															break;
-													}
-													delete conflict;
-												}
-												break;
-											case Alpm.Errno.PKG_INVALID:
-											case Alpm.Errno.PKG_INVALID_CHECKSUM:
-											case Alpm.Errno.PKG_INVALID_SIG:
-											case Alpm.Errno.DLT_INVALID:
-												detail += ":";
-												details += detail;
-												foreach (void *i in err_data) {
-													string *filename = i;
-													details += _("%s is invalid or corrupted").printf (filename);
-													delete filename;
-												}
-												break;
-											default:
-												details += detail;
-												break;
-										}
-										err.details = details;
-									}
-									trans_release ();
-									databases_lock_mutex.unlock ();
-									Idle.add ((owned) callback);
-									return ret;
-								});
+								thread_pool.add (new AlpmAction (trans_commit)); 
 							} else {
 								err.message = _("Authentication failed");
 								trans_release ();
-								Idle.add ((owned) callback);
+								refresh_handle ();
+								trans_commit_finished (err);
+								intern_lock = false;
 							}
 						} catch (GLib.Error e) {
-							Idle.add ((owned) callback);
 							stderr.printf ("%s\n", e.message);
+							trans_release ();
+							refresh_handle ();
+							trans_commit_finished (err);
+							intern_lock = false;
 						}
 					}
 				);
-				yield;
 			} catch (GLib.Error e) {
 				stderr.printf ("%s\n", e.message);
-			}
-			return err;
-		}
-
-		public void start_trans_commit (GLib.BusName sender) {
-			trans_commit.begin (sender, (obj, res) => {
-				var err = trans_commit.end (res);
-				intern_lock = false;
+				trans_release ();
 				refresh_handle ();
 				trans_commit_finished (err);
-			});
+				intern_lock = false;
+			}
 		}
 
 		public int trans_release () {
@@ -1092,22 +1135,15 @@ namespace Pamac {
 				// a transaction is being interrupted
 				return;
 			}
-			// explicitly quit to avoid a crash
-			// this daemon should be auto-restarted
-			quit ();
+			trans_release ();
 		}
 
 		[DBus (no_reply = true)]
 		public void quit () {
-			// be sure to not quit with locked databases
-			alpm_config.handle.trans_release ();
-			if (lockfile.query_exists () == true) {
-				try {
-					lockfile.delete ();
-				} catch (GLib.Error e) {
-					GLib.stderr.printf("%s\n", e.message);
-				}
-			}
+			// to be sure to not quit with locked databases,
+			// the above function will wait for all task in queue
+			// to be processed before return; 
+			ThreadPool.free ((owned) thread_pool, false, true);
 			loop.quit ();
 		}
 	// End of Daemon Object

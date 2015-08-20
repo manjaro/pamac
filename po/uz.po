@@ -2,7 +2,7 @@
 # Copyright (C) 2007-2012 Free Software Foundation, Inc.
 # This file is distributed under the same license as the Pamac package.
 # Guillaume Benoit <guillaume@manjaro.org>, 2013-2015.
-# 
+#
 # Translators:
 # philm <philm@manjaro.org>, 2015
 # Umid Almasov <u.almasov@gmail.com>, 2013-2014
@@ -11,210 +11,30 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2015-03-04 14:36+0100\n"
+"POT-Creation-Date: 2015-08-20 11:53+0200\n"
 "PO-Revision-Date: 2015-03-18 15:17+0000\n"
 "Last-Translator: Guillaume Benoit <guillaume@manjaro.org>\n"
-"Language-Team: Uzbek (http://www.transifex.com/projects/p/manjaro-pamac/language/uz/)\n"
+"Language-Team: Uzbek (http://www.transifex.com/projects/p/manjaro-pamac/"
+"language/uz/)\n"
+"Language: uz\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: uz\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 #: data/polkit/org.manjaro.pamac.policy
 msgid "Authentication is required"
 msgstr "Haqiqiylikni tekshirish talab qilinadi"
 
-#: ../resources/choose_provider_dialog.ui
-msgid "Choose a Provider"
+#: ../src/common.vala
+#, c-format
+msgid "%.0f KiB"
 msgstr ""
 
-#: ../resources/choose_provider_dialog.ui
-#: ../resources/transaction_sum_dialog.ui ../resources/preferences_dialog.ui
-msgid "_OK"
-msgstr ""
-
-#: ../resources/packages_chooser_dialog.ui ../resources/manager_window.ui
-msgid "Install local packages"
-msgstr "Mahalliy paketlarni o'rnatish"
-
-#: ../resources/packages_chooser_dialog.ui ../resources/progress_dialog.ui
-#: ../resources/transaction_sum_dialog.ui
-msgid "_Cancel"
-msgstr ""
-
-#: ../resources/packages_chooser_dialog.ui
-msgid "_Open"
-msgstr ""
-
-#: ../resources/progress_dialog.ui
-msgid "Progress"
-msgstr "Jarayon bajarilishi"
-
-#: ../resources/progress_dialog.ui ../resources/history_dialog.ui
-#: ../resources/transaction_info_dialog.ui ../resources/updater_window.ui
-#: ../resources/preferences_dialog.ui
-msgid "_Close"
-msgstr ""
-
-#: ../resources/progress_dialog.ui ../resources/transaction_info_dialog.ui
-#: ../resources/manager_window.ui
-msgid "Details"
-msgstr "Tafsilotlar"
-
-#: ../resources/history_dialog.ui
-msgid "Pamac History"
-msgstr "Pamac tarixi"
-
-#: ../resources/transaction_sum_dialog.ui ../src/transaction.vala
-msgid "Transaction Summary"
-msgstr "Tranzaksiya jamlangan ma'lumoti"
-
-#: ../resources/manager_window.ui
-msgid "View History"
-msgstr "Tarixni ko'rish"
-
-#: ../resources/manager_window.ui ../resources/updater_window.ui
-msgid "_Preferences"
-msgstr ""
-
-#: ../resources/manager_window.ui
-msgid "_About"
-msgstr ""
-
-#: ../resources/manager_window.ui ../src/tray.vala
-msgid "Package Manager"
-msgstr "Paket boshqaruvchisi"
-
-#: ../resources/manager_window.ui
-msgid "Refresh databases"
-msgstr ""
-
-#: ../resources/manager_window.ui
-msgid "Apply changes"
-msgstr "O'zgarishlarni qo'llash"
-
-#: ../resources/manager_window.ui
-msgid "Cancel all planned changes"
-msgstr ""
-
-#: ../resources/manager_window.ui
-msgid "Search in AUR"
-msgstr "AUR'da qidirish"
-
-#: ../resources/manager_window.ui
-msgid "Search"
-msgstr "Qidirish"
-
-#: ../resources/manager_window.ui ../src/manager_window.vala
-msgid "Groups"
-msgstr "Guruhlar"
-
-#: ../resources/manager_window.ui
-msgid "State"
-msgstr "Holati"
-
-#: ../resources/manager_window.ui
-msgid "Repositories"
-msgstr ""
-
-#: ../resources/manager_window.ui
-msgid "Name"
-msgstr "Nomi"
-
-#: ../resources/manager_window.ui
-msgid "Version"
-msgstr "Versiya"
-
-#: ../resources/manager_window.ui ../src/manager_window.vala
-msgid "Repository"
-msgstr "Repozitoriy"
-
-#: ../resources/manager_window.ui
-msgid "Size"
-msgstr "Hajmi"
-
-#: ../resources/manager_window.ui
-msgid "Description"
-msgstr ""
-
-#: ../resources/manager_window.ui
-msgid "Dependencies"
-msgstr ""
-
-#: ../resources/manager_window.ui
-msgid "Files"
-msgstr "Fayllar"
-
-#: ../resources/updater_window.ui ../src/tray.vala
-msgid "Update Manager"
-msgstr "Yangilanish boshqaruvchisi"
-
-#: ../resources/updater_window.ui
-msgid "_Refresh"
-msgstr ""
-
-#: ../resources/updater_window.ui
-msgid "_Apply"
-msgstr ""
-
-#: ../resources/preferences_dialog.ui
-msgid "Preferences"
-msgstr ""
-
-#: ../resources/preferences_dialog.ui
-msgid "Allow Pamac to search and install packages from AUR"
-msgstr "Pamac uchun AURdan paketlarni qidirish va o'rnatishga ruxsat etish"
-
-#: ../resources/preferences_dialog.ui
-msgid ""
-"When removing a package, also remove its dependencies that are not required "
-"by other packages"
-msgstr ""
-
-#: ../resources/preferences_dialog.ui
-msgid "Check available disk space"
-msgstr ""
-
-#: ../resources/preferences_dialog.ui ../src/preferences_dialog.vala
-msgid "How often to check for updates, value in hours"
-msgstr "Qanchalik tez yangilanishlar tekshirilsin, qiymati soatda"
-
-#: ../resources/preferences_dialog.ui
-msgid "Remove unrequired dependencies"
-msgstr "Talab etilmagan qaramliklarni olib tashlash"
-
-#: ../resources/preferences_dialog.ui
-msgid "Upgrade first:"
-msgstr ""
-
-#: ../resources/preferences_dialog.ui
-msgid "Ignore upgrades for:"
-msgstr ""
-
-#: ../resources/preferences_dialog.ui
-msgid "Enable AUR support"
-msgstr "AUR qo'llab-quvvatlashni yoqish"
-
-#: ../resources/preferences_dialog.ui
-msgid "Options"
-msgstr "Opsiyalar"
-
-#: ../resources/preferences_dialog.ui
-msgid "Sort mirrors by:"
-msgstr ""
-
-#: ../resources/preferences_dialog.ui
-msgid "Use mirrors from:"
-msgstr ""
-
-#: ../resources/preferences_dialog.ui
-msgid "Official repositories"
-msgstr ""
-
-#: ../src/packages_chooser_dialog.vala
-msgid "Alpm Package"
-msgstr ""
+#: ../src/common.vala
+#, c-format
+msgid "%.2f MiB"
+msgstr "%.2f MB"
 
 #: ../src/daemon.vala
 msgid "Failed to initialize alpm library"
@@ -289,6 +109,10 @@ msgid "Authentication failed"
 msgstr "Haqiqiylikni tekshirish muvaffaqiyatsiz tugadi"
 
 #: ../src/transaction.vala
+msgid "Refreshing mirrors list"
+msgstr ""
+
+#: ../src/transaction.vala
 msgid "Synchronizing package databases"
 msgstr ""
 
@@ -300,10 +124,9 @@ msgstr ""
 msgid "Preparing"
 msgstr "Tayyorlanmoqda"
 
-#: ../src/transaction.vala
-#, c-format
-msgid "Choose a provider for %s"
-msgstr ""
+#: ../src/transaction.vala ../resources/transaction_sum_dialog.ui
+msgid "Transaction Summary"
+msgstr "Tranzaksiya jamlangan ma'lumoti"
 
 #: ../src/transaction.vala ../src/manager_window.vala
 msgid "To remove"
@@ -335,18 +158,6 @@ msgstr "Jami yuklab olinadigan hajm"
 
 #: ../src/transaction.vala
 msgid "Building packages"
-msgstr ""
-
-#: ../src/transaction.vala
-msgid "Worldwide"
-msgstr ""
-
-#: ../src/transaction.vala
-msgid "speed"
-msgstr ""
-
-#: ../src/transaction.vala
-msgid "random"
 msgstr ""
 
 #: ../src/transaction.vala
@@ -496,10 +307,6 @@ msgstr "Vazifalar yo'q"
 msgid "Transaction successfully finished"
 msgstr "Tranzaksiya muvaffaqiyatli tugadi"
 
-#: ../src/transaction.vala
-msgid "Generating mirrorlist"
-msgstr ""
-
 #: ../src/installer.vala ../src/manager.vala ../src/updater.vala
 msgid "Pamac is already running"
 msgstr "Pamac ishga tushirilgan"
@@ -507,6 +314,14 @@ msgstr "Pamac ishga tushirilgan"
 #: ../src/tray.vala ../src/updater_window.vala
 msgid "Your system is up-to-date"
 msgstr "Tizim yangilangan"
+
+#: ../src/tray.vala ../resources/updater_window.ui
+msgid "Update Manager"
+msgstr "Yangilanish boshqaruvchisi"
+
+#: ../src/tray.vala ../resources/manager_window.ui
+msgid "Package Manager"
+msgstr "Paket boshqaruvchisi"
 
 #: ../src/tray.vala
 msgid "_Quit"
@@ -521,6 +336,21 @@ msgstr[0] ""
 #: ../src/tray.vala
 msgid "Show available updates"
 msgstr ""
+
+#: ../src/choose_provider_dialog.vala
+#, c-format
+msgid "Choose a provider for %s"
+msgstr ""
+
+#: ../src/choose_dep_dialog.vala
+#, c-format
+msgid ""
+"%s has %u uninstalled optional dependency.\n"
+"Choose if you would like to install it"
+msgid_plural ""
+"%s has %u uninstalled optional dependencies.\n"
+"Choose those you would like to install"
+msgstr[0] ""
 
 #: ../src/manager_window.vala
 msgid "Deselect"
@@ -586,6 +416,14 @@ msgstr "Almashtiradi"
 msgid "Conflicts With"
 msgstr "Ixtiloflar"
 
+#: ../src/manager_window.vala ../resources/manager_window.ui
+msgid "Repository"
+msgstr "Repozitoriy"
+
+#: ../src/manager_window.vala ../resources/manager_window.ui
+msgid "Groups"
+msgstr "Guruhlar"
+
 #: ../src/manager_window.vala
 msgid "Packager"
 msgstr "Paket yaratuvchisi"
@@ -623,18 +461,26 @@ msgid "No package found"
 msgstr "Paket topilmadi"
 
 #: ../src/manager_window.vala
-#, c-format
-msgid ""
-"%s has %u uninstalled optional dependency.\n"
-"Choose if you would like to install it:"
-msgid_plural ""
-"%s has %u uninstalled optional dependencies.\n"
-"Choose those you would like to install:"
-msgstr[0] ""
-
-#: ../src/manager_window.vala
 msgid "Uninstalled"
 msgstr "Olib tashlangan"
+
+#: ../src/manager_window.vala ../resources/manager_window.ui
+msgid "Install Local Packages"
+msgstr ""
+
+#: ../src/manager_window.vala ../resources/progress_dialog.ui
+#: ../resources/transaction_sum_dialog.ui ../resources/choose_dep_dialog.ui
+#: ../resources/choose_ignorepkgs_dialog.ui
+msgid "_Cancel"
+msgstr ""
+
+#: ../src/manager_window.vala
+msgid "_Open"
+msgstr ""
+
+#: ../src/manager_window.vala
+msgid "Alpm Package"
+msgstr ""
 
 #: ../src/manager_window.vala
 msgid "A Gtk3 frontend for libalpm"
@@ -644,12 +490,214 @@ msgstr ""
 msgid "Copyright © 2015 Guillaume Benoit"
 msgstr ""
 
-#: ../src/common.vala
-#, c-format
-msgid "%.0f KiB"
+#: ../src/preferences_dialog.vala ../resources/preferences_dialog.ui
+msgid "How often to check for updates, value in hours"
+msgstr "Qanchalik tez yangilanishlar tekshirilsin, qiymati soatda"
+
+#: ../src/preferences_dialog.vala
+msgid "Worldwide"
 msgstr ""
 
-#: ../src/common.vala
-#, c-format
-msgid "%.2f MiB"
-msgstr "%.2f MB"
+#: ../src/preferences_dialog.vala
+msgid "Speed"
+msgstr ""
+
+#: ../src/preferences_dialog.vala
+msgid "Random"
+msgstr ""
+
+#: ../src/choose_ignorepkgs_dialog.vala
+msgid "Choose the packages you do not want to upgrade"
+msgstr ""
+
+#: ../resources/choose_provider_dialog.ui
+msgid "Choose a Provider"
+msgstr ""
+
+#: ../resources/choose_provider_dialog.ui
+#: ../resources/transaction_sum_dialog.ui ../resources/choose_dep_dialog.ui
+#: ../resources/choose_ignorepkgs_dialog.ui
+msgid "_OK"
+msgstr ""
+
+#: ../resources/progress_dialog.ui
+msgid "Progress"
+msgstr "Jarayon bajarilishi"
+
+#: ../resources/progress_dialog.ui ../resources/history_dialog.ui
+#: ../resources/transaction_info_dialog.ui ../resources/updater_window.ui
+#: ../resources/preferences_dialog.ui
+msgid "_Close"
+msgstr ""
+
+#: ../resources/progress_dialog.ui ../resources/transaction_info_dialog.ui
+#: ../resources/manager_window.ui
+msgid "Details"
+msgstr "Tafsilotlar"
+
+#: ../resources/history_dialog.ui
+msgid "Pamac History"
+msgstr "Pamac tarixi"
+
+#: ../resources/choose_dep_dialog.ui
+msgid "Choose Optional Dependencies"
+msgstr ""
+
+#: ../resources/manager_window.ui
+msgid "View History"
+msgstr "Tarixni ko'rish"
+
+#: ../resources/manager_window.ui ../resources/updater_window.ui
+msgid "_Preferences"
+msgstr ""
+
+#: ../resources/manager_window.ui
+msgid "_About"
+msgstr ""
+
+#: ../resources/manager_window.ui
+msgid "Refresh databases"
+msgstr ""
+
+#: ../resources/manager_window.ui
+msgid "Apply changes"
+msgstr "O'zgarishlarni qo'llash"
+
+#: ../resources/manager_window.ui
+msgid "Cancel all planned changes"
+msgstr ""
+
+#: ../resources/manager_window.ui
+msgid "Search in AUR"
+msgstr "AUR'da qidirish"
+
+#: ../resources/manager_window.ui
+msgid "Search"
+msgstr "Qidirish"
+
+#: ../resources/manager_window.ui
+msgid "State"
+msgstr "Holati"
+
+#: ../resources/manager_window.ui
+msgid "Repositories"
+msgstr ""
+
+#: ../resources/manager_window.ui
+msgid "Name"
+msgstr "Nomi"
+
+#: ../resources/manager_window.ui
+msgid "Version"
+msgstr "Versiya"
+
+#: ../resources/manager_window.ui
+msgid "Size"
+msgstr "Hajmi"
+
+#: ../resources/manager_window.ui
+msgid "Description"
+msgstr ""
+
+#: ../resources/manager_window.ui
+msgid "Dependencies"
+msgstr ""
+
+#: ../resources/manager_window.ui
+msgid "Files"
+msgstr "Fayllar"
+
+#: ../resources/updater_window.ui
+msgid "_Refresh"
+msgstr ""
+
+#: ../resources/updater_window.ui
+msgid "_Apply"
+msgstr ""
+
+#: ../resources/preferences_dialog.ui
+msgid "Preferences"
+msgstr ""
+
+#: ../resources/preferences_dialog.ui
+msgid "Remove unrequired dependencies"
+msgstr "Talab etilmagan qaramliklarni olib tashlash"
+
+#: ../resources/preferences_dialog.ui
+msgid ""
+"When removing a package, also remove its dependencies that are not required "
+"by other packages"
+msgstr ""
+
+#: ../resources/preferences_dialog.ui
+msgid "Check available disk space"
+msgstr ""
+
+#: ../resources/preferences_dialog.ui
+msgid "Check for updates"
+msgstr ""
+
+#: ../resources/preferences_dialog.ui
+msgid "Hide tray icon when no update available"
+msgstr ""
+
+#: ../resources/preferences_dialog.ui
+msgid "Ignore upgrades for:"
+msgstr ""
+
+#: ../resources/preferences_dialog.ui
+msgid "General"
+msgstr ""
+
+#: ../resources/preferences_dialog.ui
+msgid "Use mirrors from:"
+msgstr ""
+
+#: ../resources/preferences_dialog.ui
+msgid "Sort mirrors by:"
+msgstr ""
+
+#: ../resources/preferences_dialog.ui
+msgid "Refresh Mirrors List"
+msgstr ""
+
+#: ../resources/preferences_dialog.ui
+msgid "Official Repositories"
+msgstr ""
+
+#: ../resources/preferences_dialog.ui
+msgid ""
+"AUR is a community maintained repository so it presents potential risks and "
+"problems.\n"
+"All AUR users should be familiar with the build process."
+msgstr ""
+
+#: ../resources/preferences_dialog.ui
+msgid "Enable AUR support"
+msgstr "AUR qo'llab-quvvatlashni yoqish"
+
+#: ../resources/preferences_dialog.ui
+msgid "Allow Pamac to search and install packages from AUR"
+msgstr "Pamac uchun AURdan paketlarni qidirish va o'rnatishga ruxsat etish"
+
+#: ../resources/preferences_dialog.ui
+msgid "Check for updates from AUR"
+msgstr ""
+
+#: ../resources/preferences_dialog.ui
+msgid "Do not ask for confirmation when building packages"
+msgstr ""
+
+#: ../resources/preferences_dialog.ui
+msgid "AUR"
+msgstr ""
+
+#: ../resources/choose_ignorepkgs_dialog.ui
+msgid "Choose Ignored Upgrades"
+msgstr ""
+
+#~ msgid "Install local packages"
+#~ msgstr "Mahalliy paketlarni o'rnatish"
+
+#~ msgid "Options"
+#~ msgstr "Opsiyalar"

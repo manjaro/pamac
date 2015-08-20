@@ -34,11 +34,34 @@ namespace Pamac {
 		public Gtk.Expander expander;
 
 		Transaction transaction;
+		public Vte.Terminal term;
+		Vte.Pty pty;
 
 		public ProgressDialog (Transaction transaction, Gtk.ApplicationWindow? window) {
 			Object (transient_for: window, use_header_bar: 0);
 
 			this.transaction = transaction;
+			//creating terminal
+			term = new Vte.Terminal ();
+			term.scroll_on_output = false;
+			term.expand = true;
+			term.height_request = 200;
+			term.visible = true;
+			// creating pty for term
+			try {
+				pty = term.pty_new_sync (Vte.PtyFlags.NO_HELPER);
+			} catch (Error e) {
+				stderr.printf ("Error: %s\n", e.message);
+			}
+			// add term in a grid with a scrollbar
+			var grid = new Gtk.Grid ();
+			grid.expand = true;
+			grid.visible = true;
+			var sb = new Gtk.Scrollbar (Gtk.Orientation.VERTICAL, term.vadjustment);
+			sb.visible = true;
+			grid.attach (term, 0, 0, 1, 1);
+			grid.attach (sb, 1, 0, 1, 1);
+			this.expander.add (grid);
 		}
 
 		[GtkCallback]
@@ -53,12 +76,23 @@ namespace Pamac {
 		public void on_cancel_button_clicked () {
 			transaction.cancel ();
 			transaction.clear_lists ();
-			transaction.spawn_in_term ({"/usr/bin/echo", dgettext (null, "Transaction cancelled") + ".\n"});
+			spawn_in_term ({"/usr/bin/echo", dgettext (null, "Transaction cancelled") + ".\n"});
 			this.hide ();
 			transaction.finished (false);
 			while (Gtk.events_pending ()) {
 				Gtk.main_iteration ();
 			}
+		}
+
+		public void spawn_in_term (string[] args, out Pid child_pid = null) {
+			Pid intern_pid;
+			try {
+				Process.spawn_async (null, args, null, SpawnFlags.SEARCH_PATH | SpawnFlags.DO_NOT_REAP_CHILD, pty.child_setup, out intern_pid);
+			} catch (SpawnError e) {
+				stderr.printf ("SpawnError: %s\n", e.message);
+			}
+			child_pid = intern_pid;
+			term.set_pty (pty);
 		}
 	}
 }

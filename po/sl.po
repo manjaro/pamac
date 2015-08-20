@@ -2,7 +2,7 @@
 # Copyright (C) 2007-2012 Free Software Foundation, Inc.
 # This file is distributed under the same license as the Pamac package.
 # Guillaume Benoit <guillaume@manjaro.org>, 2013-2015.
-# 
+#
 # Translators:
 # ansich <mojmejlzaforume@gmail.com>, 2014
 # Nenad Latinović <inactive+holden1987@transifex.com>, 2013
@@ -14,210 +14,31 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2015-03-04 14:36+0100\n"
+"POT-Creation-Date: 2015-08-20 11:53+0200\n"
 "PO-Revision-Date: 2015-05-24 13:00+0000\n"
 "Last-Translator: ansich <mojmejlzaforume@gmail.com>\n"
-"Language-Team: Slovenian (http://www.transifex.com/projects/p/manjaro-pamac/language/sl/)\n"
+"Language-Team: Slovenian (http://www.transifex.com/projects/p/manjaro-pamac/"
+"language/sl/)\n"
+"Language: sl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: sl\n"
-"Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);\n"
+"Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n"
+"%100==4 ? 2 : 3);\n"
 
 #: data/polkit/org.manjaro.pamac.policy
 msgid "Authentication is required"
 msgstr "Zahtevana je overovitev"
 
-#: ../resources/choose_provider_dialog.ui
-msgid "Choose a Provider"
-msgstr "Izberi ponudnika"
+#: ../src/common.vala
+#, c-format
+msgid "%.0f KiB"
+msgstr "%.0f KiB"
 
-#: ../resources/choose_provider_dialog.ui
-#: ../resources/transaction_sum_dialog.ui ../resources/preferences_dialog.ui
-msgid "_OK"
-msgstr "_OK"
-
-#: ../resources/packages_chooser_dialog.ui ../resources/manager_window.ui
-msgid "Install local packages"
-msgstr "Namesti lokalne pakete"
-
-#: ../resources/packages_chooser_dialog.ui ../resources/progress_dialog.ui
-#: ../resources/transaction_sum_dialog.ui
-msgid "_Cancel"
-msgstr "_Prekliči"
-
-#: ../resources/packages_chooser_dialog.ui
-msgid "_Open"
-msgstr "_Odpri"
-
-#: ../resources/progress_dialog.ui
-msgid "Progress"
-msgstr "Potek"
-
-#: ../resources/progress_dialog.ui ../resources/history_dialog.ui
-#: ../resources/transaction_info_dialog.ui ../resources/updater_window.ui
-#: ../resources/preferences_dialog.ui
-msgid "_Close"
-msgstr "_Zapri"
-
-#: ../resources/progress_dialog.ui ../resources/transaction_info_dialog.ui
-#: ../resources/manager_window.ui
-msgid "Details"
-msgstr "Podrobnosti"
-
-#: ../resources/history_dialog.ui
-msgid "Pamac History"
-msgstr "Zgodovina Pamac"
-
-#: ../resources/transaction_sum_dialog.ui ../src/transaction.vala
-msgid "Transaction Summary"
-msgstr "Povzetek transakcije"
-
-#: ../resources/manager_window.ui
-msgid "View History"
-msgstr "Glej zgodovino"
-
-#: ../resources/manager_window.ui ../resources/updater_window.ui
-msgid "_Preferences"
-msgstr "_Nastavitve"
-
-#: ../resources/manager_window.ui
-msgid "_About"
-msgstr "_O programu"
-
-#: ../resources/manager_window.ui ../src/tray.vala
-msgid "Package Manager"
-msgstr "Upravljalnik paketov"
-
-#: ../resources/manager_window.ui
-msgid "Refresh databases"
-msgstr "Osveži baze podatkov"
-
-#: ../resources/manager_window.ui
-msgid "Apply changes"
-msgstr "Izvedi spremembe"
-
-#: ../resources/manager_window.ui
-msgid "Cancel all planned changes"
-msgstr "Prekliči vse načrtovane spremembe"
-
-#: ../resources/manager_window.ui
-msgid "Search in AUR"
-msgstr "Išči v AUR"
-
-#: ../resources/manager_window.ui
-msgid "Search"
-msgstr "Išči"
-
-#: ../resources/manager_window.ui ../src/manager_window.vala
-msgid "Groups"
-msgstr "Skupine"
-
-#: ../resources/manager_window.ui
-msgid "State"
-msgstr "Stanje"
-
-#: ../resources/manager_window.ui
-msgid "Repositories"
-msgstr "Skladišča"
-
-#: ../resources/manager_window.ui
-msgid "Name"
-msgstr "Ime"
-
-#: ../resources/manager_window.ui
-msgid "Version"
-msgstr "Različica"
-
-#: ../resources/manager_window.ui ../src/manager_window.vala
-msgid "Repository"
-msgstr "Skladišče"
-
-#: ../resources/manager_window.ui
-msgid "Size"
-msgstr "Velikost"
-
-#: ../resources/manager_window.ui
-msgid "Description"
-msgstr "Opis"
-
-#: ../resources/manager_window.ui
-msgid "Dependencies"
-msgstr "Odvisnosti"
-
-#: ../resources/manager_window.ui
-msgid "Files"
-msgstr "Datoteke"
-
-#: ../resources/updater_window.ui ../src/tray.vala
-msgid "Update Manager"
-msgstr "Upravljalnik posodobitev"
-
-#: ../resources/updater_window.ui
-msgid "_Refresh"
-msgstr "_Osveži"
-
-#: ../resources/updater_window.ui
-msgid "_Apply"
-msgstr "_Uveljavi"
-
-#: ../resources/preferences_dialog.ui
-msgid "Preferences"
-msgstr "Nastavitve"
-
-#: ../resources/preferences_dialog.ui
-msgid "Allow Pamac to search and install packages from AUR"
-msgstr "Dovoli Pamacu da išče in namešča pakete iz AUR"
-
-#: ../resources/preferences_dialog.ui
-msgid ""
-"When removing a package, also remove its dependencies that are not required "
-"by other packages"
-msgstr "Ob odstranjevanju paketov odstrani tudi tiste odvisnosti, ki niso zahtevani s strani drugih paketov"
-
-#: ../resources/preferences_dialog.ui
-msgid "Check available disk space"
-msgstr "Preveri razpoložljiv prostor na disku"
-
-#: ../resources/preferences_dialog.ui ../src/preferences_dialog.vala
-msgid "How often to check for updates, value in hours"
-msgstr "Kako pogosto naj se preverja za posodobitve, vrednost v urah"
-
-#: ../resources/preferences_dialog.ui
-msgid "Remove unrequired dependencies"
-msgstr "Odstrani nezahtevane odvisnosti"
-
-#: ../resources/preferences_dialog.ui
-msgid "Upgrade first:"
-msgstr "Najprej nadgradi:"
-
-#: ../resources/preferences_dialog.ui
-msgid "Ignore upgrades for:"
-msgstr "Spreglej nadgradnje za:"
-
-#: ../resources/preferences_dialog.ui
-msgid "Enable AUR support"
-msgstr "Omogoči podporo AUR"
-
-#: ../resources/preferences_dialog.ui
-msgid "Options"
-msgstr "Možnosti"
-
-#: ../resources/preferences_dialog.ui
-msgid "Sort mirrors by:"
-msgstr "Razvrsti zrcalne strežnike po:"
-
-#: ../resources/preferences_dialog.ui
-msgid "Use mirrors from:"
-msgstr "Uporabi zrcalne strežnike iz:"
-
-#: ../resources/preferences_dialog.ui
-msgid "Official repositories"
-msgstr "Uradna skladišča"
-
-#: ../src/packages_chooser_dialog.vala
-msgid "Alpm Package"
-msgstr "Paket Alpm"
+#: ../src/common.vala
+#, c-format
+msgid "%.2f MiB"
+msgstr "%.2f MiB"
 
 #: ../src/daemon.vala
 msgid "Failed to initialize alpm library"
@@ -292,6 +113,10 @@ msgid "Authentication failed"
 msgstr "Potrditev identitete ni uspela"
 
 #: ../src/transaction.vala
+msgid "Refreshing mirrors list"
+msgstr ""
+
+#: ../src/transaction.vala
 msgid "Synchronizing package databases"
 msgstr "Sinhroniziranje podatkovnih baz"
 
@@ -303,10 +128,9 @@ msgstr "Začenjanje nadgradnje celotnega sistema"
 msgid "Preparing"
 msgstr "Pripravljam"
 
-#: ../src/transaction.vala
-#, c-format
-msgid "Choose a provider for %s"
-msgstr "Izberite ponudnika za %s"
+#: ../src/transaction.vala ../resources/transaction_sum_dialog.ui
+msgid "Transaction Summary"
+msgstr "Povzetek transakcije"
 
 #: ../src/transaction.vala ../src/manager_window.vala
 msgid "To remove"
@@ -339,18 +163,6 @@ msgstr "Celotna velikost prenosa"
 #: ../src/transaction.vala
 msgid "Building packages"
 msgstr "Grajenje paketov"
-
-#: ../src/transaction.vala
-msgid "Worldwide"
-msgstr "Svetovno"
-
-#: ../src/transaction.vala
-msgid "speed"
-msgstr "hitrost"
-
-#: ../src/transaction.vala
-msgid "random"
-msgstr "naključno"
 
 #: ../src/transaction.vala
 msgid "Checking dependencies"
@@ -499,10 +311,6 @@ msgstr "Ni nobenih opravil"
 msgid "Transaction successfully finished"
 msgstr "Transakcija uspešno zaključena"
 
-#: ../src/transaction.vala
-msgid "Generating mirrorlist"
-msgstr "Ustvarjanje seznama zrcalnih strežnikov"
-
 #: ../src/installer.vala ../src/manager.vala ../src/updater.vala
 msgid "Pamac is already running"
 msgstr "Pamac je že v teku"
@@ -510,6 +318,14 @@ msgstr "Pamac je že v teku"
 #: ../src/tray.vala ../src/updater_window.vala
 msgid "Your system is up-to-date"
 msgstr "Vaš sistem je posodobljen"
+
+#: ../src/tray.vala ../resources/updater_window.ui
+msgid "Update Manager"
+msgstr "Upravljalnik posodobitev"
+
+#: ../src/tray.vala ../resources/manager_window.ui
+msgid "Package Manager"
+msgstr "Upravljalnik paketov"
 
 #: ../src/tray.vala
 msgid "_Quit"
@@ -527,6 +343,24 @@ msgstr[3] "%u posodobitve so na voljo"
 #: ../src/tray.vala
 msgid "Show available updates"
 msgstr "Pokaži razpoložljive posodobitve"
+
+#: ../src/choose_provider_dialog.vala
+#, c-format
+msgid "Choose a provider for %s"
+msgstr "Izberite ponudnika za %s"
+
+#: ../src/choose_dep_dialog.vala
+#, c-format
+msgid ""
+"%s has %u uninstalled optional dependency.\n"
+"Choose if you would like to install it"
+msgid_plural ""
+"%s has %u uninstalled optional dependencies.\n"
+"Choose those you would like to install"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
 
 #: ../src/manager_window.vala
 msgid "Deselect"
@@ -592,6 +426,14 @@ msgstr "Nadomesti"
 msgid "Conflicts With"
 msgstr "Je v sporu s"
 
+#: ../src/manager_window.vala ../resources/manager_window.ui
+msgid "Repository"
+msgstr "Skladišče"
+
+#: ../src/manager_window.vala ../resources/manager_window.ui
+msgid "Groups"
+msgstr "Skupine"
+
 #: ../src/manager_window.vala
 msgid "Packager"
 msgstr "Paketni program"
@@ -629,21 +471,26 @@ msgid "No package found"
 msgstr "Najden ni bil noben paket"
 
 #: ../src/manager_window.vala
-#, c-format
-msgid ""
-"%s has %u uninstalled optional dependency.\n"
-"Choose if you would like to install it:"
-msgid_plural ""
-"%s has %u uninstalled optional dependencies.\n"
-"Choose those you would like to install:"
-msgstr[0] "%s ima %u odstranjeno izbirno odvisnost.\nIzberite, če jo želite namestiti:"
-msgstr[1] "%s ima %u odstranjeni izbirni odvisnosti.\nIzberite tiste, ki jih želite namestiti:"
-msgstr[2] "%s ima %u odstranjenih izbirnih odvisnosti.\nIzberite tiste, ki jih želite namestiti:"
-msgstr[3] "%s ima %u odstranjenih izbirnih odvisnosti.\nIzberite tiste, ki jih želite namestiti:"
-
-#: ../src/manager_window.vala
 msgid "Uninstalled"
 msgstr "Odstranjeno"
+
+#: ../src/manager_window.vala ../resources/manager_window.ui
+msgid "Install Local Packages"
+msgstr ""
+
+#: ../src/manager_window.vala ../resources/progress_dialog.ui
+#: ../resources/transaction_sum_dialog.ui ../resources/choose_dep_dialog.ui
+#: ../resources/choose_ignorepkgs_dialog.ui
+msgid "_Cancel"
+msgstr "_Prekliči"
+
+#: ../src/manager_window.vala
+msgid "_Open"
+msgstr "_Odpri"
+
+#: ../src/manager_window.vala
+msgid "Alpm Package"
+msgstr "Paket Alpm"
 
 #: ../src/manager_window.vala
 msgid "A Gtk3 frontend for libalpm"
@@ -653,12 +500,250 @@ msgstr "Gtk3 začelje za libalpm"
 msgid "Copyright © 2015 Guillaume Benoit"
 msgstr "Copyright © 2015 Guillaume Benoit"
 
-#: ../src/common.vala
-#, c-format
-msgid "%.0f KiB"
-msgstr "%.0f KiB"
+#: ../src/preferences_dialog.vala ../resources/preferences_dialog.ui
+msgid "How often to check for updates, value in hours"
+msgstr "Kako pogosto naj se preverja za posodobitve, vrednost v urah"
 
-#: ../src/common.vala
-#, c-format
-msgid "%.2f MiB"
-msgstr "%.2f MiB"
+#: ../src/preferences_dialog.vala
+msgid "Worldwide"
+msgstr "Svetovno"
+
+#: ../src/preferences_dialog.vala
+msgid "Speed"
+msgstr ""
+
+#: ../src/preferences_dialog.vala
+msgid "Random"
+msgstr ""
+
+#: ../src/choose_ignorepkgs_dialog.vala
+msgid "Choose the packages you do not want to upgrade"
+msgstr ""
+
+#: ../resources/choose_provider_dialog.ui
+msgid "Choose a Provider"
+msgstr "Izberi ponudnika"
+
+#: ../resources/choose_provider_dialog.ui
+#: ../resources/transaction_sum_dialog.ui ../resources/choose_dep_dialog.ui
+#: ../resources/choose_ignorepkgs_dialog.ui
+msgid "_OK"
+msgstr "_OK"
+
+#: ../resources/progress_dialog.ui
+msgid "Progress"
+msgstr "Potek"
+
+#: ../resources/progress_dialog.ui ../resources/history_dialog.ui
+#: ../resources/transaction_info_dialog.ui ../resources/updater_window.ui
+#: ../resources/preferences_dialog.ui
+msgid "_Close"
+msgstr "_Zapri"
+
+#: ../resources/progress_dialog.ui ../resources/transaction_info_dialog.ui
+#: ../resources/manager_window.ui
+msgid "Details"
+msgstr "Podrobnosti"
+
+#: ../resources/history_dialog.ui
+msgid "Pamac History"
+msgstr "Zgodovina Pamac"
+
+#: ../resources/choose_dep_dialog.ui
+msgid "Choose Optional Dependencies"
+msgstr ""
+
+#: ../resources/manager_window.ui
+msgid "View History"
+msgstr "Glej zgodovino"
+
+#: ../resources/manager_window.ui ../resources/updater_window.ui
+msgid "_Preferences"
+msgstr "_Nastavitve"
+
+#: ../resources/manager_window.ui
+msgid "_About"
+msgstr "_O programu"
+
+#: ../resources/manager_window.ui
+msgid "Refresh databases"
+msgstr "Osveži baze podatkov"
+
+#: ../resources/manager_window.ui
+msgid "Apply changes"
+msgstr "Izvedi spremembe"
+
+#: ../resources/manager_window.ui
+msgid "Cancel all planned changes"
+msgstr "Prekliči vse načrtovane spremembe"
+
+#: ../resources/manager_window.ui
+msgid "Search in AUR"
+msgstr "Išči v AUR"
+
+#: ../resources/manager_window.ui
+msgid "Search"
+msgstr "Išči"
+
+#: ../resources/manager_window.ui
+msgid "State"
+msgstr "Stanje"
+
+#: ../resources/manager_window.ui
+msgid "Repositories"
+msgstr "Skladišča"
+
+#: ../resources/manager_window.ui
+msgid "Name"
+msgstr "Ime"
+
+#: ../resources/manager_window.ui
+msgid "Version"
+msgstr "Različica"
+
+#: ../resources/manager_window.ui
+msgid "Size"
+msgstr "Velikost"
+
+#: ../resources/manager_window.ui
+msgid "Description"
+msgstr "Opis"
+
+#: ../resources/manager_window.ui
+msgid "Dependencies"
+msgstr "Odvisnosti"
+
+#: ../resources/manager_window.ui
+msgid "Files"
+msgstr "Datoteke"
+
+#: ../resources/updater_window.ui
+msgid "_Refresh"
+msgstr "_Osveži"
+
+#: ../resources/updater_window.ui
+msgid "_Apply"
+msgstr "_Uveljavi"
+
+#: ../resources/preferences_dialog.ui
+msgid "Preferences"
+msgstr "Nastavitve"
+
+#: ../resources/preferences_dialog.ui
+msgid "Remove unrequired dependencies"
+msgstr "Odstrani nezahtevane odvisnosti"
+
+#: ../resources/preferences_dialog.ui
+msgid ""
+"When removing a package, also remove its dependencies that are not required "
+"by other packages"
+msgstr ""
+"Ob odstranjevanju paketov odstrani tudi tiste odvisnosti, ki niso zahtevani "
+"s strani drugih paketov"
+
+#: ../resources/preferences_dialog.ui
+msgid "Check available disk space"
+msgstr "Preveri razpoložljiv prostor na disku"
+
+#: ../resources/preferences_dialog.ui
+msgid "Check for updates"
+msgstr ""
+
+#: ../resources/preferences_dialog.ui
+msgid "Hide tray icon when no update available"
+msgstr ""
+
+#: ../resources/preferences_dialog.ui
+msgid "Ignore upgrades for:"
+msgstr "Spreglej nadgradnje za:"
+
+#: ../resources/preferences_dialog.ui
+msgid "General"
+msgstr ""
+
+#: ../resources/preferences_dialog.ui
+msgid "Use mirrors from:"
+msgstr "Uporabi zrcalne strežnike iz:"
+
+#: ../resources/preferences_dialog.ui
+msgid "Sort mirrors by:"
+msgstr "Razvrsti zrcalne strežnike po:"
+
+#: ../resources/preferences_dialog.ui
+msgid "Refresh Mirrors List"
+msgstr ""
+
+#: ../resources/preferences_dialog.ui
+msgid "Official Repositories"
+msgstr ""
+
+#: ../resources/preferences_dialog.ui
+msgid ""
+"AUR is a community maintained repository so it presents potential risks and "
+"problems.\n"
+"All AUR users should be familiar with the build process."
+msgstr ""
+
+#: ../resources/preferences_dialog.ui
+msgid "Enable AUR support"
+msgstr "Omogoči podporo AUR"
+
+#: ../resources/preferences_dialog.ui
+msgid "Allow Pamac to search and install packages from AUR"
+msgstr "Dovoli Pamacu da išče in namešča pakete iz AUR"
+
+#: ../resources/preferences_dialog.ui
+msgid "Check for updates from AUR"
+msgstr ""
+
+#: ../resources/preferences_dialog.ui
+msgid "Do not ask for confirmation when building packages"
+msgstr ""
+
+#: ../resources/preferences_dialog.ui
+msgid "AUR"
+msgstr ""
+
+#: ../resources/choose_ignorepkgs_dialog.ui
+msgid "Choose Ignored Upgrades"
+msgstr ""
+
+#~ msgid "Install local packages"
+#~ msgstr "Namesti lokalne pakete"
+
+#~ msgid "Upgrade first:"
+#~ msgstr "Najprej nadgradi:"
+
+#~ msgid "Options"
+#~ msgstr "Možnosti"
+
+#~ msgid "Official repositories"
+#~ msgstr "Uradna skladišča"
+
+#~ msgid "speed"
+#~ msgstr "hitrost"
+
+#~ msgid "random"
+#~ msgstr "naključno"
+
+#~ msgid "Generating mirrorlist"
+#~ msgstr "Ustvarjanje seznama zrcalnih strežnikov"
+
+#~ msgid ""
+#~ "%s has %u uninstalled optional dependency.\n"
+#~ "Choose if you would like to install it:"
+#~ msgid_plural ""
+#~ "%s has %u uninstalled optional dependencies.\n"
+#~ "Choose those you would like to install:"
+#~ msgstr[0] ""
+#~ "%s ima %u odstranjeno izbirno odvisnost.\n"
+#~ "Izberite, če jo želite namestiti:"
+#~ msgstr[1] ""
+#~ "%s ima %u odstranjeni izbirni odvisnosti.\n"
+#~ "Izberite tiste, ki jih želite namestiti:"
+#~ msgstr[2] ""
+#~ "%s ima %u odstranjenih izbirnih odvisnosti.\n"
+#~ "Izberite tiste, ki jih želite namestiti:"
+#~ msgstr[3] ""
+#~ "%s ima %u odstranjenih izbirnih odvisnosti.\n"
+#~ "Izberite tiste, ki jih želite namestiti:"

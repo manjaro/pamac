@@ -64,28 +64,30 @@ namespace Alpm {
 					// Open file for reading and wrap returned FileInputStream into a
 					// DataInputStream, so we can read line by line
 					var dis = new DataInputStream (file.read ());
-					string line;
+					string? line;
 					// Read lines until end of file (null) is reached
-					while ((line = dis.read_line (null)) != null) {
-						line = line.strip ();
+					while ((line = dis.read_line ()) != null) {
 						if (line.length == 0) {
 							continue;
 						}
-						if (line[0] == '#') {
+						// ignore whole line and end of line comments
+						string[] splitted = line.split ("#", 2);
+						line = splitted[0].strip ();
+						if (line.length == 0) {
 							continue;
 						}
-						string[] splitted = line.split ("=");
-						string _key = splitted[0].strip ();
-						string _value = null;
+						splitted = line.split ("=");
+						string key = splitted[0].strip ();
+						string? val = null;
 						if (splitted[1] != null) {
-							_value = splitted[1].strip ();
+							val = splitted[1].strip ();
 						}
-						if (_key == "Method") {
-							choosen_generation_method = _value;
-						} else if (_key == "OnlyCountry") {
-							choosen_country = _value;
-						} else if (_key == "MirrorlistsDir") {
-							mirrorlists_dir = _value.replace ("\"", "");
+						if (key == "Method") {
+							choosen_generation_method = val;
+						} else if (key == "OnlyCountry") {
+							choosen_country = val;
+						} else if (key == "MirrorlistsDir") {
+							mirrorlists_dir = val.replace ("\"", "");
 						}
 					}
 				} catch (Error e) {
@@ -103,24 +105,28 @@ namespace Alpm {
 					// Open file for reading and wrap returned FileInputStream into a
 					// DataInputStream, so we can read line by line
 					var dis = new DataInputStream (file.read ());
-					string line;
+					string? line;
 					string[] data = {};
 					// Read lines until end of file (null) is reached
-					while ((line = dis.read_line (null)) != null) {
+					while ((line = dis.read_line ()) != null) {
+						if (line.length == 0) {
+							data += "\n";
+							continue;
+						}
 						if (line.contains ("Method")) {
 							if (new_conf.contains ("Method")) {
-								string _value = new_conf.get ("Method").get_string ();
-								data += "Method=%s\n".printf (_value);
+								string val = new_conf.get ("Method").get_string ();
+								data += "Method=%s\n".printf (val);
 							} else {
 								data += line + "\n";
 							}
 						} else if (line.contains ("OnlyCountry")) {
 							if (new_conf.contains ("OnlyCountry")) {
-								string _value = new_conf.get ("OnlyCountry").get_string ();
-								if (_value == dgettext (null, "Worldwide")) {
+								string val = new_conf.get ("OnlyCountry").get_string ();
+								if (val == dgettext (null, "Worldwide")) {
 									data += "#%s\n".printf (line);
 								} else {
-									data += "OnlyCountry=%s\n".printf (_value);
+									data += "OnlyCountry=%s\n".printf (val);
 								}
 							} else {
 								data += line + "\n";

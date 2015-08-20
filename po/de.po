@@ -2,7 +2,7 @@
 # Copyright (C) 2007-2012 Free Software Foundation, Inc.
 # This file is distributed under the same license as the Pamac package.
 # Guillaume Benoit <guillaume@manjaro.org>, 2013-2015.
-# 
+#
 # Translators:
 # Guillaume Benoit <guillaume@manjaro.org>, 2013
 # Tobias B. <aema-001@kabelmail.de>, 2013
@@ -21,210 +21,30 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2015-03-04 14:36+0100\n"
+"POT-Creation-Date: 2015-08-20 11:53+0200\n"
 "PO-Revision-Date: 2015-04-23 08:25+0000\n"
 "Last-Translator: Tim\n"
-"Language-Team: German (http://www.transifex.com/projects/p/manjaro-pamac/language/de/)\n"
+"Language-Team: German (http://www.transifex.com/projects/p/manjaro-pamac/"
+"language/de/)\n"
+"Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: de\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: data/polkit/org.manjaro.pamac.policy
 msgid "Authentication is required"
 msgstr "Authentifizierung wird benötigt"
 
-#: ../resources/choose_provider_dialog.ui
-msgid "Choose a Provider"
-msgstr "Anbieter aussuchen"
+#: ../src/common.vala
+#, c-format
+msgid "%.0f KiB"
+msgstr "%.0f KiB"
 
-#: ../resources/choose_provider_dialog.ui
-#: ../resources/transaction_sum_dialog.ui ../resources/preferences_dialog.ui
-msgid "_OK"
-msgstr "_OK"
-
-#: ../resources/packages_chooser_dialog.ui ../resources/manager_window.ui
-msgid "Install local packages"
-msgstr "Installiere lokale Pakete"
-
-#: ../resources/packages_chooser_dialog.ui ../resources/progress_dialog.ui
-#: ../resources/transaction_sum_dialog.ui
-msgid "_Cancel"
-msgstr "_Abbrechen"
-
-#: ../resources/packages_chooser_dialog.ui
-msgid "_Open"
-msgstr "_Öffnen"
-
-#: ../resources/progress_dialog.ui
-msgid "Progress"
-msgstr "Fortschritt"
-
-#: ../resources/progress_dialog.ui ../resources/history_dialog.ui
-#: ../resources/transaction_info_dialog.ui ../resources/updater_window.ui
-#: ../resources/preferences_dialog.ui
-msgid "_Close"
-msgstr "_Schließen"
-
-#: ../resources/progress_dialog.ui ../resources/transaction_info_dialog.ui
-#: ../resources/manager_window.ui
-msgid "Details"
-msgstr "Details"
-
-#: ../resources/history_dialog.ui
-msgid "Pamac History"
-msgstr "Pamac Historie"
-
-#: ../resources/transaction_sum_dialog.ui ../src/transaction.vala
-msgid "Transaction Summary"
-msgstr "Zusammenfassung der Änderungen"
-
-#: ../resources/manager_window.ui
-msgid "View History"
-msgstr "Historie ansehen"
-
-#: ../resources/manager_window.ui ../resources/updater_window.ui
-msgid "_Preferences"
-msgstr "_Einstellungen"
-
-#: ../resources/manager_window.ui
-msgid "_About"
-msgstr "_Über"
-
-#: ../resources/manager_window.ui ../src/tray.vala
-msgid "Package Manager"
-msgstr "Paketmanager"
-
-#: ../resources/manager_window.ui
-msgid "Refresh databases"
-msgstr "Datenbanken neu einlesen"
-
-#: ../resources/manager_window.ui
-msgid "Apply changes"
-msgstr "Änderungen anwenden"
-
-#: ../resources/manager_window.ui
-msgid "Cancel all planned changes"
-msgstr "Alle Änderungen verwerfen"
-
-#: ../resources/manager_window.ui
-msgid "Search in AUR"
-msgstr "Suche in AUR"
-
-#: ../resources/manager_window.ui
-msgid "Search"
-msgstr "Suche"
-
-#: ../resources/manager_window.ui ../src/manager_window.vala
-msgid "Groups"
-msgstr "Gruppen"
-
-#: ../resources/manager_window.ui
-msgid "State"
-msgstr "Status"
-
-#: ../resources/manager_window.ui
-msgid "Repositories"
-msgstr "Paketquellen"
-
-#: ../resources/manager_window.ui
-msgid "Name"
-msgstr "Name"
-
-#: ../resources/manager_window.ui
-msgid "Version"
-msgstr "Version"
-
-#: ../resources/manager_window.ui ../src/manager_window.vala
-msgid "Repository"
-msgstr "Paketquelle"
-
-#: ../resources/manager_window.ui
-msgid "Size"
-msgstr "Größe"
-
-#: ../resources/manager_window.ui
-msgid "Description"
-msgstr "Beschreibung"
-
-#: ../resources/manager_window.ui
-msgid "Dependencies"
-msgstr "Abhängigkeiten"
-
-#: ../resources/manager_window.ui
-msgid "Files"
-msgstr "Dateien"
-
-#: ../resources/updater_window.ui ../src/tray.vala
-msgid "Update Manager"
-msgstr "Update-Manager"
-
-#: ../resources/updater_window.ui
-msgid "_Refresh"
-msgstr "_Aktualisieren"
-
-#: ../resources/updater_window.ui
-msgid "_Apply"
-msgstr "_Übernehmen"
-
-#: ../resources/preferences_dialog.ui
-msgid "Preferences"
-msgstr "Einstellungen"
-
-#: ../resources/preferences_dialog.ui
-msgid "Allow Pamac to search and install packages from AUR"
-msgstr "Erlaube Pamac nach Paketen im AUR zu suchen und zu installieren"
-
-#: ../resources/preferences_dialog.ui
-msgid ""
-"When removing a package, also remove its dependencies that are not required "
-"by other packages"
-msgstr "Wenn ein Paket entfernt wird, werden auch seine Abhängigkeiten entfernt, soweit sie nicht von einem anderen Paket benötigt werden"
-
-#: ../resources/preferences_dialog.ui
-msgid "Check available disk space"
-msgstr "Überprüfe vorhandenen Speicherplatz"
-
-#: ../resources/preferences_dialog.ui ../src/preferences_dialog.vala
-msgid "How often to check for updates, value in hours"
-msgstr "Wie oft soll nach Erneuerungen geprüft werden? (Wert in Stunden)"
-
-#: ../resources/preferences_dialog.ui
-msgid "Remove unrequired dependencies"
-msgstr "Entferne nicht benötigte Abhängigkeiten"
-
-#: ../resources/preferences_dialog.ui
-msgid "Upgrade first:"
-msgstr "Zuerst erneuern:"
-
-#: ../resources/preferences_dialog.ui
-msgid "Ignore upgrades for:"
-msgstr "Ignoriere Erneuerungen für:"
-
-#: ../resources/preferences_dialog.ui
-msgid "Enable AUR support"
-msgstr "AUR-Support aktivieren"
-
-#: ../resources/preferences_dialog.ui
-msgid "Options"
-msgstr "Optionen"
-
-#: ../resources/preferences_dialog.ui
-msgid "Sort mirrors by:"
-msgstr "Sortiere Server nach:"
-
-#: ../resources/preferences_dialog.ui
-msgid "Use mirrors from:"
-msgstr "Nutze Server von:"
-
-#: ../resources/preferences_dialog.ui
-msgid "Official repositories"
-msgstr "Offizielle Repositorien"
-
-#: ../src/packages_chooser_dialog.vala
-msgid "Alpm Package"
-msgstr "Alpm Paket"
+#: ../src/common.vala
+#, c-format
+msgid "%.2f MiB"
+msgstr "%.2f MiB"
 
 #: ../src/daemon.vala
 msgid "Failed to initialize alpm library"
@@ -299,6 +119,10 @@ msgid "Authentication failed"
 msgstr "Authentifizierung fehlgeschlagen"
 
 #: ../src/transaction.vala
+msgid "Refreshing mirrors list"
+msgstr ""
+
+#: ../src/transaction.vala
 msgid "Synchronizing package databases"
 msgstr "Synchronisiere Paketdatenbanken"
 
@@ -310,10 +134,9 @@ msgstr "Starte komplettes System-Upgrade"
 msgid "Preparing"
 msgstr "Vorbereitung"
 
-#: ../src/transaction.vala
-#, c-format
-msgid "Choose a provider for %s"
-msgstr "Wähle einen Anbieter für %s"
+#: ../src/transaction.vala ../resources/transaction_sum_dialog.ui
+msgid "Transaction Summary"
+msgstr "Zusammenfassung der Änderungen"
 
 #: ../src/transaction.vala ../src/manager_window.vala
 msgid "To remove"
@@ -346,18 +169,6 @@ msgstr "Download-Größe gesamt"
 #: ../src/transaction.vala
 msgid "Building packages"
 msgstr "Erstelle Pakete"
-
-#: ../src/transaction.vala
-msgid "Worldwide"
-msgstr "Weltweit"
-
-#: ../src/transaction.vala
-msgid "speed"
-msgstr "Geschwindigkeit"
-
-#: ../src/transaction.vala
-msgid "random"
-msgstr "Zufällig"
 
 #: ../src/transaction.vala
 msgid "Checking dependencies"
@@ -506,10 +317,6 @@ msgstr "Es gibt nichts zu tun"
 msgid "Transaction successfully finished"
 msgstr "Vorgang erfolgreich abgeschlossen"
 
-#: ../src/transaction.vala
-msgid "Generating mirrorlist"
-msgstr "Erstelle Serverliste"
-
 #: ../src/installer.vala ../src/manager.vala ../src/updater.vala
 msgid "Pamac is already running"
 msgstr "Pamac wird bereits ausgeführt"
@@ -517,6 +324,14 @@ msgstr "Pamac wird bereits ausgeführt"
 #: ../src/tray.vala ../src/updater_window.vala
 msgid "Your system is up-to-date"
 msgstr "Ihr System ist auf dem neuesten Stand"
+
+#: ../src/tray.vala ../resources/updater_window.ui
+msgid "Update Manager"
+msgstr "Update-Manager"
+
+#: ../src/tray.vala ../resources/manager_window.ui
+msgid "Package Manager"
+msgstr "Paketmanager"
 
 #: ../src/tray.vala
 msgid "_Quit"
@@ -532,6 +347,22 @@ msgstr[1] "%u Aktualisierungen verfügbar"
 #: ../src/tray.vala
 msgid "Show available updates"
 msgstr "Verfügbare Updates anzeigen"
+
+#: ../src/choose_provider_dialog.vala
+#, c-format
+msgid "Choose a provider for %s"
+msgstr "Wähle einen Anbieter für %s"
+
+#: ../src/choose_dep_dialog.vala
+#, c-format
+msgid ""
+"%s has %u uninstalled optional dependency.\n"
+"Choose if you would like to install it"
+msgid_plural ""
+"%s has %u uninstalled optional dependencies.\n"
+"Choose those you would like to install"
+msgstr[0] ""
+msgstr[1] ""
 
 #: ../src/manager_window.vala
 msgid "Deselect"
@@ -597,6 +428,14 @@ msgstr "Ersetzt"
 msgid "Conflicts With"
 msgstr "Konflikt mit"
 
+#: ../src/manager_window.vala ../resources/manager_window.ui
+msgid "Repository"
+msgstr "Paketquelle"
+
+#: ../src/manager_window.vala ../resources/manager_window.ui
+msgid "Groups"
+msgstr "Gruppen"
+
 #: ../src/manager_window.vala
 msgid "Packager"
 msgstr "Packer"
@@ -634,19 +473,26 @@ msgid "No package found"
 msgstr "Keine Pakete gefunden"
 
 #: ../src/manager_window.vala
-#, c-format
-msgid ""
-"%s has %u uninstalled optional dependency.\n"
-"Choose if you would like to install it:"
-msgid_plural ""
-"%s has %u uninstalled optional dependencies.\n"
-"Choose those you would like to install:"
-msgstr[0] "%s hat %u nicht installierte optionale Abhängigkeiten.\nBitte wählen Sie die zum Installieren entsprechend aus:"
-msgstr[1] "%s hat %u nicht installierte optionale Abhängigkeiten.\nBitte wählen Sie die zu installierenden Abhängigkeiten aus:"
-
-#: ../src/manager_window.vala
 msgid "Uninstalled"
 msgstr "Deinstalliert"
+
+#: ../src/manager_window.vala ../resources/manager_window.ui
+msgid "Install Local Packages"
+msgstr ""
+
+#: ../src/manager_window.vala ../resources/progress_dialog.ui
+#: ../resources/transaction_sum_dialog.ui ../resources/choose_dep_dialog.ui
+#: ../resources/choose_ignorepkgs_dialog.ui
+msgid "_Cancel"
+msgstr "_Abbrechen"
+
+#: ../src/manager_window.vala
+msgid "_Open"
+msgstr "_Öffnen"
+
+#: ../src/manager_window.vala
+msgid "Alpm Package"
+msgstr "Alpm Paket"
 
 #: ../src/manager_window.vala
 msgid "A Gtk3 frontend for libalpm"
@@ -656,12 +502,244 @@ msgstr "Eine GTK3-Benutzeroberfläche für libalpm"
 msgid "Copyright © 2015 Guillaume Benoit"
 msgstr "Copyright © 2015 Guillaume Benoit"
 
-#: ../src/common.vala
-#, c-format
-msgid "%.0f KiB"
-msgstr "%.0f KiB"
+#: ../src/preferences_dialog.vala ../resources/preferences_dialog.ui
+msgid "How often to check for updates, value in hours"
+msgstr "Wie oft soll nach Erneuerungen geprüft werden? (Wert in Stunden)"
 
-#: ../src/common.vala
-#, c-format
-msgid "%.2f MiB"
-msgstr "%.2f MiB"
+#: ../src/preferences_dialog.vala
+msgid "Worldwide"
+msgstr "Weltweit"
+
+#: ../src/preferences_dialog.vala
+msgid "Speed"
+msgstr ""
+
+#: ../src/preferences_dialog.vala
+msgid "Random"
+msgstr ""
+
+#: ../src/choose_ignorepkgs_dialog.vala
+msgid "Choose the packages you do not want to upgrade"
+msgstr ""
+
+#: ../resources/choose_provider_dialog.ui
+msgid "Choose a Provider"
+msgstr "Anbieter aussuchen"
+
+#: ../resources/choose_provider_dialog.ui
+#: ../resources/transaction_sum_dialog.ui ../resources/choose_dep_dialog.ui
+#: ../resources/choose_ignorepkgs_dialog.ui
+msgid "_OK"
+msgstr "_OK"
+
+#: ../resources/progress_dialog.ui
+msgid "Progress"
+msgstr "Fortschritt"
+
+#: ../resources/progress_dialog.ui ../resources/history_dialog.ui
+#: ../resources/transaction_info_dialog.ui ../resources/updater_window.ui
+#: ../resources/preferences_dialog.ui
+msgid "_Close"
+msgstr "_Schließen"
+
+#: ../resources/progress_dialog.ui ../resources/transaction_info_dialog.ui
+#: ../resources/manager_window.ui
+msgid "Details"
+msgstr "Details"
+
+#: ../resources/history_dialog.ui
+msgid "Pamac History"
+msgstr "Pamac Historie"
+
+#: ../resources/choose_dep_dialog.ui
+msgid "Choose Optional Dependencies"
+msgstr ""
+
+#: ../resources/manager_window.ui
+msgid "View History"
+msgstr "Historie ansehen"
+
+#: ../resources/manager_window.ui ../resources/updater_window.ui
+msgid "_Preferences"
+msgstr "_Einstellungen"
+
+#: ../resources/manager_window.ui
+msgid "_About"
+msgstr "_Über"
+
+#: ../resources/manager_window.ui
+msgid "Refresh databases"
+msgstr "Datenbanken neu einlesen"
+
+#: ../resources/manager_window.ui
+msgid "Apply changes"
+msgstr "Änderungen anwenden"
+
+#: ../resources/manager_window.ui
+msgid "Cancel all planned changes"
+msgstr "Alle Änderungen verwerfen"
+
+#: ../resources/manager_window.ui
+msgid "Search in AUR"
+msgstr "Suche in AUR"
+
+#: ../resources/manager_window.ui
+msgid "Search"
+msgstr "Suche"
+
+#: ../resources/manager_window.ui
+msgid "State"
+msgstr "Status"
+
+#: ../resources/manager_window.ui
+msgid "Repositories"
+msgstr "Paketquellen"
+
+#: ../resources/manager_window.ui
+msgid "Name"
+msgstr "Name"
+
+#: ../resources/manager_window.ui
+msgid "Version"
+msgstr "Version"
+
+#: ../resources/manager_window.ui
+msgid "Size"
+msgstr "Größe"
+
+#: ../resources/manager_window.ui
+msgid "Description"
+msgstr "Beschreibung"
+
+#: ../resources/manager_window.ui
+msgid "Dependencies"
+msgstr "Abhängigkeiten"
+
+#: ../resources/manager_window.ui
+msgid "Files"
+msgstr "Dateien"
+
+#: ../resources/updater_window.ui
+msgid "_Refresh"
+msgstr "_Aktualisieren"
+
+#: ../resources/updater_window.ui
+msgid "_Apply"
+msgstr "_Übernehmen"
+
+#: ../resources/preferences_dialog.ui
+msgid "Preferences"
+msgstr "Einstellungen"
+
+#: ../resources/preferences_dialog.ui
+msgid "Remove unrequired dependencies"
+msgstr "Entferne nicht benötigte Abhängigkeiten"
+
+#: ../resources/preferences_dialog.ui
+msgid ""
+"When removing a package, also remove its dependencies that are not required "
+"by other packages"
+msgstr ""
+"Wenn ein Paket entfernt wird, werden auch seine Abhängigkeiten entfernt, "
+"soweit sie nicht von einem anderen Paket benötigt werden"
+
+#: ../resources/preferences_dialog.ui
+msgid "Check available disk space"
+msgstr "Überprüfe vorhandenen Speicherplatz"
+
+#: ../resources/preferences_dialog.ui
+msgid "Check for updates"
+msgstr ""
+
+#: ../resources/preferences_dialog.ui
+msgid "Hide tray icon when no update available"
+msgstr ""
+
+#: ../resources/preferences_dialog.ui
+msgid "Ignore upgrades for:"
+msgstr "Ignoriere Erneuerungen für:"
+
+#: ../resources/preferences_dialog.ui
+msgid "General"
+msgstr ""
+
+#: ../resources/preferences_dialog.ui
+msgid "Use mirrors from:"
+msgstr "Nutze Server von:"
+
+#: ../resources/preferences_dialog.ui
+msgid "Sort mirrors by:"
+msgstr "Sortiere Server nach:"
+
+#: ../resources/preferences_dialog.ui
+msgid "Refresh Mirrors List"
+msgstr ""
+
+#: ../resources/preferences_dialog.ui
+msgid "Official Repositories"
+msgstr ""
+
+#: ../resources/preferences_dialog.ui
+msgid ""
+"AUR is a community maintained repository so it presents potential risks and "
+"problems.\n"
+"All AUR users should be familiar with the build process."
+msgstr ""
+
+#: ../resources/preferences_dialog.ui
+msgid "Enable AUR support"
+msgstr "AUR-Support aktivieren"
+
+#: ../resources/preferences_dialog.ui
+msgid "Allow Pamac to search and install packages from AUR"
+msgstr "Erlaube Pamac nach Paketen im AUR zu suchen und zu installieren"
+
+#: ../resources/preferences_dialog.ui
+msgid "Check for updates from AUR"
+msgstr ""
+
+#: ../resources/preferences_dialog.ui
+msgid "Do not ask for confirmation when building packages"
+msgstr ""
+
+#: ../resources/preferences_dialog.ui
+msgid "AUR"
+msgstr ""
+
+#: ../resources/choose_ignorepkgs_dialog.ui
+msgid "Choose Ignored Upgrades"
+msgstr ""
+
+#~ msgid "Install local packages"
+#~ msgstr "Installiere lokale Pakete"
+
+#~ msgid "Upgrade first:"
+#~ msgstr "Zuerst erneuern:"
+
+#~ msgid "Options"
+#~ msgstr "Optionen"
+
+#~ msgid "Official repositories"
+#~ msgstr "Offizielle Repositorien"
+
+#~ msgid "speed"
+#~ msgstr "Geschwindigkeit"
+
+#~ msgid "random"
+#~ msgstr "Zufällig"
+
+#~ msgid "Generating mirrorlist"
+#~ msgstr "Erstelle Serverliste"
+
+#~ msgid ""
+#~ "%s has %u uninstalled optional dependency.\n"
+#~ "Choose if you would like to install it:"
+#~ msgid_plural ""
+#~ "%s has %u uninstalled optional dependencies.\n"
+#~ "Choose those you would like to install:"
+#~ msgstr[0] ""
+#~ "%s hat %u nicht installierte optionale Abhängigkeiten.\n"
+#~ "Bitte wählen Sie die zum Installieren entsprechend aus:"
+#~ msgstr[1] ""
+#~ "%s hat %u nicht installierte optionale Abhängigkeiten.\n"
+#~ "Bitte wählen Sie die zu installierenden Abhängigkeiten aus:"

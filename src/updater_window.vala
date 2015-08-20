@@ -72,9 +72,27 @@ namespace Pamac {
 			});
 		}
 
+		public async void run_preferences_dialog () {
+			SourceFunc callback = run_preferences_dialog.callback;
+			ulong handler_id = transaction.daemon.get_authorization_finished.connect ((authorized) => {
+				if (authorized) {
+					var preferences_dialog = new PreferencesDialog (transaction, this);
+					preferences_dialog.run ();
+					preferences_dialog.destroy ();
+					while (Gtk.events_pending ()) {
+						Gtk.main_iteration ();
+					}
+				}
+				Idle.add((owned) callback);
+			});
+			transaction.start_get_authorization ();
+			yield;
+			transaction.daemon.disconnect (handler_id);
+		}
+
 		[GtkCallback]
 		public void on_preferences_button_clicked () {
-			transaction.run_preferences_dialog.begin (() => {
+			run_preferences_dialog.begin (() => {
 				set_updates_list.begin ();
 			});
 		}
@@ -82,9 +100,6 @@ namespace Pamac {
 		[GtkCallback]
 		public void on_apply_button_clicked () {
 			this.get_window ().set_cursor (new Gdk.Cursor.for_display (Gdk.Display.get_default (), Gdk.CursorType.WATCH));
-			while (Gtk.events_pending ()) {
-				Gtk.main_iteration ();
-			}
 			updates_list.foreach ((model, path, iter) => {
 				GLib.Value val;
 				updates_list.get_value (iter, 0, out val);
@@ -108,9 +123,6 @@ namespace Pamac {
 		[GtkCallback]
 		public void on_refresh_button_clicked () {
 			this.get_window ().set_cursor (new Gdk.Cursor.for_display (Gdk.Display.get_default (), Gdk.CursorType.WATCH));
-			while (Gtk.events_pending ()) {
-				Gtk.main_iteration ();
-			}
 			transaction.start_refresh (0);
 		}
 
@@ -125,9 +137,6 @@ namespace Pamac {
 
 		public async void set_updates_list () {
 			this.get_window ().set_cursor (new Gdk.Cursor.for_display (Gdk.Display.get_default (), Gdk.CursorType.WATCH));
-			while (Gtk.events_pending ()) {
-				Gtk.main_iteration ();
-			}
 			top_label.set_markup ("");
 			updates_list.clear ();
 			bottom_label.set_visible (false);
@@ -172,9 +181,6 @@ namespace Pamac {
 				bottom_label.set_visible (false);
 			}
 			this.get_window ().set_cursor (null);
-			while (Gtk.events_pending ()) {
-				Gtk.main_iteration ();
-			}
 		}
 	}
 }

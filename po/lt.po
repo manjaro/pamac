@@ -2,7 +2,7 @@
 # Copyright (C) 2007-2012 Free Software Foundation, Inc.
 # This file is distributed under the same license as the Pamac package.
 # Guillaume Benoit <guillaume@manjaro.org>, 2013-2015.
-# 
+#
 # Translators:
 # Moo, 2015
 # Moo, 2015
@@ -10,210 +10,31 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2015-03-04 14:36+0100\n"
+"POT-Creation-Date: 2015-08-20 11:53+0200\n"
 "PO-Revision-Date: 2015-04-07 20:57+0000\n"
 "Last-Translator: Moo\n"
-"Language-Team: Lithuanian (http://www.transifex.com/projects/p/manjaro-pamac/language/lt/)\n"
+"Language-Team: Lithuanian (http://www.transifex.com/projects/p/manjaro-pamac/"
+"language/lt/)\n"
+"Language: lt\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: lt\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && (n"
+"%100<10 || n%100>=20) ? 1 : 2);\n"
 
 #: data/polkit/org.manjaro.pamac.policy
 msgid "Authentication is required"
 msgstr "Reikalingas tapatybės nustatymas"
 
-#: ../resources/choose_provider_dialog.ui
-msgid "Choose a Provider"
-msgstr "Pasirinkite Tiekėją"
+#: ../src/common.vala
+#, c-format
+msgid "%.0f KiB"
+msgstr "%.0f KiB"
 
-#: ../resources/choose_provider_dialog.ui
-#: ../resources/transaction_sum_dialog.ui ../resources/preferences_dialog.ui
-msgid "_OK"
-msgstr "_Gerai"
-
-#: ../resources/packages_chooser_dialog.ui ../resources/manager_window.ui
-msgid "Install local packages"
-msgstr "Įdiegti vietinius paketus"
-
-#: ../resources/packages_chooser_dialog.ui ../resources/progress_dialog.ui
-#: ../resources/transaction_sum_dialog.ui
-msgid "_Cancel"
-msgstr "_Atšaukti"
-
-#: ../resources/packages_chooser_dialog.ui
-msgid "_Open"
-msgstr "_Atidaryti"
-
-#: ../resources/progress_dialog.ui
-msgid "Progress"
-msgstr "Eiga"
-
-#: ../resources/progress_dialog.ui ../resources/history_dialog.ui
-#: ../resources/transaction_info_dialog.ui ../resources/updater_window.ui
-#: ../resources/preferences_dialog.ui
-msgid "_Close"
-msgstr "_Uždaryti"
-
-#: ../resources/progress_dialog.ui ../resources/transaction_info_dialog.ui
-#: ../resources/manager_window.ui
-msgid "Details"
-msgstr "Išsamiau"
-
-#: ../resources/history_dialog.ui
-msgid "Pamac History"
-msgstr "Pamac Žurnalas"
-
-#: ../resources/transaction_sum_dialog.ui ../src/transaction.vala
-msgid "Transaction Summary"
-msgstr "Operacijos Suvestinė"
-
-#: ../resources/manager_window.ui
-msgid "View History"
-msgstr "Žiūrėti Žurnalą"
-
-#: ../resources/manager_window.ui ../resources/updater_window.ui
-msgid "_Preferences"
-msgstr "_Nuostatos"
-
-#: ../resources/manager_window.ui
-msgid "_About"
-msgstr "_Apie"
-
-#: ../resources/manager_window.ui ../src/tray.vala
-msgid "Package Manager"
-msgstr "Paketų Tvarkytuvė"
-
-#: ../resources/manager_window.ui
-msgid "Refresh databases"
-msgstr "Iš naujo įkelti duomenų bazes"
-
-#: ../resources/manager_window.ui
-msgid "Apply changes"
-msgstr "Taikyti pakeitimus"
-
-#: ../resources/manager_window.ui
-msgid "Cancel all planned changes"
-msgstr "Atšaukti visus suplanuotus pakeitimus"
-
-#: ../resources/manager_window.ui
-msgid "Search in AUR"
-msgstr "Ieškoti AUR saugykloje"
-
-#: ../resources/manager_window.ui
-msgid "Search"
-msgstr "Paieška"
-
-#: ../resources/manager_window.ui ../src/manager_window.vala
-msgid "Groups"
-msgstr "Grupės"
-
-#: ../resources/manager_window.ui
-msgid "State"
-msgstr "Būsena"
-
-#: ../resources/manager_window.ui
-msgid "Repositories"
-msgstr "Saugyklos"
-
-#: ../resources/manager_window.ui
-msgid "Name"
-msgstr "Pavadinimas"
-
-#: ../resources/manager_window.ui
-msgid "Version"
-msgstr "Versija"
-
-#: ../resources/manager_window.ui ../src/manager_window.vala
-msgid "Repository"
-msgstr "Saugykla"
-
-#: ../resources/manager_window.ui
-msgid "Size"
-msgstr "Dydis"
-
-#: ../resources/manager_window.ui
-msgid "Description"
-msgstr "Aprašas"
-
-#: ../resources/manager_window.ui
-msgid "Dependencies"
-msgstr "Priklausomybės"
-
-#: ../resources/manager_window.ui
-msgid "Files"
-msgstr "Failai"
-
-#: ../resources/updater_window.ui ../src/tray.vala
-msgid "Update Manager"
-msgstr "Atnaujinimų Tvarkytuvė"
-
-#: ../resources/updater_window.ui
-msgid "_Refresh"
-msgstr "Įkelti iš n_aujo"
-
-#: ../resources/updater_window.ui
-msgid "_Apply"
-msgstr "_Taikyti"
-
-#: ../resources/preferences_dialog.ui
-msgid "Preferences"
-msgstr "Nuostatos"
-
-#: ../resources/preferences_dialog.ui
-msgid "Allow Pamac to search and install packages from AUR"
-msgstr "Leisti Pamac ieškoti ir diegti paketus iš AUR"
-
-#: ../resources/preferences_dialog.ui
-msgid ""
-"When removing a package, also remove its dependencies that are not required "
-"by other packages"
-msgstr "Šalinant paketą, tuo pačiu šalinti ir jo priklausomybes, kurios nėra reikalaujamos kitų paketų"
-
-#: ../resources/preferences_dialog.ui
-msgid "Check available disk space"
-msgstr "Tikrinti prieinamą vietą diske"
-
-#: ../resources/preferences_dialog.ui ../src/preferences_dialog.vala
-msgid "How often to check for updates, value in hours"
-msgstr "Kaip dažnai tikrinti ar yra atnaujinimų, reikšmė valandomis"
-
-#: ../resources/preferences_dialog.ui
-msgid "Remove unrequired dependencies"
-msgstr "Šalinti nereikalingas priklausomybes"
-
-#: ../resources/preferences_dialog.ui
-msgid "Upgrade first:"
-msgstr "Pirmiausiai atnaujinti:"
-
-#: ../resources/preferences_dialog.ui
-msgid "Ignore upgrades for:"
-msgstr "Nepaisyti atnaujinimų paketams:"
-
-#: ../resources/preferences_dialog.ui
-msgid "Enable AUR support"
-msgstr "Įjungti AUR palaikymą"
-
-#: ../resources/preferences_dialog.ui
-msgid "Options"
-msgstr "Parinktys"
-
-#: ../resources/preferences_dialog.ui
-msgid "Sort mirrors by:"
-msgstr "Rikiuoti veidrodžius pagal:"
-
-#: ../resources/preferences_dialog.ui
-msgid "Use mirrors from:"
-msgstr "Naudoti veidrodžius iš:"
-
-#: ../resources/preferences_dialog.ui
-msgid "Official repositories"
-msgstr "Oficialios saugyklos"
-
-#: ../src/packages_chooser_dialog.vala
-msgid "Alpm Package"
-msgstr "Alpm Paketas"
+#: ../src/common.vala
+#, c-format
+msgid "%.2f MiB"
+msgstr "%.2f MiB"
 
 #: ../src/daemon.vala
 msgid "Failed to initialize alpm library"
@@ -288,6 +109,10 @@ msgid "Authentication failed"
 msgstr "Nepavyko nustatyti tapatybę"
 
 #: ../src/transaction.vala
+msgid "Refreshing mirrors list"
+msgstr ""
+
+#: ../src/transaction.vala
 msgid "Synchronizing package databases"
 msgstr "Sinchronizuojamos paketų duomenų bazės"
 
@@ -299,10 +124,9 @@ msgstr "Pradedamas pilnas sistemos atnaujinimas"
 msgid "Preparing"
 msgstr "Ruošiama"
 
-#: ../src/transaction.vala
-#, c-format
-msgid "Choose a provider for %s"
-msgstr "Pasirinkite tiekėją paketui %s"
+#: ../src/transaction.vala ../resources/transaction_sum_dialog.ui
+msgid "Transaction Summary"
+msgstr "Operacijos Suvestinė"
 
 #: ../src/transaction.vala ../src/manager_window.vala
 msgid "To remove"
@@ -335,18 +159,6 @@ msgstr "Visų atsiuntimų dydis"
 #: ../src/transaction.vala
 msgid "Building packages"
 msgstr "Kompiliuojami paketai"
-
-#: ../src/transaction.vala
-msgid "Worldwide"
-msgstr "Viso pasaulio"
-
-#: ../src/transaction.vala
-msgid "speed"
-msgstr "greitį"
-
-#: ../src/transaction.vala
-msgid "random"
-msgstr "atsitiktinai"
 
 #: ../src/transaction.vala
 msgid "Checking dependencies"
@@ -495,10 +307,6 @@ msgstr "Nėra ką atlikti"
 msgid "Transaction successfully finished"
 msgstr "Operacija sėkmingai užbaigta"
 
-#: ../src/transaction.vala
-msgid "Generating mirrorlist"
-msgstr "Kuriamas veidrodžių sąrašas"
-
 #: ../src/installer.vala ../src/manager.vala ../src/updater.vala
 msgid "Pamac is already running"
 msgstr "Pamac jau yra vykdomas"
@@ -506,6 +314,14 @@ msgstr "Pamac jau yra vykdomas"
 #: ../src/tray.vala ../src/updater_window.vala
 msgid "Your system is up-to-date"
 msgstr "Jūsų sistemoje įdiegti visi naujausi atnaujinimai"
+
+#: ../src/tray.vala ../resources/updater_window.ui
+msgid "Update Manager"
+msgstr "Atnaujinimų Tvarkytuvė"
+
+#: ../src/tray.vala ../resources/manager_window.ui
+msgid "Package Manager"
+msgstr "Paketų Tvarkytuvė"
 
 #: ../src/tray.vala
 msgid "_Quit"
@@ -522,6 +338,23 @@ msgstr[2] "Yra %u prieinamų atnaujinimų"
 #: ../src/tray.vala
 msgid "Show available updates"
 msgstr "Rodyti prieinamus atnaujinimus"
+
+#: ../src/choose_provider_dialog.vala
+#, c-format
+msgid "Choose a provider for %s"
+msgstr "Pasirinkite tiekėją paketui %s"
+
+#: ../src/choose_dep_dialog.vala
+#, c-format
+msgid ""
+"%s has %u uninstalled optional dependency.\n"
+"Choose if you would like to install it"
+msgid_plural ""
+"%s has %u uninstalled optional dependencies.\n"
+"Choose those you would like to install"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
 
 #: ../src/manager_window.vala
 msgid "Deselect"
@@ -587,6 +420,14 @@ msgstr "Pakeičia"
 msgid "Conflicts With"
 msgstr "Konfliktuoja Su"
 
+#: ../src/manager_window.vala ../resources/manager_window.ui
+msgid "Repository"
+msgstr "Saugykla"
+
+#: ../src/manager_window.vala ../resources/manager_window.ui
+msgid "Groups"
+msgstr "Grupės"
+
 #: ../src/manager_window.vala
 msgid "Packager"
 msgstr "Pakuotojas"
@@ -624,20 +465,26 @@ msgid "No package found"
 msgstr "Paketas nerastas"
 
 #: ../src/manager_window.vala
-#, c-format
-msgid ""
-"%s has %u uninstalled optional dependency.\n"
-"Choose if you would like to install it:"
-msgid_plural ""
-"%s has %u uninstalled optional dependencies.\n"
-"Choose those you would like to install:"
-msgstr[0] "%s turi %u neįdiegtą pasirinktinę priklausomybę.\nPasirinkite ar jūs norėtumėte ją įdiegti:"
-msgstr[1] "%s turi %u neįdiegtas pasirinktines priklausomybes.\nPasirinkite tas, kurias norėtumėte įdiegti:"
-msgstr[2] "%s turi %u neįdiegtų pasirinktinų priklausomybių.\nPasirinkite tas, kurias norėtumėte įdiegti:"
-
-#: ../src/manager_window.vala
 msgid "Uninstalled"
 msgstr "Pašalinta"
+
+#: ../src/manager_window.vala ../resources/manager_window.ui
+msgid "Install Local Packages"
+msgstr ""
+
+#: ../src/manager_window.vala ../resources/progress_dialog.ui
+#: ../resources/transaction_sum_dialog.ui ../resources/choose_dep_dialog.ui
+#: ../resources/choose_ignorepkgs_dialog.ui
+msgid "_Cancel"
+msgstr "_Atšaukti"
+
+#: ../src/manager_window.vala
+msgid "_Open"
+msgstr "_Atidaryti"
+
+#: ../src/manager_window.vala
+msgid "Alpm Package"
+msgstr "Alpm Paketas"
 
 #: ../src/manager_window.vala
 msgid "A Gtk3 frontend for libalpm"
@@ -647,12 +494,247 @@ msgstr "Gtk3 naudotojo sąsaja libalpm bibliotekai"
 msgid "Copyright © 2015 Guillaume Benoit"
 msgstr "Autorinės Teisės © 2015 Guillaume Benoit"
 
-#: ../src/common.vala
-#, c-format
-msgid "%.0f KiB"
-msgstr "%.0f KiB"
+#: ../src/preferences_dialog.vala ../resources/preferences_dialog.ui
+msgid "How often to check for updates, value in hours"
+msgstr "Kaip dažnai tikrinti ar yra atnaujinimų, reikšmė valandomis"
 
-#: ../src/common.vala
-#, c-format
-msgid "%.2f MiB"
-msgstr "%.2f MiB"
+#: ../src/preferences_dialog.vala
+msgid "Worldwide"
+msgstr "Viso pasaulio"
+
+#: ../src/preferences_dialog.vala
+msgid "Speed"
+msgstr ""
+
+#: ../src/preferences_dialog.vala
+msgid "Random"
+msgstr ""
+
+#: ../src/choose_ignorepkgs_dialog.vala
+msgid "Choose the packages you do not want to upgrade"
+msgstr ""
+
+#: ../resources/choose_provider_dialog.ui
+msgid "Choose a Provider"
+msgstr "Pasirinkite Tiekėją"
+
+#: ../resources/choose_provider_dialog.ui
+#: ../resources/transaction_sum_dialog.ui ../resources/choose_dep_dialog.ui
+#: ../resources/choose_ignorepkgs_dialog.ui
+msgid "_OK"
+msgstr "_Gerai"
+
+#: ../resources/progress_dialog.ui
+msgid "Progress"
+msgstr "Eiga"
+
+#: ../resources/progress_dialog.ui ../resources/history_dialog.ui
+#: ../resources/transaction_info_dialog.ui ../resources/updater_window.ui
+#: ../resources/preferences_dialog.ui
+msgid "_Close"
+msgstr "_Uždaryti"
+
+#: ../resources/progress_dialog.ui ../resources/transaction_info_dialog.ui
+#: ../resources/manager_window.ui
+msgid "Details"
+msgstr "Išsamiau"
+
+#: ../resources/history_dialog.ui
+msgid "Pamac History"
+msgstr "Pamac Žurnalas"
+
+#: ../resources/choose_dep_dialog.ui
+msgid "Choose Optional Dependencies"
+msgstr ""
+
+#: ../resources/manager_window.ui
+msgid "View History"
+msgstr "Žiūrėti Žurnalą"
+
+#: ../resources/manager_window.ui ../resources/updater_window.ui
+msgid "_Preferences"
+msgstr "_Nuostatos"
+
+#: ../resources/manager_window.ui
+msgid "_About"
+msgstr "_Apie"
+
+#: ../resources/manager_window.ui
+msgid "Refresh databases"
+msgstr "Iš naujo įkelti duomenų bazes"
+
+#: ../resources/manager_window.ui
+msgid "Apply changes"
+msgstr "Taikyti pakeitimus"
+
+#: ../resources/manager_window.ui
+msgid "Cancel all planned changes"
+msgstr "Atšaukti visus suplanuotus pakeitimus"
+
+#: ../resources/manager_window.ui
+msgid "Search in AUR"
+msgstr "Ieškoti AUR saugykloje"
+
+#: ../resources/manager_window.ui
+msgid "Search"
+msgstr "Paieška"
+
+#: ../resources/manager_window.ui
+msgid "State"
+msgstr "Būsena"
+
+#: ../resources/manager_window.ui
+msgid "Repositories"
+msgstr "Saugyklos"
+
+#: ../resources/manager_window.ui
+msgid "Name"
+msgstr "Pavadinimas"
+
+#: ../resources/manager_window.ui
+msgid "Version"
+msgstr "Versija"
+
+#: ../resources/manager_window.ui
+msgid "Size"
+msgstr "Dydis"
+
+#: ../resources/manager_window.ui
+msgid "Description"
+msgstr "Aprašas"
+
+#: ../resources/manager_window.ui
+msgid "Dependencies"
+msgstr "Priklausomybės"
+
+#: ../resources/manager_window.ui
+msgid "Files"
+msgstr "Failai"
+
+#: ../resources/updater_window.ui
+msgid "_Refresh"
+msgstr "Įkelti iš n_aujo"
+
+#: ../resources/updater_window.ui
+msgid "_Apply"
+msgstr "_Taikyti"
+
+#: ../resources/preferences_dialog.ui
+msgid "Preferences"
+msgstr "Nuostatos"
+
+#: ../resources/preferences_dialog.ui
+msgid "Remove unrequired dependencies"
+msgstr "Šalinti nereikalingas priklausomybes"
+
+#: ../resources/preferences_dialog.ui
+msgid ""
+"When removing a package, also remove its dependencies that are not required "
+"by other packages"
+msgstr ""
+"Šalinant paketą, tuo pačiu šalinti ir jo priklausomybes, kurios nėra "
+"reikalaujamos kitų paketų"
+
+#: ../resources/preferences_dialog.ui
+msgid "Check available disk space"
+msgstr "Tikrinti prieinamą vietą diske"
+
+#: ../resources/preferences_dialog.ui
+msgid "Check for updates"
+msgstr ""
+
+#: ../resources/preferences_dialog.ui
+msgid "Hide tray icon when no update available"
+msgstr ""
+
+#: ../resources/preferences_dialog.ui
+msgid "Ignore upgrades for:"
+msgstr "Nepaisyti atnaujinimų paketams:"
+
+#: ../resources/preferences_dialog.ui
+msgid "General"
+msgstr ""
+
+#: ../resources/preferences_dialog.ui
+msgid "Use mirrors from:"
+msgstr "Naudoti veidrodžius iš:"
+
+#: ../resources/preferences_dialog.ui
+msgid "Sort mirrors by:"
+msgstr "Rikiuoti veidrodžius pagal:"
+
+#: ../resources/preferences_dialog.ui
+msgid "Refresh Mirrors List"
+msgstr ""
+
+#: ../resources/preferences_dialog.ui
+msgid "Official Repositories"
+msgstr ""
+
+#: ../resources/preferences_dialog.ui
+msgid ""
+"AUR is a community maintained repository so it presents potential risks and "
+"problems.\n"
+"All AUR users should be familiar with the build process."
+msgstr ""
+
+#: ../resources/preferences_dialog.ui
+msgid "Enable AUR support"
+msgstr "Įjungti AUR palaikymą"
+
+#: ../resources/preferences_dialog.ui
+msgid "Allow Pamac to search and install packages from AUR"
+msgstr "Leisti Pamac ieškoti ir diegti paketus iš AUR"
+
+#: ../resources/preferences_dialog.ui
+msgid "Check for updates from AUR"
+msgstr ""
+
+#: ../resources/preferences_dialog.ui
+msgid "Do not ask for confirmation when building packages"
+msgstr ""
+
+#: ../resources/preferences_dialog.ui
+msgid "AUR"
+msgstr ""
+
+#: ../resources/choose_ignorepkgs_dialog.ui
+msgid "Choose Ignored Upgrades"
+msgstr ""
+
+#~ msgid "Install local packages"
+#~ msgstr "Įdiegti vietinius paketus"
+
+#~ msgid "Upgrade first:"
+#~ msgstr "Pirmiausiai atnaujinti:"
+
+#~ msgid "Options"
+#~ msgstr "Parinktys"
+
+#~ msgid "Official repositories"
+#~ msgstr "Oficialios saugyklos"
+
+#~ msgid "speed"
+#~ msgstr "greitį"
+
+#~ msgid "random"
+#~ msgstr "atsitiktinai"
+
+#~ msgid "Generating mirrorlist"
+#~ msgstr "Kuriamas veidrodžių sąrašas"
+
+#~ msgid ""
+#~ "%s has %u uninstalled optional dependency.\n"
+#~ "Choose if you would like to install it:"
+#~ msgid_plural ""
+#~ "%s has %u uninstalled optional dependencies.\n"
+#~ "Choose those you would like to install:"
+#~ msgstr[0] ""
+#~ "%s turi %u neįdiegtą pasirinktinę priklausomybę.\n"
+#~ "Pasirinkite ar jūs norėtumėte ją įdiegti:"
+#~ msgstr[1] ""
+#~ "%s turi %u neįdiegtas pasirinktines priklausomybes.\n"
+#~ "Pasirinkite tas, kurias norėtumėte įdiegti:"
+#~ msgstr[2] ""
+#~ "%s turi %u neįdiegtų pasirinktinų priklausomybių.\n"
+#~ "Pasirinkite tas, kurias norėtumėte įdiegti:"

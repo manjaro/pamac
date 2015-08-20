@@ -68,10 +68,12 @@ bool check_pamac_running () {
 }
 
 void on_refresh_finished () {
-	try {
-		pamac_daemon.quit ();
-	} catch (IOError e) {
-		stderr.printf ("IOError: %s\n", e.message);
+	if (check_pamac_running () == false) {
+		try {
+			pamac_daemon.quit ();
+		} catch (IOError e) {
+			stderr.printf ("IOError: %s\n", e.message);
+		}
 	}
 	loop.quit ();
 }
@@ -83,11 +85,11 @@ int main () {
 													"/org/manjaro/pamac");
 			pamac_daemon.refresh_finished.connect (on_refresh_finished);
 			pamac_daemon.start_refresh (0);
+			loop = new MainLoop ();
+			loop.run ();
 		} catch (IOError e) {
 			stderr.printf ("IOError: %s\n", e.message);
 		}
 	}
-	loop = new MainLoop ();
-	loop.run ();
 	return 0;
 }

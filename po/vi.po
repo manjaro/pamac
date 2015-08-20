@@ -2,7 +2,7 @@
 # Copyright (C) 2007-2012 Free Software Foundation, Inc.
 # This file is distributed under the same license as the Pamac package.
 # Guillaume Benoit <guillaume@manjaro.org>, 2013-2015.
-# 
+#
 # Translators:
 # Duy Truong Nguyen <truongap.ars@gmail.com>, 2014
 # philm <philm@manjaro.org>, 2015
@@ -11,210 +11,30 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2015-03-04 14:36+0100\n"
+"POT-Creation-Date: 2015-08-20 11:53+0200\n"
 "PO-Revision-Date: 2015-03-18 15:17+0000\n"
 "Last-Translator: Guillaume Benoit <guillaume@manjaro.org>\n"
-"Language-Team: Vietnamese (http://www.transifex.com/projects/p/manjaro-pamac/language/vi/)\n"
+"Language-Team: Vietnamese (http://www.transifex.com/projects/p/manjaro-pamac/"
+"language/vi/)\n"
+"Language: vi\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: vi\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 #: data/polkit/org.manjaro.pamac.policy
 msgid "Authentication is required"
 msgstr "Xác nhận được yêu cầu"
 
-#: ../resources/choose_provider_dialog.ui
-msgid "Choose a Provider"
+#: ../src/common.vala
+#, c-format
+msgid "%.0f KiB"
 msgstr ""
 
-#: ../resources/choose_provider_dialog.ui
-#: ../resources/transaction_sum_dialog.ui ../resources/preferences_dialog.ui
-msgid "_OK"
-msgstr ""
-
-#: ../resources/packages_chooser_dialog.ui ../resources/manager_window.ui
-msgid "Install local packages"
-msgstr "Cài đặt"
-
-#: ../resources/packages_chooser_dialog.ui ../resources/progress_dialog.ui
-#: ../resources/transaction_sum_dialog.ui
-msgid "_Cancel"
-msgstr ""
-
-#: ../resources/packages_chooser_dialog.ui
-msgid "_Open"
-msgstr ""
-
-#: ../resources/progress_dialog.ui
-msgid "Progress"
-msgstr "Tiến trình"
-
-#: ../resources/progress_dialog.ui ../resources/history_dialog.ui
-#: ../resources/transaction_info_dialog.ui ../resources/updater_window.ui
-#: ../resources/preferences_dialog.ui
-msgid "_Close"
-msgstr ""
-
-#: ../resources/progress_dialog.ui ../resources/transaction_info_dialog.ui
-#: ../resources/manager_window.ui
-msgid "Details"
-msgstr "Chi tiết"
-
-#: ../resources/history_dialog.ui
-msgid "Pamac History"
-msgstr "Lịch sử Pamac"
-
-#: ../resources/transaction_sum_dialog.ui ../src/transaction.vala
-msgid "Transaction Summary"
-msgstr "Ghi nhớ chuyển giao"
-
-#: ../resources/manager_window.ui
-msgid "View History"
-msgstr "Hiển thị lịch sử"
-
-#: ../resources/manager_window.ui ../resources/updater_window.ui
-msgid "_Preferences"
-msgstr ""
-
-#: ../resources/manager_window.ui
-msgid "_About"
-msgstr ""
-
-#: ../resources/manager_window.ui ../src/tray.vala
-msgid "Package Manager"
-msgstr "Trình quản lý gói"
-
-#: ../resources/manager_window.ui
-msgid "Refresh databases"
-msgstr ""
-
-#: ../resources/manager_window.ui
-msgid "Apply changes"
-msgstr "Áp dụng những thay đổi"
-
-#: ../resources/manager_window.ui
-msgid "Cancel all planned changes"
-msgstr ""
-
-#: ../resources/manager_window.ui
-msgid "Search in AUR"
-msgstr "Tìm trên AUR"
-
-#: ../resources/manager_window.ui
-msgid "Search"
-msgstr "Tìm"
-
-#: ../resources/manager_window.ui ../src/manager_window.vala
-msgid "Groups"
-msgstr "Nhóm"
-
-#: ../resources/manager_window.ui
-msgid "State"
-msgstr "Tình trạng"
-
-#: ../resources/manager_window.ui
-msgid "Repositories"
-msgstr ""
-
-#: ../resources/manager_window.ui
-msgid "Name"
-msgstr "Tên"
-
-#: ../resources/manager_window.ui
-msgid "Version"
-msgstr "Phiên bản"
-
-#: ../resources/manager_window.ui ../src/manager_window.vala
-msgid "Repository"
-msgstr "Kho"
-
-#: ../resources/manager_window.ui
-msgid "Size"
-msgstr "Cỡ"
-
-#: ../resources/manager_window.ui
-msgid "Description"
-msgstr ""
-
-#: ../resources/manager_window.ui
-msgid "Dependencies"
-msgstr ""
-
-#: ../resources/manager_window.ui
-msgid "Files"
-msgstr "Tệp tin"
-
-#: ../resources/updater_window.ui ../src/tray.vala
-msgid "Update Manager"
-msgstr "Trình quản lý cập nhật"
-
-#: ../resources/updater_window.ui
-msgid "_Refresh"
-msgstr ""
-
-#: ../resources/updater_window.ui
-msgid "_Apply"
-msgstr ""
-
-#: ../resources/preferences_dialog.ui
-msgid "Preferences"
-msgstr ""
-
-#: ../resources/preferences_dialog.ui
-msgid "Allow Pamac to search and install packages from AUR"
-msgstr "Cho phép Pamac tìm kiếm và cài đặt gói từ AUR"
-
-#: ../resources/preferences_dialog.ui
-msgid ""
-"When removing a package, also remove its dependencies that are not required "
-"by other packages"
-msgstr ""
-
-#: ../resources/preferences_dialog.ui
-msgid "Check available disk space"
-msgstr ""
-
-#: ../resources/preferences_dialog.ui ../src/preferences_dialog.vala
-msgid "How often to check for updates, value in hours"
-msgstr "Bao lâu sẽ kiểm tra cập nhật, tính bằng giờ"
-
-#: ../resources/preferences_dialog.ui
-msgid "Remove unrequired dependencies"
-msgstr "Gỡ bỏ phần phụ thuộc không cần thiết"
-
-#: ../resources/preferences_dialog.ui
-msgid "Upgrade first:"
-msgstr ""
-
-#: ../resources/preferences_dialog.ui
-msgid "Ignore upgrades for:"
-msgstr ""
-
-#: ../resources/preferences_dialog.ui
-msgid "Enable AUR support"
-msgstr "Bật hỗ trợ AUR"
-
-#: ../resources/preferences_dialog.ui
-msgid "Options"
-msgstr "Các tùy chọn"
-
-#: ../resources/preferences_dialog.ui
-msgid "Sort mirrors by:"
-msgstr ""
-
-#: ../resources/preferences_dialog.ui
-msgid "Use mirrors from:"
-msgstr ""
-
-#: ../resources/preferences_dialog.ui
-msgid "Official repositories"
-msgstr ""
-
-#: ../src/packages_chooser_dialog.vala
-msgid "Alpm Package"
-msgstr ""
+#: ../src/common.vala
+#, c-format
+msgid "%.2f MiB"
+msgstr "%.2f MiB"
 
 #: ../src/daemon.vala
 msgid "Failed to initialize alpm library"
@@ -289,6 +109,10 @@ msgid "Authentication failed"
 msgstr "Xác nhận thất bại"
 
 #: ../src/transaction.vala
+msgid "Refreshing mirrors list"
+msgstr ""
+
+#: ../src/transaction.vala
 msgid "Synchronizing package databases"
 msgstr ""
 
@@ -300,10 +124,9 @@ msgstr ""
 msgid "Preparing"
 msgstr "Đang chuẩn bị"
 
-#: ../src/transaction.vala
-#, c-format
-msgid "Choose a provider for %s"
-msgstr ""
+#: ../src/transaction.vala ../resources/transaction_sum_dialog.ui
+msgid "Transaction Summary"
+msgstr "Ghi nhớ chuyển giao"
 
 #: ../src/transaction.vala ../src/manager_window.vala
 msgid "To remove"
@@ -335,18 +158,6 @@ msgstr "Tổng kích cỡ tải về"
 
 #: ../src/transaction.vala
 msgid "Building packages"
-msgstr ""
-
-#: ../src/transaction.vala
-msgid "Worldwide"
-msgstr ""
-
-#: ../src/transaction.vala
-msgid "speed"
-msgstr ""
-
-#: ../src/transaction.vala
-msgid "random"
 msgstr ""
 
 #: ../src/transaction.vala
@@ -496,10 +307,6 @@ msgstr "Không có gì để thực hiện"
 msgid "Transaction successfully finished"
 msgstr "Chuyển giao kết thúc thành công"
 
-#: ../src/transaction.vala
-msgid "Generating mirrorlist"
-msgstr ""
-
 #: ../src/installer.vala ../src/manager.vala ../src/updater.vala
 msgid "Pamac is already running"
 msgstr "Pamac đang chạy"
@@ -507,6 +314,14 @@ msgstr "Pamac đang chạy"
 #: ../src/tray.vala ../src/updater_window.vala
 msgid "Your system is up-to-date"
 msgstr "Hệ thống đã được cập nhật"
+
+#: ../src/tray.vala ../resources/updater_window.ui
+msgid "Update Manager"
+msgstr "Trình quản lý cập nhật"
+
+#: ../src/tray.vala ../resources/manager_window.ui
+msgid "Package Manager"
+msgstr "Trình quản lý gói"
 
 #: ../src/tray.vala
 msgid "_Quit"
@@ -521,6 +336,21 @@ msgstr[0] ""
 #: ../src/tray.vala
 msgid "Show available updates"
 msgstr ""
+
+#: ../src/choose_provider_dialog.vala
+#, c-format
+msgid "Choose a provider for %s"
+msgstr ""
+
+#: ../src/choose_dep_dialog.vala
+#, c-format
+msgid ""
+"%s has %u uninstalled optional dependency.\n"
+"Choose if you would like to install it"
+msgid_plural ""
+"%s has %u uninstalled optional dependencies.\n"
+"Choose those you would like to install"
+msgstr[0] ""
 
 #: ../src/manager_window.vala
 msgid "Deselect"
@@ -586,6 +416,14 @@ msgstr "Thay thế"
 msgid "Conflicts With"
 msgstr "Xung đột với"
 
+#: ../src/manager_window.vala ../resources/manager_window.ui
+msgid "Repository"
+msgstr "Kho"
+
+#: ../src/manager_window.vala ../resources/manager_window.ui
+msgid "Groups"
+msgstr "Nhóm"
+
 #: ../src/manager_window.vala
 msgid "Packager"
 msgstr "Người đóng gói"
@@ -623,18 +461,26 @@ msgid "No package found"
 msgstr "Không tìm thấy gói nào"
 
 #: ../src/manager_window.vala
-#, c-format
-msgid ""
-"%s has %u uninstalled optional dependency.\n"
-"Choose if you would like to install it:"
-msgid_plural ""
-"%s has %u uninstalled optional dependencies.\n"
-"Choose those you would like to install:"
-msgstr[0] ""
-
-#: ../src/manager_window.vala
 msgid "Uninstalled"
 msgstr "Đã gỡ bỏ"
+
+#: ../src/manager_window.vala ../resources/manager_window.ui
+msgid "Install Local Packages"
+msgstr ""
+
+#: ../src/manager_window.vala ../resources/progress_dialog.ui
+#: ../resources/transaction_sum_dialog.ui ../resources/choose_dep_dialog.ui
+#: ../resources/choose_ignorepkgs_dialog.ui
+msgid "_Cancel"
+msgstr ""
+
+#: ../src/manager_window.vala
+msgid "_Open"
+msgstr ""
+
+#: ../src/manager_window.vala
+msgid "Alpm Package"
+msgstr ""
 
 #: ../src/manager_window.vala
 msgid "A Gtk3 frontend for libalpm"
@@ -644,12 +490,214 @@ msgstr ""
 msgid "Copyright © 2015 Guillaume Benoit"
 msgstr ""
 
-#: ../src/common.vala
-#, c-format
-msgid "%.0f KiB"
+#: ../src/preferences_dialog.vala ../resources/preferences_dialog.ui
+msgid "How often to check for updates, value in hours"
+msgstr "Bao lâu sẽ kiểm tra cập nhật, tính bằng giờ"
+
+#: ../src/preferences_dialog.vala
+msgid "Worldwide"
 msgstr ""
 
-#: ../src/common.vala
-#, c-format
-msgid "%.2f MiB"
-msgstr "%.2f MiB"
+#: ../src/preferences_dialog.vala
+msgid "Speed"
+msgstr ""
+
+#: ../src/preferences_dialog.vala
+msgid "Random"
+msgstr ""
+
+#: ../src/choose_ignorepkgs_dialog.vala
+msgid "Choose the packages you do not want to upgrade"
+msgstr ""
+
+#: ../resources/choose_provider_dialog.ui
+msgid "Choose a Provider"
+msgstr ""
+
+#: ../resources/choose_provider_dialog.ui
+#: ../resources/transaction_sum_dialog.ui ../resources/choose_dep_dialog.ui
+#: ../resources/choose_ignorepkgs_dialog.ui
+msgid "_OK"
+msgstr ""
+
+#: ../resources/progress_dialog.ui
+msgid "Progress"
+msgstr "Tiến trình"
+
+#: ../resources/progress_dialog.ui ../resources/history_dialog.ui
+#: ../resources/transaction_info_dialog.ui ../resources/updater_window.ui
+#: ../resources/preferences_dialog.ui
+msgid "_Close"
+msgstr ""
+
+#: ../resources/progress_dialog.ui ../resources/transaction_info_dialog.ui
+#: ../resources/manager_window.ui
+msgid "Details"
+msgstr "Chi tiết"
+
+#: ../resources/history_dialog.ui
+msgid "Pamac History"
+msgstr "Lịch sử Pamac"
+
+#: ../resources/choose_dep_dialog.ui
+msgid "Choose Optional Dependencies"
+msgstr ""
+
+#: ../resources/manager_window.ui
+msgid "View History"
+msgstr "Hiển thị lịch sử"
+
+#: ../resources/manager_window.ui ../resources/updater_window.ui
+msgid "_Preferences"
+msgstr ""
+
+#: ../resources/manager_window.ui
+msgid "_About"
+msgstr ""
+
+#: ../resources/manager_window.ui
+msgid "Refresh databases"
+msgstr ""
+
+#: ../resources/manager_window.ui
+msgid "Apply changes"
+msgstr "Áp dụng những thay đổi"
+
+#: ../resources/manager_window.ui
+msgid "Cancel all planned changes"
+msgstr ""
+
+#: ../resources/manager_window.ui
+msgid "Search in AUR"
+msgstr "Tìm trên AUR"
+
+#: ../resources/manager_window.ui
+msgid "Search"
+msgstr "Tìm"
+
+#: ../resources/manager_window.ui
+msgid "State"
+msgstr "Tình trạng"
+
+#: ../resources/manager_window.ui
+msgid "Repositories"
+msgstr ""
+
+#: ../resources/manager_window.ui
+msgid "Name"
+msgstr "Tên"
+
+#: ../resources/manager_window.ui
+msgid "Version"
+msgstr "Phiên bản"
+
+#: ../resources/manager_window.ui
+msgid "Size"
+msgstr "Cỡ"
+
+#: ../resources/manager_window.ui
+msgid "Description"
+msgstr ""
+
+#: ../resources/manager_window.ui
+msgid "Dependencies"
+msgstr ""
+
+#: ../resources/manager_window.ui
+msgid "Files"
+msgstr "Tệp tin"
+
+#: ../resources/updater_window.ui
+msgid "_Refresh"
+msgstr ""
+
+#: ../resources/updater_window.ui
+msgid "_Apply"
+msgstr ""
+
+#: ../resources/preferences_dialog.ui
+msgid "Preferences"
+msgstr ""
+
+#: ../resources/preferences_dialog.ui
+msgid "Remove unrequired dependencies"
+msgstr "Gỡ bỏ phần phụ thuộc không cần thiết"
+
+#: ../resources/preferences_dialog.ui
+msgid ""
+"When removing a package, also remove its dependencies that are not required "
+"by other packages"
+msgstr ""
+
+#: ../resources/preferences_dialog.ui
+msgid "Check available disk space"
+msgstr ""
+
+#: ../resources/preferences_dialog.ui
+msgid "Check for updates"
+msgstr ""
+
+#: ../resources/preferences_dialog.ui
+msgid "Hide tray icon when no update available"
+msgstr ""
+
+#: ../resources/preferences_dialog.ui
+msgid "Ignore upgrades for:"
+msgstr ""
+
+#: ../resources/preferences_dialog.ui
+msgid "General"
+msgstr ""
+
+#: ../resources/preferences_dialog.ui
+msgid "Use mirrors from:"
+msgstr ""
+
+#: ../resources/preferences_dialog.ui
+msgid "Sort mirrors by:"
+msgstr ""
+
+#: ../resources/preferences_dialog.ui
+msgid "Refresh Mirrors List"
+msgstr ""
+
+#: ../resources/preferences_dialog.ui
+msgid "Official Repositories"
+msgstr ""
+
+#: ../resources/preferences_dialog.ui
+msgid ""
+"AUR is a community maintained repository so it presents potential risks and "
+"problems.\n"
+"All AUR users should be familiar with the build process."
+msgstr ""
+
+#: ../resources/preferences_dialog.ui
+msgid "Enable AUR support"
+msgstr "Bật hỗ trợ AUR"
+
+#: ../resources/preferences_dialog.ui
+msgid "Allow Pamac to search and install packages from AUR"
+msgstr "Cho phép Pamac tìm kiếm và cài đặt gói từ AUR"
+
+#: ../resources/preferences_dialog.ui
+msgid "Check for updates from AUR"
+msgstr ""
+
+#: ../resources/preferences_dialog.ui
+msgid "Do not ask for confirmation when building packages"
+msgstr ""
+
+#: ../resources/preferences_dialog.ui
+msgid "AUR"
+msgstr ""
+
+#: ../resources/choose_ignorepkgs_dialog.ui
+msgid "Choose Ignored Upgrades"
+msgstr ""
+
+#~ msgid "Install local packages"
+#~ msgstr "Cài đặt"
+
+#~ msgid "Options"
+#~ msgstr "Các tùy chọn"

@@ -2,7 +2,7 @@
 # Copyright (C) 2007-2012 Free Software Foundation, Inc.
 # This file is distributed under the same license as the Pamac package.
 # Guillaume Benoit <guillaume@manjaro.org>, 2013-2015.
-# 
+#
 # Translators:
 # DirectorX <kassavlt@gmail.com>, 2014
 # GenghisKhan <genghiskhan@gmx.ca>, 2013-2015
@@ -12,210 +12,30 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2015-03-04 14:36+0100\n"
+"POT-Creation-Date: 2015-08-20 11:53+0200\n"
 "PO-Revision-Date: 2015-03-30 08:43+0000\n"
 "Last-Translator: GenghisKhan <genghiskhan@gmx.ca>\n"
-"Language-Team: Hebrew (http://www.transifex.com/projects/p/manjaro-pamac/language/he/)\n"
+"Language-Team: Hebrew (http://www.transifex.com/projects/p/manjaro-pamac/"
+"language/he/)\n"
+"Language: he\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: he\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: data/polkit/org.manjaro.pamac.policy
 msgid "Authentication is required"
 msgstr "דרוש אימות"
 
-#: ../resources/choose_provider_dialog.ui
-msgid "Choose a Provider"
-msgstr "בחירת ספק"
+#: ../src/common.vala
+#, c-format
+msgid "%.0f KiB"
+msgstr "%.0f קי״ב"
 
-#: ../resources/choose_provider_dialog.ui
-#: ../resources/transaction_sum_dialog.ui ../resources/preferences_dialog.ui
-msgid "_OK"
-msgstr "_אישור"
-
-#: ../resources/packages_chooser_dialog.ui ../resources/manager_window.ui
-msgid "Install local packages"
-msgstr "התקן חבילות מקומיות"
-
-#: ../resources/packages_chooser_dialog.ui ../resources/progress_dialog.ui
-#: ../resources/transaction_sum_dialog.ui
-msgid "_Cancel"
-msgstr "_ביטול"
-
-#: ../resources/packages_chooser_dialog.ui
-msgid "_Open"
-msgstr "_פתח"
-
-#: ../resources/progress_dialog.ui
-msgid "Progress"
-msgstr "התקדמות"
-
-#: ../resources/progress_dialog.ui ../resources/history_dialog.ui
-#: ../resources/transaction_info_dialog.ui ../resources/updater_window.ui
-#: ../resources/preferences_dialog.ui
-msgid "_Close"
-msgstr "_סגור"
-
-#: ../resources/progress_dialog.ui ../resources/transaction_info_dialog.ui
-#: ../resources/manager_window.ui
-msgid "Details"
-msgstr "פרטים"
-
-#: ../resources/history_dialog.ui
-msgid "Pamac History"
-msgstr "היסטורית Pamac"
-
-#: ../resources/transaction_sum_dialog.ui ../src/transaction.vala
-msgid "Transaction Summary"
-msgstr "סיכום טרנזקציה"
-
-#: ../resources/manager_window.ui
-msgid "View History"
-msgstr "צפה בהיסטוריה"
-
-#: ../resources/manager_window.ui ../resources/updater_window.ui
-msgid "_Preferences"
-msgstr "_העדפות"
-
-#: ../resources/manager_window.ui
-msgid "_About"
-msgstr "_אודות"
-
-#: ../resources/manager_window.ui ../src/tray.vala
-msgid "Package Manager"
-msgstr "מנהל חבילה"
-
-#: ../resources/manager_window.ui
-msgid "Refresh databases"
-msgstr "רענן מסדי נתונים"
-
-#: ../resources/manager_window.ui
-msgid "Apply changes"
-msgstr "החל שינויים"
-
-#: ../resources/manager_window.ui
-msgid "Cancel all planned changes"
-msgstr "בטל את כל השינויים המתוכננים"
-
-#: ../resources/manager_window.ui
-msgid "Search in AUR"
-msgstr "חפש בתוך AUR"
-
-#: ../resources/manager_window.ui
-msgid "Search"
-msgstr "חיפוש"
-
-#: ../resources/manager_window.ui ../src/manager_window.vala
-msgid "Groups"
-msgstr "קבוצה"
-
-#: ../resources/manager_window.ui
-msgid "State"
-msgstr "מצב"
-
-#: ../resources/manager_window.ui
-msgid "Repositories"
-msgstr "מאגרים"
-
-#: ../resources/manager_window.ui
-msgid "Name"
-msgstr "שם"
-
-#: ../resources/manager_window.ui
-msgid "Version"
-msgstr "גרסא"
-
-#: ../resources/manager_window.ui ../src/manager_window.vala
-msgid "Repository"
-msgstr "מאגר"
-
-#: ../resources/manager_window.ui
-msgid "Size"
-msgstr "גודל"
-
-#: ../resources/manager_window.ui
-msgid "Description"
-msgstr "תיאור"
-
-#: ../resources/manager_window.ui
-msgid "Dependencies"
-msgstr "תלויות"
-
-#: ../resources/manager_window.ui
-msgid "Files"
-msgstr "קבצים"
-
-#: ../resources/updater_window.ui ../src/tray.vala
-msgid "Update Manager"
-msgstr "מנהל עדכונים"
-
-#: ../resources/updater_window.ui
-msgid "_Refresh"
-msgstr "_רענן"
-
-#: ../resources/updater_window.ui
-msgid "_Apply"
-msgstr "_החל"
-
-#: ../resources/preferences_dialog.ui
-msgid "Preferences"
-msgstr "העדפות"
-
-#: ../resources/preferences_dialog.ui
-msgid "Allow Pamac to search and install packages from AUR"
-msgstr "אפשר לPamac לחפש ולהתקין חבילות מתוך AUR"
-
-#: ../resources/preferences_dialog.ui
-msgid ""
-"When removing a package, also remove its dependencies that are not required "
-"by other packages"
-msgstr "בעת הסרת חבילה, הסר גם את התלויות שלה אשר לא נחוצות על ידי חבילות אחרות"
-
-#: ../resources/preferences_dialog.ui
-msgid "Check available disk space"
-msgstr "בדוק שטח כונן פנוי"
-
-#: ../resources/preferences_dialog.ui ../src/preferences_dialog.vala
-msgid "How often to check for updates, value in hours"
-msgstr "מהי תדירות בדיקת העדכונים, בשעות"
-
-#: ../resources/preferences_dialog.ui
-msgid "Remove unrequired dependencies"
-msgstr "הסר תוספים לא נחוצים"
-
-#: ../resources/preferences_dialog.ui
-msgid "Upgrade first:"
-msgstr "שדרג תחילה:"
-
-#: ../resources/preferences_dialog.ui
-msgid "Ignore upgrades for:"
-msgstr "התעלם משדרוגים עבור:"
-
-#: ../resources/preferences_dialog.ui
-msgid "Enable AUR support"
-msgstr "אפשר תמיכת AUR"
-
-#: ../resources/preferences_dialog.ui
-msgid "Options"
-msgstr "אפשרויות"
-
-#: ../resources/preferences_dialog.ui
-msgid "Sort mirrors by:"
-msgstr "מיין מראות לפי:"
-
-#: ../resources/preferences_dialog.ui
-msgid "Use mirrors from:"
-msgstr "השתמש במראות מתוך:"
-
-#: ../resources/preferences_dialog.ui
-msgid "Official repositories"
-msgstr "מאגרים רשמיים"
-
-#: ../src/packages_chooser_dialog.vala
-msgid "Alpm Package"
-msgstr "חבילת Alpm"
+#: ../src/common.vala
+#, c-format
+msgid "%.2f MiB"
+msgstr "%.2f מי״ב"
 
 #: ../src/daemon.vala
 msgid "Failed to initialize alpm library"
@@ -290,6 +110,10 @@ msgid "Authentication failed"
 msgstr "אימות נכשל"
 
 #: ../src/transaction.vala
+msgid "Refreshing mirrors list"
+msgstr ""
+
+#: ../src/transaction.vala
 msgid "Synchronizing package databases"
 msgstr "כעת מסנכרן מסדי נתוני חבילה"
 
@@ -301,10 +125,9 @@ msgstr "כעת מתחיל שדרוג מערכת מלא"
 msgid "Preparing"
 msgstr "כעת מתכונן"
 
-#: ../src/transaction.vala
-#, c-format
-msgid "Choose a provider for %s"
-msgstr "בחר ספק עבור %s"
+#: ../src/transaction.vala ../resources/transaction_sum_dialog.ui
+msgid "Transaction Summary"
+msgstr "סיכום טרנזקציה"
 
 #: ../src/transaction.vala ../src/manager_window.vala
 msgid "To remove"
@@ -337,18 +160,6 @@ msgstr "גודל הורדה כולל"
 #: ../src/transaction.vala
 msgid "Building packages"
 msgstr "כעת בונה חבילות"
-
-#: ../src/transaction.vala
-msgid "Worldwide"
-msgstr "כלל עולמי"
-
-#: ../src/transaction.vala
-msgid "speed"
-msgstr "מהירות"
-
-#: ../src/transaction.vala
-msgid "random"
-msgstr "אקראי"
 
 #: ../src/transaction.vala
 msgid "Checking dependencies"
@@ -497,10 +308,6 @@ msgstr "אין מה לעשות"
 msgid "Transaction successfully finished"
 msgstr "טרנזקציה הסתיימה בהצלחה"
 
-#: ../src/transaction.vala
-msgid "Generating mirrorlist"
-msgstr "כעת מפיק mirrorlist"
-
 #: ../src/installer.vala ../src/manager.vala ../src/updater.vala
 msgid "Pamac is already running"
 msgstr "‏Pamac כבר מורץ כעת"
@@ -508,6 +315,14 @@ msgstr "‏Pamac כבר מורץ כעת"
 #: ../src/tray.vala ../src/updater_window.vala
 msgid "Your system is up-to-date"
 msgstr "המערכת שלך מעודכנת"
+
+#: ../src/tray.vala ../resources/updater_window.ui
+msgid "Update Manager"
+msgstr "מנהל עדכונים"
+
+#: ../src/tray.vala ../resources/manager_window.ui
+msgid "Package Manager"
+msgstr "מנהל חבילה"
 
 #: ../src/tray.vala
 msgid "_Quit"
@@ -523,6 +338,22 @@ msgstr[1] "%u עדכונים זמינים"
 #: ../src/tray.vala
 msgid "Show available updates"
 msgstr "הצג עדכונים זמינים"
+
+#: ../src/choose_provider_dialog.vala
+#, c-format
+msgid "Choose a provider for %s"
+msgstr "בחר ספק עבור %s"
+
+#: ../src/choose_dep_dialog.vala
+#, c-format
+msgid ""
+"%s has %u uninstalled optional dependency.\n"
+"Choose if you would like to install it"
+msgid_plural ""
+"%s has %u uninstalled optional dependencies.\n"
+"Choose those you would like to install"
+msgstr[0] ""
+msgstr[1] ""
 
 #: ../src/manager_window.vala
 msgid "Deselect"
@@ -588,6 +419,14 @@ msgstr "מחליפה"
 msgid "Conflicts With"
 msgstr "מתנגשת עם"
 
+#: ../src/manager_window.vala ../resources/manager_window.ui
+msgid "Repository"
+msgstr "מאגר"
+
+#: ../src/manager_window.vala ../resources/manager_window.ui
+msgid "Groups"
+msgstr "קבוצה"
+
 #: ../src/manager_window.vala
 msgid "Packager"
 msgstr "אורז"
@@ -625,19 +464,26 @@ msgid "No package found"
 msgstr "לא נמצאה חבילה"
 
 #: ../src/manager_window.vala
-#, c-format
-msgid ""
-"%s has %u uninstalled optional dependency.\n"
-"Choose if you would like to install it:"
-msgid_plural ""
-"%s has %u uninstalled optional dependencies.\n"
-"Choose those you would like to install:"
-msgstr[0] "לחבילה %s יש תלות רשות %u לא מותקנת.\nבחר אותה אם ברצונך להתקינה:"
-msgstr[1] "לחבילה %s יש %u תלויות רשות לא מותקנות.\nבחר את אלה אשר ברצונך להתקין:"
-
-#: ../src/manager_window.vala
 msgid "Uninstalled"
 msgstr "לא מותקנות"
+
+#: ../src/manager_window.vala ../resources/manager_window.ui
+msgid "Install Local Packages"
+msgstr ""
+
+#: ../src/manager_window.vala ../resources/progress_dialog.ui
+#: ../resources/transaction_sum_dialog.ui ../resources/choose_dep_dialog.ui
+#: ../resources/choose_ignorepkgs_dialog.ui
+msgid "_Cancel"
+msgstr "_ביטול"
+
+#: ../src/manager_window.vala
+msgid "_Open"
+msgstr "_פתח"
+
+#: ../src/manager_window.vala
+msgid "Alpm Package"
+msgstr "חבילת Alpm"
 
 #: ../src/manager_window.vala
 msgid "A Gtk3 frontend for libalpm"
@@ -647,12 +493,243 @@ msgstr "מגשר חזיתי Gtk3 עבור libalpm"
 msgid "Copyright © 2015 Guillaume Benoit"
 msgstr "Copyright © 2015 Guillaume Benoit"
 
-#: ../src/common.vala
-#, c-format
-msgid "%.0f KiB"
-msgstr "%.0f קי״ב"
+#: ../src/preferences_dialog.vala ../resources/preferences_dialog.ui
+msgid "How often to check for updates, value in hours"
+msgstr "מהי תדירות בדיקת העדכונים, בשעות"
 
-#: ../src/common.vala
-#, c-format
-msgid "%.2f MiB"
-msgstr "%.2f מי״ב"
+#: ../src/preferences_dialog.vala
+msgid "Worldwide"
+msgstr "כלל עולמי"
+
+#: ../src/preferences_dialog.vala
+msgid "Speed"
+msgstr ""
+
+#: ../src/preferences_dialog.vala
+msgid "Random"
+msgstr ""
+
+#: ../src/choose_ignorepkgs_dialog.vala
+msgid "Choose the packages you do not want to upgrade"
+msgstr ""
+
+#: ../resources/choose_provider_dialog.ui
+msgid "Choose a Provider"
+msgstr "בחירת ספק"
+
+#: ../resources/choose_provider_dialog.ui
+#: ../resources/transaction_sum_dialog.ui ../resources/choose_dep_dialog.ui
+#: ../resources/choose_ignorepkgs_dialog.ui
+msgid "_OK"
+msgstr "_אישור"
+
+#: ../resources/progress_dialog.ui
+msgid "Progress"
+msgstr "התקדמות"
+
+#: ../resources/progress_dialog.ui ../resources/history_dialog.ui
+#: ../resources/transaction_info_dialog.ui ../resources/updater_window.ui
+#: ../resources/preferences_dialog.ui
+msgid "_Close"
+msgstr "_סגור"
+
+#: ../resources/progress_dialog.ui ../resources/transaction_info_dialog.ui
+#: ../resources/manager_window.ui
+msgid "Details"
+msgstr "פרטים"
+
+#: ../resources/history_dialog.ui
+msgid "Pamac History"
+msgstr "היסטורית Pamac"
+
+#: ../resources/choose_dep_dialog.ui
+msgid "Choose Optional Dependencies"
+msgstr ""
+
+#: ../resources/manager_window.ui
+msgid "View History"
+msgstr "צפה בהיסטוריה"
+
+#: ../resources/manager_window.ui ../resources/updater_window.ui
+msgid "_Preferences"
+msgstr "_העדפות"
+
+#: ../resources/manager_window.ui
+msgid "_About"
+msgstr "_אודות"
+
+#: ../resources/manager_window.ui
+msgid "Refresh databases"
+msgstr "רענן מסדי נתונים"
+
+#: ../resources/manager_window.ui
+msgid "Apply changes"
+msgstr "החל שינויים"
+
+#: ../resources/manager_window.ui
+msgid "Cancel all planned changes"
+msgstr "בטל את כל השינויים המתוכננים"
+
+#: ../resources/manager_window.ui
+msgid "Search in AUR"
+msgstr "חפש בתוך AUR"
+
+#: ../resources/manager_window.ui
+msgid "Search"
+msgstr "חיפוש"
+
+#: ../resources/manager_window.ui
+msgid "State"
+msgstr "מצב"
+
+#: ../resources/manager_window.ui
+msgid "Repositories"
+msgstr "מאגרים"
+
+#: ../resources/manager_window.ui
+msgid "Name"
+msgstr "שם"
+
+#: ../resources/manager_window.ui
+msgid "Version"
+msgstr "גרסא"
+
+#: ../resources/manager_window.ui
+msgid "Size"
+msgstr "גודל"
+
+#: ../resources/manager_window.ui
+msgid "Description"
+msgstr "תיאור"
+
+#: ../resources/manager_window.ui
+msgid "Dependencies"
+msgstr "תלויות"
+
+#: ../resources/manager_window.ui
+msgid "Files"
+msgstr "קבצים"
+
+#: ../resources/updater_window.ui
+msgid "_Refresh"
+msgstr "_רענן"
+
+#: ../resources/updater_window.ui
+msgid "_Apply"
+msgstr "_החל"
+
+#: ../resources/preferences_dialog.ui
+msgid "Preferences"
+msgstr "העדפות"
+
+#: ../resources/preferences_dialog.ui
+msgid "Remove unrequired dependencies"
+msgstr "הסר תוספים לא נחוצים"
+
+#: ../resources/preferences_dialog.ui
+msgid ""
+"When removing a package, also remove its dependencies that are not required "
+"by other packages"
+msgstr ""
+"בעת הסרת חבילה, הסר גם את התלויות שלה אשר לא נחוצות על ידי חבילות אחרות"
+
+#: ../resources/preferences_dialog.ui
+msgid "Check available disk space"
+msgstr "בדוק שטח כונן פנוי"
+
+#: ../resources/preferences_dialog.ui
+msgid "Check for updates"
+msgstr ""
+
+#: ../resources/preferences_dialog.ui
+msgid "Hide tray icon when no update available"
+msgstr ""
+
+#: ../resources/preferences_dialog.ui
+msgid "Ignore upgrades for:"
+msgstr "התעלם משדרוגים עבור:"
+
+#: ../resources/preferences_dialog.ui
+msgid "General"
+msgstr ""
+
+#: ../resources/preferences_dialog.ui
+msgid "Use mirrors from:"
+msgstr "השתמש במראות מתוך:"
+
+#: ../resources/preferences_dialog.ui
+msgid "Sort mirrors by:"
+msgstr "מיין מראות לפי:"
+
+#: ../resources/preferences_dialog.ui
+msgid "Refresh Mirrors List"
+msgstr ""
+
+#: ../resources/preferences_dialog.ui
+msgid "Official Repositories"
+msgstr ""
+
+#: ../resources/preferences_dialog.ui
+msgid ""
+"AUR is a community maintained repository so it presents potential risks and "
+"problems.\n"
+"All AUR users should be familiar with the build process."
+msgstr ""
+
+#: ../resources/preferences_dialog.ui
+msgid "Enable AUR support"
+msgstr "אפשר תמיכת AUR"
+
+#: ../resources/preferences_dialog.ui
+msgid "Allow Pamac to search and install packages from AUR"
+msgstr "אפשר לPamac לחפש ולהתקין חבילות מתוך AUR"
+
+#: ../resources/preferences_dialog.ui
+msgid "Check for updates from AUR"
+msgstr ""
+
+#: ../resources/preferences_dialog.ui
+msgid "Do not ask for confirmation when building packages"
+msgstr ""
+
+#: ../resources/preferences_dialog.ui
+msgid "AUR"
+msgstr ""
+
+#: ../resources/choose_ignorepkgs_dialog.ui
+msgid "Choose Ignored Upgrades"
+msgstr ""
+
+#~ msgid "Install local packages"
+#~ msgstr "התקן חבילות מקומיות"
+
+#~ msgid "Upgrade first:"
+#~ msgstr "שדרג תחילה:"
+
+#~ msgid "Options"
+#~ msgstr "אפשרויות"
+
+#~ msgid "Official repositories"
+#~ msgstr "מאגרים רשמיים"
+
+#~ msgid "speed"
+#~ msgstr "מהירות"
+
+#~ msgid "random"
+#~ msgstr "אקראי"
+
+#~ msgid "Generating mirrorlist"
+#~ msgstr "כעת מפיק mirrorlist"
+
+#~ msgid ""
+#~ "%s has %u uninstalled optional dependency.\n"
+#~ "Choose if you would like to install it:"
+#~ msgid_plural ""
+#~ "%s has %u uninstalled optional dependencies.\n"
+#~ "Choose those you would like to install:"
+#~ msgstr[0] ""
+#~ "לחבילה %s יש תלות רשות %u לא מותקנת.\n"
+#~ "בחר אותה אם ברצונך להתקינה:"
+#~ msgstr[1] ""
+#~ "לחבילה %s יש %u תלויות רשות לא מותקנות.\n"
+#~ "בחר את אלה אשר ברצונך להתקין:"

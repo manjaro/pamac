@@ -27,8 +27,14 @@ namespace Pamac {
 		[GtkChild]
 		public Gtk.ComboBoxText comboboxtext;
 
-		public ChooseProviderDialog (Gtk.ApplicationWindow? window) {
+		public ChooseProviderDialog (string depend, string[] providers, Gtk.ApplicationWindow? window) {
 			Object (transient_for: window, use_header_bar: 0);
+
+			label.set_markup ("<b>%s</b>".printf (dgettext (null, "Choose a provider for %s").printf (depend)));
+			foreach (string provider in providers) {
+				comboboxtext.append_text (provider);
+			}
+			comboboxtext.active = 0;
 		}
 	}
 }

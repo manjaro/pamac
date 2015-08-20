@@ -20,7 +20,7 @@
 using Gtk;
 using Alpm;
 
-const string VERSION = "2.3.3";
+const string VERSION = "2.4.0";
 
 namespace Pamac {
 
@@ -180,7 +180,12 @@ namespace Pamac {
 			if (pamac_config.recurse) {
 				transaction.flags |= Alpm.TransFlag.RECURSE;
 			}
-			enable_aur (pamac_config.enable_aur);
+			Pamac.Package pkg = transaction.find_local_pkg ("yaourt");
+			if (pkg.name == "") {
+				enable_aur (false);
+			} else {
+				enable_aur (pamac_config.enable_aur);
+			}
 
 			set_buttons_sensitive (false);
 
@@ -620,32 +625,21 @@ namespace Pamac {
 		}
 
 		public void choose_opt_dep (Pamac.Package[] pkgs) {
-			Gtk.TreeIter iter;
 			foreach (Pamac.Package pkg in pkgs) {
-				var choose_dep_dialog = new ChooseDependenciesDialog (this);
-				string[] optdeps = transaction.get_pkg_uninstalled_optdeps (pkg.name);
-				foreach (var optdep in optdeps) {
-					string[] split = optdep.split (":", 2);
-					choose_dep_dialog.deps_list.insert_with_values (out iter, -1,
-											0, false,
-											1, split[0],
-											2, split[1]);
+				var choose_dep_dialog = new ChooseDependenciesDialog (transaction, pkg.name, this);
+				if (choose_dep_dialog.run () == Gtk.ResponseType.OK) {
+					choose_dep_dialog.deps_list.foreach ((model, path, iter) => {
+						GLib.Value val;
+						choose_dep_dialog.deps_list.get_value (iter, 0, out val);
+						bool selected = val.get_boolean ();
+						if (selected) {
+							choose_dep_dialog.deps_list.get_value (iter, 1, out val);
+							string name = val.get_string ();
+							transaction.to_add.add ((owned) name);
+						}
+						return false;
+					});
 				}
-				choose_dep_dialog.label.set_markup ("<b>%s</b>".printf (
-						dngettext (null, "%s has %u uninstalled optional dependency.\nChoose if you would like to install it:",
-								"%s has %u uninstalled optional dependencies.\nChoose those you would like to install:", optdeps.length).printf (pkg.name, optdeps.length)));
-				choose_dep_dialog.run ();
-				choose_dep_dialog.deps_list.foreach ((model, path, iter) => {
-					GLib.Value val;
-					choose_dep_dialog.deps_list.get_value (iter, 0, out val);
-					bool selected = val.get_boolean ();
-					if (selected) {
-						choose_dep_dialog.deps_list.get_value (iter, 1, out val);
-						string name = val.get_string ();
-						transaction.to_add.add ((owned) name);
-					}
-					return false;
-				});
 				choose_dep_dialog.destroy ();
 				while (Gtk.events_pending ()) {
 					Gtk.main_iteration ();
@@ -829,9 +823,6 @@ namespace Pamac {
 			string search_string = search_entry.get_text ();
 			if (search_string != "") {
 				this.get_window ().set_cursor (new Gdk.Cursor.for_display (Gdk.Display.get_default (), Gdk.CursorType.WATCH));
-				while (Gtk.events_pending ()) {
-					Gtk.main_iteration ();
-				}
 				transaction.search_pkgs.begin (search_string, search_aur_button.get_active (), (obj, res) => {
 					var pkgs = transaction.search_pkgs.end (res);
 					if (pkgs.length != 0) {
@@ -893,9 +884,6 @@ namespace Pamac {
 			Gtk.TreeSelection selection = search_treeview.get_selection ();
 			if (selection.get_selected (out model, out iter)) {
 				this.get_window ().set_cursor (new Gdk.Cursor.for_display (Gdk.Display.get_default (), Gdk.CursorType.WATCH));
-				while (Gtk.events_pending ()) {
-					Gtk.main_iteration ();
-				}
 				GLib.Value val;
 				model.get_value (iter, 0, out val);
 				string search_string = val.get_string ();
@@ -913,9 +901,6 @@ namespace Pamac {
 			Gtk.TreeSelection selection = groups_treeview.get_selection ();
 			if (selection.get_selected (out model, out iter)) {
 				this.get_window ().set_cursor (new Gdk.Cursor.for_display (Gdk.Display.get_default (), Gdk.CursorType.WATCH));
-				while (Gtk.events_pending ()) {
-					Gtk.main_iteration ();
-				}
 				GLib.Value val;
 				model.get_value (iter, 0, out val);
 				string grp_name = val.get_string ();
@@ -933,9 +918,6 @@ namespace Pamac {
 			Gtk.TreeSelection selection = states_treeview.get_selection ();
 			if (selection.get_selected (out model, out iter)) {
 				this.get_window ().set_cursor (new Gdk.Cursor.for_display (Gdk.Display.get_default (), Gdk.CursorType.WATCH));
-				while (Gtk.events_pending ()) {
-					Gtk.main_iteration ();
-				}
 				GLib.Value val;
 				model.get_value (iter, 0, out val);
 				string state = val.get_string ();
@@ -988,9 +970,6 @@ namespace Pamac {
 			Gtk.TreeSelection selection = repos_treeview.get_selection ();
 			if (selection.get_selected (out model, out iter)) {
 				this.get_window ().set_cursor (new Gdk.Cursor.for_display (Gdk.Display.get_default (), Gdk.CursorType.WATCH));
-				while (Gtk.events_pending ()) {
-					Gtk.main_iteration ();
-				}
 				GLib.Value val;
 				model.get_value (iter, 0, out val);
 				string repo = val.get_string ();
@@ -1046,7 +1025,7 @@ namespace Pamac {
 		[GtkCallback]
 		public void on_local_item_activate () {
 			Gtk.FileChooserDialog chooser = new Gtk.FileChooserDialog (
-					dgettext (null, "Install local packages"), this, Gtk.FileChooserAction.OPEN,
+					dgettext (null, "Install Local Packages"), this, Gtk.FileChooserAction.OPEN,
 					dgettext (null, "_Cancel"), Gtk.ResponseType.CANCEL,
 					dgettext (null, "_Open"),Gtk.ResponseType.ACCEPT);
 			chooser.window_position = Gtk.WindowPosition.CENTER_ON_PARENT;
@@ -1078,12 +1057,29 @@ namespace Pamac {
 					Gtk.main_iteration ();
 				}
 			}
+		}
 
+		public async void run_preferences_dialog () {
+			SourceFunc callback = run_preferences_dialog.callback;
+			ulong handler_id = transaction.daemon.get_authorization_finished.connect ((authorized) => {
+				if (authorized) {
+					var preferences_dialog = new PreferencesDialog (transaction, this);
+					preferences_dialog.run ();
+					preferences_dialog.destroy ();
+					while (Gtk.events_pending ()) {
+						Gtk.main_iteration ();
+					}
+				}
+				Idle.add((owned) callback);
+			});
+			transaction.start_get_authorization ();
+			yield;
+			transaction.daemon.disconnect (handler_id);
 		}
 
 		[GtkCallback]
 		public void on_preferences_item_activate () {
-			transaction.run_preferences_dialog.begin ();
+			run_preferences_dialog.begin ();
 		}
 
 		[GtkCallback]
@@ -1102,9 +1098,6 @@ namespace Pamac {
 		[GtkCallback]
 		public void on_valid_button_clicked () {
 			this.get_window ().set_cursor (new Gdk.Cursor.for_display (Gdk.Display.get_default (), Gdk.CursorType.WATCH));
-			while (Gtk.events_pending ()) {
-				Gtk.main_iteration ();
-			}
 			transaction.run ();
 		}
 
@@ -1119,9 +1112,6 @@ namespace Pamac {
 		[GtkCallback]
 		public void on_refresh_button_clicked () {
 			this.get_window ().set_cursor (new Gdk.Cursor.for_display (Gdk.Display.get_default (), Gdk.CursorType.WATCH));
-			while (Gtk.events_pending ()) {
-				Gtk.main_iteration ();
-			}
 			transaction.start_refresh (0);
 		}
 

@@ -44,13 +44,11 @@ namespace Alpm {
 		public int checkspace;
 		Alpm.List<string> *cachedirs;
 		Alpm.List<string> *ignoregroups;
-		public string ignorepkg;
-		Alpm.List<string> *ignorepkgs;
+		public Alpm.List<string> *ignorepkgs;
 		Alpm.List<string> *noextracts;
 		Alpm.List<string> *noupgrades;
 		public GLib.List<string> holdpkgs;
 		public GLib.List<string> syncfirsts;
-		public string syncfirst;
 		Signature.Level defaultsiglevel;
 		Signature.Level localfilesiglevel;
 		Signature.Level remotefilesiglevel;
@@ -73,7 +71,6 @@ namespace Alpm {
 			arch = Posix.utsname().machine;
 			holdpkgs = new GLib.List<string> ();
 			syncfirsts = new GLib.List<string> ();
-			syncfirst = "";
 			Alpm.List.free_all (cachedirs);
 			Alpm.List.free_all (ignoregroups);
 			Alpm.List.free_all (ignorepkgs);
@@ -83,7 +80,6 @@ namespace Alpm {
 			cachedirs->add_str (default_cachedir);
 			ignoregroups = new Alpm.List<string> ();
 			ignorepkgs = new Alpm.List<string> ();
-			ignorepkg = "";
 			noextracts = new Alpm.List<string> ();
 			noupgrades = new Alpm.List<string> ();
 			usesyslog = 0;
@@ -141,16 +137,14 @@ namespace Alpm {
 		public void parse_file (string path, string? section = null) {
 			string? current_section = section;
 			var file = GLib.File.new_for_path (path);
-			if (file.query_exists () == false) {
-				GLib.stderr.printf ("File '%s' doesn't exist.\n", path);
-			} else {
+			if (file.query_exists ()) {
 				try {
 					// Open file for reading and wrap returned FileInputStream into a
 					// DataInputStream, so we can read line by line
 					var dis = new DataInputStream (file.read ());
-					string line;
+					string? line;
 					// Read lines until end of file (null) is reached
-					while ((line = dis.read_line (null)) != null) {
+					while ((line = dis.read_line ()) != null) {
 						if (line.length == 0) {
 							continue;
 						}
@@ -169,80 +163,78 @@ namespace Alpm {
 							continue;
 						}
 						splitted = line.split ("=", 2);
-						string _key = splitted[0].strip ();
-						string? _value = null;
+						string key = splitted[0].strip ();
+						string? val = null;
 						if (splitted[1] != null) {
-							_value = splitted[1].strip ();
+							val = splitted[1].strip ();
 						}
-						if (_key == "Include") {
-							parse_file (_value, current_section);
+						if (key == "Include") {
+							parse_file (val, current_section);
 						}
 						if (current_section == "options") {
-							if (_key == "GPGDir") {
-								gpgdir = _value;
-							} else if (_key == "LogFile") {
-								logfile = _value;
-							} else if (_key == "Architecture") {
-								if (_value == "auto") {
+							if (key == "GPGDir") {
+								gpgdir = val;
+							} else if (key == "LogFile") {
+								logfile = val;
+							} else if (key == "Architecture") {
+								if (val == "auto") {
 									arch = Posix.utsname ().machine;
 								} else {
-									arch = _value;
+									arch = val;
 								}
-							} else if (_key == "UseDelta") {
-								deltaratio = double.parse (_value);
-							} else if (_key == "UseSysLog") {
+							} else if (key == "UseDelta") {
+								deltaratio = double.parse (val);
+							} else if (key == "UseSysLog") {
 								usesyslog = 1;
-							} else if (_key == "CheckSpace") {
+							} else if (key == "CheckSpace") {
 								checkspace = 1;
-							} else if (_key == "SigLevel") {
-								defaultsiglevel = define_siglevel (defaultsiglevel, _value);
-							} else if (_key == "LocalFileSigLevel") {
-								localfilesiglevel = define_siglevel (localfilesiglevel, _value);
-							} else if (_key == "RemoteFileSigLevel") {
-								remotefilesiglevel = define_siglevel (remotefilesiglevel, _value);
-							} else if (_key == "HoldPkg") {
-								foreach (string name in _value.split (" ")) {
+							} else if (key == "SigLevel") {
+								defaultsiglevel = define_siglevel (defaultsiglevel, val);
+							} else if (key == "LocalFileSigLevel") {
+								localfilesiglevel = define_siglevel (localfilesiglevel, val);
+							} else if (key == "RemoteFileSigLevel") {
+								remotefilesiglevel = define_siglevel (remotefilesiglevel, val);
+							} else if (key == "HoldPkg") {
+								foreach (string name in val.split (" ")) {
 									holdpkgs.append (name);
 								}
-							} else if (_key == "SyncFirst") {
-								syncfirst = _value;
-								foreach (string name in _value.split (" ")) {
+							} else if (key == "SyncFirst") {
+								foreach (string name in val.split (" ")) {
 									syncfirsts.append (name);
 								}
-							} else if (_key == "CacheDir") {
-								foreach (string dir in _value.split (" ")) {
+							} else if (key == "CacheDir") {
+								foreach (string dir in val.split (" ")) {
 									cachedirs->add_str (dir);
 								}
-							} else if (_key == "IgnoreGroup") {
-								foreach (string name in _value.split (" ")) {
+							} else if (key == "IgnoreGroup") {
+								foreach (string name in val.split (" ")) {
 									ignoregroups->add_str (name);
 								}
-							} else if (_key == "IgnorePkg") {
-								ignorepkg = _value;
-								foreach (string name in _value.split (" ")) {
+							} else if (key == "IgnorePkg") {
+								foreach (string name in val.split (" ")) {
 									ignorepkgs->add_str (name);
 								}
-							} else if (_key == "Noextract") {
-								foreach (string name in _value.split (" ")) {
+							} else if (key == "Noextract") {
+								foreach (string name in val.split (" ")) {
 									noextracts->add_str (name);
 								}
-							} else if (_key == "NoUpgrade") {
-								foreach (string name in _value.split (" ")) {
+							} else if (key == "NoUpgrade") {
+								foreach (string name in val.split (" ")) {
 									noupgrades->add_str (name);
 								}
 							}
 						} else {
 							foreach (var repo in repo_order) {
 								if (repo.name == current_section) {
-									if (_key == "Server") {
-										repo.urls += _value;
-									} else if (_key == "SigLevel") {
+									if (key == "Server") {
+										repo.urls += val;
+									} else if (key == "SigLevel") {
 										if (repo.siglevel == Signature.Level.USE_DEFAULT) {
 											repo.siglevel = defaultsiglevel;
 										}
-										repo.siglevel = define_siglevel (repo.siglevel, _value);
-									} else if (_key == "Usage") {
-										repo.usage = define_usage (_value);
+										repo.siglevel = define_siglevel (repo.siglevel, val);
+									} else if (key == "Usage") {
+										repo.usage = define_usage (val);
 									}
 								}
 							}
@@ -251,56 +243,47 @@ namespace Alpm {
 				} catch (GLib.Error e) {
 					GLib.stderr.printf("%s\n", e.message);
 				}
+			} else {
+				GLib.stderr.printf ("File '%s' doesn't exist.\n", path);
 			}
 		}
 
 		public void write (HashTable<string,Variant> new_conf) {
 			var file = GLib.File.new_for_path (conf_path);
-			if (file.query_exists () == false) {
-				GLib.stderr.printf ("File '%s' doesn't exist.\n", conf_path);
-			} else {
+			if (file.query_exists ()) {
 				try {
 					// Open file for reading and wrap returned FileInputStream into a
 					// DataInputStream, so we can read line by line
 					var dis = new DataInputStream (file.read ());
-					string line;
+					string? line;
 					string[] data = {};
 					// Read lines until end of file (null) is reached
-					while ((line = dis.read_line (null)) != null) {
+					while ((line = dis.read_line ()) != null) {
 						if (line.length == 0) {
 							data += "\n";
 							continue;
 						}
 						if (line.contains ("IgnorePkg")) {
 							if (new_conf.contains ("IgnorePkg")) {
-								string _value = new_conf.get ("IgnorePkg").get_string ();
-								if (_value == "") {
+								string val = new_conf.get ("IgnorePkg").get_string ();
+								if (val == "") {
 									data += "#IgnorePkg   =\n";
 								} else {
-									data += "IgnorePkg   = %s\n".printf (_value);
+									data += "IgnorePkg   = %s\n".printf (val);
 								}
-							} else {
-								data += line + "\n";
-							}
-						} else if (line.contains ("SyncFirst")) {
-							if (new_conf.contains ("SyncFirst")) {
-								string _value = new_conf.get ("SyncFirst").get_string ();
-								if (_value == "") {
-									data += "#SyncFirst   =\n";
-								} else {
-									data += "SyncFirst   = %s\n".printf (_value);
-								}
+								new_conf.remove ("IgnorePkg");
 							} else {
 								data += line + "\n";
 							}
 						} else if (line.contains ("CheckSpace")) {
 							if (new_conf.contains ("CheckSpace")) {
-								bool _value = new_conf.get ("CheckSpace").get_boolean ();
-								if (_value == true) {
+								bool val = new_conf.get ("CheckSpace").get_boolean ();
+								if (val == true) {
 									data += "CheckSpace\n";
 								} else {
 									data += "#CheckSpace\n";
 								}
+								new_conf.remove ("CheckSpace");
 							} else {
 								data += line + "\n";
 							}
@@ -319,6 +302,8 @@ namespace Alpm {
 				} catch (GLib.Error e) {
 					GLib.stderr.printf("%s\n", e.message);
 				}
+			} else {
+				GLib.stderr.printf ("File '%s' doesn't exist.\n", conf_path);
 			}
 		}
 
