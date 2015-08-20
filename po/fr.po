@@ -2,13 +2,15 @@
 # Copyright (C) 2007-2012 Free Software Foundation, Inc.
 # This file is distributed under the same license as the Pamac package.
 # Guillaume Benoit <guillaume@manjaro.org>, 2013-2015.
-#
+# 
 # Translators:
 # DasFranck <franck97comics@gmail.com>, 2013
 # DasFranck <franck97comics@gmail.com>, 2013
-# Guillaume Benoit <guillaume@manjaro.org>, 2013-2014
+# Guillaume Benoit <guillaume@manjaro.org>, 2013-2015
+# Jean Delmas, 2015
 # philm <philm@manjaro.org>, 2013
 # philm <philm@manjaro.org>, 2013,2015
+# tcit <thomas.citharet@gmail.com>, 2015
 # tcit <thomas.citharet@gmail.com>, 2015
 # Tun_In_A_Cellar <tun.in.a.cellar@gmail.com>, 2014
 # Tun_In_A_Cellar <tun.in.a.cellar@gmail.com>, 2014
@@ -17,14 +19,13 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2015-08-20 11:53+0200\n"
-"PO-Revision-Date: 2015-06-19 04:44+0000\n"
-"Last-Translator: philm <philm@manjaro.org>\n"
-"Language-Team: French (http://www.transifex.com/projects/p/manjaro-pamac/"
-"language/fr/)\n"
-"Language: fr\n"
+"PO-Revision-Date: 2015-08-20 14:26+0000\n"
+"Last-Translator: Guillaume Benoit <guillaume@manjaro.org>\n"
+"Language-Team: French (http://www.transifex.com/manjarolinux/manjaro-pamac/language/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: fr\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 #: data/polkit/org.manjaro.pamac.policy
@@ -356,12 +357,8 @@ msgid ""
 msgid_plural ""
 "%s has %u uninstalled optional dependencies.\n"
 "Choose those you would like to install"
-msgstr[0] ""
-"%s a %u dépendance optionnelle non installée.\n"
-"Choisissez si vous voulez l'installer"
-msgstr[1] ""
-"%s a %u dépendances optionnelles non installées.\n"
-"Choisissez celles que vous voulez installer"
+msgstr[0] "%s a %u dépendance optionnelle non installée.\nChoisissez si vous voulez l'installer"
+msgstr[1] "%s a %u dépendances optionnelles non installées.\nChoisissez celles que vous voulez installer"
 
 #: ../src/manager_window.vala
 msgid "Deselect"
@@ -560,7 +557,7 @@ msgstr "Voir l'historique"
 
 #: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "_Preferences"
-msgstr "_Préferences"
+msgstr "_Préférences"
 
 #: ../resources/manager_window.ui
 msgid "_About"
@@ -628,7 +625,7 @@ msgstr "_Appliquer"
 
 #: ../resources/preferences_dialog.ui
 msgid "Preferences"
-msgstr "Préferences"
+msgstr "Préférences"
 
 #: ../resources/preferences_dialog.ui
 msgid "Remove unrequired dependencies"
@@ -638,9 +635,7 @@ msgstr "Désinstaller les dépendances inutiles"
 msgid ""
 "When removing a package, also remove its dependencies that are not required "
 "by other packages"
-msgstr ""
-"En désinstallant un paquet, désinstaller également les dépendances qui ne "
-"sont pas requises par d'autres paquets"
+msgstr "En désinstallant un paquet, désinstaller également les dépendances qui ne sont pas requises par d'autres paquets"
 
 #: ../resources/preferences_dialog.ui
 msgid "Check available disk space"
@@ -680,12 +675,9 @@ msgstr "Dépôts Officiels"
 
 #: ../resources/preferences_dialog.ui
 msgid ""
-"AUR is a community maintained repository so it presents potential risks and "
-"problems.\n"
+"AUR is a community maintained repository so it presents potential risks and problems.\n"
 "All AUR users should be familiar with the build process."
-msgstr ""
-"AUR est maintenu par la communauté donc il présente des risques potentiels.\n"
-"Ses utilisateurs devraient tous être familiers avec la construction de paquets."
+msgstr "AUR est maintenu par la communauté donc il présente des risques potentiels.\nSes utilisateurs devraient tous être familiers avec la construction de paquets."
 
 #: ../resources/preferences_dialog.ui
 msgid "Enable AUR support"
@@ -710,9 +702,3 @@ msgstr "AUR"
 #: ../resources/choose_ignorepkgs_dialog.ui
 msgid "Choose Ignored Upgrades"
 msgstr "Choix des mises à jour à ignorer"
-
-#~ msgid "Upgrade first:"
-#~ msgstr "Mettre à jour en premier:"
-
-#~ msgid "Options"
-#~ msgstr "Options"

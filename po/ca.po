@@ -2,7 +2,7 @@
 # Copyright (C) 2007-2012 Free Software Foundation, Inc.
 # This file is distributed under the same license as the Pamac package.
 # Guillaume Benoit <guillaume@manjaro.org>, 2013-2015.
-#
+# 
 # Translators:
 # Davidmp <medipas@gmail.com>, 2015
 # Guillaume Benoit <guillaume@manjaro.org>, 2013
@@ -17,14 +17,13 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2015-08-20 11:53+0200\n"
-"PO-Revision-Date: 2015-06-16 07:29+0000\n"
-"Last-Translator: Davidmp <medipas@gmail.com>\n"
-"Language-Team: Catalan (http://www.transifex.com/projects/p/manjaro-pamac/"
-"language/ca/)\n"
-"Language: ca\n"
+"PO-Revision-Date: 2015-08-20 13:27+0000\n"
+"Last-Translator: Guillaume Benoit <guillaume@manjaro.org>\n"
+"Language-Team: Catalan (http://www.transifex.com/manjarolinux/manjaro-pamac/language/ca/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: ca\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: data/polkit/org.manjaro.pamac.policy
@@ -634,9 +633,7 @@ msgstr "Eliminar dependències no requerides"
 msgid ""
 "When removing a package, also remove its dependencies that are not required "
 "by other packages"
-msgstr ""
-"En eliminar un paquet, elimina també les seves dependències que no siguin "
-"requerides per altres paquets"
+msgstr "En eliminar un paquet, elimina també les seves dependències que no siguin requerides per altres paquets"
 
 #: ../resources/preferences_dialog.ui
 msgid "Check available disk space"
@@ -676,8 +673,7 @@ msgstr ""
 
 #: ../resources/preferences_dialog.ui
 msgid ""
-"AUR is a community maintained repository so it presents potential risks and "
-"problems.\n"
+"AUR is a community maintained repository so it presents potential risks and problems.\n"
 "All AUR users should be familiar with the build process."
 msgstr ""
 
@@ -704,37 +700,3 @@ msgstr ""
 #: ../resources/choose_ignorepkgs_dialog.ui
 msgid "Choose Ignored Upgrades"
 msgstr ""
-
-#~ msgid "Install local packages"
-#~ msgstr "Instal·la paquets locals"
-
-#~ msgid "Upgrade first:"
-#~ msgstr "Abans actualitza:"
-
-#~ msgid "Options"
-#~ msgstr "Opcions"
-
-#~ msgid "Official repositories"
-#~ msgstr "Dipòsits oficials"
-
-#~ msgid "speed"
-#~ msgstr "velocitat"
-
-#~ msgid "random"
-#~ msgstr "aleatori"
-
-#~ msgid "Generating mirrorlist"
-#~ msgstr "Generant llista de dipòsits"
-
-#~ msgid ""
-#~ "%s has %u uninstalled optional dependency.\n"
-#~ "Choose if you would like to install it:"
-#~ msgid_plural ""
-#~ "%s has %u uninstalled optional dependencies.\n"
-#~ "Choose those you would like to install:"
-#~ msgstr[0] ""
-#~ "%s té %u dependència opcional no instal·lada.\n"
-#~ "Escolliu si voleu instal·lar-la:"
-#~ msgstr[1] ""
-#~ "%s té %u dependències opcionals no instal·lades.\n"
-#~ "Escolliu si voleu instal·lar-les:"

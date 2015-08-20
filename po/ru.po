@@ -2,7 +2,7 @@
 # Copyright (C) 2007-2012 Free Software Foundation, Inc.
 # This file is distributed under the same license as the Pamac package.
 # Guillaume Benoit <guillaume@manjaro.org>, 2013-2015.
-#
+# 
 # Translators:
 # AlexanderFilev <ifillrok@gmail.com>, 2015
 # Виктор Кукшиев <andrey0bolkonsky@gmail.com>, 2013
@@ -26,16 +26,14 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2015-08-20 11:53+0200\n"
-"PO-Revision-Date: 2015-04-08 14:39+0000\n"
-"Last-Translator: Анатолий Валерианович <ffox909@mail.ru>\n"
-"Language-Team: Russian (http://www.transifex.com/projects/p/manjaro-pamac/"
-"language/ru/)\n"
-"Language: ru\n"
+"PO-Revision-Date: 2015-08-20 13:27+0000\n"
+"Last-Translator: Guillaume Benoit <guillaume@manjaro.org>\n"
+"Language-Team: Russian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Language: ru\n"
+"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);\n"
 
 #: data/polkit/org.manjaro.pamac.policy
 msgid "Authentication is required"
@@ -349,6 +347,7 @@ msgid_plural "%u available updates"
 msgstr[0] "%u доступно обновление"
 msgstr[1] "%u доступно пара обновлений"
 msgstr[2] "%u доступны обновления"
+msgstr[3] "%u доступны обновления"
 
 #: ../src/tray.vala
 msgid "Show available updates"
@@ -370,6 +369,7 @@ msgid_plural ""
 msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
+msgstr[3] ""
 
 #: ../src/manager_window.vala
 msgid "Deselect"
@@ -646,9 +646,7 @@ msgstr "Удалить ненужные зависимости"
 msgid ""
 "When removing a package, also remove its dependencies that are not required "
 "by other packages"
-msgstr ""
-"При удалении пакета, также произвести удаление неиспользуемых сопутствующих "
-"зависимостей"
+msgstr "При удалении пакета, также произвести удаление неиспользуемых сопутствующих зависимостей"
 
 #: ../resources/preferences_dialog.ui
 msgid "Check available disk space"
@@ -688,8 +686,7 @@ msgstr ""
 
 #: ../resources/preferences_dialog.ui
 msgid ""
-"AUR is a community maintained repository so it presents potential risks and "
-"problems.\n"
+"AUR is a community maintained repository so it presents potential risks and problems.\n"
 "All AUR users should be familiar with the build process."
 msgstr ""
 
@@ -716,40 +713,3 @@ msgstr ""
 #: ../resources/choose_ignorepkgs_dialog.ui
 msgid "Choose Ignored Upgrades"
 msgstr ""
-
-#~ msgid "Install local packages"
-#~ msgstr "Установка локальных пакетов"
-
-#~ msgid "Upgrade first:"
-#~ msgstr "Приоритетное обновление:"
-
-#~ msgid "Options"
-#~ msgstr "Параметры"
-
-#~ msgid "Official repositories"
-#~ msgstr "Официальные репозитории"
-
-#~ msgid "speed"
-#~ msgstr "скорость"
-
-#~ msgid "random"
-#~ msgstr "произвольно"
-
-#~ msgid "Generating mirrorlist"
-#~ msgstr "Создание списка зеркал"
-
-#~ msgid ""
-#~ "%s has %u uninstalled optional dependency.\n"
-#~ "Choose if you would like to install it:"
-#~ msgid_plural ""
-#~ "%s has %u uninstalled optional dependencies.\n"
-#~ "Choose those you would like to install:"
-#~ msgstr[0] ""
-#~ "%s имеет %u неустановленную дополнительную зависимость.\n"
-#~ "Укажите, если вы хотите их установить:"
-#~ msgstr[1] ""
-#~ "%s имеет %u несколько неустановленных дополнительных зависимостей.\n"
-#~ "Выберите те, которые вы хотели бы установить:"
-#~ msgstr[2] ""
-#~ "%s имеет %u неустановленныx дополнительных зависимостей.\n"
-#~ "Выберите те, которые вы хотели бы установить:"

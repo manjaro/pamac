@@ -4,55 +4,41 @@
 # Guillaume Benoit <guillaume@manjaro.org>, 2013-2015.
 # 
 # Translators:
-# Aldo Oliveira <america103@gmail.com>, 2014-2015
-# Arnt <qtgzmanager@gmail.com>, 2014
-# Arnt <qtgzmanager@gmail.com>, 2014
-# Guillaume Benoit <guillaume@manjaro.org>, 2013
-# Guillaume Benoit <guillaume@manjaro.org>, 2013
-# Holmes <holmes_holmes@live.com>, 2013-2014
-# Holmes <holmes_holmes@live.com>, 2013
-# Marcos Aurelio Ribeiro de Oliveira <marcosaurel_ce@hotmail.com>, 2013
-# Marcos Aurelio Ribeiro de Oliveira <marcosaurel_ce@hotmail.com>, 2013
-# Matheus Boni Vicari <matheus_boni_vicari@hotmail.com>, 2013
-# Matheus Boni Vicari <matheus_boni_vicari@hotmail.com>, 2013
-# phormigon ph <phormigon@gmail.com>, 2013
-# phormigon ph <phormigon@gmail.com>, 2013
-# wevertonmarx <wevertonmarx@hotmail.com>, 2013-2014
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2015-08-20 11:53+0200\n"
-"PO-Revision-Date: 2015-08-20 13:27+0000\n"
-"Last-Translator: Guillaume Benoit <guillaume@manjaro.org>\n"
-"Language-Team: Portuguese (Brazil) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/pt_BR/)\n"
+"PO-Revision-Date: 2013-04-16 23:37+0000\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Spanish (Mexico) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/es_MX/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: pt_BR\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"Language: es_MX\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: data/polkit/org.manjaro.pamac.policy
 msgid "Authentication is required"
-msgstr "Autenticação é necessária"
+msgstr ""
 
 #: ../src/common.vala
 #, c-format
 msgid "%.0f KiB"
-msgstr "%.0f KiB"
+msgstr ""
 
 #: ../src/common.vala
 #, c-format
 msgid "%.2f MiB"
-msgstr "%.2f MiB"
+msgstr ""
 
 #: ../src/daemon.vala
 msgid "Failed to initialize alpm library"
-msgstr "Falha ao inicializar biblioteca do Empacotador"
+msgstr ""
 
 #: ../src/daemon.vala
 msgid "Failed to synchronize any databases"
-msgstr "Falha ao sincronizar as bases de dados"
+msgstr ""
 
 #: ../src/daemon.vala
 msgid "No"
@@ -64,59 +50,59 @@ msgstr ""
 
 #: ../src/daemon.vala
 msgid "Failed to init transaction"
-msgstr "Falha ao inicializar transação"
+msgstr ""
 
 #: ../src/daemon.vala
 msgid "Failed to prepare transaction"
-msgstr "Falha ao preparar transação"
+msgstr ""
 
 #: ../src/daemon.vala
 #, c-format
 msgid "target not found: %s"
-msgstr "caminho não encontrado: %s"
+msgstr ""
 
 #: ../src/daemon.vala
 #, c-format
 msgid "package %s does not have a valid architecture"
-msgstr "pacote %s não tem uma arquitetura válida"
+msgstr ""
 
 #: ../src/daemon.vala
 #, c-format
 msgid "%s: requires %s"
-msgstr "%s: requer %s"
+msgstr ""
 
 #: ../src/daemon.vala
 #, c-format
 msgid "%s and %s are in conflict"
-msgstr "%s e %s estão em conflito"
+msgstr ""
 
 #: ../src/daemon.vala
 #, c-format
 msgid "%s needs to be removed but it is a locked package"
-msgstr "%s precisa ser removido, mas é um pacote bloqueado"
+msgstr ""
 
 #: ../src/daemon.vala
 msgid "Failed to commit transaction"
-msgstr "Falha ao confirmar transação"
+msgstr ""
 
 #: ../src/daemon.vala
 #, c-format
 msgid "%s exists in both %s and %s"
-msgstr "%s existe em ambas %s e %s"
+msgstr ""
 
 #: ../src/daemon.vala
 #, c-format
 msgid "%s: %s already exists in filesystem"
-msgstr "%s: %s já existem no sistema de arquivos"
+msgstr ""
 
 #: ../src/daemon.vala
 #, c-format
 msgid "%s is invalid or corrupted"
-msgstr "%s é inválido ou está corrompido"
+msgstr ""
 
 #: ../src/daemon.vala
 msgid "Authentication failed"
-msgstr "Autenticação falhou"
+msgstr ""
 
 #: ../src/transaction.vala
 msgid "Refreshing mirrors list"
@@ -124,234 +110,234 @@ msgstr ""
 
 #: ../src/transaction.vala
 msgid "Synchronizing package databases"
-msgstr "Sincronizando banco de dados de pacotes"
+msgstr ""
 
 #: ../src/transaction.vala
 msgid "Starting full system upgrade"
-msgstr "Inicializando atualização completa do sistema"
+msgstr ""
 
 #: ../src/transaction.vala
 msgid "Preparing"
-msgstr "Preparando"
+msgstr ""
 
 #: ../src/transaction.vala ../resources/transaction_sum_dialog.ui
 msgid "Transaction Summary"
-msgstr "Resumo da transação"
+msgstr ""
 
 #: ../src/transaction.vala ../src/manager_window.vala
 msgid "To remove"
-msgstr "Para remover"
+msgstr ""
 
 #: ../src/transaction.vala
 msgid "To downgrade"
-msgstr "Para substituir por versão anterior"
+msgstr ""
 
 #: ../src/transaction.vala
 msgid "To build"
-msgstr "Para criar"
+msgstr ""
 
 #: ../src/transaction.vala ../src/manager_window.vala
 msgid "To install"
-msgstr "Para instalar"
+msgstr ""
 
 #: ../src/transaction.vala
 msgid "To reinstall"
-msgstr "Para reinstalar"
+msgstr ""
 
 #: ../src/transaction.vala
 msgid "To update"
-msgstr "Para atualizar"
+msgstr ""
 
 #: ../src/transaction.vala ../src/updater_window.vala
 msgid "Total download size"
-msgstr "Tamanho total do download"
+msgstr ""
 
 #: ../src/transaction.vala
 msgid "Building packages"
-msgstr "Criando pacotes"
+msgstr ""
 
 #: ../src/transaction.vala
 msgid "Checking dependencies"
-msgstr "Verificando dependências"
+msgstr ""
 
 #: ../src/transaction.vala
 msgid "Checking file conflicts"
-msgstr "Verificando conflito entre arquivos"
+msgstr ""
 
 #: ../src/transaction.vala
 msgid "Resolving dependencies"
-msgstr "Resolvendo dependências"
+msgstr ""
 
 #: ../src/transaction.vala
 msgid "Checking inter-conflicts"
-msgstr "Verificando conflito entre pacotes"
+msgstr ""
 
 #: ../src/transaction.vala
 #, c-format
 msgid "Installing %s"
-msgstr "Instalando %s"
+msgstr ""
 
 #: ../src/transaction.vala
 #, c-format
 msgid "Reinstalling %s"
-msgstr "Reinstalando %s"
+msgstr ""
 
 #: ../src/transaction.vala
 #, c-format
 msgid "Removing %s"
-msgstr "Removendo %s"
+msgstr ""
 
 #: ../src/transaction.vala
 #, c-format
 msgid "Upgrading %s"
-msgstr "Atualizando %s"
+msgstr ""
 
 #: ../src/transaction.vala
 #, c-format
 msgid "Downgrading %s"
-msgstr "Baixando %s"
+msgstr ""
 
 #: ../src/transaction.vala
 msgid "Checking integrity"
-msgstr "Verificando a integridade dos pacotes"
+msgstr ""
 
 #: ../src/transaction.vala
 msgid "Checking keyring"
-msgstr "Verificando chaveiro"
+msgstr ""
 
 #: ../src/transaction.vala
 msgid "Downloading required keys"
-msgstr "Baixando chaves necessárias"
+msgstr ""
 
 #: ../src/transaction.vala
 msgid "Loading packages files"
-msgstr "Carregando arquivos de pacotes"
+msgstr ""
 
 #: ../src/transaction.vala
 msgid "Checking delta integrity"
-msgstr "Verificando a integridade do delta"
+msgstr ""
 
 #: ../src/transaction.vala
 msgid "Applying deltas"
-msgstr "Aplicando deltas"
+msgstr ""
 
 #: ../src/transaction.vala
 #, c-format
 msgid "Generating %s with %s"
-msgstr "Gerando %s com %s"
+msgstr ""
 
 #: ../src/transaction.vala
 msgid "Generation succeeded"
-msgstr "Gerado com sucesso"
+msgstr ""
 
 #: ../src/transaction.vala
 msgid "Generation failed"
-msgstr "Falha ao gerar"
+msgstr ""
 
 #: ../src/transaction.vala
 #, c-format
 msgid "Configuring %s"
-msgstr "Configurando %s"
+msgstr ""
 
 #: ../src/transaction.vala
 msgid "Downloading"
-msgstr "Baixando"
+msgstr ""
 
 #: ../src/transaction.vala
 msgid "Checking available disk space"
-msgstr "Verificando espaço disponível em disco"
+msgstr ""
 
 #: ../src/transaction.vala
 #, c-format
 msgid "%s optionally requires %s"
-msgstr "%s: requer %s"
+msgstr ""
 
 #: ../src/transaction.vala
 #, c-format
 msgid "Database file for %s does not exist"
-msgstr "Arquivo de banco de dados para %s não existe"
+msgstr ""
 
 #: ../src/transaction.vala
 #, c-format
 msgid "%s installed as %s.pacnew"
-msgstr "%s instalado como %s.pacnew"
+msgstr ""
 
 #: ../src/transaction.vala
 #, c-format
 msgid "%s installed as %s.pacsave"
-msgstr "%s instalado como %s.pacsave"
+msgstr ""
 
 #: ../src/transaction.vala
 #, c-format
 msgid "%s installed as %s.pacorig"
-msgstr "%s instalado como %s.pacorig"
+msgstr ""
 
 #: ../src/transaction.vala
 #, c-format
 msgid "Refreshing %s"
-msgstr "Atualizando %s"
+msgstr ""
 
 #: ../src/transaction.vala
 #, c-format
 msgid "Downloading %s"
-msgstr "Baixando %s"
+msgstr ""
 
 #: ../src/transaction.vala
 msgid "Warning"
-msgstr "Aviso"
+msgstr ""
 
 #: ../src/transaction.vala ../src/installer.vala ../src/manager.vala
 #: ../src/updater.vala
 msgid "Error"
-msgstr "Erro"
+msgstr ""
 
 #: ../src/transaction.vala ../src/progress_dialog.vala
 msgid "Transaction cancelled"
-msgstr "Transação cancelada"
+msgstr ""
 
 #: ../src/transaction.vala
 msgid "Nothing to do"
-msgstr "Nada para fazer"
+msgstr ""
 
 #: ../src/transaction.vala
 msgid "Transaction successfully finished"
-msgstr "Transação finalizada com êxito"
+msgstr ""
 
 #: ../src/installer.vala ../src/manager.vala ../src/updater.vala
 msgid "Pamac is already running"
-msgstr "Pamac ja está sendo executado"
+msgstr ""
 
 #: ../src/tray.vala ../src/updater_window.vala
 msgid "Your system is up-to-date"
-msgstr "O seu sistema está atualizado"
+msgstr ""
 
 #: ../src/tray.vala ../resources/updater_window.ui
 msgid "Update Manager"
-msgstr "Gerenciador de atualizações"
+msgstr ""
 
 #: ../src/tray.vala ../resources/manager_window.ui
 msgid "Package Manager"
-msgstr "Gerenciador de pacotes"
+msgstr ""
 
 #: ../src/tray.vala
 msgid "_Quit"
-msgstr "_Sair"
+msgstr ""
 
 #: ../src/tray.vala ../src/updater_window.vala
 #, c-format
 msgid "%u available update"
 msgid_plural "%u available updates"
-msgstr[0] "%u atualização disponível"
-msgstr[1] "%u atualizações disponíveis"
+msgstr[0] ""
+msgstr[1] ""
 
 #: ../src/tray.vala
 msgid "Show available updates"
-msgstr "Exibir atualizações disponíveis"
+msgstr ""
 
 #: ../src/choose_provider_dialog.vala
 #, c-format
 msgid "Choose a provider for %s"
-msgstr "Escolha um provedor para %s"
+msgstr ""
 
 #: ../src/choose_dep_dialog.vala
 #, c-format
@@ -366,115 +352,115 @@ msgstr[1] ""
 
 #: ../src/manager_window.vala
 msgid "Deselect"
-msgstr "Desmarque"
+msgstr ""
 
 #: ../src/manager_window.vala
 msgid "Install"
-msgstr "Instalar"
+msgstr ""
 
 #: ../src/manager_window.vala
 msgid "Remove"
-msgstr "Remover"
+msgstr ""
 
 #: ../src/manager_window.vala
 msgid "Reinstall"
-msgstr "Reinstalar"
+msgstr ""
 
 #: ../src/manager_window.vala
 msgid "Install optional dependencies"
-msgstr "Instalar dependências opcionais"
+msgstr ""
 
 #: ../src/manager_window.vala
 msgid "Mark as explicitly installed"
-msgstr "Marcar como explicitamente instalado"
+msgstr ""
 
 #: ../src/manager_window.vala
 msgid "local"
-msgstr "local"
+msgstr ""
 
 #: ../src/manager_window.vala
 msgid "Installed"
-msgstr "Instalado"
+msgstr ""
 
 #: ../src/manager_window.vala
 msgid "Orphans"
-msgstr "Orfãos"
+msgstr ""
 
 #: ../src/manager_window.vala
 msgid "Licenses"
-msgstr "Licenças"
+msgstr ""
 
 #: ../src/manager_window.vala
 msgid "Depends On"
-msgstr "Depende de"
+msgstr ""
 
 #: ../src/manager_window.vala
 msgid "Optional Dependencies"
-msgstr "Dependências opcionais"
+msgstr ""
 
 #: ../src/manager_window.vala
 msgid "Required By"
-msgstr "Exigido por"
+msgstr ""
 
 #: ../src/manager_window.vala
 msgid "Provides"
-msgstr "Fornece"
+msgstr ""
 
 #: ../src/manager_window.vala
 msgid "Replaces"
-msgstr "Substitui"
+msgstr ""
 
 #: ../src/manager_window.vala
 msgid "Conflicts With"
-msgstr "Conflita com"
+msgstr ""
 
 #: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Repository"
-msgstr "Repositório"
+msgstr ""
 
 #: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Groups"
-msgstr "Grupos"
+msgstr ""
 
 #: ../src/manager_window.vala
 msgid "Packager"
-msgstr "Empacotador"
+msgstr ""
 
 #: ../src/manager_window.vala
 msgid "Install Date"
-msgstr "Data de instalação"
+msgstr ""
 
 #: ../src/manager_window.vala
 msgid "Explicitly installed"
-msgstr "Explicitamente instalado"
+msgstr ""
 
 #: ../src/manager_window.vala
 msgid "Installed as a dependency for another package"
-msgstr "Instalado como dependência para outro pacote"
+msgstr ""
 
 #: ../src/manager_window.vala
 msgid "Unknown"
-msgstr "Desconhecido"
+msgstr ""
 
 #: ../src/manager_window.vala
 msgid "Install Reason"
-msgstr "Motivo da instalação"
+msgstr ""
 
 #: ../src/manager_window.vala
 msgid "Signatures"
-msgstr "Assinaturas"
+msgstr ""
 
 #: ../src/manager_window.vala
 msgid "Backup files"
-msgstr "Cópia de segurança dos arquivos"
+msgstr ""
 
 #: ../src/manager_window.vala
 msgid "No package found"
-msgstr "Pacote não encontrado"
+msgstr ""
 
 #: ../src/manager_window.vala
 msgid "Uninstalled"
-msgstr "Desinstalado"
+msgstr ""
 
 #: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Install Local Packages"
@@ -484,19 +470,19 @@ msgstr ""
 #: ../resources/transaction_sum_dialog.ui ../resources/choose_dep_dialog.ui
 #: ../resources/choose_ignorepkgs_dialog.ui
 msgid "_Cancel"
-msgstr "_Cancelar"
+msgstr ""
 
 #: ../src/manager_window.vala
 msgid "_Open"
-msgstr "_Abrir"
+msgstr ""
 
 #: ../src/manager_window.vala
 msgid "Alpm Package"
-msgstr "Empacotador"
+msgstr ""
 
 #: ../src/manager_window.vala
 msgid "A Gtk3 frontend for libalpm"
-msgstr "Um frontend GTK3 para libalpm"
+msgstr ""
 
 #: ../src/manager_window.vala
 msgid "Copyright © 2015 Guillaume Benoit"
@@ -504,11 +490,11 @@ msgstr ""
 
 #: ../src/preferences_dialog.vala ../resources/preferences_dialog.ui
 msgid "How often to check for updates, value in hours"
-msgstr "Vezes para verificar se há atualizações, o valor em horas"
+msgstr ""
 
 #: ../src/preferences_dialog.vala
 msgid "Worldwide"
-msgstr "Mundial"
+msgstr ""
 
 #: ../src/preferences_dialog.vala
 msgid "Speed"
@@ -524,32 +510,32 @@ msgstr ""
 
 #: ../resources/choose_provider_dialog.ui
 msgid "Choose a Provider"
-msgstr "Escolha um Provedor"
+msgstr ""
 
 #: ../resources/choose_provider_dialog.ui
 #: ../resources/transaction_sum_dialog.ui ../resources/choose_dep_dialog.ui
 #: ../resources/choose_ignorepkgs_dialog.ui
 msgid "_OK"
-msgstr "_OK"
+msgstr ""
 
 #: ../resources/progress_dialog.ui
 msgid "Progress"
-msgstr "Progresso"
+msgstr ""
 
 #: ../resources/progress_dialog.ui ../resources/history_dialog.ui
 #: ../resources/transaction_info_dialog.ui ../resources/updater_window.ui
 #: ../resources/preferences_dialog.ui
 msgid "_Close"
-msgstr "_Fechar"
+msgstr ""
 
 #: ../resources/progress_dialog.ui ../resources/transaction_info_dialog.ui
 #: ../resources/manager_window.ui
 msgid "Details"
-msgstr "Detalhes"
+msgstr ""
 
 #: ../resources/history_dialog.ui
 msgid "Pamac History"
-msgstr "Histórico do Pamac"
+msgstr ""
 
 #: ../resources/choose_dep_dialog.ui
 msgid "Choose Optional Dependencies"
@@ -557,93 +543,93 @@ msgstr ""
 
 #: ../resources/manager_window.ui
 msgid "View History"
-msgstr "Ver histórico"
+msgstr ""
 
 #: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "_Preferences"
-msgstr "_Preferências"
+msgstr ""
 
 #: ../resources/manager_window.ui
 msgid "_About"
-msgstr "_Sobre"
+msgstr ""
 
 #: ../resources/manager_window.ui
 msgid "Refresh databases"
-msgstr "Atualizar banco de dados"
+msgstr ""
 
 #: ../resources/manager_window.ui
 msgid "Apply changes"
-msgstr "Aplicar mudanças"
+msgstr ""
 
 #: ../resources/manager_window.ui
 msgid "Cancel all planned changes"
-msgstr "Cancelar todas as mudanças feitas"
+msgstr ""
 
 #: ../resources/manager_window.ui
 msgid "Search in AUR"
-msgstr "Pesquisar em AUR"
+msgstr ""
 
 #: ../resources/manager_window.ui
 msgid "Search"
-msgstr "Procurar"
+msgstr ""
 
 #: ../resources/manager_window.ui
 msgid "State"
-msgstr "Estado"
+msgstr ""
 
 #: ../resources/manager_window.ui
 msgid "Repositories"
-msgstr "Repositórios"
+msgstr ""
 
 #: ../resources/manager_window.ui
 msgid "Name"
-msgstr "Nome"
+msgstr ""
 
 #: ../resources/manager_window.ui
 msgid "Version"
-msgstr "Versão"
+msgstr ""
 
 #: ../resources/manager_window.ui
 msgid "Size"
-msgstr "Tamanho"
+msgstr ""
 
 #: ../resources/manager_window.ui
 msgid "Description"
-msgstr "Descrição"
+msgstr ""
 
 #: ../resources/manager_window.ui
 msgid "Dependencies"
-msgstr "Dependências"
+msgstr ""
 
 #: ../resources/manager_window.ui
 msgid "Files"
-msgstr "Arquivos"
+msgstr ""
 
 #: ../resources/updater_window.ui
 msgid "_Refresh"
-msgstr "_Atualizar"
+msgstr ""
 
 #: ../resources/updater_window.ui
 msgid "_Apply"
-msgstr "_Aplicar"
+msgstr ""
 
 #: ../resources/preferences_dialog.ui
 msgid "Preferences"
-msgstr "Preferências"
+msgstr ""
 
 #: ../resources/preferences_dialog.ui
 msgid "Remove unrequired dependencies"
-msgstr "Remover dependências desnecessárias"
+msgstr ""
 
 #: ../resources/preferences_dialog.ui
 msgid ""
 "When removing a package, also remove its dependencies that are not required "
 "by other packages"
-msgstr "Ao remover um pacote, também remover as dependências que não são exigidas por outros pacotes"
+msgstr ""
 
 #: ../resources/preferences_dialog.ui
 msgid "Check available disk space"
-msgstr "Verifique o espaço disponível em disco"
+msgstr ""
 
 #: ../resources/preferences_dialog.ui
 msgid "Check for updates"
@@ -655,7 +641,7 @@ msgstr ""
 
 #: ../resources/preferences_dialog.ui
 msgid "Ignore upgrades for:"
-msgstr "Ignorar atualizações para:"
+msgstr ""
 
 #: ../resources/preferences_dialog.ui
 msgid "General"
@@ -663,11 +649,11 @@ msgstr ""
 
 #: ../resources/preferences_dialog.ui
 msgid "Use mirrors from:"
-msgstr "Use espelhos a partir de:"
+msgstr ""
 
 #: ../resources/preferences_dialog.ui
 msgid "Sort mirrors by:"
-msgstr "Classificar espelhos por:"
+msgstr ""
 
 #: ../resources/preferences_dialog.ui
 msgid "Refresh Mirrors List"
@@ -685,11 +671,11 @@ msgstr ""
 
 #: ../resources/preferences_dialog.ui
 msgid "Enable AUR support"
-msgstr "Habilitar o suporte AUR"
+msgstr ""
 
 #: ../resources/preferences_dialog.ui
 msgid "Allow Pamac to search and install packages from AUR"
-msgstr "Permitir a Pamac que procure e instale os pacotes a partir de AUR"
+msgstr ""
 
 #: ../resources/preferences_dialog.ui
 msgid "Check for updates from AUR"
