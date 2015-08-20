@@ -87,6 +87,7 @@ namespace Pamac {
 		string[] depends;
 		string[] optdepends;
 		string[] requiredby;
+		string[] optionalfor;
 		string[] provides;
 		string[] replaces;
 		string[] conflicts;

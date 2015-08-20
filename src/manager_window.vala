@@ -308,6 +308,19 @@ namespace Pamac {
 					}
 				}
 			}
+			if (deps.repo == "local") {
+				if (deps.optionalfor.length != 0) {
+					deps_list.insert_with_values (out iter, -1,
+													0, dgettext (null, "Optional For") + ":",
+													1, deps.optionalfor[0]);
+					i = 1;
+					while (i < deps.optionalfor.length) {
+						deps_list.insert_with_values (out iter, -1,
+													1, deps.optionalfor[i]);
+						i++;
+					}
+				}
+			}
 			if (deps.provides.length != 0) {
 				deps_list.insert_with_values (out iter, -1,
 												0, dgettext (null, "Provides") + ":",
