@@ -2,14 +2,14 @@
 # Copyright (C) 2007-2012 Free Software Foundation, Inc.
 # This file is distributed under the same license as the Pamac package.
 # Guillaume Benoit <guillaume@manjaro.org>, 2013-2015.
-#
+# 
 # Translators:
 # EscoP, 2015
 # Luki <jbkammer@gmail.com>, 2013,2015
 # Luki <jbkammer@gmail.com>, 2013
 # philm <philm@manjaro.org>, 2015
 # Sami Korkalainen, 2013-2014
-# Sami Korkalainen, 2014
+# Sami Korkalainen, 2014-2015
 # SamiPerkele, 2013-2014
 # Sami Korkalainen, 2013
 msgid ""
@@ -17,14 +17,13 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2015-08-20 11:53+0200\n"
-"PO-Revision-Date: 2015-04-05 16:59+0000\n"
-"Last-Translator: Luki <jbkammer@gmail.com>\n"
-"Language-Team: Finnish (http://www.transifex.com/projects/p/manjaro-pamac/"
-"language/fi/)\n"
-"Language: fi\n"
+"PO-Revision-Date: 2015-08-20 13:27+0000\n"
+"Last-Translator: Guillaume Benoit <guillaume@manjaro.org>\n"
+"Language-Team: Finnish (http://www.transifex.com/manjarolinux/manjaro-pamac/language/fi/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: fi\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: data/polkit/org.manjaro.pamac.policy
@@ -34,7 +33,7 @@ msgstr "Todennus vaaditaan"
 #: ../src/common.vala
 #, c-format
 msgid "%.0f KiB"
-msgstr ""
+msgstr "%.0f KiB"
 
 #: ../src/common.vala
 #, c-format
@@ -43,71 +42,71 @@ msgstr "%.2f MiB"
 
 #: ../src/daemon.vala
 msgid "Failed to initialize alpm library"
-msgstr ""
+msgstr "alpm‐kirjaston valmistelu epäonnistui"
 
 #: ../src/daemon.vala
 msgid "Failed to synchronize any databases"
-msgstr ""
+msgstr "Tietokantojen synkronointi epäonnistui."
 
 #: ../src/daemon.vala
 msgid "No"
-msgstr ""
+msgstr "Ei"
 
 #: ../src/daemon.vala
 msgid "Yes"
-msgstr ""
+msgstr "Kyllä"
 
 #: ../src/daemon.vala
 msgid "Failed to init transaction"
-msgstr ""
+msgstr "Tapahtumaa ei saatu käynnistettyä"
 
 #: ../src/daemon.vala
 msgid "Failed to prepare transaction"
-msgstr ""
+msgstr "Tapahtumaa ei saatu valmisteltua"
 
 #: ../src/daemon.vala
 #, c-format
 msgid "target not found: %s"
-msgstr ""
+msgstr "kohdetta ei löydetty: %s"
 
 #: ../src/daemon.vala
 #, c-format
 msgid "package %s does not have a valid architecture"
-msgstr ""
+msgstr "pakettilla %s ei ole kelvollista arkkitehtuuria"
 
 #: ../src/daemon.vala
 #, c-format
 msgid "%s: requires %s"
-msgstr ""
+msgstr "%s: vaatii paketin %s"
 
 #: ../src/daemon.vala
 #, c-format
 msgid "%s and %s are in conflict"
-msgstr ""
+msgstr "%s ja %s ovat ristiriidassa"
 
 #: ../src/daemon.vala
 #, c-format
 msgid "%s needs to be removed but it is a locked package"
-msgstr ""
+msgstr "%s täytyy poistaa mutta se on lukittu paketti"
 
 #: ../src/daemon.vala
 msgid "Failed to commit transaction"
-msgstr ""
+msgstr "Tapahtumaa ei saatu tehtyä."
 
 #: ../src/daemon.vala
 #, c-format
 msgid "%s exists in both %s and %s"
-msgstr ""
+msgstr "%s löytyy paketeista %s ja %s"
 
 #: ../src/daemon.vala
 #, c-format
 msgid "%s: %s already exists in filesystem"
-msgstr ""
+msgstr "%s: %s löytyy jo tiedostojärjestelmästä"
 
 #: ../src/daemon.vala
 #, c-format
 msgid "%s is invalid or corrupted"
-msgstr ""
+msgstr "%s on viallinen tai vioittunut"
 
 #: ../src/daemon.vala
 msgid "Authentication failed"
@@ -119,11 +118,11 @@ msgstr ""
 
 #: ../src/transaction.vala
 msgid "Synchronizing package databases"
-msgstr ""
+msgstr "Synkronoidaan pakettitietokantoja"
 
 #: ../src/transaction.vala
 msgid "Starting full system upgrade"
-msgstr ""
+msgstr "Aloitetaan täysi järjestelmäpäivitys"
 
 #: ../src/transaction.vala
 msgid "Preparing"
@@ -159,11 +158,11 @@ msgstr "Päivitettävät"
 
 #: ../src/transaction.vala ../src/updater_window.vala
 msgid "Total download size"
-msgstr ""
+msgstr "Latauksen kokonaiskoko"
 
 #: ../src/transaction.vala
 msgid "Building packages"
-msgstr ""
+msgstr "Kootaan paketteja"
 
 #: ../src/transaction.vala
 msgid "Checking dependencies"
@@ -179,7 +178,7 @@ msgstr "Selvitetään riippuvuuksia"
 
 #: ../src/transaction.vala
 msgid "Checking inter-conflicts"
-msgstr ""
+msgstr "Tarkistetaan pakettien välisiä ristiriitoja"
 
 #: ../src/transaction.vala
 #, c-format
@@ -224,24 +223,24 @@ msgstr "Ladataan paketin tiedostoja"
 
 #: ../src/transaction.vala
 msgid "Checking delta integrity"
-msgstr ""
+msgstr "Tarkistetaan delta-eheyttä"
 
 #: ../src/transaction.vala
 msgid "Applying deltas"
-msgstr ""
+msgstr "Asetetaan deltoja"
 
 #: ../src/transaction.vala
 #, c-format
 msgid "Generating %s with %s"
-msgstr ""
+msgstr "Luodaan %s deltalla %s"
 
 #: ../src/transaction.vala
 msgid "Generation succeeded"
-msgstr ""
+msgstr "Luominen onnistui"
 
 #: ../src/transaction.vala
 msgid "Generation failed"
-msgstr ""
+msgstr "Luominen epäonnistui"
 
 #: ../src/transaction.vala
 #, c-format
@@ -259,27 +258,27 @@ msgstr "Tarkistetaan saatavilla olevaa levytilaa"
 #: ../src/transaction.vala
 #, c-format
 msgid "%s optionally requires %s"
-msgstr ""
+msgstr "%s vaatii valinnaisesti paketin %s"
 
 #: ../src/transaction.vala
 #, c-format
 msgid "Database file for %s does not exist"
-msgstr ""
+msgstr "Tietokantatiedostoa pakettivarastolle %s ei löydy"
 
 #: ../src/transaction.vala
 #, c-format
 msgid "%s installed as %s.pacnew"
-msgstr ""
+msgstr "%s asennettiin tiedostona %s.pacnew"
 
 #: ../src/transaction.vala
 #, c-format
 msgid "%s installed as %s.pacsave"
-msgstr ""
+msgstr "%s asennettiin tiedostona %s.pacsave"
 
 #: ../src/transaction.vala
 #, c-format
 msgid "%s installed as %s.pacorig"
-msgstr ""
+msgstr "%s asennettiin tiedostona %s.pacorig"
 
 #: ../src/transaction.vala
 #, c-format
@@ -302,7 +301,7 @@ msgstr "Virhe"
 
 #: ../src/transaction.vala ../src/progress_dialog.vala
 msgid "Transaction cancelled"
-msgstr ""
+msgstr "Tapahtuma peruttiin"
 
 #: ../src/transaction.vala
 msgid "Nothing to do"
@@ -330,23 +329,23 @@ msgstr "Paketinhallinta"
 
 #: ../src/tray.vala
 msgid "_Quit"
-msgstr ""
+msgstr "_Poistu"
 
 #: ../src/tray.vala ../src/updater_window.vala
 #, c-format
 msgid "%u available update"
 msgid_plural "%u available updates"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%u saatavilla oleva päivitys"
+msgstr[1] "%u saatavilla olevaa päivitystä"
 
 #: ../src/tray.vala
 msgid "Show available updates"
-msgstr ""
+msgstr "Näytä saatavilla olevat päivitykset"
 
 #: ../src/choose_provider_dialog.vala
 #, c-format
 msgid "Choose a provider for %s"
-msgstr ""
+msgstr "Valitse tarjoaja kohteelle %s"
 
 #: ../src/choose_dep_dialog.vala
 #, c-format
@@ -377,7 +376,7 @@ msgstr "Asenna uudelleen"
 
 #: ../src/manager_window.vala
 msgid "Install optional dependencies"
-msgstr ""
+msgstr "Asenna valinnaisia riippuvuuksia"
 
 #: ../src/manager_window.vala
 msgid "Mark as explicitly installed"
@@ -405,7 +404,7 @@ msgstr "Riippuu paketeista"
 
 #: ../src/manager_window.vala
 msgid "Optional Dependencies"
-msgstr ""
+msgstr "Valinnaiset riippuvuudet"
 
 #: ../src/manager_window.vala
 msgid "Required By"
@@ -491,11 +490,11 @@ msgstr "Alpm paketti"
 
 #: ../src/manager_window.vala
 msgid "A Gtk3 frontend for libalpm"
-msgstr ""
+msgstr "Gtk3‐edustaohjelma libalpm:lle"
 
 #: ../src/manager_window.vala
 msgid "Copyright © 2015 Guillaume Benoit"
-msgstr ""
+msgstr "Tekijänoikeudet © 2015 Guillaume Benoit"
 
 #: ../src/preferences_dialog.vala ../resources/preferences_dialog.ui
 msgid "How often to check for updates, value in hours"
@@ -503,7 +502,7 @@ msgstr "Kuinka usein tarkistetaan päivityksiä, arvo tunneissa"
 
 #: ../src/preferences_dialog.vala
 msgid "Worldwide"
-msgstr ""
+msgstr "Maailmanlaajuinen"
 
 #: ../src/preferences_dialog.vala
 msgid "Speed"
@@ -634,9 +633,7 @@ msgstr "Poista ei-vaaditut riippuvuudet"
 msgid ""
 "When removing a package, also remove its dependencies that are not required "
 "by other packages"
-msgstr ""
-"Pakettia poistettaessa, poista myös pakettiriippuvuudet jotka eivät ole "
-"muiden pakettien käytössä"
+msgstr "Pakettia poistettaessa, poista myös pakettiriippuvuudet jotka eivät ole muiden pakettien käytössä"
 
 #: ../resources/preferences_dialog.ui
 msgid "Check available disk space"
@@ -660,7 +657,7 @@ msgstr ""
 
 #: ../resources/preferences_dialog.ui
 msgid "Use mirrors from:"
-msgstr ""
+msgstr "Käytä peilipalvelimia sijainnista:"
 
 #: ../resources/preferences_dialog.ui
 msgid "Sort mirrors by:"
@@ -676,8 +673,7 @@ msgstr ""
 
 #: ../resources/preferences_dialog.ui
 msgid ""
-"AUR is a community maintained repository so it presents potential risks and "
-"problems.\n"
+"AUR is a community maintained repository so it presents potential risks and problems.\n"
 "All AUR users should be familiar with the build process."
 msgstr ""
 
@@ -704,15 +700,3 @@ msgstr ""
 #: ../resources/choose_ignorepkgs_dialog.ui
 msgid "Choose Ignored Upgrades"
 msgstr ""
-
-#~ msgid "Install local packages"
-#~ msgstr "Asenna paikallisia paketteja"
-
-#~ msgid "Upgrade first:"
-#~ msgstr "Päivitä ensin:"
-
-#~ msgid "Options"
-#~ msgstr "Asetukset"
-
-#~ msgid "Official repositories"
-#~ msgstr "viralliset pakettilähteet"

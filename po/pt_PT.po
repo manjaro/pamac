@@ -2,26 +2,26 @@
 # Copyright (C) 2007-2012 Free Software Foundation, Inc.
 # This file is distributed under the same license as the Pamac package.
 # Guillaume Benoit <guillaume@manjaro.org>, 2013-2015.
-#
+# 
 # Translators:
+# António Correia, 2014
 # António Correia, 2014-2015
 # António Correia, 2014
 # carlos reis <reiscarlos1976@gmail.com>, 2015
-# Hugo Carvalho <hugokarvalho@hotmail.com>, 2014
+# Hugo Carvalho <hugokarvalho@hotmail.com>, 2014-2015
 # philm <philm@manjaro.org>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2015-08-20 11:53+0200\n"
-"PO-Revision-Date: 2015-03-18 15:17+0000\n"
+"PO-Revision-Date: 2015-08-20 13:27+0000\n"
 "Last-Translator: Guillaume Benoit <guillaume@manjaro.org>\n"
-"Language-Team: Portuguese (Portugal) (http://www.transifex.com/projects/p/"
-"manjaro-pamac/language/pt_PT/)\n"
-"Language: pt_PT\n"
+"Language-Team: Portuguese (Portugal) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: pt_PT\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: data/polkit/org.manjaro.pamac.policy
@@ -217,7 +217,7 @@ msgstr "Baixando chaves necessárias"
 
 #: ../src/transaction.vala
 msgid "Loading packages files"
-msgstr "Carregando arquivos de pacotes"
+msgstr "Carregando ficheiros de pacotes"
 
 #: ../src/transaction.vala
 msgid "Checking delta integrity"
@@ -458,7 +458,7 @@ msgstr "Assinaturas"
 
 #: ../src/manager_window.vala
 msgid "Backup files"
-msgstr "Cópia de segurança dos arquivos"
+msgstr "Cópia de segurança dos ficheiros"
 
 #: ../src/manager_window.vala
 msgid "No package found"
@@ -492,7 +492,7 @@ msgstr "Uma interface Gtk3 para libalpm"
 
 #: ../src/manager_window.vala
 msgid "Copyright © 2015 Guillaume Benoit"
-msgstr ""
+msgstr "Copyright © 2015 Guillaume Benoit"
 
 #: ../src/preferences_dialog.vala ../resources/preferences_dialog.ui
 msgid "How often to check for updates, value in hours"
@@ -631,9 +631,7 @@ msgstr "Remover dependências não-requeridas"
 msgid ""
 "When removing a package, also remove its dependencies that are not required "
 "by other packages"
-msgstr ""
-"Ao remover um pacote, remover também todas as suas dependências que não "
-"sejam requeridas por outros pacotes"
+msgstr "Ao remover um pacote, remover também todas as suas dependências que não sejam requeridas por outros pacotes"
 
 #: ../resources/preferences_dialog.ui
 msgid "Check available disk space"
@@ -673,8 +671,7 @@ msgstr ""
 
 #: ../resources/preferences_dialog.ui
 msgid ""
-"AUR is a community maintained repository so it presents potential risks and "
-"problems.\n"
+"AUR is a community maintained repository so it presents potential risks and problems.\n"
 "All AUR users should be familiar with the build process."
 msgstr ""
 
@@ -701,37 +698,3 @@ msgstr ""
 #: ../resources/choose_ignorepkgs_dialog.ui
 msgid "Choose Ignored Upgrades"
 msgstr ""
-
-#~ msgid "Install local packages"
-#~ msgstr "Instalar pacotes locais"
-
-#~ msgid "Upgrade first:"
-#~ msgstr "Actualizar primeiro:"
-
-#~ msgid "Options"
-#~ msgstr "Opções"
-
-#~ msgid "Official repositories"
-#~ msgstr "Repositórios oficiais"
-
-#~ msgid "speed"
-#~ msgstr "velocidade"
-
-#~ msgid "random"
-#~ msgstr "aleatório"
-
-#~ msgid "Generating mirrorlist"
-#~ msgstr "Gerando lista de mirrors"
-
-#~ msgid ""
-#~ "%s has %u uninstalled optional dependency.\n"
-#~ "Choose if you would like to install it:"
-#~ msgid_plural ""
-#~ "%s has %u uninstalled optional dependencies.\n"
-#~ "Choose those you would like to install:"
-#~ msgstr[0] ""
-#~ "%s tem %u dependências opcionais não instaladas.\n"
-#~ "Escolha as que gostaria de instalar:"
-#~ msgstr[1] ""
-#~ "%s tem %u dependências opcionais não instaladas.\n"
-#~ "Escolha as que gostaria de instalar:"

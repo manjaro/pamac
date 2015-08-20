@@ -2,7 +2,7 @@
 # Copyright (C) 2007-2012 Free Software Foundation, Inc.
 # This file is distributed under the same license as the Pamac package.
 # Guillaume Benoit <guillaume@manjaro.org>, 2013-2015.
-#
+# 
 # Translators:
 # Morten Rene <arath.inc@gmail.com>, 2014
 # Bård Spein <baard.spein@gmail.com>, 2013
@@ -22,14 +22,13 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2015-08-20 11:53+0200\n"
-"PO-Revision-Date: 2015-04-14 10:12+0000\n"
-"Last-Translator: thomas <thomasbjornvold@gmail.com>\n"
-"Language-Team: Norwegian Bokmål (http://www.transifex.com/projects/p/manjaro-"
-"pamac/language/nb/)\n"
-"Language: nb\n"
+"PO-Revision-Date: 2015-08-20 13:27+0000\n"
+"Last-Translator: Guillaume Benoit <guillaume@manjaro.org>\n"
+"Language-Team: Norwegian Bokmål (http://www.transifex.com/manjarolinux/manjaro-pamac/language/nb/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: nb\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: data/polkit/org.manjaro.pamac.policy
@@ -639,9 +638,7 @@ msgstr "Fjern avhengige pakker som er unødvendige"
 msgid ""
 "When removing a package, also remove its dependencies that are not required "
 "by other packages"
-msgstr ""
-"Når du fjerner en pakke, fjern også dets avhengigheter som ikke kreves av "
-"andre pakker"
+msgstr "Når du fjerner en pakke, fjern også dets avhengigheter som ikke kreves av andre pakker"
 
 #: ../resources/preferences_dialog.ui
 msgid "Check available disk space"
@@ -681,8 +678,7 @@ msgstr ""
 
 #: ../resources/preferences_dialog.ui
 msgid ""
-"AUR is a community maintained repository so it presents potential risks and "
-"problems.\n"
+"AUR is a community maintained repository so it presents potential risks and problems.\n"
 "All AUR users should be familiar with the build process."
 msgstr ""
 
@@ -709,37 +705,3 @@ msgstr ""
 #: ../resources/choose_ignorepkgs_dialog.ui
 msgid "Choose Ignored Upgrades"
 msgstr ""
-
-#~ msgid "Install local packages"
-#~ msgstr "Installer lokale pakker"
-
-#~ msgid "Upgrade first:"
-#~ msgstr "Oppgrader først:"
-
-#~ msgid "Options"
-#~ msgstr "Alternativer"
-
-#~ msgid "Official repositories"
-#~ msgstr "Offisielle programvarekilder"
-
-#~ msgid "speed"
-#~ msgstr "fart"
-
-#~ msgid "random"
-#~ msgstr "tilfeldig"
-
-#~ msgid "Generating mirrorlist"
-#~ msgstr "Genererer liste over speil"
-
-#~ msgid ""
-#~ "%s has %u uninstalled optional dependency.\n"
-#~ "Choose if you would like to install it:"
-#~ msgid_plural ""
-#~ "%s has %u uninstalled optional dependencies.\n"
-#~ "Choose those you would like to install:"
-#~ msgstr[0] ""
-#~ "%s har %u avinstallert valgfrie avhengigheter.\n"
-#~ "Velg om du ønsker å installere det:"
-#~ msgstr[1] ""
-#~ "%s har %u avinstallert valgfrie avhengigheter.\n"
-#~ "Velg de du ønsker å installere:"

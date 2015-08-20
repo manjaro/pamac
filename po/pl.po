@@ -2,7 +2,7 @@
 # Copyright (C) 2007-2012 Free Software Foundation, Inc.
 # This file is distributed under the same license as the Pamac package.
 # Guillaume Benoit <guillaume@manjaro.org>, 2013-2015.
-#
+# 
 # Translators:
 # FadeMind <fademind@gmail.com>, 2013
 # Guillaume Benoit <guillaume@manjaro.org>, 2013
@@ -14,16 +14,14 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2015-08-20 11:53+0200\n"
-"PO-Revision-Date: 2015-03-20 09:05+0000\n"
-"Last-Translator: Piotr Strębski <strebski@o2.pl>\n"
-"Language-Team: Polish (http://www.transifex.com/projects/p/manjaro-pamac/"
-"language/pl/)\n"
-"Language: pl\n"
+"PO-Revision-Date: 2015-08-20 13:27+0000\n"
+"Last-Translator: Guillaume Benoit <guillaume@manjaro.org>\n"
+"Language-Team: Polish (http://www.transifex.com/manjarolinux/manjaro-pamac/language/pl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
-"|| n%100>=20) ? 1 : 2);\n"
+"Language: pl\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
 #: data/polkit/org.manjaro.pamac.policy
 msgid "Authentication is required"
@@ -634,9 +632,7 @@ msgstr "Usuwanie niewymaganych zależności"
 msgid ""
 "When removing a package, also remove its dependencies that are not required "
 "by other packages"
-msgstr ""
-"Podczas usuwania pakietu usuwać także te zależności, które nie są już "
-"wymagane przez inne pakiety"
+msgstr "Podczas usuwania pakietu usuwać także te zależności, które nie są już wymagane przez inne pakiety"
 
 #: ../resources/preferences_dialog.ui
 msgid "Check available disk space"
@@ -676,8 +672,7 @@ msgstr ""
 
 #: ../resources/preferences_dialog.ui
 msgid ""
-"AUR is a community maintained repository so it presents potential risks and "
-"problems.\n"
+"AUR is a community maintained repository so it presents potential risks and problems.\n"
 "All AUR users should be familiar with the build process."
 msgstr ""
 
@@ -704,40 +699,3 @@ msgstr ""
 #: ../resources/choose_ignorepkgs_dialog.ui
 msgid "Choose Ignored Upgrades"
 msgstr ""
-
-#~ msgid "Install local packages"
-#~ msgstr "Zainstaluj lokalne pakiety"
-
-#~ msgid "Upgrade first:"
-#~ msgstr "Najpierw aktualizacja:"
-
-#~ msgid "Options"
-#~ msgstr "Opcje"
-
-#~ msgid "Official repositories"
-#~ msgstr "Repozytoria oficjalne"
-
-#~ msgid "speed"
-#~ msgstr "prędkość"
-
-#~ msgid "random"
-#~ msgstr "losowy"
-
-#~ msgid "Generating mirrorlist"
-#~ msgstr "Tworzenie listy serwerów zwierciadlanych"
-
-#~ msgid ""
-#~ "%s has %u uninstalled optional dependency.\n"
-#~ "Choose if you would like to install it:"
-#~ msgid_plural ""
-#~ "%s has %u uninstalled optional dependencies.\n"
-#~ "Choose those you would like to install:"
-#~ msgstr[0] ""
-#~ "%s ma %u niezainstalowaną opcjonalną zależność.\n"
-#~ "Wybierz ją, jeśli chcesz zainstalować:"
-#~ msgstr[1] ""
-#~ "%s ma %u niezainstalowane opcjonalne zależności.\n"
-#~ "Wybierz je, jeśli chcesz zainstalować:"
-#~ msgstr[2] ""
-#~ "%s ma %u niezainstalowanych opcjonalnych zależności.\n"
-#~ "Wybierz te pakiety, które chcesz zainstalować:"

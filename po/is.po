@@ -2,22 +2,22 @@
 # Copyright (C) 2007-2012 Free Software Foundation, Inc.
 # This file is distributed under the same license as the Pamac package.
 # Guillaume Benoit <guillaume@manjaro.org>, 2013-2015.
-#
+# 
 # Translators:
+# Kristján Magnússon <kristjanmagnus@gmail.com>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2015-08-20 11:53+0200\n"
-"PO-Revision-Date: 2015-03-18 15:17+0000\n"
+"PO-Revision-Date: 2015-08-20 13:27+0000\n"
 "Last-Translator: Guillaume Benoit <guillaume@manjaro.org>\n"
-"Language-Team: Icelandic (http://www.transifex.com/projects/p/manjaro-pamac/"
-"language/is/)\n"
-"Language: is\n"
+"Language-Team: Icelandic (http://www.transifex.com/manjarolinux/manjaro-pamac/language/is/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Language: is\n"
+"Plural-Forms: nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);\n"
 
 #: data/polkit/org.manjaro.pamac.policy
 msgid "Authentication is required"
@@ -43,11 +43,11 @@ msgstr ""
 
 #: ../src/daemon.vala
 msgid "No"
-msgstr ""
+msgstr "Nei"
 
 #: ../src/daemon.vala
 msgid "Yes"
-msgstr ""
+msgstr "Já"
 
 #: ../src/daemon.vala
 msgid "Failed to init transaction"
@@ -119,7 +119,7 @@ msgstr ""
 
 #: ../src/transaction.vala
 msgid "Preparing"
-msgstr ""
+msgstr "Undirbúa"
 
 #: ../src/transaction.vala ../resources/transaction_sum_dialog.ui
 msgid "Transaction Summary"
@@ -139,7 +139,7 @@ msgstr ""
 
 #: ../src/transaction.vala ../src/manager_window.vala
 msgid "To install"
-msgstr ""
+msgstr "Til uppsetningar"
 
 #: ../src/transaction.vala
 msgid "To reinstall"
@@ -176,12 +176,12 @@ msgstr ""
 #: ../src/transaction.vala
 #, c-format
 msgid "Installing %s"
-msgstr ""
+msgstr "Uppsetning %s"
 
 #: ../src/transaction.vala
 #, c-format
 msgid "Reinstalling %s"
-msgstr ""
+msgstr "Enduruppsetning %s"
 
 #: ../src/transaction.vala
 #, c-format
@@ -191,7 +191,7 @@ msgstr ""
 #: ../src/transaction.vala
 #, c-format
 msgid "Upgrading %s"
-msgstr ""
+msgstr "Uppfærsla %s"
 
 #: ../src/transaction.vala
 #, c-format
@@ -242,7 +242,7 @@ msgstr ""
 
 #: ../src/transaction.vala
 msgid "Downloading"
-msgstr ""
+msgstr "Niðurhlað"
 
 #: ../src/transaction.vala
 msgid "Checking available disk space"
@@ -281,16 +281,16 @@ msgstr ""
 #: ../src/transaction.vala
 #, c-format
 msgid "Downloading %s"
-msgstr ""
+msgstr "Niðurhlað %s"
 
 #: ../src/transaction.vala
 msgid "Warning"
-msgstr ""
+msgstr "Aðvörun"
 
 #: ../src/transaction.vala ../src/installer.vala ../src/manager.vala
 #: ../src/updater.vala
 msgid "Error"
-msgstr ""
+msgstr "Villa"
 
 #: ../src/transaction.vala ../src/progress_dialog.vala
 msgid "Transaction cancelled"
@@ -298,7 +298,7 @@ msgstr ""
 
 #: ../src/transaction.vala
 msgid "Nothing to do"
-msgstr ""
+msgstr "Ekkert til að gera"
 
 #: ../src/transaction.vala
 msgid "Transaction successfully finished"
@@ -322,7 +322,7 @@ msgstr ""
 
 #: ../src/tray.vala
 msgid "_Quit"
-msgstr ""
+msgstr "_Hætta"
 
 #: ../src/tray.vala ../src/updater_window.vala
 #, c-format
@@ -357,7 +357,7 @@ msgstr ""
 
 #: ../src/manager_window.vala
 msgid "Install"
-msgstr ""
+msgstr "Sétja upp"
 
 #: ../src/manager_window.vala
 msgid "Remove"
@@ -365,7 +365,7 @@ msgstr ""
 
 #: ../src/manager_window.vala
 msgid "Reinstall"
-msgstr ""
+msgstr "Endur uppsetning"
 
 #: ../src/manager_window.vala
 msgid "Install optional dependencies"
@@ -381,7 +381,7 @@ msgstr ""
 
 #: ../src/manager_window.vala
 msgid "Installed"
-msgstr ""
+msgstr "Uppsett"
 
 #: ../src/manager_window.vala
 msgid "Orphans"
@@ -413,7 +413,7 @@ msgstr ""
 
 #: ../src/manager_window.vala
 msgid "Conflicts With"
-msgstr ""
+msgstr "Stangast á við "
 
 #: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Repository"
@@ -421,7 +421,7 @@ msgstr ""
 
 #: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Groups"
-msgstr ""
+msgstr "Hópur"
 
 #: ../src/manager_window.vala
 msgid "Packager"
@@ -441,7 +441,7 @@ msgstr ""
 
 #: ../src/manager_window.vala
 msgid "Unknown"
-msgstr ""
+msgstr "Óþekkt"
 
 #: ../src/manager_window.vala
 msgid "Install Reason"
@@ -471,11 +471,11 @@ msgstr ""
 #: ../resources/transaction_sum_dialog.ui ../resources/choose_dep_dialog.ui
 #: ../resources/choose_ignorepkgs_dialog.ui
 msgid "_Cancel"
-msgstr ""
+msgstr "_Hætta við"
 
 #: ../src/manager_window.vala
 msgid "_Open"
-msgstr ""
+msgstr "_Opna"
 
 #: ../src/manager_window.vala
 msgid "Alpm Package"
@@ -495,7 +495,7 @@ msgstr ""
 
 #: ../src/preferences_dialog.vala
 msgid "Worldwide"
-msgstr ""
+msgstr "Alheims"
 
 #: ../src/preferences_dialog.vala
 msgid "Speed"
@@ -527,7 +527,7 @@ msgstr ""
 #: ../resources/transaction_info_dialog.ui ../resources/updater_window.ui
 #: ../resources/preferences_dialog.ui
 msgid "_Close"
-msgstr ""
+msgstr "_Loka"
 
 #: ../resources/progress_dialog.ui ../resources/transaction_info_dialog.ui
 #: ../resources/manager_window.ui
@@ -552,7 +552,7 @@ msgstr ""
 
 #: ../resources/manager_window.ui
 msgid "_About"
-msgstr ""
+msgstr "_Um"
 
 #: ../resources/manager_window.ui
 msgid "Refresh databases"
@@ -568,11 +568,11 @@ msgstr ""
 
 #: ../resources/manager_window.ui
 msgid "Search in AUR"
-msgstr ""
+msgstr "Leita í AUR"
 
 #: ../resources/manager_window.ui
 msgid "Search"
-msgstr ""
+msgstr "Leita"
 
 #: ../resources/manager_window.ui
 msgid "State"
@@ -584,15 +584,15 @@ msgstr ""
 
 #: ../resources/manager_window.ui
 msgid "Name"
-msgstr ""
+msgstr "Nafn"
 
 #: ../resources/manager_window.ui
 msgid "Version"
-msgstr ""
+msgstr "Útgáfa"
 
 #: ../resources/manager_window.ui
 msgid "Size"
-msgstr ""
+msgstr "Stærð"
 
 #: ../resources/manager_window.ui
 msgid "Description"
@@ -630,7 +630,7 @@ msgstr ""
 
 #: ../resources/preferences_dialog.ui
 msgid "Check available disk space"
-msgstr ""
+msgstr "Athuga laust pláss á harðadiskinum"
 
 #: ../resources/preferences_dialog.ui
 msgid "Check for updates"
@@ -666,8 +666,7 @@ msgstr ""
 
 #: ../resources/preferences_dialog.ui
 msgid ""
-"AUR is a community maintained repository so it presents potential risks and "
-"problems.\n"
+"AUR is a community maintained repository so it presents potential risks and problems.\n"
 "All AUR users should be familiar with the build process."
 msgstr ""
 
