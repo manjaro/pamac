@@ -413,6 +413,10 @@ msgid "Required By"
 msgstr "Requis par"
 
 #: ../src/manager_window.vala
+msgid "Optional For"
+msgstr "Optionnel pour"
+
+#: ../src/manager_window.vala
 msgid "Provides"
 msgstr "Fournit"
 
