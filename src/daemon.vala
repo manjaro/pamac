@@ -637,6 +637,7 @@ namespace Pamac {
 			string[] depends = {};
 			string[] optdepends = {};
 			string[] requiredby = {};
+			string[] optionalfor = {};
 			string[] provides = {};
 			string[] replaces = {};
 			string[] conflicts = {};
@@ -671,11 +672,21 @@ namespace Pamac {
 					}
 					Alpm.List.free_all (list);
 				}
+				if (alpm_pkg.db.name == "local") {
+					Alpm.List<string?> *list = alpm_pkg.compute_optionalfor ();
+					int i = 0;
+					while (i < list->length) {
+						optionalfor += list->nth_data (i);
+						i++;
+					}
+					Alpm.List.free_all (list);
+				}
 			}
 			deps.repo = repo;
 			deps.depends = depends;
 			deps.optdepends = optdepends;
 			deps.requiredby = requiredby;
+			deps.optionalfor = optionalfor;
 			deps.provides = provides;
 			deps.replaces = replaces;
 			deps.conflicts = conflicts;

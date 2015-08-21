@@ -948,7 +948,12 @@ namespace Pamac {
 					progress_dialog.spawn_in_term ({"echo", msg});
 					break;
 				case Alpm.Event.Type.OPTDEP_REMOVAL:
-					progress_dialog.spawn_in_term ({"echo", dgettext (null, "%s optionally requires %s").printf (details[0], details[1])});
+					msg = dgettext (null, "%s optionally requires %s").printf (details[0], details[1]);
+					progress_dialog.spawn_in_term ({"echo", msg});
+					Gtk.TextIter end_iter;
+					msg += "\n";
+					transaction_info_dialog.textbuffer.get_end_iter (out end_iter);
+					transaction_info_dialog.textbuffer.insert (ref end_iter, msg, msg.length);
 					break;
 				case Alpm.Event.Type.DATABASE_MISSING:
 					progress_dialog.spawn_in_term ({"echo", dgettext (null, "Database file for %s does not exist").printf (details[0])});
