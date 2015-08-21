@@ -139,7 +139,8 @@ namespace Pamac {
 			return true;
 		}
 
-		public void start_get_authorization (GLib.BusName sender) {
+		private async bool check_authorization (GLib.BusName sender) {
+			SourceFunc callback = check_authorization.callback;
 			bool authorized = false;
 			try {
 				Polkit.Authority authority = Polkit.Authority.get_sync ();
@@ -156,81 +157,48 @@ namespace Pamac {
 							authorized = result.get_is_authorized ();
 						} catch (GLib.Error e) {
 							stderr.printf ("%s\n", e.message);
-						} finally {
-							get_authorization_finished (authorized);
 						}
+						Idle.add ((owned) callback);
 					}
 				);
 			} catch (GLib.Error e) {
-				get_authorization_finished (authorized);
 				stderr.printf ("%s\n", e.message);
 			}
+			yield;
+			return authorized;
+		}
+
+		public void start_get_authorization (GLib.BusName sender) {
+			check_authorization.begin (sender, (obj, res) => {
+				bool authorized = check_authorization.end (res);
+				get_authorization_finished (authorized);
+			});
 		}
 
 		public void start_write_pamac_config (HashTable<string,Variant> new_pamac_conf, GLib.BusName sender) {
 			var pamac_config = new Pamac.Config ("/etc/pamac.conf");
-			try {
-				Polkit.Authority authority = Polkit.Authority.get_sync ();
-				Polkit.Subject subject = Polkit.SystemBusName.new (sender);
-				authority.check_authorization.begin (
-					subject,
-					"org.manjaro.pamac.commit",
-					null,
-					Polkit.CheckAuthorizationFlags.ALLOW_USER_INTERACTION,
-					null,
-					(obj, res) => {
-						try {
-							var result = authority.check_authorization.end (res);
-							if (result.get_is_authorized ()) {
-								pamac_config.write (new_pamac_conf);
-								pamac_config.reload ();
-							}
-						} catch (GLib.Error e) {
-							stderr.printf ("%s\n", e.message);
-						} finally {
-							write_pamac_config_finished (pamac_config.refresh_period, pamac_config.enable_aur,
-														pamac_config.recurse, pamac_config.no_update_hide_icon,
-														pamac_config.check_aur_updates, pamac_config.no_confirm_build);
-						}
-					}
-				);
-			} catch (GLib.Error e) {
+			check_authorization.begin (sender, (obj, res) => {
+				bool authorized = check_authorization.end (res);
+				if (authorized ) {
+					pamac_config.write (new_pamac_conf);
+					pamac_config.reload ();
+				}
 				write_pamac_config_finished (pamac_config.refresh_period, pamac_config.enable_aur,
 											pamac_config.recurse, pamac_config.no_update_hide_icon,
 											pamac_config.check_aur_updates, pamac_config.no_confirm_build);
-				stderr.printf ("%s\n", e.message);
-			}
+			});
 		}
 
 		public void start_write_alpm_config (HashTable<string,Variant> new_alpm_conf, GLib.BusName sender) {
-			try {
-				Polkit.Authority authority = Polkit.Authority.get_sync ();
-				Polkit.Subject subject = Polkit.SystemBusName.new (sender);
-				authority.check_authorization.begin (
-					subject,
-					"org.manjaro.pamac.commit",
-					null,
-					Polkit.CheckAuthorizationFlags.ALLOW_USER_INTERACTION,
-					null,
-					(obj, res) => {
-						try {
-							var result = authority.check_authorization.end (res);
-							if (result.get_is_authorized ()) {
-								alpm_config.write (new_alpm_conf);
-								alpm_config.reload ();
-								refresh_handle ();
-							}
-						} catch (GLib.Error e) {
-							stderr.printf ("%s\n", e.message);
-						} finally {
-							write_alpm_config_finished (get_checkspace ());
-						}
-					}
-				);
-			} catch (GLib.Error e) {
+			check_authorization.begin (sender, (obj, res) => {
+				bool authorized = check_authorization.end (res);
+				if (authorized ) {
+					alpm_config.write (new_alpm_conf);
+					alpm_config.reload ();
+					refresh_handle ();
+				}
 				write_alpm_config_finished (get_checkspace ());
-				stderr.printf ("%s\n", e.message);
-			}
+			});
 		}
 
 		private bool process_line (IOChannel channel, IOCondition condition, string stream_name) {
@@ -290,66 +258,28 @@ namespace Pamac {
 
 		public void start_write_mirrors_config (HashTable<string,Variant> new_mirrors_conf, GLib.BusName sender) {
 			var mirrors_config = new Alpm.MirrorsConfig ("/etc/pacman-mirrors.conf");
-			try {
-				Polkit.Authority authority = Polkit.Authority.get_sync ();
-				Polkit.Subject subject = Polkit.SystemBusName.new (sender);
-				authority.check_authorization.begin (
-					subject,
-					"org.manjaro.pamac.commit",
-					null,
-					Polkit.CheckAuthorizationFlags.ALLOW_USER_INTERACTION,
-					null,
-					(obj, res) => {
-						try {
-							var result = authority.check_authorization.end (res);
-							if (result.get_is_authorized ()) {
-								mirrors_config.write (new_mirrors_conf);
-								mirrors_config.reload ();
-							}
-						} catch (GLib.Error e) {
-							stderr.printf ("%s\n", e.message);
-						} finally {
-							write_mirrors_config_finished (mirrors_config.choosen_country, mirrors_config.choosen_generation_method);
-						}
-					}
-				);
-			} catch (GLib.Error e) {
+			check_authorization.begin (sender, (obj, res) => {
+				bool authorized = check_authorization.end (res);
+				if (authorized) {
+					mirrors_config.write (new_mirrors_conf);
+					mirrors_config.reload ();
+				}
 				write_mirrors_config_finished (mirrors_config.choosen_country, mirrors_config.choosen_generation_method);
-				stderr.printf ("%s\n", e.message);
-			}
+			});
 		}
 
 		public void start_set_pkgreason (string pkgname, uint reason, GLib.BusName sender) {
-			try {
-				Polkit.Authority authority = Polkit.Authority.get_sync ();
-				Polkit.Subject subject = Polkit.SystemBusName.new (sender);
-				authority.check_authorization.begin (
-					subject,
-					"org.manjaro.pamac.commit",
-					null,
-					Polkit.CheckAuthorizationFlags.ALLOW_USER_INTERACTION,
-					null,
-					(obj, res) => {
-						try {
-							var result = authority.check_authorization.end (res);
-							if (result.get_is_authorized ()) {
-								unowned Alpm.Package? pkg = alpm_config.handle.localdb.get_pkg (pkgname);
-								if (pkg != null) {
-									pkg.reason = (Alpm.Package.Reason) reason;
-									refresh_handle ();
-								}
-							}
-						} catch (GLib.Error e) {
-							stderr.printf ("%s\n", e.message);
-						} finally {
-							set_pkgreason_finished ();
-						}
+			check_authorization.begin (sender, (obj, res) => {
+				bool authorized = check_authorization.end (res);
+				if (authorized) {
+					unowned Alpm.Package? pkg = alpm_config.handle.localdb.get_pkg (pkgname);
+					if (pkg != null) {
+						pkg.reason = (Alpm.Package.Reason) reason;
+						refresh_handle ();
 					}
-				);
-			} catch (GLib.Error e) {
+				}
 				set_pkgreason_finished ();
-				stderr.printf ("%s\n", e.message);
-			}
+			});
 		}
 
 		private void refresh () {
@@ -1097,44 +1027,23 @@ namespace Pamac {
 		}
 
 		public void start_trans_commit (GLib.BusName sender) {
-			var err = ErrorInfos ();
-			try {
-				Polkit.Authority authority = Polkit.Authority.get_sync ();
-				Polkit.Subject subject = Polkit.SystemBusName.new (sender);
-				authority.check_authorization.begin (
-					subject,
-					"org.manjaro.pamac.commit",
-					null,
-					Polkit.CheckAuthorizationFlags.ALLOW_USER_INTERACTION,
-					null,
-					(obj, res) => {
-						try {
-							var result = authority.check_authorization.end (res);
-							if (result.get_is_authorized ()) {
-								thread_pool.add (new AlpmAction (trans_commit)); 
-							} else {
-								err.message = _("Authentication failed");
-								trans_release ();
-								refresh_handle ();
-								trans_commit_finished (err);
-								intern_lock = false;
-							}
-						} catch (GLib.Error e) {
-							stderr.printf ("%s\n", e.message);
-							trans_release ();
-							refresh_handle ();
-							trans_commit_finished (err);
-							intern_lock = false;
-						}
+			check_authorization.begin (sender, (obj, res) => {
+				bool authorized = check_authorization.end (res);
+				if (authorized) {
+					try {
+						thread_pool.add (new AlpmAction (trans_commit));
+					} catch (ThreadError e) {
+						stderr.printf ("Thread Error %s\n", e.message);
 					}
-				);
-			} catch (GLib.Error e) {
-				stderr.printf ("%s\n", e.message);
-				trans_release ();
-				refresh_handle ();
-				trans_commit_finished (err);
-				intern_lock = false;
-			}
+				} else {
+					var err = ErrorInfos ();
+					err.message = _("Authentication failed");
+					trans_release ();
+					refresh_handle ();
+					trans_commit_finished (err);
+					intern_lock = false;
+				}
+			});
 		}
 
 		public int trans_release () {
@@ -1144,9 +1053,14 @@ namespace Pamac {
 		public void trans_cancel () {
 			if (alpm_config.handle.trans_interrupt () == 0) {
 				// a transaction is being interrupted
+				// it will end the normal way
 				return;
 			}
+			var err = ErrorInfos ();
 			trans_release ();
+			refresh_handle ();
+			trans_commit_finished (err);
+			intern_lock = false;
 		}
 
 		[DBus (no_reply = true)]
