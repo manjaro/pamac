@@ -11,8 +11,8 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2015-08-20 11:53+0200\n"
-"PO-Revision-Date: 2015-08-20 15:44+0000\n"
-"Last-Translator: Moo\n"
+"PO-Revision-Date: 2015-08-21 05:40+0000\n"
+"Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Lithuanian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/lt/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -405,6 +405,10 @@ msgstr "Pasirinktinės Priklausomybės"
 #: ../src/manager_window.vala
 msgid "Required By"
 msgstr "Reikalauja"
+
+#: ../src/manager_window.vala
+msgid "Optional For"
+msgstr ""
 
 #: ../src/manager_window.vala
 msgid "Provides"
