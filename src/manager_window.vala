@@ -180,7 +180,7 @@ namespace Pamac {
 			if (pamac_config.recurse) {
 				transaction.flags |= Alpm.TransFlag.RECURSE;
 			}
-			Pamac.Package pkg = transaction.find_local_pkg ("yaourt");
+			Pamac.Package pkg = transaction.find_local_satisfier ("yaourt");
 			if (pkg.name == "") {
 				enable_aur (false);
 			} else {

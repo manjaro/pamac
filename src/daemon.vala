@@ -396,6 +396,10 @@ namespace Pamac {
 			return Pamac.Package (alpm_config.handle.localdb.get_pkg (pkgname), null);
 		}
 
+		public Pamac.Package find_local_satisfier (string pkgname) {
+			return Pamac.Package (Alpm.find_satisfier (alpm_config.handle.localdb.pkgcache, pkgname), null);
+		}
+
 		private unowned Alpm.Package? get_syncpkg (string name) {
 			unowned Alpm.Package? pkg = null;
 			foreach (var db in alpm_config.handle.syncdbs) {
@@ -514,7 +518,7 @@ namespace Pamac {
 			}
 			if (alpm_pkg != null) {
 				foreach (unowned Depend optdep in alpm_pkg.optdepends) {
-					if (find_satisfier (alpm_config.handle.localdb.pkgcache, optdep.name) == null) {
+					if (Alpm.find_satisfier (alpm_config.handle.localdb.pkgcache, optdep.name) == null) {
 						optdeps += optdep.compute_string ();
 					}
 				}

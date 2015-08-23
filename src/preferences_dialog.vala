@@ -96,7 +96,7 @@ namespace Pamac {
 			no_update_hide_icon_checkbutton.toggled.connect (on_no_update_hide_icon_checkbutton_toggled);
 			transaction.daemon.write_pamac_config_finished.connect (on_write_pamac_config_finished);
 
-			Pamac.Package pkg = this.transaction.find_local_pkg ("pacman-mirrorlist");
+			Pamac.Package pkg = this.transaction.find_local_satisfier ("pacman-mirrorlist");
 			if (pkg.name == "") {
 				mirrors_config_box.visible = false;
 			} else {
@@ -124,7 +124,7 @@ namespace Pamac {
 				transaction.daemon.write_mirrors_config_finished.connect (on_write_mirrors_config_finished);
 			}
 
-			pkg = this.transaction.find_local_pkg ("yaourt");
+			pkg = this.transaction.find_local_satisfier ("yaourt");
 			if (pkg.name == "") {
 				aur_config_box.visible = false;
 			} else {

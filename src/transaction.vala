@@ -37,6 +37,7 @@ namespace Pamac {
 		public abstract async Pamac.Package[] get_local_pkgs () throws IOError;
 		public abstract async Pamac.Package[] get_orphans () throws IOError;
 		public abstract Pamac.Package find_local_pkg (string pkgname) throws IOError;
+		public abstract Pamac.Package find_local_satisfier (string pkgname) throws IOError;
 		public abstract Pamac.Package find_sync_pkg (string pkgname) throws IOError;
 		public abstract async Pamac.Package[] search_pkgs (string search_string, bool search_from_aur) throws IOError;
 		public abstract string[] get_repos_names () throws IOError;
@@ -322,6 +323,16 @@ namespace Pamac {
 			var pkg = Pamac.Package (null, null);
 			try {
 				pkg = daemon.find_local_pkg (pkgname);
+			} catch (IOError e) {
+				stderr.printf ("IOError: %s\n", e.message);
+			}
+			return pkg;
+		}
+
+		public Pamac.Package find_local_satisfier (string pkgname) {
+			var pkg = Pamac.Package (null, null);
+			try {
+				pkg = daemon.find_local_satisfier (pkgname);
 			} catch (IOError e) {
 				stderr.printf ("IOError: %s\n", e.message);
 			}
