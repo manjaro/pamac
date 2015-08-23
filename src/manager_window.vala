@@ -195,7 +195,7 @@ namespace Pamac {
 		}
 
 		public void enable_aur (bool enable) {
-			search_aur_button.set_active (enable);
+			search_aur_button.set_active (false);
 			search_aur_box.set_visible (enable);
 		}
 
