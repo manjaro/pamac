@@ -1290,7 +1290,7 @@ namespace Pamac {
 			if (recurse) {
 				flags |= Alpm.TransFlag.RECURSE;
 			}
-			Pamac.Package pkg = find_local_pkg ("yaourt");
+			Pamac.Package pkg = find_local_satisfier ("yaourt");
 			if (pkg.name != "") {
 				enable_aur (aur_enabled);
 			}
