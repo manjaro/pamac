@@ -53,6 +53,8 @@ namespace Pamac {
 		[GtkChild]
 		public Gtk.Switch enable_aur_button;
 		[GtkChild]
+		public Gtk.CheckButton search_aur_checkbutton;
+		[GtkChild]
 		public Gtk.CheckButton check_aur_updates_checkbutton;
 		[GtkChild]
 		public Gtk.CheckButton no_confirm_build_checkbutton;
@@ -129,11 +131,14 @@ namespace Pamac {
 				aur_config_box.visible = false;
 			} else {
 				enable_aur_button.active = pamac_config.enable_aur;
+				search_aur_checkbutton.active = pamac_config.search_aur;
+				search_aur_checkbutton.sensitive = pamac_config.enable_aur;
 				check_aur_updates_checkbutton.active = pamac_config.check_aur_updates;
 				check_aur_updates_checkbutton.sensitive = pamac_config.enable_aur;
 				no_confirm_build_checkbutton.active = pamac_config.no_confirm_build;
 				no_confirm_build_checkbutton.sensitive = pamac_config.enable_aur;
 				enable_aur_button.state_set.connect (on_enable_aur_button_state_set);
+				search_aur_checkbutton.toggled.connect (on_search_aur_checkbutton_toggled);
 				check_aur_updates_checkbutton.toggled.connect (on_check_aur_updates_checkbutton_toggled);
 				no_confirm_build_checkbutton.toggled.connect (on_no_confirm_build_checkbutton_toggled);
 				transaction.daemon.write_alpm_config_finished.connect (on_write_alpm_config_finished);
@@ -181,6 +186,12 @@ namespace Pamac {
 			return true;
 		}
 
+		void on_search_aur_checkbutton_toggled () {
+			var new_pamac_conf = new HashTable<string,Variant> (str_hash, str_equal);
+			new_pamac_conf.insert ("SearchInAURByDefault", new Variant.boolean (search_aur_checkbutton.active));
+			transaction.start_write_pamac_config (new_pamac_conf);
+		}
+
 		void on_check_aur_updates_checkbutton_toggled () {
 			var new_pamac_conf = new HashTable<string,Variant> (str_hash, str_equal);
 			new_pamac_conf.insert ("CheckAURUpdates", new Variant.boolean (check_aur_updates_checkbutton.active));
@@ -193,8 +204,8 @@ namespace Pamac {
 			transaction.start_write_pamac_config (new_pamac_conf);
 		}
 
-		void on_write_pamac_config_finished (int refresh_period, bool aur_enabled, bool recurse,
-											bool no_update_hide_icon, bool check_aur_updates,
+		void on_write_pamac_config_finished (bool recurse, int refresh_period, bool no_update_hide_icon,
+											bool enable_aur, bool search_aur, bool check_aur_updates,
 											bool no_confirm_build) {
 			remove_unrequired_deps_button.state = recurse;
 			if (refresh_period == 0) {
@@ -219,11 +230,13 @@ namespace Pamac {
 				}
 			}
 			no_update_hide_icon_checkbutton.active = no_update_hide_icon;
-			enable_aur_button.state = aur_enabled;
+			enable_aur_button.state = enable_aur;
+			search_aur_checkbutton.active = search_aur;
+			search_aur_checkbutton.sensitive = enable_aur;
 			check_aur_updates_checkbutton.active = check_aur_updates;
-			check_aur_updates_checkbutton.sensitive = aur_enabled;
+			check_aur_updates_checkbutton.sensitive = enable_aur;
 			no_confirm_build_checkbutton.active = no_confirm_build;
-			no_confirm_build_checkbutton.sensitive = aur_enabled;
+			no_confirm_build_checkbutton.sensitive = enable_aur;
 		}
 
 		bool on_check_space_button_state_set (bool new_state) {

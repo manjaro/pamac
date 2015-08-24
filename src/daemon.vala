@@ -66,8 +66,8 @@ namespace Pamac {
 		public signal void trans_prepare_finished (ErrorInfos error);
 		public signal void trans_commit_finished (ErrorInfos error);
 		public signal void get_authorization_finished (bool authorized);
-		public signal void write_pamac_config_finished (int refresh_period, bool aur_enabled, bool recurse,
-														bool no_update_hide_icon, bool check_aur_updates,
+		public signal void write_pamac_config_finished (bool recurse, int refresh_period, bool no_update_hide_icon,
+														bool enable_aur, bool search_aur, bool check_aur_updates,
 														bool no_confirm_build);
 		public signal void write_alpm_config_finished (bool checkspace);
 		public signal void write_mirrors_config_finished (string choosen_country, string choosen_generation_method);
@@ -183,9 +183,9 @@ namespace Pamac {
 					pamac_config.write (new_pamac_conf);
 					pamac_config.reload ();
 				}
-				write_pamac_config_finished (pamac_config.refresh_period, pamac_config.enable_aur,
-											pamac_config.recurse, pamac_config.no_update_hide_icon,
-											pamac_config.check_aur_updates, pamac_config.no_confirm_build);
+				write_pamac_config_finished (pamac_config.recurse, pamac_config.refresh_period, pamac_config.no_update_hide_icon,
+											pamac_config.enable_aur, pamac_config.search_aur, pamac_config.check_aur_updates,
+											pamac_config.no_confirm_build);
 			});
 		}
 
@@ -415,7 +415,7 @@ namespace Pamac {
 			return Pamac.Package (get_syncpkg (pkgname), null);
 		}
 
-		public async Pamac.Package[] search_pkgs (string search_string, bool search_from_aur) {
+		public async Pamac.Package[] search_pkgs (string search_string, bool search_aur) {
 			Pamac.Package[] result = {};
 			var needles = new Alpm.List<string> ();
 			string[] splitted = search_string.split (" ");
@@ -426,7 +426,7 @@ namespace Pamac {
 			foreach (var alpm_pkg in alpm_pkgs) {
 				result += Pamac.Package (alpm_pkg, null);
 			}
-			if (search_from_aur) {
+			if (search_aur) {
 				Json.Array aur_pkgs;
 				if (aur_search_results.contains (search_string)) {
 					aur_pkgs = aur_search_results.get (search_string);

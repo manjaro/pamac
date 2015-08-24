@@ -173,7 +173,7 @@ namespace Pamac {
 			transaction = new Pamac.Transaction (this as Gtk.ApplicationWindow);
 			transaction.mode = Mode.MANAGER;
 			transaction.finished.connect (on_transaction_finished);
-			transaction.enable_aur.connect (enable_aur);
+			transaction.support_aur.connect (support_aur);
 			transaction.daemon.set_pkgreason_finished.connect (display_package_properties);
 
 			var pamac_config = new Pamac.Config ("/etc/pamac.conf");
@@ -182,9 +182,9 @@ namespace Pamac {
 			}
 			Pamac.Package pkg = transaction.find_local_satisfier ("yaourt");
 			if (pkg.name == "") {
-				enable_aur (false);
+				support_aur (false, false);
 			} else {
-				enable_aur (pamac_config.enable_aur);
+				support_aur (pamac_config.enable_aur, pamac_config.search_aur);
 			}
 
 			set_buttons_sensitive (false);
@@ -194,9 +194,14 @@ namespace Pamac {
 			update_lists ();
 		}
 
-		public void enable_aur (bool enable) {
-			search_aur_button.set_active (false);
-			search_aur_box.set_visible (enable);
+		public void support_aur (bool enable_aur, bool search_aur) {
+			if (enable_aur) {
+				search_aur_button.set_active (search_aur);
+				search_aur_box.set_visible (true);
+			} else {
+				search_aur_button.set_active (false);
+				search_aur_box.set_visible (false);
+			}
 		}
 
 		public void set_buttons_sensitive (bool sensitive) {

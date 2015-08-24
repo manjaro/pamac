@@ -20,10 +20,11 @@
 namespace Pamac {
 	public class Config: Object {
 		string conf_path;
-		public int refresh_period;
-		public bool enable_aur;
 		public bool recurse;
+		public int refresh_period;
 		public bool no_update_hide_icon;
+		public bool enable_aur;
+		public bool search_aur;
 		public bool check_aur_updates;
 		public bool no_confirm_build;
 
@@ -36,9 +37,10 @@ namespace Pamac {
 
 		public void reload () {
 			// set default options
-			enable_aur = false;
 			recurse = false;
 			no_update_hide_icon = false;
+			enable_aur = false;
+			search_aur = false;
 			check_aur_updates = false;
 			no_confirm_build = false;
 			parse_file (conf_path);
@@ -77,6 +79,8 @@ namespace Pamac {
 							no_update_hide_icon = true;
 						} else if (key == "EnableAUR") {
 							enable_aur = true;
+						} else if (key == "SearchInAURByDefault") {
+							search_aur = true;
 						} else if (key == "CheckAURUpdates") {
 							check_aur_updates = true;
 						} else if (key == "NoConfirmBuild") {
@@ -150,6 +154,18 @@ namespace Pamac {
 							} else {
 								data += line + "\n";
 							}
+						} else if (line.contains ("SearchInAURByDefault")) {
+							if (new_conf.contains ("SearchInAURByDefault")) {
+								bool val = new_conf.get ("SearchInAURByDefault").get_boolean ();
+								if (val == true) {
+									data += "SearchInAURByDefault\n";
+								} else {
+									data += "#SearchInAURByDefault\n";
+								}
+								new_conf.remove ("SearchInAURByDefault");
+							} else {
+								data += line + "\n";
+							}
 						} else if (line.contains ("CheckAURUpdates")) {
 							if (new_conf.contains ("CheckAURUpdates")) {
 								bool val = new_conf.get ("CheckAURUpdates").get_boolean ();
@@ -209,6 +225,12 @@ namespace Pamac {
 							data += "EnableAUR\n";
 						} else {
 							data += "#EnableAUR\n";
+						}
+					} else if (key == "SearchInAURByDefault") {
+						if (val.get_boolean () == true) {
+							data += "SearchInAURByDefault\n";
+						} else {
+							data += "#SearchInAURByDefault\n";
 						}
 					} else if (key == "CheckAURUpdates") {
 						if (val.get_boolean () == true) {

@@ -74,8 +74,8 @@ namespace Pamac {
 		public signal void trans_prepare_finished (ErrorInfos error);
 		public signal void trans_commit_finished (ErrorInfos error);
 		public signal void get_authorization_finished (bool authorized);
-		public signal void write_pamac_config_finished (int refresh_period, bool aur_enabled, bool recurse,
-														bool no_update_hide_icon, bool check_aur_updates,
+		public signal void write_pamac_config_finished (bool recurse, int refresh_period, bool no_update_hide_icon,
+														bool enable_aur, bool search_aur, bool check_aur_updates,
 														bool no_confirm_build);
 		public signal void write_alpm_config_finished (bool checkspace);
 		public signal void write_mirrors_config_finished (string choosen_country, string choosen_generation_method);
@@ -121,7 +121,7 @@ namespace Pamac {
 		Gtk.ApplicationWindow? window;
 
 		public signal void finished (bool with_error);
-		public signal void enable_aur (bool enable);
+		public signal void support_aur (bool enable_aur, bool search_aur);
 
 		public Transaction (Gtk.ApplicationWindow? window) {
 			flags = Alpm.TransFlag.CASCADE;
@@ -1285,14 +1285,16 @@ namespace Pamac {
 			});
 		}
 
-		void on_write_pamac_config_finished (int refresh_period, bool aur_enabled, bool recurse) {
+		void on_write_pamac_config_finished (bool recurse, int refresh_period, bool no_update_hide_icon,
+											bool enable_aur, bool search_aur, bool check_aur_updates,
+											bool no_confirm_build) {
 			flags = Alpm.TransFlag.CASCADE;
 			if (recurse) {
 				flags |= Alpm.TransFlag.RECURSE;
 			}
 			Pamac.Package pkg = find_local_satisfier ("yaourt");
 			if (pkg.name != "") {
-				enable_aur (aur_enabled);
+				support_aur (enable_aur, search_aur);
 			}
 		}
 

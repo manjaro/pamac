@@ -682,6 +682,10 @@ msgid "Allow Pamac to search and install packages from AUR"
 msgstr ""
 
 #: ../resources/preferences_dialog.ui
+msgid "Search in AUR by default"
+msgstr ""
+
+#: ../resources/preferences_dialog.ui
 msgid "Check for updates from AUR"
 msgstr ""
 

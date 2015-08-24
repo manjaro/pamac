@@ -28,13 +28,13 @@ namespace Pamac {
 	[DBus (name = "org.manjaro.pamac")]
 	public interface Daemon : Object {
 		public abstract void start_refresh (int force) throws IOError;
-		public abstract async Updates get_updates (bool enable_aur) throws IOError;
+		public abstract async Updates get_updates (bool check_aur_updates) throws IOError;
 		[DBus (no_reply = true)]
 		public abstract void quit () throws IOError;
 		public signal void refresh_finished (ErrorInfos error);
-		public signal void write_pamac_config_finished (int refresh_period, bool aur_enabled, bool recurse,
-											bool no_update_hide_icon, bool check_aur_updates,
-											bool no_confirm_build);
+		public signal void write_pamac_config_finished (bool recurse, int refresh_period, bool no_update_hide_icon,
+														bool enable_aur, bool search_aur, bool check_aur_updates,
+														bool no_confirm_build);
 		public signal void write_alpm_config_finished (bool checkspace);
 	}
 
@@ -136,7 +136,9 @@ namespace Pamac {
 			return true;
 		}
 
-		void on_write_pamac_config_finished (int refresh_period) {
+		void on_write_pamac_config_finished (bool recurse, int refresh_period, bool no_update_hide_icon,
+											bool enable_aur, bool search_aur, bool check_aur_updates,
+											bool no_confirm_build) {
 			launch_refresh_timeout ((uint) refresh_period);
 			if (refresh_period == 0) {
 				status_icon.visible = false;
