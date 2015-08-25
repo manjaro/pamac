@@ -22,7 +22,7 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2015-08-20 11:53+0200\n"
-"PO-Revision-Date: 2015-08-21 05:41+0000\n"
+"PO-Revision-Date: 2015-08-25 19:12+0000\n"
 "Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: German (http://www.transifex.com/manjarolinux/manjaro-pamac/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -695,12 +695,16 @@ msgid "Allow Pamac to search and install packages from AUR"
 msgstr "Erlaube Pamac nach Paketen im AUR zu suchen und zu installieren"
 
 #: ../resources/preferences_dialog.ui
+msgid "Search in AUR by default"
+msgstr "Suche standardmäßig in AUR"
+
+#: ../resources/preferences_dialog.ui
 msgid "Check for updates from AUR"
 msgstr "Überprüfe auf Erneuerungen aus AUR"
 
 #: ../resources/preferences_dialog.ui
 msgid "Do not ask for confirmation when building packages"
-msgstr "Nicht nach einer Bestätigung bei Erstellung von Paketen nachfragen"
+msgstr "Keine Nachfrage nach einer Bestätigung beim Erstellen von Paketen"
 
 #: ../resources/preferences_dialog.ui
 msgid "AUR"

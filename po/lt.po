@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2015-08-20 11:53+0200\n"
-"PO-Revision-Date: 2015-08-21 09:44+0000\n"
+"PO-Revision-Date: 2015-08-25 09:13+0000\n"
 "Last-Translator: Moo\n"
 "Language-Team: Lithuanian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/lt/)\n"
 "MIME-Version: 1.0\n"
@@ -384,7 +384,7 @@ msgstr "vietinė"
 
 #: ../src/manager_window.vala
 msgid "Installed"
-msgstr "Yra įdiegti"
+msgstr "Įdiegta"
 
 #: ../src/manager_window.vala
 msgid "Orphans"
@@ -408,7 +408,7 @@ msgstr "Reikalauja"
 
 #: ../src/manager_window.vala
 msgid "Optional For"
-msgstr ""
+msgstr "Neprivalomas Paketams"
 
 #: ../src/manager_window.vala
 msgid "Provides"
@@ -684,6 +684,10 @@ msgstr "Įjungti AUR palaikymą"
 #: ../resources/preferences_dialog.ui
 msgid "Allow Pamac to search and install packages from AUR"
 msgstr "Leisti Pamac ieškoti ir diegti paketus iš AUR"
+
+#: ../resources/preferences_dialog.ui
+msgid "Search in AUR by default"
+msgstr "Pagal numatymą ieškoti AUR saugykloje"
 
 #: ../resources/preferences_dialog.ui
 msgid "Check for updates from AUR"

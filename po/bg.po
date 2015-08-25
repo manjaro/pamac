@@ -16,8 +16,8 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2015-08-20 11:53+0200\n"
-"PO-Revision-Date: 2015-08-21 06:31+0000\n"
-"Last-Translator: Galin Iskrenov <loot270@abv.bg>\n"
+"PO-Revision-Date: 2015-08-25 08:25+0000\n"
+"Last-Translator: Guillaume Benoit <guillaume@manjaro.org>\n"
 "Language-Team: Bulgarian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/bg/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -687,6 +687,10 @@ msgstr "Позволи AUR поддръжка"
 #: ../resources/preferences_dialog.ui
 msgid "Allow Pamac to search and install packages from AUR"
 msgstr "Позволи на Pamac да търси и инсталира пакети от AUR"
+
+#: ../resources/preferences_dialog.ui
+msgid "Search in AUR by default"
+msgstr ""
 
 #: ../resources/preferences_dialog.ui
 msgid "Check for updates from AUR"

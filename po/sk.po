@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2015-08-20 11:53+0200\n"
-"PO-Revision-Date: 2015-08-21 15:36+0000\n"
+"PO-Revision-Date: 2015-08-25 08:27+0000\n"
 "Last-Translator: Dušan Kazik <prescott66@gmail.com>\n"
 "Language-Team: Slovak (http://www.transifex.com/manjarolinux/manjaro-pamac/language/sk/)\n"
 "MIME-Version: 1.0\n"
@@ -688,6 +688,10 @@ msgstr "Zapnúť podporu repozitára AUR"
 #: ../resources/preferences_dialog.ui
 msgid "Allow Pamac to search and install packages from AUR"
 msgstr "Umožní programu Pamac vyhľadať a inštalovať balíky z repozitára AUR"
+
+#: ../resources/preferences_dialog.ui
+msgid "Search in AUR by default"
+msgstr "Predvolene vyhľadávať v repozitári AUR"
 
 #: ../resources/preferences_dialog.ui
 msgid "Check for updates from AUR"

@@ -10,6 +10,7 @@
 # Jean Delmas, 2015
 # philm <philm@manjaro.org>, 2013
 # philm <philm@manjaro.org>, 2013,2015
+# Superboa <superboa@hotmail.fr>, 2015
 # tcit <thomas.citharet@gmail.com>, 2015
 # tcit <thomas.citharet@gmail.com>, 2015
 # Tun_In_A_Cellar <tun.in.a.cellar@gmail.com>, 2014
@@ -19,7 +20,7 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2015-08-20 11:53+0200\n"
-"PO-Revision-Date: 2015-08-21 12:11+0000\n"
+"PO-Revision-Date: 2015-08-25 08:26+0000\n"
 "Last-Translator: Guillaume Benoit <guillaume@manjaro.org>\n"
 "Language-Team: French (http://www.transifex.com/manjarolinux/manjaro-pamac/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -69,7 +70,7 @@ msgstr "La préparation de la transaction a échoué"
 #: ../src/daemon.vala
 #, c-format
 msgid "target not found: %s"
-msgstr "impossible de trouver la cible: %s"
+msgstr "impossible de trouver la cible : %s"
 
 #: ../src/daemon.vala
 #, c-format
@@ -89,7 +90,7 @@ msgstr "%s et %s sont en conflit"
 #: ../src/daemon.vala
 #, c-format
 msgid "%s needs to be removed but it is a locked package"
-msgstr "%s doit être désinstaller mais c'est un paquet bloqué"
+msgstr "%s doit être désinstallé mais c'est un paquet verrouillé"
 
 #: ../src/daemon.vala
 msgid "Failed to commit transaction"
@@ -103,7 +104,7 @@ msgstr "%s est présent à la fois dans %s et %s"
 #: ../src/daemon.vala
 #, c-format
 msgid "%s: %s already exists in filesystem"
-msgstr "%s: %s est déjà présent dans le système de fichiers"
+msgstr "%s : %s est déjà présent dans le système de fichiers"
 
 #: ../src/daemon.vala
 #, c-format
@@ -152,7 +153,7 @@ msgstr "À installer"
 
 #: ../src/transaction.vala
 msgid "To reinstall"
-msgstr "A réinstaller"
+msgstr "À réinstaller"
 
 #: ../src/transaction.vala
 msgid "To update"
@@ -238,11 +239,11 @@ msgstr "Génération de %s avec %s "
 
 #: ../src/transaction.vala
 msgid "Generation succeeded"
-msgstr "Génération réussi"
+msgstr "Génération réussie"
 
 #: ../src/transaction.vala
 msgid "Generation failed"
-msgstr "Génération échoué"
+msgstr "Génération échouée"
 
 #: ../src/transaction.vala
 #, c-format
@@ -358,7 +359,7 @@ msgid_plural ""
 "%s has %u uninstalled optional dependencies.\n"
 "Choose those you would like to install"
 msgstr[0] "%s a %u dépendance optionnelle non installée.\nChoisissez si vous voulez l'installer"
-msgstr[1] "%s a %u dépendances optionnelles non installées.\nChoisissez celles que vous voulez installer"
+msgstr[1] "%s a %u dépendances optionnelles non installées.\nChoisissez celles que vous souhaitez installer"
 
 #: ../src/manager_window.vala
 msgid "Deselect"
@@ -516,11 +517,11 @@ msgstr "Vitesse"
 
 #: ../src/preferences_dialog.vala
 msgid "Random"
-msgstr "Hasard"
+msgstr "Aléatoire"
 
 #: ../src/choose_ignorepkgs_dialog.vala
 msgid "Choose the packages you do not want to upgrade"
-msgstr "Choisissez les paquets que vous ne voulez pas mettre à jour"
+msgstr "Choisissez les paquets que vous ne souhaitez pas mettre à jour"
 
 #: ../resources/choose_provider_dialog.ui
 msgid "Choose a Provider"
@@ -565,7 +566,7 @@ msgstr "_Préférences"
 
 #: ../resources/manager_window.ui
 msgid "_About"
-msgstr "_A propos"
+msgstr "_À propos"
 
 #: ../resources/manager_window.ui
 msgid "Refresh databases"
@@ -643,7 +644,7 @@ msgstr "En désinstallant un paquet, désinstaller également les dépendances q
 
 #: ../resources/preferences_dialog.ui
 msgid "Check available disk space"
-msgstr "Vérifier de l'espace disque disponible"
+msgstr "Vérifier l'espace disque disponible"
 
 #: ../resources/preferences_dialog.ui
 msgid "Check for updates"
@@ -655,7 +656,7 @@ msgstr "Masquer l'icône de notification lorsqu'aucune mise à jour n'est dispon
 
 #: ../resources/preferences_dialog.ui
 msgid "Ignore upgrades for:"
-msgstr "Ignorer les mises à jour pour:"
+msgstr "Ignorer les mises à jour pour :"
 
 #: ../resources/preferences_dialog.ui
 msgid "General"
@@ -663,11 +664,11 @@ msgstr "Général"
 
 #: ../resources/preferences_dialog.ui
 msgid "Use mirrors from:"
-msgstr "Utiliser les miroirs depuis:"
+msgstr "Utiliser les miroirs depuis :"
 
 #: ../resources/preferences_dialog.ui
 msgid "Sort mirrors by:"
-msgstr "Trier les miroirs par:"
+msgstr "Trier les miroirs par :"
 
 #: ../resources/preferences_dialog.ui
 msgid "Refresh Mirrors List"
@@ -681,7 +682,7 @@ msgstr "Dépôts Officiels"
 msgid ""
 "AUR is a community maintained repository so it presents potential risks and problems.\n"
 "All AUR users should be familiar with the build process."
-msgstr "AUR est maintenu par la communauté donc il présente des risques potentiels.\nSes utilisateurs devraient tous être familiers avec la construction de paquets."
+msgstr "AUR est maintenu par la communauté, donc il présente des risques potentiels.\nSes utilisateurs devraient tous être familiers avec la construction de paquets."
 
 #: ../resources/preferences_dialog.ui
 msgid "Enable AUR support"
@@ -690,6 +691,10 @@ msgstr "Activer le support d'AUR"
 #: ../resources/preferences_dialog.ui
 msgid "Allow Pamac to search and install packages from AUR"
 msgstr "Permettre à Pamac de chercher et installer des paquets depuis AUR"
+
+#: ../resources/preferences_dialog.ui
+msgid "Search in AUR by default"
+msgstr "Rechercher depuis AUR par défaut"
 
 #: ../resources/preferences_dialog.ui
 msgid "Check for updates from AUR"
