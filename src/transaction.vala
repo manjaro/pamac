@@ -89,6 +89,11 @@ namespace Pamac {
 		BUILD = (1 << 2)
 	}
 
+	public enum Mode {
+		MANAGER,
+		UPDATER
+	}
+
 	public class Transaction: Object {
 		public Daemon daemon;
 

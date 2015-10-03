@@ -21,16 +21,6 @@ msgstr ""
 msgid "Authentication is required"
 msgstr ""
 
-#: ../src/common.vala
-#, c-format
-msgid "%.0f KiB"
-msgstr ""
-
-#: ../src/common.vala
-#, c-format
-msgid "%.2f MiB"
-msgstr ""
-
 #: ../src/daemon.vala
 msgid "Failed to initialize alpm library"
 msgstr ""
