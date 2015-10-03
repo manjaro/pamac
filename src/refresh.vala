@@ -1,7 +1,7 @@
 /*
  *  pamac-vala
  *
- *  Copyright (C) 2014 Guillaume Benoit <guillaume@manjaro.org>
+ *  Copyright (C) 2014-2015 Guillaume Benoit <guillaume@manjaro.org>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -68,7 +68,7 @@ bool check_pamac_running () {
 }
 
 void on_refresh_finished () {
-	if (check_pamac_running () == false) {
+	if (!check_pamac_running ()) {
 		try {
 			pamac_daemon.quit ();
 		} catch (IOError e) {
@@ -79,16 +79,20 @@ void on_refresh_finished () {
 }
 
 int main () {
-	if (check_pamac_running () == false) {
-		try {
-			pamac_daemon = Bus.get_proxy_sync (BusType.SYSTEM, "org.manjaro.pamac",
-													"/org/manjaro/pamac");
-			pamac_daemon.refresh_finished.connect (on_refresh_finished);
-			pamac_daemon.start_refresh (0);
-			loop = new MainLoop ();
-			loop.run ();
-		} catch (IOError e) {
-			stderr.printf ("IOError: %s\n", e.message);
+	var pamac_config = new Pamac.Config ("/etc/pamac.conf");
+	// if refresh period is 0, just exit
+	if (pamac_config.refresh_period != 0) {
+		if (!check_pamac_running ()) {
+			try {
+				pamac_daemon = Bus.get_proxy_sync (BusType.SYSTEM, "org.manjaro.pamac",
+														"/org/manjaro/pamac");
+				pamac_daemon.refresh_finished.connect (on_refresh_finished);
+				pamac_daemon.start_refresh (0);
+				loop = new MainLoop ();
+				loop.run ();
+			} catch (IOError e) {
+				stderr.printf ("IOError: %s\n", e.message);
+			}
 		}
 	}
 	return 0;

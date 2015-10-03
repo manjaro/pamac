@@ -40,9 +40,11 @@ binaries: pamac-refresh pamac-daemon  pamac-tray  pamac-updater  pamac-manager  
 clean:
 	rm -f *.c pamac-refresh pamac-daemon pamac-tray pamac-updater pamac-manager pamac-install
 
-pamac-refresh: refresh.vala
+pamac-refresh: pamac_config.vala refresh.vala
 	valac 	-o pamac-refresh \
+			-X -w \
 			--pkg=gio-2.0 \
+			pamac_config.vala \
 			refresh.vala
 
 pamac-tray: ../vapi/libalpm.vapi ../util/alpm-util.c common.vala alpm_config.vala pamac_config.vala tray.vala
