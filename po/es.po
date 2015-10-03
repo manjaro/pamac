@@ -10,14 +10,15 @@
 # Leandro Juan <freudian_order@yahoo.es>, 2014
 # Miguel Hernández <michelangelo93@gmail.com>, 2015
 # Marchin, 2015
+# Noel Rodríguez Freire <noelrf.ou@gmail.com>, 2015
 # philm <philm@manjaro.org>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2015-08-20 11:53+0200\n"
-"PO-Revision-Date: 2015-08-25 08:25+0000\n"
-"Last-Translator: Guillaume Benoit <guillaume@manjaro.org>\n"
+"PO-Revision-Date: 2015-09-11 13:56+0000\n"
+"Last-Translator: Noel Rodríguez Freire <noelrf.ou@gmail.com>\n"
 "Language-Team: Spanish (http://www.transifex.com/manjarolinux/manjaro-pamac/language/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -354,8 +355,8 @@ msgid ""
 msgid_plural ""
 "%s has %u uninstalled optional dependencies.\n"
 "Choose those you would like to install"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%s tiene %u desinstalado dependencia opcional.\nElija el que le gustaría instalar"
+msgstr[1] "%s tiene %u desinstalado dependencias opcionales.\nElija los que le gustaría instalar"
 
 #: ../src/manager_window.vala
 msgid "Deselect"
@@ -690,7 +691,7 @@ msgstr "Permitir a Pamac buscar e instalar paquetes desde AUR"
 
 #: ../resources/preferences_dialog.ui
 msgid "Search in AUR by default"
-msgstr ""
+msgstr "Buscar en AUR por defecto"
 
 #: ../resources/preferences_dialog.ui
 msgid "Check for updates from AUR"

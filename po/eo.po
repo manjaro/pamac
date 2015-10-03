@@ -6,13 +6,14 @@
 # Translators:
 # Anderson Tavares <nocturne.pe@gmail.com>, 2013
 # Anderson Tavares <nocturne.pe@gmail.com>, 2013
+# juanda097 <juanda097@openmailbox.org>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2015-08-20 11:53+0200\n"
-"PO-Revision-Date: 2015-08-25 08:25+0000\n"
-"Last-Translator: Guillaume Benoit <guillaume@manjaro.org>\n"
+"PO-Revision-Date: 2015-08-30 22:07+0000\n"
+"Last-Translator: juanda097 <juanda097@openmailbox.org>\n"
 "Language-Team: Esperanto (http://www.transifex.com/manjarolinux/manjaro-pamac/language/eo/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -22,7 +23,7 @@ msgstr ""
 
 #: data/polkit/org.manjaro.pamac.policy
 msgid "Authentication is required"
-msgstr ""
+msgstr "Aŭtentikigo estas postulita"
 
 #: ../src/common.vala
 #, c-format
@@ -48,7 +49,7 @@ msgstr ""
 
 #: ../src/daemon.vala
 msgid "Yes"
-msgstr ""
+msgstr "Jes"
 
 #: ../src/daemon.vala
 msgid "Failed to init transaction"
@@ -177,12 +178,12 @@ msgstr ""
 #: ../src/transaction.vala
 #, c-format
 msgid "Installing %s"
-msgstr ""
+msgstr "Instalanta %s"
 
 #: ../src/transaction.vala
 #, c-format
 msgid "Reinstalling %s"
-msgstr ""
+msgstr "Reinstalanta %s"
 
 #: ../src/transaction.vala
 #, c-format
@@ -243,7 +244,7 @@ msgstr ""
 
 #: ../src/transaction.vala
 msgid "Downloading"
-msgstr ""
+msgstr "Deŝut"
 
 #: ../src/transaction.vala
 msgid "Checking available disk space"
@@ -282,7 +283,7 @@ msgstr ""
 #: ../src/transaction.vala
 #, c-format
 msgid "Downloading %s"
-msgstr ""
+msgstr "Deŝut %s"
 
 #: ../src/transaction.vala
 msgid "Warning"
@@ -291,7 +292,7 @@ msgstr ""
 #: ../src/transaction.vala ../src/installer.vala ../src/manager.vala
 #: ../src/updater.vala
 msgid "Error"
-msgstr ""
+msgstr "Eraro"
 
 #: ../src/transaction.vala ../src/progress_dialog.vala
 msgid "Transaction cancelled"
@@ -476,11 +477,11 @@ msgstr ""
 #: ../resources/transaction_sum_dialog.ui ../resources/choose_dep_dialog.ui
 #: ../resources/choose_ignorepkgs_dialog.ui
 msgid "_Cancel"
-msgstr ""
+msgstr "_Nulig"
 
 #: ../src/manager_window.vala
 msgid "_Open"
-msgstr ""
+msgstr "_Open"
 
 #: ../src/manager_window.vala
 msgid "Alpm Package"
@@ -492,7 +493,7 @@ msgstr ""
 
 #: ../src/manager_window.vala
 msgid "Copyright © 2015 Guillaume Benoit"
-msgstr ""
+msgstr "Kopirajto © 2015 Guillaume Benoi"
 
 #: ../src/preferences_dialog.vala ../resources/preferences_dialog.ui
 msgid "How often to check for updates, value in hours"
@@ -522,7 +523,7 @@ msgstr ""
 #: ../resources/transaction_sum_dialog.ui ../resources/choose_dep_dialog.ui
 #: ../resources/choose_ignorepkgs_dialog.ui
 msgid "_OK"
-msgstr ""
+msgstr "_OK"
 
 #: ../resources/progress_dialog.ui
 msgid "Progress"
@@ -532,7 +533,7 @@ msgstr "Progreso"
 #: ../resources/transaction_info_dialog.ui ../resources/updater_window.ui
 #: ../resources/preferences_dialog.ui
 msgid "_Close"
-msgstr ""
+msgstr "_Ferm"
 
 #: ../resources/progress_dialog.ui ../resources/transaction_info_dialog.ui
 #: ../resources/manager_window.ui
@@ -553,7 +554,7 @@ msgstr ""
 
 #: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "_Preferences"
-msgstr ""
+msgstr "_Preferoj"
 
 #: ../resources/manager_window.ui
 msgid "_About"
@@ -621,7 +622,7 @@ msgstr ""
 
 #: ../resources/preferences_dialog.ui
 msgid "Preferences"
-msgstr ""
+msgstr "Preferoj"
 
 #: ../resources/preferences_dialog.ui
 msgid "Remove unrequired dependencies"
@@ -651,7 +652,7 @@ msgstr ""
 
 #: ../resources/preferences_dialog.ui
 msgid "General"
-msgstr ""
+msgstr "Ĝenerala"
 
 #: ../resources/preferences_dialog.ui
 msgid "Use mirrors from:"

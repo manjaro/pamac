@@ -15,14 +15,15 @@
 # philm <philm@manjaro.org>, 2015
 # Rendiyono Wahyu Saputro <rendi.7936@gmail.com>, 2015
 # Rizki Aulia Rachman <rizkiaulia.r@gmail.com>, 2013
+# wantoyo <wantoyo@yahoo.com>, 2015
 # Rendiyono Wahyu Saputro <rendi.7936@gmail.com>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2015-08-20 11:53+0200\n"
-"PO-Revision-Date: 2015-08-25 08:25+0000\n"
-"Last-Translator: Guillaume Benoit <guillaume@manjaro.org>\n"
+"PO-Revision-Date: 2015-09-01 20:02+0000\n"
+"Last-Translator: wantoyo <wantoyo@yahoo.com>\n"
 "Language-Team: Indonesian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/id/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -118,7 +119,7 @@ msgstr "Otentikasi gagal"
 
 #: ../src/transaction.vala
 msgid "Refreshing mirrors list"
-msgstr ""
+msgstr "Menyegarkan daftar cermin"
 
 #: ../src/transaction.vala
 msgid "Synchronizing package databases"
@@ -358,7 +359,7 @@ msgid ""
 msgid_plural ""
 "%s has %u uninstalled optional dependencies.\n"
 "Choose those you would like to install"
-msgstr[0] ""
+msgstr[0] "%s memiliki %u opsional ketergantungan yang tidak terpasang.\nPilih yang ingin Anda pasang"
 
 #: ../src/manager_window.vala
 msgid "Deselect"
@@ -378,7 +379,7 @@ msgstr "Memasang ulang"
 
 #: ../src/manager_window.vala
 msgid "Install optional dependencies"
-msgstr "Pasang dependensi opsional"
+msgstr "Pasang opsional ketergantungan"
 
 #: ../src/manager_window.vala
 msgid "Mark as explicitly installed"
@@ -406,7 +407,7 @@ msgstr "Bergantung Pada"
 
 #: ../src/manager_window.vala
 msgid "Optional Dependencies"
-msgstr "Dependensi Opsional"
+msgstr "Opsional Ketergantungan"
 
 #: ../src/manager_window.vala
 msgid "Required By"
@@ -414,7 +415,7 @@ msgstr "Dibutuhkan Oleh"
 
 #: ../src/manager_window.vala
 msgid "Optional For"
-msgstr ""
+msgstr "Opsional Untuk"
 
 #: ../src/manager_window.vala
 msgid "Provides"
@@ -478,7 +479,7 @@ msgstr "Dihapus"
 
 #: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Install Local Packages"
-msgstr ""
+msgstr "Pasang Paket-paket Lokal"
 
 #: ../src/manager_window.vala ../resources/progress_dialog.ui
 #: ../resources/transaction_sum_dialog.ui ../resources/choose_dep_dialog.ui
@@ -512,15 +513,15 @@ msgstr "Seluruh dunia"
 
 #: ../src/preferences_dialog.vala
 msgid "Speed"
-msgstr ""
+msgstr "Kecepatan"
 
 #: ../src/preferences_dialog.vala
 msgid "Random"
-msgstr ""
+msgstr "Acak"
 
 #: ../src/choose_ignorepkgs_dialog.vala
 msgid "Choose the packages you do not want to upgrade"
-msgstr ""
+msgstr "Pilihlah paket yang tidak ingin Anda tingkatkan"
 
 #: ../resources/choose_provider_dialog.ui
 msgid "Choose a Provider"
@@ -553,7 +554,7 @@ msgstr "Riwayat Pamac"
 
 #: ../resources/choose_dep_dialog.ui
 msgid "Choose Optional Dependencies"
-msgstr ""
+msgstr "Memilih Opsional Ketergantungan"
 
 #: ../resources/manager_window.ui
 msgid "View History"
@@ -613,7 +614,7 @@ msgstr "Deskripsi"
 
 #: ../resources/manager_window.ui
 msgid "Dependencies"
-msgstr "Dependensi"
+msgstr "Ketergantungan"
 
 #: ../resources/manager_window.ui
 msgid "Files"
@@ -633,13 +634,13 @@ msgstr "Preferensi"
 
 #: ../resources/preferences_dialog.ui
 msgid "Remove unrequired dependencies"
-msgstr "Hapus dependensi yang tidak dibutuhkan"
+msgstr "Hapus ketergantungan yang tidak dibutuhkan"
 
 #: ../resources/preferences_dialog.ui
 msgid ""
 "When removing a package, also remove its dependencies that are not required "
 "by other packages"
-msgstr "Ketika menghapus paket, hapus juga dependensi paket tersebut yang tidak dibuthkan paket lainnya"
+msgstr "Ketika menghapus paket, hapus juga ketergantungan paket tersebut yang tidak dibuthkan paket lainnya"
 
 #: ../resources/preferences_dialog.ui
 msgid "Check available disk space"
@@ -647,11 +648,11 @@ msgstr "Periksa ketersediaan ruang disak"
 
 #: ../resources/preferences_dialog.ui
 msgid "Check for updates"
-msgstr ""
+msgstr "Periksa pembaharuan"
 
 #: ../resources/preferences_dialog.ui
 msgid "Hide tray icon when no update available"
-msgstr ""
+msgstr "Sembunyikan ikon baki ketika tidak ada pembaruan yang tersedia"
 
 #: ../resources/preferences_dialog.ui
 msgid "Ignore upgrades for:"
@@ -659,7 +660,7 @@ msgstr "Jangan tingkatkan untuk:"
 
 #: ../resources/preferences_dialog.ui
 msgid "General"
-msgstr ""
+msgstr "Umum"
 
 #: ../resources/preferences_dialog.ui
 msgid "Use mirrors from:"
@@ -671,17 +672,17 @@ msgstr "Sorting cermin dengan:"
 
 #: ../resources/preferences_dialog.ui
 msgid "Refresh Mirrors List"
-msgstr ""
+msgstr "Segarkan Daftar Cermin"
 
 #: ../resources/preferences_dialog.ui
 msgid "Official Repositories"
-msgstr ""
+msgstr "Repositori Resmi"
 
 #: ../resources/preferences_dialog.ui
 msgid ""
 "AUR is a community maintained repository so it presents potential risks and problems.\n"
 "All AUR users should be familiar with the build process."
-msgstr ""
+msgstr "AUR adalah sebuah komunitas perawatan repositori sehingga menyajikan potensi risiko dan masalah.\nSemua pengguna AUR harus akrab dengan proses pembangunan."
 
 #: ../resources/preferences_dialog.ui
 msgid "Enable AUR support"
@@ -693,20 +694,20 @@ msgstr "Biarkan Pamac untuk mencari dan menginstal paket dari AUR"
 
 #: ../resources/preferences_dialog.ui
 msgid "Search in AUR by default"
-msgstr ""
+msgstr "Cari di AUR sebagai baku"
 
 #: ../resources/preferences_dialog.ui
 msgid "Check for updates from AUR"
-msgstr ""
+msgstr "Periksa pembaruan dari AUR"
 
 #: ../resources/preferences_dialog.ui
 msgid "Do not ask for confirmation when building packages"
-msgstr ""
+msgstr "Jangan bertanya untuk konfirmasi ketika membangun paket-paket"
 
 #: ../resources/preferences_dialog.ui
 msgid "AUR"
-msgstr ""
+msgstr "AUR"
 
 #: ../resources/choose_ignorepkgs_dialog.ui
 msgid "Choose Ignored Upgrades"
-msgstr ""
+msgstr "Memilih Abaian Pembaruan"

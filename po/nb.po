@@ -22,8 +22,8 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2015-08-20 11:53+0200\n"
-"PO-Revision-Date: 2015-08-25 08:25+0000\n"
-"Last-Translator: Guillaume Benoit <guillaume@manjaro.org>\n"
+"PO-Revision-Date: 2015-08-31 10:55+0000\n"
+"Last-Translator: thomas <thomasbjornvold@gmail.com>\n"
 "Language-Team: Norwegian Bokmål (http://www.transifex.com/manjarolinux/manjaro-pamac/language/nb/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -119,7 +119,7 @@ msgstr "Autentifisering feilet"
 
 #: ../src/transaction.vala
 msgid "Refreshing mirrors list"
-msgstr ""
+msgstr "Oppdaterer listen over pakkebrønner"
 
 #: ../src/transaction.vala
 msgid "Synchronizing package databases"
@@ -417,7 +417,7 @@ msgstr "Krevd av"
 
 #: ../src/manager_window.vala
 msgid "Optional For"
-msgstr ""
+msgstr "Valgfri for"
 
 #: ../src/manager_window.vala
 msgid "Provides"
@@ -481,7 +481,7 @@ msgstr "Avinstallert"
 
 #: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Install Local Packages"
-msgstr ""
+msgstr "Installer lokale pakker"
 
 #: ../src/manager_window.vala ../resources/progress_dialog.ui
 #: ../resources/transaction_sum_dialog.ui ../resources/choose_dep_dialog.ui
@@ -515,15 +515,15 @@ msgstr "Verdensomspennende"
 
 #: ../src/preferences_dialog.vala
 msgid "Speed"
-msgstr ""
+msgstr "Hastighet"
 
 #: ../src/preferences_dialog.vala
 msgid "Random"
-msgstr ""
+msgstr "Tilfeldig"
 
 #: ../src/choose_ignorepkgs_dialog.vala
 msgid "Choose the packages you do not want to upgrade"
-msgstr ""
+msgstr "Velg de pakkene som du ikke ønsker å oppgradere"
 
 #: ../resources/choose_provider_dialog.ui
 msgid "Choose a Provider"
@@ -556,7 +556,7 @@ msgstr "Pamac Historie"
 
 #: ../resources/choose_dep_dialog.ui
 msgid "Choose Optional Dependencies"
-msgstr ""
+msgstr "Valgfrie Avhengigheter"
 
 #: ../resources/manager_window.ui
 msgid "View History"
@@ -650,11 +650,11 @@ msgstr "Sjekk tilgjengelig diskplass"
 
 #: ../resources/preferences_dialog.ui
 msgid "Check for updates"
-msgstr ""
+msgstr "Se etter oppdateringer"
 
 #: ../resources/preferences_dialog.ui
 msgid "Hide tray icon when no update available"
-msgstr ""
+msgstr "Gjem icon når det ikke finnes noen oppdateringer"
 
 #: ../resources/preferences_dialog.ui
 msgid "Ignore upgrades for:"
@@ -662,7 +662,7 @@ msgstr "Ignorer oppgraderinger for:"
 
 #: ../resources/preferences_dialog.ui
 msgid "General"
-msgstr ""
+msgstr "Generellt"
 
 #: ../resources/preferences_dialog.ui
 msgid "Use mirrors from:"
@@ -674,17 +674,17 @@ msgstr "Sorter speil etter:"
 
 #: ../resources/preferences_dialog.ui
 msgid "Refresh Mirrors List"
-msgstr ""
+msgstr "Oppdater listen over pakkebrønner"
 
 #: ../resources/preferences_dialog.ui
 msgid "Official Repositories"
-msgstr ""
+msgstr "Offisielle pakkebrønner "
 
 #: ../resources/preferences_dialog.ui
 msgid ""
 "AUR is a community maintained repository so it presents potential risks and problems.\n"
 "All AUR users should be familiar with the build process."
-msgstr ""
+msgstr "AUR er en pakkebrønn som vedlikeholdes av fellesskapet så den representerer potensiellt en risiko og problemer.\nAlle AUR-brukere bør kjenne fremgangsmåten for å bygge pakker. "
 
 #: ../resources/preferences_dialog.ui
 msgid "Enable AUR support"
@@ -696,20 +696,20 @@ msgstr "Tillat Pamac å søke og installere pakker fra AUR"
 
 #: ../resources/preferences_dialog.ui
 msgid "Search in AUR by default"
-msgstr ""
+msgstr "Søk i AUR som standard"
 
 #: ../resources/preferences_dialog.ui
 msgid "Check for updates from AUR"
-msgstr ""
+msgstr "Se etter oppdateringer fra AUR"
 
 #: ../resources/preferences_dialog.ui
 msgid "Do not ask for confirmation when building packages"
-msgstr ""
+msgstr "Ikke spør etter bekreftelse når pakker blir bygget"
 
 #: ../resources/preferences_dialog.ui
 msgid "AUR"
-msgstr ""
+msgstr "AUR"
 
 #: ../resources/choose_ignorepkgs_dialog.ui
 msgid "Choose Ignored Upgrades"
-msgstr ""
+msgstr "Velg ignorerte oppdateringer "
