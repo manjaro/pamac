@@ -37,11 +37,6 @@ namespace Pamac {
 		}
 	}
 
-	public enum Mode {
-		MANAGER,
-		UPDATER
-	}
-
 	public struct ErrorInfos {
 		public string message;
 		public string[] details;
@@ -49,16 +44,5 @@ namespace Pamac {
 			message = "";
 			details = {};
 		}
-	}
-}
-
-public string format_size (uint64 size) {
-	float KiB_size = size / 1024;
-	if (KiB_size < 1000) {
-		string size_string = dgettext ("pamac", "%.0f KiB").printf (KiB_size);
-		return size_string;
-	} else {
-		string size_string = dgettext ("pamac", "%.2f MiB").printf (KiB_size / 1024);
-		return size_string;
 	}
 }

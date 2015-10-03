@@ -1,4 +1,3 @@
-../src/common.vala
 ../src/daemon.vala
 ../src/transaction.vala
 ../src/installer.vala
