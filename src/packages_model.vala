@@ -82,8 +82,8 @@ namespace Pamac {
 								val.set_object (manager_window.uninstalled_icon);
 							}
 						} else if (pkg.name == dgettext (null, "No package found")) {
-							Object? object = null;
-							val.set_object (object);
+							// nothing to do
+							break;
 						} else if (manager_window.transaction.to_add.contains (pkg.name)) {
 							val.set_object (manager_window.to_install_icon);
 						} else {

@@ -257,7 +257,12 @@ namespace Pamac {
 			name_label.set_markup ("<big><b>%s  %s</b></big>".printf (pkg.name, pkg.version));
 			desc_label.set_markup (Markup.escape_text (pkg.desc));
 			string url = Markup.escape_text (pkg.url);
-			link_label.set_markup ("<a href=\"%s\">%s</a>".printf (url, url));
+			if (pkg.repo == "AUR") {
+				string aur_url = "http://aur.archlinux.org/packages/" + pkg.name;
+				link_label.set_markup ("<a href=\"%s\">%s</a>\n\n<a href=\"%s\">%s</a>".printf (url, url, aur_url, aur_url));
+			} else {
+				link_label.set_markup ("<a href=\"%s\">%s</a>".printf (url, url));
+			}
 			StringBuilder licenses = new StringBuilder ();
 			licenses.append (dgettext (null, "Licenses"));
 			licenses.append (": ");
@@ -366,7 +371,7 @@ namespace Pamac {
 			Gtk.TreeIter iter;
 			PackageDetails details = transaction.get_pkg_details (pkgname);
 			int i;
-			if (details.repo != "local") {
+			if (details.repo != "local" && details.repo != "AUR") {
 				details_list.insert_with_values (out iter, -1,
 													0, dgettext (null, "Repository") + ":",
 													1, details.repo);
@@ -382,9 +387,24 @@ namespace Pamac {
 					i++;
 				}
 			}
-			details_list.insert_with_values (out iter, -1,
-													0, dgettext (null, "Packager") + ":",
-													1, details.packager);
+			if (details.repo == "AUR") {
+				details_list.insert_with_values (out iter, -1,
+														0, dgettext (null, "Maintainer") + ":",
+														1, details.packager);
+				details_list.insert_with_values (out iter, -1,
+														0, dgettext (null, "First Submitted") + ":",
+														1, details.build_date);
+				details_list.insert_with_values (out iter, -1,
+														0, dgettext (null, "Last Modified") + ":",
+														1, details.install_date);
+			} else {
+				details_list.insert_with_values (out iter, -1,
+														0, dgettext (null, "Packager") + ":",
+														1, details.packager);
+				details_list.insert_with_values (out iter, -1,
+														0, dgettext (null, "Build Date") + ":",
+														1, details.build_date);
+			}
 			if (details.repo == "local") {
 				details_list.insert_with_values (out iter, -1,
 													0, dgettext (null, "Install Date") + ":",
@@ -401,10 +421,20 @@ namespace Pamac {
 													0, dgettext (null, "Install Reason") + ":",
 													1, reason);
 			}
-			if (details.repo != "local") {
+			if (details.repo != "local" && details.repo != "AUR") {
 				details_list.insert_with_values (out iter, -1,
 													0, dgettext (null, "Signatures") + ":",
 													1, details.has_signature);
+			}
+			if (details.repo == "AUR") {
+				details_list.insert_with_values (out iter, -1,
+													0, dgettext (null, "Votes") + ":",
+													1, details.reason.to_string ());
+				if (details.has_signature != "") {
+					details_list.insert_with_values (out iter, -1,
+														0, dgettext (null, "Out of Date") + ":",
+														1, details.has_signature);
+				}
 			}
 			if (details.repo == "local") {
 				if (details.backups.length != 0) {
@@ -492,48 +522,31 @@ namespace Pamac {
 			if (selected.length () > 0) {
 				// display info for the first package of the selection
 				Pamac.Package pkg = packages_list.get_pkg_at_path (selected.nth_data (0));
+				if (pkg.name == dgettext (null, "No package found")) {
+					return;
+				}
 				if (pkg.repo == "local") {
+					deps_scrolledwindow.visible = true;
 					files_scrolledwindow.visible = true;
+				} else if (pkg.repo == "AUR") {
+					deps_scrolledwindow.visible = false;
+					files_scrolledwindow.visible = false;
 				} else {
+					deps_scrolledwindow.visible = true;
 					files_scrolledwindow.visible = false;
 				}
 				switch (properties_notebook.get_current_page ()) {
 					case 0:
 						set_infos_list (pkg);
-						if (pkg.repo == "AUR") {
-							deps_scrolledwindow.visible = false;
-							details_scrolledwindow.visible = false;
-						} else {
-							deps_scrolledwindow.visible = true;
-							details_scrolledwindow.visible = true;
-						}
 						break;
 					case 1:
-						if (pkg.repo == "AUR") {
-							deps_scrolledwindow.visible = false;
-							details_scrolledwindow.visible = false;
-						} else {
-							set_deps_list (pkg.name);
-						}
+						set_deps_list (pkg.name);
 						break;
 					case 2:
-						if (pkg.repo == "AUR") {
-							deps_scrolledwindow.visible = false;
-							details_scrolledwindow.visible = false;
-						} else {
-							set_details_list (pkg.name);
-						}
+						set_details_list (pkg.name);
 						break;
 					case 3:
-						if (pkg.repo == "local") {
-							set_files_list (pkg.name);
-						} else {
-							files_scrolledwindow.visible = false;
-							if (pkg.repo == "AUR") {
-								deps_scrolledwindow.visible = false;
-								details_scrolledwindow.visible = false;
-							}
-						}
+						set_files_list (pkg.name);
 						break;
 					default:
 						break;

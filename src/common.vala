@@ -22,7 +22,6 @@ namespace Pamac {
 		public string name;
 		public string version;
 		public string db_name;
-		public string tarpath;
 		public uint64 download_size;
 	}
 

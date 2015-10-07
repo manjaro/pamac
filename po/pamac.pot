@@ -21,6 +21,7 @@ msgstr ""
 msgid "Authentication is required"
 msgstr ""
 
+
 #: ../src/daemon.vala
 msgid "Failed to initialize alpm library"
 msgstr ""
@@ -416,7 +417,23 @@ msgid "Groups"
 msgstr ""
 
 #: ../src/manager_window.vala
+msgid "Maintainer"
+msgstr ""
+
+#: ../src/manager_window.vala
+msgid "First Submitted"
+msgstr ""
+
+#: ../src/manager_window.vala
+msgid "Last Modified"
+msgstr ""
+
+#: ../src/manager_window.vala
 msgid "Packager"
+msgstr ""
+
+#: ../src/manager_window.vala
+msgid "Build Date"
 msgstr ""
 
 #: ../src/manager_window.vala
@@ -441,6 +458,14 @@ msgstr ""
 
 #: ../src/manager_window.vala
 msgid "Signatures"
+msgstr ""
+
+#: ../src/manager_window.vala
+msgid "Votes"
+msgstr ""
+
+#: ../src/manager_window.vala
+msgid "Out of Date"
 msgstr ""
 
 #: ../src/manager_window.vala

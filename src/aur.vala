@@ -72,14 +72,14 @@ namespace AUR {
 					found = root.get_object ().get_array_member ("results");
 				}
 			}
-			foreach (var prev_inter_node in prev_inter.get_elements ()) {
-				foreach (var found_node in found.get_elements ()) {
+			prev_inter.foreach_element ((prev_inter_array, prev_inter_index, prev_inter_node) => {
+				found.foreach_element ((found_array, found_index, found_node) => {
 					if (strcmp (prev_inter_node.get_object ().get_string_member ("Name"),
 								found_node.get_object ().get_string_member ("Name")) == 0) {
 						inter.add_element (prev_inter_node);
 					}
-				}
-			}
+				});
+			});
 			if (i != (length -1)) {
 				prev_inter = inter;
 			}
@@ -88,8 +88,7 @@ namespace AUR {
 		return inter;
 	}
 
-	public Json.Object info (string pkgname) {
-		var pkg_info = new Json.Object ();
+	public unowned Json.Object? info (string pkgname) {
 		string uri = rpc_url + rpc_info + Uri.escape_string (pkgname);
 		var session = new Soup.Session ();
 		var message = new Soup.Message ("GET", uri);
@@ -106,10 +105,10 @@ namespace AUR {
 			if (root.get_object ().get_string_member ("type") == "error") {
 				stderr.printf ("Failed to get infos about %s from AUR\n", pkgname);
 			} else {
-				pkg_info = root.get_object ().get_object_member ("results");
+				return root.get_object ().get_object_member ("results");
 			}
 		}
-		return pkg_info;
+		return null;
 	}
 
 	public Json.Array multiinfo (string[] pkgnames) {

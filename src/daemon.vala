@@ -434,7 +434,7 @@ namespace Pamac {
 					aur_pkgs = AUR.search (splitted);
 					aur_search_results.insert (search_string, aur_pkgs);
 				}
-				foreach (var node in aur_pkgs.get_elements ()) {
+				aur_pkgs.foreach_element ((array, index, node) => {
 					var aur_pkg = node.get_object ();
 					var pamac_pkg = Pamac.Package (null, aur_pkg);
 					bool found = false;
@@ -447,7 +447,7 @@ namespace Pamac {
 					if (found == false) {
 						result += pamac_pkg;
 					}
-				}
+				});
 			}
 			return result;
 		}
@@ -531,6 +531,7 @@ namespace Pamac {
 			string has_signature = _("No");
 			int reason = 0;
 			string packager = "";
+			string build_date = "";
 			string install_date = "";
 			string[] groups = {};
 			string[] backups = {};
@@ -539,27 +540,59 @@ namespace Pamac {
 			if (alpm_pkg == null) {
 				alpm_pkg = get_syncpkg (pkgname);
 			}
-			if (alpm_pkg != null) {
-				repo = alpm_pkg.db.name;
-				packager = alpm_pkg.packager;
+			if (alpm_pkg == null) {
+				// search for the corresponding Json.Object in aur_search_result
+				var iter = HashTableIter<string, Json.Array> (aur_search_results);
+				unowned Json.Array array;
+				bool found = false;
+				while (iter.next (null, out array)) {
+					array.foreach_element((array, index, node) => {
+						var pkg_info = node.get_object ();
+						if (pkg_info.get_string_member ("Name") == pkgname) {
+							found = true;
+							repo = "AUR";
+							if (!pkg_info.get_null_member ("OutOfDate")) {
+								GLib.Time time = GLib.Time.local ((time_t) pkg_info.get_int_member ("OutOfDate"));
+								has_signature = time.format ("%a %d %b %Y %X %Z");
+							}
+							reason = (int) pkg_info.get_int_member ("NumVotes");
+							packager = pkg_info.get_string_member ("Maintainer") ?? "";
+							GLib.Time time = GLib.Time.local ((time_t) pkg_info.get_int_member ("FirstSubmitted"));
+							build_date = time.format ("%a %d %b %Y %X %Z");
+							time = GLib.Time.local ((time_t) pkg_info.get_int_member ("LastModified"));
+							install_date = time.format ("%a %d %b %Y %X %Z");
+						}
+					});
+					if (found) {
+						break;
+					}
+				}
+			} else {
+				packager = alpm_pkg.packager ?? "";
 				foreach (var group in alpm_pkg.groups) {
 					groups += group;
 				}
-				if (alpm_pkg.db.name == "local") {
-					reason = alpm_pkg.reason;
-					GLib.Time time = GLib.Time.local ((time_t) alpm_pkg.installdate);
-					install_date = time.format ("%a %d %b %Y %X %Z");
-					foreach (var backup in alpm_pkg.backups) {
-						backups += backup.name;
+				GLib.Time time = GLib.Time.local ((time_t) alpm_pkg.builddate);
+				build_date = time.format ("%a %d %b %Y %X %Z");
+				if (alpm_pkg.db != null) {
+					repo = alpm_pkg.db.name ?? "";
+					if (alpm_pkg.db.name == "local") {
+						reason = alpm_pkg.reason;
+						time = GLib.Time.local ((time_t) alpm_pkg.installdate);
+						install_date = time.format ("%a %d %b %Y %X %Z");
+						foreach (var backup in alpm_pkg.backups) {
+							backups += backup.name;
+						}
+					} else {
+						has_signature = alpm_pkg.base64_sig != null ? _("Yes") : _("No");
 					}
-				} else {
-					has_signature = alpm_pkg.base64_sig != null ? _("Yes") : _("No");
 				}
 			}
 			details.repo = repo;
 			details.has_signature = has_signature;
 			details.reason = reason;
 			details.packager = packager;
+			details.build_date = build_date;
 			details.install_date = install_date;
 			details.groups = groups;
 			details.backups = backups;
@@ -641,7 +674,6 @@ namespace Pamac {
 						infos.name = candidate.name;
 						infos.version = candidate.version;
 						infos.db_name = candidate.db.name;
-						infos.tarpath = "";
 						infos.download_size = candidate.download_size;
 						updates_infos += infos;
 					}
@@ -661,7 +693,6 @@ namespace Pamac {
 							infos.name = candidate.name;
 							infos.version = candidate.version;
 							infos.db_name = candidate.db.name;
-							infos.tarpath = "";
 							infos.download_size = candidate.download_size;
 							updates_infos += infos;
 						} else {
@@ -686,25 +717,20 @@ namespace Pamac {
 					if (aur_updates_results.get_length () == 0) {
 						aur_updates_results = AUR.multiinfo (local_pkgs);
 					}
-					int cmp;
-					unowned Json.Object pkg_info;
-					string version;
-					string name;
 					updates_infos = {};
-					foreach (var node in aur_updates_results.get_elements ()) {
-						pkg_info = node.get_object ();
-						version = pkg_info.get_string_member ("Version");
-						name = pkg_info.get_string_member ("Name");
-						cmp = Alpm.pkg_vercmp (version, alpm_config.handle.localdb.get_pkg (name).version);
+					aur_updates_results.foreach_element ((array, index,node) => {
+						unowned Json.Object pkg_info = node.get_object ();
+						string version = pkg_info.get_string_member ("Version");
+						string name = pkg_info.get_string_member ("Name");
+						int cmp = Alpm.pkg_vercmp (version, alpm_config.handle.localdb.get_pkg (name).version);
 						if (cmp == 1) {
 							infos.name = name;
 							infos.version = version;
 							infos.db_name = "AUR";
-							infos.tarpath = pkg_info.get_string_member ("URLPath");
 							infos.download_size = 0;
 							updates_infos += infos;
 						}
-					}
+					});
 					updates.aur_updates = updates_infos;
 				}
 				return updates;
@@ -955,7 +981,6 @@ namespace Pamac {
 				} else {
 					info.db_name = "";
 				}
-				info.tarpath = "";
 				info.download_size = pkg.download_size;
 				infos += info;
 			}
@@ -969,7 +994,6 @@ namespace Pamac {
 				info.name = pkg.name;
 				info.version = pkg.version;
 				info.db_name = pkg.db.name;
-				info.tarpath = "";
 				info.download_size = pkg.download_size;
 				infos += info;
 			}
