@@ -382,11 +382,15 @@ namespace Pamac {
 			Pamac.Package[] pkgs = {};
 			foreach (var alpm_pkg in alpm_config.handle.localdb.pkgcache) {
 				if (alpm_pkg.reason == Alpm.Package.Reason.DEPEND) {
-					Alpm.List<string?> *list = alpm_pkg.compute_requiredby ();
-					if (list->length == 0) {
-						pkgs += Pamac.Package (alpm_pkg, null);
+					Alpm.List<string?> *requiredby = alpm_pkg.compute_requiredby ();
+					if (requiredby->length == 0) {
+						Alpm.List<string?> *optionalfor = alpm_pkg.compute_optionalfor ();
+						if (optionalfor->length == 0) {
+							pkgs += Pamac.Package (alpm_pkg, null);
+						}
+						Alpm.List.free_all (optionalfor);
 					}
-					Alpm.List.free_all (list);
+					Alpm.List.free_all (requiredby);
 				}
 			}
 			return pkgs;
