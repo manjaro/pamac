@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2015-08-20 11:53+0200\n"
-"PO-Revision-Date: 2015-09-02 15:02+0000\n"
+"PO-Revision-Date: 2015-10-08 08:41+0000\n"
 "Last-Translator: Dušan Kazik <prescott66@gmail.com>\n"
 "Language-Team: Slovak (http://www.transifex.com/manjarolinux/manjaro-pamac/language/sk/)\n"
 "MIME-Version: 1.0\n"
@@ -27,16 +27,6 @@ msgstr ""
 #: data/polkit/org.manjaro.pamac.policy
 msgid "Authentication is required"
 msgstr "Vyžaduje sa overenie totožnosti"
-
-#: ../src/common.vala
-#, c-format
-msgid "%.0f KiB"
-msgstr "%.0f KiB"
-
-#: ../src/common.vala
-#, c-format
-msgid "%.2f MiB"
-msgstr "%.2f MiB"
 
 #: ../src/daemon.vala
 msgid "Failed to initialize alpm library"
@@ -435,8 +425,24 @@ msgid "Groups"
 msgstr "Skupiny"
 
 #: ../src/manager_window.vala
+msgid "Maintainer"
+msgstr "Správca"
+
+#: ../src/manager_window.vala
+msgid "First Submitted"
+msgstr "Prvýkrát vydaný"
+
+#: ../src/manager_window.vala
+msgid "Last Modified"
+msgstr "Posledná úprava"
+
+#: ../src/manager_window.vala
 msgid "Packager"
 msgstr "Autor balíka"
+
+#: ../src/manager_window.vala
+msgid "Build Date"
+msgstr "Dátum zostavy"
 
 #: ../src/manager_window.vala
 msgid "Install Date"
@@ -461,6 +467,14 @@ msgstr "Dôvod inštalácie"
 #: ../src/manager_window.vala
 msgid "Signatures"
 msgstr "Podpisy"
+
+#: ../src/manager_window.vala
+msgid "Votes"
+msgstr "Hlasy"
+
+#: ../src/manager_window.vala
+msgid "Out of Date"
+msgstr "Neaktuálny"
 
 #: ../src/manager_window.vala
 msgid "Backup files"

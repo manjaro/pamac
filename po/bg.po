@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2015-08-20 11:53+0200\n"
-"PO-Revision-Date: 2015-08-28 07:22+0000\n"
+"PO-Revision-Date: 2015-10-08 11:23+0000\n"
 "Last-Translator: Galin Iskrenov <loot270@abv.bg>\n"
 "Language-Team: Bulgarian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/bg/)\n"
 "MIME-Version: 1.0\n"
@@ -28,16 +28,6 @@ msgstr ""
 #: data/polkit/org.manjaro.pamac.policy
 msgid "Authentication is required"
 msgstr "Изисква се идентификация"
-
-#: ../src/common.vala
-#, c-format
-msgid "%.0f KiB"
-msgstr "%.0f KiB"
-
-#: ../src/common.vala
-#, c-format
-msgid "%.2f MiB"
-msgstr "%.2f MiB"
 
 #: ../src/daemon.vala
 msgid "Failed to initialize alpm library"
@@ -434,8 +424,24 @@ msgid "Groups"
 msgstr "Групи"
 
 #: ../src/manager_window.vala
+msgid "Maintainer"
+msgstr "Поддържан"
+
+#: ../src/manager_window.vala
+msgid "First Submitted"
+msgstr "Първо докладван"
+
+#: ../src/manager_window.vala
+msgid "Last Modified"
+msgstr "Последна промяна"
+
+#: ../src/manager_window.vala
 msgid "Packager"
 msgstr "Опаковчик"
+
+#: ../src/manager_window.vala
+msgid "Build Date"
+msgstr "Build Date"
 
 #: ../src/manager_window.vala
 msgid "Install Date"
@@ -460,6 +466,14 @@ msgstr "Причина за инсталиране"
 #: ../src/manager_window.vala
 msgid "Signatures"
 msgstr "Подписи"
+
+#: ../src/manager_window.vala
+msgid "Votes"
+msgstr "Гласове"
+
+#: ../src/manager_window.vala
+msgid "Out of Date"
+msgstr "Остарял"
 
 #: ../src/manager_window.vala
 msgid "Backup files"

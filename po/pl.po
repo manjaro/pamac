@@ -6,15 +6,15 @@
 # Translators:
 # FadeMind <fademind@gmail.com>, 2013
 # Guillaume Benoit <guillaume@manjaro.org>, 2013
-# Kuba Kaczmarzyk <poker98face@gmail.com>, 2013
+# Kuba Kaczmarzyk <inactive+poker98face@transifex.com>, 2013
 # Piotr Strębski <strebski@o2.pl>, 2013-2015
-# Kuba Kaczmarzyk <poker98face@gmail.com>, 2013
+# Kuba Kaczmarzyk <inactive+poker98face@transifex.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2015-08-20 11:53+0200\n"
-"PO-Revision-Date: 2015-08-27 16:56+0000\n"
+"PO-Revision-Date: 2015-10-10 10:29+0000\n"
 "Last-Translator: Piotr Strębski <strebski@o2.pl>\n"
 "Language-Team: Polish (http://www.transifex.com/manjarolinux/manjaro-pamac/language/pl/)\n"
 "MIME-Version: 1.0\n"
@@ -26,16 +26,6 @@ msgstr ""
 #: data/polkit/org.manjaro.pamac.policy
 msgid "Authentication is required"
 msgstr "Wymagane uwierzytelnienie"
-
-#: ../src/common.vala
-#, c-format
-msgid "%.0f KiB"
-msgstr "%.0f KB"
-
-#: ../src/common.vala
-#, c-format
-msgid "%.2f MiB"
-msgstr "%.2f MB"
 
 #: ../src/daemon.vala
 msgid "Failed to initialize alpm library"
@@ -434,8 +424,24 @@ msgid "Groups"
 msgstr "Grupy"
 
 #: ../src/manager_window.vala
+msgid "Maintainer"
+msgstr "Utrzymujący"
+
+#: ../src/manager_window.vala
+msgid "First Submitted"
+msgstr "Zadebiutował"
+
+#: ../src/manager_window.vala
+msgid "Last Modified"
+msgstr "Ostatnio zmieniony"
+
+#: ../src/manager_window.vala
 msgid "Packager"
 msgstr "Pakowacz"
+
+#: ../src/manager_window.vala
+msgid "Build Date"
+msgstr "Data utworzenia"
 
 #: ../src/manager_window.vala
 msgid "Install Date"
@@ -460,6 +466,14 @@ msgstr "Przyczyna instalacji"
 #: ../src/manager_window.vala
 msgid "Signatures"
 msgstr "Podpisy"
+
+#: ../src/manager_window.vala
+msgid "Votes"
+msgstr "Głosy"
+
+#: ../src/manager_window.vala
+msgid "Out of Date"
+msgstr "Przestarzały"
 
 #: ../src/manager_window.vala
 msgid "Backup files"

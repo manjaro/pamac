@@ -26,7 +26,7 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2015-08-20 11:53+0200\n"
-"PO-Revision-Date: 2015-08-31 10:26+0000\n"
+"PO-Revision-Date: 2015-10-11 16:30+0000\n"
 "Last-Translator: Анатолий Валерианович <ffox909@mail.ru>\n"
 "Language-Team: Russian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/ru/)\n"
 "MIME-Version: 1.0\n"
@@ -38,16 +38,6 @@ msgstr ""
 #: data/polkit/org.manjaro.pamac.policy
 msgid "Authentication is required"
 msgstr "Необходима авторизация"
-
-#: ../src/common.vala
-#, c-format
-msgid "%.0f KiB"
-msgstr "%.0f КБ"
-
-#: ../src/common.vala
-#, c-format
-msgid "%.2f MiB"
-msgstr "%.2f МБ"
 
 #: ../src/daemon.vala
 msgid "Failed to initialize alpm library"
@@ -366,10 +356,10 @@ msgid ""
 msgid_plural ""
 "%s has %u uninstalled optional dependencies.\n"
 "Choose those you would like to install"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "%s имеет %u удалённые дополнительные зависимости.\nВыберете те, которые хотели установить"
+msgstr[1] "%s имеют %u удалённые дополнительные зависимости.\nВыберете те, которые хотели установить"
+msgstr[2] "%s имеют %u удалённые дополнительные зависимости.\nВыберете те, которые хотели установить"
+msgstr[3] "%s имеет %u удалённые дополнительные зависимости.\nВыберете те, которые хотели установить"
 
 #: ../src/manager_window.vala
 msgid "Deselect"
@@ -448,8 +438,24 @@ msgid "Groups"
 msgstr "Группы"
 
 #: ../src/manager_window.vala
+msgid "Maintainer"
+msgstr "Ведущий"
+
+#: ../src/manager_window.vala
+msgid "First Submitted"
+msgstr "Впервые отправлен"
+
+#: ../src/manager_window.vala
+msgid "Last Modified"
+msgstr "Последнее изменение"
+
+#: ../src/manager_window.vala
 msgid "Packager"
 msgstr "Упаковщик"
+
+#: ../src/manager_window.vala
+msgid "Build Date"
+msgstr "Дата сборки"
 
 #: ../src/manager_window.vala
 msgid "Install Date"
@@ -474,6 +480,14 @@ msgstr "Причина установки"
 #: ../src/manager_window.vala
 msgid "Signatures"
 msgstr "Подписи"
+
+#: ../src/manager_window.vala
+msgid "Votes"
+msgstr "Голосов"
+
+#: ../src/manager_window.vala
+msgid "Out of Date"
+msgstr "Устаревший"
 
 #: ../src/manager_window.vala
 msgid "Backup files"

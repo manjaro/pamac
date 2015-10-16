@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2015-08-20 11:53+0200\n"
-"PO-Revision-Date: 2015-08-25 09:13+0000\n"
+"PO-Revision-Date: 2015-10-08 08:50+0000\n"
 "Last-Translator: Moo\n"
 "Language-Team: Lithuanian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/lt/)\n"
 "MIME-Version: 1.0\n"
@@ -23,16 +23,6 @@ msgstr ""
 #: data/polkit/org.manjaro.pamac.policy
 msgid "Authentication is required"
 msgstr "Reikalingas tapatybės nustatymas"
-
-#: ../src/common.vala
-#, c-format
-msgid "%.0f KiB"
-msgstr "%.0f KiB"
-
-#: ../src/common.vala
-#, c-format
-msgid "%.2f MiB"
-msgstr "%.2f MiB"
 
 #: ../src/daemon.vala
 msgid "Failed to initialize alpm library"
@@ -431,8 +421,24 @@ msgid "Groups"
 msgstr "Grupės"
 
 #: ../src/manager_window.vala
+msgid "Maintainer"
+msgstr "Prižiūrėtojas"
+
+#: ../src/manager_window.vala
+msgid "First Submitted"
+msgstr "Pirmą Kartą Pateiktas"
+
+#: ../src/manager_window.vala
+msgid "Last Modified"
+msgstr "Paskutinį Kartą Keistas"
+
+#: ../src/manager_window.vala
 msgid "Packager"
 msgstr "Pakuotojas"
+
+#: ../src/manager_window.vala
+msgid "Build Date"
+msgstr "Kūrimo Data"
 
 #: ../src/manager_window.vala
 msgid "Install Date"
@@ -457,6 +463,14 @@ msgstr "Įdiegimo Priežastis"
 #: ../src/manager_window.vala
 msgid "Signatures"
 msgstr "Parašai"
+
+#: ../src/manager_window.vala
+msgid "Votes"
+msgstr "Balsų"
+
+#: ../src/manager_window.vala
+msgid "Out of Date"
+msgstr "Pasenęs"
 
 #: ../src/manager_window.vala
 msgid "Backup files"

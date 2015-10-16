@@ -22,7 +22,7 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2015-08-20 11:53+0200\n"
-"PO-Revision-Date: 2015-08-25 19:12+0000\n"
+"PO-Revision-Date: 2015-10-16 07:14+0000\n"
 "Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: German (http://www.transifex.com/manjarolinux/manjaro-pamac/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -34,16 +34,6 @@ msgstr ""
 #: data/polkit/org.manjaro.pamac.policy
 msgid "Authentication is required"
 msgstr "Authentifizierung wird benötigt"
-
-#: ../src/common.vala
-#, c-format
-msgid "%.0f KiB"
-msgstr "%.0f KiB"
-
-#: ../src/common.vala
-#, c-format
-msgid "%.2f MiB"
-msgstr "%.2f MiB"
 
 #: ../src/daemon.vala
 msgid "Failed to initialize alpm library"
@@ -440,8 +430,24 @@ msgid "Groups"
 msgstr "Gruppen"
 
 #: ../src/manager_window.vala
+msgid "Maintainer"
+msgstr "Maintainer"
+
+#: ../src/manager_window.vala
+msgid "First Submitted"
+msgstr "Zuerst eingereicht am"
+
+#: ../src/manager_window.vala
+msgid "Last Modified"
+msgstr "Letzte Aktualisierung"
+
+#: ../src/manager_window.vala
 msgid "Packager"
 msgstr "Packer"
+
+#: ../src/manager_window.vala
+msgid "Build Date"
+msgstr "Erstelldatum"
 
 #: ../src/manager_window.vala
 msgid "Install Date"
@@ -466,6 +472,14 @@ msgstr "Installationsgrund"
 #: ../src/manager_window.vala
 msgid "Signatures"
 msgstr "Signaturen"
+
+#: ../src/manager_window.vala
+msgid "Votes"
+msgstr "Beliebtheit"
+
+#: ../src/manager_window.vala
+msgid "Out of Date"
+msgstr "Veraltet"
 
 #: ../src/manager_window.vala
 msgid "Backup files"

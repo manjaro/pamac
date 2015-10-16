@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2015-08-20 11:53+0200\n"
-"PO-Revision-Date: 2015-08-28 19:00+0000\n"
+"PO-Revision-Date: 2015-10-13 19:22+0000\n"
 "Last-Translator: miku84\n"
 "Language-Team: Hungarian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/hu/)\n"
 "MIME-Version: 1.0\n"
@@ -26,16 +26,6 @@ msgstr ""
 #: data/polkit/org.manjaro.pamac.policy
 msgid "Authentication is required"
 msgstr "Hitelesítés szükséges"
-
-#: ../src/common.vala
-#, c-format
-msgid "%.0f KiB"
-msgstr "%.0f KiB"
-
-#: ../src/common.vala
-#, c-format
-msgid "%.2f MiB"
-msgstr "%.2f MiB"
 
 #: ../src/daemon.vala
 msgid "Failed to initialize alpm library"
@@ -432,8 +422,24 @@ msgid "Groups"
 msgstr "Csoportok"
 
 #: ../src/manager_window.vala
+msgid "Maintainer"
+msgstr "Karbantartó"
+
+#: ../src/manager_window.vala
+msgid "First Submitted"
+msgstr "Először közzétéve"
+
+#: ../src/manager_window.vala
+msgid "Last Modified"
+msgstr "Utoljára módosítva"
+
+#: ../src/manager_window.vala
 msgid "Packager"
 msgstr "Csomagoló"
+
+#: ../src/manager_window.vala
+msgid "Build Date"
+msgstr "Verzió dátuma"
 
 #: ../src/manager_window.vala
 msgid "Install Date"
@@ -458,6 +464,14 @@ msgstr "Telepítés oka"
 #: ../src/manager_window.vala
 msgid "Signatures"
 msgstr "Aláírások"
+
+#: ../src/manager_window.vala
+msgid "Votes"
+msgstr "Szavazatok"
+
+#: ../src/manager_window.vala
+msgid "Out of Date"
+msgstr "Elavult"
 
 #: ../src/manager_window.vala
 msgid "Backup files"

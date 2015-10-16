@@ -22,7 +22,7 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2015-08-20 11:53+0200\n"
-"PO-Revision-Date: 2015-08-31 10:55+0000\n"
+"PO-Revision-Date: 2015-10-08 18:14+0000\n"
 "Last-Translator: thomas <thomasbjornvold@gmail.com>\n"
 "Language-Team: Norwegian Bokmål (http://www.transifex.com/manjarolinux/manjaro-pamac/language/nb/)\n"
 "MIME-Version: 1.0\n"
@@ -34,16 +34,6 @@ msgstr ""
 #: data/polkit/org.manjaro.pamac.policy
 msgid "Authentication is required"
 msgstr "Autentisering kreves"
-
-#: ../src/common.vala
-#, c-format
-msgid "%.0f KiB"
-msgstr "%.0f KiB"
-
-#: ../src/common.vala
-#, c-format
-msgid "%.2f MiB"
-msgstr "%.2f Mb"
 
 #: ../src/daemon.vala
 msgid "Failed to initialize alpm library"
@@ -440,8 +430,24 @@ msgid "Groups"
 msgstr "Grupper"
 
 #: ../src/manager_window.vala
+msgid "Maintainer"
+msgstr "Vedlikeholder"
+
+#: ../src/manager_window.vala
+msgid "First Submitted"
+msgstr "Første gang registrert"
+
+#: ../src/manager_window.vala
+msgid "Last Modified"
+msgstr "Sist endret"
+
+#: ../src/manager_window.vala
 msgid "Packager"
 msgstr "Pakker"
+
+#: ../src/manager_window.vala
+msgid "Build Date"
+msgstr "Byggedato"
 
 #: ../src/manager_window.vala
 msgid "Install Date"
@@ -466,6 +472,14 @@ msgstr "Grunn til Installasjon"
 #: ../src/manager_window.vala
 msgid "Signatures"
 msgstr "Signaturer"
+
+#: ../src/manager_window.vala
+msgid "Votes"
+msgstr "Stemmer"
+
+#: ../src/manager_window.vala
+msgid "Out of Date"
+msgstr "Utdatert"
 
 #: ../src/manager_window.vala
 msgid "Backup files"
