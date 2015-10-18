@@ -6,13 +6,14 @@
 # Translators:
 # lego37yoon <lego37yoon@outlook.com>, 2013
 # lego37yoon <lego37yoon@outlook.com>, 2013
+# Sungjin Kang <potopro@gmail.com>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2015-08-20 11:53+0200\n"
-"PO-Revision-Date: 2015-10-08 08:28+0000\n"
-"Last-Translator: philm <philm@manjaro.org>\n"
+"PO-Revision-Date: 2015-10-17 13:38+0000\n"
+"Last-Translator: Sungjin Kang <potopro@gmail.com>\n"
 "Language-Team: Korean (http://www.transifex.com/manjarolinux/manjaro-pamac/language/ko/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -22,23 +23,23 @@ msgstr ""
 
 #: data/polkit/org.manjaro.pamac.policy
 msgid "Authentication is required"
-msgstr ""
+msgstr "인증이 필요합니다"
 
 #: ../src/daemon.vala
 msgid "Failed to initialize alpm library"
-msgstr ""
+msgstr "Alpm 라이브러리를 초기화하는데 실패하였습니다"
 
 #: ../src/daemon.vala
 msgid "Failed to synchronize any databases"
-msgstr ""
+msgstr "다른 데이터베이스와 싱크를 맞추지 못했습니다"
 
 #: ../src/daemon.vala
 msgid "No"
-msgstr ""
+msgstr "No"
 
 #: ../src/daemon.vala
 msgid "Yes"
-msgstr ""
+msgstr "Yes"
 
 #: ../src/daemon.vala
 msgid "Failed to init transaction"
