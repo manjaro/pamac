@@ -1045,8 +1045,10 @@ namespace Pamac {
 				}
 				var history_dialog = new HistoryDialog (this);
 				history_dialog.textview.buffer.set_text (text.str, (int) text.len);
-				history_dialog.run ();
-				history_dialog.destroy ();
+				history_dialog.show ();
+				history_dialog.response.connect (() => {
+					history_dialog.destroy ();
+				});
 				while (Gtk.events_pending ()) {
 					Gtk.main_iteration ();
 				}
