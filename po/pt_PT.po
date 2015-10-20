@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2015-08-20 11:53+0200\n"
-"PO-Revision-Date: 2015-10-17 10:56+0000\n"
+"PO-Revision-Date: 2015-10-18 18:37+0000\n"
 "Last-Translator: Bruno Guerreiro <american.jesus.pt@gmail.com>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
@@ -151,7 +151,7 @@ msgstr "Tamanho total do download"
 
 #: ../src/transaction.vala
 msgid "Building packages"
-msgstr "Construindo pacotes"
+msgstr "A criar pacotes"
 
 #: ../src/transaction.vala
 msgid "Checking dependencies"
@@ -429,7 +429,7 @@ msgstr "Mantenedor"
 
 #: ../src/manager_window.vala
 msgid "First Submitted"
-msgstr ""
+msgstr "Primeira Submissão"
 
 #: ../src/manager_window.vala
 msgid "Last Modified"
