@@ -7,6 +7,7 @@
 # Aldo Oliveira <america103@gmail.com>, 2014-2015
 # Arnt <qtgzmanager@gmail.com>, 2014
 # Arnt <qtgzmanager@gmail.com>, 2014
+# Fábio Nogueira <fnogueira@gnome.org>, 2015
 # Guillaume Benoit <guillaume@manjaro.org>, 2013
 # Guillaume Benoit <guillaume@manjaro.org>, 2013
 # Holmes <holmes_holmes@live.com>, 2013-2014
@@ -23,7 +24,7 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2015-08-20 11:53+0200\n"
-"PO-Revision-Date: 2015-10-08 08:28+0000\n"
+"PO-Revision-Date: 2015-10-21 06:48+0000\n"
 "Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
@@ -46,11 +47,11 @@ msgstr "Falha ao sincronizar as bases de dados"
 
 #: ../src/daemon.vala
 msgid "No"
-msgstr ""
+msgstr "Não"
 
 #: ../src/daemon.vala
 msgid "Yes"
-msgstr ""
+msgstr "Sim"
 
 #: ../src/daemon.vala
 msgid "Failed to init transaction"
@@ -110,7 +111,7 @@ msgstr "Autenticação falhou"
 
 #: ../src/transaction.vala
 msgid "Refreshing mirrors list"
-msgstr ""
+msgstr "Atualizando lista de espelhos"
 
 #: ../src/transaction.vala
 msgid "Synchronizing package databases"
@@ -351,8 +352,8 @@ msgid ""
 msgid_plural ""
 "%s has %u uninstalled optional dependencies.\n"
 "Choose those you would like to install"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%s possui %u dependência opcional desinstalada.\nEscolha se você gostaria de instalar"
+msgstr[1] "%s possui %u dependências opcionais desinstaladas.\nEscolha aquelas que você gostaria de instalar"
 
 #: ../src/manager_window.vala
 msgid "Deselect"
@@ -408,7 +409,7 @@ msgstr "Exigido por"
 
 #: ../src/manager_window.vala
 msgid "Optional For"
-msgstr ""
+msgstr "Opcional para"
 
 #: ../src/manager_window.vala
 msgid "Provides"
@@ -432,15 +433,15 @@ msgstr "Grupos"
 
 #: ../src/manager_window.vala
 msgid "Maintainer"
-msgstr ""
+msgstr "Mantenedor"
 
 #: ../src/manager_window.vala
 msgid "First Submitted"
-msgstr ""
+msgstr "Primeiro submetido"
 
 #: ../src/manager_window.vala
 msgid "Last Modified"
-msgstr ""
+msgstr "Último modificado"
 
 #: ../src/manager_window.vala
 msgid "Packager"
@@ -448,7 +449,7 @@ msgstr "Empacotador"
 
 #: ../src/manager_window.vala
 msgid "Build Date"
-msgstr ""
+msgstr "Data de construção"
 
 #: ../src/manager_window.vala
 msgid "Install Date"
@@ -476,11 +477,11 @@ msgstr "Assinaturas"
 
 #: ../src/manager_window.vala
 msgid "Votes"
-msgstr ""
+msgstr "Votos"
 
 #: ../src/manager_window.vala
 msgid "Out of Date"
-msgstr ""
+msgstr "Desatualizado"
 
 #: ../src/manager_window.vala
 msgid "Backup files"
@@ -496,7 +497,7 @@ msgstr "Desinstalado"
 
 #: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Install Local Packages"
-msgstr ""
+msgstr "Instalar pacotes locais"
 
 #: ../src/manager_window.vala ../resources/progress_dialog.ui
 #: ../resources/transaction_sum_dialog.ui ../resources/choose_dep_dialog.ui
@@ -518,7 +519,7 @@ msgstr "Um frontend GTK3 para libalpm"
 
 #: ../src/manager_window.vala
 msgid "Copyright © 2015 Guillaume Benoit"
-msgstr ""
+msgstr "Direitos de cópia © 2015 Guillaume Benoit"
 
 #: ../src/preferences_dialog.vala ../resources/preferences_dialog.ui
 msgid "How often to check for updates, value in hours"
@@ -530,19 +531,19 @@ msgstr "Mundial"
 
 #: ../src/preferences_dialog.vala
 msgid "Speed"
-msgstr ""
+msgstr "Velocidade"
 
 #: ../src/preferences_dialog.vala
 msgid "Random"
-msgstr ""
+msgstr "Aleatório"
 
 #: ../src/choose_ignorepkgs_dialog.vala
 msgid "Choose the packages you do not want to upgrade"
-msgstr ""
+msgstr "Escolha os pacotes que você não deseja atualizar"
 
 #: ../resources/choose_provider_dialog.ui
 msgid "Choose a Provider"
-msgstr "Escolha um Provedor"
+msgstr "Escolha um provedor"
 
 #: ../resources/choose_provider_dialog.ui
 #: ../resources/transaction_sum_dialog.ui ../resources/choose_dep_dialog.ui
@@ -571,7 +572,7 @@ msgstr "Histórico do Pamac"
 
 #: ../resources/choose_dep_dialog.ui
 msgid "Choose Optional Dependencies"
-msgstr ""
+msgstr "Escolha as dependências opcionais"
 
 #: ../resources/manager_window.ui
 msgid "View History"
@@ -665,11 +666,11 @@ msgstr "Verifique o espaço disponível em disco"
 
 #: ../resources/preferences_dialog.ui
 msgid "Check for updates"
-msgstr ""
+msgstr "Verificar atualizações"
 
 #: ../resources/preferences_dialog.ui
 msgid "Hide tray icon when no update available"
-msgstr ""
+msgstr "Ocultar ícone da bandeja quando não houver atualização"
 
 #: ../resources/preferences_dialog.ui
 msgid "Ignore upgrades for:"
@@ -677,7 +678,7 @@ msgstr "Ignorar atualizações para:"
 
 #: ../resources/preferences_dialog.ui
 msgid "General"
-msgstr ""
+msgstr "Geral"
 
 #: ../resources/preferences_dialog.ui
 msgid "Use mirrors from:"
@@ -689,17 +690,17 @@ msgstr "Classificar espelhos por:"
 
 #: ../resources/preferences_dialog.ui
 msgid "Refresh Mirrors List"
-msgstr ""
+msgstr "Atualizar lista de espelhos"
 
 #: ../resources/preferences_dialog.ui
 msgid "Official Repositories"
-msgstr ""
+msgstr "Repositórios oficiais"
 
 #: ../resources/preferences_dialog.ui
 msgid ""
 "AUR is a community maintained repository so it presents potential risks and problems.\n"
 "All AUR users should be familiar with the build process."
-msgstr ""
+msgstr "AUR é um repositório mantido pela comunidade de modo que apresenta riscos e problemas potenciais.\nTodos os usuários do AUR devem estar familiarizados com o processo de compilação."
 
 #: ../resources/preferences_dialog.ui
 msgid "Enable AUR support"
@@ -711,20 +712,20 @@ msgstr "Permitir a Pamac que procure e instale os pacotes a partir de AUR"
 
 #: ../resources/preferences_dialog.ui
 msgid "Search in AUR by default"
-msgstr ""
+msgstr "Pesquisar no AUR por padrão"
 
 #: ../resources/preferences_dialog.ui
 msgid "Check for updates from AUR"
-msgstr ""
+msgstr "Verificar atualizações de AUR"
 
 #: ../resources/preferences_dialog.ui
 msgid "Do not ask for confirmation when building packages"
-msgstr ""
+msgstr "Não pedir confirmação ao construir pacotes"
 
 #: ../resources/preferences_dialog.ui
 msgid "AUR"
-msgstr ""
+msgstr "AUR"
 
 #: ../resources/choose_ignorepkgs_dialog.ui
 msgid "Choose Ignored Upgrades"
-msgstr ""
+msgstr "Escolha as atualizações ignoradas"
