@@ -4,6 +4,8 @@
 # Guillaume Benoit <guillaume@manjaro.org>, 2013-2015.
 # 
 # Translators:
+# aboutafteragain <aboutafteragain@gmail.com>, 2015
+# Osoitz <oelkoro@gmail.com>, 2015
 # Sergio Moreno <semosa@gmail.com>, 2014
 # Sergio Moreno <semosa@gmail.com>, 2014
 msgid ""
@@ -11,8 +13,8 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2015-08-20 11:53+0200\n"
-"PO-Revision-Date: 2015-10-08 08:28+0000\n"
-"Last-Translator: philm <philm@manjaro.org>\n"
+"PO-Revision-Date: 2015-10-23 19:32+0000\n"
+"Last-Translator: Osoitz <oelkoro@gmail.com>\n"
 "Language-Team: Basque (http://www.transifex.com/manjarolinux/manjaro-pamac/language/eu/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -22,91 +24,91 @@ msgstr ""
 
 #: data/polkit/org.manjaro.pamac.policy
 msgid "Authentication is required"
-msgstr ""
+msgstr "Autentifikazioa behar da"
 
 #: ../src/daemon.vala
 msgid "Failed to initialize alpm library"
-msgstr ""
+msgstr "Huts egin du alpm liburutegia haseratzea"
 
 #: ../src/daemon.vala
 msgid "Failed to synchronize any databases"
-msgstr ""
+msgstr "Huts egin du datu-baseak sinkronizatzean"
 
 #: ../src/daemon.vala
 msgid "No"
-msgstr ""
+msgstr "Ez"
 
 #: ../src/daemon.vala
 msgid "Yes"
-msgstr ""
+msgstr "Bai"
 
 #: ../src/daemon.vala
 msgid "Failed to init transaction"
-msgstr ""
+msgstr "Huts egin du transakzioa abiatzean"
 
 #: ../src/daemon.vala
 msgid "Failed to prepare transaction"
-msgstr ""
+msgstr "Huts egin du transakzioa prestatzean"
 
 #: ../src/daemon.vala
 #, c-format
 msgid "target not found: %s"
-msgstr ""
+msgstr "helburua ez da aurkitu: %s"
 
 #: ../src/daemon.vala
 #, c-format
 msgid "package %s does not have a valid architecture"
-msgstr ""
+msgstr "%s paketeak ez du baliozko arkitektura bat"
 
 #: ../src/daemon.vala
 #, c-format
 msgid "%s: requires %s"
-msgstr ""
+msgstr "%s: %s behar du"
 
 #: ../src/daemon.vala
 #, c-format
 msgid "%s and %s are in conflict"
-msgstr ""
+msgstr "%s eta %s gatazkan daude"
 
 #: ../src/daemon.vala
 #, c-format
 msgid "%s needs to be removed but it is a locked package"
-msgstr ""
+msgstr "%s kendu behar da baina kargatutako pakete bat da"
 
 #: ../src/daemon.vala
 msgid "Failed to commit transaction"
-msgstr ""
+msgstr "Huts egin du transakzioa egikaritzean"
 
 #: ../src/daemon.vala
 #, c-format
 msgid "%s exists in both %s and %s"
-msgstr ""
+msgstr "%s badago %s zein %s paketeetan"
 
 #: ../src/daemon.vala
 #, c-format
 msgid "%s: %s already exists in filesystem"
-msgstr ""
+msgstr "%s: %s badago aurretik fitxategi sisteman"
 
 #: ../src/daemon.vala
 #, c-format
 msgid "%s is invalid or corrupted"
-msgstr ""
+msgstr "%s baliogabea da edo hondatuta dago"
 
 #: ../src/daemon.vala
 msgid "Authentication failed"
-msgstr ""
+msgstr "Autentifikazioak huts egin du"
 
 #: ../src/transaction.vala
 msgid "Refreshing mirrors list"
-msgstr ""
+msgstr "Ispiluen zerrenda berritzen"
 
 #: ../src/transaction.vala
 msgid "Synchronizing package databases"
-msgstr ""
+msgstr "Pakete datu-baseak sinkronizatzen"
 
 #: ../src/transaction.vala
 msgid "Starting full system upgrade"
-msgstr ""
+msgstr "Sistema osoaren bertsio-berritzea abiarazten"
 
 #: ../src/transaction.vala
 msgid "Preparing"
@@ -114,7 +116,7 @@ msgstr "Prestatzen"
 
 #: ../src/transaction.vala ../resources/transaction_sum_dialog.ui
 msgid "Transaction Summary"
-msgstr ""
+msgstr "Transakzioaren laburpena"
 
 #: ../src/transaction.vala ../src/manager_window.vala
 msgid "To remove"
@@ -122,11 +124,11 @@ msgstr "Kentzeko"
 
 #: ../src/transaction.vala
 msgid "To downgrade"
-msgstr ""
+msgstr "Bertsio-zahartu"
 
 #: ../src/transaction.vala
 msgid "To build"
-msgstr ""
+msgstr "Eraikitzeko"
 
 #: ../src/transaction.vala ../src/manager_window.vala
 msgid "To install"
@@ -142,11 +144,11 @@ msgstr "Eguneratzeko"
 
 #: ../src/transaction.vala ../src/updater_window.vala
 msgid "Total download size"
-msgstr ""
+msgstr "Deskarga tamaina guztira"
 
 #: ../src/transaction.vala
 msgid "Building packages"
-msgstr ""
+msgstr "Paketeak eraikitzen"
 
 #: ../src/transaction.vala
 msgid "Checking dependencies"
@@ -162,44 +164,44 @@ msgstr "Menpekotasunak erabakitzen"
 
 #: ../src/transaction.vala
 msgid "Checking inter-conflicts"
-msgstr ""
+msgstr "Barne gatazkak egiaztatzen"
 
 #: ../src/transaction.vala
 #, c-format
 msgid "Installing %s"
-msgstr ""
+msgstr "%s instalatzen"
 
 #: ../src/transaction.vala
 #, c-format
 msgid "Reinstalling %s"
-msgstr ""
+msgstr "%s berrinstalatzen"
 
 #: ../src/transaction.vala
 #, c-format
 msgid "Removing %s"
-msgstr ""
+msgstr "%s kentzen"
 
 #: ../src/transaction.vala
 #, c-format
 msgid "Upgrading %s"
-msgstr ""
+msgstr "%s bertsio-berritzen"
 
 #: ../src/transaction.vala
 #, c-format
 msgid "Downgrading %s"
-msgstr ""
+msgstr "%s bertsio-zahartzen"
 
 #: ../src/transaction.vala
 msgid "Checking integrity"
-msgstr "Osotasunak egiaztatzen"
+msgstr "Osotasuna egiaztatzen"
 
 #: ../src/transaction.vala
 msgid "Checking keyring"
-msgstr ""
+msgstr "Gako-sorta egiaztatzen"
 
 #: ../src/transaction.vala
 msgid "Downloading required keys"
-msgstr ""
+msgstr "Beharrezko gakoak deskargatzen"
 
 #: ../src/transaction.vala
 msgid "Loading packages files"
@@ -207,29 +209,29 @@ msgstr "Paketeen fitxategiak kargatzen"
 
 #: ../src/transaction.vala
 msgid "Checking delta integrity"
-msgstr ""
+msgstr "Deltaren osotasuna egiaztatzen"
 
 #: ../src/transaction.vala
 msgid "Applying deltas"
-msgstr ""
+msgstr "Deltak aplikatzen"
 
 #: ../src/transaction.vala
 #, c-format
 msgid "Generating %s with %s"
-msgstr ""
+msgstr "%s sortzen %s erabilita"
 
 #: ../src/transaction.vala
 msgid "Generation succeeded"
-msgstr ""
+msgstr "Sormena ongi burutu da"
 
 #: ../src/transaction.vala
 msgid "Generation failed"
-msgstr ""
+msgstr "Sormenak huts egin du"
 
 #: ../src/transaction.vala
 #, c-format
 msgid "Configuring %s"
-msgstr ""
+msgstr "%s konfiguratzen"
 
 #: ../src/transaction.vala
 msgid "Downloading"
@@ -237,55 +239,55 @@ msgstr "Deskargatzen"
 
 #: ../src/transaction.vala
 msgid "Checking available disk space"
-msgstr ""
+msgstr "Eskuragarri dagoen disko espazioa egiaztatzen"
 
 #: ../src/transaction.vala
 #, c-format
 msgid "%s optionally requires %s"
-msgstr ""
+msgstr "%s: aukeran %s behar du"
 
 #: ../src/transaction.vala
 #, c-format
 msgid "Database file for %s does not exist"
-msgstr ""
+msgstr "Ez dago %s datu-base fitxategia"
 
 #: ../src/transaction.vala
 #, c-format
 msgid "%s installed as %s.pacnew"
-msgstr ""
+msgstr "%s instalatu da %s.pacnew gisa"
 
 #: ../src/transaction.vala
 #, c-format
 msgid "%s installed as %s.pacsave"
-msgstr ""
+msgstr "%s instalatu da %s.pacsave gisa"
 
 #: ../src/transaction.vala
 #, c-format
 msgid "%s installed as %s.pacorig"
-msgstr ""
+msgstr "%s instalatu da %s.pacorig gisa"
 
 #: ../src/transaction.vala
 #, c-format
 msgid "Refreshing %s"
-msgstr ""
+msgstr "%s freskatzen"
 
 #: ../src/transaction.vala
 #, c-format
 msgid "Downloading %s"
-msgstr ""
+msgstr "%s deskargatzen"
 
 #: ../src/transaction.vala
 msgid "Warning"
-msgstr ""
+msgstr "Oharra"
 
 #: ../src/transaction.vala ../src/installer.vala ../src/manager.vala
 #: ../src/updater.vala
 msgid "Error"
-msgstr ""
+msgstr "Errorea"
 
 #: ../src/transaction.vala ../src/progress_dialog.vala
 msgid "Transaction cancelled"
-msgstr ""
+msgstr "Transakzioa bertan behera utzi da"
 
 #: ../src/transaction.vala
 msgid "Nothing to do"
@@ -293,7 +295,7 @@ msgstr "Ezer ez egiteko"
 
 #: ../src/transaction.vala
 msgid "Transaction successfully finished"
-msgstr ""
+msgstr "Transakzioa ongi burutu da"
 
 #: ../src/installer.vala ../src/manager.vala ../src/updater.vala
 msgid "Pamac is already running"
@@ -305,7 +307,7 @@ msgstr "Zure sistema eguneratuta dago"
 
 #: ../src/tray.vala ../resources/updater_window.ui
 msgid "Update Manager"
-msgstr "Aktualizazio Kudeatzailea"
+msgstr "Eguneraketa Kudeatzailea"
 
 #: ../src/tray.vala ../resources/manager_window.ui
 msgid "Package Manager"
@@ -313,23 +315,23 @@ msgstr "Pakete Kudeatzailea"
 
 #: ../src/tray.vala
 msgid "_Quit"
-msgstr ""
+msgstr "_Irten"
 
 #: ../src/tray.vala ../src/updater_window.vala
 #, c-format
 msgid "%u available update"
 msgid_plural "%u available updates"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "eguneraketa %u eskuragarri"
+msgstr[1] "%u eguneraketa eskuragarri"
 
 #: ../src/tray.vala
 msgid "Show available updates"
-msgstr ""
+msgstr "Bistaratu eskuragarri dauden eguneraketak"
 
 #: ../src/choose_provider_dialog.vala
 #, c-format
 msgid "Choose a provider for %s"
-msgstr ""
+msgstr "Aukeratu %s hornitzailea"
 
 #: ../src/choose_dep_dialog.vala
 #, c-format
@@ -339,12 +341,12 @@ msgid ""
 msgid_plural ""
 "%s has %u uninstalled optional dependencies.\n"
 "Choose those you would like to install"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%s instalatu gabeko menpekotasun %u du.\nHautatu instalatu nahi duzun"
+msgstr[1] "%s instalatu gabeko %u menpekotasun ditu.\nHautatu instalatu nahi dituzunak"
 
 #: ../src/manager_window.vala
 msgid "Deselect"
-msgstr ""
+msgstr "Desautatu"
 
 #: ../src/manager_window.vala
 msgid "Install"
@@ -360,11 +362,11 @@ msgstr "Berrinstalatu"
 
 #: ../src/manager_window.vala
 msgid "Install optional dependencies"
-msgstr ""
+msgstr "Instalatu aukerazko menpekotasunak"
 
 #: ../src/manager_window.vala
 msgid "Mark as explicitly installed"
-msgstr ""
+msgstr "Markatu esplizituki instalatutako gisa"
 
 #: ../src/manager_window.vala
 msgid "local"
@@ -388,27 +390,27 @@ msgstr "Menpekotasun hauek dauzka"
 
 #: ../src/manager_window.vala
 msgid "Optional Dependencies"
-msgstr ""
+msgstr "Aukerazko menpekotasunak"
 
 #: ../src/manager_window.vala
 msgid "Required By"
-msgstr ""
+msgstr "Honen menpekotasuna"
 
 #: ../src/manager_window.vala
 msgid "Optional For"
-msgstr ""
+msgstr "Honentzat aukerazkoa"
 
 #: ../src/manager_window.vala
 msgid "Provides"
-msgstr ""
+msgstr "Hornitzen du"
 
 #: ../src/manager_window.vala
 msgid "Replaces"
-msgstr ""
+msgstr "Ordezten du"
 
 #: ../src/manager_window.vala
 msgid "Conflicts With"
-msgstr ""
+msgstr "Gatazkan honekin"
 
 #: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Repository"
@@ -420,23 +422,23 @@ msgstr "Taldeak"
 
 #: ../src/manager_window.vala
 msgid "Maintainer"
-msgstr ""
+msgstr "Mantentzailea"
 
 #: ../src/manager_window.vala
 msgid "First Submitted"
-msgstr ""
+msgstr "Lehen aldiz bidali zen"
 
 #: ../src/manager_window.vala
 msgid "Last Modified"
-msgstr ""
+msgstr "Azkenekoz aldatuta"
 
 #: ../src/manager_window.vala
 msgid "Packager"
-msgstr ""
+msgstr "Paketatzailea"
 
 #: ../src/manager_window.vala
 msgid "Build Date"
-msgstr ""
+msgstr "Eraikuntza data"
 
 #: ../src/manager_window.vala
 msgid "Install Date"
@@ -444,11 +446,11 @@ msgstr "Instalazio data"
 
 #: ../src/manager_window.vala
 msgid "Explicitly installed"
-msgstr ""
+msgstr "Esplizituki instalatuta"
 
 #: ../src/manager_window.vala
 msgid "Installed as a dependency for another package"
-msgstr ""
+msgstr "Beste pakete baten menpekotasun gisa instalatuta"
 
 #: ../src/manager_window.vala
 msgid "Unknown"
@@ -456,7 +458,7 @@ msgstr "Ezezaguna"
 
 #: ../src/manager_window.vala
 msgid "Install Reason"
-msgstr ""
+msgstr "Instalatzeko arrazoia"
 
 #: ../src/manager_window.vala
 msgid "Signatures"
@@ -464,15 +466,15 @@ msgstr "Sinadurak"
 
 #: ../src/manager_window.vala
 msgid "Votes"
-msgstr ""
+msgstr "Botoak"
 
 #: ../src/manager_window.vala
 msgid "Out of Date"
-msgstr ""
+msgstr "Zaharkitua"
 
 #: ../src/manager_window.vala
 msgid "Backup files"
-msgstr ""
+msgstr "Babeskopia fitxategiak"
 
 #: ../src/manager_window.vala
 msgid "No package found"
@@ -484,7 +486,7 @@ msgstr "Desinstalatuta"
 
 #: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Install Local Packages"
-msgstr ""
+msgstr "Instalatu pakete lokalak"
 
 #: ../src/manager_window.vala ../resources/progress_dialog.ui
 #: ../resources/transaction_sum_dialog.ui ../resources/choose_dep_dialog.ui
@@ -498,49 +500,49 @@ msgstr "_Ireki"
 
 #: ../src/manager_window.vala
 msgid "Alpm Package"
-msgstr ""
+msgstr "Alpm paketea"
 
 #: ../src/manager_window.vala
 msgid "A Gtk3 frontend for libalpm"
-msgstr ""
+msgstr "Gtk3n eraikitako ibalpm liburutegiaren interfaze bat"
 
 #: ../src/manager_window.vala
 msgid "Copyright © 2015 Guillaume Benoit"
-msgstr ""
+msgstr "Copyright © 2015 Guillaume Benoit"
 
 #: ../src/preferences_dialog.vala ../resources/preferences_dialog.ui
 msgid "How often to check for updates, value in hours"
-msgstr ""
+msgstr "Eguneraketak egiaztatzeko maiztasuna, orduetan"
 
 #: ../src/preferences_dialog.vala
 msgid "Worldwide"
-msgstr ""
+msgstr "Mundu mailakoa"
 
 #: ../src/preferences_dialog.vala
 msgid "Speed"
-msgstr ""
+msgstr "Abiadura"
 
 #: ../src/preferences_dialog.vala
 msgid "Random"
-msgstr ""
+msgstr "Ausazkoa"
 
 #: ../src/choose_ignorepkgs_dialog.vala
 msgid "Choose the packages you do not want to upgrade"
-msgstr ""
+msgstr "Aukeratu bertsio-berritu nahi ez dituzun paketeak"
 
 #: ../resources/choose_provider_dialog.ui
 msgid "Choose a Provider"
-msgstr ""
+msgstr "Aukeratu hornitzaile bat"
 
 #: ../resources/choose_provider_dialog.ui
 #: ../resources/transaction_sum_dialog.ui ../resources/choose_dep_dialog.ui
 #: ../resources/choose_ignorepkgs_dialog.ui
 msgid "_OK"
-msgstr "_Baieztatu"
+msgstr "_Ados"
 
 #: ../resources/progress_dialog.ui
 msgid "Progress"
-msgstr ""
+msgstr "Progresioa"
 
 #: ../resources/progress_dialog.ui ../resources/history_dialog.ui
 #: ../resources/transaction_info_dialog.ui ../resources/updater_window.ui
@@ -555,39 +557,39 @@ msgstr "Xehetasunak"
 
 #: ../resources/history_dialog.ui
 msgid "Pamac History"
-msgstr ""
+msgstr "Pamac Historia"
 
 #: ../resources/choose_dep_dialog.ui
 msgid "Choose Optional Dependencies"
-msgstr ""
+msgstr "Hautatu aukerazko menpekotasunak"
 
 #: ../resources/manager_window.ui
 msgid "View History"
-msgstr ""
+msgstr "Ikusi historia"
 
 #: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "_Preferences"
-msgstr ""
+msgstr "_Hobespenak"
 
 #: ../resources/manager_window.ui
 msgid "_About"
-msgstr "_Buruz"
+msgstr "_Honi Buruz"
 
 #: ../resources/manager_window.ui
 msgid "Refresh databases"
-msgstr ""
+msgstr "Freskatu datu-baseak"
 
 #: ../resources/manager_window.ui
 msgid "Apply changes"
-msgstr ""
+msgstr "Aplikatu aldaketak"
 
 #: ../resources/manager_window.ui
 msgid "Cancel all planned changes"
-msgstr ""
+msgstr "Bertan behera utzi planifikatutako aldaketa guztiak"
 
 #: ../resources/manager_window.ui
 msgid "Search in AUR"
-msgstr "AUR-en bilatu"
+msgstr "Bilatu AURen "
 
 #: ../resources/manager_window.ui
 msgid "Search"
@@ -599,7 +601,7 @@ msgstr "Egoera"
 
 #: ../resources/manager_window.ui
 msgid "Repositories"
-msgstr ""
+msgstr "Biltegiak"
 
 #: ../resources/manager_window.ui
 msgid "Name"
@@ -615,11 +617,11 @@ msgstr "Tamaina"
 
 #: ../resources/manager_window.ui
 msgid "Description"
-msgstr ""
+msgstr "Deskripzioa"
 
 #: ../resources/manager_window.ui
 msgid "Dependencies"
-msgstr ""
+msgstr "Menpekotasunak"
 
 #: ../resources/manager_window.ui
 msgid "Files"
@@ -627,71 +629,71 @@ msgstr "Fitxategiak"
 
 #: ../resources/updater_window.ui
 msgid "_Refresh"
-msgstr ""
+msgstr "_Freskatu"
 
 #: ../resources/updater_window.ui
 msgid "_Apply"
-msgstr ""
+msgstr "_Aplikatu"
 
 #: ../resources/preferences_dialog.ui
 msgid "Preferences"
-msgstr ""
+msgstr "Hobespenak"
 
 #: ../resources/preferences_dialog.ui
 msgid "Remove unrequired dependencies"
-msgstr ""
+msgstr "Kendu behar ez diren menpekotasunak"
 
 #: ../resources/preferences_dialog.ui
 msgid ""
 "When removing a package, also remove its dependencies that are not required "
 "by other packages"
-msgstr ""
+msgstr "Pakete bat kentzean, bere menpekotasunak kendu ere beste paketeren batek behar ez baditu"
 
 #: ../resources/preferences_dialog.ui
 msgid "Check available disk space"
-msgstr ""
+msgstr "Egiaztatu eskuragarri dagoen disko espazioa"
 
 #: ../resources/preferences_dialog.ui
 msgid "Check for updates"
-msgstr ""
+msgstr "Egiaztatu eguneraketak"
 
 #: ../resources/preferences_dialog.ui
 msgid "Hide tray icon when no update available"
-msgstr ""
+msgstr "Ezkutatu barrako ikonoa eguneraketarik ez dagoenean"
 
 #: ../resources/preferences_dialog.ui
 msgid "Ignore upgrades for:"
-msgstr ""
+msgstr "Bertsio-berritzeak ezikusiten hauentzat:"
 
 #: ../resources/preferences_dialog.ui
 msgid "General"
-msgstr ""
+msgstr "Orokorra"
 
 #: ../resources/preferences_dialog.ui
 msgid "Use mirrors from:"
-msgstr ""
+msgstr "Erabili hemengo ispiluak:"
 
 #: ../resources/preferences_dialog.ui
 msgid "Sort mirrors by:"
-msgstr ""
+msgstr "Ordenatu ispiluak honen arabera:"
 
 #: ../resources/preferences_dialog.ui
 msgid "Refresh Mirrors List"
-msgstr ""
+msgstr "Freskatu ispiluen zerrenda"
 
 #: ../resources/preferences_dialog.ui
 msgid "Official Repositories"
-msgstr ""
+msgstr "Biltegi ofizialak"
 
 #: ../resources/preferences_dialog.ui
 msgid ""
 "AUR is a community maintained repository so it presents potential risks and problems.\n"
 "All AUR users should be familiar with the build process."
-msgstr ""
+msgstr "AUR komunitatean mantendutako biltegi bat da eta arrisku zein arazo potentzialak ditu\nAUR erabiltzaile guztiek eraikitzeko prozesua ezagutu beharko lukete."
 
 #: ../resources/preferences_dialog.ui
 msgid "Enable AUR support"
-msgstr "AUR soportea baimendu"
+msgstr "Gaitu AUR euskarria"
 
 #: ../resources/preferences_dialog.ui
 msgid "Allow Pamac to search and install packages from AUR"
@@ -699,20 +701,20 @@ msgstr "Pamac AURtik paketeak bilatzeko eta instalatzeko baimendu"
 
 #: ../resources/preferences_dialog.ui
 msgid "Search in AUR by default"
-msgstr ""
+msgstr "Bilatu AURen lehenetsita"
 
 #: ../resources/preferences_dialog.ui
 msgid "Check for updates from AUR"
-msgstr ""
+msgstr "Egiaztatu AUReko eguneraketak"
 
 #: ../resources/preferences_dialog.ui
 msgid "Do not ask for confirmation when building packages"
-msgstr ""
+msgstr "Ez eskatu berrespena paketeak eraikitzean"
 
 #: ../resources/preferences_dialog.ui
 msgid "AUR"
-msgstr ""
+msgstr "AUR"
 
 #: ../resources/choose_ignorepkgs_dialog.ui
 msgid "Choose Ignored Upgrades"
-msgstr ""
+msgstr "Hautatu ezikusitako bertsio-berritzeak"
