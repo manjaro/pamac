@@ -171,6 +171,7 @@ namespace Pamac {
 					} else {
 						status_icon.visible = true;
 					}
+					hide_notification();
 				} else {
 					string info = ngettext ("%u available update", "%u available updates", updates_nb).printf (updates_nb);
 					this.update_icon (update_icon_name, info);
