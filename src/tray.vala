@@ -195,9 +195,20 @@ namespace Pamac {
 //~ 				notification.add_button (_("Show available updates"), "app.update");
 //~ 				this.send_notification (_("Update Manager"), notification);
 			try {
+				hide_notification();
 				notification = new Notify.Notification (_("Update Manager"), info, "system-software-update");
 				notification.add_action ("update", _("Show available updates"), execute_updater);
 				notification.show ();
+			} catch (Error e) {
+				stderr.printf ("Notify Error: %s", e.message);
+			}
+		}
+
+		void hide_notification () {
+			try {
+				if(notification != null) {
+				 	notification.close();
+				}
 			} catch (Error e) {
 				stderr.printf ("Notify Error: %s", e.message);
 			}
