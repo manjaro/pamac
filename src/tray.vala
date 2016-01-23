@@ -178,10 +178,19 @@ namespace Pamac {
 					status_icon.visible = true;
 					if (check_pamac_running () == false) {
 						show_notification (info);
+					} else {
+						update_notification (info);
 					}
 				}
 				stop_daemon ();
 			});
+		}
+
+		void on_notification_closed () {
+			int reason = notification.get_closed_reason();
+			if(reason == 2) { /* NOTIFYD_CLOSED_USER */
+				execute_updater ();
+			}
 		}
 
 		void show_notification (string info) {
@@ -198,10 +207,17 @@ namespace Pamac {
 			try {
 				hide_notification();
 				notification = new Notify.Notification (_("Update Manager"), info, "system-software-update");
-				notification.add_action ("update", _("Show available updates"), execute_updater);
+				// notification.add_action ("update", _("Show available updates"), execute_updater);
+				notification.closed.connect (on_notification_closed);
 				notification.show ();
 			} catch (Error e) {
 				stderr.printf ("Notify Error: %s", e.message);
+			}
+		}
+
+		void update_notification (string info) {
+			if(notification != null) {
+				 notification.update (_("Update Manager"), info, "system-software-update");
 			}
 		}
 
