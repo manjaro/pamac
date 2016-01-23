@@ -194,16 +194,6 @@ namespace Pamac {
 		}
 
 		void show_notification (string info) {
-//~ 				notification = new Notification (_("Update Manager"));
-//~ 				notification.set_body (info);
-//~ 				Gtk.IconTheme icon_theme = Gtk.IconTheme.get_default ();
-//~ 				Gdk.Pixbuf icon = icon_theme.load_icon ("system-software-update", 32, 0);
-//~ 				notification.set_icon (icon);
-//~ 				var action = new SimpleAction ("update", null);
-//~ 				action.activate.connect (execute_updater);
-//~ 				this.add_action (action);
-//~ 				notification.add_button (_("Show available updates"), "app.update");
-//~ 				this.send_notification (_("Update Manager"), notification);
 			try {
 				hide_notification();
 				notification = new Notify.Notification (_("Update Manager"), info, "system-software-update");
