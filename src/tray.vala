@@ -171,7 +171,7 @@ namespace Pamac {
 					} else {
 						status_icon.visible = true;
 					}
-					hide_notification();
+					close_notification();
 				} else {
 					string info = ngettext ("%u available update", "%u available updates", updates_nb).printf (updates_nb);
 					this.update_icon (update_icon_name, info);
@@ -195,7 +195,7 @@ namespace Pamac {
 
 		void show_notification (string info) {
 			try {
-				hide_notification();
+				close_notification();
 				notification = new Notify.Notification (_("Update Manager"), info, "system-software-update");
 				// notification.add_action ("update", _("Show available updates"), execute_updater);
 				notification.closed.connect (on_notification_closed);
@@ -206,15 +206,25 @@ namespace Pamac {
 		}
 
 		void update_notification (string info) {
-			if(notification != null) {
-				 notification.update (_("Update Manager"), info, "system-software-update");
+			try {
+				if(notification != null) {
+					if(notification.get_closed_reason() == -1 && notification.body != info) {
+						notification.update (_("Update Manager"), info, "system-software-update");
+						notification.show ();
+					}
+				} else {
+					show_notification (info);
+				}
+			} catch (Error e) {
+				stderr.printf ("Notify Error: %s", e.message);
 			}
 		}
 
-		void hide_notification () {
+		void close_notification () {
 			try {
 				if(notification != null) {
 				 	notification.close();
+				 	notification = null;
 				}
 			} catch (Error e) {
 				stderr.printf ("Notify Error: %s", e.message);
