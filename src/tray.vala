@@ -171,12 +171,15 @@ namespace Pamac {
 					} else {
 						status_icon.visible = true;
 					}
+					close_notification();
 				} else {
 					string info = ngettext ("%u available update", "%u available updates", updates_nb).printf (updates_nb);
 					this.update_icon (update_icon_name, info);
 					status_icon.visible = true;
 					if (check_pamac_running () == false) {
 						show_notification (info);
+					} else {
+						update_notification (info);
 					}
 				}
 				stop_daemon ();
@@ -184,20 +187,37 @@ namespace Pamac {
 		}
 
 		void show_notification (string info) {
-//~ 				notification = new Notification (_("Update Manager"));
-//~ 				notification.set_body (info);
-//~ 				Gtk.IconTheme icon_theme = Gtk.IconTheme.get_default ();
-//~ 				Gdk.Pixbuf icon = icon_theme.load_icon ("system-software-update", 32, 0);
-//~ 				notification.set_icon (icon);
-//~ 				var action = new SimpleAction ("update", null);
-//~ 				action.activate.connect (execute_updater);
-//~ 				this.add_action (action);
-//~ 				notification.add_button (_("Show available updates"), "app.update");
-//~ 				this.send_notification (_("Update Manager"), notification);
 			try {
+				close_notification();
 				notification = new Notify.Notification (_("Update Manager"), info, "system-software-update");
-				notification.add_action ("update", _("Show available updates"), execute_updater);
+				notification.add_action ("default", _("Show available updates"), execute_updater);
 				notification.show ();
+			} catch (Error e) {
+				stderr.printf ("Notify Error: %s", e.message);
+			}
+		}
+
+		void update_notification (string info) {
+			try {
+				if(notification != null) {
+					if(notification.get_closed_reason() == -1 && notification.body != info) {
+						notification.update (_("Update Manager"), info, "system-software-update");
+						notification.show ();
+					}
+				} else {
+					show_notification (info);
+				}
+			} catch (Error e) {
+				stderr.printf ("Notify Error: %s", e.message);
+			}
+		}
+
+		void close_notification () {
+			try {
+				if(notification != null) {
+				 	notification.close();
+				 	notification = null;
+				}
 			} catch (Error e) {
 				stderr.printf ("Notify Error: %s", e.message);
 			}
