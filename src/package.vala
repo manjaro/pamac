@@ -31,12 +31,13 @@ namespace Pamac {
 
 		public Package (Alpm.Package? alpm_pkg, Json.Object? aur_json) {
 			if (alpm_pkg != null) {
-				name = alpm_pkg.name ?? "";
-				version = alpm_pkg.version ?? "";
-				desc = alpm_pkg.desc ?? "";
-				repo = (alpm_pkg.db != null ? (alpm_pkg.db.name ?? "") : "");
+				name = alpm_pkg.name;
+				version = alpm_pkg.version;
+				desc = alpm_pkg.desc;
+				repo = alpm_pkg.db != null ? alpm_pkg.db.name : "";
 				size = alpm_pkg.isize;
 				size_string = format_size (alpm_pkg.isize);
+				// alpm pkg url can be null
 				url = alpm_pkg.url ?? "";
 				StringBuilder licenses_build = new StringBuilder ();
 				foreach (var license in alpm_pkg.licenses) {
@@ -48,9 +49,9 @@ namespace Pamac {
 				licenses = licenses_build.str;
 				reason = alpm_pkg.reason;
 			} else if (aur_json != null ) {
-				name = aur_json.get_string_member ("Name") ?? "";
-				version = aur_json.get_string_member ("Version") ?? "";
-				desc = aur_json.get_string_member ("Description") ?? "";
+				name = aur_json.get_string_member ("Name");
+				version = aur_json.get_string_member ("Version");
+				desc = aur_json.get_string_member ("Description");
 				repo = "AUR";
 				size = 0;
 				size_string = "";
@@ -73,15 +74,9 @@ namespace Pamac {
 
 	public struct PackageDetails {
 		string repo;
-		// for AUR package it is OutOfDate
 		string has_signature;
-		// for AUR package it is NumVotes
 		int reason;
-		// for AUR package it is Maintainer
 		string packager;
-		// for AUR package it is FirstSubmitted
-		string build_date;
-		// for AUR package it is LastModified
 		string install_date;
 		string[] groups;
 		string[] backups;

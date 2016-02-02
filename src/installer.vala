@@ -46,13 +46,13 @@ namespace Pamac {
 				transaction_info_dialog.hide ();
 			} else {
 				transaction = new Pamac.Transaction (null);
-				transaction.finished.connect (on_emit_trans_finished);
+				transaction.finished.connect (on_transaction_finished);
 				this.hold ();
 			}
 		}
 
 		public override void activate () {
-			if (pamac_run == false) {
+			if (!pamac_run) {
 				print ("\nError: Path(s) of tarball(s) to install is needed\n");
 				transaction.stop_daemon ();
 				this.release ();
@@ -60,10 +60,9 @@ namespace Pamac {
 		}
 
 		public override void open (File[] files, string hint) {
-			if (pamac_run == false) {
-				foreach (File file in files) {
-					string? path = file.get_path ();
-					transaction.to_load.add ((owned) path);
+			if (!pamac_run) {
+				foreach (unowned File file in files) {
+					transaction.to_load.add (file.get_path ());
 				}
 				transaction.run ();
 			}
@@ -92,7 +91,7 @@ namespace Pamac {
 			return run;
 		}
 
-		public void on_emit_trans_finished (bool error) {
+		public void on_transaction_finished () {
 			transaction.stop_daemon ();
 			this.release ();
 		}

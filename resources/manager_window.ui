@@ -207,8 +207,8 @@
                           <object class="GtkLabel" id="search_aur_label">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
-                            <property name="hexpand">True</property>
                             <property name="margin_start">6</property>
+                            <property name="hexpand">True</property>
                             <property name="label" translatable="yes">Search in AUR</property>
                             <property name="xalign">0</property>
                           </object>
@@ -437,117 +437,242 @@
                 <property name="can_focus">True</property>
                 <property name="orientation">vertical</property>
                 <child>
-                  <object class="GtkScrolledWindow" id="scrolledwindow6">
-                    <property name="width_request">500</property>
-                    <property name="height_request">200</property>
+                  <object class="GtkNotebook" id="packages_notebook">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
-                    <property name="hexpand">True</property>
-                    <property name="vexpand">True</property>
-                    <property name="shadow_type">in</property>
+                    <signal name="switch-page" handler="on_packages_notebook_switch_page" after="yes" swapped="no"/>
                     <child>
-                      <object class="GtkTreeView" id="packages_treeview">
+                      <object class="GtkScrolledWindow" id="packages_scrolledwindow">
+                        <property name="width_request">500</property>
+                        <property name="height_request">200</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="hexpand">True</property>
                         <property name="vexpand">True</property>
-                        <property name="search_column">0</property>
-                        <property name="show_expanders">False</property>
-                        <signal name="button-press-event" handler="on_packages_treeview_button_press_event" swapped="no"/>
-                        <signal name="row-activated" handler="on_packages_treeview_row_activated" swapped="no"/>
-                        <child internal-child="selection">
-                          <object class="GtkTreeSelection" id="packages_treeview_selection">
-                            <property name="mode">multiple</property>
-                            <signal name="changed" handler="on_packages_treeview_selection_changed" swapped="no"/>
-                          </object>
-                        </child>
+                        <property name="shadow_type">in</property>
                         <child>
-                          <object class="GtkTreeViewColumn" id="state_column">
-                            <property name="resizable">True</property>
-                            <property name="fixed_width">40</property>
-                            <property name="min_width">20</property>
-                            <property name="title" translatable="yes">State</property>
-                            <property name="clickable">True</property>
-                            <signal name="clicked" handler="on_state_column_clicked" swapped="no"/>
-                            <child>
-                              <object class="GtkCellRendererPixbuf" id="state_rendererpixbuf"/>
-                              <attributes>
-                                <attribute name="pixbuf">1</attribute>
-                              </attributes>
+                          <object class="GtkTreeView" id="packages_treeview">
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="hexpand">True</property>
+                            <property name="vexpand">True</property>
+                            <property name="search_column">0</property>
+                            <property name="show_expanders">False</property>
+                            <signal name="button-press-event" handler="on_packages_treeview_button_press_event" swapped="no"/>
+                            <signal name="row-activated" handler="on_packages_treeview_row_activated" swapped="no"/>
+                            <child internal-child="selection">
+                              <object class="GtkTreeSelection" id="treeview-selection">
+                                <property name="mode">multiple</property>
+                                <signal name="changed" handler="on_packages_treeview_selection_changed" swapped="no"/>
+                              </object>
                             </child>
-                          </object>
-                        </child>
-                        <child>
-                          <object class="GtkTreeViewColumn" id="name_column">
-                            <property name="resizable">True</property>
-                            <property name="fixed_width">150</property>
-                            <property name="min_width">20</property>
-                            <property name="title" translatable="yes">Name</property>
-                            <property name="expand">True</property>
-                            <property name="clickable">True</property>
-                            <signal name="clicked" handler="on_name_column_clicked" swapped="no"/>
                             <child>
-                              <object class="GtkCellRendererText" id="name_renderertext"/>
-                              <attributes>
-                                <attribute name="text">0</attribute>
-                              </attributes>
+                              <object class="GtkTreeViewColumn" id="packages_state_column">
+                                <property name="resizable">True</property>
+                                <property name="fixed_width">40</property>
+                                <property name="min_width">20</property>
+                                <property name="title" translatable="yes">State</property>
+                                <property name="clickable">True</property>
+                                <signal name="clicked" handler="on_packages_state_column_clicked" swapped="no"/>
+                                <child>
+                                  <object class="GtkCellRendererPixbuf" id="packages_state_rendererpixbuf"/>
+                                  <attributes>
+                                    <attribute name="pixbuf">1</attribute>
+                                  </attributes>
+                                </child>
+                              </object>
                             </child>
-                          </object>
-                        </child>
-                        <child>
-                          <object class="GtkTreeViewColumn" id="version_column">
-                            <property name="resizable">True</property>
-                            <property name="fixed_width">90</property>
-                            <property name="min_width">20</property>
-                            <property name="title" translatable="yes">Version</property>
-                            <property name="clickable">True</property>
-                            <signal name="clicked" handler="on_version_column_clicked" swapped="no"/>
                             <child>
-                              <object class="GtkCellRendererText" id="version_renderertext"/>
-                              <attributes>
-                                <attribute name="text">2</attribute>
-                              </attributes>
+                              <object class="GtkTreeViewColumn" id="packages_name_column">
+                                <property name="resizable">True</property>
+                                <property name="fixed_width">150</property>
+                                <property name="min_width">20</property>
+                                <property name="title" translatable="yes">Name</property>
+                                <property name="expand">True</property>
+                                <property name="clickable">True</property>
+                                <signal name="clicked" handler="on_packages_name_column_clicked" swapped="no"/>
+                                <child>
+                                  <object class="GtkCellRendererText" id="packages_name_renderertext"/>
+                                  <attributes>
+                                    <attribute name="text">0</attribute>
+                                  </attributes>
+                                </child>
+                              </object>
                             </child>
-                          </object>
-                        </child>
-                        <child>
-                          <object class="GtkTreeViewColumn" id="repo_column">
-                            <property name="resizable">True</property>
-                            <property name="fixed_width">90</property>
-                            <property name="min_width">20</property>
-                            <property name="title" translatable="yes">Repository</property>
-                            <property name="clickable">True</property>
-                            <signal name="clicked" handler="on_repo_column_clicked" swapped="no"/>
                             <child>
-                              <object class="GtkCellRendererText" id="repo_renderertext"/>
-                              <attributes>
-                                <attribute name="text">3</attribute>
-                              </attributes>
+                              <object class="GtkTreeViewColumn" id="packages_version_column">
+                                <property name="resizable">True</property>
+                                <property name="fixed_width">90</property>
+                                <property name="min_width">20</property>
+                                <property name="title" translatable="yes">Version</property>
+                                <property name="clickable">True</property>
+                                <signal name="clicked" handler="on_packages_version_column_clicked" swapped="no"/>
+                                <child>
+                                  <object class="GtkCellRendererText" id="packages_version_renderertext"/>
+                                  <attributes>
+                                    <attribute name="text">2</attribute>
+                                  </attributes>
+                                </child>
+                              </object>
                             </child>
-                          </object>
-                        </child>
-                        <child>
-                          <object class="GtkTreeViewColumn" id="size_column">
-                            <property name="resizable">True</property>
-                            <property name="fixed_width">90</property>
-                            <property name="min_width">20</property>
-                            <property name="title" translatable="yes">Size</property>
-                            <property name="clickable">True</property>
-                            <signal name="clicked" handler="on_size_column_clicked" swapped="no"/>
                             <child>
-                              <object class="GtkCellRendererText" id="size_renderertext"/>
-                              <attributes>
-                                <attribute name="text">4</attribute>
-                              </attributes>
+                              <object class="GtkTreeViewColumn" id="packages_repo_column">
+                                <property name="resizable">True</property>
+                                <property name="fixed_width">90</property>
+                                <property name="min_width">20</property>
+                                <property name="title" translatable="yes">Repository</property>
+                                <property name="clickable">True</property>
+                                <signal name="clicked" handler="on_packages_repo_column_clicked" swapped="no"/>
+                                <child>
+                                  <object class="GtkCellRendererText" id="packages_repo_renderertext"/>
+                                  <attributes>
+                                    <attribute name="text">3</attribute>
+                                  </attributes>
+                                </child>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkTreeViewColumn" id="packages_size_column">
+                                <property name="resizable">True</property>
+                                <property name="fixed_width">90</property>
+                                <property name="min_width">20</property>
+                                <property name="title" translatable="yes">Size</property>
+                                <property name="clickable">True</property>
+                                <signal name="clicked" handler="on_packages_size_column_clicked" swapped="no"/>
+                                <child>
+                                  <object class="GtkCellRendererText" id="packages_size_renderertext"/>
+                                  <attributes>
+                                    <attribute name="text">4</attribute>
+                                  </attributes>
+                                </child>
+                              </object>
                             </child>
                           </object>
                         </child>
                       </object>
                     </child>
+                    <child type="tab">
+                      <object class="GtkLabel" id="label1">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="label" translatable="yes">Repositories</property>
+                      </object>
+                      <packing>
+                        <property name="tab_fill">False</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkScrolledWindow" id="aur_scrolledwindow">
+                        <property name="width_request">500</property>
+                        <property name="height_request">200</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="hexpand">True</property>
+                        <property name="vexpand">True</property>
+                        <property name="shadow_type">in</property>
+                        <child>
+                          <object class="GtkTreeView" id="aur_treeview">
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="hexpand">True</property>
+                            <property name="vexpand">True</property>
+                            <property name="search_column">0</property>
+                            <property name="show_expanders">False</property>
+                            <signal name="button-press-event" handler="on_aur_treeview_button_press_event" swapped="no"/>
+                            <signal name="row-activated" handler="on_aur_treeview_row_activated" swapped="no"/>
+                            <child internal-child="selection">
+                              <object class="GtkTreeSelection" id="treeview-selection12">
+                                <property name="mode">multiple</property>
+                                <signal name="changed" handler="on_aur_treeview_selection_changed" swapped="no"/>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkTreeViewColumn" id="aur_state_column">
+                                <property name="resizable">True</property>
+                                <property name="fixed_width">40</property>
+                                <property name="min_width">20</property>
+                                <property name="title" translatable="yes">State</property>
+                                <property name="clickable">True</property>
+                                <signal name="clicked" handler="on_aur_state_column_clicked" swapped="no"/>
+                                <child>
+                                  <object class="GtkCellRendererPixbuf" id="aur_state_rendererpixbuf"/>
+                                  <attributes>
+                                    <attribute name="pixbuf">1</attribute>
+                                  </attributes>
+                                </child>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkTreeViewColumn" id="aur_name_column">
+                                <property name="resizable">True</property>
+                                <property name="fixed_width">150</property>
+                                <property name="min_width">20</property>
+                                <property name="title" translatable="yes">Name</property>
+                                <property name="expand">True</property>
+                                <property name="clickable">True</property>
+                                <signal name="clicked" handler="on_aur_name_column_clicked" swapped="no"/>
+                                <child>
+                                  <object class="GtkCellRendererText" id="aur_name_renderertext"/>
+                                  <attributes>
+                                    <attribute name="text">0</attribute>
+                                  </attributes>
+                                </child>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkTreeViewColumn" id="aur_version_column">
+                                <property name="resizable">True</property>
+                                <property name="fixed_width">90</property>
+                                <property name="min_width">20</property>
+                                <property name="title" translatable="yes">Version</property>
+                                <property name="clickable">True</property>
+                                <signal name="clicked" handler="on_aur_version_column_clicked" swapped="no"/>
+                                <child>
+                                  <object class="GtkCellRendererText" id="aur_version_renderertext"/>
+                                  <attributes>
+                                    <attribute name="text">2</attribute>
+                                  </attributes>
+                                </child>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkTreeViewColumn" id="aur_votes_column">
+                                <property name="resizable">True</property>
+                                <property name="fixed_width">90</property>
+                                <property name="min_width">20</property>
+                                <property name="title" translatable="yes">Votes</property>
+                                <property name="clickable">True</property>
+                                <signal name="clicked" handler="on_aur_votes_column_clicked" swapped="no"/>
+                                <child>
+                                  <object class="GtkCellRendererText" id="aur_votes_renderertext"/>
+                                  <attributes>
+                                    <attribute name="text">3</attribute>
+                                  </attributes>
+                                </child>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                      </object>
+                      <packing>
+                        <property name="position">1</property>
+                      </packing>
+                    </child>
+                    <child type="tab">
+                      <object class="GtkLabel" id="label5">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="label" translatable="yes">AUR</property>
+                      </object>
+                      <packing>
+                        <property name="position">1</property>
+                        <property name="tab_fill">False</property>
+                      </packing>
+                    </child>
                   </object>
                   <packing>
                     <property name="resize">True</property>
-                    <property name="shrink">False</property>
+                    <property name="shrink">True</property>
                   </packing>
                 </child>
                 <child>
@@ -563,11 +688,11 @@
                         <property name="can_focus">True</property>
                         <property name="shadow_type">in</property>
                         <child>
-                          <object class="GtkViewport" id="viewport1">
+                          <object class="GtkViewport" id="viewport2">
                             <property name="visible">True</property>
-                            <property name="can_focus">True</property>
+                            <property name="can_focus">False</property>
                             <child>
-                              <object class="GtkBox" id="box5">
+                              <object class="GtkBox" id="box4">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                                 <property name="orientation">vertical</property>
@@ -575,8 +700,10 @@
                                 <child>
                                   <object class="GtkLabel" id="name_label">
                                     <property name="visible">True</property>
-                                    <property name="can_focus">True</property>
+                                    <property name="can_focus">False</property>
                                     <property name="halign">start</property>
+                                    <property name="margin_left">6</property>
+                                    <property name="margin_right">6</property>
                                     <property name="margin_start">6</property>
                                     <property name="margin_end">6</property>
                                     <property name="margin_top">6</property>
@@ -592,8 +719,10 @@
                                 <child>
                                   <object class="GtkLabel" id="desc_label">
                                     <property name="visible">True</property>
-                                    <property name="can_focus">True</property>
+                                    <property name="can_focus">False</property>
                                     <property name="halign">start</property>
+                                    <property name="margin_left">6</property>
+                                    <property name="margin_right">6</property>
                                     <property name="margin_start">6</property>
                                     <property name="margin_end">6</property>
                                     <property name="margin_top">6</property>
@@ -609,9 +738,10 @@
                                 <child>
                                   <object class="GtkLabel" id="link_label">
                                     <property name="visible">True</property>
-                                    <property name="can_focus">True</property>
-                                    <property name="has_focus">True</property>
+                                    <property name="can_focus">False</property>
                                     <property name="halign">start</property>
+                                    <property name="margin_left">6</property>
+                                    <property name="margin_right">6</property>
                                     <property name="margin_start">6</property>
                                     <property name="margin_end">6</property>
                                     <property name="margin_top">6</property>
@@ -626,8 +756,10 @@
                                 <child>
                                   <object class="GtkLabel" id="licenses_label">
                                     <property name="visible">True</property>
-                                    <property name="can_focus">True</property>
+                                    <property name="can_focus">False</property>
                                     <property name="halign">start</property>
+                                    <property name="margin_left">6</property>
+                                    <property name="margin_right">6</property>
                                     <property name="margin_start">6</property>
                                     <property name="margin_end">6</property>
                                     <property name="margin_top">6</property>
@@ -647,7 +779,7 @@
                       </object>
                     </child>
                     <child type="tab">
-                      <object class="GtkLabel" id="label1">
+                      <object class="GtkLabel" id="label7">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="label" translatable="yes">Description</property>
@@ -670,7 +802,7 @@
                             <property name="enable_search">False</property>
                             <property name="show_expanders">False</property>
                             <child internal-child="selection">
-                              <object class="GtkTreeSelection" id="deps_treeview_selection">
+                              <object class="GtkTreeSelection" id="treeview-selection8">
                                 <property name="mode">none</property>
                               </object>
                             </child>
@@ -678,7 +810,7 @@
                               <object class="GtkTreeViewColumn" id="dep_type">
                                 <property name="sizing">autosize</property>
                                 <child>
-                                  <object class="GtkCellRendererText" id="cellrenderertext12">
+                                  <object class="GtkCellRendererText" id="cellrenderertext3">
                                     <property name="yalign">0</property>
                                     <property name="weight">600</property>
                                   </object>
@@ -692,7 +824,7 @@
                               <object class="GtkTreeViewColumn" id="deps">
                                 <property name="sizing">autosize</property>
                                 <child>
-                                  <object class="GtkCellRendererText" id="cellrenderertext13"/>
+                                  <object class="GtkCellRendererText" id="cellrenderertext5"/>
                                   <attributes>
                                     <attribute name="text">1</attribute>
                                   </attributes>
@@ -707,7 +839,7 @@
                       </packing>
                     </child>
                     <child type="tab">
-                      <object class="GtkLabel" id="label2">
+                      <object class="GtkLabel" id="label8">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="label" translatable="yes">Dependencies</property>
@@ -732,7 +864,7 @@
                             <property name="search_column">0</property>
                             <property name="show_expanders">False</property>
                             <child internal-child="selection">
-                              <object class="GtkTreeSelection" id="treeview-selection6">
+                              <object class="GtkTreeSelection" id="treeview-selection10">
                                 <property name="mode">none</property>
                               </object>
                             </child>
@@ -740,7 +872,7 @@
                               <object class="GtkTreeViewColumn" id="infotype">
                                 <property name="sizing">autosize</property>
                                 <child>
-                                  <object class="GtkCellRendererText" id="cellrenderertext1">
+                                  <object class="GtkCellRendererText" id="cellrenderertext6">
                                     <property name="yalign">0</property>
                                     <property name="weight">600</property>
                                     <property name="wrap_mode">word</property>
@@ -752,10 +884,10 @@
                               </object>
                             </child>
                             <child>
-                              <object class="GtkTreeViewColumn" id="type">
+                              <object class="GtkTreeViewColumn" id="info">
                                 <property name="sizing">autosize</property>
                                 <child>
-                                  <object class="GtkCellRendererText" id="cellrenderertext4">
+                                  <object class="GtkCellRendererText" id="cellrenderertext7">
                                     <property name="wrap_mode">word</property>
                                   </object>
                                   <attributes>
@@ -772,7 +904,7 @@
                       </packing>
                     </child>
                     <child type="tab">
-                      <object class="GtkLabel" id="label3">
+                      <object class="GtkLabel" id="label9">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="label" translatable="yes">Details</property>
@@ -824,7 +956,7 @@
               </object>
               <packing>
                 <property name="resize">True</property>
-                <property name="shrink">False</property>
+                <property name="shrink">True</property>
               </packing>
             </child>
           </object>

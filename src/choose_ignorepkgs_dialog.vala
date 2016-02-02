@@ -31,39 +31,21 @@ namespace Pamac {
 
 		public Gtk.ListStore pkgs_list;
 
-		Transaction transaction;
-
-		public ChooseIgnorepkgsDialog (Gtk.Window window, Transaction transaction) {
+		public ChooseIgnorepkgsDialog (Gtk.Window window) {
 			Object (transient_for: window, use_header_bar: 0);
-
-			this.transaction = transaction;
 
 			label.set_markup ("<b>%s</b>".printf (dgettext (null, "Choose the packages you do not want to upgrade")));
 			pkgs_list = new Gtk.ListStore (2, typeof (bool), typeof (string));
 			treeview.set_model (pkgs_list);
-			transaction.get_installed_pkgs.begin ((obj, res) => {
-				Pamac.Package[] pkgs = transaction.get_installed_pkgs.end (res);
-				Gtk.TreeIter iter;
-				string[] already_ignorepkgs = transaction.get_ignorepkgs ();
-				foreach (var pkg in pkgs) {
-					if (pkg.name in already_ignorepkgs) {
-						pkgs_list.insert_with_values (out iter, -1, 0, true, 1, pkg.name);
-					} else {
-						pkgs_list.insert_with_values (out iter, -1, 0, false, 1, pkg.name);
-					}
-				}
-			});
 		}
 
 		[GtkCallback]
 		void on_renderertoggle_toggled (string path) {
 			Gtk.TreeIter iter;
-			GLib.Value val;
-			bool selected;
-			if (pkgs_list.get_iter_from_string (out iter, path)) {;
-				pkgs_list.get_value (iter, 0, out val);
-				selected = val.get_boolean ();
-				pkgs_list.set_value (iter, 0, !selected);
+			GLib.Value selected;
+			if (pkgs_list.get_iter_from_string (out iter, path)) {
+				pkgs_list.get_value (iter, 0, out selected);
+				pkgs_list.set_value (iter, 0, !((bool) selected));
 			}
 		}
 	}

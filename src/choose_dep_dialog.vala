@@ -31,38 +31,20 @@ namespace Pamac {
 
 		public Gtk.ListStore deps_list;
 
-		Transaction transaction;
-
-		public ChooseDependenciesDialog (Transaction transaction, string pkgname, Gtk.ApplicationWindow? window) {
+		public ChooseDependenciesDialog (Gtk.ApplicationWindow? window) {
 			Object (transient_for: window, use_header_bar: 0);
 
-			this.transaction = transaction;
-
-			string[] optdeps = transaction.get_pkg_uninstalled_optdeps (pkgname);
-			label.set_markup ("<b>%s</b>".printf (
-				dngettext (null, "%s has %u uninstalled optional dependency.\nChoose if you would like to install it",
-						"%s has %u uninstalled optional dependencies.\nChoose those you would like to install", optdeps.length).printf (pkgname, optdeps.length)));
 			deps_list = new Gtk.ListStore (3, typeof (bool), typeof (string), typeof (string));
 			treeview.set_model (deps_list);
-			Gtk.TreeIter iter;
-			foreach (var optdep in optdeps) {
-				string[] split = optdep.split (":", 2);
-				deps_list.insert_with_values (out iter, -1,
-										0, false,
-										1, split[0],
-										2, split[1]);
-			}
 		}
 
 		[GtkCallback]
 		void on_renderertoggle_toggled (string path) {
 			Gtk.TreeIter iter;
-			GLib.Value val;
-			bool selected;
+			GLib.Value selected;
 			if (deps_list.get_iter_from_string (out iter, path)) {;
-				deps_list.get_value (iter, 0, out val);
-				selected = val.get_boolean ();
-				deps_list.set_value (iter, 0, !selected);
+				deps_list.get_value (iter, 0, out selected);
+				deps_list.set_value (iter, 0, !((bool) selected));
 			}
 		}
 	}

@@ -33,14 +33,12 @@ namespace Pamac {
 		[GtkChild]
 		public Gtk.Expander expander;
 
-		Transaction transaction;
 		public Vte.Terminal term;
 		Vte.Pty pty;
 
-		public ProgressDialog (Transaction transaction, Gtk.ApplicationWindow? window) {
+		public ProgressDialog (Gtk.ApplicationWindow? window) {
 			Object (transient_for: window, use_header_bar: 0);
 
-			this.transaction = transaction;
 			//creating terminal
 			term = new Vte.Terminal ();
 			term.scroll_on_output = false;
@@ -67,18 +65,6 @@ namespace Pamac {
 		[GtkCallback]
 		public void on_close_button_clicked () {
 			this.hide ();
-			while (Gtk.events_pending ()) {
-				Gtk.main_iteration ();
-			}
-		}
-
-		[GtkCallback]
-		public void on_cancel_button_clicked () {
-			transaction.cancel ();
-			transaction.clear_lists ();
-			spawn_in_term ({"/usr/bin/echo", dgettext (null, "Transaction cancelled") + ".\n"});
-			this.hide ();
-			transaction.finished (false);
 			while (Gtk.events_pending ()) {
 				Gtk.main_iteration ();
 			}

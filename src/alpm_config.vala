@@ -1,7 +1,7 @@
 /*
  *  pamac-vala
  *
- *  Copyright (C) 2014-2015 Guillaume Benoit <guillaume@manjaro.org>
+ *  Copyright (C) 2014-2016 Guillaume Benoit <guillaume@manjaro.org>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -18,112 +18,163 @@
  */
 
 namespace Alpm {
-	class Repo {
+	[Compact]
+	public class Repo {
 		public string name;
 		public Signature.Level siglevel;
+		public Signature.Level siglevel_mask;
 		public DB.Usage usage;
-		public string[] urls;
+		public GLib.List<string> urls;
 
 		public Repo (string name) {
 			this.name = name;
 			siglevel = Signature.Level.USE_DEFAULT;
 			usage = 0;
-			urls = {};
-		} 
+			urls = new GLib.List<string> ();
+		}
+
+		public static int compare_name (Repo a, Repo b) {
+			return strcmp (a.name, b.name);
+		}
+
+		public static int search_name (Repo a, string name) {
+			return strcmp (a.name, name);
+		}
+
 	}
 
+	[Compact]
 	public class Config {
-		string conf_path;
-		string rootdir;
-		string dbpath;
-		string gpgdir;
-		string logfile;
-		string arch;
-		double deltaratio;
-		int usesyslog;
+		public string conf_path;
+		public string? rootdir;
+		public string? dbpath;
+		public string? logfile;
+		public string? gpgdir;
+		public string? arch;
+		public double deltaratio;
+		public int usesyslog;
 		public int checkspace;
-		Alpm.List<string> *cachedirs;
-		Alpm.List<string> *ignoregroups;
-		public Alpm.List<string> *ignorepkgs;
-		Alpm.List<string> *noextracts;
-		Alpm.List<string> *noupgrades;
-		public GLib.List<string> holdpkgs;
-		public GLib.List<string> syncfirsts;
-		Signature.Level defaultsiglevel;
-		Signature.Level localfilesiglevel;
-		Signature.Level remotefilesiglevel;
-		Repo[] repo_order;
-		public unowned Handle? handle;
+		public Alpm.List<string>? cachedirs;
+		public Alpm.List<string?>? hookdirs;
+		public Alpm.List<string>? ignoregroups;
+		public Alpm.List<string>? ignorepkgs;
+		public Alpm.List<string>? noextracts;
+		public Alpm.List<string>? noupgrades;
+		public GLib.List<string>? holdpkgs;
+		public GLib.List<string>? syncfirsts;
+		public Signature.Level siglevel;
+		public Signature.Level localfilesiglevel;
+		public Signature.Level remotefilesiglevel;
+		public Signature.Level siglevel_mask;
+		public Signature.Level localfilesiglevel_mask;
+		public Signature.Level remotefilesiglevel_mask;
+		public GLib.List<Repo> repo_order;
+		public Handle? handle;
 
 		public Config (string path) {
 			conf_path = path;
-			handle = null;
 			reload ();
 		}
 
 		public void reload () {
 			// set default options
-			rootdir = "/";
-			dbpath = "/var/lib/pacman";
-			gpgdir = "/etc/pacman.d/gnupg/";
-			logfile = "/var/log/pacman.log";
-			string default_cachedir = "/var/cache/pacman/pkg/";
-			arch = Posix.utsname().machine;
 			holdpkgs = new GLib.List<string> ();
 			syncfirsts = new GLib.List<string> ();
-			Alpm.List.free_all (cachedirs);
-			Alpm.List.free_all (ignoregroups);
-			Alpm.List.free_all (ignorepkgs);
-			Alpm.List.free_all (noextracts);
-			Alpm.List.free_all (noupgrades);
-			cachedirs = new Alpm.List<string> ();
-			cachedirs->add_str (default_cachedir);
-			ignoregroups = new Alpm.List<string> ();
-			ignorepkgs = new Alpm.List<string> ();
-			noextracts = new Alpm.List<string> ();
-			noupgrades = new Alpm.List<string> ();
+			// free internal data of alpm lists
+			if (cachedirs != null) {
+				cachedirs.free_data ();
+			}
+			if (hookdirs != null) {
+				hookdirs.free_data ();
+			}
+			if (ignoregroups != null) {
+				ignoregroups.free_data ();
+			}
+			if (ignorepkgs != null) {
+				ignorepkgs.free_data ();
+			}
+			if (noextracts != null) {
+				noextracts.free_data ();
+			}
+			if (noupgrades != null) {
+				noupgrades.free_data ();
+			}
 			usesyslog = 0;
 			checkspace = 0;
 			deltaratio = 0.7;
-			defaultsiglevel = Signature.Level.PACKAGE | Signature.Level.PACKAGE_OPTIONAL | Signature.Level.DATABASE | Signature.Level.DATABASE_OPTIONAL;
+			siglevel = Signature.Level.PACKAGE | Signature.Level.PACKAGE_OPTIONAL | Signature.Level.DATABASE | Signature.Level.DATABASE_OPTIONAL;
 			localfilesiglevel = Signature.Level.USE_DEFAULT;
 			remotefilesiglevel = Signature.Level.USE_DEFAULT;
-			repo_order = {};
+			repo_order = new GLib.List<Repo> ();
 			// parse conf file
 			parse_file (conf_path);
+			// if rootdir is set and dbpath/logfile are not
+			// set, then set those as well to reside under the root.
+			if (rootdir != null) {
+				if (dbpath == null) {
+					dbpath = Path.build_path ("/", rootdir, "var/lib/pacman/");
+				}
+				if (logfile == null) {
+					logfile = Path.build_path ("/", rootdir, "var/log/pacman.log");
+				}
+			} else {
+				rootdir = "/";
+				if (dbpath == null) {
+					dbpath = "/var/lib/pacman/";
+				}
+				if (logfile == null) {
+					logfile = "/var/log/pacman.log";
+				}
+			}
+			if (cachedirs.length == 0) {
+				cachedirs.add ("/var/cache/pacman/pkg/");
+			}
+			if (hookdirs.length == 0) {
+				hookdirs.add ("/etc/pacman.d/hooks/");
+			}
+			if (gpgdir == null) {
+				// gpgdir it is not relative to rootdir, even if
+				// rootdir is defined because it contains configuration data.
+				gpgdir = "/etc/pacman.d/gnupg/";
+			}
+			if (arch == null) {
+				arch = Posix.utsname().machine;
+			}
 		}
 
 		public void get_handle () {
 			Alpm.Errno error;
-			if (handle != null) {
-				Handle.release (handle);
-			}
 			handle = Handle.new (rootdir, dbpath, out error);
 			if (handle == null) {
 				stderr.printf ("Failed to initialize alpm library" + " (%s)\n".printf(Alpm.strerror (error)));
 				return;
 			}
 			// define options
-			handle.gpgdir = gpgdir;
 			handle.logfile = logfile;
+			handle.gpgdir = gpgdir;
 			handle.arch = arch;
 			handle.deltaratio = deltaratio;
 			handle.usesyslog = usesyslog;
 			handle.checkspace = checkspace;
-			handle.defaultsiglevel = defaultsiglevel;
-			localfilesiglevel = merge_siglevel (defaultsiglevel, localfilesiglevel);
-			remotefilesiglevel = merge_siglevel (defaultsiglevel, remotefilesiglevel);
+			handle.defaultsiglevel = siglevel;
+			localfilesiglevel = merge_siglevel (siglevel, localfilesiglevel, localfilesiglevel_mask);
+			remotefilesiglevel = merge_siglevel (siglevel, remotefilesiglevel, remotefilesiglevel_mask);
 			handle.localfilesiglevel = localfilesiglevel;
 			handle.remotefilesiglevel = remotefilesiglevel;
 			handle.cachedirs = cachedirs;
+			// add hook directories 1-by-1 to avoid overwriting the system directory
+			foreach (unowned string hookdir in hookdirs) {
+				handle.add_hookdir (hookdir);
+			}
 			handle.ignoregroups = ignoregroups;
 			handle.ignorepkgs = ignorepkgs;
 			handle.noextracts = noextracts;
 			handle.noupgrades = noupgrades;
 			// register dbs
-			foreach (var repo in repo_order) {
+			foreach (unowned Repo repo in repo_order) {
+				repo.siglevel = merge_siglevel (siglevel, repo.siglevel, repo.siglevel_mask);
 				unowned DB db = handle.register_syncdb (repo.name, repo.siglevel);
-				foreach (var url in repo.urls) {
+				foreach (unowned string url in repo.urls) {
 					db.add_server (url.replace ("$repo", repo.name).replace ("$arch", handle.arch));
 				}
 				if (repo.usage == 0) {
@@ -158,21 +209,37 @@ namespace Alpm {
 							current_section = line[1:-1];
 							if (current_section != "options") {
 								var repo = new Repo (current_section);
-								repo_order += repo;
+								if (repo_order.find_custom (repo, Repo.compare_name) == null) {
+									repo_order.append ((owned) repo);
+								}
 							}
 							continue;
 						}
 						splitted = line.split ("=", 2);
-						string key = splitted[0].strip ();
-						string? val = null;
-						if (splitted[1] != null) {
-							val = splitted[1].strip ();
+						unowned string key = splitted[0]._strip ();
+						unowned string? val = null;
+						if (splitted.length == 2) {
+							val = splitted[1]._strip ();
 						}
 						if (key == "Include") {
 							parse_file (val, current_section);
 						}
 						if (current_section == "options") {
-							if (key == "GPGDir") {
+							if (key == "RootDir") {
+								rootdir = val;
+							} else if (key == "DBPath") {
+								dbpath = val;
+							} else if (key == "CacheDir") {
+								foreach (unowned string dir in val.split (" ")) {
+									cachedirs.add (dir);
+								}
+							} else if (key == "HookDir") {
+								foreach (unowned string dir in val.split (" ")) {
+									hookdirs.add (dir);
+								}
+							} else if (key == "LogFile") {
+								logfile = val;
+							} else if (key == "GPGDir") {
 								gpgdir = val;
 							} else if (key == "LogFile") {
 								logfile = val;
@@ -189,53 +256,46 @@ namespace Alpm {
 							} else if (key == "CheckSpace") {
 								checkspace = 1;
 							} else if (key == "SigLevel") {
-								defaultsiglevel = define_siglevel (defaultsiglevel, val);
+								process_siglevel (val, ref siglevel, ref siglevel_mask);
 							} else if (key == "LocalFileSigLevel") {
-								localfilesiglevel = define_siglevel (localfilesiglevel, val);
+								process_siglevel (val, ref localfilesiglevel, ref localfilesiglevel_mask);
 							} else if (key == "RemoteFileSigLevel") {
-								remotefilesiglevel = define_siglevel (remotefilesiglevel, val);
+								process_siglevel (val, ref remotefilesiglevel, ref remotefilesiglevel_mask);
 							} else if (key == "HoldPkg") {
-								foreach (string name in val.split (" ")) {
+								foreach (unowned string name in val.split (" ")) {
 									holdpkgs.append (name);
 								}
 							} else if (key == "SyncFirst") {
-								foreach (string name in val.split (" ")) {
+								foreach (unowned string name in val.split (" ")) {
 									syncfirsts.append (name);
 								}
-							} else if (key == "CacheDir") {
-								foreach (string dir in val.split (" ")) {
-									cachedirs->add_str (dir);
-								}
 							} else if (key == "IgnoreGroup") {
-								foreach (string name in val.split (" ")) {
-									ignoregroups->add_str (name);
+								foreach (unowned string name in val.split (" ")) {
+									ignoregroups.add (name);
 								}
 							} else if (key == "IgnorePkg") {
-								foreach (string name in val.split (" ")) {
-									ignorepkgs->add_str (name);
+								foreach (unowned string name in val.split (" ")) {
+									ignorepkgs.add (name);
 								}
 							} else if (key == "Noextract") {
-								foreach (string name in val.split (" ")) {
-									noextracts->add_str (name);
+								foreach (unowned string name in val.split (" ")) {
+									noextracts.add (name);
 								}
 							} else if (key == "NoUpgrade") {
-								foreach (string name in val.split (" ")) {
-									noupgrades->add_str (name);
+								foreach (unowned string name in val.split (" ")) {
+									noupgrades.add (name);
 								}
 							}
 						} else {
-							foreach (var repo in repo_order) {
-								if (repo.name == current_section) {
-									if (key == "Server") {
-										repo.urls += val;
-									} else if (key == "SigLevel") {
-										if (repo.siglevel == Signature.Level.USE_DEFAULT) {
-											repo.siglevel = defaultsiglevel;
-										}
-										repo.siglevel = define_siglevel (repo.siglevel, val);
-									} else if (key == "Usage") {
-										repo.usage = define_usage (val);
-									}
+							unowned GLib.List<Repo>? found = repo_order.search (current_section, (SearchFunc) Repo.search_name);
+							if (found != null) {
+								unowned Repo repo = found.data;
+								if (key == "Server") {
+									repo.urls.append (val);
+								} else if (key == "SigLevel") {
+									process_siglevel (val, ref repo.siglevel, ref repo.siglevel_mask);
+								} else if (key == "Usage") {
+									repo.usage = define_usage (val);
 								}
 							}
 						}
@@ -295,7 +355,7 @@ namespace Alpm {
 					file.delete ();
 					// creating a DataOutputStream to the file
 					var dos = new DataOutputStream (file.create (FileCreateFlags.REPLACE_DESTINATION));
-					foreach (string new_line in data) {
+					foreach (unowned string new_line in data) {
 						// writing a short string to the stream
 						dos.put_string (new_line);
 					}
@@ -309,7 +369,7 @@ namespace Alpm {
 
 		public DB.Usage define_usage (string conf_string) {
 			DB.Usage usage = 0;
-			foreach (string directive in conf_string.split(" ")) {
+			foreach (unowned string directive in conf_string.split(" ")) {
 				if (directive == "Sync") {
 					usage |= DB.Usage.SYNC;
 				} else if (directive == "Search") {
@@ -325,8 +385,8 @@ namespace Alpm {
 			return usage;
 		}
 
-		public Signature.Level define_siglevel (Signature.Level default_level, string conf_string) {
-			foreach (string directive in conf_string.split(" ")) {
+		public void process_siglevel (string conf_string, ref Signature.Level siglevel, ref Signature.Level siglevel_mask) {
+			foreach (unowned string directive in conf_string.split(" ")) {
 				bool affect_package = false;
 				bool affect_database = false;
 				if ("Package" in directive) {
@@ -339,72 +399,62 @@ namespace Alpm {
 				}
 				if ("Never" in directive) {
 					if (affect_package) {
-						default_level &= ~Signature.Level.PACKAGE;
-						default_level |= Signature.Level.PACKAGE_SET;
+						siglevel &= ~Signature.Level.PACKAGE;
+						siglevel_mask |= Signature.Level.PACKAGE;
 					}
 					if (affect_database) {
-						default_level &= ~Signature.Level.DATABASE;
+						siglevel &= ~Signature.Level.DATABASE;
+						siglevel_mask |= Signature.Level.DATABASE;
 					}
 				} else if ("Optional" in directive) {
 					if (affect_package) {
-						default_level |= Signature.Level.PACKAGE;
-						default_level |= Signature.Level.PACKAGE_OPTIONAL;
-						default_level |= Signature.Level.PACKAGE_SET;
+						siglevel |= (Signature.Level.PACKAGE | Signature.Level.PACKAGE_OPTIONAL);
+						siglevel_mask |= (Signature.Level.PACKAGE | Signature.Level.PACKAGE_OPTIONAL);
 					}
 					if (affect_database) {
-						default_level |= Signature.Level.DATABASE;
-						default_level |= Signature.Level.DATABASE_OPTIONAL;
+						siglevel |= (Signature.Level.DATABASE | Signature.Level.DATABASE_OPTIONAL);
+						siglevel_mask |= (Signature.Level.DATABASE | Signature.Level.DATABASE_OPTIONAL);
 					}
 				} else if ("Required" in directive) {
 					if (affect_package) {
-						default_level |= Signature.Level.PACKAGE;
-						default_level &= ~Signature.Level.PACKAGE_OPTIONAL;
-						default_level |= Signature.Level.PACKAGE_SET;
+						siglevel |= Signature.Level.PACKAGE;
+						siglevel_mask |= Signature.Level.PACKAGE;
+						siglevel &= ~Signature.Level.PACKAGE_OPTIONAL;
+						siglevel_mask |= Signature.Level.PACKAGE_OPTIONAL;
 					}
 					if (affect_database) {
-						default_level |= Signature.Level.DATABASE;
-						default_level &= ~Signature.Level.DATABASE_OPTIONAL;
+						siglevel |= Signature.Level.DATABASE;
+						siglevel_mask |= Signature.Level.DATABASE;
+						siglevel &= ~Signature.Level.DATABASE_OPTIONAL;
+						siglevel_mask |= Signature.Level.DATABASE_OPTIONAL;
 					}
 				} else if ("TrustedOnly" in directive) {
 					if (affect_package) {
-						default_level &= ~Signature.Level.PACKAGE_MARGINAL_OK;
-						default_level &= ~Signature.Level.PACKAGE_UNKNOWN_OK;
-						default_level |= Signature.Level.PACKAGE_TRUST_SET;
+						siglevel &= ~(Signature.Level.PACKAGE_MARGINAL_OK | Signature.Level.PACKAGE_UNKNOWN_OK);
+						siglevel_mask |= (Signature.Level.PACKAGE_MARGINAL_OK | Signature.Level.PACKAGE_UNKNOWN_OK);
 					}
 					if (affect_database) {
-						default_level &= ~Signature.Level.DATABASE_MARGINAL_OK;
-						default_level &= ~Signature.Level.DATABASE_UNKNOWN_OK;
+						siglevel &= ~(Signature.Level.DATABASE_MARGINAL_OK | Signature.Level.DATABASE_UNKNOWN_OK);
+						siglevel_mask |= (Signature.Level.DATABASE_MARGINAL_OK | Signature.Level.DATABASE_UNKNOWN_OK);
 					}
 				} else if ("TrustAll" in directive) {
 					if (affect_package) {
-						default_level |= Signature.Level.PACKAGE_MARGINAL_OK;
-						default_level |= Signature.Level.PACKAGE_UNKNOWN_OK;
-						default_level |= Signature.Level.PACKAGE_TRUST_SET;
+						siglevel |= (Signature.Level.PACKAGE_MARGINAL_OK | Signature.Level.PACKAGE_UNKNOWN_OK);
+						siglevel_mask |= (Signature.Level.PACKAGE_MARGINAL_OK | Signature.Level.PACKAGE_UNKNOWN_OK);
 					}
 					if (affect_database) {
-						default_level |= Signature.Level.DATABASE_MARGINAL_OK;
-						default_level |= Signature.Level.DATABASE_UNKNOWN_OK;
+						siglevel |= (Signature.Level.DATABASE_MARGINAL_OK | Signature.Level.DATABASE_UNKNOWN_OK);
+						siglevel_mask |= (Signature.Level.DATABASE_MARGINAL_OK | Signature.Level.DATABASE_UNKNOWN_OK);
 					}
 				} else {
 					GLib.stderr.printf("unrecognized siglevel: %s\n", conf_string);
 				}
 			}
-			default_level &= ~Signature.Level.USE_DEFAULT;
-			return default_level;
+			siglevel &= ~Signature.Level.USE_DEFAULT;
 		}
 
-		public Signature.Level merge_siglevel (Signature.Level base_level, Signature.Level over_level) {
-			if ((over_level & Signature.Level.USE_DEFAULT) == 0) {
-				if ((over_level & Signature.Level.PACKAGE_SET) == 0) {
-					over_level |= base_level & Signature.Level.PACKAGE;
-					over_level |= base_level & Signature.Level.PACKAGE_OPTIONAL;
-				}
-				if ((over_level & Signature.Level.PACKAGE_TRUST_SET) == 0) {
-					over_level |= base_level & Signature.Level.PACKAGE_MARGINAL_OK;
-					over_level |= base_level & Signature.Level.PACKAGE_UNKNOWN_OK;
-				}
-			}
-			return over_level;
+		public Signature.Level merge_siglevel(Signature.Level sigbase, Signature.Level sigover, Signature.Level sigmask) {
+			return (sigmask != 0) ? (sigover & sigmask) | (sigbase & ~sigmask) : sigover;
 		}
 	}
 }

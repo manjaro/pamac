@@ -50,14 +50,14 @@ namespace Pamac {
 		}
 
 		public override void activate () {
-			if (pamac_run == false) {
+			if (!pamac_run) {
 				updater_window.present ();
 			}
 		}
 
 		public override void shutdown () {
 			base.shutdown ();
-			if (pamac_run == false) {
+			if (!pamac_run) {
 				updater_window.transaction.stop_daemon ();
 			}
 		}

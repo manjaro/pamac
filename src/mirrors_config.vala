@@ -18,9 +18,10 @@
  */
 
 namespace Alpm {
+	[Compact]
 	public class MirrorsConfig: Object {
-		string conf_path;
-		string mirrorlists_dir;
+		public string conf_path;
+		public string mirrorlists_dir;
 		public string choosen_generation_method;
 		public string choosen_country;
 		public GLib.List<string> countrys;
@@ -47,9 +48,7 @@ namespace Alpm {
 				while ((file_info = enumerator.next_file ()) != null) {
 					countrys.append(file_info.get_name ());
 				}
-				countrys.sort ((a, b) => {
-					return strcmp (a, b);
-				});
+				countrys.sort (strcmp);
 			} catch (Error e) {
 				stderr.printf ("%s\n", e.message);
 			}
@@ -57,9 +56,7 @@ namespace Alpm {
 
 		public void parse_file (string path) {
 			var file = GLib.File.new_for_path (path);
-			if (file.query_exists () == false) {
-				GLib.stderr.printf ("File '%s' doesn't exist.\n", path);
-			} else {
+			if (file.query_exists ()) {
 				try {
 					// Open file for reading and wrap returned FileInputStream into a
 					// DataInputStream, so we can read line by line
@@ -76,11 +73,11 @@ namespace Alpm {
 						if (line.length == 0) {
 							continue;
 						}
-						splitted = line.split ("=");
-						string key = splitted[0].strip ();
-						string? val = null;
-						if (splitted[1] != null) {
-							val = splitted[1].strip ();
+						splitted = line.split ("=", 2);
+						unowned string key = splitted[0]._strip ();
+						unowned string? val = null;
+						if (splitted.length == 2) {
+							val = splitted[1]._strip ();
 						}
 						if (key == "Method") {
 							choosen_generation_method = val;
@@ -93,59 +90,60 @@ namespace Alpm {
 				} catch (Error e) {
 					GLib.stderr.printf("%s\n", e.message);
 				}
+			} else {
+				GLib.stderr.printf ("File '%s' doesn't exist.\n", path);
 			}
 		}
 
 		public void write (HashTable<string,Variant> new_conf) {
 			var file = GLib.File.new_for_path (conf_path);
-			if (file.query_exists () == false) {
-				GLib.stderr.printf ("File '%s' doesn't exist.\n", file.get_path ());
-			} else {
+			if (file.query_exists ()) {
 				try {
 					// Open file for reading and wrap returned FileInputStream into a
 					// DataInputStream, so we can read line by line
 					var dis = new DataInputStream (file.read ());
 					string? line;
-					string[] data = {};
+					var data = new GLib.List<string> ();
 					// Read lines until end of file (null) is reached
 					while ((line = dis.read_line ()) != null) {
 						if (line.length == 0) {
-							data += "\n";
+							data.append ("\n");
 							continue;
 						}
+						unowned Variant variant;
 						if (line.contains ("Method")) {
-							if (new_conf.contains ("Method")) {
-								string val = new_conf.get ("Method").get_string ();
-								data += "Method=%s\n".printf (val);
+							if (new_conf.lookup_extended ("Method", null, out variant)) {
+								data.append ("Method=%s\n".printf (variant.get_string ()));
 							} else {
-								data += line + "\n";
+								data.append (line + "\n");
 							}
 						} else if (line.contains ("OnlyCountry")) {
-							if (new_conf.contains ("OnlyCountry")) {
-								string val = new_conf.get ("OnlyCountry").get_string ();
-								if (val == dgettext (null, "Worldwide")) {
-									data += "#%s\n".printf (line);
+							if (new_conf.lookup_extended ("OnlyCountry", null, out variant)) {
+								if (variant.get_string () == dgettext (null, "Worldwide")) {
+									data.append ("#%s\n".printf (line));
 								} else {
-									data += "OnlyCountry=%s\n".printf (val);
+									data.append ("OnlyCountry=%s\n".printf (variant.get_string ()));
 								}
 							} else {
-								data += line + "\n";
+								data.append (line + "\n");
 							}
 						} else {
-							data += line + "\n";
+							data.append (line + "\n");
 						}
 					}
 					// delete the file before rewrite it
 					file.delete ();
 					// creating a DataOutputStream to the file
 					var dos = new DataOutputStream (file.create (FileCreateFlags.REPLACE_DESTINATION));
-					foreach (string new_line in data) {
+					foreach (unowned string new_line in data) {
 						// writing a short string to the stream
 						dos.put_string (new_line);
 					}
 				} catch (GLib.Error e) {
 					GLib.stderr.printf("%s\n", e.message);
 				}
+			} else {
+				GLib.stderr.printf ("File '%s' doesn't exist.\n", file.get_path ());
 			}
 		}
 	}

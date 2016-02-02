@@ -31,6 +31,14 @@ namespace Alpm {
 	*/
 	public unowned string version();
 
+	[CCode (cname = "alpm_caps", cprefix = "ALPM_CAPABILITY_")]
+	public enum Capabilities {
+		NLS = (1 << 0),
+		DOWNLOADER = (1 << 1),
+		SIGNATURES = (1 << 2)
+	}
+	public Capabilities capabilities();
+
 	public unowned Package? find_satisfier(Alpm.List<Package> pkgs, string depstring);
 
 	public unowned Package? pkg_find(Alpm.List<Package> haystack, string needle);
@@ -45,14 +53,11 @@ namespace Alpm {
 	/**
 	 * Handle
 	 */
-	[CCode (cname = "alpm_handle_t")]
+	[CCode (cname = "alpm_handle_t", free_function = "alpm_release")]
 	[Compact]
 	public class Handle {
 		[CCode (cname = "alpm_initialize")]
-		public static unowned Handle @new(string root, string dbpath, out Alpm.Errno error);
-
-		[CCode (cname = "alpm_release")]
-		public static int release (Handle handle);
+		public static Handle? @new(string root, string dbpath, out Alpm.Errno error);
 
 		public unowned string root {
 			[CCode (cname = "alpm_option_get_root")] get;
@@ -72,6 +77,15 @@ namespace Alpm {
 		public int add_cachedir(string cachedir);
 		[CCode (cname = "alpm_option_remove_cachedir")]
 		public int remove_cachedir(string cachedir);
+
+		public unowned Alpm.List<unowned string?> hookdirs {
+			[CCode (cname = "alpm_option_get_hookdirs")] get;
+			[CCode (cname = "alpm_option_set_hookdirs")] set;
+		}
+		[CCode (cname = "alpm_option_add_hookdir")]
+		public int add_hookdir(string hookdir);
+		[CCode (cname = "alpm_option_remove_hookdir")]
+		public int remove_hookdir(string hookdir);
 
 		public unowned string logfile {
 			[CCode (cname = "alpm_option_get_logfile")] get;
@@ -146,6 +160,11 @@ namespace Alpm {
 			[CCode (cname = "alpm_option_set_checkspace")] set;
 		}
 
+		public unowned string dbext {
+			[CCode (cname = "alpm_option_get_dbext")] get;
+			[CCode (cname = "alpm_option_set_dbext")] set;
+		}
+
 		public Signature.Level defaultsiglevel {
 			[CCode (cname = "alpm_option_get_default_siglevel")] get;
 			[CCode (cname = "alpm_option_set_default_siglevel")] set;
@@ -194,6 +213,9 @@ namespace Alpm {
 			[CCode (cname = "alpm_option_get_progresscb")] get;
 			[CCode (cname = "alpm_option_set_progresscb")] set;
 		}
+
+		[CCode (cname = "alpm_unlock")]
+		public int unlock();
 
 		[CCode (cname = "alpm_register_syncdb")]
 		public unowned DB? register_syncdb(string treename, Signature.Level level);
@@ -301,7 +323,7 @@ namespace Alpm {
 	[CCode (cname = "alpm_db_t", cprefix = "alpm_db_")]
 	[Compact]
 	public class DB {
-		public static int unregister(DB db);
+		public static int unregister(owned DB db);
 
 		public unowned string name {
 			[CCode (cname = "alpm_db_get_name")] get;
@@ -354,12 +376,9 @@ namespace Alpm {
 	/**
 	 * Packages
 	 */
-	[CCode (cname = "alpm_pkg_t", cprefix = "alpm_pkg_")]
+	[CCode (cname = "alpm_pkg_t", cprefix = "alpm_pkg_", free_function = "alpm_pkg_free")]
 	[Compact]
 	public class Package {
-
-		public static int free(Package pkg);
-
 		/* properties */
 		public unowned string filename {
 			[CCode (cname = "alpm_pkg_get_filename")] get;
@@ -369,6 +388,9 @@ namespace Alpm {
 		}
 		public unowned string version {
 			[CCode (cname = "alpm_pkg_get_version")] get;
+		}
+		public unowned string pkgbase {
+			[CCode (cname = "alpm_pkg_get_base")] get;
 		}
 		public From origin {
 			[CCode (cname = "alpm_pkg_get_origin")] get;
@@ -684,9 +706,6 @@ namespace Alpm {
 			DATABASE_MARGINAL_OK = (1 << 12),
 			DATABASE_UNKNOWN_OK = (1 << 13),
 
-			PACKAGE_SET = (1 << 27),
-			PACKAGE_TRUST_SET = (1 << 28),
-
 			USE_DEFAULT = (1 << 31)
 		}
 
@@ -717,6 +736,13 @@ namespace Alpm {
 		public size_t count;
 		[CCode (array_length_cname = "count", array_length_type = "size_t")]
 		public unowned Signature.Result[] results;
+	}
+
+	/** Hooks */
+	[CCode (cname = "alpm_hook_when_t", cprefix = "ALPM_HOOK_")]
+	public enum HookWhen {
+		PRE_TRANSACTION = 1,
+		POST_TRANSACTION
 	}
 
 	/** Logging Levels */
@@ -754,6 +780,10 @@ namespace Alpm {
 			INTERCONFLICTS_START,
 			/** Inter-conflicts were checked for target package. */
 			INTERCONFLICTS_DONE,
+			/** Processing the package transaction is starting. */
+			TRANSACTION_START,
+			/** Processing the package transaction is finished. */
+			TRANSACTION_DONE,
 			/** Package will be installed/upgraded/downgraded/re-installed/removed; See
 			 * PackageOperation for arguments. */
 			PACKAGE_OPERATION_START,
@@ -824,9 +854,14 @@ namespace Alpm {
 			/** A .pacsave file was created; See PacsaveCreated for
 			 * arguments */
 			PACSAVE_CREATED,
-			/** A .pacorig file was created; See PacorigCreated for
-			 * arguments */
-			PACORIG_CREATED
+			/** Processing hooks will be started. */
+			HOOK_START,
+			/** Processing hooks is finished. */
+			HOOK_DONE,
+			/** A hook is starting */
+			HOOK_RUN_START,
+			/** A hook has finnished runnning */
+			HOOK_RUN_DONE
 		}
 
 		[CCode (cname = "alpm_event_any_t", has_type_id = false)]
@@ -913,14 +948,26 @@ namespace Alpm {
 			public unowned string file;
 		}
 
-		[CCode (cname = "alpm_event_pacorig_created_t", has_type_id = false)]
-		public class PacorigCreated {
-			/** Type of event. */
+		[CCode (cname = "alpm_event_hook_t", has_type_id = false)]
+		public class Hook {
+			/** Type of event.*/
 			public Type type;
-			/** New package. */
-			public unowned Package newpkg;
-			/** Filename of the file without the .pacorig suffix. */
-			public unowned string file;
+			/** Type of hooks. */
+			public HookWhen when;
+		}
+
+		[CCode (cname = "alpm_event_hook_run_t", has_type_id = false)]
+		public class HookRun {
+			/** Type of event.*/
+			public Type type;
+			/** Name of hook */
+			public unowned string name;
+			/** Description of hook to be outputted */
+			public unowned string desc;
+			/** position of hook being run */
+			public size_t position;
+			/** total hooks being run */
+			public size_t total;
 		}
 
 		/** This is an union passed to the callback, that allows the frontend to know
@@ -969,11 +1016,18 @@ namespace Alpm {
 			public unowned Package pacsave_created_oldpkg;
 			[CCode (cname = "pacsave_created.file")]
 			public unowned string pacsave_created_file;
-			// PacorigCreated pacorig_created;
-			[CCode (cname = "pacorig_created.newpkg")]
-			public unowned Package pacorig_created_newpkg;
-			[CCode (cname = "pacorig_created.file")]
-			public unowned string pacorig_created_file;
+			// Hook hook;
+			[CCode (cname = "hook.when")]
+			public HookWhen hook_when;
+			// HookRun hook_run;
+			[CCode (cname = "hook_run.name")]
+			public unowned string hook_run_name;
+			[CCode (cname = "hook_run.desc")]
+			public unowned string hook_run_desc;
+			[CCode (cname = "hook_run.position")]
+			public size_t hook_run_position;
+			[CCode (cname = "hook_run.total")]
+			public size_t hook_run_total;
 		}
 	}
 
@@ -1070,7 +1124,7 @@ namespace Alpm {
 			/** Answer: which provider to use (index from providers). */
 			public int use_index;
 			/** List of alpm_pkg_t* as possible providers. */
-			public unowned Alpm.List<Package?> providers;
+			public unowned Alpm.List<unowned Package?> providers;
 			/** What providers provide for. */
 			public unowned Depend depend;
 		}
@@ -1130,7 +1184,7 @@ namespace Alpm {
 			[CCode (cname = "select_provider.use_index")]
 			public int select_provider_use_index;
 			[CCode (cname = "select_provider.providers")]
-			public unowned Alpm.List<Package?> select_provider_providers;
+			public unowned Alpm.List<unowned Package?> select_provider_providers;
 			[CCode (cname = "select_provider.depend")]
 			public unowned Depend select_provider_depend;
 			// ImportKey import_key;
@@ -1261,6 +1315,7 @@ namespace Alpm {
 		TRANS_ABORT,
 		TRANS_TYPE,
 		TRANS_NOT_LOCKED,
+		TRANS_HOOK_FAILED,
 		/* Packages */
 		PKG_NOT_FOUND,
 		PKG_IGNORED,
@@ -1293,17 +1348,14 @@ namespace Alpm {
 		GPGME
 	}
 
-[CCode (cname = "alpm_list_t", cprefix = "alpm_list_", cheader_filename = "alpm_list.h,alpm-util.h",
-		free_function = "alpm_list_free")]
+	[CCode (cname = "alpm_list_t", cprefix = "alpm_list_", cheader_filename = "alpm_list.h,alpm-util.h",
+			dup_function = "alpm_list_copy", free_function = "alpm_list_free")]
 	[Compact]
 	public class List<G> {
 
-		[CCode (cname = "alpm_list_new")]
 		public List ();
 
-		public static void free_all(List list);
-
-		/* Comparator*/
+		/* comparator */
 		[CCode (cname = "alpm_list_fn_cmp", has_target = false)]
 		public delegate int CompareFunc<G>(G a, G b);
 
@@ -1317,25 +1369,25 @@ namespace Alpm {
 
 		/* item mutators */
 		[ReturnsModifiedPointer ()]
-		public unowned void add(G data);
+		public void add(owned G data);
 
 		[ReturnsModifiedPointer ()]
-		public unowned void add_str(string str);
+		public void join(owned List<G> list);
 
 		[ReturnsModifiedPointer ()]
-		public unowned void join(List<G> list);
+		public void sort(CompareFunc fn);
 
-		[CCode (cname = "alpm_list_sort_data"), ReturnsModifiedPointer ()]
-		public unowned void sort(CompareFunc fn);
+		[ReturnsModifiedPointer ()]
+		public void remove(G data, CompareFunc fn, out G removed_data );
 
-		[CCode (cname = "alpm_list_remove_data"), ReturnsModifiedPointer ()]
-		public unowned void? remove(G data, CompareFunc fn);
+		/* free the internal data of this */
+		public void free_data();
 
-		public List<G> copy();
+		public List<unowned G> copy();
 		public List<G> copy_data();
 
 		[ReturnsModifiedPointer ()]
-		public unowned void reverse ();
+		public void reverse ();
 
 		/* item accessors */
 		public unowned List<G>? first();
@@ -1344,13 +1396,12 @@ namespace Alpm {
 		public unowned List<G>? next();
 		public unowned List<G>? previous();
 
-		public unowned G? nth_data(size_t index);
-
 		/* misc */
+		public unowned G? find(G needle, CompareFunc fn);
 		public unowned string? find_str(string needle);
 
 		/** @return a list containing all items in `this` not present in `list` */
-		public unowned List<G>? diff(List<G>? list, CompareFunc fn);
+		public List<unowned G>? diff(List<G>? list, CompareFunc fn);
 
 		/* iterator */
 		public Iterator<G> iterator();
@@ -1359,6 +1410,7 @@ namespace Alpm {
 		public struct Iterator<G> {
 			public unowned G? next_value();
 		}
+
 	}
 }
 

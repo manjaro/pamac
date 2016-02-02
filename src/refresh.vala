@@ -1,7 +1,7 @@
 /*
  *  pamac-vala
  *
- *  Copyright (C) 2014-2015 Guillaume Benoit <guillaume@manjaro.org>
+ *  Copyright (C) 2014-2016 Guillaume Benoit <guillaume@manjaro.org>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -24,10 +24,10 @@ namespace Pamac {
 	}
 	[DBus (name = "org.manjaro.pamac")]
 	public interface Daemon : Object {
-		public abstract void start_refresh (int force) throws IOError;
+		public abstract void start_refresh (bool force) throws IOError;
 		[DBus (no_reply = true)]
 		public abstract void quit () throws IOError;
-		public signal void refresh_finished (ErrorInfos error);
+		public signal void refresh_finished (bool success);
 	}
 }
 
@@ -84,10 +84,9 @@ int main () {
 	if (pamac_config.refresh_period != 0) {
 		if (!check_pamac_running ()) {
 			try {
-				pamac_daemon = Bus.get_proxy_sync (BusType.SYSTEM, "org.manjaro.pamac",
-														"/org/manjaro/pamac");
+				pamac_daemon = Bus.get_proxy_sync (BusType.SYSTEM, "org.manjaro.pamac", "/org/manjaro/pamac");
 				pamac_daemon.refresh_finished.connect (on_refresh_finished);
-				pamac_daemon.start_refresh (0);
+				pamac_daemon.start_refresh (false);
 				loop = new MainLoop ();
 				loop.run ();
 			} catch (IOError e) {

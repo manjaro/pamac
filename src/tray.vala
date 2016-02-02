@@ -1,7 +1,7 @@
 /*
  *  pamac-vala
  *
- *  Copyright (C) 2014-2015 Guillaume Benoit <guillaume@manjaro.org>
+ *  Copyright (C) 2014-2016 Guillaume Benoit <guillaume@manjaro.org>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -27,12 +27,12 @@ const string noupdate_info = _("Your system is up-to-date");
 namespace Pamac {
 	[DBus (name = "org.manjaro.pamac")]
 	public interface Daemon : Object {
-		public abstract void start_refresh (int force) throws IOError;
-		public abstract async Updates get_updates (bool check_aur_updates) throws IOError;
+		public abstract void start_refresh (bool force) throws IOError;
+		public abstract void start_get_updates (bool check_aur_updates) throws IOError;
 		[DBus (no_reply = true)]
 		public abstract void quit () throws IOError;
-		public signal void refresh_finished (ErrorInfos error);
-		public signal void write_pamac_config_finished (bool recurse, int refresh_period, bool no_update_hide_icon,
+		public signal void get_updates_finished (Updates updates);
+		public signal void write_pamac_config_finished (bool recurse, uint64 refresh_period, bool no_update_hide_icon,
 														bool enable_aur, bool search_aur, bool check_aur_updates,
 														bool no_confirm_build);
 		public signal void write_alpm_config_finished (bool checkspace);
@@ -40,6 +40,7 @@ namespace Pamac {
 
 	public class TrayIcon: Gtk.Application {
 		Notify.Notification notification;
+//~ 		Notification notification;
 		Daemon daemon;
 		bool extern_lock;
 		uint refresh_timeout_id;
@@ -54,9 +55,9 @@ namespace Pamac {
 
 		void start_daemon () {
 			try {
-				daemon = Bus.get_proxy_sync (BusType.SYSTEM, "org.manjaro.pamac",
-														"/org/manjaro/pamac");
+				daemon = Bus.get_proxy_sync (BusType.SYSTEM, "org.manjaro.pamac", "/org/manjaro/pamac");
 				// Connecting to signals
+				daemon.get_updates_finished.connect (on_get_updates_finished);
 				daemon.write_pamac_config_finished.connect (on_write_pamac_config_finished);
 				daemon.write_alpm_config_finished.connect (on_write_alpm_config_finished);
 			} catch (IOError e) {
@@ -65,7 +66,7 @@ namespace Pamac {
 		}
 
 		void stop_daemon () {
-			if (check_pamac_running () == false) {
+			if (!check_pamac_running ()) {
 				try {
 					daemon.quit ();
 				} catch (IOError e) {
@@ -128,7 +129,7 @@ namespace Pamac {
 				check_updates ();
 			} else {
 				try {
-					daemon.start_refresh (0);
+					daemon.start_refresh (false);
 				} catch (IOError e) {
 					stderr.printf ("IOError: %s\n", e.message);
 				}
@@ -136,10 +137,8 @@ namespace Pamac {
 			return true;
 		}
 
-		void on_write_pamac_config_finished (bool recurse, int refresh_period, bool no_update_hide_icon,
-											bool enable_aur, bool search_aur, bool check_aur_updates,
-											bool no_confirm_build) {
-			launch_refresh_timeout ((uint) refresh_period);
+		void on_write_pamac_config_finished (bool recurse, uint64 refresh_period) {
+			launch_refresh_timeout (refresh_period);
 			if (refresh_period == 0) {
 				status_icon.visible = false;
 			} else {
@@ -151,36 +150,40 @@ namespace Pamac {
 			check_updates ();
 		}
 
+		void on_get_updates_finished (Updates updates) {
+			uint updates_nb = updates.repos_updates.length + updates.aur_updates.length;
+			if (updates_nb == 0) {
+				this.update_icon (noupdate_icon_name, noupdate_info);
+				var pamac_config = new Pamac.Config ("/etc/pamac.conf");
+				if (pamac_config.no_update_hide_icon) {
+					status_icon.visible = false;
+				} else {
+					status_icon.visible = true;
+				}
+				close_notification();
+			} else {
+				string info = ngettext ("%u available update", "%u available updates", updates_nb).printf (updates_nb);
+				this.update_icon (update_icon_name, info);
+				status_icon.visible = true;
+				if (check_pamac_running ()) {
+					update_notification (info);
+				} else {
+					show_notification (info);
+				}
+			}
+			stop_daemon ();
+		}
+
 		void check_updates () {
 			var pamac_config = new Pamac.Config ("/etc/pamac.conf");
 			if (pamac_config.refresh_period == 0) {
 				return;
 			}
-			daemon.get_updates.begin ((pamac_config.enable_aur && pamac_config.check_aur_updates), (obj, res) => {
-				var updates = Updates ();
-				try {
-					updates = daemon.get_updates.end (res);
-				} catch (IOError e) {
-					stderr.printf ("IOError: %s\n", e.message);
-				}
-				uint updates_nb = updates.repos_updates.length + updates.aur_updates.length;
-				if (updates_nb == 0) {
-					this.update_icon (noupdate_icon_name, noupdate_info);
-					if (pamac_config.no_update_hide_icon) {
-						status_icon.visible = false;
-					} else {
-						status_icon.visible = true;
-					}
-				} else {
-					string info = ngettext ("%u available update", "%u available updates", updates_nb).printf (updates_nb);
-					this.update_icon (update_icon_name, info);
-					status_icon.visible = true;
-					if (check_pamac_running () == false) {
-						show_notification (info);
-					}
-				}
-				stop_daemon ();
-			});
+			try {
+				daemon.start_get_updates (pamac_config.enable_aur && pamac_config.check_aur_updates);
+			} catch (IOError e) {
+				stderr.printf ("IOError: %s\n", e.message);
+			}
 		}
 
 		void show_notification (string info) {
@@ -193,11 +196,39 @@ namespace Pamac {
 //~ 				action.activate.connect (execute_updater);
 //~ 				this.add_action (action);
 //~ 				notification.add_button (_("Show available updates"), "app.update");
+//~ 				notification.set_default_action ("app.update");
 //~ 				this.send_notification (_("Update Manager"), notification);
 			try {
+				close_notification();
 				notification = new Notify.Notification (_("Update Manager"), info, "system-software-update");
-				notification.add_action ("update", _("Show available updates"), execute_updater);
+				notification.add_action ("default", _("Show available updates"), execute_updater);
 				notification.show ();
+			} catch (Error e) {
+				stderr.printf ("Notify Error: %s", e.message);
+			}
+		}
+
+		void update_notification (string info) {
+			try {
+				if (notification != null) {
+					if (notification.get_closed_reason() == -1 && notification.body != info) {
+						notification.update (_("Update Manager"), info, "system-software-update");
+						notification.show ();
+					}
+				} else {
+					show_notification (info);
+				}
+			} catch (Error e) {
+				stderr.printf ("Notify Error: %s", e.message);
+			}
+		}
+
+		void close_notification () {
+			try {
+				if (notification != null) {
+				 	notification.close();
+				 	notification = null;
+				}
 			} catch (Error e) {
 				stderr.printf ("Notify Error: %s", e.message);
 			}
@@ -238,7 +269,7 @@ namespace Pamac {
 
 		bool check_pacman_running () {
 			if (extern_lock) {
-				if (lockfile.query_exists () == false) {
+				if (!lockfile.query_exists ()) {
 					extern_lock = false;
 					// let the time to the daemon to update packages
 					Timeout.add (1000, () => {
@@ -247,20 +278,20 @@ namespace Pamac {
 					});
 				}
 			} else {
-				if (lockfile.query_exists () == true) {
+				if (lockfile.query_exists ()) {
 					extern_lock = true;
 				}
 			}
 			return true;
 		}
 
-		void launch_refresh_timeout (uint refresh_period_in_hours) {
+		void launch_refresh_timeout (uint64 refresh_period_in_hours) {
 			if (refresh_timeout_id != 0) {
 				Source.remove (refresh_timeout_id);
 				refresh_timeout_id = 0;
 			}
 			if (refresh_period_in_hours != 0) {
-				refresh_timeout_id = Timeout.add_seconds (refresh_period_in_hours*3600, start_refresh);
+				refresh_timeout_id = Timeout.add_seconds ((uint) refresh_period_in_hours*3600, start_refresh);
 			}
 		}
 
@@ -293,9 +324,9 @@ namespace Pamac {
 			alpm_config.get_handle ();
 			lockfile = GLib.File.new_for_path (alpm_config.handle.lockfile);
 			start_daemon ();
-			Timeout.add (500, check_pacman_running);
+			Timeout.add (200, check_pacman_running);
 			start_refresh ();
-			launch_refresh_timeout ((uint) pamac_config.refresh_period);
+			launch_refresh_timeout (pamac_config.refresh_period);
 
 			this.hold ();
 		}

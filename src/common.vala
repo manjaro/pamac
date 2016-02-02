@@ -18,7 +18,7 @@
  */
 
 namespace Pamac {
-	public struct UpdateInfos {
+	public struct PackageInfos {
 		public string name;
 		public string version;
 		public string db_name;
@@ -27,13 +27,8 @@ namespace Pamac {
 
 	public struct Updates {
 		public bool is_syncfirst;
-		public UpdateInfos[] repos_updates;
-		public UpdateInfos[] aur_updates;
-		public Updates () {
-			is_syncfirst = false;
-			repos_updates = {};
-			aur_updates = {};
-		}
+		public PackageInfos[] repos_updates;
+		public PackageInfos[] aur_updates;
 	}
 
 	public struct ErrorInfos {

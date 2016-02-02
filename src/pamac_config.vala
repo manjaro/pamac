@@ -17,19 +17,47 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+const string VERSION = "3.0.0";
+
 namespace Pamac {
-	public class Config: Object {
-		string conf_path;
+	[Compact]
+	public class Config {
+		public string conf_path;
 		public bool recurse;
-		public int refresh_period;
+		public uint64 refresh_period;
 		public bool no_update_hide_icon;
 		public bool enable_aur;
 		public bool search_aur;
 		public bool check_aur_updates;
 		public bool no_confirm_build;
+		public HashTable<string,string> environment_variables;
 
 		public Config (string path) {
 			conf_path = path;
+			//get environment variables
+			environment_variables = new HashTable<string,string> (str_hash, str_equal);
+			var utsname = Posix.utsname();
+			environment_variables.insert ("HTTP_USER_AGENT", "pamac/%s (%s %s)".printf (VERSION, utsname.sysname, utsname.machine));
+			unowned string? variable = Environment.get_variable ("http_proxy");
+			if (variable != null) {
+				environment_variables.insert ("http_proxy", variable);
+			}
+			variable = Environment.get_variable ("https_proxy");
+			if (variable != null) {
+				environment_variables.insert ("https_proxy", variable);
+			}
+			variable = Environment.get_variable ("ftp_proxy");
+			if (variable != null) {
+				environment_variables.insert ("ftp_proxy", variable);
+			}
+			variable = Environment.get_variable ("socks_proxy");
+			if (variable != null) {
+				environment_variables.insert ("socks_proxy", variable);
+			}
+			variable = Environment.get_variable ("no_proxy");
+			if (variable != null) {
+				environment_variables.insert ("no_proxy", variable);
+			}
 			// set default option
 			refresh_period = 6;
 			reload ();
@@ -65,16 +93,15 @@ namespace Pamac {
 						if (line.length == 0) {
 							continue;
 						}
-						splitted = line.split ("=");
-						string key = splitted[0].strip ();
-						string? val = null;
-						if (splitted[1] != null) {
-							val = splitted[1].strip ();
-						}
+						splitted = line.split ("=", 2);
+						unowned string key = splitted[0]._strip ();
 						if (key == "RemoveUnrequiredDeps") {
 							recurse = true;
 						} else if (key == "RefreshPeriod") {
-							refresh_period = int.parse (val);
+							if (splitted.length == 2) {
+								unowned string val = splitted[1]._strip ();
+								refresh_period = uint64.parse (val);
+							}
 						} else if (key == "NoUpdateHideIcon") {
 							no_update_hide_icon = true;
 						} else if (key == "EnableAUR") {
@@ -97,7 +124,7 @@ namespace Pamac {
 
 		public void write (HashTable<string,Variant> new_conf) {
 			var file = GLib.File.new_for_path (conf_path);
-			string[] data = {};
+			var data = new GLib.List<string> ();
 			if (file.query_exists ()) {
 				try {
 					// Open file for reading and wrap returned FileInputStream into a
@@ -107,91 +134,85 @@ namespace Pamac {
 					// Read lines until end of file (null) is reached
 					while ((line = dis.read_line ()) != null) {
 						if (line.length == 0) {
-							data += "\n";
+							data.append ("\n");
 							continue;
 						}
+						unowned Variant variant;
 						if (line.contains ("RemoveUnrequiredDeps")) {
-							if (new_conf.contains ("RemoveUnrequiredDeps")) {
-								bool val = new_conf.get ("RemoveUnrequiredDeps").get_boolean ();
-								if (val == true) {
-									data += "RemoveUnrequiredDeps\n";
+							if (new_conf.lookup_extended ("RemoveUnrequiredDeps", null, out variant)) {
+								if (variant.get_boolean ()) {
+									data.append ("RemoveUnrequiredDeps\n");
 								} else {
-									data += "#RemoveUnrequiredDeps\n";
+									data.append ("#RemoveUnrequiredDeps\n");
 								}
 								new_conf.remove ("RemoveUnrequiredDeps");
 							} else {
-								data += line + "\n";
+								data.append (line + "\n");
 							}
 						} else if (line.contains ("RefreshPeriod")) {
-							if (new_conf.contains ("RefreshPeriod")) {
-								int val = new_conf.get ("RefreshPeriod").get_int32 ();
-								data += "RefreshPeriod = %u\n".printf (val);
+							if (new_conf.lookup_extended ("RefreshPeriod", null, out variant)) {
+								data.append ("RefreshPeriod = %llu\n".printf (variant.get_uint64 ()));
 								new_conf.remove ("RefreshPeriod");
 							} else {
-								data += line + "\n";
+								data.append (line + "\n");
 							}
 						} else if (line.contains ("NoUpdateHideIcon")) {
-							if (new_conf.contains ("NoUpdateHideIcon")) {
-								bool val = new_conf.get ("NoUpdateHideIcon").get_boolean ();
-								if (val == true) {
-									data += "NoUpdateHideIcon\n";
+							if (new_conf.lookup_extended ("NoUpdateHideIcon", null, out variant)) {
+								if (variant.get_boolean ()) {
+									data.append ("NoUpdateHideIcon\n");
 								} else {
-									data += "#NoUpdateHideIcon\n";
+									data.append ("#NoUpdateHideIcon\n");
 								}
 								new_conf.remove ("NoUpdateHideIcon");
 							} else {
-								data += line + "\n";
+								data.append (line + "\n");
 							}
 						} else if (line.contains ("EnableAUR")) {
-							if (new_conf.contains ("EnableAUR")) {
-								bool val = new_conf.get ("EnableAUR").get_boolean ();
-								if (val == true) {
-									data += "EnableAUR\n";
+							if (new_conf.lookup_extended ("EnableAUR", null, out variant)) {
+								if (variant.get_boolean ()) {
+									data.append ("EnableAUR\n");
 								} else {
-									data += "#EnableAUR\n";
+									data.append ("#EnableAUR\n");
 								}
 								new_conf.remove ("EnableAUR");
 							} else {
-								data += line + "\n";
+								data.append (line + "\n");
 							}
 						} else if (line.contains ("SearchInAURByDefault")) {
-							if (new_conf.contains ("SearchInAURByDefault")) {
-								bool val = new_conf.get ("SearchInAURByDefault").get_boolean ();
-								if (val == true) {
-									data += "SearchInAURByDefault\n";
+							if (new_conf.lookup_extended ("SearchInAURByDefault", null, out variant)) {
+								if (variant.get_boolean ()) {
+									data.append ("SearchInAURByDefault\n");
 								} else {
-									data += "#SearchInAURByDefault\n";
+									data.append ("#SearchInAURByDefault\n");
 								}
 								new_conf.remove ("SearchInAURByDefault");
 							} else {
-								data += line + "\n";
+								data.append (line + "\n");
 							}
 						} else if (line.contains ("CheckAURUpdates")) {
-							if (new_conf.contains ("CheckAURUpdates")) {
-								bool val = new_conf.get ("CheckAURUpdates").get_boolean ();
-								if (val == true) {
-									data += "CheckAURUpdates\n";
+							if (new_conf.lookup_extended ("CheckAURUpdates", null, out variant)) {
+								if (variant.get_boolean ()) {
+									data.append ("CheckAURUpdates\n");
 								} else {
-									data += "#CheckAURUpdates\n";
+									data.append ("#CheckAURUpdates\n");
 								}
 								new_conf.remove ("CheckAURUpdates");
 							} else {
-								data += line + "\n";
+								data.append (line + "\n");
 							}
 						} else if (line.contains ("NoConfirmBuild")) {
-							if (new_conf.contains ("NoConfirmBuild")) {
-								bool val = new_conf.get ("NoConfirmBuild").get_boolean ();
-								if (val == true) {
-									data += "NoConfirmBuild\n";
+							if (new_conf.lookup_extended ("NoConfirmBuild", null, out variant)) {
+								if (variant.get_boolean ()) {
+									data.append ("NoConfirmBuild\n");
 								} else {
-									data += "#NoConfirmBuild\n";
+									data.append ("#NoConfirmBuild\n");
 								}
 								new_conf.remove ("NoConfirmBuild");
 							} else {
-								data += line + "\n";
+								data.append (line + "\n");
 							}
 						} else {
-							data += line + "\n";
+							data.append (line + "\n");
 						}
 					}
 					// delete the file before rewrite it
@@ -204,54 +225,57 @@ namespace Pamac {
 			}
 			// create lines for unexisted options
 			if (new_conf.size () != 0) {
-				data += "\n";
-				new_conf.foreach ((key, val) => {
+				data.append ("\n");
+				var iter = HashTableIter<string,Variant> (new_conf);
+				unowned string key;
+				unowned Variant val;
+				while (iter.next (out key, out val)) {
 					if (key == "RemoveUnrequiredDeps") {
-						if (val.get_boolean () == true) {
-							data += "RemoveUnrequiredDeps\n";
+						if (val.get_boolean ()) {
+							data.append ("RemoveUnrequiredDeps\n");
 						} else {
-							data += "#RemoveUnrequiredDeps\n";
+							data.append ("#RemoveUnrequiredDeps\n");
 						}
 					} else if (key == "RefreshPeriod") {
-						data += "RefreshPeriod = %u\n".printf (val.get_int32 ());
+						data.append ("RefreshPeriod = %llu\n".printf (val.get_uint64 ()));
 					} else if (key =="NoUpdateHideIcon") {
-						if (val.get_boolean () == true) {
-							data += "NoUpdateHideIcon\n";
+						if (val.get_boolean ()) {
+							data.append ("NoUpdateHideIcon\n");
 						} else {
-							data += "#NoUpdateHideIcon\n";
+							data.append ("#NoUpdateHideIcon\n");
 						}
 					} else if (key == "EnableAUR") {
-						if (val.get_boolean () == true) {
-							data += "EnableAUR\n";
+						if (val.get_boolean ()) {
+							data.append ("EnableAUR\n");
 						} else {
-							data += "#EnableAUR\n";
+							data.append ("#EnableAUR\n");
 						}
 					} else if (key == "SearchInAURByDefault") {
-						if (val.get_boolean () == true) {
-							data += "SearchInAURByDefault\n";
+						if (val.get_boolean ()) {
+							data.append ("SearchInAURByDefault\n");
 						} else {
-							data += "#SearchInAURByDefault\n";
+							data.append ("#SearchInAURByDefault\n");
 						}
 					} else if (key == "CheckAURUpdates") {
-						if (val.get_boolean () == true) {
-							data += "CheckAURUpdates\n";
+						if (val.get_boolean ()) {
+							data.append ("CheckAURUpdates\n");
 						} else {
-							data += "#CheckAURUpdates\n";
+							data.append ("#CheckAURUpdates\n");
 						}
 					} else if (key == "NoConfirmBuild") {
-						if (val.get_boolean () == true) {
-							data += "NoConfirmBuild\n";
+						if (val.get_boolean ()) {
+							data.append ("NoConfirmBuild\n");
 						} else {
-							data += "#NoConfirmBuild\n";
+							data.append ("#NoConfirmBuild\n");
 						}
 					}
-				});
+				}
 			}
 			// write the file
 			try {
 				// creating a DataOutputStream to the file
 				var dos = new DataOutputStream (file.create (FileCreateFlags.REPLACE_DESTINATION));
-				foreach (string new_line in data) {
+				foreach (unowned string new_line in data) {
 					// writing a short string to the stream
 					dos.put_string (new_line);
 				}
