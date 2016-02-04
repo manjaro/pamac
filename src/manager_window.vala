@@ -1580,7 +1580,7 @@ namespace Pamac {
 				"program_name", "Pamac",
 				"logo_icon_name", "system-software-install",
 				"comments", dgettext (null, "A Gtk3 frontend for libalpm"),
-				"copyright", dgettext (null, "Copyright © 2015 Guillaume Benoit"),
+				"copyright", dgettext (null, "Copyright © 2016 Guillaume Benoit"),
 				"version", VERSION,
 				"license_type", Gtk.License.GPL_3_0,
 				"website", "http://manjaro.org");
