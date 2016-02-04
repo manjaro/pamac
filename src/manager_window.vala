@@ -137,6 +137,14 @@ namespace Pamac {
 		public ManagerWindow (Gtk.Application application) {
 			Object (application: application);
 
+			support_aur (false, false);
+
+			Timeout.add (100, populate_window);
+		}
+
+		public bool populate_window () {
+			this.get_window ().set_cursor (new Gdk.Cursor.for_display (Gdk.Display.get_default (), Gdk.CursorType.WATCH));
+
 			right_click_menu = new Gtk.Menu ();
 			deselect_item = new Gtk.MenuItem.with_label (dgettext (null, "Deselect"));
 			deselect_item.activate.connect (on_deselect_item_activate);
@@ -194,9 +202,7 @@ namespace Pamac {
 			refresh_handle ();
 
 			unowned Alpm.Package? pkg = Alpm.find_satisfier (alpm_config.handle.localdb.pkgcache, "yaourt");
-			if (pkg == null) {
-				support_aur (false, false);
-			} else {
+			if (pkg != null) {
 				support_aur (transaction.pamac_config.enable_aur, transaction.pamac_config.search_aur);
 			}
 
@@ -209,6 +215,8 @@ namespace Pamac {
 
 			update_lists ();
 			show_default_pkgs ();
+
+			return false;
 		}
 
 		void on_write_pamac_config_finished (bool recurse, uint64 refresh_period, bool no_update_hide_icon,

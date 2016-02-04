@@ -51,6 +51,17 @@ namespace Pamac {
 		public UpdaterWindow (Gtk.Application application) {
 			Object (application: application);
 
+			bottom_label.set_visible (false);
+			apply_button.set_sensitive (false);
+			notebook.set_show_tabs (false);
+			aur_scrolledwindow.set_visible (false);
+
+			Timeout.add (100, populate_window);
+		}
+
+		public bool populate_window () {
+			this.get_window ().set_cursor (new Gdk.Cursor.for_display (Gdk.Display.get_default (), Gdk.CursorType.WATCH));
+
 			repos_updates_list = new Gtk.ListStore (3, typeof (bool), typeof (string), typeof (string));
 			repos_updates_treeview.set_model (repos_updates_list);
 			aur_updates_list = new Gtk.ListStore (2, typeof (bool), typeof (string));
@@ -62,13 +73,9 @@ namespace Pamac {
 
 			transaction.daemon.get_updates_finished.connect (on_get_updates_finished);
 
-			bottom_label.set_visible (false);
-			apply_button.set_sensitive (false);
-
-			notebook.set_show_tabs (false);
-			aur_scrolledwindow.set_visible (false);
-
 			on_refresh_button_clicked ();
+
+			return false;
 		}
 
 		public void set_apply_button_sensitive () {
