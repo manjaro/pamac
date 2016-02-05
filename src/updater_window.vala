@@ -25,7 +25,8 @@ namespace Pamac {
 		[GtkChild]
 		public Gtk.Label top_label;
 		[GtkChild]
-		public Gtk.Notebook notebook;
+		//public Gtk.Notebook notebook;
+		public Gtk.Stack  stack;
 		[GtkChild]
 		public Gtk.ScrolledWindow repos_scrolledwindow;
 		[GtkChild]
@@ -65,9 +66,8 @@ namespace Pamac {
 			bottom_label.set_visible (false);
 			apply_button.set_sensitive (false);
 
-			notebook.set_show_tabs (false);
+			//notebook.set_show_tabs (false);
 			aur_scrolledwindow.set_visible (false);
-
 			on_refresh_button_clicked ();
 		}
 
@@ -186,7 +186,7 @@ namespace Pamac {
 		public void on_get_updates_finished (Updates updates) {
 			top_label.set_markup ("");
 			repos_updates_list.clear ();
-			notebook.set_show_tabs (false);
+			//notebook.set_show_tabs (false);
 			repos_scrolledwindow.set_visible (true);
 			aur_updates_list.clear ();
 			bottom_label.set_visible (false);
@@ -228,7 +228,7 @@ namespace Pamac {
 				bottom_label.set_visible (false);
 			}
 			if (repos_updates_nb != 0) {
-				notebook.set_show_tabs (true);
+				//notebook.set_show_tabs (true);
 			}
 			if (aur_updates_nb == 0) {
 				aur_scrolledwindow.set_visible (false);
@@ -237,7 +237,7 @@ namespace Pamac {
 				if (repos_updates_nb == 0) {
 					repos_scrolledwindow.set_visible (false);
 				}
-				notebook.set_show_tabs (true);
+				//notebook.set_show_tabs (true);
 			}
 			this.get_window ().set_cursor (null);
 		}
