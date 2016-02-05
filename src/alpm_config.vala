@@ -83,21 +83,27 @@ namespace Alpm {
 			// free internal data of alpm lists
 			if (cachedirs != null) {
 				cachedirs.free_data ();
+				cachedirs = new Alpm.List<string> ();
 			}
 			if (hookdirs != null) {
 				hookdirs.free_data ();
+				hookdirs = new Alpm.List<string?> ();
 			}
 			if (ignoregroups != null) {
 				ignoregroups.free_data ();
+				ignoregroups = new Alpm.List<string> ();
 			}
 			if (ignorepkgs != null) {
 				ignorepkgs.free_data ();
+				ignorepkgs = new Alpm.List<string> ();
 			}
 			if (noextracts != null) {
 				noextracts.free_data ();
+				noextracts = new Alpm.List<string> ();
 			}
 			if (noupgrades != null) {
 				noupgrades.free_data ();
+				noupgrades = new Alpm.List<string> ();
 			}
 			usesyslog = 0;
 			checkspace = 0;
@@ -338,7 +344,7 @@ namespace Alpm {
 						} else if (line.contains ("CheckSpace")) {
 							if (new_conf.contains ("CheckSpace")) {
 								bool val = new_conf.get ("CheckSpace").get_boolean ();
-								if (val == true) {
+								if (val) {
 									data += "CheckSpace\n";
 								} else {
 									data += "#CheckSpace\n";

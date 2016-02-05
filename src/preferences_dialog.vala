@@ -98,6 +98,7 @@ namespace Pamac {
 			}
 			remove_unrequired_deps_button.state_set.connect (on_remove_unrequired_deps_button_state_set);
 			check_space_button.state_set.connect (on_check_space_button_state_set);
+			transaction.daemon.write_alpm_config_finished.connect (on_write_alpm_config_finished);
 			check_updates_button.state_set.connect (on_check_updates_button_state_set);
 			refresh_period_spin_button.value_changed.connect (on_refresh_period_spin_button_value_changed);
 			no_update_hide_icon_checkbutton.toggled.connect (on_no_update_hide_icon_checkbutton_toggled);
@@ -146,7 +147,6 @@ namespace Pamac {
 				search_aur_checkbutton.toggled.connect (on_search_aur_checkbutton_toggled);
 				check_aur_updates_checkbutton.toggled.connect (on_check_aur_updates_checkbutton_toggled);
 				no_confirm_build_checkbutton.toggled.connect (on_no_confirm_build_checkbutton_toggled);
-				transaction.daemon.write_alpm_config_finished.connect (on_write_alpm_config_finished);
 			}
 		}
 
@@ -174,7 +174,7 @@ namespace Pamac {
 
 		void on_refresh_period_spin_button_value_changed () {
 			var new_pamac_conf = new HashTable<string,Variant> (str_hash, str_equal);
-			new_pamac_conf.insert ("RefreshPeriod", new Variant.int32 (refresh_period_spin_button.get_value_as_int ()));
+			new_pamac_conf.insert ("RefreshPeriod", new Variant.uint64 (refresh_period_spin_button.get_value_as_int ()));
 			transaction.start_write_pamac_config (new_pamac_conf);
 		}
 
@@ -266,15 +266,15 @@ namespace Pamac {
 				var ignorepkg_string = new StringBuilder ();
 				choose_ignorepkgs_dialog.pkgs_list.foreach ((model, path, iter) => {
 					GLib.Value val;
+					// get value at column 0 to know if it is selected
 					choose_ignorepkgs_dialog.pkgs_list.get_value (iter, 0, out val);
-					bool selected = val.get_boolean ();
-					if (selected) {
+					if ((bool) val) {
+						// get value at column 1 to get the pkg name
 						choose_ignorepkgs_dialog.pkgs_list.get_value (iter, 1, out val);
-						unowned string name = val.get_string ();
 						if (ignorepkg_string.len != 0) {
 							ignorepkg_string.append (" ");
 						}
-						ignorepkg_string.append (name);
+						ignorepkg_string.append ((string) val);
 					}
 					return false;
 				});
@@ -298,13 +298,12 @@ namespace Pamac {
 				ignorepkgs_liststore.remove (iter);
 				var ignorepkg_string = new StringBuilder ();
 				ignorepkgs_liststore.foreach ((model, path, iter) => {
-					GLib.Value val;
-					ignorepkgs_liststore.get_value (iter, 0, out val);
-					unowned string name = val.get_string ();
+					GLib.Value name;
+					ignorepkgs_liststore.get_value (iter, 0, out name);
 					if (ignorepkg_string.len != 0) {
 						ignorepkg_string.append (" ");
 					}
-					ignorepkg_string.append (name);
+					ignorepkg_string.append ((string) name);
 					return false;
 				});
 				var new_alpm_conf = new HashTable<string,Variant> (str_hash, str_equal);
@@ -318,6 +317,7 @@ namespace Pamac {
 			// re-populate ignorepkgs_liststore
 			Gtk.TreeIter iter;
 			ignorepkgs_liststore.clear ();
+			alpm_config.reload ();
 			for (unowned Alpm.List<string> list = alpm_config.ignorepkgs; list != null; list = list.next ()) {
 				ignorepkgs_liststore.insert_with_values (out iter, -1, 0, list.data);
 			}
@@ -342,10 +342,9 @@ namespace Pamac {
 		void on_write_mirrors_config_finished (string choosen_country, string choosen_generation_method) {
 			int index = 0;
 			mirrors_country_comboboxtext.model.foreach ((model, path, iter) => {
-				GLib.Value val;
-				model.get_value (iter, 0, out val);
-				unowned string country = val.get_string ();
-				if (choosen_country == country) {
+				GLib.Value country;
+				model.get_value (iter, 0, out country);
+				if ((string) country == choosen_country) {
 					return true;
 				}
 				index += 1;

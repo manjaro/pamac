@@ -974,11 +974,11 @@ namespace Pamac {
 				foreach (var optdep in pkg.optdepends) {
 					if (Alpm.find_satisfier (alpm_config.handle.localdb.pkgcache, optdep.name) == null) {
 						length++;
-					}
-					choose_dep_dialog.deps_list.insert_with_values (out iter, -1,
+						choose_dep_dialog.deps_list.insert_with_values (out iter, -1,
 											0, false,
 											1, optdep.name,
 											2, optdep.desc);
+					}
 				}
 				choose_dep_dialog.label.set_markup ("<b>%s</b>".printf (
 					dngettext (null, "%s has %u uninstalled optional dependency.\nChoose if you would like to install it",
@@ -986,11 +986,12 @@ namespace Pamac {
 				if (choose_dep_dialog.run () == Gtk.ResponseType.OK) {
 					choose_dep_dialog.deps_list.foreach ((model, path, iter) => {
 						GLib.Value val;
+						// get value at column 0 to know if it is selected
 						choose_dep_dialog.deps_list.get_value (iter, 0, out val);
-						bool selected = val.get_boolean ();
-						if (selected) {
+						if ((bool) val) {
+							// get value at column 1 to get the pkg name
 							choose_dep_dialog.deps_list.get_value (iter, 1, out val);
-							unowned Alpm.Package? sync_pkg = get_sync_pkg (val.get_string ());
+							unowned Alpm.Package? sync_pkg = get_sync_pkg ((string) val);
 							if (sync_pkg != null) {
 								transaction.to_add.add (sync_pkg.name);
 							}
