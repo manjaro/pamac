@@ -196,6 +196,7 @@ namespace Pamac {
 			notebook.set_show_tabs (false);
 			repos_scrolledwindow.set_visible (true);
 			aur_updates_list.clear ();
+			aur_scrolledwindow.set_visible (false);
 			bottom_label.set_visible (false);
 			Gtk.TreeIter iter;
 			uint64 dsize = 0;
@@ -234,12 +235,7 @@ namespace Pamac {
 			} else {
 				bottom_label.set_visible (false);
 			}
-			if (repos_updates_nb != 0) {
-				notebook.set_show_tabs (true);
-			}
-			if (aur_updates_nb == 0) {
-				aur_scrolledwindow.set_visible (false);
-			} else {
+			if (aur_updates_nb != 0) {
 				aur_scrolledwindow.set_visible (true);
 				if (repos_updates_nb == 0) {
 					repos_scrolledwindow.set_visible (false);
