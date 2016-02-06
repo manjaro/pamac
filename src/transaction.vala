@@ -685,7 +685,21 @@ namespace Pamac {
 					}
 					break;
 				case Alpm.Event.Type.HOOK_RUN_START:
-					msg = "%s:%s %s/%s".printf (details[0], details[1], details[2], details[3]);
+					string textbar = "%s/%s".printf (details[2], details[3]);
+					if (textbar != previous_textbar) {
+						previous_textbar = textbar;
+						progress_dialog.progressbar.set_text (textbar);
+					}
+					float fraction = (float) int.parse (details[2]) / int.parse (details[3]);
+					if (fraction != previous_percent) {
+						previous_percent = fraction;
+						progress_dialog.progressbar.set_fraction (fraction);
+					}
+					if (details[1] != "") {
+						msg = details[1] + ":";
+					} else {
+						msg = details[0] + ":";
+					}
 					progress_dialog.spawn_in_term ({"echo", msg});
 					break;
 				case Alpm.Event.Type.CHECKDEPS_START:

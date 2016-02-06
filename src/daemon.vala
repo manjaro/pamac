@@ -834,7 +834,7 @@ private void cb_event (Alpm.Event.Data data) {
 			break;
 		case Alpm.Event.Type.HOOK_RUN_START:
 			details += data.hook_run_name;
-			details += data.hook_run_desc;
+			details += data.hook_run_desc ?? "";
 			details += data.hook_run_position.to_string ();
 			details += data.hook_run_total.to_string ();
 		break;
