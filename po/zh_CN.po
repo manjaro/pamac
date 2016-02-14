@@ -517,9 +517,9 @@ msgstr "Alpm 软件包"
 msgid "A Gtk3 frontend for libalpm"
 msgstr "libalpm 的 GTK3 前端"
 
-#: ../src/manager_window.vala
-msgid "Copyright © 2015 Guillaume Benoit"
-msgstr "Copyright © 2015 Guillaume Benoit"
+#: ../src/aur_model.vala ../src/packages_model.vala
+msgid "No package found"
+msgstr "未发现软件包"
 
 #: ../src/preferences_dialog.vala ../resources/preferences_dialog.ui
 msgid "How often to check for updates, value in hours"

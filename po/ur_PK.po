@@ -515,9 +515,9 @@ msgstr "Alpm پیکیج"
 msgid "A Gtk3 frontend for libalpm"
 msgstr ""
 
-#: ../src/manager_window.vala
-msgid "Copyright © 2015 Guillaume Benoit"
-msgstr ""
+#: ../src/aur_model.vala ../src/packages_model.vala
+msgid "No package found"
+msgstr "کوئی پیکج نہیں ملا"
 
 #: ../src/preferences_dialog.vala ../resources/preferences_dialog.ui
 msgid "How often to check for updates, value in hours"

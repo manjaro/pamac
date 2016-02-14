@@ -516,8 +516,8 @@ msgstr ""
 msgid "A Gtk3 frontend for libalpm"
 msgstr ""
 
-#: ../src/manager_window.vala
-msgid "Copyright © 2015 Guillaume Benoit"
+#: ../src/aur_model.vala ../src/packages_model.vala
+msgid "No package found"
 msgstr ""
 
 #: ../src/preferences_dialog.vala ../resources/preferences_dialog.ui

@@ -523,9 +523,9 @@ msgstr "Autor balíka"
 msgid "A Gtk3 frontend for libalpm"
 msgstr "Rozhranie Gtk3 pre knižnicu libalpm"
 
-#: ../src/manager_window.vala
-msgid "Copyright © 2015 Guillaume Benoit"
-msgstr "Autorské práva © 2015 Guillaume Benoit"
+#: ../src/aur_model.vala ../src/packages_model.vala
+msgid "No package found"
+msgstr "Nenašiel sa žiadny balík"
 
 #: ../src/preferences_dialog.vala ../resources/preferences_dialog.ui
 msgid "How often to check for updates, value in hours"

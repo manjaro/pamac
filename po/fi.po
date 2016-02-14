@@ -522,9 +522,9 @@ msgstr "Alpm paketti"
 msgid "A Gtk3 frontend for libalpm"
 msgstr "Gtk3‐edustaohjelma libalpm:lle"
 
-#: ../src/manager_window.vala
-msgid "Copyright © 2015 Guillaume Benoit"
-msgstr "Tekijänoikeudet © 2015 Guillaume Benoit"
+#: ../src/aur_model.vala ../src/packages_model.vala
+msgid "No package found"
+msgstr "Paketteja ei löytynyt"
 
 #: ../src/preferences_dialog.vala ../resources/preferences_dialog.ui
 msgid "How often to check for updates, value in hours"

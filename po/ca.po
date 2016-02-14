@@ -522,9 +522,9 @@ msgstr "Paquet Alpm"
 msgid "A Gtk3 frontend for libalpm"
 msgstr "Frontend Gtk3 per a libalpm"
 
-#: ../src/manager_window.vala
-msgid "Copyright © 2015 Guillaume Benoit"
-msgstr "Copyright © 2015 Guillaume Benoit"
+#: ../src/aur_model.vala ../src/packages_model.vala
+msgid "No package found"
+msgstr "No s'ha trobat cap paquet"
 
 #: ../src/preferences_dialog.vala ../resources/preferences_dialog.ui
 msgid "How often to check for updates, value in hours"
