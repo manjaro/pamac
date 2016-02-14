@@ -1,7 +1,7 @@
 /*
  *  pamac-vala
  *
- *  Copyright (C) 2014-2015 Guillaume Benoit <guillaume@manjaro.org>
+ *  Copyright (C) 2014-2016 Guillaume Benoit <guillaume@manjaro.org>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -1196,7 +1196,13 @@ namespace Pamac {
 					} else {
 						finished (true);
 						progress_dialog.spawn_in_term ({"echo", dgettext (null, "Transaction successfully finished") + ".\n"});
-						progress_dialog.hide ();
+						if (progress_dialog.expander.get_expanded ()) {
+							progress_dialog.action_label.set_text (dgettext (null, "Transaction successfully finished"));
+							progress_dialog.cancel_button.set_visible (false);
+							progress_dialog.close_button.set_visible (true);
+						} else {
+							progress_dialog.hide ();
+						}
 						while (Gtk.events_pending ()) {
 							Gtk.main_iteration ();
 						}
@@ -1225,16 +1231,17 @@ namespace Pamac {
 			Timeout.add (1000, () => {
 				finished (true);
 				if (status == 0) {
-					progress_dialog.spawn_in_term ({"echo", dgettext (null, "Transaction successfully finished") + ".\n"});
-					progress_dialog.hide ();
-					while (Gtk.events_pending ()) {
-						Gtk.main_iteration ();
-					}
+					string action = dgettext (null, "Transaction successfully finished");
+					progress_dialog.spawn_in_term ({"echo", action + ".\n"});
+					progress_dialog.action_label.set_text (action);
 				} else {
-					progress_dialog.progressbar.set_fraction (0);
-					progress_dialog.cancel_button.set_visible (false);
-					progress_dialog.close_button.set_visible (true);
 					progress_dialog.spawn_in_term ({"echo"});
+				}
+				progress_dialog.progressbar.set_fraction (1);
+				progress_dialog.cancel_button.set_visible (false);
+				progress_dialog.close_button.set_visible (true);
+				while (Gtk.events_pending ()) {
+					Gtk.main_iteration ();
 				}
 				return false;
 			});
