@@ -19,8 +19,8 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2015-08-20 11:53+0200\n"
-"PO-Revision-Date: 2015-10-27 09:27+0000\n"
-"Last-Translator: Dan Johansen\n"
+"PO-Revision-Date: 2016-02-02 08:27+0000\n"
+"Last-Translator: Guillaume Benoit <guillaume@manjaro.org>\n"
 "Language-Team: Danish (http://www.transifex.com/manjarolinux/manjaro-pamac/language/da/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -32,21 +32,14 @@ msgstr ""
 msgid "Authentication is required"
 msgstr "Autentificering påkrævet"
 
-#: ../src/daemon.vala
+#: ../src/daemon.vala ../src/manager_window.vala
+#: ../src/preferences_dialog.vala
 msgid "Failed to initialize alpm library"
 msgstr "Fejl ved initialisering af alpm bibliotek"
 
 #: ../src/daemon.vala
 msgid "Failed to synchronize any databases"
 msgstr "Fejl ved synkronisering af databaser"
-
-#: ../src/daemon.vala
-msgid "No"
-msgstr "Nej"
-
-#: ../src/daemon.vala
-msgid "Yes"
-msgstr "Ja"
 
 #: ../src/daemon.vala
 msgid "Failed to init transaction"
@@ -100,7 +93,7 @@ msgstr "%s: %s eksisterer allerede i filsystemet"
 msgid "%s is invalid or corrupted"
 msgstr "%s er ugyldig eller korrupteret"
 
-#: ../src/daemon.vala
+#: ../src/daemon.vala ../src/transaction.vala
 msgid "Authentication failed"
 msgstr "Autentificering mislykket"
 
@@ -119,6 +112,11 @@ msgstr "Starter fuld systemopgradering"
 #: ../src/transaction.vala
 msgid "Preparing"
 msgstr "Forbereder"
+
+#: ../src/transaction.vala
+#, c-format
+msgid "Choose a provider for %s"
+msgstr "Vælg en udgiver for %s"
 
 #: ../src/transaction.vala ../resources/transaction_sum_dialog.ui
 msgid "Transaction Summary"
@@ -155,6 +153,14 @@ msgstr "Total download størrelse"
 #: ../src/transaction.vala
 msgid "Building packages"
 msgstr "Bygger pakker"
+
+#: ../src/transaction.vala
+msgid "Running pre-transaction hooks"
+msgstr ""
+
+#: ../src/transaction.vala
+msgid "Running post-transaction hooks"
+msgstr ""
 
 #: ../src/transaction.vala
 msgid "Checking dependencies"
@@ -269,11 +275,6 @@ msgstr "%s installeret som %s.pacsave"
 
 #: ../src/transaction.vala
 #, c-format
-msgid "%s installed as %s.pacorig"
-msgstr "%s installeret som %s.pacorig"
-
-#: ../src/transaction.vala
-#, c-format
 msgid "Refreshing %s"
 msgstr "Genopfrisker %s"
 
@@ -281,6 +282,18 @@ msgstr "Genopfrisker %s"
 #, c-format
 msgid "Downloading %s"
 msgstr "Downloader %s"
+
+#: ../src/transaction.vala
+#, c-format
+msgid "About %u seconds remaining"
+msgstr ""
+
+#: ../src/transaction.vala
+#, c-format
+msgid "About %lu minute remaining"
+msgid_plural "About %lu minutes remaining"
+msgstr[0] ""
+msgstr[1] ""
 
 #: ../src/transaction.vala
 msgid "Warning"
@@ -291,7 +304,7 @@ msgstr "Advarsel"
 msgid "Error"
 msgstr "Fejl"
 
-#: ../src/transaction.vala ../src/progress_dialog.vala
+#: ../src/transaction.vala
 msgid "Transaction cancelled"
 msgstr "Overførsel annulleret"
 
@@ -334,22 +347,6 @@ msgstr[1] "%u tilgængelige opdateringer"
 msgid "Show available updates"
 msgstr "Vis tilgængelige opdateringer"
 
-#: ../src/choose_provider_dialog.vala
-#, c-format
-msgid "Choose a provider for %s"
-msgstr "Vælg en udgiver for %s"
-
-#: ../src/choose_dep_dialog.vala
-#, c-format
-msgid ""
-"%s has %u uninstalled optional dependency.\n"
-"Choose if you would like to install it"
-msgid_plural ""
-"%s has %u uninstalled optional dependencies.\n"
-"Choose those you would like to install"
-msgstr[0] "%s har %u som uinstalleret afhænghed.\nVælg om du gerne vil installere den"
-msgstr[1] "%s har %u uinstallerede valgfrie afhængigheder. \nVælg hvilke du gerne vil installere"
-
 #: ../src/manager_window.vala
 msgid "Deselect"
 msgstr "Fravælg"
@@ -391,6 +388,10 @@ msgid "Licenses"
 msgstr "Licenser"
 
 #: ../src/manager_window.vala
+msgid "Unknown"
+msgstr "Ukendt"
+
+#: ../src/manager_window.vala
 msgid "Depends On"
 msgstr "Afhænger af"
 
@@ -427,18 +428,6 @@ msgid "Groups"
 msgstr "Grupper"
 
 #: ../src/manager_window.vala
-msgid "Maintainer"
-msgstr "Vedligeholder"
-
-#: ../src/manager_window.vala
-msgid "First Submitted"
-msgstr "Først Indsendt"
-
-#: ../src/manager_window.vala
-msgid "Last Modified"
-msgstr "Sidst Ændret"
-
-#: ../src/manager_window.vala
 msgid "Packager"
 msgstr "Pakker"
 
@@ -459,18 +448,38 @@ msgid "Installed as a dependency for another package"
 msgstr "Installeret som en afhængighed for en anden pakke"
 
 #: ../src/manager_window.vala
-msgid "Unknown"
-msgstr "Ukendt"
-
-#: ../src/manager_window.vala
 msgid "Install Reason"
 msgstr "Installations-årsag"
+
+#: ../src/manager_window.vala
+msgid "Yes"
+msgstr "Ja"
+
+#: ../src/manager_window.vala
+msgid "No"
+msgstr "Nej"
 
 #: ../src/manager_window.vala
 msgid "Signatures"
 msgstr "Signaturer"
 
 #: ../src/manager_window.vala
+msgid "Backup files"
+msgstr "Back-up filer"
+
+#: ../src/manager_window.vala
+msgid "Maintainer"
+msgstr "Vedligeholder"
+
+#: ../src/manager_window.vala
+msgid "First Submitted"
+msgstr "Først Indsendt"
+
+#: ../src/manager_window.vala
+msgid "Last Modified"
+msgstr "Sidst Ændret"
+
+#: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Votes"
 msgstr "Stemmer"
 
@@ -479,12 +488,15 @@ msgid "Out of Date"
 msgstr "Uddateret"
 
 #: ../src/manager_window.vala
-msgid "Backup files"
-msgstr "Back-up filer"
-
-#: ../src/manager_window.vala
-msgid "No package found"
-msgstr "Ingen pakke fundet"
+#, c-format
+msgid ""
+"%s has %u uninstalled optional dependency.\n"
+"Choose if you would like to install it"
+msgid_plural ""
+"%s has %u uninstalled optional dependencies.\n"
+"Choose those you would like to install"
+msgstr[0] "%s har %u som uinstalleret afhænghed.\nVælg om du gerne vil installere den"
+msgstr[1] "%s har %u uinstallerede valgfrie afhængigheder. \nVælg hvilke du gerne vil installere"
 
 #: ../src/manager_window.vala
 msgid "Uninstalled"
@@ -605,7 +617,7 @@ msgstr "Søg"
 msgid "State"
 msgstr "Tilstand"
 
-#: ../resources/manager_window.ui
+#: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "Repositories"
 msgstr "Arkiv"
 
@@ -620,6 +632,11 @@ msgstr "Version"
 #: ../resources/manager_window.ui
 msgid "Size"
 msgstr "Størrelse"
+
+#: ../resources/manager_window.ui ../resources/updater_window.ui
+#: ../resources/preferences_dialog.ui
+msgid "AUR"
+msgstr "AUR"
 
 #: ../resources/manager_window.ui
 msgid "Description"
@@ -716,10 +733,6 @@ msgstr "Tjek efter opdateringer fra AUR"
 #: ../resources/preferences_dialog.ui
 msgid "Do not ask for confirmation when building packages"
 msgstr "Spørg ikke efter bekræftelse når pakker bygges"
-
-#: ../resources/preferences_dialog.ui
-msgid "AUR"
-msgstr "AUR"
 
 #: ../resources/choose_ignorepkgs_dialog.ui
 msgid "Choose Ignored Upgrades"

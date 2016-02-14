@@ -6,7 +6,7 @@
 # Translators:
 # Lajos Pasztor <mrlajos@gmail.com>, 2013
 # Lajos Pasztor <mrlajos@gmail.com>, 2013-2015
-# miku84, 2015
+# miku84, 2015-2016
 # philm <philm@manjaro.org>, 2015
 # sivananda <kotagirisivananda@gmail.com>, 2014
 msgid ""
@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2015-08-20 11:53+0200\n"
-"PO-Revision-Date: 2015-10-13 19:22+0000\n"
+"PO-Revision-Date: 2016-02-02 20:59+0000\n"
 "Last-Translator: miku84\n"
 "Language-Team: Hungarian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/hu/)\n"
 "MIME-Version: 1.0\n"
@@ -27,21 +27,14 @@ msgstr ""
 msgid "Authentication is required"
 msgstr "Hitelesítés szükséges"
 
-#: ../src/daemon.vala
+#: ../src/daemon.vala ../src/manager_window.vala
+#: ../src/preferences_dialog.vala
 msgid "Failed to initialize alpm library"
 msgstr "Nem sikerült inicializálni az alpm könyvtárat"
 
 #: ../src/daemon.vala
 msgid "Failed to synchronize any databases"
 msgstr "Nem sikerült egyetlen adatbázist sem szinkronizálni"
-
-#: ../src/daemon.vala
-msgid "No"
-msgstr "Nem"
-
-#: ../src/daemon.vala
-msgid "Yes"
-msgstr "Igen"
 
 #: ../src/daemon.vala
 msgid "Failed to init transaction"
@@ -95,7 +88,7 @@ msgstr "%s: %s már létezik a fájlrendszerben"
 msgid "%s is invalid or corrupted"
 msgstr "%s hibás vagy sérült"
 
-#: ../src/daemon.vala
+#: ../src/daemon.vala ../src/transaction.vala
 msgid "Authentication failed"
 msgstr "Hitelesítés nem sikerült"
 
@@ -114,6 +107,11 @@ msgstr "Teljes rendszerfrissítés megkezdése"
 #: ../src/transaction.vala
 msgid "Preparing"
 msgstr "Előkészítés"
+
+#: ../src/transaction.vala
+#, c-format
+msgid "Choose a provider for %s"
+msgstr "Válassz szolgáltatót a %s -hez"
 
 #: ../src/transaction.vala ../resources/transaction_sum_dialog.ui
 msgid "Transaction Summary"
@@ -150,6 +148,14 @@ msgstr "Teljes letöltési méret"
 #: ../src/transaction.vala
 msgid "Building packages"
 msgstr "Csomagok építése"
+
+#: ../src/transaction.vala
+msgid "Running pre-transaction hooks"
+msgstr "Tranzakciók bekötése"
+
+#: ../src/transaction.vala
+msgid "Running post-transaction hooks"
+msgstr "Tranzakciók bekötése"
 
 #: ../src/transaction.vala
 msgid "Checking dependencies"
@@ -264,11 +270,6 @@ msgstr "%s telepítve mint %s.pacsave"
 
 #: ../src/transaction.vala
 #, c-format
-msgid "%s installed as %s.pacorig"
-msgstr "%s telepítve mint %s.pacorig"
-
-#: ../src/transaction.vala
-#, c-format
 msgid "Refreshing %s"
 msgstr "Frissítés %s"
 
@@ -276,6 +277,18 @@ msgstr "Frissítés %s"
 #, c-format
 msgid "Downloading %s"
 msgstr "Letöltés %s"
+
+#: ../src/transaction.vala
+#, c-format
+msgid "About %u seconds remaining"
+msgstr "Kb. %u másodperc van hátra"
+
+#: ../src/transaction.vala
+#, c-format
+msgid "About %lu minute remaining"
+msgid_plural "About %lu minutes remaining"
+msgstr[0] "Kb. %lu perc van hátra"
+msgstr[1] "Kb. %lu perc van hátra"
 
 #: ../src/transaction.vala
 msgid "Warning"
@@ -286,7 +299,7 @@ msgstr "Figyelem"
 msgid "Error"
 msgstr "Hiba"
 
-#: ../src/transaction.vala ../src/progress_dialog.vala
+#: ../src/transaction.vala
 msgid "Transaction cancelled"
 msgstr "Művelet visszavonva"
 
@@ -329,22 +342,6 @@ msgstr[1] "%u  elérhető frissítések"
 msgid "Show available updates"
 msgstr "Mutasd az elérhető frissítéseket"
 
-#: ../src/choose_provider_dialog.vala
-#, c-format
-msgid "Choose a provider for %s"
-msgstr "Válassz szolgáltatót a %s -hez"
-
-#: ../src/choose_dep_dialog.vala
-#, c-format
-msgid ""
-"%s has %u uninstalled optional dependency.\n"
-"Choose if you would like to install it"
-msgid_plural ""
-"%s has %u uninstalled optional dependencies.\n"
-"Choose those you would like to install"
-msgstr[0] "%s tartalmaz %u eltávolított opcionális függőséget.\nVálaszd ki azokat amiket telepíteni szeretnél"
-msgstr[1] "%s tartalmaz %u eltávolított opcionális függőséget.\nVálaszd ki azokat amiket telepíteni szeretnél:"
-
 #: ../src/manager_window.vala
 msgid "Deselect"
 msgstr "Kiválasztás megszüntetése"
@@ -386,6 +383,10 @@ msgid "Licenses"
 msgstr "Licenszek"
 
 #: ../src/manager_window.vala
+msgid "Unknown"
+msgstr "Ismeretlen"
+
+#: ../src/manager_window.vala
 msgid "Depends On"
 msgstr "Függőségek"
 
@@ -422,18 +423,6 @@ msgid "Groups"
 msgstr "Csoportok"
 
 #: ../src/manager_window.vala
-msgid "Maintainer"
-msgstr "Karbantartó"
-
-#: ../src/manager_window.vala
-msgid "First Submitted"
-msgstr "Először közzétéve"
-
-#: ../src/manager_window.vala
-msgid "Last Modified"
-msgstr "Utoljára módosítva"
-
-#: ../src/manager_window.vala
 msgid "Packager"
 msgstr "Csomagoló"
 
@@ -454,18 +443,38 @@ msgid "Installed as a dependency for another package"
 msgstr "Telepítve csomagfüggőség miatt"
 
 #: ../src/manager_window.vala
-msgid "Unknown"
-msgstr "Ismeretlen"
-
-#: ../src/manager_window.vala
 msgid "Install Reason"
 msgstr "Telepítés oka"
+
+#: ../src/manager_window.vala
+msgid "Yes"
+msgstr "Igen"
+
+#: ../src/manager_window.vala
+msgid "No"
+msgstr "Nem"
 
 #: ../src/manager_window.vala
 msgid "Signatures"
 msgstr "Aláírások"
 
 #: ../src/manager_window.vala
+msgid "Backup files"
+msgstr "Mentett fájlok"
+
+#: ../src/manager_window.vala
+msgid "Maintainer"
+msgstr "Karbantartó"
+
+#: ../src/manager_window.vala
+msgid "First Submitted"
+msgstr "Először közzétéve"
+
+#: ../src/manager_window.vala
+msgid "Last Modified"
+msgstr "Utoljára módosítva"
+
+#: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Votes"
 msgstr "Szavazatok"
 
@@ -474,12 +483,15 @@ msgid "Out of Date"
 msgstr "Elavult"
 
 #: ../src/manager_window.vala
-msgid "Backup files"
-msgstr "Mentett fájlok"
-
-#: ../src/manager_window.vala
-msgid "No package found"
-msgstr "Nem található csomag"
+#, c-format
+msgid ""
+"%s has %u uninstalled optional dependency.\n"
+"Choose if you would like to install it"
+msgid_plural ""
+"%s has %u uninstalled optional dependencies.\n"
+"Choose those you would like to install"
+msgstr[0] "%s tartalmaz %u eltávolított opcionális függőséget.\nVálaszd ki azokat amiket telepíteni szeretnél"
+msgstr[1] "%s tartalmaz %u eltávolított opcionális függőséget.\nVálaszd ki azokat amiket telepíteni szeretnél:"
 
 #: ../src/manager_window.vala
 msgid "Uninstalled"
@@ -600,7 +612,7 @@ msgstr "Keresés"
 msgid "State"
 msgstr "Állapot"
 
-#: ../resources/manager_window.ui
+#: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "Repositories"
 msgstr "Tárolók"
 
@@ -615,6 +627,11 @@ msgstr "Verzió"
 #: ../resources/manager_window.ui
 msgid "Size"
 msgstr "Méret"
+
+#: ../resources/manager_window.ui ../resources/updater_window.ui
+#: ../resources/preferences_dialog.ui
+msgid "AUR"
+msgstr "AUR"
 
 #: ../resources/manager_window.ui
 msgid "Description"
@@ -711,10 +728,6 @@ msgstr "AUR frissítések keresése"
 #: ../resources/preferences_dialog.ui
 msgid "Do not ask for confirmation when building packages"
 msgstr "Ne kérdezzen rá csomagok építésekor"
-
-#: ../resources/preferences_dialog.ui
-msgid "AUR"
-msgstr "AUR"
 
 #: ../resources/choose_ignorepkgs_dialog.ui
 msgid "Choose Ignored Upgrades"

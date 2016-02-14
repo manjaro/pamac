@@ -4,7 +4,9 @@
 # Guillaume Benoit <guillaume@manjaro.org>, 2013-2015.
 # 
 # Translators:
+# Bankman <hein.dirk@t-online.de>, 2016
 # Guillaume Benoit <guillaume@manjaro.org>, 2013
+# Christian Spaan <gyges@gmx.net>, 2016
 # Tobias B. <aema-001@kabelmail.de>, 2013
 # Kai Spindler <kaiwasaki@gmail.com>, 2014
 # Veraendert <kleine@kanzlei-endingen.de>, 2014
@@ -22,8 +24,8 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2015-08-20 11:53+0200\n"
-"PO-Revision-Date: 2015-10-16 07:14+0000\n"
-"Last-Translator: philm <philm@manjaro.org>\n"
+"PO-Revision-Date: 2016-02-02 18:58+0000\n"
+"Last-Translator: Bankman <hein.dirk@t-online.de>\n"
 "Language-Team: German (http://www.transifex.com/manjarolinux/manjaro-pamac/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -35,21 +37,14 @@ msgstr ""
 msgid "Authentication is required"
 msgstr "Authentifizierung wird benötigt"
 
-#: ../src/daemon.vala
+#: ../src/daemon.vala ../src/manager_window.vala
+#: ../src/preferences_dialog.vala
 msgid "Failed to initialize alpm library"
 msgstr "Fehler beim Initialisieren der Alpm-Library"
 
 #: ../src/daemon.vala
 msgid "Failed to synchronize any databases"
 msgstr "Synchronisieren der Datenbanken fehlgeschlagen"
-
-#: ../src/daemon.vala
-msgid "No"
-msgstr "Nein"
-
-#: ../src/daemon.vala
-msgid "Yes"
-msgstr "Ja"
 
 #: ../src/daemon.vala
 msgid "Failed to init transaction"
@@ -103,13 +98,13 @@ msgstr "%s: %s existiert bereits im Dateisystem"
 msgid "%s is invalid or corrupted"
 msgstr "%s ist ungültig oder beschädigt"
 
-#: ../src/daemon.vala
+#: ../src/daemon.vala ../src/transaction.vala
 msgid "Authentication failed"
 msgstr "Authentifizierung fehlgeschlagen"
 
 #: ../src/transaction.vala
 msgid "Refreshing mirrors list"
-msgstr "Mirrorliste erneuern"
+msgstr "Aktualisiere Liste der Spiegelserver"
 
 #: ../src/transaction.vala
 msgid "Synchronizing package databases"
@@ -122,6 +117,11 @@ msgstr "Starte komplettes System-Upgrade"
 #: ../src/transaction.vala
 msgid "Preparing"
 msgstr "Vorbereitung"
+
+#: ../src/transaction.vala
+#, c-format
+msgid "Choose a provider for %s"
+msgstr "Wähle einen Anbieter für %s"
 
 #: ../src/transaction.vala ../resources/transaction_sum_dialog.ui
 msgid "Transaction Summary"
@@ -158,6 +158,14 @@ msgstr "Download-Größe gesamt"
 #: ../src/transaction.vala
 msgid "Building packages"
 msgstr "Erstelle Pakete"
+
+#: ../src/transaction.vala
+msgid "Running pre-transaction hooks"
+msgstr ""
+
+#: ../src/transaction.vala
+msgid "Running post-transaction hooks"
+msgstr ""
 
 #: ../src/transaction.vala
 msgid "Checking dependencies"
@@ -272,11 +280,6 @@ msgstr "%s installiert als %s.pacsave"
 
 #: ../src/transaction.vala
 #, c-format
-msgid "%s installed as %s.pacorig"
-msgstr "%s installiert als %s.pacorig"
-
-#: ../src/transaction.vala
-#, c-format
 msgid "Refreshing %s"
 msgstr "Aufrischen von %s"
 
@@ -284,6 +287,18 @@ msgstr "Aufrischen von %s"
 #, c-format
 msgid "Downloading %s"
 msgstr "Herunterladen von %s"
+
+#: ../src/transaction.vala
+#, c-format
+msgid "About %u seconds remaining"
+msgstr "Noch %u Sekunden verbleiben"
+
+#: ../src/transaction.vala
+#, c-format
+msgid "About %lu minute remaining"
+msgid_plural "About %lu minutes remaining"
+msgstr[0] "Noch %lu Minuten verbleiben"
+msgstr[1] "Noch %lu Minuten verbleiben"
 
 #: ../src/transaction.vala
 msgid "Warning"
@@ -294,7 +309,7 @@ msgstr "Warnung"
 msgid "Error"
 msgstr "Fehler"
 
-#: ../src/transaction.vala ../src/progress_dialog.vala
+#: ../src/transaction.vala
 msgid "Transaction cancelled"
 msgstr "Vorgang abgebrochen"
 
@@ -337,22 +352,6 @@ msgstr[1] "%u Aktualisierungen verfügbar"
 msgid "Show available updates"
 msgstr "Verfügbare Updates anzeigen"
 
-#: ../src/choose_provider_dialog.vala
-#, c-format
-msgid "Choose a provider for %s"
-msgstr "Wähle einen Anbieter für %s"
-
-#: ../src/choose_dep_dialog.vala
-#, c-format
-msgid ""
-"%s has %u uninstalled optional dependency.\n"
-"Choose if you would like to install it"
-msgid_plural ""
-"%s has %u uninstalled optional dependencies.\n"
-"Choose those you would like to install"
-msgstr[0] "%s hat %u optionale Abhängigkeit zur Installation.\nZur Installation kann diese ausgewählt werden."
-msgstr[1] "%s hat %u optionale Abhängigkeiten zur Installation.\nZur Installation können nun die gewünschten ausgewählt werden."
-
 #: ../src/manager_window.vala
 msgid "Deselect"
 msgstr "Abwählen"
@@ -394,6 +393,10 @@ msgid "Licenses"
 msgstr "Lizenzen"
 
 #: ../src/manager_window.vala
+msgid "Unknown"
+msgstr "Unbekannt"
+
+#: ../src/manager_window.vala
 msgid "Depends On"
 msgstr "Hängt ab von"
 
@@ -430,18 +433,6 @@ msgid "Groups"
 msgstr "Gruppen"
 
 #: ../src/manager_window.vala
-msgid "Maintainer"
-msgstr "Maintainer"
-
-#: ../src/manager_window.vala
-msgid "First Submitted"
-msgstr "Zuerst eingereicht am"
-
-#: ../src/manager_window.vala
-msgid "Last Modified"
-msgstr "Letzte Aktualisierung"
-
-#: ../src/manager_window.vala
 msgid "Packager"
 msgstr "Packer"
 
@@ -462,32 +453,55 @@ msgid "Installed as a dependency for another package"
 msgstr "Installiert als Abhängigkeit für ein anderes Paket"
 
 #: ../src/manager_window.vala
-msgid "Unknown"
-msgstr "Unbekannt"
-
-#: ../src/manager_window.vala
 msgid "Install Reason"
 msgstr "Installationsgrund"
+
+#: ../src/manager_window.vala
+msgid "Yes"
+msgstr "Ja"
+
+#: ../src/manager_window.vala
+msgid "No"
+msgstr "Nein"
 
 #: ../src/manager_window.vala
 msgid "Signatures"
 msgstr "Signaturen"
 
 #: ../src/manager_window.vala
+msgid "Backup files"
+msgstr "Dateisicherungen"
+
+#: ../src/manager_window.vala
+msgid "Maintainer"
+msgstr "Maintainer"
+
+#: ../src/manager_window.vala
+msgid "First Submitted"
+msgstr "Zuerst eingereicht am"
+
+#: ../src/manager_window.vala
+msgid "Last Modified"
+msgstr "Letzte Veränderung"
+
+#: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Votes"
-msgstr "Beliebtheit"
+msgstr "Bewertungen"
 
 #: ../src/manager_window.vala
 msgid "Out of Date"
 msgstr "Veraltet"
 
 #: ../src/manager_window.vala
-msgid "Backup files"
-msgstr "Dateisicherungen"
-
-#: ../src/manager_window.vala
-msgid "No package found"
-msgstr "Keine Pakete gefunden"
+#, c-format
+msgid ""
+"%s has %u uninstalled optional dependency.\n"
+"Choose if you would like to install it"
+msgid_plural ""
+"%s has %u uninstalled optional dependencies.\n"
+"Choose those you would like to install"
+msgstr[0] "%s hat %u optionale Abhängigkeit zur Installation.\nZur Installation kann diese ausgewählt werden."
+msgstr[1] "Für %s stehen %u optionale Abhängigkeiten zur Installation bereit.\nWählen Sie jene, die installiert werden sollen."
 
 #: ../src/manager_window.vala
 msgid "Uninstalled"
@@ -537,7 +551,7 @@ msgstr "Zufällig"
 
 #: ../src/choose_ignorepkgs_dialog.vala
 msgid "Choose the packages you do not want to upgrade"
-msgstr "Wähle die Pakete, welche nicht erneuert werden sollen"
+msgstr "Wähle die Pakete, die nicht aktualisiert werden sollen"
 
 #: ../resources/choose_provider_dialog.ui
 msgid "Choose a Provider"
@@ -608,7 +622,7 @@ msgstr "Suche"
 msgid "State"
 msgstr "Status"
 
-#: ../resources/manager_window.ui
+#: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "Repositories"
 msgstr "Paketquellen"
 
@@ -623,6 +637,11 @@ msgstr "Version"
 #: ../resources/manager_window.ui
 msgid "Size"
 msgstr "Größe"
+
+#: ../resources/manager_window.ui ../resources/updater_window.ui
+#: ../resources/preferences_dialog.ui
+msgid "AUR"
+msgstr "AUR"
 
 #: ../resources/manager_window.ui
 msgid "Description"
@@ -664,11 +683,11 @@ msgstr "Überprüfe vorhandenen Speicherplatz"
 
 #: ../resources/preferences_dialog.ui
 msgid "Check for updates"
-msgstr "Überprüfe auf Erneuerungen"
+msgstr "Suche nach Aktualisierungen"
 
 #: ../resources/preferences_dialog.ui
 msgid "Hide tray icon when no update available"
-msgstr "Tray-Icon verstecken, falls keine Erneuerungen verfügbar sind"
+msgstr "Verstecke Icon im Systemabschnitt der Kontrollleiste, falls keine Aktualisierungen verfügbar sind"
 
 #: ../resources/preferences_dialog.ui
 msgid "Ignore upgrades for:"
@@ -688,7 +707,7 @@ msgstr "Sortiere Server nach:"
 
 #: ../resources/preferences_dialog.ui
 msgid "Refresh Mirrors List"
-msgstr "Mirrorliste erneuern"
+msgstr "Aktualisiere Liste der Spiegelserver"
 
 #: ../resources/preferences_dialog.ui
 msgid "Official Repositories"
@@ -698,7 +717,7 @@ msgstr "Offizielle Repositorien"
 msgid ""
 "AUR is a community maintained repository so it presents potential risks and problems.\n"
 "All AUR users should be familiar with the build process."
-msgstr "AUR ist eine von der Community gepflegte Repository, welche potentielle Risiken und Probleme verursachen kann.\nBei Benutzung von AUR sollte der Build-Prozess geläufig sein."
+msgstr "Das AUR ist ein von der Gemeinschaft gepflegtes Repositorium, das Risiken birgt und Probleme verursachen kann.\nAlle Benutzer des AUR sollten mit dem Erstellen von Paketen vertraut sein."
 
 #: ../resources/preferences_dialog.ui
 msgid "Enable AUR support"
@@ -710,20 +729,16 @@ msgstr "Erlaube Pamac nach Paketen im AUR zu suchen und zu installieren"
 
 #: ../resources/preferences_dialog.ui
 msgid "Search in AUR by default"
-msgstr "Suche standardmäßig in AUR"
+msgstr "Suche standardmäßig im AUR"
 
 #: ../resources/preferences_dialog.ui
 msgid "Check for updates from AUR"
-msgstr "Überprüfe auf Erneuerungen aus AUR"
+msgstr "Suche nach Aktualisierungen aus dem AUR"
 
 #: ../resources/preferences_dialog.ui
 msgid "Do not ask for confirmation when building packages"
-msgstr "Keine Nachfrage nach einer Bestätigung beim Erstellen von Paketen"
-
-#: ../resources/preferences_dialog.ui
-msgid "AUR"
-msgstr "AUR"
+msgstr "Beim Erstellen von Paketen nicht nach Bestätigung fragen"
 
 #: ../resources/choose_ignorepkgs_dialog.ui
 msgid "Choose Ignored Upgrades"
-msgstr "Ignorierte Erneuerungen auswählen"
+msgstr "Zu ignorierende Aktualisierungen auswählen"

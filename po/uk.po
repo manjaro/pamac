@@ -18,8 +18,8 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2015-08-20 11:53+0200\n"
-"PO-Revision-Date: 2015-10-08 08:28+0000\n"
-"Last-Translator: philm <philm@manjaro.org>\n"
+"PO-Revision-Date: 2016-02-02 08:27+0000\n"
+"Last-Translator: Guillaume Benoit <guillaume@manjaro.org>\n"
 "Language-Team: Ukrainian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/uk/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -31,21 +31,14 @@ msgstr ""
 msgid "Authentication is required"
 msgstr "Потрібна автентифікація"
 
-#: ../src/daemon.vala
+#: ../src/daemon.vala ../src/manager_window.vala
+#: ../src/preferences_dialog.vala
 msgid "Failed to initialize alpm library"
 msgstr "Не вдалося ініціалізувати бібліотеку alpm"
 
 #: ../src/daemon.vala
 msgid "Failed to synchronize any databases"
 msgstr "Не вдалося синхронізувати жодну базу даних"
-
-#: ../src/daemon.vala
-msgid "No"
-msgstr "Ні"
-
-#: ../src/daemon.vala
-msgid "Yes"
-msgstr "Так"
 
 #: ../src/daemon.vala
 msgid "Failed to init transaction"
@@ -99,7 +92,7 @@ msgstr "%s: %s вже існує в файловій системі"
 msgid "%s is invalid or corrupted"
 msgstr "%s недійсний чи пошкоджений"
 
-#: ../src/daemon.vala
+#: ../src/daemon.vala ../src/transaction.vala
 msgid "Authentication failed"
 msgstr "Помилка аутентифікації"
 
@@ -118,6 +111,11 @@ msgstr "Запуск повного оновлення системи"
 #: ../src/transaction.vala
 msgid "Preparing"
 msgstr "Підготовка"
+
+#: ../src/transaction.vala
+#, c-format
+msgid "Choose a provider for %s"
+msgstr "Обрати провайдера для %s"
 
 #: ../src/transaction.vala ../resources/transaction_sum_dialog.ui
 msgid "Transaction Summary"
@@ -154,6 +152,14 @@ msgstr "Загальний розмір завантаження"
 #: ../src/transaction.vala
 msgid "Building packages"
 msgstr "Побудова пакунків"
+
+#: ../src/transaction.vala
+msgid "Running pre-transaction hooks"
+msgstr ""
+
+#: ../src/transaction.vala
+msgid "Running post-transaction hooks"
+msgstr ""
 
 #: ../src/transaction.vala
 msgid "Checking dependencies"
@@ -268,11 +274,6 @@ msgstr "%s встановлено як %s.pacsave"
 
 #: ../src/transaction.vala
 #, c-format
-msgid "%s installed as %s.pacorig"
-msgstr "%s встановлено як %s.pacorig"
-
-#: ../src/transaction.vala
-#, c-format
 msgid "Refreshing %s"
 msgstr "Оновлення %s"
 
@@ -280,6 +281,19 @@ msgstr "Оновлення %s"
 #, c-format
 msgid "Downloading %s"
 msgstr "Завантаження %s"
+
+#: ../src/transaction.vala
+#, c-format
+msgid "About %u seconds remaining"
+msgstr ""
+
+#: ../src/transaction.vala
+#, c-format
+msgid "About %lu minute remaining"
+msgid_plural "About %lu minutes remaining"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
 
 #: ../src/transaction.vala
 msgid "Warning"
@@ -290,7 +304,7 @@ msgstr "Увага"
 msgid "Error"
 msgstr "Помилка"
 
-#: ../src/transaction.vala ../src/progress_dialog.vala
+#: ../src/transaction.vala
 msgid "Transaction cancelled"
 msgstr "Транзакцію скасовано"
 
@@ -334,23 +348,6 @@ msgstr[2] "%u доступних оновлень"
 msgid "Show available updates"
 msgstr "Показати доступні оновлення"
 
-#: ../src/choose_provider_dialog.vala
-#, c-format
-msgid "Choose a provider for %s"
-msgstr "Обрати провайдера для %s"
-
-#: ../src/choose_dep_dialog.vala
-#, c-format
-msgid ""
-"%s has %u uninstalled optional dependency.\n"
-"Choose if you would like to install it"
-msgid_plural ""
-"%s has %u uninstalled optional dependencies.\n"
-"Choose those you would like to install"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-
 #: ../src/manager_window.vala
 msgid "Deselect"
 msgstr "Скасувати вибір"
@@ -392,6 +389,10 @@ msgid "Licenses"
 msgstr "Ліцензії"
 
 #: ../src/manager_window.vala
+msgid "Unknown"
+msgstr "Невідомо"
+
+#: ../src/manager_window.vala
 msgid "Depends On"
 msgstr "Залежить від"
 
@@ -428,18 +429,6 @@ msgid "Groups"
 msgstr "Групи"
 
 #: ../src/manager_window.vala
-msgid "Maintainer"
-msgstr ""
-
-#: ../src/manager_window.vala
-msgid "First Submitted"
-msgstr ""
-
-#: ../src/manager_window.vala
-msgid "Last Modified"
-msgstr ""
-
-#: ../src/manager_window.vala
 msgid "Packager"
 msgstr "Пакувальник"
 
@@ -460,18 +449,38 @@ msgid "Installed as a dependency for another package"
 msgstr "Встановлений як залежність до іншого пакунка"
 
 #: ../src/manager_window.vala
-msgid "Unknown"
-msgstr "Невідомо"
-
-#: ../src/manager_window.vala
 msgid "Install Reason"
 msgstr "Причина встановлення"
+
+#: ../src/manager_window.vala
+msgid "Yes"
+msgstr "Так"
+
+#: ../src/manager_window.vala
+msgid "No"
+msgstr "Ні"
 
 #: ../src/manager_window.vala
 msgid "Signatures"
 msgstr "Підписи"
 
 #: ../src/manager_window.vala
+msgid "Backup files"
+msgstr "Резервні файли"
+
+#: ../src/manager_window.vala
+msgid "Maintainer"
+msgstr ""
+
+#: ../src/manager_window.vala
+msgid "First Submitted"
+msgstr ""
+
+#: ../src/manager_window.vala
+msgid "Last Modified"
+msgstr ""
+
+#: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Votes"
 msgstr ""
 
@@ -480,12 +489,16 @@ msgid "Out of Date"
 msgstr ""
 
 #: ../src/manager_window.vala
-msgid "Backup files"
-msgstr "Резервні файли"
-
-#: ../src/manager_window.vala
-msgid "No package found"
-msgstr "Пакет не знайдений"
+#, c-format
+msgid ""
+"%s has %u uninstalled optional dependency.\n"
+"Choose if you would like to install it"
+msgid_plural ""
+"%s has %u uninstalled optional dependencies.\n"
+"Choose those you would like to install"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
 
 #: ../src/manager_window.vala
 msgid "Uninstalled"
@@ -606,7 +619,7 @@ msgstr "Пошук"
 msgid "State"
 msgstr "Стан"
 
-#: ../resources/manager_window.ui
+#: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "Repositories"
 msgstr "Репозиторії"
 
@@ -621,6 +634,11 @@ msgstr "Версія"
 #: ../resources/manager_window.ui
 msgid "Size"
 msgstr "Розмір"
+
+#: ../resources/manager_window.ui ../resources/updater_window.ui
+#: ../resources/preferences_dialog.ui
+msgid "AUR"
+msgstr "AUR"
 
 #: ../resources/manager_window.ui
 msgid "Description"
@@ -717,10 +735,6 @@ msgstr "Перевірка оновлень AUR"
 #: ../resources/preferences_dialog.ui
 msgid "Do not ask for confirmation when building packages"
 msgstr "Не питати підтвердження при створенні пакетів"
-
-#: ../resources/preferences_dialog.ui
-msgid "AUR"
-msgstr "AUR"
 
 #: ../resources/choose_ignorepkgs_dialog.ui
 msgid "Choose Ignored Upgrades"

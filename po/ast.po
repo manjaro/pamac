@@ -4,7 +4,7 @@
 # Guillaume Benoit <guillaume@manjaro.org>, 2013-2015.
 # 
 # Translators:
-# enolp <enolp@softastur.org>, 2015
+# enolp <enolp@softastur.org>, 2015-2016
 # Ḷḷumex03 <tornes@opmbx.org>, 2013-2014
 # Ḷḷumex03 <tornes@opmbx.org>, 2014
 # Ḷḷumex03 <tornes@opmbx.org>, 2014-2015
@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2015-08-20 11:53+0200\n"
-"PO-Revision-Date: 2015-10-08 20:27+0000\n"
+"PO-Revision-Date: 2016-02-14 13:28+0000\n"
 "Last-Translator: enolp <enolp@softastur.org>\n"
 "Language-Team: Asturian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/ast/)\n"
 "MIME-Version: 1.0\n"
@@ -28,21 +28,14 @@ msgstr ""
 msgid "Authentication is required"
 msgstr "Ríquese l'autenticación"
 
-#: ../src/daemon.vala
+#: ../src/daemon.vala ../src/manager_window.vala
+#: ../src/preferences_dialog.vala
 msgid "Failed to initialize alpm library"
 msgstr "Fallu al aniciar la llibrería alpm"
 
 #: ../src/daemon.vala
 msgid "Failed to synchronize any databases"
 msgstr "Fallu al sincronizar les bases de datos"
-
-#: ../src/daemon.vala
-msgid "No"
-msgstr "Non"
-
-#: ../src/daemon.vala
-msgid "Yes"
-msgstr "Sí"
 
 #: ../src/daemon.vala
 msgid "Failed to init transaction"
@@ -96,7 +89,7 @@ msgstr "%s: %s yá esiste nel sistema ficheros"
 msgid "%s is invalid or corrupted"
 msgstr "%s ta toriáu o nun ye válidu"
 
-#: ../src/daemon.vala
+#: ../src/daemon.vala ../src/transaction.vala
 msgid "Authentication failed"
 msgstr "Autenticación fallida"
 
@@ -115,6 +108,11 @@ msgstr "Aniciando anovamientu completu del sistema"
 #: ../src/transaction.vala
 msgid "Preparing"
 msgstr "Tresnando"
+
+#: ../src/transaction.vala
+#, c-format
+msgid "Choose a provider for %s"
+msgstr "Escueyi un fornidor pa %s"
 
 #: ../src/transaction.vala ../resources/transaction_sum_dialog.ui
 msgid "Transaction Summary"
@@ -151,6 +149,14 @@ msgstr "Tamañu total de descarga"
 #: ../src/transaction.vala
 msgid "Building packages"
 msgstr "Construyendo paquetes"
+
+#: ../src/transaction.vala
+msgid "Running pre-transaction hooks"
+msgstr "Executando gabitos de pre-transaición"
+
+#: ../src/transaction.vala
+msgid "Running post-transaction hooks"
+msgstr "Executando gabitos de post-transaición"
 
 #: ../src/transaction.vala
 msgid "Checking dependencies"
@@ -265,11 +271,6 @@ msgstr "%s instalóse como %s.pacsave"
 
 #: ../src/transaction.vala
 #, c-format
-msgid "%s installed as %s.pacorig"
-msgstr "%s instalóse como %s.pacoring"
-
-#: ../src/transaction.vala
-#, c-format
 msgid "Refreshing %s"
 msgstr "Anovando %s"
 
@@ -277,6 +278,18 @@ msgstr "Anovando %s"
 #, c-format
 msgid "Downloading %s"
 msgstr "Baxando %s"
+
+#: ../src/transaction.vala
+#, c-format
+msgid "About %u seconds remaining"
+msgstr "Falten sobro %u segundos"
+
+#: ../src/transaction.vala
+#, c-format
+msgid "About %lu minute remaining"
+msgid_plural "About %lu minutes remaining"
+msgstr[0] "Falten sobro %lu minutu"
+msgstr[1] "Falten sobro %lu minutos"
 
 #: ../src/transaction.vala
 msgid "Warning"
@@ -287,7 +300,7 @@ msgstr "Avisu"
 msgid "Error"
 msgstr "Fallu"
 
-#: ../src/transaction.vala ../src/progress_dialog.vala
+#: ../src/transaction.vala
 msgid "Transaction cancelled"
 msgstr "Transaición encaboxada"
 
@@ -330,22 +343,6 @@ msgstr[1] "%u anovamientos disponible"
 msgid "Show available updates"
 msgstr "Amosar anovamientos disponibles"
 
-#: ../src/choose_provider_dialog.vala
-#, c-format
-msgid "Choose a provider for %s"
-msgstr "Escueyi un fornidor pa %s"
-
-#: ../src/choose_dep_dialog.vala
-#, c-format
-msgid ""
-"%s has %u uninstalled optional dependency.\n"
-"Choose if you would like to install it"
-msgid_plural ""
-"%s has %u uninstalled optional dependencies.\n"
-"Choose those you would like to install"
-msgstr[0] "%s tien desinstalada %u dependencia opcional.\nEscueyi si te prestaría instalala"
-msgstr[1] "%s tien desinstalaes %u dependencies opcionales.\nEscueyi si te prestaría instalales"
-
 #: ../src/manager_window.vala
 msgid "Deselect"
 msgstr "Deseleicionar"
@@ -387,6 +384,10 @@ msgid "Licenses"
 msgstr "Llicencies"
 
 #: ../src/manager_window.vala
+msgid "Unknown"
+msgstr "Desconocíu"
+
+#: ../src/manager_window.vala
 msgid "Depends On"
 msgstr "Ta arreyáu a"
 
@@ -423,18 +424,6 @@ msgid "Groups"
 msgstr "Grupos"
 
 #: ../src/manager_window.vala
-msgid "Maintainer"
-msgstr "Caltenedor"
-
-#: ../src/manager_window.vala
-msgid "First Submitted"
-msgstr "Primer unviu"
-
-#: ../src/manager_window.vala
-msgid "Last Modified"
-msgstr "Modificación cabera"
-
-#: ../src/manager_window.vala
 msgid "Packager"
 msgstr "Empaquetador"
 
@@ -455,18 +444,38 @@ msgid "Installed as a dependency for another package"
 msgstr "Instaláu como una dependencia pa otru paquete"
 
 #: ../src/manager_window.vala
-msgid "Unknown"
-msgstr "Desconocíu"
-
-#: ../src/manager_window.vala
 msgid "Install Reason"
 msgstr "Razón d'instalación"
+
+#: ../src/manager_window.vala
+msgid "Yes"
+msgstr "Sí"
+
+#: ../src/manager_window.vala
+msgid "No"
+msgstr "Non"
 
 #: ../src/manager_window.vala
 msgid "Signatures"
 msgstr "Robles"
 
 #: ../src/manager_window.vala
+msgid "Backup files"
+msgstr "Copies de seguranza"
+
+#: ../src/manager_window.vala
+msgid "Maintainer"
+msgstr "Caltenedor"
+
+#: ../src/manager_window.vala
+msgid "First Submitted"
+msgstr "Primer unviu"
+
+#: ../src/manager_window.vala
+msgid "Last Modified"
+msgstr "Modificación cabera"
+
+#: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Votes"
 msgstr "Votos"
 
@@ -475,12 +484,15 @@ msgid "Out of Date"
 msgstr "Ensin anovar"
 
 #: ../src/manager_window.vala
-msgid "Backup files"
-msgstr "Copies de seguranza"
-
-#: ../src/manager_window.vala
-msgid "No package found"
-msgstr "Nun s'alcontró'l paquete"
+#, c-format
+msgid ""
+"%s has %u uninstalled optional dependency.\n"
+"Choose if you would like to install it"
+msgid_plural ""
+"%s has %u uninstalled optional dependencies.\n"
+"Choose those you would like to install"
+msgstr[0] "%s tien desinstalada %u dependencia opcional.\nEscueyi si te prestaría instalala"
+msgstr[1] "%s tien desinstalaes %u dependencies opcionales.\nEscueyi si te prestaría instalales"
 
 #: ../src/manager_window.vala
 msgid "Uninstalled"
@@ -601,7 +613,7 @@ msgstr "Guetar"
 msgid "State"
 msgstr "Estáu"
 
-#: ../resources/manager_window.ui
+#: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "Repositories"
 msgstr "Repositorios"
 
@@ -616,6 +628,11 @@ msgstr "Versión"
 #: ../resources/manager_window.ui
 msgid "Size"
 msgstr "Tamañu"
+
+#: ../resources/manager_window.ui ../resources/updater_window.ui
+#: ../resources/preferences_dialog.ui
+msgid "AUR"
+msgstr "AUR"
 
 #: ../resources/manager_window.ui
 msgid "Description"
@@ -712,10 +729,6 @@ msgstr "Comprobar anovamientos d'AUR"
 #: ../resources/preferences_dialog.ui
 msgid "Do not ask for confirmation when building packages"
 msgstr "Nun entrugar pola confirmación al construyir paquetes"
-
-#: ../resources/preferences_dialog.ui
-msgid "AUR"
-msgstr "AUR"
 
 #: ../resources/choose_ignorepkgs_dialog.ui
 msgid "Choose Ignored Upgrades"

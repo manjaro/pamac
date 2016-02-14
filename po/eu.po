@@ -5,7 +5,7 @@
 # 
 # Translators:
 # aboutafteragain <aboutafteragain@gmail.com>, 2015
-# Osoitz <oelkoro@gmail.com>, 2015
+# Osoitz <oelkoro@gmail.com>, 2015-2016
 # Sergio Moreno <semosa@gmail.com>, 2014
 # Sergio Moreno <semosa@gmail.com>, 2014
 msgid ""
@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2015-08-20 11:53+0200\n"
-"PO-Revision-Date: 2015-10-23 19:32+0000\n"
+"PO-Revision-Date: 2016-02-08 14:19+0000\n"
 "Last-Translator: Osoitz <oelkoro@gmail.com>\n"
 "Language-Team: Basque (http://www.transifex.com/manjarolinux/manjaro-pamac/language/eu/)\n"
 "MIME-Version: 1.0\n"
@@ -26,21 +26,14 @@ msgstr ""
 msgid "Authentication is required"
 msgstr "Autentifikazioa behar da"
 
-#: ../src/daemon.vala
+#: ../src/daemon.vala ../src/manager_window.vala
+#: ../src/preferences_dialog.vala
 msgid "Failed to initialize alpm library"
 msgstr "Huts egin du alpm liburutegia haseratzea"
 
 #: ../src/daemon.vala
 msgid "Failed to synchronize any databases"
 msgstr "Huts egin du datu-baseak sinkronizatzean"
-
-#: ../src/daemon.vala
-msgid "No"
-msgstr "Ez"
-
-#: ../src/daemon.vala
-msgid "Yes"
-msgstr "Bai"
 
 #: ../src/daemon.vala
 msgid "Failed to init transaction"
@@ -94,7 +87,7 @@ msgstr "%s: %s badago aurretik fitxategi sisteman"
 msgid "%s is invalid or corrupted"
 msgstr "%s baliogabea da edo hondatuta dago"
 
-#: ../src/daemon.vala
+#: ../src/daemon.vala ../src/transaction.vala
 msgid "Authentication failed"
 msgstr "Autentifikazioak huts egin du"
 
@@ -113,6 +106,11 @@ msgstr "Sistema osoaren bertsio-berritzea abiarazten"
 #: ../src/transaction.vala
 msgid "Preparing"
 msgstr "Prestatzen"
+
+#: ../src/transaction.vala
+#, c-format
+msgid "Choose a provider for %s"
+msgstr "Aukeratu %s hornitzailea"
 
 #: ../src/transaction.vala ../resources/transaction_sum_dialog.ui
 msgid "Transaction Summary"
@@ -149,6 +147,14 @@ msgstr "Deskarga tamaina guztira"
 #: ../src/transaction.vala
 msgid "Building packages"
 msgstr "Paketeak eraikitzen"
+
+#: ../src/transaction.vala
+msgid "Running pre-transaction hooks"
+msgstr "Transakzio aurreko kakoak exekutatzen"
+
+#: ../src/transaction.vala
+msgid "Running post-transaction hooks"
+msgstr "Transakzio osteko kakoak exekutatzen"
 
 #: ../src/transaction.vala
 msgid "Checking dependencies"
@@ -263,11 +269,6 @@ msgstr "%s instalatu da %s.pacsave gisa"
 
 #: ../src/transaction.vala
 #, c-format
-msgid "%s installed as %s.pacorig"
-msgstr "%s instalatu da %s.pacorig gisa"
-
-#: ../src/transaction.vala
-#, c-format
 msgid "Refreshing %s"
 msgstr "%s freskatzen"
 
@@ -275,6 +276,18 @@ msgstr "%s freskatzen"
 #, c-format
 msgid "Downloading %s"
 msgstr "%s deskargatzen"
+
+#: ../src/transaction.vala
+#, c-format
+msgid "About %u seconds remaining"
+msgstr "%u segundo inguru falta dira"
+
+#: ../src/transaction.vala
+#, c-format
+msgid "About %lu minute remaining"
+msgid_plural "About %lu minutes remaining"
+msgstr[0] "Minutu %lu inguru falta da"
+msgstr[1] "%lu minutu inguru falta dira"
 
 #: ../src/transaction.vala
 msgid "Warning"
@@ -285,7 +298,7 @@ msgstr "Oharra"
 msgid "Error"
 msgstr "Errorea"
 
-#: ../src/transaction.vala ../src/progress_dialog.vala
+#: ../src/transaction.vala
 msgid "Transaction cancelled"
 msgstr "Transakzioa bertan behera utzi da"
 
@@ -328,22 +341,6 @@ msgstr[1] "%u eguneraketa eskuragarri"
 msgid "Show available updates"
 msgstr "Bistaratu eskuragarri dauden eguneraketak"
 
-#: ../src/choose_provider_dialog.vala
-#, c-format
-msgid "Choose a provider for %s"
-msgstr "Aukeratu %s hornitzailea"
-
-#: ../src/choose_dep_dialog.vala
-#, c-format
-msgid ""
-"%s has %u uninstalled optional dependency.\n"
-"Choose if you would like to install it"
-msgid_plural ""
-"%s has %u uninstalled optional dependencies.\n"
-"Choose those you would like to install"
-msgstr[0] "%s instalatu gabeko menpekotasun %u du.\nHautatu instalatu nahi duzun"
-msgstr[1] "%s instalatu gabeko %u menpekotasun ditu.\nHautatu instalatu nahi dituzunak"
-
 #: ../src/manager_window.vala
 msgid "Deselect"
 msgstr "Desautatu"
@@ -385,6 +382,10 @@ msgid "Licenses"
 msgstr "Lizentziak"
 
 #: ../src/manager_window.vala
+msgid "Unknown"
+msgstr "Ezezaguna"
+
+#: ../src/manager_window.vala
 msgid "Depends On"
 msgstr "Menpekotasun hauek dauzka"
 
@@ -421,18 +422,6 @@ msgid "Groups"
 msgstr "Taldeak"
 
 #: ../src/manager_window.vala
-msgid "Maintainer"
-msgstr "Mantentzailea"
-
-#: ../src/manager_window.vala
-msgid "First Submitted"
-msgstr "Lehen aldiz bidali zen"
-
-#: ../src/manager_window.vala
-msgid "Last Modified"
-msgstr "Azkenekoz aldatuta"
-
-#: ../src/manager_window.vala
 msgid "Packager"
 msgstr "Paketatzailea"
 
@@ -453,18 +442,38 @@ msgid "Installed as a dependency for another package"
 msgstr "Beste pakete baten menpekotasun gisa instalatuta"
 
 #: ../src/manager_window.vala
-msgid "Unknown"
-msgstr "Ezezaguna"
-
-#: ../src/manager_window.vala
 msgid "Install Reason"
 msgstr "Instalatzeko arrazoia"
+
+#: ../src/manager_window.vala
+msgid "Yes"
+msgstr "Bai"
+
+#: ../src/manager_window.vala
+msgid "No"
+msgstr "Ez"
 
 #: ../src/manager_window.vala
 msgid "Signatures"
 msgstr "Sinadurak"
 
 #: ../src/manager_window.vala
+msgid "Backup files"
+msgstr "Babeskopia fitxategiak"
+
+#: ../src/manager_window.vala
+msgid "Maintainer"
+msgstr "Mantentzailea"
+
+#: ../src/manager_window.vala
+msgid "First Submitted"
+msgstr "Lehen aldiz bidali zen"
+
+#: ../src/manager_window.vala
+msgid "Last Modified"
+msgstr "Azkenekoz aldatuta"
+
+#: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Votes"
 msgstr "Botoak"
 
@@ -473,12 +482,15 @@ msgid "Out of Date"
 msgstr "Zaharkitua"
 
 #: ../src/manager_window.vala
-msgid "Backup files"
-msgstr "Babeskopia fitxategiak"
-
-#: ../src/manager_window.vala
-msgid "No package found"
-msgstr "Ez da paketerik aurkitu"
+#, c-format
+msgid ""
+"%s has %u uninstalled optional dependency.\n"
+"Choose if you would like to install it"
+msgid_plural ""
+"%s has %u uninstalled optional dependencies.\n"
+"Choose those you would like to install"
+msgstr[0] "%s instalatu gabeko menpekotasun %u du.\nHautatu instalatu nahi duzun"
+msgstr[1] "%s instalatu gabeko %u menpekotasun ditu.\nHautatu instalatu nahi dituzunak"
 
 #: ../src/manager_window.vala
 msgid "Uninstalled"
@@ -599,7 +611,7 @@ msgstr "Bilatu"
 msgid "State"
 msgstr "Egoera"
 
-#: ../resources/manager_window.ui
+#: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "Repositories"
 msgstr "Biltegiak"
 
@@ -614,6 +626,11 @@ msgstr "Bertsioa"
 #: ../resources/manager_window.ui
 msgid "Size"
 msgstr "Tamaina"
+
+#: ../resources/manager_window.ui ../resources/updater_window.ui
+#: ../resources/preferences_dialog.ui
+msgid "AUR"
+msgstr "AUR"
 
 #: ../resources/manager_window.ui
 msgid "Description"
@@ -710,10 +727,6 @@ msgstr "Egiaztatu AUReko eguneraketak"
 #: ../resources/preferences_dialog.ui
 msgid "Do not ask for confirmation when building packages"
 msgstr "Ez eskatu berrespena paketeak eraikitzean"
-
-#: ../resources/preferences_dialog.ui
-msgid "AUR"
-msgstr "AUR"
 
 #: ../resources/choose_ignorepkgs_dialog.ui
 msgid "Choose Ignored Upgrades"

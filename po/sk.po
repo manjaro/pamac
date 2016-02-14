@@ -5,7 +5,7 @@
 # 
 # Translators:
 # Dušan Kazik, 2014
-# Dušan Kazik <prescott66@gmail.com>, 2014-2015
+# Dušan Kazik <prescott66@gmail.com>, 2014-2016
 # Inoki Sakaeru, 2013
 # Patrik Bubák, 2014
 # Patrik Bubák, 2014
@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2015-08-20 11:53+0200\n"
-"PO-Revision-Date: 2015-10-21 11:00+0000\n"
+"PO-Revision-Date: 2016-02-02 08:41+0000\n"
 "Last-Translator: Dušan Kazik <prescott66@gmail.com>\n"
 "Language-Team: Slovak (http://www.transifex.com/manjarolinux/manjaro-pamac/language/sk/)\n"
 "MIME-Version: 1.0\n"
@@ -28,21 +28,14 @@ msgstr ""
 msgid "Authentication is required"
 msgstr "Vyžaduje sa overenie totožnosti"
 
-#: ../src/daemon.vala
+#: ../src/daemon.vala ../src/manager_window.vala
+#: ../src/preferences_dialog.vala
 msgid "Failed to initialize alpm library"
 msgstr "Zlyhala inicializácia knižnice alpm"
 
 #: ../src/daemon.vala
 msgid "Failed to synchronize any databases"
 msgstr "Zlyhalo synchronizovanie akejkoľvek databázy"
-
-#: ../src/daemon.vala
-msgid "No"
-msgstr "Nie"
-
-#: ../src/daemon.vala
-msgid "Yes"
-msgstr "Áno"
 
 #: ../src/daemon.vala
 msgid "Failed to init transaction"
@@ -96,7 +89,7 @@ msgstr "%s: %s už existuje v systéme súborov"
 msgid "%s is invalid or corrupted"
 msgstr "%s je neplatný alebo poškodený"
 
-#: ../src/daemon.vala
+#: ../src/daemon.vala ../src/transaction.vala
 msgid "Authentication failed"
 msgstr "Zlyhalo overenie"
 
@@ -115,6 +108,11 @@ msgstr "Spúšťa sa kompletná aktualizácia systému"
 #: ../src/transaction.vala
 msgid "Preparing"
 msgstr "Pripravuje sa"
+
+#: ../src/transaction.vala
+#, c-format
+msgid "Choose a provider for %s"
+msgstr "Zvoľte poskytovateľa pre %s"
 
 #: ../src/transaction.vala ../resources/transaction_sum_dialog.ui
 msgid "Transaction Summary"
@@ -151,6 +149,14 @@ msgstr "Celková veľkosť preberania"
 #: ../src/transaction.vala
 msgid "Building packages"
 msgstr "Zostavujú sa balíky"
+
+#: ../src/transaction.vala
+msgid "Running pre-transaction hooks"
+msgstr "Spúšťajú sa predtransakčné háky"
+
+#: ../src/transaction.vala
+msgid "Running post-transaction hooks"
+msgstr "Spúšťajú sa potransakčné háky"
 
 #: ../src/transaction.vala
 msgid "Checking dependencies"
@@ -265,11 +271,6 @@ msgstr "%s bol nainštalovaný ako %s.pacsave"
 
 #: ../src/transaction.vala
 #, c-format
-msgid "%s installed as %s.pacorig"
-msgstr "%s bol nainštalovaný ako %s.pacorig"
-
-#: ../src/transaction.vala
-#, c-format
 msgid "Refreshing %s"
 msgstr "Obnovuje sa %s"
 
@@ -277,6 +278,19 @@ msgstr "Obnovuje sa %s"
 #, c-format
 msgid "Downloading %s"
 msgstr "Preberá sa %s"
+
+#: ../src/transaction.vala
+#, c-format
+msgid "About %u seconds remaining"
+msgstr "Zostáva približne %u sekúnd"
+
+#: ../src/transaction.vala
+#, c-format
+msgid "About %lu minute remaining"
+msgid_plural "About %lu minutes remaining"
+msgstr[0] "Zostáva približne %lu minúta"
+msgstr[1] "Zostávajú približne %lu minúty"
+msgstr[2] "Zostáva približne %lu minút"
 
 #: ../src/transaction.vala
 msgid "Warning"
@@ -287,7 +301,7 @@ msgstr "Upozornenie"
 msgid "Error"
 msgstr "Chyba"
 
-#: ../src/transaction.vala ../src/progress_dialog.vala
+#: ../src/transaction.vala
 msgid "Transaction cancelled"
 msgstr "Transakcia bola zrušená"
 
@@ -331,23 +345,6 @@ msgstr[2] "Je dostupných %u aktualizácií"
 msgid "Show available updates"
 msgstr "Zobraziť dostupné aktualizácie"
 
-#: ../src/choose_provider_dialog.vala
-#, c-format
-msgid "Choose a provider for %s"
-msgstr "Zvoľte poskytovateľa pre %s"
-
-#: ../src/choose_dep_dialog.vala
-#, c-format
-msgid ""
-"%s has %u uninstalled optional dependency.\n"
-"Choose if you would like to install it"
-msgid_plural ""
-"%s has %u uninstalled optional dependencies.\n"
-"Choose those you would like to install"
-msgstr[0] "%s obsahuje %u odinštalovanú voliteľnú závislosť.\nZvoľte, či ju chcete nainštalovať"
-msgstr[1] "%s obsahuje %u odinštalované voliteľné závislosti.\nZvoľte tie, ktoré chcete nainštalovať"
-msgstr[2] "%s obsahuje %u odinštalovaných voliteľných závislostí.\nZvoľte tie, ktoré chcete nainštalovať"
-
 #: ../src/manager_window.vala
 msgid "Deselect"
 msgstr "Odznačiť"
@@ -389,6 +386,10 @@ msgid "Licenses"
 msgstr "Licencie"
 
 #: ../src/manager_window.vala
+msgid "Unknown"
+msgstr "Neznáme"
+
+#: ../src/manager_window.vala
 msgid "Depends On"
 msgstr "Závisí na balíku"
 
@@ -425,18 +426,6 @@ msgid "Groups"
 msgstr "Skupiny"
 
 #: ../src/manager_window.vala
-msgid "Maintainer"
-msgstr "Správca"
-
-#: ../src/manager_window.vala
-msgid "First Submitted"
-msgstr "Prvýkrát vydaný"
-
-#: ../src/manager_window.vala
-msgid "Last Modified"
-msgstr "Posledná úprava"
-
-#: ../src/manager_window.vala
 msgid "Packager"
 msgstr "Autor balíka"
 
@@ -457,18 +446,38 @@ msgid "Installed as a dependency for another package"
 msgstr "Balík bol nainštalovaný ako závislosť iného balíka"
 
 #: ../src/manager_window.vala
-msgid "Unknown"
-msgstr "Neznáme"
-
-#: ../src/manager_window.vala
 msgid "Install Reason"
 msgstr "Dôvod inštalácie"
+
+#: ../src/manager_window.vala
+msgid "Yes"
+msgstr "Áno"
+
+#: ../src/manager_window.vala
+msgid "No"
+msgstr "Nie"
 
 #: ../src/manager_window.vala
 msgid "Signatures"
 msgstr "Podpisy"
 
 #: ../src/manager_window.vala
+msgid "Backup files"
+msgstr "Súbory zálohy"
+
+#: ../src/manager_window.vala
+msgid "Maintainer"
+msgstr "Správca"
+
+#: ../src/manager_window.vala
+msgid "First Submitted"
+msgstr "Prvýkrát vydaný"
+
+#: ../src/manager_window.vala
+msgid "Last Modified"
+msgstr "Posledná úprava"
+
+#: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Votes"
 msgstr "Hlasy"
 
@@ -477,12 +486,16 @@ msgid "Out of Date"
 msgstr "Neaktuálny"
 
 #: ../src/manager_window.vala
-msgid "Backup files"
-msgstr "Súbory zálohy"
-
-#: ../src/manager_window.vala
-msgid "No package found"
-msgstr "Nenašiel sa žiadny balík"
+#, c-format
+msgid ""
+"%s has %u uninstalled optional dependency.\n"
+"Choose if you would like to install it"
+msgid_plural ""
+"%s has %u uninstalled optional dependencies.\n"
+"Choose those you would like to install"
+msgstr[0] "%s obsahuje %u odinštalovanú voliteľnú závislosť.\nZvoľte, či ju chcete nainštalovať"
+msgstr[1] "%s obsahuje %u odinštalované voliteľné závislosti.\nZvoľte tie, ktoré chcete nainštalovať"
+msgstr[2] "%s obsahuje %u odinštalovaných voliteľných závislostí.\nZvoľte tie, ktoré chcete nainštalovať"
 
 #: ../src/manager_window.vala
 msgid "Uninstalled"
@@ -603,7 +616,7 @@ msgstr "Vyhľadávanie"
 msgid "State"
 msgstr "Stav"
 
-#: ../resources/manager_window.ui
+#: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "Repositories"
 msgstr "Repozitáre"
 
@@ -618,6 +631,11 @@ msgstr "Verzia"
 #: ../resources/manager_window.ui
 msgid "Size"
 msgstr "Veľkosť"
+
+#: ../resources/manager_window.ui ../resources/updater_window.ui
+#: ../resources/preferences_dialog.ui
+msgid "AUR"
+msgstr "AUR"
 
 #: ../resources/manager_window.ui
 msgid "Description"
@@ -714,10 +732,6 @@ msgstr "Kontrolovať aktualizácie z repozitára AUR"
 #: ../resources/preferences_dialog.ui
 msgid "Do not ask for confirmation when building packages"
 msgstr "Nepýtať si potvrdenie pri zostavovaní balíkov"
-
-#: ../resources/preferences_dialog.ui
-msgid "AUR"
-msgstr "AUR"
 
 #: ../resources/choose_ignorepkgs_dialog.ui
 msgid "Choose Ignored Upgrades"

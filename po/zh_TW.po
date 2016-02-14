@@ -4,14 +4,14 @@
 # Guillaume Benoit <guillaume@manjaro.org>, 2013-2015.
 # 
 # Translators:
-# Jeff Huang <s8321414@gmail.com>, 2014-2015
+# Jeff Huang <s8321414@gmail.com>, 2014-2016
 # Jeff Huang <s8321414@gmail.com>, 2013-2014
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2015-08-20 11:53+0200\n"
-"PO-Revision-Date: 2015-10-08 11:40+0000\n"
+"PO-Revision-Date: 2016-02-03 01:50+0000\n"
 "Last-Translator: Jeff Huang <s8321414@gmail.com>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
@@ -24,21 +24,14 @@ msgstr ""
 msgid "Authentication is required"
 msgstr "需要授權"
 
-#: ../src/daemon.vala
+#: ../src/daemon.vala ../src/manager_window.vala
+#: ../src/preferences_dialog.vala
 msgid "Failed to initialize alpm library"
 msgstr "初始化 alpm 函式庫失敗"
 
 #: ../src/daemon.vala
 msgid "Failed to synchronize any databases"
 msgstr "同步任何套件庫失敗"
-
-#: ../src/daemon.vala
-msgid "No"
-msgstr "否"
-
-#: ../src/daemon.vala
-msgid "Yes"
-msgstr "是"
 
 #: ../src/daemon.vala
 msgid "Failed to init transaction"
@@ -92,7 +85,7 @@ msgstr "%s ： %s 已在檔案系統中存在"
 msgid "%s is invalid or corrupted"
 msgstr "%s 是無效或損毀的"
 
-#: ../src/daemon.vala
+#: ../src/daemon.vala ../src/transaction.vala
 msgid "Authentication failed"
 msgstr "授權失敗"
 
@@ -111,6 +104,11 @@ msgstr "正在開始全系統升級"
 #: ../src/transaction.vala
 msgid "Preparing"
 msgstr "準備中"
+
+#: ../src/transaction.vala
+#, c-format
+msgid "Choose a provider for %s"
+msgstr "選擇一個 %s 的提供者"
 
 #: ../src/transaction.vala ../resources/transaction_sum_dialog.ui
 msgid "Transaction Summary"
@@ -147,6 +145,14 @@ msgstr "總計下載大小"
 #: ../src/transaction.vala
 msgid "Building packages"
 msgstr "正在構建軟體包"
+
+#: ../src/transaction.vala
+msgid "Running pre-transaction hooks"
+msgstr "正在執行前處理掛鉤"
+
+#: ../src/transaction.vala
+msgid "Running post-transaction hooks"
+msgstr "正在執行後處理掛鉤"
 
 #: ../src/transaction.vala
 msgid "Checking dependencies"
@@ -261,11 +267,6 @@ msgstr "%s 已安裝為 %s.pacsave"
 
 #: ../src/transaction.vala
 #, c-format
-msgid "%s installed as %s.pacorig"
-msgstr "%s 已安裝為 %s.pacorig"
-
-#: ../src/transaction.vala
-#, c-format
 msgid "Refreshing %s"
 msgstr "正在更新 %s 內容"
 
@@ -273,6 +274,17 @@ msgstr "正在更新 %s 內容"
 #, c-format
 msgid "Downloading %s"
 msgstr "正在下載 %s"
+
+#: ../src/transaction.vala
+#, c-format
+msgid "About %u seconds remaining"
+msgstr "大約剩餘 %u 秒"
+
+#: ../src/transaction.vala
+#, c-format
+msgid "About %lu minute remaining"
+msgid_plural "About %lu minutes remaining"
+msgstr[0] "大約剩餘 %lu 分鐘"
 
 #: ../src/transaction.vala
 msgid "Warning"
@@ -283,7 +295,7 @@ msgstr "警告"
 msgid "Error"
 msgstr "錯誤"
 
-#: ../src/transaction.vala ../src/progress_dialog.vala
+#: ../src/transaction.vala
 msgid "Transaction cancelled"
 msgstr "已取消事務處理"
 
@@ -324,21 +336,6 @@ msgstr[0] "有 %u 個升級"
 #: ../src/tray.vala
 msgid "Show available updates"
 msgstr "顯示可用的更新"
-
-#: ../src/choose_provider_dialog.vala
-#, c-format
-msgid "Choose a provider for %s"
-msgstr "選擇一個 %s 的提供者"
-
-#: ../src/choose_dep_dialog.vala
-#, c-format
-msgid ""
-"%s has %u uninstalled optional dependency.\n"
-"Choose if you would like to install it"
-msgid_plural ""
-"%s has %u uninstalled optional dependencies.\n"
-"Choose those you would like to install"
-msgstr[0] "%s 有 %u 個未安裝的選擇性依賴關係。\n選擇您所想要安裝的"
 
 #: ../src/manager_window.vala
 msgid "Deselect"
@@ -381,6 +378,10 @@ msgid "Licenses"
 msgstr "授權條款"
 
 #: ../src/manager_window.vala
+msgid "Unknown"
+msgstr "未知的"
+
+#: ../src/manager_window.vala
 msgid "Depends On"
 msgstr "依賴於"
 
@@ -417,18 +418,6 @@ msgid "Groups"
 msgstr "套件群組"
 
 #: ../src/manager_window.vala
-msgid "Maintainer"
-msgstr "維護者"
-
-#: ../src/manager_window.vala
-msgid "First Submitted"
-msgstr "首次遞交"
-
-#: ../src/manager_window.vala
-msgid "Last Modified"
-msgstr "最後修改"
-
-#: ../src/manager_window.vala
 msgid "Packager"
 msgstr "打包者"
 
@@ -449,18 +438,38 @@ msgid "Installed as a dependency for another package"
 msgstr "作爲其他套件的依賴關係安裝"
 
 #: ../src/manager_window.vala
-msgid "Unknown"
-msgstr "未知的"
-
-#: ../src/manager_window.vala
 msgid "Install Reason"
 msgstr "安裝原因"
+
+#: ../src/manager_window.vala
+msgid "Yes"
+msgstr "是"
+
+#: ../src/manager_window.vala
+msgid "No"
+msgstr "否"
 
 #: ../src/manager_window.vala
 msgid "Signatures"
 msgstr "數位簽章"
 
 #: ../src/manager_window.vala
+msgid "Backup files"
+msgstr "備份檔案"
+
+#: ../src/manager_window.vala
+msgid "Maintainer"
+msgstr "維護者"
+
+#: ../src/manager_window.vala
+msgid "First Submitted"
+msgstr "首次遞交"
+
+#: ../src/manager_window.vala
+msgid "Last Modified"
+msgstr "最後修改"
+
+#: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Votes"
 msgstr "投票"
 
@@ -469,12 +478,14 @@ msgid "Out of Date"
 msgstr "過期"
 
 #: ../src/manager_window.vala
-msgid "Backup files"
-msgstr "備份檔案"
-
-#: ../src/manager_window.vala
-msgid "No package found"
-msgstr "找不到套件"
+#, c-format
+msgid ""
+"%s has %u uninstalled optional dependency.\n"
+"Choose if you would like to install it"
+msgid_plural ""
+"%s has %u uninstalled optional dependencies.\n"
+"Choose those you would like to install"
+msgstr[0] "%s 有 %u 個未安裝的選擇性依賴關係。\n選擇您所想要安裝的"
 
 #: ../src/manager_window.vala
 msgid "Uninstalled"
@@ -595,7 +606,7 @@ msgstr "搜尋"
 msgid "State"
 msgstr "狀態"
 
-#: ../resources/manager_window.ui
+#: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "Repositories"
 msgstr "套件庫"
 
@@ -610,6 +621,11 @@ msgstr "版本"
 #: ../resources/manager_window.ui
 msgid "Size"
 msgstr "大小"
+
+#: ../resources/manager_window.ui ../resources/updater_window.ui
+#: ../resources/preferences_dialog.ui
+msgid "AUR"
+msgstr "AUR"
 
 #: ../resources/manager_window.ui
 msgid "Description"
@@ -706,10 +722,6 @@ msgstr "自 AUR 檢查更新"
 #: ../resources/preferences_dialog.ui
 msgid "Do not ask for confirmation when building packages"
 msgstr "當構建軟體包時不要詢問確認"
-
-#: ../resources/preferences_dialog.ui
-msgid "AUR"
-msgstr "AUR"
 
 #: ../resources/choose_ignorepkgs_dialog.ui
 msgid "Choose Ignored Upgrades"

@@ -8,7 +8,7 @@
 # Mattias Johansson <cashew75s@gmail.com>, 2014
 # Mattias Johansson <cashew75s@gmail.com>, 2014
 # philm <philm@manjaro.org>, 2015
-# riiga <riiga_92@hotmail.com>, 2014
+# riiga <riiga_92@hotmail.com>, 2014,2016
 # riiga <riiga_92@hotmail.com>, 2014
 # Tommy Arvidsson <tarvidsson7834@gmail.com>, 2013
 # Tommy Arvidsson <tarvidsson7834@gmail.com>, 2013
@@ -17,8 +17,8 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2015-08-20 11:53+0200\n"
-"PO-Revision-Date: 2015-10-08 08:28+0000\n"
-"Last-Translator: philm <philm@manjaro.org>\n"
+"PO-Revision-Date: 2016-02-07 11:22+0000\n"
+"Last-Translator: riiga <riiga_92@hotmail.com>\n"
 "Language-Team: Swedish (http://www.transifex.com/manjarolinux/manjaro-pamac/language/sv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -30,21 +30,14 @@ msgstr ""
 msgid "Authentication is required"
 msgstr "Autentisering krävs"
 
-#: ../src/daemon.vala
+#: ../src/daemon.vala ../src/manager_window.vala
+#: ../src/preferences_dialog.vala
 msgid "Failed to initialize alpm library"
 msgstr "Misslyckades med att läsa in alpm-bibliotek"
 
 #: ../src/daemon.vala
 msgid "Failed to synchronize any databases"
 msgstr "Misslyckades med att synkronisera databaser"
-
-#: ../src/daemon.vala
-msgid "No"
-msgstr ""
-
-#: ../src/daemon.vala
-msgid "Yes"
-msgstr ""
 
 #: ../src/daemon.vala
 msgid "Failed to init transaction"
@@ -98,13 +91,13 @@ msgstr "%s: %s finns redan i filsystemet"
 msgid "%s is invalid or corrupted"
 msgstr "%s är ogiltig eller korrupt"
 
-#: ../src/daemon.vala
+#: ../src/daemon.vala ../src/transaction.vala
 msgid "Authentication failed"
 msgstr "Autensiering misslyckades"
 
 #: ../src/transaction.vala
 msgid "Refreshing mirrors list"
-msgstr ""
+msgstr "Uppdaterar spegellistor"
 
 #: ../src/transaction.vala
 msgid "Synchronizing package databases"
@@ -117,6 +110,11 @@ msgstr "Påbörjar fullständig systemuppgradering"
 #: ../src/transaction.vala
 msgid "Preparing"
 msgstr "Förbereder"
+
+#: ../src/transaction.vala
+#, c-format
+msgid "Choose a provider for %s"
+msgstr "Välj en leverantör för %s"
 
 #: ../src/transaction.vala ../resources/transaction_sum_dialog.ui
 msgid "Transaction Summary"
@@ -155,6 +153,14 @@ msgid "Building packages"
 msgstr "Kompilerar paket"
 
 #: ../src/transaction.vala
+msgid "Running pre-transaction hooks"
+msgstr "Kör transaktionsförarbeten"
+
+#: ../src/transaction.vala
+msgid "Running post-transaction hooks"
+msgstr "Kör transaktionsefterarbeten"
+
+#: ../src/transaction.vala
 msgid "Checking dependencies"
 msgstr "Kollar beroenden"
 
@@ -164,7 +170,7 @@ msgstr "Kontrollerar konflikter"
 
 #: ../src/transaction.vala
 msgid "Resolving dependencies"
-msgstr "Undersöker beroenden"
+msgstr "Löser beroenden"
 
 #: ../src/transaction.vala
 msgid "Checking inter-conflicts"
@@ -188,7 +194,7 @@ msgstr "Tar bort %s"
 #: ../src/transaction.vala
 #, c-format
 msgid "Upgrading %s"
-msgstr "Upgraderar %s"
+msgstr "Uppgraderar %s"
 
 #: ../src/transaction.vala
 #, c-format
@@ -197,11 +203,11 @@ msgstr "Nedgraderar %s"
 
 #: ../src/transaction.vala
 msgid "Checking integrity"
-msgstr "Undersöker integritet"
+msgstr "Kontrollerar integritet"
 
 #: ../src/transaction.vala
 msgid "Checking keyring"
-msgstr "Undersöker nyckelringen"
+msgstr "Kontrollerar nyckelring"
 
 #: ../src/transaction.vala
 msgid "Downloading required keys"
@@ -213,11 +219,11 @@ msgstr "Laddar paketfiler"
 
 #: ../src/transaction.vala
 msgid "Checking delta integrity"
-msgstr "Undersöker skillnadsintegritet"
+msgstr "Kontrollerar skillnadsintegritet"
 
 #: ../src/transaction.vala
 msgid "Applying deltas"
-msgstr "Applicerar skillnader"
+msgstr "Tillämpar skillnader"
 
 #: ../src/transaction.vala
 #, c-format
@@ -258,17 +264,12 @@ msgstr "Databasfilen för %s existerar inte"
 #: ../src/transaction.vala
 #, c-format
 msgid "%s installed as %s.pacnew"
-msgstr ""
+msgstr "%s installerades som %s.pacnew"
 
 #: ../src/transaction.vala
 #, c-format
 msgid "%s installed as %s.pacsave"
-msgstr ""
-
-#: ../src/transaction.vala
-#, c-format
-msgid "%s installed as %s.pacorig"
-msgstr ""
+msgstr "%s installerades som %s.pacsave"
 
 #: ../src/transaction.vala
 #, c-format
@@ -281,15 +282,27 @@ msgid "Downloading %s"
 msgstr "Laddar ned %s"
 
 #: ../src/transaction.vala
+#, c-format
+msgid "About %u seconds remaining"
+msgstr "Cirka %u sekunder återstår"
+
+#: ../src/transaction.vala
+#, c-format
+msgid "About %lu minute remaining"
+msgid_plural "About %lu minutes remaining"
+msgstr[0] "Cirka %lu minut återstår"
+msgstr[1] "Cirka %lu minuter återstår"
+
+#: ../src/transaction.vala
 msgid "Warning"
 msgstr "Varning"
 
 #: ../src/transaction.vala ../src/installer.vala ../src/manager.vala
 #: ../src/updater.vala
 msgid "Error"
-msgstr "Error"
+msgstr "Fel"
 
-#: ../src/transaction.vala ../src/progress_dialog.vala
+#: ../src/transaction.vala
 msgid "Transaction cancelled"
 msgstr "Överföring avbruten"
 
@@ -332,22 +345,6 @@ msgstr[1] "%u tillgängliga uppdateringar"
 msgid "Show available updates"
 msgstr "Visa tillgängliga uppdateringar"
 
-#: ../src/choose_provider_dialog.vala
-#, c-format
-msgid "Choose a provider for %s"
-msgstr "Välj en leverantör för %s"
-
-#: ../src/choose_dep_dialog.vala
-#, c-format
-msgid ""
-"%s has %u uninstalled optional dependency.\n"
-"Choose if you would like to install it"
-msgid_plural ""
-"%s has %u uninstalled optional dependencies.\n"
-"Choose those you would like to install"
-msgstr[0] ""
-msgstr[1] ""
-
 #: ../src/manager_window.vala
 msgid "Deselect"
 msgstr "Avmarkera"
@@ -389,6 +386,10 @@ msgid "Licenses"
 msgstr "LIcenser"
 
 #: ../src/manager_window.vala
+msgid "Unknown"
+msgstr "Okänd"
+
+#: ../src/manager_window.vala
 msgid "Depends On"
 msgstr "Beroende av"
 
@@ -402,7 +403,7 @@ msgstr "Krävs av"
 
 #: ../src/manager_window.vala
 msgid "Optional For"
-msgstr ""
+msgstr "Frivilliga för"
 
 #: ../src/manager_window.vala
 msgid "Provides"
@@ -418,23 +419,11 @@ msgstr "Konflikt med"
 
 #: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Repository"
-msgstr "Repository"
+msgstr "Förråd (repo)"
 
 #: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Groups"
-msgstr "Grupp"
-
-#: ../src/manager_window.vala
-msgid "Maintainer"
-msgstr ""
-
-#: ../src/manager_window.vala
-msgid "First Submitted"
-msgstr ""
-
-#: ../src/manager_window.vala
-msgid "Last Modified"
-msgstr ""
+msgstr "Grupper"
 
 #: ../src/manager_window.vala
 msgid "Packager"
@@ -442,7 +431,7 @@ msgstr "Pakethanterare"
 
 #: ../src/manager_window.vala
 msgid "Build Date"
-msgstr ""
+msgstr "Byggdatum"
 
 #: ../src/manager_window.vala
 msgid "Install Date"
@@ -457,32 +446,55 @@ msgid "Installed as a dependency for another package"
 msgstr "Installerad som ett beroende för ett annat paket"
 
 #: ../src/manager_window.vala
-msgid "Unknown"
-msgstr "Okänd"
-
-#: ../src/manager_window.vala
 msgid "Install Reason"
 msgstr "Installeringsorsak"
+
+#: ../src/manager_window.vala
+msgid "Yes"
+msgstr "Ja"
+
+#: ../src/manager_window.vala
+msgid "No"
+msgstr "Nej"
 
 #: ../src/manager_window.vala
 msgid "Signatures"
 msgstr "Signatur"
 
 #: ../src/manager_window.vala
+msgid "Backup files"
+msgstr "Backupfiler"
+
+#: ../src/manager_window.vala
+msgid "Maintainer"
+msgstr "Underhållare"
+
+#: ../src/manager_window.vala
+msgid "First Submitted"
+msgstr "Först inskickad"
+
+#: ../src/manager_window.vala
+msgid "Last Modified"
+msgstr "Senast ändrad"
+
+#: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Votes"
-msgstr ""
+msgstr "Röster"
 
 #: ../src/manager_window.vala
 msgid "Out of Date"
-msgstr ""
+msgstr "Föråldrat"
 
 #: ../src/manager_window.vala
-msgid "Backup files"
-msgstr "Backup filer"
-
-#: ../src/manager_window.vala
-msgid "No package found"
-msgstr "Inget paket hittat"
+#, c-format
+msgid ""
+"%s has %u uninstalled optional dependency.\n"
+"Choose if you would like to install it"
+msgid_plural ""
+"%s has %u uninstalled optional dependencies.\n"
+"Choose those you would like to install"
+msgstr[0] "%s har %u oinstallerat frivilligt beroende.\nVälj om du vill installera det"
+msgstr[1] "%s har %u oinstallerade frivilliga beroenden.\nVälj om du vill installera dem"
 
 #: ../src/manager_window.vala
 msgid "Uninstalled"
@@ -490,7 +502,7 @@ msgstr "Avinstallerad"
 
 #: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Install Local Packages"
-msgstr ""
+msgstr "Installera lokala paket"
 
 #: ../src/manager_window.vala ../resources/progress_dialog.ui
 #: ../resources/transaction_sum_dialog.ui ../resources/choose_dep_dialog.ui
@@ -512,27 +524,27 @@ msgstr "Ett Gtk3-gränssnitt för libalpm"
 
 #: ../src/manager_window.vala
 msgid "Copyright © 2015 Guillaume Benoit"
-msgstr ""
+msgstr "Copyright © 2015 Guillaume Benoit"
 
 #: ../src/preferences_dialog.vala ../resources/preferences_dialog.ui
 msgid "How often to check for updates, value in hours"
-msgstr "Hur ofta söka efter uppdateringar, värde i timmar"
+msgstr "Hur ofta söka efter uppdateringar, ange i timmar"
 
 #: ../src/preferences_dialog.vala
 msgid "Worldwide"
-msgstr ""
+msgstr "Världsomspännande"
 
 #: ../src/preferences_dialog.vala
 msgid "Speed"
-msgstr ""
+msgstr "Hastighet"
 
 #: ../src/preferences_dialog.vala
 msgid "Random"
-msgstr ""
+msgstr "Slumpmässig"
 
 #: ../src/choose_ignorepkgs_dialog.vala
 msgid "Choose the packages you do not want to upgrade"
-msgstr ""
+msgstr "Välj de paket du inte vill uppgradera"
 
 #: ../resources/choose_provider_dialog.ui
 msgid "Choose a Provider"
@@ -561,11 +573,11 @@ msgstr "Detaljer"
 
 #: ../resources/history_dialog.ui
 msgid "Pamac History"
-msgstr "Pacman historik"
+msgstr "Pamachistorik"
 
 #: ../resources/choose_dep_dialog.ui
 msgid "Choose Optional Dependencies"
-msgstr ""
+msgstr "Välj frivilliga beroenden"
 
 #: ../resources/manager_window.ui
 msgid "View History"
@@ -603,9 +615,9 @@ msgstr "Sök"
 msgid "State"
 msgstr "Status"
 
-#: ../resources/manager_window.ui
+#: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "Repositories"
-msgstr "Förråd"
+msgstr "Förråd (repo)"
 
 #: ../resources/manager_window.ui
 msgid "Name"
@@ -618,6 +630,11 @@ msgstr "Version"
 #: ../resources/manager_window.ui
 msgid "Size"
 msgstr "Storlek"
+
+#: ../resources/manager_window.ui ../resources/updater_window.ui
+#: ../resources/preferences_dialog.ui
+msgid "AUR"
+msgstr "AUR"
 
 #: ../resources/manager_window.ui
 msgid "Description"
@@ -645,7 +662,7 @@ msgstr "Inställningar"
 
 #: ../resources/preferences_dialog.ui
 msgid "Remove unrequired dependencies"
-msgstr "Ta bort icke nödvändiga beroenden"
+msgstr "Ta bort icke-nödvändiga beroenden"
 
 #: ../resources/preferences_dialog.ui
 msgid ""
@@ -655,49 +672,49 @@ msgstr "När ett paket tas bort, ta även bort de beroenden paketet har, men som
 
 #: ../resources/preferences_dialog.ui
 msgid "Check available disk space"
-msgstr ""
+msgstr "Kontrollera tillgängligt diskutrymme"
 
 #: ../resources/preferences_dialog.ui
 msgid "Check for updates"
-msgstr ""
+msgstr "Leta efter uppdateringar"
 
 #: ../resources/preferences_dialog.ui
 msgid "Hide tray icon when no update available"
-msgstr ""
+msgstr "Göm programikonen när inga uppdateringar finns"
 
 #: ../resources/preferences_dialog.ui
 msgid "Ignore upgrades for:"
-msgstr ""
+msgstr "Ignorera uppdateringar för:"
 
 #: ../resources/preferences_dialog.ui
 msgid "General"
-msgstr ""
+msgstr "Allmänt"
 
 #: ../resources/preferences_dialog.ui
 msgid "Use mirrors from:"
-msgstr ""
+msgstr "Använd speglar från:"
 
 #: ../resources/preferences_dialog.ui
 msgid "Sort mirrors by:"
-msgstr ""
+msgstr "Sortera speglar efter:"
 
 #: ../resources/preferences_dialog.ui
 msgid "Refresh Mirrors List"
-msgstr ""
+msgstr "Uppdatera spegellista"
 
 #: ../resources/preferences_dialog.ui
 msgid "Official Repositories"
-msgstr ""
+msgstr "Officiella förråd"
 
 #: ../resources/preferences_dialog.ui
 msgid ""
 "AUR is a community maintained repository so it presents potential risks and problems.\n"
 "All AUR users should be familiar with the build process."
-msgstr ""
+msgstr "AUR är ett gemensamt under- och tillhandahållet förråd som kan medföra risker och problem.\nAlla AUR-användare bör vara bekanta med byggprocessen."
 
 #: ../resources/preferences_dialog.ui
 msgid "Enable AUR support"
-msgstr "Aktiver AUR stöd"
+msgstr "Aktivera AUR-stöd"
 
 #: ../resources/preferences_dialog.ui
 msgid "Allow Pamac to search and install packages from AUR"
@@ -705,20 +722,16 @@ msgstr "Tillåt Pamac att söka och installera paket från AUR"
 
 #: ../resources/preferences_dialog.ui
 msgid "Search in AUR by default"
-msgstr ""
+msgstr "Sök i AUR som standard"
 
 #: ../resources/preferences_dialog.ui
 msgid "Check for updates from AUR"
-msgstr ""
+msgstr "Leta efter uppdateringar i AUR"
 
 #: ../resources/preferences_dialog.ui
 msgid "Do not ask for confirmation when building packages"
-msgstr ""
-
-#: ../resources/preferences_dialog.ui
-msgid "AUR"
-msgstr ""
+msgstr "Bygg paket utan att fråga efter tillstånd"
 
 #: ../resources/choose_ignorepkgs_dialog.ui
 msgid "Choose Ignored Upgrades"
-msgstr ""
+msgstr "Välj ignorerade paket"

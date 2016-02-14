@@ -9,14 +9,14 @@
 # Miroslav Sittek <miroslav.sittek@gmail.com>, 2015
 # philm <philm@manjaro.org>, 2015
 # Scibex <kroupa@wvw.cz>, 2013
-# halfark <vojtechprecechtel@gmail.com>, 2014
+# halfark <vojtechprecechtel@gmail.com>, 2014,2016
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2015-08-20 11:53+0200\n"
-"PO-Revision-Date: 2015-10-08 08:28+0000\n"
-"Last-Translator: philm <philm@manjaro.org>\n"
+"PO-Revision-Date: 2016-02-02 09:23+0000\n"
+"Last-Translator: halfark <vojtechprecechtel@gmail.com>\n"
 "Language-Team: Czech (http://www.transifex.com/manjarolinux/manjaro-pamac/language/cs/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -28,21 +28,14 @@ msgstr ""
 msgid "Authentication is required"
 msgstr "Je vyžadováno ověření oprávnění"
 
-#: ../src/daemon.vala
+#: ../src/daemon.vala ../src/manager_window.vala
+#: ../src/preferences_dialog.vala
 msgid "Failed to initialize alpm library"
 msgstr "Selhalo načtení knihovny alpm"
 
 #: ../src/daemon.vala
 msgid "Failed to synchronize any databases"
 msgstr "Selhala synchronizace databází"
-
-#: ../src/daemon.vala
-msgid "No"
-msgstr "Ne"
-
-#: ../src/daemon.vala
-msgid "Yes"
-msgstr "Ano"
 
 #: ../src/daemon.vala
 msgid "Failed to init transaction"
@@ -96,7 +89,7 @@ msgstr "%s: %s již v souborovém systému existuje"
 msgid "%s is invalid or corrupted"
 msgstr "%s je neplatný nebo porušený"
 
-#: ../src/daemon.vala
+#: ../src/daemon.vala ../src/transaction.vala
 msgid "Authentication failed"
 msgstr "Ověření oprávnění selhalo"
 
@@ -115,6 +108,11 @@ msgstr "Spouštím povýšení celého systému"
 #: ../src/transaction.vala
 msgid "Preparing"
 msgstr "Připravuji"
+
+#: ../src/transaction.vala
+#, c-format
+msgid "Choose a provider for %s"
+msgstr "Vyberte poskytovatele pro %s"
 
 #: ../src/transaction.vala ../resources/transaction_sum_dialog.ui
 msgid "Transaction Summary"
@@ -151,6 +149,14 @@ msgstr "Celková velikost ke stažení"
 #: ../src/transaction.vala
 msgid "Building packages"
 msgstr "Vytvářím balíčky"
+
+#: ../src/transaction.vala
+msgid "Running pre-transaction hooks"
+msgstr "Spouští se před-transakční nastavení"
+
+#: ../src/transaction.vala
+msgid "Running post-transaction hooks"
+msgstr "Spouští se po-transakční nastavení"
 
 #: ../src/transaction.vala
 msgid "Checking dependencies"
@@ -265,11 +271,6 @@ msgstr "%s instalováno jako %s.pacsave"
 
 #: ../src/transaction.vala
 #, c-format
-msgid "%s installed as %s.pacorig"
-msgstr "%s instalováno jako %s.pacorig"
-
-#: ../src/transaction.vala
-#, c-format
 msgid "Refreshing %s"
 msgstr "Obnovování %s"
 
@@ -277,6 +278,19 @@ msgstr "Obnovování %s"
 #, c-format
 msgid "Downloading %s"
 msgstr "Stahování %s"
+
+#: ../src/transaction.vala
+#, c-format
+msgid "About %u seconds remaining"
+msgstr "Zbývá asi %u sekund"
+
+#: ../src/transaction.vala
+#, c-format
+msgid "About %lu minute remaining"
+msgid_plural "About %lu minutes remaining"
+msgstr[0] "Zbývá asi %lu minuta"
+msgstr[1] "Zbývá asi %lu minut"
+msgstr[2] "Zbývá asi %lu minut"
 
 #: ../src/transaction.vala
 msgid "Warning"
@@ -287,7 +301,7 @@ msgstr "Varování"
 msgid "Error"
 msgstr "Chyba"
 
-#: ../src/transaction.vala ../src/progress_dialog.vala
+#: ../src/transaction.vala
 msgid "Transaction cancelled"
 msgstr "Transakce zrušena"
 
@@ -323,30 +337,13 @@ msgstr "_Ukončit"
 #, c-format
 msgid "%u available update"
 msgid_plural "%u available updates"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "%u dostupná aktualizace"
+msgstr[1] "%u dostupných aktualizací"
+msgstr[2] "%u dostupných aktualizací"
 
 #: ../src/tray.vala
 msgid "Show available updates"
 msgstr "Ukázat dostupné aktualizace"
-
-#: ../src/choose_provider_dialog.vala
-#, c-format
-msgid "Choose a provider for %s"
-msgstr "Vyberte poskytovatele pro %s"
-
-#: ../src/choose_dep_dialog.vala
-#, c-format
-msgid ""
-"%s has %u uninstalled optional dependency.\n"
-"Choose if you would like to install it"
-msgid_plural ""
-"%s has %u uninstalled optional dependencies.\n"
-"Choose those you would like to install"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
 
 #: ../src/manager_window.vala
 msgid "Deselect"
@@ -389,6 +386,10 @@ msgid "Licenses"
 msgstr "Licence"
 
 #: ../src/manager_window.vala
+msgid "Unknown"
+msgstr "Neznámý"
+
+#: ../src/manager_window.vala
 msgid "Depends On"
 msgstr "Závisí na"
 
@@ -425,24 +426,12 @@ msgid "Groups"
 msgstr "Skupiny"
 
 #: ../src/manager_window.vala
-msgid "Maintainer"
-msgstr ""
-
-#: ../src/manager_window.vala
-msgid "First Submitted"
-msgstr ""
-
-#: ../src/manager_window.vala
-msgid "Last Modified"
-msgstr ""
-
-#: ../src/manager_window.vala
 msgid "Packager"
 msgstr "Balíčkovač"
 
 #: ../src/manager_window.vala
 msgid "Build Date"
-msgstr ""
+msgstr "Datum sestavení"
 
 #: ../src/manager_window.vala
 msgid "Install Date"
@@ -457,32 +446,56 @@ msgid "Installed as a dependency for another package"
 msgstr "Instalováno jako závislost pro další balíček"
 
 #: ../src/manager_window.vala
-msgid "Unknown"
-msgstr "Neznámý"
-
-#: ../src/manager_window.vala
 msgid "Install Reason"
 msgstr "Důvod instalace"
+
+#: ../src/manager_window.vala
+msgid "Yes"
+msgstr "Ano"
+
+#: ../src/manager_window.vala
+msgid "No"
+msgstr "Ne"
 
 #: ../src/manager_window.vala
 msgid "Signatures"
 msgstr "Podpisy"
 
 #: ../src/manager_window.vala
-msgid "Votes"
-msgstr ""
-
-#: ../src/manager_window.vala
-msgid "Out of Date"
-msgstr ""
-
-#: ../src/manager_window.vala
 msgid "Backup files"
 msgstr "Záložní soubory"
 
 #: ../src/manager_window.vala
-msgid "No package found"
-msgstr "Žádný balíček nalezen"
+msgid "Maintainer"
+msgstr "Správce údržby"
+
+#: ../src/manager_window.vala
+msgid "First Submitted"
+msgstr "Poprvé zasláno"
+
+#: ../src/manager_window.vala
+msgid "Last Modified"
+msgstr "Naposledy upraveno"
+
+#: ../src/manager_window.vala ../resources/manager_window.ui
+msgid "Votes"
+msgstr "Hlasy"
+
+#: ../src/manager_window.vala
+msgid "Out of Date"
+msgstr "Zastaralý"
+
+#: ../src/manager_window.vala
+#, c-format
+msgid ""
+"%s has %u uninstalled optional dependency.\n"
+"Choose if you would like to install it"
+msgid_plural ""
+"%s has %u uninstalled optional dependencies.\n"
+"Choose those you would like to install"
+msgstr[0] "%s má %u nenainstalovanou volitelných závislost.\nVyberte ji, pokud ji chcete nainstalovat"
+msgstr[1] "%s má %u nenainstalovaných volitelných závislostí.\nVyberte ty, které chcete nainstalovat"
+msgstr[2] "%s má %u nenainstalovaných volitelných závislostí.\nVyberte ty, které chcete nainstalovat"
 
 #: ../src/manager_window.vala
 msgid "Uninstalled"
@@ -603,7 +616,7 @@ msgstr "Vyhledat"
 msgid "State"
 msgstr "Stav"
 
-#: ../resources/manager_window.ui
+#: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "Repositories"
 msgstr "Repozitáře"
 
@@ -618,6 +631,11 @@ msgstr "Verze"
 #: ../resources/manager_window.ui
 msgid "Size"
 msgstr "Velikost"
+
+#: ../resources/manager_window.ui ../resources/updater_window.ui
+#: ../resources/preferences_dialog.ui
+msgid "AUR"
+msgstr "AUR"
 
 #: ../resources/manager_window.ui
 msgid "Description"
@@ -663,7 +681,7 @@ msgstr "Kontrola aktualizací"
 
 #: ../resources/preferences_dialog.ui
 msgid "Hide tray icon when no update available"
-msgstr ""
+msgstr "Schovat ikonu v liště, pokud není dostupná žádná aktualizace"
 
 #: ../resources/preferences_dialog.ui
 msgid "Ignore upgrades for:"
@@ -671,7 +689,7 @@ msgstr "Přeskočit aktualizaci u:"
 
 #: ../resources/preferences_dialog.ui
 msgid "General"
-msgstr ""
+msgstr "Obecné"
 
 #: ../resources/preferences_dialog.ui
 msgid "Use mirrors from:"
@@ -693,7 +711,7 @@ msgstr "Oficiální repozitáře"
 msgid ""
 "AUR is a community maintained repository so it presents potential risks and problems.\n"
 "All AUR users should be familiar with the build process."
-msgstr ""
+msgstr "AUR je komunitně udržovaný repozitář, to sebou nese potencionální rizika a problémy.\nVšichni uživatelé AUR by měli znát postup vytváření balíčku neboli buildu."
 
 #: ../resources/preferences_dialog.ui
 msgid "Enable AUR support"
@@ -705,7 +723,7 @@ msgstr "Povolit aplikaci Pamac vyhledávat a instalovat balíčky z AUR"
 
 #: ../resources/preferences_dialog.ui
 msgid "Search in AUR by default"
-msgstr ""
+msgstr "Hledat v AUR defaultně"
 
 #: ../resources/preferences_dialog.ui
 msgid "Check for updates from AUR"
@@ -715,10 +733,6 @@ msgstr "Zkontrolovat aktualizace z AUR"
 msgid "Do not ask for confirmation when building packages"
 msgstr "Nevyžadovat potvrzení při vytváření balíčků"
 
-#: ../resources/preferences_dialog.ui
-msgid "AUR"
-msgstr "AUR"
-
 #: ../resources/choose_ignorepkgs_dialog.ui
 msgid "Choose Ignored Upgrades"
-msgstr ""
+msgstr "Vybrat ignorované aktualizace"

@@ -15,8 +15,8 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2015-08-20 11:53+0200\n"
-"PO-Revision-Date: 2015-10-08 08:28+0000\n"
-"Last-Translator: philm <philm@manjaro.org>\n"
+"PO-Revision-Date: 2016-02-02 08:27+0000\n"
+"Last-Translator: Guillaume Benoit <guillaume@manjaro.org>\n"
 "Language-Team: Slovenian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/sl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -28,21 +28,14 @@ msgstr ""
 msgid "Authentication is required"
 msgstr "Zahtevana je overovitev"
 
-#: ../src/daemon.vala
+#: ../src/daemon.vala ../src/manager_window.vala
+#: ../src/preferences_dialog.vala
 msgid "Failed to initialize alpm library"
 msgstr "Začenjanje alpm knjižnice je spodletelo"
 
 #: ../src/daemon.vala
 msgid "Failed to synchronize any databases"
 msgstr "Ni bilo mogoče sinhronizirati nobene podatkovne baze"
-
-#: ../src/daemon.vala
-msgid "No"
-msgstr "Ne"
-
-#: ../src/daemon.vala
-msgid "Yes"
-msgstr "Da"
 
 #: ../src/daemon.vala
 msgid "Failed to init transaction"
@@ -96,7 +89,7 @@ msgstr "%s: %s že obstaja v datotečnem sistemu"
 msgid "%s is invalid or corrupted"
 msgstr "%s je neveljaven ali pokvarjen"
 
-#: ../src/daemon.vala
+#: ../src/daemon.vala ../src/transaction.vala
 msgid "Authentication failed"
 msgstr "Potrditev identitete ni uspela"
 
@@ -115,6 +108,11 @@ msgstr "Začenjanje nadgradnje celotnega sistema"
 #: ../src/transaction.vala
 msgid "Preparing"
 msgstr "Pripravljam"
+
+#: ../src/transaction.vala
+#, c-format
+msgid "Choose a provider for %s"
+msgstr "Izberite ponudnika za %s"
 
 #: ../src/transaction.vala ../resources/transaction_sum_dialog.ui
 msgid "Transaction Summary"
@@ -151,6 +149,14 @@ msgstr "Celotna velikost prenosa"
 #: ../src/transaction.vala
 msgid "Building packages"
 msgstr "Grajenje paketov"
+
+#: ../src/transaction.vala
+msgid "Running pre-transaction hooks"
+msgstr ""
+
+#: ../src/transaction.vala
+msgid "Running post-transaction hooks"
+msgstr ""
 
 #: ../src/transaction.vala
 msgid "Checking dependencies"
@@ -265,11 +271,6 @@ msgstr "%s nameščeno kot %s.pacsave"
 
 #: ../src/transaction.vala
 #, c-format
-msgid "%s installed as %s.pacorig"
-msgstr "%s nameščeno kot %s.pacorig"
-
-#: ../src/transaction.vala
-#, c-format
 msgid "Refreshing %s"
 msgstr "Osveževanje %s"
 
@@ -277,6 +278,20 @@ msgstr "Osveževanje %s"
 #, c-format
 msgid "Downloading %s"
 msgstr "Nalaganje %s"
+
+#: ../src/transaction.vala
+#, c-format
+msgid "About %u seconds remaining"
+msgstr ""
+
+#: ../src/transaction.vala
+#, c-format
+msgid "About %lu minute remaining"
+msgid_plural "About %lu minutes remaining"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
 
 #: ../src/transaction.vala
 msgid "Warning"
@@ -287,7 +302,7 @@ msgstr "Opozorilo"
 msgid "Error"
 msgstr "Napaka"
 
-#: ../src/transaction.vala ../src/progress_dialog.vala
+#: ../src/transaction.vala
 msgid "Transaction cancelled"
 msgstr "Transakcija preklicana"
 
@@ -332,24 +347,6 @@ msgstr[3] "Na voljo je %u posodobitev"
 msgid "Show available updates"
 msgstr "Pokaži razpoložljive posodobitve"
 
-#: ../src/choose_provider_dialog.vala
-#, c-format
-msgid "Choose a provider for %s"
-msgstr "Izberite ponudnika za %s"
-
-#: ../src/choose_dep_dialog.vala
-#, c-format
-msgid ""
-"%s has %u uninstalled optional dependency.\n"
-"Choose if you would like to install it"
-msgid_plural ""
-"%s has %u uninstalled optional dependencies.\n"
-"Choose those you would like to install"
-msgstr[0] "%s ima %u odstranjeno izbirno odvisnost.\nIzberite, če jo želite namestiti"
-msgstr[1] "%s ima %u odstranjenih izbirnih odvisnosti.\nIzberite tiste, ki jih želite namestiti"
-msgstr[2] "%s ima %u odstranjenih izbirnih odvisnosti.\nIzberite tiste, ki jih želite namestiti"
-msgstr[3] "%s ima %u odstranjenih izbirnih odvisnosti.\nIzberite tiste, ki jih želite namestiti"
-
 #: ../src/manager_window.vala
 msgid "Deselect"
 msgstr "Prekliči izbiro"
@@ -391,6 +388,10 @@ msgid "Licenses"
 msgstr "Licence"
 
 #: ../src/manager_window.vala
+msgid "Unknown"
+msgstr "Neznano"
+
+#: ../src/manager_window.vala
 msgid "Depends On"
 msgstr "Odvisen od"
 
@@ -427,18 +428,6 @@ msgid "Groups"
 msgstr "Skupine"
 
 #: ../src/manager_window.vala
-msgid "Maintainer"
-msgstr ""
-
-#: ../src/manager_window.vala
-msgid "First Submitted"
-msgstr ""
-
-#: ../src/manager_window.vala
-msgid "Last Modified"
-msgstr ""
-
-#: ../src/manager_window.vala
 msgid "Packager"
 msgstr "Paketni program"
 
@@ -459,18 +448,38 @@ msgid "Installed as a dependency for another package"
 msgstr "Nameščeno kot odvisnost za drugi paket"
 
 #: ../src/manager_window.vala
-msgid "Unknown"
-msgstr "Neznano"
-
-#: ../src/manager_window.vala
 msgid "Install Reason"
 msgstr "Namestitveni razlog"
+
+#: ../src/manager_window.vala
+msgid "Yes"
+msgstr "Da"
+
+#: ../src/manager_window.vala
+msgid "No"
+msgstr "Ne"
 
 #: ../src/manager_window.vala
 msgid "Signatures"
 msgstr "Podpisi"
 
 #: ../src/manager_window.vala
+msgid "Backup files"
+msgstr "Varnostne datoteke"
+
+#: ../src/manager_window.vala
+msgid "Maintainer"
+msgstr ""
+
+#: ../src/manager_window.vala
+msgid "First Submitted"
+msgstr ""
+
+#: ../src/manager_window.vala
+msgid "Last Modified"
+msgstr ""
+
+#: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Votes"
 msgstr ""
 
@@ -479,12 +488,17 @@ msgid "Out of Date"
 msgstr ""
 
 #: ../src/manager_window.vala
-msgid "Backup files"
-msgstr "Varnostne datoteke"
-
-#: ../src/manager_window.vala
-msgid "No package found"
-msgstr "Najden ni bil noben paket"
+#, c-format
+msgid ""
+"%s has %u uninstalled optional dependency.\n"
+"Choose if you would like to install it"
+msgid_plural ""
+"%s has %u uninstalled optional dependencies.\n"
+"Choose those you would like to install"
+msgstr[0] "%s ima %u odstranjeno izbirno odvisnost.\nIzberite, če jo želite namestiti"
+msgstr[1] "%s ima %u odstranjenih izbirnih odvisnosti.\nIzberite tiste, ki jih želite namestiti"
+msgstr[2] "%s ima %u odstranjenih izbirnih odvisnosti.\nIzberite tiste, ki jih želite namestiti"
+msgstr[3] "%s ima %u odstranjenih izbirnih odvisnosti.\nIzberite tiste, ki jih želite namestiti"
 
 #: ../src/manager_window.vala
 msgid "Uninstalled"
@@ -605,7 +619,7 @@ msgstr "Išči"
 msgid "State"
 msgstr "Stanje"
 
-#: ../resources/manager_window.ui
+#: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "Repositories"
 msgstr "Skladišča"
 
@@ -620,6 +634,11 @@ msgstr "Različica"
 #: ../resources/manager_window.ui
 msgid "Size"
 msgstr "Velikost"
+
+#: ../resources/manager_window.ui ../resources/updater_window.ui
+#: ../resources/preferences_dialog.ui
+msgid "AUR"
+msgstr "AUR"
 
 #: ../resources/manager_window.ui
 msgid "Description"
@@ -716,10 +735,6 @@ msgstr "Preveri za posodobitve iz AUR"
 #: ../resources/preferences_dialog.ui
 msgid "Do not ask for confirmation when building packages"
 msgstr "Pri izgradnjih paketov ne vprašaj za potrditev"
-
-#: ../resources/preferences_dialog.ui
-msgid "AUR"
-msgstr "AUR"
 
 #: ../resources/choose_ignorepkgs_dialog.ui
 msgid "Choose Ignored Upgrades"

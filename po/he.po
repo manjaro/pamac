@@ -5,7 +5,7 @@
 # 
 # Translators:
 # DirectorX <kassavlt@gmail.com>, 2014
-# GenghisKhan <genghiskhan@gmx.ca>, 2013-2015
+# GenghisKhan <genghiskhan@gmx.ca>, 2013-2016
 # DirectorX <kassavlt@gmail.com>, 2014
 # philm <philm@manjaro.org>, 2015
 msgid ""
@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2015-08-20 11:53+0200\n"
-"PO-Revision-Date: 2015-10-08 13:53+0000\n"
+"PO-Revision-Date: 2016-02-05 19:49+0000\n"
 "Last-Translator: GenghisKhan <genghiskhan@gmx.ca>\n"
 "Language-Team: Hebrew (http://www.transifex.com/manjarolinux/manjaro-pamac/language/he/)\n"
 "MIME-Version: 1.0\n"
@@ -26,21 +26,14 @@ msgstr ""
 msgid "Authentication is required"
 msgstr "דרוש אימות"
 
-#: ../src/daemon.vala
+#: ../src/daemon.vala ../src/manager_window.vala
+#: ../src/preferences_dialog.vala
 msgid "Failed to initialize alpm library"
 msgstr "נכשל להתחיל את ספריית alpm"
 
 #: ../src/daemon.vala
 msgid "Failed to synchronize any databases"
 msgstr "נכשל לסנכרן איזה מסד נתונים"
-
-#: ../src/daemon.vala
-msgid "No"
-msgstr "לא"
-
-#: ../src/daemon.vala
-msgid "Yes"
-msgstr "כן"
 
 #: ../src/daemon.vala
 msgid "Failed to init transaction"
@@ -94,7 +87,7 @@ msgstr "%s: %s כבר קיים בתוך מערכת קבצים"
 msgid "%s is invalid or corrupted"
 msgstr "%s שגוי או מושחת"
 
-#: ../src/daemon.vala
+#: ../src/daemon.vala ../src/transaction.vala
 msgid "Authentication failed"
 msgstr "אימות נכשל"
 
@@ -113,6 +106,11 @@ msgstr "כעת מתחיל שדרוג מערכת מלא"
 #: ../src/transaction.vala
 msgid "Preparing"
 msgstr "כעת מתכונן"
+
+#: ../src/transaction.vala
+#, c-format
+msgid "Choose a provider for %s"
+msgstr "בחר ספק עבור %s"
 
 #: ../src/transaction.vala ../resources/transaction_sum_dialog.ui
 msgid "Transaction Summary"
@@ -149,6 +147,14 @@ msgstr "גודל הורדה כולל"
 #: ../src/transaction.vala
 msgid "Building packages"
 msgstr "כעת בונה חבילות"
+
+#: ../src/transaction.vala
+msgid "Running pre-transaction hooks"
+msgstr ""
+
+#: ../src/transaction.vala
+msgid "Running post-transaction hooks"
+msgstr ""
 
 #: ../src/transaction.vala
 msgid "Checking dependencies"
@@ -222,7 +228,7 @@ msgstr "כעת מפיק %s בעזרת %s"
 
 #: ../src/transaction.vala
 msgid "Generation succeeded"
-msgstr "הפקה הוצלחה"
+msgstr "הפקה צלחה"
 
 #: ../src/transaction.vala
 msgid "Generation failed"
@@ -263,11 +269,6 @@ msgstr "%s מותקנת בתור %s.pacsave"
 
 #: ../src/transaction.vala
 #, c-format
-msgid "%s installed as %s.pacorig"
-msgstr "%s מותקנת בתור %s.pacorig"
-
-#: ../src/transaction.vala
-#, c-format
 msgid "Refreshing %s"
 msgstr "כעת מרענן את %s"
 
@@ -275,6 +276,18 @@ msgstr "כעת מרענן את %s"
 #, c-format
 msgid "Downloading %s"
 msgstr "כעת מוריד את %s"
+
+#: ../src/transaction.vala
+#, c-format
+msgid "About %u seconds remaining"
+msgstr "נותרו %u שניות לערך"
+
+#: ../src/transaction.vala
+#, c-format
+msgid "About %lu minute remaining"
+msgid_plural "About %lu minutes remaining"
+msgstr[0] "נותרה דקה %lu לערך"
+msgstr[1] "נותרו %lu דקות לערך"
 
 #: ../src/transaction.vala
 msgid "Warning"
@@ -285,7 +298,7 @@ msgstr "אזהרה"
 msgid "Error"
 msgstr "שגיאה"
 
-#: ../src/transaction.vala ../src/progress_dialog.vala
+#: ../src/transaction.vala
 msgid "Transaction cancelled"
 msgstr "טרנזקציה בוטלה"
 
@@ -328,22 +341,6 @@ msgstr[1] "%u עדכונים זמינים"
 msgid "Show available updates"
 msgstr "הצג עדכונים זמינים"
 
-#: ../src/choose_provider_dialog.vala
-#, c-format
-msgid "Choose a provider for %s"
-msgstr "בחר ספק עבור %s"
-
-#: ../src/choose_dep_dialog.vala
-#, c-format
-msgid ""
-"%s has %u uninstalled optional dependency.\n"
-"Choose if you would like to install it"
-msgid_plural ""
-"%s has %u uninstalled optional dependencies.\n"
-"Choose those you would like to install"
-msgstr[0] "לחבילה %s יש %u תלות רשות לא מותקנת.\nבחר אם ברצונך להתקינה:"
-msgstr[1] "לחבילה %s יש %u תלויות רשות לא מותקנות.\nבחר את אלה אשר ברצונך להתקין:"
-
 #: ../src/manager_window.vala
 msgid "Deselect"
 msgstr "בטל בחירה"
@@ -385,6 +382,10 @@ msgid "Licenses"
 msgstr "רשיונות"
 
 #: ../src/manager_window.vala
+msgid "Unknown"
+msgstr "לא ידוע"
+
+#: ../src/manager_window.vala
 msgid "Depends On"
 msgstr "תלויה על"
 
@@ -421,18 +422,6 @@ msgid "Groups"
 msgstr "קבוצה"
 
 #: ../src/manager_window.vala
-msgid "Maintainer"
-msgstr "מתחזק"
-
-#: ../src/manager_window.vala
-msgid "First Submitted"
-msgstr "נמסרה לראשונה"
-
-#: ../src/manager_window.vala
-msgid "Last Modified"
-msgstr "שונתה לאחרונה"
-
-#: ../src/manager_window.vala
 msgid "Packager"
 msgstr "אורז"
 
@@ -453,18 +442,38 @@ msgid "Installed as a dependency for another package"
 msgstr "מותקנת כתלות עבור חבילה אחרת"
 
 #: ../src/manager_window.vala
-msgid "Unknown"
-msgstr "לא ידוע"
-
-#: ../src/manager_window.vala
 msgid "Install Reason"
 msgstr "סיבת התקנה"
+
+#: ../src/manager_window.vala
+msgid "Yes"
+msgstr "כן"
+
+#: ../src/manager_window.vala
+msgid "No"
+msgstr "לא"
 
 #: ../src/manager_window.vala
 msgid "Signatures"
 msgstr "חתימות"
 
 #: ../src/manager_window.vala
+msgid "Backup files"
+msgstr "קבצי גיבוי"
+
+#: ../src/manager_window.vala
+msgid "Maintainer"
+msgstr "מתחזק"
+
+#: ../src/manager_window.vala
+msgid "First Submitted"
+msgstr "נמסרה לראשונה"
+
+#: ../src/manager_window.vala
+msgid "Last Modified"
+msgstr "שונתה לאחרונה"
+
+#: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Votes"
 msgstr "קולות"
 
@@ -473,12 +482,15 @@ msgid "Out of Date"
 msgstr "לא מעודכנת"
 
 #: ../src/manager_window.vala
-msgid "Backup files"
-msgstr "קבצי גיבוי"
-
-#: ../src/manager_window.vala
-msgid "No package found"
-msgstr "לא נמצאה חבילה"
+#, c-format
+msgid ""
+"%s has %u uninstalled optional dependency.\n"
+"Choose if you would like to install it"
+msgid_plural ""
+"%s has %u uninstalled optional dependencies.\n"
+"Choose those you would like to install"
+msgstr[0] "לחבילה %s יש %u תלות רשות לא מותקנת.\nבחר אם ברצונך להתקינה:"
+msgstr[1] "לחבילה %s יש %u תלויות רשות לא מותקנות.\nבחר את אלה אשר ברצונך להתקין:"
 
 #: ../src/manager_window.vala
 msgid "Uninstalled"
@@ -599,7 +611,7 @@ msgstr "חיפוש"
 msgid "State"
 msgstr "מצב"
 
-#: ../resources/manager_window.ui
+#: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "Repositories"
 msgstr "מאגרים"
 
@@ -614,6 +626,11 @@ msgstr "גרסא"
 #: ../resources/manager_window.ui
 msgid "Size"
 msgstr "גודל"
+
+#: ../resources/manager_window.ui ../resources/updater_window.ui
+#: ../resources/preferences_dialog.ui
+msgid "AUR"
+msgstr "AUR"
 
 #: ../resources/manager_window.ui
 msgid "Description"
@@ -710,10 +727,6 @@ msgstr "בדוק עדכונים מתוך AUR"
 #: ../resources/preferences_dialog.ui
 msgid "Do not ask for confirmation when building packages"
 msgstr "אל תשאל לאימות כאשר בונים חבילות"
-
-#: ../resources/preferences_dialog.ui
-msgid "AUR"
-msgstr "AUR"
 
 #: ../resources/choose_ignorepkgs_dialog.ui
 msgid "Choose Ignored Upgrades"

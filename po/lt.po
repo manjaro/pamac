@@ -5,13 +5,13 @@
 # 
 # Translators:
 # Moo, 2015
-# Moo, 2015
+# Moo, 2015-2016
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2015-08-20 11:53+0200\n"
-"PO-Revision-Date: 2015-10-08 08:50+0000\n"
+"PO-Revision-Date: 2016-02-02 18:32+0000\n"
 "Last-Translator: Moo\n"
 "Language-Team: Lithuanian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/lt/)\n"
 "MIME-Version: 1.0\n"
@@ -24,21 +24,14 @@ msgstr ""
 msgid "Authentication is required"
 msgstr "Reikalingas tapatybės nustatymas"
 
-#: ../src/daemon.vala
+#: ../src/daemon.vala ../src/manager_window.vala
+#: ../src/preferences_dialog.vala
 msgid "Failed to initialize alpm library"
 msgstr "Nepavyko inicijuoti alpm bibliotekos"
 
 #: ../src/daemon.vala
 msgid "Failed to synchronize any databases"
 msgstr "Nepavyko sinchronizuoti jokių duomenų bazių"
-
-#: ../src/daemon.vala
-msgid "No"
-msgstr "Ne"
-
-#: ../src/daemon.vala
-msgid "Yes"
-msgstr "Taip"
 
 #: ../src/daemon.vala
 msgid "Failed to init transaction"
@@ -92,13 +85,13 @@ msgstr "%s: %s jau yra failų sistemoje"
 msgid "%s is invalid or corrupted"
 msgstr "%s yra neteisingas arba pažeistas"
 
-#: ../src/daemon.vala
+#: ../src/daemon.vala ../src/transaction.vala
 msgid "Authentication failed"
 msgstr "Nepavyko nustatyti tapatybę"
 
 #: ../src/transaction.vala
 msgid "Refreshing mirrors list"
-msgstr "Iš naujo įkelti tinklaviečių sąrašą"
+msgstr "Iš naujo įkeliamas tinklaviečių sąrašas"
 
 #: ../src/transaction.vala
 msgid "Synchronizing package databases"
@@ -111,6 +104,11 @@ msgstr "Pradedamas pilnas sistemos atnaujinimas"
 #: ../src/transaction.vala
 msgid "Preparing"
 msgstr "Ruošiama"
+
+#: ../src/transaction.vala
+#, c-format
+msgid "Choose a provider for %s"
+msgstr "Pasirinkite tiekėją paketui %s"
 
 #: ../src/transaction.vala ../resources/transaction_sum_dialog.ui
 msgid "Transaction Summary"
@@ -147,6 +145,14 @@ msgstr "Visų atsiuntimų dydis"
 #: ../src/transaction.vala
 msgid "Building packages"
 msgstr "Kompiliuojami paketai"
+
+#: ../src/transaction.vala
+msgid "Running pre-transaction hooks"
+msgstr "Vykdomos prieš-operacijos gaudyklės"
+
+#: ../src/transaction.vala
+msgid "Running post-transaction hooks"
+msgstr "Vykdomos po-operacijos gaudyklės"
 
 #: ../src/transaction.vala
 msgid "Checking dependencies"
@@ -261,11 +267,6 @@ msgstr "%s įdiegta kaip %s.pacsave"
 
 #: ../src/transaction.vala
 #, c-format
-msgid "%s installed as %s.pacorig"
-msgstr "%s įdiegta kaip %s.pacorig"
-
-#: ../src/transaction.vala
-#, c-format
 msgid "Refreshing %s"
 msgstr "Įkeliama iš naujo %s"
 
@@ -273,6 +274,19 @@ msgstr "Įkeliama iš naujo %s"
 #, c-format
 msgid "Downloading %s"
 msgstr "Atsiunčiama %s"
+
+#: ../src/transaction.vala
+#, c-format
+msgid "About %u seconds remaining"
+msgstr "Liko apytiksliai %u sekundžių"
+
+#: ../src/transaction.vala
+#, c-format
+msgid "About %lu minute remaining"
+msgid_plural "About %lu minutes remaining"
+msgstr[0] "Liko apytiksliai %lu minutė"
+msgstr[1] "Liko apytiksliai %lu minutės"
+msgstr[2] "Liko apytiksliai %lu minučių"
 
 #: ../src/transaction.vala
 msgid "Warning"
@@ -283,7 +297,7 @@ msgstr "Įspėjimas"
 msgid "Error"
 msgstr "Klaida"
 
-#: ../src/transaction.vala ../src/progress_dialog.vala
+#: ../src/transaction.vala
 msgid "Transaction cancelled"
 msgstr "Operacija atšaukta"
 
@@ -327,23 +341,6 @@ msgstr[2] "Yra %u prieinamų atnaujinimų"
 msgid "Show available updates"
 msgstr "Rodyti prieinamus atnaujinimus"
 
-#: ../src/choose_provider_dialog.vala
-#, c-format
-msgid "Choose a provider for %s"
-msgstr "Pasirinkite tiekėją paketui %s"
-
-#: ../src/choose_dep_dialog.vala
-#, c-format
-msgid ""
-"%s has %u uninstalled optional dependency.\n"
-"Choose if you would like to install it"
-msgid_plural ""
-"%s has %u uninstalled optional dependencies.\n"
-"Choose those you would like to install"
-msgstr[0] "%s turi %u neįdiegtą pasirinktiną priklausomybę.\nPasirinkite, ar norėtumėte ją įdiegti"
-msgstr[1] "%s turi %u neįdiegtas pasirinktinas priklausomybes.\nPasirinkite tas, kurias norėtumėte įdiegti"
-msgstr[2] "%s turi %u neįdiegtų pasirinktinų priklausomybių.\nPasirinkite tas, kurias norėtumėte įdiegti"
-
 #: ../src/manager_window.vala
 msgid "Deselect"
 msgstr "Nuimti žymėjimą"
@@ -366,7 +363,7 @@ msgstr "Įdiegti pasirinktinas priklausomybes"
 
 #: ../src/manager_window.vala
 msgid "Mark as explicitly installed"
-msgstr "Pažymėti kaip specialiai įdiegtą"
+msgstr "Pažymėti kaip savarankiškai įdiegtą"
 
 #: ../src/manager_window.vala
 msgid "local"
@@ -385,12 +382,16 @@ msgid "Licenses"
 msgstr "Licencijos"
 
 #: ../src/manager_window.vala
+msgid "Unknown"
+msgstr "Nežinoma"
+
+#: ../src/manager_window.vala
 msgid "Depends On"
-msgstr "Priklauso Nuo"
+msgstr "Priklauso nuo"
 
 #: ../src/manager_window.vala
 msgid "Optional Dependencies"
-msgstr "Pasirinktinės Priklausomybės"
+msgstr "Pasirinktinės priklausomybės"
 
 #: ../src/manager_window.vala
 msgid "Required By"
@@ -398,7 +399,7 @@ msgstr "Reikalauja"
 
 #: ../src/manager_window.vala
 msgid "Optional For"
-msgstr "Neprivalomas Paketams"
+msgstr "Neprivalomas paketams"
 
 #: ../src/manager_window.vala
 msgid "Provides"
@@ -410,7 +411,7 @@ msgstr "Pakeičia"
 
 #: ../src/manager_window.vala
 msgid "Conflicts With"
-msgstr "Konfliktuoja Su"
+msgstr "Konfliktuoja su"
 
 #: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Repository"
@@ -421,50 +422,58 @@ msgid "Groups"
 msgstr "Grupės"
 
 #: ../src/manager_window.vala
-msgid "Maintainer"
-msgstr "Prižiūrėtojas"
-
-#: ../src/manager_window.vala
-msgid "First Submitted"
-msgstr "Pirmą Kartą Pateiktas"
-
-#: ../src/manager_window.vala
-msgid "Last Modified"
-msgstr "Paskutinį Kartą Keistas"
-
-#: ../src/manager_window.vala
 msgid "Packager"
 msgstr "Pakuotojas"
 
 #: ../src/manager_window.vala
 msgid "Build Date"
-msgstr "Kūrimo Data"
+msgstr "Kūrimo data"
 
 #: ../src/manager_window.vala
 msgid "Install Date"
-msgstr "Įdiegimo Data"
+msgstr "Įdiegimo data"
 
 #: ../src/manager_window.vala
 msgid "Explicitly installed"
-msgstr "Specialiai įdiegtas"
+msgstr "Savarankiškai įdiegtas"
 
 #: ../src/manager_window.vala
 msgid "Installed as a dependency for another package"
 msgstr "Įdiegta kaip priklausomybė kitam paketui"
 
 #: ../src/manager_window.vala
-msgid "Unknown"
-msgstr "Nežinoma"
+msgid "Install Reason"
+msgstr "Įdiegimo priežastis"
 
 #: ../src/manager_window.vala
-msgid "Install Reason"
-msgstr "Įdiegimo Priežastis"
+msgid "Yes"
+msgstr "Taip"
+
+#: ../src/manager_window.vala
+msgid "No"
+msgstr "Ne"
 
 #: ../src/manager_window.vala
 msgid "Signatures"
 msgstr "Parašai"
 
 #: ../src/manager_window.vala
+msgid "Backup files"
+msgstr "Atsarginės kopijos failai"
+
+#: ../src/manager_window.vala
+msgid "Maintainer"
+msgstr "Prižiūrėtojas"
+
+#: ../src/manager_window.vala
+msgid "First Submitted"
+msgstr "Pirmą kartą pateiktas"
+
+#: ../src/manager_window.vala
+msgid "Last Modified"
+msgstr "Paskutinį kartą keistas"
+
+#: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Votes"
 msgstr "Balsų"
 
@@ -473,12 +482,16 @@ msgid "Out of Date"
 msgstr "Pasenęs"
 
 #: ../src/manager_window.vala
-msgid "Backup files"
-msgstr "Atsarginės kopijos failai"
-
-#: ../src/manager_window.vala
-msgid "No package found"
-msgstr "Paketas nerastas"
+#, c-format
+msgid ""
+"%s has %u uninstalled optional dependency.\n"
+"Choose if you would like to install it"
+msgid_plural ""
+"%s has %u uninstalled optional dependencies.\n"
+"Choose those you would like to install"
+msgstr[0] "%s turi %u neįdiegtą pasirinktiną priklausomybę.\nPasirinkite, ar norėtumėte ją įdiegti"
+msgstr[1] "%s turi %u neįdiegtas pasirinktinas priklausomybes.\nPasirinkite tas, kurias norėtumėte įdiegti"
+msgstr[2] "%s turi %u neįdiegtų pasirinktinų priklausomybių.\nPasirinkite tas, kurias norėtumėte įdiegti"
 
 #: ../src/manager_window.vala
 msgid "Uninstalled"
@@ -486,17 +499,17 @@ msgstr "Pašalinta"
 
 #: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Install Local Packages"
-msgstr "Įdiegti Vietinius Paketus"
+msgstr "Įdiegti vietinius paketus"
 
 #: ../src/manager_window.vala ../resources/progress_dialog.ui
 #: ../resources/transaction_sum_dialog.ui ../resources/choose_dep_dialog.ui
 #: ../resources/choose_ignorepkgs_dialog.ui
 msgid "_Cancel"
-msgstr "_Atšaukti"
+msgstr "_Atsisakyti"
 
 #: ../src/manager_window.vala
 msgid "_Open"
-msgstr "_Atidaryti"
+msgstr "_Atverti"
 
 #: ../src/manager_window.vala
 msgid "Alpm Package"
@@ -508,7 +521,7 @@ msgstr "Gtk3 naudotojo sąsaja libalpm bibliotekai"
 
 #: ../src/manager_window.vala
 msgid "Copyright © 2015 Guillaume Benoit"
-msgstr "Autorinės Teisės © 2015 Guillaume Benoit"
+msgstr "Autorių Teisės © 2015 Guillaume Benoit"
 
 #: ../src/preferences_dialog.vala ../resources/preferences_dialog.ui
 msgid "How often to check for updates, value in hours"
@@ -532,7 +545,7 @@ msgstr "Pasirinkite paketus, kurių nenorite atnaujinti"
 
 #: ../resources/choose_provider_dialog.ui
 msgid "Choose a Provider"
-msgstr "Pasirinkite Tiekėją"
+msgstr "Pasirinkite tiekėją"
 
 #: ../resources/choose_provider_dialog.ui
 #: ../resources/transaction_sum_dialog.ui ../resources/choose_dep_dialog.ui
@@ -557,15 +570,15 @@ msgstr "Išsamiau"
 
 #: ../resources/history_dialog.ui
 msgid "Pamac History"
-msgstr "Pamac Žurnalas"
+msgstr "Pamac žurnalas"
 
 #: ../resources/choose_dep_dialog.ui
 msgid "Choose Optional Dependencies"
-msgstr "Pasirinkti Pasirinktines Priklausomybes"
+msgstr "Pasirinkti pasirinktines priklausomybes"
 
 #: ../resources/manager_window.ui
 msgid "View History"
-msgstr "Žiūrėti Žurnalą"
+msgstr "Žiūrėti žurnalą"
 
 #: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "_Preferences"
@@ -599,7 +612,7 @@ msgstr "Paieška"
 msgid "State"
 msgstr "Būsena"
 
-#: ../resources/manager_window.ui
+#: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "Repositories"
 msgstr "Saugyklos"
 
@@ -614,6 +627,11 @@ msgstr "Versija"
 #: ../resources/manager_window.ui
 msgid "Size"
 msgstr "Dydis"
+
+#: ../resources/manager_window.ui ../resources/updater_window.ui
+#: ../resources/preferences_dialog.ui
+msgid "AUR"
+msgstr "AUR"
 
 #: ../resources/manager_window.ui
 msgid "Description"
@@ -679,11 +697,11 @@ msgstr "Rikiuoti tinklavietes pagal:"
 
 #: ../resources/preferences_dialog.ui
 msgid "Refresh Mirrors List"
-msgstr "Iš Naujo Įkelti Tinklaviečių Sąrašą"
+msgstr "Iš naujo įkelti tinklaviečių sąrašą"
 
 #: ../resources/preferences_dialog.ui
 msgid "Official Repositories"
-msgstr "Oficialios Saugyklos"
+msgstr "Oficialios saugyklos"
 
 #: ../resources/preferences_dialog.ui
 msgid ""
@@ -711,10 +729,6 @@ msgstr "Tikrinti atnaujinimus iš AUR"
 msgid "Do not ask for confirmation when building packages"
 msgstr "Neklausti patvirtinimo, kuriant paketus"
 
-#: ../resources/preferences_dialog.ui
-msgid "AUR"
-msgstr "AUR"
-
 #: ../resources/choose_ignorepkgs_dialog.ui
 msgid "Choose Ignored Upgrades"
-msgstr "Pasirinkti Nepaisomus Atnaujinimus"
+msgstr "Pasirinkti nepaisomus atnaujinimus"

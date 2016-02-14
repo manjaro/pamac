@@ -14,7 +14,7 @@
 # Lexyc <nirudak@mail.ru>, 2014
 # Lowrider <pams@imail.ru>, 2015
 # Daniil <rostovslipknot@gmail.com>, 2013
-# Lexyc <nirudak@mail.ru>, 2014
+# Lexyc <nirudak@mail.ru>, 2014-2015
 # Lowrider <pams@imail.ru>, 2015
 # Paulo Fino <finomeno@gmail.com>, 2014
 # Umid Almasov <u.almasov@gmail.com>, 2013
@@ -26,8 +26,8 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2015-08-20 11:53+0200\n"
-"PO-Revision-Date: 2015-10-11 16:30+0000\n"
-"Last-Translator: Анатолий Валерианович <ffox909@mail.ru>\n"
+"PO-Revision-Date: 2016-02-02 08:27+0000\n"
+"Last-Translator: Guillaume Benoit <guillaume@manjaro.org>\n"
 "Language-Team: Russian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -39,21 +39,14 @@ msgstr ""
 msgid "Authentication is required"
 msgstr "Необходима авторизация"
 
-#: ../src/daemon.vala
+#: ../src/daemon.vala ../src/manager_window.vala
+#: ../src/preferences_dialog.vala
 msgid "Failed to initialize alpm library"
 msgstr "Ошибка инициализации библиотеки alpm"
 
 #: ../src/daemon.vala
 msgid "Failed to synchronize any databases"
 msgstr "Ошибка синхронизации со всеми базами данных"
-
-#: ../src/daemon.vala
-msgid "No"
-msgstr "Нет"
-
-#: ../src/daemon.vala
-msgid "Yes"
-msgstr "Да"
 
 #: ../src/daemon.vala
 msgid "Failed to init transaction"
@@ -81,16 +74,16 @@ msgstr "%s: зависимости %s"
 #: ../src/daemon.vala
 #, c-format
 msgid "%s and %s are in conflict"
-msgstr "конфликт между файлами %s и %s"
+msgstr "конфликт между %s и %s"
 
 #: ../src/daemon.vala
 #, c-format
 msgid "%s needs to be removed but it is a locked package"
-msgstr "%s необходимо удалить, но пакет имеет атрибут"
+msgstr "%s необходимо удалить, но пакет заблокирован"
 
 #: ../src/daemon.vala
 msgid "Failed to commit transaction"
-msgstr "Ошибка подтверждения транзакции"
+msgstr "Ошибка завершения транзакции"
 
 #: ../src/daemon.vala
 #, c-format
@@ -105,9 +98,9 @@ msgstr "%s: %s уже существует в файловой системе"
 #: ../src/daemon.vala
 #, c-format
 msgid "%s is invalid or corrupted"
-msgstr "%s недопустим или повреждён"
+msgstr "%s недействующий или повреждён"
 
-#: ../src/daemon.vala
+#: ../src/daemon.vala ../src/transaction.vala
 msgid "Authentication failed"
 msgstr "Ошибка авторизации"
 
@@ -121,11 +114,16 @@ msgstr "Синхронизация баз данных пакетов"
 
 #: ../src/transaction.vala
 msgid "Starting full system upgrade"
-msgstr "Выполнение полноценного обновления системы"
+msgstr "Запуск полного обновления системы"
 
 #: ../src/transaction.vala
 msgid "Preparing"
 msgstr "Подготовка"
+
+#: ../src/transaction.vala
+#, c-format
+msgid "Choose a provider for %s"
+msgstr "Укажите источник %s"
 
 #: ../src/transaction.vala ../resources/transaction_sum_dialog.ui
 msgid "Transaction Summary"
@@ -162,6 +160,14 @@ msgstr "Общий размер загрузки"
 #: ../src/transaction.vala
 msgid "Building packages"
 msgstr "Сборка пакетов"
+
+#: ../src/transaction.vala
+msgid "Running pre-transaction hooks"
+msgstr ""
+
+#: ../src/transaction.vala
+msgid "Running post-transaction hooks"
+msgstr ""
 
 #: ../src/transaction.vala
 msgid "Checking dependencies"
@@ -276,11 +282,6 @@ msgstr "%s установлен как %s.pacsave"
 
 #: ../src/transaction.vala
 #, c-format
-msgid "%s installed as %s.pacorig"
-msgstr "%s установлен как %s.pacorig"
-
-#: ../src/transaction.vala
-#, c-format
 msgid "Refreshing %s"
 msgstr "Обновление %s"
 
@@ -288,6 +289,20 @@ msgstr "Обновление %s"
 #, c-format
 msgid "Downloading %s"
 msgstr "Загрузка %s"
+
+#: ../src/transaction.vala
+#, c-format
+msgid "About %u seconds remaining"
+msgstr ""
+
+#: ../src/transaction.vala
+#, c-format
+msgid "About %lu minute remaining"
+msgid_plural "About %lu minutes remaining"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
 
 #: ../src/transaction.vala
 msgid "Warning"
@@ -298,7 +313,7 @@ msgstr "Внимание"
 msgid "Error"
 msgstr "Ошибка"
 
-#: ../src/transaction.vala ../src/progress_dialog.vala
+#: ../src/transaction.vala
 msgid "Transaction cancelled"
 msgstr "Транзакция отменена"
 
@@ -334,32 +349,14 @@ msgstr "_Выйти"
 #, c-format
 msgid "%u available update"
 msgid_plural "%u available updates"
-msgstr[0] "%u доступно обновление"
-msgstr[1] "%u доступно пара обновлений"
-msgstr[2] "%u доступны обновления"
-msgstr[3] "%u доступны обновления"
+msgstr[0] "%u доступное обновление"
+msgstr[1] "%u доступных обновления"
+msgstr[2] "%u доступных обновлений"
+msgstr[3] "%u доступных обновлений"
 
 #: ../src/tray.vala
 msgid "Show available updates"
 msgstr "Показать доступные обновления"
-
-#: ../src/choose_provider_dialog.vala
-#, c-format
-msgid "Choose a provider for %s"
-msgstr "Укажите источник %s"
-
-#: ../src/choose_dep_dialog.vala
-#, c-format
-msgid ""
-"%s has %u uninstalled optional dependency.\n"
-"Choose if you would like to install it"
-msgid_plural ""
-"%s has %u uninstalled optional dependencies.\n"
-"Choose those you would like to install"
-msgstr[0] "%s имеет %u удалённые дополнительные зависимости.\nВыберете те, которые хотели установить"
-msgstr[1] "%s имеют %u удалённые дополнительные зависимости.\nВыберете те, которые хотели установить"
-msgstr[2] "%s имеют %u удалённые дополнительные зависимости.\nВыберете те, которые хотели установить"
-msgstr[3] "%s имеет %u удалённые дополнительные зависимости.\nВыберете те, которые хотели установить"
 
 #: ../src/manager_window.vala
 msgid "Deselect"
@@ -402,6 +399,10 @@ msgid "Licenses"
 msgstr "Лицензии"
 
 #: ../src/manager_window.vala
+msgid "Unknown"
+msgstr "Неизвестно"
+
+#: ../src/manager_window.vala
 msgid "Depends On"
 msgstr "Зависит от"
 
@@ -438,18 +439,6 @@ msgid "Groups"
 msgstr "Группы"
 
 #: ../src/manager_window.vala
-msgid "Maintainer"
-msgstr "Ведущий"
-
-#: ../src/manager_window.vala
-msgid "First Submitted"
-msgstr "Впервые отправлен"
-
-#: ../src/manager_window.vala
-msgid "Last Modified"
-msgstr "Последнее изменение"
-
-#: ../src/manager_window.vala
 msgid "Packager"
 msgstr "Упаковщик"
 
@@ -467,21 +456,41 @@ msgstr "Установлено специально"
 
 #: ../src/manager_window.vala
 msgid "Installed as a dependency for another package"
-msgstr "Установлено как зависимости для других пакетов"
-
-#: ../src/manager_window.vala
-msgid "Unknown"
-msgstr "Неизвестно"
+msgstr "Установлено как зависимость для другого пакета"
 
 #: ../src/manager_window.vala
 msgid "Install Reason"
 msgstr "Причина установки"
 
 #: ../src/manager_window.vala
+msgid "Yes"
+msgstr "Да"
+
+#: ../src/manager_window.vala
+msgid "No"
+msgstr "Нет"
+
+#: ../src/manager_window.vala
 msgid "Signatures"
 msgstr "Подписи"
 
 #: ../src/manager_window.vala
+msgid "Backup files"
+msgstr "Резервные файлы"
+
+#: ../src/manager_window.vala
+msgid "Maintainer"
+msgstr "Ведущий"
+
+#: ../src/manager_window.vala
+msgid "First Submitted"
+msgstr "Впервые отправлен"
+
+#: ../src/manager_window.vala
+msgid "Last Modified"
+msgstr "Последнее изменение"
+
+#: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Votes"
 msgstr "Голосов"
 
@@ -490,12 +499,17 @@ msgid "Out of Date"
 msgstr "Устаревший"
 
 #: ../src/manager_window.vala
-msgid "Backup files"
-msgstr "Резервные файлы"
-
-#: ../src/manager_window.vala
-msgid "No package found"
-msgstr "Пакет не найден"
+#, c-format
+msgid ""
+"%s has %u uninstalled optional dependency.\n"
+"Choose if you would like to install it"
+msgid_plural ""
+"%s has %u uninstalled optional dependencies.\n"
+"Choose those you would like to install"
+msgstr[0] "%s имеет %u неустановленную дополнительную зависимость.\nВыберите её, если хотите установить"
+msgstr[1] "%s имеет %u неустановленныx дополнительных зависимостей.\nВыберите нужные для установки"
+msgstr[2] "%s имеет %u неустановленныx дополнительных зависимостей.\nВыберите нужные для установки"
+msgstr[3] "%s имеет %u неустановленныx дополнительных зависимостей.\nВыберите нужные для установки"
 
 #: ../src/manager_window.vala
 msgid "Uninstalled"
@@ -616,7 +630,7 @@ msgstr "Поиск"
 msgid "State"
 msgstr "Состояние"
 
-#: ../resources/manager_window.ui
+#: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "Repositories"
 msgstr "Репозитории"
 
@@ -631,6 +645,11 @@ msgstr "Версия"
 #: ../resources/manager_window.ui
 msgid "Size"
 msgstr "Размер"
+
+#: ../resources/manager_window.ui ../resources/updater_window.ui
+#: ../resources/preferences_dialog.ui
+msgid "AUR"
+msgstr "AUR"
 
 #: ../resources/manager_window.ui
 msgid "Description"
@@ -680,7 +699,7 @@ msgstr "Скрыть значок при отсутствии обновлени
 
 #: ../resources/preferences_dialog.ui
 msgid "Ignore upgrades for:"
-msgstr "пропустить обновления для:"
+msgstr "Пропустить обновления для:"
 
 #: ../resources/preferences_dialog.ui
 msgid "General"
@@ -726,11 +745,7 @@ msgstr "Проверить обновления AUR"
 
 #: ../resources/preferences_dialog.ui
 msgid "Do not ask for confirmation when building packages"
-msgstr "Не спрашивать подтверждение при создании пакетов"
-
-#: ../resources/preferences_dialog.ui
-msgid "AUR"
-msgstr "AUR"
+msgstr "Не спрашивать подтверждение при сборке пакетов"
 
 #: ../resources/choose_ignorepkgs_dialog.ui
 msgid "Choose Ignored Upgrades"

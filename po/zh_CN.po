@@ -6,16 +6,17 @@
 # Translators:
 # Daetalus <daetalusun@gmail.com>, 2014
 # Daetalus <daetalusun@gmail.com>, 2014
-# Dean Chen <wsxy162@gmail.com>, 2015
-# Dean Chen <wsxy162@gmail.com>, 2015
+# Dz Chen <wsxy162@gmail.com>, 2015
+# Dz Chen <wsxy162@gmail.com>, 2015
+# Dz Chen <wsxy162@gmail.com>, 2016
 # philm <philm@manjaro.org>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2015-08-20 11:53+0200\n"
-"PO-Revision-Date: 2015-10-08 08:28+0000\n"
-"Last-Translator: philm <philm@manjaro.org>\n"
+"PO-Revision-Date: 2016-02-09 12:58+0000\n"
+"Last-Translator: Dz Chen <wsxy162@gmail.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -27,21 +28,14 @@ msgstr ""
 msgid "Authentication is required"
 msgstr "需要验证"
 
-#: ../src/daemon.vala
+#: ../src/daemon.vala ../src/manager_window.vala
+#: ../src/preferences_dialog.vala
 msgid "Failed to initialize alpm library"
 msgstr "初始化 Alpm 库失败"
 
 #: ../src/daemon.vala
 msgid "Failed to synchronize any databases"
 msgstr "同步数据库失败"
-
-#: ../src/daemon.vala
-msgid "No"
-msgstr "否"
-
-#: ../src/daemon.vala
-msgid "Yes"
-msgstr "是"
 
 #: ../src/daemon.vala
 msgid "Failed to init transaction"
@@ -95,7 +89,7 @@ msgstr "%s： %s 已经在文件系统中存在"
 msgid "%s is invalid or corrupted"
 msgstr "%s 无效或已损坏"
 
-#: ../src/daemon.vala
+#: ../src/daemon.vala ../src/transaction.vala
 msgid "Authentication failed"
 msgstr "验证失败"
 
@@ -114,6 +108,11 @@ msgstr "正在进行全面系统升级"
 #: ../src/transaction.vala
 msgid "Preparing"
 msgstr "准备中"
+
+#: ../src/transaction.vala
+#, c-format
+msgid "Choose a provider for %s"
+msgstr "选择 %s 的提供者"
 
 #: ../src/transaction.vala ../resources/transaction_sum_dialog.ui
 msgid "Transaction Summary"
@@ -150,6 +149,14 @@ msgstr "总下载大小"
 #: ../src/transaction.vala
 msgid "Building packages"
 msgstr "正在构建软件包"
+
+#: ../src/transaction.vala
+msgid "Running pre-transaction hooks"
+msgstr "正在运行前处理挂钩"
+
+#: ../src/transaction.vala
+msgid "Running post-transaction hooks"
+msgstr "正在运行后处理挂钩"
 
 #: ../src/transaction.vala
 msgid "Checking dependencies"
@@ -264,11 +271,6 @@ msgstr "%s 安装作 %s.pacsave"
 
 #: ../src/transaction.vala
 #, c-format
-msgid "%s installed as %s.pacorig"
-msgstr "%s 安装作 %s.pacorig"
-
-#: ../src/transaction.vala
-#, c-format
 msgid "Refreshing %s"
 msgstr "正在更新 %s"
 
@@ -276,6 +278,17 @@ msgstr "正在更新 %s"
 #, c-format
 msgid "Downloading %s"
 msgstr "正在下载 %s"
+
+#: ../src/transaction.vala
+#, c-format
+msgid "About %u seconds remaining"
+msgstr "剩下大约 %u 秒钟"
+
+#: ../src/transaction.vala
+#, c-format
+msgid "About %lu minute remaining"
+msgid_plural "About %lu minutes remaining"
+msgstr[0] "剩下大约 %lu 分钟"
 
 #: ../src/transaction.vala
 msgid "Warning"
@@ -286,7 +299,7 @@ msgstr "警告"
 msgid "Error"
 msgstr "错误"
 
-#: ../src/transaction.vala ../src/progress_dialog.vala
+#: ../src/transaction.vala
 msgid "Transaction cancelled"
 msgstr "事务已经取消"
 
@@ -327,21 +340,6 @@ msgstr[0] "%u 个可用更新"
 #: ../src/tray.vala
 msgid "Show available updates"
 msgstr "显示可用更新"
-
-#: ../src/choose_provider_dialog.vala
-#, c-format
-msgid "Choose a provider for %s"
-msgstr "选择 %s 的提供者"
-
-#: ../src/choose_dep_dialog.vala
-#, c-format
-msgid ""
-"%s has %u uninstalled optional dependency.\n"
-"Choose if you would like to install it"
-msgid_plural ""
-"%s has %u uninstalled optional dependencies.\n"
-"Choose those you would like to install"
-msgstr[0] "%s 有 %u 个未安装的可选依赖。\n请选择您想要安装的依赖"
 
 #: ../src/manager_window.vala
 msgid "Deselect"
@@ -384,6 +382,10 @@ msgid "Licenses"
 msgstr "许可"
 
 #: ../src/manager_window.vala
+msgid "Unknown"
+msgstr "未知"
+
+#: ../src/manager_window.vala
 msgid "Depends On"
 msgstr "依赖于"
 
@@ -420,24 +422,12 @@ msgid "Groups"
 msgstr "组"
 
 #: ../src/manager_window.vala
-msgid "Maintainer"
-msgstr ""
-
-#: ../src/manager_window.vala
-msgid "First Submitted"
-msgstr ""
-
-#: ../src/manager_window.vala
-msgid "Last Modified"
-msgstr ""
-
-#: ../src/manager_window.vala
 msgid "Packager"
 msgstr "打包者"
 
 #: ../src/manager_window.vala
 msgid "Build Date"
-msgstr ""
+msgstr "构建日期"
 
 #: ../src/manager_window.vala
 msgid "Install Date"
@@ -452,32 +442,54 @@ msgid "Installed as a dependency for another package"
 msgstr "作为另一个软件包的依赖而安装"
 
 #: ../src/manager_window.vala
-msgid "Unknown"
-msgstr "未知"
-
-#: ../src/manager_window.vala
 msgid "Install Reason"
 msgstr "安装原因"
+
+#: ../src/manager_window.vala
+msgid "Yes"
+msgstr "是"
+
+#: ../src/manager_window.vala
+msgid "No"
+msgstr "否"
 
 #: ../src/manager_window.vala
 msgid "Signatures"
 msgstr "签名"
 
 #: ../src/manager_window.vala
-msgid "Votes"
-msgstr ""
-
-#: ../src/manager_window.vala
-msgid "Out of Date"
-msgstr ""
-
-#: ../src/manager_window.vala
 msgid "Backup files"
 msgstr "备份文件"
 
 #: ../src/manager_window.vala
-msgid "No package found"
-msgstr "未发现软件包"
+msgid "Maintainer"
+msgstr "维护者"
+
+#: ../src/manager_window.vala
+msgid "First Submitted"
+msgstr "首次提交"
+
+#: ../src/manager_window.vala
+msgid "Last Modified"
+msgstr "最后修改"
+
+#: ../src/manager_window.vala ../resources/manager_window.ui
+msgid "Votes"
+msgstr "得票"
+
+#: ../src/manager_window.vala
+msgid "Out of Date"
+msgstr "过期"
+
+#: ../src/manager_window.vala
+#, c-format
+msgid ""
+"%s has %u uninstalled optional dependency.\n"
+"Choose if you would like to install it"
+msgid_plural ""
+"%s has %u uninstalled optional dependencies.\n"
+"Choose those you would like to install"
+msgstr[0] "%s 有 %u 个未安装的可选依赖。\n请选择您想要安装的依赖"
 
 #: ../src/manager_window.vala
 msgid "Uninstalled"
@@ -598,7 +610,7 @@ msgstr "搜索"
 msgid "State"
 msgstr "状态"
 
-#: ../resources/manager_window.ui
+#: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "Repositories"
 msgstr "库"
 
@@ -613,6 +625,11 @@ msgstr "版本"
 #: ../resources/manager_window.ui
 msgid "Size"
 msgstr "大小"
+
+#: ../resources/manager_window.ui ../resources/updater_window.ui
+#: ../resources/preferences_dialog.ui
+msgid "AUR"
+msgstr "AUR"
 
 #: ../resources/manager_window.ui
 msgid "Description"
@@ -709,10 +726,6 @@ msgstr "从 AUR 检查更新"
 #: ../resources/preferences_dialog.ui
 msgid "Do not ask for confirmation when building packages"
 msgstr "构建软件包时不再请求确认"
-
-#: ../resources/preferences_dialog.ui
-msgid "AUR"
-msgstr "AUR"
 
 #: ../resources/choose_ignorepkgs_dialog.ui
 msgid "Choose Ignored Upgrades"
