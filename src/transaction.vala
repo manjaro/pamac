@@ -912,15 +912,21 @@ namespace Pamac {
 					text.append (previous_textbar);
 					timer.start ();
 				} else {
-					download_rate = ((download_rate * rates_nb) + (uint64) ((xfered - previous_xfered) / timer.elapsed ())) / (rates_nb + 1);
-					rates_nb++;
+					if (timer.elapsed () > 0) {
+						download_rate = ((download_rate * rates_nb) + (uint64) ((xfered - previous_xfered) / timer.elapsed ())) / (rates_nb + 1);
+						rates_nb++;
+					}
 					previous_xfered = xfered;
 					uint64 downloaded_total = xfered + already_downloaded;
 					fraction = (float) downloaded_total / total_download;
 					if (fraction <= 1) {
 						text.append ("%s/%s  ".printf (format_size (xfered + already_downloaded), format_size (total_download)));
-						uint64 remaining_seconds = (total_download - downloaded_total) / download_rate;
-						if (remaining_seconds > 9) {
+						uint64 remaining_seconds = 0;
+						if (download_rate > 0) {
+							remaining_seconds = (total_download - downloaded_total) / download_rate;
+						}
+						// display remaining time after 5s and only if more than 10s are remaining
+						if (remaining_seconds > 9 && rates_nb > 9) {
 							if (remaining_seconds <= 50) {
 								text.append (dgettext (null, "About %u seconds remaining").printf ((uint) Math.ceilf ((float) remaining_seconds / 10) * 10));
 							} else {
@@ -951,14 +957,20 @@ namespace Pamac {
 					fraction = 1;
 					previous_filename = "";
 				} else {
-					download_rate = ((download_rate * rates_nb) + (uint64) ((xfered - previous_xfered) / timer.elapsed ())) / (rates_nb + 1);
+					if (timer.elapsed () > 0) {
+						download_rate = ((download_rate * rates_nb) + (uint64) ((xfered - previous_xfered) / timer.elapsed ())) / (rates_nb + 1);
+						rates_nb++;
+					}
 					previous_xfered = xfered;
-					rates_nb++;
 					fraction = (float) xfered / total;
 					if (fraction <= 1) {
 						text.append ("%s/%s  ".printf (format_size (xfered), format_size (total)));
-						uint64 remaining_seconds = (total - xfered) / download_rate;
-						if (remaining_seconds > 9) {
+						uint64 remaining_seconds = 0;
+						if (download_rate > 0) {
+							remaining_seconds = (total - xfered) / download_rate;
+						}
+						// display remaining time after 5s and only if more than 10s are remaining
+						if (remaining_seconds > 9 && rates_nb > 9) {
 							if (remaining_seconds <= 50) {
 								text.append (dgettext (null, "About %u seconds remaining").printf ((uint) Math.ceilf ((float) remaining_seconds / 10) * 10));
 							} else {
@@ -1196,6 +1208,7 @@ namespace Pamac {
 				if (err.message == dgettext (null, "Authentication failed")) {
 					finished (false);
 				} else {
+					clear_lists ();
 					finished (true);
 				}
 				handle_error (err);
@@ -1207,7 +1220,7 @@ namespace Pamac {
 
 		void on_term_child_exited (int status) {
 			Source.remove (pulse_timeout_id);
-			to_build.remove_all ();
+			clear_lists ();
 			// let the time to the daemon to update databases
 			Timeout.add (1000, () => {
 				finished (true);
