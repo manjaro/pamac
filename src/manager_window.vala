@@ -127,6 +127,7 @@ namespace Pamac {
 		AURModel aur_list;
 
 		public HashTable<string,Json.Array> aur_search_results;
+		public HashTable<string,Json.Object> aur_infos;
 
 		public Alpm.Config alpm_config;
 
@@ -212,6 +213,7 @@ namespace Pamac {
 			sortinfo = {0, Gtk.SortType.ASCENDING};
 
 			aur_search_results = new HashTable<string,Json.Array> (str_hash, str_equal);
+			aur_infos = new HashTable<string,Json.Object> (str_hash, str_equal);
 
 			update_lists ();
 			show_default_pkgs ();
@@ -424,27 +426,56 @@ namespace Pamac {
 			link_label.set_markup ("<a href=\"%s\">%s</a>".printf (url, url));
 			StringBuilder licenses = new StringBuilder ();
 			licenses.append (dgettext (null, "Licenses"));
-			licenses.append (": ");
+			licenses.append (":");
 			foreach (unowned string license in pkg.licenses) {
-				if (licenses.len != 0) {
-					licenses.append (" ");
-				}
+				licenses.append (" ");
 				licenses.append (license);
 			}
 			licenses_label.set_markup (licenses.str);
 		}
 
-		public void set_aur_infos_list (Json.Object pkg_info) {
-			name_label.set_markup ("<big><b>%s  %s</b></big>".printf (pkg_info.get_string_member ("Name"),
-																				pkg_info.get_string_member ("Version")));
-			desc_label.set_markup (Markup.escape_text (pkg_info.get_string_member ("Description")));
-			string url = Markup.escape_text (pkg_info.get_string_member ("URL") ?? "");
-			string aur_url = "http://aur.archlinux.org/packages/" + pkg_info.get_string_member ("Name");
+		public async Json.Object get_aur_infos (string aur_name) {
+			if (!aur_infos.contains (aur_name)) {
+				this.get_window ().set_cursor (new Gdk.Cursor.for_display (Gdk.Display.get_default (), Gdk.CursorType.WATCH));
+				Json.Array results = AUR.multiinfo ({aur_name});
+				aur_infos.insert (aur_name, results.get_object_element (0));
+				this.get_window ().set_cursor (null);
+			}
+			return aur_infos.lookup (aur_name);
+		}
+
+		public async void set_aur_infos_list (Json.Object pkg_info) {
+			unowned Json.Node? node;
+			node = pkg_info.get_member ("Name");
+			unowned string name = node.get_string ();
+			Json.Object all_infos = yield get_aur_infos (name);
+			node = all_infos.get_member ("Version");
+			name_label.set_markup ("<big><b>%s  %s</b></big>".printf (name, node.get_string ()));
+			node = all_infos.get_member ("Description");
+			desc_label.set_markup (Markup.escape_text (node.get_string ()));
+			string url = "";
+			node = all_infos.get_member ("URL");
+			if (node != null) {
+				url = Markup.escape_text (node.get_string ());
+			}
+			string aur_url = "http://aur.archlinux.org/packages/" + name;
 			link_label.set_markup ("<a href=\"%s\">%s</a>\n\n<a href=\"%s\">%s</a>".printf (url, url, aur_url, aur_url));
 			StringBuilder licenses = new StringBuilder ();
 			licenses.append (dgettext (null, "Licenses"));
-			licenses.append (": ");
-			licenses.append (pkg_info.get_string_member ("License") ?? dgettext (null, "Unknown"));
+			licenses.append (":");
+			node = all_infos.get_member ("License");
+			if (node != null) {
+				unowned Json.Array array = node.get_array ();
+				uint i = 0;
+				uint length = array.get_length ();
+				while (i < length) {
+					licenses.append (" ");
+					licenses.append (array.get_string_element (i));
+					i++;
+				}
+			} else {
+				licenses.append (dgettext (null, "Unknown"));
+			}
 			licenses_label.set_markup (licenses.str);
 		}
 
@@ -549,6 +580,128 @@ namespace Pamac {
 			}
 		}
 
+		public async void set_aur_deps_list (Json.Object pkg_info) {
+			deps_list.clear ();
+			Gtk.TreeIter iter;
+			unowned Json.Node? node;
+			node = pkg_info.get_member ("Name");
+			Json.Object all_infos = yield get_aur_infos (node.get_string ());
+			unowned Json.Array deps;
+			uint i;
+			uint length;
+			node = all_infos.get_member ("Depends");
+			if (node != null) {
+				deps = node.get_array ();
+				deps_list.insert_with_values (out iter, -1,
+												0, dgettext (null, "Depends On") + ":",
+												1, deps.get_string_element (0));
+				i = 1;
+				length = deps.get_length ();
+				while (i < length) {
+					deps_list.insert_with_values (out iter, -1,
+												1, deps.get_string_element (i));
+					i++;
+				}
+			}
+			node = all_infos.get_member ("MakeDepends");
+			if (node != null) {
+				deps = node.get_array ();
+				deps_list.insert_with_values (out iter, -1,
+												0, dgettext (null, "Make Dependencies") + ":",
+												1, deps.get_string_element (0));
+				i = 1;
+				length = deps.get_length ();
+				while (i < length) {
+					deps_list.insert_with_values (out iter, -1,
+												1, deps.get_string_element (i));
+					i++;
+				}
+			}
+			node = all_infos.get_member ("CheckDepends");
+			if (node != null) {
+				deps = node.get_array ();
+				deps_list.insert_with_values (out iter, -1,
+												0, dgettext (null, "Check Dependencies") + ":",
+												1, deps.get_string_element (0));
+				i = 1;
+				length = deps.get_length ();
+				while (i < length) {
+					deps_list.insert_with_values (out iter, -1,
+												1, deps.get_string_element (i));
+					i++;
+				}
+			}
+			node = all_infos.get_member ("OptDepends");
+			if (node != null) {
+				deps = node.get_array ();
+				string optdep_str = deps.get_string_element (0);
+				var optdep = new StringBuilder (optdep_str);
+				if (Alpm.find_satisfier (alpm_config.handle.localdb.pkgcache, optdep_str) != null) {
+					optdep.append (" [");
+					optdep.append (dgettext (null, "Installed"));
+					optdep.append ("]");
+				}
+				deps_list.insert_with_values (out iter, -1,
+											0, dgettext (null, "Optional Dependencies") + ":",
+											1, optdep.str);
+				i = 1;
+				length = deps.get_length ();
+				while (i < length) {
+					optdep_str = deps.get_string_element (i);
+					optdep = new StringBuilder (optdep_str);
+					if (Alpm.find_satisfier (alpm_config.handle.localdb.pkgcache, optdep_str.split (": ", 2)[0]) != null) {
+						optdep.append (" [");
+						optdep.append (dgettext (null, "Installed"));
+						optdep.append ("]");
+					}
+					deps_list.insert_with_values (out iter, -1, 1, optdep.str);
+					i++;
+				}
+			}
+			node = all_infos.get_member ("Provides");
+			if (node != null) {
+				deps = node.get_array ();
+				deps_list.insert_with_values (out iter, -1,
+												0, dgettext (null, "Provides") + ":",
+												1, deps.get_string_element (0));
+				i = 1;
+				length = deps.get_length ();
+				while (i < length) {
+					deps_list.insert_with_values (out iter, -1,
+												1, deps.get_string_element (i));
+					i++;
+				}
+			}
+			node = all_infos.get_member ("Replaces");
+			if (node != null) {
+				deps = node.get_array ();
+				deps_list.insert_with_values (out iter, -1,
+												0, dgettext (null, "Replaces") + ":",
+												1, deps.get_string_element (0));
+				i = 1;
+				length = deps.get_length ();
+				while (i < length) {
+					deps_list.insert_with_values (out iter, -1,
+												1, deps.get_string_element (i));
+					i++;
+				}
+			}
+			node = all_infos.get_member ("Conflicts");
+			if (node != null) {
+				deps = node.get_array ();
+				deps_list.insert_with_values (out iter, -1,
+												0, dgettext (null, "Conflicts With") + ":",
+												1, deps.get_string_element (0));
+				i = 1;
+				length = deps.get_length ();
+				while (i < length) {
+					deps_list.insert_with_values (out iter, -1,
+												1, deps.get_string_element (1));
+					i++;
+				}
+			}
+		}
+
 		public void set_package_details_list (Alpm.Package pkg) {
 			details_list.clear ();
 			Gtk.TreeIter iter;
@@ -618,25 +771,39 @@ namespace Pamac {
 		public void set_aur_details_list (Json.Object pkg_info) {
 			details_list.clear ();
 			Gtk.TreeIter iter;
-			details_list.insert_with_values (out iter, -1,
-													0, dgettext (null, "Maintainer") + ":",
-													1, pkg_info.get_string_member ("Maintainer"));
-			GLib.Time time = GLib.Time.local ((time_t) pkg_info.get_int_member ("FirstSubmitted"));
-			details_list.insert_with_values (out iter, -1,
-													0, dgettext (null, "First Submitted") + ":",
-													1, time.format ("%a %d %b %Y %X %Z"));
-			time = GLib.Time.local ((time_t) pkg_info.get_int_member ("LastModified"));
-			details_list.insert_with_values (out iter, -1,
-													0, dgettext (null, "Last Modified") + ":",
-													1, time.format ("%a %d %b %Y %X %Z"));
-			details_list.insert_with_values (out iter, -1,
-													0, dgettext (null, "Votes") + ":",
-													1, pkg_info.get_int_member ("NumVotes").to_string ());
-			if (!pkg_info.get_null_member ("OutOfDate")) {
-				time = GLib.Time.local ((time_t) pkg_info.get_int_member ("OutOfDate"));
+			unowned Json.Node? node;
+			node = pkg_info.get_member ("PackageBase");
+			unowned string package_base = node.get_string ();
+			node = pkg_info.get_member ("Name");
+			if (package_base != node.get_string ()) {
 				details_list.insert_with_values (out iter, -1,
-													0, dgettext (null, "Out of Date") + ":",
-													1, time.format ("%a %d %b %Y %X %Z"));
+												0, dgettext (null, "Package Base") + ":",
+												1, package_base);
+			}
+			node = pkg_info.get_member ("Maintainer");
+			details_list.insert_with_values (out iter, -1,
+												0, dgettext (null, "Maintainer") + ":",
+												1, node.get_string());
+			node = pkg_info.get_member ("FirstSubmitted");
+			GLib.Time time = GLib.Time.local ((time_t) node.get_int ());
+			details_list.insert_with_values (out iter, -1,
+												0, dgettext (null, "First Submitted") + ":",
+												1, time.format ("%a %d %b %Y %X %Z"));
+			node = pkg_info.get_member ("LastModified");
+			time = GLib.Time.local ((time_t) node.get_int ());
+			details_list.insert_with_values (out iter, -1,
+												0, dgettext (null, "Last Modified") + ":",
+												1, time.format ("%a %d %b %Y %X %Z"));
+			node = pkg_info.get_member ("NumVotes");
+			details_list.insert_with_values (out iter, -1,
+												0, dgettext (null, "Votes") + ":",
+												1, node.get_int ().to_string ());
+			node = pkg_info.get_member ("OutOfDate");
+			if (!node.is_null ()) {
+				time = GLib.Time.local ((time_t) node.get_int ());
+				details_list.insert_with_values (out iter, -1,
+												0, dgettext (null, "Out of Date") + ":",
+												1, time.format ("%a %d %b %Y %X %Z"));
 			}
 		}
 
@@ -768,14 +935,12 @@ namespace Pamac {
 						switch (properties_notebook.get_current_page ()) {
 							case 0:
 								set_package_infos_list (pkg);
-								deps_scrolledwindow.visible = true;
 								break;
 							case 1:
 								set_package_deps_list (pkg);
 								break;
 							case 2:
 								set_package_details_list (pkg);
-								deps_scrolledwindow.visible = true;
 								break;
 							case 3:
 								if (pkg.origin == Alpm.Package.From.LOCALDB) {
@@ -802,14 +967,12 @@ namespace Pamac {
 							switch (properties_notebook.get_current_page ()) {
 								case 0:
 									set_package_infos_list (pkg);
-									deps_scrolledwindow.visible = true;
 									break;
 								case 1:
 									set_package_deps_list (pkg);
 									break;
 								case 2:
 									set_package_details_list (pkg);
-									deps_scrolledwindow.visible = true;
 									break;
 								case 3:
 									set_package_files_list (pkg);
@@ -819,12 +982,12 @@ namespace Pamac {
 							}
 						} else {
 							files_scrolledwindow.visible = false;
-							deps_scrolledwindow.visible = false;
 							switch (properties_notebook.get_current_page ()) {
 								case 0:
-									set_aur_infos_list (pkg_info);
+									set_aur_infos_list.begin (pkg_info);
 									break;
 								case 1:
+									set_aur_deps_list.begin (pkg_info);
 									break;
 								case 2:
 									set_aur_details_list (pkg_info);
