@@ -1,7 +1,7 @@
 /*
  *  pamac-vala
  *
- *  Copyright (C) 2014-2015 Guillaume Benoit <guillaume@manjaro.org>
+ *  Copyright (C) 2014-2016 Guillaume Benoit <guillaume@manjaro.org>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -20,12 +20,10 @@
 namespace AUR {
 	// AUR urls
 	const string aur_url = "http://aur.archlinux.org";
-	const string rpc_url = aur_url + "/rpc.php";
-	const string rpc_search =  "?type=search&arg=";
-	const string rpc_info = "?type=info&arg=";
-	const string rpc_multiinfo = "?type=multiinfo";
+	const string rpc_url = aur_url + "/rpc/?v=5";
+	const string rpc_search = "&type=search&arg=";
+	const string rpc_multiinfo = "&type=info";
 	const string rpc_multiinfo_arg = "&arg[]=";
-	const string aur_url_id =  "/packages.php?setlang=en&ID=";
 
 	public Json.Array search (string[] needles) {
 		var prev_inter = new Json.Array ();
@@ -47,14 +45,14 @@ namespace AUR {
 				prev_inter = root.get_object ().get_array_member ("results");
 			}
 		}
-		int length = needles.length;
-		if (length == 1) {
+		int needles_length = needles.length;
+		if (needles_length == 1) {
 			return prev_inter;
 		}
 		int i = 1;
 		var inter = new Json.Array ();
 		var found = new Json.Array ();
-		while (i < length) {
+		while (i < needles_length) {
 			inter = new Json.Array ();
 			uri = rpc_url + rpc_search + Uri.escape_string (needles[i]);
 			message = new Soup.Message ("GET", uri);
@@ -70,45 +68,33 @@ namespace AUR {
 					stderr.printf ("Failed to search %s from AUR\n", needles[i]);
 				} else {
 					found = root.get_object ().get_array_member ("results");
+					uint j = 0;
+					uint k;
+					uint found_length = found.get_length ();
+					while (j < found_length) {
+						unowned Json.Node found_node = found.get_element (j);
+						k = 0;
+						uint prev_inter_length = prev_inter.get_length ();
+						while (k < prev_inter_length) {
+							unowned Json.Node prev_inter_node = prev_inter.get_element (k);
+							if (strcmp (found_node.get_object ().get_string_member ("Name"),
+										prev_inter_node.get_object ().get_string_member ("Name")) == 0) {
+								inter.add_element (prev_inter_node);
+								prev_inter.remove_element (k);
+								break;
+							}
+							k++;
+						}
+						j++;
+					}
 				}
 			}
-			prev_inter.foreach_element ((prev_inter_array, prev_inter_index, prev_inter_node) => {
-				found.foreach_element ((found_array, found_index, found_node) => {
-					if (strcmp (prev_inter_node.get_object ().get_string_member ("Name"),
-								found_node.get_object ().get_string_member ("Name")) == 0) {
-						inter.add_element (prev_inter_node);
-					}
-				});
-			});
-			if (i != (length -1)) {
+			if (i != (needles_length -1)) {
 				prev_inter = inter;
 			}
-			i += 1;
+			i++;
 		}
 		return inter;
-	}
-
-	public unowned Json.Object? info (string pkgname) {
-		string uri = rpc_url + rpc_info + Uri.escape_string (pkgname);
-		var session = new Soup.Session ();
-		var message = new Soup.Message ("GET", uri);
-		session.send_message (message);
-		var parser = new Json.Parser ();
-		try {
-			parser.load_from_data ((string) message.response_body.flatten ().data, -1);
-		} catch (Error e) {
-			stderr.printf ("Failed to get infos about %s from AUR\n", pkgname);
-			print (e.message);
-		}
-		unowned Json.Node? root = parser.get_root ();
-		if (root != null) {
-			if (root.get_object ().get_string_member ("type") == "error") {
-				stderr.printf ("Failed to get infos about %s from AUR\n", pkgname);
-			} else {
-				return root.get_object ().get_object_member ("results");
-			}
-		}
-		return null;
 	}
 
 	public Json.Array multiinfo (string[] pkgnames) {
