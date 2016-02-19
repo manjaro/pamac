@@ -1020,7 +1020,6 @@ namespace Pamac {
 			refresh_packages_list ();
 		}
 
-
 		public async void search_in_aur (string search_string) {
 			if (!aur_search_results.contains (search_string)) {
 				Json.Array results = AUR.search (search_string.split (" "));
@@ -1030,7 +1029,30 @@ namespace Pamac {
 
 		[GtkCallback]
 		public void on_packages_notebook_switch_page (Gtk.Widget page, uint page_num) {
-			refresh_packages_list ();
+			Gtk.TreeModel model;
+			Gtk.TreeIter? iter;
+			Gtk.TreeSelection selection = search_treeview.get_selection ();
+			if (selection.get_selected (out model, out iter)) {
+				this.get_window ().set_cursor (new Gdk.Cursor.for_display (Gdk.Display.get_default (), Gdk.CursorType.WATCH));
+				GLib.Value val;
+				model.get_value (iter, 0, out val);
+				string search_string = val.get_string ();
+				switch (packages_notebook.get_current_page ()) {
+					case 0:
+						search_all_dbs.begin (search_string, (obj, res) => {
+							var pkgs = search_all_dbs.end (res);
+							populate_packages_list ((owned) pkgs);
+						});
+						break;
+					case 1:
+						search_in_aur.begin (search_string, (obj, res) => {
+							populate_aur_list (aur_search_results.lookup (search_string));
+						});
+						break;
+					default:
+						break;
+				}
+			}
 		}
 
 		[GtkCallback]
@@ -1326,23 +1348,36 @@ namespace Pamac {
 			unowned string search_string = search_entry.get_text ();
 			if (search_string != "") {
 				this.get_window ().set_cursor (new Gdk.Cursor.for_display (Gdk.Display.get_default (), Gdk.CursorType.WATCH));
+				Gtk.TreeModel model;
+				Gtk.TreeIter? iter;
 				Gtk.TreeSelection selection = search_treeview.get_selection ();
 				// add search string in search_list if needed
 				bool found = false;
 				// check if search string is already selected in search list
-				search_list.foreach ((_model, _path, _iter) => {
-					GLib.Value line;
-					_model.get_value (_iter, 0, out line);
-					if ((string) line == search_string) {
+				if (selection.get_selected (out model, out iter)) {
+					GLib.Value selected_string;
+					model.get_value (iter, 0, out selected_string);
+					if ((string) selected_string == search_string) {
+						on_search_treeview_selection_changed ();
 						found = true;
-						// we select the iter in search_list
-						// it will populate the list with the selection changed signal
-						selection.select_iter (_iter);
 					}
-					return found;
-				});
+				}
+				// check if search string exists in search list
 				if (!found) {
-					Gtk.TreeIter? iter;
+					search_list.foreach ((_model, _path, _iter) => {
+						GLib.Value line;
+						_model.get_value (_iter, 0, out line);
+						if ((string) line == search_string) {
+							found = true;
+							// we select the iter in search_list
+							// it will populate the list with the selection changed signal
+							selection.select_iter (_iter);
+						}
+						return found;
+					});
+				}
+				if (!found) {
+					
 					search_list.insert_with_values (out iter, -1, 0, search_string);
 					// we select the iter in search_list
 					// it will populate the list with the selection changed signal
@@ -1352,7 +1387,7 @@ namespace Pamac {
 		}
 
 		[GtkCallback]
-		public void  on_search_entry_icon_press (Gtk.EntryIconPosition p0, Gdk.Event? p1) {
+		public void  on_search_entry_icon_press () {
 			on_search_entry_activate ();
 		}
 
@@ -1371,9 +1406,20 @@ namespace Pamac {
 						search_all_dbs.begin (search_string, (obj, res) => {
 							var pkgs = search_all_dbs.end (res);
 							if (search_aur_button.get_active ()) {
-								search_in_aur.begin (search_string);
+								search_in_aur.begin (search_string, (obj, res) => {
+									if (pkgs.length == 0) {
+										if (aur_search_results.lookup (search_string) != null) {
+											packages_notebook.set_current_page (1);
+										}
+									} else {
+										if (aur_search_results.lookup (search_string) != null) {
+										}
+									}
+									populate_packages_list ((owned) pkgs);
+								});
+							} else {
+								populate_packages_list ((owned) pkgs);
 							}
-							populate_packages_list ((owned) pkgs);
 						});
 						break;
 					case 1:
