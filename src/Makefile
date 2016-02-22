@@ -61,10 +61,11 @@ pamac-tray: ../vapi/libalpm.vapi $(COMMON_SOURCES) tray.vala
 			$(COMMON_SOURCES) \
 			tray.vala
 
-pamac-daemon: ../vapi/libalpm.vapi ../vapi/polkit-gobject-1.vapi $(COMMON_SOURCES) mirrors_config.vala daemon.vala
+pamac-daemon: ../vapi/libalpm.vapi ../vapi/polkit-gobject-1.vapi ../vapi/libcurl.vapi $(COMMON_SOURCES) mirrors_config.vala daemon.vala
 	valac 	-o pamac-daemon \
 			$(COMMON_VALA_FLAGS) \
 			--pkg=polkit-gobject-1 \
+			--pkg=libcurl \
 			--thread \
 			$(COMMON_SOURCES) \
 			mirrors_config.vala \

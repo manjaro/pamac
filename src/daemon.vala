@@ -1,7 +1,7 @@
 /*
  *  pamac-vala
  *
- *  Copyright (C) 2014-2015 Guillaume Benoit <guillaume@manjaro.org>
+ *  Copyright (C) 2014-2016 Guillaume Benoit <guillaume@manjaro.org>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -52,6 +52,8 @@ namespace Pamac {
 		private GLib.File lockfile;
 		private ErrorInfos current_error;
 		public Timer timer;
+		public Cancellable cancellable;
+		public Curl.Easy curl;
 
 		public signal void emit_event (uint primary_event, uint secondary_event, string[] details);
 		public signal void emit_providers (string depend, string[] providers);
@@ -83,6 +85,12 @@ namespace Pamac {
 			refresh_handle ();
 			Timeout.add (500, check_pacman_running);
 			create_thread_pool ();
+			cancellable = new Cancellable ();
+			Curl.global_init (Curl.GLOBAL_SSL);
+		}
+
+		~Daemon () {
+			Curl.global_cleanup ();
 		}
 
 		public void set_environment_variables (HashTable<string,string> variables) {
@@ -134,7 +142,7 @@ namespace Pamac {
 				alpm_config.handle.eventcb = (Alpm.EventCallBack) cb_event;
 				alpm_config.handle.progresscb = (Alpm.ProgressCallBack) cb_progress;
 				alpm_config.handle.questioncb = (Alpm.QuestionCallBack) cb_question;
-				alpm_config.handle.dlcb = (Alpm.DownloadCallBack) cb_download;
+				alpm_config.handle.fetchcb = (Alpm.FetchCallBack) cb_fetch;
 				alpm_config.handle.totaldlcb = (Alpm.TotalDownloadCallBack) cb_totaldownload;
 				alpm_config.handle.logcb = (Alpm.LogCallBack) cb_log;
 				lockfile = GLib.File.new_for_path (alpm_config.handle.lockfile);
@@ -323,7 +331,14 @@ namespace Pamac {
 			current_error = ErrorInfos ();
 			int force = (force_refresh) ? 1 : 0;
 			uint success = 0;
+			cancellable.reset ();
 			foreach (var db in alpm_config.handle.syncdbs) {
+				if (cancellable.is_cancelled ()) {
+					refresh_handle ();
+					refresh_finished (false);
+					intern_lock = false;
+					return;
+				}
 				if (db.update (force) >= 0) {
 					success++;
 				}
@@ -448,6 +463,7 @@ namespace Pamac {
 
 		public bool trans_init (Alpm.TransFlag transflags) {
 			current_error = ErrorInfos ();
+			cancellable.reset ();
 			if (alpm_config.handle.trans_init (transflags) == -1) {
 				current_error.message = _("Failed to init transaction");
 				current_error.details = { Alpm.strerror (alpm_config.handle.errno ()) };
@@ -700,6 +716,13 @@ namespace Pamac {
 			Alpm.List<void*> err_data;
 			if (alpm_config.handle.trans_commit (out err_data) == -1) {
 				Alpm.Errno errno = alpm_config.handle.errno ();
+				// cancel the download return an EXTERNAL_DOWNLOAD error
+				if (errno == Alpm.Errno.EXTERNAL_DOWNLOAD && cancellable.is_cancelled ()) {
+					trans_release ();
+					refresh_handle ();
+					trans_commit_finished (false);
+					return;
+				}
 				current_error.message = _("Failed to commit transaction");
 				string detail = Alpm.strerror (errno);
 				string[] details = {};
@@ -781,12 +804,7 @@ namespace Pamac {
 				// it will end the normal way
 				return;
 			}
-			Posix.raise (Posix.SIGINT);
-			current_error = ErrorInfos ();
-			trans_commit_finished (false);
-			alpm_config.handle.unlock ();
-			intern_lock = false;
-			refresh_handle ();
+			cancellable.cancel ();
 		}
 
 		[DBus (no_reply = true)]
@@ -994,19 +1012,216 @@ private void cb_progress (Alpm.Progress progress, string pkgname, int percent, u
 	}
 }
 
-private void cb_download (string filename, uint64 xfered, uint64 total) {
-	if (xfered == 0) {
-		pamac_daemon.emit_download (filename, xfered, total);
+private uint64 prevprogress;
+
+private int cb_download (void* data, uint64 dltotal, uint64 dlnow, uint64 ultotal, uint64 ulnow) {
+
+	if (unlikely (pamac_daemon.cancellable.is_cancelled ())) {
+		return 1;
+	}
+
+	string filename = (string) data;
+
+	if (unlikely (dltotal == 0 || prevprogress == dltotal)) {
+		return 0;
+	} else if (unlikely (dlnow == 0)) {
+		pamac_daemon.emit_download (filename, dlnow, dltotal);
 		pamac_daemon.timer.start ();
-	} else if (xfered == total) {
-		pamac_daemon.emit_download (filename, xfered, total);
+	} else if (unlikely (dlnow == dltotal)) {
+		pamac_daemon.emit_download (filename, dlnow, dltotal);
 		pamac_daemon.timer.stop ();
-	} else if (pamac_daemon.timer.elapsed () < 0.5) {
-		return;
+	} else if (likely (pamac_daemon.timer.elapsed () < 0.5)) {
+		return 0;
 	} else {
-		pamac_daemon.emit_download (filename, xfered, total);
+		pamac_daemon.emit_download (filename, dlnow, dltotal);
 		pamac_daemon.timer.start ();
 	}
+
+//~ 	// avoid displaying progress for redirects with a body
+//~ 	if (respcode >= 300) {
+//~ 		return 0;
+//~ 	}
+
+	prevprogress = dlnow;
+
+	return 0;
+}
+
+private int cb_fetch (string fileurl, string localpath, int force) {
+	if (pamac_daemon.cancellable.is_cancelled ()) {
+		return -1;
+	}
+
+	if (pamac_daemon.curl == null) {
+		pamac_daemon.curl = new Curl.Easy ();
+	}
+
+	char error_buffer[Curl.ERROR_SIZE];
+	var url = GLib.File.new_for_uri (fileurl);
+	var destfile = GLib.File.new_for_path (localpath + url.get_basename ());
+	var tempfile = GLib.File.new_for_path (destfile.get_path () + ".part");
+
+	pamac_daemon.curl.reset ();
+	pamac_daemon.curl.setopt (Curl.Option.URL, fileurl);
+	pamac_daemon.curl.setopt (Curl.Option.FAILONERROR, 1L);
+	pamac_daemon.curl.setopt (Curl.Option.ERRORBUFFER, error_buffer);
+	pamac_daemon.curl.setopt (Curl.Option.CONNECTTIMEOUT, 30L);
+	pamac_daemon.curl.setopt (Curl.Option.FILETIME, 1L);
+	pamac_daemon.curl.setopt (Curl.Option.NOPROGRESS, 0L);
+	pamac_daemon.curl.setopt (Curl.Option.FOLLOWLOCATION, 1L);
+	pamac_daemon.curl.setopt (Curl.Option.XFERINFOFUNCTION, cb_download);
+	pamac_daemon.curl.setopt (Curl.Option.XFERINFODATA, (void*) url.get_basename ());
+	pamac_daemon.curl.setopt (Curl.Option.LOW_SPEED_LIMIT, 1L);
+	pamac_daemon.curl.setopt (Curl.Option.LOW_SPEED_TIME, 30L);
+	pamac_daemon.curl.setopt (Curl.Option.NETRC, Curl.NetRCOption.OPTIONAL);
+	pamac_daemon.curl.setopt (Curl.Option.HTTPAUTH, Curl.CURLAUTH_ANY);
+
+	bool remove_partial_download = true;
+	if (fileurl.contains (".pkg.tar.") && !fileurl.has_suffix (".sig")) {
+		remove_partial_download = false;
+	}
+
+	string open_mode = "wb";
+	prevprogress = 0;
+
+	try {
+		if (force == 0) {
+			if (destfile.query_exists ()) {
+				// start from scratch only download if our local is out of date.
+				pamac_daemon.curl.setopt (Curl.Option.TIMECONDITION, Curl.TimeCond.IFMODSINCE);
+				FileInfo info = destfile.query_info ("time::modified", 0);
+				TimeVal time = info.get_modification_time ();
+				pamac_daemon.curl.setopt (Curl.Option.TIMEVALUE, time.tv_sec);
+			} else if (tempfile.query_exists ()) {
+				// a previous partial download exists, resume from end of file.
+				FileInfo info = tempfile.query_info ("standard::size", 0);
+				int64 size = info.get_size ();
+				pamac_daemon.curl.setopt (Curl.Option.RESUME_FROM_LARGE, size);
+				open_mode = "ab";
+			}
+		} else {
+			if (tempfile.query_exists ()) {
+				tempfile.delete ();
+			}
+		}
+	} catch (GLib.Error e) {
+		stderr.printf ("Error: %s\n", e.message);
+	}
+
+	Posix.FILE localf = Posix.FILE.open (tempfile.get_path (), open_mode);
+	if (localf == null) {
+		stdout.printf ("could not open file %s\n", tempfile.get_path ());
+		return -1;
+	}
+
+	pamac_daemon.curl.setopt (Curl.Option.WRITEDATA, localf);
+
+	// perform transfer
+	Curl.Code err = pamac_daemon.curl.perform ();
+
+
+	// disconnect relationships from the curl handle for things that might go out
+	// of scope, but could still be touched on connection teardown. This really
+	// only applies to FTP transfers.
+	pamac_daemon.curl.setopt (Curl.Option.NOPROGRESS, 1L);
+	pamac_daemon.curl.setopt (Curl.Option.ERRORBUFFER, null);
+
+	int ret;
+
+	// was it a success?
+	switch (err) {
+		case Curl.Code.OK:
+			long timecond, remote_time = -1;
+			double remote_size, bytes_dl;
+			unowned string effective_url;
+
+			// retrieve info about the state of the transfer
+			pamac_daemon.curl.getinfo (Curl.Info.FILETIME, out remote_time);
+			pamac_daemon.curl.getinfo (Curl.Info.CONTENT_LENGTH_DOWNLOAD, out remote_size);
+			pamac_daemon.curl.getinfo (Curl.Info.SIZE_DOWNLOAD, out bytes_dl);
+			pamac_daemon.curl.getinfo (Curl.Info.CONDITION_UNMET, out timecond);
+			pamac_daemon.curl.getinfo (Curl.Info.EFFECTIVE_URL, out effective_url);
+
+			if (timecond == 1 && bytes_dl == 0) {
+				// time condition was met and we didn't download anything. we need to
+				// clean up the 0 byte .part file that's left behind.
+				try {
+					if (tempfile.query_exists ()) {
+						tempfile.delete ();
+					}
+				} catch (GLib.Error e) {
+					stderr.printf ("Error: %s\n", e.message);
+				}
+				ret = 1;
+			}
+			// remote_size isn't necessarily the full size of the file, just what the
+			// server reported as remaining to download. compare it to what curl reported
+			// as actually being transferred during curl_easy_perform ()
+			else if (remote_size != -1 && bytes_dl != -1 && bytes_dl != remote_size) {
+				pamac_daemon.emit_log ((uint) Alpm.LogLevel.ERROR,
+										dgettext ("libalpm", "%s appears to be truncated: %jd/%jd bytes\n").printf (
+											fileurl, bytes_dl, remote_size));
+				if (remove_partial_download) {
+					try {
+						if (tempfile.query_exists ()) {
+							tempfile.delete ();
+						}
+					} catch (GLib.Error e) {
+						stderr.printf ("Error: %s\n", e.message);
+					}
+				}
+				ret = -1;
+			} else {
+				try {
+					tempfile.move (destfile, FileCopyFlags.OVERWRITE);
+				} catch (GLib.Error e) {
+					stderr.printf ("Error: %s\n", e.message);
+				}
+				ret = 0;
+			}
+			break;
+		case Curl.Code.ABORTED_BY_CALLBACK:
+			if (remove_partial_download) {
+				try {
+					if (tempfile.query_exists ()) {
+						tempfile.delete ();
+					}
+				} catch (GLib.Error e) {
+					stderr.printf ("Error: %s\n", e.message);
+				}
+			}
+			ret = -1;
+			break;
+		default:
+			// other cases are errors
+			try {
+				if (tempfile.query_exists ()) {
+					if (remove_partial_download) {
+						tempfile.delete ();
+					} else {
+						// delete zero length downloads
+						FileInfo info = tempfile.query_info ("standard::size", 0);
+						int64 size = info.get_size ();
+						if (size == 0) {
+							tempfile.delete ();
+						}
+					}
+				}
+			} catch (GLib.Error e) {
+				stderr.printf ("Error: %s\n", e.message);
+			}
+			// do not report error for missing sig with db
+			if (!fileurl.has_suffix ("db.sig")) {
+				string hostname = url.get_uri ().split("/")[2];
+				pamac_daemon.emit_log ((uint) Alpm.LogLevel.ERROR,
+										dgettext ("libalpm", "failed retrieving file '%s' from %s : %s\n").printf (
+											url.get_basename (), hostname, error_buffer));
+			}
+			ret = -1;
+			break;
+	}
+
+	return ret;
 }
 
 private void cb_totaldownload (uint64 total) {
@@ -1014,6 +1229,10 @@ private void cb_totaldownload (uint64 total) {
 }
 
 private void cb_log (Alpm.LogLevel level, string fmt, va_list args) {
+	// do not log errors when download is cancelled
+	if (pamac_daemon.cancellable.is_cancelled ()) {
+		return;
+	}
 	Alpm.LogLevel logmask = Alpm.LogLevel.ERROR | Alpm.LogLevel.WARNING;
 	if ((level & logmask) == 0) {
 		return;
