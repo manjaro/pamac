@@ -1,7 +1,7 @@
 /*
  *  pamac-vala
  *
- *  Copyright (C) 2014 Guillaume Benoit <guillaume@manjaro.org>
+ *  Copyright (C) 2014-2016 Guillaume Benoit <guillaume@manjaro.org>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
 namespace Pamac {
 
 	[GtkTemplate (ui = "/org/manjaro/pamac/transaction/choose_provider_dialog.ui")]
-	public class ChooseProviderDialog : Gtk.Dialog {
+	class ChooseProviderDialog : Gtk.Dialog {
 
 		[GtkChild]
 		public Gtk.Label label;

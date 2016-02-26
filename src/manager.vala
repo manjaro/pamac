@@ -37,13 +37,13 @@ namespace Pamac {
 
 			pamac_run = check_pamac_running ();
 			if (pamac_run) {
-				var transaction_info_dialog = new TransactionInfoDialog (null);
-				transaction_info_dialog.set_title (dgettext (null, "Error"));
-				transaction_info_dialog.label.set_visible (true);
-				transaction_info_dialog.label.set_markup (dgettext (null, "Pamac is already running"));
-				transaction_info_dialog.expander.set_visible (false);
-				transaction_info_dialog.run ();
-				transaction_info_dialog.hide ();
+				var msg = new Gtk.MessageDialog (null,
+												Gtk.DialogFlags.MODAL,
+												Gtk.MessageType.ERROR,
+												Gtk.ButtonsType.OK,
+												dgettext (null, "Pamac is already running"));
+				msg.run ();
+				msg.destroy ();
 			} else {
 				manager_window = new ManagerWindow (this);
 			}

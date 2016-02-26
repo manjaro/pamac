@@ -16,6 +16,9 @@ install:
 	cp -r po/locale /usr/share
 	install -Dm744 src/pamac-daemon /usr/bin/pamac-daemon
 	install -Dm755 src/pamac-tray /usr/bin/pamac-tray
+	install -Dm644 src/pamac.h /usr/include/pamac.h
+	install -Dm644 src/pamac.vapi /usr/share/vala/vapi/pamac.vapi
+	install -Dm755 src/libpamac.so /usr/lib/libpamac.so
 	install -Dm755 src/pamac-manager /usr/bin/pamac-manager
 	install -Dm755 src/pamac-updater /usr/bin/pamac-updater
 	install -Dm755 src/pamac-install /usr/bin/pamac-install
@@ -39,6 +42,9 @@ uninstall:
 	rm -f /usr/share/icons/24x24/status/pamac-tray-update.png
 	rm -f /usr/share/icons/32x32/apps/system-software-install.png
 	rm -f /usr/share/locale/*/LC_MESSAGES/pamac.mo
+	rm -f /usr/include/pamac.h
+	rm -f /usr/share/vala/vapi/pamac.vapi
+	rm -f /usr/lib/libpamac.so
 	rm -f /usr/bin/pamac-daemon /usr/bin/pamac-updater /usr/bin/pamac-tray /usr/bin/pamac-manager /usr/bin/pamac-install
 	rm -f /etc/xdg/autostart/pamac-tray.desktop
 	rm -f /usr/share/applications/pamac-manager.desktop /usr/share/applications/pamac-updater.desktop /usr/share/applications/pamac-install.desktop

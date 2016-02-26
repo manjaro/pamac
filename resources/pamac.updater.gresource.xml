@@ -3,14 +3,4 @@
   <gresource prefix="/org/manjaro/pamac/updater">
     <file preprocess="xml-stripblanks">updater_window.ui</file>
   </gresource>
-  <gresource prefix="/org/manjaro/pamac/transaction">
-    <file preprocess="xml-stripblanks">progress_dialog.ui</file>
-    <file preprocess="xml-stripblanks">choose_provider_dialog.ui</file>
-    <file preprocess="xml-stripblanks">transaction_sum_dialog.ui</file>
-    <file preprocess="xml-stripblanks">transaction_info_dialog.ui</file>
-  </gresource>
-  <gresource prefix="/org/manjaro/pamac/preferences">
-    <file preprocess="xml-stripblanks">preferences_dialog.ui</file>
-    <file preprocess="xml-stripblanks">choose_ignorepkgs_dialog.ui</file>
-  </gresource>
 </gresources>

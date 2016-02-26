@@ -2,6 +2,9 @@ pkgbuild
 resources/*~
 resources/*.c
 src/*.c
+src/pamac.h
+src/pamac.vapi
+src/libpamac.so
 src/pamac-daemon
 src/pamac-tray
 src/pamac-manager

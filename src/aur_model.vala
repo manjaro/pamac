@@ -20,13 +20,13 @@
 Pamac.ManagerWindow manager_window;
 
 // custom sort functions
-public int aur_compare_name (Json.Object pkg_a, Json.Object pkg_b) {
+int aur_compare_name (Json.Object pkg_a, Json.Object pkg_b) {
 	return strcmp (pkg_a.get_string_member ("Name"), pkg_b.get_string_member ("Name"));
 }
 
-public int aur_compare_state (Json.Object pkg_a, Json.Object pkg_b) {
-	unowned Alpm.Package? alpm_pkg_a = manager_window.alpm_config.handle.localdb.get_pkg (pkg_a.get_string_member ("Name"));
-	unowned Alpm.Package? alpm_pkg_b = manager_window.alpm_config.handle.localdb.get_pkg (pkg_b.get_string_member ("Name"));
+int aur_compare_state (Json.Object pkg_a, Json.Object pkg_b) {
+	unowned Alpm.Package? alpm_pkg_a = manager_window.transaction.alpm_config.handle.localdb.get_pkg (pkg_a.get_string_member ("Name"));
+	unowned Alpm.Package? alpm_pkg_b = manager_window.transaction.alpm_config.handle.localdb.get_pkg (pkg_b.get_string_member ("Name"));
 	if (pkg_a != null) {
 		if (pkg_b != null) {
 			return (int) (alpm_pkg_a.origin > alpm_pkg_b.origin) - (int) (alpm_pkg_a.origin < alpm_pkg_b.origin);
@@ -42,17 +42,17 @@ public int aur_compare_state (Json.Object pkg_a, Json.Object pkg_b) {
 	}
 }
 
-public int aur_compare_version (Json.Object pkg_a, Json.Object pkg_b) {
+int aur_compare_version (Json.Object pkg_a, Json.Object pkg_b) {
 	return Alpm.pkg_vercmp (pkg_a.get_string_member ("Version"), pkg_b.get_string_member ("Version"));
 }
 
-public int aur_compare_votes (Json.Object pkg_a, Json.Object pkg_b) {
+int aur_compare_votes (Json.Object pkg_a, Json.Object pkg_b) {
 	return (int) (pkg_a.get_int_member ("NumVotes") > pkg_b.get_int_member ("NumVotes")) - (int) (pkg_a.get_int_member ("NumVotes") < pkg_b.get_int_member ("NumVotes"));
 }
 
 namespace Pamac {
 
-	public class AURModel : Object, Gtk.TreeModel {
+	class AURModel : Object, Gtk.TreeModel {
 		private Json.Array pkgs_infos;
 		private GLib.List<Json.Object?> pkgs;
 
@@ -68,7 +68,7 @@ namespace Pamac {
 		}
 
 		// TreeModel interface
-		public Type get_column_type (int index) {
+		Type get_column_type (int index) {
 			switch (index) {
 				case 0: // name
 				case 2: // version
@@ -82,11 +82,11 @@ namespace Pamac {
 			}
 		}
 
-		public Gtk.TreeModelFlags get_flags () {
+		Gtk.TreeModelFlags get_flags () {
 			return Gtk.TreeModelFlags.LIST_ONLY | Gtk.TreeModelFlags.ITERS_PERSIST;
 		}
 
-		public void get_value (Gtk.TreeIter iter, int column, out Value val) {
+		void get_value (Gtk.TreeIter iter, int column, out Value val) {
 			unowned Json.Object? pkg_info = pkgs.nth_data (iter.stamp);
 			switch (column) {
 				case 0:
@@ -100,9 +100,9 @@ namespace Pamac {
 				case 1:
 					val = Value (typeof (Object));
 					if (pkg_info != null) {
-						unowned Alpm.Package? pkg = manager_window.alpm_config.handle.localdb.get_pkg (pkg_info.get_string_member ("Name"));
+						unowned Alpm.Package? pkg = manager_window.transaction.alpm_config.handle.localdb.get_pkg (pkg_info.get_string_member ("Name"));
 						if (pkg != null) {
-							if (manager_window.alpm_config.holdpkgs.find_custom (pkg.name, strcmp) != null) {
+							if (manager_window.transaction.alpm_config.holdpkgs.find_custom (pkg.name, strcmp) != null) {
 								val.set_object (manager_window.locked_icon);
 							} else if (manager_window.transaction.to_add.contains (pkg.name)) {
 								val.set_object (manager_window.to_reinstall_icon);
@@ -121,7 +121,7 @@ namespace Pamac {
 				case 2:
 					val = Value (typeof (string));
 					if (pkg_info != null) {
-						unowned Alpm.Package? pkg = manager_window.alpm_config.handle.localdb.get_pkg (pkg_info.get_string_member ("Name"));
+						unowned Alpm.Package? pkg = manager_window.transaction.alpm_config.handle.localdb.get_pkg (pkg_info.get_string_member ("Name"));
 						if (pkg != null) {
 							val.set_string (pkg.version);
 						} else {
@@ -144,7 +144,7 @@ namespace Pamac {
 			}
 		}
 
-		public bool get_iter (out Gtk.TreeIter iter, Gtk.TreePath path) {;
+		bool get_iter (out Gtk.TreeIter iter, Gtk.TreePath path) {;
 			if (path.get_depth () != 1) {
 				return invalid_iter (out iter);
 			}
@@ -154,20 +154,20 @@ namespace Pamac {
 			return true;
 		}
 
-		public int get_n_columns () {
+		int get_n_columns () {
 			// name, icon, version, votes
 			return 4;
 		}
 
-		public Gtk.TreePath? get_path (Gtk.TreeIter iter) {
+		Gtk.TreePath? get_path (Gtk.TreeIter iter) {
 			return new Gtk.TreePath.from_indices (iter.stamp);
 		}
 
-		public int iter_n_children (Gtk.TreeIter? iter) {
+		int iter_n_children (Gtk.TreeIter? iter) {
 			return 0;
 		}
 
-		public bool iter_next (ref Gtk.TreeIter iter) {
+		bool iter_next (ref Gtk.TreeIter iter) {
 			int pos = (iter.stamp) + 1;
 			if (pos >= pkgs.length ()) {
 				return false;
@@ -176,7 +176,7 @@ namespace Pamac {
 			return true;
 		}
 
-		public bool iter_previous (ref Gtk.TreeIter iter) {
+		bool iter_previous (ref Gtk.TreeIter iter) {
 			int pos = iter.stamp;
 			if (pos >= 0) {
 				return false;
@@ -185,23 +185,23 @@ namespace Pamac {
 			return true;
 		}
 
-		public bool iter_nth_child (out Gtk.TreeIter iter, Gtk.TreeIter? parent, int n) {
+		bool iter_nth_child (out Gtk.TreeIter iter, Gtk.TreeIter? parent, int n) {
 			return invalid_iter (out iter);
 		}
 
-		public bool iter_children (out Gtk.TreeIter iter, Gtk.TreeIter? parent) {
+		bool iter_children (out Gtk.TreeIter iter, Gtk.TreeIter? parent) {
 			return invalid_iter (out iter);
 		}
 
-		public bool iter_has_child (Gtk.TreeIter iter) {
+		bool iter_has_child (Gtk.TreeIter iter) {
 			return false;
 		}
 
-		public bool iter_parent (out Gtk.TreeIter iter, Gtk.TreeIter child) {
+		bool iter_parent (out Gtk.TreeIter iter, Gtk.TreeIter child) {
 			return invalid_iter (out iter);
 		}
 
-		private bool invalid_iter (out Gtk.TreeIter iter) {
+		bool invalid_iter (out Gtk.TreeIter iter) {
 			iter = Gtk.TreeIter ();
 			iter.stamp = -1;
 			return false;

@@ -1,7 +1,7 @@
 /*
  *  pamac-vala
  *
- *  Copyright (C) 2014-2015 Guillaume Benoit <guillaume@manjaro.org>
+ *  Copyright (C) 2014-2016 Guillaume Benoit <guillaume@manjaro.org>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -19,7 +19,7 @@
 
 namespace Pamac {
 
-	public class Updater : Gtk.Application {
+	class Updater : Gtk.Application {
 		UpdaterWindow updater_window;
 		bool pamac_run;
 
@@ -37,13 +37,13 @@ namespace Pamac {
 
 			pamac_run = check_pamac_running ();
 			if (pamac_run) {
-				var transaction_info_dialog = new TransactionInfoDialog (null);
-				transaction_info_dialog.set_title (dgettext (null, "Error"));
-				transaction_info_dialog.label.set_visible (true);
-				transaction_info_dialog.label.set_markup (dgettext (null, "Pamac is already running"));
-				transaction_info_dialog.expander.set_visible (false);
-				transaction_info_dialog.run ();
-				transaction_info_dialog.hide ();
+				var msg = new Gtk.MessageDialog (null,
+												Gtk.DialogFlags.MODAL,
+												Gtk.MessageType.ERROR,
+												Gtk.ButtonsType.OK,
+												dgettext (null, "Pamac is already running"));
+				msg.run ();
+				msg.destroy ();
 			} else {
 				updater_window = new UpdaterWindow (this);
 			}
@@ -86,7 +86,7 @@ namespace Pamac {
 		}
 	}
 
-	public static int main (string[] args) {
+	static int main (string[] args) {
 		var updater = new Updater ();
 		return updater.run (args);
 	}

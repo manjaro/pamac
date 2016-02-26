@@ -1,7 +1,7 @@
 /*
  *  pamac-vala
  *
- *  Copyright (C) 2014 Guillaume Benoit <guillaume@manjaro.org>
+ *  Copyright (C) 2015-2016 Guillaume Benoit <guillaume@manjaro.org>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -20,61 +20,55 @@
 namespace Pamac {
 
 	[GtkTemplate (ui = "/org/manjaro/pamac/preferences/preferences_dialog.ui")]
-	public class PreferencesDialog : Gtk.Dialog {
+	class PreferencesDialog : Gtk.Dialog {
 
 		[GtkChild]
-		public Gtk.Switch remove_unrequired_deps_button;
+		Gtk.Switch remove_unrequired_deps_button;
 		[GtkChild]
-		public Gtk.Switch check_space_button;
+		Gtk.Switch check_space_button;
 		[GtkChild]
-		public Gtk.Switch check_updates_button;
+		Gtk.Switch check_updates_button;
 		[GtkChild]
-		public Gtk.Label refresh_period_label;
+		Gtk.Label refresh_period_label;
 		[GtkChild]
-		public Gtk.SpinButton refresh_period_spin_button;
+		Gtk.SpinButton refresh_period_spin_button;
 		[GtkChild]
-		public Gtk.CheckButton no_update_hide_icon_checkbutton;
+		Gtk.CheckButton no_update_hide_icon_checkbutton;
 		[GtkChild]
-		public Gtk.Box ignorepkgs_box;
+		Gtk.Box ignorepkgs_box;
 		[GtkChild]
-		public Gtk.ListStore ignorepkgs_liststore;
+		Gtk.ListStore ignorepkgs_liststore;
 		[GtkChild]
-		public Gtk.TreeView ignorepkgs_treeview;
+		Gtk.TreeView ignorepkgs_treeview;
 		[GtkChild]
-		public Gtk.Box mirrors_config_box;
+		Gtk.Box mirrors_config_box;
 		[GtkChild]
-		public Gtk.ComboBoxText mirrors_country_comboboxtext;
+		Gtk.ComboBoxText mirrors_country_comboboxtext;
 		[GtkChild]
-		public Gtk.ComboBoxText mirrors_list_generation_method_comboboxtext;
+		Gtk.ComboBoxText mirrors_list_generation_method_comboboxtext;
 		[GtkChild]
-		public Gtk.Button generate_mirrors_list_button;
+		Gtk.Button generate_mirrors_list_button;
 		[GtkChild]
-		public Gtk.Box aur_config_box;
+		Gtk.Box aur_config_box;
 		[GtkChild]
-		public Gtk.Switch enable_aur_button;
+		Gtk.Switch enable_aur_button;
 		[GtkChild]
-		public Gtk.CheckButton search_aur_checkbutton;
+		Gtk.CheckButton search_aur_checkbutton;
 		[GtkChild]
-		public Gtk.CheckButton check_aur_updates_checkbutton;
+		Gtk.CheckButton check_aur_updates_checkbutton;
 		[GtkChild]
-		public Gtk.CheckButton no_confirm_build_checkbutton;
+		Gtk.CheckButton no_confirm_build_checkbutton;
 
 		Transaction transaction;
-		Alpm.Config alpm_config;
 		uint64 previous_refresh_period;
 
-		public PreferencesDialog (Gtk.ApplicationWindow? window, Transaction transaction) {
-			Object (transient_for: window, use_header_bar: 0);
+		public PreferencesDialog (Transaction transaction) {
+			Object (transient_for: transaction.application_window, use_header_bar: 0);
 
 			this.transaction = transaction;
-			alpm_config = new Alpm.Config ("/etc/pacman.conf");
-			alpm_config.get_handle ();
-			if (alpm_config.handle == null) {
-				stderr.printf (dgettext (null, "Failed to initialize alpm library"));
-			}
 			refresh_period_label.set_markup (dgettext (null, "How often to check for updates, value in hours") +":");
 			remove_unrequired_deps_button.active = transaction.pamac_config.recurse;
-			check_space_button.active = (alpm_config.checkspace == 1);
+			check_space_button.active = (transaction.alpm_config.checkspace == 1);
 			if (transaction.pamac_config.refresh_period == 0) {
 				check_updates_button.active = false;
 				refresh_period_label.sensitive = false;
@@ -93,22 +87,22 @@ namespace Pamac {
 
 			// populate ignorepkgs_liststore
 			Gtk.TreeIter iter;
-			for (unowned Alpm.List<string> list = alpm_config.ignorepkgs; list != null; list = list.next ()) {
+			for (unowned Alpm.List<string> list = transaction.alpm_config.ignorepkgs; list != null; list = list.next ()) {
 				ignorepkgs_liststore.insert_with_values (out iter, -1, 0, list.data);
 			}
 			remove_unrequired_deps_button.state_set.connect (on_remove_unrequired_deps_button_state_set);
 			check_space_button.state_set.connect (on_check_space_button_state_set);
-			transaction.daemon.write_alpm_config_finished.connect (on_write_alpm_config_finished);
+			transaction.write_alpm_config_finished.connect (on_write_alpm_config_finished);
 			check_updates_button.state_set.connect (on_check_updates_button_state_set);
 			refresh_period_spin_button.value_changed.connect (on_refresh_period_spin_button_value_changed);
 			no_update_hide_icon_checkbutton.toggled.connect (on_no_update_hide_icon_checkbutton_toggled);
-			transaction.daemon.write_pamac_config_finished.connect (on_write_pamac_config_finished);
+			transaction.write_pamac_config_finished.connect (on_write_pamac_config_finished);
 
-			unowned Alpm.Package? pkg = Alpm.find_satisfier (alpm_config.handle.localdb.pkgcache, "pacman-mirrorlist");
+			unowned Alpm.Package? pkg = Alpm.find_satisfier (transaction.alpm_config.handle.localdb.pkgcache, "pacman-mirrorlist");
 			if (pkg == null) {
 				mirrors_config_box.visible = false;
 			} else {
-				var mirrors_config = new Alpm.MirrorsConfig ("/etc/pacman-mirrors.conf");
+				var mirrors_config = new MirrorsConfig ("/etc/pacman-mirrors.conf");
 				mirrors_country_comboboxtext.append_text (dgettext (null, "Worldwide"));
 				mirrors_country_comboboxtext.active = 0;
 				int index = 1;
@@ -129,10 +123,10 @@ namespace Pamac {
 				}
 				mirrors_country_comboboxtext.changed.connect (on_mirrors_country_comboboxtext_changed);
 				mirrors_list_generation_method_comboboxtext.changed.connect (on_mirrors_list_generation_method_comboboxtext_changed);
-				transaction.daemon.write_mirrors_config_finished.connect (on_write_mirrors_config_finished);
+				transaction.write_mirrors_config_finished.connect (on_write_mirrors_config_finished);
 			}
 
-			pkg = Alpm.find_satisfier (alpm_config.handle.localdb.pkgcache, "yaourt");
+			pkg = Alpm.find_satisfier (transaction.alpm_config.handle.localdb.pkgcache, "yaourt");
 			if (pkg == null) {
 				aur_config_box.visible = false;
 			} else {
@@ -254,9 +248,9 @@ namespace Pamac {
 		[GtkCallback]
 		void on_add_ignorepkgs_button_clicked () {
 			var choose_ignorepkgs_dialog = new ChooseIgnorepkgsDialog (this);
-			foreach (var pkg in alpm_config.handle.localdb.pkgcache) {
+			foreach (var pkg in transaction.alpm_config.handle.localdb.pkgcache) {
 				Gtk.TreeIter iter;
-				if (alpm_config.ignorepkgs.find_str (pkg.name) == null) {
+				if (transaction.alpm_config.ignorepkgs.find_str (pkg.name) == null) {
 					choose_ignorepkgs_dialog.pkgs_list.insert_with_values (out iter, -1, 0, false, 1, pkg.name);
 				} else {
 					choose_ignorepkgs_dialog.pkgs_list.insert_with_values (out iter, -1, 0, true, 1, pkg.name);
@@ -317,8 +311,7 @@ namespace Pamac {
 			// re-populate ignorepkgs_liststore
 			Gtk.TreeIter iter;
 			ignorepkgs_liststore.clear ();
-			alpm_config.reload ();
-			for (unowned Alpm.List<string> list = alpm_config.ignorepkgs; list != null; list = list.next ()) {
+			for (unowned Alpm.List<string> list = transaction.alpm_config.ignorepkgs; list != null; list = list.next ()) {
 				ignorepkgs_liststore.insert_with_values (out iter, -1, 0, list.data);
 			}
 		}

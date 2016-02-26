@@ -1,7 +1,7 @@
 /*
  *  pamac-vala
  *
- *  Copyright (C) 2014-2015 Guillaume Benoit <guillaume@manjaro.org>
+ *  Copyright (C) 2014-2016 Guillaume Benoit <guillaume@manjaro.org>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -16,8 +16,6 @@
  *  You should have received a get of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
-const string VERSION = "3.1.0";
 
 namespace Pamac {
 	[Compact]
@@ -37,7 +35,7 @@ namespace Pamac {
 			//get environment variables
 			environment_variables = new HashTable<string,string> (str_hash, str_equal);
 			var utsname = Posix.utsname();
-			environment_variables.insert ("HTTP_USER_AGENT", "pamac/%s (%s %s)".printf (VERSION, utsname.sysname, utsname.machine));
+			environment_variables.insert ("HTTP_USER_AGENT", "pamac (%s %s)".printf (utsname.sysname, utsname.machine));
 			unowned string? variable = Environment.get_variable ("http_proxy");
 			if (variable != null) {
 				environment_variables.insert ("http_proxy", variable);

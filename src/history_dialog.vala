@@ -1,7 +1,7 @@
 /*
  *  pamac-vala
  *
- *  Copyright (C) 2014 Guillaume Benoit <guillaume@manjaro.org>
+ *  Copyright (C) 2014-2016 Guillaume Benoit <guillaume@manjaro.org>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
 namespace Pamac {
 
 	[GtkTemplate (ui = "/org/manjaro/pamac/manager/history_dialog.ui")]
-	public class HistoryDialog : Gtk.Dialog {
+	class HistoryDialog : Gtk.Dialog {
 
 		[GtkChild]
 		public Gtk.TextView textview;

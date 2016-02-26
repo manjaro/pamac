@@ -1,7 +1,7 @@
 /*
  *  pamac-vala
  *
- *  Copyright (C) 2014-2015 Guillaume Benoit <guillaume@manjaro.org>
+ *  Copyright (C) 2014-2016 Guillaume Benoit <guillaume@manjaro.org>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -19,7 +19,7 @@
 
 namespace Pamac {
 
-	public class PackagesModel : Object, Gtk.TreeModel {
+	class PackagesModel : Object, Gtk.TreeModel {
 		private Alpm.List<unowned Alpm.Package?>? pkgs;
 		private ManagerWindow manager_window;
 
@@ -43,11 +43,11 @@ namespace Pamac {
 			}
 		}
 
-		public Gtk.TreeModelFlags get_flags () {
+		Gtk.TreeModelFlags get_flags () {
 			return Gtk.TreeModelFlags.LIST_ONLY | Gtk.TreeModelFlags.ITERS_PERSIST;
 		}
 
-		public void get_value (Gtk.TreeIter iter, int column, out Value val) {
+		void get_value (Gtk.TreeIter iter, int column, out Value val) {
 			unowned Alpm.Package? pkg = pkgs.nth (iter.stamp).data;
 			switch (column) {
 				case 0:
@@ -62,7 +62,7 @@ namespace Pamac {
 					val = Value (typeof (Object));
 					if (pkg != null) {
 						if (pkg.origin == Alpm.Package.From.LOCALDB) {
-							if (manager_window.alpm_config.holdpkgs.find_custom (pkg.name, strcmp) != null) {
+							if (manager_window.transaction.alpm_config.holdpkgs.find_custom (pkg.name, strcmp) != null) {
 								val.set_object (manager_window.locked_icon);
 							} else if (manager_window.transaction.to_add.contains (pkg.name)) {
 								val.set_object (manager_window.to_reinstall_icon);
@@ -102,30 +102,38 @@ namespace Pamac {
 			}
 		}
 
-		public bool get_iter (out Gtk.TreeIter iter, Gtk.TreePath path) {;
-			if (path.get_depth () != 1) {
-				return invalid_iter (out iter);
+		bool get_iter (out Gtk.TreeIter iter, Gtk.TreePath path) {
+			if (path.get_depth () == 1) {
+				int pos = path.get_indices ()[0];
+				// return a valid iter for pos == 0 to display "No package found"
+				if (pos < pkgs.length || pos == 0) {
+					iter = Gtk.TreeIter ();
+					iter.stamp = pos;
+					return true;
+				}
 			}
-			iter = Gtk.TreeIter ();
-			int pos = path.get_indices ()[0];
-			iter.stamp = pos;
-			return true;
+			return invalid_iter (out iter);
 		}
 
-		public int get_n_columns () {
+		int get_n_columns () {
 			// name, icon, version, repo, isize
 			return 5;
 		}
 
-		public Gtk.TreePath? get_path (Gtk.TreeIter iter) {
-			return new Gtk.TreePath.from_indices (iter.stamp);
+		Gtk.TreePath? get_path (Gtk.TreeIter iter) {
+			int pos = iter.stamp;
+			// return a valid path for pos == 0 to display "No package found"
+			if (pos < pkgs.length || pos == 0) {
+				return new Gtk.TreePath.from_indices (pos);
+			}
+			return null;
 		}
 
-		public int iter_n_children (Gtk.TreeIter? iter) {
+		int iter_n_children (Gtk.TreeIter? iter) {
 			return 0;
 		}
 
-		public bool iter_next (ref Gtk.TreeIter iter) {
+		bool iter_next (ref Gtk.TreeIter iter) {
 			int pos = (iter.stamp) + 1;
 			if (pos >= pkgs.length) {
 				return false;
@@ -134,7 +142,7 @@ namespace Pamac {
 			return true;
 		}
 
-		public bool iter_previous (ref Gtk.TreeIter iter) {
+		bool iter_previous (ref Gtk.TreeIter iter) {
 			int pos = iter.stamp;
 			if (pos >= 0) {
 				return false;
@@ -143,23 +151,23 @@ namespace Pamac {
 			return true;
 		}
 
-		public bool iter_nth_child (out Gtk.TreeIter iter, Gtk.TreeIter? parent, int n) {
+		bool iter_nth_child (out Gtk.TreeIter iter, Gtk.TreeIter? parent, int n) {
 			return invalid_iter (out iter);
 		}
 
-		public bool iter_children (out Gtk.TreeIter iter, Gtk.TreeIter? parent) {
+		bool iter_children (out Gtk.TreeIter iter, Gtk.TreeIter? parent) {
 			return invalid_iter (out iter);
 		}
 
-		public bool iter_has_child (Gtk.TreeIter iter) {
+		bool iter_has_child (Gtk.TreeIter iter) {
 			return false;
 		}
 
-		public bool iter_parent (out Gtk.TreeIter iter, Gtk.TreeIter child) {
+		bool iter_parent (out Gtk.TreeIter iter, Gtk.TreeIter child) {
 			return invalid_iter (out iter);
 		}
 
-		private bool invalid_iter (out Gtk.TreeIter iter) {
+		bool invalid_iter (out Gtk.TreeIter iter) {
 			iter = Gtk.TreeIter ();
 			iter.stamp = -1;
 			return false;
@@ -167,7 +175,11 @@ namespace Pamac {
 
 		// custom get pkg function
 		public unowned Alpm.Package? get_pkg_at_path (Gtk.TreePath path) {
-			return pkgs.nth (path.get_indices ()[0]).data;
+			int pos = path.get_indices ()[0];
+			if (pos < pkgs.length) {
+				return pkgs.nth (pos).data;
+			}
+			return null;
 		}
 
 		// custom sort functions

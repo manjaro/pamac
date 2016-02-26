@@ -20,31 +20,31 @@
 namespace Pamac {
 
 	[GtkTemplate (ui = "/org/manjaro/pamac/updater/updater_window.ui")]
-	public class UpdaterWindow : Gtk.ApplicationWindow {
+	class UpdaterWindow : Gtk.ApplicationWindow {
 
 		[GtkChild]
-		public Gtk.Label top_label;
+		Gtk.Label top_label;
 		[GtkChild]
-		public Gtk.Notebook notebook;
+		Gtk.Notebook notebook;
 		[GtkChild]
-		public Gtk.ScrolledWindow repos_scrolledwindow;
+		Gtk.ScrolledWindow repos_scrolledwindow;
 		[GtkChild]
-		public Gtk.ScrolledWindow aur_scrolledwindow;
+		Gtk.ScrolledWindow aur_scrolledwindow;
 		[GtkChild]
-		public Gtk.TreeView repos_updates_treeview;
+		Gtk.TreeView repos_updates_treeview;
 		[GtkChild]
-		public Gtk.CellRendererToggle repos_select_update;
+		Gtk.CellRendererToggle repos_select_update;
 		[GtkChild]
-		public Gtk.TreeView aur_updates_treeview;
+		Gtk.TreeView aur_updates_treeview;
 		[GtkChild]
-		public Gtk.CellRendererToggle aur_select_update;
+		Gtk.CellRendererToggle aur_select_update;
 		[GtkChild]
-		public Gtk.Label bottom_label;
+		Gtk.Label bottom_label;
 		[GtkChild]
-		public Gtk.Button apply_button;
+		Gtk.Button apply_button;
 
-		public Gtk.ListStore repos_updates_list;
-		public Gtk.ListStore aur_updates_list;
+		Gtk.ListStore repos_updates_list;
+		Gtk.ListStore aur_updates_list;
 
 		public Pamac.Transaction transaction;
 
@@ -59,7 +59,7 @@ namespace Pamac {
 			Timeout.add (100, populate_window);
 		}
 
-		public bool populate_window () {
+		bool populate_window () {
 			this.get_window ().set_cursor (new Gdk.Cursor.for_display (Gdk.Display.get_default (), Gdk.CursorType.WATCH));
 
 			repos_updates_list = new Gtk.ListStore (3, typeof (bool), typeof (string), typeof (string));
@@ -71,14 +71,14 @@ namespace Pamac {
 			transaction.mode = Mode.UPDATER;
 			transaction.finished.connect (on_transaction_finished);
 
-			transaction.daemon.get_updates_finished.connect (on_get_updates_finished);
+			transaction.get_updates_finished.connect (on_get_updates_finished);
 
 			on_refresh_button_clicked ();
 
 			return false;
 		}
 
-		public void set_apply_button_sensitive () {
+		void set_apply_button_sensitive () {
 			bool sensitive = false;
 			repos_updates_list.foreach ((model, path, iter) => {
 				GLib.Value selected;
@@ -98,7 +98,7 @@ namespace Pamac {
 		}
 
 		[GtkCallback]
-		public void on_repos_select_update_toggled (string path) {
+		void on_repos_select_update_toggled (string path) {
 			Gtk.TreePath treepath = new Gtk.TreePath.from_string (path);
 			Gtk.TreeIter iter;
 			GLib.Value name_string;
@@ -108,16 +108,16 @@ namespace Pamac {
 			string pkgname = name_string.get_string ().split (" ", 2)[0];
 			if (repos_select_update.active) {
 				repos_updates_list.set (iter, 0, false);
-				transaction.special_ignorepkgs.add (pkgname);
+				transaction.temporary_ignorepkgs.add (pkgname);
 			} else {
 				repos_updates_list.set (iter, 0, true);
-				transaction.special_ignorepkgs.remove (pkgname);
+				transaction.temporary_ignorepkgs.remove (pkgname);
 			}
 			set_apply_button_sensitive ();
 		}
 
 		[GtkCallback]
-		public void on_aur_select_update_toggled  (string path) {
+		void on_aur_select_update_toggled  (string path) {
 			Gtk.TreePath treepath = new Gtk.TreePath.from_string (path);
 			Gtk.TreeIter iter;
 			GLib.Value name_string;
@@ -127,57 +127,39 @@ namespace Pamac {
 			string pkgname = name_string.get_string ().split (" ", 2)[0];
 			if (aur_select_update.active) {
 				aur_updates_list.set (iter, 0, false);
-				transaction.special_ignorepkgs.add (pkgname);
+				transaction.temporary_ignorepkgs.add (pkgname);
 			} else {
 				aur_updates_list.set (iter, 0, true);
-				transaction.special_ignorepkgs.remove (pkgname);
+				transaction.temporary_ignorepkgs.remove (pkgname);
 			}
 			set_apply_button_sensitive ();
 		}
 
-		public async void run_preferences_dialog () {
-			SourceFunc callback = run_preferences_dialog.callback;
-			ulong handler_id = transaction.daemon.get_authorization_finished.connect ((authorized) => {
-				if (authorized) {
-					var preferences_dialog = new PreferencesDialog (this, transaction);
-					preferences_dialog.run ();
-					preferences_dialog.destroy ();
-					while (Gtk.events_pending ()) {
-						Gtk.main_iteration ();
-					}
-				}
-				Idle.add((owned) callback);
-			});
-			transaction.start_get_authorization ();
-			yield;
-			transaction.daemon.disconnect (handler_id);
-		}
-
 		[GtkCallback]
-		public void on_preferences_button_clicked () {
-			run_preferences_dialog.begin (() => {
+		void on_preferences_button_clicked () {
+			transaction.run_preferences_dialog.begin (() => {
 				populate_updates_list ();
 			});
 		}
 
 		[GtkCallback]
-		public void on_apply_button_clicked () {
+		void on_apply_button_clicked () {
 			this.get_window ().set_cursor (new Gdk.Cursor.for_display (Gdk.Display.get_default (), Gdk.CursorType.WATCH));
 			transaction.sysupgrade (false);
 		}
 
 		[GtkCallback]
-		public void on_refresh_button_clicked () {
+		void on_refresh_button_clicked () {
 			this.get_window ().set_cursor (new Gdk.Cursor.for_display (Gdk.Display.get_default (), Gdk.CursorType.WATCH));
 			transaction.start_refresh (false);
 		}
 
 		[GtkCallback]
-		public void on_close_button_clicked () {
+		void on_close_button_clicked () {
 			this.application.quit ();
 		}
 
-		public void on_transaction_finished (bool database_modified) {
+		void on_transaction_finished (bool database_modified) {
 			if (database_modified) {
 				populate_updates_list ();
 			} else {
@@ -185,12 +167,12 @@ namespace Pamac {
 			}
 		}
 
-		public void populate_updates_list () {
+		void populate_updates_list () {
 			this.get_window ().set_cursor (new Gdk.Cursor.for_display (Gdk.Display.get_default (), Gdk.CursorType.WATCH));
 			transaction.start_get_updates ();
 		}
 
-		public void on_get_updates_finished (Updates updates) {
+		void on_get_updates_finished (Updates updates) {
 			top_label.set_markup ("");
 			repos_updates_list.clear ();
 			notebook.set_show_tabs (false);
@@ -207,7 +189,7 @@ namespace Pamac {
 				string size = infos.download_size != 0 ? format_size (infos.download_size) : "";
 				dsize += infos.download_size;
 				repos_updates_nb++;
-				if (infos.name in transaction.special_ignorepkgs) {
+				if (infos.name in transaction.temporary_ignorepkgs) {
 					repos_updates_list.insert_with_values (out iter, -1, 0, false, 1, name, 2, size);
 				} else {
 					repos_updates_list.insert_with_values (out iter, -1, 0, true, 1, name, 2, size);
@@ -216,7 +198,7 @@ namespace Pamac {
 			foreach (unowned PackageInfos infos in updates.aur_updates) {
 				string name = infos.name + " " + infos.version;
 				aur_updates_nb++;
-				if (infos.name in transaction.special_ignorepkgs) {
+				if (infos.name in transaction.temporary_ignorepkgs) {
 					aur_updates_list.insert_with_values (out iter, -1, 0, false, 1, name);
 				} else {
 					aur_updates_list.insert_with_values (out iter, -1, 0, true, 1, name);

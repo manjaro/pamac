@@ -1,7 +1,7 @@
 /*
  *  pamac-vala
  *
- *  Copyright (C) 2014 Guillaume Benoit <guillaume@manjaro.org>
+ *  Copyright (C) 2014-2016 Guillaume Benoit <guillaume@manjaro.org>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -20,14 +20,12 @@
 namespace Pamac {
 
 	[GtkTemplate (ui = "/org/manjaro/pamac/manager/choose_dep_dialog.ui")]
-	public class ChooseDependenciesDialog : Gtk.Dialog {
+	class ChooseDependenciesDialog : Gtk.Dialog {
 
 		[GtkChild]
 		public Gtk.Label label;
 		[GtkChild]
 		public Gtk.TreeView treeview;
-		[GtkChild]
-		public Gtk.CellRendererToggle renderertoggle;
 
 		public Gtk.ListStore deps_list;
 

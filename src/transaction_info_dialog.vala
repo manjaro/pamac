@@ -1,7 +1,7 @@
 /*
  *  pamac-vala
  *
- *  Copyright (C) 2014 Guillaume Benoit <guillaume@manjaro.org>
+ *  Copyright (C) 2014-2016 Guillaume Benoit <guillaume@manjaro.org>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -20,15 +20,15 @@
 namespace Pamac {
 
 	[GtkTemplate (ui = "/org/manjaro/pamac/transaction/transaction_info_dialog.ui")]
-	public class TransactionInfoDialog : Gtk.Dialog {
+	class TransactionInfoDialog : Gtk.Dialog {
 
 		[GtkChild]
 		public Gtk.Label label;
 		[GtkChild]
 		public Gtk.Expander expander;
 		[GtkChild]
-		public Gtk.TextView textview;
-		
+		Gtk.TextView textview;
+
 		public Gtk.TextBuffer textbuffer;
 
 		public TransactionInfoDialog (Gtk.ApplicationWindow? window) {

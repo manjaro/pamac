@@ -26,7 +26,7 @@ const string noupdate_info = _("Your system is up-to-date");
 
 namespace Pamac {
 	[DBus (name = "org.manjaro.pamac")]
-	public interface Daemon : Object {
+	interface Daemon : Object {
 		public abstract void start_refresh (bool force) throws IOError;
 		public abstract void start_get_updates (bool check_aur_updates) throws IOError;
 		[DBus (no_reply = true)]
@@ -38,7 +38,7 @@ namespace Pamac {
 		public signal void write_alpm_config_finished (bool checkspace);
 	}
 
-	public class TrayIcon: Gtk.Application {
+	class TrayIcon: Gtk.Application {
 		Notify.Notification notification;
 //~ 		Notification notification;
 		Daemon daemon;
@@ -313,14 +313,14 @@ namespace Pamac {
 
 			status_icon = new Gtk.StatusIcon ();
 			status_icon.visible  = !(pamac_config.no_update_hide_icon);
-			this.update_icon (noupdate_icon_name, noupdate_info);
+			update_icon (noupdate_icon_name, noupdate_info);
 			status_icon.activate.connect (left_clicked);
 			create_menu ();
 			status_icon.popup_menu.connect (menu_popup);
 
 			Notify.init (_("Update Manager"));
 
-			var alpm_config = new Alpm.Config ("/etc/pacman.conf");
+			var alpm_config = new AlpmConfig ("/etc/pacman.conf");
 			alpm_config.get_handle ();
 			lockfile = GLib.File.new_for_path (alpm_config.handle.lockfile);
 			start_daemon ();
@@ -335,7 +335,7 @@ namespace Pamac {
 			// nothing to do
 		}
 
-		public static int main (string[] args) {
+		static int main (string[] args) {
 			var tray_icon = new TrayIcon();
 			return tray_icon.run (args);
 		}

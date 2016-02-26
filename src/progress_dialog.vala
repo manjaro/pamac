@@ -1,7 +1,7 @@
 /*
  *  pamac-vala
  *
- *  Copyright (C) 2014-2015 Guillaume Benoit <guillaume@manjaro.org>
+ *  Copyright (C) 2014-2016 Guillaume Benoit <guillaume@manjaro.org>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
 namespace Pamac {
 
 	[GtkTemplate (ui = "/org/manjaro/pamac/transaction/progress_dialog.ui")]
-	public class ProgressDialog : Gtk.Dialog {
+	class ProgressDialog : Gtk.Dialog {
 
 		[GtkChild]
 		public Gtk.ProgressBar progressbar;
@@ -63,7 +63,7 @@ namespace Pamac {
 		}
 
 		[GtkCallback]
-		public void on_close_button_clicked () {
+		void on_close_button_clicked () {
 			this.hide ();
 			while (Gtk.events_pending ()) {
 				Gtk.main_iteration ();

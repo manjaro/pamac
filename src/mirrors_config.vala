@@ -1,7 +1,7 @@
 /*
  *  pamac-vala
  *
- *  Copyright (C) 2014-2015 Guillaume Benoit <guillaume@manjaro.org>
+ *  Copyright (C) 2014-2016 Guillaume Benoit <guillaume@manjaro.org>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -17,9 +17,9 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Alpm {
+namespace Pamac {
 	[Compact]
-	public class MirrorsConfig: Object {
+	public class MirrorsConfig {
 		public string conf_path;
 		public string mirrorlists_dir;
 		public string choosen_generation_method;

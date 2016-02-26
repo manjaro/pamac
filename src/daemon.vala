@@ -38,8 +38,8 @@ public class AlpmAction {
 
 namespace Pamac {
 	[DBus (name = "org.manjaro.pamac")]
-	public class Daemon : Object {
-		private Alpm.Config alpm_config;
+	public class Daemon: Object {
+		private AlpmConfig alpm_config;
 		public Cond provider_cond;
 		public Mutex provider_mutex;
 		public int? choosen_provider;
@@ -76,7 +76,7 @@ namespace Pamac {
 		public signal void generate_mirrors_list_finished ();
 
 		public Daemon () {
-			alpm_config = new Alpm.Config ("/etc/pacman.conf");
+			alpm_config = new AlpmConfig ("/etc/pacman.conf");
 			databases_lock_mutex = Mutex ();
 			aur_updates_results = new Json.Array ();
 			timer = new Timer ();
@@ -283,7 +283,7 @@ namespace Pamac {
 		}
 
 		public void start_write_mirrors_config (HashTable<string,Variant> new_mirrors_conf, GLib.BusName sender) {
-			var mirrors_config = new Alpm.MirrorsConfig ("/etc/pacman-mirrors.conf");
+			var mirrors_config = new MirrorsConfig ("/etc/pacman-mirrors.conf");
 			check_authorization.begin (sender, (obj, res) => {
 				bool authorized = check_authorization.end (res);
 				if (authorized) {
@@ -1159,7 +1159,7 @@ private int cb_fetch (string fileurl, string localpath, int force) {
 			// as actually being transferred during curl_easy_perform ()
 			else if (remote_size != -1 && bytes_dl != -1 && bytes_dl != remote_size) {
 				pamac_daemon.emit_log ((uint) Alpm.LogLevel.ERROR,
-										dgettext ("libalpm", "%s appears to be truncated: %jd/%jd bytes\n").printf (
+										_("%s appears to be truncated: %jd/%jd bytes\n").printf (
 											fileurl, bytes_dl, remote_size));
 				if (remove_partial_download) {
 					try {
@@ -1214,7 +1214,7 @@ private int cb_fetch (string fileurl, string localpath, int force) {
 			if (!fileurl.has_suffix ("db.sig")) {
 				string hostname = url.get_uri ().split("/")[2];
 				pamac_daemon.emit_log ((uint) Alpm.LogLevel.ERROR,
-										dgettext ("libalpm", "failed retrieving file '%s' from %s : %s\n").printf (
+										_("failed retrieving file '%s' from %s : %s\n").printf (
 											url.get_basename (), hostname, error_buffer));
 			}
 			ret = -1;

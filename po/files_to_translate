@@ -4,12 +4,6 @@
 ../src/tray.vala
 ../src/manager.vala
 ../src/updater.vala
-../src/choose_provider_dialog.vala
-../src/progress_dialog.vala
-../src/history_dialog.vala
-../src/transaction_info_dialog.vala
-../src/transaction_sum_dialog.vala
-../src/choose_dep_dialog.vala
 ../src/manager_window.vala
 ../src/aur_model.vala
 ../src/packages_model.vala

@@ -19,7 +19,7 @@
 
 namespace Pamac {
 	[DBus (name = "org.manjaro.pamac")]
-	public interface Daemon : Object {
+	interface Daemon : Object {
 		public abstract void set_environment_variables (HashTable<string,string> variables) throws IOError;
 		public abstract ErrorInfos get_current_error () throws IOError;
 		public abstract void start_get_authorization () throws IOError;
@@ -74,15 +74,17 @@ namespace Pamac {
 		UPDATER
 	}
 
-	public enum TransactionType {
-		STANDARD = (1 << 0),
-		UPDATE = (1 << 1),
-		BUILD = (1 << 2)
-	}
-
 	public class Transaction: Object {
-		public Daemon daemon;
 
+		enum Type {
+			STANDARD = (1 << 0),
+			UPDATE = (1 << 1),
+			BUILD = (1 << 2)
+		}
+
+		Daemon daemon;
+
+		public AlpmConfig alpm_config;
 		public Pamac.Config pamac_config;
 
 		public Alpm.TransFlag flags;
@@ -91,7 +93,9 @@ namespace Pamac {
 		public GenericSet<string?> to_remove;
 		public GenericSet<string?> to_load;
 		public GenericSet<string?> to_build;
-		public GenericSet<string?> special_ignorepkgs;
+		public GenericSet<string?> temporary_ignorepkgs;
+
+		HashTable<string,Json.Object> aur_infos;
 
 		public Mode mode;
 
@@ -114,21 +118,32 @@ namespace Pamac {
 		TransactionInfoDialog transaction_info_dialog;
 		ProgressDialog progress_dialog;
 		//parent window
-		Gtk.ApplicationWindow? application_window;
+		public Gtk.ApplicationWindow? application_window;
 
 		public signal void finished (bool database_modified);
+		public signal void set_pkgreason_finished ();
+		public signal void get_updates_finished (Updates updates);
+		public signal void write_pamac_config_finished (bool recurse, uint64 refresh_period, bool no_update_hide_icon,
+														bool enable_aur, bool search_aur, bool check_aur_updates,
+														bool no_confirm_build);
+		public signal void write_alpm_config_finished (bool checkspace);
+		public signal void write_mirrors_config_finished (string choosen_country, string choosen_generation_method);
 
 		public Transaction (Gtk.ApplicationWindow? application_window) {
+			alpm_config = new AlpmConfig ("/etc/pacman.conf");
+			refresh_handle ();
 			pamac_config = new Pamac.Config ("/etc/pamac.conf");
 			flags = Alpm.TransFlag.CASCADE;
 			if (pamac_config.recurse) {
 				flags |= Alpm.TransFlag.RECURSE;
 			}
+			
 			to_add = new GenericSet<string?> (str_hash, str_equal);
 			to_remove = new GenericSet<string?> (str_hash, str_equal);
 			to_load = new GenericSet<string?> (str_hash, str_equal);
 			to_build = new GenericSet<string?> (str_hash, str_equal);
-			special_ignorepkgs = new GenericSet<string?> (str_hash, str_equal);
+			temporary_ignorepkgs = new GenericSet<string?> (str_hash, str_equal);
+			aur_infos = new HashTable<string,Json.Object> (str_hash, str_equal);
 			connecting_dbus_signals ();
 			//creating dialogs
 			this.application_window = application_window;
@@ -144,6 +159,31 @@ namespace Pamac {
 			previous_filename = "";
 			sysupgrade_after_trans = false;
 			timer = new Timer ();
+		}
+
+		public async void run_preferences_dialog () {
+			SourceFunc callback = run_preferences_dialog.callback;
+			ulong handler_id = daemon.get_authorization_finished.connect ((authorized) => {
+				if (authorized) {
+					var preferences_dialog = new PreferencesDialog (this);
+					preferences_dialog.run ();
+					preferences_dialog.destroy ();
+					while (Gtk.events_pending ()) {
+						Gtk.main_iteration ();
+					}
+				}
+				Idle.add((owned) callback);
+			});
+			start_get_authorization ();
+			yield;
+			daemon.disconnect (handler_id);
+		}
+
+		public void refresh_handle () {
+			alpm_config.get_handle ();
+			if (alpm_config.handle == null) {
+				stderr.printf (dgettext (null, "Failed to initialize alpm library"));
+			}
 		}
 
 		public ErrorInfos get_current_error () {
@@ -236,6 +276,7 @@ namespace Pamac {
 			} catch (IOError e) {
 				stderr.printf ("IOError: %s\n", e.message);
 				daemon.refresh_finished.disconnect (on_refresh_finished);
+				refresh_handle ();
 				finished (true);
 			}
 		}
@@ -252,7 +293,7 @@ namespace Pamac {
 		public void add_ignorepkg (string pkgname) {
 			try {
 				daemon.add_ignorepkg (pkgname);
-				//special_ignorepkgs.add (pkgname);
+				//temporary_ignorepkgs.add (pkgname);
 			} catch (IOError e) {
 				stderr.printf ("IOError: %s\n", e.message);
 			}
@@ -267,7 +308,7 @@ namespace Pamac {
 		}
 
 		public bool init (Alpm.TransFlag flags) {
-			foreach (unowned string pkgname in special_ignorepkgs) {
+			foreach (unowned string pkgname in temporary_ignorepkgs) {
 				add_ignorepkg (pkgname);
 			}
 			try {
@@ -278,7 +319,7 @@ namespace Pamac {
 			}
 		}
 
-		public void sysupgrade_simple (bool enable_downgrade) {
+		void sysupgrade_simple (bool enable_downgrade) {
 			progress_dialog.progressbar.set_fraction (0);
 			progress_dialog.cancel_button.set_visible (true);
 			bool success = init (0);
@@ -328,7 +369,7 @@ namespace Pamac {
 			start_get_updates ();
 		}
 
-		public void on_get_updates_finished (Updates updates) {
+		void on_get_updates_finished (Updates updates) {
 			// get syncfirst updates
 			if (updates.is_syncfirst) {
 				clear_lists ();
@@ -344,7 +385,7 @@ namespace Pamac {
 				if (updates.aur_updates.length != 0) {
 					clear_lists ();
 					foreach (unowned PackageInfos infos in updates.aur_updates) {
-						if (!(infos.name in special_ignorepkgs)) {
+						if (!(infos.name in temporary_ignorepkgs)) {
 							to_build.add (infos.name);
 						}
 					}
@@ -360,6 +401,7 @@ namespace Pamac {
 				}
 			}
 			daemon.get_updates_finished.disconnect (on_get_updates_finished);
+			get_updates_finished (updates);
 		}
 
 		public void clear_lists () {
@@ -369,7 +411,7 @@ namespace Pamac {
 		}
 
 		public void run () {
-			string action = dgettext (null,"Preparing") + "...";
+			string action = dgettext (null, "Preparing") + "...";
 			progress_dialog.spawn_in_term ({"echo", action});
 			progress_dialog.action_label.set_text (action);
 			progress_dialog.progressbar.set_fraction (0);
@@ -445,7 +487,7 @@ namespace Pamac {
 			}
 		}
 
-		public void choose_provider (string depend, string[] providers) {
+		void choose_provider (string depend, string[] providers) {
 			var choose_provider_dialog = new ChooseProviderDialog (application_window);
 			choose_provider_dialog.label.set_markup ("<b>%s</b>".printf (dgettext (null, "Choose a provider for %s").printf (depend)));
 			foreach (unowned string provider in providers) {
@@ -464,9 +506,9 @@ namespace Pamac {
 			}
 		}
 
-		public TransactionType set_transaction_sum () {
+		Type set_transaction_sum () {
 			// return 0 if transaction_sum is empty, 2, if there are only aur updates, 1 otherwise
-			TransactionType type = 0;
+			Type type = 0;
 			uint64 dsize = 0;
 			PackageInfos[] prepared_to_add = {};
 			PackageInfos[] prepared_to_remove = {};
@@ -510,7 +552,7 @@ namespace Pamac {
 			int len = prepared_to_remove.length;
 			int i;
 			if (len != 0) {
-				type |= TransactionType.STANDARD;
+				type |= Type.STANDARD;
 				transaction_sum_dialog.sum_list.insert_with_values (out iter, -1,
 												0, dgettext (null, "To remove") + ":",
 												1, "%s %s".printf (prepared_to_remove[0].name, prepared_to_remove[0].version));
@@ -523,7 +565,7 @@ namespace Pamac {
 			}
 			len = to_downgrade.length;
 			if (len != 0) {
-				type |= TransactionType.STANDARD;
+				type |= Type.STANDARD;
 				transaction_sum_dialog.sum_list.insert_with_values (out iter, -1,
 												0, dgettext (null, "To downgrade") + ":",
 												1, to_downgrade[0]);
@@ -536,7 +578,7 @@ namespace Pamac {
 			}
 			len = _to_build.length;
 			if (len != 0) {
-				type |= TransactionType.BUILD;
+				type |= Type.BUILD;
 				transaction_sum_dialog.sum_list.insert_with_values (out iter, -1,
 												0, dgettext (null, "To build") + ":",
 												1, _to_build[0]);
@@ -549,7 +591,7 @@ namespace Pamac {
 			}
 			len = to_install.length;
 			if (len != 0) {
-				type |= TransactionType.STANDARD;
+				type |= Type.STANDARD;
 				transaction_sum_dialog.sum_list.insert_with_values (out iter, -1,
 												0, dgettext (null, "To install") + ":",
 												1, to_install[0]);
@@ -562,7 +604,7 @@ namespace Pamac {
 			}
 			len = to_reinstall.length;
 			if (len != 0) {
-				type |= TransactionType.STANDARD;
+				type |= Type.STANDARD;
 				transaction_sum_dialog.sum_list.insert_with_values (out iter, -1,
 												0, dgettext (null, "To reinstall") + ":",
 												1, to_reinstall[0]);
@@ -575,7 +617,7 @@ namespace Pamac {
 			}
 			len = to_update.length;
 			if (len != 0) {
-				type |= TransactionType.UPDATE;
+				type |= Type.UPDATE;
 				if (mode != Mode.UPDATER) {
 					transaction_sum_dialog.sum_list.insert_with_values (out iter, -1,
 													0, dgettext (null, "To update") + ":",
@@ -603,12 +645,13 @@ namespace Pamac {
 				daemon.start_trans_commit ();
 			} catch (IOError e) {
 				stderr.printf ("IOError: %s\n", e.message);
+				refresh_handle ();
 				finished (true);
 			}
 		}
 
 		public void build_aur_packages () {
-			string action = dgettext (null,"Building packages") + "...";
+			string action = dgettext (null, "Building packages") + "...";
 			progress_dialog.spawn_in_term ({"echo", action});
 			progress_dialog.action_label.set_text (action);
 			progress_dialog.progressbar.set_fraction (0);
@@ -632,6 +675,14 @@ namespace Pamac {
 			progress_dialog.term.watch_child (child_pid);
 		}
 
+		public async Json.Object get_aur_infos (string aur_name) {
+			if (!aur_infos.contains (aur_name)) {
+				Json.Array results = AUR.multiinfo ({aur_name});
+				aur_infos.insert (aur_name, results.get_object_element (0));
+			}
+			return aur_infos.lookup (aur_name);
+		}
+
 		public void cancel () {
 			try {
 				daemon.trans_cancel ();
@@ -652,7 +703,7 @@ namespace Pamac {
 			} catch (IOError e) {
 				stderr.printf ("IOError: %s\n", e.message);
 			}
-			foreach (unowned string pkgname in special_ignorepkgs) {
+			foreach (unowned string pkgname in temporary_ignorepkgs) {
 				remove_ignorepkg (pkgname);
 			}
 		}
@@ -1037,7 +1088,7 @@ namespace Pamac {
 			}
 		}
 
-		public void show_warnings () {
+		void show_warnings () {
 			if (transaction_info_dialog.textbuffer.text != "") {
 				transaction_info_dialog.set_title (dgettext (null, "Warning"));
 				transaction_info_dialog.label.set_visible (false);
@@ -1056,7 +1107,7 @@ namespace Pamac {
 			}
 		}
 
-		public void handle_error (ErrorInfos error) {
+		void handle_error (ErrorInfos error) {
 			if (error.message != null && error.message != "") {
 				progress_dialog.expander.set_expanded (true);
 				progress_dialog.spawn_in_term ({"echo", "-n", error.message});
@@ -1097,7 +1148,8 @@ namespace Pamac {
 			}
 		}
 
-		public void on_refresh_finished (bool success) {
+		void on_refresh_finished (bool success) {
+			refresh_handle ();
 			if (success) {
 				if (mode == Mode.UPDATER) {
 					finished (true);
@@ -1117,7 +1169,7 @@ namespace Pamac {
 			daemon.refresh_finished.disconnect (on_refresh_finished);
 		}
 
-		public void on_cancel_button_clicked () {
+		void on_cancel_button_clicked () {
 			cancel ();
 			clear_lists ();
 			progress_dialog.spawn_in_term ({"/usr/bin/echo", dgettext (null, "Transaction cancelled") + ".\n"});
@@ -1127,11 +1179,11 @@ namespace Pamac {
 			}
 		}
 
-		public void on_trans_prepare_finished (bool success) {
+		void on_trans_prepare_finished (bool success) {
 			if (success) {
 				show_warnings ();
-				TransactionType type = set_transaction_sum ();
-				if (type == TransactionType.UPDATE && mode == Mode.UPDATER) {
+				Type type = set_transaction_sum ();
+				if (type == Type.UPDATE && mode == Mode.UPDATER) {
 					// there only updates
 					start_commit ();
 				} else if (type != 0) {
@@ -1140,7 +1192,7 @@ namespace Pamac {
 						while (Gtk.events_pending ()) {
 							Gtk.main_iteration ();
 						}
-						if (type == TransactionType.BUILD) {
+						if (type == Type.BUILD) {
 							// there only AUR packages to build
 							release ();
 							on_trans_commit_finished (true);
@@ -1178,7 +1230,7 @@ namespace Pamac {
 			}
 		}
 
-		public void on_trans_commit_finished (bool success) {
+		void on_trans_commit_finished (bool success) {
 			if (success) {
 				if (to_build.length != 0) {
 					if (to_add.length != 0
@@ -1194,6 +1246,7 @@ namespace Pamac {
 						sysupgrade_after_trans = false;
 						sysupgrade (false);
 					} else {
+						refresh_handle ();
 						finished (true);
 						progress_dialog.spawn_in_term ({"echo", dgettext (null, "Transaction successfully finished") + ".\n"});
 						if (progress_dialog.expander.get_expanded ()) {
@@ -1215,6 +1268,7 @@ namespace Pamac {
 					finished (false);
 				} else {
 					clear_lists ();
+					refresh_handle ();
 					finished (true);
 				}
 				handle_error (err);
@@ -1229,6 +1283,7 @@ namespace Pamac {
 			clear_lists ();
 			// let the time to the daemon to update databases
 			Timeout.add (1000, () => {
+				refresh_handle ();
 				finished (true);
 				if (status == 0) {
 					string action = dgettext (null, "Transaction successfully finished");
@@ -1247,8 +1302,27 @@ namespace Pamac {
 			});
 		}
 
-		void on_write_pamac_config_finished () {
+		void on_set_pkgreason_finished () {
+			refresh_handle ();
+			set_pkgreason_finished ();
+		}
+
+		void on_write_pamac_config_finished (bool recurse, uint64 refresh_period, bool no_update_hide_icon,
+												bool enable_aur, bool search_aur, bool check_aur_updates,
+												bool no_confirm_build) {
 			pamac_config.reload ();
+			write_pamac_config_finished (recurse, refresh_period, no_update_hide_icon,
+											enable_aur, search_aur, check_aur_updates,
+											no_confirm_build);
+		}
+
+		void on_write_alpm_config_finished (bool checkspace) {
+			alpm_config.reload ();
+			write_alpm_config_finished (checkspace);
+		}
+
+		void on_write_mirrors_config_finished (string choosen_country, string choosen_generation_method) {
+			write_mirrors_config_finished (choosen_country, choosen_generation_method);
 		}
 
 		void on_generate_mirrors_list_data (string line) {
@@ -1276,6 +1350,9 @@ namespace Pamac {
 				daemon.emit_log.connect (on_emit_log);
 				daemon.trans_prepare_finished.connect (on_trans_prepare_finished);
 				daemon.trans_commit_finished.connect (on_trans_commit_finished);
+				daemon.set_pkgreason_finished.connect (on_set_pkgreason_finished);
+				daemon.write_mirrors_config_finished.connect (on_write_mirrors_config_finished);
+				daemon.write_alpm_config_finished.connect (on_write_alpm_config_finished);
 				daemon.write_pamac_config_finished.connect (on_write_pamac_config_finished);
 				daemon.generate_mirrors_list_data.connect (on_generate_mirrors_list_data);
 				daemon.generate_mirrors_list_finished.connect (on_generate_mirrors_list_finished);

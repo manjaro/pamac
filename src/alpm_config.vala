@@ -17,18 +17,18 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Alpm {
+namespace Pamac {
 	[Compact]
 	public class Repo {
 		public string name;
-		public Signature.Level siglevel;
-		public Signature.Level siglevel_mask;
-		public DB.Usage usage;
+		public Alpm.Signature.Level siglevel;
+		public Alpm.Signature.Level siglevel_mask;
+		public Alpm.DB.Usage usage;
 		public GLib.List<string> urls;
 
 		public Repo (string name) {
 			this.name = name;
-			siglevel = Signature.Level.USE_DEFAULT;
+			siglevel = Alpm.Signature.Level.USE_DEFAULT;
 			usage = 0;
 			urls = new GLib.List<string> ();
 		}
@@ -44,7 +44,7 @@ namespace Alpm {
 	}
 
 	[Compact]
-	public class Config {
+	public class AlpmConfig {
 		public string conf_path;
 		public string? rootdir;
 		public string? dbpath;
@@ -62,16 +62,16 @@ namespace Alpm {
 		public Alpm.List<string>? noupgrades;
 		public GLib.List<string>? holdpkgs;
 		public GLib.List<string>? syncfirsts;
-		public Signature.Level siglevel;
-		public Signature.Level localfilesiglevel;
-		public Signature.Level remotefilesiglevel;
-		public Signature.Level siglevel_mask;
-		public Signature.Level localfilesiglevel_mask;
-		public Signature.Level remotefilesiglevel_mask;
+		public Alpm.Signature.Level siglevel;
+		public Alpm.Signature.Level localfilesiglevel;
+		public Alpm.Signature.Level remotefilesiglevel;
+		public Alpm.Signature.Level siglevel_mask;
+		public Alpm.Signature.Level localfilesiglevel_mask;
+		public Alpm.Signature.Level remotefilesiglevel_mask;
 		public GLib.List<Repo> repo_order;
-		public Handle? handle;
+		public Alpm.Handle? handle;
 
-		public Config (string path) {
+		public AlpmConfig (string path) {
 			conf_path = path;
 			reload ();
 		}
@@ -108,9 +108,9 @@ namespace Alpm {
 			usesyslog = 0;
 			checkspace = 0;
 			deltaratio = 0.7;
-			siglevel = Signature.Level.PACKAGE | Signature.Level.PACKAGE_OPTIONAL | Signature.Level.DATABASE | Signature.Level.DATABASE_OPTIONAL;
-			localfilesiglevel = Signature.Level.USE_DEFAULT;
-			remotefilesiglevel = Signature.Level.USE_DEFAULT;
+			siglevel = Alpm.Signature.Level.PACKAGE | Alpm.Signature.Level.PACKAGE_OPTIONAL | Alpm.Signature.Level.DATABASE | Alpm.Signature.Level.DATABASE_OPTIONAL;
+			localfilesiglevel = Alpm.Signature.Level.USE_DEFAULT;
+			remotefilesiglevel = Alpm.Signature.Level.USE_DEFAULT;
 			repo_order = new GLib.List<Repo> ();
 			// parse conf file
 			parse_file (conf_path);
@@ -150,7 +150,7 @@ namespace Alpm {
 
 		public void get_handle () {
 			Alpm.Errno error;
-			handle = Handle.new (rootdir, dbpath, out error);
+			handle = Alpm.Handle.new (rootdir, dbpath, out error);
 			if (handle == null) {
 				stderr.printf ("Failed to initialize alpm library" + " (%s)\n".printf(Alpm.strerror (error)));
 				return;
@@ -179,12 +179,12 @@ namespace Alpm {
 			// register dbs
 			foreach (unowned Repo repo in repo_order) {
 				repo.siglevel = merge_siglevel (siglevel, repo.siglevel, repo.siglevel_mask);
-				unowned DB db = handle.register_syncdb (repo.name, repo.siglevel);
+				unowned Alpm.DB db = handle.register_syncdb (repo.name, repo.siglevel);
 				foreach (unowned string url in repo.urls) {
 					db.add_server (url.replace ("$repo", repo.name).replace ("$arch", handle.arch));
 				}
 				if (repo.usage == 0) {
-					db.usage = DB.Usage.ALL;
+					db.usage = Alpm.DB.Usage.ALL;
 				} else {
 					db.usage = repo.usage;
 				}
@@ -373,25 +373,25 @@ namespace Alpm {
 			}
 		}
 
-		public DB.Usage define_usage (string conf_string) {
-			DB.Usage usage = 0;
+		public Alpm.DB.Usage define_usage (string conf_string) {
+			Alpm.DB.Usage usage = 0;
 			foreach (unowned string directive in conf_string.split(" ")) {
 				if (directive == "Sync") {
-					usage |= DB.Usage.SYNC;
+					usage |= Alpm.DB.Usage.SYNC;
 				} else if (directive == "Search") {
-					usage |= DB.Usage.SEARCH;
+					usage |= Alpm.DB.Usage.SEARCH;
 				} else if (directive == "Install") {
-					usage |= DB.Usage.INSTALL;
+					usage |= Alpm.DB.Usage.INSTALL;
 				} else if (directive == "Upgrade") {
-					usage |= DB.Usage.UPGRADE;
+					usage |= Alpm.DB.Usage.UPGRADE;
 				} else if (directive == "All") {
-					usage |= DB.Usage.ALL;
+					usage |= Alpm.DB.Usage.ALL;
 				}
 			}
 			return usage;
 		}
 
-		public void process_siglevel (string conf_string, ref Signature.Level siglevel, ref Signature.Level siglevel_mask) {
+		public void process_siglevel (string conf_string, ref Alpm.Signature.Level siglevel, ref Alpm.Signature.Level siglevel_mask) {
 			foreach (unowned string directive in conf_string.split(" ")) {
 				bool affect_package = false;
 				bool affect_database = false;
@@ -405,61 +405,61 @@ namespace Alpm {
 				}
 				if ("Never" in directive) {
 					if (affect_package) {
-						siglevel &= ~Signature.Level.PACKAGE;
-						siglevel_mask |= Signature.Level.PACKAGE;
+						siglevel &= ~Alpm.Signature.Level.PACKAGE;
+						siglevel_mask |= Alpm.Signature.Level.PACKAGE;
 					}
 					if (affect_database) {
-						siglevel &= ~Signature.Level.DATABASE;
-						siglevel_mask |= Signature.Level.DATABASE;
+						siglevel &= ~Alpm.Signature.Level.DATABASE;
+						siglevel_mask |= Alpm.Signature.Level.DATABASE;
 					}
 				} else if ("Optional" in directive) {
 					if (affect_package) {
-						siglevel |= (Signature.Level.PACKAGE | Signature.Level.PACKAGE_OPTIONAL);
-						siglevel_mask |= (Signature.Level.PACKAGE | Signature.Level.PACKAGE_OPTIONAL);
+						siglevel |= (Alpm.Signature.Level.PACKAGE | Alpm.Signature.Level.PACKAGE_OPTIONAL);
+						siglevel_mask |= (Alpm.Signature.Level.PACKAGE | Alpm.Signature.Level.PACKAGE_OPTIONAL);
 					}
 					if (affect_database) {
-						siglevel |= (Signature.Level.DATABASE | Signature.Level.DATABASE_OPTIONAL);
-						siglevel_mask |= (Signature.Level.DATABASE | Signature.Level.DATABASE_OPTIONAL);
+						siglevel |= (Alpm.Signature.Level.DATABASE | Alpm.Signature.Level.DATABASE_OPTIONAL);
+						siglevel_mask |= (Alpm.Signature.Level.DATABASE | Alpm.Signature.Level.DATABASE_OPTIONAL);
 					}
 				} else if ("Required" in directive) {
 					if (affect_package) {
-						siglevel |= Signature.Level.PACKAGE;
-						siglevel_mask |= Signature.Level.PACKAGE;
-						siglevel &= ~Signature.Level.PACKAGE_OPTIONAL;
-						siglevel_mask |= Signature.Level.PACKAGE_OPTIONAL;
+						siglevel |= Alpm.Signature.Level.PACKAGE;
+						siglevel_mask |= Alpm.Signature.Level.PACKAGE;
+						siglevel &= ~Alpm.Signature.Level.PACKAGE_OPTIONAL;
+						siglevel_mask |= Alpm.Signature.Level.PACKAGE_OPTIONAL;
 					}
 					if (affect_database) {
-						siglevel |= Signature.Level.DATABASE;
-						siglevel_mask |= Signature.Level.DATABASE;
-						siglevel &= ~Signature.Level.DATABASE_OPTIONAL;
-						siglevel_mask |= Signature.Level.DATABASE_OPTIONAL;
+						siglevel |= Alpm.Signature.Level.DATABASE;
+						siglevel_mask |= Alpm.Signature.Level.DATABASE;
+						siglevel &= ~Alpm.Signature.Level.DATABASE_OPTIONAL;
+						siglevel_mask |= Alpm.Signature.Level.DATABASE_OPTIONAL;
 					}
 				} else if ("TrustedOnly" in directive) {
 					if (affect_package) {
-						siglevel &= ~(Signature.Level.PACKAGE_MARGINAL_OK | Signature.Level.PACKAGE_UNKNOWN_OK);
-						siglevel_mask |= (Signature.Level.PACKAGE_MARGINAL_OK | Signature.Level.PACKAGE_UNKNOWN_OK);
+						siglevel &= ~(Alpm.Signature.Level.PACKAGE_MARGINAL_OK | Alpm.Signature.Level.PACKAGE_UNKNOWN_OK);
+						siglevel_mask |= (Alpm.Signature.Level.PACKAGE_MARGINAL_OK | Alpm.Signature.Level.PACKAGE_UNKNOWN_OK);
 					}
 					if (affect_database) {
-						siglevel &= ~(Signature.Level.DATABASE_MARGINAL_OK | Signature.Level.DATABASE_UNKNOWN_OK);
-						siglevel_mask |= (Signature.Level.DATABASE_MARGINAL_OK | Signature.Level.DATABASE_UNKNOWN_OK);
+						siglevel &= ~(Alpm.Signature.Level.DATABASE_MARGINAL_OK | Alpm.Signature.Level.DATABASE_UNKNOWN_OK);
+						siglevel_mask |= (Alpm.Signature.Level.DATABASE_MARGINAL_OK | Alpm.Signature.Level.DATABASE_UNKNOWN_OK);
 					}
 				} else if ("TrustAll" in directive) {
 					if (affect_package) {
-						siglevel |= (Signature.Level.PACKAGE_MARGINAL_OK | Signature.Level.PACKAGE_UNKNOWN_OK);
-						siglevel_mask |= (Signature.Level.PACKAGE_MARGINAL_OK | Signature.Level.PACKAGE_UNKNOWN_OK);
+						siglevel |= (Alpm.Signature.Level.PACKAGE_MARGINAL_OK | Alpm.Signature.Level.PACKAGE_UNKNOWN_OK);
+						siglevel_mask |= (Alpm.Signature.Level.PACKAGE_MARGINAL_OK | Alpm.Signature.Level.PACKAGE_UNKNOWN_OK);
 					}
 					if (affect_database) {
-						siglevel |= (Signature.Level.DATABASE_MARGINAL_OK | Signature.Level.DATABASE_UNKNOWN_OK);
-						siglevel_mask |= (Signature.Level.DATABASE_MARGINAL_OK | Signature.Level.DATABASE_UNKNOWN_OK);
+						siglevel |= (Alpm.Signature.Level.DATABASE_MARGINAL_OK | Alpm.Signature.Level.DATABASE_UNKNOWN_OK);
+						siglevel_mask |= (Alpm.Signature.Level.DATABASE_MARGINAL_OK | Alpm.Signature.Level.DATABASE_UNKNOWN_OK);
 					}
 				} else {
 					GLib.stderr.printf("unrecognized siglevel: %s\n", conf_string);
 				}
 			}
-			siglevel &= ~Signature.Level.USE_DEFAULT;
+			siglevel &= ~Alpm.Signature.Level.USE_DEFAULT;
 		}
 
-		public Signature.Level merge_siglevel(Signature.Level sigbase, Signature.Level sigover, Signature.Level sigmask) {
+		public Alpm.Signature.Level merge_siglevel(Alpm.Signature.Level sigbase, Alpm.Signature.Level sigover, Alpm.Signature.Level sigmask) {
 			return (sigmask != 0) ? (sigover & sigmask) | (sigbase & ~sigmask) : sigover;
 		}
 	}

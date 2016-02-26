@@ -21,7 +21,7 @@ msgstr ""
 msgid "Authentication is required"
 msgstr ""
 
-#: ../src/daemon.vala ../src/manager_window.vala ../src/preferences_dialog.vala
+#: ../src/daemon.vala ../src/transaction.vala
 msgid "Failed to initialize alpm library"
 msgstr ""
 
@@ -83,6 +83,16 @@ msgstr ""
 
 #: ../src/daemon.vala ../src/transaction.vala
 msgid "Authentication failed"
+msgstr ""
+
+#: ../src/daemon.vala
+#, c-format
+msgid "%s appears to be truncated: %jd/%jd bytes\n"
+msgstr ""
+
+#: ../src/daemon.vala
+#, c-format
+msgid "failed retrieving file '%s' from %s : %s\n"
 msgstr ""
 
 #: ../src/transaction.vala
@@ -287,8 +297,7 @@ msgstr[1] ""
 msgid "Warning"
 msgstr ""
 
-#: ../src/transaction.vala ../src/installer.vala ../src/manager.vala
-#: ../src/updater.vala
+#: ../src/transaction.vala
 msgid "Error"
 msgstr ""
 
@@ -407,6 +416,14 @@ msgstr ""
 msgid "Conflicts With"
 msgstr ""
 
+#: ../src/manager_window.vala
+msgid "Make Dependencies"
+msgstr ""
+
+#: ../src/manager_window.vala
+msgid "Check Dependencies"
+msgstr ""
+
 #: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Repository"
 msgstr ""
@@ -453,6 +470,10 @@ msgstr ""
 
 #: ../src/manager_window.vala
 msgid "Backup files"
+msgstr ""
+
+#: ../src/manager_window.vala
+msgid "Package Base"
 msgstr ""
 
 #: ../src/manager_window.vala

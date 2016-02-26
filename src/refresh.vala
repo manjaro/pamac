@@ -18,12 +18,8 @@
  */
 
 namespace Pamac {
-	public struct ErrorInfos {
-		public string message;
-		public string[] details;
-	}
 	[DBus (name = "org.manjaro.pamac")]
-	public interface Daemon : Object {
+	interface Daemon : Object {
 		public abstract void start_refresh (bool force) throws IOError;
 		[DBus (no_reply = true)]
 		public abstract void quit () throws IOError;
