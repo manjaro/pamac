@@ -62,14 +62,6 @@ namespace Pamac {
 			this.expander.add (grid);
 		}
 
-		[GtkCallback]
-		void on_close_button_clicked () {
-			this.hide ();
-			while (Gtk.events_pending ()) {
-				Gtk.main_iteration ();
-			}
-		}
-
 		public void spawn_in_term (string[] args, out Pid child_pid = null) {
 			Pid intern_pid;
 			try {

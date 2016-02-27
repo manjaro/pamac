@@ -75,7 +75,7 @@ pamac-daemon: ../vapi/libalpm.vapi ../vapi/polkit-gobject-1.vapi ../vapi/libcurl
 			mirrors_config.vala \
 			daemon.vala
 
-libpamac.so: ../vapi/libalpm.vapi $(COMMON_SOURCES) $(TRANSACTION_SOURCES) $(PREFERENCES_SOURCES) ../resources/manager_resources.c
+libpamac.so: ../vapi/libalpm.vapi $(COMMON_SOURCES) $(TRANSACTION_SOURCES) $(PREFERENCES_SOURCES) ../resources/transaction_resources.c
 	valac	-o libpamac.so \
 			-X -fPIC \
 			-X --shared \

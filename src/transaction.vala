@@ -112,6 +112,7 @@ namespace Pamac {
 		uint64 download_rate;
 		uint64 rates_nb;
 		Timer timer;
+		bool database_modified;
 
 		//dialogs
 		TransactionSumDialog transaction_sum_dialog;
@@ -150,7 +151,8 @@ namespace Pamac {
 			transaction_sum_dialog = new TransactionSumDialog (application_window);
 			transaction_info_dialog = new TransactionInfoDialog (application_window);
 			progress_dialog = new ProgressDialog (application_window);
-			progress_dialog.cancel_button.clicked.connect (on_cancel_button_clicked);
+			progress_dialog.close_button.clicked.connect (on_progress_dialog_close_button_clicked);
+			progress_dialog.cancel_button.clicked.connect (on_progress_dialog_cancel_button_clicked);
 			// connect to child_exited signal which will only be emit after a call to watch_child
 			progress_dialog.term.child_exited.connect (on_term_child_exited);
 			// progress data
@@ -159,6 +161,7 @@ namespace Pamac {
 			previous_filename = "";
 			sysupgrade_after_trans = false;
 			timer = new Timer ();
+			database_modified = false;
 		}
 
 		public async void run_preferences_dialog () {
@@ -276,8 +279,8 @@ namespace Pamac {
 			} catch (IOError e) {
 				stderr.printf ("IOError: %s\n", e.message);
 				daemon.refresh_finished.disconnect (on_refresh_finished);
-				refresh_handle ();
-				finished (true);
+				database_modified = true;
+				finish_transaction ();
 			}
 		}
 
@@ -286,7 +289,7 @@ namespace Pamac {
 				daemon.start_get_updates (pamac_config.enable_aur && pamac_config.check_aur_updates);
 			} catch (IOError e) {
 				stderr.printf ("IOError: %s\n", e.message);
-				finished (false);
+				finish_transaction ();
 			}
 		}
 
@@ -339,15 +342,14 @@ namespace Pamac {
 						daemon.start_trans_prepare ();
 					} catch (IOError e) {
 						stderr.printf ("IOError: %s\n", e.message);
-						finished (false);
+						release ();
+						finish_transaction ();
 					}
 				} else {
 					release ();
-					finished (false);
 					handle_error (get_current_error ());
 				}
 			} else {
-				finished (false);
 				handle_error (get_current_error ());
 			}
 		}
@@ -473,15 +475,14 @@ namespace Pamac {
 							daemon.start_trans_prepare ();
 						} catch (IOError e) {
 							stderr.printf ("IOError: %s\n", e.message);
-							finished (false);
+							release ();
+							finish_transaction ();
 						}
 					} else {
 						release ();
-						finished (false);
 						handle_error (get_current_error ());
 					}
 				} else {
-					finished (false);
 					handle_error (get_current_error ());
 				}
 			}
@@ -645,8 +646,8 @@ namespace Pamac {
 				daemon.start_trans_commit ();
 			} catch (IOError e) {
 				stderr.printf ("IOError: %s\n", e.message);
-				refresh_handle ();
-				finished (true);
+				database_modified = true;
+				finish_transaction ();
 			}
 		}
 
@@ -1139,37 +1140,57 @@ namespace Pamac {
 				transaction_info_dialog.textbuffer.get_end_iter (out end_iter);
 				transaction_info_dialog.textbuffer.delete (ref start_iter, ref end_iter);
 				progress_dialog.progressbar.set_fraction (0);
-				progress_dialog.cancel_button.set_visible (false);
-				progress_dialog.close_button.set_visible (true);
 				progress_dialog.spawn_in_term ({"echo"});
 				while (Gtk.events_pending ()) {
 					Gtk.main_iteration ();
 				}
 			}
+			finish_transaction ();
+		}
+
+		void finish_transaction () {
+			if (database_modified) {
+				refresh_handle ();
+			}
+			if (progress_dialog.expander.get_expanded ()) {
+				progress_dialog.cancel_button.set_visible (false);
+				progress_dialog.close_button.set_visible (true);
+			} else {
+				finished (database_modified);
+				progress_dialog.hide ();
+				while (Gtk.events_pending ()) {
+					Gtk.main_iteration ();
+				}
+			}
+			database_modified = false;
 		}
 
 		void on_refresh_finished (bool success) {
-			refresh_handle ();
+			database_modified = true;
 			if (success) {
 				if (mode == Mode.UPDATER) {
-					finished (true);
-					progress_dialog.hide ();
-					while (Gtk.events_pending ()) {
-						Gtk.main_iteration ();
-					}
+					finish_transaction ();
 				} else {
+					refresh_handle ();
 					clear_lists ();
 					sysupgrade (false);
 				}
 			} else {
-				finished (true);
 				handle_error (get_current_error ());
 			}
 			previous_filename = "";
 			daemon.refresh_finished.disconnect (on_refresh_finished);
 		}
 
-		void on_cancel_button_clicked () {
+		void on_progress_dialog_close_button_clicked () {
+			finished (database_modified);
+			progress_dialog.hide ();
+			while (Gtk.events_pending ()) {
+				Gtk.main_iteration ();
+			}
+		}
+
+		void on_progress_dialog_cancel_button_clicked () {
 			cancel ();
 			clear_lists ();
 			progress_dialog.spawn_in_term ({"/usr/bin/echo", dgettext (null, "Transaction cancelled") + ".\n"});
@@ -1200,32 +1221,25 @@ namespace Pamac {
 							start_commit ();
 						}
 					} else {
-						progress_dialog.spawn_in_term ({"echo", dgettext (null, "Transaction cancelled") + ".\n"});
-						progress_dialog.hide ();
 						transaction_sum_dialog.hide ();
-						while (Gtk.events_pending ()) {
-							Gtk.main_iteration ();
-						}
+						unowned string action = dgettext (null, "Transaction cancelled");
+						progress_dialog.spawn_in_term ({"echo", action + ".\n"});
+						progress_dialog.action_label.set_text (action);
 						release ();
 						//to_build.remove_all ();
 						sysupgrade_after_trans = false;
-						finished (false);
+						finish_transaction ();
 					}
 				} else {
 					//var err = ErrorInfos ();
 					//err.message = dgettext (null, "Nothing to do") + "\n";
 					progress_dialog.spawn_in_term ({"echo", dgettext (null, "Nothing to do") + ".\n"});
-					progress_dialog.hide ();
-					while (Gtk.events_pending ()) {
-						Gtk.main_iteration ();
-					}
 					release ();
 					clear_lists ();
-					finished (false);
+					finish_transaction ();
 					//handle_error (err);
 				}
 			} else {
-				finished (false);
 				handle_error (get_current_error ());
 			}
 		}
@@ -1246,32 +1260,23 @@ namespace Pamac {
 						sysupgrade_after_trans = false;
 						sysupgrade (false);
 					} else {
-						refresh_handle ();
-						finished (true);
-						progress_dialog.spawn_in_term ({"echo", dgettext (null, "Transaction successfully finished") + ".\n"});
-						if (progress_dialog.expander.get_expanded ()) {
-							progress_dialog.action_label.set_text (dgettext (null, "Transaction successfully finished"));
-							progress_dialog.cancel_button.set_visible (false);
-							progress_dialog.close_button.set_visible (true);
-						} else {
-							progress_dialog.hide ();
-						}
-						while (Gtk.events_pending ()) {
-							Gtk.main_iteration ();
-						}
+						unowned string action = dgettext (null, "Transaction successfully finished");
+						progress_dialog.spawn_in_term ({"echo", action + ".\n"});
+						progress_dialog.action_label.set_text (action);
+						database_modified = true;
+						finish_transaction ();
 					}
 				}
 			} else {
 				// if it is an authentication error, database was not modified
 				var err = get_current_error ();
 				if (err.message == dgettext (null, "Authentication failed")) {
-					finished (false);
+					handle_error (err);
 				} else {
 					clear_lists ();
-					refresh_handle ();
-					finished (true);
+					database_modified = true;
+					handle_error (err);
 				}
-				handle_error (err);
 			}
 			total_download = 0;
 			already_downloaded = 0;
@@ -1283,21 +1288,16 @@ namespace Pamac {
 			clear_lists ();
 			// let the time to the daemon to update databases
 			Timeout.add (1000, () => {
-				refresh_handle ();
-				finished (true);
 				if (status == 0) {
-					string action = dgettext (null, "Transaction successfully finished");
+					unowned string action = dgettext (null, "Transaction successfully finished");
 					progress_dialog.spawn_in_term ({"echo", action + ".\n"});
 					progress_dialog.action_label.set_text (action);
 				} else {
 					progress_dialog.spawn_in_term ({"echo"});
 				}
 				progress_dialog.progressbar.set_fraction (1);
-				progress_dialog.cancel_button.set_visible (false);
-				progress_dialog.close_button.set_visible (true);
-				while (Gtk.events_pending ()) {
-					Gtk.main_iteration ();
-				}
+				database_modified = true;
+				finish_transaction ();
 				return false;
 			});
 		}
