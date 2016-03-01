@@ -16,7 +16,6 @@ clean:
 	cd resources && make clean
 	cd src && make clean
 	cd po && make clean
-	rm -f data/polkit/org.manjaro.pamac.policy
 
 install:
 	mkdir -p $(prefix)/share/icons/hicolor
