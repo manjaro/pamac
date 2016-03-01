@@ -25,8 +25,8 @@ int aur_compare_name (Json.Object pkg_a, Json.Object pkg_b) {
 }
 
 int aur_compare_state (Json.Object pkg_a, Json.Object pkg_b) {
-	unowned Alpm.Package? alpm_pkg_a = manager_window.transaction.alpm_config.handle.localdb.get_pkg (pkg_a.get_string_member ("Name"));
-	unowned Alpm.Package? alpm_pkg_b = manager_window.transaction.alpm_config.handle.localdb.get_pkg (pkg_b.get_string_member ("Name"));
+	unowned Alpm.Package? alpm_pkg_a = manager_window.transaction.alpm_utils.get_installed_pkg (pkg_a.get_string_member ("Name"));
+	unowned Alpm.Package? alpm_pkg_b = manager_window.transaction.alpm_utils.get_installed_pkg (pkg_b.get_string_member ("Name"));
 	if (pkg_a != null) {
 		if (pkg_b != null) {
 			return (int) (alpm_pkg_a.origin > alpm_pkg_b.origin) - (int) (alpm_pkg_a.origin < alpm_pkg_b.origin);
@@ -100,9 +100,9 @@ namespace Pamac {
 				case 1:
 					val = Value (typeof (Object));
 					if (pkg_info != null) {
-						unowned Alpm.Package? pkg = manager_window.transaction.alpm_config.handle.localdb.get_pkg (pkg_info.get_string_member ("Name"));
+						unowned Alpm.Package? pkg = manager_window.transaction.alpm_utils.get_installed_pkg (pkg_info.get_string_member ("Name"));
 						if (pkg != null) {
-							if (manager_window.transaction.alpm_config.holdpkgs.find_custom (pkg.name, strcmp) != null) {
+							if (manager_window.transaction.alpm_utils.get_holdpkgs ().find_custom (pkg.name, strcmp) != null) {
 								val.set_object (manager_window.locked_icon);
 							} else if (manager_window.transaction.to_add.contains (pkg.name)) {
 								val.set_object (manager_window.to_reinstall_icon);
@@ -121,7 +121,7 @@ namespace Pamac {
 				case 2:
 					val = Value (typeof (string));
 					if (pkg_info != null) {
-						unowned Alpm.Package? pkg = manager_window.transaction.alpm_config.handle.localdb.get_pkg (pkg_info.get_string_member ("Name"));
+						unowned Alpm.Package? pkg = manager_window.transaction.alpm_utils.get_installed_pkg (pkg_info.get_string_member ("Name"));
 						if (pkg != null) {
 							val.set_string (pkg.version);
 						} else {

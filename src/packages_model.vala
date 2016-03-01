@@ -62,7 +62,7 @@ namespace Pamac {
 					val = Value (typeof (Object));
 					if (pkg != null) {
 						if (pkg.origin == Alpm.Package.From.LOCALDB) {
-							if (manager_window.transaction.alpm_config.holdpkgs.find_custom (pkg.name, strcmp) != null) {
+							if (manager_window.transaction.alpm_utils.get_holdpkgs ().find_custom (pkg.name, strcmp) != null) {
 								val.set_object (manager_window.locked_icon);
 							} else if (manager_window.transaction.to_add.contains (pkg.name)) {
 								val.set_object (manager_window.to_reinstall_icon);
@@ -184,7 +184,7 @@ namespace Pamac {
 
 		// custom sort functions
 		public void sort_by_name (Gtk.SortType order) {
-			pkgs.sort ((Alpm.List.CompareFunc) compare_name);
+			pkgs.sort ((Alpm.List.CompareFunc) alpm_pkg_compare_name);
 			if (order == Gtk.SortType.DESCENDING) {
 				pkgs.reverse ();
 			}
@@ -199,7 +199,7 @@ namespace Pamac {
 		}
 
 		public void sort_by_state (Gtk.SortType order) {
-			pkgs.sort ((Alpm.List.CompareFunc) compare_state);
+			pkgs.sort ((Alpm.List.CompareFunc) alpm_pkg_compare_origin);
 			if (order == Gtk.SortType.DESCENDING) {
 				pkgs.reverse ();
 			}
@@ -214,7 +214,7 @@ namespace Pamac {
 		}
 
 		public void sort_by_version (Gtk.SortType order) {
-			pkgs.sort ((Alpm.List.CompareFunc) compare_version);
+			pkgs.sort ((Alpm.List.CompareFunc) alpm_pkg_compare_version);
 			if (order == Gtk.SortType.DESCENDING) {
 				pkgs.reverse ();
 			}
@@ -229,7 +229,7 @@ namespace Pamac {
 		}
 
 		public void sort_by_repo (Gtk.SortType order) {
-			pkgs.sort ((Alpm.List.CompareFunc) compare_repo);
+			pkgs.sort ((Alpm.List.CompareFunc) alpm_pkg_compare_db_name);
 			if (order == Gtk.SortType.DESCENDING) {
 				pkgs.reverse ();
 			}
@@ -244,7 +244,7 @@ namespace Pamac {
 		}
 
 		public void sort_by_size (Gtk.SortType order) {
-			pkgs.sort ((Alpm.List.CompareFunc) compare_size);
+			pkgs.sort ((Alpm.List.CompareFunc) alpm_pkg_compare_installed_size);
 			if (order == Gtk.SortType.DESCENDING) {
 				pkgs.reverse ();
 			}

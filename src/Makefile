@@ -23,6 +23,7 @@ COMMON_SOURCES = 	../util/alpm-util.c \
 					alpm_config.vala \
 
 TRANSACTION_SOURCES = 	transaction.vala \
+						alpm_utils.vala \
 						aur.vala \
 						choose_provider_dialog.vala \
 						transaction_sum_dialog.vala \
@@ -90,7 +91,7 @@ libpamac.so: ../vapi/libalpm.vapi $(COMMON_SOURCES) $(TRANSACTION_SOURCES) $(PRE
 			$(TRANSACTION_SOURCES) \
 			$(PREFERENCES_SOURCES)
 
-pamac-manager: libpamac.so choose_dep_dialog.vala history_dialog.vala transaction_info_dialog.vala ../resources/manager_resources.c ../util/alpm-util.c alpm_utils.vala packages_model.vala aur_model.vala manager_window.vala manager.vala
+pamac-manager: libpamac.so choose_dep_dialog.vala history_dialog.vala transaction_info_dialog.vala ../resources/manager_resources.c ../util/alpm-util.c packages_model.vala aur_model.vala manager_window.vala manager.vala
 	valac 	-o pamac-manager \
 			$(COMMON_VALA_FLAGS) \
 			-X -I. \
@@ -105,7 +106,6 @@ pamac-manager: libpamac.so choose_dep_dialog.vala history_dialog.vala transactio
 			../util/alpm-util.c \
 			choose_dep_dialog.vala \
 			history_dialog.vala \
-			alpm_utils.vala \
 			packages_model.vala \
 			aur_model.vala \
 			manager_window.vala \

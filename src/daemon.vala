@@ -131,7 +131,7 @@ namespace Pamac {
 		}
 
 		private void refresh_handle () {
-			alpm_config.get_handle ();
+			alpm_config.set_handle ();
 			if (alpm_config.handle == null) {
 				current_error = ErrorInfos () {
 					message = _("Failed to initialize alpm library"),

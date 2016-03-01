@@ -132,10 +132,13 @@ namespace Pamac {
 
 		public SortInfo sortinfo;
 
+		bool refreshing;
+
 		public ManagerWindow (Gtk.Application application) {
 			Object (application: application);
 
 			support_aur (false, false);
+			refreshing = false;
 
 			Timeout.add (100, populate_window);
 		}
@@ -196,7 +199,7 @@ namespace Pamac {
 			transaction.write_pamac_config_finished.connect (on_write_pamac_config_finished);
 			transaction.set_pkgreason_finished.connect (on_set_pkgreason_finished);
 
-			unowned Alpm.Package? pkg = Alpm.find_satisfier (transaction.alpm_config.handle.localdb.pkgcache, "yaourt");
+			unowned Alpm.Package? pkg = Alpm.find_satisfier (transaction.alpm_utils.get_installed_pkgs (), "yaourt");
 			if (pkg != null) {
 				support_aur (transaction.pamac_config.enable_aur, transaction.pamac_config.search_aur);
 			}
@@ -219,7 +222,7 @@ namespace Pamac {
 			if (recurse) {
 				transaction.flags |= Alpm.TransFlag.RECURSE;
 			}
-			unowned Alpm.Package? pkg = Alpm.find_satisfier (transaction.alpm_config.handle.localdb.pkgcache, "yaourt");
+			unowned Alpm.Package? pkg = Alpm.find_satisfier (transaction.alpm_utils.get_installed_pkgs (), "yaourt");
 			if (pkg != null) {
 				support_aur (enable_aur, search_aur);
 			}
@@ -246,115 +249,6 @@ namespace Pamac {
 			cancel_button.set_sensitive (sensitive);
 		}
 
-		async Alpm.List<unowned Alpm.Package?> search_all_dbs (string search_string) {
-			var syncpkgs = new Alpm.List<unowned Alpm.Package?> ();
-			var needles = new Alpm.List<unowned string> ();
-			string[] splitted = search_string.split (" ");
-			foreach (unowned string part in splitted) {
-				needles.add (part);
-			}
-			var result = transaction.alpm_config.handle.localdb.search (needles);
-			foreach (var db in transaction.alpm_config.handle.syncdbs) {
-				if (syncpkgs.length == 0) {
-					syncpkgs = db.search (needles);
-				} else {
-					syncpkgs.join (db.search (needles).diff (syncpkgs, (Alpm.List.CompareFunc) compare_name));
-				}
-			}
-			result.join (syncpkgs.diff (result, (Alpm.List.CompareFunc) compare_name));
-			//result.sort ((Alpm.List.CompareFunc) compare_name);
-			return result;
-		}
-
-		async Alpm.List<unowned Alpm.Package?> get_group_pkgs (string grp_name) {
-			var result = new Alpm.List<unowned Alpm.Package?> ();
-			unowned Alpm.Group? grp = transaction.alpm_config.handle.localdb.get_group (grp_name);
-			if (grp != null) {
-				foreach (var pkg in grp.packages) {
-					result.add (pkg);
-				}
-			}
-			result.join (Alpm.find_group_pkgs (transaction.alpm_config.handle.syncdbs, grp_name).diff (result, (Alpm.List.CompareFunc) compare_name));
-			//result.sort ((Alpm.List.CompareFunc) compare_name);
-			return result;
-		}
-
-		async Alpm.List<unowned Alpm.Package?> get_installed_pkgs () {
-			return transaction.alpm_config.handle.localdb.pkgcache.copy ();
-		}
-
-		async Alpm.List<unowned Alpm.Package?> get_orphans () {
-			var result = new Alpm.List<unowned Alpm.Package?> ();
-			foreach (var pkg in transaction.alpm_config.handle.localdb.pkgcache) {
-				if (pkg.reason == Alpm.Package.Reason.DEPEND) {
-					Alpm.List<string?> requiredby = pkg.compute_requiredby ();
-					if (requiredby.length == 0) {
-						Alpm.List<string?> optionalfor = pkg.compute_optionalfor ();
-						if (optionalfor.length == 0) {
-							result.add (pkg);
-						}
-						optionalfor.free_data ();
-					}
-					requiredby.free_data ();
-				}
-			}
-			return result;
-		}
-
-		async Alpm.List<unowned Alpm.Package?> get_local_pkgs () {
-			var result = new Alpm.List<unowned Alpm.Package?> ();
-			foreach (var pkg in transaction.alpm_config.handle.localdb.pkgcache) {
-				if (get_sync_pkg (pkg.name) == null) {
-					result.add (pkg);
-				}
-			}
-			return result;
-		}
-
-		async Alpm.List<unowned Alpm.Package?> get_repo_pkgs (string reponame) {
-			var result = new Alpm.List<unowned Alpm.Package?> ();
-			foreach (var db in transaction.alpm_config.handle.syncdbs) {
-				if (db.name == reponame) {
-					foreach (var sync_pkg in db.pkgcache) {
-						unowned Alpm.Package?local_pkg = transaction.alpm_config.handle.localdb.get_pkg (sync_pkg.name);
-						if (local_pkg != null) {
-							result.add (local_pkg);
-						} else {
-							result.add (sync_pkg);
-						}
-					}
-				}
-			}
-			return result;
-		}
-
-//~ 		async Alpm.List<unowned Alpm.Package?> get_all_pkgs () {
-//~ 			var syncpkgs = new Alpm.List<unowned Alpm.Package?> ();
-//~ 			var result = new Alpm.List<unowned Alpm.Package?> ();
-//~ 			result = transaction.alpm_config.handle.localdb.pkgcache.copy ();
-//~ 			foreach (var db in transaction.alpm_config.handle.syncdbs) {
-//~ 				if (syncpkgs.length == 0)
-//~ 					syncpkgs = db.pkgcache.copy ();
-//~ 				else {
-//~ 					syncpkgs.join (db.pkgcache.diff (syncpkgs, (Alpm.List.CompareFunc) compare_name));
-//~ 				}
-//~ 			}
-//~ 			result.join (syncpkgs.diff (result, (Alpm.List.CompareFunc) compare_name));
-//~ 			//result.sort ((Alpm.List.CompareFunc) compare_name);
-//~ 			return result;
-//~ 		}
-
-		unowned Alpm.Package? get_sync_pkg (string pkgname) {
-			unowned Alpm.Package? pkg = null;
-			foreach (var db in transaction.alpm_config.handle.syncdbs) {
-				pkg = db.get_pkg (pkgname);
-				if (pkg != null) {
-					break;
-				}
-			}
-			return pkg;
-		}
-
 		void show_default_pkgs () {
 			this.get_window ().set_cursor (new Gdk.Cursor.for_display (Gdk.Display.get_default (), Gdk.CursorType.WATCH));
 			get_installed_pkgs.begin ((obj, res) => {
@@ -369,7 +263,7 @@ namespace Pamac {
 			selection = repos_treeview.get_selection ();
 			selection.changed.disconnect (on_repos_treeview_selection_changed);
 			var groups_names = new GLib.List<string> ();
-			foreach (var db in transaction.alpm_config.handle.syncdbs) {
+			foreach (var db in transaction.alpm_utils.get_syncdbs ()) {
 				repos_list.insert_with_values (out iter, -1, 0, db.name);
 				foreach (var group in db.groupcache) {
 					if (groups_names.find_custom (group.name, strcmp) == null) {
@@ -384,7 +278,7 @@ namespace Pamac {
 
 			selection = groups_treeview.get_selection ();
 			selection.changed.disconnect (on_groups_treeview_selection_changed);
-			foreach (var group in transaction.alpm_config.handle.localdb.groupcache) {
+			foreach (var group in transaction.alpm_utils.get_localdb ().groupcache) {
 				if (groups_names.find_custom (group.name, strcmp) == null) {
 					groups_names.append (group.name);
 				}
@@ -481,7 +375,7 @@ namespace Pamac {
 				list = deps;
 				string optdep_str = list.data.compute_string ();
 				var optdep = new StringBuilder (optdep_str);
-				if (Alpm.find_satisfier (transaction.alpm_config.handle.localdb.pkgcache, optdep_str) != null) {
+				if (Alpm.find_satisfier (transaction.alpm_utils.get_installed_pkgs (), optdep_str) != null) {
 					optdep.append (" [");
 					optdep.append (dgettext (null, "Installed"));
 					optdep.append ("]");
@@ -492,7 +386,7 @@ namespace Pamac {
 				for (list = list.next (); list != null; list = list.next ()) {
 					optdep_str = list.data.compute_string ();
 					optdep = new StringBuilder (optdep_str);
-					if (Alpm.find_satisfier (transaction.alpm_config.handle.localdb.pkgcache, optdep_str) != null) {
+					if (Alpm.find_satisfier (transaction.alpm_utils.get_installed_pkgs (), optdep_str) != null) {
 						optdep.append (" [");
 						optdep.append (dgettext (null, "Installed"));
 						optdep.append ("]");
@@ -620,7 +514,7 @@ namespace Pamac {
 				deps = node.get_array ();
 				string optdep_str = deps.get_string_element (0);
 				var optdep = new StringBuilder (optdep_str);
-				if (Alpm.find_satisfier (transaction.alpm_config.handle.localdb.pkgcache, optdep_str) != null) {
+				if (Alpm.find_satisfier (transaction.alpm_utils.get_installed_pkgs (), optdep_str) != null) {
 					optdep.append (" [");
 					optdep.append (dgettext (null, "Installed"));
 					optdep.append ("]");
@@ -633,7 +527,7 @@ namespace Pamac {
 				while (i < length) {
 					optdep_str = deps.get_string_element (i);
 					optdep = new StringBuilder (optdep_str);
-					if (Alpm.find_satisfier (transaction.alpm_config.handle.localdb.pkgcache, optdep_str.split (": ", 2)[0]) != null) {
+					if (Alpm.find_satisfier (transaction.alpm_utils.get_installed_pkgs (), optdep_str.split (": ", 2)[0]) != null) {
 						optdep.append (" [");
 						optdep.append (dgettext (null, "Installed"));
 						optdep.append ("]");
@@ -984,7 +878,7 @@ namespace Pamac {
 					if (pkg_info == null) {
 						return;
 					}
-					unowned Alpm.Package? pkg = transaction.alpm_config.handle.localdb.get_pkg (pkg_info.get_string_member ("Name"));
+					unowned Alpm.Package? pkg = transaction.alpm_utils.get_installed_pkg (pkg_info.get_string_member ("Name"));
 					if (pkg == null) {
 						files_scrolledwindow.visible = false;
 						switch (properties_notebook.get_current_page ()) {
@@ -1050,7 +944,7 @@ namespace Pamac {
 				} else if (transaction.to_remove.remove (pkg.name)) {
 				} else {
 					if (pkg.origin == Alpm.Package.From.LOCALDB) {
-						if (transaction.alpm_config.holdpkgs.find_custom (pkg.name, strcmp) == null) {
+						if (transaction.alpm_utils.get_holdpkgs ().find_custom (pkg.name, strcmp) == null) {
 							transaction.to_remove.add (pkg.name);
 						}
 					} else {
@@ -1071,10 +965,10 @@ namespace Pamac {
 		void on_aur_treeview_row_activated (Gtk.TreeView treeview, Gtk.TreePath path, Gtk.TreeViewColumn column) {
 			unowned Json.Object? pkg_info = aur_list.get_pkg_at_path (path);
 			if (pkg_info != null) {
-				unowned Alpm.Package? pkg = transaction.alpm_config.handle.localdb.get_pkg (pkg_info.get_string_member ("Name"));
+				unowned Alpm.Package? pkg = transaction.alpm_utils.get_installed_pkg (pkg_info.get_string_member ("Name"));
 				if (pkg != null) {
 					if (pkg.origin == Alpm.Package.From.LOCALDB) {
-						if (transaction.alpm_config.holdpkgs.find_custom (pkg.name, strcmp) == null) {
+						if (transaction.alpm_utils.get_holdpkgs ().find_custom (pkg.name, strcmp) == null) {
 							transaction.to_remove.add (pkg.name);
 						}
 					}
@@ -1121,7 +1015,7 @@ namespace Pamac {
 		void on_remove_item_activate () {
 			foreach (var pkg in selected_pkgs) {
 				transaction.to_add.remove (pkg.name);
-				if (transaction.alpm_config.holdpkgs.find_custom (pkg.name, strcmp) == null) {
+				if (transaction.alpm_utils.get_holdpkgs ().find_custom (pkg.name, strcmp) == null) {
 					if (pkg.origin == Alpm.Package.From.LOCALDB) {
 						transaction.to_remove.add (pkg.name);
 					}
@@ -1156,7 +1050,7 @@ namespace Pamac {
 				Gtk.TreeIter iter;
 				int length = 0;
 				foreach (var optdep in pkg.optdepends) {
-					if (Alpm.find_satisfier (transaction.alpm_config.handle.localdb.pkgcache, optdep.name) == null) {
+					if (Alpm.find_satisfier (transaction.alpm_utils.get_installed_pkgs (), optdep.name) == null) {
 						length++;
 						choose_dep_dialog.deps_list.insert_with_values (out iter, -1,
 											0, false,
@@ -1175,7 +1069,7 @@ namespace Pamac {
 						if ((bool) val) {
 							// get value at column 1 to get the pkg name
 							choose_dep_dialog.deps_list.get_value (iter, 1, out val);
-							unowned Alpm.Package? sync_pkg = get_sync_pkg ((string) val);
+							unowned Alpm.Package? sync_pkg = transaction.alpm_utils.get_sync_pkg ((string) val);
 							if (sync_pkg != null) {
 								transaction.to_add.add (sync_pkg.name);
 							}
@@ -1289,7 +1183,7 @@ namespace Pamac {
 					clicked_pkg = selected_pkgs.data;
 					if (clicked_pkg.origin == Alpm.Package.From.LOCALDB) {
 						foreach (var optdep in clicked_pkg.optdepends) {
-							if (Alpm.find_satisfier (transaction.alpm_config.handle.localdb.pkgcache, optdep.name) == null) {
+							if (Alpm.find_satisfier (transaction.alpm_utils.get_installed_pkgs (), optdep.name) == null) {
 								install_optional_deps_item.set_sensitive (true);
 								break;
 							}
@@ -1297,7 +1191,7 @@ namespace Pamac {
 						if (clicked_pkg.reason == Alpm.Package.Reason.DEPEND) {
 							explicitly_installed_item.set_sensitive (true);
 						}
-						unowned Alpm.Package? find_pkg = get_sync_pkg (clicked_pkg.name);
+						unowned Alpm.Package? find_pkg = transaction.alpm_utils.get_sync_pkg (clicked_pkg.name);
 						if (find_pkg != null) {
 							if (Alpm.pkg_vercmp (find_pkg.version, clicked_pkg.version) == 0) {
 								reinstall_item.set_sensitive (true);
@@ -1339,7 +1233,7 @@ namespace Pamac {
 				selected_pkgs = new Alpm.List<unowned Alpm.Package?> ();
 				selected_aur = new GLib.List<unowned Json.Object> ();
 				foreach (unowned Gtk.TreePath path in selected_paths) {
-					unowned Alpm.Package? pkg = transaction.alpm_config.handle.localdb.get_pkg (clicked_pkg_info.get_string_member ("Name"));
+					unowned Alpm.Package? pkg = transaction.alpm_utils.get_installed_pkg (clicked_pkg_info.get_string_member ("Name"));
 					if (pkg != null) {
 						selected_pkgs.add (pkg);
 						// there is for sure a pkg to remove
@@ -1573,6 +1467,30 @@ namespace Pamac {
 			on_search_entry_activate ();
 		}
 
+		async Alpm.List<unowned Alpm.Package?> search_all_dbs (string search_string) {
+			return transaction.alpm_utils.search_all_dbs (search_string);
+		}
+
+		async Alpm.List<unowned Alpm.Package?> get_group_pkgs (string group_name) {
+			return transaction.alpm_utils.get_group_pkgs (group_name);
+		}
+
+		async Alpm.List<unowned Alpm.Package?> get_installed_pkgs () {
+			return transaction.alpm_utils.get_installed_pkgs ();
+		}
+
+		async Alpm.List<unowned Alpm.Package?> get_orphans () {
+			return transaction.alpm_utils.get_orphans ();
+		}
+
+		async Alpm.List<unowned Alpm.Package?> get_local_pkgs () {
+			return transaction.alpm_utils.get_local_pkgs ();
+		}
+
+		async Alpm.List<unowned Alpm.Package?> get_repo_pkgs (string repo_name) {
+			return transaction.alpm_utils.get_repo_pkgs (repo_name);
+		}
+
 		[GtkCallback]
 		void on_search_treeview_selection_changed () {
 			Gtk.TreeModel model;
@@ -1644,9 +1562,9 @@ namespace Pamac {
 				if (state == dgettext (null, "To install")) {
 					var pkgs = new Alpm.List<unowned Alpm.Package?> ();
 					foreach (unowned string pkgname in transaction.to_add) {
-						unowned Alpm.Package? pkg = transaction.alpm_config.handle.localdb.get_pkg (pkgname);
+						unowned Alpm.Package? pkg = transaction.alpm_utils.get_installed_pkg (pkgname);
 						if (pkg == null) {
-							pkg = get_sync_pkg (pkgname);
+							pkg = transaction.alpm_utils.get_sync_pkg (pkgname);
 						}
 						if (pkg != null) {
 							pkgs.add (pkg);
@@ -1656,7 +1574,7 @@ namespace Pamac {
 				} else if (state == dgettext (null, "To remove")) {
 					var pkgs = new Alpm.List<unowned Alpm.Package?> ();
 					foreach (unowned string pkgname in transaction.to_remove) {
-						unowned Alpm.Package? pkg = transaction.alpm_config.handle.localdb.get_pkg (pkgname);
+						unowned Alpm.Package? pkg = transaction.alpm_utils.get_installed_pkg (pkgname);
 						if (pkg != null) {
 							pkgs.add (pkg);
 						}
@@ -1815,17 +1733,20 @@ namespace Pamac {
 		[GtkCallback]
 		void on_refresh_button_clicked () {
 			this.get_window ().set_cursor (new Gdk.Cursor.for_display (Gdk.Display.get_default (), Gdk.CursorType.WATCH));
+			refreshing = true;
 			transaction.start_refresh (false);
 		}
 
-		void on_transaction_finished (bool database_modified) {
-			if (database_modified) {
-				set_buttons_sensitive (false);
-				refresh_packages_list ();
-			} else {
-				this.get_window ().set_cursor (null);
-			}
+		void on_transaction_finished (bool success) {
+			set_buttons_sensitive (false);
+			refresh_packages_list ();
 			transaction.to_load.remove_all ();
+			if (refreshing) {
+				if (success) {
+					transaction.sysupgrade (false);
+				}
+				refreshing = false;
+			}
 		}
 	}
 }

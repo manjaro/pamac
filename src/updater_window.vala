@@ -69,8 +69,7 @@ namespace Pamac {
 
 			transaction = new Transaction (this as Gtk.ApplicationWindow);
 			transaction.mode = Mode.UPDATER;
-			transaction.finished.connect (on_transaction_finished);
-
+			transaction.finished.connect (populate_updates_list);
 			transaction.get_updates_finished.connect (on_get_updates_finished);
 
 			on_refresh_button_clicked ();
@@ -157,14 +156,6 @@ namespace Pamac {
 		[GtkCallback]
 		void on_close_button_clicked () {
 			this.application.quit ();
-		}
-
-		void on_transaction_finished (bool database_modified) {
-			if (database_modified) {
-				populate_updates_list ();
-			} else {
-				this.get_window ().set_cursor (null);
-			}
 		}
 
 		void populate_updates_list () {

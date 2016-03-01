@@ -84,7 +84,7 @@ namespace Pamac {
 
 		Daemon daemon;
 
-		public AlpmConfig alpm_config;
+		public AlpmUtils alpm_utils;
 		public Pamac.Config pamac_config;
 
 		public Alpm.TransFlag flags;
@@ -113,6 +113,7 @@ namespace Pamac {
 		uint64 rates_nb;
 		Timer timer;
 		bool database_modified;
+		bool success;
 
 		//dialogs
 		TransactionSumDialog transaction_sum_dialog;
@@ -121,7 +122,7 @@ namespace Pamac {
 		//parent window
 		public Gtk.ApplicationWindow? application_window;
 
-		public signal void finished (bool database_modified);
+		public signal void finished (bool success);
 		public signal void set_pkgreason_finished ();
 		public signal void get_updates_finished (Updates updates);
 		public signal void write_pamac_config_finished (bool recurse, uint64 refresh_period, bool no_update_hide_icon,
@@ -131,8 +132,7 @@ namespace Pamac {
 		public signal void write_mirrors_config_finished (string choosen_country, string choosen_generation_method);
 
 		public Transaction (Gtk.ApplicationWindow? application_window) {
-			alpm_config = new AlpmConfig ("/etc/pacman.conf");
-			refresh_handle ();
+			alpm_utils = new AlpmUtils ("/etc/pacman.conf");
 			pamac_config = new Pamac.Config ("/etc/pamac.conf");
 			flags = Alpm.TransFlag.CASCADE;
 			if (pamac_config.recurse) {
@@ -162,6 +162,7 @@ namespace Pamac {
 			sysupgrade_after_trans = false;
 			timer = new Timer ();
 			database_modified = false;
+			success = false;
 		}
 
 		public async void run_preferences_dialog () {
@@ -180,13 +181,6 @@ namespace Pamac {
 			start_get_authorization ();
 			yield;
 			daemon.disconnect (handler_id);
-		}
-
-		public void refresh_handle () {
-			alpm_config.get_handle ();
-			if (alpm_config.handle == null) {
-				stderr.printf (dgettext (null, "Failed to initialize alpm library"));
-			}
 		}
 
 		public ErrorInfos get_current_error () {
@@ -280,15 +274,29 @@ namespace Pamac {
 				stderr.printf ("IOError: %s\n", e.message);
 				daemon.refresh_finished.disconnect (on_refresh_finished);
 				database_modified = true;
+				success = false;
 				finish_transaction ();
 			}
 		}
 
 		public void start_get_updates () {
+			daemon.get_updates_finished.connect (on_get_updates_finished);
 			try {
 				daemon.start_get_updates (pamac_config.enable_aur && pamac_config.check_aur_updates);
 			} catch (IOError e) {
 				stderr.printf ("IOError: %s\n", e.message);
+				success = false;
+				finish_transaction ();
+			}
+		}
+
+		void start_get_updates_for_sysupgrade () {
+			daemon.get_updates_finished.connect (on_get_updates_for_sysupgrade_finished);
+			try {
+				daemon.start_get_updates (pamac_config.enable_aur && pamac_config.check_aur_updates);
+			} catch (IOError e) {
+				stderr.printf ("IOError: %s\n", e.message);
+				success = false;
 				finish_transaction ();
 			}
 		}
@@ -325,7 +333,7 @@ namespace Pamac {
 		void sysupgrade_simple (bool enable_downgrade) {
 			progress_dialog.progressbar.set_fraction (0);
 			progress_dialog.cancel_button.set_visible (true);
-			bool success = init (0);
+			success = init (0);
 			if (success) {
 				try {
 					success = daemon.trans_sysupgrade (enable_downgrade);
@@ -343,6 +351,7 @@ namespace Pamac {
 					} catch (IOError e) {
 						stderr.printf ("IOError: %s\n", e.message);
 						release ();
+						success = false;
 						finish_transaction ();
 					}
 				} else {
@@ -366,12 +375,16 @@ namespace Pamac {
 			while (Gtk.events_pending ()) {
 				Gtk.main_iteration ();
 			}
-			// sysupgrade
-			daemon.get_updates_finished.connect (on_get_updates_finished);
-			start_get_updates ();
+			start_get_updates_for_sysupgrade ();
 		}
 
 		void on_get_updates_finished (Updates updates) {
+			daemon.get_updates_finished.disconnect (on_get_updates_finished);
+			get_updates_finished (updates);
+		}
+
+		void on_get_updates_for_sysupgrade_finished (Updates updates) {
+			daemon.get_updates_finished.disconnect (on_get_updates_for_sysupgrade_finished);
 			// get syncfirst updates
 			if (updates.is_syncfirst) {
 				clear_lists ();
@@ -402,8 +415,6 @@ namespace Pamac {
 					on_trans_prepare_finished (true);
 				}
 			}
-			daemon.get_updates_finished.disconnect (on_get_updates_finished);
-			get_updates_finished (updates);
 		}
 
 		public void clear_lists () {
@@ -432,7 +443,7 @@ namespace Pamac {
 				// there only AUR packages to build so no need to prepare transaction
 				on_trans_prepare_finished (true);
 			} else {
-				bool success = false;
+				success = false;
 				try {
 					success = daemon.trans_init (flags);
 				} catch (IOError e) {
@@ -476,6 +487,7 @@ namespace Pamac {
 						} catch (IOError e) {
 							stderr.printf ("IOError: %s\n", e.message);
 							release ();
+							success = false;
 							finish_transaction ();
 						}
 					} else {
@@ -647,6 +659,7 @@ namespace Pamac {
 			} catch (IOError e) {
 				stderr.printf ("IOError: %s\n", e.message);
 				database_modified = true;
+				success = false;
 				finish_transaction ();
 			}
 		}
@@ -1150,31 +1163,23 @@ namespace Pamac {
 
 		void finish_transaction () {
 			if (database_modified) {
-				refresh_handle ();
+				alpm_utils.reload ();
+				database_modified = false;
 			}
 			if (progress_dialog.expander.get_expanded ()) {
 				progress_dialog.cancel_button.set_visible (false);
 				progress_dialog.close_button.set_visible (true);
 			} else {
-				finished (database_modified);
-				progress_dialog.hide ();
-				while (Gtk.events_pending ()) {
-					Gtk.main_iteration ();
-				}
+				on_progress_dialog_close_button_clicked ();
 			}
-			database_modified = false;
 		}
 
 		void on_refresh_finished (bool success) {
 			database_modified = true;
+			this.success = success;
+			clear_lists ();
 			if (success) {
-				if (mode == Mode.UPDATER) {
-					finish_transaction ();
-				} else {
-					refresh_handle ();
-					clear_lists ();
-					sysupgrade (false);
-				}
+				finish_transaction ();
 			} else {
 				handle_error (get_current_error ());
 			}
@@ -1183,11 +1188,12 @@ namespace Pamac {
 		}
 
 		void on_progress_dialog_close_button_clicked () {
-			finished (database_modified);
+			finished (success);
 			progress_dialog.hide ();
 			while (Gtk.events_pending ()) {
 				Gtk.main_iteration ();
 			}
+			success = false;
 		}
 
 		void on_progress_dialog_cancel_button_clicked () {
@@ -1201,6 +1207,7 @@ namespace Pamac {
 		}
 
 		void on_trans_prepare_finished (bool success) {
+			this.success = success;
 			if (success) {
 				show_warnings ();
 				Type type = set_transaction_sum ();
@@ -1228,6 +1235,7 @@ namespace Pamac {
 						release ();
 						//to_build.remove_all ();
 						sysupgrade_after_trans = false;
+						success = false;
 						finish_transaction ();
 					}
 				} else {
@@ -1245,6 +1253,7 @@ namespace Pamac {
 		}
 
 		void on_trans_commit_finished (bool success) {
+			this.success = success;
 			if (success) {
 				if (to_build.length != 0) {
 					if (to_add.length != 0
@@ -1270,13 +1279,11 @@ namespace Pamac {
 			} else {
 				// if it is an authentication error, database was not modified
 				var err = get_current_error ();
-				if (err.message == dgettext (null, "Authentication failed")) {
-					handle_error (err);
-				} else {
+				if (err.message != dgettext (null, "Authentication failed")) {
 					clear_lists ();
 					database_modified = true;
-					handle_error (err);
 				}
+				handle_error (err);
 			}
 			total_download = 0;
 			already_downloaded = 0;
@@ -1289,21 +1296,25 @@ namespace Pamac {
 			// let the time to the daemon to update databases
 			Timeout.add (1000, () => {
 				if (status == 0) {
+					success = true;
 					unowned string action = dgettext (null, "Transaction successfully finished");
 					progress_dialog.spawn_in_term ({"echo", action + ".\n"});
 					progress_dialog.action_label.set_text (action);
 				} else {
+					success = false;
 					progress_dialog.spawn_in_term ({"echo"});
 				}
 				progress_dialog.progressbar.set_fraction (1);
-				database_modified = true;
-				finish_transaction ();
+				alpm_utils.reload ();
+				database_modified = false;
+				progress_dialog.cancel_button.set_visible (false);
+				progress_dialog.close_button.set_visible (true);
 				return false;
 			});
 		}
 
 		void on_set_pkgreason_finished () {
-			refresh_handle ();
+			alpm_utils.reload ();
 			set_pkgreason_finished ();
 		}
 
@@ -1317,7 +1328,7 @@ namespace Pamac {
 		}
 
 		void on_write_alpm_config_finished (bool checkspace) {
-			alpm_config.reload ();
+			alpm_utils.reload ();
 			write_alpm_config_finished (checkspace);
 		}
 
