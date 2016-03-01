@@ -134,8 +134,7 @@ namespace Pamac {
 			alpm_config.set_handle ();
 			if (alpm_config.handle == null) {
 				current_error = ErrorInfos () {
-					message = _("Failed to initialize alpm library"),
-					details = {}
+					message = _("Failed to initialize alpm library")
 				};
 				trans_commit_finished (false);
 			} else {
@@ -347,8 +346,10 @@ namespace Pamac {
 			// We should always succeed if at least one DB was upgraded - we may possibly
 			// fail later with unresolved deps, but that should be rare, and would be expected
 			if (success == 0) {
+				Alpm.Errno errno = alpm_config.handle.errno ();
+				current_error.errno = (uint) errno;
 				current_error.message = _("Failed to synchronize any databases");
-				current_error.details = { Alpm.strerror (alpm_config.handle.errno ()) };
+				current_error.details = { Alpm.strerror (errno) };
 				refresh_finished (false);
 			} else {
 				refresh_finished (true);
@@ -465,8 +466,10 @@ namespace Pamac {
 			current_error = ErrorInfos ();
 			cancellable.reset ();
 			if (alpm_config.handle.trans_init (transflags) == -1) {
+				Alpm.Errno errno = alpm_config.handle.errno ();
+				current_error.errno = (uint) errno;
 				current_error.message = _("Failed to init transaction");
-				current_error.details = { Alpm.strerror (alpm_config.handle.errno ()) };
+				current_error.details = { Alpm.strerror (errno) };
 				return false;
 			} else {
 				intern_lock = true;
@@ -477,8 +480,10 @@ namespace Pamac {
 		public bool trans_sysupgrade (bool enable_downgrade) {
 			current_error = ErrorInfos ();
 			if (alpm_config.handle.trans_sysupgrade ((enable_downgrade) ? 1 : 0) == -1) {
+				Alpm.Errno errno = alpm_config.handle.errno ();
+				current_error.errno = (uint) errno;
 				current_error.message = _("Failed to prepare transaction");
-				current_error.details = { Alpm.strerror (alpm_config.handle.errno ()) };
+				current_error.details = { Alpm.strerror (errno) };
 				return false;
 			}
 			return true;
@@ -492,6 +497,7 @@ namespace Pamac {
 					// just skip duplicate or ignored targets
 					return true;
 				} else {
+					current_error.errno = (uint) errno;
 					current_error.message = _("Failed to prepare transaction");
 					current_error.details = { "%s: %s".printf (pkg.name, Alpm.strerror (errno)) };
 					return false;
@@ -569,12 +575,16 @@ namespace Pamac {
 			current_error = ErrorInfos ();
 			Alpm.Package* pkg = alpm_config.handle.load_file (pkgpath, 1, alpm_config.handle.localfilesiglevel);
 			if (pkg == null) {
+				Alpm.Errno errno = alpm_config.handle.errno ();
+				current_error.errno = (uint) errno;
 				current_error.message = _("Failed to prepare transaction");
-				current_error.details = { "%s: %s".printf (pkgpath, Alpm.strerror (alpm_config.handle.errno ())) };
+				current_error.details = { "%s: %s".printf (pkgpath, Alpm.strerror (errno)) };
 				return false;
 			} else if (alpm_config.handle.trans_add_pkg (pkg) == -1) {
+				Alpm.Errno errno = alpm_config.handle.errno ();
+				current_error.errno = (uint) errno;
 				current_error.message = _("Failed to prepare transaction");
-				current_error.details = { "%s: %s".printf (pkg->name, Alpm.strerror (alpm_config.handle.errno ())) };
+				current_error.details = { "%s: %s".printf (pkg->name, Alpm.strerror (errno)) };
 				// free the package because it will not be used
 				delete pkg;
 				return false;
@@ -590,8 +600,10 @@ namespace Pamac {
 				current_error.details = { _("target not found: %s").printf (pkgname) };
 				return false;
 			} else if (alpm_config.handle.trans_remove_pkg (pkg) == -1) {
+				Alpm.Errno errno = alpm_config.handle.errno ();
+				current_error.errno = (uint) errno;
 				current_error.message = _("Failed to prepare transaction");
-				current_error.details = { "%s: %s".printf (pkg.name, Alpm.strerror (alpm_config.handle.errno ())) };
+				current_error.details = { "%s: %s".printf (pkg.name, Alpm.strerror (errno)) };
 				return false;
 			}
 			return true;
@@ -603,6 +615,7 @@ namespace Pamac {
 			Alpm.List<void*> err_data;
 			if (alpm_config.handle.trans_prepare (out err_data) == -1) {
 				Alpm.Errno errno = alpm_config.handle.errno ();
+				current_error.errno = (uint) errno;
 				current_error.message = _("Failed to prepare transaction");
 				string detail = Alpm.strerror (errno);
 				switch (errno) {
@@ -723,6 +736,7 @@ namespace Pamac {
 					trans_commit_finished (false);
 					return;
 				}
+				current_error.errno = (uint) errno;
 				current_error.message = _("Failed to commit transaction");
 				string detail = Alpm.strerror (errno);
 				string[] details = {};
@@ -782,8 +796,7 @@ namespace Pamac {
 					}
 				} else {
 					current_error = ErrorInfos () {
-						message = _("Authentication failed"),
-						details = {}
+						message = _("Authentication failed")
 					};
 					trans_release ();
 					refresh_handle ();

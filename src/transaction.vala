@@ -1122,7 +1122,9 @@ namespace Pamac {
 		}
 
 		void handle_error (ErrorInfos error) {
-			if (error.message != null && error.message != "") {
+			if (error.message != "") {
+				progress_dialog.action_label.set_text ("");
+				progress_dialog.progressbar.set_fraction (0);
 				progress_dialog.expander.set_expanded (true);
 				progress_dialog.spawn_in_term ({"echo", "-n", error.message});
 				Gtk.TextIter start_iter;
@@ -1152,7 +1154,6 @@ namespace Pamac {
 				transaction_info_dialog.textbuffer.get_start_iter (out start_iter);
 				transaction_info_dialog.textbuffer.get_end_iter (out end_iter);
 				transaction_info_dialog.textbuffer.delete (ref start_iter, ref end_iter);
-				progress_dialog.progressbar.set_fraction (0);
 				progress_dialog.spawn_in_term ({"echo"});
 				while (Gtk.events_pending ()) {
 					Gtk.main_iteration ();
@@ -1277,9 +1278,10 @@ namespace Pamac {
 					}
 				}
 			} else {
-				// if it is an authentication error, database was not modified
+				// if it is an authentication or a download error, database was not modified
 				var err = get_current_error ();
-				if (err.message != dgettext (null, "Authentication failed")) {
+				if (err.message != dgettext (null, "Authentication failed")
+					&& err.errno != Alpm.Errno.EXTERNAL_DOWNLOAD) {
 					clear_lists ();
 					database_modified = true;
 				}

@@ -1738,7 +1738,12 @@ namespace Pamac {
 		}
 
 		void on_transaction_finished (bool success) {
-			set_buttons_sensitive (false);
+			if (transaction.to_add.length == 0
+					&& transaction.to_remove.length == 0
+					&& transaction.to_load.length == 0
+					&& transaction.to_build.length == 0) {
+				set_buttons_sensitive (false);
+			}
 			refresh_packages_list ();
 			transaction.to_load.remove_all ();
 			if (refreshing) {

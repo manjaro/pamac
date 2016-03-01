@@ -32,11 +32,11 @@ namespace Pamac {
 	}
 
 	public struct ErrorInfos {
+		public uint errno;
 		public string message;
 		public string[] details;
 		public ErrorInfos () {
 			message = "";
-			details = {};
 		}
 	}
 }
