@@ -134,6 +134,8 @@ namespace Pamac {
 
 		bool refreshing;
 
+		uint search_entry_timeout_id;
+
 		public ManagerWindow (Gtk.Application application) {
 			Object (application: application);
 
@@ -1462,9 +1464,20 @@ namespace Pamac {
 			}
 		}
 
-		[GtkCallback]
-		void  on_search_entry_icon_press () {
+		bool search_entry_timeout_callback () {
 			on_search_entry_activate ();
+			search_entry_timeout_id = 0;
+			return false;
+		}
+
+		[GtkCallback]
+		void on_search_entry_changed () {
+			if (search_entry.get_text () != "") {
+				if (search_entry_timeout_id != 0) {
+					Source.remove (search_entry_timeout_id);
+				}
+				search_entry_timeout_id = Timeout.add (750, search_entry_timeout_callback);
+			}
 		}
 
 		async Alpm.List<unowned Alpm.Package?> search_all_dbs (string search_string) {

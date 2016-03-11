@@ -189,7 +189,7 @@
                         <property name="caps_lock_warning">False</property>
                         <property name="primary_icon_name">edit-find-symbolic</property>
                         <signal name="activate" handler="on_search_entry_activate" swapped="no"/>
-                        <signal name="icon-press" handler="on_search_entry_icon_press" swapped="no"/>
+                        <signal name="changed" handler="on_search_entry_changed" swapped="no"/>
                       </object>
                       <packing>
                         <property name="expand">False</property>
