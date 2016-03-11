@@ -331,7 +331,7 @@ namespace Pamac {
 			desc_label.set_markup (Markup.escape_text (node.get_string ()));
 			string url = "";
 			node = all_infos.get_member ("URL");
-			if (node != null) {
+			if (!node.is_null ()) {
 				url = Markup.escape_text (node.get_string ());
 			}
 			string aur_url = "http://aur.archlinux.org/packages/" + name;
