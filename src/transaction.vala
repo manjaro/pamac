@@ -1176,12 +1176,18 @@ namespace Pamac {
 		}
 
 		void on_refresh_finished (bool success) {
-			database_modified = true;
 			this.success = success;
 			clear_lists ();
 			if (success) {
-				finish_transaction ();
+				// database is modified
+				alpm_utils.reload ();
+				finished (success);
+				if (mode == Mode.UPDATER) {
+					progress_dialog.hide ();
+				}
+				success = false;
 			} else {
+				database_modified = true;
 				handle_error (get_current_error ());
 			}
 			previous_filename = "";
