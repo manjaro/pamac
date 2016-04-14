@@ -5,6 +5,7 @@
     <file preprocess="xml-stripblanks">history_dialog.ui</file>
     <file preprocess="xml-stripblanks">choose_dep_dialog.ui</file>
     <file preprocess="to-pixdata">package-available.png</file>
+    <file preprocess="to-pixdata">package-available-locked.png</file>
     <file preprocess="to-pixdata">package-install.png</file>
     <file preprocess="to-pixdata">package-installed-locked.png</file>
     <file preprocess="to-pixdata">package-installed-updated.png</file>

@@ -18,43 +18,48 @@
  */
 
 namespace Pamac {
-	[Compact]
-	public class Config {
-		public string conf_path;
-		public bool recurse;
-		public uint64 refresh_period;
-		public bool no_update_hide_icon;
-		public bool enable_aur;
-		public bool search_aur;
-		public bool check_aur_updates;
-		public bool no_confirm_build;
-		public HashTable<string,string> environment_variables;
+	class Config {
+		string conf_path;
+		HashTable<string,string> _environment_variables;
+
+		public bool recurse { get; private set; }
+		public uint64 refresh_period { get; private set; }
+		public bool no_update_hide_icon { get; private set; }
+		public bool enable_aur { get; private set; }
+		public bool search_aur { get; private set; }
+		public bool check_aur_updates { get; private set; }
+		public bool no_confirm_build { get; private set; }
+		public unowned HashTable<string,string> environment_variables {
+			get {
+				return _environment_variables;
+			}
+		}
 
 		public Config (string path) {
 			conf_path = path;
 			//get environment variables
-			environment_variables = new HashTable<string,string> (str_hash, str_equal);
+			_environment_variables = new HashTable<string,string> (str_hash, str_equal);
 			var utsname = Posix.utsname();
-			environment_variables.insert ("HTTP_USER_AGENT", "pamac (%s %s)".printf (utsname.sysname, utsname.machine));
+			_environment_variables.insert ("HTTP_USER_AGENT", "pamac (%s %s)".printf (utsname.sysname, utsname.machine));
 			unowned string? variable = Environment.get_variable ("http_proxy");
 			if (variable != null) {
-				environment_variables.insert ("http_proxy", variable);
+				_environment_variables.insert ("http_proxy", variable);
 			}
 			variable = Environment.get_variable ("https_proxy");
 			if (variable != null) {
-				environment_variables.insert ("https_proxy", variable);
+				_environment_variables.insert ("https_proxy", variable);
 			}
 			variable = Environment.get_variable ("ftp_proxy");
 			if (variable != null) {
-				environment_variables.insert ("ftp_proxy", variable);
+				_environment_variables.insert ("ftp_proxy", variable);
 			}
 			variable = Environment.get_variable ("socks_proxy");
 			if (variable != null) {
-				environment_variables.insert ("socks_proxy", variable);
+				_environment_variables.insert ("socks_proxy", variable);
 			}
 			variable = Environment.get_variable ("no_proxy");
 			if (variable != null) {
-				environment_variables.insert ("no_proxy", variable);
+				_environment_variables.insert ("no_proxy", variable);
 			}
 			// set default option
 			refresh_period = 6;
@@ -72,7 +77,7 @@ namespace Pamac {
 			parse_file (conf_path);
 		}
 
-		public void parse_file (string path) {
+		void parse_file (string path) {
 			var file = GLib.File.new_for_path (path);
 			if (file.query_exists ()) {
 				try {

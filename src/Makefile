@@ -1,30 +1,30 @@
 
-COMMON_VALA_FLAGS = 	-X -w \
-						--pkg=libalpm \
+ALPM_VALA_FLAGS = 		--pkg=libalpm \
 						--pkg=gio-2.0 \
-						--pkg=posix \
-						--vapidir=./ \
 						--vapidir=../vapi \
-						-X -I../util \
-						-X -D_FILE_OFFSET_BITS=64 \
+						-X -D_FILE_OFFSET_BITS=64
+
+COMMON_VALA_FLAGS = 	-X -w \
+						--pkg=posix \
 						-X -DGETTEXT_PACKAGE="pamac" \
 						--target-glib=2.38
 
-TRANSACTION_VALA_FLAGS = 	--pkg=json-glib-1.0 \
-							--pkg=libsoup-2.4 \
-							--pkg=gtk+-3.0 \
+TRANSACTION_VALA_FLAGS = 	--pkg=gtk+-3.0 \
 							--pkg=gdk-3.0 \
 							--pkg=vte-2.91 \
 							-X -lm
 
-COMMON_SOURCES = 	../util/alpm-util.c \
-					common.vala \
-					pamac_config.vala \
-					alpm_config.vala \
+PAMAC_LIB_FLAGS = 	-X -I. \
+					-X -L. \
+					-X -lpamac \
+					--vapidir=./ \
+					--pkg=pamac \
 
-TRANSACTION_SOURCES = 	transaction.vala \
-						alpm_utils.vala \
-						aur.vala \
+COMMON_SOURCES = 	common.vala \
+					pamac_config.vala
+
+TRANSACTION_SOURCES = 	package.vala \
+						transaction.vala \
 						choose_provider_dialog.vala \
 						transaction_sum_dialog.vala \
 						transaction_info_dialog.vala \
@@ -42,7 +42,7 @@ UPDATER_GRESOURCE_FILE = ../resources/pamac.updater.gresource.xml
 
 INSTALLER_GRESOURCE_FILE = ../resources/pamac.installer.gresource.xml
 
-binaries: pamac-refresh pamac-daemon pamac-tray libpamac.so pamac-updater pamac-manager pamac-install
+binaries: pamac-refresh pamac-daemon pamac-tray pamac-updater pamac-manager pamac-install
 
 clean:
 	rm -f *.c pamac.h pamac.vapi libpamac.so pamac-refresh pamac-daemon pamac-tray pamac-updater pamac-manager pamac-install
@@ -55,7 +55,7 @@ pamac-refresh: pamac_config.vala refresh.vala
 			pamac_config.vala \
 			refresh.vala
 
-pamac-tray: ../vapi/libalpm.vapi $(COMMON_SOURCES) tray.vala
+pamac-tray: $(COMMON_SOURCES) alpm_config.vala tray.vala
 	valac 	-o pamac-tray \
 			$(COMMON_VALA_FLAGS) \
 			--pkg=gtk+-3.0 \
@@ -63,20 +63,23 @@ pamac-tray: ../vapi/libalpm.vapi $(COMMON_SOURCES) tray.vala
 			$(COMMON_SOURCES) \
 			tray.vala
 
-pamac-daemon: ../vapi/libalpm.vapi ../vapi/polkit-gobject-1.vapi ../vapi/libcurl.vapi $(COMMON_SOURCES) aur.vala mirrors_config.vala daemon.vala
+pamac-daemon: ../vapi/libalpm.vapi ../vapi/polkit-gobject-1.vapi ../vapi/libcurl.vapi alpm_config.vala $(COMMON_SOURCES) package.vala aur.vala mirrors_config.vala daemon.vala
 	valac 	-o pamac-daemon \
 			$(COMMON_VALA_FLAGS) \
+			$(ALPM_VALA_FLAGS) \
 			--pkg=polkit-gobject-1 \
 			--pkg=libcurl \
 			--pkg=json-glib-1.0 \
 			--pkg=libsoup-2.4 \
 			--thread \
+			alpm_config.vala \
 			$(COMMON_SOURCES) \
+			package.vala \
 			aur.vala \
 			mirrors_config.vala \
 			daemon.vala
 
-libpamac.so: ../vapi/libalpm.vapi $(COMMON_SOURCES) $(TRANSACTION_SOURCES) $(PREFERENCES_SOURCES) ../resources/transaction_resources.c
+libpamac.so: $(COMMON_SOURCES) $(TRANSACTION_SOURCES) $(PREFERENCES_SOURCES) ../resources/transaction_resources.c
 	valac	-o libpamac.so \
 			-X -fPIC \
 			-X --shared \
@@ -91,33 +94,24 @@ libpamac.so: ../vapi/libalpm.vapi $(COMMON_SOURCES) $(TRANSACTION_SOURCES) $(PRE
 			$(TRANSACTION_SOURCES) \
 			$(PREFERENCES_SOURCES)
 
-pamac-manager: libpamac.so choose_dep_dialog.vala history_dialog.vala transaction_info_dialog.vala ../resources/manager_resources.c ../util/alpm-util.c packages_model.vala aur_model.vala manager_window.vala manager.vala
+pamac-manager: libpamac.so choose_dep_dialog.vala history_dialog.vala transaction_info_dialog.vala ../resources/manager_resources.c manager_window.vala manager.vala
 	valac 	-o pamac-manager \
 			$(COMMON_VALA_FLAGS) \
-			-X -I. \
-			-X -L. \
-			-X -lpamac \
-			--pkg=pamac \
+			$(PAMAC_LIB_FLAGS) \
 			--pkg=json-glib-1.0 \
 			--pkg=gtk+-3.0 \
 			--pkg=gdk-3.0 \
 			--gresources=$(MANAGER_GRESOURCE_FILE) \
 			../resources/manager_resources.c \
-			../util/alpm-util.c \
 			choose_dep_dialog.vala \
 			history_dialog.vala \
-			packages_model.vala \
-			aur_model.vala \
 			manager_window.vala \
 			manager.vala
 
 pamac-updater: libpamac.so ../resources/updater_resources.c updater_window.vala updater.vala
 	valac 	-o pamac-updater \
 			$(COMMON_VALA_FLAGS) \
-			-X -I. \
-			-X -L. \
-			-X -lpamac \
-			--pkg=pamac \
+			$(PAMAC_LIB_FLAGS) \
 			--pkg=json-glib-1.0 \
 			--pkg=gtk+-3.0 \
 			--pkg=gdk-3.0 \
@@ -129,10 +123,7 @@ pamac-updater: libpamac.so ../resources/updater_resources.c updater_window.vala 
 pamac-install: libpamac.so installer.vala
 	valac 	-o pamac-install \
 			$(COMMON_VALA_FLAGS) \
-			-X -I. \
-			-X -L. \
-			-X -lpamac \
-			--pkg=pamac \
+			$(PAMAC_LIB_FLAGS) \
 			--pkg=json-glib-1.0 \
 			--pkg=gtk+-3.0 \
 			installer.vala

@@ -36,10 +36,15 @@ public class AlpmAction {
 	}
 }
 
+private int alpm_pkg_compare_name (Alpm.Package pkg_a, Alpm.Package pkg_b) {
+	return strcmp (pkg_a.name, pkg_b.name);
+}
+
 namespace Pamac {
 	[DBus (name = "org.manjaro.pamac")]
 	public class Daemon: Object {
 		private AlpmConfig alpm_config;
+		private Alpm.Handle? alpm_handle;
 		public Cond provider_cond;
 		public Mutex provider_mutex;
 		public int? choosen_provider;
@@ -47,6 +52,8 @@ namespace Pamac {
 		private ThreadPool<AlpmAction> thread_pool;
 		private Mutex databases_lock_mutex;
 		private Json.Array aur_updates_results;
+		private HashTable<string, Json.Array> aur_search_results;
+		private HashTable<string, Json.Object> aur_infos;
 		private bool intern_lock;
 		private bool extern_lock;
 		private GLib.File lockfile;
@@ -54,6 +61,7 @@ namespace Pamac {
 		public Timer timer;
 		public Cancellable cancellable;
 		public Curl.Easy curl;
+		private GLib.List<string> aur_dep_list;
 
 		public signal void emit_event (uint primary_event, uint secondary_event, string[] details);
 		public signal void emit_providers (string depend, string[] providers);
@@ -79,6 +87,8 @@ namespace Pamac {
 			alpm_config = new AlpmConfig ("/etc/pacman.conf");
 			databases_lock_mutex = Mutex ();
 			aur_updates_results = new Json.Array ();
+			aur_search_results = new HashTable<string, Json.Array> (str_hash, str_equal);
+			aur_infos = new HashTable<string, Json.Object> (str_hash, str_equal);
 			timer = new Timer ();
 			intern_lock = false;
 			extern_lock = false;
@@ -131,20 +141,20 @@ namespace Pamac {
 		}
 
 		private void refresh_handle () {
-			alpm_config.set_handle ();
-			if (alpm_config.handle == null) {
+			alpm_handle = alpm_config.get_handle ();
+			if (alpm_handle == null) {
 				current_error = ErrorInfos () {
 					message = _("Failed to initialize alpm library")
 				};
 				trans_commit_finished (false);
 			} else {
-				alpm_config.handle.eventcb = (Alpm.EventCallBack) cb_event;
-				alpm_config.handle.progresscb = (Alpm.ProgressCallBack) cb_progress;
-				alpm_config.handle.questioncb = (Alpm.QuestionCallBack) cb_question;
-				alpm_config.handle.fetchcb = (Alpm.FetchCallBack) cb_fetch;
-				alpm_config.handle.totaldlcb = (Alpm.TotalDownloadCallBack) cb_totaldownload;
-				alpm_config.handle.logcb = (Alpm.LogCallBack) cb_log;
-				lockfile = GLib.File.new_for_path (alpm_config.handle.lockfile);
+				alpm_handle.eventcb = (Alpm.EventCallBack) cb_event;
+				alpm_handle.progresscb = (Alpm.ProgressCallBack) cb_progress;
+				alpm_handle.questioncb = (Alpm.QuestionCallBack) cb_question;
+				alpm_handle.fetchcb = (Alpm.FetchCallBack) cb_fetch;
+				alpm_handle.totaldlcb = (Alpm.TotalDownloadCallBack) cb_totaldownload;
+				alpm_handle.logcb = (Alpm.LogCallBack) cb_log;
+				lockfile = GLib.File.new_for_path (alpm_handle.lockfile);
 			}
 		}
 
@@ -201,8 +211,8 @@ namespace Pamac {
 		}
 
 		public void start_write_pamac_config (HashTable<string,Variant> new_pamac_conf, GLib.BusName sender) {
-			var pamac_config = new Pamac.Config ("/etc/pamac.conf");
 			check_authorization.begin (sender, (obj, res) => {
+				var pamac_config = new Pamac.Config ("/etc/pamac.conf");
 				bool authorized = check_authorization.end (res);
 				if (authorized ) {
 					pamac_config.write (new_pamac_conf);
@@ -222,7 +232,7 @@ namespace Pamac {
 					alpm_config.reload ();
 					refresh_handle ();
 				}
-				write_alpm_config_finished ((alpm_config.checkspace == 1));
+				write_alpm_config_finished ((alpm_handle.checkspace == 1));
 			});
 		}
 
@@ -271,7 +281,6 @@ namespace Pamac {
 				ChildWatch.add (child_pid, (pid, status) => {
 					// Triggered when the child indicated by child_pid exits
 					Process.close_pid (pid);
-					alpm_config.reload ();
 					refresh_handle ();
 					generate_mirrors_list_finished ();
 				});
@@ -297,7 +306,7 @@ namespace Pamac {
 			check_authorization.begin (sender, (obj, res) => {
 				bool authorized = check_authorization.end (res);
 				if (authorized) {
-					unowned Alpm.Package? pkg = alpm_config.handle.localdb.get_pkg (pkgname);
+					unowned Alpm.Package? pkg = alpm_handle.localdb.get_pkg (pkgname);
 					if (pkg != null) {
 						pkg.reason = (Alpm.Package.Reason) reason;
 						refresh_handle ();
@@ -307,31 +316,15 @@ namespace Pamac {
 			});
 		}
 
-		public PackageInfos get_installed_pkg (string pkgname) {
-			unowned Alpm.Package? pkg = alpm_config.handle.localdb.get_pkg (pkgname);
-			if (pkg == null) {
-				return PackageInfos () {
-					name = "",
-					version = "",
-					db_name = "",
-					download_size = 0
-				};
-			}
-			return PackageInfos () {
-				name = pkg.name,
-				version = pkg.version,
-				db_name = pkg.db.name,
-				download_size = pkg.download_size
-			};
-		}
-
 		private void refresh () {
 			intern_lock = true;
 			current_error = ErrorInfos ();
 			int force = (force_refresh) ? 1 : 0;
 			uint success = 0;
 			cancellable.reset ();
-			foreach (var db in alpm_config.handle.syncdbs) {
+			unowned Alpm.List<unowned Alpm.DB> syncdbs = alpm_handle.syncdbs;
+			while (syncdbs != null) {
+				unowned Alpm.DB db = syncdbs.data;
 				if (cancellable.is_cancelled ()) {
 					refresh_handle ();
 					refresh_finished (false);
@@ -341,12 +334,13 @@ namespace Pamac {
 				if (db.update (force) >= 0) {
 					success++;
 				}
+				syncdbs.next ();
 			}
 			refresh_handle ();
 			// We should always succeed if at least one DB was upgraded - we may possibly
 			// fail later with unresolved deps, but that should be rare, and would be expected
 			if (success == 0) {
-				Alpm.Errno errno = alpm_config.handle.errno ();
+				Alpm.Errno errno = alpm_handle.errno ();
 				current_error.errno = (uint) errno;
 				current_error.message = _("Failed to synchronize any databases");
 				current_error.details = { Alpm.strerror (errno) };
@@ -366,27 +360,767 @@ namespace Pamac {
 			}
 		}
 
+		public bool get_checkspace () {
+			return alpm_handle.checkspace == 1 ? true : false;
+		}
+
+		public string get_lockfile () {
+			return alpm_handle.lockfile;
+		}
+
+		public string[] get_ignorepkgs () {
+			string[] result = {};
+			unowned Alpm.List<unowned string> ignorepkgs = alpm_handle.ignorepkgs;
+			while (ignorepkgs != null) {
+				unowned string ignorepkg = ignorepkgs.data;
+				result += ignorepkg;
+				ignorepkgs.next ();
+			}
+			return result;
+		}
+
 		public void add_ignorepkg (string pkgname) {
-			alpm_config.handle.add_ignorepkg (pkgname);
+			alpm_handle.add_ignorepkg (pkgname);
 		}
 
 		public void remove_ignorepkg (string pkgname) {
-			alpm_config.handle.remove_ignorepkg (pkgname);
+			alpm_handle.remove_ignorepkg (pkgname);
+		}
+
+		public bool should_hold (string pkgname) {
+			if (alpm_config.get_holdpkgs ().find_custom (pkgname, strcmp) != null) {
+				return true;
+			}
+			return false;
+		}
+
+		public uint get_pkg_reason (string pkgname) {
+			unowned Alpm.Package? pkg = alpm_handle.localdb.get_pkg (pkgname);
+			if (pkg != null) {
+				return pkg.reason;
+			}
+			return 0;
+		}
+
+		public uint get_pkg_origin (string pkgname) {
+			unowned Alpm.Package? pkg = alpm_handle.localdb.get_pkg (pkgname);
+			if (pkg != null) {
+				return pkg.origin;
+			} else {
+				pkg = get_syncpkg (pkgname);
+				if (pkg != null) {
+					return pkg.origin;
+				}
+			}
+			return 0;
+		}
+
+		private AlpmPackage initialise_pkg_struct (Alpm.Package? alpm_pkg) {
+			if (alpm_pkg != null) {
+				string repo_name = "";
+				if (alpm_pkg.origin == Alpm.Package.From.LOCALDB) {
+					unowned Alpm.Package? sync_pkg = get_syncpkg (alpm_pkg.name);
+					if (sync_pkg != null) {
+						repo_name = sync_pkg.db.name;
+					}
+				} else if (alpm_pkg.origin == Alpm.Package.From.SYNCDB) {
+					repo_name = alpm_pkg.db.name;
+				}
+				return AlpmPackage () {
+					name = alpm_pkg.name,
+					version = alpm_pkg.version,
+					// desc can be null
+					desc = alpm_pkg.desc != null ? Markup.escape_text (alpm_pkg.desc) : "",
+					repo = (owned) repo_name,
+					size = alpm_pkg.isize,
+					origin = (uint) alpm_pkg.origin
+				};
+			} else {
+				return AlpmPackage () {
+					name = "",
+					version = "",
+					desc = "",
+					repo = ""
+				};
+			}
+		}
+
+		public async AlpmPackage[] get_installed_pkgs () {
+			AlpmPackage[] pkgs = {};
+			unowned Alpm.List<unowned Alpm.Package> pkgcache = alpm_handle.localdb.pkgcache;
+			while (pkgcache != null) {
+				unowned Alpm.Package alpm_pkg = pkgcache.data;
+				pkgs += initialise_pkg_struct (alpm_pkg);
+				pkgcache.next ();
+			}
+			return pkgs;
+		}
+
+		public async AlpmPackage[] get_foreign_pkgs () {
+			AlpmPackage[] pkgs = {};
+			unowned Alpm.List<unowned Alpm.Package> pkgcache = alpm_handle.localdb.pkgcache;
+			while (pkgcache != null) {
+				unowned Alpm.Package alpm_pkg = pkgcache.data;
+				bool sync_found = false;
+				unowned Alpm.List<unowned Alpm.DB> syncdbs = alpm_handle.syncdbs;
+				while (syncdbs != null) {
+					unowned Alpm.DB db = syncdbs.data;
+					unowned Alpm.Package? sync_pkg = db.get_pkg (alpm_pkg.name);
+					if (sync_pkg != null) {
+						sync_found = true;
+						break;
+					}
+					syncdbs.next ();
+				}
+				if (sync_found == false) {
+					pkgs += initialise_pkg_struct (alpm_pkg);
+				}
+				pkgcache.next ();
+			}
+			return pkgs;
+		}
+
+		public async AlpmPackage[] get_orphans () {
+			AlpmPackage[] pkgs = {};
+			unowned Alpm.List<unowned Alpm.Package> pkgcache = alpm_handle.localdb.pkgcache;
+			while (pkgcache != null) {
+				unowned Alpm.Package alpm_pkg = pkgcache.data;
+				if (alpm_pkg.reason == Alpm.Package.Reason.DEPEND) {
+					Alpm.List<string> requiredby = alpm_pkg.compute_requiredby ();
+					if (requiredby.length == 0) {
+						Alpm.List<string> optionalfor = alpm_pkg.compute_optionalfor ();
+						if (optionalfor.length == 0) {
+							pkgs += initialise_pkg_struct (alpm_pkg);
+						} else {
+							optionalfor.free_inner (GLib.free);
+						}
+					} else {
+						requiredby.free_inner (GLib.free);
+					}
+				}
+				pkgcache.next ();
+			}
+			return pkgs;
+		}
+
+		public AlpmPackage get_installed_pkg (string pkgname) {
+			return initialise_pkg_struct (alpm_handle.localdb.get_pkg (pkgname));
+		}
+
+		public AlpmPackage find_installed_satisfier (string depstring) {
+			return initialise_pkg_struct (Alpm.find_satisfier (alpm_handle.localdb.pkgcache, depstring));
+		}
+
+		private unowned Alpm.Package? get_syncpkg (string name) {
+			unowned Alpm.Package? pkg = null;
+			unowned Alpm.List<unowned Alpm.DB> syncdbs = alpm_handle.syncdbs;
+			while (syncdbs != null) {
+				unowned Alpm.DB db = syncdbs.data;
+				pkg = db.get_pkg (name);
+				if (pkg != null) {
+					break;
+				}
+				syncdbs.next ();
+			}
+			return pkg;
+		}
+
+		public AlpmPackage get_sync_pkg (string pkgname) {
+			return initialise_pkg_struct (get_syncpkg (pkgname));
+		}
+
+		public AlpmPackage find_sync_satisfier (string depstring) {
+			return initialise_pkg_struct (alpm_handle.find_dbs_satisfier (alpm_handle.syncdbs, depstring));
+		}
+
+		private Alpm.List<unowned Alpm.Package> search_all_dbs (string search_string) {
+			Alpm.List<unowned string> needles = null;
+			string[] splitted = search_string.split (" ");
+			foreach (unowned string part in splitted) {
+				needles.add (part);
+			}
+			Alpm.List<unowned Alpm.Package> result = alpm_handle.localdb.search (needles);
+			Alpm.List<unowned Alpm.Package> syncpkgs = null;
+			unowned Alpm.List<unowned Alpm.DB> syncdbs = alpm_handle.syncdbs;
+			while (syncdbs != null) {
+				unowned Alpm.DB db = syncdbs.data;
+				if (syncpkgs.length == 0) {
+					syncpkgs = db.search (needles);
+				} else {
+					syncpkgs.join (db.search (needles).diff (syncpkgs, (Alpm.List.CompareFunc) alpm_pkg_compare_name));
+				}
+				syncdbs.next ();
+			}
+			result.join (syncpkgs.diff (result, (Alpm.List.CompareFunc) alpm_pkg_compare_name));
+			//result.sort ((Alpm.List.CompareFunc) alpm_pkg_compare_name);
+			return result;
+		}
+
+		public async AlpmPackage[] search_pkgs (string search_string) {
+			AlpmPackage[] result = {};
+			Alpm.List<unowned Alpm.Package> alpm_pkgs = search_all_dbs (search_string);
+			unowned Alpm.List<unowned Alpm.Package> list = alpm_pkgs;
+			while (list != null) {
+				unowned Alpm.Package alpm_pkg = list.data;
+				result += initialise_pkg_struct (alpm_pkg);
+				list.next ();
+			}
+			return result;
+		}
+
+		AURPackage initialise_aur_struct (Json.Object json_object) {
+			return AURPackage () {
+				name = json_object.get_string_member ("Name"),
+				version = json_object.get_string_member ("Version"),
+				// desc can be null
+				desc = json_object.get_null_member ("Description") ? "" : Markup.escape_text (json_object.get_string_member ("Description")),
+				popularity = json_object.get_double_member ("Popularity")
+			};
+		}
+
+		public async AURPackage[] search_in_aur (string search_string) {
+			if (!aur_search_results.contains (search_string)) {
+				Json.Array pkgs = yield AUR.search (search_string.split (" "));
+				aur_search_results.insert (search_string, pkgs);
+			}
+			AURPackage[] result = {};
+			Json.Array aur_pkgs = aur_search_results.get (search_string);
+			aur_pkgs.foreach_element ((array, index, node) => {
+				Json.Object aur_pkg = node.get_object ();
+				// remove results which exist in repos
+				if (get_syncpkg (aur_pkg.get_string_member ("Name")) == null) {
+					result += initialise_aur_struct (node.get_object ());
+				}
+			});
+			return result;
+		}
+
+		public async AURPackageDetails get_aur_details (string pkgname) {
+			string name = "";
+			string version = "";
+			string desc = "";
+			double popularity = 0;
+			string packagebase = "";
+			string url = "";
+			string maintainer = "";
+			int64 firstsubmitted = 0;
+			int64 lastmodified = 0;
+			int64 outofdate = 0;
+			int64 numvotes = 0;
+			string[] licenses = {};
+			string[] depends = {};
+			string[] makedepends = {};
+			string[] checkdepends = {};
+			string[] optdepends = {};
+			string[] provides = {};
+			string[] replaces = {};
+			string[] conflicts = {};
+			var details = AURPackageDetails ();
+			if (!aur_infos.contains (pkgname)) {
+				Json.Array results = yield AUR.multiinfo ({pkgname});
+				if (results.get_length () > 0) {
+					aur_infos.insert (pkgname, results.get_object_element (0));
+				}
+			}
+			unowned Json.Object? json_object = aur_infos.lookup (pkgname);
+			if (json_object != null) {
+				// name
+				name = json_object.get_string_member ("Name");
+				// version
+				version = json_object.get_string_member ("Version");
+				// desc can be null
+				if (!json_object.get_null_member ("Description")) {
+					desc = Markup.escape_text (json_object.get_string_member ("Description"));
+				}
+				popularity = json_object.get_double_member ("Popularity");
+				// packagebase
+				packagebase = json_object.get_string_member ("PackageBase");
+				// url can be null
+				unowned Json.Node? node = json_object.get_member ("URL");
+				if (!node.is_null ()) {
+					url = Markup.escape_text (node.get_string ());
+				}
+				// maintainer can be null
+				node = json_object.get_member ("Maintainer");
+				if (!node.is_null ()) {
+					maintainer = node.get_string ();
+				}
+				// firstsubmitted
+				firstsubmitted = json_object.get_int_member ("FirstSubmitted");
+				// lastmodified
+				lastmodified = json_object.get_int_member ("LastModified");
+				// outofdate can be null
+				node = json_object.get_member ("OutOfDate");
+				if (!node.is_null ()) {
+					outofdate = node.get_int ();
+				}
+				//numvotes
+				numvotes = json_object.get_int_member ("NumVotes");
+				// licenses
+				node = json_object.get_member ("License");
+				if (!node.is_null ()) {
+					node.get_array ().foreach_element ((array, index, _node) => {
+						licenses += _node.get_string ();
+					});
+				} else {
+					licenses += _("Unknown");
+				}
+				// depends
+				node = json_object.get_member ("Depends");
+				if (node != null) {
+					node.get_array ().foreach_element ((array, index, _node) => {
+						depends += _node.get_string ();
+					});
+				}
+				// optdepends
+				node = json_object.get_member ("OptDepends");
+				if (node != null) {
+					node.get_array ().foreach_element ((array, index, _node) => {
+						optdepends += _node.get_string ();
+					});
+				}
+				// makedepends
+				node = json_object.get_member ("MakeDepends");
+				if (node != null) {
+					node.get_array ().foreach_element ((array, index, _node) => {
+						makedepends += _node.get_string ();
+					});
+				}
+				// checkdepends
+				node = json_object.get_member ("CheckDepends");
+				if (node != null) {
+					node.get_array ().foreach_element ((array, index, _node) => {
+						checkdepends += _node.get_string ();
+					});
+				}
+				// provides
+				node = json_object.get_member ("Provides");
+				if (node != null) {
+					node.get_array ().foreach_element ((array, index, _node) => {
+						provides += _node.get_string ();
+					});
+				}
+				// replaces
+				node = json_object.get_member ("Replaces");
+				if (node != null) {
+					node.get_array ().foreach_element ((array, index, _node) => {
+						replaces += _node.get_string ();
+					});
+				}
+				// conflicts
+				node = json_object.get_member ("Conflicts");
+				if (node != null) {
+					node.get_array ().foreach_element ((array, index, _node) => {
+						conflicts += _node.get_string ();
+					});
+				}
+			}
+			details.name = (owned) name;
+			details.version = (owned) version ;
+			details.desc = (owned) desc;
+			details.popularity = popularity;
+			details.packagebase = (owned) packagebase;
+			details.url = (owned) url;
+			details.maintainer = (owned) maintainer ;
+			details.firstsubmitted = firstsubmitted;
+			details.lastmodified = lastmodified;
+			details.outofdate = outofdate;
+			details.numvotes = numvotes;
+			details.licenses = (owned) licenses;
+			details.depends = (owned) depends;
+			details.optdepends = (owned) optdepends;
+			details.checkdepends = (owned) checkdepends;
+			details.makedepends = (owned) makedepends;
+			details.provides = (owned) provides;
+			details.replaces = (owned) replaces;
+			details.conflicts = (owned) conflicts;
+			return details;
+		}
+
+		public async string[] get_aur_build_list (string pkgname) {
+			string[] results = {};
+			aur_dep_list = new GLib.List<string> ();
+			bool success = yield set_aur_dep_list (pkgname);
+			if (success) {
+				foreach (unowned string name in aur_dep_list) {
+					results += name;
+				}
+			}
+			return results;
+		}
+
+		private async bool set_aur_dep_list (string pkgname) {
+			bool success = false;
+			Json.Array results = yield AUR.multiinfo ({pkgname});
+			Json.Object json_object = results.get_object_element (0);
+			if (json_object != null) {
+				success = true;
+				// add aur pkg to global list or move it to the end of the list;
+				unowned GLib.List<string> element = aur_dep_list.find_custom (pkgname, strcmp);
+				if (element == null) {
+					aur_dep_list.append (pkgname);
+				} else {
+					aur_dep_list.delete_link (element);
+					aur_dep_list.append (pkgname);
+				}
+				unowned Json.Node? node = json_object.get_member ("MakeDepends");
+				if (node != null) {
+					GLib.List<unowned Json.Node> list = node.get_array ().get_elements ();
+					foreach (unowned Json.Node? _node in list) {
+						unowned string depstring = _node.get_string ();
+						if (Alpm.find_satisfier (alpm_handle.localdb.pkgcache, depstring) == null) {
+							if (alpm_handle.find_dbs_satisfier (alpm_handle.syncdbs, depstring) == null) {
+								success = yield set_aur_dep_list (depstring);
+							}
+						}
+						if (!success) {
+							break;
+						}
+					}
+				}
+				if (success) {
+					node = json_object.get_member ("Depends");
+					if (node != null) {
+						GLib.List<unowned Json.Node> list = node.get_array ().get_elements ();
+						foreach (unowned Json.Node? _node in list) {
+							unowned string depstring = _node.get_string ();
+							if (Alpm.find_satisfier (alpm_handle.localdb.pkgcache, depstring) == null) {
+								if (alpm_handle.find_dbs_satisfier (alpm_handle.syncdbs, depstring) == null) {
+									success = yield set_aur_dep_list (depstring);
+								}
+							}
+							if (!success) {
+								break;
+							}
+						}
+					}
+				}
+				if (success) {
+					node = json_object.get_member ("CheckDepends");
+					if (node != null) {
+						GLib.List<unowned Json.Node> list = node.get_array ().get_elements ();
+						foreach (unowned Json.Node? _node in list) {
+							unowned string depstring = _node.get_string ();
+							if (Alpm.find_satisfier (alpm_handle.localdb.pkgcache, depstring) == null) {
+								if (alpm_handle.find_dbs_satisfier (alpm_handle.syncdbs, depstring) == null) {
+									success = yield set_aur_dep_list (depstring);
+								}
+							}
+							if (!success) {
+								break;
+							}
+						}
+					}
+				}
+			} else {
+				stdout.printf ("can't find %s in AUR\n", pkgname);
+			}
+			return success;
+		}
+
+		public string[] get_repos_names () {
+			string[] repos_names = {};
+			unowned Alpm.List<unowned Alpm.DB> syncdbs = alpm_handle.syncdbs;
+			while (syncdbs != null) {
+				unowned Alpm.DB db = syncdbs.data;
+				repos_names += db.name;
+				syncdbs.next ();
+			}
+			return repos_names;
+		}
+
+		public async AlpmPackage[] get_repo_pkgs (string repo) {
+			AlpmPackage[] pkgs = {};
+			unowned Alpm.List<unowned Alpm.DB> syncdbs = alpm_handle.syncdbs;
+			while (syncdbs != null) {
+				unowned Alpm.DB db = syncdbs.data;
+				if (db.name == repo) {
+					unowned Alpm.List<unowned Alpm.Package> pkgcache = db.pkgcache;
+					while (pkgcache != null) {
+						unowned Alpm.Package sync_pkg = pkgcache.data;
+						unowned Alpm.Package? local_pkg = alpm_handle.localdb.get_pkg (sync_pkg.name);
+						if (local_pkg != null) {
+							pkgs += initialise_pkg_struct (local_pkg);
+						} else {
+							pkgs += initialise_pkg_struct (sync_pkg);
+						}
+						pkgcache.next ();
+					}
+					break;
+				}
+				syncdbs.next ();
+			}
+			return pkgs;
+		}
+
+		public string[] get_groups_names () {
+			string[] groups_names = {};
+			unowned Alpm.List<unowned Alpm.Group> groupcache = alpm_handle.localdb.groupcache;
+			while (groupcache != null) {
+				unowned Alpm.Group group = groupcache.data;
+				if (!(group.name in groups_names)) { 
+					groups_names += group.name;
+				}
+				groupcache.next ();
+			}
+			unowned Alpm.List<unowned Alpm.DB> syncdbs = alpm_handle.syncdbs;
+			while (syncdbs != null) {
+				unowned Alpm.DB db = syncdbs.data;
+				groupcache = db.groupcache;
+				while (groupcache != null) {
+					unowned Alpm.Group group = groupcache.data;
+					if (!(group.name in groups_names)) { 
+						groups_names += group.name;
+					}
+					groupcache.next ();
+				}
+				syncdbs.next ();
+			}
+			return groups_names;
+		}
+
+		private Alpm.List<unowned Alpm.Package> group_pkgs (string group_name) {
+			Alpm.List<unowned Alpm.Package> result = null;
+			unowned Alpm.Group? grp = alpm_handle.localdb.get_group (group_name);
+			if (grp != null) {
+				unowned Alpm.List<unowned Alpm.Package> packages = grp.packages;
+				while (packages != null) {
+					unowned Alpm.Package pkg = packages.data;
+					result.add (pkg);
+					packages.next ();
+				}
+			}
+			unowned Alpm.List<unowned Alpm.DB> syncdbs = alpm_handle.syncdbs;
+			while (syncdbs != null) {
+				unowned Alpm.DB db = syncdbs.data;
+				grp = db.get_group (group_name);
+				if (grp != null) {
+					unowned Alpm.List<unowned Alpm.Package> packages = grp.packages;
+					while (packages != null) {
+						unowned Alpm.Package pkg = packages.data;
+						if (result.find (pkg, (Alpm.List.CompareFunc) alpm_pkg_compare_name) == null) {
+							result.add (pkg);
+						}
+						packages.next ();
+					}
+				}
+				syncdbs.next ();
+			}
+			return result;
+		}
+
+		public async AlpmPackage[] get_group_pkgs (string groupname) {
+			AlpmPackage[] pkgs = {};
+			Alpm.List<unowned Alpm.Package> alpm_pkgs = group_pkgs (groupname);
+			unowned Alpm.List<unowned Alpm.Package> list = alpm_pkgs;
+			while (list != null) {
+				unowned Alpm.Package alpm_pkg = list.data;
+				pkgs += initialise_pkg_struct (alpm_pkg);
+				list.next ();
+			}
+			return pkgs;
+		}
+
+		public string[] get_pkg_uninstalled_optdeps (string pkgname) {
+			string[] optdeps = {};
+			unowned Alpm.Package? alpm_pkg = alpm_handle.localdb.get_pkg (pkgname);
+			if (alpm_pkg == null) {
+				alpm_pkg = get_syncpkg (pkgname);
+			}
+			if (alpm_pkg != null) {
+				unowned Alpm.List<unowned Alpm.Depend> optdepends = alpm_pkg.optdepends;
+				while (optdepends != null) {
+					unowned Alpm.Depend optdep = optdepends.data;
+					if (Alpm.find_satisfier (alpm_handle.localdb.pkgcache, optdep.name) == null) {
+						optdeps += optdep.compute_string ();
+					}
+					optdepends.next ();
+				}
+			}
+			return optdeps;
+		}
+
+		public AlpmPackageDetails get_pkg_details (string pkgname) {
+			string name = "";
+			string version = "";
+			string desc = "";
+			string url = "";
+			string repo = "";
+			string has_signature = "";
+			string reason = "";
+			string packager = "";
+			string builddate = "";
+			string installdate = "";
+			string[] groups = {};
+			string[] backups = {};
+			string[] files = {};
+			string[] licenses = {};
+			string[] depends = {};
+			string[] optdepends = {};
+			string[] requiredby = {};
+			string[] optionalfor = {};
+			string[] provides = {};
+			string[] replaces = {};
+			string[] conflicts = {};
+			var details = AlpmPackageDetails ();
+			unowned Alpm.Package? alpm_pkg = alpm_handle.localdb.get_pkg (pkgname);
+			if (alpm_pkg == null) {
+				alpm_pkg = get_syncpkg (pkgname);
+			}
+			if (alpm_pkg != null) {
+				// name
+				name = alpm_pkg.name;
+				// version
+				version = alpm_pkg.version;
+				// desc can be null
+				if (alpm_pkg.desc != null) {
+					desc = Markup.escape_text (alpm_pkg.desc);
+				}
+				// url can be null
+				if (alpm_pkg.url != null) {
+					url = Markup.escape_text (alpm_pkg.url);
+				}
+				// packager can be null
+				packager = alpm_pkg.packager ?? "";
+				// groups
+				unowned Alpm.List list = alpm_pkg.groups;
+				while (list != null) {
+					groups += ((Alpm.List<unowned string>) list).data;
+					list.next ();
+				}
+				// licenses
+				list = alpm_pkg.licenses;
+				while (list != null) {
+					licenses += ((Alpm.List<unowned string>) list).data;
+					list.next ();
+				}
+				// build_date
+				GLib.Time time = GLib.Time.local ((time_t) alpm_pkg.builddate);
+				builddate = time.format ("%a %d %b %Y %X %Z");
+				// local pkg
+				if (alpm_pkg.origin == Alpm.Package.From.LOCALDB) {
+					// repo
+					unowned Alpm.Package? sync_pkg = get_syncpkg (alpm_pkg.name);
+					if (sync_pkg != null) {
+						repo = sync_pkg.db.name;
+					}
+					// reason
+					if (alpm_pkg.reason == Alpm.Package.Reason.EXPLICIT) {
+						reason = _("Explicitly installed");
+					} else if (alpm_pkg.reason == Alpm.Package.Reason.DEPEND) {
+						reason = _("Installed as a dependency for another package");
+					} else {
+						reason = _("Unknown");
+					}
+					// install_date
+					time = GLib.Time.local ((time_t) alpm_pkg.installdate);
+					installdate = time.format ("%a %d %b %Y %X %Z");
+					// backups
+					list = alpm_pkg.backups;
+					while (list != null) {
+						backups += "/" + ((Alpm.List<unowned Alpm.Backup>) list).data.name;
+						list.next ();
+					}
+					// requiredby
+					Alpm.List<string> pkg_requiredby = alpm_pkg.compute_requiredby ();
+					list = pkg_requiredby;
+					while (list != null) {
+						requiredby += ((Alpm.List<unowned string>) list).data;
+						list.next ();
+					}
+					pkg_requiredby.free_inner (GLib.free);
+					// optionalfor
+					Alpm.List<string> pkg_optionalfor = alpm_pkg.compute_optionalfor ();
+					list = pkg_optionalfor;
+					while (list != null) {
+						optionalfor += ((Alpm.List<unowned string>) list).data;
+						list.next ();
+					}
+					pkg_optionalfor.free_inner (GLib.free);
+					// files
+					unowned Alpm.FileList filelist = alpm_pkg.files;
+					Alpm.File* file_ptr = filelist.files;
+					for (size_t i = 0; i < filelist.count; i++, file_ptr++) {
+						if (!file_ptr->name.has_suffix ("/")) {
+							files += "/" + file_ptr->name;
+						}
+					}
+				// sync pkg
+				} else if (alpm_pkg.origin == Alpm.Package.From.SYNCDB) {
+					// repos
+					repo = alpm_pkg.db.name;
+					// signature
+					has_signature = alpm_pkg.base64_sig != null ? _("Yes") : _("No");
+				}
+				// depends
+				list = alpm_pkg.depends;
+				while (list != null) {
+					depends += ((Alpm.List<unowned Alpm.Depend>) list).data.compute_string ();
+					list.next ();
+				}
+				// optdepends
+				list = alpm_pkg.optdepends;
+				while (list != null) {
+					optdepends += ((Alpm.List<unowned Alpm.Depend>) list).data.compute_string ();
+					list.next ();
+				}
+				// provides
+				list = alpm_pkg.provides;
+				while (list != null) {
+					provides += ((Alpm.List<unowned Alpm.Depend>) list).data.compute_string ();
+					list.next ();
+				}
+				// replaces
+				list = alpm_pkg.replaces;
+				while (list != null) {
+					replaces += ((Alpm.List<unowned Alpm.Depend>) list).data.compute_string ();
+					list.next ();
+				}
+				// conflicts
+				list = alpm_pkg.conflicts;
+				while (list != null) {
+					conflicts += ((Alpm.List<unowned Alpm.Depend>) list).data.compute_string ();
+					list.next ();
+				}
+			}
+			details.name = (owned) name;
+			details.version = (owned) version;
+			details.desc = (owned) desc;
+			details.repo = (owned) repo;
+			details.url = (owned) url;
+			details.packager = (owned) packager;
+			details.builddate = (owned) builddate;
+			details.installdate = (owned) installdate;
+			details.reason = (owned) reason;
+			details.has_signature = (owned) has_signature;
+			details.licenses = (owned) licenses;
+			details.depends = (owned) depends;
+			details.optdepends = (owned) optdepends;
+			details.requiredby = (owned) requiredby;
+			details.optionalfor = (owned) optionalfor;
+			details.provides = (owned) provides;
+			details.replaces = (owned) replaces;
+			details.conflicts = (owned) conflicts;
+			details.groups = (owned) groups;
+			details.backups = (owned) backups;
+			details.files = (owned) files;
+			return details;
 		}
 
 		public void start_get_updates (bool check_aur_updates) {
-			PackageInfos[] updates_infos = {};
+			UpdateInfos[] updates_infos = {};
 			unowned Alpm.Package? pkg = null;
 			unowned Alpm.Package? candidate = null;
-			foreach (var name in alpm_config.syncfirsts) {
-				pkg = Alpm.find_satisfier (alpm_config.handle.localdb.pkgcache, name);
+			foreach (unowned string name in alpm_config.get_syncfirsts ()) {
+				pkg = Alpm.find_satisfier (alpm_handle.localdb.pkgcache, name);
 				if (pkg != null) {
-					candidate = pkg.sync_newversion (alpm_config.handle.syncdbs);
+					candidate = pkg.sync_newversion (alpm_handle.syncdbs);
 					if (candidate != null) {
-						var infos = PackageInfos () {
+						var infos = UpdateInfos () {
 							name = candidate.name,
-							version = candidate.version,
-							db_name = candidate.db.name,
+							old_version = pkg.version,
+							new_version = candidate.version,
+							repo = candidate.db.name,
 							download_size = candidate.download_size
 						};
 						updates_infos += (owned) infos;
@@ -403,26 +1137,32 @@ namespace Pamac {
 				return;
 			} else {
 				string[] local_pkgs = {};
-				foreach (var installed_pkg in alpm_config.handle.localdb.pkgcache) {
+				unowned Alpm.List<unowned Alpm.Package> pkgcache = alpm_handle.localdb.pkgcache;
+				while (pkgcache != null) {
+					unowned Alpm.Package installed_pkg = pkgcache.data;
 					// check if installed_pkg is in IgnorePkg or IgnoreGroup
-					if (alpm_config.handle.should_ignore (installed_pkg) == 0) {
-						candidate = installed_pkg.sync_newversion (alpm_config.handle.syncdbs);
+					if (alpm_handle.should_ignore (installed_pkg) == 0) {
+						candidate = installed_pkg.sync_newversion (alpm_handle.syncdbs);
 						if (candidate != null) {
-							var infos = PackageInfos () {
+							var infos = UpdateInfos () {
 								name = candidate.name,
-								version = candidate.version,
-								db_name = candidate.db.name,
+								old_version = installed_pkg.version,
+								new_version = candidate.version,
+								repo = candidate.db.name,
 								download_size = candidate.download_size
 							};
 							updates_infos += (owned) infos;
 						} else {
-							if (check_aur_updates) {
+							if (check_aur_updates && (aur_updates_results.get_length () == 0)) {
 								// check if installed_pkg is a local pkg
-								foreach (var db in alpm_config.handle.syncdbs) {
+								unowned Alpm.List<unowned Alpm.DB> syncdbs = alpm_handle.syncdbs;
+								while (syncdbs != null) {
+									unowned Alpm.DB db = syncdbs.data;
 									pkg = Alpm.find_satisfier (db.pkgcache, installed_pkg.name);
 									if (pkg != null) {
 										break;
 									}
+									syncdbs.next ();
 								}
 								if (pkg == null) {
 									local_pkgs += installed_pkg.name;
@@ -430,43 +1170,64 @@ namespace Pamac {
 							}
 						}
 					}
+					pkgcache.next ();
 				}
-				PackageInfos[] aur_updates_infos = {};
 				if (check_aur_updates) {
 					// get aur updates
 					if (aur_updates_results.get_length () == 0) {
-						aur_updates_results = AUR.multiinfo (local_pkgs);
-					}
-					aur_updates_results.foreach_element ((array, index,node) => {
-						unowned Json.Object pkg_info = node.get_object ();
-						string version = pkg_info.get_string_member ("Version");
-						string name = pkg_info.get_string_member ("Name");
-						int cmp = Alpm.pkg_vercmp (version, alpm_config.handle.localdb.get_pkg (name).version);
-						if (cmp == 1) {
-							var infos = PackageInfos () {
-								name = name,
-								version = version,
-								db_name = "AUR",
-								download_size = 0
+						AUR.multiinfo.begin (local_pkgs, (obj, res) => {
+							aur_updates_results = AUR.multiinfo.end (res);
+							var updates = Updates () {
+								is_syncfirst = false,
+								repos_updates = (owned) updates_infos,
+								aur_updates = get_aur_updates_infos ()
 							};
-							aur_updates_infos += (owned) infos;
-						}
-					});
+							get_updates_finished (updates);
+						});
+					} else {
+						var updates = Updates () {
+							is_syncfirst = false,
+							repos_updates = (owned) updates_infos,
+							aur_updates = get_aur_updates_infos ()
+						};
+						get_updates_finished (updates);
+					}
+				} else {
+					var updates = Updates () {
+						is_syncfirst = false,
+						repos_updates = (owned) updates_infos,
+						aur_updates = {}
+					};
+					get_updates_finished (updates);
 				}
-				var updates = Updates () {
-					is_syncfirst = false,
-					repos_updates = (owned) updates_infos,
-					aur_updates = (owned) aur_updates_infos
-				};
-				get_updates_finished (updates);
 			}
+		}
+
+		private UpdateInfos[] get_aur_updates_infos () {
+			UpdateInfos[] aur_updates_infos = {};
+			aur_updates_results.foreach_element ((array, index, node) => {
+				unowned Json.Object pkg_info = node.get_object ();
+				unowned string name = pkg_info.get_string_member ("Name");
+				unowned string new_version = pkg_info.get_string_member ("Version");
+				unowned string old_version = alpm_handle.localdb.get_pkg (name).version;
+				if (Alpm.pkg_vercmp (new_version, old_version) == 1) {
+					var infos = UpdateInfos () {
+						name = name,
+						old_version = old_version,
+						new_version = new_version,
+						repo = ""
+					};
+					aur_updates_infos += (owned) infos;
+				}
+			});
+			return aur_updates_infos;
 		}
 
 		public bool trans_init (Alpm.TransFlag transflags) {
 			current_error = ErrorInfos ();
 			cancellable.reset ();
-			if (alpm_config.handle.trans_init (transflags) == -1) {
-				Alpm.Errno errno = alpm_config.handle.errno ();
+			if (alpm_handle.trans_init (transflags) == -1) {
+				Alpm.Errno errno = alpm_handle.errno ();
 				current_error.errno = (uint) errno;
 				current_error.message = _("Failed to init transaction");
 				current_error.details = { Alpm.strerror (errno) };
@@ -479,8 +1240,8 @@ namespace Pamac {
 
 		public bool trans_sysupgrade (bool enable_downgrade) {
 			current_error = ErrorInfos ();
-			if (alpm_config.handle.trans_sysupgrade ((enable_downgrade) ? 1 : 0) == -1) {
-				Alpm.Errno errno = alpm_config.handle.errno ();
+			if (alpm_handle.trans_sysupgrade ((enable_downgrade) ? 1 : 0) == -1) {
+				Alpm.Errno errno = alpm_handle.errno ();
 				current_error.errno = (uint) errno;
 				current_error.message = _("Failed to prepare transaction");
 				current_error.details = { Alpm.strerror (errno) };
@@ -491,8 +1252,8 @@ namespace Pamac {
 
 		private bool trans_add_pkg_real (Alpm.Package pkg) {
 			current_error = ErrorInfos ();
-			if (alpm_config.handle.trans_add_pkg (pkg) == -1) {
-				Alpm.Errno errno = alpm_config.handle.errno ();
+			if (alpm_handle.trans_add_pkg (pkg) == -1) {
+				Alpm.Errno errno = alpm_handle.errno ();
 				if (errno == Alpm.Errno.TRANS_DUP_TARGET || errno == Alpm.Errno.PKG_IGNORED) {
 					// just skip duplicate or ignored targets
 					return true;
@@ -506,20 +1267,9 @@ namespace Pamac {
 			return true;
 		}
 
-		private unowned Alpm.Package? get_sync_pkg (string pkgname) {
-			unowned Alpm.Package? pkg = null;
-			foreach (var db in alpm_config.handle.syncdbs) {
-				pkg = db.get_pkg (pkgname);
-				if (pkg != null) {
-					break;
-				}
-			}
-			return pkg;
-		}
-
 		public bool trans_add_pkg (string pkgname) {
 			current_error = ErrorInfos ();
-			unowned Alpm.Package? pkg = get_sync_pkg (pkgname);
+			unowned Alpm.Package? pkg = get_syncpkg (pkgname);
 			if (pkg == null) {
 				current_error.message = _("Failed to prepare transaction");
 				current_error.details = { _("target not found: %s").printf (pkgname) };
@@ -530,7 +1280,9 @@ namespace Pamac {
 					if (("linux31" in pkg.name) || ("linux4" in pkg.name)) {
 						string[] installed_kernels = {};
 						string[] installed_modules = {};
-						foreach (var local_pkg in alpm_config.handle.localdb.pkgcache) {
+						unowned Alpm.List<unowned Alpm.Package> pkgcache = alpm_handle.localdb.pkgcache;
+						while (pkgcache != null) {
+							unowned Alpm.Package local_pkg = pkgcache.data;
 							if (("linux31" in local_pkg.name) || ("linux4" in local_pkg.name)) {
 								string[] local_pkg_splitted = local_pkg.name.split ("-", 2);
 								if ((local_pkg_splitted[0] in installed_kernels) == false) {
@@ -542,6 +1294,7 @@ namespace Pamac {
 									}
 								}
 							}
+							pkgcache.next ();
 						}
 						string[] splitted = pkg.name.split ("-", 2);
 						if (splitted.length == 2) {
@@ -549,7 +1302,7 @@ namespace Pamac {
 							// add the same module for other installed kernels
 							foreach (unowned string installed_kernel in installed_kernels) {
 								string module = installed_kernel + "-" + splitted[1];
-								unowned Alpm.Package? module_pkg = get_sync_pkg (module);
+								unowned Alpm.Package? module_pkg = get_syncpkg (module);
 								if (module_pkg != null) {
 									trans_add_pkg_real (module_pkg);
 								}
@@ -559,7 +1312,7 @@ namespace Pamac {
 							// add all installed modules for other kernels
 							foreach (unowned string installed_module in installed_modules) {
 								string module = splitted[0] + "-" + installed_module;
-								unowned Alpm.Package? module_pkg = get_sync_pkg (module);
+								unowned Alpm.Package? module_pkg = get_syncpkg (module);
 								if (module_pkg != null) {
 									trans_add_pkg_real (module_pkg);
 								}
@@ -573,15 +1326,15 @@ namespace Pamac {
 
 		public bool trans_load_pkg (string pkgpath) {
 			current_error = ErrorInfos ();
-			Alpm.Package* pkg = alpm_config.handle.load_file (pkgpath, 1, alpm_config.handle.localfilesiglevel);
-			if (pkg == null) {
-				Alpm.Errno errno = alpm_config.handle.errno ();
+			Alpm.Package* pkg;
+			if (alpm_handle.load_tarball (pkgpath, 1, alpm_handle.localfilesiglevel, out pkg) == -1) {
+				Alpm.Errno errno = alpm_handle.errno ();
 				current_error.errno = (uint) errno;
 				current_error.message = _("Failed to prepare transaction");
 				current_error.details = { "%s: %s".printf (pkgpath, Alpm.strerror (errno)) };
 				return false;
-			} else if (alpm_config.handle.trans_add_pkg (pkg) == -1) {
-				Alpm.Errno errno = alpm_config.handle.errno ();
+			} else if (alpm_handle.trans_add_pkg (pkg) == -1) {
+				Alpm.Errno errno = alpm_handle.errno ();
 				current_error.errno = (uint) errno;
 				current_error.message = _("Failed to prepare transaction");
 				current_error.details = { "%s: %s".printf (pkg->name, Alpm.strerror (errno)) };
@@ -594,13 +1347,13 @@ namespace Pamac {
 
 		public bool trans_remove_pkg (string pkgname) {
 			current_error = ErrorInfos ();
-			unowned Alpm.Package? pkg =  alpm_config.handle.localdb.get_pkg (pkgname);
+			unowned Alpm.Package? pkg =  alpm_handle.localdb.get_pkg (pkgname);
 			if (pkg == null) {
 				current_error.message = _("Failed to prepare transaction");
 				current_error.details = { _("target not found: %s").printf (pkgname) };
 				return false;
-			} else if (alpm_config.handle.trans_remove_pkg (pkg) == -1) {
-				Alpm.Errno errno = alpm_config.handle.errno ();
+			} else if (alpm_handle.trans_remove_pkg (pkg) == -1) {
+				Alpm.Errno errno = alpm_handle.errno ();
 				current_error.errno = (uint) errno;
 				current_error.message = _("Failed to prepare transaction");
 				current_error.details = { "%s: %s".printf (pkg.name, Alpm.strerror (errno)) };
@@ -612,9 +1365,9 @@ namespace Pamac {
 		private void trans_prepare () {
 			current_error = ErrorInfos ();
 			string[] details = {};
-			Alpm.List<void*> err_data;
-			if (alpm_config.handle.trans_prepare (out err_data) == -1) {
-				Alpm.Errno errno = alpm_config.handle.errno ();
+			Alpm.List err_data;
+			if (alpm_handle.trans_prepare (out err_data) == -1) {
+				Alpm.Errno errno = alpm_handle.errno ();
 				current_error.errno = (uint) errno;
 				current_error.message = _("Failed to prepare transaction");
 				string detail = Alpm.strerror (errno);
@@ -622,26 +1375,31 @@ namespace Pamac {
 					case Alpm.Errno.PKG_INVALID_ARCH:
 						detail += ":";
 						details += (owned) detail;
-						foreach (void* i in err_data) {
-							string* pkgname = i;
+						unowned Alpm.List<string*> list = err_data;
+						while (list != null) {
+							string* pkgname = list.data;
 							details += _("package %s does not have a valid architecture").printf (pkgname);
 							delete pkgname;
+							list.next ();
 						}
 						break;
 					case Alpm.Errno.UNSATISFIED_DEPS:
 						detail += ":";
 						details += (owned) detail;
-						foreach (void* i in err_data) {
-							Alpm.DepMissing* miss = i;
+						unowned Alpm.List<Alpm.DepMissing*> list = err_data;
+						while (list != null) {
+							Alpm.DepMissing* miss = list.data;
 							details += _("%s: requires %s").printf (miss->target, miss->depend.compute_string ());
 							delete miss;
+							list.next ();
 						}
 						break;
 					case Alpm.Errno.CONFLICTING_DEPS:
 						detail += ":";
 						details += (owned) detail;
-						foreach (void* i in err_data) {
-							Alpm.Conflict* conflict = i;
+						unowned Alpm.List<Alpm.Conflict*> list = err_data;
+						while (list != null) {
+							Alpm.Conflict* conflict = list.data;
 							string conflict_detail = _("%s and %s are in conflict").printf (conflict->package1, conflict->package2);
 							// only print reason if it contains new information
 							if (conflict->reason.mod != Alpm.Depend.Mode.ANY) {
@@ -649,6 +1407,7 @@ namespace Pamac {
 							}
 							details += (owned) conflict_detail;
 							delete conflict;
+							list.next ();
 						}
 						break;
 					default:
@@ -661,12 +1420,15 @@ namespace Pamac {
 			} else {
 				// Search for holdpkg in target list
 				bool found_locked_pkg = false;
-				foreach (var pkg in alpm_config.handle.trans_to_remove ()) {
-					if (alpm_config.holdpkgs.find_custom (pkg.name, strcmp) != null) {
+				unowned Alpm.List<unowned Alpm.Package> to_remove = alpm_handle.trans_to_remove ();
+				while (to_remove != null) {
+					unowned Alpm.Package pkg = to_remove.data;
+					if (alpm_config.get_holdpkgs ().find_custom (pkg.name, strcmp) != null) {
 						details += _("%s needs to be removed but it is a locked package").printf (pkg.name);
 						found_locked_pkg = true;
 						break;
 					}
+					to_remove.next ();
 				}
 				if (found_locked_pkg) {
 					current_error.message = _("Failed to prepare transaction");
@@ -694,41 +1456,67 @@ namespace Pamac {
 			provider_mutex.unlock ();
 		}
 
-		public PackageInfos[] trans_to_add () {
-			PackageInfos[] to_add = {};
-			foreach (var pkg in alpm_config.handle.trans_to_add ()) {
-				var infos = PackageInfos () {
-					name = pkg.name,
-					version = pkg.version,
+		public TransactionSummary get_transaction_summary () {
+			UpdateInfos[] to_install = {};
+			UpdateInfos[] to_upgrade = {};
+			UpdateInfos[] to_downgrade = {};
+			UpdateInfos[] to_reinstall = {};
+			UpdateInfos[] to_remove = {};
+			unowned Alpm.List<unowned Alpm.Package> pkgs_to_add = alpm_handle.trans_to_add ();
+			while (pkgs_to_add != null) {
+				unowned Alpm.Package trans_pkg = pkgs_to_add.data;
+				unowned Alpm.Package? local_pkg = alpm_handle.localdb.get_pkg (trans_pkg.name);
+				var infos = UpdateInfos () {
+					name = trans_pkg.name,
+					old_version = local_pkg != null ? local_pkg.version : "",
+					new_version = trans_pkg.version,
 					// if pkg was load from a file, pkg.db is null
-					db_name = pkg.db != null ? pkg.db.name : "",
-					download_size = pkg.download_size
+					repo =trans_pkg.db != null ? trans_pkg.db.name : "",
+					download_size = trans_pkg.download_size
 				};
-				to_add += (owned) infos;
+				if (local_pkg == null) {
+					to_install += (owned) infos;
+				} else {
+					int cmp = Alpm.pkg_vercmp (trans_pkg.version, local_pkg.version);
+					if (cmp == 1) {
+						to_upgrade += (owned) infos;
+					} else if (cmp == 0) {
+						to_reinstall += (owned) infos;
+					} else {
+						to_downgrade += (owned) infos;
+					}
+				}
+				pkgs_to_add.next ();
 			}
-			return to_add;
-		}
-
-		public PackageInfos[] trans_to_remove () {
-			PackageInfos[] to_remove = {};
-			foreach (var pkg in alpm_config.handle.trans_to_remove ()) {
-				var infos = PackageInfos () {
-					name = pkg.name,
-					version = pkg.version,
-					db_name = pkg.db.name,
-					download_size = pkg.download_size
+			unowned Alpm.List<unowned Alpm.Package> pkgs_to_remove = alpm_handle.trans_to_remove ();
+			while (pkgs_to_remove != null) {
+				unowned Alpm.Package trans_pkg = pkgs_to_remove.data;
+				var infos = UpdateInfos () {
+					name = trans_pkg.name,
+					old_version = trans_pkg.version,
+					new_version = "",
+					repo = trans_pkg.db.name
 				};
 				to_remove += (owned) infos;
+				pkgs_to_remove.next ();
 			}
-			return to_remove;
+			var summary = TransactionSummary () {
+				to_install = (owned) to_install,
+				to_upgrade = (owned) to_upgrade,
+				to_downgrade = (owned) to_downgrade,
+				to_reinstall = (owned) to_reinstall,
+				to_remove = (owned) to_remove
+			};
+			return summary;
 		}
 
 		private void trans_commit () {
 			current_error = ErrorInfos ();
 			bool success = true;
-			Alpm.List<void*> err_data;
-			if (alpm_config.handle.trans_commit (out err_data) == -1) {
-				Alpm.Errno errno = alpm_config.handle.errno ();
+			Alpm.List err_data;
+			if (alpm_handle.trans_commit (out err_data) == -1) {
+				Alpm.Errno errno = alpm_handle.errno ();
+				current_error.errno = (uint) errno;
 				// cancel the download return an EXTERNAL_DOWNLOAD error
 				if (errno == Alpm.Errno.EXTERNAL_DOWNLOAD && cancellable.is_cancelled ()) {
 					trans_release ();
@@ -736,7 +1524,6 @@ namespace Pamac {
 					trans_commit_finished (false);
 					return;
 				}
-				current_error.errno = (uint) errno;
 				current_error.message = _("Failed to commit transaction");
 				string detail = Alpm.strerror (errno);
 				string[] details = {};
@@ -744,12 +1531,13 @@ namespace Pamac {
 					case Alpm.Errno.FILE_CONFLICTS:
 						detail += ":";
 						details += (owned) detail;
-						//TransFlag flags = alpm_config.handle.trans_get_flags ();
+						//TransFlag flags = alpm_handle.trans_get_flags ();
 						//if ((flags & TransFlag.FORCE) != 0) {
 							//details += _("unable to %s directory-file conflicts").printf ("--force");
 						//}
-						foreach (void* i in err_data) {
-							Alpm.FileConflict* conflict = i;
+						unowned Alpm.List<Alpm.FileConflict*> list = err_data;
+						while (list != null) {
+							Alpm.FileConflict* conflict = list.data;
 							switch (conflict->type) {
 								case Alpm.FileConflict.Type.TARGET:
 									details += _("%s exists in both %s and %s").printf (conflict->file, conflict->target, conflict->ctarget);
@@ -759,6 +1547,7 @@ namespace Pamac {
 									break;
 							}
 							delete conflict;
+							list.next ();
 						}
 						break;
 					case Alpm.Errno.PKG_INVALID:
@@ -767,10 +1556,12 @@ namespace Pamac {
 					case Alpm.Errno.DLT_INVALID:
 						detail += ":";
 						details += (owned) detail;
-						foreach (void* i in err_data) {
-							string* filename = i;
+						unowned Alpm.List<string*> list = err_data;
+						while (list != null) {
+							string* filename = list.data;
 							details += _("%s is invalid or corrupted").printf (filename);
 							delete filename;
+							list.next ();
 						}
 						break;
 					default:
@@ -806,13 +1597,13 @@ namespace Pamac {
 		}
 
 		public void trans_release () {
-			alpm_config.handle.trans_release ();
+			alpm_handle.trans_release ();
 			intern_lock = false;
 		}
 
 		[DBus (no_reply = true)]
 		public void trans_cancel () {
-			if (alpm_config.handle.trans_interrupt () == 0) {
+			if (alpm_handle.trans_interrupt () == 0) {
 				// a transaction is being interrupted
 				// it will end the normal way
 				return;
@@ -826,7 +1617,7 @@ namespace Pamac {
 			// the above function will wait for all task in queue
 			// to be processed before return; 
 			ThreadPool.free ((owned) thread_pool, false, true);
-			alpm_config.handle.unlock ();
+			alpm_handle.unlock ();
 			loop.quit ();
 		}
 	// End of Daemon Object
@@ -977,8 +1768,11 @@ private void cb_question (Alpm.Question.Data data) {
 		case Alpm.Question.Type.SELECT_PROVIDER:
 			string depend_str = data.select_provider_depend.compute_string ();
 			string[] providers_str = {};
-			foreach (unowned Alpm.Package pkg in data.select_provider_providers) {
+			unowned Alpm.List<unowned Alpm.Package> list = data.select_provider_providers;
+			while (list != null) {
+				unowned Alpm.Package pkg = list.data;
 				providers_str += pkg.name;
+				list.next ();
 			}
 			pamac_daemon.provider_cond = Cond ();
 			pamac_daemon.provider_mutex = Mutex ();
@@ -1038,6 +1832,10 @@ private int cb_download (void* data, uint64 dltotal, uint64 dlnow, uint64 ultota
 	if (unlikely (dltotal == 0 || prevprogress == dltotal)) {
 		return 0;
 	} else if (unlikely (dlnow == 0)) {
+		pamac_daemon.emit_download (filename, dlnow, dltotal);
+		pamac_daemon.timer.start ();
+	} else if (unlikely (prevprogress == 0)) {
+		pamac_daemon.emit_download (filename, 0, dltotal);
 		pamac_daemon.emit_download (filename, dlnow, dltotal);
 		pamac_daemon.timer.start ();
 	} else if (unlikely (dlnow == dltotal)) {

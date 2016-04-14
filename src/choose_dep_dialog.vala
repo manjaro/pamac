@@ -32,17 +32,17 @@ namespace Pamac {
 		public ChooseDependenciesDialog (Gtk.ApplicationWindow? window) {
 			Object (transient_for: window, use_header_bar: 0);
 
-			deps_list = new Gtk.ListStore (3, typeof (bool), typeof (string), typeof (string));
+			deps_list = new Gtk.ListStore (2, typeof (bool), typeof (string));
 			treeview.set_model (deps_list);
 		}
 
 		[GtkCallback]
 		void on_renderertoggle_toggled (string path) {
 			Gtk.TreeIter iter;
-			GLib.Value selected;
+			bool selected;
 			if (deps_list.get_iter_from_string (out iter, path)) {;
-				deps_list.get_value (iter, 0, out selected);
-				deps_list.set_value (iter, 0, !((bool) selected));
+				deps_list.get (iter, 0, out selected);
+				deps_list.set (iter, 0, !selected);
 			}
 		}
 	}

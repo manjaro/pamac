@@ -18,17 +18,26 @@
  */
 
 namespace Pamac {
-	public struct PackageInfos {
+	public struct UpdateInfos {
 		public string name;
-		public string version;
-		public string db_name;
+		public string old_version;
+		public string new_version;
+		public string repo;
 		public uint64 download_size;
+	}
+
+	public struct TransactionSummary {
+		public UpdateInfos[] to_install;
+		public UpdateInfos[] to_upgrade;
+		public UpdateInfos[] to_downgrade;
+		public UpdateInfos[] to_reinstall;
+		public UpdateInfos[] to_remove;
 	}
 
 	public struct Updates {
 		public bool is_syncfirst;
-		public PackageInfos[] repos_updates;
-		public PackageInfos[] aur_updates;
+		public UpdateInfos[] repos_updates;
+		public UpdateInfos[] aur_updates;
 	}
 
 	public struct ErrorInfos {

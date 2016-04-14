@@ -1,5 +1,5 @@
 /*
- *  pamac-vala
+ *  alpm_config
  *
  *  Copyright (C) 2014-2016 Guillaume Benoit <guillaume@manjaro.org>
  *
@@ -18,7 +18,7 @@
  */
 
 [Compact]
-public class AlpmRepo {
+class AlpmRepo {
 	public string name;
 	public Alpm.Signature.Level siglevel;
 	public Alpm.Signature.Level siglevel_mask;
@@ -42,68 +42,55 @@ public class AlpmRepo {
 
 }
 
-[Compact]
-public class AlpmConfig {
-	public string conf_path;
-	public string? rootdir;
-	public string? dbpath;
-	public string? logfile;
-	public string? gpgdir;
-	public string? arch;
-	public double deltaratio;
-	public int usesyslog;
-	public int checkspace;
-	public Alpm.List<string?>? cachedirs;
-	public Alpm.List<string?>? hookdirs;
-	public Alpm.List<string?>? ignoregroups;
-	public Alpm.List<string?>? ignorepkgs;
-	public Alpm.List<string?>? noextracts;
-	public Alpm.List<string?>? noupgrades;
-	public GLib.List<string>? holdpkgs;
-	public GLib.List<string>? syncfirsts;
-	public Alpm.Signature.Level siglevel;
-	public Alpm.Signature.Level localfilesiglevel;
-	public Alpm.Signature.Level remotefilesiglevel;
-	public Alpm.Signature.Level siglevel_mask;
-	public Alpm.Signature.Level localfilesiglevel_mask;
-	public Alpm.Signature.Level remotefilesiglevel_mask;
-	public GLib.List<AlpmRepo> repo_order;
-	public Alpm.Handle? handle;
+class AlpmConfig {
+	string conf_path;
+	string? rootdir;
+	string? dbpath;
+	string? logfile;
+	string? gpgdir;
+	string? arch;
+	double deltaratio;
+	int usesyslog;
+	int checkspace;
+	GLib.List<string> cachedirs;
+	GLib.List<string> hookdirs;
+	GLib.List<string> ignoregroups;
+	GLib.List<string> ignorepkgs;
+	GLib.List<string> noextracts;
+	GLib.List<string> noupgrades;
+	GLib.List<string> holdpkgs;
+	GLib.List<string> syncfirsts;
+	Alpm.Signature.Level siglevel;
+	Alpm.Signature.Level localfilesiglevel;
+	Alpm.Signature.Level remotefilesiglevel;
+	Alpm.Signature.Level siglevel_mask;
+	Alpm.Signature.Level localfilesiglevel_mask;
+	Alpm.Signature.Level remotefilesiglevel_mask;
+	GLib.List<AlpmRepo> repo_order;
 
 	public AlpmConfig (string path) {
 		conf_path = path;
 		reload ();
 	}
 
+	public unowned GLib.List<string> get_holdpkgs () {
+		return holdpkgs;
+	}
+
+	public unowned GLib.List<string> get_syncfirsts () {
+		return syncfirsts;
+	}
+
 	public void reload () {
 		// set default options
+		cachedirs = new GLib.List<string> ();
+		hookdirs = new GLib.List<string> ();
+		ignoregroups = new GLib.List<string> ();
+		ignorepkgs = new GLib.List<string> ();
+		noextracts = new GLib.List<string> ();
+		noupgrades = new GLib.List<string> ();
 		holdpkgs = new GLib.List<string> ();
 		syncfirsts = new GLib.List<string> ();
-		// free internal data of alpm lists
-		if (cachedirs != null) {
-			cachedirs.free_data ();
-			cachedirs = new Alpm.List<string> ();
-		}
-		if (hookdirs != null) {
-			hookdirs.free_data ();
-			hookdirs = new Alpm.List<string?> ();
-		}
-		if (ignoregroups != null) {
-			ignoregroups.free_data ();
-			ignoregroups = new Alpm.List<string> ();
-		}
-		if (ignorepkgs != null) {
-			ignorepkgs.free_data ();
-			ignorepkgs = new Alpm.List<string> ();
-		}
-		if (noextracts != null) {
-			noextracts.free_data ();
-			noextracts = new Alpm.List<string> ();
-		}
-		if (noupgrades != null) {
-			noupgrades.free_data ();
-			noupgrades = new Alpm.List<string> ();
-		}
 		usesyslog = 0;
 		checkspace = 0;
 		deltaratio = 0.7;
@@ -131,11 +118,11 @@ public class AlpmConfig {
 				logfile = "/var/log/pacman.log";
 			}
 		}
-		if (cachedirs.length == 0) {
-			cachedirs.add ("/var/cache/pacman/pkg/");
+		if (cachedirs.length () == 0) {
+			cachedirs.append ("/var/cache/pacman/pkg/");
 		}
-		if (hookdirs.length == 0) {
-			hookdirs.add ("/etc/pacman.d/hooks/");
+		if (hookdirs.length () == 0) {
+			hookdirs.append ("/etc/pacman.d/hooks/");
 		}
 		if (gpgdir == null) {
 			// gpgdir it is not relative to rootdir, even if
@@ -147,12 +134,12 @@ public class AlpmConfig {
 		}
 	}
 
-	public void set_handle () {
+	public Alpm.Handle? get_handle () {
 		Alpm.Errno error;
-		handle = Alpm.Handle.new (rootdir, dbpath, out error);
+		Alpm.Handle? handle = new Alpm.Handle (rootdir, dbpath, out error);
 		if (handle == null) {
-			stderr.printf ("Failed to initialize alpm library" + " (%s)\n".printf(Alpm.strerror (error)));
-			return;
+			stderr.printf ("Failed to initialize alpm library" + " (%s)\n".printf (Alpm.strerror (error)));
+			return null;
 		}
 		// define options
 		handle.logfile = logfile;
@@ -166,15 +153,24 @@ public class AlpmConfig {
 		remotefilesiglevel = merge_siglevel (siglevel, remotefilesiglevel, remotefilesiglevel_mask);
 		handle.localfilesiglevel = localfilesiglevel;
 		handle.remotefilesiglevel = remotefilesiglevel;
-		handle.cachedirs = cachedirs;
-		// add hook directories 1-by-1 to avoid overwriting the system directory
+		foreach (unowned string cachedir in cachedirs) {
+			handle.add_cachedir (cachedir);
+		}
 		foreach (unowned string hookdir in hookdirs) {
 			handle.add_hookdir (hookdir);
 		}
-		handle.ignoregroups = ignoregroups;
-		handle.ignorepkgs = ignorepkgs;
-		handle.noextracts = noextracts;
-		handle.noupgrades = noupgrades;
+		foreach (unowned string ignoregroup in ignoregroups) {
+			handle.add_ignoregroup (ignoregroup);
+		}
+		foreach (unowned string ignorepkg in ignorepkgs) {
+			handle.add_ignorepkg (ignorepkg);
+		}
+		foreach (unowned string noextract in noextracts) {
+			handle.add_noextract (noextract);
+		}
+		foreach (unowned string noupgrade in noupgrades) {
+			handle.add_noupgrade (noupgrade);
+		}
 		// register dbs
 		foreach (unowned AlpmRepo repo in repo_order) {
 			repo.siglevel = merge_siglevel (siglevel, repo.siglevel, repo.siglevel_mask);
@@ -188,9 +184,10 @@ public class AlpmConfig {
 				db.usage = repo.usage;
 			}
 		}
+		return handle;
 	}
 
-	public void parse_file (string path, string? section = null) {
+	void parse_file (string path, string? section = null) {
 		string? current_section = section;
 		var file = GLib.File.new_for_path (path);
 		if (file.query_exists ()) {
@@ -236,11 +233,11 @@ public class AlpmConfig {
 							dbpath = val;
 						} else if (key == "CacheDir") {
 							foreach (unowned string dir in val.split (" ")) {
-								cachedirs.add (dir);
+								cachedirs.append (dir);
 							}
 						} else if (key == "HookDir") {
 							foreach (unowned string dir in val.split (" ")) {
-								hookdirs.add (dir);
+								hookdirs.append (dir);
 							}
 						} else if (key == "LogFile") {
 							logfile = val;
@@ -276,19 +273,19 @@ public class AlpmConfig {
 							}
 						} else if (key == "IgnoreGroup") {
 							foreach (unowned string name in val.split (" ")) {
-								ignoregroups.add (name);
+								ignoregroups.append (name);
 							}
 						} else if (key == "IgnorePkg") {
 							foreach (unowned string name in val.split (" ")) {
-								ignorepkgs.add (name);
+								ignorepkgs.append (name);
 							}
 						} else if (key == "Noextract") {
 							foreach (unowned string name in val.split (" ")) {
-								noextracts.add (name);
+								noextracts.append (name);
 							}
 						} else if (key == "NoUpgrade") {
 							foreach (unowned string name in val.split (" ")) {
-								noupgrades.add (name);
+								noupgrades.append (name);
 							}
 						}
 					} else {
@@ -364,6 +361,7 @@ public class AlpmConfig {
 					// writing a short string to the stream
 					dos.put_string (new_line);
 				}
+				reload ();
 			} catch (GLib.Error e) {
 				GLib.stderr.printf("%s\n", e.message);
 			}
@@ -372,7 +370,7 @@ public class AlpmConfig {
 		}
 	}
 
-	public Alpm.DB.Usage define_usage (string conf_string) {
+	Alpm.DB.Usage define_usage (string conf_string) {
 		Alpm.DB.Usage usage = 0;
 		foreach (unowned string directive in conf_string.split(" ")) {
 			if (directive == "Sync") {
@@ -390,7 +388,7 @@ public class AlpmConfig {
 		return usage;
 	}
 
-	public void process_siglevel (string conf_string, ref Alpm.Signature.Level siglevel, ref Alpm.Signature.Level siglevel_mask) {
+	void process_siglevel (string conf_string, ref Alpm.Signature.Level siglevel, ref Alpm.Signature.Level siglevel_mask) {
 		foreach (unowned string directive in conf_string.split(" ")) {
 			bool affect_package = false;
 			bool affect_database = false;
@@ -458,7 +456,7 @@ public class AlpmConfig {
 		siglevel &= ~Alpm.Signature.Level.USE_DEFAULT;
 	}
 
-	public Alpm.Signature.Level merge_siglevel(Alpm.Signature.Level sigbase, Alpm.Signature.Level sigover, Alpm.Signature.Level sigmask) {
+	Alpm.Signature.Level merge_siglevel(Alpm.Signature.Level sigbase, Alpm.Signature.Level sigover, Alpm.Signature.Level sigmask) {
 		return (sigmask != 0) ? (sigover & sigmask) | (sigbase & ~sigmask) : sigover;
 	}
 }

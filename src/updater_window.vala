@@ -25,7 +25,7 @@ namespace Pamac {
 		[GtkChild]
 		Gtk.Label top_label;
 		[GtkChild]
-		Gtk.Notebook notebook;
+		Gtk.StackSwitcher stackswitcher;
 		[GtkChild]
 		Gtk.ScrolledWindow repos_scrolledwindow;
 		[GtkChild]
@@ -51,10 +51,10 @@ namespace Pamac {
 		public UpdaterWindow (Gtk.Application application) {
 			Object (application: application);
 
-			bottom_label.set_visible (false);
-			apply_button.set_sensitive (false);
-			notebook.set_show_tabs (false);
-			aur_scrolledwindow.set_visible (false);
+			bottom_label.visible  = false;
+			apply_button.sensitive = false;
+			stackswitcher.visible = false;
+			aur_scrolledwindow.visible = false;
 
 			Timeout.add (100, populate_window);
 		}
@@ -62,9 +62,9 @@ namespace Pamac {
 		bool populate_window () {
 			this.get_window ().set_cursor (new Gdk.Cursor.for_display (Gdk.Display.get_default (), Gdk.CursorType.WATCH));
 
-			repos_updates_list = new Gtk.ListStore (3, typeof (bool), typeof (string), typeof (string));
+			repos_updates_list = new Gtk.ListStore (6, typeof (bool), typeof (string), typeof (string), typeof (string),typeof (string), typeof (string));
 			repos_updates_treeview.set_model (repos_updates_list);
-			aur_updates_list = new Gtk.ListStore (2, typeof (bool), typeof (string));
+			aur_updates_list = new Gtk.ListStore (3, typeof (bool), typeof (string), typeof (string));
 			aur_updates_treeview.set_model (aur_updates_list);
 
 			transaction = new Transaction (this as Gtk.ApplicationWindow);
@@ -80,31 +80,29 @@ namespace Pamac {
 		void set_apply_button_sensitive () {
 			bool sensitive = false;
 			repos_updates_list.foreach ((model, path, iter) => {
-				GLib.Value selected;
-				repos_updates_list.get_value (iter, 0, out selected);
-				sensitive = (bool) selected;
+				bool selected;
+				repos_updates_list.get (iter, 0, out selected);
+				sensitive = selected;
 				return sensitive;
 			});
 			if (!sensitive) {
 				aur_updates_list.foreach ((model, path, iter) => {
-					GLib.Value selected;
-					aur_updates_list.get_value (iter, 0, out selected);
-					sensitive = (bool) selected;
+					bool selected;
+					aur_updates_list.get (iter, 0, out selected);
+					sensitive = selected;
 					return sensitive;
 				});
 			}
-			apply_button.set_sensitive (sensitive);
+			apply_button.sensitive = sensitive;
 		}
 
 		[GtkCallback]
 		void on_repos_select_update_toggled (string path) {
 			Gtk.TreePath treepath = new Gtk.TreePath.from_string (path);
 			Gtk.TreeIter iter;
-			GLib.Value name_string;
+			string pkgname;
 			repos_updates_list.get_iter (out iter, treepath);
-			repos_updates_list.get_value (iter, 1, out name_string);
-			// string has the form "pkgname pkgversion"
-			string pkgname = name_string.get_string ().split (" ", 2)[0];
+			repos_updates_list.get (iter, 1, out pkgname);
 			if (repos_select_update.active) {
 				repos_updates_list.set (iter, 0, false);
 				transaction.temporary_ignorepkgs.add (pkgname);
@@ -119,11 +117,9 @@ namespace Pamac {
 		void on_aur_select_update_toggled  (string path) {
 			Gtk.TreePath treepath = new Gtk.TreePath.from_string (path);
 			Gtk.TreeIter iter;
-			GLib.Value name_string;
+			string pkgname;
 			aur_updates_list.get_iter (out iter, treepath);
-			aur_updates_list.get_value (iter, 1, out name_string);
-			// string has the form "pkgname pkgversion"
-			string pkgname = name_string.get_string ().split (" ", 2)[0];
+			aur_updates_list.get (iter, 1, out pkgname);
 			if (aur_select_update.active) {
 				aur_updates_list.set (iter, 0, false);
 				transaction.temporary_ignorepkgs.add (pkgname);
@@ -166,34 +162,32 @@ namespace Pamac {
 		void on_get_updates_finished (Updates updates) {
 			top_label.set_markup ("");
 			repos_updates_list.clear ();
-			notebook.set_show_tabs (false);
-			repos_scrolledwindow.set_visible (true);
+			stackswitcher.visible = false;
+			repos_scrolledwindow.visible = true;
 			aur_updates_list.clear ();
-			aur_scrolledwindow.set_visible (false);
-			bottom_label.set_visible (false);
-			Gtk.TreeIter iter;
+			aur_scrolledwindow.visible = false;
+			bottom_label.visible = false;
 			uint64 dsize = 0;
 			uint repos_updates_nb = 0;
 			uint aur_updates_nb = 0;
-			foreach (unowned PackageInfos infos in updates.repos_updates) {
-				string name = infos.name + " " + infos.version;
+			foreach (unowned UpdateInfos infos in updates.repos_updates) {
 				string size = infos.download_size != 0 ? format_size (infos.download_size) : "";
 				dsize += infos.download_size;
 				repos_updates_nb++;
-				if (infos.name in transaction.temporary_ignorepkgs) {
-					repos_updates_list.insert_with_values (out iter, -1, 0, false, 1, name, 2, size);
-				} else {
-					repos_updates_list.insert_with_values (out iter, -1, 0, true, 1, name, 2, size);
-				}
+				repos_updates_list.insert_with_values (null, -1,
+														0, !transaction.temporary_ignorepkgs.contains (infos.name),
+														1, infos.name,
+														2, infos.new_version,
+														3, "(%s)".printf (infos.old_version),
+														4, infos.repo,
+														5, size);
 			}
-			foreach (unowned PackageInfos infos in updates.aur_updates) {
-				string name = infos.name + " " + infos.version;
+			foreach (unowned UpdateInfos infos in updates.aur_updates) {
 				aur_updates_nb++;
-				if (infos.name in transaction.temporary_ignorepkgs) {
-					aur_updates_list.insert_with_values (out iter, -1, 0, false, 1, name);
-				} else {
-					aur_updates_list.insert_with_values (out iter, -1, 0, true, 1, name);
-				}
+				aur_updates_list.insert_with_values (null, -1,
+														0, !transaction.temporary_ignorepkgs.contains (infos.name),
+														1, infos.name,
+														2, "%s\t (%s)".printf (infos.new_version, infos.old_version));
 			}
 			uint updates_nb = repos_updates_nb + aur_updates_nb;
 			if (updates_nb == 0) {
@@ -204,16 +198,16 @@ namespace Pamac {
 			set_apply_button_sensitive ();
 			if (dsize != 0) {
 				bottom_label.set_markup("<b>%s: %s</b>".printf (dgettext (null, "Total download size"), format_size(dsize)));
-				bottom_label.set_visible (true);
+				bottom_label.visible = true;
 			} else {
-				bottom_label.set_visible (false);
+				bottom_label.visible = false;
 			}
 			if (aur_updates_nb != 0) {
-				aur_scrolledwindow.set_visible (true);
+				aur_scrolledwindow.visible = true;
 				if (repos_updates_nb == 0) {
-					repos_scrolledwindow.set_visible (false);
+					repos_scrolledwindow.visible = false;
 				}
-				notebook.set_show_tabs (true);
+				stackswitcher.visible = true;
 			}
 			this.get_window ().set_cursor (null);
 		}

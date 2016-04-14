@@ -18,13 +18,32 @@
  */
 
 namespace Pamac {
-	[Compact]
-	public class MirrorsConfig {
-		public string conf_path;
-		public string mirrorlists_dir;
-		public string choosen_generation_method;
-		public string choosen_country;
-		public GLib.List<string> countrys;
+	class MirrorsConfig {
+		string conf_path;
+		GLib.List<string> _countrys ;
+
+
+		public string mirrorlists_dir { get; private set; }
+		public string choosen_generation_method { get; private set; }
+		public string choosen_country { get; private set; }
+		public unowned GLib.List<string> countrys {
+			get {
+				try {
+					var directory = GLib.File.new_for_path (mirrorlists_dir);
+					var enumerator = directory.enumerate_children (FileAttribute.STANDARD_NAME, 0);
+					FileInfo file_info;
+					_countrys = new GLib.List<string> ();
+					while ((file_info = enumerator.next_file ()) != null) {
+						_countrys.append(file_info.get_name ());
+					}
+					_countrys.sort (strcmp);
+				} catch (Error e) {
+					stderr.printf ("%s\n", e.message);
+				}
+				return _countrys;
+			}
+		}
+
 
 		public MirrorsConfig (string path) {
 			conf_path = path;
@@ -39,22 +58,7 @@ namespace Pamac {
 			parse_file (conf_path);
 		}
 
-		public void get_countrys () {
-			try {
-				var directory = GLib.File.new_for_path (mirrorlists_dir);
-				var enumerator = directory.enumerate_children (FileAttribute.STANDARD_NAME, 0);
-				FileInfo file_info;
-				countrys = new GLib.List<string> ();
-				while ((file_info = enumerator.next_file ()) != null) {
-					countrys.append(file_info.get_name ());
-				}
-				countrys.sort (strcmp);
-			} catch (Error e) {
-				stderr.printf ("%s\n", e.message);
-			}
-		}
-
-		public void parse_file (string path) {
+		void parse_file (string path) {
 			var file = GLib.File.new_for_path (path);
 			if (file.query_exists ()) {
 				try {

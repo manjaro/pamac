@@ -27,6 +27,7 @@ const string noupdate_info = _("Your system is up-to-date");
 namespace Pamac {
 	[DBus (name = "org.manjaro.pamac")]
 	interface Daemon : Object {
+		public abstract string get_lockfile () throws IOError;
 		public abstract void start_refresh (bool force) throws IOError;
 		public abstract void start_get_updates (bool check_aur_updates) throws IOError;
 		[DBus (no_reply = true)]
@@ -320,10 +321,14 @@ namespace Pamac {
 
 			Notify.init (_("Update Manager"));
 
-			var alpm_config = new AlpmConfig ("/etc/pacman.conf");
-			alpm_config.set_handle ();
-			lockfile = GLib.File.new_for_path (alpm_config.handle.lockfile);
 			start_daemon ();
+			try {
+				lockfile = GLib.File.new_for_path (daemon.get_lockfile ());
+			} catch (IOError e) {
+				stderr.printf ("IOError: %s\n", e.message);
+				//try standard lock file
+				lockfile = GLib.File.new_for_path ("var/lib/pacman/db.lck");
+			}
 			Timeout.add (200, check_pacman_running);
 			start_refresh ();
 			launch_refresh_timeout (pamac_config.refresh_period);

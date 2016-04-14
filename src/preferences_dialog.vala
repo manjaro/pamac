@@ -37,8 +37,6 @@ namespace Pamac {
 		[GtkChild]
 		Gtk.Box ignorepkgs_box;
 		[GtkChild]
-		Gtk.ListStore ignorepkgs_liststore;
-		[GtkChild]
 		Gtk.TreeView ignorepkgs_treeview;
 		[GtkChild]
 		Gtk.Box mirrors_config_box;
@@ -59,6 +57,7 @@ namespace Pamac {
 		[GtkChild]
 		Gtk.CheckButton no_confirm_build_checkbutton;
 
+		Gtk.ListStore ignorepkgs_liststore;
 		Transaction transaction;
 		uint64 previous_refresh_period;
 
@@ -67,9 +66,9 @@ namespace Pamac {
 
 			this.transaction = transaction;
 			refresh_period_label.set_markup (dgettext (null, "How often to check for updates, value in hours") +":");
-			remove_unrequired_deps_button.active = transaction.pamac_config.recurse;
-			check_space_button.active = (transaction.alpm_utils.get_checkspace () == 1);
-			if (transaction.pamac_config.refresh_period == 0) {
+			remove_unrequired_deps_button.active = transaction.recurse;
+			check_space_button.active = transaction.get_checkspace ();
+			if (transaction.refresh_period == 0) {
 				check_updates_button.active = false;
 				refresh_period_label.sensitive = false;
 				// set default value
@@ -80,15 +79,16 @@ namespace Pamac {
 				ignorepkgs_box.sensitive = false;
 			} else {
 				check_updates_button.active = true;
-				refresh_period_spin_button.value = transaction.pamac_config.refresh_period;
-				previous_refresh_period = transaction.pamac_config.refresh_period;
+				refresh_period_spin_button.value = transaction.refresh_period;
+				previous_refresh_period = transaction.refresh_period;
 			}
-			no_update_hide_icon_checkbutton.active = transaction.pamac_config.no_update_hide_icon;
+			no_update_hide_icon_checkbutton.active = transaction.no_update_hide_icon;
 
 			// populate ignorepkgs_liststore
-			Gtk.TreeIter iter;
-			foreach (unowned string ignorepkg in transaction.alpm_utils.get_ignorepkgs ()) {
-				ignorepkgs_liststore.insert_with_values (out iter, -1, 0, ignorepkg);
+			ignorepkgs_liststore = new Gtk.ListStore (1, typeof (string));
+			ignorepkgs_treeview.set_model (ignorepkgs_liststore);
+			foreach (unowned string ignorepkg in transaction.get_ignorepkgs ()) {
+				ignorepkgs_liststore.insert_with_values (null, -1, 0, ignorepkg);
 			}
 			remove_unrequired_deps_button.state_set.connect (on_remove_unrequired_deps_button_state_set);
 			check_space_button.state_set.connect (on_check_space_button_state_set);
@@ -98,15 +98,14 @@ namespace Pamac {
 			no_update_hide_icon_checkbutton.toggled.connect (on_no_update_hide_icon_checkbutton_toggled);
 			transaction.write_pamac_config_finished.connect (on_write_pamac_config_finished);
 
-			unowned Alpm.Package? pkg = Alpm.find_satisfier (transaction.alpm_utils.get_installed_pkgs (), "pacman-mirrorlist");
-			if (pkg == null) {
+			AlpmPackage pkg = transaction.find_installed_satisfier ("pacman-mirrorlist");
+			if (pkg.name == "") {
 				mirrors_config_box.visible = false;
 			} else {
 				var mirrors_config = new MirrorsConfig ("/etc/pacman-mirrors.conf");
 				mirrors_country_comboboxtext.append_text (dgettext (null, "Worldwide"));
 				mirrors_country_comboboxtext.active = 0;
 				int index = 1;
-				mirrors_config.get_countrys ();
 				foreach (unowned string country in mirrors_config.countrys) {
 					mirrors_country_comboboxtext.append_text (country);
 					if (country == mirrors_config.choosen_country) {
@@ -126,17 +125,17 @@ namespace Pamac {
 				transaction.write_mirrors_config_finished.connect (on_write_mirrors_config_finished);
 			}
 
-			pkg = Alpm.find_satisfier (transaction.alpm_utils.get_installed_pkgs (), "yaourt");
-			if (pkg == null) {
+			pkg = transaction.find_installed_satisfier ("yaourt");
+			if (pkg.name == "") {
 				aur_config_box.visible = false;
 			} else {
-				enable_aur_button.active = transaction.pamac_config.enable_aur;
-				search_aur_checkbutton.active = transaction.pamac_config.search_aur;
-				search_aur_checkbutton.sensitive = transaction.pamac_config.enable_aur;
-				check_aur_updates_checkbutton.active = transaction.pamac_config.check_aur_updates;
-				check_aur_updates_checkbutton.sensitive = transaction.pamac_config.enable_aur;
-				no_confirm_build_checkbutton.active = transaction.pamac_config.no_confirm_build;
-				no_confirm_build_checkbutton.sensitive = transaction.pamac_config.enable_aur;
+				enable_aur_button.active = transaction.enable_aur;
+				search_aur_checkbutton.active = transaction.search_aur;
+				search_aur_checkbutton.sensitive = transaction.enable_aur;
+				check_aur_updates_checkbutton.active = transaction.check_aur_updates;
+				check_aur_updates_checkbutton.sensitive = transaction.enable_aur;
+				no_confirm_build_checkbutton.active = transaction.no_confirm_build;
+				no_confirm_build_checkbutton.sensitive = transaction.enable_aur;
 				enable_aur_button.state_set.connect (on_enable_aur_button_state_set);
 				search_aur_checkbutton.toggled.connect (on_search_aur_checkbutton_toggled);
 				check_aur_updates_checkbutton.toggled.connect (on_check_aur_updates_checkbutton_toggled);
@@ -248,40 +247,45 @@ namespace Pamac {
 		[GtkCallback]
 		void on_add_ignorepkgs_button_clicked () {
 			var choose_ignorepkgs_dialog = new ChooseIgnorepkgsDialog (this);
-			foreach (var pkg in transaction.alpm_utils.get_installed_pkgs ()) {
-				Gtk.TreeIter iter;
-				if (transaction.alpm_utils.get_ignorepkgs ().find_str (pkg.name) == null) {
-					choose_ignorepkgs_dialog.pkgs_list.insert_with_values (out iter, -1, 0, false, 1, pkg.name);
-				} else {
-					choose_ignorepkgs_dialog.pkgs_list.insert_with_values (out iter, -1, 0, true, 1, pkg.name);
-				}
+			this.get_window ().set_cursor (new Gdk.Cursor.for_display (Gdk.Display.get_default (), Gdk.CursorType.WATCH));
+			while (Gtk.events_pending ()) {
+				Gtk.main_iteration ();
 			}
-			if (choose_ignorepkgs_dialog.run () == Gtk.ResponseType.OK) {
-				var ignorepkg_string = new StringBuilder ();
-				choose_ignorepkgs_dialog.pkgs_list.foreach ((model, path, iter) => {
-					GLib.Value val;
-					// get value at column 0 to know if it is selected
-					choose_ignorepkgs_dialog.pkgs_list.get_value (iter, 0, out val);
-					if ((bool) val) {
-						// get value at column 1 to get the pkg name
-						choose_ignorepkgs_dialog.pkgs_list.get_value (iter, 1, out val);
-						if (ignorepkg_string.len != 0) {
-							ignorepkg_string.append (" ");
-						}
-						ignorepkg_string.append ((string) val);
+			transaction.get_installed_pkgs.begin ((obj, res) => {
+				var pkgs = transaction.get_installed_pkgs.end (res);
+				foreach (unowned AlpmPackage pkg in pkgs) {
+					if (pkg.name in transaction.get_ignorepkgs ()) {
+						choose_ignorepkgs_dialog.pkgs_list.insert_with_values (null, -1, 0, true, 1, pkg.name);
+					} else {
+						choose_ignorepkgs_dialog.pkgs_list.insert_with_values (null, -1, 0, false, 1, pkg.name);
 					}
-					return false;
-				});
-				if (ignorepkg_string.len != 0) {
+				}
+				this.get_window ().set_cursor (null);
+				if (choose_ignorepkgs_dialog.run () == Gtk.ResponseType.OK) {
+					var ignorepkg_string = new StringBuilder ();
+					choose_ignorepkgs_dialog.pkgs_list.foreach ((model, path, iter) => {
+						GLib.Value val;
+						// get value at column 0 to know if it is selected
+						model.get_value (iter, 0, out val);
+						if ((bool) val) {
+							// get value at column 1 to get the pkg name
+							model.get_value (iter, 1, out val);
+							if (ignorepkg_string.len != 0) {
+								ignorepkg_string.append (" ");
+							}
+							ignorepkg_string.append ((string) val);
+						}
+						return false;
+					});
 					var new_alpm_conf = new HashTable<string,Variant> (str_hash, str_equal);
 					new_alpm_conf.insert ("IgnorePkg", new Variant.string (ignorepkg_string.str));
 					transaction.start_write_alpm_config (new_alpm_conf);
 				}
-			}
-			choose_ignorepkgs_dialog.destroy ();
-			while (Gtk.events_pending ()) {
-				Gtk.main_iteration ();
-			}
+				choose_ignorepkgs_dialog.destroy ();
+				while (Gtk.events_pending ()) {
+					Gtk.main_iteration ();
+				}
+			});
 		}
 
 		[GtkCallback]
@@ -293,7 +297,7 @@ namespace Pamac {
 				var ignorepkg_string = new StringBuilder ();
 				ignorepkgs_liststore.foreach ((model, path, iter) => {
 					GLib.Value name;
-					ignorepkgs_liststore.get_value (iter, 0, out name);
+					model.get_value (iter, 0, out name);
 					if (ignorepkg_string.len != 0) {
 						ignorepkg_string.append (" ");
 					}
@@ -303,16 +307,15 @@ namespace Pamac {
 				var new_alpm_conf = new HashTable<string,Variant> (str_hash, str_equal);
 				new_alpm_conf.insert ("IgnorePkg", new Variant.string (ignorepkg_string.str));
 				transaction.start_write_alpm_config (new_alpm_conf);
+
 			}
 		}
 
 		void on_write_alpm_config_finished (bool checkspace) {
 			check_space_button.state = checkspace;
-			// re-populate ignorepkgs_liststore
-			Gtk.TreeIter iter;
 			ignorepkgs_liststore.clear ();
-			foreach (unowned string ignorepkg in transaction.alpm_utils.get_ignorepkgs ()) {
-				ignorepkgs_liststore.insert_with_values (out iter, -1, 0, ignorepkg);
+			foreach (unowned string ignorepkg in transaction.get_ignorepkgs ()) {
+				ignorepkgs_liststore.insert_with_values (null, -1, 0, ignorepkg);
 			}
 		}
 

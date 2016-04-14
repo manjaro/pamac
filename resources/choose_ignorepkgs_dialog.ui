@@ -10,6 +10,7 @@
     <property name="window_position">center-on-parent</property>
     <property name="icon_name">system-software-install</property>
     <property name="type_hint">dialog</property>
+    <property name="urgency_hint">True</property>
     <child internal-child="vbox">
       <object class="GtkBox" id="dialog-vbox1">
         <property name="can_focus">False</property>

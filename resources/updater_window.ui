@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated with glade 3.19.0 -->
+<!-- Generated with glade 3.20.0 -->
 <interface>
   <requires lib="gtk+" version="3.12"/>
   <template class="PamacUpdaterWindow" parent="GtkApplicationWindow">
@@ -7,9 +7,9 @@
     <property name="can_focus">False</property>
     <property name="border_width">6</property>
     <property name="title" translatable="yes">Update Manager</property>
-    <property name="window_position">center</property>
-    <property name="default_width">500</property>
+    <property name="default_width">600</property>
     <property name="icon_name">system-software-update</property>
+    <property name="gravity">center</property>
     <child>
       <object class="GtkBox" id="box1">
         <property name="visible">True</property>
@@ -30,25 +30,35 @@
           </packing>
         </child>
         <child>
-          <object class="GtkNotebook" id="notebook">
+          <object class="GtkStackSwitcher" id="stackswitcher">
             <property name="visible">True</property>
-            <property name="can_focus">True</property>
+            <property name="can_focus">False</property>
+            <property name="halign">center</property>
+            <property name="stack">stack</property>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">1</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkStack" id="stack">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
             <child>
               <object class="GtkScrolledWindow" id="repos_scrolledwindow">
-                <property name="width_request">400</property>
-                <property name="height_request">400</property>
+                <property name="width_request">600</property>
+                <property name="height_request">450</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
-                <property name="hexpand">True</property>
-                <property name="vexpand">True</property>
                 <child>
                   <object class="GtkTreeView" id="repos_updates_treeview">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
-                    <property name="vexpand">True</property>
-                    <property name="headers_visible">False</property>
                     <property name="headers_clickable">False</property>
-                    <property name="search_column">0</property>
+                    <property name="search_column">1</property>
+                    <property name="show_expanders">False</property>
                     <child internal-child="selection">
                       <object class="GtkTreeSelection" id="treeview-selection">
                         <property name="mode">none</property>
@@ -56,6 +66,11 @@
                     </child>
                     <child>
                       <object class="GtkTreeViewColumn" id="treeviewcolumn3">
+                        <property name="resizable">True</property>
+                        <property name="sizing">fixed</property>
+                        <property name="fixed_width">40</property>
+                        <property name="min_width">20</property>
+                        <property name="title" translatable="yes">State</property>
                         <child>
                           <object class="GtkCellRendererToggle" id="repos_select_update">
                             <signal name="toggled" handler="on_repos_select_update_toggled" swapped="no"/>
@@ -68,6 +83,11 @@
                     </child>
                     <child>
                       <object class="GtkTreeViewColumn" id="treeviewcolumn1">
+                        <property name="resizable">True</property>
+                        <property name="sizing">fixed</property>
+                        <property name="fixed_width">200</property>
+                        <property name="min_width">20</property>
+                        <property name="title" translatable="yes">Name</property>
                         <property name="expand">True</property>
                         <child>
                           <object class="GtkCellRendererText" id="repos_update_name"/>
@@ -78,11 +98,51 @@
                       </object>
                     </child>
                     <child>
-                      <object class="GtkTreeViewColumn" id="treeviewcolumn2">
+                      <object class="GtkTreeViewColumn" id="treeviewcolumn6">
+                        <property name="resizable">True</property>
+                        <property name="sizing">fixed</property>
+                        <property name="fixed_width">150</property>
+                        <property name="min_width">20</property>
+                        <property name="title" translatable="yes">Version</property>
                         <child>
-                          <object class="GtkCellRendererText" id="repos_update_download_size"/>
+                          <object class="GtkCellRendererText" id="repos_new_update_version"/>
                           <attributes>
                             <attribute name="text">2</attribute>
+                          </attributes>
+                        </child>
+                        <child>
+                          <object class="GtkCellRendererText" id="repos_old_update_version"/>
+                          <attributes>
+                            <attribute name="text">3</attribute>
+                          </attributes>
+                        </child>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkTreeViewColumn" id="treeviewcolumn10">
+                        <property name="resizable">True</property>
+                        <property name="fixed_width">90</property>
+                        <property name="min_width">20</property>
+                        <property name="title" translatable="yes">Repository</property>
+                        <child>
+                          <object class="GtkCellRendererText" id="repos_update_repo"/>
+                          <attributes>
+                            <attribute name="text">4</attribute>
+                          </attributes>
+                        </child>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkTreeViewColumn" id="treeviewcolumn2">
+                        <property name="resizable">True</property>
+                        <property name="sizing">fixed</property>
+                        <property name="fixed_width">90</property>
+                        <property name="min_width">20</property>
+                        <property name="title" translatable="yes">Size</property>
+                        <child>
+                          <object class="GtkCellRendererText" id="repos_update_size"/>
+                          <attributes>
+                            <attribute name="text">5</attribute>
                           </attributes>
                         </child>
                       </object>
@@ -90,33 +150,25 @@
                   </object>
                 </child>
               </object>
-            </child>
-            <child type="tab">
-              <object class="GtkLabel" id="label1">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="label" translatable="yes">Repositories</property>
-              </object>
               <packing>
-                <property name="tab_fill">False</property>
+                <property name="name">repos</property>
+                <property name="title" translatable="yes">Repositories</property>
               </packing>
             </child>
             <child>
               <object class="GtkScrolledWindow" id="aur_scrolledwindow">
-                <property name="width_request">400</property>
-                <property name="height_request">400</property>
+                <property name="width_request">600</property>
+                <property name="height_request">450</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
-                <property name="hexpand">True</property>
-                <property name="vexpand">True</property>
                 <child>
                   <object class="GtkTreeView" id="aur_updates_treeview">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="vexpand">True</property>
-                    <property name="headers_visible">False</property>
                     <property name="headers_clickable">False</property>
-                    <property name="search_column">0</property>
+                    <property name="search_column">1</property>
+                    <property name="show_expanders">False</property>
                     <child internal-child="selection">
                       <object class="GtkTreeSelection" id="treeview-selection2">
                         <property name="mode">none</property>
@@ -124,6 +176,11 @@
                     </child>
                     <child>
                       <object class="GtkTreeViewColumn" id="treeviewcolumn4">
+                        <property name="resizable">True</property>
+                        <property name="sizing">fixed</property>
+                        <property name="fixed_width">40</property>
+                        <property name="min_width">20</property>
+                        <property name="title" translatable="yes">State</property>
                         <child>
                           <object class="GtkCellRendererToggle" id="aur_select_update">
                             <signal name="toggled" handler="on_aur_select_update_toggled" swapped="no"/>
@@ -136,6 +193,11 @@
                     </child>
                     <child>
                       <object class="GtkTreeViewColumn" id="treeviewcolumn5">
+                        <property name="resizable">True</property>
+                        <property name="sizing">fixed</property>
+                        <property name="fixed_width">200</property>
+                        <property name="min_width">20</property>
+                        <property name="title" translatable="yes">Name</property>
                         <property name="expand">True</property>
                         <child>
                           <object class="GtkCellRendererText" id="aur_update_name"/>
@@ -145,29 +207,35 @@
                         </child>
                       </object>
                     </child>
+                    <child>
+                      <object class="GtkTreeViewColumn" id="treeviewcolumn8">
+                        <property name="resizable">True</property>
+                        <property name="sizing">fixed</property>
+                        <property name="fixed_width">150</property>
+                        <property name="min_width">20</property>
+                        <property name="title" translatable="yes">Version</property>
+                        <child>
+                          <object class="GtkCellRendererText" id="aur_update_version"/>
+                          <attributes>
+                            <attribute name="text">2</attribute>
+                          </attributes>
+                        </child>
+                      </object>
+                    </child>
                   </object>
                 </child>
               </object>
               <packing>
+                <property name="name">aur</property>
+                <property name="title" translatable="yes">AUR</property>
                 <property name="position">1</property>
-              </packing>
-            </child>
-            <child type="tab">
-              <object class="GtkLabel" id="label2">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="label" translatable="yes">AUR</property>
-              </object>
-              <packing>
-                <property name="position">1</property>
-                <property name="tab_fill">False</property>
               </packing>
             </child>
           </object>
           <packing>
-            <property name="expand">False</property>
+            <property name="expand">True</property>
             <property name="fill">True</property>
-            <property name="position">1</property>
+            <property name="position">2</property>
           </packing>
         </child>
         <child>
@@ -178,7 +246,7 @@
           <packing>
             <property name="expand">False</property>
             <property name="fill">True</property>
-            <property name="position">2</property>
+            <property name="position">3</property>
           </packing>
         </child>
         <child>
@@ -277,7 +345,7 @@
           <packing>
             <property name="expand">False</property>
             <property name="fill">True</property>
-            <property name="position">3</property>
+            <property name="position">4</property>
           </packing>
         </child>
       </object>

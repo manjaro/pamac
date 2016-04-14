@@ -34,7 +34,7 @@ namespace Pamac {
 		public TransactionSumDialog (Gtk.ApplicationWindow? window) {
 			Object (transient_for: window, use_header_bar: 0);
 
-			sum_list = new Gtk.ListStore (2, typeof (string), typeof (string));
+			sum_list = new Gtk.ListStore (4, typeof (string), typeof (string), typeof (string), typeof (string));
 			treeview.set_model (sum_list);
 		}
 	}

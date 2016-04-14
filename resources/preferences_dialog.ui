@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated with glade 3.19.0 -->
+<!-- Generated with glade 3.20.0 -->
 <interface>
   <requires lib="gtk+" version="3.14"/>
   <object class="GtkAdjustment" id="adjustment">
@@ -9,19 +9,13 @@
     <property name="step_increment">1</property>
     <property name="page_increment">10</property>
   </object>
-  <object class="GtkListStore" id="ignorepkgs_liststore">
-    <columns>
-      <!-- column-name name -->
-      <column type="gchararray"/>
-    </columns>
-  </object>
   <template class="PamacPreferencesDialog" parent="GtkDialog">
     <property name="can_focus">False</property>
     <property name="border_width">6</property>
     <property name="title" translatable="yes">Preferences</property>
     <property name="window_position">center-on-parent</property>
     <property name="icon_name">system-software-install</property>
-    <property name="type_hint">normal</property>
+    <property name="type_hint">dialog</property>
     <child internal-child="vbox">
       <object class="GtkBox" id="dialog-vbox">
         <property name="can_focus">False</property>
@@ -54,13 +48,28 @@
           </packing>
         </child>
         <child>
-          <object class="GtkNotebook" id="notebook1">
+          <object class="GtkStackSwitcher" id="stackswitcher">
             <property name="visible">True</property>
-            <property name="can_focus">True</property>
+            <property name="can_focus">False</property>
+            <property name="halign">center</property>
+            <property name="stack">stack</property>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkStack" id="stack">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
             <child>
               <object class="GtkBox" id="general_config_box">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
+                <property name="margin_left">6</property>
+                <property name="margin_right">6</property>
                 <property name="margin_start">6</property>
                 <property name="margin_end">6</property>
                 <property name="margin_top">6</property>
@@ -168,6 +177,7 @@
                       <object class="GtkSwitch" id="check_updates_button">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
+                        <property name="tooltip_text" translatable="yes">Check for updates</property>
                         <property name="halign">end</property>
                       </object>
                       <packing>
@@ -192,6 +202,7 @@
                       <object class="GtkLabel" id="refresh_period_label">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="margin_left">24</property>
                         <property name="margin_start">24</property>
                         <property name="hexpand">True</property>
                         <property name="xalign">0</property>
@@ -208,6 +219,7 @@
                         <property name="can_focus">True</property>
                         <property name="tooltip_text" translatable="yes">How often to check for updates, value in hours</property>
                         <property name="halign">end</property>
+                        <property name="text" translatable="yes">6</property>
                         <property name="caps_lock_warning">False</property>
                         <property name="input_purpose">number</property>
                         <property name="adjustment">adjustment</property>
@@ -234,8 +246,10 @@
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
+                    <property name="margin_left">22</property>
                     <property name="margin_start">22</property>
                     <property name="hexpand">True</property>
+                    <property name="xalign">0</property>
                     <property name="draw_indicator">True</property>
                   </object>
                   <packing>
@@ -255,6 +269,7 @@
                         <property name="can_focus">False</property>
                         <property name="halign">start</property>
                         <property name="valign">start</property>
+                        <property name="margin_left">26</property>
                         <property name="margin_start">26</property>
                         <property name="label" translatable="yes">Ignore upgrades for:</property>
                         <property name="xalign">0</property>
@@ -269,6 +284,7 @@
                       <object class="GtkBox" id="box10">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="margin_left">12</property>
                         <property name="margin_start">12</property>
                         <property name="hexpand">True</property>
                         <property name="vexpand">True</property>
@@ -284,12 +300,11 @@
                               <object class="GtkTreeView" id="ignorepkgs_treeview">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
-                                <property name="model">ignorepkgs_liststore</property>
                                 <property name="headers_visible">False</property>
                                 <property name="search_column">0</property>
                                 <property name="show_expanders">False</property>
                                 <child internal-child="selection">
-                                  <object class="GtkTreeSelection" id="treeview-selection1"/>
+                                  <object class="GtkTreeSelection" id="treeview-selection"/>
                                 </child>
                                 <child>
                                   <object class="GtkTreeViewColumn" id="treeviewcolumn1">
@@ -368,21 +383,17 @@
                   </packing>
                 </child>
               </object>
-            </child>
-            <child type="tab">
-              <object class="GtkLabel" id="tab_label1">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="label" translatable="yes">General</property>
-              </object>
               <packing>
-                <property name="tab_fill">False</property>
+                <property name="name">general</property>
+                <property name="title" translatable="yes">General</property>
               </packing>
             </child>
             <child>
               <object class="GtkBox" id="mirrors_config_box">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
+                <property name="margin_left">6</property>
+                <property name="margin_right">6</property>
                 <property name="margin_start">6</property>
                 <property name="margin_end">6</property>
                 <property name="margin_top">6</property>
@@ -483,18 +494,9 @@
                 </child>
               </object>
               <packing>
+                <property name="name">official_repositories</property>
+                <property name="title" translatable="yes">Official Repositories</property>
                 <property name="position">1</property>
-              </packing>
-            </child>
-            <child type="tab">
-              <object class="GtkLabel" id="tab_label2">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="label" translatable="yes">Official Repositories</property>
-              </object>
-              <packing>
-                <property name="position">1</property>
-                <property name="tab_fill">False</property>
               </packing>
             </child>
             <child>
@@ -568,6 +570,8 @@ All AUR users should be familiar with the build process.</property>
                       <object class="GtkLabel" id="enable_aur_label">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="margin_left">6</property>
+                        <property name="margin_right">6</property>
                         <property name="margin_start">6</property>
                         <property name="margin_end">6</property>
                         <property name="hexpand">True</property>
@@ -586,6 +590,8 @@ All AUR users should be familiar with the build process.</property>
                         <property name="can_focus">True</property>
                         <property name="tooltip_text" translatable="yes">Allow Pamac to search and install packages from AUR</property>
                         <property name="halign">end</property>
+                        <property name="margin_left">6</property>
+                        <property name="margin_right">6</property>
                         <property name="margin_start">6</property>
                         <property name="margin_end">6</property>
                       </object>
@@ -608,8 +614,10 @@ All AUR users should be familiar with the build process.</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
+                    <property name="margin_left">24</property>
                     <property name="margin_start">24</property>
                     <property name="hexpand">True</property>
+                    <property name="xalign">0</property>
                     <property name="draw_indicator">True</property>
                   </object>
                   <packing>
@@ -624,8 +632,10 @@ All AUR users should be familiar with the build process.</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
+                    <property name="margin_left">24</property>
                     <property name="margin_start">24</property>
                     <property name="hexpand">True</property>
+                    <property name="xalign">0</property>
                     <property name="draw_indicator">True</property>
                   </object>
                   <packing>
@@ -640,8 +650,10 @@ All AUR users should be familiar with the build process.</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
+                    <property name="margin_left">24</property>
                     <property name="margin_start">24</property>
                     <property name="hexpand">True</property>
+                    <property name="xalign">0</property>
                     <property name="draw_indicator">True</property>
                   </object>
                   <packing>
@@ -652,25 +664,16 @@ All AUR users should be familiar with the build process.</property>
                 </child>
               </object>
               <packing>
+                <property name="name">aur</property>
+                <property name="title" translatable="yes">AUR</property>
                 <property name="position">2</property>
-              </packing>
-            </child>
-            <child type="tab">
-              <object class="GtkLabel" id="tab_label3">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="label" translatable="yes">AUR</property>
-              </object>
-              <packing>
-                <property name="position">2</property>
-                <property name="tab_fill">False</property>
               </packing>
             </child>
           </object>
           <packing>
             <property name="expand">True</property>
             <property name="fill">True</property>
-            <property name="position">1</property>
+            <property name="position">2</property>
           </packing>
         </child>
       </object>

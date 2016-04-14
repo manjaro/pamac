@@ -18,7 +18,7 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-// Compile with: valac --pkg=libalpm --vapidir=../vapi --Xcc=-I../util ../util/alpm-util.c pactree.vala -o pactree
+// Compile with: valac --pkg=libalpm --vapidir=../vapi pactree.vala
 
 using Alpm;
 
@@ -37,10 +37,10 @@ string leaf2_color;
 string color_off;
 
 /* globals */
-unowned Handle? handle;
+Handle handle;
 unowned DB localdb;
-Alpm.List<string?> walked = null;
-Alpm.List<string?> provisions = null;
+Alpm.List<string> walked;
+Alpm.List<string> provisions;
 
 /* options */
 bool color;
@@ -127,7 +127,7 @@ static int parse_options(ref unowned string[] args) {
 
 static void local_init() {
   Alpm.Errno error;
-  handle = Handle.new ("/", dbpath, out error);
+  handle = new Handle ("/", dbpath, out error);
   assert (error == 0);
   localdb = handle.localdb;
   assert (localdb != null);
@@ -187,11 +187,11 @@ static void walk_reverse_deps(Package pkg, int depth) {
   if((max_depth >= 0) && (depth > max_depth)) return;
 
   walked.add(pkg.name);
-  Alpm.List<string?> *required_by = pkg.compute_requiredby();
+  Alpm.List<string> required_by = pkg.compute_requiredby();
 
-  int i = 0;
-  while (i < required_by->length) {
-    string? pkgname = required_by->nth_data(i);
+  unowned Alpm.List<string> list = required_by;
+  while (list != null) {
+    unowned string pkgname = list.data;
     if (walked.find_str(pkgname) != null) {
       /* if we've already seen this package, don't print in "unique" output
        * and don't recurse */
@@ -202,9 +202,9 @@ static void walk_reverse_deps(Package pkg, int depth) {
       print(pkg.name, pkgname, null, depth);
       walk_reverse_deps(localdb.get_pkg(pkgname), depth + 1);
     }
-    i++;
+    list.next ();
   }
-  Alpm.List.free_all(required_by);
+  required_by.free_inner(GLib.free);
 }
 
 /**
@@ -216,8 +216,10 @@ static void walk_deps(Package pkg, int depth)
 
   walked.add(pkg.name);
 
-  foreach (unowned Depend depend in pkg.depends) {
-    string depname = depend.name;
+  unowned Alpm.List<unowned Depend> depends = pkg.depends;
+  while (depends != null) {
+    unowned Alpm.Depend depend = depends.data;
+    unowned string depname = depend.name;
     unowned Package? provider = find_satisfier (localdb.pkgcache, depname);
 
     if (provider != null) {
@@ -237,6 +239,7 @@ static void walk_deps(Package pkg, int depth)
       /* unresolvable package */
       print(pkg.name, null, depname, depth);
     }
+    depends.next ();
   }
 }
 
