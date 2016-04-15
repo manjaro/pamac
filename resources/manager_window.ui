@@ -6,6 +6,15 @@
     <property name="visible">True</property>
     <property name="can_focus">False</property>
     <child>
+      <object class="GtkMenuItem" id="refresh_item">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="label" translatable="yes">Refresh databases</property>
+        <property name="use_underline">True</property>
+        <signal name="activate" handler="on_refresh_item_activate" swapped="no"/>
+      </object>
+    </child>
+    <child>
       <object class="GtkMenuItem" id="history_item">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
@@ -64,26 +73,14 @@
                 <property name="can_focus">False</property>
                 <property name="spacing">6</property>
                 <child>
-                  <object class="GtkButton" id="refresh_button">
+                  <object class="GtkStackSwitcher" id="filters_stackswitcher">
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">False</property>
-                    <property name="tooltip_text" translatable="yes">Refresh databases</property>
-                    <signal name="clicked" handler="on_refresh_button_clicked" swapped="no"/>
-                    <child>
-                      <object class="GtkImage" id="refresh_icon">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="icon_name">view-refresh-symbolic</property>
-                        <property name="icon_size">1</property>
-                      </object>
-                    </child>
-                    <style>
-                      <class name="image-button"/>
-                    </style>
+                    <property name="can_focus">False</property>
+                    <property name="halign">center</property>
+                    <property name="stack">filters_stack</property>
                   </object>
                   <packing>
-                    <property name="expand">False</property>
+                    <property name="expand">True</property>
                     <property name="fill">True</property>
                     <property name="position">0</property>
                   </packing>
@@ -121,18 +118,6 @@
               </packing>
             </child>
             <child>
-              <object class="GtkStackSwitcher" id="filters_stackswitcher">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="stack">filters_stack</property>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
-                <property name="position">1</property>
-              </packing>
-            </child>
-            <child>
               <object class="GtkBox" id="box3">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
@@ -155,6 +140,7 @@
                             <property name="receives_default">True</property>
                             <property name="caps_lock_warning">False</property>
                             <property name="primary_icon_name">edit-find-symbolic</property>
+                            <property name="placeholder_text" translatable="yes">Search</property>
                             <signal name="activate" handler="on_search_entry_activate" swapped="no"/>
                             <signal name="changed" handler="on_search_entry_changed" swapped="no"/>
                           </object>
@@ -241,9 +227,6 @@
                             <property name="fill">True</property>
                             <property name="position">2</property>
                           </packing>
-                        </child>
-                        <child>
-                          <placeholder/>
                         </child>
                       </object>
                       <packing>

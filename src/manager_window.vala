@@ -1496,7 +1496,7 @@ namespace Pamac {
 		}
 
 		[GtkCallback]
-		void on_refresh_button_clicked () {
+		void on_refresh_item_activate () {
 			this.get_window ().set_cursor (new Gdk.Cursor.for_display (Gdk.Display.get_default (), Gdk.CursorType.WATCH));
 			refreshing = true;
 			transaction.start_refresh (false);
