@@ -64,7 +64,7 @@ namespace Pamac {
 
 			repos_updates_list = new Gtk.ListStore (6, typeof (bool), typeof (string), typeof (string), typeof (string),typeof (string), typeof (string));
 			repos_updates_treeview.set_model (repos_updates_list);
-			aur_updates_list = new Gtk.ListStore (3, typeof (bool), typeof (string), typeof (string));
+			aur_updates_list = new Gtk.ListStore (4, typeof (bool), typeof (string), typeof (string), typeof (string));
 			aur_updates_treeview.set_model (aur_updates_list);
 
 			transaction = new Transaction (this as Gtk.ApplicationWindow);
@@ -187,7 +187,8 @@ namespace Pamac {
 				aur_updates_list.insert_with_values (null, -1,
 														0, !transaction.temporary_ignorepkgs.contains (infos.name),
 														1, infos.name,
-														2, "%s\t (%s)".printf (infos.new_version, infos.old_version));
+														2, infos.new_version,
+														3, "(%s)".printf (infos.old_version));
 			}
 			uint updates_nb = repos_updates_nb + aur_updates_nb;
 			if (updates_nb == 0) {

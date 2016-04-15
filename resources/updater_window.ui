@@ -105,13 +105,13 @@
                         <property name="min_width">20</property>
                         <property name="title" translatable="yes">Version</property>
                         <child>
-                          <object class="GtkCellRendererText" id="repos_new_update_version"/>
+                          <object class="GtkCellRendererText" id="repos_update_new_version"/>
                           <attributes>
                             <attribute name="text">2</attribute>
                           </attributes>
                         </child>
                         <child>
-                          <object class="GtkCellRendererText" id="repos_old_update_version"/>
+                          <object class="GtkCellRendererText" id="repos_update_old_version"/>
                           <attributes>
                             <attribute name="text">3</attribute>
                           </attributes>
@@ -211,13 +211,19 @@
                       <object class="GtkTreeViewColumn" id="treeviewcolumn8">
                         <property name="resizable">True</property>
                         <property name="sizing">fixed</property>
-                        <property name="fixed_width">150</property>
+                        <property name="fixed_width">200</property>
                         <property name="min_width">20</property>
                         <property name="title" translatable="yes">Version</property>
                         <child>
-                          <object class="GtkCellRendererText" id="aur_update_version"/>
+                          <object class="GtkCellRendererText" id="aur_update_new_version"/>
                           <attributes>
                             <attribute name="text">2</attribute>
+                          </attributes>
+                        </child>
+                        <child>
+                          <object class="GtkCellRendererText" id="aur_update_old_version"/>
+                          <attributes>
+                            <attribute name="text">3</attribute>
                           </attributes>
                         </child>
                       </object>
