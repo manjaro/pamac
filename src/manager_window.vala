@@ -957,11 +957,9 @@ namespace Pamac {
 					choose_dep_dialog.deps_list.foreach ((model, path, iter) => {
 						bool selected;
 						string name;
-						// get value at column 0 to know if it is selected
 						choose_dep_dialog.deps_list.get (iter, 0, out selected, 1, out name);
 						if (selected) {
-							// get value at column 1 to get the pkgname
-							AlpmPackage sync_pkg = transaction.get_sync_pkg (name);
+							AlpmPackage sync_pkg = transaction.find_sync_satisfier (name);
 							if (sync_pkg.name != "") {
 								transaction.to_install.add (sync_pkg.name);
 							}
