@@ -219,7 +219,6 @@
                         <property name="can_focus">True</property>
                         <property name="tooltip_text" translatable="yes">How often to check for updates, value in hours</property>
                         <property name="halign">end</property>
-                        <property name="text" translatable="yes">6</property>
                         <property name="caps_lock_warning">False</property>
                         <property name="input_purpose">number</property>
                         <property name="adjustment">adjustment</property>

@@ -690,10 +690,6 @@ msgid "Check for updates"
 msgstr ""
 
 #: ../resources/preferences_dialog.ui
-msgid "6"
-msgstr ""
-
-#: ../resources/preferences_dialog.ui
 msgid "Hide tray icon when no update available"
 msgstr ""
 
