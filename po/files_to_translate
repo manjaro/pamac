@@ -5,8 +5,6 @@
 ../src/manager.vala
 ../src/updater.vala
 ../src/manager_window.vala
-../src/aur_model.vala
-../src/packages_model.vala
 ../src/updater_window.vala
 ../src/preferences_dialog.vala
 ../src/choose_ignorepkgs_dialog.vala

@@ -938,6 +938,7 @@ namespace Pamac {
 			while (Gtk.events_pending ()) {
 				Gtk.main_iteration ();
 			}
+			start_transaction ();
 			string[] cmds = {"yaourt", "-S"};
 			if (pamac_config.no_confirm_build) {
 				cmds += "--noconfirm";

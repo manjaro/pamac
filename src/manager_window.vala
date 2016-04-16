@@ -607,6 +607,26 @@ namespace Pamac {
 					deps_list.get_iter (out iter, new Gtk.TreePath.from_indices (pos));
 					deps_list.set (iter, 0, "<b>%s</b>".printf (dgettext (null, "Depends On") + ":"));
 				}
+				if (details.makedepends.length > 0) {
+					foreach (unowned string name in details.makedepends) {
+						deps_list.insert_with_values (out iter, -1,
+													1, name);
+					}
+					Gtk.TreePath path = deps_list.get_path (iter);
+					int pos = (path.get_indices ()[0]) - (details.makedepends.length - 1);
+					deps_list.get_iter (out iter, new Gtk.TreePath.from_indices (pos));
+					deps_list.set (iter, 0, "<b>%s</b>".printf (dgettext (null, "Make Dependencies") + ":"));
+				}
+				if (details.checkdepends.length > 0) {
+					foreach (unowned string name in details.checkdepends) {
+						deps_list.insert_with_values (out iter, -1,
+													1, name);
+					}
+					Gtk.TreePath path = deps_list.get_path (iter);
+					int pos = (path.get_indices ()[0]) - (details.checkdepends.length - 1);
+					deps_list.get_iter (out iter, new Gtk.TreePath.from_indices (pos));
+					deps_list.set (iter, 0, "<b>%s</b>".printf (dgettext (null, "Check Dependencies") + ":"));
+				}
 				if (details.optdepends.length > 0) {
 					foreach (unowned string name in details.optdepends) {
 						var optdep = new StringBuilder (name);

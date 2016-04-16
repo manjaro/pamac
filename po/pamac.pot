@@ -500,6 +500,14 @@ msgstr ""
 msgid "Out of Date"
 msgstr ""
 
+#: ../src/manager_window.vala
+msgid "Make Dependencies"
+msgstr ""
+
+#: ../src/manager_window.vala
+msgid "Check Dependencies"
+msgstr ""
+
 #: ../src/manager_window.vala ../resources/manager_window.ui
 #: ../resources/updater_window.ui
 msgid "Name"
@@ -536,10 +544,6 @@ msgstr ""
 
 #: ../src/manager_window.vala
 msgid "A Gtk3 frontend for libalpm"
-msgstr ""
-
-#: ../src/aur_model.vala ../src/packages_model.vala
-msgid "No package found"
 msgstr ""
 
 #: ../src/preferences_dialog.vala ../resources/preferences_dialog.ui
@@ -599,6 +603,10 @@ msgid "Choose Optional Dependencies"
 msgstr ""
 
 #: ../resources/manager_window.ui
+msgid "Refresh databases"
+msgstr ""
+
+#: ../resources/manager_window.ui
 msgid "View History"
 msgstr ""
 
@@ -611,15 +619,11 @@ msgid "_About"
 msgstr ""
 
 #: ../resources/manager_window.ui
-msgid "Refresh databases"
+msgid "Search"
 msgstr ""
 
 #: ../resources/manager_window.ui
 msgid "Search in AUR"
-msgstr ""
-
-#: ../resources/manager_window.ui
-msgid "Search"
 msgstr ""
 
 #: ../resources/manager_window.ui ../resources/updater_window.ui
