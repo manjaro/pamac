@@ -388,8 +388,9 @@ namespace Pamac {
 			AlpmPackageDetails details = transaction.get_pkg_details (pkgname);
 			// infos
 			name_label.set_markup ("<big><b>%s  %s</b></big>".printf (details.name, details.version));
-			desc_label.set_markup (details.desc);
-			link_label.set_markup ("<a href=\"%s\">%s</a>".printf (details.url, details.url));
+			desc_label.set_text (details.desc);
+			string escaped_url = Markup.escape_text (details.url);
+			link_label.set_markup ("<a href=\"%s\">%s</a>".printf (escaped_url, escaped_url));
 			StringBuilder licenses = new StringBuilder ();
 			licenses.append (dgettext (null, "Licenses"));
 			licenses.append (":");
@@ -397,7 +398,7 @@ namespace Pamac {
 				licenses.append (" ");
 				licenses.append (license);
 			}
-			licenses_label.set_markup (licenses.str);
+			licenses_label.set_text (licenses.str);
 			// details
 			details_list.clear ();
 			details_list.insert_with_values (null, -1,
@@ -554,7 +555,8 @@ namespace Pamac {
 				name_label.set_markup ("<big><b>%s  %s</b></big>".printf (details.name, details.version));
 				desc_label.set_text (details.desc);
 				string aur_url = "http://aur.archlinux.org/packages/" + details.name;
-				link_label.set_markup ("<a href=\"%s\">%s</a>\n\n<a href=\"%s\">%s</a>".printf (details.url, details.url, aur_url, aur_url));
+				string escaped_url = Markup.escape_text (details.url);
+				link_label.set_markup ("<a href=\"%s\">%s</a>\n\n<a href=\"%s\">%s</a>".printf (escaped_url, escaped_url, aur_url, aur_url));
 				StringBuilder licenses = new StringBuilder ();
 				licenses.append (dgettext (null, "Licenses"));
 				licenses.append (":");
@@ -664,7 +666,7 @@ namespace Pamac {
 				packages_list.insert_with_values (null, -1,
 												0, pkg.origin,
 												1, pkg.name,
-												2, "<b>%s</b>\n%s".printf (pkg.name, pkg.desc),
+												2, "<b>%s</b>\n%s".printf (pkg.name, Markup.escape_text (pkg.desc)),
 												3, pkg.version,
 												4, pkg.repo,
 												5, pkg.size,
@@ -686,7 +688,7 @@ namespace Pamac {
 					aur_list.insert_with_values (null, -1,
 													0, alpm_pkg.origin,
 													1, alpm_pkg.name,
-													2, "<b>%s</b>\n%s".printf (alpm_pkg.name, alpm_pkg.desc),
+													2, "<b>%s</b>\n%s".printf (alpm_pkg.name, Markup.escape_text (alpm_pkg.desc)),
 													3, alpm_pkg.version,
 													4, aur_pkg.popularity,
 													5, "%.2f".printf (aur_pkg.popularity));
@@ -694,7 +696,7 @@ namespace Pamac {
 					aur_list.insert_with_values (null, -1,
 													0, 0,
 													1, aur_pkg.name,
-													2, "<b>%s</b>\n%s".printf (aur_pkg.name, aur_pkg.desc),
+													2, "<b>%s</b>\n%s".printf (aur_pkg.name, Markup.escape_text (aur_pkg.desc)),
 													3, aur_pkg.version,
 													4, aur_pkg.popularity,
 													5, "%.2f".printf (aur_pkg.popularity));

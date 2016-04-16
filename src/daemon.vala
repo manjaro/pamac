@@ -430,7 +430,7 @@ namespace Pamac {
 					name = alpm_pkg.name,
 					version = alpm_pkg.version,
 					// desc can be null
-					desc = alpm_pkg.desc != null ? Markup.escape_text (alpm_pkg.desc) : "",
+					desc = alpm_pkg.desc ?? "",
 					repo = (owned) repo_name,
 					size = alpm_pkg.isize,
 					origin = (uint) alpm_pkg.origin
@@ -573,7 +573,7 @@ namespace Pamac {
 				name = json_object.get_string_member ("Name"),
 				version = json_object.get_string_member ("Version"),
 				// desc can be null
-				desc = json_object.get_null_member ("Description") ? "" : Markup.escape_text (json_object.get_string_member ("Description")),
+				desc = json_object.get_null_member ("Description") ? "" : json_object.get_string_member ("Description"),
 				popularity = json_object.get_double_member ("Popularity")
 			};
 		}
@@ -630,7 +630,7 @@ namespace Pamac {
 				version = json_object.get_string_member ("Version");
 				// desc can be null
 				if (!json_object.get_null_member ("Description")) {
-					desc = Markup.escape_text (json_object.get_string_member ("Description"));
+					desc = json_object.get_string_member ("Description");
 				}
 				popularity = json_object.get_double_member ("Popularity");
 				// packagebase
@@ -638,7 +638,7 @@ namespace Pamac {
 				// url can be null
 				unowned Json.Node? node = json_object.get_member ("URL");
 				if (!node.is_null ()) {
-					url = Markup.escape_text (node.get_string ());
+					url = node.get_string ();
 				}
 				// maintainer can be null
 				node = json_object.get_member ("Maintainer");
@@ -974,11 +974,11 @@ namespace Pamac {
 				version = alpm_pkg.version;
 				// desc can be null
 				if (alpm_pkg.desc != null) {
-					desc = Markup.escape_text (alpm_pkg.desc);
+					desc = alpm_pkg.desc;
 				}
 				// url can be null
 				if (alpm_pkg.url != null) {
-					url = Markup.escape_text (alpm_pkg.url);
+					url = alpm_pkg.url;
 				}
 				// packager can be null
 				packager = alpm_pkg.packager ?? "";
