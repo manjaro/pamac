@@ -49,6 +49,8 @@ namespace Pamac {
 
 		// manager objects
 		[GtkChild]
+		Gtk.HeaderBar headerbar;
+		[GtkChild]
 		Gtk.Stack main_stack;
 		[GtkChild]
 		Gtk.TreeView packages_treeview;
@@ -71,9 +73,7 @@ namespace Pamac {
 		[GtkChild]
 		Gtk.TreeView repos_treeview;
 		[GtkChild]
-		Gtk.Stack packages_stack;
-		[GtkChild]
-		Gtk.StackSwitcher packages_stackswitcher;
+		Gtk.Notebook packages_notebook;
 		[GtkChild]
 		Gtk.TreeView deps_treeview;
 		[GtkChild]
@@ -92,10 +92,6 @@ namespace Pamac {
 		Gtk.Label licenses_label;
 		[GtkChild]
 		Gtk.TextView files_textview;
-		[GtkChild]
-		Gtk.Box search_aur_box;
-		[GtkChild]
-		Gtk.Switch search_aur_button;
 		[GtkChild]
 		Gtk.Box transaction_infobox;
 		[GtkChild]
@@ -301,7 +297,7 @@ namespace Pamac {
 			search_entry.grab_focus ();
 
 			filters_stack.notify["visible-child"].connect (on_filters_stack_visible_child_changed);
-			packages_stack.notify["visible-child"].connect (on_packages_stack_visible_child_changed);
+			//packages_notebook.notify["switch-page"].connect (on_packages_notebook_page_switched);
 
 			return false;
 		}
@@ -319,17 +315,13 @@ namespace Pamac {
 		}
 
 		void support_aur (bool enable_aur, bool search_aur) {
-			if (enable_aur) {
-				search_aur_button.active = search_aur;
-				search_aur_box.visible = true;
+			/*if (enable_aur) {
 				if (filters_stack.visible_child_name == "search") {
 					packages_stackswitcher.visible = true;
 				}
 			} else {
-				search_aur_button.active  = false;
-				search_aur_box.visible = false;
 				packages_stackswitcher.visible = false;
-			}
+			}*/
 		}
 
 		void set_pendings_operations () {
@@ -708,9 +700,6 @@ namespace Pamac {
 		void refresh_packages_list () {
 			switch (filters_stack.visible_child_name) {
 				case "search":
-					if (search_aur_box.visible) {
-						packages_stackswitcher.visible = true;
-					}
 					Gtk.TreeSelection selection = search_treeview.get_selection ();
 					if (selection.get_selected (null, null)) {
 						on_search_treeview_selection_changed ();
@@ -719,18 +708,15 @@ namespace Pamac {
 					}
 					break;
 				case "groups":
-					packages_stack.visible_child_name = "repos";
-					packages_stackswitcher.visible = false;
+					packages_notebook.set_current_page(0);
 					on_groups_treeview_selection_changed ();
 					break;
 				case "states":
-					packages_stack.visible_child_name = "repos";
-					packages_stackswitcher.visible = false;
+					packages_notebook.set_current_page(0);
 					on_states_treeview_selection_changed ();
 					break;
 				case "repos":
-					packages_stack.visible_child_name = "repos";
-					packages_stackswitcher.visible = false;
+					packages_notebook.set_current_page(0);
 					on_repos_treeview_selection_changed ();
 					break;
 				default:
@@ -985,7 +971,9 @@ namespace Pamac {
 			}
 		}
 
-		void on_packages_stack_visible_child_changed () {
+		[GtkCallback]
+		void on_packages_notebook_page_switched (Gtk.Widget page, uint page_num) {
+			string tab_label = packages_notebook.get_tab_label_text (page);
 			// do nothing if it we want to see pendings AUR operations
 			switch (filters_stack.visible_child_name) {
 				case "search":
@@ -998,13 +986,13 @@ namespace Pamac {
 						}
 						string search_string;
 						search_list.get (iter, 0, out search_string);
-						switch (packages_stack.visible_child_name) {
-							case "repos":
+						switch (tab_label) {
+							case "Official Repos":
 								transaction.search_pkgs.begin (search_string, (obj, res) => {
 									populate_packages_list (transaction.search_pkgs.end (res));
 								});
 								break;
-							case "aur":
+							case "AUR":
 								transaction.search_in_aur.begin (search_string, (obj, res) => {
 									populate_aur_list (transaction.search_in_aur.end (res));
 								});
@@ -1017,13 +1005,13 @@ namespace Pamac {
 				default:
 					break;
 			}
-			if (packages_stack.visible_child_name == "aur") {
+			/*if ("aur" == tab_label.label) {
 				var attention_val = GLib.Value (typeof (bool));
 				attention_val.set_boolean (false);
 				packages_stack.child_set_property (packages_stack.get_child_by_name ("aur"),
 													"needs-attention",
 													attention_val);
-			}
+			}*/
 		}
 
 		[GtkCallback]
@@ -1228,34 +1216,34 @@ namespace Pamac {
 				this.get_window ().set_cursor (new Gdk.Cursor.for_display (Gdk.Display.get_default (), Gdk.CursorType.WATCH));
 				string search_string;
 				search_list.get (iter, 0, out search_string);
-				switch (packages_stack.visible_child_name) {
-					case "repos":
+				switch (packages_notebook.get_current_page ()) {
+					case 0:
 						transaction.search_pkgs.begin (search_string, (obj, res) => {
 							var pkgs = transaction.search_pkgs.end (res);
 							populate_packages_list (pkgs);
-							if (search_aur_button.get_active ()) {
+							//if (search_aur_button.get_active ()) {
 								if (pkgs.length == 0) {
 									transaction.search_in_aur.begin (search_string, (obj, res) => {
 										if (transaction.search_in_aur.end (res).length != 0) {
-											packages_stack.visible_child_name = "aur";
+											packages_notebook.set_current_page (1);
 										}
 									});
 								} else {
 									transaction.search_in_aur.begin (search_string, (obj, res) => {
 										if (transaction.search_in_aur.end (res).length != 0) {
-											var attention_val = GLib.Value (typeof (bool));
+											/*var attention_val = GLib.Value (typeof (bool));
 											attention_val.set_boolean (true);
-											packages_stack.child_set_property (packages_stack.get_child_by_name ("aur"),
+											packages_notebook.child_set_property (packages_stack.get_child_by_name ("aur"),
 																				"needs-attention",
-																				attention_val);
+																				attention_val);*/
 										}
 									});
 								}
-							}
+							//}
 						});
 						aur_list.clear ();
 						break;
-					case "aur":
+					case 1:
 						transaction.search_in_aur.begin (search_string, (obj, res) => {
 							populate_aur_list (transaction.search_in_aur.end (res));
 						});
@@ -1287,7 +1275,6 @@ namespace Pamac {
 			Gtk.TreeSelection selection = states_treeview.get_selection ();
 			if (selection.get_selected (null, out iter)) {
 				this.get_window ().set_cursor (new Gdk.Cursor.for_display (Gdk.Display.get_default (), Gdk.CursorType.WATCH));
-				packages_stackswitcher.visible = false;
 				string state;
 				states_list.get (iter, 0, out state);
 				if (state == dgettext (null, "Installed")) {
@@ -1321,7 +1308,6 @@ namespace Pamac {
 					}
 					populate_packages_list (pkgs);
 					if (transaction.to_build.length != 0) {
-						packages_stackswitcher.visible = true;
 						AURPackage[] aur_pkgs = {};
 						foreach (unowned string pkgname in transaction.to_build) {
 							transaction.get_aur_details.begin (pkgname, (obj, res) => {
@@ -1337,13 +1323,13 @@ namespace Pamac {
 									populate_aur_list (aur_pkgs);
 									if (aur_pkgs.length > 0 ) {
 										if (pkgs.length == 0) {
-											packages_stack.visible_child_name = "aur";
+											packages_notebook.set_current_page (1);
 										} else {
-											var attention_val = GLib.Value (typeof (bool));
+											/*var attention_val = GLib.Value (typeof (bool));
 											attention_val.set_boolean (true);
 											packages_stack.child_set_property (packages_stack.get_child_by_name ("aur"),
 																				"needs-attention",
-																				attention_val);
+																				attention_val);*/
 										}
 									}
 								}
