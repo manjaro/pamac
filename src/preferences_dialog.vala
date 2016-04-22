@@ -56,15 +56,19 @@ namespace Pamac {
 		Gtk.CheckButton check_aur_updates_checkbutton;
 		[GtkChild]
 		Gtk.CheckButton no_confirm_build_checkbutton;
+		[GtkChild]
+		Gtk.StackSwitcher stack_switcher;
 
 		Gtk.ListStore ignorepkgs_liststore;
 		Transaction transaction;
 		uint64 previous_refresh_period;
 
 		public PreferencesDialog (Transaction transaction) {
-			Object (transient_for: transaction.application_window, use_header_bar: 0);
+			Object (transient_for: transaction.application_window, use_header_bar: true);
 
 			this.transaction = transaction;
+			//header_bar = this.get_header_bar ();
+			//header_bar.add (stack_switcher);
 			refresh_period_label.set_markup (dgettext (null, "How often to check for updates, value in hours") +":");
 			remove_unrequired_deps_button.active = transaction.recurse;
 			check_space_button.active = transaction.get_checkspace ();

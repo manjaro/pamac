@@ -132,6 +132,14 @@ namespace Pamac {
 
 		uint search_entry_timeout_id;
 
+		public string css = """
+			treeview.view {
+				border-top: 1px solid rgba(0, 0, 0, 0.1);
+				padding-top: 3px;
+				padding-bottom: 3px;
+			}
+		""";
+
 		public ManagerWindow (Gtk.Application application) {
 			Object (application: application);
 
@@ -145,6 +153,15 @@ namespace Pamac {
 
 		bool populate_window () {
 			this.get_window ().set_cursor (new Gdk.Cursor.for_display (Gdk.Display.get_default (), Gdk.CursorType.WATCH));
+
+			var provider = new Gtk.CssProvider();
+			try {
+				provider.load_from_data(this.css, this.css.length);
+				var screen = this.get_screen();
+				Gtk.StyleContext.add_provider_for_screen(screen, provider, Gtk.STYLE_PROVIDER_PRIORITY_USER);
+			} catch (Error e) {
+				print ("Could not load CSS. %s\n", e.message);
+			}
 
 			right_click_menu = new Gtk.Menu ();
 			deselect_item = new Gtk.MenuItem.with_label (dgettext (null, "Deselect"));
@@ -315,13 +332,14 @@ namespace Pamac {
 		}
 
 		void support_aur (bool enable_aur, bool search_aur) {
-			/*if (enable_aur) {
-				if (filters_stack.visible_child_name == "search") {
-					packages_stackswitcher.visible = true;
-				}
+			if (enable_aur && filters_stack.visible_child_name == "search") {
+				packages_notebook.set_show_tabs (true);
 			} else {
-				packages_stackswitcher.visible = false;
-			}*/
+				packages_notebook.set_show_tabs (false);
+				if (0 != packages_notebook.get_current_page ()) {
+					packages_notebook.set_current_page (0);
+				}
+			}
 		}
 
 		void set_pendings_operations () {
@@ -700,6 +718,7 @@ namespace Pamac {
 		void refresh_packages_list () {
 			switch (filters_stack.visible_child_name) {
 				case "search":
+					packages_notebook.set_show_tabs (true);
 					Gtk.TreeSelection selection = search_treeview.get_selection ();
 					if (selection.get_selected (null, null)) {
 						on_search_treeview_selection_changed ();
@@ -708,15 +727,18 @@ namespace Pamac {
 					}
 					break;
 				case "groups":
-					packages_notebook.set_current_page(0);
+					packages_notebook.set_current_page (0);
+					packages_notebook.set_show_tabs (false);
 					on_groups_treeview_selection_changed ();
 					break;
 				case "states":
-					packages_notebook.set_current_page(0);
+					packages_notebook.set_current_page (0);
+					packages_notebook.set_show_tabs (false);
 					on_states_treeview_selection_changed ();
 					break;
 				case "repos":
-					packages_notebook.set_current_page(0);
+					packages_notebook.set_current_page (0);
+					packages_notebook.set_show_tabs (false);
 					on_repos_treeview_selection_changed ();
 					break;
 				default:
