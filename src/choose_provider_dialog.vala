@@ -22,13 +22,8 @@ namespace Pamac {
 	[GtkTemplate (ui = "/org/manjaro/pamac/transaction/choose_provider_dialog.ui")]
 	class ChooseProviderDialog : Gtk.Dialog {
 
-		[GtkChild]
-		public Gtk.Label label;
-		[GtkChild]
-		public Gtk.ComboBoxText comboboxtext;
-
 		public ChooseProviderDialog (Gtk.ApplicationWindow? window) {
-			Object (transient_for: window, use_header_bar: 0);
+			Object (transient_for: window, use_header_bar: 1);
 		}
 	}
 }

@@ -15,7 +15,6 @@ UPDATER_RESOURCES_FILES = 	updater_window.ui
 TRANSACTION_RESOURCES_FILES = 	progress_dialog.ui \
 								choose_provider_dialog.ui \
 								transaction_sum_dialog.ui \
-								transaction_info_dialog.ui \
 								preferences_dialog.ui \
 								choose_ignorepkgs_dialog.ui
 

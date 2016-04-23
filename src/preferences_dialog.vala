@@ -62,7 +62,7 @@ namespace Pamac {
 		uint64 previous_refresh_period;
 
 		public PreferencesDialog (Transaction transaction) {
-			Object (transient_for: transaction.application_window, use_header_bar: 0);
+			Object (transient_for: transaction.application_window, use_header_bar: 1);
 
 			this.transaction = transaction;
 			refresh_period_label.set_markup (dgettext (null, "How often to check for updates, value in hours") +":");

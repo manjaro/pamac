@@ -25,14 +25,12 @@ namespace Pamac {
 		[GtkChild]
 		public Gtk.Label top_label;
 		[GtkChild]
-		public Gtk.Label bottom_label;
-		[GtkChild]
 		Gtk.TreeView treeview;
 
 		public Gtk.ListStore sum_list;
 
 		public TransactionSumDialog (Gtk.ApplicationWindow? window) {
-			Object (transient_for: window, use_header_bar: 0);
+			Object (transient_for: window, use_header_bar: 1);
 
 			sum_list = new Gtk.ListStore (4, typeof (string), typeof (string), typeof (string), typeof (string));
 			treeview.set_model (sum_list);

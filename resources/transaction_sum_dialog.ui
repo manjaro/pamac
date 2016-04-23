@@ -4,11 +4,13 @@
   <requires lib="gtk+" version="3.12"/>
   <template class="PamacTransactionSumDialog" parent="GtkDialog">
     <property name="can_focus">False</property>
-    <property name="border_width">6</property>
+    <property name="border_width">3</property>
     <property name="title" translatable="yes">Transaction Summary</property>
     <property name="window_position">center-on-parent</property>
+    <property name="default_width">600</property>
     <property name="icon_name">system-software-install</property>
     <property name="type_hint">dialog</property>
+    <property name="deletable">False</property>
     <child internal-child="vbox">
       <object class="GtkBox" id="dialog-vbox6">
         <property name="can_focus">False</property>
@@ -23,7 +25,6 @@
                 <property name="label" translatable="yes">_Cancel</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
-                <property name="has_focus">True</property>
                 <property name="receives_default">False</property>
                 <property name="use_underline">True</property>
               </object>
@@ -34,12 +35,14 @@
               </packing>
             </child>
             <child>
-              <object class="GtkButton" id="valid_button">
-                <property name="label" translatable="yes">_OK</property>
+              <object class="GtkButton" id="apply_button">
+                <property name="label" translatable="yes">Commit</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
+                <property name="has_focus">True</property>
+                <property name="can_default">True</property>
+                <property name="has_default">True</property>
                 <property name="receives_default">False</property>
-                <property name="use_underline">True</property>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -52,18 +55,19 @@
             <property name="expand">False</property>
             <property name="fill">True</property>
             <property name="pack_type">end</property>
-            <property name="position">0</property>
+            <property name="position">2</property>
           </packing>
         </child>
         <child>
           <object class="GtkLabel" id="top_label">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
+            <property name="margin_top">6</property>
           </object>
           <packing>
             <property name="expand">False</property>
             <property name="fill">True</property>
-            <property name="position">1</property>
+            <property name="position">0</property>
           </packing>
         </child>
         <child>
@@ -137,25 +141,14 @@
           <packing>
             <property name="expand">True</property>
             <property name="fill">True</property>
-            <property name="position">2</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkLabel" id="bottom_label">
-            <property name="visible">True</property>
-            <property name="can_focus">False</property>
-          </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">True</property>
-            <property name="position">3</property>
+            <property name="position">1</property>
           </packing>
         </child>
       </object>
     </child>
     <action-widgets>
       <action-widget response="-6">cancel_button</action-widget>
-      <action-widget response="-5">valid_button</action-widget>
+      <action-widget response="-5">apply_button</action-widget>
     </action-widgets>
   </template>
 </interface>

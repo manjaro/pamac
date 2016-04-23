@@ -25,9 +25,9 @@ COMMON_SOURCES = 	common.vala \
 
 TRANSACTION_SOURCES = 	package.vala \
 						transaction.vala \
+						history_dialog.vala \
 						choose_provider_dialog.vala \
 						transaction_sum_dialog.vala \
-						transaction_info_dialog.vala \
 						progress_dialog.vala
 
 PREFERENCES_SOURCES = 	preferences_dialog.vala \
@@ -94,7 +94,7 @@ libpamac.so: $(COMMON_SOURCES) $(TRANSACTION_SOURCES) $(PREFERENCES_SOURCES) ../
 			$(TRANSACTION_SOURCES) \
 			$(PREFERENCES_SOURCES)
 
-pamac-manager: libpamac.so choose_dep_dialog.vala history_dialog.vala transaction_info_dialog.vala ../resources/manager_resources.c manager_window.vala manager.vala
+pamac-manager: libpamac.so choose_dep_dialog.vala ../resources/manager_resources.c manager_window.vala manager.vala
 	valac 	-o pamac-manager \
 			$(COMMON_VALA_FLAGS) \
 			$(PAMAC_LIB_FLAGS) \
@@ -104,7 +104,6 @@ pamac-manager: libpamac.so choose_dep_dialog.vala history_dialog.vala transactio
 			--gresources=$(MANAGER_GRESOURCE_FILE) \
 			../resources/manager_resources.c \
 			choose_dep_dialog.vala \
-			history_dialog.vala \
 			manager_window.vala \
 			manager.vala
 

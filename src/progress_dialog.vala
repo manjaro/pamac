@@ -37,7 +37,7 @@ namespace Pamac {
 		Vte.Pty pty;
 
 		public ProgressDialog (Gtk.ApplicationWindow? window) {
-			Object (transient_for: window, use_header_bar: 0);
+			Object (transient_for: window, use_header_bar: 1);
 
 			//creating terminal
 			term = new Vte.Terminal ();

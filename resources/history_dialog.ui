@@ -4,7 +4,7 @@
   <requires lib="gtk+" version="3.12"/>
   <template class="PamacHistoryDialog" parent="GtkDialog">
     <property name="can_focus">False</property>
-    <property name="border_width">6</property>
+    <property name="border_width">3</property>
     <property name="title" translatable="yes">Pamac History</property>
     <property name="window_position">center-on-parent</property>
     <property name="default_width">600</property>
@@ -21,19 +21,7 @@
             <property name="can_focus">False</property>
             <property name="layout_style">end</property>
             <child>
-              <object class="GtkButton" id="close_button">
-                <property name="label" translatable="yes">_Close</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="has_focus">True</property>
-                <property name="receives_default">False</property>
-                <property name="use_underline">True</property>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
-                <property name="position">0</property>
-              </packing>
+              <placeholder/>
             </child>
           </object>
           <packing>
@@ -69,8 +57,5 @@
         </child>
       </object>
     </child>
-    <action-widgets>
-      <action-widget response="-7">close_button</action-widget>
-    </action-widgets>
   </template>
 </interface>

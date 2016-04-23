@@ -12,7 +12,6 @@
 ../resources/choose_provider_dialog.ui
 ../resources/progress_dialog.ui
 ../resources/history_dialog.ui
-../resources/transaction_info_dialog.ui
 ../resources/transaction_sum_dialog.ui
 ../resources/choose_dep_dialog.ui
 ../resources/manager_window.ui

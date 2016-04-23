@@ -2,7 +2,6 @@
 <gresources>
   <gresource prefix="/org/manjaro/pamac/manager">
     <file preprocess="xml-stripblanks">manager_window.ui</file>
-    <file preprocess="xml-stripblanks">history_dialog.ui</file>
     <file preprocess="xml-stripblanks">choose_dep_dialog.ui</file>
     <file preprocess="to-pixdata">package-available.png</file>
     <file preprocess="to-pixdata">package-available-locked.png</file>

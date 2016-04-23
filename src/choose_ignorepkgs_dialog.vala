@@ -23,16 +23,13 @@ namespace Pamac {
 	class ChooseIgnorepkgsDialog : Gtk.Dialog {
 
 		[GtkChild]
-		public Gtk.Label label;
-		[GtkChild]
 		public Gtk.TreeView treeview;
 
 		public Gtk.ListStore pkgs_list;
 
 		public ChooseIgnorepkgsDialog (Gtk.Window window) {
-			Object (transient_for: window, use_header_bar: 0);
+			Object (transient_for: window, use_header_bar: 1);
 
-			label.set_markup ("<b>%s</b>".printf (dgettext (null, "Choose the packages you do not want to upgrade")));
 			pkgs_list = new Gtk.ListStore (2, typeof (bool), typeof (string));
 			treeview.set_model (pkgs_list);
 		}
@@ -40,10 +37,10 @@ namespace Pamac {
 		[GtkCallback]
 		void on_renderertoggle_toggled (string path) {
 			Gtk.TreeIter iter;
-			GLib.Value selected;
+			bool selected;
 			if (pkgs_list.get_iter_from_string (out iter, path)) {
-				pkgs_list.get_value (iter, 0, out selected);
-				pkgs_list.set_value (iter, 0, !((bool) selected));
+				pkgs_list.get (iter, 0, out selected);
+				pkgs_list.set (iter, 0, !selected);
 			}
 		}
 	}

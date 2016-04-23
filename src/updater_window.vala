@@ -23,7 +23,7 @@ namespace Pamac {
 	class UpdaterWindow : Gtk.ApplicationWindow {
 
 		[GtkChild]
-		Gtk.Label top_label;
+		Gtk.HeaderBar headerbar;
 		[GtkChild]
 		Gtk.StackSwitcher stackswitcher;
 		[GtkChild]
@@ -41,7 +41,15 @@ namespace Pamac {
 		[GtkChild]
 		Gtk.Label bottom_label;
 		[GtkChild]
+		Gtk.Box transaction_infobox;
+		[GtkChild]
+		Gtk.Label transaction_infos_label;
+		[GtkChild]
+		Gtk.Button details_button;
+		[GtkChild]
 		Gtk.Button apply_button;
+		[GtkChild]
+		Gtk.Button cancel_button;
 
 		Gtk.ListStore repos_updates_list;
 		Gtk.ListStore aur_updates_list;
@@ -52,7 +60,10 @@ namespace Pamac {
 			Object (application: application);
 
 			bottom_label.visible  = false;
-			apply_button.sensitive = false;
+			apply_button.get_style_context ().add_class (Gtk.STYLE_CLASS_SUGGESTED_ACTION);
+			details_button.visible = false;
+			cancel_button.visible = false;
+			transaction_infobox.visible = false;
 			stackswitcher.visible = false;
 			aur_scrolledwindow.visible = false;
 
@@ -69,6 +80,8 @@ namespace Pamac {
 
 			transaction = new Transaction (this as Gtk.ApplicationWindow);
 			transaction.mode = Mode.UPDATER;
+			transaction.start_transaction.connect (on_start_transaction);
+			transaction.emit_action.connect (on_emit_action);
 			transaction.finished.connect (populate_updates_list);
 			transaction.get_updates_finished.connect (on_get_updates_finished);
 
@@ -77,23 +90,23 @@ namespace Pamac {
 			return false;
 		}
 
-		void set_apply_button_sensitive () {
-			bool sensitive = false;
+		void set_transaction_infobox_visible () {
+			bool visible = false;
 			repos_updates_list.foreach ((model, path, iter) => {
 				bool selected;
 				repos_updates_list.get (iter, 0, out selected);
-				sensitive = selected;
-				return sensitive;
+				visible = selected;
+				return visible;
 			});
-			if (!sensitive) {
+			if (!visible) {
 				aur_updates_list.foreach ((model, path, iter) => {
 					bool selected;
 					aur_updates_list.get (iter, 0, out selected);
-					sensitive = selected;
-					return sensitive;
+					visible = selected;
+					return visible;
 				});
 			}
-			apply_button.sensitive = sensitive;
+			transaction_infobox.visible = visible;
 		}
 
 		[GtkCallback]
@@ -110,7 +123,7 @@ namespace Pamac {
 				repos_updates_list.set (iter, 0, true);
 				transaction.temporary_ignorepkgs.remove (pkgname);
 			}
-			set_apply_button_sensitive ();
+			set_transaction_infobox_visible ();
 		}
 
 		[GtkCallback]
@@ -127,7 +140,7 @@ namespace Pamac {
 				aur_updates_list.set (iter, 0, true);
 				transaction.temporary_ignorepkgs.remove (pkgname);
 			}
-			set_apply_button_sensitive ();
+			set_transaction_infobox_visible ();
 		}
 
 		[GtkCallback]
@@ -139,8 +152,9 @@ namespace Pamac {
 
 		[GtkCallback]
 		void on_apply_button_clicked () {
-			this.get_window ().set_cursor (new Gdk.Cursor.for_display (Gdk.Display.get_default (), Gdk.CursorType.WATCH));
 			transaction.sysupgrade (false);
+			details_button.visible = true;
+			cancel_button.visible = true;
 		}
 
 		[GtkCallback]
@@ -150,17 +164,46 @@ namespace Pamac {
 		}
 
 		[GtkCallback]
-		void on_close_button_clicked () {
-			this.application.quit ();
+		void on_history_button_clicked () {
+			transaction.run_history_dialog ();
+		}
+
+		[GtkCallback]
+		void on_about_button_clicked () {
+			transaction.run_about_dialog ();
+		}
+
+		[GtkCallback]
+		void on_details_button_clicked () {
+			transaction.show_progress ();
+		}
+
+		[GtkCallback]
+		void on_cancel_button_clicked () {
+			transaction.cancel ();
+		}
+
+		void on_start_transaction () {
+			cancel_button.visible = false;
+			apply_button.visible = false;
+		}
+
+		void on_emit_action (string action) {
+			transaction_infos_label.label = action;
 		}
 
 		void populate_updates_list () {
+			apply_button.visible = true;
+			apply_button.grab_default ();
+			details_button.visible = false;
+			cancel_button.visible = false;
 			this.get_window ().set_cursor (new Gdk.Cursor.for_display (Gdk.Display.get_default (), Gdk.CursorType.WATCH));
+			transaction_infos_label.label = "";
 			transaction.start_get_updates ();
 		}
 
 		void on_get_updates_finished (Updates updates) {
-			top_label.set_markup ("");
+			headerbar.title = "";
 			repos_updates_list.clear ();
 			stackswitcher.visible = false;
 			repos_scrolledwindow.visible = true;
@@ -192,11 +235,11 @@ namespace Pamac {
 			}
 			uint updates_nb = repos_updates_nb + aur_updates_nb;
 			if (updates_nb == 0) {
-				top_label.set_markup("<b>%s</b>".printf (dgettext (null, "Your system is up-to-date")));
+				headerbar.title = dgettext (null, "Your system is up-to-date");
 			} else {
-				top_label.set_markup("<b>%s</b>".printf (dngettext (null, "%u available update", "%u available updates", updates_nb).printf (updates_nb)));
+				headerbar.title = dngettext (null, "%u available update", "%u available updates", updates_nb).printf (updates_nb);
 			}
-			set_apply_button_sensitive ();
+			set_transaction_infobox_visible ();
 			if (dsize != 0) {
 				bottom_label.set_markup("<b>%s: %s</b>".printf (dgettext (null, "Total download size"), format_size(dsize)));
 				bottom_label.visible = true;

@@ -3,13 +3,14 @@
 <interface>
   <requires lib="gtk+" version="3.12"/>
   <template class="PamacProgressDialog" parent="GtkDialog">
-    <property name="width_request">500</property>
     <property name="can_focus">False</property>
-    <property name="border_width">6</property>
+    <property name="border_width">3</property>
     <property name="title" translatable="yes">Progress</property>
     <property name="window_position">center-on-parent</property>
+    <property name="default_width">600</property>
     <property name="icon_name">system-software-install</property>
     <property name="type_hint">dialog</property>
+    <property name="deletable">False</property>
     <child internal-child="vbox">
       <object class="GtkBox" id="dialog-vbox1">
         <property name="visible">True</property>
@@ -60,6 +61,7 @@
           <object class="GtkLabel" id="action_label">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
+            <property name="margin_top">12</property>
           </object>
           <packing>
             <property name="expand">False</property>

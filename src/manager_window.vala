@@ -17,8 +17,6 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-const string VERSION = "4.0.0";
-
 namespace Pamac {
 
 	class ActivableCellRendererPixbuf : Gtk.CellRendererPixbuf {
@@ -61,6 +59,8 @@ namespace Pamac {
 		[GtkChild]
 		Gtk.Stack filters_stack;
 		[GtkChild]
+		Gtk.StackSwitcher filters_stackswitcher;
+		[GtkChild]
 		Gtk.SearchEntry search_entry;
 		[GtkChild]
 		Gtk.TreeView search_treeview;
@@ -101,9 +101,9 @@ namespace Pamac {
 		[GtkChild]
 		Gtk.Label transaction_infos_label;
 		[GtkChild]
-		Gtk.Button transaction_infos_apply_button;
+		Gtk.Button apply_button;
 		[GtkChild]
-		Gtk.Button transaction_infos_cancel_button;
+		Gtk.Button cancel_button;
 
 		// menu
 		Gtk.Menu right_click_menu;
@@ -300,6 +300,7 @@ namespace Pamac {
 			show_default_pkgs ();
 			search_entry.grab_focus ();
 
+			main_stack.notify["visible-child"].connect (on_main_stack_visible_child_changed);
 			filters_stack.notify["visible-child"].connect (on_filters_stack_visible_child_changed);
 			packages_stack.notify["visible-child"].connect (on_packages_stack_visible_child_changed);
 
@@ -965,16 +966,18 @@ namespace Pamac {
 		void choose_opt_dep (GLib.List<string> pkgnames) {
 			foreach (unowned string pkgname in pkgnames) {
 				var choose_dep_dialog = new ChooseDependenciesDialog (this);
-				int length = 0;
+//~ 				int length = 0;
 				foreach (unowned string optdep in transaction.get_pkg_uninstalled_optdeps (pkgname)) {
-					length++;
+//~ 					length++;
 					choose_dep_dialog.deps_list.insert_with_values (null, -1,
 																	0, false,
 																	1, optdep);
 				}
-				choose_dep_dialog.label.set_markup ("<b>%s</b>".printf (
-					ngettext ("%s has %u uninstalled optional dependency.\nChoose if you would like to install it",
-							"%s has %u uninstalled optional dependencies.\nChoose those you would like to install", length).printf (pkgname, length)));
+				choose_dep_dialog.title = dgettext (null, "Choose optional dependencies for %s").printf (pkgname);
+//~ 				var headerbar = choose_dep_dialog.get_header_bar () as Gtk.HeaderBar;
+//~ 				headerbar.subtitle = ngettext ("%s has %u uninstalled optional dependency",
+//~ 												"%s has %u uninstalled optional dependencies",
+//~ 												length).printf (pkgname, length);
 				if (choose_dep_dialog.run () == Gtk.ResponseType.OK) {
 					choose_dep_dialog.deps_list.foreach ((model, path, iter) => {
 						bool selected;
@@ -1390,44 +1393,30 @@ namespace Pamac {
 			}
 		}
 
+		void on_main_stack_visible_child_changed () {
+			switch (main_stack.visible_child_name) {
+				case "browse":
+					filters_stackswitcher.visible = true;
+					break;
+				case "details":
+					filters_stackswitcher.visible = false;
+					break;
+				default:
+					break;
+			}
+		}
+
 		void on_filters_stack_visible_child_changed () {
 			refresh_packages_list ();
 		}
 
 		[GtkCallback]
-		void on_history_item_activate () {
-			var file = GLib.File.new_for_path ("/var/log/pamac.log");
-			if (!file.query_exists ()) {
-				GLib.stderr.printf ("File '%s' doesn't exist.\n", file.get_path ());
-			} else {
-				StringBuilder text = new StringBuilder ();
-				try {
-					// Open file for reading and wrap returned FileInputStream into a
-					// DataInputStream, so we can read line by line
-					var dis = new DataInputStream (file.read ());
-					string line;
-					// Read lines until end of file (null) is reached
-					while ((line = dis.read_line ()) != null) {
-						// construct text in reverse order
-						text.prepend (line + "\n");
-					}
-				} catch (GLib.Error e) {
-					GLib.stderr.printf ("%s\n", e.message);
-				}
-				var history_dialog = new HistoryDialog (this);
-				history_dialog.textview.buffer.set_text (text.str, (int) text.len);
-				history_dialog.show ();
-				history_dialog.response.connect (() => {
-					history_dialog.destroy ();
-				});
-				while (Gtk.events_pending ()) {
-					Gtk.main_iteration ();
-				}
-			}
+		void on_history_button_clicked () {
+			transaction.run_history_dialog ();
 		}
 
 		[GtkCallback]
-		void on_local_item_activate () {
+		void on_local_button_clicked () {
 			Gtk.FileChooserDialog chooser = new Gtk.FileChooserDialog (
 					dgettext (null, "Install Local Packages"), this, Gtk.FileChooserAction.OPEN,
 					dgettext (null, "_Cancel"), Gtk.ResponseType.CANCEL,
@@ -1465,25 +1454,17 @@ namespace Pamac {
 		}
 
 		[GtkCallback]
-		void on_preferences_item_activate () {
+		void on_preferences_button_clicked () {
 			transaction.run_preferences_dialog.begin ();
 		}
 
 		[GtkCallback]
-		void on_about_item_activate () {
-			Gtk.show_about_dialog (
-				this,
-				"program_name", "Pamac",
-				"logo_icon_name", "system-software-install",
-				"comments", dgettext (null, "A Gtk3 frontend for libalpm"),
-				"copyright", "Copyright © 2016 Guillaume Benoit",
-				"version", VERSION,
-				"license_type", Gtk.License.GPL_3_0,
-				"website", "http://manjaro.org");
+		void on_about_button_clicked () {
+			transaction.run_about_dialog ();
 		}
 
 		[GtkCallback]
-		void on_transaction_infos_details_button_clicked () {
+		void on_details_button_clicked () {
 			if (transaction_running) {
 				transaction.show_progress ();
 			} else {
@@ -1500,14 +1481,13 @@ namespace Pamac {
 		}
 
 		[GtkCallback]
-		void on_transaction_infos_apply_button_clicked () {
-			//this.get_window ().set_cursor (new Gdk.Cursor.for_display (Gdk.Display.get_default (), Gdk.CursorType.WATCH));
+		void on_apply_button_clicked () {
 			transaction_running = true;
 			transaction.run ();
 		}
 
 		[GtkCallback]
-		void on_transaction_infos_cancel_button_clicked () {
+		void on_cancel_button_clicked () {
 			if (transaction_running) {
 				transaction.cancel ();
 			} else {
@@ -1518,17 +1498,17 @@ namespace Pamac {
 		}
 
 		[GtkCallback]
-		void on_refresh_item_activate () {
+		void on_refresh_button_clicked () {
 			this.get_window ().set_cursor (new Gdk.Cursor.for_display (Gdk.Display.get_default (), Gdk.CursorType.WATCH));
 			refreshing = true;
 			transaction.start_refresh (false);
-			transaction_infos_apply_button.visible = false;
+			apply_button.visible = false;
 			transaction_infobox.visible = true;
 		}
 
 		void on_start_transaction () {
-			transaction_infos_cancel_button.visible = false;
-			transaction_infos_apply_button.visible = false;
+			cancel_button.visible = false;
+			apply_button.visible = false;
 		}
 
 		void on_emit_action (string action) {
@@ -1546,8 +1526,8 @@ namespace Pamac {
 				refreshing = false;
 			} else {
 				transaction_running = false;
-				transaction_infos_cancel_button.visible = true;
-				transaction_infos_apply_button.visible = true;
+				cancel_button.visible = true;
+				apply_button.visible = true;
 			}
 			set_pendings_operations ();
 		}

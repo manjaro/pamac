@@ -19,14 +19,14 @@
 
 namespace Pamac {
 
-	[GtkTemplate (ui = "/org/manjaro/pamac/manager/history_dialog.ui")]
+	[GtkTemplate (ui = "/org/manjaro/pamac/transaction/history_dialog.ui")]
 	class HistoryDialog : Gtk.Dialog {
 
 		[GtkChild]
 		public Gtk.TextView textview;
 
-		public HistoryDialog (ManagerWindow window) {
-			Object (transient_for: window, use_header_bar: 0);
+		public HistoryDialog (Gtk.ApplicationWindow window) {
+			Object (transient_for: window, use_header_bar: 1);
 		}
 	}
 }

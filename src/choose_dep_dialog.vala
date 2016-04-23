@@ -23,14 +23,12 @@ namespace Pamac {
 	class ChooseDependenciesDialog : Gtk.Dialog {
 
 		[GtkChild]
-		public Gtk.Label label;
-		[GtkChild]
 		public Gtk.TreeView treeview;
 
 		public Gtk.ListStore deps_list;
 
 		public ChooseDependenciesDialog (Gtk.ApplicationWindow? window) {
-			Object (transient_for: window, use_header_bar: 0);
+			Object (transient_for: window, use_header_bar: 1);
 
 			deps_list = new Gtk.ListStore (2, typeof (bool), typeof (string));
 			treeview.set_model (deps_list);

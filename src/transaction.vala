@@ -17,6 +17,8 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+const string VERSION = "4.0.0";
+
 namespace Pamac {
 	[DBus (name = "org.manjaro.pamac")]
 	interface Daemon : Object {
@@ -141,10 +143,10 @@ namespace Pamac {
 		uint64 rates_nb;
 		Timer timer;
 		bool success;
+		StringBuilder dialog_textbuffer;
 
 		//dialogs
 		TransactionSumDialog transaction_sum_dialog;
-		TransactionInfoDialog transaction_info_dialog;
 		ProgressDialog progress_dialog;
 		//parent window
 		public Gtk.ApplicationWindow? application_window { get; private set; }
@@ -180,10 +182,8 @@ namespace Pamac {
 			//creating dialogs
 			this.application_window = application_window;
 			transaction_sum_dialog = new TransactionSumDialog (application_window);
-			transaction_info_dialog = new TransactionInfoDialog (application_window);
 			progress_dialog = new ProgressDialog (application_window);
 			progress_dialog.close_button.clicked.connect (hide_progress);
-			progress_dialog.delete_event.connect (progress_dialog.hide_on_delete);
 			progress_dialog.cancel_button.clicked.connect (on_progress_dialog_cancel_button_clicked);
 			// connect to child_exited signal which will only be emit after a call to watch_child
 			progress_dialog.term.child_exited.connect (on_term_child_exited);
@@ -193,6 +193,38 @@ namespace Pamac {
 			sysupgrade_after_trans = false;
 			timer = new Timer ();
 			success = false;
+			dialog_textbuffer = new StringBuilder ();
+		}
+
+		public void run_history_dialog () {
+			var file = GLib.File.new_for_path ("/var/log/pamac.log");
+			if (!file.query_exists ()) {
+				GLib.stderr.printf ("File '%s' doesn't exist.\n", file.get_path ());
+			} else {
+				StringBuilder text = new StringBuilder ();
+				try {
+					// Open file for reading and wrap returned FileInputStream into a
+					// DataInputStream, so we can read line by line
+					var dis = new DataInputStream (file.read ());
+					string line;
+					// Read lines until end of file (null) is reached
+					while ((line = dis.read_line ()) != null) {
+						// construct text in reverse order
+						text.prepend (line + "\n");
+					}
+				} catch (GLib.Error e) {
+					GLib.stderr.printf ("%s\n", e.message);
+				}
+				var history_dialog = new HistoryDialog (application_window);
+				history_dialog.textview.buffer.set_text (text.str, (int) text.len);
+				history_dialog.show ();
+				history_dialog.response.connect (() => {
+					history_dialog.destroy ();
+				});
+				while (Gtk.events_pending ()) {
+					Gtk.main_iteration ();
+				}
+			}
 		}
 
 		public async void run_preferences_dialog () {
@@ -211,6 +243,18 @@ namespace Pamac {
 			start_get_authorization ();
 			yield;
 			daemon.disconnect (handler_id);
+		}
+
+		public void run_about_dialog () {
+			Gtk.show_about_dialog (
+				application_window,
+				"program_name", "Pamac",
+				"logo_icon_name", "system-software-install",
+				"comments", dgettext (null, "A Gtk3 frontend for libalpm"),
+				"copyright", "Copyright © 2016 Guillaume Benoit",
+				"version", VERSION,
+				"license_type", Gtk.License.GPL_3_0,
+				"website", "http://manjaro.org");
 		}
 
 		public ErrorInfos get_current_error () {
@@ -304,12 +348,6 @@ namespace Pamac {
 			string action = dgettext (null, "Synchronizing package databases") + "...";
 			reset_progress_dialog (action);
 			emit_action (action);
-			if (mode != Mode.MANAGER) {
-				progress_dialog.show ();
-				while (Gtk.events_pending ()) {
-					Gtk.main_iteration ();
-				}
-			}
 			try {
 				daemon.refresh_finished.connect (on_refresh_finished);
 				daemon.start_refresh (force);
@@ -637,12 +675,6 @@ namespace Pamac {
 					success = false;
 				}
 				if (success) {
-					if (mode != Mode.MANAGER) {
-						progress_dialog.show ();
-						while (Gtk.events_pending ()) {
-							Gtk.main_iteration ();
-						}
-					}
 					try {
 						daemon.start_trans_prepare ();
 					} catch (IOError e) {
@@ -718,12 +750,6 @@ namespace Pamac {
 			string action = dgettext (null, "Preparing") + "...";
 			reset_progress_dialog (action);
 			emit_action (action);
-			if (mode != Mode.MANAGER) {
-				progress_dialog.show ();
-				while (Gtk.events_pending ()) {
-					Gtk.main_iteration ();
-				}
-			}
 			// run
 			if (to_install.length == 0
 					&& to_remove.length == 0
@@ -791,16 +817,36 @@ namespace Pamac {
 
 		void choose_provider (string depend, string[] providers) {
 			var choose_provider_dialog = new ChooseProviderDialog (application_window);
-			choose_provider_dialog.label.set_markup ("<b>%s</b>".printf (dgettext (null, "Choose a provider for %s").printf (depend)));
+			choose_provider_dialog.title = dgettext (null, "Choose a provider for %s").printf (depend);
+			unowned Gtk.Box box = choose_provider_dialog.get_content_area ();
+			Gtk.RadioButton? last_radiobutton = null;
+			Gtk.RadioButton? first_radiobutton = null;
 			foreach (unowned string provider in providers) {
-				choose_provider_dialog.comboboxtext.append_text (provider);
+				var radiobutton = new Gtk.RadioButton.with_label_from_widget (last_radiobutton, provider);
+				radiobutton.visible = true;
+				// active first provider
+				if (last_radiobutton == null) {
+					radiobutton.active = true;
+					first_radiobutton = radiobutton;
+				}
+				last_radiobutton = radiobutton;
+				box.add (radiobutton);
 			}
-			choose_provider_dialog.comboboxtext.active = 0;
 			choose_provider_dialog.run ();
-			try {
-				daemon.choose_provider (choose_provider_dialog.comboboxtext.active);
-			} catch (IOError e) {
-				stderr.printf ("IOError: %s\n", e.message);
+			// get active provider
+			int index = 0;
+			// list is given in reverse order so reverse it !
+			SList<unowned Gtk.RadioButton> list = last_radiobutton.get_group ().copy ();
+			list.reverse ();
+			foreach (var radiobutton in list) {
+				if (radiobutton.active) {
+					try {
+						daemon.choose_provider (index);
+					} catch (IOError e) {
+						stderr.printf ("IOError: %s\n", e.message);
+					}
+				}
+				index++;
 			}
 			choose_provider_dialog.destroy ();
 			while (Gtk.events_pending ()) {
@@ -814,7 +860,6 @@ namespace Pamac {
 			uint64 dsize = 0;
 			transaction_summary.remove_all ();
 			var summary = TransactionSummary ();
-			transaction_sum_dialog.top_label.set_markup ("<big><b>%s</b></big>".printf (dgettext (null, "Transaction Summary")));
 			transaction_sum_dialog.sum_list.clear ();
 			try {
 				summary = daemon.get_transaction_summary ();
@@ -908,10 +953,10 @@ namespace Pamac {
 				}
 			}
 			if (dsize == 0) {
-				transaction_sum_dialog.bottom_label.visible = false;
+				transaction_sum_dialog.top_label.visible = false;
 			} else {
-				transaction_sum_dialog.bottom_label.set_markup ("<b>%s: %s</b>".printf (dgettext (null, "Total download size"), format_size (dsize)));
-				transaction_sum_dialog.bottom_label.visible = true;
+				transaction_sum_dialog.top_label.set_markup ("<b>%s: %s</b>".printf (dgettext (null, "Total download size"), format_size (dsize)));
+				transaction_sum_dialog.top_label.visible = true;
 			}
 			return type;
 		}
@@ -970,11 +1015,7 @@ namespace Pamac {
 			progress_dialog.hide ();
 			progress_dialog.spawn_in_term ({"/usr/bin/echo", dgettext (null, "Transaction cancelled") + ".\n"});
 			progress_dialog.expander.expanded = false;
-			Gtk.TextIter start_iter;
-			Gtk.TextIter end_iter;
-			transaction_info_dialog.textbuffer.get_start_iter (out start_iter);
-			transaction_info_dialog.textbuffer.get_end_iter (out end_iter);
-			transaction_info_dialog.textbuffer.delete (ref start_iter, ref end_iter);
+			dialog_textbuffer = new StringBuilder ();
 		}
 
 		public void release () {
@@ -1097,10 +1138,7 @@ namespace Pamac {
 					break;
 				case 33: //Alpm.Event.Type.OPTDEP_REMOVAL
 					detailed_action = dgettext (null, "%s optionally requires %s").printf (details[0], details[1]);
-					Gtk.TextIter end_iter;
-					string msg = detailed_action + "\n";
-					transaction_info_dialog.textbuffer.get_end_iter (out end_iter);
-					transaction_info_dialog.textbuffer.insert (ref end_iter, msg, msg.length);
+					dialog_textbuffer.append (detailed_action + "\n");
 					break;
 				case 34: //Alpm.Event.Type.DATABASE_MISSING
 					detailed_action = dgettext (null, "Database file for %s does not exist").printf (details[0]);
@@ -1312,7 +1350,6 @@ namespace Pamac {
 		void on_emit_log (uint level, string msg) {
 			// msg ends with \n
 			string? line = null;
-			Gtk.TextIter end_iter;
 			if (level == 1) { //Alpm.LogLevel.ERROR
 				if (previous_filename != "") {
 					line = dgettext (null, "Error") + ": " + previous_filename + ": " + msg;
@@ -1327,65 +1364,60 @@ namespace Pamac {
 					} else {
 						line = dgettext (null, "Warning") + ": " + msg;
 					}
-					transaction_info_dialog.textbuffer.get_end_iter (out end_iter);
-					transaction_info_dialog.textbuffer.insert (ref end_iter, msg, msg.length);
+					dialog_textbuffer.append (msg);
 				}
 			}
 			if (line != null) {
-				display_error (line, {});
+				progress_dialog.spawn_in_term ({"echo", "-n", line});
 			}
 		}
 
 		void show_warnings () {
-			if (transaction_info_dialog.textbuffer.text != "") {
-				transaction_info_dialog.title = dgettext (null, "Warning");
-				transaction_info_dialog.label.visible = false;
-				transaction_info_dialog.expander.visible = true;
-				transaction_info_dialog.expander.expanded = true;
-				transaction_info_dialog.run ();
-				transaction_info_dialog.hide ();
-				while (Gtk.events_pending ()) {
-					Gtk.main_iteration ();
-				}
-				Gtk.TextIter start_iter;
-				Gtk.TextIter end_iter;
-				transaction_info_dialog.textbuffer.get_start_iter (out start_iter);
-				transaction_info_dialog.textbuffer.get_end_iter (out end_iter);
-				transaction_info_dialog.textbuffer.delete (ref start_iter, ref end_iter);
+			if (dialog_textbuffer.len > 0) {
+				var dialog = new Gtk.Dialog.with_buttons (dgettext (null, "Warning"),
+														application_window,
+														Gtk.DialogFlags.MODAL | Gtk.DialogFlags.USE_HEADER_BAR);
+				dialog.deletable = false;
+				unowned Gtk.Widget widget = dialog.add_button (dgettext (null, "_Close"), Gtk.ResponseType.CLOSE);
+				widget.can_focus = true;
+				widget.has_focus = true;
+				widget.can_default = true;
+				widget.has_default = true;
+				var scrolledwindow = new Gtk.ScrolledWindow (null, null);
+				var label = new Gtk.Label (dialog_textbuffer.str);
+				label.margin = 12;
+				scrolledwindow.visible = true;
+				label.visible = true;
+				scrolledwindow.add (label);
+				scrolledwindow.expand = true;
+				unowned Gtk.Box box = dialog.get_content_area ();
+				box.add (scrolledwindow);
+				dialog.default_width = 600;
+				dialog.default_height = 300;
+				dialog.run ();
+				dialog.destroy ();
+				dialog_textbuffer = new StringBuilder ();
 			}
 		}
 
 		void display_error (string message, string[] details) {
 			progress_dialog.spawn_in_term ({"echo", "-n", message});
-			Gtk.TextIter start_iter;
-			Gtk.TextIter end_iter;
-			transaction_info_dialog.title = dgettext (null, "Error");
-			transaction_info_dialog.label.visible = true;
-			transaction_info_dialog.label.label = message;
+			var dialog = new Gtk.MessageDialog (application_window,
+												Gtk.DialogFlags.MODAL,
+												Gtk.MessageType.ERROR,
+												Gtk.ButtonsType.CLOSE,
+												message);
 			if (details.length != 0) {
-				transaction_info_dialog.textbuffer.get_start_iter (out start_iter);
-				transaction_info_dialog.textbuffer.get_end_iter (out end_iter);
-				transaction_info_dialog.textbuffer.delete (ref start_iter, ref end_iter);
-				transaction_info_dialog.expander.visible = true;
-				transaction_info_dialog.expander.expanded = true;
+				var textbuffer = new StringBuilder ();
 				progress_dialog.spawn_in_term ({"echo", ":"});
 				foreach (unowned string detail in details) {
 					progress_dialog.spawn_in_term ({"echo", detail});
-					string str = detail + "\n";
-					transaction_info_dialog.textbuffer.get_end_iter (out end_iter);
-					transaction_info_dialog.textbuffer.insert (ref end_iter, str, str.length);
+					textbuffer.append (detail + "\n");
 				}
-			} else {
-				transaction_info_dialog.expander.visible = false;
+				dialog.secondary_text = textbuffer.str;
 			}
-			transaction_info_dialog.run ();
-			transaction_info_dialog.hide ();
-			transaction_info_dialog.textbuffer.get_start_iter (out start_iter);
-			transaction_info_dialog.textbuffer.get_end_iter (out end_iter);
-			transaction_info_dialog.textbuffer.delete (ref start_iter, ref end_iter);
-			while (Gtk.events_pending ()) {
-				Gtk.main_iteration ();
-			}
+			dialog.run ();
+			dialog.destroy ();
 		}
 
 		void handle_error (ErrorInfos error) {
