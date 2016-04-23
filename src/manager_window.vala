@@ -49,6 +49,8 @@ namespace Pamac {
 		[GtkChild]
 		Gtk.Stack main_stack;
 		[GtkChild]
+		Gtk.Button button_back;
+		[GtkChild]
 		Gtk.TreeView packages_treeview;
 		[GtkChild]
 		Gtk.TreeViewColumn packages_state_column;
@@ -140,6 +142,7 @@ namespace Pamac {
 			Object (application: application);
 
 			support_aur (false, false);
+			button_back.visible = false;
 			transaction_infobox.visible = false;;
 			refreshing = false;
 			transaction_running = false;
@@ -1396,10 +1399,12 @@ namespace Pamac {
 		void on_main_stack_visible_child_changed () {
 			switch (main_stack.visible_child_name) {
 				case "browse":
+					button_back.visible = false;
 					filters_stackswitcher.visible = true;
 					break;
 				case "details":
 					filters_stackswitcher.visible = false;
+					button_back.visible = true;
 					break;
 				default:
 					break;
