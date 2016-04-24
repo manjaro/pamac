@@ -1,8 +1,8 @@
 # Translation of Pamac.
 # Copyright (C) 2007-2012 Free Software Foundation, Inc.
 # This file is distributed under the same license as the Pamac package.
-# Guillaume Benoit <guillaume@manjaro.org>, 2013-2015.
-#
+# Guillaume Benoit <guillaume@manjaro.org>, 2013-2016.
+# 
 # Translators:
 # António Correia, 2014
 # António Correia, 2014-2015
@@ -16,13 +16,13 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2016-04-24 08:44+0200\n"
-"PO-Revision-Date: 2016-04-17 08:28+0000\n"
+"PO-Revision-Date: 2016-04-24 06:51+0000\n"
 "Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/pt_PT/)\n"
-"Language: pt_PT\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: pt_PT\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: ../src/daemon.vala
@@ -669,7 +669,9 @@ msgid "Remove unrequired dependencies"
 msgstr "Remover dependências não-requeridas"
 
 #: ../resources/preferences_dialog.ui
-msgid "When removing a package, also remove its dependencies that are not required by other packages"
+msgid ""
+"When removing a package, also remove its dependencies that are not required "
+"by other packages"
 msgstr "Ao remover um pacote, remover também todas as suas dependências que não sejam requeridas por outros pacotes"
 
 #: ../resources/preferences_dialog.ui
@@ -712,9 +714,7 @@ msgstr "Repositórios Oficiais"
 msgid ""
 "AUR is a community maintained repository so it presents potential risks and problems.\n"
 "All AUR users should be familiar with the build process."
-msgstr ""
-"AUR é um repositório mantido pela comunidade por isso apresenta riscos e problemas potenciais.\n"
-"Todos os utilizadores do AUR devem estar familiarizados com o processo de compilação."
+msgstr "AUR é um repositório mantido pela comunidade por isso apresenta riscos e problemas potenciais.\nTodos os utilizadores do AUR devem estar familiarizados com o processo de compilação."
 
 #: ../resources/preferences_dialog.ui
 msgid "Enable AUR support"
@@ -739,34 +739,3 @@ msgstr "Não pedir confirmação ao criar pacotes"
 #: ../resources/choose_ignorepkgs_dialog.ui
 msgid "Choose Ignored Upgrades"
 msgstr "Escolha Atualizações Ignoradas"
-
-#~ msgid "Authentication is required"
-#~ msgstr "Autenticação é necessária"
-
-#~ msgid ""
-#~ "%s has %u uninstalled optional dependency.\n"
-#~ "Choose if you would like to install it"
-#~ msgid_plural ""
-#~ "%s has %u uninstalled optional dependencies.\n"
-#~ "Choose those you would like to install"
-#~ msgstr[0] ""
-#~ "%s tem %u dependência opcional não instalada.\n"
-#~ "Escolha se deseja de instalá-la"
-#~ msgstr[1] ""
-#~ "%s tem %u dependências opcionais não instaladas.\n"
-#~ "Escolha aquelas que deseja de instalar"
-
-#~ msgid "Choose the packages you do not want to upgrade"
-#~ msgstr "Escolha os pacotes que não deseja atualizar"
-
-#~ msgid "_OK"
-#~ msgstr "_OK"
-
-#~ msgid "_Preferences"
-#~ msgstr "_Preferências"
-
-#~ msgid "_About"
-#~ msgstr "_Sobre"
-
-#~ msgid "_Refresh"
-#~ msgstr "_Recarregar"

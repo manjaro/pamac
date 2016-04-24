@@ -1,8 +1,8 @@
 # Translation of Pamac.
 # Copyright (C) 2007-2012 Free Software Foundation, Inc.
 # This file is distributed under the same license as the Pamac package.
-# Guillaume Benoit <guillaume@manjaro.org>, 2013-2015.
-#
+# Guillaume Benoit <guillaume@manjaro.org>, 2013-2016.
+# 
 # Translators:
 # aboutafteragain <aboutafteragain@gmail.com>, 2015
 # aboutafteragain <aboutafteragain@gmail.com>, 2015
@@ -14,13 +14,13 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2016-04-24 08:44+0200\n"
-"PO-Revision-Date: 2016-04-23 07:23+0000\n"
-"Last-Translator: Osoitz <oelkoro@gmail.com>\n"
+"PO-Revision-Date: 2016-04-24 06:51+0000\n"
+"Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Basque (http://www.transifex.com/manjarolinux/manjaro-pamac/language/eu/)\n"
-"Language: eu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: eu\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: ../src/daemon.vala
@@ -667,7 +667,9 @@ msgid "Remove unrequired dependencies"
 msgstr "Kendu behar ez diren menpekotasunak"
 
 #: ../resources/preferences_dialog.ui
-msgid "When removing a package, also remove its dependencies that are not required by other packages"
+msgid ""
+"When removing a package, also remove its dependencies that are not required "
+"by other packages"
 msgstr "Pakete bat kentzean, bere menpekotasunak kendu ere beste paketeren batek behar ez baditu"
 
 #: ../resources/preferences_dialog.ui
@@ -710,9 +712,7 @@ msgstr "Biltegi ofizialak"
 msgid ""
 "AUR is a community maintained repository so it presents potential risks and problems.\n"
 "All AUR users should be familiar with the build process."
-msgstr ""
-"AUR komunitatean mantendutako biltegi bat da eta arrisku zein arazo potentzialak ditu\n"
-"AUR erabiltzaile guztiek eraikitzeko prozesua ezagutu beharko lukete."
+msgstr "AUR komunitatean mantendutako biltegi bat da eta arrisku zein arazo potentzialak ditu\nAUR erabiltzaile guztiek eraikitzeko prozesua ezagutu beharko lukete."
 
 #: ../resources/preferences_dialog.ui
 msgid "Enable AUR support"
@@ -737,34 +737,3 @@ msgstr "Ez eskatu berrespena paketeak eraikitzean"
 #: ../resources/choose_ignorepkgs_dialog.ui
 msgid "Choose Ignored Upgrades"
 msgstr "Hautatu ezikusitako bertsio-berritzeak"
-
-#~ msgid "Authentication is required"
-#~ msgstr "Autentifikazioa behar da"
-
-#~ msgid ""
-#~ "%s has %u uninstalled optional dependency.\n"
-#~ "Choose if you would like to install it"
-#~ msgid_plural ""
-#~ "%s has %u uninstalled optional dependencies.\n"
-#~ "Choose those you would like to install"
-#~ msgstr[0] ""
-#~ "%s instalatu gabeko menpekotasun %u du.\n"
-#~ "Hautatu instalatu nahi duzun"
-#~ msgstr[1] ""
-#~ "%s instalatu gabeko %u menpekotasun ditu.\n"
-#~ "Hautatu instalatu nahi dituzunak"
-
-#~ msgid "Choose the packages you do not want to upgrade"
-#~ msgstr "Aukeratu bertsio-berritu nahi ez dituzun paketeak"
-
-#~ msgid "_OK"
-#~ msgstr "_Ados"
-
-#~ msgid "_Preferences"
-#~ msgstr "_Hobespenak"
-
-#~ msgid "_About"
-#~ msgstr "_Honi Buruz"
-
-#~ msgid "_Refresh"
-#~ msgstr "_Freskatu"

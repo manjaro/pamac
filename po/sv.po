@@ -1,8 +1,8 @@
 # Translation of Pamac.
 # Copyright (C) 2007-2012 Free Software Foundation, Inc.
 # This file is distributed under the same license as the Pamac package.
-# Guillaume Benoit <guillaume@manjaro.org>, 2013-2015.
-#
+# Guillaume Benoit <guillaume@manjaro.org>, 2013-2016.
+# 
 # Translators:
 # Alexander Lindberg <alexanderlndbrg@gmail.com>, 2013-2014
 # Mattias Johansson <cashew75s@gmail.com>, 2014
@@ -17,13 +17,13 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2016-04-24 08:44+0200\n"
-"PO-Revision-Date: 2016-04-17 08:28+0000\n"
+"PO-Revision-Date: 2016-04-24 06:51+0000\n"
 "Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Swedish (http://www.transifex.com/manjarolinux/manjaro-pamac/language/sv/)\n"
-"Language: sv\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: sv\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: ../src/daemon.vala
@@ -670,7 +670,9 @@ msgid "Remove unrequired dependencies"
 msgstr "Ta bort icke-nödvändiga beroenden"
 
 #: ../resources/preferences_dialog.ui
-msgid "When removing a package, also remove its dependencies that are not required by other packages"
+msgid ""
+"When removing a package, also remove its dependencies that are not required "
+"by other packages"
 msgstr "När ett paket tas bort, ta även bort de beroenden paketet har, men som inga andra paket kräver"
 
 #: ../resources/preferences_dialog.ui
@@ -713,9 +715,7 @@ msgstr "Officiella förråd"
 msgid ""
 "AUR is a community maintained repository so it presents potential risks and problems.\n"
 "All AUR users should be familiar with the build process."
-msgstr ""
-"AUR är ett gemensamt under- och tillhandahållet förråd som kan medföra risker och problem.\n"
-"Alla AUR-användare bör vara bekanta med byggprocessen."
+msgstr "AUR är ett gemensamt under- och tillhandahållet förråd som kan medföra risker och problem.\nAlla AUR-användare bör vara bekanta med byggprocessen."
 
 #: ../resources/preferences_dialog.ui
 msgid "Enable AUR support"
@@ -740,34 +740,3 @@ msgstr "Bygg paket utan att fråga efter tillstånd"
 #: ../resources/choose_ignorepkgs_dialog.ui
 msgid "Choose Ignored Upgrades"
 msgstr "Välj ignorerade paket"
-
-#~ msgid "Authentication is required"
-#~ msgstr "Autentisering krävs"
-
-#~ msgid ""
-#~ "%s has %u uninstalled optional dependency.\n"
-#~ "Choose if you would like to install it"
-#~ msgid_plural ""
-#~ "%s has %u uninstalled optional dependencies.\n"
-#~ "Choose those you would like to install"
-#~ msgstr[0] ""
-#~ "%s har %u oinstallerat frivilligt beroende.\n"
-#~ "Välj om du vill installera det"
-#~ msgstr[1] ""
-#~ "%s har %u oinstallerade frivilliga beroenden.\n"
-#~ "Välj om du vill installera dem"
-
-#~ msgid "Choose the packages you do not want to upgrade"
-#~ msgstr "Välj de paket du inte vill uppgradera"
-
-#~ msgid "_OK"
-#~ msgstr "_OK"
-
-#~ msgid "_Preferences"
-#~ msgstr "_Inställningar"
-
-#~ msgid "_About"
-#~ msgstr "_Om"
-
-#~ msgid "_Refresh"
-#~ msgstr "_Uppdatera"

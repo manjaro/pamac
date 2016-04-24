@@ -1,8 +1,8 @@
 # Translation of Pamac.
 # Copyright (C) 2007-2012 Free Software Foundation, Inc.
 # This file is distributed under the same license as the Pamac package.
-# Guillaume Benoit <guillaume@manjaro.org>, 2013-2015.
-#
+# Guillaume Benoit <guillaume@manjaro.org>, 2013-2016.
+# 
 # Translators:
 # Taimur <smt.mymail@gmail.com>, 2015
 msgid ""
@@ -10,13 +10,13 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2016-04-24 08:44+0200\n"
-"PO-Revision-Date: 2016-04-17 08:28+0000\n"
+"PO-Revision-Date: 2016-04-24 06:51+0000\n"
 "Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Urdu (Pakistan) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/ur_PK/)\n"
-"Language: ur_PK\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: ur_PK\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: ../src/daemon.vala
@@ -663,7 +663,9 @@ msgid "Remove unrequired dependencies"
 msgstr "غیر ضروری انحصار پیکج نکال دیں"
 
 #: ../resources/preferences_dialog.ui
-msgid "When removing a package, also remove its dependencies that are not required by other packages"
+msgid ""
+"When removing a package, also remove its dependencies that are not required "
+"by other packages"
 msgstr "تمام  انحصاری پیکجز جو کہ کسی دوسرے پیکیج کی ضروری نہ ہوں،  ان کو بھی پیکیج کو  غیر انسٹال کرتے وقت نکال دیں"
 
 #: ../resources/preferences_dialog.ui
@@ -731,18 +733,3 @@ msgstr ""
 #: ../resources/choose_ignorepkgs_dialog.ui
 msgid "Choose Ignored Upgrades"
 msgstr ""
-
-#~ msgid "Authentication is required"
-#~ msgstr "تصدیق کی ضرورت ہے"
-
-#~ msgid "_OK"
-#~ msgstr "ٹھیک"
-
-#~ msgid "_Preferences"
-#~ msgstr "_ترجیحات"
-
-#~ msgid "_About"
-#~ msgstr "_معلومات"
-
-#~ msgid "_Refresh"
-#~ msgstr "_تازہ کریں"

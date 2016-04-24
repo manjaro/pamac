@@ -1,8 +1,8 @@
 # Translation of Pamac.
 # Copyright (C) 2007-2012 Free Software Foundation, Inc.
 # This file is distributed under the same license as the Pamac package.
-# Guillaume Benoit <guillaume@manjaro.org>, 2013-2015.
-#
+# Guillaume Benoit <guillaume@manjaro.org>, 2013-2016.
+# 
 # Translators:
 # Morten Rene <arath.inc@gmail.com>, 2014
 # Bård Spein <baard.spein@gmail.com>, 2013
@@ -23,13 +23,13 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2016-04-24 08:44+0200\n"
-"PO-Revision-Date: 2016-04-17 08:28+0000\n"
+"PO-Revision-Date: 2016-04-24 06:51+0000\n"
 "Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Norwegian Bokmål (http://www.transifex.com/manjarolinux/manjaro-pamac/language/nb/)\n"
-"Language: nb\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: nb\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: ../src/daemon.vala
@@ -676,7 +676,9 @@ msgid "Remove unrequired dependencies"
 msgstr "Fjern avhengige pakker som er unødvendige"
 
 #: ../resources/preferences_dialog.ui
-msgid "When removing a package, also remove its dependencies that are not required by other packages"
+msgid ""
+"When removing a package, also remove its dependencies that are not required "
+"by other packages"
 msgstr "Når du fjerner en pakke, fjern også dets avhengigheter som ikke kreves av andre pakker"
 
 #: ../resources/preferences_dialog.ui
@@ -719,9 +721,7 @@ msgstr "Offisielle pakkebrønner "
 msgid ""
 "AUR is a community maintained repository so it presents potential risks and problems.\n"
 "All AUR users should be familiar with the build process."
-msgstr ""
-"AUR er en pakkebrønn som vedlikeholdes av fellesskapet så den representerer potensiellt en risiko og problemer.\n"
-"Alle AUR-brukere bør kjenne fremgangsmåten for å bygge pakker. "
+msgstr "AUR er en pakkebrønn som vedlikeholdes av fellesskapet så den representerer potensiellt en risiko og problemer.\nAlle AUR-brukere bør kjenne fremgangsmåten for å bygge pakker. "
 
 #: ../resources/preferences_dialog.ui
 msgid "Enable AUR support"
@@ -746,21 +746,3 @@ msgstr "Ikke spør etter bekreftelse når pakker blir bygget"
 #: ../resources/choose_ignorepkgs_dialog.ui
 msgid "Choose Ignored Upgrades"
 msgstr "Velg ignorerte oppdateringer "
-
-#~ msgid "Authentication is required"
-#~ msgstr "Autentisering kreves"
-
-#~ msgid "Choose the packages you do not want to upgrade"
-#~ msgstr "Velg de pakkene som du ikke ønsker å oppgradere"
-
-#~ msgid "_OK"
-#~ msgstr "_OK"
-
-#~ msgid "_Preferences"
-#~ msgstr "_Valg"
-
-#~ msgid "_About"
-#~ msgstr "_Om"
-
-#~ msgid "_Refresh"
-#~ msgstr "_Oppdater"

@@ -1,8 +1,8 @@
 # Translation of Pamac.
 # Copyright (C) 2007-2012 Free Software Foundation, Inc.
 # This file is distributed under the same license as the Pamac package.
-# Guillaume Benoit <guillaume@manjaro.org>, 2013-2015.
-#
+# Guillaume Benoit <guillaume@manjaro.org>, 2013-2016.
+# 
 # Translators:
 # Jeff Huang <s8321414@gmail.com>, 2014-2016
 # Jeff Huang <s8321414@gmail.com>, 2013-2014
@@ -11,13 +11,13 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2016-04-24 08:44+0200\n"
-"PO-Revision-Date: 2016-04-17 23:44+0000\n"
-"Last-Translator: Jeff Huang <s8321414@gmail.com>\n"
+"PO-Revision-Date: 2016-04-24 06:51+0000\n"
+"Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/zh_TW/)\n"
-"Language: zh_TW\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: zh_TW\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 #: ../src/daemon.vala
@@ -661,7 +661,9 @@ msgid "Remove unrequired dependencies"
 msgstr "移除不需要的相依性"
 
 #: ../resources/preferences_dialog.ui
-msgid "When removing a package, also remove its dependencies that are not required by other packages"
+msgid ""
+"When removing a package, also remove its dependencies that are not required "
+"by other packages"
 msgstr "當移除一個軟體包時，同時移除它的不被其他軟體包需要的相依性"
 
 #: ../resources/preferences_dialog.ui
@@ -704,9 +706,7 @@ msgstr "官方套件庫"
 msgid ""
 "AUR is a community maintained repository so it presents potential risks and problems.\n"
 "All AUR users should be familiar with the build process."
-msgstr ""
-"AUR 是一個社群維護的套件庫，所以它可能會有一些潛在的危險與問題。\n"
-"所有 AUR 的使用者都應該要對構建過程有相當程度的了解。"
+msgstr "AUR 是一個社群維護的套件庫，所以它可能會有一些潛在的危險與問題。\n所有 AUR 的使用者都應該要對構建過程有相當程度的了解。"
 
 #: ../resources/preferences_dialog.ui
 msgid "Enable AUR support"
@@ -731,31 +731,3 @@ msgstr "當構建軟體包時不要詢問確認"
 #: ../resources/choose_ignorepkgs_dialog.ui
 msgid "Choose Ignored Upgrades"
 msgstr "選取已忽略的更新"
-
-#~ msgid "Authentication is required"
-#~ msgstr "需要授權"
-
-#~ msgid ""
-#~ "%s has %u uninstalled optional dependency.\n"
-#~ "Choose if you would like to install it"
-#~ msgid_plural ""
-#~ "%s has %u uninstalled optional dependencies.\n"
-#~ "Choose those you would like to install"
-#~ msgstr[0] ""
-#~ "%s 有 %u 個未安裝的選擇性依賴關係。\n"
-#~ "選擇您所想要安裝的"
-
-#~ msgid "Choose the packages you do not want to upgrade"
-#~ msgstr "選取您不想更新的套件"
-
-#~ msgid "_OK"
-#~ msgstr "是(_O)"
-
-#~ msgid "_Preferences"
-#~ msgstr "偏好設定(_P)"
-
-#~ msgid "_About"
-#~ msgstr "關於(_A)"
-
-#~ msgid "_Refresh"
-#~ msgstr "刷新(_R)"

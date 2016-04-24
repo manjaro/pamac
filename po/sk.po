@@ -1,8 +1,8 @@
 # Translation of Pamac.
 # Copyright (C) 2007-2012 Free Software Foundation, Inc.
 # This file is distributed under the same license as the Pamac package.
-# Guillaume Benoit <guillaume@manjaro.org>, 2013-2015.
-#
+# Guillaume Benoit <guillaume@manjaro.org>, 2013-2016.
+# 
 # Translators:
 # Dušan Kazik, 2014
 # Dušan Kazik <prescott66@gmail.com>, 2014-2016
@@ -15,13 +15,13 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2016-04-24 08:44+0200\n"
-"PO-Revision-Date: 2016-04-17 08:31+0000\n"
-"Last-Translator: Dušan Kazik <prescott66@gmail.com>\n"
+"PO-Revision-Date: 2016-04-24 06:51+0000\n"
+"Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Slovak (http://www.transifex.com/manjarolinux/manjaro-pamac/language/sk/)\n"
-"Language: sk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: sk\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 
 #: ../src/daemon.vala
@@ -671,7 +671,9 @@ msgid "Remove unrequired dependencies"
 msgstr "Odstrániť nepožadované závislosti"
 
 #: ../resources/preferences_dialog.ui
-msgid "When removing a package, also remove its dependencies that are not required by other packages"
+msgid ""
+"When removing a package, also remove its dependencies that are not required "
+"by other packages"
 msgstr "Pri odstránení balíka tiež odstráni závislosti, ktoré nie sú potrebné inými balíkmi"
 
 #: ../resources/preferences_dialog.ui
@@ -714,9 +716,7 @@ msgstr "Oficiálne repozitáre"
 msgid ""
 "AUR is a community maintained repository so it presents potential risks and problems.\n"
 "All AUR users should be familiar with the build process."
-msgstr ""
-"AUR je repozitár spravovaný komunitou, preto predstavuje potenciálne hrozby a problémy.\n"
-"Všetci používatelia repozitára AUR by mali byť oboznámení s procesom zostavovania balíkov."
+msgstr "AUR je repozitár spravovaný komunitou, preto predstavuje potenciálne hrozby a problémy.\nVšetci používatelia repozitára AUR by mali byť oboznámení s procesom zostavovania balíkov."
 
 #: ../resources/preferences_dialog.ui
 msgid "Enable AUR support"
@@ -741,37 +741,3 @@ msgstr "Nepýtať si potvrdenie pri zostavovaní balíkov"
 #: ../resources/choose_ignorepkgs_dialog.ui
 msgid "Choose Ignored Upgrades"
 msgstr "Voľba ignorovaných aktualizácií"
-
-#~ msgid "Authentication is required"
-#~ msgstr "Vyžaduje sa overenie totožnosti"
-
-#~ msgid ""
-#~ "%s has %u uninstalled optional dependency.\n"
-#~ "Choose if you would like to install it"
-#~ msgid_plural ""
-#~ "%s has %u uninstalled optional dependencies.\n"
-#~ "Choose those you would like to install"
-#~ msgstr[0] ""
-#~ "%s obsahuje %u odinštalovanú voliteľnú závislosť.\n"
-#~ "Zvoľte, či ju chcete nainštalovať"
-#~ msgstr[1] ""
-#~ "%s obsahuje %u odinštalované voliteľné závislosti.\n"
-#~ "Zvoľte tie, ktoré chcete nainštalovať"
-#~ msgstr[2] ""
-#~ "%s obsahuje %u odinštalovaných voliteľných závislostí.\n"
-#~ "Zvoľte tie, ktoré chcete nainštalovať"
-
-#~ msgid "Choose the packages you do not want to upgrade"
-#~ msgstr "Zvoľte balíky, ktoré nechcete aktualizovať"
-
-#~ msgid "_OK"
-#~ msgstr "_OK"
-
-#~ msgid "_Preferences"
-#~ msgstr "_Predvoľby"
-
-#~ msgid "_About"
-#~ msgstr "_O programe"
-
-#~ msgid "_Refresh"
-#~ msgstr "_Obnoviť"

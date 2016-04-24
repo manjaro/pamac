@@ -1,8 +1,8 @@
 # Translation of Pamac.
 # Copyright (C) 2007-2012 Free Software Foundation, Inc.
 # This file is distributed under the same license as the Pamac package.
-# Guillaume Benoit <guillaume@manjaro.org>, 2013-2015.
-#
+# Guillaume Benoit <guillaume@manjaro.org>, 2013-2016.
+# 
 # Translators:
 # Aaron <markjes@gmx.com>, 2015
 # Aaron <markjes@gmx.com>, 2015
@@ -14,13 +14,13 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2016-04-24 08:44+0200\n"
-"PO-Revision-Date: 2016-04-17 08:28+0000\n"
+"PO-Revision-Date: 2016-04-24 06:51+0000\n"
 "Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Romanian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/ro/)\n"
-"Language: ro\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: ro\n"
 "Plural-Forms: nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));\n"
 
 #: ../src/daemon.vala
@@ -670,7 +670,9 @@ msgid "Remove unrequired dependencies"
 msgstr "Elimină dependențe ce nu sunt necesare"
 
 #: ../resources/preferences_dialog.ui
-msgid "When removing a package, also remove its dependencies that are not required by other packages"
+msgid ""
+"When removing a package, also remove its dependencies that are not required "
+"by other packages"
 msgstr "Când se elimină un pachet, se vor elimina și acele dependențe ce nu sunt cerute de alte pachete"
 
 #: ../resources/preferences_dialog.ui
@@ -738,37 +740,3 @@ msgstr "Nu cere confirmare când se construiesc pachete"
 #: ../resources/choose_ignorepkgs_dialog.ui
 msgid "Choose Ignored Upgrades"
 msgstr "Alege actualizări ignorate"
-
-#~ msgid "Authentication is required"
-#~ msgstr "Este necesară autentificarea"
-
-#~ msgid ""
-#~ "%s has %u uninstalled optional dependency.\n"
-#~ "Choose if you would like to install it"
-#~ msgid_plural ""
-#~ "%s has %u uninstalled optional dependencies.\n"
-#~ "Choose those you would like to install"
-#~ msgstr[0] ""
-#~ "%s are %u dependență opțională instalată.\n"
-#~ "Alegeți dacă o doriți instalată:"
-#~ msgstr[1] ""
-#~ "%s are %u dependențe opționale instalate.\n"
-#~ "Alegeți cele pe care le doriți instalate:"
-#~ msgstr[2] ""
-#~ "%s are %u de dependențe opționale neinstalate.\n"
-#~ "Alegeți cele pe care le doriți instalate:"
-
-#~ msgid "Choose the packages you do not want to upgrade"
-#~ msgstr "Alegeți pachetele ignorate la actualizare"
-
-#~ msgid "_OK"
-#~ msgstr "_OK"
-
-#~ msgid "_Preferences"
-#~ msgstr "_Preferințe"
-
-#~ msgid "_About"
-#~ msgstr "_Despre"
-
-#~ msgid "_Refresh"
-#~ msgstr "_Reîmprospătează"

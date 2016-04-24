@@ -1,8 +1,8 @@
 # Translation of Pamac.
 # Copyright (C) 2007-2012 Free Software Foundation, Inc.
 # This file is distributed under the same license as the Pamac package.
-# Guillaume Benoit <guillaume@manjaro.org>, 2013-2015.
-#
+# Guillaume Benoit <guillaume@manjaro.org>, 2013-2016.
+# 
 # Translators:
 # Demiray Muhterem <mdemiray@msn.com>, 2013-2016
 # Guillaume Benoit <guillaume@manjaro.org>, 2013
@@ -14,13 +14,13 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2016-04-24 08:44+0200\n"
-"PO-Revision-Date: 2016-04-17 20:19+0000\n"
-"Last-Translator: Demiray Muhterem <mdemiray@msn.com>\n"
+"PO-Revision-Date: 2016-04-24 06:51+0000\n"
+"Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Turkish (http://www.transifex.com/manjarolinux/manjaro-pamac/language/tr/)\n"
-"Language: tr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: tr\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 #: ../src/daemon.vala
@@ -115,9 +115,7 @@ msgstr "%s kesintiye uğramış gibi görünüyor: %jd/%jd bytes\n"
 #: ../src/daemon.vala
 #, c-format
 msgid "failed retrieving file '%s' from %s : %s\n"
-msgstr ""
-"%s üzerinden '%s dosyası alınamadı: %s\n"
-"\n"
+msgstr "%s üzerinden '%s dosyası alınamadı: %s\n\n"
 
 #: ../src/transaction.vala
 msgid "A Gtk3 frontend for libalpm"
@@ -669,7 +667,9 @@ msgid "Remove unrequired dependencies"
 msgstr "Gereksiz bağımlılıkları kaldır"
 
 #: ../resources/preferences_dialog.ui
-msgid "When removing a package, also remove its dependencies that are not required by other packages"
+msgid ""
+"When removing a package, also remove its dependencies that are not required "
+"by other packages"
 msgstr "Bir paket kaldırılırken, başka bir uygulama aynı bağımlılıkları kullanmıyorsa paketi bağımlılıkları ile birlikte kaldır"
 
 #: ../resources/preferences_dialog.ui
@@ -712,9 +712,7 @@ msgstr "Resmi Depolar"
 msgid ""
 "AUR is a community maintained repository so it presents potential risks and problems.\n"
 "All AUR users should be familiar with the build process."
-msgstr ""
-"AUR topluluk depolarının potansiyel riskler ve sorunlar içerebileceğini unutmayın.\n"
-"AUR hakkında bilgi sahibi iseniz bunları biliyor olmalısınız."
+msgstr "AUR topluluk depolarının potansiyel riskler ve sorunlar içerebileceğini unutmayın.\nAUR hakkında bilgi sahibi iseniz bunları biliyor olmalısınız."
 
 #: ../resources/preferences_dialog.ui
 msgid "Enable AUR support"
@@ -739,34 +737,3 @@ msgstr "Paketler inşa edilirken onay veya düzenleme sorulmasın"
 #: ../resources/choose_ignorepkgs_dialog.ui
 msgid "Choose Ignored Upgrades"
 msgstr "Güncellenmeyecek Paketleri Seç"
-
-#~ msgid "Authentication is required"
-#~ msgstr "Yetki doğrulaması gerekiyor"
-
-#~ msgid ""
-#~ "%s has %u uninstalled optional dependency.\n"
-#~ "Choose if you would like to install it"
-#~ msgid_plural ""
-#~ "%s has %u uninstalled optional dependencies.\n"
-#~ "Choose those you would like to install"
-#~ msgstr[0] ""
-#~ "%s kaldırılırken %u tercihli bağımlılıkları kaldırıldı.\n"
-#~ "Tekrar yüklemek istediklerinizi seçin"
-#~ msgstr[1] ""
-#~ "%s kaldırılırken %u tercihli bağımlılıkları kaldırıldı.\n"
-#~ "Tekrar yüklemek istediklerinizi seçin"
-
-#~ msgid "Choose the packages you do not want to upgrade"
-#~ msgstr "Yükseltmek istemediğiniz paketleri seçiniz"
-
-#~ msgid "_OK"
-#~ msgstr "_TAMAM"
-
-#~ msgid "_Preferences"
-#~ msgstr "_Tercihler"
-
-#~ msgid "_About"
-#~ msgstr "_Hakkında"
-
-#~ msgid "_Refresh"
-#~ msgstr "_Yenile"

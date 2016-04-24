@@ -1,8 +1,8 @@
 # Translation of Pamac.
 # Copyright (C) 2007-2012 Free Software Foundation, Inc.
 # This file is distributed under the same license as the Pamac package.
-# Guillaume Benoit <guillaume@manjaro.org>, 2013-2015.
-#
+# Guillaume Benoit <guillaume@manjaro.org>, 2013-2016.
+# 
 # Translators:
 # DirectorX <kassavlt@gmail.com>, 2014
 # GenghisKhan <genghiskhan@gmx.ca>, 2013-2016
@@ -13,13 +13,13 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2016-04-24 08:44+0200\n"
-"PO-Revision-Date: 2016-04-17 08:28+0000\n"
+"PO-Revision-Date: 2016-04-24 06:51+0000\n"
 "Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Hebrew (http://www.transifex.com/manjarolinux/manjaro-pamac/language/he/)\n"
-"Language: he\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: he\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: ../src/daemon.vala
@@ -666,7 +666,9 @@ msgid "Remove unrequired dependencies"
 msgstr "הסר תוספים לא נחוצים"
 
 #: ../resources/preferences_dialog.ui
-msgid "When removing a package, also remove its dependencies that are not required by other packages"
+msgid ""
+"When removing a package, also remove its dependencies that are not required "
+"by other packages"
 msgstr "בעת הסרת חבילה, הסר גם את התלויות שלה אשר לא נחוצות על ידי חבילות אחרות"
 
 #: ../resources/preferences_dialog.ui
@@ -709,9 +711,7 @@ msgstr "מאגרים רשמיים"
 msgid ""
 "AUR is a community maintained repository so it presents potential risks and problems.\n"
 "All AUR users should be familiar with the build process."
-msgstr ""
-"‏AUR הינו מאגר מתוחזק קהילה כך שהוא טומן בחובו סיכונים ובעיות.\n"
-"כל משתמשי AUR צריכים להיות בקיעים עם תהליך הבניה."
+msgstr "‏AUR הינו מאגר מתוחזק קהילה כך שהוא טומן בחובו סיכונים ובעיות.\nכל משתמשי AUR צריכים להיות בקיעים עם תהליך הבניה."
 
 #: ../resources/preferences_dialog.ui
 msgid "Enable AUR support"
@@ -736,34 +736,3 @@ msgstr "אל תשאל לאימות כאשר בונים חבילות"
 #: ../resources/choose_ignorepkgs_dialog.ui
 msgid "Choose Ignored Upgrades"
 msgstr "בחר שדרוגים מנוכרים"
-
-#~ msgid "Authentication is required"
-#~ msgstr "דרוש אימות"
-
-#~ msgid ""
-#~ "%s has %u uninstalled optional dependency.\n"
-#~ "Choose if you would like to install it"
-#~ msgid_plural ""
-#~ "%s has %u uninstalled optional dependencies.\n"
-#~ "Choose those you would like to install"
-#~ msgstr[0] ""
-#~ "לחבילה %s יש %u תלות רשות לא מותקנת.\n"
-#~ "בחר אם ברצונך להתקינה:"
-#~ msgstr[1] ""
-#~ "לחבילה %s יש %u תלויות רשות לא מותקנות.\n"
-#~ "בחר את אלה אשר ברצונך להתקין:"
-
-#~ msgid "Choose the packages you do not want to upgrade"
-#~ msgstr "בחר את החבילה אשר אין ברצונך לעדכן"
-
-#~ msgid "_OK"
-#~ msgstr "_אישור"
-
-#~ msgid "_Preferences"
-#~ msgstr "_העדפות"
-
-#~ msgid "_About"
-#~ msgstr "_אודות"
-
-#~ msgid "_Refresh"
-#~ msgstr "_רענן"
