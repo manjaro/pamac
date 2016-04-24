@@ -1,5 +1,5 @@
 # Translation of Pamac.
-# Copyright (C) 2007-2012 Free Software Foundation, Inc.
+# Copyright (C) 2013-2016 Manjaro Developers <manjaro-dev@manjaro.org>
 # This file is distributed under the same license as the Pamac package.
 # Guillaume Benoit <guillaume@manjaro.org>, 2013-2016.
 # 
@@ -13,8 +13,8 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2016-04-24 08:44+0200\n"
-"PO-Revision-Date: 2016-04-24 06:51+0000\n"
-"Last-Translator: philm <philm@manjaro.org>\n"
+"PO-Revision-Date: 2016-04-24 09:08+0000\n"
+"Last-Translator: GenghisKhan <genghiskhan@gmx.ca>\n"
 "Language-Team: Hebrew (http://www.transifex.com/manjarolinux/manjaro-pamac/language/he/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -268,7 +268,7 @@ msgstr "כעת בוחן נפח כונן זמין"
 #: ../src/transaction.vala
 #, c-format
 msgid "%s optionally requires %s"
-msgstr "%s מצריך כרשות %s"
+msgstr "%s מצריך %s כרשות"
 
 #: ../src/transaction.vala
 #, c-format
@@ -397,8 +397,8 @@ msgstr "סמן בתור מותקנת בברור"
 #, c-format
 msgid "%u pending operation"
 msgid_plural "%u pending operations"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "פעולה %u תלויה ועומדת"
+msgstr[1] "%u פעולות תלויות ועומדות"
 
 #: ../src/manager_window.vala
 msgid "Installed"
@@ -410,11 +410,11 @@ msgstr "יתומות"
 
 #: ../src/manager_window.vala
 msgid "Foreign"
-msgstr ""
+msgstr "זר"
 
 #: ../src/manager_window.vala
 msgid "Pending"
-msgstr ""
+msgstr "תלוי ועומד"
 
 #: ../src/manager_window.vala
 msgid "Licenses"
@@ -483,7 +483,7 @@ msgstr "מתנגשת עם"
 
 #: ../src/manager_window.vala
 msgid "Package Base"
-msgstr ""
+msgstr "בסיס חבילה"
 
 #: ../src/manager_window.vala
 msgid "Maintainer"
@@ -507,11 +507,11 @@ msgstr "לא מעודכנת"
 
 #: ../src/manager_window.vala
 msgid "Make Dependencies"
-msgstr ""
+msgstr "צור תלויות"
 
 #: ../src/manager_window.vala
 msgid "Check Dependencies"
-msgstr ""
+msgstr "בדוק תלויות"
 
 #: ../src/manager_window.vala ../resources/manager_window.ui
 #: ../resources/updater_window.ui
@@ -521,7 +521,7 @@ msgstr "שם"
 #: ../src/manager_window.vala
 #, c-format
 msgid "Choose optional dependencies for %s"
-msgstr ""
+msgstr "בדוק תלויות רשות עבור %s"
 
 #: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Install Local Packages"
@@ -565,7 +565,7 @@ msgstr "בחירת ספק"
 #: ../resources/choose_provider_dialog.ui ../resources/choose_dep_dialog.ui
 #: ../resources/choose_ignorepkgs_dialog.ui
 msgid "Choose"
-msgstr ""
+msgstr "בחר"
 
 #: ../resources/progress_dialog.ui
 msgid "Progress"
@@ -573,7 +573,7 @@ msgstr "התקדמות"
 
 #: ../resources/progress_dialog.ui
 msgid "_Hide"
-msgstr ""
+msgstr "_הסתר"
 
 #: ../resources/progress_dialog.ui ../resources/manager_window.ui
 #: ../resources/updater_window.ui
@@ -610,7 +610,7 @@ msgstr "העדפות"
 
 #: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "About"
-msgstr ""
+msgstr "אודות"
 
 #: ../resources/manager_window.ui
 msgid "Search"
@@ -638,7 +638,7 @@ msgstr "גודל"
 
 #: ../resources/manager_window.ui
 msgid "Popularity"
-msgstr ""
+msgstr "פופולריות"
 
 #: ../resources/manager_window.ui ../resources/updater_window.ui
 #: ../resources/preferences_dialog.ui
@@ -651,7 +651,7 @@ msgstr "_החל"
 
 #: ../resources/manager_window.ui
 msgid "Browse"
-msgstr ""
+msgstr "עיין"
 
 #: ../resources/manager_window.ui
 msgid "Dependencies"
