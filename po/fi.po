@@ -5,8 +5,9 @@
 # 
 # Translators:
 # EscoP, 2015
+# EscoP, 2015
 # Luki <jbkammer@gmail.com>, 2013,2015
-# Luki <jbkammer@gmail.com>, 2013
+# Luki <jbkammer@gmail.com>, 2013,2015
 # philm <philm@manjaro.org>, 2015
 # Sami Korkalainen, 2013-2014
 # Sami Korkalainen, 2014-2015
@@ -17,8 +18,8 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2015-08-20 11:53+0200\n"
-"PO-Revision-Date: 2016-02-02 08:27+0000\n"
-"Last-Translator: Guillaume Benoit <guillaume@manjaro.org>\n"
+"PO-Revision-Date: 2016-04-17 08:28+0000\n"
+"Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Finnish (http://www.transifex.com/manjarolinux/manjaro-pamac/language/fi/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -30,14 +31,33 @@ msgstr ""
 msgid "Authentication is required"
 msgstr "Todennus vaaditaan"
 
-#: ../src/daemon.vala ../src/manager_window.vala
-#: ../src/preferences_dialog.vala
+#: ../src/daemon.vala
 msgid "Failed to initialize alpm library"
 msgstr "alpm‐kirjaston valmistelu epäonnistui"
 
 #: ../src/daemon.vala
 msgid "Failed to synchronize any databases"
 msgstr "Tietokantojen synkronointi epäonnistui."
+
+#: ../src/daemon.vala
+msgid "Unknown"
+msgstr "Tuntematon"
+
+#: ../src/daemon.vala
+msgid "Explicitly installed"
+msgstr "Käyttäjän asentama"
+
+#: ../src/daemon.vala
+msgid "Installed as a dependency for another package"
+msgstr "Asennettu riippuvuutena toiselle paketille"
+
+#: ../src/daemon.vala
+msgid "Yes"
+msgstr "Kyllä"
+
+#: ../src/daemon.vala
+msgid "No"
+msgstr "Ei"
 
 #: ../src/daemon.vala
 msgid "Failed to init transaction"
@@ -95,6 +115,16 @@ msgstr "%s on viallinen tai vioittunut"
 msgid "Authentication failed"
 msgstr "Todennus epäonnistui"
 
+#: ../src/daemon.vala
+#, c-format
+msgid "%s appears to be truncated: %jd/%jd bytes\n"
+msgstr ""
+
+#: ../src/daemon.vala
+#, c-format
+msgid "failed retrieving file '%s' from %s : %s\n"
+msgstr ""
+
 #: ../src/transaction.vala
 msgid "Refreshing mirrors list"
 msgstr ""
@@ -120,7 +150,7 @@ msgstr "Valitse tarjoaja kohteelle %s"
 msgid "Transaction Summary"
 msgstr "Toimenpiteiden yhteenveto"
 
-#: ../src/transaction.vala ../src/manager_window.vala
+#: ../src/transaction.vala
 msgid "To remove"
 msgstr "Poistettavat"
 
@@ -132,7 +162,7 @@ msgstr "Varhennettavat"
 msgid "To build"
 msgstr "Käännettävät"
 
-#: ../src/transaction.vala ../src/manager_window.vala
+#: ../src/transaction.vala
 msgid "To install"
 msgstr "Asennettavat"
 
@@ -153,12 +183,8 @@ msgid "Building packages"
 msgstr "Kootaan paketteja"
 
 #: ../src/transaction.vala
-msgid "Running pre-transaction hooks"
-msgstr ""
-
-#: ../src/transaction.vala
-msgid "Running post-transaction hooks"
-msgstr ""
+msgid "Transaction cancelled"
+msgstr "Tapahtuma peruttiin"
 
 #: ../src/transaction.vala
 msgid "Checking dependencies"
@@ -183,18 +209,13 @@ msgstr "Asennetaan %s"
 
 #: ../src/transaction.vala
 #, c-format
-msgid "Reinstalling %s"
-msgstr "Uudelleenasennetaan %s"
-
-#: ../src/transaction.vala
-#, c-format
-msgid "Removing %s"
-msgstr "Poistetaan %s"
-
-#: ../src/transaction.vala
-#, c-format
 msgid "Upgrading %s"
 msgstr "Päivitetään %s"
+
+#: ../src/transaction.vala
+#, c-format
+msgid "Reinstalling %s"
+msgstr "Uudelleenasennetaan %s"
 
 #: ../src/transaction.vala
 #, c-format
@@ -202,16 +223,13 @@ msgid "Downgrading %s"
 msgstr "Varhennetaan %s"
 
 #: ../src/transaction.vala
+#, c-format
+msgid "Removing %s"
+msgstr "Poistetaan %s"
+
+#: ../src/transaction.vala
 msgid "Checking integrity"
 msgstr "Tarkastetaan eheyttä"
-
-#: ../src/transaction.vala
-msgid "Checking keyring"
-msgstr "Tarkastetaan avainrengasta"
-
-#: ../src/transaction.vala
-msgid "Downloading required keys"
-msgstr "Ladataan vaadittuja avaimia"
 
 #: ../src/transaction.vala
 msgid "Loading packages files"
@@ -248,6 +266,11 @@ msgid "Downloading"
 msgstr "Ladataan"
 
 #: ../src/transaction.vala
+#, c-format
+msgid "Downloading %s"
+msgstr "Ladataan %s"
+
+#: ../src/transaction.vala
 msgid "Checking available disk space"
 msgstr "Tarkistetaan saatavilla olevaa levytilaa"
 
@@ -262,6 +285,14 @@ msgid "Database file for %s does not exist"
 msgstr "Tietokantatiedostoa pakettivarastolle %s ei löydy"
 
 #: ../src/transaction.vala
+msgid "Checking keyring"
+msgstr "Tarkastetaan avainrengasta"
+
+#: ../src/transaction.vala
+msgid "Downloading required keys"
+msgstr "Ladataan vaadittuja avaimia"
+
+#: ../src/transaction.vala
 #, c-format
 msgid "%s installed as %s.pacnew"
 msgstr "%s asennettiin tiedostona %s.pacnew"
@@ -272,14 +303,12 @@ msgid "%s installed as %s.pacsave"
 msgstr "%s asennettiin tiedostona %s.pacsave"
 
 #: ../src/transaction.vala
-#, c-format
-msgid "Refreshing %s"
-msgstr "Virkistetään %s"
+msgid "Running pre-transaction hooks"
+msgstr ""
 
 #: ../src/transaction.vala
-#, c-format
-msgid "Downloading %s"
-msgstr "Ladataan %s"
+msgid "Running post-transaction hooks"
+msgstr ""
 
 #: ../src/transaction.vala
 #, c-format
@@ -294,17 +323,17 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: ../src/transaction.vala
-msgid "Warning"
-msgstr "Varoitus"
+#, c-format
+msgid "Refreshing %s"
+msgstr "Virkistetään %s"
 
-#: ../src/transaction.vala ../src/installer.vala ../src/manager.vala
-#: ../src/updater.vala
+#: ../src/transaction.vala
 msgid "Error"
 msgstr "Virhe"
 
 #: ../src/transaction.vala
-msgid "Transaction cancelled"
-msgstr "Tapahtuma peruttiin"
+msgid "Warning"
+msgstr "Varoitus"
 
 #: ../src/transaction.vala
 msgid "Nothing to do"
@@ -370,8 +399,11 @@ msgid "Mark as explicitly installed"
 msgstr "Merkitse erikseen asennetuksi"
 
 #: ../src/manager_window.vala
-msgid "local"
-msgstr "paikalliset"
+#, c-format
+msgid "%u pending operation"
+msgid_plural "%u pending operations"
+msgstr[0] ""
+msgstr[1] ""
 
 #: ../src/manager_window.vala
 msgid "Installed"
@@ -382,12 +414,49 @@ msgid "Orphans"
 msgstr "Orvot"
 
 #: ../src/manager_window.vala
+msgid "Foreign"
+msgstr ""
+
+#: ../src/manager_window.vala
+msgid "Pending"
+msgstr ""
+
+#: ../src/manager_window.vala
 msgid "Licenses"
 msgstr "Lisenssit"
 
+#: ../src/manager_window.vala ../resources/manager_window.ui
+#: ../resources/updater_window.ui
+msgid "Repository"
+msgstr "Pakettivarasto"
+
+#: ../src/manager_window.vala ../resources/manager_window.ui
+msgid "Groups"
+msgstr "Ryhmät"
+
 #: ../src/manager_window.vala
-msgid "Unknown"
-msgstr "Tuntematon"
+msgid "Packager"
+msgstr "Pakkaaja"
+
+#: ../src/manager_window.vala
+msgid "Build Date"
+msgstr ""
+
+#: ../src/manager_window.vala
+msgid "Install Date"
+msgstr "Asennuspäivämäärä"
+
+#: ../src/manager_window.vala
+msgid "Install Reason"
+msgstr "Asennuksen syy"
+
+#: ../src/manager_window.vala
+msgid "Signatures"
+msgstr "Allekirjoitukset"
+
+#: ../src/manager_window.vala
+msgid "Backup files"
+msgstr "Varmuuskopiot"
 
 #: ../src/manager_window.vala
 msgid "Depends On"
@@ -417,53 +486,9 @@ msgstr "Korvaa"
 msgid "Conflicts With"
 msgstr "Ristiriidat"
 
-#: ../src/manager_window.vala ../resources/manager_window.ui
-msgid "Repository"
-msgstr "Pakettivarasto"
-
-#: ../src/manager_window.vala ../resources/manager_window.ui
-msgid "Groups"
-msgstr "Ryhmät"
-
 #: ../src/manager_window.vala
-msgid "Packager"
-msgstr "Pakkaaja"
-
-#: ../src/manager_window.vala
-msgid "Build Date"
+msgid "Package Base"
 msgstr ""
-
-#: ../src/manager_window.vala
-msgid "Install Date"
-msgstr "Asennuspäivämäärä"
-
-#: ../src/manager_window.vala
-msgid "Explicitly installed"
-msgstr "Käyttäjän asentama"
-
-#: ../src/manager_window.vala
-msgid "Installed as a dependency for another package"
-msgstr "Asennettu riippuvuutena toiselle paketille"
-
-#: ../src/manager_window.vala
-msgid "Install Reason"
-msgstr "Asennuksen syy"
-
-#: ../src/manager_window.vala
-msgid "Yes"
-msgstr "Kyllä"
-
-#: ../src/manager_window.vala
-msgid "No"
-msgstr "Ei"
-
-#: ../src/manager_window.vala
-msgid "Signatures"
-msgstr "Allekirjoitukset"
-
-#: ../src/manager_window.vala
-msgid "Backup files"
-msgstr "Varmuuskopiot"
 
 #: ../src/manager_window.vala
 msgid "Maintainer"
@@ -477,13 +502,26 @@ msgstr ""
 msgid "Last Modified"
 msgstr ""
 
-#: ../src/manager_window.vala ../resources/manager_window.ui
+#: ../src/manager_window.vala
 msgid "Votes"
 msgstr ""
 
 #: ../src/manager_window.vala
 msgid "Out of Date"
 msgstr ""
+
+#: ../src/manager_window.vala
+msgid "Make Dependencies"
+msgstr ""
+
+#: ../src/manager_window.vala
+msgid "Check Dependencies"
+msgstr ""
+
+#: ../src/manager_window.vala ../resources/manager_window.ui
+#: ../resources/updater_window.ui
+msgid "Name"
+msgstr "Nimi"
 
 #: ../src/manager_window.vala
 #, c-format
@@ -496,17 +534,13 @@ msgid_plural ""
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../src/manager_window.vala
-msgid "Uninstalled"
-msgstr "Ei asennettuna"
-
 #: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Install Local Packages"
 msgstr ""
 
 #: ../src/manager_window.vala ../resources/progress_dialog.ui
 #: ../resources/transaction_sum_dialog.ui ../resources/choose_dep_dialog.ui
-#: ../resources/choose_ignorepkgs_dialog.ui
+#: ../resources/manager_window.ui ../resources/choose_ignorepkgs_dialog.ui
 msgid "_Cancel"
 msgstr "_Peruuta"
 
@@ -521,10 +555,6 @@ msgstr "Alpm paketti"
 #: ../src/manager_window.vala
 msgid "A Gtk3 frontend for libalpm"
 msgstr "Gtk3‐edustaohjelma libalpm:lle"
-
-#: ../src/aur_model.vala ../src/packages_model.vala
-msgid "No package found"
-msgstr "Paketteja ei löytynyt"
 
 #: ../src/preferences_dialog.vala ../resources/preferences_dialog.ui
 msgid "How often to check for updates, value in hours"
@@ -560,11 +590,9 @@ msgstr "_Ok"
 msgid "Progress"
 msgstr "Edistyminen"
 
-#: ../resources/progress_dialog.ui ../resources/history_dialog.ui
-#: ../resources/transaction_info_dialog.ui ../resources/updater_window.ui
-#: ../resources/preferences_dialog.ui
-msgid "_Close"
-msgstr "_Sulje"
+#: ../resources/progress_dialog.ui
+msgid "_Hide"
+msgstr ""
 
 #: ../resources/progress_dialog.ui ../resources/transaction_info_dialog.ui
 #: ../resources/manager_window.ui
@@ -575,9 +603,18 @@ msgstr "Yksityiskohdat"
 msgid "Pamac History"
 msgstr "Pamacin historia"
 
+#: ../resources/history_dialog.ui ../resources/transaction_info_dialog.ui
+#: ../resources/updater_window.ui ../resources/preferences_dialog.ui
+msgid "_Close"
+msgstr "_Sulje"
+
 #: ../resources/choose_dep_dialog.ui
 msgid "Choose Optional Dependencies"
 msgstr ""
+
+#: ../resources/manager_window.ui
+msgid "Refresh databases"
+msgstr "Päivitä tietokannat"
 
 #: ../resources/manager_window.ui
 msgid "View History"
@@ -592,26 +629,14 @@ msgid "_About"
 msgstr "_Tietoja Softasta"
 
 #: ../resources/manager_window.ui
-msgid "Refresh databases"
-msgstr "Päivitä tietokannat"
-
-#: ../resources/manager_window.ui
-msgid "Apply changes"
-msgstr "Toteuta muutokset"
-
-#: ../resources/manager_window.ui
-msgid "Cancel all planned changes"
-msgstr "Peruuta kaikki suunnitellut muutokset"
+msgid "Search"
+msgstr "Etsi"
 
 #: ../resources/manager_window.ui
 msgid "Search in AUR"
 msgstr "Etsi AUR:sta"
 
-#: ../resources/manager_window.ui
-msgid "Search"
-msgstr "Etsi"
-
-#: ../resources/manager_window.ui
+#: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "State"
 msgstr "Tila"
 
@@ -619,26 +644,30 @@ msgstr "Tila"
 msgid "Repositories"
 msgstr "Pakettivarastot"
 
-#: ../resources/manager_window.ui
-msgid "Name"
-msgstr "Nimi"
-
-#: ../resources/manager_window.ui
+#: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "Version"
 msgstr "Versio"
 
-#: ../resources/manager_window.ui
+#: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "Size"
 msgstr "Koko"
+
+#: ../resources/manager_window.ui
+msgid "Popularity"
+msgstr ""
 
 #: ../resources/manager_window.ui ../resources/updater_window.ui
 #: ../resources/preferences_dialog.ui
 msgid "AUR"
 msgstr ""
 
+#: ../resources/manager_window.ui ../resources/updater_window.ui
+msgid "_Apply"
+msgstr "_hyväksy"
+
 #: ../resources/manager_window.ui
-msgid "Description"
-msgstr "Kuvaus"
+msgid "Browse"
+msgstr ""
 
 #: ../resources/manager_window.ui
 msgid "Dependencies"
@@ -651,10 +680,6 @@ msgstr "Tiedostot"
 #: ../resources/updater_window.ui
 msgid "_Refresh"
 msgstr "_päivitä"
-
-#: ../resources/updater_window.ui
-msgid "_Apply"
-msgstr "_hyväksy"
 
 #: ../resources/preferences_dialog.ui
 msgid "Preferences"

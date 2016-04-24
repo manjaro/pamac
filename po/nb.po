@@ -8,6 +8,7 @@
 # Bård Spein <baard.spein@gmail.com>, 2013
 # Guillaume Benoit <guillaume@manjaro.org>, 2013
 # Harald H. <haarektrans@gmail.com>, 2015
+# Harald H. <haarektrans@gmail.com>, 2015
 # Kristoffer Ulseth <ulseth85@gmail.com>, 2014
 # philm <philm@manjaro.org>, 2014
 # Morten Rene <arath.inc@gmail.com>, 2014
@@ -22,8 +23,8 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2015-08-20 11:53+0200\n"
-"PO-Revision-Date: 2016-02-02 08:27+0000\n"
-"Last-Translator: Guillaume Benoit <guillaume@manjaro.org>\n"
+"PO-Revision-Date: 2016-04-17 08:28+0000\n"
+"Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Norwegian Bokmål (http://www.transifex.com/manjarolinux/manjaro-pamac/language/nb/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -35,14 +36,33 @@ msgstr ""
 msgid "Authentication is required"
 msgstr "Autentisering kreves"
 
-#: ../src/daemon.vala ../src/manager_window.vala
-#: ../src/preferences_dialog.vala
+#: ../src/daemon.vala
 msgid "Failed to initialize alpm library"
 msgstr "Kunne ikke initialisere alpm bibliotek"
 
 #: ../src/daemon.vala
 msgid "Failed to synchronize any databases"
 msgstr "Klarte ikke å synkronisere noen databaser"
+
+#: ../src/daemon.vala
+msgid "Unknown"
+msgstr "Ukjent"
+
+#: ../src/daemon.vala
+msgid "Explicitly installed"
+msgstr "Explisitt installert"
+
+#: ../src/daemon.vala
+msgid "Installed as a dependency for another package"
+msgstr "Installert som en avhengighet for en annen pakke"
+
+#: ../src/daemon.vala
+msgid "Yes"
+msgstr "Ja"
+
+#: ../src/daemon.vala
+msgid "No"
+msgstr "Nei"
 
 #: ../src/daemon.vala
 msgid "Failed to init transaction"
@@ -100,6 +120,16 @@ msgstr "%s er ugyldig eller skadet"
 msgid "Authentication failed"
 msgstr "Autentifisering feilet"
 
+#: ../src/daemon.vala
+#, c-format
+msgid "%s appears to be truncated: %jd/%jd bytes\n"
+msgstr ""
+
+#: ../src/daemon.vala
+#, c-format
+msgid "failed retrieving file '%s' from %s : %s\n"
+msgstr ""
+
 #: ../src/transaction.vala
 msgid "Refreshing mirrors list"
 msgstr "Oppdaterer listen over pakkebrønner"
@@ -125,7 +155,7 @@ msgstr "Velg en leverandør for %s"
 msgid "Transaction Summary"
 msgstr "Oppsummering av transaksjonen"
 
-#: ../src/transaction.vala ../src/manager_window.vala
+#: ../src/transaction.vala
 msgid "To remove"
 msgstr "Å fjerne"
 
@@ -137,7 +167,7 @@ msgstr "Å nedgradere"
 msgid "To build"
 msgstr "Å bygge"
 
-#: ../src/transaction.vala ../src/manager_window.vala
+#: ../src/transaction.vala
 msgid "To install"
 msgstr "Å installere"
 
@@ -158,12 +188,8 @@ msgid "Building packages"
 msgstr "Bygger pakker"
 
 #: ../src/transaction.vala
-msgid "Running pre-transaction hooks"
-msgstr ""
-
-#: ../src/transaction.vala
-msgid "Running post-transaction hooks"
-msgstr ""
+msgid "Transaction cancelled"
+msgstr "Transaksjon kansellert"
 
 #: ../src/transaction.vala
 msgid "Checking dependencies"
@@ -188,18 +214,13 @@ msgstr "Installerer %s"
 
 #: ../src/transaction.vala
 #, c-format
-msgid "Reinstalling %s"
-msgstr "Reinstallerer %s"
-
-#: ../src/transaction.vala
-#, c-format
-msgid "Removing %s"
-msgstr "Fjerner %s"
-
-#: ../src/transaction.vala
-#, c-format
 msgid "Upgrading %s"
 msgstr "Oppdaterer %s"
+
+#: ../src/transaction.vala
+#, c-format
+msgid "Reinstalling %s"
+msgstr "Reinstallerer %s"
 
 #: ../src/transaction.vala
 #, c-format
@@ -207,16 +228,13 @@ msgid "Downgrading %s"
 msgstr "Nedgraderer %s"
 
 #: ../src/transaction.vala
+#, c-format
+msgid "Removing %s"
+msgstr "Fjerner %s"
+
+#: ../src/transaction.vala
 msgid "Checking integrity"
 msgstr "Sjekker integritet"
-
-#: ../src/transaction.vala
-msgid "Checking keyring"
-msgstr "Sjekker nøkkelring"
-
-#: ../src/transaction.vala
-msgid "Downloading required keys"
-msgstr "Laster ned nødvendige nøkkelringer"
 
 #: ../src/transaction.vala
 msgid "Loading packages files"
@@ -253,6 +271,11 @@ msgid "Downloading"
 msgstr "Laster ned"
 
 #: ../src/transaction.vala
+#, c-format
+msgid "Downloading %s"
+msgstr "Laster ned %s"
+
+#: ../src/transaction.vala
 msgid "Checking available disk space"
 msgstr "Sjekker ledig diskplass"
 
@@ -267,6 +290,14 @@ msgid "Database file for %s does not exist"
 msgstr "Databasefilen for %s finnes ikke"
 
 #: ../src/transaction.vala
+msgid "Checking keyring"
+msgstr "Sjekker nøkkelring"
+
+#: ../src/transaction.vala
+msgid "Downloading required keys"
+msgstr "Laster ned nødvendige nøkkelringer"
+
+#: ../src/transaction.vala
 #, c-format
 msgid "%s installed as %s.pacnew"
 msgstr "%s installert som %s.pacnew"
@@ -277,14 +308,12 @@ msgid "%s installed as %s.pacsave"
 msgstr "%s installert som %s.pacsave"
 
 #: ../src/transaction.vala
-#, c-format
-msgid "Refreshing %s"
-msgstr "Oppfrisker %s"
+msgid "Running pre-transaction hooks"
+msgstr ""
 
 #: ../src/transaction.vala
-#, c-format
-msgid "Downloading %s"
-msgstr "Laster ned %s"
+msgid "Running post-transaction hooks"
+msgstr ""
 
 #: ../src/transaction.vala
 #, c-format
@@ -299,17 +328,17 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: ../src/transaction.vala
-msgid "Warning"
-msgstr "Advarsel"
+#, c-format
+msgid "Refreshing %s"
+msgstr "Oppfrisker %s"
 
-#: ../src/transaction.vala ../src/installer.vala ../src/manager.vala
-#: ../src/updater.vala
+#: ../src/transaction.vala
 msgid "Error"
 msgstr "Feil"
 
 #: ../src/transaction.vala
-msgid "Transaction cancelled"
-msgstr "Transaksjon kansellert"
+msgid "Warning"
+msgstr "Advarsel"
 
 #: ../src/transaction.vala
 msgid "Nothing to do"
@@ -375,8 +404,11 @@ msgid "Mark as explicitly installed"
 msgstr "Marker som eksplisitt installert"
 
 #: ../src/manager_window.vala
-msgid "local"
-msgstr "lokal"
+#, c-format
+msgid "%u pending operation"
+msgid_plural "%u pending operations"
+msgstr[0] ""
+msgstr[1] ""
 
 #: ../src/manager_window.vala
 msgid "Installed"
@@ -387,12 +419,49 @@ msgid "Orphans"
 msgstr "Foreldreløs"
 
 #: ../src/manager_window.vala
+msgid "Foreign"
+msgstr ""
+
+#: ../src/manager_window.vala
+msgid "Pending"
+msgstr ""
+
+#: ../src/manager_window.vala
 msgid "Licenses"
 msgstr "Lisenser"
 
+#: ../src/manager_window.vala ../resources/manager_window.ui
+#: ../resources/updater_window.ui
+msgid "Repository"
+msgstr "Arkiv"
+
+#: ../src/manager_window.vala ../resources/manager_window.ui
+msgid "Groups"
+msgstr "Grupper"
+
 #: ../src/manager_window.vala
-msgid "Unknown"
-msgstr "Ukjent"
+msgid "Packager"
+msgstr "Pakker"
+
+#: ../src/manager_window.vala
+msgid "Build Date"
+msgstr "Byggedato"
+
+#: ../src/manager_window.vala
+msgid "Install Date"
+msgstr "Installasjons Dato"
+
+#: ../src/manager_window.vala
+msgid "Install Reason"
+msgstr "Grunn til Installasjon"
+
+#: ../src/manager_window.vala
+msgid "Signatures"
+msgstr "Signaturer"
+
+#: ../src/manager_window.vala
+msgid "Backup files"
+msgstr "Sikkerhetskopier filene"
 
 #: ../src/manager_window.vala
 msgid "Depends On"
@@ -422,53 +491,9 @@ msgstr "Erstatter"
 msgid "Conflicts With"
 msgstr "I konflikt med"
 
-#: ../src/manager_window.vala ../resources/manager_window.ui
-msgid "Repository"
-msgstr "Arkiv"
-
-#: ../src/manager_window.vala ../resources/manager_window.ui
-msgid "Groups"
-msgstr "Grupper"
-
 #: ../src/manager_window.vala
-msgid "Packager"
-msgstr "Pakker"
-
-#: ../src/manager_window.vala
-msgid "Build Date"
-msgstr "Byggedato"
-
-#: ../src/manager_window.vala
-msgid "Install Date"
-msgstr "Installasjons Dato"
-
-#: ../src/manager_window.vala
-msgid "Explicitly installed"
-msgstr "Explisitt installert"
-
-#: ../src/manager_window.vala
-msgid "Installed as a dependency for another package"
-msgstr "Installert som en avhengighet for en annen pakke"
-
-#: ../src/manager_window.vala
-msgid "Install Reason"
-msgstr "Grunn til Installasjon"
-
-#: ../src/manager_window.vala
-msgid "Yes"
-msgstr "Ja"
-
-#: ../src/manager_window.vala
-msgid "No"
-msgstr "Nei"
-
-#: ../src/manager_window.vala
-msgid "Signatures"
-msgstr "Signaturer"
-
-#: ../src/manager_window.vala
-msgid "Backup files"
-msgstr "Sikkerhetskopier filene"
+msgid "Package Base"
+msgstr ""
 
 #: ../src/manager_window.vala
 msgid "Maintainer"
@@ -482,13 +507,26 @@ msgstr "Første gang registrert"
 msgid "Last Modified"
 msgstr "Sist endret"
 
-#: ../src/manager_window.vala ../resources/manager_window.ui
+#: ../src/manager_window.vala
 msgid "Votes"
 msgstr "Stemmer"
 
 #: ../src/manager_window.vala
 msgid "Out of Date"
 msgstr "Utdatert"
+
+#: ../src/manager_window.vala
+msgid "Make Dependencies"
+msgstr ""
+
+#: ../src/manager_window.vala
+msgid "Check Dependencies"
+msgstr ""
+
+#: ../src/manager_window.vala ../resources/manager_window.ui
+#: ../resources/updater_window.ui
+msgid "Name"
+msgstr "Navn"
 
 #: ../src/manager_window.vala
 #, c-format
@@ -501,17 +539,13 @@ msgid_plural ""
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../src/manager_window.vala
-msgid "Uninstalled"
-msgstr "Avinstallert"
-
 #: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Install Local Packages"
 msgstr "Installer lokale pakker"
 
 #: ../src/manager_window.vala ../resources/progress_dialog.ui
 #: ../resources/transaction_sum_dialog.ui ../resources/choose_dep_dialog.ui
-#: ../resources/choose_ignorepkgs_dialog.ui
+#: ../resources/manager_window.ui ../resources/choose_ignorepkgs_dialog.ui
 msgid "_Cancel"
 msgstr "_Avbryt"
 
@@ -526,10 +560,6 @@ msgstr "Alpm Pakke"
 #: ../src/manager_window.vala
 msgid "A Gtk3 frontend for libalpm"
 msgstr "En Gtk3 frontend for libalpm"
-
-#: ../src/aur_model.vala ../src/packages_model.vala
-msgid "No package found"
-msgstr "Ingen pakke funnet"
 
 #: ../src/preferences_dialog.vala ../resources/preferences_dialog.ui
 msgid "How often to check for updates, value in hours"
@@ -565,11 +595,9 @@ msgstr "_OK"
 msgid "Progress"
 msgstr "Framdrift"
 
-#: ../resources/progress_dialog.ui ../resources/history_dialog.ui
-#: ../resources/transaction_info_dialog.ui ../resources/updater_window.ui
-#: ../resources/preferences_dialog.ui
-msgid "_Close"
-msgstr "_Lukk"
+#: ../resources/progress_dialog.ui
+msgid "_Hide"
+msgstr ""
 
 #: ../resources/progress_dialog.ui ../resources/transaction_info_dialog.ui
 #: ../resources/manager_window.ui
@@ -580,9 +608,18 @@ msgstr "Detaljer"
 msgid "Pamac History"
 msgstr "Pamac Historie"
 
+#: ../resources/history_dialog.ui ../resources/transaction_info_dialog.ui
+#: ../resources/updater_window.ui ../resources/preferences_dialog.ui
+msgid "_Close"
+msgstr "_Lukk"
+
 #: ../resources/choose_dep_dialog.ui
 msgid "Choose Optional Dependencies"
 msgstr "Valgfrie Avhengigheter"
+
+#: ../resources/manager_window.ui
+msgid "Refresh databases"
+msgstr "Oppdater databaser"
 
 #: ../resources/manager_window.ui
 msgid "View History"
@@ -597,26 +634,14 @@ msgid "_About"
 msgstr "_Om"
 
 #: ../resources/manager_window.ui
-msgid "Refresh databases"
-msgstr "Oppdater databaser"
-
-#: ../resources/manager_window.ui
-msgid "Apply changes"
-msgstr "Bruk endringer"
-
-#: ../resources/manager_window.ui
-msgid "Cancel all planned changes"
-msgstr "Kansellere alle planlagte endringer"
+msgid "Search"
+msgstr "Søk"
 
 #: ../resources/manager_window.ui
 msgid "Search in AUR"
 msgstr "Søk i AUR"
 
-#: ../resources/manager_window.ui
-msgid "Search"
-msgstr "Søk"
-
-#: ../resources/manager_window.ui
+#: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "State"
 msgstr "Tilstand"
 
@@ -624,26 +649,30 @@ msgstr "Tilstand"
 msgid "Repositories"
 msgstr "Pakkebrønner"
 
-#: ../resources/manager_window.ui
-msgid "Name"
-msgstr "Navn"
-
-#: ../resources/manager_window.ui
+#: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "Version"
 msgstr "Versjon"
 
-#: ../resources/manager_window.ui
+#: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "Size"
 msgstr "Størrelse"
+
+#: ../resources/manager_window.ui
+msgid "Popularity"
+msgstr ""
 
 #: ../resources/manager_window.ui ../resources/updater_window.ui
 #: ../resources/preferences_dialog.ui
 msgid "AUR"
 msgstr "AUR"
 
+#: ../resources/manager_window.ui ../resources/updater_window.ui
+msgid "_Apply"
+msgstr "_Utfør"
+
 #: ../resources/manager_window.ui
-msgid "Description"
-msgstr "Beskrivelse"
+msgid "Browse"
+msgstr ""
 
 #: ../resources/manager_window.ui
 msgid "Dependencies"
@@ -656,10 +685,6 @@ msgstr "Filer"
 #: ../resources/updater_window.ui
 msgid "_Refresh"
 msgstr "_Oppdater"
-
-#: ../resources/updater_window.ui
-msgid "_Apply"
-msgstr "_Utfør"
 
 #: ../resources/preferences_dialog.ui
 msgid "Preferences"
