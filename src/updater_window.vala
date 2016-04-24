@@ -56,6 +56,8 @@ namespace Pamac {
 
 		public Pamac.Transaction transaction;
 
+		public bool transaction_running;
+
 		public UpdaterWindow (Gtk.Application application) {
 			Object (application: application);
 
@@ -66,6 +68,7 @@ namespace Pamac {
 			transaction_infobox.visible = false;
 			stackswitcher.visible = false;
 			aur_scrolledwindow.visible = false;
+			transaction_running = false;
 
 			Timeout.add (100, populate_window);
 		}
@@ -111,36 +114,40 @@ namespace Pamac {
 
 		[GtkCallback]
 		void on_repos_select_update_toggled (string path) {
-			Gtk.TreePath treepath = new Gtk.TreePath.from_string (path);
-			Gtk.TreeIter iter;
-			string pkgname;
-			repos_updates_list.get_iter (out iter, treepath);
-			repos_updates_list.get (iter, 1, out pkgname);
-			if (repos_select_update.active) {
-				repos_updates_list.set (iter, 0, false);
-				transaction.temporary_ignorepkgs.add (pkgname);
-			} else {
-				repos_updates_list.set (iter, 0, true);
-				transaction.temporary_ignorepkgs.remove (pkgname);
+			if (!transaction_running) {
+				Gtk.TreePath treepath = new Gtk.TreePath.from_string (path);
+				Gtk.TreeIter iter;
+				string pkgname;
+				repos_updates_list.get_iter (out iter, treepath);
+				repos_updates_list.get (iter, 1, out pkgname);
+				if (repos_select_update.active) {
+					repos_updates_list.set (iter, 0, false);
+					transaction.temporary_ignorepkgs.add (pkgname);
+				} else {
+					repos_updates_list.set (iter, 0, true);
+					transaction.temporary_ignorepkgs.remove (pkgname);
+				}
+				set_transaction_infobox_visible ();
 			}
-			set_transaction_infobox_visible ();
 		}
 
 		[GtkCallback]
 		void on_aur_select_update_toggled  (string path) {
-			Gtk.TreePath treepath = new Gtk.TreePath.from_string (path);
-			Gtk.TreeIter iter;
-			string pkgname;
-			aur_updates_list.get_iter (out iter, treepath);
-			aur_updates_list.get (iter, 1, out pkgname);
-			if (aur_select_update.active) {
-				aur_updates_list.set (iter, 0, false);
-				transaction.temporary_ignorepkgs.add (pkgname);
-			} else {
-				aur_updates_list.set (iter, 0, true);
-				transaction.temporary_ignorepkgs.remove (pkgname);
+			if (!transaction_running) {
+				Gtk.TreePath treepath = new Gtk.TreePath.from_string (path);
+				Gtk.TreeIter iter;
+				string pkgname;
+				aur_updates_list.get_iter (out iter, treepath);
+				aur_updates_list.get (iter, 1, out pkgname);
+				if (aur_select_update.active) {
+					aur_updates_list.set (iter, 0, false);
+					transaction.temporary_ignorepkgs.add (pkgname);
+				} else {
+					aur_updates_list.set (iter, 0, true);
+					transaction.temporary_ignorepkgs.remove (pkgname);
+				}
+				set_transaction_infobox_visible ();
 			}
-			set_transaction_infobox_visible ();
 		}
 
 		[GtkCallback]
@@ -152,6 +159,7 @@ namespace Pamac {
 
 		[GtkCallback]
 		void on_apply_button_clicked () {
+			transaction_running = true;
 			transaction.sysupgrade (false);
 			details_button.visible = true;
 			cancel_button.visible = true;
@@ -193,6 +201,7 @@ namespace Pamac {
 		}
 
 		void populate_updates_list () {
+			transaction_running = false;
 			apply_button.visible = true;
 			apply_button.grab_default ();
 			details_button.visible = false;
