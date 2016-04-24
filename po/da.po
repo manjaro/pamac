@@ -2,7 +2,7 @@
 # Copyright (C) 2007-2012 Free Software Foundation, Inc.
 # This file is distributed under the same license as the Pamac package.
 # Guillaume Benoit <guillaume@manjaro.org>, 2013-2015.
-# 
+#
 # Translators:
 # Andreas Martin Mørch <andreasmartinmorch@gmail.com>, 2013
 # GigoloJoe <Danielbygmarsh@gmail.com>, 2014
@@ -18,19 +18,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2015-08-20 11:53+0200\n"
+"POT-Creation-Date: 2016-04-24 08:44+0200\n"
 "PO-Revision-Date: 2016-04-17 08:28+0000\n"
 "Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Danish (http://www.transifex.com/manjarolinux/manjaro-pamac/language/da/)\n"
+"Language: da\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: da\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-
-#: data/polkit/org.manjaro.pamac.policy
-msgid "Authentication is required"
-msgstr "Autentificering påkrævet"
 
 #: ../src/daemon.vala
 msgid "Failed to initialize alpm library"
@@ -127,6 +123,10 @@ msgid "failed retrieving file '%s' from %s : %s\n"
 msgstr ""
 
 #: ../src/transaction.vala
+msgid "A Gtk3 frontend for libalpm"
+msgstr "En frontend til libalpm"
+
+#: ../src/transaction.vala
 msgid "Refreshing mirrors list"
 msgstr "Genopfrisker mirror liste"
 
@@ -146,10 +146,6 @@ msgstr "Forbereder"
 #, c-format
 msgid "Choose a provider for %s"
 msgstr "Vælg en udgiver for %s"
-
-#: ../src/transaction.vala ../resources/transaction_sum_dialog.ui
-msgid "Transaction Summary"
-msgstr "Transaktionsoversigt"
 
 #: ../src/transaction.vala
 msgid "To remove"
@@ -337,6 +333,10 @@ msgid "Warning"
 msgstr "Advarsel"
 
 #: ../src/transaction.vala
+msgid "_Close"
+msgstr "_Luk"
+
+#: ../src/transaction.vala
 msgid "Nothing to do"
 msgstr "Intet at gøre"
 
@@ -352,11 +352,11 @@ msgstr "Pamac kører allerede"
 msgid "Your system is up-to-date"
 msgstr "Dit system er opdateret"
 
-#: ../src/tray.vala ../resources/updater_window.ui
+#: ../src/tray.vala
 msgid "Update Manager"
 msgstr "Opdaterings-manager"
 
-#: ../src/tray.vala ../resources/manager_window.ui
+#: ../src/tray.vala
 msgid "Package Manager"
 msgstr "Pakke-manager"
 
@@ -526,14 +526,8 @@ msgstr "Navn"
 
 #: ../src/manager_window.vala
 #, c-format
-msgid ""
-"%s has %u uninstalled optional dependency.\n"
-"Choose if you would like to install it"
-msgid_plural ""
-"%s has %u uninstalled optional dependencies.\n"
-"Choose those you would like to install"
-msgstr[0] "%s har %u som uinstalleret afhænghed.\nVælg om du gerne vil installere den"
-msgstr[1] "%s har %u uinstallerede valgfrie afhængigheder. \nVælg hvilke du gerne vil installere"
+msgid "Choose optional dependencies for %s"
+msgstr ""
 
 #: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Install Local Packages"
@@ -541,7 +535,8 @@ msgstr "Installér Lokale Pakker"
 
 #: ../src/manager_window.vala ../resources/progress_dialog.ui
 #: ../resources/transaction_sum_dialog.ui ../resources/choose_dep_dialog.ui
-#: ../resources/manager_window.ui ../resources/choose_ignorepkgs_dialog.ui
+#: ../resources/manager_window.ui ../resources/updater_window.ui
+#: ../resources/choose_ignorepkgs_dialog.ui
 msgid "_Cancel"
 msgstr "_Annuller"
 
@@ -552,10 +547,6 @@ msgstr "_Åbn"
 #: ../src/manager_window.vala
 msgid "Alpm Package"
 msgstr "Alpm pakke"
-
-#: ../src/manager_window.vala
-msgid "A Gtk3 frontend for libalpm"
-msgstr "En frontend til libalpm"
 
 #: ../src/preferences_dialog.vala ../resources/preferences_dialog.ui
 msgid "How often to check for updates, value in hours"
@@ -573,19 +564,14 @@ msgstr "Hastighed"
 msgid "Random"
 msgstr "Tilfældig"
 
-#: ../src/choose_ignorepkgs_dialog.vala
-msgid "Choose the packages you do not want to upgrade"
-msgstr "Vælg de pakker du ikke vil opgradere"
-
 #: ../resources/choose_provider_dialog.ui
 msgid "Choose a Provider"
 msgstr "Vælg en udgiver"
 
-#: ../resources/choose_provider_dialog.ui
-#: ../resources/transaction_sum_dialog.ui ../resources/choose_dep_dialog.ui
+#: ../resources/choose_provider_dialog.ui ../resources/choose_dep_dialog.ui
 #: ../resources/choose_ignorepkgs_dialog.ui
-msgid "_OK"
-msgstr "_OK"
+msgid "Choose"
+msgstr ""
 
 #: ../resources/progress_dialog.ui
 msgid "Progress"
@@ -595,8 +581,8 @@ msgstr "Fremskridt"
 msgid "_Hide"
 msgstr ""
 
-#: ../resources/progress_dialog.ui ../resources/transaction_info_dialog.ui
-#: ../resources/manager_window.ui
+#: ../resources/progress_dialog.ui ../resources/manager_window.ui
+#: ../resources/updater_window.ui
 msgid "Details"
 msgstr "Detaljer"
 
@@ -604,30 +590,33 @@ msgstr "Detaljer"
 msgid "Pamac History"
 msgstr "Pamac-historik"
 
-#: ../resources/history_dialog.ui ../resources/transaction_info_dialog.ui
-#: ../resources/updater_window.ui ../resources/preferences_dialog.ui
-msgid "_Close"
-msgstr "_Luk"
+#: ../resources/transaction_sum_dialog.ui
+msgid "Transaction Summary"
+msgstr "Transaktionsoversigt"
+
+#: ../resources/transaction_sum_dialog.ui
+msgid "Commit"
+msgstr ""
 
 #: ../resources/choose_dep_dialog.ui
 msgid "Choose Optional Dependencies"
 msgstr "Vælg Valgfrie Afhængigheder"
 
-#: ../resources/manager_window.ui
+#: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "Refresh databases"
 msgstr "Genopfrisk databaser"
 
-#: ../resources/manager_window.ui
+#: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "View History"
 msgstr "Vis historik"
 
 #: ../resources/manager_window.ui ../resources/updater_window.ui
-msgid "_Preferences"
-msgstr "_Indstillinger"
+msgid "Preferences"
+msgstr "Indstillinger"
 
-#: ../resources/manager_window.ui
-msgid "_About"
-msgstr "_Om"
+#: ../resources/manager_window.ui ../resources/updater_window.ui
+msgid "About"
+msgstr ""
 
 #: ../resources/manager_window.ui
 msgid "Search"
@@ -678,22 +667,12 @@ msgstr "Afhængigheder"
 msgid "Files"
 msgstr "Filer"
 
-#: ../resources/updater_window.ui
-msgid "_Refresh"
-msgstr "_Genopfrisk"
-
-#: ../resources/preferences_dialog.ui
-msgid "Preferences"
-msgstr "Indstillinger"
-
 #: ../resources/preferences_dialog.ui
 msgid "Remove unrequired dependencies"
 msgstr "Fjern unødvendige afhængigheder"
 
 #: ../resources/preferences_dialog.ui
-msgid ""
-"When removing a package, also remove its dependencies that are not required "
-"by other packages"
+msgid "When removing a package, also remove its dependencies that are not required by other packages"
 msgstr "Ved fjernelse af pakke, fjern også afhængigheder der ikke bliver brugt af andre pakker"
 
 #: ../resources/preferences_dialog.ui
@@ -736,7 +715,9 @@ msgstr "Officielle Repositories"
 msgid ""
 "AUR is a community maintained repository so it presents potential risks and problems.\n"
 "All AUR users should be familiar with the build process."
-msgstr "AUR er et samfunds vedligeholdt repository så det kan forårsage risici og problemer.\nAlle AUR brugere burde være bekendt med bygge processen."
+msgstr ""
+"AUR er et samfunds vedligeholdt repository så det kan forårsage risici og problemer.\n"
+"Alle AUR brugere burde være bekendt med bygge processen."
 
 #: ../resources/preferences_dialog.ui
 msgid "Enable AUR support"
@@ -761,3 +742,34 @@ msgstr "Spørg ikke efter bekræftelse når pakker bygges"
 #: ../resources/choose_ignorepkgs_dialog.ui
 msgid "Choose Ignored Upgrades"
 msgstr "Vælg Ignorerede Opgraderinger"
+
+#~ msgid "Authentication is required"
+#~ msgstr "Autentificering påkrævet"
+
+#~ msgid ""
+#~ "%s has %u uninstalled optional dependency.\n"
+#~ "Choose if you would like to install it"
+#~ msgid_plural ""
+#~ "%s has %u uninstalled optional dependencies.\n"
+#~ "Choose those you would like to install"
+#~ msgstr[0] ""
+#~ "%s har %u som uinstalleret afhænghed.\n"
+#~ "Vælg om du gerne vil installere den"
+#~ msgstr[1] ""
+#~ "%s har %u uinstallerede valgfrie afhængigheder. \n"
+#~ "Vælg hvilke du gerne vil installere"
+
+#~ msgid "Choose the packages you do not want to upgrade"
+#~ msgstr "Vælg de pakker du ikke vil opgradere"
+
+#~ msgid "_OK"
+#~ msgstr "_OK"
+
+#~ msgid "_Preferences"
+#~ msgstr "_Indstillinger"
+
+#~ msgid "_About"
+#~ msgstr "_Om"
+
+#~ msgid "_Refresh"
+#~ msgstr "_Genopfrisk"

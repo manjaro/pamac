@@ -2,26 +2,22 @@
 # Copyright (C) 2007-2012 Free Software Foundation, Inc.
 # This file is distributed under the same license as the Pamac package.
 # Guillaume Benoit <guillaume@manjaro.org>, 2013-2015.
-# 
+#
 # Translators:
 # Puretech <terjemah.puretech@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2015-08-20 11:53+0200\n"
+"POT-Creation-Date: 2016-04-24 08:44+0200\n"
 "PO-Revision-Date: 2016-04-17 08:28+0000\n"
 "Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Malay (http://www.transifex.com/manjarolinux/manjaro-pamac/language/ms/)\n"
+"Language: ms\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: ms\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-
-#: data/polkit/org.manjaro.pamac.policy
-msgid "Authentication is required"
-msgstr ""
 
 #: ../src/daemon.vala
 msgid "Failed to initialize alpm library"
@@ -118,6 +114,10 @@ msgid "failed retrieving file '%s' from %s : %s\n"
 msgstr ""
 
 #: ../src/transaction.vala
+msgid "A Gtk3 frontend for libalpm"
+msgstr ""
+
+#: ../src/transaction.vala
 msgid "Refreshing mirrors list"
 msgstr ""
 
@@ -137,10 +137,6 @@ msgstr "Menyediakan"
 #, c-format
 msgid "Choose a provider for %s"
 msgstr ""
-
-#: ../src/transaction.vala ../resources/transaction_sum_dialog.ui
-msgid "Transaction Summary"
-msgstr "Ringkasa Transaksi"
 
 #: ../src/transaction.vala
 msgid "To remove"
@@ -327,6 +323,10 @@ msgid "Warning"
 msgstr ""
 
 #: ../src/transaction.vala
+msgid "_Close"
+msgstr ""
+
+#: ../src/transaction.vala
 msgid "Nothing to do"
 msgstr "Tiada untuk dibuat"
 
@@ -342,11 +342,11 @@ msgstr "Pamac telah pun berjalan"
 msgid "Your system is up-to-date"
 msgstr "Sistem anda telah dikemaskini"
 
-#: ../src/tray.vala ../resources/updater_window.ui
+#: ../src/tray.vala
 msgid "Update Manager"
 msgstr "Pengurus Naik Taraf"
 
-#: ../src/tray.vala ../resources/manager_window.ui
+#: ../src/tray.vala
 msgid "Package Manager"
 msgstr "Pengurus Pakej"
 
@@ -514,13 +514,8 @@ msgstr "Nama"
 
 #: ../src/manager_window.vala
 #, c-format
-msgid ""
-"%s has %u uninstalled optional dependency.\n"
-"Choose if you would like to install it"
-msgid_plural ""
-"%s has %u uninstalled optional dependencies.\n"
-"Choose those you would like to install"
-msgstr[0] ""
+msgid "Choose optional dependencies for %s"
+msgstr ""
 
 #: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Install Local Packages"
@@ -528,7 +523,8 @@ msgstr ""
 
 #: ../src/manager_window.vala ../resources/progress_dialog.ui
 #: ../resources/transaction_sum_dialog.ui ../resources/choose_dep_dialog.ui
-#: ../resources/manager_window.ui ../resources/choose_ignorepkgs_dialog.ui
+#: ../resources/manager_window.ui ../resources/updater_window.ui
+#: ../resources/choose_ignorepkgs_dialog.ui
 msgid "_Cancel"
 msgstr ""
 
@@ -538,10 +534,6 @@ msgstr ""
 
 #: ../src/manager_window.vala
 msgid "Alpm Package"
-msgstr ""
-
-#: ../src/manager_window.vala
-msgid "A Gtk3 frontend for libalpm"
 msgstr ""
 
 #: ../src/preferences_dialog.vala ../resources/preferences_dialog.ui
@@ -560,18 +552,13 @@ msgstr ""
 msgid "Random"
 msgstr ""
 
-#: ../src/choose_ignorepkgs_dialog.vala
-msgid "Choose the packages you do not want to upgrade"
-msgstr ""
-
 #: ../resources/choose_provider_dialog.ui
 msgid "Choose a Provider"
 msgstr ""
 
-#: ../resources/choose_provider_dialog.ui
-#: ../resources/transaction_sum_dialog.ui ../resources/choose_dep_dialog.ui
+#: ../resources/choose_provider_dialog.ui ../resources/choose_dep_dialog.ui
 #: ../resources/choose_ignorepkgs_dialog.ui
-msgid "_OK"
+msgid "Choose"
 msgstr ""
 
 #: ../resources/progress_dialog.ui
@@ -582,8 +569,8 @@ msgstr "Perkembangan"
 msgid "_Hide"
 msgstr ""
 
-#: ../resources/progress_dialog.ui ../resources/transaction_info_dialog.ui
-#: ../resources/manager_window.ui
+#: ../resources/progress_dialog.ui ../resources/manager_window.ui
+#: ../resources/updater_window.ui
 msgid "Details"
 msgstr "Keterangan"
 
@@ -591,29 +578,32 @@ msgstr "Keterangan"
 msgid "Pamac History"
 msgstr ""
 
-#: ../resources/history_dialog.ui ../resources/transaction_info_dialog.ui
-#: ../resources/updater_window.ui ../resources/preferences_dialog.ui
-msgid "_Close"
+#: ../resources/transaction_sum_dialog.ui
+msgid "Transaction Summary"
+msgstr "Ringkasa Transaksi"
+
+#: ../resources/transaction_sum_dialog.ui
+msgid "Commit"
 msgstr ""
 
 #: ../resources/choose_dep_dialog.ui
 msgid "Choose Optional Dependencies"
 msgstr ""
 
-#: ../resources/manager_window.ui
+#: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "Refresh databases"
 msgstr ""
 
-#: ../resources/manager_window.ui
+#: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "View History"
 msgstr ""
 
 #: ../resources/manager_window.ui ../resources/updater_window.ui
-msgid "_Preferences"
+msgid "Preferences"
 msgstr ""
 
-#: ../resources/manager_window.ui
-msgid "_About"
+#: ../resources/manager_window.ui ../resources/updater_window.ui
+msgid "About"
 msgstr ""
 
 #: ../resources/manager_window.ui
@@ -665,22 +655,12 @@ msgstr ""
 msgid "Files"
 msgstr "Fail"
 
-#: ../resources/updater_window.ui
-msgid "_Refresh"
-msgstr ""
-
-#: ../resources/preferences_dialog.ui
-msgid "Preferences"
-msgstr ""
-
 #: ../resources/preferences_dialog.ui
 msgid "Remove unrequired dependencies"
 msgstr ""
 
 #: ../resources/preferences_dialog.ui
-msgid ""
-"When removing a package, also remove its dependencies that are not required "
-"by other packages"
+msgid "When removing a package, also remove its dependencies that are not required by other packages"
 msgstr ""
 
 #: ../resources/preferences_dialog.ui

@@ -2,7 +2,7 @@
 # Copyright (C) 2007-2012 Free Software Foundation, Inc.
 # This file is distributed under the same license as the Pamac package.
 # Guillaume Benoit <guillaume@manjaro.org>, 2013-2015.
-# 
+#
 # Translators:
 # ansich <mojmejlzaforume@gmail.com>, 2014
 # Nenad Latinović <inactive+holden1987@transifex.com>, 2013
@@ -14,19 +14,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2015-08-20 11:53+0200\n"
+"POT-Creation-Date: 2016-04-24 08:44+0200\n"
 "PO-Revision-Date: 2016-04-17 08:28+0000\n"
 "Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Slovenian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/sl/)\n"
+"Language: sl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: sl\n"
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);\n"
-
-#: data/polkit/org.manjaro.pamac.policy
-msgid "Authentication is required"
-msgstr "Zahtevana je overovitev"
 
 #: ../src/daemon.vala
 msgid "Failed to initialize alpm library"
@@ -123,6 +119,10 @@ msgid "failed retrieving file '%s' from %s : %s\n"
 msgstr ""
 
 #: ../src/transaction.vala
+msgid "A Gtk3 frontend for libalpm"
+msgstr "Gtk3 začelje za libalpm"
+
+#: ../src/transaction.vala
 msgid "Refreshing mirrors list"
 msgstr "Osveževanje seznama zrcal"
 
@@ -142,10 +142,6 @@ msgstr "Pripravljam"
 #, c-format
 msgid "Choose a provider for %s"
 msgstr "Izberite ponudnika za %s"
-
-#: ../src/transaction.vala ../resources/transaction_sum_dialog.ui
-msgid "Transaction Summary"
-msgstr "Povzetek transakcije"
 
 #: ../src/transaction.vala
 msgid "To remove"
@@ -335,6 +331,10 @@ msgid "Warning"
 msgstr "Opozorilo"
 
 #: ../src/transaction.vala
+msgid "_Close"
+msgstr "_Zapri"
+
+#: ../src/transaction.vala
 msgid "Nothing to do"
 msgstr "Ni nobenih opravil"
 
@@ -350,11 +350,11 @@ msgstr "Pamac je že v teku"
 msgid "Your system is up-to-date"
 msgstr "Vaš sistem je posodobljen"
 
-#: ../src/tray.vala ../resources/updater_window.ui
+#: ../src/tray.vala
 msgid "Update Manager"
 msgstr "Upravljalnik posodobitev"
 
-#: ../src/tray.vala ../resources/manager_window.ui
+#: ../src/tray.vala
 msgid "Package Manager"
 msgstr "Upravljalnik paketov"
 
@@ -528,16 +528,8 @@ msgstr "Ime"
 
 #: ../src/manager_window.vala
 #, c-format
-msgid ""
-"%s has %u uninstalled optional dependency.\n"
-"Choose if you would like to install it"
-msgid_plural ""
-"%s has %u uninstalled optional dependencies.\n"
-"Choose those you would like to install"
-msgstr[0] "%s ima %u odstranjeno izbirno odvisnost.\nIzberite, če jo želite namestiti"
-msgstr[1] "%s ima %u odstranjenih izbirnih odvisnosti.\nIzberite tiste, ki jih želite namestiti"
-msgstr[2] "%s ima %u odstranjenih izbirnih odvisnosti.\nIzberite tiste, ki jih želite namestiti"
-msgstr[3] "%s ima %u odstranjenih izbirnih odvisnosti.\nIzberite tiste, ki jih želite namestiti"
+msgid "Choose optional dependencies for %s"
+msgstr ""
 
 #: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Install Local Packages"
@@ -545,7 +537,8 @@ msgstr "Namesti krajevne pakete"
 
 #: ../src/manager_window.vala ../resources/progress_dialog.ui
 #: ../resources/transaction_sum_dialog.ui ../resources/choose_dep_dialog.ui
-#: ../resources/manager_window.ui ../resources/choose_ignorepkgs_dialog.ui
+#: ../resources/manager_window.ui ../resources/updater_window.ui
+#: ../resources/choose_ignorepkgs_dialog.ui
 msgid "_Cancel"
 msgstr "_Prekliči"
 
@@ -556,10 +549,6 @@ msgstr "_Odpri"
 #: ../src/manager_window.vala
 msgid "Alpm Package"
 msgstr "Paket Alpm"
-
-#: ../src/manager_window.vala
-msgid "A Gtk3 frontend for libalpm"
-msgstr "Gtk3 začelje za libalpm"
 
 #: ../src/preferences_dialog.vala ../resources/preferences_dialog.ui
 msgid "How often to check for updates, value in hours"
@@ -577,19 +566,14 @@ msgstr "Hitrost"
 msgid "Random"
 msgstr "Naključno"
 
-#: ../src/choose_ignorepkgs_dialog.vala
-msgid "Choose the packages you do not want to upgrade"
-msgstr "Izberite pakete, ki jih NE želite posdobiti"
-
 #: ../resources/choose_provider_dialog.ui
 msgid "Choose a Provider"
 msgstr "Izberi ponudnika"
 
-#: ../resources/choose_provider_dialog.ui
-#: ../resources/transaction_sum_dialog.ui ../resources/choose_dep_dialog.ui
+#: ../resources/choose_provider_dialog.ui ../resources/choose_dep_dialog.ui
 #: ../resources/choose_ignorepkgs_dialog.ui
-msgid "_OK"
-msgstr "_OK"
+msgid "Choose"
+msgstr ""
 
 #: ../resources/progress_dialog.ui
 msgid "Progress"
@@ -599,8 +583,8 @@ msgstr "Potek"
 msgid "_Hide"
 msgstr ""
 
-#: ../resources/progress_dialog.ui ../resources/transaction_info_dialog.ui
-#: ../resources/manager_window.ui
+#: ../resources/progress_dialog.ui ../resources/manager_window.ui
+#: ../resources/updater_window.ui
 msgid "Details"
 msgstr "Podrobnosti"
 
@@ -608,30 +592,33 @@ msgstr "Podrobnosti"
 msgid "Pamac History"
 msgstr "Zgodovina Pamac"
 
-#: ../resources/history_dialog.ui ../resources/transaction_info_dialog.ui
-#: ../resources/updater_window.ui ../resources/preferences_dialog.ui
-msgid "_Close"
-msgstr "_Zapri"
+#: ../resources/transaction_sum_dialog.ui
+msgid "Transaction Summary"
+msgstr "Povzetek transakcije"
+
+#: ../resources/transaction_sum_dialog.ui
+msgid "Commit"
+msgstr ""
 
 #: ../resources/choose_dep_dialog.ui
 msgid "Choose Optional Dependencies"
 msgstr "Izberite pogojne odvisnosti"
 
-#: ../resources/manager_window.ui
+#: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "Refresh databases"
 msgstr "Osveži baze podatkov"
 
-#: ../resources/manager_window.ui
+#: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "View History"
 msgstr "Glej zgodovino"
 
 #: ../resources/manager_window.ui ../resources/updater_window.ui
-msgid "_Preferences"
-msgstr "_Nastavitve"
+msgid "Preferences"
+msgstr "Nastavitve"
 
-#: ../resources/manager_window.ui
-msgid "_About"
-msgstr "_O programu"
+#: ../resources/manager_window.ui ../resources/updater_window.ui
+msgid "About"
+msgstr ""
 
 #: ../resources/manager_window.ui
 msgid "Search"
@@ -682,22 +669,12 @@ msgstr "Odvisnosti"
 msgid "Files"
 msgstr "Datoteke"
 
-#: ../resources/updater_window.ui
-msgid "_Refresh"
-msgstr "_Osveži"
-
-#: ../resources/preferences_dialog.ui
-msgid "Preferences"
-msgstr "Nastavitve"
-
 #: ../resources/preferences_dialog.ui
 msgid "Remove unrequired dependencies"
 msgstr "Odstrani nezahtevane odvisnosti"
 
 #: ../resources/preferences_dialog.ui
-msgid ""
-"When removing a package, also remove its dependencies that are not required "
-"by other packages"
+msgid "When removing a package, also remove its dependencies that are not required by other packages"
 msgstr "Ob odstranjevanju paketov odstrani tudi tiste odvisnosti, ki niso zahtevani s strani drugih paketov"
 
 #: ../resources/preferences_dialog.ui
@@ -740,7 +717,9 @@ msgstr "Uradna skladišča"
 msgid ""
 "AUR is a community maintained repository so it presents potential risks and problems.\n"
 "All AUR users should be familiar with the build process."
-msgstr "AUR je skladišče, ki ga urejajo uporabniki, zaradi česar je lahko potencialni vir tveganj in težav.\nPriporočljivo je, da so vsi uporabniki AUR seznanjeni s procesom izgradnje programov."
+msgstr ""
+"AUR je skladišče, ki ga urejajo uporabniki, zaradi česar je lahko potencialni vir tveganj in težav.\n"
+"Priporočljivo je, da so vsi uporabniki AUR seznanjeni s procesom izgradnje programov."
 
 #: ../resources/preferences_dialog.ui
 msgid "Enable AUR support"
@@ -765,3 +744,40 @@ msgstr "Pri izgradnjih paketov ne vprašaj za potrditev"
 #: ../resources/choose_ignorepkgs_dialog.ui
 msgid "Choose Ignored Upgrades"
 msgstr "Paketi, ki naj se ne posodabljajo"
+
+#~ msgid "Authentication is required"
+#~ msgstr "Zahtevana je overovitev"
+
+#~ msgid ""
+#~ "%s has %u uninstalled optional dependency.\n"
+#~ "Choose if you would like to install it"
+#~ msgid_plural ""
+#~ "%s has %u uninstalled optional dependencies.\n"
+#~ "Choose those you would like to install"
+#~ msgstr[0] ""
+#~ "%s ima %u odstranjeno izbirno odvisnost.\n"
+#~ "Izberite, če jo želite namestiti"
+#~ msgstr[1] ""
+#~ "%s ima %u odstranjenih izbirnih odvisnosti.\n"
+#~ "Izberite tiste, ki jih želite namestiti"
+#~ msgstr[2] ""
+#~ "%s ima %u odstranjenih izbirnih odvisnosti.\n"
+#~ "Izberite tiste, ki jih želite namestiti"
+#~ msgstr[3] ""
+#~ "%s ima %u odstranjenih izbirnih odvisnosti.\n"
+#~ "Izberite tiste, ki jih želite namestiti"
+
+#~ msgid "Choose the packages you do not want to upgrade"
+#~ msgstr "Izberite pakete, ki jih NE želite posdobiti"
+
+#~ msgid "_OK"
+#~ msgstr "_OK"
+
+#~ msgid "_Preferences"
+#~ msgstr "_Nastavitve"
+
+#~ msgid "_About"
+#~ msgstr "_O programu"
+
+#~ msgid "_Refresh"
+#~ msgstr "_Osveži"

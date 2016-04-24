@@ -2,7 +2,7 @@
 # Copyright (C) 2007-2012 Free Software Foundation, Inc.
 # This file is distributed under the same license as the Pamac package.
 # Guillaume Benoit <guillaume@manjaro.org>, 2013-2015.
-# 
+#
 # Translators:
 # Galin Iskrenov <loot270@abv.bg>, 2013-2016
 # Georgi Georgiev <georgiev_1994@abv.bg>, 2014
@@ -15,19 +15,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2015-08-20 11:53+0200\n"
+"POT-Creation-Date: 2016-04-24 08:44+0200\n"
 "PO-Revision-Date: 2016-04-17 08:32+0000\n"
 "Last-Translator: Georgi Georgiev <georgiev_1994@abv.bg>\n"
 "Language-Team: Bulgarian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/bg/)\n"
+"Language: bg\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: bg\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-
-#: data/polkit/org.manjaro.pamac.policy
-msgid "Authentication is required"
-msgstr "Изисква се идентификация"
 
 #: ../src/daemon.vala
 msgid "Failed to initialize alpm library"
@@ -124,6 +120,10 @@ msgid "failed retrieving file '%s' from %s : %s\n"
 msgstr "невъзможно изтегляне на '%s' от %s : %s\n"
 
 #: ../src/transaction.vala
+msgid "A Gtk3 frontend for libalpm"
+msgstr "GTK3 интерфейс за libalpm"
+
+#: ../src/transaction.vala
 msgid "Refreshing mirrors list"
 msgstr "Обновяване на списъка с огледала"
 
@@ -143,10 +143,6 @@ msgstr "Подготвяне"
 #, c-format
 msgid "Choose a provider for %s"
 msgstr "Изберете доставчик на %s"
-
-#: ../src/transaction.vala ../resources/transaction_sum_dialog.ui
-msgid "Transaction Summary"
-msgstr "Резюме на транзакцията"
 
 #: ../src/transaction.vala
 msgid "To remove"
@@ -334,6 +330,10 @@ msgid "Warning"
 msgstr "Внимание"
 
 #: ../src/transaction.vala
+msgid "_Close"
+msgstr "_Затвори"
+
+#: ../src/transaction.vala
 msgid "Nothing to do"
 msgstr "Нищо за правене"
 
@@ -349,11 +349,11 @@ msgstr "Pamac вече е пуснат"
 msgid "Your system is up-to-date"
 msgstr "Вашата система е актуална"
 
-#: ../src/tray.vala ../resources/updater_window.ui
+#: ../src/tray.vala
 msgid "Update Manager"
 msgstr "Диспечер за обновяване"
 
-#: ../src/tray.vala ../resources/manager_window.ui
+#: ../src/tray.vala
 msgid "Package Manager"
 msgstr "Диспечер на пакети"
 
@@ -523,14 +523,8 @@ msgstr "Име"
 
 #: ../src/manager_window.vala
 #, c-format
-msgid ""
-"%s has %u uninstalled optional dependency.\n"
-"Choose if you would like to install it"
-msgid_plural ""
-"%s has %u uninstalled optional dependencies.\n"
-"Choose those you would like to install"
-msgstr[0] "%s има %u неинсталирана допълнителна зависимост.\nИзберете дали искате да се инсталира:"
-msgstr[1] "%s има %u неинсталирани допълнителни зависимости.\nИзберете кои да се инсталират:"
+msgid "Choose optional dependencies for %s"
+msgstr ""
 
 #: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Install Local Packages"
@@ -538,7 +532,8 @@ msgstr "Инсталиране на локални пакети"
 
 #: ../src/manager_window.vala ../resources/progress_dialog.ui
 #: ../resources/transaction_sum_dialog.ui ../resources/choose_dep_dialog.ui
-#: ../resources/manager_window.ui ../resources/choose_ignorepkgs_dialog.ui
+#: ../resources/manager_window.ui ../resources/updater_window.ui
+#: ../resources/choose_ignorepkgs_dialog.ui
 msgid "_Cancel"
 msgstr "_Отказ"
 
@@ -549,10 +544,6 @@ msgstr "_Отвори"
 #: ../src/manager_window.vala
 msgid "Alpm Package"
 msgstr "Alpm Пакет"
-
-#: ../src/manager_window.vala
-msgid "A Gtk3 frontend for libalpm"
-msgstr "GTK3 интерфейс за libalpm"
 
 #: ../src/preferences_dialog.vala ../resources/preferences_dialog.ui
 msgid "How often to check for updates, value in hours"
@@ -570,19 +561,14 @@ msgstr "Скорост"
 msgid "Random"
 msgstr "Разбъркано "
 
-#: ../src/choose_ignorepkgs_dialog.vala
-msgid "Choose the packages you do not want to upgrade"
-msgstr "Изберете пакетите, които не искате да се надграждат"
-
 #: ../resources/choose_provider_dialog.ui
 msgid "Choose a Provider"
 msgstr "Изберете доставчик"
 
-#: ../resources/choose_provider_dialog.ui
-#: ../resources/transaction_sum_dialog.ui ../resources/choose_dep_dialog.ui
+#: ../resources/choose_provider_dialog.ui ../resources/choose_dep_dialog.ui
 #: ../resources/choose_ignorepkgs_dialog.ui
-msgid "_OK"
-msgstr "_OK"
+msgid "Choose"
+msgstr ""
 
 #: ../resources/progress_dialog.ui
 msgid "Progress"
@@ -592,8 +578,8 @@ msgstr "Прогрес"
 msgid "_Hide"
 msgstr "–Скрий"
 
-#: ../resources/progress_dialog.ui ../resources/transaction_info_dialog.ui
-#: ../resources/manager_window.ui
+#: ../resources/progress_dialog.ui ../resources/manager_window.ui
+#: ../resources/updater_window.ui
 msgid "Details"
 msgstr "Детайли"
 
@@ -601,30 +587,33 @@ msgstr "Детайли"
 msgid "Pamac History"
 msgstr "История на Pamac"
 
-#: ../resources/history_dialog.ui ../resources/transaction_info_dialog.ui
-#: ../resources/updater_window.ui ../resources/preferences_dialog.ui
-msgid "_Close"
-msgstr "_Затвори"
+#: ../resources/transaction_sum_dialog.ui
+msgid "Transaction Summary"
+msgstr "Резюме на транзакцията"
+
+#: ../resources/transaction_sum_dialog.ui
+msgid "Commit"
+msgstr ""
 
 #: ../resources/choose_dep_dialog.ui
 msgid "Choose Optional Dependencies"
 msgstr "Изберете допълнителни зависимости"
 
-#: ../resources/manager_window.ui
+#: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "Refresh databases"
 msgstr "Обновяване на базата данни"
 
-#: ../resources/manager_window.ui
+#: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "View History"
 msgstr "Преглед на историята"
 
 #: ../resources/manager_window.ui ../resources/updater_window.ui
-msgid "_Preferences"
-msgstr "_Предпочитания"
+msgid "Preferences"
+msgstr "Предпочитания"
 
-#: ../resources/manager_window.ui
-msgid "_About"
-msgstr "_Относно"
+#: ../resources/manager_window.ui ../resources/updater_window.ui
+msgid "About"
+msgstr ""
 
 #: ../resources/manager_window.ui
 msgid "Search"
@@ -675,22 +664,12 @@ msgstr "Зависимости"
 msgid "Files"
 msgstr "Файлове"
 
-#: ../resources/updater_window.ui
-msgid "_Refresh"
-msgstr "_Обнови"
-
-#: ../resources/preferences_dialog.ui
-msgid "Preferences"
-msgstr "Предпочитания"
-
 #: ../resources/preferences_dialog.ui
 msgid "Remove unrequired dependencies"
 msgstr "Премахни ненужни зависимости"
 
 #: ../resources/preferences_dialog.ui
-msgid ""
-"When removing a package, also remove its dependencies that are not required "
-"by other packages"
+msgid "When removing a package, also remove its dependencies that are not required by other packages"
 msgstr "Премахвайки пакет, премахвате и зависимости, които не са необходими на други пакети"
 
 #: ../resources/preferences_dialog.ui
@@ -733,7 +712,9 @@ msgstr "Официални хранилища"
 msgid ""
 "AUR is a community maintained repository so it presents potential risks and problems.\n"
 "All AUR users should be familiar with the build process."
-msgstr "AUR е хранилище на общността с потенциални рискове и проблеми.\nВсички AUR потребители трябва да са запознати с процеса за изграждане."
+msgstr ""
+"AUR е хранилище на общността с потенциални рискове и проблеми.\n"
+"Всички AUR потребители трябва да са запознати с процеса за изграждане."
 
 #: ../resources/preferences_dialog.ui
 msgid "Enable AUR support"
@@ -758,3 +739,34 @@ msgstr "Не питай за потвърждение, когато се изг�
 #: ../resources/choose_ignorepkgs_dialog.ui
 msgid "Choose Ignored Upgrades"
 msgstr "Избор на пренебрегнати надграждания"
+
+#~ msgid "Authentication is required"
+#~ msgstr "Изисква се идентификация"
+
+#~ msgid ""
+#~ "%s has %u uninstalled optional dependency.\n"
+#~ "Choose if you would like to install it"
+#~ msgid_plural ""
+#~ "%s has %u uninstalled optional dependencies.\n"
+#~ "Choose those you would like to install"
+#~ msgstr[0] ""
+#~ "%s има %u неинсталирана допълнителна зависимост.\n"
+#~ "Изберете дали искате да се инсталира:"
+#~ msgstr[1] ""
+#~ "%s има %u неинсталирани допълнителни зависимости.\n"
+#~ "Изберете кои да се инсталират:"
+
+#~ msgid "Choose the packages you do not want to upgrade"
+#~ msgstr "Изберете пакетите, които не искате да се надграждат"
+
+#~ msgid "_OK"
+#~ msgstr "_OK"
+
+#~ msgid "_Preferences"
+#~ msgstr "_Предпочитания"
+
+#~ msgid "_About"
+#~ msgstr "_Относно"
+
+#~ msgid "_Refresh"
+#~ msgstr "_Обнови"

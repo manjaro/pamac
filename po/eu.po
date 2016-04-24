@@ -2,7 +2,7 @@
 # Copyright (C) 2007-2012 Free Software Foundation, Inc.
 # This file is distributed under the same license as the Pamac package.
 # Guillaume Benoit <guillaume@manjaro.org>, 2013-2015.
-# 
+#
 # Translators:
 # aboutafteragain <aboutafteragain@gmail.com>, 2015
 # aboutafteragain <aboutafteragain@gmail.com>, 2015
@@ -13,19 +13,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2015-08-20 11:53+0200\n"
+"POT-Creation-Date: 2016-04-24 08:44+0200\n"
 "PO-Revision-Date: 2016-04-23 07:23+0000\n"
 "Last-Translator: Osoitz <oelkoro@gmail.com>\n"
 "Language-Team: Basque (http://www.transifex.com/manjarolinux/manjaro-pamac/language/eu/)\n"
+"Language: eu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: eu\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-
-#: data/polkit/org.manjaro.pamac.policy
-msgid "Authentication is required"
-msgstr "Autentifikazioa behar da"
 
 #: ../src/daemon.vala
 msgid "Failed to initialize alpm library"
@@ -122,6 +118,10 @@ msgid "failed retrieving file '%s' from %s : %s\n"
 msgstr "ezin izan da '%s' fitxategia eskuratu %s tik : %s\n"
 
 #: ../src/transaction.vala
+msgid "A Gtk3 frontend for libalpm"
+msgstr "Gtk3n eraikitako ibalpm liburutegiaren interfaze bat"
+
+#: ../src/transaction.vala
 msgid "Refreshing mirrors list"
 msgstr "Ispiluen zerrenda berritzen"
 
@@ -141,10 +141,6 @@ msgstr "Prestatzen"
 #, c-format
 msgid "Choose a provider for %s"
 msgstr "Aukeratu %s hornitzailea"
-
-#: ../src/transaction.vala ../resources/transaction_sum_dialog.ui
-msgid "Transaction Summary"
-msgstr "Transakzioaren laburpena"
 
 #: ../src/transaction.vala
 msgid "To remove"
@@ -332,6 +328,10 @@ msgid "Warning"
 msgstr "Oharra"
 
 #: ../src/transaction.vala
+msgid "_Close"
+msgstr "_Itxi"
+
+#: ../src/transaction.vala
 msgid "Nothing to do"
 msgstr "Ezer ez egiteko"
 
@@ -347,11 +347,11 @@ msgstr "Pamac onezkero exekutatzen dago"
 msgid "Your system is up-to-date"
 msgstr "Zure sistema eguneratuta dago"
 
-#: ../src/tray.vala ../resources/updater_window.ui
+#: ../src/tray.vala
 msgid "Update Manager"
 msgstr "Eguneraketa Kudeatzailea"
 
-#: ../src/tray.vala ../resources/manager_window.ui
+#: ../src/tray.vala
 msgid "Package Manager"
 msgstr "Pakete Kudeatzailea"
 
@@ -521,14 +521,8 @@ msgstr "Izena"
 
 #: ../src/manager_window.vala
 #, c-format
-msgid ""
-"%s has %u uninstalled optional dependency.\n"
-"Choose if you would like to install it"
-msgid_plural ""
-"%s has %u uninstalled optional dependencies.\n"
-"Choose those you would like to install"
-msgstr[0] "%s instalatu gabeko menpekotasun %u du.\nHautatu instalatu nahi duzun"
-msgstr[1] "%s instalatu gabeko %u menpekotasun ditu.\nHautatu instalatu nahi dituzunak"
+msgid "Choose optional dependencies for %s"
+msgstr ""
 
 #: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Install Local Packages"
@@ -536,7 +530,8 @@ msgstr "Instalatu pakete lokalak"
 
 #: ../src/manager_window.vala ../resources/progress_dialog.ui
 #: ../resources/transaction_sum_dialog.ui ../resources/choose_dep_dialog.ui
-#: ../resources/manager_window.ui ../resources/choose_ignorepkgs_dialog.ui
+#: ../resources/manager_window.ui ../resources/updater_window.ui
+#: ../resources/choose_ignorepkgs_dialog.ui
 msgid "_Cancel"
 msgstr "_Ezeztatu"
 
@@ -547,10 +542,6 @@ msgstr "_Ireki"
 #: ../src/manager_window.vala
 msgid "Alpm Package"
 msgstr "Alpm paketea"
-
-#: ../src/manager_window.vala
-msgid "A Gtk3 frontend for libalpm"
-msgstr "Gtk3n eraikitako ibalpm liburutegiaren interfaze bat"
 
 #: ../src/preferences_dialog.vala ../resources/preferences_dialog.ui
 msgid "How often to check for updates, value in hours"
@@ -568,19 +559,14 @@ msgstr "Abiadura"
 msgid "Random"
 msgstr "Ausazkoa"
 
-#: ../src/choose_ignorepkgs_dialog.vala
-msgid "Choose the packages you do not want to upgrade"
-msgstr "Aukeratu bertsio-berritu nahi ez dituzun paketeak"
-
 #: ../resources/choose_provider_dialog.ui
 msgid "Choose a Provider"
 msgstr "Aukeratu hornitzaile bat"
 
-#: ../resources/choose_provider_dialog.ui
-#: ../resources/transaction_sum_dialog.ui ../resources/choose_dep_dialog.ui
+#: ../resources/choose_provider_dialog.ui ../resources/choose_dep_dialog.ui
 #: ../resources/choose_ignorepkgs_dialog.ui
-msgid "_OK"
-msgstr "_Ados"
+msgid "Choose"
+msgstr ""
 
 #: ../resources/progress_dialog.ui
 msgid "Progress"
@@ -590,8 +576,8 @@ msgstr "Progresioa"
 msgid "_Hide"
 msgstr "_Ezkutatu"
 
-#: ../resources/progress_dialog.ui ../resources/transaction_info_dialog.ui
-#: ../resources/manager_window.ui
+#: ../resources/progress_dialog.ui ../resources/manager_window.ui
+#: ../resources/updater_window.ui
 msgid "Details"
 msgstr "Xehetasunak"
 
@@ -599,30 +585,33 @@ msgstr "Xehetasunak"
 msgid "Pamac History"
 msgstr "Pamac Historia"
 
-#: ../resources/history_dialog.ui ../resources/transaction_info_dialog.ui
-#: ../resources/updater_window.ui ../resources/preferences_dialog.ui
-msgid "_Close"
-msgstr "_Itxi"
+#: ../resources/transaction_sum_dialog.ui
+msgid "Transaction Summary"
+msgstr "Transakzioaren laburpena"
+
+#: ../resources/transaction_sum_dialog.ui
+msgid "Commit"
+msgstr ""
 
 #: ../resources/choose_dep_dialog.ui
 msgid "Choose Optional Dependencies"
 msgstr "Hautatu aukerazko menpekotasunak"
 
-#: ../resources/manager_window.ui
+#: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "Refresh databases"
 msgstr "Freskatu datu-baseak"
 
-#: ../resources/manager_window.ui
+#: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "View History"
 msgstr "Ikusi historia"
 
 #: ../resources/manager_window.ui ../resources/updater_window.ui
-msgid "_Preferences"
-msgstr "_Hobespenak"
+msgid "Preferences"
+msgstr "Hobespenak"
 
-#: ../resources/manager_window.ui
-msgid "_About"
-msgstr "_Honi Buruz"
+#: ../resources/manager_window.ui ../resources/updater_window.ui
+msgid "About"
+msgstr ""
 
 #: ../resources/manager_window.ui
 msgid "Search"
@@ -673,22 +662,12 @@ msgstr "Menpekotasunak"
 msgid "Files"
 msgstr "Fitxategiak"
 
-#: ../resources/updater_window.ui
-msgid "_Refresh"
-msgstr "_Freskatu"
-
-#: ../resources/preferences_dialog.ui
-msgid "Preferences"
-msgstr "Hobespenak"
-
 #: ../resources/preferences_dialog.ui
 msgid "Remove unrequired dependencies"
 msgstr "Kendu behar ez diren menpekotasunak"
 
 #: ../resources/preferences_dialog.ui
-msgid ""
-"When removing a package, also remove its dependencies that are not required "
-"by other packages"
+msgid "When removing a package, also remove its dependencies that are not required by other packages"
 msgstr "Pakete bat kentzean, bere menpekotasunak kendu ere beste paketeren batek behar ez baditu"
 
 #: ../resources/preferences_dialog.ui
@@ -731,7 +710,9 @@ msgstr "Biltegi ofizialak"
 msgid ""
 "AUR is a community maintained repository so it presents potential risks and problems.\n"
 "All AUR users should be familiar with the build process."
-msgstr "AUR komunitatean mantendutako biltegi bat da eta arrisku zein arazo potentzialak ditu\nAUR erabiltzaile guztiek eraikitzeko prozesua ezagutu beharko lukete."
+msgstr ""
+"AUR komunitatean mantendutako biltegi bat da eta arrisku zein arazo potentzialak ditu\n"
+"AUR erabiltzaile guztiek eraikitzeko prozesua ezagutu beharko lukete."
 
 #: ../resources/preferences_dialog.ui
 msgid "Enable AUR support"
@@ -756,3 +737,34 @@ msgstr "Ez eskatu berrespena paketeak eraikitzean"
 #: ../resources/choose_ignorepkgs_dialog.ui
 msgid "Choose Ignored Upgrades"
 msgstr "Hautatu ezikusitako bertsio-berritzeak"
+
+#~ msgid "Authentication is required"
+#~ msgstr "Autentifikazioa behar da"
+
+#~ msgid ""
+#~ "%s has %u uninstalled optional dependency.\n"
+#~ "Choose if you would like to install it"
+#~ msgid_plural ""
+#~ "%s has %u uninstalled optional dependencies.\n"
+#~ "Choose those you would like to install"
+#~ msgstr[0] ""
+#~ "%s instalatu gabeko menpekotasun %u du.\n"
+#~ "Hautatu instalatu nahi duzun"
+#~ msgstr[1] ""
+#~ "%s instalatu gabeko %u menpekotasun ditu.\n"
+#~ "Hautatu instalatu nahi dituzunak"
+
+#~ msgid "Choose the packages you do not want to upgrade"
+#~ msgstr "Aukeratu bertsio-berritu nahi ez dituzun paketeak"
+
+#~ msgid "_OK"
+#~ msgstr "_Ados"
+
+#~ msgid "_Preferences"
+#~ msgstr "_Hobespenak"
+
+#~ msgid "_About"
+#~ msgstr "_Honi Buruz"
+
+#~ msgid "_Refresh"
+#~ msgstr "_Freskatu"

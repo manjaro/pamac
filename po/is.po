@@ -2,7 +2,7 @@
 # Copyright (C) 2007-2012 Free Software Foundation, Inc.
 # This file is distributed under the same license as the Pamac package.
 # Guillaume Benoit <guillaume@manjaro.org>, 2013-2015.
-# 
+#
 # Translators:
 # Kristján Magnússon, 2015
 # Kristján Magnússon, 2015-2016
@@ -11,19 +11,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2015-08-20 11:53+0200\n"
+"POT-Creation-Date: 2016-04-24 08:44+0200\n"
 "PO-Revision-Date: 2016-04-17 08:28+0000\n"
 "Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Icelandic (http://www.transifex.com/manjarolinux/manjaro-pamac/language/is/)\n"
+"Language: is\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: is\n"
 "Plural-Forms: nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);\n"
-
-#: data/polkit/org.manjaro.pamac.policy
-msgid "Authentication is required"
-msgstr "Auðkenningar er krafist"
 
 #: ../src/daemon.vala
 msgid "Failed to initialize alpm library"
@@ -120,6 +116,10 @@ msgid "failed retrieving file '%s' from %s : %s\n"
 msgstr "Mistókst að endurheimta skrá '%s' frá %s : %s\n"
 
 #: ../src/transaction.vala
+msgid "A Gtk3 frontend for libalpm"
+msgstr "Gtk3 viðmót fyrir libalpm"
+
+#: ../src/transaction.vala
 msgid "Refreshing mirrors list"
 msgstr "Endurles speglalista"
 
@@ -139,10 +139,6 @@ msgstr "Undirbúa"
 #, c-format
 msgid "Choose a provider for %s"
 msgstr "Veldu útgefanda fyrir %s"
-
-#: ../src/transaction.vala ../resources/transaction_sum_dialog.ui
-msgid "Transaction Summary"
-msgstr "Samantekt aðgerðar"
 
 #: ../src/transaction.vala
 msgid "To remove"
@@ -330,6 +326,10 @@ msgid "Warning"
 msgstr "Aðvörun"
 
 #: ../src/transaction.vala
+msgid "_Close"
+msgstr "_Loka"
+
+#: ../src/transaction.vala
 msgid "Nothing to do"
 msgstr "Ekkert sem hægt er að gera"
 
@@ -345,11 +345,11 @@ msgstr "Pamac er þegar í keyrslu"
 msgid "Your system is up-to-date"
 msgstr "Kerfið þitt er með öllum nýjasta hugbúnaðinum"
 
-#: ../src/tray.vala ../resources/updater_window.ui
+#: ../src/tray.vala
 msgid "Update Manager"
 msgstr "Uppfærslustjórnun"
 
-#: ../src/tray.vala ../resources/manager_window.ui
+#: ../src/tray.vala
 msgid "Package Manager"
 msgstr "Pakkastjórnun"
 
@@ -519,14 +519,8 @@ msgstr "Nafn"
 
 #: ../src/manager_window.vala
 #, c-format
-msgid ""
-"%s has %u uninstalled optional dependency.\n"
-"Choose if you would like to install it"
-msgid_plural ""
-"%s has %u uninstalled optional dependencies.\n"
-"Choose those you would like to install"
-msgstr[0] "%s er háður %u óuppsettum pakka.\nVeldu hvort þú viljir setja hann upp"
-msgstr[1] "%s er háður %u óuppsettum pökkum.\nVeldu þá sem þú vilt setja upp"
+msgid "Choose optional dependencies for %s"
+msgstr ""
 
 #: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Install Local Packages"
@@ -534,7 +528,8 @@ msgstr "Setja upp pakka á tölvunni"
 
 #: ../src/manager_window.vala ../resources/progress_dialog.ui
 #: ../resources/transaction_sum_dialog.ui ../resources/choose_dep_dialog.ui
-#: ../resources/manager_window.ui ../resources/choose_ignorepkgs_dialog.ui
+#: ../resources/manager_window.ui ../resources/updater_window.ui
+#: ../resources/choose_ignorepkgs_dialog.ui
 msgid "_Cancel"
 msgstr "_Hætta við"
 
@@ -545,10 +540,6 @@ msgstr "_Opna"
 #: ../src/manager_window.vala
 msgid "Alpm Package"
 msgstr "Alpm pakki"
-
-#: ../src/manager_window.vala
-msgid "A Gtk3 frontend for libalpm"
-msgstr "Gtk3 viðmót fyrir libalpm"
 
 #: ../src/preferences_dialog.vala ../resources/preferences_dialog.ui
 msgid "How often to check for updates, value in hours"
@@ -566,19 +557,14 @@ msgstr "Hraði"
 msgid "Random"
 msgstr "Handahófskennt"
 
-#: ../src/choose_ignorepkgs_dialog.vala
-msgid "Choose the packages you do not want to upgrade"
-msgstr "Veldu pakka sem þú vilt ekki uppfæra"
-
 #: ../resources/choose_provider_dialog.ui
 msgid "Choose a Provider"
 msgstr "Veldu útgefanda"
 
-#: ../resources/choose_provider_dialog.ui
-#: ../resources/transaction_sum_dialog.ui ../resources/choose_dep_dialog.ui
+#: ../resources/choose_provider_dialog.ui ../resources/choose_dep_dialog.ui
 #: ../resources/choose_ignorepkgs_dialog.ui
-msgid "_OK"
-msgstr "_Allt í lagi"
+msgid "Choose"
+msgstr ""
 
 #: ../resources/progress_dialog.ui
 msgid "Progress"
@@ -588,8 +574,8 @@ msgstr "Framvinda"
 msgid "_Hide"
 msgstr ""
 
-#: ../resources/progress_dialog.ui ../resources/transaction_info_dialog.ui
-#: ../resources/manager_window.ui
+#: ../resources/progress_dialog.ui ../resources/manager_window.ui
+#: ../resources/updater_window.ui
 msgid "Details"
 msgstr "Nánar"
 
@@ -597,30 +583,33 @@ msgstr "Nánar"
 msgid "Pamac History"
 msgstr "Ferill Pamac"
 
-#: ../resources/history_dialog.ui ../resources/transaction_info_dialog.ui
-#: ../resources/updater_window.ui ../resources/preferences_dialog.ui
-msgid "_Close"
-msgstr "_Loka"
+#: ../resources/transaction_sum_dialog.ui
+msgid "Transaction Summary"
+msgstr "Samantekt aðgerðar"
+
+#: ../resources/transaction_sum_dialog.ui
+msgid "Commit"
+msgstr ""
 
 #: ../resources/choose_dep_dialog.ui
 msgid "Choose Optional Dependencies"
 msgstr "Veldu valkvæðar kerfiskröfur"
 
-#: ../resources/manager_window.ui
+#: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "Refresh databases"
 msgstr "Endurlesa gagnagrunna"
 
-#: ../resources/manager_window.ui
+#: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "View History"
 msgstr "Skoða feril"
 
 #: ../resources/manager_window.ui ../resources/updater_window.ui
-msgid "_Preferences"
-msgstr "_Valkostir"
+msgid "Preferences"
+msgstr "Valkostir"
 
-#: ../resources/manager_window.ui
-msgid "_About"
-msgstr "_Um hugbúnaðinn"
+#: ../resources/manager_window.ui ../resources/updater_window.ui
+msgid "About"
+msgstr ""
 
 #: ../resources/manager_window.ui
 msgid "Search"
@@ -671,22 +660,12 @@ msgstr "Kerfiskröfur"
 msgid "Files"
 msgstr "Skrár"
 
-#: ../resources/updater_window.ui
-msgid "_Refresh"
-msgstr "Endu_rlesa"
-
-#: ../resources/preferences_dialog.ui
-msgid "Preferences"
-msgstr "Valkostir"
-
 #: ../resources/preferences_dialog.ui
 msgid "Remove unrequired dependencies"
 msgstr "Fjarlægja ónauðsynlegar kerfiskröfur"
 
 #: ../resources/preferences_dialog.ui
-msgid ""
-"When removing a package, also remove its dependencies that are not required "
-"by other packages"
+msgid "When removing a package, also remove its dependencies that are not required by other packages"
 msgstr "Þegar pakki er fjarlægður, fjarlægja þá einnig pakka sem honum eru háðir ef þeirra er ekki krafist af öðrum pökkum"
 
 #: ../resources/preferences_dialog.ui
@@ -729,7 +708,9 @@ msgstr "Opinber hugbúnaðarsöfn"
 msgid ""
 "AUR is a community maintained repository so it presents potential risks and problems.\n"
 "All AUR users should be familiar with the build process."
-msgstr "AUR er hugbúnaðarsafn sem viðhaldið er af fjölda sjálfboðaliða þannig að því fylgir ákveðin áhætta.\nAllir notendur AUR ættu að vera meðvitaðir um byggingaferlið."
+msgstr ""
+"AUR er hugbúnaðarsafn sem viðhaldið er af fjölda sjálfboðaliða þannig að því fylgir ákveðin áhætta.\n"
+"Allir notendur AUR ættu að vera meðvitaðir um byggingaferlið."
 
 #: ../resources/preferences_dialog.ui
 msgid "Enable AUR support"
@@ -754,3 +735,34 @@ msgstr "Ekki biðja um staðfestingu þegar pakkar eru byggðir"
 #: ../resources/choose_ignorepkgs_dialog.ui
 msgid "Choose Ignored Upgrades"
 msgstr "Velja hunsaðar uppfærslur"
+
+#~ msgid "Authentication is required"
+#~ msgstr "Auðkenningar er krafist"
+
+#~ msgid ""
+#~ "%s has %u uninstalled optional dependency.\n"
+#~ "Choose if you would like to install it"
+#~ msgid_plural ""
+#~ "%s has %u uninstalled optional dependencies.\n"
+#~ "Choose those you would like to install"
+#~ msgstr[0] ""
+#~ "%s er háður %u óuppsettum pakka.\n"
+#~ "Veldu hvort þú viljir setja hann upp"
+#~ msgstr[1] ""
+#~ "%s er háður %u óuppsettum pökkum.\n"
+#~ "Veldu þá sem þú vilt setja upp"
+
+#~ msgid "Choose the packages you do not want to upgrade"
+#~ msgstr "Veldu pakka sem þú vilt ekki uppfæra"
+
+#~ msgid "_OK"
+#~ msgstr "_Allt í lagi"
+
+#~ msgid "_Preferences"
+#~ msgstr "_Valkostir"
+
+#~ msgid "_About"
+#~ msgstr "_Um hugbúnaðinn"
+
+#~ msgid "_Refresh"
+#~ msgstr "Endu_rlesa"

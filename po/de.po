@@ -2,7 +2,7 @@
 # Copyright (C) 2007-2012 Free Software Foundation, Inc.
 # This file is distributed under the same license as the Pamac package.
 # Guillaume Benoit <guillaume@manjaro.org>, 2013-2015.
-# 
+#
 # Translators:
 # Bankman <hein.dirk@t-online.de>, 2016
 # Christian Spaan <gyges@gmx.net>, 2016
@@ -25,19 +25,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2015-08-20 11:53+0200\n"
+"POT-Creation-Date: 2016-04-24 08:44+0200\n"
 "PO-Revision-Date: 2016-04-24 06:26+0000\n"
 "Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: German (http://www.transifex.com/manjarolinux/manjaro-pamac/language/de/)\n"
+"Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: de\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-
-#: data/polkit/org.manjaro.pamac.policy
-msgid "Authentication is required"
-msgstr "Authentifizierung wird benötigt"
 
 #: ../src/daemon.vala
 msgid "Failed to initialize alpm library"
@@ -134,6 +130,10 @@ msgid "failed retrieving file '%s' from %s : %s\n"
 msgstr "Konnte Datei '%s' nicht von %s übertragen : %s\n"
 
 #: ../src/transaction.vala
+msgid "A Gtk3 frontend for libalpm"
+msgstr "Eine GTK3-Benutzeroberfläche für libalpm"
+
+#: ../src/transaction.vala
 msgid "Refreshing mirrors list"
 msgstr "Aktualisiere Liste der Spiegelserver"
 
@@ -153,10 +153,6 @@ msgstr "Vorbereitung"
 #, c-format
 msgid "Choose a provider for %s"
 msgstr "Wähle einen Anbieter für %s"
-
-#: ../src/transaction.vala ../resources/transaction_sum_dialog.ui
-msgid "Transaction Summary"
-msgstr "Zusammenfassung der Änderungen"
 
 #: ../src/transaction.vala
 msgid "To remove"
@@ -344,6 +340,10 @@ msgid "Warning"
 msgstr "Warnung"
 
 #: ../src/transaction.vala
+msgid "_Close"
+msgstr "_Schließen"
+
+#: ../src/transaction.vala
 msgid "Nothing to do"
 msgstr "Es gibt nichts zu tun"
 
@@ -359,11 +359,11 @@ msgstr "Pamac wird bereits ausgeführt"
 msgid "Your system is up-to-date"
 msgstr "Ihr System ist auf dem neuesten Stand"
 
-#: ../src/tray.vala ../resources/updater_window.ui
+#: ../src/tray.vala
 msgid "Update Manager"
 msgstr "Update-Manager"
 
-#: ../src/tray.vala ../resources/manager_window.ui
+#: ../src/tray.vala
 msgid "Package Manager"
 msgstr "Paketmanager"
 
@@ -533,14 +533,8 @@ msgstr "Name"
 
 #: ../src/manager_window.vala
 #, c-format
-msgid ""
-"%s has %u uninstalled optional dependency.\n"
-"Choose if you would like to install it"
-msgid_plural ""
-"%s has %u uninstalled optional dependencies.\n"
-"Choose those you would like to install"
-msgstr[0] "%s hat %u optionale Abhängigkeit zur Installation.\nZur Installation kann diese ausgewählt werden."
-msgstr[1] "Für %s stehen %u optionale Abhängigkeiten zur Installation bereit.\nWählen Sie jene, die installiert werden sollen."
+msgid "Choose optional dependencies for %s"
+msgstr ""
 
 #: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Install Local Packages"
@@ -548,7 +542,8 @@ msgstr "Installiere lokale Pakete"
 
 #: ../src/manager_window.vala ../resources/progress_dialog.ui
 #: ../resources/transaction_sum_dialog.ui ../resources/choose_dep_dialog.ui
-#: ../resources/manager_window.ui ../resources/choose_ignorepkgs_dialog.ui
+#: ../resources/manager_window.ui ../resources/updater_window.ui
+#: ../resources/choose_ignorepkgs_dialog.ui
 msgid "_Cancel"
 msgstr "_Abbrechen"
 
@@ -559,10 +554,6 @@ msgstr "_Öffnen"
 #: ../src/manager_window.vala
 msgid "Alpm Package"
 msgstr "Alpm Paket"
-
-#: ../src/manager_window.vala
-msgid "A Gtk3 frontend for libalpm"
-msgstr "Eine GTK3-Benutzeroberfläche für libalpm"
 
 #: ../src/preferences_dialog.vala ../resources/preferences_dialog.ui
 msgid "How often to check for updates, value in hours"
@@ -580,19 +571,14 @@ msgstr "Geschwindigkeit"
 msgid "Random"
 msgstr "Zufällig"
 
-#: ../src/choose_ignorepkgs_dialog.vala
-msgid "Choose the packages you do not want to upgrade"
-msgstr "Wähle die Pakete, die nicht aktualisiert werden sollen"
-
 #: ../resources/choose_provider_dialog.ui
 msgid "Choose a Provider"
 msgstr "Anbieter aussuchen"
 
-#: ../resources/choose_provider_dialog.ui
-#: ../resources/transaction_sum_dialog.ui ../resources/choose_dep_dialog.ui
+#: ../resources/choose_provider_dialog.ui ../resources/choose_dep_dialog.ui
 #: ../resources/choose_ignorepkgs_dialog.ui
-msgid "_OK"
-msgstr "_OK"
+msgid "Choose"
+msgstr ""
 
 #: ../resources/progress_dialog.ui
 msgid "Progress"
@@ -602,8 +588,8 @@ msgstr "Fortschritt"
 msgid "_Hide"
 msgstr "_Verstecken"
 
-#: ../resources/progress_dialog.ui ../resources/transaction_info_dialog.ui
-#: ../resources/manager_window.ui
+#: ../resources/progress_dialog.ui ../resources/manager_window.ui
+#: ../resources/updater_window.ui
 msgid "Details"
 msgstr "Details"
 
@@ -611,30 +597,33 @@ msgstr "Details"
 msgid "Pamac History"
 msgstr "Pamac Historie"
 
-#: ../resources/history_dialog.ui ../resources/transaction_info_dialog.ui
-#: ../resources/updater_window.ui ../resources/preferences_dialog.ui
-msgid "_Close"
-msgstr "_Schließen"
+#: ../resources/transaction_sum_dialog.ui
+msgid "Transaction Summary"
+msgstr "Zusammenfassung der Änderungen"
+
+#: ../resources/transaction_sum_dialog.ui
+msgid "Commit"
+msgstr ""
 
 #: ../resources/choose_dep_dialog.ui
 msgid "Choose Optional Dependencies"
 msgstr "Wähle optionale Abhängigkeiten"
 
-#: ../resources/manager_window.ui
+#: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "Refresh databases"
 msgstr "Datenbanken neu einlesen"
 
-#: ../resources/manager_window.ui
+#: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "View History"
 msgstr "Historie ansehen"
 
 #: ../resources/manager_window.ui ../resources/updater_window.ui
-msgid "_Preferences"
-msgstr "_Einstellungen"
+msgid "Preferences"
+msgstr "Einstellungen"
 
-#: ../resources/manager_window.ui
-msgid "_About"
-msgstr "_Über"
+#: ../resources/manager_window.ui ../resources/updater_window.ui
+msgid "About"
+msgstr ""
 
 #: ../resources/manager_window.ui
 msgid "Search"
@@ -685,22 +674,12 @@ msgstr "Abhängigkeiten"
 msgid "Files"
 msgstr "Dateien"
 
-#: ../resources/updater_window.ui
-msgid "_Refresh"
-msgstr "_Aktualisieren"
-
-#: ../resources/preferences_dialog.ui
-msgid "Preferences"
-msgstr "Einstellungen"
-
 #: ../resources/preferences_dialog.ui
 msgid "Remove unrequired dependencies"
 msgstr "Entferne nicht benötigte Abhängigkeiten"
 
 #: ../resources/preferences_dialog.ui
-msgid ""
-"When removing a package, also remove its dependencies that are not required "
-"by other packages"
+msgid "When removing a package, also remove its dependencies that are not required by other packages"
 msgstr "Wenn ein Paket entfernt wird, werden auch seine Abhängigkeiten entfernt, soweit sie nicht von einem anderen Paket benötigt werden"
 
 #: ../resources/preferences_dialog.ui
@@ -743,7 +722,9 @@ msgstr "Offizielle Repositorien"
 msgid ""
 "AUR is a community maintained repository so it presents potential risks and problems.\n"
 "All AUR users should be familiar with the build process."
-msgstr "Das AUR ist ein von der Gemeinschaft gepflegtes Repositorium, das Risiken birgt und Probleme verursachen kann.\nAlle Benutzer des AUR sollten mit dem Erstellen von Paketen vertraut sein."
+msgstr ""
+"Das AUR ist ein von der Gemeinschaft gepflegtes Repositorium, das Risiken birgt und Probleme verursachen kann.\n"
+"Alle Benutzer des AUR sollten mit dem Erstellen von Paketen vertraut sein."
 
 #: ../resources/preferences_dialog.ui
 msgid "Enable AUR support"
@@ -768,3 +749,34 @@ msgstr "Beim Erstellen von Paketen nicht nach Bestätigung fragen"
 #: ../resources/choose_ignorepkgs_dialog.ui
 msgid "Choose Ignored Upgrades"
 msgstr "Zu ignorierende Aktualisierungen auswählen"
+
+#~ msgid "Authentication is required"
+#~ msgstr "Authentifizierung wird benötigt"
+
+#~ msgid ""
+#~ "%s has %u uninstalled optional dependency.\n"
+#~ "Choose if you would like to install it"
+#~ msgid_plural ""
+#~ "%s has %u uninstalled optional dependencies.\n"
+#~ "Choose those you would like to install"
+#~ msgstr[0] ""
+#~ "%s hat %u optionale Abhängigkeit zur Installation.\n"
+#~ "Zur Installation kann diese ausgewählt werden."
+#~ msgstr[1] ""
+#~ "Für %s stehen %u optionale Abhängigkeiten zur Installation bereit.\n"
+#~ "Wählen Sie jene, die installiert werden sollen."
+
+#~ msgid "Choose the packages you do not want to upgrade"
+#~ msgstr "Wähle die Pakete, die nicht aktualisiert werden sollen"
+
+#~ msgid "_OK"
+#~ msgstr "_OK"
+
+#~ msgid "_Preferences"
+#~ msgstr "_Einstellungen"
+
+#~ msgid "_About"
+#~ msgstr "_Über"
+
+#~ msgid "_Refresh"
+#~ msgstr "_Aktualisieren"

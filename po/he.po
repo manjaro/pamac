@@ -2,7 +2,7 @@
 # Copyright (C) 2007-2012 Free Software Foundation, Inc.
 # This file is distributed under the same license as the Pamac package.
 # Guillaume Benoit <guillaume@manjaro.org>, 2013-2015.
-# 
+#
 # Translators:
 # DirectorX <kassavlt@gmail.com>, 2014
 # GenghisKhan <genghiskhan@gmx.ca>, 2013-2016
@@ -12,19 +12,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2015-08-20 11:53+0200\n"
+"POT-Creation-Date: 2016-04-24 08:44+0200\n"
 "PO-Revision-Date: 2016-04-17 08:28+0000\n"
 "Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Hebrew (http://www.transifex.com/manjarolinux/manjaro-pamac/language/he/)\n"
+"Language: he\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: he\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-
-#: data/polkit/org.manjaro.pamac.policy
-msgid "Authentication is required"
-msgstr "דרוש אימות"
 
 #: ../src/daemon.vala
 msgid "Failed to initialize alpm library"
@@ -121,6 +117,10 @@ msgid "failed retrieving file '%s' from %s : %s\n"
 msgstr ""
 
 #: ../src/transaction.vala
+msgid "A Gtk3 frontend for libalpm"
+msgstr "מגשר חזיתי Gtk3 עבור libalpm"
+
+#: ../src/transaction.vala
 msgid "Refreshing mirrors list"
 msgstr "כעת מרענן רשימת mirrors"
 
@@ -140,10 +140,6 @@ msgstr "כעת מתכונן"
 #, c-format
 msgid "Choose a provider for %s"
 msgstr "בחר ספק עבור %s"
-
-#: ../src/transaction.vala ../resources/transaction_sum_dialog.ui
-msgid "Transaction Summary"
-msgstr "סיכום טרנזקציה"
 
 #: ../src/transaction.vala
 msgid "To remove"
@@ -331,6 +327,10 @@ msgid "Warning"
 msgstr "אזהרה"
 
 #: ../src/transaction.vala
+msgid "_Close"
+msgstr "_סגור"
+
+#: ../src/transaction.vala
 msgid "Nothing to do"
 msgstr "אין מה לעשות"
 
@@ -346,11 +346,11 @@ msgstr "‏Pamac כבר מורץ כעת"
 msgid "Your system is up-to-date"
 msgstr "המערכת שלך מעודכנת"
 
-#: ../src/tray.vala ../resources/updater_window.ui
+#: ../src/tray.vala
 msgid "Update Manager"
 msgstr "מנהל עדכונים"
 
-#: ../src/tray.vala ../resources/manager_window.ui
+#: ../src/tray.vala
 msgid "Package Manager"
 msgstr "מנהל חבילה"
 
@@ -520,14 +520,8 @@ msgstr "שם"
 
 #: ../src/manager_window.vala
 #, c-format
-msgid ""
-"%s has %u uninstalled optional dependency.\n"
-"Choose if you would like to install it"
-msgid_plural ""
-"%s has %u uninstalled optional dependencies.\n"
-"Choose those you would like to install"
-msgstr[0] "לחבילה %s יש %u תלות רשות לא מותקנת.\nבחר אם ברצונך להתקינה:"
-msgstr[1] "לחבילה %s יש %u תלויות רשות לא מותקנות.\nבחר את אלה אשר ברצונך להתקין:"
+msgid "Choose optional dependencies for %s"
+msgstr ""
 
 #: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Install Local Packages"
@@ -535,7 +529,8 @@ msgstr "התקן חבילות מקומיות"
 
 #: ../src/manager_window.vala ../resources/progress_dialog.ui
 #: ../resources/transaction_sum_dialog.ui ../resources/choose_dep_dialog.ui
-#: ../resources/manager_window.ui ../resources/choose_ignorepkgs_dialog.ui
+#: ../resources/manager_window.ui ../resources/updater_window.ui
+#: ../resources/choose_ignorepkgs_dialog.ui
 msgid "_Cancel"
 msgstr "_ביטול"
 
@@ -546,10 +541,6 @@ msgstr "_פתח"
 #: ../src/manager_window.vala
 msgid "Alpm Package"
 msgstr "חבילת Alpm"
-
-#: ../src/manager_window.vala
-msgid "A Gtk3 frontend for libalpm"
-msgstr "מגשר חזיתי Gtk3 עבור libalpm"
 
 #: ../src/preferences_dialog.vala ../resources/preferences_dialog.ui
 msgid "How often to check for updates, value in hours"
@@ -567,19 +558,14 @@ msgstr "מהירות"
 msgid "Random"
 msgstr "אקראי"
 
-#: ../src/choose_ignorepkgs_dialog.vala
-msgid "Choose the packages you do not want to upgrade"
-msgstr "בחר את החבילה אשר אין ברצונך לעדכן"
-
 #: ../resources/choose_provider_dialog.ui
 msgid "Choose a Provider"
 msgstr "בחירת ספק"
 
-#: ../resources/choose_provider_dialog.ui
-#: ../resources/transaction_sum_dialog.ui ../resources/choose_dep_dialog.ui
+#: ../resources/choose_provider_dialog.ui ../resources/choose_dep_dialog.ui
 #: ../resources/choose_ignorepkgs_dialog.ui
-msgid "_OK"
-msgstr "_אישור"
+msgid "Choose"
+msgstr ""
 
 #: ../resources/progress_dialog.ui
 msgid "Progress"
@@ -589,8 +575,8 @@ msgstr "התקדמות"
 msgid "_Hide"
 msgstr ""
 
-#: ../resources/progress_dialog.ui ../resources/transaction_info_dialog.ui
-#: ../resources/manager_window.ui
+#: ../resources/progress_dialog.ui ../resources/manager_window.ui
+#: ../resources/updater_window.ui
 msgid "Details"
 msgstr "פרטים"
 
@@ -598,30 +584,33 @@ msgstr "פרטים"
 msgid "Pamac History"
 msgstr "היסטורית Pamac"
 
-#: ../resources/history_dialog.ui ../resources/transaction_info_dialog.ui
-#: ../resources/updater_window.ui ../resources/preferences_dialog.ui
-msgid "_Close"
-msgstr "_סגור"
+#: ../resources/transaction_sum_dialog.ui
+msgid "Transaction Summary"
+msgstr "סיכום טרנזקציה"
+
+#: ../resources/transaction_sum_dialog.ui
+msgid "Commit"
+msgstr ""
 
 #: ../resources/choose_dep_dialog.ui
 msgid "Choose Optional Dependencies"
 msgstr "בחר תלויות רשות"
 
-#: ../resources/manager_window.ui
+#: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "Refresh databases"
 msgstr "רענן מסדי נתונים"
 
-#: ../resources/manager_window.ui
+#: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "View History"
 msgstr "צפה בהיסטוריה"
 
 #: ../resources/manager_window.ui ../resources/updater_window.ui
-msgid "_Preferences"
-msgstr "_העדפות"
+msgid "Preferences"
+msgstr "העדפות"
 
-#: ../resources/manager_window.ui
-msgid "_About"
-msgstr "_אודות"
+#: ../resources/manager_window.ui ../resources/updater_window.ui
+msgid "About"
+msgstr ""
 
 #: ../resources/manager_window.ui
 msgid "Search"
@@ -672,22 +661,12 @@ msgstr "תלויות"
 msgid "Files"
 msgstr "קבצים"
 
-#: ../resources/updater_window.ui
-msgid "_Refresh"
-msgstr "_רענן"
-
-#: ../resources/preferences_dialog.ui
-msgid "Preferences"
-msgstr "העדפות"
-
 #: ../resources/preferences_dialog.ui
 msgid "Remove unrequired dependencies"
 msgstr "הסר תוספים לא נחוצים"
 
 #: ../resources/preferences_dialog.ui
-msgid ""
-"When removing a package, also remove its dependencies that are not required "
-"by other packages"
+msgid "When removing a package, also remove its dependencies that are not required by other packages"
 msgstr "בעת הסרת חבילה, הסר גם את התלויות שלה אשר לא נחוצות על ידי חבילות אחרות"
 
 #: ../resources/preferences_dialog.ui
@@ -730,7 +709,9 @@ msgstr "מאגרים רשמיים"
 msgid ""
 "AUR is a community maintained repository so it presents potential risks and problems.\n"
 "All AUR users should be familiar with the build process."
-msgstr "‏AUR הינו מאגר מתוחזק קהילה כך שהוא טומן בחובו סיכונים ובעיות.\nכל משתמשי AUR צריכים להיות בקיעים עם תהליך הבניה."
+msgstr ""
+"‏AUR הינו מאגר מתוחזק קהילה כך שהוא טומן בחובו סיכונים ובעיות.\n"
+"כל משתמשי AUR צריכים להיות בקיעים עם תהליך הבניה."
 
 #: ../resources/preferences_dialog.ui
 msgid "Enable AUR support"
@@ -755,3 +736,34 @@ msgstr "אל תשאל לאימות כאשר בונים חבילות"
 #: ../resources/choose_ignorepkgs_dialog.ui
 msgid "Choose Ignored Upgrades"
 msgstr "בחר שדרוגים מנוכרים"
+
+#~ msgid "Authentication is required"
+#~ msgstr "דרוש אימות"
+
+#~ msgid ""
+#~ "%s has %u uninstalled optional dependency.\n"
+#~ "Choose if you would like to install it"
+#~ msgid_plural ""
+#~ "%s has %u uninstalled optional dependencies.\n"
+#~ "Choose those you would like to install"
+#~ msgstr[0] ""
+#~ "לחבילה %s יש %u תלות רשות לא מותקנת.\n"
+#~ "בחר אם ברצונך להתקינה:"
+#~ msgstr[1] ""
+#~ "לחבילה %s יש %u תלויות רשות לא מותקנות.\n"
+#~ "בחר את אלה אשר ברצונך להתקין:"
+
+#~ msgid "Choose the packages you do not want to upgrade"
+#~ msgstr "בחר את החבילה אשר אין ברצונך לעדכן"
+
+#~ msgid "_OK"
+#~ msgstr "_אישור"
+
+#~ msgid "_Preferences"
+#~ msgstr "_העדפות"
+
+#~ msgid "_About"
+#~ msgstr "_אודות"
+
+#~ msgid "_Refresh"
+#~ msgstr "_רענן"

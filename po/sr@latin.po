@@ -2,7 +2,7 @@
 # Copyright (C) 2007-2012 Free Software Foundation, Inc.
 # This file is distributed under the same license as the Pamac package.
 # Guillaume Benoit <guillaume@manjaro.org>, 2013-2015.
-# 
+#
 # Translators:
 # kakonema <kakonema@gmail.com>, 2013-2014
 # philm <philm@manjaro.org>, 2015
@@ -13,19 +13,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2015-08-20 11:53+0200\n"
+"POT-Creation-Date: 2016-04-24 08:44+0200\n"
 "PO-Revision-Date: 2016-04-17 08:28+0000\n"
 "Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Serbian (Latin) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/sr@latin/)\n"
+"Language: sr@latin\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: sr@latin\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-
-#: data/polkit/org.manjaro.pamac.policy
-msgid "Authentication is required"
-msgstr "Potrebna je potvrda identiteta"
 
 #: ../src/daemon.vala
 msgid "Failed to initialize alpm library"
@@ -122,6 +118,10 @@ msgid "failed retrieving file '%s' from %s : %s\n"
 msgstr ""
 
 #: ../src/transaction.vala
+msgid "A Gtk3 frontend for libalpm"
+msgstr ""
+
+#: ../src/transaction.vala
 msgid "Refreshing mirrors list"
 msgstr ""
 
@@ -141,10 +141,6 @@ msgstr "Pripremanje"
 #, c-format
 msgid "Choose a provider for %s"
 msgstr ""
-
-#: ../src/transaction.vala ../resources/transaction_sum_dialog.ui
-msgid "Transaction Summary"
-msgstr "Rezime transakcije"
 
 #: ../src/transaction.vala
 msgid "To remove"
@@ -333,6 +329,10 @@ msgid "Warning"
 msgstr "Upozorenje"
 
 #: ../src/transaction.vala
+msgid "_Close"
+msgstr ""
+
+#: ../src/transaction.vala
 msgid "Nothing to do"
 msgstr "Ništa za uraditi"
 
@@ -348,11 +348,11 @@ msgstr "Pamac je već pokrenut"
 msgid "Your system is up-to-date"
 msgstr "Vaš sistem je najnoviji"
 
-#: ../src/tray.vala ../resources/updater_window.ui
+#: ../src/tray.vala
 msgid "Update Manager"
 msgstr "Menadžer ažuriranja"
 
-#: ../src/tray.vala ../resources/manager_window.ui
+#: ../src/tray.vala
 msgid "Package Manager"
 msgstr "Mendžer paketa"
 
@@ -524,15 +524,8 @@ msgstr "Ime"
 
 #: ../src/manager_window.vala
 #, c-format
-msgid ""
-"%s has %u uninstalled optional dependency.\n"
-"Choose if you would like to install it"
-msgid_plural ""
-"%s has %u uninstalled optional dependencies.\n"
-"Choose those you would like to install"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgid "Choose optional dependencies for %s"
+msgstr ""
 
 #: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Install Local Packages"
@@ -540,7 +533,8 @@ msgstr ""
 
 #: ../src/manager_window.vala ../resources/progress_dialog.ui
 #: ../resources/transaction_sum_dialog.ui ../resources/choose_dep_dialog.ui
-#: ../resources/manager_window.ui ../resources/choose_ignorepkgs_dialog.ui
+#: ../resources/manager_window.ui ../resources/updater_window.ui
+#: ../resources/choose_ignorepkgs_dialog.ui
 msgid "_Cancel"
 msgstr ""
 
@@ -550,10 +544,6 @@ msgstr ""
 
 #: ../src/manager_window.vala
 msgid "Alpm Package"
-msgstr ""
-
-#: ../src/manager_window.vala
-msgid "A Gtk3 frontend for libalpm"
 msgstr ""
 
 #: ../src/preferences_dialog.vala ../resources/preferences_dialog.ui
@@ -572,18 +562,13 @@ msgstr ""
 msgid "Random"
 msgstr ""
 
-#: ../src/choose_ignorepkgs_dialog.vala
-msgid "Choose the packages you do not want to upgrade"
-msgstr ""
-
 #: ../resources/choose_provider_dialog.ui
 msgid "Choose a Provider"
 msgstr ""
 
-#: ../resources/choose_provider_dialog.ui
-#: ../resources/transaction_sum_dialog.ui ../resources/choose_dep_dialog.ui
+#: ../resources/choose_provider_dialog.ui ../resources/choose_dep_dialog.ui
 #: ../resources/choose_ignorepkgs_dialog.ui
-msgid "_OK"
+msgid "Choose"
 msgstr ""
 
 #: ../resources/progress_dialog.ui
@@ -594,8 +579,8 @@ msgstr "Tok"
 msgid "_Hide"
 msgstr ""
 
-#: ../resources/progress_dialog.ui ../resources/transaction_info_dialog.ui
-#: ../resources/manager_window.ui
+#: ../resources/progress_dialog.ui ../resources/manager_window.ui
+#: ../resources/updater_window.ui
 msgid "Details"
 msgstr "Detalji"
 
@@ -603,29 +588,32 @@ msgstr "Detalji"
 msgid "Pamac History"
 msgstr "Istorija Pamac-a"
 
-#: ../resources/history_dialog.ui ../resources/transaction_info_dialog.ui
-#: ../resources/updater_window.ui ../resources/preferences_dialog.ui
-msgid "_Close"
+#: ../resources/transaction_sum_dialog.ui
+msgid "Transaction Summary"
+msgstr "Rezime transakcije"
+
+#: ../resources/transaction_sum_dialog.ui
+msgid "Commit"
 msgstr ""
 
 #: ../resources/choose_dep_dialog.ui
 msgid "Choose Optional Dependencies"
 msgstr ""
 
-#: ../resources/manager_window.ui
+#: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "Refresh databases"
 msgstr ""
 
-#: ../resources/manager_window.ui
+#: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "View History"
 msgstr "Vidi istoriju"
 
 #: ../resources/manager_window.ui ../resources/updater_window.ui
-msgid "_Preferences"
+msgid "Preferences"
 msgstr ""
 
-#: ../resources/manager_window.ui
-msgid "_About"
+#: ../resources/manager_window.ui ../resources/updater_window.ui
+msgid "About"
 msgstr ""
 
 #: ../resources/manager_window.ui
@@ -677,22 +665,12 @@ msgstr ""
 msgid "Files"
 msgstr "Datoteke"
 
-#: ../resources/updater_window.ui
-msgid "_Refresh"
-msgstr ""
-
-#: ../resources/preferences_dialog.ui
-msgid "Preferences"
-msgstr ""
-
 #: ../resources/preferences_dialog.ui
 msgid "Remove unrequired dependencies"
 msgstr "Ukloni nepotrebne zavisnosti"
 
 #: ../resources/preferences_dialog.ui
-msgid ""
-"When removing a package, also remove its dependencies that are not required "
-"by other packages"
+msgid "When removing a package, also remove its dependencies that are not required by other packages"
 msgstr ""
 
 #: ../resources/preferences_dialog.ui
@@ -760,3 +738,6 @@ msgstr ""
 #: ../resources/choose_ignorepkgs_dialog.ui
 msgid "Choose Ignored Upgrades"
 msgstr ""
+
+#~ msgid "Authentication is required"
+#~ msgstr "Potrebna je potvrda identiteta"

@@ -2,7 +2,7 @@
 # Copyright (C) 2007-2012 Free Software Foundation, Inc.
 # This file is distributed under the same license as the Pamac package.
 # Guillaume Benoit <guillaume@manjaro.org>, 2013-2015.
-# 
+#
 # Translators:
 # philm <philm@manjaro.org>, 2015
 # Драгољуб Шишовић, 2014
@@ -11,19 +11,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2015-08-20 11:53+0200\n"
+"POT-Creation-Date: 2016-04-24 08:44+0200\n"
 "PO-Revision-Date: 2016-04-17 08:28+0000\n"
 "Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Serbian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/sr/)\n"
+"Language: sr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: sr\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-
-#: data/polkit/org.manjaro.pamac.policy
-msgid "Authentication is required"
-msgstr "Захтева се аутентикација"
 
 #: ../src/daemon.vala
 msgid "Failed to initialize alpm library"
@@ -120,6 +116,10 @@ msgid "failed retrieving file '%s' from %s : %s\n"
 msgstr ""
 
 #: ../src/transaction.vala
+msgid "A Gtk3 frontend for libalpm"
+msgstr "Gtk3 приказ за libalpm"
+
+#: ../src/transaction.vala
 msgid "Refreshing mirrors list"
 msgstr ""
 
@@ -139,10 +139,6 @@ msgstr "Припрема"
 #, c-format
 msgid "Choose a provider for %s"
 msgstr "Изаберите провајдера за %s"
-
-#: ../src/transaction.vala ../resources/transaction_sum_dialog.ui
-msgid "Transaction Summary"
-msgstr "Сиже трансакције"
 
 #: ../src/transaction.vala
 msgid "To remove"
@@ -331,6 +327,10 @@ msgid "Warning"
 msgstr "Упозорење"
 
 #: ../src/transaction.vala
+msgid "_Close"
+msgstr "_Затвори"
+
+#: ../src/transaction.vala
 msgid "Nothing to do"
 msgstr "Ништа за чињење."
 
@@ -346,11 +346,11 @@ msgstr "Памак је већ покренут"
 msgid "Your system is up-to-date"
 msgstr "Ваш систем је већ ажуриран"
 
-#: ../src/tray.vala ../resources/updater_window.ui
+#: ../src/tray.vala
 msgid "Update Manager"
 msgstr "Менаџер ажурирања \"update manager\""
 
-#: ../src/tray.vala ../resources/manager_window.ui
+#: ../src/tray.vala
 msgid "Package Manager"
 msgstr "Менаџер пакета"
 
@@ -522,15 +522,8 @@ msgstr "Име"
 
 #: ../src/manager_window.vala
 #, c-format
-msgid ""
-"%s has %u uninstalled optional dependency.\n"
-"Choose if you would like to install it"
-msgid_plural ""
-"%s has %u uninstalled optional dependencies.\n"
-"Choose those you would like to install"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgid "Choose optional dependencies for %s"
+msgstr ""
 
 #: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Install Local Packages"
@@ -538,7 +531,8 @@ msgstr ""
 
 #: ../src/manager_window.vala ../resources/progress_dialog.ui
 #: ../resources/transaction_sum_dialog.ui ../resources/choose_dep_dialog.ui
-#: ../resources/manager_window.ui ../resources/choose_ignorepkgs_dialog.ui
+#: ../resources/manager_window.ui ../resources/updater_window.ui
+#: ../resources/choose_ignorepkgs_dialog.ui
 msgid "_Cancel"
 msgstr "_Прекини"
 
@@ -549,10 +543,6 @@ msgstr "_Отвори"
 #: ../src/manager_window.vala
 msgid "Alpm Package"
 msgstr "Alpm пакет"
-
-#: ../src/manager_window.vala
-msgid "A Gtk3 frontend for libalpm"
-msgstr "Gtk3 приказ за libalpm"
 
 #: ../src/preferences_dialog.vala ../resources/preferences_dialog.ui
 msgid "How often to check for updates, value in hours"
@@ -570,19 +560,14 @@ msgstr ""
 msgid "Random"
 msgstr ""
 
-#: ../src/choose_ignorepkgs_dialog.vala
-msgid "Choose the packages you do not want to upgrade"
-msgstr ""
-
 #: ../resources/choose_provider_dialog.ui
 msgid "Choose a Provider"
 msgstr "Изаберите \"снабдевача\""
 
-#: ../resources/choose_provider_dialog.ui
-#: ../resources/transaction_sum_dialog.ui ../resources/choose_dep_dialog.ui
+#: ../resources/choose_provider_dialog.ui ../resources/choose_dep_dialog.ui
 #: ../resources/choose_ignorepkgs_dialog.ui
-msgid "_OK"
-msgstr "_Уреду"
+msgid "Choose"
+msgstr ""
 
 #: ../resources/progress_dialog.ui
 msgid "Progress"
@@ -592,8 +577,8 @@ msgstr "Прогрес"
 msgid "_Hide"
 msgstr ""
 
-#: ../resources/progress_dialog.ui ../resources/transaction_info_dialog.ui
-#: ../resources/manager_window.ui
+#: ../resources/progress_dialog.ui ../resources/manager_window.ui
+#: ../resources/updater_window.ui
 msgid "Details"
 msgstr "Детаљи"
 
@@ -601,30 +586,33 @@ msgstr "Детаљи"
 msgid "Pamac History"
 msgstr "Историја Памака"
 
-#: ../resources/history_dialog.ui ../resources/transaction_info_dialog.ui
-#: ../resources/updater_window.ui ../resources/preferences_dialog.ui
-msgid "_Close"
-msgstr "_Затвори"
+#: ../resources/transaction_sum_dialog.ui
+msgid "Transaction Summary"
+msgstr "Сиже трансакције"
+
+#: ../resources/transaction_sum_dialog.ui
+msgid "Commit"
+msgstr ""
 
 #: ../resources/choose_dep_dialog.ui
 msgid "Choose Optional Dependencies"
 msgstr ""
 
-#: ../resources/manager_window.ui
+#: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "Refresh databases"
 msgstr "Освежи базу"
 
-#: ../resources/manager_window.ui
+#: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "View History"
 msgstr "Прегледај историју"
 
 #: ../resources/manager_window.ui ../resources/updater_window.ui
-msgid "_Preferences"
-msgstr "_Подешавања"
+msgid "Preferences"
+msgstr "Подешавања"
 
-#: ../resources/manager_window.ui
-msgid "_About"
-msgstr "_О"
+#: ../resources/manager_window.ui ../resources/updater_window.ui
+msgid "About"
+msgstr ""
 
 #: ../resources/manager_window.ui
 msgid "Search"
@@ -675,22 +663,12 @@ msgstr "Зависности"
 msgid "Files"
 msgstr "Датотеке"
 
-#: ../resources/updater_window.ui
-msgid "_Refresh"
-msgstr "_Освежи"
-
-#: ../resources/preferences_dialog.ui
-msgid "Preferences"
-msgstr "Подешавања"
-
 #: ../resources/preferences_dialog.ui
 msgid "Remove unrequired dependencies"
 msgstr "Уклони непотребне зависности"
 
 #: ../resources/preferences_dialog.ui
-msgid ""
-"When removing a package, also remove its dependencies that are not required "
-"by other packages"
+msgid "When removing a package, also remove its dependencies that are not required by other packages"
 msgstr "При уклањању пакета, такође уклони и све његове зависности које више нису потребне ни једном другом пакету"
 
 #: ../resources/preferences_dialog.ui
@@ -758,3 +736,18 @@ msgstr ""
 #: ../resources/choose_ignorepkgs_dialog.ui
 msgid "Choose Ignored Upgrades"
 msgstr ""
+
+#~ msgid "Authentication is required"
+#~ msgstr "Захтева се аутентикација"
+
+#~ msgid "_OK"
+#~ msgstr "_Уреду"
+
+#~ msgid "_Preferences"
+#~ msgstr "_Подешавања"
+
+#~ msgid "_About"
+#~ msgstr "_О"
+
+#~ msgid "_Refresh"
+#~ msgstr "_Освежи"

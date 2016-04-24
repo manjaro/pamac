@@ -2,7 +2,7 @@
 # Copyright (C) 2007-2012 Free Software Foundation, Inc.
 # This file is distributed under the same license as the Pamac package.
 # Guillaume Benoit <guillaume@manjaro.org>, 2013-2015.
-# 
+#
 # Translators:
 # Dušan Kazik, 2014
 # Dušan Kazik <prescott66@gmail.com>, 2014-2016
@@ -14,19 +14,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2015-08-20 11:53+0200\n"
+"POT-Creation-Date: 2016-04-24 08:44+0200\n"
 "PO-Revision-Date: 2016-04-17 08:31+0000\n"
 "Last-Translator: Dušan Kazik <prescott66@gmail.com>\n"
 "Language-Team: Slovak (http://www.transifex.com/manjarolinux/manjaro-pamac/language/sk/)\n"
+"Language: sk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: sk\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-
-#: data/polkit/org.manjaro.pamac.policy
-msgid "Authentication is required"
-msgstr "Vyžaduje sa overenie totožnosti"
 
 #: ../src/daemon.vala
 msgid "Failed to initialize alpm library"
@@ -123,6 +119,10 @@ msgid "failed retrieving file '%s' from %s : %s\n"
 msgstr "Zlyhalo prijímanie súboru „%s“ z %s: %s\n"
 
 #: ../src/transaction.vala
+msgid "A Gtk3 frontend for libalpm"
+msgstr "Rozhranie Gtk3 pre knižnicu libalpm"
+
+#: ../src/transaction.vala
 msgid "Refreshing mirrors list"
 msgstr "Obnovuje sa zoznam zrkadiel"
 
@@ -142,10 +142,6 @@ msgstr "Pripravuje sa"
 #, c-format
 msgid "Choose a provider for %s"
 msgstr "Zvoľte poskytovateľa pre %s"
-
-#: ../src/transaction.vala ../resources/transaction_sum_dialog.ui
-msgid "Transaction Summary"
-msgstr "Súhrn transakcie"
 
 #: ../src/transaction.vala
 msgid "To remove"
@@ -334,6 +330,10 @@ msgid "Warning"
 msgstr "Upozornenie"
 
 #: ../src/transaction.vala
+msgid "_Close"
+msgstr "_Zavrieť"
+
+#: ../src/transaction.vala
 msgid "Nothing to do"
 msgstr "Nič na vykonanie"
 
@@ -349,11 +349,11 @@ msgstr "Program Pamac je už spustený"
 msgid "Your system is up-to-date"
 msgstr "Váš systém je aktuálny"
 
-#: ../src/tray.vala ../resources/updater_window.ui
+#: ../src/tray.vala
 msgid "Update Manager"
 msgstr "Správca aktualizácií"
 
-#: ../src/tray.vala ../resources/manager_window.ui
+#: ../src/tray.vala
 msgid "Package Manager"
 msgstr "Správca balíkov"
 
@@ -525,15 +525,8 @@ msgstr "Názov"
 
 #: ../src/manager_window.vala
 #, c-format
-msgid ""
-"%s has %u uninstalled optional dependency.\n"
-"Choose if you would like to install it"
-msgid_plural ""
-"%s has %u uninstalled optional dependencies.\n"
-"Choose those you would like to install"
-msgstr[0] "%s obsahuje %u odinštalovanú voliteľnú závislosť.\nZvoľte, či ju chcete nainštalovať"
-msgstr[1] "%s obsahuje %u odinštalované voliteľné závislosti.\nZvoľte tie, ktoré chcete nainštalovať"
-msgstr[2] "%s obsahuje %u odinštalovaných voliteľných závislostí.\nZvoľte tie, ktoré chcete nainštalovať"
+msgid "Choose optional dependencies for %s"
+msgstr ""
 
 #: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Install Local Packages"
@@ -541,7 +534,8 @@ msgstr "Inštalovať miestne balíky"
 
 #: ../src/manager_window.vala ../resources/progress_dialog.ui
 #: ../resources/transaction_sum_dialog.ui ../resources/choose_dep_dialog.ui
-#: ../resources/manager_window.ui ../resources/choose_ignorepkgs_dialog.ui
+#: ../resources/manager_window.ui ../resources/updater_window.ui
+#: ../resources/choose_ignorepkgs_dialog.ui
 msgid "_Cancel"
 msgstr "_Zrušiť"
 
@@ -552,10 +546,6 @@ msgstr "_Otvoriť"
 #: ../src/manager_window.vala
 msgid "Alpm Package"
 msgstr "Autor balíka"
-
-#: ../src/manager_window.vala
-msgid "A Gtk3 frontend for libalpm"
-msgstr "Rozhranie Gtk3 pre knižnicu libalpm"
 
 #: ../src/preferences_dialog.vala ../resources/preferences_dialog.ui
 msgid "How often to check for updates, value in hours"
@@ -573,19 +563,14 @@ msgstr "Rýchlosti"
 msgid "Random"
 msgstr "Náhodne"
 
-#: ../src/choose_ignorepkgs_dialog.vala
-msgid "Choose the packages you do not want to upgrade"
-msgstr "Zvoľte balíky, ktoré nechcete aktualizovať"
-
 #: ../resources/choose_provider_dialog.ui
 msgid "Choose a Provider"
 msgstr "Voľba poskytovateľa"
 
-#: ../resources/choose_provider_dialog.ui
-#: ../resources/transaction_sum_dialog.ui ../resources/choose_dep_dialog.ui
+#: ../resources/choose_provider_dialog.ui ../resources/choose_dep_dialog.ui
 #: ../resources/choose_ignorepkgs_dialog.ui
-msgid "_OK"
-msgstr "_OK"
+msgid "Choose"
+msgstr ""
 
 #: ../resources/progress_dialog.ui
 msgid "Progress"
@@ -595,8 +580,8 @@ msgstr "Priebeh"
 msgid "_Hide"
 msgstr "_Skryť"
 
-#: ../resources/progress_dialog.ui ../resources/transaction_info_dialog.ui
-#: ../resources/manager_window.ui
+#: ../resources/progress_dialog.ui ../resources/manager_window.ui
+#: ../resources/updater_window.ui
 msgid "Details"
 msgstr "Podrobnosti"
 
@@ -604,30 +589,33 @@ msgstr "Podrobnosti"
 msgid "Pamac History"
 msgstr "História programu Pamac"
 
-#: ../resources/history_dialog.ui ../resources/transaction_info_dialog.ui
-#: ../resources/updater_window.ui ../resources/preferences_dialog.ui
-msgid "_Close"
-msgstr "_Zavrieť"
+#: ../resources/transaction_sum_dialog.ui
+msgid "Transaction Summary"
+msgstr "Súhrn transakcie"
+
+#: ../resources/transaction_sum_dialog.ui
+msgid "Commit"
+msgstr ""
 
 #: ../resources/choose_dep_dialog.ui
 msgid "Choose Optional Dependencies"
 msgstr "Voľba voliteľných závislostí"
 
-#: ../resources/manager_window.ui
+#: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "Refresh databases"
 msgstr "Obnoví databázy"
 
-#: ../resources/manager_window.ui
+#: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "View History"
 msgstr "Pozrieť históriu"
 
 #: ../resources/manager_window.ui ../resources/updater_window.ui
-msgid "_Preferences"
-msgstr "_Predvoľby"
+msgid "Preferences"
+msgstr "Predvoľby"
 
-#: ../resources/manager_window.ui
-msgid "_About"
-msgstr "_O programe"
+#: ../resources/manager_window.ui ../resources/updater_window.ui
+msgid "About"
+msgstr ""
 
 #: ../resources/manager_window.ui
 msgid "Search"
@@ -678,22 +666,12 @@ msgstr "Závislosti"
 msgid "Files"
 msgstr "Súbory"
 
-#: ../resources/updater_window.ui
-msgid "_Refresh"
-msgstr "_Obnoviť"
-
-#: ../resources/preferences_dialog.ui
-msgid "Preferences"
-msgstr "Predvoľby"
-
 #: ../resources/preferences_dialog.ui
 msgid "Remove unrequired dependencies"
 msgstr "Odstrániť nepožadované závislosti"
 
 #: ../resources/preferences_dialog.ui
-msgid ""
-"When removing a package, also remove its dependencies that are not required "
-"by other packages"
+msgid "When removing a package, also remove its dependencies that are not required by other packages"
 msgstr "Pri odstránení balíka tiež odstráni závislosti, ktoré nie sú potrebné inými balíkmi"
 
 #: ../resources/preferences_dialog.ui
@@ -736,7 +714,9 @@ msgstr "Oficiálne repozitáre"
 msgid ""
 "AUR is a community maintained repository so it presents potential risks and problems.\n"
 "All AUR users should be familiar with the build process."
-msgstr "AUR je repozitár spravovaný komunitou, preto predstavuje potenciálne hrozby a problémy.\nVšetci používatelia repozitára AUR by mali byť oboznámení s procesom zostavovania balíkov."
+msgstr ""
+"AUR je repozitár spravovaný komunitou, preto predstavuje potenciálne hrozby a problémy.\n"
+"Všetci používatelia repozitára AUR by mali byť oboznámení s procesom zostavovania balíkov."
 
 #: ../resources/preferences_dialog.ui
 msgid "Enable AUR support"
@@ -761,3 +741,37 @@ msgstr "Nepýtať si potvrdenie pri zostavovaní balíkov"
 #: ../resources/choose_ignorepkgs_dialog.ui
 msgid "Choose Ignored Upgrades"
 msgstr "Voľba ignorovaných aktualizácií"
+
+#~ msgid "Authentication is required"
+#~ msgstr "Vyžaduje sa overenie totožnosti"
+
+#~ msgid ""
+#~ "%s has %u uninstalled optional dependency.\n"
+#~ "Choose if you would like to install it"
+#~ msgid_plural ""
+#~ "%s has %u uninstalled optional dependencies.\n"
+#~ "Choose those you would like to install"
+#~ msgstr[0] ""
+#~ "%s obsahuje %u odinštalovanú voliteľnú závislosť.\n"
+#~ "Zvoľte, či ju chcete nainštalovať"
+#~ msgstr[1] ""
+#~ "%s obsahuje %u odinštalované voliteľné závislosti.\n"
+#~ "Zvoľte tie, ktoré chcete nainštalovať"
+#~ msgstr[2] ""
+#~ "%s obsahuje %u odinštalovaných voliteľných závislostí.\n"
+#~ "Zvoľte tie, ktoré chcete nainštalovať"
+
+#~ msgid "Choose the packages you do not want to upgrade"
+#~ msgstr "Zvoľte balíky, ktoré nechcete aktualizovať"
+
+#~ msgid "_OK"
+#~ msgstr "_OK"
+
+#~ msgid "_Preferences"
+#~ msgstr "_Predvoľby"
+
+#~ msgid "_About"
+#~ msgstr "_O programe"
+
+#~ msgid "_Refresh"
+#~ msgstr "_Obnoviť"

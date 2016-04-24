@@ -2,7 +2,7 @@
 # Copyright (C) 2007-2012 Free Software Foundation, Inc.
 # This file is distributed under the same license as the Pamac package.
 # Guillaume Benoit <guillaume@manjaro.org>, 2013-2015.
-# 
+#
 # Translators:
 # Daetalus <daetalusun@gmail.com>, 2014
 # Daetalus <daetalusun@gmail.com>, 2014
@@ -14,19 +14,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2015-08-20 11:53+0200\n"
+"POT-Creation-Date: 2016-04-24 08:44+0200\n"
 "PO-Revision-Date: 2016-04-17 08:35+0000\n"
 "Last-Translator: Dz Chen <wsxy162@gmail.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/zh_CN/)\n"
+"Language: zh_CN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: zh_CN\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-
-#: data/polkit/org.manjaro.pamac.policy
-msgid "Authentication is required"
-msgstr "需要验证"
 
 #: ../src/daemon.vala
 msgid "Failed to initialize alpm library"
@@ -123,6 +119,10 @@ msgid "failed retrieving file '%s' from %s : %s\n"
 msgstr "从 %s 检索文件“%s”失败：%s\n"
 
 #: ../src/transaction.vala
+msgid "A Gtk3 frontend for libalpm"
+msgstr "libalpm 的 GTK3 前端"
+
+#: ../src/transaction.vala
 msgid "Refreshing mirrors list"
 msgstr "正在刷新镜像列表"
 
@@ -142,10 +142,6 @@ msgstr "准备中"
 #, c-format
 msgid "Choose a provider for %s"
 msgstr "选择 %s 的提供者"
-
-#: ../src/transaction.vala ../resources/transaction_sum_dialog.ui
-msgid "Transaction Summary"
-msgstr "事务概要"
 
 #: ../src/transaction.vala
 msgid "To remove"
@@ -332,6 +328,10 @@ msgid "Warning"
 msgstr "警告"
 
 #: ../src/transaction.vala
+msgid "_Close"
+msgstr "关闭(_C)"
+
+#: ../src/transaction.vala
 msgid "Nothing to do"
 msgstr "无需做任何事"
 
@@ -347,11 +347,11 @@ msgstr "Pamac已经运行"
 msgid "Your system is up-to-date"
 msgstr "系统为最新状态"
 
-#: ../src/tray.vala ../resources/updater_window.ui
+#: ../src/tray.vala
 msgid "Update Manager"
 msgstr "更新管理器"
 
-#: ../src/tray.vala ../resources/manager_window.ui
+#: ../src/tray.vala
 msgid "Package Manager"
 msgstr "软件包管理器"
 
@@ -519,13 +519,8 @@ msgstr "名称"
 
 #: ../src/manager_window.vala
 #, c-format
-msgid ""
-"%s has %u uninstalled optional dependency.\n"
-"Choose if you would like to install it"
-msgid_plural ""
-"%s has %u uninstalled optional dependencies.\n"
-"Choose those you would like to install"
-msgstr[0] "%s 有 %u 个未安装的可选依赖。\n请选择您想要安装的依赖"
+msgid "Choose optional dependencies for %s"
+msgstr ""
 
 #: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Install Local Packages"
@@ -533,7 +528,8 @@ msgstr "安装本地软件包"
 
 #: ../src/manager_window.vala ../resources/progress_dialog.ui
 #: ../resources/transaction_sum_dialog.ui ../resources/choose_dep_dialog.ui
-#: ../resources/manager_window.ui ../resources/choose_ignorepkgs_dialog.ui
+#: ../resources/manager_window.ui ../resources/updater_window.ui
+#: ../resources/choose_ignorepkgs_dialog.ui
 msgid "_Cancel"
 msgstr "取消(_C)"
 
@@ -544,10 +540,6 @@ msgstr "打开(_O)"
 #: ../src/manager_window.vala
 msgid "Alpm Package"
 msgstr "Alpm 软件包"
-
-#: ../src/manager_window.vala
-msgid "A Gtk3 frontend for libalpm"
-msgstr "libalpm 的 GTK3 前端"
 
 #: ../src/preferences_dialog.vala ../resources/preferences_dialog.ui
 msgid "How often to check for updates, value in hours"
@@ -565,19 +557,14 @@ msgstr "速度"
 msgid "Random"
 msgstr "随机"
 
-#: ../src/choose_ignorepkgs_dialog.vala
-msgid "Choose the packages you do not want to upgrade"
-msgstr "选择您不想要升级的软件包"
-
 #: ../resources/choose_provider_dialog.ui
 msgid "Choose a Provider"
 msgstr "选择提供者"
 
-#: ../resources/choose_provider_dialog.ui
-#: ../resources/transaction_sum_dialog.ui ../resources/choose_dep_dialog.ui
+#: ../resources/choose_provider_dialog.ui ../resources/choose_dep_dialog.ui
 #: ../resources/choose_ignorepkgs_dialog.ui
-msgid "_OK"
-msgstr "确定(_O)"
+msgid "Choose"
+msgstr ""
 
 #: ../resources/progress_dialog.ui
 msgid "Progress"
@@ -587,8 +574,8 @@ msgstr "进度"
 msgid "_Hide"
 msgstr "隐藏(_H)"
 
-#: ../resources/progress_dialog.ui ../resources/transaction_info_dialog.ui
-#: ../resources/manager_window.ui
+#: ../resources/progress_dialog.ui ../resources/manager_window.ui
+#: ../resources/updater_window.ui
 msgid "Details"
 msgstr "详情"
 
@@ -596,30 +583,33 @@ msgstr "详情"
 msgid "Pamac History"
 msgstr "Pamac历史记录"
 
-#: ../resources/history_dialog.ui ../resources/transaction_info_dialog.ui
-#: ../resources/updater_window.ui ../resources/preferences_dialog.ui
-msgid "_Close"
-msgstr "关闭(_C)"
+#: ../resources/transaction_sum_dialog.ui
+msgid "Transaction Summary"
+msgstr "事务概要"
+
+#: ../resources/transaction_sum_dialog.ui
+msgid "Commit"
+msgstr ""
 
 #: ../resources/choose_dep_dialog.ui
 msgid "Choose Optional Dependencies"
 msgstr "选择可选依赖"
 
-#: ../resources/manager_window.ui
+#: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "Refresh databases"
 msgstr "刷新数据库"
 
-#: ../resources/manager_window.ui
+#: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "View History"
 msgstr "查看历史记录"
 
 #: ../resources/manager_window.ui ../resources/updater_window.ui
-msgid "_Preferences"
-msgstr "首选项(_P)"
+msgid "Preferences"
+msgstr "首选项"
 
-#: ../resources/manager_window.ui
-msgid "_About"
-msgstr "关于(_A)"
+#: ../resources/manager_window.ui ../resources/updater_window.ui
+msgid "About"
+msgstr ""
 
 #: ../resources/manager_window.ui
 msgid "Search"
@@ -670,22 +660,12 @@ msgstr "依赖"
 msgid "Files"
 msgstr "文件"
 
-#: ../resources/updater_window.ui
-msgid "_Refresh"
-msgstr "刷新(_R)"
-
-#: ../resources/preferences_dialog.ui
-msgid "Preferences"
-msgstr "首选项"
-
 #: ../resources/preferences_dialog.ui
 msgid "Remove unrequired dependencies"
 msgstr "移除不需要的依赖"
 
 #: ../resources/preferences_dialog.ui
-msgid ""
-"When removing a package, also remove its dependencies that are not required "
-"by other packages"
+msgid "When removing a package, also remove its dependencies that are not required by other packages"
 msgstr "移除软件包时，也移除该软件包需要，但其他软件包不需要的依赖"
 
 #: ../resources/preferences_dialog.ui
@@ -728,7 +708,9 @@ msgstr "官方软件仓库"
 msgid ""
 "AUR is a community maintained repository so it presents potential risks and problems.\n"
 "All AUR users should be familiar with the build process."
-msgstr "AUR 是由社区维护的仓库，所以它具有潜在的风险和问题。\n所有 AUR 用户都应当熟悉构建过程。"
+msgstr ""
+"AUR 是由社区维护的仓库，所以它具有潜在的风险和问题。\n"
+"所有 AUR 用户都应当熟悉构建过程。"
 
 #: ../resources/preferences_dialog.ui
 msgid "Enable AUR support"
@@ -753,3 +735,31 @@ msgstr "构建软件包时不再请求确认"
 #: ../resources/choose_ignorepkgs_dialog.ui
 msgid "Choose Ignored Upgrades"
 msgstr "选择忽略的更新"
+
+#~ msgid "Authentication is required"
+#~ msgstr "需要验证"
+
+#~ msgid ""
+#~ "%s has %u uninstalled optional dependency.\n"
+#~ "Choose if you would like to install it"
+#~ msgid_plural ""
+#~ "%s has %u uninstalled optional dependencies.\n"
+#~ "Choose those you would like to install"
+#~ msgstr[0] ""
+#~ "%s 有 %u 个未安装的可选依赖。\n"
+#~ "请选择您想要安装的依赖"
+
+#~ msgid "Choose the packages you do not want to upgrade"
+#~ msgstr "选择您不想要升级的软件包"
+
+#~ msgid "_OK"
+#~ msgstr "确定(_O)"
+
+#~ msgid "_Preferences"
+#~ msgstr "首选项(_P)"
+
+#~ msgid "_About"
+#~ msgstr "关于(_A)"
+
+#~ msgid "_Refresh"
+#~ msgstr "刷新(_R)"

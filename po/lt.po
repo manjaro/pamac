@@ -2,7 +2,7 @@
 # Copyright (C) 2007-2012 Free Software Foundation, Inc.
 # This file is distributed under the same license as the Pamac package.
 # Guillaume Benoit <guillaume@manjaro.org>, 2013-2015.
-# 
+#
 # Translators:
 # Moo, 2015
 # Moo, 2015-2016
@@ -10,19 +10,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2015-08-20 11:53+0200\n"
+"POT-Creation-Date: 2016-04-24 08:44+0200\n"
 "PO-Revision-Date: 2016-04-17 16:14+0000\n"
 "Last-Translator: Moo\n"
 "Language-Team: Lithuanian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/lt/)\n"
+"Language: lt\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: lt\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-
-#: data/polkit/org.manjaro.pamac.policy
-msgid "Authentication is required"
-msgstr "Reikalingas tapatybės nustatymas"
 
 #: ../src/daemon.vala
 msgid "Failed to initialize alpm library"
@@ -119,6 +115,10 @@ msgid "failed retrieving file '%s' from %s : %s\n"
 msgstr "nepavyko gauti failo \"%s\" iš %s : %s\n"
 
 #: ../src/transaction.vala
+msgid "A Gtk3 frontend for libalpm"
+msgstr "Gtk3 naudotojo sąsaja libalpm bibliotekai"
+
+#: ../src/transaction.vala
 msgid "Refreshing mirrors list"
 msgstr "Iš naujo įkeliamas tinklaviečių sąrašas"
 
@@ -138,10 +138,6 @@ msgstr "Ruošiama"
 #, c-format
 msgid "Choose a provider for %s"
 msgstr "Pasirinkite tiekėją paketui %s"
-
-#: ../src/transaction.vala ../resources/transaction_sum_dialog.ui
-msgid "Transaction Summary"
-msgstr "Operacijos Suvestinė"
 
 #: ../src/transaction.vala
 msgid "To remove"
@@ -330,6 +326,10 @@ msgid "Warning"
 msgstr "Įspėjimas"
 
 #: ../src/transaction.vala
+msgid "_Close"
+msgstr "_Užverti"
+
+#: ../src/transaction.vala
 msgid "Nothing to do"
 msgstr "Nėra ką atlikti"
 
@@ -345,11 +345,11 @@ msgstr "Pamac jau yra vykdoma"
 msgid "Your system is up-to-date"
 msgstr "Jūsų sistemoje įdiegti visi naujausi atnaujinimai"
 
-#: ../src/tray.vala ../resources/updater_window.ui
+#: ../src/tray.vala
 msgid "Update Manager"
 msgstr "Atnaujinimų Tvarkytuvė"
 
-#: ../src/tray.vala ../resources/manager_window.ui
+#: ../src/tray.vala
 msgid "Package Manager"
 msgstr "Paketų Tvarkytuvė"
 
@@ -521,15 +521,8 @@ msgstr "Pavadinimas"
 
 #: ../src/manager_window.vala
 #, c-format
-msgid ""
-"%s has %u uninstalled optional dependency.\n"
-"Choose if you would like to install it"
-msgid_plural ""
-"%s has %u uninstalled optional dependencies.\n"
-"Choose those you would like to install"
-msgstr[0] "%s turi %u neįdiegtą pasirinktiną priklausomybę.\nPasirinkite, ar norėtumėte ją įdiegti"
-msgstr[1] "%s turi %u neįdiegtas pasirinktinas priklausomybes.\nPasirinkite tas, kurias norėtumėte įdiegti"
-msgstr[2] "%s turi %u neįdiegtų pasirinktinų priklausomybių.\nPasirinkite tas, kurias norėtumėte įdiegti"
+msgid "Choose optional dependencies for %s"
+msgstr ""
 
 #: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Install Local Packages"
@@ -537,7 +530,8 @@ msgstr "Įdiegti vietinius paketus"
 
 #: ../src/manager_window.vala ../resources/progress_dialog.ui
 #: ../resources/transaction_sum_dialog.ui ../resources/choose_dep_dialog.ui
-#: ../resources/manager_window.ui ../resources/choose_ignorepkgs_dialog.ui
+#: ../resources/manager_window.ui ../resources/updater_window.ui
+#: ../resources/choose_ignorepkgs_dialog.ui
 msgid "_Cancel"
 msgstr "_Atsisakyti"
 
@@ -548,10 +542,6 @@ msgstr "_Atverti"
 #: ../src/manager_window.vala
 msgid "Alpm Package"
 msgstr "Alpm Paketas"
-
-#: ../src/manager_window.vala
-msgid "A Gtk3 frontend for libalpm"
-msgstr "Gtk3 naudotojo sąsaja libalpm bibliotekai"
 
 #: ../src/preferences_dialog.vala ../resources/preferences_dialog.ui
 msgid "How often to check for updates, value in hours"
@@ -569,19 +559,14 @@ msgstr "Greitį"
 msgid "Random"
 msgstr "Atsitiktinai"
 
-#: ../src/choose_ignorepkgs_dialog.vala
-msgid "Choose the packages you do not want to upgrade"
-msgstr "Pasirinkite paketus, kurių nenorite atnaujinti"
-
 #: ../resources/choose_provider_dialog.ui
 msgid "Choose a Provider"
 msgstr "Pasirinkite tiekėją"
 
-#: ../resources/choose_provider_dialog.ui
-#: ../resources/transaction_sum_dialog.ui ../resources/choose_dep_dialog.ui
+#: ../resources/choose_provider_dialog.ui ../resources/choose_dep_dialog.ui
 #: ../resources/choose_ignorepkgs_dialog.ui
-msgid "_OK"
-msgstr "_Gerai"
+msgid "Choose"
+msgstr ""
 
 #: ../resources/progress_dialog.ui
 msgid "Progress"
@@ -591,8 +576,8 @@ msgstr "Eiga"
 msgid "_Hide"
 msgstr "S_lėpti"
 
-#: ../resources/progress_dialog.ui ../resources/transaction_info_dialog.ui
-#: ../resources/manager_window.ui
+#: ../resources/progress_dialog.ui ../resources/manager_window.ui
+#: ../resources/updater_window.ui
 msgid "Details"
 msgstr "Išsamiau"
 
@@ -600,30 +585,33 @@ msgstr "Išsamiau"
 msgid "Pamac History"
 msgstr "Pamac žurnalas"
 
-#: ../resources/history_dialog.ui ../resources/transaction_info_dialog.ui
-#: ../resources/updater_window.ui ../resources/preferences_dialog.ui
-msgid "_Close"
-msgstr "_Užverti"
+#: ../resources/transaction_sum_dialog.ui
+msgid "Transaction Summary"
+msgstr "Operacijos Suvestinė"
+
+#: ../resources/transaction_sum_dialog.ui
+msgid "Commit"
+msgstr ""
 
 #: ../resources/choose_dep_dialog.ui
 msgid "Choose Optional Dependencies"
 msgstr "Pasirinkti pasirinktines priklausomybes"
 
-#: ../resources/manager_window.ui
+#: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "Refresh databases"
 msgstr "Iš naujo įkelti duomenų bazes"
 
-#: ../resources/manager_window.ui
+#: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "View History"
 msgstr "Žiūrėti žurnalą"
 
 #: ../resources/manager_window.ui ../resources/updater_window.ui
-msgid "_Preferences"
-msgstr "_Nuostatos"
+msgid "Preferences"
+msgstr "Nuostatos"
 
-#: ../resources/manager_window.ui
-msgid "_About"
-msgstr "_Apie"
+#: ../resources/manager_window.ui ../resources/updater_window.ui
+msgid "About"
+msgstr ""
 
 #: ../resources/manager_window.ui
 msgid "Search"
@@ -674,22 +662,12 @@ msgstr "Priklausomybės"
 msgid "Files"
 msgstr "Failai"
 
-#: ../resources/updater_window.ui
-msgid "_Refresh"
-msgstr "Įkelti iš n_aujo"
-
-#: ../resources/preferences_dialog.ui
-msgid "Preferences"
-msgstr "Nuostatos"
-
 #: ../resources/preferences_dialog.ui
 msgid "Remove unrequired dependencies"
 msgstr "Šalinti nereikalingas priklausomybes"
 
 #: ../resources/preferences_dialog.ui
-msgid ""
-"When removing a package, also remove its dependencies that are not required "
-"by other packages"
+msgid "When removing a package, also remove its dependencies that are not required by other packages"
 msgstr "Šalinant paketą, tuo pačiu šalinti ir jo priklausomybes, kurios nėra reikalaujamos kitų paketų"
 
 #: ../resources/preferences_dialog.ui
@@ -732,7 +710,9 @@ msgstr "Oficialios saugyklos"
 msgid ""
 "AUR is a community maintained repository so it presents potential risks and problems.\n"
 "All AUR users should be familiar with the build process."
-msgstr "AUR yra bendruomenės palaikoma saugykla, taigi, sukelia tam tikrą riziką ir problemas.\nVisi AUR naudotojai turėtų būti susipažinę su kūrimo procesu."
+msgstr ""
+"AUR yra bendruomenės palaikoma saugykla, taigi, sukelia tam tikrą riziką ir problemas.\n"
+"Visi AUR naudotojai turėtų būti susipažinę su kūrimo procesu."
 
 #: ../resources/preferences_dialog.ui
 msgid "Enable AUR support"
@@ -757,3 +737,37 @@ msgstr "Neklausti patvirtinimo, kuriant paketus"
 #: ../resources/choose_ignorepkgs_dialog.ui
 msgid "Choose Ignored Upgrades"
 msgstr "Pasirinkti nepaisomus atnaujinimus"
+
+#~ msgid "Authentication is required"
+#~ msgstr "Reikalingas tapatybės nustatymas"
+
+#~ msgid ""
+#~ "%s has %u uninstalled optional dependency.\n"
+#~ "Choose if you would like to install it"
+#~ msgid_plural ""
+#~ "%s has %u uninstalled optional dependencies.\n"
+#~ "Choose those you would like to install"
+#~ msgstr[0] ""
+#~ "%s turi %u neįdiegtą pasirinktiną priklausomybę.\n"
+#~ "Pasirinkite, ar norėtumėte ją įdiegti"
+#~ msgstr[1] ""
+#~ "%s turi %u neįdiegtas pasirinktinas priklausomybes.\n"
+#~ "Pasirinkite tas, kurias norėtumėte įdiegti"
+#~ msgstr[2] ""
+#~ "%s turi %u neįdiegtų pasirinktinų priklausomybių.\n"
+#~ "Pasirinkite tas, kurias norėtumėte įdiegti"
+
+#~ msgid "Choose the packages you do not want to upgrade"
+#~ msgstr "Pasirinkite paketus, kurių nenorite atnaujinti"
+
+#~ msgid "_OK"
+#~ msgstr "_Gerai"
+
+#~ msgid "_Preferences"
+#~ msgstr "_Nuostatos"
+
+#~ msgid "_About"
+#~ msgstr "_Apie"
+
+#~ msgid "_Refresh"
+#~ msgstr "Įkelti iš n_aujo"

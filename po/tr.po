@@ -2,7 +2,7 @@
 # Copyright (C) 2007-2012 Free Software Foundation, Inc.
 # This file is distributed under the same license as the Pamac package.
 # Guillaume Benoit <guillaume@manjaro.org>, 2013-2015.
-# 
+#
 # Translators:
 # Demiray Muhterem <mdemiray@msn.com>, 2013-2016
 # Guillaume Benoit <guillaume@manjaro.org>, 2013
@@ -13,19 +13,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2015-08-20 11:53+0200\n"
+"POT-Creation-Date: 2016-04-24 08:44+0200\n"
 "PO-Revision-Date: 2016-04-17 20:19+0000\n"
 "Last-Translator: Demiray Muhterem <mdemiray@msn.com>\n"
 "Language-Team: Turkish (http://www.transifex.com/manjarolinux/manjaro-pamac/language/tr/)\n"
+"Language: tr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: tr\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-
-#: data/polkit/org.manjaro.pamac.policy
-msgid "Authentication is required"
-msgstr "Yetki doğrulaması gerekiyor"
 
 #: ../src/daemon.vala
 msgid "Failed to initialize alpm library"
@@ -119,7 +115,13 @@ msgstr "%s kesintiye uğramış gibi görünüyor: %jd/%jd bytes\n"
 #: ../src/daemon.vala
 #, c-format
 msgid "failed retrieving file '%s' from %s : %s\n"
-msgstr "%s üzerinden '%s dosyası alınamadı: %s\n\n"
+msgstr ""
+"%s üzerinden '%s dosyası alınamadı: %s\n"
+"\n"
+
+#: ../src/transaction.vala
+msgid "A Gtk3 frontend for libalpm"
+msgstr "libalpm için Gtk3 arayüzü"
 
 #: ../src/transaction.vala
 msgid "Refreshing mirrors list"
@@ -141,10 +143,6 @@ msgstr "Hazırlanıyor"
 #, c-format
 msgid "Choose a provider for %s"
 msgstr "%s için sağlayıcı seç"
-
-#: ../src/transaction.vala ../resources/transaction_sum_dialog.ui
-msgid "Transaction Summary"
-msgstr "İşlem Özeti"
 
 #: ../src/transaction.vala
 msgid "To remove"
@@ -332,6 +330,10 @@ msgid "Warning"
 msgstr "Uyarı"
 
 #: ../src/transaction.vala
+msgid "_Close"
+msgstr "_Kapat"
+
+#: ../src/transaction.vala
 msgid "Nothing to do"
 msgstr "Yapılacak Bir Şey Yok"
 
@@ -347,11 +349,11 @@ msgstr "Pamac Zaten Çalışıyor"
 msgid "Your system is up-to-date"
 msgstr "Sisteminiz Güncel"
 
-#: ../src/tray.vala ../resources/updater_window.ui
+#: ../src/tray.vala
 msgid "Update Manager"
 msgstr "Güncelleme Yöneticisi"
 
-#: ../src/tray.vala ../resources/manager_window.ui
+#: ../src/tray.vala
 msgid "Package Manager"
 msgstr "Paket Yöneticisi"
 
@@ -521,14 +523,8 @@ msgstr "İsim"
 
 #: ../src/manager_window.vala
 #, c-format
-msgid ""
-"%s has %u uninstalled optional dependency.\n"
-"Choose if you would like to install it"
-msgid_plural ""
-"%s has %u uninstalled optional dependencies.\n"
-"Choose those you would like to install"
-msgstr[0] "%s kaldırılırken %u tercihli bağımlılıkları kaldırıldı.\nTekrar yüklemek istediklerinizi seçin"
-msgstr[1] "%s kaldırılırken %u tercihli bağımlılıkları kaldırıldı.\nTekrar yüklemek istediklerinizi seçin"
+msgid "Choose optional dependencies for %s"
+msgstr ""
 
 #: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Install Local Packages"
@@ -536,7 +532,8 @@ msgstr "Bilgisayarından paket yükle"
 
 #: ../src/manager_window.vala ../resources/progress_dialog.ui
 #: ../resources/transaction_sum_dialog.ui ../resources/choose_dep_dialog.ui
-#: ../resources/manager_window.ui ../resources/choose_ignorepkgs_dialog.ui
+#: ../resources/manager_window.ui ../resources/updater_window.ui
+#: ../resources/choose_ignorepkgs_dialog.ui
 msgid "_Cancel"
 msgstr "_Vazgeç"
 
@@ -547,10 +544,6 @@ msgstr "_Aç"
 #: ../src/manager_window.vala
 msgid "Alpm Package"
 msgstr "Alpm Paketi"
-
-#: ../src/manager_window.vala
-msgid "A Gtk3 frontend for libalpm"
-msgstr "libalpm için Gtk3 arayüzü"
 
 #: ../src/preferences_dialog.vala ../resources/preferences_dialog.ui
 msgid "How often to check for updates, value in hours"
@@ -568,19 +561,14 @@ msgstr "Hız"
 msgid "Random"
 msgstr "Rastgele"
 
-#: ../src/choose_ignorepkgs_dialog.vala
-msgid "Choose the packages you do not want to upgrade"
-msgstr "Yükseltmek istemediğiniz paketleri seçiniz"
-
 #: ../resources/choose_provider_dialog.ui
 msgid "Choose a Provider"
 msgstr "Sağlayıcı Seç"
 
-#: ../resources/choose_provider_dialog.ui
-#: ../resources/transaction_sum_dialog.ui ../resources/choose_dep_dialog.ui
+#: ../resources/choose_provider_dialog.ui ../resources/choose_dep_dialog.ui
 #: ../resources/choose_ignorepkgs_dialog.ui
-msgid "_OK"
-msgstr "_TAMAM"
+msgid "Choose"
+msgstr ""
 
 #: ../resources/progress_dialog.ui
 msgid "Progress"
@@ -590,8 +578,8 @@ msgstr "Süreç"
 msgid "_Hide"
 msgstr "_Gizle"
 
-#: ../resources/progress_dialog.ui ../resources/transaction_info_dialog.ui
-#: ../resources/manager_window.ui
+#: ../resources/progress_dialog.ui ../resources/manager_window.ui
+#: ../resources/updater_window.ui
 msgid "Details"
 msgstr "Ayrıntılar"
 
@@ -599,30 +587,33 @@ msgstr "Ayrıntılar"
 msgid "Pamac History"
 msgstr "Pamac Geçmişi"
 
-#: ../resources/history_dialog.ui ../resources/transaction_info_dialog.ui
-#: ../resources/updater_window.ui ../resources/preferences_dialog.ui
-msgid "_Close"
-msgstr "_Kapat"
+#: ../resources/transaction_sum_dialog.ui
+msgid "Transaction Summary"
+msgstr "İşlem Özeti"
+
+#: ../resources/transaction_sum_dialog.ui
+msgid "Commit"
+msgstr ""
 
 #: ../resources/choose_dep_dialog.ui
 msgid "Choose Optional Dependencies"
 msgstr "Tercihe Bağlı Bağımlılıkları Seç"
 
-#: ../resources/manager_window.ui
+#: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "Refresh databases"
 msgstr "Veritabanını yenile"
 
-#: ../resources/manager_window.ui
+#: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "View History"
 msgstr "Geçmişi Gör"
 
 #: ../resources/manager_window.ui ../resources/updater_window.ui
-msgid "_Preferences"
-msgstr "_Tercihler"
+msgid "Preferences"
+msgstr "Tercihler"
 
-#: ../resources/manager_window.ui
-msgid "_About"
-msgstr "_Hakkında"
+#: ../resources/manager_window.ui ../resources/updater_window.ui
+msgid "About"
+msgstr ""
 
 #: ../resources/manager_window.ui
 msgid "Search"
@@ -673,22 +664,12 @@ msgstr "Bağımlılıklar"
 msgid "Files"
 msgstr "Dosyalar"
 
-#: ../resources/updater_window.ui
-msgid "_Refresh"
-msgstr "_Yenile"
-
-#: ../resources/preferences_dialog.ui
-msgid "Preferences"
-msgstr "Tercihler"
-
 #: ../resources/preferences_dialog.ui
 msgid "Remove unrequired dependencies"
 msgstr "Gereksiz bağımlılıkları kaldır"
 
 #: ../resources/preferences_dialog.ui
-msgid ""
-"When removing a package, also remove its dependencies that are not required "
-"by other packages"
+msgid "When removing a package, also remove its dependencies that are not required by other packages"
 msgstr "Bir paket kaldırılırken, başka bir uygulama aynı bağımlılıkları kullanmıyorsa paketi bağımlılıkları ile birlikte kaldır"
 
 #: ../resources/preferences_dialog.ui
@@ -731,7 +712,9 @@ msgstr "Resmi Depolar"
 msgid ""
 "AUR is a community maintained repository so it presents potential risks and problems.\n"
 "All AUR users should be familiar with the build process."
-msgstr "AUR topluluk depolarının potansiyel riskler ve sorunlar içerebileceğini unutmayın.\nAUR hakkında bilgi sahibi iseniz bunları biliyor olmalısınız."
+msgstr ""
+"AUR topluluk depolarının potansiyel riskler ve sorunlar içerebileceğini unutmayın.\n"
+"AUR hakkında bilgi sahibi iseniz bunları biliyor olmalısınız."
 
 #: ../resources/preferences_dialog.ui
 msgid "Enable AUR support"
@@ -756,3 +739,34 @@ msgstr "Paketler inşa edilirken onay veya düzenleme sorulmasın"
 #: ../resources/choose_ignorepkgs_dialog.ui
 msgid "Choose Ignored Upgrades"
 msgstr "Güncellenmeyecek Paketleri Seç"
+
+#~ msgid "Authentication is required"
+#~ msgstr "Yetki doğrulaması gerekiyor"
+
+#~ msgid ""
+#~ "%s has %u uninstalled optional dependency.\n"
+#~ "Choose if you would like to install it"
+#~ msgid_plural ""
+#~ "%s has %u uninstalled optional dependencies.\n"
+#~ "Choose those you would like to install"
+#~ msgstr[0] ""
+#~ "%s kaldırılırken %u tercihli bağımlılıkları kaldırıldı.\n"
+#~ "Tekrar yüklemek istediklerinizi seçin"
+#~ msgstr[1] ""
+#~ "%s kaldırılırken %u tercihli bağımlılıkları kaldırıldı.\n"
+#~ "Tekrar yüklemek istediklerinizi seçin"
+
+#~ msgid "Choose the packages you do not want to upgrade"
+#~ msgstr "Yükseltmek istemediğiniz paketleri seçiniz"
+
+#~ msgid "_OK"
+#~ msgstr "_TAMAM"
+
+#~ msgid "_Preferences"
+#~ msgstr "_Tercihler"
+
+#~ msgid "_About"
+#~ msgstr "_Hakkında"
+
+#~ msgid "_Refresh"
+#~ msgstr "_Yenile"

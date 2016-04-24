@@ -2,7 +2,7 @@
 # Copyright (C) 2007-2012 Free Software Foundation, Inc.
 # This file is distributed under the same license as the Pamac package.
 # Guillaume Benoit <guillaume@manjaro.org>, 2013-2015.
-# 
+#
 # Translators:
 # Morten Rene <arath.inc@gmail.com>, 2014
 # Bård Spein <baard.spein@gmail.com>, 2013
@@ -22,19 +22,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2015-08-20 11:53+0200\n"
+"POT-Creation-Date: 2016-04-24 08:44+0200\n"
 "PO-Revision-Date: 2016-04-17 08:28+0000\n"
 "Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Norwegian Bokmål (http://www.transifex.com/manjarolinux/manjaro-pamac/language/nb/)\n"
+"Language: nb\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: nb\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-
-#: data/polkit/org.manjaro.pamac.policy
-msgid "Authentication is required"
-msgstr "Autentisering kreves"
 
 #: ../src/daemon.vala
 msgid "Failed to initialize alpm library"
@@ -131,6 +127,10 @@ msgid "failed retrieving file '%s' from %s : %s\n"
 msgstr ""
 
 #: ../src/transaction.vala
+msgid "A Gtk3 frontend for libalpm"
+msgstr "En Gtk3 frontend for libalpm"
+
+#: ../src/transaction.vala
 msgid "Refreshing mirrors list"
 msgstr "Oppdaterer listen over pakkebrønner"
 
@@ -150,10 +150,6 @@ msgstr "Forbereder"
 #, c-format
 msgid "Choose a provider for %s"
 msgstr "Velg en leverandør for %s"
-
-#: ../src/transaction.vala ../resources/transaction_sum_dialog.ui
-msgid "Transaction Summary"
-msgstr "Oppsummering av transaksjonen"
 
 #: ../src/transaction.vala
 msgid "To remove"
@@ -341,6 +337,10 @@ msgid "Warning"
 msgstr "Advarsel"
 
 #: ../src/transaction.vala
+msgid "_Close"
+msgstr "_Lukk"
+
+#: ../src/transaction.vala
 msgid "Nothing to do"
 msgstr "Ingenting å gjøre"
 
@@ -356,11 +356,11 @@ msgstr "Pamac kjører allerede"
 msgid "Your system is up-to-date"
 msgstr "Systemet ditt er oppdatert"
 
-#: ../src/tray.vala ../resources/updater_window.ui
+#: ../src/tray.vala
 msgid "Update Manager"
 msgstr "Oppdaterings Behandler"
 
-#: ../src/tray.vala ../resources/manager_window.ui
+#: ../src/tray.vala
 msgid "Package Manager"
 msgstr "Pakke Behandler"
 
@@ -530,14 +530,8 @@ msgstr "Navn"
 
 #: ../src/manager_window.vala
 #, c-format
-msgid ""
-"%s has %u uninstalled optional dependency.\n"
-"Choose if you would like to install it"
-msgid_plural ""
-"%s has %u uninstalled optional dependencies.\n"
-"Choose those you would like to install"
-msgstr[0] ""
-msgstr[1] ""
+msgid "Choose optional dependencies for %s"
+msgstr ""
 
 #: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Install Local Packages"
@@ -545,7 +539,8 @@ msgstr "Installer lokale pakker"
 
 #: ../src/manager_window.vala ../resources/progress_dialog.ui
 #: ../resources/transaction_sum_dialog.ui ../resources/choose_dep_dialog.ui
-#: ../resources/manager_window.ui ../resources/choose_ignorepkgs_dialog.ui
+#: ../resources/manager_window.ui ../resources/updater_window.ui
+#: ../resources/choose_ignorepkgs_dialog.ui
 msgid "_Cancel"
 msgstr "_Avbryt"
 
@@ -556,10 +551,6 @@ msgstr "_Åpne"
 #: ../src/manager_window.vala
 msgid "Alpm Package"
 msgstr "Alpm Pakke"
-
-#: ../src/manager_window.vala
-msgid "A Gtk3 frontend for libalpm"
-msgstr "En Gtk3 frontend for libalpm"
 
 #: ../src/preferences_dialog.vala ../resources/preferences_dialog.ui
 msgid "How often to check for updates, value in hours"
@@ -577,19 +568,14 @@ msgstr "Hastighet"
 msgid "Random"
 msgstr "Tilfeldig"
 
-#: ../src/choose_ignorepkgs_dialog.vala
-msgid "Choose the packages you do not want to upgrade"
-msgstr "Velg de pakkene som du ikke ønsker å oppgradere"
-
 #: ../resources/choose_provider_dialog.ui
 msgid "Choose a Provider"
 msgstr "Velg en leverandør"
 
-#: ../resources/choose_provider_dialog.ui
-#: ../resources/transaction_sum_dialog.ui ../resources/choose_dep_dialog.ui
+#: ../resources/choose_provider_dialog.ui ../resources/choose_dep_dialog.ui
 #: ../resources/choose_ignorepkgs_dialog.ui
-msgid "_OK"
-msgstr "_OK"
+msgid "Choose"
+msgstr ""
 
 #: ../resources/progress_dialog.ui
 msgid "Progress"
@@ -599,8 +585,8 @@ msgstr "Framdrift"
 msgid "_Hide"
 msgstr ""
 
-#: ../resources/progress_dialog.ui ../resources/transaction_info_dialog.ui
-#: ../resources/manager_window.ui
+#: ../resources/progress_dialog.ui ../resources/manager_window.ui
+#: ../resources/updater_window.ui
 msgid "Details"
 msgstr "Detaljer"
 
@@ -608,30 +594,33 @@ msgstr "Detaljer"
 msgid "Pamac History"
 msgstr "Pamac Historie"
 
-#: ../resources/history_dialog.ui ../resources/transaction_info_dialog.ui
-#: ../resources/updater_window.ui ../resources/preferences_dialog.ui
-msgid "_Close"
-msgstr "_Lukk"
+#: ../resources/transaction_sum_dialog.ui
+msgid "Transaction Summary"
+msgstr "Oppsummering av transaksjonen"
+
+#: ../resources/transaction_sum_dialog.ui
+msgid "Commit"
+msgstr ""
 
 #: ../resources/choose_dep_dialog.ui
 msgid "Choose Optional Dependencies"
 msgstr "Valgfrie Avhengigheter"
 
-#: ../resources/manager_window.ui
+#: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "Refresh databases"
 msgstr "Oppdater databaser"
 
-#: ../resources/manager_window.ui
+#: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "View History"
 msgstr "Vis Historie"
 
 #: ../resources/manager_window.ui ../resources/updater_window.ui
-msgid "_Preferences"
-msgstr "_Valg"
+msgid "Preferences"
+msgstr "Valg"
 
-#: ../resources/manager_window.ui
-msgid "_About"
-msgstr "_Om"
+#: ../resources/manager_window.ui ../resources/updater_window.ui
+msgid "About"
+msgstr ""
 
 #: ../resources/manager_window.ui
 msgid "Search"
@@ -682,22 +671,12 @@ msgstr "Avhengigheter"
 msgid "Files"
 msgstr "Filer"
 
-#: ../resources/updater_window.ui
-msgid "_Refresh"
-msgstr "_Oppdater"
-
-#: ../resources/preferences_dialog.ui
-msgid "Preferences"
-msgstr "Valg"
-
 #: ../resources/preferences_dialog.ui
 msgid "Remove unrequired dependencies"
 msgstr "Fjern avhengige pakker som er unødvendige"
 
 #: ../resources/preferences_dialog.ui
-msgid ""
-"When removing a package, also remove its dependencies that are not required "
-"by other packages"
+msgid "When removing a package, also remove its dependencies that are not required by other packages"
 msgstr "Når du fjerner en pakke, fjern også dets avhengigheter som ikke kreves av andre pakker"
 
 #: ../resources/preferences_dialog.ui
@@ -740,7 +719,9 @@ msgstr "Offisielle pakkebrønner "
 msgid ""
 "AUR is a community maintained repository so it presents potential risks and problems.\n"
 "All AUR users should be familiar with the build process."
-msgstr "AUR er en pakkebrønn som vedlikeholdes av fellesskapet så den representerer potensiellt en risiko og problemer.\nAlle AUR-brukere bør kjenne fremgangsmåten for å bygge pakker. "
+msgstr ""
+"AUR er en pakkebrønn som vedlikeholdes av fellesskapet så den representerer potensiellt en risiko og problemer.\n"
+"Alle AUR-brukere bør kjenne fremgangsmåten for å bygge pakker. "
 
 #: ../resources/preferences_dialog.ui
 msgid "Enable AUR support"
@@ -765,3 +746,21 @@ msgstr "Ikke spør etter bekreftelse når pakker blir bygget"
 #: ../resources/choose_ignorepkgs_dialog.ui
 msgid "Choose Ignored Upgrades"
 msgstr "Velg ignorerte oppdateringer "
+
+#~ msgid "Authentication is required"
+#~ msgstr "Autentisering kreves"
+
+#~ msgid "Choose the packages you do not want to upgrade"
+#~ msgstr "Velg de pakkene som du ikke ønsker å oppgradere"
+
+#~ msgid "_OK"
+#~ msgstr "_OK"
+
+#~ msgid "_Preferences"
+#~ msgstr "_Valg"
+
+#~ msgid "_About"
+#~ msgstr "_Om"
+
+#~ msgid "_Refresh"
+#~ msgstr "_Oppdater"

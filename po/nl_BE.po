@@ -2,26 +2,22 @@
 # Copyright (C) 2007-2012 Free Software Foundation, Inc.
 # This file is distributed under the same license as the Pamac package.
 # Guillaume Benoit <guillaume@manjaro.org>, 2013-2015.
-# 
+#
 # Translators:
 # Kevin Andriessens <kelaun@archlinux.info>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2015-08-20 11:53+0200\n"
+"POT-Creation-Date: 2016-04-24 08:44+0200\n"
 "PO-Revision-Date: 2016-04-17 08:28+0000\n"
 "Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Dutch (Belgium) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/nl_BE/)\n"
+"Language: nl_BE\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: nl_BE\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-
-#: data/polkit/org.manjaro.pamac.policy
-msgid "Authentication is required"
-msgstr "Authenticatie is vereist"
 
 #: ../src/daemon.vala
 msgid "Failed to initialize alpm library"
@@ -118,6 +114,10 @@ msgid "failed retrieving file '%s' from %s : %s\n"
 msgstr ""
 
 #: ../src/transaction.vala
+msgid "A Gtk3 frontend for libalpm"
+msgstr "Een Gtk3 interface voor libalpm"
+
+#: ../src/transaction.vala
 msgid "Refreshing mirrors list"
 msgstr "Lijst van alternative linken vernieuwen"
 
@@ -137,10 +137,6 @@ msgstr "Voorbereiden"
 #, c-format
 msgid "Choose a provider for %s"
 msgstr "Kies een provider voor %s"
-
-#: ../src/transaction.vala ../resources/transaction_sum_dialog.ui
-msgid "Transaction Summary"
-msgstr "Samenvatting van de transacties"
 
 #: ../src/transaction.vala
 msgid "To remove"
@@ -328,6 +324,10 @@ msgid "Warning"
 msgstr "Opgelet"
 
 #: ../src/transaction.vala
+msgid "_Close"
+msgstr "_Sluiten"
+
+#: ../src/transaction.vala
 msgid "Nothing to do"
 msgstr "Niets te doen"
 
@@ -343,11 +343,11 @@ msgstr "Pamac draait al"
 msgid "Your system is up-to-date"
 msgstr "Uw systeem is up-to-date"
 
-#: ../src/tray.vala ../resources/updater_window.ui
+#: ../src/tray.vala
 msgid "Update Manager"
 msgstr "Update Manager"
 
-#: ../src/tray.vala ../resources/manager_window.ui
+#: ../src/tray.vala
 msgid "Package Manager"
 msgstr "Pakketten Manager"
 
@@ -517,14 +517,8 @@ msgstr "Naam"
 
 #: ../src/manager_window.vala
 #, c-format
-msgid ""
-"%s has %u uninstalled optional dependency.\n"
-"Choose if you would like to install it"
-msgid_plural ""
-"%s has %u uninstalled optional dependencies.\n"
-"Choose those you would like to install"
-msgstr[0] "%s heeft %u niet geïnstalleerde optionele afhankelijkheden. \nKies of u die wilt installeren"
-msgstr[1] "%s heeft %u niet geïnstalleerde optionele afhankelijkheden. \nKies diegenen die u wilt installeren"
+msgid "Choose optional dependencies for %s"
+msgstr ""
 
 #: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Install Local Packages"
@@ -532,7 +526,8 @@ msgstr "Installeer lokale pakketten"
 
 #: ../src/manager_window.vala ../resources/progress_dialog.ui
 #: ../resources/transaction_sum_dialog.ui ../resources/choose_dep_dialog.ui
-#: ../resources/manager_window.ui ../resources/choose_ignorepkgs_dialog.ui
+#: ../resources/manager_window.ui ../resources/updater_window.ui
+#: ../resources/choose_ignorepkgs_dialog.ui
 msgid "_Cancel"
 msgstr "_Annuleer "
 
@@ -543,10 +538,6 @@ msgstr "_Ope"
 #: ../src/manager_window.vala
 msgid "Alpm Package"
 msgstr "Alpm pakket"
-
-#: ../src/manager_window.vala
-msgid "A Gtk3 frontend for libalpm"
-msgstr "Een Gtk3 interface voor libalpm"
 
 #: ../src/preferences_dialog.vala ../resources/preferences_dialog.ui
 msgid "How often to check for updates, value in hours"
@@ -564,19 +555,14 @@ msgstr "Snelheid"
 msgid "Random"
 msgstr "Rando"
 
-#: ../src/choose_ignorepkgs_dialog.vala
-msgid "Choose the packages you do not want to upgrade"
-msgstr "Kies het pakket die u niet wilt upgraden"
-
 #: ../resources/choose_provider_dialog.ui
 msgid "Choose a Provider"
 msgstr "Kies een provider"
 
-#: ../resources/choose_provider_dialog.ui
-#: ../resources/transaction_sum_dialog.ui ../resources/choose_dep_dialog.ui
+#: ../resources/choose_provider_dialog.ui ../resources/choose_dep_dialog.ui
 #: ../resources/choose_ignorepkgs_dialog.ui
-msgid "_OK"
-msgstr "_OK"
+msgid "Choose"
+msgstr ""
 
 #: ../resources/progress_dialog.ui
 msgid "Progress"
@@ -586,8 +572,8 @@ msgstr "Voortgang"
 msgid "_Hide"
 msgstr ""
 
-#: ../resources/progress_dialog.ui ../resources/transaction_info_dialog.ui
-#: ../resources/manager_window.ui
+#: ../resources/progress_dialog.ui ../resources/manager_window.ui
+#: ../resources/updater_window.ui
 msgid "Details"
 msgstr "Details"
 
@@ -595,30 +581,33 @@ msgstr "Details"
 msgid "Pamac History"
 msgstr "Pamac geschiedenis"
 
-#: ../resources/history_dialog.ui ../resources/transaction_info_dialog.ui
-#: ../resources/updater_window.ui ../resources/preferences_dialog.ui
-msgid "_Close"
-msgstr "_Sluiten"
+#: ../resources/transaction_sum_dialog.ui
+msgid "Transaction Summary"
+msgstr "Samenvatting van de transacties"
+
+#: ../resources/transaction_sum_dialog.ui
+msgid "Commit"
+msgstr ""
 
 #: ../resources/choose_dep_dialog.ui
 msgid "Choose Optional Dependencies"
 msgstr "Kies optionele afhankelijkheden"
 
-#: ../resources/manager_window.ui
+#: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "Refresh databases"
 msgstr "Databanken vernieuwen"
 
-#: ../resources/manager_window.ui
+#: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "View History"
 msgstr "Bekijk geschiedenis"
 
 #: ../resources/manager_window.ui ../resources/updater_window.ui
-msgid "_Preferences"
-msgstr "_Voorkeuren"
+msgid "Preferences"
+msgstr "Voorkeuren"
 
-#: ../resources/manager_window.ui
-msgid "_About"
-msgstr "_Over"
+#: ../resources/manager_window.ui ../resources/updater_window.ui
+msgid "About"
+msgstr ""
 
 #: ../resources/manager_window.ui
 msgid "Search"
@@ -669,22 +658,12 @@ msgstr "Afhankelijkheden"
 msgid "Files"
 msgstr "Bestanden"
 
-#: ../resources/updater_window.ui
-msgid "_Refresh"
-msgstr "_Vernieuwen"
-
-#: ../resources/preferences_dialog.ui
-msgid "Preferences"
-msgstr "Voorkeuren"
-
 #: ../resources/preferences_dialog.ui
 msgid "Remove unrequired dependencies"
 msgstr "Verwijder onnodige afhankelijkheiden"
 
 #: ../resources/preferences_dialog.ui
-msgid ""
-"When removing a package, also remove its dependencies that are not required "
-"by other packages"
+msgid "When removing a package, also remove its dependencies that are not required by other packages"
 msgstr "Bij het verwijderen van een pakket, ook zijn afhankelijkheden verwijderen die niet nodig zijn voor andere pakketten"
 
 #: ../resources/preferences_dialog.ui
@@ -727,7 +706,9 @@ msgstr "Officiële Repositories"
 msgid ""
 "AUR is a community maintained repository so it presents potential risks and problems.\n"
 "All AUR users should be familiar with the build process."
-msgstr "AUR is een repository geadministreerd door de community en daardoor kan het voor potentiële gevaren en problemen zorgen.\nAlle AUR gebruikers zouden familiair moeten zijn met het bouw-process."
+msgstr ""
+"AUR is een repository geadministreerd door de community en daardoor kan het voor potentiële gevaren en problemen zorgen.\n"
+"Alle AUR gebruikers zouden familiair moeten zijn met het bouw-process."
 
 #: ../resources/preferences_dialog.ui
 msgid "Enable AUR support"
@@ -752,3 +733,34 @@ msgstr "Geen confirmatie vragen bij het bouwen van pakketten"
 #: ../resources/choose_ignorepkgs_dialog.ui
 msgid "Choose Ignored Upgrades"
 msgstr "Genegeerde upgrades kiezen "
+
+#~ msgid "Authentication is required"
+#~ msgstr "Authenticatie is vereist"
+
+#~ msgid ""
+#~ "%s has %u uninstalled optional dependency.\n"
+#~ "Choose if you would like to install it"
+#~ msgid_plural ""
+#~ "%s has %u uninstalled optional dependencies.\n"
+#~ "Choose those you would like to install"
+#~ msgstr[0] ""
+#~ "%s heeft %u niet geïnstalleerde optionele afhankelijkheden. \n"
+#~ "Kies of u die wilt installeren"
+#~ msgstr[1] ""
+#~ "%s heeft %u niet geïnstalleerde optionele afhankelijkheden. \n"
+#~ "Kies diegenen die u wilt installeren"
+
+#~ msgid "Choose the packages you do not want to upgrade"
+#~ msgstr "Kies het pakket die u niet wilt upgraden"
+
+#~ msgid "_OK"
+#~ msgstr "_OK"
+
+#~ msgid "_Preferences"
+#~ msgstr "_Voorkeuren"
+
+#~ msgid "_About"
+#~ msgstr "_Over"
+
+#~ msgid "_Refresh"
+#~ msgstr "_Vernieuwen"
