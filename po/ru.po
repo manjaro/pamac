@@ -1,16 +1,16 @@
 # Translation of Pamac.
 # Copyright (C) 2007-2012 Free Software Foundation, Inc.
 # This file is distributed under the same license as the Pamac package.
-# Guillaume Benoit <guillaume@manjaro.org>, 2013-2015.
+# Guillaume Benoit <guillaume@manjaro.org>, 2013-2016.
 # 
 # Translators:
-# AlexanderFilev <ifillrok@gmail.com>, 2015
-# Виктор Кукшиев <andrey0bolkonsky@gmail.com>, 2013
+# Александр <ifillrok@gmail.com>, 2015
+# Андрей Болконский <andrey0bolkonsky@gmail.com>, 2013
 # Daniil <rostovslipknot@gmail.com>, 2013
 # Анатолий Валерианович <ffox909@mail.ru>, 2014
 # Paulo Fino <finomeno@gmail.com>, 2014
 # Анатолий Валерианович <ffox909@mail.ru>, 2014
-# AlexanderFilev <ifillrok@gmail.com>, 2015
+# Александр <ifillrok@gmail.com>, 2015
 # Lexyc <nirudak@mail.ru>, 2014
 # Lowrider <pams@imail.ru>, 2015
 # Daniil <rostovslipknot@gmail.com>, 2013
@@ -19,15 +19,15 @@
 # Paulo Fino <finomeno@gmail.com>, 2014
 # Umid Almasov <u.almasov@gmail.com>, 2013
 # Umid Almasov <u.almasov@gmail.com>, 2013
-# Анатолий Валерианович <ffox909@mail.ru>, 2014-2015
-# Виктор Кукшиев <andrey0bolkonsky@gmail.com>, 2013,2015
+# Анатолий Валерианович <ffox909@mail.ru>, 2014-2016
+# Андрей Болконский <andrey0bolkonsky@gmail.com>, 2013,2015
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2015-08-20 11:53+0200\n"
-"PO-Revision-Date: 2016-02-02 08:27+0000\n"
-"Last-Translator: Guillaume Benoit <guillaume@manjaro.org>\n"
+"POT-Creation-Date: 2016-04-24 08:44+0200\n"
+"PO-Revision-Date: 2016-04-24 06:51+0000\n"
+"Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Russian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -35,18 +35,33 @@ msgstr ""
 "Language: ru\n"
 "Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);\n"
 
-#: data/polkit/org.manjaro.pamac.policy
-msgid "Authentication is required"
-msgstr "Необходима авторизация"
-
-#: ../src/daemon.vala ../src/manager_window.vala
-#: ../src/preferences_dialog.vala
+#: ../src/daemon.vala
 msgid "Failed to initialize alpm library"
 msgstr "Ошибка инициализации библиотеки alpm"
 
 #: ../src/daemon.vala
 msgid "Failed to synchronize any databases"
 msgstr "Ошибка синхронизации со всеми базами данных"
+
+#: ../src/daemon.vala
+msgid "Unknown"
+msgstr "Неизвестно"
+
+#: ../src/daemon.vala
+msgid "Explicitly installed"
+msgstr "Установлено специально"
+
+#: ../src/daemon.vala
+msgid "Installed as a dependency for another package"
+msgstr "Установлено как зависимость для другого пакета"
+
+#: ../src/daemon.vala
+msgid "Yes"
+msgstr "Да"
+
+#: ../src/daemon.vala
+msgid "No"
+msgstr "Нет"
 
 #: ../src/daemon.vala
 msgid "Failed to init transaction"
@@ -104,6 +119,20 @@ msgstr "%s недействующий или повреждён"
 msgid "Authentication failed"
 msgstr "Ошибка авторизации"
 
+#: ../src/daemon.vala
+#, c-format
+msgid "%s appears to be truncated: %jd/%jd bytes\n"
+msgstr "%s появляется сокращённым на: %jd/%jd байт\n"
+
+#: ../src/daemon.vala
+#, c-format
+msgid "failed retrieving file '%s' from %s : %s\n"
+msgstr "ошибка при получении файла '%s' из %s : %s\n"
+
+#: ../src/transaction.vala
+msgid "A Gtk3 frontend for libalpm"
+msgstr "Интерфейс Gtk3 для libalpm"
+
 #: ../src/transaction.vala
 msgid "Refreshing mirrors list"
 msgstr "Обновление списка зеркал"
@@ -125,11 +154,7 @@ msgstr "Подготовка"
 msgid "Choose a provider for %s"
 msgstr "Укажите источник %s"
 
-#: ../src/transaction.vala ../resources/transaction_sum_dialog.ui
-msgid "Transaction Summary"
-msgstr "Сводка транзакции"
-
-#: ../src/transaction.vala ../src/manager_window.vala
+#: ../src/transaction.vala
 msgid "To remove"
 msgstr "К удалению"
 
@@ -141,7 +166,7 @@ msgstr "К понижению версии"
 msgid "To build"
 msgstr "К сборке"
 
-#: ../src/transaction.vala ../src/manager_window.vala
+#: ../src/transaction.vala
 msgid "To install"
 msgstr "К установке"
 
@@ -162,12 +187,8 @@ msgid "Building packages"
 msgstr "Сборка пакетов"
 
 #: ../src/transaction.vala
-msgid "Running pre-transaction hooks"
-msgstr ""
-
-#: ../src/transaction.vala
-msgid "Running post-transaction hooks"
-msgstr ""
+msgid "Transaction cancelled"
+msgstr "Транзакция отменена"
 
 #: ../src/transaction.vala
 msgid "Checking dependencies"
@@ -192,18 +213,13 @@ msgstr "Установка %s"
 
 #: ../src/transaction.vala
 #, c-format
-msgid "Reinstalling %s"
-msgstr "Переустановка %s"
-
-#: ../src/transaction.vala
-#, c-format
-msgid "Removing %s"
-msgstr "Удаление %s"
-
-#: ../src/transaction.vala
-#, c-format
 msgid "Upgrading %s"
 msgstr "Обновление %s"
+
+#: ../src/transaction.vala
+#, c-format
+msgid "Reinstalling %s"
+msgstr "Переустановка %s"
 
 #: ../src/transaction.vala
 #, c-format
@@ -211,16 +227,13 @@ msgid "Downgrading %s"
 msgstr "Понижение версии %s"
 
 #: ../src/transaction.vala
+#, c-format
+msgid "Removing %s"
+msgstr "Удаление %s"
+
+#: ../src/transaction.vala
 msgid "Checking integrity"
 msgstr "Проверка целостности"
-
-#: ../src/transaction.vala
-msgid "Checking keyring"
-msgstr "Проверка связки ключей"
-
-#: ../src/transaction.vala
-msgid "Downloading required keys"
-msgstr "Загрузка необходимых ключей"
 
 #: ../src/transaction.vala
 msgid "Loading packages files"
@@ -257,6 +270,11 @@ msgid "Downloading"
 msgstr "Загрузка"
 
 #: ../src/transaction.vala
+#, c-format
+msgid "Downloading %s"
+msgstr "Загрузка %s"
+
+#: ../src/transaction.vala
 msgid "Checking available disk space"
 msgstr "Проверка доступного дискового пространства"
 
@@ -271,6 +289,14 @@ msgid "Database file for %s does not exist"
 msgstr "Файл базы данных для %s не существует"
 
 #: ../src/transaction.vala
+msgid "Checking keyring"
+msgstr "Проверка связки ключей"
+
+#: ../src/transaction.vala
+msgid "Downloading required keys"
+msgstr "Загрузка необходимых ключей"
+
+#: ../src/transaction.vala
 #, c-format
 msgid "%s installed as %s.pacnew"
 msgstr "%s установлен как %s.pacnew"
@@ -281,41 +307,43 @@ msgid "%s installed as %s.pacsave"
 msgstr "%s установлен как %s.pacsave"
 
 #: ../src/transaction.vala
-#, c-format
-msgid "Refreshing %s"
-msgstr "Обновление %s"
+msgid "Running pre-transaction hooks"
+msgstr "Работа pre-transaction hooks"
 
 #: ../src/transaction.vala
-#, c-format
-msgid "Downloading %s"
-msgstr "Загрузка %s"
+msgid "Running post-transaction hooks"
+msgstr "Работа post-transaction hooks"
 
 #: ../src/transaction.vala
 #, c-format
 msgid "About %u seconds remaining"
-msgstr ""
+msgstr "Осталось примерно %u секунд"
 
 #: ../src/transaction.vala
 #, c-format
 msgid "About %lu minute remaining"
 msgid_plural "About %lu minutes remaining"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "Осталась примерно %lu минута"
+msgstr[1] "Осталось примерно %lu минуты"
+msgstr[2] "Осталось примерно %lu минут"
+msgstr[3] "Осталось примерно %lu минут"
+
+#: ../src/transaction.vala
+#, c-format
+msgid "Refreshing %s"
+msgstr "Обновление %s"
+
+#: ../src/transaction.vala
+msgid "Error"
+msgstr "Ошибка"
 
 #: ../src/transaction.vala
 msgid "Warning"
 msgstr "Внимание"
 
-#: ../src/transaction.vala ../src/installer.vala ../src/manager.vala
-#: ../src/updater.vala
-msgid "Error"
-msgstr "Ошибка"
-
 #: ../src/transaction.vala
-msgid "Transaction cancelled"
-msgstr "Транзакция отменена"
+msgid "_Close"
+msgstr "_Закрыть"
 
 #: ../src/transaction.vala
 msgid "Nothing to do"
@@ -333,11 +361,11 @@ msgstr "Pamac уже запущен"
 msgid "Your system is up-to-date"
 msgstr "Система обновлена"
 
-#: ../src/tray.vala ../resources/updater_window.ui
+#: ../src/tray.vala
 msgid "Update Manager"
 msgstr "Менеджер обновлений"
 
-#: ../src/tray.vala ../resources/manager_window.ui
+#: ../src/tray.vala
 msgid "Package Manager"
 msgstr "Менеджер пакетов"
 
@@ -383,8 +411,13 @@ msgid "Mark as explicitly installed"
 msgstr "Отметить как специально установленный"
 
 #: ../src/manager_window.vala
-msgid "local"
-msgstr "местно"
+#, c-format
+msgid "%u pending operation"
+msgid_plural "%u pending operations"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
 
 #: ../src/manager_window.vala
 msgid "Installed"
@@ -395,12 +428,49 @@ msgid "Orphans"
 msgstr "Неиспользуемые"
 
 #: ../src/manager_window.vala
+msgid "Foreign"
+msgstr ""
+
+#: ../src/manager_window.vala
+msgid "Pending"
+msgstr ""
+
+#: ../src/manager_window.vala
 msgid "Licenses"
 msgstr "Лицензии"
 
+#: ../src/manager_window.vala ../resources/manager_window.ui
+#: ../resources/updater_window.ui
+msgid "Repository"
+msgstr "Репозиторий"
+
+#: ../src/manager_window.vala ../resources/manager_window.ui
+msgid "Groups"
+msgstr "Группы"
+
 #: ../src/manager_window.vala
-msgid "Unknown"
-msgstr "Неизвестно"
+msgid "Packager"
+msgstr "Упаковщик"
+
+#: ../src/manager_window.vala
+msgid "Build Date"
+msgstr "Дата сборки"
+
+#: ../src/manager_window.vala
+msgid "Install Date"
+msgstr "Дата установки"
+
+#: ../src/manager_window.vala
+msgid "Install Reason"
+msgstr "Причина установки"
+
+#: ../src/manager_window.vala
+msgid "Signatures"
+msgstr "Подписи"
+
+#: ../src/manager_window.vala
+msgid "Backup files"
+msgstr "Резервные файлы"
 
 #: ../src/manager_window.vala
 msgid "Depends On"
@@ -430,53 +500,9 @@ msgstr "Заменяет"
 msgid "Conflicts With"
 msgstr "Конфликтует с"
 
-#: ../src/manager_window.vala ../resources/manager_window.ui
-msgid "Repository"
-msgstr "Репозиторий"
-
-#: ../src/manager_window.vala ../resources/manager_window.ui
-msgid "Groups"
-msgstr "Группы"
-
 #: ../src/manager_window.vala
-msgid "Packager"
-msgstr "Упаковщик"
-
-#: ../src/manager_window.vala
-msgid "Build Date"
-msgstr "Дата сборки"
-
-#: ../src/manager_window.vala
-msgid "Install Date"
-msgstr "Дата установки"
-
-#: ../src/manager_window.vala
-msgid "Explicitly installed"
-msgstr "Установлено специально"
-
-#: ../src/manager_window.vala
-msgid "Installed as a dependency for another package"
-msgstr "Установлено как зависимость для другого пакета"
-
-#: ../src/manager_window.vala
-msgid "Install Reason"
-msgstr "Причина установки"
-
-#: ../src/manager_window.vala
-msgid "Yes"
-msgstr "Да"
-
-#: ../src/manager_window.vala
-msgid "No"
-msgstr "Нет"
-
-#: ../src/manager_window.vala
-msgid "Signatures"
-msgstr "Подписи"
-
-#: ../src/manager_window.vala
-msgid "Backup files"
-msgstr "Резервные файлы"
+msgid "Package Base"
+msgstr "Пакетная база"
 
 #: ../src/manager_window.vala
 msgid "Maintainer"
@@ -490,7 +516,7 @@ msgstr "Впервые отправлен"
 msgid "Last Modified"
 msgstr "Последнее изменение"
 
-#: ../src/manager_window.vala ../resources/manager_window.ui
+#: ../src/manager_window.vala
 msgid "Votes"
 msgstr "Голосов"
 
@@ -499,21 +525,22 @@ msgid "Out of Date"
 msgstr "Устаревший"
 
 #: ../src/manager_window.vala
-#, c-format
-msgid ""
-"%s has %u uninstalled optional dependency.\n"
-"Choose if you would like to install it"
-msgid_plural ""
-"%s has %u uninstalled optional dependencies.\n"
-"Choose those you would like to install"
-msgstr[0] "%s имеет %u неустановленную дополнительную зависимость.\nВыберите её, если хотите установить"
-msgstr[1] "%s имеет %u неустановленныx дополнительных зависимостей.\nВыберите нужные для установки"
-msgstr[2] "%s имеет %u неустановленныx дополнительных зависимостей.\nВыберите нужные для установки"
-msgstr[3] "%s имеет %u неустановленныx дополнительных зависимостей.\nВыберите нужные для установки"
+msgid "Make Dependencies"
+msgstr ""
 
 #: ../src/manager_window.vala
-msgid "Uninstalled"
-msgstr "Удалено"
+msgid "Check Dependencies"
+msgstr ""
+
+#: ../src/manager_window.vala ../resources/manager_window.ui
+#: ../resources/updater_window.ui
+msgid "Name"
+msgstr "Название"
+
+#: ../src/manager_window.vala
+#, c-format
+msgid "Choose optional dependencies for %s"
+msgstr ""
 
 #: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Install Local Packages"
@@ -521,6 +548,7 @@ msgstr "Установить локальные пакеты"
 
 #: ../src/manager_window.vala ../resources/progress_dialog.ui
 #: ../resources/transaction_sum_dialog.ui ../resources/choose_dep_dialog.ui
+#: ../resources/manager_window.ui ../resources/updater_window.ui
 #: ../resources/choose_ignorepkgs_dialog.ui
 msgid "_Cancel"
 msgstr "_Отмена"
@@ -532,14 +560,6 @@ msgstr "_Открыть"
 #: ../src/manager_window.vala
 msgid "Alpm Package"
 msgstr "Пакет Alpm"
-
-#: ../src/manager_window.vala
-msgid "A Gtk3 frontend for libalpm"
-msgstr "Интерфейс Gtk3 для libalpm"
-
-#: ../src/aur_model.vala ../src/packages_model.vala
-msgid "No package found"
-msgstr "Пакет не найден"
 
 #: ../src/preferences_dialog.vala ../resources/preferences_dialog.ui
 msgid "How often to check for updates, value in hours"
@@ -557,32 +577,25 @@ msgstr "Скорость"
 msgid "Random"
 msgstr "Случайно"
 
-#: ../src/choose_ignorepkgs_dialog.vala
-msgid "Choose the packages you do not want to upgrade"
-msgstr "Выберите пакеты, которые не хотите обновить"
-
 #: ../resources/choose_provider_dialog.ui
 msgid "Choose a Provider"
 msgstr "Укажите источник"
 
-#: ../resources/choose_provider_dialog.ui
-#: ../resources/transaction_sum_dialog.ui ../resources/choose_dep_dialog.ui
+#: ../resources/choose_provider_dialog.ui ../resources/choose_dep_dialog.ui
 #: ../resources/choose_ignorepkgs_dialog.ui
-msgid "_OK"
-msgstr "_OK"
+msgid "Choose"
+msgstr ""
 
 #: ../resources/progress_dialog.ui
 msgid "Progress"
 msgstr "Ход выполнения"
 
-#: ../resources/progress_dialog.ui ../resources/history_dialog.ui
-#: ../resources/transaction_info_dialog.ui ../resources/updater_window.ui
-#: ../resources/preferences_dialog.ui
-msgid "_Close"
-msgstr "_Закрыть"
+#: ../resources/progress_dialog.ui
+msgid "_Hide"
+msgstr ""
 
-#: ../resources/progress_dialog.ui ../resources/transaction_info_dialog.ui
-#: ../resources/manager_window.ui
+#: ../resources/progress_dialog.ui ../resources/manager_window.ui
+#: ../resources/updater_window.ui
 msgid "Details"
 msgstr "Подробности"
 
@@ -590,43 +603,43 @@ msgstr "Подробности"
 msgid "Pamac History"
 msgstr "Журнал Pamac"
 
+#: ../resources/transaction_sum_dialog.ui
+msgid "Transaction Summary"
+msgstr "Сводка транзакции"
+
+#: ../resources/transaction_sum_dialog.ui
+msgid "Commit"
+msgstr ""
+
 #: ../resources/choose_dep_dialog.ui
 msgid "Choose Optional Dependencies"
 msgstr "Выбрать дополнительные зависимости"
 
-#: ../resources/manager_window.ui
+#: ../resources/manager_window.ui ../resources/updater_window.ui
+msgid "Refresh databases"
+msgstr "Обновить базы данных"
+
+#: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "View History"
 msgstr "Журнал событий"
 
 #: ../resources/manager_window.ui ../resources/updater_window.ui
-msgid "_Preferences"
-msgstr "_Настройки"
+msgid "Preferences"
+msgstr "Настройки"
 
-#: ../resources/manager_window.ui
-msgid "_About"
-msgstr "_Сведения о программе"
-
-#: ../resources/manager_window.ui
-msgid "Refresh databases"
-msgstr "Обновить базы данных"
-
-#: ../resources/manager_window.ui
-msgid "Apply changes"
-msgstr "Применить изменения"
-
-#: ../resources/manager_window.ui
-msgid "Cancel all planned changes"
-msgstr "Отменить все намеченные изменения"
-
-#: ../resources/manager_window.ui
-msgid "Search in AUR"
-msgstr "Искать в AUR"
+#: ../resources/manager_window.ui ../resources/updater_window.ui
+msgid "About"
+msgstr ""
 
 #: ../resources/manager_window.ui
 msgid "Search"
 msgstr "Поиск"
 
 #: ../resources/manager_window.ui
+msgid "Search in AUR"
+msgstr "Искать в AUR"
+
+#: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "State"
 msgstr "Состояние"
 
@@ -634,26 +647,30 @@ msgstr "Состояние"
 msgid "Repositories"
 msgstr "Репозитории"
 
-#: ../resources/manager_window.ui
-msgid "Name"
-msgstr "Название"
-
-#: ../resources/manager_window.ui
+#: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "Version"
 msgstr "Версия"
 
-#: ../resources/manager_window.ui
+#: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "Size"
 msgstr "Размер"
+
+#: ../resources/manager_window.ui
+msgid "Popularity"
+msgstr ""
 
 #: ../resources/manager_window.ui ../resources/updater_window.ui
 #: ../resources/preferences_dialog.ui
 msgid "AUR"
 msgstr "AUR"
 
+#: ../resources/manager_window.ui ../resources/updater_window.ui
+msgid "_Apply"
+msgstr "_Применить"
+
 #: ../resources/manager_window.ui
-msgid "Description"
-msgstr "Описание"
+msgid "Browse"
+msgstr ""
 
 #: ../resources/manager_window.ui
 msgid "Dependencies"
@@ -662,18 +679,6 @@ msgstr "Зависимости"
 #: ../resources/manager_window.ui
 msgid "Files"
 msgstr "Файлы"
-
-#: ../resources/updater_window.ui
-msgid "_Refresh"
-msgstr "_Обновить"
-
-#: ../resources/updater_window.ui
-msgid "_Apply"
-msgstr "_Применить"
-
-#: ../resources/preferences_dialog.ui
-msgid "Preferences"
-msgstr "Настройки"
 
 #: ../resources/preferences_dialog.ui
 msgid "Remove unrequired dependencies"
