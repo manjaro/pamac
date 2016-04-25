@@ -1488,6 +1488,7 @@ namespace Pamac {
 		[GtkCallback]
 		void on_apply_button_clicked () {
 			transaction_running = true;
+			apply_button.visible = false;
 			transaction.run ();
 		}
 
@@ -1513,7 +1514,6 @@ namespace Pamac {
 
 		void on_start_transaction () {
 			cancel_button.visible = false;
-			apply_button.visible = false;
 		}
 
 		void on_emit_action (string action) {

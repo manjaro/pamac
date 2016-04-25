@@ -161,6 +161,7 @@ namespace Pamac {
 		void on_apply_button_clicked () {
 			transaction_running = true;
 			transaction.sysupgrade (false);
+			apply_button.visible = false;
 			details_button.visible = true;
 			cancel_button.visible = true;
 		}
@@ -193,7 +194,6 @@ namespace Pamac {
 
 		void on_start_transaction () {
 			cancel_button.visible = false;
-			apply_button.visible = false;
 		}
 
 		void on_emit_action (string action) {
