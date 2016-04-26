@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2016-04-24 08:44+0200\n"
-"PO-Revision-Date: 2016-04-24 22:44+0000\n"
+"PO-Revision-Date: 2016-04-26 18:48+0000\n"
 "Last-Translator: Moo\n"
 "Language-Team: Lithuanian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/lt/)\n"
 "MIME-Version: 1.0\n"
@@ -411,7 +411,7 @@ msgstr "Yra pamesti"
 
 #: ../src/manager_window.vala
 msgid "Foreign"
-msgstr "Svetimas"
+msgstr "Svetimi"
 
 #: ../src/manager_window.vala
 msgid "Pending"
