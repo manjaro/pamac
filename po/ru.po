@@ -1,5 +1,5 @@
 # Translation of Pamac.
-# Copyright (C) 2007-2012 Free Software Foundation, Inc.
+# Copyright (C) 2013-2016 Manjaro Developers <manjaro-dev@manjaro.org>
 # This file is distributed under the same license as the Pamac package.
 # Guillaume Benoit <guillaume@manjaro.org>, 2013-2016.
 # 
@@ -21,13 +21,14 @@
 # Umid Almasov <u.almasov@gmail.com>, 2013
 # Анатолий Валерианович <ffox909@mail.ru>, 2014-2016
 # Андрей Болконский <andrey0bolkonsky@gmail.com>, 2013,2015
+# Дмитрий Герасимов <dimonmmk@yandex.ru>, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2016-04-24 08:44+0200\n"
-"PO-Revision-Date: 2016-04-24 06:51+0000\n"
-"Last-Translator: philm <philm@manjaro.org>\n"
+"PO-Revision-Date: 2016-04-27 16:42+0000\n"
+"Last-Translator: Дмитрий Герасимов <dimonmmk@yandex.ru>\n"
 "Language-Team: Russian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -122,7 +123,7 @@ msgstr "Ошибка авторизации"
 #: ../src/daemon.vala
 #, c-format
 msgid "%s appears to be truncated: %jd/%jd bytes\n"
-msgstr "%s появляется сокращённым на: %jd/%jd байт\n"
+msgstr "%s похоже, сокращён на: %jd/%jd байт\n"
 
 #: ../src/daemon.vala
 #, c-format
@@ -414,10 +415,10 @@ msgstr "Отметить как специально установленный"
 #, c-format
 msgid "%u pending operation"
 msgid_plural "%u pending operations"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "%u ждет обработки"
+msgstr[1] "%u ждут обработки"
+msgstr[2] "%u ждут обработки"
+msgstr[3] "%u ждут обработки"
 
 #: ../src/manager_window.vala
 msgid "Installed"
@@ -429,11 +430,11 @@ msgstr "Неиспользуемые"
 
 #: ../src/manager_window.vala
 msgid "Foreign"
-msgstr ""
+msgstr "Сторонние"
 
 #: ../src/manager_window.vala
 msgid "Pending"
-msgstr ""
+msgstr "К обработке"
 
 #: ../src/manager_window.vala
 msgid "Licenses"
@@ -540,7 +541,7 @@ msgstr "Название"
 #: ../src/manager_window.vala
 #, c-format
 msgid "Choose optional dependencies for %s"
-msgstr ""
+msgstr "Выбрать необязательные зависимости для %s"
 
 #: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Install Local Packages"
@@ -584,7 +585,7 @@ msgstr "Укажите источник"
 #: ../resources/choose_provider_dialog.ui ../resources/choose_dep_dialog.ui
 #: ../resources/choose_ignorepkgs_dialog.ui
 msgid "Choose"
-msgstr ""
+msgstr "Выбрать"
 
 #: ../resources/progress_dialog.ui
 msgid "Progress"
@@ -592,7 +593,7 @@ msgstr "Ход выполнения"
 
 #: ../resources/progress_dialog.ui
 msgid "_Hide"
-msgstr ""
+msgstr "Скрыть"
 
 #: ../resources/progress_dialog.ui ../resources/manager_window.ui
 #: ../resources/updater_window.ui
@@ -609,7 +610,7 @@ msgstr "Сводка транзакции"
 
 #: ../resources/transaction_sum_dialog.ui
 msgid "Commit"
-msgstr ""
+msgstr "Далее"
 
 #: ../resources/choose_dep_dialog.ui
 msgid "Choose Optional Dependencies"
@@ -629,7 +630,7 @@ msgstr "Настройки"
 
 #: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "About"
-msgstr ""
+msgstr "О программе"
 
 #: ../resources/manager_window.ui
 msgid "Search"
@@ -657,7 +658,7 @@ msgstr "Размер"
 
 #: ../resources/manager_window.ui
 msgid "Popularity"
-msgstr ""
+msgstr "Популярность"
 
 #: ../resources/manager_window.ui ../resources/updater_window.ui
 #: ../resources/preferences_dialog.ui
@@ -670,7 +671,7 @@ msgstr "_Применить"
 
 #: ../resources/manager_window.ui
 msgid "Browse"
-msgstr ""
+msgstr "Обзор"
 
 #: ../resources/manager_window.ui
 msgid "Dependencies"

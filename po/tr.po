@@ -1,5 +1,5 @@
 # Translation of Pamac.
-# Copyright (C) 2007-2012 Free Software Foundation, Inc.
+# Copyright (C) 2013-2016 Manjaro Developers <manjaro-dev@manjaro.org>
 # This file is distributed under the same license as the Pamac package.
 # Guillaume Benoit <guillaume@manjaro.org>, 2013-2016.
 # 
@@ -14,8 +14,8 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2016-04-24 08:44+0200\n"
-"PO-Revision-Date: 2016-04-24 06:51+0000\n"
-"Last-Translator: philm <philm@manjaro.org>\n"
+"PO-Revision-Date: 2016-04-27 10:03+0000\n"
+"Last-Translator: Demiray Muhterem <mdemiray@msn.com>\n"
 "Language-Team: Turkish (http://www.transifex.com/manjarolinux/manjaro-pamac/language/tr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -522,7 +522,7 @@ msgstr "İsim"
 #: ../src/manager_window.vala
 #, c-format
 msgid "Choose optional dependencies for %s"
-msgstr ""
+msgstr "%s için tercih edilebilir bağımlılıkları seç"
 
 #: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Install Local Packages"
@@ -566,7 +566,7 @@ msgstr "Sağlayıcı Seç"
 #: ../resources/choose_provider_dialog.ui ../resources/choose_dep_dialog.ui
 #: ../resources/choose_ignorepkgs_dialog.ui
 msgid "Choose"
-msgstr ""
+msgstr "Seç"
 
 #: ../resources/progress_dialog.ui
 msgid "Progress"
@@ -591,7 +591,7 @@ msgstr "İşlem Özeti"
 
 #: ../resources/transaction_sum_dialog.ui
 msgid "Commit"
-msgstr ""
+msgstr "İşlemleri Uygula"
 
 #: ../resources/choose_dep_dialog.ui
 msgid "Choose Optional Dependencies"
@@ -611,7 +611,7 @@ msgstr "Tercihler"
 
 #: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "About"
-msgstr ""
+msgstr "Hakkında"
 
 #: ../resources/manager_window.ui
 msgid "Search"
