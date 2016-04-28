@@ -14,6 +14,7 @@
 # Lexyc <nirudak@mail.ru>, 2014
 # Lowrider <pams@imail.ru>, 2015
 # Daniil <rostovslipknot@gmail.com>, 2013
+# Michael Kogan <photon89@googlemail.com>, 2016
 # Lexyc <nirudak@mail.ru>, 2014-2015
 # Lowrider <pams@imail.ru>, 2015
 # Paulo Fino <finomeno@gmail.com>, 2014
@@ -27,8 +28,8 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2016-04-24 08:44+0200\n"
-"PO-Revision-Date: 2016-04-27 16:42+0000\n"
-"Last-Translator: Дмитрий Герасимов <dimonmmk@yandex.ru>\n"
+"PO-Revision-Date: 2016-04-28 05:52+0000\n"
+"Last-Translator: Michael Kogan <photon89@googlemail.com>\n"
 "Language-Team: Russian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -527,11 +528,11 @@ msgstr "Устаревший"
 
 #: ../src/manager_window.vala
 msgid "Make Dependencies"
-msgstr ""
+msgstr "Создание зависимостей"
 
 #: ../src/manager_window.vala
 msgid "Check Dependencies"
-msgstr ""
+msgstr "Проверка зависимостей"
 
 #: ../src/manager_window.vala ../resources/manager_window.ui
 #: ../resources/updater_window.ui
