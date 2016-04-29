@@ -23,7 +23,7 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2016-04-24 08:44+0200\n"
-"PO-Revision-Date: 2016-04-27 00:47+0000\n"
+"PO-Revision-Date: 2016-04-28 18:13+0000\n"
 "Last-Translator: Brings Rain <bringsrain.solutions@gmail.com>\n"
 "Language-Team: Indonesian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/id/)\n"
 "MIME-Version: 1.0\n"
@@ -38,7 +38,7 @@ msgstr "Gagal menginisialisasi library alpm"
 
 #: ../src/daemon.vala
 msgid "Failed to synchronize any databases"
-msgstr "Gagal mengsinkronisasikan database apapun"
+msgstr "Gagal menyinkronkan sembarang basis data"
 
 #: ../src/daemon.vala
 msgid "Unknown"
@@ -62,7 +62,7 @@ msgstr "Tidak"
 
 #: ../src/daemon.vala
 msgid "Failed to init transaction"
-msgstr "Gagal inisialisasi transaksi"
+msgstr "Gagal menginisialisasi transaksi"
 
 #: ../src/daemon.vala
 msgid "Failed to prepare transaction"
@@ -76,7 +76,7 @@ msgstr "target tidak ditemukan: %s"
 #: ../src/daemon.vala
 #, c-format
 msgid "package %s does not have a valid architecture"
-msgstr "paket %s tidak memiliki arsitektur yang benar"
+msgstr "paket %s tidak memiliki arsitektur yang valid"
 
 #: ../src/daemon.vala
 #, c-format
@@ -91,7 +91,7 @@ msgstr "%s dan %s bertentangan"
 #: ../src/daemon.vala
 #, c-format
 msgid "%s needs to be removed but it is a locked package"
-msgstr "%s harus dibuang tapi paket ini terkunci"
+msgstr "%s harus dihapus, tetapi paket ini terkunci"
 
 #: ../src/daemon.vala
 msgid "Failed to commit transaction"
@@ -100,17 +100,17 @@ msgstr "Gagal melakukan transaksi"
 #: ../src/daemon.vala
 #, c-format
 msgid "%s exists in both %s and %s"
-msgstr "%s ada dalam %s dan %s"
+msgstr "%s ada di dalam %s dan %s"
 
 #: ../src/daemon.vala
 #, c-format
 msgid "%s: %s already exists in filesystem"
-msgstr "%s: %s telah ada dalam berkas sistem"
+msgstr "%s: %s sudah ada di dalam berkas sistem"
 
 #: ../src/daemon.vala
 #, c-format
 msgid "%s is invalid or corrupted"
-msgstr "%s tidak benar atau rusak"
+msgstr "%s tidak valid atau rusak"
 
 #: ../src/daemon.vala ../src/transaction.vala
 msgid "Authentication failed"
@@ -136,7 +136,7 @@ msgstr "Menyegarkan daftar cermin"
 
 #: ../src/transaction.vala
 msgid "Synchronizing package databases"
-msgstr "Mensinkronisasi database paket"
+msgstr "Sedang menyinkronkan basis data paket"
 
 #: ../src/transaction.vala
 msgid "Starting full system upgrade"
@@ -149,7 +149,7 @@ msgstr "Menyiapkan"
 #: ../src/transaction.vala
 #, c-format
 msgid "Choose a provider for %s"
-msgstr "Pilih provider untuk %s"
+msgstr "Pilih sebuah penyedia untuk %s"
 
 #: ../src/transaction.vala
 msgid "To remove"
@@ -201,12 +201,12 @@ msgstr "Memecahkan dependensi"
 
 #: ../src/transaction.vala
 msgid "Checking inter-conflicts"
-msgstr "Memeriksa konflik-internal"
+msgstr "Sedang memeriksa interkonflik"
 
 #: ../src/transaction.vala
 #, c-format
 msgid "Installing %s"
-msgstr "Memasang %s"
+msgstr "Sedang memasang %s"
 
 #: ../src/transaction.vala
 #, c-format

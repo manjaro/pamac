@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2016-04-24 08:44+0200\n"
-"PO-Revision-Date: 2016-04-27 21:21+0000\n"
+"PO-Revision-Date: 2016-04-28 13:50+0000\n"
 "Last-Translator: Lovro Kudelić <lovro.kudelic@outlook.com>\n"
 "Language-Team: Croatian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/hr/)\n"
 "MIME-Version: 1.0\n"
@@ -152,7 +152,7 @@ msgstr "Vratiti na staru verziju"
 
 #: ../src/transaction.vala
 msgid "To build"
-msgstr "Za izgradnju"
+msgstr "Za izradu"
 
 #: ../src/transaction.vala
 msgid "To install"
@@ -374,7 +374,7 @@ msgstr "Prikaži dostupne nadogradnje"
 
 #: ../src/manager_window.vala
 msgid "Deselect"
-msgstr "Poništite odabir"
+msgstr "Poništi odabir"
 
 #: ../src/manager_window.vala
 msgid "Install"
@@ -439,7 +439,7 @@ msgstr "Pakiratelj"
 
 #: ../src/manager_window.vala
 msgid "Build Date"
-msgstr "Datum izgradnje"
+msgstr "Datum izrade"
 
 #: ../src/manager_window.vala
 msgid "Install Date"
@@ -715,7 +715,7 @@ msgstr "Službeni Repozitoriji"
 msgid ""
 "AUR is a community maintained repository so it presents potential risks and problems.\n"
 "All AUR users should be familiar with the build process."
-msgstr "AUR je repozitorij održavan od strane zajednice te tako predstavlja potencijalne rizike i probleme.\nSvi AUR korisnici bi trebali biti upoznati s procesom izgradnje paketa."
+msgstr "AUR je repozitorij održavan od strane zajednice te tako predstavlja potencijalne rizike i probleme.\nSvi AUR korisnici bi trebali biti upoznati s procesom izrade paketa."
 
 #: ../resources/preferences_dialog.ui
 msgid "Enable AUR support"
@@ -735,7 +735,7 @@ msgstr "Provjeri ažuriranja od AUR-a"
 
 #: ../resources/preferences_dialog.ui
 msgid "Do not ask for confirmation when building packages"
-msgstr "Ne pitaj za potvrdu prilikom kreiranja paketa"
+msgstr "Ne pitaj za potvrdu prilikom izrade paketa"
 
 #: ../resources/choose_ignorepkgs_dialog.ui
 msgid "Choose Ignored Upgrades"

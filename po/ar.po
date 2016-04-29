@@ -5,6 +5,7 @@
 # 
 # Translators:
 # hamza rydhwan <rydhwan21@gmail.com>, 2016
+# hamza rydhwan <rydhwan21@gmail.com>, 2016
 # ‫كريم أولاد الشلحة‬‎ <herr.linux88@gmail.com>, 2013-2014
 # philm <philm@manjaro.org>, 2015
 msgid ""
@@ -12,7 +13,7 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2016-04-24 08:44+0200\n"
-"PO-Revision-Date: 2016-04-26 14:42+0000\n"
+"PO-Revision-Date: 2016-04-28 09:21+0000\n"
 "Last-Translator: hamza rydhwan <rydhwan21@gmail.com>\n"
 "Language-Team: Arabic (http://www.transifex.com/manjarolinux/manjaro-pamac/language/ar/)\n"
 "MIME-Version: 1.0\n"
@@ -722,7 +723,7 @@ msgstr "مستودعات رسمية"
 msgid ""
 "AUR is a community maintained repository so it presents potential risks and problems.\n"
 "All AUR users should be familiar with the build process."
-msgstr ""
+msgstr "مستودعات الأعضاء  يعرض لمخاطر ولمشاكل محتملة\nيجب أن يكون المستخدمون على دراية بعملية الإنشاء."
 
 #: ../resources/preferences_dialog.ui
 msgid "Enable AUR support"
@@ -734,16 +735,16 @@ msgstr "السماح لـPamac بالبحث و تثبيت حزم من مستود
 
 #: ../resources/preferences_dialog.ui
 msgid "Search in AUR by default"
-msgstr ""
+msgstr "بحث في  AUR بشكل افتراضي"
 
 #: ../resources/preferences_dialog.ui
 msgid "Check for updates from AUR"
-msgstr ""
+msgstr "  AUR تحقق من وجود تحديثات من "
 
 #: ../resources/preferences_dialog.ui
 msgid "Do not ask for confirmation when building packages"
-msgstr ""
+msgstr "لا تسأل عن تأكيد عند بناء الحزم"
 
 #: ../resources/choose_ignorepkgs_dialog.ui
 msgid "Choose Ignored Upgrades"
-msgstr ""
+msgstr "اختيار  تجاهل الترقيات"

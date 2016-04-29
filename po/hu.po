@@ -1,5 +1,5 @@
 # Translation of Pamac.
-# Copyright (C) 2007-2012 Free Software Foundation, Inc.
+# Copyright (C) 2013-2016 Manjaro Developers <manjaro-dev@manjaro.org>
 # This file is distributed under the same license as the Pamac package.
 # Guillaume Benoit <guillaume@manjaro.org>, 2013-2016.
 # 
@@ -14,8 +14,8 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2016-04-24 08:44+0200\n"
-"PO-Revision-Date: 2016-04-24 06:51+0000\n"
-"Last-Translator: philm <philm@manjaro.org>\n"
+"PO-Revision-Date: 2016-04-28 10:05+0000\n"
+"Last-Translator: miku84\n"
 "Language-Team: Hungarian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/hu/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -398,8 +398,8 @@ msgstr "Megjelölés kifejezett telepítésre"
 #, c-format
 msgid "%u pending operation"
 msgid_plural "%u pending operations"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%u függőben lévő művelet"
+msgstr[1] "%u függőben lévő művelet"
 
 #: ../src/manager_window.vala
 msgid "Installed"
@@ -411,11 +411,11 @@ msgstr "Árvák"
 
 #: ../src/manager_window.vala
 msgid "Foreign"
-msgstr ""
+msgstr "Külső"
 
 #: ../src/manager_window.vala
 msgid "Pending"
-msgstr ""
+msgstr "Függőben lévő"
 
 #: ../src/manager_window.vala
 msgid "Licenses"
@@ -508,11 +508,11 @@ msgstr "Elavult"
 
 #: ../src/manager_window.vala
 msgid "Make Dependencies"
-msgstr ""
+msgstr "Függőségek létrehozása"
 
 #: ../src/manager_window.vala
 msgid "Check Dependencies"
-msgstr ""
+msgstr "Függőségek ellenőrzése"
 
 #: ../src/manager_window.vala ../resources/manager_window.ui
 #: ../resources/updater_window.ui
@@ -522,7 +522,7 @@ msgstr "Név"
 #: ../src/manager_window.vala
 #, c-format
 msgid "Choose optional dependencies for %s"
-msgstr ""
+msgstr "Opcionális függőségek kiválasztása a következőhöz: %s"
 
 #: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Install Local Packages"
@@ -566,7 +566,7 @@ msgstr "Válassz szolgáltatót"
 #: ../resources/choose_provider_dialog.ui ../resources/choose_dep_dialog.ui
 #: ../resources/choose_ignorepkgs_dialog.ui
 msgid "Choose"
-msgstr ""
+msgstr "Válassz"
 
 #: ../resources/progress_dialog.ui
 msgid "Progress"
@@ -574,7 +574,7 @@ msgstr "Folyamat"
 
 #: ../resources/progress_dialog.ui
 msgid "_Hide"
-msgstr ""
+msgstr "Elrejt"
 
 #: ../resources/progress_dialog.ui ../resources/manager_window.ui
 #: ../resources/updater_window.ui
@@ -591,7 +591,7 @@ msgstr "Tranzakció összefoglaló"
 
 #: ../resources/transaction_sum_dialog.ui
 msgid "Commit"
-msgstr ""
+msgstr "Végrehajt"
 
 #: ../resources/choose_dep_dialog.ui
 msgid "Choose Optional Dependencies"
@@ -611,7 +611,7 @@ msgstr "Beállítások"
 
 #: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "About"
-msgstr ""
+msgstr "A Pamac-ról"
 
 #: ../resources/manager_window.ui
 msgid "Search"
@@ -639,7 +639,7 @@ msgstr "Méret"
 
 #: ../resources/manager_window.ui
 msgid "Popularity"
-msgstr ""
+msgstr "Népszerűség"
 
 #: ../resources/manager_window.ui ../resources/updater_window.ui
 #: ../resources/preferences_dialog.ui
@@ -652,7 +652,7 @@ msgstr "Alkalmaz"
 
 #: ../resources/manager_window.ui
 msgid "Browse"
-msgstr ""
+msgstr "Keresés"
 
 #: ../resources/manager_window.ui
 msgid "Dependencies"
