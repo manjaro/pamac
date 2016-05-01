@@ -796,35 +796,48 @@ namespace Pamac {
 				var treemodel = treeview.get_model ();
 				Gtk.TreeIter iter;
 				treemodel.get_iter (out iter, path);
-				string val;
-				treemodel.get (iter, 1, out val);
-				string pkgname = val.split (":", 2)[0].replace (" [" + dgettext (null, "Installed") + "]", "");
-				// just search for the name first to search for AUR after
-				AlpmPackage pkg = transaction.get_installed_pkg (pkgname);
-				if (pkg.name == "") {
-					pkg = transaction.get_sync_pkg (pkgname);
-				}
-				if (pkg.name == "") {
-					this.get_window ().set_cursor (new Gdk.Cursor.for_display (Gdk.Display.get_default (), Gdk.CursorType.WATCH));
-					while (Gtk.events_pending ()) {
-						Gtk.main_iteration ();
-					}
-					transaction.get_aur_details.begin (pkgname, (obj, res) => {
-						this.get_window ().set_cursor (null);
-						if (transaction.get_aur_details.end (res).name != "") {
-							display_aur_properties (pkgname);
-						} else {
-							pkg = transaction.find_installed_satisfier (pkgname);
-							if (pkg.name == "") {
-								pkg = transaction.find_sync_satisfier (pkgname);
-							}
-							if (pkg.name != "") {
-								display_package_properties (pkgname);
-							}
+				string depstring;
+				treemodel.get (iter, 1, out depstring);
+				// if depstring contains a version restriction search a satisfier directly
+				if (">" in depstring || "=" in depstring || "<" in depstring) {
+					var pkg = transaction.find_installed_satisfier (depstring);
+					if (pkg.name != "") {
+						display_package_properties (pkg.name);
+					} else {
+						pkg = transaction.find_sync_satisfier (depstring);
+						if (pkg.name != "") {
+							display_package_properties (pkg.name);
 						}
-					});
+					}
 				} else {
-					display_package_properties (pkgname);
+					string pkgname = depstring.split (":", 2)[0].replace (" [" + dgettext (null, "Installed") + "]", "");
+					// just search for the name first to search for AUR after
+					if (transaction.get_installed_pkg (pkgname).name != "") {
+						display_package_properties (pkgname);
+					} else if (transaction.get_sync_pkg (pkgname).name != "") {
+						display_package_properties (pkgname);
+					} else {
+						this.get_window ().set_cursor (new Gdk.Cursor.for_display (Gdk.Display.get_default (), Gdk.CursorType.WATCH));
+						while (Gtk.events_pending ()) {
+							Gtk.main_iteration ();
+						}
+						transaction.get_aur_details.begin (pkgname, (obj, res) => {
+							this.get_window ().set_cursor (null);
+							if (transaction.get_aur_details.end (res).name != "") {
+								display_aur_properties (pkgname);
+							} else {
+								var pkg = transaction.find_installed_satisfier (pkgname);
+								if (pkg.name != "") {
+									display_package_properties (pkg.name);
+								} else {
+									pkg = transaction.find_sync_satisfier (pkgname);
+									if (pkg.name != "") {
+										display_package_properties (pkg.name);
+									}
+								}
+							}
+						});
+					}
 				}
 			}
 		}
