@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2016-04-24 08:44+0200\n"
-"PO-Revision-Date: 2016-04-28 13:50+0000\n"
+"PO-Revision-Date: 2016-04-30 21:41+0000\n"
 "Last-Translator: Lovro Kudelić <lovro.kudelic@outlook.com>\n"
 "Language-Team: Croatian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/hr/)\n"
 "MIME-Version: 1.0\n"
@@ -269,7 +269,7 @@ msgstr "Provjeravam dostupnost prostora na disku"
 #: ../src/transaction.vala
 #, c-format
 msgid "%s optionally requires %s"
-msgstr "%s opcionalno zahtijeva %s"
+msgstr "%s neobavezno zahtijeva %s"
 
 #: ../src/transaction.vala
 #, c-format
@@ -390,7 +390,7 @@ msgstr "Reinstaliraj"
 
 #: ../src/manager_window.vala
 msgid "Install optional dependencies"
-msgstr "Instaliraj opcionalne zavisnosti"
+msgstr "Instaliraj neobavezne ovisnosti"
 
 #: ../src/manager_window.vala
 msgid "Mark as explicitly installed"
@@ -463,7 +463,7 @@ msgstr "Ovisi o"
 
 #: ../src/manager_window.vala
 msgid "Optional Dependencies"
-msgstr "Opcionalne zavisnosti"
+msgstr "Neobavezne ovisnosti"
 
 #: ../src/manager_window.vala
 msgid "Required By"
@@ -471,7 +471,7 @@ msgstr "Zahtijevan od"
 
 #: ../src/manager_window.vala
 msgid "Optional For"
-msgstr "Opcionalno za"
+msgstr "Neobavezno za"
 
 #: ../src/manager_window.vala
 msgid "Provides"
@@ -525,7 +525,7 @@ msgstr "Ime"
 #: ../src/manager_window.vala
 #, c-format
 msgid "Choose optional dependencies for %s"
-msgstr "Odaberi opcionalne ovisnosti za %s"
+msgstr "Odaberi neobavezne ovisnosti za %s"
 
 #: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Install Local Packages"
@@ -598,7 +598,7 @@ msgstr "Izvrši"
 
 #: ../resources/choose_dep_dialog.ui
 msgid "Choose Optional Dependencies"
-msgstr "Odaberi opcionalne ovisnosti"
+msgstr "Odaberi neobavezne ovisnosti"
 
 #: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "Refresh databases"

@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2016-04-24 08:44+0200\n"
-"PO-Revision-Date: 2016-04-24 07:36+0000\n"
+"PO-Revision-Date: 2016-05-02 17:12+0000\n"
 "Last-Translator: Dušan Kazik <prescott66@gmail.com>\n"
 "Language-Team: Slovak (http://www.transifex.com/manjarolinux/manjaro-pamac/language/sk/)\n"
 "MIME-Version: 1.0\n"
@@ -460,7 +460,7 @@ msgstr "Súbory zálohy"
 
 #: ../src/manager_window.vala
 msgid "Depends On"
-msgstr "Závisí na balíku"
+msgstr "Závisí na"
 
 #: ../src/manager_window.vala
 msgid "Optional Dependencies"
@@ -603,7 +603,7 @@ msgstr "Voľba voliteľných závislostí"
 
 #: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "Refresh databases"
-msgstr "Obnoví databázy"
+msgstr "Obnoviť databázy"
 
 #: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "View History"

@@ -7,14 +7,15 @@
 # hamza rydhwan <rydhwan21@gmail.com>, 2016
 # hamza rydhwan <rydhwan21@gmail.com>, 2016
 # ‫كريم أولاد الشلحة‬‎ <herr.linux88@gmail.com>, 2013-2014
+# Mohamed Shahin <mohamedali180@gmail.com>, 2016
 # philm <philm@manjaro.org>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2016-04-24 08:44+0200\n"
-"PO-Revision-Date: 2016-04-28 09:21+0000\n"
-"Last-Translator: hamza rydhwan <rydhwan21@gmail.com>\n"
+"PO-Revision-Date: 2016-05-03 02:45+0000\n"
+"Last-Translator: Mohamed Shahin <mohamedali180@gmail.com>\n"
 "Language-Team: Arabic (http://www.transifex.com/manjarolinux/manjaro-pamac/language/ar/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -28,7 +29,7 @@ msgstr "فشل تهيئة  مكتبة alpm"
 
 #: ../src/daemon.vala
 msgid "Failed to synchronize any databases"
-msgstr "فشل لمزامنة أي قواعد بيانات"
+msgstr "فشل مزامنة أي قواعد بيانات"
 
 #: ../src/daemon.vala
 msgid "Unknown"
@@ -109,12 +110,12 @@ msgstr "فشل الإستوثاق"
 #: ../src/daemon.vala
 #, c-format
 msgid "%s appears to be truncated: %jd/%jd bytes\n"
-msgstr ""
+msgstr "%s يبدو غير مكتمل: %jd/%jd بايت\n"
 
 #: ../src/daemon.vala
 #, c-format
 msgid "failed retrieving file '%s' from %s : %s\n"
-msgstr ""
+msgstr "فشل الحصول على الملف '%s' من %s : %s\n"
 
 #: ../src/transaction.vala
 msgid "A Gtk3 frontend for libalpm"
@@ -310,12 +311,12 @@ msgstr "الثواني المتبقية %u"
 #, c-format
 msgid "About %lu minute remaining"
 msgid_plural "About %lu minutes remaining"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
-msgstr[4] ""
-msgstr[5] ""
+msgstr[0] "الثواني المتبقية %lu"
+msgstr[1] "الثواني المتبقية %lu"
+msgstr[2] "الثواني المتبقية %lu"
+msgstr[3] "الثواني المتبقية %lu"
+msgstr[4] "الثواني المتبقية %lu"
+msgstr[5] "الثواني المتبقية %lu"
 
 #: ../src/transaction.vala
 #, c-format
@@ -366,12 +367,12 @@ msgstr "_أخرج"
 #, c-format
 msgid "%u available update"
 msgid_plural "%u available updates"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
-msgstr[4] ""
-msgstr[5] ""
+msgstr[0] "%u تحديثات متوفرة"
+msgstr[1] "%u تحديثات متوفرة"
+msgstr[2] "%u تحديثات متوفرة"
+msgstr[3] "%u تحديثات متوفرة"
+msgstr[4] "%u تحديثات متوفرة"
+msgstr[5] "%u تحديثات متوفرة"
 
 #: ../src/tray.vala
 msgid "Show available updates"
@@ -405,12 +406,12 @@ msgstr "علم مثبت  صراحة"
 #, c-format
 msgid "%u pending operation"
 msgid_plural "%u pending operations"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
-msgstr[4] ""
-msgstr[5] ""
+msgstr[0] "%u عمليات قيد الانتظار"
+msgstr[1] "%u عمليات قيد الانتظار"
+msgstr[2] "%u عمليات قيد الانتظار"
+msgstr[3] "%u عمليات قيد الانتظار"
+msgstr[4] "%u عمليات قيد الانتظار"
+msgstr[5] "%u عمليات قيد الانتظار"
 
 #: ../src/manager_window.vala
 msgid "Installed"
