@@ -63,9 +63,7 @@ namespace Pamac {
 
 			bottom_label.visible  = false;
 			apply_button.get_style_context ().add_class (Gtk.STYLE_CLASS_SUGGESTED_ACTION);
-			details_button.visible = false;
-			cancel_button.visible = false;
-			transaction_infobox.visible = false;
+			apply_button.visible = false;
 			stackswitcher.visible = false;
 			aur_scrolledwindow.visible = false;
 			transaction_running = false;
@@ -169,6 +167,10 @@ namespace Pamac {
 		[GtkCallback]
 		void on_refresh_button_clicked () {
 			this.get_window ().set_cursor (new Gdk.Cursor.for_display (Gdk.Display.get_default (), Gdk.CursorType.WATCH));
+			transaction_infobox.visible = true;
+			apply_button.visible = false;
+			details_button.visible = true;
+			cancel_button.visible = true;
 			transaction.start_refresh (false);
 		}
 

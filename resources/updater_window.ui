@@ -129,7 +129,7 @@
                       <object class="GtkTreeViewColumn" id="treeviewcolumn3">
                         <property name="resizable">True</property>
                         <property name="sizing">fixed</property>
-                        <property name="fixed_width">40</property>
+                        <property name="fixed_width">50</property>
                         <property name="min_width">20</property>
                         <property name="title" translatable="yes">State</property>
                         <child>
