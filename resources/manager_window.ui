@@ -128,6 +128,7 @@
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
+                            <property name="margin_left">3</property>
                             <property name="caps_lock_warning">False</property>
                             <property name="primary_icon_name">edit-find-symbolic</property>
                             <property name="placeholder_text" translatable="yes">Search</property>
@@ -393,7 +394,7 @@
                                   <object class="GtkTreeViewColumn" id="packages_state_column">
                                     <property name="resizable">True</property>
                                     <property name="sizing">fixed</property>
-                                    <property name="fixed_width">40</property>
+                                    <property name="fixed_width">60</property>
                                     <property name="min_width">20</property>
                                     <property name="title" translatable="yes">State</property>
                                     <property name="clickable">True</property>
@@ -510,7 +511,7 @@
                                   <object class="GtkTreeViewColumn" id="aur_state_column">
                                     <property name="resizable">True</property>
                                     <property name="sizing">fixed</property>
-                                    <property name="fixed_width">40</property>
+                                    <property name="fixed_width">60</property>
                                     <property name="min_width">20</property>
                                     <property name="title" translatable="yes">State</property>
                                     <property name="clickable">True</property>
