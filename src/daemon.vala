@@ -132,8 +132,8 @@ namespace Pamac {
 					},
 					// only one thread created so alpm action will run one after one 
 					1,
-					// exclusive thread
-					true
+					// no exclusive thread
+					false
 				);
 			} catch (ThreadError e) {
 				stderr.printf ("Thread Error %s\n", e.message);
@@ -1613,12 +1613,11 @@ namespace Pamac {
 
 		[DBus (no_reply = true)]
 		public void quit () {
-			// to be sure to not quit with locked databases,
-			// the above function will wait for all task in queue
-			// to be processed before return; 
-			ThreadPool.free ((owned) thread_pool, false, true);
-			alpm_handle.unlock ();
-			loop.quit ();
+			// be sure to not quit with locked databases
+			if (thread_pool.get_num_threads () == 0) {
+				alpm_handle.unlock ();
+				loop.quit ();
+			}
 		}
 	// End of Daemon Object
 	}
