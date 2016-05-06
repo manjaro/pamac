@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2016-04-24 08:44+0200\n"
-"PO-Revision-Date: 2016-04-30 21:41+0000\n"
+"PO-Revision-Date: 2016-05-05 20:54+0000\n"
 "Last-Translator: Lovro Kudelić <lovro.kudelic@outlook.com>\n"
 "Language-Team: Croatian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/hr/)\n"
 "MIME-Version: 1.0\n"
@@ -41,7 +41,7 @@ msgstr "Eksplicitno instalirano"
 
 #: ../src/daemon.vala
 msgid "Installed as a dependency for another package"
-msgstr "Instalirano kao ovisnost za drugi paket"
+msgstr "Instalirano kao zavisnost za drugi paket"
 
 #: ../src/daemon.vala
 msgid "Yes"
@@ -152,7 +152,7 @@ msgstr "Vratiti na staru verziju"
 
 #: ../src/transaction.vala
 msgid "To build"
-msgstr "Za izradu"
+msgstr "Za stvaranje"
 
 #: ../src/transaction.vala
 msgid "To install"
@@ -172,7 +172,7 @@ msgstr "Ukupna veličina za preuzimanje"
 
 #: ../src/transaction.vala
 msgid "Building packages"
-msgstr "Kreiram pakete"
+msgstr "Stvaram pakete"
 
 #: ../src/transaction.vala
 msgid "Transaction cancelled"
@@ -251,7 +251,7 @@ msgstr "Stvaranje nije uspjelo"
 #: ../src/transaction.vala
 #, c-format
 msgid "Configuring %s"
-msgstr "Konfiguriram %s"
+msgstr "Postavljam %s"
 
 #: ../src/transaction.vala
 msgid "Downloading"
@@ -312,7 +312,7 @@ msgstr "Oko %u sekundi preostalo"
 msgid "About %lu minute remaining"
 msgid_plural "About %lu minutes remaining"
 msgstr[0] "Oko %lu minute preostalo"
-msgstr[1] "Oko %lu minute prostalo"
+msgstr[1] "Oko %lu minute preostalo"
 msgstr[2] "Oko %lu minuta preostalo"
 
 #: ../src/transaction.vala
@@ -390,7 +390,7 @@ msgstr "Reinstaliraj"
 
 #: ../src/manager_window.vala
 msgid "Install optional dependencies"
-msgstr "Instaliraj neobavezne ovisnosti"
+msgstr "Instaliraj neobavezne zavisnosti"
 
 #: ../src/manager_window.vala
 msgid "Mark as explicitly installed"
@@ -414,7 +414,7 @@ msgstr "Nepotrebni paketi"
 
 #: ../src/manager_window.vala
 msgid "Foreign"
-msgstr "Strani paketi"
+msgstr "Vanjski paketi"
 
 #: ../src/manager_window.vala
 msgid "Pending"
@@ -439,7 +439,7 @@ msgstr "Pakiratelj"
 
 #: ../src/manager_window.vala
 msgid "Build Date"
-msgstr "Datum izrade"
+msgstr "Datum stvaranja"
 
 #: ../src/manager_window.vala
 msgid "Install Date"
@@ -459,11 +459,11 @@ msgstr "Pričuvne datoteke"
 
 #: ../src/manager_window.vala
 msgid "Depends On"
-msgstr "Ovisi o"
+msgstr "Zavisi o"
 
 #: ../src/manager_window.vala
 msgid "Optional Dependencies"
-msgstr "Neobavezne ovisnosti"
+msgstr "Neobavezne zavisnosti"
 
 #: ../src/manager_window.vala
 msgid "Required By"
@@ -511,11 +511,11 @@ msgstr "Zastario"
 
 #: ../src/manager_window.vala
 msgid "Make Dependencies"
-msgstr "Ovisnosti za izgradnju paketa"
+msgstr "Zavisnosti za izgradnju paketa"
 
 #: ../src/manager_window.vala
 msgid "Check Dependencies"
-msgstr "Provjera ovisnosti"
+msgstr "Provjera zavisnosti"
 
 #: ../src/manager_window.vala ../resources/manager_window.ui
 #: ../resources/updater_window.ui
@@ -525,7 +525,7 @@ msgstr "Ime"
 #: ../src/manager_window.vala
 #, c-format
 msgid "Choose optional dependencies for %s"
-msgstr "Odaberi neobavezne ovisnosti za %s"
+msgstr "Odaberi neobavezne zavisnosti za %s"
 
 #: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Install Local Packages"
@@ -560,7 +560,7 @@ msgstr "Brzina"
 
 #: ../src/preferences_dialog.vala
 msgid "Random"
-msgstr "Slučajan"
+msgstr "Slučajni odabir"
 
 #: ../resources/choose_provider_dialog.ui
 msgid "Choose a Provider"
@@ -598,15 +598,15 @@ msgstr "Izvrši"
 
 #: ../resources/choose_dep_dialog.ui
 msgid "Choose Optional Dependencies"
-msgstr "Odaberi neobavezne ovisnosti"
+msgstr "Odaberi neobavezne zavisnosti"
 
 #: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "Refresh databases"
-msgstr "Osvježi baze podataka"
+msgstr "Osvježi bazu podataka"
 
 #: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "View History"
-msgstr "Pregledaj Povijest"
+msgstr "Pregledaj povijest"
 
 #: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "Preferences"
@@ -659,7 +659,7 @@ msgstr "Traži"
 
 #: ../resources/manager_window.ui
 msgid "Dependencies"
-msgstr "Ovisnosti"
+msgstr "Zavisnosti"
 
 #: ../resources/manager_window.ui
 msgid "Files"
@@ -673,7 +673,7 @@ msgstr "Ukloni nepotrebne zavisnosti"
 msgid ""
 "When removing a package, also remove its dependencies that are not required "
 "by other packages"
-msgstr "Prilikom uklanjanja paketa, ukloniti njegove ovisnosti koje ne zahtijevaju drugi paketi"
+msgstr "Prilikom uklanjanja paketa, ukloniti njegove zavisnosti koje ne zahtijevaju drugi paketi"
 
 #: ../resources/preferences_dialog.ui
 msgid "Check available disk space"
@@ -693,7 +693,7 @@ msgstr "Ignoriraj nadogradnje za:"
 
 #: ../resources/preferences_dialog.ui
 msgid "General"
-msgstr "Opće"
+msgstr "Općenito"
 
 #: ../resources/preferences_dialog.ui
 msgid "Use mirrors from:"
@@ -715,7 +715,7 @@ msgstr "Službeni Repozitoriji"
 msgid ""
 "AUR is a community maintained repository so it presents potential risks and problems.\n"
 "All AUR users should be familiar with the build process."
-msgstr "AUR je repozitorij održavan od strane zajednice te tako predstavlja potencijalne rizike i probleme.\nSvi AUR korisnici bi trebali biti upoznati s procesom izrade paketa."
+msgstr "AUR je repozitorij održavan od strane zajednice te tako predstavlja potencijalne rizike i probleme.\nSvi AUR korisnici bi trebali biti upoznati s procesom stvaranja paketa."
 
 #: ../resources/preferences_dialog.ui
 msgid "Enable AUR support"
@@ -731,11 +731,11 @@ msgstr "Uvijek traži i u AUR-u"
 
 #: ../resources/preferences_dialog.ui
 msgid "Check for updates from AUR"
-msgstr "Provjeri ažuriranja od AUR-a"
+msgstr "Provjeri ažuriranja iz AUR-a"
 
 #: ../resources/preferences_dialog.ui
 msgid "Do not ask for confirmation when building packages"
-msgstr "Ne pitaj za potvrdu prilikom izrade paketa"
+msgstr "Ne pitaj za potvrdu prilikom stvaranja paketa"
 
 #: ../resources/choose_ignorepkgs_dialog.ui
 msgid "Choose Ignored Upgrades"
