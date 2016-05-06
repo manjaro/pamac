@@ -51,6 +51,8 @@ namespace Pamac {
 		[GtkChild]
 		Gtk.Button button_back;
 		[GtkChild]
+		Gtk.ModelButton preferences_button;
+		[GtkChild]
 		Gtk.TreeView packages_treeview;
 		[GtkChild]
 		Gtk.TreeViewColumn packages_state_column;
@@ -1426,6 +1428,11 @@ namespace Pamac {
 
 		void on_filters_stack_visible_child_changed () {
 			refresh_packages_list ();
+		}
+
+		[GtkCallback]
+		void on_menu_button_toggled () {
+			preferences_button.visible = !transaction_running;
 		}
 
 		[GtkCallback]

@@ -430,6 +430,7 @@
             <property name="can_focus">True</property>
             <property name="receives_default">False</property>
             <property name="popover">popovermenu</property>
+            <signal name="toggled" handler="on_menu_button_toggled" swapped="no"/>
             <child>
               <object class="GtkImage" id="menu_icon">
                 <property name="visible">True</property>

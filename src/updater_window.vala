@@ -25,6 +25,8 @@ namespace Pamac {
 		[GtkChild]
 		Gtk.HeaderBar headerbar;
 		[GtkChild]
+		Gtk.ModelButton preferences_button;
+		[GtkChild]
 		Gtk.StackSwitcher stackswitcher;
 		[GtkChild]
 		Gtk.ScrolledWindow repos_scrolledwindow;
@@ -146,6 +148,11 @@ namespace Pamac {
 				}
 				set_transaction_infobox_visible ();
 			}
+		}
+
+		[GtkCallback]
+		void on_menu_button_toggled () {
+			preferences_button.visible = !transaction_running;
 		}
 
 		[GtkCallback]
