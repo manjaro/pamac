@@ -1432,7 +1432,7 @@ namespace Pamac {
 
 		[GtkCallback]
 		void on_menu_button_toggled () {
-			preferences_button.visible = !transaction_running;
+			preferences_button.sensitive = !transaction_running;
 		}
 
 		[GtkCallback]
