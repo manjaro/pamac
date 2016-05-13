@@ -79,11 +79,11 @@ namespace Pamac {
 		[GtkChild]
 		Gtk.StackSwitcher packages_stackswitcher;
 		[GtkChild]
-		Gtk.TreeView deps_treeview;
+		Gtk.StackSwitcher properties_stackswitcher;
 		[GtkChild]
-		Gtk.TreeViewColumn deps_treeview_column;
+		Gtk.Grid deps_grid;
 		[GtkChild]
-		Gtk.TreeView details_treeview;
+		Gtk.Grid details_grid;
 		[GtkChild]
 		Gtk.ScrolledWindow files_scrolledwindow;
 		[GtkChild]
@@ -94,6 +94,12 @@ namespace Pamac {
 		Gtk.Label link_label;
 		[GtkChild]
 		Gtk.Label licenses_label;
+		[GtkChild]
+		Gtk.ToggleButton remove_togglebutton;
+		[GtkChild]
+		Gtk.ToggleButton reinstall_togglebutton;
+		[GtkChild]
+		Gtk.ToggleButton install_togglebutton;
 		[GtkChild]
 		Gtk.TextView files_textview;
 		[GtkChild]
@@ -114,9 +120,7 @@ namespace Pamac {
 		Gtk.MenuItem deselect_item;
 		Gtk.MenuItem install_item;
 		Gtk.MenuItem remove_item;
-		Gtk.MenuItem reinstall_item;
-		Gtk.MenuItem install_optional_deps_item;
-		Gtk.MenuItem explicitly_installed_item;
+		Gtk.MenuItem details_item;
 		GLib.List<string> selected_pkgs;
 		GLib.List<string> selected_aur;
 
@@ -125,8 +129,6 @@ namespace Pamac {
 		Gtk.ListStore groups_list;
 		Gtk.ListStore states_list;
 		Gtk.ListStore repos_list;
-		Gtk.ListStore deps_list;
-		Gtk.ListStore details_list;
 		Gtk.ListStore packages_list;
 		Gtk.ListStore aur_list;
 
@@ -167,15 +169,9 @@ namespace Pamac {
 			right_click_menu.append (remove_item);
 			var separator_item = new Gtk.SeparatorMenuItem ();
 			right_click_menu.append (separator_item);
-			reinstall_item = new Gtk.MenuItem.with_label (dgettext (null, "Reinstall"));
-			reinstall_item.activate.connect (on_reinstall_item_activate);
-			right_click_menu.append (reinstall_item);
-			install_optional_deps_item = new Gtk.MenuItem.with_label (dgettext (null, "Install optional dependencies"));
-			install_optional_deps_item.activate.connect (on_install_optional_deps_item_activate);
-			right_click_menu.append (install_optional_deps_item);
-			explicitly_installed_item = new Gtk.MenuItem.with_label (dgettext (null, "Mark as explicitly installed"));
-			explicitly_installed_item.activate.connect (on_explicitly_installed_item_activate);
-			right_click_menu.append (explicitly_installed_item);
+			details_item = new Gtk.MenuItem.with_label (dgettext (null, "Details"));
+			details_item.activate.connect (on_details_item_activate);
+			right_click_menu.append (details_item);
 			right_click_menu.show_all ();
 
 			search_list = new Gtk.ListStore (1, typeof (string));
@@ -186,12 +182,6 @@ namespace Pamac {
 			states_treeview.set_model (states_list);
 			repos_list = new Gtk.ListStore (1, typeof (string));
 			repos_treeview.set_model (repos_list);
-			deps_list = new Gtk.ListStore (2, typeof (string), typeof (string));
-			deps_treeview.set_model (deps_list);
-			// title is not visible, it is just defined to find it
-			deps_treeview_column.title = "deps";
-			details_list = new Gtk.ListStore (2, typeof (string), typeof (string));
-			details_treeview.set_model (details_list);
 
 			packages_list = new Gtk.ListStore (7, 
 											typeof (uint), //origin
@@ -322,6 +312,9 @@ namespace Pamac {
 
 		void on_set_pkgreason_finished () {
 			refresh_packages_list ();
+			if (main_stack.visible_child_name == "details") {
+				display_package_properties (current_package_displayed);
+			}
 		}
 
 		void support_aur (bool enable_aur, bool search_aur) {
@@ -390,6 +383,106 @@ namespace Pamac {
 			selection.changed.connect_after (on_states_treeview_selection_changed);
 		}
 
+		void on_mark_explicit_button_clicked (Gtk.Button button) {
+			transaction.start_set_pkgreason (current_package_displayed, 0); //Alpm.Package.Reason.EXPLICIT
+		}
+
+		Gtk.Widget populate_details_grid (string detail_type, string detail, Gtk.Widget? previous_widget) {
+			var label = new Gtk.Label ("<b>%s</b>".printf (detail_type + ":"));
+			label.use_markup = true;
+			label.halign = Gtk.Align.START;
+			details_grid.attach_next_to (label, previous_widget, Gtk.PositionType.BOTTOM);
+			if (!transaction_running
+				&& detail_type == dgettext (null, "Install Reason")
+				&& detail == dgettext (null, "Installed as a dependency for another package")) {
+				var box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 12);
+				box.homogeneous = false;
+				box.hexpand = true;
+				var label2 = new Gtk.Label (detail);
+				label2.halign = Gtk.Align.START;
+				box.pack_start (label2, false);
+				var mark_explicit_button = new Gtk.Button.with_label (dgettext (null, "Mark as explicitly installed"));
+				mark_explicit_button.margin = 3;
+				mark_explicit_button.clicked.connect (on_mark_explicit_button_clicked);
+				box.pack_end (mark_explicit_button, false);
+				details_grid.attach_next_to (box, label, Gtk.PositionType.RIGHT);
+			} else {
+				var label2 = new Gtk.Label (detail);
+				label2.halign = Gtk.Align.START;
+				details_grid.attach_next_to (label2, label, Gtk.PositionType.RIGHT);
+			}
+			return label as Gtk.Widget;
+		}
+
+		string find_install_button_dep_name (Gtk.Button button) {
+			string dep_name = "";
+			Gtk.Container container = button.get_parent ();
+			container.foreach ((widget) => {
+				if (widget.name == "GtkButton") {
+					var dep_button = widget as Gtk.Button;
+					AlpmPackage pkg = transaction.find_sync_satisfier (dep_button.label);
+					if (pkg.name != "") {
+						dep_name = pkg.name;
+					}
+				}
+			});
+			return dep_name;
+		}
+
+		void on_install_dep_button_toggled (Gtk.ToggleButton button) {
+			string dep_name = find_install_button_dep_name (button);
+			if (button.active) {
+				button.get_style_context ().add_class (Gtk.STYLE_CLASS_SUGGESTED_ACTION);
+				transaction.to_install.add (dep_name);
+			} else {
+				button.get_style_context ().remove_class (Gtk.STYLE_CLASS_SUGGESTED_ACTION);
+				transaction.to_install.remove (dep_name);
+			}
+			set_pendings_operations ();
+		}
+
+		Gtk.Widget populate_dep_grid (string dep_type, string[] dep_list, Gtk.Widget? previous_widget, bool add_install_button = false) {
+			var label = new Gtk.Label ("<b>%s</b>".printf (dep_type + ":"));
+			label.use_markup = true;
+			label.halign = Gtk.Align.START;
+			label.valign = Gtk.Align.START;
+			label.margin_top = 6;
+			deps_grid.attach_next_to (label, previous_widget, Gtk.PositionType.BOTTOM);
+			var box = new Gtk.Box (Gtk.Orientation.VERTICAL, 3);
+			box.hexpand = true;
+			foreach (unowned string dep in dep_list) {
+				if (add_install_button) {
+					var box2 = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 12);
+					box2.homogeneous = false;
+					var dep_button = new Gtk.Button.with_label (dep);
+					dep_button.relief = Gtk.ReliefStyle.NONE;
+					dep_button.clicked.connect (on_dep_button_clicked);
+					box2.pack_start (dep_button, false);
+					if (transaction.find_installed_satisfier (dep).name == "") {
+						var install_dep_button = new Gtk.ToggleButton.with_label (dgettext (null, "Install"));
+						install_dep_button.margin = 3;
+						install_dep_button.toggled.connect (on_install_dep_button_toggled);
+						box2.pack_end (install_dep_button, false);
+						string dep_name = find_install_button_dep_name (install_dep_button);
+						install_dep_button.active = (dep_name in transaction.to_install); 
+					}
+					box.pack_start (box2);
+				} else {
+					var dep_button = new Gtk.Button.with_label (dep);
+					dep_button.relief = Gtk.ReliefStyle.NONE;
+					dep_button.halign = Gtk.Align.START;
+					dep_button.clicked.connect (on_dep_button_clicked);
+					box.pack_start (dep_button, false);
+				}
+			}
+			deps_grid.attach_next_to (box, label, Gtk.PositionType.RIGHT);
+			return label as Gtk.Widget;
+		}
+
+		void destroy_widget (Gtk.Widget widget) {
+			widget.destroy ();
+		}
+
 		void set_package_details (string pkgname) {
 			AlpmPackageDetails details = transaction.get_pkg_details (pkgname);
 			// infos
@@ -405,138 +498,119 @@ namespace Pamac {
 				licenses.append (license);
 			}
 			licenses_label.set_text (licenses.str);
-			// details
-			details_list.clear ();
-			details_list.insert_with_values (null, -1,
-												0, "<b>%s</b>".printf (dgettext (null, "Repository") + ":"),
-												1, details.repo);
-			var iter = Gtk.TreeIter ();
-			if (details.groups.length > 0) {
-				foreach (unowned string name in details.groups) {
-					details_list.insert_with_values (out iter, -1,
-												1, name);
+			if (details.origin == 2) { //Alpm.Package.From.LOCALDB
+				install_togglebutton.visible = false;
+				remove_togglebutton.visible = true;
+				remove_togglebutton.active = transaction.to_remove.contains (details.name);
+				AlpmPackage find_pkg = transaction.get_sync_pkg (details.name);
+				if (find_pkg.name != "") {
+					if (find_pkg.version == details.version) {
+						reinstall_togglebutton.visible = true;
+						reinstall_togglebutton.active = transaction.to_install.contains (details.name);
+					}
 				}
-				Gtk.TreePath path = details_list.get_path (iter);
-				int pos = (path.get_indices ()[0]) - (details.groups.length - 1);
-				details_list.get_iter (out iter, new Gtk.TreePath.from_indices (pos));
-				details_list.set (iter, 0, "<b>%s</b>".printf (dgettext (null, "Groups") + ":"));
+			} else if (details.origin == 3) { //Alpm.Package.From.SYNCDB
+				remove_togglebutton.visible = false;
+				reinstall_togglebutton.visible = false;
+				install_togglebutton.visible = true;
+				install_togglebutton.active = transaction.to_install.contains (details.name);
 			}
-			details_list.insert_with_values (null, -1,
-												0, "<b>%s</b>".printf (dgettext (null, "Packager") + ":"),
-												1, details.packager);
-			details_list.insert_with_values (null, -1,
-												0, "<b>%s</b>".printf (dgettext (null, "Build Date") + ":"),
-												1, details.builddate);
+			// details
+			details_grid.foreach (destroy_widget);
+			Gtk.Widget? previous_widget = null;
+			if (details.repo != "") {
+				previous_widget = populate_details_grid (dgettext (null, "Repository"), details.repo, previous_widget);
+			}
+			if (details.groups.length > 0) {
+				var label = new Gtk.Label ("<b>%s</b>".printf (dgettext (null, "Groups") + ":"));
+				label.use_markup = true;
+				label.halign = Gtk.Align.START;
+				label.valign = Gtk.Align.START;
+				details_grid.attach_next_to (label, previous_widget, Gtk.PositionType.BOTTOM);
+				var box = new Gtk.Box (Gtk.Orientation.VERTICAL, 6);
+				foreach (unowned string name in details.groups) {
+					var label2 = new Gtk.Label (name);
+					label2.halign = Gtk.Align.START;
+					box.pack_start (label2);
+				}
+				details_grid.attach_next_to (box, label, Gtk.PositionType.RIGHT);
+				previous_widget = label as Gtk.Widget;
+			}
+			previous_widget = populate_details_grid (dgettext (null, "Packager"), details.packager, previous_widget);
+			previous_widget = populate_details_grid (dgettext (null, "Build Date"), details.builddate, previous_widget);
 			if (details.installdate != "") {
-				details_list.insert_with_values (null, -1,
-												0, "<b>%s</b>".printf (dgettext (null, "Install Date") + ":"),
-												1, details.installdate);
+				previous_widget = populate_details_grid (dgettext (null, "Install Date"), details.installdate, previous_widget);
 			}
 			if (details.reason != "") {
-				details_list.insert_with_values (null, -1,
-												0, "<b>%s</b>".printf (dgettext (null, "Install Reason") + ":"),
-												1, details.reason);
+				previous_widget = populate_details_grid (dgettext (null, "Install Reason"), details.reason, previous_widget);
 			}
 			if (details.has_signature != "") {
-				details_list.insert_with_values (null, -1,
-												0, "<b>%s</b>".printf (dgettext (null, "Signatures") + ":"),
-												1, details.has_signature);
+				previous_widget = populate_details_grid (dgettext (null, "Signatures"), details.has_signature, previous_widget);
 			}
 			if (details.backups.length > 0) {
+				var label = new Gtk.Label ("<b>%s</b>".printf (dgettext (null, "Backup files") + ":"));
+				label.use_markup = true;
+				label.halign = Gtk.Align.START;
+				label.valign = Gtk.Align.START;
+				details_grid.attach_next_to (label, previous_widget, Gtk.PositionType.BOTTOM);
+				var box = new Gtk.Box (Gtk.Orientation.VERTICAL, 12);
 				foreach (unowned string name in details.backups) {
-					details_list.insert_with_values (out iter, -1,
-												1, name);
+					var label2 = new Gtk.Label (name);
+					label2.halign = Gtk.Align.START;
+					box.pack_start (label2);
 				}
-				Gtk.TreePath path = details_list.get_path (iter);
-				int pos = (path.get_indices ()[0]) - (details.backups.length - 1);
-				details_list.get_iter (out iter, new Gtk.TreePath.from_indices (pos));
-				details_list.set (iter, 0, "<b>%s</b>".printf (dgettext (null, "Backup files") + ":"));
+				details_grid.attach_next_to (box, label, Gtk.PositionType.RIGHT);
 			}
+			details_grid.show_all ();
 			// deps
-			deps_list.clear ();
+			deps_grid.foreach (destroy_widget);
+			previous_widget = null;
 			if (details.depends.length > 0) {
-				foreach (unowned string name in details.depends) {
-					deps_list.insert_with_values (out iter, -1,
-												1, name);
-				}
-				Gtk.TreePath path = deps_list.get_path (iter);
-				int pos = (path.get_indices ()[0]) - (details.depends.length - 1);
-				deps_list.get_iter (out iter, new Gtk.TreePath.from_indices (pos));
-				deps_list.set (iter, 0, "<b>%s</b>".printf (dgettext (null, "Depends On") + ":"));
+				previous_widget = populate_dep_grid (dgettext (null, "Depends On"), details.depends, previous_widget);
 			}
 			if (details.optdepends.length > 0) {
-				foreach (unowned string name in details.optdepends) {
-					var optdep = new StringBuilder (name);
-					if (transaction.find_installed_satisfier (optdep.str).name != "") {
-						optdep.append (" [");
-						optdep.append (dgettext (null, "Installed"));
-						optdep.append ("]");
-					}
-					deps_list.insert_with_values (out iter, -1,
-												1, optdep.str);
-				}
-				Gtk.TreePath path = deps_list.get_path (iter);
-				int pos = (path.get_indices ()[0]) - (details.optdepends.length - 1);
-				deps_list.get_iter (out iter, new Gtk.TreePath.from_indices (pos));
-				deps_list.set (iter, 0, "<b>%s</b>".printf (dgettext (null, "Optional Dependencies") + ":"));
+				previous_widget = populate_dep_grid (dgettext (null, "Optional Dependencies"), details.optdepends, previous_widget, true);
 			}
 			if (details.requiredby.length > 0) {
-				foreach (unowned string name in details.requiredby) {
-					deps_list.insert_with_values (out iter, -1,
-												1, name);
-				}
-				Gtk.TreePath path = deps_list.get_path (iter);
-				int pos = (path.get_indices ()[0]) - (details.requiredby.length - 1);
-				deps_list.get_iter (out iter, new Gtk.TreePath.from_indices (pos));
-				deps_list.set (iter, 0, "<b>%s</b>".printf (dgettext (null, "Required By") + ":"));
+				previous_widget = populate_dep_grid (dgettext (null, "Required By"), details.requiredby, previous_widget);
 			}
 			if (details.optionalfor.length > 0) {
-				foreach (unowned string name in details.optionalfor) {
-					deps_list.insert_with_values (out iter, -1,
-												1, name);
-				}
-				Gtk.TreePath path = deps_list.get_path (iter);
-				int pos = (path.get_indices ()[0]) - (details.optionalfor.length - 1);
-				deps_list.get_iter (out iter, new Gtk.TreePath.from_indices (pos));
-				deps_list.set (iter, 0, "<b>%s</b>".printf (dgettext (null, "Optional For") + ":"));
+				previous_widget = populate_dep_grid (dgettext (null, "Optional For"), details.optionalfor, previous_widget);
 			}
 			if (details.provides.length > 0) {
+				var label = new Gtk.Label ("<b>%s</b>".printf (dgettext (null, "Provides") + ":"));
+				label.use_markup = true;
+				label.halign = Gtk.Align.START;
+				label.valign = Gtk.Align.START;
+				label.margin_top = 6;
+				deps_grid.attach_next_to (label, previous_widget, Gtk.PositionType.BOTTOM);
+				var box = new Gtk.Box (Gtk.Orientation.VERTICAL, 12);
+				box.margin = 3;
 				foreach (unowned string name in details.provides) {
-					deps_list.insert_with_values (out iter, -1,
-												1, name);
+					var label2 = new Gtk.Label (name);
+					label2.halign = Gtk.Align.START;
+					label2.margin_start = 12;
+					box.pack_start (label2);
 				}
-				Gtk.TreePath path = deps_list.get_path (iter);
-				int pos = (path.get_indices ()[0]) - (details.provides.length - 1);
-				deps_list.get_iter (out iter, new Gtk.TreePath.from_indices (pos));
-				deps_list.set (iter, 0, "<b>%s</b>".printf (dgettext (null, "Provides") + ":"));
+				deps_grid.attach_next_to (box, label, Gtk.PositionType.RIGHT);
+				previous_widget = label as Gtk.Widget;
 			}
 			if (details.replaces.length > 0) {
-				foreach (unowned string name in details.replaces) {
-					deps_list.insert_with_values (out iter, -1,
-												1, name);
-				}
-				Gtk.TreePath path = deps_list.get_path (iter);
-				int pos = (path.get_indices ()[0]) - (details.replaces.length - 1);
-				deps_list.get_iter (out iter, new Gtk.TreePath.from_indices (pos));
-				deps_list.set (iter, 0, "<b>%s</b>".printf (dgettext (null, "Replaces") + ":"));
+				previous_widget = populate_dep_grid (dgettext (null, "Replaces"), details.replaces, previous_widget);
 			}
 			if (details.conflicts.length > 0) {
-				foreach (unowned string name in details.conflicts) {
-					deps_list.insert_with_values (out iter, -1,
-												1, name);
-				}
-				Gtk.TreePath path = deps_list.get_path (iter);
-				int pos = (path.get_indices ()[0]) - (details.conflicts.length - 1);
-				deps_list.get_iter (out iter, new Gtk.TreePath.from_indices (pos));
-				deps_list.set (iter, 0, "<b>%s</b>".printf (dgettext (null, "Conflicts With") + ":"));
+				previous_widget = populate_dep_grid (dgettext (null, "Conflicts With"), details.conflicts, previous_widget);
 			}
+			deps_grid.show_all ();
 			// files
 			if (details.files.length > 0) {
 				files_scrolledwindow.visible = true;
 				StringBuilder text = new StringBuilder ();
 				foreach (unowned string file in details.files) {
+					if (text.len > 0) {
+						text.append ("\n");
+					}
 					text.append (file);
-					text.append ("\n");
 				}
 				files_textview.buffer.set_text (text.str, (int) text.len);
 			} else {
@@ -549,8 +623,12 @@ namespace Pamac {
 			desc_label.set_text ("");
 			link_label.set_text ("");
 			licenses_label.set_text ("");
-			details_list.clear ();
-			deps_list.clear ();
+			remove_togglebutton.visible = false;
+			reinstall_togglebutton.visible = false;
+			install_togglebutton.visible = false;
+			properties_stackswitcher.visible = false;
+			details_grid.foreach (destroy_widget);
+			deps_grid.foreach (destroy_widget);
 			this.get_window ().set_cursor (new Gdk.Cursor.for_display (Gdk.Display.get_default (), Gdk.CursorType.WATCH));
 			while (Gtk.events_pending ()) {
 				Gtk.main_iteration ();
@@ -571,116 +649,123 @@ namespace Pamac {
 					licenses.append (license);
 				}
 				licenses_label.set_text (licenses.str);
+				install_togglebutton.visible = true;
+				install_togglebutton.active = transaction.to_build.contains (details.name);
+				AlpmPackage pkg = transaction.get_installed_pkg (details.name);
+				if (pkg.name != "") {
+					remove_togglebutton.visible = true;
+					remove_togglebutton.active = transaction.to_remove.contains (pkg.name);
+				}
 				// details
-				details_list.clear ();
+				properties_stackswitcher.visible = true;
+				details_grid.foreach (destroy_widget);
+				Gtk.Widget? previous_widget = null;
 				if (details.packagebase != details.name) {
-					details_list.insert_with_values (null, -1,
-													0, "<b>%s</b>".printf (dgettext (null, "Package Base") + ":"),
-													1, details.packagebase);
+					previous_widget = populate_details_grid (dgettext (null, "Package Base"), details.packagebase, previous_widget);
 				}
 				if (details.maintainer != "") {
-					details_list.insert_with_values (null, -1,
-													0, "<b>%s</b>".printf (dgettext (null, "Maintainer") + ":"),
-													1, details.maintainer);
+					previous_widget = populate_details_grid (dgettext (null, "Maintainer"), details.maintainer, previous_widget);
 				}
 				GLib.Time time = GLib.Time.local ((time_t) details.firstsubmitted);
-				details_list.insert_with_values (null, -1,
-													0, "<b>%s</b>".printf (dgettext (null, "First Submitted") + ":"),
-													1, time.format ("%a %d %b %Y %X %Z"));
+				previous_widget = populate_details_grid (dgettext (null, "First Submitted"), time.format ("%a %d %b %Y %X %Z"), previous_widget);
 				time = GLib.Time.local ((time_t) details.lastmodified);
-				details_list.insert_with_values (null, -1,
-													0, "<b>%s</b>".printf (dgettext (null, "Last Modified") + ":"),
-													1, time.format ("%a %d %b %Y %X %Z"));
-				details_list.insert_with_values (null, -1,
-													0, "<b>%s</b>".printf (dgettext (null, "Votes") + ":"),
-													1, details.numvotes.to_string ());
+				previous_widget = populate_details_grid (dgettext (null, "Last Modified"), time.format ("%a %d %b %Y %X %Z"), previous_widget);
+				previous_widget = populate_details_grid (dgettext (null, "Votes"), details.numvotes.to_string (), previous_widget);
 				if (details.outofdate != 0) {
 					time = GLib.Time.local ((time_t) details.outofdate);
-					details_list.insert_with_values (null, -1,
-													0, "<b>%s</b>".printf (dgettext (null, "Out of Date") + ":"),
-													1, time.format ("%a %d %b %Y %X %Z"));
+					previous_widget = populate_details_grid (dgettext (null, "Out of Date"), time.format ("%a %d %b %Y %X %Z"), previous_widget);
 				}
+				details_grid.show_all ();
 				// deps
-				deps_list.clear ();
-				var iter = Gtk.TreeIter ();
+				previous_widget = null;
 				if (details.depends.length > 0) {
-					foreach (unowned string name in details.depends) {
-						deps_list.insert_with_values (out iter, -1,
-													1, name);
-					}
-					Gtk.TreePath path = deps_list.get_path (iter);
-					int pos = (path.get_indices ()[0]) - (details.depends.length - 1);
-					deps_list.get_iter (out iter, new Gtk.TreePath.from_indices (pos));
-					deps_list.set (iter, 0, "<b>%s</b>".printf (dgettext (null, "Depends On") + ":"));
+					previous_widget = populate_dep_grid (dgettext (null, "Depends On"), details.depends, previous_widget);
 				}
 				if (details.makedepends.length > 0) {
-					foreach (unowned string name in details.makedepends) {
-						deps_list.insert_with_values (out iter, -1,
-													1, name);
-					}
-					Gtk.TreePath path = deps_list.get_path (iter);
-					int pos = (path.get_indices ()[0]) - (details.makedepends.length - 1);
-					deps_list.get_iter (out iter, new Gtk.TreePath.from_indices (pos));
-					deps_list.set (iter, 0, "<b>%s</b>".printf (dgettext (null, "Make Dependencies") + ":"));
+					previous_widget = populate_dep_grid (dgettext (null, "Make Dependencies"), details.makedepends, previous_widget);
 				}
 				if (details.checkdepends.length > 0) {
-					foreach (unowned string name in details.checkdepends) {
-						deps_list.insert_with_values (out iter, -1,
-													1, name);
-					}
-					Gtk.TreePath path = deps_list.get_path (iter);
-					int pos = (path.get_indices ()[0]) - (details.checkdepends.length - 1);
-					deps_list.get_iter (out iter, new Gtk.TreePath.from_indices (pos));
-					deps_list.set (iter, 0, "<b>%s</b>".printf (dgettext (null, "Check Dependencies") + ":"));
+					previous_widget = populate_dep_grid (dgettext (null, "Check Dependencies"), details.checkdepends, previous_widget);
 				}
 				if (details.optdepends.length > 0) {
-					foreach (unowned string name in details.optdepends) {
-						var optdep = new StringBuilder (name);
-						if (transaction.find_installed_satisfier (optdep.str).name != "") {
-							optdep.append (" [");
-							optdep.append (dgettext (null, "Installed"));
-							optdep.append ("]");
-						}
-						deps_list.insert_with_values (out iter, -1,
-													1, optdep.str);
-					}
-					Gtk.TreePath path = deps_list.get_path (iter);
-					int pos = (path.get_indices ()[0]) - (details.optdepends.length - 1);
-					deps_list.get_iter (out iter, new Gtk.TreePath.from_indices (pos));
-					deps_list.set (iter, 0, "<b>%s</b>".printf (dgettext (null, "Optional Dependencies") + ":"));
+					previous_widget = populate_dep_grid (dgettext (null, "Optional Dependencies"), details.optdepends, previous_widget);
 				}
 				if (details.provides.length > 0) {
+					var label = new Gtk.Label ("<b>%s</b>".printf (dgettext (null, "Provides") + ":"));
+					label.use_markup = true;
+					label.halign = Gtk.Align.START;
+					label.valign = Gtk.Align.START;
+					label.margin_top = 6;
+					deps_grid.attach_next_to (label, previous_widget, Gtk.PositionType.BOTTOM);
+					var box = new Gtk.Box (Gtk.Orientation.VERTICAL, 12);
+					box.margin = 3;
 					foreach (unowned string name in details.provides) {
-						deps_list.insert_with_values (out iter, -1,
-													1, name);
+						var label2 = new Gtk.Label (name);
+						label2.halign = Gtk.Align.START;
+						label2.margin_start = 12;
+						box.pack_start (label2);
 					}
-					Gtk.TreePath path = deps_list.get_path (iter);
-					int pos = (path.get_indices ()[0]) - (details.provides.length - 1);
-					deps_list.get_iter (out iter, new Gtk.TreePath.from_indices (pos));
-					deps_list.set (iter, 0, "<b>%s</b>".printf (dgettext (null, "Provides") + ":"));
+					deps_grid.attach_next_to (box, label, Gtk.PositionType.RIGHT);
+					previous_widget = label as Gtk.Widget;
 				}
 				if (details.replaces.length > 0) {
-					foreach (unowned string name in details.replaces) {
-						deps_list.insert_with_values (out iter, -1,
-													1, name);
-					}
-					Gtk.TreePath path = deps_list.get_path (iter);
-					int pos = (path.get_indices ()[0]) - (details.replaces.length - 1);
-					deps_list.get_iter (out iter, new Gtk.TreePath.from_indices (pos));
-					deps_list.set (iter, 0, "<b>%s</b>".printf (dgettext (null, "Replaces") + ":"));
+					previous_widget = populate_dep_grid (dgettext (null, "Replaces"), details.replaces, previous_widget);
 				}
 				if (details.conflicts.length > 0) {
-					foreach (unowned string name in details.conflicts) {
-						deps_list.insert_with_values (out iter, -1,
-													1, name);
-					}
-					Gtk.TreePath path = deps_list.get_path (iter);
-					int pos = (path.get_indices ()[0]) - (details.conflicts.length - 1);
-					deps_list.get_iter (out iter, new Gtk.TreePath.from_indices (pos));
-					deps_list.set (iter, 0, "<b>%s</b>".printf (dgettext (null, "Conflicts With") + ":"));
+					previous_widget = populate_dep_grid (dgettext (null, "Conflicts With"), details.conflicts, previous_widget);
 				}
+				deps_grid.show_all ();
 				this.get_window ().set_cursor (null);
 			});
+		}
+
+		[GtkCallback]
+		void on_install_togglebutton_toggled () {
+			if (install_togglebutton.active) {
+				install_togglebutton.get_style_context ().add_class (Gtk.STYLE_CLASS_SUGGESTED_ACTION);
+				if (transaction.get_pkg_origin (current_package_displayed) == 3) { //Alpm.Package.From.SYNCDB
+					transaction.to_install.add (current_package_displayed);
+				} else {
+					transaction.to_build.add (current_package_displayed);
+				}
+			} else {
+				install_togglebutton.get_style_context ().remove_class (Gtk.STYLE_CLASS_SUGGESTED_ACTION);
+				if (transaction.to_install.remove (current_package_displayed)) {
+				} else {
+					transaction.to_build.remove (current_package_displayed);
+				}
+			}
+			set_pendings_operations ();
+		}
+
+		[GtkCallback]
+		void on_remove_togglebutton_toggled () {
+			if (remove_togglebutton.active) {
+				reinstall_togglebutton.active = false;
+				reinstall_togglebutton.get_style_context ().remove_class (Gtk.STYLE_CLASS_SUGGESTED_ACTION);
+				remove_togglebutton.get_style_context ().add_class (Gtk.STYLE_CLASS_DESTRUCTIVE_ACTION);
+				transaction.to_install.remove (current_package_displayed);
+				transaction.to_remove.add (current_package_displayed);
+			} else {
+				remove_togglebutton.get_style_context ().remove_class (Gtk.STYLE_CLASS_DESTRUCTIVE_ACTION);
+				transaction.to_remove.remove (current_package_displayed);
+			}
+			set_pendings_operations ();
+		}
+
+		[GtkCallback]
+		void on_reinstall_togglebutton_toggled () {
+			if (reinstall_togglebutton.active) {
+				remove_togglebutton.active = false;
+				remove_togglebutton.get_style_context ().remove_class (Gtk.STYLE_CLASS_DESTRUCTIVE_ACTION);
+				reinstall_togglebutton.get_style_context ().add_class (Gtk.STYLE_CLASS_SUGGESTED_ACTION);
+				transaction.to_remove.remove (current_package_displayed);
+				transaction.to_install.add (current_package_displayed);
+			} else {
+				reinstall_togglebutton.get_style_context ().remove_class (Gtk.STYLE_CLASS_SUGGESTED_ACTION);
+				transaction.to_install.remove (current_package_displayed);
+			}
+			set_pendings_operations ();
 		}
 
 		void populate_packages_list (AlpmPackage[] pkgs) {
@@ -767,8 +852,8 @@ namespace Pamac {
 		}
 
 		void display_package_properties (string pkgname) {
-			current_package_displayed = pkgname; 
-			set_package_details (pkgname);
+			current_package_displayed = pkgname;
+			set_package_details (current_package_displayed);
 		}
 
 		void display_aur_properties (string pkgname) {
@@ -789,17 +874,11 @@ namespace Pamac {
 			}
 		}
 
-		[GtkCallback]
-		void on_deps_treeview_row_activated (Gtk.TreeView treeview, Gtk.TreePath path, Gtk.TreeViewColumn column) {
-			if (column.title == "deps") {
+		void on_dep_button_clicked (Gtk.Button button) {
 				if (display_package_queue.find_custom (current_package_displayed, strcmp) == null) {
 					display_package_queue.push_tail (current_package_displayed);
 				}
-				var treemodel = treeview.get_model ();
-				Gtk.TreeIter iter;
-				treemodel.get_iter (out iter, path);
-				string depstring;
-				treemodel.get (iter, 1, out depstring);
+				string depstring = button.label;
 				// if depstring contains a version restriction search a satisfier directly
 				if (">" in depstring || "=" in depstring || "<" in depstring) {
 					var pkg = transaction.find_installed_satisfier (depstring);
@@ -841,7 +920,6 @@ namespace Pamac {
 						});
 					}
 				}
-			}
 		}
 
 		void on_packages_state_icon_activated (Gtk.TreePath path) {
@@ -946,14 +1024,15 @@ namespace Pamac {
 			set_pendings_operations ();
 		}
 
-		void on_reinstall_item_activate () {
-			foreach (unowned string pkgname in selected_pkgs) {
-				transaction.to_remove.remove (pkgname);
-				if (transaction.get_pkg_origin (pkgname) == 2) { //Alpm.Package.From.LOCALDB
-					transaction.to_install.add (pkgname);
-				}
+		void on_details_item_activate () {
+			// show details for the first selected package
+			if (selected_pkgs.length () == 1) {
+				display_package_properties (selected_pkgs.data);
+				main_stack.visible_child_name = "details";
+			} else if (selected_aur.length () == 1) {
+				display_aur_properties (selected_aur.data);
+				main_stack.visible_child_name = "details";
 			}
-			set_pendings_operations ();
 		}
 
 		void on_remove_item_activate () {
@@ -979,53 +1058,6 @@ namespace Pamac {
 				transaction.to_build.remove (pkgname);
 			}
 			set_pendings_operations ();
-		}
-
-		void choose_opt_dep (GLib.List<string> pkgnames) {
-			foreach (unowned string pkgname in pkgnames) {
-				var choose_dep_dialog = new ChooseDependenciesDialog (this);
-//~ 				int length = 0;
-				foreach (unowned string optdep in transaction.get_pkg_uninstalled_optdeps (pkgname)) {
-//~ 					length++;
-					choose_dep_dialog.deps_list.insert_with_values (null, -1,
-																	0, false,
-																	1, optdep);
-				}
-				choose_dep_dialog.title = dgettext (null, "Choose optional dependencies for %s").printf (pkgname);
-//~ 				var headerbar = choose_dep_dialog.get_header_bar () as Gtk.HeaderBar;
-//~ 				headerbar.subtitle = ngettext ("%s has %u uninstalled optional dependency",
-//~ 												"%s has %u uninstalled optional dependencies",
-//~ 												length).printf (pkgname, length);
-				if (choose_dep_dialog.run () == Gtk.ResponseType.OK) {
-					choose_dep_dialog.deps_list.foreach ((model, path, iter) => {
-						bool selected;
-						string name;
-						choose_dep_dialog.deps_list.get (iter, 0, out selected, 1, out name);
-						if (selected) {
-							AlpmPackage sync_pkg = transaction.find_sync_satisfier (name);
-							if (sync_pkg.name != "") {
-								transaction.to_install.add (sync_pkg.name);
-							}
-						}
-						return false;
-					});
-				}
-				choose_dep_dialog.destroy ();
-				while (Gtk.events_pending ()) {
-					Gtk.main_iteration ();
-				}
-			}
-		}
-
-		void on_install_optional_deps_item_activate () {
-			choose_opt_dep (selected_pkgs);
-			set_pendings_operations ();
-		}
-
-		void on_explicitly_installed_item_activate () {
-			foreach (unowned string pkgname in selected_pkgs) {
-				transaction.start_set_pkgreason (pkgname, 0); //Alpm.Package.Reason.EXPLICIT
-			}
 		}
 
 		void on_packages_stack_visible_child_changed () {
@@ -1086,9 +1118,6 @@ namespace Pamac {
 					deselect_item.sensitive = false;
 					install_item.sensitive = false;
 					remove_item.sensitive = false;
-					reinstall_item.sensitive = false;
-					install_optional_deps_item.sensitive = false;
-					explicitly_installed_item.sensitive = false;
 					if (selected_paths.length () == 1) {
 						Gtk.TreePath path = selected_paths.data;
 						Gtk.TreeIter iter;
@@ -1098,30 +1127,17 @@ namespace Pamac {
 						string pkgversion;
 						packages_list.get (iter, 0, out origin, 1, out pkgname, 3, out pkgversion);
 						selected_pkgs.append (pkgname);
+						details_item.sensitive = true;
 						if (transaction.to_install.contains (pkgname)
 								|| transaction.to_remove.contains (pkgname)) {
 							deselect_item.sensitive = true;
 						} else if (origin == 2) { //Alpm.Package.From.LOCALDB
 							remove_item.sensitive = true;
-							foreach (unowned string optdep in transaction.get_pkg_uninstalled_optdeps (pkgname)) {
-								if (transaction.find_installed_satisfier (optdep).name == "") {
-									install_optional_deps_item.sensitive = true;
-									break;
-								}
-							}
-							if (transaction.get_pkg_reason (pkgname) == 1) { //Alpm.Package.Reason.DEPEND
-								explicitly_installed_item.sensitive = true;
-							}
-							AlpmPackage find_pkg = transaction.get_sync_pkg (pkgname);
-							if (find_pkg.name != "") {
-								if (find_pkg.version == pkgversion) {
-									reinstall_item.sensitive = true;
-								}
-							}
 						} else if (origin == 3) { //Alpm.Package.From.SYNCDB
 							install_item.sensitive = true;
 						}
 					} else {
+						details_item.sensitive = false;
 						foreach (unowned Gtk.TreePath path in selected_paths) {
 							Gtk.TreeIter iter;
 							packages_list.get_iter (out iter, path);
@@ -1168,9 +1184,11 @@ namespace Pamac {
 					deselect_item.sensitive = false;
 					install_item.sensitive = false;
 					remove_item.sensitive = false;
-					reinstall_item.sensitive = false;
-					install_optional_deps_item.sensitive = false;
-					explicitly_installed_item.sensitive = false;
+					if (selected_paths.length () == 1) {
+						details_item.sensitive = true;
+					} else {
+						details_item.sensitive = false;
+					}
 					foreach (unowned Gtk.TreePath path in selected_paths) {
 						Gtk.TreeIter iter;
 						aur_list.get_iter (out iter, path);
@@ -1493,6 +1511,10 @@ namespace Pamac {
 			if (transaction_running) {
 				transaction.show_progress ();
 			} else {
+				main_stack.visible_child_name = "browse";
+				filters_stack.notify["visible-child"].disconnect (on_filters_stack_visible_child_changed);
+				filters_stack.visible_child_name = "states";
+				filters_stack.notify["visible-child"].connect (on_filters_stack_visible_child_changed);
 				Gtk.TreeIter iter;
 				// show "Pending" in states_list
 				// "Pending" is at indice 3
@@ -1501,7 +1523,7 @@ namespace Pamac {
 				selection.changed.disconnect (on_states_treeview_selection_changed);
 				selection.select_iter (iter);
 				selection.changed.connect_after (on_states_treeview_selection_changed);
-				filters_stack.visible_child_name = "states";
+				refresh_packages_list ();
 			}
 		}
 
@@ -1520,6 +1542,9 @@ namespace Pamac {
 				transaction.clear_lists ();
 				set_pendings_operations ();
 				refresh_packages_list ();
+				if (main_stack.visible_child_name == "details") {
+					display_package_properties (current_package_displayed);
+				}
 			}
 		}
 
@@ -1542,6 +1567,9 @@ namespace Pamac {
 
 		void on_transaction_finished (bool success) {
 			refresh_packages_list ();
+			if (main_stack.visible_child_name == "details") {
+				display_package_properties (current_package_displayed);
+			}
 			transaction.to_load.remove_all ();
 			if (refreshing) {
 				if (success) {

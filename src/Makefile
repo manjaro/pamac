@@ -94,7 +94,7 @@ libpamac.so: $(COMMON_SOURCES) $(TRANSACTION_SOURCES) $(PREFERENCES_SOURCES) ../
 			$(TRANSACTION_SOURCES) \
 			$(PREFERENCES_SOURCES)
 
-pamac-manager: libpamac.so choose_dep_dialog.vala ../resources/manager_resources.c manager_window.vala manager.vala
+pamac-manager: libpamac.so ../resources/manager_resources.c manager_window.vala manager.vala
 	valac 	-o pamac-manager \
 			$(COMMON_VALA_FLAGS) \
 			$(PAMAC_LIB_FLAGS) \
@@ -103,7 +103,6 @@ pamac-manager: libpamac.so choose_dep_dialog.vala ../resources/manager_resources
 			--pkg=gdk-3.0 \
 			--gresources=$(MANAGER_GRESOURCE_FILE) \
 			../resources/manager_resources.c \
-			choose_dep_dialog.vala \
 			manager_window.vala \
 			manager.vala
 

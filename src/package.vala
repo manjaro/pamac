@@ -32,6 +32,7 @@ namespace Pamac {
 		public string version;
 		public string desc;
 		public string repo;
+		public uint origin;
 		public string url;
 		public string packager;
 		public string builddate;

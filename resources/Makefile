@@ -1,6 +1,5 @@
 
 MANAGER_RESOURCES_FILES = 	manager_window.ui \
-							choose_dep_dialog.ui \
 							history_dialog.ui \
 							package-available.png \
 							package-available-locked.png \

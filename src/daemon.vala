@@ -317,6 +317,7 @@ namespace Pamac {
 		}
 
 		private void refresh () {
+			write_log_file ("synchronizing package lists");
 			intern_lock = true;
 			current_error = ErrorInfos ();
 			int force = (force_refresh) ? 1 : 0;
@@ -529,8 +530,22 @@ namespace Pamac {
 			return initialise_pkg_struct (get_syncpkg (pkgname));
 		}
 
+		private unowned Alpm.Package? find_dbs_satisfier (string depstring) {
+			unowned Alpm.Package? pkg = null;
+			unowned Alpm.List<unowned Alpm.DB> syncdbs = alpm_handle.syncdbs;
+			while (syncdbs != null) {
+				unowned Alpm.DB db = syncdbs.data;
+				pkg = Alpm.find_satisfier (db.pkgcache, depstring);
+				if (pkg != null) {
+					break;
+				}
+				syncdbs.next ();
+			}
+			return pkg;
+		}
+
 		public AlpmPackage find_sync_satisfier (string depstring) {
-			return initialise_pkg_struct (alpm_handle.find_dbs_satisfier (alpm_handle.syncdbs, depstring));
+			return initialise_pkg_struct (find_dbs_satisfier (depstring));
 		}
 
 		private Alpm.List<unowned Alpm.Package> search_all_dbs (string search_string) {
@@ -769,7 +784,7 @@ namespace Pamac {
 					foreach (unowned Json.Node? _node in list) {
 						unowned string depstring = _node.get_string ();
 						if (Alpm.find_satisfier (alpm_handle.localdb.pkgcache, depstring) == null) {
-							if (alpm_handle.find_dbs_satisfier (alpm_handle.syncdbs, depstring) == null) {
+							if (find_dbs_satisfier (depstring) == null) {
 								success = yield set_aur_dep_list (depstring);
 							}
 						}
@@ -785,7 +800,7 @@ namespace Pamac {
 						foreach (unowned Json.Node? _node in list) {
 							unowned string depstring = _node.get_string ();
 							if (Alpm.find_satisfier (alpm_handle.localdb.pkgcache, depstring) == null) {
-								if (alpm_handle.find_dbs_satisfier (alpm_handle.syncdbs, depstring) == null) {
+								if (find_dbs_satisfier (depstring) == null) {
 									success = yield set_aur_dep_list (depstring);
 								}
 							}
@@ -802,7 +817,7 @@ namespace Pamac {
 						foreach (unowned Json.Node? _node in list) {
 							unowned string depstring = _node.get_string ();
 							if (Alpm.find_satisfier (alpm_handle.localdb.pkgcache, depstring) == null) {
-								if (alpm_handle.find_dbs_satisfier (alpm_handle.syncdbs, depstring) == null) {
+								if (find_dbs_satisfier (depstring) == null) {
 									success = yield set_aur_dep_list (depstring);
 								}
 							}
@@ -976,6 +991,7 @@ namespace Pamac {
 				if (alpm_pkg.desc != null) {
 					desc = alpm_pkg.desc;
 				}
+				details.origin = (uint) alpm_pkg.origin;
 				// url can be null
 				if (alpm_pkg.url != null) {
 					url = alpm_pkg.url;
@@ -1625,8 +1641,8 @@ namespace Pamac {
 
 private void write_log_file (string event) {
 	var now = new DateTime.now_local ();
-	string log = "%s %s".printf (now.format ("[%Y-%m-%d %H:%M]"), event);
-	var file = GLib.File.new_for_path ("/var/log/pamac.log");
+	string log = "%s [PAMAC] %s".printf (now.format ("[%Y-%m-%d %H:%M]"), event);
+	var file = GLib.File.new_for_path ("/var/log/pacman.log");
 	try {
 		// creating a DataOutputStream to the file
 		var dos = new DataOutputStream (file.append_to (FileCreateFlags.NONE));
@@ -1692,37 +1708,12 @@ private void cb_event (Alpm.Event.Data data) {
 					break;
 			}
 			break;
-		case Alpm.Event.Type.PACKAGE_OPERATION_DONE:
-			switch (data.package_operation_operation) {
-				case Alpm.Package.Operation.INSTALL:
-					string log = "Installed %s (%s)\n".printf (data.package_operation_newpkg.name, data.package_operation_newpkg.version);
-					write_log_file (log);
-					break;
-				case Alpm.Package.Operation.REMOVE:
-					string log = "Removed %s (%s)\n".printf (data.package_operation_oldpkg.name, data.package_operation_oldpkg.version);
-					write_log_file (log);
-					break;
-				case Alpm.Package.Operation.REINSTALL:
-					string log = "Reinstalled %s (%s)\n".printf (data.package_operation_newpkg.name, data.package_operation_newpkg.version);
-					write_log_file (log);
-					break;
-				case Alpm.Package.Operation.UPGRADE:
-					string log = "Upgraded %s (%s -> %s)\n".printf (data.package_operation_oldpkg.name, data.package_operation_oldpkg.version, data.package_operation_newpkg.version);
-					write_log_file (log);
-					break;
-				case Alpm.Package.Operation.DOWNGRADE:
-					string log = "Downgraded %s (%s -> %s)\n".printf (data.package_operation_oldpkg.name, data.package_operation_oldpkg.version, data.package_operation_newpkg.version);
-					write_log_file (log);
-					break;
-			}
-			break;
 		case Alpm.Event.Type.DELTA_PATCH_START:
 			details += data.delta_patch_delta.to;
 			details += data.delta_patch_delta.delta;
 			break;
 		case Alpm.Event.Type.SCRIPTLET_INFO:
 			details += data.scriptlet_info_line;
-			write_log_file (data.scriptlet_info_line);
 			break;
 		case Alpm.Event.Type.PKGDOWNLOAD_START:
 			details += data.pkgdownload_file;
