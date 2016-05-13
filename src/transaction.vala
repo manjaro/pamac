@@ -112,7 +112,7 @@ namespace Pamac {
 		public unowned GLib.HashTable<string,string> environment_variables { get {return pamac_config.environment_variables; } }
 		public bool no_confirm_build { get { return pamac_config.no_confirm_build; } }
 		public bool no_update_hide_icon { get { return pamac_config.no_update_hide_icon; } }
-		public bool recurse { get { return pamac_config.no_confirm_build; } }
+		public bool recurse { get { return pamac_config.recurse; } }
 		public uint64 refresh_period { get { return pamac_config.refresh_period; } }
 		public bool search_aur { get { return pamac_config.search_aur; } }
 
