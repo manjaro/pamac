@@ -197,7 +197,7 @@ namespace Pamac {
 		}
 
 		public void run_history_dialog () {
-			var file = GLib.File.new_for_path ("/var/log/pamac.log");
+			var file = GLib.File.new_for_path ("/var/log/pacman.log");
 			if (!file.query_exists ()) {
 				GLib.stderr.printf ("File '%s' doesn't exist.\n", file.get_path ());
 			} else {
