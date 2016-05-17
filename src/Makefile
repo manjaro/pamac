@@ -28,6 +28,7 @@ TRANSACTION_SOURCES = 	package.vala \
 						history_dialog.vala \
 						choose_provider_dialog.vala \
 						transaction_sum_dialog.vala \
+						progress_box.vala \
 						progress_dialog.vala
 
 PREFERENCES_SOURCES = 	preferences_dialog.vala \

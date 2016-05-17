@@ -12,6 +12,7 @@ MANAGER_RESOURCES_FILES = 	manager_window.ui \
 UPDATER_RESOURCES_FILES = 	updater_window.ui
 
 TRANSACTION_RESOURCES_FILES = 	progress_dialog.ui \
+								progress_box.ui \
 								choose_provider_dialog.ui \
 								transaction_sum_dialog.ui \
 								preferences_dialog.ui \

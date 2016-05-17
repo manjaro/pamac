@@ -182,6 +182,7 @@
                     <child>
                       <object class="GtkTreeViewColumn" id="treeviewcolumn10">
                         <property name="resizable">True</property>
+                        <property name="sizing">fixed</property>
                         <property name="fixed_width">90</property>
                         <property name="min_width">20</property>
                         <property name="title" translatable="yes">Repository</property>
@@ -306,7 +307,7 @@
           </packing>
         </child>
         <child>
-          <object class="GtkBox" id="transaction_infobox">
+          <object class="GtkBox" id="box2">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="margin_left">6</property>
@@ -327,21 +328,12 @@
               </packing>
             </child>
             <child>
-              <object class="GtkBox" id="box2">
+              <object class="GtkBox" id="transaction_infobox">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="spacing">12</property>
                 <child>
-                  <object class="GtkLabel" id="transaction_infos_label">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="halign">start</property>
-                  </object>
-                  <packing>
-                    <property name="expand">True</property>
-                    <property name="fill">True</property>
-                    <property name="position">0</property>
-                  </packing>
+                  <placeholder/>
                 </child>
                 <child>
                   <object class="GtkButtonBox" id="transaction_infos_buttonbox">
@@ -400,6 +392,7 @@
                   <packing>
                     <property name="expand">False</property>
                     <property name="fill">True</property>
+                    <property name="pack_type">end</property>
                     <property name="position">1</property>
                   </packing>
                 </child>
@@ -424,6 +417,26 @@
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="show_close_button">True</property>
+        <child>
+          <object class="GtkButton" id="button_back">
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="receives_default">False</property>
+            <property name="halign">start</property>
+            <signal name="clicked" handler="on_button_back_clicked" swapped="no"/>
+            <child>
+              <object class="GtkImage" id="back_image">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="icon_name">go-previous-symbolic</property>
+                <property name="icon_size">1</property>
+              </object>
+            </child>
+            <style>
+              <class name="image-button"/>
+            </style>
+          </object>
+        </child>
         <child>
           <object class="GtkMenuButton" id="menu_button">
             <property name="visible">True</property>

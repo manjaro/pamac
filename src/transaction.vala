@@ -147,12 +147,15 @@ namespace Pamac {
 
 		//dialogs
 		TransactionSumDialog transaction_sum_dialog;
-		ProgressDialog progress_dialog;
+		public ProgressBox progress_box;
+		Vte.Terminal term;
+		Vte.Pty pty;
+		public Gtk.Grid term_grid;
 		//parent window
 		public Gtk.ApplicationWindow? application_window { get; private set; }
 
 		public signal void start_transaction ();
-		public signal void emit_action (string action);
+		public signal void important_details_outpout (bool must_show);
 		public signal void alpm_handle_refreshed ();
 		public signal void finished (bool success);
 		public signal void set_pkgreason_finished ();
@@ -182,11 +185,30 @@ namespace Pamac {
 			//creating dialogs
 			this.application_window = application_window;
 			transaction_sum_dialog = new TransactionSumDialog (application_window);
-			progress_dialog = new ProgressDialog (application_window);
-			progress_dialog.close_button.clicked.connect (hide_progress);
-			progress_dialog.cancel_button.clicked.connect (on_progress_dialog_cancel_button_clicked);
+			progress_box = new ProgressBox ();
+			progress_box.progressbar.text = "";
+			//creating terminal
+			term = new Vte.Terminal ();
+			term.scroll_on_output = false;
+			term.expand = true;
+			term.height_request = 200;
+			term.visible = true;
+			// creating pty for term
+			try {
+				pty = term.pty_new_sync (Vte.PtyFlags.NO_HELPER);
+			} catch (Error e) {
+				stderr.printf ("Error: %s\n", e.message);
+			}
+			// add term in a grid with a scrollbar
+			term_grid = new Gtk.Grid ();
+			term_grid.expand = true;
+			term_grid.visible = true;
+			var sb = new Gtk.Scrollbar (Gtk.Orientation.VERTICAL, term.vadjustment);
+			sb.visible = true;
+			term_grid.attach (term, 0, 0, 1, 1);
+			term_grid.attach (sb, 1, 0, 1, 1);
 			// connect to child_exited signal which will only be emit after a call to watch_child
-			progress_dialog.term.child_exited.connect (on_term_child_exited);
+			term.child_exited.connect (on_term_child_exited);
 			// progress data
 			previous_textbar = "";
 			previous_filename = "";
@@ -298,36 +320,27 @@ namespace Pamac {
 			}
 		}
 
-		public void show_progress () {
-			progress_dialog.show ();
-		}
-
-		public void hide_progress () {
-			progress_dialog.hide ();
-		}
-
-		void reset_progress_dialog (string action,
-									bool cancel_button_visible = true,
-									bool expander_expanded = false) {
-			progress_dialog.spawn_in_term ({"echo", action});
-			progress_dialog.action_label.label = action;
-			progress_dialog.progressbar.fraction = 0;
-			progress_dialog.progressbar.text = "";
-			progress_dialog.cancel_button.visible = cancel_button_visible;
-			progress_dialog.expander.expanded = expander_expanded;
-			if (expander_expanded) {
-				progress_dialog.width_request = 700;
+		void spawn_in_term (string[] args, out Pid child_pid = null) {
+			try {
+				Process.spawn_async (null, args, null, SpawnFlags.SEARCH_PATH | SpawnFlags.DO_NOT_REAP_CHILD, pty.child_setup, out child_pid);
+			} catch (SpawnError e) {
+				stderr.printf ("SpawnError: %s\n", e.message);
 			}
+			term.set_pty (pty);
+		}
+
+		void reset_progress_box (string action) {
+			spawn_in_term ({"echo", action});
+			progress_box.action_label.label = action;
+			progress_box.progressbar.fraction = 0;
+			progress_box.progressbar.text = "";
 		}
 
 		public void start_generate_mirrors_list () {
 			string action = dgettext (null, "Refreshing mirrors list") + "...";
-			reset_progress_dialog (action, false, true);
-			pulse_timeout_id = Timeout.add (500, (GLib.SourceFunc) progress_dialog.progressbar.pulse);
-			progress_dialog.show ();
-			while (Gtk.events_pending ()) {
-				Gtk.main_iteration ();
-			}
+			reset_progress_box (action);
+			pulse_timeout_id = Timeout.add (500, (GLib.SourceFunc) progress_box.progressbar.pulse);
+			important_details_outpout (false);
 			try {
 				daemon.start_generate_mirrors_list ();
 			} catch (IOError e) {
@@ -346,8 +359,7 @@ namespace Pamac {
 
 		public void start_refresh (bool force) {
 			string action = dgettext (null, "Synchronizing package databases") + "...";
-			reset_progress_dialog (action);
-			emit_action (action);
+			reset_progress_box (action);
 			try {
 				daemon.refresh_finished.connect (on_refresh_finished);
 				daemon.start_refresh (force);
@@ -664,8 +676,7 @@ namespace Pamac {
 		}
 
 		void sysupgrade_simple (bool enable_downgrade) {
-			progress_dialog.progressbar.fraction = 0;
-			progress_dialog.cancel_button.visible = true;
+			progress_box.progressbar.fraction = 0;
 			success = init (0);
 			if (success) {
 				try {
@@ -695,8 +706,7 @@ namespace Pamac {
 		public void sysupgrade (bool enable_downgrade) {
 			this.enable_downgrade = enable_downgrade;
 			string action = dgettext (null, "Starting full system upgrade") + "...";
-			reset_progress_dialog (action);
-			emit_action (action);
+			reset_progress_box (action);
 			start_get_updates_for_sysupgrade ();
 		}
 
@@ -748,8 +758,7 @@ namespace Pamac {
 
 		public void run () {
 			string action = dgettext (null, "Preparing") + "...";
-			reset_progress_dialog (action);
-			emit_action (action);
+			reset_progress_box (action);
 			// run
 			if (to_install.length == 0
 					&& to_remove.length == 0
@@ -962,7 +971,6 @@ namespace Pamac {
 		}
 
 		public void start_commit () {
-			progress_dialog.cancel_button.visible = false;
 			try {
 				daemon.start_trans_commit ();
 			} catch (IOError e) {
@@ -974,15 +982,10 @@ namespace Pamac {
 
 		public void build_aur_packages () {
 			string action = dgettext (null, "Building packages") + "...";
-			reset_progress_dialog (action, false, true);
-			emit_action (action);
-			progress_dialog.term.grab_focus ();
-			pulse_timeout_id = Timeout.add (500, (GLib.SourceFunc) progress_dialog.progressbar.pulse);
-			progress_dialog.close_button.visible = false;
-			progress_dialog.show ();
-			while (Gtk.events_pending ()) {
-				Gtk.main_iteration ();
-			}
+			reset_progress_box (action);
+			term.grab_focus ();
+			pulse_timeout_id = Timeout.add (500, (GLib.SourceFunc) progress_box.progressbar.pulse);
+			important_details_outpout (true);
 			start_transaction ();
 			string[] cmds = {"yaourt", "-S"};
 			if (pamac_config.no_confirm_build) {
@@ -992,9 +995,9 @@ namespace Pamac {
 				cmds += name;
 			}
 			Pid child_pid;
-			progress_dialog.spawn_in_term (cmds, out child_pid);
+			spawn_in_term (cmds, out child_pid);
 			// watch_child is needed in order to have the child_exited signal emitted
-			progress_dialog.term.watch_child (child_pid);
+			term.watch_child (child_pid);
 //~ 			foreach (unowned string pkgname in to_build) {
 //~ 				stdout.printf("aur deps for %s:\n", pkgname);
 //~ 				get_aur_build_list.begin (pkgname, (obj, res) => {
@@ -1012,9 +1015,8 @@ namespace Pamac {
 			} catch (IOError e) {
 				stderr.printf ("IOError: %s\n", e.message);
 			}
-			progress_dialog.hide ();
-			progress_dialog.spawn_in_term ({"/usr/bin/echo", dgettext (null, "Transaction cancelled") + ".\n"});
-			progress_dialog.expander.expanded = false;
+			progress_box.hide ();
+			spawn_in_term ({"/usr/bin/echo", dgettext (null, "Transaction cancelled") + ".\n"});
 			dialog_textbuffer = new StringBuilder ();
 		}
 
@@ -1054,46 +1056,40 @@ namespace Pamac {
 					action = dgettext (null, "Checking inter-conflicts") + "...";
 					break;
 				case 9: //Alpm.Event.Type.TRANSACTION_START
-					progress_dialog.cancel_button.visible = false;
 					start_transaction ();
 					break;
 				case 11: //Alpm.Event.Type.PACKAGE_OPERATION_START
 					switch (secondary_event) {
-						// special cases handle differently
+						// special case handle differently
 						case 1: //Alpm.Package.Operation.INSTALL
 							previous_filename = details[0];
 							string msg = dgettext (null, "Installing %s").printf (details[0]) + "...";
-							progress_dialog.action_label.label = msg;
-							emit_action (msg);
-							progress_dialog.spawn_in_term ({"echo", dgettext (null, "Installing %s").printf ("%s (%s)".printf (details[0], details[1]))+ "..."});
+							progress_box.action_label.label = msg;
+							spawn_in_term ({"echo", dgettext (null, "Installing %s").printf ("%s (%s)".printf (details[0], details[1])) + "..."});
 							break;
 						case 2: //Alpm.Package.Operation.UPGRADE
 							previous_filename = details[0];
 							string msg = dgettext (null, "Upgrading %s").printf (details[0]) + "...";
-							progress_dialog.action_label.label = msg;
-							emit_action (msg);
-							progress_dialog.spawn_in_term ({"echo", dgettext (null, "Upgrading %s").printf ("%s (%s -> %s)".printf (details[0], details[1], details[2]))+ "..."});
+							progress_box.action_label.label = msg;
+							spawn_in_term ({"echo", dgettext (null, "Upgrading %s").printf ("%s (%s -> %s)".printf (details[0], details[1], details[2])) + "..."});
 							break;
 						case 3: //Alpm.Package.Operation.REINSTALL
 							previous_filename = details[0];
 							string msg = dgettext (null, "Reinstalling %s").printf (details[0]) + "...";
-							progress_dialog.action_label.label = msg;
-							emit_action (msg);
-							progress_dialog.spawn_in_term ({"echo", dgettext (null, "Reinstalling %s").printf ("%s (%s)".printf (details[0], details[1]))+ "..."});
+							progress_box.action_label.label = msg;
+							spawn_in_term ({"echo", dgettext (null, "Reinstalling %s").printf ("%s (%s)".printf (details[0], details[1])) + "..."});
 							break;
 						case 4: //Alpm.Package.Operation.DOWNGRADE
 							previous_filename = details[0];
 							string msg = dgettext (null, "Downgrading %s").printf (details[0]) + "...";
-							progress_dialog.action_label.label = msg;
-							emit_action (msg);
-							progress_dialog.spawn_in_term ({"echo", dgettext (null, "Downgrading %s").printf ("%s (%s -> %s)".printf (details[0], details[1], details[2]))+ "..."});
+							progress_box.action_label.label = msg;
+							spawn_in_term ({"echo", dgettext (null, "Downgrading %s").printf ("%s (%s -> %s)".printf (details[0], details[1], details[2])) + "..."});
 							break;
 						case 5: //Alpm.Package.Operation.REMOVE
 							previous_filename = details[0];
 							string msg = dgettext (null, "Removing %s").printf (details[0]) + "...";
-							progress_dialog.action_label.label = msg;
-							emit_action (msg);
-							progress_dialog.spawn_in_term ({"echo", dgettext (null, "Removing %s").printf ("%s (%s)".printf (details[0], details[1]))+ "..."});
+							progress_box.action_label.label = msg;
+							spawn_in_term ({"echo", dgettext (null, "Removing %s").printf ("%s (%s)".printf (details[0], details[1])) + "..."});
 							break;
 					}
 					break;
@@ -1119,19 +1115,20 @@ namespace Pamac {
 					detailed_action = dgettext (null, "Generation failed") + "...";
 					break;
 				case 24: //Alpm.Event.Type.SCRIPTLET_INFO
-					progress_dialog.expander.expanded = true;
 					action = dgettext (null, "Configuring %s").printf (previous_filename) + "...";
 					detailed_action = details[0].replace ("\n", "");
+					important_details_outpout (false);
 					break;
 				case 25: //Alpm.Event.Type.RETRIEVE_START
-					progress_dialog.cancel_button.visible = true;
 					action = dgettext (null, "Downloading") + "...";
 					break;
 				case 28: //Alpm.Event.Type.PKGDOWNLOAD_START
+					// special case handle differently
+					spawn_in_term ({"echo", dgettext (null, "Downloading %s").printf (details[0]) + "..."});
 					string name_version_release = details[0].slice (0, details[0].last_index_of_char ('-'));
 					string name_version = name_version_release.slice (0, name_version_release.last_index_of_char ('-'));
 					string name = name_version.slice (0, name_version.last_index_of_char ('-'));
-					action = dgettext (null, "Downloading %s").printf (name) + "...";
+					progress_box.action_label.label = dgettext (null, "Downloading %s").printf (name) + "...";
 					break;
 				case 31: //Alpm.Event.Type.DISKSPACE_START
 					action = dgettext (null, "Checking available disk space") + "...";
@@ -1144,7 +1141,6 @@ namespace Pamac {
 					detailed_action = dgettext (null, "Database file for %s does not exist").printf (details[0]);
 					break;
 				case 35: //Alpm.Event.Type.KEYRING_START
-					progress_dialog.cancel_button.visible = true;
 					action = dgettext (null, "Checking keyring") + "...";
 					break;
 				case 37: //Alpm.Event.Type.KEY_DOWNLOAD_START
@@ -1169,33 +1165,26 @@ namespace Pamac {
 					}
 					break;
 				case 43: // Alpm.Event.Type.HOOK_RUN_START
-					string textbar = "%s/%s".printf (details[2], details[3]);
-					if (textbar != previous_textbar) {
-						previous_textbar = textbar;
-						progress_dialog.progressbar.text = textbar;
-					}
 					float fraction = (float) int.parse (details[2]) / int.parse (details[3]);
 					if (fraction != previous_percent) {
 						previous_percent = fraction;
-						progress_dialog.progressbar.fraction = fraction;
+						progress_box.progressbar.fraction = fraction;
 					}
 					if (details[1] != "") {
-						detailed_action = details[1] + ":";
+						detailed_action = details[1];
 					} else {
-						detailed_action = details[0] + ":";
+						detailed_action = details[0];
 					}
-					
 					break;
 				default:
 					break;
 			}
 			if (action != null) {
-				progress_dialog.action_label.label = action;
-				progress_dialog.spawn_in_term ({"echo", action});
-				emit_action (action);
+				progress_box.action_label.label = action;
+				spawn_in_term ({"echo", action});
 			}
 			if (detailed_action != null) {
-				progress_dialog.spawn_in_term ({"echo", detailed_action});
+				spawn_in_term ({"echo", detailed_action});
 			}
 		}
 
@@ -1225,11 +1214,11 @@ namespace Pamac {
 			string textbar = "%lu/%lu".printf (current_target, n_targets);
 			if (textbar != previous_textbar) {
 				previous_textbar = textbar;
-				progress_dialog.progressbar.text = textbar;
+				progress_box.progressbar.text = textbar;
 			}
 			if (fraction != previous_percent) {
 				previous_percent = fraction;
-				progress_dialog.progressbar.fraction = fraction;
+				progress_box.progressbar.fraction = fraction;
 			}
 		}
 
@@ -1238,6 +1227,7 @@ namespace Pamac {
 			float fraction;
 			if (total_download > 0) {
 				if (xfered == 0) {
+					// start download pkg is handled by Alpm.Event.Type.PKGDOWNLOAD_START
 					previous_xfered = 0;
 					fraction = previous_percent;
 					text.append (previous_textbar);
@@ -1283,12 +1273,10 @@ namespace Pamac {
 					rates_nb = 0;
 					fraction = 0;
 					timer.start ();
-					// start download pkg is handled by Alpm.Event.Type.PKGDOWNLOAD_START
 					if (filename.has_suffix (".db")) {
 						string action = dgettext (null, "Refreshing %s").printf (filename.replace (".db", "")) + "...";
-						progress_dialog.action_label.label = action;
-						progress_dialog.spawn_in_term ({"echo", action});
-						emit_action (action);
+						progress_box.action_label.label = action;
+						spawn_in_term ({"echo", action});
 					}
 				} else if (xfered == total) {
 					timer.stop ();
@@ -1326,11 +1314,11 @@ namespace Pamac {
 			}
 			if (fraction != previous_percent) {
 				previous_percent = fraction;
-				progress_dialog.progressbar.fraction = fraction;
+				progress_box.progressbar.fraction = fraction;
 			}
 			if (text.str != previous_textbar) {
 				previous_textbar = text.str;
-				progress_dialog.progressbar.text = text.str;
+				progress_box.progressbar.text = text.str;
 			}
 		}
 
@@ -1344,6 +1332,7 @@ namespace Pamac {
 			// with the value 0 so stop our timer
 			if (total == 0) {
 				timer.stop ();
+				progress_box.progressbar.text = "";
 			}
 		}
 
@@ -1356,6 +1345,7 @@ namespace Pamac {
 				} else {
 					line = dgettext (null, "Error") + ": " + msg;
 				}
+				important_details_outpout (false);
 			} else if (level == (1 << 1)) { //Alpm.LogLevel.WARNING
 				// do not show warning when manjaro-system remove db.lck
 				if (previous_filename != "manjaro-system") {
@@ -1368,7 +1358,7 @@ namespace Pamac {
 				}
 			}
 			if (line != null) {
-				progress_dialog.spawn_in_term ({"echo", "-n", line});
+				spawn_in_term ({"echo", "-n", line});
 			}
 		}
 
@@ -1401,7 +1391,7 @@ namespace Pamac {
 		}
 
 		void display_error (string message, string[] details) {
-			progress_dialog.spawn_in_term ({"echo", "-n", message});
+			spawn_in_term ({"echo", "-n", message});
 			var dialog = new Gtk.MessageDialog (application_window,
 												Gtk.DialogFlags.MODAL,
 												Gtk.MessageType.ERROR,
@@ -1409,9 +1399,9 @@ namespace Pamac {
 												message);
 			if (details.length != 0) {
 				var textbuffer = new StringBuilder ();
-				progress_dialog.spawn_in_term ({"echo", ":"});
+				spawn_in_term ({"echo", ":"});
 				foreach (unowned string detail in details) {
-					progress_dialog.spawn_in_term ({"echo", detail});
+					spawn_in_term ({"echo", detail});
 					textbuffer.append (detail + "\n");
 				}
 				dialog.secondary_text = textbuffer.str;
@@ -1422,24 +1412,17 @@ namespace Pamac {
 
 		void handle_error (ErrorInfos error) {
 			if (error.message != "") {
-				progress_dialog.action_label.label = "";
-				progress_dialog.progressbar.fraction = 0;
+				reset_progress_box ("");
 				display_error (error.message, error.details);
-				progress_dialog.spawn_in_term ({"echo"});
-				progress_dialog.spawn_in_term ({"echo"});
 			}
 			finish_transaction ();
 		}
 
 		void finish_transaction () {
 			transaction_summary.remove_all ();
-			if (progress_dialog.expander.expanded) {
-				progress_dialog.show ();
-				progress_dialog.cancel_button.visible = false;
-				progress_dialog.close_button.clicked.connect (hide_progress_and_finish);
-			} else {
-				hide_progress_and_finish ();
-			}
+			reset_progress_box ("");
+			finished (success);
+			success = false;
 		}
 
 		void on_refresh_finished (bool success) {
@@ -1447,25 +1430,13 @@ namespace Pamac {
 			clear_lists ();
 			if (success) {
 				finished (success);
-				progress_dialog.hide ();
+				reset_progress_box ("");
 				success = false;
 			} else {
 				handle_error (get_current_error ());
 			}
 			previous_filename = "";
 			daemon.refresh_finished.disconnect (on_refresh_finished);
-		}
-
-		void hide_progress_and_finish () {
-			finished (success);
-			progress_dialog.hide ();
-			progress_dialog.expander.expanded = false;
-			success = false;
-			progress_dialog.close_button.clicked.connect (hide_progress);
-		}
-
-		void on_progress_dialog_cancel_button_clicked () {
-			cancel ();
 		}
 
 		void on_trans_prepare_finished (bool success) {
@@ -1501,8 +1472,8 @@ namespace Pamac {
 					} else {
 						transaction_sum_dialog.hide ();
 						unowned string action = dgettext (null, "Transaction cancelled");
-						progress_dialog.spawn_in_term ({"echo", action + ".\n"});
-						progress_dialog.action_label.label = action;
+						spawn_in_term ({"echo", action + ".\n"});
+						progress_box.action_label.label = action;
 						release ();
 						transaction_summary.remove_all ();
 						sysupgrade_after_trans = false;
@@ -1512,7 +1483,7 @@ namespace Pamac {
 				} else {
 					//var err = ErrorInfos ();
 					//err.message = dgettext (null, "Nothing to do") + "\n";
-					progress_dialog.spawn_in_term ({"echo", dgettext (null, "Nothing to do") + ".\n"});
+					spawn_in_term ({"echo", dgettext (null, "Nothing to do") + ".\n"});
 					release ();
 					clear_lists ();
 					finish_transaction ();
@@ -1530,7 +1501,7 @@ namespace Pamac {
 					if (previous_to_install.length != 0
 							|| previous_to_remove.length != 0
 							|| to_load.length != 0) {
-						progress_dialog.spawn_in_term ({"echo", dgettext (null, "Transaction successfully finished") + ".\n"});
+						spawn_in_term ({"echo", dgettext (null, "Transaction successfully finished") + ".\n"});
 					}
 					build_aur_packages ();
 				} else {
@@ -1541,8 +1512,8 @@ namespace Pamac {
 						sysupgrade (false);
 					} else {
 						unowned string action = dgettext (null, "Transaction successfully finished");
-						progress_dialog.spawn_in_term ({"echo", action + ".\n"});
-						progress_dialog.action_label.label = action;
+						spawn_in_term ({"echo", action + ".\n"});
+						progress_box.action_label.label = action;
 						finish_transaction ();
 					}
 				}
@@ -1576,16 +1547,12 @@ namespace Pamac {
 				if (status == 0) {
 					success = true;
 					unowned string action = dgettext (null, "Transaction successfully finished");
-					progress_dialog.spawn_in_term ({"echo", action + ".\n"});
-					progress_dialog.action_label.label = action;
+					spawn_in_term ({"echo", action + "."});
+					progress_box.action_label.label = action;
 				} else {
 					success = false;
-					progress_dialog.spawn_in_term ({"echo"});
 				}
-				transaction_summary.remove_all ();
-				progress_dialog.progressbar.fraction = 1;
-				progress_dialog.close_button.clicked.connect (hide_progress_and_finish);
-				progress_dialog.close_button.visible = true;
+				finish_transaction ();
 				return false;
 			});
 		}
@@ -1615,12 +1582,12 @@ namespace Pamac {
 		}
 
 		void on_generate_mirrors_list_data (string line) {
-			progress_dialog.spawn_in_term ({"echo", "-n", line});
+			spawn_in_term ({"echo", "-n", line});
 		}
 
 		void on_generate_mirrors_list_finished () {
 			Source.remove (pulse_timeout_id);
-			progress_dialog.spawn_in_term ({"echo"});
+			spawn_in_term ({"echo"});
 			// force a dbs refresh
 			start_refresh (true);
 		}

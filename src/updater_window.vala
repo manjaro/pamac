@@ -25,7 +25,11 @@ namespace Pamac {
 		[GtkChild]
 		Gtk.HeaderBar headerbar;
 		[GtkChild]
+		Gtk.Button button_back;
+		[GtkChild]
 		Gtk.ModelButton preferences_button;
+		[GtkChild]
+		Gtk.Stack stack;
 		[GtkChild]
 		Gtk.StackSwitcher stackswitcher;
 		[GtkChild]
@@ -45,8 +49,6 @@ namespace Pamac {
 		[GtkChild]
 		Gtk.Box transaction_infobox;
 		[GtkChild]
-		Gtk.Label transaction_infos_label;
-		[GtkChild]
 		Gtk.Button details_button;
 		[GtkChild]
 		Gtk.Button apply_button;
@@ -59,16 +61,19 @@ namespace Pamac {
 		public Pamac.Transaction transaction;
 
 		public bool transaction_running;
+		bool important_details;
 
 		public UpdaterWindow (Gtk.Application application) {
 			Object (application: application);
 
+			button_back.visible = false;
 			bottom_label.visible  = false;
 			apply_button.get_style_context ().add_class (Gtk.STYLE_CLASS_SUGGESTED_ACTION);
-			apply_button.visible = false;
+			apply_button.sensitive = false;
 			stackswitcher.visible = false;
 			aur_scrolledwindow.visible = false;
 			transaction_running = false;
+			important_details = false;
 
 			Timeout.add (100, populate_window);
 		}
@@ -84,11 +89,17 @@ namespace Pamac {
 			transaction = new Transaction (this as Gtk.ApplicationWindow);
 			transaction.mode = Mode.UPDATER;
 			transaction.start_transaction.connect (on_start_transaction);
-			transaction.emit_action.connect (on_emit_action);
+			transaction.important_details_outpout.connect (on_important_details_outpout);
 			transaction.finished.connect (populate_updates_list);
 			transaction.get_updates_finished.connect (on_get_updates_finished);
 
+			// integrate progress box and term widget
+			stack.add_named (transaction.term_grid, "term");
+			transaction_infobox.pack_start (transaction.progress_box);
+
 			on_refresh_button_clicked ();
+
+			stack.notify["visible-child"].connect (on_stack_visible_child_changed);
 
 			return false;
 		}
@@ -110,6 +121,10 @@ namespace Pamac {
 				});
 			}
 			transaction_infobox.visible = visible;
+			if (visible) {
+				// fix an possible visibility issue
+				transaction_infobox.show_all ();
+			}
 		}
 
 		[GtkCallback]
@@ -151,6 +166,17 @@ namespace Pamac {
 		}
 
 		[GtkCallback]
+		void on_button_back_clicked () {
+			stack.visible_child_name = "repos";
+		}
+
+		void on_stack_visible_child_changed () {
+			if (stack.visible_child_name == "term") {
+				button_back.visible = true;
+			}
+		}
+
+		[GtkCallback]
 		void on_menu_button_toggled () {
 			preferences_button.sensitive = !transaction_running;
 		}
@@ -166,18 +192,18 @@ namespace Pamac {
 		void on_apply_button_clicked () {
 			transaction_running = true;
 			transaction.sysupgrade (false);
-			apply_button.visible = false;
-			details_button.visible = true;
-			cancel_button.visible = true;
+			apply_button.sensitive = false;
+			details_button.sensitive = true;
+			cancel_button.sensitive = true;
 		}
 
 		[GtkCallback]
 		void on_refresh_button_clicked () {
 			this.get_window ().set_cursor (new Gdk.Cursor.for_display (Gdk.Display.get_default (), Gdk.CursorType.WATCH));
 			transaction_infobox.visible = true;
-			apply_button.visible = false;
-			details_button.visible = true;
-			cancel_button.visible = true;
+			apply_button.sensitive = false;
+			details_button.sensitive = true;
+			cancel_button.sensitive = true;
 			transaction.start_refresh (false);
 		}
 
@@ -193,7 +219,9 @@ namespace Pamac {
 
 		[GtkCallback]
 		void on_details_button_clicked () {
-			transaction.show_progress ();
+			details_button.get_style_context ().remove_class (Gtk.STYLE_CLASS_SUGGESTED_ACTION);
+			important_details = false;
+			stack.visible_child_name = "term";
 		}
 
 		[GtkCallback]
@@ -202,21 +230,30 @@ namespace Pamac {
 		}
 
 		void on_start_transaction () {
-			cancel_button.visible = false;
+			cancel_button.sensitive = false;
 		}
 
-		void on_emit_action (string action) {
-			transaction_infos_label.label = action;
+		void on_important_details_outpout (bool must_show) {
+			if (must_show) {
+				stack.visible_child_name = "term";
+				button_back.visible = false;
+			} else if (stack.visible_child_name != "term") {
+				important_details = true;
+				details_button.get_style_context ().add_class (Gtk.STYLE_CLASS_SUGGESTED_ACTION);
+			}
 		}
 
 		void populate_updates_list () {
 			transaction_running = false;
-			apply_button.visible = true;
+			apply_button.sensitive = true;
 			apply_button.grab_default ();
-			details_button.visible = false;
-			cancel_button.visible = false;
+			details_button.sensitive = false;
+			cancel_button.sensitive = false;
+			if (stack.visible_child_name == "term") {
+				button_back.visible = true;
+			}
 			this.get_window ().set_cursor (new Gdk.Cursor.for_display (Gdk.Display.get_default (), Gdk.CursorType.WATCH));
-			transaction_infos_label.label = "";
+			transaction.progress_box.action_label.label = "";
 			transaction.start_get_updates ();
 		}
 

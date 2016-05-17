@@ -109,7 +109,7 @@ namespace Pamac {
 		[GtkChild]
 		Gtk.Box transaction_infobox;
 		[GtkChild]
-		Gtk.Label transaction_infos_label;
+		Gtk.Button details_button;
 		[GtkChild]
 		Gtk.Button apply_button;
 		[GtkChild]
@@ -138,6 +138,7 @@ namespace Pamac {
 		public Transaction transaction;
 
 		bool refreshing;
+		bool important_details;
 		public bool transaction_running;
 
 		uint search_entry_timeout_id;
@@ -149,6 +150,7 @@ namespace Pamac {
 			button_back.visible = false;
 			transaction_infobox.visible = false;;
 			refreshing = false;
+			important_details = false;
 			transaction_running = false;
 
 			Timeout.add (100, populate_window);
@@ -279,10 +281,14 @@ namespace Pamac {
 			transaction = new Transaction (this as Gtk.ApplicationWindow);
 			transaction.mode = Mode.MANAGER;
 			transaction.start_transaction.connect (on_start_transaction);
-			transaction.emit_action.connect (on_emit_action);
+			transaction.important_details_outpout.connect (on_important_details_outpout);
 			transaction.finished.connect (on_transaction_finished);
 			transaction.write_pamac_config_finished.connect (on_write_pamac_config_finished);
 			transaction.set_pkgreason_finished.connect (on_set_pkgreason_finished);
+
+			// integrate progress box and term widget
+			main_stack.add_named (transaction.term_grid, "term");
+			transaction_infobox.pack_start (transaction.progress_box);
 
 			AlpmPackage pkg = transaction.find_installed_satisfier ("yaourt");
 			if (pkg.name != "") {
@@ -335,11 +341,13 @@ namespace Pamac {
 			if (!transaction_running) {
 				uint total_pending = transaction.to_install.length + transaction.to_remove.length + transaction.to_build.length;
 				if (total_pending == 0) {
-					transaction_infobox.visible = false;
+					transaction.progress_box.action_label.label = "";
+					transaction_infobox.visible = important_details;
 				} else {
 					string info = dngettext (null, "%u pending operation", "%u pending operations", total_pending).printf (total_pending);
-					transaction_infos_label.label = info;
-					transaction_infobox.visible = true;
+					transaction.progress_box.action_label.label = info;
+					// fix an possible visibility issue
+					transaction_infobox.show_all ();
 				}
 			}
 		}
@@ -1436,6 +1444,7 @@ namespace Pamac {
 					filters_stackswitcher.visible = true;
 					break;
 				case "details":
+				case "term":
 					filters_stackswitcher.visible = false;
 					button_back.visible = true;
 					break;
@@ -1508,29 +1517,36 @@ namespace Pamac {
 
 		[GtkCallback]
 		void on_details_button_clicked () {
+			details_button.get_style_context ().remove_class (Gtk.STYLE_CLASS_SUGGESTED_ACTION);
+			important_details = false;
 			if (transaction_running) {
-				transaction.show_progress ();
+				main_stack.visible_child_name = "term";
 			} else {
-				main_stack.visible_child_name = "browse";
-				filters_stack.notify["visible-child"].disconnect (on_filters_stack_visible_child_changed);
-				filters_stack.visible_child_name = "states";
-				filters_stack.notify["visible-child"].connect (on_filters_stack_visible_child_changed);
-				Gtk.TreeIter iter;
-				// show "Pending" in states_list
-				// "Pending" is at indice 3
-				states_list.get_iter (out iter, new Gtk.TreePath.from_indices (3));
-				Gtk.TreeSelection selection = states_treeview.get_selection ();
-				selection.changed.disconnect (on_states_treeview_selection_changed);
-				selection.select_iter (iter);
-				selection.changed.connect_after (on_states_treeview_selection_changed);
-				refresh_packages_list ();
+				uint total_pending = transaction.to_install.length + transaction.to_remove.length + transaction.to_build.length;
+				if (total_pending == 0) {
+					main_stack.visible_child_name = "term";
+				} else {
+					main_stack.visible_child_name = "browse";
+					filters_stack.notify["visible-child"].disconnect (on_filters_stack_visible_child_changed);
+					filters_stack.visible_child_name = "states";
+					filters_stack.notify["visible-child"].connect (on_filters_stack_visible_child_changed);
+					Gtk.TreeIter iter;
+					// show "Pending" in states_list
+					// "Pending" is at indice 3
+					states_list.get_iter (out iter, new Gtk.TreePath.from_indices (3));
+					Gtk.TreeSelection selection = states_treeview.get_selection ();
+					selection.changed.disconnect (on_states_treeview_selection_changed);
+					selection.select_iter (iter);
+					selection.changed.connect_after (on_states_treeview_selection_changed);
+					refresh_packages_list ();
+				}
 			}
 		}
 
 		[GtkCallback]
 		void on_apply_button_clicked () {
 			transaction_running = true;
-			apply_button.visible = false;
+			apply_button.sensitive = false;
 			transaction.run ();
 		}
 
@@ -1545,6 +1561,9 @@ namespace Pamac {
 				if (main_stack.visible_child_name == "details") {
 					display_package_properties (current_package_displayed);
 				}
+				while (Gtk.events_pending ()) {
+					Gtk.main_iteration ();
+				}
 			}
 		}
 
@@ -1553,22 +1572,30 @@ namespace Pamac {
 			this.get_window ().set_cursor (new Gdk.Cursor.for_display (Gdk.Display.get_default (), Gdk.CursorType.WATCH));
 			refreshing = true;
 			transaction.start_refresh (false);
-			apply_button.visible = false;
+			apply_button.sensitive = false;
 			transaction_infobox.visible = true;
 		}
 
 		void on_start_transaction () {
-			cancel_button.visible = false;
+			cancel_button.sensitive = false;
 		}
 
-		void on_emit_action (string action) {
-			transaction_infos_label.label = action;
+		void on_important_details_outpout (bool must_show) {
+			if (must_show) {
+				main_stack.visible_child_name = "term";
+				button_back.visible = false;
+			} else if (main_stack.visible_child_name != "term") {
+				important_details = true;
+				details_button.get_style_context ().add_class (Gtk.STYLE_CLASS_SUGGESTED_ACTION);
+			}
 		}
 
 		void on_transaction_finished (bool success) {
 			refresh_packages_list ();
 			if (main_stack.visible_child_name == "details") {
 				display_package_properties (current_package_displayed);
+			} else if (main_stack.visible_child_name == "term") {
+				button_back.visible = true;
 			}
 			transaction.to_load.remove_all ();
 			if (refreshing) {
@@ -1579,8 +1606,8 @@ namespace Pamac {
 				refreshing = false;
 			} else {
 				transaction_running = false;
-				cancel_button.visible = true;
-				apply_button.visible = true;
+				cancel_button.sensitive = true;
+				apply_button.sensitive = true;
 			}
 			set_pendings_operations ();
 		}
