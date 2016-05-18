@@ -77,7 +77,7 @@
   <template class="PamacUpdaterWindow" parent="GtkApplicationWindow">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
-    <property name="default_width">600</property>
+    <property name="default_height">500</property>
     <property name="icon_name">system-software-update</property>
     <property name="gravity">center</property>
     <property name="show_menubar">False</property>
@@ -110,7 +110,6 @@
             <child>
               <object class="GtkScrolledWindow" id="repos_scrolledwindow">
                 <property name="width_request">600</property>
-                <property name="height_request">450</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <child>
@@ -220,7 +219,6 @@
             <child>
               <object class="GtkScrolledWindow" id="aur_scrolledwindow">
                 <property name="width_request">600</property>
-                <property name="height_request">450</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <child>
