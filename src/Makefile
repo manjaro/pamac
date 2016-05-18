@@ -28,8 +28,7 @@ TRANSACTION_SOURCES = 	package.vala \
 						history_dialog.vala \
 						choose_provider_dialog.vala \
 						transaction_sum_dialog.vala \
-						progress_box.vala \
-						progress_dialog.vala
+						progress_box.vala
 
 PREFERENCES_SOURCES = 	preferences_dialog.vala \
 						choose_ignorepkgs_dialog.vala \
@@ -119,10 +118,13 @@ pamac-updater: libpamac.so ../resources/updater_resources.c updater_window.vala 
 			updater_window.vala \
 			updater.vala
 
-pamac-install: libpamac.so installer.vala
+pamac-install: libpamac.so ../resources/installer_resources.c progress_dialog.vala installer.vala
 	valac 	-o pamac-install \
 			$(COMMON_VALA_FLAGS) \
 			$(PAMAC_LIB_FLAGS) \
 			--pkg=json-glib-1.0 \
 			--pkg=gtk+-3.0 \
+			--gresources=$(INSTALLER_GRESOURCE_FILE) \
+			../resources/installer_resources.c \
+			progress_dialog.vala \
 			installer.vala

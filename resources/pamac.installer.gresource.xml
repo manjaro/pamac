@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gresources>
+  <gresource prefix="/org/manjaro/pamac/installer">
+    <file preprocess="xml-stripblanks">progress_dialog.ui</file>
+  </gresource>
+</gresources>

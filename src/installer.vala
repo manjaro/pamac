@@ -21,7 +21,9 @@ namespace Pamac {
 
 	public class Installer: Gtk.Application {
 		Transaction transaction;
+		ProgressDialog progress_dialog;
 		bool pamac_run;
+		bool important_details;
 
 		public Installer () {
 			application_id = "org.manjaro.pamac.install";
@@ -45,8 +47,17 @@ namespace Pamac {
 				msg.run ();
 				msg.destroy ();
 			} else {
-				transaction = new Pamac.Transaction (null);
+				important_details = false;
+				// integrate progress box and term widget
+				progress_dialog = new ProgressDialog ();
+				transaction = new Pamac.Transaction (progress_dialog as Gtk.ApplicationWindow);
 				transaction.finished.connect (on_transaction_finished);
+				transaction.important_details_outpout.connect (on_important_details_outpout);
+				progress_dialog.box.pack_start (transaction.progress_box);
+				progress_dialog.box.reorder_child (transaction.progress_box, 0);
+				progress_dialog.expander.add (transaction.term_grid);
+				progress_dialog.close_button.clicked.connect (on_close_button_clicked);
+				progress_dialog.close_button.visible = false;
 				this.hold ();
 			}
 		}
@@ -65,6 +76,7 @@ namespace Pamac {
 					transaction.to_load.add (file.get_path ());
 				}
 				transaction.run ();
+				progress_dialog.show ();
 			}
 		}
 
@@ -91,9 +103,22 @@ namespace Pamac {
 			return run;
 		}
 
+		void on_important_details_outpout (bool must_show) {
+			important_details = true;
+			progress_dialog.expander.expanded = true;
+		}
+
+		void on_close_button_clicked () {
+			this.release ();
+		}
+
 		void on_transaction_finished () {
 			transaction.stop_daemon ();
-			this.release ();
+			if (important_details) {
+				progress_dialog.close_button.visible = true;
+			} else {
+				this.release ();
+			}
 		}
 
 		public static int main (string[] args) {

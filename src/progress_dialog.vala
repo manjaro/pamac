@@ -19,19 +19,18 @@
 
 namespace Pamac {
 
-	[GtkTemplate (ui = "/org/manjaro/pamac/transaction/progress_dialog.ui")]
-	class ProgressDialog : Gtk.Dialog {
+	[GtkTemplate (ui = "/org/manjaro/pamac/installer/progress_dialog.ui")]
+	class ProgressDialog : Gtk.ApplicationWindow {
 
 		[GtkChild]
-		public Gtk.Button cancel_button;
+		public Gtk.Box box;
 		[GtkChild]
 		public Gtk.Button close_button;
 		[GtkChild]
 		public Gtk.Expander expander;
 
-		public ProgressDialog (Gtk.ApplicationWindow? window) {
-			Object (transient_for: window, use_header_bar: 1);
-
+		public ProgressDialog () {
+			Object ();
 		}
 
 	}
