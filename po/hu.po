@@ -13,15 +13,19 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2016-04-24 08:44+0200\n"
-"PO-Revision-Date: 2016-04-28 10:05+0000\n"
-"Last-Translator: miku84\n"
+"POT-Creation-Date: 2015-08-20 11:53+0200\n"
+"PO-Revision-Date: 2016-05-14 09:54+0000\n"
+"Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Hungarian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/hu/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: hu\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: data/polkit/org.manjaro.pamac.policy
+msgid "Authentication is required"
+msgstr ""
 
 #: ../src/daemon.vala
 msgid "Failed to initialize alpm library"
@@ -39,7 +43,7 @@ msgstr "Ismeretlen"
 msgid "Explicitly installed"
 msgstr "Kifejezetten telepített"
 
-#: ../src/daemon.vala
+#: ../src/daemon.vala ../src/manager_window.vala
 msgid "Installed as a dependency for another package"
 msgstr "Telepítve csomagfüggőség miatt"
 
@@ -374,25 +378,18 @@ msgstr "Mutasd az elérhető frissítéseket"
 msgid "Deselect"
 msgstr "Kiválasztás megszüntetése"
 
-#: ../src/manager_window.vala
+#: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Install"
 msgstr "Telepítés"
 
-#: ../src/manager_window.vala
+#: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Remove"
 msgstr "Eltávolít"
 
-#: ../src/manager_window.vala
-msgid "Reinstall"
-msgstr "Újra telepít"
-
-#: ../src/manager_window.vala
-msgid "Install optional dependencies"
-msgstr "Opcionális függőségek telepítése"
-
-#: ../src/manager_window.vala
-msgid "Mark as explicitly installed"
-msgstr "Megjelölés kifejezett telepítésre"
+#: ../src/manager_window.vala ../resources/progress_dialog.ui
+#: ../resources/manager_window.ui ../resources/updater_window.ui
+msgid "Details"
+msgstr "Részletek"
 
 #: ../src/manager_window.vala
 #, c-format
@@ -418,6 +415,14 @@ msgid "Pending"
 msgstr "Függőben lévő"
 
 #: ../src/manager_window.vala
+msgid "Install Reason"
+msgstr "Telepítés oka"
+
+#: ../src/manager_window.vala
+msgid "Mark as explicitly installed"
+msgstr "Megjelölés kifejezett telepítésre"
+
+#: ../src/manager_window.vala
 msgid "Licenses"
 msgstr "Licenszek"
 
@@ -441,10 +446,6 @@ msgstr "Verzió dátuma"
 #: ../src/manager_window.vala
 msgid "Install Date"
 msgstr "Telepítési dátum"
-
-#: ../src/manager_window.vala
-msgid "Install Reason"
-msgstr "Telepítés oka"
 
 #: ../src/manager_window.vala
 msgid "Signatures"
@@ -519,11 +520,6 @@ msgstr "Függőségek ellenőrzése"
 msgid "Name"
 msgstr "Név"
 
-#: ../src/manager_window.vala
-#, c-format
-msgid "Choose optional dependencies for %s"
-msgstr "Opcionális függőségek kiválasztása a következőhöz: %s"
-
 #: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Install Local Packages"
 msgstr "Helyi csomagok telepítése"
@@ -575,11 +571,6 @@ msgstr "Folyamat"
 #: ../resources/progress_dialog.ui
 msgid "_Hide"
 msgstr "Elrejt"
-
-#: ../resources/progress_dialog.ui ../resources/manager_window.ui
-#: ../resources/updater_window.ui
-msgid "Details"
-msgstr "Részletek"
 
 #: ../resources/history_dialog.ui
 msgid "Pamac History"
@@ -646,13 +637,13 @@ msgstr "Népszerűség"
 msgid "AUR"
 msgstr "AUR"
 
-#: ../resources/manager_window.ui ../resources/updater_window.ui
-msgid "_Apply"
-msgstr "Alkalmaz"
-
 #: ../resources/manager_window.ui
 msgid "Browse"
 msgstr "Keresés"
+
+#: ../resources/manager_window.ui
+msgid "Reinstall"
+msgstr "Újra telepít"
 
 #: ../resources/manager_window.ui
 msgid "Dependencies"
@@ -661,6 +652,10 @@ msgstr "Függőségek"
 #: ../resources/manager_window.ui
 msgid "Files"
 msgstr "Fájlok"
+
+#: ../resources/manager_window.ui ../resources/updater_window.ui
+msgid "_Apply"
+msgstr "Alkalmaz"
 
 #: ../resources/preferences_dialog.ui
 msgid "Remove unrequired dependencies"

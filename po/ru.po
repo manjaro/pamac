@@ -27,15 +27,19 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2016-04-24 08:44+0200\n"
-"PO-Revision-Date: 2016-04-28 05:52+0000\n"
-"Last-Translator: Michael Kogan <photon89@googlemail.com>\n"
+"POT-Creation-Date: 2015-08-20 11:53+0200\n"
+"PO-Revision-Date: 2016-05-16 18:21+0000\n"
+"Last-Translator: Анатолий Валерианович <ffox909@mail.ru>\n"
 "Language-Team: Russian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: ru\n"
 "Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);\n"
+
+#: data/polkit/org.manjaro.pamac.policy
+msgid "Authentication is required"
+msgstr "Запрошена авторизация"
 
 #: ../src/daemon.vala
 msgid "Failed to initialize alpm library"
@@ -53,7 +57,7 @@ msgstr "Неизвестно"
 msgid "Explicitly installed"
 msgstr "Установлено специально"
 
-#: ../src/daemon.vala
+#: ../src/daemon.vala ../src/manager_window.vala
 msgid "Installed as a dependency for another package"
 msgstr "Установлено как зависимость для другого пакета"
 
@@ -392,25 +396,18 @@ msgstr "Показать доступные обновления"
 msgid "Deselect"
 msgstr "Снять выделение"
 
-#: ../src/manager_window.vala
+#: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Install"
 msgstr "Установить"
 
-#: ../src/manager_window.vala
+#: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Remove"
 msgstr "Удалить"
 
-#: ../src/manager_window.vala
-msgid "Reinstall"
-msgstr "Переустановить"
-
-#: ../src/manager_window.vala
-msgid "Install optional dependencies"
-msgstr "Установка необязательных зависимостей"
-
-#: ../src/manager_window.vala
-msgid "Mark as explicitly installed"
-msgstr "Отметить как специально установленный"
+#: ../src/manager_window.vala ../resources/progress_dialog.ui
+#: ../resources/manager_window.ui ../resources/updater_window.ui
+msgid "Details"
+msgstr "Подробности"
 
 #: ../src/manager_window.vala
 #, c-format
@@ -438,6 +435,14 @@ msgid "Pending"
 msgstr "К обработке"
 
 #: ../src/manager_window.vala
+msgid "Install Reason"
+msgstr "Причина установки"
+
+#: ../src/manager_window.vala
+msgid "Mark as explicitly installed"
+msgstr "Отметить как специально установленный"
+
+#: ../src/manager_window.vala
 msgid "Licenses"
 msgstr "Лицензии"
 
@@ -461,10 +466,6 @@ msgstr "Дата сборки"
 #: ../src/manager_window.vala
 msgid "Install Date"
 msgstr "Дата установки"
-
-#: ../src/manager_window.vala
-msgid "Install Reason"
-msgstr "Причина установки"
 
 #: ../src/manager_window.vala
 msgid "Signatures"
@@ -539,11 +540,6 @@ msgstr "Проверка зависимостей"
 msgid "Name"
 msgstr "Название"
 
-#: ../src/manager_window.vala
-#, c-format
-msgid "Choose optional dependencies for %s"
-msgstr "Выбрать необязательные зависимости для %s"
-
 #: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Install Local Packages"
 msgstr "Установить локальные пакеты"
@@ -595,11 +591,6 @@ msgstr "Ход выполнения"
 #: ../resources/progress_dialog.ui
 msgid "_Hide"
 msgstr "Скрыть"
-
-#: ../resources/progress_dialog.ui ../resources/manager_window.ui
-#: ../resources/updater_window.ui
-msgid "Details"
-msgstr "Подробности"
 
 #: ../resources/history_dialog.ui
 msgid "Pamac History"
@@ -666,13 +657,13 @@ msgstr "Популярность"
 msgid "AUR"
 msgstr "AUR"
 
-#: ../resources/manager_window.ui ../resources/updater_window.ui
-msgid "_Apply"
-msgstr "_Применить"
-
 #: ../resources/manager_window.ui
 msgid "Browse"
 msgstr "Обзор"
+
+#: ../resources/manager_window.ui
+msgid "Reinstall"
+msgstr "Переустановить"
 
 #: ../resources/manager_window.ui
 msgid "Dependencies"
@@ -681,6 +672,10 @@ msgstr "Зависимости"
 #: ../resources/manager_window.ui
 msgid "Files"
 msgstr "Файлы"
+
+#: ../resources/manager_window.ui ../resources/updater_window.ui
+msgid "_Apply"
+msgstr "_Применить"
 
 #: ../resources/preferences_dialog.ui
 msgid "Remove unrequired dependencies"

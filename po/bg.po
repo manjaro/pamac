@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2016-04-24 08:44+0200\n"
-"PO-Revision-Date: 2016-04-26 05:25+0000\n"
+"POT-Creation-Date: 2015-08-20 11:53+0200\n"
+"PO-Revision-Date: 2016-05-14 11:30+0000\n"
 "Last-Translator: Galin Iskrenov <loot270@abv.bg>\n"
 "Language-Team: Bulgarian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/bg/)\n"
 "MIME-Version: 1.0\n"
@@ -24,6 +24,10 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Language: bg\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: data/polkit/org.manjaro.pamac.policy
+msgid "Authentication is required"
+msgstr "Изисква се идентификация"
 
 #: ../src/daemon.vala
 msgid "Failed to initialize alpm library"
@@ -41,7 +45,7 @@ msgstr "Непознат"
 msgid "Explicitly installed"
 msgstr "Изрично инсталиран"
 
-#: ../src/daemon.vala
+#: ../src/daemon.vala ../src/manager_window.vala
 msgid "Installed as a dependency for another package"
 msgstr "Инсталиран като зависимост за друг пакет"
 
@@ -376,25 +380,18 @@ msgstr "Покажи достъпните обновявания"
 msgid "Deselect"
 msgstr "Размаркиране"
 
-#: ../src/manager_window.vala
+#: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Install"
 msgstr "Инсталиране"
 
-#: ../src/manager_window.vala
+#: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Remove"
 msgstr "Премахване"
 
-#: ../src/manager_window.vala
-msgid "Reinstall"
-msgstr "Преинсталиране"
-
-#: ../src/manager_window.vala
-msgid "Install optional dependencies"
-msgstr "Инсталиране на допълнителни зависимости"
-
-#: ../src/manager_window.vala
-msgid "Mark as explicitly installed"
-msgstr "Отбелязан като изрично инсталиран:"
+#: ../src/manager_window.vala ../resources/progress_dialog.ui
+#: ../resources/manager_window.ui ../resources/updater_window.ui
+msgid "Details"
+msgstr "Детайли"
 
 #: ../src/manager_window.vala
 #, c-format
@@ -420,6 +417,14 @@ msgid "Pending"
 msgstr "Висящи"
 
 #: ../src/manager_window.vala
+msgid "Install Reason"
+msgstr "Причина за инсталиране"
+
+#: ../src/manager_window.vala
+msgid "Mark as explicitly installed"
+msgstr "Отбелязан като изрично инсталиран:"
+
+#: ../src/manager_window.vala
 msgid "Licenses"
 msgstr "Лицензи"
 
@@ -443,10 +448,6 @@ msgstr "Дата на създаване"
 #: ../src/manager_window.vala
 msgid "Install Date"
 msgstr "Дата на инсталиране"
-
-#: ../src/manager_window.vala
-msgid "Install Reason"
-msgstr "Причина за инсталиране"
 
 #: ../src/manager_window.vala
 msgid "Signatures"
@@ -521,11 +522,6 @@ msgstr "Провери зависимости"
 msgid "Name"
 msgstr "Име"
 
-#: ../src/manager_window.vala
-#, c-format
-msgid "Choose optional dependencies for %s"
-msgstr "Избери допълнителни зависимости за %s"
-
 #: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Install Local Packages"
 msgstr "Инсталиране на локални пакети"
@@ -577,11 +573,6 @@ msgstr "Прогрес"
 #: ../resources/progress_dialog.ui
 msgid "_Hide"
 msgstr "–Скрий"
-
-#: ../resources/progress_dialog.ui ../resources/manager_window.ui
-#: ../resources/updater_window.ui
-msgid "Details"
-msgstr "Детайли"
 
 #: ../resources/history_dialog.ui
 msgid "Pamac History"
@@ -648,13 +639,13 @@ msgstr "Популярност"
 msgid "AUR"
 msgstr "AUR"
 
-#: ../resources/manager_window.ui ../resources/updater_window.ui
-msgid "_Apply"
-msgstr "_Приложи"
-
 #: ../resources/manager_window.ui
 msgid "Browse"
 msgstr "Търси"
+
+#: ../resources/manager_window.ui
+msgid "Reinstall"
+msgstr "Преинсталиране"
 
 #: ../resources/manager_window.ui
 msgid "Dependencies"
@@ -663,6 +654,10 @@ msgstr "Зависимости"
 #: ../resources/manager_window.ui
 msgid "Files"
 msgstr "Файлове"
+
+#: ../resources/manager_window.ui ../resources/updater_window.ui
+msgid "_Apply"
+msgstr "_Приложи"
 
 #: ../resources/preferences_dialog.ui
 msgid "Remove unrequired dependencies"

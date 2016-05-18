@@ -22,15 +22,19 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2016-04-24 08:44+0200\n"
-"PO-Revision-Date: 2016-04-28 18:13+0000\n"
-"Last-Translator: Brings Rain <bringsrain.solutions@gmail.com>\n"
+"POT-Creation-Date: 2015-08-20 11:53+0200\n"
+"PO-Revision-Date: 2016-05-14 09:54+0000\n"
+"Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Indonesian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/id/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: id\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
+
+#: data/polkit/org.manjaro.pamac.policy
+msgid "Authentication is required"
+msgstr ""
 
 #: ../src/daemon.vala
 msgid "Failed to initialize alpm library"
@@ -48,7 +52,7 @@ msgstr "Tidak diketahui"
 msgid "Explicitly installed"
 msgstr "Terpasang secara jelas"
 
-#: ../src/daemon.vala
+#: ../src/daemon.vala ../src/manager_window.vala
 msgid "Installed as a dependency for another package"
 msgstr "Terpasang sebagai dependensi untuk paket yang lain"
 
@@ -381,25 +385,18 @@ msgstr "Tunjukkan pemutakhiran tersedia"
 msgid "Deselect"
 msgstr "Hapus pilihan"
 
-#: ../src/manager_window.vala
+#: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Install"
 msgstr "Pasang"
 
-#: ../src/manager_window.vala
+#: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Remove"
 msgstr "Hapus"
 
-#: ../src/manager_window.vala
-msgid "Reinstall"
-msgstr "Memasang ulang"
-
-#: ../src/manager_window.vala
-msgid "Install optional dependencies"
-msgstr "Pasang opsional dependensi"
-
-#: ../src/manager_window.vala
-msgid "Mark as explicitly installed"
-msgstr "Tandai sebagai yang sudah terpasang"
+#: ../src/manager_window.vala ../resources/progress_dialog.ui
+#: ../resources/manager_window.ui ../resources/updater_window.ui
+msgid "Details"
+msgstr "Detail"
 
 #: ../src/manager_window.vala
 #, c-format
@@ -422,6 +419,14 @@ msgstr "Asing"
 #: ../src/manager_window.vala
 msgid "Pending"
 msgstr "Menunggu"
+
+#: ../src/manager_window.vala
+msgid "Install Reason"
+msgstr "Alasan Pasang"
+
+#: ../src/manager_window.vala
+msgid "Mark as explicitly installed"
+msgstr "Tandai sebagai yang sudah terpasang"
 
 #: ../src/manager_window.vala
 msgid "Licenses"
@@ -447,10 +452,6 @@ msgstr "Waktu diBangun"
 #: ../src/manager_window.vala
 msgid "Install Date"
 msgstr "Waktu Pasang"
-
-#: ../src/manager_window.vala
-msgid "Install Reason"
-msgstr "Alasan Pasang"
 
 #: ../src/manager_window.vala
 msgid "Signatures"
@@ -525,11 +526,6 @@ msgstr "Memeriksa Dependensi"
 msgid "Name"
 msgstr "Nama"
 
-#: ../src/manager_window.vala
-#, c-format
-msgid "Choose optional dependencies for %s"
-msgstr "Pilih dependensi opsional untu %s"
-
 #: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Install Local Packages"
 msgstr "Pasang Paket-paket Lokal"
@@ -581,11 +577,6 @@ msgstr "Kemajuan"
 #: ../resources/progress_dialog.ui
 msgid "_Hide"
 msgstr "_Sembunyikan"
-
-#: ../resources/progress_dialog.ui ../resources/manager_window.ui
-#: ../resources/updater_window.ui
-msgid "Details"
-msgstr "Detail"
 
 #: ../resources/history_dialog.ui
 msgid "Pamac History"
@@ -652,13 +643,13 @@ msgstr "Popularitas"
 msgid "AUR"
 msgstr "AUR"
 
-#: ../resources/manager_window.ui ../resources/updater_window.ui
-msgid "_Apply"
-msgstr "_Terapkan"
-
 #: ../resources/manager_window.ui
 msgid "Browse"
 msgstr "Jelajahi"
+
+#: ../resources/manager_window.ui
+msgid "Reinstall"
+msgstr "Memasang ulang"
 
 #: ../resources/manager_window.ui
 msgid "Dependencies"
@@ -667,6 +658,10 @@ msgstr "Dependensi"
 #: ../resources/manager_window.ui
 msgid "Files"
 msgstr "Berkas"
+
+#: ../resources/manager_window.ui ../resources/updater_window.ui
+msgid "_Apply"
+msgstr "_Terapkan"
 
 #: ../resources/preferences_dialog.ui
 msgid "Remove unrequired dependencies"

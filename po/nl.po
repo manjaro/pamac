@@ -1,5 +1,5 @@
 # Translation of Pamac.
-# Copyright (C) 2007-2012 Free Software Foundation, Inc.
+# Copyright (C) 2013-2016 Manjaro Developers <manjaro-dev@manjaro.org>
 # This file is distributed under the same license as the Pamac package.
 # Guillaume Benoit <guillaume@manjaro.org>, 2013-2016.
 # 
@@ -21,8 +21,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2016-04-24 08:44+0200\n"
-"PO-Revision-Date: 2016-04-24 06:51+0000\n"
+"POT-Creation-Date: 2015-08-20 11:53+0200\n"
+"PO-Revision-Date: 2016-05-14 09:54+0000\n"
 "Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Dutch (http://www.transifex.com/manjarolinux/manjaro-pamac/language/nl/)\n"
 "MIME-Version: 1.0\n"
@@ -30,6 +30,10 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Language: nl\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: data/polkit/org.manjaro.pamac.policy
+msgid "Authentication is required"
+msgstr ""
 
 #: ../src/daemon.vala
 msgid "Failed to initialize alpm library"
@@ -47,7 +51,7 @@ msgstr "Onbekend"
 msgid "Explicitly installed"
 msgstr "Expliciet geïnstalleerd"
 
-#: ../src/daemon.vala
+#: ../src/daemon.vala ../src/manager_window.vala
 msgid "Installed as a dependency for another package"
 msgstr "Geïnstalleerd als een afhankelijkheid van een ander pakket"
 
@@ -382,25 +386,18 @@ msgstr "Toon beschikbare updates"
 msgid "Deselect"
 msgstr "Deselect"
 
-#: ../src/manager_window.vala
+#: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Install"
 msgstr "Installeer"
 
-#: ../src/manager_window.vala
+#: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Remove"
 msgstr "Verwijderen"
 
-#: ../src/manager_window.vala
-msgid "Reinstall"
-msgstr "Herinstalleren"
-
-#: ../src/manager_window.vala
-msgid "Install optional dependencies"
-msgstr "Installeer optionele afhankelijkheden"
-
-#: ../src/manager_window.vala
-msgid "Mark as explicitly installed"
-msgstr "Markeer als expliciet geïnstalleerd."
+#: ../src/manager_window.vala ../resources/progress_dialog.ui
+#: ../resources/manager_window.ui ../resources/updater_window.ui
+msgid "Details"
+msgstr "Details"
 
 #: ../src/manager_window.vala
 #, c-format
@@ -426,6 +423,14 @@ msgid "Pending"
 msgstr "Lopend"
 
 #: ../src/manager_window.vala
+msgid "Install Reason"
+msgstr "Installatie reden"
+
+#: ../src/manager_window.vala
+msgid "Mark as explicitly installed"
+msgstr "Markeer als expliciet geïnstalleerd."
+
+#: ../src/manager_window.vala
 msgid "Licenses"
 msgstr "Licenties"
 
@@ -449,10 +454,6 @@ msgstr "Bouw datum"
 #: ../src/manager_window.vala
 msgid "Install Date"
 msgstr "Installatie Datum"
-
-#: ../src/manager_window.vala
-msgid "Install Reason"
-msgstr "Installatie reden"
 
 #: ../src/manager_window.vala
 msgid "Signatures"
@@ -527,11 +528,6 @@ msgstr ""
 msgid "Name"
 msgstr "Naam"
 
-#: ../src/manager_window.vala
-#, c-format
-msgid "Choose optional dependencies for %s"
-msgstr ""
-
 #: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Install Local Packages"
 msgstr "Installeer lokale pakketten"
@@ -583,11 +579,6 @@ msgstr "Voortgang"
 #: ../resources/progress_dialog.ui
 msgid "_Hide"
 msgstr "_Verberg"
-
-#: ../resources/progress_dialog.ui ../resources/manager_window.ui
-#: ../resources/updater_window.ui
-msgid "Details"
-msgstr "Details"
 
 #: ../resources/history_dialog.ui
 msgid "Pamac History"
@@ -654,13 +645,13 @@ msgstr "Populariteit"
 msgid "AUR"
 msgstr "AUR"
 
-#: ../resources/manager_window.ui ../resources/updater_window.ui
-msgid "_Apply"
-msgstr "_Toepassen"
-
 #: ../resources/manager_window.ui
 msgid "Browse"
 msgstr ""
+
+#: ../resources/manager_window.ui
+msgid "Reinstall"
+msgstr "Herinstalleren"
 
 #: ../resources/manager_window.ui
 msgid "Dependencies"
@@ -669,6 +660,10 @@ msgstr "Afhankelijkheden"
 #: ../resources/manager_window.ui
 msgid "Files"
 msgstr "Bestanden"
+
+#: ../resources/manager_window.ui ../resources/updater_window.ui
+msgid "_Apply"
+msgstr "_Toepassen"
 
 #: ../resources/preferences_dialog.ui
 msgid "Remove unrequired dependencies"

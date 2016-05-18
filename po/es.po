@@ -18,15 +18,19 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2016-04-24 08:44+0200\n"
-"PO-Revision-Date: 2016-04-26 11:44+0000\n"
-"Last-Translator: Noel Rodríguez Freire <noelrf.ou@gmail.com>\n"
+"POT-Creation-Date: 2015-08-20 11:53+0200\n"
+"PO-Revision-Date: 2016-05-14 09:54+0000\n"
+"Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Spanish (http://www.transifex.com/manjarolinux/manjaro-pamac/language/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: es\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: data/polkit/org.manjaro.pamac.policy
+msgid "Authentication is required"
+msgstr ""
 
 #: ../src/daemon.vala
 msgid "Failed to initialize alpm library"
@@ -44,7 +48,7 @@ msgstr "Desconocido"
 msgid "Explicitly installed"
 msgstr "Explícitamente instalado"
 
-#: ../src/daemon.vala
+#: ../src/daemon.vala ../src/manager_window.vala
 msgid "Installed as a dependency for another package"
 msgstr "Instalado como dependencia de otro paquete"
 
@@ -379,25 +383,18 @@ msgstr "Mostrar actualizaciones disponibles"
 msgid "Deselect"
 msgstr "Deseleccionar"
 
-#: ../src/manager_window.vala
+#: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Install"
 msgstr "Instalar"
 
-#: ../src/manager_window.vala
+#: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Remove"
 msgstr "Eliminar"
 
-#: ../src/manager_window.vala
-msgid "Reinstall"
-msgstr "Reinstalar"
-
-#: ../src/manager_window.vala
-msgid "Install optional dependencies"
-msgstr "Instalar dependencias opcionales"
-
-#: ../src/manager_window.vala
-msgid "Mark as explicitly installed"
-msgstr "Marcar como explícitamente instalado"
+#: ../src/manager_window.vala ../resources/progress_dialog.ui
+#: ../resources/manager_window.ui ../resources/updater_window.ui
+msgid "Details"
+msgstr "Detalles"
 
 #: ../src/manager_window.vala
 #, c-format
@@ -423,6 +420,14 @@ msgid "Pending"
 msgstr "Pendiente"
 
 #: ../src/manager_window.vala
+msgid "Install Reason"
+msgstr "Razón de instalación"
+
+#: ../src/manager_window.vala
+msgid "Mark as explicitly installed"
+msgstr "Marcar como explícitamente instalado"
+
+#: ../src/manager_window.vala
 msgid "Licenses"
 msgstr "Licencias"
 
@@ -446,10 +451,6 @@ msgstr "Fecha de construcción"
 #: ../src/manager_window.vala
 msgid "Install Date"
 msgstr "Fecha de instalación"
-
-#: ../src/manager_window.vala
-msgid "Install Reason"
-msgstr "Razón de instalación"
 
 #: ../src/manager_window.vala
 msgid "Signatures"
@@ -524,11 +525,6 @@ msgstr "Comprobar Dependencias"
 msgid "Name"
 msgstr "Nombre"
 
-#: ../src/manager_window.vala
-#, c-format
-msgid "Choose optional dependencies for %s"
-msgstr "Elija dependencias opcionales para %s"
-
 #: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Install Local Packages"
 msgstr "Instalar paquetes locales"
@@ -580,11 +576,6 @@ msgstr "Progreso"
 #: ../resources/progress_dialog.ui
 msgid "_Hide"
 msgstr "_Ocultar"
-
-#: ../resources/progress_dialog.ui ../resources/manager_window.ui
-#: ../resources/updater_window.ui
-msgid "Details"
-msgstr "Detalles"
 
 #: ../resources/history_dialog.ui
 msgid "Pamac History"
@@ -651,13 +642,13 @@ msgstr "Popularidad"
 msgid "AUR"
 msgstr "AUR"
 
-#: ../resources/manager_window.ui ../resources/updater_window.ui
-msgid "_Apply"
-msgstr "_Aplicar"
-
 #: ../resources/manager_window.ui
 msgid "Browse"
 msgstr "Explorar"
+
+#: ../resources/manager_window.ui
+msgid "Reinstall"
+msgstr "Reinstalar"
 
 #: ../resources/manager_window.ui
 msgid "Dependencies"
@@ -666,6 +657,10 @@ msgstr "Dependencias"
 #: ../resources/manager_window.ui
 msgid "Files"
 msgstr "Archivos"
+
+#: ../resources/manager_window.ui ../resources/updater_window.ui
+msgid "_Apply"
+msgstr "_Aplicar"
 
 #: ../resources/preferences_dialog.ui
 msgid "Remove unrequired dependencies"

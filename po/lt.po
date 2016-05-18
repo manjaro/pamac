@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2016-04-24 08:44+0200\n"
-"PO-Revision-Date: 2016-04-26 18:48+0000\n"
+"POT-Creation-Date: 2015-08-20 11:53+0200\n"
+"PO-Revision-Date: 2016-05-14 17:44+0000\n"
 "Last-Translator: Moo\n"
 "Language-Team: Lithuanian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/lt/)\n"
 "MIME-Version: 1.0\n"
@@ -19,6 +19,10 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Language: lt\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+
+#: data/polkit/org.manjaro.pamac.policy
+msgid "Authentication is required"
+msgstr "Reikalingas tapatybės nustatymas"
 
 #: ../src/daemon.vala
 msgid "Failed to initialize alpm library"
@@ -36,7 +40,7 @@ msgstr "Nežinoma"
 msgid "Explicitly installed"
 msgstr "Savarankiškai įdiegtas"
 
-#: ../src/daemon.vala
+#: ../src/daemon.vala ../src/manager_window.vala
 msgid "Installed as a dependency for another package"
 msgstr "Įdiegtas kaip priklausomybė kitam paketui"
 
@@ -83,7 +87,7 @@ msgstr "%s turi būti pašalintas, tačiau tai yra užrakintas paketas"
 
 #: ../src/daemon.vala
 msgid "Failed to commit transaction"
-msgstr "Nepavyko atlikti operacijos"
+msgstr "Nepavyko įvykdyti operacijos"
 
 #: ../src/daemon.vala
 #, c-format
@@ -373,25 +377,18 @@ msgstr "Rodyti prieinamus atnaujinimus"
 msgid "Deselect"
 msgstr "Nuimti žymėjimą"
 
-#: ../src/manager_window.vala
+#: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Install"
 msgstr "Įdiegti"
 
-#: ../src/manager_window.vala
+#: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Remove"
 msgstr "Šalinti"
 
-#: ../src/manager_window.vala
-msgid "Reinstall"
-msgstr "Įdiegti iš naujo"
-
-#: ../src/manager_window.vala
-msgid "Install optional dependencies"
-msgstr "Įdiegti pasirinktinas priklausomybes"
-
-#: ../src/manager_window.vala
-msgid "Mark as explicitly installed"
-msgstr "Pažymėti kaip savarankiškai įdiegtą"
+#: ../src/manager_window.vala ../resources/progress_dialog.ui
+#: ../resources/manager_window.ui ../resources/updater_window.ui
+msgid "Details"
+msgstr "Išsamiau"
 
 #: ../src/manager_window.vala
 #, c-format
@@ -418,6 +415,14 @@ msgid "Pending"
 msgstr "Laukiama"
 
 #: ../src/manager_window.vala
+msgid "Install Reason"
+msgstr "Įdiegimo priežastis"
+
+#: ../src/manager_window.vala
+msgid "Mark as explicitly installed"
+msgstr "Pažymėti kaip savarankiškai įdiegtą"
+
+#: ../src/manager_window.vala
 msgid "Licenses"
 msgstr "Licencijos"
 
@@ -441,10 +446,6 @@ msgstr "Kūrimo data"
 #: ../src/manager_window.vala
 msgid "Install Date"
 msgstr "Įdiegimo data"
-
-#: ../src/manager_window.vala
-msgid "Install Reason"
-msgstr "Įdiegimo priežastis"
 
 #: ../src/manager_window.vala
 msgid "Signatures"
@@ -519,11 +520,6 @@ msgstr "Tikrinti priklausomybes"
 msgid "Name"
 msgstr "Pavadinimas"
 
-#: ../src/manager_window.vala
-#, c-format
-msgid "Choose optional dependencies for %s"
-msgstr "Pasirinkite pasirinktines %s priklausomybes"
-
 #: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Install Local Packages"
 msgstr "Įdiegti vietinius paketus"
@@ -576,11 +572,6 @@ msgstr "Eiga"
 msgid "_Hide"
 msgstr "S_lėpti"
 
-#: ../resources/progress_dialog.ui ../resources/manager_window.ui
-#: ../resources/updater_window.ui
-msgid "Details"
-msgstr "Išsamiau"
-
 #: ../resources/history_dialog.ui
 msgid "Pamac History"
 msgstr "Pamac žurnalas"
@@ -591,7 +582,7 @@ msgstr "Operacijos Suvestinė"
 
 #: ../resources/transaction_sum_dialog.ui
 msgid "Commit"
-msgstr "Įvykdyti"
+msgstr "Vykdyti"
 
 #: ../resources/choose_dep_dialog.ui
 msgid "Choose Optional Dependencies"
@@ -646,13 +637,13 @@ msgstr "Populiarumas"
 msgid "AUR"
 msgstr "AUR"
 
-#: ../resources/manager_window.ui ../resources/updater_window.ui
-msgid "_Apply"
-msgstr "_Taikyti"
-
 #: ../resources/manager_window.ui
 msgid "Browse"
 msgstr "Naršyti"
+
+#: ../resources/manager_window.ui
+msgid "Reinstall"
+msgstr "Įdiegti iš naujo"
 
 #: ../resources/manager_window.ui
 msgid "Dependencies"
@@ -661,6 +652,10 @@ msgstr "Priklausomybės"
 #: ../resources/manager_window.ui
 msgid "Files"
 msgstr "Failai"
+
+#: ../resources/manager_window.ui ../resources/updater_window.ui
+msgid "_Apply"
+msgstr "_Taikyti"
 
 #: ../resources/preferences_dialog.ui
 msgid "Remove unrequired dependencies"

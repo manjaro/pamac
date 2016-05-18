@@ -1,5 +1,5 @@
 # Translation of Pamac.
-# Copyright (C) 2007-2012 Free Software Foundation, Inc.
+# Copyright (C) 2013-2016 Manjaro Developers <manjaro-dev@manjaro.org>
 # This file is distributed under the same license as the Pamac package.
 # Guillaume Benoit <guillaume@manjaro.org>, 2013-2016.
 # 
@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2016-04-24 08:44+0200\n"
-"PO-Revision-Date: 2016-04-24 06:51+0000\n"
+"POT-Creation-Date: 2015-08-20 11:53+0200\n"
+"PO-Revision-Date: 2016-05-14 09:54+0000\n"
 "Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Czech (http://www.transifex.com/manjarolinux/manjaro-pamac/language/cs/)\n"
 "MIME-Version: 1.0\n"
@@ -23,6 +23,10 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Language: cs\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+
+#: data/polkit/org.manjaro.pamac.policy
+msgid "Authentication is required"
+msgstr ""
 
 #: ../src/daemon.vala
 msgid "Failed to initialize alpm library"
@@ -40,7 +44,7 @@ msgstr "Neznámý"
 msgid "Explicitly installed"
 msgstr "explicitně nainstalován"
 
-#: ../src/daemon.vala
+#: ../src/daemon.vala ../src/manager_window.vala
 msgid "Installed as a dependency for another package"
 msgstr "Instalováno jako závislost pro další balíček"
 
@@ -377,25 +381,18 @@ msgstr "Ukázat dostupné aktualizace"
 msgid "Deselect"
 msgstr "Zrušit výběr"
 
-#: ../src/manager_window.vala
+#: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Install"
 msgstr "Instalace"
 
-#: ../src/manager_window.vala
+#: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Remove"
 msgstr "Odstranit"
 
-#: ../src/manager_window.vala
-msgid "Reinstall"
-msgstr "Přeinstalovat"
-
-#: ../src/manager_window.vala
-msgid "Install optional dependencies"
-msgstr "Instalovat volitelné závislosti"
-
-#: ../src/manager_window.vala
-msgid "Mark as explicitly installed"
-msgstr "Označit jako explicitně nainstalované"
+#: ../src/manager_window.vala ../resources/progress_dialog.ui
+#: ../resources/manager_window.ui ../resources/updater_window.ui
+msgid "Details"
+msgstr "Detaily"
 
 #: ../src/manager_window.vala
 #, c-format
@@ -422,6 +419,14 @@ msgid "Pending"
 msgstr ""
 
 #: ../src/manager_window.vala
+msgid "Install Reason"
+msgstr "Důvod instalace"
+
+#: ../src/manager_window.vala
+msgid "Mark as explicitly installed"
+msgstr "Označit jako explicitně nainstalované"
+
+#: ../src/manager_window.vala
 msgid "Licenses"
 msgstr "Licence"
 
@@ -445,10 +450,6 @@ msgstr "Datum sestavení"
 #: ../src/manager_window.vala
 msgid "Install Date"
 msgstr "Datum instalace"
-
-#: ../src/manager_window.vala
-msgid "Install Reason"
-msgstr "Důvod instalace"
 
 #: ../src/manager_window.vala
 msgid "Signatures"
@@ -523,11 +524,6 @@ msgstr ""
 msgid "Name"
 msgstr "Název"
 
-#: ../src/manager_window.vala
-#, c-format
-msgid "Choose optional dependencies for %s"
-msgstr ""
-
 #: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Install Local Packages"
 msgstr "Instalovat místní balíčky"
@@ -579,11 +575,6 @@ msgstr "Postup"
 #: ../resources/progress_dialog.ui
 msgid "_Hide"
 msgstr ""
-
-#: ../resources/progress_dialog.ui ../resources/manager_window.ui
-#: ../resources/updater_window.ui
-msgid "Details"
-msgstr "Detaily"
 
 #: ../resources/history_dialog.ui
 msgid "Pamac History"
@@ -650,13 +641,13 @@ msgstr ""
 msgid "AUR"
 msgstr "AUR"
 
-#: ../resources/manager_window.ui ../resources/updater_window.ui
-msgid "_Apply"
-msgstr "_Použít"
-
 #: ../resources/manager_window.ui
 msgid "Browse"
 msgstr ""
+
+#: ../resources/manager_window.ui
+msgid "Reinstall"
+msgstr "Přeinstalovat"
 
 #: ../resources/manager_window.ui
 msgid "Dependencies"
@@ -665,6 +656,10 @@ msgstr "Závislosti"
 #: ../resources/manager_window.ui
 msgid "Files"
 msgstr "Soubory"
+
+#: ../resources/manager_window.ui ../resources/updater_window.ui
+msgid "_Apply"
+msgstr "_Použít"
 
 #: ../resources/preferences_dialog.ui
 msgid "Remove unrequired dependencies"

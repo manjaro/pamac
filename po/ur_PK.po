@@ -1,5 +1,5 @@
 # Translation of Pamac.
-# Copyright (C) 2007-2012 Free Software Foundation, Inc.
+# Copyright (C) 2013-2016 Manjaro Developers <manjaro-dev@manjaro.org>
 # This file is distributed under the same license as the Pamac package.
 # Guillaume Benoit <guillaume@manjaro.org>, 2013-2016.
 # 
@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2016-04-24 08:44+0200\n"
-"PO-Revision-Date: 2016-04-24 06:51+0000\n"
+"POT-Creation-Date: 2015-08-20 11:53+0200\n"
+"PO-Revision-Date: 2016-05-14 09:54+0000\n"
 "Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Urdu (Pakistan) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/ur_PK/)\n"
 "MIME-Version: 1.0\n"
@@ -18,6 +18,10 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Language: ur_PK\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: data/polkit/org.manjaro.pamac.policy
+msgid "Authentication is required"
+msgstr ""
 
 #: ../src/daemon.vala
 msgid "Failed to initialize alpm library"
@@ -35,7 +39,7 @@ msgstr "نا معلوم"
 msgid "Explicitly installed"
 msgstr ""
 
-#: ../src/daemon.vala
+#: ../src/daemon.vala ../src/manager_window.vala
 msgid "Installed as a dependency for another package"
 msgstr ""
 
@@ -370,25 +374,18 @@ msgstr "دستیاب اپ ڈیٹس ظاہر کریں"
 msgid "Deselect"
 msgstr "غیرمنتخب کریں"
 
-#: ../src/manager_window.vala
+#: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Install"
 msgstr "انسٹال کریں"
 
-#: ../src/manager_window.vala
+#: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Remove"
 msgstr "نکال دیں"
 
-#: ../src/manager_window.vala
-msgid "Reinstall"
-msgstr "دوبارہ انسٹال کریں"
-
-#: ../src/manager_window.vala
-msgid "Install optional dependencies"
-msgstr ""
-
-#: ../src/manager_window.vala
-msgid "Mark as explicitly installed"
-msgstr ""
+#: ../src/manager_window.vala ../resources/progress_dialog.ui
+#: ../resources/manager_window.ui ../resources/updater_window.ui
+msgid "Details"
+msgstr "تفصیلات"
 
 #: ../src/manager_window.vala
 #, c-format
@@ -411,6 +408,14 @@ msgstr ""
 
 #: ../src/manager_window.vala
 msgid "Pending"
+msgstr ""
+
+#: ../src/manager_window.vala
+msgid "Install Reason"
+msgstr "انسٹال کرنے کی وجہ"
+
+#: ../src/manager_window.vala
+msgid "Mark as explicitly installed"
 msgstr ""
 
 #: ../src/manager_window.vala
@@ -437,10 +442,6 @@ msgstr ""
 #: ../src/manager_window.vala
 msgid "Install Date"
 msgstr "انسٹالیشن کی تاریخ"
-
-#: ../src/manager_window.vala
-msgid "Install Reason"
-msgstr "انسٹال کرنے کی وجہ"
 
 #: ../src/manager_window.vala
 msgid "Signatures"
@@ -515,11 +516,6 @@ msgstr ""
 msgid "Name"
 msgstr "نام"
 
-#: ../src/manager_window.vala
-#, c-format
-msgid "Choose optional dependencies for %s"
-msgstr ""
-
 #: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Install Local Packages"
 msgstr ""
@@ -571,11 +567,6 @@ msgstr "پروگریس"
 #: ../resources/progress_dialog.ui
 msgid "_Hide"
 msgstr ""
-
-#: ../resources/progress_dialog.ui ../resources/manager_window.ui
-#: ../resources/updater_window.ui
-msgid "Details"
-msgstr "تفصیلات"
 
 #: ../resources/history_dialog.ui
 msgid "Pamac History"
@@ -642,13 +633,13 @@ msgstr ""
 msgid "AUR"
 msgstr ""
 
-#: ../resources/manager_window.ui ../resources/updater_window.ui
-msgid "_Apply"
-msgstr "_عمل کریں"
-
 #: ../resources/manager_window.ui
 msgid "Browse"
 msgstr ""
+
+#: ../resources/manager_window.ui
+msgid "Reinstall"
+msgstr "دوبارہ انسٹال کریں"
 
 #: ../resources/manager_window.ui
 msgid "Dependencies"
@@ -657,6 +648,10 @@ msgstr "انحصار ی پیکج"
 #: ../resources/manager_window.ui
 msgid "Files"
 msgstr "فائلیں"
+
+#: ../resources/manager_window.ui ../resources/updater_window.ui
+msgid "_Apply"
+msgstr "_عمل کریں"
 
 #: ../resources/preferences_dialog.ui
 msgid "Remove unrequired dependencies"

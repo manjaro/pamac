@@ -9,15 +9,19 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2016-04-24 08:44+0200\n"
-"PO-Revision-Date: 2016-05-02 11:35+0000\n"
-"Last-Translator: kouros kouros <kormikg@yahoo.gr>\n"
+"POT-Creation-Date: 2015-08-20 11:53+0200\n"
+"PO-Revision-Date: 2016-05-14 09:54+0000\n"
+"Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Greek (Greece) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/el_GR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: el_GR\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: data/polkit/org.manjaro.pamac.policy
+msgid "Authentication is required"
+msgstr ""
 
 #: ../src/daemon.vala
 msgid "Failed to initialize alpm library"
@@ -35,7 +39,7 @@ msgstr "Άγνωστο"
 msgid "Explicitly installed"
 msgstr "Εγκαταστάθηκε ρητά"
 
-#: ../src/daemon.vala
+#: ../src/daemon.vala ../src/manager_window.vala
 msgid "Installed as a dependency for another package"
 msgstr "Εγκαταστήθηκε ως εξάρτηση για ένα άλλο πακέτο"
 
@@ -370,25 +374,18 @@ msgstr "Διαθέσιμες αναβαθμίσεις"
 msgid "Deselect"
 msgstr "Αφαίρεσε μία επιλογή"
 
-#: ../src/manager_window.vala
+#: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Install"
 msgstr "Εγκατάσταση"
 
-#: ../src/manager_window.vala
+#: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Remove"
 msgstr "Απεγκατάσταση"
 
-#: ../src/manager_window.vala
-msgid "Reinstall"
-msgstr "Επανεγκατάσταση"
-
-#: ../src/manager_window.vala
-msgid "Install optional dependencies"
-msgstr "Εγκατάσταση προαιρετικών εξαρτήσειων"
-
-#: ../src/manager_window.vala
-msgid "Mark as explicitly installed"
-msgstr "Σήμανση ως ρητώς εγκατεστημένο"
+#: ../src/manager_window.vala ../resources/progress_dialog.ui
+#: ../resources/manager_window.ui ../resources/updater_window.ui
+msgid "Details"
+msgstr "Λεπτομέρειες"
 
 #: ../src/manager_window.vala
 #, c-format
@@ -414,6 +411,14 @@ msgid "Pending"
 msgstr "Εκκρεμή"
 
 #: ../src/manager_window.vala
+msgid "Install Reason"
+msgstr "Λόγος για εγκατάσταση"
+
+#: ../src/manager_window.vala
+msgid "Mark as explicitly installed"
+msgstr "Σήμανση ως ρητώς εγκατεστημένο"
+
+#: ../src/manager_window.vala
 msgid "Licenses"
 msgstr "Άδειες"
 
@@ -437,10 +442,6 @@ msgstr "Ημερομηνία δημιουργίας"
 #: ../src/manager_window.vala
 msgid "Install Date"
 msgstr "Ημερομηνία εγκατάστασης"
-
-#: ../src/manager_window.vala
-msgid "Install Reason"
-msgstr "Λόγος για εγκατάσταση"
 
 #: ../src/manager_window.vala
 msgid "Signatures"
@@ -515,11 +516,6 @@ msgstr "Έλεγχος εξαρτήσεων"
 msgid "Name"
 msgstr "Όνομα"
 
-#: ../src/manager_window.vala
-#, c-format
-msgid "Choose optional dependencies for %s"
-msgstr "Επέλεξε προαιρετικές εξαρτήσεις για το %s"
-
 #: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Install Local Packages"
 msgstr "Εγκατάσταση τοπικών πακέτων"
@@ -571,11 +567,6 @@ msgstr "Πρόοδος"
 #: ../resources/progress_dialog.ui
 msgid "_Hide"
 msgstr "Απόκρυψη"
-
-#: ../resources/progress_dialog.ui ../resources/manager_window.ui
-#: ../resources/updater_window.ui
-msgid "Details"
-msgstr "Λεπτομέρειες"
 
 #: ../resources/history_dialog.ui
 msgid "Pamac History"
@@ -642,13 +633,13 @@ msgstr "Δημοτικότητα"
 msgid "AUR"
 msgstr "AUR"
 
-#: ../resources/manager_window.ui ../resources/updater_window.ui
-msgid "_Apply"
-msgstr "Εφαρμογή"
-
 #: ../resources/manager_window.ui
 msgid "Browse"
 msgstr "Αναζήτηση"
+
+#: ../resources/manager_window.ui
+msgid "Reinstall"
+msgstr "Επανεγκατάσταση"
 
 #: ../resources/manager_window.ui
 msgid "Dependencies"
@@ -657,6 +648,10 @@ msgstr "Εξαρτήσεις"
 #: ../resources/manager_window.ui
 msgid "Files"
 msgstr "Αρχεία"
+
+#: ../resources/manager_window.ui ../resources/updater_window.ui
+msgid "_Apply"
+msgstr "Εφαρμογή"
 
 #: ../resources/preferences_dialog.ui
 msgid "Remove unrequired dependencies"

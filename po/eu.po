@@ -1,5 +1,5 @@
 # Translation of Pamac.
-# Copyright (C) 2007-2012 Free Software Foundation, Inc.
+# Copyright (C) 2013-2016 Manjaro Developers <manjaro-dev@manjaro.org>
 # This file is distributed under the same license as the Pamac package.
 # Guillaume Benoit <guillaume@manjaro.org>, 2013-2016.
 # 
@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2016-04-24 08:44+0200\n"
-"PO-Revision-Date: 2016-04-24 06:51+0000\n"
+"POT-Creation-Date: 2015-08-20 11:53+0200\n"
+"PO-Revision-Date: 2016-05-14 09:54+0000\n"
 "Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Basque (http://www.transifex.com/manjarolinux/manjaro-pamac/language/eu/)\n"
 "MIME-Version: 1.0\n"
@@ -22,6 +22,10 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Language: eu\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: data/polkit/org.manjaro.pamac.policy
+msgid "Authentication is required"
+msgstr ""
 
 #: ../src/daemon.vala
 msgid "Failed to initialize alpm library"
@@ -39,7 +43,7 @@ msgstr "Ezezaguna"
 msgid "Explicitly installed"
 msgstr "Esplizituki instalatuta"
 
-#: ../src/daemon.vala
+#: ../src/daemon.vala ../src/manager_window.vala
 msgid "Installed as a dependency for another package"
 msgstr "Beste pakete baten menpekotasun gisa instalatuta"
 
@@ -374,25 +378,18 @@ msgstr "Bistaratu eskuragarri dauden eguneraketak"
 msgid "Deselect"
 msgstr "Desautatu"
 
-#: ../src/manager_window.vala
+#: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Install"
 msgstr "Instalatu"
 
-#: ../src/manager_window.vala
+#: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Remove"
 msgstr "Kendu"
 
-#: ../src/manager_window.vala
-msgid "Reinstall"
-msgstr "Berrinstalatu"
-
-#: ../src/manager_window.vala
-msgid "Install optional dependencies"
-msgstr "Instalatu aukerazko menpekotasunak"
-
-#: ../src/manager_window.vala
-msgid "Mark as explicitly installed"
-msgstr "Markatu esplizituki instalatutako gisa"
+#: ../src/manager_window.vala ../resources/progress_dialog.ui
+#: ../resources/manager_window.ui ../resources/updater_window.ui
+msgid "Details"
+msgstr "Xehetasunak"
 
 #: ../src/manager_window.vala
 #, c-format
@@ -418,6 +415,14 @@ msgid "Pending"
 msgstr "Egiteke"
 
 #: ../src/manager_window.vala
+msgid "Install Reason"
+msgstr "Instalatzeko arrazoia"
+
+#: ../src/manager_window.vala
+msgid "Mark as explicitly installed"
+msgstr "Markatu esplizituki instalatutako gisa"
+
+#: ../src/manager_window.vala
 msgid "Licenses"
 msgstr "Lizentziak"
 
@@ -441,10 +446,6 @@ msgstr "Eraikuntza data"
 #: ../src/manager_window.vala
 msgid "Install Date"
 msgstr "Instalazio data"
-
-#: ../src/manager_window.vala
-msgid "Install Reason"
-msgstr "Instalatzeko arrazoia"
 
 #: ../src/manager_window.vala
 msgid "Signatures"
@@ -519,11 +520,6 @@ msgstr "Egiaztatu menpekotasunak"
 msgid "Name"
 msgstr "Izena"
 
-#: ../src/manager_window.vala
-#, c-format
-msgid "Choose optional dependencies for %s"
-msgstr ""
-
 #: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Install Local Packages"
 msgstr "Instalatu pakete lokalak"
@@ -575,11 +571,6 @@ msgstr "Progresioa"
 #: ../resources/progress_dialog.ui
 msgid "_Hide"
 msgstr "_Ezkutatu"
-
-#: ../resources/progress_dialog.ui ../resources/manager_window.ui
-#: ../resources/updater_window.ui
-msgid "Details"
-msgstr "Xehetasunak"
 
 #: ../resources/history_dialog.ui
 msgid "Pamac History"
@@ -646,13 +637,13 @@ msgstr "Populartasuna"
 msgid "AUR"
 msgstr "AUR"
 
-#: ../resources/manager_window.ui ../resources/updater_window.ui
-msgid "_Apply"
-msgstr "_Aplikatu"
-
 #: ../resources/manager_window.ui
 msgid "Browse"
 msgstr "Arakatu"
+
+#: ../resources/manager_window.ui
+msgid "Reinstall"
+msgstr "Berrinstalatu"
 
 #: ../resources/manager_window.ui
 msgid "Dependencies"
@@ -661,6 +652,10 @@ msgstr "Menpekotasunak"
 #: ../resources/manager_window.ui
 msgid "Files"
 msgstr "Fitxategiak"
+
+#: ../resources/manager_window.ui ../resources/updater_window.ui
+msgid "_Apply"
+msgstr "_Aplikatu"
 
 #: ../resources/preferences_dialog.ui
 msgid "Remove unrequired dependencies"

@@ -1,5 +1,5 @@
 # Translation of Pamac.
-# Copyright (C) 2007-2012 Free Software Foundation, Inc.
+# Copyright (C) 2013-2016 Manjaro Developers <manjaro-dev@manjaro.org>
 # This file is distributed under the same license as the Pamac package.
 # Guillaume Benoit <guillaume@manjaro.org>, 2013-2016.
 # 
@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2016-04-24 08:44+0200\n"
-"PO-Revision-Date: 2016-04-24 06:51+0000\n"
+"POT-Creation-Date: 2015-08-20 11:53+0200\n"
+"PO-Revision-Date: 2016-05-14 09:54+0000\n"
 "Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Icelandic (http://www.transifex.com/manjarolinux/manjaro-pamac/language/is/)\n"
 "MIME-Version: 1.0\n"
@@ -20,6 +20,10 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Language: is\n"
 "Plural-Forms: nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);\n"
+
+#: data/polkit/org.manjaro.pamac.policy
+msgid "Authentication is required"
+msgstr ""
 
 #: ../src/daemon.vala
 msgid "Failed to initialize alpm library"
@@ -37,7 +41,7 @@ msgstr "Óþekkt"
 msgid "Explicitly installed"
 msgstr "Sérstaklega uppsett"
 
-#: ../src/daemon.vala
+#: ../src/daemon.vala ../src/manager_window.vala
 msgid "Installed as a dependency for another package"
 msgstr "Sett upp sem hæði fyrir annan pakka"
 
@@ -372,25 +376,18 @@ msgstr "Sýna tiltækar uppfærslur"
 msgid "Deselect"
 msgstr "Afvelja"
 
-#: ../src/manager_window.vala
+#: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Install"
 msgstr "Setja upp"
 
-#: ../src/manager_window.vala
+#: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Remove"
 msgstr "Fjarlægja"
 
-#: ../src/manager_window.vala
-msgid "Reinstall"
-msgstr "Enduruppsetning"
-
-#: ../src/manager_window.vala
-msgid "Install optional dependencies"
-msgstr "Setja upp valkvæðar kerfiskröfur"
-
-#: ../src/manager_window.vala
-msgid "Mark as explicitly installed"
-msgstr "Merkja sem sérstaklega uppsett"
+#: ../src/manager_window.vala ../resources/progress_dialog.ui
+#: ../resources/manager_window.ui ../resources/updater_window.ui
+msgid "Details"
+msgstr "Nánar"
 
 #: ../src/manager_window.vala
 #, c-format
@@ -416,6 +413,14 @@ msgid "Pending"
 msgstr ""
 
 #: ../src/manager_window.vala
+msgid "Install Reason"
+msgstr "Ástæða uppsetningar"
+
+#: ../src/manager_window.vala
+msgid "Mark as explicitly installed"
+msgstr "Merkja sem sérstaklega uppsett"
+
+#: ../src/manager_window.vala
 msgid "Licenses"
 msgstr "Notkunarleyfi"
 
@@ -439,10 +444,6 @@ msgstr "Byggingardagsetning"
 #: ../src/manager_window.vala
 msgid "Install Date"
 msgstr "Uppsetningardagur"
-
-#: ../src/manager_window.vala
-msgid "Install Reason"
-msgstr "Ástæða uppsetningar"
 
 #: ../src/manager_window.vala
 msgid "Signatures"
@@ -517,11 +518,6 @@ msgstr ""
 msgid "Name"
 msgstr "Nafn"
 
-#: ../src/manager_window.vala
-#, c-format
-msgid "Choose optional dependencies for %s"
-msgstr ""
-
 #: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Install Local Packages"
 msgstr "Setja upp pakka á tölvunni"
@@ -573,11 +569,6 @@ msgstr "Framvinda"
 #: ../resources/progress_dialog.ui
 msgid "_Hide"
 msgstr ""
-
-#: ../resources/progress_dialog.ui ../resources/manager_window.ui
-#: ../resources/updater_window.ui
-msgid "Details"
-msgstr "Nánar"
 
 #: ../resources/history_dialog.ui
 msgid "Pamac History"
@@ -644,13 +635,13 @@ msgstr ""
 msgid "AUR"
 msgstr "AUR"
 
-#: ../resources/manager_window.ui ../resources/updater_window.ui
-msgid "_Apply"
-msgstr "_Virkja"
-
 #: ../resources/manager_window.ui
 msgid "Browse"
 msgstr ""
+
+#: ../resources/manager_window.ui
+msgid "Reinstall"
+msgstr "Enduruppsetning"
 
 #: ../resources/manager_window.ui
 msgid "Dependencies"
@@ -659,6 +650,10 @@ msgstr "Kerfiskröfur"
 #: ../resources/manager_window.ui
 msgid "Files"
 msgstr "Skrár"
+
+#: ../resources/manager_window.ui ../resources/updater_window.ui
+msgid "_Apply"
+msgstr "_Virkja"
 
 #: ../resources/preferences_dialog.ui
 msgid "Remove unrequired dependencies"

@@ -1,5 +1,5 @@
 # Translation of Pamac.
-# Copyright (C) 2007-2012 Free Software Foundation, Inc.
+# Copyright (C) 2013-2016 Manjaro Developers <manjaro-dev@manjaro.org>
 # This file is distributed under the same license as the Pamac package.
 # Guillaume Benoit <guillaume@manjaro.org>, 2013-2016.
 # 
@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2016-04-24 08:44+0200\n"
-"PO-Revision-Date: 2016-04-24 06:51+0000\n"
+"POT-Creation-Date: 2015-08-20 11:53+0200\n"
+"PO-Revision-Date: 2016-05-14 09:54+0000\n"
 "Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Serbian (Latin) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/sr@latin/)\n"
 "MIME-Version: 1.0\n"
@@ -22,6 +22,10 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Language: sr@latin\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+
+#: data/polkit/org.manjaro.pamac.policy
+msgid "Authentication is required"
+msgstr ""
 
 #: ../src/daemon.vala
 msgid "Failed to initialize alpm library"
@@ -39,7 +43,7 @@ msgstr "Nepoznato"
 msgid "Explicitly installed"
 msgstr "Eksplicitno instalirano"
 
-#: ../src/daemon.vala
+#: ../src/daemon.vala ../src/manager_window.vala
 msgid "Installed as a dependency for another package"
 msgstr "Instalirano kao zavisnost za drugi paket"
 
@@ -376,25 +380,18 @@ msgstr ""
 msgid "Deselect"
 msgstr "Opozovi izbor"
 
-#: ../src/manager_window.vala
+#: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Install"
 msgstr "Instaliraj"
 
-#: ../src/manager_window.vala
+#: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Remove"
 msgstr "Ukloni"
 
-#: ../src/manager_window.vala
-msgid "Reinstall"
-msgstr "Deinstaliraj"
-
-#: ../src/manager_window.vala
-msgid "Install optional dependencies"
-msgstr ""
-
-#: ../src/manager_window.vala
-msgid "Mark as explicitly installed"
-msgstr "Označi kao eksplicitno instalirano"
+#: ../src/manager_window.vala ../resources/progress_dialog.ui
+#: ../resources/manager_window.ui ../resources/updater_window.ui
+msgid "Details"
+msgstr "Detalji"
 
 #: ../src/manager_window.vala
 #, c-format
@@ -421,6 +418,14 @@ msgid "Pending"
 msgstr ""
 
 #: ../src/manager_window.vala
+msgid "Install Reason"
+msgstr "Instaliraj Reason"
+
+#: ../src/manager_window.vala
+msgid "Mark as explicitly installed"
+msgstr "Označi kao eksplicitno instalirano"
+
+#: ../src/manager_window.vala
 msgid "Licenses"
 msgstr "Licence"
 
@@ -444,10 +449,6 @@ msgstr ""
 #: ../src/manager_window.vala
 msgid "Install Date"
 msgstr "Datum instalacije"
-
-#: ../src/manager_window.vala
-msgid "Install Reason"
-msgstr "Instaliraj Reason"
 
 #: ../src/manager_window.vala
 msgid "Signatures"
@@ -522,11 +523,6 @@ msgstr ""
 msgid "Name"
 msgstr "Ime"
 
-#: ../src/manager_window.vala
-#, c-format
-msgid "Choose optional dependencies for %s"
-msgstr ""
-
 #: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Install Local Packages"
 msgstr ""
@@ -578,11 +574,6 @@ msgstr "Tok"
 #: ../resources/progress_dialog.ui
 msgid "_Hide"
 msgstr ""
-
-#: ../resources/progress_dialog.ui ../resources/manager_window.ui
-#: ../resources/updater_window.ui
-msgid "Details"
-msgstr "Detalji"
 
 #: ../resources/history_dialog.ui
 msgid "Pamac History"
@@ -649,13 +640,13 @@ msgstr ""
 msgid "AUR"
 msgstr ""
 
-#: ../resources/manager_window.ui ../resources/updater_window.ui
-msgid "_Apply"
-msgstr ""
-
 #: ../resources/manager_window.ui
 msgid "Browse"
 msgstr ""
+
+#: ../resources/manager_window.ui
+msgid "Reinstall"
+msgstr "Deinstaliraj"
 
 #: ../resources/manager_window.ui
 msgid "Dependencies"
@@ -664,6 +655,10 @@ msgstr ""
 #: ../resources/manager_window.ui
 msgid "Files"
 msgstr "Datoteke"
+
+#: ../resources/manager_window.ui ../resources/updater_window.ui
+msgid "_Apply"
+msgstr ""
 
 #: ../resources/preferences_dialog.ui
 msgid "Remove unrequired dependencies"

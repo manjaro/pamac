@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2016-04-24 08:44+0200\n"
-"PO-Revision-Date: 2016-04-27 10:03+0000\n"
+"POT-Creation-Date: 2015-08-20 11:53+0200\n"
+"PO-Revision-Date: 2016-05-15 07:12+0000\n"
 "Last-Translator: Demiray Muhterem <mdemiray@msn.com>\n"
 "Language-Team: Turkish (http://www.transifex.com/manjarolinux/manjaro-pamac/language/tr/)\n"
 "MIME-Version: 1.0\n"
@@ -22,6 +22,10 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Language: tr\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: data/polkit/org.manjaro.pamac.policy
+msgid "Authentication is required"
+msgstr "Kimlik doğrulaması gerekli"
 
 #: ../src/daemon.vala
 msgid "Failed to initialize alpm library"
@@ -39,7 +43,7 @@ msgstr "Bilinmiyor"
 msgid "Explicitly installed"
 msgstr "Doğrudan Yuklenmiş"
 
-#: ../src/daemon.vala
+#: ../src/daemon.vala ../src/manager_window.vala
 msgid "Installed as a dependency for another package"
 msgstr "Başka Bir Paketin Bağımlılığı Olarak Yüklenmiş"
 
@@ -374,25 +378,18 @@ msgstr "Hazır güncellemeleri göster"
 msgid "Deselect"
 msgstr "Seçimi kaldır"
 
-#: ../src/manager_window.vala
+#: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Install"
 msgstr "Yükle"
 
-#: ../src/manager_window.vala
+#: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Remove"
 msgstr "Kaldır"
 
-#: ../src/manager_window.vala
-msgid "Reinstall"
-msgstr "Yeniden yükle"
-
-#: ../src/manager_window.vala
-msgid "Install optional dependencies"
-msgstr "Tercihe bağlı bağımlılıkları yükle"
-
-#: ../src/manager_window.vala
-msgid "Mark as explicitly installed"
-msgstr "Yüklü olarak işaretle"
+#: ../src/manager_window.vala ../resources/progress_dialog.ui
+#: ../resources/manager_window.ui ../resources/updater_window.ui
+msgid "Details"
+msgstr "Ayrıntılar"
 
 #: ../src/manager_window.vala
 #, c-format
@@ -411,11 +408,19 @@ msgstr "Sahipsiz paketler"
 
 #: ../src/manager_window.vala
 msgid "Foreign"
-msgstr "Yabancı"
+msgstr "Yabancı Paketler"
 
 #: ../src/manager_window.vala
 msgid "Pending"
-msgstr "Kadar"
+msgstr "Kurulacak Paketler"
+
+#: ../src/manager_window.vala
+msgid "Install Reason"
+msgstr "Kurulum Nedeni"
+
+#: ../src/manager_window.vala
+msgid "Mark as explicitly installed"
+msgstr "Yüklü olarak işaretle"
 
 #: ../src/manager_window.vala
 msgid "Licenses"
@@ -441,10 +446,6 @@ msgstr "İnşa Zamanı"
 #: ../src/manager_window.vala
 msgid "Install Date"
 msgstr "Kurulum Tarihi"
-
-#: ../src/manager_window.vala
-msgid "Install Reason"
-msgstr "Kurulum Nedeni"
 
 #: ../src/manager_window.vala
 msgid "Signatures"
@@ -519,11 +520,6 @@ msgstr "Bağımlılık Kontrolü"
 msgid "Name"
 msgstr "İsim"
 
-#: ../src/manager_window.vala
-#, c-format
-msgid "Choose optional dependencies for %s"
-msgstr "%s için tercih edilebilir bağımlılıkları seç"
-
 #: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Install Local Packages"
 msgstr "Bilgisayarından paket yükle"
@@ -575,11 +571,6 @@ msgstr "Süreç"
 #: ../resources/progress_dialog.ui
 msgid "_Hide"
 msgstr "_Gizle"
-
-#: ../resources/progress_dialog.ui ../resources/manager_window.ui
-#: ../resources/updater_window.ui
-msgid "Details"
-msgstr "Ayrıntılar"
 
 #: ../resources/history_dialog.ui
 msgid "Pamac History"
@@ -646,13 +637,13 @@ msgstr "Rağbet Gören"
 msgid "AUR"
 msgstr "AUR"
 
-#: ../resources/manager_window.ui ../resources/updater_window.ui
-msgid "_Apply"
-msgstr "_Uygula"
-
 #: ../resources/manager_window.ui
 msgid "Browse"
 msgstr "Gözat"
+
+#: ../resources/manager_window.ui
+msgid "Reinstall"
+msgstr "Yeniden yükle"
 
 #: ../resources/manager_window.ui
 msgid "Dependencies"
@@ -661,6 +652,10 @@ msgstr "Bağımlılıklar"
 #: ../resources/manager_window.ui
 msgid "Files"
 msgstr "Dosyalar"
+
+#: ../resources/manager_window.ui ../resources/updater_window.ui
+msgid "_Apply"
+msgstr "_Uygula"
 
 #: ../resources/preferences_dialog.ui
 msgid "Remove unrequired dependencies"

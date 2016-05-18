@@ -1,5 +1,5 @@
 # Translation of Pamac.
-# Copyright (C) 2007-2012 Free Software Foundation, Inc.
+# Copyright (C) 2013-2016 Manjaro Developers <manjaro-dev@manjaro.org>
 # This file is distributed under the same license as the Pamac package.
 # Guillaume Benoit <guillaume@manjaro.org>, 2013-2016.
 # 
@@ -9,28 +9,32 @@
 # Guillaume Benoit <guillaume@manjaro.org>, 2013
 # Harald H. <haarektrans@gmail.com>, 2015
 # Harald H. <haarektrans@gmail.com>, 2015
-# Kristoffer Ulseth <ulseth85@gmail.com>, 2014
+# Kristoffer Ulseth <ulseth85@gmail.com>, 2014,2016
 # philm <philm@manjaro.org>, 2014
 # Morten Rene <arath.inc@gmail.com>, 2014
 # philm <philm@manjaro.org>, 2014-2015
 # Rune Slettebakken <runslett@gmail.com>, 2015
 # Tom Eirik Flovik <tflovik@online.no>, 2013
-# thomas <thomasbjornvold@gmail.com>, 2015
+# thomas <thomasbjornvold@gmail.com>, 2015-2016
 # Tom Eirik Flovik <tflovik@online.no>, 2013
 # Kristoffer Ulseth <ulseth85@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2016-04-24 08:44+0200\n"
-"PO-Revision-Date: 2016-04-24 06:51+0000\n"
-"Last-Translator: philm <philm@manjaro.org>\n"
+"POT-Creation-Date: 2015-08-20 11:53+0200\n"
+"PO-Revision-Date: 2016-05-16 11:06+0000\n"
+"Last-Translator: thomas <thomasbjornvold@gmail.com>\n"
 "Language-Team: Norwegian Bokmål (http://www.transifex.com/manjarolinux/manjaro-pamac/language/nb/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: nb\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: data/polkit/org.manjaro.pamac.policy
+msgid "Authentication is required"
+msgstr "Autentisering kreves"
 
 #: ../src/daemon.vala
 msgid "Failed to initialize alpm library"
@@ -48,7 +52,7 @@ msgstr "Ukjent"
 msgid "Explicitly installed"
 msgstr "Explisitt installert"
 
-#: ../src/daemon.vala
+#: ../src/daemon.vala ../src/manager_window.vala
 msgid "Installed as a dependency for another package"
 msgstr "Installert som en avhengighet for en annen pakke"
 
@@ -62,7 +66,7 @@ msgstr "Nei"
 
 #: ../src/daemon.vala
 msgid "Failed to init transaction"
-msgstr "Kunne ikke init transaksjon"
+msgstr "Kunne ikke initiere transaksjon"
 
 #: ../src/daemon.vala
 msgid "Failed to prepare transaction"
@@ -119,12 +123,12 @@ msgstr "Autentifisering feilet"
 #: ../src/daemon.vala
 #, c-format
 msgid "%s appears to be truncated: %jd/%jd bytes\n"
-msgstr ""
+msgstr "%s ser ut til å bli avkortet: %jd/%jd bytes\n"
 
 #: ../src/daemon.vala
 #, c-format
 msgid "failed retrieving file '%s' from %s : %s\n"
-msgstr ""
+msgstr "klarte ikke å hente filen '%s'  fra %s : %s\n\n"
 
 #: ../src/transaction.vala
 msgid "A Gtk3 frontend for libalpm"
@@ -305,23 +309,23 @@ msgstr "%s installert som %s.pacsave"
 
 #: ../src/transaction.vala
 msgid "Running pre-transaction hooks"
-msgstr ""
+msgstr "kjører forberedende rutiner"
 
 #: ../src/transaction.vala
 msgid "Running post-transaction hooks"
-msgstr ""
+msgstr "kjører avsluttende rutiner"
 
 #: ../src/transaction.vala
 #, c-format
 msgid "About %u seconds remaining"
-msgstr ""
+msgstr "Ca %u sekunder gjenstår"
 
 #: ../src/transaction.vala
 #, c-format
 msgid "About %lu minute remaining"
 msgid_plural "About %lu minutes remaining"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Ca %lu minutter gjenstår"
+msgstr[1] "Ca %lu minutter gjenstår"
 
 #: ../src/transaction.vala
 #, c-format
@@ -383,32 +387,25 @@ msgstr "Vis tilgjengelige oppdateringer"
 msgid "Deselect"
 msgstr "Fjern markeringen"
 
-#: ../src/manager_window.vala
+#: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Install"
 msgstr "Installer"
 
-#: ../src/manager_window.vala
+#: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Remove"
 msgstr "Fjern"
 
-#: ../src/manager_window.vala
-msgid "Reinstall"
-msgstr "Reinstaller"
-
-#: ../src/manager_window.vala
-msgid "Install optional dependencies"
-msgstr "Installer valgfrie avhengigheter"
-
-#: ../src/manager_window.vala
-msgid "Mark as explicitly installed"
-msgstr "Marker som eksplisitt installert"
+#: ../src/manager_window.vala ../resources/progress_dialog.ui
+#: ../resources/manager_window.ui ../resources/updater_window.ui
+msgid "Details"
+msgstr "Detaljer"
 
 #: ../src/manager_window.vala
 #, c-format
 msgid "%u pending operation"
 msgid_plural "%u pending operations"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%u operasjoner venter"
+msgstr[1] "%u operasjoner venter"
 
 #: ../src/manager_window.vala
 msgid "Installed"
@@ -420,11 +417,19 @@ msgstr "Foreldreløs"
 
 #: ../src/manager_window.vala
 msgid "Foreign"
-msgstr ""
+msgstr "Fremmed"
 
 #: ../src/manager_window.vala
 msgid "Pending"
-msgstr ""
+msgstr "Venter på behandling"
+
+#: ../src/manager_window.vala
+msgid "Install Reason"
+msgstr "Grunn til Installasjon"
+
+#: ../src/manager_window.vala
+msgid "Mark as explicitly installed"
+msgstr "Marker som eksplisitt installert"
 
 #: ../src/manager_window.vala
 msgid "Licenses"
@@ -450,10 +455,6 @@ msgstr "Byggedato"
 #: ../src/manager_window.vala
 msgid "Install Date"
 msgstr "Installasjons Dato"
-
-#: ../src/manager_window.vala
-msgid "Install Reason"
-msgstr "Grunn til Installasjon"
 
 #: ../src/manager_window.vala
 msgid "Signatures"
@@ -493,7 +494,7 @@ msgstr "I konflikt med"
 
 #: ../src/manager_window.vala
 msgid "Package Base"
-msgstr ""
+msgstr "Pakkebase"
 
 #: ../src/manager_window.vala
 msgid "Maintainer"
@@ -517,21 +518,16 @@ msgstr "Utdatert"
 
 #: ../src/manager_window.vala
 msgid "Make Dependencies"
-msgstr ""
+msgstr "Lag avhengigheter"
 
 #: ../src/manager_window.vala
 msgid "Check Dependencies"
-msgstr ""
+msgstr "Sjekk avhengigheter"
 
 #: ../src/manager_window.vala ../resources/manager_window.ui
 #: ../resources/updater_window.ui
 msgid "Name"
 msgstr "Navn"
-
-#: ../src/manager_window.vala
-#, c-format
-msgid "Choose optional dependencies for %s"
-msgstr ""
 
 #: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Install Local Packages"
@@ -575,7 +571,7 @@ msgstr "Velg en leverandør"
 #: ../resources/choose_provider_dialog.ui ../resources/choose_dep_dialog.ui
 #: ../resources/choose_ignorepkgs_dialog.ui
 msgid "Choose"
-msgstr ""
+msgstr "Velg"
 
 #: ../resources/progress_dialog.ui
 msgid "Progress"
@@ -583,12 +579,7 @@ msgstr "Framdrift"
 
 #: ../resources/progress_dialog.ui
 msgid "_Hide"
-msgstr ""
-
-#: ../resources/progress_dialog.ui ../resources/manager_window.ui
-#: ../resources/updater_window.ui
-msgid "Details"
-msgstr "Detaljer"
+msgstr "_Gjem"
 
 #: ../resources/history_dialog.ui
 msgid "Pamac History"
@@ -600,7 +591,7 @@ msgstr "Oppsummering av transaksjonen"
 
 #: ../resources/transaction_sum_dialog.ui
 msgid "Commit"
-msgstr ""
+msgstr "Legg inn"
 
 #: ../resources/choose_dep_dialog.ui
 msgid "Choose Optional Dependencies"
@@ -620,7 +611,7 @@ msgstr "Valg"
 
 #: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "About"
-msgstr ""
+msgstr "Om"
 
 #: ../resources/manager_window.ui
 msgid "Search"
@@ -648,20 +639,20 @@ msgstr "Størrelse"
 
 #: ../resources/manager_window.ui
 msgid "Popularity"
-msgstr ""
+msgstr "Popularitet"
 
 #: ../resources/manager_window.ui ../resources/updater_window.ui
 #: ../resources/preferences_dialog.ui
 msgid "AUR"
 msgstr "AUR"
 
-#: ../resources/manager_window.ui ../resources/updater_window.ui
-msgid "_Apply"
-msgstr "_Utfør"
-
 #: ../resources/manager_window.ui
 msgid "Browse"
-msgstr ""
+msgstr "Bla"
+
+#: ../resources/manager_window.ui
+msgid "Reinstall"
+msgstr "Reinstaller"
 
 #: ../resources/manager_window.ui
 msgid "Dependencies"
@@ -670,6 +661,10 @@ msgstr "Avhengigheter"
 #: ../resources/manager_window.ui
 msgid "Files"
 msgstr "Filer"
+
+#: ../resources/manager_window.ui ../resources/updater_window.ui
+msgid "_Apply"
+msgstr "_Utfør"
 
 #: ../resources/preferences_dialog.ui
 msgid "Remove unrequired dependencies"

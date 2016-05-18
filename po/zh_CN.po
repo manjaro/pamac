@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2016-04-24 08:44+0200\n"
-"PO-Revision-Date: 2016-04-24 06:58+0000\n"
+"POT-Creation-Date: 2015-08-20 11:53+0200\n"
+"PO-Revision-Date: 2016-05-14 10:03+0000\n"
 "Last-Translator: Dz Chen <wsxy162@gmail.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
@@ -23,6 +23,10 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Language: zh_CN\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
+
+#: data/polkit/org.manjaro.pamac.policy
+msgid "Authentication is required"
+msgstr "需要验证"
 
 #: ../src/daemon.vala
 msgid "Failed to initialize alpm library"
@@ -40,7 +44,7 @@ msgstr "未知"
 msgid "Explicitly installed"
 msgstr "单独指定安装"
 
-#: ../src/daemon.vala
+#: ../src/daemon.vala ../src/manager_window.vala
 msgid "Installed as a dependency for another package"
 msgstr "作为另一个软件包的依赖而安装"
 
@@ -373,25 +377,18 @@ msgstr "显示可用更新"
 msgid "Deselect"
 msgstr "取消选择"
 
-#: ../src/manager_window.vala
+#: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Install"
 msgstr "安装"
 
-#: ../src/manager_window.vala
+#: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Remove"
 msgstr "移除"
 
-#: ../src/manager_window.vala
-msgid "Reinstall"
-msgstr "重新安装"
-
-#: ../src/manager_window.vala
-msgid "Install optional dependencies"
-msgstr "安装可选依赖"
-
-#: ../src/manager_window.vala
-msgid "Mark as explicitly installed"
-msgstr "标记为单独指定安装"
+#: ../src/manager_window.vala ../resources/progress_dialog.ui
+#: ../resources/manager_window.ui ../resources/updater_window.ui
+msgid "Details"
+msgstr "详情"
 
 #: ../src/manager_window.vala
 #, c-format
@@ -414,6 +411,14 @@ msgstr "外部"
 #: ../src/manager_window.vala
 msgid "Pending"
 msgstr "待处理"
+
+#: ../src/manager_window.vala
+msgid "Install Reason"
+msgstr "安装原因"
+
+#: ../src/manager_window.vala
+msgid "Mark as explicitly installed"
+msgstr "标记为单独指定安装"
 
 #: ../src/manager_window.vala
 msgid "Licenses"
@@ -439,10 +444,6 @@ msgstr "构建日期"
 #: ../src/manager_window.vala
 msgid "Install Date"
 msgstr "安装日期"
-
-#: ../src/manager_window.vala
-msgid "Install Reason"
-msgstr "安装原因"
 
 #: ../src/manager_window.vala
 msgid "Signatures"
@@ -517,11 +518,6 @@ msgstr "检查依赖关系"
 msgid "Name"
 msgstr "名称"
 
-#: ../src/manager_window.vala
-#, c-format
-msgid "Choose optional dependencies for %s"
-msgstr "为 %s 选择可选依赖"
-
 #: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Install Local Packages"
 msgstr "安装本地软件包"
@@ -573,11 +569,6 @@ msgstr "进度"
 #: ../resources/progress_dialog.ui
 msgid "_Hide"
 msgstr "隐藏(_H)"
-
-#: ../resources/progress_dialog.ui ../resources/manager_window.ui
-#: ../resources/updater_window.ui
-msgid "Details"
-msgstr "详情"
 
 #: ../resources/history_dialog.ui
 msgid "Pamac History"
@@ -644,13 +635,13 @@ msgstr "人气"
 msgid "AUR"
 msgstr "AUR"
 
-#: ../resources/manager_window.ui ../resources/updater_window.ui
-msgid "_Apply"
-msgstr "应用(_A)"
-
 #: ../resources/manager_window.ui
 msgid "Browse"
 msgstr "浏览"
+
+#: ../resources/manager_window.ui
+msgid "Reinstall"
+msgstr "重新安装"
 
 #: ../resources/manager_window.ui
 msgid "Dependencies"
@@ -659,6 +650,10 @@ msgstr "依赖"
 #: ../resources/manager_window.ui
 msgid "Files"
 msgstr "文件"
+
+#: ../resources/manager_window.ui ../resources/updater_window.ui
+msgid "_Apply"
+msgstr "应用(_A)"
 
 #: ../resources/preferences_dialog.ui
 msgid "Remove unrequired dependencies"

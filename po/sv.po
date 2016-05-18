@@ -1,11 +1,12 @@
 # Translation of Pamac.
-# Copyright (C) 2007-2012 Free Software Foundation, Inc.
+# Copyright (C) 2013-2016 Manjaro Developers <manjaro-dev@manjaro.org>
 # This file is distributed under the same license as the Pamac package.
 # Guillaume Benoit <guillaume@manjaro.org>, 2013-2016.
 # 
 # Translators:
 # Alexander Lindberg <alexanderlndbrg@gmail.com>, 2013-2014
 # Mattias Johansson <cashew75s@gmail.com>, 2014
+# Lennart Niemelä <lennart.niemela@gmail.com>, 2016
 # Mattias Johansson <cashew75s@gmail.com>, 2014
 # philm <philm@manjaro.org>, 2015
 # riiga <riiga_92@hotmail.com>, 2014,2016
@@ -16,15 +17,19 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2016-04-24 08:44+0200\n"
-"PO-Revision-Date: 2016-04-24 06:51+0000\n"
-"Last-Translator: philm <philm@manjaro.org>\n"
+"POT-Creation-Date: 2015-08-20 11:53+0200\n"
+"PO-Revision-Date: 2016-05-16 21:23+0000\n"
+"Last-Translator: Lennart Niemelä <lennart.niemela@gmail.com>\n"
 "Language-Team: Swedish (http://www.transifex.com/manjarolinux/manjaro-pamac/language/sv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: sv\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: data/polkit/org.manjaro.pamac.policy
+msgid "Authentication is required"
+msgstr "Autentisering krävs"
 
 #: ../src/daemon.vala
 msgid "Failed to initialize alpm library"
@@ -42,7 +47,7 @@ msgstr "Okänd"
 msgid "Explicitly installed"
 msgstr "Särskillt installerad"
 
-#: ../src/daemon.vala
+#: ../src/daemon.vala ../src/manager_window.vala
 msgid "Installed as a dependency for another package"
 msgstr "Installerad som ett beroende för ett annat paket"
 
@@ -108,17 +113,17 @@ msgstr "%s är ogiltig eller korrupt"
 
 #: ../src/daemon.vala ../src/transaction.vala
 msgid "Authentication failed"
-msgstr "Autensiering misslyckades"
+msgstr "Autentisering misslyckades"
 
 #: ../src/daemon.vala
 #, c-format
 msgid "%s appears to be truncated: %jd/%jd bytes\n"
-msgstr ""
+msgstr "%s verkar vara trunkerad: %jd/%jd bytes\n"
 
 #: ../src/daemon.vala
 #, c-format
 msgid "failed retrieving file '%s' from %s : %s\n"
-msgstr ""
+msgstr "misslyckades med att hämta fil '%s' från %s : %s\n"
 
 #: ../src/transaction.vala
 msgid "A Gtk3 frontend for libalpm"
@@ -377,32 +382,25 @@ msgstr "Visa tillgängliga uppdateringar"
 msgid "Deselect"
 msgstr "Avmarkera"
 
-#: ../src/manager_window.vala
+#: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Install"
 msgstr "Installera"
 
-#: ../src/manager_window.vala
+#: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Remove"
 msgstr "Ta bort"
 
-#: ../src/manager_window.vala
-msgid "Reinstall"
-msgstr "Återinstallera"
-
-#: ../src/manager_window.vala
-msgid "Install optional dependencies"
-msgstr "Installera valfria beroenden"
-
-#: ../src/manager_window.vala
-msgid "Mark as explicitly installed"
-msgstr "Markera som särskilt installerad"
+#: ../src/manager_window.vala ../resources/progress_dialog.ui
+#: ../resources/manager_window.ui ../resources/updater_window.ui
+msgid "Details"
+msgstr "Detaljer"
 
 #: ../src/manager_window.vala
 #, c-format
 msgid "%u pending operation"
 msgid_plural "%u pending operations"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%u pågående åtgärd"
+msgstr[1] "%u pågående åtgärder"
 
 #: ../src/manager_window.vala
 msgid "Installed"
@@ -414,11 +412,19 @@ msgstr "Föräldralösa"
 
 #: ../src/manager_window.vala
 msgid "Foreign"
-msgstr ""
+msgstr "Främmande"
 
 #: ../src/manager_window.vala
 msgid "Pending"
-msgstr ""
+msgstr "Pågående"
+
+#: ../src/manager_window.vala
+msgid "Install Reason"
+msgstr "Installeringsorsak"
+
+#: ../src/manager_window.vala
+msgid "Mark as explicitly installed"
+msgstr "Markera som särskilt installerad"
 
 #: ../src/manager_window.vala
 msgid "Licenses"
@@ -444,10 +450,6 @@ msgstr "Byggdatum"
 #: ../src/manager_window.vala
 msgid "Install Date"
 msgstr "Installationsdatum"
-
-#: ../src/manager_window.vala
-msgid "Install Reason"
-msgstr "Installeringsorsak"
 
 #: ../src/manager_window.vala
 msgid "Signatures"
@@ -487,7 +489,7 @@ msgstr "Konflikt med"
 
 #: ../src/manager_window.vala
 msgid "Package Base"
-msgstr ""
+msgstr "Paketbas"
 
 #: ../src/manager_window.vala
 msgid "Maintainer"
@@ -511,21 +513,16 @@ msgstr "Föråldrat"
 
 #: ../src/manager_window.vala
 msgid "Make Dependencies"
-msgstr ""
+msgstr "Skapa beroenden"
 
 #: ../src/manager_window.vala
 msgid "Check Dependencies"
-msgstr ""
+msgstr "Kontrollera beroenden"
 
 #: ../src/manager_window.vala ../resources/manager_window.ui
 #: ../resources/updater_window.ui
 msgid "Name"
 msgstr "Namn"
-
-#: ../src/manager_window.vala
-#, c-format
-msgid "Choose optional dependencies for %s"
-msgstr ""
 
 #: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Install Local Packages"
@@ -569,7 +566,7 @@ msgstr "Välj en leverantör"
 #: ../resources/choose_provider_dialog.ui ../resources/choose_dep_dialog.ui
 #: ../resources/choose_ignorepkgs_dialog.ui
 msgid "Choose"
-msgstr ""
+msgstr "Välj"
 
 #: ../resources/progress_dialog.ui
 msgid "Progress"
@@ -577,12 +574,7 @@ msgstr "Status"
 
 #: ../resources/progress_dialog.ui
 msgid "_Hide"
-msgstr ""
-
-#: ../resources/progress_dialog.ui ../resources/manager_window.ui
-#: ../resources/updater_window.ui
-msgid "Details"
-msgstr "Detaljer"
+msgstr "_Dölj"
 
 #: ../resources/history_dialog.ui
 msgid "Pamac History"
@@ -594,11 +586,11 @@ msgstr "Summering av överföring"
 
 #: ../resources/transaction_sum_dialog.ui
 msgid "Commit"
-msgstr ""
+msgstr "Genomför"
 
 #: ../resources/choose_dep_dialog.ui
 msgid "Choose Optional Dependencies"
-msgstr "Välj frivilliga beroenden"
+msgstr "Välj valfria beroenden"
 
 #: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "Refresh databases"
@@ -614,7 +606,7 @@ msgstr "Inställningar"
 
 #: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "About"
-msgstr ""
+msgstr "Om"
 
 #: ../resources/manager_window.ui
 msgid "Search"
@@ -642,20 +634,20 @@ msgstr "Storlek"
 
 #: ../resources/manager_window.ui
 msgid "Popularity"
-msgstr ""
+msgstr "Popularitet"
 
 #: ../resources/manager_window.ui ../resources/updater_window.ui
 #: ../resources/preferences_dialog.ui
 msgid "AUR"
 msgstr "AUR"
 
-#: ../resources/manager_window.ui ../resources/updater_window.ui
-msgid "_Apply"
-msgstr "_Tillämpa"
-
 #: ../resources/manager_window.ui
 msgid "Browse"
-msgstr ""
+msgstr "Surfa"
+
+#: ../resources/manager_window.ui
+msgid "Reinstall"
+msgstr "Återinstallera"
 
 #: ../resources/manager_window.ui
 msgid "Dependencies"
@@ -664,6 +656,10 @@ msgstr "Beroenden"
 #: ../resources/manager_window.ui
 msgid "Files"
 msgstr "Filer"
+
+#: ../resources/manager_window.ui ../resources/updater_window.ui
+msgid "_Apply"
+msgstr "_Tillämpa"
 
 #: ../resources/preferences_dialog.ui
 msgid "Remove unrequired dependencies"

@@ -1,5 +1,5 @@
 # Translation of Pamac.
-# Copyright (C) 2007-2012 Free Software Foundation, Inc.
+# Copyright (C) 2013-2016 Manjaro Developers <manjaro-dev@manjaro.org>
 # This file is distributed under the same license as the Pamac package.
 # Guillaume Benoit <guillaume@manjaro.org>, 2013-2016.
 # 
@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2016-04-24 08:44+0200\n"
-"PO-Revision-Date: 2016-04-24 06:51+0000\n"
+"POT-Creation-Date: 2015-08-20 11:53+0200\n"
+"PO-Revision-Date: 2016-05-14 09:54+0000\n"
 "Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Slovenian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/sl/)\n"
 "MIME-Version: 1.0\n"
@@ -23,6 +23,10 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Language: sl\n"
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);\n"
+
+#: data/polkit/org.manjaro.pamac.policy
+msgid "Authentication is required"
+msgstr ""
 
 #: ../src/daemon.vala
 msgid "Failed to initialize alpm library"
@@ -40,7 +44,7 @@ msgstr "Neznano"
 msgid "Explicitly installed"
 msgstr "Izrecno nameščeno"
 
-#: ../src/daemon.vala
+#: ../src/daemon.vala ../src/manager_window.vala
 msgid "Installed as a dependency for another package"
 msgstr "Nameščeno kot odvisnost za drugi paket"
 
@@ -379,25 +383,18 @@ msgstr "Pokaži razpoložljive posodobitve"
 msgid "Deselect"
 msgstr "Prekliči izbiro"
 
-#: ../src/manager_window.vala
+#: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Install"
 msgstr "Namesti"
 
-#: ../src/manager_window.vala
+#: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Remove"
 msgstr "Odstrani"
 
-#: ../src/manager_window.vala
-msgid "Reinstall"
-msgstr "Ponovno namesti"
-
-#: ../src/manager_window.vala
-msgid "Install optional dependencies"
-msgstr "Namesti izbirne odvisnosti"
-
-#: ../src/manager_window.vala
-msgid "Mark as explicitly installed"
-msgstr "Označi kot izrecno nameščeno"
+#: ../src/manager_window.vala ../resources/progress_dialog.ui
+#: ../resources/manager_window.ui ../resources/updater_window.ui
+msgid "Details"
+msgstr "Podrobnosti"
 
 #: ../src/manager_window.vala
 #, c-format
@@ -425,6 +422,14 @@ msgid "Pending"
 msgstr ""
 
 #: ../src/manager_window.vala
+msgid "Install Reason"
+msgstr "Namestitveni razlog"
+
+#: ../src/manager_window.vala
+msgid "Mark as explicitly installed"
+msgstr "Označi kot izrecno nameščeno"
+
+#: ../src/manager_window.vala
 msgid "Licenses"
 msgstr "Licence"
 
@@ -448,10 +453,6 @@ msgstr ""
 #: ../src/manager_window.vala
 msgid "Install Date"
 msgstr "Datum namestitve"
-
-#: ../src/manager_window.vala
-msgid "Install Reason"
-msgstr "Namestitveni razlog"
 
 #: ../src/manager_window.vala
 msgid "Signatures"
@@ -526,11 +527,6 @@ msgstr ""
 msgid "Name"
 msgstr "Ime"
 
-#: ../src/manager_window.vala
-#, c-format
-msgid "Choose optional dependencies for %s"
-msgstr ""
-
 #: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Install Local Packages"
 msgstr "Namesti krajevne pakete"
@@ -582,11 +578,6 @@ msgstr "Potek"
 #: ../resources/progress_dialog.ui
 msgid "_Hide"
 msgstr ""
-
-#: ../resources/progress_dialog.ui ../resources/manager_window.ui
-#: ../resources/updater_window.ui
-msgid "Details"
-msgstr "Podrobnosti"
 
 #: ../resources/history_dialog.ui
 msgid "Pamac History"
@@ -653,13 +644,13 @@ msgstr ""
 msgid "AUR"
 msgstr "AUR"
 
-#: ../resources/manager_window.ui ../resources/updater_window.ui
-msgid "_Apply"
-msgstr "_Uveljavi"
-
 #: ../resources/manager_window.ui
 msgid "Browse"
 msgstr ""
+
+#: ../resources/manager_window.ui
+msgid "Reinstall"
+msgstr "Ponovno namesti"
 
 #: ../resources/manager_window.ui
 msgid "Dependencies"
@@ -668,6 +659,10 @@ msgstr "Odvisnosti"
 #: ../resources/manager_window.ui
 msgid "Files"
 msgstr "Datoteke"
+
+#: ../resources/manager_window.ui ../resources/updater_window.ui
+msgid "_Apply"
+msgstr "_Uveljavi"
 
 #: ../resources/preferences_dialog.ui
 msgid "Remove unrequired dependencies"

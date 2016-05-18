@@ -1,5 +1,5 @@
 # Translation of Pamac.
-# Copyright (C) 2007-2012 Free Software Foundation, Inc.
+# Copyright (C) 2013-2016 Manjaro Developers <manjaro-dev@manjaro.org>
 # This file is distributed under the same license as the Pamac package.
 # Guillaume Benoit <guillaume@manjaro.org>, 2013-2016.
 # 
@@ -17,8 +17,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2016-04-24 08:44+0200\n"
-"PO-Revision-Date: 2016-04-24 06:51+0000\n"
+"POT-Creation-Date: 2015-08-20 11:53+0200\n"
+"PO-Revision-Date: 2016-05-14 09:54+0000\n"
 "Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Finnish (http://www.transifex.com/manjarolinux/manjaro-pamac/language/fi/)\n"
 "MIME-Version: 1.0\n"
@@ -26,6 +26,10 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Language: fi\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: data/polkit/org.manjaro.pamac.policy
+msgid "Authentication is required"
+msgstr ""
 
 #: ../src/daemon.vala
 msgid "Failed to initialize alpm library"
@@ -43,7 +47,7 @@ msgstr "Tuntematon"
 msgid "Explicitly installed"
 msgstr "Käyttäjän asentama"
 
-#: ../src/daemon.vala
+#: ../src/daemon.vala ../src/manager_window.vala
 msgid "Installed as a dependency for another package"
 msgstr "Asennettu riippuvuutena toiselle paketille"
 
@@ -378,25 +382,18 @@ msgstr "Näytä saatavilla olevat päivitykset"
 msgid "Deselect"
 msgstr "Poista valinta"
 
-#: ../src/manager_window.vala
+#: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Install"
 msgstr "Asenna"
 
-#: ../src/manager_window.vala
+#: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Remove"
 msgstr "Poista"
 
-#: ../src/manager_window.vala
-msgid "Reinstall"
-msgstr "Asenna uudelleen"
-
-#: ../src/manager_window.vala
-msgid "Install optional dependencies"
-msgstr "Asenna valinnaisia riippuvuuksia"
-
-#: ../src/manager_window.vala
-msgid "Mark as explicitly installed"
-msgstr "Merkitse erikseen asennetuksi"
+#: ../src/manager_window.vala ../resources/progress_dialog.ui
+#: ../resources/manager_window.ui ../resources/updater_window.ui
+msgid "Details"
+msgstr "Yksityiskohdat"
 
 #: ../src/manager_window.vala
 #, c-format
@@ -422,6 +419,14 @@ msgid "Pending"
 msgstr ""
 
 #: ../src/manager_window.vala
+msgid "Install Reason"
+msgstr "Asennuksen syy"
+
+#: ../src/manager_window.vala
+msgid "Mark as explicitly installed"
+msgstr "Merkitse erikseen asennetuksi"
+
+#: ../src/manager_window.vala
 msgid "Licenses"
 msgstr "Lisenssit"
 
@@ -445,10 +450,6 @@ msgstr ""
 #: ../src/manager_window.vala
 msgid "Install Date"
 msgstr "Asennuspäivämäärä"
-
-#: ../src/manager_window.vala
-msgid "Install Reason"
-msgstr "Asennuksen syy"
 
 #: ../src/manager_window.vala
 msgid "Signatures"
@@ -523,11 +524,6 @@ msgstr ""
 msgid "Name"
 msgstr "Nimi"
 
-#: ../src/manager_window.vala
-#, c-format
-msgid "Choose optional dependencies for %s"
-msgstr ""
-
 #: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Install Local Packages"
 msgstr ""
@@ -579,11 +575,6 @@ msgstr "Edistyminen"
 #: ../resources/progress_dialog.ui
 msgid "_Hide"
 msgstr ""
-
-#: ../resources/progress_dialog.ui ../resources/manager_window.ui
-#: ../resources/updater_window.ui
-msgid "Details"
-msgstr "Yksityiskohdat"
 
 #: ../resources/history_dialog.ui
 msgid "Pamac History"
@@ -650,13 +641,13 @@ msgstr ""
 msgid "AUR"
 msgstr ""
 
-#: ../resources/manager_window.ui ../resources/updater_window.ui
-msgid "_Apply"
-msgstr "_hyväksy"
-
 #: ../resources/manager_window.ui
 msgid "Browse"
 msgstr ""
+
+#: ../resources/manager_window.ui
+msgid "Reinstall"
+msgstr "Asenna uudelleen"
 
 #: ../resources/manager_window.ui
 msgid "Dependencies"
@@ -665,6 +656,10 @@ msgstr "Riippuvuudet"
 #: ../resources/manager_window.ui
 msgid "Files"
 msgstr "Tiedostot"
+
+#: ../resources/manager_window.ui ../resources/updater_window.ui
+msgid "_Apply"
+msgstr "_hyväksy"
 
 #: ../resources/preferences_dialog.ui
 msgid "Remove unrequired dependencies"

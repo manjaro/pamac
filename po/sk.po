@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2016-04-24 08:44+0200\n"
-"PO-Revision-Date: 2016-05-02 17:12+0000\n"
+"POT-Creation-Date: 2015-08-20 11:53+0200\n"
+"PO-Revision-Date: 2016-05-14 10:03+0000\n"
 "Last-Translator: Dušan Kazik <prescott66@gmail.com>\n"
 "Language-Team: Slovak (http://www.transifex.com/manjarolinux/manjaro-pamac/language/sk/)\n"
 "MIME-Version: 1.0\n"
@@ -23,6 +23,10 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Language: sk\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+
+#: data/polkit/org.manjaro.pamac.policy
+msgid "Authentication is required"
+msgstr "Vyžaduje sa overenie totožnosti"
 
 #: ../src/daemon.vala
 msgid "Failed to initialize alpm library"
@@ -40,7 +44,7 @@ msgstr "Neznáme"
 msgid "Explicitly installed"
 msgstr "Výlučne nainštalované"
 
-#: ../src/daemon.vala
+#: ../src/daemon.vala ../src/manager_window.vala
 msgid "Installed as a dependency for another package"
 msgstr "Balík bol nainštalovaný ako závislosť iného balíka"
 
@@ -377,25 +381,18 @@ msgstr "Zobraziť dostupné aktualizácie"
 msgid "Deselect"
 msgstr "Odznačiť"
 
-#: ../src/manager_window.vala
+#: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Install"
 msgstr "Inštalovať"
 
-#: ../src/manager_window.vala
+#: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Remove"
 msgstr "Odstrániť"
 
-#: ../src/manager_window.vala
-msgid "Reinstall"
-msgstr "Preinštalovať"
-
-#: ../src/manager_window.vala
-msgid "Install optional dependencies"
-msgstr "Nainštalovať voliteľné závislosti"
-
-#: ../src/manager_window.vala
-msgid "Mark as explicitly installed"
-msgstr "Označiť ako explicitne nainštalované"
+#: ../src/manager_window.vala ../resources/progress_dialog.ui
+#: ../resources/manager_window.ui ../resources/updater_window.ui
+msgid "Details"
+msgstr "Podrobnosti"
 
 #: ../src/manager_window.vala
 #, c-format
@@ -422,6 +419,14 @@ msgid "Pending"
 msgstr "Na vybavenie"
 
 #: ../src/manager_window.vala
+msgid "Install Reason"
+msgstr "Dôvod inštalácie"
+
+#: ../src/manager_window.vala
+msgid "Mark as explicitly installed"
+msgstr "Označiť ako explicitne nainštalované"
+
+#: ../src/manager_window.vala
 msgid "Licenses"
 msgstr "Licencie"
 
@@ -445,10 +450,6 @@ msgstr "Dátum zostavy"
 #: ../src/manager_window.vala
 msgid "Install Date"
 msgstr "Dátum inštalácie"
-
-#: ../src/manager_window.vala
-msgid "Install Reason"
-msgstr "Dôvod inštalácie"
 
 #: ../src/manager_window.vala
 msgid "Signatures"
@@ -523,11 +524,6 @@ msgstr "Skontrolovať závislosti"
 msgid "Name"
 msgstr "Názov"
 
-#: ../src/manager_window.vala
-#, c-format
-msgid "Choose optional dependencies for %s"
-msgstr "Voľba voliteľných závislostí pre %s"
-
 #: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Install Local Packages"
 msgstr "Inštalovať miestne balíky"
@@ -579,11 +575,6 @@ msgstr "Priebeh"
 #: ../resources/progress_dialog.ui
 msgid "_Hide"
 msgstr "_Skryť"
-
-#: ../resources/progress_dialog.ui ../resources/manager_window.ui
-#: ../resources/updater_window.ui
-msgid "Details"
-msgstr "Podrobnosti"
 
 #: ../resources/history_dialog.ui
 msgid "Pamac History"
@@ -650,13 +641,13 @@ msgstr "Obľúbenosť"
 msgid "AUR"
 msgstr "AUR"
 
-#: ../resources/manager_window.ui ../resources/updater_window.ui
-msgid "_Apply"
-msgstr "_Použiť"
-
 #: ../resources/manager_window.ui
 msgid "Browse"
 msgstr "Prehliadanie"
+
+#: ../resources/manager_window.ui
+msgid "Reinstall"
+msgstr "Preinštalovať"
 
 #: ../resources/manager_window.ui
 msgid "Dependencies"
@@ -665,6 +656,10 @@ msgstr "Závislosti"
 #: ../resources/manager_window.ui
 msgid "Files"
 msgstr "Súbory"
+
+#: ../resources/manager_window.ui ../resources/updater_window.ui
+msgid "_Apply"
+msgstr "_Použiť"
 
 #: ../resources/preferences_dialog.ui
 msgid "Remove unrequired dependencies"
