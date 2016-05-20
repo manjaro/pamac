@@ -21,8 +21,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2016-04-24 08:44+0200\n"
-"PO-Revision-Date: 2016-04-24 14:25+0000\n"
+"POT-Creation-Date: 2015-08-20 11:53+0200\n"
+"PO-Revision-Date: 2016-05-20 18:04+0000\n"
 "Last-Translator: Charles Monzat <superboa@hotmail.fr>\n"
 "Language-Team: French (http://www.transifex.com/manjarolinux/manjaro-pamac/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -30,6 +30,10 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Language: fr\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: data/polkit/org.manjaro.pamac.policy
+msgid "Authentication is required"
+msgstr "Authentification nécessaire"
 
 #: ../src/daemon.vala
 msgid "Failed to initialize alpm library"
@@ -47,7 +51,7 @@ msgstr "Inconnu"
 msgid "Explicitly installed"
 msgstr "Explicitement installé"
 
-#: ../src/daemon.vala
+#: ../src/daemon.vala ../src/manager_window.vala
 msgid "Installed as a dependency for another package"
 msgstr "Installé comme dépendance d'un autre paquet"
 
@@ -152,7 +156,7 @@ msgstr "Choix d'un fournisseur pour %s"
 
 #: ../src/transaction.vala
 msgid "To remove"
-msgstr "À désinstaller"
+msgstr "À désinstaller "
 
 #: ../src/transaction.vala
 msgid "To downgrade"
@@ -160,19 +164,19 @@ msgstr "Retour à une version antérieure"
 
 #: ../src/transaction.vala
 msgid "To build"
-msgstr "À construire"
+msgstr "À construire "
 
 #: ../src/transaction.vala
 msgid "To install"
-msgstr "À installer"
+msgstr "À installer "
 
 #: ../src/transaction.vala
 msgid "To reinstall"
-msgstr "À réinstaller"
+msgstr "À réinstaller "
 
 #: ../src/transaction.vala
 msgid "To update"
-msgstr "À mettre à jour"
+msgstr "À mettre à jour "
 
 #: ../src/transaction.vala ../src/updater_window.vala
 msgid "Total download size"
@@ -313,14 +317,14 @@ msgstr "Exécution des scripts de post-transaction"
 #: ../src/transaction.vala
 #, c-format
 msgid "About %u seconds remaining"
-msgstr "Environ %u seconde(s) restante(s)"
+msgstr "Environ %u secondes restantes"
 
 #: ../src/transaction.vala
 #, c-format
 msgid "About %lu minute remaining"
 msgid_plural "About %lu minutes remaining"
 msgstr[0] "Environ %lu minute restantes"
-msgstr[1] "Environ %lu minute(s) restante(s)"
+msgstr[1] "Environ %lu minutes restantes"
 
 #: ../src/transaction.vala
 #, c-format
@@ -382,25 +386,18 @@ msgstr "Voir les mises à jour disponibles"
 msgid "Deselect"
 msgstr "Désélectionner"
 
-#: ../src/manager_window.vala
+#: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Install"
 msgstr "Installer"
 
-#: ../src/manager_window.vala
+#: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Remove"
 msgstr "Désinstaller"
 
-#: ../src/manager_window.vala
-msgid "Reinstall"
-msgstr "Réinstaller"
-
-#: ../src/manager_window.vala
-msgid "Install optional dependencies"
-msgstr "Installer les dépendances optionnelles"
-
-#: ../src/manager_window.vala
-msgid "Mark as explicitly installed"
-msgstr "Marquer comme explicitement installé"
+#: ../src/manager_window.vala ../resources/progress_dialog.ui
+#: ../resources/manager_window.ui ../resources/updater_window.ui
+msgid "Details"
+msgstr "Détails"
 
 #: ../src/manager_window.vala
 #, c-format
@@ -426,6 +423,14 @@ msgid "Pending"
 msgstr "En attente"
 
 #: ../src/manager_window.vala
+msgid "Install Reason"
+msgstr "Motif d'installation "
+
+#: ../src/manager_window.vala
+msgid "Mark as explicitly installed"
+msgstr "Marquer comme explicitement installé"
+
+#: ../src/manager_window.vala
 msgid "Licenses"
 msgstr "Licences"
 
@@ -449,10 +454,6 @@ msgstr "Compilé le "
 #: ../src/manager_window.vala
 msgid "Install Date"
 msgstr "Installé le "
-
-#: ../src/manager_window.vala
-msgid "Install Reason"
-msgstr "Motif d'installation "
 
 #: ../src/manager_window.vala
 msgid "Signatures"
@@ -527,11 +528,6 @@ msgstr "Dépendances de vérification"
 msgid "Name"
 msgstr "Nom"
 
-#: ../src/manager_window.vala
-#, c-format
-msgid "Choose optional dependencies for %s"
-msgstr "Choix des dépendances optionnelles pour %s"
-
 #: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Install Local Packages"
 msgstr "Installer des paquets locaux"
@@ -583,11 +579,6 @@ msgstr "Progression"
 #: ../resources/progress_dialog.ui
 msgid "_Hide"
 msgstr "_Cacher"
-
-#: ../resources/progress_dialog.ui ../resources/manager_window.ui
-#: ../resources/updater_window.ui
-msgid "Details"
-msgstr "Détails"
 
 #: ../resources/history_dialog.ui
 msgid "Pamac History"
@@ -654,13 +645,13 @@ msgstr "Popularité"
 msgid "AUR"
 msgstr "AUR"
 
-#: ../resources/manager_window.ui ../resources/updater_window.ui
-msgid "_Apply"
-msgstr "_Appliquer"
-
 #: ../resources/manager_window.ui
 msgid "Browse"
 msgstr "Naviguer"
+
+#: ../resources/manager_window.ui
+msgid "Reinstall"
+msgstr "Réinstaller"
 
 #: ../resources/manager_window.ui
 msgid "Dependencies"
@@ -669,6 +660,10 @@ msgstr "Dépendances"
 #: ../resources/manager_window.ui
 msgid "Files"
 msgstr "Fichiers"
+
+#: ../resources/manager_window.ui ../resources/updater_window.ui
+msgid "_Apply"
+msgstr "_Appliquer"
 
 #: ../resources/preferences_dialog.ui
 msgid "Remove unrequired dependencies"
