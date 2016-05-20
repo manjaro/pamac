@@ -45,8 +45,6 @@ namespace Pamac {
 		[GtkChild]
 		Gtk.CellRendererToggle aur_select_update;
 		[GtkChild]
-		Gtk.Label bottom_label;
-		[GtkChild]
 		Gtk.Box transaction_infobox;
 		[GtkChild]
 		Gtk.Button details_button;
@@ -67,7 +65,6 @@ namespace Pamac {
 			Object (application: application);
 
 			button_back.visible = false;
-			bottom_label.visible  = false;
 			apply_button.get_style_context ().add_class (Gtk.STYLE_CLASS_SUGGESTED_ACTION);
 			apply_button.sensitive = false;
 			stackswitcher.visible = false;
@@ -264,7 +261,6 @@ namespace Pamac {
 			repos_scrolledwindow.visible = true;
 			aur_updates_list.clear ();
 			aur_scrolledwindow.visible = false;
-			bottom_label.visible = false;
 			uint64 dsize = 0;
 			uint repos_updates_nb = 0;
 			uint aur_updates_nb = 0;
@@ -296,10 +292,9 @@ namespace Pamac {
 			}
 			set_transaction_infobox_visible ();
 			if (dsize != 0) {
-				bottom_label.set_markup("<b>%s: %s</b>".printf (dgettext (null, "Total download size"), format_size(dsize)));
-				bottom_label.visible = true;
+				transaction.progress_box.action_label.set_markup("<b>%s: %s</b>".printf (dgettext (null, "Total download size"), format_size(dsize)));
 			} else {
-				bottom_label.visible = false;
+				transaction.progress_box.action_label.label = "";
 			}
 			if (aur_updates_nb != 0) {
 				aur_scrolledwindow.visible = true;
