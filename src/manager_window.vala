@@ -1123,6 +1123,7 @@ namespace Pamac {
 					}
 					GLib.List<Gtk.TreePath> selected_paths = selection.get_selected_rows (null);
 					selected_pkgs = new GLib.List<string> ();
+					selected_aur = new GLib.List<string> ();
 					deselect_item.sensitive = false;
 					install_item.sensitive = false;
 					remove_item.sensitive = false;
