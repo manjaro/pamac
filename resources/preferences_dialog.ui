@@ -60,9 +60,11 @@
                       <object class="GtkLabel" id="remove_unrequired_deps_label">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="halign">start</property>
                         <property name="hexpand">True</property>
                         <property name="label" translatable="yes">Remove unrequired dependencies</property>
-                        <property name="xalign">0</property>
+                        <property name="wrap">True</property>
+                        <property name="max_width_chars">300</property>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -99,9 +101,11 @@
                       <object class="GtkLabel" id="check_space_label">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="halign">start</property>
                         <property name="hexpand">True</property>
                         <property name="label" translatable="yes">Check available disk space</property>
-                        <property name="xalign">0</property>
+                        <property name="wrap">True</property>
+                        <property name="max_width_chars">300</property>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -138,9 +142,11 @@
                       <object class="GtkLabel" id="check_updates_label">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="halign">start</property>
                         <property name="hexpand">True</property>
                         <property name="label" translatable="yes">Check for updates</property>
-                        <property name="xalign">0</property>
+                        <property name="wrap">True</property>
+                        <property name="max_width_chars">300</property>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -177,10 +183,12 @@
                       <object class="GtkLabel" id="refresh_period_label">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="halign">start</property>
                         <property name="margin_left">24</property>
                         <property name="margin_start">24</property>
                         <property name="hexpand">True</property>
-                        <property name="xalign">0</property>
+                        <property name="wrap">True</property>
+                        <property name="max_width_chars">300</property>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -220,10 +228,10 @@
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
+                    <property name="halign">start</property>
                     <property name="margin_left">22</property>
                     <property name="margin_start">22</property>
                     <property name="hexpand">True</property>
-                    <property name="xalign">0</property>
                     <property name="draw_indicator">True</property>
                   </object>
                   <packing>
@@ -246,7 +254,6 @@
                         <property name="margin_left">26</property>
                         <property name="margin_start">26</property>
                         <property name="label" translatable="yes">Ignore upgrades for:</property>
-                        <property name="xalign">0</property>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -295,7 +302,7 @@
                             </child>
                           </object>
                           <packing>
-                            <property name="expand">False</property>
+                            <property name="expand">True</property>
                             <property name="fill">True</property>
                             <property name="position">0</property>
                           </packing>
@@ -344,14 +351,14 @@
                         </child>
                       </object>
                       <packing>
-                        <property name="expand">False</property>
+                        <property name="expand">True</property>
                         <property name="fill">True</property>
                         <property name="position">1</property>
                       </packing>
                     </child>
                   </object>
                   <packing>
-                    <property name="expand">False</property>
+                    <property name="expand">True</property>
                     <property name="fill">True</property>
                     <property name="position">5</property>
                   </packing>
@@ -383,9 +390,11 @@
                       <object class="GtkLabel" id="mirrors_list_label">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="halign">start</property>
                         <property name="hexpand">True</property>
                         <property name="label" translatable="yes">Use mirrors from:</property>
-                        <property name="xalign">0</property>
+                        <property name="wrap">True</property>
+                        <property name="max_width_chars">300</property>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -421,9 +430,11 @@
                       <object class="GtkLabel" id="mirrors_list_generation_method_label">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="halign">start</property>
                         <property name="hexpand">True</property>
                         <property name="label" translatable="yes">Sort mirrors by:</property>
-                        <property name="xalign">0</property>
+                        <property name="wrap">True</property>
+                        <property name="max_width_chars">300</property>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -507,9 +518,12 @@
                           <object class="GtkLabel" id="aur_warning_label">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
+                            <property name="halign">start</property>
+                            <property name="hexpand">True</property>
                             <property name="label" translatable="yes">AUR is a community maintained repository so it presents potential risks and problems.
 All AUR users should be familiar with the build process.</property>
-                            <property name="xalign">0</property>
+                            <property name="wrap">True</property>
+                            <property name="max_width_chars">300</property>
                           </object>
                           <packing>
                             <property name="expand">False</property>
@@ -588,10 +602,10 @@ All AUR users should be familiar with the build process.</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
+                    <property name="halign">start</property>
                     <property name="margin_left">24</property>
                     <property name="margin_start">24</property>
                     <property name="hexpand">True</property>
-                    <property name="xalign">0</property>
                     <property name="draw_indicator">True</property>
                   </object>
                   <packing>
@@ -606,10 +620,10 @@ All AUR users should be familiar with the build process.</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
+                    <property name="halign">start</property>
                     <property name="margin_left">24</property>
                     <property name="margin_start">24</property>
                     <property name="hexpand">True</property>
-                    <property name="xalign">0</property>
                     <property name="draw_indicator">True</property>
                   </object>
                   <packing>
@@ -624,10 +638,10 @@ All AUR users should be familiar with the build process.</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
+                    <property name="halign">start</property>
                     <property name="margin_left">24</property>
                     <property name="margin_start">24</property>
                     <property name="hexpand">True</property>
-                    <property name="xalign">0</property>
                     <property name="draw_indicator">True</property>
                   </object>
                   <packing>
