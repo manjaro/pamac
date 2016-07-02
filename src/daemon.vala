@@ -1674,7 +1674,7 @@ private void cb_event (Alpm.Event.Data data) {
 			details += data.hook_run_desc ?? "";
 			details += data.hook_run_position.to_string ();
 			details += data.hook_run_total.to_string ();
-		break;
+			break;
 		case Alpm.Event.Type.PACKAGE_OPERATION_START:
 			switch (data.package_operation_operation) {
 				case Alpm.Package.Operation.REMOVE:

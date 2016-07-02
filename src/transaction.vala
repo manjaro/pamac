@@ -1170,6 +1170,11 @@ namespace Pamac {
 						previous_percent = fraction;
 						progress_box.progressbar.fraction = fraction;
 					}
+					string textbar = "%s/%s".printf (details[2], details[3]);
+					if (textbar != previous_textbar) {
+						previous_textbar = textbar;
+						progress_box.progressbar.text = textbar;
+					}
 					if (details[1] != "") {
 						detailed_action = details[1];
 					} else {
