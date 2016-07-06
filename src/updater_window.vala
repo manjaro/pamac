@@ -78,7 +78,7 @@ namespace Pamac {
 		bool populate_window () {
 			this.get_window ().set_cursor (new Gdk.Cursor.for_display (Gdk.Display.get_default (), Gdk.CursorType.WATCH));
 
-			repos_updates_list = new Gtk.ListStore (6, typeof (bool), typeof (string), typeof (string), typeof (string),typeof (string), typeof (string));
+			repos_updates_list = new Gtk.ListStore (7, typeof (bool), typeof (string), typeof (string), typeof (string),typeof (string), typeof (string), typeof (uint64));
 			repos_updates_treeview.set_model (repos_updates_list);
 			aur_updates_list = new Gtk.ListStore (4, typeof (bool), typeof (string), typeof (string), typeof (string));
 			aur_updates_treeview.set_model (aur_updates_list);
@@ -103,22 +103,32 @@ namespace Pamac {
 
 		void set_transaction_infobox_visible () {
 			bool visible = false;
+			uint64 total_dsize = 0;
 			repos_updates_list.foreach ((model, path, iter) => {
 				bool selected;
-				repos_updates_list.get (iter, 0, out selected);
-				visible = selected;
-				return visible;
+				uint64 dsize;
+				repos_updates_list.get (iter, 0, out selected, 6, out dsize);
+				visible |= selected;
+				if (selected) {
+					total_dsize += dsize;
+				}
+				return false;
 			});
 			if (!visible) {
 				aur_updates_list.foreach ((model, path, iter) => {
 					bool selected;
 					aur_updates_list.get (iter, 0, out selected);
-					visible = selected;
+					visible |= selected;
 					return visible;
 				});
 			}
 			transaction_infobox.visible = visible;
 			if (visible) {
+				if (total_dsize != 0) {
+					transaction.progress_box.action_label.set_markup("<b>%s: %s</b>".printf (dgettext (null, "Total download size"), format_size (total_dsize)));
+				} else {
+					transaction.progress_box.action_label.label = "";
+				}
 				// fix an possible visibility issue
 				transaction_infobox.show_all ();
 			}
@@ -261,12 +271,10 @@ namespace Pamac {
 			repos_scrolledwindow.visible = true;
 			aur_updates_list.clear ();
 			aur_scrolledwindow.visible = false;
-			uint64 dsize = 0;
 			uint repos_updates_nb = 0;
 			uint aur_updates_nb = 0;
 			foreach (unowned UpdateInfos infos in updates.repos_updates) {
 				string size = infos.download_size != 0 ? format_size (infos.download_size) : "";
-				dsize += infos.download_size;
 				repos_updates_nb++;
 				repos_updates_list.insert_with_values (null, -1,
 														0, !transaction.temporary_ignorepkgs.contains (infos.name),
@@ -274,7 +282,8 @@ namespace Pamac {
 														2, infos.new_version,
 														3, "(%s)".printf (infos.old_version),
 														4, infos.repo,
-														5, size);
+														5, size,
+														6, infos.download_size);
 			}
 			foreach (unowned UpdateInfos infos in updates.aur_updates) {
 				aur_updates_nb++;
@@ -291,11 +300,6 @@ namespace Pamac {
 				headerbar.title = dngettext (null, "%u available update", "%u available updates", updates_nb).printf (updates_nb);
 			}
 			set_transaction_infobox_visible ();
-			if (dsize != 0) {
-				transaction.progress_box.action_label.set_markup("<b>%s: %s</b>".printf (dgettext (null, "Total download size"), format_size(dsize)));
-			} else {
-				transaction.progress_box.action_label.label = "";
-			}
 			if (aur_updates_nb != 0) {
 				aur_scrolledwindow.visible = true;
 				if (repos_updates_nb == 0) {
