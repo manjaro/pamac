@@ -60,6 +60,7 @@ namespace Pamac {
 
 		public bool transaction_running;
 		bool important_details;
+		string previous_visible_child_name;
 
 		public UpdaterWindow (Gtk.Application application) {
 			Object (application: application);
@@ -174,7 +175,12 @@ namespace Pamac {
 
 		[GtkCallback]
 		void on_button_back_clicked () {
-			stack.visible_child_name = "repos";
+			if (aur_scrolledwindow.visible) {
+				stackswitcher.visible = true;
+				stack.visible_child_name = previous_visible_child_name;
+			} else {
+				stack.visible_child_name = "repos";
+			}
 		}
 
 		void on_stack_visible_child_changed () {
@@ -228,6 +234,7 @@ namespace Pamac {
 		void on_details_button_clicked () {
 			details_button.get_style_context ().remove_class (Gtk.STYLE_CLASS_SUGGESTED_ACTION);
 			important_details = false;
+			previous_visible_child_name = stack.visible_child_name;
 			stack.visible_child_name = "term";
 		}
 
@@ -242,6 +249,8 @@ namespace Pamac {
 
 		void on_important_details_outpout (bool must_show) {
 			if (must_show) {
+				stackswitcher.visible = false;
+				previous_visible_child_name = stack.visible_child_name;
 				stack.visible_child_name = "term";
 				button_back.visible = false;
 			} else if (stack.visible_child_name != "term") {
@@ -305,7 +314,9 @@ namespace Pamac {
 				if (repos_updates_nb == 0) {
 					repos_scrolledwindow.visible = false;
 				}
-				stackswitcher.visible = true;
+				if (stack.visible_child_name != "term") {
+					stackswitcher.visible = true;
+				}
 			}
 			this.get_window ().set_cursor (null);
 		}
