@@ -60,7 +60,6 @@ namespace Pamac {
 		private ErrorInfos current_error;
 		public Timer timer;
 		public Cancellable cancellable;
-		public Curl.Easy curl;
 		private GLib.List<string> aur_dep_list;
 
 		public signal void emit_event (uint primary_event, uint secondary_event, string[] details);
@@ -96,11 +95,6 @@ namespace Pamac {
 			Timeout.add (500, check_pacman_running);
 			create_thread_pool ();
 			cancellable = new Cancellable ();
-			Curl.global_init (Curl.GLOBAL_SSL);
-		}
-
-		~Daemon () {
-			Curl.global_cleanup ();
 		}
 
 		public void set_environment_variables (HashTable<string,string> variables) {
@@ -1716,6 +1710,10 @@ private void cb_event (Alpm.Event.Data data) {
 			details += data.scriptlet_info_line;
 			break;
 		case Alpm.Event.Type.PKGDOWNLOAD_START:
+			// do not emit event when download is cancelled
+			if (pamac_daemon.cancellable.is_cancelled ()) {
+				return;
+			}
 			details += data.pkgdownload_file;
 			break;
 		case Alpm.Event.Type.OPTDEP_REMOVAL:
@@ -1819,11 +1817,8 @@ private int cb_download (void* data, uint64 dltotal, uint64 dlnow, uint64 ultota
 
 	string filename = (string) data;
 
-	if (unlikely (dltotal == 0 || prevprogress == dltotal)) {
+	if (unlikely (dlnow == 0 || dltotal == 0 || prevprogress == dltotal)) {
 		return 0;
-	} else if (unlikely (dlnow == 0)) {
-		pamac_daemon.emit_download (filename, dlnow, dltotal);
-		pamac_daemon.timer.start ();
 	} else if (unlikely (prevprogress == 0)) {
 		pamac_daemon.emit_download (filename, 0, dltotal);
 		pamac_daemon.emit_download (filename, dlnow, dltotal);
@@ -1838,11 +1833,6 @@ private int cb_download (void* data, uint64 dltotal, uint64 dlnow, uint64 ultota
 		pamac_daemon.timer.start ();
 	}
 
-//~ 	// avoid displaying progress for redirects with a body
-//~ 	if (respcode >= 300) {
-//~ 		return 0;
-//~ 	}
-
 	prevprogress = dlnow;
 
 	return 0;
@@ -1853,29 +1843,28 @@ private int cb_fetch (string fileurl, string localpath, int force) {
 		return -1;
 	}
 
-	if (pamac_daemon.curl == null) {
-		pamac_daemon.curl = new Curl.Easy ();
-	}
+	Curl.Easy curl;
+	curl = new Curl.Easy ();
 
 	char error_buffer[Curl.ERROR_SIZE];
 	var url = GLib.File.new_for_uri (fileurl);
 	var destfile = GLib.File.new_for_path (localpath + url.get_basename ());
 	var tempfile = GLib.File.new_for_path (destfile.get_path () + ".part");
 
-	pamac_daemon.curl.reset ();
-	pamac_daemon.curl.setopt (Curl.Option.URL, fileurl);
-	pamac_daemon.curl.setopt (Curl.Option.FAILONERROR, 1L);
-	pamac_daemon.curl.setopt (Curl.Option.ERRORBUFFER, error_buffer);
-	pamac_daemon.curl.setopt (Curl.Option.CONNECTTIMEOUT, 30L);
-	pamac_daemon.curl.setopt (Curl.Option.FILETIME, 1L);
-	pamac_daemon.curl.setopt (Curl.Option.NOPROGRESS, 0L);
-	pamac_daemon.curl.setopt (Curl.Option.FOLLOWLOCATION, 1L);
-	pamac_daemon.curl.setopt (Curl.Option.XFERINFOFUNCTION, cb_download);
-	pamac_daemon.curl.setopt (Curl.Option.XFERINFODATA, (void*) url.get_basename ());
-	pamac_daemon.curl.setopt (Curl.Option.LOW_SPEED_LIMIT, 1L);
-	pamac_daemon.curl.setopt (Curl.Option.LOW_SPEED_TIME, 30L);
-	pamac_daemon.curl.setopt (Curl.Option.NETRC, Curl.NetRCOption.OPTIONAL);
-	pamac_daemon.curl.setopt (Curl.Option.HTTPAUTH, Curl.CURLAUTH_ANY);
+	curl.reset ();
+	curl.setopt (Curl.Option.URL, fileurl);
+	curl.setopt (Curl.Option.FAILONERROR, 1L);
+	curl.setopt (Curl.Option.ERRORBUFFER, error_buffer);
+	curl.setopt (Curl.Option.CONNECTTIMEOUT, 30L);
+	curl.setopt (Curl.Option.FILETIME, 1L);
+	curl.setopt (Curl.Option.NOPROGRESS, 0L);
+	curl.setopt (Curl.Option.FOLLOWLOCATION, 1L);
+	curl.setopt (Curl.Option.XFERINFOFUNCTION, cb_download);
+	curl.setopt (Curl.Option.XFERINFODATA, (void*) url.get_basename ());
+	curl.setopt (Curl.Option.LOW_SPEED_LIMIT, 1L);
+	curl.setopt (Curl.Option.LOW_SPEED_TIME, 30L);
+	curl.setopt (Curl.Option.NETRC, Curl.NetRCOption.OPTIONAL);
+	curl.setopt (Curl.Option.HTTPAUTH, Curl.CURLAUTH_ANY);
 
 	bool remove_partial_download = true;
 	if (fileurl.contains (".pkg.tar.") && !fileurl.has_suffix (".sig")) {
@@ -1889,15 +1878,15 @@ private int cb_fetch (string fileurl, string localpath, int force) {
 		if (force == 0) {
 			if (destfile.query_exists ()) {
 				// start from scratch only download if our local is out of date.
-				pamac_daemon.curl.setopt (Curl.Option.TIMECONDITION, Curl.TimeCond.IFMODSINCE);
+				curl.setopt (Curl.Option.TIMECONDITION, Curl.TimeCond.IFMODSINCE);
 				FileInfo info = destfile.query_info ("time::modified", 0);
 				TimeVal time = info.get_modification_time ();
-				pamac_daemon.curl.setopt (Curl.Option.TIMEVALUE, time.tv_sec);
+				curl.setopt (Curl.Option.TIMEVALUE, time.tv_sec);
 			} else if (tempfile.query_exists ()) {
 				// a previous partial download exists, resume from end of file.
 				FileInfo info = tempfile.query_info ("standard::size", 0);
 				int64 size = info.get_size ();
-				pamac_daemon.curl.setopt (Curl.Option.RESUME_FROM_LARGE, size);
+				curl.setopt (Curl.Option.RESUME_FROM_LARGE, size);
 				open_mode = "ab";
 			}
 		} else {
@@ -1915,17 +1904,17 @@ private int cb_fetch (string fileurl, string localpath, int force) {
 		return -1;
 	}
 
-	pamac_daemon.curl.setopt (Curl.Option.WRITEDATA, localf);
+	curl.setopt (Curl.Option.WRITEDATA, localf);
 
 	// perform transfer
-	Curl.Code err = pamac_daemon.curl.perform ();
+	Curl.Code err = curl.perform ();
 
 
 	// disconnect relationships from the curl handle for things that might go out
 	// of scope, but could still be touched on connection teardown. This really
 	// only applies to FTP transfers.
-	pamac_daemon.curl.setopt (Curl.Option.NOPROGRESS, 1L);
-	pamac_daemon.curl.setopt (Curl.Option.ERRORBUFFER, null);
+	curl.setopt (Curl.Option.NOPROGRESS, 1L);
+	curl.setopt (Curl.Option.ERRORBUFFER, null);
 
 	int ret;
 
@@ -1937,11 +1926,11 @@ private int cb_fetch (string fileurl, string localpath, int force) {
 			unowned string effective_url;
 
 			// retrieve info about the state of the transfer
-			pamac_daemon.curl.getinfo (Curl.Info.FILETIME, out remote_time);
-			pamac_daemon.curl.getinfo (Curl.Info.CONTENT_LENGTH_DOWNLOAD, out remote_size);
-			pamac_daemon.curl.getinfo (Curl.Info.SIZE_DOWNLOAD, out bytes_dl);
-			pamac_daemon.curl.getinfo (Curl.Info.CONDITION_UNMET, out timecond);
-			pamac_daemon.curl.getinfo (Curl.Info.EFFECTIVE_URL, out effective_url);
+			curl.getinfo (Curl.Info.FILETIME, out remote_time);
+			curl.getinfo (Curl.Info.CONTENT_LENGTH_DOWNLOAD, out remote_size);
+			curl.getinfo (Curl.Info.SIZE_DOWNLOAD, out bytes_dl);
+			curl.getinfo (Curl.Info.CONDITION_UNMET, out timecond);
+			curl.getinfo (Curl.Info.EFFECTIVE_URL, out effective_url);
 
 			if (timecond == 1 && bytes_dl == 0) {
 				// time condition was met and we didn't download anything. we need to
@@ -2071,6 +2060,8 @@ void main () {
 					loop.quit ();
 				});
 
+	Curl.global_init (Curl.GLOBAL_SSL);
 	loop = new MainLoop ();
 	loop.run ();
+	Curl.global_cleanup ();
 }
