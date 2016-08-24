@@ -106,6 +106,10 @@ namespace Pamac {
 		}
 
 		void set_transaction_infobox_visible () {
+			if (important_details) {
+				transaction_infobox.show_all ();
+				return;
+			}
 			if (!generate_mirrors_list) {
 				bool visible = false;
 				uint64 total_dsize = 0;
@@ -279,7 +283,9 @@ namespace Pamac {
 			generate_mirrors_list = false;
 			apply_button.sensitive = true;
 			apply_button.grab_default ();
-			details_button.sensitive = false;
+			if (!important_details) {
+				details_button.sensitive = false;
+			}
 			cancel_button.sensitive = false;
 			if (stack.visible_child_name == "term") {
 				button_back.visible = true;
