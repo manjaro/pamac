@@ -53,7 +53,7 @@ namespace Pamac {
 		public void reload () {
 			// set default options
 			choosen_generation_method = "rank";
-			choosen_country = dgettext (null, "Worldwide");
+			choosen_country = "ALL";
 			mirrorlists_dir = "/etc/pacman.d/mirrors";
 			parse_file (conf_path);
 		}
@@ -123,7 +123,7 @@ namespace Pamac {
 							}
 						} else if (line.contains ("OnlyCountry")) {
 							if (new_conf.lookup_extended ("OnlyCountry", null, out variant)) {
-								if (variant.get_string () == dgettext (null, "Worldwide")) {
+								if (variant.get_string () == "ALL") {
 									data.append ("#%s\n".printf (line));
 								} else {
 									data.append ("OnlyCountry=%s\n".printf (variant.get_string ()));
