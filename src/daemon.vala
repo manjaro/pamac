@@ -240,11 +240,12 @@ namespace Pamac {
 				while ((line = dis.read_line ()) != null) {
 					generate_mirrors_list_data (line);
 				}
-				generate_mirrors_list_finished ();
 			} catch (Error e) {
-				generate_mirrors_list_finished ();
 				stderr.printf ("Error: %s\n", e.message);
 			}
+			alpm_config.reload ();
+			refresh_handle ();
+			generate_mirrors_list_finished ();
 		}
 
 		public void start_generate_mirrors_list () {
