@@ -165,6 +165,7 @@ namespace Pamac {
 														bool no_confirm_build);
 		public signal void write_alpm_config_finished (bool checkspace);
 		public signal void write_mirrors_config_finished (string choosen_country, string choosen_generation_method);
+		public signal void generate_mirrors_list ();
 
 		public Transaction (Gtk.ApplicationWindow? application_window) {
 			pamac_config = new Pamac.Config ("/etc/pamac.conf");
@@ -341,6 +342,7 @@ namespace Pamac {
 			reset_progress_box (action);
 			pulse_timeout_id = Timeout.add (500, (GLib.SourceFunc) progress_box.progressbar.pulse);
 			important_details_outpout (false);
+			generate_mirrors_list ();
 			try {
 				daemon.start_generate_mirrors_list ();
 			} catch (IOError e) {
@@ -1115,7 +1117,7 @@ namespace Pamac {
 					detailed_action = dgettext (null, "Generation failed") + "...";
 					break;
 				case 24: //Alpm.Event.Type.SCRIPTLET_INFO
-					action = dgettext (null, "Configuring %s").printf (previous_filename) + "...";
+					progress_box.action_label.label = dgettext (null, "Configuring %s").printf (previous_filename) + "...";
 					detailed_action = details[0].replace ("\n", "");
 					important_details_outpout (false);
 					break;
@@ -1280,8 +1282,7 @@ namespace Pamac {
 					timer.start ();
 					if (filename.has_suffix (".db")) {
 						string action = dgettext (null, "Refreshing %s").printf (filename.replace (".db", "")) + "...";
-						progress_box.action_label.label = action;
-						spawn_in_term ({"echo", action});
+						reset_progress_box (action);
 					}
 				} else if (xfered == total) {
 					timer.stop ();
@@ -1587,7 +1588,7 @@ namespace Pamac {
 		}
 
 		void on_generate_mirrors_list_data (string line) {
-			spawn_in_term ({"echo", "-n", line});
+			spawn_in_term ({"echo", line});
 		}
 
 		void on_generate_mirrors_list_finished () {

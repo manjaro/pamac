@@ -230,57 +230,28 @@ namespace Pamac {
 			});
 		}
 
-		private bool process_line (IOChannel channel, IOCondition condition, string stream_name) {
-			if (condition == IOCondition.HUP) {
-				return false;
-			}
+		private void generate_mirrors_list () {
 			try {
-				string line;
-				channel.read_line (out line, null, null);
-				generate_mirrors_list_data (line);
-			} catch (IOChannelError e) {
-				stderr.printf ("%s: IOChannelError: %s\n", stream_name, e.message);
-				return false;
-			} catch (ConvertError e) {
-				stderr.printf ("%s: ConvertError: %s\n", stream_name, e.message);
-				return false;
+				var process = new Subprocess.newv (
+					{"pacman-mirrors", "-g"},
+					SubprocessFlags.STDOUT_PIPE | SubprocessFlags.STDERR_MERGE);
+				var dis = new DataInputStream (process.get_stdout_pipe ());
+				string? line;
+				while ((line = dis.read_line ()) != null) {
+					generate_mirrors_list_data (line);
+				}
+				generate_mirrors_list_finished ();
+			} catch (Error e) {
+				generate_mirrors_list_finished ();
+				stderr.printf ("Error: %s\n", e.message);
 			}
-			return true;
 		}
 
 		public void start_generate_mirrors_list () {
-			int standard_output;
-			int standard_error;
-			Pid child_pid;
 			try {
-				Process.spawn_async_with_pipes (null,
-					{"pacman-mirrors", "-g"},
-					null,
-					SpawnFlags.SEARCH_PATH | SpawnFlags.DO_NOT_REAP_CHILD,
-					null,
-					out child_pid,
-					null,
-					out standard_output,
-					out standard_error);
-				// stdout
-				IOChannel output = new IOChannel.unix_new (standard_output);
-				output.add_watch (IOCondition.IN | IOCondition.HUP, (channel, condition) => {
-					return process_line (channel, condition, "stdout");
-				});
-				// stderr
-				IOChannel error = new IOChannel.unix_new (standard_error);
-				error.add_watch (IOCondition.IN | IOCondition.HUP, (channel, condition) => {
-					return process_line (channel, condition, "stderr");
-				});
-				ChildWatch.add (child_pid, (pid, status) => {
-					// Triggered when the child indicated by child_pid exits
-					Process.close_pid (pid);
-					refresh_handle ();
-					generate_mirrors_list_finished ();
-				});
-			} catch (SpawnError e) {
-				generate_mirrors_list_finished ();
-				stdout.printf ("SpawnError: %s\n", e.message);
+				thread_pool.add (new AlpmAction (generate_mirrors_list));
+			} catch (ThreadError e) {
+				stderr.printf ("Thread Error %s\n", e.message);
 			}
 		}
 

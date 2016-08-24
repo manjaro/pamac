@@ -37,13 +37,13 @@ namespace Pamac {
 	[GtkTemplate (ui = "/org/manjaro/pamac/manager/manager_window.ui")]
 	class ManagerWindow : Gtk.ApplicationWindow {
 		// icons
-		public Gdk.Pixbuf? installed_icon;
-		public Gdk.Pixbuf? uninstalled_icon;
-		public Gdk.Pixbuf? to_install_icon;
-		public Gdk.Pixbuf? to_reinstall_icon;
-		public Gdk.Pixbuf? to_remove_icon;
-		public Gdk.Pixbuf? installed_locked_icon;
-		public Gdk.Pixbuf? available_locked_icon;
+		Gdk.Pixbuf? installed_icon;
+		Gdk.Pixbuf? uninstalled_icon;
+		Gdk.Pixbuf? to_install_icon;
+		Gdk.Pixbuf? to_reinstall_icon;
+		Gdk.Pixbuf? to_remove_icon;
+		Gdk.Pixbuf? installed_locked_icon;
+		Gdk.Pixbuf? available_locked_icon;
 
 		// manager objects
 		[GtkChild]
@@ -139,7 +139,8 @@ namespace Pamac {
 
 		bool refreshing;
 		bool important_details;
-		public bool transaction_running;
+		bool transaction_running;
+		bool generate_mirrors_list;
 
 		uint search_entry_timeout_id;
 
@@ -148,10 +149,11 @@ namespace Pamac {
 
 			support_aur (false, false);
 			button_back.visible = false;
-			transaction_infobox.visible = false;;
+			transaction_infobox.visible = false;
 			refreshing = false;
 			important_details = false;
 			transaction_running = false;
+			generate_mirrors_list = false;
 
 			Timeout.add (100, populate_window);
 		}
@@ -198,7 +200,7 @@ namespace Pamac {
 			packages_treeview.set_model (packages_list);
 			// add custom cellrenderer to packages_treeview and aur_treewiew
 			var packages_state_renderer = new ActivableCellRendererPixbuf ();
-			packages_state_column.pack_start (packages_state_renderer, true);
+			packages_state_column.pack_start (packages_state_renderer, false);
 			packages_state_column.set_cell_data_func (packages_state_renderer, (celllayout, cellrenderer, treemodel, treeiter) => {
 				Gdk.Pixbuf pixbuf;
 				uint origin;
@@ -239,7 +241,7 @@ namespace Pamac {
 			aur_treeview.set_model (aur_list);
 			// add custom cellrenderer to aur_treewiew
 			var aur_state_renderer = new ActivableCellRendererPixbuf ();
-			aur_state_column.pack_start (aur_state_renderer, true);
+			aur_state_column.pack_start (aur_state_renderer, false);
 			aur_state_column.set_cell_data_func (aur_state_renderer, (celllayout, cellrenderer, treemodel, treeiter) => {
 				Gdk.Pixbuf pixbuf;
 				uint origin;
@@ -285,6 +287,7 @@ namespace Pamac {
 			transaction.finished.connect (on_transaction_finished);
 			transaction.write_pamac_config_finished.connect (on_write_pamac_config_finished);
 			transaction.set_pkgreason_finished.connect (on_set_pkgreason_finished);
+			transaction.generate_mirrors_list.connect (on_generate_mirrors_list);
 
 			// integrate progress box and term widget
 			main_stack.add_named (transaction.term_grid, "term");
@@ -338,11 +341,15 @@ namespace Pamac {
 		}
 
 		void set_pendings_operations () {
-			if (!transaction_running) {
+			if (!transaction_running && !generate_mirrors_list) {
 				uint total_pending = transaction.to_install.length + transaction.to_remove.length + transaction.to_build.length;
 				if (total_pending == 0) {
 					transaction.progress_box.action_label.label = "";
-					transaction_infobox.visible = important_details;
+					if (important_details) {
+						transaction_infobox.show_all ();
+					} else {
+						transaction_infobox.visible = false;
+					}
 				} else {
 					string info = dngettext (null, "%u pending operation", "%u pending operations", total_pending).printf (total_pending);
 					transaction.progress_box.action_label.label = info;
@@ -1574,7 +1581,7 @@ namespace Pamac {
 			refreshing = true;
 			transaction.start_refresh (false);
 			apply_button.sensitive = false;
-			transaction_infobox.visible = true;
+			transaction_infobox.show_all ();
 		}
 
 		void on_start_transaction () {
@@ -1589,6 +1596,12 @@ namespace Pamac {
 				important_details = true;
 				details_button.get_style_context ().add_class (Gtk.STYLE_CLASS_SUGGESTED_ACTION);
 			}
+		}
+
+		void on_generate_mirrors_list () {
+			generate_mirrors_list = true;
+			apply_button.sensitive = false;
+			transaction_infobox.show_all ();
 		}
 
 		void on_transaction_finished (bool success) {
@@ -1607,6 +1620,7 @@ namespace Pamac {
 				refreshing = false;
 			} else {
 				transaction_running = false;
+				generate_mirrors_list = false;
 				cancel_button.sensitive = true;
 				apply_button.sensitive = true;
 			}

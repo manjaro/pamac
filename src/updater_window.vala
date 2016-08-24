@@ -58,7 +58,8 @@ namespace Pamac {
 
 		public Pamac.Transaction transaction;
 
-		public bool transaction_running;
+		bool transaction_running;
+		bool generate_mirrors_list;
 		bool important_details;
 		string previous_visible_child_name;
 
@@ -72,6 +73,7 @@ namespace Pamac {
 			aur_scrolledwindow.visible = false;
 			transaction_running = false;
 			important_details = false;
+			generate_mirrors_list = false;
 
 			Timeout.add (100, populate_window);
 		}
@@ -90,6 +92,7 @@ namespace Pamac {
 			transaction.important_details_outpout.connect (on_important_details_outpout);
 			transaction.finished.connect (populate_updates_list);
 			transaction.get_updates_finished.connect (on_get_updates_finished);
+			transaction.generate_mirrors_list.connect (on_generate_mirrors_list);
 
 			// integrate progress box and term widget
 			stack.add_named (transaction.term_grid, "term");
@@ -103,35 +106,38 @@ namespace Pamac {
 		}
 
 		void set_transaction_infobox_visible () {
-			bool visible = false;
-			uint64 total_dsize = 0;
-			repos_updates_list.foreach ((model, path, iter) => {
-				bool selected;
-				uint64 dsize;
-				repos_updates_list.get (iter, 0, out selected, 6, out dsize);
-				visible |= selected;
-				if (selected) {
-					total_dsize += dsize;
-				}
-				return false;
-			});
-			if (!visible) {
-				aur_updates_list.foreach ((model, path, iter) => {
+			if (!generate_mirrors_list) {
+				bool visible = false;
+				uint64 total_dsize = 0;
+				repos_updates_list.foreach ((model, path, iter) => {
 					bool selected;
-					aur_updates_list.get (iter, 0, out selected);
+					uint64 dsize;
+					repos_updates_list.get (iter, 0, out selected, 6, out dsize);
 					visible |= selected;
-					return visible;
+					if (selected) {
+						total_dsize += dsize;
+					}
+					return false;
 				});
-			}
-			transaction_infobox.visible = visible;
-			if (visible) {
-				if (total_dsize != 0) {
-					transaction.progress_box.action_label.set_markup("<b>%s: %s</b>".printf (dgettext (null, "Total download size"), format_size (total_dsize)));
-				} else {
-					transaction.progress_box.action_label.label = "";
+				if (!visible) {
+					aur_updates_list.foreach ((model, path, iter) => {
+						bool selected;
+						aur_updates_list.get (iter, 0, out selected);
+						visible |= selected;
+						return visible;
+					});
 				}
-				// fix an possible visibility issue
-				transaction_infobox.show_all ();
+				if (visible) {
+					if (total_dsize != 0) {
+						transaction.progress_box.action_label.set_markup("<b>%s: %s</b>".printf (dgettext (null, "Total download size"), format_size (total_dsize)));
+					} else {
+						transaction.progress_box.action_label.label = "";
+					}
+					// fix an possible visibility issue
+					transaction_infobox.show_all ();
+				} else {
+					transaction_infobox.visible = false;
+				}
 			}
 		}
 
@@ -197,7 +203,9 @@ namespace Pamac {
 		[GtkCallback]
 		void on_preferences_button_clicked () {
 			transaction.run_preferences_dialog.begin (() => {
-				populate_updates_list ();
+				if (!generate_mirrors_list) {
+					populate_updates_list ();
+				}
 			});
 		}
 
@@ -213,7 +221,7 @@ namespace Pamac {
 		[GtkCallback]
 		void on_refresh_button_clicked () {
 			this.get_window ().set_cursor (new Gdk.Cursor.for_display (Gdk.Display.get_default (), Gdk.CursorType.WATCH));
-			transaction_infobox.visible = true;
+			transaction_infobox.show_all ();
 			apply_button.sensitive = false;
 			details_button.sensitive = true;
 			cancel_button.sensitive = true;
@@ -255,12 +263,20 @@ namespace Pamac {
 				button_back.visible = false;
 			} else if (stack.visible_child_name != "term") {
 				important_details = true;
+				details_button.sensitive = true;
 				details_button.get_style_context ().add_class (Gtk.STYLE_CLASS_SUGGESTED_ACTION);
 			}
 		}
 
+		void on_generate_mirrors_list () {
+			generate_mirrors_list = true;
+			apply_button.sensitive = false;
+			transaction_infobox.show_all ();
+		}
+
 		void populate_updates_list () {
 			transaction_running = false;
+			generate_mirrors_list = false;
 			apply_button.sensitive = true;
 			apply_button.grab_default ();
 			details_button.sensitive = false;
