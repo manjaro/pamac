@@ -321,9 +321,10 @@ namespace Pamac {
 
 		void on_mirrors_country_comboboxtext_changed () {
 			var new_mirrors_conf = new HashTable<string,Variant> (str_hash, str_equal);
-        		var mirror_country = mirrors_country_comboboxtext.get_active_text ();
-			if(mirror_country == dgettext (null, "Worldwide"))
+			var mirror_country = mirrors_country_comboboxtext.get_active_text ();
+			if (mirror_country == dgettext (null, "Worldwide")) {
 				mirror_country = "ALL";
+			}
 			new_mirrors_conf.insert ("OnlyCountry", new Variant.string (mirror_country) );
 			transaction.start_write_mirrors_config (new_mirrors_conf);
 		}
@@ -340,11 +341,10 @@ namespace Pamac {
 
 		void on_write_mirrors_config_finished (string choosen_country, string choosen_generation_method) {
 			int index = 0;
-            
-        		string choosen_country_ = dgettext (null, "Worldwide");
-        		if( choosen_country != "ALL")
-                		choosen_country_ = choosen_country;
-
+			string choosen_country_ = dgettext (null, "Worldwide");
+			if ( choosen_country != "ALL") {
+				choosen_country_ = choosen_country;
+			}
 			mirrors_country_comboboxtext.model.foreach ((model, path, iter) => {
 				GLib.Value country;
 				model.get_value (iter, 0, out country);
