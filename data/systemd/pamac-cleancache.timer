@@ -1,0 +1,9 @@
+[Unit]
+Description=Monthly clean packages cache
+
+[Timer]
+OnCalendar=monthly
+Persistent=true
+
+[Install]
+WantedBy=timers.target
