@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2016-04-24 08:44+0200\n"
-"PO-Revision-Date: 2016-05-05 20:54+0000\n"
+"POT-Creation-Date: 2015-08-20 11:53+0200\n"
+"PO-Revision-Date: 2016-08-15 19:20+0000\n"
 "Last-Translator: Lovro Kudelić <lovro.kudelic@outlook.com>\n"
 "Language-Team: Croatian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/hr/)\n"
 "MIME-Version: 1.0\n"
@@ -22,6 +22,10 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Language: hr\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+
+#: data/polkit/org.manjaro.pamac.policy
+msgid "Authentication is required"
+msgstr "Potrebna je autorizacija"
 
 #: ../src/daemon.vala
 msgid "Failed to initialize alpm library"
@@ -39,7 +43,7 @@ msgstr "Nepoznato"
 msgid "Explicitly installed"
 msgstr "Eksplicitno instalirano"
 
-#: ../src/daemon.vala
+#: ../src/daemon.vala ../src/manager_window.vala
 msgid "Installed as a dependency for another package"
 msgstr "Instalirano kao zavisnost za drugi paket"
 
@@ -77,12 +81,12 @@ msgstr "%s: zahtijeva %s"
 #: ../src/daemon.vala
 #, c-format
 msgid "%s and %s are in conflict"
-msgstr "%s i %s su u konfliktu"
+msgstr "%s i %s su u sukobu"
 
 #: ../src/daemon.vala
 #, c-format
 msgid "%s needs to be removed but it is a locked package"
-msgstr "%s mora biti uklonjen ali je zaključan paket"
+msgstr "%s mora biti uklonjen ali je paket zaključan"
 
 #: ../src/daemon.vala
 msgid "Failed to commit transaction"
@@ -105,7 +109,7 @@ msgstr "%s nije valjan ili je oštećen"
 
 #: ../src/daemon.vala ../src/transaction.vala
 msgid "Authentication failed"
-msgstr "Provjera autentičnosti nije uspjela"
+msgstr "Autorizacija nije uspjela"
 
 #: ../src/daemon.vala
 #, c-format
@@ -119,7 +123,7 @@ msgstr "Nije uspjelo preuzimanje datoteke '%s' from %s : %s\n"
 
 #: ../src/transaction.vala
 msgid "A Gtk3 frontend for libalpm"
-msgstr "Gtk3 sučelje za libalpm"
+msgstr "GTK+ 3 sučelje za libalpm"
 
 #: ../src/transaction.vala
 msgid "Refreshing mirrors list"
@@ -131,7 +135,7 @@ msgstr "Sinkroniziram bazu podataka paketa"
 
 #: ../src/transaction.vala
 msgid "Starting full system upgrade"
-msgstr "Pokrečem punu nadogradnju sustava"
+msgstr "Pokrećem punu nadogradnju sustava"
 
 #: ../src/transaction.vala
 msgid "Preparing"
@@ -160,7 +164,7 @@ msgstr "Za instalirati"
 
 #: ../src/transaction.vala
 msgid "To reinstall"
-msgstr "Za reinstalirati"
+msgstr "Za ponovnu instalaciju"
 
 #: ../src/transaction.vala
 msgid "To update"
@@ -184,15 +188,15 @@ msgstr "Provjeravam zavisnosti"
 
 #: ../src/transaction.vala
 msgid "Checking file conflicts"
-msgstr "Provjeravam konflikte datoteka"
+msgstr "Provjeravam sukobe datoteka"
 
 #: ../src/transaction.vala
 msgid "Resolving dependencies"
-msgstr "Riješavam zavisnosti"
+msgstr "Rješavam zavisnosti"
 
 #: ../src/transaction.vala
 msgid "Checking inter-conflicts"
-msgstr "Provjeravam međusobne konflikte"
+msgstr "Provjeravam međusobne sukobe"
 
 #: ../src/transaction.vala
 #, c-format
@@ -207,7 +211,7 @@ msgstr "Nadograđujem %s"
 #: ../src/transaction.vala
 #, c-format
 msgid "Reinstalling %s"
-msgstr "Reinstaliram %s"
+msgstr "Ponovno instaliram %s"
 
 #: ../src/transaction.vala
 #, c-format
@@ -264,7 +268,7 @@ msgstr "Preuzimam %s"
 
 #: ../src/transaction.vala
 msgid "Checking available disk space"
-msgstr "Provjeravam dostupnost prostora na disku"
+msgstr "Provjeravam dostupni prostor na disku"
 
 #: ../src/transaction.vala
 #, c-format
@@ -350,11 +354,11 @@ msgstr "Nema novih nadogradnji"
 
 #: ../src/tray.vala
 msgid "Update Manager"
-msgstr "Uparavitelj Nadogradnjama"
+msgstr "Uparavitelj Nadogradnji"
 
 #: ../src/tray.vala
 msgid "Package Manager"
-msgstr "Upravitelj Paketima"
+msgstr "Upravitelj Paketa"
 
 #: ../src/tray.vala
 msgid "_Quit"
@@ -376,25 +380,18 @@ msgstr "Prikaži dostupne nadogradnje"
 msgid "Deselect"
 msgstr "Poništi odabir"
 
-#: ../src/manager_window.vala
+#: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Install"
 msgstr "Instaliraj"
 
-#: ../src/manager_window.vala
+#: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Remove"
 msgstr "Ukloni"
 
-#: ../src/manager_window.vala
-msgid "Reinstall"
-msgstr "Reinstaliraj"
-
-#: ../src/manager_window.vala
-msgid "Install optional dependencies"
-msgstr "Instaliraj neobavezne zavisnosti"
-
-#: ../src/manager_window.vala
-msgid "Mark as explicitly installed"
-msgstr "Označi kao eksplicitno instalirano"
+#: ../src/manager_window.vala ../resources/progress_dialog.ui
+#: ../resources/manager_window.ui ../resources/updater_window.ui
+msgid "Details"
+msgstr "Detalji"
 
 #: ../src/manager_window.vala
 #, c-format
@@ -421,6 +418,14 @@ msgid "Pending"
 msgstr "Na čekanju"
 
 #: ../src/manager_window.vala
+msgid "Install Reason"
+msgstr "Razlog za instalaciju"
+
+#: ../src/manager_window.vala
+msgid "Mark as explicitly installed"
+msgstr "Označi kao eksplicitno instalirano"
+
+#: ../src/manager_window.vala
 msgid "Licenses"
 msgstr "Licence"
 
@@ -444,10 +449,6 @@ msgstr "Datum stvaranja"
 #: ../src/manager_window.vala
 msgid "Install Date"
 msgstr "Datum instalacije"
-
-#: ../src/manager_window.vala
-msgid "Install Reason"
-msgstr "Razlog Za Instalaciju"
 
 #: ../src/manager_window.vala
 msgid "Signatures"
@@ -483,7 +484,7 @@ msgstr "Zamjenjuje"
 
 #: ../src/manager_window.vala
 msgid "Conflicts With"
-msgstr "U sukobu s"
+msgstr "U sukobu sa"
 
 #: ../src/manager_window.vala
 msgid "Package Base"
@@ -511,7 +512,7 @@ msgstr "Zastario"
 
 #: ../src/manager_window.vala
 msgid "Make Dependencies"
-msgstr "Zavisnosti za izgradnju paketa"
+msgstr "Zavisnosti za stvaranje paketa"
 
 #: ../src/manager_window.vala
 msgid "Check Dependencies"
@@ -521,11 +522,6 @@ msgstr "Provjera zavisnosti"
 #: ../resources/updater_window.ui
 msgid "Name"
 msgstr "Ime"
-
-#: ../src/manager_window.vala
-#, c-format
-msgid "Choose optional dependencies for %s"
-msgstr "Odaberi neobavezne zavisnosti za %s"
 
 #: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Install Local Packages"
@@ -578,11 +574,6 @@ msgstr "Napredak"
 #: ../resources/progress_dialog.ui
 msgid "_Hide"
 msgstr "_Sakrij"
-
-#: ../resources/progress_dialog.ui ../resources/manager_window.ui
-#: ../resources/updater_window.ui
-msgid "Details"
-msgstr "Detalji"
 
 #: ../resources/history_dialog.ui
 msgid "Pamac History"
@@ -649,13 +640,13 @@ msgstr "Popularnost"
 msgid "AUR"
 msgstr "AUR"
 
-#: ../resources/manager_window.ui ../resources/updater_window.ui
-msgid "_Apply"
-msgstr "_Primijeni"
-
 #: ../resources/manager_window.ui
 msgid "Browse"
 msgstr "Traži"
+
+#: ../resources/manager_window.ui
+msgid "Reinstall"
+msgstr "Ponovno instaliraj"
 
 #: ../resources/manager_window.ui
 msgid "Dependencies"
@@ -664,6 +655,10 @@ msgstr "Zavisnosti"
 #: ../resources/manager_window.ui
 msgid "Files"
 msgstr "Datoteke"
+
+#: ../resources/manager_window.ui ../resources/updater_window.ui
+msgid "_Apply"
+msgstr "_Primijeni"
 
 #: ../resources/preferences_dialog.ui
 msgid "Remove unrequired dependencies"
@@ -677,7 +672,7 @@ msgstr "Prilikom uklanjanja paketa, ukloniti njegove zavisnosti koje ne zahtijev
 
 #: ../resources/preferences_dialog.ui
 msgid "Check available disk space"
-msgstr "Provjera slobodnog prostora na disku"
+msgstr "Provjera dostupnog prostora na disku"
 
 #: ../resources/preferences_dialog.ui
 msgid "Check for updates"
@@ -685,7 +680,7 @@ msgstr "Provjera nadogradnji"
 
 #: ../resources/preferences_dialog.ui
 msgid "Hide tray icon when no update available"
-msgstr "Ukloni tray ikonu kada nema dostupnih nadogradnji"
+msgstr "Sakrij ikonu na programskoj traci kada nema dostupnih nadogradnji"
 
 #: ../resources/preferences_dialog.ui
 msgid "Ignore upgrades for:"
@@ -709,7 +704,7 @@ msgstr "Osvježi listu zrcalnih poslužitelja"
 
 #: ../resources/preferences_dialog.ui
 msgid "Official Repositories"
-msgstr "Službeni Repozitoriji"
+msgstr "Službeni repozitoriji"
 
 #: ../resources/preferences_dialog.ui
 msgid ""

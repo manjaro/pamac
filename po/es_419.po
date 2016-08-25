@@ -4,14 +4,16 @@
 # Guillaume Benoit <guillaume@manjaro.org>, 2013-2016.
 # 
 # Translators:
-# Julián Federico Hipólito <julianhipolito@gmail.com>, 2016
+# Julian Hipolito <julianhipolito@gmail.com>, 2016
+# Julian Hipolito <julianhipolito@gmail.com>, 2016
+# Mat Mü <ematiasm@openmailbox.org>, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2015-08-20 11:53+0200\n"
-"PO-Revision-Date: 2016-05-14 09:54+0000\n"
-"Last-Translator: philm <philm@manjaro.org>\n"
+"PO-Revision-Date: 2016-08-24 14:08+0000\n"
+"Last-Translator: Mat Mü <ematiasm@openmailbox.org>\n"
 "Language-Team: Spanish (Latin America) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/es_419/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -21,15 +23,15 @@ msgstr ""
 
 #: data/polkit/org.manjaro.pamac.policy
 msgid "Authentication is required"
-msgstr ""
+msgstr "Se rerquiere autenticación"
 
 #: ../src/daemon.vala
 msgid "Failed to initialize alpm library"
-msgstr ""
+msgstr "Falló al iniciar librería alpm"
 
 #: ../src/daemon.vala
 msgid "Failed to synchronize any databases"
-msgstr ""
+msgstr "Falló al sincronizar las bases de datos"
 
 #: ../src/daemon.vala
 msgid "Unknown"
@@ -37,11 +39,11 @@ msgstr "Desconocido"
 
 #: ../src/daemon.vala
 msgid "Explicitly installed"
-msgstr ""
+msgstr "Explícitamente instalado"
 
 #: ../src/daemon.vala ../src/manager_window.vala
 msgid "Installed as a dependency for another package"
-msgstr ""
+msgstr "Instalado como dependencia para otro paquete"
 
 #: ../src/daemon.vala
 msgid "Yes"
@@ -53,11 +55,11 @@ msgstr "No"
 
 #: ../src/daemon.vala
 msgid "Failed to init transaction"
-msgstr ""
+msgstr "Falló al iniciar transacción"
 
 #: ../src/daemon.vala
 msgid "Failed to prepare transaction"
-msgstr ""
+msgstr "Falló al preparar transacción"
 
 #: ../src/daemon.vala
 #, c-format
@@ -105,7 +107,7 @@ msgstr ""
 
 #: ../src/daemon.vala ../src/transaction.vala
 msgid "Authentication failed"
-msgstr ""
+msgstr "Autenticación fallida"
 
 #: ../src/daemon.vala
 #, c-format
@@ -123,7 +125,7 @@ msgstr ""
 
 #: ../src/transaction.vala
 msgid "Refreshing mirrors list"
-msgstr ""
+msgstr "Refrescando lista de mirrors"
 
 #: ../src/transaction.vala
 msgid "Synchronizing package databases"
@@ -131,7 +133,7 @@ msgstr ""
 
 #: ../src/transaction.vala
 msgid "Starting full system upgrade"
-msgstr ""
+msgstr "Empezando actualización completa"
 
 #: ../src/transaction.vala
 msgid "Preparing"
@@ -144,7 +146,7 @@ msgstr ""
 
 #: ../src/transaction.vala
 msgid "To remove"
-msgstr ""
+msgstr "A remover"
 
 #: ../src/transaction.vala
 msgid "To downgrade"
@@ -168,11 +170,11 @@ msgstr ""
 
 #: ../src/transaction.vala ../src/updater_window.vala
 msgid "Total download size"
-msgstr ""
+msgstr "Tamaña total de descarga"
 
 #: ../src/transaction.vala
 msgid "Building packages"
-msgstr ""
+msgstr "Construyendo paquetes"
 
 #: ../src/transaction.vala
 msgid "Transaction cancelled"
@@ -180,15 +182,15 @@ msgstr ""
 
 #: ../src/transaction.vala
 msgid "Checking dependencies"
-msgstr ""
+msgstr "Comprobando dependencias"
 
 #: ../src/transaction.vala
 msgid "Checking file conflicts"
-msgstr ""
+msgstr "Comprobando archivos en conflicto"
 
 #: ../src/transaction.vala
 msgid "Resolving dependencies"
-msgstr ""
+msgstr "Resolviendo dependencias"
 
 #: ../src/transaction.vala
 msgid "Checking inter-conflicts"
@@ -197,17 +199,17 @@ msgstr ""
 #: ../src/transaction.vala
 #, c-format
 msgid "Installing %s"
-msgstr ""
+msgstr "Instalando %s"
 
 #: ../src/transaction.vala
 #, c-format
 msgid "Upgrading %s"
-msgstr ""
+msgstr "Actualizando %s"
 
 #: ../src/transaction.vala
 #, c-format
 msgid "Reinstalling %s"
-msgstr ""
+msgstr "Reinstalando %s"
 
 #: ../src/transaction.vala
 #, c-format
@@ -217,11 +219,11 @@ msgstr ""
 #: ../src/transaction.vala
 #, c-format
 msgid "Removing %s"
-msgstr ""
+msgstr "Removiendo %s"
 
 #: ../src/transaction.vala
 msgid "Checking integrity"
-msgstr ""
+msgstr "Comprobando integridad"
 
 #: ../src/transaction.vala
 msgid "Loading packages files"
@@ -255,12 +257,12 @@ msgstr ""
 
 #: ../src/transaction.vala
 msgid "Downloading"
-msgstr ""
+msgstr "Descargando"
 
 #: ../src/transaction.vala
 #, c-format
 msgid "Downloading %s"
-msgstr ""
+msgstr "Descargando %s"
 
 #: ../src/transaction.vala
 msgid "Checking available disk space"
@@ -590,11 +592,11 @@ msgstr ""
 
 #: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "View History"
-msgstr ""
+msgstr "Ver historial"
 
 #: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "Preferences"
-msgstr ""
+msgstr "Preferencias"
 
 #: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "About"
@@ -602,7 +604,7 @@ msgstr ""
 
 #: ../resources/manager_window.ui
 msgid "Search"
-msgstr ""
+msgstr "Buscar"
 
 #: ../resources/manager_window.ui
 msgid "Search in AUR"
@@ -610,23 +612,23 @@ msgstr ""
 
 #: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "State"
-msgstr ""
+msgstr "Estado"
 
 #: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "Repositories"
-msgstr ""
+msgstr "Repositorios"
 
 #: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "Version"
-msgstr ""
+msgstr "Versión"
 
 #: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "Size"
-msgstr ""
+msgstr "Tamaño"
 
 #: ../resources/manager_window.ui
 msgid "Popularity"
-msgstr ""
+msgstr "Popularidad"
 
 #: ../resources/manager_window.ui ../resources/updater_window.ui
 #: ../resources/preferences_dialog.ui
@@ -639,15 +641,15 @@ msgstr ""
 
 #: ../resources/manager_window.ui
 msgid "Reinstall"
-msgstr ""
+msgstr "Reinstalar"
 
 #: ../resources/manager_window.ui
 msgid "Dependencies"
-msgstr ""
+msgstr "Dependencias"
 
 #: ../resources/manager_window.ui
 msgid "Files"
-msgstr ""
+msgstr "Buscar en AUR"
 
 #: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "_Apply"
@@ -669,7 +671,7 @@ msgstr ""
 
 #: ../resources/preferences_dialog.ui
 msgid "Check for updates"
-msgstr ""
+msgstr "Comprobar actualizaciones"
 
 #: ../resources/preferences_dialog.ui
 msgid "Hide tray icon when no update available"
@@ -693,11 +695,11 @@ msgstr ""
 
 #: ../resources/preferences_dialog.ui
 msgid "Refresh Mirrors List"
-msgstr ""
+msgstr "Refrescar Lista de Mirrors"
 
 #: ../resources/preferences_dialog.ui
 msgid "Official Repositories"
-msgstr ""
+msgstr "Repositorios Oficiales"
 
 #: ../resources/preferences_dialog.ui
 msgid ""
@@ -707,7 +709,7 @@ msgstr ""
 
 #: ../resources/preferences_dialog.ui
 msgid "Enable AUR support"
-msgstr ""
+msgstr "Habilitar soporte de AUR"
 
 #: ../resources/preferences_dialog.ui
 msgid "Allow Pamac to search and install packages from AUR"

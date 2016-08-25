@@ -13,8 +13,8 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2015-08-20 11:53+0200\n"
-"PO-Revision-Date: 2016-05-14 09:54+0000\n"
-"Last-Translator: philm <philm@manjaro.org>\n"
+"PO-Revision-Date: 2016-07-18 04:33+0000\n"
+"Last-Translator: Takefumi Nagata\n"
 "Language-Team: Japanese (http://www.transifex.com/manjarolinux/manjaro-pamac/language/ja/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -24,7 +24,7 @@ msgstr ""
 
 #: data/polkit/org.manjaro.pamac.policy
 msgid "Authentication is required"
-msgstr ""
+msgstr "認証が必要です"
 
 #: ../src/daemon.vala
 msgid "Failed to initialize alpm library"
@@ -392,7 +392,7 @@ msgstr "詳細"
 #, c-format
 msgid "%u pending operation"
 msgid_plural "%u pending operations"
-msgstr[0] ""
+msgstr[0] "%u 保留中の操作"
 
 #: ../src/manager_window.vala
 msgid "Installed"
@@ -404,11 +404,11 @@ msgstr "孤児パッケージ"
 
 #: ../src/manager_window.vala
 msgid "Foreign"
-msgstr ""
+msgstr "海外"
 
 #: ../src/manager_window.vala
 msgid "Pending"
-msgstr ""
+msgstr "保留"
 
 #: ../src/manager_window.vala
 msgid "Install Reason"
@@ -505,11 +505,11 @@ msgstr "期限切れ"
 
 #: ../src/manager_window.vala
 msgid "Make Dependencies"
-msgstr ""
+msgstr "依存関係を作成"
 
 #: ../src/manager_window.vala
 msgid "Check Dependencies"
-msgstr ""
+msgstr "依存関係を確認"
 
 #: ../src/manager_window.vala ../resources/manager_window.ui
 #: ../resources/updater_window.ui
@@ -558,7 +558,7 @@ msgstr "供給元を選択"
 #: ../resources/choose_provider_dialog.ui ../resources/choose_dep_dialog.ui
 #: ../resources/choose_ignorepkgs_dialog.ui
 msgid "Choose"
-msgstr ""
+msgstr " 選択"
 
 #: ../resources/progress_dialog.ui
 msgid "Progress"
@@ -566,7 +566,7 @@ msgstr "経過"
 
 #: ../resources/progress_dialog.ui
 msgid "_Hide"
-msgstr ""
+msgstr "隠す（_H）"
 
 #: ../resources/history_dialog.ui
 msgid "Pamac History"
@@ -578,7 +578,7 @@ msgstr "処理の概要"
 
 #: ../resources/transaction_sum_dialog.ui
 msgid "Commit"
-msgstr ""
+msgstr "コミット"
 
 #: ../resources/choose_dep_dialog.ui
 msgid "Choose Optional Dependencies"
@@ -598,7 +598,7 @@ msgstr "設定"
 
 #: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "About"
-msgstr ""
+msgstr "About"
 
 #: ../resources/manager_window.ui
 msgid "Search"
@@ -626,7 +626,7 @@ msgstr "サイズ"
 
 #: ../resources/manager_window.ui
 msgid "Popularity"
-msgstr ""
+msgstr "人気"
 
 #: ../resources/manager_window.ui ../resources/updater_window.ui
 #: ../resources/preferences_dialog.ui
@@ -635,7 +635,7 @@ msgstr "AUR"
 
 #: ../resources/manager_window.ui
 msgid "Browse"
-msgstr ""
+msgstr "ブラウズ"
 
 #: ../resources/manager_window.ui
 msgid "Reinstall"

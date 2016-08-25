@@ -22,7 +22,7 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2015-08-20 11:53+0200\n"
-"PO-Revision-Date: 2016-05-20 18:04+0000\n"
+"PO-Revision-Date: 2016-07-31 18:19+0000\n"
 "Last-Translator: Charles Monzat <superboa@hotmail.fr>\n"
 "Language-Team: French (http://www.transifex.com/manjarolinux/manjaro-pamac/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -308,11 +308,11 @@ msgstr "%s installé comme %s.pacsave"
 
 #: ../src/transaction.vala
 msgid "Running pre-transaction hooks"
-msgstr "Exécution des scripts de pré-transaction"
+msgstr "Exécution des crochets de pré-transaction"
 
 #: ../src/transaction.vala
 msgid "Running post-transaction hooks"
-msgstr "Exécution des scripts de post-transaction"
+msgstr "Exécution des crochets de post-transaction"
 
 #: ../src/transaction.vala
 #, c-format
@@ -513,11 +513,11 @@ msgstr "Votes "
 
 #: ../src/manager_window.vala
 msgid "Out of Date"
-msgstr "Obsolète"
+msgstr "Obsolète "
 
 #: ../src/manager_window.vala
 msgid "Make Dependencies"
-msgstr "Dépendances de construction"
+msgstr "Dépendances de construction "
 
 #: ../src/manager_window.vala
 msgid "Check Dependencies"

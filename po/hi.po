@@ -4,6 +4,7 @@
 # Guillaume Benoit <guillaume@manjaro.org>, 2013-2016.
 # 
 # Translators:
+# confidential man <confidentialman21@gmail.com>, 2016
 # sivananda <kotagirisivananda@gmail.com>, 2014
 # philm <philm@manjaro.org>, 2015
 # sivananda <kotagirisivananda@gmail.com>, 2014
@@ -12,8 +13,8 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2015-08-20 11:53+0200\n"
-"PO-Revision-Date: 2016-05-14 09:54+0000\n"
-"Last-Translator: philm <philm@manjaro.org>\n"
+"PO-Revision-Date: 2016-06-04 16:38+0000\n"
+"Last-Translator: confidential man <confidentialman21@gmail.com>\n"
 "Language-Team: Hindi (http://www.transifex.com/manjarolinux/manjaro-pamac/language/hi/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -23,7 +24,7 @@ msgstr ""
 
 #: data/polkit/org.manjaro.pamac.policy
 msgid "Authentication is required"
-msgstr ""
+msgstr "प्रमाणीकरण की आवश्यकता है"
 
 #: ../src/daemon.vala
 msgid "Failed to initialize alpm library"
@@ -31,7 +32,7 @@ msgstr ""
 
 #: ../src/daemon.vala
 msgid "Failed to synchronize any databases"
-msgstr ""
+msgstr "किसी भी डेटाबेस सिंक्रनाइज़ करने में विफल"
 
 #: ../src/daemon.vala
 msgid "Unknown"
@@ -47,11 +48,11 @@ msgstr "एक और पैकेज के लिए एक निर्भर
 
 #: ../src/daemon.vala
 msgid "Yes"
-msgstr ""
+msgstr "हाँ"
 
 #: ../src/daemon.vala
 msgid "No"
-msgstr ""
+msgstr "नहीं"
 
 #: ../src/daemon.vala
 msgid "Failed to init transaction"
@@ -59,12 +60,12 @@ msgstr ""
 
 #: ../src/daemon.vala
 msgid "Failed to prepare transaction"
-msgstr ""
+msgstr "लेन-देन को तैयार करने में विफल"
 
 #: ../src/daemon.vala
 #, c-format
 msgid "target not found: %s"
-msgstr ""
+msgstr "लक्ष्य नहीं मिला: %s"
 
 #: ../src/daemon.vala
 #, c-format
@@ -74,12 +75,12 @@ msgstr ""
 #: ../src/daemon.vala
 #, c-format
 msgid "%s: requires %s"
-msgstr ""
+msgstr "%s: %s की आवश्यकता है"
 
 #: ../src/daemon.vala
 #, c-format
 msgid "%s and %s are in conflict"
-msgstr ""
+msgstr "%s और %s संघर्ष में हैं"
 
 #: ../src/daemon.vala
 #, c-format
@@ -88,22 +89,22 @@ msgstr ""
 
 #: ../src/daemon.vala
 msgid "Failed to commit transaction"
-msgstr ""
+msgstr "लेन-देन के लिए प्रतिबद्ध करने में विफल"
 
 #: ../src/daemon.vala
 #, c-format
 msgid "%s exists in both %s and %s"
-msgstr ""
+msgstr "%s दोनों %s और %s में मौजूद है"
 
 #: ../src/daemon.vala
 #, c-format
 msgid "%s: %s already exists in filesystem"
-msgstr ""
+msgstr "%s: %s पहले से ही फाइलसिस्टम में मौजूद है"
 
 #: ../src/daemon.vala
 #, c-format
 msgid "%s is invalid or corrupted"
-msgstr ""
+msgstr "%s अमान्य या दूषित है"
 
 #: ../src/daemon.vala ../src/transaction.vala
 msgid "Authentication failed"
@@ -133,7 +134,7 @@ msgstr ""
 
 #: ../src/transaction.vala
 msgid "Starting full system upgrade"
-msgstr ""
+msgstr "पूरी प्रणाली उन्नयन शुरू"
 
 #: ../src/transaction.vala
 msgid "Preparing"
@@ -142,7 +143,7 @@ msgstr "तैयारी"
 #: ../src/transaction.vala
 #, c-format
 msgid "Choose a provider for %s"
-msgstr ""
+msgstr "%s के लिए एक प्रदाता चुनें"
 
 #: ../src/transaction.vala
 msgid "To remove"
@@ -170,7 +171,7 @@ msgstr "अद्यतन करने के लिए"
 
 #: ../src/transaction.vala ../src/updater_window.vala
 msgid "Total download size"
-msgstr ""
+msgstr "कुल डाउनलोड का माप"
 
 #: ../src/transaction.vala
 msgid "Building packages"
@@ -248,7 +249,7 @@ msgstr ""
 
 #: ../src/transaction.vala
 msgid "Generation failed"
-msgstr ""
+msgstr "जनरेशन विफल हुआ"
 
 #: ../src/transaction.vala
 #, c-format
@@ -323,15 +324,15 @@ msgstr ""
 
 #: ../src/transaction.vala
 msgid "Error"
-msgstr ""
+msgstr "त्रुटि"
 
 #: ../src/transaction.vala
 msgid "Warning"
-msgstr ""
+msgstr "चेतावनी"
 
 #: ../src/transaction.vala
 msgid "_Close"
-msgstr ""
+msgstr "_बंद"
 
 #: ../src/transaction.vala
 msgid "Nothing to do"
@@ -365,12 +366,12 @@ msgstr ""
 #, c-format
 msgid "%u available update"
 msgid_plural "%u available updates"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%u उपलब्ध अद्यतन"
+msgstr[1] "%u उपलब्ध अद्यतन"
 
 #: ../src/tray.vala
 msgid "Show available updates"
-msgstr ""
+msgstr "उपलब्ध अद्यतन दिखाएँ"
 
 #: ../src/manager_window.vala
 msgid "Deselect"
@@ -406,11 +407,11 @@ msgstr "अनाथ"
 
 #: ../src/manager_window.vala
 msgid "Foreign"
-msgstr ""
+msgstr "विदेशी"
 
 #: ../src/manager_window.vala
 msgid "Pending"
-msgstr ""
+msgstr "अपूर्ण"
 
 #: ../src/manager_window.vala
 msgid "Install Reason"
@@ -633,11 +634,11 @@ msgstr ""
 #: ../resources/manager_window.ui ../resources/updater_window.ui
 #: ../resources/preferences_dialog.ui
 msgid "AUR"
-msgstr ""
+msgstr "AUR"
 
 #: ../resources/manager_window.ui
 msgid "Browse"
-msgstr ""
+msgstr "ब्राउज़"
 
 #: ../resources/manager_window.ui
 msgid "Reinstall"
@@ -667,15 +668,15 @@ msgstr ""
 
 #: ../resources/preferences_dialog.ui
 msgid "Check available disk space"
-msgstr ""
+msgstr "उपलब्ध डिस्क स्थान की जाँच करें"
 
 #: ../resources/preferences_dialog.ui
 msgid "Check for updates"
-msgstr ""
+msgstr "अद्यतनों के लिए जाँचें"
 
 #: ../resources/preferences_dialog.ui
 msgid "Hide tray icon when no update available"
-msgstr ""
+msgstr "ट्रे आइकन मिटायें जब कोई अद्यतन उपलब्ध ना हो"
 
 #: ../resources/preferences_dialog.ui
 msgid "Ignore upgrades for:"
@@ -683,7 +684,7 @@ msgstr ""
 
 #: ../resources/preferences_dialog.ui
 msgid "General"
-msgstr ""
+msgstr "सामान्य"
 
 #: ../resources/preferences_dialog.ui
 msgid "Use mirrors from:"
@@ -695,11 +696,11 @@ msgstr ""
 
 #: ../resources/preferences_dialog.ui
 msgid "Refresh Mirrors List"
-msgstr ""
+msgstr "दर्पण सूची को ताज़ा करे"
 
 #: ../resources/preferences_dialog.ui
 msgid "Official Repositories"
-msgstr ""
+msgstr "आधिकारिक कोष"
 
 #: ../resources/preferences_dialog.ui
 msgid ""
@@ -717,11 +718,11 @@ msgstr "Pamac AUR से संकुल को खोजने और स्थ
 
 #: ../resources/preferences_dialog.ui
 msgid "Search in AUR by default"
-msgstr ""
+msgstr "डिफ़ॉल्ट रूप से AUR में खोजें"
 
 #: ../resources/preferences_dialog.ui
 msgid "Check for updates from AUR"
-msgstr ""
+msgstr "AUR से अद्यतन के लिए जाँच करें"
 
 #: ../resources/preferences_dialog.ui
 msgid "Do not ask for confirmation when building packages"
@@ -729,4 +730,4 @@ msgstr ""
 
 #: ../resources/choose_ignorepkgs_dialog.ui
 msgid "Choose Ignored Upgrades"
-msgstr ""
+msgstr "उपेक्षित उन्नयन चुनें"

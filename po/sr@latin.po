@@ -4,6 +4,7 @@
 # Guillaume Benoit <guillaume@manjaro.org>, 2013-2016.
 # 
 # Translators:
+# Aleksa, 2016
 # kakonema <kakonema@gmail.com>, 2013-2014
 # philm <philm@manjaro.org>, 2015
 # shisha, 2014
@@ -14,8 +15,8 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2015-08-20 11:53+0200\n"
-"PO-Revision-Date: 2016-05-14 09:54+0000\n"
-"Last-Translator: philm <philm@manjaro.org>\n"
+"PO-Revision-Date: 2016-08-14 16:36+0000\n"
+"Last-Translator: Aleksa\n"
 "Language-Team: Serbian (Latin) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/sr@latin/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -25,15 +26,15 @@ msgstr ""
 
 #: data/polkit/org.manjaro.pamac.policy
 msgid "Authentication is required"
-msgstr ""
+msgstr "Autentifikacija je neophodna"
 
 #: ../src/daemon.vala
 msgid "Failed to initialize alpm library"
-msgstr ""
+msgstr "Greška pri inicijalizaciji alpm biblioteke"
 
 #: ../src/daemon.vala
 msgid "Failed to synchronize any databases"
-msgstr ""
+msgstr "Greška pri sinhronizovanju bilo koje baze podataka"
 
 #: ../src/daemon.vala
 msgid "Unknown"
@@ -49,63 +50,63 @@ msgstr "Instalirano kao zavisnost za drugi paket"
 
 #: ../src/daemon.vala
 msgid "Yes"
-msgstr ""
+msgstr "Da"
 
 #: ../src/daemon.vala
 msgid "No"
-msgstr ""
+msgstr "Ne"
 
 #: ../src/daemon.vala
 msgid "Failed to init transaction"
-msgstr ""
+msgstr "Greška pri init transakciji"
 
 #: ../src/daemon.vala
 msgid "Failed to prepare transaction"
-msgstr ""
+msgstr "Greška pri pripremanju transakcije"
 
 #: ../src/daemon.vala
 #, c-format
 msgid "target not found: %s"
-msgstr ""
+msgstr "cilj nije pronađen: %s"
 
 #: ../src/daemon.vala
 #, c-format
 msgid "package %s does not have a valid architecture"
-msgstr ""
+msgstr "paket %s nema odgovarajuću arhitekturu"
 
 #: ../src/daemon.vala
 #, c-format
 msgid "%s: requires %s"
-msgstr ""
+msgstr "%s: zahteva %s"
 
 #: ../src/daemon.vala
 #, c-format
 msgid "%s and %s are in conflict"
-msgstr ""
+msgstr "%s i %s su u konfliktu"
 
 #: ../src/daemon.vala
 #, c-format
 msgid "%s needs to be removed but it is a locked package"
-msgstr ""
+msgstr "%s treba da bude izbrisan ali je paket zaključan"
 
 #: ../src/daemon.vala
 msgid "Failed to commit transaction"
-msgstr ""
+msgstr "Greška pri izvršavanju transakcije"
 
 #: ../src/daemon.vala
 #, c-format
 msgid "%s exists in both %s and %s"
-msgstr ""
+msgstr "%s postoji u %s i u %s"
 
 #: ../src/daemon.vala
 #, c-format
 msgid "%s: %s already exists in filesystem"
-msgstr ""
+msgstr "%s: %s već postoje u sistemu datoteka"
 
 #: ../src/daemon.vala
 #, c-format
 msgid "%s is invalid or corrupted"
-msgstr ""
+msgstr "%s je nevažeći ili korumpiran"
 
 #: ../src/daemon.vala ../src/transaction.vala
 msgid "Authentication failed"
@@ -127,15 +128,15 @@ msgstr ""
 
 #: ../src/transaction.vala
 msgid "Refreshing mirrors list"
-msgstr ""
+msgstr "Osvežavanje liste ogledala"
 
 #: ../src/transaction.vala
 msgid "Synchronizing package databases"
-msgstr ""
+msgstr "Sinhronizacija paketa u bazi podataka"
 
 #: ../src/transaction.vala
 msgid "Starting full system upgrade"
-msgstr ""
+msgstr "Započinjem nadogradnju celog sistema"
 
 #: ../src/transaction.vala
 msgid "Preparing"
@@ -144,7 +145,7 @@ msgstr "Pripremanje"
 #: ../src/transaction.vala
 #, c-format
 msgid "Choose a provider for %s"
-msgstr ""
+msgstr "Izaberi provajdera za %s"
 
 #: ../src/transaction.vala
 msgid "To remove"
@@ -176,11 +177,11 @@ msgstr "Ukupna veličina preuzimanja"
 
 #: ../src/transaction.vala
 msgid "Building packages"
-msgstr ""
+msgstr "Izgradnja paketa"
 
 #: ../src/transaction.vala
 msgid "Transaction cancelled"
-msgstr ""
+msgstr "Transakcija prekinuta"
 
 #: ../src/transaction.vala
 msgid "Checking dependencies"
@@ -196,7 +197,7 @@ msgstr "Rešavanje zavisnosti"
 
 #: ../src/transaction.vala
 msgid "Checking inter-conflicts"
-msgstr ""
+msgstr "Proveravam unutrašnje konflikte"
 
 #: ../src/transaction.vala
 #, c-format
@@ -273,12 +274,12 @@ msgstr "Proveravanje dostupnog slobodnog prostora"
 #: ../src/transaction.vala
 #, c-format
 msgid "%s optionally requires %s"
-msgstr ""
+msgstr "%s opciono zahteva %s"
 
 #: ../src/transaction.vala
 #, c-format
 msgid "Database file for %s does not exist"
-msgstr ""
+msgstr "Fajl baze podataka za %s ne postoji"
 
 #: ../src/transaction.vala
 msgid "Checking keyring"
@@ -291,16 +292,16 @@ msgstr "Preuzimanje potrebnih ključeva"
 #: ../src/transaction.vala
 #, c-format
 msgid "%s installed as %s.pacnew"
-msgstr ""
+msgstr "%s je instaliran kao %s.pacnew"
 
 #: ../src/transaction.vala
 #, c-format
 msgid "%s installed as %s.pacsave"
-msgstr ""
+msgstr "%s je instaliran kao %s.pacsave"
 
 #: ../src/transaction.vala
 msgid "Running pre-transaction hooks"
-msgstr ""
+msgstr "Pokrećem pred-transakcione radnje"
 
 #: ../src/transaction.vala
 msgid "Running post-transaction hooks"
@@ -593,7 +594,7 @@ msgstr ""
 
 #: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "Refresh databases"
-msgstr ""
+msgstr "Osveži bazu podataka"
 
 #: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "View History"
@@ -601,11 +602,11 @@ msgstr "Vidi istoriju"
 
 #: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "Preferences"
-msgstr ""
+msgstr "Podešavanja"
 
 #: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "About"
-msgstr ""
+msgstr "O"
 
 #: ../resources/manager_window.ui
 msgid "Search"
@@ -621,7 +622,7 @@ msgstr "Stanje"
 
 #: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "Repositories"
-msgstr ""
+msgstr "Repozitorijumi"
 
 #: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "Version"
@@ -633,16 +634,16 @@ msgstr "Veličina"
 
 #: ../resources/manager_window.ui
 msgid "Popularity"
-msgstr ""
+msgstr "Popularno"
 
 #: ../resources/manager_window.ui ../resources/updater_window.ui
 #: ../resources/preferences_dialog.ui
 msgid "AUR"
-msgstr ""
+msgstr "AUR"
 
 #: ../resources/manager_window.ui
 msgid "Browse"
-msgstr ""
+msgstr "Pretraga"
 
 #: ../resources/manager_window.ui
 msgid "Reinstall"
@@ -658,7 +659,7 @@ msgstr "Datoteke"
 
 #: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "_Apply"
-msgstr ""
+msgstr "_Primeni"
 
 #: ../resources/preferences_dialog.ui
 msgid "Remove unrequired dependencies"
@@ -672,15 +673,15 @@ msgstr ""
 
 #: ../resources/preferences_dialog.ui
 msgid "Check available disk space"
-msgstr ""
+msgstr "Provera slobodnog prostora na disku"
 
 #: ../resources/preferences_dialog.ui
 msgid "Check for updates"
-msgstr ""
+msgstr "Proveri ažuriranja"
 
 #: ../resources/preferences_dialog.ui
 msgid "Hide tray icon when no update available"
-msgstr ""
+msgstr "Sakrij ikonicu kada nema dostupnih ažuriranja"
 
 #: ../resources/preferences_dialog.ui
 msgid "Ignore upgrades for:"
@@ -692,19 +693,19 @@ msgstr ""
 
 #: ../resources/preferences_dialog.ui
 msgid "Use mirrors from:"
-msgstr ""
+msgstr "Koristi ogledala za:"
 
 #: ../resources/preferences_dialog.ui
 msgid "Sort mirrors by:"
-msgstr ""
+msgstr "Sortiraj ogledala po:"
 
 #: ../resources/preferences_dialog.ui
 msgid "Refresh Mirrors List"
-msgstr ""
+msgstr "Osveži listu ogledala"
 
 #: ../resources/preferences_dialog.ui
 msgid "Official Repositories"
-msgstr ""
+msgstr "Zvanični repozitorijumi"
 
 #: ../resources/preferences_dialog.ui
 msgid ""
@@ -726,7 +727,7 @@ msgstr ""
 
 #: ../resources/preferences_dialog.ui
 msgid "Check for updates from AUR"
-msgstr ""
+msgstr "Proveri ažuriranja iz AUR"
 
 #: ../resources/preferences_dialog.ui
 msgid "Do not ask for confirmation when building packages"

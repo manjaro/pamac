@@ -16,8 +16,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2016-04-24 08:44+0200\n"
-"PO-Revision-Date: 2016-05-06 08:13+0000\n"
+"POT-Creation-Date: 2015-08-20 11:53+0200\n"
+"PO-Revision-Date: 2016-07-20 07:12+0000\n"
 "Last-Translator: Davidmp <medipas@gmail.com>\n"
 "Language-Team: Catalan (http://www.transifex.com/manjarolinux/manjaro-pamac/language/ca/)\n"
 "MIME-Version: 1.0\n"
@@ -25,6 +25,10 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Language: ca\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: data/polkit/org.manjaro.pamac.policy
+msgid "Authentication is required"
+msgstr "Cal autenticació"
 
 #: ../src/daemon.vala
 msgid "Failed to initialize alpm library"
@@ -42,7 +46,7 @@ msgstr "Desconegut"
 msgid "Explicitly installed"
 msgstr "Explícitament instal·lat"
 
-#: ../src/daemon.vala
+#: ../src/daemon.vala ../src/manager_window.vala
 msgid "Installed as a dependency for another package"
 msgstr "Instal·lat com a dependència d'un altre paquet"
 
@@ -377,25 +381,18 @@ msgstr "Mostra les actualitzacions disponibles"
 msgid "Deselect"
 msgstr "Anul·la la selecció"
 
-#: ../src/manager_window.vala
+#: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Install"
 msgstr "Instal·la"
 
-#: ../src/manager_window.vala
+#: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Remove"
 msgstr "Elimina"
 
-#: ../src/manager_window.vala
-msgid "Reinstall"
-msgstr "Reinstal·la"
-
-#: ../src/manager_window.vala
-msgid "Install optional dependencies"
-msgstr "Instal·la les dependències opcionals"
-
-#: ../src/manager_window.vala
-msgid "Mark as explicitly installed"
-msgstr "Marca com a instal·lat explícitament"
+#: ../src/manager_window.vala ../resources/progress_dialog.ui
+#: ../resources/manager_window.ui ../resources/updater_window.ui
+msgid "Details"
+msgstr "Detalls"
 
 #: ../src/manager_window.vala
 #, c-format
@@ -421,6 +418,14 @@ msgid "Pending"
 msgstr "Pendent"
 
 #: ../src/manager_window.vala
+msgid "Install Reason"
+msgstr "Raó d'instal·lació"
+
+#: ../src/manager_window.vala
+msgid "Mark as explicitly installed"
+msgstr "Marca com a instal·lat explícitament"
+
+#: ../src/manager_window.vala
 msgid "Licenses"
 msgstr "Llicències"
 
@@ -444,10 +449,6 @@ msgstr "Data de construcció"
 #: ../src/manager_window.vala
 msgid "Install Date"
 msgstr "Data d'instal·lació"
-
-#: ../src/manager_window.vala
-msgid "Install Reason"
-msgstr "Raó d'instal·lació"
 
 #: ../src/manager_window.vala
 msgid "Signatures"
@@ -522,11 +523,6 @@ msgstr "Comprova les dependències"
 msgid "Name"
 msgstr "Nom"
 
-#: ../src/manager_window.vala
-#, c-format
-msgid "Choose optional dependencies for %s"
-msgstr "Trieu les dependències opcionals per a %s"
-
 #: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Install Local Packages"
 msgstr "Instal·la paquets locals"
@@ -579,11 +575,6 @@ msgstr "Progrés"
 msgid "_Hide"
 msgstr "Ama_ga"
 
-#: ../resources/progress_dialog.ui ../resources/manager_window.ui
-#: ../resources/updater_window.ui
-msgid "Details"
-msgstr "Detalls"
-
 #: ../resources/history_dialog.ui
 msgid "Pamac History"
 msgstr "Historial del Pamac"
@@ -594,7 +585,7 @@ msgstr "Resum de la transacció"
 
 #: ../resources/transaction_sum_dialog.ui
 msgid "Commit"
-msgstr "Tramet"
+msgstr "Fes-ho"
 
 #: ../resources/choose_dep_dialog.ui
 msgid "Choose Optional Dependencies"
@@ -649,13 +640,13 @@ msgstr "Popularitat"
 msgid "AUR"
 msgstr "AUR"
 
-#: ../resources/manager_window.ui ../resources/updater_window.ui
-msgid "_Apply"
-msgstr "_Aplica"
-
 #: ../resources/manager_window.ui
 msgid "Browse"
 msgstr "Navega"
+
+#: ../resources/manager_window.ui
+msgid "Reinstall"
+msgstr "Reinstal·la"
 
 #: ../resources/manager_window.ui
 msgid "Dependencies"
@@ -664,6 +655,10 @@ msgstr "Dependències"
 #: ../resources/manager_window.ui
 msgid "Files"
 msgstr "Fitxers"
+
+#: ../resources/manager_window.ui ../resources/updater_window.ui
+msgid "_Apply"
+msgstr "_Aplica"
 
 #: ../resources/preferences_dialog.ui
 msgid "Remove unrequired dependencies"
