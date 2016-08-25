@@ -281,12 +281,50 @@ namespace Pamac {
 			generate_mirrors_list_finished ();
 		}
 
-		public void start_generate_mirrors_list () {
-			try {
-				thread_pool.add (new AlpmAction (generate_mirrors_list));
-			} catch (ThreadError e) {
-				stderr.printf ("Thread Error %s\n", e.message);
-			}
+		public void start_generate_mirrors_list (GLib.BusName sender) {
+			check_authorization.begin (sender, (obj, res) => {
+				bool authorized = check_authorization.end (res);
+				if (authorized) {
+					try {
+						thread_pool.add (new AlpmAction (generate_mirrors_list));
+					} catch (ThreadError e) {
+						stderr.printf ("Thread Error %s\n", e.message);
+					}
+				} else {
+					current_error = ErrorInfos () {
+						message = _("Authentication failed")
+					};
+				}
+			});
+		}
+
+		public void clean_cache (uint keep_nb, bool only_uninstalled, GLib.BusName sender) {
+			check_authorization.begin (sender, (obj, res) => {
+				bool authorized = check_authorization.end (res);
+				if (authorized) {
+					string[] commands = {"paccache", "-rq"};
+					commands += "-k%u".printf (keep_nb);
+					if (only_uninstalled) {
+						commands += "-u";
+					}
+					try {
+						var process = new Subprocess.newv (
+							commands,
+							SubprocessFlags.STDOUT_PIPE | SubprocessFlags.STDERR_MERGE);
+						var dis = new DataInputStream (process.get_stdout_pipe ());
+						string? line;
+						while ((line = dis.read_line ()) != null) {
+							print ("%s\n",line);
+						}
+					} catch (Error e) {
+						stderr.printf ("Error: %s\n", e.message);
+					}
+				} else {
+					current_error = ErrorInfos () {
+						message = _("Authentication failed")
+					};
+				}
+			});
 		}
 
 		public void start_write_mirrors_config (HashTable<string,Variant> new_mirrors_conf, GLib.BusName sender) {

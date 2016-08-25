@@ -29,6 +29,7 @@ namespace Pamac {
 		public abstract void start_write_alpm_config (HashTable<string,Variant> new_alpm_conf) throws IOError;
 		public abstract void start_write_mirrors_config (HashTable<string,Variant> new_mirrors_conf) throws IOError;
 		public abstract void start_generate_mirrors_list () throws IOError;
+		public abstract void clean_cache (uint keep_nb, bool only_uninstalled) throws IOError;
 		public abstract void start_set_pkgreason (string pkgname, uint reason) throws IOError;
 		public abstract AlpmPackage get_installed_pkg (string pkgname) throws IOError;
 		public abstract void start_refresh (bool force) throws IOError;
@@ -348,6 +349,14 @@ namespace Pamac {
 			} catch (IOError e) {
 				stderr.printf ("IOError: %s\n", e.message);
 				Source.remove (pulse_timeout_id);
+			}
+		}
+
+		public void clean_cache (uint keep_nb, bool only_uninstalled) {
+			try {
+				daemon.clean_cache (keep_nb, only_uninstalled);
+			} catch (IOError e) {
+				stderr.printf ("IOError: %s\n", e.message);
 			}
 		}
 

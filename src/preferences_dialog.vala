@@ -56,6 +56,10 @@ namespace Pamac {
 		Gtk.CheckButton check_aur_updates_checkbutton;
 		[GtkChild]
 		Gtk.CheckButton no_confirm_build_checkbutton;
+		[GtkChild]
+		Gtk.SpinButton cache_keep_nb_spin_button;
+		[GtkChild]
+		Gtk.CheckButton cache_only_uninstalled_checkbutton;
 
 		Gtk.ListStore ignorepkgs_liststore;
 		Transaction transaction;
@@ -367,6 +371,12 @@ namespace Pamac {
 		void on_generate_mirrors_list_button_clicked () {
 			transaction.start_generate_mirrors_list ();
 			generate_mirrors_list_button.get_style_context ().remove_class (Gtk.STYLE_CLASS_SUGGESTED_ACTION);
+		}
+
+		[GtkCallback]
+		void on_cache_clean_button_clicked () {
+			transaction.clean_cache ((uint) cache_keep_nb_spin_button.get_value_as_int (),
+									cache_only_uninstalled_checkbutton.active);
 		}
 	}
 }

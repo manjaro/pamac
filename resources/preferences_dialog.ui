@@ -2,7 +2,13 @@
 <!-- Generated with glade 3.20.0 -->
 <interface>
   <requires lib="gtk+" version="3.14"/>
-  <object class="GtkAdjustment" id="adjustment">
+  <object class="GtkAdjustment" id="cache_keep_nb_adjustment">
+    <property name="upper">10</property>
+    <property name="value">3</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">10</property>
+  </object>
+  <object class="GtkAdjustment" id="refresh_period_adjustment">
     <property name="lower">1</property>
     <property name="upper">1000</property>
     <property name="value">6</property>
@@ -204,7 +210,7 @@
                         <property name="halign">end</property>
                         <property name="caps_lock_warning">False</property>
                         <property name="input_purpose">number</property>
-                        <property name="adjustment">adjustment</property>
+                        <property name="adjustment">refresh_period_adjustment</property>
                         <property name="numeric">True</property>
                         <property name="update_policy">if-valid</property>
                         <property name="value">6</property>
@@ -655,6 +661,103 @@ All AUR users should be familiar with the build process.</property>
                 <property name="name">aur</property>
                 <property name="title" translatable="yes">AUR</property>
                 <property name="position">2</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkBox" id="cache_config_box">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="margin_left">6</property>
+                <property name="margin_right">6</property>
+                <property name="margin_start">6</property>
+                <property name="margin_end">6</property>
+                <property name="margin_top">6</property>
+                <property name="margin_bottom">6</property>
+                <property name="orientation">vertical</property>
+                <property name="spacing">6</property>
+                <child>
+                  <object class="GtkBox" id="box1">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="spacing">12</property>
+                    <child>
+                      <object class="GtkLabel" id="cache_keep_nb_label">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="halign">start</property>
+                        <property name="hexpand">True</property>
+                        <property name="label" translatable="yes">Number of each package to keep in the cache:</property>
+                        <property name="wrap">True</property>
+                        <property name="max_width_chars">300</property>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">True</property>
+                        <property name="position">0</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkSpinButton" id="cache_keep_nb_spin_button">
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="tooltip_text" translatable="yes">How often to check for updates, value in hours</property>
+                        <property name="halign">end</property>
+                        <property name="caps_lock_warning">False</property>
+                        <property name="input_purpose">number</property>
+                        <property name="adjustment">cache_keep_nb_adjustment</property>
+                        <property name="numeric">True</property>
+                        <property name="update_policy">if-valid</property>
+                        <property name="value">3</property>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">True</property>
+                        <property name="position">1</property>
+                      </packing>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkCheckButton" id="cache_only_uninstalled_checkbutton">
+                    <property name="label" translatable="yes">Only remove uninstalled packages</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="receives_default">False</property>
+                    <property name="margin_start">22</property>
+                    <property name="draw_indicator">True</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">1</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkButton" id="cache_clean_button">
+                    <property name="label" translatable="yes">Clean cache</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="receives_default">True</property>
+                    <property name="halign">end</property>
+                    <property name="margin_top">12</property>
+                    <signal name="clicked" handler="on_cache_clean_button_clicked" swapped="no"/>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">2</property>
+                  </packing>
+                </child>
+              </object>
+              <packing>
+                <property name="name">cache</property>
+                <property name="title" translatable="yes">Cache</property>
+                <property name="position">3</property>
               </packing>
             </child>
           </object>
