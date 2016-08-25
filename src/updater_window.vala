@@ -89,7 +89,7 @@ namespace Pamac {
 			transaction = new Transaction (this as Gtk.ApplicationWindow);
 			transaction.mode = Mode.UPDATER;
 			transaction.start_transaction.connect (on_start_transaction);
-			transaction.important_details_outpout.connect (on_important_details_outpout);
+			transaction.important_details_outpout.connect (on_important_details_output);
 			transaction.finished.connect (populate_updates_list);
 			transaction.get_updates_finished.connect (on_get_updates_finished);
 			transaction.generate_mirrors_list.connect (on_generate_mirrors_list);
@@ -259,7 +259,7 @@ namespace Pamac {
 			cancel_button.sensitive = false;
 		}
 
-		void on_important_details_outpout (bool must_show) {
+		void on_important_details_output (bool must_show) {
 			if (must_show) {
 				stackswitcher.visible = false;
 				previous_visible_child_name = stack.visible_child_name;
