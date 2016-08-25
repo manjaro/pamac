@@ -195,8 +195,6 @@ namespace Pamac {
 											typeof (string), //repo
 											typeof (uint64), //isize
 											typeof (string)); //GLib.format (isize)
-			// sort packages by name by default
-			packages_list.set_sort_column_id (1, Gtk.SortType.ASCENDING);
 			packages_treeview.set_model (packages_list);
 			// add custom cellrenderer to packages_treeview and aur_treewiew
 			var packages_state_renderer = new ActivableCellRendererPixbuf ();
@@ -1091,6 +1089,8 @@ namespace Pamac {
 						switch (packages_stack.visible_child_name) {
 							case "repos":
 								transaction.search_pkgs.begin (search_string, (obj, res) => {
+									// get custom sort by relevance
+									packages_list.set_sort_column_id (Gtk.TREE_SORTABLE_UNSORTED_SORT_COLUMN_ID, 0);
 									populate_packages_list (transaction.search_pkgs.end (res));
 								});
 								break;
@@ -1309,6 +1309,8 @@ namespace Pamac {
 					case "repos":
 						transaction.search_pkgs.begin (search_string, (obj, res) => {
 							var pkgs = transaction.search_pkgs.end (res);
+							// get custom sort by relevance
+							packages_list.set_sort_column_id (Gtk.TREE_SORTABLE_UNSORTED_SORT_COLUMN_ID, 0);
 							populate_packages_list (pkgs);
 							if (search_aur_button.get_active ()) {
 								if (pkgs.length == 0) {

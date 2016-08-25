@@ -40,6 +40,39 @@ private int alpm_pkg_compare_name (Alpm.Package pkg_a, Alpm.Package pkg_b) {
 	return strcmp (pkg_a.name, pkg_b.name);
 }
 
+private string global_search_string;
+
+private int alpm_pkg_sort_search_by_relevance (Alpm.Package pkg_a, Alpm.Package pkg_b) {
+	if (global_search_string != null) {
+		// display exact match first
+		if (pkg_a.name == global_search_string) {
+			return 0;
+		}
+		if (pkg_b.name == global_search_string) {
+			return 1;
+		}
+		if (pkg_a.name.has_prefix (global_search_string + "-")) {
+			return 0;
+		}
+		if (pkg_b.name.has_prefix (global_search_string + "-")) {
+			return 1;
+		}
+		if (pkg_a.name.has_prefix (global_search_string)) {
+			return 0;
+		}
+		if (pkg_b.name.has_prefix (global_search_string)) {
+			return 1;
+		}
+		if (pkg_a.name.contains (global_search_string)) {
+			return 0;
+		}
+		if (pkg_b.name.contains (global_search_string)) {
+			return 1;
+		}
+	}
+	return strcmp (pkg_a.name, pkg_b.name);
+}
+
 namespace Pamac {
 	[DBus (name = "org.manjaro.pamac")]
 	public class Daemon: Object {
@@ -535,7 +568,9 @@ namespace Pamac {
 				syncdbs.next ();
 			}
 			result.join (syncpkgs.diff (result, (Alpm.List.CompareFunc) alpm_pkg_compare_name));
-			//result.sort ((Alpm.List.CompareFunc) alpm_pkg_compare_name);
+			// use custom sort function
+			global_search_string = search_string;
+			result.sort (result.length, (Alpm.List.CompareFunc) alpm_pkg_sort_search_by_relevance);
 			return result;
 		}
 
