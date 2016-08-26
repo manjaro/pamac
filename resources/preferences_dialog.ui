@@ -686,7 +686,7 @@ All AUR users should be familiar with the build process.</property>
                         <property name="can_focus">False</property>
                         <property name="halign">start</property>
                         <property name="hexpand">True</property>
-                        <property name="label" translatable="yes">Number of each package to keep in the cache:</property>
+                        <property name="label" translatable="yes">Number of versions of each package to keep in the cache:</property>
                         <property name="wrap">True</property>
                         <property name="max_width_chars">300</property>
                       </object>
@@ -724,7 +724,7 @@ All AUR users should be familiar with the build process.</property>
                 </child>
                 <child>
                   <object class="GtkCheckButton" id="cache_only_uninstalled_checkbutton">
-                    <property name="label" translatable="yes">Only remove uninstalled packages</property>
+                    <property name="label" translatable="yes">Remove only the versions of uninstalled packages</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>

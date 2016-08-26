@@ -716,11 +716,11 @@ msgid "Do not ask for confirmation when building packages"
 msgstr ""
 
 #: ../resources/preferences_dialog.ui
-msgid "Number of each package to keep in the cache:"
+msgid "Number of versions of each package to keep in the cache:"
 msgstr ""
 
 #: ../resources/preferences_dialog.ui
-msgid "Only remove uninstalled packages"
+msgid "Remove only the versions of uninstalled packages"
 msgstr ""
 
 #: ../resources/preferences_dialog.ui
