@@ -368,8 +368,9 @@ msgid_plural "%u available updates"
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../src/tray.vala
-msgid "Show available updates"
+#: ../src/tray.vala ../src/manager_window.vala ../resources/progress_dialog.ui
+#: ../resources/manager_window.ui ../resources/updater_window.ui
+msgid "Details"
 msgstr ""
 
 #: ../src/manager_window.vala
@@ -382,11 +383,6 @@ msgstr ""
 
 #: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Remove"
-msgstr ""
-
-#: ../src/manager_window.vala ../resources/progress_dialog.ui
-#: ../resources/manager_window.ui ../resources/updater_window.ui
-msgid "Details"
 msgstr ""
 
 #: ../src/manager_window.vala

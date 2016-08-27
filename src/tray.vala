@@ -227,7 +227,7 @@ namespace Pamac {
 			try {
 				close_notification();
 				notification = new Notify.Notification (_("Update Manager"), info, "system-software-update");
-				notification.add_action ("default", _("Show available updates"), execute_updater);
+				notification.add_action ("default", _("Details"), execute_updater);
 				notification.show ();
 			} catch (Error e) {
 				stderr.printf ("Notify Error: %s", e.message);
