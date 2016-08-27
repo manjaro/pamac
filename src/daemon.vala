@@ -82,12 +82,17 @@ namespace Pamac {
 		public Mutex provider_mutex;
 		public int? choosen_provider;
 		private bool force_refresh;
+		private bool enable_downgrade;
+		private Alpm.TransFlag flags;
+		private string[] to_install;
+		private string[] to_remove;
+		private string[] to_load;
+		private string[] temporary_ignorepkgs;
 		private ThreadPool<AlpmAction> thread_pool;
 		private Mutex databases_lock_mutex;
 		private Json.Array aur_updates_results;
 		private HashTable<string, Json.Array> aur_search_results;
 		private HashTable<string, Json.Object> aur_infos;
-		private bool intern_lock;
 		private bool extern_lock;
 		private GLib.File lockfile;
 		private ErrorInfos current_error;
@@ -122,7 +127,6 @@ namespace Pamac {
 			aur_search_results = new HashTable<string, Json.Array> (str_hash, str_equal);
 			aur_infos = new HashTable<string, Json.Object> (str_hash, str_equal);
 			timer = new Timer ();
-			intern_lock = false;
 			extern_lock = false;
 			refresh_handle ();
 			Timeout.add (500, check_pacman_running);
@@ -193,8 +197,9 @@ namespace Pamac {
 				}
 			} else {
 				if (lockfile.query_exists ()) {
-					if (!intern_lock) {
+					if (databases_lock_mutex.trylock ()) {
 						extern_lock = true;
+						databases_lock_mutex.unlock ();
 					}
 				}
 			}
@@ -354,8 +359,8 @@ namespace Pamac {
 		}
 
 		private void refresh () {
+			databases_lock_mutex.lock ();
 			write_log_file ("synchronizing package lists");
-			intern_lock = true;
 			current_error = ErrorInfos ();
 			int force = (force_refresh) ? 1 : 0;
 			uint success = 0;
@@ -366,11 +371,17 @@ namespace Pamac {
 				if (cancellable.is_cancelled ()) {
 					refresh_handle ();
 					refresh_finished (false);
-					intern_lock = false;
+					databases_lock_mutex.unlock ();
 					return;
 				}
 				if (db.update (force) >= 0) {
 					success++;
+				} else {
+					Alpm.Errno errno = alpm_handle.errno ();
+					current_error.errno = (uint) errno;
+					if (errno != 0) {
+						current_error.details = { Alpm.strerror (errno) };
+					}
 				}
 				syncdbs.next ();
 			}
@@ -378,17 +389,12 @@ namespace Pamac {
 			// We should always succeed if at least one DB was upgraded - we may possibly
 			// fail later with unresolved deps, but that should be rare, and would be expected
 			if (success == 0) {
-				Alpm.Errno errno = alpm_handle.errno ();
-				current_error.errno = (uint) errno;
 				current_error.message = _("Failed to synchronize any databases");
-				if (errno != 0) {
-					current_error.details = { Alpm.strerror (errno) };
-				}
 				refresh_finished (false);
 			} else {
 				refresh_finished (true);
 			}
-			intern_lock = false;
+			databases_lock_mutex.unlock ();
 		}
 
 		public void start_refresh (bool force) {
@@ -419,12 +425,17 @@ namespace Pamac {
 			return result;
 		}
 
-		public void add_ignorepkg (string pkgname) {
-			alpm_handle.add_ignorepkg (pkgname);
+		private void add_ignorepkgs () {
+			foreach (unowned string pkgname in temporary_ignorepkgs) {
+				alpm_handle.add_ignorepkg (pkgname);
+			}
 		}
 
-		public void remove_ignorepkg (string pkgname) {
-			alpm_handle.remove_ignorepkg (pkgname);
+		private void remove_ignorepkgs () {
+			foreach (unowned string pkgname in temporary_ignorepkgs) {
+				alpm_handle.remove_ignorepkg (pkgname);
+			}
+			temporary_ignorepkgs = {};
 		}
 
 		public bool should_hold (string pkgname) {
@@ -1280,25 +1291,30 @@ namespace Pamac {
 			return aur_updates_infos;
 		}
 
-		public bool trans_init (Alpm.TransFlag transflags) {
+		private bool trans_init (Alpm.TransFlag flags) {
+			databases_lock_mutex.lock ();
 			current_error = ErrorInfos ();
 			cancellable.reset ();
-			if (alpm_handle.trans_init (transflags) == -1) {
+			if (alpm_handle.trans_init (flags) == -1) {
 				Alpm.Errno errno = alpm_handle.errno ();
 				current_error.errno = (uint) errno;
 				current_error.message = _("Failed to init transaction");
 				if (errno != 0) {
 					current_error.details = { Alpm.strerror (errno) };
 				}
+				databases_lock_mutex.unlock ();
 				return false;
-			} else {
-				intern_lock = true;
 			}
 			return true;
 		}
 
-		public bool trans_sysupgrade (bool enable_downgrade) {
+		private void sysupgrade_prepare () {
 			current_error = ErrorInfos ();
+			if (!trans_init (0)) {
+				trans_prepare_finished (false);
+				return;
+			}
+			add_ignorepkgs ();
 			if (alpm_handle.trans_sysupgrade ((enable_downgrade) ? 1 : 0) == -1) {
 				Alpm.Errno errno = alpm_handle.errno ();
 				current_error.errno = (uint) errno;
@@ -1306,9 +1322,21 @@ namespace Pamac {
 				if (errno != 0) {
 					current_error.details = { Alpm.strerror (errno) };
 				}
-				return false;
+				trans_release ();
+				trans_prepare_finished (false);
+				return;
 			}
-			return true;
+			trans_prepare_real ();
+		}
+
+		public void start_sysupgrade_prepare_ (bool enable_downgrade_, string[] temporary_ignorepkgs_) {
+			enable_downgrade = enable_downgrade_;
+			temporary_ignorepkgs = temporary_ignorepkgs_;
+			try {
+				thread_pool.add (new AlpmAction (sysupgrade_prepare));
+			} catch (ThreadError e) {
+				stderr.printf ("Thread Error %s\n", e.message);
+			}
 		}
 
 		private bool trans_add_pkg_real (Alpm.Package pkg) {
@@ -1330,7 +1358,7 @@ namespace Pamac {
 			return true;
 		}
 
-		public bool trans_add_pkg (string pkgname) {
+		private bool trans_add_pkg (string pkgname) {
 			current_error = ErrorInfos ();
 			unowned Alpm.Package? pkg = get_syncpkg (pkgname);
 			if (pkg == null) {
@@ -1387,7 +1415,7 @@ namespace Pamac {
 			}
 		}
 
-		public bool trans_load_pkg (string pkgpath) {
+		private bool trans_load_pkg (string pkgpath) {
 			current_error = ErrorInfos ();
 			Alpm.Package* pkg;
 			if (alpm_handle.load_tarball (pkgpath, 1, alpm_handle.localfilesiglevel, out pkg) == -1) {
@@ -1412,7 +1440,7 @@ namespace Pamac {
 			return true;
 		}
 
-		public bool trans_remove_pkg (string pkgname) {
+		private bool trans_remove_pkg (string pkgname) {
 			current_error = ErrorInfos ();
 			unowned Alpm.Package? pkg =  alpm_handle.localdb.get_pkg (pkgname);
 			if (pkg == null) {
@@ -1431,7 +1459,7 @@ namespace Pamac {
 			return true;
 		}
 
-		private void trans_prepare () {
+		private void trans_prepare_real () {
 			current_error = ErrorInfos ();
 			string[] details = {};
 			Alpm.List err_data;
@@ -1508,7 +1536,50 @@ namespace Pamac {
 			}
 		}
 
-		public void start_trans_prepare () {
+		private void trans_prepare () {
+			bool success = trans_init (flags);
+			if (success) {
+				foreach (unowned string name in to_install) {
+					success = trans_add_pkg (name);
+					if (!success) {
+						break;
+					}
+				}
+				if (success) {
+					foreach (unowned string name in to_remove) {
+						success = trans_remove_pkg (name);
+						if (!success) {
+							break;
+						}
+					}
+				}
+				if (success) {
+					foreach (unowned string path in to_load) {
+						success = trans_load_pkg (path);
+						if (!success) {
+							break;
+						}
+					}
+				}
+				if (success) {
+					trans_prepare_real ();
+				} else {
+					trans_release ();
+					trans_prepare_finished (false);
+				}
+			} else {
+				trans_prepare_finished (false);
+			}
+		}
+
+		public void start_trans_prepare (Alpm.TransFlag flags_,
+										string[] to_install_,
+										string[] to_remove_,
+										string[] to_load_) {
+			flags = flags_;
+			to_install = to_install_;
+			to_remove = to_remove_;
+			to_load = to_load_;
 			try {
 				thread_pool.add (new AlpmAction (trans_prepare));
 			} catch (ThreadError e) {
@@ -1664,7 +1735,8 @@ namespace Pamac {
 
 		public void trans_release () {
 			alpm_handle.trans_release ();
-			intern_lock = false;
+			remove_ignorepkgs ();
+			databases_lock_mutex.unlock ();
 		}
 
 		[DBus (no_reply = true)]

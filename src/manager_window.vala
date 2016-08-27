@@ -1618,6 +1618,8 @@ namespace Pamac {
 				if (success) {
 					transaction_running = true;
 					transaction.sysupgrade (false);
+				} else {
+					apply_button.sensitive = true;
 				}
 				refreshing = false;
 			} else {
