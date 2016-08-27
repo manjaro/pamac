@@ -98,7 +98,10 @@ namespace Pamac {
 			stack.add_named (transaction.term_grid, "term");
 			transaction_infobox.pack_start (transaction.progress_box);
 
-			on_refresh_button_clicked ();
+			Timeout.add (500, () => {
+				on_refresh_button_clicked ();
+				return false;
+			});
 
 			stack.notify["visible-child"].connect (on_stack_visible_child_changed);
 

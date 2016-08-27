@@ -722,6 +722,7 @@ namespace Pamac {
 						sysupgrade_simple (enable_downgrade);
 					} else {
 						finish_transaction ();
+						stop_progressbar_pulse ();
 					}
 				}
 			}
@@ -988,6 +989,10 @@ namespace Pamac {
 			string? action = null;
 			string? detailed_action = null;
 			switch (primary_event) {
+				case 0: //special case: wait for database lock
+					action = dgettext (null, "Waiting for another package manager to quit") + "...";
+					start_progressbar_pulse ();
+					break;
 				case 1: //Alpm.Event.Type.CHECKDEPS_START
 					action = dgettext (null, "Checking dependencies") + "...";
 					break;
@@ -1375,6 +1380,7 @@ namespace Pamac {
 		}
 
 		void on_refresh_finished (bool success) {
+			stop_progressbar_pulse ();
 			this.success = success;
 			clear_lists ();
 			if (success) {
@@ -1389,6 +1395,7 @@ namespace Pamac {
 		}
 
 		void on_trans_prepare_finished (bool success) {
+			stop_progressbar_pulse ();
 			this.success = success;
 			if (success) {
 				show_warnings ();

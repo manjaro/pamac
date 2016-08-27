@@ -177,6 +177,10 @@ msgid "Transaction cancelled"
 msgstr ""
 
 #: ../src/transaction.vala
+msgid "Waiting for another package manager to quit"
+msgstr ""
+
+#: ../src/transaction.vala
 msgid "Checking dependencies"
 msgstr ""
 

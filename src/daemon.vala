@@ -194,12 +194,33 @@ namespace Pamac {
 				if (!lockfile.query_exists ()) {
 					extern_lock = false;
 					refresh_handle ();
+					databases_lock_mutex.unlock ();
 				}
 			} else {
 				if (lockfile.query_exists ()) {
 					if (databases_lock_mutex.trylock ()) {
-						extern_lock = true;
-						databases_lock_mutex.unlock ();
+						// Functions trans_prepare, sysupgrade_prepare and refresh threads are blocked until unlock.
+						// An extern lock appears, check if pacman running.
+						int exit_status;
+						try {
+							Process.spawn_command_line_sync ("pidof pacman",
+														null,
+														null,
+														out exit_status);
+						} catch (SpawnError e) {
+							stderr.printf ("Error: %s\n", e.message);
+						}
+						if (exit_status == 0) {
+							extern_lock = true;
+						} else {
+							// Pacman is not running: remove the unneeded lock file.
+							try {
+								lockfile.delete ();
+							} catch (Error e) {
+								stderr.printf ("Error: %s\n", e.message);
+							}
+							databases_lock_mutex.unlock ();
+						}
 					}
 				}
 			}
@@ -313,14 +334,9 @@ namespace Pamac {
 						commands += "-u";
 					}
 					try {
-						var process = new Subprocess.newv (
+						new Subprocess.newv (
 							commands,
-							SubprocessFlags.STDOUT_PIPE | SubprocessFlags.STDERR_MERGE);
-						var dis = new DataInputStream (process.get_stdout_pipe ());
-						string? line;
-						while ((line = dis.read_line ()) != null) {
-							print ("%s\n",line);
-						}
+							SubprocessFlags.STDOUT_SILENCE | SubprocessFlags.STDERR_SILENCE);
 					} catch (Error e) {
 						stderr.printf ("Error: %s\n", e.message);
 					}
@@ -359,7 +375,11 @@ namespace Pamac {
 		}
 
 		private void refresh () {
-			databases_lock_mutex.lock ();
+			if (!databases_lock_mutex.trylock ()) {
+				// Wait for pacman to finish
+				emit_event (0, 0, {});
+				databases_lock_mutex.lock ();
+			}
 			write_log_file ("synchronizing package lists");
 			current_error = ErrorInfos ();
 			int force = (force_refresh) ? 1 : 0;
@@ -1292,7 +1312,11 @@ namespace Pamac {
 		}
 
 		private bool trans_init (Alpm.TransFlag flags) {
-			databases_lock_mutex.lock ();
+			if (!databases_lock_mutex.trylock ()) {
+				// Wait for pacman to finish
+				emit_event (0, 0, {});
+				databases_lock_mutex.lock ();
+			}
 			current_error = ErrorInfos ();
 			cancellable.reset ();
 			if (alpm_handle.trans_init (flags) == -1) {
