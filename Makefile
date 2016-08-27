@@ -41,8 +41,11 @@ install:
 	install -Dm644 data/systemd/pamac.service $(libdir)/systemd/system/pamac.service
 	install -Dm644 data/systemd/pamac-cleancache.service $(libdir)/systemd/system/pamac-cleancache.service
 	install -Dm644 data/systemd/pamac-cleancache.timer $(libdir)/systemd/system/pamac-cleancache.timer
+	install -Dm644 data/systemd/pamac-mirrorlist.service $(libdir)/systemd/system/pamac-mirrorlist.service
+	install -Dm644 data/systemd/pamac-mirrorlist.timer $(libdir)/systemd/system/pamac-mirrorlist.timer
 	mkdir -p $(libdir)/systemd/system/multi-user.target.wants
 	ln -srf $(libdir)/systemd/system/pamac-cleancache.timer $(libdir)/systemd/system/multi-user.target.wants
+	ln -srf $(libdir)/systemd/system/pamac-mirrorlist.timer $(libdir)/systemd/system/multi-user.target.wants
 	install -Dm744 data/networkmanager/99_update_pamac_tray $(sysconfdir)/NetworkManager/dispatcher.d/99_update_pamac_tray
 	install -Dm644 data/polkit/org.manjaro.pamac.policy $(datadir)/polkit-1/actions/org.manjaro.pamac.policy
 	install -Dm644 data/mime/x-alpm-package.xml $(datadir)/mime/packages/x-alpm-package.xml
@@ -72,6 +75,8 @@ uninstall:
 	rm -f $(libdir)/systemd/system/pamac.service
 	rm -f $(libdir)/systemd/system/pamac-cleancache.service
 	rm -f $(libdir)/systemd/system/pamac-cleancache.timer
+	rm -f $(libdir)/systemd/system/pamac-mirrorlist.service
+	rm -f $(libdir)/systemd/system/pamac-mirrorlist.timer
 	rm -f $(libdir)/systemd/system/multi-user.target.wants/pamac-cleancache.timer
 	rm -f $(sysconfdir)/NetworkManager/dispatcher.d/99_update_pamac_tray
 	rm -f $(datadir)/polkit-1/actions/org.manjaro.pamac.policy

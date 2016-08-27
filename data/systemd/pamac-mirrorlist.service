@@ -1,0 +1,6 @@
+[Unit]
+Description=Generate mirrorlist
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/pacman-mirrors -g

@@ -1,0 +1,9 @@
+[Unit]
+Description=Monthly generate mirrorlist
+
+[Timer]
+OnCalendar=monthly
+Persistent=true
+
+[Install]
+WantedBy=timers.target
