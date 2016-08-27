@@ -3,4 +3,4 @@ Description=Clean packages cache
 
 [Service]
 Type=oneshot
-ExecStart=/usr/bin/paccache -rq
+ExecStart=/usr/bin/paccache -r
