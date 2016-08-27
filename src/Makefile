@@ -59,6 +59,7 @@ pamac-tray: $(COMMON_SOURCES) alpm_config.vala tray.vala
 	valac 	-o pamac-tray \
 			$(COMMON_VALA_FLAGS) \
 			--pkg=gtk+-3.0 \
+			--pkg=appindicator3-0.1 \
 			--pkg=libnotify \
 			$(COMMON_SOURCES) \
 			tray.vala

@@ -46,12 +46,15 @@ namespace Pamac {
 		bool extern_lock;
 		uint refresh_timeout_id;
 		Gtk.StatusIcon status_icon;
+		AppIndicator.Indicator indicator_status_icon;
 		Gtk.Menu menu;
 		GLib.File lockfile;
+		bool use_indicator;
 
 		public TrayIcon () {
 			application_id = "org.manjaro.pamac.tray";
 			flags = ApplicationFlags.FLAGS_NONE;
+			use_indicator = Environment.get_variable ("XDG_CURRENT_DESKTOP") == "KDE";
 		}
 
 		void start_daemon () {
@@ -79,8 +82,7 @@ namespace Pamac {
 		// Create menu for right button
 		void create_menu () {
 			menu = new Gtk.Menu ();
-			Gtk.MenuItem item;
-			item = new Gtk.MenuItem.with_label (_("Update Manager"));
+			var item = new Gtk.MenuItem.with_label (_("Update Manager"));
 			item.activate.connect (execute_updater);
 			menu.append (item);
 			item = new Gtk.MenuItem.with_label (_("Package Manager"));
@@ -90,6 +92,9 @@ namespace Pamac {
 			item.activate.connect (this.release);
 			menu.append (item);
 			menu.show_all ();
+			if (use_indicator) {
+				indicator_status_icon.set_menu (menu);
+			}
 		}
 
 		// Show popup menu on right button
@@ -120,8 +125,12 @@ namespace Pamac {
 		}
 
 		public void update_icon (string icon, string info) {
-			status_icon.set_from_icon_name (icon);
-			status_icon.set_tooltip_markup (info);
+			if (use_indicator) {
+				indicator_status_icon.set_icon_full (icon, icon);
+			} else {
+				status_icon.set_from_icon_name (icon);
+				status_icon.set_tooltip_markup (info);
+			}
 		}
 
 		bool start_refresh () {
@@ -141,7 +150,11 @@ namespace Pamac {
 		void on_write_pamac_config_finished (bool recurse, uint64 refresh_period) {
 			launch_refresh_timeout (refresh_period);
 			if (refresh_period == 0) {
-				status_icon.visible = false;
+				if (use_indicator) {
+					indicator_status_icon.set_status (AppIndicator.IndicatorStatus.PASSIVE);
+				} else {
+					status_icon.visible = false;
+				}
 			} else {
 				check_updates ();
 			}
@@ -154,18 +167,30 @@ namespace Pamac {
 		void on_get_updates_finished (Updates updates) {
 			uint updates_nb = updates.repos_updates.length + updates.aur_updates.length;
 			if (updates_nb == 0) {
-				this.update_icon (noupdate_icon_name, noupdate_info);
+				update_icon (noupdate_icon_name, noupdate_info);
 				var pamac_config = new Pamac.Config ("/etc/pamac.conf");
 				if (pamac_config.no_update_hide_icon) {
-					status_icon.visible = false;
+					if (use_indicator) {
+						indicator_status_icon.set_status (AppIndicator.IndicatorStatus.PASSIVE);
+					} else {
+						status_icon.visible = false;
+					}
 				} else {
-					status_icon.visible = true;
+					if (use_indicator) {
+						indicator_status_icon.set_status (AppIndicator.IndicatorStatus.ACTIVE);
+					} else {
+						status_icon.visible = true;
+					}
 				}
 				close_notification();
 			} else {
 				string info = ngettext ("%u available update", "%u available updates", updates_nb).printf (updates_nb);
 				this.update_icon (update_icon_name, info);
-				status_icon.visible = true;
+				if (use_indicator) {
+					indicator_status_icon.set_status (AppIndicator.IndicatorStatus.ACTIVE);
+				} else {
+					status_icon.visible = true;
+				}
 				if (check_pamac_running ()) {
 					update_notification (info);
 				} else {
@@ -312,12 +337,22 @@ namespace Pamac {
 			extern_lock = false;
 			refresh_timeout_id = 0;
 
-			status_icon = new Gtk.StatusIcon ();
-			status_icon.visible  = !(pamac_config.no_update_hide_icon);
+			if (use_indicator) {
+				indicator_status_icon = new AppIndicator.Indicator ("Update Manager", noupdate_icon_name, AppIndicator.IndicatorCategory.APPLICATION_STATUS);
+				indicator_status_icon.set_title (_("Update Manager"));
+				if (pamac_config.no_update_hide_icon) {
+					indicator_status_icon.set_status (AppIndicator.IndicatorStatus.PASSIVE);
+				} else {
+					indicator_status_icon.set_status (AppIndicator.IndicatorStatus.ACTIVE);
+				}
+			} else {
+				status_icon = new Gtk.StatusIcon ();
+				status_icon.visible  = !(pamac_config.no_update_hide_icon);
+				status_icon.activate.connect (left_clicked);
+				status_icon.popup_menu.connect (menu_popup);
+			}
 			update_icon (noupdate_icon_name, noupdate_info);
-			status_icon.activate.connect (left_clicked);
 			create_menu ();
-			status_icon.popup_menu.connect (menu_popup);
 
 			Notify.init (_("Update Manager"));
 
