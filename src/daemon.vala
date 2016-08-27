@@ -1777,7 +1777,6 @@ namespace Pamac {
 		public void quit () {
 			// be sure to not quit with locked databases
 			if (thread_pool.get_num_threads () == 0) {
-				alpm_handle.unlock ();
 				loop.quit ();
 			}
 		}
