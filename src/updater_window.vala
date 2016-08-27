@@ -98,6 +98,8 @@ namespace Pamac {
 			stack.add_named (transaction.term_grid, "term");
 			transaction_infobox.pack_start (transaction.progress_box);
 
+			// A timeout is needed to let the time to the daemon to deal
+			// with potential other package manager process running.
 			Timeout.add (500, () => {
 				on_refresh_button_clicked ();
 				return false;
@@ -284,7 +286,6 @@ namespace Pamac {
 		void populate_updates_list () {
 			transaction_running = false;
 			generate_mirrors_list = false;
-			apply_button.sensitive = true;
 			apply_button.grab_default ();
 			if (!important_details) {
 				details_button.sensitive = false;
@@ -330,8 +331,10 @@ namespace Pamac {
 			uint updates_nb = repos_updates_nb + aur_updates_nb;
 			if (updates_nb == 0) {
 				headerbar.title = dgettext (null, "Your system is up-to-date");
+				apply_button.sensitive = false;
 			} else {
 				headerbar.title = dngettext (null, "%u available update", "%u available updates", updates_nb).printf (updates_nb);
+				apply_button.sensitive = true;
 			}
 			set_transaction_infobox_visible ();
 			if (aur_updates_nb != 0) {
