@@ -5,8 +5,8 @@ STATUS=$2 # The new state of the interface
 
 case "$STATUS" in
     'up') # $INTERFACE is up
-    [[ -e /usr/bin/mhwd-live ]] && sleep 30
-    /usr/bin/pamac-refresh
+      [[ -e /usr/bin/mhwd-live ]] && sleep 30
+      /usr/bin/pamac-refresh
     ;;
 esac
 
