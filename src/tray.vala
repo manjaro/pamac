@@ -91,10 +91,16 @@ namespace Pamac {
 			item = new Gtk.MenuItem.with_mnemonic (_("_Quit"));
 			item.activate.connect (this.release);
 			menu.append (item);
-			menu.show_all ();
 			if (use_indicator) {
+				// add a item without label to not show it in menu
+				// this allow left click action
+				item = new Gtk.MenuItem ();
+				item.activate.connect (left_clicked);
+				menu.append (item);
 				indicator_status_icon.set_menu (menu);
+				indicator_status_icon.set_secondary_activate_target (item);
 			}
+			menu.show_all ();
 		}
 
 		// Show popup menu on right button
@@ -103,7 +109,11 @@ namespace Pamac {
 		}
 
 		void left_clicked () {
-			if (status_icon.icon_name == "pamac-tray-update") {
+			if (use_indicator) {
+				if (indicator_status_icon.get_icon () == "pamac-tray-update") {
+					execute_updater ();
+				}
+			} else if (status_icon.icon_name == "pamac-tray-update") {
 				execute_updater ();
 			}
 		}
