@@ -12,9 +12,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2015-08-20 11:53+0200\n"
-"PO-Revision-Date: 2016-07-18 04:33+0000\n"
-"Last-Translator: Takefumi Nagata\n"
+"POT-Creation-Date: 2016-04-24 08:44+0200\n"
+"PO-Revision-Date: 2016-08-28 08:28+0000\n"
+"Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Japanese (http://www.transifex.com/manjarolinux/manjaro-pamac/language/ja/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -29,6 +29,10 @@ msgstr "認証が必要です"
 #: ../src/daemon.vala
 msgid "Failed to initialize alpm library"
 msgstr "Alpmライブラリの初期化に失敗しました"
+
+#: ../src/daemon.vala ../src/transaction.vala
+msgid "Authentication failed"
+msgstr "認証に失敗"
 
 #: ../src/daemon.vala
 msgid "Failed to synchronize any databases"
@@ -106,10 +110,6 @@ msgstr "%s: %s は既にファイルシステムに存在します"
 msgid "%s is invalid or corrupted"
 msgstr "%s は不適切かあるいは壊れています"
 
-#: ../src/daemon.vala ../src/transaction.vala
-msgid "Authentication failed"
-msgstr "認証に失敗"
-
 #: ../src/daemon.vala
 #, c-format
 msgid "%s appears to be truncated: %jd/%jd bytes\n"
@@ -180,6 +180,10 @@ msgstr "パッケージのビルド中"
 #: ../src/transaction.vala
 msgid "Transaction cancelled"
 msgstr "操作がキャンセルされました"
+
+#: ../src/transaction.vala
+msgid "Waiting for another package manager to quit"
+msgstr ""
 
 #: ../src/transaction.vala
 msgid "Checking dependencies"
@@ -329,7 +333,7 @@ msgstr "エラー"
 msgid "Warning"
 msgstr "警告"
 
-#: ../src/transaction.vala
+#: ../src/transaction.vala ../resources/progress_dialog.ui
 msgid "_Close"
 msgstr "閉じる（_C）"
 
@@ -367,9 +371,10 @@ msgid "%u available update"
 msgid_plural "%u available updates"
 msgstr[0] "%u 種類の利用可能なアップデート"
 
-#: ../src/tray.vala
-msgid "Show available updates"
-msgstr "利用可能な更新を表示"
+#: ../src/tray.vala ../src/manager_window.vala ../resources/progress_dialog.ui
+#: ../resources/manager_window.ui ../resources/updater_window.ui
+msgid "Details"
+msgstr "詳細"
 
 #: ../src/manager_window.vala
 msgid "Deselect"
@@ -382,11 +387,6 @@ msgstr "インストール"
 #: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Remove"
 msgstr "削除"
-
-#: ../src/manager_window.vala ../resources/progress_dialog.ui
-#: ../resources/manager_window.ui ../resources/updater_window.ui
-msgid "Details"
-msgstr "詳細"
 
 #: ../src/manager_window.vala
 #, c-format
@@ -520,8 +520,7 @@ msgstr "名前"
 msgid "Install Local Packages"
 msgstr "ローカルパッケージをインストール"
 
-#: ../src/manager_window.vala ../resources/progress_dialog.ui
-#: ../resources/transaction_sum_dialog.ui ../resources/choose_dep_dialog.ui
+#: ../src/manager_window.vala ../resources/transaction_sum_dialog.ui
 #: ../resources/manager_window.ui ../resources/updater_window.ui
 #: ../resources/choose_ignorepkgs_dialog.ui
 msgid "_Cancel"
@@ -555,7 +554,7 @@ msgstr "ランダム"
 msgid "Choose a Provider"
 msgstr "供給元を選択"
 
-#: ../resources/choose_provider_dialog.ui ../resources/choose_dep_dialog.ui
+#: ../resources/choose_provider_dialog.ui
 #: ../resources/choose_ignorepkgs_dialog.ui
 msgid "Choose"
 msgstr " 選択"
@@ -563,10 +562,6 @@ msgstr " 選択"
 #: ../resources/progress_dialog.ui
 msgid "Progress"
 msgstr "経過"
-
-#: ../resources/progress_dialog.ui
-msgid "_Hide"
-msgstr "隠す（_H）"
 
 #: ../resources/history_dialog.ui
 msgid "Pamac History"
@@ -579,10 +574,6 @@ msgstr "処理の概要"
 #: ../resources/transaction_sum_dialog.ui
 msgid "Commit"
 msgstr "コミット"
-
-#: ../resources/choose_dep_dialog.ui
-msgid "Choose Optional Dependencies"
-msgstr "オプショナルな依存関係を選択してください"
 
 #: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "Refresh databases"
@@ -724,6 +715,22 @@ msgstr "AUR 更新の確認"
 #: ../resources/preferences_dialog.ui
 msgid "Do not ask for confirmation when building packages"
 msgstr "パッケージビルド時に確認を行わない"
+
+#: ../resources/preferences_dialog.ui
+msgid "Number of versions of each package to keep in the cache:"
+msgstr ""
+
+#: ../resources/preferences_dialog.ui
+msgid "Remove only the versions of uninstalled packages"
+msgstr ""
+
+#: ../resources/preferences_dialog.ui
+msgid "Clean cache"
+msgstr ""
+
+#: ../resources/preferences_dialog.ui
+msgid "Cache"
+msgstr ""
 
 #: ../resources/choose_ignorepkgs_dialog.ui
 msgid "Choose Ignored Upgrades"

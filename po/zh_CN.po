@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2015-08-20 11:53+0200\n"
-"PO-Revision-Date: 2016-05-14 10:03+0000\n"
+"POT-Creation-Date: 2016-04-24 08:44+0200\n"
+"PO-Revision-Date: 2016-08-28 08:33+0000\n"
 "Last-Translator: Dz Chen <wsxy162@gmail.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
@@ -31,6 +31,10 @@ msgstr "需要验证"
 #: ../src/daemon.vala
 msgid "Failed to initialize alpm library"
 msgstr "初始化 Alpm 库失败"
+
+#: ../src/daemon.vala ../src/transaction.vala
+msgid "Authentication failed"
+msgstr "验证失败"
 
 #: ../src/daemon.vala
 msgid "Failed to synchronize any databases"
@@ -108,10 +112,6 @@ msgstr "%s： %s 已经在文件系统中存在"
 msgid "%s is invalid or corrupted"
 msgstr "%s 无效或已损坏"
 
-#: ../src/daemon.vala ../src/transaction.vala
-msgid "Authentication failed"
-msgstr "验证失败"
-
 #: ../src/daemon.vala
 #, c-format
 msgid "%s appears to be truncated: %jd/%jd bytes\n"
@@ -182,6 +182,10 @@ msgstr "正在构建软件包"
 #: ../src/transaction.vala
 msgid "Transaction cancelled"
 msgstr "事务已经取消"
+
+#: ../src/transaction.vala
+msgid "Waiting for another package manager to quit"
+msgstr "正在等待另一包管理器退出"
 
 #: ../src/transaction.vala
 msgid "Checking dependencies"
@@ -331,7 +335,7 @@ msgstr "错误"
 msgid "Warning"
 msgstr "警告"
 
-#: ../src/transaction.vala
+#: ../src/transaction.vala ../resources/progress_dialog.ui
 msgid "_Close"
 msgstr "关闭(_C)"
 
@@ -369,9 +373,10 @@ msgid "%u available update"
 msgid_plural "%u available updates"
 msgstr[0] "%u 个可用更新"
 
-#: ../src/tray.vala
-msgid "Show available updates"
-msgstr "显示可用更新"
+#: ../src/tray.vala ../src/manager_window.vala ../resources/progress_dialog.ui
+#: ../resources/manager_window.ui ../resources/updater_window.ui
+msgid "Details"
+msgstr "详情"
 
 #: ../src/manager_window.vala
 msgid "Deselect"
@@ -384,11 +389,6 @@ msgstr "安装"
 #: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Remove"
 msgstr "移除"
-
-#: ../src/manager_window.vala ../resources/progress_dialog.ui
-#: ../resources/manager_window.ui ../resources/updater_window.ui
-msgid "Details"
-msgstr "详情"
 
 #: ../src/manager_window.vala
 #, c-format
@@ -522,8 +522,7 @@ msgstr "名称"
 msgid "Install Local Packages"
 msgstr "安装本地软件包"
 
-#: ../src/manager_window.vala ../resources/progress_dialog.ui
-#: ../resources/transaction_sum_dialog.ui ../resources/choose_dep_dialog.ui
+#: ../src/manager_window.vala ../resources/transaction_sum_dialog.ui
 #: ../resources/manager_window.ui ../resources/updater_window.ui
 #: ../resources/choose_ignorepkgs_dialog.ui
 msgid "_Cancel"
@@ -557,7 +556,7 @@ msgstr "随机"
 msgid "Choose a Provider"
 msgstr "选择提供者"
 
-#: ../resources/choose_provider_dialog.ui ../resources/choose_dep_dialog.ui
+#: ../resources/choose_provider_dialog.ui
 #: ../resources/choose_ignorepkgs_dialog.ui
 msgid "Choose"
 msgstr "选择"
@@ -565,10 +564,6 @@ msgstr "选择"
 #: ../resources/progress_dialog.ui
 msgid "Progress"
 msgstr "进度"
-
-#: ../resources/progress_dialog.ui
-msgid "_Hide"
-msgstr "隐藏(_H)"
 
 #: ../resources/history_dialog.ui
 msgid "Pamac History"
@@ -581,10 +576,6 @@ msgstr "事务概要"
 #: ../resources/transaction_sum_dialog.ui
 msgid "Commit"
 msgstr "提交"
-
-#: ../resources/choose_dep_dialog.ui
-msgid "Choose Optional Dependencies"
-msgstr "选择可选依赖"
 
 #: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "Refresh databases"
@@ -726,6 +717,22 @@ msgstr "从 AUR 检查更新"
 #: ../resources/preferences_dialog.ui
 msgid "Do not ask for confirmation when building packages"
 msgstr "构建软件包时不再请求确认"
+
+#: ../resources/preferences_dialog.ui
+msgid "Number of versions of each package to keep in the cache:"
+msgstr "每个软件包保留在缓存中的版本数目："
+
+#: ../resources/preferences_dialog.ui
+msgid "Remove only the versions of uninstalled packages"
+msgstr "只清除已卸载软件包的版本"
+
+#: ../resources/preferences_dialog.ui
+msgid "Clean cache"
+msgstr "清除缓存"
+
+#: ../resources/preferences_dialog.ui
+msgid "Cache"
+msgstr "缓存"
 
 #: ../resources/choose_ignorepkgs_dialog.ui
 msgid "Choose Ignored Upgrades"

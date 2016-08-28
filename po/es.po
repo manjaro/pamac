@@ -7,7 +7,7 @@
 # danpergal84 <danpergal84@gmail.com>, 2013-2016
 # Guillaume Benoit <guillaume@manjaro.org>, 2013
 # Guillaume Benoit <guillaume@manjaro.org>, 2013
-# Julián Federico Hipólito <julianhipolito@gmail.com>, 2016
+# Julian Hipolito <julianhipolito@gmail.com>, 2016
 # Asta1986 <freudian_order@yahoo.es>, 2014
 # Marchin, 2015
 # Miguel Hernández <michelangelo93@gmail.com>, 2015
@@ -18,8 +18,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2015-08-20 11:53+0200\n"
-"PO-Revision-Date: 2016-05-14 09:54+0000\n"
+"POT-Creation-Date: 2016-04-24 08:44+0200\n"
+"PO-Revision-Date: 2016-08-28 08:28+0000\n"
 "Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Spanish (http://www.transifex.com/manjarolinux/manjaro-pamac/language/es/)\n"
 "MIME-Version: 1.0\n"
@@ -35,6 +35,10 @@ msgstr ""
 #: ../src/daemon.vala
 msgid "Failed to initialize alpm library"
 msgstr "Fallo al iniciar una librería alpm"
+
+#: ../src/daemon.vala ../src/transaction.vala
+msgid "Authentication failed"
+msgstr "Autenticación fallida"
 
 #: ../src/daemon.vala
 msgid "Failed to synchronize any databases"
@@ -112,10 +116,6 @@ msgstr "%s: %s ya existe en el sistema"
 msgid "%s is invalid or corrupted"
 msgstr "%s es inválido o corrupto"
 
-#: ../src/daemon.vala ../src/transaction.vala
-msgid "Authentication failed"
-msgstr "Autenticación fallida"
-
 #: ../src/daemon.vala
 #, c-format
 msgid "%s appears to be truncated: %jd/%jd bytes\n"
@@ -186,6 +186,10 @@ msgstr "Construyendo paquetes"
 #: ../src/transaction.vala
 msgid "Transaction cancelled"
 msgstr "Operación cancelada"
+
+#: ../src/transaction.vala
+msgid "Waiting for another package manager to quit"
+msgstr ""
 
 #: ../src/transaction.vala
 msgid "Checking dependencies"
@@ -336,7 +340,7 @@ msgstr "Error"
 msgid "Warning"
 msgstr "Advertencia"
 
-#: ../src/transaction.vala
+#: ../src/transaction.vala ../resources/progress_dialog.ui
 msgid "_Close"
 msgstr "_Cerrar"
 
@@ -375,9 +379,10 @@ msgid_plural "%u available updates"
 msgstr[0] "%u actualizaciones disponibles"
 msgstr[1] "%u actualizaciones disponibles"
 
-#: ../src/tray.vala
-msgid "Show available updates"
-msgstr "Mostrar actualizaciones disponibles"
+#: ../src/tray.vala ../src/manager_window.vala ../resources/progress_dialog.ui
+#: ../resources/manager_window.ui ../resources/updater_window.ui
+msgid "Details"
+msgstr "Detalles"
 
 #: ../src/manager_window.vala
 msgid "Deselect"
@@ -390,11 +395,6 @@ msgstr "Instalar"
 #: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Remove"
 msgstr "Eliminar"
-
-#: ../src/manager_window.vala ../resources/progress_dialog.ui
-#: ../resources/manager_window.ui ../resources/updater_window.ui
-msgid "Details"
-msgstr "Detalles"
 
 #: ../src/manager_window.vala
 #, c-format
@@ -529,8 +529,7 @@ msgstr "Nombre"
 msgid "Install Local Packages"
 msgstr "Instalar paquetes locales"
 
-#: ../src/manager_window.vala ../resources/progress_dialog.ui
-#: ../resources/transaction_sum_dialog.ui ../resources/choose_dep_dialog.ui
+#: ../src/manager_window.vala ../resources/transaction_sum_dialog.ui
 #: ../resources/manager_window.ui ../resources/updater_window.ui
 #: ../resources/choose_ignorepkgs_dialog.ui
 msgid "_Cancel"
@@ -564,7 +563,7 @@ msgstr "Aleatorio"
 msgid "Choose a Provider"
 msgstr "Elegir un proveedor"
 
-#: ../resources/choose_provider_dialog.ui ../resources/choose_dep_dialog.ui
+#: ../resources/choose_provider_dialog.ui
 #: ../resources/choose_ignorepkgs_dialog.ui
 msgid "Choose"
 msgstr "Escoger"
@@ -572,10 +571,6 @@ msgstr "Escoger"
 #: ../resources/progress_dialog.ui
 msgid "Progress"
 msgstr "Progreso"
-
-#: ../resources/progress_dialog.ui
-msgid "_Hide"
-msgstr "_Ocultar"
 
 #: ../resources/history_dialog.ui
 msgid "Pamac History"
@@ -588,10 +583,6 @@ msgstr "Resumen de la operación"
 #: ../resources/transaction_sum_dialog.ui
 msgid "Commit"
 msgstr "Hacer"
-
-#: ../resources/choose_dep_dialog.ui
-msgid "Choose Optional Dependencies"
-msgstr "Elegir dependencias opcionales"
 
 #: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "Refresh databases"
@@ -733,6 +724,22 @@ msgstr "Comprobar actualizaciones desde AUR"
 #: ../resources/preferences_dialog.ui
 msgid "Do not ask for confirmation when building packages"
 msgstr "No solicitar confirmación cuando se construyan los paquetes"
+
+#: ../resources/preferences_dialog.ui
+msgid "Number of versions of each package to keep in the cache:"
+msgstr ""
+
+#: ../resources/preferences_dialog.ui
+msgid "Remove only the versions of uninstalled packages"
+msgstr ""
+
+#: ../resources/preferences_dialog.ui
+msgid "Clean cache"
+msgstr ""
+
+#: ../resources/preferences_dialog.ui
+msgid "Cache"
+msgstr ""
 
 #: ../resources/choose_ignorepkgs_dialog.ui
 msgid "Choose Ignored Upgrades"

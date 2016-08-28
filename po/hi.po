@@ -12,9 +12,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2015-08-20 11:53+0200\n"
-"PO-Revision-Date: 2016-06-04 16:38+0000\n"
-"Last-Translator: confidential man <confidentialman21@gmail.com>\n"
+"POT-Creation-Date: 2016-04-24 08:44+0200\n"
+"PO-Revision-Date: 2016-08-28 08:28+0000\n"
+"Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Hindi (http://www.transifex.com/manjarolinux/manjaro-pamac/language/hi/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -29,6 +29,10 @@ msgstr "प्रमाणीकरण की आवश्यकता है"
 #: ../src/daemon.vala
 msgid "Failed to initialize alpm library"
 msgstr ""
+
+#: ../src/daemon.vala ../src/transaction.vala
+msgid "Authentication failed"
+msgstr "सत्यापन विफल"
 
 #: ../src/daemon.vala
 msgid "Failed to synchronize any databases"
@@ -106,10 +110,6 @@ msgstr "%s: %s पहले से ही फाइलसिस्टम मे�
 msgid "%s is invalid or corrupted"
 msgstr "%s अमान्य या दूषित है"
 
-#: ../src/daemon.vala ../src/transaction.vala
-msgid "Authentication failed"
-msgstr "सत्यापन विफल"
-
 #: ../src/daemon.vala
 #, c-format
 msgid "%s appears to be truncated: %jd/%jd bytes\n"
@@ -179,6 +179,10 @@ msgstr ""
 
 #: ../src/transaction.vala
 msgid "Transaction cancelled"
+msgstr ""
+
+#: ../src/transaction.vala
+msgid "Waiting for another package manager to quit"
 msgstr ""
 
 #: ../src/transaction.vala
@@ -330,7 +334,7 @@ msgstr "त्रुटि"
 msgid "Warning"
 msgstr "चेतावनी"
 
-#: ../src/transaction.vala
+#: ../src/transaction.vala ../resources/progress_dialog.ui
 msgid "_Close"
 msgstr "_बंद"
 
@@ -369,9 +373,10 @@ msgid_plural "%u available updates"
 msgstr[0] "%u उपलब्ध अद्यतन"
 msgstr[1] "%u उपलब्ध अद्यतन"
 
-#: ../src/tray.vala
-msgid "Show available updates"
-msgstr "उपलब्ध अद्यतन दिखाएँ"
+#: ../src/tray.vala ../src/manager_window.vala ../resources/progress_dialog.ui
+#: ../resources/manager_window.ui ../resources/updater_window.ui
+msgid "Details"
+msgstr "विवरण"
 
 #: ../src/manager_window.vala
 msgid "Deselect"
@@ -384,11 +389,6 @@ msgstr "स्थापित करें"
 #: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Remove"
 msgstr "हटाना"
-
-#: ../src/manager_window.vala ../resources/progress_dialog.ui
-#: ../resources/manager_window.ui ../resources/updater_window.ui
-msgid "Details"
-msgstr "विवरण"
 
 #: ../src/manager_window.vala
 #, c-format
@@ -523,8 +523,7 @@ msgstr "नाम"
 msgid "Install Local Packages"
 msgstr ""
 
-#: ../src/manager_window.vala ../resources/progress_dialog.ui
-#: ../resources/transaction_sum_dialog.ui ../resources/choose_dep_dialog.ui
+#: ../src/manager_window.vala ../resources/transaction_sum_dialog.ui
 #: ../resources/manager_window.ui ../resources/updater_window.ui
 #: ../resources/choose_ignorepkgs_dialog.ui
 msgid "_Cancel"
@@ -558,7 +557,7 @@ msgstr ""
 msgid "Choose a Provider"
 msgstr ""
 
-#: ../resources/choose_provider_dialog.ui ../resources/choose_dep_dialog.ui
+#: ../resources/choose_provider_dialog.ui
 #: ../resources/choose_ignorepkgs_dialog.ui
 msgid "Choose"
 msgstr ""
@@ -566,10 +565,6 @@ msgstr ""
 #: ../resources/progress_dialog.ui
 msgid "Progress"
 msgstr "प्रगति"
-
-#: ../resources/progress_dialog.ui
-msgid "_Hide"
-msgstr ""
 
 #: ../resources/history_dialog.ui
 msgid "Pamac History"
@@ -581,10 +576,6 @@ msgstr "गतिविधि सारांश"
 
 #: ../resources/transaction_sum_dialog.ui
 msgid "Commit"
-msgstr ""
-
-#: ../resources/choose_dep_dialog.ui
-msgid "Choose Optional Dependencies"
 msgstr ""
 
 #: ../resources/manager_window.ui ../resources/updater_window.ui
@@ -726,6 +717,22 @@ msgstr "AUR से अद्यतन के लिए जाँच करें
 
 #: ../resources/preferences_dialog.ui
 msgid "Do not ask for confirmation when building packages"
+msgstr ""
+
+#: ../resources/preferences_dialog.ui
+msgid "Number of versions of each package to keep in the cache:"
+msgstr ""
+
+#: ../resources/preferences_dialog.ui
+msgid "Remove only the versions of uninstalled packages"
+msgstr ""
+
+#: ../resources/preferences_dialog.ui
+msgid "Clean cache"
+msgstr ""
+
+#: ../resources/preferences_dialog.ui
+msgid "Cache"
 msgstr ""
 
 #: ../resources/choose_ignorepkgs_dialog.ui

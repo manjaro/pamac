@@ -18,8 +18,8 @@
 # Lexyc <nirudak@mail.ru>, 2014-2015
 # Lowrider <pams@imail.ru>, 2015
 # Paulo Fino <finomeno@gmail.com>, 2014
-# Umid Almasov <u.almasov@gmail.com>, 2013
-# Umid Almasov <u.almasov@gmail.com>, 2013
+# Umidjon Almasov <u.almasov@gmail.com>, 2013
+# Umidjon Almasov <u.almasov@gmail.com>, 2013
 # Анатолий Валерианович <ffox909@mail.ru>, 2014-2016
 # Андрей Болконский <andrey0bolkonsky@gmail.com>, 2013,2015
 # Дмитрий Герасимов <dimonmmk@yandex.ru>, 2016
@@ -27,9 +27,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2015-08-20 11:53+0200\n"
-"PO-Revision-Date: 2016-05-16 18:21+0000\n"
-"Last-Translator: Анатолий Валерианович <ffox909@mail.ru>\n"
+"POT-Creation-Date: 2016-04-24 08:44+0200\n"
+"PO-Revision-Date: 2016-08-28 08:28+0000\n"
+"Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Russian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -44,6 +44,10 @@ msgstr "Запрошена авторизация"
 #: ../src/daemon.vala
 msgid "Failed to initialize alpm library"
 msgstr "Ошибка инициализации библиотеки alpm"
+
+#: ../src/daemon.vala ../src/transaction.vala
+msgid "Authentication failed"
+msgstr "Ошибка авторизации"
 
 #: ../src/daemon.vala
 msgid "Failed to synchronize any databases"
@@ -121,10 +125,6 @@ msgstr "%s: %s уже существует в файловой системе"
 msgid "%s is invalid or corrupted"
 msgstr "%s недействующий или повреждён"
 
-#: ../src/daemon.vala ../src/transaction.vala
-msgid "Authentication failed"
-msgstr "Ошибка авторизации"
-
 #: ../src/daemon.vala
 #, c-format
 msgid "%s appears to be truncated: %jd/%jd bytes\n"
@@ -195,6 +195,10 @@ msgstr "Сборка пакетов"
 #: ../src/transaction.vala
 msgid "Transaction cancelled"
 msgstr "Транзакция отменена"
+
+#: ../src/transaction.vala
+msgid "Waiting for another package manager to quit"
+msgstr ""
 
 #: ../src/transaction.vala
 msgid "Checking dependencies"
@@ -347,7 +351,7 @@ msgstr "Ошибка"
 msgid "Warning"
 msgstr "Внимание"
 
-#: ../src/transaction.vala
+#: ../src/transaction.vala ../resources/progress_dialog.ui
 msgid "_Close"
 msgstr "_Закрыть"
 
@@ -388,9 +392,10 @@ msgstr[1] "%u доступных обновления"
 msgstr[2] "%u доступных обновлений"
 msgstr[3] "%u доступных обновлений"
 
-#: ../src/tray.vala
-msgid "Show available updates"
-msgstr "Показать доступные обновления"
+#: ../src/tray.vala ../src/manager_window.vala ../resources/progress_dialog.ui
+#: ../resources/manager_window.ui ../resources/updater_window.ui
+msgid "Details"
+msgstr "Подробности"
 
 #: ../src/manager_window.vala
 msgid "Deselect"
@@ -403,11 +408,6 @@ msgstr "Установить"
 #: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Remove"
 msgstr "Удалить"
-
-#: ../src/manager_window.vala ../resources/progress_dialog.ui
-#: ../resources/manager_window.ui ../resources/updater_window.ui
-msgid "Details"
-msgstr "Подробности"
 
 #: ../src/manager_window.vala
 #, c-format
@@ -544,8 +544,7 @@ msgstr "Название"
 msgid "Install Local Packages"
 msgstr "Установить локальные пакеты"
 
-#: ../src/manager_window.vala ../resources/progress_dialog.ui
-#: ../resources/transaction_sum_dialog.ui ../resources/choose_dep_dialog.ui
+#: ../src/manager_window.vala ../resources/transaction_sum_dialog.ui
 #: ../resources/manager_window.ui ../resources/updater_window.ui
 #: ../resources/choose_ignorepkgs_dialog.ui
 msgid "_Cancel"
@@ -579,7 +578,7 @@ msgstr "Случайно"
 msgid "Choose a Provider"
 msgstr "Укажите источник"
 
-#: ../resources/choose_provider_dialog.ui ../resources/choose_dep_dialog.ui
+#: ../resources/choose_provider_dialog.ui
 #: ../resources/choose_ignorepkgs_dialog.ui
 msgid "Choose"
 msgstr "Выбрать"
@@ -587,10 +586,6 @@ msgstr "Выбрать"
 #: ../resources/progress_dialog.ui
 msgid "Progress"
 msgstr "Ход выполнения"
-
-#: ../resources/progress_dialog.ui
-msgid "_Hide"
-msgstr "Скрыть"
 
 #: ../resources/history_dialog.ui
 msgid "Pamac History"
@@ -603,10 +598,6 @@ msgstr "Сводка транзакции"
 #: ../resources/transaction_sum_dialog.ui
 msgid "Commit"
 msgstr "Далее"
-
-#: ../resources/choose_dep_dialog.ui
-msgid "Choose Optional Dependencies"
-msgstr "Выбрать дополнительные зависимости"
 
 #: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "Refresh databases"
@@ -748,6 +739,22 @@ msgstr "Проверить обновления AUR"
 #: ../resources/preferences_dialog.ui
 msgid "Do not ask for confirmation when building packages"
 msgstr "Не спрашивать подтверждение при сборке пакетов"
+
+#: ../resources/preferences_dialog.ui
+msgid "Number of versions of each package to keep in the cache:"
+msgstr ""
+
+#: ../resources/preferences_dialog.ui
+msgid "Remove only the versions of uninstalled packages"
+msgstr ""
+
+#: ../resources/preferences_dialog.ui
+msgid "Clean cache"
+msgstr "Очистить кэш"
+
+#: ../resources/preferences_dialog.ui
+msgid "Cache"
+msgstr "Кэш"
 
 #: ../resources/choose_ignorepkgs_dialog.ui
 msgid "Choose Ignored Upgrades"

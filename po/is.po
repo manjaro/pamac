@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2015-08-20 11:53+0200\n"
-"PO-Revision-Date: 2016-05-30 11:02+0000\n"
-"Last-Translator: Sveinn í Felli <sv1@fellsnet.is>\n"
+"POT-Creation-Date: 2016-04-24 08:44+0200\n"
+"PO-Revision-Date: 2016-08-28 08:28+0000\n"
+"Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Icelandic (http://www.transifex.com/manjarolinux/manjaro-pamac/language/is/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -28,6 +28,10 @@ msgstr "Auðkenningar er krafist"
 #: ../src/daemon.vala
 msgid "Failed to initialize alpm library"
 msgstr "Mistókst að frumstilla alpm aðgerðasafnið"
+
+#: ../src/daemon.vala ../src/transaction.vala
+msgid "Authentication failed"
+msgstr "Auðkenning mistókst"
 
 #: ../src/daemon.vala
 msgid "Failed to synchronize any databases"
@@ -105,10 +109,6 @@ msgstr "%s: %s er þegar til í skráakerfinu"
 msgid "%s is invalid or corrupted"
 msgstr "%s er ógildur eða skemmdur"
 
-#: ../src/daemon.vala ../src/transaction.vala
-msgid "Authentication failed"
-msgstr "Auðkenning mistókst"
-
 #: ../src/daemon.vala
 #, c-format
 msgid "%s appears to be truncated: %jd/%jd bytes\n"
@@ -179,6 +179,10 @@ msgstr "Byggi pakka"
 #: ../src/transaction.vala
 msgid "Transaction cancelled"
 msgstr "Hætt við aðgerð"
+
+#: ../src/transaction.vala
+msgid "Waiting for another package manager to quit"
+msgstr ""
 
 #: ../src/transaction.vala
 msgid "Checking dependencies"
@@ -329,7 +333,7 @@ msgstr "Villa"
 msgid "Warning"
 msgstr "Aðvörun"
 
-#: ../src/transaction.vala
+#: ../src/transaction.vala ../resources/progress_dialog.ui
 msgid "_Close"
 msgstr "_Loka"
 
@@ -368,9 +372,10 @@ msgid_plural "%u available updates"
 msgstr[0] "%u fáanleg uppfærsla"
 msgstr[1] "%u tiltækar uppfærslur"
 
-#: ../src/tray.vala
-msgid "Show available updates"
-msgstr "Sýna tiltækar uppfærslur"
+#: ../src/tray.vala ../src/manager_window.vala ../resources/progress_dialog.ui
+#: ../resources/manager_window.ui ../resources/updater_window.ui
+msgid "Details"
+msgstr "Nánar"
 
 #: ../src/manager_window.vala
 msgid "Deselect"
@@ -383,11 +388,6 @@ msgstr "Setja upp"
 #: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Remove"
 msgstr "Fjarlægja"
-
-#: ../src/manager_window.vala ../resources/progress_dialog.ui
-#: ../resources/manager_window.ui ../resources/updater_window.ui
-msgid "Details"
-msgstr "Nánar"
 
 #: ../src/manager_window.vala
 #, c-format
@@ -522,8 +522,7 @@ msgstr "Nafn"
 msgid "Install Local Packages"
 msgstr "Setja upp pakka á tölvunni"
 
-#: ../src/manager_window.vala ../resources/progress_dialog.ui
-#: ../resources/transaction_sum_dialog.ui ../resources/choose_dep_dialog.ui
+#: ../src/manager_window.vala ../resources/transaction_sum_dialog.ui
 #: ../resources/manager_window.ui ../resources/updater_window.ui
 #: ../resources/choose_ignorepkgs_dialog.ui
 msgid "_Cancel"
@@ -557,7 +556,7 @@ msgstr "Handahófskennt"
 msgid "Choose a Provider"
 msgstr "Veldu útgefanda"
 
-#: ../resources/choose_provider_dialog.ui ../resources/choose_dep_dialog.ui
+#: ../resources/choose_provider_dialog.ui
 #: ../resources/choose_ignorepkgs_dialog.ui
 msgid "Choose"
 msgstr "Velja"
@@ -565,10 +564,6 @@ msgstr "Velja"
 #: ../resources/progress_dialog.ui
 msgid "Progress"
 msgstr "Framvinda"
-
-#: ../resources/progress_dialog.ui
-msgid "_Hide"
-msgstr "_Fela"
 
 #: ../resources/history_dialog.ui
 msgid "Pamac History"
@@ -581,10 +576,6 @@ msgstr "Samantekt aðgerðar"
 #: ../resources/transaction_sum_dialog.ui
 msgid "Commit"
 msgstr "Fremja"
-
-#: ../resources/choose_dep_dialog.ui
-msgid "Choose Optional Dependencies"
-msgstr "Veldu valkvæðar kerfiskröfur"
 
 #: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "Refresh databases"
@@ -726,6 +717,22 @@ msgstr "Athuga með uppfærslur frá AUR"
 #: ../resources/preferences_dialog.ui
 msgid "Do not ask for confirmation when building packages"
 msgstr "Ekki biðja um staðfestingu þegar pakkar eru byggðir"
+
+#: ../resources/preferences_dialog.ui
+msgid "Number of versions of each package to keep in the cache:"
+msgstr ""
+
+#: ../resources/preferences_dialog.ui
+msgid "Remove only the versions of uninstalled packages"
+msgstr ""
+
+#: ../resources/preferences_dialog.ui
+msgid "Clean cache"
+msgstr ""
+
+#: ../resources/preferences_dialog.ui
+msgid "Cache"
+msgstr ""
 
 #: ../resources/choose_ignorepkgs_dialog.ui
 msgid "Choose Ignored Upgrades"

@@ -13,9 +13,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2015-08-20 11:53+0200\n"
-"PO-Revision-Date: 2016-06-11 21:52+0000\n"
-"Last-Translator: Lajos Pasztor <mrlajos@gmail.com>\n"
+"POT-Creation-Date: 2016-04-24 08:44+0200\n"
+"PO-Revision-Date: 2016-08-28 08:28+0000\n"
+"Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Hungarian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/hu/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -30,6 +30,10 @@ msgstr "Hitelesítés szükséges"
 #: ../src/daemon.vala
 msgid "Failed to initialize alpm library"
 msgstr "Nem sikerült inicializálni az alpm könyvtárat"
+
+#: ../src/daemon.vala ../src/transaction.vala
+msgid "Authentication failed"
+msgstr "Hitelesítés nem sikerült"
 
 #: ../src/daemon.vala
 msgid "Failed to synchronize any databases"
@@ -107,10 +111,6 @@ msgstr "%s: %s már létezik a fájlrendszerben"
 msgid "%s is invalid or corrupted"
 msgstr "%s hibás vagy sérült"
 
-#: ../src/daemon.vala ../src/transaction.vala
-msgid "Authentication failed"
-msgstr "Hitelesítés nem sikerült"
-
 #: ../src/daemon.vala
 #, c-format
 msgid "%s appears to be truncated: %jd/%jd bytes\n"
@@ -181,6 +181,10 @@ msgstr "Csomagok építése"
 #: ../src/transaction.vala
 msgid "Transaction cancelled"
 msgstr "Művelet visszavonva"
+
+#: ../src/transaction.vala
+msgid "Waiting for another package manager to quit"
+msgstr ""
 
 #: ../src/transaction.vala
 msgid "Checking dependencies"
@@ -331,7 +335,7 @@ msgstr "Hiba"
 msgid "Warning"
 msgstr "Figyelem"
 
-#: ../src/transaction.vala
+#: ../src/transaction.vala ../resources/progress_dialog.ui
 msgid "_Close"
 msgstr "Bezár"
 
@@ -370,9 +374,10 @@ msgid_plural "%u available updates"
 msgstr[0] "%u elérhető frissítések"
 msgstr[1] "%u  elérhető frissítések"
 
-#: ../src/tray.vala
-msgid "Show available updates"
-msgstr "Mutasd az elérhető frissítéseket"
+#: ../src/tray.vala ../src/manager_window.vala ../resources/progress_dialog.ui
+#: ../resources/manager_window.ui ../resources/updater_window.ui
+msgid "Details"
+msgstr "Részletek"
 
 #: ../src/manager_window.vala
 msgid "Deselect"
@@ -385,11 +390,6 @@ msgstr "Telepítés"
 #: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Remove"
 msgstr "Eltávolít"
-
-#: ../src/manager_window.vala ../resources/progress_dialog.ui
-#: ../resources/manager_window.ui ../resources/updater_window.ui
-msgid "Details"
-msgstr "Részletek"
 
 #: ../src/manager_window.vala
 #, c-format
@@ -524,8 +524,7 @@ msgstr "Név"
 msgid "Install Local Packages"
 msgstr "Helyi csomagok telepítése"
 
-#: ../src/manager_window.vala ../resources/progress_dialog.ui
-#: ../resources/transaction_sum_dialog.ui ../resources/choose_dep_dialog.ui
+#: ../src/manager_window.vala ../resources/transaction_sum_dialog.ui
 #: ../resources/manager_window.ui ../resources/updater_window.ui
 #: ../resources/choose_ignorepkgs_dialog.ui
 msgid "_Cancel"
@@ -559,7 +558,7 @@ msgstr "Vélerlenszerű"
 msgid "Choose a Provider"
 msgstr "Válassz szolgáltatót"
 
-#: ../resources/choose_provider_dialog.ui ../resources/choose_dep_dialog.ui
+#: ../resources/choose_provider_dialog.ui
 #: ../resources/choose_ignorepkgs_dialog.ui
 msgid "Choose"
 msgstr "Kiválaszt"
@@ -567,10 +566,6 @@ msgstr "Kiválaszt"
 #: ../resources/progress_dialog.ui
 msgid "Progress"
 msgstr "Folyamat"
-
-#: ../resources/progress_dialog.ui
-msgid "_Hide"
-msgstr "Elrejt"
 
 #: ../resources/history_dialog.ui
 msgid "Pamac History"
@@ -583,10 +578,6 @@ msgstr "Tranzakció összefoglaló"
 #: ../resources/transaction_sum_dialog.ui
 msgid "Commit"
 msgstr "Végrehajt"
-
-#: ../resources/choose_dep_dialog.ui
-msgid "Choose Optional Dependencies"
-msgstr "Opcionális függőségek kiválasztása"
 
 #: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "Refresh databases"
@@ -728,6 +719,22 @@ msgstr "AUR frissítések keresése"
 #: ../resources/preferences_dialog.ui
 msgid "Do not ask for confirmation when building packages"
 msgstr "Ne kérdezzen rá csomagok építésekor"
+
+#: ../resources/preferences_dialog.ui
+msgid "Number of versions of each package to keep in the cache:"
+msgstr ""
+
+#: ../resources/preferences_dialog.ui
+msgid "Remove only the versions of uninstalled packages"
+msgstr ""
+
+#: ../resources/preferences_dialog.ui
+msgid "Clean cache"
+msgstr ""
+
+#: ../resources/preferences_dialog.ui
+msgid "Cache"
+msgstr ""
 
 #: ../resources/choose_ignorepkgs_dialog.ui
 msgid "Choose Ignored Upgrades"
