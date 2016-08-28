@@ -13,9 +13,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2015-08-20 11:53+0200\n"
-"PO-Revision-Date: 2016-08-15 19:20+0000\n"
-"Last-Translator: Lovro Kudelić <lovro.kudelic@outlook.com>\n"
+"POT-Creation-Date: 2016-04-24 08:44+0200\n"
+"PO-Revision-Date: 2016-08-28 08:28+0000\n"
+"Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Croatian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/hr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -30,6 +30,10 @@ msgstr "Potrebna je autorizacija"
 #: ../src/daemon.vala
 msgid "Failed to initialize alpm library"
 msgstr "Nije uspjela inicijalizacija alpm biblioteke"
+
+#: ../src/daemon.vala ../src/transaction.vala
+msgid "Authentication failed"
+msgstr "Autorizacija nije uspjela"
 
 #: ../src/daemon.vala
 msgid "Failed to synchronize any databases"
@@ -107,10 +111,6 @@ msgstr "%s: %s već postoji u datotečnom sustavu"
 msgid "%s is invalid or corrupted"
 msgstr "%s nije valjan ili je oštećen"
 
-#: ../src/daemon.vala ../src/transaction.vala
-msgid "Authentication failed"
-msgstr "Autorizacija nije uspjela"
-
 #: ../src/daemon.vala
 #, c-format
 msgid "%s appears to be truncated: %jd/%jd bytes\n"
@@ -181,6 +181,10 @@ msgstr "Stvaram pakete"
 #: ../src/transaction.vala
 msgid "Transaction cancelled"
 msgstr "Transakcija prekinuta"
+
+#: ../src/transaction.vala
+msgid "Waiting for another package manager to quit"
+msgstr ""
 
 #: ../src/transaction.vala
 msgid "Checking dependencies"
@@ -332,7 +336,7 @@ msgstr "Greška"
 msgid "Warning"
 msgstr "Upozorenje"
 
-#: ../src/transaction.vala
+#: ../src/transaction.vala ../resources/progress_dialog.ui
 msgid "_Close"
 msgstr "_Zatvori"
 
@@ -372,9 +376,10 @@ msgstr[0] "%u dostupna nadogradnja"
 msgstr[1] "%u dostupne nadogradnje"
 msgstr[2] "%u dostupnih nadogradnji"
 
-#: ../src/tray.vala
-msgid "Show available updates"
-msgstr "Prikaži dostupne nadogradnje"
+#: ../src/tray.vala ../src/manager_window.vala ../resources/progress_dialog.ui
+#: ../resources/manager_window.ui ../resources/updater_window.ui
+msgid "Details"
+msgstr "Detalji"
 
 #: ../src/manager_window.vala
 msgid "Deselect"
@@ -387,11 +392,6 @@ msgstr "Instaliraj"
 #: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Remove"
 msgstr "Ukloni"
-
-#: ../src/manager_window.vala ../resources/progress_dialog.ui
-#: ../resources/manager_window.ui ../resources/updater_window.ui
-msgid "Details"
-msgstr "Detalji"
 
 #: ../src/manager_window.vala
 #, c-format
@@ -527,8 +527,7 @@ msgstr "Ime"
 msgid "Install Local Packages"
 msgstr "Instaliraj lokalne pakete"
 
-#: ../src/manager_window.vala ../resources/progress_dialog.ui
-#: ../resources/transaction_sum_dialog.ui ../resources/choose_dep_dialog.ui
+#: ../src/manager_window.vala ../resources/transaction_sum_dialog.ui
 #: ../resources/manager_window.ui ../resources/updater_window.ui
 #: ../resources/choose_ignorepkgs_dialog.ui
 msgid "_Cancel"
@@ -562,7 +561,7 @@ msgstr "Slučajni odabir"
 msgid "Choose a Provider"
 msgstr "Odaberi davatelja"
 
-#: ../resources/choose_provider_dialog.ui ../resources/choose_dep_dialog.ui
+#: ../resources/choose_provider_dialog.ui
 #: ../resources/choose_ignorepkgs_dialog.ui
 msgid "Choose"
 msgstr "Odaberi"
@@ -570,10 +569,6 @@ msgstr "Odaberi"
 #: ../resources/progress_dialog.ui
 msgid "Progress"
 msgstr "Napredak"
-
-#: ../resources/progress_dialog.ui
-msgid "_Hide"
-msgstr "_Sakrij"
 
 #: ../resources/history_dialog.ui
 msgid "Pamac History"
@@ -586,10 +581,6 @@ msgstr "Sažetak transakcija"
 #: ../resources/transaction_sum_dialog.ui
 msgid "Commit"
 msgstr "Izvrši"
-
-#: ../resources/choose_dep_dialog.ui
-msgid "Choose Optional Dependencies"
-msgstr "Odaberi neobavezne zavisnosti"
 
 #: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "Refresh databases"
@@ -731,6 +722,22 @@ msgstr "Provjeri ažuriranja iz AUR-a"
 #: ../resources/preferences_dialog.ui
 msgid "Do not ask for confirmation when building packages"
 msgstr "Ne pitaj za potvrdu prilikom stvaranja paketa"
+
+#: ../resources/preferences_dialog.ui
+msgid "Number of versions of each package to keep in the cache:"
+msgstr ""
+
+#: ../resources/preferences_dialog.ui
+msgid "Remove only the versions of uninstalled packages"
+msgstr ""
+
+#: ../resources/preferences_dialog.ui
+msgid "Clean cache"
+msgstr ""
+
+#: ../resources/preferences_dialog.ui
+msgid "Cache"
+msgstr ""
 
 #: ../resources/choose_ignorepkgs_dialog.ui
 msgid "Choose Ignored Upgrades"

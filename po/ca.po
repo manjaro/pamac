@@ -16,9 +16,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2015-08-20 11:53+0200\n"
-"PO-Revision-Date: 2016-07-20 07:12+0000\n"
-"Last-Translator: Davidmp <medipas@gmail.com>\n"
+"POT-Creation-Date: 2016-04-24 08:44+0200\n"
+"PO-Revision-Date: 2016-08-28 08:28+0000\n"
+"Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Catalan (http://www.transifex.com/manjarolinux/manjaro-pamac/language/ca/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -33,6 +33,10 @@ msgstr "Cal autenticació"
 #: ../src/daemon.vala
 msgid "Failed to initialize alpm library"
 msgstr "Ha fallat la inicialització de la llibreria alpm"
+
+#: ../src/daemon.vala ../src/transaction.vala
+msgid "Authentication failed"
+msgstr "Autenticació fallida"
 
 #: ../src/daemon.vala
 msgid "Failed to synchronize any databases"
@@ -108,11 +112,7 @@ msgstr "%s: %s ja és al sistema de fitxers"
 #: ../src/daemon.vala
 #, c-format
 msgid "%s is invalid or corrupted"
-msgstr "%s és invàlid o corrupte"
-
-#: ../src/daemon.vala ../src/transaction.vala
-msgid "Authentication failed"
-msgstr "Autenticació fallida"
+msgstr "%s no és vàlid o corrupte"
 
 #: ../src/daemon.vala
 #, c-format
@@ -126,7 +126,7 @@ msgstr "ha fallat l'obtenció del fitxer \"%s\" des de %s : %s\n"
 
 #: ../src/transaction.vala
 msgid "A Gtk3 frontend for libalpm"
-msgstr "Frontend Gtk3 per a libalpm"
+msgstr "Frontal Gtk3 per a libalpm"
 
 #: ../src/transaction.vala
 msgid "Refreshing mirrors list"
@@ -184,6 +184,10 @@ msgstr "Construint els paquets"
 #: ../src/transaction.vala
 msgid "Transaction cancelled"
 msgstr "Transacció cancel·lada"
+
+#: ../src/transaction.vala
+msgid "Waiting for another package manager to quit"
+msgstr ""
 
 #: ../src/transaction.vala
 msgid "Checking dependencies"
@@ -334,13 +338,13 @@ msgstr "Error"
 msgid "Warning"
 msgstr "Avís"
 
-#: ../src/transaction.vala
+#: ../src/transaction.vala ../resources/progress_dialog.ui
 msgid "_Close"
 msgstr "_Tanca"
 
 #: ../src/transaction.vala
 msgid "Nothing to do"
-msgstr "Res per fer"
+msgstr "Res per fer."
 
 #: ../src/transaction.vala
 msgid "Transaction successfully finished"
@@ -373,9 +377,10 @@ msgid_plural "%u available updates"
 msgstr[0] "%u actualització disponible"
 msgstr[1] "%u actualitzacions disponibles"
 
-#: ../src/tray.vala
-msgid "Show available updates"
-msgstr "Mostra les actualitzacions disponibles"
+#: ../src/tray.vala ../src/manager_window.vala ../resources/progress_dialog.ui
+#: ../resources/manager_window.ui ../resources/updater_window.ui
+msgid "Details"
+msgstr "Detalls"
 
 #: ../src/manager_window.vala
 msgid "Deselect"
@@ -388,11 +393,6 @@ msgstr "Instal·la"
 #: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Remove"
 msgstr "Elimina"
-
-#: ../src/manager_window.vala ../resources/progress_dialog.ui
-#: ../resources/manager_window.ui ../resources/updater_window.ui
-msgid "Details"
-msgstr "Detalls"
 
 #: ../src/manager_window.vala
 #, c-format
@@ -527,8 +527,7 @@ msgstr "Nom"
 msgid "Install Local Packages"
 msgstr "Instal·la paquets locals"
 
-#: ../src/manager_window.vala ../resources/progress_dialog.ui
-#: ../resources/transaction_sum_dialog.ui ../resources/choose_dep_dialog.ui
+#: ../src/manager_window.vala ../resources/transaction_sum_dialog.ui
 #: ../resources/manager_window.ui ../resources/updater_window.ui
 #: ../resources/choose_ignorepkgs_dialog.ui
 msgid "_Cancel"
@@ -562,7 +561,7 @@ msgstr "Aleatori"
 msgid "Choose a Provider"
 msgstr "Trieu un proveïdor"
 
-#: ../resources/choose_provider_dialog.ui ../resources/choose_dep_dialog.ui
+#: ../resources/choose_provider_dialog.ui
 #: ../resources/choose_ignorepkgs_dialog.ui
 msgid "Choose"
 msgstr "Tria"
@@ -570,10 +569,6 @@ msgstr "Tria"
 #: ../resources/progress_dialog.ui
 msgid "Progress"
 msgstr "Progrés"
-
-#: ../resources/progress_dialog.ui
-msgid "_Hide"
-msgstr "Ama_ga"
 
 #: ../resources/history_dialog.ui
 msgid "Pamac History"
@@ -586,10 +581,6 @@ msgstr "Resum de la transacció"
 #: ../resources/transaction_sum_dialog.ui
 msgid "Commit"
 msgstr "Fes-ho"
-
-#: ../resources/choose_dep_dialog.ui
-msgid "Choose Optional Dependencies"
-msgstr "Trieu les dependències opcionals"
 
 #: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "Refresh databases"
@@ -731,6 +722,22 @@ msgstr "Comprova si hi ha actualitzacions de l'AUR"
 #: ../resources/preferences_dialog.ui
 msgid "Do not ask for confirmation when building packages"
 msgstr "No demanis confirmació quan es construeixin paquets"
+
+#: ../resources/preferences_dialog.ui
+msgid "Number of versions of each package to keep in the cache:"
+msgstr "Nombre de versions de cada paquet per mantenir a la memòria cau:"
+
+#: ../resources/preferences_dialog.ui
+msgid "Remove only the versions of uninstalled packages"
+msgstr "Elimina només les versions dels paquets desinstal·lats"
+
+#: ../resources/preferences_dialog.ui
+msgid "Clean cache"
+msgstr "Neteja la memòria cau"
+
+#: ../resources/preferences_dialog.ui
+msgid "Cache"
+msgstr "Memòria cau"
 
 #: ../resources/choose_ignorepkgs_dialog.ui
 msgid "Choose Ignored Upgrades"

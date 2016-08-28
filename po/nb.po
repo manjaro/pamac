@@ -22,9 +22,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2015-08-20 11:53+0200\n"
-"PO-Revision-Date: 2016-05-16 11:06+0000\n"
-"Last-Translator: thomas <thomasbjornvold@gmail.com>\n"
+"POT-Creation-Date: 2016-04-24 08:44+0200\n"
+"PO-Revision-Date: 2016-08-28 08:28+0000\n"
+"Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Norwegian Bokmål (http://www.transifex.com/manjarolinux/manjaro-pamac/language/nb/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -39,6 +39,10 @@ msgstr "Autentisering kreves"
 #: ../src/daemon.vala
 msgid "Failed to initialize alpm library"
 msgstr "Kunne ikke initialisere alpm bibliotek"
+
+#: ../src/daemon.vala ../src/transaction.vala
+msgid "Authentication failed"
+msgstr "Autentifisering feilet"
 
 #: ../src/daemon.vala
 msgid "Failed to synchronize any databases"
@@ -116,10 +120,6 @@ msgstr "%s: %s eksisterer allerede i filsystemet"
 msgid "%s is invalid or corrupted"
 msgstr "%s er ugyldig eller skadet"
 
-#: ../src/daemon.vala ../src/transaction.vala
-msgid "Authentication failed"
-msgstr "Autentifisering feilet"
-
 #: ../src/daemon.vala
 #, c-format
 msgid "%s appears to be truncated: %jd/%jd bytes\n"
@@ -190,6 +190,10 @@ msgstr "Bygger pakker"
 #: ../src/transaction.vala
 msgid "Transaction cancelled"
 msgstr "Transaksjon kansellert"
+
+#: ../src/transaction.vala
+msgid "Waiting for another package manager to quit"
+msgstr ""
 
 #: ../src/transaction.vala
 msgid "Checking dependencies"
@@ -340,7 +344,7 @@ msgstr "Feil"
 msgid "Warning"
 msgstr "Advarsel"
 
-#: ../src/transaction.vala
+#: ../src/transaction.vala ../resources/progress_dialog.ui
 msgid "_Close"
 msgstr "_Lukk"
 
@@ -379,9 +383,10 @@ msgid_plural "%u available updates"
 msgstr[0] "%u tilgjengelige oppdatering"
 msgstr[1] "%u tilgjengelige oppdateringer"
 
-#: ../src/tray.vala
-msgid "Show available updates"
-msgstr "Vis tilgjengelige oppdateringer"
+#: ../src/tray.vala ../src/manager_window.vala ../resources/progress_dialog.ui
+#: ../resources/manager_window.ui ../resources/updater_window.ui
+msgid "Details"
+msgstr "Detaljer"
 
 #: ../src/manager_window.vala
 msgid "Deselect"
@@ -394,11 +399,6 @@ msgstr "Installer"
 #: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Remove"
 msgstr "Fjern"
-
-#: ../src/manager_window.vala ../resources/progress_dialog.ui
-#: ../resources/manager_window.ui ../resources/updater_window.ui
-msgid "Details"
-msgstr "Detaljer"
 
 #: ../src/manager_window.vala
 #, c-format
@@ -533,8 +533,7 @@ msgstr "Navn"
 msgid "Install Local Packages"
 msgstr "Installer lokale pakker"
 
-#: ../src/manager_window.vala ../resources/progress_dialog.ui
-#: ../resources/transaction_sum_dialog.ui ../resources/choose_dep_dialog.ui
+#: ../src/manager_window.vala ../resources/transaction_sum_dialog.ui
 #: ../resources/manager_window.ui ../resources/updater_window.ui
 #: ../resources/choose_ignorepkgs_dialog.ui
 msgid "_Cancel"
@@ -568,7 +567,7 @@ msgstr "Tilfeldig"
 msgid "Choose a Provider"
 msgstr "Velg en leverandør"
 
-#: ../resources/choose_provider_dialog.ui ../resources/choose_dep_dialog.ui
+#: ../resources/choose_provider_dialog.ui
 #: ../resources/choose_ignorepkgs_dialog.ui
 msgid "Choose"
 msgstr "Velg"
@@ -576,10 +575,6 @@ msgstr "Velg"
 #: ../resources/progress_dialog.ui
 msgid "Progress"
 msgstr "Framdrift"
-
-#: ../resources/progress_dialog.ui
-msgid "_Hide"
-msgstr "_Gjem"
 
 #: ../resources/history_dialog.ui
 msgid "Pamac History"
@@ -592,10 +587,6 @@ msgstr "Oppsummering av transaksjonen"
 #: ../resources/transaction_sum_dialog.ui
 msgid "Commit"
 msgstr "Legg inn"
-
-#: ../resources/choose_dep_dialog.ui
-msgid "Choose Optional Dependencies"
-msgstr "Valgfrie Avhengigheter"
 
 #: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "Refresh databases"
@@ -737,6 +728,22 @@ msgstr "Se etter oppdateringer fra AUR"
 #: ../resources/preferences_dialog.ui
 msgid "Do not ask for confirmation when building packages"
 msgstr "Ikke spør etter bekreftelse når pakker blir bygget"
+
+#: ../resources/preferences_dialog.ui
+msgid "Number of versions of each package to keep in the cache:"
+msgstr ""
+
+#: ../resources/preferences_dialog.ui
+msgid "Remove only the versions of uninstalled packages"
+msgstr ""
+
+#: ../resources/preferences_dialog.ui
+msgid "Clean cache"
+msgstr ""
+
+#: ../resources/preferences_dialog.ui
+msgid "Cache"
+msgstr ""
 
 #: ../resources/choose_ignorepkgs_dialog.ui
 msgid "Choose Ignored Upgrades"

@@ -4,16 +4,16 @@
 # Guillaume Benoit <guillaume@manjaro.org>, 2013-2016.
 # 
 # Translators:
-# DirectorX <kassavlt@gmail.com>, 2014
+# Xc Vb <kassavlt@gmail.com>, 2014
 # GenghisKhan <genghiskhan@gmx.ca>, 2013-2016
-# DirectorX <kassavlt@gmail.com>, 2014
+# Xc Vb <kassavlt@gmail.com>, 2014
 # philm <philm@manjaro.org>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2015-08-20 11:53+0200\n"
-"PO-Revision-Date: 2016-05-14 09:54+0000\n"
+"POT-Creation-Date: 2016-04-24 08:44+0200\n"
+"PO-Revision-Date: 2016-08-28 08:28+0000\n"
 "Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Hebrew (http://www.transifex.com/manjarolinux/manjaro-pamac/language/he/)\n"
 "MIME-Version: 1.0\n"
@@ -24,11 +24,15 @@ msgstr ""
 
 #: data/polkit/org.manjaro.pamac.policy
 msgid "Authentication is required"
-msgstr ""
+msgstr "נדרש אישור"
 
 #: ../src/daemon.vala
 msgid "Failed to initialize alpm library"
 msgstr "נכשל להתחיל את ספריית alpm"
+
+#: ../src/daemon.vala ../src/transaction.vala
+msgid "Authentication failed"
+msgstr "אימות נכשל"
 
 #: ../src/daemon.vala
 msgid "Failed to synchronize any databases"
@@ -106,19 +110,15 @@ msgstr "%s: %s כבר קיים בתוך מערכת קבצים"
 msgid "%s is invalid or corrupted"
 msgstr "%s שגוי או מושחת"
 
-#: ../src/daemon.vala ../src/transaction.vala
-msgid "Authentication failed"
-msgstr "אימות נכשל"
-
 #: ../src/daemon.vala
 #, c-format
 msgid "%s appears to be truncated: %jd/%jd bytes\n"
-msgstr ""
+msgstr "%s נראה קטוע: %jd/%jd בייטים\n"
 
 #: ../src/daemon.vala
 #, c-format
 msgid "failed retrieving file '%s' from %s : %s\n"
-msgstr ""
+msgstr "נכשל לאחזר קובץ '%s' מתוך %s : %s\n"
 
 #: ../src/transaction.vala
 msgid "A Gtk3 frontend for libalpm"
@@ -180,6 +180,10 @@ msgstr "כעת בונה חבילות"
 #: ../src/transaction.vala
 msgid "Transaction cancelled"
 msgstr "טרנזקציה בוטלה"
+
+#: ../src/transaction.vala
+msgid "Waiting for another package manager to quit"
+msgstr ""
 
 #: ../src/transaction.vala
 msgid "Checking dependencies"
@@ -330,7 +334,7 @@ msgstr "שגיאה"
 msgid "Warning"
 msgstr "אזהרה"
 
-#: ../src/transaction.vala
+#: ../src/transaction.vala ../resources/progress_dialog.ui
 msgid "_Close"
 msgstr "_סגור"
 
@@ -369,9 +373,10 @@ msgid_plural "%u available updates"
 msgstr[0] "עדכון %u זמין"
 msgstr[1] "%u עדכונים זמינים"
 
-#: ../src/tray.vala
-msgid "Show available updates"
-msgstr "הצג עדכונים זמינים"
+#: ../src/tray.vala ../src/manager_window.vala ../resources/progress_dialog.ui
+#: ../resources/manager_window.ui ../resources/updater_window.ui
+msgid "Details"
+msgstr "פרטים"
 
 #: ../src/manager_window.vala
 msgid "Deselect"
@@ -384,11 +389,6 @@ msgstr "התקן"
 #: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Remove"
 msgstr "הסר"
-
-#: ../src/manager_window.vala ../resources/progress_dialog.ui
-#: ../resources/manager_window.ui ../resources/updater_window.ui
-msgid "Details"
-msgstr "פרטים"
 
 #: ../src/manager_window.vala
 #, c-format
@@ -523,8 +523,7 @@ msgstr "שם"
 msgid "Install Local Packages"
 msgstr "התקן חבילות מקומיות"
 
-#: ../src/manager_window.vala ../resources/progress_dialog.ui
-#: ../resources/transaction_sum_dialog.ui ../resources/choose_dep_dialog.ui
+#: ../src/manager_window.vala ../resources/transaction_sum_dialog.ui
 #: ../resources/manager_window.ui ../resources/updater_window.ui
 #: ../resources/choose_ignorepkgs_dialog.ui
 msgid "_Cancel"
@@ -558,7 +557,7 @@ msgstr "אקראי"
 msgid "Choose a Provider"
 msgstr "בחירת ספק"
 
-#: ../resources/choose_provider_dialog.ui ../resources/choose_dep_dialog.ui
+#: ../resources/choose_provider_dialog.ui
 #: ../resources/choose_ignorepkgs_dialog.ui
 msgid "Choose"
 msgstr "בחר"
@@ -566,10 +565,6 @@ msgstr "בחר"
 #: ../resources/progress_dialog.ui
 msgid "Progress"
 msgstr "התקדמות"
-
-#: ../resources/progress_dialog.ui
-msgid "_Hide"
-msgstr "_הסתר"
 
 #: ../resources/history_dialog.ui
 msgid "Pamac History"
@@ -582,10 +577,6 @@ msgstr "סיכום טרנזקציה"
 #: ../resources/transaction_sum_dialog.ui
 msgid "Commit"
 msgstr "בצע"
-
-#: ../resources/choose_dep_dialog.ui
-msgid "Choose Optional Dependencies"
-msgstr "בחר תלויות רשות"
 
 #: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "Refresh databases"
@@ -727,6 +718,22 @@ msgstr "בדוק עדכונים מתוך AUR"
 #: ../resources/preferences_dialog.ui
 msgid "Do not ask for confirmation when building packages"
 msgstr "אל תשאל לאימות כאשר בונים חבילות"
+
+#: ../resources/preferences_dialog.ui
+msgid "Number of versions of each package to keep in the cache:"
+msgstr "מספר גרסאות של כל חבילה לשמירה בתוך המטמון:"
+
+#: ../resources/preferences_dialog.ui
+msgid "Remove only the versions of uninstalled packages"
+msgstr "הסר רק את הגרסאות של חבילות שהוסרו"
+
+#: ../resources/preferences_dialog.ui
+msgid "Clean cache"
+msgstr "טהר מטמון"
+
+#: ../resources/preferences_dialog.ui
+msgid "Cache"
+msgstr "מטמון"
 
 #: ../resources/choose_ignorepkgs_dialog.ui
 msgid "Choose Ignored Upgrades"

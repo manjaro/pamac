@@ -13,9 +13,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2015-08-20 11:53+0200\n"
-"PO-Revision-Date: 2016-05-15 07:12+0000\n"
-"Last-Translator: Demiray Muhterem <mdemiray@msn.com>\n"
+"POT-Creation-Date: 2016-04-24 08:44+0200\n"
+"PO-Revision-Date: 2016-08-28 08:28+0000\n"
+"Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Turkish (http://www.transifex.com/manjarolinux/manjaro-pamac/language/tr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -30,6 +30,10 @@ msgstr "Kimlik doğrulaması gerekli"
 #: ../src/daemon.vala
 msgid "Failed to initialize alpm library"
 msgstr "Alpm kütüphanesi başlatılamadı"
+
+#: ../src/daemon.vala ../src/transaction.vala
+msgid "Authentication failed"
+msgstr "Doğrulama başarısız"
 
 #: ../src/daemon.vala
 msgid "Failed to synchronize any databases"
@@ -107,10 +111,6 @@ msgstr "%s: %s dosya sisteminde zaten mevcut"
 msgid "%s is invalid or corrupted"
 msgstr "%s geçersiz veya bozuk"
 
-#: ../src/daemon.vala ../src/transaction.vala
-msgid "Authentication failed"
-msgstr "Doğrulama başarısız"
-
 #: ../src/daemon.vala
 #, c-format
 msgid "%s appears to be truncated: %jd/%jd bytes\n"
@@ -181,6 +181,10 @@ msgstr "Paketler inşa ediliyor"
 #: ../src/transaction.vala
 msgid "Transaction cancelled"
 msgstr "İşlemden vazgeçildi"
+
+#: ../src/transaction.vala
+msgid "Waiting for another package manager to quit"
+msgstr ""
 
 #: ../src/transaction.vala
 msgid "Checking dependencies"
@@ -331,7 +335,7 @@ msgstr "Hata"
 msgid "Warning"
 msgstr "Uyarı"
 
-#: ../src/transaction.vala
+#: ../src/transaction.vala ../resources/progress_dialog.ui
 msgid "_Close"
 msgstr "_Kapat"
 
@@ -370,9 +374,10 @@ msgid_plural "%u available updates"
 msgstr[0] "%u güncelleme mevcut"
 msgstr[1] "%u güncelleme mevcut"
 
-#: ../src/tray.vala
-msgid "Show available updates"
-msgstr "Hazır güncellemeleri göster"
+#: ../src/tray.vala ../src/manager_window.vala ../resources/progress_dialog.ui
+#: ../resources/manager_window.ui ../resources/updater_window.ui
+msgid "Details"
+msgstr "Ayrıntılar"
 
 #: ../src/manager_window.vala
 msgid "Deselect"
@@ -385,11 +390,6 @@ msgstr "Yükle"
 #: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Remove"
 msgstr "Kaldır"
-
-#: ../src/manager_window.vala ../resources/progress_dialog.ui
-#: ../resources/manager_window.ui ../resources/updater_window.ui
-msgid "Details"
-msgstr "Ayrıntılar"
 
 #: ../src/manager_window.vala
 #, c-format
@@ -524,8 +524,7 @@ msgstr "İsim"
 msgid "Install Local Packages"
 msgstr "Bilgisayarından paket yükle"
 
-#: ../src/manager_window.vala ../resources/progress_dialog.ui
-#: ../resources/transaction_sum_dialog.ui ../resources/choose_dep_dialog.ui
+#: ../src/manager_window.vala ../resources/transaction_sum_dialog.ui
 #: ../resources/manager_window.ui ../resources/updater_window.ui
 #: ../resources/choose_ignorepkgs_dialog.ui
 msgid "_Cancel"
@@ -559,7 +558,7 @@ msgstr "Rastgele"
 msgid "Choose a Provider"
 msgstr "Sağlayıcı Seç"
 
-#: ../resources/choose_provider_dialog.ui ../resources/choose_dep_dialog.ui
+#: ../resources/choose_provider_dialog.ui
 #: ../resources/choose_ignorepkgs_dialog.ui
 msgid "Choose"
 msgstr "Seç"
@@ -567,10 +566,6 @@ msgstr "Seç"
 #: ../resources/progress_dialog.ui
 msgid "Progress"
 msgstr "Süreç"
-
-#: ../resources/progress_dialog.ui
-msgid "_Hide"
-msgstr "_Gizle"
 
 #: ../resources/history_dialog.ui
 msgid "Pamac History"
@@ -583,10 +578,6 @@ msgstr "İşlem Özeti"
 #: ../resources/transaction_sum_dialog.ui
 msgid "Commit"
 msgstr "İşlemleri Uygula"
-
-#: ../resources/choose_dep_dialog.ui
-msgid "Choose Optional Dependencies"
-msgstr "Tercihe Bağlı Bağımlılıkları Seç"
 
 #: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "Refresh databases"
@@ -728,6 +719,22 @@ msgstr "AUR deposundaki güncellemelere bak"
 #: ../resources/preferences_dialog.ui
 msgid "Do not ask for confirmation when building packages"
 msgstr "Paketler inşa edilirken onay veya düzenleme sorulmasın"
+
+#: ../resources/preferences_dialog.ui
+msgid "Number of versions of each package to keep in the cache:"
+msgstr ""
+
+#: ../resources/preferences_dialog.ui
+msgid "Remove only the versions of uninstalled packages"
+msgstr ""
+
+#: ../resources/preferences_dialog.ui
+msgid "Clean cache"
+msgstr "Önbelleği temizle"
+
+#: ../resources/preferences_dialog.ui
+msgid "Cache"
+msgstr "Önbellek"
 
 #: ../resources/choose_ignorepkgs_dialog.ui
 msgid "Choose Ignored Upgrades"

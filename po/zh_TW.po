@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2015-08-20 11:53+0200\n"
-"PO-Revision-Date: 2016-05-15 13:00+0000\n"
-"Last-Translator: Jeff Huang <s8321414@gmail.com>\n"
+"POT-Creation-Date: 2016-04-24 08:44+0200\n"
+"PO-Revision-Date: 2016-08-28 08:28+0000\n"
+"Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -28,6 +28,10 @@ msgstr "需要授權"
 #: ../src/daemon.vala
 msgid "Failed to initialize alpm library"
 msgstr "初始化 alpm 函式庫失敗"
+
+#: ../src/daemon.vala ../src/transaction.vala
+msgid "Authentication failed"
+msgstr "授權失敗"
 
 #: ../src/daemon.vala
 msgid "Failed to synchronize any databases"
@@ -105,10 +109,6 @@ msgstr "%s ： %s 已在檔案系統中存在"
 msgid "%s is invalid or corrupted"
 msgstr "%s 是無效或損毀的"
 
-#: ../src/daemon.vala ../src/transaction.vala
-msgid "Authentication failed"
-msgstr "授權失敗"
-
 #: ../src/daemon.vala
 #, c-format
 msgid "%s appears to be truncated: %jd/%jd bytes\n"
@@ -179,6 +179,10 @@ msgstr "正在構建軟體包"
 #: ../src/transaction.vala
 msgid "Transaction cancelled"
 msgstr "已取消事務處理"
+
+#: ../src/transaction.vala
+msgid "Waiting for another package manager to quit"
+msgstr ""
 
 #: ../src/transaction.vala
 msgid "Checking dependencies"
@@ -328,7 +332,7 @@ msgstr "錯誤"
 msgid "Warning"
 msgstr "警告"
 
-#: ../src/transaction.vala
+#: ../src/transaction.vala ../resources/progress_dialog.ui
 msgid "_Close"
 msgstr "關閉(_C)"
 
@@ -366,9 +370,10 @@ msgid "%u available update"
 msgid_plural "%u available updates"
 msgstr[0] "有 %u 個可用的更新"
 
-#: ../src/tray.vala
-msgid "Show available updates"
-msgstr "顯示可用的更新"
+#: ../src/tray.vala ../src/manager_window.vala ../resources/progress_dialog.ui
+#: ../resources/manager_window.ui ../resources/updater_window.ui
+msgid "Details"
+msgstr "細節"
 
 #: ../src/manager_window.vala
 msgid "Deselect"
@@ -381,11 +386,6 @@ msgstr "安裝"
 #: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Remove"
 msgstr "移除"
-
-#: ../src/manager_window.vala ../resources/progress_dialog.ui
-#: ../resources/manager_window.ui ../resources/updater_window.ui
-msgid "Details"
-msgstr "細節"
 
 #: ../src/manager_window.vala
 #, c-format
@@ -519,8 +519,7 @@ msgstr "名稱"
 msgid "Install Local Packages"
 msgstr "安裝本機套件"
 
-#: ../src/manager_window.vala ../resources/progress_dialog.ui
-#: ../resources/transaction_sum_dialog.ui ../resources/choose_dep_dialog.ui
+#: ../src/manager_window.vala ../resources/transaction_sum_dialog.ui
 #: ../resources/manager_window.ui ../resources/updater_window.ui
 #: ../resources/choose_ignorepkgs_dialog.ui
 msgid "_Cancel"
@@ -554,7 +553,7 @@ msgstr "隨機"
 msgid "Choose a Provider"
 msgstr "選擇一個提供者"
 
-#: ../resources/choose_provider_dialog.ui ../resources/choose_dep_dialog.ui
+#: ../resources/choose_provider_dialog.ui
 #: ../resources/choose_ignorepkgs_dialog.ui
 msgid "Choose"
 msgstr "選擇"
@@ -562,10 +561,6 @@ msgstr "選擇"
 #: ../resources/progress_dialog.ui
 msgid "Progress"
 msgstr "進度"
-
-#: ../resources/progress_dialog.ui
-msgid "_Hide"
-msgstr "隱藏(_H)"
 
 #: ../resources/history_dialog.ui
 msgid "Pamac History"
@@ -578,10 +573,6 @@ msgstr "事務處理概要"
 #: ../resources/transaction_sum_dialog.ui
 msgid "Commit"
 msgstr "遞交"
-
-#: ../resources/choose_dep_dialog.ui
-msgid "Choose Optional Dependencies"
-msgstr "選取選擇性依賴關係"
 
 #: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "Refresh databases"
@@ -723,6 +714,22 @@ msgstr "自 AUR 檢查更新"
 #: ../resources/preferences_dialog.ui
 msgid "Do not ask for confirmation when building packages"
 msgstr "當構建軟體包時不要詢問確認"
+
+#: ../resources/preferences_dialog.ui
+msgid "Number of versions of each package to keep in the cache:"
+msgstr "每個軟體包要保留在快取中的版本數量："
+
+#: ../resources/preferences_dialog.ui
+msgid "Remove only the versions of uninstalled packages"
+msgstr "僅移除未安裝的軟體包版本"
+
+#: ../resources/preferences_dialog.ui
+msgid "Clean cache"
+msgstr "清除快取"
+
+#: ../resources/preferences_dialog.ui
+msgid "Cache"
+msgstr "快取"
 
 #: ../resources/choose_ignorepkgs_dialog.ui
 msgid "Choose Ignored Upgrades"

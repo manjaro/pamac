@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2015-08-20 11:53+0200\n"
-"PO-Revision-Date: 2016-05-14 09:54+0000\n"
+"POT-Creation-Date: 2016-04-24 08:44+0200\n"
+"PO-Revision-Date: 2016-08-28 08:28+0000\n"
 "Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Estonian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/et/)\n"
 "MIME-Version: 1.0\n"
@@ -28,6 +28,10 @@ msgstr ""
 #: ../src/daemon.vala
 msgid "Failed to initialize alpm library"
 msgstr "alpm teeki käivitamine nurjus"
+
+#: ../src/daemon.vala ../src/transaction.vala
+msgid "Authentication failed"
+msgstr "Autentimine nurjus"
 
 #: ../src/daemon.vala
 msgid "Failed to synchronize any databases"
@@ -105,10 +109,6 @@ msgstr "%s: %s on juba failisüsteemis olemas"
 msgid "%s is invalid or corrupted"
 msgstr "%s on kehtetu või rikutud"
 
-#: ../src/daemon.vala ../src/transaction.vala
-msgid "Authentication failed"
-msgstr "Autentimine nurjus"
-
 #: ../src/daemon.vala
 #, c-format
 msgid "%s appears to be truncated: %jd/%jd bytes\n"
@@ -179,6 +179,10 @@ msgstr "Pakettide kompileerimine"
 #: ../src/transaction.vala
 msgid "Transaction cancelled"
 msgstr "Tehing katkestatud"
+
+#: ../src/transaction.vala
+msgid "Waiting for another package manager to quit"
+msgstr ""
 
 #: ../src/transaction.vala
 msgid "Checking dependencies"
@@ -329,7 +333,7 @@ msgstr "Viga"
 msgid "Warning"
 msgstr "Hoiatus"
 
-#: ../src/transaction.vala
+#: ../src/transaction.vala ../resources/progress_dialog.ui
 msgid "_Close"
 msgstr "_Sulge"
 
@@ -368,9 +372,10 @@ msgid_plural "%u available updates"
 msgstr[0] "%u saadaolev uuendus"
 msgstr[1] "%u saadaolevaid uuendusi"
 
-#: ../src/tray.vala
-msgid "Show available updates"
-msgstr "Kuva saadaolevaid uuendusi"
+#: ../src/tray.vala ../src/manager_window.vala ../resources/progress_dialog.ui
+#: ../resources/manager_window.ui ../resources/updater_window.ui
+msgid "Details"
+msgstr "Üksikasjad"
 
 #: ../src/manager_window.vala
 msgid "Deselect"
@@ -383,11 +388,6 @@ msgstr "Paigalda"
 #: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Remove"
 msgstr "Eemalda"
-
-#: ../src/manager_window.vala ../resources/progress_dialog.ui
-#: ../resources/manager_window.ui ../resources/updater_window.ui
-msgid "Details"
-msgstr "Üksikasjad"
 
 #: ../src/manager_window.vala
 #, c-format
@@ -522,8 +522,7 @@ msgstr "Nimi"
 msgid "Install Local Packages"
 msgstr "Paigalda Kohalikud Paketid"
 
-#: ../src/manager_window.vala ../resources/progress_dialog.ui
-#: ../resources/transaction_sum_dialog.ui ../resources/choose_dep_dialog.ui
+#: ../src/manager_window.vala ../resources/transaction_sum_dialog.ui
 #: ../resources/manager_window.ui ../resources/updater_window.ui
 #: ../resources/choose_ignorepkgs_dialog.ui
 msgid "_Cancel"
@@ -557,7 +556,7 @@ msgstr "Suvaline"
 msgid "Choose a Provider"
 msgstr "Valige Pakkuja"
 
-#: ../resources/choose_provider_dialog.ui ../resources/choose_dep_dialog.ui
+#: ../resources/choose_provider_dialog.ui
 #: ../resources/choose_ignorepkgs_dialog.ui
 msgid "Choose"
 msgstr ""
@@ -565,10 +564,6 @@ msgstr ""
 #: ../resources/progress_dialog.ui
 msgid "Progress"
 msgstr "Edenemine"
-
-#: ../resources/progress_dialog.ui
-msgid "_Hide"
-msgstr ""
 
 #: ../resources/history_dialog.ui
 msgid "Pamac History"
@@ -581,10 +576,6 @@ msgstr "Tehingu Kokkuvõte"
 #: ../resources/transaction_sum_dialog.ui
 msgid "Commit"
 msgstr ""
-
-#: ../resources/choose_dep_dialog.ui
-msgid "Choose Optional Dependencies"
-msgstr "Valige Valikulised Sõltuvused"
 
 #: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "Refresh databases"
@@ -726,6 +717,22 @@ msgstr "Kontrolli uuendusi AURist"
 #: ../resources/preferences_dialog.ui
 msgid "Do not ask for confirmation when building packages"
 msgstr "Pakettide kompileerimisel ära küsi kinnitust"
+
+#: ../resources/preferences_dialog.ui
+msgid "Number of versions of each package to keep in the cache:"
+msgstr ""
+
+#: ../resources/preferences_dialog.ui
+msgid "Remove only the versions of uninstalled packages"
+msgstr ""
+
+#: ../resources/preferences_dialog.ui
+msgid "Clean cache"
+msgstr ""
+
+#: ../resources/preferences_dialog.ui
+msgid "Cache"
+msgstr ""
 
 #: ../resources/choose_ignorepkgs_dialog.ui
 msgid "Choose Ignored Upgrades"
