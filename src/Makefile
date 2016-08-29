@@ -18,7 +18,17 @@ PAMAC_LIB_FLAGS = 	-X -I. \
 					-X -L. \
 					-X -lpamac \
 					--vapidir=./ \
-					--pkg=pamac \
+					--pkg=pamac
+
+PAMAC_TRAY_PKG_FLAGS := 	--pkg=gtk+-3.0 \
+							--pkg=libnotify
+
+HAS_AI = `pkg-config --exists appindicator3-0.1 && echo 0`
+
+ifeq ($(HAS_AI),0)
+	PAMAC_TRAY_PKG_FLAGS += --pkg=appindicator3-0.1 \
+							-D_HAS_AI=true
+endif
 
 COMMON_SOURCES = 	common.vala \
 					pamac_config.vala
@@ -58,9 +68,7 @@ pamac-refresh: pamac_config.vala refresh.vala
 pamac-tray: $(COMMON_SOURCES) alpm_config.vala tray.vala
 	valac 	-o pamac-tray \
 			$(COMMON_VALA_FLAGS) \
-			--pkg=gtk+-3.0 \
-			--pkg=appindicator3-0.1 \
-			--pkg=libnotify \
+			$(PAMAC_TRAY_PKG_FLAGS) \
 			$(COMMON_SOURCES) \
 			tray.vala
 

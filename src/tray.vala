@@ -24,6 +24,12 @@ const string update_icon_name = "pamac-tray-update";
 const string noupdate_icon_name = "pamac-tray-no-update";
 const string noupdate_info = _("Your system is up-to-date");
 
+#if HAS_AI
+	const bool HAS_AI = true;
+#else
+	const bool HAS_AI = false;
+#endif
+
 namespace Pamac {
 	[DBus (name = "org.manjaro.pamac")]
 	interface Daemon : Object {
@@ -39,6 +45,23 @@ namespace Pamac {
 		public signal void write_alpm_config_finished (bool checkspace);
 	}
 
+#if HAS_AI
+	class Indicator: AppIndicator.Indicator {}
+#else
+	enum AppIndicator.IndicatorStatus { ACTIVE, PASSIVE; }
+	enum AppIndicator.IndicatorCategory { APPLICATION_STATUS; }
+	
+	class AppIndicator.Indicator : Object {
+		public void set_menu (Gtk.Menu menu) {}
+		public void set_icon_full (string icon_name, string icon_description) {}
+		public void set_status (AppIndicator.IndicatorStatus status) {}
+		public void set_title (string title) {}
+		public void set_secondary_activate_target (Gtk.Widget target) {}
+		public string get_icon () { return ""; }
+		public Indicator (string update, string no_update, AppIndicator.IndicatorCategory category) {}
+	}
+#endif
+
 	class TrayIcon: Gtk.Application {
 		Notify.Notification notification;
 //~ 		Notification notification;
@@ -47,6 +70,8 @@ namespace Pamac {
 		uint refresh_timeout_id;
 		Gtk.StatusIcon status_icon;
 		AppIndicator.Indicator indicator_status_icon;
+
+
 		Gtk.Menu menu;
 		GLib.File lockfile;
 		bool use_indicator;
@@ -54,7 +79,7 @@ namespace Pamac {
 		public TrayIcon () {
 			application_id = "org.manjaro.pamac.tray";
 			flags = ApplicationFlags.FLAGS_NONE;
-			use_indicator = Environment.get_variable ("XDG_CURRENT_DESKTOP") == "KDE";
+			use_indicator = HAS_AI && Environment.get_variable ("XDG_CURRENT_DESKTOP") == "KDE";
 		}
 
 		void start_daemon () {
