@@ -57,7 +57,7 @@ namespace Pamac {
 		public void set_status (AppIndicator.IndicatorStatus status) {}
 		public void set_title (string title) {}
 		public void set_secondary_activate_target (Gtk.Widget target) {}
-		public string get_icon () { return ''; }
+		public string get_icon () { return ""; }
 		public Indicator (string update, string no_update, AppIndicator.IndicatorCategory category) {}
 	}
 #endif
