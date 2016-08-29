@@ -45,7 +45,7 @@ INSTALLER_GRESOURCE_FILE = ../resources/pamac.installer.gresource.xml
 binaries: pamac-refresh pamac-daemon pamac-tray pamac-updater pamac-manager pamac-install
 
 clean:
-	rm -f *.c pamac.h pamac.vapi libpamac.so pamac-refresh pamac-daemon pamac-tray pamac-updater pamac-manager pamac-install
+	rm -f *.c pamac.h pamac.vapi libpamac.so pamac-refresh pamac-daemon pamac-tray  pamac-tray-appindicator pamac-updater pamac-manager pamac-install
 
 pamac-refresh: pamac_config.vala refresh.vala
 	valac 	-o pamac-refresh \
@@ -55,13 +55,23 @@ pamac-refresh: pamac_config.vala refresh.vala
 			pamac_config.vala \
 			refresh.vala
 
-pamac-tray: $(COMMON_SOURCES) alpm_config.vala tray.vala
+pamac-tray: $(COMMON_SOURCES) alpm_config.vala tray.vala tray-gtk.vala
 	valac 	-o pamac-tray \
+			$(COMMON_VALA_FLAGS) \
+			--pkg=gtk+-3.0 \
+			--pkg=libnotify \
+			$(COMMON_SOURCES) \
+			tray-gtk.vala \
+			tray.vala
+
+pamac-tray-appindicator: $(COMMON_SOURCES) alpm_config.vala tray.vala tray-appindicator.vala
+	valac 	-o pamac-tray-appindicator \
 			$(COMMON_VALA_FLAGS) \
 			--pkg=gtk+-3.0 \
 			--pkg=appindicator3-0.1 \
 			--pkg=libnotify \
 			$(COMMON_SOURCES) \
+			tray-appindicator.vala \
 			tray.vala
 
 pamac-daemon: ../vapi/libalpm.vapi ../vapi/polkit-gobject-1.vapi ../vapi/libcurl.vapi alpm_config.vala $(COMMON_SOURCES) package.vala aur.vala mirrors_config.vala daemon.vala

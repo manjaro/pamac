@@ -7,9 +7,12 @@ datadir := $(prefix)/share
 localedir := $(datadir)/locale
 sysconfdir ?= /etc
 
+use_appindicator ?= false
+
 all:
 	cd resources && make resources
 	cd src && make binaries
+	[ $(use_appindicator) = true ] && cd src && make pamac-tray-appindicator || echo no appindicator support
 	cd po && make gettext
 
 clean:
@@ -27,11 +30,13 @@ install:
 	install -Dm755 src/libpamac.so $(libdir)/libpamac.so
 	install -Dm744 src/pamac-daemon $(bindir)/pamac-daemon
 	install -Dm755 src/pamac-tray $(bindir)/pamac-tray
+	[ -e src/pamac-tray-appindicator ] && install -Dm755 src/pamac-tray-appindicator $(bindir)/pamac-tray-appindicator || echo > /dev/null
 	install -Dm755 src/pamac-manager $(bindir)/pamac-manager
 	install -Dm755 src/pamac-updater $(bindir)/pamac-updater
 	install -Dm755 src/pamac-install $(bindir)/pamac-install
 	install -Dm755 src/pamac-refresh $(bindir)/pamac-refresh
 	install -Dm644 data/applications/pamac-tray.desktop $(sysconfdir)/xdg/autostart/pamac-tray.desktop
+	[ -e src/pamac-tray-appindicator ] && install -Dm644 data/applications/pamac-tray-appindicator.desktop $(sysconfdir)/xdg/autostart/pamac-tray-appindicator.desktop || echo > /dev/null
 	install -Dm644 data/applications/pamac-manager.desktop $(datadir)/applications/pamac-manager.desktop
 	install -Dm644 data/applications/pamac-updater.desktop $(datadir)/applications/pamac-updater.desktop
 	install -Dm644 data/applications/pamac-install.desktop $(datadir)/applications/pamac-install.desktop
@@ -61,11 +66,13 @@ uninstall:
 	rm -f $(libdir)/libpamac.so
 	rm -f $(bindir)/pamac-daemon
 	rm -f $(bindir)/pamac-tray
+	rm -f $(bindir)/pamac-tray-appindicator
 	rm -f $(bindir)/pamac-manager
 	rm -f $(bindir)/pamac-updater
 	rm -f $(bindir)/pamac-install
 	rm -f $(bindir)/pamac-refresh
 	rm -f $(sysconfdir)/xdg/autostart/pamac-tray.desktop
+	rm -f $(sysconfdir)/xdg/autostart/pamac-tray-appindicator.desktop
 	rm -f $(datadir)/applications/pamac-manager.desktop
 	rm -f $(datadir)/applications/pamac-updater.desktop
 	rm -f $(datadir)/applications/pamac-install.desktop

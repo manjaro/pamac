@@ -39,23 +39,20 @@ namespace Pamac {
 		public signal void write_alpm_config_finished (bool checkspace);
 	}
 
-	class TrayIcon: Gtk.Application {
+	public abstract class TrayIcon: Gtk.Application {
 		Notify.Notification notification;
-//~ 		Notification notification;
 		Daemon daemon;
 		bool extern_lock;
 		uint refresh_timeout_id;
-		Gtk.StatusIcon status_icon;
-		AppIndicator.Indicator indicator_status_icon;
-		Gtk.Menu menu;
+		public Gtk.Menu menu;
 		GLib.File lockfile;
-		bool use_indicator;
 
 		public TrayIcon () {
 			application_id = "org.manjaro.pamac.tray";
 			flags = ApplicationFlags.FLAGS_NONE;
-			use_indicator = Environment.get_variable ("XDG_CURRENT_DESKTOP") == "KDE";
 		}
+
+		public abstract void init_status_icon ();
 
 		void start_daemon () {
 			try {
@@ -91,29 +88,11 @@ namespace Pamac {
 			item = new Gtk.MenuItem.with_mnemonic (_("_Quit"));
 			item.activate.connect (this.release);
 			menu.append (item);
-			if (use_indicator) {
-				// add a item without label to not show it in menu
-				// this allow left click action
-				item = new Gtk.MenuItem ();
-				item.activate.connect (left_clicked);
-				menu.append (item);
-				indicator_status_icon.set_menu (menu);
-				indicator_status_icon.set_secondary_activate_target (item);
-			}
 			menu.show_all ();
 		}
 
-		// Show popup menu on right button
-		void menu_popup (uint button, uint time) {
-			menu.popup (null, null, null, button, time);
-		}
-
-		void left_clicked () {
-			if (use_indicator) {
-				if (indicator_status_icon.get_icon () == "pamac-tray-update") {
-					execute_updater ();
-				}
-			} else if (status_icon.icon_name == "pamac-tray-update") {
+		public void left_clicked () {
+			if (get_icon () == "pamac-tray-update") {
 				execute_updater ();
 			}
 		}
@@ -134,14 +113,13 @@ namespace Pamac {
 			}
 		}
 
-		public void update_icon (string icon, string info) {
-			if (use_indicator) {
-				indicator_status_icon.set_icon_full (icon, icon);
-			} else {
-				status_icon.set_from_icon_name (icon);
-				status_icon.set_tooltip_markup (info);
-			}
-		}
+		public abstract void set_tooltip (string info);
+
+		public abstract void set_icon (string icon);
+
+		public abstract string get_icon ();
+
+		public abstract void set_icon_visible (bool visible);
 
 		bool start_refresh () {
 			// if pamac is not running start refresh else just check updates 
@@ -160,11 +138,7 @@ namespace Pamac {
 		void on_write_pamac_config_finished (bool recurse, uint64 refresh_period) {
 			launch_refresh_timeout (refresh_period);
 			if (refresh_period == 0) {
-				if (use_indicator) {
-					indicator_status_icon.set_status (AppIndicator.IndicatorStatus.PASSIVE);
-				} else {
-					status_icon.visible = false;
-				}
+				set_icon_visible (false);
 			} else {
 				check_updates ();
 			}
@@ -177,30 +151,16 @@ namespace Pamac {
 		void on_get_updates_finished (Updates updates) {
 			uint updates_nb = updates.repos_updates.length + updates.aur_updates.length;
 			if (updates_nb == 0) {
-				update_icon (noupdate_icon_name, noupdate_info);
+				set_icon (noupdate_icon_name);
+				set_tooltip (noupdate_info);
 				var pamac_config = new Pamac.Config ("/etc/pamac.conf");
-				if (pamac_config.no_update_hide_icon) {
-					if (use_indicator) {
-						indicator_status_icon.set_status (AppIndicator.IndicatorStatus.PASSIVE);
-					} else {
-						status_icon.visible = false;
-					}
-				} else {
-					if (use_indicator) {
-						indicator_status_icon.set_status (AppIndicator.IndicatorStatus.ACTIVE);
-					} else {
-						status_icon.visible = true;
-					}
-				}
+				set_icon_visible (!pamac_config.no_update_hide_icon);
 				close_notification();
 			} else {
 				string info = ngettext ("%u available update", "%u available updates", updates_nb).printf (updates_nb);
-				this.update_icon (update_icon_name, info);
-				if (use_indicator) {
-					indicator_status_icon.set_status (AppIndicator.IndicatorStatus.ACTIVE);
-				} else {
-					status_icon.visible = true;
-				}
+				set_icon (update_icon_name);
+				set_tooltip (info);
+				set_icon_visible (true);
 				if (check_pamac_running ()) {
 					update_notification (info);
 				} else {
@@ -223,17 +183,6 @@ namespace Pamac {
 		}
 
 		void show_notification (string info) {
-//~ 				notification = new Notification (_("Update Manager"));
-//~ 				notification.set_body (info);
-//~ 				Gtk.IconTheme icon_theme = Gtk.IconTheme.get_default ();
-//~ 				Gdk.Pixbuf icon = icon_theme.load_icon ("system-software-update", 32, 0);
-//~ 				notification.set_icon (icon);
-//~ 				var action = new SimpleAction ("update", null);
-//~ 				action.activate.connect (execute_updater);
-//~ 				this.add_action (action);
-//~ 				notification.add_button (_("Show available updates"), "app.update");
-//~ 				notification.set_default_action ("app.update");
-//~ 				this.send_notification (_("Update Manager"), notification);
 			try {
 				close_notification();
 				notification = new Notify.Notification (_("Update Manager"), info, "system-software-update");
@@ -347,22 +296,8 @@ namespace Pamac {
 			extern_lock = false;
 			refresh_timeout_id = 0;
 
-			if (use_indicator) {
-				indicator_status_icon = new AppIndicator.Indicator ("Update Manager", noupdate_icon_name, AppIndicator.IndicatorCategory.APPLICATION_STATUS);
-				indicator_status_icon.set_title (_("Update Manager"));
-				if (pamac_config.no_update_hide_icon) {
-					indicator_status_icon.set_status (AppIndicator.IndicatorStatus.PASSIVE);
-				} else {
-					indicator_status_icon.set_status (AppIndicator.IndicatorStatus.ACTIVE);
-				}
-			} else {
-				status_icon = new Gtk.StatusIcon ();
-				status_icon.visible  = !(pamac_config.no_update_hide_icon);
-				status_icon.activate.connect (left_clicked);
-				status_icon.popup_menu.connect (menu_popup);
-			}
-			update_icon (noupdate_icon_name, noupdate_info);
 			create_menu ();
+			init_status_icon ();
 
 			Notify.init (_("Update Manager"));
 
@@ -385,9 +320,5 @@ namespace Pamac {
 			// nothing to do
 		}
 
-		static int main (string[] args) {
-			var tray_icon = new TrayIcon();
-			return tray_icon.run (args);
-		}
 	}
 }
