@@ -52,21 +52,39 @@ private int alpm_pkg_sort_search_by_relevance (Alpm.Package pkg_a, Alpm.Package 
 			return 1;
 		}
 		if (pkg_a.name.has_prefix (global_search_string + "-")) {
+			if (pkg_b.name.has_prefix (global_search_string + "-")) {
+				return strcmp (pkg_a.name, pkg_b.name);
+			}
 			return 0;
 		}
 		if (pkg_b.name.has_prefix (global_search_string + "-")) {
+			if (pkg_a.name.has_prefix (global_search_string + "-")) {
+				return strcmp (pkg_a.name, pkg_b.name);
+			}
 			return 1;
 		}
 		if (pkg_a.name.has_prefix (global_search_string)) {
+			if (pkg_b.name.has_prefix (global_search_string)) {
+				return strcmp (pkg_a.name, pkg_b.name);
+			}
 			return 0;
 		}
 		if (pkg_b.name.has_prefix (global_search_string)) {
+			if (pkg_a.name.has_prefix (global_search_string)) {
+				return strcmp (pkg_a.name, pkg_b.name);
+			}
 			return 1;
 		}
 		if (pkg_a.name.contains (global_search_string)) {
+			if (pkg_b.name.contains (global_search_string)) {
+				return strcmp (pkg_a.name, pkg_b.name);
+			}
 			return 0;
 		}
 		if (pkg_b.name.contains (global_search_string)) {
+			if (pkg_a.name.contains (global_search_string)) {
+				return strcmp (pkg_a.name, pkg_b.name);
+			}
 			return 1;
 		}
 	}
