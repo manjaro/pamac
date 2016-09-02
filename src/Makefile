@@ -109,7 +109,6 @@ pamac-manager: libpamac.so ../resources/manager_resources.c manager_window.vala 
 	valac 	-o pamac-manager \
 			$(COMMON_VALA_FLAGS) \
 			$(PAMAC_LIB_FLAGS) \
-			--pkg=json-glib-1.0 \
 			--pkg=gtk+-3.0 \
 			--pkg=gdk-3.0 \
 			--gresources=$(MANAGER_GRESOURCE_FILE) \
@@ -121,7 +120,6 @@ pamac-updater: libpamac.so ../resources/updater_resources.c updater_window.vala 
 	valac 	-o pamac-updater \
 			$(COMMON_VALA_FLAGS) \
 			$(PAMAC_LIB_FLAGS) \
-			--pkg=json-glib-1.0 \
 			--pkg=gtk+-3.0 \
 			--pkg=gdk-3.0 \
 			--gresources=$(UPDATER_GRESOURCE_FILE) \
@@ -133,7 +131,6 @@ pamac-install: libpamac.so ../resources/installer_resources.c progress_dialog.va
 	valac 	-o pamac-install \
 			$(COMMON_VALA_FLAGS) \
 			$(PAMAC_LIB_FLAGS) \
-			--pkg=json-glib-1.0 \
 			--pkg=gtk+-3.0 \
 			--gresources=$(INSTALLER_GRESOURCE_FILE) \
 			../resources/installer_resources.c \
