@@ -12,7 +12,7 @@ use_appindicator ?= false
 all:
 	cd resources && make resources
 	cd src && make binaries
-	[ $(use_appindicator) = true ] && cd src && make pamac-tray-appindicator || echo no appindicator support
+	[ $(use_appindicator) = true ] && cd src && make pamac-tray-appindicator || echo "no appindicator support"
 	cd po && make gettext
 
 clean:
@@ -20,7 +20,7 @@ clean:
 	cd src && make clean
 	cd po && make clean
 
-install:
+install: install_pamac-tray-appindicator
 	mkdir -p $(prefix)/share/icons/hicolor
 	cp -r data/icons/* $(prefix)/share/icons/hicolor
 	mkdir -p $(localedir)
@@ -30,13 +30,11 @@ install:
 	install -Dm755 src/libpamac.so $(libdir)/libpamac.so
 	install -Dm744 src/pamac-daemon $(bindir)/pamac-daemon
 	install -Dm755 src/pamac-tray $(bindir)/pamac-tray
-	[ -e src/pamac-tray-appindicator ] && install -Dm755 src/pamac-tray-appindicator $(bindir)/pamac-tray-appindicator || echo > /dev/null
 	install -Dm755 src/pamac-manager $(bindir)/pamac-manager
 	install -Dm755 src/pamac-updater $(bindir)/pamac-updater
 	install -Dm755 src/pamac-install $(bindir)/pamac-install
 	install -Dm755 src/pamac-refresh $(bindir)/pamac-refresh
 	install -Dm644 data/applications/pamac-tray.desktop $(sysconfdir)/xdg/autostart/pamac-tray.desktop
-	[ -e src/pamac-tray-appindicator ] && install -Dm644 data/applications/pamac-tray-appindicator.desktop $(sysconfdir)/xdg/autostart/pamac-tray-appindicator.desktop || echo > /dev/null
 	install -Dm644 data/applications/pamac-manager.desktop $(datadir)/applications/pamac-manager.desktop
 	install -Dm644 data/applications/pamac-updater.desktop $(datadir)/applications/pamac-updater.desktop
 	install -Dm644 data/applications/pamac-install.desktop $(datadir)/applications/pamac-install.desktop
@@ -54,6 +52,10 @@ install:
 	install -Dm744 data/networkmanager/99_update_pamac_tray $(sysconfdir)/NetworkManager/dispatcher.d/99_update_pamac_tray
 	install -Dm644 data/polkit/org.manjaro.pamac.policy $(datadir)/polkit-1/actions/org.manjaro.pamac.policy
 	install -Dm644 data/mime/x-alpm-package.xml $(datadir)/mime/packages/x-alpm-package.xml
+
+install_pamac-tray-appindicator:
+	install -Dm755 src/pamac-tray-appindicator $(bindir)/pamac-tray-appindicator &> /dev/null && \
+	install -Dm644 data/applications/pamac-tray-appindicator.desktop $(sysconfdir)/xdg/autostart/pamac-tray-appindicator.desktop  &> /dev/null || echo no appindicator support
 
 uninstall:
 	rm -f $(datadir)/icons/hicolor/16x16/apps/system-software-install.png
