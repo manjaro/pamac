@@ -27,7 +27,7 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2016-04-24 08:44+0200\n"
-"PO-Revision-Date: 2016-08-28 08:28+0000\n"
+"PO-Revision-Date: 2016-09-04 15:28+0000\n"
 "Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: German (http://www.transifex.com/manjarolinux/manjaro-pamac/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -197,7 +197,7 @@ msgstr "Vorgang abgebrochen"
 
 #: ../src/transaction.vala
 msgid "Waiting for another package manager to quit"
-msgstr ""
+msgstr "Warte auf Beendigung eines anderen Paketmanagers"
 
 #: ../src/transaction.vala
 msgid "Checking dependencies"
@@ -735,19 +735,19 @@ msgstr "Beim Erstellen von Paketen nicht nach Bestätigung fragen"
 
 #: ../resources/preferences_dialog.ui
 msgid "Number of versions of each package to keep in the cache:"
-msgstr ""
+msgstr "Anzahl der vorgehaltenen Versionen eines Paketes im Cache:"
 
 #: ../resources/preferences_dialog.ui
 msgid "Remove only the versions of uninstalled packages"
-msgstr ""
+msgstr "Entferne nur Versionen von deinstallierten Paketen"
 
 #: ../resources/preferences_dialog.ui
 msgid "Clean cache"
-msgstr ""
+msgstr "Cache aufräumen"
 
 #: ../resources/preferences_dialog.ui
 msgid "Cache"
-msgstr ""
+msgstr "Cache"
 
 #: ../resources/choose_ignorepkgs_dialog.ui
 msgid "Choose Ignored Upgrades"
