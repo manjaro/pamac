@@ -2,7 +2,7 @@
 # Copyright (C) 2013-2016 Manjaro Developers <manjaro-dev@manjaro.org>
 # This file is distributed under the same license as the Pamac package.
 # Guillaume Benoit <guillaume@manjaro.org>, 2013-2016.
-# 
+#
 # Translators:
 # halfark <vojtechprecechtel@gmail.com>, 2014,2016
 # Libor Schejbal <libor.schejbal@gmail.com>, 2013
@@ -22,11 +22,13 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: cs\n"
-"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=((n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2);\n"
+"X-Language: cs_CZ\n"
+"X-Source-Language: C\n"
 
 #: data/polkit/org.manjaro.pamac.policy
 msgid "Authentication is required"
-msgstr ""
+msgstr "Je vyžadováno ověření"
 
 #: ../src/daemon.vala
 msgid "Failed to initialize alpm library"
@@ -115,12 +117,12 @@ msgstr "%s je neplatný nebo porušený"
 #: ../src/daemon.vala
 #, c-format
 msgid "%s appears to be truncated: %jd/%jd bytes\n"
-msgstr ""
+msgstr "%s se zdá být zkrácený o: %jd/%jd bytů"
 
 #: ../src/daemon.vala
 #, c-format
 msgid "failed retrieving file '%s' from %s : %s\n"
-msgstr ""
+msgstr "selhalo získání souboru '%s' z %s : % "
 
 #: ../src/transaction.vala
 msgid "A Gtk3 frontend for libalpm"
@@ -185,7 +187,7 @@ msgstr "Transakce zrušena"
 
 #: ../src/transaction.vala
 msgid "Waiting for another package manager to quit"
-msgstr ""
+msgstr "Čekání na ukončení jiného správce balíčků"
 
 #: ../src/transaction.vala
 msgid "Checking dependencies"
@@ -321,7 +323,7 @@ msgstr "Zbývá asi %u sekund"
 msgid "About %lu minute remaining"
 msgid_plural "About %lu minutes remaining"
 msgstr[0] "Zbývá asi %lu minuta"
-msgstr[1] "Zbývá asi %lu minut"
+msgstr[1] "Zbývá asi %lu minuty"
 msgstr[2] "Zbývá asi %lu minut"
 
 #: ../src/transaction.vala
@@ -398,9 +400,9 @@ msgstr "Odstranit"
 #, c-format
 msgid "%u pending operation"
 msgid_plural "%u pending operations"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "%u nevyřízená operace"
+msgstr[1] "%u nevyřízené operace"
+msgstr[2] "%u nevyřízených operací"
 
 #: ../src/manager_window.vala
 msgid "Installed"
@@ -412,11 +414,11 @@ msgstr "Sirotci"
 
 #: ../src/manager_window.vala
 msgid "Foreign"
-msgstr ""
+msgstr "Cizí"
 
 #: ../src/manager_window.vala
 msgid "Pending"
-msgstr ""
+msgstr "Nevyřízené"
 
 #: ../src/manager_window.vala
 msgid "Install Reason"
@@ -489,7 +491,7 @@ msgstr "Konflikty s"
 
 #: ../src/manager_window.vala
 msgid "Package Base"
-msgstr ""
+msgstr "Základ balíčku"
 
 #: ../src/manager_window.vala
 msgid "Maintainer"
@@ -513,11 +515,11 @@ msgstr "Zastaralý"
 
 #: ../src/manager_window.vala
 msgid "Make Dependencies"
-msgstr ""
+msgstr "Závislosti pro sestavení"
 
 #: ../src/manager_window.vala
 msgid "Check Dependencies"
-msgstr ""
+msgstr "Zkontrolovat závislosti"
 
 #: ../src/manager_window.vala ../resources/manager_window.ui
 #: ../resources/updater_window.ui
@@ -565,7 +567,7 @@ msgstr "Vybrat poskytovatele"
 #: ../resources/choose_provider_dialog.ui
 #: ../resources/choose_ignorepkgs_dialog.ui
 msgid "Choose"
-msgstr ""
+msgstr "Vybrat"
 
 #: ../resources/progress_dialog.ui
 msgid "Progress"
@@ -581,7 +583,7 @@ msgstr "Shrnutí transakce"
 
 #: ../resources/transaction_sum_dialog.ui
 msgid "Commit"
-msgstr ""
+msgstr "Provést"
 
 #: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "Refresh databases"
@@ -597,7 +599,7 @@ msgstr "Nastavení"
 
 #: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "About"
-msgstr ""
+msgstr "O programu"
 
 #: ../resources/manager_window.ui
 msgid "Search"
@@ -625,7 +627,7 @@ msgstr "Velikost"
 
 #: ../resources/manager_window.ui
 msgid "Popularity"
-msgstr ""
+msgstr "Oblíbenost"
 
 #: ../resources/manager_window.ui ../resources/updater_window.ui
 #: ../resources/preferences_dialog.ui
@@ -634,7 +636,7 @@ msgstr "AUR"
 
 #: ../resources/manager_window.ui
 msgid "Browse"
-msgstr ""
+msgstr "Prohlížet"
 
 #: ../resources/manager_window.ui
 msgid "Reinstall"
@@ -660,7 +662,9 @@ msgstr "Odebrat nepotřebné závislosti"
 msgid ""
 "When removing a package, also remove its dependencies that are not required "
 "by other packages"
-msgstr "Při odebírání balíčku také odebrat jeho závislosti, které nejsou vyžadovány jinými balíčky"
+msgstr ""
+"Při odebírání balíčku také odebrat jeho závislosti, které nejsou vyžadovány "
+"jinými balíčky"
 
 #: ../resources/preferences_dialog.ui
 msgid "Check available disk space"
@@ -700,9 +704,13 @@ msgstr "Oficiální repozitáře"
 
 #: ../resources/preferences_dialog.ui
 msgid ""
-"AUR is a community maintained repository so it presents potential risks and problems.\n"
+"AUR is a community maintained repository so it presents potential risks and "
+"problems.\n"
 "All AUR users should be familiar with the build process."
-msgstr "AUR je komunitně udržovaný repozitář, to sebou nese potencionální rizika a problémy.\nVšichni uživatelé AUR by měli znát postup vytváření balíčku neboli buildu."
+msgstr ""
+"AUR je komunitně udržovaný repozitář, to sebou nese potencionální rizika a "
+"problémy.\n"
+"Všichni uživatelé AUR by měli znát postup vytváření balíčku neboli buildu."
 
 #: ../resources/preferences_dialog.ui
 msgid "Enable AUR support"
@@ -726,19 +734,19 @@ msgstr "Nevyžadovat potvrzení při vytváření balíčků"
 
 #: ../resources/preferences_dialog.ui
 msgid "Number of versions of each package to keep in the cache:"
-msgstr ""
+msgstr "Kolik verzí každého z balíčků ponechat v mezipaměti:"
 
 #: ../resources/preferences_dialog.ui
 msgid "Remove only the versions of uninstalled packages"
-msgstr ""
+msgstr "Odstranit pouze verze odinstalovaných balíčků"
 
 #: ../resources/preferences_dialog.ui
 msgid "Clean cache"
-msgstr ""
+msgstr "Vyčistit mezipaměť"
 
 #: ../resources/preferences_dialog.ui
 msgid "Cache"
-msgstr ""
+msgstr "Mezipaměť"
 
 #: ../resources/choose_ignorepkgs_dialog.ui
 msgid "Choose Ignored Upgrades"
