@@ -1,5 +1,5 @@
 [Desktop Entry]
-Name=Update Notifier
+Name=Update Notifier Appindicator
 Icon=update-notifier
 Exec=pamac-tray-appindicator
 Terminal=false
