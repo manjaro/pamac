@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2016-04-24 08:44+0200\n"
-"PO-Revision-Date: 2016-09-03 20:17+0000\n"
+"PO-Revision-Date: 2016-09-07 14:38+0000\n"
 "Last-Translator: Lovro Kudelić <lovro.kudelic@outlook.com>\n"
 "Language-Team: Croatian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/hr/)\n"
 "MIME-Version: 1.0\n"
@@ -358,11 +358,11 @@ msgstr "Nema novih nadogradnji"
 
 #: ../src/tray.vala
 msgid "Update Manager"
-msgstr "Uparavitelj Nadogradnji"
+msgstr "Uparavitelj nadogradnji"
 
 #: ../src/tray.vala
 msgid "Package Manager"
-msgstr "Upravitelj Paketa"
+msgstr "Upravitelj paketa"
 
 #: ../src/tray.vala
 msgid "_Quit"
@@ -600,7 +600,7 @@ msgstr "O programu"
 
 #: ../resources/manager_window.ui
 msgid "Search"
-msgstr "Potraži"
+msgstr "Traži"
 
 #: ../resources/manager_window.ui
 msgid "Search in AUR"
@@ -709,7 +709,7 @@ msgstr "Omogući AUR podršku"
 
 #: ../resources/preferences_dialog.ui
 msgid "Allow Pamac to search and install packages from AUR"
-msgstr "Dozvoli Pamac-u da potraži i instalira pakete iz AUR-a"
+msgstr "Dozvoli Pamac-u da traži i instalira pakete iz AUR-a"
 
 #: ../resources/preferences_dialog.ui
 msgid "Search in AUR by default"
