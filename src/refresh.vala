@@ -64,14 +64,20 @@ bool check_pamac_running () {
 }
 
 void on_refresh_finished () {
-	if (!check_pamac_running ()) {
-		try {
-			pamac_daemon.quit ();
-		} catch (IOError e) {
-			stderr.printf ("IOError: %s\n", e.message);
+	Timeout.add (1000, () => {
+		if (!check_pamac_running ()) {
+			try {
+				pamac_daemon.quit ();
+			} catch (IOError e) {
+				stderr.printf ("IOError: %s\n", e.message);
+			}
 		}
-	}
-	loop.quit ();
+		Timeout.add (100, () => {
+			loop.quit ();
+			return false;
+		});
+		return false;
+	});
 }
 
 int main () {
