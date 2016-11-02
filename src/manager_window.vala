@@ -1184,6 +1184,20 @@ namespace Pamac {
 		}
 
 		[GtkCallback]
+		bool on_packages_treeview_query_tooltip (int x, int y, bool keyboard_tooltip, Gtk.Tooltip tooltip) {
+			Gtk.TreePath path;
+			Gtk.TreeIter iter;
+			if (packages_treeview.get_tooltip_context (ref x, ref y, keyboard_tooltip, null, out path, out iter)) {
+				string desc;
+				packages_list.get (iter, 2, out desc);
+				tooltip.set_markup (desc);
+				packages_treeview.set_tooltip_row (tooltip, path);
+				return true;
+			}
+			return false;
+		}
+
+		[GtkCallback]
 		bool on_aur_treeview_button_press_event (Gdk.EventButton event) {
 			aur_treeview.grab_focus ();
 			// Check if right mouse button was clicked
@@ -1236,6 +1250,20 @@ namespace Pamac {
 					right_click_menu.popup (null, null, null, event.button, event.time);
 					return true;
 				}
+			}
+			return false;
+		}
+
+		[GtkCallback]
+		bool on_aur_treeview_query_tooltip (int x, int y, bool keyboard_tooltip, Gtk.Tooltip tooltip) {
+			Gtk.TreePath path;
+			Gtk.TreeIter iter;
+			if (aur_treeview.get_tooltip_context (ref x, ref y, keyboard_tooltip, null, out path, out iter)) {
+				string desc;
+				aur_list.get (iter, 2, out desc);
+				tooltip.set_markup (desc);
+				aur_treeview.set_tooltip_row (tooltip, path);
+				return true;
 			}
 			return false;
 		}

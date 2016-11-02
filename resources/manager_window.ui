@@ -376,6 +376,7 @@
                               <object class="GtkTreeView" id="packages_treeview">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
+                                <property name="has_tooltip">True</property>
                                 <property name="hexpand">True</property>
                                 <property name="vexpand">True</property>
                                 <property name="search_column">1</property>
@@ -383,6 +384,7 @@
                                 <property name="show_expanders">False</property>
                                 <property name="rubber_banding">True</property>
                                 <signal name="button-press-event" handler="on_packages_treeview_button_press_event" swapped="no"/>
+                                <signal name="query-tooltip" handler="on_packages_treeview_query_tooltip" swapped="no"/>
                                 <signal name="row-activated" handler="on_packages_treeview_row_activated" swapped="no"/>
                                 <child internal-child="selection">
                                   <object class="GtkTreeSelection" id="packages_treeview_selection">
@@ -492,6 +494,7 @@
                               <object class="GtkTreeView" id="aur_treeview">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
+                                <property name="has_tooltip">True</property>
                                 <property name="hexpand">True</property>
                                 <property name="vexpand">True</property>
                                 <property name="search_column">1</property>
@@ -499,6 +502,7 @@
                                 <property name="show_expanders">False</property>
                                 <property name="rubber_banding">True</property>
                                 <signal name="button-press-event" handler="on_aur_treeview_button_press_event" swapped="no"/>
+                                <signal name="query-tooltip" handler="on_aur_treeview_query_tooltip" swapped="no"/>
                                 <signal name="row-activated" handler="on_aur_treeview_row_activated" swapped="no"/>
                                 <child internal-child="selection">
                                   <object class="GtkTreeSelection" id="aur_treeview_selection">
