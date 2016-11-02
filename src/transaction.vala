@@ -928,7 +928,7 @@ namespace Pamac {
 			}
 		}
 
-		public void build_aur_packages () {
+		public async void build_aur_packages () {
 			string action = dgettext (null, "Building packages") + "...";
 			reset_progress_box (action);
 			term.grab_focus ();
@@ -940,7 +940,14 @@ namespace Pamac {
 				cmds += "--noconfirm";
 			}
 			foreach (unowned string name in to_build) {
-				cmds += name;
+				AURPackageDetails details = yield get_aur_details (name);
+				if (details.name != "") {
+					if (!(details.packagebase in cmds)) {
+						cmds += details.packagebase;
+					}
+				} else {
+					cmds += name;
+				}
 			}
 			Pid child_pid;
 			spawn_in_term (cmds, out child_pid);
@@ -1462,7 +1469,7 @@ namespace Pamac {
 							|| to_load.length != 0) {
 						spawn_in_term ({"echo", dgettext (null, "Transaction successfully finished") + ".\n"});
 					}
-					build_aur_packages ();
+					build_aur_packages.begin ();
 				} else {
 					clear_previous_lists ();
 					if (sysupgrade_after_trans) {
