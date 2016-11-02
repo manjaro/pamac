@@ -398,6 +398,11 @@ namespace Pamac {
 				emit_event (0, 0, {});
 				databases_lock_mutex.lock ();
 			}
+			if (cancellable.is_cancelled ()) {
+				databases_lock_mutex.unlock ();
+				cancellable.reset ();
+				return;
+			}
 			write_log_file ("synchronizing package lists");
 			current_error = ErrorInfos ();
 			int force = (force_refresh) ? 1 : 0;
@@ -1335,6 +1340,11 @@ namespace Pamac {
 				emit_event (0, 0, {});
 				databases_lock_mutex.lock ();
 			}
+			if (cancellable.is_cancelled ()) {
+				databases_lock_mutex.unlock ();
+				cancellable.reset ();
+				return false;
+			}
 			current_error = ErrorInfos ();
 			cancellable.reset ();
 			if (alpm_handle.trans_init (flags) == -1) {
@@ -1353,7 +1363,11 @@ namespace Pamac {
 		private void sysupgrade_prepare () {
 			current_error = ErrorInfos ();
 			if (!trans_init (0)) {
-				trans_prepare_finished (false);
+				if (cancellable.is_cancelled ()) {
+					trans_prepare_finished (true);
+				} else {
+					trans_prepare_finished (false);
+				}
 				return;
 			}
 			add_ignorepkgs ();
@@ -1610,7 +1624,11 @@ namespace Pamac {
 					trans_prepare_finished (false);
 				}
 			} else {
-				trans_prepare_finished (false);
+				if (cancellable.is_cancelled ()) {
+					trans_prepare_finished (true);
+				} else {
+					trans_prepare_finished (false);
+				}
 			}
 		}
 

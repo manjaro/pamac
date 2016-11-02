@@ -997,6 +997,7 @@ namespace Pamac {
 					action = dgettext (null, "Checking dependencies") + "...";
 					break;
 				case 3: //Alpm.Event.Type.FILECONFLICTS_START
+					start_transaction ();
 					action = dgettext (null, "Checking file conflicts") + "...";
 					break;
 				case 5: //Alpm.Event.Type.RESOLVEDEPS_START
@@ -1105,6 +1106,7 @@ namespace Pamac {
 				case 41: //Alpm.Event.Type.HOOK_START
 					switch (secondary_event) {
 						case 1: //Alpm.HookWhen.PRE_TRANSACTION
+							start_transaction ();
 							action = dgettext (null, "Running pre-transaction hooks") + "...";
 							break;
 						case 2: //Alpm.HookWhen.POST_TRANSACTION
