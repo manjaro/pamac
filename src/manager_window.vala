@@ -842,6 +842,7 @@ namespace Pamac {
 						on_search_treeview_selection_changed ();
 					} else {
 						show_default_pkgs ();
+						search_entry.grab_focus ();
 					}
 					break;
 				case "groups":
@@ -1241,7 +1242,7 @@ namespace Pamac {
 
 		[GtkCallback]
 		void on_search_entry_activate () {
-			unowned string search_string = search_entry.get_text ();
+			string search_string = search_entry.get_text ().strip ();
 			if (search_string != "") {
 				this.get_window ().set_cursor (new Gdk.Cursor.for_display (Gdk.Display.get_default (), Gdk.CursorType.WATCH));
 				Gtk.TreeModel model;
@@ -1289,7 +1290,7 @@ namespace Pamac {
 
 		[GtkCallback]
 		void on_search_entry_changed () {
-			if (search_entry.get_text () != "") {
+			if (search_entry.get_text ().strip () != "") {
 				if (search_entry_timeout_id != 0) {
 					Source.remove (search_entry_timeout_id);
 				}
@@ -1305,6 +1306,15 @@ namespace Pamac {
 				this.get_window ().set_cursor (new Gdk.Cursor.for_display (Gdk.Display.get_default (), Gdk.CursorType.WATCH));
 				string search_string;
 				search_list.get (iter, 0, out search_string);
+				// change search entry text to the selected one
+				search_entry.changed.disconnect (on_search_entry_changed);
+				search_entry.set_text (search_string);
+				search_entry.changed.connect (on_search_entry_changed);
+				Timeout.add (200, () => {
+					search_entry.grab_focus_without_selecting ();
+					return false;
+				});
+				search_entry.set_position (-1);
 				switch (packages_stack.visible_child_name) {
 					case "repos":
 						transaction.search_pkgs.begin (search_string, (obj, res) => {
