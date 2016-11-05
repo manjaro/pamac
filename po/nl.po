@@ -9,6 +9,7 @@
 # flipper <flipper@tutanota.com>, 2016
 # Guillaume Benoit <guillaume@manjaro.org>, 2013
 # Guillaume Benoit <guillaume@manjaro.org>, 2013
+# Heimen Stoffels <vistausss@outlook.com>, 2016
 # Jimmy Timmermans <jarco5000@gmail.com>, 2016
 # Kevin Andriessens <kelaun@archlinux.info>, 2015
 # Norbert Pil <norbertpil@gmail.com>, 2016
@@ -23,8 +24,8 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2016-04-24 08:44+0200\n"
-"PO-Revision-Date: 2016-09-01 21:52+0000\n"
-"Last-Translator: Norbert Pil <norbertpil@gmail.com>\n"
+"PO-Revision-Date: 2016-09-13 11:26+0000\n"
+"Last-Translator: Heimen Stoffels <vistausss@outlook.com>\n"
 "Language-Team: Dutch (http://www.transifex.com/manjarolinux/manjaro-pamac/language/nl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -123,12 +124,12 @@ msgstr "%s is ongeldig of beschadigd"
 #: ../src/daemon.vala
 #, c-format
 msgid "%s appears to be truncated: %jd/%jd bytes\n"
-msgstr ""
+msgstr "%s lijkt te zijn afgebroken: %jd/%jd bytes\n"
 
 #: ../src/daemon.vala
 #, c-format
 msgid "failed retrieving file '%s' from %s : %s\n"
-msgstr ""
+msgstr "het ophalen van bestand '%s' uit %s is mislukt : %s\n"
 
 #: ../src/transaction.vala
 msgid "A Gtk3 frontend for libalpm"
@@ -193,7 +194,7 @@ msgstr "Transactie geannuleerd"
 
 #: ../src/transaction.vala
 msgid "Waiting for another package manager to quit"
-msgstr ""
+msgstr "Bezig met wachten totdat een andere pakketbeheerder afgesloten wordt"
 
 #: ../src/transaction.vala
 msgid "Checking dependencies"
@@ -313,11 +314,11 @@ msgstr "%s geïnstalleerd als %s.pacsave"
 
 #: ../src/transaction.vala
 msgid "Running pre-transaction hooks"
-msgstr ""
+msgstr "Bezig met uitvoeren van voorbereidingen voor overdracht"
 
 #: ../src/transaction.vala
 msgid "Running post-transaction hooks"
-msgstr ""
+msgstr "Bezig met uitvoeren van afhandelingen van overdracht"
 
 #: ../src/transaction.vala
 #, c-format
@@ -417,7 +418,7 @@ msgstr "Wezen"
 
 #: ../src/manager_window.vala
 msgid "Foreign"
-msgstr "Vreemd"
+msgstr "Derde partij-pakketten"
 
 #: ../src/manager_window.vala
 msgid "Pending"
@@ -450,7 +451,7 @@ msgstr "Packager"
 
 #: ../src/manager_window.vala
 msgid "Build Date"
-msgstr "Bouw datum"
+msgstr "Bouwdatum"
 
 #: ../src/manager_window.vala
 msgid "Install Date"
@@ -494,7 +495,7 @@ msgstr "Conflicteert met"
 
 #: ../src/manager_window.vala
 msgid "Package Base"
-msgstr ""
+msgstr "Pakketgroep"
 
 #: ../src/manager_window.vala
 msgid "Maintainer"
@@ -502,11 +503,11 @@ msgstr "Beheerder"
 
 #: ../src/manager_window.vala
 msgid "First Submitted"
-msgstr "Eerst toegevoegd"
+msgstr "Voor het eerst toegevoegd op"
 
 #: ../src/manager_window.vala
 msgid "Last Modified"
-msgstr "Laatst aangepast"
+msgstr "Laatst bijgewerkt op"
 
 #: ../src/manager_window.vala
 msgid "Votes"
@@ -514,15 +515,15 @@ msgstr "Stemmen"
 
 #: ../src/manager_window.vala
 msgid "Out of Date"
-msgstr "Buiten datum"
+msgstr "Bouwdatum"
 
 #: ../src/manager_window.vala
 msgid "Make Dependencies"
-msgstr ""
+msgstr "Afhankelijkheden bouwen"
 
 #: ../src/manager_window.vala
 msgid "Check Dependencies"
-msgstr ""
+msgstr "Afhankelijkheden controleren"
 
 #: ../src/manager_window.vala ../resources/manager_window.ui
 #: ../resources/updater_window.ui
@@ -570,7 +571,7 @@ msgstr "Kies een Provider"
 #: ../resources/choose_provider_dialog.ui
 #: ../resources/choose_ignorepkgs_dialog.ui
 msgid "Choose"
-msgstr ""
+msgstr "Kiezen"
 
 #: ../resources/progress_dialog.ui
 msgid "Progress"
@@ -586,7 +587,7 @@ msgstr "Transactie Overzicht"
 
 #: ../resources/transaction_sum_dialog.ui
 msgid "Commit"
-msgstr ""
+msgstr "Uitvoeren"
 
 #: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "Refresh databases"
@@ -602,7 +603,7 @@ msgstr "Voorkeuren"
 
 #: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "About"
-msgstr ""
+msgstr "Over"
 
 #: ../resources/manager_window.ui
 msgid "Search"
@@ -639,7 +640,7 @@ msgstr "AUR"
 
 #: ../resources/manager_window.ui
 msgid "Browse"
-msgstr ""
+msgstr "Bladeren"
 
 #: ../resources/manager_window.ui
 msgid "Reinstall"
@@ -731,19 +732,19 @@ msgstr "Niet om bevestiging vragen bij het bouwen van pakketten"
 
 #: ../resources/preferences_dialog.ui
 msgid "Number of versions of each package to keep in the cache:"
-msgstr ""
+msgstr "Het aantal in de cache te bewaren pakketversies:"
 
 #: ../resources/preferences_dialog.ui
 msgid "Remove only the versions of uninstalled packages"
-msgstr ""
+msgstr "Alleen versies verwijderen van gedeïnstalleerde pakketten"
 
 #: ../resources/preferences_dialog.ui
 msgid "Clean cache"
-msgstr ""
+msgstr "Cache opschonen"
 
 #: ../resources/preferences_dialog.ui
 msgid "Cache"
-msgstr ""
+msgstr "Cache"
 
 #: ../resources/choose_ignorepkgs_dialog.ui
 msgid "Choose Ignored Upgrades"
