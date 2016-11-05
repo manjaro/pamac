@@ -629,6 +629,7 @@
                             <property name="halign">start</property>
                             <property name="margin_start">6</property>
                             <property name="margin_end">6</property>
+                            <property name="selectable">True</property>
                           </object>
                           <packing>
                             <property name="expand">False</property>
@@ -658,6 +659,7 @@
                             <property name="halign">start</property>
                             <property name="margin_start">6</property>
                             <property name="margin_end">6</property>
+                            <property name="selectable">True</property>
                           </object>
                           <packing>
                             <property name="expand">False</property>
