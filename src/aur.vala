@@ -52,25 +52,24 @@ namespace AUR {
 	public async Json.Array search (string[] needles) {
 		if (needles.length == 0) {
 			return new Json.Array ();
-		} else if (needles.length == 1) {
-			return rpc_query (rpc_url + rpc_search + Uri.escape_string (needles[0]));
 		} else {
-			var inter = new Json.Array ();
-			var prev_inter = new Json.Array ();
-			foreach (unowned string needle in needles) {
-				inter = new Json.Array ();
-				var found = rpc_query (rpc_url + rpc_search + Uri.escape_string (needle));
-				prev_inter.foreach_element ((prev_inter_array, prev_inter_index, prev_inter_node) => {
+			var result = rpc_query (rpc_url + rpc_search + Uri.escape_string (needles[0]));
+			int i = 1;
+			while (i < needles.length) {
+				var inter = new Json.Array ();
+				var found = rpc_query (rpc_url + rpc_search + Uri.escape_string (needles[i]));
+				result.foreach_element ((result_array, result_index, result_node) => {
 					found.foreach_element ((found_array, found_index, found_node) => {
-						if (strcmp (prev_inter_node.get_object ().get_string_member ("Name"),
+						if (strcmp (result_node.get_object ().get_string_member ("Name"),
 									found_node.get_object ().get_string_member ("Name")) == 0) {
-							inter.add_element (prev_inter_node);
+							inter.add_element (result_node);
 						}
 					});
 				});
-				prev_inter = (owned) inter;
+				result = (owned) inter;
+				i++;
 			}
-			return inter;
+			return result;
 		}
 	}
 
