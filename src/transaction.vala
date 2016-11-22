@@ -272,7 +272,7 @@ namespace Pamac {
 				"copyright", "Copyright © 2016 Guillaume Benoit",
 				"version", VERSION,
 				"license_type", Gtk.License.GPL_3_0,
-				"website", "http://manjaro.org");
+				"website", "http://github.com/manjaro/pamac");
 		}
 
 		public ErrorInfos get_current_error () {
