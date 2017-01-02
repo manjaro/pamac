@@ -224,12 +224,6 @@ namespace Pamac {
 				refresh_period_spin_button.sensitive = true;
 				no_update_hide_icon_checkbutton.sensitive = true;
 				ignorepkgs_box.sensitive = true;
-				// launch pamac-tray if needed 
-				try {
-					Process.spawn_command_line_async ("pamac-tray");
-				} catch (SpawnError e) {
-					stderr.printf ("SpawnError: %s\n", e.message);
-				}
 			}
 			no_update_hide_icon_checkbutton.active = no_update_hide_icon;
 			enable_aur_button.state = enable_aur;
