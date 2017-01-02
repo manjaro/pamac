@@ -2192,7 +2192,7 @@ private int cb_fetch (string fileurl, string localpath, int force) {
 				string hostname = url.get_uri ().split("/")[2];
 				pamac_daemon.emit_log ((uint) Alpm.LogLevel.ERROR,
 										_("failed retrieving file '%s' from %s : %s\n").printf (
-											url.get_basename (), hostname, error_buffer));
+											url.get_basename (), hostname, (string) error_buffer));
 			}
 			ret = -1;
 			break;

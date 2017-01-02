@@ -1105,10 +1105,10 @@ namespace Pamac {
 					action = dgettext (null, "Downloading required keys") + "...";
 					break;
 				case 39: //Alpm.Event.Type.PACNEW_CREATED
-					detailed_action = dgettext (null, "%s installed as %s.pacnew").printf (details[0]);
+					detailed_action = dgettext (null, "%s installed as %s.pacnew").printf (details[0], details[0]);
 					break;
 				case 40: //Alpm.Event.Type.PACSAVE_CREATED
-					detailed_action = dgettext (null, "%s installed as %s.pacsave").printf (details[0]);
+					detailed_action = dgettext (null, "%s installed as %s.pacsave").printf (details[0], details[0]);
 					break;
 				case 41: //Alpm.Event.Type.HOOK_START
 					switch (secondary_event) {
