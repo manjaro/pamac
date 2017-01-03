@@ -1,7 +1,7 @@
 /*
  *  pamac-vala
  *
- *  Copyright (C) 2014-2016 Guillaume Benoit <guillaume@manjaro.org>
+ *  Copyright (C) 2014-2017 Guillaume Benoit <guillaume@manjaro.org>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -269,7 +269,7 @@ namespace Pamac {
 				"program_name", "Pamac",
 				"logo_icon_name", "system-software-install",
 				"comments", dgettext (null, "A Gtk3 frontend for libalpm"),
-				"copyright", "Copyright © 2016 Guillaume Benoit",
+				"copyright", "Copyright © 2017 Guillaume Benoit",
 				"version", VERSION,
 				"license_type", Gtk.License.GPL_3_0,
 				"website", "http://github.com/manjaro/pamac");
