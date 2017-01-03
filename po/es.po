@@ -7,7 +7,7 @@
 # danpergal84 <danpergal84@gmail.com>, 2013-2016
 # Guillaume Benoit <guillaume@manjaro.org>, 2013
 # Guillaume Benoit <guillaume@manjaro.org>, 2013
-# Julian Hipolito <julianhipolito@gmail.com>, 2016
+# Julián Federico Hipólito <julianhipolito@gmail.com>, 2016
 # Asta1986 <freudian_order@yahoo.es>, 2014
 # Marchin, 2015
 # Miguel Hernández <michelangelo93@gmail.com>, 2015
@@ -19,7 +19,7 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2016-04-24 08:44+0200\n"
-"PO-Revision-Date: 2016-09-09 11:39+0000\n"
+"PO-Revision-Date: 2016-11-09 15:55+0000\n"
 "Last-Translator: Noel Rodríguez Freire <noelrf.ou@gmail.com>\n"
 "Language-Team: Spanish (http://www.transifex.com/manjarolinux/manjaro-pamac/language/es/)\n"
 "MIME-Version: 1.0\n"

@@ -10,7 +10,7 @@
 # Guillaume Benoit <guillaume@manjaro.org>, 2013
 # Kuba Kaczmarzyk <inactive+poker98face@transifex.com>, 2013
 # Kuba Kaczmarzyk <inactive+poker98face@transifex.com>, 2013
-# Marcin <m4sk1n@o2.pl>, 2016
+# m4sk1n <m4sk1n@o2.pl>, 2016
 # Piotr Strębski <strebski@o2.pl>, 2013-2016
 # Kuba Kaczmarzyk <inactive+poker98face@transifex.com>, 2013
 msgid ""
@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2016-04-24 08:44+0200\n"
-"PO-Revision-Date: 2016-10-12 21:06+0000\n"
+"PO-Revision-Date: 2016-11-09 15:55+0000\n"
 "Last-Translator: Daniel Napora <napcok@gmail.com>\n"
 "Language-Team: Polish (http://www.transifex.com/manjarolinux/manjaro-pamac/language/pl/)\n"
 "MIME-Version: 1.0\n"

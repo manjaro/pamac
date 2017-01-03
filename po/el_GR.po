@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2016-04-24 08:44+0200\n"
-"PO-Revision-Date: 2016-10-10 00:13+0000\n"
+"PO-Revision-Date: 2016-11-09 15:55+0000\n"
 "Last-Translator: kouros kouros <kormikg@yahoo.gr>\n"
 "Language-Team: Greek (Greece) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/el_GR/)\n"
 "MIME-Version: 1.0\n"
@@ -377,7 +377,7 @@ msgstr "Λεπτομέρειες"
 
 #: ../src/manager_window.vala
 msgid "Deselect"
-msgstr "Αφαίρεσε μία επιλογή"
+msgstr "Αφαίρεσε την επιλογή"
 
 #: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Install"
@@ -730,7 +730,7 @@ msgstr "Καθαρισμός αποθήκης."
 
 #: ../resources/preferences_dialog.ui
 msgid "Cache"
-msgstr "Αποθήκη."
+msgstr "Αποθήκη"
 
 #: ../resources/choose_ignorepkgs_dialog.ui
 msgid "Choose Ignored Upgrades"
