@@ -939,11 +939,13 @@ namespace Pamac {
 			if (pamac_config.no_confirm_build) {
 				cmds += "--noconfirm";
 			}
+			string[] packagebases = {};
 			foreach (unowned string name in to_build) {
 				AURPackageDetails details = yield get_aur_details (name);
 				if (details.name != "") {
-					if (!(details.packagebase in cmds)) {
-						cmds += details.packagebase;
+					if (!(details.packagebase in packagebases)) {
+						packagebases += details.packagebase;
+						cmds += name;
 					}
 				} else {
 					cmds += name;
