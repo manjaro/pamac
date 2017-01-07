@@ -725,8 +725,8 @@ msgid "Do not ask for confirmation when building packages"
 msgstr "Bygg paket utan att fråga efter tillstånd"
 
 #: ../resources/preferences_dialog.ui
-msgid "Number of versions of each package to keep in the cache:"
-msgstr "Antal versioner av varje paket att behålla i cachen:"
+msgid "Number of versions of each package to keep in the cache"
+msgstr "Antal versioner av varje paket att behålla i cachen"
 
 #: ../resources/preferences_dialog.ui
 msgid "Remove only the versions of uninstalled packages"

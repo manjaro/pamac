@@ -717,8 +717,8 @@ msgid "Do not ask for confirmation when building packages"
 msgstr "パッケージビルド時に確認を行わない"
 
 #: ../resources/preferences_dialog.ui
-msgid "Number of versions of each package to keep in the cache:"
-msgstr "キャッシュ内で各パッケージのバージョン番号を保持:"
+msgid "Number of versions of each package to keep in the cache"
+msgstr "キャッシュ内で各パッケージのバージョン番号を保持"
 
 #: ../resources/preferences_dialog.ui
 msgid "Remove only the versions of uninstalled packages"

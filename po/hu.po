@@ -721,8 +721,8 @@ msgid "Do not ask for confirmation when building packages"
 msgstr "Ne kérdezzen rá csomagok építésekor"
 
 #: ../resources/preferences_dialog.ui
-msgid "Number of versions of each package to keep in the cache:"
-msgstr "A cache- ben csomagonként megtartandó példányok száma:"
+msgid "Number of versions of each package to keep in the cache"
+msgstr "A cache- ben csomagonként megtartandó példányok száma"
 
 #: ../resources/preferences_dialog.ui
 msgid "Remove only the versions of uninstalled packages"

@@ -724,8 +724,8 @@ msgid "Do not ask for confirmation when building packages"
 msgstr "Ne pitaj za potvrdu prilikom stvaranja paketa"
 
 #: ../resources/preferences_dialog.ui
-msgid "Number of versions of each package to keep in the cache:"
-msgstr "Broj različitih verzija paketa za spremanje u predmemoriju:"
+msgid "Number of versions of each package to keep in the cache"
+msgstr "Broj različitih verzija paketa za spremanje u predmemoriju"
 
 #: ../resources/preferences_dialog.ui
 msgid "Remove only the versions of uninstalled packages"

@@ -731,8 +731,8 @@ msgid "Do not ask for confirmation when building packages"
 msgstr "Niet om bevestiging vragen bij het bouwen van pakketten"
 
 #: ../resources/preferences_dialog.ui
-msgid "Number of versions of each package to keep in the cache:"
-msgstr "Het aantal in de cache te bewaren pakketversies:"
+msgid "Number of versions of each package to keep in the cache"
+msgstr "Het aantal in de cache te bewaren pakketversies"
 
 #: ../resources/preferences_dialog.ui
 msgid "Remove only the versions of uninstalled packages"

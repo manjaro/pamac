@@ -720,8 +720,8 @@ msgid "Do not ask for confirmation when building packages"
 msgstr "No preguntar por confirmación al construir paquetes"
 
 #: ../resources/preferences_dialog.ui
-msgid "Number of versions of each package to keep in the cache:"
-msgstr "Número de versiones de cada paquete a mantener en caché:"
+msgid "Number of versions of each package to keep in the cache"
+msgstr "Número de versiones de cada paquete a mantener en caché"
 
 #: ../resources/preferences_dialog.ui
 msgid "Remove only the versions of uninstalled packages"

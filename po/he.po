@@ -720,8 +720,8 @@ msgid "Do not ask for confirmation when building packages"
 msgstr "אל תשאל לאימות כאשר בונים חבילות"
 
 #: ../resources/preferences_dialog.ui
-msgid "Number of versions of each package to keep in the cache:"
-msgstr "מספר גרסאות של כל חבילה לשמירה בתוך המטמון:"
+msgid "Number of versions of each package to keep in the cache"
+msgstr "מספר גרסאות של כל חבילה לשמירה בתוך המטמון"
 
 #: ../resources/preferences_dialog.ui
 msgid "Remove only the versions of uninstalled packages"

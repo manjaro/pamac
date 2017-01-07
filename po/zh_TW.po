@@ -716,8 +716,8 @@ msgid "Do not ask for confirmation when building packages"
 msgstr "當構建軟體包時不要詢問確認"
 
 #: ../resources/preferences_dialog.ui
-msgid "Number of versions of each package to keep in the cache:"
-msgstr "每個軟體包要保留在快取中的版本數量："
+msgid "Number of versions of each package to keep in the cache"
+msgstr "每個軟體包要保留在快取中的版本數量"
 
 #: ../resources/preferences_dialog.ui
 msgid "Remove only the versions of uninstalled packages"

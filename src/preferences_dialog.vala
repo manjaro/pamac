@@ -57,6 +57,8 @@ namespace Pamac {
 		[GtkChild]
 		Gtk.CheckButton no_confirm_build_checkbutton;
 		[GtkChild]
+		Gtk.Label cache_keep_nb_label;
+		[GtkChild]
 		Gtk.SpinButton cache_keep_nb_spin_button;
 		[GtkChild]
 		Gtk.CheckButton cache_only_uninstalled_checkbutton;
@@ -70,6 +72,7 @@ namespace Pamac {
 
 			this.transaction = transaction;
 			refresh_period_label.set_markup (dgettext (null, "How often to check for updates, value in hours") +":");
+			cache_keep_nb_label.set_markup (dgettext (null, "Number of versions of each package to keep in the cache") +":");
 			remove_unrequired_deps_button.active = transaction.recurse;
 			check_space_button.active = transaction.get_checkspace ();
 			if (transaction.refresh_period == 0) {

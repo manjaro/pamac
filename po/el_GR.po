@@ -717,8 +717,8 @@ msgid "Do not ask for confirmation when building packages"
 msgstr "Μην ζητάς επιβεβαίωση όταν χτίζονται τα πακέτα"
 
 #: ../resources/preferences_dialog.ui
-msgid "Number of versions of each package to keep in the cache:"
-msgstr "Αριθμός των εκδόσεων κάθε πακέτου που θέλεις να κρατηθεί στην αποθήκη."
+msgid "Number of versions of each package to keep in the cache"
+msgstr "Αριθμός των εκδόσεων κάθε πακέτου που θέλεις να κρατηθεί στην αποθήκη"
 
 #: ../resources/preferences_dialog.ui
 msgid "Remove only the versions of uninstalled packages"

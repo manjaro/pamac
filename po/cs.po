@@ -725,8 +725,8 @@ msgid "Do not ask for confirmation when building packages"
 msgstr "Nevyžadovat potvrzení při vytváření balíčků"
 
 #: ../resources/preferences_dialog.ui
-msgid "Number of versions of each package to keep in the cache:"
-msgstr "Kolik verzí každého z balíčků ponechat v mezipaměti:"
+msgid "Number of versions of each package to keep in the cache"
+msgstr "Kolik verzí každého z balíčků ponechat v mezipaměti"
 
 #: ../resources/preferences_dialog.ui
 msgid "Remove only the versions of uninstalled packages"

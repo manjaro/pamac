@@ -721,8 +721,8 @@ msgid "Do not ask for confirmation when building packages"
 msgstr "Paketler inşa edilirken onay veya düzenleme sorulmasın"
 
 #: ../resources/preferences_dialog.ui
-msgid "Number of versions of each package to keep in the cache:"
-msgstr "Her bir paket sürümünü ve sayısını önbellekte tut:"
+msgid "Number of versions of each package to keep in the cache"
+msgstr "Her bir paket sürümünü ve sayısını önbellekte tut"
 
 #: ../resources/preferences_dialog.ui
 msgid "Remove only the versions of uninstalled packages"

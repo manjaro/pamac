@@ -721,8 +721,8 @@ msgid "Do not ask for confirmation when building packages"
 msgstr "Neklausti patvirtinimo, kuriant paketus"
 
 #: ../resources/preferences_dialog.ui
-msgid "Number of versions of each package to keep in the cache:"
-msgstr "Podėlyje laikomas kiekvieno paketo versijų skaičius:"
+msgid "Number of versions of each package to keep in the cache"
+msgstr "Podėlyje laikomas kiekvieno paketo versijų skaičius"
 
 #: ../resources/preferences_dialog.ui
 msgid "Remove only the versions of uninstalled packages"
