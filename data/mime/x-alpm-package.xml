@@ -1,8 +1,9 @@
 <?xml version="1.0"?>
  <mime-info xmlns='http://www.freedesktop.org/standards/shared-mime-info'>
    <mime-type type="application/x-alpm-package">
-   <generic-icon name="package-x-generic"/> 
+   <generic-icon name="package-x-generic"/>
    <comment>Alpm Package</comment>
    <glob pattern="*.pkg.tar.xz"/>
+   <glob pattern="*.pkg.tar.gz"/>
   </mime-type>
  </mime-info>
