@@ -316,13 +316,19 @@ namespace Pamac {
 			}
 		}
 
-		void spawn_in_term (string[] args, out Pid child_pid = null) {
+		void spawn_in_term (string[] args, bool close_pid = true, out Pid child_pid = null) {
 			try {
 				Process.spawn_async (null, args, null, SpawnFlags.SEARCH_PATH | SpawnFlags.DO_NOT_REAP_CHILD, pty.child_setup, out child_pid);
 			} catch (SpawnError e) {
 				stderr.printf ("SpawnError: %s\n", e.message);
 			}
 			term.set_pty (pty);
+			if (close_pid) {
+				ChildWatch.add (child_pid, (pid, status) => {
+					// Triggered when the child indicated by child_pid exits
+					Process.close_pid (pid);
+				});
+			}
 		}
 
 		void reset_progress_box (string action) {
@@ -952,7 +958,7 @@ namespace Pamac {
 				}
 			}
 			Pid child_pid;
-			spawn_in_term (cmds, out child_pid);
+			spawn_in_term (cmds, false, out child_pid);
 			// watch_child is needed in order to have the child_exited signal emitted
 			term.watch_child (child_pid);
 //~ 			foreach (unowned string pkgname in to_build) {
