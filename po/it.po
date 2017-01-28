@@ -17,13 +17,14 @@
 # Italwizzie, 2014
 # Paolo Dongilli <paolo.dongilli@gmail.com>, 2013,2015
 # philm <philm@manjaro.org>, 2015
+# Pietro Francesco Fontana, 2017
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2016-04-24 08:44+0200\n"
-"PO-Revision-Date: 2016-11-09 15:55+0000\n"
-"Last-Translator: Luca Bandini <luca.vombato@gmail.com>\n"
+"PO-Revision-Date: 2017-01-13 21:46+0000\n"
+"Last-Translator: Pietro Francesco Fontana\n"
 "Language-Team: Italian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/it/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -730,7 +731,7 @@ msgstr "Non chiedere conferma durante la creazione dei pacchetti"
 
 #: ../resources/preferences_dialog.ui
 msgid "Number of versions of each package to keep in the cache"
-msgstr "Numero delle versioni di ogni pacchetto da lasciare nella cache"
+msgstr "Numero di versioni di ogni pacchetto da conservare nella cache"
 
 #: ../resources/preferences_dialog.ui
 msgid "Remove only the versions of uninstalled packages"

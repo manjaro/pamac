@@ -5,7 +5,7 @@
 # 
 # Translators:
 # Joaquín Ludzcanoff <Desoxirribonucleosa97@outlook.com>, 2016
-# Julián Federico Hipólito <julianhipolito@gmail.com>, 2016
+# Julián Federico Hipólito <julianhipolito@gmail.com>, 2016-2017
 # Julián Federico Hipólito <julianhipolito@gmail.com>, 2016
 # Mat Mü <ematiasm@openmailbox.org>, 2016
 msgid ""
@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2016-04-24 08:44+0200\n"
-"PO-Revision-Date: 2016-12-02 18:02+0000\n"
+"PO-Revision-Date: 2017-01-27 12:51+0000\n"
 "Last-Translator: Julián Federico Hipólito <julianhipolito@gmail.com>\n"
 "Language-Team: Spanish (Latin America) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/es_419/)\n"
 "MIME-Version: 1.0\n"
