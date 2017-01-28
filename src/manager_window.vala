@@ -103,10 +103,6 @@ namespace Pamac {
 		[GtkChild]
 		Gtk.TextView files_textview;
 		[GtkChild]
-		Gtk.Box search_aur_box;
-		[GtkChild]
-		Gtk.Switch search_aur_button;
-		[GtkChild]
 		Gtk.Box transaction_infobox;
 		[GtkChild]
 		Gtk.Button details_button;
@@ -147,7 +143,7 @@ namespace Pamac {
 		public ManagerWindow (Gtk.Application application) {
 			Object (application: application);
 
-			support_aur (false, false);
+			support_aur (false);
 			button_back.visible = false;
 			transaction_infobox.visible = false;
 			refreshing = false;
@@ -293,7 +289,7 @@ namespace Pamac {
 
 			AlpmPackage pkg = transaction.find_installed_satisfier ("yaourt");
 			if (pkg.name != "") {
-				support_aur (transaction.enable_aur, transaction.search_aur);
+				support_aur (transaction.enable_aur);
 			}
 
 			display_package_queue = new Queue<string> ();
@@ -313,7 +309,7 @@ namespace Pamac {
 											bool enable_aur, bool search_aur) {
 			AlpmPackage pkg = transaction.find_installed_satisfier ("yaourt");
 			if (pkg.name != "") {
-				support_aur (enable_aur, search_aur);
+				support_aur (enable_aur);
 			}
 		}
 
@@ -324,16 +320,12 @@ namespace Pamac {
 			}
 		}
 
-		void support_aur (bool enable_aur, bool search_aur) {
+		void support_aur (bool enable_aur) {
 			if (enable_aur) {
-				search_aur_button.active = search_aur;
-				search_aur_box.visible = true;
 				if (filters_stack.visible_child_name == "search") {
 					packages_stackswitcher.visible = true;
 				}
 			} else {
-				search_aur_button.active  = false;
-				search_aur_box.visible = false;
 				packages_stackswitcher.visible = false;
 			}
 		}
@@ -834,9 +826,7 @@ namespace Pamac {
 		void refresh_packages_list () {
 			switch (filters_stack.visible_child_name) {
 				case "search":
-					if (search_aur_box.visible) {
-						packages_stackswitcher.visible = true;
-					}
+					packages_stackswitcher.visible = transaction.enable_aur;
 					Gtk.TreeSelection selection = search_treeview.get_selection ();
 					if (selection.get_selected (null, null)) {
 						on_search_treeview_selection_changed ();
@@ -1350,7 +1340,7 @@ namespace Pamac {
 							// get custom sort by relevance
 							packages_list.set_sort_column_id (Gtk.TREE_SORTABLE_UNSORTED_SORT_COLUMN_ID, 0);
 							populate_packages_list (pkgs);
-							if (search_aur_button.get_active ()) {
+							if (transaction.search_aur) {
 								if (pkgs.length == 0) {
 									transaction.search_in_aur.begin (search_string, (obj, res) => {
 										if (transaction.search_in_aur.end (res).length != 0) {

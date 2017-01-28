@@ -141,46 +141,6 @@
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkBox" id="search_aur_box">
-                            <property name="visible">True</property>
-                            <property name="can_focus">False</property>
-                            <property name="spacing">6</property>
-                            <child>
-                              <object class="GtkLabel" id="search_aur_label">
-                                <property name="visible">True</property>
-                                <property name="can_focus">False</property>
-                                <property name="margin_left">6</property>
-                                <property name="margin_start">6</property>
-                                <property name="hexpand">True</property>
-                                <property name="label" translatable="yes">Search in AUR</property>
-                              </object>
-                              <packing>
-                                <property name="expand">False</property>
-                                <property name="fill">True</property>
-                                <property name="position">0</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkSwitch" id="search_aur_button">
-                                <property name="visible">True</property>
-                                <property name="can_focus">True</property>
-                                <property name="tooltip_text" translatable="yes">Search in AUR</property>
-                                <property name="halign">end</property>
-                              </object>
-                              <packing>
-                                <property name="expand">False</property>
-                                <property name="fill">True</property>
-                                <property name="position">1</property>
-                              </packing>
-                            </child>
-                          </object>
-                          <packing>
-                            <property name="expand">False</property>
-                            <property name="fill">True</property>
-                            <property name="position">1</property>
-                          </packing>
-                        </child>
-                        <child>
                           <object class="GtkScrolledWindow" id="scrolledwindow3">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
