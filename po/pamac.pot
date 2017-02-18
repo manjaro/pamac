@@ -78,6 +78,16 @@ msgstr ""
 
 #: ../src/daemon.vala
 #, c-format
+msgid "%s: installing %s (%s) breaks dependency '%s'"
+msgstr ""
+
+#: ../src/daemon.vala
+#, c-format
+msgid "%s: removing %s breaks dependency '%s'"
+msgstr ""
+
+#: ../src/daemon.vala
+#, c-format
 msgid "%s and %s are in conflict"
 msgstr ""
 
@@ -117,6 +127,10 @@ msgstr ""
 
 #: ../src/transaction.vala
 msgid "A Gtk3 frontend for libalpm"
+msgstr ""
+
+#: ../src/transaction.vala
+msgid "Copy"
 msgstr ""
 
 #: ../src/transaction.vala
@@ -169,7 +183,8 @@ msgid "Total download size"
 msgstr ""
 
 #: ../src/transaction.vala
-msgid "Building packages"
+#, c-format
+msgid "Building %s"
 msgstr ""
 
 #: ../src/transaction.vala
@@ -349,11 +364,11 @@ msgstr ""
 msgid "Your system is up-to-date"
 msgstr ""
 
-#: ../src/tray.vala
+#: ../src/tray.vala ../src/updater_window.vala
 msgid "Update Manager"
 msgstr ""
 
-#: ../src/tray.vala
+#: ../src/tray.vala ../src/manager_window.vala
 msgid "Package Manager"
 msgstr ""
 
@@ -536,6 +551,10 @@ msgstr ""
 msgid "How often to check for updates, value in hours"
 msgstr ""
 
+#: ../src/preferences_dialog.vala ../resources/preferences_dialog.ui
+msgid "Number of versions of each package to keep in the cache"
+msgstr ""
+
 #: ../src/preferences_dialog.vala
 msgid "Worldwide"
 msgstr ""
@@ -591,10 +610,6 @@ msgstr ""
 
 #: ../resources/manager_window.ui
 msgid "Search"
-msgstr ""
-
-#: ../resources/manager_window.ui
-msgid "Search in AUR"
 msgstr ""
 
 #: ../resources/manager_window.ui ../resources/updater_window.ui
@@ -709,14 +724,6 @@ msgstr ""
 
 #: ../resources/preferences_dialog.ui
 msgid "Check for updates from AUR"
-msgstr ""
-
-#: ../resources/preferences_dialog.ui
-msgid "Do not ask for confirmation when building packages"
-msgstr ""
-
-#: ../resources/preferences_dialog.ui
-msgid "Number of versions of each package to keep in the cache"
 msgstr ""
 
 #: ../resources/preferences_dialog.ui

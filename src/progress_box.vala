@@ -27,7 +27,6 @@ namespace Pamac {
 		[GtkChild]
 		public Gtk.Label action_label;
 
-
 		public ProgressBox () {
 			Object ();
 		}

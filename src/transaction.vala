@@ -17,7 +17,7 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-const string VERSION = "4.2.0";
+const string VERSION = "4.2.9";
 
 namespace Pamac {
 	[DBus (name = "org.manjaro.pamac")]
@@ -46,7 +46,6 @@ namespace Pamac {
 		public abstract AlpmPackage find_sync_satisfier (string depstring) throws IOError;
 		public abstract async AlpmPackage[] search_pkgs (string search_string) throws IOError;
 		public abstract async AURPackage[] search_in_aur (string search_string) throws IOError;
-		public abstract async string[] get_aur_build_list (string pkgname) throws IOError;
 		public abstract string[] get_repos_names () throws IOError;
 		public abstract async AlpmPackage[] get_repo_pkgs (string repo) throws IOError;
 		public abstract string[] get_groups_names () throws IOError;
@@ -56,7 +55,7 @@ namespace Pamac {
 		public abstract string[] get_pkg_uninstalled_optdeps (string pkgname) throws IOError;
 		public abstract void start_get_updates (bool check_aur_updates) throws IOError;
 		public abstract void start_sysupgrade_prepare (bool enable_downgrade, string[] temporary_ignorepkgs) throws IOError;
-		public abstract void start_trans_prepare (int transflags, string[] to_install, string[] to_remove, string[] to_load) throws IOError;
+		public abstract void start_trans_prepare (int transflags, string[] to_install, string[] to_remove, string[] to_load, string[] to_build) throws IOError;
 		public abstract void choose_provider (int provider) throws IOError;
 		public abstract TransactionSummary get_transaction_summary () throws IOError;
 		public abstract void start_trans_commit () throws IOError;
@@ -78,8 +77,7 @@ namespace Pamac {
 		public signal void trans_commit_finished (bool success);
 		public signal void get_authorization_finished (bool authorized);
 		public signal void write_pamac_config_finished (bool recurse, uint64 refresh_period, bool no_update_hide_icon,
-														bool enable_aur, bool search_aur, bool check_aur_updates,
-														bool no_confirm_build);
+														bool enable_aur, bool search_aur, bool check_aur_updates);
 		public signal void write_alpm_config_finished (bool checkspace);
 		public signal void write_mirrors_config_finished (string choosen_country, string choosen_generation_method);
 		public signal void generate_mirrors_list_data (string line);
@@ -105,7 +103,6 @@ namespace Pamac {
 		public bool check_aur_updates { get { return pamac_config.check_aur_updates; } }
 		public bool enable_aur { get { return pamac_config.enable_aur; }  }
 		public unowned GLib.HashTable<string,string> environment_variables { get {return pamac_config.environment_variables; } }
-		public bool no_confirm_build { get { return pamac_config.no_confirm_build; } }
 		public bool no_update_hide_icon { get { return pamac_config.no_update_hide_icon; } }
 		public bool recurse { get { return pamac_config.recurse; } }
 		public uint64 refresh_period { get { return pamac_config.refresh_period; } }
@@ -118,6 +115,8 @@ namespace Pamac {
 		public GenericSet<string?> to_remove;
 		public GenericSet<string?> to_load;
 		public GenericSet<string?> to_build;
+		Queue<string> to_build_queue;
+		string[] aur_pkgs_to_install;
 		GenericSet<string?> previous_to_install;
 		GenericSet<string?> previous_to_remove;
 		public GenericSet<string?> transaction_summary;
@@ -133,6 +132,9 @@ namespace Pamac {
 		uint pulse_timeout_id;
 		bool sysupgrade_after_trans;
 		bool enable_downgrade;
+		bool no_confirm_commit;
+		bool build_after_sysupgrade;
+		bool building;
 		uint64 previous_xfered;
 		uint64 download_rate;
 		uint64 rates_nb;
@@ -145,19 +147,20 @@ namespace Pamac {
 		public ProgressBox progress_box;
 		Vte.Terminal term;
 		Vte.Pty pty;
-		public Gtk.Grid term_grid;
+		Cancellable build_cancellable;
+		public Gtk.ScrolledWindow term_window;
 		//parent window
 		public Gtk.ApplicationWindow? application_window { get; private set; }
 
 		public signal void start_transaction ();
+		public signal void start_building ();
 		public signal void important_details_outpout (bool must_show);
 		public signal void alpm_handle_refreshed ();
 		public signal void finished (bool success);
 		public signal void set_pkgreason_finished ();
 		public signal void get_updates_finished (Updates updates);
 		public signal void write_pamac_config_finished (bool recurse, uint64 refresh_period, bool no_update_hide_icon,
-														bool enable_aur, bool search_aur, bool check_aur_updates,
-														bool no_confirm_build);
+														bool enable_aur, bool search_aur, bool check_aur_updates);
 		public signal void write_alpm_config_finished (bool checkspace);
 		public signal void write_mirrors_config_finished (string choosen_country, string choosen_generation_method);
 		public signal void generate_mirrors_list ();
@@ -173,6 +176,7 @@ namespace Pamac {
 			to_remove = new GenericSet<string?> (str_hash, str_equal);
 			to_load = new GenericSet<string?> (str_hash, str_equal);
 			to_build = new GenericSet<string?> (str_hash, str_equal);
+			to_build_queue = new Queue<string> ();
 			previous_to_install = new GenericSet<string?> (str_hash, str_equal);
 			previous_to_remove = new GenericSet<string?> (str_hash, str_equal);
 			transaction_summary = new GenericSet<string?> (str_hash, str_equal);
@@ -185,10 +189,14 @@ namespace Pamac {
 			progress_box.progressbar.text = "";
 			//creating terminal
 			term = new Vte.Terminal ();
-			term.scroll_on_output = false;
+			term.set_scrollback_lines (-1);
 			term.expand = true;
-			term.height_request = 200;
 			term.visible = true;
+			var black = Gdk.RGBA ();
+			black.parse ("black");
+			term.set_color_cursor (black);
+			term.button_press_event.connect (on_term_button_press_event);
+			term.key_press_event.connect (on_term_key_press_event);
 			// creating pty for term
 			try {
 				pty = term.pty_new_sync (Vte.PtyFlags.NO_HELPER);
@@ -196,19 +204,19 @@ namespace Pamac {
 				stderr.printf ("Error: %s\n", e.message);
 			}
 			// add term in a grid with a scrollbar
-			term_grid = new Gtk.Grid ();
-			term_grid.expand = true;
-			term_grid.visible = true;
-			var sb = new Gtk.Scrollbar (Gtk.Orientation.VERTICAL, term.vadjustment);
-			sb.visible = true;
-			term_grid.attach (term, 0, 0, 1, 1);
-			term_grid.attach (sb, 1, 0, 1, 1);
-			// connect to child_exited signal which will only be emit after a call to watch_child
-			term.child_exited.connect (on_term_child_exited);
+			term_window = new Gtk.ScrolledWindow (null, term.vadjustment);
+			term_window.expand = true;
+			term_window.visible = true;
+			term_window.propagate_natural_height = true;
+			term_window.add (term);
+			build_cancellable = new Cancellable ();
 			// progress data
 			previous_textbar = "";
 			previous_filename = "";
 			sysupgrade_after_trans = false;
+			no_confirm_commit = false;
+			build_after_sysupgrade = false;
+			building = false;
 			timer = new Timer ();
 			success = false;
 			warning_textbuffer = new StringBuilder ();
@@ -256,7 +264,7 @@ namespace Pamac {
 						Gtk.main_iteration ();
 					}
 				}
-				Idle.add((owned) callback);
+				Idle.add ((owned) callback);
 			});
 			start_get_authorization ();
 			yield;
@@ -284,7 +292,7 @@ namespace Pamac {
 			}
 		}
 
-		public void start_get_authorization () {
+		void start_get_authorization () {
 			try {
 				daemon.start_get_authorization ();
 			} catch (IOError e) {
@@ -316,23 +324,71 @@ namespace Pamac {
 			}
 		}
 
-		void spawn_in_term (string[] args, bool close_pid = true, out Pid child_pid = null) {
+		bool on_term_button_press_event (Gdk.EventButton event) {
+			// Check if right mouse button was clicked
+			if (event.type == Gdk.EventType.BUTTON_PRESS && event.button == 3) {
+				if (term.get_has_selection ()) {
+					var right_click_menu = new Gtk.Menu ();
+					var copy_item = new Gtk.MenuItem.with_label (dgettext (null, "Copy"));
+					copy_item.activate.connect (() => {term.copy_clipboard ();});
+					right_click_menu.append (copy_item);
+					right_click_menu.show_all ();
+					right_click_menu.popup (null, null, null, event.button, event.time);
+					return true;
+				}
+			}
+			return false;
+		}
+
+		bool on_term_key_press_event (Gdk.EventKey event) {
+			// Check if Ctrl + c keys were pressed
+			if (((event.state & Gdk.ModifierType.CONTROL_MASK) != 0) && (Gdk.keyval_name (event.keyval) == "c")) {
+				term.copy_clipboard ();
+				return true;
+			}
+			return false;
+		}
+
+		void show_in_term (string message) {
+			term.set_pty (pty);
 			try {
-				Process.spawn_async (null, args, null, SpawnFlags.SEARCH_PATH | SpawnFlags.DO_NOT_REAP_CHILD, pty.child_setup, out child_pid);
+				Process.spawn_async (null, {"echo", message}, null, SpawnFlags.SEARCH_PATH, pty.child_setup, null);
 			} catch (SpawnError e) {
 				stderr.printf ("SpawnError: %s\n", e.message);
 			}
+		}
+
+		async int spawn_in_term (string[] args, string? working_directory = null) {
+			SourceFunc callback = spawn_in_term.callback;
+			int status = 1;
 			term.set_pty (pty);
-			if (close_pid) {
-				ChildWatch.add (child_pid, (pid, status) => {
-					// Triggered when the child indicated by child_pid exits
-					Process.close_pid (pid);
+			var launcher = new SubprocessLauncher (SubprocessFlags.NONE);
+			launcher.set_cwd (working_directory);
+			launcher.set_environ (Environ.get ());
+			launcher.set_child_setup (pty.child_setup);
+			try {
+				Subprocess process = launcher.spawnv (args);
+				process.wait_async.begin (build_cancellable, (obj, res) => {
+					try {
+						process.wait_async.end (res);
+						if (process.get_if_exited ()) {
+							status = process.get_exit_status ();
+						}
+					} catch (Error e) {
+						// cancelled
+						process.send_signal (Posix.SIGTERM);
+					}
+					Idle.add ((owned) callback);
 				});
+				yield;
+			} catch (Error e) {
+				stderr.printf ("Error: %s\n", e.message);
 			}
+			return status;
 		}
 
 		void reset_progress_box (string action) {
-			spawn_in_term ({"echo", action});
+			show_in_term (action);
 			progress_box.action_label.label = action;
 			progress_box.progressbar.fraction = 0;
 			progress_box.progressbar.text = "";
@@ -550,16 +606,6 @@ namespace Pamac {
 			return pkgs;
 		}
 
-		public async string[] get_aur_build_list (string pkgname) {
-			string[] names = {};
-			try {
-				names = yield daemon.get_aur_build_list (pkgname);
-			} catch (IOError e) {
-				stderr.printf ("IOError: %s\n", e.message);
-			}
-			return names;
-		}
-
 		public string[] get_repos_names () {
 			string[] repos_names = {};
 			try {
@@ -719,9 +765,12 @@ namespace Pamac {
 						}
 					}
 					if (updates.repos_updates.length != 0) {
+						build_after_sysupgrade = true;
 						sysupgrade_simple (enable_downgrade);
 					} else {
-						on_trans_prepare_finished (true);
+						// only aur updates
+						// run as a standard transaction
+						run ();
 					}
 				} else {
 					if (updates.repos_updates.length != 0) {
@@ -738,6 +787,7 @@ namespace Pamac {
 			to_install.remove_all ();
 			to_remove.remove_all ();
 			to_build.remove_all ();
+			to_load.remove_all ();
 		}
 
 		void clear_previous_lists () {
@@ -745,37 +795,38 @@ namespace Pamac {
 			previous_to_remove.remove_all ();
 		}
 
+		void start_trans_prepare (int transflags, string[] to_install, string[] to_remove, string[] to_load, string[] to_build) {
+			try {
+				daemon.start_trans_prepare (transflags, to_install, to_remove, to_load, to_build);
+			} catch (IOError e) {
+				stderr.printf ("IOError: %s\n", e.message);
+				stop_progressbar_pulse ();
+				success = false;
+				finish_transaction ();
+			}
+		}
+
 		public void run () {
 			string action = dgettext (null, "Preparing") + "...";
 			reset_progress_box (action);
-			// run
-			if (to_install.length == 0
-					&& to_remove.length == 0
-					&& to_load.length == 0
-					&& to_build.length != 0) {
-				// there only AUR packages to build so no need to prepare transaction
-				on_trans_prepare_finished (true);
-			} else {
-				string [] to_install_ = {};
-				string [] to_remove_ = {};
-				string [] to_load_ = {};
-				foreach (unowned string name in to_install) {
-					to_install_ += name;
-				}
-				foreach (unowned string name in to_remove) {
-					to_remove_ += name;
-				}
-				foreach (unowned string path in to_load) {
-					to_load_ += path;
-				}
-				try {
-					daemon.start_trans_prepare (flags, to_install_, to_remove_, to_load_);
-				} catch (IOError e) {
-					stderr.printf ("IOError: %s\n", e.message);
-					success = false;
-					finish_transaction ();
-				}
+			start_progressbar_pulse ();
+			string[] to_install_ = {};
+			string[] to_remove_ = {};
+			string[] to_load_ = {};
+			string[] to_build_ = {};
+			foreach (unowned string name in to_install) {
+				to_install_ += name;
 			}
+			foreach (unowned string name in to_remove) {
+				to_remove_ += name;
+			}
+			foreach (unowned string path in to_load) {
+				to_load_ += path;
+			}
+			foreach (unowned string name in to_build) {
+				to_build_ += name;
+			}
+			start_trans_prepare (flags, to_install_, to_remove_, to_load_, to_build_);
 		}
 
 		void choose_provider (string depend, string[] providers) {
@@ -843,6 +894,19 @@ namespace Pamac {
 				transaction_sum_dialog.sum_list.get_iter (out iter, new Gtk.TreePath.from_indices (pos));
 				transaction_sum_dialog.sum_list.set (iter, 0, "<b>%s</b>".printf (dgettext (null, "To remove") + ":"));
 			}
+			if (summary.aur_conflicts_to_remove.length > 0) {
+				// do not add type enum because it is just infos
+				foreach (unowned UpdateInfos infos in summary.aur_conflicts_to_remove) {
+					transaction_summary.add (infos.name);
+					transaction_sum_dialog.sum_list.insert_with_values (out iter, -1,
+												1, infos.name,
+												2, infos.old_version);
+				}
+				Gtk.TreePath path = transaction_sum_dialog.sum_list.get_path (iter);
+				int pos = (path.get_indices ()[0]) - (summary.aur_conflicts_to_remove.length - 1);
+				transaction_sum_dialog.sum_list.get_iter (out iter, new Gtk.TreePath.from_indices (pos));
+				transaction_sum_dialog.sum_list.set (iter, 0, "<b>%s</b>".printf (dgettext (null, "To remove") + ":"));
+			}
 			if (summary.to_downgrade.length > 0) {
 				type |= Type.STANDARD;
 				foreach (unowned UpdateInfos infos in summary.to_downgrade) {
@@ -858,15 +922,22 @@ namespace Pamac {
 				transaction_sum_dialog.sum_list.get_iter (out iter, new Gtk.TreePath.from_indices (pos));
 				transaction_sum_dialog.sum_list.set (iter, 0, "<b>%s</b>".printf (dgettext (null, "To downgrade") + ":"));
 			}
-			if (to_build.length > 0) {
+			if (summary.to_build.length > 0) {
 				type |= Type.BUILD;
-				foreach (unowned string name in to_build) {
-					transaction_summary.add (name);
+				// populate build queue
+				foreach (unowned string name in summary.aur_pkgbases_to_build) {
+					to_build_queue.push_tail (name);
+				}
+				aur_pkgs_to_install = {};
+				foreach (unowned UpdateInfos infos in summary.to_build) {
+					aur_pkgs_to_install += infos.name;
+					transaction_summary.add (infos.name);
 					transaction_sum_dialog.sum_list.insert_with_values (out iter, -1,
-												1, name);
+												1, infos.name,
+												2, infos.new_version);
 				}
 				Gtk.TreePath path = transaction_sum_dialog.sum_list.get_path (iter);
-				int pos = (path.get_indices ()[0]) - ((int) to_build.length - 1);
+				int pos = (path.get_indices ()[0]) - (summary.to_build.length - 1);
 				transaction_sum_dialog.sum_list.get_iter (out iter, new Gtk.TreePath.from_indices (pos));
 				transaction_sum_dialog.sum_list.set (iter, 0, "<b>%s</b>".printf (dgettext (null, "To build") + ":"));
 			}
@@ -924,7 +995,7 @@ namespace Pamac {
 			return type;
 		}
 
-		public void start_commit () {
+		void start_commit () {
 			try {
 				daemon.start_trans_commit ();
 			} catch (IOError e) {
@@ -934,52 +1005,84 @@ namespace Pamac {
 			}
 		}
 
-		public async void build_aur_packages () {
-			string action = dgettext (null, "Building packages") + "...";
+		async void build_aur_packages () {
+			string pkgname = to_build_queue.pop_head ();
+			string action = dgettext (null, "Building %s".printf (pkgname)) + "...";
 			reset_progress_box (action);
-			term.grab_focus ();
+			build_cancellable.reset ();
 			start_progressbar_pulse ();
 			important_details_outpout (true);
-			start_transaction ();
-			string[] cmds = {"yaourt", "-S"};
-			if (pamac_config.no_confirm_build) {
-				cmds += "--noconfirm";
-			}
-			string[] packagebases = {};
-			foreach (unowned string name in to_build) {
-				AURPackageDetails details = yield get_aur_details (name);
-				if (details.name != "") {
-					if (!(details.packagebase in packagebases)) {
-						packagebases += details.packagebase;
-						cmds += name;
+			to_build.remove_all ();
+			string [] built_pkgs = {};
+			int status = 1;
+			string builddir = "/tmp/pamac-build";
+			status = yield spawn_in_term ({"mkdir", "-p", builddir});
+			if (status == 0) {
+				status = yield spawn_in_term ({"rm", "-rf", pkgname}, builddir);
+				if (!build_cancellable.is_cancelled ()) {
+					if (status == 0) {
+						building = true;
+						start_building ();
+						status = yield spawn_in_term ({"git", "clone", "https://aur.archlinux.org/%s.git".printf (pkgname)}, builddir);
+						if (status == 0) {
+							string pkgdir = "%s/%s".printf (builddir, pkgname);
+							status = yield spawn_in_term ({"makepkg", "-c"}, pkgdir);
+							building = false;
+							if (status == 0) {
+								foreach (unowned string aurpkg in aur_pkgs_to_install) {
+									string standard_output;
+									try {
+										Process.spawn_command_line_sync ("find %s -name %s".printf (pkgdir, "'%s-*.pkg.tar*'".printf (aurpkg)),
+																	out standard_output,
+																	null,
+																	out status);
+										if (status == 0) {
+											foreach (unowned string path in standard_output.split ("\n")) {
+												if (path != "") {
+													built_pkgs += path;
+												}
+											}
+										}
+									} catch (SpawnError e) {
+										stderr.printf ("SpawnError: %s\n", e.message);
+										status = 1;
+									}
+								}
+							}
+						}
 					}
 				} else {
-					cmds += name;
+					status = 1;
 				}
 			}
-			Pid child_pid;
-			spawn_in_term (cmds, false, out child_pid);
-			// watch_child is needed in order to have the child_exited signal emitted
-			term.watch_child (child_pid);
-//~ 			foreach (unowned string pkgname in to_build) {
-//~ 				stdout.printf("aur deps for %s:\n", pkgname);
-//~ 				get_aur_build_list.begin (pkgname, (obj, res) => {
-//~ 					string[] names = get_aur_build_list.end (res);
-//~ 					foreach (unowned string name in names) {
-//~ 						stdout.printf("\t%s\n", name);
-//~ 					}
-//~ 				});
-//~ 			}
+			building = false;
+			if (status == 0) {
+				if (built_pkgs.length > 0) {
+					no_confirm_commit = true;
+					show_in_term ("");
+					stop_progressbar_pulse ();
+					start_trans_prepare (flags, {}, {}, built_pkgs, {});
+				}
+			} else {
+				to_load.remove_all ();
+				to_build_queue.clear ();
+				stop_progressbar_pulse ();
+				success = false;
+				finish_transaction ();
+			}
 		}
 
 		public void cancel () {
-			try {
-				daemon.trans_cancel ();
-			} catch (IOError e) {
-				stderr.printf ("IOError: %s\n", e.message);
+			if (building) {
+				build_cancellable.cancel ();
+			} else {
+				try {
+					daemon.trans_cancel ();
+				} catch (IOError e) {
+					stderr.printf ("IOError: %s\n", e.message);
+				}
 			}
-			progress_box.hide ();
-			spawn_in_term ({"/usr/bin/echo", dgettext (null, "Transaction cancelled") + ".\n"});
+			show_in_term (dgettext (null, "Transaction cancelled") + ".\n");
 			warning_textbuffer = new StringBuilder ();
 		}
 
@@ -1031,31 +1134,31 @@ namespace Pamac {
 							previous_filename = details[0];
 							string msg = dgettext (null, "Installing %s").printf (details[0]) + "...";
 							progress_box.action_label.label = msg;
-							spawn_in_term ({"echo", dgettext (null, "Installing %s").printf ("%s (%s)".printf (details[0], details[1])) + "..."});
+							show_in_term (dgettext (null, "Installing %s").printf ("%s (%s)".printf (details[0], details[1])) + "...");
 							break;
 						case 2: //Alpm.Package.Operation.UPGRADE
 							previous_filename = details[0];
 							string msg = dgettext (null, "Upgrading %s").printf (details[0]) + "...";
 							progress_box.action_label.label = msg;
-							spawn_in_term ({"echo", dgettext (null, "Upgrading %s").printf ("%s (%s -> %s)".printf (details[0], details[1], details[2])) + "..."});
+							show_in_term (dgettext (null, "Upgrading %s").printf ("%s (%s -> %s)".printf (details[0], details[1], details[2])) + "...");
 							break;
 						case 3: //Alpm.Package.Operation.REINSTALL
 							previous_filename = details[0];
 							string msg = dgettext (null, "Reinstalling %s").printf (details[0]) + "...";
 							progress_box.action_label.label = msg;
-							spawn_in_term ({"echo", dgettext (null, "Reinstalling %s").printf ("%s (%s)".printf (details[0], details[1])) + "..."});
+							show_in_term (dgettext (null, "Reinstalling %s").printf ("%s (%s)".printf (details[0], details[1])) + "...");
 							break;
 						case 4: //Alpm.Package.Operation.DOWNGRADE
 							previous_filename = details[0];
 							string msg = dgettext (null, "Downgrading %s").printf (details[0]) + "...";
 							progress_box.action_label.label = msg;
-							spawn_in_term ({"echo", dgettext (null, "Downgrading %s").printf ("%s (%s -> %s)".printf (details[0], details[1], details[2])) + "..."});
+							show_in_term (dgettext (null, "Downgrading %s").printf ("%s (%s -> %s)".printf (details[0], details[1], details[2])) + "...");
 							break;
 						case 5: //Alpm.Package.Operation.REMOVE
 							previous_filename = details[0];
 							string msg = dgettext (null, "Removing %s").printf (details[0]) + "...";
 							progress_box.action_label.label = msg;
-							spawn_in_term ({"echo", dgettext (null, "Removing %s").printf ("%s (%s)".printf (details[0], details[1])) + "..."});
+							show_in_term (dgettext (null, "Removing %s").printf ("%s (%s)".printf (details[0], details[1])) + "...");
 							break;
 					}
 					break;
@@ -1090,7 +1193,7 @@ namespace Pamac {
 					break;
 				case 28: //Alpm.Event.Type.PKGDOWNLOAD_START
 					// special case handle differently
-					spawn_in_term ({"echo", dgettext (null, "Downloading %s").printf (details[0]) + "..."});
+					show_in_term (dgettext (null, "Downloading %s").printf (details[0]) + "...");
 					string name_version_release = details[0].slice (0, details[0].last_index_of_char ('-'));
 					string name_version = name_version_release.slice (0, name_version_release.last_index_of_char ('-'));
 					string name = name_version.slice (0, name_version.last_index_of_char ('-'));
@@ -1153,10 +1256,10 @@ namespace Pamac {
 			}
 			if (action != null) {
 				progress_box.action_label.label = action;
-				spawn_in_term ({"echo", action});
+				show_in_term (action);
 			}
 			if (detailed_action != null) {
-				spawn_in_term ({"echo", detailed_action});
+				show_in_term (detailed_action);
 			}
 		}
 
@@ -1329,7 +1432,7 @@ namespace Pamac {
 				}
 			}
 			if (line != null) {
-				spawn_in_term ({"echo", "-n", line});
+				show_in_term (line.replace ("\n", ""));
 			}
 		}
 
@@ -1362,21 +1465,37 @@ namespace Pamac {
 		}
 
 		void display_error (string message, string[] details) {
-			spawn_in_term ({"echo", "-n", message});
-			var dialog = new Gtk.MessageDialog (application_window,
-												Gtk.DialogFlags.MODAL,
-												Gtk.MessageType.ERROR,
-												Gtk.ButtonsType.CLOSE,
-												message);
+			var dialog = new Gtk.Dialog.with_buttons (message,
+													application_window,
+													Gtk.DialogFlags.MODAL | Gtk.DialogFlags.USE_HEADER_BAR);
+			var textbuffer = new StringBuilder ();
 			if (details.length != 0) {
-				var textbuffer = new StringBuilder ();
-				spawn_in_term ({"echo", ":"});
+				show_in_term (message + ":");
 				foreach (unowned string detail in details) {
-					spawn_in_term ({"echo", detail});
+					show_in_term (detail);
 					textbuffer.append (detail + "\n");
 				}
-				dialog.secondary_text = textbuffer.str;
+			} else {
+				show_in_term (message);
+				textbuffer.append (message);
 			}
+			dialog.deletable = false;
+			unowned Gtk.Widget widget = dialog.add_button (dgettext (null, "_Close"), Gtk.ResponseType.CLOSE);
+			widget.can_focus = true;
+			widget.has_focus = true;
+			widget.can_default = true;
+			widget.has_default = true;
+			var scrolledwindow = new Gtk.ScrolledWindow (null, null);
+			var label = new Gtk.Label (textbuffer.str);
+			label.margin = 12;
+			scrolledwindow.visible = true;
+			label.visible = true;
+			scrolledwindow.add (label);
+			scrolledwindow.expand = true;
+			unowned Gtk.Box box = dialog.get_content_area ();
+			box.add (scrolledwindow);
+			dialog.default_width = 600;
+			dialog.default_height = 300;
 			dialog.run ();
 			dialog.destroy ();
 		}
@@ -1417,8 +1536,8 @@ namespace Pamac {
 			if (success) {
 				show_warnings ();
 				Type type = set_transaction_sum ();
-				if (type == Type.UPDATE && mode == Mode.UPDATER) {
-					// there only updates
+				if (no_confirm_commit || (type == Type.UPDATE && mode == Mode.UPDATER)) {
+					// no_confirm_commit or only updates
 					start_commit ();
 				} else if (type != 0) {
 					if (transaction_sum_dialog.run () == Gtk.ResponseType.OK) {
@@ -1428,6 +1547,7 @@ namespace Pamac {
 						}
 						if (type == Type.BUILD) {
 							// there only AUR packages to build
+							release ();
 							on_trans_commit_finished (true);
 						} else {
 							// backup to_install and to_remove
@@ -1444,10 +1564,11 @@ namespace Pamac {
 					} else {
 						transaction_sum_dialog.hide ();
 						unowned string action = dgettext (null, "Transaction cancelled");
-						spawn_in_term ({"echo", action + ".\n"});
+						show_in_term (action + ".\n");
 						progress_box.action_label.label = action;
 						release ();
 						transaction_summary.remove_all ();
+						to_build_queue.clear ();
 						sysupgrade_after_trans = false;
 						success = false;
 						finish_transaction ();
@@ -1455,13 +1576,14 @@ namespace Pamac {
 				} else {
 					//var err = ErrorInfos ();
 					//err.message = dgettext (null, "Nothing to do") + "\n";
-					spawn_in_term ({"echo", dgettext (null, "Nothing to do") + ".\n"});
+					show_in_term (dgettext (null, "Nothing to do") + ".\n");
 					release ();
 					clear_lists ();
 					finish_transaction ();
 					//handle_error (err);
 				}
 			} else {
+				to_load.remove_all ();
 				warning_textbuffer = new StringBuilder ();
 				handle_error (get_current_error ());
 			}
@@ -1469,23 +1591,27 @@ namespace Pamac {
 
 		void on_trans_commit_finished (bool success) {
 			this.success = success;
+			// needed before build_aur_packages and remove_makedeps
+			no_confirm_commit = false;
 			if (success) {
 				show_warnings ();
-				if (to_build.length != 0) {
-					if (previous_to_install.length != 0
-							|| previous_to_remove.length != 0
-							|| to_load.length != 0) {
-						spawn_in_term ({"echo", dgettext (null, "Transaction successfully finished") + ".\n"});
-					}
+				to_load.remove_all ();
+				if (to_build_queue.get_length () != 0) {
+					show_in_term ("");
+					clear_previous_lists ();
 					build_aur_packages.begin ();
 				} else {
 					clear_previous_lists ();
 					if (sysupgrade_after_trans) {
 						sysupgrade_after_trans = false;
 						sysupgrade (false);
+					} else if (build_after_sysupgrade) {
+						build_after_sysupgrade = false;
+						// build aur updates in to_build
+						run ();
 					} else {
 						unowned string action = dgettext (null, "Transaction successfully finished");
-						spawn_in_term ({"echo", action + ".\n"});
+						show_in_term (action + ".\n");
 						progress_box.action_label.label = action;
 						finish_transaction ();
 					}
@@ -1502,6 +1628,8 @@ namespace Pamac {
 					foreach (unowned string name in previous_to_remove) {
 						to_remove.add (name);
 					}
+				} else {
+					to_load.remove_all ();
 				}
 				clear_previous_lists ();
 				warning_textbuffer = new StringBuilder ();
@@ -1512,39 +1640,18 @@ namespace Pamac {
 			previous_filename = "";
 		}
 
-		void on_term_child_exited (int status) {
-			stop_progressbar_pulse ();
-			clear_previous_lists ();
-			to_build.remove_all ();
-			// let the time to the daemon to update databases
-			Timeout.add (1000, () => {
-				if (status == 0) {
-					success = true;
-					unowned string action = dgettext (null, "Transaction successfully finished");
-					spawn_in_term ({"echo", action + "."});
-					progress_box.action_label.label = action;
-				} else {
-					success = false;
-				}
-				finish_transaction ();
-				return false;
-			});
-		}
-
 		void on_set_pkgreason_finished () {
 			set_pkgreason_finished ();
 		}
 
 		void on_write_pamac_config_finished (bool recurse, uint64 refresh_period, bool no_update_hide_icon,
-												bool enable_aur, bool search_aur, bool check_aur_updates,
-												bool no_confirm_build) {
+												bool enable_aur, bool search_aur, bool check_aur_updates) {
 			pamac_config.reload ();
 			if (recurse) {
 				flags |= (1 << 5); //Alpm.TransFlag.RECURSE
 			}
 			write_pamac_config_finished (recurse, refresh_period, no_update_hide_icon,
-											enable_aur, search_aur, check_aur_updates,
-											no_confirm_build);
+											enable_aur, search_aur, check_aur_updates);
 		}
 
 		void on_write_alpm_config_finished (bool checkspace) {
@@ -1556,12 +1663,12 @@ namespace Pamac {
 		}
 
 		void on_generate_mirrors_list_data (string line) {
-			spawn_in_term ({"echo", line});
+			show_in_term (line);
 		}
 
 		void on_generate_mirrors_list_finished () {
 			stop_progressbar_pulse ();
-			spawn_in_term ({"echo"});
+			show_in_term ("");
 			// force a dbs refresh
 			start_refresh (true);
 		}

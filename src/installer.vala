@@ -55,7 +55,7 @@ namespace Pamac {
 				transaction.important_details_outpout.connect (on_important_details_outpout);
 				progress_dialog.box.pack_start (transaction.progress_box);
 				progress_dialog.box.reorder_child (transaction.progress_box, 0);
-				progress_dialog.expander.add (transaction.term_grid);
+				progress_dialog.expander.add (transaction.term_window);
 				progress_dialog.close_button.clicked.connect (on_close_button_clicked);
 				progress_dialog.close_button.visible = false;
 				this.hold ();

@@ -32,6 +32,9 @@ namespace Pamac {
 		public UpdateInfos[] to_downgrade;
 		public UpdateInfos[] to_reinstall;
 		public UpdateInfos[] to_remove;
+		public UpdateInfos[] to_build;
+		public UpdateInfos[] aur_conflicts_to_remove;
+		public string[] aur_pkgbases_to_build;
 	}
 
 	public struct Updates {
