@@ -909,27 +909,26 @@ namespace Pamac {
 						}
 					}
 				} else {
-					string pkgname = depstring.split (":", 2)[0].replace (" [" + dgettext (null, "Installed") + "]", "");
 					// just search for the name first to search for AUR after
-					if (transaction.get_installed_pkg (pkgname).name != "") {
-						display_package_properties (pkgname);
-					} else if (transaction.get_sync_pkg (pkgname).name != "") {
-						display_package_properties (pkgname);
+					if (transaction.get_installed_pkg (depstring).name != "") {
+						display_package_properties (depstring);
+					} else if (transaction.get_sync_pkg (depstring).name != "") {
+						display_package_properties (depstring);
 					} else {
 						this.get_window ().set_cursor (new Gdk.Cursor.for_display (Gdk.Display.get_default (), Gdk.CursorType.WATCH));
 						while (Gtk.events_pending ()) {
 							Gtk.main_iteration ();
 						}
-						transaction.get_aur_details.begin (pkgname, (obj, res) => {
+						transaction.get_aur_details.begin (depstring, (obj, res) => {
 							this.get_window ().set_cursor (null);
 							if (transaction.get_aur_details.end (res).name != "") {
-								display_aur_properties (pkgname);
+								display_aur_properties (depstring);
 							} else {
-								var pkg = transaction.find_installed_satisfier (pkgname);
+								var pkg = transaction.find_installed_satisfier (depstring);
 								if (pkg.name != "") {
 									display_package_properties (pkg.name);
 								} else {
-									pkg = transaction.find_sync_satisfier (pkgname);
+									pkg = transaction.find_sync_satisfier (depstring);
 									if (pkg.name != "") {
 										display_package_properties (pkg.name);
 									}
