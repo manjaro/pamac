@@ -383,6 +383,7 @@ namespace Pamac {
 			selection = states_treeview.get_selection ();
 			selection.changed.disconnect (on_states_treeview_selection_changed);
 			states_list.insert_with_values (null, -1, 0, dgettext (null, "Installed"));
+			states_list.insert_with_values (null, -1, 0, dgettext (null, "Explicitly installed"));
 			states_list.insert_with_values (null, -1, 0, dgettext (null, "Orphans"));
 			states_list.insert_with_values (null, -1, 0, dgettext (null, "Foreign"));
 			states_list.insert_with_values (null, -1, 0, dgettext (null, "Pending"));
@@ -1413,6 +1414,10 @@ namespace Pamac {
 				if (state == dgettext (null, "Installed")) {
 					transaction.get_installed_pkgs.begin ((obj, res) => {
 						populate_packages_list (transaction.get_installed_pkgs.end (res));
+					});
+				} else if (state == dgettext (null, "Explicitly installed")) {
+					transaction.get_explicitly_installed_pkgs.begin ((obj, res) => {
+						populate_packages_list (transaction.get_explicitly_installed_pkgs.end (res));
 					});
 				} else if (state == dgettext (null, "Orphans")) {
 					transaction.get_orphans.begin ((obj, res) => {

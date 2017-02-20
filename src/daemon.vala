@@ -560,6 +560,19 @@ namespace Pamac {
 			return pkgs;
 		}
 
+		public async AlpmPackage[] get_explicitly_installed_pkgs () {
+			AlpmPackage[] pkgs = {};
+			unowned Alpm.List<unowned Alpm.Package> pkgcache = alpm_handle.localdb.pkgcache;
+			while (pkgcache != null) {
+				unowned Alpm.Package alpm_pkg = pkgcache.data;
+				if (alpm_pkg.reason == Alpm.Package.Reason.EXPLICIT) {
+					pkgs += initialise_pkg_struct (alpm_pkg);
+				}
+				pkgcache.next ();
+			}
+			return pkgs;
+		}
+
 		public async AlpmPackage[] get_foreign_pkgs () {
 			AlpmPackage[] pkgs = {};
 			unowned Alpm.List<unowned Alpm.Package> pkgcache = alpm_handle.localdb.pkgcache;
