@@ -4,6 +4,7 @@
 # Guillaume Benoit <guillaume@manjaro.org>, 2013-2016.
 # 
 # Translators:
+# acutbal <acutbal@gmail.com>, 2017
 # Davidmp <medipas@gmail.com>, 2014
 # Davidmp <medipas@gmail.com>, 2014
 # philm <philm@manjaro.org>, 2015
@@ -12,8 +13,8 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2016-04-24 08:44+0200\n"
-"PO-Revision-Date: 2017-01-07 15:03+0000\n"
-"Last-Translator: Guillaume Benoit <guillaume@manjaro.org>\n"
+"PO-Revision-Date: 2017-02-20 10:45+0000\n"
+"Last-Translator: acutbal <acutbal@gmail.com>\n"
 "Language-Team: Catalan (Spain) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/ca_ES/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -23,105 +24,119 @@ msgstr ""
 
 #: data/polkit/org.manjaro.pamac.policy
 msgid "Authentication is required"
-msgstr ""
+msgstr "Cal autenticació"
 
 #: ../src/daemon.vala
 msgid "Failed to initialize alpm library"
-msgstr ""
+msgstr "Ha fallat la inicialització de la llibreria alpm"
 
 #: ../src/daemon.vala ../src/transaction.vala
 msgid "Authentication failed"
-msgstr ""
+msgstr "Autenticació fallida"
 
 #: ../src/daemon.vala
 msgid "Failed to synchronize any databases"
-msgstr ""
+msgstr "Ha fallat la sincronització amb les bases de dades"
 
 #: ../src/daemon.vala
 msgid "Unknown"
-msgstr ""
+msgstr "Desconegut"
 
 #: ../src/daemon.vala
 msgid "Explicitly installed"
-msgstr ""
+msgstr "Explícitament instal·lat"
 
 #: ../src/daemon.vala ../src/manager_window.vala
 msgid "Installed as a dependency for another package"
-msgstr ""
+msgstr "Instal·lat com a dependència d'un altre paquet"
 
 #: ../src/daemon.vala
 msgid "Yes"
-msgstr ""
+msgstr "Si"
 
 #: ../src/daemon.vala
 msgid "No"
-msgstr ""
+msgstr "No"
 
 #: ../src/daemon.vala
 msgid "Failed to init transaction"
-msgstr ""
+msgstr "Ha fallat la inicialització de la transacció"
 
 #: ../src/daemon.vala
 msgid "Failed to prepare transaction"
-msgstr ""
+msgstr "Ha fallat la preparació de la transacció"
 
 #: ../src/daemon.vala
 #, c-format
 msgid "target not found: %s"
-msgstr ""
+msgstr "objectiu no trobat: %s"
 
 #: ../src/daemon.vala
 #, c-format
 msgid "package %s does not have a valid architecture"
-msgstr ""
+msgstr "el paquet %s no té una estructura vàlida"
 
 #: ../src/daemon.vala
 #, c-format
 msgid "%s: requires %s"
-msgstr ""
+msgstr "%s: requereix %s"
+
+#: ../src/daemon.vala
+#, c-format
+msgid "%s: installing %s (%s) breaks dependency '%s'"
+msgstr "%s: al instal.lar %s (%s) trenca la dependència '%s'"
+
+#: ../src/daemon.vala
+#, c-format
+msgid "%s: removing %s breaks dependency '%s'"
+msgstr "%s: al eliminar %s trenca la dependència '%s'"
 
 #: ../src/daemon.vala
 #, c-format
 msgid "%s and %s are in conflict"
-msgstr ""
+msgstr "%s and %s tenen conflictes"
 
 #: ../src/daemon.vala
 #, c-format
 msgid "%s needs to be removed but it is a locked package"
-msgstr ""
+msgstr "%s s'ha d'eliminar però és un paquet bloquejat"
 
 #: ../src/daemon.vala
 msgid "Failed to commit transaction"
-msgstr ""
+msgstr "Ha fallat l'execució de la transacció"
 
 #: ../src/daemon.vala
 #, c-format
 msgid "%s exists in both %s and %s"
-msgstr ""
+msgstr "%s existeix a %s i %s"
 
 #: ../src/daemon.vala
 #, c-format
 msgid "%s: %s already exists in filesystem"
-msgstr ""
+msgstr "%s: %s ja és al sistema de fitxers"
 
 #: ../src/daemon.vala
 #, c-format
 msgid "%s is invalid or corrupted"
-msgstr ""
+msgstr "%s no és vàlid o corrupte"
 
 #: ../src/daemon.vala
 #, c-format
 msgid "%s appears to be truncated: %jd/%jd bytes\n"
-msgstr ""
+msgstr "%s sembla que estigui truncat: %jd/%jd bytes\n"
 
 #: ../src/daemon.vala
 #, c-format
 msgid "failed retrieving file '%s' from %s : %s\n"
-msgstr ""
+msgstr "ha fallat l'obtenció del fitxer \"%s\" des de %s : %s\n"
 
 #: ../src/transaction.vala
 msgid "A Gtk3 frontend for libalpm"
-msgstr ""
+msgstr "interfície Gtk3 per a libalpm"
+
+#: ../src/transaction.vala
+msgid "Copy"
+msgstr "Copiar"
 
 #: ../src/transaction.vala
 msgid "Refreshing mirrors list"
@@ -173,7 +188,8 @@ msgid "Total download size"
 msgstr ""
 
 #: ../src/transaction.vala
-msgid "Building packages"
+#, c-format
+msgid "Building %s"
 msgstr ""
 
 #: ../src/transaction.vala
@@ -353,11 +369,11 @@ msgstr ""
 msgid "Your system is up-to-date"
 msgstr ""
 
-#: ../src/tray.vala
+#: ../src/tray.vala ../src/updater_window.vala
 msgid "Update Manager"
 msgstr ""
 
-#: ../src/tray.vala
+#: ../src/tray.vala ../src/manager_window.vala
 msgid "Package Manager"
 msgstr ""
 
@@ -540,6 +556,10 @@ msgstr ""
 msgid "How often to check for updates, value in hours"
 msgstr ""
 
+#: ../src/preferences_dialog.vala ../resources/preferences_dialog.ui
+msgid "Number of versions of each package to keep in the cache"
+msgstr ""
+
 #: ../src/preferences_dialog.vala
 msgid "Worldwide"
 msgstr ""
@@ -595,10 +615,6 @@ msgstr ""
 
 #: ../resources/manager_window.ui
 msgid "Search"
-msgstr ""
-
-#: ../resources/manager_window.ui
-msgid "Search in AUR"
 msgstr ""
 
 #: ../resources/manager_window.ui ../resources/updater_window.ui
@@ -712,14 +728,6 @@ msgstr ""
 
 #: ../resources/preferences_dialog.ui
 msgid "Check for updates from AUR"
-msgstr ""
-
-#: ../resources/preferences_dialog.ui
-msgid "Do not ask for confirmation when building packages"
-msgstr ""
-
-#: ../resources/preferences_dialog.ui
-msgid "Number of versions of each package to keep in the cache"
 msgstr ""
 
 #: ../resources/preferences_dialog.ui

@@ -23,7 +23,7 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2016-04-24 08:44+0200\n"
-"PO-Revision-Date: 2017-01-13 21:46+0000\n"
+"PO-Revision-Date: 2017-02-18 18:23+0000\n"
 "Last-Translator: Pietro Francesco Fontana\n"
 "Language-Team: Italian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/it/)\n"
 "MIME-Version: 1.0\n"
@@ -93,6 +93,16 @@ msgstr "%s: richiede %s"
 
 #: ../src/daemon.vala
 #, c-format
+msgid "%s: installing %s (%s) breaks dependency '%s'"
+msgstr "%s: l'installazione di %s (%s) interrompe la dipendenza '%s'"
+
+#: ../src/daemon.vala
+#, c-format
+msgid "%s: removing %s breaks dependency '%s'"
+msgstr "%s: la rimozione di %s interrompe la dipendenza '%s'"
+
+#: ../src/daemon.vala
+#, c-format
 msgid "%s and %s are in conflict"
 msgstr "%s e %s sono in conflitto"
 
@@ -133,6 +143,10 @@ msgstr "recupero file '%s' fallito da %s : %s\n"
 #: ../src/transaction.vala
 msgid "A Gtk3 frontend for libalpm"
 msgstr "Frontend gtk3 per libalpm"
+
+#: ../src/transaction.vala
+msgid "Copy"
+msgstr "Copia"
 
 #: ../src/transaction.vala
 msgid "Refreshing mirrors list"
@@ -184,8 +198,9 @@ msgid "Total download size"
 msgstr "Dimensione totale download"
 
 #: ../src/transaction.vala
-msgid "Building packages"
-msgstr "Costruzione dei pacchetti in corso"
+#, c-format
+msgid "Building %s"
+msgstr "Costruzione in corso di %s"
 
 #: ../src/transaction.vala
 msgid "Transaction cancelled"
@@ -364,11 +379,11 @@ msgstr "Pamac è già in esecuzione"
 msgid "Your system is up-to-date"
 msgstr "Il vostro sistema è aggiornato"
 
-#: ../src/tray.vala
+#: ../src/tray.vala ../src/updater_window.vala
 msgid "Update Manager"
 msgstr "Gestore degli aggiornamenti"
 
-#: ../src/tray.vala
+#: ../src/tray.vala ../src/manager_window.vala
 msgid "Package Manager"
 msgstr "Gestore dei pacchetti"
 
@@ -551,6 +566,10 @@ msgstr "Pacchetto Alpm"
 msgid "How often to check for updates, value in hours"
 msgstr "Con quale frequenza controllare gli aggiornamenti, il valore in ore"
 
+#: ../src/preferences_dialog.vala ../resources/preferences_dialog.ui
+msgid "Number of versions of each package to keep in the cache"
+msgstr "Numero di versioni di ogni pacchetto da conservare nella cache"
+
 #: ../src/preferences_dialog.vala
 msgid "Worldwide"
 msgstr "Mondiale"
@@ -607,10 +626,6 @@ msgstr "Informazioni"
 #: ../resources/manager_window.ui
 msgid "Search"
 msgstr "Cerca"
-
-#: ../resources/manager_window.ui
-msgid "Search in AUR"
-msgstr "Cerca in AUR"
 
 #: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "State"
@@ -724,14 +739,6 @@ msgstr "Cerca in AUR come impostazione predefinita."
 #: ../resources/preferences_dialog.ui
 msgid "Check for updates from AUR"
 msgstr "Controlla aggiornamenti da AUR"
-
-#: ../resources/preferences_dialog.ui
-msgid "Do not ask for confirmation when building packages"
-msgstr "Non chiedere conferma durante la creazione dei pacchetti"
-
-#: ../resources/preferences_dialog.ui
-msgid "Number of versions of each package to keep in the cache"
-msgstr "Numero di versioni di ogni pacchetto da conservare nella cache"
 
 #: ../resources/preferences_dialog.ui
 msgid "Remove only the versions of uninstalled packages"

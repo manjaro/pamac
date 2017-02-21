@@ -4,7 +4,7 @@
 # Guillaume Benoit <guillaume@manjaro.org>, 2013-2016.
 # 
 # Translators:
-# Galin Iskrenov <loot270@abv.bg>, 2013-2016
+# Galin Iskrenov <loot270@abv.bg>, 2013-2017
 # Georgi Georgiev <georgiev_1994@abv.bg>, 2014
 # Georgi Georgiev <georgiev_1994@abv.bg>, 2014,2016
 # Galin Iskrenov <loot270@abv.bg>, 2013
@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2016-04-24 08:44+0200\n"
-"PO-Revision-Date: 2016-12-19 12:37+0000\n"
+"PO-Revision-Date: 2017-02-20 06:27+0000\n"
 "Last-Translator: Galin Iskrenov <loot270@abv.bg>\n"
 "Language-Team: Bulgarian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/bg/)\n"
 "MIME-Version: 1.0\n"
@@ -86,6 +86,16 @@ msgstr "%s: изисква %s"
 
 #: ../src/daemon.vala
 #, c-format
+msgid "%s: installing %s (%s) breaks dependency '%s'"
+msgstr "%s: инсталира %s (%s) прекъсващи зависимости '%s'"
+
+#: ../src/daemon.vala
+#, c-format
+msgid "%s: removing %s breaks dependency '%s'"
+msgstr "%s: премахване %s прекъсващи зависимости '%s'"
+
+#: ../src/daemon.vala
+#, c-format
 msgid "%s and %s are in conflict"
 msgstr "%s и %s са в конфликт"
 
@@ -126,6 +136,10 @@ msgstr "невъзможно изтегляне на '%s' от %s : %s\n"
 #: ../src/transaction.vala
 msgid "A Gtk3 frontend for libalpm"
 msgstr "GTK3 интерфейс за libalpm"
+
+#: ../src/transaction.vala
+msgid "Copy"
+msgstr "копиране"
 
 #: ../src/transaction.vala
 msgid "Refreshing mirrors list"
@@ -177,8 +191,9 @@ msgid "Total download size"
 msgstr "Пълен размер за сваляне"
 
 #: ../src/transaction.vala
-msgid "Building packages"
-msgstr "Изграждане на пакети"
+#, c-format
+msgid "Building %s"
+msgstr "изграждане %s"
 
 #: ../src/transaction.vala
 msgid "Transaction cancelled"
@@ -357,11 +372,11 @@ msgstr "Pamac вече е пуснат"
 msgid "Your system is up-to-date"
 msgstr "Вашата система е актуална"
 
-#: ../src/tray.vala
+#: ../src/tray.vala ../src/updater_window.vala
 msgid "Update Manager"
 msgstr "Диспечер за обновяване"
 
-#: ../src/tray.vala
+#: ../src/tray.vala ../src/manager_window.vala
 msgid "Package Manager"
 msgstr "Диспечер на пакети"
 
@@ -544,6 +559,10 @@ msgstr "Alpm Пакет"
 msgid "How often to check for updates, value in hours"
 msgstr "Колко често да се проверява за актуализации, стойност в часове"
 
+#: ../src/preferences_dialog.vala ../resources/preferences_dialog.ui
+msgid "Number of versions of each package to keep in the cache"
+msgstr "Брой версии от всеки пакет запазени в кеша"
+
 #: ../src/preferences_dialog.vala
 msgid "Worldwide"
 msgstr "По света"
@@ -600,10 +619,6 @@ msgstr "Относно"
 #: ../resources/manager_window.ui
 msgid "Search"
 msgstr "Търсене"
-
-#: ../resources/manager_window.ui
-msgid "Search in AUR"
-msgstr "Търсене в AUR"
 
 #: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "State"
@@ -717,14 +732,6 @@ msgstr "Търсене в AUR по подразбиране "
 #: ../resources/preferences_dialog.ui
 msgid "Check for updates from AUR"
 msgstr "Проверка за актуализации от  AUR"
-
-#: ../resources/preferences_dialog.ui
-msgid "Do not ask for confirmation when building packages"
-msgstr "Не питай за потвърждение, когато се изграждат пакети"
-
-#: ../resources/preferences_dialog.ui
-msgid "Number of versions of each package to keep in the cache"
-msgstr "Брой версии на пакет, които да се пазят в кеша"
 
 #: ../resources/preferences_dialog.ui
 msgid "Remove only the versions of uninstalled packages"

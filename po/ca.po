@@ -4,6 +4,7 @@
 # Guillaume Benoit <guillaume@manjaro.org>, 2013-2016.
 # 
 # Translators:
+# acutbal <acutbal@gmail.com>, 2017
 # Davidmp <medipas@gmail.com>, 2015
 # Guillaume Benoit <guillaume@manjaro.org>, 2013
 # Ramon Buldó <rbuldo@gmail.com>, 2013
@@ -17,8 +18,8 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2016-04-24 08:44+0200\n"
-"PO-Revision-Date: 2017-01-11 15:25+0000\n"
-"Last-Translator: Davidmp <medipas@gmail.com>\n"
+"PO-Revision-Date: 2017-02-20 10:44+0000\n"
+"Last-Translator: acutbal <acutbal@gmail.com>\n"
 "Language-Team: Catalan (http://www.transifex.com/manjarolinux/manjaro-pamac/language/ca/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -87,13 +88,23 @@ msgstr "%s: requereix %s"
 
 #: ../src/daemon.vala
 #, c-format
+msgid "%s: installing %s (%s) breaks dependency '%s'"
+msgstr "%s: al instal.lar %s (%s) trenca la dependència '%s'"
+
+#: ../src/daemon.vala
+#, c-format
+msgid "%s: removing %s breaks dependency '%s'"
+msgstr "%s: al eliminar %s trenca la dependència '%s'"
+
+#: ../src/daemon.vala
+#, c-format
 msgid "%s and %s are in conflict"
 msgstr "%s and %s tenen conflictes"
 
 #: ../src/daemon.vala
 #, c-format
 msgid "%s needs to be removed but it is a locked package"
-msgstr "%s s'ha d'eliminar però és un paquet blocat"
+msgstr "%s s'ha d'eliminar però és un paquet bloquejat"
 
 #: ../src/daemon.vala
 msgid "Failed to commit transaction"
@@ -126,7 +137,11 @@ msgstr "ha fallat l'obtenció del fitxer \"%s\" des de %s : %s\n"
 
 #: ../src/transaction.vala
 msgid "A Gtk3 frontend for libalpm"
-msgstr "Frontal Gtk3 per a libalpm"
+msgstr "interfície Gtk3 per a libalpm"
+
+#: ../src/transaction.vala
+msgid "Copy"
+msgstr "Copiar"
 
 #: ../src/transaction.vala
 msgid "Refreshing mirrors list"
@@ -178,8 +193,9 @@ msgid "Total download size"
 msgstr "Mida total de la baixada"
 
 #: ../src/transaction.vala
-msgid "Building packages"
-msgstr "Construint els paquets"
+#, c-format
+msgid "Building %s"
+msgstr "Construint %s"
 
 #: ../src/transaction.vala
 msgid "Transaction cancelled"
@@ -358,11 +374,11 @@ msgstr "El Pamac ja està executant-se"
 msgid "Your system is up-to-date"
 msgstr "El sistema està actualitzat"
 
-#: ../src/tray.vala
+#: ../src/tray.vala ../src/updater_window.vala
 msgid "Update Manager"
 msgstr "Gestor d'actualitzacions"
 
-#: ../src/tray.vala
+#: ../src/tray.vala ../src/manager_window.vala
 msgid "Package Manager"
 msgstr "Gestor de paquets"
 
@@ -545,6 +561,10 @@ msgstr "Paquet Alpm"
 msgid "How often to check for updates, value in hours"
 msgstr "Freqüència per comprovar si hi ha actualitzacions, valor en hores"
 
+#: ../src/preferences_dialog.vala ../resources/preferences_dialog.ui
+msgid "Number of versions of each package to keep in the cache"
+msgstr "Nombre de versions de cada paquet per mantenir a la memòria cau"
+
 #: ../src/preferences_dialog.vala
 msgid "Worldwide"
 msgstr "Tot el món"
@@ -601,10 +621,6 @@ msgstr "Quant a"
 #: ../resources/manager_window.ui
 msgid "Search"
 msgstr "Cerca"
-
-#: ../resources/manager_window.ui
-msgid "Search in AUR"
-msgstr "Cerca a l'AUR"
 
 #: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "State"
@@ -718,14 +734,6 @@ msgstr "Cerca a l'AUR per defecte"
 #: ../resources/preferences_dialog.ui
 msgid "Check for updates from AUR"
 msgstr "Comprova si hi ha actualitzacions de l'AUR"
-
-#: ../resources/preferences_dialog.ui
-msgid "Do not ask for confirmation when building packages"
-msgstr "No demanis confirmació quan es construeixin paquets"
-
-#: ../resources/preferences_dialog.ui
-msgid "Number of versions of each package to keep in the cache"
-msgstr "Nombre de versions de cada paquet per mantenir a la memòria cau"
 
 #: ../resources/preferences_dialog.ui
 msgid "Remove only the versions of uninstalled packages"

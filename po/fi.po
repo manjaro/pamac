@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2016-04-24 08:44+0200\n"
-"PO-Revision-Date: 2017-01-07 15:03+0000\n"
+"PO-Revision-Date: 2017-02-18 16:57+0000\n"
 "Last-Translator: Guillaume Benoit <guillaume@manjaro.org>\n"
 "Language-Team: Finnish (http://www.transifex.com/manjarolinux/manjaro-pamac/language/fi/)\n"
 "MIME-Version: 1.0\n"
@@ -88,6 +88,16 @@ msgstr "%s: vaatii paketin %s"
 
 #: ../src/daemon.vala
 #, c-format
+msgid "%s: installing %s (%s) breaks dependency '%s'"
+msgstr ""
+
+#: ../src/daemon.vala
+#, c-format
+msgid "%s: removing %s breaks dependency '%s'"
+msgstr ""
+
+#: ../src/daemon.vala
+#, c-format
 msgid "%s and %s are in conflict"
 msgstr "%s ja %s ovat ristiriidassa"
 
@@ -128,6 +138,10 @@ msgstr ""
 #: ../src/transaction.vala
 msgid "A Gtk3 frontend for libalpm"
 msgstr "Gtk3‐edustaohjelma libalpm:lle"
+
+#: ../src/transaction.vala
+msgid "Copy"
+msgstr ""
 
 #: ../src/transaction.vala
 msgid "Refreshing mirrors list"
@@ -179,8 +193,9 @@ msgid "Total download size"
 msgstr "Latauksen kokonaiskoko"
 
 #: ../src/transaction.vala
-msgid "Building packages"
-msgstr "Kootaan paketteja"
+#, c-format
+msgid "Building %s"
+msgstr ""
 
 #: ../src/transaction.vala
 msgid "Transaction cancelled"
@@ -359,11 +374,11 @@ msgstr "Pamac on jo käynnissä"
 msgid "Your system is up-to-date"
 msgstr "Järjestelmäsi on ajan tasalla"
 
-#: ../src/tray.vala
+#: ../src/tray.vala ../src/updater_window.vala
 msgid "Update Manager"
 msgstr "Päivitystenhallinta"
 
-#: ../src/tray.vala
+#: ../src/tray.vala ../src/manager_window.vala
 msgid "Package Manager"
 msgstr "Paketinhallinta"
 
@@ -546,6 +561,10 @@ msgstr "Alpm paketti"
 msgid "How often to check for updates, value in hours"
 msgstr "Kuinka usein tarkistetaan päivityksiä, arvo tunneissa"
 
+#: ../src/preferences_dialog.vala ../resources/preferences_dialog.ui
+msgid "Number of versions of each package to keep in the cache"
+msgstr ""
+
 #: ../src/preferences_dialog.vala
 msgid "Worldwide"
 msgstr "Maailmanlaajuinen"
@@ -602,10 +621,6 @@ msgstr ""
 #: ../resources/manager_window.ui
 msgid "Search"
 msgstr "Etsi"
-
-#: ../resources/manager_window.ui
-msgid "Search in AUR"
-msgstr "Etsi AUR:sta"
 
 #: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "State"
@@ -718,14 +733,6 @@ msgstr ""
 
 #: ../resources/preferences_dialog.ui
 msgid "Check for updates from AUR"
-msgstr ""
-
-#: ../resources/preferences_dialog.ui
-msgid "Do not ask for confirmation when building packages"
-msgstr ""
-
-#: ../resources/preferences_dialog.ui
-msgid "Number of versions of each package to keep in the cache"
 msgstr ""
 
 #: ../resources/preferences_dialog.ui

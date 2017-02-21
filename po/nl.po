@@ -9,7 +9,7 @@
 # flipper <flipper@tutanota.com>, 2016
 # Guillaume Benoit <guillaume@manjaro.org>, 2013
 # Guillaume Benoit <guillaume@manjaro.org>, 2013
-# Heimen Stoffels <vistausss@outlook.com>, 2016
+# Heimen Stoffels <vistausss@outlook.com>, 2016-2017
 # Jimmy Timmermans <jarco5000@gmail.com>, 2016
 # Kevin Andriessens <kelaun@archlinux.info>, 2015
 # Norbert Pil <norbertpil@gmail.com>, 2016
@@ -24,7 +24,7 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2016-04-24 08:44+0200\n"
-"PO-Revision-Date: 2016-11-09 15:55+0000\n"
+"PO-Revision-Date: 2017-02-19 09:59+0000\n"
 "Last-Translator: Heimen Stoffels <vistausss@outlook.com>\n"
 "Language-Team: Dutch (http://www.transifex.com/manjarolinux/manjaro-pamac/language/nl/)\n"
 "MIME-Version: 1.0\n"
@@ -94,6 +94,16 @@ msgstr "%s: heeft %s nodig"
 
 #: ../src/daemon.vala
 #, c-format
+msgid "%s: installing %s (%s) breaks dependency '%s'"
+msgstr "%s: installeren van %s (%s) doorbreekt afhankelijkheid '%s'"
+
+#: ../src/daemon.vala
+#, c-format
+msgid "%s: removing %s breaks dependency '%s'"
+msgstr "%s: verwijderen van %s doorbreekt afhankelijkheid '%s'"
+
+#: ../src/daemon.vala
+#, c-format
 msgid "%s and %s are in conflict"
 msgstr "%s en %s conflicteren"
 
@@ -134,6 +144,10 @@ msgstr "het ophalen van bestand '%s' uit %s is mislukt : %s\n"
 #: ../src/transaction.vala
 msgid "A Gtk3 frontend for libalpm"
 msgstr "Een Gtk3 frontend voor libalpm"
+
+#: ../src/transaction.vala
+msgid "Copy"
+msgstr "Kopiëren"
 
 #: ../src/transaction.vala
 msgid "Refreshing mirrors list"
@@ -185,8 +199,9 @@ msgid "Total download size"
 msgstr "Totale download grootte"
 
 #: ../src/transaction.vala
-msgid "Building packages"
-msgstr "Pakketten opbouwen"
+#, c-format
+msgid "Building %s"
+msgstr "Bezig met bouwen van %s"
 
 #: ../src/transaction.vala
 msgid "Transaction cancelled"
@@ -365,11 +380,11 @@ msgstr "Pamac is reeds gestart"
 msgid "Your system is up-to-date"
 msgstr "Uw systeem is up-to-date, Cool!"
 
-#: ../src/tray.vala
+#: ../src/tray.vala ../src/updater_window.vala
 msgid "Update Manager"
 msgstr "Update Manager"
 
-#: ../src/tray.vala
+#: ../src/tray.vala ../src/manager_window.vala
 msgid "Package Manager"
 msgstr "Pakket Manager"
 
@@ -552,6 +567,10 @@ msgstr "Almp Pakket"
 msgid "How often to check for updates, value in hours"
 msgstr "Controle interval voor updates, waarde in uren"
 
+#: ../src/preferences_dialog.vala ../resources/preferences_dialog.ui
+msgid "Number of versions of each package to keep in the cache"
+msgstr "Aantal in de cache te houden versies van elk pakket"
+
 #: ../src/preferences_dialog.vala
 msgid "Worldwide"
 msgstr "Wereldwijd"
@@ -608,10 +627,6 @@ msgstr "Over"
 #: ../resources/manager_window.ui
 msgid "Search"
 msgstr "Zoek"
-
-#: ../resources/manager_window.ui
-msgid "Search in AUR"
-msgstr "Zoek in AUR"
 
 #: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "State"
@@ -725,14 +740,6 @@ msgstr "Stel zoeken in AUR als standaard in"
 #: ../resources/preferences_dialog.ui
 msgid "Check for updates from AUR"
 msgstr "Controleer AUR voor opwaarderingen"
-
-#: ../resources/preferences_dialog.ui
-msgid "Do not ask for confirmation when building packages"
-msgstr "Niet om bevestiging vragen bij het bouwen van pakketten"
-
-#: ../resources/preferences_dialog.ui
-msgid "Number of versions of each package to keep in the cache"
-msgstr "Het aantal in de cache te bewaren pakketversies"
 
 #: ../resources/preferences_dialog.ui
 msgid "Remove only the versions of uninstalled packages"

@@ -4,13 +4,13 @@
 # Guillaume Benoit <guillaume@manjaro.org>, 2013-2016.
 # 
 # Translators:
-# Александр <ifillrok@gmail.com>, 2015
+# Александр, 2015
 # Андрей Болконский <andrey0bolkonsky@gmail.com>, 2013
 # Daniil <rostovslipknot@gmail.com>, 2013
 # Анатолий Валерианович <ffox909@mail.ru>, 2014
 # Paulo Fino <finomeno@gmail.com>, 2014
 # Анатолий Валерианович <ffox909@mail.ru>, 2014
-# Александр <ifillrok@gmail.com>, 2015
+# Александр, 2015
 # Lexyc <nirudak@mail.ru>, 2014
 # Lowrider <pams@imail.ru>, 2015
 # Daniil <rostovslipknot@gmail.com>, 2013
@@ -20,15 +20,15 @@
 # Paulo Fino <finomeno@gmail.com>, 2014
 # Umidjon Almasov <u.almasov@gmail.com>, 2013
 # Umidjon Almasov <u.almasov@gmail.com>, 2013
-# Анатолий Валерианович <ffox909@mail.ru>, 2014-2016
+# Анатолий Валерианович <ffox909@mail.ru>, 2014-2017
 # Андрей Болконский <andrey0bolkonsky@gmail.com>, 2013,2015
-# Дмитрий Герасимов <dimonmmk@yandex.ru>, 2016
+# Дмитрий Герасимов <dimonmmk@yandex.ru>, 2016-2017
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2016-04-24 08:44+0200\n"
-"PO-Revision-Date: 2016-11-09 15:55+0000\n"
+"PO-Revision-Date: 2017-02-21 04:27+0000\n"
 "Last-Translator: Анатолий Валерианович <ffox909@mail.ru>\n"
 "Language-Team: Russian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/ru/)\n"
 "MIME-Version: 1.0\n"
@@ -98,6 +98,16 @@ msgstr "%s: зависимости %s"
 
 #: ../src/daemon.vala
 #, c-format
+msgid "%s: installing %s (%s) breaks dependency '%s'"
+msgstr "%s: установка %s (%s) повреждённых зависимостей '%s'"
+
+#: ../src/daemon.vala
+#, c-format
+msgid "%s: removing %s breaks dependency '%s'"
+msgstr "%s: удаление %s повреждённых зависимостей '%s'"
+
+#: ../src/daemon.vala
+#, c-format
 msgid "%s and %s are in conflict"
 msgstr "конфликт между %s и %s"
 
@@ -138,6 +148,10 @@ msgstr "ошибка при получении файла '%s' из %s : %s\n"
 #: ../src/transaction.vala
 msgid "A Gtk3 frontend for libalpm"
 msgstr "Интерфейс Gtk3 для libalpm"
+
+#: ../src/transaction.vala
+msgid "Copy"
+msgstr "Копировать"
 
 #: ../src/transaction.vala
 msgid "Refreshing mirrors list"
@@ -189,8 +203,9 @@ msgid "Total download size"
 msgstr "Общий размер загрузки"
 
 #: ../src/transaction.vala
-msgid "Building packages"
-msgstr "Сборка пакетов"
+#, c-format
+msgid "Building %s"
+msgstr "Сборка %s"
 
 #: ../src/transaction.vala
 msgid "Transaction cancelled"
@@ -371,11 +386,11 @@ msgstr "Pamac уже запущен"
 msgid "Your system is up-to-date"
 msgstr "Система обновлена"
 
-#: ../src/tray.vala
+#: ../src/tray.vala ../src/updater_window.vala
 msgid "Update Manager"
 msgstr "Менеджер обновлений"
 
-#: ../src/tray.vala
+#: ../src/tray.vala ../src/manager_window.vala
 msgid "Package Manager"
 msgstr "Менеджер пакетов"
 
@@ -562,6 +577,10 @@ msgstr "Пакет Alpm"
 msgid "How often to check for updates, value in hours"
 msgstr "Укажите интервал поиска обновлений, в часах"
 
+#: ../src/preferences_dialog.vala ../resources/preferences_dialog.ui
+msgid "Number of versions of each package to keep in the cache"
+msgstr "Сохранять в кэше предыдущие версии пакетов в количестве"
+
 #: ../src/preferences_dialog.vala
 msgid "Worldwide"
 msgstr "Мировой"
@@ -618,10 +637,6 @@ msgstr "О программе"
 #: ../resources/manager_window.ui
 msgid "Search"
 msgstr "Поиск"
-
-#: ../resources/manager_window.ui
-msgid "Search in AUR"
-msgstr "Искать в AUR"
 
 #: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "State"
@@ -737,16 +752,8 @@ msgid "Check for updates from AUR"
 msgstr "Проверить обновления AUR"
 
 #: ../resources/preferences_dialog.ui
-msgid "Do not ask for confirmation when building packages"
-msgstr "Не спрашивать подтверждение при сборке пакетов"
-
-#: ../resources/preferences_dialog.ui
-msgid "Number of versions of each package to keep in the cache"
-msgstr "Количество версий каждого пакета, сохраняемого в кэш"
-
-#: ../resources/preferences_dialog.ui
 msgid "Remove only the versions of uninstalled packages"
-msgstr "Удалить только версии удалённых пакетов"
+msgstr "Удалять из кэша предыдущие версии только для удалённых пакетов"
 
 #: ../resources/preferences_dialog.ui
 msgid "Clean cache"
