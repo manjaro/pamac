@@ -1026,7 +1026,7 @@ namespace Pamac {
 			to_build.remove_all ();
 			string [] built_pkgs = {};
 			int status = 1;
-			string builddir = "/tmp/pamac-build";
+			string builddir = "/tmp/pamac-build-%s".printf (Environment.get_user_name ());
 			status = yield spawn_in_term ({"mkdir", "-p", builddir});
 			if (status == 0) {
 				status = yield spawn_in_term ({"rm", "-rf", pkgname}, builddir);
