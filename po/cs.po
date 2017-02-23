@@ -7,6 +7,7 @@
 # halfark <vojtechprecechtel@gmail.com>, 2014,2016
 # Libor Schejbal <libor.schejbal@gmail.com>, 2013
 # Miroslav Sittek <miroslav.sittek@gmail.com>, 2015
+# Ondrej Cesik <ondrej.cesik@gmail.com>, 2017
 # philm <philm@manjaro.org>, 2015
 # Scibex <kroupa@wvw.cz>, 2013
 # halfark <vojtechprecechtel@gmail.com>, 2014,2016
@@ -15,8 +16,8 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2016-04-24 08:44+0200\n"
-"PO-Revision-Date: 2016-11-09 15:55+0000\n"
-"Last-Translator: philm <philm@manjaro.org>\n"
+"PO-Revision-Date: 2017-02-19 16:13+0000\n"
+"Last-Translator: Ondrej Cesik <ondrej.cesik@gmail.com>\n"
 "Language-Team: Czech (http://www.transifex.com/manjarolinux/manjaro-pamac/language/cs/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -85,6 +86,16 @@ msgstr "%s: vyžaduje %s"
 
 #: ../src/daemon.vala
 #, c-format
+msgid "%s: installing %s (%s) breaks dependency '%s'"
+msgstr "%s: instaluji %s (%s) nesplňuje závislosti '%s'"
+
+#: ../src/daemon.vala
+#, c-format
+msgid "%s: removing %s breaks dependency '%s'"
+msgstr "%s: odstraňuji %s nesplňuje závislosti '%s'"
+
+#: ../src/daemon.vala
+#, c-format
 msgid "%s and %s are in conflict"
 msgstr "%s a %s jsou v konfliktu"
 
@@ -125,6 +136,10 @@ msgstr "selhalo získání souboru '%s' z %s : %s\n"
 #: ../src/transaction.vala
 msgid "A Gtk3 frontend for libalpm"
 msgstr "Gtk3 frontend pro libalpm"
+
+#: ../src/transaction.vala
+msgid "Copy"
+msgstr "Kopírovat"
 
 #: ../src/transaction.vala
 msgid "Refreshing mirrors list"
@@ -176,8 +191,9 @@ msgid "Total download size"
 msgstr "Celková velikost ke stažení"
 
 #: ../src/transaction.vala
-msgid "Building packages"
-msgstr "Vytvářím balíčky"
+#, c-format
+msgid "Building %s"
+msgstr "Zpracovávám %s"
 
 #: ../src/transaction.vala
 msgid "Transaction cancelled"
@@ -357,11 +373,11 @@ msgstr "Pamac je již spuštěn"
 msgid "Your system is up-to-date"
 msgstr "Váš systém je aktuální"
 
-#: ../src/tray.vala
+#: ../src/tray.vala ../src/updater_window.vala
 msgid "Update Manager"
 msgstr "Správce aktualizací"
 
-#: ../src/tray.vala
+#: ../src/tray.vala ../src/manager_window.vala
 msgid "Package Manager"
 msgstr "Správce balíčků"
 
@@ -546,6 +562,10 @@ msgstr "Alpm balíček"
 msgid "How often to check for updates, value in hours"
 msgstr "Jak často kontrolovat aktualizace, hodnota v hodinách"
 
+#: ../src/preferences_dialog.vala ../resources/preferences_dialog.ui
+msgid "Number of versions of each package to keep in the cache"
+msgstr "Počet verzí od každého balíčku udržovaného v paměti cache."
+
 #: ../src/preferences_dialog.vala
 msgid "Worldwide"
 msgstr "Celosvětový"
@@ -602,10 +622,6 @@ msgstr "O programu"
 #: ../resources/manager_window.ui
 msgid "Search"
 msgstr "Vyhledat"
-
-#: ../resources/manager_window.ui
-msgid "Search in AUR"
-msgstr "Hledám v AUR"
 
 #: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "State"
@@ -719,14 +735,6 @@ msgstr "Hledat v AUR defaultně"
 #: ../resources/preferences_dialog.ui
 msgid "Check for updates from AUR"
 msgstr "Zkontrolovat aktualizace z AUR"
-
-#: ../resources/preferences_dialog.ui
-msgid "Do not ask for confirmation when building packages"
-msgstr "Nevyžadovat potvrzení při vytváření balíčků"
-
-#: ../resources/preferences_dialog.ui
-msgid "Number of versions of each package to keep in the cache"
-msgstr "Kolik verzí každého z balíčků ponechat v mezipaměti"
 
 #: ../resources/preferences_dialog.ui
 msgid "Remove only the versions of uninstalled packages"

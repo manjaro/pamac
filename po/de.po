@@ -17,7 +17,7 @@
 # Maphardam <L.Polde@gmx.de>, 2014
 # Tim, 2014
 # philm <philm@manjaro.org>, 2013
-# philm <philm@manjaro.org>, 2013-2016
+# philm <philm@manjaro.org>, 2013-2017
 # Tim, 2014
 # Tobias B. <aema-001@kabelmail.de>, 2013
 # Tobias B. <aema-001@kabelmail.de>, 2013
@@ -27,7 +27,7 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2016-04-24 08:44+0200\n"
-"PO-Revision-Date: 2016-11-09 15:55+0000\n"
+"PO-Revision-Date: 2017-02-18 17:36+0000\n"
 "Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: German (http://www.transifex.com/manjarolinux/manjaro-pamac/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -97,6 +97,16 @@ msgstr "%s: benötigt %s"
 
 #: ../src/daemon.vala
 #, c-format
+msgid "%s: installing %s (%s) breaks dependency '%s'"
+msgstr "%s: installieren von %s (%s) bricht Abhängigkeit von '%s'"
+
+#: ../src/daemon.vala
+#, c-format
+msgid "%s: removing %s breaks dependency '%s'"
+msgstr "%s: entfernen von %s bricht Abhängigkeit von '%s'"
+
+#: ../src/daemon.vala
+#, c-format
 msgid "%s and %s are in conflict"
 msgstr "%s und %s stehen im Konflikt zueinander"
 
@@ -137,6 +147,10 @@ msgstr "Konnte Datei '%s' nicht von %s übertragen : %s\n"
 #: ../src/transaction.vala
 msgid "A Gtk3 frontend for libalpm"
 msgstr "Eine GTK3-Benutzeroberfläche für libalpm"
+
+#: ../src/transaction.vala
+msgid "Copy"
+msgstr "Kopiere"
 
 #: ../src/transaction.vala
 msgid "Refreshing mirrors list"
@@ -188,8 +202,9 @@ msgid "Total download size"
 msgstr "Download-Größe gesamt"
 
 #: ../src/transaction.vala
-msgid "Building packages"
-msgstr "Erstelle Pakete"
+#, c-format
+msgid "Building %s"
+msgstr "Erstelle %s"
 
 #: ../src/transaction.vala
 msgid "Transaction cancelled"
@@ -368,11 +383,11 @@ msgstr "Pamac wird bereits ausgeführt"
 msgid "Your system is up-to-date"
 msgstr "Ihr System ist auf dem neuesten Stand"
 
-#: ../src/tray.vala
+#: ../src/tray.vala ../src/updater_window.vala
 msgid "Update Manager"
 msgstr "Update-Manager"
 
-#: ../src/tray.vala
+#: ../src/tray.vala ../src/manager_window.vala
 msgid "Package Manager"
 msgstr "Paketmanager"
 
@@ -555,6 +570,10 @@ msgstr "Alpm Paket"
 msgid "How often to check for updates, value in hours"
 msgstr "Wie oft soll nach Erneuerungen geprüft werden? (Wert in Stunden)"
 
+#: ../src/preferences_dialog.vala ../resources/preferences_dialog.ui
+msgid "Number of versions of each package to keep in the cache"
+msgstr "Anzahl von Versionen welche pro Paket im Cache verbleiben"
+
 #: ../src/preferences_dialog.vala
 msgid "Worldwide"
 msgstr "Weltweit"
@@ -611,10 +630,6 @@ msgstr "Über"
 #: ../resources/manager_window.ui
 msgid "Search"
 msgstr "Suche"
-
-#: ../resources/manager_window.ui
-msgid "Search in AUR"
-msgstr "Suche in AUR"
 
 #: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "State"
@@ -728,14 +743,6 @@ msgstr "Suche standardmäßig im AUR"
 #: ../resources/preferences_dialog.ui
 msgid "Check for updates from AUR"
 msgstr "Suche nach Aktualisierungen aus dem AUR"
-
-#: ../resources/preferences_dialog.ui
-msgid "Do not ask for confirmation when building packages"
-msgstr "Beim Erstellen von Paketen nicht nach Bestätigung fragen"
-
-#: ../resources/preferences_dialog.ui
-msgid "Number of versions of each package to keep in the cache"
-msgstr "Anzahl der vorgehaltenen Versionen eines Paketes im Cache"
 
 #: ../resources/preferences_dialog.ui
 msgid "Remove only the versions of uninstalled packages"
