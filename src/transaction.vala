@@ -379,7 +379,8 @@ namespace Pamac {
 						}
 					} catch (Error e) {
 						// cancelled
-						process.send_signal (Posix.SIGTERM);
+						process.send_signal (Posix.SIGINT);
+						process.send_signal (Posix.SIGKILL);
 					}
 					Idle.add ((owned) callback);
 				});
@@ -1095,7 +1096,7 @@ namespace Pamac {
 					stderr.printf ("IOError: %s\n", e.message);
 				}
 			}
-			show_in_term (dgettext (null, "Transaction cancelled") + ".\n");
+			show_in_term ("\n" + dgettext (null, "Transaction cancelled") + ".\n");
 			warning_textbuffer = new StringBuilder ();
 		}
 
