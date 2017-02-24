@@ -208,6 +208,8 @@ namespace Pamac {
 			term_window = new Gtk.ScrolledWindow (null, term.vadjustment);
 			term_window.expand = true;
 			term_window.visible = true;
+			// height 200 needed for installer
+			term_window.height_request = 200;
 			term_window.propagate_natural_height = true;
 			term_window.add (term);
 			build_cancellable = new Cancellable ();
