@@ -4,14 +4,14 @@
 # Guillaume Benoit <guillaume@manjaro.org>, 2013-2016.
 # 
 # Translators:
-# kouros kouros <kormikg@yahoo.gr>, 2016
+# kouros kouros <kormikg@yahoo.gr>, 2016-2017
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2016-04-24 08:44+0200\n"
-"PO-Revision-Date: 2017-02-18 16:57+0000\n"
-"Last-Translator: Guillaume Benoit <guillaume@manjaro.org>\n"
+"PO-Revision-Date: 2017-02-22 12:36+0000\n"
+"Last-Translator: kouros kouros <kormikg@yahoo.gr>\n"
 "Language-Team: Greek (Greece) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/el_GR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -733,7 +733,7 @@ msgstr "Διέγραψε μόνο τις εκδόσεις των απεγκατ�
 
 #: ../resources/preferences_dialog.ui
 msgid "Clean cache"
-msgstr "Καθαρισμός αποθήκης."
+msgstr "Καθαρισμός αποθήκης"
 
 #: ../resources/preferences_dialog.ui
 msgid "Cache"

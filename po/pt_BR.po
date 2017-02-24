@@ -27,7 +27,7 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2016-04-24 08:44+0200\n"
-"PO-Revision-Date: 2017-02-20 19:03+0000\n"
+"PO-Revision-Date: 2017-02-23 20:38+0000\n"
 "Last-Translator: Gabriel Henrique <gabrielmmoderno@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
@@ -42,7 +42,7 @@ msgstr "Autenticação necessária"
 
 #: ../src/daemon.vala
 msgid "Failed to initialize alpm library"
-msgstr "Falha ao inicializar biblioteca do Empacotador"
+msgstr "Falha ao inicializar biblioteca alpm"
 
 #: ../src/daemon.vala ../src/transaction.vala
 msgid "Authentication failed"
@@ -83,7 +83,7 @@ msgstr "Falha ao preparar transação"
 #: ../src/daemon.vala
 #, c-format
 msgid "target not found: %s"
-msgstr "caminho não encontrado: %s"
+msgstr "alvo não encontrado: %s"
 
 #: ../src/daemon.vala
 #, c-format
@@ -127,7 +127,7 @@ msgstr "%s existe em ambas %s e %s"
 #: ../src/daemon.vala
 #, c-format
 msgid "%s: %s already exists in filesystem"
-msgstr "%s: %s já existem no sistema de arquivos"
+msgstr "%s: %s já existe no sistema de arquivos"
 
 #: ../src/daemon.vala
 #, c-format
@@ -154,7 +154,7 @@ msgstr "Cópia"
 
 #: ../src/transaction.vala
 msgid "Refreshing mirrors list"
-msgstr "Atualizando lista de espelhos"
+msgstr "Atualizar lista de espelhos"
 
 #: ../src/transaction.vala
 msgid "Synchronizing package databases"
@@ -278,11 +278,11 @@ msgstr "Gerando %s com %s"
 
 #: ../src/transaction.vala
 msgid "Generation succeeded"
-msgstr "Gerado com sucesso"
+msgstr "Geração bem sucedida"
 
 #: ../src/transaction.vala
 msgid "Generation failed"
-msgstr "Falha ao gerar"
+msgstr "Falha na geração"
 
 #: ../src/transaction.vala
 #, c-format
@@ -305,7 +305,7 @@ msgstr "Verificando espaço disponível em disco"
 #: ../src/transaction.vala
 #, c-format
 msgid "%s optionally requires %s"
-msgstr "%s: requer %s"
+msgstr "%s requer opcionalmente %s"
 
 #: ../src/transaction.vala
 #, c-format
@@ -436,7 +436,7 @@ msgstr "Orfãos"
 
 #: ../src/manager_window.vala
 msgid "Foreign"
-msgstr "Estrangeiro"
+msgstr "Externo"
 
 #: ../src/manager_window.vala
 msgid "Pending"
@@ -521,11 +521,11 @@ msgstr "Mantenedor"
 
 #: ../src/manager_window.vala
 msgid "First Submitted"
-msgstr "Primeiro submetido"
+msgstr "Primeira submissão"
 
 #: ../src/manager_window.vala
 msgid "Last Modified"
-msgstr "Último modificado"
+msgstr "Última modificação"
 
 #: ../src/manager_window.vala
 msgid "Votes"
@@ -537,11 +537,11 @@ msgstr "Desatualizado"
 
 #: ../src/manager_window.vala
 msgid "Make Dependencies"
-msgstr "Obtendo Dependências"
+msgstr "Criar Dependências"
 
 #: ../src/manager_window.vala
 msgid "Check Dependencies"
-msgstr "Checando Dependências"
+msgstr "Verificar Dependências"
 
 #: ../src/manager_window.vala ../resources/manager_window.ui
 #: ../resources/updater_window.ui
@@ -564,7 +564,7 @@ msgstr "_Abrir"
 
 #: ../src/manager_window.vala
 msgid "Alpm Package"
-msgstr "Empacotador"
+msgstr " Pacote Alpm"
 
 #: ../src/preferences_dialog.vala ../resources/preferences_dialog.ui
 msgid "How often to check for updates, value in hours"
@@ -688,7 +688,7 @@ msgstr "Ao remover um pacote, também remover as dependências que não são exi
 
 #: ../resources/preferences_dialog.ui
 msgid "Check available disk space"
-msgstr "Verifique o espaço disponível em disco"
+msgstr "Verificar o espaço disponível em disco"
 
 #: ../resources/preferences_dialog.ui
 msgid "Check for updates"
@@ -696,7 +696,7 @@ msgstr "Verificar atualizações"
 
 #: ../resources/preferences_dialog.ui
 msgid "Hide tray icon when no update available"
-msgstr "Ocultar ícone da bandeja quando não houver atualização"
+msgstr "Ocultar ícone da bandeja quando não houver atualização disponível"
 
 #: ../resources/preferences_dialog.ui
 msgid "Ignore upgrades for:"
@@ -708,7 +708,7 @@ msgstr "Geral"
 
 #: ../resources/preferences_dialog.ui
 msgid "Use mirrors from:"
-msgstr "Use espelhos a partir de:"
+msgstr "Usar espelhos de:"
 
 #: ../resources/preferences_dialog.ui
 msgid "Sort mirrors by:"
@@ -742,7 +742,7 @@ msgstr "Pesquisar no AUR por padrão"
 
 #: ../resources/preferences_dialog.ui
 msgid "Check for updates from AUR"
-msgstr "Verificar atualizações de AUR"
+msgstr "Verificar atualizações do AUR"
 
 #: ../resources/preferences_dialog.ui
 msgid "Remove only the versions of uninstalled packages"
@@ -758,4 +758,4 @@ msgstr "Cache"
 
 #: ../resources/choose_ignorepkgs_dialog.ui
 msgid "Choose Ignored Upgrades"
-msgstr "Escolha as atualizações ignoradas"
+msgstr "Escolha atualizações ignoradas"
