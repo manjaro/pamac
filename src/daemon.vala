@@ -201,6 +201,19 @@ namespace Pamac {
 			}
 		}
 
+		public void init_curl () {
+			curl = new Curl.Easy ();
+			curl->setopt (Curl.Option.FAILONERROR, 1L);
+			curl->setopt (Curl.Option.CONNECTTIMEOUT, 30L);
+			curl->setopt (Curl.Option.FILETIME, 1L);
+			curl->setopt (Curl.Option.FOLLOWLOCATION, 1L);
+			curl->setopt (Curl.Option.XFERINFOFUNCTION, cb_download);
+			curl->setopt (Curl.Option.LOW_SPEED_LIMIT, 1L);
+			curl->setopt (Curl.Option.LOW_SPEED_TIME, 30L);
+			curl->setopt (Curl.Option.NETRC, Curl.NetRCOption.OPTIONAL);
+			curl->setopt (Curl.Option.HTTPAUTH, Curl.CURLAUTH_ANY);
+		}
+
 		private void refresh_handle () {
 			alpm_handle = alpm_config.get_handle ();
 			if (alpm_handle == null) {
@@ -419,6 +432,7 @@ namespace Pamac {
 			int force = (force_refresh) ? 1 : 0;
 			uint success = 0;
 			cancellable.reset ();
+			init_curl ();
 			unowned Alpm.List<unowned Alpm.DB> syncdbs = alpm_handle.syncdbs;
 			while (syncdbs != null) {
 				unowned Alpm.DB db = syncdbs.data;
@@ -439,6 +453,7 @@ namespace Pamac {
 				}
 				syncdbs.next ();
 			}
+			delete curl;
 			refresh_handle ();
 			// We should always succeed if at least one DB was upgraded - we may possibly
 			// fail later with unresolved deps, but that should be rare, and would be expected
