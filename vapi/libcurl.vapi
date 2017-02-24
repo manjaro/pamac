@@ -31,7 +31,6 @@ namespace Curl {
 	public class Easy {
 		[CCode (cname = "curl_easy_init")]
 		public Easy();
-		public void cleanup ();
 		[PrintfFormat]
 		public Curl.Code getinfo (Curl.Info info, ...);
 		public Curl.Code easy_pause (int bitmask);
