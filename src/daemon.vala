@@ -1814,7 +1814,7 @@ namespace Pamac {
 						unowned Alpm.List<unowned Alpm.Package> packages = grp.packages;
 						while (packages != null) {
 							unowned Alpm.Package pkg = packages.data;
-							if (alpm_handle.localdb.get_pkg (pkg.name) == null) {
+							if (Alpm.find_satisfier (alpm_handle.localdb.pkgcache, pkg.name) == null) {
 								to_install += pkg.name;
 							} else {
 								// remove the needed pkg from to_remove
@@ -1826,7 +1826,7 @@ namespace Pamac {
 					syncdbs.next ();
 				}
 				// check git needed to build pkgs
-				if (alpm_handle.localdb.get_pkg ("git") == null) {
+				if (Alpm.find_satisfier (alpm_handle.localdb.pkgcache, "git") == null) {
 					to_install += "git";
 				} else {
 					// remove the needed pkg from to_remove
