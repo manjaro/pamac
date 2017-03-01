@@ -17,7 +17,7 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-const string VERSION = "4.2.10";
+const string VERSION = "4.2.11";
 
 namespace Pamac {
 	[DBus (name = "org.manjaro.pamac")]
