@@ -79,6 +79,8 @@ namespace Pamac {
 		[GtkChild]
 		Gtk.StackSwitcher packages_stackswitcher;
 		[GtkChild]
+		Gtk.Stack properties_stack;
+		[GtkChild]
 		Gtk.StackSwitcher properties_stackswitcher;
 		[GtkChild]
 		Gtk.Grid deps_grid;
@@ -300,6 +302,7 @@ namespace Pamac {
 			main_stack.notify["visible-child"].connect (on_main_stack_visible_child_changed);
 			filters_stack.notify["visible-child"].connect (on_filters_stack_visible_child_changed);
 			packages_stack.notify["visible-child"].connect (on_packages_stack_visible_child_changed);
+			properties_stack.notify["visible-child"].connect (on_properties_stack_visible_child_changed);
 
 			return false;
 		}
@@ -622,18 +625,9 @@ namespace Pamac {
 			}
 			deps_grid.show_all ();
 			// files
-			if (details.files.length > 0) {
-				files_scrolledwindow.visible = true;
-				StringBuilder text = new StringBuilder ();
-				foreach (unowned string file in details.files) {
-					if (text.len > 0) {
-						text.append ("\n");
-					}
-					text.append (file);
-				}
-				files_textview.buffer.set_text (text.str, (int) text.len);
-			} else {
-				files_scrolledwindow.visible = false;
+			// will be populated on properties_stack switch
+			if (properties_stack.visible_child_name == "files") {
+				on_properties_stack_visible_child_changed ();
 			}
 		}
 
@@ -871,6 +865,7 @@ namespace Pamac {
 
 		void display_package_properties (string pkgname) {
 			current_package_displayed = pkgname;
+			files_scrolledwindow.visible = true;
 			set_package_details (current_package_displayed);
 		}
 
@@ -883,12 +878,17 @@ namespace Pamac {
 		[GtkCallback]
 		void on_packages_treeview_row_activated (Gtk.TreeView treeview, Gtk.TreePath path, Gtk.TreeViewColumn column) {
 			if (column.title == dgettext (null, "Name")) {
+				this.get_window ().set_cursor (new Gdk.Cursor.for_display (Gdk.Display.get_default (), Gdk.CursorType.WATCH));
+				while (Gtk.events_pending ()) {
+					Gtk.main_iteration ();
+				}
 				main_stack.visible_child_name = "details";
 				Gtk.TreeIter iter;
 				packages_list.get_iter (out iter, path);
 				string pkgname;
 				packages_list.get (iter, 1, out pkgname);
 				display_package_properties (pkgname);
+				this.get_window ().set_cursor (null);
 			}
 		}
 
@@ -937,6 +937,29 @@ namespace Pamac {
 						});
 					}
 				}
+		}
+
+		void on_properties_stack_visible_child_changed () {
+			switch (properties_stack.visible_child_name) {
+				case "files":
+					this.get_window ().set_cursor (new Gdk.Cursor.for_display (Gdk.Display.get_default (), Gdk.CursorType.WATCH));
+					while (Gtk.events_pending ()) {
+						Gtk.main_iteration ();
+					}
+					string[] files = transaction.get_pkg_files (current_package_displayed);
+					StringBuilder text = new StringBuilder ();
+					foreach (unowned string file in files) {
+						if (text.len > 0) {
+							text.append ("\n");
+						}
+						text.append (file);
+					}
+					files_textview.buffer.set_text (text.str, (int) text.len);
+					this.get_window ().set_cursor (null);
+					break;
+				default:
+					break;
+			}
 		}
 
 		void on_packages_state_icon_activated (Gtk.TreePath path) {

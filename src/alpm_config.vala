@@ -187,6 +187,20 @@ class AlpmConfig {
 		return handle;
 	}
 
+	public Alpm.Handle? get_files_handle () {
+		Alpm.Handle? handle = new Alpm.Handle (rootdir, dbpath, null);
+		if (handle == null) {
+			return null;
+		}
+		// define options
+		handle.dbext = ".files";
+		// register dbs
+		foreach (unowned AlpmRepo repo in repo_order) {
+			handle.register_syncdb (repo.name, 0);
+		}
+		return handle;
+	}
+
 	void parse_file (string path, string? section = null) {
 		string? current_section = section;
 		var file = GLib.File.new_for_path (path);

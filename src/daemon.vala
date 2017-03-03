@@ -96,6 +96,7 @@ namespace Pamac {
 	public class Daemon: Object {
 		private AlpmConfig alpm_config;
 		private Alpm.Handle? alpm_handle;
+		private Alpm.Handle? files_handle;
 		public Cond provider_cond;
 		public Mutex provider_mutex;
 		public int? choosen_provider;
@@ -230,6 +231,7 @@ namespace Pamac {
 				alpm_handle.logcb = (Alpm.LogCallBack) cb_log;
 				lockfile = GLib.File.new_for_path (alpm_handle.lockfile);
 			}
+			files_handle = alpm_config.get_files_handle ();
 		}
 
 		private bool check_pacman_running () {
@@ -433,6 +435,7 @@ namespace Pamac {
 			uint success = 0;
 			cancellable.reset ();
 			init_curl ();
+			string[] dbexts = {".db", ".files"};
 			unowned Alpm.List<unowned Alpm.DB> syncdbs = alpm_handle.syncdbs;
 			while (syncdbs != null) {
 				unowned Alpm.DB db = syncdbs.data;
@@ -442,13 +445,16 @@ namespace Pamac {
 					databases_lock_mutex.unlock ();
 					return;
 				}
-				if (db.update (force) >= 0) {
-					success++;
-				} else {
-					Alpm.Errno errno = alpm_handle.errno ();
-					current_error.errno = (uint) errno;
-					if (errno != 0) {
-						current_error.details = { Alpm.strerror (errno) };
+				foreach (unowned string dbext in dbexts) {
+					alpm_handle.dbext = dbext;
+					if (db.update (force) >= 0) {
+						success++;
+					} else {
+						Alpm.Errno errno = alpm_handle.errno ();
+						current_error.errno = (uint) errno;
+						if (errno != 0) {
+							current_error.details = { Alpm.strerror (errno) };
+						}
 					}
 				}
 				syncdbs.next ();
@@ -1188,7 +1194,6 @@ namespace Pamac {
 			string installdate = "";
 			string[] groups = {};
 			string[] backups = {};
-			string[] files = {};
 			string[] licenses = {};
 			string[] depends = {};
 			string[] optdepends = {};
@@ -1273,14 +1278,6 @@ namespace Pamac {
 						list.next ();
 					}
 					pkg_optionalfor.free_inner (GLib.free);
-					// files
-					unowned Alpm.FileList filelist = alpm_pkg.files;
-					Alpm.File* file_ptr = filelist.files;
-					for (size_t i = 0; i < filelist.count; i++, file_ptr++) {
-						if (!file_ptr->name.has_suffix ("/")) {
-							files += "/" + file_ptr->name;
-						}
-					}
 				// sync pkg
 				} else if (alpm_pkg.origin == Alpm.Package.From.SYNCDB) {
 					// repos
@@ -1339,8 +1336,39 @@ namespace Pamac {
 			details.conflicts = (owned) conflicts;
 			details.groups = (owned) groups;
 			details.backups = (owned) backups;
-			details.files = (owned) files;
 			return details;
+		}
+
+		public string[] get_pkg_files (string pkgname) {
+			string[] files = {};
+			unowned Alpm.Package? alpm_pkg = alpm_handle.localdb.get_pkg (pkgname);
+			if (alpm_pkg != null) {
+				unowned Alpm.FileList filelist = alpm_pkg.files;
+				Alpm.File* file_ptr = filelist.files;
+				for (size_t i = 0; i < filelist.count; i++, file_ptr++) {
+					if (!file_ptr->name.has_suffix ("/")) {
+						files += "/" + file_ptr->name;
+					}
+				}
+			} else {
+				unowned Alpm.List<unowned Alpm.DB> syncdbs = files_handle.syncdbs;
+				while (syncdbs != null) {
+					unowned Alpm.DB db = syncdbs.data;
+					unowned Alpm.Package? files_pkg = db.get_pkg (pkgname);
+					if (files_pkg != null) {
+						unowned Alpm.FileList filelist = files_pkg.files;
+						Alpm.File* file_ptr = filelist.files;
+						for (size_t i = 0; i < filelist.count; i++, file_ptr++) {
+							if (!file_ptr->name.has_suffix ("/")) {
+								files += "/" + file_ptr->name;
+							}
+						}
+						break;
+					}
+					syncdbs.next ();
+				}
+			}
+			return files;
 		}
 
 		public void start_get_updates (bool check_aur_updates) {
@@ -2410,6 +2438,9 @@ private int cb_fetch (string fileurl, string localpath, int force) {
 	pamac_daemon.curl->setopt (Curl.Option.ERRORBUFFER, error_buffer);
 	pamac_daemon.curl->setopt (Curl.Option.NOPROGRESS, 0L);
 	pamac_daemon.curl->setopt (Curl.Option.XFERINFODATA, (void*) url.get_basename ());
+	pamac_daemon.curl->setopt (Curl.Option.TIMECONDITION, Curl.TimeCond.NONE);
+	pamac_daemon.curl->setopt (Curl.Option.TIMEVALUE, 0);
+	pamac_daemon.curl->setopt (Curl.Option.RESUME_FROM_LARGE, 0);
 
 	bool remove_partial_download = true;
 	if (fileurl.contains (".pkg.tar.") && !fileurl.has_suffix (".sig")) {
@@ -2545,8 +2576,8 @@ private int cb_fetch (string fileurl, string localpath, int force) {
 			} catch (GLib.Error e) {
 				stderr.printf ("Error: %s\n", e.message);
 			}
-			// do not report error for missing sig with db
-			if (!fileurl.has_suffix ("db.sig")) {
+			// do not report error for missing sig
+			if (!fileurl.has_suffix (".sig")) {
 				string hostname = url.get_uri ().split("/")[2];
 				pamac_daemon.emit_log ((uint) Alpm.LogLevel.ERROR,
 										_("failed retrieving file '%s' from %s : %s\n").printf (

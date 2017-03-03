@@ -52,6 +52,7 @@ namespace Pamac {
 		public abstract string[] get_groups_names () throws IOError;
 		public abstract async AlpmPackage[] get_group_pkgs (string groupname) throws IOError;
 		public abstract AlpmPackageDetails get_pkg_details (string pkgname) throws IOError;
+		public abstract string[] get_pkg_files (string pkgname) throws IOError;
 		public abstract async AURPackageDetails get_aur_details (string pkgname) throws IOError;
 		public abstract string[] get_pkg_uninstalled_optdeps (string pkgname) throws IOError;
 		public abstract void start_get_updates (bool check_aur_updates) throws IOError;
@@ -687,6 +688,15 @@ namespace Pamac {
 					reason = "",
 					has_signature = ""
 				};
+			}
+		}
+
+		public string[] get_pkg_files (string pkgname) {
+			try {
+				return daemon.get_pkg_files (pkgname);
+			} catch (IOError e) {
+				stderr.printf ("IOError: %s\n", e.message);
+				return {};
 			}
 		}
 
