@@ -1616,8 +1616,8 @@ namespace Pamac {
 					filters_stack.notify["visible-child"].connect (on_filters_stack_visible_child_changed);
 					Gtk.TreeIter iter;
 					// show "Pending" in states_list
-					// "Pending" is at indice 3
-					states_list.get_iter (out iter, new Gtk.TreePath.from_indices (3));
+					// "Pending" is at indice 4
+					states_list.get_iter (out iter, new Gtk.TreePath.from_indices (4));
 					Gtk.TreeSelection selection = states_treeview.get_selection ();
 					selection.changed.disconnect (on_states_treeview_selection_changed);
 					selection.select_iter (iter);
