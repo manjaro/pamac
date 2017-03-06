@@ -279,8 +279,12 @@ namespace Pamac {
 
 			transaction = new Transaction (this as Gtk.ApplicationWindow);
 			transaction.mode = Mode.MANAGER;
-			transaction.start_transaction.connect (on_start_transaction);
+			transaction.start_waiting.connect (on_start_waiting);
+			transaction.stop_waiting.connect (on_stop_waiting);
+			transaction.start_downloading.connect (on_start_downloading);
+			transaction.stop_downloading.connect (on_stop_downloading);
 			transaction.start_building.connect (on_start_building);
+			transaction.stop_building.connect (on_stop_building);
 			transaction.important_details_outpout.connect (on_important_details_outpout);
 			transaction.finished.connect (on_transaction_finished);
 			transaction.write_pamac_config_finished.connect (on_write_pamac_config_finished);
@@ -1631,12 +1635,14 @@ namespace Pamac {
 		void on_apply_button_clicked () {
 			transaction_running = true;
 			apply_button.sensitive = false;
+			cancel_button.sensitive = false;
 			transaction.run ();
 		}
 
 		[GtkCallback]
 		void on_cancel_button_clicked () {
-			if (transaction_running) {
+			if (transaction_running || refreshing) {
+				transaction_running = false;
 				transaction.cancel ();
 			} else {
 				transaction.clear_lists ();
@@ -1665,12 +1671,28 @@ namespace Pamac {
 			transaction_infobox.show_all ();
 		}
 
-		void on_start_transaction () {
+		void on_start_waiting () {
+			cancel_button.sensitive = true;
+		}
+
+		void on_stop_waiting () {
+			set_pendings_operations ();
+		}
+
+		void on_start_downloading () {
+			cancel_button.sensitive = true;
+		}
+
+		void on_stop_downloading () {
 			cancel_button.sensitive = false;
 		}
 
 		void on_start_building () {
 			cancel_button.sensitive = true;
+		}
+
+		void on_stop_building () {
+			cancel_button.sensitive = false;
 		}
 
 		void on_important_details_outpout (bool must_show) {

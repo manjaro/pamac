@@ -411,7 +411,6 @@ namespace Pamac {
 					unowned Alpm.Package? pkg = alpm_handle.localdb.get_pkg (pkgname);
 					if (pkg != null) {
 						pkg.reason = (Alpm.Package.Reason) reason;
-						refresh_handle ();
 					}
 				}
 				set_pkgreason_finished ();
@@ -419,18 +418,19 @@ namespace Pamac {
 		}
 
 		private void refresh () {
+			current_error = ErrorInfos ();
 			if (!databases_lock_mutex.trylock ()) {
 				// Wait for pacman to finish
 				emit_event (0, 0, {});
 				databases_lock_mutex.lock ();
 			}
 			if (cancellable.is_cancelled ()) {
-				databases_lock_mutex.unlock ();
 				cancellable.reset ();
+				refresh_finished (true);
+				databases_lock_mutex.unlock ();
 				return;
 			}
 			write_log_file ("synchronizing package lists");
-			current_error = ErrorInfos ();
 			int force = (force_refresh) ? 1 : 0;
 			uint success = 0;
 			cancellable.reset ();
@@ -440,7 +440,8 @@ namespace Pamac {
 			while (syncdbs != null) {
 				unowned Alpm.DB db = syncdbs.data;
 				if (cancellable.is_cancelled ()) {
-					refresh_handle ();
+					delete curl;
+					alpm_handle.dbext = ".db";
 					refresh_finished (false);
 					databases_lock_mutex.unlock ();
 					return;
@@ -460,7 +461,7 @@ namespace Pamac {
 				syncdbs.next ();
 			}
 			delete curl;
-			refresh_handle ();
+			alpm_handle.dbext = ".db";
 			// We should always succeed if at least one DB was upgraded - we may possibly
 			// fail later with unresolved deps, but that should be rare, and would be expected
 			if (success == 0) {
@@ -1488,17 +1489,17 @@ namespace Pamac {
 		}
 
 		private bool trans_init (Alpm.TransFlag flags) {
+			current_error = ErrorInfos ();
 			if (!databases_lock_mutex.trylock ()) {
 				// Wait for pacman to finish
 				emit_event (0, 0, {});
 				databases_lock_mutex.lock ();
 			}
 			if (cancellable.is_cancelled ()) {
-				databases_lock_mutex.unlock ();
 				cancellable.reset ();
+				databases_lock_mutex.unlock ();
 				return false;
 			}
-			current_error = ErrorInfos ();
 			cancellable.reset ();
 			if (alpm_handle.trans_init (flags) == -1) {
 				Alpm.Errno errno = alpm_handle.errno ();
@@ -1637,14 +1638,19 @@ namespace Pamac {
 				return false;
 			} else if (alpm_handle.trans_add_pkg (pkg) == -1) {
 				Alpm.Errno errno = alpm_handle.errno ();
-				current_error.errno = (uint) errno;
-				current_error.message = _("Failed to prepare transaction");
-				if (errno != 0) {
-					current_error.details = { "%s: %s".printf (pkg->name, Alpm.strerror (errno)) };
+				if (errno == Alpm.Errno.TRANS_DUP_TARGET || errno == Alpm.Errno.PKG_IGNORED) {
+					// just skip duplicate or ignored targets
+					return true;
+				} else {
+					current_error.errno = (uint) errno;
+					current_error.message = _("Failed to prepare transaction");
+					if (errno != 0) {
+						current_error.details = { "%s: %s".printf (pkg->name, Alpm.strerror (errno)) };
+					}
+					// free the package because it will not be used
+					delete pkg;
+					return false;
 				}
-				// free the package because it will not be used
-				delete pkg;
-				return false;
 			}
 			return true;
 		}
@@ -1658,12 +1664,17 @@ namespace Pamac {
 				return false;
 			} else if (alpm_handle.trans_remove_pkg (pkg) == -1) {
 				Alpm.Errno errno = alpm_handle.errno ();
-				current_error.errno = (uint) errno;
-				current_error.message = _("Failed to prepare transaction");
-				if (errno != 0) {
-					current_error.details = { "%s: %s".printf (pkg.name, Alpm.strerror (errno)) };
+				if (errno == Alpm.Errno.TRANS_DUP_TARGET) {
+					// just skip duplicate targets
+					return true;
+				} else {
+					current_error.errno = (uint) errno;
+					current_error.message = _("Failed to prepare transaction");
+					if (errno != 0) {
+						current_error.details = { "%s: %s".printf (pkg.name, Alpm.strerror (errno)) };
+					}
+					return false;
 				}
-				return false;
 			}
 			return true;
 		}
@@ -1824,7 +1835,7 @@ namespace Pamac {
 				alpm_handle.logcb = (Alpm.LogCallBack) cb_log;
 				lockfile = GLib.File.new_for_path (alpm_handle.lockfile);
 				// fake aur db
-				alpm_handle.register_syncdb ("aur", Alpm.Signature.Level.PACKAGE_OPTIONAL | Alpm.Signature.Level.DATABASE_OPTIONAL);
+				alpm_handle.register_syncdb ("aur", 0);
 				// add to_build in to_install for the fake trans prpeapre
 				foreach (unowned string name in to_build) {
 					to_install += name;
@@ -2085,7 +2096,6 @@ namespace Pamac {
 				// cancel the download return an EXTERNAL_DOWNLOAD error
 				if (errno == Alpm.Errno.EXTERNAL_DOWNLOAD && cancellable.is_cancelled ()) {
 					trans_release ();
-					refresh_handle ();
 					trans_commit_finished (false);
 					return;
 				}
@@ -2136,20 +2146,14 @@ namespace Pamac {
 				success = false;
 			}
 			trans_release ();
-			refresh_handle ();
-			bool need_refresh = false;
 			to_install_as_dep.foreach_remove ((pkgname, val) => {
 				unowned Alpm.Package? pkg = alpm_handle.localdb.get_pkg (pkgname);
 				if (pkg != null) {
 					pkg.reason = Alpm.Package.Reason.DEPEND;
-					need_refresh = true;
 					return true; // remove current pkgname
 				}
 				return false;
 			});
-			if (need_refresh) {
-				refresh_handle ();
-			}
 			trans_commit_finished (success);
 		}
 
@@ -2167,7 +2171,6 @@ namespace Pamac {
 						message = _("Authentication failed")
 					};
 					trans_release ();
-					refresh_handle ();
 					trans_commit_finished (false);
 				}
 			});

@@ -154,8 +154,12 @@ namespace Pamac {
 		//parent window
 		public Gtk.ApplicationWindow? application_window { get; private set; }
 
-		public signal void start_transaction ();
+		public signal void start_waiting ();
+		public signal void stop_waiting ();
+		public signal void start_downloading ();
+		public signal void stop_downloading ();
 		public signal void start_building ();
+		public signal void stop_building ();
 		public signal void important_details_outpout (bool must_show);
 		public signal void alpm_handle_refreshed ();
 		public signal void finished (bool success);
@@ -395,11 +399,13 @@ namespace Pamac {
 		void reset_progress_box (string action) {
 			show_in_term (action);
 			progress_box.action_label.label = action;
+			stop_progressbar_pulse ();
 			progress_box.progressbar.fraction = 0;
 			progress_box.progressbar.text = "";
 		}
 
 		void start_progressbar_pulse () {
+			stop_progressbar_pulse ();
 			pulse_timeout_id = Timeout.add (500, (GLib.SourceFunc) progress_box.progressbar.pulse);
 		}
 
@@ -1062,7 +1068,7 @@ namespace Pamac {
 																	out status);
 										if (status == 0) {
 											foreach (unowned string path in standard_output.split ("\n")) {
-												if (path != "") {
+												if (path != "" && !(path in built_pkgs)) {
 													built_pkgs += path;
 												}
 											}
@@ -1074,6 +1080,7 @@ namespace Pamac {
 								}
 							}
 						}
+						stop_building ();
 					}
 				} else {
 					status = 1;
@@ -1107,6 +1114,9 @@ namespace Pamac {
 				}
 			}
 			show_in_term ("\n" + dgettext (null, "Transaction cancelled") + ".\n");
+			progress_box.action_label.label = "";
+			stop_progressbar_pulse ();
+			stop_waiting ();
 			warning_textbuffer = new StringBuilder ();
 		}
 
@@ -1134,12 +1144,12 @@ namespace Pamac {
 				case 0: //special case: wait for database lock
 					action = dgettext (null, "Waiting for another package manager to quit") + "...";
 					start_progressbar_pulse ();
+					start_waiting ();
 					break;
 				case 1: //Alpm.Event.Type.CHECKDEPS_START
 					action = dgettext (null, "Checking dependencies") + "...";
 					break;
 				case 3: //Alpm.Event.Type.FILECONFLICTS_START
-					start_transaction ();
 					action = dgettext (null, "Checking file conflicts") + "...";
 					break;
 				case 5: //Alpm.Event.Type.RESOLVEDEPS_START
@@ -1147,9 +1157,6 @@ namespace Pamac {
 					break;
 				case 7: //Alpm.Event.Type.INTERCONFLICTS_START
 					action = dgettext (null, "Checking inter-conflicts") + "...";
-					break;
-				case 9: //Alpm.Event.Type.TRANSACTION_START
-					start_transaction ();
 					break;
 				case 11: //Alpm.Event.Type.PACKAGE_OPERATION_START
 					switch (secondary_event) {
@@ -1213,7 +1220,12 @@ namespace Pamac {
 					important_details_outpout (false);
 					break;
 				case 25: //Alpm.Event.Type.RETRIEVE_START
+					start_downloading ();
 					action = dgettext (null, "Downloading") + "...";
+					break;
+				case 26: //Alpm.Event.Type.RETRIEVE_DONE
+				case 27: //Alpm.Event.Type.RETRIEVE_FAILED
+					stop_downloading ();
 					break;
 				case 28: //Alpm.Event.Type.PKGDOWNLOAD_START
 					// special case handle differently
@@ -1248,7 +1260,6 @@ namespace Pamac {
 				case 41: //Alpm.Event.Type.HOOK_START
 					switch (secondary_event) {
 						case 1: //Alpm.HookWhen.PRE_TRANSACTION
-							start_transaction ();
 							action = dgettext (null, "Running pre-transaction hooks") + "...";
 							break;
 						case 2: //Alpm.HookWhen.POST_TRANSACTION
