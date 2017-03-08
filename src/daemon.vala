@@ -125,7 +125,7 @@ namespace Pamac {
 		private ErrorInfos current_error;
 		public Timer timer;
 		public Cancellable cancellable;
-		public Curl.Easy* curl;
+		public Curl.Easy curl;
 
 		public signal void emit_event (uint primary_event, uint secondary_event, string[] details);
 		public signal void emit_providers (string depend, string[] providers);
@@ -427,7 +427,6 @@ namespace Pamac {
 			while (syncdbs != null) {
 				unowned Alpm.DB db = syncdbs.data;
 				if (cancellable.is_cancelled ()) {
-					delete curl;
 					alpm_handle.dbext = ".db";
 					refresh_finished (false);
 					databases_lock_mutex.unlock ();
@@ -447,7 +446,6 @@ namespace Pamac {
 				}
 				syncdbs.next ();
 			}
-			delete curl;
 			alpm_handle.dbext = ".db";
 			// We should always succeed if at least one DB was upgraded - we may possibly
 			// fail later with unresolved deps, but that should be rare, and would be expected
@@ -2262,12 +2260,6 @@ private void cb_event (Alpm.Event.Data data) {
 		case Alpm.Event.Type.DELTA_PATCH_START:
 			details += data.delta_patch_delta.to;
 			details += data.delta_patch_delta.delta;
-			break;
-		case Alpm.Event.Type.RETRIEVE_DONE:
-			delete pamac_daemon.curl;
-			break;
-		case Alpm.Event.Type.RETRIEVE_FAILED:
-			delete pamac_daemon.curl;
 			break;
 		case Alpm.Event.Type.SCRIPTLET_INFO:
 			details += data.scriptlet_info_line;
