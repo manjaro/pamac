@@ -2403,20 +2403,20 @@ private int cb_fetch (string fileurl, string localpath, int force) {
 	var destfile = GLib.File.new_for_path (localpath + url.get_basename ());
 	var tempfile = GLib.File.new_for_path (destfile.get_path () + ".part");
 
-	pamac_daemon.curl->reset ();
-	pamac_daemon.curl->setopt (Curl.Option.FAILONERROR, 1L);
-	pamac_daemon.curl->setopt (Curl.Option.CONNECTTIMEOUT, 30L);
-	pamac_daemon.curl->setopt (Curl.Option.FILETIME, 1L);
-	pamac_daemon.curl->setopt (Curl.Option.FOLLOWLOCATION, 1L);
-	pamac_daemon.curl->setopt (Curl.Option.XFERINFOFUNCTION, cb_download);
-	pamac_daemon.curl->setopt (Curl.Option.LOW_SPEED_LIMIT, 1L);
-	pamac_daemon.curl->setopt (Curl.Option.LOW_SPEED_TIME, 30L);
-	pamac_daemon.curl->setopt (Curl.Option.NETRC, Curl.NetRCOption.OPTIONAL);
-	pamac_daemon.curl->setopt (Curl.Option.HTTPAUTH, Curl.CURLAUTH_ANY);
-	pamac_daemon.curl->setopt (Curl.Option.URL, fileurl);
-	pamac_daemon.curl->setopt (Curl.Option.ERRORBUFFER, error_buffer);
-	pamac_daemon.curl->setopt (Curl.Option.NOPROGRESS, 0L);
-	pamac_daemon.curl->setopt (Curl.Option.XFERINFODATA, (void*) url.get_basename ());
+	pamac_daemon.curl.reset ();
+	pamac_daemon.curl.setopt (Curl.Option.FAILONERROR, 1L);
+	pamac_daemon.curl.setopt (Curl.Option.CONNECTTIMEOUT, 30L);
+	pamac_daemon.curl.setopt (Curl.Option.FILETIME, 1L);
+	pamac_daemon.curl.setopt (Curl.Option.FOLLOWLOCATION, 1L);
+	pamac_daemon.curl.setopt (Curl.Option.XFERINFOFUNCTION, cb_download);
+	pamac_daemon.curl.setopt (Curl.Option.LOW_SPEED_LIMIT, 1L);
+	pamac_daemon.curl.setopt (Curl.Option.LOW_SPEED_TIME, 30L);
+	pamac_daemon.curl.setopt (Curl.Option.NETRC, Curl.NetRCOption.OPTIONAL);
+	pamac_daemon.curl.setopt (Curl.Option.HTTPAUTH, Curl.CURLAUTH_ANY);
+	pamac_daemon.curl.setopt (Curl.Option.URL, fileurl);
+	pamac_daemon.curl.setopt (Curl.Option.ERRORBUFFER, error_buffer);
+	pamac_daemon.curl.setopt (Curl.Option.NOPROGRESS, 0L);
+	pamac_daemon.curl.setopt (Curl.Option.XFERINFODATA, (void*) url.get_basename ());
 
 	bool remove_partial_download = true;
 	if (fileurl.contains (".pkg.tar.") && !fileurl.has_suffix (".sig")) {
@@ -2430,15 +2430,15 @@ private int cb_fetch (string fileurl, string localpath, int force) {
 		if (force == 0) {
 			if (destfile.query_exists ()) {
 				// start from scratch only download if our local is out of date.
-				pamac_daemon.curl->setopt (Curl.Option.TIMECONDITION, Curl.TimeCond.IFMODSINCE);
+				pamac_daemon.curl.setopt (Curl.Option.TIMECONDITION, Curl.TimeCond.IFMODSINCE);
 				FileInfo info = destfile.query_info ("time::modified", 0);
 				TimeVal time = info.get_modification_time ();
-				pamac_daemon.curl->setopt (Curl.Option.TIMEVALUE, time.tv_sec);
+				pamac_daemon.curl.setopt (Curl.Option.TIMEVALUE, time.tv_sec);
 			} else if (tempfile.query_exists ()) {
 				// a previous partial download exists, resume from end of file.
 				FileInfo info = tempfile.query_info ("standard::size", 0);
 				int64 size = info.get_size ();
-				pamac_daemon.curl->setopt (Curl.Option.RESUME_FROM_LARGE, size);
+				pamac_daemon.curl.setopt (Curl.Option.RESUME_FROM_LARGE, size);
 				open_mode = "ab";
 			}
 		} else {
@@ -2456,17 +2456,17 @@ private int cb_fetch (string fileurl, string localpath, int force) {
 		return -1;
 	}
 
-	pamac_daemon.curl->setopt (Curl.Option.WRITEDATA, localf);
+	pamac_daemon.curl.setopt (Curl.Option.WRITEDATA, localf);
 
 	// perform transfer
-	Curl.Code err = pamac_daemon.curl->perform ();
+	Curl.Code err = pamac_daemon.curl.perform ();
 
 
 	// disconnect relationships from the curl handle for things that might go out
 	// of scope, but could still be touched on connection teardown. This really
 	// only applies to FTP transfers.
-	pamac_daemon.curl->setopt (Curl.Option.NOPROGRESS, 1L);
-	pamac_daemon.curl->setopt (Curl.Option.ERRORBUFFER, null);
+	pamac_daemon.curl.setopt (Curl.Option.NOPROGRESS, 1L);
+	pamac_daemon.curl.setopt (Curl.Option.ERRORBUFFER, null);
 
 	int ret;
 
@@ -2478,11 +2478,11 @@ private int cb_fetch (string fileurl, string localpath, int force) {
 			unowned string effective_url;
 
 			// retrieve info about the state of the transfer
-			pamac_daemon.curl->getinfo (Curl.Info.FILETIME, out remote_time);
-			pamac_daemon.curl->getinfo (Curl.Info.CONTENT_LENGTH_DOWNLOAD, out remote_size);
-			pamac_daemon.curl->getinfo (Curl.Info.SIZE_DOWNLOAD, out bytes_dl);
-			pamac_daemon.curl->getinfo (Curl.Info.CONDITION_UNMET, out timecond);
-			pamac_daemon.curl->getinfo (Curl.Info.EFFECTIVE_URL, out effective_url);
+			pamac_daemon.curl.getinfo (Curl.Info.FILETIME, out remote_time);
+			pamac_daemon.curl.getinfo (Curl.Info.CONTENT_LENGTH_DOWNLOAD, out remote_size);
+			pamac_daemon.curl.getinfo (Curl.Info.SIZE_DOWNLOAD, out bytes_dl);
+			pamac_daemon.curl.getinfo (Curl.Info.CONDITION_UNMET, out timecond);
+			pamac_daemon.curl.getinfo (Curl.Info.EFFECTIVE_URL, out effective_url);
 
 			if (timecond == 1 && bytes_dl == 0) {
 				// time condition was met and we didn't download anything. we need to
