@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2016-04-24 08:44+0200\n"
-"PO-Revision-Date: 2017-02-21 13:49+0000\n"
+"PO-Revision-Date: 2017-03-05 14:34+0000\n"
 "Last-Translator: Al Manja <al.manja@gmx.com>\n"
 "Language-Team: Slovenian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/sl/)\n"
 "MIME-Version: 1.0\n"
@@ -126,7 +126,7 @@ msgstr "%s je neveljaven ali pokvarjen"
 #: ../src/daemon.vala
 #, c-format
 msgid "%s appears to be truncated: %jd/%jd bytes\n"
-msgstr ""
+msgstr "%s izgleda prirezanih: %jd%jd bitov\n"
 
 #: ../src/daemon.vala
 #, c-format
