@@ -163,6 +163,7 @@ namespace Pamac {
 			Timeout.add (500, check_pacman_running);
 			create_thread_pool ();
 			cancellable = new Cancellable ();
+			curl = new Curl.Easy ();
 		}
 
 		public void set_environment_variables (HashTable<string,string> variables) {
@@ -200,19 +201,6 @@ namespace Pamac {
 			} catch (ThreadError e) {
 				stderr.printf ("Thread Error %s\n", e.message);
 			}
-		}
-
-		public void init_curl () {
-			curl = new Curl.Easy ();
-			curl->setopt (Curl.Option.FAILONERROR, 1L);
-			curl->setopt (Curl.Option.CONNECTTIMEOUT, 30L);
-			curl->setopt (Curl.Option.FILETIME, 1L);
-			curl->setopt (Curl.Option.FOLLOWLOCATION, 1L);
-			curl->setopt (Curl.Option.XFERINFOFUNCTION, cb_download);
-			curl->setopt (Curl.Option.LOW_SPEED_LIMIT, 1L);
-			curl->setopt (Curl.Option.LOW_SPEED_TIME, 30L);
-			curl->setopt (Curl.Option.NETRC, Curl.NetRCOption.OPTIONAL);
-			curl->setopt (Curl.Option.HTTPAUTH, Curl.CURLAUTH_ANY);
 		}
 
 		private void refresh_handle () {
@@ -434,7 +422,6 @@ namespace Pamac {
 			int force = (force_refresh) ? 1 : 0;
 			uint success = 0;
 			cancellable.reset ();
-			init_curl ();
 			string[] dbexts = {".db", ".files"};
 			unowned Alpm.List<unowned Alpm.DB> syncdbs = alpm_handle.syncdbs;
 			while (syncdbs != null) {
@@ -2276,19 +2263,6 @@ private void cb_event (Alpm.Event.Data data) {
 			details += data.delta_patch_delta.to;
 			details += data.delta_patch_delta.delta;
 			break;
-		case Alpm.Event.Type.RETRIEVE_START:
-			// init curl easy handle
-			pamac_daemon.curl = new Curl.Easy ();
-			pamac_daemon.curl->setopt (Curl.Option.FAILONERROR, 1L);
-			pamac_daemon.curl->setopt (Curl.Option.CONNECTTIMEOUT, 30L);
-			pamac_daemon.curl->setopt (Curl.Option.FILETIME, 1L);
-			pamac_daemon.curl->setopt (Curl.Option.FOLLOWLOCATION, 1L);
-			pamac_daemon.curl->setopt (Curl.Option.XFERINFOFUNCTION, cb_download);
-			pamac_daemon.curl->setopt (Curl.Option.LOW_SPEED_LIMIT, 1L);
-			pamac_daemon.curl->setopt (Curl.Option.LOW_SPEED_TIME, 30L);
-			pamac_daemon.curl->setopt (Curl.Option.NETRC, Curl.NetRCOption.OPTIONAL);
-			pamac_daemon.curl->setopt (Curl.Option.HTTPAUTH, Curl.CURLAUTH_ANY);
-			break;
 		case Alpm.Event.Type.RETRIEVE_DONE:
 			delete pamac_daemon.curl;
 			break;
@@ -2437,13 +2411,20 @@ private int cb_fetch (string fileurl, string localpath, int force) {
 	var destfile = GLib.File.new_for_path (localpath + url.get_basename ());
 	var tempfile = GLib.File.new_for_path (destfile.get_path () + ".part");
 
+	pamac_daemon.curl->reset ();
+	pamac_daemon.curl->setopt (Curl.Option.FAILONERROR, 1L);
+	pamac_daemon.curl->setopt (Curl.Option.CONNECTTIMEOUT, 30L);
+	pamac_daemon.curl->setopt (Curl.Option.FILETIME, 1L);
+	pamac_daemon.curl->setopt (Curl.Option.FOLLOWLOCATION, 1L);
+	pamac_daemon.curl->setopt (Curl.Option.XFERINFOFUNCTION, cb_download);
+	pamac_daemon.curl->setopt (Curl.Option.LOW_SPEED_LIMIT, 1L);
+	pamac_daemon.curl->setopt (Curl.Option.LOW_SPEED_TIME, 30L);
+	pamac_daemon.curl->setopt (Curl.Option.NETRC, Curl.NetRCOption.OPTIONAL);
+	pamac_daemon.curl->setopt (Curl.Option.HTTPAUTH, Curl.CURLAUTH_ANY);
 	pamac_daemon.curl->setopt (Curl.Option.URL, fileurl);
 	pamac_daemon.curl->setopt (Curl.Option.ERRORBUFFER, error_buffer);
 	pamac_daemon.curl->setopt (Curl.Option.NOPROGRESS, 0L);
 	pamac_daemon.curl->setopt (Curl.Option.XFERINFODATA, (void*) url.get_basename ());
-	pamac_daemon.curl->setopt (Curl.Option.TIMECONDITION, Curl.TimeCond.NONE);
-	pamac_daemon.curl->setopt (Curl.Option.TIMEVALUE, 0);
-	pamac_daemon.curl->setopt (Curl.Option.RESUME_FROM_LARGE, 0);
 
 	bool remove_partial_download = true;
 	if (fileurl.contains (".pkg.tar.") && !fileurl.has_suffix (".sig")) {
