@@ -1045,7 +1045,7 @@ namespace Pamac {
 
 		async void build_aur_packages () {
 			string pkgname = to_build_queue.pop_head ();
-			string action = dgettext (null, "Building %s".printf (pkgname)) + "...";
+			string action = dgettext (null, "Building %s").printf (pkgname) + "...";
 			reset_progress_box (action);
 			build_cancellable.reset ();
 			start_progressbar_pulse ();
