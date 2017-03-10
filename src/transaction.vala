@@ -263,7 +263,8 @@ namespace Pamac {
 
 		public async void run_preferences_dialog () {
 			SourceFunc callback = run_preferences_dialog.callback;
-			ulong handler_id = daemon.get_authorization_finished.connect ((authorized) => {
+			check_authorization.begin ((obj, res) => {
+				bool authorized = check_authorization.end (res);
 				if (authorized) {
 					var preferences_dialog = new PreferencesDialog (this);
 					preferences_dialog.run ();
@@ -274,9 +275,7 @@ namespace Pamac {
 				}
 				Idle.add ((owned) callback);
 			});
-			start_get_authorization ();
 			yield;
-			daemon.disconnect (handler_id);
 		}
 
 		public void run_about_dialog () {
@@ -300,12 +299,21 @@ namespace Pamac {
 			}
 		}
 
-		void start_get_authorization () {
+		async bool check_authorization () {
+			SourceFunc callback = check_authorization.callback;
+			bool authorized = false;
+			ulong handler_id = daemon.get_authorization_finished.connect ((authorized_) => {
+				authorized = authorized_;
+				Idle.add ((owned) callback);
+			});
 			try {
 				daemon.start_get_authorization ();
 			} catch (IOError e) {
 				stderr.printf ("IOError: %s\n", e.message);
 			}
+			yield;
+			daemon.disconnect (handler_id);
+			return authorized;
 		}
 
 		public void start_write_pamac_config (HashTable<string,Variant> new_pamac_conf) {
@@ -1634,7 +1642,15 @@ namespace Pamac {
 				if (to_build_queue.get_length () != 0) {
 					show_in_term ("");
 					clear_previous_lists ();
-					build_aur_packages.begin ();
+					check_authorization.begin ((obj, res) => {
+						bool authorized = check_authorization.end (res);
+						if (authorized) {
+							build_aur_packages.begin ();
+						} else {
+							to_build_queue.clear ();
+							on_trans_commit_finished (false);
+						}
+					});
 				} else {
 					clear_previous_lists ();
 					if (sysupgrade_after_trans) {
@@ -1667,6 +1683,7 @@ namespace Pamac {
 					to_load.remove_all ();
 				}
 				clear_previous_lists ();
+				to_build_queue.clear ();
 				warning_textbuffer = new StringBuilder ();
 				handle_error (err);
 			}

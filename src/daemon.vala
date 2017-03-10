@@ -126,6 +126,7 @@ namespace Pamac {
 		public Timer timer;
 		public Cancellable cancellable;
 		public Curl.Easy curl;
+		private bool authorized;
 
 		public signal void emit_event (uint primary_event, uint secondary_event, string[] details);
 		public signal void emit_providers (string depend, string[] providers);
@@ -164,6 +165,7 @@ namespace Pamac {
 			create_thread_pool ();
 			cancellable = new Cancellable ();
 			curl = new Curl.Easy ();
+			authorized = false;
 		}
 
 		public void set_environment_variables (HashTable<string,string> variables) {
@@ -261,8 +263,10 @@ namespace Pamac {
 		}
 
 		private async bool check_authorization (GLib.BusName sender) {
+			if (authorized) {
+				return true;
+			}
 			SourceFunc callback = check_authorization.callback;
-			bool authorized = false;
 			try {
 				Polkit.Authority authority = Polkit.Authority.get_sync ();
 				Polkit.Subject subject = Polkit.SystemBusName.new (sender);
@@ -285,6 +289,11 @@ namespace Pamac {
 				yield;
 			} catch (GLib.Error e) {
 				stderr.printf ("%s\n", e.message);
+			}
+			if (!authorized) {
+				current_error = ErrorInfos () {
+					message = _("Authentication failed")
+				};
 			}
 			return authorized;
 		}
@@ -348,10 +357,6 @@ namespace Pamac {
 					} catch (ThreadError e) {
 						stderr.printf ("Thread Error %s\n", e.message);
 					}
-				} else {
-					current_error = ErrorInfos () {
-						message = _("Authentication failed")
-					};
 				}
 			});
 		}
@@ -372,10 +377,6 @@ namespace Pamac {
 					} catch (Error e) {
 						stderr.printf ("Error: %s\n", e.message);
 					}
-				} else {
-					current_error = ErrorInfos () {
-						message = _("Authentication failed")
-					};
 				}
 			});
 		}
@@ -2152,9 +2153,6 @@ namespace Pamac {
 						stderr.printf ("Thread Error %s\n", e.message);
 					}
 				} else {
-					current_error = ErrorInfos () {
-						message = _("Authentication failed")
-					};
 					trans_release ();
 					trans_commit_finished (false);
 				}
