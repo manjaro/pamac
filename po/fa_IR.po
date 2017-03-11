@@ -19,7 +19,7 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2016-04-24 08:44+0200\n"
-"PO-Revision-Date: 2017-03-09 21:19+0000\n"
+"PO-Revision-Date: 2017-03-10 18:24+0000\n"
 "Last-Translator: hossein seilani <hosseinseilany@gmail.com>\n"
 "Language-Team: Persian (Iran) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/fa_IR/)\n"
 "MIME-Version: 1.0\n"
@@ -34,7 +34,7 @@ msgstr "تائید هویت شکست خورد"
 
 #: ../src/daemon.vala
 msgid "Failed to initialize alpm library"
-msgstr ""
+msgstr "شکست در مقدار دهی اولیه کتابخانه alpm"
 
 #: ../src/daemon.vala ../src/transaction.vala
 msgid "Authentication failed"
@@ -66,16 +66,16 @@ msgstr "خیر"
 
 #: ../src/daemon.vala
 msgid "Failed to init transaction"
-msgstr ""
+msgstr "شکست در مقداردهی تراکنش"
 
 #: ../src/daemon.vala
 msgid "Failed to prepare transaction"
-msgstr ""
+msgstr "شکست در آماده کردن تراکنش"
 
 #: ../src/daemon.vala
 #, c-format
 msgid "target not found: %s"
-msgstr ""
+msgstr "مقصد پیدا نشد : %s"
 
 #: ../src/daemon.vala
 #, c-format
@@ -518,19 +518,19 @@ msgstr ""
 
 #: ../src/manager_window.vala
 msgid "Votes"
-msgstr ""
+msgstr "آرا"
 
 #: ../src/manager_window.vala
 msgid "Out of Date"
-msgstr ""
+msgstr "خارج از تاریخ"
 
 #: ../src/manager_window.vala
 msgid "Make Dependencies"
-msgstr ""
+msgstr "ساخت وابستگی ها"
 
 #: ../src/manager_window.vala
 msgid "Check Dependencies"
-msgstr ""
+msgstr "بررسی وابستگی ها"
 
 #: ../src/manager_window.vala ../resources/manager_window.ui
 #: ../resources/updater_window.ui
@@ -539,7 +539,7 @@ msgstr "نام"
 
 #: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Install Local Packages"
-msgstr ""
+msgstr "نصب بسته‌های محلی"
 
 #: ../src/manager_window.vala ../resources/transaction_sum_dialog.ui
 #: ../resources/manager_window.ui ../resources/updater_window.ui
@@ -553,19 +553,19 @@ msgstr "_بازکردن"
 
 #: ../src/manager_window.vala
 msgid "Alpm Package"
-msgstr ""
+msgstr "بسته Aplm"
 
 #: ../src/preferences_dialog.vala ../resources/preferences_dialog.ui
 msgid "How often to check for updates, value in hours"
-msgstr ""
+msgstr "اغلب چگونگی به روز رسانی بسته را چک کنید ،ارزش زمانی "
 
 #: ../src/preferences_dialog.vala ../resources/preferences_dialog.ui
 msgid "Number of versions of each package to keep in the cache"
-msgstr ""
+msgstr "تعدادی از نسخه های هر بسته را در حافظه موقت نگهداری کن"
 
 #: ../src/preferences_dialog.vala
 msgid "Worldwide"
-msgstr ""
+msgstr "در سراسر جهان"
 
 #: ../src/preferences_dialog.vala
 msgid "Speed"
@@ -573,16 +573,16 @@ msgstr "سرعت"
 
 #: ../src/preferences_dialog.vala
 msgid "Random"
-msgstr ""
+msgstr "تصادفی"
 
 #: ../resources/choose_provider_dialog.ui
 msgid "Choose a Provider"
-msgstr ""
+msgstr "انتخاب یک ارائه دهنده"
 
 #: ../resources/choose_provider_dialog.ui
 #: ../resources/choose_ignorepkgs_dialog.ui
 msgid "Choose"
-msgstr ""
+msgstr "انتخاب کنید"
 
 #: ../resources/progress_dialog.ui
 msgid "Progress"
@@ -598,23 +598,23 @@ msgstr "خلاصه‌ی تراکنش"
 
 #: ../resources/transaction_sum_dialog.ui
 msgid "Commit"
-msgstr ""
+msgstr "اجرا"
 
 #: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "Refresh databases"
-msgstr ""
+msgstr "بروزرسانی بانک اطلاعاتی"
 
 #: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "View History"
-msgstr ""
+msgstr "مشاهده تاریخچه"
 
 #: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "Preferences"
-msgstr ""
+msgstr "تنظیمات"
 
 #: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "About"
-msgstr ""
+msgstr "درباره"
 
 #: ../resources/manager_window.ui
 msgid "Search"
@@ -626,7 +626,7 @@ msgstr "حالت"
 
 #: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "Repositories"
-msgstr ""
+msgstr "مخزن"
 
 #: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "Version"
@@ -638,16 +638,16 @@ msgstr "حجم"
 
 #: ../resources/manager_window.ui
 msgid "Popularity"
-msgstr ""
+msgstr "محبوبیت"
 
 #: ../resources/manager_window.ui ../resources/updater_window.ui
 #: ../resources/preferences_dialog.ui
 msgid "AUR"
-msgstr ""
+msgstr "َAUR"
 
 #: ../resources/manager_window.ui
 msgid "Browse"
-msgstr ""
+msgstr "مرور کردن"
 
 #: ../resources/manager_window.ui
 msgid "Reinstall"
@@ -655,7 +655,7 @@ msgstr "نصب دوباره"
 
 #: ../resources/manager_window.ui
 msgid "Dependencies"
-msgstr ""
+msgstr "وابستگی ها"
 
 #: ../resources/manager_window.ui
 msgid "Files"
@@ -663,53 +663,53 @@ msgstr "فایل‌ها"
 
 #: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "_Apply"
-msgstr ""
+msgstr "_اعمال"
 
 #: ../resources/preferences_dialog.ui
 msgid "Remove unrequired dependencies"
-msgstr ""
+msgstr "حذف وابستگی های غیرضروری"
 
 #: ../resources/preferences_dialog.ui
 msgid ""
 "When removing a package, also remove its dependencies that are not required "
 "by other packages"
-msgstr ""
+msgstr "زمانی که  یک بسته را حذف می کنید، وابستگی های آن نیز که توسط بسته های دیگر مورد نیاز نیست حذف می گردد."
 
 #: ../resources/preferences_dialog.ui
 msgid "Check available disk space"
-msgstr ""
+msgstr "بررسی فضای موجود بر روی دیسک"
 
 #: ../resources/preferences_dialog.ui
 msgid "Check for updates"
-msgstr ""
+msgstr "بررسی برای بروزرسانی"
 
 #: ../resources/preferences_dialog.ui
 msgid "Hide tray icon when no update available"
-msgstr ""
+msgstr " مخفی کردن آیکون سینی زمانی که هیچ بروز رسانی موجود نیست"
 
 #: ../resources/preferences_dialog.ui
 msgid "Ignore upgrades for:"
-msgstr ""
+msgstr "صرفنظر کردن از بروزرسانی ها برای :"
 
 #: ../resources/preferences_dialog.ui
 msgid "General"
-msgstr ""
+msgstr "عمومی"
 
 #: ../resources/preferences_dialog.ui
 msgid "Use mirrors from:"
-msgstr ""
+msgstr "استفاده از آیینه های :"
 
 #: ../resources/preferences_dialog.ui
 msgid "Sort mirrors by:"
-msgstr ""
+msgstr "مرتب کردن آیینه ها بر اساس:"
 
 #: ../resources/preferences_dialog.ui
 msgid "Refresh Mirrors List"
-msgstr ""
+msgstr "تازه کردن لیست آینه ها"
 
 #: ../resources/preferences_dialog.ui
 msgid "Official Repositories"
-msgstr ""
+msgstr "مخازن رسمی"
 
 #: ../resources/preferences_dialog.ui
 msgid ""
@@ -727,24 +727,24 @@ msgstr ""
 
 #: ../resources/preferences_dialog.ui
 msgid "Search in AUR by default"
-msgstr ""
+msgstr "جستجوی  در AUR به صورت پیش فرض"
 
 #: ../resources/preferences_dialog.ui
 msgid "Check for updates from AUR"
-msgstr ""
+msgstr "بررسی بروزرسانی از AUR"
 
 #: ../resources/preferences_dialog.ui
 msgid "Remove only the versions of uninstalled packages"
-msgstr ""
+msgstr "فقط حذف نسخه های بسته های حذف شده"
 
 #: ../resources/preferences_dialog.ui
 msgid "Clean cache"
-msgstr ""
+msgstr "پاک کردن حافظه موقت"
 
 #: ../resources/preferences_dialog.ui
 msgid "Cache"
-msgstr ""
+msgstr "حافظه موقت"
 
 #: ../resources/choose_ignorepkgs_dialog.ui
 msgid "Choose Ignored Upgrades"
-msgstr ""
+msgstr "انتخاب بروزرسانی های صرف نظرشده"
