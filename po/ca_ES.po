@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2016-04-24 08:44+0200\n"
-"PO-Revision-Date: 2017-02-20 10:45+0000\n"
+"PO-Revision-Date: 2017-03-15 15:22+0000\n"
 "Last-Translator: acutbal <acutbal@gmail.com>\n"
 "Language-Team: Catalan (Spain) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/ca_ES/)\n"
 "MIME-Version: 1.0\n"
@@ -140,36 +140,36 @@ msgstr "Copiar"
 
 #: ../src/transaction.vala
 msgid "Refreshing mirrors list"
-msgstr ""
+msgstr "Actualitzant la llista de rèpliques"
 
 #: ../src/transaction.vala
 msgid "Synchronizing package databases"
-msgstr ""
+msgstr "Sincronitzant les bases de dades dels paquets"
 
 #: ../src/transaction.vala
 msgid "Starting full system upgrade"
-msgstr ""
+msgstr "Iniciant una actualització completa del sistema"
 
 #: ../src/transaction.vala
 msgid "Preparing"
-msgstr ""
+msgstr "Preparant"
 
 #: ../src/transaction.vala
 #, c-format
 msgid "Choose a provider for %s"
-msgstr ""
+msgstr "Trieu un proveïdor per a %s"
 
 #: ../src/transaction.vala
 msgid "To remove"
-msgstr ""
+msgstr "Per suprimir"
 
 #: ../src/transaction.vala
 msgid "To downgrade"
-msgstr ""
+msgstr "Per tornar a versió anterior"
 
 #: ../src/transaction.vala
 msgid "To build"
-msgstr ""
+msgstr "Per construir"
 
 #: ../src/transaction.vala
 msgid "To install"
