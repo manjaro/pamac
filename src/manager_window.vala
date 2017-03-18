@@ -519,12 +519,23 @@ namespace Pamac {
 				install_togglebutton.visible = false;
 				remove_togglebutton.visible = true;
 				remove_togglebutton.active = transaction.to_remove.contains (details.name);
+				reinstall_togglebutton.visible = false;
 				AlpmPackage find_pkg = transaction.get_sync_pkg (details.name);
 				if (find_pkg.name != "") {
 					if (find_pkg.version == details.version) {
 						reinstall_togglebutton.visible = true;
 						reinstall_togglebutton.active = transaction.to_install.contains (details.name);
 					}
+				} else {
+					transaction.get_aur_details.begin (details.name, (obj, res) => {
+						AURPackageDetails aur_details = transaction.get_aur_details.end (res);
+						if (aur_details.name != "") {
+							if (aur_details.version == details.version) {
+								reinstall_togglebutton.visible = true;
+								reinstall_togglebutton.active = transaction.to_build.contains (details.name);
+							}
+						}
+					});
 				}
 			} else if (details.origin == 3) { //Alpm.Package.From.SYNCDB
 				remove_togglebutton.visible = false;
@@ -777,10 +788,17 @@ namespace Pamac {
 				remove_togglebutton.get_style_context ().remove_class (Gtk.STYLE_CLASS_DESTRUCTIVE_ACTION);
 				reinstall_togglebutton.get_style_context ().add_class (Gtk.STYLE_CLASS_SUGGESTED_ACTION);
 				transaction.to_remove.remove (current_package_displayed);
-				transaction.to_install.add (current_package_displayed);
+				AlpmPackage find_pkg = transaction.get_sync_pkg (current_package_displayed);
+				if (find_pkg.name != "") {
+					transaction.to_install.add (current_package_displayed);
+				} else {
+					// availability in AUR was checked in set_package_details
+					transaction.to_build.add (current_package_displayed);
+				}
 			} else {
 				reinstall_togglebutton.get_style_context ().remove_class (Gtk.STYLE_CLASS_SUGGESTED_ACTION);
 				transaction.to_install.remove (current_package_displayed);
+				transaction.to_build.remove (current_package_displayed);
 			}
 			set_pendings_operations ();
 		}

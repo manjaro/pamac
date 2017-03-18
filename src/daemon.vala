@@ -1818,7 +1818,6 @@ namespace Pamac {
 				trans_commit_finished (false);
 			} else {
 				alpm_handle.questioncb = (Alpm.QuestionCallBack) cb_question;
-				alpm_handle.logcb = (Alpm.LogCallBack) cb_log;
 				lockfile = GLib.File.new_for_path (alpm_handle.lockfile);
 				// fake aur db
 				alpm_handle.register_syncdb ("aur", 0);
