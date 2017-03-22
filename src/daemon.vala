@@ -102,6 +102,8 @@ namespace Pamac {
 		public int? choosen_provider;
 		private bool force_refresh;
 		private bool enable_downgrade;
+		private bool check_aur_updates;
+		private HashTable<string,Variant> new_alpm_conf;
 		private Alpm.TransFlag flags;
 		private string[] to_install;
 		private string[] to_remove;
@@ -318,15 +320,28 @@ namespace Pamac {
 			});
 		}
 
-		public void start_write_alpm_config (HashTable<string,Variant> new_alpm_conf, GLib.BusName sender) {
+		private void write_alpm_config () {
+			alpm_config.write (new_alpm_conf);
+			alpm_config.reload ();
+			databases_lock_mutex.lock ();
+			refresh_handle ();
+			databases_lock_mutex.unlock ();
+			write_alpm_config_finished ((alpm_handle.checkspace == 1));
+		}
+
+		public void start_write_alpm_config (HashTable<string,Variant> new_alpm_conf_, GLib.BusName sender) {
 			check_authorization.begin (sender, (obj, res) => {
 				bool authorized = check_authorization.end (res);
 				if (authorized ) {
-					alpm_config.write (new_alpm_conf);
-					alpm_config.reload ();
-					refresh_handle ();
+					new_alpm_conf = new_alpm_conf_;
+					try {
+						thread_pool.add (new AlpmAction (write_alpm_config));
+					} catch (ThreadError e) {
+						stderr.printf ("Thread Error %s\n", e.message);
+					}
+				} else {
+					write_alpm_config_finished ((alpm_handle.checkspace == 1));
 				}
-				write_alpm_config_finished ((alpm_handle.checkspace == 1));
 			});
 		}
 
@@ -344,7 +359,9 @@ namespace Pamac {
 				stderr.printf ("Error: %s\n", e.message);
 			}
 			alpm_config.reload ();
+			databases_lock_mutex.lock ();
 			refresh_handle ();
+			databases_lock_mutex.unlock ();
 			generate_mirrors_list_finished ();
 		}
 
@@ -1358,7 +1375,7 @@ namespace Pamac {
 			return files;
 		}
 
-		public void start_get_updates (bool check_aur_updates) {
+		private void get_updates () {
 			UpdateInfos[] updates_infos = {};
 			unowned Alpm.Package? pkg = null;
 			unowned Alpm.Package? candidate = null;
@@ -1385,7 +1402,6 @@ namespace Pamac {
 					aur_updates = {}
 				};
 				get_updates_finished (updates);
-				return;
 			} else {
 				string[] local_pkgs = {};
 				unowned Alpm.List<unowned Alpm.Package> pkgcache = alpm_handle.localdb.pkgcache;
@@ -1474,6 +1490,15 @@ namespace Pamac {
 			return aur_updates_infos;
 		}
 
+		public void start_get_updates (bool check_aur_updates_) {
+			check_aur_updates = check_aur_updates_;
+			try {
+				thread_pool.add (new AlpmAction (get_updates));
+			} catch (ThreadError e) {
+				stderr.printf ("Thread Error %s\n", e.message);
+			}
+		}
+
 		private bool trans_init (Alpm.TransFlag flags) {
 			current_error = ErrorInfos ();
 			if (!databases_lock_mutex.trylock ()) {
@@ -1516,10 +1541,6 @@ namespace Pamac {
 					success = false;
 				} else {
 					success = trans_prepare_real ();
-				}
-			} else {
-				if (cancellable.is_cancelled ()) {
-					success = true;
 				}
 			}
 			trans_prepare_finished (success);
@@ -1788,15 +1809,21 @@ namespace Pamac {
 				} else {
 					trans_release ();
 				}
-			} else {
-				if (cancellable.is_cancelled ()) {
-					success = true;
-				}
 			}
 			trans_prepare_finished (success);
 		}
 
 		private void build_prepare () {
+			if (!databases_lock_mutex.trylock ()) {
+				// Wait for pacman to finish
+				emit_event (0, 0, {});
+				databases_lock_mutex.lock ();
+			}
+			if (cancellable.is_cancelled ()) {
+				cancellable.reset ();
+				databases_lock_mutex.unlock ();
+				return;
+			}
 			// create a fake aur db
 			try {
 				var list = new StringBuilder ();
@@ -1861,7 +1888,17 @@ namespace Pamac {
 					to_remove += name;
 				}
 				// fake trans prepare
-				bool success = trans_init (flags);
+				current_error = ErrorInfos ();
+				bool success = true;
+				if (alpm_handle.trans_init (flags | Alpm.TransFlag.NOLOCK) == -1) {
+					Alpm.Errno errno = alpm_handle.errno ();
+					current_error.errno = (uint) errno;
+					current_error.message = _("Failed to init transaction");
+					if (errno != 0) {
+						current_error.details = { Alpm.strerror (errno) };
+					}
+					success = false;
+				}
 				if (success) {
 					foreach (unowned string name in to_install) {
 						success = trans_add_pkg (name);
@@ -1944,27 +1981,20 @@ namespace Pamac {
 							}
 							// get standard handle
 							refresh_handle ();
+							databases_lock_mutex.unlock ();
 							// launch standard prepare
 							to_install = real_to_install;
 							trans_prepare ();
-						} else {
-							// get standard handle
-							refresh_handle ();
-							trans_prepare_finished (false);
 						}
 					} else {
 						trans_release ();
-						// get standard handle
-						refresh_handle ();
-						trans_prepare_finished (false);
 					}
-				} else {
-					if (cancellable.is_cancelled ()) {
-						success = true;
-					}
+				}
+				if (!success) {
 					// get standard handle
 					refresh_handle ();
-					trans_prepare_finished (success);
+					databases_lock_mutex.unlock ();
+					trans_prepare_finished (false);
 				}
 			}
 		}
