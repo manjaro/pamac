@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2016-04-24 08:44+0200\n"
-"PO-Revision-Date: 2017-03-15 15:22+0000\n"
+"PO-Revision-Date: 2017-03-23 15:00+0000\n"
 "Last-Translator: acutbal <acutbal@gmail.com>\n"
 "Language-Team: Catalan (Spain) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/ca_ES/)\n"
 "MIME-Version: 1.0\n"
@@ -173,161 +173,161 @@ msgstr "Per construir"
 
 #: ../src/transaction.vala
 msgid "To install"
-msgstr ""
+msgstr "Per instal·lar"
 
 #: ../src/transaction.vala
 msgid "To reinstall"
-msgstr ""
+msgstr "Per reinstal·lar"
 
 #: ../src/transaction.vala
 msgid "To update"
-msgstr ""
+msgstr "Per actualitzar"
 
 #: ../src/transaction.vala ../src/updater_window.vala
 msgid "Total download size"
-msgstr ""
+msgstr "Mida total de la descàrrega"
 
 #: ../src/transaction.vala
 #, c-format
 msgid "Building %s"
-msgstr ""
+msgstr "Construint %s"
 
 #: ../src/transaction.vala
 msgid "Transaction cancelled"
-msgstr ""
+msgstr "Transacció cancel·lada"
 
 #: ../src/transaction.vala
 msgid "Waiting for another package manager to quit"
-msgstr ""
+msgstr "Esperant que s'aturi un altre gestor de paquets"
 
 #: ../src/transaction.vala
 msgid "Checking dependencies"
-msgstr ""
+msgstr "Comprovant les dependències"
 
 #: ../src/transaction.vala
 msgid "Checking file conflicts"
-msgstr ""
+msgstr "Comprovant els conflictes entre fitxers"
 
 #: ../src/transaction.vala
 msgid "Resolving dependencies"
-msgstr ""
+msgstr "Resolent dependències"
 
 #: ../src/transaction.vala
 msgid "Checking inter-conflicts"
-msgstr ""
+msgstr "Comprovant els conflictes"
 
 #: ../src/transaction.vala
 #, c-format
 msgid "Installing %s"
-msgstr ""
+msgstr "Instal·lant %s"
 
 #: ../src/transaction.vala
 #, c-format
 msgid "Upgrading %s"
-msgstr ""
+msgstr "Actualitzant %s"
 
 #: ../src/transaction.vala
 #, c-format
 msgid "Reinstalling %s"
-msgstr ""
+msgstr "Reinstal·lant %s"
 
 #: ../src/transaction.vala
 #, c-format
 msgid "Downgrading %s"
-msgstr ""
+msgstr "Restaurant la versió anterior %s"
 
 #: ../src/transaction.vala
 #, c-format
 msgid "Removing %s"
-msgstr ""
+msgstr "Eliminant %s"
 
 #: ../src/transaction.vala
 msgid "Checking integrity"
-msgstr ""
+msgstr "Comprovant integritat"
 
 #: ../src/transaction.vala
 msgid "Loading packages files"
-msgstr ""
+msgstr "Carregant els fitxers dels paquets"
 
 #: ../src/transaction.vala
 msgid "Checking delta integrity"
-msgstr ""
+msgstr "Comprovant la integritat delta"
 
 #: ../src/transaction.vala
 msgid "Applying deltas"
-msgstr ""
+msgstr "Aplicant deltes"
 
 #: ../src/transaction.vala
 #, c-format
 msgid "Generating %s with %s"
-msgstr ""
+msgstr "Generant %s amb %s"
 
 #: ../src/transaction.vala
 msgid "Generation succeeded"
-msgstr ""
+msgstr "Generació acabada correctament"
 
 #: ../src/transaction.vala
 msgid "Generation failed"
-msgstr ""
+msgstr "La generació ha fallat"
 
 #: ../src/transaction.vala
 #, c-format
 msgid "Configuring %s"
-msgstr ""
+msgstr "Configurant %s"
 
 #: ../src/transaction.vala
 msgid "Downloading"
-msgstr ""
+msgstr "Descarregant"
 
 #: ../src/transaction.vala
 #, c-format
 msgid "Downloading %s"
-msgstr ""
+msgstr "Descarregant %s"
 
 #: ../src/transaction.vala
 msgid "Checking available disk space"
-msgstr ""
+msgstr "Comprovant l'espai disponible al disc"
 
 #: ../src/transaction.vala
 #, c-format
 msgid "%s optionally requires %s"
-msgstr ""
+msgstr "%s requereix opcionalment %s"
 
 #: ../src/transaction.vala
 #, c-format
 msgid "Database file for %s does not exist"
-msgstr ""
+msgstr "La base de dades de fitxer per a %s no existeix"
 
 #: ../src/transaction.vala
 msgid "Checking keyring"
-msgstr ""
+msgstr "Comprovant el clauer"
 
 #: ../src/transaction.vala
 msgid "Downloading required keys"
-msgstr ""
+msgstr "Descarregant les claus requerides"
 
 #: ../src/transaction.vala
 #, c-format
 msgid "%s installed as %s.pacnew"
-msgstr ""
+msgstr "%s instal·lat com a %s.pacnew"
 
 #: ../src/transaction.vala
 #, c-format
 msgid "%s installed as %s.pacsave"
-msgstr ""
+msgstr "%s instal·lat com a %s.pacsave"
 
 #: ../src/transaction.vala
 msgid "Running pre-transaction hooks"
-msgstr ""
+msgstr "Executant els ganxos de pretransacció"
 
 #: ../src/transaction.vala
 msgid "Running post-transaction hooks"
-msgstr ""
+msgstr "Executant els ganxos de post-transacció"
 
 #: ../src/transaction.vala
 #, c-format
 msgid "About %u seconds remaining"
-msgstr ""
+msgstr "Manquen uns %u segons"
 
 #: ../src/transaction.vala
 #, c-format

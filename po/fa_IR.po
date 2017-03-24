@@ -8,9 +8,9 @@
 # Hootan Baraary <h.baraary@yahoo.com>, 2013
 # hossein seilani <hosseinseilany@gmail.com>, 2017
 # Mohsen Muhammadi Shayan <info@p30games.ir>, 2016
-# ramin.najarbashi <ramin.najarbashi@gmail.com>, 2014
-# ramin.najarbashi <ramin.najarbashi@gmail.com>, 2014
-# ramin.najarbashi <ramin.najarbashi@gmail.com>, 2014
+# Ramin Najjarbashi <ramin.najarbashi@gmail.com>, 2014
+# Ramin Najjarbashi <ramin.najarbashi@gmail.com>, 2014
+# Ramin Najjarbashi <ramin.najarbashi@gmail.com>, 2014
 # Reza Gharibi <reza.gharibi.rg@gmail.com>, 2013
 # Reza Gharibi <reza.gharibi.rg@gmail.com>, 2013
 # Hootan Baraary <h.baraary@yahoo.com>, 2013
@@ -19,7 +19,7 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2016-04-24 08:44+0200\n"
-"PO-Revision-Date: 2017-03-10 18:24+0000\n"
+"PO-Revision-Date: 2017-03-20 23:14+0000\n"
 "Last-Translator: hossein seilani <hosseinseilany@gmail.com>\n"
 "Language-Team: Persian (Iran) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/fa_IR/)\n"
 "MIME-Version: 1.0\n"
@@ -390,7 +390,7 @@ msgstr "_خروج"
 #, c-format
 msgid "%u available update"
 msgid_plural "%u available updates"
-msgstr[0] ""
+msgstr[0] "به‌روزرسانی در دسترس %u"
 
 #: ../src/tray.vala ../src/manager_window.vala ../resources/progress_dialog.ui
 #: ../resources/manager_window.ui ../resources/updater_window.ui
@@ -413,7 +413,7 @@ msgstr "حذف"
 #, c-format
 msgid "%u pending operation"
 msgid_plural "%u pending operations"
-msgstr[0] ""
+msgstr[0] "فرایندهای در حال انتظار %u"
 
 #: ../src/manager_window.vala
 msgid "Installed"
@@ -437,7 +437,7 @@ msgstr "دلیل نصب"
 
 #: ../src/manager_window.vala
 msgid "Mark as explicitly installed"
-msgstr ""
+msgstr "انتخاب برای نصب آشکارانه"
 
 #: ../src/manager_window.vala
 msgid "Licenses"
@@ -486,7 +486,7 @@ msgstr "مورد نیاز"
 
 #: ../src/manager_window.vala
 msgid "Optional For"
-msgstr ""
+msgstr "اختیاری برای"
 
 #: ../src/manager_window.vala
 msgid "Provides"
@@ -502,19 +502,19 @@ msgstr "ناسازگار با"
 
 #: ../src/manager_window.vala
 msgid "Package Base"
-msgstr ""
+msgstr "بسته پایه"
 
 #: ../src/manager_window.vala
 msgid "Maintainer"
-msgstr ""
+msgstr "نگهدارنده"
 
 #: ../src/manager_window.vala
 msgid "First Submitted"
-msgstr ""
+msgstr "اولین ارسال"
 
 #: ../src/manager_window.vala
 msgid "Last Modified"
-msgstr ""
+msgstr "آخرین تغییرات"
 
 #: ../src/manager_window.vala
 msgid "Votes"
@@ -719,11 +719,11 @@ msgstr ""
 
 #: ../resources/preferences_dialog.ui
 msgid "Enable AUR support"
-msgstr ""
+msgstr "فعال کردن پشتیبانی از AUR"
 
 #: ../resources/preferences_dialog.ui
 msgid "Allow Pamac to search and install packages from AUR"
-msgstr ""
+msgstr "اجازه دادن pamac برای جستجو و نصب بسته ها از AUR"
 
 #: ../resources/preferences_dialog.ui
 msgid "Search in AUR by default"
