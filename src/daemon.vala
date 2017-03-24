@@ -1980,6 +1980,7 @@ namespace Pamac {
 								stderr.printf ("SpawnError: %s\n", e.message);
 							}
 							// get standard handle
+							databases_lock_mutex.lock ();
 							refresh_handle ();
 							databases_lock_mutex.unlock ();
 							// launch standard prepare
@@ -1989,9 +1990,12 @@ namespace Pamac {
 					} else {
 						trans_release ();
 					}
+				} else {
+					databases_lock_mutex.unlock ();
 				}
 				if (!success) {
 					// get standard handle
+					databases_lock_mutex.lock ();
 					refresh_handle ();
 					databases_lock_mutex.unlock ();
 					trans_prepare_finished (false);
