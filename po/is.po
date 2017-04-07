@@ -5,15 +5,15 @@
 # 
 # Translators:
 # Kristján Magnússon, 2015
-# Kristján Magnússon, 2015-2016
+# Kristján Magnússon, 2015-2017
 # Sveinn í Felli <sv1@fellsnet.is>, 2015-2016
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2016-04-24 08:44+0200\n"
-"PO-Revision-Date: 2017-02-18 16:57+0000\n"
-"Last-Translator: Guillaume Benoit <guillaume@manjaro.org>\n"
+"PO-Revision-Date: 2017-03-05 11:05+0000\n"
+"Last-Translator: Kristján Magnússon\n"
 "Language-Team: Icelandic (http://www.transifex.com/manjarolinux/manjaro-pamac/language/is/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -83,12 +83,12 @@ msgstr "%s: þarfnast %s"
 #: ../src/daemon.vala
 #, c-format
 msgid "%s: installing %s (%s) breaks dependency '%s'"
-msgstr ""
+msgstr "%s: uppsetning %s (%s) brítur framfærni '%s'"
 
 #: ../src/daemon.vala
 #, c-format
 msgid "%s: removing %s breaks dependency '%s'"
-msgstr ""
+msgstr "%s: fjarlægja %s brítur framfærni '%s'"
 
 #: ../src/daemon.vala
 #, c-format
@@ -135,7 +135,7 @@ msgstr "Gtk3 viðmót fyrir libalpm"
 
 #: ../src/transaction.vala
 msgid "Copy"
-msgstr ""
+msgstr "Afrita"
 
 #: ../src/transaction.vala
 msgid "Refreshing mirrors list"
@@ -189,7 +189,7 @@ msgstr "Heildarstærð niðurhals"
 #: ../src/transaction.vala
 #, c-format
 msgid "Building %s"
-msgstr ""
+msgstr "Byggi %s"
 
 #: ../src/transaction.vala
 msgid "Transaction cancelled"
@@ -557,7 +557,7 @@ msgstr "Hversu oft á að athuga með uppfærslur, í klukkustundum"
 
 #: ../src/preferences_dialog.vala ../resources/preferences_dialog.ui
 msgid "Number of versions of each package to keep in the cache"
-msgstr ""
+msgstr "Fjöldi af útgáfum af hverjum pakka til að halda í skyndiminni"
 
 #: ../src/preferences_dialog.vala
 msgid "Worldwide"

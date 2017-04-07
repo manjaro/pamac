@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2016-04-24 08:44+0200\n"
-"PO-Revision-Date: 2017-02-25 06:36+0000\n"
+"PO-Revision-Date: 2017-03-13 08:46+0000\n"
 "Last-Translator: Demiray Muhterem <mdemiray@msn.com>\n"
 "Language-Team: Turkish (http://www.transifex.com/manjarolinux/manjaro-pamac/language/tr/)\n"
 "MIME-Version: 1.0\n"
@@ -319,11 +319,11 @@ msgstr "%s yüklendi %s.pacsave olarak değiştirildi"
 
 #: ../src/transaction.vala
 msgid "Running pre-transaction hooks"
-msgstr "Ön işlem bağlantıları çalışıyor"
+msgstr "İşlem öncesi veritabanı güncelleniyor"
 
 #: ../src/transaction.vala
 msgid "Running post-transaction hooks"
-msgstr "İşlem sonrası bağlantılar çalışıyor"
+msgstr "İşlem sonrası veritabanı güncelleniyor"
 
 #: ../src/transaction.vala
 #, c-format

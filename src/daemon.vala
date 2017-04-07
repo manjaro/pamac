@@ -102,6 +102,8 @@ namespace Pamac {
 		public int? choosen_provider;
 		private bool force_refresh;
 		private bool enable_downgrade;
+		private bool check_aur_updates;
+		private HashTable<string,Variant> new_alpm_conf;
 		private Alpm.TransFlag flags;
 		private string[] to_install;
 		private string[] to_remove;
@@ -125,7 +127,8 @@ namespace Pamac {
 		private ErrorInfos current_error;
 		public Timer timer;
 		public Cancellable cancellable;
-		public Curl.Easy* curl;
+		public Curl.Easy curl;
+		private bool authorized;
 
 		public signal void emit_event (uint primary_event, uint secondary_event, string[] details);
 		public signal void emit_providers (string depend, string[] providers);
@@ -163,6 +166,8 @@ namespace Pamac {
 			Timeout.add (500, check_pacman_running);
 			create_thread_pool ();
 			cancellable = new Cancellable ();
+			curl = new Curl.Easy ();
+			authorized = false;
 		}
 
 		public void set_environment_variables (HashTable<string,string> variables) {
@@ -200,19 +205,6 @@ namespace Pamac {
 			} catch (ThreadError e) {
 				stderr.printf ("Thread Error %s\n", e.message);
 			}
-		}
-
-		public void init_curl () {
-			curl = new Curl.Easy ();
-			curl->setopt (Curl.Option.FAILONERROR, 1L);
-			curl->setopt (Curl.Option.CONNECTTIMEOUT, 30L);
-			curl->setopt (Curl.Option.FILETIME, 1L);
-			curl->setopt (Curl.Option.FOLLOWLOCATION, 1L);
-			curl->setopt (Curl.Option.XFERINFOFUNCTION, cb_download);
-			curl->setopt (Curl.Option.LOW_SPEED_LIMIT, 1L);
-			curl->setopt (Curl.Option.LOW_SPEED_TIME, 30L);
-			curl->setopt (Curl.Option.NETRC, Curl.NetRCOption.OPTIONAL);
-			curl->setopt (Curl.Option.HTTPAUTH, Curl.CURLAUTH_ANY);
 		}
 
 		private void refresh_handle () {
@@ -273,8 +265,10 @@ namespace Pamac {
 		}
 
 		private async bool check_authorization (GLib.BusName sender) {
+			if (authorized) {
+				return true;
+			}
 			SourceFunc callback = check_authorization.callback;
-			bool authorized = false;
 			try {
 				Polkit.Authority authority = Polkit.Authority.get_sync ();
 				Polkit.Subject subject = Polkit.SystemBusName.new (sender);
@@ -297,6 +291,11 @@ namespace Pamac {
 				yield;
 			} catch (GLib.Error e) {
 				stderr.printf ("%s\n", e.message);
+			}
+			if (!authorized) {
+				current_error = ErrorInfos () {
+					message = _("Authentication failed")
+				};
 			}
 			return authorized;
 		}
@@ -321,15 +320,28 @@ namespace Pamac {
 			});
 		}
 
-		public void start_write_alpm_config (HashTable<string,Variant> new_alpm_conf, GLib.BusName sender) {
+		private void write_alpm_config () {
+			alpm_config.write (new_alpm_conf);
+			alpm_config.reload ();
+			databases_lock_mutex.lock ();
+			refresh_handle ();
+			databases_lock_mutex.unlock ();
+			write_alpm_config_finished ((alpm_handle.checkspace == 1));
+		}
+
+		public void start_write_alpm_config (HashTable<string,Variant> new_alpm_conf_, GLib.BusName sender) {
 			check_authorization.begin (sender, (obj, res) => {
 				bool authorized = check_authorization.end (res);
 				if (authorized ) {
-					alpm_config.write (new_alpm_conf);
-					alpm_config.reload ();
-					refresh_handle ();
+					new_alpm_conf = new_alpm_conf_;
+					try {
+						thread_pool.add (new AlpmAction (write_alpm_config));
+					} catch (ThreadError e) {
+						stderr.printf ("Thread Error %s\n", e.message);
+					}
+				} else {
+					write_alpm_config_finished ((alpm_handle.checkspace == 1));
 				}
-				write_alpm_config_finished ((alpm_handle.checkspace == 1));
 			});
 		}
 
@@ -347,7 +359,9 @@ namespace Pamac {
 				stderr.printf ("Error: %s\n", e.message);
 			}
 			alpm_config.reload ();
+			databases_lock_mutex.lock ();
 			refresh_handle ();
+			databases_lock_mutex.unlock ();
 			generate_mirrors_list_finished ();
 		}
 
@@ -360,10 +374,6 @@ namespace Pamac {
 					} catch (ThreadError e) {
 						stderr.printf ("Thread Error %s\n", e.message);
 					}
-				} else {
-					current_error = ErrorInfos () {
-						message = _("Authentication failed")
-					};
 				}
 			});
 		}
@@ -384,10 +394,6 @@ namespace Pamac {
 					} catch (Error e) {
 						stderr.printf ("Error: %s\n", e.message);
 					}
-				} else {
-					current_error = ErrorInfos () {
-						message = _("Authentication failed")
-					};
 				}
 			});
 		}
@@ -411,7 +417,6 @@ namespace Pamac {
 					unowned Alpm.Package? pkg = alpm_handle.localdb.get_pkg (pkgname);
 					if (pkg != null) {
 						pkg.reason = (Alpm.Package.Reason) reason;
-						refresh_handle ();
 					}
 				}
 				set_pkgreason_finished ();
@@ -419,28 +424,28 @@ namespace Pamac {
 		}
 
 		private void refresh () {
+			current_error = ErrorInfos ();
 			if (!databases_lock_mutex.trylock ()) {
 				// Wait for pacman to finish
 				emit_event (0, 0, {});
 				databases_lock_mutex.lock ();
 			}
 			if (cancellable.is_cancelled ()) {
-				databases_lock_mutex.unlock ();
 				cancellable.reset ();
+				refresh_finished (true);
+				databases_lock_mutex.unlock ();
 				return;
 			}
 			write_log_file ("synchronizing package lists");
-			current_error = ErrorInfos ();
 			int force = (force_refresh) ? 1 : 0;
 			uint success = 0;
 			cancellable.reset ();
-			init_curl ();
 			string[] dbexts = {".db", ".files"};
 			unowned Alpm.List<unowned Alpm.DB> syncdbs = alpm_handle.syncdbs;
 			while (syncdbs != null) {
 				unowned Alpm.DB db = syncdbs.data;
 				if (cancellable.is_cancelled ()) {
-					refresh_handle ();
+					alpm_handle.dbext = ".db";
 					refresh_finished (false);
 					databases_lock_mutex.unlock ();
 					return;
@@ -459,8 +464,7 @@ namespace Pamac {
 				}
 				syncdbs.next ();
 			}
-			delete curl;
-			refresh_handle ();
+			alpm_handle.dbext = ".db";
 			// We should always succeed if at least one DB was upgraded - we may possibly
 			// fail later with unresolved deps, but that should be rare, and would be expected
 			if (success == 0) {
@@ -1371,7 +1375,7 @@ namespace Pamac {
 			return files;
 		}
 
-		public void start_get_updates (bool check_aur_updates) {
+		private void get_updates () {
 			UpdateInfos[] updates_infos = {};
 			unowned Alpm.Package? pkg = null;
 			unowned Alpm.Package? candidate = null;
@@ -1398,7 +1402,6 @@ namespace Pamac {
 					aur_updates = {}
 				};
 				get_updates_finished (updates);
-				return;
 			} else {
 				string[] local_pkgs = {};
 				unowned Alpm.List<unowned Alpm.Package> pkgcache = alpm_handle.localdb.pkgcache;
@@ -1487,18 +1490,27 @@ namespace Pamac {
 			return aur_updates_infos;
 		}
 
+		public void start_get_updates (bool check_aur_updates_) {
+			check_aur_updates = check_aur_updates_;
+			try {
+				thread_pool.add (new AlpmAction (get_updates));
+			} catch (ThreadError e) {
+				stderr.printf ("Thread Error %s\n", e.message);
+			}
+		}
+
 		private bool trans_init (Alpm.TransFlag flags) {
+			current_error = ErrorInfos ();
 			if (!databases_lock_mutex.trylock ()) {
 				// Wait for pacman to finish
 				emit_event (0, 0, {});
 				databases_lock_mutex.lock ();
 			}
 			if (cancellable.is_cancelled ()) {
-				databases_lock_mutex.unlock ();
 				cancellable.reset ();
+				databases_lock_mutex.unlock ();
 				return false;
 			}
-			current_error = ErrorInfos ();
 			cancellable.reset ();
 			if (alpm_handle.trans_init (flags) == -1) {
 				Alpm.Errno errno = alpm_handle.errno ();
@@ -1529,10 +1541,6 @@ namespace Pamac {
 					success = false;
 				} else {
 					success = trans_prepare_real ();
-				}
-			} else {
-				if (cancellable.is_cancelled ()) {
-					success = true;
 				}
 			}
 			trans_prepare_finished (success);
@@ -1637,14 +1645,19 @@ namespace Pamac {
 				return false;
 			} else if (alpm_handle.trans_add_pkg (pkg) == -1) {
 				Alpm.Errno errno = alpm_handle.errno ();
-				current_error.errno = (uint) errno;
-				current_error.message = _("Failed to prepare transaction");
-				if (errno != 0) {
-					current_error.details = { "%s: %s".printf (pkg->name, Alpm.strerror (errno)) };
+				if (errno == Alpm.Errno.TRANS_DUP_TARGET || errno == Alpm.Errno.PKG_IGNORED) {
+					// just skip duplicate or ignored targets
+					return true;
+				} else {
+					current_error.errno = (uint) errno;
+					current_error.message = _("Failed to prepare transaction");
+					if (errno != 0) {
+						current_error.details = { "%s: %s".printf (pkg->name, Alpm.strerror (errno)) };
+					}
+					// free the package because it will not be used
+					delete pkg;
+					return false;
 				}
-				// free the package because it will not be used
-				delete pkg;
-				return false;
 			}
 			return true;
 		}
@@ -1658,12 +1671,17 @@ namespace Pamac {
 				return false;
 			} else if (alpm_handle.trans_remove_pkg (pkg) == -1) {
 				Alpm.Errno errno = alpm_handle.errno ();
-				current_error.errno = (uint) errno;
-				current_error.message = _("Failed to prepare transaction");
-				if (errno != 0) {
-					current_error.details = { "%s: %s".printf (pkg.name, Alpm.strerror (errno)) };
+				if (errno == Alpm.Errno.TRANS_DUP_TARGET) {
+					// just skip duplicate targets
+					return true;
+				} else {
+					current_error.errno = (uint) errno;
+					current_error.message = _("Failed to prepare transaction");
+					if (errno != 0) {
+						current_error.details = { "%s: %s".printf (pkg.name, Alpm.strerror (errno)) };
+					}
+					return false;
 				}
-				return false;
 			}
 			return true;
 		}
@@ -1791,15 +1809,21 @@ namespace Pamac {
 				} else {
 					trans_release ();
 				}
-			} else {
-				if (cancellable.is_cancelled ()) {
-					success = true;
-				}
 			}
 			trans_prepare_finished (success);
 		}
 
 		private void build_prepare () {
+			if (!databases_lock_mutex.trylock ()) {
+				// Wait for pacman to finish
+				emit_event (0, 0, {});
+				databases_lock_mutex.lock ();
+			}
+			if (cancellable.is_cancelled ()) {
+				cancellable.reset ();
+				databases_lock_mutex.unlock ();
+				return;
+			}
 			// create a fake aur db
 			try {
 				var list = new StringBuilder ();
@@ -1821,10 +1845,9 @@ namespace Pamac {
 				trans_commit_finished (false);
 			} else {
 				alpm_handle.questioncb = (Alpm.QuestionCallBack) cb_question;
-				alpm_handle.logcb = (Alpm.LogCallBack) cb_log;
 				lockfile = GLib.File.new_for_path (alpm_handle.lockfile);
 				// fake aur db
-				alpm_handle.register_syncdb ("aur", Alpm.Signature.Level.PACKAGE_OPTIONAL | Alpm.Signature.Level.DATABASE_OPTIONAL);
+				alpm_handle.register_syncdb ("aur", 0);
 				// add to_build in to_install for the fake trans prpeapre
 				foreach (unowned string name in to_build) {
 					to_install += name;
@@ -1865,7 +1888,17 @@ namespace Pamac {
 					to_remove += name;
 				}
 				// fake trans prepare
-				bool success = trans_init (flags);
+				current_error = ErrorInfos ();
+				bool success = true;
+				if (alpm_handle.trans_init (flags | Alpm.TransFlag.NOLOCK) == -1) {
+					Alpm.Errno errno = alpm_handle.errno ();
+					current_error.errno = (uint) errno;
+					current_error.message = _("Failed to init transaction");
+					if (errno != 0) {
+						current_error.details = { Alpm.strerror (errno) };
+					}
+					success = false;
+				}
 				if (success) {
 					foreach (unowned string name in to_install) {
 						success = trans_add_pkg (name);
@@ -1947,28 +1980,25 @@ namespace Pamac {
 								stderr.printf ("SpawnError: %s\n", e.message);
 							}
 							// get standard handle
+							databases_lock_mutex.lock ();
 							refresh_handle ();
+							databases_lock_mutex.unlock ();
 							// launch standard prepare
 							to_install = real_to_install;
 							trans_prepare ();
-						} else {
-							// get standard handle
-							refresh_handle ();
-							trans_prepare_finished (false);
 						}
 					} else {
 						trans_release ();
-						// get standard handle
-						refresh_handle ();
-						trans_prepare_finished (false);
 					}
 				} else {
-					if (cancellable.is_cancelled ()) {
-						success = true;
-					}
+					databases_lock_mutex.unlock ();
+				}
+				if (!success) {
 					// get standard handle
+					databases_lock_mutex.lock ();
 					refresh_handle ();
-					trans_prepare_finished (success);
+					databases_lock_mutex.unlock ();
+					trans_prepare_finished (false);
 				}
 			}
 		}
@@ -2085,7 +2115,6 @@ namespace Pamac {
 				// cancel the download return an EXTERNAL_DOWNLOAD error
 				if (errno == Alpm.Errno.EXTERNAL_DOWNLOAD && cancellable.is_cancelled ()) {
 					trans_release ();
-					refresh_handle ();
 					trans_commit_finished (false);
 					return;
 				}
@@ -2136,20 +2165,14 @@ namespace Pamac {
 				success = false;
 			}
 			trans_release ();
-			refresh_handle ();
-			bool need_refresh = false;
 			to_install_as_dep.foreach_remove ((pkgname, val) => {
 				unowned Alpm.Package? pkg = alpm_handle.localdb.get_pkg (pkgname);
 				if (pkg != null) {
 					pkg.reason = Alpm.Package.Reason.DEPEND;
-					need_refresh = true;
 					return true; // remove current pkgname
 				}
 				return false;
 			});
-			if (need_refresh) {
-				refresh_handle ();
-			}
 			trans_commit_finished (success);
 		}
 
@@ -2163,11 +2186,7 @@ namespace Pamac {
 						stderr.printf ("Thread Error %s\n", e.message);
 					}
 				} else {
-					current_error = ErrorInfos () {
-						message = _("Authentication failed")
-					};
 					trans_release ();
-					refresh_handle ();
 					trans_commit_finished (false);
 				}
 			});
@@ -2272,25 +2291,6 @@ private void cb_event (Alpm.Event.Data data) {
 		case Alpm.Event.Type.DELTA_PATCH_START:
 			details += data.delta_patch_delta.to;
 			details += data.delta_patch_delta.delta;
-			break;
-		case Alpm.Event.Type.RETRIEVE_START:
-			// init curl easy handle
-			pamac_daemon.curl = new Curl.Easy ();
-			pamac_daemon.curl->setopt (Curl.Option.FAILONERROR, 1L);
-			pamac_daemon.curl->setopt (Curl.Option.CONNECTTIMEOUT, 30L);
-			pamac_daemon.curl->setopt (Curl.Option.FILETIME, 1L);
-			pamac_daemon.curl->setopt (Curl.Option.FOLLOWLOCATION, 1L);
-			pamac_daemon.curl->setopt (Curl.Option.XFERINFOFUNCTION, cb_download);
-			pamac_daemon.curl->setopt (Curl.Option.LOW_SPEED_LIMIT, 1L);
-			pamac_daemon.curl->setopt (Curl.Option.LOW_SPEED_TIME, 30L);
-			pamac_daemon.curl->setopt (Curl.Option.NETRC, Curl.NetRCOption.OPTIONAL);
-			pamac_daemon.curl->setopt (Curl.Option.HTTPAUTH, Curl.CURLAUTH_ANY);
-			break;
-		case Alpm.Event.Type.RETRIEVE_DONE:
-			delete pamac_daemon.curl;
-			break;
-		case Alpm.Event.Type.RETRIEVE_FAILED:
-			delete pamac_daemon.curl;
 			break;
 		case Alpm.Event.Type.SCRIPTLET_INFO:
 			details += data.scriptlet_info_line;
@@ -2434,13 +2434,20 @@ private int cb_fetch (string fileurl, string localpath, int force) {
 	var destfile = GLib.File.new_for_path (localpath + url.get_basename ());
 	var tempfile = GLib.File.new_for_path (destfile.get_path () + ".part");
 
-	pamac_daemon.curl->setopt (Curl.Option.URL, fileurl);
-	pamac_daemon.curl->setopt (Curl.Option.ERRORBUFFER, error_buffer);
-	pamac_daemon.curl->setopt (Curl.Option.NOPROGRESS, 0L);
-	pamac_daemon.curl->setopt (Curl.Option.XFERINFODATA, (void*) url.get_basename ());
-	pamac_daemon.curl->setopt (Curl.Option.TIMECONDITION, Curl.TimeCond.NONE);
-	pamac_daemon.curl->setopt (Curl.Option.TIMEVALUE, 0);
-	pamac_daemon.curl->setopt (Curl.Option.RESUME_FROM_LARGE, 0);
+	pamac_daemon.curl.reset ();
+	pamac_daemon.curl.setopt (Curl.Option.FAILONERROR, 1L);
+	pamac_daemon.curl.setopt (Curl.Option.CONNECTTIMEOUT, 30L);
+	pamac_daemon.curl.setopt (Curl.Option.FILETIME, 1L);
+	pamac_daemon.curl.setopt (Curl.Option.FOLLOWLOCATION, 1L);
+	pamac_daemon.curl.setopt (Curl.Option.XFERINFOFUNCTION, cb_download);
+	pamac_daemon.curl.setopt (Curl.Option.LOW_SPEED_LIMIT, 1L);
+	pamac_daemon.curl.setopt (Curl.Option.LOW_SPEED_TIME, 30L);
+	pamac_daemon.curl.setopt (Curl.Option.NETRC, Curl.NetRCOption.OPTIONAL);
+	pamac_daemon.curl.setopt (Curl.Option.HTTPAUTH, Curl.CURLAUTH_ANY);
+	pamac_daemon.curl.setopt (Curl.Option.URL, fileurl);
+	pamac_daemon.curl.setopt (Curl.Option.ERRORBUFFER, error_buffer);
+	pamac_daemon.curl.setopt (Curl.Option.NOPROGRESS, 0L);
+	pamac_daemon.curl.setopt (Curl.Option.XFERINFODATA, (void*) url.get_basename ());
 
 	bool remove_partial_download = true;
 	if (fileurl.contains (".pkg.tar.") && !fileurl.has_suffix (".sig")) {
@@ -2454,15 +2461,15 @@ private int cb_fetch (string fileurl, string localpath, int force) {
 		if (force == 0) {
 			if (destfile.query_exists ()) {
 				// start from scratch only download if our local is out of date.
-				pamac_daemon.curl->setopt (Curl.Option.TIMECONDITION, Curl.TimeCond.IFMODSINCE);
+				pamac_daemon.curl.setopt (Curl.Option.TIMECONDITION, Curl.TimeCond.IFMODSINCE);
 				FileInfo info = destfile.query_info ("time::modified", 0);
 				TimeVal time = info.get_modification_time ();
-				pamac_daemon.curl->setopt (Curl.Option.TIMEVALUE, time.tv_sec);
+				pamac_daemon.curl.setopt (Curl.Option.TIMEVALUE, time.tv_sec);
 			} else if (tempfile.query_exists ()) {
 				// a previous partial download exists, resume from end of file.
 				FileInfo info = tempfile.query_info ("standard::size", 0);
 				int64 size = info.get_size ();
-				pamac_daemon.curl->setopt (Curl.Option.RESUME_FROM_LARGE, size);
+				pamac_daemon.curl.setopt (Curl.Option.RESUME_FROM_LARGE, size);
 				open_mode = "ab";
 			}
 		} else {
@@ -2480,17 +2487,17 @@ private int cb_fetch (string fileurl, string localpath, int force) {
 		return -1;
 	}
 
-	pamac_daemon.curl->setopt (Curl.Option.WRITEDATA, localf);
+	pamac_daemon.curl.setopt (Curl.Option.WRITEDATA, localf);
 
 	// perform transfer
-	Curl.Code err = pamac_daemon.curl->perform ();
+	Curl.Code err = pamac_daemon.curl.perform ();
 
 
 	// disconnect relationships from the curl handle for things that might go out
 	// of scope, but could still be touched on connection teardown. This really
 	// only applies to FTP transfers.
-	pamac_daemon.curl->setopt (Curl.Option.NOPROGRESS, 1L);
-	pamac_daemon.curl->setopt (Curl.Option.ERRORBUFFER, null);
+	pamac_daemon.curl.setopt (Curl.Option.NOPROGRESS, 1L);
+	pamac_daemon.curl.setopt (Curl.Option.ERRORBUFFER, null);
 
 	int ret;
 
@@ -2502,11 +2509,11 @@ private int cb_fetch (string fileurl, string localpath, int force) {
 			unowned string effective_url;
 
 			// retrieve info about the state of the transfer
-			pamac_daemon.curl->getinfo (Curl.Info.FILETIME, out remote_time);
-			pamac_daemon.curl->getinfo (Curl.Info.CONTENT_LENGTH_DOWNLOAD, out remote_size);
-			pamac_daemon.curl->getinfo (Curl.Info.SIZE_DOWNLOAD, out bytes_dl);
-			pamac_daemon.curl->getinfo (Curl.Info.CONDITION_UNMET, out timecond);
-			pamac_daemon.curl->getinfo (Curl.Info.EFFECTIVE_URL, out effective_url);
+			pamac_daemon.curl.getinfo (Curl.Info.FILETIME, out remote_time);
+			pamac_daemon.curl.getinfo (Curl.Info.CONTENT_LENGTH_DOWNLOAD, out remote_size);
+			pamac_daemon.curl.getinfo (Curl.Info.SIZE_DOWNLOAD, out bytes_dl);
+			pamac_daemon.curl.getinfo (Curl.Info.CONDITION_UNMET, out timecond);
+			pamac_daemon.curl.getinfo (Curl.Info.EFFECTIVE_URL, out effective_url);
 
 			if (timecond == 1 && bytes_dl == 0) {
 				// time condition was met and we didn't download anything. we need to

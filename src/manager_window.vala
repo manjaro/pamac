@@ -283,8 +283,12 @@ namespace Pamac {
 
 			transaction = new Transaction (this as Gtk.ApplicationWindow);
 			transaction.mode = Mode.MANAGER;
-			transaction.start_transaction.connect (on_start_transaction);
+			transaction.start_waiting.connect (on_start_waiting);
+			transaction.stop_waiting.connect (on_stop_waiting);
+			transaction.start_downloading.connect (on_start_downloading);
+			transaction.stop_downloading.connect (on_stop_downloading);
 			transaction.start_building.connect (on_start_building);
+			transaction.stop_building.connect (on_stop_building);
 			transaction.important_details_outpout.connect (on_important_details_outpout);
 			transaction.finished.connect (on_transaction_finished);
 			transaction.write_pamac_config_finished.connect (on_write_pamac_config_finished);
@@ -536,12 +540,23 @@ namespace Pamac {
 				install_togglebutton.visible = false;
 				remove_togglebutton.visible = true;
 				remove_togglebutton.active = transaction.to_remove.contains (details.name);
+				reinstall_togglebutton.visible = false;
 				AlpmPackage find_pkg = transaction.get_sync_pkg (details.name);
 				if (find_pkg.name != "") {
 					if (find_pkg.version == details.version) {
 						reinstall_togglebutton.visible = true;
 						reinstall_togglebutton.active = transaction.to_install.contains (details.name);
 					}
+				} else {
+					transaction.get_aur_details.begin (details.name, (obj, res) => {
+						AURPackageDetails aur_details = transaction.get_aur_details.end (res);
+						if (aur_details.name != "") {
+							if (aur_details.version == details.version) {
+								reinstall_togglebutton.visible = true;
+								reinstall_togglebutton.active = transaction.to_build.contains (details.name);
+							}
+						}
+					});
 				}
 			} else if (details.origin == 3) { //Alpm.Package.From.SYNCDB
 				remove_togglebutton.visible = false;
@@ -794,10 +809,17 @@ namespace Pamac {
 				remove_togglebutton.get_style_context ().remove_class (Gtk.STYLE_CLASS_DESTRUCTIVE_ACTION);
 				reinstall_togglebutton.get_style_context ().add_class (Gtk.STYLE_CLASS_SUGGESTED_ACTION);
 				transaction.to_remove.remove (current_package_displayed);
-				transaction.to_install.add (current_package_displayed);
+				AlpmPackage find_pkg = transaction.get_sync_pkg (current_package_displayed);
+				if (find_pkg.name != "") {
+					transaction.to_install.add (current_package_displayed);
+				} else {
+					// availability in AUR was checked in set_package_details
+					transaction.to_build.add (current_package_displayed);
+				}
 			} else {
 				reinstall_togglebutton.get_style_context ().remove_class (Gtk.STYLE_CLASS_SUGGESTED_ACTION);
 				transaction.to_install.remove (current_package_displayed);
+				transaction.to_build.remove (current_package_displayed);
 			}
 			set_pendings_operations ();
 		}
@@ -1664,12 +1686,14 @@ namespace Pamac {
 		void on_apply_button_clicked () {
 			transaction_running = true;
 			apply_button.sensitive = false;
+			cancel_button.sensitive = false;
 			transaction.run ();
 		}
 
 		[GtkCallback]
 		void on_cancel_button_clicked () {
-			if (transaction_running) {
+			if (transaction_running || refreshing) {
+				transaction_running = false;
 				transaction.cancel ();
 			} else {
 				transaction.clear_lists ();
@@ -1698,12 +1722,28 @@ namespace Pamac {
 			transaction_infobox.show_all ();
 		}
 
-		void on_start_transaction () {
+		void on_start_waiting () {
+			cancel_button.sensitive = true;
+		}
+
+		void on_stop_waiting () {
+			set_pendings_operations ();
+		}
+
+		void on_start_downloading () {
+			cancel_button.sensitive = true;
+		}
+
+		void on_stop_downloading () {
 			cancel_button.sensitive = false;
 		}
 
 		void on_start_building () {
 			cancel_button.sensitive = true;
+		}
+
+		void on_stop_building () {
+			cancel_button.sensitive = false;
 		}
 
 		void on_important_details_outpout (bool must_show) {
