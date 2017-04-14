@@ -17,3 +17,4 @@ po/*.mo
 po/*~
 po/locale
 *.swp
+/.idea/
