@@ -5,14 +5,14 @@
 # 
 # Translators:
 # Kristján Magnússon, 2015
-# Kristján Magnússon, 2015-2016
+# Kristján Magnússon, 2015-2017
 # Sveinn í Felli <sv1@fellsnet.is>, 2015-2016
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2016-04-24 08:44+0200\n"
-"PO-Revision-Date: 2016-11-09 15:55+0000\n"
+"PO-Revision-Date: 2017-03-05 11:05+0000\n"
 "Last-Translator: Kristján Magnússon\n"
 "Language-Team: Icelandic (http://www.transifex.com/manjarolinux/manjaro-pamac/language/is/)\n"
 "MIME-Version: 1.0\n"
@@ -82,6 +82,16 @@ msgstr "%s: þarfnast %s"
 
 #: ../src/daemon.vala
 #, c-format
+msgid "%s: installing %s (%s) breaks dependency '%s'"
+msgstr "%s: uppsetning %s (%s) brítur framfærni '%s'"
+
+#: ../src/daemon.vala
+#, c-format
+msgid "%s: removing %s breaks dependency '%s'"
+msgstr "%s: fjarlægja %s brítur framfærni '%s'"
+
+#: ../src/daemon.vala
+#, c-format
 msgid "%s and %s are in conflict"
 msgstr "%s og %s stangast á"
 
@@ -122,6 +132,10 @@ msgstr "Mistókst að endurheimta skrá '%s' frá %s : %s\n"
 #: ../src/transaction.vala
 msgid "A Gtk3 frontend for libalpm"
 msgstr "Gtk3 viðmót fyrir libalpm"
+
+#: ../src/transaction.vala
+msgid "Copy"
+msgstr "Afrita"
 
 #: ../src/transaction.vala
 msgid "Refreshing mirrors list"
@@ -173,8 +187,9 @@ msgid "Total download size"
 msgstr "Heildarstærð niðurhals"
 
 #: ../src/transaction.vala
-msgid "Building packages"
-msgstr "Byggi pakka"
+#, c-format
+msgid "Building %s"
+msgstr "Byggi %s"
 
 #: ../src/transaction.vala
 msgid "Transaction cancelled"
@@ -353,11 +368,11 @@ msgstr "Pamac er þegar í keyrslu"
 msgid "Your system is up-to-date"
 msgstr "Kerfið þitt er með öllum nýjasta hugbúnaðinum"
 
-#: ../src/tray.vala
+#: ../src/tray.vala ../src/updater_window.vala
 msgid "Update Manager"
 msgstr "Uppfærslustjórnun"
 
-#: ../src/tray.vala
+#: ../src/tray.vala ../src/manager_window.vala
 msgid "Package Manager"
 msgstr "Pakkastjórnun"
 
@@ -540,6 +555,10 @@ msgstr "Alpm pakki"
 msgid "How often to check for updates, value in hours"
 msgstr "Hversu oft á að athuga með uppfærslur, í klukkustundum"
 
+#: ../src/preferences_dialog.vala ../resources/preferences_dialog.ui
+msgid "Number of versions of each package to keep in the cache"
+msgstr "Fjöldi af útgáfum af hverjum pakka til að halda í skyndiminni"
+
 #: ../src/preferences_dialog.vala
 msgid "Worldwide"
 msgstr "Út um allan heim"
@@ -596,10 +615,6 @@ msgstr "Um"
 #: ../resources/manager_window.ui
 msgid "Search"
 msgstr "Leita"
-
-#: ../resources/manager_window.ui
-msgid "Search in AUR"
-msgstr "Leita í AUR"
 
 #: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "State"
@@ -713,14 +728,6 @@ msgstr "Leita sjálfgefið í AUR"
 #: ../resources/preferences_dialog.ui
 msgid "Check for updates from AUR"
 msgstr "Athuga með uppfærslur frá AUR"
-
-#: ../resources/preferences_dialog.ui
-msgid "Do not ask for confirmation when building packages"
-msgstr "Ekki biðja um staðfestingu þegar pakkar eru byggðir"
-
-#: ../resources/preferences_dialog.ui
-msgid "Number of versions of each package to keep in the cache"
-msgstr "Fjöldi af útgáfum hvers pakka til að halda í skyndiminni"
 
 #: ../resources/preferences_dialog.ui
 msgid "Remove only the versions of uninstalled packages"

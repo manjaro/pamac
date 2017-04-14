@@ -25,7 +25,7 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2016-04-24 08:44+0200\n"
-"PO-Revision-Date: 2017-01-07 15:03+0000\n"
+"PO-Revision-Date: 2017-02-18 16:57+0000\n"
 "Last-Translator: Guillaume Benoit <guillaume@manjaro.org>\n"
 "Language-Team: Indonesian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/id/)\n"
 "MIME-Version: 1.0\n"
@@ -95,6 +95,16 @@ msgstr "%s: membutuhkan %s"
 
 #: ../src/daemon.vala
 #, c-format
+msgid "%s: installing %s (%s) breaks dependency '%s'"
+msgstr ""
+
+#: ../src/daemon.vala
+#, c-format
+msgid "%s: removing %s breaks dependency '%s'"
+msgstr ""
+
+#: ../src/daemon.vala
+#, c-format
 msgid "%s and %s are in conflict"
 msgstr "%s dan %s bertentangan"
 
@@ -135,6 +145,10 @@ msgstr "gagal mendapatkan berkas '%s' dari %s : %s\n"
 #: ../src/transaction.vala
 msgid "A Gtk3 frontend for libalpm"
 msgstr "Sebuah frontend Gtk3 untuk libalpm"
+
+#: ../src/transaction.vala
+msgid "Copy"
+msgstr ""
 
 #: ../src/transaction.vala
 msgid "Refreshing mirrors list"
@@ -186,8 +200,9 @@ msgid "Total download size"
 msgstr "Total ukuran unduhan"
 
 #: ../src/transaction.vala
-msgid "Building packages"
-msgstr "Membangun paket"
+#, c-format
+msgid "Building %s"
+msgstr ""
 
 #: ../src/transaction.vala
 msgid "Transaction cancelled"
@@ -365,11 +380,11 @@ msgstr "Pamac sudah berjalan"
 msgid "Your system is up-to-date"
 msgstr "Sistem anda sudah dimutakhirkan"
 
-#: ../src/tray.vala
+#: ../src/tray.vala ../src/updater_window.vala
 msgid "Update Manager"
 msgstr "Manajer Pemutakhiran"
 
-#: ../src/tray.vala
+#: ../src/tray.vala ../src/manager_window.vala
 msgid "Package Manager"
 msgstr "Manajer Paket"
 
@@ -550,6 +565,10 @@ msgstr "Paket Alpm"
 msgid "How often to check for updates, value in hours"
 msgstr "Berapa lama untuk memeriksa pembaharuan, nilai dalam jam"
 
+#: ../src/preferences_dialog.vala ../resources/preferences_dialog.ui
+msgid "Number of versions of each package to keep in the cache"
+msgstr ""
+
 #: ../src/preferences_dialog.vala
 msgid "Worldwide"
 msgstr "Seluruh dunia"
@@ -606,10 +625,6 @@ msgstr "Tentang"
 #: ../resources/manager_window.ui
 msgid "Search"
 msgstr "Cari"
-
-#: ../resources/manager_window.ui
-msgid "Search in AUR"
-msgstr "Cari di AUR"
 
 #: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "State"
@@ -723,14 +738,6 @@ msgstr "Cari di AUR sebagai baku"
 #: ../resources/preferences_dialog.ui
 msgid "Check for updates from AUR"
 msgstr "Periksa pembaruan dari AUR"
-
-#: ../resources/preferences_dialog.ui
-msgid "Do not ask for confirmation when building packages"
-msgstr "Jangan bertanya untuk konfirmasi ketika membangun paket-paket"
-
-#: ../resources/preferences_dialog.ui
-msgid "Number of versions of each package to keep in the cache"
-msgstr ""
 
 #: ../resources/preferences_dialog.ui
 msgid "Remove only the versions of uninstalled packages"

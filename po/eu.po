@@ -6,7 +6,7 @@
 # Translators:
 # John Smith <aboutafteragain@gmail.com>, 2015
 # John Smith <aboutafteragain@gmail.com>, 2015
-# Osoitz <oelkoro@gmail.com>, 2015-2016
+# Osoitz <oelkoro@gmail.com>, 2015-2017
 # Sergio Moreno <semosa@gmail.com>, 2014
 # Sergio Moreno <semosa@gmail.com>, 2014
 msgid ""
@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2016-04-24 08:44+0200\n"
-"PO-Revision-Date: 2017-01-07 15:03+0000\n"
+"PO-Revision-Date: 2017-02-18 16:57+0000\n"
 "Last-Translator: Guillaume Benoit <guillaume@manjaro.org>\n"
 "Language-Team: Basque (http://www.transifex.com/manjarolinux/manjaro-pamac/language/eu/)\n"
 "MIME-Version: 1.0\n"
@@ -25,7 +25,7 @@ msgstr ""
 
 #: data/polkit/org.manjaro.pamac.policy
 msgid "Authentication is required"
-msgstr ""
+msgstr "Autentifikazioa behar da"
 
 #: ../src/daemon.vala
 msgid "Failed to initialize alpm library"
@@ -84,6 +84,16 @@ msgstr "%s: %s behar du"
 
 #: ../src/daemon.vala
 #, c-format
+msgid "%s: installing %s (%s) breaks dependency '%s'"
+msgstr ""
+
+#: ../src/daemon.vala
+#, c-format
+msgid "%s: removing %s breaks dependency '%s'"
+msgstr ""
+
+#: ../src/daemon.vala
+#, c-format
 msgid "%s and %s are in conflict"
 msgstr "%s eta %s gatazkan daude"
 
@@ -124,6 +134,10 @@ msgstr "ezin izan da '%s' fitxategia eskuratu %s tik : %s\n"
 #: ../src/transaction.vala
 msgid "A Gtk3 frontend for libalpm"
 msgstr "Gtk3n eraikitako ibalpm liburutegiaren interfaze bat"
+
+#: ../src/transaction.vala
+msgid "Copy"
+msgstr ""
 
 #: ../src/transaction.vala
 msgid "Refreshing mirrors list"
@@ -175,8 +189,9 @@ msgid "Total download size"
 msgstr "Deskarga tamaina guztira"
 
 #: ../src/transaction.vala
-msgid "Building packages"
-msgstr "Paketeak eraikitzen"
+#, c-format
+msgid "Building %s"
+msgstr ""
 
 #: ../src/transaction.vala
 msgid "Transaction cancelled"
@@ -184,7 +199,7 @@ msgstr "Transakzioa bertan behera utzi da"
 
 #: ../src/transaction.vala
 msgid "Waiting for another package manager to quit"
-msgstr ""
+msgstr "BEste pakete kudeatzaile bat irten dadin zai"
 
 #: ../src/transaction.vala
 msgid "Checking dependencies"
@@ -355,11 +370,11 @@ msgstr "Pamac onezkero exekutatzen dago"
 msgid "Your system is up-to-date"
 msgstr "Zure sistema eguneratuta dago"
 
-#: ../src/tray.vala
+#: ../src/tray.vala ../src/updater_window.vala
 msgid "Update Manager"
 msgstr "Eguneraketa Kudeatzailea"
 
-#: ../src/tray.vala
+#: ../src/tray.vala ../src/manager_window.vala
 msgid "Package Manager"
 msgstr "Pakete Kudeatzailea"
 
@@ -542,6 +557,10 @@ msgstr "Alpm paketea"
 msgid "How often to check for updates, value in hours"
 msgstr "Eguneraketak egiaztatzeko maiztasuna, orduetan"
 
+#: ../src/preferences_dialog.vala ../resources/preferences_dialog.ui
+msgid "Number of versions of each package to keep in the cache"
+msgstr "Katxean gorde beharreko pakete bakotzeko bertsio kopurua"
+
 #: ../src/preferences_dialog.vala
 msgid "Worldwide"
 msgstr "Mundu mailakoa"
@@ -561,7 +580,7 @@ msgstr "Aukeratu hornitzaile bat"
 #: ../resources/choose_provider_dialog.ui
 #: ../resources/choose_ignorepkgs_dialog.ui
 msgid "Choose"
-msgstr ""
+msgstr "Aukeratu"
 
 #: ../resources/progress_dialog.ui
 msgid "Progress"
@@ -577,7 +596,7 @@ msgstr "Transakzioaren laburpena"
 
 #: ../resources/transaction_sum_dialog.ui
 msgid "Commit"
-msgstr ""
+msgstr "Bidali"
 
 #: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "Refresh databases"
@@ -593,15 +612,11 @@ msgstr "Hobespenak"
 
 #: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "About"
-msgstr ""
+msgstr "Honi buruz"
 
 #: ../resources/manager_window.ui
 msgid "Search"
 msgstr "Bilatu"
-
-#: ../resources/manager_window.ui
-msgid "Search in AUR"
-msgstr "Bilatu AURen "
 
 #: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "State"
@@ -717,24 +732,16 @@ msgid "Check for updates from AUR"
 msgstr "Egiaztatu AUReko eguneraketak"
 
 #: ../resources/preferences_dialog.ui
-msgid "Do not ask for confirmation when building packages"
-msgstr "Ez eskatu berrespena paketeak eraikitzean"
-
-#: ../resources/preferences_dialog.ui
-msgid "Number of versions of each package to keep in the cache"
-msgstr ""
-
-#: ../resources/preferences_dialog.ui
 msgid "Remove only the versions of uninstalled packages"
-msgstr ""
+msgstr "Kendu deinstalatutako paketeen bertsioak besterik ez"
 
 #: ../resources/preferences_dialog.ui
 msgid "Clean cache"
-msgstr ""
+msgstr "Garbitu katxea"
 
 #: ../resources/preferences_dialog.ui
 msgid "Cache"
-msgstr ""
+msgstr "Katxea"
 
 #: ../resources/choose_ignorepkgs_dialog.ui
 msgid "Choose Ignored Upgrades"

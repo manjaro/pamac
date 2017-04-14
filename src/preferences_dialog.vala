@@ -47,15 +47,11 @@ namespace Pamac {
 		[GtkChild]
 		Gtk.Button generate_mirrors_list_button;
 		[GtkChild]
-		Gtk.Box aur_config_box;
-		[GtkChild]
 		Gtk.Switch enable_aur_button;
 		[GtkChild]
 		Gtk.CheckButton search_aur_checkbutton;
 		[GtkChild]
 		Gtk.CheckButton check_aur_updates_checkbutton;
-		[GtkChild]
-		Gtk.CheckButton no_confirm_build_checkbutton;
 		[GtkChild]
 		Gtk.Label cache_keep_nb_label;
 		[GtkChild]
@@ -132,22 +128,14 @@ namespace Pamac {
 				transaction.write_mirrors_config_finished.connect (on_write_mirrors_config_finished);
 			}
 
-			pkg = transaction.find_installed_satisfier ("yaourt");
-			if (pkg.name == "") {
-				aur_config_box.visible = false;
-			} else {
-				enable_aur_button.active = transaction.enable_aur;
-				search_aur_checkbutton.active = transaction.search_aur;
-				search_aur_checkbutton.sensitive = transaction.enable_aur;
-				check_aur_updates_checkbutton.active = transaction.check_aur_updates;
-				check_aur_updates_checkbutton.sensitive = transaction.enable_aur;
-				no_confirm_build_checkbutton.active = transaction.no_confirm_build;
-				no_confirm_build_checkbutton.sensitive = transaction.enable_aur;
-				enable_aur_button.state_set.connect (on_enable_aur_button_state_set);
-				search_aur_checkbutton.toggled.connect (on_search_aur_checkbutton_toggled);
-				check_aur_updates_checkbutton.toggled.connect (on_check_aur_updates_checkbutton_toggled);
-				no_confirm_build_checkbutton.toggled.connect (on_no_confirm_build_checkbutton_toggled);
-			}
+			enable_aur_button.active = transaction.enable_aur;
+			search_aur_checkbutton.active = transaction.search_aur;
+			search_aur_checkbutton.sensitive = transaction.enable_aur;
+			check_aur_updates_checkbutton.active = transaction.check_aur_updates;
+			check_aur_updates_checkbutton.sensitive = transaction.enable_aur;
+			enable_aur_button.state_set.connect (on_enable_aur_button_state_set);
+			search_aur_checkbutton.toggled.connect (on_search_aur_checkbutton_toggled);
+			check_aur_updates_checkbutton.toggled.connect (on_check_aur_updates_checkbutton_toggled);
 		}
 
 		bool on_remove_unrequired_deps_button_state_set (bool new_state) {
@@ -203,15 +191,8 @@ namespace Pamac {
 			transaction.start_write_pamac_config (new_pamac_conf);
 		}
 
-		void on_no_confirm_build_checkbutton_toggled () {
-			var new_pamac_conf = new HashTable<string,Variant> (str_hash, str_equal);
-			new_pamac_conf.insert ("NoConfirmBuild", new Variant.boolean (no_confirm_build_checkbutton.active));
-			transaction.start_write_pamac_config (new_pamac_conf);
-		}
-
 		void on_write_pamac_config_finished (bool recurse, uint64 refresh_period, bool no_update_hide_icon,
-											bool enable_aur, bool search_aur, bool check_aur_updates,
-											bool no_confirm_build) {
+											bool enable_aur, bool search_aur, bool check_aur_updates) {
 			remove_unrequired_deps_button.state = recurse;
 			if (refresh_period == 0) {
 				check_updates_button.state = false;
@@ -234,8 +215,6 @@ namespace Pamac {
 			search_aur_checkbutton.sensitive = enable_aur;
 			check_aur_updates_checkbutton.active = check_aur_updates;
 			check_aur_updates_checkbutton.sensitive = enable_aur;
-			no_confirm_build_checkbutton.active = no_confirm_build;
-			no_confirm_build_checkbutton.sensitive = enable_aur;
 		}
 
 		bool on_check_space_button_state_set (bool new_state) {

@@ -9,4 +9,4 @@ Features:
 - a complete AUR support:
 	* multiple words search capability
 	* Enable/Disable check updates from AUR
-	* Build and update your AUR packages in a integrated terminal using yaourt
+	* Build and update AUR packages

@@ -49,7 +49,6 @@ namespace Pamac {
 		public string[] conflicts;
 		public string[] groups;
 		public string[] backups;
-		public string[] files;
 	}
 
 	public struct AURPackage {

@@ -4,7 +4,7 @@
 # Guillaume Benoit <guillaume@manjaro.org>, 2013-2016.
 # 
 # Translators:
-# Demiray Muhterem <mdemiray@msn.com>, 2013-2016
+# Demiray Muhterem <mdemiray@msn.com>, 2013-2017
 # Guillaume Benoit <guillaume@manjaro.org>, 2013
 # philm <philm@manjaro.org>, 2015
 # Yusuf Faruk DOĞAN <yfdogan@gmail.com>, 2013
@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2016-04-24 08:44+0200\n"
-"PO-Revision-Date: 2016-11-09 15:55+0000\n"
+"PO-Revision-Date: 2017-03-13 08:46+0000\n"
 "Last-Translator: Demiray Muhterem <mdemiray@msn.com>\n"
 "Language-Team: Turkish (http://www.transifex.com/manjarolinux/manjaro-pamac/language/tr/)\n"
 "MIME-Version: 1.0\n"
@@ -84,6 +84,16 @@ msgstr "%s: gereksinimi %s"
 
 #: ../src/daemon.vala
 #, c-format
+msgid "%s: installing %s (%s) breaks dependency '%s'"
+msgstr "%s: %s yükleniyor (%s) bağımlılıkları işlemi kesti '%s'"
+
+#: ../src/daemon.vala
+#, c-format
+msgid "%s: removing %s breaks dependency '%s'"
+msgstr "%s: %s kaldırılıyor '%s' kırılan bağımlılıklar"
+
+#: ../src/daemon.vala
+#, c-format
 msgid "%s and %s are in conflict"
 msgstr "%s paketi %s ile çakışıyor"
 
@@ -124,6 +134,10 @@ msgstr "%s üzerinden '%s dosyası alınamadı: %s\n\n"
 #: ../src/transaction.vala
 msgid "A Gtk3 frontend for libalpm"
 msgstr "libalpm için Gtk3 arayüzü"
+
+#: ../src/transaction.vala
+msgid "Copy"
+msgstr "Kopyala"
 
 #: ../src/transaction.vala
 msgid "Refreshing mirrors list"
@@ -175,8 +189,9 @@ msgid "Total download size"
 msgstr "Toplam indirme boyutu"
 
 #: ../src/transaction.vala
-msgid "Building packages"
-msgstr "Paketler inşa ediliyor"
+#, c-format
+msgid "Building %s"
+msgstr "%s İnşa ediliyor"
 
 #: ../src/transaction.vala
 msgid "Transaction cancelled"
@@ -304,11 +319,11 @@ msgstr "%s yüklendi %s.pacsave olarak değiştirildi"
 
 #: ../src/transaction.vala
 msgid "Running pre-transaction hooks"
-msgstr "Ön işlem bağlantıları çalışıyor"
+msgstr "İşlem öncesi veritabanı güncelleniyor"
 
 #: ../src/transaction.vala
 msgid "Running post-transaction hooks"
-msgstr "İşlem sonrası bağlantılar çalışıyor"
+msgstr "İşlem sonrası veritabanı güncelleniyor"
 
 #: ../src/transaction.vala
 #, c-format
@@ -355,11 +370,11 @@ msgstr "Pamac Zaten Çalışıyor"
 msgid "Your system is up-to-date"
 msgstr "Sisteminiz Güncel"
 
-#: ../src/tray.vala
+#: ../src/tray.vala ../src/updater_window.vala
 msgid "Update Manager"
 msgstr "Güncelleme Yöneticisi"
 
-#: ../src/tray.vala
+#: ../src/tray.vala ../src/manager_window.vala
 msgid "Package Manager"
 msgstr "Paket Yöneticisi"
 
@@ -542,6 +557,10 @@ msgstr "Alpm Paketi"
 msgid "How often to check for updates, value in hours"
 msgstr "Güncellemeler ne sıklıkta kontrol edilecek, saat belirtin"
 
+#: ../src/preferences_dialog.vala ../resources/preferences_dialog.ui
+msgid "Number of versions of each package to keep in the cache"
+msgstr "Önbellekte tutlacak her bir paketin sürüm sayısı"
+
 #: ../src/preferences_dialog.vala
 msgid "Worldwide"
 msgstr "Küresel"
@@ -598,10 +617,6 @@ msgstr "Hakkında"
 #: ../resources/manager_window.ui
 msgid "Search"
 msgstr "Ara"
-
-#: ../resources/manager_window.ui
-msgid "Search in AUR"
-msgstr "AUR depolarında ara"
 
 #: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "State"
@@ -715,14 +730,6 @@ msgstr "Varsayılan olarak AUR depolarında da ara"
 #: ../resources/preferences_dialog.ui
 msgid "Check for updates from AUR"
 msgstr "AUR deposundaki güncellemelere bak"
-
-#: ../resources/preferences_dialog.ui
-msgid "Do not ask for confirmation when building packages"
-msgstr "Paketler inşa edilirken onay veya düzenleme sorulmasın"
-
-#: ../resources/preferences_dialog.ui
-msgid "Number of versions of each package to keep in the cache"
-msgstr "Her bir paket sürümünü ve sayısını önbellekte tut"
 
 #: ../resources/preferences_dialog.ui
 msgid "Remove only the versions of uninstalled packages"

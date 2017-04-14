@@ -5,7 +5,7 @@
 # 
 # Translators:
 # Joaquín Ludzcanoff <Desoxirribonucleosa97@outlook.com>, 2016
-# Julián Federico Hipólito <julianhipolito@gmail.com>, 2016
+# Julián Federico Hipólito <julianhipolito@gmail.com>, 2016-2017
 # Julián Federico Hipólito <julianhipolito@gmail.com>, 2016
 # Mat Mü <ematiasm@openmailbox.org>, 2016
 msgid ""
@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2016-04-24 08:44+0200\n"
-"PO-Revision-Date: 2016-12-02 18:02+0000\n"
+"PO-Revision-Date: 2017-03-07 14:50+0000\n"
 "Last-Translator: Julián Federico Hipólito <julianhipolito@gmail.com>\n"
 "Language-Team: Spanish (Latin America) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/es_419/)\n"
 "MIME-Version: 1.0\n"
@@ -83,6 +83,16 @@ msgstr "%s: requiere %s"
 
 #: ../src/daemon.vala
 #, c-format
+msgid "%s: installing %s (%s) breaks dependency '%s'"
+msgstr "%s: instalando %s (%s) rompe dependencia '%s'"
+
+#: ../src/daemon.vala
+#, c-format
+msgid "%s: removing %s breaks dependency '%s'"
+msgstr "%s: eliminando %s rompe dependencia '%s'"
+
+#: ../src/daemon.vala
+#, c-format
 msgid "%s and %s are in conflict"
 msgstr "%s y %s están en conflicto"
 
@@ -123,6 +133,10 @@ msgstr "fallo al recuperar el archivo '%s' desde %s : %s\n"
 #: ../src/transaction.vala
 msgid "A Gtk3 frontend for libalpm"
 msgstr "Un frontend Gtk3 para libalpm"
+
+#: ../src/transaction.vala
+msgid "Copy"
+msgstr "Copiar"
 
 #: ../src/transaction.vala
 msgid "Refreshing mirrors list"
@@ -174,8 +188,9 @@ msgid "Total download size"
 msgstr "Tamaña total de descarga"
 
 #: ../src/transaction.vala
-msgid "Building packages"
-msgstr "Construyendo paquetes"
+#, c-format
+msgid "Building %s"
+msgstr "Construyendo %s"
 
 #: ../src/transaction.vala
 msgid "Transaction cancelled"
@@ -354,11 +369,11 @@ msgstr "Pamac ya está abierto"
 msgid "Your system is up-to-date"
 msgstr "Tu sistema está actualizado"
 
-#: ../src/tray.vala
+#: ../src/tray.vala ../src/updater_window.vala
 msgid "Update Manager"
 msgstr "Gestor de Actualizaciones"
 
-#: ../src/tray.vala
+#: ../src/tray.vala ../src/manager_window.vala
 msgid "Package Manager"
 msgstr "Gestor de Paquetes"
 
@@ -541,6 +556,10 @@ msgstr "Paquete Alpm"
 msgid "How often to check for updates, value in hours"
 msgstr "Cuán seguido revisar por actualizaciones, valor en horas"
 
+#: ../src/preferences_dialog.vala ../resources/preferences_dialog.ui
+msgid "Number of versions of each package to keep in the cache"
+msgstr "Número de versiones de cada paquete a mantener en caché"
+
 #: ../src/preferences_dialog.vala
 msgid "Worldwide"
 msgstr "Mundial"
@@ -597,10 +616,6 @@ msgstr "Acera de"
 #: ../resources/manager_window.ui
 msgid "Search"
 msgstr "Buscar"
-
-#: ../resources/manager_window.ui
-msgid "Search in AUR"
-msgstr "Buscar en AUR"
 
 #: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "State"
@@ -714,14 +729,6 @@ msgstr "Buscar en AUR por defecto"
 #: ../resources/preferences_dialog.ui
 msgid "Check for updates from AUR"
 msgstr "Comprobar actualizaciones desde AUR"
-
-#: ../resources/preferences_dialog.ui
-msgid "Do not ask for confirmation when building packages"
-msgstr "No preguntar por confirmación al construir paquetes"
-
-#: ../resources/preferences_dialog.ui
-msgid "Number of versions of each package to keep in the cache"
-msgstr "Número de versiones de cada paquete a mantener en caché"
 
 #: ../resources/preferences_dialog.ui
 msgid "Remove only the versions of uninstalled packages"

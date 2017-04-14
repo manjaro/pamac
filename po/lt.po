@@ -5,13 +5,13 @@
 # 
 # Translators:
 # Moo, 2015
-# Moo, 2015-2016
+# Moo, 2015-2017
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2016-04-24 08:44+0200\n"
-"PO-Revision-Date: 2016-11-15 22:21+0000\n"
+"PO-Revision-Date: 2017-02-18 19:34+0000\n"
 "Last-Translator: Moo\n"
 "Language-Team: Lithuanian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/lt/)\n"
 "MIME-Version: 1.0\n"
@@ -81,6 +81,16 @@ msgstr "%s: reikalauja %s"
 
 #: ../src/daemon.vala
 #, c-format
+msgid "%s: installing %s (%s) breaks dependency '%s'"
+msgstr "%s: įdiegiant %s (%s) sugadinama priklasomybė \"%s\""
+
+#: ../src/daemon.vala
+#, c-format
+msgid "%s: removing %s breaks dependency '%s'"
+msgstr "%s: šalinant %s sugadinama priklausomybė \"%s\""
+
+#: ../src/daemon.vala
+#, c-format
 msgid "%s and %s are in conflict"
 msgstr "%s ir %s tarpusavyje konfliktuoja"
 
@@ -121,6 +131,10 @@ msgstr "nepavyko gauti failo \"%s\" iš %s : %s\n"
 #: ../src/transaction.vala
 msgid "A Gtk3 frontend for libalpm"
 msgstr "Gtk3 naudotojo sąsaja libalpm bibliotekai"
+
+#: ../src/transaction.vala
+msgid "Copy"
+msgstr "Kopijuoti"
 
 #: ../src/transaction.vala
 msgid "Refreshing mirrors list"
@@ -172,8 +186,9 @@ msgid "Total download size"
 msgstr "Visų atsiuntimų dydis"
 
 #: ../src/transaction.vala
-msgid "Building packages"
-msgstr "Kompiliuojami paketai"
+#, c-format
+msgid "Building %s"
+msgstr "Kompiliuojama %s"
 
 #: ../src/transaction.vala
 msgid "Transaction cancelled"
@@ -353,11 +368,11 @@ msgstr "Pamac jau yra vykdoma"
 msgid "Your system is up-to-date"
 msgstr "Jūsų sistemoje įdiegti visi naujausi atnaujinimai"
 
-#: ../src/tray.vala
+#: ../src/tray.vala ../src/updater_window.vala
 msgid "Update Manager"
 msgstr "Atnaujinimų tvarkytuvė"
 
-#: ../src/tray.vala
+#: ../src/tray.vala ../src/manager_window.vala
 msgid "Package Manager"
 msgstr "Paketų tvarkytuvė"
 
@@ -441,7 +456,7 @@ msgstr "Pakuotojas"
 
 #: ../src/manager_window.vala
 msgid "Build Date"
-msgstr "Kūrimo data"
+msgstr "Kompiliavimo data"
 
 #: ../src/manager_window.vala
 msgid "Install Date"
@@ -542,6 +557,10 @@ msgstr "Alpm Paketas"
 msgid "How often to check for updates, value in hours"
 msgstr "Kaip dažnai tikrinti ar yra atnaujinimų, reikšmė valandomis"
 
+#: ../src/preferences_dialog.vala ../resources/preferences_dialog.ui
+msgid "Number of versions of each package to keep in the cache"
+msgstr "Podėlyje laikomas kiekvieno paketo versijų skaičius"
+
 #: ../src/preferences_dialog.vala
 msgid "Worldwide"
 msgstr "Viso pasaulio"
@@ -598,10 +617,6 @@ msgstr "Apie"
 #: ../resources/manager_window.ui
 msgid "Search"
 msgstr "Paieška"
-
-#: ../resources/manager_window.ui
-msgid "Search in AUR"
-msgstr "Ieškoti AUR saugykloje"
 
 #: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "State"
@@ -698,7 +713,7 @@ msgstr "Oficialios saugyklos"
 msgid ""
 "AUR is a community maintained repository so it presents potential risks and problems.\n"
 "All AUR users should be familiar with the build process."
-msgstr "AUR yra bendruomenės palaikoma saugykla, taigi, sukelia tam tikrą riziką ir problemas.\nVisi AUR naudotojai turėtų būti susipažinę su kūrimo procesu."
+msgstr "AUR yra bendruomenės palaikoma saugykla, taigi, sukelia tam tikrą riziką ir problemas.\nVisi AUR naudotojai turėtų būti susipažinę su kompiliavimo procesu."
 
 #: ../resources/preferences_dialog.ui
 msgid "Enable AUR support"
@@ -715,14 +730,6 @@ msgstr "Pagal numatymą ieškoti AUR saugykloje"
 #: ../resources/preferences_dialog.ui
 msgid "Check for updates from AUR"
 msgstr "Tikrinti atnaujinimus iš AUR"
-
-#: ../resources/preferences_dialog.ui
-msgid "Do not ask for confirmation when building packages"
-msgstr "Neklausti patvirtinimo, kuriant paketus"
-
-#: ../resources/preferences_dialog.ui
-msgid "Number of versions of each package to keep in the cache"
-msgstr "Podėlyje laikomas kiekvieno paketo versijų skaičius"
 
 #: ../resources/preferences_dialog.ui
 msgid "Remove only the versions of uninstalled packages"

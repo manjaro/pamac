@@ -7,13 +7,13 @@
 # BALLOON a.k.a. Fu-sen., 2015
 # ふうせん Fu-sen. | BALLOON a.k.a. Fu-sen., 2015
 # philm <philm@manjaro.org>, 2015
-# Takefumi Nagata, 2013-2016
+# Takefumi Nagata, 2013-2017
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2016-04-24 08:44+0200\n"
-"PO-Revision-Date: 2016-11-09 15:55+0000\n"
+"PO-Revision-Date: 2017-03-05 03:31+0000\n"
 "Last-Translator: Takefumi Nagata\n"
 "Language-Team: Japanese (http://www.transifex.com/manjarolinux/manjaro-pamac/language/ja/)\n"
 "MIME-Version: 1.0\n"
@@ -83,6 +83,16 @@ msgstr "%s: %sが必要です"
 
 #: ../src/daemon.vala
 #, c-format
+msgid "%s: installing %s (%s) breaks dependency '%s'"
+msgstr "%s:  インストール中の %s (%s) が依存 '%s' を破壊します"
+
+#: ../src/daemon.vala
+#, c-format
+msgid "%s: removing %s breaks dependency '%s'"
+msgstr "%s:  削除中の %s が依存 '%s' を破壊します"
+
+#: ../src/daemon.vala
+#, c-format
 msgid "%s and %s are in conflict"
 msgstr "%s と %s は衝突しています"
 
@@ -123,6 +133,10 @@ msgstr "%s からのファイル '%s' の復旧に失敗しました: %s\n"
 #: ../src/transaction.vala
 msgid "A Gtk3 frontend for libalpm"
 msgstr "libalpmのためのGtk3フロントエンド"
+
+#: ../src/transaction.vala
+msgid "Copy"
+msgstr "コピー"
 
 #: ../src/transaction.vala
 msgid "Refreshing mirrors list"
@@ -174,8 +188,9 @@ msgid "Total download size"
 msgstr "全ダウンロードサイズ"
 
 #: ../src/transaction.vala
-msgid "Building packages"
-msgstr "パッケージのビルド中"
+#, c-format
+msgid "Building %s"
+msgstr "%s をビルド中"
 
 #: ../src/transaction.vala
 msgid "Transaction cancelled"
@@ -353,11 +368,11 @@ msgstr "pamacは既に起動しています"
 msgid "Your system is up-to-date"
 msgstr "システムは最新です"
 
-#: ../src/tray.vala
+#: ../src/tray.vala ../src/updater_window.vala
 msgid "Update Manager"
 msgstr "アップデートマネージャー"
 
-#: ../src/tray.vala
+#: ../src/tray.vala ../src/manager_window.vala
 msgid "Package Manager"
 msgstr "パッケージマネージャー"
 
@@ -538,6 +553,10 @@ msgstr "Alpmパケージ"
 msgid "How often to check for updates, value in hours"
 msgstr "どれくらいの頻度で更新をチェックしますか、時間で指定してください。"
 
+#: ../src/preferences_dialog.vala ../resources/preferences_dialog.ui
+msgid "Number of versions of each package to keep in the cache"
+msgstr "各パッケージのバージョン番号をキャッシュに保存する"
+
 #: ../src/preferences_dialog.vala
 msgid "Worldwide"
 msgstr "ワールドワイド"
@@ -594,10 +613,6 @@ msgstr "About"
 #: ../resources/manager_window.ui
 msgid "Search"
 msgstr "検索"
-
-#: ../resources/manager_window.ui
-msgid "Search in AUR"
-msgstr "AURの検索"
 
 #: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "State"
@@ -711,14 +726,6 @@ msgstr "デフォルトでAURを検索する"
 #: ../resources/preferences_dialog.ui
 msgid "Check for updates from AUR"
 msgstr "AUR 更新の確認"
-
-#: ../resources/preferences_dialog.ui
-msgid "Do not ask for confirmation when building packages"
-msgstr "パッケージビルド時に確認を行わない"
-
-#: ../resources/preferences_dialog.ui
-msgid "Number of versions of each package to keep in the cache"
-msgstr "キャッシュ内で各パッケージのバージョン番号を保持"
 
 #: ../resources/preferences_dialog.ui
 msgid "Remove only the versions of uninstalled packages"

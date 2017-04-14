@@ -4,12 +4,13 @@
 # Guillaume Benoit <guillaume@manjaro.org>, 2013-2016.
 # 
 # Translators:
+# Zaur Baku <zaurbaku15@gmail.com>, 2017
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2016-04-24 08:44+0200\n"
-"PO-Revision-Date: 2017-01-07 15:03+0000\n"
+"PO-Revision-Date: 2017-02-18 16:57+0000\n"
 "Last-Translator: Guillaume Benoit <guillaume@manjaro.org>\n"
 "Language-Team: Azerbaijani (Azerbaijan) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/az_AZ/)\n"
 "MIME-Version: 1.0\n"
@@ -20,7 +21,7 @@ msgstr ""
 
 #: data/polkit/org.manjaro.pamac.policy
 msgid "Authentication is required"
-msgstr ""
+msgstr "Kimlik tələb olunur"
 
 #: ../src/daemon.vala
 msgid "Failed to initialize alpm library"
@@ -28,7 +29,7 @@ msgstr ""
 
 #: ../src/daemon.vala ../src/transaction.vala
 msgid "Authentication failed"
-msgstr ""
+msgstr "Kimlik uğursuzdur"
 
 #: ../src/daemon.vala
 msgid "Failed to synchronize any databases"
@@ -36,7 +37,7 @@ msgstr ""
 
 #: ../src/daemon.vala
 msgid "Unknown"
-msgstr ""
+msgstr "Naməlum"
 
 #: ../src/daemon.vala
 msgid "Explicitly installed"
@@ -48,11 +49,11 @@ msgstr ""
 
 #: ../src/daemon.vala
 msgid "Yes"
-msgstr ""
+msgstr "Bəli"
 
 #: ../src/daemon.vala
 msgid "No"
-msgstr ""
+msgstr "Xeyr"
 
 #: ../src/daemon.vala
 msgid "Failed to init transaction"
@@ -75,6 +76,16 @@ msgstr ""
 #: ../src/daemon.vala
 #, c-format
 msgid "%s: requires %s"
+msgstr "%s: tələb edir %s"
+
+#: ../src/daemon.vala
+#, c-format
+msgid "%s: installing %s (%s) breaks dependency '%s'"
+msgstr ""
+
+#: ../src/daemon.vala
+#, c-format
+msgid "%s: removing %s breaks dependency '%s'"
 msgstr ""
 
 #: ../src/daemon.vala
@@ -121,6 +132,10 @@ msgid "A Gtk3 frontend for libalpm"
 msgstr ""
 
 #: ../src/transaction.vala
+msgid "Copy"
+msgstr ""
+
+#: ../src/transaction.vala
 msgid "Refreshing mirrors list"
 msgstr ""
 
@@ -130,11 +145,11 @@ msgstr ""
 
 #: ../src/transaction.vala
 msgid "Starting full system upgrade"
-msgstr ""
+msgstr "Sistemin tam yenilənməsinə başlamaq"
 
 #: ../src/transaction.vala
 msgid "Preparing"
-msgstr ""
+msgstr "Hazırlanır"
 
 #: ../src/transaction.vala
 #, c-format
@@ -143,7 +158,7 @@ msgstr ""
 
 #: ../src/transaction.vala
 msgid "To remove"
-msgstr ""
+msgstr "Aradan qaldırılması üçün"
 
 #: ../src/transaction.vala
 msgid "To downgrade"
@@ -151,26 +166,27 @@ msgstr ""
 
 #: ../src/transaction.vala
 msgid "To build"
-msgstr ""
+msgstr "Qurmaq üçün"
 
 #: ../src/transaction.vala
 msgid "To install"
-msgstr ""
+msgstr "Yükləmək üçün"
 
 #: ../src/transaction.vala
 msgid "To reinstall"
-msgstr ""
+msgstr "Yenidən yükləmək üçün"
 
 #: ../src/transaction.vala
 msgid "To update"
-msgstr ""
+msgstr "Yeniləmək üçün"
 
 #: ../src/transaction.vala ../src/updater_window.vala
 msgid "Total download size"
-msgstr ""
+msgstr "Ümumi köçürmə ölçüsü"
 
 #: ../src/transaction.vala
-msgid "Building packages"
+#, c-format
+msgid "Building %s"
 msgstr ""
 
 #: ../src/transaction.vala
@@ -220,7 +236,7 @@ msgstr ""
 #: ../src/transaction.vala
 #, c-format
 msgid "Removing %s"
-msgstr ""
+msgstr "Aradan qaldırılır %s"
 
 #: ../src/transaction.vala
 msgid "Checking integrity"
@@ -236,7 +252,7 @@ msgstr ""
 
 #: ../src/transaction.vala
 msgid "Applying deltas"
-msgstr ""
+msgstr "Deltanın tətbiqi"
 
 #: ../src/transaction.vala
 #, c-format
@@ -249,7 +265,7 @@ msgstr ""
 
 #: ../src/transaction.vala
 msgid "Generation failed"
-msgstr ""
+msgstr "Generasiya uğursuzdur"
 
 #: ../src/transaction.vala
 #, c-format
@@ -258,12 +274,12 @@ msgstr ""
 
 #: ../src/transaction.vala
 msgid "Downloading"
-msgstr ""
+msgstr "Endirilir"
 
 #: ../src/transaction.vala
 #, c-format
 msgid "Downloading %s"
-msgstr ""
+msgstr "Endirilir %s"
 
 #: ../src/transaction.vala
 msgid "Checking available disk space"
@@ -324,43 +340,43 @@ msgstr ""
 
 #: ../src/transaction.vala
 msgid "Error"
-msgstr ""
+msgstr "Səhv"
 
 #: ../src/transaction.vala
 msgid "Warning"
-msgstr ""
+msgstr "Xəbərdarlıq"
 
 #: ../src/transaction.vala ../resources/progress_dialog.ui
 msgid "_Close"
-msgstr ""
+msgstr "_Bağlamaq"
 
 #: ../src/transaction.vala
 msgid "Nothing to do"
-msgstr ""
+msgstr "Etməli bir şey yoxdur"
 
 #: ../src/transaction.vala
 msgid "Transaction successfully finished"
-msgstr ""
+msgstr "Tranzaksiya uğurla qurtardı"
 
 #: ../src/installer.vala ../src/manager.vala ../src/updater.vala
 msgid "Pamac is already running"
-msgstr ""
+msgstr "Pamac hal-hazırda işləyir"
 
 #: ../src/tray.vala ../src/updater_window.vala
 msgid "Your system is up-to-date"
-msgstr ""
+msgstr "Sisteminiz yenidir"
 
-#: ../src/tray.vala
+#: ../src/tray.vala ../src/updater_window.vala
 msgid "Update Manager"
-msgstr ""
+msgstr "Yeniləmə meneceri"
 
-#: ../src/tray.vala
+#: ../src/tray.vala ../src/manager_window.vala
 msgid "Package Manager"
-msgstr ""
+msgstr "Paket meneceri"
 
 #: ../src/tray.vala
 msgid "_Quit"
-msgstr ""
+msgstr "_Qurtarmaq"
 
 #: ../src/tray.vala ../src/updater_window.vala
 #, c-format
@@ -372,46 +388,46 @@ msgstr[1] ""
 #: ../src/tray.vala ../src/manager_window.vala ../resources/progress_dialog.ui
 #: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "Details"
-msgstr ""
+msgstr "Ətraflı"
 
 #: ../src/manager_window.vala
 msgid "Deselect"
-msgstr ""
+msgstr "Sil"
 
 #: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Install"
-msgstr ""
+msgstr "Yükləmək"
 
 #: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Remove"
-msgstr ""
+msgstr "Aradan qaldırmaq"
 
 #: ../src/manager_window.vala
 #, c-format
 msgid "%u pending operation"
 msgid_plural "%u pending operations"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%u gözləyən əməliyyat"
+msgstr[1] "%u gözləyən əməliyyatlar"
 
 #: ../src/manager_window.vala
 msgid "Installed"
-msgstr ""
+msgstr "Yüklənmiş"
 
 #: ../src/manager_window.vala
 msgid "Orphans"
-msgstr ""
+msgstr "Aid olmayan"
 
 #: ../src/manager_window.vala
 msgid "Foreign"
-msgstr ""
+msgstr "Xarici"
 
 #: ../src/manager_window.vala
 msgid "Pending"
-msgstr ""
+msgstr "Gözləyən"
 
 #: ../src/manager_window.vala
 msgid "Install Reason"
-msgstr ""
+msgstr "Yükləmə səbəbi"
 
 #: ../src/manager_window.vala
 msgid "Mark as explicitly installed"
@@ -419,16 +435,16 @@ msgstr ""
 
 #: ../src/manager_window.vala
 msgid "Licenses"
-msgstr ""
+msgstr "Lisenziyalar"
 
 #: ../src/manager_window.vala ../resources/manager_window.ui
 #: ../resources/updater_window.ui
 msgid "Repository"
-msgstr ""
+msgstr "Repositorilər"
 
 #: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Groups"
-msgstr ""
+msgstr "Qruplar"
 
 #: ../src/manager_window.vala
 msgid "Packager"
@@ -436,15 +452,15 @@ msgstr ""
 
 #: ../src/manager_window.vala
 msgid "Build Date"
-msgstr ""
+msgstr "Qurma Tarixi"
 
 #: ../src/manager_window.vala
 msgid "Install Date"
-msgstr ""
+msgstr "Yükləmə Tarixi"
 
 #: ../src/manager_window.vala
 msgid "Signatures"
-msgstr ""
+msgstr "İmzalar"
 
 #: ../src/manager_window.vala
 msgid "Backup files"
@@ -452,11 +468,11 @@ msgstr ""
 
 #: ../src/manager_window.vala
 msgid "Depends On"
-msgstr ""
+msgstr "Aslıdır"
 
 #: ../src/manager_window.vala
 msgid "Optional Dependencies"
-msgstr ""
+msgstr "İxtiyarı bağlılıqlar"
 
 #: ../src/manager_window.vala
 msgid "Required By"
@@ -472,7 +488,7 @@ msgstr ""
 
 #: ../src/manager_window.vala
 msgid "Replaces"
-msgstr ""
+msgstr "Əvəzlər"
 
 #: ../src/manager_window.vala
 msgid "Conflicts With"
@@ -496,11 +512,11 @@ msgstr ""
 
 #: ../src/manager_window.vala
 msgid "Votes"
-msgstr ""
+msgstr "Səs sayı"
 
 #: ../src/manager_window.vala
 msgid "Out of Date"
-msgstr ""
+msgstr "Vaxtı keçmiş"
 
 #: ../src/manager_window.vala
 msgid "Make Dependencies"
@@ -508,12 +524,12 @@ msgstr ""
 
 #: ../src/manager_window.vala
 msgid "Check Dependencies"
-msgstr ""
+msgstr "Aslılığın yoxlanılması"
 
 #: ../src/manager_window.vala ../resources/manager_window.ui
 #: ../resources/updater_window.ui
 msgid "Name"
-msgstr ""
+msgstr "Ad"
 
 #: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Install Local Packages"
@@ -523,11 +539,11 @@ msgstr ""
 #: ../resources/manager_window.ui ../resources/updater_window.ui
 #: ../resources/choose_ignorepkgs_dialog.ui
 msgid "_Cancel"
-msgstr ""
+msgstr "_İmtina etmək"
 
 #: ../src/manager_window.vala
 msgid "_Open"
-msgstr ""
+msgstr "_Açmaq"
 
 #: ../src/manager_window.vala
 msgid "Alpm Package"
@@ -537,17 +553,21 @@ msgstr ""
 msgid "How often to check for updates, value in hours"
 msgstr ""
 
+#: ../src/preferences_dialog.vala ../resources/preferences_dialog.ui
+msgid "Number of versions of each package to keep in the cache"
+msgstr ""
+
 #: ../src/preferences_dialog.vala
 msgid "Worldwide"
 msgstr ""
 
 #: ../src/preferences_dialog.vala
 msgid "Speed"
-msgstr ""
+msgstr "Sürət"
 
 #: ../src/preferences_dialog.vala
 msgid "Random"
-msgstr ""
+msgstr "Təsadüfi"
 
 #: ../resources/choose_provider_dialog.ui
 msgid "Choose a Provider"
@@ -556,15 +576,15 @@ msgstr ""
 #: ../resources/choose_provider_dialog.ui
 #: ../resources/choose_ignorepkgs_dialog.ui
 msgid "Choose"
-msgstr ""
+msgstr "Seçmək"
 
 #: ../resources/progress_dialog.ui
 msgid "Progress"
-msgstr ""
+msgstr "İrəliləmə"
 
 #: ../resources/history_dialog.ui
 msgid "Pamac History"
-msgstr ""
+msgstr "Pamac tarixi"
 
 #: ../resources/transaction_sum_dialog.ui
 msgid "Transaction Summary"
@@ -576,72 +596,68 @@ msgstr ""
 
 #: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "Refresh databases"
-msgstr ""
+msgstr "Bazaları yeniləmək"
 
 #: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "View History"
-msgstr ""
+msgstr "Tarixi göstər"
 
 #: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "Preferences"
-msgstr ""
+msgstr "Tərcihlər"
 
 #: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "About"
-msgstr ""
+msgstr "Haqqında"
 
 #: ../resources/manager_window.ui
 msgid "Search"
-msgstr ""
-
-#: ../resources/manager_window.ui
-msgid "Search in AUR"
-msgstr ""
+msgstr "Axtarmaq"
 
 #: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "State"
-msgstr ""
+msgstr "Vəziyyət"
 
 #: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "Repositories"
-msgstr ""
+msgstr "Repositorilər"
 
 #: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "Version"
-msgstr ""
+msgstr "Versiya"
 
 #: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "Size"
-msgstr ""
+msgstr "Ölçü"
 
 #: ../resources/manager_window.ui
 msgid "Popularity"
-msgstr ""
+msgstr "Populyar"
 
 #: ../resources/manager_window.ui ../resources/updater_window.ui
 #: ../resources/preferences_dialog.ui
 msgid "AUR"
-msgstr ""
+msgstr "AUR"
 
 #: ../resources/manager_window.ui
 msgid "Browse"
-msgstr ""
+msgstr "Gözdən keçirmək"
 
 #: ../resources/manager_window.ui
 msgid "Reinstall"
-msgstr ""
+msgstr "Yenidən yükləmək"
 
 #: ../resources/manager_window.ui
 msgid "Dependencies"
-msgstr ""
+msgstr "Aslılıqlar"
 
 #: ../resources/manager_window.ui
 msgid "Files"
-msgstr ""
+msgstr "Fayllar"
 
 #: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "_Apply"
-msgstr ""
+msgstr "_Tətbiq etmək"
 
 #: ../resources/preferences_dialog.ui
 msgid "Remove unrequired dependencies"
@@ -659,7 +675,7 @@ msgstr ""
 
 #: ../resources/preferences_dialog.ui
 msgid "Check for updates"
-msgstr ""
+msgstr "Yenilikləri yoxlamaq"
 
 #: ../resources/preferences_dialog.ui
 msgid "Hide tray icon when no update available"
@@ -671,7 +687,7 @@ msgstr ""
 
 #: ../resources/preferences_dialog.ui
 msgid "General"
-msgstr ""
+msgstr "Ümumi"
 
 #: ../resources/preferences_dialog.ui
 msgid "Use mirrors from:"
@@ -687,7 +703,7 @@ msgstr ""
 
 #: ../resources/preferences_dialog.ui
 msgid "Official Repositories"
-msgstr ""
+msgstr "Rəsmi Repositorilər"
 
 #: ../resources/preferences_dialog.ui
 msgid ""
@@ -697,7 +713,7 @@ msgstr ""
 
 #: ../resources/preferences_dialog.ui
 msgid "Enable AUR support"
-msgstr ""
+msgstr "AUR dəstəyini aktiv et"
 
 #: ../resources/preferences_dialog.ui
 msgid "Allow Pamac to search and install packages from AUR"
@@ -705,19 +721,11 @@ msgstr ""
 
 #: ../resources/preferences_dialog.ui
 msgid "Search in AUR by default"
-msgstr ""
+msgstr "AUR-da axtarmaq"
 
 #: ../resources/preferences_dialog.ui
 msgid "Check for updates from AUR"
-msgstr ""
-
-#: ../resources/preferences_dialog.ui
-msgid "Do not ask for confirmation when building packages"
-msgstr ""
-
-#: ../resources/preferences_dialog.ui
-msgid "Number of versions of each package to keep in the cache"
-msgstr ""
+msgstr "AUR-dan yeniliklərin yoxlanılması"
 
 #: ../resources/preferences_dialog.ui
 msgid "Remove only the versions of uninstalled packages"
@@ -725,11 +733,11 @@ msgstr ""
 
 #: ../resources/preferences_dialog.ui
 msgid "Clean cache"
-msgstr ""
+msgstr "Keşi təmizlə"
 
 #: ../resources/preferences_dialog.ui
 msgid "Cache"
-msgstr ""
+msgstr "Keş"
 
 #: ../resources/choose_ignorepkgs_dialog.ui
 msgid "Choose Ignored Upgrades"

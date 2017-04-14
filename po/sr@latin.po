@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2016-04-24 08:44+0200\n"
-"PO-Revision-Date: 2017-01-07 15:03+0000\n"
+"PO-Revision-Date: 2017-02-18 16:57+0000\n"
 "Last-Translator: Guillaume Benoit <guillaume@manjaro.org>\n"
 "Language-Team: Serbian (Latin) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/sr@latin/)\n"
 "MIME-Version: 1.0\n"
@@ -85,6 +85,16 @@ msgstr "%s: zahteva %s"
 
 #: ../src/daemon.vala
 #, c-format
+msgid "%s: installing %s (%s) breaks dependency '%s'"
+msgstr ""
+
+#: ../src/daemon.vala
+#, c-format
+msgid "%s: removing %s breaks dependency '%s'"
+msgstr ""
+
+#: ../src/daemon.vala
+#, c-format
 msgid "%s and %s are in conflict"
 msgstr "%s i %s su u konfliktu"
 
@@ -124,6 +134,10 @@ msgstr ""
 
 #: ../src/transaction.vala
 msgid "A Gtk3 frontend for libalpm"
+msgstr ""
+
+#: ../src/transaction.vala
+msgid "Copy"
 msgstr ""
 
 #: ../src/transaction.vala
@@ -176,8 +190,9 @@ msgid "Total download size"
 msgstr "Ukupna veličina preuzimanja"
 
 #: ../src/transaction.vala
-msgid "Building packages"
-msgstr "Izgradnja paketa"
+#, c-format
+msgid "Building %s"
+msgstr ""
 
 #: ../src/transaction.vala
 msgid "Transaction cancelled"
@@ -357,11 +372,11 @@ msgstr "Pamac je već pokrenut"
 msgid "Your system is up-to-date"
 msgstr "Vaš sistem je najnoviji"
 
-#: ../src/tray.vala
+#: ../src/tray.vala ../src/updater_window.vala
 msgid "Update Manager"
 msgstr "Menadžer ažuriranja"
 
-#: ../src/tray.vala
+#: ../src/tray.vala ../src/manager_window.vala
 msgid "Package Manager"
 msgstr "Mendžer paketa"
 
@@ -546,6 +561,10 @@ msgstr ""
 msgid "How often to check for updates, value in hours"
 msgstr "Koliko često da proveravam ažuriranja, vrednost u satima"
 
+#: ../src/preferences_dialog.vala ../resources/preferences_dialog.ui
+msgid "Number of versions of each package to keep in the cache"
+msgstr ""
+
 #: ../src/preferences_dialog.vala
 msgid "Worldwide"
 msgstr ""
@@ -602,10 +621,6 @@ msgstr "O"
 #: ../resources/manager_window.ui
 msgid "Search"
 msgstr "Pretraži"
-
-#: ../resources/manager_window.ui
-msgid "Search in AUR"
-msgstr "Pretraži u AUR"
 
 #: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "State"
@@ -719,14 +734,6 @@ msgstr ""
 #: ../resources/preferences_dialog.ui
 msgid "Check for updates from AUR"
 msgstr "Proveri ažuriranja iz AUR"
-
-#: ../resources/preferences_dialog.ui
-msgid "Do not ask for confirmation when building packages"
-msgstr ""
-
-#: ../resources/preferences_dialog.ui
-msgid "Number of versions of each package to keep in the cache"
-msgstr ""
 
 #: ../resources/preferences_dialog.ui
 msgid "Remove only the versions of uninstalled packages"

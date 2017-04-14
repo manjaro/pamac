@@ -5,7 +5,7 @@
 # 
 # Translators:
 # Dušan Kazik, 2014
-# Dušan Kazik <prescott66@gmail.com>, 2014-2016
+# Dušan Kazik <prescott66@gmail.com>, 2014-2017
 # Inoki Sakaeru, 2013
 # Patrik Bubák, 2014
 # Patrik Bubák, 2014
@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2016-04-24 08:44+0200\n"
-"PO-Revision-Date: 2016-11-09 15:55+0000\n"
+"PO-Revision-Date: 2017-02-19 20:21+0000\n"
 "Last-Translator: Dušan Kazik <prescott66@gmail.com>\n"
 "Language-Team: Slovak (http://www.transifex.com/manjarolinux/manjaro-pamac/language/sk/)\n"
 "MIME-Version: 1.0\n"
@@ -85,6 +85,16 @@ msgstr "%s: vyžaduje %s"
 
 #: ../src/daemon.vala
 #, c-format
+msgid "%s: installing %s (%s) breaks dependency '%s'"
+msgstr "%s: nainštalovaním balíka %s (%s) sa poruší závislosť „%s“"
+
+#: ../src/daemon.vala
+#, c-format
+msgid "%s: removing %s breaks dependency '%s'"
+msgstr "%s: odstránením balíka %s sa poruší závislosť „%s“"
+
+#: ../src/daemon.vala
+#, c-format
 msgid "%s and %s are in conflict"
 msgstr "Balíky %s a %s sú v konflikte"
 
@@ -125,6 +135,10 @@ msgstr "Zlyhalo prijímanie súboru „%s“ z %s: %s\n"
 #: ../src/transaction.vala
 msgid "A Gtk3 frontend for libalpm"
 msgstr "Rozhranie Gtk3 pre knižnicu libalpm"
+
+#: ../src/transaction.vala
+msgid "Copy"
+msgstr "Kopírovať"
 
 #: ../src/transaction.vala
 msgid "Refreshing mirrors list"
@@ -176,8 +190,9 @@ msgid "Total download size"
 msgstr "Celková veľkosť preberania"
 
 #: ../src/transaction.vala
-msgid "Building packages"
-msgstr "Zostavujú sa balíky"
+#, c-format
+msgid "Building %s"
+msgstr "Zostavuje sa %s"
 
 #: ../src/transaction.vala
 msgid "Transaction cancelled"
@@ -357,11 +372,11 @@ msgstr "Program Pamac je už spustený"
 msgid "Your system is up-to-date"
 msgstr "Váš systém je aktuálny"
 
-#: ../src/tray.vala
+#: ../src/tray.vala ../src/updater_window.vala
 msgid "Update Manager"
 msgstr "Správca aktualizácií"
 
-#: ../src/tray.vala
+#: ../src/tray.vala ../src/manager_window.vala
 msgid "Package Manager"
 msgstr "Správca balíkov"
 
@@ -546,6 +561,10 @@ msgstr "Autor balíka"
 msgid "How often to check for updates, value in hours"
 msgstr "Ako často kontrolovať aktualizácie, hodnota je v hodinách"
 
+#: ../src/preferences_dialog.vala ../resources/preferences_dialog.ui
+msgid "Number of versions of each package to keep in the cache"
+msgstr "Počet verzií každého balíka, ktoré ponechať vo vyrovnávacej pamäti"
+
 #: ../src/preferences_dialog.vala
 msgid "Worldwide"
 msgstr "Celého sveta"
@@ -602,10 +621,6 @@ msgstr "O aplikácii"
 #: ../resources/manager_window.ui
 msgid "Search"
 msgstr "Vyhľadávanie"
-
-#: ../resources/manager_window.ui
-msgid "Search in AUR"
-msgstr "Vyhľadávať v repozitári AUR"
 
 #: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "State"
@@ -719,14 +734,6 @@ msgstr "Predvolene vyhľadávať v repozitári AUR"
 #: ../resources/preferences_dialog.ui
 msgid "Check for updates from AUR"
 msgstr "Kontrolovať aktualizácie z repozitára AUR"
-
-#: ../resources/preferences_dialog.ui
-msgid "Do not ask for confirmation when building packages"
-msgstr "Nepýtať si potvrdenie pri zostavovaní balíkov"
-
-#: ../resources/preferences_dialog.ui
-msgid "Number of versions of each package to keep in the cache"
-msgstr "Počet verzií každého balíka, ktoré ponechať vo vyrovnávacej pamäti"
 
 #: ../resources/preferences_dialog.ui
 msgid "Remove only the versions of uninstalled packages"

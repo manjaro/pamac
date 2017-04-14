@@ -8,14 +8,14 @@
 # Daetalus <daetalusun@gmail.com>, 2014
 # Dz Chen <wsxy162@gmail.com>, 2015
 # Dz Chen <wsxy162@gmail.com>, 2015
-# Dz Chen <wsxy162@gmail.com>, 2015-2016
+# Dz Chen <wsxy162@gmail.com>, 2015-2017
 # philm <philm@manjaro.org>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2016-04-24 08:44+0200\n"
-"PO-Revision-Date: 2016-11-09 15:55+0000\n"
+"PO-Revision-Date: 2017-02-24 07:11+0000\n"
 "Last-Translator: Dz Chen <wsxy162@gmail.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
@@ -85,6 +85,16 @@ msgstr "%s：依赖于 %s"
 
 #: ../src/daemon.vala
 #, c-format
+msgid "%s: installing %s (%s) breaks dependency '%s'"
+msgstr "%s：安装 %s (%s) 会破坏依赖关系“%s”"
+
+#: ../src/daemon.vala
+#, c-format
+msgid "%s: removing %s breaks dependency '%s'"
+msgstr "%s：移除 %s 会破坏依赖关系“%s”"
+
+#: ../src/daemon.vala
+#, c-format
 msgid "%s and %s are in conflict"
 msgstr "%s 和 %s 有冲突"
 
@@ -125,6 +135,10 @@ msgstr "从 %s 检索文件“%s”失败：%s\n"
 #: ../src/transaction.vala
 msgid "A Gtk3 frontend for libalpm"
 msgstr "libalpm 的 GTK3 前端"
+
+#: ../src/transaction.vala
+msgid "Copy"
+msgstr "复制"
 
 #: ../src/transaction.vala
 msgid "Refreshing mirrors list"
@@ -176,8 +190,9 @@ msgid "Total download size"
 msgstr "总下载大小"
 
 #: ../src/transaction.vala
-msgid "Building packages"
-msgstr "正在构建软件包"
+#, c-format
+msgid "Building %s"
+msgstr "正在构建 %s"
 
 #: ../src/transaction.vala
 msgid "Transaction cancelled"
@@ -355,11 +370,11 @@ msgstr "Pamac已经运行"
 msgid "Your system is up-to-date"
 msgstr "系统为最新状态"
 
-#: ../src/tray.vala
+#: ../src/tray.vala ../src/updater_window.vala
 msgid "Update Manager"
 msgstr "更新管理器"
 
-#: ../src/tray.vala
+#: ../src/tray.vala ../src/manager_window.vala
 msgid "Package Manager"
 msgstr "软件包管理器"
 
@@ -540,6 +555,10 @@ msgstr "Alpm 软件包"
 msgid "How often to check for updates, value in hours"
 msgstr "检查更新的频率，单位为小时"
 
+#: ../src/preferences_dialog.vala ../resources/preferences_dialog.ui
+msgid "Number of versions of each package to keep in the cache"
+msgstr "每个软件包保留在缓存中的版本数目"
+
 #: ../src/preferences_dialog.vala
 msgid "Worldwide"
 msgstr "全世界"
@@ -596,10 +615,6 @@ msgstr "关于"
 #: ../resources/manager_window.ui
 msgid "Search"
 msgstr "搜索"
-
-#: ../resources/manager_window.ui
-msgid "Search in AUR"
-msgstr "在 AUR 中搜索"
 
 #: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "State"
@@ -713,14 +728,6 @@ msgstr "默认在 AUR 中搜索"
 #: ../resources/preferences_dialog.ui
 msgid "Check for updates from AUR"
 msgstr "从 AUR 检查更新"
-
-#: ../resources/preferences_dialog.ui
-msgid "Do not ask for confirmation when building packages"
-msgstr "构建软件包时不再请求确认"
-
-#: ../resources/preferences_dialog.ui
-msgid "Number of versions of each package to keep in the cache"
-msgstr "每个软件包保留在缓存中的版本数目"
 
 #: ../resources/preferences_dialog.ui
 msgid "Remove only the versions of uninstalled packages"

@@ -28,7 +28,6 @@ namespace Pamac {
 		public bool enable_aur { get; private set; }
 		public bool search_aur { get; private set; }
 		public bool check_aur_updates { get; private set; }
-		public bool no_confirm_build { get; private set; }
 		public unowned HashTable<string,string> environment_variables {
 			get {
 				return _environment_variables;
@@ -73,7 +72,6 @@ namespace Pamac {
 			enable_aur = false;
 			search_aur = false;
 			check_aur_updates = false;
-			no_confirm_build = false;
 			parse_file (conf_path);
 		}
 
@@ -113,8 +111,6 @@ namespace Pamac {
 							search_aur = true;
 						} else if (key == "CheckAURUpdates") {
 							check_aur_updates = true;
-						} else if (key == "NoConfirmBuild") {
-							no_confirm_build = true;
 						}
 					}
 				} catch (GLib.Error e) {
@@ -203,17 +199,6 @@ namespace Pamac {
 							} else {
 								data.append (line + "\n");
 							}
-						} else if (line.contains ("NoConfirmBuild")) {
-							if (new_conf.lookup_extended ("NoConfirmBuild", null, out variant)) {
-								if (variant.get_boolean ()) {
-									data.append ("NoConfirmBuild\n");
-								} else {
-									data.append ("#NoConfirmBuild\n");
-								}
-								new_conf.remove ("NoConfirmBuild");
-							} else {
-								data.append (line + "\n");
-							}
 						} else {
 							data.append (line + "\n");
 						}
@@ -264,12 +249,6 @@ namespace Pamac {
 							data.append ("CheckAURUpdates\n");
 						} else {
 							data.append ("#CheckAURUpdates\n");
-						}
-					} else if (key == "NoConfirmBuild") {
-						if (val.get_boolean ()) {
-							data.append ("NoConfirmBuild\n");
-						} else {
-							data.append ("#NoConfirmBuild\n");
 						}
 					}
 				}

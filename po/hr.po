@@ -5,7 +5,7 @@
 # 
 # Translators:
 # Lovro Kudelić <lovro.kudelic@outlook.com>, 2016
-# Lovro Kudelić <lovro.kudelic@outlook.com>, 2016
+# Lovro Kudelić <lovro.kudelic@outlook.com>, 2016-2017
 # philm <philm@manjaro.org>, 2015
 # ssik64 <ssik64@gmail.com>, 2014
 # ssik64 <ssik64@gmail.com>, 2014
@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2016-04-24 08:44+0200\n"
-"PO-Revision-Date: 2016-11-09 15:55+0000\n"
+"PO-Revision-Date: 2017-02-19 11:47+0000\n"
 "Last-Translator: Lovro Kudelić <lovro.kudelic@outlook.com>\n"
 "Language-Team: Croatian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/hr/)\n"
 "MIME-Version: 1.0\n"
@@ -84,6 +84,16 @@ msgstr "%s: zahtijeva %s"
 
 #: ../src/daemon.vala
 #, c-format
+msgid "%s: installing %s (%s) breaks dependency '%s'"
+msgstr "%s: instaliram %s (%s) uništava zavisnost '%s'"
+
+#: ../src/daemon.vala
+#, c-format
+msgid "%s: removing %s breaks dependency '%s'"
+msgstr "%s: uklanjam %s uništava zavisnost '%s'"
+
+#: ../src/daemon.vala
+#, c-format
 msgid "%s and %s are in conflict"
 msgstr "%s i %s su u sukobu"
 
@@ -124,6 +134,10 @@ msgstr "Nije uspjelo preuzimanje datoteke '%s' from %s : %s\n"
 #: ../src/transaction.vala
 msgid "A Gtk3 frontend for libalpm"
 msgstr "GTK+ 3 sučelje za libalpm"
+
+#: ../src/transaction.vala
+msgid "Copy"
+msgstr "Kopiraj"
 
 #: ../src/transaction.vala
 msgid "Refreshing mirrors list"
@@ -175,8 +189,9 @@ msgid "Total download size"
 msgstr "Ukupna veličina za preuzimanje"
 
 #: ../src/transaction.vala
-msgid "Building packages"
-msgstr "Stvaram pakete"
+#, c-format
+msgid "Building %s"
+msgstr "Stvaram %s"
 
 #: ../src/transaction.vala
 msgid "Transaction cancelled"
@@ -356,11 +371,11 @@ msgstr "Pamac je već pokrenut"
 msgid "Your system is up-to-date"
 msgstr "Nema novih nadogradnji"
 
-#: ../src/tray.vala
+#: ../src/tray.vala ../src/updater_window.vala
 msgid "Update Manager"
 msgstr "Uparavitelj nadogradnji"
 
-#: ../src/tray.vala
+#: ../src/tray.vala ../src/manager_window.vala
 msgid "Package Manager"
 msgstr "Upravitelj paketa"
 
@@ -545,6 +560,10 @@ msgstr "Alpm paket"
 msgid "How often to check for updates, value in hours"
 msgstr "Koliko često provjeravati nadogradnje, vrijednost u satima"
 
+#: ../src/preferences_dialog.vala ../resources/preferences_dialog.ui
+msgid "Number of versions of each package to keep in the cache"
+msgstr "Broj različitih verzija paketa za spremiti u predmemoriju"
+
 #: ../src/preferences_dialog.vala
 msgid "Worldwide"
 msgstr "Globalno"
@@ -601,10 +620,6 @@ msgstr "O programu"
 #: ../resources/manager_window.ui
 msgid "Search"
 msgstr "Traži"
-
-#: ../resources/manager_window.ui
-msgid "Search in AUR"
-msgstr "Traži u AUR-u"
 
 #: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "State"
@@ -718,14 +733,6 @@ msgstr "Uvijek traži u AUR-u"
 #: ../resources/preferences_dialog.ui
 msgid "Check for updates from AUR"
 msgstr "Provjeri ažuriranja iz AUR-a"
-
-#: ../resources/preferences_dialog.ui
-msgid "Do not ask for confirmation when building packages"
-msgstr "Ne pitaj za potvrdu prilikom stvaranja paketa"
-
-#: ../resources/preferences_dialog.ui
-msgid "Number of versions of each package to keep in the cache"
-msgstr "Broj različitih verzija paketa za spremanje u predmemoriju"
 
 #: ../resources/preferences_dialog.ui
 msgid "Remove only the versions of uninstalled packages"

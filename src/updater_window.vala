@@ -75,6 +75,7 @@ namespace Pamac {
 			important_details = false;
 			generate_mirrors_list = false;
 
+			headerbar.title = dgettext (null, "Update Manager");
 			Timeout.add (100, populate_window);
 		}
 
@@ -88,14 +89,19 @@ namespace Pamac {
 
 			transaction = new Transaction (this as Gtk.ApplicationWindow);
 			transaction.mode = Mode.UPDATER;
-			transaction.start_transaction.connect (on_start_transaction);
+			transaction.start_waiting.connect (on_start_waiting);
+			transaction.stop_waiting.connect (on_stop_waiting);
+			transaction.start_downloading.connect (on_start_downloading);
+			transaction.stop_downloading.connect (on_stop_downloading);
+			transaction.start_building.connect (on_start_building);
+			transaction.stop_building.connect (on_stop_building);
 			transaction.important_details_outpout.connect (on_important_details_output);
 			transaction.finished.connect (populate_updates_list);
 			transaction.get_updates_finished.connect (on_get_updates_finished);
 			transaction.generate_mirrors_list.connect (on_generate_mirrors_list);
 
 			// integrate progress box and term widget
-			stack.add_named (transaction.term_grid, "term");
+			stack.add_named (transaction.term_window, "term");
 			transaction_infobox.pack_start (transaction.progress_box);
 
 			// A timeout is needed to let the time to the daemon to deal
@@ -260,7 +266,27 @@ namespace Pamac {
 			transaction.cancel ();
 		}
 
-		void on_start_transaction () {
+		void on_start_waiting () {
+			cancel_button.sensitive = true;
+		}
+
+		void on_stop_waiting () {
+			populate_updates_list ();
+		}
+
+		void on_start_downloading () {
+			cancel_button.sensitive = true;
+		}
+
+		void on_stop_downloading () {
+			cancel_button.sensitive = false;
+		}
+
+		void on_start_building () {
+			cancel_button.sensitive = true;
+		}
+
+		void on_stop_building () {
 			cancel_button.sensitive = false;
 		}
 
@@ -300,7 +326,7 @@ namespace Pamac {
 		}
 
 		void on_get_updates_finished (Updates updates) {
-			headerbar.title = "";
+			headerbar.title = dgettext (null, "Update Manager");
 			repos_updates_list.clear ();
 			stackswitcher.visible = false;
 			repos_scrolledwindow.visible = true;

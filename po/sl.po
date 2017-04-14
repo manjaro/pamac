@@ -4,6 +4,7 @@
 # Guillaume Benoit <guillaume@manjaro.org>, 2013-2016.
 # 
 # Translators:
+# Al Manja <al.manja@gmx.com>, 2017
 # ansich <mojmejlzaforume@gmail.com>, 2014
 # Nenad Latinović <inactive+holden1987@transifex.com>, 2013
 # ansich <mojmejlzaforume@gmail.com>, 2014-2015
@@ -15,8 +16,8 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2016-04-24 08:44+0200\n"
-"PO-Revision-Date: 2017-01-07 15:03+0000\n"
-"Last-Translator: Guillaume Benoit <guillaume@manjaro.org>\n"
+"PO-Revision-Date: 2017-03-05 14:34+0000\n"
+"Last-Translator: Al Manja <al.manja@gmx.com>\n"
 "Language-Team: Slovenian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/sl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -26,7 +27,7 @@ msgstr ""
 
 #: data/polkit/org.manjaro.pamac.policy
 msgid "Authentication is required"
-msgstr ""
+msgstr "Zahtevana je overitev"
 
 #: ../src/daemon.vala
 msgid "Failed to initialize alpm library"
@@ -85,6 +86,16 @@ msgstr "%s: zahteva %s"
 
 #: ../src/daemon.vala
 #, c-format
+msgid "%s: installing %s (%s) breaks dependency '%s'"
+msgstr ""
+
+#: ../src/daemon.vala
+#, c-format
+msgid "%s: removing %s breaks dependency '%s'"
+msgstr ""
+
+#: ../src/daemon.vala
+#, c-format
 msgid "%s and %s are in conflict"
 msgstr "%s in %s sta v sporu"
 
@@ -115,16 +126,20 @@ msgstr "%s je neveljaven ali pokvarjen"
 #: ../src/daemon.vala
 #, c-format
 msgid "%s appears to be truncated: %jd/%jd bytes\n"
-msgstr ""
+msgstr "%s izgleda prirezanih: %jd%jd bitov\n"
 
 #: ../src/daemon.vala
 #, c-format
 msgid "failed retrieving file '%s' from %s : %s\n"
-msgstr ""
+msgstr "napaka pri pridobivanju datoteke '%s' od %s : %s\n"
 
 #: ../src/transaction.vala
 msgid "A Gtk3 frontend for libalpm"
 msgstr "Gtk3 začelje za libalpm"
+
+#: ../src/transaction.vala
+msgid "Copy"
+msgstr ""
 
 #: ../src/transaction.vala
 msgid "Refreshing mirrors list"
@@ -176,8 +191,9 @@ msgid "Total download size"
 msgstr "Celotna velikost prenosa"
 
 #: ../src/transaction.vala
-msgid "Building packages"
-msgstr "Grajenje paketov"
+#, c-format
+msgid "Building %s"
+msgstr ""
 
 #: ../src/transaction.vala
 msgid "Transaction cancelled"
@@ -185,7 +201,7 @@ msgstr "Transakcija preklicana"
 
 #: ../src/transaction.vala
 msgid "Waiting for another package manager to quit"
-msgstr ""
+msgstr "Čakanje na izhod drugega paketnega upravljalnika"
 
 #: ../src/transaction.vala
 msgid "Checking dependencies"
@@ -314,7 +330,7 @@ msgstr ""
 #: ../src/transaction.vala
 #, c-format
 msgid "About %u seconds remaining"
-msgstr ""
+msgstr "Preostalo približno %u sekund"
 
 #: ../src/transaction.vala
 #, c-format
@@ -358,11 +374,11 @@ msgstr "Pamac je že v teku"
 msgid "Your system is up-to-date"
 msgstr "Vaš sistem je posodobljen"
 
-#: ../src/tray.vala
+#: ../src/tray.vala ../src/updater_window.vala
 msgid "Update Manager"
 msgstr "Upravljalnik posodobitev"
 
-#: ../src/tray.vala
+#: ../src/tray.vala ../src/manager_window.vala
 msgid "Package Manager"
 msgstr "Upravljalnik paketov"
 
@@ -419,7 +435,7 @@ msgstr ""
 
 #: ../src/manager_window.vala
 msgid "Pending"
-msgstr ""
+msgstr "V čakanju"
 
 #: ../src/manager_window.vala
 msgid "Install Reason"
@@ -448,7 +464,7 @@ msgstr "Paketni program"
 
 #: ../src/manager_window.vala
 msgid "Build Date"
-msgstr ""
+msgstr "Datum razvoja"
 
 #: ../src/manager_window.vala
 msgid "Install Date"
@@ -496,7 +512,7 @@ msgstr ""
 
 #: ../src/manager_window.vala
 msgid "Maintainer"
-msgstr ""
+msgstr "Vzdrževalec"
 
 #: ../src/manager_window.vala
 msgid "First Submitted"
@@ -504,7 +520,7 @@ msgstr ""
 
 #: ../src/manager_window.vala
 msgid "Last Modified"
-msgstr ""
+msgstr "Zadnja sprememba"
 
 #: ../src/manager_window.vala
 msgid "Votes"
@@ -512,7 +528,7 @@ msgstr ""
 
 #: ../src/manager_window.vala
 msgid "Out of Date"
-msgstr ""
+msgstr "Zastarel"
 
 #: ../src/manager_window.vala
 msgid "Make Dependencies"
@@ -549,6 +565,10 @@ msgstr "Paket Alpm"
 msgid "How often to check for updates, value in hours"
 msgstr "Kako pogosto naj se preverja za posodobitve, vrednost v urah"
 
+#: ../src/preferences_dialog.vala ../resources/preferences_dialog.ui
+msgid "Number of versions of each package to keep in the cache"
+msgstr "Število verzij za vsak paket shranjenih v predpomnilniku"
+
 #: ../src/preferences_dialog.vala
 msgid "Worldwide"
 msgstr "Svetovno"
@@ -568,7 +588,7 @@ msgstr "Izberi ponudnika"
 #: ../resources/choose_provider_dialog.ui
 #: ../resources/choose_ignorepkgs_dialog.ui
 msgid "Choose"
-msgstr ""
+msgstr "Izberite"
 
 #: ../resources/progress_dialog.ui
 msgid "Progress"
@@ -584,7 +604,7 @@ msgstr "Povzetek transakcije"
 
 #: ../resources/transaction_sum_dialog.ui
 msgid "Commit"
-msgstr ""
+msgstr "Uveljavi"
 
 #: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "Refresh databases"
@@ -600,15 +620,11 @@ msgstr "Nastavitve"
 
 #: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "About"
-msgstr ""
+msgstr "O programu Pamac"
 
 #: ../resources/manager_window.ui
 msgid "Search"
 msgstr "Išči"
-
-#: ../resources/manager_window.ui
-msgid "Search in AUR"
-msgstr "Išči v AUR"
 
 #: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "State"
@@ -724,24 +740,16 @@ msgid "Check for updates from AUR"
 msgstr "Preveri za posodobitve iz AUR"
 
 #: ../resources/preferences_dialog.ui
-msgid "Do not ask for confirmation when building packages"
-msgstr "Pri izgradnjih paketov ne vprašaj za potrditev"
-
-#: ../resources/preferences_dialog.ui
-msgid "Number of versions of each package to keep in the cache"
-msgstr ""
-
-#: ../resources/preferences_dialog.ui
 msgid "Remove only the versions of uninstalled packages"
-msgstr ""
+msgstr "Odstrani le različice nenameščenih paketov"
 
 #: ../resources/preferences_dialog.ui
 msgid "Clean cache"
-msgstr ""
+msgstr "Izbriši predpomnilnik"
 
 #: ../resources/preferences_dialog.ui
 msgid "Cache"
-msgstr ""
+msgstr "Predpomnilnik"
 
 #: ../resources/choose_ignorepkgs_dialog.ui
 msgid "Choose Ignored Upgrades"

@@ -4,15 +4,16 @@
 # Guillaume Benoit <guillaume@manjaro.org>, 2013-2016.
 # 
 # Translators:
-# cges30901 <cges30901@gmail.com>, 2016
-# Jeff Huang <s8321414@gmail.com>, 2014-2016
+# Hsiu-Ming Chang <cges30901@gmail.com>, 2016
+# Hsiu-Ming Chang <cges30901@gmail.com>, 2016
+# Jeff Huang <s8321414@gmail.com>, 2014-2017
 # Jeff Huang <s8321414@gmail.com>, 2013-2014
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2016-04-24 08:44+0200\n"
-"PO-Revision-Date: 2016-11-09 15:55+0000\n"
+"PO-Revision-Date: 2017-02-19 03:28+0000\n"
 "Last-Translator: Jeff Huang <s8321414@gmail.com>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
@@ -82,6 +83,16 @@ msgstr "%s ：需要 %s"
 
 #: ../src/daemon.vala
 #, c-format
+msgid "%s: installing %s (%s) breaks dependency '%s'"
+msgstr "%s：正在安裝 %s (%s) 破壞了依賴關係 '%s'"
+
+#: ../src/daemon.vala
+#, c-format
+msgid "%s: removing %s breaks dependency '%s'"
+msgstr "%s：正在移除 %s 破壞了依賴關係 '%s'"
+
+#: ../src/daemon.vala
+#, c-format
 msgid "%s and %s are in conflict"
 msgstr "%s 及 %s 衝突"
 
@@ -122,6 +133,10 @@ msgstr "擷取檔案「%s」失敗，從 %s：%s\n"
 #: ../src/transaction.vala
 msgid "A Gtk3 frontend for libalpm"
 msgstr "一個 libalpm 的 Gtk3 前端"
+
+#: ../src/transaction.vala
+msgid "Copy"
+msgstr "複製"
 
 #: ../src/transaction.vala
 msgid "Refreshing mirrors list"
@@ -173,8 +188,9 @@ msgid "Total download size"
 msgstr "總計下載大小"
 
 #: ../src/transaction.vala
-msgid "Building packages"
-msgstr "正在構建軟體包"
+#, c-format
+msgid "Building %s"
+msgstr "正在構建 %s"
 
 #: ../src/transaction.vala
 msgid "Transaction cancelled"
@@ -352,11 +368,11 @@ msgstr "Pamac仍在執行中"
 msgid "Your system is up-to-date"
 msgstr "您的系統已經是最新的"
 
-#: ../src/tray.vala
+#: ../src/tray.vala ../src/updater_window.vala
 msgid "Update Manager"
 msgstr "更新管理員"
 
-#: ../src/tray.vala
+#: ../src/tray.vala ../src/manager_window.vala
 msgid "Package Manager"
 msgstr "套件管理員"
 
@@ -537,6 +553,10 @@ msgstr "Alpm 軟體包"
 msgid "How often to check for updates, value in hours"
 msgstr "請選擇您想要檢查更新的頻率，單位是小時"
 
+#: ../src/preferences_dialog.vala ../resources/preferences_dialog.ui
+msgid "Number of versions of each package to keep in the cache"
+msgstr "每個軟體包要保留在快取中的版本數量"
+
 #: ../src/preferences_dialog.vala
 msgid "Worldwide"
 msgstr "全世界"
@@ -593,10 +613,6 @@ msgstr "關於"
 #: ../resources/manager_window.ui
 msgid "Search"
 msgstr "搜尋"
-
-#: ../resources/manager_window.ui
-msgid "Search in AUR"
-msgstr "搜尋AUR"
 
 #: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "State"
@@ -710,14 +726,6 @@ msgstr "預設在 AUR 中搜尋"
 #: ../resources/preferences_dialog.ui
 msgid "Check for updates from AUR"
 msgstr "自 AUR 檢查更新"
-
-#: ../resources/preferences_dialog.ui
-msgid "Do not ask for confirmation when building packages"
-msgstr "當構建軟體包時不要詢問確認"
-
-#: ../resources/preferences_dialog.ui
-msgid "Number of versions of each package to keep in the cache"
-msgstr "每個軟體包要保留在快取中的版本數量"
 
 #: ../resources/preferences_dialog.ui
 msgid "Remove only the versions of uninstalled packages"

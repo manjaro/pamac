@@ -7,9 +7,9 @@
 # angel_solomos, 2013
 # angel_solomos, 2013
 # angel_solomos, 2013
-# Efstathios Iosifidis <iefstathios@gmail.com>, 2016
+# Efstathios Iosifidis <iefstathios@gmail.com>, 2016-2017
 # Guillaume Benoit <guillaume@manjaro.org>, 2013
-# kouros kouros <kormikg@yahoo.gr>, 2016
+# kouros kouros <kormikg@yahoo.gr>, 2016-2017
 # philm <philm@manjaro.org>, 2014
 # philm <philm@manjaro.org>, 2014-2015
 # Savoritias <inactive+Savoritias@transifex.com>, 2014
@@ -21,7 +21,7 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2016-04-24 08:44+0200\n"
-"PO-Revision-Date: 2016-11-09 15:55+0000\n"
+"PO-Revision-Date: 2017-02-22 12:36+0000\n"
 "Last-Translator: kouros kouros <kormikg@yahoo.gr>\n"
 "Language-Team: Greek (http://www.transifex.com/manjarolinux/manjaro-pamac/language/el/)\n"
 "MIME-Version: 1.0\n"
@@ -91,6 +91,16 @@ msgstr "το %s: απαιτεί το %s"
 
 #: ../src/daemon.vala
 #, c-format
+msgid "%s: installing %s (%s) breaks dependency '%s'"
+msgstr ""
+
+#: ../src/daemon.vala
+#, c-format
+msgid "%s: removing %s breaks dependency '%s'"
+msgstr ""
+
+#: ../src/daemon.vala
+#, c-format
 msgid "%s and %s are in conflict"
 msgstr "Το %s και το %s είναι σε διένεξη"
 
@@ -131,6 +141,10 @@ msgstr "Αποτυχία ανάκτησης αρχείου '%s' από το %s :
 #: ../src/transaction.vala
 msgid "A Gtk3 frontend for libalpm"
 msgstr "Ένα gtk3 εμπρόσθιο τμήμα για το pyalpm"
+
+#: ../src/transaction.vala
+msgid "Copy"
+msgstr ""
 
 #: ../src/transaction.vala
 msgid "Refreshing mirrors list"
@@ -182,8 +196,9 @@ msgid "Total download size"
 msgstr "Συνολικό μέγεθος προς λήψη:"
 
 #: ../src/transaction.vala
-msgid "Building packages"
-msgstr "Προετοιμασία εγκατάστασης "
+#, c-format
+msgid "Building %s"
+msgstr ""
 
 #: ../src/transaction.vala
 msgid "Transaction cancelled"
@@ -362,11 +377,11 @@ msgstr "Ο Pamac είναι ήδη ενεργός"
 msgid "Your system is up-to-date"
 msgstr "Το σύστημα σας είναι πλήρως ενημερωμένο"
 
-#: ../src/tray.vala
+#: ../src/tray.vala ../src/updater_window.vala
 msgid "Update Manager"
 msgstr "Διαχειριστής αναβαθμίσεων"
 
-#: ../src/tray.vala
+#: ../src/tray.vala ../src/manager_window.vala
 msgid "Package Manager"
 msgstr "Διαχειριστής πακέτων"
 
@@ -549,6 +564,10 @@ msgstr "Πακέτο Alpm"
 msgid "How often to check for updates, value in hours"
 msgstr "Πόσο συχνά να ελέγχονται αναβαθμίσεις, τιμή σε ώρες"
 
+#: ../src/preferences_dialog.vala ../resources/preferences_dialog.ui
+msgid "Number of versions of each package to keep in the cache"
+msgstr "Αριθμός των εκδόσεων για κάθε πακέτο που θα κρατηθεί στην αποθήκη"
+
 #: ../src/preferences_dialog.vala
 msgid "Worldwide"
 msgstr "Παγκόσμιο"
@@ -605,10 +624,6 @@ msgstr "Σχετικά"
 #: ../resources/manager_window.ui
 msgid "Search"
 msgstr "Αναζήτηση"
-
-#: ../resources/manager_window.ui
-msgid "Search in AUR"
-msgstr "Αναζήτηση στο AUR"
 
 #: ../resources/manager_window.ui ../resources/updater_window.ui
 msgid "State"
@@ -724,20 +739,12 @@ msgid "Check for updates from AUR"
 msgstr "Έλεγχος για αναβαθμίσεις από το AUR"
 
 #: ../resources/preferences_dialog.ui
-msgid "Do not ask for confirmation when building packages"
-msgstr "Μην ζητάς επιβεβαίωση όταν χτίζονται τα πακέτα"
-
-#: ../resources/preferences_dialog.ui
-msgid "Number of versions of each package to keep in the cache"
-msgstr "Αριθμός των εκδόσεων για κάθε πακέτο που θα κρατηθεί στην αποθήκη"
-
-#: ../resources/preferences_dialog.ui
 msgid "Remove only the versions of uninstalled packages"
 msgstr "Διέγραψε μόνο τις εκδόσεις των απεγκατεστημένων πακέτων."
 
 #: ../resources/preferences_dialog.ui
 msgid "Clean cache"
-msgstr "Καθαρισμός αποθήκης."
+msgstr "Καθαρισμός αποθήκης"
 
 #: ../resources/preferences_dialog.ui
 msgid "Cache"
