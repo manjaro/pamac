@@ -1351,7 +1351,7 @@ namespace Pamac {
 					text.append (previous_textbar);
 					timer.start ();
 				} else {
-					if (timer.elapsed () > 0) {
+					if (timer.elapsed () > 0.1) {
 						download_rate = ((download_rate * rates_nb) + (uint64) ((xfered - previous_xfered) / timer.elapsed ())) / (rates_nb + 1);
 						rates_nb++;
 					}
@@ -1400,7 +1400,7 @@ namespace Pamac {
 					fraction = 1;
 					previous_filename = "";
 				} else {
-					if (timer.elapsed () > 0) {
+					if (timer.elapsed () > 0.1) {
 						download_rate = ((download_rate * rates_nb) + (uint64) ((xfered - previous_xfered) / timer.elapsed ())) / (rates_nb + 1);
 						rates_nb++;
 					}
