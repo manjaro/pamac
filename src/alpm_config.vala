@@ -137,6 +137,14 @@ class AlpmConfig {
 	public Alpm.Handle? get_handle () {
 		Alpm.Errno error;
 		Alpm.Handle? handle = new Alpm.Handle (rootdir, dbpath, out error);
+		if (error == Alpm.Errno.DB_VERSION) {
+			try {
+				Process.spawn_command_line_sync ("pacman-db-upgrade", null, null, null);
+			} catch (SpawnError e) {
+				stdout.printf ("Error: %s\n", e.message);
+			}
+			handle = new Alpm.Handle (rootdir, dbpath, out error);
+		}
 		if (handle == null) {
 			stderr.printf ("Failed to initialize alpm library" + " (%s)\n".printf (Alpm.strerror (error)));
 			return null;
