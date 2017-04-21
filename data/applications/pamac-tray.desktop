@@ -1,7 +1,7 @@
 [Desktop Entry]
 Name=Update Notifier
 Icon=update-notifier
-Exec=pamac-tray
+Exec=sh -c "GDK_BACKEND=x11 pamac-tray"
 Terminal=false
 Type=Application
 StartupNotify=false
