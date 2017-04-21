@@ -4,5 +4,5 @@ Icon=update-notifier
 Exec=pamac-tray
 Terminal=false
 Type=Application
-StartupNotify=true
+StartupNotify=false
 NotShowIn=KDE;
