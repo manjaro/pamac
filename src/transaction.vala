@@ -1616,6 +1616,10 @@ namespace Pamac {
 						success = false;
 						finish_transaction ();
 					}
+				} else if (build_after_sysupgrade) {
+					// there only AUR packages to build
+					release ();
+					on_trans_commit_finished (true);
 				} else {
 					//var err = ErrorInfos ();
 					//err.message = dgettext (null, "Nothing to do") + "\n";
