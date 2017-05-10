@@ -28,7 +28,9 @@ namespace Pamac {
 		public Gtk.ListStore pkgs_list;
 
 		public ChooseIgnorepkgsDialog (Gtk.Window window) {
-			Object (transient_for: window, use_header_bar: 1);
+			int use_header_bar;
+			Gtk.Settings.get_default ().get ("gtk-dialogs-use-header", out use_header_bar);
+			Object (transient_for: window, use_header_bar: use_header_bar);
 
 			pkgs_list = new Gtk.ListStore (2, typeof (bool), typeof (string));
 			treeview.set_model (pkgs_list);
