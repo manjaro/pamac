@@ -17,7 +17,7 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-const string VERSION = "4.3.3";
+const string VERSION = "4.3.4";
 
 namespace Pamac {
 	[DBus (name = "org.manjaro.pamac")]
@@ -279,12 +279,15 @@ namespace Pamac {
 		}
 
 		public void run_about_dialog () {
+			string[] authors = {"Guillaume Benoit"};
 			Gtk.show_about_dialog (
 				application_window,
 				"program_name", "Pamac",
+				"icon_name", "system-software-install",
 				"logo_icon_name", "system-software-install",
 				"comments", dgettext (null, "A Gtk3 frontend for libalpm"),
 				"copyright", "Copyright © 2017 Guillaume Benoit",
+				"authors", authors,
 				"version", VERSION,
 				"license_type", Gtk.License.GPL_3_0,
 				"website", "http://github.com/manjaro/pamac");
@@ -1351,7 +1354,7 @@ namespace Pamac {
 					text.append (previous_textbar);
 					timer.start ();
 				} else {
-					if (timer.elapsed () > 0) {
+					if (timer.elapsed () > 0.1) {
 						download_rate = ((download_rate * rates_nb) + (uint64) ((xfered - previous_xfered) / timer.elapsed ())) / (rates_nb + 1);
 						rates_nb++;
 					}
@@ -1400,7 +1403,7 @@ namespace Pamac {
 					fraction = 1;
 					previous_filename = "";
 				} else {
-					if (timer.elapsed () > 0) {
+					if (timer.elapsed () > 0.1) {
 						download_rate = ((download_rate * rates_nb) + (uint64) ((xfered - previous_xfered) / timer.elapsed ())) / (rates_nb + 1);
 						rates_nb++;
 					}
@@ -1481,9 +1484,17 @@ namespace Pamac {
 
 		void show_warnings () {
 			if (warning_textbuffer.len > 0) {
+				var flags = Gtk.DialogFlags.MODAL;
+				int use_header_bar;
+				Gtk.Settings.get_default ().get ("gtk-dialogs-use-header", out use_header_bar);
+				if (use_header_bar == 1) {
+					flags |= Gtk.DialogFlags.USE_HEADER_BAR;
+				}
 				var dialog = new Gtk.Dialog.with_buttons (dgettext (null, "Warning"),
 														application_window,
-														Gtk.DialogFlags.MODAL | Gtk.DialogFlags.USE_HEADER_BAR);
+														flags);
+				dialog.border_width = 6;
+				dialog.icon_name = "system-software-install";
 				dialog.deletable = false;
 				unowned Gtk.Widget widget = dialog.add_button (dgettext (null, "_Close"), Gtk.ResponseType.CLOSE);
 				widget.can_focus = true;
@@ -1508,9 +1519,17 @@ namespace Pamac {
 		}
 
 		void display_error (string message, string[] details) {
+			var flags = Gtk.DialogFlags.MODAL;
+			int use_header_bar;
+			Gtk.Settings.get_default ().get ("gtk-dialogs-use-header", out use_header_bar);
+			if (use_header_bar == 1) {
+				flags |= Gtk.DialogFlags.USE_HEADER_BAR;
+			}
 			var dialog = new Gtk.Dialog.with_buttons (message,
 													application_window,
-													Gtk.DialogFlags.MODAL | Gtk.DialogFlags.USE_HEADER_BAR);
+													flags);
+			dialog.border_width = 6;
+			dialog.icon_name = "system-software-install";
 			var textbuffer = new StringBuilder ();
 			if (details.length != 0) {
 				show_in_term (message + ":");
@@ -1616,6 +1635,10 @@ namespace Pamac {
 						success = false;
 						finish_transaction ();
 					}
+				} else if (build_after_sysupgrade) {
+					// there only AUR packages to build
+					release ();
+					on_trans_commit_finished (true);
 				} else {
 					//var err = ErrorInfos ();
 					//err.message = dgettext (null, "Nothing to do") + "\n";

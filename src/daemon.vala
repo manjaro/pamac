@@ -124,7 +124,7 @@ namespace Pamac {
 		private HashTable<string, Json.Object> aur_infos;
 		private bool extern_lock;
 		private GLib.File lockfile;
-		private ErrorInfos current_error;
+		public ErrorInfos current_error;
 		public Timer timer;
 		public Cancellable cancellable;
 		public Curl.Easy curl;
@@ -458,7 +458,10 @@ namespace Pamac {
 						Alpm.Errno errno = alpm_handle.errno ();
 						current_error.errno = (uint) errno;
 						if (errno != 0) {
-							current_error.details = { Alpm.strerror (errno) };
+							// download error details are set in cb_fetch
+							if (errno != Alpm.Errno.EXTERNAL_DOWNLOAD) {
+								current_error.details = { Alpm.strerror (errno) };
+							}
 						}
 					}
 				}
@@ -2119,11 +2122,11 @@ namespace Pamac {
 					return;
 				}
 				current_error.message = _("Failed to commit transaction");
-				string[] details = {};
 				switch (errno) {
 					case 0:
 						break;
 					case Alpm.Errno.FILE_CONFLICTS:
+						string[] details = {};
 						details += Alpm.strerror (errno) + ":";
 						//TransFlag flags = alpm_handle.trans_get_flags ();
 						//if ((flags & TransFlag.FORCE) != 0) {
@@ -2143,11 +2146,13 @@ namespace Pamac {
 							delete conflict;
 							list.next ();
 						}
+						current_error.details = (owned) details;
 						break;
 					case Alpm.Errno.PKG_INVALID:
 					case Alpm.Errno.PKG_INVALID_CHECKSUM:
 					case Alpm.Errno.PKG_INVALID_SIG:
 					case Alpm.Errno.DLT_INVALID:
+						string[] details = {};
 						details += Alpm.strerror (errno) + ":";
 						unowned Alpm.List<string*> list = err_data;
 						while (list != null) {
@@ -2156,12 +2161,15 @@ namespace Pamac {
 							delete filename;
 							list.next ();
 						}
+						current_error.details = (owned) details;
+						break;
+					case Alpm.Errno.EXTERNAL_DOWNLOAD:
+						// details are set in cb_fetch
 						break;
 					default:
-						details += Alpm.strerror (errno);
+						current_error.details = {Alpm.strerror (errno)};
 						break;
 				}
-				current_error.details = (owned) details;
 				success = false;
 			}
 			trans_release ();
@@ -2531,9 +2539,10 @@ private int cb_fetch (string fileurl, string localpath, int force) {
 			// server reported as remaining to download. compare it to what curl reported
 			// as actually being transferred during curl_easy_perform ()
 			else if (remote_size != -1 && bytes_dl != -1 && bytes_dl != remote_size) {
-				pamac_daemon.emit_log ((uint) Alpm.LogLevel.ERROR,
-										_("%s appears to be truncated: %jd/%jd bytes\n").printf (
-											fileurl, bytes_dl, remote_size));
+				string error = _("%s appears to be truncated: %jd/%jd bytes\n").printf (
+											fileurl, bytes_dl, remote_size);
+				pamac_daemon.emit_log ((uint) Alpm.LogLevel.ERROR, error);
+				pamac_daemon.current_error.details = {error};
 				if (remove_partial_download) {
 					try {
 						if (tempfile.query_exists ()) {
@@ -2586,9 +2595,10 @@ private int cb_fetch (string fileurl, string localpath, int force) {
 			// do not report error for missing sig
 			if (!fileurl.has_suffix (".sig")) {
 				string hostname = url.get_uri ().split("/")[2];
-				pamac_daemon.emit_log ((uint) Alpm.LogLevel.ERROR,
-										_("failed retrieving file '%s' from %s : %s\n").printf (
-											url.get_basename (), hostname, (string) error_buffer));
+				string error = _("failed retrieving file '%s' from %s : %s\n").printf (
+											url.get_basename (), hostname, (string) error_buffer);
+				pamac_daemon.emit_log ((uint) Alpm.LogLevel.ERROR, error);
+				pamac_daemon.current_error.details = {error};
 			}
 			ret = -1;
 			break;

@@ -19,7 +19,7 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2016-04-24 08:44+0200\n"
-"PO-Revision-Date: 2017-03-20 23:14+0000\n"
+"PO-Revision-Date: 2017-03-29 16:02+0000\n"
 "Last-Translator: hossein seilani <hosseinseilany@gmail.com>\n"
 "Language-Team: Persian (Iran) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/fa_IR/)\n"
 "MIME-Version: 1.0\n"
@@ -85,7 +85,7 @@ msgstr ""
 #: ../src/daemon.vala
 #, c-format
 msgid "%s: requires %s"
-msgstr ""
+msgstr "%s نیازمندی ها%s"
 
 #: ../src/daemon.vala
 #, c-format
@@ -95,7 +95,7 @@ msgstr ""
 #: ../src/daemon.vala
 #, c-format
 msgid "%s: removing %s breaks dependency '%s'"
-msgstr ""
+msgstr "%s در حال حذف%s وابستگی های شکسته شده%s"
 
 #: ../src/daemon.vala
 #, c-format
@@ -109,7 +109,7 @@ msgstr ""
 
 #: ../src/daemon.vala
 msgid "Failed to commit transaction"
-msgstr ""
+msgstr "شکست در اجرای تراکنش"
 
 #: ../src/daemon.vala
 #, c-format
@@ -124,7 +124,7 @@ msgstr ""
 #: ../src/daemon.vala
 #, c-format
 msgid "%s is invalid or corrupted"
-msgstr ""
+msgstr "%s نامعتبر یا خراب شده "
 
 #: ../src/daemon.vala
 #, c-format
@@ -146,7 +146,7 @@ msgstr "کپی"
 
 #: ../src/transaction.vala
 msgid "Refreshing mirrors list"
-msgstr ""
+msgstr "تازه کردن لیست آینه ها"
 
 #: ../src/transaction.vala
 msgid "Synchronizing package databases"
@@ -261,7 +261,7 @@ msgstr "چک‌کردن یکپارچگی"
 
 #: ../src/transaction.vala
 msgid "Applying deltas"
-msgstr ""
+msgstr "اعمال جزئیات"
 
 #: ../src/transaction.vala
 #, c-format

@@ -30,7 +30,9 @@ namespace Pamac {
 		public Gtk.ListStore sum_list;
 
 		public TransactionSumDialog (Gtk.ApplicationWindow? window) {
-			Object (transient_for: window, use_header_bar: 1);
+			int use_header_bar;
+			Gtk.Settings.get_default ().get ("gtk-dialogs-use-header", out use_header_bar);
+			Object (transient_for: window, use_header_bar: use_header_bar);
 
 			sum_list = new Gtk.ListStore (4, typeof (string), typeof (string), typeof (string), typeof (string));
 			treeview.set_model (sum_list);

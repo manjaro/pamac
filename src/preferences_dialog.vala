@@ -101,7 +101,7 @@ namespace Pamac {
 			no_update_hide_icon_checkbutton.toggled.connect (on_no_update_hide_icon_checkbutton_toggled);
 			transaction.write_pamac_config_finished.connect (on_write_pamac_config_finished);
 
-			AlpmPackage pkg = transaction.find_installed_satisfier ("pacman-mirrorlist");
+			AlpmPackage pkg = transaction.find_installed_satisfier ("pacman-mirrors");
 			if (pkg.name == "") {
 				mirrors_config_box.visible = false;
 			} else {
@@ -109,7 +109,7 @@ namespace Pamac {
 				mirrors_country_comboboxtext.append_text (dgettext (null, "Worldwide"));
 				mirrors_country_comboboxtext.active = 0;
 				int index = 1;
-				foreach (unowned string country in mirrors_config.countrys) {
+				foreach (unowned string country in mirrors_config.countries) {
 					mirrors_country_comboboxtext.append_text (country);
 					if (country == mirrors_config.choosen_country) {
 						mirrors_country_comboboxtext.active = index;

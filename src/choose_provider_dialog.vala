@@ -23,7 +23,9 @@ namespace Pamac {
 	class ChooseProviderDialog : Gtk.Dialog {
 
 		public ChooseProviderDialog (Gtk.ApplicationWindow? window) {
-			Object (transient_for: window, use_header_bar: 1);
+			int use_header_bar;
+			Gtk.Settings.get_default ().get ("gtk-dialogs-use-header", out use_header_bar);
+			Object (transient_for: window, use_header_bar: use_header_bar);
 		}
 	}
 }
