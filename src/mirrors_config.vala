@@ -116,7 +116,7 @@ namespace Pamac {
 						unowned Variant variant;
 						if (line.contains ("Method")) {
 							if (new_conf.lookup_extended ("Method", null, out variant)) {
-								data.append ("Method=%s\n".printf (variant.get_string ()));
+								data.append ("Method = %s\n".printf (variant.get_string ()));
 							} else {
 								data.append (line + "\n");
 							}
@@ -125,7 +125,7 @@ namespace Pamac {
 								if (variant.get_string () == "ALL") {
 									data.append ("#%s\n".printf (line));
 								} else {
-									data.append ("OnlyCountry=%s\n".printf (variant.get_string ()));
+									data.append ("OnlyCountry = %s\n".printf (variant.get_string ()));
 								}
 							} else {
 								data.append (line + "\n");
