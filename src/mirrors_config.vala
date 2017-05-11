@@ -117,7 +117,7 @@ namespace Pamac {
 						if (line.contains ("Method")) {
 							if (new_conf.lookup_extended ("Method", null, out variant)) {
 								if (variant.get_string () == "rank") {
-									data.append ("# Method = \n".printf);
+									data.append ("# Method = \n");
 								} else {
 									data.append ("Method = %s\n".printf (variant.get_string ()));
 								}
@@ -127,7 +127,7 @@ namespace Pamac {
 						} else if (line.contains ("OnlyCountry")) {
 							if (new_conf.lookup_extended ("OnlyCountry", null, out variant)) {
 								if (variant.get_string () == "ALL") {
-									data.append ("# OnlyCountry = \n".printf);
+									data.append ("# OnlyCountry = \n");
 								} else {
 									data.append ("OnlyCountry = %s\n".printf (variant.get_string ()));
 								}
