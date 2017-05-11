@@ -273,7 +273,7 @@ namespace Pamac {
 			Gtk.TreeIter? iter;
 			Gtk.TreeSelection selection = ignorepkgs_treeview.get_selection ();
 			if (selection.get_selected (null, out iter)) {
-				ignorepkgs_liststore.remove (iter);
+				ignorepkgs_liststore.remove (ref iter);
 				var ignorepkg_string = new StringBuilder ();
 				ignorepkgs_liststore.foreach ((model, path, iter) => {
 					GLib.Value name;
