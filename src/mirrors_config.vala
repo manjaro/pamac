@@ -116,16 +116,20 @@ namespace Pamac {
 						unowned Variant variant;
 						if (line.contains ("Method")) {
 							if (new_conf.lookup_extended ("Method", null, out variant)) {
-								data.append ("Method=%s\n".printf (variant.get_string ()));
+								if (variant.get_string () == "rank") {
+									data.append ("# Method = \n".printf (line));
+								} else {
+									data.append ("Method = %s\n".printf (variant.get_string ()));
+								}
 							} else {
 								data.append (line + "\n");
 							}
 						} else if (line.contains ("OnlyCountry")) {
 							if (new_conf.lookup_extended ("OnlyCountry", null, out variant)) {
 								if (variant.get_string () == "ALL") {
-									data.append ("#%s\n".printf (line));
+									data.append ("# OnlyCountry = \n".printf (line));
 								} else {
-									data.append ("OnlyCountry=%s\n".printf (variant.get_string ()));
+									data.append ("OnlyCountry = %s\n".printf (variant.get_string ()));
 								}
 							} else {
 								data.append (line + "\n");
