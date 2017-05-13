@@ -107,7 +107,11 @@ namespace Pamac {
 			// A timeout is needed to let the time to the daemon to deal
 			// with potential other package manager process running.
 			Timeout.add (500, () => {
-				on_refresh_button_clicked ();
+				this.get_window ().set_cursor (new Gdk.Cursor.for_display (Gdk.Display.get_default (), Gdk.CursorType.WATCH));
+				transaction_infobox.show_all ();
+				details_button.sensitive = true;
+				cancel_button.sensitive = true;
+				transaction.start_refresh (false);
 				return false;
 			});
 
@@ -240,7 +244,7 @@ namespace Pamac {
 			apply_button.sensitive = false;
 			details_button.sensitive = true;
 			cancel_button.sensitive = true;
-			transaction.start_refresh (false);
+			transaction.start_refresh (true);
 		}
 
 		[GtkCallback]

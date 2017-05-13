@@ -1684,7 +1684,7 @@ namespace Pamac {
 		void on_refresh_button_clicked () {
 			this.get_window ().set_cursor (new Gdk.Cursor.for_display (Gdk.Display.get_default (), Gdk.CursorType.WATCH));
 			refreshing = true;
-			transaction.start_refresh (false);
+			transaction.start_refresh (true);
 			apply_button.sensitive = false;
 			transaction_infobox.show_all ();
 		}
