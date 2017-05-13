@@ -2219,7 +2219,7 @@ namespace Pamac {
 		[DBus (no_reply = true)]
 		public void quit () {
 			// be sure to not quit with locked databases
-			if (thread_pool.get_num_threads () == 0) {
+			if (thread_pool.unprocessed () == 0) {
 				loop.quit ();
 			}
 		}
