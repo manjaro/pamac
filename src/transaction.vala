@@ -1226,7 +1226,10 @@ namespace Pamac {
 					detailed_action = dgettext (null, "Generation failed") + "...";
 					break;
 				case 24: //Alpm.Event.Type.SCRIPTLET_INFO
-					progress_box.action_label.label = dgettext (null, "Configuring %s").printf (previous_filename) + "...";
+					// hooks output are also emitted as SCRIPTLET_INFO
+					if (previous_filename != "") {
+						progress_box.action_label.label = dgettext (null, "Configuring %s").printf (previous_filename) + "...";
+					}
 					detailed_action = details[0].replace ("\n", "");
 					important_details_outpout (false);
 					break;
@@ -1274,6 +1277,7 @@ namespace Pamac {
 							action = dgettext (null, "Running pre-transaction hooks") + "...";
 							break;
 						case 2: //Alpm.HookWhen.POST_TRANSACTION
+							previous_filename = "";
 							action = dgettext (null, "Running post-transaction hooks") + "...";
 							break;
 						default:
