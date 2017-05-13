@@ -1,7 +1,7 @@
 /*
  *  pamac-vala
  *
- *  Copyright (C) 2014-2015 Guillaume Benoit <guillaume@manjaro.org>
+ *  Copyright (C) 2014-2017 Guillaume Benoit <guillaume@manjaro.org>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -19,7 +19,7 @@
 
 namespace Pamac {
 
-	public class Manager : Gtk.Application {
+	class Manager : Gtk.Application {
 		ManagerWindow manager_window;
 		bool pamac_run;
 
@@ -94,7 +94,7 @@ namespace Pamac {
 		}
 	}
 
-	public static int main (string[] args) {
+	static int main (string[] args) {
 		var manager = new Manager ();
 		return manager.run (args);
 	}
