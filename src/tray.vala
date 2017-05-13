@@ -252,7 +252,7 @@ namespace Pamac {
 			return run;
 		}
 
-		bool check_pacman_running () {
+		bool check_extern_lock () {
 			if (extern_lock) {
 				if (!lockfile.query_exists ()) {
 					extern_lock = false;
@@ -309,7 +309,7 @@ namespace Pamac {
 				//try standard lock file
 				lockfile = GLib.File.new_for_path ("var/lib/pacman/db.lck");
 			}
-			Timeout.add (200, check_pacman_running);
+			Timeout.add (200, check_extern_lock);
 			start_refresh ();
 			launch_refresh_timeout (pamac_config.refresh_period);
 
