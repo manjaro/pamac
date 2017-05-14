@@ -298,6 +298,9 @@ namespace Pamac {
 
 			create_menu ();
 			init_status_icon ();
+			set_icon (noupdate_icon_name);
+			set_tooltip (noupdate_info);
+			set_icon_visible (!pamac_config.no_update_hide_icon);
 
 			Notify.init (_("Update Manager"));
 
