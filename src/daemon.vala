@@ -2247,10 +2247,9 @@ namespace Pamac {
 
 		[DBus (no_reply = true)]
 		public void quit () {
-			// be sure to not quit with locked databases
-			if (thread_pool.unprocessed () == 0) {
-				loop.quit ();
-			}
+			// wait for all tasks to be processed
+			ThreadPool.free ((owned) thread_pool, false, true);
+			loop.quit ();
 		}
 	// End of Daemon Object
 	}
