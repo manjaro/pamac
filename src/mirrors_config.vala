@@ -19,9 +19,6 @@
 
 namespace Pamac {
 	class MirrorsConfig {
-		Transaction transaction;
-		this.transaction = transaction;
-		AlpmPackage pkg = transaction.find_installed_satisfier ("pacman-mirrors");
 		string conf_path;
 		GLib.List<string> _countries ;
 
@@ -31,7 +28,8 @@ namespace Pamac {
 		public unowned GLib.List<string> countries {
 			get {
 				try {
-					if (pkg != "") {
+					var file = File.new_for_path ("/usr/bin/pacman-mirrors");
+					if (file.query_exists ()) {
 						string countries_str;
 						int status;
 						Process.spawn_command_line_sync ("pacman-mirrors -l",
