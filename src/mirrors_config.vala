@@ -19,7 +19,7 @@
 
 namespace Pamac {
 	class MirrorsConfig {
-		Transaction transaction;
+		public Transaction transaction;
 		AlpmPackage pkg = transaction.find_installed_satisfier ("pacman-mirrors");
 		string conf_path;
 		GLib.List<string> _countries ;
