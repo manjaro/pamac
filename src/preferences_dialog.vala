@@ -102,7 +102,8 @@ namespace Pamac {
 			transaction.write_pamac_config_finished.connect (on_write_pamac_config_finished);
 
 			AlpmPackage pkg = transaction.find_installed_satisfier ("pacman-mirrors");
-			if (pkg.name == "") {
+			AlpmPackage pkg_ml = transaction.find_installed_satisfier ("pacman-mirrorlist");
+			if (pkg.name == "" || pkg_ml.name == "") {
 				mirrors_config_box.visible = false;
 			} else {
 				var mirrors_config = new MirrorsConfig ("/etc/pacman-mirrors.conf");
