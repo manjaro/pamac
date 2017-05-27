@@ -59,29 +59,6 @@ namespace Pamac {
 			}
 		}
 
-
-		public string mirrorlists_dir { get; private set; }
-		public string choosen_generation_method { get; private set; }
-		public string choosen_country { get; private set; }
-		public unowned GLib.List<string> countries {
-			get {
-				try {
-					var directory = GLib.File.new_for_path (mirrorlists_dir);
-					var enumerator = directory.enumerate_children (FileAttribute.STANDARD_NAME, 0);
-					FileInfo file_info;
-					_countries = new GLib.List<string> ();
-					while ((file_info = enumerator.next_file ()) != null) {
-						_countries.append(file_info.get_name ());
-					}
-					_countries.sort (strcmp);
-				} catch (Error e) {
-					stderr.printf ("%s\n", e.message);
-				}
-				return _countries;
-			}
-		}
-
-
 		public MirrorsConfig (string path) {
 			conf_path = path;
 			reload ();
