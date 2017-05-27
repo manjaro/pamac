@@ -81,7 +81,9 @@ namespace Pamac {
 
 		bool populate_window () {
 			this.get_window ().set_cursor (new Gdk.Cursor.for_display (Gdk.Display.get_default (), Gdk.CursorType.WATCH));
-
+			while (Gtk.events_pending ()) {
+				Gtk.main_iteration ();
+			}
 			repos_updates_list = new Gtk.ListStore (7, typeof (bool), typeof (string), typeof (string), typeof (string),typeof (string), typeof (string), typeof (uint64));
 			repos_updates_treeview.set_model (repos_updates_list);
 			aur_updates_list = new Gtk.ListStore (4, typeof (bool), typeof (string), typeof (string), typeof (string));
