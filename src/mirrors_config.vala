@@ -22,35 +22,22 @@ namespace Pamac {
 		string conf_path;
 		GLib.List<string> _countries ;
 
-		public string mirrorlists_dir { get; private set; }
 		public string choosen_generation_method { get; private set; }
 		public string choosen_country { get; private set; }
 		public unowned GLib.List<string> countries {
 			get {
 				try {
-					var file = File.new_for_path ("/usr/bin/pacman-mirrors");
-					if (file.query_exists ()) {
-						string countries_str;
-						int status;
-						Process.spawn_command_line_sync ("pacman-mirrors -l",
+					string countries_str;
+					int status;
+					Process.spawn_command_line_sync ("pacman-mirrors -l",
 												out countries_str,
 												null,
 												out status);
-						_countries = new GLib.List<string> ();
-						if (status == 0) {
-							foreach (unowned string country in countries_str.split ("\n")) {
-							_countries.append (country);
-							}
+					_countries = new GLib.List<string> ();
+					if (status == 0) {
+						foreach (unowned string country in countries_str.split ("\n")) {
+						_countries.append (country);
 						}
-					} else {
-						var directory = GLib.File.new_for_path (mirrorlists_dir);
-						var enumerator = directory.enumerate_children (FileAttribute.STANDARD_NAME, 0);
-						FileInfo file_info;
-						_countries = new GLib.List<string> ();
-						while ((file_info = enumerator.next_file ()) != null) {
-							_countries.append(file_info.get_name ());
-						}
-						_countries.sort (strcmp);
 					}
 				} catch (SpawnError e) {
 					stdout.printf ("Error: %s\n", e.message);
@@ -58,6 +45,7 @@ namespace Pamac {
 				return _countries;
 			}
 		}
+
 
 		public MirrorsConfig (string path) {
 			conf_path = path;
@@ -68,7 +56,6 @@ namespace Pamac {
 			// set default options
 			choosen_generation_method = "rank";
 			choosen_country = "ALL";
-			mirrorlists_dir = "/etc/pacman.d/mirrors";
 			parse_file (conf_path);
 		}
 
