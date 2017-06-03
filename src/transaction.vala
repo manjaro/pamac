@@ -1052,7 +1052,7 @@ namespace Pamac {
 			reset_progress_box (action);
 			build_cancellable.reset ();
 			start_progressbar_pulse ();
-			important_details_outpout (true);
+			important_details_outpout (false);
 			to_build.remove_all ();
 			string [] built_pkgs = {};
 			int status = 1;
@@ -1106,6 +1106,7 @@ namespace Pamac {
 					start_trans_prepare (flags, {}, {}, built_pkgs, {});
 				}
 			} else {
+				important_details_outpout (true);
 				to_load.remove_all ();
 				to_build_queue.clear ();
 				stop_progressbar_pulse ();
