@@ -1052,7 +1052,7 @@ namespace Pamac {
 		}
 
 		[GtkCallback]
-		void on_button_back_clicked () {
+		public void on_button_back_clicked () {
 			string? pkgname = display_package_queue.pop_tail ();
 			if (pkgname != null) {
 				AlpmPackage pkg = transaction.get_installed_pkg (pkgname);

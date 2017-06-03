@@ -46,11 +46,18 @@ namespace Pamac {
 				msg.destroy ();
 			} else {
 				manager_window = new ManagerWindow (this);
+				// quit accel
 				var action =  new SimpleAction ("quit", null);
 				action.activate.connect  (() => {this.quit ();});
 				this.add_action (action);
 				string[] accels = {"<Control>Q", "<Control>W"};
 				this.set_accels_for_action ("app.quit", accels);
+				// back accel
+				action =  new SimpleAction ("back", null);
+				action.activate.connect  (() => {manager_window.on_button_back_clicked ();});
+				this.add_action (action);
+				accels = {"<Alt>Left"};
+				this.set_accels_for_action ("app.back", accels);
 			}
 		}
 
