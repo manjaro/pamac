@@ -94,6 +94,8 @@ namespace Pamac {
 		public void left_clicked () {
 			if (get_icon () == "pamac-tray-update") {
 				execute_updater ();
+			} else {
+				execute_manager ();
 			}
 		}
 
