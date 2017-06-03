@@ -1402,6 +1402,9 @@ namespace Pamac {
 					if (filename.has_suffix (".db")) {
 						string action = dgettext (null, "Refreshing %s").printf (filename.replace (".db", "")) + "...";
 						reset_progress_box (action);
+					} else if (filename.has_suffix (".files")) {
+						string action = dgettext (null, "Refreshing %s").printf (filename.replace (".files", "")) + "...";
+						reset_progress_box (action);
 					}
 				} else if (xfered == total) {
 					timer.stop ();

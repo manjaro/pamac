@@ -214,6 +214,7 @@ namespace Pamac {
 					message = _("Failed to initialize alpm library")
 				};
 				trans_commit_finished (false);
+				return;
 			} else {
 				alpm_handle.eventcb = (Alpm.EventCallBack) cb_event;
 				alpm_handle.progresscb = (Alpm.ProgressCallBack) cb_progress;
@@ -224,6 +225,12 @@ namespace Pamac {
 				lockfile = GLib.File.new_for_path (alpm_handle.lockfile);
 			}
 			files_handle = alpm_config.get_handle (true);
+			files_handle.eventcb = (Alpm.EventCallBack) cb_event;
+			files_handle.progresscb = (Alpm.ProgressCallBack) cb_progress;
+			files_handle.questioncb = (Alpm.QuestionCallBack) cb_question;
+			files_handle.fetchcb = (Alpm.FetchCallBack) cb_fetch;
+			files_handle.totaldlcb = (Alpm.TotalDownloadCallBack) cb_totaldownload;
+			files_handle.logcb = (Alpm.LogCallBack) cb_log;
 		}
 
 		private bool check_extern_lock () {
