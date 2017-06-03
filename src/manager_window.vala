@@ -532,7 +532,12 @@ namespace Pamac {
 					transaction.get_aur_details.begin (details.name, (obj, res) => {
 						AURPackageDetails aur_details = transaction.get_aur_details.end (res);
 						if (aur_details.name != "") {
-							if (aur_details.version == details.version) {
+							// always show reinstall button for VCS package
+							if (aur_details.name.has_suffix ("-git") ||
+								aur_details.name.has_suffix ("-svn") ||
+								aur_details.name.has_suffix ("-bzr") ||
+								aur_details.name.has_suffix ("-hg") ||
+								aur_details.version == details.version) {
 								reinstall_togglebutton.visible = true;
 								reinstall_togglebutton.active = transaction.to_build.contains (details.name);
 							}
