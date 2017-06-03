@@ -134,7 +134,7 @@ class AlpmConfig {
 		}
 	}
 
-	public Alpm.Handle? get_handle () {
+	public Alpm.Handle? get_handle (bool files_db = false) {
 		Alpm.Errno error;
 		Alpm.Handle? handle = new Alpm.Handle (rootdir, dbpath, out error);
 		if (error == Alpm.Errno.DB_VERSION) {
@@ -150,6 +150,9 @@ class AlpmConfig {
 			return null;
 		}
 		// define options
+		if (files_db) {
+			handle.dbext = ".files";
+		}
 		handle.logfile = logfile;
 		handle.gpgdir = gpgdir;
 		handle.arch = arch;
@@ -191,20 +194,6 @@ class AlpmConfig {
 			} else {
 				db.usage = repo.usage;
 			}
-		}
-		return handle;
-	}
-
-	public Alpm.Handle? get_files_handle () {
-		Alpm.Handle? handle = new Alpm.Handle (rootdir, dbpath, null);
-		if (handle == null) {
-			return null;
-		}
-		// define options
-		handle.dbext = ".files";
-		// register dbs
-		foreach (unowned AlpmRepo repo in repo_order) {
-			handle.register_syncdb (repo.name, 0);
 		}
 		return handle;
 	}

@@ -223,7 +223,7 @@ namespace Pamac {
 				alpm_handle.logcb = (Alpm.LogCallBack) cb_log;
 				lockfile = GLib.File.new_for_path (alpm_handle.lockfile);
 			}
-			files_handle = alpm_config.get_files_handle ();
+			files_handle = alpm_config.get_handle (true);
 		}
 
 		private bool check_extern_lock () {
@@ -452,6 +452,31 @@ namespace Pamac {
 			});
 		}
 
+		private bool update_dbs (Alpm.Handle handle, int force) {
+			bool success = false;
+			unowned Alpm.List<unowned Alpm.DB> syncdbs = handle.syncdbs;
+			while (syncdbs != null) {
+				if (cancellable.is_cancelled ()) {
+					break;
+				}
+				unowned Alpm.DB db = syncdbs.data;
+				if (db.update (force) >= 0) {
+					success = true;
+				} else {
+					Alpm.Errno errno = handle.errno ();
+					current_error.errno = (uint) errno;
+					if (errno != 0) {
+						// download error details are set in cb_fetch
+						if (errno != Alpm.Errno.EXTERNAL_DOWNLOAD) {
+							current_error.details = { Alpm.strerror (errno) };
+						}
+					}
+				}
+				syncdbs.next ();
+			}
+			return success;
+		}
+
 		private void refresh () {
 			current_error = ErrorInfos ();
 			if (!databases_lock_mutex.trylock ()) {
@@ -466,44 +491,26 @@ namespace Pamac {
 				return;
 			}
 			write_log_file ("synchronizing package lists");
-			int force = (force_refresh) ? 1 : 0;
-			uint success = 0;
 			cancellable.reset ();
-			string[] dbexts = {".db", ".files"};
-			unowned Alpm.List<unowned Alpm.DB> syncdbs = alpm_handle.syncdbs;
-			while (syncdbs != null) {
-				unowned Alpm.DB db = syncdbs.data;
-				if (cancellable.is_cancelled ()) {
-					alpm_handle.dbext = ".db";
-					refresh_finished (false);
-					databases_lock_mutex.unlock ();
-					return;
-				}
-				foreach (unowned string dbext in dbexts) {
-					alpm_handle.dbext = dbext;
-					if (db.update (force) >= 0) {
-						success++;
-					} else {
-						Alpm.Errno errno = alpm_handle.errno ();
-						current_error.errno = (uint) errno;
-						if (errno != 0) {
-							// download error details are set in cb_fetch
-							if (errno != Alpm.Errno.EXTERNAL_DOWNLOAD) {
-								current_error.details = { Alpm.strerror (errno) };
-							}
-						}
-					}
-				}
-				syncdbs.next ();
+			int force = (force_refresh) ? 1 : 0;
+			// update ".db"
+			bool success = update_dbs (alpm_handle, force);
+			if (cancellable.is_cancelled ()) {
+				refresh_finished (false);
+				databases_lock_mutex.unlock ();
+				return;
 			}
-			alpm_handle.dbext = ".db";
-			// We should always succeed if at least one DB was upgraded - we may possibly
-			// fail later with unresolved deps, but that should be rare, and would be expected
-			if (success == 0) {
+			// update ".files", do not need to know if we succeeded
+			update_dbs (files_handle, force);
+			if (cancellable.is_cancelled ()) {
+				refresh_finished (false);
+			} else if (success) {
+				// We should always succeed if at least one DB was upgraded - we may possibly
+				// fail later with unresolved deps, but that should be rare, and would be expected
+				refresh_finished (true);
+			} else {
 				current_error.message = _("Failed to synchronize any databases");
 				refresh_finished (false);
-			} else {
-				refresh_finished (true);
 			}
 			databases_lock_mutex.unlock ();
 		}
