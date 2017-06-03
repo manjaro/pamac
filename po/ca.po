@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2016-04-24 08:44+0200\n"
-"PO-Revision-Date: 2017-02-24 15:33+0000\n"
+"PO-Revision-Date: 2017-05-30 14:36+0000\n"
 "Last-Translator: Davidmp <medipas@gmail.com>\n"
 "Language-Team: Catalan (http://www.transifex.com/manjarolinux/manjaro-pamac/language/ca/)\n"
 "MIME-Version: 1.0\n"
@@ -368,7 +368,7 @@ msgstr "Transacció acabada amb èxit"
 
 #: ../src/installer.vala ../src/manager.vala ../src/updater.vala
 msgid "Pamac is already running"
-msgstr "El Pamac ja està executant-se"
+msgstr "El Pamac ja s'executa"
 
 #: ../src/tray.vala ../src/updater_window.vala
 msgid "Your system is up-to-date"
