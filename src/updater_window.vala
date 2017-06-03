@@ -201,7 +201,7 @@ namespace Pamac {
 		}
 
 		[GtkCallback]
-		void on_button_back_clicked () {
+		public void on_button_back_clicked () {
 			if (aur_scrolledwindow.visible) {
 				stackswitcher.visible = true;
 				stack.visible_child_name = previous_visible_child_name;

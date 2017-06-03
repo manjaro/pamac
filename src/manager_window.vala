@@ -61,7 +61,7 @@ namespace Pamac {
 		[GtkChild]
 		Gtk.TreeViewColumn aur_state_column;
 		[GtkChild]
-		Gtk.Stack filters_stack;
+		public Gtk.Stack filters_stack;
 		[GtkChild]
 		Gtk.StackSwitcher filters_stackswitcher;
 		[GtkChild]

@@ -50,7 +50,7 @@ namespace Pamac {
 				var action =  new SimpleAction ("quit", null);
 				action.activate.connect  (() => {this.quit ();});
 				this.add_action (action);
-				string[] accels = {"<Control>Q", "<Control>W"};
+				string[] accels = {"<Ctrl>Q", "<Ctrl>W"};
 				this.set_accels_for_action ("app.quit", accels);
 				// back accel
 				action =  new SimpleAction ("back", null);
@@ -58,6 +58,12 @@ namespace Pamac {
 				this.add_action (action);
 				accels = {"<Alt>Left"};
 				this.set_accels_for_action ("app.back", accels);
+				// search accel
+				action =  new SimpleAction ("search", null);
+				action.activate.connect  (() => {manager_window.filters_stack.visible_child_name = "search";});
+				this.add_action (action);
+				accels = {"<Ctrl>F"};
+				this.set_accels_for_action ("app.search", accels);
 			}
 		}
 
