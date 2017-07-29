@@ -62,6 +62,7 @@ namespace Pamac {
 		Gtk.ListStore ignorepkgs_liststore;
 		Transaction transaction;
 		uint64 previous_refresh_period;
+		string[] countries;
 
 		public PreferencesDialog (Transaction transaction) {
 			Object (transient_for: transaction.application_window, use_header_bar: 1);
@@ -108,8 +109,9 @@ namespace Pamac {
 				var mirrors_config = new MirrorsConfig ("/etc/pacman-mirrors.conf");
 				mirrors_country_comboboxtext.append_text (dgettext (null, "Worldwide"));
 				mirrors_country_comboboxtext.active = 0;
+				countries = transaction.get_mirrors_countries ();
 				int index = 1;
-				foreach (unowned string country in mirrors_config.countries) {
+				foreach (unowned string country in countries) {
 					mirrors_country_comboboxtext.append_text (country);
 					if (country == mirrors_config.choosen_country) {
 						mirrors_country_comboboxtext.active = index;

@@ -550,6 +550,7 @@ namespace Alpm {
 		public ulong name_hash;
 		public Mode mod;
 
+		[CCode (cname = "alpm_dep_from_string")]
 		public static Depend from_string(string depstring);
 
 		[CCode (cname = "alpm_dep_compute_string")]

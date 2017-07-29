@@ -294,6 +294,21 @@
                         <property name="position">3</property>
                       </packing>
                     </child>
+                    <child>
+                      <object class="GtkBox" id="box6">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="orientation">vertical</property>
+                        <child>
+                          <placeholder/>
+                        </child>
+                      </object>
+                      <packing>
+                        <property name="name">updates</property>
+                        <property name="title" translatable="yes">Updates</property>
+                        <property name="position">4</property>
+                      </packing>
+                    </child>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -311,6 +326,7 @@
                       <object class="GtkStackSwitcher" id="packages_stackswitcher">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="halign">center</property>
                         <property name="stack">packages_stack</property>
                       </object>
                       <packing>
@@ -394,7 +410,7 @@
                                     <child>
                                       <object class="GtkCellRendererText" id="packages_version_renderertext"/>
                                       <attributes>
-                                        <attribute name="text">3</attribute>
+                                        <attribute name="markup">3</attribute>
                                       </attributes>
                                     </child>
                                   </object>
@@ -512,7 +528,7 @@
                                     <child>
                                       <object class="GtkCellRendererText" id="aur_version_renderertext"/>
                                       <attributes>
-                                        <attribute name="text">3</attribute>
+                                        <attribute name="markup">3</attribute>
                                       </attributes>
                                     </child>
                                   </object>
@@ -541,6 +557,44 @@
                             <property name="name">aur</property>
                             <property name="title" translatable="yes">AUR</property>
                             <property name="position">1</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkBox" id="updated_box">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="orientation">vertical</property>
+                            <property name="homogeneous">True</property>
+                            <child>
+                              <object class="GtkImage" id="updated_icon">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="valign">end</property>
+                                <property name="icon_name">object-select-symbolic</property>
+                                <property name="icon_size">6</property>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">0</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkLabel" id="updated_label">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="valign">start</property>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">1</property>
+                              </packing>
+                            </child>
+                          </object>
+                          <packing>
+                            <property name="name">updated</property>
+                            <property name="position">2</property>
                           </packing>
                         </child>
                       </object>

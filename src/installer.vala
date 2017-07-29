@@ -26,7 +26,7 @@ namespace Pamac {
 		bool important_details;
 
 		public Installer () {
-			application_id = "org.manjaro.pamac.install";
+			application_id = "org.manjaro.pamac.installer";
 			flags |= ApplicationFlags.HANDLES_OPEN;
 		}
 
@@ -84,16 +84,6 @@ namespace Pamac {
 			Application app;
 			bool run = false;
 			app = new Application ("org.manjaro.pamac.manager", 0);
-			try {
-				app.register ();
-			} catch (GLib.Error e) {
-				stderr.printf ("%s\n", e.message);
-			}
-			run = app.get_is_remote ();
-			if (run) {
-				return run;
-			}
-			app = new Application ("org.manjaro.pamac.updater", 0);
 			try {
 				app.register ();
 			} catch (GLib.Error e) {

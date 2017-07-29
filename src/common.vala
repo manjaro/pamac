@@ -39,8 +39,8 @@ namespace Pamac {
 
 	public struct Updates {
 		public bool is_syncfirst;
-		public UpdateInfos[] repos_updates;
-		public UpdateInfos[] aur_updates;
+		public AlpmPackage[] repos_updates;
+		public AURPackage[] aur_updates;
 	}
 
 	public struct ErrorInfos {

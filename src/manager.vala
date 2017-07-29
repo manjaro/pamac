@@ -22,10 +22,11 @@ namespace Pamac {
 	class Manager : Gtk.Application {
 		ManagerWindow manager_window;
 		bool pamac_run;
+		bool started;
 
 		public Manager () {
 			application_id = "org.manjaro.pamac.manager";
-			flags = ApplicationFlags.FLAGS_NONE;
+			flags = ApplicationFlags.HANDLES_COMMAND_LINE;
 		}
 
 		public override void startup () {
@@ -67,13 +68,22 @@ namespace Pamac {
 			}
 		}
 
-		public override void activate () {
+		public override int command_line (ApplicationCommandLine cmd) {
+			if (cmd.get_arguments ()[0] == "pamac-updater") {
+				manager_window.display_package_queue.clear ();
+				manager_window.main_stack.visible_child_name = "browse";
+				manager_window.filters_stack.visible_child_name = "updates";
+			} else if (!started) {
+				manager_window.show_default_pkgs ();
+				started = true;
+			}
 			if (!pamac_run) {
 				manager_window.present ();
 				while (Gtk.events_pending ()) {
 					Gtk.main_iteration ();
 				}
 			}
+			return 0;
 		}
 
 		public override void shutdown () {
@@ -86,17 +96,7 @@ namespace Pamac {
 		bool check_pamac_running () {
 			Application app;
 			bool run = false;
-			app = new Application ("org.manjaro.pamac.updater", 0);
-			try {
-				app.register ();
-			} catch (GLib.Error e) {
-				stderr.printf ("%s\n", e.message);
-			}
-			run = app.get_is_remote ();
-			if (run) {
-				return run;
-			}
-			app = new Application ("org.manjaro.pamac.install", 0);
+			app = new Application ("org.manjaro.pamac.installer", 0);
 			try {
 				app.register ();
 			} catch (GLib.Error e) {

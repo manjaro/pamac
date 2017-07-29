@@ -1,0 +1,3 @@
+[D-BUS Service]
+Name=org.manjaro.pamac.user
+Exec=/usr/bin/pamac-user-daemon

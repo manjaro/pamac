@@ -19,7 +19,7 @@
 
 namespace Pamac {
 
-	[GtkTemplate (ui = "/org/manjaro/pamac/transaction/history_dialog.ui")]
+	[GtkTemplate (ui = "/org/manjaro/pamac/manager/history_dialog.ui")]
 	class HistoryDialog : Gtk.Dialog {
 
 		[GtkChild]

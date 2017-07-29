@@ -1,0 +1,7 @@
+[Unit]
+Description=Pamac System Session
+
+[Service]
+Type=dbus
+BusName=org.manjaro.pamac.system
+ExecStart=/usr/bin/pamac-system-daemon

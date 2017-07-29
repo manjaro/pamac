@@ -28,20 +28,21 @@ install: install_pamac-tray-appindicator
 	install -Dm644 src/pamac.h $(includedir)/pamac.h
 	install -Dm644 src/pamac.vapi $(datadir)/vala/vapi/pamac.vapi
 	install -Dm755 src/libpamac.so $(libdir)/libpamac.so
-	install -Dm744 src/pamac-daemon $(bindir)/pamac-daemon
+	install -Dm755 src/pamac-user-daemon $(bindir)/pamac-user-daemon
+	install -Dm744 src/pamac-system-daemon $(bindir)/pamac-system-daemon
 	install -Dm755 src/pamac-tray $(bindir)/pamac-tray
 	install -Dm755 src/pamac-manager $(bindir)/pamac-manager
-	install -Dm755 src/pamac-updater $(bindir)/pamac-updater
+	ln -srf $(bindir)/pamac-manager $(bindir)/pamac-updater
 	install -Dm755 src/pamac-install $(bindir)/pamac-install
-	install -Dm755 src/pamac-refresh $(bindir)/pamac-refresh
 	install -Dm644 data/applications/pamac-tray.desktop $(sysconfdir)/xdg/autostart/pamac-tray.desktop
 	install -Dm644 data/applications/pamac-manager.desktop $(datadir)/applications/pamac-manager.desktop
 	install -Dm644 data/applications/pamac-updater.desktop $(datadir)/applications/pamac-updater.desktop
 	install -Dm644 data/applications/pamac-install.desktop $(datadir)/applications/pamac-install.desktop
 	install -Dm644 data/config/pamac.conf $(sysconfdir)/pamac.conf
-	install -Dm644 data/dbus/org.manjaro.pamac.conf $(sysconfdir)/dbus-1/system.d/org.manjaro.pamac.conf
-	install -Dm644 data/dbus/org.manjaro.pamac.service $(datadir)/dbus-1/system-services/org.manjaro.pamac.service
-	install -Dm644 data/systemd/pamac.service $(libdir)/systemd/system/pamac.service
+	install -Dm644 data/dbus/org.manjaro.pamac.system.conf $(sysconfdir)/dbus-1/system.d/org.manjaro.pamac.system.conf
+	install -Dm644 data/dbus/org.manjaro.pamac.user.service $(datadir)/dbus-1/services/org.manjaro.pamac.user.service
+	install -Dm644 data/dbus/org.manjaro.pamac.system.service $(datadir)/dbus-1/system-services/org.manjaro.pamac.system.service
+	install -Dm644 data/systemd/pamac-system.service $(libdir)/systemd/system/pamac-system.service
 	install -Dm644 data/systemd/pamac-cleancache.service $(libdir)/systemd/system/pamac-cleancache.service
 	install -Dm644 data/systemd/pamac-cleancache.timer $(libdir)/systemd/system/pamac-cleancache.timer
 	install -Dm644 data/systemd/pamac-mirrorlist.service $(libdir)/systemd/system/pamac-mirrorlist.service
@@ -49,7 +50,6 @@ install: install_pamac-tray-appindicator
 	mkdir -p $(libdir)/systemd/system/multi-user.target.wants
 	ln -srf $(libdir)/systemd/system/pamac-cleancache.timer $(libdir)/systemd/system/multi-user.target.wants
 	ln -srf $(libdir)/systemd/system/pamac-mirrorlist.timer $(libdir)/systemd/system/multi-user.target.wants
-	install -Dm744 data/networkmanager/99_update_pamac_tray $(sysconfdir)/NetworkManager/dispatcher.d/99_update_pamac_tray
 	install -Dm644 data/polkit/org.manjaro.pamac.policy $(datadir)/polkit-1/actions/org.manjaro.pamac.policy
 	install -Dm644 data/mime/x-alpm-package.xml $(datadir)/mime/packages/x-alpm-package.xml
 
@@ -66,27 +66,27 @@ uninstall:
 	rm -f $(includedir)/pamac.h
 	rm -f $(datadir)/vala/vapi/pamac.vapi
 	rm -f $(libdir)/libpamac.so
-	rm -f $(bindir)/pamac-daemon
+	rm -f $(bindir)/pamac-user-daemon
+	rm -f $(bindir)/pamac-system-daemon
 	rm -f $(bindir)/pamac-tray
 	rm -f $(bindir)/pamac-tray-appindicator
 	rm -f $(bindir)/pamac-manager
 	rm -f $(bindir)/pamac-updater
 	rm -f $(bindir)/pamac-install
-	rm -f $(bindir)/pamac-refresh
 	rm -f $(sysconfdir)/xdg/autostart/pamac-tray.desktop
 	rm -f $(sysconfdir)/xdg/autostart/pamac-tray-appindicator.desktop
 	rm -f $(datadir)/applications/pamac-manager.desktop
 	rm -f $(datadir)/applications/pamac-updater.desktop
 	rm -f $(datadir)/applications/pamac-install.desktop
 	rm -f $(sysconfdir)/pamac.conf
-	rm -f $(sysconfdir)/dbus-1/system.d/org.manjaro.pamac.conf
-	rm -f $(datadir)/dbus-1/system-services/org.manjaro.pamac.service
-	rm -f $(libdir)/systemd/system/pamac.service
+	rm -f $(sysconfdir)/dbus-1/system.d/org.manjaro.pamac.system.conf
+	rm -f $(datadir)/dbus-1/services/org.manjaro.pamac.user.service
+	rm -f $(datadir)/dbus-1/system-services/org.manjaro.pamac.system.service
+	rm -f $(libdir)/systemd/system/pamac-system.service
 	rm -f $(libdir)/systemd/system/pamac-cleancache.service
 	rm -f $(libdir)/systemd/system/pamac-cleancache.timer
 	rm -f $(libdir)/systemd/system/pamac-mirrorlist.service
 	rm -f $(libdir)/systemd/system/pamac-mirrorlist.timer
 	rm -f $(libdir)/systemd/system/multi-user.target.wants/pamac-cleancache.timer
-	rm -f $(sysconfdir)/NetworkManager/dispatcher.d/99_update_pamac_tray
 	rm -f $(datadir)/polkit-1/actions/org.manjaro.pamac.policy
 	rm -f $(datadir)/mime/packages/x-alpm-package.xml

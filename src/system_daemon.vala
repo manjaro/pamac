@@ -20,7 +20,7 @@
 // i18n
 const string GETTEXT_PACKAGE = "pamac";
 
-Pamac.Daemon pamac_daemon;
+Pamac.SystemDaemon system_daemon;
 MainLoop loop;
 
 public delegate void AlpmActionDelegate ();
@@ -36,73 +36,20 @@ public class AlpmAction {
 	}
 }
 
-private int alpm_pkg_compare_name (Alpm.Package pkg_a, Alpm.Package pkg_b) {
-	return strcmp (pkg_a.name, pkg_b.name);
-}
-
-private string global_search_string;
-
-private int alpm_pkg_sort_search_by_relevance (Alpm.Package pkg_a, Alpm.Package pkg_b) {
-	if (global_search_string != null) {
-		// display exact match first
-		if (pkg_a.name == global_search_string) {
-			return 0;
-		}
-		if (pkg_b.name == global_search_string) {
-			return 1;
-		}
-		if (pkg_a.name.has_prefix (global_search_string + "-")) {
-			if (pkg_b.name.has_prefix (global_search_string + "-")) {
-				return strcmp (pkg_a.name, pkg_b.name);
-			}
-			return 0;
-		}
-		if (pkg_b.name.has_prefix (global_search_string + "-")) {
-			if (pkg_a.name.has_prefix (global_search_string + "-")) {
-				return strcmp (pkg_a.name, pkg_b.name);
-			}
-			return 1;
-		}
-		if (pkg_a.name.has_prefix (global_search_string)) {
-			if (pkg_b.name.has_prefix (global_search_string)) {
-				return strcmp (pkg_a.name, pkg_b.name);
-			}
-			return 0;
-		}
-		if (pkg_b.name.has_prefix (global_search_string)) {
-			if (pkg_a.name.has_prefix (global_search_string)) {
-				return strcmp (pkg_a.name, pkg_b.name);
-			}
-			return 1;
-		}
-		if (pkg_a.name.contains (global_search_string)) {
-			if (pkg_b.name.contains (global_search_string)) {
-				return strcmp (pkg_a.name, pkg_b.name);
-			}
-			return 0;
-		}
-		if (pkg_b.name.contains (global_search_string)) {
-			if (pkg_a.name.contains (global_search_string)) {
-				return strcmp (pkg_a.name, pkg_b.name);
-			}
-			return 1;
-		}
-	}
-	return strcmp (pkg_a.name, pkg_b.name);
-}
-
 namespace Pamac {
-	[DBus (name = "org.manjaro.pamac")]
-	public class Daemon: Object {
+	[DBus (name = "org.manjaro.pamac.system")]
+	public class SystemDaemon: Object {
 		private AlpmConfig alpm_config;
 		private Alpm.Handle? alpm_handle;
 		private Alpm.Handle? files_handle;
 		public Cond provider_cond;
 		public Mutex provider_mutex;
 		public int? choosen_provider;
+		private bool refreshed;
 		private bool force_refresh;
 		private bool enable_downgrade;
 		private bool check_aur_updates;
+		private bool aur_updates_checked;
 		private HashTable<string,Variant> new_alpm_conf;
 		private Alpm.TransFlag flags;
 		private string[] to_install;
@@ -118,11 +65,8 @@ namespace Pamac {
 		private string[] temporary_ignorepkgs;
 		private UpdateInfos[] aur_conflicts_to_remove;
 		private ThreadPool<AlpmAction> thread_pool;
-		private Mutex databases_lock_mutex;
+		private BusName lock_id;
 		private Json.Array aur_updates_results;
-		private HashTable<string, Json.Array> aur_search_results;
-		private HashTable<string, Json.Object> aur_infos;
-		private bool extern_lock;
 		private GLib.File lockfile;
 		public ErrorInfos current_error;
 		public Timer timer;
@@ -149,25 +93,23 @@ namespace Pamac {
 		public signal void generate_mirrors_list_data (string line);
 		public signal void generate_mirrors_list_finished ();
 
-		public Daemon () {
+		public SystemDaemon () {
 			alpm_config = new AlpmConfig ("/etc/pacman.conf");
-			databases_lock_mutex = Mutex ();
 			aur_pkgbases_to_build = new GLib.List<string> ();
 			aur_desc_list = new GenericSet<string?> (str_hash, str_equal);
 			already_checked_aur_dep = new GenericSet<string?> (str_hash, str_equal);
 			to_install_as_dep = new HashTable<string, string> (str_hash, str_equal);
 			aurdb_path = "/tmp/pamac-aur";
 			aur_updates_results = new Json.Array ();
-			aur_search_results = new HashTable<string, Json.Array> (str_hash, str_equal);
-			aur_infos = new HashTable<string, Json.Object> (str_hash, str_equal);
 			timer = new Timer ();
-			extern_lock = false;
+			lock_id = new BusName ("");
 			refresh_handle ();
 			Timeout.add (500, check_extern_lock);
 			create_thread_pool ();
 			cancellable = new Cancellable ();
 			curl = new Curl.Easy ();
 			authorized = false;
+			refreshed = false;
 		}
 
 		public void set_environment_variables (HashTable<string,string> variables) {
@@ -223,29 +165,27 @@ namespace Pamac {
 				alpm_handle.totaldlcb = (Alpm.TotalDownloadCallBack) cb_totaldownload;
 				alpm_handle.logcb = (Alpm.LogCallBack) cb_log;
 				lockfile = GLib.File.new_for_path (alpm_handle.lockfile);
+				files_handle = alpm_config.get_handle (true);
+				files_handle.eventcb = (Alpm.EventCallBack) cb_event;
+				files_handle.progresscb = (Alpm.ProgressCallBack) cb_progress;
+				files_handle.questioncb = (Alpm.QuestionCallBack) cb_question;
+				files_handle.fetchcb = (Alpm.FetchCallBack) cb_fetch;
+				files_handle.totaldlcb = (Alpm.TotalDownloadCallBack) cb_totaldownload;
+				files_handle.logcb = (Alpm.LogCallBack) cb_log;
 			}
-			files_handle = alpm_config.get_handle (true);
-			files_handle.eventcb = (Alpm.EventCallBack) cb_event;
-			files_handle.progresscb = (Alpm.ProgressCallBack) cb_progress;
-			files_handle.questioncb = (Alpm.QuestionCallBack) cb_question;
-			files_handle.fetchcb = (Alpm.FetchCallBack) cb_fetch;
-			files_handle.totaldlcb = (Alpm.TotalDownloadCallBack) cb_totaldownload;
-			files_handle.logcb = (Alpm.LogCallBack) cb_log;
 		}
 
 		private bool check_extern_lock () {
-			if (extern_lock) {
+			if (lock_id == "extern") {
 				if (!lockfile.query_exists ()) {
-					extern_lock = false;
+					lock_id = new BusName ("");
 					refresh_handle ();
-					databases_lock_mutex.unlock ();
 				}
 			} else {
 				if (lockfile.query_exists ()) {
-					if (databases_lock_mutex.trylock ()) {
-						extern_lock = true;
-						// Functions trans_init, build_prepare and refresh threads are blocked until unlock.
+					if (lock_id == "") {
 						// An extern lock appears, check if it is not a too old lock.
+						lock_id = new BusName ("extern");
 						int exit_status;
 						string output;
 						uint64 lockfile_time;
@@ -280,8 +220,7 @@ namespace Pamac {
 																} catch (Error e) {
 																	stderr.printf ("Error: %s\n", e.message);
 																}
-																extern_lock = false;
-																databases_lock_mutex.unlock ();
+																lock_id = new BusName ("");
 															}
 														}
 													}
@@ -300,7 +239,48 @@ namespace Pamac {
 			return true;
 		}
 
+		public string[] get_mirrors_countries () {
+			string[] countries = {};
+			try {
+				string countries_str;
+				int status;
+				Process.spawn_command_line_sync ("pacman-mirrors -lq",
+											out countries_str,
+											null,
+											out status);
+				if (status == 0) {
+					foreach (unowned string country in countries_str.split ("\n")) {
+						countries += country;
+					}
+				}
+			} catch (SpawnError e) {
+				stderr.printf ("Error: %s\n", e.message);
+			}
+			return countries;
+		}
+
+		public bool get_lock (GLib.BusName sender) {
+			if (lock_id == sender) {
+				return true;
+			} else if (lock_id == "") {
+				lock_id = sender;
+				return true;
+			}
+			return false;
+		}
+
+		public bool unlock (GLib.BusName sender) {
+			if (lock_id == sender) {
+				lock_id = new BusName ("");
+				return true;
+			}
+			return false;
+		}
+
 		private async bool check_authorization (GLib.BusName sender) {
+			if (lock_id != sender) {
+				return false;
+			}
 			if (authorized) {
 				return true;
 			}
@@ -359,9 +339,7 @@ namespace Pamac {
 		private void write_alpm_config () {
 			alpm_config.write (new_alpm_conf);
 			alpm_config.reload ();
-			databases_lock_mutex.lock ();
 			refresh_handle ();
-			databases_lock_mutex.unlock ();
 			write_alpm_config_finished ((alpm_handle.checkspace == 1));
 		}
 
@@ -394,10 +372,6 @@ namespace Pamac {
 			} catch (Error e) {
 				stderr.printf ("Error: %s\n", e.message);
 			}
-			alpm_config.reload ();
-			databases_lock_mutex.lock ();
-			refresh_handle ();
-			databases_lock_mutex.unlock ();
 			generate_mirrors_list_finished ();
 		}
 
@@ -435,8 +409,8 @@ namespace Pamac {
 		}
 
 		public void start_write_mirrors_config (HashTable<string,Variant> new_mirrors_conf, GLib.BusName sender) {
-			var mirrors_config = new MirrorsConfig ("/etc/pacman-mirrors.conf");
 			check_authorization.begin (sender, (obj, res) => {
+				var mirrors_config = new MirrorsConfig ("/etc/pacman-mirrors.conf");
 				bool authorized = check_authorization.end (res);
 				if (authorized) {
 					mirrors_config.write (new_mirrors_conf);
@@ -452,7 +426,11 @@ namespace Pamac {
 				if (authorized) {
 					unowned Alpm.Package? pkg = alpm_handle.localdb.get_pkg (pkgname);
 					if (pkg != null) {
-						pkg.reason = (Alpm.Package.Reason) reason;
+						// lock the database
+						if (alpm_handle.trans_init (0) == 0) {
+							pkg.reason = (Alpm.Package.Reason) reason;
+							alpm_handle.trans_release ();
+						}
 					}
 				}
 				set_pkgreason_finished ();
@@ -486,17 +464,6 @@ namespace Pamac {
 
 		private void refresh () {
 			current_error = ErrorInfos ();
-			if (!databases_lock_mutex.trylock ()) {
-				// Wait for pacman to finish
-				emit_event (0, 0, {});
-				databases_lock_mutex.lock ();
-			}
-			if (cancellable.is_cancelled ()) {
-				cancellable.reset ();
-				refresh_finished (true);
-				databases_lock_mutex.unlock ();
-				return;
-			}
 			write_log_file ("synchronizing package lists");
 			cancellable.reset ();
 			int force = (force_refresh) ? 1 : 0;
@@ -504,7 +471,6 @@ namespace Pamac {
 			bool success = update_dbs (alpm_handle, force);
 			if (cancellable.is_cancelled ()) {
 				refresh_finished (false);
-				databases_lock_mutex.unlock ();
 				return;
 			}
 			// update ".files", do not need to know if we succeeded
@@ -514,40 +480,31 @@ namespace Pamac {
 			} else if (success) {
 				// We should always succeed if at least one DB was upgraded - we may possibly
 				// fail later with unresolved deps, but that should be rare, and would be expected
+				refreshed = true;
 				refresh_finished (true);
 			} else {
 				current_error.message = _("Failed to synchronize any databases");
 				refresh_finished (false);
 			}
-			databases_lock_mutex.unlock ();
 		}
 
-		public void start_refresh (bool force) {
+		public void start_refresh (bool force, GLib.BusName sender) {
+			if (lock_id != sender) {
+				return;
+			}
 			force_refresh = force;
+			if (force_refresh) {
+				refreshed = false;
+			}
+			if (refreshed) {
+				refresh_finished (true);
+				return;
+			}
 			try {
 				thread_pool.add (new AlpmAction (refresh));
 			} catch (ThreadError e) {
 				stderr.printf ("Thread Error %s\n", e.message);
 			}
-		}
-
-		public bool get_checkspace () {
-			return alpm_handle.checkspace == 1 ? true : false;
-		}
-
-		public string get_lockfile () {
-			return alpm_handle.lockfile;
-		}
-
-		public string[] get_ignorepkgs () {
-			string[] result = {};
-			unowned Alpm.List<unowned string> ignorepkgs = alpm_handle.ignorepkgs;
-			while (ignorepkgs != null) {
-				unowned string ignorepkg = ignorepkgs.data;
-				result += ignorepkg;
-				ignorepkgs.next ();
-			}
-			return result;
 		}
 
 		private void add_ignorepkgs () {
@@ -561,34 +518,6 @@ namespace Pamac {
 				alpm_handle.remove_ignorepkg (pkgname);
 			}
 			temporary_ignorepkgs = {};
-		}
-
-		public bool should_hold (string pkgname) {
-			if (alpm_config.get_holdpkgs ().find_custom (pkgname, strcmp) != null) {
-				return true;
-			}
-			return false;
-		}
-
-		public uint get_pkg_reason (string pkgname) {
-			unowned Alpm.Package? pkg = alpm_handle.localdb.get_pkg (pkgname);
-			if (pkg != null) {
-				return pkg.reason;
-			}
-			return 0;
-		}
-
-		public uint get_pkg_origin (string pkgname) {
-			unowned Alpm.Package? pkg = alpm_handle.localdb.get_pkg (pkgname);
-			if (pkg != null) {
-				return pkg.origin;
-			} else {
-				pkg = get_syncpkg (pkgname);
-				if (pkg != null) {
-					return pkg.origin;
-				}
-			}
-			return 0;
 		}
 
 		private AlpmPackage initialise_pkg_struct (Alpm.Package? alpm_pkg) {
@@ -621,85 +550,6 @@ namespace Pamac {
 			}
 		}
 
-		public async AlpmPackage[] get_installed_pkgs () {
-			AlpmPackage[] pkgs = {};
-			unowned Alpm.List<unowned Alpm.Package> pkgcache = alpm_handle.localdb.pkgcache;
-			while (pkgcache != null) {
-				unowned Alpm.Package alpm_pkg = pkgcache.data;
-				pkgs += initialise_pkg_struct (alpm_pkg);
-				pkgcache.next ();
-			}
-			return pkgs;
-		}
-
-		public async AlpmPackage[] get_explicitly_installed_pkgs () {
-			AlpmPackage[] pkgs = {};
-			unowned Alpm.List<unowned Alpm.Package> pkgcache = alpm_handle.localdb.pkgcache;
-			while (pkgcache != null) {
-				unowned Alpm.Package alpm_pkg = pkgcache.data;
-				if (alpm_pkg.reason == Alpm.Package.Reason.EXPLICIT) {
-					pkgs += initialise_pkg_struct (alpm_pkg);
-				}
-				pkgcache.next ();
-			}
-			return pkgs;
-		}
-
-		public async AlpmPackage[] get_foreign_pkgs () {
-			AlpmPackage[] pkgs = {};
-			unowned Alpm.List<unowned Alpm.Package> pkgcache = alpm_handle.localdb.pkgcache;
-			while (pkgcache != null) {
-				unowned Alpm.Package alpm_pkg = pkgcache.data;
-				bool sync_found = false;
-				unowned Alpm.List<unowned Alpm.DB> syncdbs = alpm_handle.syncdbs;
-				while (syncdbs != null) {
-					unowned Alpm.DB db = syncdbs.data;
-					unowned Alpm.Package? sync_pkg = db.get_pkg (alpm_pkg.name);
-					if (sync_pkg != null) {
-						sync_found = true;
-						break;
-					}
-					syncdbs.next ();
-				}
-				if (sync_found == false) {
-					pkgs += initialise_pkg_struct (alpm_pkg);
-				}
-				pkgcache.next ();
-			}
-			return pkgs;
-		}
-
-		public async AlpmPackage[] get_orphans () {
-			AlpmPackage[] pkgs = {};
-			unowned Alpm.List<unowned Alpm.Package> pkgcache = alpm_handle.localdb.pkgcache;
-			while (pkgcache != null) {
-				unowned Alpm.Package alpm_pkg = pkgcache.data;
-				if (alpm_pkg.reason == Alpm.Package.Reason.DEPEND) {
-					Alpm.List<string> requiredby = alpm_pkg.compute_requiredby ();
-					if (requiredby.length == 0) {
-						Alpm.List<string> optionalfor = alpm_pkg.compute_optionalfor ();
-						if (optionalfor.length == 0) {
-							pkgs += initialise_pkg_struct (alpm_pkg);
-						} else {
-							optionalfor.free_inner (GLib.free);
-						}
-					} else {
-						requiredby.free_inner (GLib.free);
-					}
-				}
-				pkgcache.next ();
-			}
-			return pkgs;
-		}
-
-		public AlpmPackage get_installed_pkg (string pkgname) {
-			return initialise_pkg_struct (alpm_handle.localdb.get_pkg (pkgname));
-		}
-
-		public AlpmPackage find_installed_satisfier (string depstring) {
-			return initialise_pkg_struct (Alpm.find_satisfier (alpm_handle.localdb.pkgcache, depstring));
-		}
-
 		private unowned Alpm.Package? get_syncpkg (string name) {
 			unowned Alpm.Package? pkg = null;
 			unowned Alpm.List<unowned Alpm.DB> syncdbs = alpm_handle.syncdbs;
@@ -714,232 +564,20 @@ namespace Pamac {
 			return pkg;
 		}
 
-		public AlpmPackage get_sync_pkg (string pkgname) {
-			return initialise_pkg_struct (get_syncpkg (pkgname));
-		}
-
-		private unowned Alpm.Package? find_dbs_satisfier (string depstring) {
-			unowned Alpm.Package? pkg = null;
-			unowned Alpm.List<unowned Alpm.DB> syncdbs = alpm_handle.syncdbs;
-			while (syncdbs != null) {
-				unowned Alpm.DB db = syncdbs.data;
-				pkg = Alpm.find_satisfier (db.pkgcache, depstring);
-				if (pkg != null) {
-					break;
-				}
-				syncdbs.next ();
-			}
-			return pkg;
-		}
-
-		public AlpmPackage find_sync_satisfier (string depstring) {
-			return initialise_pkg_struct (find_dbs_satisfier (depstring));
-		}
-
-		private Alpm.List<unowned Alpm.Package> search_all_dbs (string search_string) {
-			Alpm.List<unowned string> needles = null;
-			string[] splitted = search_string.split (" ");
-			foreach (unowned string part in splitted) {
-				needles.add (part);
-			}
-			Alpm.List<unowned Alpm.Package> result = alpm_handle.localdb.search (needles);
-			Alpm.List<unowned Alpm.Package> syncpkgs = null;
-			unowned Alpm.List<unowned Alpm.DB> syncdbs = alpm_handle.syncdbs;
-			while (syncdbs != null) {
-				unowned Alpm.DB db = syncdbs.data;
-				if (syncpkgs.length == 0) {
-					syncpkgs = db.search (needles);
-				} else {
-					syncpkgs.join (db.search (needles).diff (syncpkgs, (Alpm.List.CompareFunc) alpm_pkg_compare_name));
-				}
-				syncdbs.next ();
-			}
-			result.join (syncpkgs.diff (result, (Alpm.List.CompareFunc) alpm_pkg_compare_name));
-			// use custom sort function
-			global_search_string = search_string;
-			result.sort (result.length, (Alpm.List.CompareFunc) alpm_pkg_sort_search_by_relevance);
-			return result;
-		}
-
-		public async AlpmPackage[] search_pkgs (string search_string) {
-			AlpmPackage[] result = {};
-			Alpm.List<unowned Alpm.Package> alpm_pkgs = search_all_dbs (search_string);
-			unowned Alpm.List<unowned Alpm.Package> list = alpm_pkgs;
-			while (list != null) {
-				unowned Alpm.Package alpm_pkg = list.data;
-				result += initialise_pkg_struct (alpm_pkg);
-				list.next ();
-			}
-			return result;
-		}
-
 		private AURPackage initialise_aur_struct (Json.Object json_object) {
+			string installed_version = "";
+			unowned Alpm.Package? pkg = alpm_handle.localdb.get_pkg (json_object.get_string_member ("Name"));
+			if (pkg != null) {
+				installed_version = pkg.version;
+			}
 			return AURPackage () {
 				name = json_object.get_string_member ("Name"),
 				version = json_object.get_string_member ("Version"),
+				installed_version = (owned) installed_version,
 				// desc can be null
 				desc = json_object.get_null_member ("Description") ? "" : json_object.get_string_member ("Description"),
 				popularity = json_object.get_double_member ("Popularity")
 			};
-		}
-
-		public async AURPackage[] search_in_aur (string search_string) {
-			if (!aur_search_results.contains (search_string)) {
-				Json.Array pkgs = yield AUR.search (search_string.split (" "));
-				aur_search_results.insert (search_string, pkgs);
-			}
-			AURPackage[] result = {};
-			Json.Array aur_pkgs = aur_search_results.get (search_string);
-			aur_pkgs.foreach_element ((array, index, node) => {
-				Json.Object aur_pkg = node.get_object ();
-				// remove results which exist in repos
-				if (get_syncpkg (aur_pkg.get_string_member ("Name")) == null) {
-					result += initialise_aur_struct (node.get_object ());
-				}
-			});
-			return result;
-		}
-
-		public async AURPackageDetails get_aur_details (string pkgname) {
-			string name = "";
-			string version = "";
-			string desc = "";
-			double popularity = 0;
-			string packagebase = "";
-			string url = "";
-			string maintainer = "";
-			int64 firstsubmitted = 0;
-			int64 lastmodified = 0;
-			int64 outofdate = 0;
-			int64 numvotes = 0;
-			string[] licenses = {};
-			string[] depends = {};
-			string[] makedepends = {};
-			string[] checkdepends = {};
-			string[] optdepends = {};
-			string[] provides = {};
-			string[] replaces = {};
-			string[] conflicts = {};
-			var details = AURPackageDetails ();
-			if (!aur_infos.contains (pkgname)) {
-				Json.Array results = yield AUR.multiinfo ({pkgname});
-				if (results.get_length () > 0) {
-					aur_infos.insert (pkgname, results.get_object_element (0));
-				}
-			}
-			unowned Json.Object? json_object = aur_infos.lookup (pkgname);
-			if (json_object != null) {
-				// name
-				name = json_object.get_string_member ("Name");
-				// version
-				version = json_object.get_string_member ("Version");
-				// desc can be null
-				if (!json_object.get_null_member ("Description")) {
-					desc = json_object.get_string_member ("Description");
-				}
-				popularity = json_object.get_double_member ("Popularity");
-				// packagebase
-				packagebase = json_object.get_string_member ("PackageBase");
-				// url can be null
-				unowned Json.Node? node = json_object.get_member ("URL");
-				if (!node.is_null ()) {
-					url = node.get_string ();
-				}
-				// maintainer can be null
-				node = json_object.get_member ("Maintainer");
-				if (!node.is_null ()) {
-					maintainer = node.get_string ();
-				}
-				// firstsubmitted
-				firstsubmitted = json_object.get_int_member ("FirstSubmitted");
-				// lastmodified
-				lastmodified = json_object.get_int_member ("LastModified");
-				// outofdate can be null
-				node = json_object.get_member ("OutOfDate");
-				if (!node.is_null ()) {
-					outofdate = node.get_int ();
-				}
-				//numvotes
-				numvotes = json_object.get_int_member ("NumVotes");
-				// licenses
-				node = json_object.get_member ("License");
-				if (!node.is_null ()) {
-					node.get_array ().foreach_element ((array, index, _node) => {
-						licenses += _node.get_string ();
-					});
-				} else {
-					licenses += _("Unknown");
-				}
-				// depends
-				node = json_object.get_member ("Depends");
-				if (node != null) {
-					node.get_array ().foreach_element ((array, index, _node) => {
-						depends += _node.get_string ();
-					});
-				}
-				// optdepends
-				node = json_object.get_member ("OptDepends");
-				if (node != null) {
-					node.get_array ().foreach_element ((array, index, _node) => {
-						optdepends += _node.get_string ();
-					});
-				}
-				// makedepends
-				node = json_object.get_member ("MakeDepends");
-				if (node != null) {
-					node.get_array ().foreach_element ((array, index, _node) => {
-						makedepends += _node.get_string ();
-					});
-				}
-				// checkdepends
-				node = json_object.get_member ("CheckDepends");
-				if (node != null) {
-					node.get_array ().foreach_element ((array, index, _node) => {
-						checkdepends += _node.get_string ();
-					});
-				}
-				// provides
-				node = json_object.get_member ("Provides");
-				if (node != null) {
-					node.get_array ().foreach_element ((array, index, _node) => {
-						provides += _node.get_string ();
-					});
-				}
-				// replaces
-				node = json_object.get_member ("Replaces");
-				if (node != null) {
-					node.get_array ().foreach_element ((array, index, _node) => {
-						replaces += _node.get_string ();
-					});
-				}
-				// conflicts
-				node = json_object.get_member ("Conflicts");
-				if (node != null) {
-					node.get_array ().foreach_element ((array, index, _node) => {
-						conflicts += _node.get_string ();
-					});
-				}
-			}
-			details.name = (owned) name;
-			details.version = (owned) version ;
-			details.desc = (owned) desc;
-			details.popularity = popularity;
-			details.packagebase = (owned) packagebase;
-			details.url = (owned) url;
-			details.maintainer = (owned) maintainer ;
-			details.firstsubmitted = firstsubmitted;
-			details.lastmodified = lastmodified;
-			details.outofdate = outofdate;
-			details.numvotes = numvotes;
-			details.licenses = (owned) licenses;
-			details.depends = (owned) depends;
-			details.optdepends = (owned) optdepends;
-			details.checkdepends = (owned) checkdepends;
-			details.makedepends = (owned) makedepends;
-			details.provides = (owned) provides;
-			details.replaces = (owned) replaces;
-			details.conflicts = (owned) conflicts;
-			return details;
 		}
 
 		private async void compute_aur_build_list (string[] aur_list) {
@@ -951,28 +589,6 @@ namespace Pamac {
 			aur_desc_list.remove_all ();
 			already_checked_aur_dep.remove_all ();
 			yield check_aur_dep_list (aur_list);
-		}
-
-		private string splitdep (string depstring) {
-			// split depmod and version from name
-			string result;
-			string[] splitted = depstring.split (">", 2);
-			if (splitted.length > 1) {
-				result = splitted[0];
-			} else {
-				splitted = depstring.split ("<", 2);
-				if (splitted.length > 1) {
-					result = splitted[0];
-				} else {
-					splitted = depstring.split ("=", 2);
-					if (splitted.length > 1) {
-						result = splitted[0];
-					} else {
-						result = depstring;
-					}
-				}
-			}
-			return result;
 		}
 
 		private async void check_aur_dep_list (string[] pkgnames) {
@@ -1008,7 +624,7 @@ namespace Pamac {
 									}
 									// check deps
 									unowned string dep_string = node.get_string ();
-									string dep_name = splitdep (dep_string);
+									string dep_name = Alpm.Depend.from_string (dep_string).name;
 									unowned Alpm.Package? pkg = null;
 									// search for the name first to avoid provides trouble
 									pkg = alpm_handle.localdb.get_pkg (dep_name);
@@ -1109,320 +725,8 @@ namespace Pamac {
 			}
 		}
 
-		public string[] get_repos_names () {
-			string[] repos_names = {};
-			unowned Alpm.List<unowned Alpm.DB> syncdbs = alpm_handle.syncdbs;
-			while (syncdbs != null) {
-				unowned Alpm.DB db = syncdbs.data;
-				repos_names += db.name;
-				syncdbs.next ();
-			}
-			return repos_names;
-		}
-
-		public async AlpmPackage[] get_repo_pkgs (string repo) {
-			AlpmPackage[] pkgs = {};
-			unowned Alpm.List<unowned Alpm.DB> syncdbs = alpm_handle.syncdbs;
-			while (syncdbs != null) {
-				unowned Alpm.DB db = syncdbs.data;
-				if (db.name == repo) {
-					unowned Alpm.List<unowned Alpm.Package> pkgcache = db.pkgcache;
-					while (pkgcache != null) {
-						unowned Alpm.Package sync_pkg = pkgcache.data;
-						unowned Alpm.Package? local_pkg = alpm_handle.localdb.get_pkg (sync_pkg.name);
-						if (local_pkg != null) {
-							pkgs += initialise_pkg_struct (local_pkg);
-						} else {
-							pkgs += initialise_pkg_struct (sync_pkg);
-						}
-						pkgcache.next ();
-					}
-					break;
-				}
-				syncdbs.next ();
-			}
-			return pkgs;
-		}
-
-		public string[] get_groups_names () {
-			string[] groups_names = {};
-			unowned Alpm.List<unowned Alpm.Group> groupcache = alpm_handle.localdb.groupcache;
-			while (groupcache != null) {
-				unowned Alpm.Group group = groupcache.data;
-				if (!(group.name in groups_names)) { 
-					groups_names += group.name;
-				}
-				groupcache.next ();
-			}
-			unowned Alpm.List<unowned Alpm.DB> syncdbs = alpm_handle.syncdbs;
-			while (syncdbs != null) {
-				unowned Alpm.DB db = syncdbs.data;
-				groupcache = db.groupcache;
-				while (groupcache != null) {
-					unowned Alpm.Group group = groupcache.data;
-					if (!(group.name in groups_names)) { 
-						groups_names += group.name;
-					}
-					groupcache.next ();
-				}
-				syncdbs.next ();
-			}
-			return groups_names;
-		}
-
-		private Alpm.List<unowned Alpm.Package> group_pkgs (string group_name) {
-			Alpm.List<unowned Alpm.Package> result = null;
-			unowned Alpm.Group? grp = alpm_handle.localdb.get_group (group_name);
-			if (grp != null) {
-				unowned Alpm.List<unowned Alpm.Package> packages = grp.packages;
-				while (packages != null) {
-					unowned Alpm.Package pkg = packages.data;
-					result.add (pkg);
-					packages.next ();
-				}
-			}
-			unowned Alpm.List<unowned Alpm.DB> syncdbs = alpm_handle.syncdbs;
-			while (syncdbs != null) {
-				unowned Alpm.DB db = syncdbs.data;
-				grp = db.get_group (group_name);
-				if (grp != null) {
-					unowned Alpm.List<unowned Alpm.Package> packages = grp.packages;
-					while (packages != null) {
-						unowned Alpm.Package pkg = packages.data;
-						if (result.find (pkg, (Alpm.List.CompareFunc) alpm_pkg_compare_name) == null) {
-							result.add (pkg);
-						}
-						packages.next ();
-					}
-				}
-				syncdbs.next ();
-			}
-			return result;
-		}
-
-		public async AlpmPackage[] get_group_pkgs (string groupname) {
-			AlpmPackage[] pkgs = {};
-			Alpm.List<unowned Alpm.Package> alpm_pkgs = group_pkgs (groupname);
-			unowned Alpm.List<unowned Alpm.Package> list = alpm_pkgs;
-			while (list != null) {
-				unowned Alpm.Package alpm_pkg = list.data;
-				pkgs += initialise_pkg_struct (alpm_pkg);
-				list.next ();
-			}
-			return pkgs;
-		}
-
-		public string[] get_pkg_uninstalled_optdeps (string pkgname) {
-			string[] optdeps = {};
-			unowned Alpm.Package? alpm_pkg = alpm_handle.localdb.get_pkg (pkgname);
-			if (alpm_pkg == null) {
-				alpm_pkg = get_syncpkg (pkgname);
-			}
-			if (alpm_pkg != null) {
-				unowned Alpm.List<unowned Alpm.Depend> optdepends = alpm_pkg.optdepends;
-				while (optdepends != null) {
-					unowned Alpm.Depend optdep = optdepends.data;
-					if (Alpm.find_satisfier (alpm_handle.localdb.pkgcache, optdep.name) == null) {
-						optdeps += optdep.compute_string ();
-					}
-					optdepends.next ();
-				}
-			}
-			return optdeps;
-		}
-
-		public AlpmPackageDetails get_pkg_details (string pkgname) {
-			string name = "";
-			string version = "";
-			string desc = "";
-			string url = "";
-			string repo = "";
-			string has_signature = "";
-			string reason = "";
-			string packager = "";
-			string builddate = "";
-			string installdate = "";
-			string[] groups = {};
-			string[] backups = {};
-			string[] licenses = {};
-			string[] depends = {};
-			string[] optdepends = {};
-			string[] requiredby = {};
-			string[] optionalfor = {};
-			string[] provides = {};
-			string[] replaces = {};
-			string[] conflicts = {};
-			var details = AlpmPackageDetails ();
-			unowned Alpm.Package? alpm_pkg = alpm_handle.localdb.get_pkg (pkgname);
-			if (alpm_pkg == null) {
-				alpm_pkg = get_syncpkg (pkgname);
-			}
-			if (alpm_pkg != null) {
-				// name
-				name = alpm_pkg.name;
-				// version
-				version = alpm_pkg.version;
-				// desc can be null
-				if (alpm_pkg.desc != null) {
-					desc = alpm_pkg.desc;
-				}
-				details.origin = (uint) alpm_pkg.origin;
-				// url can be null
-				if (alpm_pkg.url != null) {
-					url = alpm_pkg.url;
-				}
-				// packager can be null
-				packager = alpm_pkg.packager ?? "";
-				// groups
-				unowned Alpm.List list = alpm_pkg.groups;
-				while (list != null) {
-					groups += ((Alpm.List<unowned string>) list).data;
-					list.next ();
-				}
-				// licenses
-				list = alpm_pkg.licenses;
-				while (list != null) {
-					licenses += ((Alpm.List<unowned string>) list).data;
-					list.next ();
-				}
-				// build_date
-				GLib.Time time = GLib.Time.local ((time_t) alpm_pkg.builddate);
-				builddate = time.format ("%a %d %b %Y %X %Z");
-				// local pkg
-				if (alpm_pkg.origin == Alpm.Package.From.LOCALDB) {
-					// repo
-					unowned Alpm.Package? sync_pkg = get_syncpkg (alpm_pkg.name);
-					if (sync_pkg != null) {
-						repo = sync_pkg.db.name;
-					}
-					// reason
-					if (alpm_pkg.reason == Alpm.Package.Reason.EXPLICIT) {
-						reason = _("Explicitly installed");
-					} else if (alpm_pkg.reason == Alpm.Package.Reason.DEPEND) {
-						reason = _("Installed as a dependency for another package");
-					} else {
-						reason = _("Unknown");
-					}
-					// install_date
-					time = GLib.Time.local ((time_t) alpm_pkg.installdate);
-					installdate = time.format ("%a %d %b %Y %X %Z");
-					// backups
-					list = alpm_pkg.backups;
-					while (list != null) {
-						backups += "/" + ((Alpm.List<unowned Alpm.Backup>) list).data.name;
-						list.next ();
-					}
-					// requiredby
-					Alpm.List<string> pkg_requiredby = alpm_pkg.compute_requiredby ();
-					list = pkg_requiredby;
-					while (list != null) {
-						requiredby += ((Alpm.List<unowned string>) list).data;
-						list.next ();
-					}
-					pkg_requiredby.free_inner (GLib.free);
-					// optionalfor
-					Alpm.List<string> pkg_optionalfor = alpm_pkg.compute_optionalfor ();
-					list = pkg_optionalfor;
-					while (list != null) {
-						optionalfor += ((Alpm.List<unowned string>) list).data;
-						list.next ();
-					}
-					pkg_optionalfor.free_inner (GLib.free);
-				// sync pkg
-				} else if (alpm_pkg.origin == Alpm.Package.From.SYNCDB) {
-					// repos
-					repo = alpm_pkg.db.name;
-					// signature
-					has_signature = alpm_pkg.base64_sig != null ? _("Yes") : _("No");
-				}
-				// depends
-				list = alpm_pkg.depends;
-				while (list != null) {
-					depends += ((Alpm.List<unowned Alpm.Depend>) list).data.compute_string ();
-					list.next ();
-				}
-				// optdepends
-				list = alpm_pkg.optdepends;
-				while (list != null) {
-					optdepends += ((Alpm.List<unowned Alpm.Depend>) list).data.compute_string ();
-					list.next ();
-				}
-				// provides
-				list = alpm_pkg.provides;
-				while (list != null) {
-					provides += ((Alpm.List<unowned Alpm.Depend>) list).data.compute_string ();
-					list.next ();
-				}
-				// replaces
-				list = alpm_pkg.replaces;
-				while (list != null) {
-					replaces += ((Alpm.List<unowned Alpm.Depend>) list).data.compute_string ();
-					list.next ();
-				}
-				// conflicts
-				list = alpm_pkg.conflicts;
-				while (list != null) {
-					conflicts += ((Alpm.List<unowned Alpm.Depend>) list).data.compute_string ();
-					list.next ();
-				}
-			}
-			details.name = (owned) name;
-			details.version = (owned) version;
-			details.desc = (owned) desc;
-			details.repo = (owned) repo;
-			details.url = (owned) url;
-			details.packager = (owned) packager;
-			details.builddate = (owned) builddate;
-			details.installdate = (owned) installdate;
-			details.reason = (owned) reason;
-			details.has_signature = (owned) has_signature;
-			details.licenses = (owned) licenses;
-			details.depends = (owned) depends;
-			details.optdepends = (owned) optdepends;
-			details.requiredby = (owned) requiredby;
-			details.optionalfor = (owned) optionalfor;
-			details.provides = (owned) provides;
-			details.replaces = (owned) replaces;
-			details.conflicts = (owned) conflicts;
-			details.groups = (owned) groups;
-			details.backups = (owned) backups;
-			return details;
-		}
-
-		public string[] get_pkg_files (string pkgname) {
-			string[] files = {};
-			unowned Alpm.Package? alpm_pkg = alpm_handle.localdb.get_pkg (pkgname);
-			if (alpm_pkg != null) {
-				unowned Alpm.FileList filelist = alpm_pkg.files;
-				Alpm.File* file_ptr = filelist.files;
-				for (size_t i = 0; i < filelist.count; i++, file_ptr++) {
-					if (!file_ptr->name.has_suffix ("/")) {
-						files += "/" + file_ptr->name;
-					}
-				}
-			} else {
-				unowned Alpm.List<unowned Alpm.DB> syncdbs = files_handle.syncdbs;
-				while (syncdbs != null) {
-					unowned Alpm.DB db = syncdbs.data;
-					unowned Alpm.Package? files_pkg = db.get_pkg (pkgname);
-					if (files_pkg != null) {
-						unowned Alpm.FileList filelist = files_pkg.files;
-						Alpm.File* file_ptr = filelist.files;
-						for (size_t i = 0; i < filelist.count; i++, file_ptr++) {
-							if (!file_ptr->name.has_suffix ("/")) {
-								files += "/" + file_ptr->name;
-							}
-						}
-						break;
-					}
-					syncdbs.next ();
-				}
-			}
-			return files;
-		}
-
 		private void get_updates () {
-			UpdateInfos[] updates_infos = {};
+			AlpmPackage[] updates_infos = {};
 			unowned Alpm.Package? pkg = null;
 			unowned Alpm.Package? candidate = null;
 			foreach (unowned string name in alpm_config.get_syncfirsts ()) {
@@ -1430,13 +734,8 @@ namespace Pamac {
 				if (pkg != null) {
 					candidate = pkg.sync_newversion (alpm_handle.syncdbs);
 					if (candidate != null) {
-						var infos = UpdateInfos () {
-							name = candidate.name,
-							old_version = pkg.version,
-							new_version = candidate.version,
-							repo = candidate.db.name,
-							download_size = candidate.download_size
-						};
+						var infos = initialise_pkg_struct (candidate);
+						infos.installed_version = pkg.version;
 						updates_infos += (owned) infos;
 					}
 				}
@@ -1457,16 +756,11 @@ namespace Pamac {
 					if (alpm_handle.should_ignore (installed_pkg) == 0) {
 						candidate = installed_pkg.sync_newversion (alpm_handle.syncdbs);
 						if (candidate != null) {
-							var infos = UpdateInfos () {
-								name = candidate.name,
-								old_version = installed_pkg.version,
-								new_version = candidate.version,
-								repo = candidate.db.name,
-								download_size = candidate.download_size
-							};
+							var infos = initialise_pkg_struct (candidate);
+							infos.installed_version = installed_pkg.version;
 							updates_infos += (owned) infos;
 						} else {
-							if (check_aur_updates && (aur_updates_results.get_length () == 0)) {
+							if (check_aur_updates && (!aur_updates_checked)) {
 								// check if installed_pkg is a local pkg
 								unowned Alpm.List<unowned Alpm.DB> syncdbs = alpm_handle.syncdbs;
 								while (syncdbs != null) {
@@ -1487,9 +781,10 @@ namespace Pamac {
 				}
 				if (check_aur_updates) {
 					// get aur updates
-					if (aur_updates_results.get_length () == 0) {
+					if (!aur_updates_checked) {
 						AUR.multiinfo.begin (local_pkgs, (obj, res) => {
 							aur_updates_results = AUR.multiinfo.end (res);
+							aur_updates_checked = true;
 							var updates = Updates () {
 								is_syncfirst = false,
 								repos_updates = (owned) updates_infos,
@@ -1516,20 +811,16 @@ namespace Pamac {
 			}
 		}
 
-		private UpdateInfos[] get_aur_updates_infos () {
-			UpdateInfos[] aur_updates_infos = {};
+		private AURPackage[] get_aur_updates_infos () {
+			AURPackage[] aur_updates_infos = {};
 			aur_updates_results.foreach_element ((array, index, node) => {
 				unowned Json.Object pkg_info = node.get_object ();
 				unowned string name = pkg_info.get_string_member ("Name");
 				unowned string new_version = pkg_info.get_string_member ("Version");
 				unowned string old_version = alpm_handle.localdb.get_pkg (name).version;
 				if (Alpm.pkg_vercmp (new_version, old_version) == 1) {
-					var infos = UpdateInfos () {
-						name = name,
-						old_version = old_version,
-						new_version = new_version,
-						repo = ""
-					};
+					var infos = initialise_aur_struct (pkg_info);
+					infos.installed_version = old_version;
 					aur_updates_infos += (owned) infos;
 				}
 			});
@@ -1547,16 +838,6 @@ namespace Pamac {
 
 		private bool trans_init (Alpm.TransFlag flags) {
 			current_error = ErrorInfos ();
-			if (!databases_lock_mutex.trylock ()) {
-				// Wait for pacman to finish
-				emit_event (0, 0, {});
-				databases_lock_mutex.lock ();
-			}
-			if (cancellable.is_cancelled ()) {
-				cancellable.reset ();
-				databases_lock_mutex.unlock ();
-				return false;
-			}
 			cancellable.reset ();
 			if (alpm_handle.trans_init (flags) == -1) {
 				Alpm.Errno errno = alpm_handle.errno ();
@@ -1565,7 +846,6 @@ namespace Pamac {
 				if (errno != 0) {
 					current_error.details = { Alpm.strerror (errno) };
 				}
-				databases_lock_mutex.unlock ();
 				return false;
 			}
 			return true;
@@ -1583,7 +863,7 @@ namespace Pamac {
 					if (errno != 0) {
 						current_error.details = { Alpm.strerror (errno) };
 					}
-					trans_release ();
+					trans_release (lock_id);
 					success = false;
 				} else {
 					success = trans_prepare_real ();
@@ -1592,7 +872,10 @@ namespace Pamac {
 			trans_prepare_finished (success);
 		}
 
-		public void start_sysupgrade_prepare_ (bool enable_downgrade_, string[] temporary_ignorepkgs_) {
+		public void start_sysupgrade_prepare (bool enable_downgrade_, string[] temporary_ignorepkgs_, GLib.BusName sender) {
+			if (lock_id != sender) {
+				return;
+			}
 			enable_downgrade = enable_downgrade_;
 			temporary_ignorepkgs = temporary_ignorepkgs_;
 			try {
@@ -1765,13 +1048,13 @@ namespace Pamac {
 							string detail;
 							if (miss->causingpkg == null) {
 								/* package being installed/upgraded has unresolved dependency */
-								detail = _("%s: requires %s").printf (miss->target, depstring);
+								detail = _("unable to satisfy dependency '%s' required by %s").printf (depstring, miss->target);
 							} else if ((pkg = Alpm.pkg_find (trans_add, miss->causingpkg)) != null) {
 								/* upgrading a package breaks a local dependency */
-								detail = _("%s: installing %s (%s) breaks dependency '%s'").printf (miss->target, miss->causingpkg, pkg.version, depstring);
+								detail = _("installing %s (%s) breaks dependency '%s' required by %s").printf (miss->causingpkg, pkg.version, depstring, miss->target);
 							} else {
 								/* removing a package breaks a local dependency */
-								detail = _("%s: removing %s breaks dependency '%s'").printf (miss->target, miss->causingpkg, depstring);
+								detail = _("removing %s breaks dependency '%s' required by %s").printf (miss->causingpkg, depstring, miss->target);
 							}
 							if (!(detail in details)) {
 								details += detail;
@@ -1800,7 +1083,7 @@ namespace Pamac {
 						break;
 				}
 				current_error.details = (owned) details;
-				trans_release ();
+				trans_release (lock_id);
 				success = false;
 			} else {
 				// Search for holdpkg in target list
@@ -1818,7 +1101,7 @@ namespace Pamac {
 				if (found_locked_pkg) {
 					current_error.message = _("Failed to prepare transaction");
 					current_error.details = (owned) details;
-					trans_release ();
+					trans_release (lock_id);
 					success = false;
 				}
 			}
@@ -1853,23 +1136,13 @@ namespace Pamac {
 				if (success) {
 					success = trans_prepare_real ();
 				} else {
-					trans_release ();
+					trans_release (lock_id);
 				}
 			}
 			trans_prepare_finished (success);
 		}
 
 		private void build_prepare () {
-			if (!databases_lock_mutex.trylock ()) {
-				// Wait for pacman to finish
-				emit_event (0, 0, {});
-				databases_lock_mutex.lock ();
-			}
-			if (cancellable.is_cancelled ()) {
-				cancellable.reset ();
-				databases_lock_mutex.unlock ();
-				return;
-			}
 			// create a fake aur db
 			try {
 				var list = new StringBuilder ();
@@ -1897,6 +1170,11 @@ namespace Pamac {
 				// add to_build in to_install for the fake trans prpeapre
 				foreach (unowned string name in to_build) {
 					to_install += name;
+					// check if we need to remove debug package to avoid dep problem
+					string debug_pkg_name = "%s-debug".printf (name);
+					if (alpm_handle.localdb.get_pkg (debug_pkg_name) != null) {
+						to_remove += debug_pkg_name;
+					}
 				}
 				// check base-devel group needed to build pkgs
 				var backup_to_remove = new GenericSet<string?> (str_hash, str_equal);
@@ -2019,31 +1297,25 @@ namespace Pamac {
 								}
 								pkgs_to_remove.next ();
 							}
-							trans_release ();
+							trans_release (lock_id);
 							try {
 								Process.spawn_command_line_sync ("rm -f %ssync/aur.db".printf (alpm_handle.dbpath));
 							} catch (SpawnError e) {
 								stderr.printf ("SpawnError: %s\n", e.message);
 							}
 							// get standard handle
-							databases_lock_mutex.lock ();
 							refresh_handle ();
-							databases_lock_mutex.unlock ();
 							// launch standard prepare
 							to_install = real_to_install;
 							trans_prepare ();
 						}
 					} else {
-						trans_release ();
+						trans_release (lock_id);
 					}
-				} else {
-					databases_lock_mutex.unlock ();
 				}
 				if (!success) {
 					// get standard handle
-					databases_lock_mutex.lock ();
 					refresh_handle ();
-					databases_lock_mutex.unlock ();
 					trans_prepare_finished (false);
 				}
 			}
@@ -2053,7 +1325,11 @@ namespace Pamac {
 										string[] to_install_,
 										string[] to_remove_,
 										string[] to_load_,
-										string[] to_build_) {
+										string[] to_build_,
+										GLib.BusName sender) {
+			if (lock_id != sender) {
+				return;
+			}
 			flags = flags_;
 			to_install = to_install_;
 			to_remove = to_remove_;
@@ -2160,7 +1436,7 @@ namespace Pamac {
 				current_error.errno = (uint) errno;
 				// cancel the download return an EXTERNAL_DOWNLOAD error
 				if (errno == Alpm.Errno.EXTERNAL_DOWNLOAD && cancellable.is_cancelled ()) {
-					trans_release ();
+					trans_release (lock_id);
 					trans_commit_finished (false);
 					return;
 				}
@@ -2215,7 +1491,7 @@ namespace Pamac {
 				}
 				success = false;
 			}
-			trans_release ();
+			trans_release (lock_id);
 			to_install_as_dep.foreach_remove ((pkgname, val) => {
 				unowned Alpm.Package? pkg = alpm_handle.localdb.get_pkg (pkgname);
 				if (pkg != null) {
@@ -2237,20 +1513,24 @@ namespace Pamac {
 						stderr.printf ("Thread Error %s\n", e.message);
 					}
 				} else {
-					trans_release ();
+					trans_release (lock_id);
 					trans_commit_finished (false);
 				}
 			});
 		}
 
-		public void trans_release () {
+		public void trans_release (GLib.BusName sender) {
+			if (lock_id != sender) {
+				return;
+			}
 			alpm_handle.trans_release ();
 			remove_ignorepkgs ();
-			databases_lock_mutex.unlock ();
 		}
 
-		[DBus (no_reply = true)]
-		public void trans_cancel () {
+		public void trans_cancel (GLib.BusName sender) {
+			if (lock_id != sender) {
+				return;
+			}
 			if (alpm_handle.trans_interrupt () == 0) {
 				// a transaction is being interrupted
 				// it will end the normal way
@@ -2347,7 +1627,7 @@ private void cb_event (Alpm.Event.Data data) {
 			break;
 		case Alpm.Event.Type.PKGDOWNLOAD_START:
 			// do not emit event when download is cancelled
-			if (pamac_daemon.cancellable.is_cancelled ()) {
+			if (system_daemon.cancellable.is_cancelled ()) {
 				return;
 			}
 			details += data.pkgdownload_file;
@@ -2368,7 +1648,7 @@ private void cb_event (Alpm.Event.Data data) {
 		default:
 			break;
 	}
-	pamac_daemon.emit_event ((uint) data.type, secondary_type, details);
+	system_daemon.emit_event ((uint) data.type, secondary_type, details);
 }
 
 private void cb_question (Alpm.Question.Data data) {
@@ -2398,16 +1678,16 @@ private void cb_question (Alpm.Question.Data data) {
 				providers_str += pkg.name;
 				list.next ();
 			}
-			pamac_daemon.provider_cond = Cond ();
-			pamac_daemon.provider_mutex = Mutex ();
-			pamac_daemon.choosen_provider = null;
-			pamac_daemon.emit_providers (depend_str, providers_str);
-			pamac_daemon.provider_mutex.lock ();
-			while (pamac_daemon.choosen_provider == null) {
-				pamac_daemon.provider_cond.wait (pamac_daemon.provider_mutex);
+			system_daemon.provider_cond = Cond ();
+			system_daemon.provider_mutex = Mutex ();
+			system_daemon.choosen_provider = null;
+			system_daemon.emit_providers (depend_str, providers_str);
+			system_daemon.provider_mutex.lock ();
+			while (system_daemon.choosen_provider == null) {
+				system_daemon.provider_cond.wait (system_daemon.provider_mutex);
 			}
-			data.select_provider_use_index = pamac_daemon.choosen_provider;
-			pamac_daemon.provider_mutex.unlock ();
+			data.select_provider_use_index = system_daemon.choosen_provider;
+			system_daemon.provider_mutex.unlock ();
 			break;
 		case Alpm.Question.Type.CORRUPTED_PKG:
 			// Auto-remove corrupted pkgs in cache
@@ -2430,16 +1710,16 @@ private void cb_question (Alpm.Question.Data data) {
 
 private void cb_progress (Alpm.Progress progress, string pkgname, int percent, uint n_targets, uint current_target) {
 	if (percent == 0) {
-		pamac_daemon.emit_progress ((uint) progress, pkgname, (uint) percent, n_targets, current_target);
-		pamac_daemon.timer.start ();
+		system_daemon.emit_progress ((uint) progress, pkgname, (uint) percent, n_targets, current_target);
+		system_daemon.timer.start ();
 	} else if (percent == 100) {
-		pamac_daemon.emit_progress ((uint) progress, pkgname, (uint) percent, n_targets, current_target);
-		pamac_daemon.timer.stop ();
-	}else if (pamac_daemon.timer.elapsed () < 0.5) {
+		system_daemon.emit_progress ((uint) progress, pkgname, (uint) percent, n_targets, current_target);
+		system_daemon.timer.stop ();
+	}else if (system_daemon.timer.elapsed () < 0.5) {
 		return;
 	} else {
-		pamac_daemon.emit_progress ((uint) progress, pkgname, (uint) percent, n_targets, current_target);
-		pamac_daemon.timer.start ();
+		system_daemon.emit_progress ((uint) progress, pkgname, (uint) percent, n_targets, current_target);
+		system_daemon.timer.start ();
 	}
 }
 
@@ -2447,7 +1727,7 @@ private uint64 prevprogress;
 
 private int cb_download (void* data, uint64 dltotal, uint64 dlnow, uint64 ultotal, uint64 ulnow) {
 
-	if (unlikely (pamac_daemon.cancellable.is_cancelled ())) {
+	if (unlikely (system_daemon.cancellable.is_cancelled ())) {
 		return 1;
 	}
 
@@ -2456,17 +1736,17 @@ private int cb_download (void* data, uint64 dltotal, uint64 dlnow, uint64 ultota
 	if (unlikely (dlnow == 0 || dltotal == 0 || prevprogress == dltotal)) {
 		return 0;
 	} else if (unlikely (prevprogress == 0)) {
-		pamac_daemon.emit_download (filename, 0, dltotal);
-		pamac_daemon.emit_download (filename, dlnow, dltotal);
-		pamac_daemon.timer.start ();
+		system_daemon.emit_download (filename, 0, dltotal);
+		system_daemon.emit_download (filename, dlnow, dltotal);
+		system_daemon.timer.start ();
 	} else if (unlikely (dlnow == dltotal)) {
-		pamac_daemon.emit_download (filename, dlnow, dltotal);
-		pamac_daemon.timer.stop ();
-	} else if (likely (pamac_daemon.timer.elapsed () < 0.5)) {
+		system_daemon.emit_download (filename, dlnow, dltotal);
+		system_daemon.timer.stop ();
+	} else if (likely (system_daemon.timer.elapsed () < 0.5)) {
 		return 0;
 	} else {
-		pamac_daemon.emit_download (filename, dlnow, dltotal);
-		pamac_daemon.timer.start ();
+		system_daemon.emit_download (filename, dlnow, dltotal);
+		system_daemon.timer.start ();
 	}
 
 	prevprogress = dlnow;
@@ -2475,7 +1755,7 @@ private int cb_download (void* data, uint64 dltotal, uint64 dlnow, uint64 ultota
 }
 
 private int cb_fetch (string fileurl, string localpath, int force) {
-	if (pamac_daemon.cancellable.is_cancelled ()) {
+	if (system_daemon.cancellable.is_cancelled ()) {
 		return -1;
 	}
 
@@ -2484,20 +1764,20 @@ private int cb_fetch (string fileurl, string localpath, int force) {
 	var destfile = GLib.File.new_for_path (localpath + url.get_basename ());
 	var tempfile = GLib.File.new_for_path (destfile.get_path () + ".part");
 
-	pamac_daemon.curl.reset ();
-	pamac_daemon.curl.setopt (Curl.Option.FAILONERROR, 1L);
-	pamac_daemon.curl.setopt (Curl.Option.CONNECTTIMEOUT, 30L);
-	pamac_daemon.curl.setopt (Curl.Option.FILETIME, 1L);
-	pamac_daemon.curl.setopt (Curl.Option.FOLLOWLOCATION, 1L);
-	pamac_daemon.curl.setopt (Curl.Option.XFERINFOFUNCTION, cb_download);
-	pamac_daemon.curl.setopt (Curl.Option.LOW_SPEED_LIMIT, 1L);
-	pamac_daemon.curl.setopt (Curl.Option.LOW_SPEED_TIME, 30L);
-	pamac_daemon.curl.setopt (Curl.Option.NETRC, Curl.NetRCOption.OPTIONAL);
-	pamac_daemon.curl.setopt (Curl.Option.HTTPAUTH, Curl.CURLAUTH_ANY);
-	pamac_daemon.curl.setopt (Curl.Option.URL, fileurl);
-	pamac_daemon.curl.setopt (Curl.Option.ERRORBUFFER, error_buffer);
-	pamac_daemon.curl.setopt (Curl.Option.NOPROGRESS, 0L);
-	pamac_daemon.curl.setopt (Curl.Option.XFERINFODATA, (void*) url.get_basename ());
+	system_daemon.curl.reset ();
+	system_daemon.curl.setopt (Curl.Option.FAILONERROR, 1L);
+	system_daemon.curl.setopt (Curl.Option.CONNECTTIMEOUT, 30L);
+	system_daemon.curl.setopt (Curl.Option.FILETIME, 1L);
+	system_daemon.curl.setopt (Curl.Option.FOLLOWLOCATION, 1L);
+	system_daemon.curl.setopt (Curl.Option.XFERINFOFUNCTION, cb_download);
+	system_daemon.curl.setopt (Curl.Option.LOW_SPEED_LIMIT, 1L);
+	system_daemon.curl.setopt (Curl.Option.LOW_SPEED_TIME, 30L);
+	system_daemon.curl.setopt (Curl.Option.NETRC, Curl.NetRCOption.OPTIONAL);
+	system_daemon.curl.setopt (Curl.Option.HTTPAUTH, Curl.CURLAUTH_ANY);
+	system_daemon.curl.setopt (Curl.Option.URL, fileurl);
+	system_daemon.curl.setopt (Curl.Option.ERRORBUFFER, error_buffer);
+	system_daemon.curl.setopt (Curl.Option.NOPROGRESS, 0L);
+	system_daemon.curl.setopt (Curl.Option.XFERINFODATA, (void*) url.get_basename ());
 
 	bool remove_partial_download = true;
 	if (fileurl.contains (".pkg.tar.") && !fileurl.has_suffix (".sig")) {
@@ -2511,15 +1791,15 @@ private int cb_fetch (string fileurl, string localpath, int force) {
 		if (force == 0) {
 			if (destfile.query_exists ()) {
 				// start from scratch only download if our local is out of date.
-				pamac_daemon.curl.setopt (Curl.Option.TIMECONDITION, Curl.TimeCond.IFMODSINCE);
+				system_daemon.curl.setopt (Curl.Option.TIMECONDITION, Curl.TimeCond.IFMODSINCE);
 				FileInfo info = destfile.query_info ("time::modified", 0);
 				TimeVal time = info.get_modification_time ();
-				pamac_daemon.curl.setopt (Curl.Option.TIMEVALUE, time.tv_sec);
+				system_daemon.curl.setopt (Curl.Option.TIMEVALUE, time.tv_sec);
 			} else if (tempfile.query_exists ()) {
 				// a previous partial download exists, resume from end of file.
 				FileInfo info = tempfile.query_info ("standard::size", 0);
 				int64 size = info.get_size ();
-				pamac_daemon.curl.setopt (Curl.Option.RESUME_FROM_LARGE, size);
+				system_daemon.curl.setopt (Curl.Option.RESUME_FROM_LARGE, size);
 				open_mode = "ab";
 			}
 		} else {
@@ -2537,17 +1817,17 @@ private int cb_fetch (string fileurl, string localpath, int force) {
 		return -1;
 	}
 
-	pamac_daemon.curl.setopt (Curl.Option.WRITEDATA, localf);
+	system_daemon.curl.setopt (Curl.Option.WRITEDATA, localf);
 
 	// perform transfer
-	Curl.Code err = pamac_daemon.curl.perform ();
+	Curl.Code err = system_daemon.curl.perform ();
 
 
 	// disconnect relationships from the curl handle for things that might go out
 	// of scope, but could still be touched on connection teardown. This really
 	// only applies to FTP transfers.
-	pamac_daemon.curl.setopt (Curl.Option.NOPROGRESS, 1L);
-	pamac_daemon.curl.setopt (Curl.Option.ERRORBUFFER, null);
+	system_daemon.curl.setopt (Curl.Option.NOPROGRESS, 1L);
+	system_daemon.curl.setopt (Curl.Option.ERRORBUFFER, null);
 
 	int ret;
 
@@ -2559,11 +1839,11 @@ private int cb_fetch (string fileurl, string localpath, int force) {
 			unowned string effective_url;
 
 			// retrieve info about the state of the transfer
-			pamac_daemon.curl.getinfo (Curl.Info.FILETIME, out remote_time);
-			pamac_daemon.curl.getinfo (Curl.Info.CONTENT_LENGTH_DOWNLOAD, out remote_size);
-			pamac_daemon.curl.getinfo (Curl.Info.SIZE_DOWNLOAD, out bytes_dl);
-			pamac_daemon.curl.getinfo (Curl.Info.CONDITION_UNMET, out timecond);
-			pamac_daemon.curl.getinfo (Curl.Info.EFFECTIVE_URL, out effective_url);
+			system_daemon.curl.getinfo (Curl.Info.FILETIME, out remote_time);
+			system_daemon.curl.getinfo (Curl.Info.CONTENT_LENGTH_DOWNLOAD, out remote_size);
+			system_daemon.curl.getinfo (Curl.Info.SIZE_DOWNLOAD, out bytes_dl);
+			system_daemon.curl.getinfo (Curl.Info.CONDITION_UNMET, out timecond);
+			system_daemon.curl.getinfo (Curl.Info.EFFECTIVE_URL, out effective_url);
 
 			if (timecond == 1 && bytes_dl == 0) {
 				// time condition was met and we didn't download anything. we need to
@@ -2583,8 +1863,8 @@ private int cb_fetch (string fileurl, string localpath, int force) {
 			else if (remote_size != -1 && bytes_dl != -1 && bytes_dl != remote_size) {
 				string error = _("%s appears to be truncated: %jd/%jd bytes\n").printf (
 											fileurl, bytes_dl, remote_size);
-				pamac_daemon.emit_log ((uint) Alpm.LogLevel.ERROR, error);
-				pamac_daemon.current_error.details = {error};
+				system_daemon.emit_log ((uint) Alpm.LogLevel.ERROR, error);
+				system_daemon.current_error.details = {error};
 				if (remove_partial_download) {
 					try {
 						if (tempfile.query_exists ()) {
@@ -2639,8 +1919,8 @@ private int cb_fetch (string fileurl, string localpath, int force) {
 				string hostname = url.get_uri ().split("/")[2];
 				string error = _("failed retrieving file '%s' from %s : %s\n").printf (
 											url.get_basename (), hostname, (string) error_buffer);
-				pamac_daemon.emit_log ((uint) Alpm.LogLevel.ERROR, error);
-				pamac_daemon.current_error.details = {error};
+				system_daemon.emit_log ((uint) Alpm.LogLevel.ERROR, error);
+				system_daemon.current_error.details = {error};
 			}
 			ret = -1;
 			break;
@@ -2650,12 +1930,12 @@ private int cb_fetch (string fileurl, string localpath, int force) {
 }
 
 private void cb_totaldownload (uint64 total) {
-	pamac_daemon.emit_totaldownload (total);
+	system_daemon.emit_totaldownload (total);
 }
 
 private void cb_log (Alpm.LogLevel level, string fmt, va_list args) {
 	// do not log errors when download is cancelled
-	if (pamac_daemon.cancellable.is_cancelled ()) {
+	if (system_daemon.cancellable.is_cancelled ()) {
 		return;
 	}
 	Alpm.LogLevel logmask = Alpm.LogLevel.ERROR | Alpm.LogLevel.WARNING;
@@ -2665,14 +1945,14 @@ private void cb_log (Alpm.LogLevel level, string fmt, va_list args) {
 	string? log = null;
 	log = fmt.vprintf (args);
 	if (log != null) {
-		pamac_daemon.emit_log ((uint) level, log);
+		system_daemon.emit_log ((uint) level, log);
 	}
 }
 
 void on_bus_acquired (DBusConnection conn) {
-	pamac_daemon = new Pamac.Daemon ();
+	system_daemon = new Pamac.SystemDaemon ();
 	try {
-		conn.register_object ("/org/manjaro/pamac", pamac_daemon);
+		conn.register_object ("/org/manjaro/pamac/system", system_daemon);
 	}
 	catch (IOError e) {
 		stderr.printf ("Could not register service\n");
@@ -2686,7 +1966,7 @@ void main () {
 	Intl.textdomain (GETTEXT_PACKAGE);
 
 	Bus.own_name (BusType.SYSTEM,
-				"org.manjaro.pamac",
+				"org.manjaro.pamac.system",
 				BusNameOwnerFlags.NONE,
 				on_bus_acquired,
 				null,

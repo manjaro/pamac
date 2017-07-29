@@ -20,32 +20,9 @@
 namespace Pamac {
 	class MirrorsConfig {
 		string conf_path;
-		GLib.List<string> _countries ;
 
 		public string choosen_generation_method { get; private set; }
 		public string choosen_country { get; private set; }
-		public unowned GLib.List<string> countries {
-			get {
-				try {
-					string countries_str;
-					int status;
-					Process.spawn_command_line_sync ("pacman-mirrors -l",
-												out countries_str,
-												null,
-												out status);
-					_countries = new GLib.List<string> ();
-					if (status == 0) {
-						foreach (unowned string country in countries_str.split ("\n")) {
-						_countries.append (country);
-						}
-					}
-				} catch (SpawnError e) {
-					stdout.printf ("Error: %s\n", e.message);
-				}
-				return _countries;
-			}
-		}
-
 
 		public MirrorsConfig (string path) {
 			conf_path = path;

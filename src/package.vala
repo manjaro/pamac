@@ -21,9 +21,11 @@ namespace Pamac {
 	public struct AlpmPackage {
 		public string name;
 		public string version;
+		public string installed_version;
 		public string desc;
 		public string repo;
 		public uint64 size;
+		public uint64 download_size;
 		public uint origin;
 	}
 
@@ -54,6 +56,7 @@ namespace Pamac {
 	public struct AURPackage {
 		public string name;
 		public string version;
+		public string installed_version;
 		public string desc;
 		public double popularity;
 	}
