@@ -1871,6 +1871,7 @@ namespace Pamac {
 			transaction_running = true;
 			apply_button.sensitive = false;
 			cancel_button.sensitive = false;
+			transaction_infobox.show_all ();
 			transaction.run ();
 		}
 
@@ -1925,10 +1926,10 @@ namespace Pamac {
 
 		void run_refresh () {
 			this.get_window ().set_cursor (new Gdk.Cursor.for_display (Gdk.Display.get_default (), Gdk.CursorType.WATCH));
-			transaction.start_refresh (force_refresh);
 			apply_button.sensitive = false;
 			cancel_button.sensitive = true;
 			transaction_infobox.show_all ();
+			transaction.start_refresh (force_refresh);
 		}
 
 		void on_get_updates_finished (Updates updates) {

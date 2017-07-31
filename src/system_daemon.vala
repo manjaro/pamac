@@ -104,6 +104,8 @@ namespace Pamac {
 			timer = new Timer ();
 			lock_id = new BusName ("");
 			refresh_handle ();
+			check_old_lock ();
+			check_extern_lock ();
 			Timeout.add (500, check_extern_lock);
 			create_thread_pool ();
 			cancellable = new Cancellable ();
@@ -175,6 +177,58 @@ namespace Pamac {
 			}
 		}
 
+		private void check_old_lock () {
+			if (lockfile.query_exists ()) {
+				int exit_status;
+				string output;
+				uint64 lockfile_time;
+				try {
+					// get lockfile modification time since epoch
+					Process.spawn_command_line_sync ("stat -c %Y %s".printf (alpm_handle.lockfile),
+													out output,
+													null,
+													out exit_status);
+					if (exit_status == 0) {
+						string[] splitted = output.split ("\n");
+						if (splitted.length == 2) {
+							if (uint64.try_parse (splitted[0], out lockfile_time)) {
+								uint64 boot_time;
+								// get boot time since epoch
+								Process.spawn_command_line_sync ("cat /proc/stat",
+																out output,
+																null,
+																out exit_status);
+								if (exit_status == 0) {
+									splitted = output.split ("\n");
+									foreach (unowned string line in splitted) {
+										if ("btime" in line) {
+											string[] space_splitted = line.split (" ");
+											if (space_splitted.length == 2) {
+												if (uint64.try_parse (space_splitted[1], out boot_time)) {
+													// check if lock file is older than boot time
+													if (lockfile_time < boot_time) {
+														// remove the unneeded lock file.
+														try {
+															lockfile.delete ();
+														} catch (Error e) {
+															stderr.printf ("Error: %s\n", e.message);
+														}
+														lock_id = new BusName ("");
+													}
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				} catch (SpawnError e) {
+					stderr.printf ("Error: %s\n", e.message);
+				}
+			}
+		}
+
 		private bool check_extern_lock () {
 			if (lock_id == "extern") {
 				if (!lockfile.query_exists ()) {
@@ -184,55 +238,8 @@ namespace Pamac {
 			} else {
 				if (lockfile.query_exists ()) {
 					if (lock_id == "") {
-						// An extern lock appears, check if it is not a too old lock.
+						// An extern lock appears
 						lock_id = new BusName ("extern");
-						int exit_status;
-						string output;
-						uint64 lockfile_time;
-						try {
-							// get lockfile modification time since epoch
-							Process.spawn_command_line_sync ("stat -c %Y %s".printf (alpm_handle.lockfile),
-															out output,
-															null,
-															out exit_status);
-							if (exit_status == 0) {
-								string[] splitted = output.split ("\n");
-								if (splitted.length == 2) {
-									if (uint64.try_parse (splitted[0], out lockfile_time)) {
-										uint64 boot_time;
-										// get boot time since epoch
-										Process.spawn_command_line_sync ("cat /proc/stat",
-																		out output,
-																		null,
-																		out exit_status);
-										if (exit_status == 0) {
-											splitted = output.split ("\n");
-											foreach (unowned string line in splitted) {
-												if ("btime" in line) {
-													string[] space_splitted = line.split (" ");
-													if (space_splitted.length == 2) {
-														if (uint64.try_parse (space_splitted[1], out boot_time)) {
-															// check if lock file is older than boot time
-															if (lockfile_time < boot_time) {
-																// remove the unneeded lock file.
-																try {
-																	lockfile.delete ();
-																} catch (Error e) {
-																	stderr.printf ("Error: %s\n", e.message);
-																}
-																lock_id = new BusName ("");
-															}
-														}
-													}
-												}
-											}
-										}
-									}
-								}
-							}
-						} catch (SpawnError e) {
-							stderr.printf ("Error: %s\n", e.message);
-						}
 					}
 				}
 			}
@@ -490,6 +497,7 @@ namespace Pamac {
 
 		public void start_refresh (bool force, GLib.BusName sender) {
 			if (lock_id != sender) {
+				refresh_finished (false);
 				return;
 			}
 			force_refresh = force;
@@ -874,6 +882,7 @@ namespace Pamac {
 
 		public void start_sysupgrade_prepare (bool enable_downgrade_, string[] temporary_ignorepkgs_, GLib.BusName sender) {
 			if (lock_id != sender) {
+				trans_prepare_finished (false);
 				return;
 			}
 			enable_downgrade = enable_downgrade_;
@@ -1328,6 +1337,7 @@ namespace Pamac {
 										string[] to_build_,
 										GLib.BusName sender) {
 			if (lock_id != sender) {
+				trans_prepare_finished (false);
 				return;
 			}
 			flags = flags_;
