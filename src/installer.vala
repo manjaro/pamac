@@ -75,8 +75,21 @@ namespace Pamac {
 				foreach (unowned File file in files) {
 					transaction.to_load.add (file.get_path ());
 				}
-				transaction.run ();
 				progress_dialog.show ();
+				if (transaction.get_lock ()) {
+					transaction.run ();
+				} else {
+					transaction.progress_box.action_label.label = dgettext (null, "Waiting for another package manager to quit") + "...";
+					transaction.start_progressbar_pulse ();
+					Timeout.add (5000, () => {
+						bool locked = transaction.get_lock ();
+						if (locked) {
+							transaction.stop_progressbar_pulse ();
+							transaction.run ();
+						}
+						return !locked;
+					});
+				}
 			}
 		}
 
