@@ -13,8 +13,8 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2016-04-24 08:44+0200\n"
-"PO-Revision-Date: 2017-02-18 16:57+0000\n"
-"Last-Translator: Guillaume Benoit <guillaume@manjaro.org>\n"
+"PO-Revision-Date: 2017-07-30 02:40+0000\n"
+"Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Hindi (http://www.transifex.com/manjarolinux/manjaro-pamac/language/hi/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -26,112 +26,108 @@ msgstr ""
 msgid "Authentication is required"
 msgstr "प्रमाणीकरण की आवश्यकता है"
 
-#: ../src/daemon.vala
-msgid "Failed to initialize alpm library"
-msgstr ""
-
-#: ../src/daemon.vala ../src/transaction.vala
-msgid "Authentication failed"
-msgstr "सत्यापन विफल"
-
-#: ../src/daemon.vala
-msgid "Failed to synchronize any databases"
-msgstr "किसी भी डेटाबेस सिंक्रनाइज़ करने में विफल"
-
-#: ../src/daemon.vala
+#: ../src/user_daemon.vala
 msgid "Unknown"
 msgstr "अज्ञात"
 
-#: ../src/daemon.vala
+#: ../src/user_daemon.vala ../src/manager_window.vala
 msgid "Explicitly installed"
 msgstr "स्पष्ट रूप से स्थापित"
 
-#: ../src/daemon.vala ../src/manager_window.vala
+#: ../src/user_daemon.vala ../src/manager_window.vala
 msgid "Installed as a dependency for another package"
 msgstr "एक और पैकेज के लिए एक निर्भरता के रूप में स्थापित"
 
-#: ../src/daemon.vala
+#: ../src/user_daemon.vala
 msgid "Yes"
 msgstr "हाँ"
 
-#: ../src/daemon.vala
+#: ../src/user_daemon.vala
 msgid "No"
 msgstr "नहीं"
 
-#: ../src/daemon.vala
+#: ../src/system_daemon.vala
+msgid "Failed to initialize alpm library"
+msgstr ""
+
+#: ../src/system_daemon.vala ../src/transaction.vala
+msgid "Authentication failed"
+msgstr "सत्यापन विफल"
+
+#: ../src/system_daemon.vala
+msgid "Failed to synchronize any databases"
+msgstr "किसी भी डेटाबेस सिंक्रनाइज़ करने में विफल"
+
+#: ../src/system_daemon.vala
 msgid "Failed to init transaction"
 msgstr ""
 
-#: ../src/daemon.vala
+#: ../src/system_daemon.vala
 msgid "Failed to prepare transaction"
 msgstr "लेन-देन को तैयार करने में विफल"
 
-#: ../src/daemon.vala
+#: ../src/system_daemon.vala
 #, c-format
 msgid "target not found: %s"
 msgstr "लक्ष्य नहीं मिला: %s"
 
-#: ../src/daemon.vala
+#: ../src/system_daemon.vala
 #, c-format
 msgid "package %s does not have a valid architecture"
 msgstr ""
 
-#: ../src/daemon.vala
+#: ../src/system_daemon.vala
 #, c-format
-msgid "%s: requires %s"
-msgstr "%s: %s की आवश्यकता है"
-
-#: ../src/daemon.vala
-#, c-format
-msgid "%s: installing %s (%s) breaks dependency '%s'"
+msgid "unable to satisfy dependency '%s' required by %s"
 msgstr ""
 
-#: ../src/daemon.vala
+#: ../src/system_daemon.vala
 #, c-format
-msgid "%s: removing %s breaks dependency '%s'"
+msgid "installing %s (%s) breaks dependency '%s' required by %s"
 msgstr ""
 
-#: ../src/daemon.vala
+#: ../src/system_daemon.vala
+#, c-format
+msgid "removing %s breaks dependency '%s' required by %s"
+msgstr ""
+
+#: ../src/system_daemon.vala
 #, c-format
 msgid "%s and %s are in conflict"
 msgstr "%s और %s संघर्ष में हैं"
 
-#: ../src/daemon.vala
+#: ../src/system_daemon.vala
 #, c-format
 msgid "%s needs to be removed but it is a locked package"
 msgstr ""
 
-#: ../src/daemon.vala
+#: ../src/system_daemon.vala
 msgid "Failed to commit transaction"
 msgstr "लेन-देन के लिए प्रतिबद्ध करने में विफल"
 
-#: ../src/daemon.vala
+#: ../src/system_daemon.vala
 #, c-format
 msgid "%s exists in both %s and %s"
 msgstr "%s दोनों %s और %s में मौजूद है"
 
-#: ../src/daemon.vala
+#: ../src/system_daemon.vala
 #, c-format
 msgid "%s: %s already exists in filesystem"
 msgstr "%s: %s पहले से ही फाइलसिस्टम में मौजूद है"
 
-#: ../src/daemon.vala
+#: ../src/system_daemon.vala
 #, c-format
 msgid "%s is invalid or corrupted"
 msgstr "%s अमान्य या दूषित है"
 
-#: ../src/daemon.vala
+#: ../src/system_daemon.vala
 #, c-format
 msgid "%s appears to be truncated: %jd/%jd bytes\n"
 msgstr ""
 
-#: ../src/daemon.vala
+#: ../src/system_daemon.vala
 #, c-format
 msgid "failed retrieving file '%s' from %s : %s\n"
-msgstr ""
-
-#: ../src/transaction.vala
-msgid "A Gtk3 frontend for libalpm"
 msgstr ""
 
 #: ../src/transaction.vala
@@ -179,11 +175,7 @@ msgstr "स्थापित करने के लिए"
 msgid "To reinstall"
 msgstr "पुन: स्थापित करने के लिए"
 
-#: ../src/transaction.vala
-msgid "To update"
-msgstr "अद्यतन करने के लिए"
-
-#: ../src/transaction.vala ../src/updater_window.vala
+#: ../src/transaction.vala ../src/manager_window.vala
 msgid "Total download size"
 msgstr "कुल डाउनलोड का माप"
 
@@ -194,10 +186,6 @@ msgstr ""
 
 #: ../src/transaction.vala
 msgid "Transaction cancelled"
-msgstr ""
-
-#: ../src/transaction.vala
-msgid "Waiting for another package manager to quit"
 msgstr ""
 
 #: ../src/transaction.vala
@@ -350,6 +338,7 @@ msgid "Warning"
 msgstr "चेतावनी"
 
 #: ../src/transaction.vala ../resources/progress_dialog.ui
+#: ../resources/history_dialog.ui
 msgid "_Close"
 msgstr "_बंद"
 
@@ -361,17 +350,13 @@ msgstr "ऐसा करने के लिए कुछ भी नहीं"
 msgid "Transaction successfully finished"
 msgstr "लेन - देन सफलतापूर्वक समाप्त"
 
-#: ../src/installer.vala ../src/manager.vala ../src/updater.vala
+#: ../src/installer.vala ../src/manager.vala
 msgid "Pamac is already running"
 msgstr "Pamac पहले से ही चल रहा है"
 
-#: ../src/tray.vala ../src/updater_window.vala
+#: ../src/tray.vala ../src/manager_window.vala
 msgid "Your system is up-to-date"
 msgstr "आपका सिस्टम है अप करने की तारीख"
-
-#: ../src/tray.vala ../src/updater_window.vala
-msgid "Update Manager"
-msgstr "अद्यतन प्रबंधक"
 
 #: ../src/tray.vala ../src/manager_window.vala
 msgid "Package Manager"
@@ -381,7 +366,7 @@ msgstr "संकुल प्रबंधक"
 msgid "_Quit"
 msgstr ""
 
-#: ../src/tray.vala ../src/updater_window.vala
+#: ../src/tray.vala
 #, c-format
 msgid "%u available update"
 msgid_plural "%u available updates"
@@ -389,13 +374,17 @@ msgstr[0] "%u उपलब्ध अद्यतन"
 msgstr[1] "%u उपलब्ध अद्यतन"
 
 #: ../src/tray.vala ../src/manager_window.vala ../resources/progress_dialog.ui
-#: ../resources/manager_window.ui ../resources/updater_window.ui
+#: ../resources/manager_window.ui
 msgid "Details"
 msgstr "विवरण"
 
 #: ../src/manager_window.vala
 msgid "Deselect"
 msgstr "अचयनित"
+
+#: ../src/manager_window.vala
+msgid "Upgrade"
+msgstr ""
 
 #: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Install"
@@ -404,6 +393,10 @@ msgstr "स्थापित करें"
 #: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Remove"
 msgstr "हटाना"
+
+#: ../src/manager_window.vala
+msgid "Waiting for another package manager to quit"
+msgstr ""
 
 #: ../src/manager_window.vala
 #, c-format
@@ -441,7 +434,6 @@ msgid "Licenses"
 msgstr "लाइसेंस"
 
 #: ../src/manager_window.vala ../resources/manager_window.ui
-#: ../resources/updater_window.ui
 msgid "Repository"
 msgstr "कोष"
 
@@ -530,7 +522,6 @@ msgid "Check Dependencies"
 msgstr ""
 
 #: ../src/manager_window.vala ../resources/manager_window.ui
-#: ../resources/updater_window.ui
 msgid "Name"
 msgstr "नाम"
 
@@ -539,8 +530,7 @@ msgid "Install Local Packages"
 msgstr ""
 
 #: ../src/manager_window.vala ../resources/transaction_sum_dialog.ui
-#: ../resources/manager_window.ui ../resources/updater_window.ui
-#: ../resources/choose_ignorepkgs_dialog.ui
+#: ../resources/manager_window.ui ../resources/choose_ignorepkgs_dialog.ui
 msgid "_Cancel"
 msgstr ""
 
@@ -550,6 +540,10 @@ msgstr ""
 
 #: ../src/manager_window.vala
 msgid "Alpm Package"
+msgstr ""
+
+#: ../src/manager_window.vala
+msgid "A Gtk3 frontend for libalpm"
 msgstr ""
 
 #: ../src/preferences_dialog.vala ../resources/preferences_dialog.ui
@@ -597,19 +591,19 @@ msgstr "गतिविधि सारांश"
 msgid "Commit"
 msgstr ""
 
-#: ../resources/manager_window.ui ../resources/updater_window.ui
+#: ../resources/manager_window.ui
 msgid "Refresh databases"
 msgstr ""
 
-#: ../resources/manager_window.ui ../resources/updater_window.ui
+#: ../resources/manager_window.ui
 msgid "View History"
 msgstr "इतिहास देखें"
 
-#: ../resources/manager_window.ui ../resources/updater_window.ui
+#: ../resources/manager_window.ui
 msgid "Preferences"
 msgstr ""
 
-#: ../resources/manager_window.ui ../resources/updater_window.ui
+#: ../resources/manager_window.ui
 msgid "About"
 msgstr ""
 
@@ -617,19 +611,23 @@ msgstr ""
 msgid "Search"
 msgstr "खोज"
 
-#: ../resources/manager_window.ui ../resources/updater_window.ui
+#: ../resources/manager_window.ui
 msgid "State"
 msgstr "राज्य"
 
-#: ../resources/manager_window.ui ../resources/updater_window.ui
+#: ../resources/manager_window.ui
 msgid "Repositories"
 msgstr ""
 
-#: ../resources/manager_window.ui ../resources/updater_window.ui
+#: ../resources/manager_window.ui
+msgid "Updates"
+msgstr ""
+
+#: ../resources/manager_window.ui
 msgid "Version"
 msgstr "संस्करण"
 
-#: ../resources/manager_window.ui ../resources/updater_window.ui
+#: ../resources/manager_window.ui
 msgid "Size"
 msgstr "आकार"
 
@@ -637,8 +635,7 @@ msgstr "आकार"
 msgid "Popularity"
 msgstr ""
 
-#: ../resources/manager_window.ui ../resources/updater_window.ui
-#: ../resources/preferences_dialog.ui
+#: ../resources/manager_window.ui ../resources/preferences_dialog.ui
 msgid "AUR"
 msgstr "AUR"
 
@@ -658,7 +655,7 @@ msgstr ""
 msgid "Files"
 msgstr "फ़ाइलें"
 
-#: ../resources/manager_window.ui ../resources/updater_window.ui
+#: ../resources/manager_window.ui
 msgid "_Apply"
 msgstr ""
 

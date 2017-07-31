@@ -4,14 +4,14 @@
 # Guillaume Benoit <guillaume@manjaro.org>, 2013-2016.
 # 
 # Translators:
-# Noel Rodríguez Freire <noelrf.ou@gmail.com>, 2015-2016
+# Noel Rodríguez Freire <noelrf.ou@gmail.com>, 2015-2017
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2016-04-24 08:44+0200\n"
-"PO-Revision-Date: 2017-02-18 16:57+0000\n"
-"Last-Translator: Guillaume Benoit <guillaume@manjaro.org>\n"
+"PO-Revision-Date: 2017-07-30 02:40+0000\n"
+"Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Galician (http://www.transifex.com/manjarolinux/manjaro-pamac/language/gl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -23,117 +23,113 @@ msgstr ""
 msgid "Authentication is required"
 msgstr "A autenticación é necesaria"
 
-#: ../src/daemon.vala
-msgid "Failed to initialize alpm library"
-msgstr "Erro ao inicializar biblioteca ALPM"
-
-#: ../src/daemon.vala ../src/transaction.vala
-msgid "Authentication failed"
-msgstr "Fallou a autenticación"
-
-#: ../src/daemon.vala
-msgid "Failed to synchronize any databases"
-msgstr "Erro ao sincronizar as bases de datos"
-
-#: ../src/daemon.vala
+#: ../src/user_daemon.vala
 msgid "Unknown"
 msgstr "Descoñecido"
 
-#: ../src/daemon.vala
+#: ../src/user_daemon.vala ../src/manager_window.vala
 msgid "Explicitly installed"
 msgstr "Explicitamente instalado"
 
-#: ../src/daemon.vala ../src/manager_window.vala
+#: ../src/user_daemon.vala ../src/manager_window.vala
 msgid "Installed as a dependency for another package"
 msgstr "Instalado como dependencia doutro paquete"
 
-#: ../src/daemon.vala
+#: ../src/user_daemon.vala
 msgid "Yes"
 msgstr "Si"
 
-#: ../src/daemon.vala
+#: ../src/user_daemon.vala
 msgid "No"
 msgstr "Non"
 
-#: ../src/daemon.vala
+#: ../src/system_daemon.vala
+msgid "Failed to initialize alpm library"
+msgstr "Erro ao inicializar biblioteca ALPM"
+
+#: ../src/system_daemon.vala ../src/transaction.vala
+msgid "Authentication failed"
+msgstr "Fallou a autenticación"
+
+#: ../src/system_daemon.vala
+msgid "Failed to synchronize any databases"
+msgstr "Erro ao sincronizar as bases de datos"
+
+#: ../src/system_daemon.vala
 msgid "Failed to init transaction"
 msgstr "Fallou o arranque da operación"
 
-#: ../src/daemon.vala
+#: ../src/system_daemon.vala
 msgid "Failed to prepare transaction"
 msgstr "Erro ao preparar a operación"
 
-#: ../src/daemon.vala
+#: ../src/system_daemon.vala
 #, c-format
 msgid "target not found: %s"
 msgstr "obxectivo non atopado: %s"
 
-#: ../src/daemon.vala
+#: ../src/system_daemon.vala
 #, c-format
 msgid "package %s does not have a valid architecture"
 msgstr "paquete %s non ten unha arquitectura válida"
 
-#: ../src/daemon.vala
+#: ../src/system_daemon.vala
 #, c-format
-msgid "%s: requires %s"
-msgstr "%s: require %s"
-
-#: ../src/daemon.vala
-#, c-format
-msgid "%s: installing %s (%s) breaks dependency '%s'"
+msgid "unable to satisfy dependency '%s' required by %s"
 msgstr ""
 
-#: ../src/daemon.vala
+#: ../src/system_daemon.vala
 #, c-format
-msgid "%s: removing %s breaks dependency '%s'"
+msgid "installing %s (%s) breaks dependency '%s' required by %s"
 msgstr ""
 
-#: ../src/daemon.vala
+#: ../src/system_daemon.vala
+#, c-format
+msgid "removing %s breaks dependency '%s' required by %s"
+msgstr ""
+
+#: ../src/system_daemon.vala
 #, c-format
 msgid "%s and %s are in conflict"
 msgstr "%s e %s están en conflito"
 
-#: ../src/daemon.vala
+#: ../src/system_daemon.vala
 #, c-format
 msgid "%s needs to be removed but it is a locked package"
 msgstr "%s necesita ser eliminada pero é un paquete bloqueado"
 
-#: ../src/daemon.vala
+#: ../src/system_daemon.vala
 msgid "Failed to commit transaction"
 msgstr "Fallo ao confirmar a operación"
 
-#: ../src/daemon.vala
+#: ../src/system_daemon.vala
 #, c-format
 msgid "%s exists in both %s and %s"
 msgstr "%s existe en ambas %s e %s"
 
-#: ../src/daemon.vala
+#: ../src/system_daemon.vala
 #, c-format
 msgid "%s: %s already exists in filesystem"
 msgstr "%s :%s xa existe no sistema de ficheiros"
 
-#: ../src/daemon.vala
+#: ../src/system_daemon.vala
 #, c-format
 msgid "%s is invalid or corrupted"
 msgstr "%s non é válido ou corrupto"
 
-#: ../src/daemon.vala
+#: ../src/system_daemon.vala
 #, c-format
 msgid "%s appears to be truncated: %jd/%jd bytes\n"
 msgstr "%s parece estar incompleto: %jd/%jd bytes\n"
 
-#: ../src/daemon.vala
+#: ../src/system_daemon.vala
 #, c-format
 msgid "failed retrieving file '%s' from %s : %s\n"
 msgstr "Error ao recuperar ficheiro %s' de %s : %s\n"
 
 #: ../src/transaction.vala
-msgid "A Gtk3 frontend for libalpm"
-msgstr "Unha interface Gtk3 para libalpm"
-
-#: ../src/transaction.vala
 msgid "Copy"
-msgstr ""
+msgstr "Copia"
 
 #: ../src/transaction.vala
 msgid "Refreshing mirrors list"
@@ -176,26 +172,18 @@ msgstr "Instalar"
 msgid "To reinstall"
 msgstr "Reinstalar"
 
-#: ../src/transaction.vala
-msgid "To update"
-msgstr "Actualizar"
-
-#: ../src/transaction.vala ../src/updater_window.vala
+#: ../src/transaction.vala ../src/manager_window.vala
 msgid "Total download size"
 msgstr "Tamaño total da descarga"
 
 #: ../src/transaction.vala
 #, c-format
 msgid "Building %s"
-msgstr ""
+msgstr "Construíndo %s"
 
 #: ../src/transaction.vala
 msgid "Transaction cancelled"
 msgstr "Operación cancelada"
-
-#: ../src/transaction.vala
-msgid "Waiting for another package manager to quit"
-msgstr "Esperando outro xestor de paquetes para saír"
 
 #: ../src/transaction.vala
 msgid "Checking dependencies"
@@ -347,6 +335,7 @@ msgid "Warning"
 msgstr "Advertencia"
 
 #: ../src/transaction.vala ../resources/progress_dialog.ui
+#: ../resources/history_dialog.ui
 msgid "_Close"
 msgstr "_Pechar"
 
@@ -358,17 +347,13 @@ msgstr "Nada que facer"
 msgid "Transaction successfully finished"
 msgstr "Operación concluída con éxito"
 
-#: ../src/installer.vala ../src/manager.vala ../src/updater.vala
+#: ../src/installer.vala ../src/manager.vala
 msgid "Pamac is already running"
 msgstr "Pamac xa está en execución"
 
-#: ../src/tray.vala ../src/updater_window.vala
+#: ../src/tray.vala ../src/manager_window.vala
 msgid "Your system is up-to-date"
 msgstr "O sistema está actualizado"
-
-#: ../src/tray.vala ../src/updater_window.vala
-msgid "Update Manager"
-msgstr "Xestor de Actualizacións"
 
 #: ../src/tray.vala ../src/manager_window.vala
 msgid "Package Manager"
@@ -378,7 +363,7 @@ msgstr "Xestor de paquetes"
 msgid "_Quit"
 msgstr "_Sair"
 
-#: ../src/tray.vala ../src/updater_window.vala
+#: ../src/tray.vala
 #, c-format
 msgid "%u available update"
 msgid_plural "%u available updates"
@@ -386,13 +371,17 @@ msgstr[0] "%u actualización dispoñible"
 msgstr[1] "%u actualizacións dispoñibles"
 
 #: ../src/tray.vala ../src/manager_window.vala ../resources/progress_dialog.ui
-#: ../resources/manager_window.ui ../resources/updater_window.ui
+#: ../resources/manager_window.ui
 msgid "Details"
 msgstr "Detalles"
 
 #: ../src/manager_window.vala
 msgid "Deselect"
 msgstr "Desmarcar"
+
+#: ../src/manager_window.vala
+msgid "Upgrade"
+msgstr ""
 
 #: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Install"
@@ -401,6 +390,10 @@ msgstr "Instalar"
 #: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Remove"
 msgstr "Remover"
+
+#: ../src/manager_window.vala
+msgid "Waiting for another package manager to quit"
+msgstr "Esperando outro xestor de paquetes para saír"
 
 #: ../src/manager_window.vala
 #, c-format
@@ -438,7 +431,6 @@ msgid "Licenses"
 msgstr "Licenzas"
 
 #: ../src/manager_window.vala ../resources/manager_window.ui
-#: ../resources/updater_window.ui
 msgid "Repository"
 msgstr "Repositorio"
 
@@ -527,7 +519,6 @@ msgid "Check Dependencies"
 msgstr "Comprobar Dependencias"
 
 #: ../src/manager_window.vala ../resources/manager_window.ui
-#: ../resources/updater_window.ui
 msgid "Name"
 msgstr "Nome"
 
@@ -536,8 +527,7 @@ msgid "Install Local Packages"
 msgstr "Instalar paquetes locales"
 
 #: ../src/manager_window.vala ../resources/transaction_sum_dialog.ui
-#: ../resources/manager_window.ui ../resources/updater_window.ui
-#: ../resources/choose_ignorepkgs_dialog.ui
+#: ../resources/manager_window.ui ../resources/choose_ignorepkgs_dialog.ui
 msgid "_Cancel"
 msgstr "_Cancelar"
 
@@ -549,13 +539,17 @@ msgstr "_Abrir"
 msgid "Alpm Package"
 msgstr "Paquete ALPM"
 
+#: ../src/manager_window.vala
+msgid "A Gtk3 frontend for libalpm"
+msgstr "Unha interface Gtk3 para libalpm"
+
 #: ../src/preferences_dialog.vala ../resources/preferences_dialog.ui
 msgid "How often to check for updates, value in hours"
 msgstr "Cantas veces para comprobar actualizacións, o valor en horas"
 
 #: ../src/preferences_dialog.vala ../resources/preferences_dialog.ui
 msgid "Number of versions of each package to keep in the cache"
-msgstr ""
+msgstr "Número de versións de cada paquete para gardar na caché"
 
 #: ../src/preferences_dialog.vala
 msgid "Worldwide"
@@ -594,19 +588,19 @@ msgstr "Resumo da transacción"
 msgid "Commit"
 msgstr "Facer"
 
-#: ../resources/manager_window.ui ../resources/updater_window.ui
+#: ../resources/manager_window.ui
 msgid "Refresh databases"
 msgstr "Actualizar a bases de datos"
 
-#: ../resources/manager_window.ui ../resources/updater_window.ui
+#: ../resources/manager_window.ui
 msgid "View History"
 msgstr "Ver historial"
 
-#: ../resources/manager_window.ui ../resources/updater_window.ui
+#: ../resources/manager_window.ui
 msgid "Preferences"
 msgstr "Preferencias"
 
-#: ../resources/manager_window.ui ../resources/updater_window.ui
+#: ../resources/manager_window.ui
 msgid "About"
 msgstr "Acerca de"
 
@@ -614,19 +608,23 @@ msgstr "Acerca de"
 msgid "Search"
 msgstr "Buscar"
 
-#: ../resources/manager_window.ui ../resources/updater_window.ui
+#: ../resources/manager_window.ui
 msgid "State"
 msgstr "Estado"
 
-#: ../resources/manager_window.ui ../resources/updater_window.ui
+#: ../resources/manager_window.ui
 msgid "Repositories"
 msgstr "Repositorios"
 
-#: ../resources/manager_window.ui ../resources/updater_window.ui
+#: ../resources/manager_window.ui
+msgid "Updates"
+msgstr ""
+
+#: ../resources/manager_window.ui
 msgid "Version"
 msgstr "Versión"
 
-#: ../resources/manager_window.ui ../resources/updater_window.ui
+#: ../resources/manager_window.ui
 msgid "Size"
 msgstr "Tamaño"
 
@@ -634,8 +632,7 @@ msgstr "Tamaño"
 msgid "Popularity"
 msgstr "Popularidade"
 
-#: ../resources/manager_window.ui ../resources/updater_window.ui
-#: ../resources/preferences_dialog.ui
+#: ../resources/manager_window.ui ../resources/preferences_dialog.ui
 msgid "AUR"
 msgstr "AUR"
 
@@ -655,7 +652,7 @@ msgstr "Dependencias"
 msgid "Files"
 msgstr "Arquivos"
 
-#: ../resources/manager_window.ui ../resources/updater_window.ui
+#: ../resources/manager_window.ui
 msgid "_Apply"
 msgstr "_Aplicar"
 

@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2016-04-24 08:44+0200\n"
-"PO-Revision-Date: 2017-02-19 03:28+0000\n"
+"PO-Revision-Date: 2017-07-30 12:17+0000\n"
 "Last-Translator: Jeff Huang <s8321414@gmail.com>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
@@ -26,113 +26,109 @@ msgstr ""
 msgid "Authentication is required"
 msgstr "需要授權"
 
-#: ../src/daemon.vala
-msgid "Failed to initialize alpm library"
-msgstr "初始化 alpm 函式庫失敗"
-
-#: ../src/daemon.vala ../src/transaction.vala
-msgid "Authentication failed"
-msgstr "授權失敗"
-
-#: ../src/daemon.vala
-msgid "Failed to synchronize any databases"
-msgstr "同步任何套件庫失敗"
-
-#: ../src/daemon.vala
+#: ../src/user_daemon.vala
 msgid "Unknown"
 msgstr "未知的"
 
-#: ../src/daemon.vala
+#: ../src/user_daemon.vala ../src/manager_window.vala
 msgid "Explicitly installed"
 msgstr "單獨指定安裝"
 
-#: ../src/daemon.vala ../src/manager_window.vala
+#: ../src/user_daemon.vala ../src/manager_window.vala
 msgid "Installed as a dependency for another package"
 msgstr "作爲其他套件的依賴關係安裝"
 
-#: ../src/daemon.vala
+#: ../src/user_daemon.vala
 msgid "Yes"
 msgstr "是"
 
-#: ../src/daemon.vala
+#: ../src/user_daemon.vala
 msgid "No"
 msgstr "否"
 
-#: ../src/daemon.vala
+#: ../src/system_daemon.vala
+msgid "Failed to initialize alpm library"
+msgstr "初始化 alpm 函式庫失敗"
+
+#: ../src/system_daemon.vala ../src/transaction.vala
+msgid "Authentication failed"
+msgstr "授權失敗"
+
+#: ../src/system_daemon.vala
+msgid "Failed to synchronize any databases"
+msgstr "同步任何套件庫失敗"
+
+#: ../src/system_daemon.vala
 msgid "Failed to init transaction"
 msgstr "初始化事務處理失敗"
 
-#: ../src/daemon.vala
+#: ../src/system_daemon.vala
 msgid "Failed to prepare transaction"
 msgstr "準備事務處理失敗"
 
-#: ../src/daemon.vala
+#: ../src/system_daemon.vala
 #, c-format
 msgid "target not found: %s"
 msgstr "目標找不到： %s"
 
-#: ../src/daemon.vala
+#: ../src/system_daemon.vala
 #, c-format
 msgid "package %s does not have a valid architecture"
 msgstr "軟體包 %s 沒有有效的架構"
 
-#: ../src/daemon.vala
+#: ../src/system_daemon.vala
 #, c-format
-msgid "%s: requires %s"
-msgstr "%s ：需要 %s"
+msgid "unable to satisfy dependency '%s' required by %s"
+msgstr "無法滿足依賴關係 '%s' 由 %s 所要求"
 
-#: ../src/daemon.vala
+#: ../src/system_daemon.vala
 #, c-format
-msgid "%s: installing %s (%s) breaks dependency '%s'"
-msgstr "%s：正在安裝 %s (%s) 破壞了依賴關係 '%s'"
+msgid "installing %s (%s) breaks dependency '%s' required by %s"
+msgstr "正在安裝%s (%s) 破壞了依賴關係 '%s' 由 %s 所要求"
 
-#: ../src/daemon.vala
+#: ../src/system_daemon.vala
 #, c-format
-msgid "%s: removing %s breaks dependency '%s'"
-msgstr "%s：正在移除 %s 破壞了依賴關係 '%s'"
+msgid "removing %s breaks dependency '%s' required by %s"
+msgstr "正在移除 %s 破壞依賴關係 '%s' 由 %s 所要求"
 
-#: ../src/daemon.vala
+#: ../src/system_daemon.vala
 #, c-format
 msgid "%s and %s are in conflict"
 msgstr "%s 及 %s 衝突"
 
-#: ../src/daemon.vala
+#: ../src/system_daemon.vala
 #, c-format
 msgid "%s needs to be removed but it is a locked package"
 msgstr "%s 需要被移除，但它是一個被鎖定的軟體包"
 
-#: ../src/daemon.vala
+#: ../src/system_daemon.vala
 msgid "Failed to commit transaction"
 msgstr "提交事務處理失敗"
 
-#: ../src/daemon.vala
+#: ../src/system_daemon.vala
 #, c-format
 msgid "%s exists in both %s and %s"
 msgstr "%s 同時存在於 %s 及 %s"
 
-#: ../src/daemon.vala
+#: ../src/system_daemon.vala
 #, c-format
 msgid "%s: %s already exists in filesystem"
 msgstr "%s ： %s 已在檔案系統中存在"
 
-#: ../src/daemon.vala
+#: ../src/system_daemon.vala
 #, c-format
 msgid "%s is invalid or corrupted"
 msgstr "%s 是無效或損毀的"
 
-#: ../src/daemon.vala
+#: ../src/system_daemon.vala
 #, c-format
 msgid "%s appears to be truncated: %jd/%jd bytes\n"
 msgstr "%s 似乎被截斷了：%jd/%jd 位元組\n"
 
-#: ../src/daemon.vala
+#: ../src/system_daemon.vala
 #, c-format
 msgid "failed retrieving file '%s' from %s : %s\n"
 msgstr "擷取檔案「%s」失敗，從 %s：%s\n"
-
-#: ../src/transaction.vala
-msgid "A Gtk3 frontend for libalpm"
-msgstr "一個 libalpm 的 Gtk3 前端"
 
 #: ../src/transaction.vala
 msgid "Copy"
@@ -179,11 +175,7 @@ msgstr "安裝"
 msgid "To reinstall"
 msgstr "重新安裝"
 
-#: ../src/transaction.vala
-msgid "To update"
-msgstr "升級"
-
-#: ../src/transaction.vala ../src/updater_window.vala
+#: ../src/transaction.vala ../src/manager_window.vala
 msgid "Total download size"
 msgstr "總計下載大小"
 
@@ -195,10 +187,6 @@ msgstr "正在構建 %s"
 #: ../src/transaction.vala
 msgid "Transaction cancelled"
 msgstr "已取消事務處理"
-
-#: ../src/transaction.vala
-msgid "Waiting for another package manager to quit"
-msgstr "正在等待其他套件管理員結束"
 
 #: ../src/transaction.vala
 msgid "Checking dependencies"
@@ -349,6 +337,7 @@ msgid "Warning"
 msgstr "警告"
 
 #: ../src/transaction.vala ../resources/progress_dialog.ui
+#: ../resources/history_dialog.ui
 msgid "_Close"
 msgstr "關閉(_C)"
 
@@ -360,17 +349,13 @@ msgstr "已無事可作"
 msgid "Transaction successfully finished"
 msgstr "事務處理成功完成"
 
-#: ../src/installer.vala ../src/manager.vala ../src/updater.vala
+#: ../src/installer.vala ../src/manager.vala
 msgid "Pamac is already running"
 msgstr "Pamac仍在執行中"
 
-#: ../src/tray.vala ../src/updater_window.vala
+#: ../src/tray.vala ../src/manager_window.vala
 msgid "Your system is up-to-date"
 msgstr "您的系統已經是最新的"
-
-#: ../src/tray.vala ../src/updater_window.vala
-msgid "Update Manager"
-msgstr "更新管理員"
 
 #: ../src/tray.vala ../src/manager_window.vala
 msgid "Package Manager"
@@ -380,20 +365,24 @@ msgstr "套件管理員"
 msgid "_Quit"
 msgstr "離開(_Q)"
 
-#: ../src/tray.vala ../src/updater_window.vala
+#: ../src/tray.vala
 #, c-format
 msgid "%u available update"
 msgid_plural "%u available updates"
 msgstr[0] "有 %u 個可用的更新"
 
 #: ../src/tray.vala ../src/manager_window.vala ../resources/progress_dialog.ui
-#: ../resources/manager_window.ui ../resources/updater_window.ui
+#: ../resources/manager_window.ui
 msgid "Details"
 msgstr "細節"
 
 #: ../src/manager_window.vala
 msgid "Deselect"
 msgstr "取消選擇"
+
+#: ../src/manager_window.vala
+msgid "Upgrade"
+msgstr "升級"
 
 #: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Install"
@@ -402,6 +391,10 @@ msgstr "安裝"
 #: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Remove"
 msgstr "移除"
+
+#: ../src/manager_window.vala
+msgid "Waiting for another package manager to quit"
+msgstr "正在等待其他套件管理員結束"
 
 #: ../src/manager_window.vala
 #, c-format
@@ -438,7 +431,6 @@ msgid "Licenses"
 msgstr "授權條款"
 
 #: ../src/manager_window.vala ../resources/manager_window.ui
-#: ../resources/updater_window.ui
 msgid "Repository"
 msgstr "套件庫"
 
@@ -527,7 +519,6 @@ msgid "Check Dependencies"
 msgstr "檢查用依賴關係"
 
 #: ../src/manager_window.vala ../resources/manager_window.ui
-#: ../resources/updater_window.ui
 msgid "Name"
 msgstr "名稱"
 
@@ -536,8 +527,7 @@ msgid "Install Local Packages"
 msgstr "安裝本機套件"
 
 #: ../src/manager_window.vala ../resources/transaction_sum_dialog.ui
-#: ../resources/manager_window.ui ../resources/updater_window.ui
-#: ../resources/choose_ignorepkgs_dialog.ui
+#: ../resources/manager_window.ui ../resources/choose_ignorepkgs_dialog.ui
 msgid "_Cancel"
 msgstr "取消(_C)"
 
@@ -548,6 +538,10 @@ msgstr "開啟(_O)"
 #: ../src/manager_window.vala
 msgid "Alpm Package"
 msgstr "Alpm 軟體包"
+
+#: ../src/manager_window.vala
+msgid "A Gtk3 frontend for libalpm"
+msgstr "一個 libalpm 的 Gtk3 前端"
 
 #: ../src/preferences_dialog.vala ../resources/preferences_dialog.ui
 msgid "How often to check for updates, value in hours"
@@ -594,19 +588,19 @@ msgstr "事務處理概要"
 msgid "Commit"
 msgstr "遞交"
 
-#: ../resources/manager_window.ui ../resources/updater_window.ui
+#: ../resources/manager_window.ui
 msgid "Refresh databases"
 msgstr "刷新套件庫"
 
-#: ../resources/manager_window.ui ../resources/updater_window.ui
+#: ../resources/manager_window.ui
 msgid "View History"
 msgstr "檢閱歷史"
 
-#: ../resources/manager_window.ui ../resources/updater_window.ui
+#: ../resources/manager_window.ui
 msgid "Preferences"
 msgstr "偏好設定"
 
-#: ../resources/manager_window.ui ../resources/updater_window.ui
+#: ../resources/manager_window.ui
 msgid "About"
 msgstr "關於"
 
@@ -614,19 +608,23 @@ msgstr "關於"
 msgid "Search"
 msgstr "搜尋"
 
-#: ../resources/manager_window.ui ../resources/updater_window.ui
+#: ../resources/manager_window.ui
 msgid "State"
 msgstr "狀態"
 
-#: ../resources/manager_window.ui ../resources/updater_window.ui
+#: ../resources/manager_window.ui
 msgid "Repositories"
 msgstr "套件庫"
 
-#: ../resources/manager_window.ui ../resources/updater_window.ui
+#: ../resources/manager_window.ui
+msgid "Updates"
+msgstr "更新"
+
+#: ../resources/manager_window.ui
 msgid "Version"
 msgstr "版本"
 
-#: ../resources/manager_window.ui ../resources/updater_window.ui
+#: ../resources/manager_window.ui
 msgid "Size"
 msgstr "大小"
 
@@ -634,8 +632,7 @@ msgstr "大小"
 msgid "Popularity"
 msgstr "人氣"
 
-#: ../resources/manager_window.ui ../resources/updater_window.ui
-#: ../resources/preferences_dialog.ui
+#: ../resources/manager_window.ui ../resources/preferences_dialog.ui
 msgid "AUR"
 msgstr "AUR"
 
@@ -655,7 +652,7 @@ msgstr "依賴關係"
 msgid "Files"
 msgstr "檔案"
 
-#: ../resources/manager_window.ui ../resources/updater_window.ui
+#: ../resources/manager_window.ui
 msgid "_Apply"
 msgstr "套用(_A)"
 

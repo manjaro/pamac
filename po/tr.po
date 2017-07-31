@@ -14,8 +14,8 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2016-04-24 08:44+0200\n"
-"PO-Revision-Date: 2017-03-13 08:46+0000\n"
-"Last-Translator: Demiray Muhterem <mdemiray@msn.com>\n"
+"PO-Revision-Date: 2017-07-30 02:40+0000\n"
+"Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Turkish (http://www.transifex.com/manjarolinux/manjaro-pamac/language/tr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -27,113 +27,109 @@ msgstr ""
 msgid "Authentication is required"
 msgstr "Kimlik doğrulaması gerekli"
 
-#: ../src/daemon.vala
-msgid "Failed to initialize alpm library"
-msgstr "Alpm kütüphanesi başlatılamadı"
-
-#: ../src/daemon.vala ../src/transaction.vala
-msgid "Authentication failed"
-msgstr "Doğrulama başarısız"
-
-#: ../src/daemon.vala
-msgid "Failed to synchronize any databases"
-msgstr "Hiçbir veritabanı senkronize edilemedi"
-
-#: ../src/daemon.vala
+#: ../src/user_daemon.vala
 msgid "Unknown"
 msgstr "Bilinmiyor"
 
-#: ../src/daemon.vala
+#: ../src/user_daemon.vala ../src/manager_window.vala
 msgid "Explicitly installed"
 msgstr "Doğrudan Yuklenmiş"
 
-#: ../src/daemon.vala ../src/manager_window.vala
+#: ../src/user_daemon.vala ../src/manager_window.vala
 msgid "Installed as a dependency for another package"
 msgstr "Başka Bir Paketin Bağımlılığı Olarak Yüklenmiş"
 
-#: ../src/daemon.vala
+#: ../src/user_daemon.vala
 msgid "Yes"
 msgstr "Evet"
 
-#: ../src/daemon.vala
+#: ../src/user_daemon.vala
 msgid "No"
 msgstr "Hayır"
 
-#: ../src/daemon.vala
+#: ../src/system_daemon.vala
+msgid "Failed to initialize alpm library"
+msgstr "Alpm kütüphanesi başlatılamadı"
+
+#: ../src/system_daemon.vala ../src/transaction.vala
+msgid "Authentication failed"
+msgstr "Doğrulama başarısız"
+
+#: ../src/system_daemon.vala
+msgid "Failed to synchronize any databases"
+msgstr "Hiçbir veritabanı senkronize edilemedi"
+
+#: ../src/system_daemon.vala
 msgid "Failed to init transaction"
 msgstr "init işlemi başarısız"
 
-#: ../src/daemon.vala
+#: ../src/system_daemon.vala
 msgid "Failed to prepare transaction"
 msgstr "İşlem hazırlığı başarısız oldu"
 
-#: ../src/daemon.vala
+#: ../src/system_daemon.vala
 #, c-format
 msgid "target not found: %s"
 msgstr "Hedef bulunamadı: %s"
 
-#: ../src/daemon.vala
+#: ../src/system_daemon.vala
 #, c-format
 msgid "package %s does not have a valid architecture"
 msgstr "%s paketi uygun bir mimariye sahip değil"
 
-#: ../src/daemon.vala
+#: ../src/system_daemon.vala
 #, c-format
-msgid "%s: requires %s"
-msgstr "%s: gereksinimi %s"
+msgid "unable to satisfy dependency '%s' required by %s"
+msgstr ""
 
-#: ../src/daemon.vala
+#: ../src/system_daemon.vala
 #, c-format
-msgid "%s: installing %s (%s) breaks dependency '%s'"
-msgstr "%s: %s yükleniyor (%s) bağımlılıkları işlemi kesti '%s'"
+msgid "installing %s (%s) breaks dependency '%s' required by %s"
+msgstr ""
 
-#: ../src/daemon.vala
+#: ../src/system_daemon.vala
 #, c-format
-msgid "%s: removing %s breaks dependency '%s'"
-msgstr "%s: %s kaldırılıyor '%s' kırılan bağımlılıklar"
+msgid "removing %s breaks dependency '%s' required by %s"
+msgstr ""
 
-#: ../src/daemon.vala
+#: ../src/system_daemon.vala
 #, c-format
 msgid "%s and %s are in conflict"
 msgstr "%s paketi %s ile çakışıyor"
 
-#: ../src/daemon.vala
+#: ../src/system_daemon.vala
 #, c-format
 msgid "%s needs to be removed but it is a locked package"
 msgstr "%s paketinin kaldırılması gerekiyor fakat paket kilitli"
 
-#: ../src/daemon.vala
+#: ../src/system_daemon.vala
 msgid "Failed to commit transaction"
 msgstr "İşlem tamamlanamadı"
 
-#: ../src/daemon.vala
+#: ../src/system_daemon.vala
 #, c-format
 msgid "%s exists in both %s and %s"
 msgstr "%s hem %s hemde %s içinde var"
 
-#: ../src/daemon.vala
+#: ../src/system_daemon.vala
 #, c-format
 msgid "%s: %s already exists in filesystem"
 msgstr "%s: %s dosya sisteminde zaten mevcut"
 
-#: ../src/daemon.vala
+#: ../src/system_daemon.vala
 #, c-format
 msgid "%s is invalid or corrupted"
 msgstr "%s geçersiz veya bozuk"
 
-#: ../src/daemon.vala
+#: ../src/system_daemon.vala
 #, c-format
 msgid "%s appears to be truncated: %jd/%jd bytes\n"
 msgstr "%s kesintiye uğramış gibi görünüyor: %jd/%jd bytes\n"
 
-#: ../src/daemon.vala
+#: ../src/system_daemon.vala
 #, c-format
 msgid "failed retrieving file '%s' from %s : %s\n"
 msgstr "%s üzerinden '%s dosyası alınamadı: %s\n\n"
-
-#: ../src/transaction.vala
-msgid "A Gtk3 frontend for libalpm"
-msgstr "libalpm için Gtk3 arayüzü"
 
 #: ../src/transaction.vala
 msgid "Copy"
@@ -180,11 +176,7 @@ msgstr "Kurulacak paketler"
 msgid "To reinstall"
 msgstr "Kurulacak paketler"
 
-#: ../src/transaction.vala
-msgid "To update"
-msgstr "Yükseltilecek"
-
-#: ../src/transaction.vala ../src/updater_window.vala
+#: ../src/transaction.vala ../src/manager_window.vala
 msgid "Total download size"
 msgstr "Toplam indirme boyutu"
 
@@ -196,10 +188,6 @@ msgstr "%s İnşa ediliyor"
 #: ../src/transaction.vala
 msgid "Transaction cancelled"
 msgstr "İşlemden vazgeçildi"
-
-#: ../src/transaction.vala
-msgid "Waiting for another package manager to quit"
-msgstr "Başka bir paket yöneticisinin çıkması ya da durması bekleniyor"
 
 #: ../src/transaction.vala
 msgid "Checking dependencies"
@@ -351,6 +339,7 @@ msgid "Warning"
 msgstr "Uyarı"
 
 #: ../src/transaction.vala ../resources/progress_dialog.ui
+#: ../resources/history_dialog.ui
 msgid "_Close"
 msgstr "_Kapat"
 
@@ -362,17 +351,13 @@ msgstr "Yapılacak Bir Şey Yok"
 msgid "Transaction successfully finished"
 msgstr "Işlem Başarılı"
 
-#: ../src/installer.vala ../src/manager.vala ../src/updater.vala
+#: ../src/installer.vala ../src/manager.vala
 msgid "Pamac is already running"
 msgstr "Pamac Zaten Çalışıyor"
 
-#: ../src/tray.vala ../src/updater_window.vala
+#: ../src/tray.vala ../src/manager_window.vala
 msgid "Your system is up-to-date"
 msgstr "Sisteminiz Güncel"
-
-#: ../src/tray.vala ../src/updater_window.vala
-msgid "Update Manager"
-msgstr "Güncelleme Yöneticisi"
 
 #: ../src/tray.vala ../src/manager_window.vala
 msgid "Package Manager"
@@ -382,7 +367,7 @@ msgstr "Paket Yöneticisi"
 msgid "_Quit"
 msgstr "_Çıkış"
 
-#: ../src/tray.vala ../src/updater_window.vala
+#: ../src/tray.vala
 #, c-format
 msgid "%u available update"
 msgid_plural "%u available updates"
@@ -390,13 +375,17 @@ msgstr[0] "%u güncelleme mevcut"
 msgstr[1] "%u güncelleme mevcut"
 
 #: ../src/tray.vala ../src/manager_window.vala ../resources/progress_dialog.ui
-#: ../resources/manager_window.ui ../resources/updater_window.ui
+#: ../resources/manager_window.ui
 msgid "Details"
 msgstr "Ayrıntılar"
 
 #: ../src/manager_window.vala
 msgid "Deselect"
 msgstr "Seçimi kaldır"
+
+#: ../src/manager_window.vala
+msgid "Upgrade"
+msgstr ""
 
 #: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Install"
@@ -405,6 +394,10 @@ msgstr "Yükle"
 #: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Remove"
 msgstr "Kaldır"
+
+#: ../src/manager_window.vala
+msgid "Waiting for another package manager to quit"
+msgstr "Başka bir paket yöneticisinin çıkması ya da durması bekleniyor"
 
 #: ../src/manager_window.vala
 #, c-format
@@ -442,7 +435,6 @@ msgid "Licenses"
 msgstr "Lisanslar"
 
 #: ../src/manager_window.vala ../resources/manager_window.ui
-#: ../resources/updater_window.ui
 msgid "Repository"
 msgstr "Depo"
 
@@ -531,7 +523,6 @@ msgid "Check Dependencies"
 msgstr "Bağımlılık Kontrolü"
 
 #: ../src/manager_window.vala ../resources/manager_window.ui
-#: ../resources/updater_window.ui
 msgid "Name"
 msgstr "İsim"
 
@@ -540,8 +531,7 @@ msgid "Install Local Packages"
 msgstr "Bilgisayarından paket yükle"
 
 #: ../src/manager_window.vala ../resources/transaction_sum_dialog.ui
-#: ../resources/manager_window.ui ../resources/updater_window.ui
-#: ../resources/choose_ignorepkgs_dialog.ui
+#: ../resources/manager_window.ui ../resources/choose_ignorepkgs_dialog.ui
 msgid "_Cancel"
 msgstr "_Vazgeç"
 
@@ -552,6 +542,10 @@ msgstr "_Aç"
 #: ../src/manager_window.vala
 msgid "Alpm Package"
 msgstr "Alpm Paketi"
+
+#: ../src/manager_window.vala
+msgid "A Gtk3 frontend for libalpm"
+msgstr "libalpm için Gtk3 arayüzü"
 
 #: ../src/preferences_dialog.vala ../resources/preferences_dialog.ui
 msgid "How often to check for updates, value in hours"
@@ -598,19 +592,19 @@ msgstr "İşlem Özeti"
 msgid "Commit"
 msgstr "İşlemleri Uygula"
 
-#: ../resources/manager_window.ui ../resources/updater_window.ui
+#: ../resources/manager_window.ui
 msgid "Refresh databases"
 msgstr "Veritabanını yenile"
 
-#: ../resources/manager_window.ui ../resources/updater_window.ui
+#: ../resources/manager_window.ui
 msgid "View History"
 msgstr "Geçmişi Gör"
 
-#: ../resources/manager_window.ui ../resources/updater_window.ui
+#: ../resources/manager_window.ui
 msgid "Preferences"
 msgstr "Tercihler"
 
-#: ../resources/manager_window.ui ../resources/updater_window.ui
+#: ../resources/manager_window.ui
 msgid "About"
 msgstr "Hakkında"
 
@@ -618,19 +612,23 @@ msgstr "Hakkında"
 msgid "Search"
 msgstr "Ara"
 
-#: ../resources/manager_window.ui ../resources/updater_window.ui
+#: ../resources/manager_window.ui
 msgid "State"
 msgstr "Konum"
 
-#: ../resources/manager_window.ui ../resources/updater_window.ui
+#: ../resources/manager_window.ui
 msgid "Repositories"
 msgstr "Depolar"
 
-#: ../resources/manager_window.ui ../resources/updater_window.ui
+#: ../resources/manager_window.ui
+msgid "Updates"
+msgstr ""
+
+#: ../resources/manager_window.ui
 msgid "Version"
 msgstr "Sürüm"
 
-#: ../resources/manager_window.ui ../resources/updater_window.ui
+#: ../resources/manager_window.ui
 msgid "Size"
 msgstr "Boyut"
 
@@ -638,8 +636,7 @@ msgstr "Boyut"
 msgid "Popularity"
 msgstr "Rağbet Gören"
 
-#: ../resources/manager_window.ui ../resources/updater_window.ui
-#: ../resources/preferences_dialog.ui
+#: ../resources/manager_window.ui ../resources/preferences_dialog.ui
 msgid "AUR"
 msgstr "AUR"
 
@@ -659,7 +656,7 @@ msgstr "Bağımlılıklar"
 msgid "Files"
 msgstr "Dosyalar"
 
-#: ../resources/manager_window.ui ../resources/updater_window.ui
+#: ../resources/manager_window.ui
 msgid "_Apply"
 msgstr "_Uygula"
 

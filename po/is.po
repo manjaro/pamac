@@ -12,8 +12,8 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2016-04-24 08:44+0200\n"
-"PO-Revision-Date: 2017-03-05 11:05+0000\n"
-"Last-Translator: Kristján Magnússon\n"
+"PO-Revision-Date: 2017-07-30 02:40+0000\n"
+"Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Icelandic (http://www.transifex.com/manjarolinux/manjaro-pamac/language/is/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -25,113 +25,109 @@ msgstr ""
 msgid "Authentication is required"
 msgstr "Auðkenningar er krafist"
 
-#: ../src/daemon.vala
-msgid "Failed to initialize alpm library"
-msgstr "Mistókst að frumstilla alpm aðgerðasafnið"
-
-#: ../src/daemon.vala ../src/transaction.vala
-msgid "Authentication failed"
-msgstr "Auðkenning mistókst"
-
-#: ../src/daemon.vala
-msgid "Failed to synchronize any databases"
-msgstr "Mistókst að samstilla nokkurn gagnagrunn"
-
-#: ../src/daemon.vala
+#: ../src/user_daemon.vala
 msgid "Unknown"
 msgstr "Óþekkt"
 
-#: ../src/daemon.vala
+#: ../src/user_daemon.vala ../src/manager_window.vala
 msgid "Explicitly installed"
 msgstr "Sérstaklega uppsett"
 
-#: ../src/daemon.vala ../src/manager_window.vala
+#: ../src/user_daemon.vala ../src/manager_window.vala
 msgid "Installed as a dependency for another package"
 msgstr "Sett upp sem hæði fyrir annan pakka"
 
-#: ../src/daemon.vala
+#: ../src/user_daemon.vala
 msgid "Yes"
 msgstr "Já"
 
-#: ../src/daemon.vala
+#: ../src/user_daemon.vala
 msgid "No"
 msgstr "Nei"
 
-#: ../src/daemon.vala
+#: ../src/system_daemon.vala
+msgid "Failed to initialize alpm library"
+msgstr "Mistókst að frumstilla alpm aðgerðasafnið"
+
+#: ../src/system_daemon.vala ../src/transaction.vala
+msgid "Authentication failed"
+msgstr "Auðkenning mistókst"
+
+#: ../src/system_daemon.vala
+msgid "Failed to synchronize any databases"
+msgstr "Mistókst að samstilla nokkurn gagnagrunn"
+
+#: ../src/system_daemon.vala
 msgid "Failed to init transaction"
 msgstr "Mistókst að frumstilla aðgerð"
 
-#: ../src/daemon.vala
+#: ../src/system_daemon.vala
 msgid "Failed to prepare transaction"
 msgstr "Mistókst að undirbúa aðgerð"
 
-#: ../src/daemon.vala
+#: ../src/system_daemon.vala
 #, c-format
 msgid "target not found: %s"
 msgstr "úttak fannst ekki: %s"
 
-#: ../src/daemon.vala
+#: ../src/system_daemon.vala
 #, c-format
 msgid "package %s does not have a valid architecture"
 msgstr "pakkinn %s er ekki með gilt kerfissnið (architecture)"
 
-#: ../src/daemon.vala
+#: ../src/system_daemon.vala
 #, c-format
-msgid "%s: requires %s"
-msgstr "%s: þarfnast %s"
+msgid "unable to satisfy dependency '%s' required by %s"
+msgstr ""
 
-#: ../src/daemon.vala
+#: ../src/system_daemon.vala
 #, c-format
-msgid "%s: installing %s (%s) breaks dependency '%s'"
-msgstr "%s: uppsetning %s (%s) brítur framfærni '%s'"
+msgid "installing %s (%s) breaks dependency '%s' required by %s"
+msgstr ""
 
-#: ../src/daemon.vala
+#: ../src/system_daemon.vala
 #, c-format
-msgid "%s: removing %s breaks dependency '%s'"
-msgstr "%s: fjarlægja %s brítur framfærni '%s'"
+msgid "removing %s breaks dependency '%s' required by %s"
+msgstr ""
 
-#: ../src/daemon.vala
+#: ../src/system_daemon.vala
 #, c-format
 msgid "%s and %s are in conflict"
 msgstr "%s og %s stangast á"
 
-#: ../src/daemon.vala
+#: ../src/system_daemon.vala
 #, c-format
 msgid "%s needs to be removed but it is a locked package"
 msgstr "%s þarf að fjarlægja en sá pakki er læstur"
 
-#: ../src/daemon.vala
+#: ../src/system_daemon.vala
 msgid "Failed to commit transaction"
 msgstr "Mistókst að framkvæma aðgerð"
 
-#: ../src/daemon.vala
+#: ../src/system_daemon.vala
 #, c-format
 msgid "%s exists in both %s and %s"
 msgstr "%s er til í bæði %s og %s"
 
-#: ../src/daemon.vala
+#: ../src/system_daemon.vala
 #, c-format
 msgid "%s: %s already exists in filesystem"
 msgstr "%s: %s er þegar til í skráakerfinu"
 
-#: ../src/daemon.vala
+#: ../src/system_daemon.vala
 #, c-format
 msgid "%s is invalid or corrupted"
 msgstr "%s er ógildur eða skemmdur"
 
-#: ../src/daemon.vala
+#: ../src/system_daemon.vala
 #, c-format
 msgid "%s appears to be truncated: %jd/%jd bytes\n"
 msgstr "%s virðist vera bútað: %jd/%jd bytes\n"
 
-#: ../src/daemon.vala
+#: ../src/system_daemon.vala
 #, c-format
 msgid "failed retrieving file '%s' from %s : %s\n"
 msgstr "Mistókst að endurheimta skrá '%s' frá %s : %s\n"
-
-#: ../src/transaction.vala
-msgid "A Gtk3 frontend for libalpm"
-msgstr "Gtk3 viðmót fyrir libalpm"
 
 #: ../src/transaction.vala
 msgid "Copy"
@@ -178,11 +174,7 @@ msgstr "Til uppsetningar"
 msgid "To reinstall"
 msgstr "Til enduruppsetningar"
 
-#: ../src/transaction.vala
-msgid "To update"
-msgstr "Á að uppfæra"
-
-#: ../src/transaction.vala ../src/updater_window.vala
+#: ../src/transaction.vala ../src/manager_window.vala
 msgid "Total download size"
 msgstr "Heildarstærð niðurhals"
 
@@ -194,10 +186,6 @@ msgstr "Byggi %s"
 #: ../src/transaction.vala
 msgid "Transaction cancelled"
 msgstr "Hætt við aðgerð"
-
-#: ../src/transaction.vala
-msgid "Waiting for another package manager to quit"
-msgstr "Bíð eftir að annar pakka framkvæmdastjórn hætti"
 
 #: ../src/transaction.vala
 msgid "Checking dependencies"
@@ -349,6 +337,7 @@ msgid "Warning"
 msgstr "Aðvörun"
 
 #: ../src/transaction.vala ../resources/progress_dialog.ui
+#: ../resources/history_dialog.ui
 msgid "_Close"
 msgstr "_Loka"
 
@@ -360,17 +349,13 @@ msgstr "Ekkert sem hægt er að gera"
 msgid "Transaction successfully finished"
 msgstr "Aðgerð lokið - tókst"
 
-#: ../src/installer.vala ../src/manager.vala ../src/updater.vala
+#: ../src/installer.vala ../src/manager.vala
 msgid "Pamac is already running"
 msgstr "Pamac er þegar í keyrslu"
 
-#: ../src/tray.vala ../src/updater_window.vala
+#: ../src/tray.vala ../src/manager_window.vala
 msgid "Your system is up-to-date"
 msgstr "Kerfið þitt er með öllum nýjasta hugbúnaðinum"
-
-#: ../src/tray.vala ../src/updater_window.vala
-msgid "Update Manager"
-msgstr "Uppfærslustjórnun"
 
 #: ../src/tray.vala ../src/manager_window.vala
 msgid "Package Manager"
@@ -380,7 +365,7 @@ msgstr "Pakkastjórnun"
 msgid "_Quit"
 msgstr "_Hætta"
 
-#: ../src/tray.vala ../src/updater_window.vala
+#: ../src/tray.vala
 #, c-format
 msgid "%u available update"
 msgid_plural "%u available updates"
@@ -388,13 +373,17 @@ msgstr[0] "%u fáanleg uppfærsla"
 msgstr[1] "%u tiltækar uppfærslur"
 
 #: ../src/tray.vala ../src/manager_window.vala ../resources/progress_dialog.ui
-#: ../resources/manager_window.ui ../resources/updater_window.ui
+#: ../resources/manager_window.ui
 msgid "Details"
 msgstr "Nánar"
 
 #: ../src/manager_window.vala
 msgid "Deselect"
 msgstr "Afvelja"
+
+#: ../src/manager_window.vala
+msgid "Upgrade"
+msgstr ""
 
 #: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Install"
@@ -403,6 +392,10 @@ msgstr "Setja upp"
 #: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Remove"
 msgstr "Fjarlægja"
+
+#: ../src/manager_window.vala
+msgid "Waiting for another package manager to quit"
+msgstr "Bíð eftir að annar pakka framkvæmdastjórn hætti"
 
 #: ../src/manager_window.vala
 #, c-format
@@ -440,7 +433,6 @@ msgid "Licenses"
 msgstr "Notkunarleyfi"
 
 #: ../src/manager_window.vala ../resources/manager_window.ui
-#: ../resources/updater_window.ui
 msgid "Repository"
 msgstr "Hugbúnaðarsafn"
 
@@ -529,7 +521,6 @@ msgid "Check Dependencies"
 msgstr "Athuga kerfiskröfur"
 
 #: ../src/manager_window.vala ../resources/manager_window.ui
-#: ../resources/updater_window.ui
 msgid "Name"
 msgstr "Nafn"
 
@@ -538,8 +529,7 @@ msgid "Install Local Packages"
 msgstr "Setja upp pakka á tölvunni"
 
 #: ../src/manager_window.vala ../resources/transaction_sum_dialog.ui
-#: ../resources/manager_window.ui ../resources/updater_window.ui
-#: ../resources/choose_ignorepkgs_dialog.ui
+#: ../resources/manager_window.ui ../resources/choose_ignorepkgs_dialog.ui
 msgid "_Cancel"
 msgstr "_Hætta við"
 
@@ -550,6 +540,10 @@ msgstr "_Opna"
 #: ../src/manager_window.vala
 msgid "Alpm Package"
 msgstr "Alpm pakki"
+
+#: ../src/manager_window.vala
+msgid "A Gtk3 frontend for libalpm"
+msgstr "Gtk3 viðmót fyrir libalpm"
 
 #: ../src/preferences_dialog.vala ../resources/preferences_dialog.ui
 msgid "How often to check for updates, value in hours"
@@ -596,19 +590,19 @@ msgstr "Samantekt aðgerðar"
 msgid "Commit"
 msgstr "Fremja"
 
-#: ../resources/manager_window.ui ../resources/updater_window.ui
+#: ../resources/manager_window.ui
 msgid "Refresh databases"
 msgstr "Endurlesa gagnagrunna"
 
-#: ../resources/manager_window.ui ../resources/updater_window.ui
+#: ../resources/manager_window.ui
 msgid "View History"
 msgstr "Skoða feril"
 
-#: ../resources/manager_window.ui ../resources/updater_window.ui
+#: ../resources/manager_window.ui
 msgid "Preferences"
 msgstr "Valkostir"
 
-#: ../resources/manager_window.ui ../resources/updater_window.ui
+#: ../resources/manager_window.ui
 msgid "About"
 msgstr "Um"
 
@@ -616,19 +610,23 @@ msgstr "Um"
 msgid "Search"
 msgstr "Leita"
 
-#: ../resources/manager_window.ui ../resources/updater_window.ui
+#: ../resources/manager_window.ui
 msgid "State"
 msgstr "Staða"
 
-#: ../resources/manager_window.ui ../resources/updater_window.ui
+#: ../resources/manager_window.ui
 msgid "Repositories"
 msgstr "Hugbúnaðarsöfn"
 
-#: ../resources/manager_window.ui ../resources/updater_window.ui
+#: ../resources/manager_window.ui
+msgid "Updates"
+msgstr ""
+
+#: ../resources/manager_window.ui
 msgid "Version"
 msgstr "Útgáfa"
 
-#: ../resources/manager_window.ui ../resources/updater_window.ui
+#: ../resources/manager_window.ui
 msgid "Size"
 msgstr "Stærð"
 
@@ -636,8 +634,7 @@ msgstr "Stærð"
 msgid "Popularity"
 msgstr "Vinsældir"
 
-#: ../resources/manager_window.ui ../resources/updater_window.ui
-#: ../resources/preferences_dialog.ui
+#: ../resources/manager_window.ui ../resources/preferences_dialog.ui
 msgid "AUR"
 msgstr "AUR"
 
@@ -657,7 +654,7 @@ msgstr "Kerfiskröfur"
 msgid "Files"
 msgstr "Skrár"
 
-#: ../resources/manager_window.ui ../resources/updater_window.ui
+#: ../resources/manager_window.ui
 msgid "_Apply"
 msgstr "_Virkja"
 

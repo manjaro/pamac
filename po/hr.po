@@ -14,8 +14,8 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2016-04-24 08:44+0200\n"
-"PO-Revision-Date: 2017-02-19 11:47+0000\n"
-"Last-Translator: Lovro Kudelić <lovro.kudelic@outlook.com>\n"
+"PO-Revision-Date: 2017-07-30 02:40+0000\n"
+"Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Croatian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/hr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -27,113 +27,109 @@ msgstr ""
 msgid "Authentication is required"
 msgstr "Potrebna je autorizacija"
 
-#: ../src/daemon.vala
-msgid "Failed to initialize alpm library"
-msgstr "Nije uspjela inicijalizacija alpm biblioteke"
-
-#: ../src/daemon.vala ../src/transaction.vala
-msgid "Authentication failed"
-msgstr "Autorizacija nije uspjela"
-
-#: ../src/daemon.vala
-msgid "Failed to synchronize any databases"
-msgstr "Nije uspjela sinkronizacija niti jedne baze podataka"
-
-#: ../src/daemon.vala
+#: ../src/user_daemon.vala
 msgid "Unknown"
 msgstr "Nepoznato"
 
-#: ../src/daemon.vala
+#: ../src/user_daemon.vala ../src/manager_window.vala
 msgid "Explicitly installed"
 msgstr "Eksplicitno instalirano"
 
-#: ../src/daemon.vala ../src/manager_window.vala
+#: ../src/user_daemon.vala ../src/manager_window.vala
 msgid "Installed as a dependency for another package"
 msgstr "Instalirano kao zavisnost za drugi paket"
 
-#: ../src/daemon.vala
+#: ../src/user_daemon.vala
 msgid "Yes"
 msgstr "Da"
 
-#: ../src/daemon.vala
+#: ../src/user_daemon.vala
 msgid "No"
 msgstr "Ne"
 
-#: ../src/daemon.vala
+#: ../src/system_daemon.vala
+msgid "Failed to initialize alpm library"
+msgstr "Nije uspjela inicijalizacija alpm biblioteke"
+
+#: ../src/system_daemon.vala ../src/transaction.vala
+msgid "Authentication failed"
+msgstr "Autorizacija nije uspjela"
+
+#: ../src/system_daemon.vala
+msgid "Failed to synchronize any databases"
+msgstr "Nije uspjela sinkronizacija niti jedne baze podataka"
+
+#: ../src/system_daemon.vala
 msgid "Failed to init transaction"
 msgstr "Nije uspjela inicijalizacija transakcije"
 
-#: ../src/daemon.vala
+#: ../src/system_daemon.vala
 msgid "Failed to prepare transaction"
 msgstr "Nije uspjela priprema transakcije"
 
-#: ../src/daemon.vala
+#: ../src/system_daemon.vala
 #, c-format
 msgid "target not found: %s"
 msgstr "meta nije nađena: %s"
 
-#: ../src/daemon.vala
+#: ../src/system_daemon.vala
 #, c-format
 msgid "package %s does not have a valid architecture"
 msgstr "paket %s nema valjanu arhitekturu"
 
-#: ../src/daemon.vala
+#: ../src/system_daemon.vala
 #, c-format
-msgid "%s: requires %s"
-msgstr "%s: zahtijeva %s"
+msgid "unable to satisfy dependency '%s' required by %s"
+msgstr ""
 
-#: ../src/daemon.vala
+#: ../src/system_daemon.vala
 #, c-format
-msgid "%s: installing %s (%s) breaks dependency '%s'"
-msgstr "%s: instaliram %s (%s) uništava zavisnost '%s'"
+msgid "installing %s (%s) breaks dependency '%s' required by %s"
+msgstr ""
 
-#: ../src/daemon.vala
+#: ../src/system_daemon.vala
 #, c-format
-msgid "%s: removing %s breaks dependency '%s'"
-msgstr "%s: uklanjam %s uništava zavisnost '%s'"
+msgid "removing %s breaks dependency '%s' required by %s"
+msgstr ""
 
-#: ../src/daemon.vala
+#: ../src/system_daemon.vala
 #, c-format
 msgid "%s and %s are in conflict"
 msgstr "%s i %s su u sukobu"
 
-#: ../src/daemon.vala
+#: ../src/system_daemon.vala
 #, c-format
 msgid "%s needs to be removed but it is a locked package"
 msgstr "%s mora biti uklonjen ali je paket zaključan"
 
-#: ../src/daemon.vala
+#: ../src/system_daemon.vala
 msgid "Failed to commit transaction"
 msgstr "Izvršavanje transakcije nije uspjelo"
 
-#: ../src/daemon.vala
+#: ../src/system_daemon.vala
 #, c-format
 msgid "%s exists in both %s and %s"
 msgstr "%s postoji u oba %s i %s"
 
-#: ../src/daemon.vala
+#: ../src/system_daemon.vala
 #, c-format
 msgid "%s: %s already exists in filesystem"
 msgstr "%s: %s već postoji u datotečnom sustavu"
 
-#: ../src/daemon.vala
+#: ../src/system_daemon.vala
 #, c-format
 msgid "%s is invalid or corrupted"
 msgstr "%s nije valjan ili je oštećen"
 
-#: ../src/daemon.vala
+#: ../src/system_daemon.vala
 #, c-format
 msgid "%s appears to be truncated: %jd/%jd bytes\n"
 msgstr "Čini se da je %s odrezan: %jd/%jd bytes\n"
 
-#: ../src/daemon.vala
+#: ../src/system_daemon.vala
 #, c-format
 msgid "failed retrieving file '%s' from %s : %s\n"
 msgstr "Nije uspjelo preuzimanje datoteke '%s' from %s : %s\n"
-
-#: ../src/transaction.vala
-msgid "A Gtk3 frontend for libalpm"
-msgstr "GTK+ 3 sučelje za libalpm"
 
 #: ../src/transaction.vala
 msgid "Copy"
@@ -180,11 +176,7 @@ msgstr "Za instalirati"
 msgid "To reinstall"
 msgstr "Za ponovnu instalaciju"
 
-#: ../src/transaction.vala
-msgid "To update"
-msgstr "Za nadograditi"
-
-#: ../src/transaction.vala ../src/updater_window.vala
+#: ../src/transaction.vala ../src/manager_window.vala
 msgid "Total download size"
 msgstr "Ukupna veličina za preuzimanje"
 
@@ -196,10 +188,6 @@ msgstr "Stvaram %s"
 #: ../src/transaction.vala
 msgid "Transaction cancelled"
 msgstr "Transakcija prekinuta"
-
-#: ../src/transaction.vala
-msgid "Waiting for another package manager to quit"
-msgstr "Čekam na završetak drugog upravitelja paketa "
 
 #: ../src/transaction.vala
 msgid "Checking dependencies"
@@ -352,6 +340,7 @@ msgid "Warning"
 msgstr "Upozorenje"
 
 #: ../src/transaction.vala ../resources/progress_dialog.ui
+#: ../resources/history_dialog.ui
 msgid "_Close"
 msgstr "_Zatvori"
 
@@ -363,17 +352,13 @@ msgstr "Ništa za učiniti"
 msgid "Transaction successfully finished"
 msgstr "Transakcija uspješno završena"
 
-#: ../src/installer.vala ../src/manager.vala ../src/updater.vala
+#: ../src/installer.vala ../src/manager.vala
 msgid "Pamac is already running"
 msgstr "Pamac je već pokrenut"
 
-#: ../src/tray.vala ../src/updater_window.vala
+#: ../src/tray.vala ../src/manager_window.vala
 msgid "Your system is up-to-date"
 msgstr "Nema novih nadogradnji"
-
-#: ../src/tray.vala ../src/updater_window.vala
-msgid "Update Manager"
-msgstr "Uparavitelj nadogradnji"
 
 #: ../src/tray.vala ../src/manager_window.vala
 msgid "Package Manager"
@@ -383,7 +368,7 @@ msgstr "Upravitelj paketa"
 msgid "_Quit"
 msgstr "_Izađi"
 
-#: ../src/tray.vala ../src/updater_window.vala
+#: ../src/tray.vala
 #, c-format
 msgid "%u available update"
 msgid_plural "%u available updates"
@@ -392,13 +377,17 @@ msgstr[1] "%u dostupne nadogradnje"
 msgstr[2] "%u dostupnih nadogradnji"
 
 #: ../src/tray.vala ../src/manager_window.vala ../resources/progress_dialog.ui
-#: ../resources/manager_window.ui ../resources/updater_window.ui
+#: ../resources/manager_window.ui
 msgid "Details"
 msgstr "Detalji"
 
 #: ../src/manager_window.vala
 msgid "Deselect"
 msgstr "Poništi odabir"
+
+#: ../src/manager_window.vala
+msgid "Upgrade"
+msgstr ""
 
 #: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Install"
@@ -407,6 +396,10 @@ msgstr "Instaliraj"
 #: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Remove"
 msgstr "Ukloni"
+
+#: ../src/manager_window.vala
+msgid "Waiting for another package manager to quit"
+msgstr "Čekam na završetak drugog upravitelja paketa "
 
 #: ../src/manager_window.vala
 #, c-format
@@ -445,7 +438,6 @@ msgid "Licenses"
 msgstr "Licence"
 
 #: ../src/manager_window.vala ../resources/manager_window.ui
-#: ../resources/updater_window.ui
 msgid "Repository"
 msgstr "Repozitorij"
 
@@ -534,7 +526,6 @@ msgid "Check Dependencies"
 msgstr "Provjera zavisnosti"
 
 #: ../src/manager_window.vala ../resources/manager_window.ui
-#: ../resources/updater_window.ui
 msgid "Name"
 msgstr "Ime"
 
@@ -543,8 +534,7 @@ msgid "Install Local Packages"
 msgstr "Instaliraj lokalne pakete"
 
 #: ../src/manager_window.vala ../resources/transaction_sum_dialog.ui
-#: ../resources/manager_window.ui ../resources/updater_window.ui
-#: ../resources/choose_ignorepkgs_dialog.ui
+#: ../resources/manager_window.ui ../resources/choose_ignorepkgs_dialog.ui
 msgid "_Cancel"
 msgstr "_Odustani"
 
@@ -555,6 +545,10 @@ msgstr "_Otvori"
 #: ../src/manager_window.vala
 msgid "Alpm Package"
 msgstr "Alpm paket"
+
+#: ../src/manager_window.vala
+msgid "A Gtk3 frontend for libalpm"
+msgstr "GTK+ 3 sučelje za libalpm"
 
 #: ../src/preferences_dialog.vala ../resources/preferences_dialog.ui
 msgid "How often to check for updates, value in hours"
@@ -601,19 +595,19 @@ msgstr "Sažetak transakcija"
 msgid "Commit"
 msgstr "Izvrši"
 
-#: ../resources/manager_window.ui ../resources/updater_window.ui
+#: ../resources/manager_window.ui
 msgid "Refresh databases"
 msgstr "Osvježi bazu podataka"
 
-#: ../resources/manager_window.ui ../resources/updater_window.ui
+#: ../resources/manager_window.ui
 msgid "View History"
 msgstr "Pregledaj povijest"
 
-#: ../resources/manager_window.ui ../resources/updater_window.ui
+#: ../resources/manager_window.ui
 msgid "Preferences"
 msgstr "Postavke"
 
-#: ../resources/manager_window.ui ../resources/updater_window.ui
+#: ../resources/manager_window.ui
 msgid "About"
 msgstr "O programu"
 
@@ -621,19 +615,23 @@ msgstr "O programu"
 msgid "Search"
 msgstr "Traži"
 
-#: ../resources/manager_window.ui ../resources/updater_window.ui
+#: ../resources/manager_window.ui
 msgid "State"
 msgstr "Stanje"
 
-#: ../resources/manager_window.ui ../resources/updater_window.ui
+#: ../resources/manager_window.ui
 msgid "Repositories"
 msgstr "Repozitoriji"
 
-#: ../resources/manager_window.ui ../resources/updater_window.ui
+#: ../resources/manager_window.ui
+msgid "Updates"
+msgstr ""
+
+#: ../resources/manager_window.ui
 msgid "Version"
 msgstr "Verzija"
 
-#: ../resources/manager_window.ui ../resources/updater_window.ui
+#: ../resources/manager_window.ui
 msgid "Size"
 msgstr "Veličina"
 
@@ -641,8 +639,7 @@ msgstr "Veličina"
 msgid "Popularity"
 msgstr "Popularnost"
 
-#: ../resources/manager_window.ui ../resources/updater_window.ui
-#: ../resources/preferences_dialog.ui
+#: ../resources/manager_window.ui ../resources/preferences_dialog.ui
 msgid "AUR"
 msgstr "AUR"
 
@@ -662,7 +659,7 @@ msgstr "Zavisnosti"
 msgid "Files"
 msgstr "Datoteke"
 
-#: ../resources/manager_window.ui ../resources/updater_window.ui
+#: ../resources/manager_window.ui
 msgid "_Apply"
 msgstr "_Primijeni"
 

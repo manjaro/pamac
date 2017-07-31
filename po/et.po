@@ -12,8 +12,8 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2016-04-24 08:44+0200\n"
-"PO-Revision-Date: 2017-02-18 16:57+0000\n"
-"Last-Translator: Guillaume Benoit <guillaume@manjaro.org>\n"
+"PO-Revision-Date: 2017-07-30 02:40+0000\n"
+"Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Estonian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/et/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -25,113 +25,109 @@ msgstr ""
 msgid "Authentication is required"
 msgstr ""
 
-#: ../src/daemon.vala
-msgid "Failed to initialize alpm library"
-msgstr "alpm teeki käivitamine nurjus"
-
-#: ../src/daemon.vala ../src/transaction.vala
-msgid "Authentication failed"
-msgstr "Autentimine nurjus"
-
-#: ../src/daemon.vala
-msgid "Failed to synchronize any databases"
-msgstr "Andmebaaside sünkroniseerimine ebaõnnestus"
-
-#: ../src/daemon.vala
+#: ../src/user_daemon.vala
 msgid "Unknown"
 msgstr "Tundmatu"
 
-#: ../src/daemon.vala
+#: ../src/user_daemon.vala ../src/manager_window.vala
 msgid "Explicitly installed"
 msgstr "Detailselt paigaldatud"
 
-#: ../src/daemon.vala ../src/manager_window.vala
+#: ../src/user_daemon.vala ../src/manager_window.vala
 msgid "Installed as a dependency for another package"
 msgstr "Paigaldatud teise paketi sõltuvusena"
 
-#: ../src/daemon.vala
+#: ../src/user_daemon.vala
 msgid "Yes"
 msgstr "Jah"
 
-#: ../src/daemon.vala
+#: ../src/user_daemon.vala
 msgid "No"
 msgstr "Ei"
 
-#: ../src/daemon.vala
+#: ../src/system_daemon.vala
+msgid "Failed to initialize alpm library"
+msgstr "alpm teeki käivitamine nurjus"
+
+#: ../src/system_daemon.vala ../src/transaction.vala
+msgid "Authentication failed"
+msgstr "Autentimine nurjus"
+
+#: ../src/system_daemon.vala
+msgid "Failed to synchronize any databases"
+msgstr "Andmebaaside sünkroniseerimine ebaõnnestus"
+
+#: ../src/system_daemon.vala
 msgid "Failed to init transaction"
 msgstr "Tehingu käivitamine nurjus"
 
-#: ../src/daemon.vala
+#: ../src/system_daemon.vala
 msgid "Failed to prepare transaction"
 msgstr "Tehingu ettevalmistamine nurjus"
 
-#: ../src/daemon.vala
+#: ../src/system_daemon.vala
 #, c-format
 msgid "target not found: %s"
 msgstr "sihtkohta ei leitud: %s"
 
-#: ../src/daemon.vala
+#: ../src/system_daemon.vala
 #, c-format
 msgid "package %s does not have a valid architecture"
 msgstr "paketil %s puudub tõene arhitektuuri spetsifikatsioon"
 
-#: ../src/daemon.vala
+#: ../src/system_daemon.vala
 #, c-format
-msgid "%s: requires %s"
-msgstr "%s: vajab %s"
-
-#: ../src/daemon.vala
-#, c-format
-msgid "%s: installing %s (%s) breaks dependency '%s'"
+msgid "unable to satisfy dependency '%s' required by %s"
 msgstr ""
 
-#: ../src/daemon.vala
+#: ../src/system_daemon.vala
 #, c-format
-msgid "%s: removing %s breaks dependency '%s'"
+msgid "installing %s (%s) breaks dependency '%s' required by %s"
 msgstr ""
 
-#: ../src/daemon.vala
+#: ../src/system_daemon.vala
+#, c-format
+msgid "removing %s breaks dependency '%s' required by %s"
+msgstr ""
+
+#: ../src/system_daemon.vala
 #, c-format
 msgid "%s and %s are in conflict"
 msgstr "%s ning %s on üksteisega vastuolus"
 
-#: ../src/daemon.vala
+#: ../src/system_daemon.vala
 #, c-format
 msgid "%s needs to be removed but it is a locked package"
 msgstr ""
 
-#: ../src/daemon.vala
+#: ../src/system_daemon.vala
 msgid "Failed to commit transaction"
 msgstr "Tehingu kehtestamine nurjus"
 
-#: ../src/daemon.vala
+#: ../src/system_daemon.vala
 #, c-format
 msgid "%s exists in both %s and %s"
 msgstr ""
 
-#: ../src/daemon.vala
+#: ../src/system_daemon.vala
 #, c-format
 msgid "%s: %s already exists in filesystem"
 msgstr "%s: %s on juba failisüsteemis olemas"
 
-#: ../src/daemon.vala
+#: ../src/system_daemon.vala
 #, c-format
 msgid "%s is invalid or corrupted"
 msgstr "%s on kehtetu või rikutud"
 
-#: ../src/daemon.vala
+#: ../src/system_daemon.vala
 #, c-format
 msgid "%s appears to be truncated: %jd/%jd bytes\n"
 msgstr ""
 
-#: ../src/daemon.vala
+#: ../src/system_daemon.vala
 #, c-format
 msgid "failed retrieving file '%s' from %s : %s\n"
 msgstr ""
-
-#: ../src/transaction.vala
-msgid "A Gtk3 frontend for libalpm"
-msgstr "Gtk3 eessüsteem libalpm tarbeks"
 
 #: ../src/transaction.vala
 msgid "Copy"
@@ -178,11 +174,7 @@ msgstr "Paigaldada"
 msgid "To reinstall"
 msgstr "Uuesti Paigaldada"
 
-#: ../src/transaction.vala
-msgid "To update"
-msgstr "Uuendada"
-
-#: ../src/transaction.vala ../src/updater_window.vala
+#: ../src/transaction.vala ../src/manager_window.vala
 msgid "Total download size"
 msgstr "Allalaadimise Suurus"
 
@@ -194,10 +186,6 @@ msgstr ""
 #: ../src/transaction.vala
 msgid "Transaction cancelled"
 msgstr "Tehing katkestatud"
-
-#: ../src/transaction.vala
-msgid "Waiting for another package manager to quit"
-msgstr ""
 
 #: ../src/transaction.vala
 msgid "Checking dependencies"
@@ -349,6 +337,7 @@ msgid "Warning"
 msgstr "Hoiatus"
 
 #: ../src/transaction.vala ../resources/progress_dialog.ui
+#: ../resources/history_dialog.ui
 msgid "_Close"
 msgstr "_Sulge"
 
@@ -360,17 +349,13 @@ msgstr "Pole midagi teha"
 msgid "Transaction successfully finished"
 msgstr "Tehingud edukalt lõpetatud"
 
-#: ../src/installer.vala ../src/manager.vala ../src/updater.vala
+#: ../src/installer.vala ../src/manager.vala
 msgid "Pamac is already running"
 msgstr "Pamac juba töötab"
 
-#: ../src/tray.vala ../src/updater_window.vala
+#: ../src/tray.vala ../src/manager_window.vala
 msgid "Your system is up-to-date"
 msgstr "Teie süsteem on ajakohane"
-
-#: ../src/tray.vala ../src/updater_window.vala
-msgid "Update Manager"
-msgstr "Uuenduste haldur"
 
 #: ../src/tray.vala ../src/manager_window.vala
 msgid "Package Manager"
@@ -380,7 +365,7 @@ msgstr "Paketihaldur"
 msgid "_Quit"
 msgstr "_Välju"
 
-#: ../src/tray.vala ../src/updater_window.vala
+#: ../src/tray.vala
 #, c-format
 msgid "%u available update"
 msgid_plural "%u available updates"
@@ -388,12 +373,16 @@ msgstr[0] "%u saadaolev uuendus"
 msgstr[1] "%u saadaolevaid uuendusi"
 
 #: ../src/tray.vala ../src/manager_window.vala ../resources/progress_dialog.ui
-#: ../resources/manager_window.ui ../resources/updater_window.ui
+#: ../resources/manager_window.ui
 msgid "Details"
 msgstr "Üksikasjad"
 
 #: ../src/manager_window.vala
 msgid "Deselect"
+msgstr ""
+
+#: ../src/manager_window.vala
+msgid "Upgrade"
 msgstr ""
 
 #: ../src/manager_window.vala ../resources/manager_window.ui
@@ -403,6 +392,10 @@ msgstr "Paigalda"
 #: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Remove"
 msgstr "Eemalda"
+
+#: ../src/manager_window.vala
+msgid "Waiting for another package manager to quit"
+msgstr ""
 
 #: ../src/manager_window.vala
 #, c-format
@@ -440,7 +433,6 @@ msgid "Licenses"
 msgstr "Litsentsid"
 
 #: ../src/manager_window.vala ../resources/manager_window.ui
-#: ../resources/updater_window.ui
 msgid "Repository"
 msgstr "Hoidla"
 
@@ -529,7 +521,6 @@ msgid "Check Dependencies"
 msgstr ""
 
 #: ../src/manager_window.vala ../resources/manager_window.ui
-#: ../resources/updater_window.ui
 msgid "Name"
 msgstr "Nimi"
 
@@ -538,8 +529,7 @@ msgid "Install Local Packages"
 msgstr "Paigalda Kohalikud Paketid"
 
 #: ../src/manager_window.vala ../resources/transaction_sum_dialog.ui
-#: ../resources/manager_window.ui ../resources/updater_window.ui
-#: ../resources/choose_ignorepkgs_dialog.ui
+#: ../resources/manager_window.ui ../resources/choose_ignorepkgs_dialog.ui
 msgid "_Cancel"
 msgstr "_Katkesta"
 
@@ -550,6 +540,10 @@ msgstr "_Ava"
 #: ../src/manager_window.vala
 msgid "Alpm Package"
 msgstr "Alpm Pakett"
+
+#: ../src/manager_window.vala
+msgid "A Gtk3 frontend for libalpm"
+msgstr "Gtk3 eessüsteem libalpm tarbeks"
 
 #: ../src/preferences_dialog.vala ../resources/preferences_dialog.ui
 msgid "How often to check for updates, value in hours"
@@ -596,19 +590,19 @@ msgstr "Tehingu Kokkuvõte"
 msgid "Commit"
 msgstr ""
 
-#: ../resources/manager_window.ui ../resources/updater_window.ui
+#: ../resources/manager_window.ui
 msgid "Refresh databases"
 msgstr "Värskenda andmebaasid"
 
-#: ../resources/manager_window.ui ../resources/updater_window.ui
+#: ../resources/manager_window.ui
 msgid "View History"
 msgstr "Ajaloo Vaade"
 
-#: ../resources/manager_window.ui ../resources/updater_window.ui
+#: ../resources/manager_window.ui
 msgid "Preferences"
 msgstr "Sätted"
 
-#: ../resources/manager_window.ui ../resources/updater_window.ui
+#: ../resources/manager_window.ui
 msgid "About"
 msgstr ""
 
@@ -616,19 +610,23 @@ msgstr ""
 msgid "Search"
 msgstr "Otsi"
 
-#: ../resources/manager_window.ui ../resources/updater_window.ui
+#: ../resources/manager_window.ui
 msgid "State"
 msgstr "Olek"
 
-#: ../resources/manager_window.ui ../resources/updater_window.ui
+#: ../resources/manager_window.ui
 msgid "Repositories"
 msgstr "Repositooriumid"
 
-#: ../resources/manager_window.ui ../resources/updater_window.ui
+#: ../resources/manager_window.ui
+msgid "Updates"
+msgstr ""
+
+#: ../resources/manager_window.ui
 msgid "Version"
 msgstr "Versioon"
 
-#: ../resources/manager_window.ui ../resources/updater_window.ui
+#: ../resources/manager_window.ui
 msgid "Size"
 msgstr "Suurus"
 
@@ -636,8 +634,7 @@ msgstr "Suurus"
 msgid "Popularity"
 msgstr ""
 
-#: ../resources/manager_window.ui ../resources/updater_window.ui
-#: ../resources/preferences_dialog.ui
+#: ../resources/manager_window.ui ../resources/preferences_dialog.ui
 msgid "AUR"
 msgstr "AUR"
 
@@ -657,7 +654,7 @@ msgstr "Sõltuvused"
 msgid "Files"
 msgstr "Failid"
 
-#: ../resources/manager_window.ui ../resources/updater_window.ui
+#: ../resources/manager_window.ui
 msgid "_Apply"
 msgstr "_Rakenda"
 
