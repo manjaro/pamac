@@ -948,9 +948,12 @@ namespace Pamac {
 							// add the same module for other installed kernels
 							foreach (unowned string installed_kernel in installed_kernels) {
 								string module = installed_kernel + "-" + splitted[1];
-								unowned Alpm.Package? module_pkg = get_syncpkg (module);
-								if (module_pkg != null) {
-									trans_add_pkg_real (module_pkg);
+								unowned Alpm.Package? installed_module_pkg = alpm_handle.localdb.get_pkg (module);
+								if (installed_module_pkg == null) {
+									unowned Alpm.Package? module_pkg = get_syncpkg (module);
+									if (module_pkg != null) {
+										trans_add_pkg_real (module_pkg);
+									}
 								}
 							}
 						} else if (splitted.length == 1) {
