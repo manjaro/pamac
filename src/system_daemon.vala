@@ -168,12 +168,7 @@ namespace Pamac {
 				alpm_handle.logcb = (Alpm.LogCallBack) cb_log;
 				lockfile = GLib.File.new_for_path (alpm_handle.lockfile);
 				files_handle = alpm_config.get_handle (true);
-				files_handle.eventcb = (Alpm.EventCallBack) cb_event;
-				files_handle.progresscb = (Alpm.ProgressCallBack) cb_progress;
-				files_handle.questioncb = (Alpm.QuestionCallBack) cb_question;
 				files_handle.fetchcb = (Alpm.FetchCallBack) cb_fetch;
-				files_handle.totaldlcb = (Alpm.TotalDownloadCallBack) cb_totaldownload;
-				files_handle.logcb = (Alpm.LogCallBack) cb_log;
 			}
 		}
 
@@ -453,6 +448,8 @@ namespace Pamac {
 				}
 				unowned Alpm.DB db = syncdbs.data;
 				if (db.update (force) >= 0) {
+					// We should always succeed if at least one DB was upgraded - we may possibly
+					// fail later with unresolved deps, but that should be rare, and would be expected
 					success = true;
 				} else {
 					Alpm.Errno errno = handle.errno ();
@@ -480,19 +477,15 @@ namespace Pamac {
 				refresh_finished (false);
 				return;
 			}
-			// update ".files", do not need to know if we succeeded
-			update_dbs (files_handle, force);
-			if (cancellable.is_cancelled ()) {
-				refresh_finished (false);
-			} else if (success) {
-				// We should always succeed if at least one DB was upgraded - we may possibly
-				// fail later with unresolved deps, but that should be rare, and would be expected
+			if (success) {
 				refreshed = true;
 				refresh_finished (true);
 			} else {
 				current_error.message = _("Failed to synchronize any databases");
 				refresh_finished (false);
 			}
+			// update ".files", do it in background, do not need to know if we succeeded
+			update_dbs (files_handle, force);
 		}
 
 		public void start_refresh (bool force, GLib.BusName sender) {

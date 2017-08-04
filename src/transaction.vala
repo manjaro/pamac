@@ -1391,8 +1391,8 @@ namespace Pamac {
 					rates_nb = 0;
 					fraction = 0;
 					timer.start ();
-					if (filename.has_suffix (".db") || filename.has_suffix (".files")) {
-						string action = dgettext (null, "Refreshing %s").printf (filename) + "...";
+					if (filename.has_suffix (".db")) {
+						string action = dgettext (null, "Refreshing %s").printf (filename.replace (".db", "")) + "...";
 						reset_progress_box (action);
 					}
 				} else if (xfered == total) {
