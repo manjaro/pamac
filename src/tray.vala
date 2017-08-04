@@ -269,7 +269,11 @@ namespace Pamac {
 				lockfile = GLib.File.new_for_path ("var/lib/pacman/db.lck");
 			}
 			Timeout.add (200, check_extern_lock);
-			check_updates ();
+			// wait 30 seconds before check updates
+			Timeout.add_seconds (30, () => {
+				check_updates ();
+				return false;
+			});
 			launch_refresh_timeout (pamac_config.refresh_period);
 
 			this.hold ();
