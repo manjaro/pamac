@@ -1136,7 +1136,9 @@ namespace Pamac {
 				uint origin;
 				string pkgname;
 				aur_list.get (iter, 0, out origin, 1, out pkgname);
-				if (origin == 2) { //Alpm.Package.From.LOCALDB
+				if (filters_stack.visible_child_name == "updates") {
+					display_aur_properties (pkgname);
+				} else if (origin == 2) { //Alpm.Package.From.LOCALDB
 					display_package_properties (pkgname);
 				} else {
 					display_aur_properties (pkgname);
