@@ -456,19 +456,24 @@ namespace Pamac {
 		}
 
 		public void start_refresh (bool force) {
-			string action = dgettext (null, "Synchronizing package databases") + "...";
-			reset_progress_box (action);
-			connecting_system_daemon ();
-			connecting_dbus_signals ();
-			try {
-				system_daemon.refresh_finished.connect (on_refresh_finished);
-				system_daemon.start_refresh (force);
-			} catch (IOError e) {
-				stderr.printf ("IOError: %s\n", e.message);
-				system_daemon.refresh_finished.disconnect (on_refresh_finished);
-				success = false;
-				finish_transaction ();
-			}
+			check_authorization.begin ((obj, res) => {
+				bool authorized = check_authorization.end (res);
+				if (authorized) {
+					string action = dgettext (null, "Synchronizing package databases") + "...";
+					reset_progress_box (action);
+					connecting_system_daemon ();
+					connecting_dbus_signals ();
+					try {
+						system_daemon.refresh_finished.connect (on_refresh_finished);
+						system_daemon.start_refresh (force);
+					} catch (IOError e) {
+						stderr.printf ("IOError: %s\n", e.message);
+						system_daemon.refresh_finished.disconnect (on_refresh_finished);
+						success = false;
+						finish_transaction ();
+					}
+				}
+			});
 		}
 
 		public void refresh_handle () {

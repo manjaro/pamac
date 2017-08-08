@@ -141,8 +141,8 @@ namespace Pamac {
 					(alpm_action) => {
 						alpm_action.run ();
 					},
-					// only one thread created so alpm action will run one after one 
-					1,
+					// two threads at a time
+					2,
 					// no exclusive thread
 					false
 				);
