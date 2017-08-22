@@ -141,8 +141,8 @@ namespace Pamac {
 					(alpm_action) => {
 						alpm_action.run ();
 					},
-					// two threads at a time
-					2,
+					// only one thread created so alpm action will run one after one
+					1,
 					// no exclusive thread
 					false
 				);
@@ -168,7 +168,12 @@ namespace Pamac {
 				alpm_handle.logcb = (Alpm.LogCallBack) cb_log;
 				lockfile = GLib.File.new_for_path (alpm_handle.lockfile);
 				files_handle = alpm_config.get_handle (true);
+				files_handle.eventcb = (Alpm.EventCallBack) cb_event;
+				files_handle.progresscb = (Alpm.ProgressCallBack) cb_progress;
+				files_handle.questioncb = (Alpm.QuestionCallBack) cb_question;
 				files_handle.fetchcb = (Alpm.FetchCallBack) cb_fetch;
+				files_handle.totaldlcb = (Alpm.TotalDownloadCallBack) cb_totaldownload;
+				files_handle.logcb = (Alpm.LogCallBack) cb_log;
 			}
 		}
 
@@ -471,21 +476,30 @@ namespace Pamac {
 			write_log_file ("synchronizing package lists");
 			cancellable.reset ();
 			int force = (force_refresh) ? 1 : 0;
+			// try to copy refresh dbs in tmp
+			string tmp_dbpath = "/tmp/pamac-checkdbs";
+			try {
+				Process.spawn_command_line_sync ("cp -au %s/sync %s".printf (tmp_dbpath, alpm_handle.dbpath));
+			} catch (SpawnError e) {
+				stderr.printf ("SpawnError: %s\n", e.message);
+			}
 			// update ".db"
 			bool success = update_dbs (alpm_handle, force);
 			if (cancellable.is_cancelled ()) {
 				refresh_finished (false);
 				return;
 			}
-			if (success) {
+			// update ".files", do not need to know if we succeeded
+			update_dbs (files_handle, force);
+			if (cancellable.is_cancelled ()) {
+				refresh_finished (false);
+			} else if (success) {
 				refreshed = true;
 				refresh_finished (true);
 			} else {
 				current_error.message = _("Failed to synchronize any databases");
 				refresh_finished (false);
 			}
-			// update ".files", do it in background, do not need to know if we succeeded
-			update_dbs (files_handle, force);
 		}
 
 		public void start_refresh (bool force, GLib.BusName sender) {

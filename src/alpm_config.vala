@@ -138,11 +138,12 @@ class AlpmConfig {
 		Alpm.Errno error = 0;
 		Alpm.Handle? handle = null;
 		if (tmp_db) {
-			string tmp_dbpath = "/tmp/pamac-checkdbs-%s".printf (Environment.get_user_name ());
+			string tmp_dbpath = "/tmp/pamac-checkdbs";
 			try {
 				Process.spawn_command_line_sync ("mkdir -p %s".printf (tmp_dbpath));
 				Process.spawn_command_line_sync ("ln -sf %s/local %s".printf (dbpath, tmp_dbpath));
 				Process.spawn_command_line_sync ("cp -au %s/sync %s".printf (dbpath, tmp_dbpath));
+				Process.spawn_command_line_sync ("chmod -R 777 %s/sync".printf (tmp_dbpath));
 				handle = new Alpm.Handle (rootdir, tmp_dbpath, out error);
 			} catch (SpawnError e) {
 				stderr.printf ("SpawnError: %s\n", e.message);

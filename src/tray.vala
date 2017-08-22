@@ -220,7 +220,9 @@ namespace Pamac {
 				}
 			} else {
 				if (lockfile.query_exists ()) {
-					extern_lock = true;
+					if (!check_pamac_running ()) {
+						extern_lock = true;
+					}
 				}
 			}
 			return true;
