@@ -483,6 +483,8 @@ namespace Pamac {
 			} catch (SpawnError e) {
 				stderr.printf ("SpawnError: %s\n", e.message);
 			}
+			// a new handle is required to use copied databases
+			refresh_handle ();
 			// update ".db"
 			bool success = update_dbs (alpm_handle, force);
 			if (cancellable.is_cancelled ()) {
