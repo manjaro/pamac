@@ -1757,8 +1757,7 @@ namespace Pamac {
 		void on_generate_mirrors_list_finished () {
 			system_daemon.generate_mirrors_list_data.disconnect (on_generate_mirrors_list_data);
 			system_daemon.generate_mirrors_list_finished.disconnect (on_generate_mirrors_list_finished);
-			stop_progressbar_pulse ();
-			show_in_term ("");
+			reset_progress_box ("");
 		}
 
 		void connecting_user_daemon () {
