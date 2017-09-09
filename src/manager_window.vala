@@ -17,7 +17,7 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-const string VERSION = "5.1.0";
+const string VERSION = "5.1.1";
 
 namespace Pamac {
 

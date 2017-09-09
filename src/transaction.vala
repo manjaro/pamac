@@ -102,9 +102,15 @@ namespace Pamac {
 			BUILD = (1 << 2)
 		}
 
+		public enum Mode {
+			MANAGER,
+			INSTALLER
+		}
+
 		UserDaemon user_daemon;
 		SystemDaemon system_daemon;
 
+		public Mode mode;
 		Pamac.Config pamac_config;
 		public bool check_aur_updates { get { return pamac_config.check_aur_updates; } }
 		public bool enable_aur { get { return pamac_config.enable_aur; }  }
@@ -173,6 +179,7 @@ namespace Pamac {
 		public signal void get_updates_finished (Updates updates);
 
 		public Transaction (Gtk.ApplicationWindow? application_window) {
+			mode = Mode.MANAGER;
 			pamac_config = new Pamac.Config ("/etc/pamac.conf");
 			flags = (1 << 4); //Alpm.TransFlag.CASCADE
 			if (pamac_config.recurse) {
@@ -214,8 +221,6 @@ namespace Pamac {
 			term_window = new Gtk.ScrolledWindow (null, term.vadjustment);
 			term_window.expand = true;
 			term_window.visible = true;
-			// height 200 needed for installer
-			term_window.height_request = 200;
 			term_window.propagate_natural_height = true;
 			term_window.add (term);
 			build_cancellable = new Cancellable ();
@@ -1030,6 +1035,20 @@ namespace Pamac {
 			}
 			if (summary.to_upgrade.length > 0) {
 				type |= Type.UPDATE;
+				if (mode == Mode.INSTALLER) {
+					foreach (unowned UpdateInfos infos in summary.to_upgrade) {
+						dsize += infos.download_size;
+						transaction_summary.add (infos.name);
+						transaction_sum_dialog.sum_list.insert_with_values (out iter, -1,
+													1, infos.name,
+													2, infos.new_version,
+													3, "(%s)".printf (infos.old_version));
+					}
+					Gtk.TreePath path = transaction_sum_dialog.sum_list.get_path (iter);
+					int pos = (path.get_indices ()[0]) - (summary.to_upgrade.length - 1);
+					transaction_sum_dialog.sum_list.get_iter (out iter, new Gtk.TreePath.from_indices (pos));
+					transaction_sum_dialog.sum_list.set (iter, 0, "<b>%s</b>".printf (dgettext (null, "To upgrade") + ":"));
+				}
 			}
 			if (dsize == 0) {
 				transaction_sum_dialog.top_label.visible = false;
@@ -1604,7 +1623,7 @@ namespace Pamac {
 			if (success) {
 				show_warnings ();
 				Type type = set_transaction_sum ();
-				if (no_confirm_commit || type == Type.UPDATE) {
+				if (mode != Mode.INSTALLER && (no_confirm_commit || type == Type.UPDATE)) {
 					// no_confirm_commit or only updates
 					to_install.remove_all ();
 					start_commit ();
@@ -1755,6 +1774,7 @@ namespace Pamac {
 		}
 
 		void on_generate_mirrors_list_finished () {
+			refresh_handle ();
 			system_daemon.generate_mirrors_list_data.disconnect (on_generate_mirrors_list_data);
 			system_daemon.generate_mirrors_list_finished.disconnect (on_generate_mirrors_list_finished);
 			reset_progress_box ("");

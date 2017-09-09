@@ -379,6 +379,7 @@ namespace Pamac {
 			} catch (Error e) {
 				stderr.printf ("Error: %s\n", e.message);
 			}
+			refresh_handle ();
 			generate_mirrors_list_finished ();
 		}
 
