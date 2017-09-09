@@ -26,7 +26,7 @@ namespace Pamac {
 		public uint64 refresh_period { get; private set; }
 		public bool no_update_hide_icon { get; private set; }
 		public bool enable_aur { get; private set; }
-		public bool search_aur { get; private set; }
+		public string aur_build_dir { get; private set; }
 		public bool check_aur_updates { get; private set; }
 		public unowned HashTable<string,string> environment_variables {
 			get {
@@ -70,7 +70,7 @@ namespace Pamac {
 			recurse = false;
 			no_update_hide_icon = false;
 			enable_aur = false;
-			search_aur = false;
+			aur_build_dir = "/tmp";
 			check_aur_updates = false;
 			parse_file (conf_path);
 		}
@@ -107,8 +107,10 @@ namespace Pamac {
 							no_update_hide_icon = true;
 						} else if (key == "EnableAUR") {
 							enable_aur = true;
-						} else if (key == "SearchInAURByDefault") {
-							search_aur = true;
+						} else if (key == "BuildDirectory") {
+							if (splitted.length == 2) {
+								aur_build_dir = splitted[1]._strip ();
+							}
 						} else if (key == "CheckAURUpdates") {
 							check_aur_updates = true;
 						}
@@ -177,14 +179,10 @@ namespace Pamac {
 							} else {
 								data.append (line + "\n");
 							}
-						} else if (line.contains ("SearchInAURByDefault")) {
-							if (new_conf.lookup_extended ("SearchInAURByDefault", null, out variant)) {
-								if (variant.get_boolean ()) {
-									data.append ("SearchInAURByDefault\n");
-								} else {
-									data.append ("#SearchInAURByDefault\n");
-								}
-								new_conf.remove ("SearchInAURByDefault");
+						} else if (line.contains ("BuildDirectory")) {
+							if (new_conf.lookup_extended ("BuildDirectory", null, out variant)) {
+								data.append ("BuildDirectory = %s\n".printf (variant.get_string ()));
+								new_conf.remove ("BuildDirectory");
 							} else {
 								data.append (line + "\n");
 							}
@@ -238,12 +236,8 @@ namespace Pamac {
 						} else {
 							data.append ("#EnableAUR\n");
 						}
-					} else if (key == "SearchInAURByDefault") {
-						if (val.get_boolean ()) {
-							data.append ("SearchInAURByDefault\n");
-						} else {
-							data.append ("#SearchInAURByDefault\n");
-						}
+					} else if (key == "BuildDirectory") {
+						data.append ("BuildDirectory = %s\n".printf (val.get_string ()));
 					} else if (key == "CheckAURUpdates") {
 						if (val.get_boolean ()) {
 							data.append ("CheckAURUpdates\n");

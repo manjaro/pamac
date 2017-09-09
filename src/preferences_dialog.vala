@@ -49,7 +49,9 @@ namespace Pamac {
 		[GtkChild]
 		Gtk.Switch enable_aur_button;
 		[GtkChild]
-		Gtk.CheckButton search_aur_checkbutton;
+		Gtk.Label aur_build_dir_label;
+		[GtkChild]
+		Gtk.FileChooserButton aur_build_dir_file_chooser;
 		[GtkChild]
 		Gtk.CheckButton check_aur_updates_checkbutton;
 		[GtkChild]
@@ -71,6 +73,7 @@ namespace Pamac {
 			this.transaction = transaction;
 			refresh_period_label.set_markup (dgettext (null, "How often to check for updates, value in hours") +":");
 			cache_keep_nb_label.set_markup (dgettext (null, "Number of versions of each package to keep in the cache") +":");
+			aur_build_dir_label.set_markup (dgettext (null, "Build directory") +":");
 			remove_unrequired_deps_button.active = transaction.recurse;
 			check_space_button.active = transaction.get_checkspace ();
 			if (transaction.refresh_period == 0) {
@@ -134,12 +137,19 @@ namespace Pamac {
 			}
 
 			enable_aur_button.active = transaction.enable_aur;
-			search_aur_checkbutton.active = transaction.search_aur;
-			search_aur_checkbutton.sensitive = transaction.enable_aur;
+			aur_build_dir_label.sensitive = transaction.enable_aur;
+			aur_build_dir_file_chooser.sensitive = transaction.enable_aur;
+			aur_build_dir_file_chooser.set_filename (transaction.aur_build_dir);
+			// add /tmp choice always visible
+			try {
+				aur_build_dir_file_chooser.add_shortcut_folder ("/tmp");
+			} catch (GLib.Error e) {
+				stderr.printf ("%s\n", e.message);
+			}
 			check_aur_updates_checkbutton.active = transaction.check_aur_updates;
 			check_aur_updates_checkbutton.sensitive = transaction.enable_aur;
 			enable_aur_button.state_set.connect (on_enable_aur_button_state_set);
-			search_aur_checkbutton.toggled.connect (on_search_aur_checkbutton_toggled);
+			aur_build_dir_file_chooser.file_set.connect (on_aur_build_dir_set);
 			check_aur_updates_checkbutton.toggled.connect (on_check_aur_updates_checkbutton_toggled);
 		}
 
@@ -184,9 +194,9 @@ namespace Pamac {
 			return true;
 		}
 
-		void on_search_aur_checkbutton_toggled () {
+		void on_aur_build_dir_set () {
 			var new_pamac_conf = new HashTable<string,Variant> (str_hash, str_equal);
-			new_pamac_conf.insert ("SearchInAURByDefault", new Variant.boolean (search_aur_checkbutton.active));
+			new_pamac_conf.insert ("BuildDirectory", new Variant.string (aur_build_dir_file_chooser.get_filename ()));
 			transaction.start_write_pamac_config (new_pamac_conf);
 		}
 
@@ -197,7 +207,7 @@ namespace Pamac {
 		}
 
 		void on_write_pamac_config_finished (bool recurse, uint64 refresh_period, bool no_update_hide_icon,
-											bool enable_aur, bool search_aur, bool check_aur_updates) {
+											bool enable_aur, string aur_build_dir, bool check_aur_updates) {
 			remove_unrequired_deps_button.state = recurse;
 			if (refresh_period == 0) {
 				check_updates_button.state = false;
@@ -216,8 +226,8 @@ namespace Pamac {
 			}
 			no_update_hide_icon_checkbutton.active = no_update_hide_icon;
 			enable_aur_button.state = enable_aur;
-			search_aur_checkbutton.active = search_aur;
-			search_aur_checkbutton.sensitive = enable_aur;
+			aur_build_dir_label.sensitive = enable_aur;
+			aur_build_dir_file_chooser.sensitive = enable_aur;
 			check_aur_updates_checkbutton.active = check_aur_updates;
 			check_aur_updates_checkbutton.sensitive = enable_aur;
 		}

@@ -87,7 +87,7 @@ namespace Pamac {
 		public signal void trans_commit_finished (bool success);
 		public signal void get_authorization_finished (bool authorized);
 		public signal void write_pamac_config_finished (bool recurse, uint64 refresh_period, bool no_update_hide_icon,
-														bool enable_aur, bool search_aur, bool check_aur_updates);
+														bool enable_aur, string aur_build_dir, bool check_aur_updates);
 		public signal void write_alpm_config_finished (bool checkspace);
 		public signal void write_mirrors_config_finished (string choosen_country, string choosen_generation_method);
 		public signal void generate_mirrors_list_data (string line);
@@ -339,7 +339,7 @@ namespace Pamac {
 					pamac_config.reload ();
 				}
 				write_pamac_config_finished (pamac_config.recurse, pamac_config.refresh_period, pamac_config.no_update_hide_icon,
-											pamac_config.enable_aur, pamac_config.search_aur, pamac_config.check_aur_updates);
+											pamac_config.enable_aur, pamac_config.aur_build_dir, pamac_config.check_aur_updates);
 			});
 		}
 

@@ -369,7 +369,7 @@ namespace Pamac {
 		}
 
 		void on_write_pamac_config_finished (bool recurse, uint64 refresh_period, bool no_update_hide_icon,
-											bool enable_aur, bool search_aur) {
+											bool enable_aur) {
 			support_aur (enable_aur);
 		}
 
@@ -1058,7 +1058,9 @@ namespace Pamac {
 				this.get_window ().set_cursor (null);
 				return;
 			} else {
-				select_all_button.visible = true;
+				if (main_stack.visible_child_name == "browse") {
+					select_all_button.visible = true;
+				}
 			}
 			foreach (unowned AlpmPackage pkg in pkgs) {
 				string version;
@@ -1132,7 +1134,9 @@ namespace Pamac {
 				this.get_window ().set_cursor (null);
 				return;
 			} else {
-				select_all_button.visible = true;
+				if (main_stack.visible_child_name == "browse") {
+					select_all_button.visible = true;
+				}
 			}
 			foreach (unowned AURPackage aur_pkg in pkgs) {
 				string version;
@@ -1291,11 +1295,6 @@ namespace Pamac {
 									if (aur_pkgs.length > 0 ) {
 										if (pkgs.length == 0) {
 											origin_stack.visible_child_name = "aur";
-										} else {
-											attention_val.set_boolean (true);
-											origin_stack.child_set_property (origin_stack.get_child_by_name ("aur"),
-																				"needs-attention",
-																				attention_val);
 										}
 									}
 								}
@@ -1622,11 +1621,6 @@ namespace Pamac {
 						transaction.search_in_aur.begin (search_string, (obj, res) => {
 							populate_aur_list (transaction.search_in_aur.end (res));
 						});
-						var attention_val = GLib.Value (typeof (bool));
-						attention_val.set_boolean (false);
-						origin_stack.child_set_property (origin_stack.get_child_by_name ("aur"),
-															"needs-attention",
-															attention_val);
 					} else if (filters_stack.visible_child_name == "updates") {
 						populate_aur_list (aur_updates);
 					}
@@ -1891,21 +1885,6 @@ namespace Pamac {
 							// get custom sort by relevance
 							packages_list.set_sort_column_id (Gtk.TREE_SORTABLE_UNSORTED_SORT_COLUMN_ID, 0);
 							populate_packages_list (pkgs);
-							if (transaction.search_aur) {
-								transaction.search_in_aur.begin (search_string, (obj, res) => {
-									if (transaction.search_in_aur.end (res).length > 0) {
-										if (pkgs.length > 0) {
-											var attention_val = GLib.Value (typeof (bool));
-											attention_val.set_boolean (true);
-											origin_stack.child_set_property (origin_stack.get_child_by_name ("aur"),
-																				"needs-attention",
-																				attention_val);
-										} else {
-											origin_stack.visible_child_name = "aur";
-										}
-									}
-								});
-							}
 						});
 						aur_list.clear ();
 						break;
@@ -2325,7 +2304,9 @@ namespace Pamac {
 				} else if (origin_stack.visible_child_name == "aur") {
 					populate_aur_list (aur_updates);
 				}
-				select_all_button.visible = true;
+				if (main_stack.visible_child_name == "browse") {
+					select_all_button.visible = true;
+				}
 				set_pendings_operations ();
 			}
 		}

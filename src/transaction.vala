@@ -88,7 +88,7 @@ namespace Pamac {
 		public signal void trans_commit_finished (bool success);
 		public signal void get_authorization_finished (bool authorized);
 		public signal void write_pamac_config_finished (bool recurse, uint64 refresh_period, bool no_update_hide_icon,
-														bool enable_aur, bool search_aur, bool check_aur_updates);
+														bool enable_aur, string aur_build_dir, bool check_aur_updates);
 		public signal void write_alpm_config_finished (bool checkspace);
 		public signal void write_mirrors_config_finished (string choosen_country, string choosen_generation_method);
 		public signal void generate_mirrors_list_data (string line);
@@ -119,7 +119,7 @@ namespace Pamac {
 		public bool no_update_hide_icon { get { return pamac_config.no_update_hide_icon; } }
 		public bool recurse { get { return pamac_config.recurse; } }
 		public uint64 refresh_period { get { return pamac_config.refresh_period; } }
-		public bool search_aur { get { return pamac_config.search_aur; } }
+		public string aur_build_dir { get { return pamac_config.aur_build_dir; } }
 
 		//Alpm.TransFlag
 		int flags;
@@ -173,7 +173,7 @@ namespace Pamac {
 		public signal void finished (bool success);
 		public signal void set_pkgreason_finished ();
 		public signal void write_pamac_config_finished (bool recurse, uint64 refresh_period, bool no_update_hide_icon,
-														bool enable_aur, bool search_aur, bool check_aur_updates);
+														bool enable_aur, string aur_build_dir, bool check_aur_updates);
 		public signal void write_alpm_config_finished (bool checkspace);
 		public signal void write_mirrors_config_finished (string choosen_country, string choosen_generation_method);
 		public signal void generate_mirrors_list ();
@@ -1092,7 +1092,12 @@ namespace Pamac {
 			to_build.remove_all ();
 			string [] built_pkgs = {};
 			int status = 1;
-			string builddir = "/tmp/pamac-build-%s".printf (Environment.get_user_name ());
+			string builddir;
+			if (aur_build_dir == "/tmp") {
+				builddir = "/tmp/pamac-build-%s".printf (Environment.get_user_name ());
+			} else {
+				builddir = aur_build_dir;
+			}
 			status = yield spawn_in_term ({"mkdir", "-p", builddir});
 			if (status == 0) {
 				status = yield spawn_in_term ({"rm", "-rf", pkgname}, builddir);
@@ -1761,7 +1766,7 @@ namespace Pamac {
 		}
 
 		void on_write_pamac_config_finished (bool recurse, uint64 refresh_period, bool no_update_hide_icon,
-												bool enable_aur, bool search_aur, bool check_aur_updates) {
+												bool enable_aur, string aur_build_dir, bool check_aur_updates) {
 			system_daemon.write_pamac_config_finished.disconnect (on_write_pamac_config_finished);
 			pamac_config.reload ();
 			flags = (1 << 4); //Alpm.TransFlag.CASCADE
@@ -1769,7 +1774,7 @@ namespace Pamac {
 				flags |= (1 << 5); //Alpm.TransFlag.RECURSE
 			}
 			write_pamac_config_finished (recurse, refresh_period, no_update_hide_icon,
-											enable_aur, search_aur, check_aur_updates);
+											enable_aur, aur_build_dir, check_aur_updates);
 		}
 
 		void on_write_alpm_config_finished (bool checkspace) {
