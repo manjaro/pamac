@@ -69,6 +69,7 @@ pamac-user-daemon: ../vapi/libalpm.vapi alpm_config.vala common.vala package.val
 			$(ALPM_VALA_FLAGS) \
 			--pkg=json-glib-1.0 \
 			--pkg=libsoup-2.4 \
+			--pkg=appstream-glib \
 			--thread \
 			alpm_config.vala \
 			common.vala \
@@ -112,6 +113,7 @@ pamac-manager: libpamac.so ../resources/manager_resources.c history_dialog.vala 
 			$(PAMAC_LIB_FLAGS) \
 			--pkg=gtk+-3.0 \
 			--pkg=gdk-3.0 \
+			--pkg=libsoup-2.4 \
 			--gresources=$(MANAGER_GRESOURCE_FILE) \
 			../resources/manager_resources.c \
 			history_dialog.vala \

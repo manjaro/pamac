@@ -551,19 +551,23 @@ namespace Pamac {
 				}
 				return AlpmPackage () {
 					name = alpm_pkg.name,
+					app_name = "",
 					version = alpm_pkg.version,
 					// desc can be null
 					desc = alpm_pkg.desc ?? "",
 					repo = (owned) repo_name,
 					size = alpm_pkg.isize,
-					origin = (uint) alpm_pkg.origin
+					origin = (uint) alpm_pkg.origin,
+					icon = ""
 				};
 			} else {
 				return AlpmPackage () {
 					name = "",
+					app_name = "",
 					version = "",
 					desc = "",
-					repo = ""
+					repo = "",
+					icon = ""
 				};
 			}
 		}

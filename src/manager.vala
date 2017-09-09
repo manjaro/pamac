@@ -61,7 +61,7 @@ namespace Pamac {
 				this.set_accels_for_action ("app.back", accels);
 				// search accel
 				action =  new SimpleAction ("search", null);
-				action.activate.connect  (() => {manager_window.filters_stack.visible_child_name = "search";});
+				action.activate.connect  (() => {manager_window.search_button.activate ();});
 				this.add_action (action);
 				accels = {"<Ctrl>F"};
 				this.set_accels_for_action ("app.search", accels);
@@ -70,11 +70,16 @@ namespace Pamac {
 
 		public override int command_line (ApplicationCommandLine cmd) {
 			if (cmd.get_arguments ()[0] == "pamac-updater") {
+				if (!started) {
+					manager_window.update_lists ();
+					started = true;
+				}
 				manager_window.display_package_queue.clear ();
 				manager_window.main_stack.visible_child_name = "browse";
 				manager_window.filters_stack.visible_child_name = "updates";
 			} else if (!started) {
-				manager_window.show_default_pkgs ();
+				manager_window.update_lists ();
+				manager_window.refresh_packages_list ();
 				started = true;
 			}
 			if (!pamac_run) {

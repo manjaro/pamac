@@ -62,10 +62,11 @@ namespace Pamac {
 		Gtk.ListStore ignorepkgs_liststore;
 		Transaction transaction;
 		uint64 previous_refresh_period;
-		string[] countries;
 
 		public PreferencesDialog (Transaction transaction) {
-			Object (transient_for: transaction.application_window, use_header_bar: 1);
+			int use_header_bar;
+			Gtk.Settings.get_default ().get ("gtk-dialogs-use-header", out use_header_bar);
+			Object (transient_for: transaction.application_window, use_header_bar: use_header_bar);
 
 			this.transaction = transaction;
 			refresh_period_label.set_markup (dgettext (null, "How often to check for updates, value in hours") +":");
@@ -109,9 +110,11 @@ namespace Pamac {
 				var mirrors_config = new MirrorsConfig ("/etc/pacman-mirrors.conf");
 				mirrors_country_comboboxtext.append_text (dgettext (null, "Worldwide"));
 				mirrors_country_comboboxtext.active = 0;
-				countries = transaction.get_mirrors_countries ();
+				if (transaction.preferences_available_countries.length == 0) {
+					transaction.preferences_available_countries = transaction.get_mirrors_countries ();
+				}
 				int index = 1;
-				foreach (unowned string country in countries) {
+				foreach (unowned string country in transaction.preferences_available_countries) {
 					mirrors_country_comboboxtext.append_text (country);
 					if (country == mirrors_config.choosen_country) {
 						mirrors_country_comboboxtext.active = index;

@@ -11,5 +11,6 @@
     <file preprocess="to-pixdata">package-reinstall.png</file>
     <file preprocess="to-pixdata">package-remove.png</file>
     <file preprocess="to-pixdata">package-upgrade.png</file>
+    <file preprocess="to-pixdata">package-generic.png</file>
   </gresource>
 </gresources>

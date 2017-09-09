@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Generated with glade 3.20.0 -->
 <interface>
-  <requires lib="gtk+" version="3.14"/>
+  <requires lib="gtk+" version="3.20"/>
   <object class="GtkAdjustment" id="cache_keep_nb_adjustment">
     <property name="upper">10</property>
     <property name="value">3</property>
@@ -18,6 +18,7 @@
   <template class="PamacPreferencesDialog" parent="GtkDialog">
     <property name="can_focus">False</property>
     <property name="border_width">3</property>
+    <property name="title" translatable="yes">Preferences</property>
     <property name="window_position">center-on-parent</property>
     <property name="icon_name">system-software-install</property>
     <property name="type_hint">dialog</property>
@@ -31,20 +32,31 @@
             <property name="can_focus">False</property>
             <property name="layout_style">end</property>
             <child>
-              <placeholder/>
+              <object class="GtkButton" id="close_button">
+                <property name="label" translatable="yes">_Close</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">False</property>
+                <property name="use_underline">True</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">0</property>
+              </packing>
             </child>
           </object>
           <packing>
             <property name="expand">False</property>
             <property name="fill">True</property>
             <property name="pack_type">end</property>
-            <property name="position">0</property>
+            <property name="position">1</property>
           </packing>
         </child>
         <child>
-          <object class="GtkStack" id="stack">
+          <object class="GtkNotebook" id="notebook">
             <property name="visible">True</property>
-            <property name="can_focus">False</property>
+            <property name="can_focus">True</property>
             <child>
               <object class="GtkBox" id="general_config_box">
                 <property name="visible">True</property>
@@ -370,9 +382,15 @@
                   </packing>
                 </child>
               </object>
+            </child>
+            <child type="tab">
+              <object class="GtkLabel" id="general_label">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="label" translatable="yes">General</property>
+              </object>
               <packing>
-                <property name="name">general</property>
-                <property name="title" translatable="yes">General</property>
+                <property name="tab_fill">False</property>
               </packing>
             </child>
             <child>
@@ -485,9 +503,18 @@
                 </child>
               </object>
               <packing>
-                <property name="name">official_repositories</property>
-                <property name="title" translatable="yes">Official Repositories</property>
                 <property name="position">1</property>
+              </packing>
+            </child>
+            <child type="tab">
+              <object class="GtkLabel" id="mirrors_label">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="label" translatable="yes">Official Repositories</property>
+              </object>
+              <packing>
+                <property name="position">1</property>
+                <property name="tab_fill">False</property>
               </packing>
             </child>
             <child>
@@ -640,9 +667,18 @@ All AUR users should be familiar with the build process.</property>
                 </child>
               </object>
               <packing>
-                <property name="name">aur</property>
-                <property name="title" translatable="yes">AUR</property>
                 <property name="position">2</property>
+              </packing>
+            </child>
+            <child type="tab">
+              <object class="GtkLabel" id="aur_label">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="label" translatable="yes">AUR</property>
+              </object>
+              <packing>
+                <property name="position">2</property>
+                <property name="tab_fill">False</property>
               </packing>
             </child>
             <child>
@@ -736,37 +772,34 @@ All AUR users should be familiar with the build process.</property>
                 </child>
               </object>
               <packing>
-                <property name="name">cache</property>
-                <property name="title" translatable="yes">Cache</property>
                 <property name="position">3</property>
+              </packing>
+            </child>
+            <child type="tab">
+              <object class="GtkLabel" id="cache_label">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="label" translatable="yes">Cache</property>
+              </object>
+              <packing>
+                <property name="position">3</property>
+                <property name="tab_fill">False</property>
               </packing>
             </child>
           </object>
           <packing>
             <property name="expand">True</property>
             <property name="fill">True</property>
-            <property name="position">2</property>
+            <property name="position">0</property>
           </packing>
         </child>
       </object>
     </child>
-    <child type="titlebar">
-      <object class="GtkHeaderBar">
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="show_close_button">True</property>
-        <child>
-          <placeholder/>
-        </child>
-        <child type="title">
-          <object class="GtkStackSwitcher" id="stackswitcher">
-            <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <property name="halign">center</property>
-            <property name="stack">stack</property>
-          </object>
-        </child>
-      </object>
+    <action-widgets>
+      <action-widget response="-7">close_button</action-widget>
+    </action-widgets>
+    <child>
+      <placeholder/>
     </child>
   </template>
 </interface>

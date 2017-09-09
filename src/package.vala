@@ -20,6 +20,7 @@
 namespace Pamac {
 	public struct AlpmPackage {
 		public string name;
+		public string app_name;
 		public string version;
 		public string installed_version;
 		public string desc;
@@ -27,15 +28,20 @@ namespace Pamac {
 		public uint64 size;
 		public uint64 download_size;
 		public uint origin;
+		public string icon;
 	}
 
 	public struct AlpmPackageDetails {
 		public string name;
+		public string app_name;
 		public string version;
 		public string desc;
+		public string long_desc;
 		public string repo;
 		public uint origin;
 		public string url;
+		public string icon;
+		public string screenshot;
 		public string packager;
 		public string builddate;
 		public string installdate;
@@ -69,9 +75,9 @@ namespace Pamac {
 		public string packagebase;
 		public string url;
 		public string maintainer;
-		public int64 firstsubmitted;
-		public int64 lastmodified;
-		public int64 outofdate;
+		public string firstsubmitted;
+		public string lastmodified;
+		public string outofdate;
 		public int64 numvotes;
 		public string[] licenses;
 		public string[] depends;

@@ -36,11 +36,12 @@ namespace Pamac {
 		public abstract AlpmPackage find_sync_satisfier (string depstring) throws IOError;
 		public abstract async AlpmPackage[] search_pkgs (string search_string) throws IOError;
 		public abstract async AURPackage[] search_in_aur (string search_string) throws IOError;
+		public abstract async AlpmPackage[] get_category_pkgs (string category) throws IOError;
 		public abstract string[] get_repos_names () throws IOError;
 		public abstract async AlpmPackage[] get_repo_pkgs (string repo) throws IOError;
 		public abstract string[] get_groups_names () throws IOError;
 		public abstract async AlpmPackage[] get_group_pkgs (string groupname) throws IOError;
-		public abstract AlpmPackageDetails get_pkg_details (string pkgname) throws IOError;
+		public abstract AlpmPackageDetails get_pkg_details (string pkgname, string app_name) throws IOError;
 		public abstract string[] get_pkg_files (string pkgname) throws IOError;
 		public abstract async AURPackageDetails get_aur_details (string pkgname) throws IOError;
 		public abstract string[] get_pkg_uninstalled_optdeps (string pkgname) throws IOError;
@@ -154,6 +155,7 @@ namespace Pamac {
 		StringBuilder warning_textbuffer;
 
 		//dialogs
+		public string[] preferences_available_countries;
 		TransactionSumDialog transaction_sum_dialog;
 		public ProgressBox progress_box;
 		Vte.Terminal term;
@@ -198,6 +200,7 @@ namespace Pamac {
 			connecting_user_daemon ();
 			//creating dialogs
 			this.application_window = application_window;
+			preferences_available_countries = {};
 			transaction_sum_dialog = new TransactionSumDialog (application_window);
 			progress_box = new ProgressBox ();
 			progress_box.progressbar.text = "";
@@ -658,6 +661,16 @@ namespace Pamac {
 			return pkgs;
 		}
 
+		public async AlpmPackage[] get_category_pkgs (string category) {
+			AlpmPackage[] pkgs = {};
+			try {
+				pkgs = yield user_daemon.get_category_pkgs (category);
+			} catch (IOError e) {
+				stderr.printf ("IOError: %s\n", e.message);
+			}
+			return pkgs;
+		}
+
 		public string[] get_repos_names () {
 			string[] repos_names = {};
 			try {
@@ -708,9 +721,9 @@ namespace Pamac {
 			return optdeps;
 		}
 
-		public AlpmPackageDetails get_pkg_details (string pkgname) {
+		public AlpmPackageDetails get_pkg_details (string pkgname, string app_name) {
 			try {
-				return user_daemon.get_pkg_details (pkgname);
+				return user_daemon.get_pkg_details (pkgname, app_name);
 			} catch (IOError e) {
 				stderr.printf ("IOError: %s\n", e.message);
 				return AlpmPackageDetails () {
