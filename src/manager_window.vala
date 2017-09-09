@@ -55,6 +55,8 @@ namespace Pamac {
 		[GtkChild]
 		Gtk.Button button_back;
 		[GtkChild]
+		Gtk.Button select_all_button;
+		[GtkChild]
 		Gtk.ModelButton preferences_button;
 		[GtkChild]
 		Gtk.TreeView packages_treeview;
@@ -434,6 +436,7 @@ namespace Pamac {
 		}
 
 		void set_pendings_operations () {
+			refresh_state_icons ();
 			if (!transaction_running && !generate_mirrors_list && !refreshing && !sysupgrade_running) {
 				if (filters_stack.visible_child_name == "updates") {
 					uint64 total_dsize = 0;
@@ -1051,8 +1054,11 @@ namespace Pamac {
 				origin_stack.visible_child_name = "no_item";
 				packages_treeview.thaw_child_notify ();
 				packages_treeview.thaw_notify ();
+				select_all_button.visible = false;
 				this.get_window ().set_cursor (null);
 				return;
+			} else {
+				select_all_button.visible = true;
 			}
 			foreach (unowned AlpmPackage pkg in pkgs) {
 				string version;
@@ -1122,8 +1128,11 @@ namespace Pamac {
 				origin_stack.visible_child_name = "no_item";
 				aur_treeview.thaw_child_notify ();
 				aur_treeview.thaw_notify ();
+				select_all_button.visible = false;
 				this.get_window ().set_cursor (null);
 				return;
+			} else {
+				select_all_button.visible = true;
 			}
 			foreach (unowned AURPackage aur_pkg in pkgs) {
 				string version;
@@ -1222,6 +1231,7 @@ namespace Pamac {
 					hide_sidebar ();
 					packages_list.clear ();
 					aur_list.clear ();
+					select_all_button.visible = false;
 					var attention_val = GLib.Value (typeof (bool));
 					attention_val.set_boolean (false);
 					filters_stack.child_set_property (filters_stack.get_child_by_name ("updates"),
@@ -1421,7 +1431,6 @@ namespace Pamac {
 					}
 				}
 			}
-			packages_treeview.queue_draw ();
 			set_pendings_operations ();
 		}
 
@@ -1624,6 +1633,15 @@ namespace Pamac {
 					break;
 				default:
 					break;
+			}
+		}
+
+		[GtkCallback]
+		void on_select_all_button_clicked () {
+			if (origin_stack.visible_child_name == "repos") {
+				packages_treeview.get_selection ().select_all ();
+			} else if (origin_stack.visible_child_name == "aur") {
+				aur_treeview.get_selection ().select_all ();
 			}
 		}
 
@@ -2005,11 +2023,13 @@ namespace Pamac {
 					if (filters_stack.visible_child_name == "search") {
 						search_button.activate ();
 					}
+					select_all_button.visible = true;
 					filters_stackswitcher.visible = true;
 					details_button.sensitive = true;
 					break;
 				case "details":
 					button_back.visible = true;
+					select_all_button.visible = false;
 					searchbar.search_mode_enabled = false;
 					search_button.active = false;
 					search_button.visible = false;
@@ -2018,6 +2038,7 @@ namespace Pamac {
 					break;
 				case "term":
 					button_back.visible = true;
+					select_all_button.visible = false;
 					searchbar.search_mode_enabled = false;
 					search_button.active = false;
 					search_button.visible = false;
@@ -2170,12 +2191,27 @@ namespace Pamac {
 			}
 		}
 
+		bool refresh_row (Gtk.TreeModel model, Gtk.TreePath path, Gtk.TreeIter iter) {
+			model.row_changed (path, iter);
+			return false;
+		}
+
+		void refresh_state_icons () {
+			packages_list.foreach (refresh_row);
+			aur_list.foreach (refresh_row);
+		}
+
 		void run_transaction () {
 			transaction_running = true;
 			apply_button.sensitive = false;
 			cancel_button.sensitive = false;
 			show_transaction_infobox ();
 			transaction.run ();
+			// let time to update packages states
+			Timeout.add (500, () => {
+				refresh_state_icons ();
+				return false;
+			});
 		}
 
 		void run_sysupgrade () {
@@ -2183,6 +2219,11 @@ namespace Pamac {
 			apply_button.sensitive = false;
 			cancel_button.sensitive = false;
 			transaction.sysupgrade (false);
+			// let time to update packages states
+			Timeout.add (500, () => {
+				refresh_state_icons ();
+				return false;
+			});
 		}
 
 		[GtkCallback]
@@ -2284,6 +2325,7 @@ namespace Pamac {
 				} else if (origin_stack.visible_child_name == "aur") {
 					populate_aur_list (aur_updates);
 				}
+				select_all_button.visible = true;
 				set_pendings_operations ();
 			}
 		}

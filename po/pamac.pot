@@ -710,6 +710,10 @@ msgstr ""
 msgid "_Apply"
 msgstr ""
 
+#: ../resources/manager_window.ui
+msgid "Select All"
+msgstr ""
+
 #: ../resources/preferences_dialog.ui
 msgid "Remove unrequired dependencies"
 msgstr ""
