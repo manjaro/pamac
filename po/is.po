@@ -1,7 +1,7 @@
 # Translation of Pamac.
-# Copyright (C) 2013-2016 Manjaro Developers <manjaro-dev@manjaro.org>
+# Copyright (C) 2013-2017 Manjaro Developers <manjaro-dev@manjaro.org>
 # This file is distributed under the same license as the Pamac package.
-# Guillaume Benoit <guillaume@manjaro.org>, 2013-2016.
+# Guillaume Benoit <guillaume@manjaro.org>, 2013-2017.
 # 
 # Translators:
 # Kristján Magnússon, 2015
@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2016-04-24 08:44+0200\n"
-"PO-Revision-Date: 2017-07-30 02:40+0000\n"
-"Last-Translator: philm <philm@manjaro.org>\n"
+"POT-Creation-Date: 2017-09-09 09:46+0200\n"
+"PO-Revision-Date: 2017-09-09 15:30+0000\n"
+"Last-Translator: Guillaume Benoit <guillaume@manjaro.org>\n"
 "Language-Team: Icelandic (http://www.transifex.com/manjarolinux/manjaro-pamac/language/is/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -78,17 +78,17 @@ msgstr "pakkinn %s er ekki með gilt kerfissnið (architecture)"
 #: ../src/system_daemon.vala
 #, c-format
 msgid "unable to satisfy dependency '%s' required by %s"
-msgstr ""
+msgstr "unable to satisfy dependency '%s' required by %s"
 
 #: ../src/system_daemon.vala
 #, c-format
 msgid "installing %s (%s) breaks dependency '%s' required by %s"
-msgstr ""
+msgstr "uppsetning %s (%s) brítur framfærni '%s' þarfnast %s"
 
 #: ../src/system_daemon.vala
 #, c-format
 msgid "removing %s breaks dependency '%s' required by %s"
-msgstr ""
+msgstr "fjarlægja %s brítur framfærni '%s' þarfnast %s"
 
 #: ../src/system_daemon.vala
 #, c-format
@@ -173,6 +173,10 @@ msgstr "Til uppsetningar"
 #: ../src/transaction.vala
 msgid "To reinstall"
 msgstr "Til enduruppsetningar"
+
+#: ../src/transaction.vala
+msgid "To upgrade"
+msgstr ""
 
 #: ../src/transaction.vala ../src/manager_window.vala
 msgid "Total download size"
@@ -337,7 +341,7 @@ msgid "Warning"
 msgstr "Aðvörun"
 
 #: ../src/transaction.vala ../resources/progress_dialog.ui
-#: ../resources/history_dialog.ui
+#: ../resources/history_dialog.ui ../resources/preferences_dialog.ui
 msgid "_Close"
 msgstr "_Loka"
 
@@ -352,6 +356,10 @@ msgstr "Aðgerð lokið - tókst"
 #: ../src/installer.vala ../src/manager.vala
 msgid "Pamac is already running"
 msgstr "Pamac er þegar í keyrslu"
+
+#: ../src/installer.vala ../src/manager_window.vala
+msgid "Waiting for another package manager to quit"
+msgstr "Bíð eftir að annar pakka framkvæmdastjórn hætti"
 
 #: ../src/tray.vala ../src/manager_window.vala
 msgid "Your system is up-to-date"
@@ -378,12 +386,16 @@ msgid "Details"
 msgstr "Nánar"
 
 #: ../src/manager_window.vala
+msgid "No package found"
+msgstr ""
+
+#: ../src/manager_window.vala
 msgid "Deselect"
 msgstr "Afvelja"
 
 #: ../src/manager_window.vala
 msgid "Upgrade"
-msgstr ""
+msgstr "Uppfærsla"
 
 #: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Install"
@@ -394,17 +406,13 @@ msgid "Remove"
 msgstr "Fjarlægja"
 
 #: ../src/manager_window.vala
-msgid "Waiting for another package manager to quit"
-msgstr "Bíð eftir að annar pakka framkvæmdastjórn hætti"
-
-#: ../src/manager_window.vala
 #, c-format
 msgid "%u pending operation"
 msgid_plural "%u pending operations"
 msgstr[0] "%u aðgerð í bið"
 msgstr[1] "%u aðgerðir í bið"
 
-#: ../src/manager_window.vala
+#: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Installed"
 msgstr "Uppsett"
 
@@ -417,8 +425,48 @@ msgid "Foreign"
 msgstr "Utanaðkomandi"
 
 #: ../src/manager_window.vala
-msgid "Pending"
-msgstr "Óútkljáður"
+msgid "Accessories"
+msgstr ""
+
+#: ../src/manager_window.vala
+msgid "Audio & Video"
+msgstr ""
+
+#: ../src/manager_window.vala
+msgid "Development"
+msgstr ""
+
+#: ../src/manager_window.vala
+msgid "Education"
+msgstr ""
+
+#: ../src/manager_window.vala
+msgid "Games"
+msgstr ""
+
+#: ../src/manager_window.vala
+msgid "Graphics"
+msgstr ""
+
+#: ../src/manager_window.vala
+msgid "Internet"
+msgstr ""
+
+#: ../src/manager_window.vala
+msgid "Office"
+msgstr ""
+
+#: ../src/manager_window.vala
+msgid "Science"
+msgstr ""
+
+#: ../src/manager_window.vala
+msgid "Settings"
+msgstr ""
+
+#: ../src/manager_window.vala
+msgid "System Tools"
+msgstr ""
 
 #: ../src/manager_window.vala
 msgid "Install Reason"
@@ -554,6 +602,10 @@ msgid "Number of versions of each package to keep in the cache"
 msgstr "Fjöldi af útgáfum af hverjum pakka til að halda í skyndiminni"
 
 #: ../src/preferences_dialog.vala
+msgid "Build directory"
+msgstr ""
+
+#: ../src/preferences_dialog.vala
 msgid "Worldwide"
 msgstr "Út um allan heim"
 
@@ -598,7 +650,7 @@ msgstr "Endurlesa gagnagrunna"
 msgid "View History"
 msgstr "Skoða feril"
 
-#: ../resources/manager_window.ui
+#: ../resources/manager_window.ui ../resources/preferences_dialog.ui
 msgid "Preferences"
 msgstr "Valkostir"
 
@@ -607,12 +659,8 @@ msgid "About"
 msgstr "Um"
 
 #: ../resources/manager_window.ui
-msgid "Search"
-msgstr "Leita"
-
-#: ../resources/manager_window.ui
-msgid "State"
-msgstr "Staða"
+msgid "Categories"
+msgstr ""
 
 #: ../resources/manager_window.ui
 msgid "Repositories"
@@ -620,7 +668,19 @@ msgstr "Hugbúnaðarsöfn"
 
 #: ../resources/manager_window.ui
 msgid "Updates"
-msgstr ""
+msgstr "Uppfærslur"
+
+#: ../resources/manager_window.ui
+msgid "Pending"
+msgstr "Óútkljáður"
+
+#: ../resources/manager_window.ui
+msgid "Search"
+msgstr "Leita"
+
+#: ../resources/manager_window.ui
+msgid "State"
+msgstr "Staða"
 
 #: ../resources/manager_window.ui
 msgid "Version"
@@ -657,6 +717,10 @@ msgstr "Skrár"
 #: ../resources/manager_window.ui
 msgid "_Apply"
 msgstr "_Virkja"
+
+#: ../resources/manager_window.ui
+msgid "Select All"
+msgstr ""
 
 #: ../resources/preferences_dialog.ui
 msgid "Remove unrequired dependencies"
@@ -717,10 +781,6 @@ msgstr "Virkja AUR-stuðning"
 #: ../resources/preferences_dialog.ui
 msgid "Allow Pamac to search and install packages from AUR"
 msgstr "Leyfa Pamac að leita að og setja inn pakka frá AUR"
-
-#: ../resources/preferences_dialog.ui
-msgid "Search in AUR by default"
-msgstr "Leita sjálfgefið í AUR"
 
 #: ../resources/preferences_dialog.ui
 msgid "Check for updates from AUR"

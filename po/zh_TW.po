@@ -1,7 +1,7 @@
 # Translation of Pamac.
-# Copyright (C) 2013-2016 Manjaro Developers <manjaro-dev@manjaro.org>
+# Copyright (C) 2013-2017 Manjaro Developers <manjaro-dev@manjaro.org>
 # This file is distributed under the same license as the Pamac package.
-# Guillaume Benoit <guillaume@manjaro.org>, 2013-2016.
+# Guillaume Benoit <guillaume@manjaro.org>, 2013-2017.
 # 
 # Translators:
 # Hsiu-Ming Chang <cges30901@gmail.com>, 2016
@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2016-04-24 08:44+0200\n"
-"PO-Revision-Date: 2017-07-30 12:17+0000\n"
+"POT-Creation-Date: 2017-09-09 09:46+0200\n"
+"PO-Revision-Date: 2017-09-10 03:24+0000\n"
 "Last-Translator: Jeff Huang <s8321414@gmail.com>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
@@ -174,6 +174,10 @@ msgstr "安裝"
 #: ../src/transaction.vala
 msgid "To reinstall"
 msgstr "重新安裝"
+
+#: ../src/transaction.vala
+msgid "To upgrade"
+msgstr "更新"
 
 #: ../src/transaction.vala ../src/manager_window.vala
 msgid "Total download size"
@@ -337,7 +341,7 @@ msgid "Warning"
 msgstr "警告"
 
 #: ../src/transaction.vala ../resources/progress_dialog.ui
-#: ../resources/history_dialog.ui
+#: ../resources/history_dialog.ui ../resources/preferences_dialog.ui
 msgid "_Close"
 msgstr "關閉(_C)"
 
@@ -352,6 +356,10 @@ msgstr "事務處理成功完成"
 #: ../src/installer.vala ../src/manager.vala
 msgid "Pamac is already running"
 msgstr "Pamac仍在執行中"
+
+#: ../src/installer.vala ../src/manager_window.vala
+msgid "Waiting for another package manager to quit"
+msgstr "正在等待其他套件管理員結束"
 
 #: ../src/tray.vala ../src/manager_window.vala
 msgid "Your system is up-to-date"
@@ -377,6 +385,10 @@ msgid "Details"
 msgstr "細節"
 
 #: ../src/manager_window.vala
+msgid "No package found"
+msgstr "找不到軟體包"
+
+#: ../src/manager_window.vala
 msgid "Deselect"
 msgstr "取消選擇"
 
@@ -393,16 +405,12 @@ msgid "Remove"
 msgstr "移除"
 
 #: ../src/manager_window.vala
-msgid "Waiting for another package manager to quit"
-msgstr "正在等待其他套件管理員結束"
-
-#: ../src/manager_window.vala
 #, c-format
 msgid "%u pending operation"
 msgid_plural "%u pending operations"
 msgstr[0] "%u 個擱置中的動作"
 
-#: ../src/manager_window.vala
+#: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Installed"
 msgstr "已安裝"
 
@@ -415,8 +423,48 @@ msgid "Foreign"
 msgstr "外來的"
 
 #: ../src/manager_window.vala
-msgid "Pending"
-msgstr "擱置中"
+msgid "Accessories"
+msgstr "附加組件"
+
+#: ../src/manager_window.vala
+msgid "Audio & Video"
+msgstr "音訊與視訊"
+
+#: ../src/manager_window.vala
+msgid "Development"
+msgstr "開發"
+
+#: ../src/manager_window.vala
+msgid "Education"
+msgstr "教育"
+
+#: ../src/manager_window.vala
+msgid "Games"
+msgstr "遊戲"
+
+#: ../src/manager_window.vala
+msgid "Graphics"
+msgstr "圖形"
+
+#: ../src/manager_window.vala
+msgid "Internet"
+msgstr "網路"
+
+#: ../src/manager_window.vala
+msgid "Office"
+msgstr "辦公軟體"
+
+#: ../src/manager_window.vala
+msgid "Science"
+msgstr "科學"
+
+#: ../src/manager_window.vala
+msgid "Settings"
+msgstr "設定"
+
+#: ../src/manager_window.vala
+msgid "System Tools"
+msgstr "系統工具"
 
 #: ../src/manager_window.vala
 msgid "Install Reason"
@@ -552,6 +600,10 @@ msgid "Number of versions of each package to keep in the cache"
 msgstr "每個軟體包要保留在快取中的版本數量"
 
 #: ../src/preferences_dialog.vala
+msgid "Build directory"
+msgstr "構建目錄"
+
+#: ../src/preferences_dialog.vala
 msgid "Worldwide"
 msgstr "全世界"
 
@@ -596,7 +648,7 @@ msgstr "刷新套件庫"
 msgid "View History"
 msgstr "檢閱歷史"
 
-#: ../resources/manager_window.ui
+#: ../resources/manager_window.ui ../resources/preferences_dialog.ui
 msgid "Preferences"
 msgstr "偏好設定"
 
@@ -605,12 +657,8 @@ msgid "About"
 msgstr "關於"
 
 #: ../resources/manager_window.ui
-msgid "Search"
-msgstr "搜尋"
-
-#: ../resources/manager_window.ui
-msgid "State"
-msgstr "狀態"
+msgid "Categories"
+msgstr "分類"
 
 #: ../resources/manager_window.ui
 msgid "Repositories"
@@ -619,6 +667,18 @@ msgstr "套件庫"
 #: ../resources/manager_window.ui
 msgid "Updates"
 msgstr "更新"
+
+#: ../resources/manager_window.ui
+msgid "Pending"
+msgstr "擱置中"
+
+#: ../resources/manager_window.ui
+msgid "Search"
+msgstr "搜尋"
+
+#: ../resources/manager_window.ui
+msgid "State"
+msgstr "狀態"
 
 #: ../resources/manager_window.ui
 msgid "Version"
@@ -655,6 +715,10 @@ msgstr "檔案"
 #: ../resources/manager_window.ui
 msgid "_Apply"
 msgstr "套用(_A)"
+
+#: ../resources/manager_window.ui
+msgid "Select All"
+msgstr "選取所有"
 
 #: ../resources/preferences_dialog.ui
 msgid "Remove unrequired dependencies"
@@ -715,10 +779,6 @@ msgstr "啟用 AUR 支援"
 #: ../resources/preferences_dialog.ui
 msgid "Allow Pamac to search and install packages from AUR"
 msgstr "允許 Pamac 搜尋及安裝 AUR 上的軟體包"
-
-#: ../resources/preferences_dialog.ui
-msgid "Search in AUR by default"
-msgstr "預設在 AUR 中搜尋"
 
 #: ../resources/preferences_dialog.ui
 msgid "Check for updates from AUR"

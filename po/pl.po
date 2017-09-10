@@ -1,9 +1,10 @@
 # Translation of Pamac.
-# Copyright (C) 2013-2016 Manjaro Developers <manjaro-dev@manjaro.org>
+# Copyright (C) 2013-2017 Manjaro Developers <manjaro-dev@manjaro.org>
 # This file is distributed under the same license as the Pamac package.
-# Guillaume Benoit <guillaume@manjaro.org>, 2013-2016.
+# Guillaume Benoit <guillaume@manjaro.org>, 2013-2017.
 # 
 # Translators:
+# Adrian Grzemski <adrian.grzemski@gmail.com>, 2017
 # Daniel Napora <napcok@gmail.com>, 2016-2017
 # Dominik “Devhost97” G <devhost97@gmail.com>, 2016
 # Tomasz Przybył <fademind@gmail.com>, 2013
@@ -19,9 +20,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2016-04-24 08:44+0200\n"
-"PO-Revision-Date: 2017-08-02 11:35+0000\n"
-"Last-Translator: Piotr Strębski <strebski@gmail.com>\n"
+"POT-Creation-Date: 2017-09-09 09:46+0200\n"
+"PO-Revision-Date: 2017-09-09 15:30+0000\n"
+"Last-Translator: Guillaume Benoit <guillaume@manjaro.org>\n"
 "Language-Team: Polish (http://www.transifex.com/manjarolinux/manjaro-pamac/language/pl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -55,7 +56,7 @@ msgstr "Nie"
 
 #: ../src/system_daemon.vala
 msgid "Failed to initialize alpm library"
-msgstr "Błąd uruchomienia biblioteki alpm"
+msgstr "Uruchomienie biblioteki alpm nie powiodło się"
 
 #: ../src/system_daemon.vala ../src/transaction.vala
 msgid "Authentication failed"
@@ -63,15 +64,15 @@ msgstr "Uwierzytelnianie nie powiodło się"
 
 #: ../src/system_daemon.vala
 msgid "Failed to synchronize any databases"
-msgstr "Błąd synchronizacji wszystkich baz danych"
+msgstr "Synchronizacja baz danych nie powiodła się"
 
 #: ../src/system_daemon.vala
 msgid "Failed to init transaction"
-msgstr "Błąd uruchomienia operacji"
+msgstr "Uruchomienie operacji nie powiodło się"
 
 #: ../src/system_daemon.vala
 msgid "Failed to prepare transaction"
-msgstr "Błąd przygotowania operacji"
+msgstr "Przygotowanie operacji nie powiodło się"
 
 #: ../src/system_daemon.vala
 #, c-format
@@ -110,7 +111,7 @@ msgstr "%s musi zostać usunięte, jednakże jest pakietem zablokowanym"
 
 #: ../src/system_daemon.vala
 msgid "Failed to commit transaction"
-msgstr "Błąd przeprowadzania operacji"
+msgstr "Przeprowadzenie operacji nie powiodło się"
 
 #: ../src/system_daemon.vala
 #, c-format
@@ -181,6 +182,10 @@ msgstr "Do zainstalowania"
 #: ../src/transaction.vala
 msgid "To reinstall"
 msgstr "Do przeinstalowania"
+
+#: ../src/transaction.vala
+msgid "To upgrade"
+msgstr "Do aktualizacji"
 
 #: ../src/transaction.vala ../src/manager_window.vala
 msgid "Total download size"
@@ -347,7 +352,7 @@ msgid "Warning"
 msgstr "Uwaga"
 
 #: ../src/transaction.vala ../resources/progress_dialog.ui
-#: ../resources/history_dialog.ui
+#: ../resources/history_dialog.ui ../resources/preferences_dialog.ui
 msgid "_Close"
 msgstr "_Zamknij"
 
@@ -362,6 +367,10 @@ msgstr "Operacja zakończona sukcesem"
 #: ../src/installer.vala ../src/manager.vala
 msgid "Pamac is already running"
 msgstr "Pamac jest już uruchomiony"
+
+#: ../src/installer.vala ../src/manager_window.vala
+msgid "Waiting for another package manager to quit"
+msgstr "Oczekiwanie na zakończenie innego menedżera pakietów"
 
 #: ../src/tray.vala ../src/manager_window.vala
 msgid "Your system is up-to-date"
@@ -390,6 +399,10 @@ msgid "Details"
 msgstr "Szczegóły"
 
 #: ../src/manager_window.vala
+msgid "No package found"
+msgstr "Nie znaleziono pakietów"
+
+#: ../src/manager_window.vala
 msgid "Deselect"
 msgstr "Usuń zaznaczenie"
 
@@ -406,10 +419,6 @@ msgid "Remove"
 msgstr "Usuń"
 
 #: ../src/manager_window.vala
-msgid "Waiting for another package manager to quit"
-msgstr "Oczekiwanie na zakończenie innego menedżera pakietów"
-
-#: ../src/manager_window.vala
 #, c-format
 msgid "%u pending operation"
 msgid_plural "%u pending operations"
@@ -418,7 +427,7 @@ msgstr[1] "Oczekują %u działania"
 msgstr[2] "Oczekuje %u działań"
 msgstr[3] "Oczekuje %u działań"
 
-#: ../src/manager_window.vala
+#: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Installed"
 msgstr "Zainstalowany"
 
@@ -431,8 +440,48 @@ msgid "Foreign"
 msgstr "Obcy"
 
 #: ../src/manager_window.vala
-msgid "Pending"
-msgstr "Oczekujący"
+msgid "Accessories"
+msgstr "Narzędzia"
+
+#: ../src/manager_window.vala
+msgid "Audio & Video"
+msgstr "Audio i Wideo"
+
+#: ../src/manager_window.vala
+msgid "Development"
+msgstr "Programowanie"
+
+#: ../src/manager_window.vala
+msgid "Education"
+msgstr "Edukacja"
+
+#: ../src/manager_window.vala
+msgid "Games"
+msgstr "Gry"
+
+#: ../src/manager_window.vala
+msgid "Graphics"
+msgstr "Grafika"
+
+#: ../src/manager_window.vala
+msgid "Internet"
+msgstr "Internet"
+
+#: ../src/manager_window.vala
+msgid "Office"
+msgstr "Biuro"
+
+#: ../src/manager_window.vala
+msgid "Science"
+msgstr "Nauka"
+
+#: ../src/manager_window.vala
+msgid "Settings"
+msgstr "Ustawienia"
+
+#: ../src/manager_window.vala
+msgid "System Tools"
+msgstr "Narzędzia systemowe"
 
 #: ../src/manager_window.vala
 msgid "Install Reason"
@@ -568,6 +617,10 @@ msgid "Number of versions of each package to keep in the cache"
 msgstr "Liczba wersji każdego pakietu do przechowywania w pamięci podręcznej"
 
 #: ../src/preferences_dialog.vala
+msgid "Build directory"
+msgstr ""
+
+#: ../src/preferences_dialog.vala
 msgid "Worldwide"
 msgstr "Ogólnoświatowe"
 
@@ -612,7 +665,7 @@ msgstr "Odśwież bazy danych"
 msgid "View History"
 msgstr "Zobacz historię"
 
-#: ../resources/manager_window.ui
+#: ../resources/manager_window.ui ../resources/preferences_dialog.ui
 msgid "Preferences"
 msgstr "Preferencje"
 
@@ -621,12 +674,8 @@ msgid "About"
 msgstr "O programie"
 
 #: ../resources/manager_window.ui
-msgid "Search"
-msgstr "Wyszukaj"
-
-#: ../resources/manager_window.ui
-msgid "State"
-msgstr "Stan"
+msgid "Categories"
+msgstr "Kategorie"
 
 #: ../resources/manager_window.ui
 msgid "Repositories"
@@ -635,6 +684,18 @@ msgstr "Repozytoria"
 #: ../resources/manager_window.ui
 msgid "Updates"
 msgstr "Aktualizacje"
+
+#: ../resources/manager_window.ui
+msgid "Pending"
+msgstr "Oczekujący"
+
+#: ../resources/manager_window.ui
+msgid "Search"
+msgstr "Wyszukaj"
+
+#: ../resources/manager_window.ui
+msgid "State"
+msgstr "Stan"
 
 #: ../resources/manager_window.ui
 msgid "Version"
@@ -671,6 +732,10 @@ msgstr "Pliki"
 #: ../resources/manager_window.ui
 msgid "_Apply"
 msgstr "_Zastosuj"
+
+#: ../resources/manager_window.ui
+msgid "Select All"
+msgstr ""
 
 #: ../resources/preferences_dialog.ui
 msgid "Remove unrequired dependencies"
@@ -731,10 +796,6 @@ msgstr "Włącz obsługę AUR"
 #: ../resources/preferences_dialog.ui
 msgid "Allow Pamac to search and install packages from AUR"
 msgstr "Pozwól Pamacowi wyszukiwać i instalować pakiety z AUR"
-
-#: ../resources/preferences_dialog.ui
-msgid "Search in AUR by default"
-msgstr "Wyszukuj domyślnie w AUR"
 
 #: ../resources/preferences_dialog.ui
 msgid "Check for updates from AUR"

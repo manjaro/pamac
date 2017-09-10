@@ -1,10 +1,11 @@
 # Translation of Pamac.
-# Copyright (C) 2013-2016 Manjaro Developers <manjaro-dev@manjaro.org>
+# Copyright (C) 2013-2017 Manjaro Developers <manjaro-dev@manjaro.org>
 # This file is distributed under the same license as the Pamac package.
-# Guillaume Benoit <guillaume@manjaro.org>, 2013-2016.
+# Guillaume Benoit <guillaume@manjaro.org>, 2013-2017.
 # 
 # Translators:
 # Xc Vb <kassavlt@gmail.com>, 2014
+# Eli Shleifer <eligator@gmail.com>, 2017
 # GenghisKhan <genghiskhan@gmx.ca>, 2013-2016
 # Xc Vb <kassavlt@gmail.com>, 2014
 # philm <philm@manjaro.org>, 2015
@@ -12,9 +13,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2016-04-24 08:44+0200\n"
-"PO-Revision-Date: 2017-07-30 02:40+0000\n"
-"Last-Translator: philm <philm@manjaro.org>\n"
+"POT-Creation-Date: 2017-09-09 09:46+0200\n"
+"PO-Revision-Date: 2017-09-09 22:36+0000\n"
+"Last-Translator: Eli Shleifer <eligator@gmail.com>\n"
 "Language-Team: Hebrew (http://www.transifex.com/manjarolinux/manjaro-pamac/language/he/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -24,7 +25,7 @@ msgstr ""
 
 #: data/polkit/org.manjaro.pamac.policy
 msgid "Authentication is required"
-msgstr "נדרש אישור"
+msgstr "נדרש אימות"
 
 #: ../src/user_daemon.vala
 msgid "Unknown"
@@ -79,17 +80,17 @@ msgstr "לחבילה %s אין ארכיטקטורה תקפה"
 #: ../src/system_daemon.vala
 #, c-format
 msgid "unable to satisfy dependency '%s' required by %s"
-msgstr ""
+msgstr "לא מסוגל לספק תלות '%s' אשר נדרשת על ידי %s"
 
 #: ../src/system_daemon.vala
 #, c-format
 msgid "installing %s (%s) breaks dependency '%s' required by %s"
-msgstr ""
+msgstr "התקנת %s (%s) שוברת תלות '%s' אשר נדרשת על ידי %s"
 
 #: ../src/system_daemon.vala
 #, c-format
 msgid "removing %s breaks dependency '%s' required by %s"
-msgstr ""
+msgstr "הסרת %s שוברת תלות '%s' אשר נדרשת על ידי %s"
 
 #: ../src/system_daemon.vala
 #, c-format
@@ -113,7 +114,7 @@ msgstr "%s קיימת הן בתוך %s והן בתוך %s"
 #: ../src/system_daemon.vala
 #, c-format
 msgid "%s: %s already exists in filesystem"
-msgstr "%s: %s כבר קיים בתוך מערכת קבצים"
+msgstr "%s: %s כבר קיימת בתוך מערכת קבצים"
 
 #: ../src/system_daemon.vala
 #, c-format
@@ -132,7 +133,7 @@ msgstr "נכשל לאחזר קובץ '%s' מתוך %s : %s\n"
 
 #: ../src/transaction.vala
 msgid "Copy"
-msgstr ""
+msgstr "העתק"
 
 #: ../src/transaction.vala
 msgid "Refreshing mirrors list"
@@ -175,6 +176,10 @@ msgstr "להתקנה"
 msgid "To reinstall"
 msgstr "להתקנה חוזרת"
 
+#: ../src/transaction.vala
+msgid "To upgrade"
+msgstr "לשדרג"
+
 #: ../src/transaction.vala ../src/manager_window.vala
 msgid "Total download size"
 msgstr "גודל הורדה כולל"
@@ -182,7 +187,7 @@ msgstr "גודל הורדה כולל"
 #: ../src/transaction.vala
 #, c-format
 msgid "Building %s"
-msgstr ""
+msgstr "בונה %s"
 
 #: ../src/transaction.vala
 msgid "Transaction cancelled"
@@ -306,11 +311,11 @@ msgstr "%s מותקנת בתור %s.pacsave"
 
 #: ../src/transaction.vala
 msgid "Running pre-transaction hooks"
-msgstr ""
+msgstr "מריץ pre-transaction hooks"
 
 #: ../src/transaction.vala
 msgid "Running post-transaction hooks"
-msgstr ""
+msgstr "מריץ post-transaction hooks"
 
 #: ../src/transaction.vala
 #, c-format
@@ -338,7 +343,7 @@ msgid "Warning"
 msgstr "אזהרה"
 
 #: ../src/transaction.vala ../resources/progress_dialog.ui
-#: ../resources/history_dialog.ui
+#: ../resources/history_dialog.ui ../resources/preferences_dialog.ui
 msgid "_Close"
 msgstr "_סגור"
 
@@ -353,6 +358,10 @@ msgstr "טרנזקציה הסתיימה בהצלחה"
 #: ../src/installer.vala ../src/manager.vala
 msgid "Pamac is already running"
 msgstr "‏Pamac כבר מורץ כעת"
+
+#: ../src/installer.vala ../src/manager_window.vala
+msgid "Waiting for another package manager to quit"
+msgstr "ממתין למנהל חבילות אחר לחדול מפעולתו"
 
 #: ../src/tray.vala ../src/manager_window.vala
 msgid "Your system is up-to-date"
@@ -379,12 +388,16 @@ msgid "Details"
 msgstr "פרטים"
 
 #: ../src/manager_window.vala
+msgid "No package found"
+msgstr "לא נמצאה חבילה"
+
+#: ../src/manager_window.vala
 msgid "Deselect"
 msgstr "בטל בחירה"
 
 #: ../src/manager_window.vala
 msgid "Upgrade"
-msgstr ""
+msgstr "שדרג"
 
 #: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Install"
@@ -395,17 +408,13 @@ msgid "Remove"
 msgstr "הסר"
 
 #: ../src/manager_window.vala
-msgid "Waiting for another package manager to quit"
-msgstr ""
-
-#: ../src/manager_window.vala
 #, c-format
 msgid "%u pending operation"
 msgid_plural "%u pending operations"
 msgstr[0] "פעולה %u תלויה ועומדת"
 msgstr[1] "%u פעולות תלויות ועומדות"
 
-#: ../src/manager_window.vala
+#: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Installed"
 msgstr "מותקנות"
 
@@ -418,8 +427,48 @@ msgid "Foreign"
 msgstr "זר"
 
 #: ../src/manager_window.vala
-msgid "Pending"
-msgstr "תלוי ועומד"
+msgid "Accessories"
+msgstr "עזרים"
+
+#: ../src/manager_window.vala
+msgid "Audio & Video"
+msgstr "שמע & וידאו"
+
+#: ../src/manager_window.vala
+msgid "Development"
+msgstr "פיתוח"
+
+#: ../src/manager_window.vala
+msgid "Education"
+msgstr "חינוך"
+
+#: ../src/manager_window.vala
+msgid "Games"
+msgstr "משחקים"
+
+#: ../src/manager_window.vala
+msgid "Graphics"
+msgstr "גרפיקה"
+
+#: ../src/manager_window.vala
+msgid "Internet"
+msgstr "אינטרנט"
+
+#: ../src/manager_window.vala
+msgid "Office"
+msgstr "אופיס"
+
+#: ../src/manager_window.vala
+msgid "Science"
+msgstr "מדע"
+
+#: ../src/manager_window.vala
+msgid "Settings"
+msgstr "הגדרות"
+
+#: ../src/manager_window.vala
+msgid "System Tools"
+msgstr "כלי מערכת"
 
 #: ../src/manager_window.vala
 msgid "Install Reason"
@@ -552,7 +601,11 @@ msgstr "מהי תדירות בדיקת העדכונים, בשעות"
 
 #: ../src/preferences_dialog.vala ../resources/preferences_dialog.ui
 msgid "Number of versions of each package to keep in the cache"
-msgstr ""
+msgstr "מספר גרסאות של כל חבילה לשמירה בתוך המטמון"
+
+#: ../src/preferences_dialog.vala
+msgid "Build directory"
+msgstr "תיקיית בנייה של חבילות AUR"
 
 #: ../src/preferences_dialog.vala
 msgid "Worldwide"
@@ -599,7 +652,7 @@ msgstr "רענן מסדי נתונים"
 msgid "View History"
 msgstr "צפה בהיסטוריה"
 
-#: ../resources/manager_window.ui
+#: ../resources/manager_window.ui ../resources/preferences_dialog.ui
 msgid "Preferences"
 msgstr "העדפות"
 
@@ -608,12 +661,8 @@ msgid "About"
 msgstr "אודות"
 
 #: ../resources/manager_window.ui
-msgid "Search"
-msgstr "חיפוש"
-
-#: ../resources/manager_window.ui
-msgid "State"
-msgstr "מצב"
+msgid "Categories"
+msgstr "קטגוריות"
 
 #: ../resources/manager_window.ui
 msgid "Repositories"
@@ -621,7 +670,19 @@ msgstr "מאגרים"
 
 #: ../resources/manager_window.ui
 msgid "Updates"
-msgstr ""
+msgstr "עדכונים"
+
+#: ../resources/manager_window.ui
+msgid "Pending"
+msgstr "תלוי ועומד"
+
+#: ../resources/manager_window.ui
+msgid "Search"
+msgstr "חיפוש"
+
+#: ../resources/manager_window.ui
+msgid "State"
+msgstr "מצב"
 
 #: ../resources/manager_window.ui
 msgid "Version"
@@ -658,6 +719,10 @@ msgstr "קבצים"
 #: ../resources/manager_window.ui
 msgid "_Apply"
 msgstr "_החל"
+
+#: ../resources/manager_window.ui
+msgid "Select All"
+msgstr "בחר הכל"
 
 #: ../resources/preferences_dialog.ui
 msgid "Remove unrequired dependencies"
@@ -718,10 +783,6 @@ msgstr "אפשר תמיכת AUR"
 #: ../resources/preferences_dialog.ui
 msgid "Allow Pamac to search and install packages from AUR"
 msgstr "אפשר לPamac לחפש ולהתקין חבילות מתוך AUR"
-
-#: ../resources/preferences_dialog.ui
-msgid "Search in AUR by default"
-msgstr "חפש בתוך AUR באופן שגרתי"
 
 #: ../resources/preferences_dialog.ui
 msgid "Check for updates from AUR"

@@ -1,7 +1,7 @@
 # Translation of Pamac.
-# Copyright (C) 2013-2016 Manjaro Developers <manjaro-dev@manjaro.org>
+# Copyright (C) 2013-2017 Manjaro Developers <manjaro-dev@manjaro.org>
 # This file is distributed under the same license as the Pamac package.
-# Guillaume Benoit <guillaume@manjaro.org>, 2013-2016.
+# Guillaume Benoit <guillaume@manjaro.org>, 2013-2017.
 # 
 # Translators:
 # Moo, 2015
@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2016-04-24 08:44+0200\n"
-"PO-Revision-Date: 2017-07-30 15:15+0000\n"
+"POT-Creation-Date: 2017-09-09 09:46+0200\n"
+"PO-Revision-Date: 2017-09-09 19:00+0000\n"
 "Last-Translator: Moo\n"
 "Language-Team: Lithuanian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/lt/)\n"
 "MIME-Version: 1.0\n"
@@ -172,6 +172,10 @@ msgstr "Planuojami įdiegti"
 #: ../src/transaction.vala
 msgid "To reinstall"
 msgstr "Įdiegti iš naujo"
+
+#: ../src/transaction.vala
+msgid "To upgrade"
+msgstr "Naujinti"
 
 #: ../src/transaction.vala ../src/manager_window.vala
 msgid "Total download size"
@@ -337,7 +341,7 @@ msgid "Warning"
 msgstr "Įspėjimas"
 
 #: ../src/transaction.vala ../resources/progress_dialog.ui
-#: ../resources/history_dialog.ui
+#: ../resources/history_dialog.ui ../resources/preferences_dialog.ui
 msgid "_Close"
 msgstr "_Užverti"
 
@@ -352,6 +356,10 @@ msgstr "Operacija sėkmingai užbaigta"
 #: ../src/installer.vala ../src/manager.vala
 msgid "Pamac is already running"
 msgstr "Pamac jau yra vykdoma"
+
+#: ../src/installer.vala ../src/manager_window.vala
+msgid "Waiting for another package manager to quit"
+msgstr "Laukiama, kol kita paketų tvarkytuvė baigs savo darbą"
 
 #: ../src/tray.vala ../src/manager_window.vala
 msgid "Your system is up-to-date"
@@ -379,6 +387,10 @@ msgid "Details"
 msgstr "Išsamiau"
 
 #: ../src/manager_window.vala
+msgid "No package found"
+msgstr "Paketas nerastas"
+
+#: ../src/manager_window.vala
 msgid "Deselect"
 msgstr "Nuimti žymėjimą"
 
@@ -395,10 +407,6 @@ msgid "Remove"
 msgstr "Šalinti"
 
 #: ../src/manager_window.vala
-msgid "Waiting for another package manager to quit"
-msgstr "Laukiama, kol kita paketų tvarkytuvė baigs savo darbą"
-
-#: ../src/manager_window.vala
 #, c-format
 msgid "%u pending operation"
 msgid_plural "%u pending operations"
@@ -406,7 +414,7 @@ msgstr[0] "%u laukianti operacija"
 msgstr[1] "%u laukiančios operacijos"
 msgstr[2] "%u laukiančių operacijų"
 
-#: ../src/manager_window.vala
+#: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Installed"
 msgstr "Yra įdiegti"
 
@@ -419,8 +427,48 @@ msgid "Foreign"
 msgstr "Svetimi"
 
 #: ../src/manager_window.vala
-msgid "Pending"
-msgstr "Laukiama"
+msgid "Accessories"
+msgstr "Reikmenys"
+
+#: ../src/manager_window.vala
+msgid "Audio & Video"
+msgstr "Garsas ir vaizdas"
+
+#: ../src/manager_window.vala
+msgid "Development"
+msgstr "Programavimas"
+
+#: ../src/manager_window.vala
+msgid "Education"
+msgstr "Švietimas"
+
+#: ../src/manager_window.vala
+msgid "Games"
+msgstr "Žaidimai"
+
+#: ../src/manager_window.vala
+msgid "Graphics"
+msgstr "Grafika"
+
+#: ../src/manager_window.vala
+msgid "Internet"
+msgstr "Internetas"
+
+#: ../src/manager_window.vala
+msgid "Office"
+msgstr "Raštinė"
+
+#: ../src/manager_window.vala
+msgid "Science"
+msgstr "Mokslas"
+
+#: ../src/manager_window.vala
+msgid "Settings"
+msgstr "Nustatymai"
+
+#: ../src/manager_window.vala
+msgid "System Tools"
+msgstr "Sistemos įrankiai"
 
 #: ../src/manager_window.vala
 msgid "Install Reason"
@@ -556,6 +604,10 @@ msgid "Number of versions of each package to keep in the cache"
 msgstr "Podėlyje laikomas kiekvieno paketo versijų skaičius"
 
 #: ../src/preferences_dialog.vala
+msgid "Build directory"
+msgstr "Kūrimo katalogas"
+
+#: ../src/preferences_dialog.vala
 msgid "Worldwide"
 msgstr "Viso pasaulio"
 
@@ -600,7 +652,7 @@ msgstr "Iš naujo įkelti duomenų bazes"
 msgid "View History"
 msgstr "Žiūrėti žurnalą"
 
-#: ../resources/manager_window.ui
+#: ../resources/manager_window.ui ../resources/preferences_dialog.ui
 msgid "Preferences"
 msgstr "Nuostatos"
 
@@ -609,12 +661,8 @@ msgid "About"
 msgstr "Apie"
 
 #: ../resources/manager_window.ui
-msgid "Search"
-msgstr "Paieška"
-
-#: ../resources/manager_window.ui
-msgid "State"
-msgstr "Būsena"
+msgid "Categories"
+msgstr "Kategorijos"
 
 #: ../resources/manager_window.ui
 msgid "Repositories"
@@ -623,6 +671,18 @@ msgstr "Saugyklos"
 #: ../resources/manager_window.ui
 msgid "Updates"
 msgstr "Atnaujinimai"
+
+#: ../resources/manager_window.ui
+msgid "Pending"
+msgstr "Laukiama"
+
+#: ../resources/manager_window.ui
+msgid "Search"
+msgstr "Paieška"
+
+#: ../resources/manager_window.ui
+msgid "State"
+msgstr "Būsena"
 
 #: ../resources/manager_window.ui
 msgid "Version"
@@ -659,6 +719,10 @@ msgstr "Failai"
 #: ../resources/manager_window.ui
 msgid "_Apply"
 msgstr "_Taikyti"
+
+#: ../resources/manager_window.ui
+msgid "Select All"
+msgstr "Žymėti visus"
 
 #: ../resources/preferences_dialog.ui
 msgid "Remove unrequired dependencies"
@@ -719,10 +783,6 @@ msgstr "Įjungti AUR palaikymą"
 #: ../resources/preferences_dialog.ui
 msgid "Allow Pamac to search and install packages from AUR"
 msgstr "Leisti Pamac ieškoti ir diegti paketus iš AUR"
-
-#: ../resources/preferences_dialog.ui
-msgid "Search in AUR by default"
-msgstr "Pagal numatymą ieškoti AUR saugykloje"
 
 #: ../resources/preferences_dialog.ui
 msgid "Check for updates from AUR"

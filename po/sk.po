@@ -1,7 +1,7 @@
 # Translation of Pamac.
-# Copyright (C) 2013-2016 Manjaro Developers <manjaro-dev@manjaro.org>
+# Copyright (C) 2013-2017 Manjaro Developers <manjaro-dev@manjaro.org>
 # This file is distributed under the same license as the Pamac package.
-# Guillaume Benoit <guillaume@manjaro.org>, 2013-2016.
+# Guillaume Benoit <guillaume@manjaro.org>, 2013-2017.
 # 
 # Translators:
 # Dušan Kazik, 2014
@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2016-04-24 08:44+0200\n"
-"PO-Revision-Date: 2017-07-30 06:06+0000\n"
+"POT-Creation-Date: 2017-09-09 09:46+0200\n"
+"PO-Revision-Date: 2017-09-09 16:28+0000\n"
 "Last-Translator: Dušan Kazik <prescott66@gmail.com>\n"
 "Language-Team: Slovak (http://www.transifex.com/manjarolinux/manjaro-pamac/language/sk/)\n"
 "MIME-Version: 1.0\n"
@@ -176,6 +176,10 @@ msgstr "Na nainštalovanie"
 #: ../src/transaction.vala
 msgid "To reinstall"
 msgstr "Na preinštalovanie"
+
+#: ../src/transaction.vala
+msgid "To upgrade"
+msgstr "Na aktualizovanie"
 
 #: ../src/transaction.vala ../src/manager_window.vala
 msgid "Total download size"
@@ -341,7 +345,7 @@ msgid "Warning"
 msgstr "Upozornenie"
 
 #: ../src/transaction.vala ../resources/progress_dialog.ui
-#: ../resources/history_dialog.ui
+#: ../resources/history_dialog.ui ../resources/preferences_dialog.ui
 msgid "_Close"
 msgstr "_Zavrieť"
 
@@ -356,6 +360,10 @@ msgstr "Transakcia bola úspešná"
 #: ../src/installer.vala ../src/manager.vala
 msgid "Pamac is already running"
 msgstr "Program Pamac je už spustený"
+
+#: ../src/installer.vala ../src/manager_window.vala
+msgid "Waiting for another package manager to quit"
+msgstr "Čaká sa na ukončenie iného správcu balíkov"
 
 #: ../src/tray.vala ../src/manager_window.vala
 msgid "Your system is up-to-date"
@@ -383,6 +391,10 @@ msgid "Details"
 msgstr "Podrobnosti"
 
 #: ../src/manager_window.vala
+msgid "No package found"
+msgstr "Nenašiel sa žiadny balík"
+
+#: ../src/manager_window.vala
 msgid "Deselect"
 msgstr "Odznačiť"
 
@@ -399,10 +411,6 @@ msgid "Remove"
 msgstr "Odstrániť"
 
 #: ../src/manager_window.vala
-msgid "Waiting for another package manager to quit"
-msgstr "Čaká sa na ukončenie iného správcu balíkov"
-
-#: ../src/manager_window.vala
 #, c-format
 msgid "%u pending operation"
 msgid_plural "%u pending operations"
@@ -410,7 +418,7 @@ msgstr[0] "%u operácia na vybavenie"
 msgstr[1] "%u operácie na vybavenie"
 msgstr[2] "%u operácií na vybavenie"
 
-#: ../src/manager_window.vala
+#: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Installed"
 msgstr "Nainštalované"
 
@@ -423,8 +431,48 @@ msgid "Foreign"
 msgstr "Externé"
 
 #: ../src/manager_window.vala
-msgid "Pending"
-msgstr "Na vybavenie"
+msgid "Accessories"
+msgstr "Príslušenstvo<br>"
+
+#: ../src/manager_window.vala
+msgid "Audio & Video"
+msgstr "Zvuk a video"
+
+#: ../src/manager_window.vala
+msgid "Development"
+msgstr "Vývoj"
+
+#: ../src/manager_window.vala
+msgid "Education"
+msgstr "Vzdelávanie"
+
+#: ../src/manager_window.vala
+msgid "Games"
+msgstr "Hry"
+
+#: ../src/manager_window.vala
+msgid "Graphics"
+msgstr "Grafika"
+
+#: ../src/manager_window.vala
+msgid "Internet"
+msgstr "Internet"
+
+#: ../src/manager_window.vala
+msgid "Office"
+msgstr "Kancelária"
+
+#: ../src/manager_window.vala
+msgid "Science"
+msgstr "Veda"
+
+#: ../src/manager_window.vala
+msgid "Settings"
+msgstr "Nastavenia"
+
+#: ../src/manager_window.vala
+msgid "System Tools"
+msgstr "Systémové nástroje"
 
 #: ../src/manager_window.vala
 msgid "Install Reason"
@@ -560,6 +608,10 @@ msgid "Number of versions of each package to keep in the cache"
 msgstr "Počet verzií každého balíka, ktoré ponechať vo vyrovnávacej pamäti"
 
 #: ../src/preferences_dialog.vala
+msgid "Build directory"
+msgstr "Adresár zostavenia"
+
+#: ../src/preferences_dialog.vala
 msgid "Worldwide"
 msgstr "Celého sveta"
 
@@ -604,7 +656,7 @@ msgstr "Obnoviť databázy"
 msgid "View History"
 msgstr "Pozrieť históriu"
 
-#: ../resources/manager_window.ui
+#: ../resources/manager_window.ui ../resources/preferences_dialog.ui
 msgid "Preferences"
 msgstr "Predvoľby"
 
@@ -613,12 +665,8 @@ msgid "About"
 msgstr "O aplikácii"
 
 #: ../resources/manager_window.ui
-msgid "Search"
-msgstr "Vyhľadávanie"
-
-#: ../resources/manager_window.ui
-msgid "State"
-msgstr "Stav"
+msgid "Categories"
+msgstr "Kategórie"
 
 #: ../resources/manager_window.ui
 msgid "Repositories"
@@ -627,6 +675,18 @@ msgstr "Repozitáre"
 #: ../resources/manager_window.ui
 msgid "Updates"
 msgstr "Aktualizácie"
+
+#: ../resources/manager_window.ui
+msgid "Pending"
+msgstr "Na vybavenie"
+
+#: ../resources/manager_window.ui
+msgid "Search"
+msgstr "Vyhľadávanie"
+
+#: ../resources/manager_window.ui
+msgid "State"
+msgstr "Stav"
 
 #: ../resources/manager_window.ui
 msgid "Version"
@@ -663,6 +723,10 @@ msgstr "Súbory"
 #: ../resources/manager_window.ui
 msgid "_Apply"
 msgstr "_Použiť"
+
+#: ../resources/manager_window.ui
+msgid "Select All"
+msgstr "Vybrať všetko"
 
 #: ../resources/preferences_dialog.ui
 msgid "Remove unrequired dependencies"
@@ -723,10 +787,6 @@ msgstr "Zapnúť podporu repozitára AUR"
 #: ../resources/preferences_dialog.ui
 msgid "Allow Pamac to search and install packages from AUR"
 msgstr "Umožní programu Pamac vyhľadať a inštalovať balíky z repozitára AUR"
-
-#: ../resources/preferences_dialog.ui
-msgid "Search in AUR by default"
-msgstr "Predvolene vyhľadávať v repozitári AUR"
 
 #: ../resources/preferences_dialog.ui
 msgid "Check for updates from AUR"

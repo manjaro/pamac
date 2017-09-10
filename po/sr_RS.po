@@ -1,16 +1,17 @@
 # Translation of Pamac.
-# Copyright (C) 2013-2016 Manjaro Developers <manjaro-dev@manjaro.org>
+# Copyright (C) 2013-2017 Manjaro Developers <manjaro-dev@manjaro.org>
 # This file is distributed under the same license as the Pamac package.
-# Guillaume Benoit <guillaume@manjaro.org>, 2013-2016.
+# Guillaume Benoit <guillaume@manjaro.org>, 2013-2017.
 # 
 # Translators:
+# Lei Pero <lei.pero@gmail.com>, 2017
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2016-04-24 08:44+0200\n"
-"PO-Revision-Date: 2017-07-30 02:40+0000\n"
-"Last-Translator: philm <philm@manjaro.org>\n"
+"POT-Creation-Date: 2017-09-09 09:46+0200\n"
+"PO-Revision-Date: 2017-09-09 15:30+0000\n"
+"Last-Translator: Guillaume Benoit <guillaume@manjaro.org>\n"
 "Language-Team: Serbian (Serbia) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/sr_RS/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20,285 +21,289 @@ msgstr ""
 
 #: data/polkit/org.manjaro.pamac.policy
 msgid "Authentication is required"
-msgstr ""
+msgstr "Потребна је аутентификација"
 
 #: ../src/user_daemon.vala
 msgid "Unknown"
-msgstr ""
+msgstr "Непознато"
 
 #: ../src/user_daemon.vala ../src/manager_window.vala
 msgid "Explicitly installed"
-msgstr ""
+msgstr "Изричито инсталирано"
 
 #: ../src/user_daemon.vala ../src/manager_window.vala
 msgid "Installed as a dependency for another package"
-msgstr ""
+msgstr "Инсталирано као зависност за други пакет"
 
 #: ../src/user_daemon.vala
 msgid "Yes"
-msgstr ""
+msgstr "Да"
 
 #: ../src/user_daemon.vala
 msgid "No"
-msgstr ""
+msgstr "Не"
 
 #: ../src/system_daemon.vala
 msgid "Failed to initialize alpm library"
-msgstr ""
+msgstr "Неуспешна иницијализација алпм библиотеке"
 
 #: ../src/system_daemon.vala ../src/transaction.vala
 msgid "Authentication failed"
-msgstr ""
+msgstr "Аутентификација неуспела"
 
 #: ../src/system_daemon.vala
 msgid "Failed to synchronize any databases"
-msgstr ""
+msgstr "Неуспела синхронизација базе података"
 
 #: ../src/system_daemon.vala
 msgid "Failed to init transaction"
-msgstr ""
+msgstr "Покретање преноса неуспешно"
 
 #: ../src/system_daemon.vala
 msgid "Failed to prepare transaction"
-msgstr ""
+msgstr "Припрема преноса неуспешна"
 
 #: ../src/system_daemon.vala
 #, c-format
 msgid "target not found: %s"
-msgstr ""
+msgstr "мета није пронађена: %s"
 
 #: ../src/system_daemon.vala
 #, c-format
 msgid "package %s does not have a valid architecture"
-msgstr ""
+msgstr "пакет %s нема исправну архитектуру"
 
 #: ../src/system_daemon.vala
 #, c-format
 msgid "unable to satisfy dependency '%s' required by %s"
-msgstr ""
+msgstr "не могу да задовољим зависност „%s“ захтевану од %s"
 
 #: ../src/system_daemon.vala
 #, c-format
 msgid "installing %s (%s) breaks dependency '%s' required by %s"
-msgstr ""
+msgstr "инсталација %s (%s) ломи зависност „%s“ захтевану од %s"
 
 #: ../src/system_daemon.vala
 #, c-format
 msgid "removing %s breaks dependency '%s' required by %s"
-msgstr ""
+msgstr "уклањање %s ломи зависност „%s“ захтевану од %s"
 
 #: ../src/system_daemon.vala
 #, c-format
 msgid "%s and %s are in conflict"
-msgstr ""
+msgstr "%s и %s су у сукобу"
 
 #: ../src/system_daemon.vala
 #, c-format
 msgid "%s needs to be removed but it is a locked package"
-msgstr ""
+msgstr "потребно је уклонити %s али је пакет закључан"
 
 #: ../src/system_daemon.vala
 msgid "Failed to commit transaction"
-msgstr ""
+msgstr "Неуспешно извршавање преноса"
 
 #: ../src/system_daemon.vala
 #, c-format
 msgid "%s exists in both %s and %s"
-msgstr ""
+msgstr "%s постоји у оба %s и %s"
 
 #: ../src/system_daemon.vala
 #, c-format
 msgid "%s: %s already exists in filesystem"
-msgstr ""
+msgstr "%s: %s већ постоји у систему датотека"
 
 #: ../src/system_daemon.vala
 #, c-format
 msgid "%s is invalid or corrupted"
-msgstr ""
+msgstr "%s је неважећ или корумпиран"
 
 #: ../src/system_daemon.vala
 #, c-format
 msgid "%s appears to be truncated: %jd/%jd bytes\n"
-msgstr ""
+msgstr "%s изгледа као да је окрњен: %jd/%jd бајта\n"
 
 #: ../src/system_daemon.vala
 #, c-format
 msgid "failed retrieving file '%s' from %s : %s\n"
-msgstr ""
+msgstr "неуспешно обнављање датотеке „%s“ из %s : %s\n"
 
 #: ../src/transaction.vala
 msgid "Copy"
-msgstr ""
+msgstr "Умножи"
 
 #: ../src/transaction.vala
 msgid "Refreshing mirrors list"
-msgstr ""
+msgstr "Освежавање листе извора"
 
 #: ../src/transaction.vala
 msgid "Synchronizing package databases"
-msgstr ""
+msgstr "Синхронизација базе података пакета"
 
 #: ../src/transaction.vala
 msgid "Starting full system upgrade"
-msgstr ""
+msgstr "Започињем пуну надоградњу система"
 
 #: ../src/transaction.vala
 msgid "Preparing"
-msgstr ""
+msgstr "Припрема"
 
 #: ../src/transaction.vala
 #, c-format
 msgid "Choose a provider for %s"
-msgstr ""
+msgstr "Одабери снабдевача за %s"
 
 #: ../src/transaction.vala
 msgid "To remove"
-msgstr ""
+msgstr "За уклањање"
 
 #: ../src/transaction.vala
 msgid "To downgrade"
-msgstr ""
+msgstr "За враћање верзије"
 
 #: ../src/transaction.vala
 msgid "To build"
-msgstr ""
+msgstr "За градњу"
 
 #: ../src/transaction.vala
 msgid "To install"
-msgstr ""
+msgstr "За инсталацију"
 
 #: ../src/transaction.vala
 msgid "To reinstall"
+msgstr "За поновну инсталацију"
+
+#: ../src/transaction.vala
+msgid "To upgrade"
 msgstr ""
 
 #: ../src/transaction.vala ../src/manager_window.vala
 msgid "Total download size"
-msgstr ""
+msgstr "Укупна величина преузимања"
 
 #: ../src/transaction.vala
 #, c-format
 msgid "Building %s"
-msgstr ""
+msgstr "Грађење %s"
 
 #: ../src/transaction.vala
 msgid "Transaction cancelled"
-msgstr ""
+msgstr "Пренос отказан"
 
 #: ../src/transaction.vala
 msgid "Checking dependencies"
-msgstr ""
+msgstr "Провера зависности"
 
 #: ../src/transaction.vala
 msgid "Checking file conflicts"
-msgstr ""
+msgstr "Провера сукоба датотека"
 
 #: ../src/transaction.vala
 msgid "Resolving dependencies"
-msgstr ""
+msgstr "Решавање зависности"
 
 #: ../src/transaction.vala
 msgid "Checking inter-conflicts"
-msgstr ""
+msgstr "Провера унутрашњих сукоба"
 
 #: ../src/transaction.vala
 #, c-format
 msgid "Installing %s"
-msgstr ""
+msgstr "Инсталација %s"
 
 #: ../src/transaction.vala
 #, c-format
 msgid "Upgrading %s"
-msgstr ""
+msgstr "Надоградња %s"
 
 #: ../src/transaction.vala
 #, c-format
 msgid "Reinstalling %s"
-msgstr ""
+msgstr "Поновна инсталација %s"
 
 #: ../src/transaction.vala
 #, c-format
 msgid "Downgrading %s"
-msgstr ""
+msgstr "Враћање верзије %s"
 
 #: ../src/transaction.vala
 #, c-format
 msgid "Removing %s"
-msgstr ""
+msgstr "Уклањање %s"
 
 #: ../src/transaction.vala
 msgid "Checking integrity"
-msgstr ""
+msgstr "Провера интегритета"
 
 #: ../src/transaction.vala
 msgid "Loading packages files"
-msgstr ""
+msgstr "Учитавање датотека пакета"
 
 #: ../src/transaction.vala
 msgid "Checking delta integrity"
-msgstr ""
+msgstr "Провера делта интегритета"
 
 #: ../src/transaction.vala
 msgid "Applying deltas"
-msgstr ""
+msgstr "Примена делти"
 
 #: ../src/transaction.vala
 #, c-format
 msgid "Generating %s with %s"
-msgstr ""
+msgstr "Стварам %s помоћу %s"
 
 #: ../src/transaction.vala
 msgid "Generation succeeded"
-msgstr ""
+msgstr "Стварање успешно"
 
 #: ../src/transaction.vala
 msgid "Generation failed"
-msgstr ""
+msgstr "Стварање неуспешно"
 
 #: ../src/transaction.vala
 #, c-format
 msgid "Configuring %s"
-msgstr ""
+msgstr "Усклађивање %s"
 
 #: ../src/transaction.vala
 msgid "Downloading"
-msgstr ""
+msgstr "Преузимање"
 
 #: ../src/transaction.vala
 #, c-format
 msgid "Downloading %s"
-msgstr ""
+msgstr "Преузимање %s"
 
 #: ../src/transaction.vala
 msgid "Checking available disk space"
-msgstr ""
+msgstr "Провера доступног простора диска"
 
 #: ../src/transaction.vala
 #, c-format
 msgid "%s optionally requires %s"
-msgstr ""
+msgstr "%s опционо захтева %s"
 
 #: ../src/transaction.vala
 #, c-format
 msgid "Database file for %s does not exist"
-msgstr ""
+msgstr "Не постоји датотека базе података за %s"
 
 #: ../src/transaction.vala
 msgid "Checking keyring"
-msgstr ""
+msgstr "Провера привеска кључева"
 
 #: ../src/transaction.vala
 msgid "Downloading required keys"
-msgstr ""
+msgstr "Преузимање захтеваних кључева"
 
 #: ../src/transaction.vala
 #, c-format
 msgid "%s installed as %s.pacnew"
-msgstr ""
+msgstr "%s је инсталиран као %s.pacnew"
 
 #: ../src/transaction.vala
 #, c-format
 msgid "%s installed as %s.pacsave"
-msgstr ""
+msgstr "%s је инсталиран као %s.pacsave"
 
 #: ../src/transaction.vala
 msgid "Running pre-transaction hooks"
@@ -311,7 +316,7 @@ msgstr ""
 #: ../src/transaction.vala
 #, c-format
 msgid "About %u seconds remaining"
-msgstr ""
+msgstr "Преостало %u секунди"
 
 #: ../src/transaction.vala
 #, c-format
@@ -324,20 +329,20 @@ msgstr[2] ""
 #: ../src/transaction.vala
 #, c-format
 msgid "Refreshing %s"
-msgstr ""
+msgstr "Освежавање %s"
 
 #: ../src/transaction.vala
 msgid "Error"
-msgstr ""
+msgstr "Грешка"
 
 #: ../src/transaction.vala
 msgid "Warning"
-msgstr ""
+msgstr "Упозорење"
 
 #: ../src/transaction.vala ../resources/progress_dialog.ui
-#: ../resources/history_dialog.ui
+#: ../resources/history_dialog.ui ../resources/preferences_dialog.ui
 msgid "_Close"
-msgstr ""
+msgstr "_Затвори"
 
 #: ../src/transaction.vala
 msgid "Nothing to do"
@@ -345,23 +350,27 @@ msgstr ""
 
 #: ../src/transaction.vala
 msgid "Transaction successfully finished"
-msgstr ""
+msgstr "Пренос успешно завршен"
 
 #: ../src/installer.vala ../src/manager.vala
 msgid "Pamac is already running"
+msgstr "Pamac је већ покренут"
+
+#: ../src/installer.vala ../src/manager_window.vala
+msgid "Waiting for another package manager to quit"
 msgstr ""
 
 #: ../src/tray.vala ../src/manager_window.vala
 msgid "Your system is up-to-date"
-msgstr ""
+msgstr "Ваш систем је ажуриран"
 
 #: ../src/tray.vala ../src/manager_window.vala
 msgid "Package Manager"
-msgstr ""
+msgstr "Управник Пакета"
 
 #: ../src/tray.vala
 msgid "_Quit"
-msgstr ""
+msgstr "_Изађи"
 
 #: ../src/tray.vala
 #, c-format
@@ -374,27 +383,27 @@ msgstr[2] ""
 #: ../src/tray.vala ../src/manager_window.vala ../resources/progress_dialog.ui
 #: ../resources/manager_window.ui
 msgid "Details"
+msgstr "Детаљи"
+
+#: ../src/manager_window.vala
+msgid "No package found"
 msgstr ""
 
 #: ../src/manager_window.vala
 msgid "Deselect"
-msgstr ""
+msgstr "Поништи"
 
 #: ../src/manager_window.vala
 msgid "Upgrade"
-msgstr ""
+msgstr "Надогради"
 
 #: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Install"
-msgstr ""
+msgstr "Инсталирај"
 
 #: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Remove"
-msgstr ""
-
-#: ../src/manager_window.vala
-msgid "Waiting for another package manager to quit"
-msgstr ""
+msgstr "Уклони"
 
 #: ../src/manager_window.vala
 #, c-format
@@ -404,41 +413,81 @@ msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#: ../src/manager_window.vala
+#: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Installed"
-msgstr ""
+msgstr "Инсталирани"
 
 #: ../src/manager_window.vala
 msgid "Orphans"
-msgstr ""
+msgstr "Сирочићи"
 
 #: ../src/manager_window.vala
 msgid "Foreign"
+msgstr "Туђи"
+
+#: ../src/manager_window.vala
+msgid "Accessories"
 msgstr ""
 
 #: ../src/manager_window.vala
-msgid "Pending"
+msgid "Audio & Video"
+msgstr ""
+
+#: ../src/manager_window.vala
+msgid "Development"
+msgstr ""
+
+#: ../src/manager_window.vala
+msgid "Education"
+msgstr ""
+
+#: ../src/manager_window.vala
+msgid "Games"
+msgstr ""
+
+#: ../src/manager_window.vala
+msgid "Graphics"
+msgstr ""
+
+#: ../src/manager_window.vala
+msgid "Internet"
+msgstr ""
+
+#: ../src/manager_window.vala
+msgid "Office"
+msgstr ""
+
+#: ../src/manager_window.vala
+msgid "Science"
+msgstr ""
+
+#: ../src/manager_window.vala
+msgid "Settings"
+msgstr ""
+
+#: ../src/manager_window.vala
+msgid "System Tools"
 msgstr ""
 
 #: ../src/manager_window.vala
 msgid "Install Reason"
-msgstr ""
+msgstr "Разлог Инсталације"
 
 #: ../src/manager_window.vala
 msgid "Mark as explicitly installed"
-msgstr ""
+msgstr "Означи као изричито инсталирано"
 
 #: ../src/manager_window.vala
 msgid "Licenses"
-msgstr ""
+msgstr "Дозволе"
 
 #: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Repository"
-msgstr ""
+msgstr "Складиште"
 
 #: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Groups"
-msgstr ""
+msgstr "Групе"
 
 #: ../src/manager_window.vala
 msgid "Packager"
@@ -446,71 +495,71 @@ msgstr ""
 
 #: ../src/manager_window.vala
 msgid "Build Date"
-msgstr ""
+msgstr "Датум Изградње"
 
 #: ../src/manager_window.vala
 msgid "Install Date"
-msgstr ""
+msgstr "Датум Инсталације"
 
 #: ../src/manager_window.vala
 msgid "Signatures"
-msgstr ""
+msgstr "Потписи"
 
 #: ../src/manager_window.vala
 msgid "Backup files"
-msgstr ""
+msgstr "Датотеке резерве"
 
 #: ../src/manager_window.vala
 msgid "Depends On"
-msgstr ""
+msgstr "Зависи Од"
 
 #: ../src/manager_window.vala
 msgid "Optional Dependencies"
-msgstr ""
+msgstr "Опционе Зависности"
 
 #: ../src/manager_window.vala
 msgid "Required By"
-msgstr ""
+msgstr "Захтевано Од"
 
 #: ../src/manager_window.vala
 msgid "Optional For"
-msgstr ""
+msgstr "Опционо За"
 
 #: ../src/manager_window.vala
 msgid "Provides"
-msgstr ""
+msgstr "Прибавља"
 
 #: ../src/manager_window.vala
 msgid "Replaces"
-msgstr ""
+msgstr "Мења"
 
 #: ../src/manager_window.vala
 msgid "Conflicts With"
-msgstr ""
+msgstr "Сукобљава Са"
 
 #: ../src/manager_window.vala
 msgid "Package Base"
-msgstr ""
+msgstr "База Пакета"
 
 #: ../src/manager_window.vala
 msgid "Maintainer"
-msgstr ""
+msgstr "Одржаваоц"
 
 #: ../src/manager_window.vala
 msgid "First Submitted"
-msgstr ""
+msgstr "Предато"
 
 #: ../src/manager_window.vala
 msgid "Last Modified"
-msgstr ""
+msgstr "Итмењено"
 
 #: ../src/manager_window.vala
 msgid "Votes"
-msgstr ""
+msgstr "Гласови"
 
 #: ../src/manager_window.vala
 msgid "Out of Date"
-msgstr ""
+msgstr "Застарело"
 
 #: ../src/manager_window.vala
 msgid "Make Dependencies"
@@ -522,222 +571,234 @@ msgstr ""
 
 #: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Name"
-msgstr ""
+msgstr "Име"
 
 #: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Install Local Packages"
-msgstr ""
+msgstr "Инсталирај Локалне Пакете"
 
 #: ../src/manager_window.vala ../resources/transaction_sum_dialog.ui
 #: ../resources/manager_window.ui ../resources/choose_ignorepkgs_dialog.ui
 msgid "_Cancel"
-msgstr ""
+msgstr "_Откажи"
 
 #: ../src/manager_window.vala
 msgid "_Open"
-msgstr ""
+msgstr "_Отвори"
 
 #: ../src/manager_window.vala
 msgid "Alpm Package"
-msgstr ""
+msgstr "Алпм Пакет"
 
 #: ../src/manager_window.vala
 msgid "A Gtk3 frontend for libalpm"
-msgstr ""
+msgstr "Gtk3 прочеље за libalpm"
 
 #: ../src/preferences_dialog.vala ../resources/preferences_dialog.ui
 msgid "How often to check for updates, value in hours"
-msgstr ""
+msgstr "Колико често проверавати ажурирања, вредност у сатима"
 
 #: ../src/preferences_dialog.vala ../resources/preferences_dialog.ui
 msgid "Number of versions of each package to keep in the cache"
+msgstr "Број верзија сваког пакета задржан у кешу"
+
+#: ../src/preferences_dialog.vala
+msgid "Build directory"
 msgstr ""
 
 #: ../src/preferences_dialog.vala
 msgid "Worldwide"
-msgstr ""
+msgstr "Широм Света"
 
 #: ../src/preferences_dialog.vala
 msgid "Speed"
-msgstr ""
+msgstr "Брзина"
 
 #: ../src/preferences_dialog.vala
 msgid "Random"
-msgstr ""
+msgstr "Насумично"
 
 #: ../resources/choose_provider_dialog.ui
 msgid "Choose a Provider"
-msgstr ""
+msgstr "Одабери Снабдевача"
 
 #: ../resources/choose_provider_dialog.ui
 #: ../resources/choose_ignorepkgs_dialog.ui
 msgid "Choose"
-msgstr ""
+msgstr "Одабери"
 
 #: ../resources/progress_dialog.ui
 msgid "Progress"
-msgstr ""
+msgstr "Напредак"
 
 #: ../resources/history_dialog.ui
 msgid "Pamac History"
-msgstr ""
+msgstr "Pamac Историја"
 
 #: ../resources/transaction_sum_dialog.ui
 msgid "Transaction Summary"
-msgstr ""
+msgstr "Преглед Преноса"
 
 #: ../resources/transaction_sum_dialog.ui
 msgid "Commit"
-msgstr ""
+msgstr "Предати"
 
 #: ../resources/manager_window.ui
 msgid "Refresh databases"
-msgstr ""
+msgstr "Освежи базе података"
 
 #: ../resources/manager_window.ui
 msgid "View History"
-msgstr ""
+msgstr "Прегледај Историју"
 
-#: ../resources/manager_window.ui
+#: ../resources/manager_window.ui ../resources/preferences_dialog.ui
 msgid "Preferences"
-msgstr ""
+msgstr "Поставке"
 
 #: ../resources/manager_window.ui
 msgid "About"
-msgstr ""
+msgstr "О..."
 
 #: ../resources/manager_window.ui
-msgid "Search"
-msgstr ""
-
-#: ../resources/manager_window.ui
-msgid "State"
+msgid "Categories"
 msgstr ""
 
 #: ../resources/manager_window.ui
 msgid "Repositories"
-msgstr ""
+msgstr "Складишта"
 
 #: ../resources/manager_window.ui
 msgid "Updates"
-msgstr ""
+msgstr "Ажурирања"
+
+#: ../resources/manager_window.ui
+msgid "Pending"
+msgstr "Чекају"
+
+#: ../resources/manager_window.ui
+msgid "Search"
+msgstr "Претрага"
+
+#: ../resources/manager_window.ui
+msgid "State"
+msgstr "Стање"
 
 #: ../resources/manager_window.ui
 msgid "Version"
-msgstr ""
+msgstr "Верзија"
 
 #: ../resources/manager_window.ui
 msgid "Size"
-msgstr ""
+msgstr "Величина"
 
 #: ../resources/manager_window.ui
 msgid "Popularity"
-msgstr ""
+msgstr "Популарност"
 
 #: ../resources/manager_window.ui ../resources/preferences_dialog.ui
 msgid "AUR"
-msgstr ""
+msgstr "AUR"
 
 #: ../resources/manager_window.ui
 msgid "Browse"
-msgstr ""
+msgstr "Разгледај"
 
 #: ../resources/manager_window.ui
 msgid "Reinstall"
-msgstr ""
+msgstr "Поново Инсталирај"
 
 #: ../resources/manager_window.ui
 msgid "Dependencies"
-msgstr ""
+msgstr "Зависности"
 
 #: ../resources/manager_window.ui
 msgid "Files"
-msgstr ""
+msgstr "Датотеке"
 
 #: ../resources/manager_window.ui
 msgid "_Apply"
+msgstr "_Примени"
+
+#: ../resources/manager_window.ui
+msgid "Select All"
 msgstr ""
 
 #: ../resources/preferences_dialog.ui
 msgid "Remove unrequired dependencies"
-msgstr ""
+msgstr "Уклони непотребне зависности"
 
 #: ../resources/preferences_dialog.ui
 msgid ""
 "When removing a package, also remove its dependencies that are not required "
 "by other packages"
-msgstr ""
+msgstr "При уклањању пакета, такође уклони и све његове зависности које више нису потребне ни једном другом пакету"
 
 #: ../resources/preferences_dialog.ui
 msgid "Check available disk space"
-msgstr ""
+msgstr "Провери доступан простор диска"
 
 #: ../resources/preferences_dialog.ui
 msgid "Check for updates"
-msgstr ""
+msgstr "Провери ажурирања"
 
 #: ../resources/preferences_dialog.ui
 msgid "Hide tray icon when no update available"
-msgstr ""
+msgstr "Сакриј иконицу касете када нема доступних ажурирања"
 
 #: ../resources/preferences_dialog.ui
 msgid "Ignore upgrades for:"
-msgstr ""
+msgstr "Игнориши надоградњу за:"
 
 #: ../resources/preferences_dialog.ui
 msgid "General"
-msgstr ""
+msgstr "Опште"
 
 #: ../resources/preferences_dialog.ui
 msgid "Use mirrors from:"
-msgstr ""
+msgstr "Користи изворе из:"
 
 #: ../resources/preferences_dialog.ui
 msgid "Sort mirrors by:"
-msgstr ""
+msgstr "Разврстај изворе по:"
 
 #: ../resources/preferences_dialog.ui
 msgid "Refresh Mirrors List"
-msgstr ""
+msgstr "Освежи Листу Извора"
 
 #: ../resources/preferences_dialog.ui
 msgid "Official Repositories"
-msgstr ""
+msgstr "Званична Складишта"
 
 #: ../resources/preferences_dialog.ui
 msgid ""
 "AUR is a community maintained repository so it presents potential risks and problems.\n"
 "All AUR users should be familiar with the build process."
-msgstr ""
+msgstr "AUR је складиште одржавано од стране заједнице тако да представља могућ ризик и друге врсте проблема.\nКорисници AUR-а би требали бити упознати с процесом грађења пакета."
 
 #: ../resources/preferences_dialog.ui
 msgid "Enable AUR support"
-msgstr ""
+msgstr "Омогући AUR подршку"
 
 #: ../resources/preferences_dialog.ui
 msgid "Allow Pamac to search and install packages from AUR"
-msgstr ""
-
-#: ../resources/preferences_dialog.ui
-msgid "Search in AUR by default"
-msgstr ""
+msgstr "Дозволи да Pamac тражи и инсталира пакете из AUR-а"
 
 #: ../resources/preferences_dialog.ui
 msgid "Check for updates from AUR"
-msgstr ""
+msgstr "Провери ажурирања из AUR-а"
 
 #: ../resources/preferences_dialog.ui
 msgid "Remove only the versions of uninstalled packages"
-msgstr ""
+msgstr "Уклони само верзију уклоњених пакета"
 
 #: ../resources/preferences_dialog.ui
 msgid "Clean cache"
-msgstr ""
+msgstr "Очисти кеш"
 
 #: ../resources/preferences_dialog.ui
 msgid "Cache"
-msgstr ""
+msgstr "Кеш"
 
 #: ../resources/choose_ignorepkgs_dialog.ui
 msgid "Choose Ignored Upgrades"
-msgstr ""
+msgstr "Одабери Игнорисане Надоградње"

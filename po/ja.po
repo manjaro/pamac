@@ -1,20 +1,21 @@
 # Translation of Pamac.
-# Copyright (C) 2013-2016 Manjaro Developers <manjaro-dev@manjaro.org>
+# Copyright (C) 2013-2017 Manjaro Developers <manjaro-dev@manjaro.org>
 # This file is distributed under the same license as the Pamac package.
-# Guillaume Benoit <guillaume@manjaro.org>, 2013-2016.
+# Guillaume Benoit <guillaume@manjaro.org>, 2013-2017.
 # 
 # Translators:
 # BALLOON a.k.a. Fu-sen., 2015
 # ふうせん Fu-sen. | BALLOON a.k.a. Fu-sen., 2015
 # philm <philm@manjaro.org>, 2015
 # Takefumi Nagata, 2013-2017
+# 洩矢 諏訪子 <david@sudomail.ne.jp>, 2017
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2016-04-24 08:44+0200\n"
-"PO-Revision-Date: 2017-07-30 02:40+0000\n"
-"Last-Translator: philm <philm@manjaro.org>\n"
+"POT-Creation-Date: 2017-09-09 09:46+0200\n"
+"PO-Revision-Date: 2017-09-09 16:48+0000\n"
+"Last-Translator: 洩矢 諏訪子 <david@sudomail.ne.jp>\n"
 "Language-Team: Japanese (http://www.transifex.com/manjarolinux/manjaro-pamac/language/ja/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -79,17 +80,17 @@ msgstr "パッケージ %s は適切なアーキテクチャーではありま�
 #: ../src/system_daemon.vala
 #, c-format
 msgid "unable to satisfy dependency '%s' required by %s"
-msgstr ""
+msgstr "%s：依存 '%s' が満たすことが不能です"
 
 #: ../src/system_daemon.vala
 #, c-format
 msgid "installing %s (%s) breaks dependency '%s' required by %s"
-msgstr ""
+msgstr "%s:  インストール中の %s (%s) が依存 '%s' を破壊します"
 
 #: ../src/system_daemon.vala
 #, c-format
 msgid "removing %s breaks dependency '%s' required by %s"
-msgstr ""
+msgstr "%s:  削除中の %s が依存 '%s' を破壊します"
 
 #: ../src/system_daemon.vala
 #, c-format
@@ -174,6 +175,10 @@ msgstr "インストール"
 #: ../src/transaction.vala
 msgid "To reinstall"
 msgstr "再インストール"
+
+#: ../src/transaction.vala
+msgid "To upgrade"
+msgstr "アップグレード"
 
 #: ../src/transaction.vala ../src/manager_window.vala
 msgid "Total download size"
@@ -337,7 +342,7 @@ msgid "Warning"
 msgstr "警告"
 
 #: ../src/transaction.vala ../resources/progress_dialog.ui
-#: ../resources/history_dialog.ui
+#: ../resources/history_dialog.ui ../resources/preferences_dialog.ui
 msgid "_Close"
 msgstr "閉じる（_C）"
 
@@ -352,6 +357,10 @@ msgstr "処理が正常に終了しました。"
 #: ../src/installer.vala ../src/manager.vala
 msgid "Pamac is already running"
 msgstr "pamacは既に起動しています"
+
+#: ../src/installer.vala ../src/manager_window.vala
+msgid "Waiting for another package manager to quit"
+msgstr "他のパッケージマネージャーが終了するのを待機しています"
 
 #: ../src/tray.vala ../src/manager_window.vala
 msgid "Your system is up-to-date"
@@ -377,12 +386,16 @@ msgid "Details"
 msgstr "詳細"
 
 #: ../src/manager_window.vala
+msgid "No package found"
+msgstr "パッケージを見つかれませんでした。"
+
+#: ../src/manager_window.vala
 msgid "Deselect"
 msgstr "非選択"
 
 #: ../src/manager_window.vala
 msgid "Upgrade"
-msgstr ""
+msgstr "アップグレード"
 
 #: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Install"
@@ -393,16 +406,12 @@ msgid "Remove"
 msgstr "削除"
 
 #: ../src/manager_window.vala
-msgid "Waiting for another package manager to quit"
-msgstr "他のパッケージマネージャーが終了するのを待機しています"
-
-#: ../src/manager_window.vala
 #, c-format
 msgid "%u pending operation"
 msgid_plural "%u pending operations"
 msgstr[0] "%u 保留中の操作"
 
-#: ../src/manager_window.vala
+#: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Installed"
 msgstr "インストール済み"
 
@@ -415,8 +424,48 @@ msgid "Foreign"
 msgstr "海外"
 
 #: ../src/manager_window.vala
-msgid "Pending"
-msgstr "保留"
+msgid "Accessories"
+msgstr "アクセサリ"
+
+#: ../src/manager_window.vala
+msgid "Audio & Video"
+msgstr "サウンドとビデオ"
+
+#: ../src/manager_window.vala
+msgid "Development"
+msgstr "開発"
+
+#: ../src/manager_window.vala
+msgid "Education"
+msgstr "教育"
+
+#: ../src/manager_window.vala
+msgid "Games"
+msgstr "ゲーム"
+
+#: ../src/manager_window.vala
+msgid "Graphics"
+msgstr "グラフィックス"
+
+#: ../src/manager_window.vala
+msgid "Internet"
+msgstr "インターネット"
+
+#: ../src/manager_window.vala
+msgid "Office"
+msgstr "事務所"
+
+#: ../src/manager_window.vala
+msgid "Science"
+msgstr "科学"
+
+#: ../src/manager_window.vala
+msgid "Settings"
+msgstr "設定"
+
+#: ../src/manager_window.vala
+msgid "System Tools"
+msgstr "システムツール"
 
 #: ../src/manager_window.vala
 msgid "Install Reason"
@@ -552,6 +601,10 @@ msgid "Number of versions of each package to keep in the cache"
 msgstr "各パッケージのバージョン番号をキャッシュに保存する"
 
 #: ../src/preferences_dialog.vala
+msgid "Build directory"
+msgstr "ビルドディレクトリ"
+
+#: ../src/preferences_dialog.vala
 msgid "Worldwide"
 msgstr "ワールドワイド"
 
@@ -596,7 +649,7 @@ msgstr "データベースの更新"
 msgid "View History"
 msgstr "閲覧履歴"
 
-#: ../resources/manager_window.ui
+#: ../resources/manager_window.ui ../resources/preferences_dialog.ui
 msgid "Preferences"
 msgstr "設定"
 
@@ -605,12 +658,8 @@ msgid "About"
 msgstr "About"
 
 #: ../resources/manager_window.ui
-msgid "Search"
-msgstr "検索"
-
-#: ../resources/manager_window.ui
-msgid "State"
-msgstr "状態"
+msgid "Categories"
+msgstr "カテゴリー"
 
 #: ../resources/manager_window.ui
 msgid "Repositories"
@@ -618,7 +667,19 @@ msgstr "リポジトリ"
 
 #: ../resources/manager_window.ui
 msgid "Updates"
-msgstr ""
+msgstr "更新"
+
+#: ../resources/manager_window.ui
+msgid "Pending"
+msgstr "保留"
+
+#: ../resources/manager_window.ui
+msgid "Search"
+msgstr "検索"
+
+#: ../resources/manager_window.ui
+msgid "State"
+msgstr "状態"
 
 #: ../resources/manager_window.ui
 msgid "Version"
@@ -655,6 +716,10 @@ msgstr "ファイル"
 #: ../resources/manager_window.ui
 msgid "_Apply"
 msgstr "適用（_A）"
+
+#: ../resources/manager_window.ui
+msgid "Select All"
+msgstr "すべて選択"
 
 #: ../resources/preferences_dialog.ui
 msgid "Remove unrequired dependencies"
@@ -715,10 +780,6 @@ msgstr "AURのサポートを可能にする"
 #: ../resources/preferences_dialog.ui
 msgid "Allow Pamac to search and install packages from AUR"
 msgstr "PamacがAURパッケージを探索し、インストールすることを許可する"
-
-#: ../resources/preferences_dialog.ui
-msgid "Search in AUR by default"
-msgstr "デフォルトでAURを検索する"
 
 #: ../resources/preferences_dialog.ui
 msgid "Check for updates from AUR"

@@ -1,21 +1,22 @@
 # Translation of Pamac.
-# Copyright (C) 2013-2016 Manjaro Developers <manjaro-dev@manjaro.org>
+# Copyright (C) 2013-2017 Manjaro Developers <manjaro-dev@manjaro.org>
 # This file is distributed under the same license as the Pamac package.
-# Guillaume Benoit <guillaume@manjaro.org>, 2013-2016.
+# Guillaume Benoit <guillaume@manjaro.org>, 2013-2017.
 # 
 # Translators:
 # Aaron <markjes@gmx.com>, 2015
 # Aaron <markjes@gmx.com>, 2015
 # Alexandru Ianu <alexandru.ianu@gmail.com>, 2013-2015
+# Dorin Chirițoiu <contact@dorinchiritoiu.eu>, 2017
 # Guillaume Benoit <guillaume@manjaro.org>, 2013
 # philm <philm@manjaro.org>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2016-04-24 08:44+0200\n"
-"PO-Revision-Date: 2017-07-30 02:40+0000\n"
-"Last-Translator: philm <philm@manjaro.org>\n"
+"POT-Creation-Date: 2017-09-09 09:46+0200\n"
+"PO-Revision-Date: 2017-09-09 15:38+0000\n"
+"Last-Translator: Dorin Chirițoiu <contact@dorinchiritoiu.eu>\n"
 "Language-Team: Romanian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/ro/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -25,7 +26,7 @@ msgstr ""
 
 #: data/polkit/org.manjaro.pamac.policy
 msgid "Authentication is required"
-msgstr ""
+msgstr "Este necesară autentificarea"
 
 #: ../src/user_daemon.vala
 msgid "Unknown"
@@ -80,17 +81,17 @@ msgstr "pachetul %s nu are o arhitectură validă"
 #: ../src/system_daemon.vala
 #, c-format
 msgid "unable to satisfy dependency '%s' required by %s"
-msgstr ""
+msgstr "Nu se poate satisface dependența '%s' ce este necesară pentru %s"
 
 #: ../src/system_daemon.vala
 #, c-format
 msgid "installing %s (%s) breaks dependency '%s' required by %s"
-msgstr ""
+msgstr "Instalarea %s (%s) afectează dependența '%s' ce este necesară pentru %s"
 
 #: ../src/system_daemon.vala
 #, c-format
 msgid "removing %s breaks dependency '%s' required by %s"
-msgstr ""
+msgstr "Eliminarea %s afectează dependența '%s' ce este  necesară pentru %s. "
 
 #: ../src/system_daemon.vala
 #, c-format
@@ -124,16 +125,16 @@ msgstr "%s este nevalid sau corupt"
 #: ../src/system_daemon.vala
 #, c-format
 msgid "%s appears to be truncated: %jd/%jd bytes\n"
-msgstr ""
+msgstr "%s pare a fi trunchiat: %jd/%jd biți\n"
 
 #: ../src/system_daemon.vala
 #, c-format
 msgid "failed retrieving file '%s' from %s : %s\n"
-msgstr ""
+msgstr "Nu s-a putut recupera fișierul '%s' din %s:%s\n"
 
 #: ../src/transaction.vala
 msgid "Copy"
-msgstr ""
+msgstr "Copiază"
 
 #: ../src/transaction.vala
 msgid "Refreshing mirrors list"
@@ -176,6 +177,10 @@ msgstr "De instalat"
 msgid "To reinstall"
 msgstr "De reinstalat"
 
+#: ../src/transaction.vala
+msgid "To upgrade"
+msgstr "Actualizează"
+
 #: ../src/transaction.vala ../src/manager_window.vala
 msgid "Total download size"
 msgstr "Mărimea totală a descărcării"
@@ -183,7 +188,7 @@ msgstr "Mărimea totală a descărcării"
 #: ../src/transaction.vala
 #, c-format
 msgid "Building %s"
-msgstr ""
+msgstr "Se construiește 1%s"
 
 #: ../src/transaction.vala
 msgid "Transaction cancelled"
@@ -316,15 +321,15 @@ msgstr ""
 #: ../src/transaction.vala
 #, c-format
 msgid "About %u seconds remaining"
-msgstr ""
+msgstr "În jur de %u secunde rămase"
 
 #: ../src/transaction.vala
 #, c-format
 msgid "About %lu minute remaining"
 msgid_plural "About %lu minutes remaining"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "În jur de un minut rămas"
+msgstr[1] "În jur de %lu minute rămase"
+msgstr[2] "În jur de %lu minute rămase"
 
 #: ../src/transaction.vala
 #, c-format
@@ -340,7 +345,7 @@ msgid "Warning"
 msgstr "Atenție"
 
 #: ../src/transaction.vala ../resources/progress_dialog.ui
-#: ../resources/history_dialog.ui
+#: ../resources/history_dialog.ui ../resources/preferences_dialog.ui
 msgid "_Close"
 msgstr "_Închide"
 
@@ -355,6 +360,10 @@ msgstr "Tranzacția s-a terminat cu succes"
 #: ../src/installer.vala ../src/manager.vala
 msgid "Pamac is already running"
 msgstr "Pamac rulează deja"
+
+#: ../src/installer.vala ../src/manager_window.vala
+msgid "Waiting for another package manager to quit"
+msgstr "Există un alt gestionar de pachete în așteptare"
 
 #: ../src/tray.vala ../src/manager_window.vala
 msgid "Your system is up-to-date"
@@ -382,12 +391,16 @@ msgid "Details"
 msgstr "Detalii"
 
 #: ../src/manager_window.vala
+msgid "No package found"
+msgstr "Niciun pachet găsit"
+
+#: ../src/manager_window.vala
 msgid "Deselect"
 msgstr "Deselectează"
 
 #: ../src/manager_window.vala
 msgid "Upgrade"
-msgstr ""
+msgstr "Se înnoiește"
 
 #: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Install"
@@ -398,18 +411,14 @@ msgid "Remove"
 msgstr "Elimină"
 
 #: ../src/manager_window.vala
-msgid "Waiting for another package manager to quit"
-msgstr ""
-
-#: ../src/manager_window.vala
 #, c-format
 msgid "%u pending operation"
 msgid_plural "%u pending operations"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "%uoperație în desfășurare"
+msgstr[1] "%uoperații în desfășurare"
+msgstr[2] "%uoperații în desfășurare"
 
-#: ../src/manager_window.vala
+#: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Installed"
 msgstr "Instalate"
 
@@ -419,11 +428,51 @@ msgstr "Orfani"
 
 #: ../src/manager_window.vala
 msgid "Foreign"
-msgstr ""
+msgstr "Alte pachete"
 
 #: ../src/manager_window.vala
-msgid "Pending"
-msgstr ""
+msgid "Accessories"
+msgstr "Accesorii"
+
+#: ../src/manager_window.vala
+msgid "Audio & Video"
+msgstr "Audio & video"
+
+#: ../src/manager_window.vala
+msgid "Development"
+msgstr "Dezvoltare"
+
+#: ../src/manager_window.vala
+msgid "Education"
+msgstr "Educație"
+
+#: ../src/manager_window.vala
+msgid "Games"
+msgstr "Jocuri"
+
+#: ../src/manager_window.vala
+msgid "Graphics"
+msgstr "Grafică"
+
+#: ../src/manager_window.vala
+msgid "Internet"
+msgstr "Internet"
+
+#: ../src/manager_window.vala
+msgid "Office"
+msgstr "Birou"
+
+#: ../src/manager_window.vala
+msgid "Science"
+msgstr "Știință"
+
+#: ../src/manager_window.vala
+msgid "Settings"
+msgstr "Setări"
+
+#: ../src/manager_window.vala
+msgid "System Tools"
+msgstr "Instrumente de sistem"
 
 #: ../src/manager_window.vala
 msgid "Install Reason"
@@ -495,7 +544,7 @@ msgstr "Este în conflict cu"
 
 #: ../src/manager_window.vala
 msgid "Package Base"
-msgstr ""
+msgstr "Baza de pachete"
 
 #: ../src/manager_window.vala
 msgid "Maintainer"
@@ -519,11 +568,11 @@ msgstr "Învechit"
 
 #: ../src/manager_window.vala
 msgid "Make Dependencies"
-msgstr ""
+msgstr "Crează dependețele"
 
 #: ../src/manager_window.vala
 msgid "Check Dependencies"
-msgstr ""
+msgstr "Verifică dependențele"
 
 #: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Name"
@@ -556,7 +605,11 @@ msgstr "Frecvența de verificare a actualizărilor, în ore"
 
 #: ../src/preferences_dialog.vala ../resources/preferences_dialog.ui
 msgid "Number of versions of each package to keep in the cache"
-msgstr ""
+msgstr "Numărul de versiuni ale fiecărui pachet de salvat în memoria cache "
+
+#: ../src/preferences_dialog.vala
+msgid "Build directory"
+msgstr "Construiește directorul"
 
 #: ../src/preferences_dialog.vala
 msgid "Worldwide"
@@ -577,7 +630,7 @@ msgstr "Alegeți un furnizor"
 #: ../resources/choose_provider_dialog.ui
 #: ../resources/choose_ignorepkgs_dialog.ui
 msgid "Choose"
-msgstr ""
+msgstr "Alege"
 
 #: ../resources/progress_dialog.ui
 msgid "Progress"
@@ -593,7 +646,7 @@ msgstr "Sumar al tranzacției"
 
 #: ../resources/transaction_sum_dialog.ui
 msgid "Commit"
-msgstr ""
+msgstr "Comite"
 
 #: ../resources/manager_window.ui
 msgid "Refresh databases"
@@ -603,13 +656,29 @@ msgstr "Reîmprospătează bazele de date"
 msgid "View History"
 msgstr "Vezi istoricul"
 
-#: ../resources/manager_window.ui
+#: ../resources/manager_window.ui ../resources/preferences_dialog.ui
 msgid "Preferences"
 msgstr "Preferințe"
 
 #: ../resources/manager_window.ui
 msgid "About"
-msgstr ""
+msgstr "Despre Pamac"
+
+#: ../resources/manager_window.ui
+msgid "Categories"
+msgstr "Categorii"
+
+#: ../resources/manager_window.ui
+msgid "Repositories"
+msgstr "Depozite"
+
+#: ../resources/manager_window.ui
+msgid "Updates"
+msgstr "Actualizări"
+
+#: ../resources/manager_window.ui
+msgid "Pending"
+msgstr "În așteptare"
 
 #: ../resources/manager_window.ui
 msgid "Search"
@@ -618,14 +687,6 @@ msgstr "Caută"
 #: ../resources/manager_window.ui
 msgid "State"
 msgstr "Stare"
-
-#: ../resources/manager_window.ui
-msgid "Repositories"
-msgstr "Depozite"
-
-#: ../resources/manager_window.ui
-msgid "Updates"
-msgstr ""
 
 #: ../resources/manager_window.ui
 msgid "Version"
@@ -637,7 +698,7 @@ msgstr "Mărime"
 
 #: ../resources/manager_window.ui
 msgid "Popularity"
-msgstr ""
+msgstr "Popularitate"
 
 #: ../resources/manager_window.ui ../resources/preferences_dialog.ui
 msgid "AUR"
@@ -645,7 +706,7 @@ msgstr "AUR"
 
 #: ../resources/manager_window.ui
 msgid "Browse"
-msgstr ""
+msgstr "Navighează"
 
 #: ../resources/manager_window.ui
 msgid "Reinstall"
@@ -662,6 +723,10 @@ msgstr "Fișiere"
 #: ../resources/manager_window.ui
 msgid "_Apply"
 msgstr "_Aplică"
+
+#: ../resources/manager_window.ui
+msgid "Select All"
+msgstr "Selectează tot"
 
 #: ../resources/preferences_dialog.ui
 msgid "Remove unrequired dependencies"
@@ -724,24 +789,20 @@ msgid "Allow Pamac to search and install packages from AUR"
 msgstr "Permite Pamac să caute și să instaleze pachete din AUR"
 
 #: ../resources/preferences_dialog.ui
-msgid "Search in AUR by default"
-msgstr "Caută în AUR implicit"
-
-#: ../resources/preferences_dialog.ui
 msgid "Check for updates from AUR"
 msgstr "Verifică actualizări din AUR"
 
 #: ../resources/preferences_dialog.ui
 msgid "Remove only the versions of uninstalled packages"
-msgstr ""
+msgstr "Șterge doar versiunile pachetelor neinstalate"
 
 #: ../resources/preferences_dialog.ui
 msgid "Clean cache"
-msgstr ""
+msgstr "Curăță memoria cache"
 
 #: ../resources/preferences_dialog.ui
 msgid "Cache"
-msgstr ""
+msgstr "Memoria cache"
 
 #: ../resources/choose_ignorepkgs_dialog.ui
 msgid "Choose Ignored Upgrades"

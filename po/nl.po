@@ -1,7 +1,7 @@
 # Translation of Pamac.
-# Copyright (C) 2013-2016 Manjaro Developers <manjaro-dev@manjaro.org>
+# Copyright (C) 2013-2017 Manjaro Developers <manjaro-dev@manjaro.org>
 # This file is distributed under the same license as the Pamac package.
-# Guillaume Benoit <guillaume@manjaro.org>, 2013-2016.
+# Guillaume Benoit <guillaume@manjaro.org>, 2013-2017.
 # 
 # Translators:
 # Douwe Bootsma <d_bootsma@hotmail.com>, 2013
@@ -19,12 +19,13 @@
 # ringo.dekroon <ringodekroon@gmail.com>, 2013-2014
 # Ron, 2014
 # Ron, 2014-2015
+# 洩矢 諏訪子 <david@sudomail.ne.jp>, 2017
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2016-04-24 08:44+0200\n"
-"PO-Revision-Date: 2017-07-30 09:20+0000\n"
+"POT-Creation-Date: 2017-09-09 09:46+0200\n"
+"PO-Revision-Date: 2017-09-09 15:42+0000\n"
 "Last-Translator: Heimen Stoffels <vistausss@outlook.com>\n"
 "Language-Team: Dutch (http://www.transifex.com/manjarolinux/manjaro-pamac/language/nl/)\n"
 "MIME-Version: 1.0\n"
@@ -95,12 +96,12 @@ msgstr "niet in staat om te voldoen aan afhankelijkheid '%s', vereist voor %s"
 #: ../src/system_daemon.vala
 #, c-format
 msgid "installing %s (%s) breaks dependency '%s' required by %s"
-msgstr "installeren van %s (%s) doorbreekt afhankelijkheid '%s', vereist voor %s"
+msgstr "het installeren van %s (%s) breekt afhankelijkheid '%s', vereist voor %s"
 
 #: ../src/system_daemon.vala
 #, c-format
 msgid "removing %s breaks dependency '%s' required by %s"
-msgstr "verwijderen van %s doorbreekt afhankelijkheid '%s', vereist voor %s"
+msgstr "het verwijderen van %s breekt afhankelijkheid '%s', vereist voor %s"
 
 #: ../src/system_daemon.vala
 #, c-format
@@ -185,6 +186,10 @@ msgstr "Te installeren"
 #: ../src/transaction.vala
 msgid "To reinstall"
 msgstr "Opnieuw te installeren"
+
+#: ../src/transaction.vala
+msgid "To upgrade"
+msgstr "Bijwerken"
 
 #: ../src/transaction.vala ../src/manager_window.vala
 msgid "Total download size"
@@ -349,7 +354,7 @@ msgid "Warning"
 msgstr "Waarschuwing"
 
 #: ../src/transaction.vala ../resources/progress_dialog.ui
-#: ../resources/history_dialog.ui
+#: ../resources/history_dialog.ui ../resources/preferences_dialog.ui
 msgid "_Close"
 msgstr "_Sluiten"
 
@@ -364,6 +369,10 @@ msgstr "Transactie succesvol afgerond"
 #: ../src/installer.vala ../src/manager.vala
 msgid "Pamac is already running"
 msgstr "Pamac is reeds gestart"
+
+#: ../src/installer.vala ../src/manager_window.vala
+msgid "Waiting for another package manager to quit"
+msgstr "Bezig met wachten totdat een andere pakketbeheerder afgesloten wordt"
 
 #: ../src/tray.vala ../src/manager_window.vala
 msgid "Your system is up-to-date"
@@ -390,6 +399,10 @@ msgid "Details"
 msgstr "Details"
 
 #: ../src/manager_window.vala
+msgid "No package found"
+msgstr "Geen pakket gevonden"
+
+#: ../src/manager_window.vala
 msgid "Deselect"
 msgstr "Deselect"
 
@@ -406,17 +419,13 @@ msgid "Remove"
 msgstr "Verwijderen"
 
 #: ../src/manager_window.vala
-msgid "Waiting for another package manager to quit"
-msgstr "Bezig met wachten totdat een andere pakketbeheerder afgesloten wordt"
-
-#: ../src/manager_window.vala
 #, c-format
 msgid "%u pending operation"
 msgid_plural "%u pending operations"
 msgstr[0] "%u resterende bewerking"
 msgstr[1] "%u resterende bewerkingen"
 
-#: ../src/manager_window.vala
+#: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Installed"
 msgstr "Geïnstalleerd"
 
@@ -429,8 +438,48 @@ msgid "Foreign"
 msgstr "Derde partij-pakketten"
 
 #: ../src/manager_window.vala
-msgid "Pending"
-msgstr "Lopend"
+msgid "Accessories"
+msgstr "Accessoires"
+
+#: ../src/manager_window.vala
+msgid "Audio & Video"
+msgstr "Beeld & Geluid"
+
+#: ../src/manager_window.vala
+msgid "Development"
+msgstr "Ontwikkeling"
+
+#: ../src/manager_window.vala
+msgid "Education"
+msgstr "Onderwijs"
+
+#: ../src/manager_window.vala
+msgid "Games"
+msgstr "Games"
+
+#: ../src/manager_window.vala
+msgid "Graphics"
+msgstr "Grafisch"
+
+#: ../src/manager_window.vala
+msgid "Internet"
+msgstr "Internet"
+
+#: ../src/manager_window.vala
+msgid "Office"
+msgstr "Kantoor"
+
+#: ../src/manager_window.vala
+msgid "Science"
+msgstr "Wetenschap"
+
+#: ../src/manager_window.vala
+msgid "Settings"
+msgstr "Instellingen"
+
+#: ../src/manager_window.vala
+msgid "System Tools"
+msgstr "Systeemhulpmiddelen"
 
 #: ../src/manager_window.vala
 msgid "Install Reason"
@@ -566,6 +615,10 @@ msgid "Number of versions of each package to keep in the cache"
 msgstr "Aantal in de cache te houden versies van elk pakket"
 
 #: ../src/preferences_dialog.vala
+msgid "Build directory"
+msgstr "Bouwmap"
+
+#: ../src/preferences_dialog.vala
 msgid "Worldwide"
 msgstr "Wereldwijd"
 
@@ -610,7 +663,7 @@ msgstr "Vernieuw databases"
 msgid "View History"
 msgstr "Bekijk geschiedenis"
 
-#: ../resources/manager_window.ui
+#: ../resources/manager_window.ui ../resources/preferences_dialog.ui
 msgid "Preferences"
 msgstr "Voorkeuren"
 
@@ -619,12 +672,8 @@ msgid "About"
 msgstr "Over"
 
 #: ../resources/manager_window.ui
-msgid "Search"
-msgstr "Zoek"
-
-#: ../resources/manager_window.ui
-msgid "State"
-msgstr "Status"
+msgid "Categories"
+msgstr "Categorieën"
 
 #: ../resources/manager_window.ui
 msgid "Repositories"
@@ -633,6 +682,18 @@ msgstr "Repositories"
 #: ../resources/manager_window.ui
 msgid "Updates"
 msgstr "Updates"
+
+#: ../resources/manager_window.ui
+msgid "Pending"
+msgstr "Lopend"
+
+#: ../resources/manager_window.ui
+msgid "Search"
+msgstr "Zoek"
+
+#: ../resources/manager_window.ui
+msgid "State"
+msgstr "Status"
 
 #: ../resources/manager_window.ui
 msgid "Version"
@@ -669,6 +730,10 @@ msgstr "Bestanden"
 #: ../resources/manager_window.ui
 msgid "_Apply"
 msgstr "_Toepassen"
+
+#: ../resources/manager_window.ui
+msgid "Select All"
+msgstr "Selecteer alles"
 
 #: ../resources/preferences_dialog.ui
 msgid "Remove unrequired dependencies"
@@ -729,10 +794,6 @@ msgstr "Activeer AUR ondersteuning"
 #: ../resources/preferences_dialog.ui
 msgid "Allow Pamac to search and install packages from AUR"
 msgstr "Pamac toestaan om AUR pakketten te zoeken en te installeren"
-
-#: ../resources/preferences_dialog.ui
-msgid "Search in AUR by default"
-msgstr "Stel zoeken in AUR als standaard in"
 
 #: ../resources/preferences_dialog.ui
 msgid "Check for updates from AUR"

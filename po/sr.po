@@ -1,7 +1,7 @@
 # Translation of Pamac.
-# Copyright (C) 2013-2016 Manjaro Developers <manjaro-dev@manjaro.org>
+# Copyright (C) 2013-2017 Manjaro Developers <manjaro-dev@manjaro.org>
 # This file is distributed under the same license as the Pamac package.
-# Guillaume Benoit <guillaume@manjaro.org>, 2013-2016.
+# Guillaume Benoit <guillaume@manjaro.org>, 2013-2017.
 # 
 # Translators:
 # philm <philm@manjaro.org>, 2015
@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2016-04-24 08:44+0200\n"
-"PO-Revision-Date: 2017-07-30 02:40+0000\n"
-"Last-Translator: philm <philm@manjaro.org>\n"
+"POT-Creation-Date: 2017-09-09 09:46+0200\n"
+"PO-Revision-Date: 2017-09-09 15:30+0000\n"
+"Last-Translator: Guillaume Benoit <guillaume@manjaro.org>\n"
 "Language-Team: Serbian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/sr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -173,6 +173,10 @@ msgstr "За инсталацију"
 #: ../src/transaction.vala
 msgid "To reinstall"
 msgstr "За поновну инсталацију"
+
+#: ../src/transaction.vala
+msgid "To upgrade"
+msgstr ""
 
 #: ../src/transaction.vala ../src/manager_window.vala
 msgid "Total download size"
@@ -338,7 +342,7 @@ msgid "Warning"
 msgstr "Упозорење"
 
 #: ../src/transaction.vala ../resources/progress_dialog.ui
-#: ../resources/history_dialog.ui
+#: ../resources/history_dialog.ui ../resources/preferences_dialog.ui
 msgid "_Close"
 msgstr "_Затвори"
 
@@ -353,6 +357,10 @@ msgstr "Трансакција успешно обављена"
 #: ../src/installer.vala ../src/manager.vala
 msgid "Pamac is already running"
 msgstr "Памак је већ покренут"
+
+#: ../src/installer.vala ../src/manager_window.vala
+msgid "Waiting for another package manager to quit"
+msgstr ""
 
 #: ../src/tray.vala ../src/manager_window.vala
 msgid "Your system is up-to-date"
@@ -380,6 +388,10 @@ msgid "Details"
 msgstr "Детаљи"
 
 #: ../src/manager_window.vala
+msgid "No package found"
+msgstr ""
+
+#: ../src/manager_window.vala
 msgid "Deselect"
 msgstr "Одселектуј"
 
@@ -396,10 +408,6 @@ msgid "Remove"
 msgstr "Уклони"
 
 #: ../src/manager_window.vala
-msgid "Waiting for another package manager to quit"
-msgstr ""
-
-#: ../src/manager_window.vala
 #, c-format
 msgid "%u pending operation"
 msgid_plural "%u pending operations"
@@ -407,7 +415,7 @@ msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#: ../src/manager_window.vala
+#: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Installed"
 msgstr "Инсталирано"
 
@@ -420,7 +428,47 @@ msgid "Foreign"
 msgstr ""
 
 #: ../src/manager_window.vala
-msgid "Pending"
+msgid "Accessories"
+msgstr ""
+
+#: ../src/manager_window.vala
+msgid "Audio & Video"
+msgstr ""
+
+#: ../src/manager_window.vala
+msgid "Development"
+msgstr ""
+
+#: ../src/manager_window.vala
+msgid "Education"
+msgstr ""
+
+#: ../src/manager_window.vala
+msgid "Games"
+msgstr ""
+
+#: ../src/manager_window.vala
+msgid "Graphics"
+msgstr ""
+
+#: ../src/manager_window.vala
+msgid "Internet"
+msgstr ""
+
+#: ../src/manager_window.vala
+msgid "Office"
+msgstr ""
+
+#: ../src/manager_window.vala
+msgid "Science"
+msgstr ""
+
+#: ../src/manager_window.vala
+msgid "Settings"
+msgstr ""
+
+#: ../src/manager_window.vala
+msgid "System Tools"
 msgstr ""
 
 #: ../src/manager_window.vala
@@ -557,6 +605,10 @@ msgid "Number of versions of each package to keep in the cache"
 msgstr ""
 
 #: ../src/preferences_dialog.vala
+msgid "Build directory"
+msgstr ""
+
+#: ../src/preferences_dialog.vala
 msgid "Worldwide"
 msgstr "Широм света"
 
@@ -601,12 +653,28 @@ msgstr "Освежи базу"
 msgid "View History"
 msgstr "Прегледај историју"
 
-#: ../resources/manager_window.ui
+#: ../resources/manager_window.ui ../resources/preferences_dialog.ui
 msgid "Preferences"
 msgstr "Подешавања"
 
 #: ../resources/manager_window.ui
 msgid "About"
+msgstr ""
+
+#: ../resources/manager_window.ui
+msgid "Categories"
+msgstr ""
+
+#: ../resources/manager_window.ui
+msgid "Repositories"
+msgstr "\"Складишта\" - репозиторије"
+
+#: ../resources/manager_window.ui
+msgid "Updates"
+msgstr ""
+
+#: ../resources/manager_window.ui
+msgid "Pending"
 msgstr ""
 
 #: ../resources/manager_window.ui
@@ -616,14 +684,6 @@ msgstr "Претрага"
 #: ../resources/manager_window.ui
 msgid "State"
 msgstr "Стање"
-
-#: ../resources/manager_window.ui
-msgid "Repositories"
-msgstr "\"Складишта\" - репозиторије"
-
-#: ../resources/manager_window.ui
-msgid "Updates"
-msgstr ""
 
 #: ../resources/manager_window.ui
 msgid "Version"
@@ -660,6 +720,10 @@ msgstr "Датотеке"
 #: ../resources/manager_window.ui
 msgid "_Apply"
 msgstr "_Примени"
+
+#: ../resources/manager_window.ui
+msgid "Select All"
+msgstr ""
 
 #: ../resources/preferences_dialog.ui
 msgid "Remove unrequired dependencies"
@@ -720,10 +784,6 @@ msgstr "Омогући AUR подршку"
 #: ../resources/preferences_dialog.ui
 msgid "Allow Pamac to search and install packages from AUR"
 msgstr "Омогући Памаку да претражује и инсталира пакете из AUR-a"
-
-#: ../resources/preferences_dialog.ui
-msgid "Search in AUR by default"
-msgstr ""
 
 #: ../resources/preferences_dialog.ui
 msgid "Check for updates from AUR"

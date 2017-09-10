@@ -1,9 +1,10 @@
 # Translation of Pamac.
-# Copyright (C) 2013-2016 Manjaro Developers <manjaro-dev@manjaro.org>
+# Copyright (C) 2013-2017 Manjaro Developers <manjaro-dev@manjaro.org>
 # This file is distributed under the same license as the Pamac package.
-# Guillaume Benoit <guillaume@manjaro.org>, 2013-2016.
+# Guillaume Benoit <guillaume@manjaro.org>, 2013-2017.
 # 
 # Translators:
+# Ferenc Papp <pappfer@gmail.com>, 2017
 # Lajos Pasztor <mrlajos@gmail.com>, 2013
 # Lajos Pasztor <mrlajos@gmail.com>, 2013-2016
 # miku84, 2015-2017
@@ -13,9 +14,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2016-04-24 08:44+0200\n"
-"PO-Revision-Date: 2017-07-30 02:40+0000\n"
-"Last-Translator: philm <philm@manjaro.org>\n"
+"POT-Creation-Date: 2017-09-09 09:46+0200\n"
+"PO-Revision-Date: 2017-09-09 15:30+0000\n"
+"Last-Translator: Guillaume Benoit <guillaume@manjaro.org>\n"
 "Language-Team: Hungarian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/hu/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -80,17 +81,17 @@ msgstr "a csomag %s nem tartalmaz megfelelő architektúrát"
 #: ../src/system_daemon.vala
 #, c-format
 msgid "unable to satisfy dependency '%s' required by %s"
-msgstr ""
+msgstr "nem lehet kielégíteni a \"%s\" függőséget, melyre a %s csomagnak szüksége van"
 
 #: ../src/system_daemon.vala
 #, c-format
 msgid "installing %s (%s) breaks dependency '%s' required by %s"
-msgstr ""
+msgstr "%s (%s) telepítése elrontja a(z) \"%s\" függőséget, melyre a %s csomagnak szüksége van"
 
 #: ../src/system_daemon.vala
 #, c-format
 msgid "removing %s breaks dependency '%s' required by %s"
-msgstr ""
+msgstr "%s eltávolítása elrontja a(z) \"%s\" függőséget, melyre a %scsomagnak szüksége van"
 
 #: ../src/system_daemon.vala
 #, c-format
@@ -175,6 +176,10 @@ msgstr "Telepítésre"
 #: ../src/transaction.vala
 msgid "To reinstall"
 msgstr "Újra telepítésre"
+
+#: ../src/transaction.vala
+msgid "To upgrade"
+msgstr ""
 
 #: ../src/transaction.vala ../src/manager_window.vala
 msgid "Total download size"
@@ -339,7 +344,7 @@ msgid "Warning"
 msgstr "Figyelem"
 
 #: ../src/transaction.vala ../resources/progress_dialog.ui
-#: ../resources/history_dialog.ui
+#: ../resources/history_dialog.ui ../resources/preferences_dialog.ui
 msgid "_Close"
 msgstr "Bezár"
 
@@ -354,6 +359,10 @@ msgstr "A tranzakció sikeresen végrehajtódott"
 #: ../src/installer.vala ../src/manager.vala
 msgid "Pamac is already running"
 msgstr "Pamac már el lett indítva"
+
+#: ../src/installer.vala ../src/manager_window.vala
+msgid "Waiting for another package manager to quit"
+msgstr "Várakozás másik csomagkezelő kilépésére"
 
 #: ../src/tray.vala ../src/manager_window.vala
 msgid "Your system is up-to-date"
@@ -380,12 +389,16 @@ msgid "Details"
 msgstr "Részletek"
 
 #: ../src/manager_window.vala
+msgid "No package found"
+msgstr ""
+
+#: ../src/manager_window.vala
 msgid "Deselect"
 msgstr "Kiválasztás megszüntetése"
 
 #: ../src/manager_window.vala
 msgid "Upgrade"
-msgstr ""
+msgstr "Frissítés"
 
 #: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Install"
@@ -396,17 +409,13 @@ msgid "Remove"
 msgstr "Eltávolít"
 
 #: ../src/manager_window.vala
-msgid "Waiting for another package manager to quit"
-msgstr "Várakozás másik csomagkezelő kilépésére"
-
-#: ../src/manager_window.vala
 #, c-format
 msgid "%u pending operation"
 msgid_plural "%u pending operations"
 msgstr[0] "%u függőben lévő művelet"
 msgstr[1] "%u függőben lévő művelet"
 
-#: ../src/manager_window.vala
+#: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Installed"
 msgstr "Telepített"
 
@@ -419,8 +428,48 @@ msgid "Foreign"
 msgstr "Külső"
 
 #: ../src/manager_window.vala
-msgid "Pending"
-msgstr "Függőben lévő"
+msgid "Accessories"
+msgstr ""
+
+#: ../src/manager_window.vala
+msgid "Audio & Video"
+msgstr ""
+
+#: ../src/manager_window.vala
+msgid "Development"
+msgstr ""
+
+#: ../src/manager_window.vala
+msgid "Education"
+msgstr ""
+
+#: ../src/manager_window.vala
+msgid "Games"
+msgstr ""
+
+#: ../src/manager_window.vala
+msgid "Graphics"
+msgstr ""
+
+#: ../src/manager_window.vala
+msgid "Internet"
+msgstr ""
+
+#: ../src/manager_window.vala
+msgid "Office"
+msgstr ""
+
+#: ../src/manager_window.vala
+msgid "Science"
+msgstr ""
+
+#: ../src/manager_window.vala
+msgid "Settings"
+msgstr ""
+
+#: ../src/manager_window.vala
+msgid "System Tools"
+msgstr ""
 
 #: ../src/manager_window.vala
 msgid "Install Reason"
@@ -556,6 +605,10 @@ msgid "Number of versions of each package to keep in the cache"
 msgstr "A cache- ben csomagonként megtartandó példányok száma:"
 
 #: ../src/preferences_dialog.vala
+msgid "Build directory"
+msgstr ""
+
+#: ../src/preferences_dialog.vala
 msgid "Worldwide"
 msgstr "Világszerte"
 
@@ -600,7 +653,7 @@ msgstr "Adatbázis frissítése"
 msgid "View History"
 msgstr "Előzmények megtekintése"
 
-#: ../resources/manager_window.ui
+#: ../resources/manager_window.ui ../resources/preferences_dialog.ui
 msgid "Preferences"
 msgstr "Beállítások"
 
@@ -609,12 +662,8 @@ msgid "About"
 msgstr "A Pamac-ról"
 
 #: ../resources/manager_window.ui
-msgid "Search"
-msgstr "Keresés"
-
-#: ../resources/manager_window.ui
-msgid "State"
-msgstr "Állapot"
+msgid "Categories"
+msgstr ""
 
 #: ../resources/manager_window.ui
 msgid "Repositories"
@@ -622,7 +671,19 @@ msgstr "Tárolók"
 
 #: ../resources/manager_window.ui
 msgid "Updates"
-msgstr ""
+msgstr "Frissítések"
+
+#: ../resources/manager_window.ui
+msgid "Pending"
+msgstr "Függőben lévő"
+
+#: ../resources/manager_window.ui
+msgid "Search"
+msgstr "Keresés"
+
+#: ../resources/manager_window.ui
+msgid "State"
+msgstr "Állapot"
 
 #: ../resources/manager_window.ui
 msgid "Version"
@@ -659,6 +720,10 @@ msgstr "Fájlok"
 #: ../resources/manager_window.ui
 msgid "_Apply"
 msgstr "Alkalmaz"
+
+#: ../resources/manager_window.ui
+msgid "Select All"
+msgstr ""
 
 #: ../resources/preferences_dialog.ui
 msgid "Remove unrequired dependencies"
@@ -719,10 +784,6 @@ msgstr "AUR támogatás engedélyezése"
 #: ../resources/preferences_dialog.ui
 msgid "Allow Pamac to search and install packages from AUR"
 msgstr "Pamac kereshet és telepíthet csomagokat az AUR -ból"
-
-#: ../resources/preferences_dialog.ui
-msgid "Search in AUR by default"
-msgstr "Keresés AUR -ban alapértelmezetten"
 
 #: ../resources/preferences_dialog.ui
 msgid "Check for updates from AUR"

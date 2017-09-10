@@ -1,7 +1,7 @@
 # Translation of Pamac.
-# Copyright (C) 2013-2016 Manjaro Developers <manjaro-dev@manjaro.org>
+# Copyright (C) 2013-2017 Manjaro Developers <manjaro-dev@manjaro.org>
 # This file is distributed under the same license as the Pamac package.
-# Guillaume Benoit <guillaume@manjaro.org>, 2013-2016.
+# Guillaume Benoit <guillaume@manjaro.org>, 2013-2017.
 # 
 # Translators:
 # Lovro Kudelić <lovro.kudelic@outlook.com>, 2016
@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2016-04-24 08:44+0200\n"
-"PO-Revision-Date: 2017-08-02 13:28+0000\n"
+"POT-Creation-Date: 2017-09-09 09:46+0200\n"
+"PO-Revision-Date: 2017-09-09 15:57+0000\n"
 "Last-Translator: Lovro Kudelić <lovro.kudelic@outlook.com>\n"
 "Language-Team: Croatian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/hr/)\n"
 "MIME-Version: 1.0\n"
@@ -80,7 +80,7 @@ msgstr "paket %s nema valjanu arhitekturu"
 #: ../src/system_daemon.vala
 #, c-format
 msgid "unable to satisfy dependency '%s' required by %s"
-msgstr "ne mogu ispuniti zavisnost '1%s' koju zahtijeva %s"
+msgstr "ne mogu ispuniti zavisnost '%s' koju zahtijeva %s"
 
 #: ../src/system_daemon.vala
 #, c-format
@@ -175,6 +175,10 @@ msgstr "Za instalirati"
 #: ../src/transaction.vala
 msgid "To reinstall"
 msgstr "Za ponovnu instalaciju"
+
+#: ../src/transaction.vala
+msgid "To upgrade"
+msgstr "Za nadograditi"
 
 #: ../src/transaction.vala ../src/manager_window.vala
 msgid "Total download size"
@@ -340,7 +344,7 @@ msgid "Warning"
 msgstr "Upozorenje"
 
 #: ../src/transaction.vala ../resources/progress_dialog.ui
-#: ../resources/history_dialog.ui
+#: ../resources/history_dialog.ui ../resources/preferences_dialog.ui
 msgid "_Close"
 msgstr "_Zatvori"
 
@@ -355,6 +359,10 @@ msgstr "Transakcija uspješno završena"
 #: ../src/installer.vala ../src/manager.vala
 msgid "Pamac is already running"
 msgstr "Pamac je već pokrenut"
+
+#: ../src/installer.vala ../src/manager_window.vala
+msgid "Waiting for another package manager to quit"
+msgstr "Čekam na završetak drugog upravitelja paketa "
 
 #: ../src/tray.vala ../src/manager_window.vala
 msgid "Your system is up-to-date"
@@ -382,6 +390,10 @@ msgid "Details"
 msgstr "Detalji"
 
 #: ../src/manager_window.vala
+msgid "No package found"
+msgstr "Paket nije pronađen"
+
+#: ../src/manager_window.vala
 msgid "Deselect"
 msgstr "Poništi odabir"
 
@@ -398,10 +410,6 @@ msgid "Remove"
 msgstr "Ukloni"
 
 #: ../src/manager_window.vala
-msgid "Waiting for another package manager to quit"
-msgstr "Čekam na završetak drugog upravitelja paketa "
-
-#: ../src/manager_window.vala
 #, c-format
 msgid "%u pending operation"
 msgid_plural "%u pending operations"
@@ -409,7 +417,7 @@ msgstr[0] "%u operacija na čekanju"
 msgstr[1] "%u operacije na čekanju"
 msgstr[2] "%u operacija na čekanju"
 
-#: ../src/manager_window.vala
+#: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Installed"
 msgstr "Instalirano"
 
@@ -422,8 +430,48 @@ msgid "Foreign"
 msgstr "Vanjski paketi"
 
 #: ../src/manager_window.vala
-msgid "Pending"
-msgstr "Na čekanju"
+msgid "Accessories"
+msgstr "Dodaci"
+
+#: ../src/manager_window.vala
+msgid "Audio & Video"
+msgstr "Audio i video"
+
+#: ../src/manager_window.vala
+msgid "Development"
+msgstr "Razvoj"
+
+#: ../src/manager_window.vala
+msgid "Education"
+msgstr "Edukacija"
+
+#: ../src/manager_window.vala
+msgid "Games"
+msgstr "Igre"
+
+#: ../src/manager_window.vala
+msgid "Graphics"
+msgstr "Grafika"
+
+#: ../src/manager_window.vala
+msgid "Internet"
+msgstr "Internet"
+
+#: ../src/manager_window.vala
+msgid "Office"
+msgstr "Ured"
+
+#: ../src/manager_window.vala
+msgid "Science"
+msgstr "Znanost"
+
+#: ../src/manager_window.vala
+msgid "Settings"
+msgstr "Postavke"
+
+#: ../src/manager_window.vala
+msgid "System Tools"
+msgstr "Alati sustava"
 
 #: ../src/manager_window.vala
 msgid "Install Reason"
@@ -559,6 +607,10 @@ msgid "Number of versions of each package to keep in the cache"
 msgstr "Broj različitih verzija paketa za spremiti u predmemoriju"
 
 #: ../src/preferences_dialog.vala
+msgid "Build directory"
+msgstr "Direktorij za stvaranje paketa"
+
+#: ../src/preferences_dialog.vala
 msgid "Worldwide"
 msgstr "Globalno"
 
@@ -603,7 +655,7 @@ msgstr "Osvježi bazu podataka"
 msgid "View History"
 msgstr "Pregledaj povijest"
 
-#: ../resources/manager_window.ui
+#: ../resources/manager_window.ui ../resources/preferences_dialog.ui
 msgid "Preferences"
 msgstr "Postavke"
 
@@ -612,12 +664,8 @@ msgid "About"
 msgstr "O programu"
 
 #: ../resources/manager_window.ui
-msgid "Search"
-msgstr "Traži"
-
-#: ../resources/manager_window.ui
-msgid "State"
-msgstr "Stanje"
+msgid "Categories"
+msgstr "Kategorije"
 
 #: ../resources/manager_window.ui
 msgid "Repositories"
@@ -626,6 +674,18 @@ msgstr "Repozitoriji"
 #: ../resources/manager_window.ui
 msgid "Updates"
 msgstr "Ažuriranja"
+
+#: ../resources/manager_window.ui
+msgid "Pending"
+msgstr "Na čekanju"
+
+#: ../resources/manager_window.ui
+msgid "Search"
+msgstr "Traži"
+
+#: ../resources/manager_window.ui
+msgid "State"
+msgstr "Stanje"
 
 #: ../resources/manager_window.ui
 msgid "Version"
@@ -662,6 +722,10 @@ msgstr "Datoteke"
 #: ../resources/manager_window.ui
 msgid "_Apply"
 msgstr "_Primijeni"
+
+#: ../resources/manager_window.ui
+msgid "Select All"
+msgstr "Odaberi sve"
 
 #: ../resources/preferences_dialog.ui
 msgid "Remove unrequired dependencies"
@@ -722,10 +786,6 @@ msgstr "Omogući AUR podršku"
 #: ../resources/preferences_dialog.ui
 msgid "Allow Pamac to search and install packages from AUR"
 msgstr "Dozvoli Pamac-u da traži i instalira pakete iz AUR-a"
-
-#: ../resources/preferences_dialog.ui
-msgid "Search in AUR by default"
-msgstr "Uvijek traži u AUR-u"
 
 #: ../resources/preferences_dialog.ui
 msgid "Check for updates from AUR"

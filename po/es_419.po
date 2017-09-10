@@ -1,7 +1,7 @@
 # Translation of Pamac.
-# Copyright (C) 2013-2016 Manjaro Developers <manjaro-dev@manjaro.org>
+# Copyright (C) 2013-2017 Manjaro Developers <manjaro-dev@manjaro.org>
 # This file is distributed under the same license as the Pamac package.
-# Guillaume Benoit <guillaume@manjaro.org>, 2013-2016.
+# Guillaume Benoit <guillaume@manjaro.org>, 2013-2017.
 # 
 # Translators:
 # Joaquín Ludzcanoff <Desoxirribonucleosa97@outlook.com>, 2016
@@ -12,9 +12,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2016-04-24 08:44+0200\n"
-"PO-Revision-Date: 2017-07-30 02:40+0000\n"
-"Last-Translator: philm <philm@manjaro.org>\n"
+"POT-Creation-Date: 2017-09-09 09:46+0200\n"
+"PO-Revision-Date: 2017-09-09 15:30+0000\n"
+"Last-Translator: Guillaume Benoit <guillaume@manjaro.org>\n"
 "Language-Team: Spanish (Latin America) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/es_419/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -174,6 +174,10 @@ msgstr "El instalar"
 #: ../src/transaction.vala
 msgid "To reinstall"
 msgstr "El reinstalar"
+
+#: ../src/transaction.vala
+msgid "To upgrade"
+msgstr ""
 
 #: ../src/transaction.vala ../src/manager_window.vala
 msgid "Total download size"
@@ -338,7 +342,7 @@ msgid "Warning"
 msgstr "Alerta"
 
 #: ../src/transaction.vala ../resources/progress_dialog.ui
-#: ../resources/history_dialog.ui
+#: ../resources/history_dialog.ui ../resources/preferences_dialog.ui
 msgid "_Close"
 msgstr "...Cerrar"
 
@@ -353,6 +357,10 @@ msgstr "La transacción ha sido completada satisfactoriamente"
 #: ../src/installer.vala ../src/manager.vala
 msgid "Pamac is already running"
 msgstr "Pamac ya está abierto"
+
+#: ../src/installer.vala ../src/manager_window.vala
+msgid "Waiting for another package manager to quit"
+msgstr "Esperando a que otro gestor de paquetes cierre"
 
 #: ../src/tray.vala ../src/manager_window.vala
 msgid "Your system is up-to-date"
@@ -379,6 +387,10 @@ msgid "Details"
 msgstr "Detalles"
 
 #: ../src/manager_window.vala
+msgid "No package found"
+msgstr ""
+
+#: ../src/manager_window.vala
 msgid "Deselect"
 msgstr "Deseleccionar"
 
@@ -395,17 +407,13 @@ msgid "Remove"
 msgstr "Remover"
 
 #: ../src/manager_window.vala
-msgid "Waiting for another package manager to quit"
-msgstr "Esperando a que otro gestor de paquetes cierre"
-
-#: ../src/manager_window.vala
 #, c-format
 msgid "%u pending operation"
 msgid_plural "%u pending operations"
 msgstr[0] "%u operación pendiente"
 msgstr[1] "%u operaciones pendientes"
 
-#: ../src/manager_window.vala
+#: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Installed"
 msgstr "Instalado"
 
@@ -418,8 +426,48 @@ msgid "Foreign"
 msgstr "Foráneo"
 
 #: ../src/manager_window.vala
-msgid "Pending"
-msgstr "Pendiente(s)"
+msgid "Accessories"
+msgstr ""
+
+#: ../src/manager_window.vala
+msgid "Audio & Video"
+msgstr ""
+
+#: ../src/manager_window.vala
+msgid "Development"
+msgstr ""
+
+#: ../src/manager_window.vala
+msgid "Education"
+msgstr ""
+
+#: ../src/manager_window.vala
+msgid "Games"
+msgstr ""
+
+#: ../src/manager_window.vala
+msgid "Graphics"
+msgstr ""
+
+#: ../src/manager_window.vala
+msgid "Internet"
+msgstr ""
+
+#: ../src/manager_window.vala
+msgid "Office"
+msgstr ""
+
+#: ../src/manager_window.vala
+msgid "Science"
+msgstr ""
+
+#: ../src/manager_window.vala
+msgid "Settings"
+msgstr ""
+
+#: ../src/manager_window.vala
+msgid "System Tools"
+msgstr ""
 
 #: ../src/manager_window.vala
 msgid "Install Reason"
@@ -555,6 +603,10 @@ msgid "Number of versions of each package to keep in the cache"
 msgstr "Número de versiones de cada paquete a mantener en caché"
 
 #: ../src/preferences_dialog.vala
+msgid "Build directory"
+msgstr ""
+
+#: ../src/preferences_dialog.vala
 msgid "Worldwide"
 msgstr "Mundial"
 
@@ -599,7 +651,7 @@ msgstr "Actualizar Bases de Datos"
 msgid "View History"
 msgstr "Ver historial"
 
-#: ../resources/manager_window.ui
+#: ../resources/manager_window.ui ../resources/preferences_dialog.ui
 msgid "Preferences"
 msgstr "Preferencias"
 
@@ -608,12 +660,8 @@ msgid "About"
 msgstr "Acera de"
 
 #: ../resources/manager_window.ui
-msgid "Search"
-msgstr "Buscar"
-
-#: ../resources/manager_window.ui
-msgid "State"
-msgstr "Estado"
+msgid "Categories"
+msgstr ""
 
 #: ../resources/manager_window.ui
 msgid "Repositories"
@@ -622,6 +670,18 @@ msgstr "Repositorios"
 #: ../resources/manager_window.ui
 msgid "Updates"
 msgstr ""
+
+#: ../resources/manager_window.ui
+msgid "Pending"
+msgstr "Pendiente(s)"
+
+#: ../resources/manager_window.ui
+msgid "Search"
+msgstr "Buscar"
+
+#: ../resources/manager_window.ui
+msgid "State"
+msgstr "Estado"
 
 #: ../resources/manager_window.ui
 msgid "Version"
@@ -658,6 +718,10 @@ msgstr "Buscar en AUR"
 #: ../resources/manager_window.ui
 msgid "_Apply"
 msgstr "...Aplicar"
+
+#: ../resources/manager_window.ui
+msgid "Select All"
+msgstr ""
 
 #: ../resources/preferences_dialog.ui
 msgid "Remove unrequired dependencies"
@@ -718,10 +782,6 @@ msgstr "Habilitar soporte de AUR"
 #: ../resources/preferences_dialog.ui
 msgid "Allow Pamac to search and install packages from AUR"
 msgstr "Permitir a Pamac buscar e instalar paquetes de AUR"
-
-#: ../resources/preferences_dialog.ui
-msgid "Search in AUR by default"
-msgstr "Buscar en AUR por defecto"
 
 #: ../resources/preferences_dialog.ui
 msgid "Check for updates from AUR"
