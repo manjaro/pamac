@@ -117,6 +117,7 @@ namespace Pamac {
 		}
 
 		public void refresh_handle () {
+			alpm_config.reload ();
 			alpm_handle = alpm_config.get_handle ();
 			if (alpm_handle == null) {
 				return;

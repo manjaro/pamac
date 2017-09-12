@@ -302,7 +302,6 @@ namespace Pamac {
 				var new_alpm_conf = new HashTable<string,Variant> (str_hash, str_equal);
 				new_alpm_conf.insert ("IgnorePkg", new Variant.string (ignorepkg_string.str));
 				transaction.start_write_alpm_config (new_alpm_conf);
-
 			}
 		}
 
