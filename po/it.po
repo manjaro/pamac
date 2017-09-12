@@ -18,6 +18,7 @@
 # Paolo Dongilli <paolo.dongilli@gmail.com>, 2013,2015
 # philm <philm@manjaro.org>, 2015
 # Pietro Francesco Fontana, 2017
+# l3nn4rt, 2017
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
@@ -50,7 +51,7 @@ msgstr "Installato come dipendenza di un altro pacchetto"
 
 #: ../src/user_daemon.vala
 msgid "Yes"
-msgstr "Si"
+msgstr "Sì"
 
 #: ../src/user_daemon.vala
 msgid "No"
@@ -89,17 +90,17 @@ msgstr "il pacchetto %s non ha un'architettura valida"
 #: ../src/system_daemon.vala
 #, c-format
 msgid "unable to satisfy dependency '%s' required by %s"
-msgstr ""
+msgstr "impossibile soddisfare la dipendenza '%s' richiesta da %s"
 
 #: ../src/system_daemon.vala
 #, c-format
 msgid "installing %s (%s) breaks dependency '%s' required by %s"
-msgstr ""
+msgstr "installare %s (%s) interrompe la dipendenza '%s' richiesta da %s"
 
 #: ../src/system_daemon.vala
 #, c-format
 msgid "removing %s breaks dependency '%s' required by %s"
-msgstr ""
+msgstr "rimuovere %s interrompe la dipendenza '%s' richiesta da %s"
 
 #: ../src/system_daemon.vala
 #, c-format
@@ -187,7 +188,7 @@ msgstr "Da reinstallare"
 
 #: ../src/transaction.vala
 msgid "To upgrade"
-msgstr ""
+msgstr "Da aggiornare"
 
 #: ../src/transaction.vala ../src/manager_window.vala
 msgid "Total download size"
@@ -398,7 +399,7 @@ msgstr "Dettagli"
 
 #: ../src/manager_window.vala
 msgid "No package found"
-msgstr ""
+msgstr "Nessun pacchetto trovato"
 
 #: ../src/manager_window.vala
 msgid "Deselect"
@@ -406,7 +407,7 @@ msgstr "Deseleziona"
 
 #: ../src/manager_window.vala
 msgid "Upgrade"
-msgstr ""
+msgstr "Aggiorna"
 
 #: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Install"
@@ -437,47 +438,47 @@ msgstr "Esterni"
 
 #: ../src/manager_window.vala
 msgid "Accessories"
-msgstr ""
+msgstr "Accessori"
 
 #: ../src/manager_window.vala
 msgid "Audio & Video"
-msgstr ""
+msgstr "Audio & Video"
 
 #: ../src/manager_window.vala
 msgid "Development"
-msgstr ""
+msgstr "Sviluppo"
 
 #: ../src/manager_window.vala
 msgid "Education"
-msgstr ""
+msgstr "Educazione"
 
 #: ../src/manager_window.vala
 msgid "Games"
-msgstr ""
+msgstr "Giochi"
 
 #: ../src/manager_window.vala
 msgid "Graphics"
-msgstr ""
+msgstr "Grafica"
 
 #: ../src/manager_window.vala
 msgid "Internet"
-msgstr ""
+msgstr "Internet"
 
 #: ../src/manager_window.vala
 msgid "Office"
-msgstr ""
+msgstr "Ufficio"
 
 #: ../src/manager_window.vala
 msgid "Science"
-msgstr ""
+msgstr "Scienza"
 
 #: ../src/manager_window.vala
 msgid "Settings"
-msgstr ""
+msgstr "Impostazioni"
 
 #: ../src/manager_window.vala
 msgid "System Tools"
-msgstr ""
+msgstr "Strumenti di sistema"
 
 #: ../src/manager_window.vala
 msgid "Install Reason"
@@ -614,7 +615,7 @@ msgstr "Numero di versioni di ogni pacchetto da conservare nella cache"
 
 #: ../src/preferences_dialog.vala
 msgid "Build directory"
-msgstr ""
+msgstr "Cartella di costruzione"
 
 #: ../src/preferences_dialog.vala
 msgid "Worldwide"
@@ -671,7 +672,7 @@ msgstr "Informazioni"
 
 #: ../resources/manager_window.ui
 msgid "Categories"
-msgstr ""
+msgstr "Categorie"
 
 #: ../resources/manager_window.ui
 msgid "Repositories"
@@ -679,7 +680,7 @@ msgstr "Repository"
 
 #: ../resources/manager_window.ui
 msgid "Updates"
-msgstr ""
+msgstr "Aggiornamenti"
 
 #: ../resources/manager_window.ui
 msgid "Pending"
@@ -731,7 +732,7 @@ msgstr "_Applica"
 
 #: ../resources/manager_window.ui
 msgid "Select All"
-msgstr ""
+msgstr "Seleziona Tutto"
 
 #: ../resources/preferences_dialog.ui
 msgid "Remove unrequired dependencies"
