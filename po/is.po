@@ -12,8 +12,8 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2017-09-09 09:46+0200\n"
-"PO-Revision-Date: 2017-09-09 15:30+0000\n"
-"Last-Translator: Guillaume Benoit <guillaume@manjaro.org>\n"
+"PO-Revision-Date: 2017-09-10 10:58+0000\n"
+"Last-Translator: Kristján Magnússon\n"
 "Language-Team: Icelandic (http://www.transifex.com/manjarolinux/manjaro-pamac/language/is/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -176,7 +176,7 @@ msgstr "Til enduruppsetningar"
 
 #: ../src/transaction.vala
 msgid "To upgrade"
-msgstr ""
+msgstr "Til uppfærslu"
 
 #: ../src/transaction.vala ../src/manager_window.vala
 msgid "Total download size"
@@ -387,7 +387,7 @@ msgstr "Nánar"
 
 #: ../src/manager_window.vala
 msgid "No package found"
-msgstr ""
+msgstr "Einginn pakki fanst"
 
 #: ../src/manager_window.vala
 msgid "Deselect"
@@ -426,47 +426,47 @@ msgstr "Utanaðkomandi"
 
 #: ../src/manager_window.vala
 msgid "Accessories"
-msgstr ""
+msgstr "Aukahlutir"
 
 #: ../src/manager_window.vala
 msgid "Audio & Video"
-msgstr ""
+msgstr "Hljóð og Mynd"
 
 #: ../src/manager_window.vala
 msgid "Development"
-msgstr ""
+msgstr "Þróun"
 
 #: ../src/manager_window.vala
 msgid "Education"
-msgstr ""
+msgstr "Menntun"
 
 #: ../src/manager_window.vala
 msgid "Games"
-msgstr ""
+msgstr "Leikir"
 
 #: ../src/manager_window.vala
 msgid "Graphics"
-msgstr ""
+msgstr "Grafík"
 
 #: ../src/manager_window.vala
 msgid "Internet"
-msgstr ""
+msgstr "Internet"
 
 #: ../src/manager_window.vala
 msgid "Office"
-msgstr ""
+msgstr "Skrifstofa"
 
 #: ../src/manager_window.vala
 msgid "Science"
-msgstr ""
+msgstr "Vísindi"
 
 #: ../src/manager_window.vala
 msgid "Settings"
-msgstr ""
+msgstr "Stillingar"
 
 #: ../src/manager_window.vala
 msgid "System Tools"
-msgstr ""
+msgstr "Kerfis verkfæri"
 
 #: ../src/manager_window.vala
 msgid "Install Reason"
@@ -603,7 +603,7 @@ msgstr "Fjöldi af útgáfum af hverjum pakka til að halda í skyndiminni"
 
 #: ../src/preferences_dialog.vala
 msgid "Build directory"
-msgstr ""
+msgstr "Byggja skrá"
 
 #: ../src/preferences_dialog.vala
 msgid "Worldwide"
@@ -660,7 +660,7 @@ msgstr "Um"
 
 #: ../resources/manager_window.ui
 msgid "Categories"
-msgstr ""
+msgstr "Flokkar"
 
 #: ../resources/manager_window.ui
 msgid "Repositories"
@@ -720,7 +720,7 @@ msgstr "_Virkja"
 
 #: ../resources/manager_window.ui
 msgid "Select All"
-msgstr ""
+msgstr "Velja allt"
 
 #: ../resources/preferences_dialog.ui
 msgid "Remove unrequired dependencies"

@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2017-09-09 09:46+0200\n"
-"PO-Revision-Date: 2017-09-09 15:57+0000\n"
+"PO-Revision-Date: 2017-09-10 10:38+0000\n"
 "Last-Translator: Lovro Kudelić <lovro.kudelic@outlook.com>\n"
 "Language-Team: Croatian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/hr/)\n"
 "MIME-Version: 1.0\n"
@@ -362,7 +362,7 @@ msgstr "Pamac je već pokrenut"
 
 #: ../src/installer.vala ../src/manager_window.vala
 msgid "Waiting for another package manager to quit"
-msgstr "Čekam na završetak drugog upravitelja paketa "
+msgstr "Čekam na završetak drugog upravitelja paketa"
 
 #: ../src/tray.vala ../src/manager_window.vala
 msgid "Your system is up-to-date"
