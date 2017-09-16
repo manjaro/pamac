@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2017-09-09 09:46+0200\n"
-"PO-Revision-Date: 2017-09-09 22:36+0000\n"
+"PO-Revision-Date: 2017-09-13 00:43+0000\n"
 "Last-Translator: Eli Shleifer <eligator@gmail.com>\n"
 "Language-Team: Hebrew (http://www.transifex.com/manjarolinux/manjaro-pamac/language/he/)\n"
 "MIME-Version: 1.0\n"
@@ -456,7 +456,7 @@ msgstr "אינטרנט"
 
 #: ../src/manager_window.vala
 msgid "Office"
-msgstr "אופיס"
+msgstr "משרד"
 
 #: ../src/manager_window.vala
 msgid "Science"

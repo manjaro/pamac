@@ -16,13 +16,14 @@
 # Morten Juhl-Johansen Zölde-Fejér <morten@writtenandread.net>, 2013-2014
 # philm <philm@manjaro.org>, 2013,2015
 # scootergrisen, 2017
+# Yavuznie <y.z@live.dk>, 2017
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2017-09-09 09:46+0200\n"
-"PO-Revision-Date: 2017-09-09 15:30+0000\n"
-"Last-Translator: Guillaume Benoit <guillaume@manjaro.org>\n"
+"PO-Revision-Date: 2017-09-15 22:36+0000\n"
+"Last-Translator: scootergrisen\n"
 "Language-Team: Danish (http://www.transifex.com/manjarolinux/manjaro-pamac/language/da/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -40,7 +41,7 @@ msgstr "Ukendt"
 
 #: ../src/user_daemon.vala ../src/manager_window.vala
 msgid "Explicitly installed"
-msgstr "Eksplicitte pakker"
+msgstr "Eksplicit installeret"
 
 #: ../src/user_daemon.vala ../src/manager_window.vala
 msgid "Installed as a dependency for another package"
@@ -185,7 +186,7 @@ msgstr "Geninstalleres"
 
 #: ../src/transaction.vala
 msgid "To upgrade"
-msgstr ""
+msgstr "Opgraderes"
 
 #: ../src/transaction.vala ../src/manager_window.vala
 msgid "Total download size"
@@ -396,7 +397,7 @@ msgstr "Detaljer"
 
 #: ../src/manager_window.vala
 msgid "No package found"
-msgstr ""
+msgstr "Ingen pakke fundet"
 
 #: ../src/manager_window.vala
 msgid "Deselect"
@@ -435,47 +436,47 @@ msgstr "Fremmed"
 
 #: ../src/manager_window.vala
 msgid "Accessories"
-msgstr ""
+msgstr "Tilbehør"
 
 #: ../src/manager_window.vala
 msgid "Audio & Video"
-msgstr ""
+msgstr "Lyd & Video"
 
 #: ../src/manager_window.vala
 msgid "Development"
-msgstr ""
+msgstr "Udvikling"
 
 #: ../src/manager_window.vala
 msgid "Education"
-msgstr ""
+msgstr "Undervisning"
 
 #: ../src/manager_window.vala
 msgid "Games"
-msgstr ""
+msgstr "Spil"
 
 #: ../src/manager_window.vala
 msgid "Graphics"
-msgstr ""
+msgstr "Grafik"
 
 #: ../src/manager_window.vala
 msgid "Internet"
-msgstr ""
+msgstr "Internet"
 
 #: ../src/manager_window.vala
 msgid "Office"
-msgstr ""
+msgstr "Kontor"
 
 #: ../src/manager_window.vala
 msgid "Science"
-msgstr ""
+msgstr "Videnskab"
 
 #: ../src/manager_window.vala
 msgid "Settings"
-msgstr ""
+msgstr "Indstillinger"
 
 #: ../src/manager_window.vala
 msgid "System Tools"
-msgstr ""
+msgstr "System Værktøjer"
 
 #: ../src/manager_window.vala
 msgid "Install Reason"
@@ -612,7 +613,7 @@ msgstr "Antal versioner af hver pakke der skal gemmes i cache"
 
 #: ../src/preferences_dialog.vala
 msgid "Build directory"
-msgstr ""
+msgstr "Byggemappe"
 
 #: ../src/preferences_dialog.vala
 msgid "Worldwide"
@@ -669,7 +670,7 @@ msgstr "Om"
 
 #: ../resources/manager_window.ui
 msgid "Categories"
-msgstr ""
+msgstr "Kategorier"
 
 #: ../resources/manager_window.ui
 msgid "Repositories"
@@ -729,7 +730,7 @@ msgstr "_Anvend"
 
 #: ../resources/manager_window.ui
 msgid "Select All"
-msgstr ""
+msgstr "Vælg alle"
 
 #: ../resources/preferences_dialog.ui
 msgid "Remove unrequired dependencies"

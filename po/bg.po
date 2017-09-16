@@ -16,8 +16,8 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2017-09-09 09:46+0200\n"
-"PO-Revision-Date: 2017-09-09 15:30+0000\n"
-"Last-Translator: Guillaume Benoit <guillaume@manjaro.org>\n"
+"PO-Revision-Date: 2017-09-11 06:23+0000\n"
+"Last-Translator: Galin Iskrenov <loot270@abv.bg>\n"
 "Language-Team: Bulgarian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/bg/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -180,7 +180,7 @@ msgstr "За преинсталиране"
 
 #: ../src/transaction.vala
 msgid "To upgrade"
-msgstr ""
+msgstr "За надграждане"
 
 #: ../src/transaction.vala ../src/manager_window.vala
 msgid "Total download size"
@@ -391,7 +391,7 @@ msgstr "Детайли"
 
 #: ../src/manager_window.vala
 msgid "No package found"
-msgstr ""
+msgstr "Няма открит пакет"
 
 #: ../src/manager_window.vala
 msgid "Deselect"
@@ -430,47 +430,47 @@ msgstr "Чужди"
 
 #: ../src/manager_window.vala
 msgid "Accessories"
-msgstr ""
+msgstr "Принадлежности"
 
 #: ../src/manager_window.vala
 msgid "Audio & Video"
-msgstr ""
+msgstr "Аудио и видео"
 
 #: ../src/manager_window.vala
 msgid "Development"
-msgstr ""
+msgstr "Разработка"
 
 #: ../src/manager_window.vala
 msgid "Education"
-msgstr ""
+msgstr "Образование"
 
 #: ../src/manager_window.vala
 msgid "Games"
-msgstr ""
+msgstr "Игри"
 
 #: ../src/manager_window.vala
 msgid "Graphics"
-msgstr ""
+msgstr "Изображения"
 
 #: ../src/manager_window.vala
 msgid "Internet"
-msgstr ""
+msgstr "Интернет"
 
 #: ../src/manager_window.vala
 msgid "Office"
-msgstr ""
+msgstr "Офис"
 
 #: ../src/manager_window.vala
 msgid "Science"
-msgstr ""
+msgstr "Наука"
 
 #: ../src/manager_window.vala
 msgid "Settings"
-msgstr ""
+msgstr "Настройки"
 
 #: ../src/manager_window.vala
 msgid "System Tools"
-msgstr ""
+msgstr "Системни инструменти"
 
 #: ../src/manager_window.vala
 msgid "Install Reason"
@@ -607,7 +607,7 @@ msgstr "Брой версии от всеки пакет запазени в к�
 
 #: ../src/preferences_dialog.vala
 msgid "Build directory"
-msgstr ""
+msgstr "Папка за изграждане"
 
 #: ../src/preferences_dialog.vala
 msgid "Worldwide"
@@ -664,7 +664,7 @@ msgstr "Относно"
 
 #: ../resources/manager_window.ui
 msgid "Categories"
-msgstr ""
+msgstr "Категории"
 
 #: ../resources/manager_window.ui
 msgid "Repositories"
@@ -724,7 +724,7 @@ msgstr "_Приложи"
 
 #: ../resources/manager_window.ui
 msgid "Select All"
-msgstr ""
+msgstr "Всичко"
 
 #: ../resources/preferences_dialog.ui
 msgid "Remove unrequired dependencies"
