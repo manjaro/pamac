@@ -822,6 +822,7 @@ namespace Pamac {
 								repo_name = sync_pkg.db.name;
 								origin = (uint) sync_pkg.origin;
 							} else {
+								repo_name = sync_pkg.db.name;
 								installed_version = local_pkg.version;
 								origin = (uint) local_pkg.origin;
 							}
