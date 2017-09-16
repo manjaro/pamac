@@ -725,8 +725,20 @@ namespace Pamac {
 						var pixbuf = new Gdk.Pixbuf.from_file (details.icon);
 						app_image.pixbuf = pixbuf;
 					} catch (GLib.Error e) {
-						app_image.pixbuf = package_icon;
-						stderr.printf ("%s: %s\n", details.icon, e.message);
+						// some icons are not in the right repo
+						string icon = details.icon;
+						if ("extra" in details.icon) {
+							icon = details.icon.replace ("extra", "community");
+						} else if ("community" in details.icon) {
+							icon = details.icon.replace ("community", "extra");
+						}
+						try {
+							var pixbuf = new Gdk.Pixbuf.from_file (icon);
+							app_image.pixbuf = pixbuf;
+						} catch (GLib.Error e) {
+							app_image.pixbuf = package_icon;
+							stderr.printf ("%s: %s\n", details.icon, e.message);
+						}
 					}
 				} else {
 					app_image.pixbuf = package_icon;

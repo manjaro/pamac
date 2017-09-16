@@ -907,14 +907,17 @@ namespace Pamac {
 					if (appname != "") {
 						app_store.get_apps ().foreach ((app) => {
 							if (get_app_name (app) == appname) {
-								app_name = appname;
-								try {
-									long_desc = As.markup_convert_simple (get_app_description (app));
-								} catch (Error e) {
-									stderr.printf ("Error: %s\n", e.message);
+								if (app.get_pkgname_default () == alpm_pkg.name) {
+									app_name = appname;
+									desc = get_app_summary (app);
+									try {
+										long_desc = As.markup_convert_simple (get_app_description (app));
+									} catch (Error e) {
+										stderr.printf ("Error: %s\n", e.message);
+									}
+									icon = get_app_icon (app, sync_pkg.db.name);
+									screenshot = get_app_screenshot (app);
 								}
-								icon = get_app_icon (app, sync_pkg.db.name);
-								screenshot = get_app_screenshot (app);
 							}
 						});
 					} else {
