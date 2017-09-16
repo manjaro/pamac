@@ -352,7 +352,6 @@ namespace Pamac {
 			searchbar.notify["search-mode-enabled"].connect (on_search_mode_enabled);
 			show_last_search = true;
 			// enable "type to search"
-			this.get_window ().set_events (Gdk.EventMask.KEY_PRESS_MASK);
 			this.key_press_event.connect ((event) => {
 				show_last_search = false;
 				return searchbar.handle_event (event);
