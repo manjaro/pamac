@@ -27,7 +27,7 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2017-09-09 09:46+0200\n"
-"PO-Revision-Date: 2017-09-10 06:57+0000\n"
+"PO-Revision-Date: 2017-09-18 18:39+0000\n"
 "Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: German (http://www.transifex.com/manjarolinux/manjaro-pamac/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -610,7 +610,7 @@ msgstr "Eine GTK3-Benutzeroberfläche für libalpm"
 
 #: ../src/preferences_dialog.vala ../resources/preferences_dialog.ui
 msgid "How often to check for updates, value in hours"
-msgstr "Wie oft soll nach Erneuerungen geprüft werden? (Wert in Stunden)"
+msgstr "Wie oft soll nach Aktualisierungen geprüft werden? (Wert in Stunden)"
 
 #: ../src/preferences_dialog.vala ../resources/preferences_dialog.ui
 msgid "Number of versions of each package to keep in the cache"
@@ -683,7 +683,7 @@ msgstr "Paketquellen"
 
 #: ../resources/manager_window.ui
 msgid "Updates"
-msgstr "Erneuerungen"
+msgstr "Aktualisierungen"
 
 #: ../resources/manager_window.ui
 msgid "Pending"

@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2017-09-09 09:46+0200\n"
-"PO-Revision-Date: 2017-09-09 16:28+0000\n"
+"PO-Revision-Date: 2017-09-16 17:19+0000\n"
 "Last-Translator: Dušan Kazik <prescott66@gmail.com>\n"
 "Language-Team: Slovak (http://www.transifex.com/manjarolinux/manjaro-pamac/language/sk/)\n"
 "MIME-Version: 1.0\n"
@@ -432,7 +432,7 @@ msgstr "Externé"
 
 #: ../src/manager_window.vala
 msgid "Accessories"
-msgstr "Príslušenstvo<br>"
+msgstr "Príslušenstvo"
 
 #: ../src/manager_window.vala
 msgid "Audio & Video"
