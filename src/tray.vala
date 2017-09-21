@@ -132,7 +132,7 @@ namespace Pamac {
 				set_tooltip (noupdate_info);
 				var pamac_config = new Pamac.Config ("/etc/pamac.conf");
 				set_icon_visible (!pamac_config.no_update_hide_icon);
-				close_notification();
+				close_notification ();
 			} else {
 				string info = ngettext ("%u available update", "%u available updates", updates_nb).printf (updates_nb);
 				set_icon (update_icon_name);
@@ -149,7 +149,7 @@ namespace Pamac {
 
 		void show_notification (string info) {
 			try {
-				close_notification();
+				close_notification ();
 				notification = new Notify.Notification (_("Package Manager"), info, "system-software-update");
 				notification.add_action ("default", _("Details"), execute_updater);
 				notification.show ();
@@ -161,7 +161,7 @@ namespace Pamac {
 		void update_notification (string info) {
 			try {
 				if (notification != null) {
-					if (notification.get_closed_reason() == -1 && notification.body != info) {
+					if (notification.get_closed_reason () == -1 && notification.body != info) {
 						notification.update (_("Package Manager"), info, "system-software-update");
 						notification.show ();
 					}
@@ -175,9 +175,9 @@ namespace Pamac {
 
 		void close_notification () {
 			try {
-				if (notification != null) {
-				 	notification.close();
-				 	notification = null;
+				if (notification != null && notification.get_closed_reason () == -1) {
+					notification.close ();
+					notification = null;
 				}
 			} catch (Error e) {
 				stderr.printf ("Notify Error: %s", e.message);
