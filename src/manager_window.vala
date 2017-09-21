@@ -152,6 +152,7 @@ namespace Pamac {
 		Gtk.MenuItem install_item;
 		Gtk.MenuItem remove_item;
 		Gtk.MenuItem details_item;
+		Gtk.MenuItem switchinstallreason_item;
 		GLib.List<string> selected_pkgs;
 		GLib.List<string> selected_aur;
 
@@ -219,6 +220,9 @@ namespace Pamac {
 			details_item = new Gtk.MenuItem.with_label (dgettext (null, "Details"));
 			details_item.activate.connect (on_details_item_activate);
 			right_click_menu.append (details_item);
+			switchinstallreason_item = new Gtk.MenuItem.with_label (dgettext (null, "Switch install reason"));
+			switchinstallreason_item.activate.connect (on_switchinstallreason_item_activate);
+			right_click_menu.append (switchinstallreason_item);
 			right_click_menu.show_all ();
 
 			packages_list = new Gtk.ListStore (9,
@@ -589,6 +593,10 @@ namespace Pamac {
 			}
 		}
 
+		void on_mark_depend_button_clicked (Gtk.Button button) {
+			transaction.start_set_pkgreason (current_package_displayed, 1); //Alpm.Package.Reason.DEPEND
+		}
+
 		Gtk.Widget populate_details_grid (string detail_type, string detail, Gtk.Widget? previous_widget) {
 			var label = new Gtk.Label ("<b>%s</b>".printf (detail_type + ":"));
 			label.use_markup = true;
@@ -608,6 +616,19 @@ namespace Pamac {
 				mark_explicit_button.halign = Gtk.Align.START;
 				mark_explicit_button.clicked.connect (on_mark_explicit_button_clicked);
 				box.pack_start (mark_explicit_button, false);
+				details_grid.attach_next_to (box, label, Gtk.PositionType.RIGHT);
+			} else if (!transaction_running
+				&& detail_type == dgettext (null, "Install Reason")) {
+				var box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 12);
+				box.homogeneous = false;
+				box.hexpand = true;
+				var label2 = new Gtk.Label (detail);
+				label2.halign = Gtk.Align.START;
+				box.pack_start (label2, false);
+				var mark_depend_button = new Gtk.Button.with_label (dgettext (null, "Mark as dependency"));
+				mark_depend_button.margin = 3;
+				mark_depend_button.clicked.connect (on_mark_depend_button_clicked);
+				box.pack_end (mark_depend_button, false);
 				details_grid.attach_next_to (box, label, Gtk.PositionType.RIGHT);
 			} else {
 				var label2 = new Gtk.Label (detail);
@@ -1545,6 +1566,18 @@ namespace Pamac {
 			}
 			foreach (unowned string pkgname in selected_aur) {
 				transaction.to_build.add (pkgname);
+			}
+			set_pendings_operations ();
+		}
+
+		void on_switchinstallreason_item_activate () {
+			foreach (unowned string pkgname in selected_pkgs) {
+				AlpmPackageDetails details = transaction.get_pkg_details (pkgname);
+				if (details.reason == dgettext (null, "Installed as a dependency for another package")) {
+					transaction.start_set_pkgreason (pkgname, 0);
+				} else {
+					transaction.start_set_pkgreason (pkgname, 1);
+				}
 			}
 			set_pendings_operations ();
 		}
