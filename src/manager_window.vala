@@ -2028,9 +2028,6 @@ namespace Pamac {
 				case "browse":
 					button_back.visible = false;
 					search_button.visible = true;
-					if (filters_stack.visible_child_name == "search") {
-						search_button.activate ();
-					}
 					select_all_button.visible = true;
 					filters_stackswitcher.visible = true;
 					details_button.sensitive = true;
@@ -2038,8 +2035,6 @@ namespace Pamac {
 				case "details":
 					button_back.visible = true;
 					select_all_button.visible = false;
-					searchbar.search_mode_enabled = false;
-					search_button.active = false;
 					search_button.visible = false;
 					filters_stackswitcher.visible = false;
 					details_button.sensitive = true;
@@ -2047,8 +2042,6 @@ namespace Pamac {
 				case "term":
 					button_back.visible = true;
 					select_all_button.visible = false;
-					searchbar.search_mode_enabled = false;
-					search_button.active = false;
 					search_button.visible = false;
 					filters_stackswitcher.visible = false;
 					details_button.sensitive = false;
