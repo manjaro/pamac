@@ -84,9 +84,11 @@ namespace Pamac {
 		private AlpmConfig alpm_config;
 		private Alpm.Handle? alpm_handle;
 		private Alpm.Handle? files_handle;
+		private bool repos_updates_checked;
+		private AlpmPackage[] repos_updates;
 		private bool check_aur_updates;
 		private bool aur_updates_checked;
-		private Json.Array aur_updates_results;
+		private AURPackage[] aur_updates;
 		private HashTable<string, Json.Array> aur_search_results;
 		private HashTable<string, Json.Object> aur_infos;
 		private As.Store app_store;
@@ -96,7 +98,8 @@ namespace Pamac {
 
 		public UserDaemon () {
 			alpm_config = new AlpmConfig ("/etc/pacman.conf");
-			aur_updates_results = new Json.Array ();
+			repos_updates = {};
+			aur_updates = {};
 			aur_search_results = new HashTable<string, Json.Array> (str_hash, str_equal);
 			aur_infos = new HashTable<string, Json.Object> (str_hash, str_equal);
 			refresh_handle ();
@@ -124,6 +127,8 @@ namespace Pamac {
 			} else {
 				files_handle = alpm_config.get_handle (true);
 			}
+			repos_updates_checked = false;
+			aur_updates_checked = false;
 		}
 
 		public bool get_checkspace () {
@@ -1096,7 +1101,15 @@ namespace Pamac {
 		}
 
 		private int get_updates () {
-			AlpmPackage[] updates_infos = {};
+			if (repos_updates_checked && (aur_updates_checked || !check_aur_updates)) {
+				var updates = Updates () {
+					repos_updates = repos_updates,
+					aur_updates = aur_updates
+				};
+				get_updates_finished (updates);
+				return 0;
+			}
+			AlpmPackage[] repos_updates = {};
 			unowned Alpm.Package? pkg = null;
 			unowned Alpm.Package? candidate = null;
 			// use a tmp handle
@@ -1126,7 +1139,7 @@ namespace Pamac {
 					if (candidate != null) {
 						var infos = initialise_pkg_struct (candidate);
 						infos.installed_version = installed_pkg.version;
-						updates_infos += (owned) infos;
+						repos_updates += (owned) infos;
 					} else {
 						if (check_aur_updates && (!aur_updates_checked)) {
 							// check if installed_pkg is a local pkg
@@ -1151,24 +1164,25 @@ namespace Pamac {
 				// get aur updates
 				if (!aur_updates_checked) {
 					AUR.multiinfo.begin (local_pkgs, (obj, res) => {
-						aur_updates_results = AUR.multiinfo.end (res);
+						var aur_updates_json = AUR.multiinfo.end (res);
 						aur_updates_checked = true;
+						get_aur_updates (aur_updates_json);
 						var updates = Updates () {
-							repos_updates = (owned) updates_infos,
-							aur_updates = get_aur_updates_infos ()
+							repos_updates = repos_updates,
+							aur_updates = aur_updates
 						};
 						get_updates_finished (updates);
 					});
 				} else {
 					var updates = Updates () {
-						repos_updates = (owned) updates_infos,
-						aur_updates = get_aur_updates_infos ()
+						repos_updates = repos_updates,
+						aur_updates = aur_updates
 					};
 					get_updates_finished (updates);
 				}
 			} else {
 				var updates = Updates () {
-					repos_updates = (owned) updates_infos,
+					repos_updates = repos_updates,
 					aur_updates = {}
 				};
 				get_updates_finished (updates);
@@ -1176,9 +1190,9 @@ namespace Pamac {
 			return 0;
 		}
 
-		private AURPackage[] get_aur_updates_infos () {
-			AURPackage[] aur_updates_infos = {};
-			aur_updates_results.foreach_element ((array, index, node) => {
+		private void get_aur_updates (Json.Array aur_updates_json) {
+			aur_updates = {};
+			aur_updates_json.foreach_element ((array, index, node) => {
 				unowned Json.Object pkg_info = node.get_object ();
 				unowned string name = pkg_info.get_string_member ("Name");
 				unowned string new_version = pkg_info.get_string_member ("Version");
@@ -1186,10 +1200,9 @@ namespace Pamac {
 				if (Alpm.pkg_vercmp (new_version, old_version) == 1) {
 					var infos = initialise_aur_struct (pkg_info);
 					infos.installed_version = old_version;
-					aur_updates_infos += (owned) infos;
+					aur_updates += (owned) infos;
 				}
 			});
-			return aur_updates_infos;
 		}
 
 		public void start_get_updates (bool check_aur_updates_) {

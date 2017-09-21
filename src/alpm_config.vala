@@ -142,7 +142,7 @@ class AlpmConfig {
 			try {
 				Process.spawn_command_line_sync ("mkdir -p %s".printf (tmp_dbpath));
 				Process.spawn_command_line_sync ("ln -sf %s/local %s".printf (dbpath, tmp_dbpath));
-				Process.spawn_command_line_sync ("cp -au %s/sync %s".printf (dbpath, tmp_dbpath));
+				Process.spawn_command_line_sync ("cp -a %s/sync %s".printf (dbpath, tmp_dbpath));
 				Process.spawn_command_line_sync ("chmod -R 777 %s/sync".printf (tmp_dbpath));
 				handle = new Alpm.Handle (rootdir, tmp_dbpath, out error);
 			} catch (SpawnError e) {

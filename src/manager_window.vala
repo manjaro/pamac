@@ -175,7 +175,8 @@ namespace Pamac {
 
 		AlpmPackage[] repos_updates;
 		AURPackage[] aur_updates;
-		bool updates_checked;
+
+		bool extern_lock;
 
 		uint search_entry_timeout_id;
 		string search_string;
@@ -184,7 +185,6 @@ namespace Pamac {
 		public ManagerWindow (Gtk.Application application) {
 			Object (application: application);
 
-			updates_checked = false;
 			button_back.visible = false;
 			pending_stacksidebar.visible = false;
 			searchbar.connect_entry (search_entry);
@@ -342,6 +342,8 @@ namespace Pamac {
 			main_stack.add_named (transaction.term_window, "term");
 			transaction_infobox.pack_start (transaction.progress_box);
 
+			Timeout.add (500, check_extern_lock);
+
 			display_package_queue = new Queue<string> ();
 
 			main_stack.notify["visible-child"].connect (on_main_stack_visible_child_changed);
@@ -365,6 +367,23 @@ namespace Pamac {
 			} catch (SpawnError e) {
 				stderr.printf ("SpawnError: %s\n", e.message);
 			}
+		}
+
+		bool check_extern_lock () {
+			if (extern_lock) {
+				if (!transaction.lockfile.query_exists ()) {
+					extern_lock = false;
+					transaction.refresh_handle ();
+					refresh_packages_list ();
+				}
+			} else {
+				if (transaction.lockfile.query_exists ()) {
+					if (!transaction_running && !refreshing && !sysupgrade_running) {
+						extern_lock = true;
+					}
+				}
+			}
+			return true;
 		}
 
 		void on_write_pamac_config_finished (bool recurse, uint64 refresh_period, bool no_update_hide_icon,
@@ -1176,7 +1195,6 @@ namespace Pamac {
 			if (filters_stack.visible_child_name != "search") {
 				searchbar.search_mode_enabled = false;
 				search_button.active = false;
-				origin_stack.visible_child_name = "repos";
 			}
 			if (filters_stack.visible_child_name != "pending") {
 				uint total_pending = transaction.to_install.length + transaction.to_remove.length + transaction.to_build.length;
@@ -1187,6 +1205,7 @@ namespace Pamac {
 			}
 			switch (filters_stack.visible_child_name) {
 				case "categories":
+					origin_stack.visible_child_name = "repos";
 					show_sidebar ();
 					set_pendings_operations ();
 					on_categories_listbox_row_activated (categories_listbox.get_selected_row ());
@@ -1228,16 +1247,19 @@ namespace Pamac {
 					}
 					break;
 				case "groups":
+					origin_stack.visible_child_name = "repos";
 					show_sidebar ();
 					set_pendings_operations ();
 					on_groups_listbox_row_activated (groups_listbox.get_selected_row ());
 					break;
 				case "installed":
+					origin_stack.visible_child_name = "repos";
 					show_sidebar ();
 					set_pendings_operations ();
 					on_installed_listbox_row_activated (installed_listbox.get_selected_row ());
 					break;
 				case "repos":
+					origin_stack.visible_child_name = "repos";
 					show_sidebar ();
 					set_pendings_operations ();
 					on_repos_listbox_row_activated (repos_listbox.get_selected_row ());
@@ -1252,13 +1274,9 @@ namespace Pamac {
 					filters_stack.child_set_property (filters_stack.get_child_by_name ("updates"),
 														"needs-attention",
 														attention_val);
-					if (updates_checked) {
-						populate_updates ();
-					} else {
-						apply_button.sensitive = false;
-						this.get_window ().set_cursor (new Gdk.Cursor.for_display (Gdk.Display.get_default (), Gdk.CursorType.WATCH));
-						transaction.start_get_updates ();
-					}
+					apply_button.sensitive = false;
+					this.get_window ().set_cursor (new Gdk.Cursor.for_display (Gdk.Display.get_default (), Gdk.CursorType.WATCH));
+					transaction.start_get_updates ();
 					break;
 				case "pending":
 					if (transaction.to_build.length != 0) {
@@ -2267,7 +2285,6 @@ namespace Pamac {
 		}
 
 		void on_get_updates_finished (Updates updates) {
-			updates_checked = true;
 			repos_updates = updates.repos_updates;
 			aur_updates = updates.aur_updates;
 			if (filters_stack.visible_child_name == "updates") {
@@ -2307,13 +2324,23 @@ namespace Pamac {
 					show_sidebar ();
 				}
 				if (origin_stack.visible_child_name == "repos") {
-					if (repos_updates.length == 0) {
-						origin_stack.visible_child_name = "aur";
-					} else {
+					if (repos_updates.length > 0) {
 						populate_packages_list (repos_updates);
+					} else {
+						origin_stack.visible_child_name = "aur";
 					}
 				} else if (origin_stack.visible_child_name == "aur") {
-					populate_aur_list (aur_updates);
+					if (repos_updates.length > 0) {
+						origin_stack.visible_child_name = "repos";
+					} else {
+						populate_aur_list (aur_updates);
+					}
+				} else {
+					if (repos_updates.length > 0) {
+						origin_stack.visible_child_name = "repos";
+					} else {
+						origin_stack.visible_child_name = "aur";
+					}
 				}
 				if (main_stack.visible_child_name == "browse") {
 					select_all_button.visible = true;
@@ -2355,7 +2382,6 @@ namespace Pamac {
 		}
 
 		void on_transaction_finished (bool success) {
-			updates_checked = false;
 			show_last_search = true;
 			transaction.refresh_handle ();
 			if (main_stack.visible_child_name == "details") {

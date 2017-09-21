@@ -21,6 +21,7 @@ namespace Pamac {
 	[DBus (name = "org.manjaro.pamac.user")]
 	interface UserDaemon : Object {
 		public abstract void refresh_handle () throws IOError;
+		public abstract string get_lockfile () throws IOError;
 		public abstract AlpmPackage get_installed_pkg (string pkgname) throws IOError;
 		public abstract bool get_checkspace () throws IOError;
 		public abstract string[] get_ignorepkgs () throws IOError;
@@ -135,6 +136,7 @@ namespace Pamac {
 		GenericSet<string?> previous_to_remove;
 		public GenericSet<string?> transaction_summary;
 		public GenericSet<string?> temporary_ignorepkgs;
+		public GLib.File lockfile;
 
 		uint64 total_download;
 		uint64 already_downloaded;
@@ -198,6 +200,7 @@ namespace Pamac {
 			transaction_summary = new GenericSet<string?> (str_hash, str_equal);
 			temporary_ignorepkgs = new GenericSet<string?> (str_hash, str_equal);
 			connecting_user_daemon ();
+			get_lockfile ();
 			//creating dialogs
 			this.application_window = application_window;
 			preferences_available_countries = {};
@@ -490,8 +493,19 @@ namespace Pamac {
 		public void refresh_handle () {
 			try {
 				user_daemon.refresh_handle ();
+				get_lockfile ();
 			} catch (IOError e) {
 				stderr.printf ("IOError: %s\n", e.message);
+			}
+		}
+
+		void get_lockfile () {
+			try {
+				lockfile = GLib.File.new_for_path (user_daemon.get_lockfile ());
+			} catch (IOError e) {
+				stderr.printf ("IOError: %s\n", e.message);
+				//try standard lock file
+				lockfile = GLib.File.new_for_path ("var/lib/pacman/db.lck");
 			}
 		}
 
