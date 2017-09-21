@@ -158,6 +158,9 @@ namespace Pamac {
 		// liststores
 		Gtk.ListStore packages_list;
 		Gtk.ListStore aur_list;
+		int sort_column_id;
+		Gtk.SortType sort_order;
+		bool restore_sort_order;
 
 		public Queue<string> display_package_queue;
 		string current_package_displayed;
@@ -231,6 +234,9 @@ namespace Pamac {
 											typeof (string), //GLib.format (isize)
 											typeof (string), //app_name
 											typeof (Gdk.Pixbuf)); //icon
+			// sort packages by app_name by default
+			packages_list.set_sort_column_id (2,  Gtk.SortType.ASCENDING);
+			restore_sort_order = false;
 			packages_treeview.set_model (packages_list);
 			// add custom cellrenderer to packages_treeview and aur_treewiew
 			var packages_state_renderer = new ActivableCellRendererPixbuf ();
@@ -1191,6 +1197,20 @@ namespace Pamac {
 			this.get_window ().set_cursor (null);
 		}
 
+		void save_packages_sort_order () {
+			if (restore_sort_order == false) {
+				packages_list.get_sort_column_id (out sort_column_id, out sort_order);
+				restore_sort_order = true;
+			}
+		}
+
+		void restore_packages_sort_order () {
+			if (restore_sort_order == true) {
+				packages_list.set_sort_column_id (sort_column_id, sort_order);
+				restore_sort_order = false;
+			}
+		}
+
 		public void refresh_packages_list () {
 			if (filters_stack.visible_child_name != "search") {
 				searchbar.search_mode_enabled = false;
@@ -1205,12 +1225,16 @@ namespace Pamac {
 			}
 			switch (filters_stack.visible_child_name) {
 				case "categories":
+					restore_packages_sort_order ();
 					origin_stack.visible_child_name = "repos";
 					show_sidebar ();
 					set_pendings_operations ();
 					on_categories_listbox_row_activated (categories_listbox.get_selected_row ());
 					break;
 				case "search":
+					save_packages_sort_order ();
+					// pkgs are ordered by relevance so keep this
+					packages_list.set_sort_column_id (Gtk.TREE_SORTABLE_UNSORTED_SORT_COLUMN_ID, 0);
 					if (search_string != null) {
 						if (transaction.enable_aur) {
 							show_sidebar ();
@@ -1247,24 +1271,30 @@ namespace Pamac {
 					}
 					break;
 				case "groups":
+					restore_packages_sort_order ();
 					origin_stack.visible_child_name = "repos";
 					show_sidebar ();
 					set_pendings_operations ();
 					on_groups_listbox_row_activated (groups_listbox.get_selected_row ());
 					break;
 				case "installed":
+					restore_packages_sort_order ();
 					origin_stack.visible_child_name = "repos";
 					show_sidebar ();
 					set_pendings_operations ();
 					on_installed_listbox_row_activated (installed_listbox.get_selected_row ());
 					break;
 				case "repos":
+					restore_packages_sort_order ();
 					origin_stack.visible_child_name = "repos";
 					show_sidebar ();
 					set_pendings_operations ();
 					on_repos_listbox_row_activated (repos_listbox.get_selected_row ());
 					break;
 				case "updates":
+					save_packages_sort_order ();
+					// order updates by name
+					packages_list.set_sort_column_id (2, Gtk.SortType.ASCENDING);
 					hide_sidebar ();
 					packages_list.clear ();
 					aur_list.clear ();
@@ -1279,6 +1309,9 @@ namespace Pamac {
 					transaction.start_get_updates ();
 					break;
 				case "pending":
+					save_packages_sort_order ();
+					// order pending by name
+					packages_list.set_sort_column_id (2, Gtk.SortType.ASCENDING);
 					if (transaction.to_build.length != 0) {
 						show_sidebar ();
 					} else {
@@ -1620,8 +1653,6 @@ namespace Pamac {
 							Gtk.main_iteration ();
 						}
 						transaction.search_pkgs.begin (search_string, (obj, res) => {
-							// get custom sort by relevance
-							packages_list.set_sort_column_id (Gtk.TREE_SORTABLE_UNSORTED_SORT_COLUMN_ID, 0);
 							populate_packages_list (transaction.search_pkgs.end (res));
 						});
 					} else if (filters_stack.visible_child_name == "updates") {
@@ -1911,8 +1942,6 @@ namespace Pamac {
 								hide_sidebar ();
 							}
 							var pkgs = transaction.search_pkgs.end (res);
-							// get custom sort by relevance
-							packages_list.set_sort_column_id (Gtk.TREE_SORTABLE_UNSORTED_SORT_COLUMN_ID, 0);
 							populate_packages_list (pkgs);
 						});
 						aur_list.clear ();
@@ -1971,8 +2000,6 @@ namespace Pamac {
 			} else if (category == dgettext (null, "System Tools")) {
 				matching_cat = "System";
 			}
-			// get sort by app_name
-			packages_list.set_sort_column_id (2, Gtk.SortType.ASCENDING);
 			transaction.get_category_pkgs.begin (matching_cat, (obj, res) => {
 				populate_packages_list (transaction.get_category_pkgs.end (res));
 			});
