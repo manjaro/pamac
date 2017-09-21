@@ -669,7 +669,6 @@
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="border_width">18</property>
-                        <property name="orientation">vertical</property>
                         <property name="spacing">18</property>
                         <child>
                           <object class="GtkBox" id="properties_box2">
@@ -745,6 +744,7 @@
                           <object class="GtkButtonBox" id="details_buttonbox">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
+                            <property name="orientation">vertical</property>
                             <property name="spacing">12</property>
                             <property name="layout_style">start</property>
                             <child>
@@ -793,6 +793,7 @@
                           <packing>
                             <property name="expand">False</property>
                             <property name="fill">True</property>
+                            <property name="pack_type">end</property>
                             <property name="position">2</property>
                           </packing>
                         </child>

@@ -504,36 +504,6 @@ namespace Pamac {
 				syncdbs.next ();
 			}
 			result.join (syncpkgs.diff (result, (Alpm.List.CompareFunc) alpm_pkg_compare_name));
-			// search in Appstream
-			Alpm.List<unowned Alpm.Package> appstream_results = null;
-			app_store.get_apps ().foreach ((app) => {
-				var iter = HashTableIter<string,string> (app.get_names ());
-				unowned string name;
-				while (iter.next (null, out name)) {
-					if (search_string in name) {
-						unowned Alpm.Package? alpm_pkg = alpm_handle.localdb.get_pkg (app.get_pkgname_default ());
-						if (alpm_pkg == null) {
-							alpm_pkg = get_syncpkg (app.get_pkgname_default ());
-						}
-						if (alpm_pkg != null) {
-							appstream_results.add (alpm_pkg);
-						}
-					}
-				}
-				iter = HashTableIter<string,string> (app.get_descriptions ());
-				unowned string desc;
-				while (iter.next (null, out desc)) {
-					if (search_string in desc) {
-						unowned Alpm.Package? alpm_pkg = alpm_handle.localdb.get_pkg (app.get_pkgname_default ());
-						if (alpm_pkg == null) {
-							alpm_pkg = get_syncpkg (app.get_pkgname_default ());
-						}
-						if (alpm_pkg != null) {
-							appstream_results.add (alpm_pkg);
-						}
-					}
-				}
-			});
 			// use custom sort function
 			global_search_string = search_string;
 			result.sort (result.length, (Alpm.List.CompareFunc) alpm_pkg_sort_search_by_relevance);
