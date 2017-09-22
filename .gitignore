@@ -5,6 +5,7 @@ src/*.c
 src/pamac.h
 src/pamac.vapi
 src/libpamac.so
+src/pamac-clean-cache
 src/pamac-user-daemon
 src/pamac-system-daemon
 src/pamac-tray

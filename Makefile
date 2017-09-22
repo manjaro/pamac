@@ -28,6 +28,7 @@ install: install_pamac-tray-appindicator
 	install -Dm644 src/pamac.h $(includedir)/pamac.h
 	install -Dm644 src/pamac.vapi $(datadir)/vala/vapi/pamac.vapi
 	install -Dm755 src/libpamac.so $(libdir)/libpamac.so
+	install -Dm755 src/pamac-clean-cache $(bindir)/pamac-clean-cache
 	install -Dm755 src/pamac-user-daemon $(bindir)/pamac-user-daemon
 	install -Dm744 src/pamac-system-daemon $(bindir)/pamac-system-daemon
 	install -Dm755 src/pamac-tray $(bindir)/pamac-tray
@@ -66,6 +67,7 @@ uninstall:
 	rm -f $(includedir)/pamac.h
 	rm -f $(datadir)/vala/vapi/pamac.vapi
 	rm -f $(libdir)/libpamac.so
+	rm -f $(bindir)/pamac-clean-cache
 	rm -f $(bindir)/pamac-user-daemon
 	rm -f $(bindir)/pamac-system-daemon
 	rm -f $(bindir)/pamac-tray

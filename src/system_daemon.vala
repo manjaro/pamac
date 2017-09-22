@@ -397,12 +397,12 @@ namespace Pamac {
 			});
 		}
 
-		public void clean_cache (uint keep_nb, bool only_uninstalled, GLib.BusName sender) {
+		public void clean_cache (uint64 keep_nb, bool only_uninstalled, GLib.BusName sender) {
 			check_authorization.begin (sender, (obj, res) => {
 				bool authorized = check_authorization.end (res);
 				if (authorized) {
-					string[] commands = {"paccache", "-rq"};
-					commands += "-k%u".printf (keep_nb);
+					string[] commands = {"paccache", "--nocolor", "-rq"};
+					commands += "-k%llu".printf (keep_nb);
 					if (only_uninstalled) {
 						commands += "-u";
 					}

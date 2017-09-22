@@ -39,10 +39,17 @@ MANAGER_GRESOURCE_FILE = ../resources/pamac.manager.gresource.xml
 
 INSTALLER_GRESOURCE_FILE = ../resources/pamac.installer.gresource.xml
 
-binaries: pamac-user-daemon pamac-system-daemon pamac-tray pamac-manager pamac-install
+binaries: pamac-clean-cache pamac-user-daemon pamac-system-daemon pamac-tray pamac-manager pamac-install
 
 clean:
 	rm -f *.c pamac.h pamac.vapi libpamac.so pamac-user-daemon pamac-system-daemon pamac-tray pamac-tray-appindicator pamac-manager pamac-install
+
+pamac-clean-cache: pamac_config.vala clean_cache.vala
+	valac 	-o pamac-clean-cache \
+			$(COMMON_VALA_FLAGS) \
+			--pkg=gio-2.0 \
+			pamac_config.vala \
+			clean_cache.vala
 
 pamac-tray: $(COMMON_SOURCES) alpm_config.vala tray.vala tray-gtk.vala
 	valac 	-o pamac-tray \
