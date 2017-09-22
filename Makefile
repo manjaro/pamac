@@ -48,7 +48,7 @@ install: install_pamac-tray-appindicator
 	install -Dm644 data/systemd/pamac-cleancache.timer $(libdir)/systemd/system/pamac-cleancache.timer
 	install -Dm644 data/systemd/pamac-mirrorlist.service $(libdir)/systemd/system/pamac-mirrorlist.service
 	install -Dm644 data/systemd/pamac-mirrorlist.timer $(libdir)/systemd/system/pamac-mirrorlist.timer
-	mkdir -p $(libdir)/systemd/system/multi-user.target.wants
+	mkdir -p $(sysconfdir)/systemd/system/multi-user.target.wants
 	ln -srf $(libdir)/systemd/system/pamac-cleancache.timer $(sysconfdir)/systemd/system/multi-user.target.wants
 	ln -srf $(libdir)/systemd/system/pamac-mirrorlist.timer $(sysconfdir)/systemd/system/multi-user.target.wants
 	install -Dm644 data/polkit/org.manjaro.pamac.policy $(datadir)/polkit-1/actions/org.manjaro.pamac.policy
