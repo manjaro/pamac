@@ -49,8 +49,8 @@ install: install_pamac-tray-appindicator
 	install -Dm644 data/systemd/pamac-mirrorlist.service $(libdir)/systemd/system/pamac-mirrorlist.service
 	install -Dm644 data/systemd/pamac-mirrorlist.timer $(libdir)/systemd/system/pamac-mirrorlist.timer
 	mkdir -p $(libdir)/systemd/system/multi-user.target.wants
-	ln -srf $(libdir)/systemd/system/pamac-cleancache.timer $(libdir)/systemd/system/multi-user.target.wants
-	ln -srf $(libdir)/systemd/system/pamac-mirrorlist.timer $(libdir)/systemd/system/multi-user.target.wants
+	ln -srf $(libdir)/systemd/system/pamac-cleancache.timer $(sysconfdir)/systemd/system/multi-user.target.wants
+	ln -srf $(libdir)/systemd/system/pamac-mirrorlist.timer $(sysconfdir)/systemd/system/multi-user.target.wants
 	install -Dm644 data/polkit/org.manjaro.pamac.policy $(datadir)/polkit-1/actions/org.manjaro.pamac.policy
 	install -Dm644 data/mime/x-alpm-package.xml $(datadir)/mime/packages/x-alpm-package.xml
 
@@ -89,6 +89,7 @@ uninstall:
 	rm -f $(libdir)/systemd/system/pamac-cleancache.timer
 	rm -f $(libdir)/systemd/system/pamac-mirrorlist.service
 	rm -f $(libdir)/systemd/system/pamac-mirrorlist.timer
-	rm -f $(libdir)/systemd/system/multi-user.target.wants/pamac-cleancache.timer
+	rm -f $(sysconfdir)/systemd/system/multi-user.target.wants/pamac-cleancache.timer
+	rm -f $(sysconfdir)/systemd/system/multi-user.target.wants/pamac-mirrorlist.timer
 	rm -f $(datadir)/polkit-1/actions/org.manjaro.pamac.policy
 	rm -f $(datadir)/mime/packages/x-alpm-package.xml
