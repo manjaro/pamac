@@ -932,8 +932,9 @@ namespace Pamac {
 						if (matching_apps.length == 1) {
 							As.App app = matching_apps[0];
 							app_name = get_app_name (app);
+							desc = get_app_summary (app);
 							try {
-								desc = As.markup_convert_simple (get_app_description (app));
+								long_desc = As.markup_convert_simple (get_app_description (app));
 							} catch (Error e) {
 								stderr.printf ("Error: %s\n", e.message);
 							}
