@@ -1942,7 +1942,16 @@ namespace Pamac {
 								hide_sidebar ();
 							}
 							var pkgs = transaction.search_pkgs.end (res);
-							populate_packages_list (pkgs);
+							if (pkgs.length == 0 && transaction.enable_aur) {
+								packages_list.clear ();
+								transaction.search_in_aur.begin (search_string, (obj, res) => {
+									if (transaction.search_in_aur.end (res).length > 0) {
+										origin_stack.visible_child_name = "aur";
+									}
+								});
+							} else {
+								populate_packages_list (pkgs);
+							}
 						});
 						aur_list.clear ();
 						break;
