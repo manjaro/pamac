@@ -1226,7 +1226,6 @@ namespace Pamac {
 			switch (filters_stack.visible_child_name) {
 				case "categories":
 					restore_packages_sort_order ();
-					origin_stack.visible_child_name = "repos";
 					show_sidebar ();
 					set_pendings_operations ();
 					on_categories_listbox_row_activated (categories_listbox.get_selected_row ());
@@ -1272,21 +1271,18 @@ namespace Pamac {
 					break;
 				case "groups":
 					restore_packages_sort_order ();
-					origin_stack.visible_child_name = "repos";
 					show_sidebar ();
 					set_pendings_operations ();
 					on_groups_listbox_row_activated (groups_listbox.get_selected_row ());
 					break;
 				case "installed":
 					restore_packages_sort_order ();
-					origin_stack.visible_child_name = "repos";
 					show_sidebar ();
 					set_pendings_operations ();
 					on_installed_listbox_row_activated (installed_listbox.get_selected_row ());
 					break;
 				case "repos":
 					restore_packages_sort_order ();
-					origin_stack.visible_child_name = "repos";
 					show_sidebar ();
 					set_pendings_operations ();
 					on_repos_listbox_row_activated (repos_listbox.get_selected_row ());
@@ -1983,6 +1979,7 @@ namespace Pamac {
 		[GtkCallback]
 		void on_categories_listbox_row_activated (Gtk.ListBoxRow row) {
 			this.get_window ().set_cursor (new Gdk.Cursor.for_display (Gdk.Display.get_default (), Gdk.CursorType.WATCH));
+			origin_stack.visible_child_name = "repos";
 			var label = row.get_child () as Gtk.Label;
 			string matching_cat = "";
 			string category = label.label;
@@ -2017,6 +2014,7 @@ namespace Pamac {
 		[GtkCallback]
 		void on_groups_listbox_row_activated (Gtk.ListBoxRow row) {
 			this.get_window ().set_cursor (new Gdk.Cursor.for_display (Gdk.Display.get_default (), Gdk.CursorType.WATCH));
+			origin_stack.visible_child_name = "repos";
 			var label = row.get_child () as Gtk.Label;
 			string group_name = label.label;
 			transaction.get_group_pkgs.begin (group_name, (obj, res) => {
@@ -2052,6 +2050,7 @@ namespace Pamac {
 		[GtkCallback]
 		void on_repos_listbox_row_activated (Gtk.ListBoxRow row) {
 			this.get_window ().set_cursor (new Gdk.Cursor.for_display (Gdk.Display.get_default (), Gdk.CursorType.WATCH));
+			origin_stack.visible_child_name = "repos";
 			var label = row.get_child () as Gtk.Label;
 			string repo = label.label;
 			transaction.get_repo_pkgs.begin (repo, (obj, res) => {
