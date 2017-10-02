@@ -291,6 +291,7 @@
                                 <property name="can_default">True</property>
                                 <property name="has_default">True</property>
                                 <property name="receives_default">True</property>
+                                <property name="width_chars">50</property>
                                 <property name="caps_lock_warning">False</property>
                                 <property name="primary_icon_name">edit-find-symbolic</property>
                                 <property name="secondary_icon_name">edit-clear-symbolic</property>
