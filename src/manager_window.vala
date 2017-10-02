@@ -658,29 +658,34 @@ namespace Pamac {
 			label.valign = Gtk.Align.START;
 			label.margin_top = 6;
 			deps_grid.attach_next_to (label, previous_widget, Gtk.PositionType.BOTTOM);
-			var dep_name_grid = new Gtk.Grid ();
-			dep_name_grid.hexpand = true;
-			Gtk.Widget? previous_dep_name = null;
+			var box = new Gtk.Box (Gtk.Orientation.VERTICAL, 3);
+			box.hexpand = true;
 			foreach (unowned string dep in dep_list) {
-				var dep_button = new Gtk.Button.with_label (dep);
-				dep_button.relief = Gtk.ReliefStyle.NONE;
-				dep_button.halign = Gtk.Align.START;
-				dep_button.clicked.connect (on_dep_button_clicked);
-				dep_name_grid.attach_next_to (dep_button, previous_dep_name, Gtk.PositionType.BOTTOM);
-				previous_dep_name = dep_button;
 				if (add_install_button) {
+					var box2 = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 12);
+					box2.homogeneous = false;
+					var dep_button = new Gtk.Button.with_label (dep);
+					dep_button.relief = Gtk.ReliefStyle.NONE;
+					dep_button.clicked.connect (on_dep_button_clicked);
+					box2.pack_start (dep_button, false);
 					if (transaction.find_installed_satisfier (dep).name == "") {
 						var install_dep_button = new Gtk.ToggleButton.with_label (dgettext (null, "Install"));
 						install_dep_button.margin = 3;
-						install_dep_button.halign = Gtk.Align.START;
 						install_dep_button.toggled.connect (on_install_dep_button_toggled);
-						dep_name_grid.attach_next_to (install_dep_button, dep_button, Gtk.PositionType.RIGHT);
+						box2.pack_end (install_dep_button, false);
 						string dep_name = find_install_button_dep_name (install_dep_button);
 						install_dep_button.active = (dep_name in transaction.to_install); 
 					}
+					box.pack_start (box2);
+				} else {
+					var dep_button = new Gtk.Button.with_label (dep);
+					dep_button.relief = Gtk.ReliefStyle.NONE;
+					dep_button.halign = Gtk.Align.START;
+					dep_button.clicked.connect (on_dep_button_clicked);
+					box.pack_start (dep_button, false);
 				}
 			}
-			deps_grid.attach_next_to (dep_name_grid, label, Gtk.PositionType.RIGHT);
+			deps_grid.attach_next_to (box, label, Gtk.PositionType.RIGHT);
 			return label as Gtk.Widget;
 		}
 
