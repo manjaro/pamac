@@ -1119,15 +1119,9 @@ namespace Pamac {
 			unowned Alpm.List<unowned Alpm.DB> syncdbs = tmp_handle.syncdbs;
 			while (syncdbs != null) {
 				unowned Alpm.DB db = syncdbs.data;
-				db.update (0);
-				syncdbs.next ();
-			}
-			// refresh file dbs
-			var tmp_files_handle = alpm_config.get_handle (true, true);
-			syncdbs = tmp_files_handle.syncdbs;
-			while (syncdbs != null) {
-				unowned Alpm.DB db = syncdbs.data;
-				db.update (0);
+				int ret = db.update (0);
+				if (ret == 0) stdout.printf ("updated %s\n", db.name);
+				else if (ret == 1) stdout.printf ("%s is up to date\n", db.name);
 				syncdbs.next ();
 			}
 			string[] local_pkgs = {};
@@ -1187,6 +1181,14 @@ namespace Pamac {
 					aur_updates = {}
 				};
 				get_updates_finished (updates);
+			}
+			// refresh file dbs
+			var tmp_files_handle = alpm_config.get_handle (true, true);
+			syncdbs = tmp_files_handle.syncdbs;
+			while (syncdbs != null) {
+				unowned Alpm.DB db = syncdbs.data;
+				db.update (0);
+				syncdbs.next ();
 			}
 			return 0;
 		}
