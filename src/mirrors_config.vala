@@ -18,7 +18,7 @@
  */
 
 namespace Pamac {
-	class MirrorsConfig {
+	public class MirrorsConfig {
 		string conf_path;
 
 		public string choosen_generation_method { get; private set; }

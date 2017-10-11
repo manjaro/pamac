@@ -18,7 +18,7 @@
  */
 
 namespace Pamac {
-	class Config {
+	public class Config {
 		string conf_path;
 		HashTable<string,string> _environment_variables;
 
