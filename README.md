@@ -11,9 +11,13 @@ Pamac is a GUI for libalpm (pacman) with AUR and Appstream support
 
 Pamac uses [Meson](http://mesonbuild.com/index.html) build system.
 In the source directory run:
+
 `mkdir builddir && cd builddir`
+
 `meson --prefix=/usr --sysconfdir=/etc`
+
 `ninja`
+
 `sudo ninja install`
 
 #### Translation
