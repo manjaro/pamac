@@ -1,0 +1,7 @@
+subdir('applications')
+subdir('config')
+subdir('dbus')
+subdir('icons')
+subdir('mime')
+subdir('polkit')
+subdir('systemd')
