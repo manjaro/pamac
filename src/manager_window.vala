@@ -1251,6 +1251,22 @@ namespace Pamac {
 					set_pendings_operations ();
 					// pkgs are ordered by relevance so keep this
 					packages_list.set_sort_column_id (Gtk.TREE_SORTABLE_UNSORTED_SORT_COLUMN_ID, 0);
+					if (search_string != null) {
+						// select last search_string
+						bool found = false;
+						search_comboboxtext.get_model ().foreach ((model, path, iter) => {
+							string line;
+							model.get (iter, 0, out line);
+							if (line == search_string) {
+								found = true;
+								// we select the iter in search list
+								// it will populate the packages list with the comboboxtext changed signal
+								search_comboboxtext.set_active_iter (null);
+								search_comboboxtext.set_active_iter (iter);
+							}
+							return found;
+						});
+					}
 					break;
 				case "groups":
 					header_filter_label.set_markup ("<b>%s</b>".printf (dgettext (null, "Groups")));
