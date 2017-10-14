@@ -17,7 +17,7 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-const string VERSION = "6.0.4";
+const string VERSION = "6.1.0";
 
 namespace Pamac {
 
@@ -57,6 +57,8 @@ namespace Pamac {
 		[GtkChild]
 		Gtk.Button select_all_button;
 		[GtkChild]
+		Gtk.Label header_filter_label;
+		[GtkChild]
 		Gtk.ModelButton preferences_button;
 		[GtkChild]
 		Gtk.TreeView packages_treeview;
@@ -70,8 +72,6 @@ namespace Pamac {
 		Gtk.Revealer sidebar_revealer;
 		[GtkChild]
 		public Gtk.Stack filters_stack;
-		[GtkChild]
-		Gtk.StackSwitcher filters_stackswitcher;
 		[GtkChild]
 		Gtk.StackSidebar updates_stacksidebar;
 		[GtkChild]
@@ -183,7 +183,6 @@ namespace Pamac {
 
 		uint search_entry_timeout_id;
 		string search_string;
-		bool show_last_search;
 
 		public ManagerWindow (Gtk.Application application) {
 			Object (application: application);
@@ -358,10 +357,8 @@ namespace Pamac {
 			properties_stack.notify["visible-child"].connect (on_properties_stack_visible_child_changed);
 
 			searchbar.notify["search-mode-enabled"].connect (on_search_mode_enabled);
-			show_last_search = true;
 			// enable "type to search"
 			this.key_press_event.connect ((event) => {
-				show_last_search = false;
 				return searchbar.handle_event (event);
 			});
 
@@ -519,8 +516,9 @@ namespace Pamac {
 
 		void show_default_pkgs () {
 			this.get_window ().set_cursor (new Gdk.Cursor.for_display (Gdk.Display.get_default (), Gdk.CursorType.WATCH));
-			transaction.get_installed_pkgs.begin ((obj, res) => {
-				populate_packages_list (transaction.get_installed_pkgs.end (res));
+			origin_stack.visible_child_name = "repos";
+			transaction.get_installed_apps.begin ((obj, res) => {
+				populate_packages_list (transaction.get_installed_apps.end (res));
 			});
 		}
 
@@ -1100,7 +1098,7 @@ namespace Pamac {
 				return;
 			} else {
 				if (main_stack.visible_child_name == "browse") {
-					select_all_button.visible = true;
+					select_all_button.visible = filters_stack.visible_child_name != "filters";
 				}
 			}
 			foreach (unowned AlpmPackage pkg in pkgs) {
@@ -1176,7 +1174,7 @@ namespace Pamac {
 				return;
 			} else {
 				if (main_stack.visible_child_name == "browse") {
-					select_all_button.visible = true;
+					select_all_button.visible = filters_stack.visible_child_name != "filters";
 				}
 			}
 			foreach (unowned AURPackage aur_pkg in pkgs) {
@@ -1217,10 +1215,7 @@ namespace Pamac {
 		}
 
 		public void refresh_packages_list () {
-			if (filters_stack.visible_child_name != "search") {
-				searchbar.search_mode_enabled = false;
-				search_button.active = false;
-			}
+			button_back.visible = filters_stack.visible_child_name != "filters";
 			if (filters_stack.visible_child_name != "pending") {
 				uint total_pending = transaction.to_install.length + transaction.to_remove.length + transaction.to_build.length;
 				if (total_pending == 0) {
@@ -1229,70 +1224,61 @@ namespace Pamac {
 				}
 			}
 			switch (filters_stack.visible_child_name) {
+				case "filters":
+					header_filter_label.set_markup ("");
+					if (search_button.active) {
+						search_entry.set_text ("");
+						search_entry.grab_focus ();
+					} else {
+						search_button.active = true;
+					}
+					restore_packages_sort_order ();
+					show_sidebar ();
+					set_pendings_operations ();
+					show_default_pkgs ();
+					break;
 				case "categories":
+					header_filter_label.set_markup ("<b>%s</b>".printf (dgettext (null, "Categories")));
+					search_button.active = false;
 					restore_packages_sort_order ();
 					show_sidebar ();
 					set_pendings_operations ();
 					on_categories_listbox_row_activated (categories_listbox.get_selected_row ());
 					break;
 				case "search":
+					header_filter_label.set_markup ("");
 					save_packages_sort_order ();
+					set_pendings_operations ();
 					// pkgs are ordered by relevance so keep this
 					packages_list.set_sort_column_id (Gtk.TREE_SORTABLE_UNSORTED_SORT_COLUMN_ID, 0);
-					if (search_string != null) {
-						if (transaction.enable_aur) {
-							show_sidebar ();
-						} else {
-							hide_sidebar ();
-						}
-						if (show_last_search) {
-							// select lest search_string
-							bool found = false;
-							search_comboboxtext.get_model ().foreach ((model, path, iter) => {
-								string line;
-								model.get (iter, 0, out line);
-								if (line == search_string) {
-									found = true;
-									// we select the iter in search list
-									// it will populate the packages list with the comboboxtext changed signal
-									search_comboboxtext.set_active_iter (null);
-									search_comboboxtext.set_active_iter (iter);
-								}
-								return found;
-							});
-						}
-					} else {
-						hide_sidebar ();
-						if (origin_stack.visible_child_name != "repos") {
-							// add a timeout for a smooth transition
-							Timeout.add (250, () => {
-								origin_stack.visible_child_name = "repos";
-								show_default_pkgs ();
-								return false;
-							});
-						}
-						// else do not modify packages list
-					}
 					break;
 				case "groups":
+					header_filter_label.set_markup ("<b>%s</b>".printf (dgettext (null, "Groups")));
+					search_button.active = false;
 					restore_packages_sort_order ();
 					show_sidebar ();
 					set_pendings_operations ();
 					on_groups_listbox_row_activated (groups_listbox.get_selected_row ());
 					break;
 				case "installed":
+					header_filter_label.set_markup ("<b>%s</b>".printf (dgettext (null, "Installed")));
+					search_button.active = false;
 					restore_packages_sort_order ();
 					show_sidebar ();
 					set_pendings_operations ();
 					on_installed_listbox_row_activated (installed_listbox.get_selected_row ());
 					break;
 				case "repos":
+					header_filter_label.set_markup ("<b>%s</b>".printf (dgettext (null, "Repositories")));
+					search_button.active = false;
 					restore_packages_sort_order ();
 					show_sidebar ();
 					set_pendings_operations ();
 					on_repos_listbox_row_activated (repos_listbox.get_selected_row ());
 					break;
 				case "updates":
+					header_filter_label.set_markup ("");
+					search_button.active = false;
 					save_packages_sort_order ();
 					// order updates by name
 					packages_list.set_sort_column_id (2, Gtk.SortType.ASCENDING);
@@ -1310,6 +1296,8 @@ namespace Pamac {
 					transaction.start_get_updates ();
 					break;
 				case "pending":
+					header_filter_label.set_markup ("");
+					search_button.active = false;
 					save_packages_sort_order ();
 					// order pending by name
 					packages_list.set_sort_column_id (2, Gtk.SortType.ASCENDING);
@@ -1543,31 +1531,43 @@ namespace Pamac {
 
 		[GtkCallback]
 		public void on_button_back_clicked () {
-			string? pkgname = display_package_queue.pop_tail ();
-			if (pkgname != null) {
-				AlpmPackage pkg = transaction.get_installed_pkg (pkgname);
-				if (pkg.name == "") {
-					pkg = transaction.get_sync_pkg (pkgname);
-				}
-				if (pkg.name == "") {
-					transaction.get_aur_details.begin (pkgname, (obj, res) => {
-						if (transaction.get_aur_details.end (res).name != "") {
-							display_aur_properties (pkgname);
-						} else {
-							pkg = transaction.find_installed_satisfier (pkgname);
-							if (pkg.name == "") {
-								pkg = transaction.find_sync_satisfier (pkgname);
-							}
-							if (pkg.name != "") {
-								display_package_properties (pkgname);
-							}
+			switch (main_stack.visible_child_name) {
+				case "browse":
+					filters_stack.visible_child_name = "filters";
+					break;
+				case "details":
+					string? pkgname = display_package_queue.pop_tail ();
+					if (pkgname != null) {
+						AlpmPackage pkg = transaction.get_installed_pkg (pkgname);
+						if (pkg.name == "") {
+							pkg = transaction.get_sync_pkg (pkgname);
 						}
-					});
-				} else {
-					display_package_properties (pkgname);
-				}
-			} else {
-				main_stack.visible_child_name = "browse";
+						if (pkg.name == "") {
+							transaction.get_aur_details.begin (pkgname, (obj, res) => {
+								if (transaction.get_aur_details.end (res).name != "") {
+									display_aur_properties (pkgname);
+								} else {
+									pkg = transaction.find_installed_satisfier (pkgname);
+									if (pkg.name == "") {
+										pkg = transaction.find_sync_satisfier (pkgname);
+									}
+									if (pkg.name != "") {
+										display_package_properties (pkgname);
+									}
+								}
+							});
+						} else {
+							display_package_properties (pkgname);
+						}
+					} else {
+						main_stack.visible_child_name = "browse";
+					}
+					break;
+				case "term":
+					main_stack.visible_child_name = "browse";
+					break;
+				default:
+					break;
 			}
 		}
 
@@ -1865,18 +1865,13 @@ namespace Pamac {
 
 		void on_search_mode_enabled () {
 			if (searchbar.search_mode_enabled) {
-				filters_stack.visible_child_name = "search";
-				// do it after change filters stack child
-				//  so show_last_search=false if we "type to search" 
 				search_button.active = true;
-				set_pendings_operations ();
 			}
 		}
 
 		[GtkCallback]
 		void on_search_button_toggled () {
 			if (search_button.active) {
-				show_last_search = true;
 				searchbar.search_mode_enabled = true;
 			} else {
 				searchbar.search_mode_enabled = false;
@@ -1934,6 +1929,7 @@ namespace Pamac {
 					search_entry.set_position (-1);
 					return false;
 				});
+				filters_stack.visible_child_name = "search";
 				switch (origin_stack.visible_child_name) {
 					case "repos":
 						transaction.search_pkgs.begin (search_string, (obj, res) => {
@@ -2066,24 +2062,34 @@ namespace Pamac {
 		void on_main_stack_visible_child_changed () {
 			switch (main_stack.visible_child_name) {
 				case "browse":
-					button_back.visible = false;
+					button_back.visible = filters_stack.visible_child_name != "filters";
+					if (filters_stack.visible_child_name == "categories") {
+						header_filter_label.set_markup ("<b>%s</b>".printf (dgettext (null, "Categories")));
+					} else if (filters_stack.visible_child_name == "groups") {
+						header_filter_label.set_markup ("<b>%s</b>".printf (dgettext (null, "Groups")));
+					} else if (filters_stack.visible_child_name == "installed") {
+						header_filter_label.set_markup ("<b>%s</b>".printf (dgettext (null, "Installed")));
+					} else if (filters_stack.visible_child_name == "repos") {
+						header_filter_label.set_markup ("<b>%s</b>".printf (dgettext (null, "Repositories")));
+					} else {
+						header_filter_label.set_markup ("");
+					}
+					select_all_button.visible = filters_stack.visible_child_name != "filters";
 					search_button.visible = true;
-					select_all_button.visible = true;
-					filters_stackswitcher.visible = true;
 					details_button.sensitive = true;
 					break;
 				case "details":
 					button_back.visible = true;
+					header_filter_label.set_markup ("");
 					select_all_button.visible = false;
 					search_button.visible = false;
-					filters_stackswitcher.visible = false;
 					details_button.sensitive = true;
 					break;
 				case "term":
 					button_back.visible = true;
+					header_filter_label.set_markup ("");
 					select_all_button.visible = false;
 					search_button.visible = false;
-					filters_stackswitcher.visible = false;
 					details_button.sensitive = false;
 					details_button.get_style_context ().remove_class (Gtk.STYLE_CLASS_SUGGESTED_ACTION);
 					break;
@@ -2376,7 +2382,7 @@ namespace Pamac {
 					}
 				}
 				if (main_stack.visible_child_name == "browse") {
-					select_all_button.visible = true;
+					select_all_button.visible = filters_stack.visible_child_name != "filters";
 				}
 				set_pendings_operations ();
 			}
@@ -2415,7 +2421,6 @@ namespace Pamac {
 		}
 
 		void on_transaction_finished (bool success) {
-			show_last_search = true;
 			transaction.refresh_handle ();
 			if (main_stack.visible_child_name == "details") {
 				if (transaction.get_installed_pkg (current_package_displayed).name != ""

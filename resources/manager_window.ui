@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated with glade 3.20.0 -->
+<!-- Generated with glade 3.20.1 -->
 <interface>
   <requires lib="gtk+" version="3.20"/>
   <object class="GtkPopoverMenu" id="popovermenu">
@@ -123,7 +123,17 @@
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="transition_duration">250</property>
-                        <property name="transition_type">crossfade</property>
+                        <property name="transition_type">slide-left-right</property>
+                        <child>
+                          <object class="GtkStackSidebar" id="filters_stacksidebar">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="stack">filters_stack</property>
+                          </object>
+                          <packing>
+                            <property name="name">filters</property>
+                          </packing>
+                        </child>
                         <child>
                           <object class="GtkScrolledWindow" id="categories_scrolledwindow">
                             <property name="visible">True</property>
@@ -146,6 +156,7 @@
                           <packing>
                             <property name="name">categories</property>
                             <property name="title" translatable="yes">Categories</property>
+                            <property name="position">1</property>
                           </packing>
                         </child>
                         <child>
@@ -170,7 +181,7 @@
                           <packing>
                             <property name="name">groups</property>
                             <property name="title" translatable="yes">Groups</property>
-                            <property name="position">1</property>
+                            <property name="position">2</property>
                           </packing>
                         </child>
                         <child>
@@ -195,7 +206,7 @@
                           <packing>
                             <property name="name">repos</property>
                             <property name="title" translatable="yes">Repositories</property>
-                            <property name="position">2</property>
+                            <property name="position">3</property>
                           </packing>
                         </child>
                         <child>
@@ -220,7 +231,7 @@
                           <packing>
                             <property name="name">installed</property>
                             <property name="title" translatable="yes">Installed</property>
-                            <property name="position">3</property>
+                            <property name="position">4</property>
                           </packing>
                         </child>
                         <child>
@@ -232,7 +243,7 @@
                           <packing>
                             <property name="name">updates</property>
                             <property name="title" translatable="yes">Updates</property>
-                            <property name="position">4</property>
+                            <property name="position">5</property>
                           </packing>
                         </child>
                         <child>
@@ -244,7 +255,7 @@
                           <packing>
                             <property name="name">pending</property>
                             <property name="title" translatable="yes">Pending</property>
-                            <property name="position">5</property>
+                            <property name="position">6</property>
                           </packing>
                         </child>
                         <child>
@@ -255,7 +266,7 @@
                           </object>
                           <packing>
                             <property name="name">search</property>
-                            <property name="position">6</property>
+                            <property name="position">7</property>
                           </packing>
                         </child>
                       </object>
@@ -1156,7 +1167,7 @@
           <object class="GtkBox" id="header_left_buttonbox">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="spacing">3</property>
+            <property name="spacing">18</property>
             <child>
               <object class="GtkButton" id="button_back">
                 <property name="visible">True</property>
@@ -1183,12 +1194,9 @@
               </packing>
             </child>
             <child>
-              <object class="GtkButton" id="select_all_button">
-                <property name="label" translatable="yes">Select All</property>
+              <object class="GtkLabel" id="header_filter_label">
                 <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">True</property>
-                <signal name="clicked" handler="on_select_all_button_clicked" swapped="no"/>
+                <property name="can_focus">False</property>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -1196,14 +1204,21 @@
                 <property name="position">1</property>
               </packing>
             </child>
-          </object>
-        </child>
-        <child type="title">
-          <object class="GtkStackSwitcher" id="filters_stackswitcher">
-            <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <property name="halign">center</property>
-            <property name="stack">filters_stack</property>
+            <child>
+              <object class="GtkButton" id="select_all_button">
+                <property name="label" translatable="yes">Select All</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+                <property name="margin_left">18</property>
+                <signal name="clicked" handler="on_select_all_button_clicked" swapped="no"/>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">3</property>
+              </packing>
+            </child>
           </object>
         </child>
         <child>

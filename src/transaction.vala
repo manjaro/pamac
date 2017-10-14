@@ -29,6 +29,7 @@ namespace Pamac {
 		public abstract uint get_pkg_reason (string pkgname) throws IOError;
 		public abstract uint get_pkg_origin (string pkgname) throws IOError;
 		public abstract async AlpmPackage[] get_installed_pkgs () throws IOError;
+		public abstract async AlpmPackage[] get_installed_apps () throws IOError;
 		public abstract async AlpmPackage[] get_explicitly_installed_pkgs () throws IOError;
 		public abstract async AlpmPackage[] get_foreign_pkgs () throws IOError;
 		public abstract async AlpmPackage[] get_orphans () throws IOError;
@@ -593,6 +594,16 @@ namespace Pamac {
 			AlpmPackage[] pkgs = {};
 			try {
 				pkgs = yield user_daemon.get_installed_pkgs ();
+			} catch (IOError e) {
+				stderr.printf ("IOError: %s\n", e.message);
+			}
+			return pkgs;
+		}
+
+		public async AlpmPackage[] get_installed_apps () {
+			AlpmPackage[] pkgs = {};
+			try {
+				pkgs = yield user_daemon.get_installed_apps ();
 			} catch (IOError e) {
 				stderr.printf ("IOError: %s\n", e.message);
 			}

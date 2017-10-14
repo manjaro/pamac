@@ -375,6 +375,32 @@ namespace Pamac {
 			return pkgs;
 		}
 
+		public async AlpmPackage[] get_installed_apps () {
+			AlpmPackage[] pkgs = {};
+			app_store.get_apps ().foreach ((app) => {
+				unowned string pkgname = app.get_pkgname_default ();
+				unowned Alpm.Package? local_pkg = alpm_handle.localdb.get_pkg (pkgname);
+				if (local_pkg != null) {
+					unowned Alpm.Package? sync_pkg = get_syncpkg (pkgname);
+					if (sync_pkg != null) {
+						pkgs += AlpmPackage () {
+							name = sync_pkg.name,
+							app_name = get_app_name (app),
+							version = sync_pkg.version,
+							installed_version = local_pkg.version,
+							desc = get_app_summary (app),
+							repo = sync_pkg.db.name,
+							size = sync_pkg.isize,
+							download_size = sync_pkg.download_size,
+							origin = (uint) local_pkg.origin,
+							icon = get_app_icon (app, sync_pkg.db.name)
+						};
+					}
+				}
+			});
+			return pkgs;
+		}
+
 		public async AlpmPackage[] get_explicitly_installed_pkgs () {
 			AlpmPackage[] pkgs = {};
 			unowned Alpm.List<unowned Alpm.Package> pkgcache = alpm_handle.localdb.pkgcache;
@@ -816,7 +842,7 @@ namespace Pamac {
 			app_store.get_apps ().foreach ((app) => {
 				app.get_categories ().foreach ((cat_name) => {
 					if (cat_name == category) {
-						string pkgname = app.get_pkgname_default ();
+						unowned string pkgname = app.get_pkgname_default ();
 						string installed_version = "";
 						string repo_name = "";
 						uint origin;
