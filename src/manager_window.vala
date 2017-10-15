@@ -17,7 +17,7 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-const string VERSION = "6.1.0";
+const string VERSION = "6.1.1";
 
 namespace Pamac {
 
@@ -188,6 +188,7 @@ namespace Pamac {
 			Object (application: application);
 
 			button_back.visible = false;
+			select_all_button.visible = false;
 			pending_stacksidebar.visible = false;
 			searchbar.connect_entry (search_entry);
 			refreshing = false;
