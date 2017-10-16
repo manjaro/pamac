@@ -1,5 +1,5 @@
 [Desktop Entry]
-Name=Software Install
+Name=Software Installer
 Name[af]=Sagteware installeer
 Name[ar]=تثبيت البرامج
 Name[as]=চফ্টৱেৰ ইনস্টল
@@ -122,7 +122,7 @@ Comment[zh_CN]=在系统中安装选定的软件
 Comment[zh_HK]=安裝選取的軟件到系統中
 Comment[zh_TW]=安裝選取的軟體到系統中
 Categories=System;
-Exec=pamac-install %F
+Exec=pamac-installer %F
 Terminal=false
 Type=Application
 Icon=system-software-install
