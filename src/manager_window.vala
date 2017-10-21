@@ -1227,12 +1227,7 @@ namespace Pamac {
 			switch (filters_stack.visible_child_name) {
 				case "filters":
 					header_filter_label.set_markup ("");
-					if (search_button.active) {
-						search_entry.set_text ("");
-						search_entry.grab_focus ();
-					} else {
-						search_button.active = true;
-					}
+					search_button.active = false;
 					restore_packages_sort_order ();
 					show_sidebar ();
 					set_pendings_operations ();
