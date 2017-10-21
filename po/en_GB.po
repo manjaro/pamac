@@ -4,6 +4,7 @@
 # Guillaume Benoit <guillaume@manjaro.org>, 2013-2017.
 # 
 # Translators:
+# Eilidh Martin <maxqueue93+github@gmail.com>, 2017
 # J Fernyhough <j.fernyhough@gmail.com>, 2013
 # J Fernyhough <j.fernyhough@gmail.com>, 2013
 # philm <philm@manjaro.org>, 2013-2015
@@ -12,8 +13,8 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2017-09-09 09:46+0200\n"
-"PO-Revision-Date: 2017-09-23 19:17+0000\n"
-"Last-Translator: Guillaume Benoit <guillaume@manjaro.org>\n"
+"PO-Revision-Date: 2017-10-12 18:55+0000\n"
+"Last-Translator: Eilidh Martin <maxqueue93+github@gmail.com>\n"
 "Language-Team: English (United Kingdom) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/en_GB/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -23,7 +24,7 @@ msgstr ""
 
 #: data/polkit/org.manjaro.pamac.policy
 msgid "Authentication is required"
-msgstr ""
+msgstr "Authentication is required"
 
 #: ../src/user_daemon.vala
 msgid "Unknown"
@@ -78,17 +79,17 @@ msgstr "package %s does not have a valid architecture"
 #: ../src/system_daemon.vala
 #, c-format
 msgid "unable to satisfy dependency '%s' required by %s"
-msgstr ""
+msgstr "unable to satisfy dependency '%s' required by %s"
 
 #: ../src/system_daemon.vala
 #, c-format
 msgid "installing %s (%s) breaks dependency '%s' required by %s"
-msgstr ""
+msgstr "installing %s (%s) breaks dependency '%s' required by %s"
 
 #: ../src/system_daemon.vala
 #, c-format
 msgid "removing %s breaks dependency '%s' required by %s"
-msgstr ""
+msgstr "removing %s breaks dependency '%s' required by %s"
 
 #: ../src/system_daemon.vala
 #, c-format
@@ -122,16 +123,16 @@ msgstr "%s is invalid or corrupted"
 #: ../src/system_daemon.vala
 #, c-format
 msgid "%s appears to be truncated: %jd/%jd bytes\n"
-msgstr ""
+msgstr "%s appears to be truncated: %jd/%jd bytes\n"
 
 #: ../src/system_daemon.vala
 #, c-format
 msgid "failed retrieving file '%s' from %s : %s\n"
-msgstr ""
+msgstr "failed retrieving file '%s' from %s : %s\n"
 
 #: ../src/transaction.vala
 msgid "Copy"
-msgstr ""
+msgstr "Copy"
 
 #: ../src/transaction.vala
 msgid "Refreshing mirrors list"
@@ -176,7 +177,7 @@ msgstr "To reinstall"
 
 #: ../src/transaction.vala
 msgid "To upgrade"
-msgstr ""
+msgstr "To upgrade"
 
 #: ../src/transaction.vala ../src/manager_window.vala
 msgid "Total download size"
@@ -185,7 +186,7 @@ msgstr "Total download size"
 #: ../src/transaction.vala
 #, c-format
 msgid "Building %s"
-msgstr ""
+msgstr "Building %s"
 
 #: ../src/transaction.vala
 msgid "Transaction cancelled"
@@ -309,16 +310,16 @@ msgstr "%s installed as %s.pacsave"
 
 #: ../src/transaction.vala
 msgid "Running pre-transaction hooks"
-msgstr ""
+msgstr "Running pre-transaction hooks"
 
 #: ../src/transaction.vala
 msgid "Running post-transaction hooks"
-msgstr ""
+msgstr "Running post-transaction hooks"
 
 #: ../src/transaction.vala
 #, c-format
 msgid "About %u seconds remaining"
-msgstr ""
+msgstr "About %u seconds remaining"
 
 #: ../src/transaction.vala
 #, c-format
@@ -359,7 +360,7 @@ msgstr "Pamac is already running"
 
 #: ../src/installer.vala ../src/manager_window.vala
 msgid "Waiting for another package manager to quit"
-msgstr ""
+msgstr "Waiting for another package manager to quit"
 
 #: ../src/tray.vala ../src/manager_window.vala
 msgid "Your system is up-to-date"
@@ -387,7 +388,7 @@ msgstr "Details"
 
 #: ../src/manager_window.vala
 msgid "No package found"
-msgstr ""
+msgstr "No package found"
 
 #: ../src/manager_window.vala
 msgid "Deselect"
@@ -395,7 +396,7 @@ msgstr "Deselect"
 
 #: ../src/manager_window.vala
 msgid "Upgrade"
-msgstr ""
+msgstr "Upgrade"
 
 #: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Install"
@@ -422,51 +423,51 @@ msgstr "Orphans"
 
 #: ../src/manager_window.vala
 msgid "Foreign"
-msgstr ""
+msgstr "Foreign"
 
 #: ../src/manager_window.vala
 msgid "Accessories"
-msgstr ""
+msgstr "Accessories"
 
 #: ../src/manager_window.vala
 msgid "Audio & Video"
-msgstr ""
+msgstr "Audio & Video"
 
 #: ../src/manager_window.vala
 msgid "Development"
-msgstr ""
+msgstr "Development"
 
 #: ../src/manager_window.vala
 msgid "Education"
-msgstr ""
+msgstr "Education"
 
 #: ../src/manager_window.vala
 msgid "Games"
-msgstr ""
+msgstr "Games"
 
 #: ../src/manager_window.vala
 msgid "Graphics"
-msgstr ""
+msgstr "Graphics"
 
 #: ../src/manager_window.vala
 msgid "Internet"
-msgstr ""
+msgstr "Internet"
 
 #: ../src/manager_window.vala
 msgid "Office"
-msgstr ""
+msgstr "Office"
 
 #: ../src/manager_window.vala
 msgid "Science"
-msgstr ""
+msgstr "Science"
 
 #: ../src/manager_window.vala
 msgid "Settings"
-msgstr ""
+msgstr "Settings"
 
 #: ../src/manager_window.vala
 msgid "System Tools"
-msgstr ""
+msgstr "System Tools"
 
 #: ../src/manager_window.vala
 msgid "Install Reason"
@@ -538,7 +539,7 @@ msgstr "Conflicts With"
 
 #: ../src/manager_window.vala
 msgid "Package Base"
-msgstr ""
+msgstr "Package Base"
 
 #: ../src/manager_window.vala
 msgid "Maintainer"
@@ -562,11 +563,11 @@ msgstr "Out of Date"
 
 #: ../src/manager_window.vala
 msgid "Make Dependencies"
-msgstr ""
+msgstr "Make Dependencies"
 
 #: ../src/manager_window.vala
 msgid "Check Dependencies"
-msgstr ""
+msgstr "Check Dependencies"
 
 #: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Name"
@@ -599,11 +600,11 @@ msgstr "How often to check for updates, value in hours"
 
 #: ../src/preferences_dialog.vala ../resources/preferences_dialog.ui
 msgid "Number of versions of each package to keep in the cache"
-msgstr ""
+msgstr "Number of versions of each package to keep in the cache"
 
 #: ../src/preferences_dialog.vala
 msgid "Build directory"
-msgstr ""
+msgstr "Build directory"
 
 #: ../src/preferences_dialog.vala
 msgid "Worldwide"
@@ -624,7 +625,7 @@ msgstr "Choose a Provider"
 #: ../resources/choose_provider_dialog.ui
 #: ../resources/choose_ignorepkgs_dialog.ui
 msgid "Choose"
-msgstr ""
+msgstr "Choose"
 
 #: ../resources/progress_dialog.ui
 msgid "Progress"
@@ -640,7 +641,7 @@ msgstr "Transaction Summary"
 
 #: ../resources/transaction_sum_dialog.ui
 msgid "Commit"
-msgstr ""
+msgstr "Commit"
 
 #: ../resources/manager_window.ui
 msgid "Refresh databases"
@@ -656,11 +657,11 @@ msgstr "Preferences"
 
 #: ../resources/manager_window.ui
 msgid "About"
-msgstr ""
+msgstr "About"
 
 #: ../resources/manager_window.ui
 msgid "Categories"
-msgstr ""
+msgstr "Categories"
 
 #: ../resources/manager_window.ui
 msgid "Repositories"
@@ -668,11 +669,11 @@ msgstr "Repositories"
 
 #: ../resources/manager_window.ui
 msgid "Updates"
-msgstr ""
+msgstr "Updates"
 
 #: ../resources/manager_window.ui
 msgid "Pending"
-msgstr ""
+msgstr "Pending"
 
 #: ../resources/manager_window.ui
 msgid "Search"
@@ -692,7 +693,7 @@ msgstr "Size"
 
 #: ../resources/manager_window.ui
 msgid "Popularity"
-msgstr ""
+msgstr "Popularity"
 
 #: ../resources/manager_window.ui ../resources/preferences_dialog.ui
 msgid "AUR"
@@ -700,7 +701,7 @@ msgstr "AUR"
 
 #: ../resources/manager_window.ui
 msgid "Browse"
-msgstr ""
+msgstr "Browse"
 
 #: ../resources/manager_window.ui
 msgid "Reinstall"
@@ -720,7 +721,7 @@ msgstr "_Apply"
 
 #: ../resources/manager_window.ui
 msgid "Select All"
-msgstr ""
+msgstr "Select All"
 
 #: ../resources/preferences_dialog.ui
 msgid "Remove unrequired dependencies"
@@ -788,15 +789,15 @@ msgstr "Check for updates from AUR"
 
 #: ../resources/preferences_dialog.ui
 msgid "Remove only the versions of uninstalled packages"
-msgstr ""
+msgstr "Remove only the versions of uninstalled packages"
 
 #: ../resources/preferences_dialog.ui
 msgid "Clean cache"
-msgstr ""
+msgstr "Clean cache"
 
 #: ../resources/preferences_dialog.ui
 msgid "Cache"
-msgstr ""
+msgstr "Cache"
 
 #: ../resources/choose_ignorepkgs_dialog.ui
 msgid "Choose Ignored Upgrades"

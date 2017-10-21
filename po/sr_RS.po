@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2017-09-09 09:46+0200\n"
-"PO-Revision-Date: 2017-09-22 17:12+0000\n"
+"PO-Revision-Date: 2017-10-15 15:35+0000\n"
 "Last-Translator: Lei Pero <lei.pero@gmail.com>\n"
 "Language-Team: Serbian (Serbia) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/sr_RS/)\n"
 "MIME-Version: 1.0\n"
@@ -346,7 +346,7 @@ msgstr "_Затвори"
 
 #: ../src/transaction.vala
 msgid "Nothing to do"
-msgstr ""
+msgstr "Нема се шта чинити"
 
 #: ../src/transaction.vala
 msgid "Transaction successfully finished"
@@ -376,9 +376,9 @@ msgstr "_Изађи"
 #, c-format
 msgid "%u available update"
 msgid_plural "%u available updates"
-msgstr[0] "%uдоступно ажурирање"
-msgstr[1] "%uдоступна ажурирања"
-msgstr[2] "%uдоступних ажурирања"
+msgstr[0] "%u доступно ажурирање"
+msgstr[1] "%u доступна ажурирања"
+msgstr[2] "%u доступних ажурирања"
 
 #: ../src/tray.vala ../src/manager_window.vala ../resources/progress_dialog.ui
 #: ../resources/manager_window.ui
@@ -409,9 +409,9 @@ msgstr "Уклони"
 #, c-format
 msgid "%u pending operation"
 msgid_plural "%u pending operations"
-msgstr[0] "%uрадња у чекању"
-msgstr[1] "%uрадње у чекању"
-msgstr[2] "%uрадњи у чекању"
+msgstr[0] "%u радња у чекању"
+msgstr[1] "%u радње у чекању"
+msgstr[2] "%u радњи у чекању"
 
 #: ../src/manager_window.vala ../resources/manager_window.ui
 msgid "Installed"
@@ -551,7 +551,7 @@ msgstr "Предато"
 
 #: ../src/manager_window.vala
 msgid "Last Modified"
-msgstr "Итмењено"
+msgstr "Измењено"
 
 #: ../src/manager_window.vala
 msgid "Votes"
