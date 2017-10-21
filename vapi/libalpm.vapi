@@ -875,7 +875,7 @@ namespace Alpm {
 			HOOK_DONE,
 			/** A hook is starting */
 			HOOK_RUN_START,
-			/** A hook has finnished runnning */
+			/** A hook has finished running */
 			HOOK_RUN_DONE
 		}
 
