@@ -17,7 +17,7 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-const string VERSION = "6.1.1";
+const string VERSION = "6.1.2";
 
 namespace Pamac {
 
@@ -1339,7 +1339,9 @@ namespace Pamac {
 							pkgs += pkg;
 						}
 					}
-					populate_packages_list (pkgs);
+					if (pkgs.length > 0) {
+						populate_packages_list (pkgs);
+					}
 					if (transaction.to_build.length != 0) {
 						AURPackage[] aur_pkgs = {};
 						foreach (unowned string pkgname in transaction.to_build) {
