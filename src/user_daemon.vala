@@ -105,6 +105,9 @@ namespace Pamac {
 			refresh_handle ();
 			// init appstream
 			app_store = new As.Store ();
+			app_store.set_add_flags (As.StoreAddFlags.USE_UNIQUE_ID
+									| As.StoreAddFlags.ONLY_NATIVE_LANGS
+									| As.StoreAddFlags.USE_MERGE_HEURISTIC);
 			locale = Environ.get_variable (Environ.get (), "LANG");
 			if (locale != null) {
 				// remove .UTF-8 from locale
@@ -114,6 +117,11 @@ namespace Pamac {
 			}
 			try {
 				app_store.load (As.StoreLoadFlags.APP_INFO_SYSTEM);
+				app_store.set_search_match (As.AppSearchMatch.PKGNAME
+											| As.AppSearchMatch.DESCRIPTION
+											| As.AppSearchMatch.COMMENT
+											| As.AppSearchMatch.NAME
+											| As.AppSearchMatch.KEYWORD);
 			} catch (Error e) {
 				stderr.printf ("Error: %s\n", e.message);
 			}
@@ -530,6 +538,27 @@ namespace Pamac {
 				syncdbs.next ();
 			}
 			result.join (syncpkgs.diff (result, (Alpm.List.CompareFunc) alpm_pkg_compare_name));
+			// search in appstream
+			if (search_string.length >= 3) {
+				Alpm.List<unowned Alpm.Package> appstream_result = null;
+				string[] search_terms = As.utils_search_tokenize (search_string);
+				app_store.get_apps ().foreach ((app) => {
+					uint match_score = app.search_matches_all (search_terms);
+					if (match_score > 0) {
+						unowned string pkgname = app.get_pkgname_default ();
+						unowned Alpm.Package? alpm_pkg = alpm_handle.localdb.get_pkg (pkgname);
+						if (alpm_pkg == null) {
+							alpm_pkg = get_syncpkg (pkgname);
+						}
+						if (alpm_pkg != null) {
+							if (appstream_result.find (alpm_pkg, (Alpm.List.CompareFunc) alpm_pkg_compare_name) == null) {
+								appstream_result.add (alpm_pkg);
+							}
+						}
+					}
+				});
+				result.join (appstream_result.diff (result, (Alpm.List.CompareFunc) alpm_pkg_compare_name));
+			}
 			// use custom sort function
 			global_search_string = search_string;
 			result.sort (result.length, (Alpm.List.CompareFunc) alpm_pkg_sort_search_by_relevance);

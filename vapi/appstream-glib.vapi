@@ -375,7 +375,7 @@ namespace As {
 		public uint search_matches (string search);
 		[CCode (cname = "as_app_search_matches_all")]
 		[Version (since = "0.1.3")]
-		public uint search_matches_all (string search);
+		public uint search_matches_all ([CCode (array_length = false, array_null_terminated = true)] string[] search);
 		[CCode (cname = "as_app_set_branch")]
 		[Version (since = "0.6.1")]
 		public void set_branch (string branch);
