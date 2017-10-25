@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2017-09-09 09:46+0200\n"
-"PO-Revision-Date: 2017-10-15 15:35+0000\n"
+"PO-Revision-Date: 2017-10-22 09:28+0000\n"
 "Last-Translator: Lei Pero <lei.pero@gmail.com>\n"
 "Language-Team: Serbian (Serbia) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/sr_RS/)\n"
 "MIME-Version: 1.0\n"
@@ -115,7 +115,7 @@ msgstr "%s: %s већ постоји у систему датотека"
 #: ../src/system_daemon.vala
 #, c-format
 msgid "%s is invalid or corrupted"
-msgstr "%s је неважећ или корумпиран"
+msgstr "%s је неважећ или оштећен"
 
 #: ../src/system_daemon.vala
 #, c-format
@@ -641,7 +641,7 @@ msgstr "Преглед Преноса"
 
 #: ../resources/transaction_sum_dialog.ui
 msgid "Commit"
-msgstr "Предати"
+msgstr "Изврши"
 
 #: ../resources/manager_window.ui
 msgid "Refresh databases"
