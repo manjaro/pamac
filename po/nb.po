@@ -381,7 +381,7 @@ msgstr "Systemet ditt er oppdatert"
 
 #: ../src/tray.vala ../src/manager_window.vala
 msgid "Package Manager"
-msgstr "Pakke Behandler"
+msgstr "Pakkebehandler"
 
 #: ../src/tray.vala
 msgid "_Quit"
