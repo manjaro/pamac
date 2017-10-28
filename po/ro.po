@@ -15,8 +15,8 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2017-09-09 09:46+0200\n"
-"PO-Revision-Date: 2017-09-23 18:53+0000\n"
-"Last-Translator: Dorin Chirițoiu <contact@dorinchiritoiu.eu>\n"
+"PO-Revision-Date: 2017-10-28 08:25+0000\n"
+"Last-Translator: Guillaume Benoit <guillaume@manjaro.org>\n"
 "Language-Team: Romanian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/ro/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -24,306 +24,306 @@ msgstr ""
 "Language: ro\n"
 "Plural-Forms: nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));\n"
 
-#: data/polkit/org.manjaro.pamac.policy
+#: data/polkit/org.manjaro.pamac.policy.in
 msgid "Authentication is required"
 msgstr "Este necesară autentificarea"
 
-#: ../src/user_daemon.vala
+#: src/user_daemon.vala
 msgid "Unknown"
 msgstr "Necunoscut"
 
-#: ../src/user_daemon.vala ../src/manager_window.vala
+#: src/user_daemon.vala src/manager_window.vala
 msgid "Explicitly installed"
 msgstr "Instalat explicit"
 
-#: ../src/user_daemon.vala ../src/manager_window.vala
+#: src/user_daemon.vala src/manager_window.vala
 msgid "Installed as a dependency for another package"
 msgstr "Instalat ca dependență a unui alt pachet"
 
-#: ../src/user_daemon.vala
+#: src/user_daemon.vala
 msgid "Yes"
 msgstr "Da"
 
-#: ../src/user_daemon.vala
+#: src/user_daemon.vala
 msgid "No"
 msgstr "Nu"
 
-#: ../src/system_daemon.vala
+#: src/system_daemon.vala
 msgid "Failed to initialize alpm library"
 msgstr "Nu s-a inițializat librăria alpm"
 
-#: ../src/system_daemon.vala ../src/transaction.vala
+#: src/system_daemon.vala src/transaction.vala
 msgid "Authentication failed"
 msgstr "Autentificare eșuată"
 
-#: ../src/system_daemon.vala
+#: src/system_daemon.vala
 msgid "Failed to synchronize any databases"
 msgstr "Nu s-au sincronizat bazele de date"
 
-#: ../src/system_daemon.vala
+#: src/system_daemon.vala
 msgid "Failed to init transaction"
 msgstr "Nu s-a inițializat tranzacția"
 
-#: ../src/system_daemon.vala
+#: src/system_daemon.vala
 msgid "Failed to prepare transaction"
 msgstr "Nu s-a pregătit tranzacția"
 
-#: ../src/system_daemon.vala
+#: src/system_daemon.vala
 #, c-format
 msgid "target not found: %s"
 msgstr "țintă negăsită: %s"
 
-#: ../src/system_daemon.vala
+#: src/system_daemon.vala
 #, c-format
 msgid "package %s does not have a valid architecture"
 msgstr "pachetul %s nu are o arhitectură validă"
 
-#: ../src/system_daemon.vala
+#: src/system_daemon.vala
 #, c-format
 msgid "unable to satisfy dependency '%s' required by %s"
 msgstr "Nu se poate satisface dependența '%s' ce este necesară pentru %s"
 
-#: ../src/system_daemon.vala
+#: src/system_daemon.vala
 #, c-format
 msgid "installing %s (%s) breaks dependency '%s' required by %s"
 msgstr "Instalarea %s (%s) afectează dependența '%s' ce este necesară pentru %s"
 
-#: ../src/system_daemon.vala
+#: src/system_daemon.vala
 #, c-format
 msgid "removing %s breaks dependency '%s' required by %s"
 msgstr "Eliminarea %s afectează dependența '%s' ce este  necesară pentru %s. "
 
-#: ../src/system_daemon.vala
+#: src/system_daemon.vala
 #, c-format
 msgid "%s and %s are in conflict"
 msgstr "%s și %s sunt în conflict"
 
-#: ../src/system_daemon.vala
+#: src/system_daemon.vala
 #, c-format
 msgid "%s needs to be removed but it is a locked package"
 msgstr "%s trebuie eliminat, dar este un pachet închis"
 
-#: ../src/system_daemon.vala
+#: src/system_daemon.vala
 msgid "Failed to commit transaction"
 msgstr "Nu s-a comis tranzacția"
 
-#: ../src/system_daemon.vala
+#: src/system_daemon.vala
 #, c-format
 msgid "%s exists in both %s and %s"
 msgstr "%s există și în %s și în %s"
 
-#: ../src/system_daemon.vala
+#: src/system_daemon.vala
 #, c-format
 msgid "%s: %s already exists in filesystem"
 msgstr "%s: %s există deja în sistem"
 
-#: ../src/system_daemon.vala
+#: src/system_daemon.vala
 #, c-format
 msgid "%s is invalid or corrupted"
 msgstr "%s este nevalid sau corupt"
 
-#: ../src/system_daemon.vala
+#: src/system_daemon.vala
 #, c-format
 msgid "%s appears to be truncated: %jd/%jd bytes\n"
 msgstr "%s pare a fi trunchiat: %jd/%jd biți\n"
 
-#: ../src/system_daemon.vala
+#: src/system_daemon.vala
 #, c-format
 msgid "failed retrieving file '%s' from %s : %s\n"
 msgstr "Nu s-a putut recupera fișierul '%s' din %s:%s\n"
 
-#: ../src/transaction.vala
+#: src/transaction.vala
 msgid "Copy"
 msgstr "Copiază"
 
-#: ../src/transaction.vala
+#: src/transaction.vala
 msgid "Refreshing mirrors list"
 msgstr "Se reîmprospătează lista de oglinzi"
 
-#: ../src/transaction.vala
+#: src/transaction.vala
 msgid "Synchronizing package databases"
 msgstr "Se sincronizează bazele de date ale pachetelor"
 
-#: ../src/transaction.vala
+#: src/transaction.vala
 msgid "Starting full system upgrade"
 msgstr "Se pornește actualizarea completă de sistem"
 
-#: ../src/transaction.vala
+#: src/transaction.vala
 msgid "Preparing"
 msgstr "Se prepară"
 
-#: ../src/transaction.vala
+#: src/transaction.vala
 #, c-format
 msgid "Choose a provider for %s"
 msgstr "Alegeți un furnizor pt. %s"
 
-#: ../src/transaction.vala
+#: src/transaction.vala
 msgid "To remove"
 msgstr "De eliminat"
 
-#: ../src/transaction.vala
+#: src/transaction.vala
 msgid "To downgrade"
 msgstr "De retrogradat"
 
-#: ../src/transaction.vala
+#: src/transaction.vala
 msgid "To build"
 msgstr "De construit"
 
-#: ../src/transaction.vala
+#: src/transaction.vala
 msgid "To install"
 msgstr "De instalat"
 
-#: ../src/transaction.vala
+#: src/transaction.vala
 msgid "To reinstall"
 msgstr "De reinstalat"
 
-#: ../src/transaction.vala
+#: src/transaction.vala
 msgid "To upgrade"
 msgstr "Actualizează"
 
-#: ../src/transaction.vala ../src/manager_window.vala
+#: src/transaction.vala src/manager_window.vala
 msgid "Total download size"
 msgstr "Mărimea totală a descărcării"
 
-#: ../src/transaction.vala
+#: src/transaction.vala
 #, c-format
 msgid "Building %s"
 msgstr "Se construiește 1%s"
 
-#: ../src/transaction.vala
+#: src/transaction.vala
 msgid "Transaction cancelled"
 msgstr "Tranzacție anulată"
 
-#: ../src/transaction.vala
+#: src/transaction.vala
 msgid "Checking dependencies"
 msgstr "Se verifică dependențele"
 
-#: ../src/transaction.vala
+#: src/transaction.vala
 msgid "Checking file conflicts"
 msgstr "Se analizează conflictele de fișiere"
 
-#: ../src/transaction.vala
+#: src/transaction.vala
 msgid "Resolving dependencies"
 msgstr "Se rezolvă dependențele"
 
-#: ../src/transaction.vala
+#: src/transaction.vala
 msgid "Checking inter-conflicts"
 msgstr "Se verifică inter-conflictele"
 
-#: ../src/transaction.vala
+#: src/transaction.vala
 #, c-format
 msgid "Installing %s"
 msgstr "Se instalează %s"
 
-#: ../src/transaction.vala
+#: src/transaction.vala
 #, c-format
 msgid "Upgrading %s"
 msgstr "Se actualizează %s"
 
-#: ../src/transaction.vala
+#: src/transaction.vala
 #, c-format
 msgid "Reinstalling %s"
 msgstr "Se reinstalează %s"
 
-#: ../src/transaction.vala
+#: src/transaction.vala
 #, c-format
 msgid "Downgrading %s"
 msgstr "Se retrogradează %s"
 
-#: ../src/transaction.vala
+#: src/transaction.vala
 #, c-format
 msgid "Removing %s"
 msgstr "Se elimină %s"
 
-#: ../src/transaction.vala
+#: src/transaction.vala
 msgid "Checking integrity"
 msgstr "Se verifică integritatea"
 
-#: ../src/transaction.vala
+#: src/transaction.vala
 msgid "Loading packages files"
 msgstr "Se încarcă fișierele pachetelor"
 
-#: ../src/transaction.vala
+#: src/transaction.vala
 msgid "Checking delta integrity"
 msgstr "Se verifică delta integritatea"
 
-#: ../src/transaction.vala
+#: src/transaction.vala
 msgid "Applying deltas"
 msgstr "Se aplică delta"
 
-#: ../src/transaction.vala
+#: src/transaction.vala
 #, c-format
 msgid "Generating %s with %s"
 msgstr "Se generează %s cu %s"
 
-#: ../src/transaction.vala
+#: src/transaction.vala
 msgid "Generation succeeded"
 msgstr "Generare reușită"
 
-#: ../src/transaction.vala
+#: src/transaction.vala
 msgid "Generation failed"
 msgstr "Generare eșuată"
 
-#: ../src/transaction.vala
+#: src/transaction.vala
 #, c-format
 msgid "Configuring %s"
 msgstr "Se configurează %s"
 
-#: ../src/transaction.vala
+#: src/transaction.vala
 msgid "Downloading"
 msgstr "Se descarcă"
 
-#: ../src/transaction.vala
+#: src/transaction.vala
 #, c-format
 msgid "Downloading %s"
 msgstr "Se descarcă %s"
 
-#: ../src/transaction.vala
+#: src/transaction.vala
 msgid "Checking available disk space"
 msgstr "Se verifică spațiul disponibil pe disc"
 
-#: ../src/transaction.vala
+#: src/transaction.vala
 #, c-format
 msgid "%s optionally requires %s"
 msgstr "%s cere opțional %s"
 
-#: ../src/transaction.vala
+#: src/transaction.vala
 #, c-format
 msgid "Database file for %s does not exist"
 msgstr "Fișierul de bază de date pt. %s nu există"
 
-#: ../src/transaction.vala
+#: src/transaction.vala
 msgid "Checking keyring"
 msgstr "Se verifică inelul de chei"
 
-#: ../src/transaction.vala
+#: src/transaction.vala
 msgid "Downloading required keys"
 msgstr "Se descarcă cheile necesare"
 
-#: ../src/transaction.vala
+#: src/transaction.vala
 #, c-format
 msgid "%s installed as %s.pacnew"
 msgstr "%s instalat ca %s.pacnew"
 
-#: ../src/transaction.vala
+#: src/transaction.vala
 #, c-format
 msgid "%s installed as %s.pacsave"
 msgstr "%s instalat ca %s.pacsave"
 
-#: ../src/transaction.vala
+#: src/transaction.vala
 msgid "Running pre-transaction hooks"
 msgstr ""
 
-#: ../src/transaction.vala
+#: src/transaction.vala
 msgid "Running post-transaction hooks"
 msgstr ""
 
-#: ../src/transaction.vala
+#: src/transaction.vala
 #, c-format
 msgid "About %u seconds remaining"
 msgstr "În jur de %u secunde rămase"
 
-#: ../src/transaction.vala
+#: src/transaction.vala
 #, c-format
 msgid "About %lu minute remaining"
 msgid_plural "About %lu minutes remaining"
@@ -331,53 +331,53 @@ msgstr[0] "În jur de un minut rămas"
 msgstr[1] "În jur de %lu minute rămase"
 msgstr[2] "În jur de %lu minute rămase"
 
-#: ../src/transaction.vala
+#: src/transaction.vala
 #, c-format
 msgid "Refreshing %s"
 msgstr "Se reîmprospătează %s"
 
-#: ../src/transaction.vala
+#: src/transaction.vala
 msgid "Error"
 msgstr "Eroare"
 
-#: ../src/transaction.vala
+#: src/transaction.vala
 msgid "Warning"
 msgstr "Atenție"
 
-#: ../src/transaction.vala ../resources/progress_dialog.ui
-#: ../resources/history_dialog.ui ../resources/preferences_dialog.ui
+#: src/transaction.vala resources/progress_dialog.ui
+#: resources/history_dialog.ui resources/preferences_dialog.ui
 msgid "_Close"
 msgstr "_Închide"
 
-#: ../src/transaction.vala
+#: src/transaction.vala
 msgid "Nothing to do"
 msgstr "Nimic de făcut"
 
-#: ../src/transaction.vala
+#: src/transaction.vala
 msgid "Transaction successfully finished"
 msgstr "Tranzacția s-a terminat cu succes"
 
-#: ../src/installer.vala ../src/manager.vala
+#: src/installer.vala src/manager.vala
 msgid "Pamac is already running"
 msgstr "Pamac rulează deja"
 
-#: ../src/installer.vala ../src/manager_window.vala
+#: src/installer.vala src/manager_window.vala
 msgid "Waiting for another package manager to quit"
 msgstr "Există un alt gestionar de pachete în așteptare"
 
-#: ../src/tray.vala ../src/manager_window.vala
+#: src/tray.vala src/manager_window.vala
 msgid "Your system is up-to-date"
 msgstr "Sistemul vostru este la zi"
 
-#: ../src/tray.vala ../src/manager_window.vala
+#: src/tray.vala src/manager_window.vala
 msgid "Package Manager"
 msgstr "Gestionar de pachete"
 
-#: ../src/tray.vala
+#: src/tray.vala
 msgid "_Quit"
 msgstr "_Ieșire"
 
-#: ../src/tray.vala
+#: src/tray.vala
 #, c-format
 msgid "%u available update"
 msgid_plural "%u available updates"
@@ -385,32 +385,36 @@ msgstr[0] "%u actualizare disponibilă"
 msgstr[1] "%u actualizări disponibile"
 msgstr[2] "%u de actualizări disponibile"
 
-#: ../src/tray.vala ../src/manager_window.vala ../resources/progress_dialog.ui
-#: ../resources/manager_window.ui
+#: src/tray.vala src/manager_window.vala resources/progress_dialog.ui
+#: resources/manager_window.ui
 msgid "Details"
 msgstr "Detalii"
 
-#: ../src/manager_window.vala
+#: src/manager_window.vala
 msgid "No package found"
 msgstr "Niciun pachet găsit"
 
-#: ../src/manager_window.vala
+#: src/manager_window.vala
+msgid "Checking for Updates"
+msgstr ""
+
+#: src/manager_window.vala
 msgid "Deselect"
 msgstr "Deselectează"
 
-#: ../src/manager_window.vala
+#: src/manager_window.vala
 msgid "Upgrade"
 msgstr "Se înnoiește"
 
-#: ../src/manager_window.vala ../resources/manager_window.ui
+#: src/manager_window.vala resources/manager_window.ui
 msgid "Install"
 msgstr "Instalează"
 
-#: ../src/manager_window.vala ../resources/manager_window.ui
+#: src/manager_window.vala resources/manager_window.ui
 msgid "Remove"
 msgstr "Elimină"
 
-#: ../src/manager_window.vala
+#: src/manager_window.vala
 #, c-format
 msgid "%u pending operation"
 msgid_plural "%u pending operations"
@@ -418,392 +422,391 @@ msgstr[0] "%uoperație în desfășurare"
 msgstr[1] "%uoperații în desfășurare"
 msgstr[2] "%uoperații în desfășurare"
 
-#: ../src/manager_window.vala ../resources/manager_window.ui
-msgid "Installed"
-msgstr "Instalate"
-
-#: ../src/manager_window.vala
-msgid "Orphans"
-msgstr "Orfani"
-
-#: ../src/manager_window.vala
-msgid "Foreign"
-msgstr "Alte pachete"
-
-#: ../src/manager_window.vala
-msgid "Accessories"
-msgstr "Accesorii"
-
-#: ../src/manager_window.vala
-msgid "Audio & Video"
-msgstr "Audio & video"
-
-#: ../src/manager_window.vala
-msgid "Development"
-msgstr "Dezvoltare"
-
-#: ../src/manager_window.vala
-msgid "Education"
-msgstr "Educație"
-
-#: ../src/manager_window.vala
-msgid "Games"
-msgstr "Jocuri"
-
-#: ../src/manager_window.vala
-msgid "Graphics"
-msgstr "Grafică"
-
-#: ../src/manager_window.vala
-msgid "Internet"
-msgstr "Internet"
-
-#: ../src/manager_window.vala
-msgid "Office"
-msgstr "Birou"
-
-#: ../src/manager_window.vala
-msgid "Science"
-msgstr "Știință"
-
-#: ../src/manager_window.vala
-msgid "Settings"
-msgstr "Setări"
-
-#: ../src/manager_window.vala
-msgid "System Tools"
-msgstr "Instrumente de sistem"
-
-#: ../src/manager_window.vala
-msgid "Install Reason"
-msgstr "Motivul instalării"
-
-#: ../src/manager_window.vala
-msgid "Mark as explicitly installed"
-msgstr "Marchează ca instalat explicit"
-
-#: ../src/manager_window.vala
-msgid "Licenses"
-msgstr "Licențe"
-
-#: ../src/manager_window.vala ../resources/manager_window.ui
-msgid "Repository"
-msgstr "Depozit"
-
-#: ../src/manager_window.vala ../resources/manager_window.ui
-msgid "Groups"
-msgstr "Grupe"
-
-#: ../src/manager_window.vala
-msgid "Packager"
-msgstr "Împachetator"
-
-#: ../src/manager_window.vala
-msgid "Build Date"
-msgstr "Data construirii"
-
-#: ../src/manager_window.vala
-msgid "Install Date"
-msgstr "Instalat la"
-
-#: ../src/manager_window.vala
-msgid "Signatures"
-msgstr "Semnături"
-
-#: ../src/manager_window.vala
-msgid "Backup files"
-msgstr "Copii de rezervă"
-
-#: ../src/manager_window.vala
-msgid "Depends On"
-msgstr "Depinde de"
-
-#: ../src/manager_window.vala
-msgid "Optional Dependencies"
-msgstr "Dependențe opționale"
-
-#: ../src/manager_window.vala
-msgid "Required By"
-msgstr "Necesar pentru"
-
-#: ../src/manager_window.vala
-msgid "Optional For"
-msgstr "Opțional pentru"
-
-#: ../src/manager_window.vala
-msgid "Provides"
-msgstr "Furnizează"
-
-#: ../src/manager_window.vala
-msgid "Replaces"
-msgstr "Înlocuiește"
-
-#: ../src/manager_window.vala
-msgid "Conflicts With"
-msgstr "Este în conflict cu"
-
-#: ../src/manager_window.vala
-msgid "Package Base"
-msgstr "Baza de pachete"
-
-#: ../src/manager_window.vala
-msgid "Maintainer"
-msgstr "Responsabil"
-
-#: ../src/manager_window.vala
-msgid "First Submitted"
-msgstr "Depus prima oară"
-
-#: ../src/manager_window.vala
-msgid "Last Modified"
-msgstr "Modificat ultima oară"
-
-#: ../src/manager_window.vala
-msgid "Votes"
-msgstr "Voturi"
-
-#: ../src/manager_window.vala
-msgid "Out of Date"
-msgstr "Învechit"
-
-#: ../src/manager_window.vala
-msgid "Make Dependencies"
-msgstr "Crează dependețele"
-
-#: ../src/manager_window.vala
-msgid "Check Dependencies"
-msgstr "Verifică dependențele"
-
-#: ../src/manager_window.vala ../resources/manager_window.ui
-msgid "Name"
-msgstr "Nume"
-
-#: ../src/manager_window.vala ../resources/manager_window.ui
-msgid "Install Local Packages"
-msgstr "Instalează pachete locale"
-
-#: ../src/manager_window.vala ../resources/transaction_sum_dialog.ui
-#: ../resources/manager_window.ui ../resources/choose_ignorepkgs_dialog.ui
-msgid "_Cancel"
-msgstr "_Anulează"
-
-#: ../src/manager_window.vala
-msgid "_Open"
-msgstr "_Deschide"
-
-#: ../src/manager_window.vala
-msgid "Alpm Package"
-msgstr "Pachet alpm"
-
-#: ../src/manager_window.vala
-msgid "A Gtk3 frontend for libalpm"
-msgstr "O interfață Gtk3 pentru libalpm"
-
-#: ../src/preferences_dialog.vala ../resources/preferences_dialog.ui
-msgid "How often to check for updates, value in hours"
-msgstr "Frecvența de verificare a actualizărilor, în ore"
-
-#: ../src/preferences_dialog.vala ../resources/preferences_dialog.ui
-msgid "Number of versions of each package to keep in the cache"
-msgstr "Numărul de versiuni ale fiecărui pachet de salvat în memoria cache "
-
-#: ../src/preferences_dialog.vala
-msgid "Build directory"
-msgstr "Construiește directorul"
-
-#: ../src/preferences_dialog.vala
-msgid "Worldwide"
-msgstr "Mondial"
-
-#: ../src/preferences_dialog.vala
-msgid "Speed"
-msgstr "Viteză"
-
-#: ../src/preferences_dialog.vala
-msgid "Random"
-msgstr "Aleatoriu"
-
-#: ../resources/choose_provider_dialog.ui
-msgid "Choose a Provider"
-msgstr "Alegeți un furnizor"
-
-#: ../resources/choose_provider_dialog.ui
-#: ../resources/choose_ignorepkgs_dialog.ui
-msgid "Choose"
-msgstr "Alege"
-
-#: ../resources/progress_dialog.ui
-msgid "Progress"
-msgstr "Progres"
-
-#: ../resources/history_dialog.ui
-msgid "Pamac History"
-msgstr "Istoric Pamac"
-
-#: ../resources/transaction_sum_dialog.ui
-msgid "Transaction Summary"
-msgstr "Sumar al tranzacției"
-
-#: ../resources/transaction_sum_dialog.ui
-msgid "Commit"
-msgstr "Comite"
-
-#: ../resources/manager_window.ui
-msgid "Refresh databases"
-msgstr "Reîmprospătează bazele de date"
-
-#: ../resources/manager_window.ui
-msgid "View History"
-msgstr "Vezi istoricul"
-
-#: ../resources/manager_window.ui ../resources/preferences_dialog.ui
-msgid "Preferences"
-msgstr "Preferințe"
-
-#: ../resources/manager_window.ui
-msgid "About"
-msgstr "Despre Pamac"
-
-#: ../resources/manager_window.ui
+#: src/manager_window.vala
 msgid "Categories"
 msgstr "Categorii"
 
-#: ../resources/manager_window.ui
+#: src/manager_window.vala
+msgid "Groups"
+msgstr "Grupe"
+
+#: src/manager_window.vala
 msgid "Repositories"
 msgstr "Depozite"
 
-#: ../resources/manager_window.ui
+#: src/manager_window.vala
+msgid "Installed"
+msgstr "Instalate"
+
+#: src/manager_window.vala
 msgid "Updates"
 msgstr "Actualizări"
 
-#: ../resources/manager_window.ui
+#: src/manager_window.vala
 msgid "Pending"
 msgstr "În așteptare"
 
-#: ../resources/manager_window.ui
-msgid "Search"
-msgstr "Caută"
+#: src/manager_window.vala
+msgid "Orphans"
+msgstr "Orfani"
 
-#: ../resources/manager_window.ui
-msgid "State"
-msgstr "Stare"
+#: src/manager_window.vala
+msgid "Foreign"
+msgstr "Alte pachete"
 
-#: ../resources/manager_window.ui
-msgid "Version"
-msgstr "Versiune"
+#: src/manager_window.vala
+msgid "Accessories"
+msgstr "Accesorii"
 
-#: ../resources/manager_window.ui
-msgid "Size"
-msgstr "Mărime"
+#: src/manager_window.vala
+msgid "Audio & Video"
+msgstr "Audio & video"
 
-#: ../resources/manager_window.ui
-msgid "Popularity"
-msgstr "Popularitate"
+#: src/manager_window.vala
+msgid "Development"
+msgstr "Dezvoltare"
 
-#: ../resources/manager_window.ui ../resources/preferences_dialog.ui
+#: src/manager_window.vala
+msgid "Education"
+msgstr "Educație"
+
+#: src/manager_window.vala
+msgid "Games"
+msgstr "Jocuri"
+
+#: src/manager_window.vala
+msgid "Graphics"
+msgstr "Grafică"
+
+#: src/manager_window.vala
+msgid "Internet"
+msgstr "Internet"
+
+#: src/manager_window.vala
+msgid "Office"
+msgstr "Birou"
+
+#: src/manager_window.vala
+msgid "Science"
+msgstr "Știință"
+
+#: src/manager_window.vala
+msgid "Settings"
+msgstr "Setări"
+
+#: src/manager_window.vala
+msgid "System Tools"
+msgstr "Instrumente de sistem"
+
+#: src/manager_window.vala resources/preferences_dialog.ui
 msgid "AUR"
 msgstr "AUR"
 
-#: ../resources/manager_window.ui
-msgid "Browse"
-msgstr "Navighează"
-
-#: ../resources/manager_window.ui
-msgid "Reinstall"
-msgstr "Reinstalează"
-
-#: ../resources/manager_window.ui
+#: src/manager_window.vala
 msgid "Dependencies"
 msgstr "Dependențe"
 
-#: ../resources/manager_window.ui
+#: src/manager_window.vala
 msgid "Files"
 msgstr "Fișiere"
 
-#: ../resources/manager_window.ui
+#: src/manager_window.vala
+msgid "Install Reason"
+msgstr "Motivul instalării"
+
+#: src/manager_window.vala
+msgid "Mark as explicitly installed"
+msgstr "Marchează ca instalat explicit"
+
+#: src/manager_window.vala
+msgid "Licenses"
+msgstr "Licențe"
+
+#: src/manager_window.vala resources/manager_window.ui
+msgid "Repository"
+msgstr "Depozit"
+
+#: src/manager_window.vala
+msgid "Packager"
+msgstr "Împachetator"
+
+#: src/manager_window.vala
+msgid "Build Date"
+msgstr "Data construirii"
+
+#: src/manager_window.vala
+msgid "Install Date"
+msgstr "Instalat la"
+
+#: src/manager_window.vala
+msgid "Signatures"
+msgstr "Semnături"
+
+#: src/manager_window.vala
+msgid "Backup files"
+msgstr "Copii de rezervă"
+
+#: src/manager_window.vala
+msgid "Depends On"
+msgstr "Depinde de"
+
+#: src/manager_window.vala
+msgid "Optional Dependencies"
+msgstr "Dependențe opționale"
+
+#: src/manager_window.vala
+msgid "Required By"
+msgstr "Necesar pentru"
+
+#: src/manager_window.vala
+msgid "Optional For"
+msgstr "Opțional pentru"
+
+#: src/manager_window.vala
+msgid "Provides"
+msgstr "Furnizează"
+
+#: src/manager_window.vala
+msgid "Replaces"
+msgstr "Înlocuiește"
+
+#: src/manager_window.vala
+msgid "Conflicts With"
+msgstr "Este în conflict cu"
+
+#: src/manager_window.vala
+msgid "Package Base"
+msgstr "Baza de pachete"
+
+#: src/manager_window.vala
+msgid "Maintainer"
+msgstr "Responsabil"
+
+#: src/manager_window.vala
+msgid "First Submitted"
+msgstr "Depus prima oară"
+
+#: src/manager_window.vala
+msgid "Last Modified"
+msgstr "Modificat ultima oară"
+
+#: src/manager_window.vala
+msgid "Votes"
+msgstr "Voturi"
+
+#: src/manager_window.vala
+msgid "Out of Date"
+msgstr "Învechit"
+
+#: src/manager_window.vala
+msgid "Make Dependencies"
+msgstr "Crează dependețele"
+
+#: src/manager_window.vala
+msgid "Check Dependencies"
+msgstr "Verifică dependențele"
+
+#: src/manager_window.vala resources/manager_window.ui
+msgid "Search"
+msgstr "Caută"
+
+#: src/manager_window.vala resources/manager_window.ui
+msgid "Name"
+msgstr "Nume"
+
+#: src/manager_window.vala resources/manager_window.ui
+msgid "Install Local Packages"
+msgstr "Instalează pachete locale"
+
+#: src/manager_window.vala resources/transaction_sum_dialog.ui
+#: resources/manager_window.ui resources/choose_ignorepkgs_dialog.ui
+msgid "_Cancel"
+msgstr "_Anulează"
+
+#: src/manager_window.vala
+msgid "_Open"
+msgstr "_Deschide"
+
+#: src/manager_window.vala
+msgid "Alpm Package"
+msgstr "Pachet alpm"
+
+#: src/manager_window.vala
+msgid "A Gtk3 frontend for libalpm"
+msgstr "O interfață Gtk3 pentru libalpm"
+
+#: src/preferences_dialog.vala resources/preferences_dialog.ui
+msgid "How often to check for updates, value in hours"
+msgstr "Frecvența de verificare a actualizărilor, în ore"
+
+#: src/preferences_dialog.vala resources/preferences_dialog.ui
+msgid "Number of versions of each package to keep in the cache"
+msgstr "Numărul de versiuni ale fiecărui pachet de salvat în memoria cache "
+
+#: src/preferences_dialog.vala
+msgid "Build directory"
+msgstr "Construiește directorul"
+
+#: src/preferences_dialog.vala
+msgid "Worldwide"
+msgstr "Mondial"
+
+#: src/preferences_dialog.vala
+msgid "Speed"
+msgstr "Viteză"
+
+#: src/preferences_dialog.vala
+msgid "Random"
+msgstr "Aleatoriu"
+
+#: resources/choose_provider_dialog.ui
+msgid "Choose a Provider"
+msgstr "Alegeți un furnizor"
+
+#: resources/choose_provider_dialog.ui resources/choose_ignorepkgs_dialog.ui
+msgid "Choose"
+msgstr "Alege"
+
+#: resources/progress_dialog.ui
+msgid "Progress"
+msgstr "Progres"
+
+#: resources/history_dialog.ui
+msgid "Pamac History"
+msgstr "Istoric Pamac"
+
+#: resources/transaction_sum_dialog.ui
+msgid "Transaction Summary"
+msgstr "Sumar al tranzacției"
+
+#: resources/transaction_sum_dialog.ui
+msgid "Commit"
+msgstr "Comite"
+
+#: resources/manager_window.ui
+msgid "Refresh databases"
+msgstr "Reîmprospătează bazele de date"
+
+#: resources/manager_window.ui
+msgid "View History"
+msgstr "Vezi istoricul"
+
+#: resources/manager_window.ui resources/preferences_dialog.ui
+msgid "Preferences"
+msgstr "Preferințe"
+
+#: resources/manager_window.ui
+msgid "About"
+msgstr "Despre Pamac"
+
+#: resources/manager_window.ui
+msgid "State"
+msgstr "Stare"
+
+#: resources/manager_window.ui
+msgid "Version"
+msgstr "Versiune"
+
+#: resources/manager_window.ui
+msgid "Size"
+msgstr "Mărime"
+
+#: resources/manager_window.ui
+msgid "Popularity"
+msgstr "Popularitate"
+
+#: resources/manager_window.ui
+msgid "Browse"
+msgstr "Navighează"
+
+#: resources/manager_window.ui
+msgid "Reinstall"
+msgstr "Reinstalează"
+
+#: resources/manager_window.ui
 msgid "_Apply"
 msgstr "_Aplică"
 
-#: ../resources/manager_window.ui
+#: resources/manager_window.ui
 msgid "Select All"
 msgstr "Selectează tot"
 
-#: ../resources/preferences_dialog.ui
+#: resources/preferences_dialog.ui
 msgid "Remove unrequired dependencies"
 msgstr "Elimină dependențe ce nu sunt necesare"
 
-#: ../resources/preferences_dialog.ui
+#: resources/preferences_dialog.ui
 msgid ""
 "When removing a package, also remove its dependencies that are not required "
 "by other packages"
 msgstr "Când se elimină un pachet, se vor elimina și acele dependențe ce nu sunt cerute de alte pachete"
 
-#: ../resources/preferences_dialog.ui
+#: resources/preferences_dialog.ui
 msgid "Check available disk space"
 msgstr "Verifică spațiul disponibil pe disc"
 
-#: ../resources/preferences_dialog.ui
+#: resources/preferences_dialog.ui
 msgid "Check for updates"
 msgstr "Verifică actualizări"
 
-#: ../resources/preferences_dialog.ui
+#: resources/preferences_dialog.ui
 msgid "Hide tray icon when no update available"
 msgstr "Ascunde iconița de notificare când nu există actualizări."
 
-#: ../resources/preferences_dialog.ui
+#: resources/preferences_dialog.ui
 msgid "Ignore upgrades for:"
 msgstr "Ignoră actualizări pentru:"
 
-#: ../resources/preferences_dialog.ui
+#: resources/preferences_dialog.ui
 msgid "General"
 msgstr "General"
 
-#: ../resources/preferences_dialog.ui
+#: resources/preferences_dialog.ui
 msgid "Use mirrors from:"
 msgstr "Folosește oglinzi din:"
 
-#: ../resources/preferences_dialog.ui
+#: resources/preferences_dialog.ui
 msgid "Sort mirrors by:"
 msgstr "Sortează oglinzi după:"
 
-#: ../resources/preferences_dialog.ui
+#: resources/preferences_dialog.ui
 msgid "Refresh Mirrors List"
 msgstr "Reîmprospătează lista de oglinzi"
 
-#: ../resources/preferences_dialog.ui
+#: resources/preferences_dialog.ui
 msgid "Official Repositories"
 msgstr "Depozite oficiale"
 
-#: ../resources/preferences_dialog.ui
+#: resources/preferences_dialog.ui
 msgid ""
 "AUR is a community maintained repository so it presents potential risks and problems.\n"
 "All AUR users should be familiar with the build process."
 msgstr "AUR este un depozit menținut de comunitate ce poate prezenta riscuri și probleme. Toți utilizatorii AUR ar trebui să cunoască procesul de construire."
 
-#: ../resources/preferences_dialog.ui
+#: resources/preferences_dialog.ui
 msgid "Enable AUR support"
 msgstr "Activează suport AUR"
 
-#: ../resources/preferences_dialog.ui
+#: resources/preferences_dialog.ui
 msgid "Allow Pamac to search and install packages from AUR"
 msgstr "Permite Pamac să caute și să instaleze pachete din AUR"
 
-#: ../resources/preferences_dialog.ui
+#: resources/preferences_dialog.ui
 msgid "Check for updates from AUR"
 msgstr "Verifică actualizări din AUR"
 
-#: ../resources/preferences_dialog.ui
+#: resources/preferences_dialog.ui
 msgid "Remove only the versions of uninstalled packages"
 msgstr "Șterge doar versiunile pachetelor neinstalate"
 
-#: ../resources/preferences_dialog.ui
+#: resources/preferences_dialog.ui
 msgid "Clean cache"
 msgstr "Curăță memoria cache"
 
-#: ../resources/preferences_dialog.ui
+#: resources/preferences_dialog.ui
 msgid "Cache"
 msgstr "Memoria cache"
 
-#: ../resources/choose_ignorepkgs_dialog.ui
+#: resources/choose_ignorepkgs_dialog.ui
 msgid "Choose Ignored Upgrades"
 msgstr "Alege actualizări ignorate"

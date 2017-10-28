@@ -14,8 +14,8 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2017-09-09 09:46+0200\n"
-"PO-Revision-Date: 2017-09-23 21:02+0000\n"
-"Last-Translator: Heimen Stoffels <vistausss@outlook.com>\n"
+"PO-Revision-Date: 2017-10-28 08:25+0000\n"
+"Last-Translator: Guillaume Benoit <guillaume@manjaro.org>\n"
 "Language-Team: Dutch (Netherlands) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/nl_NL/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -23,783 +23,786 @@ msgstr ""
 "Language: nl_NL\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: data/polkit/org.manjaro.pamac.policy
+#: data/polkit/org.manjaro.pamac.policy.in
 msgid "Authentication is required"
 msgstr "Authenticatie vereist"
 
-#: ../src/user_daemon.vala
+#: src/user_daemon.vala
 msgid "Unknown"
 msgstr "Onbekend"
 
-#: ../src/user_daemon.vala ../src/manager_window.vala
+#: src/user_daemon.vala src/manager_window.vala
 msgid "Explicitly installed"
 msgstr "Expliciet geïnstalleerd"
 
-#: ../src/user_daemon.vala ../src/manager_window.vala
+#: src/user_daemon.vala src/manager_window.vala
 msgid "Installed as a dependency for another package"
 msgstr "Geïnstalleerd als afhankelijkheid van een ander pakket"
 
-#: ../src/user_daemon.vala
+#: src/user_daemon.vala
 msgid "Yes"
 msgstr "Ja"
 
-#: ../src/user_daemon.vala
+#: src/user_daemon.vala
 msgid "No"
 msgstr "Nee"
 
-#: ../src/system_daemon.vala
+#: src/system_daemon.vala
 msgid "Failed to initialize alpm library"
 msgstr "Het initialiseren van de alpm-bibliotheek is mislukt"
 
-#: ../src/system_daemon.vala ../src/transaction.vala
+#: src/system_daemon.vala src/transaction.vala
 msgid "Authentication failed"
 msgstr "Authenticatie mislukt"
 
-#: ../src/system_daemon.vala
+#: src/system_daemon.vala
 msgid "Failed to synchronize any databases"
 msgstr "Het synchroniseren van de databases is mislukt"
 
-#: ../src/system_daemon.vala
+#: src/system_daemon.vala
 msgid "Failed to init transaction"
 msgstr "Het initialiseren van de overdracht is mislukt"
 
-#: ../src/system_daemon.vala
+#: src/system_daemon.vala
 msgid "Failed to prepare transaction"
 msgstr "Het voorbereiden van de overdracht is mislukt"
 
-#: ../src/system_daemon.vala
+#: src/system_daemon.vala
 #, c-format
 msgid "target not found: %s"
 msgstr "het doel kan niet worden gevonden: %s"
 
-#: ../src/system_daemon.vala
+#: src/system_daemon.vala
 #, c-format
 msgid "package %s does not have a valid architecture"
 msgstr "pakket %s bevat een ongeldige architectuur"
 
-#: ../src/system_daemon.vala
+#: src/system_daemon.vala
 #, c-format
 msgid "unable to satisfy dependency '%s' required by %s"
 msgstr "niet in staat om te voldoen aan afhankelijkheid '%s', vereist voor %s"
 
-#: ../src/system_daemon.vala
+#: src/system_daemon.vala
 #, c-format
 msgid "installing %s (%s) breaks dependency '%s' required by %s"
 msgstr "installeren van %s (%s) doorbreekt afhankelijkheid '%s', vereist voor %s"
 
-#: ../src/system_daemon.vala
+#: src/system_daemon.vala
 #, c-format
 msgid "removing %s breaks dependency '%s' required by %s"
 msgstr "verwijderen van %s doorbreekt afhankelijkheid '%s', vereist voor %s"
 
-#: ../src/system_daemon.vala
+#: src/system_daemon.vala
 #, c-format
 msgid "%s and %s are in conflict"
 msgstr "%s en %s conflicteren"
 
-#: ../src/system_daemon.vala
+#: src/system_daemon.vala
 #, c-format
 msgid "%s needs to be removed but it is a locked package"
 msgstr "%s moet worden verwijderd maar het pakket is vergrendeld"
 
-#: ../src/system_daemon.vala
+#: src/system_daemon.vala
 msgid "Failed to commit transaction"
 msgstr "Het uitvoeren van de overdracht is mislukt"
 
-#: ../src/system_daemon.vala
+#: src/system_daemon.vala
 #, c-format
 msgid "%s exists in both %s and %s"
 msgstr "%s is aanwezig in zowel %s als %s"
 
-#: ../src/system_daemon.vala
+#: src/system_daemon.vala
 #, c-format
 msgid "%s: %s already exists in filesystem"
 msgstr "%s: %s is al aanwezig op het bestandssysteem"
 
-#: ../src/system_daemon.vala
+#: src/system_daemon.vala
 #, c-format
 msgid "%s is invalid or corrupted"
 msgstr "%s is ongeldig of beschadigd"
 
-#: ../src/system_daemon.vala
+#: src/system_daemon.vala
 #, c-format
 msgid "%s appears to be truncated: %jd/%jd bytes\n"
 msgstr "%s lijkt afgebroken te zijn: %jd/%jd bytes\n"
 
-#: ../src/system_daemon.vala
+#: src/system_daemon.vala
 #, c-format
 msgid "failed retrieving file '%s' from %s : %s\n"
 msgstr "het ophalen van het bestand '%s' vanaf %s is mislukt : %s\n"
 
-#: ../src/transaction.vala
+#: src/transaction.vala
 msgid "Copy"
 msgstr "Kopiëren"
 
-#: ../src/transaction.vala
+#: src/transaction.vala
 msgid "Refreshing mirrors list"
 msgstr "Bezig met vernieuwen van spiegelserverlijst"
 
-#: ../src/transaction.vala
+#: src/transaction.vala
 msgid "Synchronizing package databases"
 msgstr "Bezig met synchroniseren van de pakketdatabases"
 
-#: ../src/transaction.vala
+#: src/transaction.vala
 msgid "Starting full system upgrade"
 msgstr "Bezig met starten van volledige systeembijwerking"
 
-#: ../src/transaction.vala
+#: src/transaction.vala
 msgid "Preparing"
 msgstr "Bezig met voorbereiden"
 
-#: ../src/transaction.vala
+#: src/transaction.vala
 #, c-format
 msgid "Choose a provider for %s"
 msgstr "Kies een leverancier voor %s"
 
-#: ../src/transaction.vala
+#: src/transaction.vala
 msgid "To remove"
 msgstr "Te verwijderen"
 
-#: ../src/transaction.vala
+#: src/transaction.vala
 msgid "To downgrade"
 msgstr "Te verlagen in versie"
 
-#: ../src/transaction.vala
+#: src/transaction.vala
 msgid "To build"
 msgstr "Te bouwen"
 
-#: ../src/transaction.vala
+#: src/transaction.vala
 msgid "To install"
 msgstr "Te installeren"
 
-#: ../src/transaction.vala
+#: src/transaction.vala
 msgid "To reinstall"
 msgstr "Te herinstalleren"
 
-#: ../src/transaction.vala
+#: src/transaction.vala
 msgid "To upgrade"
 msgstr "Te upgraden"
 
-#: ../src/transaction.vala ../src/manager_window.vala
+#: src/transaction.vala src/manager_window.vala
 msgid "Total download size"
 msgstr "Totale downloadgrootte"
 
-#: ../src/transaction.vala
+#: src/transaction.vala
 #, c-format
 msgid "Building %s"
 msgstr "Bezig met bouwen van %s"
 
-#: ../src/transaction.vala
+#: src/transaction.vala
 msgid "Transaction cancelled"
 msgstr "De overdracht is geannuleerd"
 
-#: ../src/transaction.vala
+#: src/transaction.vala
 msgid "Checking dependencies"
 msgstr "Bezig met controleren van afhankelijkheden"
 
-#: ../src/transaction.vala
+#: src/transaction.vala
 msgid "Checking file conflicts"
 msgstr "Bezig met controleren van bestandsconflicten"
 
-#: ../src/transaction.vala
+#: src/transaction.vala
 msgid "Resolving dependencies"
 msgstr "Bezig met oplossen van afhankelijkheden"
 
-#: ../src/transaction.vala
+#: src/transaction.vala
 msgid "Checking inter-conflicts"
 msgstr "Bezig met controleren van interne conflicten"
 
-#: ../src/transaction.vala
+#: src/transaction.vala
 #, c-format
 msgid "Installing %s"
 msgstr "Bezig met installeren van %s"
 
-#: ../src/transaction.vala
+#: src/transaction.vala
 #, c-format
 msgid "Upgrading %s"
 msgstr "Bezig met bijwerken van %s"
 
-#: ../src/transaction.vala
+#: src/transaction.vala
 #, c-format
 msgid "Reinstalling %s"
 msgstr "Bezig met herinstalleren van %s"
 
-#: ../src/transaction.vala
+#: src/transaction.vala
 #, c-format
 msgid "Downgrading %s"
 msgstr "Bezig met verlagen van versie van %s"
 
-#: ../src/transaction.vala
+#: src/transaction.vala
 #, c-format
 msgid "Removing %s"
 msgstr "Bezig met verwijderen van %s"
 
-#: ../src/transaction.vala
+#: src/transaction.vala
 msgid "Checking integrity"
 msgstr "Bezig met controleren van integriteit"
 
-#: ../src/transaction.vala
+#: src/transaction.vala
 msgid "Loading packages files"
 msgstr "Bezig met laden van pakketbestanden"
 
-#: ../src/transaction.vala
+#: src/transaction.vala
 msgid "Checking delta integrity"
 msgstr "Bezig met controleren van delta-integriteit"
 
-#: ../src/transaction.vala
+#: src/transaction.vala
 msgid "Applying deltas"
 msgstr "Bezig met toepassen van delta's"
 
-#: ../src/transaction.vala
+#: src/transaction.vala
 #, c-format
 msgid "Generating %s with %s"
 msgstr "Bezig met genereren van %s met %s"
 
-#: ../src/transaction.vala
+#: src/transaction.vala
 msgid "Generation succeeded"
 msgstr "Het genereren is gelukt"
 
-#: ../src/transaction.vala
+#: src/transaction.vala
 msgid "Generation failed"
 msgstr "Het genereren is mislukt"
 
-#: ../src/transaction.vala
+#: src/transaction.vala
 #, c-format
 msgid "Configuring %s"
 msgstr "Bezig met instellen van %s"
 
-#: ../src/transaction.vala
+#: src/transaction.vala
 msgid "Downloading"
 msgstr "Bezig met downloaden"
 
-#: ../src/transaction.vala
+#: src/transaction.vala
 #, c-format
 msgid "Downloading %s"
 msgstr "Bezig met downloaden van %s"
 
-#: ../src/transaction.vala
+#: src/transaction.vala
 msgid "Checking available disk space"
 msgstr "Bezig met controleren van beschikbare schijfruimte"
 
-#: ../src/transaction.vala
+#: src/transaction.vala
 #, c-format
 msgid "%s optionally requires %s"
 msgstr "%s vereist %s (optioneel)"
 
-#: ../src/transaction.vala
+#: src/transaction.vala
 #, c-format
 msgid "Database file for %s does not exist"
 msgstr "Het databasebestand van %s bestaat niet"
 
-#: ../src/transaction.vala
+#: src/transaction.vala
 msgid "Checking keyring"
 msgstr "Bezig met controleren van sleutelbos"
 
-#: ../src/transaction.vala
+#: src/transaction.vala
 msgid "Downloading required keys"
 msgstr "Bezig met downloaden van vereiste sleutels"
 
-#: ../src/transaction.vala
+#: src/transaction.vala
 #, c-format
 msgid "%s installed as %s.pacnew"
 msgstr "%s is geïnstalleerd als %s.pacnew"
 
-#: ../src/transaction.vala
+#: src/transaction.vala
 #, c-format
 msgid "%s installed as %s.pacsave"
 msgstr "%s is geïnstalleerd als %s.pacsave"
 
-#: ../src/transaction.vala
+#: src/transaction.vala
 msgid "Running pre-transaction hooks"
 msgstr "Bezig met uitvoeren van voorbereiding van overdracht"
 
-#: ../src/transaction.vala
+#: src/transaction.vala
 msgid "Running post-transaction hooks"
 msgstr "Bezig met uitvoeren van afhandeling van overdracht"
 
-#: ../src/transaction.vala
+#: src/transaction.vala
 #, c-format
 msgid "About %u seconds remaining"
 msgstr "Nog ongeveer %u seconden te gaan"
 
-#: ../src/transaction.vala
+#: src/transaction.vala
 #, c-format
 msgid "About %lu minute remaining"
 msgid_plural "About %lu minutes remaining"
 msgstr[0] "Nog ongeveer %lu minuut te gaan"
 msgstr[1] "Nog ongeveer %lu minuten te gaan"
 
-#: ../src/transaction.vala
+#: src/transaction.vala
 #, c-format
 msgid "Refreshing %s"
 msgstr "Bezig met vernieuwen van %s"
 
-#: ../src/transaction.vala
+#: src/transaction.vala
 msgid "Error"
 msgstr "Fout"
 
-#: ../src/transaction.vala
+#: src/transaction.vala
 msgid "Warning"
 msgstr "Waarschuwing"
 
-#: ../src/transaction.vala ../resources/progress_dialog.ui
-#: ../resources/history_dialog.ui ../resources/preferences_dialog.ui
+#: src/transaction.vala resources/progress_dialog.ui
+#: resources/history_dialog.ui resources/preferences_dialog.ui
 msgid "_Close"
 msgstr "_Sluiten"
 
-#: ../src/transaction.vala
+#: src/transaction.vala
 msgid "Nothing to do"
 msgstr "Niets te doen"
 
-#: ../src/transaction.vala
+#: src/transaction.vala
 msgid "Transaction successfully finished"
 msgstr "De overdracht is succesvol afgerond"
 
-#: ../src/installer.vala ../src/manager.vala
+#: src/installer.vala src/manager.vala
 msgid "Pamac is already running"
 msgstr "Pamac draait al"
 
-#: ../src/installer.vala ../src/manager_window.vala
+#: src/installer.vala src/manager_window.vala
 msgid "Waiting for another package manager to quit"
 msgstr "Bezig met wachten op het afsluiten van een andere pakketbeheerder"
 
-#: ../src/tray.vala ../src/manager_window.vala
+#: src/tray.vala src/manager_window.vala
 msgid "Your system is up-to-date"
 msgstr "Uw systeem is bijgewerkt"
 
-#: ../src/tray.vala ../src/manager_window.vala
+#: src/tray.vala src/manager_window.vala
 msgid "Package Manager"
 msgstr "Pakketbeheer"
 
-#: ../src/tray.vala
+#: src/tray.vala
 msgid "_Quit"
 msgstr "_Afsluiten"
 
-#: ../src/tray.vala
+#: src/tray.vala
 #, c-format
 msgid "%u available update"
 msgid_plural "%u available updates"
 msgstr[0] "%u beschikbare update"
 msgstr[1] "%u beschikbare updates"
 
-#: ../src/tray.vala ../src/manager_window.vala ../resources/progress_dialog.ui
-#: ../resources/manager_window.ui
+#: src/tray.vala src/manager_window.vala resources/progress_dialog.ui
+#: resources/manager_window.ui
 msgid "Details"
 msgstr "Details"
 
-#: ../src/manager_window.vala
+#: src/manager_window.vala
 msgid "No package found"
 msgstr "Geen pakket gevonden"
 
-#: ../src/manager_window.vala
+#: src/manager_window.vala
+msgid "Checking for Updates"
+msgstr ""
+
+#: src/manager_window.vala
 msgid "Deselect"
 msgstr "Deselecteren"
 
-#: ../src/manager_window.vala
+#: src/manager_window.vala
 msgid "Upgrade"
 msgstr "Bijwerken"
 
-#: ../src/manager_window.vala ../resources/manager_window.ui
+#: src/manager_window.vala resources/manager_window.ui
 msgid "Install"
 msgstr "Installeren"
 
-#: ../src/manager_window.vala ../resources/manager_window.ui
+#: src/manager_window.vala resources/manager_window.ui
 msgid "Remove"
 msgstr "Verwijderen"
 
-#: ../src/manager_window.vala
+#: src/manager_window.vala
 #, c-format
 msgid "%u pending operation"
 msgid_plural "%u pending operations"
 msgstr[0] "%u opdracht in de wachtrij"
 msgstr[1] "%u opdrachten in de wachtrij"
 
-#: ../src/manager_window.vala ../resources/manager_window.ui
-msgid "Installed"
-msgstr "Geïnstalleerd"
-
-#: ../src/manager_window.vala
-msgid "Orphans"
-msgstr "Weespakketten"
-
-#: ../src/manager_window.vala
-msgid "Foreign"
-msgstr "Derde partij-pakketten"
-
-#: ../src/manager_window.vala
-msgid "Accessories"
-msgstr "Accesoires"
-
-#: ../src/manager_window.vala
-msgid "Audio & Video"
-msgstr "Audio & Video"
-
-#: ../src/manager_window.vala
-msgid "Development"
-msgstr "Ontwikkeling"
-
-#: ../src/manager_window.vala
-msgid "Education"
-msgstr "Educatie"
-
-#: ../src/manager_window.vala
-msgid "Games"
-msgstr "Spelle"
-
-#: ../src/manager_window.vala
-msgid "Graphics"
-msgstr "Grafisch"
-
-#: ../src/manager_window.vala
-msgid "Internet"
-msgstr "Internet"
-
-#: ../src/manager_window.vala
-msgid "Office"
-msgstr "Kantoor"
-
-#: ../src/manager_window.vala
-msgid "Science"
-msgstr "Wetenschap"
-
-#: ../src/manager_window.vala
-msgid "Settings"
-msgstr "Instellingen"
-
-#: ../src/manager_window.vala
-msgid "System Tools"
-msgstr "Systeemhulpmiddelen"
-
-#: ../src/manager_window.vala
-msgid "Install Reason"
-msgstr "Installatiereden"
-
-#: ../src/manager_window.vala
-msgid "Mark as explicitly installed"
-msgstr "Markeren als expliciet geïnstalleerd"
-
-#: ../src/manager_window.vala
-msgid "Licenses"
-msgstr "Licenties"
-
-#: ../src/manager_window.vala ../resources/manager_window.ui
-msgid "Repository"
-msgstr "Pakketbron"
-
-#: ../src/manager_window.vala ../resources/manager_window.ui
-msgid "Groups"
-msgstr "Groepen"
-
-#: ../src/manager_window.vala
-msgid "Packager"
-msgstr "Bouwer"
-
-#: ../src/manager_window.vala
-msgid "Build Date"
-msgstr "Bouwdatu"
-
-#: ../src/manager_window.vala
-msgid "Install Date"
-msgstr "Installatiedatum"
-
-#: ../src/manager_window.vala
-msgid "Signatures"
-msgstr "Handtekeningen"
-
-#: ../src/manager_window.vala
-msgid "Backup files"
-msgstr "Back-upbestanden"
-
-#: ../src/manager_window.vala
-msgid "Depends On"
-msgstr "Is afhankelijk van"
-
-#: ../src/manager_window.vala
-msgid "Optional Dependencies"
-msgstr "Optionele afhankelijkheden"
-
-#: ../src/manager_window.vala
-msgid "Required By"
-msgstr "Vereist door"
-
-#: ../src/manager_window.vala
-msgid "Optional For"
-msgstr "Optioneel voor"
-
-#: ../src/manager_window.vala
-msgid "Provides"
-msgstr "Stelt beschikbaar"
-
-#: ../src/manager_window.vala
-msgid "Replaces"
-msgstr "Vervangt"
-
-#: ../src/manager_window.vala
-msgid "Conflicts With"
-msgstr "Conflicteert met"
-
-#: ../src/manager_window.vala
-msgid "Package Base"
-msgstr "Pakketgroep"
-
-#: ../src/manager_window.vala
-msgid "Maintainer"
-msgstr "Beheerder"
-
-#: ../src/manager_window.vala
-msgid "First Submitted"
-msgstr "Voor het eerst toegevoegd op"
-
-#: ../src/manager_window.vala
-msgid "Last Modified"
-msgstr "Laatst bijgewerkt op"
-
-#: ../src/manager_window.vala
-msgid "Votes"
-msgstr "Stemmen"
-
-#: ../src/manager_window.vala
-msgid "Out of Date"
-msgstr "Verouderd"
-
-#: ../src/manager_window.vala
-msgid "Make Dependencies"
-msgstr "Afhankelijkheden bouwen"
-
-#: ../src/manager_window.vala
-msgid "Check Dependencies"
-msgstr "Afhankelijkheden controleren"
-
-#: ../src/manager_window.vala ../resources/manager_window.ui
-msgid "Name"
-msgstr "Naam"
-
-#: ../src/manager_window.vala ../resources/manager_window.ui
-msgid "Install Local Packages"
-msgstr "Installeer lokale pakketten"
-
-#: ../src/manager_window.vala ../resources/transaction_sum_dialog.ui
-#: ../resources/manager_window.ui ../resources/choose_ignorepkgs_dialog.ui
-msgid "_Cancel"
-msgstr "_Annuleren"
-
-#: ../src/manager_window.vala
-msgid "_Open"
-msgstr "_Openen"
-
-#: ../src/manager_window.vala
-msgid "Alpm Package"
-msgstr "Alpm-pakket"
-
-#: ../src/manager_window.vala
-msgid "A Gtk3 frontend for libalpm"
-msgstr "Een GTK3-frontend voor libalpm"
-
-#: ../src/preferences_dialog.vala ../resources/preferences_dialog.ui
-msgid "How often to check for updates, value in hours"
-msgstr "Hoe vaak moet er worden gecontroleerd op updates? (waarde in uren)"
-
-#: ../src/preferences_dialog.vala ../resources/preferences_dialog.ui
-msgid "Number of versions of each package to keep in the cache"
-msgstr "Aantal in de cache te houden versies van elk pakket"
-
-#: ../src/preferences_dialog.vala
-msgid "Build directory"
-msgstr "Bouwmap"
-
-#: ../src/preferences_dialog.vala
-msgid "Worldwide"
-msgstr "Wereldwijd"
-
-#: ../src/preferences_dialog.vala
-msgid "Speed"
-msgstr "Snelheid"
-
-#: ../src/preferences_dialog.vala
-msgid "Random"
-msgstr "Willekeurig"
-
-#: ../resources/choose_provider_dialog.ui
-msgid "Choose a Provider"
-msgstr "Kies een leverancier"
-
-#: ../resources/choose_provider_dialog.ui
-#: ../resources/choose_ignorepkgs_dialog.ui
-msgid "Choose"
-msgstr "Kiezen"
-
-#: ../resources/progress_dialog.ui
-msgid "Progress"
-msgstr "Voortgang"
-
-#: ../resources/history_dialog.ui
-msgid "Pamac History"
-msgstr "Pamac-geschiedenis"
-
-#: ../resources/transaction_sum_dialog.ui
-msgid "Transaction Summary"
-msgstr "Overdrachtsamenvatting"
-
-#: ../resources/transaction_sum_dialog.ui
-msgid "Commit"
-msgstr "Uitvoeren"
-
-#: ../resources/manager_window.ui
-msgid "Refresh databases"
-msgstr "Databases vernieuwen"
-
-#: ../resources/manager_window.ui
-msgid "View History"
-msgstr "Geschiedenis weergeven"
-
-#: ../resources/manager_window.ui ../resources/preferences_dialog.ui
-msgid "Preferences"
-msgstr "Voorkeuren"
-
-#: ../resources/manager_window.ui
-msgid "About"
-msgstr "Over"
-
-#: ../resources/manager_window.ui
+#: src/manager_window.vala
 msgid "Categories"
 msgstr "Categorieën"
 
-#: ../resources/manager_window.ui
+#: src/manager_window.vala
+msgid "Groups"
+msgstr "Groepen"
+
+#: src/manager_window.vala
 msgid "Repositories"
 msgstr "Pakketbronnen"
 
-#: ../resources/manager_window.ui
+#: src/manager_window.vala
+msgid "Installed"
+msgstr "Geïnstalleerd"
+
+#: src/manager_window.vala
 msgid "Updates"
 msgstr "Updates"
 
-#: ../resources/manager_window.ui
+#: src/manager_window.vala
 msgid "Pending"
 msgstr "In wachtrij"
 
-#: ../resources/manager_window.ui
-msgid "Search"
-msgstr "Zoeken"
+#: src/manager_window.vala
+msgid "Orphans"
+msgstr "Weespakketten"
 
-#: ../resources/manager_window.ui
-msgid "State"
-msgstr "Status"
+#: src/manager_window.vala
+msgid "Foreign"
+msgstr "Derde partij-pakketten"
 
-#: ../resources/manager_window.ui
-msgid "Version"
-msgstr "Versie"
+#: src/manager_window.vala
+msgid "Accessories"
+msgstr "Accesoires"
 
-#: ../resources/manager_window.ui
-msgid "Size"
-msgstr "Grootte"
+#: src/manager_window.vala
+msgid "Audio & Video"
+msgstr "Audio & Video"
 
-#: ../resources/manager_window.ui
-msgid "Popularity"
-msgstr "Populariteit"
+#: src/manager_window.vala
+msgid "Development"
+msgstr "Ontwikkeling"
 
-#: ../resources/manager_window.ui ../resources/preferences_dialog.ui
+#: src/manager_window.vala
+msgid "Education"
+msgstr "Educatie"
+
+#: src/manager_window.vala
+msgid "Games"
+msgstr "Spelle"
+
+#: src/manager_window.vala
+msgid "Graphics"
+msgstr "Grafisch"
+
+#: src/manager_window.vala
+msgid "Internet"
+msgstr "Internet"
+
+#: src/manager_window.vala
+msgid "Office"
+msgstr "Kantoor"
+
+#: src/manager_window.vala
+msgid "Science"
+msgstr "Wetenschap"
+
+#: src/manager_window.vala
+msgid "Settings"
+msgstr "Instellingen"
+
+#: src/manager_window.vala
+msgid "System Tools"
+msgstr "Systeemhulpmiddelen"
+
+#: src/manager_window.vala resources/preferences_dialog.ui
 msgid "AUR"
 msgstr "AUR"
 
-#: ../resources/manager_window.ui
-msgid "Browse"
-msgstr "Bladeren"
-
-#: ../resources/manager_window.ui
-msgid "Reinstall"
-msgstr "Opnieuw installeren"
-
-#: ../resources/manager_window.ui
+#: src/manager_window.vala
 msgid "Dependencies"
 msgstr "Afhankelijkheden"
 
-#: ../resources/manager_window.ui
+#: src/manager_window.vala
 msgid "Files"
 msgstr "Bestanden"
 
-#: ../resources/manager_window.ui
+#: src/manager_window.vala
+msgid "Install Reason"
+msgstr "Installatiereden"
+
+#: src/manager_window.vala
+msgid "Mark as explicitly installed"
+msgstr "Markeren als expliciet geïnstalleerd"
+
+#: src/manager_window.vala
+msgid "Licenses"
+msgstr "Licenties"
+
+#: src/manager_window.vala resources/manager_window.ui
+msgid "Repository"
+msgstr "Pakketbron"
+
+#: src/manager_window.vala
+msgid "Packager"
+msgstr "Bouwer"
+
+#: src/manager_window.vala
+msgid "Build Date"
+msgstr "Bouwdatu"
+
+#: src/manager_window.vala
+msgid "Install Date"
+msgstr "Installatiedatum"
+
+#: src/manager_window.vala
+msgid "Signatures"
+msgstr "Handtekeningen"
+
+#: src/manager_window.vala
+msgid "Backup files"
+msgstr "Back-upbestanden"
+
+#: src/manager_window.vala
+msgid "Depends On"
+msgstr "Is afhankelijk van"
+
+#: src/manager_window.vala
+msgid "Optional Dependencies"
+msgstr "Optionele afhankelijkheden"
+
+#: src/manager_window.vala
+msgid "Required By"
+msgstr "Vereist door"
+
+#: src/manager_window.vala
+msgid "Optional For"
+msgstr "Optioneel voor"
+
+#: src/manager_window.vala
+msgid "Provides"
+msgstr "Stelt beschikbaar"
+
+#: src/manager_window.vala
+msgid "Replaces"
+msgstr "Vervangt"
+
+#: src/manager_window.vala
+msgid "Conflicts With"
+msgstr "Conflicteert met"
+
+#: src/manager_window.vala
+msgid "Package Base"
+msgstr "Pakketgroep"
+
+#: src/manager_window.vala
+msgid "Maintainer"
+msgstr "Beheerder"
+
+#: src/manager_window.vala
+msgid "First Submitted"
+msgstr "Voor het eerst toegevoegd op"
+
+#: src/manager_window.vala
+msgid "Last Modified"
+msgstr "Laatst bijgewerkt op"
+
+#: src/manager_window.vala
+msgid "Votes"
+msgstr "Stemmen"
+
+#: src/manager_window.vala
+msgid "Out of Date"
+msgstr "Verouderd"
+
+#: src/manager_window.vala
+msgid "Make Dependencies"
+msgstr "Afhankelijkheden bouwen"
+
+#: src/manager_window.vala
+msgid "Check Dependencies"
+msgstr "Afhankelijkheden controleren"
+
+#: src/manager_window.vala resources/manager_window.ui
+msgid "Search"
+msgstr "Zoeken"
+
+#: src/manager_window.vala resources/manager_window.ui
+msgid "Name"
+msgstr "Naam"
+
+#: src/manager_window.vala resources/manager_window.ui
+msgid "Install Local Packages"
+msgstr "Installeer lokale pakketten"
+
+#: src/manager_window.vala resources/transaction_sum_dialog.ui
+#: resources/manager_window.ui resources/choose_ignorepkgs_dialog.ui
+msgid "_Cancel"
+msgstr "_Annuleren"
+
+#: src/manager_window.vala
+msgid "_Open"
+msgstr "_Openen"
+
+#: src/manager_window.vala
+msgid "Alpm Package"
+msgstr "Alpm-pakket"
+
+#: src/manager_window.vala
+msgid "A Gtk3 frontend for libalpm"
+msgstr "Een GTK3-frontend voor libalpm"
+
+#: src/preferences_dialog.vala resources/preferences_dialog.ui
+msgid "How often to check for updates, value in hours"
+msgstr "Hoe vaak moet er worden gecontroleerd op updates? (waarde in uren)"
+
+#: src/preferences_dialog.vala resources/preferences_dialog.ui
+msgid "Number of versions of each package to keep in the cache"
+msgstr "Aantal in de cache te houden versies van elk pakket"
+
+#: src/preferences_dialog.vala
+msgid "Build directory"
+msgstr "Bouwmap"
+
+#: src/preferences_dialog.vala
+msgid "Worldwide"
+msgstr "Wereldwijd"
+
+#: src/preferences_dialog.vala
+msgid "Speed"
+msgstr "Snelheid"
+
+#: src/preferences_dialog.vala
+msgid "Random"
+msgstr "Willekeurig"
+
+#: resources/choose_provider_dialog.ui
+msgid "Choose a Provider"
+msgstr "Kies een leverancier"
+
+#: resources/choose_provider_dialog.ui resources/choose_ignorepkgs_dialog.ui
+msgid "Choose"
+msgstr "Kiezen"
+
+#: resources/progress_dialog.ui
+msgid "Progress"
+msgstr "Voortgang"
+
+#: resources/history_dialog.ui
+msgid "Pamac History"
+msgstr "Pamac-geschiedenis"
+
+#: resources/transaction_sum_dialog.ui
+msgid "Transaction Summary"
+msgstr "Overdrachtsamenvatting"
+
+#: resources/transaction_sum_dialog.ui
+msgid "Commit"
+msgstr "Uitvoeren"
+
+#: resources/manager_window.ui
+msgid "Refresh databases"
+msgstr "Databases vernieuwen"
+
+#: resources/manager_window.ui
+msgid "View History"
+msgstr "Geschiedenis weergeven"
+
+#: resources/manager_window.ui resources/preferences_dialog.ui
+msgid "Preferences"
+msgstr "Voorkeuren"
+
+#: resources/manager_window.ui
+msgid "About"
+msgstr "Over"
+
+#: resources/manager_window.ui
+msgid "State"
+msgstr "Status"
+
+#: resources/manager_window.ui
+msgid "Version"
+msgstr "Versie"
+
+#: resources/manager_window.ui
+msgid "Size"
+msgstr "Grootte"
+
+#: resources/manager_window.ui
+msgid "Popularity"
+msgstr "Populariteit"
+
+#: resources/manager_window.ui
+msgid "Browse"
+msgstr "Bladeren"
+
+#: resources/manager_window.ui
+msgid "Reinstall"
+msgstr "Opnieuw installeren"
+
+#: resources/manager_window.ui
 msgid "_Apply"
 msgstr "_Toepassen"
 
-#: ../resources/manager_window.ui
+#: resources/manager_window.ui
 msgid "Select All"
 msgstr "Alles selecteren"
 
-#: ../resources/preferences_dialog.ui
+#: resources/preferences_dialog.ui
 msgid "Remove unrequired dependencies"
 msgstr "Niet-benodigde afhankelijkheden verwijderen"
 
-#: ../resources/preferences_dialog.ui
+#: resources/preferences_dialog.ui
 msgid ""
 "When removing a package, also remove its dependencies that are not required "
 "by other packages"
 msgstr "Verwijder, bij het verwijderen van een pakket, ook de afhankelijkheden die niet vereist zijn door andere pakketten"
 
-#: ../resources/preferences_dialog.ui
+#: resources/preferences_dialog.ui
 msgid "Check available disk space"
 msgstr "Beschikbare schijfruimte controleren"
 
-#: ../resources/preferences_dialog.ui
+#: resources/preferences_dialog.ui
 msgid "Check for updates"
 msgstr "Controleren op updates"
 
-#: ../resources/preferences_dialog.ui
+#: resources/preferences_dialog.ui
 msgid "Hide tray icon when no update available"
 msgstr "Systeemvakpictogram verbergen als er geen updates beschikbaar zijn"
 
-#: ../resources/preferences_dialog.ui
+#: resources/preferences_dialog.ui
 msgid "Ignore upgrades for:"
 msgstr "Upgrades negeren van:"
 
-#: ../resources/preferences_dialog.ui
+#: resources/preferences_dialog.ui
 msgid "General"
 msgstr "Algemeen"
 
-#: ../resources/preferences_dialog.ui
+#: resources/preferences_dialog.ui
 msgid "Use mirrors from:"
 msgstr "Spiegelservers gebruiken van:"
 
-#: ../resources/preferences_dialog.ui
+#: resources/preferences_dialog.ui
 msgid "Sort mirrors by:"
 msgstr "Spiegelservers sorteren op:"
 
-#: ../resources/preferences_dialog.ui
+#: resources/preferences_dialog.ui
 msgid "Refresh Mirrors List"
 msgstr "Spiegelserverlijst vernieuwen"
 
-#: ../resources/preferences_dialog.ui
+#: resources/preferences_dialog.ui
 msgid "Official Repositories"
 msgstr "Officiële pakketbronnen"
 
-#: ../resources/preferences_dialog.ui
+#: resources/preferences_dialog.ui
 msgid ""
 "AUR is a community maintained repository so it presents potential risks and problems.\n"
 "All AUR users should be familiar with the build process."
 msgstr "AUR is een pakketbron die beheerd wordt door de gemeenschap. Dit kan leiden tot risico's en problemen.\nAlle AUR-gebruikers dienen bekend te zijn met het bouwproces."
 
-#: ../resources/preferences_dialog.ui
+#: resources/preferences_dialog.ui
 msgid "Enable AUR support"
 msgstr "AUR-ondersteuning inschakelen"
 
-#: ../resources/preferences_dialog.ui
+#: resources/preferences_dialog.ui
 msgid "Allow Pamac to search and install packages from AUR"
 msgstr "Pamac toestaan om pakketten van AUR te zoeken en installeren"
 
-#: ../resources/preferences_dialog.ui
+#: resources/preferences_dialog.ui
 msgid "Check for updates from AUR"
 msgstr "Controleren op AUR-updates"
 
-#: ../resources/preferences_dialog.ui
+#: resources/preferences_dialog.ui
 msgid "Remove only the versions of uninstalled packages"
 msgstr "Alleen versies verwijderen van gedeïnstalleerde pakketten"
 
-#: ../resources/preferences_dialog.ui
+#: resources/preferences_dialog.ui
 msgid "Clean cache"
 msgstr "Cache opschonen"
 
-#: ../resources/preferences_dialog.ui
+#: resources/preferences_dialog.ui
 msgid "Cache"
 msgstr "Cache"
 
-#: ../resources/choose_ignorepkgs_dialog.ui
+#: resources/choose_ignorepkgs_dialog.ui
 msgid "Choose Ignored Upgrades"
 msgstr "Kies genegeerde upgrades"
