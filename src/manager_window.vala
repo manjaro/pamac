@@ -562,18 +562,20 @@ namespace Pamac {
 			pending_row.add (pending_label);
 			filters_listbox.add (pending_row);
 			active_pending_row (false);
-			filters_listbox.get_style_context ().add_class (Gtk.STYLE_CLASS_SIDEBAR);
+			filters_listbox.select_row (filters_listbox.get_row_at_index (0));
 
 			foreach (unowned string repo in transaction.get_repos_names ()) {
 				label = create_list_label (repo);
 				repos_listbox.add (label);
 			}
+			repos_listbox.select_row (repos_listbox.get_row_at_index (0));
 
 			foreach (unowned string group in transaction.get_groups_names ()) {
 				label = create_list_label (group);
 				groups_listbox.add (label);
 			}
 			groups_listbox.set_sort_func (sort_list_row);
+			groups_listbox.select_row (groups_listbox.get_row_at_index (0));
 
 			label = create_list_label (dgettext (null, "Installed"));
 			installed_listbox.add (label);
@@ -583,6 +585,7 @@ namespace Pamac {
 			installed_listbox.add (label);
 			label = create_list_label (dgettext (null, "Foreign"));
 			installed_listbox.add (label);
+			installed_listbox.select_row (installed_listbox.get_row_at_index (0));
 
 			label = create_list_label (dgettext (null, "Accessories"));
 			categories_listbox.add (label);
@@ -607,19 +610,23 @@ namespace Pamac {
 			label = create_list_label (dgettext (null, "System Tools"));
 			categories_listbox.add (label);
 			categories_listbox.set_sort_func (sort_list_row);
+			categories_listbox.select_row (categories_listbox.get_row_at_index (0));
 
 			label = create_list_label (dgettext (null, "Repositories"));
 			updates_listbox.add (label);
 			label = create_list_label (dgettext (null, "AUR"));
 			updates_listbox.add (label);
+			updates_listbox.select_row (updates_listbox.get_row_at_index (0));
 			label = create_list_label (dgettext (null, "Repositories"));
 			pending_listbox.add (label);
 			label = create_list_label (dgettext (null, "AUR"));
 			pending_listbox.add (label);
+			pending_listbox.select_row (pending_listbox.get_row_at_index (0));
 			label = create_list_label (dgettext (null, "Repositories"));
 			search_listbox.add (label);
 			label = create_list_label (dgettext (null, "AUR"));
 			search_listbox.add (label);
+			search_listbox.select_row (search_listbox.get_row_at_index (0));
 
 			label = create_list_label (dgettext (null, "Details"));
 			properties_listbox.add (label);
@@ -627,6 +634,8 @@ namespace Pamac {
 			properties_listbox.add (label);
 			label = create_list_label (dgettext (null, "Files"));
 			properties_listbox.add (label);
+			properties_listbox.select_row (properties_listbox.get_row_at_index (0));
+
 		}
 
 		void on_mark_explicit_button_clicked (Gtk.Button button) {
