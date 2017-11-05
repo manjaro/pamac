@@ -21,6 +21,7 @@ namespace Pamac {
 	[DBus (name = "org.manjaro.pamac.user")]
 	interface UserDaemon : Object {
 		public abstract void refresh_handle () throws IOError;
+		public abstract string[] get_mirrors_countries () throws IOError;
 		public abstract string get_lockfile () throws IOError;
 		public abstract AlpmPackage get_installed_pkg (string pkgname) throws IOError;
 		public abstract bool get_checkspace () throws IOError;
@@ -55,7 +56,6 @@ namespace Pamac {
 	[DBus (name = "org.manjaro.pamac.system")]
 	interface SystemDaemon : Object {
 		public abstract void set_environment_variables (HashTable<string,string> variables) throws IOError;
-		public abstract string[] get_mirrors_countries () throws IOError;
 		public abstract ErrorInfos get_current_error () throws IOError;
 		public abstract bool get_lock () throws IOError;
 		public abstract bool unlock () throws IOError;
@@ -271,9 +271,8 @@ namespace Pamac {
 
 		public string[] get_mirrors_countries () {
 			string[] countries = {};
-			connecting_system_daemon ();
 			try {
-				countries = system_daemon.get_mirrors_countries ();
+				countries = user_daemon.get_mirrors_countries ();
 			} catch (IOError e) {
 				stderr.printf ("IOError: %s\n", e.message);
 			}

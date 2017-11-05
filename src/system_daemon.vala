@@ -246,26 +246,6 @@ namespace Pamac {
 			return true;
 		}
 
-		public string[] get_mirrors_countries () {
-			string[] countries = {};
-			try {
-				string countries_str;
-				int status;
-				Process.spawn_command_line_sync ("pacman-mirrors -lq",
-											out countries_str,
-											null,
-											out status);
-				if (status == 0) {
-					foreach (unowned string country in countries_str.split ("\n")) {
-						countries += country;
-					}
-				}
-			} catch (SpawnError e) {
-				stderr.printf ("Error: %s\n", e.message);
-			}
-			return countries;
-		}
-
 		public bool get_lock (GLib.BusName sender) {
 			if (lock_id == sender) {
 				return true;
@@ -369,7 +349,7 @@ namespace Pamac {
 		private void generate_mirrors_list () {
 			try {
 				var process = new Subprocess.newv (
-					{"pacman-mirrors", "-g"},
+					{"pacman-mirrors", "-f", "0"},
 					SubprocessFlags.STDOUT_PIPE | SubprocessFlags.STDERR_MERGE);
 				var dis = new DataInputStream (process.get_stdout_pipe ());
 				string? line;

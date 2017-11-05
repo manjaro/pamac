@@ -139,6 +139,26 @@ namespace Pamac {
 			aur_updates_checked = false;
 		}
 
+		public string[] get_mirrors_countries () {
+			string[] countries = {};
+			try {
+				string countries_str;
+				int status;
+				Process.spawn_command_line_sync ("pacman-mirrors -lq",
+											out countries_str,
+											null,
+											out status);
+				if (status == 0) {
+					foreach (unowned string country in countries_str.split ("\n")) {
+						countries += country;
+					}
+				}
+			} catch (SpawnError e) {
+				stderr.printf ("Error: %s\n", e.message);
+			}
+			return countries;
+		}
+
 		public bool get_checkspace () {
 			return alpm_handle.checkspace == 1 ? true : false;
 		}
