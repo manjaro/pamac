@@ -41,7 +41,7 @@ namespace AUR {
 		unowned Json.Node? root = parser.get_root ();
 		if (root != null) {
 			if (root.get_object ().get_string_member ("type") == "error") {
-				critical ("Failed to query %s from AUR", uri);
+				stderr.printf ("Failed to query %s from AUR\n", uri);
 			} else {
 				results = root.get_object ().get_array_member ("results");
 			}
@@ -53,11 +53,20 @@ namespace AUR {
 		if (needles.length == 0) {
 			return new Json.Array ();
 		} else {
-			var result = rpc_query (rpc_url + rpc_search + Uri.escape_string (needles[0]));
-			int i = 1;
-			while (i < needles.length) {
+			Json.Array[] found_array = {};
+			foreach (unowned string needle in needles) {
+				found_array += rpc_query (rpc_url + rpc_search + Uri.escape_string (needle));
+			}
+			var result = new Json.Array ();
+			foreach (unowned Json.Array found in found_array) {
+				if (found.get_length () == 0) {
+					continue;
+				}
+				if (result.get_length () == 0) {
+					result = found;
+					continue;
+				}
 				var inter = new Json.Array ();
-				var found = rpc_query (rpc_url + rpc_search + Uri.escape_string (needles[i]));
 				result.foreach_element ((result_array, result_index, result_node) => {
 					found.foreach_element ((found_array, found_index, found_node) => {
 						if (strcmp (result_node.get_object ().get_string_member ("Name"),
@@ -67,7 +76,6 @@ namespace AUR {
 					});
 				});
 				result = (owned) inter;
-				i++;
 			}
 			return result;
 		}
