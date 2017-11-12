@@ -119,8 +119,6 @@ namespace Pamac {
 		[GtkChild]
 		Gtk.Grid details_grid;
 		[GtkChild]
-		Gtk.ScrolledWindow files_scrolledwindow;
-		[GtkChild]
 		Gtk.Label name_label;
 		[GtkChild]
 		Gtk.Image app_image;
@@ -193,6 +191,7 @@ namespace Pamac {
 		string search_string;
 		Gtk.Label pending_label;
 		Gtk.ListBoxRow pending_row;
+		Gtk.ListBoxRow files_row;
 
 		public ManagerWindow (Gtk.Application application) {
 			Object (application: application);
@@ -633,7 +632,10 @@ namespace Pamac {
 			label = create_list_label (dgettext (null, "Dependencies"));
 			properties_listbox.add (label);
 			label = create_list_label (dgettext (null, "Files"));
-			properties_listbox.add (label);
+			files_row = new Gtk.ListBoxRow ();
+			files_row.visible = true;
+			files_row.add (label);
+			properties_listbox.add (files_row);
 			properties_listbox.select_row (properties_listbox.get_row_at_index (0));
 
 		}
@@ -1438,13 +1440,17 @@ namespace Pamac {
 
 		void display_package_properties (string pkgname, string app_name = "") {
 			current_package_displayed = pkgname;
-			files_scrolledwindow.visible = true;
+			files_row.visible = true;
 			set_package_details (current_package_displayed, app_name);
 		}
 
 		void display_aur_properties (string pkgname) {
 			current_package_displayed = pkgname;
-			files_scrolledwindow.visible = false;
+			// select details if files was selected
+			if (properties_listbox.get_selected_row ().get_index () == 2) {
+				properties_listbox.get_row_at_index (0).activate ();
+			}
+			files_row.visible = false;
 			set_aur_details (current_package_displayed);
 		}
 
