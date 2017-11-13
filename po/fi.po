@@ -4,6 +4,7 @@
 # Guillaume Benoit <guillaume@manjaro.org>, 2013-2017.
 # 
 # Translators:
+# Ammuu5, 2017
 # EscoP, 2015
 # EscoP, 2015
 # Luki <jbkammer@gmail.com>, 2013,2015
@@ -12,14 +13,15 @@
 # Sami Korkalainen, 2013-2014
 # Sami Korkalainen, 2014-2015
 # SamiPerkele, 2013-2014
+# Vesa Laitinen <vesa.laitinen@gmail.com>, 2017
 # Sami Korkalainen, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2017-09-09 09:46+0200\n"
-"PO-Revision-Date: 2017-10-28 08:25+0000\n"
-"Last-Translator: Guillaume Benoit <guillaume@manjaro.org>\n"
+"PO-Revision-Date: 2017-11-05 18:07+0000\n"
+"Last-Translator: Ammuu5\n"
 "Language-Team: Finnish (http://www.transifex.com/manjarolinux/manjaro-pamac/language/fi/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -29,7 +31,7 @@ msgstr ""
 
 #: data/polkit/org.manjaro.pamac.policy.in
 msgid "Authentication is required"
-msgstr ""
+msgstr "Todennus vaaditaan"
 
 #: src/user_daemon.vala
 msgid "Unknown"
@@ -84,17 +86,17 @@ msgstr "pakettilla %s ei ole kelvollista arkkitehtuuria"
 #: src/system_daemon.vala
 #, c-format
 msgid "unable to satisfy dependency '%s' required by %s"
-msgstr ""
+msgstr "puuttuva riippuvuus '%s' paketilla %s"
 
 #: src/system_daemon.vala
 #, c-format
 msgid "installing %s (%s) breaks dependency '%s' required by %s"
-msgstr ""
+msgstr "asentamalla %s (%s) rikkoo riippuvuuden '%s' jonka vaatii %s"
 
 #: src/system_daemon.vala
 #, c-format
 msgid "removing %s breaks dependency '%s' required by %s"
-msgstr ""
+msgstr "paketin %s poistaminen rikkoo riippuvuuden '%s' jonka vaatii %s"
 
 #: src/system_daemon.vala
 #, c-format
@@ -128,20 +130,20 @@ msgstr "%s on viallinen tai vioittunut"
 #: src/system_daemon.vala
 #, c-format
 msgid "%s appears to be truncated: %jd/%jd bytes\n"
-msgstr ""
+msgstr "%s näyttää olevan katkennut: %jd/%jd tavua\n"
 
 #: src/system_daemon.vala
 #, c-format
 msgid "failed retrieving file '%s' from %s : %s\n"
-msgstr ""
+msgstr "tiedoston noutaminen epäonnistui '%s' palvelimelta %s : %s\n"
 
 #: src/transaction.vala
 msgid "Copy"
-msgstr ""
+msgstr "Kopioi"
 
 #: src/transaction.vala
 msgid "Refreshing mirrors list"
-msgstr ""
+msgstr "Päivitetään peilipalvelin lista"
 
 #: src/transaction.vala
 msgid "Synchronizing package databases"
@@ -182,7 +184,7 @@ msgstr "Uudelleenasennettavat"
 
 #: src/transaction.vala
 msgid "To upgrade"
-msgstr ""
+msgstr "Päivitettävät"
 
 #: src/transaction.vala src/manager_window.vala
 msgid "Total download size"
@@ -191,7 +193,7 @@ msgstr "Latauksen kokonaiskoko"
 #: src/transaction.vala
 #, c-format
 msgid "Building %s"
-msgstr ""
+msgstr "Kasataan %s"
 
 #: src/transaction.vala
 msgid "Transaction cancelled"
@@ -315,23 +317,23 @@ msgstr "%s asennettiin tiedostona %s.pacsave"
 
 #: src/transaction.vala
 msgid "Running pre-transaction hooks"
-msgstr ""
+msgstr "Suoritetaan asennusta edeltävät työt"
 
 #: src/transaction.vala
 msgid "Running post-transaction hooks"
-msgstr ""
+msgstr "Suoritetaan asennuksen jälkeiset työt"
 
 #: src/transaction.vala
 #, c-format
 msgid "About %u seconds remaining"
-msgstr ""
+msgstr "Noin %u sekunttia jäljellä"
 
 #: src/transaction.vala
 #, c-format
 msgid "About %lu minute remaining"
 msgid_plural "About %lu minutes remaining"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Noin %lu minuutti jäljellä"
+msgstr[1] "Noin %lu minuuttia jäljellä"
 
 #: src/transaction.vala
 #, c-format
@@ -365,7 +367,7 @@ msgstr "Pamac on jo käynnissä"
 
 #: src/installer.vala src/manager_window.vala
 msgid "Waiting for another package manager to quit"
-msgstr ""
+msgstr "Odotetaan toisen pakettienhallintatyökalun lopettavan"
 
 #: src/tray.vala src/manager_window.vala
 msgid "Your system is up-to-date"
@@ -393,11 +395,11 @@ msgstr "Yksityiskohdat"
 
 #: src/manager_window.vala
 msgid "No package found"
-msgstr ""
+msgstr "Pakettia ei löytynyt"
 
 #: src/manager_window.vala
 msgid "Checking for Updates"
-msgstr ""
+msgstr "Päivitetään pakettilista"
 
 #: src/manager_window.vala
 msgid "Deselect"
@@ -405,7 +407,7 @@ msgstr "Poista valinta"
 
 #: src/manager_window.vala
 msgid "Upgrade"
-msgstr ""
+msgstr "Päivitä"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Install"
@@ -419,12 +421,12 @@ msgstr "Poista"
 #, c-format
 msgid "%u pending operation"
 msgid_plural "%u pending operations"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%u operaatio odottaa"
+msgstr[1] "%u operaatiota odottaa"
 
 #: src/manager_window.vala
 msgid "Categories"
-msgstr ""
+msgstr "Kategoriat"
 
 #: src/manager_window.vala
 msgid "Groups"
@@ -440,11 +442,11 @@ msgstr "Asennettuna"
 
 #: src/manager_window.vala
 msgid "Updates"
-msgstr ""
+msgstr "Päivitykset"
 
 #: src/manager_window.vala
 msgid "Pending"
-msgstr ""
+msgstr "Odottaa"
 
 #: src/manager_window.vala
 msgid "Orphans"
@@ -452,55 +454,55 @@ msgstr "Orvot"
 
 #: src/manager_window.vala
 msgid "Foreign"
-msgstr ""
+msgstr "Vieras"
 
 #: src/manager_window.vala
 msgid "Accessories"
-msgstr ""
+msgstr "Apuohjelmat"
 
 #: src/manager_window.vala
 msgid "Audio & Video"
-msgstr ""
+msgstr "Ääni ja video"
 
 #: src/manager_window.vala
 msgid "Development"
-msgstr ""
+msgstr "Kehitys"
 
 #: src/manager_window.vala
 msgid "Education"
-msgstr ""
+msgstr "Opetus"
 
 #: src/manager_window.vala
 msgid "Games"
-msgstr ""
+msgstr "Pelit"
 
 #: src/manager_window.vala
 msgid "Graphics"
-msgstr ""
+msgstr "Grafiikka"
 
 #: src/manager_window.vala
 msgid "Internet"
-msgstr ""
+msgstr "Internet"
 
 #: src/manager_window.vala
 msgid "Office"
-msgstr ""
+msgstr "Toimisto"
 
 #: src/manager_window.vala
 msgid "Science"
-msgstr ""
+msgstr "Tiede"
 
 #: src/manager_window.vala
 msgid "Settings"
-msgstr ""
+msgstr "Asetukset"
 
 #: src/manager_window.vala
 msgid "System Tools"
-msgstr ""
+msgstr "Järjestelmän hallinta"
 
 #: src/manager_window.vala resources/preferences_dialog.ui
 msgid "AUR"
-msgstr ""
+msgstr "AUR"
 
 #: src/manager_window.vala
 msgid "Dependencies"
@@ -532,7 +534,7 @@ msgstr "Pakkaaja"
 
 #: src/manager_window.vala
 msgid "Build Date"
-msgstr ""
+msgstr "Kasauspäivämäärä"
 
 #: src/manager_window.vala
 msgid "Install Date"
@@ -560,7 +562,7 @@ msgstr "Riippuvuutena paketeille"
 
 #: src/manager_window.vala
 msgid "Optional For"
-msgstr ""
+msgstr "Valinnainen riippuvuus"
 
 #: src/manager_window.vala
 msgid "Provides"
@@ -576,35 +578,35 @@ msgstr "Ristiriidat"
 
 #: src/manager_window.vala
 msgid "Package Base"
-msgstr ""
+msgstr "Perus paketti"
 
 #: src/manager_window.vala
 msgid "Maintainer"
-msgstr ""
+msgstr "Ylläpitäjä"
 
 #: src/manager_window.vala
 msgid "First Submitted"
-msgstr ""
+msgstr "Ensimmäinen versio"
 
 #: src/manager_window.vala
 msgid "Last Modified"
-msgstr ""
+msgstr "Viimeksi muutettu"
 
 #: src/manager_window.vala
 msgid "Votes"
-msgstr ""
+msgstr "Ääniä"
 
 #: src/manager_window.vala
 msgid "Out of Date"
-msgstr ""
+msgstr "Vanhentunut"
 
 #: src/manager_window.vala
 msgid "Make Dependencies"
-msgstr ""
+msgstr "Kasaa riippuvuudet"
 
 #: src/manager_window.vala
 msgid "Check Dependencies"
-msgstr ""
+msgstr "Tarkista riippuvuudet"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Search"
@@ -616,7 +618,7 @@ msgstr "Nimi"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Install Local Packages"
-msgstr ""
+msgstr "Asenna paikalliset paketit"
 
 #: src/manager_window.vala resources/transaction_sum_dialog.ui
 #: resources/manager_window.ui resources/choose_ignorepkgs_dialog.ui
@@ -641,11 +643,11 @@ msgstr "Kuinka usein tarkistetaan päivityksiä, arvo tunneissa"
 
 #: src/preferences_dialog.vala resources/preferences_dialog.ui
 msgid "Number of versions of each package to keep in the cache"
-msgstr ""
+msgstr "Paketin versioiden määrä joka säilytetään"
 
 #: src/preferences_dialog.vala
 msgid "Build directory"
-msgstr ""
+msgstr "Kasaus hakemisto"
 
 #: src/preferences_dialog.vala
 msgid "Worldwide"
@@ -653,11 +655,11 @@ msgstr "Maailmanlaajuinen"
 
 #: src/preferences_dialog.vala
 msgid "Speed"
-msgstr ""
+msgstr "Nopeus"
 
 #: src/preferences_dialog.vala
 msgid "Random"
-msgstr ""
+msgstr "Satunnainen"
 
 #: resources/choose_provider_dialog.ui
 msgid "Choose a Provider"
@@ -665,7 +667,7 @@ msgstr "Valitse toimittaja"
 
 #: resources/choose_provider_dialog.ui resources/choose_ignorepkgs_dialog.ui
 msgid "Choose"
-msgstr ""
+msgstr "Valitse"
 
 #: resources/progress_dialog.ui
 msgid "Progress"
@@ -681,7 +683,7 @@ msgstr "Toimenpiteiden yhteenveto"
 
 #: resources/transaction_sum_dialog.ui
 msgid "Commit"
-msgstr ""
+msgstr "Toteuta"
 
 #: resources/manager_window.ui
 msgid "Refresh databases"
@@ -697,7 +699,7 @@ msgstr "Asetukset"
 
 #: resources/manager_window.ui
 msgid "About"
-msgstr ""
+msgstr "Tietoja"
 
 #: resources/manager_window.ui
 msgid "State"
@@ -713,11 +715,11 @@ msgstr "Koko"
 
 #: resources/manager_window.ui
 msgid "Popularity"
-msgstr ""
+msgstr "Suosio"
 
 #: resources/manager_window.ui
 msgid "Browse"
-msgstr ""
+msgstr "Selaa"
 
 #: resources/manager_window.ui
 msgid "Reinstall"
@@ -729,7 +731,7 @@ msgstr "_hyväksy"
 
 #: resources/manager_window.ui
 msgid "Select All"
-msgstr ""
+msgstr "Valitse kaikki"
 
 #: resources/preferences_dialog.ui
 msgid "Remove unrequired dependencies"
@@ -747,11 +749,11 @@ msgstr "Tarkista kovalevyn käytettävissä oleva koko"
 
 #: resources/preferences_dialog.ui
 msgid "Check for updates"
-msgstr ""
+msgstr "Tarkista päivitykset"
 
 #: resources/preferences_dialog.ui
 msgid "Hide tray icon when no update available"
-msgstr ""
+msgstr "Piilota pikku kuvake kun ei ole päivitettävää"
 
 #: resources/preferences_dialog.ui
 msgid "Ignore upgrades for:"
@@ -759,7 +761,7 @@ msgstr "Jätä huomitta nämä paketit:"
 
 #: resources/preferences_dialog.ui
 msgid "General"
-msgstr ""
+msgstr "Yleiset"
 
 #: resources/preferences_dialog.ui
 msgid "Use mirrors from:"
@@ -771,17 +773,17 @@ msgstr "Järjestä mirrorit seuraavasti:"
 
 #: resources/preferences_dialog.ui
 msgid "Refresh Mirrors List"
-msgstr ""
+msgstr "Päivitä peilipalvelin lista"
 
 #: resources/preferences_dialog.ui
 msgid "Official Repositories"
-msgstr ""
+msgstr "Viralliset pakettilähteet"
 
 #: resources/preferences_dialog.ui
 msgid ""
 "AUR is a community maintained repository so it presents potential risks and problems.\n"
 "All AUR users should be familiar with the build process."
-msgstr ""
+msgstr "AUR on yhteisön ylläpitämä pakettilähde, joten se voi tuoda tietoturvariskejä ja ongelmia.\nKaikkien AUR-käyttäjän pitäisi tuntea pakettien teko prosessi."
 
 #: resources/preferences_dialog.ui
 msgid "Enable AUR support"
@@ -793,20 +795,20 @@ msgstr "Anna Pamacin etsiä ja asentaa paketteja AUR:sta"
 
 #: resources/preferences_dialog.ui
 msgid "Check for updates from AUR"
-msgstr ""
+msgstr "Tarkista päivitykset AUR pakettilähteestä"
 
 #: resources/preferences_dialog.ui
 msgid "Remove only the versions of uninstalled packages"
-msgstr ""
+msgstr "Poista vain asentamattomien pakettien versiot"
 
 #: resources/preferences_dialog.ui
 msgid "Clean cache"
-msgstr ""
+msgstr "Tyhjennä historia"
 
 #: resources/preferences_dialog.ui
 msgid "Cache"
-msgstr ""
+msgstr "Varasto"
 
 #: resources/choose_ignorepkgs_dialog.ui
 msgid "Choose Ignored Upgrades"
-msgstr ""
+msgstr "Valitse ohitettavat päivitykset"
