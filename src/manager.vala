@@ -69,6 +69,10 @@ namespace Pamac {
 		}
 
 		public override int command_line (ApplicationCommandLine cmd) {
+			// fix #367
+			if (manager_window == null) {
+				return 1;
+			}
 			if (cmd.get_arguments ()[0] == "pamac-updater") {
 				if (!started) {
 					manager_window.update_lists ();
