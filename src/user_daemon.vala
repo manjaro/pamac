@@ -1197,14 +1197,6 @@ namespace Pamac {
 				db.update (0);
 				syncdbs.next ();
 			}
-			// refresh file dbs
-			var tmp_files_handle = alpm_config.get_handle (true, true);
-			syncdbs = tmp_files_handle.syncdbs;
-			while (syncdbs != null) {
-				unowned Alpm.DB db = syncdbs.data;
-				db.update (0);
-				syncdbs.next ();
-			}
 			string[] local_pkgs = {};
 			unowned Alpm.List<unowned Alpm.Package> pkgcache = tmp_handle.localdb.pkgcache;
 			while (pkgcache != null) {
