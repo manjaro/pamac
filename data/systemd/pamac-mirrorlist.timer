@@ -3,6 +3,7 @@ Description=Monthly generate mirrorlist
 
 [Timer]
 OnCalendar=monthly
+RandomizedDelaySec=12h
 Persistent=true
 
 [Install]
