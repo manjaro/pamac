@@ -1,8 +1,9 @@
 [Unit]
-Description=Monthly generate mirrorlist
+Description=Generate mirrorlist every fortnight
 
 [Timer]
-OnCalendar=monthly
+OnCalendar=*-*-1,15 0:00:00
+RandomizedDelaySec=12h
 Persistent=true
 
 [Install]

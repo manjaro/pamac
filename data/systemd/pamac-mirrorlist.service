@@ -4,3 +4,4 @@ Description=Generate mirrorlist
 [Service]
 Type=oneshot
 ExecStart=/usr/bin/pacman-mirrors -f5
+ExecStartPost=/usr/bin/pacman -Syy
