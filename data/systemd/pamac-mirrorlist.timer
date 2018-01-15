@@ -2,7 +2,7 @@
 Description=Generate mirrorlist every fortnight
 
 [Timer]
-OnCalendar=*-*-1,15 0:00:00
+OnCalendar=*-*-1,15 8:00:00
 RandomizedDelaySec=12h
 Persistent=true
 
