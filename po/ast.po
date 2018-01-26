@@ -4,7 +4,7 @@
 # Guillaume Benoit <guillaume@manjaro.org>, 2013-2017.
 # 
 # Translators:
-# enolp <enolp@softastur.org>, 2015-2016
+# enolp <enolp@softastur.org>, 2015-2016,2018
 # Ḷḷumex03 <tornes@opmbx.org>, 2013-2014
 # Ḷḷumex03 <tornes@opmbx.org>, 2014
 # Ḷḷumex03 <tornes@opmbx.org>, 2014-2015
@@ -15,8 +15,8 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2017-09-09 09:46+0200\n"
-"PO-Revision-Date: 2017-10-28 08:25+0000\n"
-"Last-Translator: Guillaume Benoit <guillaume@manjaro.org>\n"
+"PO-Revision-Date: 2018-01-22 00:19+0000\n"
+"Last-Translator: enolp <enolp@softastur.org>\n"
 "Language-Team: Asturian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/ast/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -421,7 +421,7 @@ msgstr[1] "%u operaciones pendientes"
 
 #: src/manager_window.vala
 msgid "Categories"
-msgstr ""
+msgstr "Estayes"
 
 #: src/manager_window.vala
 msgid "Groups"
@@ -437,7 +437,7 @@ msgstr "Instaláu"
 
 #: src/manager_window.vala
 msgid "Updates"
-msgstr ""
+msgstr "Anovamientos"
 
 #: src/manager_window.vala
 msgid "Pending"
@@ -453,47 +453,47 @@ msgstr "Foriatu"
 
 #: src/manager_window.vala
 msgid "Accessories"
-msgstr ""
+msgstr "Accesorios"
 
 #: src/manager_window.vala
 msgid "Audio & Video"
-msgstr ""
+msgstr "Audiu y videu"
 
 #: src/manager_window.vala
 msgid "Development"
-msgstr ""
+msgstr "Desendolcu"
 
 #: src/manager_window.vala
 msgid "Education"
-msgstr ""
+msgstr "Educación"
 
 #: src/manager_window.vala
 msgid "Games"
-msgstr ""
+msgstr "Xuegos"
 
 #: src/manager_window.vala
 msgid "Graphics"
-msgstr ""
+msgstr "Gráficos"
 
 #: src/manager_window.vala
 msgid "Internet"
-msgstr ""
+msgstr "Internet"
 
 #: src/manager_window.vala
 msgid "Office"
-msgstr ""
+msgstr "Oficina"
 
 #: src/manager_window.vala
 msgid "Science"
-msgstr ""
+msgstr "Ciencia"
 
 #: src/manager_window.vala
 msgid "Settings"
-msgstr ""
+msgstr "Axustes"
 
 #: src/manager_window.vala
 msgid "System Tools"
-msgstr ""
+msgstr "Ferramientes del sistema"
 
 #: src/manager_window.vala resources/preferences_dialog.ui
 msgid "AUR"
@@ -726,7 +726,7 @@ msgstr "_Aplicar"
 
 #: resources/manager_window.ui
 msgid "Select All"
-msgstr ""
+msgstr "Esbillar too"
 
 #: resources/preferences_dialog.ui
 msgid "Remove unrequired dependencies"

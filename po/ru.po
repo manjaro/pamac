@@ -6,7 +6,7 @@
 # Translators:
 # Alexander B <beliy@yandex.ru>, 2017
 # Александр, 2015
-# Андрей Болконский <andrey0bolkonsky@gmail.com>, 2013
+# Victor Kukshiev <andrey0bolkonsky@gmail.com>, 2013
 # Daniil <rostovslipknot@gmail.com>, 2013
 # Анатолий Валерианович <ffox909@mail.ru>, 2014
 # Paulo Fino <finomeno@gmail.com>, 2014
@@ -22,16 +22,17 @@
 # Paulo Fino <finomeno@gmail.com>, 2014
 # Umidjon Almasov <u.almasov@gmail.com>, 2013
 # Umidjon Almasov <u.almasov@gmail.com>, 2013
+# Vladislav Zelenin <leerenix@hitler.rocks>, 2017
 # Анатолий Валерианович <ffox909@mail.ru>, 2014-2017
-# Андрей Болконский <andrey0bolkonsky@gmail.com>, 2013,2015
+# Victor Kukshiev <andrey0bolkonsky@gmail.com>, 2013,2015
 # Дмитрий Герасимов <dimonmmk@yandex.ru>, 2016-2017
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2017-09-09 09:46+0200\n"
-"PO-Revision-Date: 2017-10-28 08:25+0000\n"
-"Last-Translator: Guillaume Benoit <guillaume@manjaro.org>\n"
+"PO-Revision-Date: 2017-12-05 02:19+0000\n"
+"Last-Translator: Vladislav Zelenin <leerenix@hitler.rocks>\n"
 "Language-Team: Russian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -413,7 +414,7 @@ msgstr "Пакет не найден"
 
 #: src/manager_window.vala
 msgid "Checking for Updates"
-msgstr ""
+msgstr "Проверка обновлений"
 
 #: src/manager_window.vala
 msgid "Deselect"
