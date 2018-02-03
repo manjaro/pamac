@@ -271,27 +271,15 @@ namespace Pamac {
 			if (authorized) {
 				return true;
 			}
-			SourceFunc callback = check_authorization.callback;
 			try {
 				Polkit.Authority authority = Polkit.Authority.get_sync ();
-				Polkit.Subject subject = Polkit.SystemBusName.new (sender);
-				authority.check_authorization.begin (
+				Polkit.Subject subject = new Polkit.SystemBusName (sender);
+				var result = yield authority.check_authorization (
 					subject,
 					"org.manjaro.pamac.commit",
 					null,
-					Polkit.CheckAuthorizationFlags.ALLOW_USER_INTERACTION,
-					null,
-					(obj, res) => {
-						try {
-							var result = authority.check_authorization.end (res);
-							authorized = result.get_is_authorized ();
-						} catch (GLib.Error e) {
-							stderr.printf ("%s\n", e.message);
-						}
-						Idle.add ((owned) callback);
-					}
-				);
-				yield;
+					Polkit.CheckAuthorizationFlags.ALLOW_USER_INTERACTION);
+				authorized = result.get_is_authorized ();
 			} catch (GLib.Error e) {
 				stderr.printf ("%s\n", e.message);
 			}

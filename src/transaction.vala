@@ -382,7 +382,6 @@ namespace Pamac {
 		}
 
 		async int spawn_in_term (string[] args, string? working_directory = null) {
-			SourceFunc callback = spawn_in_term.callback;
 			int status = 1;
 			term.set_pty (pty);
 			var launcher = new SubprocessLauncher (SubprocessFlags.NONE);
@@ -391,20 +390,16 @@ namespace Pamac {
 			launcher.set_child_setup (pty.child_setup);
 			try {
 				Subprocess process = launcher.spawnv (args);
-				process.wait_async.begin (build_cancellable, (obj, res) => {
-					try {
-						process.wait_async.end (res);
-						if (process.get_if_exited ()) {
-							status = process.get_exit_status ();
-						}
-					} catch (Error e) {
-						// cancelled
-						process.send_signal (Posix.SIGINT);
-						process.send_signal (Posix.SIGKILL);
+				try {
+					yield process.wait_async (build_cancellable);
+					if (process.get_if_exited ()) {
+						status = process.get_exit_status ();
 					}
-					Idle.add ((owned) callback);
-				});
-				yield;
+				} catch (Error e) {
+					// cancelled
+					process.send_signal (Posix.SIGINT);
+					process.send_signal (Posix.SIGKILL);
+				}
 			} catch (Error e) {
 				stderr.printf ("Error: %s\n", e.message);
 			}
