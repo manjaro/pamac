@@ -1286,7 +1286,7 @@ namespace Pamac {
 		}
 
 		public void refresh_packages_list () {
-			button_back.visible = filters_stack.visible_child_name != "filters";
+			button_back.visible = (main_stack.visible_child_name != "browse" || filters_stack.visible_child_name != "filters");
 			if (filters_stack.visible_child_name != "pending") {
 				uint total_pending = transaction.to_install.length + transaction.to_remove.length + transaction.to_build.length;
 				if (total_pending == 0) {
