@@ -2,7 +2,7 @@
 Description=Monthly clean packages cache
 
 [Timer]
-OnCalendar=monthly
+OnCalendar=Sat *-*-1..7 15:00:00
 Persistent=true
 
 [Install]

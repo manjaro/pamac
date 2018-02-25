@@ -1,9 +1,9 @@
 [Unit]
-Description=Generate mirrorlist every fortnight
+Description=Generate mirrorlist weekly
 
 [Timer]
-OnCalendar=*-*-1,15 8:00:00
-RandomizedDelaySec=12h
+OnCalendar=Thu *-*-* 7:00:00
+RandomizedDelaySec=15h
 Persistent=true
 
 [Install]
