@@ -6,4 +6,3 @@ After=network-online.target
 [Service]
 Type=oneshot
 ExecStart=/usr/bin/pacman-mirrors -f8
-ExecStartPost=/usr/bin/pacman -Syy
