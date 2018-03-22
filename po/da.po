@@ -12,20 +12,21 @@
 # Dan Johansen (Strit), 2016-2017
 # GigoloJoe <Danielbygmarsh@gmail.com>, 2014
 # Guillaume Benoit <guillaume@manjaro.org>, 2013
+# Linuxbruger <y.z@live.dk>, 2018
 # philm <philm@manjaro.org>, 2013
 # Andreas Martin Mørch <andreasmartinmorch@gmail.com>, 2013
 # Morten Juhl-Johansen Zölde-Fejér <morten@writtenandread.net>, 2013-2014
 # philm <philm@manjaro.org>, 2013,2015
 # scootergrisen, 2017
 # scootergrisen <@>, 2017
-# scootergrisen, 2017
-# Yavuznie <y.z@live.dk>, 2017
+# scootergrisen, 2017-2018
+# Linuxbruger <y.z@live.dk>, 2017
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2017-09-09 09:46+0200\n"
-"PO-Revision-Date: 2017-10-28 08:58+0000\n"
+"PO-Revision-Date: 2018-03-06 12:59+0000\n"
 "Last-Translator: scootergrisen\n"
 "Language-Team: Danish (http://www.transifex.com/manjarolinux/manjaro-pamac/language/da/)\n"
 "MIME-Version: 1.0\n"

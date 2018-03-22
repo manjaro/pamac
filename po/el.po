@@ -18,13 +18,14 @@
 # Savoritias <inactive+Savoritias@transifex.com>, 2014
 # ΔΗΜΗΤΡΙΟΥ ΚΩΝΣΤΑΝΤΙΝΟΣ <gasdim@hotmail.gr>, 2013-2014
 # Μιχάλης <mikem132@protonmail.com>, 2017
+# Πέτρος Σαμαράς <psamaras1@gmail.com>, 2018
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2017-09-09 09:46+0200\n"
-"PO-Revision-Date: 2017-12-25 08:48+0000\n"
-"Last-Translator: Panagiotis Mantzios <pmantzios@hotmail.com>\n"
+"PO-Revision-Date: 2018-03-18 20:03+0000\n"
+"Last-Translator: Πέτρος Σαμαράς <psamaras1@gmail.com>\n"
 "Language-Team: Greek (http://www.transifex.com/manjarolinux/manjaro-pamac/language/el/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -58,7 +59,7 @@ msgstr "Όχι"
 
 #: src/system_daemon.vala
 msgid "Failed to initialize alpm library"
-msgstr "Αποτυχία προετοιμασίας της βιβλιοθήκης alpm"
+msgstr "Αποτυχία ενεργοποίησης της βιβλιοθήκης alpm"
 
 #: src/system_daemon.vala src/transaction.vala
 msgid "Authentication failed"
@@ -66,7 +67,7 @@ msgstr "Η πιστοποίηση απέτυχε"
 
 #: src/system_daemon.vala
 msgid "Failed to synchronize any databases"
-msgstr "Αποτυχία συγχρονισμού της βάσης δεδομένων"
+msgstr "Αποτυχία συγχρονισμού των βάσεων δεδομένων"
 
 #: src/system_daemon.vala
 msgid "Failed to init transaction"
@@ -79,12 +80,12 @@ msgstr "Απέτυχε η προετοιμασία της διεργασίας"
 #: src/system_daemon.vala
 #, c-format
 msgid "target not found: %s"
-msgstr "δεν βρέθηκε ο στόχος: %s"
+msgstr "δεν βρέθηκε ο προορισμός: %s"
 
 #: src/system_daemon.vala
 #, c-format
 msgid "package %s does not have a valid architecture"
-msgstr "Το πακέτο %s δεν έχει την σωστή αρχιτεκτονική"
+msgstr "το πακέτο %s δεν έχει την σωστή αρχιτεκτονική"
 
 #: src/system_daemon.vala
 #, c-format
@@ -94,12 +95,12 @@ msgstr "αδυναμία να ικανοποιηθεί η εξάρτηση '%s' 
 #: src/system_daemon.vala
 #, c-format
 msgid "installing %s (%s) breaks dependency '%s' required by %s"
-msgstr "εγκαθιστώντας το %s (%s) σπάει η εξάρτηση '%s' που απαιτείται από το %s"
+msgstr "η εγκατάσταση του %s (%s) σπάει την εξάρτηση '%s' που απαιτείται από το %s"
 
 #: src/system_daemon.vala
 #, c-format
 msgid "removing %s breaks dependency '%s' required by %s"
-msgstr "διαγράφοντας το %s σπάει η εξάρτηση '%s' που απαιτείται από το %s"
+msgstr "η αφαίρεση του %s σπάει την εξάρτηση '%s' που απαιτείται από το %s"
 
 #: src/system_daemon.vala
 #, c-format
@@ -109,7 +110,7 @@ msgstr "Το %s και το %s είναι σε διένεξη"
 #: src/system_daemon.vala
 #, c-format
 msgid "%s needs to be removed but it is a locked package"
-msgstr "Το %s χρειάζεται να διαγραφεί αλλά είναι ένα κλειδωμένο πακέτο"
+msgstr "Το %s χρειάζεται να αφαιρεθεί αλλά είναι ένα κλειδωμένο πακέτο"
 
 #: src/system_daemon.vala
 msgid "Failed to commit transaction"
@@ -150,7 +151,7 @@ msgstr "Ανανέωση της λίστας διακομιστών (servers)"
 
 #: src/transaction.vala
 msgid "Synchronizing package databases"
-msgstr "Συγχρονισμός της βάσης δεδομένων"
+msgstr "Συγχρονισμός των βάσεων δεδομένων"
 
 #: src/transaction.vala
 msgid "Starting full system upgrade"
@@ -175,7 +176,7 @@ msgstr "Προς υποβάθμισ"
 
 #: src/transaction.vala
 msgid "To build"
-msgstr "Πρός προετοιμασία για εγκατάσταση"
+msgstr "Πρός δημιουργία"
 
 #: src/transaction.vala
 msgid "To install"
@@ -196,7 +197,7 @@ msgstr "Συνολικό μέγεθος προς λήψη:"
 #: src/transaction.vala
 #, c-format
 msgid "Building %s"
-msgstr "Προετοιμασία εγκατάστασης %s"
+msgstr "Δημιουργία %s"
 
 #: src/transaction.vala
 msgid "Transaction cancelled"
@@ -293,12 +294,12 @@ msgstr "Έλεγχος ελεύθερου χώρου στον δίσκο"
 #: src/transaction.vala
 #, c-format
 msgid "%s optionally requires %s"
-msgstr "Το %s: απαιτεί το %s"
+msgstr "Το %s: απαιτεί προαιρετικά το %s"
 
 #: src/transaction.vala
 #, c-format
 msgid "Database file for %s does not exist"
-msgstr "Δεν υπάρχει η βάση δεδομένων για το %s "
+msgstr "Δεν υπάρχει το αρχείο βάσης δεδομένων για το %s "
 
 #: src/transaction.vala
 msgid "Checking keyring"
@@ -320,23 +321,23 @@ msgstr "Το %s εγκαταστάθηκε ως %s.pacsave"
 
 #: src/transaction.vala
 msgid "Running pre-transaction hooks"
-msgstr "Τρέχει η προ-διεργασία hooks"
+msgstr "Τρέχουν hooks προ της διεργασίας"
 
 #: src/transaction.vala
 msgid "Running post-transaction hooks"
-msgstr "Τρέχει η μετα-διεργασία hooks"
+msgstr "Τρέχουν hooks μετά τη διεργασία"
 
 #: src/transaction.vala
 #, c-format
 msgid "About %u seconds remaining"
-msgstr "%u δευτερόλεπτα απομένουν"
+msgstr "Απομένουν περίπου %u δευτερόλεπτα"
 
 #: src/transaction.vala
 #, c-format
 msgid "About %lu minute remaining"
 msgid_plural "About %lu minutes remaining"
 msgstr[0] "%lu λεπτά απομένουν"
-msgstr[1] "%lu λεπτά απομένουν"
+msgstr[1] "Απομένουν περίπου %lu λεπτά"
 
 #: src/transaction.vala
 #, c-format
@@ -354,7 +355,7 @@ msgstr "Προειδοποίηση"
 #: src/transaction.vala resources/progress_dialog.ui
 #: resources/history_dialog.ui resources/preferences_dialog.ui
 msgid "_Close"
-msgstr "Κλείσιμο"
+msgstr "_Κλείσιμο"
 
 #: src/transaction.vala
 msgid "Nothing to do"
@@ -382,7 +383,7 @@ msgstr "Διαχειριστής πακέτων"
 
 #: src/tray.vala
 msgid "_Quit"
-msgstr "Έξοδος"
+msgstr "Έξ_οδος"
 
 #: src/tray.vala
 #, c-format
@@ -402,11 +403,11 @@ msgstr "Δεν βρέθηκε το πακέτο"
 
 #: src/manager_window.vala
 msgid "Checking for Updates"
-msgstr "Έλεγχος για ενημερώσεις"
+msgstr "Έλεγχος για Ενημερώσεις"
 
 #: src/manager_window.vala
 msgid "Deselect"
-msgstr "Αφαίρεσε την επιλογή"
+msgstr "Αποεπιλογή"
 
 #: src/manager_window.vala
 msgid "Upgrade"
@@ -537,7 +538,7 @@ msgstr "Δημιουργός πακέτου"
 
 #: src/manager_window.vala
 msgid "Build Date"
-msgstr "Ημερομηνία δημιουργίας"
+msgstr "Ημερομηνία Δημιουργίας"
 
 #: src/manager_window.vala
 msgid "Install Date"
@@ -557,7 +558,7 @@ msgstr "Εξαρτάτε από"
 
 #: src/manager_window.vala
 msgid "Optional Dependencies"
-msgstr "Προαιρετικές εξαρτήσεις"
+msgstr "Προαιρετικές Εξαρτήσεις"
 
 #: src/manager_window.vala
 msgid "Required By"
@@ -581,7 +582,7 @@ msgstr "Διένεξη με"
 
 #: src/manager_window.vala
 msgid "Package Base"
-msgstr "Βάση πακέτου"
+msgstr "Βάση Πακέτου"
 
 #: src/manager_window.vala
 msgid "Maintainer"
@@ -589,11 +590,11 @@ msgstr "Συντηρητής"
 
 #: src/manager_window.vala
 msgid "First Submitted"
-msgstr "Αρχική υποβολή"
+msgstr "Αρχική Υποβολή"
 
 #: src/manager_window.vala
 msgid "Last Modified"
-msgstr "Τελευταία τροποποίηση"
+msgstr "Τελευταία Τροποποίηση"
 
 #: src/manager_window.vala
 msgid "Votes"
@@ -605,11 +606,11 @@ msgstr "Ξεπερασμένο"
 
 #: src/manager_window.vala
 msgid "Make Dependencies"
-msgstr "Δημιουργεί τις εξαρτήσεις"
+msgstr "Εξαρτήσεις κατά την Δημιουργία"
 
 #: src/manager_window.vala
 msgid "Check Dependencies"
-msgstr "Έλεγχος εξαρτήσεων"
+msgstr "Έλεγχος Εξαρτήσεων"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Search"
@@ -621,7 +622,7 @@ msgstr "Όνομα"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Install Local Packages"
-msgstr "Εγκατάσταση τοπικών πακέτων"
+msgstr "Εγκατάσταση Τοπικών Πακέτων"
 
 #: src/manager_window.vala resources/transaction_sum_dialog.ui
 #: resources/manager_window.ui resources/choose_ignorepkgs_dialog.ui
@@ -638,23 +639,23 @@ msgstr "Πακέτο Alpm"
 
 #: src/manager_window.vala
 msgid "A Gtk3 frontend for libalpm"
-msgstr "Ένα gtk3 εμπρόσθιο τμήμα για το pyalpm"
+msgstr "Μια διεπαφή gtk3 για το pyalpm"
 
 #: src/preferences_dialog.vala resources/preferences_dialog.ui
 msgid "How often to check for updates, value in hours"
-msgstr "Πόσο συχνά να ελέγχονται αναβαθμίσεις, τιμή σε ώρες"
+msgstr "Πόσο συχνά να γίνεται έλεγχος για αναβαθμίσεις, τιμή σε ώρες"
 
 #: src/preferences_dialog.vala resources/preferences_dialog.ui
 msgid "Number of versions of each package to keep in the cache"
-msgstr "Αριθμός των εκδόσεων για κάθε πακέτο που θα κρατηθεί στην αποθήκη"
+msgstr "Πλήθος των εκδόσεων για κάθε πακέτο που θα παραμένουν στην αποθήκη"
 
 #: src/preferences_dialog.vala
 msgid "Build directory"
-msgstr "Δημιουργία καταλόγου"
+msgstr "Κατάλογος δημιουργίας"
 
 #: src/preferences_dialog.vala
 msgid "Worldwide"
-msgstr "Παγκόσμιο"
+msgstr "Παγκοσμίως"
 
 #: src/preferences_dialog.vala
 msgid "Speed"
@@ -662,7 +663,7 @@ msgstr "Ταχύτητα"
 
 #: src/preferences_dialog.vala
 msgid "Random"
-msgstr "Τυχαίο"
+msgstr "Τυχαία"
 
 #: resources/choose_provider_dialog.ui
 msgid "Choose a Provider"
@@ -738,13 +739,13 @@ msgstr "Επιλογή Όλων"
 
 #: resources/preferences_dialog.ui
 msgid "Remove unrequired dependencies"
-msgstr "Αφαίρεση  αχρησιμοποίητων εξαρτήσεων"
+msgstr "Αφαίρεση  μη χρησιμοποιούμενων εξαρτήσεων"
 
 #: resources/preferences_dialog.ui
 msgid ""
 "When removing a package, also remove its dependencies that are not required "
 "by other packages"
-msgstr "Όταν αφαιρείτε ένα πακέτο, επίσης αφαιρέστε και τις εξαρτήσεις του, που δεν χρειάζονται απο άλλα πακέτα"
+msgstr "Όταν αφαιρείται ένα πακέτο, επίσης να αφαιρούνται και οι εξαρτήσεις του, που δεν απαιτούνται από άλλα πακέτα"
 
 #: resources/preferences_dialog.ui
 msgid "Check available disk space"
@@ -772,7 +773,7 @@ msgstr "Χρησιμοποίησε διακομιστές από:"
 
 #: resources/preferences_dialog.ui
 msgid "Sort mirrors by:"
-msgstr "Ταξινόμηση διακομιστών κατά:"
+msgstr "Τρόπος ταξινόμησης διακομιστών:"
 
 #: resources/preferences_dialog.ui
 msgid "Refresh Mirrors List"
@@ -786,7 +787,7 @@ msgstr "Επίσημα αποθετήρια"
 msgid ""
 "AUR is a community maintained repository so it presents potential risks and problems.\n"
 "All AUR users should be familiar with the build process."
-msgstr "Το AUR είναι αποθετήριο συντηρούμενο από την κοινότητα, γι'αυτό και ενδεχομένως να δημιουργήσει προβλήματα. Όλοι οι χρήστες του AUR, θα πρέπει να είναι εξοικειωμένοι με την διαδικασία χτισίματος των πακέτων."
+msgstr "Το AUR είναι αποθετήριο που συντηρείται από την κοινότητα, γι'αυτό και δεν αποκλείεται\nνα δημιουργήσει προβλήματα. Όλοι οι χρήστες του AUR, θα πρέπει να είναι εξοικειωμένοι\nμε την διαδικασία δημιουργίας των πακέτων."
 
 #: resources/preferences_dialog.ui
 msgid "Enable AUR support"
@@ -794,7 +795,7 @@ msgstr "Ενεργοποίηση υποστήριξης AUR"
 
 #: resources/preferences_dialog.ui
 msgid "Allow Pamac to search and install packages from AUR"
-msgstr "Επέτρεψε στον pamac να ψάξει και να εγκαταστήσει πακέτα απο το AUR"
+msgstr "Επέτρεψε στον Pamac να ψάξει και να εγκαταστήσει πακέτα απο το AUR"
 
 #: resources/preferences_dialog.ui
 msgid "Check for updates from AUR"
@@ -806,12 +807,12 @@ msgstr "Διέγραψε μόνο τις εκδόσεις των απεγκατ�
 
 #: resources/preferences_dialog.ui
 msgid "Clean cache"
-msgstr "Καθαρισμός αποθήκης"
+msgstr "Καθαρισμός προσωρινής αποθήκης"
 
 #: resources/preferences_dialog.ui
 msgid "Cache"
-msgstr "Αποθήκη"
+msgstr "Προσωρινή Αποθήκευση"
 
 #: resources/choose_ignorepkgs_dialog.ui
 msgid "Choose Ignored Upgrades"
-msgstr "Επιλέξτε αγνοημένες αναβαθμίσεις"
+msgstr "Επιλογή Αγνόησης Αναβαθμίσεων"

@@ -5,6 +5,7 @@
 # 
 # Translators:
 # Charles Monzat <superboa@hotmail.fr>, 2015-2017
+# Charles Monzat <superboa@hotmail.fr>, 2018
 # DasFranck <franck97comics@gmail.com>, 2013
 # DasFranck <franck97comics@gmail.com>, 2013
 # Guillaume Benoit <guillaume@manjaro.org>, 2013-2017
@@ -22,7 +23,7 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2017-09-09 09:46+0200\n"
-"PO-Revision-Date: 2017-10-30 08:23+0000\n"
+"PO-Revision-Date: 2018-03-06 08:42+0000\n"
 "Last-Translator: Charles Monzat <superboa@hotmail.fr>\n"
 "Language-Team: French (http://www.transifex.com/manjarolinux/manjaro-pamac/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -45,7 +46,7 @@ msgstr "Explicitement installé"
 
 #: src/user_daemon.vala src/manager_window.vala
 msgid "Installed as a dependency for another package"
-msgstr "Installé comme dépendance d'un autre paquet"
+msgstr "Installé comme dépendance d’un autre paquet"
 
 #: src/user_daemon.vala
 msgid "Yes"
@@ -57,11 +58,11 @@ msgstr "Non"
 
 #: src/system_daemon.vala
 msgid "Failed to initialize alpm library"
-msgstr "L'initialisation de la librairie alpm a échoué"
+msgstr "L’initialisation de la librairie alpm a échoué"
 
 #: src/system_daemon.vala src/transaction.vala
 msgid "Authentication failed"
-msgstr "L'authentification a échoué"
+msgstr "L’authentification a échoué"
 
 #: src/system_daemon.vala
 msgid "Failed to synchronize any databases"
@@ -69,7 +70,7 @@ msgstr "La synchronisation a échoué"
 
 #: src/system_daemon.vala
 msgid "Failed to init transaction"
-msgstr "L'initialisation de la transaction a échoué"
+msgstr "L’initialisation de la transaction a échoué"
 
 #: src/system_daemon.vala
 msgid "Failed to prepare transaction"
@@ -78,27 +79,27 @@ msgstr "La préparation de la transaction a échoué"
 #: src/system_daemon.vala
 #, c-format
 msgid "target not found: %s"
-msgstr "impossible de trouver la cible : %s"
+msgstr "impossible de trouver la cible : %s"
 
 #: src/system_daemon.vala
 #, c-format
 msgid "package %s does not have a valid architecture"
-msgstr "le paquet %s n'a pas d'architecture valide"
+msgstr "le paquet %s n’a pas d’architecture valide"
 
 #: src/system_daemon.vala
 #, c-format
 msgid "unable to satisfy dependency '%s' required by %s"
-msgstr "impossible de satisfaire la dépendance « %s » requise par %s"
+msgstr "impossible de satisfaire la dépendance « %s » requise par %s"
 
 #: src/system_daemon.vala
 #, c-format
 msgid "installing %s (%s) breaks dependency '%s' required by %s"
-msgstr "l'installation de %s (%s) casse la dépendance « %s » requise par %s"
+msgstr "l’installation de %s (%s) casse la dépendance « %s » requise par %s"
 
 #: src/system_daemon.vala
 #, c-format
 msgid "removing %s breaks dependency '%s' required by %s"
-msgstr "la suppression de %s casse la dépendance « %s » requise par %s"
+msgstr "la suppression de %s casse la dépendance « %s » requise par %s"
 
 #: src/system_daemon.vala
 #, c-format
@@ -108,7 +109,7 @@ msgstr "%s et %s sont en conflit"
 #: src/system_daemon.vala
 #, c-format
 msgid "%s needs to be removed but it is a locked package"
-msgstr "%s doit être désinstallé mais c'est un paquet verrouillé"
+msgstr "%s doit être désinstallé mais c’est un paquet verrouillé"
 
 #: src/system_daemon.vala
 msgid "Failed to commit transaction"
@@ -122,7 +123,7 @@ msgstr "%s est présent à la fois dans %s et %s"
 #: src/system_daemon.vala
 #, c-format
 msgid "%s: %s already exists in filesystem"
-msgstr "%s : %s est déjà présent dans le système de fichiers"
+msgstr "%s : %s est déjà présent dans le système de fichiers"
 
 #: src/system_daemon.vala
 #, c-format
@@ -132,12 +133,12 @@ msgstr "%s est invalide ou corrompu"
 #: src/system_daemon.vala
 #, c-format
 msgid "%s appears to be truncated: %jd/%jd bytes\n"
-msgstr "%s semble être tronqué : %jd/%jd octets\n"
+msgstr "%s semble être tronqué : %jd/%jd octets\n"
 
 #: src/system_daemon.vala
 #, c-format
 msgid "failed retrieving file '%s' from %s : %s\n"
-msgstr "Échec de récupération du fichier « %s » provenant de %s : %s\n"
+msgstr "Échec de récupération du fichier « %s » provenant de %s : %s\n"
 
 #: src/transaction.vala
 msgid "Copy"
@@ -162,7 +163,7 @@ msgstr "Préparation"
 #: src/transaction.vala
 #, c-format
 msgid "Choose a provider for %s"
-msgstr "Choix d'un fournisseur pour %s"
+msgstr "Choix d’un fournisseur pour %s"
 
 #: src/transaction.vala
 msgid "To remove"
@@ -244,7 +245,7 @@ msgstr "Désinstallation de %s"
 
 #: src/transaction.vala
 msgid "Checking integrity"
-msgstr "Vérification de l'intégrité des paquets"
+msgstr "Vérification de l’intégrité des paquets"
 
 #: src/transaction.vala
 msgid "Loading packages files"
@@ -252,7 +253,7 @@ msgstr "Chargement des fichiers des paquets"
 
 #: src/transaction.vala
 msgid "Checking delta integrity"
-msgstr "Vérification de l'intégrité des deltas"
+msgstr "Vérification de l’intégrité des deltas"
 
 #: src/transaction.vala
 msgid "Applying deltas"
@@ -287,7 +288,7 @@ msgstr "Téléchargement de %s"
 
 #: src/transaction.vala
 msgid "Checking available disk space"
-msgstr "Vérification de l'espace disque disponible"
+msgstr "Vérification de l’espace disque disponible"
 
 #: src/transaction.vala
 #, c-format
@@ -297,7 +298,7 @@ msgstr "%s peut nécessiter %s"
 #: src/transaction.vala
 #, c-format
 msgid "Database file for %s does not exist"
-msgstr "Le dépôt %s n'existe pas"
+msgstr "Le dépôt %s n’existe pas"
 
 #: src/transaction.vala
 msgid "Checking keyring"
@@ -365,11 +366,11 @@ msgstr "Transaction terminée avec succès"
 
 #: src/installer.vala src/manager.vala
 msgid "Pamac is already running"
-msgstr "Pamac est déjà en cours d'exécution"
+msgstr "Pamac est déjà en cours d’exécution"
 
 #: src/installer.vala src/manager_window.vala
 msgid "Waiting for another package manager to quit"
-msgstr "En attente de la fin d'un autre gestionnaire de paquet"
+msgstr "En attente de la fin d’un autre gestionnaire de paquet"
 
 #: src/tray.vala src/manager_window.vala
 msgid "Your system is up-to-date"
@@ -516,7 +517,7 @@ msgstr "Fichiers"
 
 #: src/manager_window.vala
 msgid "Install Reason"
-msgstr "Motif d'installation "
+msgstr "Motif d’installation "
 
 #: src/manager_window.vala
 msgid "Mark as explicitly installed"
@@ -665,7 +666,7 @@ msgstr "Aléatoire"
 
 #: resources/choose_provider_dialog.ui
 msgid "Choose a Provider"
-msgstr "Choix d'un fournisseur"
+msgstr "Choix d’un fournisseur"
 
 #: resources/choose_provider_dialog.ui resources/choose_ignorepkgs_dialog.ui
 msgid "Choose"
@@ -693,7 +694,7 @@ msgstr "Actualiser les bases de données"
 
 #: resources/manager_window.ui
 msgid "View History"
-msgstr "Voir l'historique"
+msgstr "Afficher l’historique"
 
 #: resources/manager_window.ui resources/preferences_dialog.ui
 msgid "Preferences"
@@ -743,11 +744,11 @@ msgstr "Désinstaller les dépendances inutiles"
 msgid ""
 "When removing a package, also remove its dependencies that are not required "
 "by other packages"
-msgstr "En désinstallant un paquet, désinstaller également les dépendances qui ne sont pas requises par d'autres paquets"
+msgstr "En désinstallant un paquet, désinstaller également les dépendances qui ne sont pas requises par d’autres paquets"
 
 #: resources/preferences_dialog.ui
 msgid "Check available disk space"
-msgstr "Vérifier l'espace disque disponible"
+msgstr "Vérifier l’espace disque disponible"
 
 #: resources/preferences_dialog.ui
 msgid "Check for updates"
@@ -755,7 +756,7 @@ msgstr "Vérifier les mises à jour"
 
 #: resources/preferences_dialog.ui
 msgid "Hide tray icon when no update available"
-msgstr "Masquer l'icône de notification lorsqu'aucune mise à jour n'est disponible"
+msgstr "Masquer l’icône de notification lorsqu’aucune mise à jour n’est disponible"
 
 #: resources/preferences_dialog.ui
 msgid "Ignore upgrades for:"
@@ -789,7 +790,7 @@ msgstr "AUR est maintenu par la communauté, donc il présente des risques poten
 
 #: resources/preferences_dialog.ui
 msgid "Enable AUR support"
-msgstr "Activer le support d'AUR"
+msgstr "Activer le support d’AUR"
 
 #: resources/preferences_dialog.ui
 msgid "Allow Pamac to search and install packages from AUR"
