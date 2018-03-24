@@ -51,6 +51,8 @@ namespace Pamac {
 
 		// manager objects
 		[GtkChild]
+		Gtk.HeaderBar headerbar;
+		[GtkChild]
 		public Gtk.Stack main_stack;
 		[GtkChild]
 		Gtk.Button button_back;
@@ -195,6 +197,10 @@ namespace Pamac {
 
 		public ManagerWindow (Gtk.Application application) {
 			Object (application: application);
+			unowned string? use_csd = Environment.get_variable ("GTK_CSD");
+			if (use_csd == "0") {
+				headerbar.show_close_button = false;
+			}
 
 			button_back.visible = false;
 			select_all_button.visible = false;
