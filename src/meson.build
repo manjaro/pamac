@@ -32,7 +32,7 @@ common_c_args = ['-DGETTEXT_PACKAGE="pamac"']
 
 common_sources = ['common.vala', 'package.vala', 'pamac_config.vala']
 transaction_sources = ['transaction.vala', 'choose_provider_dialog.vala', 'transaction_sum_dialog.vala', 'progress_box.vala']
-preferences_sources = ['preferences_dialog.vala', 'choose_ignorepkgs_dialog.vala', 'mirrors_config.vala']
+preferences_sources = ['preferences_dialog.vala', 'choose_ignorepkgs_dialog.vala']
 
 executable('pamac-clean-cache',
 	sources: ['pamac_config.vala', 'clean_cache.vala'],
@@ -65,7 +65,7 @@ executable('pamac-user-daemon',
 	install : true)
 
 executable('pamac-system-daemon',
-	sources: [common_sources, 'alpm_config.vala', 'aur.vala', 'mirrors_config.vala', 'system_daemon.vala'],
+	sources: [common_sources, 'alpm_config.vala', 'aur.vala', 'system_daemon.vala'],
 	dependencies: [vala_deps, alpm_deps, json, libsoup, polkit, libcurl, appstream],
 	vala_args: [common_vala_args, alpm_vala_args, '--thread'],
 	c_args: [common_c_args, alpm_c_args],

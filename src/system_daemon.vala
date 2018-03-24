@@ -1,7 +1,7 @@
 /*
  *  pamac-vala
  *
- *  Copyright (C) 2014-2017 Guillaume Benoit <guillaume@manjaro.org>
+ *  Copyright (C) 2014-2018 Guillaume Benoit <guillaume@manjaro.org>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -51,6 +51,7 @@ namespace Pamac {
 		private bool check_aur_updates;
 		private bool aur_updates_checked;
 		private HashTable<string,Variant> new_alpm_conf;
+		private string mirrorlist_country;
 		private Alpm.TransFlag flags;
 		private string[] to_install;
 		private string[] to_remove;
@@ -89,7 +90,6 @@ namespace Pamac {
 		public signal void write_pamac_config_finished (bool recurse, uint64 refresh_period, bool no_update_hide_icon,
 														bool enable_aur, string aur_build_dir, bool check_aur_updates);
 		public signal void write_alpm_config_finished (bool checkspace);
-		public signal void write_mirrors_config_finished (string choosen_country, string choosen_generation_method);
 		public signal void generate_mirrors_list_data (string line);
 		public signal void generate_mirrors_list_finished ();
 
@@ -337,7 +337,7 @@ namespace Pamac {
 		private void generate_mirrors_list () {
 			try {
 				var process = new Subprocess.newv (
-					{"pacman-mirrors", "-f", "0"},
+					{"pacman-mirrors", "-c", mirrorlist_country},
 					SubprocessFlags.STDOUT_PIPE | SubprocessFlags.STDERR_MERGE);
 				var dis = new DataInputStream (process.get_stdout_pipe ());
 				string? line;
@@ -352,10 +352,11 @@ namespace Pamac {
 			generate_mirrors_list_finished ();
 		}
 
-		public void start_generate_mirrors_list (GLib.BusName sender) {
+		public void start_generate_mirrors_list (string country, GLib.BusName sender) {
 			check_authorization.begin (sender, (obj, res) => {
 				bool authorized = check_authorization.end (res);
 				if (authorized) {
+					mirrorlist_country = country;
 					try {
 						thread_pool.add (new AlpmAction (generate_mirrors_list));
 					} catch (ThreadError e) {
@@ -382,18 +383,6 @@ namespace Pamac {
 						stderr.printf ("Error: %s\n", e.message);
 					}
 				}
-			});
-		}
-
-		public void start_write_mirrors_config (HashTable<string,Variant> new_mirrors_conf, GLib.BusName sender) {
-			check_authorization.begin (sender, (obj, res) => {
-				var mirrors_config = new MirrorsConfig ("/etc/pacman-mirrors.conf");
-				bool authorized = check_authorization.end (res);
-				if (authorized) {
-					mirrors_config.write (new_mirrors_conf);
-					mirrors_config.reload ();
-				}
-				write_mirrors_config_finished (mirrors_config.choosen_country, mirrors_config.choosen_generation_method);
 			});
 		}
 

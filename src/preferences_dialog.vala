@@ -1,7 +1,7 @@
 /*
  *  pamac-vala
  *
- *  Copyright (C) 2015-2017 Guillaume Benoit <guillaume@manjaro.org>
+ *  Copyright (C) 2015-2018 Guillaume Benoit <guillaume@manjaro.org>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -43,8 +43,6 @@ namespace Pamac {
 		[GtkChild]
 		Gtk.ComboBoxText mirrors_country_comboboxtext;
 		[GtkChild]
-		Gtk.ComboBoxText mirrors_list_generation_method_comboboxtext;
-		[GtkChild]
 		Gtk.Button generate_mirrors_list_button;
 		[GtkChild]
 		Gtk.Switch enable_aur_button;
@@ -64,6 +62,7 @@ namespace Pamac {
 		Gtk.ListStore ignorepkgs_liststore;
 		Transaction transaction;
 		uint64 previous_refresh_period;
+		string preferences_choosen_country;
 
 		public PreferencesDialog (Transaction transaction) {
 			int use_header_bar;
@@ -114,30 +113,21 @@ namespace Pamac {
 			if (pkg.name == "") {
 				mirrors_config_box.visible = false;
 			} else {
-				var mirrors_config = new MirrorsConfig ("/etc/pacman-mirrors.conf");
 				mirrors_country_comboboxtext.append_text (dgettext (null, "Worldwide"));
 				mirrors_country_comboboxtext.active = 0;
 				if (transaction.preferences_available_countries.length == 0) {
 					transaction.preferences_available_countries = transaction.get_mirrors_countries ();
 				}
 				int index = 1;
+				preferences_choosen_country = transaction.get_mirrors_choosen_country ();
 				foreach (unowned string country in transaction.preferences_available_countries) {
 					mirrors_country_comboboxtext.append_text (country);
-					if (country == mirrors_config.choosen_country) {
+					if (country == preferences_choosen_country) {
 						mirrors_country_comboboxtext.active = index;
 					}
 					index += 1;
 				}
-				mirrors_list_generation_method_comboboxtext.append_text (dgettext (null, "Speed"));
-				mirrors_list_generation_method_comboboxtext.append_text (dgettext (null, "Random"));
-				if (mirrors_config.choosen_generation_method == "rank") {
-					mirrors_list_generation_method_comboboxtext.active = 0;
-				} else {
-					mirrors_list_generation_method_comboboxtext.active = 1;
-				}
 				mirrors_country_comboboxtext.changed.connect (on_mirrors_country_comboboxtext_changed);
-				mirrors_list_generation_method_comboboxtext.changed.connect (on_mirrors_list_generation_method_comboboxtext_changed);
-				transaction.write_mirrors_config_finished.connect (on_write_mirrors_config_finished);
 			}
 
 			enable_aur_button.active = transaction.enable_aur;
@@ -330,52 +320,16 @@ namespace Pamac {
 		}
 
 		void on_mirrors_country_comboboxtext_changed () {
-			var new_mirrors_conf = new HashTable<string,Variant> (str_hash, str_equal);
-			var mirror_country = mirrors_country_comboboxtext.get_active_text ();
-			if (mirror_country == dgettext (null, "Worldwide")) {
-				mirror_country = "ALL";
-			}
-			new_mirrors_conf.insert ("OnlyCountry", new Variant.string (mirror_country) );
-			transaction.start_write_mirrors_config (new_mirrors_conf);
-		}
-
-		void on_mirrors_list_generation_method_comboboxtext_changed () {
-			var new_mirrors_conf = new HashTable<string,Variant> (str_hash, str_equal);
-			if (mirrors_list_generation_method_comboboxtext.get_active_text () == dgettext (null, "Speed")){
-				new_mirrors_conf.insert ("Method", new Variant.string ("rank"));
-			} else {
-				new_mirrors_conf.insert ("Method", new Variant.string ("random"));
-			}
-			transaction.start_write_mirrors_config (new_mirrors_conf);
-		}
-
-		void on_write_mirrors_config_finished (string choosen_country, string choosen_generation_method) {
-			int index = 0;
-			string choosen_country_ = dgettext (null, "Worldwide");
-			if (choosen_country != "ALL") {
-				choosen_country_ = choosen_country;
-			}
-			mirrors_country_comboboxtext.model.foreach ((model, path, iter) => {
-				GLib.Value country;
-				model.get_value (iter, 0, out country);
-				if ((string) country == choosen_country_) {
-					return true;
-				}
-				index += 1;
-				return false;
-			});
-			mirrors_country_comboboxtext.active = index;
-			if (choosen_generation_method == "rank") {
-				mirrors_list_generation_method_comboboxtext.active = 0;
-			} else {
-				mirrors_list_generation_method_comboboxtext.active = 1;
-			}
 			generate_mirrors_list_button.get_style_context ().add_class (Gtk.STYLE_CLASS_SUGGESTED_ACTION);
 		}
 
 		[GtkCallback]
 		void on_generate_mirrors_list_button_clicked () {
-			transaction.start_generate_mirrors_list ();
+			preferences_choosen_country = mirrors_country_comboboxtext.get_active_text ();
+			if (preferences_choosen_country == dgettext (null, "Worldwide")) {
+				preferences_choosen_country = "all";
+			}
+			transaction.start_generate_mirrors_list (preferences_choosen_country);
 			generate_mirrors_list_button.get_style_context ().remove_class (Gtk.STYLE_CLASS_SUGGESTED_ACTION);
 		}
 

@@ -1,7 +1,7 @@
 /*
  *  pamac-vala
  *
- *  Copyright (C) 2014-2017 Guillaume Benoit <guillaume@manjaro.org>
+ *  Copyright (C) 2014-2018 Guillaume Benoit <guillaume@manjaro.org>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -22,6 +22,7 @@ namespace Pamac {
 	interface UserDaemon : Object {
 		public abstract void refresh_handle () throws IOError;
 		public abstract string[] get_mirrors_countries () throws IOError;
+		public abstract string get_mirrors_choosen_country () throws IOError;
 		public abstract string get_lockfile () throws IOError;
 		public abstract AlpmPackage get_installed_pkg (string pkgname) throws IOError;
 		public abstract bool get_checkspace () throws IOError;
@@ -62,8 +63,7 @@ namespace Pamac {
 		public abstract void start_get_authorization () throws IOError;
 		public abstract void start_write_pamac_config (HashTable<string,Variant> new_pamac_conf) throws IOError;
 		public abstract void start_write_alpm_config (HashTable<string,Variant> new_alpm_conf) throws IOError;
-		public abstract void start_write_mirrors_config (HashTable<string,Variant> new_mirrors_conf) throws IOError;
-		public abstract void start_generate_mirrors_list () throws IOError;
+		public abstract void start_generate_mirrors_list (string country) throws IOError;
 		public abstract void clean_cache (uint64 keep_nb, bool only_uninstalled) throws IOError;
 		public abstract void start_set_pkgreason (string pkgname, uint reason) throws IOError;
 		public abstract void start_refresh (bool force) throws IOError;
@@ -92,7 +92,6 @@ namespace Pamac {
 		public signal void write_pamac_config_finished (bool recurse, uint64 refresh_period, bool no_update_hide_icon,
 														bool enable_aur, string aur_build_dir, bool check_aur_updates);
 		public signal void write_alpm_config_finished (bool checkspace);
-		public signal void write_mirrors_config_finished (string choosen_country, string choosen_generation_method);
 		public signal void generate_mirrors_list_data (string line);
 		public signal void generate_mirrors_list_finished ();
 	}
@@ -180,7 +179,6 @@ namespace Pamac {
 		public signal void write_pamac_config_finished (bool recurse, uint64 refresh_period, bool no_update_hide_icon,
 														bool enable_aur, string aur_build_dir, bool check_aur_updates);
 		public signal void write_alpm_config_finished (bool checkspace);
-		public signal void write_mirrors_config_finished (string choosen_country, string choosen_generation_method);
 		public signal void generate_mirrors_list ();
 		public signal void run_preferences_dialog_finished ();
 		public signal void get_updates_finished (Updates updates);
@@ -279,6 +277,16 @@ namespace Pamac {
 			return countries;
 		}
 
+		public string get_mirrors_choosen_country () {
+			string country = "";
+			try {
+				country = user_daemon.get_mirrors_choosen_country ();
+			} catch (IOError e) {
+				stderr.printf ("IOError: %s\n", e.message);
+			}
+			return country;
+		}
+
 		public bool get_lock () {
 			bool locked = false;
 			connecting_system_daemon ();
@@ -334,16 +342,6 @@ namespace Pamac {
 			} catch (IOError e) {
 				stderr.printf ("IOError: %s\n", e.message);
 				system_daemon.write_alpm_config_finished.disconnect (on_write_alpm_config_finished);
-			}
-		}
-
-		public void start_write_mirrors_config (HashTable<string,Variant> new_mirrors_conf) {
-			try {
-				system_daemon.write_mirrors_config_finished.connect (on_write_mirrors_config_finished);
-				system_daemon.start_write_mirrors_config (new_mirrors_conf);
-			} catch (IOError e) {
-				stderr.printf ("IOError: %s\n", e.message);
-				system_daemon.write_mirrors_config_finished.disconnect (on_write_mirrors_config_finished);
 			}
 		}
 
@@ -427,7 +425,7 @@ namespace Pamac {
 			}
 		}
 
-		public void start_generate_mirrors_list () {
+		public void start_generate_mirrors_list (string country) {
 			string action = dgettext (null, "Refreshing mirrors list") + "...";
 			reset_progress_box (action);
 			start_progressbar_pulse ();
@@ -436,7 +434,7 @@ namespace Pamac {
 			try {
 				system_daemon.generate_mirrors_list_data.connect (on_generate_mirrors_list_data);
 				system_daemon.generate_mirrors_list_finished.connect (on_generate_mirrors_list_finished);
-				system_daemon.start_generate_mirrors_list ();
+				system_daemon.start_generate_mirrors_list (country);
 			} catch (IOError e) {
 				stderr.printf ("IOError: %s\n", e.message);
 				stop_progressbar_pulse ();
@@ -1802,11 +1800,6 @@ namespace Pamac {
 			refresh_handle ();
 			system_daemon.write_alpm_config_finished.disconnect (on_write_alpm_config_finished);
 			write_alpm_config_finished (checkspace);
-		}
-
-		void on_write_mirrors_config_finished (string choosen_country, string choosen_generation_method) {
-			system_daemon.write_mirrors_config_finished.disconnect (on_write_mirrors_config_finished);
-			write_mirrors_config_finished (choosen_country, choosen_generation_method);
 		}
 
 		void on_generate_mirrors_list_data (string line) {

@@ -1,7 +1,7 @@
 /*
  *  pamac-vala
  *
- *  Copyright (C) 2014-2017 Guillaume Benoit <guillaume@manjaro.org>
+ *  Copyright (C) 2014-2018 Guillaume Benoit <guillaume@manjaro.org>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -144,19 +144,40 @@ namespace Pamac {
 			try {
 				string countries_str;
 				int status;
-				Process.spawn_command_line_sync ("pacman-mirrors -lq",
+				Process.spawn_command_line_sync ("pacman-mirrors -l",
 											out countries_str,
 											null,
 											out status);
 				if (status == 0) {
 					foreach (unowned string country in countries_str.split ("\n")) {
-						countries += country;
+						if (country != "") {
+							countries += country;
+						}
 					}
 				}
 			} catch (SpawnError e) {
 				stderr.printf ("Error: %s\n", e.message);
 			}
 			return countries;
+		}
+
+		public string get_mirrors_choosen_country () {
+			string country = "";
+			try {
+				string countries_str;
+				int status;
+				Process.spawn_command_line_sync ("pacman-mirrors -lc",
+											out countries_str,
+											null,
+											out status);
+				if (status == 0) {
+					// only take first country
+					country = countries_str.split ("\n")[0];
+				}
+			} catch (SpawnError e) {
+				stderr.printf ("Error: %s\n", e.message);
+			}
+			return country;
 		}
 
 		public bool get_checkspace () {
