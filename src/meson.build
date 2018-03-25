@@ -24,7 +24,7 @@ math = meson.get_compiler('c').find_library('m')
 vala_deps = [gobject]
 alpm_deps = [libalpm, gio, posix]
 
-alpm_vala_args = ['--vapidir=../vapi']
+alpm_vala_args = ['--vapidir=' + join_paths(meson.source_root(), 'vapi')]
 alpm_c_args = ['-D_FILE_OFFSET_BITS=64']
 
 common_vala_args = ['--pkg=posix', '--target-glib=2.38']
