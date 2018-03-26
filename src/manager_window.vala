@@ -2405,7 +2405,7 @@ namespace Pamac {
 				"icon_name", "system-software-install",
 				"logo_icon_name", "system-software-install",
 				"comments", dgettext (null, "A Gtk3 frontend for libalpm"),
-				"copyright", "Copyright © 2017 Guillaume Benoit",
+				"copyright", "Copyright © 2018 Guillaume Benoit",
 				"authors", authors,
 				"version", VERSION,
 				"license_type", Gtk.License.GPL_3_0,
