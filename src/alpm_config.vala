@@ -140,7 +140,7 @@ public class AlpmConfig {
 		if (tmp_db) {
 			string tmp_dbpath = "/tmp/pamac-checkdbs";
 			try {
-				if (! GLib.FileUtils.test(tmp_dbpath, GLib.FileTest.IS_DIR)) {
+				if (! GLib.FileUtils.test (tmp_dbpath, GLib.FileTest.IS_DIR)) {
 					Process.spawn_command_line_sync ("mkdir -p %s/sync".printf (tmp_dbpath));
 					Process.spawn_command_line_sync ("ln -sf %slocal %s".printf (dbpath, tmp_dbpath));
 					Process.spawn_command_line_sync ("chmod -R 777 %s/sync".printf (tmp_dbpath));
