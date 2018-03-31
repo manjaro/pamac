@@ -387,6 +387,17 @@ namespace Pamac {
 			}
 		}
 
+		[GtkCallback]
+		bool on_ManagerWindow_delete_event () {
+			if (transaction_running || sysupgrade_running || refreshing || generate_mirrors_list) {
+				// do not close window
+				return true;
+			} else {
+				// close window
+				return false;
+			}
+		}
+
 		bool check_extern_lock () {
 			if (extern_lock) {
 				if (!transaction.lockfile.query_exists ()) {
