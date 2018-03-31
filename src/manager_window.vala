@@ -1934,7 +1934,7 @@ namespace Pamac {
 							}
 						}
 					}
-					right_click_menu.popup (null, null, null, event.button, event.time);
+					right_click_menu.popup_at_pointer (event);
 					return true;
 				}
 			}
@@ -2008,7 +2008,7 @@ namespace Pamac {
 							upgrade_item.sensitive = true;
 						}
 					}
-					right_click_menu.popup (null, null, null, event.button, event.time);
+					right_click_menu.popup_at_pointer (event);
 					return true;
 				}
 			}

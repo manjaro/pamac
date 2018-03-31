@@ -356,7 +356,7 @@ namespace Pamac {
 					copy_item.activate.connect (() => {term.copy_clipboard ();});
 					right_click_menu.append (copy_item);
 					right_click_menu.show_all ();
-					right_click_menu.popup (null, null, null, event.button, event.time);
+					right_click_menu.popup_at_pointer (event);
 					return true;
 				}
 			}
