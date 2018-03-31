@@ -73,7 +73,7 @@ executable('pamac-system-daemon',
 
 libpamac = library('pamac',
 	sources: [common_sources, transaction_sources, preferences_sources, transaction_resources],
-	dependencies: [gtk3, gdk3, vte3, posix, math],
+	dependencies: [gtk3, gdk3, vte3, libnotify, posix, math],
 	vala_args: common_vala_args,
 	c_args: common_c_args,
 	install: true,

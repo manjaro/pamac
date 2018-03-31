@@ -241,6 +241,8 @@ namespace Pamac {
 			timer = new Timer ();
 			success = false;
 			warning_textbuffer = new StringBuilder ();
+			// notify
+			Notify.init (dgettext (null, "Package Manager"));
 		}
 
 		public void run_preferences_dialog () {
@@ -1619,8 +1621,21 @@ namespace Pamac {
 			box.add (scrolledwindow);
 			dialog.default_width = 600;
 			dialog.default_height = 300;
-			dialog.run ();
-			dialog.destroy ();
+			dialog.show ();
+			dialog.response.connect (() => {
+				dialog.destroy ();
+			});
+			Timeout.add (1000, () => {
+				try {
+					var notification = new Notify.Notification (dgettext (null, "Package Manager"),
+																message,
+																"system-software-update");
+					notification.show ();
+				} catch (Error e) {
+					stderr.printf ("Notify Error: %s", e.message);
+				}
+				return false;
+			});
 		}
 
 		void handle_error (ErrorInfos error) {
@@ -1635,6 +1650,16 @@ namespace Pamac {
 			disconnecting_dbus_signals ();
 			transaction_summary.remove_all ();
 			reset_progress_box ("");
+			if (success) {
+				try {
+					var notification = new Notify.Notification (dgettext (null, "Package Manager"),
+																dgettext (null, "Transaction successfully finished"),
+																"system-software-update");
+					notification.show ();
+				} catch (Error e) {
+					stderr.printf ("Notify Error: %s", e.message);
+				}
+			}
 			finished (success);
 			success = false;
 		}
