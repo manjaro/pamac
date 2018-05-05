@@ -27,11 +27,11 @@ const string noupdate_info = _("Your system is up-to-date");
 namespace Pamac {
 	[DBus (name = "org.manjaro.pamac.user")]
 	interface UserDaemon : Object {
-		public abstract void refresh_handle () throws IOError;
-		public abstract string get_lockfile () throws IOError;
-		public abstract void start_get_updates (bool check_aur_updates) throws IOError;
+		public abstract void refresh_handle () throws Error;
+		public abstract string get_lockfile () throws Error;
+		public abstract void start_get_updates (bool check_aur_updates) throws Error;
 		[DBus (no_reply = true)]
-		public abstract void quit () throws IOError;
+		public abstract void quit () throws Error;
 		public signal void get_updates_finished (Updates updates);
 	}
 
@@ -54,8 +54,8 @@ namespace Pamac {
 			try {
 				daemon = Bus.get_proxy_sync (BusType.SESSION, "org.manjaro.pamac.user", "/org/manjaro/pamac/user");
 				daemon.get_updates_finished.connect (on_get_updates_finished);
-			} catch (IOError e) {
-				stderr.printf ("IOError: %s\n", e.message);
+			} catch (Error e) {
+				stderr.printf ("Error: %s\n", e.message);
 			}
 		}
 
@@ -63,8 +63,8 @@ namespace Pamac {
 			if (!check_pamac_running ()) {
 				try {
 					daemon.quit ();
-				} catch (IOError e) {
-					stderr.printf ("IOError: %s\n", e.message);
+				} catch (Error e) {
+					stderr.printf ("Error: %s\n", e.message);
 				}
 			}
 		}
@@ -118,8 +118,8 @@ namespace Pamac {
 			if (pamac_config.refresh_period != 0) {
 				try {
 					daemon.start_get_updates (pamac_config.enable_aur && pamac_config.check_aur_updates);
-				} catch (IOError e) {
-					stderr.printf ("IOError: %s\n", e.message);
+				} catch (Error e) {
+					stderr.printf ("Error: %s\n", e.message);
 				}
 			}
 			return true;
@@ -213,8 +213,8 @@ namespace Pamac {
 					extern_lock = false;
 					try {
 						daemon.refresh_handle ();
-					} catch (IOError e) {
-						stderr.printf ("IOError: %s\n", e.message);
+					} catch (Error e) {
+						stderr.printf ("Error: %s\n", e.message);
 					}
 					check_updates ();
 				}
@@ -265,8 +265,8 @@ namespace Pamac {
 			start_daemon ();
 			try {
 				lockfile = GLib.File.new_for_path (daemon.get_lockfile ());
-			} catch (IOError e) {
-				stderr.printf ("IOError: %s\n", e.message);
+			} catch (Error e) {
+				stderr.printf ("Error: %s\n", e.message);
 				//try standard lock file
 				lockfile = GLib.File.new_for_path ("var/lib/pacman/db.lck");
 			}

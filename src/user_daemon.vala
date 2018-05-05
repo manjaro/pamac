@@ -103,7 +103,11 @@ namespace Pamac {
 			aur_updates = {};
 			aur_search_results = new HashTable<string, Json.Array> (str_hash, str_equal);
 			aur_infos = new HashTable<string, Json.Object> (str_hash, str_equal);
-			refresh_handle ();
+			try {
+				refresh_handle ();
+			} catch (Error e) {
+				stderr.printf ("Error: %s\n", e.message);
+			}
 			// init appstream
 			app_store = new As.Store ();
 			app_store.set_add_flags (As.StoreAddFlags.USE_UNIQUE_ID
@@ -128,7 +132,7 @@ namespace Pamac {
 			}
 		}
 
-		public void refresh_handle () {
+		public void refresh_handle () throws Error {
 			alpm_config.reload ();
 			alpm_handle = alpm_config.get_handle ();
 			if (alpm_handle == null) {
@@ -140,7 +144,7 @@ namespace Pamac {
 			aur_updates_checked = false;
 		}
 
-		public string[] get_mirrors_countries () {
+		public string[] get_mirrors_countries () throws Error {
 			string[] countries = {};
 			try {
 				string countries_str;
@@ -162,7 +166,7 @@ namespace Pamac {
 			return countries;
 		}
 
-		public string get_mirrors_choosen_country () {
+		public string get_mirrors_choosen_country () throws Error {
 			string country = "";
 			try {
 				string countries_str;
@@ -181,15 +185,15 @@ namespace Pamac {
 			return country;
 		}
 
-		public bool get_checkspace () {
+		public bool get_checkspace () throws Error {
 			return alpm_handle.checkspace == 1 ? true : false;
 		}
 
-		public string get_lockfile () {
+		public string get_lockfile () throws Error {
 			return alpm_handle.lockfile;
 		}
 
-		public string[] get_ignorepkgs () {
+		public string[] get_ignorepkgs () throws Error {
 			string[] result = {};
 			unowned Alpm.List<unowned string> ignorepkgs = alpm_handle.ignorepkgs;
 			while (ignorepkgs != null) {
@@ -200,14 +204,14 @@ namespace Pamac {
 			return result;
 		}
 
-		public bool should_hold (string pkgname) {
+		public bool should_hold (string pkgname) throws Error {
 			if (alpm_config.get_holdpkgs ().find_custom (pkgname, strcmp) != null) {
 				return true;
 			}
 			return false;
 		}
 
-		public uint get_pkg_reason (string pkgname) {
+		public uint get_pkg_reason (string pkgname) throws Error {
 			unowned Alpm.Package? pkg = alpm_handle.localdb.get_pkg (pkgname);
 			if (pkg != null) {
 				return pkg.reason;
@@ -215,7 +219,7 @@ namespace Pamac {
 			return 0;
 		}
 
-		public uint get_pkg_origin (string pkgname) {
+		public uint get_pkg_origin (string pkgname) throws Error {
 			unowned Alpm.Package? pkg = alpm_handle.localdb.get_pkg (pkgname);
 			if (pkg != null) {
 				return pkg.origin;
@@ -412,7 +416,7 @@ namespace Pamac {
 			return pkgs;
 		}
 
-		public async AlpmPackage[] get_installed_pkgs () {
+		public async AlpmPackage[] get_installed_pkgs () throws Error {
 			AlpmPackage[] pkgs = {};
 			unowned Alpm.List<unowned Alpm.Package> pkgcache = alpm_handle.localdb.pkgcache;
 			while (pkgcache != null) {
@@ -425,7 +429,7 @@ namespace Pamac {
 			return pkgs;
 		}
 
-		public async AlpmPackage[] get_installed_apps () {
+		public async AlpmPackage[] get_installed_apps () throws Error {
 			AlpmPackage[] pkgs = {};
 			app_store.get_apps ().foreach ((app) => {
 				unowned string pkgname = app.get_pkgname_default ();
@@ -451,7 +455,7 @@ namespace Pamac {
 			return pkgs;
 		}
 
-		public async AlpmPackage[] get_explicitly_installed_pkgs () {
+		public async AlpmPackage[] get_explicitly_installed_pkgs () throws Error {
 			AlpmPackage[] pkgs = {};
 			unowned Alpm.List<unowned Alpm.Package> pkgcache = alpm_handle.localdb.pkgcache;
 			while (pkgcache != null) {
@@ -466,7 +470,7 @@ namespace Pamac {
 			return pkgs;
 		}
 
-		public async AlpmPackage[] get_foreign_pkgs () {
+		public async AlpmPackage[] get_foreign_pkgs () throws Error {
 			AlpmPackage[] pkgs = {};
 			unowned Alpm.List<unowned Alpm.Package> pkgcache = alpm_handle.localdb.pkgcache;
 			while (pkgcache != null) {
@@ -492,7 +496,7 @@ namespace Pamac {
 			return pkgs;
 		}
 
-		public async AlpmPackage[] get_orphans () {
+		public async AlpmPackage[] get_orphans () throws Error {
 			AlpmPackage[] pkgs = {};
 			unowned Alpm.List<unowned Alpm.Package> pkgcache = alpm_handle.localdb.pkgcache;
 			while (pkgcache != null) {
@@ -517,11 +521,11 @@ namespace Pamac {
 			return pkgs;
 		}
 
-		public AlpmPackage get_installed_pkg (string pkgname) {
+		public AlpmPackage get_installed_pkg (string pkgname) throws Error {
 			return initialise_pkg_struct (alpm_handle.localdb.get_pkg (pkgname));
 		}
 
-		public AlpmPackage find_installed_satisfier (string depstring) {
+		public AlpmPackage find_installed_satisfier (string depstring) throws Error {
 			return initialise_pkg_struct (Alpm.find_satisfier (alpm_handle.localdb.pkgcache, depstring));
 		}
 
@@ -539,7 +543,7 @@ namespace Pamac {
 			return pkg;
 		}
 
-		public AlpmPackage get_sync_pkg (string pkgname) {
+		public AlpmPackage get_sync_pkg (string pkgname) throws Error {
 			return initialise_pkg_struct (get_syncpkg (pkgname));
 		}
 
@@ -557,7 +561,7 @@ namespace Pamac {
 			return pkg;
 		}
 
-		public AlpmPackage find_sync_satisfier (string depstring) {
+		public AlpmPackage find_sync_satisfier (string depstring) throws Error {
 			return initialise_pkg_struct (find_dbs_satisfier (depstring));
 		}
 
@@ -607,7 +611,7 @@ namespace Pamac {
 			return result;
 		}
 
-		public async AlpmPackage[] search_pkgs (string search_string) {
+		public async AlpmPackage[] search_pkgs (string search_string) throws Error {
 			AlpmPackage[] pkgs = {};
 			Alpm.List<unowned Alpm.Package> alpm_pkgs = search_all_dbs (search_string);
 			unowned Alpm.List<unowned Alpm.Package> list = alpm_pkgs;
@@ -637,7 +641,7 @@ namespace Pamac {
 			};
 		}
 
-		public async AURPackage[] search_in_aur (string search_string) {
+		public async AURPackage[] search_in_aur (string search_string) throws Error {
 			if (!aur_search_results.contains (search_string)) {
 				Json.Array pkgs = yield AUR.search (search_string.split (" "));
 				aur_search_results.insert (search_string, pkgs);
@@ -654,7 +658,7 @@ namespace Pamac {
 			return result;
 		}
 
-		public async AURPackageDetails get_aur_details (string pkgname) {
+		public async AURPackageDetails get_aur_details (string pkgname) throws Error {
 			string name = "";
 			string version = "";
 			string desc = "";
@@ -799,7 +803,7 @@ namespace Pamac {
 			return details;
 		}
 
-		public string[] get_repos_names () {
+		public string[] get_repos_names () throws Error {
 			string[] repos_names = {};
 			unowned Alpm.List<unowned Alpm.DB> syncdbs = alpm_handle.syncdbs;
 			while (syncdbs != null) {
@@ -810,7 +814,7 @@ namespace Pamac {
 			return repos_names;
 		}
 
-		public async AlpmPackage[] get_repo_pkgs (string repo) {
+		public async AlpmPackage[] get_repo_pkgs (string repo) throws Error {
 			AlpmPackage[] pkgs = {};
 			unowned Alpm.List<unowned Alpm.DB> syncdbs = alpm_handle.syncdbs;
 			while (syncdbs != null) {
@@ -838,7 +842,7 @@ namespace Pamac {
 			return pkgs;
 		}
 
-		public string[] get_groups_names () {
+		public string[] get_groups_names () throws Error {
 			string[] groups_names = {};
 			unowned Alpm.List<unowned Alpm.Group> groupcache = alpm_handle.localdb.groupcache;
 			while (groupcache != null) {
@@ -894,7 +898,7 @@ namespace Pamac {
 			return result;
 		}
 
-		public async AlpmPackage[] get_group_pkgs (string groupname) {
+		public async AlpmPackage[] get_group_pkgs (string groupname) throws Error {
 			AlpmPackage[] pkgs = {};
 			Alpm.List<unowned Alpm.Package> alpm_pkgs = group_pkgs (groupname);
 			unowned Alpm.List<unowned Alpm.Package> list = alpm_pkgs;
@@ -908,7 +912,7 @@ namespace Pamac {
 			return pkgs;
 		}
 
-		public async AlpmPackage[] get_category_pkgs (string category) {
+		public async AlpmPackage[] get_category_pkgs (string category) throws Error {
 			AlpmPackage[] pkgs = {};
 			app_store.get_apps ().foreach ((app) => {
 				app.get_categories ().foreach ((cat_name) => {
@@ -947,7 +951,7 @@ namespace Pamac {
 			return pkgs;
 		}
 
-		public string[] get_pkg_uninstalled_optdeps (string pkgname) {
+		public string[] get_pkg_uninstalled_optdeps (string pkgname) throws Error {
 			string[] optdeps = {};
 			unowned Alpm.Package? alpm_pkg = alpm_handle.localdb.get_pkg (pkgname);
 			if (alpm_pkg == null) {
@@ -966,7 +970,7 @@ namespace Pamac {
 			return optdeps;
 		}
 
-		public AlpmPackageDetails get_pkg_details (string pkgname, string appname) {
+		public AlpmPackageDetails get_pkg_details (string pkgname, string appname) throws Error {
 			string name = "";
 			string app_name = "";
 			string version = "";
@@ -1166,7 +1170,7 @@ namespace Pamac {
 			return details;
 		}
 
-		public string[] get_pkg_files (string pkgname) {
+		public string[] get_pkg_files (string pkgname) throws Error {
 			string[] files = {};
 			unowned Alpm.Package? alpm_pkg = alpm_handle.localdb.get_pkg (pkgname);
 			if (alpm_pkg != null) {
@@ -1321,13 +1325,13 @@ namespace Pamac {
 			});
 		}
 
-		public void start_get_updates (bool check_aur_updates_) {
+		public void start_get_updates (bool check_aur_updates_) throws Error {
 			check_aur_updates = check_aur_updates_;
 			new Thread<int> ("get updates thread", get_updates);
 		}
 
 		[DBus (no_reply = true)]
-		public void quit () {
+		public void quit () throws Error {
 			loop.quit ();
 		}
 	// End of Daemon Object

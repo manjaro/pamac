@@ -20,64 +20,64 @@
 namespace Pamac {
 	[DBus (name = "org.manjaro.pamac.user")]
 	interface UserDaemon : Object {
-		public abstract void refresh_handle () throws IOError;
-		public abstract string[] get_mirrors_countries () throws IOError;
-		public abstract string get_mirrors_choosen_country () throws IOError;
-		public abstract string get_lockfile () throws IOError;
-		public abstract AlpmPackage get_installed_pkg (string pkgname) throws IOError;
-		public abstract bool get_checkspace () throws IOError;
-		public abstract string[] get_ignorepkgs () throws IOError;
-		public abstract bool should_hold (string pkgname) throws IOError;
-		public abstract uint get_pkg_reason (string pkgname) throws IOError;
-		public abstract uint get_pkg_origin (string pkgname) throws IOError;
-		public abstract async AlpmPackage[] get_installed_pkgs () throws IOError;
-		public abstract async AlpmPackage[] get_installed_apps () throws IOError;
-		public abstract async AlpmPackage[] get_explicitly_installed_pkgs () throws IOError;
-		public abstract async AlpmPackage[] get_foreign_pkgs () throws IOError;
-		public abstract async AlpmPackage[] get_orphans () throws IOError;
-		public abstract AlpmPackage find_installed_satisfier (string depstring) throws IOError;
-		public abstract AlpmPackage get_sync_pkg (string pkgname) throws IOError;
-		public abstract AlpmPackage find_sync_satisfier (string depstring) throws IOError;
-		public abstract async AlpmPackage[] search_pkgs (string search_string) throws IOError;
-		public abstract async AURPackage[] search_in_aur (string search_string) throws IOError;
-		public abstract async AlpmPackage[] get_category_pkgs (string category) throws IOError;
-		public abstract string[] get_repos_names () throws IOError;
-		public abstract async AlpmPackage[] get_repo_pkgs (string repo) throws IOError;
-		public abstract string[] get_groups_names () throws IOError;
-		public abstract async AlpmPackage[] get_group_pkgs (string groupname) throws IOError;
-		public abstract AlpmPackageDetails get_pkg_details (string pkgname, string app_name) throws IOError;
-		public abstract string[] get_pkg_files (string pkgname) throws IOError;
-		public abstract async AURPackageDetails get_aur_details (string pkgname) throws IOError;
-		public abstract string[] get_pkg_uninstalled_optdeps (string pkgname) throws IOError;
-		public abstract void start_get_updates (bool check_aur_updates) throws IOError;
+		public abstract void refresh_handle () throws Error;
+		public abstract string[] get_mirrors_countries () throws Error;
+		public abstract string get_mirrors_choosen_country () throws Error;
+		public abstract string get_lockfile () throws Error;
+		public abstract AlpmPackage get_installed_pkg (string pkgname) throws Error;
+		public abstract bool get_checkspace () throws Error;
+		public abstract string[] get_ignorepkgs () throws Error;
+		public abstract bool should_hold (string pkgname) throws Error;
+		public abstract uint get_pkg_reason (string pkgname) throws Error;
+		public abstract uint get_pkg_origin (string pkgname) throws Error;
+		public abstract async AlpmPackage[] get_installed_pkgs () throws Error;
+		public abstract async AlpmPackage[] get_installed_apps () throws Error;
+		public abstract async AlpmPackage[] get_explicitly_installed_pkgs () throws Error;
+		public abstract async AlpmPackage[] get_foreign_pkgs () throws Error;
+		public abstract async AlpmPackage[] get_orphans () throws Error;
+		public abstract AlpmPackage find_installed_satisfier (string depstring) throws Error;
+		public abstract AlpmPackage get_sync_pkg (string pkgname) throws Error;
+		public abstract AlpmPackage find_sync_satisfier (string depstring) throws Error;
+		public abstract async AlpmPackage[] search_pkgs (string search_string) throws Error;
+		public abstract async AURPackage[] search_in_aur (string search_string) throws Error;
+		public abstract async AlpmPackage[] get_category_pkgs (string category) throws Error;
+		public abstract string[] get_repos_names () throws Error;
+		public abstract async AlpmPackage[] get_repo_pkgs (string repo) throws Error;
+		public abstract string[] get_groups_names () throws Error;
+		public abstract async AlpmPackage[] get_group_pkgs (string groupname) throws Error;
+		public abstract AlpmPackageDetails get_pkg_details (string pkgname, string app_name) throws Error;
+		public abstract string[] get_pkg_files (string pkgname) throws Error;
+		public abstract async AURPackageDetails get_aur_details (string pkgname) throws Error;
+		public abstract string[] get_pkg_uninstalled_optdeps (string pkgname) throws Error;
+		public abstract void start_get_updates (bool check_aur_updates) throws Error;
 		[DBus (no_reply = true)]
-		public abstract void quit () throws IOError;
+		public abstract void quit () throws Error;
 		public signal void emit_get_updates_progress (uint percent);
 		public signal void get_updates_finished (Updates updates);
 	}
 	[DBus (name = "org.manjaro.pamac.system")]
 	interface SystemDaemon : Object {
-		public abstract void set_environment_variables (HashTable<string,string> variables) throws IOError;
-		public abstract ErrorInfos get_current_error () throws IOError;
-		public abstract bool get_lock () throws IOError;
-		public abstract bool unlock () throws IOError;
-		public abstract void start_get_authorization () throws IOError;
-		public abstract void start_write_pamac_config (HashTable<string,Variant> new_pamac_conf) throws IOError;
-		public abstract void start_write_alpm_config (HashTable<string,Variant> new_alpm_conf) throws IOError;
-		public abstract void start_generate_mirrors_list (string country) throws IOError;
-		public abstract void clean_cache (uint64 keep_nb, bool only_uninstalled) throws IOError;
-		public abstract void start_set_pkgreason (string pkgname, uint reason) throws IOError;
-		public abstract void start_refresh (bool force) throws IOError;
-		public abstract void start_sysupgrade_prepare (bool enable_downgrade, string[] temporary_ignorepkgs) throws IOError;
-		public abstract void start_trans_prepare (int transflags, string[] to_install, string[] to_remove, string[] to_load, string[] to_build) throws IOError;
-		public abstract void choose_provider (int provider) throws IOError;
-		public abstract TransactionSummary get_transaction_summary () throws IOError;
-		public abstract void start_trans_commit () throws IOError;
-		public abstract void trans_release () throws IOError;
-		public abstract void trans_cancel () throws IOError;
-		public abstract void start_get_updates (bool check_aur_updates) throws IOError;
+		public abstract void set_environment_variables (HashTable<string,string> variables) throws Error;
+		public abstract ErrorInfos get_current_error () throws Error;
+		public abstract bool get_lock () throws Error;
+		public abstract bool unlock () throws Error;
+		public abstract void start_get_authorization () throws Error;
+		public abstract void start_write_pamac_config (HashTable<string,Variant> new_pamac_conf) throws Error;
+		public abstract void start_write_alpm_config (HashTable<string,Variant> new_alpm_conf) throws Error;
+		public abstract void start_generate_mirrors_list (string country) throws Error;
+		public abstract void clean_cache (uint64 keep_nb, bool only_uninstalled) throws Error;
+		public abstract void start_set_pkgreason (string pkgname, uint reason) throws Error;
+		public abstract void start_refresh (bool force) throws Error;
+		public abstract void start_sysupgrade_prepare (bool enable_downgrade, string[] temporary_ignorepkgs) throws Error;
+		public abstract void start_trans_prepare (int transflags, string[] to_install, string[] to_remove, string[] to_load, string[] to_build) throws Error;
+		public abstract void choose_provider (int provider) throws Error;
+		public abstract TransactionSummary get_transaction_summary () throws Error;
+		public abstract void start_trans_commit () throws Error;
+		public abstract void trans_release () throws Error;
+		public abstract void trans_cancel () throws Error;
+		public abstract void start_get_updates (bool check_aur_updates) throws Error;
 		[DBus (no_reply = true)]
-		public abstract void quit () throws IOError;
+		public abstract void quit () throws Error;
 		public signal void get_updates_finished (Updates updates);
 		public signal void emit_event (uint primary_event, uint secondary_event, string[] details);
 		public signal void emit_providers (string depend, string[] providers);
@@ -265,8 +265,8 @@ namespace Pamac {
 		public ErrorInfos get_current_error () {
 			try {
 				return system_daemon.get_current_error ();
-			} catch (IOError e) {
-				stderr.printf ("IOError: %s\n", e.message);
+			} catch (Error e) {
+				stderr.printf ("Error: %s\n", e.message);
 				return ErrorInfos ();
 			}
 		}
@@ -275,8 +275,8 @@ namespace Pamac {
 			string[] countries = {};
 			try {
 				countries = user_daemon.get_mirrors_countries ();
-			} catch (IOError e) {
-				stderr.printf ("IOError: %s\n", e.message);
+			} catch (Error e) {
+				stderr.printf ("Error: %s\n", e.message);
 			}
 			return countries;
 		}
@@ -285,8 +285,8 @@ namespace Pamac {
 			string country = "";
 			try {
 				country = user_daemon.get_mirrors_choosen_country ();
-			} catch (IOError e) {
-				stderr.printf ("IOError: %s\n", e.message);
+			} catch (Error e) {
+				stderr.printf ("Error: %s\n", e.message);
 			}
 			return country;
 		}
@@ -296,8 +296,8 @@ namespace Pamac {
 			connecting_system_daemon ();
 			try {
 				locked = system_daemon.get_lock ();
-			} catch (IOError e) {
-				stderr.printf ("IOError: %s\n", e.message);
+			} catch (Error e) {
+				stderr.printf ("Error: %s\n", e.message);
 			}
 			return locked;
 		}
@@ -306,8 +306,8 @@ namespace Pamac {
 			bool unlocked = false;
 			try {
 				unlocked = system_daemon.unlock ();
-			} catch (IOError e) {
-				stderr.printf ("IOError: %s\n", e.message);
+			} catch (Error e) {
+				stderr.printf ("Error: %s\n", e.message);
 			}
 			return unlocked;
 		}
@@ -321,8 +321,8 @@ namespace Pamac {
 			});
 			try {
 				system_daemon.start_get_authorization ();
-			} catch (IOError e) {
-				stderr.printf ("IOError: %s\n", e.message);
+			} catch (Error e) {
+				stderr.printf ("Error: %s\n", e.message);
 			}
 			yield;
 			system_daemon.disconnect (handler_id);
@@ -333,8 +333,8 @@ namespace Pamac {
 			try {
 				system_daemon.write_pamac_config_finished.connect (on_write_pamac_config_finished);
 				system_daemon.start_write_pamac_config (new_pamac_conf);
-			} catch (IOError e) {
-				stderr.printf ("IOError: %s\n", e.message);
+			} catch (Error e) {
+				stderr.printf ("Error: %s\n", e.message);
 				system_daemon.write_pamac_config_finished.disconnect (on_write_pamac_config_finished);
 			}
 		}
@@ -343,8 +343,8 @@ namespace Pamac {
 			try {
 				system_daemon.write_alpm_config_finished.connect (on_write_alpm_config_finished);
 				system_daemon.start_write_alpm_config (new_alpm_conf);
-			} catch (IOError e) {
-				stderr.printf ("IOError: %s\n", e.message);
+			} catch (Error e) {
+				stderr.printf ("Error: %s\n", e.message);
 				system_daemon.write_alpm_config_finished.disconnect (on_write_alpm_config_finished);
 			}
 		}
@@ -399,8 +399,8 @@ namespace Pamac {
 					}
 				} catch (Error e) {
 					// cancelled
-					process.send_signal (Posix.SIGINT);
-					process.send_signal (Posix.SIGKILL);
+					process.send_signal (Posix.Signal.INT);
+					process.send_signal (Posix.Signal.KILL);
 				}
 			} catch (Error e) {
 				stderr.printf ("Error: %s\n", e.message);
@@ -439,8 +439,8 @@ namespace Pamac {
 				system_daemon.generate_mirrors_list_data.connect (on_generate_mirrors_list_data);
 				system_daemon.generate_mirrors_list_finished.connect (on_generate_mirrors_list_finished);
 				system_daemon.start_generate_mirrors_list (country);
-			} catch (IOError e) {
-				stderr.printf ("IOError: %s\n", e.message);
+			} catch (Error e) {
+				stderr.printf ("Error: %s\n", e.message);
 				stop_progressbar_pulse ();
 				system_daemon.generate_mirrors_list_data.disconnect (on_generate_mirrors_list_data);
 				system_daemon.generate_mirrors_list_finished.disconnect (on_generate_mirrors_list_finished);
@@ -450,8 +450,8 @@ namespace Pamac {
 		public void clean_cache (uint64 keep_nb, bool only_uninstalled) {
 			try {
 				system_daemon.clean_cache (keep_nb, only_uninstalled);
-			} catch (IOError e) {
-				stderr.printf ("IOError: %s\n", e.message);
+			} catch (Error e) {
+				stderr.printf ("Error: %s\n", e.message);
 			}
 		}
 
@@ -459,8 +459,8 @@ namespace Pamac {
 			try {
 				system_daemon.set_pkgreason_finished.connect (on_set_pkgreason_finished);
 				system_daemon.start_set_pkgreason (pkgname, reason);
-			} catch (IOError e) {
-				stderr.printf ("IOError: %s\n", e.message);
+			} catch (Error e) {
+				stderr.printf ("Error: %s\n", e.message);
 				system_daemon.set_pkgreason_finished.disconnect (on_set_pkgreason_finished);
 			}
 		}
@@ -476,8 +476,8 @@ namespace Pamac {
 					try {
 						system_daemon.refresh_finished.connect (on_refresh_finished);
 						system_daemon.start_refresh (force);
-					} catch (IOError e) {
-						stderr.printf ("IOError: %s\n", e.message);
+					} catch (Error e) {
+						stderr.printf ("Error: %s\n", e.message);
 						system_daemon.refresh_finished.disconnect (on_refresh_finished);
 						success = false;
 						finish_transaction ();
@@ -493,16 +493,16 @@ namespace Pamac {
 			try {
 				user_daemon.refresh_handle ();
 				get_lockfile ();
-			} catch (IOError e) {
-				stderr.printf ("IOError: %s\n", e.message);
+			} catch (Error e) {
+				stderr.printf ("Error: %s\n", e.message);
 			}
 		}
 
 		void get_lockfile () {
 			try {
 				lockfile = GLib.File.new_for_path (user_daemon.get_lockfile ());
-			} catch (IOError e) {
-				stderr.printf ("IOError: %s\n", e.message);
+			} catch (Error e) {
+				stderr.printf ("Error: %s\n", e.message);
 				//try standard lock file
 				lockfile = GLib.File.new_for_path ("var/lib/pacman/db.lck");
 			}
@@ -512,8 +512,8 @@ namespace Pamac {
 			bool checkspace = false;
 			try {
 				checkspace = user_daemon.get_checkspace ();
-			} catch (IOError e) {
-				stderr.printf ("IOError: %s\n", e.message);
+			} catch (Error e) {
+				stderr.printf ("Error: %s\n", e.message);
 			}
 			return checkspace;
 		}
@@ -522,8 +522,8 @@ namespace Pamac {
 			string[] ignorepkgs = {};
 			try {
 				ignorepkgs = user_daemon.get_ignorepkgs ();
-			} catch (IOError e) {
-				stderr.printf ("IOError: %s\n", e.message);
+			} catch (Error e) {
+				stderr.printf ("Error: %s\n", e.message);
 			}
 			return ignorepkgs;
 		}
@@ -531,8 +531,8 @@ namespace Pamac {
 		public AlpmPackage get_installed_pkg (string pkgname) {
 			try {
 				return user_daemon.get_installed_pkg (pkgname);
-			} catch (IOError e) {
-				stderr.printf ("IOError: %s\n", e.message);
+			} catch (Error e) {
+				stderr.printf ("Error: %s\n", e.message);
 				return AlpmPackage () {
 					name = "",
 					version = "",
@@ -545,8 +545,8 @@ namespace Pamac {
 		public AlpmPackage find_installed_satisfier (string depstring) {
 			try {
 				return user_daemon.find_installed_satisfier (depstring);
-			} catch (IOError e) {
-				stderr.printf ("IOError: %s\n", e.message);
+			} catch (Error e) {
+				stderr.printf ("Error: %s\n", e.message);
 				return AlpmPackage () {
 					name = "",
 					version = "",
@@ -560,8 +560,8 @@ namespace Pamac {
 			bool should_hold = false;
 			try {
 				should_hold = user_daemon.should_hold (pkgname);
-			} catch (IOError e) {
-				stderr.printf ("IOError: %s\n", e.message);
+			} catch (Error e) {
+				stderr.printf ("Error: %s\n", e.message);
 			}
 			return should_hold;
 		}
@@ -570,8 +570,8 @@ namespace Pamac {
 			uint reason = 0;
 			try {
 				reason = user_daemon.get_pkg_reason (pkgname);
-			} catch (IOError e) {
-				stderr.printf ("IOError: %s\n", e.message);
+			} catch (Error e) {
+				stderr.printf ("Error: %s\n", e.message);
 			}
 			return reason;
 		}
@@ -580,8 +580,8 @@ namespace Pamac {
 			uint origin = 0;
 			try {
 				origin = user_daemon.get_pkg_origin (pkgname);
-			} catch (IOError e) {
-				stderr.printf ("IOError: %s\n", e.message);
+			} catch (Error e) {
+				stderr.printf ("Error: %s\n", e.message);
 			}
 			return origin;
 		}
@@ -590,8 +590,8 @@ namespace Pamac {
 			AlpmPackage[] pkgs = {};
 			try {
 				pkgs = yield user_daemon.get_installed_pkgs ();
-			} catch (IOError e) {
-				stderr.printf ("IOError: %s\n", e.message);
+			} catch (Error e) {
+				stderr.printf ("Error: %s\n", e.message);
 			}
 			return pkgs;
 		}
@@ -600,8 +600,8 @@ namespace Pamac {
 			AlpmPackage[] pkgs = {};
 			try {
 				pkgs = yield user_daemon.get_installed_apps ();
-			} catch (IOError e) {
-				stderr.printf ("IOError: %s\n", e.message);
+			} catch (Error e) {
+				stderr.printf ("Error: %s\n", e.message);
 			}
 			return pkgs;
 		}
@@ -610,8 +610,8 @@ namespace Pamac {
 			AlpmPackage[] pkgs = {};
 			try {
 				pkgs = yield user_daemon.get_explicitly_installed_pkgs ();
-			} catch (IOError e) {
-				stderr.printf ("IOError: %s\n", e.message);
+			} catch (Error e) {
+				stderr.printf ("Error: %s\n", e.message);
 			}
 			return pkgs;
 		}
@@ -620,8 +620,8 @@ namespace Pamac {
 			AlpmPackage[] pkgs = {};
 			try {
 				pkgs = yield user_daemon.get_foreign_pkgs ();
-			} catch (IOError e) {
-				stderr.printf ("IOError: %s\n", e.message);
+			} catch (Error e) {
+				stderr.printf ("Error: %s\n", e.message);
 			}
 			return pkgs;
 		}
@@ -630,8 +630,8 @@ namespace Pamac {
 			AlpmPackage[] pkgs = {};
 			try {
 				pkgs = yield user_daemon.get_orphans ();
-			} catch (IOError e) {
-				stderr.printf ("IOError: %s\n", e.message);
+			} catch (Error e) {
+				stderr.printf ("Error: %s\n", e.message);
 			}
 			return pkgs;
 		}
@@ -639,8 +639,8 @@ namespace Pamac {
 		public AlpmPackage get_sync_pkg (string pkgname) {
 			try {
 				return user_daemon.get_sync_pkg (pkgname);
-			} catch (IOError e) {
-				stderr.printf ("IOError: %s\n", e.message);
+			} catch (Error e) {
+				stderr.printf ("Error: %s\n", e.message);
 				return AlpmPackage () {
 					name = "",
 					version = "",
@@ -653,8 +653,8 @@ namespace Pamac {
 		public AlpmPackage find_sync_satisfier (string depstring) {
 			try {
 				return user_daemon.find_sync_satisfier (depstring);
-			} catch (IOError e) {
-				stderr.printf ("IOError: %s\n", e.message);
+			} catch (Error e) {
+				stderr.printf ("Error: %s\n", e.message);
 				return AlpmPackage () {
 					name = "",
 					version = "",
@@ -668,8 +668,8 @@ namespace Pamac {
 			AlpmPackage[] pkgs = {};
 			try {
 				pkgs = yield user_daemon.search_pkgs (search_string);
-			} catch (IOError e) {
-				stderr.printf ("IOError: %s\n", e.message);
+			} catch (Error e) {
+				stderr.printf ("Error: %s\n", e.message);
 			}
 			return pkgs;
 		}
@@ -678,8 +678,8 @@ namespace Pamac {
 			AURPackage[] pkgs = {};
 			try {
 				pkgs = yield user_daemon.search_in_aur (search_string);
-			} catch (IOError e) {
-				stderr.printf ("IOError: %s\n", e.message);
+			} catch (Error e) {
+				stderr.printf ("Error: %s\n", e.message);
 			}
 			return pkgs;
 		}
@@ -688,8 +688,8 @@ namespace Pamac {
 			AlpmPackage[] pkgs = {};
 			try {
 				pkgs = yield user_daemon.get_category_pkgs (category);
-			} catch (IOError e) {
-				stderr.printf ("IOError: %s\n", e.message);
+			} catch (Error e) {
+				stderr.printf ("Error: %s\n", e.message);
 			}
 			return pkgs;
 		}
@@ -698,8 +698,8 @@ namespace Pamac {
 			string[] repos_names = {};
 			try {
 				repos_names = user_daemon.get_repos_names ();
-			} catch (IOError e) {
-				stderr.printf ("IOError: %s\n", e.message);
+			} catch (Error e) {
+				stderr.printf ("Error: %s\n", e.message);
 			}
 			return repos_names;
 		}
@@ -708,8 +708,8 @@ namespace Pamac {
 			AlpmPackage[] pkgs = {};
 			try {
 				pkgs = yield user_daemon.get_repo_pkgs (repo);
-			} catch (IOError e) {
-				stderr.printf ("IOError: %s\n", e.message);
+			} catch (Error e) {
+				stderr.printf ("Error: %s\n", e.message);
 			}
 			return pkgs;
 		}
@@ -718,8 +718,8 @@ namespace Pamac {
 			string[] groups_names = {};
 			try {
 				groups_names = user_daemon.get_groups_names ();
-			} catch (IOError e) {
-				stderr.printf ("IOError: %s\n", e.message);
+			} catch (Error e) {
+				stderr.printf ("Error: %s\n", e.message);
 			}
 			return groups_names;
 		}
@@ -728,8 +728,8 @@ namespace Pamac {
 			AlpmPackage[] pkgs = {};
 			try {
 				pkgs = yield user_daemon.get_group_pkgs (group_name);
-			} catch (IOError e) {
-				stderr.printf ("IOError: %s\n", e.message);
+			} catch (Error e) {
+				stderr.printf ("Error: %s\n", e.message);
 			}
 			return pkgs;
 		}
@@ -738,8 +738,8 @@ namespace Pamac {
 			string[] optdeps = {};
 			try {
 				optdeps = user_daemon.get_pkg_uninstalled_optdeps (pkgname);
-			} catch (IOError e) {
-				stderr.printf ("IOError: %s\n", e.message);
+			} catch (Error e) {
+				stderr.printf ("Error: %s\n", e.message);
 			}
 			return optdeps;
 		}
@@ -747,8 +747,8 @@ namespace Pamac {
 		public AlpmPackageDetails get_pkg_details (string pkgname, string app_name) {
 			try {
 				return user_daemon.get_pkg_details (pkgname, app_name);
-			} catch (IOError e) {
-				stderr.printf ("IOError: %s\n", e.message);
+			} catch (Error e) {
+				stderr.printf ("Error: %s\n", e.message);
 				return AlpmPackageDetails () {
 					name = "",
 					version = "",
@@ -767,8 +767,8 @@ namespace Pamac {
 		public string[] get_pkg_files (string pkgname) {
 			try {
 				return user_daemon.get_pkg_files (pkgname);
-			} catch (IOError e) {
-				stderr.printf ("IOError: %s\n", e.message);
+			} catch (Error e) {
+				stderr.printf ("Error: %s\n", e.message);
 				return {};
 			}
 		}
@@ -784,8 +784,8 @@ namespace Pamac {
 			};
 			try {
 				pkg = yield user_daemon.get_aur_details (pkgname);
-			} catch (IOError e) {
-				stderr.printf ("IOError: %s\n", e.message); 
+			} catch (Error e) {
+				stderr.printf ("Error: %s\n", e.message);
 			}
 			return pkg;
 		}
@@ -795,8 +795,8 @@ namespace Pamac {
 			user_daemon.get_updates_finished.connect (on_get_updates_finished);
 			try {
 				user_daemon.start_get_updates (pamac_config.enable_aur && pamac_config.check_aur_updates);
-			} catch (IOError e) {
-				stderr.printf ("IOError: %s\n", e.message);
+			} catch (Error e) {
+				stderr.printf ("Error: %s\n", e.message);
 				success = false;
 				finish_transaction ();
 			}
@@ -806,8 +806,8 @@ namespace Pamac {
 			system_daemon.get_updates_finished.connect (on_get_updates_for_sysupgrade_finished);
 			try {
 				system_daemon.start_get_updates (pamac_config.enable_aur && pamac_config.check_aur_updates);
-			} catch (IOError e) {
-				stderr.printf ("IOError: %s\n", e.message);
+			} catch (Error e) {
+				stderr.printf ("Error: %s\n", e.message);
 				success = false;
 				finish_transaction ();
 			}
@@ -824,8 +824,8 @@ namespace Pamac {
 			try {
 				// this will respond with trans_prepare_finished signal
 				system_daemon.start_sysupgrade_prepare (enable_downgrade, temporary_ignorepkgs_);
-			} catch (IOError e) {
-				stderr.printf ("IOError: %s\n", e.message);
+			} catch (Error e) {
+				stderr.printf ("Error: %s\n", e.message);
 				success = false;
 				finish_transaction ();
 			}
@@ -903,8 +903,8 @@ namespace Pamac {
 		void start_trans_prepare (int transflags, string[] to_install, string[] to_remove, string[] to_load, string[] to_build) {
 			try {
 				system_daemon.start_trans_prepare (transflags, to_install, to_remove, to_load, to_build);
-			} catch (IOError e) {
-				stderr.printf ("IOError: %s\n", e.message);
+			} catch (Error e) {
+				stderr.printf ("Error: %s\n", e.message);
 				stop_progressbar_pulse ();
 				success = false;
 				finish_transaction ();
@@ -963,8 +963,8 @@ namespace Pamac {
 				if (radiobutton.active) {
 					try {
 						system_daemon.choose_provider (index);
-					} catch (IOError e) {
-						stderr.printf ("IOError: %s\n", e.message);
+					} catch (Error e) {
+						stderr.printf ("Error: %s\n", e.message);
 					}
 				}
 				index++;
@@ -984,8 +984,8 @@ namespace Pamac {
 			transaction_sum_dialog.sum_list.clear ();
 			try {
 				summary = system_daemon.get_transaction_summary ();
-			} catch (IOError e) {
-				stderr.printf ("IOError: %s\n", e.message);
+			} catch (Error e) {
+				stderr.printf ("Error: %s\n", e.message);
 			}
 			var iter = Gtk.TreeIter ();
 			if (summary.to_remove.length > 0) {
@@ -1105,8 +1105,8 @@ namespace Pamac {
 		void start_commit () {
 			try {
 				system_daemon.start_trans_commit ();
-			} catch (IOError e) {
-				stderr.printf ("IOError: %s\n", e.message);
+			} catch (Error e) {
+				stderr.printf ("Error: %s\n", e.message);
 				success = false;
 				finish_transaction ();
 			}
@@ -1192,8 +1192,8 @@ namespace Pamac {
 			} else {
 				try {
 					system_daemon.trans_cancel ();
-				} catch (IOError e) {
-					stderr.printf ("IOError: %s\n", e.message);
+				} catch (Error e) {
+					stderr.printf ("Error: %s\n", e.message);
 				}
 			}
 			show_in_term ("\n" + dgettext (null, "Transaction cancelled") + ".\n");
@@ -1204,8 +1204,8 @@ namespace Pamac {
 		public void release () {
 			try {
 				system_daemon.trans_release ();
-			} catch (IOError e) {
-				stderr.printf ("IOError: %s\n", e.message);
+			} catch (Error e) {
+				stderr.printf ("Error: %s\n", e.message);
 			}
 			warning_textbuffer = new StringBuilder ();
 		}
@@ -1216,8 +1216,8 @@ namespace Pamac {
 				if (system_daemon != null) {
 					system_daemon.quit ();
 				}
-			} catch (IOError e) {
-				stderr.printf ("IOError: %s\n", e.message);
+			} catch (Error e) {
+				stderr.printf ("Error: %s\n", e.message);
 			}
 		}
 
@@ -1850,8 +1850,8 @@ namespace Pamac {
 		void connecting_user_daemon () {
 			try {
 				user_daemon = Bus.get_proxy_sync (BusType.SESSION, "org.manjaro.pamac.user", "/org/manjaro/pamac/user");
-			} catch (IOError e) {
-				stderr.printf ("IOError: %s\n", e.message);
+			} catch (Error e) {
+				stderr.printf ("Error: %s\n", e.message);
 			}
 		}
 
@@ -1860,8 +1860,8 @@ namespace Pamac {
 				system_daemon = Bus.get_proxy_sync (BusType.SYSTEM, "org.manjaro.pamac.system", "/org/manjaro/pamac/system");
 				// Set environment variables
 				system_daemon.set_environment_variables (pamac_config.environment_variables);
-			} catch (IOError e) {
-				stderr.printf ("IOError: %s\n", e.message);
+			} catch (Error e) {
+				stderr.printf ("Error: %s\n", e.message);
 			}
 		}
 

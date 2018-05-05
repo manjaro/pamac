@@ -1,7 +1,7 @@
 /*
  *  pamac-vala
  *
- *  Copyright (C) 2014-2017 Guillaume Benoit <guillaume@manjaro.org>
+ *  Copyright (C) 2014-2018 Guillaume Benoit <guillaume@manjaro.org>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -30,8 +30,8 @@ namespace Pamac {
 		}
 
 		// Show popup menu on right button
-		void menu_popup (uint button, uint time) {
-			menu.popup (null, null, null, button, time);
+		void menu_popup () {
+			menu.popup_at_pointer (null);
 		}
 
 		public override void set_tooltip (string info) {
