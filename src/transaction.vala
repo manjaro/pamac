@@ -1720,7 +1720,7 @@ namespace Pamac {
 						transaction_summary.remove_all ();
 						to_build_queue.clear ();
 						sysupgrade_after_trans = false;
-						success = false;
+						this.success = false;
 						finish_transaction ();
 					}
 				} else if (build_after_sysupgrade) {
