@@ -2284,7 +2284,8 @@ namespace Pamac {
 					} else {
 						header_filter_label.set_markup ("");
 					}
-					select_all_button.visible = filters_stack.visible_child_name != "filters";
+					select_all_button.visible = filters_stack.visible_child_name != "filters"
+												&& origin_stack.visible_child_name != "updated";
 					search_button.visible = true;
 					details_button.sensitive = true;
 					break;
