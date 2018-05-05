@@ -94,6 +94,7 @@ namespace Pamac {
 		private As.Store app_store;
 		private string locale;
 
+		public signal void emit_get_updates_progress (uint percent);
 		public signal void get_updates_finished (Updates updates);
 
 		public UserDaemon () {
@@ -1212,20 +1213,33 @@ namespace Pamac {
 			// use a tmp handle
 			var tmp_handle = alpm_config.get_handle (false, true);
 			// refresh tmp dbs
+			// count this step as 45% of the total
+			emit_get_updates_progress (0);
 			unowned Alpm.List<unowned Alpm.DB> syncdbs = tmp_handle.syncdbs;
+			size_t dbs_count = syncdbs.length;
+			size_t i = 0;
 			while (syncdbs != null) {
 				unowned Alpm.DB db = syncdbs.data;
 				db.update (0);
 				syncdbs.next ();
+				i++;
+				emit_get_updates_progress ((uint) ((double) i / dbs_count * (double) 45));
 			}
 			// refresh file dbs
+			// count this step as 45% of the total
 			var tmp_files_handle = alpm_config.get_handle (true, true);
 			syncdbs = tmp_files_handle.syncdbs;
+			dbs_count = syncdbs.length;
+			i = 0;
 			while (syncdbs != null) {
 				unowned Alpm.DB db = syncdbs.data;
 				db.update (0);
 				syncdbs.next ();
+				i++;
+				emit_get_updates_progress ((uint) ((double) 45 + (double) i / dbs_count * (double) 45));
 			}
+			// check updates
+			// count this step as 5% of the total
 			string[] local_pkgs = {};
 			unowned Alpm.List<unowned Alpm.Package> pkgcache = tmp_handle.localdb.pkgcache;
 			while (pkgcache != null) {
@@ -1257,8 +1271,10 @@ namespace Pamac {
 				}
 				pkgcache.next ();
 			}
+			emit_get_updates_progress (95);
 			if (check_aur_updates) {
 				// get aur updates
+				// count this step as 5% of the total
 				if (!aur_updates_checked) {
 					AUR.multiinfo.begin (local_pkgs, (obj, res) => {
 						var aur_updates_json = AUR.multiinfo.end (res);
@@ -1268,6 +1284,7 @@ namespace Pamac {
 							repos_updates = repos_updates,
 							aur_updates = aur_updates
 						};
+						emit_get_updates_progress (100);
 						get_updates_finished (updates);
 					});
 				} else {
@@ -1275,6 +1292,7 @@ namespace Pamac {
 						repos_updates = repos_updates,
 						aur_updates = aur_updates
 					};
+					emit_get_updates_progress (100);
 					get_updates_finished (updates);
 				}
 			} else {
@@ -1282,6 +1300,7 @@ namespace Pamac {
 					repos_updates = repos_updates,
 					aur_updates = {}
 				};
+				emit_get_updates_progress (100);
 				get_updates_finished (updates);
 			}
 			return 0;

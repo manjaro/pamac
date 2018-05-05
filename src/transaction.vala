@@ -52,6 +52,7 @@ namespace Pamac {
 		public abstract void start_get_updates (bool check_aur_updates) throws IOError;
 		[DBus (no_reply = true)]
 		public abstract void quit () throws IOError;
+		public signal void emit_get_updates_progress (uint percent);
 		public signal void get_updates_finished (Updates updates);
 	}
 	[DBus (name = "org.manjaro.pamac.system")]
@@ -181,6 +182,7 @@ namespace Pamac {
 		public signal void write_alpm_config_finished (bool checkspace);
 		public signal void generate_mirrors_list ();
 		public signal void run_preferences_dialog_finished ();
+		public signal void get_updates_progress (uint percent);
 		public signal void get_updates_finished (Updates updates);
 
 		public Transaction (Gtk.ApplicationWindow? application_window) {
@@ -789,6 +791,7 @@ namespace Pamac {
 		}
 
 		public void start_get_updates () {
+			user_daemon.emit_get_updates_progress.connect (on_emit_get_updates_progress);
 			user_daemon.get_updates_finished.connect (on_get_updates_finished);
 			try {
 				user_daemon.start_get_updates (pamac_config.enable_aur && pamac_config.check_aur_updates);
@@ -835,7 +838,13 @@ namespace Pamac {
 			start_get_updates_for_sysupgrade ();
 		}
 
+		void on_emit_get_updates_progress (uint percent) {
+			get_updates_progress (percent);
+			stdout.printf ("%u\n", percent);
+		}
+
 		void on_get_updates_finished (Updates updates) {
+			user_daemon.emit_get_updates_progress.disconnect (on_emit_get_updates_progress);
 			user_daemon.get_updates_finished.disconnect (on_get_updates_finished);
 			get_updates_finished (updates);
 		}

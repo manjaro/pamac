@@ -356,6 +356,7 @@ namespace Pamac {
 			transaction.set_pkgreason_finished.connect (on_set_pkgreason_finished);
 			transaction.generate_mirrors_list.connect (on_generate_mirrors_list);
 			transaction.run_preferences_dialog_finished.connect (on_run_preferences_dialog_finished);
+			transaction.get_updates_progress.connect (on_get_updates_progress);
 			transaction.get_updates_finished.connect (on_get_updates_finished);
 
 			// integrate progress box and term widget
@@ -2531,6 +2532,10 @@ namespace Pamac {
 			cancel_button.sensitive = true;
 			show_transaction_infobox ();
 			transaction.start_refresh (force_refresh);
+		}
+
+		void on_get_updates_progress (uint percent) {
+			checking_label.set_markup ("<big><b>%s %u %</b></big>".printf (dgettext (null, "Checking for Updates"), percent));
 		}
 
 		void on_get_updates_finished (Updates updates) {
