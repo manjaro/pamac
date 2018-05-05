@@ -362,7 +362,8 @@ public class AlpmConfig {
 							} else {
 								data += "IgnorePkg   = %s\n".printf (val);
 							}
-							new_conf.remove ("IgnorePkg");
+							// simply comment other IgnorePkg lines
+							new_conf.replace ("IgnorePkg", "");
 						} else {
 							data += line + "\n";
 						}

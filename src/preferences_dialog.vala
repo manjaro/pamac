@@ -254,9 +254,16 @@ namespace Pamac {
 			}
 			transaction.get_installed_pkgs.begin ((obj, res) => {
 				var pkgs = transaction.get_installed_pkgs.end (res);
+				// make a copy of ignorepkgs to store uninstalled ones
+				string[] ignorepkgs = transaction.get_ignorepkgs ();
+				var ignorepkgs_set = new GenericSet<string?> (str_hash, str_equal);
+				foreach (unowned string ignorepkg in ignorepkgs) {
+					ignorepkgs_set.add (ignorepkg);
+				}
 				foreach (unowned AlpmPackage pkg in pkgs) {
-					if (pkg.name in transaction.get_ignorepkgs ()) {
+					if (pkg.name in ignorepkgs_set) {
 						choose_ignorepkgs_dialog.pkgs_list.insert_with_values (null, -1, 0, true, 1, pkg.name);
+						ignorepkgs_set.remove (pkg.name);
 					} else {
 						choose_ignorepkgs_dialog.pkgs_list.insert_with_values (null, -1, 0, false, 1, pkg.name);
 					}
@@ -278,6 +285,11 @@ namespace Pamac {
 						}
 						return false;
 					});
+					// restore uninstalled ignorepkgs
+					foreach (unowned string ignorepkg in ignorepkgs_set) {
+						ignorepkg_string.append (" ");
+						ignorepkg_string.append (ignorepkg);
+					}
 					var new_alpm_conf = new HashTable<string,Variant> (str_hash, str_equal);
 					new_alpm_conf.insert ("IgnorePkg", new Variant.string (ignorepkg_string.str));
 					transaction.start_write_alpm_config (new_alpm_conf);
