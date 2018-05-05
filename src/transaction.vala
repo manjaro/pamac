@@ -181,6 +181,7 @@ namespace Pamac {
 														bool enable_aur, string aur_build_dir, bool check_aur_updates);
 		public signal void write_alpm_config_finished (bool checkspace);
 		public signal void generate_mirrors_list ();
+		public signal void generate_mirrors_list_finished ();
 		public signal void run_preferences_dialog_finished ();
 		public signal void get_updates_progress (uint percent);
 		public signal void get_updates_finished (Updates updates);
@@ -1845,6 +1846,7 @@ namespace Pamac {
 			system_daemon.generate_mirrors_list_data.disconnect (on_generate_mirrors_list_data);
 			system_daemon.generate_mirrors_list_finished.disconnect (on_generate_mirrors_list_finished);
 			reset_progress_box ("");
+			generate_mirrors_list_finished ();
 		}
 
 		void connecting_user_daemon () {
