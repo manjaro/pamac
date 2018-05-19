@@ -1555,7 +1555,7 @@ namespace Pamac {
 			}
 		}
 
-		void show_warnings () {
+		void show_warnings (bool block = true) {
 			if (warning_textbuffer.len > 0) {
 				var flags = Gtk.DialogFlags.MODAL;
 				int use_header_bar;
@@ -1585,8 +1585,15 @@ namespace Pamac {
 				box.add (scrolledwindow);
 				dialog.default_width = 600;
 				dialog.default_height = 300;
-				dialog.run ();
-				dialog.destroy ();
+				if (block) {
+					dialog.run ();
+					dialog.destroy ();
+				} else {
+					dialog.show ();
+					dialog.response.connect (() => {
+						dialog.destroy ();
+					});
+				}
 				warning_textbuffer = new StringBuilder ();
 			}
 		}
@@ -1754,7 +1761,7 @@ namespace Pamac {
 			// needed before build_aur_packages and remove_makedeps
 			no_confirm_commit = false;
 			if (success) {
-				show_warnings ();
+				show_warnings (false);
 				to_load.remove_all ();
 				if (to_build_queue.get_length () != 0) {
 					show_in_term ("");
