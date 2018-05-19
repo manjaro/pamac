@@ -88,6 +88,7 @@ namespace Pamac {
 		private AlpmPackage[] repos_updates;
 		private bool check_aur_updates;
 		private bool aur_updates_checked;
+		private bool refresh_files_dbs;
 		private AURPackage[] aur_updates;
 		private HashTable<string, Json.Array> aur_search_results;
 		private HashTable<string, Json.Object> aur_infos;
@@ -1217,7 +1218,7 @@ namespace Pamac {
 			// use a tmp handle
 			var tmp_handle = alpm_config.get_handle (false, true);
 			// refresh tmp dbs
-			// count this step as 45% of the total
+			// count this step as 90% of the total
 			emit_get_updates_progress (0);
 			unowned Alpm.List<unowned Alpm.DB> syncdbs = tmp_handle.syncdbs;
 			size_t dbs_count = syncdbs.length;
@@ -1227,20 +1228,21 @@ namespace Pamac {
 				db.update (0);
 				syncdbs.next ();
 				i++;
-				emit_get_updates_progress ((uint) ((double) i / dbs_count * (double) 45));
+				emit_get_updates_progress ((uint) ((double) i / dbs_count * (double) 90));
 			}
-			// refresh file dbs
-			// count this step as 45% of the total
-			var tmp_files_handle = alpm_config.get_handle (true, true);
-			syncdbs = tmp_files_handle.syncdbs;
-			dbs_count = syncdbs.length;
-			i = 0;
-			while (syncdbs != null) {
-				unowned Alpm.DB db = syncdbs.data;
-				db.update (0);
-				syncdbs.next ();
-				i++;
-				emit_get_updates_progress ((uint) ((double) 45 + (double) i / dbs_count * (double) 45));
+			if (refresh_files_dbs) {
+				// refresh file dbs
+				// do not send progress because it is done in background
+				var tmp_files_handle = alpm_config.get_handle (true, true);
+				syncdbs = tmp_files_handle.syncdbs;
+				dbs_count = syncdbs.length;
+				i = 0;
+				while (syncdbs != null) {
+					unowned Alpm.DB db = syncdbs.data;
+					db.update (0);
+					syncdbs.next ();
+					i++;
+				}
 			}
 			// check updates
 			// count this step as 5% of the total
@@ -1325,8 +1327,9 @@ namespace Pamac {
 			});
 		}
 
-		public void start_get_updates (bool check_aur_updates_) throws Error {
+		public void start_get_updates (bool check_aur_updates_, bool refresh_files_dbs_) throws Error {
 			check_aur_updates = check_aur_updates_;
+			refresh_files_dbs = refresh_files_dbs_;
 			new Thread<int> ("get updates thread", get_updates);
 		}
 

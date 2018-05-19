@@ -49,7 +49,7 @@ namespace Pamac {
 		public abstract string[] get_pkg_files (string pkgname) throws Error;
 		public abstract async AURPackageDetails get_aur_details (string pkgname) throws Error;
 		public abstract string[] get_pkg_uninstalled_optdeps (string pkgname) throws Error;
-		public abstract void start_get_updates (bool check_aur_updates) throws Error;
+		public abstract void start_get_updates (bool check_aur_updates, bool refresh_files_dbs) throws Error;
 		[DBus (no_reply = true)]
 		public abstract void quit () throws Error;
 		public signal void emit_get_updates_progress (uint percent);
@@ -793,7 +793,7 @@ namespace Pamac {
 			user_daemon.emit_get_updates_progress.connect (on_emit_get_updates_progress);
 			user_daemon.get_updates_finished.connect (on_get_updates_finished);
 			try {
-				user_daemon.start_get_updates (pamac_config.enable_aur && pamac_config.check_aur_updates);
+				user_daemon.start_get_updates (pamac_config.enable_aur && pamac_config.check_aur_updates, false);
 			} catch (Error e) {
 				stderr.printf ("Error: %s\n", e.message);
 				success = false;
@@ -843,7 +843,6 @@ namespace Pamac {
 
 		void on_emit_get_updates_progress (uint percent) {
 			get_updates_progress (percent);
-			stdout.printf ("%u\n", percent);
 		}
 
 		void on_get_updates_finished (Updates updates) {

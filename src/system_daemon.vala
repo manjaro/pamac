@@ -451,8 +451,11 @@ namespace Pamac {
 				refresh_finished (false);
 				return;
 			}
-			// update ".files", do not need to know if we succeeded
-			update_dbs (files_handle, force);
+			// only refresh ".files" if force
+			if (force_refresh) {
+				// update ".files", do not need to know if we succeeded
+				update_dbs (files_handle, force);
+			}
 			if (cancellable.is_cancelled ()) {
 				refresh_finished (false);
 			} else if (success) {

@@ -29,7 +29,7 @@ namespace Pamac {
 	interface UserDaemon : Object {
 		public abstract void refresh_handle () throws Error;
 		public abstract string get_lockfile () throws Error;
-		public abstract void start_get_updates (bool check_aur_updates) throws Error;
+		public abstract void start_get_updates (bool check_aur_updates, bool refresh_files_dbs) throws Error;
 		[DBus (no_reply = true)]
 		public abstract void quit () throws Error;
 		public signal void get_updates_finished (Updates updates);
@@ -117,7 +117,7 @@ namespace Pamac {
 			var pamac_config = new Pamac.Config ("/etc/pamac.conf");
 			if (pamac_config.refresh_period != 0) {
 				try {
-					daemon.start_get_updates (pamac_config.enable_aur && pamac_config.check_aur_updates);
+					daemon.start_get_updates (pamac_config.enable_aur && pamac_config.check_aur_updates, true);
 				} catch (Error e) {
 					stderr.printf ("Error: %s\n", e.message);
 				}
