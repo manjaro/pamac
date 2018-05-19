@@ -57,6 +57,7 @@ namespace Pamac {
 		private string[] to_remove;
 		private string[] to_load;
 		private string[] to_build;
+		private bool sysupgrade;
 		private UpdateInfos[] to_build_infos;
 		private GLib.List<string> aur_pkgbases_to_build;
 		private GenericSet<string?> aur_desc_list;
@@ -831,38 +832,50 @@ namespace Pamac {
 			return true;
 		}
 
-		private void sysupgrade_prepare () {
+		private bool trans_sysupgrade () {
 			current_error = ErrorInfos ();
-			bool success = trans_init (0);
-			if (success) {
-				add_ignorepkgs ();
-				if (alpm_handle.trans_sysupgrade ((enable_downgrade) ? 1 : 0) == -1) {
-					Alpm.Errno errno = alpm_handle.errno ();
-					current_error.errno = (uint) errno;
-					current_error.message = _("Failed to prepare transaction");
-					if (errno != 0) {
-						current_error.details = { Alpm.strerror (errno) };
-					}
-					trans_release_private ();
-					success = false;
-				} else {
-					success = trans_prepare_real ();
+			add_ignorepkgs ();
+			if (alpm_handle.trans_sysupgrade ((enable_downgrade) ? 1 : 0) == -1) {
+				Alpm.Errno errno = alpm_handle.errno ();
+				current_error.errno = (uint) errno;
+				current_error.message = _("Failed to prepare transaction");
+				if (errno != 0) {
+					current_error.details = { Alpm.strerror (errno) };
 				}
+				return false;
 			}
-			trans_prepare_finished (success);
+			return true;
 		}
 
-		public void start_sysupgrade_prepare (bool enable_downgrade_, string[] temporary_ignorepkgs_, GLib.BusName sender) throws Error {
+		public void start_sysupgrade_prepare (bool enable_downgrade_, string[] temporary_ignorepkgs_, string[] to_build_, GLib.BusName sender) throws Error {
 			if (lock_id != sender) {
 				trans_prepare_finished (false);
 				return;
 			}
 			enable_downgrade = enable_downgrade_;
 			temporary_ignorepkgs = temporary_ignorepkgs_;
-			try {
-				thread_pool.add (new AlpmAction (sysupgrade_prepare));
-			} catch (ThreadError e) {
-				stderr.printf ("Thread Error %s\n", e.message);
+			sysupgrade = true;
+			flags = 0;
+			to_install = {};
+			to_remove = {};
+			to_load = {};
+			to_build = to_build_;
+			to_build_infos = {};
+			aur_pkgbases_to_build = new GLib.List<string> ();
+			if (to_build.length != 0) {
+				compute_aur_build_list.begin (to_build, (obj, res) => {
+					try {
+						thread_pool.add (new AlpmAction (build_prepare));
+					} catch (ThreadError e) {
+						stderr.printf ("Thread Error %s\n", e.message);
+					}
+				});
+			} else {
+				try {
+					thread_pool.add (new AlpmAction (trans_prepare));
+				} catch (ThreadError e) {
+					stderr.printf ("Thread Error %s\n", e.message);
+				}
 			}
 		}
 
@@ -1094,6 +1107,10 @@ namespace Pamac {
 
 		private void trans_prepare () {
 			bool success = trans_init (flags);
+			if (success && sysupgrade) {
+				// add upgrades to transaction
+				success = trans_sysupgrade ();
+			}
 			if (success) {
 				foreach (unowned string name in to_install) {
 					success = trans_add_pkg (name);
@@ -1101,27 +1118,27 @@ namespace Pamac {
 						break;
 					}
 				}
-				if (success) {
-					foreach (unowned string name in to_remove) {
-						success = trans_remove_pkg (name);
-						if (!success) {
-							break;
-						}
+			}
+			if (success) {
+				foreach (unowned string name in to_remove) {
+					success = trans_remove_pkg (name);
+					if (!success) {
+						break;
 					}
 				}
-				if (success) {
-					foreach (unowned string path in to_load) {
-						success = trans_load_pkg (path);
-						if (!success) {
-							break;
-						}
+			}
+			if (success) {
+				foreach (unowned string path in to_load) {
+					success = trans_load_pkg (path);
+					if (!success) {
+						break;
 					}
 				}
-				if (success) {
-					success = trans_prepare_real ();
-				} else {
-					trans_release_private ();
-				}
+			}
+			if (success) {
+				success = trans_prepare_real ();
+			} else {
+				trans_release_private ();
 			}
 			trans_prepare_finished (success);
 		}
@@ -1322,6 +1339,7 @@ namespace Pamac {
 			to_build = to_build_;
 			to_build_infos = {};
 			aur_pkgbases_to_build = new GLib.List<string> ();
+			sysupgrade = false;
 			if (to_build.length != 0) {
 				compute_aur_build_list.begin (to_build, (obj, res) => {
 					try {

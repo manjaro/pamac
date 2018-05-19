@@ -68,7 +68,7 @@ namespace Pamac {
 		public abstract void clean_cache (uint64 keep_nb, bool only_uninstalled) throws Error;
 		public abstract void start_set_pkgreason (string pkgname, uint reason) throws Error;
 		public abstract void start_refresh (bool force) throws Error;
-		public abstract void start_sysupgrade_prepare (bool enable_downgrade, string[] temporary_ignorepkgs) throws Error;
+		public abstract void start_sysupgrade_prepare (bool enable_downgrade, string[] temporary_ignorepkgs, string[] to_build) throws Error;
 		public abstract void start_trans_prepare (int transflags, string[] to_install, string[] to_remove, string[] to_load, string[] to_build) throws Error;
 		public abstract void choose_provider (int provider) throws Error;
 		public abstract TransactionSummary get_transaction_summary () throws Error;
@@ -150,7 +150,6 @@ namespace Pamac {
 		bool sysupgrade_after_trans;
 		bool enable_downgrade;
 		bool no_confirm_commit;
-		bool build_after_sysupgrade;
 		bool building;
 		uint64 previous_xfered;
 		uint64 download_rate;
@@ -239,7 +238,6 @@ namespace Pamac {
 			previous_filename = "";
 			sysupgrade_after_trans = false;
 			no_confirm_commit = false;
-			build_after_sysupgrade = false;
 			building = false;
 			timer = new Timer ();
 			success = false;
@@ -814,9 +812,13 @@ namespace Pamac {
 			}
 		}
 
-		void sysupgrade_simple (bool enable_downgrade) {
+		void sysupgrade_real (bool enable_downgrade) {
 			progress_box.progressbar.fraction = 0;
 			string[] temporary_ignorepkgs_ = {};
+			string[] to_build_ = {};
+			foreach (unowned string name in to_build) {
+				to_build_ += name;
+			}
 			foreach (unowned string pkgname in temporary_ignorepkgs) {
 				temporary_ignorepkgs_ += pkgname;
 			}
@@ -824,7 +826,7 @@ namespace Pamac {
 			connecting_dbus_signals ();
 			try {
 				// this will respond with trans_prepare_finished signal
-				system_daemon.start_sysupgrade_prepare (enable_downgrade, temporary_ignorepkgs_);
+				system_daemon.start_sysupgrade_prepare (enable_downgrade, temporary_ignorepkgs_, to_build_);
 			} catch (Error e) {
 				stderr.printf ("Error: %s\n", e.message);
 				success = false;
@@ -871,8 +873,7 @@ namespace Pamac {
 						}
 					}
 					if (updates.repos_updates.length != 0) {
-						build_after_sysupgrade = true;
-						sysupgrade_simple (enable_downgrade);
+						sysupgrade_real (enable_downgrade);
 					} else {
 						// only aur updates
 						// run as a standard transaction
@@ -880,7 +881,7 @@ namespace Pamac {
 					}
 				} else {
 					if (updates.repos_updates.length != 0) {
-						sysupgrade_simple (enable_downgrade);
+						sysupgrade_real (enable_downgrade);
 					} else {
 						finish_transaction ();
 						stop_progressbar_pulse ();
@@ -1733,10 +1734,6 @@ namespace Pamac {
 						this.success = false;
 						finish_transaction ();
 					}
-				} else if (build_after_sysupgrade) {
-					// there only AUR packages to build
-					release ();
-					on_trans_commit_finished (true);
 				} else {
 					//var err = ErrorInfos ();
 					//err.message = dgettext (null, "Nothing to do") + "\n";
@@ -1777,11 +1774,6 @@ namespace Pamac {
 					if (sysupgrade_after_trans) {
 						sysupgrade_after_trans = false;
 						sysupgrade (false);
-					} else if (build_after_sysupgrade) {
-						build_after_sysupgrade = false;
-						disconnecting_dbus_signals ();
-						// build aur updates in to_build
-						run ();
 					} else {
 						unowned string action = dgettext (null, "Transaction successfully finished");
 						show_in_term (action + ".\n");
