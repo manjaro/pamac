@@ -194,6 +194,7 @@ namespace Pamac {
 		Gtk.Label pending_label;
 		Gtk.ListBoxRow pending_row;
 		Gtk.ListBoxRow files_row;
+		bool scroll_to_top;
 
 		public ManagerWindow (Gtk.Application application) {
 			Object (application: application);
@@ -204,6 +205,7 @@ namespace Pamac {
 
 			button_back.visible = false;
 			select_all_button.visible = false;
+			scroll_to_top = true;
 			searchbar.connect_entry (search_entry);
 			refreshing = false;
 			important_details = false;
@@ -405,6 +407,7 @@ namespace Pamac {
 				if (!transaction.lockfile.query_exists ()) {
 					extern_lock = false;
 					transaction.refresh_handle ();
+					scroll_to_top = false;
 					refresh_packages_list ();
 				}
 			} else {
@@ -425,6 +428,7 @@ namespace Pamac {
 		void on_set_pkgreason_finished () {
 			transaction.unlock ();
 			transaction.refresh_handle ();
+			scroll_to_top = false;
 			refresh_packages_list ();
 			if (main_stack.visible_child_name == "details") {
 				if (transaction.get_installed_pkg (current_package_displayed).name != ""
@@ -1178,7 +1182,12 @@ namespace Pamac {
 			packages_treeview.freeze_child_notify ();
 			packages_list.clear ();
 			// scroll to top
-			packages_scrolledwindow.vadjustment.value = 0;
+			if (scroll_to_top) {
+				packages_scrolledwindow.vadjustment.value = 0;
+			} else {
+				// don't scroll to top just once
+				scroll_to_top = true;
+			}
 			if (pkgs.length == 0) {
 				origin_stack.visible_child_name = "no_item";
 				packages_treeview.thaw_child_notify ();
@@ -1254,7 +1263,12 @@ namespace Pamac {
 			aur_treeview.freeze_child_notify ();
 			aur_list.clear ();
 			// scroll to top
-			aur_scrolledwindow.vadjustment.value = 0;
+			if (scroll_to_top) {
+				aur_scrolledwindow.vadjustment.value = 0;
+			} else {
+				// don't scroll to top just once
+				scroll_to_top = true;
+			}
 			if (pkgs.length == 0) {
 				origin_stack.visible_child_name = "no_item";
 				aur_treeview.thaw_child_notify ();
@@ -2506,6 +2520,7 @@ namespace Pamac {
 			} else {
 				transaction.clear_lists ();
 				set_pendings_operations ();
+				scroll_to_top = false;
 				refresh_packages_list ();
 				if (main_stack.visible_child_name == "details") {
 					if (transaction.get_installed_pkg (current_package_displayed).name != ""
@@ -2643,11 +2658,13 @@ namespace Pamac {
 				sysupgrade_running = false;
 				transaction.to_build.remove_all ();
 				transaction.unlock ();
+				scroll_to_top = false;
 				refresh_packages_list ();
 			} else {
 				transaction_running = false;
 				generate_mirrors_list = false;
 				transaction.unlock ();
+				scroll_to_top = false;
 				refresh_packages_list ();
 			}
 			set_pendings_operations ();
