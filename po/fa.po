@@ -7,20 +7,21 @@
 # Reza Gharibi <reza.gharibi.rg@gmail.com>, 2013
 # Hootan Baraary <h.baraary@yahoo.com>, 2013
 # Reza Gharibi <reza.gharibi.rg@gmail.com>, 2013
+# Soroush Mirzaei <soroush.mirzaei@gmail.com>, 2018
 # Hootan Baraary <h.baraary@yahoo.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2017-09-09 09:46+0200\n"
-"PO-Revision-Date: 2017-10-28 08:25+0000\n"
-"Last-Translator: Guillaume Benoit <guillaume@manjaro.org>\n"
+"PO-Revision-Date: 2018-05-10 18:23+0000\n"
+"Last-Translator: Soroush Mirzaei <soroush.mirzaei@gmail.com>\n"
 "Language-Team: Persian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/fa/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: fa\n"
-"Plural-Forms: nplurals=1; plural=0;\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 #: data/polkit/org.manjaro.pamac.policy.in
 msgid "Authentication is required"
@@ -40,11 +41,11 @@ msgstr "نصب به عنوان یک وابستگی برای بسته‌ای دی
 
 #: src/user_daemon.vala
 msgid "Yes"
-msgstr ""
+msgstr "بله"
 
 #: src/user_daemon.vala
 msgid "No"
-msgstr ""
+msgstr "خیر"
 
 #: src/system_daemon.vala
 msgid "Failed to initialize alpm library"
@@ -69,7 +70,7 @@ msgstr ""
 #: src/system_daemon.vala
 #, c-format
 msgid "target not found: %s"
-msgstr ""
+msgstr "هدف پیدا نشد: %s"
 
 #: src/system_daemon.vala
 #, c-format
@@ -132,7 +133,7 @@ msgstr ""
 
 #: src/transaction.vala
 msgid "Copy"
-msgstr ""
+msgstr "کپی"
 
 #: src/transaction.vala
 msgid "Refreshing mirrors list"
@@ -181,16 +182,16 @@ msgstr ""
 
 #: src/transaction.vala src/manager_window.vala
 msgid "Total download size"
-msgstr ""
+msgstr "مجموع حجم دانلود"
 
 #: src/transaction.vala
 #, c-format
 msgid "Building %s"
-msgstr ""
+msgstr "در حال ساخت %s"
 
 #: src/transaction.vala
 msgid "Transaction cancelled"
-msgstr ""
+msgstr "تراکنش لغو شد"
 
 #: src/transaction.vala
 msgid "Checking dependencies"
@@ -256,11 +257,11 @@ msgstr "تولید %s با %s"
 
 #: src/transaction.vala
 msgid "Generation succeeded"
-msgstr ""
+msgstr "تولید با موفقیت انجام شد"
 
 #: src/transaction.vala
 msgid "Generation failed"
-msgstr ""
+msgstr "تولید موفقیت آمیز نبود"
 
 #: src/transaction.vala
 #, c-format
@@ -269,7 +270,7 @@ msgstr "پیکربندی %s"
 
 #: src/transaction.vala
 msgid "Downloading"
-msgstr ""
+msgstr "در حال دانلود"
 
 #: src/transaction.vala
 #, c-format
@@ -326,6 +327,7 @@ msgstr ""
 msgid "About %lu minute remaining"
 msgid_plural "About %lu minutes remaining"
 msgstr[0] ""
+msgstr[1] ""
 
 #: src/transaction.vala
 #, c-format
@@ -338,12 +340,12 @@ msgstr ""
 
 #: src/transaction.vala
 msgid "Warning"
-msgstr ""
+msgstr "اخطار"
 
 #: src/transaction.vala resources/progress_dialog.ui
 #: resources/history_dialog.ui resources/preferences_dialog.ui
 msgid "_Close"
-msgstr ""
+msgstr "بستن..."
 
 #: src/transaction.vala
 msgid "Nothing to do"
@@ -378,6 +380,7 @@ msgstr ""
 msgid "%u available update"
 msgid_plural "%u available updates"
 msgstr[0] ""
+msgstr[1] ""
 
 #: src/tray.vala src/manager_window.vala resources/progress_dialog.ui
 #: resources/manager_window.ui
@@ -413,6 +416,7 @@ msgstr "حذف"
 msgid "%u pending operation"
 msgid_plural "%u pending operations"
 msgstr[0] ""
+msgstr[1] ""
 
 #: src/manager_window.vala
 msgid "Categories"
@@ -432,7 +436,7 @@ msgstr "نصد شده"
 
 #: src/manager_window.vala
 msgid "Updates"
-msgstr ""
+msgstr "به روز رسانی ها"
 
 #: src/manager_window.vala
 msgid "Pending"
@@ -444,7 +448,7 @@ msgstr "بی منبع"
 
 #: src/manager_window.vala
 msgid "Foreign"
-msgstr ""
+msgstr "خارجی"
 
 #: src/manager_window.vala
 msgid "Accessories"
@@ -464,7 +468,7 @@ msgstr ""
 
 #: src/manager_window.vala
 msgid "Games"
-msgstr ""
+msgstr "بازی ها"
 
 #: src/manager_window.vala
 msgid "Graphics"

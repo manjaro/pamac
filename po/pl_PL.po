@@ -4,13 +4,14 @@
 # Guillaume Benoit <guillaume@manjaro.org>, 2013-2017.
 # 
 # Translators:
+# Ulther Ego <ulther@protonmail.com>, 2018
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2017-09-09 09:46+0200\n"
-"PO-Revision-Date: 2017-10-28 08:25+0000\n"
-"Last-Translator: Guillaume Benoit <guillaume@manjaro.org>\n"
+"PO-Revision-Date: 2018-05-11 12:21+0000\n"
+"Last-Translator: Ulther Ego <ulther@protonmail.com>\n"
 "Language-Team: Polish (Poland) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/pl_PL/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20,302 +21,302 @@ msgstr ""
 
 #: data/polkit/org.manjaro.pamac.policy.in
 msgid "Authentication is required"
-msgstr ""
+msgstr "Wymagane jest uwierzytelnienie"
 
 #: src/user_daemon.vala
 msgid "Unknown"
-msgstr ""
+msgstr "Nieznane"
 
 #: src/user_daemon.vala src/manager_window.vala
 msgid "Explicitly installed"
-msgstr ""
+msgstr "Zainstalowane jawnie"
 
 #: src/user_daemon.vala src/manager_window.vala
 msgid "Installed as a dependency for another package"
-msgstr ""
+msgstr "Zainstalowano jako zależność dla innego pakietu"
 
 #: src/user_daemon.vala
 msgid "Yes"
-msgstr ""
+msgstr "Tak"
 
 #: src/user_daemon.vala
 msgid "No"
-msgstr ""
+msgstr "Nie"
 
 #: src/system_daemon.vala
 msgid "Failed to initialize alpm library"
-msgstr ""
+msgstr "Nie można zainicjować biblioteki alpm"
 
 #: src/system_daemon.vala src/transaction.vala
 msgid "Authentication failed"
-msgstr ""
+msgstr "Uwierzytelnienie nie powiodło się"
 
 #: src/system_daemon.vala
 msgid "Failed to synchronize any databases"
-msgstr ""
+msgstr "Nie udało się synchronizować żadnej bazy danych"
 
 #: src/system_daemon.vala
 msgid "Failed to init transaction"
-msgstr ""
+msgstr "Nie udało się zainicjować transakcji"
 
 #: src/system_daemon.vala
 msgid "Failed to prepare transaction"
-msgstr ""
+msgstr "Nie udało się przeprowadzić transakcji"
 
 #: src/system_daemon.vala
 #, c-format
 msgid "target not found: %s"
-msgstr ""
+msgstr "nie znaleziono celu:%s"
 
 #: src/system_daemon.vala
 #, c-format
 msgid "package %s does not have a valid architecture"
-msgstr ""
+msgstr "pakiet %snie ma poprawnej architektury"
 
 #: src/system_daemon.vala
 #, c-format
 msgid "unable to satisfy dependency '%s' required by %s"
-msgstr ""
+msgstr "nie można spełnić zależności '%s' wymaganych przez %s"
 
 #: src/system_daemon.vala
 #, c-format
 msgid "installing %s (%s) breaks dependency '%s' required by %s"
-msgstr ""
+msgstr "instalacja %s (%s) przerwanej zależność '%s' wymaganych przez %s"
 
 #: src/system_daemon.vala
 #, c-format
 msgid "removing %s breaks dependency '%s' required by %s"
-msgstr ""
+msgstr "usuwanie %sprzerwanych zależności '%s' wymaganych przez %s"
 
 #: src/system_daemon.vala
 #, c-format
 msgid "%s and %s are in conflict"
-msgstr ""
+msgstr "%s i %s są w konflikcie"
 
 #: src/system_daemon.vala
 #, c-format
 msgid "%s needs to be removed but it is a locked package"
-msgstr ""
+msgstr "%smusi zostać usunięty ale jest zablokowany"
 
 #: src/system_daemon.vala
 msgid "Failed to commit transaction"
-msgstr ""
+msgstr "Nie udało się zatwierdzić transakcji"
 
 #: src/system_daemon.vala
 #, c-format
 msgid "%s exists in both %s and %s"
-msgstr ""
+msgstr "%s istnieje w %s i %s"
 
 #: src/system_daemon.vala
 #, c-format
 msgid "%s: %s already exists in filesystem"
-msgstr ""
+msgstr "%s: %sisntieje w systemie plików"
 
 #: src/system_daemon.vala
 #, c-format
 msgid "%s is invalid or corrupted"
-msgstr ""
+msgstr "%s nieprawidłowy lub uszkodzony"
 
 #: src/system_daemon.vala
 #, c-format
 msgid "%s appears to be truncated: %jd/%jd bytes\n"
-msgstr ""
+msgstr "%s wydaje się być niepełny: %jd / %jd bytes\n"
 
 #: src/system_daemon.vala
 #, c-format
 msgid "failed retrieving file '%s' from %s : %s\n"
-msgstr ""
+msgstr "Nie powiodło się pobieranie pliku '%s' z %s : %s\n"
 
 #: src/transaction.vala
 msgid "Copy"
-msgstr ""
+msgstr "Kopiuj"
 
 #: src/transaction.vala
 msgid "Refreshing mirrors list"
-msgstr ""
+msgstr "Odświeżanie listy serwerów zwierciadlanych"
 
 #: src/transaction.vala
 msgid "Synchronizing package databases"
-msgstr ""
+msgstr "Synchronizacja pakietów bazy danych"
 
 #: src/transaction.vala
 msgid "Starting full system upgrade"
-msgstr ""
+msgstr "Rozpoczęcie pełnej aktualizacji systemu"
 
 #: src/transaction.vala
 msgid "Preparing"
-msgstr ""
+msgstr "Przygotowywanie"
 
 #: src/transaction.vala
 #, c-format
 msgid "Choose a provider for %s"
-msgstr ""
+msgstr "Wybierz dostawcę dla %s"
 
 #: src/transaction.vala
 msgid "To remove"
-msgstr ""
+msgstr "Usuwanie"
 
 #: src/transaction.vala
 msgid "To downgrade"
-msgstr ""
+msgstr "Przejście na starszą wersję"
 
 #: src/transaction.vala
 msgid "To build"
-msgstr ""
+msgstr "Budować"
 
 #: src/transaction.vala
 msgid "To install"
-msgstr ""
+msgstr "Instalowanie"
 
 #: src/transaction.vala
 msgid "To reinstall"
-msgstr ""
+msgstr "Przeinstalowywanie"
 
 #: src/transaction.vala
 msgid "To upgrade"
-msgstr ""
+msgstr "Aktualizowanie"
 
 #: src/transaction.vala src/manager_window.vala
 msgid "Total download size"
-msgstr ""
+msgstr "Łączny rozmiar pobierania"
 
 #: src/transaction.vala
 #, c-format
 msgid "Building %s"
-msgstr ""
+msgstr "Budowanie %s"
 
 #: src/transaction.vala
 msgid "Transaction cancelled"
-msgstr ""
+msgstr "Transakcja anulowana"
 
 #: src/transaction.vala
 msgid "Checking dependencies"
-msgstr ""
+msgstr "Sprawdzanie zależności"
 
 #: src/transaction.vala
 msgid "Checking file conflicts"
-msgstr ""
+msgstr "Sprawdzanie konfliktu plików"
 
 #: src/transaction.vala
 msgid "Resolving dependencies"
-msgstr ""
+msgstr "Rozwiązywanie zależności"
 
 #: src/transaction.vala
 msgid "Checking inter-conflicts"
-msgstr ""
+msgstr "Sprawdzanie konfliktów"
 
 #: src/transaction.vala
 #, c-format
 msgid "Installing %s"
-msgstr ""
+msgstr "Instalacja %s"
 
 #: src/transaction.vala
 #, c-format
 msgid "Upgrading %s"
-msgstr ""
+msgstr "Aktualizowanie %s"
 
 #: src/transaction.vala
 #, c-format
 msgid "Reinstalling %s"
-msgstr ""
+msgstr "Przeinstalowywanie %s"
 
 #: src/transaction.vala
 #, c-format
 msgid "Downgrading %s"
-msgstr ""
+msgstr "Przejście na starszą wersję %s"
 
 #: src/transaction.vala
 #, c-format
 msgid "Removing %s"
-msgstr ""
+msgstr "Usuwanie %s"
 
 #: src/transaction.vala
 msgid "Checking integrity"
-msgstr ""
+msgstr "Sprawdzanie integralności"
 
 #: src/transaction.vala
 msgid "Loading packages files"
-msgstr ""
+msgstr "Ładowanie pakietów"
 
 #: src/transaction.vala
 msgid "Checking delta integrity"
-msgstr ""
+msgstr "Sprawdzanie integralności delty"
 
 #: src/transaction.vala
 msgid "Applying deltas"
-msgstr ""
+msgstr "Stosowanie delt"
 
 #: src/transaction.vala
 #, c-format
 msgid "Generating %s with %s"
-msgstr ""
+msgstr "Generowanie %s z %s"
 
 #: src/transaction.vala
 msgid "Generation succeeded"
-msgstr ""
+msgstr "Generowanie powiodło się"
 
 #: src/transaction.vala
 msgid "Generation failed"
-msgstr ""
+msgstr "Generowanie nie powiodło się"
 
 #: src/transaction.vala
 #, c-format
 msgid "Configuring %s"
-msgstr ""
+msgstr "Konfigurowanie %s"
 
 #: src/transaction.vala
 msgid "Downloading"
-msgstr ""
+msgstr "Pobieranie"
 
 #: src/transaction.vala
 #, c-format
 msgid "Downloading %s"
-msgstr ""
+msgstr "Pobieranie %s"
 
 #: src/transaction.vala
 msgid "Checking available disk space"
-msgstr ""
+msgstr "Sprawdzanie dostępnego miejsca na dysku"
 
 #: src/transaction.vala
 #, c-format
 msgid "%s optionally requires %s"
-msgstr ""
+msgstr "%s opcjonalnie wymaga %s"
 
 #: src/transaction.vala
 #, c-format
 msgid "Database file for %s does not exist"
-msgstr ""
+msgstr "Plik dla bazy danych %s nie istnieje"
 
 #: src/transaction.vala
 msgid "Checking keyring"
-msgstr ""
+msgstr "Sprawdzanie kluczy"
 
 #: src/transaction.vala
 msgid "Downloading required keys"
-msgstr ""
+msgstr "Pobieranie wymaganych kluczy"
 
 #: src/transaction.vala
 #, c-format
 msgid "%s installed as %s.pacnew"
-msgstr ""
+msgstr "%s zainstalowano jako %s.pacnew"
 
 #: src/transaction.vala
 #, c-format
 msgid "%s installed as %s.pacsave"
-msgstr ""
+msgstr "%s zainstalowano jako %s.pacsave"
 
 #: src/transaction.vala
 msgid "Running pre-transaction hooks"
-msgstr ""
+msgstr "Uruchamianie hooks przed transakcją"
 
 #: src/transaction.vala
 msgid "Running post-transaction hooks"
-msgstr ""
+msgstr "Uruchamianie hooks po transakcji"
 
 #: src/transaction.vala
 #, c-format
 msgid "About %u seconds remaining"
-msgstr ""
+msgstr "%u pozostało sekund"
 
 #: src/transaction.vala
 #, c-format
@@ -329,28 +330,28 @@ msgstr[3] ""
 #: src/transaction.vala
 #, c-format
 msgid "Refreshing %s"
-msgstr ""
+msgstr "Odświeżanie %s"
 
 #: src/transaction.vala
 msgid "Error"
-msgstr ""
+msgstr "Błąd"
 
 #: src/transaction.vala
 msgid "Warning"
-msgstr ""
+msgstr "Ostrzeżenie"
 
 #: src/transaction.vala resources/progress_dialog.ui
 #: resources/history_dialog.ui resources/preferences_dialog.ui
 msgid "_Close"
-msgstr ""
+msgstr "_Zamnij"
 
 #: src/transaction.vala
 msgid "Nothing to do"
-msgstr ""
+msgstr "Nie ma nic do zrobienia"
 
 #: src/transaction.vala
 msgid "Transaction successfully finished"
-msgstr ""
+msgstr "Transakcja zakończyła się pomyślnie"
 
 #: src/installer.vala src/manager.vala
 msgid "Pamac is already running"

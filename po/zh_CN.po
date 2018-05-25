@@ -4,6 +4,7 @@
 # Guillaume Benoit <guillaume@manjaro.org>, 2013-2017.
 # 
 # Translators:
+# CaoMu <icaomu@gmail.com>, 2018
 # Daetalus <daetalusun@gmail.com>, 2014
 # Daetalus <daetalusun@gmail.com>, 2014
 # Dz Chen <wsxy162@gmail.com>, 2015
@@ -15,8 +16,8 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2017-09-09 09:46+0200\n"
-"PO-Revision-Date: 2017-10-28 08:25+0000\n"
-"Last-Translator: Guillaume Benoit <guillaume@manjaro.org>\n"
+"PO-Revision-Date: 2018-03-28 13:17+0000\n"
+"Last-Translator: CaoMu <icaomu@gmail.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -81,17 +82,17 @@ msgstr "软件包 %s 没有适用的架构"
 #: src/system_daemon.vala
 #, c-format
 msgid "unable to satisfy dependency '%s' required by %s"
-msgstr ""
+msgstr "无法满足依赖关系 '%s' 由 %s 所要求"
 
 #: src/system_daemon.vala
 #, c-format
 msgid "installing %s (%s) breaks dependency '%s' required by %s"
-msgstr ""
+msgstr "正在安装%s (%s) 破坏了依赖关系 '%s' 由 %s 所要求"
 
 #: src/system_daemon.vala
 #, c-format
 msgid "removing %s breaks dependency '%s' required by %s"
-msgstr ""
+msgstr "正在移除 %s 破坏依赖关系 '%s' 由 %s 所要求"
 
 #: src/system_daemon.vala
 #, c-format
@@ -179,7 +180,7 @@ msgstr "重新安装"
 
 #: src/transaction.vala
 msgid "To upgrade"
-msgstr ""
+msgstr "更新"
 
 #: src/transaction.vala src/manager_window.vala
 msgid "Total download size"
@@ -388,11 +389,11 @@ msgstr "详情"
 
 #: src/manager_window.vala
 msgid "No package found"
-msgstr ""
+msgstr "未发现软件包"
 
 #: src/manager_window.vala
 msgid "Checking for Updates"
-msgstr ""
+msgstr "正在检查更新"
 
 #: src/manager_window.vala
 msgid "Deselect"
@@ -400,7 +401,7 @@ msgstr "取消选择"
 
 #: src/manager_window.vala
 msgid "Upgrade"
-msgstr ""
+msgstr "升级"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Install"
@@ -418,7 +419,7 @@ msgstr[0] "%u 个待处理的操作"
 
 #: src/manager_window.vala
 msgid "Categories"
-msgstr ""
+msgstr "分类"
 
 #: src/manager_window.vala
 msgid "Groups"
@@ -434,7 +435,7 @@ msgstr "已安装"
 
 #: src/manager_window.vala
 msgid "Updates"
-msgstr ""
+msgstr "更新"
 
 #: src/manager_window.vala
 msgid "Pending"
@@ -450,47 +451,47 @@ msgstr "外部"
 
 #: src/manager_window.vala
 msgid "Accessories"
-msgstr ""
+msgstr "附加组件"
 
 #: src/manager_window.vala
 msgid "Audio & Video"
-msgstr ""
+msgstr "音频与视频"
 
 #: src/manager_window.vala
 msgid "Development"
-msgstr ""
+msgstr "开发"
 
 #: src/manager_window.vala
 msgid "Education"
-msgstr ""
+msgstr "教育"
 
 #: src/manager_window.vala
 msgid "Games"
-msgstr ""
+msgstr "游戏"
 
 #: src/manager_window.vala
 msgid "Graphics"
-msgstr ""
+msgstr "图形"
 
 #: src/manager_window.vala
 msgid "Internet"
-msgstr ""
+msgstr "网络"
 
 #: src/manager_window.vala
 msgid "Office"
-msgstr ""
+msgstr "办公软件"
 
 #: src/manager_window.vala
 msgid "Science"
-msgstr ""
+msgstr "科学"
 
 #: src/manager_window.vala
 msgid "Settings"
-msgstr ""
+msgstr "设置"
 
 #: src/manager_window.vala
 msgid "System Tools"
-msgstr ""
+msgstr "系统工具"
 
 #: src/manager_window.vala resources/preferences_dialog.ui
 msgid "AUR"
@@ -639,7 +640,7 @@ msgstr "每个软件包保留在缓存中的版本数目"
 
 #: src/preferences_dialog.vala
 msgid "Build directory"
-msgstr ""
+msgstr "构建目录"
 
 #: src/preferences_dialog.vala
 msgid "Worldwide"
@@ -723,7 +724,7 @@ msgstr "应用(_A)"
 
 #: resources/manager_window.ui
 msgid "Select All"
-msgstr ""
+msgstr "选取所有"
 
 #: resources/preferences_dialog.ui
 msgid "Remove unrequired dependencies"

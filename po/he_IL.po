@@ -4,811 +4,806 @@
 # Guillaume Benoit <guillaume@manjaro.org>, 2013-2017.
 # 
 # Translators:
-# Alexander Lindberg <alexanderlndbrg@gmail.com>, 2013-2014
-# Mattias Johansson <cashew75s@gmail.com>, 2014
-# Eilidh Martin <maxqueue93+github@gmail.com>, 2017
-# Lennart Niemelä <lennart.niemela@gmail.com>, 2016
-# Mattias Johansson <cashew75s@gmail.com>, 2014
-# Niklas W <niklas@vividvisions.se>, 2018
-# philm <philm@manjaro.org>, 2015
-# riiga <riiga_92@hotmail.com>, 2014,2016-2017
-# riiga <riiga_92@hotmail.com>, 2014,2016
-# Tommy Arvidsson <tarvidsson7834@gmail.com>, 2013
-# Tommy Arvidsson <tarvidsson7834@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2017-09-09 09:46+0200\n"
-"PO-Revision-Date: 2018-05-09 09:04+0000\n"
-"Last-Translator: Niklas W <niklas@vividvisions.se>\n"
-"Language-Team: Swedish (http://www.transifex.com/manjarolinux/manjaro-pamac/language/sv/)\n"
+"PO-Revision-Date: 2013-04-16 23:37+0000\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Hebrew (Israel) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/he_IL/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: sv\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Language: he_IL\n"
+"Plural-Forms: nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;\n"
 
 #: data/polkit/org.manjaro.pamac.policy.in
 msgid "Authentication is required"
-msgstr "Autentisering krävs"
+msgstr ""
 
 #: src/user_daemon.vala
 msgid "Unknown"
-msgstr "Okänd"
+msgstr ""
 
 #: src/user_daemon.vala src/manager_window.vala
 msgid "Explicitly installed"
-msgstr "Särskillt installerad"
+msgstr ""
 
 #: src/user_daemon.vala src/manager_window.vala
 msgid "Installed as a dependency for another package"
-msgstr "Installerad som ett beroende för ett annat paket"
+msgstr ""
 
 #: src/user_daemon.vala
 msgid "Yes"
-msgstr "Ja"
+msgstr ""
 
 #: src/user_daemon.vala
 msgid "No"
-msgstr "Nej"
+msgstr ""
 
 #: src/system_daemon.vala
 msgid "Failed to initialize alpm library"
-msgstr "Misslyckades med att läsa in alpm-bibliotek"
+msgstr ""
 
 #: src/system_daemon.vala src/transaction.vala
 msgid "Authentication failed"
-msgstr "Autentisering misslyckades"
+msgstr ""
 
 #: src/system_daemon.vala
 msgid "Failed to synchronize any databases"
-msgstr "Misslyckades med att synkronisera databaser"
+msgstr ""
 
 #: src/system_daemon.vala
 msgid "Failed to init transaction"
-msgstr "Misslyckades med att påbörja överföring"
+msgstr ""
 
 #: src/system_daemon.vala
 msgid "Failed to prepare transaction"
-msgstr "Misslyckades med att förbereda överföring"
+msgstr ""
 
 #: src/system_daemon.vala
 #, c-format
 msgid "target not found: %s"
-msgstr "mål ej funnet: %s"
+msgstr ""
 
 #: src/system_daemon.vala
 #, c-format
 msgid "package %s does not have a valid architecture"
-msgstr "paketet %s har inte en giltig arkitektur"
+msgstr ""
 
 #: src/system_daemon.vala
 #, c-format
 msgid "unable to satisfy dependency '%s' required by %s"
-msgstr "kan ej möta beroende '%s' som krävs av %s"
+msgstr ""
 
 #: src/system_daemon.vala
 #, c-format
 msgid "installing %s (%s) breaks dependency '%s' required by %s"
-msgstr "installering av %s (%s) åsidosätter beroendet '%s' som krävs av %s"
+msgstr ""
 
 #: src/system_daemon.vala
 #, c-format
 msgid "removing %s breaks dependency '%s' required by %s"
-msgstr "borttagning av %s åsidosätter beroendet '%s' som krävs av %s"
+msgstr ""
 
 #: src/system_daemon.vala
 #, c-format
 msgid "%s and %s are in conflict"
-msgstr "%s och %s konflikterar"
+msgstr ""
 
 #: src/system_daemon.vala
 #, c-format
 msgid "%s needs to be removed but it is a locked package"
-msgstr "%s behöver tas bort, men är ett låst paket"
+msgstr ""
 
 #: src/system_daemon.vala
 msgid "Failed to commit transaction"
-msgstr "Misslyckades med att genomföra överföring"
+msgstr ""
 
 #: src/system_daemon.vala
 #, c-format
 msgid "%s exists in both %s and %s"
-msgstr "%s finns i både %s och %s"
+msgstr ""
 
 #: src/system_daemon.vala
 #, c-format
 msgid "%s: %s already exists in filesystem"
-msgstr "%s: %s finns redan i filsystemet"
+msgstr ""
 
 #: src/system_daemon.vala
 #, c-format
 msgid "%s is invalid or corrupted"
-msgstr "%s är ogiltig eller korrupt"
+msgstr ""
 
 #: src/system_daemon.vala
 #, c-format
 msgid "%s appears to be truncated: %jd/%jd bytes\n"
-msgstr "%s verkar vara trunkerad: %jd/%jd bytes\n"
+msgstr ""
 
 #: src/system_daemon.vala
 #, c-format
 msgid "failed retrieving file '%s' from %s : %s\n"
-msgstr "misslyckades med att hämta fil '%s' från %s : %s\n"
+msgstr ""
 
 #: src/transaction.vala
 msgid "Copy"
-msgstr "Kopiera"
+msgstr ""
 
 #: src/transaction.vala
 msgid "Refreshing mirrors list"
-msgstr "Uppdaterar spegellistor"
+msgstr ""
 
 #: src/transaction.vala
 msgid "Synchronizing package databases"
-msgstr "Synkroniserar paketdatabaser"
+msgstr ""
 
 #: src/transaction.vala
 msgid "Starting full system upgrade"
-msgstr "Påbörjar fullständig systemuppgradering"
+msgstr ""
 
 #: src/transaction.vala
 msgid "Preparing"
-msgstr "Förbereder"
+msgstr ""
 
 #: src/transaction.vala
 #, c-format
 msgid "Choose a provider for %s"
-msgstr "Välj en leverantör för %s"
+msgstr ""
 
 #: src/transaction.vala
 msgid "To remove"
-msgstr "Ta bort"
+msgstr ""
 
 #: src/transaction.vala
 msgid "To downgrade"
-msgstr "Att nedgradera"
+msgstr ""
 
 #: src/transaction.vala
 msgid "To build"
-msgstr "Att bygga"
+msgstr ""
 
 #: src/transaction.vala
 msgid "To install"
-msgstr "Att installera"
+msgstr ""
 
 #: src/transaction.vala
 msgid "To reinstall"
-msgstr "Att ominstallera"
+msgstr ""
 
 #: src/transaction.vala
 msgid "To upgrade"
-msgstr "Att uppgradera"
+msgstr ""
 
 #: src/transaction.vala src/manager_window.vala
 msgid "Total download size"
-msgstr "Total nedladdningsstorlek"
+msgstr ""
 
 #: src/transaction.vala
 #, c-format
 msgid "Building %s"
-msgstr "Bygger %s"
+msgstr ""
 
 #: src/transaction.vala
 msgid "Transaction cancelled"
-msgstr "Överföring avbruten"
+msgstr ""
 
 #: src/transaction.vala
 msgid "Checking dependencies"
-msgstr "Kollar beroenden"
+msgstr ""
 
 #: src/transaction.vala
 msgid "Checking file conflicts"
-msgstr "Kontrollerar konflikter"
+msgstr ""
 
 #: src/transaction.vala
 msgid "Resolving dependencies"
-msgstr "Löser beroenden"
+msgstr ""
 
 #: src/transaction.vala
 msgid "Checking inter-conflicts"
-msgstr "Letar efter tvärskonflikter"
+msgstr ""
 
 #: src/transaction.vala
 #, c-format
 msgid "Installing %s"
-msgstr "Installerar %s"
+msgstr ""
 
 #: src/transaction.vala
 #, c-format
 msgid "Upgrading %s"
-msgstr "Uppgraderar %s"
+msgstr ""
 
 #: src/transaction.vala
 #, c-format
 msgid "Reinstalling %s"
-msgstr "Ominstallerar %s"
+msgstr ""
 
 #: src/transaction.vala
 #, c-format
 msgid "Downgrading %s"
-msgstr "Nedgraderar %s"
+msgstr ""
 
 #: src/transaction.vala
 #, c-format
 msgid "Removing %s"
-msgstr "Tar bort %s"
+msgstr ""
 
 #: src/transaction.vala
 msgid "Checking integrity"
-msgstr "Kontrollerar integritet"
+msgstr ""
 
 #: src/transaction.vala
 msgid "Loading packages files"
-msgstr "Laddar paketfiler"
+msgstr ""
 
 #: src/transaction.vala
 msgid "Checking delta integrity"
-msgstr "Kontrollerar skillnadsintegritet"
+msgstr ""
 
 #: src/transaction.vala
 msgid "Applying deltas"
-msgstr "Tillämpar skillnader"
+msgstr ""
 
 #: src/transaction.vala
 #, c-format
 msgid "Generating %s with %s"
-msgstr "Genererar %s med %s"
+msgstr ""
 
 #: src/transaction.vala
 msgid "Generation succeeded"
-msgstr "Generering lyckades"
+msgstr ""
 
 #: src/transaction.vala
 msgid "Generation failed"
-msgstr "Generering misslyckades"
+msgstr ""
 
 #: src/transaction.vala
 #, c-format
 msgid "Configuring %s"
-msgstr "Konfigurerar %s"
+msgstr ""
 
 #: src/transaction.vala
 msgid "Downloading"
-msgstr "Laddar ner"
+msgstr ""
 
 #: src/transaction.vala
 #, c-format
 msgid "Downloading %s"
-msgstr "Laddar ner %s"
+msgstr ""
 
 #: src/transaction.vala
 msgid "Checking available disk space"
-msgstr "Kontrollerar tillgängligt diskutrymme"
+msgstr ""
 
 #: src/transaction.vala
 #, c-format
 msgid "%s optionally requires %s"
-msgstr "%s kräver frivilligt %s"
+msgstr ""
 
 #: src/transaction.vala
 #, c-format
 msgid "Database file for %s does not exist"
-msgstr "Databasfilen för %s existerar inte"
+msgstr ""
 
 #: src/transaction.vala
 msgid "Checking keyring"
-msgstr "Kontrollerar nyckelring"
+msgstr ""
 
 #: src/transaction.vala
 msgid "Downloading required keys"
-msgstr "Laddar ner nödvändiga nycklar"
+msgstr ""
 
 #: src/transaction.vala
 #, c-format
 msgid "%s installed as %s.pacnew"
-msgstr "%s installerades som %s.pacnew"
+msgstr ""
 
 #: src/transaction.vala
 #, c-format
 msgid "%s installed as %s.pacsave"
-msgstr "%s installerades som %s.pacsave"
+msgstr ""
 
 #: src/transaction.vala
 msgid "Running pre-transaction hooks"
-msgstr "Kör transaktionsförarbeten"
+msgstr ""
 
 #: src/transaction.vala
 msgid "Running post-transaction hooks"
-msgstr "Kör transaktionsefterarbeten"
+msgstr ""
 
 #: src/transaction.vala
 #, c-format
 msgid "About %u seconds remaining"
-msgstr "Cirka %u sekunder återstår"
+msgstr ""
 
 #: src/transaction.vala
 #, c-format
 msgid "About %lu minute remaining"
 msgid_plural "About %lu minutes remaining"
-msgstr[0] "Cirka %lu minut återstår"
-msgstr[1] "Cirka %lu minuter återstår"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
 
 #: src/transaction.vala
 #, c-format
 msgid "Refreshing %s"
-msgstr "Uppdaterar %s"
+msgstr ""
 
 #: src/transaction.vala
 msgid "Error"
-msgstr "Fel"
+msgstr ""
 
 #: src/transaction.vala
 msgid "Warning"
-msgstr "Varning"
+msgstr ""
 
 #: src/transaction.vala resources/progress_dialog.ui
 #: resources/history_dialog.ui resources/preferences_dialog.ui
 msgid "_Close"
-msgstr "_Stäng"
+msgstr ""
 
 #: src/transaction.vala
 msgid "Nothing to do"
-msgstr "Inget att göra"
+msgstr ""
 
 #: src/transaction.vala
 msgid "Transaction successfully finished"
-msgstr "Överföring lyckades"
+msgstr ""
 
 #: src/installer.vala src/manager.vala
 msgid "Pamac is already running"
-msgstr "Pamac körs redan"
+msgstr ""
 
 #: src/installer.vala src/manager_window.vala
 msgid "Waiting for another package manager to quit"
-msgstr "Väntar på att annan instans av pakethanteraren ska avslutas"
+msgstr ""
 
 #: src/tray.vala src/manager_window.vala
 msgid "Your system is up-to-date"
-msgstr "Ditt system är uppdaterat"
+msgstr ""
 
 #: src/tray.vala src/manager_window.vala
 msgid "Package Manager"
-msgstr "Pakethanterare"
+msgstr ""
 
 #: src/tray.vala
 msgid "_Quit"
-msgstr "_Avsluta"
+msgstr ""
 
 #: src/tray.vala
 #, c-format
 msgid "%u available update"
 msgid_plural "%u available updates"
-msgstr[0] "%u tillgänglig uppdatering"
-msgstr[1] "%u tillgängliga uppdateringar"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
 
 #: src/tray.vala src/manager_window.vala resources/progress_dialog.ui
 #: resources/manager_window.ui
 msgid "Details"
-msgstr "Detaljer"
+msgstr ""
 
 #: src/manager_window.vala
 msgid "No package found"
-msgstr "Inget paket hittades"
+msgstr ""
 
 #: src/manager_window.vala
 msgid "Checking for Updates"
-msgstr "Letar efter uppdateringar"
+msgstr ""
 
 #: src/manager_window.vala
 msgid "Deselect"
-msgstr "Avmarkera"
+msgstr ""
 
 #: src/manager_window.vala
 msgid "Upgrade"
-msgstr "Uppgradera"
+msgstr ""
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Install"
-msgstr "Installera"
+msgstr ""
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Remove"
-msgstr "Ta bort"
+msgstr ""
 
 #: src/manager_window.vala
 #, c-format
 msgid "%u pending operation"
 msgid_plural "%u pending operations"
-msgstr[0] "%u pågående åtgärd"
-msgstr[1] "%u pågående åtgärder"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
 
 #: src/manager_window.vala
 msgid "Categories"
-msgstr "Kategorier"
+msgstr ""
 
 #: src/manager_window.vala
 msgid "Groups"
-msgstr "Grupper"
+msgstr ""
 
 #: src/manager_window.vala
 msgid "Repositories"
-msgstr "Förråd (repo)"
+msgstr ""
 
 #: src/manager_window.vala
 msgid "Installed"
-msgstr "Installerad"
+msgstr ""
 
 #: src/manager_window.vala
 msgid "Updates"
-msgstr "Uppdateringar"
+msgstr ""
 
 #: src/manager_window.vala
 msgid "Pending"
-msgstr "Pågående"
+msgstr ""
 
 #: src/manager_window.vala
 msgid "Orphans"
-msgstr "Föräldralösa"
+msgstr ""
 
 #: src/manager_window.vala
 msgid "Foreign"
-msgstr "Främmande"
+msgstr ""
 
 #: src/manager_window.vala
 msgid "Accessories"
-msgstr "Tillbehör"
+msgstr ""
 
 #: src/manager_window.vala
 msgid "Audio & Video"
-msgstr "Ljud & Video"
+msgstr ""
 
 #: src/manager_window.vala
 msgid "Development"
-msgstr "Utveckling"
+msgstr ""
 
 #: src/manager_window.vala
 msgid "Education"
-msgstr "Utbildning"
+msgstr ""
 
 #: src/manager_window.vala
 msgid "Games"
-msgstr "Spel"
+msgstr ""
 
 #: src/manager_window.vala
 msgid "Graphics"
-msgstr "Grafik"
+msgstr ""
 
 #: src/manager_window.vala
 msgid "Internet"
-msgstr "Internet"
+msgstr ""
 
 #: src/manager_window.vala
 msgid "Office"
-msgstr "Kontor"
+msgstr ""
 
 #: src/manager_window.vala
 msgid "Science"
-msgstr "Vetenskap & matematik"
+msgstr ""
 
 #: src/manager_window.vala
 msgid "Settings"
-msgstr "Inställningar"
+msgstr ""
 
 #: src/manager_window.vala
 msgid "System Tools"
-msgstr "System"
+msgstr ""
 
 #: src/manager_window.vala resources/preferences_dialog.ui
 msgid "AUR"
-msgstr "AUR"
+msgstr ""
 
 #: src/manager_window.vala
 msgid "Dependencies"
-msgstr "Beroenden"
+msgstr ""
 
 #: src/manager_window.vala
 msgid "Files"
-msgstr "Filer"
+msgstr ""
 
 #: src/manager_window.vala
 msgid "Install Reason"
-msgstr "Installeringsorsak"
+msgstr ""
 
 #: src/manager_window.vala
 msgid "Mark as explicitly installed"
-msgstr "Markera som särskilt installerad"
+msgstr ""
 
 #: src/manager_window.vala
 msgid "Licenses"
-msgstr "LIcenser"
+msgstr ""
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Repository"
-msgstr "Förråd (repo)"
+msgstr ""
 
 #: src/manager_window.vala
 msgid "Packager"
-msgstr "Pakethanterare"
+msgstr ""
 
 #: src/manager_window.vala
 msgid "Build Date"
-msgstr "Byggdatum"
+msgstr ""
 
 #: src/manager_window.vala
 msgid "Install Date"
-msgstr "Installationsdatum"
+msgstr ""
 
 #: src/manager_window.vala
 msgid "Signatures"
-msgstr "Signatur"
+msgstr ""
 
 #: src/manager_window.vala
 msgid "Backup files"
-msgstr "Backupfiler"
+msgstr ""
 
 #: src/manager_window.vala
 msgid "Depends On"
-msgstr "Beroende av"
+msgstr ""
 
 #: src/manager_window.vala
 msgid "Optional Dependencies"
-msgstr "Valfria beroenden"
+msgstr ""
 
 #: src/manager_window.vala
 msgid "Required By"
-msgstr "Krävs av"
+msgstr ""
 
 #: src/manager_window.vala
 msgid "Optional For"
-msgstr "Frivilliga för"
+msgstr ""
 
 #: src/manager_window.vala
 msgid "Provides"
-msgstr "Erbjuder"
+msgstr ""
 
 #: src/manager_window.vala
 msgid "Replaces"
-msgstr "Ersätter"
+msgstr ""
 
 #: src/manager_window.vala
 msgid "Conflicts With"
-msgstr "Konflikt med"
+msgstr ""
 
 #: src/manager_window.vala
 msgid "Package Base"
-msgstr "Paketbas"
+msgstr ""
 
 #: src/manager_window.vala
 msgid "Maintainer"
-msgstr "Underhållare"
+msgstr ""
 
 #: src/manager_window.vala
 msgid "First Submitted"
-msgstr "Först inskickad"
+msgstr ""
 
 #: src/manager_window.vala
 msgid "Last Modified"
-msgstr "Senast ändrad"
+msgstr ""
 
 #: src/manager_window.vala
 msgid "Votes"
-msgstr "Röster"
+msgstr ""
 
 #: src/manager_window.vala
 msgid "Out of Date"
-msgstr "Föråldrat"
+msgstr ""
 
 #: src/manager_window.vala
 msgid "Make Dependencies"
-msgstr "Make-beroenden"
+msgstr ""
 
 #: src/manager_window.vala
 msgid "Check Dependencies"
-msgstr "Kontrollera beroenden"
+msgstr ""
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Search"
-msgstr "Sök"
+msgstr ""
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Name"
-msgstr "Namn"
+msgstr ""
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Install Local Packages"
-msgstr "Installera lokala paket"
+msgstr ""
 
 #: src/manager_window.vala resources/transaction_sum_dialog.ui
 #: resources/manager_window.ui resources/choose_ignorepkgs_dialog.ui
 msgid "_Cancel"
-msgstr "_Avbryt"
+msgstr ""
 
 #: src/manager_window.vala
 msgid "_Open"
-msgstr "_Öppna"
+msgstr ""
 
 #: src/manager_window.vala
 msgid "Alpm Package"
-msgstr "Alpm-paket"
+msgstr ""
 
 #: src/manager_window.vala
 msgid "A Gtk3 frontend for libalpm"
-msgstr "Ett Gtk3-gränssnitt för libalpm"
+msgstr ""
 
 #: src/preferences_dialog.vala resources/preferences_dialog.ui
 msgid "How often to check for updates, value in hours"
-msgstr "Hur ofta söka efter uppdateringar, ange i timmar"
+msgstr ""
 
 #: src/preferences_dialog.vala resources/preferences_dialog.ui
 msgid "Number of versions of each package to keep in the cache"
-msgstr "Antal versioner av varje paket att behålla i cachen"
+msgstr ""
 
 #: src/preferences_dialog.vala
 msgid "Build directory"
-msgstr "Byggmapp"
+msgstr ""
 
 #: src/preferences_dialog.vala
 msgid "Worldwide"
-msgstr "Världsomspännande"
+msgstr ""
 
 #: src/preferences_dialog.vala
 msgid "Speed"
-msgstr "Hastighet"
+msgstr ""
 
 #: src/preferences_dialog.vala
 msgid "Random"
-msgstr "Slumpmässig"
+msgstr ""
 
 #: resources/choose_provider_dialog.ui
 msgid "Choose a Provider"
-msgstr "Välj en leverantör"
+msgstr ""
 
 #: resources/choose_provider_dialog.ui resources/choose_ignorepkgs_dialog.ui
 msgid "Choose"
-msgstr "Välj"
+msgstr ""
 
 #: resources/progress_dialog.ui
 msgid "Progress"
-msgstr "Status"
+msgstr ""
 
 #: resources/history_dialog.ui
 msgid "Pamac History"
-msgstr "Pamachistorik"
+msgstr ""
 
 #: resources/transaction_sum_dialog.ui
 msgid "Transaction Summary"
-msgstr "Summering av överföring"
+msgstr ""
 
 #: resources/transaction_sum_dialog.ui
 msgid "Commit"
-msgstr "Genomför"
+msgstr ""
 
 #: resources/manager_window.ui
 msgid "Refresh databases"
-msgstr "Uppdatera databas"
+msgstr ""
 
 #: resources/manager_window.ui
 msgid "View History"
-msgstr "Visa historik"
+msgstr ""
 
 #: resources/manager_window.ui resources/preferences_dialog.ui
 msgid "Preferences"
-msgstr "Inställningar"
+msgstr ""
 
 #: resources/manager_window.ui
 msgid "About"
-msgstr "Om"
+msgstr ""
 
 #: resources/manager_window.ui
 msgid "State"
-msgstr "Status"
+msgstr ""
 
 #: resources/manager_window.ui
 msgid "Version"
-msgstr "Version"
+msgstr ""
 
 #: resources/manager_window.ui
 msgid "Size"
-msgstr "Storlek"
+msgstr ""
 
 #: resources/manager_window.ui
 msgid "Popularity"
-msgstr "Popularitet"
+msgstr ""
 
 #: resources/manager_window.ui
 msgid "Browse"
-msgstr "Surfa"
+msgstr ""
 
 #: resources/manager_window.ui
 msgid "Reinstall"
-msgstr "Återinstallera"
+msgstr ""
 
 #: resources/manager_window.ui
 msgid "_Apply"
-msgstr "_Tillämpa"
+msgstr ""
 
 #: resources/manager_window.ui
 msgid "Select All"
-msgstr "Markera alla"
+msgstr ""
 
 #: resources/preferences_dialog.ui
 msgid "Remove unrequired dependencies"
-msgstr "Ta bort icke-nödvändiga beroenden"
+msgstr ""
 
 #: resources/preferences_dialog.ui
 msgid ""
 "When removing a package, also remove its dependencies that are not required "
 "by other packages"
-msgstr "När ett paket tas bort, ta även bort de beroenden paketet har, men som inga andra paket kräver"
+msgstr ""
 
 #: resources/preferences_dialog.ui
 msgid "Check available disk space"
-msgstr "Kontrollera tillgängligt diskutrymme"
+msgstr ""
 
 #: resources/preferences_dialog.ui
 msgid "Check for updates"
-msgstr "Leta efter uppdateringar"
+msgstr ""
 
 #: resources/preferences_dialog.ui
 msgid "Hide tray icon when no update available"
-msgstr "Göm programikonen när inga uppdateringar finns"
+msgstr ""
 
 #: resources/preferences_dialog.ui
 msgid "Ignore upgrades for:"
-msgstr "Ignorera uppdateringar för:"
+msgstr ""
 
 #: resources/preferences_dialog.ui
 msgid "General"
-msgstr "Allmänt"
+msgstr ""
 
 #: resources/preferences_dialog.ui
 msgid "Use mirrors from:"
-msgstr "Använd speglar från:"
+msgstr ""
 
 #: resources/preferences_dialog.ui
 msgid "Sort mirrors by:"
-msgstr "Sortera speglar efter:"
+msgstr ""
 
 #: resources/preferences_dialog.ui
 msgid "Refresh Mirrors List"
-msgstr "Uppdatera spegellista"
+msgstr ""
 
 #: resources/preferences_dialog.ui
 msgid "Official Repositories"
-msgstr "Officiella förråd"
+msgstr ""
 
 #: resources/preferences_dialog.ui
 msgid ""
 "AUR is a community maintained repository so it presents potential risks and problems.\n"
 "All AUR users should be familiar with the build process."
-msgstr "AUR är ett gemensamt under- och tillhandahållet förråd som kan medföra risker och problem.\nAlla AUR-användare bör vara bekanta med byggprocessen."
+msgstr ""
 
 #: resources/preferences_dialog.ui
 msgid "Enable AUR support"
-msgstr "Aktivera AUR-stöd"
+msgstr ""
 
 #: resources/preferences_dialog.ui
 msgid "Allow Pamac to search and install packages from AUR"
-msgstr "Tillåt Pamac att söka och installera paket från AUR"
+msgstr ""
 
 #: resources/preferences_dialog.ui
 msgid "Check for updates from AUR"
-msgstr "Leta efter uppdateringar i AUR"
+msgstr ""
 
 #: resources/preferences_dialog.ui
 msgid "Remove only the versions of uninstalled packages"
-msgstr "Ta endast bort gamla versioner av borttagna paket"
+msgstr ""
 
 #: resources/preferences_dialog.ui
 msgid "Clean cache"
-msgstr "Rensa cache"
+msgstr ""
 
 #: resources/preferences_dialog.ui
 msgid "Cache"
-msgstr "Cache"
+msgstr ""
 
 #: resources/choose_ignorepkgs_dialog.ui
 msgid "Choose Ignored Upgrades"
-msgstr "Välj ignorerade paket"
+msgstr ""

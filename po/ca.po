@@ -8,17 +8,18 @@
 # Davidmp <medipas@gmail.com>, 2015
 # Guillaume Benoit <guillaume@manjaro.org>, 2013
 # Ramon Buldó <rbuldo@gmail.com>, 2013
-# Davidmp <medipas@gmail.com>, 2015-2017
+# Davidmp <medipas@gmail.com>, 2015-2018
 # Oriol Fernandez <oriolfa@ono.com>, 2013-2014
 # philm <philm@manjaro.org>, 2015
 # Ramon Buldó <rbuldo@gmail.com>, 2013,2016
+# Robert Antoni Buj Gelonch <rbuj@fedoraproject.org>, 2018
 # Tomàs Mallafré Gispert <tomas@mallafre.cat>, 2014-2015
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2017-09-09 09:46+0200\n"
-"PO-Revision-Date: 2017-11-02 14:37+0000\n"
+"PO-Revision-Date: 2018-05-22 14:24+0000\n"
 "Last-Translator: Davidmp <medipas@gmail.com>\n"
 "Language-Team: Catalan (http://www.transifex.com/manjarolinux/manjaro-pamac/language/ca/)\n"
 "MIME-Version: 1.0\n"
@@ -79,7 +80,7 @@ msgstr "objectiu no trobat: %s"
 #: src/system_daemon.vala
 #, c-format
 msgid "package %s does not have a valid architecture"
-msgstr "el paquet %s no té una estructura vàlida"
+msgstr "el paquet %s no té una arquitectura vàlida"
 
 #: src/system_daemon.vala
 #, c-format
@@ -377,7 +378,7 @@ msgstr "Gestor de paquets"
 
 #: src/tray.vala
 msgid "_Quit"
-msgstr "_Abandona"
+msgstr "_Surt"
 
 #: src/tray.vala
 #, c-format
@@ -484,7 +485,7 @@ msgstr "Internet"
 
 #: src/manager_window.vala
 msgid "Office"
-msgstr "Oficina"
+msgstr "Ofimàtica"
 
 #: src/manager_window.vala
 msgid "Science"
@@ -781,7 +782,7 @@ msgstr "Repositoris oficials"
 msgid ""
 "AUR is a community maintained repository so it presents potential risks and problems.\n"
 "All AUR users should be familiar with the build process."
-msgstr "L'AUR és un repositori mantingut per la comunitat; per tant, pot comportar riscos i problemes.\nTots els usuaris de l'AUR haurien d'estar familiaritzats amb el procés de construcció."
+msgstr "L'AUR és un repositori mantingut per la comunitat; per tant, pot comportar riscs i problemes.\nTots els usuaris de l'AUR haurien d'estar familiaritzats amb el procés de construcció."
 
 #: resources/preferences_dialog.ui
 msgid "Enable AUR support"

@@ -7,13 +7,14 @@
 # Kus Mis <kusmis@hot.ee>, 2013
 # Kalle Kadakas <kallekadakas@gmail.com>, 2015
 # Kus Mis <kusmis@hot.ee>, 2013
+# Madis, 2018
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2017-09-09 09:46+0200\n"
-"PO-Revision-Date: 2017-10-28 08:25+0000\n"
-"Last-Translator: Guillaume Benoit <guillaume@manjaro.org>\n"
+"PO-Revision-Date: 2018-05-19 18:26+0000\n"
+"Last-Translator: Madis\n"
 "Language-Team: Estonian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/et/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -23,7 +24,7 @@ msgstr ""
 
 #: data/polkit/org.manjaro.pamac.policy.in
 msgid "Authentication is required"
-msgstr ""
+msgstr "Autentimine on vajalik"
 
 #: src/user_daemon.vala
 msgid "Unknown"
@@ -31,7 +32,7 @@ msgstr "Tundmatu"
 
 #: src/user_daemon.vala src/manager_window.vala
 msgid "Explicitly installed"
-msgstr "Detailselt paigaldatud"
+msgstr "Otseselt paigaldatud"
 
 #: src/user_daemon.vala src/manager_window.vala
 msgid "Installed as a dependency for another package"
@@ -78,17 +79,17 @@ msgstr "paketil %s puudub tõene arhitektuuri spetsifikatsioon"
 #: src/system_daemon.vala
 #, c-format
 msgid "unable to satisfy dependency '%s' required by %s"
-msgstr ""
+msgstr "ei saa rahuldada sõltuvust \"%s\", mida vajab %s"
 
 #: src/system_daemon.vala
 #, c-format
 msgid "installing %s (%s) breaks dependency '%s' required by %s"
-msgstr ""
+msgstr "%s (%s) installimine lõhub sõltuvuse \"%s\", mida vajab %s"
 
 #: src/system_daemon.vala
 #, c-format
 msgid "removing %s breaks dependency '%s' required by %s"
-msgstr ""
+msgstr "%s eemaldamine lõhub sõltuvuse \"%s\", mida vajab %s"
 
 #: src/system_daemon.vala
 #, c-format
@@ -98,16 +99,16 @@ msgstr "%s ning %s on üksteisega vastuolus"
 #: src/system_daemon.vala
 #, c-format
 msgid "%s needs to be removed but it is a locked package"
-msgstr ""
+msgstr "%s tuleb eemaldada aga see on lukustatud pakett"
 
 #: src/system_daemon.vala
 msgid "Failed to commit transaction"
-msgstr "Tehingu kehtestamine nurjus"
+msgstr "Tehingu teostamine nurjus"
 
 #: src/system_daemon.vala
 #, c-format
 msgid "%s exists in both %s and %s"
-msgstr ""
+msgstr "%s eksisteerib nii asukohas %s kui ka %s"
 
 #: src/system_daemon.vala
 #, c-format
@@ -122,16 +123,16 @@ msgstr "%s on kehtetu või rikutud"
 #: src/system_daemon.vala
 #, c-format
 msgid "%s appears to be truncated: %jd/%jd bytes\n"
-msgstr ""
+msgstr "%s tundub olevat kärbitud: %jd/%jd baiti\n"
 
 #: src/system_daemon.vala
 #, c-format
 msgid "failed retrieving file '%s' from %s : %s\n"
-msgstr ""
+msgstr "faili \"%s\" hankimine ebaõnnestus asukohast %s: %s\n"
 
 #: src/transaction.vala
 msgid "Copy"
-msgstr ""
+msgstr "Kopeeri"
 
 #: src/transaction.vala
 msgid "Refreshing mirrors list"
@@ -172,20 +173,20 @@ msgstr "Paigaldada"
 
 #: src/transaction.vala
 msgid "To reinstall"
-msgstr "Uuesti Paigaldada"
+msgstr "Taaspaigaldada"
 
 #: src/transaction.vala
 msgid "To upgrade"
-msgstr ""
+msgstr "Et täiendada"
 
 #: src/transaction.vala src/manager_window.vala
 msgid "Total download size"
-msgstr "Allalaadimise Suurus"
+msgstr "Allalaadimise suurus kokku"
 
 #: src/transaction.vala
 #, c-format
 msgid "Building %s"
-msgstr ""
+msgstr "Kompileerin %s"
 
 #: src/transaction.vala
 msgid "Transaction cancelled"
@@ -282,7 +283,7 @@ msgstr "Saadaoleva kettaruumi kontroll"
 #: src/transaction.vala
 #, c-format
 msgid "%s optionally requires %s"
-msgstr "%s valikuliselt vajab %s"
+msgstr "%s vajab valikuliselt paketti %s"
 
 #: src/transaction.vala
 #, c-format
@@ -309,23 +310,23 @@ msgstr "%s paigaldatud kui %s.pacsave"
 
 #: src/transaction.vala
 msgid "Running pre-transaction hooks"
-msgstr ""
+msgstr "Käivitan eel-tehingu kinnitusi"
 
 #: src/transaction.vala
 msgid "Running post-transaction hooks"
-msgstr ""
+msgstr "Käivitan järel-tehingu kinnitusi"
 
 #: src/transaction.vala
 #, c-format
 msgid "About %u seconds remaining"
-msgstr ""
+msgstr "Umbes %u sekundit jäänud"
 
 #: src/transaction.vala
 #, c-format
 msgid "About %lu minute remaining"
 msgid_plural "About %lu minutes remaining"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Umbes %lu minut jäänud"
+msgstr[1] "Umbes %lu minutit jäänud"
 
 #: src/transaction.vala
 #, c-format
@@ -359,7 +360,7 @@ msgstr "Pamac juba töötab"
 
 #: src/installer.vala src/manager_window.vala
 msgid "Waiting for another package manager to quit"
-msgstr ""
+msgstr "Ootan teise pakihalduri väljumist"
 
 #: src/tray.vala src/manager_window.vala
 msgid "Your system is up-to-date"
@@ -387,19 +388,19 @@ msgstr "Üksikasjad"
 
 #: src/manager_window.vala
 msgid "No package found"
-msgstr ""
+msgstr "Paketti ei leitud"
 
 #: src/manager_window.vala
 msgid "Checking for Updates"
-msgstr ""
+msgstr "Kontrollin uuendusi"
 
 #: src/manager_window.vala
 msgid "Deselect"
-msgstr ""
+msgstr "Tühista märgistus"
 
 #: src/manager_window.vala
 msgid "Upgrade"
-msgstr ""
+msgstr "Täienda"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Install"
@@ -413,12 +414,12 @@ msgstr "Eemalda"
 #, c-format
 msgid "%u pending operation"
 msgid_plural "%u pending operations"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%u tegevus ootel"
+msgstr[1] "%u tegevust ootel"
 
 #: src/manager_window.vala
 msgid "Categories"
-msgstr ""
+msgstr "Kategooriad"
 
 #: src/manager_window.vala
 msgid "Groups"
@@ -426,7 +427,7 @@ msgstr "Grupid"
 
 #: src/manager_window.vala
 msgid "Repositories"
-msgstr "Repositooriumid"
+msgstr "Hoidlad"
 
 #: src/manager_window.vala
 msgid "Installed"
@@ -434,11 +435,11 @@ msgstr "Paigaldatud"
 
 #: src/manager_window.vala
 msgid "Updates"
-msgstr ""
+msgstr "Uuendused"
 
 #: src/manager_window.vala
 msgid "Pending"
-msgstr ""
+msgstr "Ootel"
 
 #: src/manager_window.vala
 msgid "Orphans"
@@ -446,51 +447,51 @@ msgstr "Orvud"
 
 #: src/manager_window.vala
 msgid "Foreign"
-msgstr ""
+msgstr "Võõrad"
 
 #: src/manager_window.vala
 msgid "Accessories"
-msgstr ""
+msgstr "Tarvikud"
 
 #: src/manager_window.vala
 msgid "Audio & Video"
-msgstr ""
+msgstr "Heli ja pilt"
 
 #: src/manager_window.vala
 msgid "Development"
-msgstr ""
+msgstr "Arendus"
 
 #: src/manager_window.vala
 msgid "Education"
-msgstr ""
+msgstr "Haridus"
 
 #: src/manager_window.vala
 msgid "Games"
-msgstr ""
+msgstr "Mängud"
 
 #: src/manager_window.vala
 msgid "Graphics"
-msgstr ""
+msgstr "Graafika"
 
 #: src/manager_window.vala
 msgid "Internet"
-msgstr ""
+msgstr "Internet"
 
 #: src/manager_window.vala
 msgid "Office"
-msgstr ""
+msgstr "Kontor"
 
 #: src/manager_window.vala
 msgid "Science"
-msgstr ""
+msgstr "Teadus"
 
 #: src/manager_window.vala
 msgid "Settings"
-msgstr ""
+msgstr "Seaded"
 
 #: src/manager_window.vala
 msgid "System Tools"
-msgstr ""
+msgstr "Süsteemi tööriistad"
 
 #: src/manager_window.vala resources/preferences_dialog.ui
 msgid "AUR"
@@ -510,7 +511,7 @@ msgstr "Paigaldamise põhjus"
 
 #: src/manager_window.vala
 msgid "Mark as explicitly installed"
-msgstr ""
+msgstr "Märgi otseselt paigaldatuks"
 
 #: src/manager_window.vala
 msgid "Licenses"
@@ -526,11 +527,11 @@ msgstr "Pakendaja"
 
 #: src/manager_window.vala
 msgid "Build Date"
-msgstr "Kompileerimise Kuupäev"
+msgstr "Kompileerimise kuupäev"
 
 #: src/manager_window.vala
 msgid "Install Date"
-msgstr "Paigalduse Kuupäev"
+msgstr "Paigalduse kuupäev"
 
 #: src/manager_window.vala
 msgid "Signatures"
@@ -542,11 +543,11 @@ msgstr "Varukoopia failid"
 
 #: src/manager_window.vala
 msgid "Depends On"
-msgstr "Sõltub"
+msgstr "Sõltuvused"
 
 #: src/manager_window.vala
 msgid "Optional Dependencies"
-msgstr "Valikulised Sõltuvused"
+msgstr "Valikulised sõltuvused"
 
 #: src/manager_window.vala
 msgid "Required By"
@@ -554,11 +555,11 @@ msgstr "Mida nõuab"
 
 #: src/manager_window.vala
 msgid "Optional For"
-msgstr "On Valikuline"
+msgstr "Valikuline"
 
 #: src/manager_window.vala
 msgid "Provides"
-msgstr "Pakutavad"
+msgstr "Pakub"
 
 #: src/manager_window.vala
 msgid "Replaces"
@@ -570,7 +571,7 @@ msgstr "Konfliktid"
 
 #: src/manager_window.vala
 msgid "Package Base"
-msgstr ""
+msgstr "Paketibaas"
 
 #: src/manager_window.vala
 msgid "Maintainer"
@@ -578,15 +579,15 @@ msgstr "Haldaja"
 
 #: src/manager_window.vala
 msgid "First Submitted"
-msgstr "Esmaselt Sisestatud"
+msgstr "Esmaselt sisestatud"
 
 #: src/manager_window.vala
 msgid "Last Modified"
-msgstr "Viimati Muudetud"
+msgstr "Viimati muudetud"
 
 #: src/manager_window.vala
 msgid "Votes"
-msgstr "Hääled"
+msgstr "Hääli"
 
 #: src/manager_window.vala
 msgid "Out of Date"
@@ -594,11 +595,11 @@ msgstr "Vananenud"
 
 #: src/manager_window.vala
 msgid "Make Dependencies"
-msgstr ""
+msgstr "Make sõltuvused"
 
 #: src/manager_window.vala
 msgid "Check Dependencies"
-msgstr ""
+msgstr "Kontrolli sõltuvusi"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Search"
@@ -610,7 +611,7 @@ msgstr "Nimi"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Install Local Packages"
-msgstr "Paigalda Kohalikud Paketid"
+msgstr "Paigalda kohalikke pakette"
 
 #: src/manager_window.vala resources/transaction_sum_dialog.ui
 #: resources/manager_window.ui resources/choose_ignorepkgs_dialog.ui
@@ -623,7 +624,7 @@ msgstr "_Ava"
 
 #: src/manager_window.vala
 msgid "Alpm Package"
-msgstr "Alpm Pakett"
+msgstr "Alpm pakett"
 
 #: src/manager_window.vala
 msgid "A Gtk3 frontend for libalpm"
@@ -635,15 +636,15 @@ msgstr "Kui tihti kontrollida uuendusi, väärtus tundides"
 
 #: src/preferences_dialog.vala resources/preferences_dialog.ui
 msgid "Number of versions of each package to keep in the cache"
-msgstr ""
+msgstr "Versioonide arv igas pakis, mida hoida vahemälus"
 
 #: src/preferences_dialog.vala
 msgid "Build directory"
-msgstr ""
+msgstr "Kompileerimise kaustatee"
 
 #: src/preferences_dialog.vala
 msgid "Worldwide"
-msgstr ""
+msgstr "Ülemaailmne"
 
 #: src/preferences_dialog.vala
 msgid "Speed"
@@ -655,11 +656,11 @@ msgstr "Suvaline"
 
 #: resources/choose_provider_dialog.ui
 msgid "Choose a Provider"
-msgstr "Valige Pakkuja"
+msgstr "Valige pakkuja"
 
 #: resources/choose_provider_dialog.ui resources/choose_ignorepkgs_dialog.ui
 msgid "Choose"
-msgstr ""
+msgstr "Vali"
 
 #: resources/progress_dialog.ui
 msgid "Progress"
@@ -667,23 +668,23 @@ msgstr "Edenemine"
 
 #: resources/history_dialog.ui
 msgid "Pamac History"
-msgstr "Pamaci Ajalugu"
+msgstr "Pamaci ajalugu"
 
 #: resources/transaction_sum_dialog.ui
 msgid "Transaction Summary"
-msgstr "Tehingu Kokkuvõte"
+msgstr "Tehingu kokkuvõte"
 
 #: resources/transaction_sum_dialog.ui
 msgid "Commit"
-msgstr ""
+msgstr "Teosta"
 
 #: resources/manager_window.ui
 msgid "Refresh databases"
-msgstr "Värskenda andmebaasid"
+msgstr "Värskenda andmebaase"
 
 #: resources/manager_window.ui
 msgid "View History"
-msgstr "Ajaloo Vaade"
+msgstr "Vaata ajalugu"
 
 #: resources/manager_window.ui resources/preferences_dialog.ui
 msgid "Preferences"
@@ -691,7 +692,7 @@ msgstr "Sätted"
 
 #: resources/manager_window.ui
 msgid "About"
-msgstr ""
+msgstr "Teave"
 
 #: resources/manager_window.ui
 msgid "State"
@@ -707,11 +708,11 @@ msgstr "Suurus"
 
 #: resources/manager_window.ui
 msgid "Popularity"
-msgstr ""
+msgstr "Populaarsus"
 
 #: resources/manager_window.ui
 msgid "Browse"
-msgstr ""
+msgstr "Sirvi"
 
 #: resources/manager_window.ui
 msgid "Reinstall"
@@ -723,7 +724,7 @@ msgstr "_Rakenda"
 
 #: resources/manager_window.ui
 msgid "Select All"
-msgstr ""
+msgstr "Vali kõik"
 
 #: resources/preferences_dialog.ui
 msgid "Remove unrequired dependencies"
@@ -757,25 +758,25 @@ msgstr "Üldine"
 
 #: resources/preferences_dialog.ui
 msgid "Use mirrors from:"
-msgstr ""
+msgstr "Kasuta peegleid asukohast:"
 
 #: resources/preferences_dialog.ui
 msgid "Sort mirrors by:"
-msgstr ""
+msgstr "Sorteeri peegleid:"
 
 #: resources/preferences_dialog.ui
 msgid "Refresh Mirrors List"
-msgstr "Värskenda Peegelsaitide Nimistut"
+msgstr "Värskenda peegelsaitide nimistut"
 
 #: resources/preferences_dialog.ui
 msgid "Official Repositories"
-msgstr "Ametlikud Repositooriumid"
+msgstr "Ametlikud hoidlad"
 
 #: resources/preferences_dialog.ui
 msgid ""
 "AUR is a community maintained repository so it presents potential risks and problems.\n"
 "All AUR users should be familiar with the build process."
-msgstr ""
+msgstr "AUR on kogukonna hallatud hoidla, seega sellega kaasnevad potentsiaalsed riskid ja probleemid.\nKõik AUR'i kasutajad peaksid olema tuttavad nende kompileerimisprotseesiga."
 
 #: resources/preferences_dialog.ui
 msgid "Enable AUR support"
@@ -791,16 +792,16 @@ msgstr "Kontrolli uuendusi AURist"
 
 #: resources/preferences_dialog.ui
 msgid "Remove only the versions of uninstalled packages"
-msgstr ""
+msgstr "Kustuta ainult eemaldatud pakettide versioonid"
 
 #: resources/preferences_dialog.ui
 msgid "Clean cache"
-msgstr ""
+msgstr "Tühjenda vahemälu"
 
 #: resources/preferences_dialog.ui
 msgid "Cache"
-msgstr ""
+msgstr "Vahemälu"
 
 #: resources/choose_ignorepkgs_dialog.ui
 msgid "Choose Ignored Upgrades"
-msgstr "Vali Ignoreeritud Uuendused"
+msgstr "Vali ignoreeritud uuendused"

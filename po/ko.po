@@ -4,6 +4,7 @@
 # Guillaume Benoit <guillaume@manjaro.org>, 2013-2017.
 # 
 # Translators:
+# Cybertramp <paran_son@outlook.com>, 2018
 # Eric Park <ideamaneric@gmail.com>, 2017
 # lego37yoon <lego37yoon@outlook.com>, 2013
 # lego37yoon <lego37yoon@outlook.com>, 2013
@@ -14,8 +15,8 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2017-09-09 09:46+0200\n"
-"PO-Revision-Date: 2018-01-22 09:22+0000\n"
-"Last-Translator: Mine My <my2654jh@gmail.com>\n"
+"PO-Revision-Date: 2018-04-27 15:43+0000\n"
+"Last-Translator: Cybertramp <paran_son@outlook.com>\n"
 "Language-Team: Korean (http://www.transifex.com/manjarolinux/manjaro-pamac/language/ko/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -80,56 +81,56 @@ msgstr "%s 패키지는 정확한 아키텍처를 가지고 있지 않습니다"
 #: src/system_daemon.vala
 #, c-format
 msgid "unable to satisfy dependency '%s' required by %s"
-msgstr ""
+msgstr "%s에 의해 요구되는 %s은 의존성을 만족시킬 수 없습니다"
 
 #: src/system_daemon.vala
 #, c-format
 msgid "installing %s (%s) breaks dependency '%s' required by %s"
-msgstr ""
+msgstr "설치 중 %s (%s) %s에 의해 요구되는 %s 의존성은 중단 됨"
 
 #: src/system_daemon.vala
 #, c-format
 msgid "removing %s breaks dependency '%s' required by %s"
-msgstr ""
+msgstr "제거 중 %s %s에 의해 요구되는 %s 의존성은 중단 됨"
 
 #: src/system_daemon.vala
 #, c-format
 msgid "%s and %s are in conflict"
-msgstr ""
+msgstr "%s 와 %s는 문제가 있습니다"
 
 #: src/system_daemon.vala
 #, c-format
 msgid "%s needs to be removed but it is a locked package"
-msgstr ""
+msgstr "%s는 제거가 필요합니다. 하지만 잠긴 패키지입니다"
 
 #: src/system_daemon.vala
 msgid "Failed to commit transaction"
-msgstr ""
+msgstr "트랜잭션 커밋에 실패 함"
 
 #: src/system_daemon.vala
 #, c-format
 msgid "%s exists in both %s and %s"
-msgstr ""
+msgstr "%s는 %s와%s에 존재 함"
 
 #: src/system_daemon.vala
 #, c-format
 msgid "%s: %s already exists in filesystem"
-msgstr ""
+msgstr "%s : %s 는 이미 파일시스템에 존재"
 
 #: src/system_daemon.vala
 #, c-format
 msgid "%s is invalid or corrupted"
-msgstr ""
+msgstr "%s는 유효하지 않거나 손상 됨"
 
 #: src/system_daemon.vala
 #, c-format
 msgid "%s appears to be truncated: %jd/%jd bytes\n"
-msgstr ""
+msgstr "%s 는 잘린 것으로 보임: %jd / %jd bytes\n"
 
 #: src/system_daemon.vala
 #, c-format
 msgid "failed retrieving file '%s' from %s : %s\n"
-msgstr ""
+msgstr "%s : %s로 부터 파일 가져오기 실패 '%s' \n"
 
 #: src/transaction.vala
 msgid "Copy"
@@ -141,11 +142,11 @@ msgstr "미러 목록을 새로고치는 중"
 
 #: src/transaction.vala
 msgid "Synchronizing package databases"
-msgstr ""
+msgstr "패키지 데이터베이스 동기화 중"
 
 #: src/transaction.vala
 msgid "Starting full system upgrade"
-msgstr ""
+msgstr "전체 시스템 업그레이드 시작 중"
 
 #: src/transaction.vala
 msgid "Preparing"
@@ -154,35 +155,35 @@ msgstr "준비중"
 #: src/transaction.vala
 #, c-format
 msgid "Choose a provider for %s"
-msgstr ""
+msgstr "%s 를 위한 제공자 선택"
 
 #: src/transaction.vala
 msgid "To remove"
-msgstr ""
+msgstr "제거"
 
 #: src/transaction.vala
 msgid "To downgrade"
-msgstr ""
+msgstr "다운그레이드"
 
 #: src/transaction.vala
 msgid "To build"
-msgstr ""
+msgstr "빌드하기"
 
 #: src/transaction.vala
 msgid "To install"
-msgstr ""
+msgstr "설치"
 
 #: src/transaction.vala
 msgid "To reinstall"
-msgstr ""
+msgstr "재설치"
 
 #: src/transaction.vala
 msgid "To upgrade"
-msgstr ""
+msgstr "업그레이드"
 
 #: src/transaction.vala src/manager_window.vala
 msgid "Total download size"
-msgstr ""
+msgstr "전체 다운로드 크기"
 
 #: src/transaction.vala
 #, c-format
@@ -191,52 +192,52 @@ msgstr "%s 빌드중"
 
 #: src/transaction.vala
 msgid "Transaction cancelled"
-msgstr ""
+msgstr "트랜잭션 취소 됨"
 
 #: src/transaction.vala
 msgid "Checking dependencies"
-msgstr ""
+msgstr "의존성 확인중"
 
 #: src/transaction.vala
 msgid "Checking file conflicts"
-msgstr ""
+msgstr "파일결함 확인 중"
 
 #: src/transaction.vala
 msgid "Resolving dependencies"
-msgstr ""
+msgstr "의존성 해결"
 
 #: src/transaction.vala
 msgid "Checking inter-conflicts"
-msgstr ""
+msgstr "내부문제 확인 중"
 
 #: src/transaction.vala
 #, c-format
 msgid "Installing %s"
-msgstr ""
+msgstr "설치 중 %s"
 
 #: src/transaction.vala
 #, c-format
 msgid "Upgrading %s"
-msgstr ""
+msgstr "업그레이드 중 %s"
 
 #: src/transaction.vala
 #, c-format
 msgid "Reinstalling %s"
-msgstr ""
+msgstr "재설치 중 %s"
 
 #: src/transaction.vala
 #, c-format
 msgid "Downgrading %s"
-msgstr ""
+msgstr "다운로드 중 %s"
 
 #: src/transaction.vala
 #, c-format
 msgid "Removing %s"
-msgstr ""
+msgstr "제거 중 %s"
 
 #: src/transaction.vala
 msgid "Checking integrity"
-msgstr ""
+msgstr "무결성 확인 중"
 
 #: src/transaction.vala
 msgid "Loading packages files"
@@ -244,123 +245,123 @@ msgstr "꾸러미 파일을 로드중입니다."
 
 #: src/transaction.vala
 msgid "Checking delta integrity"
-msgstr ""
+msgstr "델타 무결성 확인 중"
 
 #: src/transaction.vala
 msgid "Applying deltas"
-msgstr ""
+msgstr "델타 적용 중"
 
 #: src/transaction.vala
 #, c-format
 msgid "Generating %s with %s"
-msgstr ""
+msgstr "생성 중 %s 와 %s"
 
 #: src/transaction.vala
 msgid "Generation succeeded"
-msgstr ""
+msgstr "생성 성공"
 
 #: src/transaction.vala
 msgid "Generation failed"
-msgstr ""
+msgstr "생성 실패"
 
 #: src/transaction.vala
 #, c-format
 msgid "Configuring %s"
-msgstr ""
+msgstr "설정 중 %s"
 
 #: src/transaction.vala
 msgid "Downloading"
-msgstr ""
+msgstr "다운로드 중"
 
 #: src/transaction.vala
 #, c-format
 msgid "Downloading %s"
-msgstr ""
+msgstr "다운로드 중 %s"
 
 #: src/transaction.vala
 msgid "Checking available disk space"
-msgstr ""
+msgstr "이용 가능한 공간 크기 확인 중"
 
 #: src/transaction.vala
 #, c-format
 msgid "%s optionally requires %s"
-msgstr ""
+msgstr "%s 추가적으로 필요 한 %s"
 
 #: src/transaction.vala
 #, c-format
 msgid "Database file for %s does not exist"
-msgstr ""
+msgstr "데이터베이스 파일 %s 가 존재하지 않습니다."
 
 #: src/transaction.vala
 msgid "Checking keyring"
-msgstr ""
+msgstr "키잉 확인 중"
 
 #: src/transaction.vala
 msgid "Downloading required keys"
-msgstr ""
+msgstr "필요한 키를 다운로드 중입니다"
 
 #: src/transaction.vala
 #, c-format
 msgid "%s installed as %s.pacnew"
-msgstr ""
+msgstr "%s 는 %s.pacnew 로 설치 되었습니다"
 
 #: src/transaction.vala
 #, c-format
 msgid "%s installed as %s.pacsave"
-msgstr ""
+msgstr "%s 는 %s.pacsave 로 설치 되었습니다"
 
 #: src/transaction.vala
 msgid "Running pre-transaction hooks"
-msgstr ""
+msgstr "사전 트랜잭션 후크가 실행 중"
 
 #: src/transaction.vala
 msgid "Running post-transaction hooks"
-msgstr ""
+msgstr "사후 트랜잭션 후크가 실행 중"
 
 #: src/transaction.vala
 #, c-format
 msgid "About %u seconds remaining"
-msgstr ""
+msgstr "%u초 남았습니다"
 
 #: src/transaction.vala
 #, c-format
 msgid "About %lu minute remaining"
 msgid_plural "About %lu minutes remaining"
-msgstr[0] ""
+msgstr[0] "%lu 초 남았습니다"
 
 #: src/transaction.vala
 #, c-format
 msgid "Refreshing %s"
-msgstr ""
+msgstr "새로고치는 중 %s"
 
 #: src/transaction.vala
 msgid "Error"
-msgstr ""
+msgstr "에러"
 
 #: src/transaction.vala
 msgid "Warning"
-msgstr ""
+msgstr "경고"
 
 #: src/transaction.vala resources/progress_dialog.ui
 #: resources/history_dialog.ui resources/preferences_dialog.ui
 msgid "_Close"
-msgstr ""
+msgstr "_닫기"
 
 #: src/transaction.vala
 msgid "Nothing to do"
-msgstr ""
+msgstr "아무 것도 할 것이 없습니다"
 
 #: src/transaction.vala
 msgid "Transaction successfully finished"
-msgstr ""
+msgstr "트랜잭션을 성공적으로 완료했습니다"
 
 #: src/installer.vala src/manager.vala
 msgid "Pamac is already running"
-msgstr ""
+msgstr "패맥이 이미 실행 중입니다"
 
 #: src/installer.vala src/manager_window.vala
 msgid "Waiting for another package manager to quit"
-msgstr ""
+msgstr "다른 패키지 매니저가 종료되기를 기다리는 중입니다"
 
 #: src/tray.vala src/manager_window.vala
 msgid "Your system is up-to-date"
@@ -368,38 +369,38 @@ msgstr "당신의 시스템은 최신 상태입니다."
 
 #: src/tray.vala src/manager_window.vala
 msgid "Package Manager"
-msgstr ""
+msgstr "패키지 매니저"
 
 #: src/tray.vala
 msgid "_Quit"
-msgstr ""
+msgstr "_종료"
 
 #: src/tray.vala
 #, c-format
 msgid "%u available update"
 msgid_plural "%u available updates"
-msgstr[0] ""
+msgstr[0] "%u 이용가능 한 업데이트"
 
 #: src/tray.vala src/manager_window.vala resources/progress_dialog.ui
 #: resources/manager_window.ui
 msgid "Details"
-msgstr ""
+msgstr "자세히"
 
 #: src/manager_window.vala
 msgid "No package found"
-msgstr ""
+msgstr "패키지를 찾지 못했습니다"
 
 #: src/manager_window.vala
 msgid "Checking for Updates"
-msgstr ""
+msgstr "업데이트 확인"
 
 #: src/manager_window.vala
 msgid "Deselect"
-msgstr ""
+msgstr "선택취소"
 
 #: src/manager_window.vala
 msgid "Upgrade"
-msgstr ""
+msgstr "업그레이드"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Install"
@@ -413,19 +414,19 @@ msgstr "제거"
 #, c-format
 msgid "%u pending operation"
 msgid_plural "%u pending operations"
-msgstr[0] ""
+msgstr[0] "%u 보류중인 작업"
 
 #: src/manager_window.vala
 msgid "Categories"
-msgstr ""
+msgstr "카테고리"
 
 #: src/manager_window.vala
 msgid "Groups"
-msgstr ""
+msgstr "그룹"
 
 #: src/manager_window.vala
 msgid "Repositories"
-msgstr ""
+msgstr "저장소"
 
 #: src/manager_window.vala
 msgid "Installed"
@@ -433,268 +434,268 @@ msgstr "설치완료"
 
 #: src/manager_window.vala
 msgid "Updates"
-msgstr ""
+msgstr "업데이트"
 
 #: src/manager_window.vala
 msgid "Pending"
-msgstr ""
+msgstr "보류 중"
 
 #: src/manager_window.vala
 msgid "Orphans"
-msgstr ""
+msgstr "단독"
 
 #: src/manager_window.vala
 msgid "Foreign"
-msgstr ""
+msgstr "기타"
 
 #: src/manager_window.vala
 msgid "Accessories"
-msgstr ""
+msgstr "액세서리"
 
 #: src/manager_window.vala
 msgid "Audio & Video"
-msgstr ""
+msgstr "오디오 & 비디오"
 
 #: src/manager_window.vala
 msgid "Development"
-msgstr ""
+msgstr "개발"
 
 #: src/manager_window.vala
 msgid "Education"
-msgstr ""
+msgstr "교육"
 
 #: src/manager_window.vala
 msgid "Games"
-msgstr ""
+msgstr "게임"
 
 #: src/manager_window.vala
 msgid "Graphics"
-msgstr ""
+msgstr "그래픽"
 
 #: src/manager_window.vala
 msgid "Internet"
-msgstr ""
+msgstr "인터넷"
 
 #: src/manager_window.vala
 msgid "Office"
-msgstr ""
+msgstr "오피스"
 
 #: src/manager_window.vala
 msgid "Science"
-msgstr ""
+msgstr "과학"
 
 #: src/manager_window.vala
 msgid "Settings"
-msgstr ""
+msgstr "설정"
 
 #: src/manager_window.vala
 msgid "System Tools"
-msgstr ""
+msgstr "시스템 도구"
 
 #: src/manager_window.vala resources/preferences_dialog.ui
 msgid "AUR"
-msgstr ""
+msgstr "AUR"
 
 #: src/manager_window.vala
 msgid "Dependencies"
-msgstr ""
+msgstr "의존성"
 
 #: src/manager_window.vala
 msgid "Files"
-msgstr ""
+msgstr "파일"
 
 #: src/manager_window.vala
 msgid "Install Reason"
-msgstr ""
+msgstr "설치 이유"
 
 #: src/manager_window.vala
 msgid "Mark as explicitly installed"
-msgstr ""
+msgstr "마킹 된 것만 설치 됨"
 
 #: src/manager_window.vala
 msgid "Licenses"
-msgstr ""
+msgstr "라이센스"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Repository"
-msgstr ""
+msgstr "저장소"
 
 #: src/manager_window.vala
 msgid "Packager"
-msgstr ""
+msgstr "패커"
 
 #: src/manager_window.vala
 msgid "Build Date"
-msgstr ""
+msgstr "빌드 날짜"
 
 #: src/manager_window.vala
 msgid "Install Date"
-msgstr ""
+msgstr "설치 날짜"
 
 #: src/manager_window.vala
 msgid "Signatures"
-msgstr ""
+msgstr "서명"
 
 #: src/manager_window.vala
 msgid "Backup files"
-msgstr ""
+msgstr "백업 파일"
 
 #: src/manager_window.vala
 msgid "Depends On"
-msgstr ""
+msgstr "의존"
 
 #: src/manager_window.vala
 msgid "Optional Dependencies"
-msgstr ""
+msgstr "추가적인 의존성"
 
 #: src/manager_window.vala
 msgid "Required By"
-msgstr ""
+msgstr "필요 함"
 
 #: src/manager_window.vala
 msgid "Optional For"
-msgstr ""
+msgstr "추가적으로"
 
 #: src/manager_window.vala
 msgid "Provides"
-msgstr ""
+msgstr "제공"
 
 #: src/manager_window.vala
 msgid "Replaces"
-msgstr ""
+msgstr "대체"
 
 #: src/manager_window.vala
 msgid "Conflicts With"
-msgstr ""
+msgstr "갈등"
 
 #: src/manager_window.vala
 msgid "Package Base"
-msgstr ""
+msgstr "패키지 기본"
 
 #: src/manager_window.vala
 msgid "Maintainer"
-msgstr ""
+msgstr "관리자"
 
 #: src/manager_window.vala
 msgid "First Submitted"
-msgstr ""
+msgstr "처음 제안"
 
 #: src/manager_window.vala
 msgid "Last Modified"
-msgstr ""
+msgstr "마지막 수정"
 
 #: src/manager_window.vala
 msgid "Votes"
-msgstr ""
+msgstr "투표"
 
 #: src/manager_window.vala
 msgid "Out of Date"
-msgstr ""
+msgstr "날짜 지남"
 
 #: src/manager_window.vala
 msgid "Make Dependencies"
-msgstr ""
+msgstr "의존성 만들기"
 
 #: src/manager_window.vala
 msgid "Check Dependencies"
-msgstr ""
+msgstr "의존성 체크"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Search"
-msgstr ""
+msgstr "검색"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Name"
-msgstr ""
+msgstr "이름"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Install Local Packages"
-msgstr ""
+msgstr "지역 패키지 설치"
 
 #: src/manager_window.vala resources/transaction_sum_dialog.ui
 #: resources/manager_window.ui resources/choose_ignorepkgs_dialog.ui
 msgid "_Cancel"
-msgstr ""
+msgstr "_취소"
 
 #: src/manager_window.vala
 msgid "_Open"
-msgstr ""
+msgstr "_열기"
 
 #: src/manager_window.vala
 msgid "Alpm Package"
-msgstr ""
+msgstr "Alpm 패키지"
 
 #: src/manager_window.vala
 msgid "A Gtk3 frontend for libalpm"
-msgstr ""
+msgstr "libalpm을 위한 Gtk3"
 
 #: src/preferences_dialog.vala resources/preferences_dialog.ui
 msgid "How often to check for updates, value in hours"
-msgstr ""
+msgstr "얼마나 자주 업데이트, 시간 값"
 
 #: src/preferences_dialog.vala resources/preferences_dialog.ui
 msgid "Number of versions of each package to keep in the cache"
-msgstr ""
+msgstr "캐시에 보관 할 각 패키지 버전 보관의 수"
 
 #: src/preferences_dialog.vala
 msgid "Build directory"
-msgstr ""
+msgstr "빌드 디렉토리"
 
 #: src/preferences_dialog.vala
 msgid "Worldwide"
-msgstr ""
+msgstr "세계적"
 
 #: src/preferences_dialog.vala
 msgid "Speed"
-msgstr ""
+msgstr "속도"
 
 #: src/preferences_dialog.vala
 msgid "Random"
-msgstr ""
+msgstr "무작위"
 
 #: resources/choose_provider_dialog.ui
 msgid "Choose a Provider"
-msgstr ""
+msgstr "제공자 선택"
 
 #: resources/choose_provider_dialog.ui resources/choose_ignorepkgs_dialog.ui
 msgid "Choose"
-msgstr ""
+msgstr "선택"
 
 #: resources/progress_dialog.ui
 msgid "Progress"
-msgstr ""
+msgstr "진행"
 
 #: resources/history_dialog.ui
 msgid "Pamac History"
-msgstr ""
+msgstr "패맥 히스토리"
 
 #: resources/transaction_sum_dialog.ui
 msgid "Transaction Summary"
-msgstr ""
+msgstr "트랜잭션 요약"
 
 #: resources/transaction_sum_dialog.ui
 msgid "Commit"
-msgstr ""
+msgstr "커밋"
 
 #: resources/manager_window.ui
 msgid "Refresh databases"
-msgstr ""
+msgstr "데이터베이스 새로고침"
 
 #: resources/manager_window.ui
 msgid "View History"
-msgstr ""
+msgstr "히스토리 보기"
 
 #: resources/manager_window.ui resources/preferences_dialog.ui
 msgid "Preferences"
-msgstr ""
+msgstr "설정"
 
 #: resources/manager_window.ui
 msgid "About"
-msgstr ""
+msgstr "대하여"
 
 #: resources/manager_window.ui
 msgid "State"
-msgstr ""
+msgstr "상태"
 
 #: resources/manager_window.ui
 msgid "Version"
@@ -702,15 +703,15 @@ msgstr "버전"
 
 #: resources/manager_window.ui
 msgid "Size"
-msgstr ""
+msgstr "크기"
 
 #: resources/manager_window.ui
 msgid "Popularity"
-msgstr ""
+msgstr "인기"
 
 #: resources/manager_window.ui
 msgid "Browse"
-msgstr ""
+msgstr "검색"
 
 #: resources/manager_window.ui
 msgid "Reinstall"
@@ -718,88 +719,88 @@ msgstr "재설치"
 
 #: resources/manager_window.ui
 msgid "_Apply"
-msgstr ""
+msgstr "_적용"
 
 #: resources/manager_window.ui
 msgid "Select All"
-msgstr ""
+msgstr "모두 선택"
 
 #: resources/preferences_dialog.ui
 msgid "Remove unrequired dependencies"
-msgstr ""
+msgstr "필요없는 의존성 제거"
 
 #: resources/preferences_dialog.ui
 msgid ""
 "When removing a package, also remove its dependencies that are not required "
 "by other packages"
-msgstr ""
+msgstr "패키지를 제거할 때, 다른 패키지에 의한 필요없는 그 패키지의 의존성 또한 제거됩니다"
 
 #: resources/preferences_dialog.ui
 msgid "Check available disk space"
-msgstr ""
+msgstr "이용가능 한 디스크 공간 확인"
 
 #: resources/preferences_dialog.ui
 msgid "Check for updates"
-msgstr ""
+msgstr "업데이트 확인"
 
 #: resources/preferences_dialog.ui
 msgid "Hide tray icon when no update available"
-msgstr ""
+msgstr "이용가능한 업데이트가 없을 때 트레이 아이콘 숨김"
 
 #: resources/preferences_dialog.ui
 msgid "Ignore upgrades for:"
-msgstr ""
+msgstr "업데이트 무시:"
 
 #: resources/preferences_dialog.ui
 msgid "General"
-msgstr ""
+msgstr "일반"
 
 #: resources/preferences_dialog.ui
 msgid "Use mirrors from:"
-msgstr ""
+msgstr "미러를 사용:"
 
 #: resources/preferences_dialog.ui
 msgid "Sort mirrors by:"
-msgstr ""
+msgstr "미러에 의해 정렬:"
 
 #: resources/preferences_dialog.ui
 msgid "Refresh Mirrors List"
-msgstr ""
+msgstr "미러 목록 새로고침"
 
 #: resources/preferences_dialog.ui
 msgid "Official Repositories"
-msgstr ""
+msgstr "공식적인 저장소"
 
 #: resources/preferences_dialog.ui
 msgid ""
 "AUR is a community maintained repository so it presents potential risks and problems.\n"
 "All AUR users should be familiar with the build process."
-msgstr ""
+msgstr "AUR은 커뮤니티가 관리하는 저장소입니다. 따라서 잠재적 위험 및 문제점이 있습니다. 모든 AUR 사용자들은 빌드 과정에 익숙해야합니다."
 
 #: resources/preferences_dialog.ui
 msgid "Enable AUR support"
-msgstr ""
+msgstr "AUR 지원 설정"
 
 #: resources/preferences_dialog.ui
 msgid "Allow Pamac to search and install packages from AUR"
-msgstr ""
+msgstr "패맥을 AUR로 부터 패키지를 설치하고 검색하는 것을 허용"
 
 #: resources/preferences_dialog.ui
 msgid "Check for updates from AUR"
-msgstr ""
+msgstr "AUR로 부터 업데이트 확인"
 
 #: resources/preferences_dialog.ui
 msgid "Remove only the versions of uninstalled packages"
-msgstr ""
+msgstr "설치되지 않은 패키지들의 버전 만을 제거"
 
 #: resources/preferences_dialog.ui
 msgid "Clean cache"
-msgstr ""
+msgstr "캐시 비우기"
 
 #: resources/preferences_dialog.ui
 msgid "Cache"
-msgstr ""
+msgstr "캐시"
 
 #: resources/choose_ignorepkgs_dialog.ui
 msgid "Choose Ignored Upgrades"
-msgstr ""
+msgstr "업그레이드 무시 선택"
