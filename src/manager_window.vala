@@ -2130,6 +2130,8 @@ namespace Pamac {
 								transaction.search_in_aur.begin (search_string, (obj, res) => {
 									if (transaction.search_in_aur.end (res).length > 0) {
 										origin_stack.visible_child_name = "aur";
+									} else {
+										populate_packages_list (pkgs);
 									}
 								});
 							} else {
@@ -2146,11 +2148,21 @@ namespace Pamac {
 						break;
 					case "updated":
 						// select repos
-						on_search_listbox_row_activated (search_listbox.get_row_at_index (0));
+						if (transaction.enable_aur) {
+							show_sidebar ();
+						} else {
+							hide_sidebar ();
+						}
+						origin_stack.visible_child_name = "repos";
 						break;
 					case "no_item":
 						// select repos
-						on_search_listbox_row_activated (search_listbox.get_row_at_index (0));
+						if (transaction.enable_aur) {
+							show_sidebar ();
+						} else {
+							hide_sidebar ();
+						}
+						origin_stack.visible_child_name = "repos";
 						break;
 					default:
 						break;
