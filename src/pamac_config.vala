@@ -28,6 +28,7 @@ namespace Pamac {
 		public bool enable_aur { get; private set; }
 		public string aur_build_dir { get; private set; }
 		public bool check_aur_updates { get; private set; }
+		public bool download_updates { get; private set; }
 		public uint64 keep_num_pkgs { get; private set; }
 		public bool rm_only_uninstalled { get; private set; }
 		public unowned HashTable<string,string> environment_variables {
@@ -74,6 +75,7 @@ namespace Pamac {
 			enable_aur = false;
 			aur_build_dir = "/tmp";
 			check_aur_updates = false;
+			download_updates = false;
 			keep_num_pkgs = 3;
 			rm_only_uninstalled = false;
 			parse_file (conf_path);
@@ -124,6 +126,8 @@ namespace Pamac {
 							}
 						} else if (key == "CheckAURUpdates") {
 							check_aur_updates = true;
+						} else if (key == "DownloadUpdates") {
+							download_updates = true;
 						}
 					}
 				} catch (GLib.Error e) {
@@ -226,6 +230,17 @@ namespace Pamac {
 							} else {
 								data.append (line + "\n");
 							}
+						} else if (line.contains ("DownloadUpdates")) {
+							if (new_conf.lookup_extended ("DownloadUpdates", null, out variant)) {
+								if (variant.get_boolean ()) {
+									data.append ("DownloadUpdates\n");
+								} else {
+									data.append ("#DownloadUpdates\n");
+								}
+								new_conf.remove ("DownloadUpdates");
+							} else {
+								data.append (line + "\n");
+							}
 						} else {
 							data.append (line + "\n");
 						}
@@ -280,6 +295,12 @@ namespace Pamac {
 							data.append ("CheckAURUpdates\n");
 						} else {
 							data.append ("#CheckAURUpdates\n");
+						}
+					} else if (key == "DownloadUpdates") {
+						if (val.get_boolean ()) {
+							data.append ("DownloadUpdates\n");
+						} else {
+							data.append ("#DownloadUpdates\n");
 						}
 					}
 				}

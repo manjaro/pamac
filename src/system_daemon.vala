@@ -75,6 +75,7 @@ namespace Pamac {
 		public Cancellable cancellable;
 		public Curl.Easy curl;
 		private bool authorized;
+		private bool downloading_updates;
 
 		public signal void emit_event (uint primary_event, uint secondary_event, string[] details);
 		public signal void emit_providers (string depend, string[] providers);
@@ -85,11 +86,13 @@ namespace Pamac {
 		public signal void set_pkgreason_finished ();
 		public signal void refresh_finished (bool success);
 		public signal void get_updates_finished (Updates updates);
+		public signal void download_updates_finished ();
 		public signal void trans_prepare_finished (bool success);
 		public signal void trans_commit_finished (bool success);
 		public signal void get_authorization_finished (bool authorized);
 		public signal void write_pamac_config_finished (bool recurse, uint64 refresh_period, bool no_update_hide_icon,
-														bool enable_aur, string aur_build_dir, bool check_aur_updates);
+														bool enable_aur, string aur_build_dir, bool check_aur_updates,
+														bool download_updates);
 		public signal void write_alpm_config_finished (bool checkspace);
 		public signal void generate_mirrors_list_data (string line);
 		public signal void generate_mirrors_list_finished ();
@@ -113,6 +116,7 @@ namespace Pamac {
 			curl = new Curl.Easy ();
 			authorized = false;
 			refreshed = false;
+			downloading_updates = false;
 		}
 
 		public void set_environment_variables (HashTable<string,string> variables) throws Error {
@@ -308,7 +312,8 @@ namespace Pamac {
 					pamac_config.reload ();
 				}
 				write_pamac_config_finished (pamac_config.recurse, pamac_config.refresh_period, pamac_config.no_update_hide_icon,
-											pamac_config.enable_aur, pamac_config.aur_build_dir, pamac_config.check_aur_updates);
+											pamac_config.enable_aur, pamac_config.aur_build_dir, pamac_config.check_aur_updates,
+											pamac_config.download_updates);
 			});
 		}
 
@@ -480,6 +485,19 @@ namespace Pamac {
 				refresh_finished (true);
 				return;
 			}
+			if (downloading_updates) {
+				cancellable.cancel ();
+				// let time to cancel download updates
+				Timeout.add (1000, () => {
+					launch_refresh_thread ();
+					return false;
+				});
+			} else {
+				launch_refresh_thread ();
+			}
+		}
+
+		private void launch_refresh_thread () {
 			try {
 				thread_pool.add (new AlpmAction (refresh));
 			} catch (ThreadError e) {
@@ -820,6 +838,37 @@ namespace Pamac {
 			}
 		}
 
+		private int download_updates () {
+			downloading_updates = true;
+			// use a independant handle
+			var handle = alpm_config.get_handle ();
+			handle.fetchcb = (Alpm.FetchCallBack) cb_fetch;
+			cancellable.reset ();
+			int success = handle.trans_init (Alpm.TransFlag.DOWNLOADONLY);
+			// can't add nolock flag with commit so remove unneeded lock
+			handle.unlock ();
+			if (success == 0) {
+				success = handle.trans_sysupgrade (0);
+				if (success == 0) {
+					Alpm.List err_data;
+					success = handle.trans_prepare (out err_data);
+					if (success == 0) {
+						handle.unlock ();
+						success = handle.trans_commit (out err_data);
+					}
+				}
+				handle.trans_release ();
+			}
+			downloading_updates = false;
+			download_updates_finished ();
+			return success;
+		}
+
+		public void start_download_updates () throws Error {
+			// do not add this thread to the threadpool so it won't be queued
+			new Thread<int> ("download updates thread", download_updates);
+		}
+
 		private bool trans_init (Alpm.TransFlag flags) {
 			current_error = ErrorInfos ();
 			cancellable.reset ();
@@ -865,20 +914,15 @@ namespace Pamac {
 			to_build = to_build_;
 			to_build_infos = {};
 			aur_pkgbases_to_build = new GLib.List<string> ();
-			if (to_build.length != 0) {
-				compute_aur_build_list.begin (to_build, (obj, res) => {
-					try {
-						thread_pool.add (new AlpmAction (build_prepare));
-					} catch (ThreadError e) {
-						stderr.printf ("Thread Error %s\n", e.message);
-					}
+			if (downloading_updates) {
+				cancellable.cancel ();
+				// let time to cancel download updates
+				Timeout.add (1000, () => {
+					launch_prepare_thread ();
+					return false;
 				});
 			} else {
-				try {
-					thread_pool.add (new AlpmAction (trans_prepare));
-				} catch (ThreadError e) {
-					stderr.printf ("Thread Error %s\n", e.message);
-				}
+				launch_prepare_thread ();
 			}
 		}
 
@@ -1343,6 +1387,19 @@ namespace Pamac {
 			to_build_infos = {};
 			aur_pkgbases_to_build = new GLib.List<string> ();
 			sysupgrade = false;
+			if (downloading_updates) {
+				cancellable.cancel ();
+				// let time to cancel download updates
+				Timeout.add (1000, () => {
+					launch_prepare_thread ();
+					return false;
+				});
+			} else {
+				launch_prepare_thread ();
+			}
+		}
+
+		private void launch_prepare_thread () {
 			if (to_build.length != 0) {
 				compute_aur_build_list.begin (to_build, (obj, res) => {
 					try {
@@ -1553,6 +1610,10 @@ namespace Pamac {
 		public void quit () throws Error {
 			// wait for all tasks to be processed
 			ThreadPool.free ((owned) thread_pool, false, true);
+			// do not quit if downloading updates
+			if (downloading_updates) {
+				return;
+			}
 			loop.quit ();
 		}
 	// End of Daemon Object

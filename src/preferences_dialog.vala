@@ -35,6 +35,8 @@ namespace Pamac {
 		[GtkChild]
 		Gtk.CheckButton no_update_hide_icon_checkbutton;
 		[GtkChild]
+		Gtk.CheckButton download_updates_checkbutton;
+		[GtkChild]
 		Gtk.Box ignorepkgs_box;
 		[GtkChild]
 		Gtk.TreeView ignorepkgs_treeview;
@@ -83,6 +85,7 @@ namespace Pamac {
 				previous_refresh_period = 6;
 				refresh_period_spin_button.sensitive = false;
 				no_update_hide_icon_checkbutton.sensitive = false;
+				download_updates_checkbutton.sensitive = false;
 				ignorepkgs_box.sensitive = false;
 			} else {
 				check_updates_button.active = true;
@@ -90,6 +93,7 @@ namespace Pamac {
 				previous_refresh_period = transaction.refresh_period;
 			}
 			no_update_hide_icon_checkbutton.active = transaction.no_update_hide_icon;
+			download_updates_checkbutton.active = transaction.download_updates;
 			cache_keep_nb_spin_button.value = transaction.keep_num_pkgs;
 			cache_only_uninstalled_checkbutton.active = transaction.rm_only_uninstalled;
 
@@ -105,6 +109,7 @@ namespace Pamac {
 			check_updates_button.state_set.connect (on_check_updates_button_state_set);
 			refresh_period_spin_button.value_changed.connect (on_refresh_period_spin_button_value_changed);
 			no_update_hide_icon_checkbutton.toggled.connect (on_no_update_hide_icon_checkbutton_toggled);
+			download_updates_checkbutton.toggled.connect (on_download_updates_checkbutton_toggled);
 			cache_keep_nb_spin_button.value_changed.connect (on_cache_keep_nb_spin_button_value_changed);
 			cache_only_uninstalled_checkbutton.toggled.connect (on_cache_only_uninstalled_checkbutton_toggled);
 			transaction.write_pamac_config_finished.connect (on_write_pamac_config_finished);
@@ -159,6 +164,7 @@ namespace Pamac {
 			refresh_period_label.sensitive = new_state;
 			refresh_period_spin_button.sensitive = new_state;
 			no_update_hide_icon_checkbutton.sensitive = new_state;
+			download_updates_checkbutton.sensitive = new_state;
 			ignorepkgs_box.sensitive = new_state;
 			if (new_state) {
 				new_pamac_conf.insert ("RefreshPeriod", new Variant.uint64 (previous_refresh_period));
@@ -193,6 +199,12 @@ namespace Pamac {
 			transaction.start_write_pamac_config (new_pamac_conf);
 		}
 
+		void on_download_updates_checkbutton_toggled () {
+			var new_pamac_conf = new HashTable<string,Variant> (str_hash, str_equal);
+			new_pamac_conf.insert ("DownloadUpdates", new Variant.boolean (download_updates_checkbutton.active));
+			transaction.start_write_pamac_config (new_pamac_conf);
+		}
+
 		bool on_enable_aur_button_state_set (bool new_state) {
 			var new_pamac_conf = new HashTable<string,Variant> (str_hash, str_equal);
 			new_pamac_conf.insert ("EnableAUR", new Variant.boolean (new_state));
@@ -213,13 +225,15 @@ namespace Pamac {
 		}
 
 		void on_write_pamac_config_finished (bool recurse, uint64 refresh_period, bool no_update_hide_icon,
-											bool enable_aur, string aur_build_dir, bool check_aur_updates) {
+											bool enable_aur, string aur_build_dir, bool check_aur_updates,
+											bool download_updates) {
 			remove_unrequired_deps_button.state = recurse;
 			if (refresh_period == 0) {
 				check_updates_button.state = false;
 				refresh_period_label.sensitive = false;
 				refresh_period_spin_button.sensitive = false;
 				no_update_hide_icon_checkbutton.sensitive = false;
+				download_updates_checkbutton.sensitive = false;
 				ignorepkgs_box.sensitive = false;
 			} else {
 				check_updates_button.state = true;
@@ -228,9 +242,11 @@ namespace Pamac {
 				previous_refresh_period = refresh_period;
 				refresh_period_spin_button.sensitive = true;
 				no_update_hide_icon_checkbutton.sensitive = true;
+				download_updates_checkbutton.sensitive = true;
 				ignorepkgs_box.sensitive = true;
 			}
 			no_update_hide_icon_checkbutton.active = no_update_hide_icon;
+			download_updates_checkbutton.active = download_updates;
 			enable_aur_button.state = enable_aur;
 			aur_build_dir_label.sensitive = enable_aur;
 			aur_build_dir_file_chooser.sensitive = enable_aur;

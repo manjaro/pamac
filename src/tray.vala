@@ -34,14 +34,24 @@ namespace Pamac {
 		public abstract void quit () throws Error;
 		public signal void get_updates_finished (Updates updates);
 	}
+	[DBus (name = "org.manjaro.pamac.system")]
+	interface SystemDaemon : Object {
+		public abstract void set_environment_variables (HashTable<string,string> variables) throws Error;
+		public abstract void start_download_updates () throws Error;
+		[DBus (no_reply = true)]
+		public abstract void quit () throws Error;
+		public signal void download_updates_finished ();
+	}
 
 	public abstract class TrayIcon: Gtk.Application {
 		Notify.Notification notification;
-		UserDaemon daemon;
+		UserDaemon user_daemon;
+		SystemDaemon system_daemon;
 		bool extern_lock;
 		uint refresh_timeout_id;
 		public Gtk.Menu menu;
 		GLib.File lockfile;
+		uint updates_nb;
 
 		public TrayIcon () {
 			application_id = "org.manjaro.pamac.tray";
@@ -50,19 +60,45 @@ namespace Pamac {
 
 		public abstract void init_status_icon ();
 
-		void start_daemon () {
-			try {
-				daemon = Bus.get_proxy_sync (BusType.SESSION, "org.manjaro.pamac.user", "/org/manjaro/pamac/user");
-				daemon.get_updates_finished.connect (on_get_updates_finished);
-			} catch (Error e) {
-				stderr.printf ("Error: %s\n", e.message);
+		void start_user_daemon () {
+			if (user_daemon == null) {
+				try {
+					user_daemon = Bus.get_proxy_sync (BusType.SESSION, "org.manjaro.pamac.user", "/org/manjaro/pamac/user");
+					user_daemon.get_updates_finished.connect (on_get_updates_finished);
+				} catch (Error e) {
+					stderr.printf ("Error: %s\n", e.message);
+				}
 			}
 		}
 
-		void stop_daemon () {
+		void stop_user_daemon () {
 			if (!check_pamac_running ()) {
 				try {
-					daemon.quit ();
+					user_daemon.quit ();
+				} catch (Error e) {
+					stderr.printf ("Error: %s\n", e.message);
+				}
+			}
+		}
+
+		void start_system_daemon () {
+			if (system_daemon == null) {
+				try {
+					system_daemon = Bus.get_proxy_sync (BusType.SYSTEM, "org.manjaro.pamac.system", "/org/manjaro/pamac/system");
+					// Set environment variables
+					var pamac_config = new Pamac.Config ("/etc/pamac.conf");
+					system_daemon.set_environment_variables (pamac_config.environment_variables);
+					system_daemon.download_updates_finished.connect (on_download_updates_finished);
+				} catch (Error e) {
+					stderr.printf ("Error: %s\n", e.message);
+				}
+			}
+		}
+
+		void stop_system_daemon () {
+			if (!check_pamac_running ()) {
+				try {
+					system_daemon.quit ();
 				} catch (Error e) {
 					stderr.printf ("Error: %s\n", e.message);
 				}
@@ -117,7 +153,7 @@ namespace Pamac {
 			var pamac_config = new Pamac.Config ("/etc/pamac.conf");
 			if (pamac_config.refresh_period != 0) {
 				try {
-					daemon.start_get_updates (pamac_config.enable_aur && pamac_config.check_aur_updates, true);
+					user_daemon.start_get_updates (pamac_config.enable_aur && pamac_config.check_aur_updates, true);
 				} catch (Error e) {
 					stderr.printf ("Error: %s\n", e.message);
 				}
@@ -126,25 +162,43 @@ namespace Pamac {
 		}
 
 		void on_get_updates_finished (Updates updates) {
-			uint updates_nb = updates.repos_updates.length + updates.aur_updates.length;
+			updates_nb = updates.repos_updates.length + updates.aur_updates.length;
+			var pamac_config = new Pamac.Config ("/etc/pamac.conf");
 			if (updates_nb == 0) {
 				set_icon (noupdate_icon_name);
 				set_tooltip (noupdate_info);
-				var pamac_config = new Pamac.Config ("/etc/pamac.conf");
 				set_icon_visible (!pamac_config.no_update_hide_icon);
 				close_notification ();
 			} else {
-				string info = ngettext ("%u available update", "%u available updates", updates_nb).printf (updates_nb);
-				set_icon (update_icon_name);
-				set_tooltip (info);
-				set_icon_visible (true);
-				if (check_pamac_running ()) {
-					update_notification (info);
+				if (!check_pamac_running () && pamac_config.download_updates) {
+					start_system_daemon ();
+					try {
+						system_daemon.start_download_updates ();
+					} catch (Error e) {
+						stderr.printf ("Error: %s\n", e.message);
+					}
 				} else {
-					show_notification (info);
+					show_or_update_notification ();
 				}
 			}
-			stop_daemon ();
+			stop_user_daemon ();
+		}
+
+		void on_download_updates_finished () {
+			show_or_update_notification ();
+			stop_system_daemon ();
+		}
+
+		void show_or_update_notification () {
+			string info = ngettext ("%u available update", "%u available updates", updates_nb).printf (updates_nb);
+			set_icon (update_icon_name);
+			set_tooltip (info);
+			set_icon_visible (true);
+			if (check_pamac_running ()) {
+				update_notification (info);
+			} else {
+				show_notification (info);
+			}
 		}
 
 		void show_notification (string info) {
@@ -212,7 +266,7 @@ namespace Pamac {
 				if (!lockfile.query_exists ()) {
 					extern_lock = false;
 					try {
-						daemon.refresh_handle ();
+						user_daemon.refresh_handle ();
 					} catch (Error e) {
 						stderr.printf ("Error: %s\n", e.message);
 					}
@@ -262,9 +316,9 @@ namespace Pamac {
 
 			Notify.init (_("Package Manager"));
 
-			start_daemon ();
+			start_user_daemon ();
 			try {
-				lockfile = GLib.File.new_for_path (daemon.get_lockfile ());
+				lockfile = GLib.File.new_for_path (user_daemon.get_lockfile ());
 			} catch (Error e) {
 				stderr.printf ("Error: %s\n", e.message);
 				//try standard lock file

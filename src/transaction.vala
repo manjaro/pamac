@@ -91,7 +91,8 @@ namespace Pamac {
 		public signal void trans_commit_finished (bool success);
 		public signal void get_authorization_finished (bool authorized);
 		public signal void write_pamac_config_finished (bool recurse, uint64 refresh_period, bool no_update_hide_icon,
-														bool enable_aur, string aur_build_dir, bool check_aur_updates);
+														bool enable_aur, string aur_build_dir, bool check_aur_updates,
+														bool download_updates);
 		public signal void write_alpm_config_finished (bool checkspace);
 		public signal void generate_mirrors_list_data (string line);
 		public signal void generate_mirrors_list_finished ();
@@ -119,6 +120,7 @@ namespace Pamac {
 		public bool enable_aur { get { return pamac_config.enable_aur; }  }
 		public unowned GLib.HashTable<string,string> environment_variables { get {return pamac_config.environment_variables; } }
 		public bool no_update_hide_icon { get { return pamac_config.no_update_hide_icon; } }
+		public bool download_updates { get { return pamac_config.download_updates; } }
 		public bool recurse { get { return pamac_config.recurse; } }
 		public uint64 refresh_period { get { return pamac_config.refresh_period; } }
 		public string aur_build_dir { get { return pamac_config.aur_build_dir; } }
@@ -177,7 +179,8 @@ namespace Pamac {
 		public signal void finished (bool success);
 		public signal void set_pkgreason_finished ();
 		public signal void write_pamac_config_finished (bool recurse, uint64 refresh_period, bool no_update_hide_icon,
-														bool enable_aur, string aur_build_dir, bool check_aur_updates);
+														bool enable_aur, string aur_build_dir, bool check_aur_updates,
+														bool download_updates);
 		public signal void write_alpm_config_finished (bool checkspace);
 		public signal void generate_mirrors_list ();
 		public signal void generate_mirrors_list_finished ();
@@ -1826,7 +1829,8 @@ namespace Pamac {
 				flags |= (1 << 5); //Alpm.TransFlag.RECURSE
 			}
 			write_pamac_config_finished (recurse, refresh_period, no_update_hide_icon,
-											enable_aur, aur_build_dir, check_aur_updates);
+										enable_aur, aur_build_dir, check_aur_updates,
+										download_updates);
 		}
 
 		void on_write_alpm_config_finished (bool checkspace) {
