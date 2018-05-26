@@ -117,9 +117,9 @@ namespace Pamac {
 			this.release ();
 		}
 
-		void on_transaction_finished () {
+		void on_transaction_finished (bool success) {
 			transaction.stop_daemon ();
-			if (important_details) {
+			if (!success || important_details) {
 				progress_dialog.close_button.visible = true;
 			} else {
 				this.release ();
