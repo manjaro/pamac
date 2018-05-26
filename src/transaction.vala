@@ -1848,20 +1848,24 @@ namespace Pamac {
 		}
 
 		void connecting_user_daemon () {
-			try {
-				user_daemon = Bus.get_proxy_sync (BusType.SESSION, "org.manjaro.pamac.user", "/org/manjaro/pamac/user");
-			} catch (Error e) {
-				stderr.printf ("Error: %s\n", e.message);
+			if (user_daemon == null) {
+				try {
+					user_daemon = Bus.get_proxy_sync (BusType.SESSION, "org.manjaro.pamac.user", "/org/manjaro/pamac/user");
+				} catch (Error e) {
+					stderr.printf ("Error: %s\n", e.message);
+				}
 			}
 		}
 
 		void connecting_system_daemon () {
-			try {
-				system_daemon = Bus.get_proxy_sync (BusType.SYSTEM, "org.manjaro.pamac.system", "/org/manjaro/pamac/system");
-				// Set environment variables
-				system_daemon.set_environment_variables (pamac_config.environment_variables);
-			} catch (Error e) {
-				stderr.printf ("Error: %s\n", e.message);
+			if (system_daemon == null) {
+				try {
+					system_daemon = Bus.get_proxy_sync (BusType.SYSTEM, "org.manjaro.pamac.system", "/org/manjaro/pamac/system");
+					// Set environment variables
+					system_daemon.set_environment_variables (pamac_config.environment_variables);
+				} catch (Error e) {
+					stderr.printf ("Error: %s\n", e.message);
+				}
 			}
 		}
 
