@@ -79,7 +79,7 @@ namespace Pamac {
 		[GtkChild]
 		Gtk.SearchBar searchbar;
 		[GtkChild]
-		Gtk.ComboBoxText search_comboboxtext;
+		public Gtk.ComboBoxText search_comboboxtext;
 		[GtkChild]
 		Gtk.Entry search_entry;
 		[GtkChild]

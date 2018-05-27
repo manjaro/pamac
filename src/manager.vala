@@ -86,6 +86,14 @@ namespace Pamac {
 				manager_window.refresh_packages_list ();
 				started = true;
 			}
+			if (cmd.get_arguments ().length == 3) {
+				if (cmd.get_arguments ()[1] == "--search") {
+					manager_window.display_package_queue.clear ();
+					manager_window.search_button.active = true;
+					var entry = manager_window.search_comboboxtext.get_child () as Gtk.Entry;
+					entry.set_text (cmd.get_arguments ()[2]);
+				}
+			}
 			if (!pamac_run) {
 				manager_window.present ();
 				while (Gtk.events_pending ()) {
