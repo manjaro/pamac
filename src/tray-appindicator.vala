@@ -47,12 +47,12 @@ namespace Pamac {
 			return indicator_status_icon.get_icon ();
 		}
 
-		public override void set_icon_visible (bool visible) {
-            if (visible) {
-                indicator_status_icon.set_status (AppIndicator.IndicatorStatus.ACTIVE);
-            } else {
+		public override void set_icon_visible (bool visible, bool forceHide) {
+            if (visible && !forceHide) {
+				indicator_status_icon.set_status (AppIndicator.IndicatorStatus.ACTIVE);
+			} else {
                 indicator_status_icon.set_status (AppIndicator.IndicatorStatus.PASSIVE);
-            }
+			}            
 		}
 	}
 }
