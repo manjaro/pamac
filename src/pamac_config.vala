@@ -25,6 +25,7 @@ namespace Pamac {
 		public bool recurse { get; private set; }
 		public uint64 refresh_period { get; private set; }
 		public bool no_update_hide_icon { get; private set; }
+		public bool always_hide_icon { get; private set; }
 		public bool enable_aur { get; private set; }
 		public string aur_build_dir { get; private set; }
 		public bool check_aur_updates { get; private set; }
@@ -72,6 +73,7 @@ namespace Pamac {
 			// set default options
 			recurse = false;
 			no_update_hide_icon = false;
+            always_hide_icon = false;
 			enable_aur = false;
 			aur_build_dir = "/tmp";
 			check_aur_updates = false;
@@ -118,6 +120,8 @@ namespace Pamac {
 							rm_only_uninstalled = true;
 						} else if (key == "NoUpdateHideIcon") {
 							no_update_hide_icon = true;
+                        } else if (key == "AlwaysHideIcon") {
+							always_hide_icon = true;
 						} else if (key == "EnableAUR") {
 							enable_aur = true;
 						} else if (key == "BuildDirectory") {
@@ -201,6 +205,17 @@ namespace Pamac {
 							} else {
 								data.append (line + "\n");
 							}
+						} else if (line.contains ("AlwaysHideIcon")) {
+							if (new_conf.lookup_extended ("AlwaysHideIcon", null, out variant)) {
+								if (variant.get_boolean ()) {
+									data.append ("AlwaysHideIcon\n");
+								} else {
+									data.append ("#AlwaysHideIcon\n");
+								}
+								new_conf.remove ("AlwaysHideIcon");
+							} else {
+								data.append (line + "\n");
+							}							
 						} else if (line.contains ("EnableAUR")) {
 							if (new_conf.lookup_extended ("EnableAUR", null, out variant)) {
 								if (variant.get_boolean ()) {
@@ -282,6 +297,12 @@ namespace Pamac {
 						} else {
 							data.append ("#NoUpdateHideIcon\n");
 						}
+					} else if (key =="AlwaysHideIcon") {
+						if (val.get_boolean ()) {
+							data.append ("AlwaysHideIcon\n");
+						} else {
+							data.append ("#AlwaysHideIcon\n");
+						}						
 					} else if (key == "EnableAUR") {
 						if (val.get_boolean ()) {
 							data.append ("EnableAUR\n");

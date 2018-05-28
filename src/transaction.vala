@@ -90,7 +90,7 @@ namespace Pamac {
 		public signal void trans_prepare_finished (bool success);
 		public signal void trans_commit_finished (bool success);
 		public signal void get_authorization_finished (bool authorized);
-		public signal void write_pamac_config_finished (bool recurse, uint64 refresh_period, bool no_update_hide_icon,
+		public signal void write_pamac_config_finished (bool recurse, uint64 refresh_period, bool no_update_hide_icon, bool always_hide_icon,
 														bool enable_aur, string aur_build_dir, bool check_aur_updates,
 														bool download_updates);
 		public signal void write_alpm_config_finished (bool checkspace);
@@ -120,6 +120,7 @@ namespace Pamac {
 		public bool enable_aur { get { return pamac_config.enable_aur; }  }
 		public unowned GLib.HashTable<string,string> environment_variables { get {return pamac_config.environment_variables; } }
 		public bool no_update_hide_icon { get { return pamac_config.no_update_hide_icon; } }
+		public bool always_hide_icon { get { return pamac_config.always_hide_icon; } }		
 		public bool download_updates { get { return pamac_config.download_updates; } }
 		public bool recurse { get { return pamac_config.recurse; } }
 		public uint64 refresh_period { get { return pamac_config.refresh_period; } }
@@ -178,7 +179,7 @@ namespace Pamac {
 		public signal void important_details_outpout (bool must_show);
 		public signal void finished (bool success);
 		public signal void set_pkgreason_finished ();
-		public signal void write_pamac_config_finished (bool recurse, uint64 refresh_period, bool no_update_hide_icon,
+		public signal void write_pamac_config_finished (bool recurse, uint64 refresh_period, bool no_update_hide_icon, bool always_hide_icon,
 														bool enable_aur, string aur_build_dir, bool check_aur_updates,
 														bool download_updates);
 		public signal void write_alpm_config_finished (bool checkspace);
@@ -1820,7 +1821,7 @@ namespace Pamac {
 			set_pkgreason_finished ();
 		}
 
-		void on_write_pamac_config_finished (bool recurse, uint64 refresh_period, bool no_update_hide_icon,
+		void on_write_pamac_config_finished (bool recurse, uint64 refresh_period, bool no_update_hide_icon, bool always_hide_icon,
 												bool enable_aur, string aur_build_dir, bool check_aur_updates) {
 			system_daemon.write_pamac_config_finished.disconnect (on_write_pamac_config_finished);
 			pamac_config.reload ();
@@ -1828,7 +1829,7 @@ namespace Pamac {
 			if (pamac_config.recurse) {
 				flags |= (1 << 5); //Alpm.TransFlag.RECURSE
 			}
-			write_pamac_config_finished (recurse, refresh_period, no_update_hide_icon,
+			write_pamac_config_finished (recurse, refresh_period, no_update_hide_icon, always_hide_icon,
 										enable_aur, aur_build_dir, check_aur_updates,
 										download_updates);
 		}
