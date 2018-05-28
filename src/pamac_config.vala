@@ -211,7 +211,7 @@ namespace Pamac {
 									data.append ("AlwaysHideIcon\n");
 								} else {
 									data.append ("#AlwaysHideIcon\n");
-								}
+                                }
 								new_conf.remove ("AlwaysHideIcon");
 							} else {
 								data.append (line + "\n");

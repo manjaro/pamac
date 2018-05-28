@@ -46,8 +46,8 @@ namespace Pamac {
 			return status_icon.get_icon_name ();
 		}
 
-		public override void set_icon_visible (bool visible) {
-			if (visible) {
+		public override void set_icon_visible (bool visible, bool forceHide) {
+            if (visible && !forceHide) {
 				status_icon.visible = true;
 			} else {
 				status_icon.visible = false;
