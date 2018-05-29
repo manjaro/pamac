@@ -841,7 +841,7 @@ namespace Pamac {
 		private int download_updates () {
 			downloading_updates = true;
 			// use tmp handle
-			var handle = alpm_config.get_handle (false, true);
+			var handle = alpm_config.get_handle (false, true, false);
 			handle.fetchcb = (Alpm.FetchCallBack) cb_fetch;
 			cancellable.reset ();
 			int success = handle.trans_init (Alpm.TransFlag.DOWNLOADONLY);

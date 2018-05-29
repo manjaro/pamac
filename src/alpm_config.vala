@@ -134,7 +134,7 @@ public class AlpmConfig {
 		}
 	}
 
-	public Alpm.Handle? get_handle (bool files_db = false, bool tmp_db = false) {
+	public Alpm.Handle? get_handle (bool files_db = false, bool tmp_db = false, bool copy_dbs = true) {
 		Alpm.Errno error = 0;
 		Alpm.Handle? handle = null;
 		if (tmp_db) {
@@ -144,7 +144,9 @@ public class AlpmConfig {
 					Process.spawn_command_line_sync ("mkdir -p %s/sync".printf (tmp_dbpath));
 					Process.spawn_command_line_sync ("ln -sf %slocal %s".printf (dbpath, tmp_dbpath));
 					Process.spawn_command_line_sync ("chmod -R 777 %s/sync".printf (tmp_dbpath));
-					Process.spawn_command_line_sync ("bash -c 'cp -p %ssync/*.{db,files} %s/sync'".printf (dbpath, tmp_dbpath));
+					if (copy_dbs) {
+						Process.spawn_command_line_sync ("bash -c 'cp -p %ssync/*.{db,files} %s/sync'".printf (dbpath, tmp_dbpath));
+					}
 				}
 				handle = new Alpm.Handle (rootdir, tmp_dbpath, out error);
 			} catch (SpawnError e) {
