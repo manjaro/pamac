@@ -36,7 +36,7 @@ namespace Alpm {
 		DOWNLOADER = (1 << 1),
 		SIGNATURES = (1 << 2)
 	}
-	public Capabilities capabilities();
+	public int capabilities();
 
 	public unowned Package? find_satisfier(Alpm.List<Package> pkgs, string depstring);
 
@@ -89,6 +89,15 @@ namespace Alpm {
 		public int add_hookdir(string hookdir);
 		[CCode (cname = "alpm_option_remove_hookdir")]
 		public int remove_hookdir(string hookdir);
+
+		public unowned Alpm.List<unowned string> overwrite_files {
+			[CCode (cname = "alpm_option_get_overwrite_files")] get;
+			[CCode (cname = "alpm_option_set_overwrite_files")] set;
+		}
+		[CCode (cname = "alpm_option_add_overwrite_file")]
+		public int add_overwrite_file(string overwrite_file);
+		[CCode (cname = "alpm_option_remove_overwrite_file")]
+		public int remove_overwrite_file(string overwrite_file);
 
 		public unowned string logfile {
 			[CCode (cname = "alpm_option_get_logfile")] get;
@@ -168,15 +177,15 @@ namespace Alpm {
 			[CCode (cname = "alpm_option_set_dbext")] set;
 		}
 
-		public Signature.Level defaultsiglevel {
+		public int defaultsiglevel {
 			[CCode (cname = "alpm_option_get_default_siglevel")] get;
 			[CCode (cname = "alpm_option_set_default_siglevel")] set;
 		}
-		public Signature.Level localfilesiglevel {
+		public int localfilesiglevel {
 			[CCode (cname = "alpm_option_get_local_file_siglevel")] get;
 			[CCode (cname = "alpm_option_set_local_file_siglevel")] set;
 		}
-		public Signature.Level remotefilesiglevel {
+		public int remotefilesiglevel {
 			[CCode (cname = "alpm_option_get_remote_file_siglevel")] get;
 			[CCode (cname = "alpm_option_set_remote_file_siglevel")] set;
 		}
@@ -221,14 +230,14 @@ namespace Alpm {
 		public int unlock();
 
 		[CCode (cname = "alpm_register_syncdb")]
-		public unowned DB register_syncdb(string treename, Signature.Level level);
+		public unowned DB register_syncdb(string treename, int siglevel);
 		[CCode (cname = "alpm_unregister_all_syncdbs")]
 		public int unregister_all_syncdbs();
 
 		// the return package can be freed except if it is added to a transaction,
 		// it will be freed upon Handle.trans_release() invocation.
 		[CCode (cname = "alpm_pkg_load")]
-		public int load_tarball(string filename, int full, Signature.Level level, out Package pkg);
+		public int load_tarball(string filename, int full, int siglevel, out Package pkg);
 
 		/** Test if a package should be ignored.
 		 * Checks if the package is ignored via IgnorePkg, or if the package is
@@ -251,7 +260,7 @@ namespace Alpm {
 
 		/** Returns the bitfield of flags for the current transaction.*/
 		[CCode (cname = "alpm_trans_get_flags")]
-		public TransFlag trans_get_flags();
+		public int trans_get_flags();
 
 		/** Returns a list of packages added by the transaction.*/
 		[CCode (cname = "alpm_trans_get_add")]
@@ -266,7 +275,7 @@ namespace Alpm {
 		* @return 0 on success, -1 on error (Errno is set accordingly)
 		*/
 		[CCode (cname = "alpm_trans_init")]
-		public int trans_init(TransFlag transflags);
+		public int trans_init(int transflags);
 
 		/** Prepare a transaction.
 		* @param an alpm_list where detailed description of an error
@@ -332,7 +341,7 @@ namespace Alpm {
 			[CCode (cname = "alpm_db_get_name")] get;
 		}
 
-		public Signature.Level siglevel {
+		public int siglevel {
 			[CCode (cname = "alpm_db_get_siglevel")] get;
 		}
 
@@ -349,7 +358,7 @@ namespace Alpm {
 			[CCode (cname = "alpm_db_get_groupcache")] get;
 		}
 
-		public Usage usage {
+		public int usage {
 			[CCode (cname = "alpm_db_get_usage")] get;
 			[CCode (cname = "alpm_db_set_usage")] set;
 		}
@@ -455,6 +464,12 @@ namespace Alpm {
 		public unowned Alpm.List<unowned Depend> optdepends {
 			[CCode (cname = "alpm_pkg_get_optdepends")] get;
 		}
+		public unowned Alpm.List<unowned Depend> checkdepends {
+			[CCode (cname = "alpm_pkg_get_depends")] get;
+		}
+		public unowned Alpm.List<unowned Depend> makedepends {
+			[CCode (cname = "alpm_pkg_get_optdepends")] get;
+		}
 		public unowned Alpm.List<unowned Depend> conflicts {
 			[CCode (cname = "alpm_pkg_get_conflicts")] get;
 		}
@@ -482,7 +497,7 @@ namespace Alpm {
 		public unowned string base64_sig {
 			[CCode (cname = "alpm_pkg_get_base64_sig")] get;
 		}
-		public Validation validation {
+		public int validation {
 			[CCode (cname = "alpm_pkg_get_validation")] get;
 		}
 		// TODO: changelog functions
@@ -721,7 +736,7 @@ namespace Alpm {
 			DATABASE_MARGINAL_OK = (1 << 12),
 			DATABASE_UNKNOWN_OK = (1 << 13),
 
-			USE_DEFAULT = (1 << 31)
+			USE_DEFAULT = (1 << 30)
 		}
 
 		/** PGP signature verification status return codes */
@@ -1317,7 +1332,8 @@ namespace Alpm {
 	 */
 	[CCode (cname = "alpm_errno_t", cprefix = "ALPM_ERR_")]
 	public enum Errno {
-		MEMORY = 1,
+		OK = 0,
+		MEMORY,
 		SYSTEM,
 		BADPERMS,
 		NOT_A_FILE,
