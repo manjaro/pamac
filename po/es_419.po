@@ -8,13 +8,14 @@
 # Julián Federico Hipólito <julianhipolito@gmail.com>, 2016-2017
 # Julián Federico Hipólito <julianhipolito@gmail.com>, 2016
 # Mat Mü <ematiasm@openmailbox.org>, 2016
+# Mauricio López <mlopez@pronet.com.uy>, 2018
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2018-05-26 17:59+0200\n"
-"PO-Revision-Date: 2018-05-27 13:35+0000\n"
-"Last-Translator: philm <philm@manjaro.org>\n"
+"PO-Revision-Date: 2018-05-31 09:10+0000\n"
+"Last-Translator: Mauricio López <mlopez@pronet.com.uy>\n"
 "Language-Team: Spanish (Latin America) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/es_419/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -79,17 +80,17 @@ msgstr "el paquete %s no presenta una arquitectura correcta"
 #: src/system_daemon.vala
 #, c-format
 msgid "unable to satisfy dependency '%s' required by %s"
-msgstr ""
+msgstr "no es posible instalar la dependencia '%s' requerida por %s"
 
 #: src/system_daemon.vala
 #, c-format
 msgid "installing %s (%s) breaks dependency '%s' required by %s"
-msgstr ""
+msgstr "la instalación de %s (%s) rompe la dependencia '%s' requerida por %s"
 
 #: src/system_daemon.vala
 #, c-format
 msgid "removing %s breaks dependency '%s' required by %s"
-msgstr ""
+msgstr "la eliminación de %s rompe la dependencia '%s' requerida por %s"
 
 #: src/system_daemon.vala
 #, c-format
@@ -181,7 +182,7 @@ msgstr "El reinstalar"
 
 #: src/transaction.vala
 msgid "To upgrade"
-msgstr ""
+msgstr "Para mejorar"
 
 #: src/transaction.vala src/manager_window.vala
 msgid "Total download size"
@@ -388,11 +389,11 @@ msgstr "Detalles"
 
 #: src/manager_window.vala
 msgid "No package found"
-msgstr ""
+msgstr "No se encontraron paquetes"
 
 #: src/manager_window.vala
 msgid "Checking for Updates"
-msgstr ""
+msgstr "Chequeando actualizaciones"
 
 #: src/manager_window.vala
 msgid "Deselect"
@@ -400,7 +401,7 @@ msgstr "Deseleccionar"
 
 #: src/manager_window.vala
 msgid "Upgrade"
-msgstr ""
+msgstr "Mejora"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Install"
@@ -419,7 +420,7 @@ msgstr[1] "%u operaciones pendientes"
 
 #: src/manager_window.vala
 msgid "Categories"
-msgstr ""
+msgstr "Categorías"
 
 #: src/manager_window.vala
 msgid "Groups"
@@ -435,7 +436,7 @@ msgstr "Instalado"
 
 #: src/manager_window.vala
 msgid "Updates"
-msgstr ""
+msgstr "Actualizaciones"
 
 #: src/manager_window.vala
 msgid "Pending"
@@ -451,47 +452,47 @@ msgstr "Foráneo"
 
 #: src/manager_window.vala
 msgid "Accessories"
-msgstr ""
+msgstr "Accesorios"
 
 #: src/manager_window.vala
 msgid "Audio & Video"
-msgstr ""
+msgstr "Audio & Video"
 
 #: src/manager_window.vala
 msgid "Development"
-msgstr ""
+msgstr "Desarrollo"
 
 #: src/manager_window.vala
 msgid "Education"
-msgstr ""
+msgstr "Educación"
 
 #: src/manager_window.vala
 msgid "Games"
-msgstr ""
+msgstr "Juegos"
 
 #: src/manager_window.vala
 msgid "Graphics"
-msgstr ""
+msgstr "Gráficos"
 
 #: src/manager_window.vala
 msgid "Internet"
-msgstr ""
+msgstr "Internet"
 
 #: src/manager_window.vala
 msgid "Office"
-msgstr ""
+msgstr "Oficina"
 
 #: src/manager_window.vala
 msgid "Science"
-msgstr ""
+msgstr "Ciencia"
 
 #: src/manager_window.vala
 msgid "Settings"
-msgstr ""
+msgstr "Ajustes"
 
 #: src/manager_window.vala
 msgid "System Tools"
-msgstr ""
+msgstr "Herramientas del sistema"
 
 #: src/manager_window.vala resources/preferences_dialog.ui
 msgid "AUR"
@@ -640,7 +641,7 @@ msgstr "Número de versiones de cada paquete a mantener en caché"
 
 #: src/preferences_dialog.vala
 msgid "Build directory"
-msgstr ""
+msgstr "Directorio de compilación"
 
 #: src/preferences_dialog.vala
 msgid "Worldwide"
@@ -716,7 +717,7 @@ msgstr "...Aplicar"
 
 #: resources/manager_window.ui
 msgid "Select All"
-msgstr ""
+msgstr "Seleccionar todo"
 
 #: resources/preferences_dialog.ui
 msgid "Remove unrequired dependencies"
@@ -738,7 +739,7 @@ msgstr "Comprobar actualizaciones"
 
 #: resources/preferences_dialog.ui
 msgid "Automatically download updates"
-msgstr ""
+msgstr "Descargar actualizaciones automáticamente"
 
 #: resources/preferences_dialog.ui
 msgid "Hide tray icon when no update available"
