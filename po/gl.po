@@ -1,7 +1,7 @@
 # Translation of Pamac.
-# Copyright (C) 2013-2017 Manjaro Developers <manjaro-dev@manjaro.org>
+# Copyright (C) 2013-2018 Manjaro Developers <manjaro-dev@manjaro.org>
 # This file is distributed under the same license as the Pamac package.
-# Guillaume Benoit <guillaume@manjaro.org>, 2013-2017.
+# Guillaume Benoit <guillaume@manjaro.org>, 2013-2018.
 # 
 # Translators:
 # Noel Rodríguez Freire <noelrf.ou@gmail.com>, 2015-2017
@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2017-09-09 09:46+0200\n"
-"PO-Revision-Date: 2017-10-28 08:25+0000\n"
-"Last-Translator: Guillaume Benoit <guillaume@manjaro.org>\n"
+"POT-Creation-Date: 2018-05-26 17:59+0200\n"
+"PO-Revision-Date: 2018-05-27 13:35+0000\n"
+"Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Galician (http://www.transifex.com/manjarolinux/manjaro-pamac/language/gl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -126,6 +126,10 @@ msgstr "%s parece estar incompleto: %jd/%jd bytes\n"
 #, c-format
 msgid "failed retrieving file '%s' from %s : %s\n"
 msgstr "Error ao recuperar ficheiro %s' de %s : %s\n"
+
+#: src/transaction.vala src/tray.vala src/manager_window.vala
+msgid "Package Manager"
+msgstr "Xestor de paquetes"
 
 #: src/transaction.vala
 msgid "Copy"
@@ -344,12 +348,12 @@ msgid "_Close"
 msgstr "_Pechar"
 
 #: src/transaction.vala
-msgid "Nothing to do"
-msgstr "Nada que facer"
-
-#: src/transaction.vala
 msgid "Transaction successfully finished"
 msgstr "Operación concluída con éxito"
+
+#: src/transaction.vala
+msgid "Nothing to do"
+msgstr "Nada que facer"
 
 #: src/installer.vala src/manager.vala
 msgid "Pamac is already running"
@@ -362,10 +366,6 @@ msgstr "Esperando outro xestor de paquetes para saír"
 #: src/tray.vala src/manager_window.vala
 msgid "Your system is up-to-date"
 msgstr "O sistema está actualizado"
-
-#: src/tray.vala src/manager_window.vala
-msgid "Package Manager"
-msgstr "Xestor de paquetes"
 
 #: src/tray.vala
 msgid "_Quit"
@@ -643,14 +643,6 @@ msgstr ""
 msgid "Worldwide"
 msgstr "En todo o Mundo"
 
-#: src/preferences_dialog.vala
-msgid "Speed"
-msgstr "Velocidade"
-
-#: src/preferences_dialog.vala
-msgid "Random"
-msgstr "Aleatorio"
-
 #: resources/choose_provider_dialog.ui
 msgid "Choose a Provider"
 msgstr "Escolla un Provedor"
@@ -742,6 +734,10 @@ msgid "Check for updates"
 msgstr "Comprobar actualizacións"
 
 #: resources/preferences_dialog.ui
+msgid "Automatically download updates"
+msgstr ""
+
+#: resources/preferences_dialog.ui
 msgid "Hide tray icon when no update available"
 msgstr "Ocultar icona da bandexa do sistema cando non hai actualizacións dispoñibles"
 
@@ -756,10 +752,6 @@ msgstr "Xeral"
 #: resources/preferences_dialog.ui
 msgid "Use mirrors from:"
 msgstr "Use espellos dende:"
-
-#: resources/preferences_dialog.ui
-msgid "Sort mirrors by:"
-msgstr "Ordear espellos por:"
 
 #: resources/preferences_dialog.ui
 msgid "Refresh Mirrors List"

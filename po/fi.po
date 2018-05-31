@@ -1,7 +1,7 @@
 # Translation of Pamac.
-# Copyright (C) 2013-2017 Manjaro Developers <manjaro-dev@manjaro.org>
+# Copyright (C) 2013-2018 Manjaro Developers <manjaro-dev@manjaro.org>
 # This file is distributed under the same license as the Pamac package.
-# Guillaume Benoit <guillaume@manjaro.org>, 2013-2017.
+# Guillaume Benoit <guillaume@manjaro.org>, 2013-2018.
 # 
 # Translators:
 # Ammuu5, 2017
@@ -19,9 +19,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2017-09-09 09:46+0200\n"
-"PO-Revision-Date: 2017-11-05 18:07+0000\n"
-"Last-Translator: Ammuu5\n"
+"POT-Creation-Date: 2018-05-26 17:59+0200\n"
+"PO-Revision-Date: 2018-05-27 13:35+0000\n"
+"Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Finnish (http://www.transifex.com/manjarolinux/manjaro-pamac/language/fi/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -136,6 +136,10 @@ msgstr "%s näyttää olevan katkennut: %jd/%jd tavua\n"
 #, c-format
 msgid "failed retrieving file '%s' from %s : %s\n"
 msgstr "tiedoston noutaminen epäonnistui '%s' palvelimelta %s : %s\n"
+
+#: src/transaction.vala src/tray.vala src/manager_window.vala
+msgid "Package Manager"
+msgstr "Paketinhallinta"
 
 #: src/transaction.vala
 msgid "Copy"
@@ -354,12 +358,12 @@ msgid "_Close"
 msgstr "_Sulje"
 
 #: src/transaction.vala
-msgid "Nothing to do"
-msgstr "Ei mitään tehtävää"
-
-#: src/transaction.vala
 msgid "Transaction successfully finished"
 msgstr "Toimenpide suoritettu onnistuneesti"
+
+#: src/transaction.vala
+msgid "Nothing to do"
+msgstr "Ei mitään tehtävää"
 
 #: src/installer.vala src/manager.vala
 msgid "Pamac is already running"
@@ -372,10 +376,6 @@ msgstr "Odotetaan toisen pakettienhallintatyökalun lopettavan"
 #: src/tray.vala src/manager_window.vala
 msgid "Your system is up-to-date"
 msgstr "Järjestelmäsi on ajan tasalla"
-
-#: src/tray.vala src/manager_window.vala
-msgid "Package Manager"
-msgstr "Paketinhallinta"
 
 #: src/tray.vala
 msgid "_Quit"
@@ -653,14 +653,6 @@ msgstr "Kasaus hakemisto"
 msgid "Worldwide"
 msgstr "Maailmanlaajuinen"
 
-#: src/preferences_dialog.vala
-msgid "Speed"
-msgstr "Nopeus"
-
-#: src/preferences_dialog.vala
-msgid "Random"
-msgstr "Satunnainen"
-
 #: resources/choose_provider_dialog.ui
 msgid "Choose a Provider"
 msgstr "Valitse toimittaja"
@@ -752,6 +744,10 @@ msgid "Check for updates"
 msgstr "Tarkista päivitykset"
 
 #: resources/preferences_dialog.ui
+msgid "Automatically download updates"
+msgstr ""
+
+#: resources/preferences_dialog.ui
 msgid "Hide tray icon when no update available"
 msgstr "Piilota pikku kuvake kun ei ole päivitettävää"
 
@@ -766,10 +762,6 @@ msgstr "Yleiset"
 #: resources/preferences_dialog.ui
 msgid "Use mirrors from:"
 msgstr "Käytä peilipalvelimia sijainnista:"
-
-#: resources/preferences_dialog.ui
-msgid "Sort mirrors by:"
-msgstr "Järjestä mirrorit seuraavasti:"
 
 #: resources/preferences_dialog.ui
 msgid "Refresh Mirrors List"

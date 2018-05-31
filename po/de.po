@@ -1,7 +1,7 @@
 # Translation of Pamac.
-# Copyright (C) 2013-2017 Manjaro Developers <manjaro-dev@manjaro.org>
+# Copyright (C) 2013-2018 Manjaro Developers <manjaro-dev@manjaro.org>
 # This file is distributed under the same license as the Pamac package.
-# Guillaume Benoit <guillaume@manjaro.org>, 2013-2017.
+# Guillaume Benoit <guillaume@manjaro.org>, 2013-2018.
 # 
 # Translators:
 # Bankman <inactive+dirktux@transifex.com>, 2016
@@ -19,7 +19,7 @@
 # Tim, 2014
 # Mario Blättermann <mario.blaettermann@gmail.com>, 2017
 # philm <philm@manjaro.org>, 2013
-# philm <philm@manjaro.org>, 2013-2017
+# philm <philm@manjaro.org>, 2013-2018
 # Tim, 2014
 # Tobias B. <aema-001@kabelmail.de>, 2013
 # Tobias B. <aema-001@kabelmail.de>, 2013
@@ -28,9 +28,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2017-09-09 09:46+0200\n"
-"PO-Revision-Date: 2017-12-02 20:21+0000\n"
-"Last-Translator: Mario Blättermann <mario.blaettermann@gmail.com>\n"
+"POT-Creation-Date: 2018-05-26 17:59+0200\n"
+"PO-Revision-Date: 2018-05-31 07:23+0000\n"
+"Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: German (http://www.transifex.com/manjarolinux/manjaro-pamac/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -145,6 +145,10 @@ msgstr "%s scheint abgeschnitten zu sein: %jd/%jd Bytes\n"
 #, c-format
 msgid "failed retrieving file '%s' from %s : %s\n"
 msgstr "Konnte Datei '%s' nicht von %s übertragen : %s\n"
+
+#: src/transaction.vala src/tray.vala src/manager_window.vala
+msgid "Package Manager"
+msgstr "Paketmanager"
 
 #: src/transaction.vala
 msgid "Copy"
@@ -363,12 +367,12 @@ msgid "_Close"
 msgstr "_Schließen"
 
 #: src/transaction.vala
-msgid "Nothing to do"
-msgstr "Es gibt nichts zu tun"
-
-#: src/transaction.vala
 msgid "Transaction successfully finished"
 msgstr "Vorgang erfolgreich abgeschlossen"
+
+#: src/transaction.vala
+msgid "Nothing to do"
+msgstr "Es gibt nichts zu tun"
 
 #: src/installer.vala src/manager.vala
 msgid "Pamac is already running"
@@ -381,10 +385,6 @@ msgstr "Warte auf Beendigung eines anderen Paketmanagers"
 #: src/tray.vala src/manager_window.vala
 msgid "Your system is up-to-date"
 msgstr "Ihr System ist auf dem neuesten Stand"
-
-#: src/tray.vala src/manager_window.vala
-msgid "Package Manager"
-msgstr "Paketmanager"
 
 #: src/tray.vala
 msgid "_Quit"
@@ -662,14 +662,6 @@ msgstr "Build Ordner"
 msgid "Worldwide"
 msgstr "Weltweit"
 
-#: src/preferences_dialog.vala
-msgid "Speed"
-msgstr "Geschwindigkeit"
-
-#: src/preferences_dialog.vala
-msgid "Random"
-msgstr "Zufällig"
-
 #: resources/choose_provider_dialog.ui
 msgid "Choose a Provider"
 msgstr "Anbieter aussuchen"
@@ -761,6 +753,10 @@ msgid "Check for updates"
 msgstr "Suche nach Aktualisierungen"
 
 #: resources/preferences_dialog.ui
+msgid "Automatically download updates"
+msgstr "Lade Aktualisierungen automatisch herunter"
+
+#: resources/preferences_dialog.ui
 msgid "Hide tray icon when no update available"
 msgstr "Verstecke Icon im Systemabschnitt der Kontrollleiste, falls keine Aktualisierungen verfügbar sind"
 
@@ -775,10 +771,6 @@ msgstr "Allgemein"
 #: resources/preferences_dialog.ui
 msgid "Use mirrors from:"
 msgstr "Nutze Server von:"
-
-#: resources/preferences_dialog.ui
-msgid "Sort mirrors by:"
-msgstr "Sortiere Server nach:"
 
 #: resources/preferences_dialog.ui
 msgid "Refresh Mirrors List"

@@ -1,7 +1,7 @@
 # Translation of Pamac.
-# Copyright (C) 2013-2017 Manjaro Developers <manjaro-dev@manjaro.org>
+# Copyright (C) 2013-2018 Manjaro Developers <manjaro-dev@manjaro.org>
 # This file is distributed under the same license as the Pamac package.
-# Guillaume Benoit <guillaume@manjaro.org>, 2013-2017.
+# Guillaume Benoit <guillaume@manjaro.org>, 2013-2018.
 # 
 # Translators:
 # Ferenc Papp <pappfer@gmail.com>, 2017
@@ -15,9 +15,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2017-09-09 09:46+0200\n"
-"PO-Revision-Date: 2017-12-08 19:08+0000\n"
-"Last-Translator: Lajos Pasztor <mrlajos@gmail.com>\n"
+"POT-Creation-Date: 2018-05-26 17:59+0200\n"
+"PO-Revision-Date: 2018-05-27 13:35+0000\n"
+"Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Hungarian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/hu/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -132,6 +132,10 @@ msgstr "%s csonkoltnak tűnik: %jd/%jd byte\n"
 #, c-format
 msgid "failed retrieving file '%s' from %s : %s\n"
 msgstr "Hiba letöltés közben '%s' ennyiből %s : %s\n"
+
+#: src/transaction.vala src/tray.vala src/manager_window.vala
+msgid "Package Manager"
+msgstr "Csomagkezelő"
 
 #: src/transaction.vala
 msgid "Copy"
@@ -350,12 +354,12 @@ msgid "_Close"
 msgstr "Bezár"
 
 #: src/transaction.vala
-msgid "Nothing to do"
-msgstr "Semmi teendő"
-
-#: src/transaction.vala
 msgid "Transaction successfully finished"
 msgstr "A tranzakció sikeresen végrehajtódott"
+
+#: src/transaction.vala
+msgid "Nothing to do"
+msgstr "Semmi teendő"
 
 #: src/installer.vala src/manager.vala
 msgid "Pamac is already running"
@@ -368,10 +372,6 @@ msgstr "Várakozás másik csomagkezelő kilépésére"
 #: src/tray.vala src/manager_window.vala
 msgid "Your system is up-to-date"
 msgstr "A rendszer naprakész"
-
-#: src/tray.vala src/manager_window.vala
-msgid "Package Manager"
-msgstr "Csomagkezelő"
 
 #: src/tray.vala
 msgid "_Quit"
@@ -649,14 +649,6 @@ msgstr "Építési könyvtár"
 msgid "Worldwide"
 msgstr "Világszerte"
 
-#: src/preferences_dialog.vala
-msgid "Speed"
-msgstr "Sebesség"
-
-#: src/preferences_dialog.vala
-msgid "Random"
-msgstr "Vélerlenszerű"
-
 #: resources/choose_provider_dialog.ui
 msgid "Choose a Provider"
 msgstr "Válassz szolgáltatót"
@@ -748,6 +740,10 @@ msgid "Check for updates"
 msgstr "Frissítések keresése"
 
 #: resources/preferences_dialog.ui
+msgid "Automatically download updates"
+msgstr ""
+
+#: resources/preferences_dialog.ui
 msgid "Hide tray icon when no update available"
 msgstr "Az ikon elrejtése, ha nincs elérhető frissítés"
 
@@ -762,10 +758,6 @@ msgstr "Általános"
 #: resources/preferences_dialog.ui
 msgid "Use mirrors from:"
 msgstr "Tükrözések használata innen:"
-
-#: resources/preferences_dialog.ui
-msgid "Sort mirrors by:"
-msgstr "Tükrözések rendezése:"
 
 #: resources/preferences_dialog.ui
 msgid "Refresh Mirrors List"

@@ -1,10 +1,10 @@
 # Translation of Pamac.
-# Copyright (C) 2013-2017 Manjaro Developers <manjaro-dev@manjaro.org>
+# Copyright (C) 2013-2018 Manjaro Developers <manjaro-dev@manjaro.org>
 # This file is distributed under the same license as the Pamac package.
-# Guillaume Benoit <guillaume@manjaro.org>, 2013-2017.
+# Guillaume Benoit <guillaume@manjaro.org>, 2013-2018.
 # 
 # Translators:
-# Galin Iskrenov <loot270@abv.bg>, 2013-2017
+# Galin Iskrenov <loot270@abv.bg>, 2013-2018
 # Georgi Georgiev <georgiev_1994@abv.bg>, 2014
 # Georgi Georgiev <georgiev_1994@abv.bg>, 2014,2016
 # Galin Iskrenov <loot270@abv.bg>, 2013
@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2017-09-09 09:46+0200\n"
-"PO-Revision-Date: 2017-10-31 07:27+0000\n"
+"POT-Creation-Date: 2018-05-26 17:59+0200\n"
+"PO-Revision-Date: 2018-05-28 06:12+0000\n"
 "Last-Translator: Galin Iskrenov <loot270@abv.bg>\n"
 "Language-Team: Bulgarian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/bg/)\n"
 "MIME-Version: 1.0\n"
@@ -132,6 +132,10 @@ msgstr "%s изглежда непълен: %jd/%jd байта\n"
 #, c-format
 msgid "failed retrieving file '%s' from %s : %s\n"
 msgstr "невъзможно изтегляне на '%s' от %s : %s\n"
+
+#: src/transaction.vala src/tray.vala src/manager_window.vala
+msgid "Package Manager"
+msgstr "Диспечер на пакети"
 
 #: src/transaction.vala
 msgid "Copy"
@@ -350,12 +354,12 @@ msgid "_Close"
 msgstr "_Затвори"
 
 #: src/transaction.vala
-msgid "Nothing to do"
-msgstr "Нищо за правене"
-
-#: src/transaction.vala
 msgid "Transaction successfully finished"
 msgstr "Успешно завършена транзакция"
+
+#: src/transaction.vala
+msgid "Nothing to do"
+msgstr "Нищо за правене"
 
 #: src/installer.vala src/manager.vala
 msgid "Pamac is already running"
@@ -368,10 +372,6 @@ msgstr "Изчакване да завърши друг пакетен дисп�
 #: src/tray.vala src/manager_window.vala
 msgid "Your system is up-to-date"
 msgstr "Вашата система е актуална"
-
-#: src/tray.vala src/manager_window.vala
-msgid "Package Manager"
-msgstr "Диспечер на пакети"
 
 #: src/tray.vala
 msgid "_Quit"
@@ -649,14 +649,6 @@ msgstr "Папка за изграждане"
 msgid "Worldwide"
 msgstr "По света"
 
-#: src/preferences_dialog.vala
-msgid "Speed"
-msgstr "Скорост"
-
-#: src/preferences_dialog.vala
-msgid "Random"
-msgstr "Разбъркано "
-
 #: resources/choose_provider_dialog.ui
 msgid "Choose a Provider"
 msgstr "Изберете доставчик"
@@ -748,6 +740,10 @@ msgid "Check for updates"
 msgstr "Проверка за актуализации"
 
 #: resources/preferences_dialog.ui
+msgid "Automatically download updates"
+msgstr "Автоматично изтегляне на актуализации"
+
+#: resources/preferences_dialog.ui
 msgid "Hide tray icon when no update available"
 msgstr "Скрий в зоната за известия, когато няма актуализация"
 
@@ -762,10 +758,6 @@ msgstr "Главен"
 #: resources/preferences_dialog.ui
 msgid "Use mirrors from:"
 msgstr "Използвай огледала от:"
-
-#: resources/preferences_dialog.ui
-msgid "Sort mirrors by:"
-msgstr "Подреди огледала по:"
 
 #: resources/preferences_dialog.ui
 msgid "Refresh Mirrors List"

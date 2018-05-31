@@ -1,19 +1,19 @@
 # Translation of Pamac.
-# Copyright (C) 2013-2017 Manjaro Developers <manjaro-dev@manjaro.org>
+# Copyright (C) 2013-2018 Manjaro Developers <manjaro-dev@manjaro.org>
 # This file is distributed under the same license as the Pamac package.
-# Guillaume Benoit <guillaume@manjaro.org>, 2013-2017.
+# Guillaume Benoit <guillaume@manjaro.org>, 2013-2018.
 # 
 # Translators:
 # Hsiu-Ming Chang <cges30901@gmail.com>, 2016
 # Hsiu-Ming Chang <cges30901@gmail.com>, 2016
-# Jeff Huang <s8321414@gmail.com>, 2014-2017
+# Jeff Huang <s8321414@gmail.com>, 2014-2018
 # Jeff Huang <s8321414@gmail.com>, 2013-2014
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2017-09-09 09:46+0200\n"
-"PO-Revision-Date: 2017-10-28 12:44+0000\n"
+"POT-Creation-Date: 2018-05-26 17:59+0200\n"
+"PO-Revision-Date: 2018-05-28 06:51+0000\n"
 "Last-Translator: Jeff Huang <s8321414@gmail.com>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
@@ -129,6 +129,10 @@ msgstr "%s 似乎被截斷了：%jd/%jd 位元組\n"
 #, c-format
 msgid "failed retrieving file '%s' from %s : %s\n"
 msgstr "擷取檔案「%s」失敗，從 %s：%s\n"
+
+#: src/transaction.vala src/tray.vala src/manager_window.vala
+msgid "Package Manager"
+msgstr "套件管理員"
 
 #: src/transaction.vala
 msgid "Copy"
@@ -346,12 +350,12 @@ msgid "_Close"
 msgstr "關閉(_C)"
 
 #: src/transaction.vala
-msgid "Nothing to do"
-msgstr "已無事可作"
-
-#: src/transaction.vala
 msgid "Transaction successfully finished"
 msgstr "事務處理成功完成"
+
+#: src/transaction.vala
+msgid "Nothing to do"
+msgstr "已無事可作"
 
 #: src/installer.vala src/manager.vala
 msgid "Pamac is already running"
@@ -364,10 +368,6 @@ msgstr "正在等待其他套件管理員結束"
 #: src/tray.vala src/manager_window.vala
 msgid "Your system is up-to-date"
 msgstr "您的系統已經是最新的"
-
-#: src/tray.vala src/manager_window.vala
-msgid "Package Manager"
-msgstr "套件管理員"
 
 #: src/tray.vala
 msgid "_Quit"
@@ -643,14 +643,6 @@ msgstr "構建目錄"
 msgid "Worldwide"
 msgstr "全世界"
 
-#: src/preferences_dialog.vala
-msgid "Speed"
-msgstr "速度"
-
-#: src/preferences_dialog.vala
-msgid "Random"
-msgstr "隨機"
-
 #: resources/choose_provider_dialog.ui
 msgid "Choose a Provider"
 msgstr "選擇一個提供者"
@@ -742,6 +734,10 @@ msgid "Check for updates"
 msgstr "檢查更新"
 
 #: resources/preferences_dialog.ui
+msgid "Automatically download updates"
+msgstr "自動下載更新"
+
+#: resources/preferences_dialog.ui
 msgid "Hide tray icon when no update available"
 msgstr "當沒有可用的更新時，隱藏系統匣圖示"
 
@@ -756,10 +752,6 @@ msgstr "一般"
 #: resources/preferences_dialog.ui
 msgid "Use mirrors from:"
 msgstr "使用鏡像從："
-
-#: resources/preferences_dialog.ui
-msgid "Sort mirrors by:"
-msgstr "排序鏡像伺服器由："
 
 #: resources/preferences_dialog.ui
 msgid "Refresh Mirrors List"

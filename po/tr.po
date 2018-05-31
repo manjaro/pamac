@@ -1,7 +1,7 @@
 # Translation of Pamac.
-# Copyright (C) 2013-2017 Manjaro Developers <manjaro-dev@manjaro.org>
+# Copyright (C) 2013-2018 Manjaro Developers <manjaro-dev@manjaro.org>
 # This file is distributed under the same license as the Pamac package.
-# Guillaume Benoit <guillaume@manjaro.org>, 2013-2017.
+# Guillaume Benoit <guillaume@manjaro.org>, 2013-2018.
 # 
 # Translators:
 # Demiray “tulliana” Muhterem <mdemiray@msn.com>, 2013-2017
@@ -13,9 +13,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2017-09-09 09:46+0200\n"
-"PO-Revision-Date: 2017-11-22 19:27+0000\n"
-"Last-Translator: Demiray “tulliana” Muhterem <mdemiray@msn.com>\n"
+"POT-Creation-Date: 2018-05-26 17:59+0200\n"
+"PO-Revision-Date: 2018-05-27 13:35+0000\n"
+"Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Turkish (http://www.transifex.com/manjarolinux/manjaro-pamac/language/tr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -130,6 +130,10 @@ msgstr "%s kesintiye uğramış gibi görünüyor: %jd/%jd bytes\n"
 #, c-format
 msgid "failed retrieving file '%s' from %s : %s\n"
 msgstr "%s üzerinden '%s dosyası alınamadı: %s\n\n"
+
+#: src/transaction.vala src/tray.vala src/manager_window.vala
+msgid "Package Manager"
+msgstr "Paket Yöneticisi"
 
 #: src/transaction.vala
 msgid "Copy"
@@ -348,12 +352,12 @@ msgid "_Close"
 msgstr "_Kapat"
 
 #: src/transaction.vala
-msgid "Nothing to do"
-msgstr "Yapılacak Bir Şey Yok"
-
-#: src/transaction.vala
 msgid "Transaction successfully finished"
 msgstr "Işlem Başarılı"
+
+#: src/transaction.vala
+msgid "Nothing to do"
+msgstr "Yapılacak Bir Şey Yok"
 
 #: src/installer.vala src/manager.vala
 msgid "Pamac is already running"
@@ -366,10 +370,6 @@ msgstr "Başka bir paket yöneticisinin çıkması ya da durması bekleniyor"
 #: src/tray.vala src/manager_window.vala
 msgid "Your system is up-to-date"
 msgstr "Sisteminiz Güncel"
-
-#: src/tray.vala src/manager_window.vala
-msgid "Package Manager"
-msgstr "Paket Yöneticisi"
 
 #: src/tray.vala
 msgid "_Quit"
@@ -647,14 +647,6 @@ msgstr "İnşa dizini"
 msgid "Worldwide"
 msgstr "Küresel"
 
-#: src/preferences_dialog.vala
-msgid "Speed"
-msgstr "Hız"
-
-#: src/preferences_dialog.vala
-msgid "Random"
-msgstr "Rastgele"
-
 #: resources/choose_provider_dialog.ui
 msgid "Choose a Provider"
 msgstr "Sağlayıcı Seç"
@@ -746,6 +738,10 @@ msgid "Check for updates"
 msgstr "Güncellemeleri kontrol et"
 
 #: resources/preferences_dialog.ui
+msgid "Automatically download updates"
+msgstr ""
+
+#: resources/preferences_dialog.ui
 msgid "Hide tray icon when no update available"
 msgstr "Güncelleme yok ise sistem ikonunu gizle"
 
@@ -760,10 +756,6 @@ msgstr "Genel"
 #: resources/preferences_dialog.ui
 msgid "Use mirrors from:"
 msgstr "Yansıyı kullan:"
-
-#: resources/preferences_dialog.ui
-msgid "Sort mirrors by:"
-msgstr "Yansıları sırala:"
 
 #: resources/preferences_dialog.ui
 msgid "Refresh Mirrors List"

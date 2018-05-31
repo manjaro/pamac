@@ -1,7 +1,7 @@
 # Translation of Pamac.
-# Copyright (C) 2013-2017 Manjaro Developers <manjaro-dev@manjaro.org>
+# Copyright (C) 2013-2018 Manjaro Developers <manjaro-dev@manjaro.org>
 # This file is distributed under the same license as the Pamac package.
-# Guillaume Benoit <guillaume@manjaro.org>, 2013-2017.
+# Guillaume Benoit <guillaume@manjaro.org>, 2013-2018.
 # 
 # Translators:
 # Morten Rene <arath.inc@gmail.com>, 2014
@@ -26,9 +26,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2017-09-09 09:46+0200\n"
-"PO-Revision-Date: 2017-10-28 08:25+0000\n"
-"Last-Translator: Guillaume Benoit <guillaume@manjaro.org>\n"
+"POT-Creation-Date: 2018-05-26 17:59+0200\n"
+"PO-Revision-Date: 2018-05-27 13:35+0000\n"
+"Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Norwegian Bokmål (http://www.transifex.com/manjarolinux/manjaro-pamac/language/nb/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -143,6 +143,10 @@ msgstr "%s ser ut til å bli avkortet: %jd/%jd bytes\n"
 #, c-format
 msgid "failed retrieving file '%s' from %s : %s\n"
 msgstr "klarte ikke å hente filen '%s'  fra %s : %s\n\n"
+
+#: src/transaction.vala src/tray.vala src/manager_window.vala
+msgid "Package Manager"
+msgstr "Pakke Behandler"
 
 #: src/transaction.vala
 msgid "Copy"
@@ -361,12 +365,12 @@ msgid "_Close"
 msgstr "_Lukk"
 
 #: src/transaction.vala
-msgid "Nothing to do"
-msgstr "Ingenting å gjøre"
-
-#: src/transaction.vala
 msgid "Transaction successfully finished"
 msgstr "Transaksjonen avsluttet vellykket"
+
+#: src/transaction.vala
+msgid "Nothing to do"
+msgstr "Ingenting å gjøre"
 
 #: src/installer.vala src/manager.vala
 msgid "Pamac is already running"
@@ -379,10 +383,6 @@ msgstr "Venter på at en annen pakkebehandler skal avslutte"
 #: src/tray.vala src/manager_window.vala
 msgid "Your system is up-to-date"
 msgstr "Systemet ditt er oppdatert"
-
-#: src/tray.vala src/manager_window.vala
-msgid "Package Manager"
-msgstr "Pakke Behandler"
 
 #: src/tray.vala
 msgid "_Quit"
@@ -660,14 +660,6 @@ msgstr "Byggkatalog"
 msgid "Worldwide"
 msgstr "Verdensomspennende"
 
-#: src/preferences_dialog.vala
-msgid "Speed"
-msgstr "Hastighet"
-
-#: src/preferences_dialog.vala
-msgid "Random"
-msgstr "Tilfeldig"
-
 #: resources/choose_provider_dialog.ui
 msgid "Choose a Provider"
 msgstr "Velg en leverandør"
@@ -759,6 +751,10 @@ msgid "Check for updates"
 msgstr "Se etter oppdateringer"
 
 #: resources/preferences_dialog.ui
+msgid "Automatically download updates"
+msgstr ""
+
+#: resources/preferences_dialog.ui
 msgid "Hide tray icon when no update available"
 msgstr "Gjem ikon når det ikke finnes noen oppdateringer"
 
@@ -773,10 +769,6 @@ msgstr "Generelt"
 #: resources/preferences_dialog.ui
 msgid "Use mirrors from:"
 msgstr "Benytt pakkearkiv fra:"
-
-#: resources/preferences_dialog.ui
-msgid "Sort mirrors by:"
-msgstr "Sorter pakkearkiv etter:"
 
 #: resources/preferences_dialog.ui
 msgid "Refresh Mirrors List"

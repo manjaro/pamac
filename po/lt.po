@@ -1,24 +1,24 @@
 # Translation of Pamac.
-# Copyright (C) 2013-2017 Manjaro Developers <manjaro-dev@manjaro.org>
+# Copyright (C) 2013-2018 Manjaro Developers <manjaro-dev@manjaro.org>
 # This file is distributed under the same license as the Pamac package.
-# Guillaume Benoit <guillaume@manjaro.org>, 2013-2017.
+# Guillaume Benoit <guillaume@manjaro.org>, 2013-2018.
 # 
 # Translators:
 # Moo, 2015
-# Moo, 2015-2017
+# Moo, 2015-2018
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2017-09-09 09:46+0200\n"
-"PO-Revision-Date: 2017-10-28 19:00+0000\n"
+"POT-Creation-Date: 2018-05-26 17:59+0200\n"
+"PO-Revision-Date: 2018-05-27 19:38+0000\n"
 "Last-Translator: Moo\n"
 "Language-Team: Lithuanian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/lt/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: lt\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Plural-Forms: nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);\n"
 
 #: data/polkit/org.manjaro.pamac.policy.in
 msgid "Authentication is required"
@@ -127,6 +127,10 @@ msgstr "Atrodo, kad %s yra sutrumpintas: %jd/%jd baitų\n"
 #, c-format
 msgid "failed retrieving file '%s' from %s : %s\n"
 msgstr "nepavyko gauti failo \"%s\" iš %s : %s\n"
+
+#: src/transaction.vala src/tray.vala src/manager_window.vala
+msgid "Package Manager"
+msgstr "Paketų tvarkytuvė"
 
 #: src/transaction.vala
 msgid "Copy"
@@ -326,6 +330,7 @@ msgid_plural "About %lu minutes remaining"
 msgstr[0] "Liko maždaug %lu minutė"
 msgstr[1] "Liko maždaug %lu minutės"
 msgstr[2] "Liko maždaug %lu minučių"
+msgstr[3] "Liko maždaug %lu minučių"
 
 #: src/transaction.vala
 #, c-format
@@ -346,12 +351,12 @@ msgid "_Close"
 msgstr "_Užverti"
 
 #: src/transaction.vala
-msgid "Nothing to do"
-msgstr "Nėra ką atlikti"
-
-#: src/transaction.vala
 msgid "Transaction successfully finished"
 msgstr "Operacija sėkmingai užbaigta"
+
+#: src/transaction.vala
+msgid "Nothing to do"
+msgstr "Nėra ką atlikti"
 
 #: src/installer.vala src/manager.vala
 msgid "Pamac is already running"
@@ -365,10 +370,6 @@ msgstr "Laukiama, kol kita paketų tvarkytuvė baigs savo darbą"
 msgid "Your system is up-to-date"
 msgstr "Jūsų sistemoje įdiegti visi naujausi atnaujinimai"
 
-#: src/tray.vala src/manager_window.vala
-msgid "Package Manager"
-msgstr "Paketų tvarkytuvė"
-
 #: src/tray.vala
 msgid "_Quit"
 msgstr "_Išeiti"
@@ -380,6 +381,7 @@ msgid_plural "%u available updates"
 msgstr[0] "Yra prieinamas %u atnaujinimas"
 msgstr[1] "Yra prieinami %u atnaujinimai"
 msgstr[2] "Yra %u prieinamų atnaujinimų"
+msgstr[3] "Yra %u prieinamų atnaujinimų"
 
 #: src/tray.vala src/manager_window.vala resources/progress_dialog.ui
 #: resources/manager_window.ui
@@ -417,6 +419,7 @@ msgid_plural "%u pending operations"
 msgstr[0] "%u laukianti operacija"
 msgstr[1] "%u laukiančios operacijos"
 msgstr[2] "%u laukiančių operacijų"
+msgstr[3] "%u laukiančių operacijų"
 
 #: src/manager_window.vala
 msgid "Categories"
@@ -647,14 +650,6 @@ msgstr "Kūrimo katalogas"
 msgid "Worldwide"
 msgstr "Viso pasaulio"
 
-#: src/preferences_dialog.vala
-msgid "Speed"
-msgstr "Greitį"
-
-#: src/preferences_dialog.vala
-msgid "Random"
-msgstr "Atsitiktinai"
-
 #: resources/choose_provider_dialog.ui
 msgid "Choose a Provider"
 msgstr "Pasirinkite tiekėją"
@@ -746,6 +741,10 @@ msgid "Check for updates"
 msgstr "Tikrinti ar yra atnaujinimų"
 
 #: resources/preferences_dialog.ui
+msgid "Automatically download updates"
+msgstr "Automatiškai atsisiųsti atnaujinimus"
+
+#: resources/preferences_dialog.ui
 msgid "Hide tray icon when no update available"
 msgstr "Slėpti dėklo piktogramą, kai nėra atnaujinimų"
 
@@ -760,10 +759,6 @@ msgstr "Bendra"
 #: resources/preferences_dialog.ui
 msgid "Use mirrors from:"
 msgstr "Naudoti tinklavietes iš:"
-
-#: resources/preferences_dialog.ui
-msgid "Sort mirrors by:"
-msgstr "Rikiuoti tinklavietes pagal:"
 
 #: resources/preferences_dialog.ui
 msgid "Refresh Mirrors List"

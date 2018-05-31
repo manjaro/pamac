@@ -1,7 +1,7 @@
 # Translation of Pamac.
-# Copyright (C) 2013-2017 Manjaro Developers <manjaro-dev@manjaro.org>
+# Copyright (C) 2013-2018 Manjaro Developers <manjaro-dev@manjaro.org>
 # This file is distributed under the same license as the Pamac package.
-# Guillaume Benoit <guillaume@manjaro.org>, 2013-2017.
+# Guillaume Benoit <guillaume@manjaro.org>, 2013-2018.
 # 
 # Translators:
 # António Correia, 2014
@@ -18,9 +18,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2017-09-09 09:46+0200\n"
-"PO-Revision-Date: 2017-12-14 14:53+0000\n"
-"Last-Translator: José Vieira <jvieira33@sapo.pt>\n"
+"POT-Creation-Date: 2018-05-26 17:59+0200\n"
+"PO-Revision-Date: 2018-05-27 13:35+0000\n"
+"Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -135,6 +135,10 @@ msgstr "%s parece estar truncada: %jd/%jd bytes\n"
 #, c-format
 msgid "failed retrieving file '%s' from %s : %s\n"
 msgstr "falha ao recuperar arquivo '%s' de %s : %s\n"
+
+#: src/transaction.vala src/tray.vala src/manager_window.vala
+msgid "Package Manager"
+msgstr "Gestor de Pacotes"
 
 #: src/transaction.vala
 msgid "Copy"
@@ -353,12 +357,12 @@ msgid "_Close"
 msgstr "_Fechar"
 
 #: src/transaction.vala
-msgid "Nothing to do"
-msgstr "Nada a fazer"
-
-#: src/transaction.vala
 msgid "Transaction successfully finished"
 msgstr "Transacção finalizada com êxito"
+
+#: src/transaction.vala
+msgid "Nothing to do"
+msgstr "Nada a fazer"
 
 #: src/installer.vala src/manager.vala
 msgid "Pamac is already running"
@@ -371,10 +375,6 @@ msgstr "Esperando que outro gestor de pacotes termine"
 #: src/tray.vala src/manager_window.vala
 msgid "Your system is up-to-date"
 msgstr "O sistema está actualizado"
-
-#: src/tray.vala src/manager_window.vala
-msgid "Package Manager"
-msgstr "Gestor de Pacotes"
 
 #: src/tray.vala
 msgid "_Quit"
@@ -652,14 +652,6 @@ msgstr "Directório de compilação"
 msgid "Worldwide"
 msgstr "Mundial"
 
-#: src/preferences_dialog.vala
-msgid "Speed"
-msgstr "Velocidade"
-
-#: src/preferences_dialog.vala
-msgid "Random"
-msgstr "Aleatório"
-
 #: resources/choose_provider_dialog.ui
 msgid "Choose a Provider"
 msgstr "Escolha um Fornecedor"
@@ -751,6 +743,10 @@ msgid "Check for updates"
 msgstr "Verificar atualizações"
 
 #: resources/preferences_dialog.ui
+msgid "Automatically download updates"
+msgstr ""
+
+#: resources/preferences_dialog.ui
 msgid "Hide tray icon when no update available"
 msgstr "Ocultar ícone da bandeja quando não houver atualização disponível"
 
@@ -765,10 +761,6 @@ msgstr "Geral"
 #: resources/preferences_dialog.ui
 msgid "Use mirrors from:"
 msgstr "Usar clones (mirrors) de:"
-
-#: resources/preferences_dialog.ui
-msgid "Sort mirrors by:"
-msgstr "Ordenar clones (mirrors) por:"
 
 #: resources/preferences_dialog.ui
 msgid "Refresh Mirrors List"

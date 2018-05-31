@@ -1,11 +1,11 @@
 # Translation of Pamac.
-# Copyright (C) 2013-2017 Manjaro Developers <manjaro-dev@manjaro.org>
+# Copyright (C) 2013-2018 Manjaro Developers <manjaro-dev@manjaro.org>
 # This file is distributed under the same license as the Pamac package.
-# Guillaume Benoit <guillaume@manjaro.org>, 2013-2017.
+# Guillaume Benoit <guillaume@manjaro.org>, 2013-2018.
 # 
 # Translators:
 # Dušan Kazik, 2014
-# Dušan Kazik <prescott66@gmail.com>, 2014-2017
+# Dušan Kazik <prescott66@gmail.com>, 2014-2018
 # Inoki Sakaeru, 2013
 # Patrik Bubák, 2014
 # Patrik Bubák, 2014
@@ -14,15 +14,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2017-09-09 09:46+0200\n"
-"PO-Revision-Date: 2017-10-28 13:07+0000\n"
+"POT-Creation-Date: 2018-05-26 17:59+0200\n"
+"PO-Revision-Date: 2018-05-27 15:33+0000\n"
 "Last-Translator: Dušan Kazik <prescott66@gmail.com>\n"
 "Language-Team: Slovak (http://www.transifex.com/manjarolinux/manjaro-pamac/language/sk/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: sk\n"
-"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+"Plural-Forms: nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);\n"
 
 #: data/polkit/org.manjaro.pamac.policy.in
 msgid "Authentication is required"
@@ -131,6 +131,10 @@ msgstr "Zdá sa, že %s má poškodenú veľkosť: %jd/%jd bajtov\n"
 #, c-format
 msgid "failed retrieving file '%s' from %s : %s\n"
 msgstr "Zlyhalo prijímanie súboru „%s“ z %s: %s\n"
+
+#: src/transaction.vala src/tray.vala src/manager_window.vala
+msgid "Package Manager"
+msgstr "Správca balíkov"
 
 #: src/transaction.vala
 msgid "Copy"
@@ -330,6 +334,7 @@ msgid_plural "About %lu minutes remaining"
 msgstr[0] "Zostáva približne %lu minúta"
 msgstr[1] "Zostávajú približne %lu minúty"
 msgstr[2] "Zostáva približne %lu minút"
+msgstr[3] "Zostáva približne %lu minút"
 
 #: src/transaction.vala
 #, c-format
@@ -350,12 +355,12 @@ msgid "_Close"
 msgstr "_Zavrieť"
 
 #: src/transaction.vala
-msgid "Nothing to do"
-msgstr "Nič na vykonanie"
-
-#: src/transaction.vala
 msgid "Transaction successfully finished"
 msgstr "Transakcia bola úspešná"
+
+#: src/transaction.vala
+msgid "Nothing to do"
+msgstr "Nič na vykonanie"
 
 #: src/installer.vala src/manager.vala
 msgid "Pamac is already running"
@@ -369,10 +374,6 @@ msgstr "Čaká sa na ukončenie iného správcu balíkov"
 msgid "Your system is up-to-date"
 msgstr "Váš systém je aktuálny"
 
-#: src/tray.vala src/manager_window.vala
-msgid "Package Manager"
-msgstr "Správca balíkov"
-
 #: src/tray.vala
 msgid "_Quit"
 msgstr "_Ukončiť"
@@ -384,6 +385,7 @@ msgid_plural "%u available updates"
 msgstr[0] "Je dostupná %u aktualizácia"
 msgstr[1] "Sú dostupné %u aktualizácie"
 msgstr[2] "Je dostupných %u aktualizácií"
+msgstr[3] "Je dostupných %u aktualizácií"
 
 #: src/tray.vala src/manager_window.vala resources/progress_dialog.ui
 #: resources/manager_window.ui
@@ -421,6 +423,7 @@ msgid_plural "%u pending operations"
 msgstr[0] "%u operácia na vybavenie"
 msgstr[1] "%u operácie na vybavenie"
 msgstr[2] "%u operácií na vybavenie"
+msgstr[3] "%u operácií na vybavenie"
 
 #: src/manager_window.vala
 msgid "Categories"
@@ -651,14 +654,6 @@ msgstr "Adresár zostavenia"
 msgid "Worldwide"
 msgstr "Celého sveta"
 
-#: src/preferences_dialog.vala
-msgid "Speed"
-msgstr "Rýchlosti"
-
-#: src/preferences_dialog.vala
-msgid "Random"
-msgstr "Náhodne"
-
 #: resources/choose_provider_dialog.ui
 msgid "Choose a Provider"
 msgstr "Voľba poskytovateľa"
@@ -750,6 +745,10 @@ msgid "Check for updates"
 msgstr "Kontrolovať aktualizácie"
 
 #: resources/preferences_dialog.ui
+msgid "Automatically download updates"
+msgstr "Automaticky prevziať aktualizácie"
+
+#: resources/preferences_dialog.ui
 msgid "Hide tray icon when no update available"
 msgstr "Skryť ikonu v lište, keď nie sú dostupné žiadne aktualizácie"
 
@@ -764,10 +763,6 @@ msgstr "Všeobecné"
 #: resources/preferences_dialog.ui
 msgid "Use mirrors from:"
 msgstr "Použiť zrkadlá z:"
-
-#: resources/preferences_dialog.ui
-msgid "Sort mirrors by:"
-msgstr "Zoradiť zrkadlá podľa:"
 
 #: resources/preferences_dialog.ui
 msgid "Refresh Mirrors List"

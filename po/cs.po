@@ -1,7 +1,7 @@
 # Translation of Pamac.
-# Copyright (C) 2013-2017 Manjaro Developers <manjaro-dev@manjaro.org>
+# Copyright (C) 2013-2018 Manjaro Developers <manjaro-dev@manjaro.org>
 # This file is distributed under the same license as the Pamac package.
-# Guillaume Benoit <guillaume@manjaro.org>, 2013-2017.
+# Guillaume Benoit <guillaume@manjaro.org>, 2013-2018.
 # 
 # Translators:
 # halfark <vojtechprecechtel@gmail.com>, 2014,2016
@@ -17,15 +17,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2017-09-09 09:46+0200\n"
-"PO-Revision-Date: 2017-11-04 11:49+0000\n"
-"Last-Translator: pavelrz\n"
+"POT-Creation-Date: 2018-05-26 17:59+0200\n"
+"PO-Revision-Date: 2018-05-27 13:35+0000\n"
+"Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Czech (http://www.transifex.com/manjarolinux/manjaro-pamac/language/cs/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: cs\n"
-"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+"Plural-Forms: nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;\n"
 
 #: data/polkit/org.manjaro.pamac.policy.in
 msgid "Authentication is required"
@@ -134,6 +134,10 @@ msgstr "%s se zdá být zkrácený o: %jd/%jd bytů\n"
 #, c-format
 msgid "failed retrieving file '%s' from %s : %s\n"
 msgstr "selhalo získání souboru '%s' z %s : %s\n"
+
+#: src/transaction.vala src/tray.vala src/manager_window.vala
+msgid "Package Manager"
+msgstr "Správce balíčků"
 
 #: src/transaction.vala
 msgid "Copy"
@@ -333,6 +337,7 @@ msgid_plural "About %lu minutes remaining"
 msgstr[0] "Zbývá asi %lu minuta"
 msgstr[1] "Zbývá asi %lu minuty"
 msgstr[2] "Zbývá asi %lu minut"
+msgstr[3] "Zbývá asi %lu minut"
 
 #: src/transaction.vala
 #, c-format
@@ -353,12 +358,12 @@ msgid "_Close"
 msgstr "_Zavřít"
 
 #: src/transaction.vala
-msgid "Nothing to do"
-msgstr "Spolu nesouvisí"
-
-#: src/transaction.vala
 msgid "Transaction successfully finished"
 msgstr "Transakce úspěšně dokončena"
+
+#: src/transaction.vala
+msgid "Nothing to do"
+msgstr "Spolu nesouvisí"
 
 #: src/installer.vala src/manager.vala
 msgid "Pamac is already running"
@@ -372,10 +377,6 @@ msgstr "Čekání na ukončení jiného správce balíčků"
 msgid "Your system is up-to-date"
 msgstr "Váš systém je aktuální"
 
-#: src/tray.vala src/manager_window.vala
-msgid "Package Manager"
-msgstr "Správce balíčků"
-
 #: src/tray.vala
 msgid "_Quit"
 msgstr "_Ukončit"
@@ -387,6 +388,7 @@ msgid_plural "%u available updates"
 msgstr[0] "%u dostupná aktualizace"
 msgstr[1] "%u dostupných aktualizací"
 msgstr[2] "%u dostupných aktualizací"
+msgstr[3] "%u dostupných aktualizací"
 
 #: src/tray.vala src/manager_window.vala resources/progress_dialog.ui
 #: resources/manager_window.ui
@@ -424,6 +426,7 @@ msgid_plural "%u pending operations"
 msgstr[0] "%u nevyřízená operace"
 msgstr[1] "%u nevyřízené operace"
 msgstr[2] "%u nevyřízených operací"
+msgstr[3] "%u nevyřízených operací"
 
 #: src/manager_window.vala
 msgid "Categories"
@@ -654,14 +657,6 @@ msgstr "Sestavovací adresář"
 msgid "Worldwide"
 msgstr "Celosvětový"
 
-#: src/preferences_dialog.vala
-msgid "Speed"
-msgstr "rychlost"
-
-#: src/preferences_dialog.vala
-msgid "Random"
-msgstr "náhodně"
-
 #: resources/choose_provider_dialog.ui
 msgid "Choose a Provider"
 msgstr "Vybrat poskytovatele"
@@ -753,6 +748,10 @@ msgid "Check for updates"
 msgstr "Kontrola aktualizací"
 
 #: resources/preferences_dialog.ui
+msgid "Automatically download updates"
+msgstr ""
+
+#: resources/preferences_dialog.ui
 msgid "Hide tray icon when no update available"
 msgstr "Schovat ikonu v liště, pokud není dostupná žádná aktualizace"
 
@@ -767,10 +766,6 @@ msgstr "Obecné"
 #: resources/preferences_dialog.ui
 msgid "Use mirrors from:"
 msgstr "Použít zrcadla z:"
-
-#: resources/preferences_dialog.ui
-msgid "Sort mirrors by:"
-msgstr "Seřadit zrcadla odle:"
 
 #: resources/preferences_dialog.ui
 msgid "Refresh Mirrors List"

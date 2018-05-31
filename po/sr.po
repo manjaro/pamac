@@ -1,7 +1,7 @@
 # Translation of Pamac.
-# Copyright (C) 2013-2017 Manjaro Developers <manjaro-dev@manjaro.org>
+# Copyright (C) 2013-2018 Manjaro Developers <manjaro-dev@manjaro.org>
 # This file is distributed under the same license as the Pamac package.
-# Guillaume Benoit <guillaume@manjaro.org>, 2013-2017.
+# Guillaume Benoit <guillaume@manjaro.org>, 2013-2018.
 # 
 # Translators:
 # philm <philm@manjaro.org>, 2015
@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2017-09-09 09:46+0200\n"
-"PO-Revision-Date: 2017-10-28 08:25+0000\n"
-"Last-Translator: Guillaume Benoit <guillaume@manjaro.org>\n"
+"POT-Creation-Date: 2018-05-26 17:59+0200\n"
+"PO-Revision-Date: 2018-05-27 13:35+0000\n"
+"Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Serbian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/sr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -128,6 +128,10 @@ msgstr ""
 #, c-format
 msgid "failed retrieving file '%s' from %s : %s\n"
 msgstr ""
+
+#: src/transaction.vala src/tray.vala src/manager_window.vala
+msgid "Package Manager"
+msgstr "Менаџер пакета"
 
 #: src/transaction.vala
 msgid "Copy"
@@ -347,12 +351,12 @@ msgid "_Close"
 msgstr "_Затвори"
 
 #: src/transaction.vala
-msgid "Nothing to do"
-msgstr "Ништа за чињење."
-
-#: src/transaction.vala
 msgid "Transaction successfully finished"
 msgstr "Трансакција успешно обављена"
+
+#: src/transaction.vala
+msgid "Nothing to do"
+msgstr "Ништа за чињење."
 
 #: src/installer.vala src/manager.vala
 msgid "Pamac is already running"
@@ -365,10 +369,6 @@ msgstr ""
 #: src/tray.vala src/manager_window.vala
 msgid "Your system is up-to-date"
 msgstr "Ваш систем је већ ажуриран"
-
-#: src/tray.vala src/manager_window.vala
-msgid "Package Manager"
-msgstr "Менаџер пакета"
 
 #: src/tray.vala
 msgid "_Quit"
@@ -648,14 +648,6 @@ msgstr ""
 msgid "Worldwide"
 msgstr "Широм света"
 
-#: src/preferences_dialog.vala
-msgid "Speed"
-msgstr ""
-
-#: src/preferences_dialog.vala
-msgid "Random"
-msgstr ""
-
 #: resources/choose_provider_dialog.ui
 msgid "Choose a Provider"
 msgstr "Изаберите \"снабдевача\""
@@ -747,6 +739,10 @@ msgid "Check for updates"
 msgstr ""
 
 #: resources/preferences_dialog.ui
+msgid "Automatically download updates"
+msgstr ""
+
+#: resources/preferences_dialog.ui
 msgid "Hide tray icon when no update available"
 msgstr ""
 
@@ -761,10 +757,6 @@ msgstr ""
 #: resources/preferences_dialog.ui
 msgid "Use mirrors from:"
 msgstr "Користи \"огледала\" од:"
-
-#: resources/preferences_dialog.ui
-msgid "Sort mirrors by:"
-msgstr "Уреди \"огледала\" на основу:"
 
 #: resources/preferences_dialog.ui
 msgid "Refresh Mirrors List"

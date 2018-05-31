@@ -1,11 +1,11 @@
 # Translation of Pamac.
-# Copyright (C) 2013-2017 Manjaro Developers <manjaro-dev@manjaro.org>
+# Copyright (C) 2013-2018 Manjaro Developers <manjaro-dev@manjaro.org>
 # This file is distributed under the same license as the Pamac package.
-# Guillaume Benoit <guillaume@manjaro.org>, 2013-2017.
+# Guillaume Benoit <guillaume@manjaro.org>, 2013-2018.
 # 
 # Translators:
 # Lovro Kudelić <lovro.kudelic@outlook.com>, 2016
-# Lovro Kudelić <lovro.kudelic@outlook.com>, 2016-2017
+# Lovro Kudelić <lovro.kudelic@outlook.com>, 2016-2018
 # philm <philm@manjaro.org>, 2015
 # ssik64 <ssik64@gmail.com>, 2014
 # ssik64 <ssik64@gmail.com>, 2014
@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2017-09-09 09:46+0200\n"
-"PO-Revision-Date: 2017-10-28 10:30+0000\n"
+"POT-Creation-Date: 2018-05-26 17:59+0200\n"
+"PO-Revision-Date: 2018-05-28 09:41+0000\n"
 "Last-Translator: Lovro Kudelić <lovro.kudelic@outlook.com>\n"
 "Language-Team: Croatian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/hr/)\n"
 "MIME-Version: 1.0\n"
@@ -130,6 +130,10 @@ msgstr "Čini se da je %s odrezan: %jd/%jd bytes\n"
 #, c-format
 msgid "failed retrieving file '%s' from %s : %s\n"
 msgstr "Nije uspjelo preuzimanje datoteke '%s' from %s : %s\n"
+
+#: src/transaction.vala src/tray.vala src/manager_window.vala
+msgid "Package Manager"
+msgstr "Upravitelj paketa"
 
 #: src/transaction.vala
 msgid "Copy"
@@ -349,12 +353,12 @@ msgid "_Close"
 msgstr "_Zatvori"
 
 #: src/transaction.vala
-msgid "Nothing to do"
-msgstr "Ništa za učiniti"
-
-#: src/transaction.vala
 msgid "Transaction successfully finished"
 msgstr "Transakcija uspješno završena"
+
+#: src/transaction.vala
+msgid "Nothing to do"
+msgstr "Ništa za učiniti"
 
 #: src/installer.vala src/manager.vala
 msgid "Pamac is already running"
@@ -367,10 +371,6 @@ msgstr "Čekam na završetak drugog upravitelja paketa"
 #: src/tray.vala src/manager_window.vala
 msgid "Your system is up-to-date"
 msgstr "Nema novih nadogradnji"
-
-#: src/tray.vala src/manager_window.vala
-msgid "Package Manager"
-msgstr "Upravitelj paketa"
 
 #: src/tray.vala
 msgid "_Quit"
@@ -650,14 +650,6 @@ msgstr "Direktorij za stvaranje paketa"
 msgid "Worldwide"
 msgstr "Globalno"
 
-#: src/preferences_dialog.vala
-msgid "Speed"
-msgstr "Brzina"
-
-#: src/preferences_dialog.vala
-msgid "Random"
-msgstr "Slučajni odabir"
-
 #: resources/choose_provider_dialog.ui
 msgid "Choose a Provider"
 msgstr "Odaberi davatelja"
@@ -749,6 +741,10 @@ msgid "Check for updates"
 msgstr "Provjeri ažuriranja"
 
 #: resources/preferences_dialog.ui
+msgid "Automatically download updates"
+msgstr "Automatsko preuzimanje ažuriranja"
+
+#: resources/preferences_dialog.ui
 msgid "Hide tray icon when no update available"
 msgstr "Sakrij ikonu na programskoj traci kada nema dostupnih ažuriranja"
 
@@ -763,10 +759,6 @@ msgstr "Općenito"
 #: resources/preferences_dialog.ui
 msgid "Use mirrors from:"
 msgstr "Koristi zrcalne poslužitelje iz:"
-
-#: resources/preferences_dialog.ui
-msgid "Sort mirrors by:"
-msgstr "Sortiraj zrcalne poslužitelje prema:"
 
 #: resources/preferences_dialog.ui
 msgid "Refresh Mirrors List"

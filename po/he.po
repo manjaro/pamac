@@ -1,7 +1,7 @@
 # Translation of Pamac.
-# Copyright (C) 2013-2017 Manjaro Developers <manjaro-dev@manjaro.org>
+# Copyright (C) 2013-2018 Manjaro Developers <manjaro-dev@manjaro.org>
 # This file is distributed under the same license as the Pamac package.
-# Guillaume Benoit <guillaume@manjaro.org>, 2013-2017.
+# Guillaume Benoit <guillaume@manjaro.org>, 2013-2018.
 # 
 # Translators:
 # Xc Vb <kassavlt@gmail.com>, 2014
@@ -13,15 +13,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2017-09-09 09:46+0200\n"
-"PO-Revision-Date: 2017-11-05 20:14+0000\n"
-"Last-Translator: Eli Shleifer <eligator@gmail.com>\n"
+"POT-Creation-Date: 2018-05-26 17:59+0200\n"
+"PO-Revision-Date: 2018-05-27 13:35+0000\n"
+"Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Hebrew (http://www.transifex.com/manjarolinux/manjaro-pamac/language/he/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: he\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;\n"
 
 #: data/polkit/org.manjaro.pamac.policy.in
 msgid "Authentication is required"
@@ -130,6 +130,10 @@ msgstr "%s נראה קטוע: %jd/%jd בייטים\n"
 #, c-format
 msgid "failed retrieving file '%s' from %s : %s\n"
 msgstr "נכשל לאחזר קובץ '%s' מתוך %s : %s\n"
+
+#: src/transaction.vala src/tray.vala src/manager_window.vala
+msgid "Package Manager"
+msgstr "מנהל חבילה"
 
 #: src/transaction.vala
 msgid "Copy"
@@ -328,6 +332,8 @@ msgid "About %lu minute remaining"
 msgid_plural "About %lu minutes remaining"
 msgstr[0] "נותרה דקה %lu לערך"
 msgstr[1] "נותרו %lu דקות לערך"
+msgstr[2] "נותרו %lu דקות לערך"
+msgstr[3] "נותרו %lu דקות לערך"
 
 #: src/transaction.vala
 #, c-format
@@ -348,12 +354,12 @@ msgid "_Close"
 msgstr "_סגור"
 
 #: src/transaction.vala
-msgid "Nothing to do"
-msgstr "אין מה לעשות"
-
-#: src/transaction.vala
 msgid "Transaction successfully finished"
 msgstr "טרנזקציה הסתיימה בהצלחה"
+
+#: src/transaction.vala
+msgid "Nothing to do"
+msgstr "אין מה לעשות"
 
 #: src/installer.vala src/manager.vala
 msgid "Pamac is already running"
@@ -367,10 +373,6 @@ msgstr "ממתין למנהל חבילות אחר לחדול מפעולתו"
 msgid "Your system is up-to-date"
 msgstr "המערכת שלך מעודכנת"
 
-#: src/tray.vala src/manager_window.vala
-msgid "Package Manager"
-msgstr "מנהל חבילה"
-
 #: src/tray.vala
 msgid "_Quit"
 msgstr "י_ציאה"
@@ -381,6 +383,8 @@ msgid "%u available update"
 msgid_plural "%u available updates"
 msgstr[0] "עדכון %u זמין"
 msgstr[1] "%u עדכונים זמינים"
+msgstr[2] "%u עדכונים זמינים"
+msgstr[3] "%u עדכונים זמינים"
 
 #: src/tray.vala src/manager_window.vala resources/progress_dialog.ui
 #: resources/manager_window.ui
@@ -417,6 +421,8 @@ msgid "%u pending operation"
 msgid_plural "%u pending operations"
 msgstr[0] "פעולה %u תלויה ועומדת"
 msgstr[1] "%u פעולות תלויות ועומדות"
+msgstr[2] "%u פעולות תלויות ועומדות"
+msgstr[3] "%u פעולות תלויות ועומדות"
 
 #: src/manager_window.vala
 msgid "Categories"
@@ -647,14 +653,6 @@ msgstr "תיקיית בנייה של חבילות AUR"
 msgid "Worldwide"
 msgstr "כלל עולמי"
 
-#: src/preferences_dialog.vala
-msgid "Speed"
-msgstr "מהירות"
-
-#: src/preferences_dialog.vala
-msgid "Random"
-msgstr "אקראי"
-
 #: resources/choose_provider_dialog.ui
 msgid "Choose a Provider"
 msgstr "בחירת ספק"
@@ -746,6 +744,10 @@ msgid "Check for updates"
 msgstr "בדוק עדכונים"
 
 #: resources/preferences_dialog.ui
+msgid "Automatically download updates"
+msgstr ""
+
+#: resources/preferences_dialog.ui
 msgid "Hide tray icon when no update available"
 msgstr "הסתר סמל מגש כאשר אין עדכונים זמינים"
 
@@ -760,10 +762,6 @@ msgstr "כללי"
 #: resources/preferences_dialog.ui
 msgid "Use mirrors from:"
 msgstr "השתמש במראות מתוך:"
-
-#: resources/preferences_dialog.ui
-msgid "Sort mirrors by:"
-msgstr "מיין מראות לפי:"
 
 #: resources/preferences_dialog.ui
 msgid "Refresh Mirrors List"
