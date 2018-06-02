@@ -1579,6 +1579,7 @@ namespace Pamac {
 				widget.has_default = true;
 				var scrolledwindow = new Gtk.ScrolledWindow (null, null);
 				var label = new Gtk.Label (warning_textbuffer.str);
+				label.selectable = true;
 				label.margin = 12;
 				scrolledwindow.visible = true;
 				label.visible = true;
@@ -1632,6 +1633,7 @@ namespace Pamac {
 			widget.has_default = true;
 			var scrolledwindow = new Gtk.ScrolledWindow (null, null);
 			var label = new Gtk.Label (textbuffer.str);
+			label.selectable = true;
 			label.margin = 12;
 			scrolledwindow.visible = true;
 			label.visible = true;
