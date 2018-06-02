@@ -7,14 +7,15 @@
 # confidential man <confidentialman21@gmail.com>, 2016
 # sivananda <kotagirisivananda@gmail.com>, 2014
 # philm <philm@manjaro.org>, 2015
+# Raushan <vraushanraja@gmail.com>, 2018
 # sivananda <kotagirisivananda@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2018-05-26 17:59+0200\n"
-"PO-Revision-Date: 2018-05-27 13:35+0000\n"
-"Last-Translator: philm <philm@manjaro.org>\n"
+"PO-Revision-Date: 2018-06-01 10:14+0000\n"
+"Last-Translator: Raushan <vraushanraja@gmail.com>\n"
 "Language-Team: Hindi (http://www.transifex.com/manjarolinux/manjaro-pamac/language/hi/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -99,7 +100,7 @@ msgstr "%s और %s संघर्ष में हैं"
 #: src/system_daemon.vala
 #, c-format
 msgid "%s needs to be removed but it is a locked package"
-msgstr ""
+msgstr "%sको हटाने की आयशकता है, लकिन यह एक अवरोधित पैकेज है | "
 
 #: src/system_daemon.vala
 msgid "Failed to commit transaction"
@@ -388,7 +389,7 @@ msgstr "विवरण"
 
 #: src/manager_window.vala
 msgid "No package found"
-msgstr ""
+msgstr "कोई पैकेज नहीं मिला"
 
 #: src/manager_window.vala
 msgid "Checking for Updates"
@@ -419,7 +420,7 @@ msgstr[1] ""
 
 #: src/manager_window.vala
 msgid "Categories"
-msgstr ""
+msgstr "श्रेणी"
 
 #: src/manager_window.vala
 msgid "Groups"
@@ -435,7 +436,7 @@ msgstr "स्थापित"
 
 #: src/manager_window.vala
 msgid "Updates"
-msgstr ""
+msgstr "अद्यतन "
 
 #: src/manager_window.vala
 msgid "Pending"
@@ -455,7 +456,7 @@ msgstr ""
 
 #: src/manager_window.vala
 msgid "Audio & Video"
-msgstr ""
+msgstr "ऑडियो और वीडियो"
 
 #: src/manager_window.vala
 msgid "Development"
@@ -463,11 +464,11 @@ msgstr ""
 
 #: src/manager_window.vala
 msgid "Education"
-msgstr ""
+msgstr "शिक्षण"
 
 #: src/manager_window.vala
 msgid "Games"
-msgstr ""
+msgstr "खेल"
 
 #: src/manager_window.vala
 msgid "Graphics"
@@ -475,15 +476,15 @@ msgstr ""
 
 #: src/manager_window.vala
 msgid "Internet"
-msgstr ""
+msgstr "इंटरनेट"
 
 #: src/manager_window.vala
 msgid "Office"
-msgstr ""
+msgstr "कार्यालय"
 
 #: src/manager_window.vala
 msgid "Science"
-msgstr ""
+msgstr "विज्ञान"
 
 #: src/manager_window.vala
 msgid "Settings"
@@ -499,7 +500,7 @@ msgstr "AUR"
 
 #: src/manager_window.vala
 msgid "Dependencies"
-msgstr ""
+msgstr "निर्भरता"
 
 #: src/manager_window.vala
 msgid "Files"
@@ -527,7 +528,7 @@ msgstr "Packager"
 
 #: src/manager_window.vala
 msgid "Build Date"
-msgstr ""
+msgstr "निर्माण तिथि "
 
 #: src/manager_window.vala
 msgid "Install Date"
@@ -547,7 +548,7 @@ msgstr "पर निर्भर करता है"
 
 #: src/manager_window.vala
 msgid "Optional Dependencies"
-msgstr ""
+msgstr "वैकल्पिक निर्भरताएँ "
 
 #: src/manager_window.vala
 msgid "Required By"
@@ -583,15 +584,15 @@ msgstr ""
 
 #: src/manager_window.vala
 msgid "Last Modified"
-msgstr ""
+msgstr "अंतिम संशोधन "
 
 #: src/manager_window.vala
 msgid "Votes"
-msgstr ""
+msgstr "मत"
 
 #: src/manager_window.vala
 msgid "Out of Date"
-msgstr ""
+msgstr "अप्रचलित"
 
 #: src/manager_window.vala
 msgid "Make Dependencies"
@@ -599,7 +600,7 @@ msgstr ""
 
 #: src/manager_window.vala
 msgid "Check Dependencies"
-msgstr ""
+msgstr "निर्भरताऒं   की जांच करें"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Search"
@@ -616,7 +617,7 @@ msgstr ""
 #: src/manager_window.vala resources/transaction_sum_dialog.ui
 #: resources/manager_window.ui resources/choose_ignorepkgs_dialog.ui
 msgid "_Cancel"
-msgstr ""
+msgstr "निरस्त करना"
 
 #: src/manager_window.vala
 msgid "_Open"
@@ -644,7 +645,7 @@ msgstr ""
 
 #: src/preferences_dialog.vala
 msgid "Worldwide"
-msgstr ""
+msgstr "दुनिया भर"
 
 #: resources/choose_provider_dialog.ui
 msgid "Choose a Provider"
@@ -652,7 +653,7 @@ msgstr ""
 
 #: resources/choose_provider_dialog.ui resources/choose_ignorepkgs_dialog.ui
 msgid "Choose"
-msgstr ""
+msgstr "चुनें"
 
 #: resources/progress_dialog.ui
 msgid "Progress"
@@ -680,11 +681,11 @@ msgstr "इतिहास देखें"
 
 #: resources/manager_window.ui resources/preferences_dialog.ui
 msgid "Preferences"
-msgstr ""
+msgstr "प्राथमिकताएं"
 
 #: resources/manager_window.ui
 msgid "About"
-msgstr ""
+msgstr "बारे में"
 
 #: resources/manager_window.ui
 msgid "State"
@@ -700,7 +701,7 @@ msgstr "आकार"
 
 #: resources/manager_window.ui
 msgid "Popularity"
-msgstr ""
+msgstr "लोकप्रियता"
 
 #: resources/manager_window.ui
 msgid "Browse"
@@ -716,7 +717,7 @@ msgstr ""
 
 #: resources/manager_window.ui
 msgid "Select All"
-msgstr ""
+msgstr "सभी का चयन करे"
 
 #: resources/preferences_dialog.ui
 msgid "Remove unrequired dependencies"
@@ -726,7 +727,7 @@ msgstr "संयुक्त राष्ट्र आवश्यक निर
 msgid ""
 "When removing a package, also remove its dependencies that are not required "
 "by other packages"
-msgstr ""
+msgstr "पैकेज को हटाने  समय उन निर्भर्ताओं को भी हटाना  जिनका उपयोग दूसरे पैकजों द्वारा  नहीं किया जा हो | "
 
 #: resources/preferences_dialog.ui
 msgid "Check available disk space"
@@ -738,7 +739,7 @@ msgstr "अद्यतनों के लिए जाँचें"
 
 #: resources/preferences_dialog.ui
 msgid "Automatically download updates"
-msgstr ""
+msgstr "अद्यतनो को स्वचालित रूप से डाउनलोड करें "
 
 #: resources/preferences_dialog.ui
 msgid "Hide tray icon when no update available"
@@ -746,7 +747,7 @@ msgstr "ट्रे आइकन मिटायें जब कोई अद�
 
 #: resources/preferences_dialog.ui
 msgid "Ignore upgrades for:"
-msgstr ""
+msgstr "इन सभी के लिए अद्यतन छोड़ें :"
 
 #: resources/preferences_dialog.ui
 msgid "General"
@@ -768,7 +769,7 @@ msgstr "आधिकारिक कोष"
 msgid ""
 "AUR is a community maintained repository so it presents potential risks and problems.\n"
 "All AUR users should be familiar with the build process."
-msgstr ""
+msgstr "AUR  एक समुदाय अनुरक्षित संग्रह है। इसलिए, यह संभावित जोखिम और समस्याओं को प्रस्तुत करता है। सभी AUR उपयोगकर्ताओं को निर्माण प्रक्रिया से परिचित होना चाहिए।"
 
 #: resources/preferences_dialog.ui
 msgid "Enable AUR support"
