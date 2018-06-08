@@ -59,7 +59,7 @@ namespace Pamac {
 		private string[] to_build;
 		private bool sysupgrade;
 		private UpdateInfos[] to_build_infos;
-		private GLib.List<string> aur_pkgbases_to_build;
+		private GenericSet<string?> aur_pkgbases_to_build;
 		private GenericSet<string?> aur_desc_list;
 		private GenericSet<string?> already_checked_aur_dep;
 		private HashTable<string, string> to_install_as_dep;
@@ -99,7 +99,7 @@ namespace Pamac {
 
 		public SystemDaemon () {
 			alpm_config = new AlpmConfig ("/etc/pacman.conf");
-			aur_pkgbases_to_build = new GLib.List<string> ();
+			aur_pkgbases_to_build = new GenericSet<string?> (str_hash, str_equal);
 			aur_desc_list = new GenericSet<string?> (str_hash, str_equal);
 			already_checked_aur_dep = new GenericSet<string?> (str_hash, str_equal);
 			to_install_as_dep = new HashTable<string, string> (str_hash, str_equal);
@@ -515,7 +515,6 @@ namespace Pamac {
 			foreach (unowned string pkgname in temporary_ignorepkgs) {
 				alpm_handle.remove_ignorepkg (pkgname);
 			}
-			temporary_ignorepkgs = {};
 		}
 
 		private AlpmPackage initialise_pkg_struct (Alpm.Package? alpm_pkg) {
@@ -913,7 +912,7 @@ namespace Pamac {
 			to_load = {};
 			to_build = to_build_;
 			to_build_infos = {};
-			aur_pkgbases_to_build = new GLib.List<string> ();
+			aur_pkgbases_to_build.remove_all ();
 			if (downloading_updates) {
 				cancellable.cancel ();
 				// let time to cancel download updates
@@ -1215,7 +1214,7 @@ namespace Pamac {
 				lockfile = GLib.File.new_for_path (alpm_handle.lockfile);
 				// fake aur db
 				alpm_handle.register_syncdb ("aur", 0);
-				// add to_build in to_install for the fake trans prpeapre
+				// add to_build in to_install for the fake trans prepare
 				foreach (unowned string name in to_build) {
 					to_install += name;
 					// check if we need to remove debug package to avoid dep problem
@@ -1306,7 +1305,7 @@ namespace Pamac {
 								if (db != null) {
 									if (db.name == "aur") {
 										// it is a aur pkg to build
-										aur_pkgbases_to_build.append (trans_pkg.pkgbase);
+										aur_pkgbases_to_build.add (trans_pkg.pkgbase);
 										var infos = UpdateInfos () {
 											name = trans_pkg.name,
 											old_version = "",
@@ -1385,7 +1384,7 @@ namespace Pamac {
 			to_load = to_load_;
 			to_build = to_build_;
 			to_build_infos = {};
-			aur_pkgbases_to_build = new GLib.List<string> ();
+			aur_pkgbases_to_build.remove_all ();
 			sysupgrade = false;
 			if (downloading_updates) {
 				cancellable.cancel ();

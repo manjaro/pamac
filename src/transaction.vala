@@ -1142,27 +1142,38 @@ namespace Pamac {
 						status = yield spawn_in_term ({"git", "clone", "https://aur.archlinux.org/%s.git".printf (pkgname)}, builddir);
 						if (status == 0) {
 							string pkgdir = "%s/%s".printf (builddir, pkgname);
-							status = yield spawn_in_term ({"makepkg", "-c"}, pkgdir);
+							status = yield spawn_in_term ({"makepkg", "-cf"}, pkgdir);
 							building = false;
 							if (status == 0) {
-								foreach (unowned string aurpkg in aur_pkgs_to_install) {
-									string standard_output;
-									try {
-										Process.spawn_command_line_sync ("find %s -name %s".printf (pkgdir, "'%s-*.pkg.tar*'".printf (aurpkg)),
-																	out standard_output,
-																	null,
-																	out status);
-										if (status == 0) {
-											foreach (unowned string path in standard_output.split ("\n")) {
-												if (path != "" && !(path in built_pkgs)) {
-													built_pkgs += path;
+								// get built pkgs path
+								var launcher = new SubprocessLauncher (SubprocessFlags.STDOUT_PIPE);
+								launcher.set_cwd (pkgdir);
+								try {
+									Subprocess process = launcher.spawnv ({"makepkg", "--packagelist"});
+									yield process.wait_async (null);
+									if (process.get_if_exited ()) {
+										status = process.get_exit_status ();
+									}
+									if (status == 0) {
+										var dis = new DataInputStream (process.get_stdout_pipe ());
+										string? line;
+										// Read lines until end of file (null) is reached
+										while ((line = dis.read_line ()) != null) {
+											var file = GLib.File.new_for_path (line);
+											string filename = file.get_basename ();
+											string name_version_release = filename.slice (0, filename.last_index_of_char ('-'));
+											string name_version = name_version_release.slice (0, name_version_release.last_index_of_char ('-'));
+											string name = name_version.slice (0, name_version.last_index_of_char ('-'));
+											if (name in aur_pkgs_to_install) {
+												if (!(line in built_pkgs)) {
+													built_pkgs += line;
 												}
 											}
 										}
-									} catch (SpawnError e) {
-										stderr.printf ("SpawnError: %s\n", e.message);
-										status = 1;
 									}
+								} catch (Error e) {
+									stderr.printf ("Error: %s\n", e.message);
+									status = 1;
 								}
 							}
 						}
@@ -1173,13 +1184,11 @@ namespace Pamac {
 				}
 			}
 			building = false;
-			if (status == 0) {
-				if (built_pkgs.length > 0) {
-					no_confirm_commit = true;
-					show_in_term ("");
-					stop_progressbar_pulse ();
-					start_trans_prepare (flags, {}, {}, built_pkgs, {});
-				}
+			if (status == 0 && built_pkgs.length > 0) {
+				no_confirm_commit = true;
+				show_in_term ("");
+				stop_progressbar_pulse ();
+				start_trans_prepare (flags, {}, {}, built_pkgs, {});
 			} else {
 				important_details_outpout (true);
 				to_load.remove_all ();
