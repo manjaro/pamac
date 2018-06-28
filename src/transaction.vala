@@ -1793,6 +1793,7 @@ namespace Pamac {
 					clear_previous_lists ();
 					if (sysupgrade_after_trans) {
 						sysupgrade_after_trans = false;
+						disconnecting_dbus_signals ();
 						sysupgrade (false);
 					} else {
 						unowned string action = dgettext (null, "Transaction successfully finished");
