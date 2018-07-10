@@ -59,7 +59,7 @@ namespace Pamac {
 		private string[] to_build;
 		private bool sysupgrade;
 		private UpdateInfos[] to_build_infos;
-		private GenericSet<string?> aur_pkgbases_to_build;
+		private GLib.List<string> aur_pkgbases_to_build;
 		private GenericSet<string?> aur_desc_list;
 		private GenericSet<string?> already_checked_aur_dep;
 		private HashTable<string, string> to_install_as_dep;
@@ -99,7 +99,7 @@ namespace Pamac {
 
 		public SystemDaemon () {
 			alpm_config = new AlpmConfig ("/etc/pacman.conf");
-			aur_pkgbases_to_build = new GenericSet<string?> (str_hash, str_equal);
+			aur_pkgbases_to_build = new GLib.List<string> ();
 			aur_desc_list = new GenericSet<string?> (str_hash, str_equal);
 			already_checked_aur_dep = new GenericSet<string?> (str_hash, str_equal);
 			to_install_as_dep = new HashTable<string, string> (str_hash, str_equal);
@@ -912,7 +912,7 @@ namespace Pamac {
 			to_load = {};
 			to_build = to_build_;
 			to_build_infos = {};
-			aur_pkgbases_to_build.remove_all ();
+			aur_pkgbases_to_build = new GLib.List<string> ();
 			if (downloading_updates) {
 				cancellable.cancel ();
 				// let time to cancel download updates
@@ -1202,7 +1202,7 @@ namespace Pamac {
 			} catch (SpawnError e) {
 				stderr.printf ("SpawnError: %s\n", e.message);
 			}
-			// get an handle without emit signal callbacks AND fake aur db
+			// get an handle with fake aur db and without emit signal callbacks
 			alpm_handle = alpm_config.get_handle ();
 			if (alpm_handle == null) {
 				current_error = ErrorInfos () {
@@ -1223,7 +1223,7 @@ namespace Pamac {
 						to_remove += debug_pkg_name;
 					}
 				}
-				// check base-devel group needed to build pkgs
+				// base-devel group is needed to build pkgs
 				var backup_to_remove = new GenericSet<string?> (str_hash, str_equal);
 				foreach (unowned string name in to_remove) {
 					backup_to_remove.add (name);
@@ -1247,7 +1247,7 @@ namespace Pamac {
 					}
 					syncdbs.next ();
 				}
-				// check git needed to build pkgs
+				// git is needed to build pkgs
 				if (Alpm.find_satisfier (alpm_handle.localdb.pkgcache, "git") == null) {
 					to_install += "git";
 				} else {
@@ -1305,7 +1305,9 @@ namespace Pamac {
 								if (db != null) {
 									if (db.name == "aur") {
 										// it is a aur pkg to build
-										aur_pkgbases_to_build.add (trans_pkg.pkgbase);
+										if (aur_pkgbases_to_build.find_custom (trans_pkg.pkgbase, strcmp) == null) {
+											aur_pkgbases_to_build.append (trans_pkg.pkgbase);
+										}
 										var infos = UpdateInfos () {
 											name = trans_pkg.name,
 											old_version = "",
@@ -1384,7 +1386,7 @@ namespace Pamac {
 			to_load = to_load_;
 			to_build = to_build_;
 			to_build_infos = {};
-			aur_pkgbases_to_build.remove_all ();
+			aur_pkgbases_to_build = new GLib.List<string> ();
 			sysupgrade = false;
 			if (downloading_updates) {
 				cancellable.cancel ();
