@@ -1,15 +1,16 @@
 # Translation of Pamac.
-# Copyright (C) 2013-2017 Manjaro Developers <manjaro-dev@manjaro.org>
+# Copyright (C) 2013-2018 Manjaro Developers <manjaro-dev@manjaro.org>
 # This file is distributed under the same license as the Pamac package.
-# Guillaume Benoit <guillaume@manjaro.org>, 2013-2017.
+# Guillaume Benoit <guillaume@manjaro.org>, 2013-2018.
 # 
 # Translators:
+# Zmicer Turok <zmicerturok@gmail.com>, 2018
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2017-09-09 09:46+0200\n"
-"PO-Revision-Date: 2018-05-21 08:59+0000\n"
+"POT-Creation-Date: 2018-05-26 17:59+0200\n"
+"PO-Revision-Date: 2018-06-27 20:00+0000\n"
 "Last-Translator: Zmicer Turok <zmicerturok@gmail.com>\n"
 "Language-Team: Belarusian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/be/)\n"
 "MIME-Version: 1.0\n"
@@ -125,6 +126,10 @@ msgstr "%s здаецца, паменшаны на: %jd/%jd байтаў\n"
 #, c-format
 msgid "failed retrieving file '%s' from %s : %s\n"
 msgstr "памылка атрымання файла '%s' з %s : %s\n"
+
+#: src/transaction.vala src/tray.vala src/manager_window.vala
+msgid "Package Manager"
+msgstr "Кіраўнік пакункаў"
 
 #: src/transaction.vala
 msgid "Copy"
@@ -345,12 +350,12 @@ msgid "_Close"
 msgstr "_Закрыць"
 
 #: src/transaction.vala
-msgid "Nothing to do"
-msgstr "Няма задач"
-
-#: src/transaction.vala
 msgid "Transaction successfully finished"
 msgstr "Транзакцыя паспяхова завершана"
+
+#: src/transaction.vala
+msgid "Nothing to do"
+msgstr "Няма задач"
 
 #: src/installer.vala src/manager.vala
 msgid "Pamac is already running"
@@ -364,10 +369,6 @@ msgstr "Чаканне закрыцця іншага кіраўніка паку
 msgid "Your system is up-to-date"
 msgstr "Сістэма абноўлена"
 
-#: src/tray.vala src/manager_window.vala
-msgid "Package Manager"
-msgstr "Кіраўнік пакункаў"
-
 #: src/tray.vala
 msgid "_Quit"
 msgstr "_Выйсці"
@@ -376,10 +377,10 @@ msgstr "_Выйсці"
 #, c-format
 msgid "%u available update"
 msgid_plural "%u available updates"
-msgstr[0] "%u абнаўленне даступна"
-msgstr[1] "%u абнаўленні даступна"
-msgstr[2] "%u абнаўленняў даступна"
-msgstr[3] "%u абнаўленняў даступна"
+msgstr[0] "даступна %u абнаўленне"
+msgstr[1] "даступна %u абнаўленні"
+msgstr[2] "даступна %u абнаўленняў"
+msgstr[3] "даступна %u абнаўленняў"
 
 #: src/tray.vala src/manager_window.vala resources/progress_dialog.ui
 #: resources/manager_window.ui
@@ -388,7 +389,7 @@ msgstr "Падрабязнасці"
 
 #: src/manager_window.vala
 msgid "No package found"
-msgstr "Пакунак не знойдзены"
+msgstr "Пакункаў не знойдзена"
 
 #: src/manager_window.vala
 msgid "Checking for Updates"
@@ -648,14 +649,6 @@ msgstr "Каталог зборкі"
 msgid "Worldwide"
 msgstr "Сусветны"
 
-#: src/preferences_dialog.vala
-msgid "Speed"
-msgstr "Хуткасць"
-
-#: src/preferences_dialog.vala
-msgid "Random"
-msgstr "Выпадкова"
-
 #: resources/choose_provider_dialog.ui
 msgid "Choose a Provider"
 msgstr "Абраць пастаўшчыка"
@@ -744,7 +737,11 @@ msgstr "Праверка даступнай на дыску прасторы"
 
 #: resources/preferences_dialog.ui
 msgid "Check for updates"
-msgstr "Праверыць на абнаўленні"
+msgstr "Правяраць на абнаўленні"
+
+#: resources/preferences_dialog.ui
+msgid "Automatically download updates"
+msgstr "Аўтаматычна спампоўваць абнаўленні"
 
 #: resources/preferences_dialog.ui
 msgid "Hide tray icon when no update available"
@@ -761,10 +758,6 @@ msgstr "Асноўныя"
 #: resources/preferences_dialog.ui
 msgid "Use mirrors from:"
 msgstr "Выкарыстоўваць люстэркі з:"
-
-#: resources/preferences_dialog.ui
-msgid "Sort mirrors by:"
-msgstr "Упарадкаваць люстэркі па:"
 
 #: resources/preferences_dialog.ui
 msgid "Refresh Mirrors List"

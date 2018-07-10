@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2018-05-26 17:59+0200\n"
-"PO-Revision-Date: 2018-06-01 10:14+0000\n"
+"PO-Revision-Date: 2018-07-08 01:43+0000\n"
 "Last-Translator: Raushan <vraushanraja@gmail.com>\n"
 "Language-Team: Hindi (http://www.transifex.com/manjarolinux/manjaro-pamac/language/hi/)\n"
 "MIME-Version: 1.0\n"
@@ -137,7 +137,7 @@ msgstr "संकुल प्रबंधक"
 
 #: src/transaction.vala
 msgid "Copy"
-msgstr ""
+msgstr "प्रतिलिपि"
 
 #: src/transaction.vala
 msgid "Refreshing mirrors list"

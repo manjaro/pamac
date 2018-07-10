@@ -4,13 +4,14 @@
 # Guillaume Benoit <guillaume@manjaro.org>, 2013-2018.
 # 
 # Translators:
+# Germán Leonardo Vaja <german.vaja@gmail.com>, 2018
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2018-05-26 17:59+0200\n"
-"PO-Revision-Date: 2018-05-27 13:35+0000\n"
-"Last-Translator: philm <philm@manjaro.org>\n"
+"PO-Revision-Date: 2018-06-28 18:08+0000\n"
+"Last-Translator: Germán Leonardo Vaja <german.vaja@gmail.com>\n"
 "Language-Team: Spanish (Argentina) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/es_AR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -24,7 +25,7 @@ msgstr ""
 
 #: src/user_daemon.vala
 msgid "Unknown"
-msgstr ""
+msgstr "Desconocido"
 
 #: src/user_daemon.vala src/manager_window.vala
 msgid "Explicitly installed"
@@ -36,11 +37,11 @@ msgstr ""
 
 #: src/user_daemon.vala
 msgid "Yes"
-msgstr ""
+msgstr "Si"
 
 #: src/user_daemon.vala
 msgid "No"
-msgstr ""
+msgstr "No"
 
 #: src/system_daemon.vala
 msgid "Failed to initialize alpm library"
@@ -132,7 +133,7 @@ msgstr ""
 
 #: src/transaction.vala
 msgid "Copy"
-msgstr ""
+msgstr "Copiar"
 
 #: src/transaction.vala
 msgid "Refreshing mirrors list"
@@ -148,7 +149,7 @@ msgstr ""
 
 #: src/transaction.vala
 msgid "Preparing"
-msgstr ""
+msgstr "Preparando"
 
 #: src/transaction.vala
 #, c-format
@@ -269,7 +270,7 @@ msgstr ""
 
 #: src/transaction.vala
 msgid "Downloading"
-msgstr ""
+msgstr "Descargando"
 
 #: src/transaction.vala
 #, c-format
@@ -335,11 +336,11 @@ msgstr ""
 
 #: src/transaction.vala
 msgid "Error"
-msgstr ""
+msgstr "Error"
 
 #: src/transaction.vala
 msgid "Warning"
-msgstr ""
+msgstr "Advertencia"
 
 #: src/transaction.vala resources/progress_dialog.ui
 #: resources/history_dialog.ui resources/preferences_dialog.ui
@@ -380,7 +381,7 @@ msgstr[1] ""
 #: src/tray.vala src/manager_window.vala resources/progress_dialog.ui
 #: resources/manager_window.ui
 msgid "Details"
-msgstr ""
+msgstr "Detalles"
 
 #: src/manager_window.vala
 msgid "No package found"
@@ -392,19 +393,19 @@ msgstr ""
 
 #: src/manager_window.vala
 msgid "Deselect"
-msgstr ""
+msgstr "Deseleccionar"
 
 #: src/manager_window.vala
 msgid "Upgrade"
-msgstr ""
+msgstr "Actualizar"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Install"
-msgstr ""
+msgstr "Instalar"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Remove"
-msgstr ""
+msgstr "Remover"
 
 #: src/manager_window.vala
 #, c-format
@@ -483,15 +484,15 @@ msgstr ""
 
 #: src/manager_window.vala
 msgid "Settings"
-msgstr ""
+msgstr "Opciones"
 
 #: src/manager_window.vala
 msgid "System Tools"
-msgstr ""
+msgstr "Herramientas del Sistema"
 
 #: src/manager_window.vala resources/preferences_dialog.ui
 msgid "AUR"
-msgstr ""
+msgstr "AUR"
 
 #: src/manager_window.vala
 msgid "Dependencies"
@@ -499,7 +500,7 @@ msgstr ""
 
 #: src/manager_window.vala
 msgid "Files"
-msgstr ""
+msgstr "Archivos"
 
 #: src/manager_window.vala
 msgid "Install Reason"
@@ -583,7 +584,7 @@ msgstr ""
 
 #: src/manager_window.vala
 msgid "Votes"
-msgstr ""
+msgstr "Votos"
 
 #: src/manager_window.vala
 msgid "Out of Date"
@@ -599,11 +600,11 @@ msgstr ""
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Search"
-msgstr ""
+msgstr "Buscar"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Name"
-msgstr ""
+msgstr "Nombre"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Install Local Packages"
@@ -692,7 +693,7 @@ msgstr ""
 
 #: resources/manager_window.ui
 msgid "Size"
-msgstr ""
+msgstr "Tamaño"
 
 #: resources/manager_window.ui
 msgid "Popularity"
@@ -746,7 +747,7 @@ msgstr ""
 
 #: resources/preferences_dialog.ui
 msgid "General"
-msgstr ""
+msgstr "General"
 
 #: resources/preferences_dialog.ui
 msgid "Use mirrors from:"
@@ -784,11 +785,11 @@ msgstr ""
 
 #: resources/preferences_dialog.ui
 msgid "Clean cache"
-msgstr ""
+msgstr "Limpiar cache"
 
 #: resources/preferences_dialog.ui
 msgid "Cache"
-msgstr ""
+msgstr "Cache"
 
 #: resources/choose_ignorepkgs_dialog.ui
 msgid "Choose Ignored Upgrades"

@@ -1,10 +1,11 @@
 # Translation of Pamac.
-# Copyright (C) 2013-2017 Manjaro Developers <manjaro-dev@manjaro.org>
+# Copyright (C) 2013-2018 Manjaro Developers <manjaro-dev@manjaro.org>
 # This file is distributed under the same license as the Pamac package.
-# Guillaume Benoit <guillaume@manjaro.org>, 2013-2017.
+# Guillaume Benoit <guillaume@manjaro.org>, 2013-2018.
 # 
 # Translators:
 # Cybertramp <paran_son@outlook.com>, 2018
+# Dongyun KIm <104arb@gmail.com>, 2018
 # Eric Park <ideamaneric@gmail.com>, 2017
 # lego37yoon <lego37yoon@outlook.com>, 2013
 # lego37yoon <lego37yoon@outlook.com>, 2013
@@ -14,9 +15,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2017-09-09 09:46+0200\n"
-"PO-Revision-Date: 2018-04-27 15:43+0000\n"
-"Last-Translator: Cybertramp <paran_son@outlook.com>\n"
+"POT-Creation-Date: 2018-05-26 17:59+0200\n"
+"PO-Revision-Date: 2018-06-30 16:19+0000\n"
+"Last-Translator: Dongyun KIm <104arb@gmail.com>\n"
 "Language-Team: Korean (http://www.transifex.com/manjarolinux/manjaro-pamac/language/ko/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -131,6 +132,10 @@ msgstr "%s 는 잘린 것으로 보임: %jd / %jd bytes\n"
 #, c-format
 msgid "failed retrieving file '%s' from %s : %s\n"
 msgstr "%s : %s로 부터 파일 가져오기 실패 '%s' \n"
+
+#: src/transaction.vala src/tray.vala src/manager_window.vala
+msgid "Package Manager"
+msgstr "패키지 매니저"
 
 #: src/transaction.vala
 msgid "Copy"
@@ -348,12 +353,12 @@ msgid "_Close"
 msgstr "_닫기"
 
 #: src/transaction.vala
-msgid "Nothing to do"
-msgstr "아무 것도 할 것이 없습니다"
-
-#: src/transaction.vala
 msgid "Transaction successfully finished"
 msgstr "트랜잭션을 성공적으로 완료했습니다"
+
+#: src/transaction.vala
+msgid "Nothing to do"
+msgstr "아무 것도 할 것이 없습니다"
 
 #: src/installer.vala src/manager.vala
 msgid "Pamac is already running"
@@ -366,10 +371,6 @@ msgstr "다른 패키지 매니저가 종료되기를 기다리는 중입니다"
 #: src/tray.vala src/manager_window.vala
 msgid "Your system is up-to-date"
 msgstr "당신의 시스템은 최신 상태입니다."
-
-#: src/tray.vala src/manager_window.vala
-msgid "Package Manager"
-msgstr "패키지 매니저"
 
 #: src/tray.vala
 msgid "_Quit"
@@ -645,14 +646,6 @@ msgstr "빌드 디렉토리"
 msgid "Worldwide"
 msgstr "세계적"
 
-#: src/preferences_dialog.vala
-msgid "Speed"
-msgstr "속도"
-
-#: src/preferences_dialog.vala
-msgid "Random"
-msgstr "무작위"
-
 #: resources/choose_provider_dialog.ui
 msgid "Choose a Provider"
 msgstr "제공자 선택"
@@ -744,6 +737,10 @@ msgid "Check for updates"
 msgstr "업데이트 확인"
 
 #: resources/preferences_dialog.ui
+msgid "Automatically download updates"
+msgstr "업데이트를 자동으로 다운로드"
+
+#: resources/preferences_dialog.ui
 msgid "Hide tray icon when no update available"
 msgstr "이용가능한 업데이트가 없을 때 트레이 아이콘 숨김"
 
@@ -758,10 +755,6 @@ msgstr "일반"
 #: resources/preferences_dialog.ui
 msgid "Use mirrors from:"
 msgstr "미러를 사용:"
-
-#: resources/preferences_dialog.ui
-msgid "Sort mirrors by:"
-msgstr "미러에 의해 정렬:"
 
 #: resources/preferences_dialog.ui
 msgid "Refresh Mirrors List"
