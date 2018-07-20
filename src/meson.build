@@ -35,7 +35,7 @@ transaction_sources = ['transaction.vala', 'choose_provider_dialog.vala', 'trans
 preferences_sources = ['preferences_dialog.vala', 'choose_ignorepkgs_dialog.vala']
 
 executable('pamac',
-	sources: ['cli.vala', 'common.vala', 'package.vala', 'pamac_config.vala'],
+	sources: [common_sources, 'version.vala','cli.vala'],
 	dependencies: [gio, posix, math],
 	vala_args: [common_vala_args, '--pkg=linux'],
 	c_args: common_c_args,
@@ -89,7 +89,7 @@ libpamac = library('pamac',
 libpamac_dep = declare_dependency(link_with: libpamac)
 
 executable('pamac-manager',
-	sources: ['history_dialog.vala', 'manager_window.vala', 'manager.vala', manager_resources],
+	sources: ['version.vala', 'history_dialog.vala', 'manager_window.vala', 'manager.vala', manager_resources],
 	dependencies: [vala_deps, gtk3, gdk3, gdk_pixbuf2, libsoup, libpamac_dep],
 	vala_args: common_vala_args,
 	c_args: common_c_args,

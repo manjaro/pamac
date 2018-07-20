@@ -17,8 +17,6 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-const string VERSION = "6.5.0";
-
 namespace Pamac {
 	[DBus (name = "org.manjaro.pamac.user")]
 	interface UserDaemon : Object {
@@ -548,7 +546,7 @@ namespace Pamac {
 		}
 
 		void display_version () {
-			stdout.printf ("Pamac v%s\n", VERSION);
+			stdout.printf ("Pamac %s\n", VERSION);
 		}
 
 		void display_help () {
@@ -719,7 +717,7 @@ namespace Pamac {
 		}
 
 		void display_reinstall_help () {
-			stdout.printf (dgettext (null, "Reinstall packages from the repositories"));
+			stdout.printf (dgettext (null, "Reinstall packages"));
 			stdout.printf ("\n\n");
 			stdout.printf ("pamac reinstall <%s>".printf ("%s,%s".printf (dgettext (null, "package(s)"), dgettext (null, "group(s)"))));
 			stdout.printf ("\n\n");
@@ -1526,7 +1524,7 @@ namespace Pamac {
 			user_daemon.get_updates_finished.disconnect (on_get_updates_for_sysupgrade_finished);
 			uint updates_nb = updates.repos_updates.length + updates.aur_updates.length;
 			if (updates_nb == 0) {
-				stdout.printf ("%s\n", dgettext (null, "Your system is up-do-date"));
+				stdout.printf ("%s\n", dgettext (null, "Your system is up-to-date"));
 			} else {
 				// special status when updates are available
 				cmd.set_exit_status (100);
