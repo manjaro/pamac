@@ -1781,12 +1781,48 @@ namespace Pamac {
 		}
 
 		void remove_pkgs (string[] names, bool recurse = false) {
-			stdout.printf (dgettext (null, "Preparing") + "...\n");
-			to_remove = names;
-			transflags = (1 << 4); //Alpm.TransFlag.CASCADE
+			bool group_found = false;
+			try {
+				foreach (unowned string name in names) {
+					bool found = false;
+					var local_pkg = user_daemon.get_installed_pkg (name);
+					if (local_pkg.name != "") {
+						to_remove += name;
+						found = true;
+					} else {
+						string[] groupnames = user_daemon.get_groups_names ();
+						if (name in groupnames) {
+							found = true;
+							var pkgs = user_daemon.get_group_pkgs_sync (name);
+							foreach (unowned AlpmPackage pkg in pkgs) {
+								if (pkg.version == pkg.installed_version) {
+									to_remove += pkg.name;
+									group_found = true;
+								}
+							}
+						}
+					}
+					if (!found) {
+						print_error (dgettext (null, "target not found: %s").printf (name));
+						return;
+					}
+				}
+			} catch (Error e) {
+				print_error (e.message);
+			}
+			if (to_remove.length == 0) {
+				stdout.printf (dgettext (null, "Nothing to do") + ".\n");
+				return;
+			}
+			if (group_found) {
+				transflags |= (1 << 15); //Alpm.TransFlag.UNNEEDED
+			} else {
+				transflags |= (1 << 4); //Alpm.TransFlag.CASCADE
+			}
 			if (recurse) {
 				transflags |= (1 << 5); //Alpm.TransFlag.RECURSE
 			}
+			stdout.printf (dgettext (null, "Preparing") + "...\n");
 			this.hold ();
 			start_trans_prepare ();
 		}
