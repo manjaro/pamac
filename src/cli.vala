@@ -559,6 +559,7 @@ namespace Pamac {
 								"info",
 								"list",
 								"install",
+								"reinstall",
 								"build",
 								"remove",
 								"update,upgrade"};
@@ -567,6 +568,7 @@ namespace Pamac {
 										"info",
 										"list",
 										"install",
+										"reinstall",
 										"build",
 										"remove",
 										"update,upgrade"};
@@ -574,6 +576,7 @@ namespace Pamac {
 										"info",
 										"list",
 										"install",
+										"reinstall",
 										"build",
 										"remove",
 										"update,upgrade"};
@@ -700,7 +703,7 @@ namespace Pamac {
 		}
 
 		void display_install_help () {
-			stdout.printf (dgettext (null, "Install packages from the repositories"));
+			stdout.printf (dgettext (null, "Install packages from repositories, path or url"));
 			stdout.printf ("\n\n");
 			stdout.printf ("pamac install [%s] <%s>".printf (dgettext (null, "options"), "%s,%s".printf (dgettext (null, "package(s)"), dgettext (null, "group(s)"))));
 			stdout.printf ("\n\n");
