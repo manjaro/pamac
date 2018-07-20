@@ -181,6 +181,8 @@ namespace Pamac {
 						display_build_help ();
 					} else if (args[2] == "install") {
 						display_install_help ();
+					} else if (args[2] == "reinstall") {
+						display_reinstall_help ();
 					} else if (args[2] == "remove") {
 						display_remove_help ();
 					} else if (args[2] == "checkupdates") {
@@ -304,6 +306,16 @@ namespace Pamac {
 					}
 				} else {
 					display_install_help ();
+				}
+			} else if (args[1] == "reinstall") {
+				if (args.length > 2) {
+					if (args[2] == "--help" || args[2] == "-h") {
+						display_reinstall_help ();
+					} else {
+						reinstall_pkgs (args[2:args.length]);
+					}
+				} else {
+					display_reinstall_help ();
 				}
 			} else if (args[1] == "remove") {
 				if (args.length > 2) {
@@ -690,7 +702,7 @@ namespace Pamac {
 		void display_install_help () {
 			stdout.printf (dgettext (null, "Install packages from the repositories"));
 			stdout.printf ("\n\n");
-			stdout.printf ("pamac install [%s] <%s>".printf (dgettext (null, "options"), dgettext (null, "package(s)")));
+			stdout.printf ("pamac install [%s] <%s>".printf (dgettext (null, "options"), "%s,%s".printf (dgettext (null, "package(s)"), dgettext (null, "group(s)"))));
 			stdout.printf ("\n\n");
 			stdout.printf (dgettext (null, "options") + ":\n");
 			int max_length = 25;
@@ -703,10 +715,17 @@ namespace Pamac {
 			}
 		}
 
+		void display_reinstall_help () {
+			stdout.printf (dgettext (null, "Reinstall packages from the repositories"));
+			stdout.printf ("\n\n");
+			stdout.printf ("pamac reinstall <%s>".printf ("%s,%s".printf (dgettext (null, "package(s)"), dgettext (null, "group(s)"))));
+			stdout.printf ("\n\n");
+		}
+
 		void display_remove_help () {
 			stdout.printf (dgettext (null, "Remove packages"));
 			stdout.printf ("\n\n");
-			stdout.printf ("pamac remove [%s] [%s]".printf (dgettext (null, "options"), dgettext (null, "package(s)")));
+			stdout.printf ("pamac remove [%s] [%s]".printf (dgettext (null, "options"), "%s,%s".printf (dgettext (null, "package(s)"), dgettext (null, "group(s)"))));
 			stdout.printf ("\n\n");
 			stdout.printf (dgettext (null, "options") + ":\n");
 			int max_length = 15;
@@ -1394,7 +1413,7 @@ namespace Pamac {
 				try {
 					var pkgs = user_daemon.get_group_pkgs_sync (name);
 					if (pkgs.length == 0) {
-						print_error (dgettext (null, "target not found: %s").printf (name) + "\n");
+						print_error (dgettext (null, "target not found: %s").printf (name));
 					} else {
 						print_pkgs (pkgs, true);
 					}
@@ -1421,7 +1440,7 @@ namespace Pamac {
 				try {
 					var pkgs = user_daemon.get_repo_pkgs_sync (name);
 					if (pkgs.length == 0) {
-						print_error (dgettext (null, "target not found: %s").printf (name) + "\n");
+						print_error (dgettext (null, "target not found: %s").printf (name));
 					} else {
 						print_pkgs (pkgs, true);
 					}
@@ -1437,7 +1456,7 @@ namespace Pamac {
 				try {
 					string[] files = user_daemon.get_pkg_files (name);
 					if (files.length == 0) {
-						print_error (dgettext (null, "target not found: %s").printf (name) + "\n");
+						print_error (dgettext (null, "target not found: %s").printf (name));
 					} else {
 						foreach (unowned string path in files) {
 							stdout.printf ("%s\n", path);
@@ -1562,6 +1581,7 @@ namespace Pamac {
 		void install_pkgs (string[] targets) {
 			try {
 				foreach (unowned string target in targets) {
+					bool found = false;
 					// check for local or remote path
 					if (".pkg.tar" in target) {
 						if ("://" in target) {
@@ -1571,13 +1591,12 @@ namespace Pamac {
 								string? absolute_path = file.get_path ();
 								if (absolute_path != null) {
 									to_load += absolute_path;
-								} else {
-									print_error (dgettext (null, "target not found: %s").printf (target) + "\n");
-									return;
+									found = true;
 								}
 							} else {
-								// add url in to_load, pkg will be donwload by system_daemon
+								// add url in to_load, pkg will be downloaded by system_daemon
 								to_load += target;
+								found = true;
 							}
 						} else {
 							// handle local or absolute path
@@ -1585,33 +1604,36 @@ namespace Pamac {
 							string? absolute_path = file.get_path ();
 							if (absolute_path != null) {
 								to_load += absolute_path;
-							} else {
-								print_error (dgettext (null, "target not found: %s").printf (target) + "\n");
-								return;
+								found = true;
 							}
 						}
 					} else {
 						var pkg = user_daemon.find_sync_satisfier (target);
 						if (pkg.name != "") {
 							to_install += target;
+							found = true;
 						} else {
 							string[] groupnames = user_daemon.get_groups_names ();
 							if (target in groupnames) {
 								ask_group_confirmation (target);
-							} else {
-								print_error (dgettext (null, "target not found: %s").printf (target) + "\n");
-								return;
+								found = true;
 							}
 						}
+					}
+					if (!found) {
+						print_error (dgettext (null, "target not found: %s").printf (target));
+						return;
 					}
 				}
 			} catch (Error e) {
 				print_error (e.message);
 			}
 			if (to_install.length == 0 && to_load.length == 0) {
-				// nothing to do
+				stdout.printf (dgettext (null, "Nothing to do") + ".\n");
 				return;
 			}
+			// do not install a package if it is already installed and up to date
+			transflags = (1 << 13); //Alpm.TransFlag.NEEDED
 			stdout.printf (dgettext (null, "Preparing") + "...\n");
 			this.hold ();
 			start_trans_prepare ();
@@ -1708,6 +1730,54 @@ namespace Pamac {
 			} catch (Error e) {
 				print_error (e.message);
 			}
+		}
+
+		void reinstall_pkgs (string[] names) {
+			try {
+				foreach (unowned string name in names) {
+					bool found = false;
+					string version = "";
+					var local_pkg = user_daemon.get_installed_pkg (name);
+					if (local_pkg.name != "") {
+						version = local_pkg.version;
+						var sync_pkg = user_daemon.get_sync_pkg (name);
+						if (sync_pkg.name != "") {
+							if (local_pkg.version == sync_pkg.version) {
+								to_install += name;
+								found = true;
+							}
+						}
+					} else {
+						string[] groupnames = user_daemon.get_groups_names ();
+						if (name in groupnames) {
+							found = true;
+							var pkgs = user_daemon.get_group_pkgs_sync (name);
+							foreach (unowned AlpmPackage pkg in pkgs) {
+								if (pkg.version == pkg.installed_version) {
+									to_install += name;
+								}
+							}
+						}
+					}
+					if (!found) {
+						if (version == "") {
+							print_error (dgettext (null, "target not found: %s").printf (name));
+						} else {
+							print_error (dgettext (null, "target not found: %s").printf (name + "-" + version));
+						}
+						return;
+					}
+				}
+			} catch (Error e) {
+				print_error (e.message);
+			}
+			if (to_install.length == 0 && to_load.length == 0) {
+				stdout.printf (dgettext (null, "Nothing to do") + ".\n");
+				return;
+			}
+			stdout.printf (dgettext (null, "Preparing") + "...\n");
+			this.hold ();
+			start_trans_prepare ();
 		}
 
 		void remove_pkgs (string[] names, bool recurse = false) {

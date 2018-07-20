@@ -808,9 +808,9 @@ namespace Pamac {
 			details.packagebase = (owned) packagebase;
 			details.url = (owned) url;
 			details.maintainer = (owned) maintainer ;
-			details.firstsubmitted = firstsubmitted;
-			details.lastmodified = lastmodified;
-			details.outofdate = outofdate;
+			details.firstsubmitted = (owned) firstsubmitted;
+			details.lastmodified = (owned) lastmodified;
+			details.outofdate = (owned) outofdate;
 			details.numvotes = numvotes;
 			details.licenses = (owned) licenses;
 			details.depends = (owned) depends;
