@@ -39,6 +39,7 @@ namespace Pamac {
 		public string long_desc;
 		public string repo;
 		public uint origin;
+		public uint64 size;
 		public string url;
 		public string icon;
 		public string screenshot;

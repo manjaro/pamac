@@ -121,6 +121,9 @@ namespace Pamac {
 			} else {
 				locale = "C";
 			}
+		}
+
+		public void enable_appstream () throws Error {
 			try {
 				app_store.load (As.StoreLoadFlags.APP_INFO_SYSTEM);
 				app_store.set_search_match (As.AppSearchMatch.PKGNAME
@@ -418,6 +421,10 @@ namespace Pamac {
 		}
 
 		public async AlpmPackage[] get_installed_pkgs () throws Error {
+			return get_installed_pkgs_sync ();
+		}
+
+		public AlpmPackage[] get_installed_pkgs_sync () throws Error {
 			AlpmPackage[] pkgs = {};
 			unowned Alpm.List<unowned Alpm.Package> pkgcache = alpm_handle.localdb.pkgcache;
 			while (pkgcache != null) {
@@ -472,6 +479,10 @@ namespace Pamac {
 		}
 
 		public async AlpmPackage[] get_foreign_pkgs () throws Error {
+			return get_foreign_pkgs_sync ();
+		}
+
+		public AlpmPackage[] get_foreign_pkgs_sync () throws Error {
 			AlpmPackage[] pkgs = {};
 			unowned Alpm.List<unowned Alpm.Package> pkgcache = alpm_handle.localdb.pkgcache;
 			while (pkgcache != null) {
@@ -498,6 +509,10 @@ namespace Pamac {
 		}
 
 		public async AlpmPackage[] get_orphans () throws Error {
+			return get_orphans_sync ();
+		}
+
+		public AlpmPackage[] get_orphans_sync () throws Error {
 			AlpmPackage[] pkgs = {};
 			unowned Alpm.List<unowned Alpm.Package> pkgcache = alpm_handle.localdb.pkgcache;
 			while (pkgcache != null) {
@@ -613,6 +628,10 @@ namespace Pamac {
 		}
 
 		public async AlpmPackage[] search_pkgs (string search_string) throws Error {
+			return search_pkgs_sync (search_string);
+		}
+
+		public AlpmPackage[] search_pkgs_sync (string search_string) throws Error {
 			AlpmPackage[] pkgs = {};
 			Alpm.List<unowned Alpm.Package> alpm_pkgs = search_all_dbs (search_string);
 			unowned Alpm.List<unowned Alpm.Package> list = alpm_pkgs;
@@ -816,6 +835,10 @@ namespace Pamac {
 		}
 
 		public async AlpmPackage[] get_repo_pkgs (string repo) throws Error {
+			return get_repo_pkgs_sync (repo);
+		}
+
+		public AlpmPackage[] get_repo_pkgs_sync (string repo) throws Error {
 			AlpmPackage[] pkgs = {};
 			unowned Alpm.List<unowned Alpm.DB> syncdbs = alpm_handle.syncdbs;
 			while (syncdbs != null) {
@@ -900,6 +923,10 @@ namespace Pamac {
 		}
 
 		public async AlpmPackage[] get_group_pkgs (string groupname) throws Error {
+			return get_group_pkgs_sync (groupname);
+		}
+
+		public AlpmPackage[] get_group_pkgs_sync (string groupname) throws Error {
 			AlpmPackage[] pkgs = {};
 			Alpm.List<unowned Alpm.Package> alpm_pkgs = group_pkgs (groupname);
 			unowned Alpm.List<unowned Alpm.Package> list = alpm_pkgs;
@@ -1046,6 +1073,7 @@ namespace Pamac {
 					}
 				}
 				details.origin = (uint) alpm_pkg.origin;
+				details.size = alpm_pkg.isize;
 				// url can be null
 				if (alpm_pkg.url != null) {
 					url = alpm_pkg.url;
@@ -1179,7 +1207,7 @@ namespace Pamac {
 				Alpm.File* file_ptr = filelist.files;
 				for (size_t i = 0; i < filelist.count; i++, file_ptr++) {
 					if (!file_ptr->name.has_suffix ("/")) {
-						files += "/" + file_ptr->name;
+						files += alpm_handle.root + file_ptr->name;
 					}
 				}
 			} else {
@@ -1192,7 +1220,7 @@ namespace Pamac {
 						Alpm.File* file_ptr = filelist.files;
 						for (size_t i = 0; i < filelist.count; i++, file_ptr++) {
 							if (!file_ptr->name.has_suffix ("/")) {
-								files += "/" + file_ptr->name;
+								files += alpm_handle.root + file_ptr->name;
 							}
 						}
 						break;
@@ -1201,6 +1229,34 @@ namespace Pamac {
 				}
 			}
 			return files;
+		}
+
+		public HashTable<string, Variant> search_files (string[] files) throws Error {
+			var result = new HashTable<string, Variant> (str_hash, str_equal);
+			unowned Alpm.List<unowned Alpm.Package> pkgcache = alpm_handle.localdb.pkgcache;
+			while (pkgcache != null) {
+				unowned Alpm.Package alpm_pkg = pkgcache.data;
+				string[] found = {};
+				unowned Alpm.FileList filelist = alpm_pkg.files;
+				Alpm.File* file_ptr = filelist.files;
+				for (size_t i = 0; i < filelist.count; i++, file_ptr++) {
+					foreach (string file in files) {
+						// exclude directory name
+						if (!file_ptr->name.has_suffix ("/")) {
+							// adding / to compare
+							string real_file_name = alpm_handle.root + file_ptr->name;
+							if (file in real_file_name) {
+								found += real_file_name;
+							}
+						}
+					}
+				}
+				if (found.length > 0) {
+					result.insert (alpm_pkg.name, new Variant.strv (found));
+				}
+				pkgcache.next ();
+			}
+			return result;
 		}
 
 		private int get_updates () {

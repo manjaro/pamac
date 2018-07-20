@@ -18,22 +18,14 @@
  */
 
 namespace Pamac {
-	public struct UpdateInfos {
-		public string name;
-		public string old_version;
-		public string new_version;
-		public string repo;
-		public uint64 download_size;
-	}
-
 	public struct TransactionSummary {
-		public UpdateInfos[] to_install;
-		public UpdateInfos[] to_upgrade;
-		public UpdateInfos[] to_downgrade;
-		public UpdateInfos[] to_reinstall;
-		public UpdateInfos[] to_remove;
-		public UpdateInfos[] to_build;
-		public UpdateInfos[] aur_conflicts_to_remove;
+		public AlpmPackage[] to_install;
+		public AlpmPackage[] to_upgrade;
+		public AlpmPackage[] to_downgrade;
+		public AlpmPackage[] to_reinstall;
+		public AlpmPackage[] to_remove;
+		public AURPackage[] to_build;
+		public AURPackage[] aur_conflicts_to_remove;
 		public string[] aur_pkgbases_to_build;
 	}
 
@@ -44,7 +36,7 @@ namespace Pamac {
 	}
 
 	public struct ErrorInfos {
-		public uint errno;
+		public uint no;
 		public string message;
 		public string[] details;
 		public ErrorInfos () {

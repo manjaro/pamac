@@ -34,6 +34,13 @@ common_sources = ['common.vala', 'package.vala', 'pamac_config.vala']
 transaction_sources = ['transaction.vala', 'choose_provider_dialog.vala', 'transaction_sum_dialog.vala', 'progress_box.vala']
 preferences_sources = ['preferences_dialog.vala', 'choose_ignorepkgs_dialog.vala']
 
+executable('pamac',
+	sources: ['cli.vala', 'common.vala', 'package.vala', 'pamac_config.vala'],
+	dependencies: [gio, posix, math],
+	vala_args: [common_vala_args, '--pkg=linux'],
+	c_args: common_c_args,
+	install: true)
+
 executable('pamac-clean-cache',
 	sources: ['pamac_config.vala', 'clean_cache.vala'],
 	dependencies: [gio],

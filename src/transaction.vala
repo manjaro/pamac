@@ -20,6 +20,7 @@
 namespace Pamac {
 	[DBus (name = "org.manjaro.pamac.user")]
 	interface UserDaemon : Object {
+		public abstract void enable_appstream () throws Error;
 		public abstract void refresh_handle () throws Error;
 		public abstract string[] get_mirrors_countries () throws Error;
 		public abstract string get_mirrors_choosen_country () throws Error;
@@ -68,8 +69,8 @@ namespace Pamac {
 		public abstract void clean_cache (uint64 keep_nb, bool only_uninstalled) throws Error;
 		public abstract void start_set_pkgreason (string pkgname, uint reason) throws Error;
 		public abstract void start_refresh (bool force) throws Error;
-		public abstract void start_sysupgrade_prepare (bool enable_downgrade, string[] temporary_ignorepkgs, string[] to_build) throws Error;
-		public abstract void start_trans_prepare (int transflags, string[] to_install, string[] to_remove, string[] to_load, string[] to_build) throws Error;
+		public abstract void start_sysupgrade_prepare (bool enable_downgrade, string[] temporary_ignorepkgs, string[] to_build, string[] overwrite_files) throws Error;
+		public abstract void start_trans_prepare (int transflags, string[] to_install, string[] to_remove, string[] to_load, string[] to_build, string[] overwrite_files) throws Error;
 		public abstract void choose_provider (int provider) throws Error;
 		public abstract TransactionSummary get_transaction_summary () throws Error;
 		public abstract void start_trans_commit () throws Error;
@@ -829,7 +830,7 @@ namespace Pamac {
 			connecting_dbus_signals ();
 			try {
 				// this will respond with trans_prepare_finished signal
-				system_daemon.start_sysupgrade_prepare (enable_downgrade, temporary_ignorepkgs_, to_build_);
+				system_daemon.start_sysupgrade_prepare (enable_downgrade, temporary_ignorepkgs_, to_build_, {});
 			} catch (Error e) {
 				stderr.printf ("Error: %s\n", e.message);
 				success = false;
@@ -906,7 +907,7 @@ namespace Pamac {
 
 		void start_trans_prepare (int transflags, string[] to_install, string[] to_remove, string[] to_load, string[] to_build) {
 			try {
-				system_daemon.start_trans_prepare (transflags, to_install, to_remove, to_load, to_build);
+				system_daemon.start_trans_prepare (transflags, to_install, to_remove, to_load, to_build, {});
 			} catch (Error e) {
 				stderr.printf ("Error: %s\n", e.message);
 				stop_progressbar_pulse ();
@@ -994,11 +995,11 @@ namespace Pamac {
 			var iter = Gtk.TreeIter ();
 			if (summary.to_remove.length > 0) {
 				type |= Type.STANDARD;
-				foreach (unowned UpdateInfos infos in summary.to_remove) {
+				foreach (unowned AlpmPackage infos in summary.to_remove) {
 					transaction_summary.add (infos.name);
 					transaction_sum_dialog.sum_list.insert_with_values (out iter, -1,
 												1, infos.name,
-												2, infos.old_version);
+												2, infos.version);
 				}
 				Gtk.TreePath path = transaction_sum_dialog.sum_list.get_path (iter);
 				int pos = (path.get_indices ()[0]) - (summary.to_remove.length - 1);
@@ -1007,11 +1008,11 @@ namespace Pamac {
 			}
 			if (summary.aur_conflicts_to_remove.length > 0) {
 				// do not add type enum because it is just infos
-				foreach (unowned UpdateInfos infos in summary.aur_conflicts_to_remove) {
+				foreach (unowned AURPackage infos in summary.aur_conflicts_to_remove) {
 					transaction_summary.add (infos.name);
 					transaction_sum_dialog.sum_list.insert_with_values (out iter, -1,
 												1, infos.name,
-												2, infos.old_version);
+												2, infos.version);
 				}
 				Gtk.TreePath path = transaction_sum_dialog.sum_list.get_path (iter);
 				int pos = (path.get_indices ()[0]) - (summary.aur_conflicts_to_remove.length - 1);
@@ -1020,13 +1021,13 @@ namespace Pamac {
 			}
 			if (summary.to_downgrade.length > 0) {
 				type |= Type.STANDARD;
-				foreach (unowned UpdateInfos infos in summary.to_downgrade) {
+				foreach (unowned AlpmPackage infos in summary.to_downgrade) {
 					dsize += infos.download_size;
 					transaction_summary.add (infos.name);
 					transaction_sum_dialog.sum_list.insert_with_values (out iter, -1,
 												1, infos.name,
-												2, infos.new_version,
-												3, "(%s)".printf (infos.old_version));
+												2, infos.version,
+												3, "(%s)".printf (infos.installed_version));
 				}
 				Gtk.TreePath path = transaction_sum_dialog.sum_list.get_path (iter);
 				int pos = (path.get_indices ()[0]) - (summary.to_downgrade.length - 1);
@@ -1040,12 +1041,12 @@ namespace Pamac {
 					to_build_queue.push_tail (name);
 				}
 				aur_pkgs_to_install = {};
-				foreach (unowned UpdateInfos infos in summary.to_build) {
+				foreach (unowned AURPackage infos in summary.to_build) {
 					aur_pkgs_to_install += infos.name;
 					transaction_summary.add (infos.name);
 					transaction_sum_dialog.sum_list.insert_with_values (out iter, -1,
 												1, infos.name,
-												2, infos.new_version);
+												2, infos.version);
 				}
 				Gtk.TreePath path = transaction_sum_dialog.sum_list.get_path (iter);
 				int pos = (path.get_indices ()[0]) - (summary.to_build.length - 1);
@@ -1054,12 +1055,12 @@ namespace Pamac {
 			}
 			if (summary.to_install.length > 0) {
 				type |= Type.STANDARD;
-				foreach (unowned UpdateInfos infos in summary.to_install) {
+				foreach (unowned AlpmPackage infos in summary.to_install) {
 					dsize += infos.download_size;
 					transaction_summary.add (infos.name);
 					transaction_sum_dialog.sum_list.insert_with_values (out iter, -1,
 												1, infos.name,
-												2, infos.new_version);
+												2, infos.version);
 				}
 				Gtk.TreePath path = transaction_sum_dialog.sum_list.get_path (iter);
 				int pos = (path.get_indices ()[0]) - (summary.to_install.length - 1);
@@ -1068,12 +1069,12 @@ namespace Pamac {
 			}
 			if (summary.to_reinstall.length > 0) {
 				type |= Type.STANDARD;
-				foreach (unowned UpdateInfos infos in summary.to_reinstall) {
+				foreach (unowned AlpmPackage infos in summary.to_reinstall) {
 					dsize += infos.download_size;
 					transaction_summary.add (infos.name);
 					transaction_sum_dialog.sum_list.insert_with_values (out iter, -1,
 												1, infos.name,
-												2, infos.old_version);
+												2, infos.version);
 				}
 				Gtk.TreePath path = transaction_sum_dialog.sum_list.get_path (iter);
 				int pos = (path.get_indices ()[0]) - (summary.to_reinstall.length - 1);
@@ -1083,13 +1084,13 @@ namespace Pamac {
 			if (summary.to_upgrade.length > 0) {
 				type |= Type.UPDATE;
 				if (mode == Mode.INSTALLER) {
-					foreach (unowned UpdateInfos infos in summary.to_upgrade) {
+					foreach (unowned AlpmPackage infos in summary.to_upgrade) {
 						dsize += infos.download_size;
 						transaction_summary.add (infos.name);
 						transaction_sum_dialog.sum_list.insert_with_values (out iter, -1,
 													1, infos.name,
-													2, infos.new_version,
-													3, "(%s)".printf (infos.old_version));
+													2, infos.version,
+													3, "(%s)".printf (infos.installed_version));
 					}
 					Gtk.TreePath path = transaction_sum_dialog.sum_list.get_path (iter);
 					int pos = (path.get_indices ()[0]) - (summary.to_upgrade.length - 1);
@@ -1806,7 +1807,7 @@ namespace Pamac {
 				// if it is an authentication or a download error, database was not modified
 				var err = get_current_error ();
 				if (err.message == dgettext (null, "Authentication failed")
-					|| err.errno == 54) { //Alpm.Errno.EXTERNAL_DOWNLOAD
+					|| err.no == 54) { //Alpm.Errno.EXTERNAL_DOWNLOAD
 					// recover old pkgnames
 					foreach (unowned string name in previous_to_install) {
 						to_install.add (name);
@@ -1867,6 +1868,7 @@ namespace Pamac {
 			if (user_daemon == null) {
 				try {
 					user_daemon = Bus.get_proxy_sync (BusType.SESSION, "org.manjaro.pamac.user", "/org/manjaro/pamac/user");
+					user_daemon.enable_appstream ();
 				} catch (Error e) {
 					stderr.printf ("Error: %s\n", e.message);
 				}

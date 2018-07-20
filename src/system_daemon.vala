@@ -58,14 +58,15 @@ namespace Pamac {
 		private string[] to_load;
 		private string[] to_build;
 		private bool sysupgrade;
-		private UpdateInfos[] to_build_infos;
+		private AURPackage[] to_build_pkgs;
 		private GLib.List<string> aur_pkgbases_to_build;
 		private GenericSet<string?> aur_desc_list;
 		private GenericSet<string?> already_checked_aur_dep;
 		private HashTable<string, string> to_install_as_dep;
 		private string aurdb_path;
 		private string[] temporary_ignorepkgs;
-		private UpdateInfos[] aur_conflicts_to_remove;
+		private string[] overwrite_files;
+		private AURPackage[] aur_conflicts_to_remove;
 		private ThreadPool<AlpmAction> thread_pool;
 		private BusName lock_id;
 		private Json.Array aur_updates_results;
@@ -423,7 +424,7 @@ namespace Pamac {
 					success = true;
 				} else {
 					Alpm.Errno errno = handle.errno ();
-					current_error.errno = (uint) errno;
+					current_error.no = (uint) errno;
 					if (errno != 0) {
 						// download error details are set in cb_fetch
 						if (errno != Alpm.Errno.EXTERNAL_DOWNLOAD) {
@@ -517,8 +518,21 @@ namespace Pamac {
 			}
 		}
 
+		private void add_overwrite_files () {
+			foreach (unowned string name in overwrite_files) {
+				alpm_handle.add_overwrite_file (name);
+			}
+		}
+
+		private void remove_overwrite_files () {
+			foreach (unowned string name in overwrite_files) {
+				alpm_handle.remove_overwrite_file (name);
+			}
+		}
+
 		private AlpmPackage initialise_pkg_struct (Alpm.Package? alpm_pkg) {
 			if (alpm_pkg != null) {
+				string installed_version = "";
 				string repo_name = "";
 				if (alpm_pkg.origin == Alpm.Package.From.LOCALDB) {
 					unowned Alpm.Package? sync_pkg = get_syncpkg (alpm_pkg.name);
@@ -526,16 +540,22 @@ namespace Pamac {
 						repo_name = sync_pkg.db.name;
 					}
 				} else if (alpm_pkg.origin == Alpm.Package.From.SYNCDB) {
+					unowned Alpm.Package? local_pkg = alpm_handle.localdb.get_pkg (alpm_pkg.name);
+					if (local_pkg != null) {
+						installed_version = local_pkg.version;
+					}
 					repo_name = alpm_pkg.db.name;
 				}
 				return AlpmPackage () {
 					name = alpm_pkg.name,
 					app_name = "",
 					version = alpm_pkg.version,
+					installed_version = (owned) installed_version,
 					// desc can be null
 					desc = alpm_pkg.desc ?? "",
 					repo = (owned) repo_name,
 					size = alpm_pkg.isize,
+					download_size = alpm_pkg.download_size,
 					origin = (uint) alpm_pkg.origin,
 					icon = ""
 				};
@@ -873,7 +893,7 @@ namespace Pamac {
 			cancellable.reset ();
 			if (alpm_handle.trans_init (flags) == -1) {
 				Alpm.Errno errno = alpm_handle.errno ();
-				current_error.errno = (uint) errno;
+				current_error.no = (uint) errno;
 				current_error.message = _("Failed to init transaction");
 				if (errno != 0) {
 					current_error.details = { Alpm.strerror (errno) };
@@ -886,9 +906,10 @@ namespace Pamac {
 		private bool trans_sysupgrade () {
 			current_error = ErrorInfos ();
 			add_ignorepkgs ();
+			add_overwrite_files ();
 			if (alpm_handle.trans_sysupgrade ((enable_downgrade) ? 1 : 0) == -1) {
 				Alpm.Errno errno = alpm_handle.errno ();
-				current_error.errno = (uint) errno;
+				current_error.no = (uint) errno;
 				current_error.message = _("Failed to prepare transaction");
 				if (errno != 0) {
 					current_error.details = { Alpm.strerror (errno) };
@@ -898,20 +919,25 @@ namespace Pamac {
 			return true;
 		}
 
-		public void start_sysupgrade_prepare (bool enable_downgrade_, string[] temporary_ignorepkgs_, string[] to_build_, GLib.BusName sender) throws Error {
+		public void start_sysupgrade_prepare (bool enable_downgrade_,
+											string[] temporary_ignorepkgs_,
+											string[] to_build_,
+											string[] overwrite_files_,
+											GLib.BusName sender) throws Error {
 			if (lock_id != sender) {
 				trans_prepare_finished (false);
 				return;
 			}
 			enable_downgrade = enable_downgrade_;
 			temporary_ignorepkgs = temporary_ignorepkgs_;
+			overwrite_files = overwrite_files_;
 			sysupgrade = true;
 			flags = 0;
 			to_install = {};
 			to_remove = {};
 			to_load = {};
 			to_build = to_build_;
-			to_build_infos = {};
+			to_build_pkgs = {};
 			aur_pkgbases_to_build = new GLib.List<string> ();
 			if (downloading_updates) {
 				cancellable.cancel ();
@@ -933,7 +959,7 @@ namespace Pamac {
 					// just skip duplicate or ignored targets
 					return true;
 				} else {
-					current_error.errno = (uint) errno;
+					current_error.no = (uint) errno;
 					current_error.message = _("Failed to prepare transaction");
 					if (errno != 0) {
 						current_error.details = { "%s: %s".printf (pkg.name, Alpm.strerror (errno)) };
@@ -946,7 +972,7 @@ namespace Pamac {
 
 		private bool trans_add_pkg (string pkgname) {
 			current_error = ErrorInfos ();
-			unowned Alpm.Package? pkg = get_syncpkg (pkgname);
+			unowned Alpm.Package? pkg = alpm_handle.find_dbs_satisfier (alpm_handle.syncdbs, pkgname);
 			if (pkg == null) {
 				current_error.message = _("Failed to prepare transaction");
 				current_error.details = { _("target not found: %s").printf (pkgname) };
@@ -1004,12 +1030,39 @@ namespace Pamac {
 			}
 		}
 
-		private bool trans_load_pkg (string pkgpath) {
+		private string? download_pkg (string url) {
+			// need to call the function twice in order to have the return path
+			// it's due to the use of a fetch callback
+			// first call to download pkg
+			alpm_handle.fetch_pkgurl (url);
+			// check for error
+			if (current_error.details.length > 0) {
+				return null;
+			}
+			if ((alpm_handle.remotefilesiglevel & Alpm.Signature.Level.PACKAGE) == 1) {
+				// try to download signature
+				alpm_handle.fetch_pkgurl (url + ".sig");
+			}
+			return alpm_handle.fetch_pkgurl (url);
+		}
+
+		private bool trans_load_pkg (string path) {
 			current_error = ErrorInfos ();
 			Alpm.Package* pkg;
-			if (alpm_handle.load_tarball (pkgpath, 1, alpm_handle.localfilesiglevel, out pkg) == -1) {
+			int siglevel = alpm_handle.localfilesiglevel;
+			string? pkgpath = path;
+			// download pkg if an url is given
+			if ("://" in path) {
+				siglevel = alpm_handle.remotefilesiglevel;
+				pkgpath = download_pkg (path);
+				if (pkgpath == null) {
+					return false;
+				}
+			}
+			// load tarball
+			if (alpm_handle.load_tarball (pkgpath, 1, siglevel, out pkg) == -1) {
 				Alpm.Errno errno = alpm_handle.errno ();
-				current_error.errno = (uint) errno;
+				current_error.no = (uint) errno;
 				current_error.message = _("Failed to prepare transaction");
 				if (errno != 0) {
 					current_error.details = { "%s: %s".printf (pkgpath, Alpm.strerror (errno)) };
@@ -1021,7 +1074,7 @@ namespace Pamac {
 					// just skip duplicate or ignored targets
 					return true;
 				} else {
-					current_error.errno = (uint) errno;
+					current_error.no = (uint) errno;
 					current_error.message = _("Failed to prepare transaction");
 					if (errno != 0) {
 						current_error.details = { "%s: %s".printf (pkg->name, Alpm.strerror (errno)) };
@@ -1047,7 +1100,7 @@ namespace Pamac {
 					// just skip duplicate targets
 					return true;
 				} else {
-					current_error.errno = (uint) errno;
+					current_error.no = (uint) errno;
 					current_error.message = _("Failed to prepare transaction");
 					if (errno != 0) {
 						current_error.details = { "%s: %s".printf (pkg.name, Alpm.strerror (errno)) };
@@ -1065,7 +1118,7 @@ namespace Pamac {
 			Alpm.List err_data;
 			if (alpm_handle.trans_prepare (out err_data) == -1) {
 				Alpm.Errno errno = alpm_handle.errno ();
-				current_error.errno = (uint) errno;
+				current_error.no = (uint) errno;
 				current_error.message = _("Failed to prepare transaction");
 				switch (errno) {
 					case 0:
@@ -1263,7 +1316,7 @@ namespace Pamac {
 				bool success = true;
 				if (alpm_handle.trans_init (flags | Alpm.TransFlag.NOLOCK) == -1) {
 					Alpm.Errno errno = alpm_handle.errno ();
-					current_error.errno = (uint) errno;
+					current_error.no = (uint) errno;
 					current_error.message = _("Failed to init transaction");
 					if (errno != 0) {
 						current_error.details = { Alpm.strerror (errno) };
@@ -1308,14 +1361,13 @@ namespace Pamac {
 										if (aur_pkgbases_to_build.find_custom (trans_pkg.pkgbase, strcmp) == null) {
 											aur_pkgbases_to_build.append (trans_pkg.pkgbase);
 										}
-										var infos = UpdateInfos () {
+										var pkg = AURPackage () {
 											name = trans_pkg.name,
-											old_version = "",
-											new_version = trans_pkg.version,
-											repo = "",
-											download_size = 0
+											version = trans_pkg.version,
+											installed_version = "",
+											desc = ""
 										};
-										to_build_infos += (owned) infos;
+										to_build_pkgs += (owned) pkg;
 										if (!(trans_pkg.name in to_build)) {
 											to_install_as_dep.insert (trans_pkg.name, trans_pkg.name);
 										}
@@ -1335,14 +1387,13 @@ namespace Pamac {
 								unowned Alpm.Package trans_pkg = pkgs_to_remove.data;
 								// it is a pkg to remove
 								if (!(trans_pkg.name in to_remove)) {
-									var infos = UpdateInfos () {
+									var pkg = AURPackage () {
 										name = trans_pkg.name,
-										old_version = trans_pkg.version,
-										new_version = "",
-										repo = "",
-										download_size = 0
+										version = trans_pkg.version,
+										installed_version = "",
+										desc = ""
 									};
-									aur_conflicts_to_remove += (owned) infos;
+									aur_conflicts_to_remove += (owned) pkg;
 								}
 								pkgs_to_remove.next ();
 							}
@@ -1375,6 +1426,7 @@ namespace Pamac {
 										string[] to_remove_,
 										string[] to_load_,
 										string[] to_build_,
+										string[] overwrite_files_,
 										GLib.BusName sender) throws Error {
 			if (lock_id != sender) {
 				trans_prepare_finished (false);
@@ -1385,7 +1437,8 @@ namespace Pamac {
 			to_remove = to_remove_;
 			to_load = to_load_;
 			to_build = to_build_;
-			to_build_infos = {};
+			overwrite_files = overwrite_files_;
+			to_build_pkgs = {};
 			aur_pkgbases_to_build = new GLib.List<string> ();
 			sysupgrade = false;
 			if (downloading_updates) {
@@ -1426,27 +1479,19 @@ namespace Pamac {
 		}
 
 		public TransactionSummary get_transaction_summary () throws Error {
-			UpdateInfos[] to_install = {};
-			UpdateInfos[] to_upgrade = {};
-			UpdateInfos[] to_downgrade = {};
-			UpdateInfos[] to_reinstall = {};
-			UpdateInfos[] to_remove = {};
+			AlpmPackage[] to_install = {};
+			AlpmPackage[] to_upgrade = {};
+			AlpmPackage[] to_downgrade = {};
+			AlpmPackage[] to_reinstall = {};
+			AlpmPackage[] to_remove = {};
 			unowned Alpm.List<unowned Alpm.Package> pkgs_to_add = alpm_handle.trans_to_add ();
 			while (pkgs_to_add != null) {
 				unowned Alpm.Package trans_pkg = pkgs_to_add.data;
-				unowned Alpm.Package? local_pkg = alpm_handle.localdb.get_pkg (trans_pkg.name);
-				var infos = UpdateInfos () {
-					name = trans_pkg.name,
-					old_version = local_pkg != null ? local_pkg.version : "",
-					new_version = trans_pkg.version,
-					// if pkg was load from a file, pkg.db is null
-					repo =trans_pkg.db != null ? trans_pkg.db.name : "",
-					download_size = trans_pkg.download_size
-				};
-				if (local_pkg == null) {
+				var infos = initialise_pkg_struct (trans_pkg);
+				if (infos.installed_version == "") {
 					to_install += (owned) infos;
 				} else {
-					int cmp = Alpm.pkg_vercmp (trans_pkg.version, local_pkg.version);
+					int cmp = Alpm.pkg_vercmp (infos.version, infos.installed_version);
 					if (cmp == 1) {
 						to_upgrade += (owned) infos;
 					} else if (cmp == 0) {
@@ -1460,18 +1505,13 @@ namespace Pamac {
 			unowned Alpm.List<unowned Alpm.Package> pkgs_to_remove = alpm_handle.trans_to_remove ();
 			while (pkgs_to_remove != null) {
 				unowned Alpm.Package trans_pkg = pkgs_to_remove.data;
-				var infos = UpdateInfos () {
-					name = trans_pkg.name,
-					old_version = trans_pkg.version,
-					new_version = "",
-					repo = trans_pkg.db.name
-				};
+				var infos = initialise_pkg_struct (trans_pkg);
 				to_remove += (owned) infos;
 				pkgs_to_remove.next ();
 			}
-			UpdateInfos[] conflicts_to_remove = {};
-			foreach (unowned UpdateInfos infos in aur_conflicts_to_remove){
-				conflicts_to_remove += infos;
+			AURPackage[] conflicts_to_remove = {};
+			foreach (unowned AURPackage pkg in aur_conflicts_to_remove){
+				conflicts_to_remove += pkg;
 			}
 			aur_conflicts_to_remove = {};
 			string[] pkgbases_to_build = {};
@@ -1484,7 +1524,7 @@ namespace Pamac {
 				to_downgrade = (owned) to_downgrade,
 				to_reinstall = (owned) to_reinstall,
 				to_remove = (owned) to_remove,
-				to_build = to_build_infos,
+				to_build = to_build_pkgs,
 				aur_conflicts_to_remove = conflicts_to_remove,
 				aur_pkgbases_to_build = pkgbases_to_build
 			};
@@ -1494,10 +1534,11 @@ namespace Pamac {
 		private void trans_commit () {
 			current_error = ErrorInfos ();
 			bool success = true;
+			add_overwrite_files ();
 			Alpm.List err_data;
 			if (alpm_handle.trans_commit (out err_data) == -1) {
 				Alpm.Errno errno = alpm_handle.errno ();
-				current_error.errno = (uint) errno;
+				current_error.no = (uint) errno;
 				// cancel the download return an EXTERNAL_DOWNLOAD error
 				if (errno == Alpm.Errno.EXTERNAL_DOWNLOAD && cancellable.is_cancelled ()) {
 					trans_release_private ();
@@ -1586,6 +1627,7 @@ namespace Pamac {
 		private void trans_release_private () {
 			alpm_handle.trans_release ();
 			remove_ignorepkgs ();
+			remove_overwrite_files ();
 		}
 
 		public void trans_release (GLib.BusName sender) throws Error {
