@@ -1964,6 +1964,8 @@ namespace Pamac {
 			if (status == 0 && built_pkgs.length > 0) {
 				no_confirm_commit = true;
 				stdout.printf ("\n");
+				to_build = {};
+				to_install = {};
 				to_load = built_pkgs;
 				start_trans_prepare ();
 			} else {
