@@ -2352,9 +2352,9 @@ namespace Pamac {
 					stdout.printf ("%s: %s\n", dgettext (null, "Total download size"), format_size (dsize));
 				}
 				if (isize > 0) {
-					stdout.printf ("%s: %s\n", dgettext (null, "Total installation size"), format_size (isize));
+					stdout.printf ("%s: %s\n", dgettext (null, "Total installed size"), format_size (isize));
 				} else if (isize < 0) {
-					stdout.printf ("%s: -%s\n", dgettext (null, "Total installation size"), format_size (isize.abs ()));
+					stdout.printf ("%s: -%s\n", dgettext (null, "Total installed size"), format_size (isize.abs ()));
 				}
 			}
 			return type;
@@ -2565,9 +2565,9 @@ namespace Pamac {
 					break;
 				case 24: //Alpm.Event.Type.SCRIPTLET_INFO
 					// hooks output are also emitted as SCRIPTLET_INFO
-					if (previous_filename != "") {
-						stdout.printf (dgettext (null, "Configuring %s").printf (previous_filename) + "...\n");
-					}
+					//if (previous_filename != "") {
+						//stdout.printf (dgettext (null, "Configuring %s").printf (previous_filename) + "...\n");
+					//}
 					foreach (unowned string detail in split_string (details[0].replace ("\n", ""), 0, get_term_width ())) {
 						stdout.printf ("%s\n", detail);
 					}
