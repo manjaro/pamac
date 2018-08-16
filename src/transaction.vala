@@ -1008,7 +1008,7 @@ namespace Pamac {
 			}
 			if (summary.aur_conflicts_to_remove.length > 0) {
 				// do not add type enum because it is just infos
-				foreach (unowned AURPackage infos in summary.aur_conflicts_to_remove) {
+				foreach (unowned AlpmPackage infos in summary.aur_conflicts_to_remove) {
 					transaction_summary.add (infos.name);
 					transaction_sum_dialog.sum_list.insert_with_values (out iter, -1,
 												1, infos.name,

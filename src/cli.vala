@@ -2134,6 +2134,7 @@ namespace Pamac {
 			// return 0 if transaction_sum is empty, 2, if there are only aur updates, 1 otherwise
 			TransType type = 0;
 			uint64 dsize = 0;
+			uint64 rsize = 0;
 			int64 isize = 0;
 			int max_name_length = 0;
 			int max_version_length = 0;
@@ -2151,6 +2152,7 @@ namespace Pamac {
 				type |= TransType.STANDARD;
 				if (!no_confirm_commit) {
 					foreach (unowned AlpmPackage infos in summary.to_remove) {
+						rsize += infos.size;
 						if (infos.name.length > max_name_length) {
 							max_name_length = infos.name.length;
 						}
@@ -2163,7 +2165,8 @@ namespace Pamac {
 			if (summary.aur_conflicts_to_remove.length > 0) {
 				if (!no_confirm_commit) {
 					// do not add type enum because it is just infos
-					foreach (unowned AURPackage infos in summary.aur_conflicts_to_remove) {
+					foreach (unowned AlpmPackage infos in summary.aur_conflicts_to_remove) {
+						rsize += infos.size;
 						if (infos.name.length > max_name_length) {
 							max_name_length = infos.name.length;
 						}
@@ -2342,7 +2345,7 @@ namespace Pamac {
 					if (!to_remove_printed) {
 						stdout.printf (dgettext (null, "To remove") + " (%u):\n".printf (summary.aur_conflicts_to_remove.length));
 					}
-					foreach (unowned AURPackage infos in summary.aur_conflicts_to_remove) {
+					foreach (unowned AlpmPackage infos in summary.aur_conflicts_to_remove) {
 						stdout.printf ("  %-*s %-*s\n", max_name_length + margin, infos.name,
 														max_version_length + margin, infos.version);
 					}
@@ -2355,6 +2358,9 @@ namespace Pamac {
 					stdout.printf ("%s: %s\n", dgettext (null, "Total installed size"), format_size (isize));
 				} else if (isize < 0) {
 					stdout.printf ("%s: -%s\n", dgettext (null, "Total installed size"), format_size (isize.abs ()));
+				}
+				if (rsize > 0) {
+					stdout.printf ("%s: %s\n", dgettext (null, "Total removed size"), format_size (rsize));
 				}
 			}
 			return type;

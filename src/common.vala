@@ -25,7 +25,7 @@ namespace Pamac {
 		public AlpmPackage[] to_reinstall;
 		public AlpmPackage[] to_remove;
 		public AURPackage[] to_build;
-		public AURPackage[] aur_conflicts_to_remove;
+		public AlpmPackage[] aur_conflicts_to_remove;
 		public string[] aur_pkgbases_to_build;
 	}
 

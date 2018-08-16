@@ -66,7 +66,7 @@ namespace Pamac {
 		private string aurdb_path;
 		private string[] temporary_ignorepkgs;
 		private string[] overwrite_files;
-		private AURPackage[] aur_conflicts_to_remove;
+		private AlpmPackage[] aur_conflicts_to_remove;
 		private ThreadPool<AlpmAction> thread_pool;
 		private BusName lock_id;
 		private Json.Array aur_updates_results;
@@ -1387,12 +1387,7 @@ namespace Pamac {
 								unowned Alpm.Package trans_pkg = pkgs_to_remove.data;
 								// it is a pkg to remove
 								if (!(trans_pkg.name in to_remove)) {
-									var pkg = AURPackage () {
-										name = trans_pkg.name,
-										version = trans_pkg.version,
-										installed_version = "",
-										desc = ""
-									};
+									var pkg = initialise_pkg_struct (trans_pkg);
 									aur_conflicts_to_remove += (owned) pkg;
 								}
 								pkgs_to_remove.next ();
@@ -1509,8 +1504,8 @@ namespace Pamac {
 				to_remove += (owned) infos;
 				pkgs_to_remove.next ();
 			}
-			AURPackage[] conflicts_to_remove = {};
-			foreach (unowned AURPackage pkg in aur_conflicts_to_remove){
+			AlpmPackage[] conflicts_to_remove = {};
+			foreach (unowned AlpmPackage pkg in aur_conflicts_to_remove){
 				conflicts_to_remove += pkg;
 			}
 			aur_conflicts_to_remove = {};
@@ -1525,8 +1520,8 @@ namespace Pamac {
 				to_reinstall = (owned) to_reinstall,
 				to_remove = (owned) to_remove,
 				to_build = to_build_pkgs,
-				aur_conflicts_to_remove = conflicts_to_remove,
-				aur_pkgbases_to_build = pkgbases_to_build
+				aur_conflicts_to_remove = (owned) conflicts_to_remove,
+				aur_pkgbases_to_build = (owned) pkgbases_to_build
 			};
 			return summary;
 		}
