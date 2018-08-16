@@ -1233,28 +1233,56 @@ namespace Pamac {
 
 		public HashTable<string, Variant> search_files (string[] files) throws Error {
 			var result = new HashTable<string, Variant> (str_hash, str_equal);
-			unowned Alpm.List<unowned Alpm.Package> pkgcache = alpm_handle.localdb.pkgcache;
-			while (pkgcache != null) {
-				unowned Alpm.Package alpm_pkg = pkgcache.data;
-				string[] found = {};
-				unowned Alpm.FileList filelist = alpm_pkg.files;
-				Alpm.File* file_ptr = filelist.files;
-				for (size_t i = 0; i < filelist.count; i++, file_ptr++) {
-					foreach (string file in files) {
+			foreach (unowned string file in files) {
+				// search in localdb
+				unowned Alpm.List<unowned Alpm.Package> pkgcache = alpm_handle.localdb.pkgcache;
+				while (pkgcache != null) {
+					unowned Alpm.Package alpm_pkg = pkgcache.data;
+					string[] found_files = {};
+					unowned Alpm.FileList filelist = alpm_pkg.files;
+					Alpm.File* file_ptr = filelist.files;
+					for (size_t i = 0; i < filelist.count; i++, file_ptr++) {
 						// exclude directory name
 						if (!file_ptr->name.has_suffix ("/")) {
 							// adding / to compare
 							string real_file_name = alpm_handle.root + file_ptr->name;
 							if (file in real_file_name) {
-								found += real_file_name;
+								found_files += real_file_name;
 							}
 						}
 					}
+					if (found_files.length > 0) {
+						result.insert (alpm_pkg.name, new Variant.strv (found_files));
+					}
+					pkgcache.next ();
 				}
-				if (found.length > 0) {
-					result.insert (alpm_pkg.name, new Variant.strv (found));
+				// search in syncdbs
+				unowned Alpm.List<unowned Alpm.DB> syncdbs = files_handle.syncdbs;
+				while (syncdbs != null) {
+					unowned Alpm.DB db = syncdbs.data;
+					pkgcache = db.pkgcache;
+					while (pkgcache != null) {
+						unowned Alpm.Package alpm_pkg = pkgcache.data;
+						string[] found_files = {};
+						unowned Alpm.FileList filelist = alpm_pkg.files;
+						Alpm.File* file_ptr = filelist.files;
+						for (size_t i = 0; i < filelist.count; i++, file_ptr++) {
+							// exclude directory name
+							if (!file_ptr->name.has_suffix ("/")) {
+								// adding / to compare
+								string real_file_name = alpm_handle.root + file_ptr->name;
+								if (file in real_file_name) {
+									found_files += real_file_name;
+								}
+							}
+						}
+						if (found_files.length > 0) {
+							result.insert (alpm_pkg.name, new Variant.strv (found_files));
+						}
+						pkgcache.next ();
+					}
+					syncdbs.next ();
 				}
-				pkgcache.next ();
 			}
 			return result;
 		}
