@@ -8,6 +8,7 @@ src/manager.vala
 src/manager_window.vala
 src/preferences_dialog.vala
 src/choose_ignorepkgs_dialog.vala
+src/cli.vala
 resources/choose_provider_dialog.ui
 resources/progress_dialog.ui
 resources/history_dialog.ui
