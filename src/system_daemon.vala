@@ -535,6 +535,7 @@ namespace Pamac {
 				string installed_version = "";
 				string repo_name = "";
 				if (alpm_pkg.origin == Alpm.Package.From.LOCALDB) {
+					installed_version = alpm_pkg.version;
 					unowned Alpm.Package? sync_pkg = get_syncpkg (alpm_pkg.name);
 					if (sync_pkg != null) {
 						repo_name = sync_pkg.db.name;
@@ -545,6 +546,12 @@ namespace Pamac {
 						installed_version = local_pkg.version;
 					}
 					repo_name = alpm_pkg.db.name;
+				} else {
+					// load pkg or built pkg
+					unowned Alpm.Package? local_pkg = alpm_handle.localdb.get_pkg (alpm_pkg.name);
+					if (local_pkg != null) {
+						installed_version = local_pkg.version;
+					}
 				}
 				return AlpmPackage () {
 					name = alpm_pkg.name,
@@ -756,7 +763,6 @@ namespace Pamac {
 					candidate = pkg.sync_newversion (alpm_handle.syncdbs);
 					if (candidate != null) {
 						var infos = initialise_pkg_struct (candidate);
-						infos.installed_version = pkg.version;
 						updates_infos += (owned) infos;
 					}
 				}
@@ -778,7 +784,6 @@ namespace Pamac {
 						candidate = installed_pkg.sync_newversion (alpm_handle.syncdbs);
 						if (candidate != null) {
 							var infos = initialise_pkg_struct (candidate);
-							infos.installed_version = installed_pkg.version;
 							updates_infos += (owned) infos;
 						} else {
 							if (check_aur_updates && (!aur_updates_checked)) {
