@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2018-05-26 17:59+0200\n"
-"PO-Revision-Date: 2018-05-31 20:58+0000\n"
-"Last-Translator: Kristján Magnússon\n"
+"POT-Creation-Date: 2018-08-16 12:06+0200\n"
+"PO-Revision-Date: 2018-08-18 01:12+0000\n"
+"Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Icelandic (http://www.transifex.com/manjarolinux/manjaro-pamac/language/is/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -65,7 +65,7 @@ msgstr "Mistókst að frumstilla aðgerð"
 msgid "Failed to prepare transaction"
 msgstr "Mistókst að undirbúa aðgerð"
 
-#: src/system_daemon.vala
+#: src/system_daemon.vala src/cli.vala
 #, c-format
 msgid "target not found: %s"
 msgstr "úttak fannst ekki: %s"
@@ -141,127 +141,127 @@ msgstr "Afrita"
 msgid "Refreshing mirrors list"
 msgstr "Endurles speglalista"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 msgid "Synchronizing package databases"
 msgstr "Samstilli gagnagrunna fyrir pakka"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 msgid "Starting full system upgrade"
 msgstr "Hef fulla stýrikerfisuppfærslu"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 msgid "Preparing"
 msgstr "Undirbúa"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 #, c-format
 msgid "Choose a provider for %s"
 msgstr "Veldu útgefanda fyrir %s"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 msgid "To remove"
 msgstr "Á að fjarlægja"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 msgid "To downgrade"
 msgstr "Á að niðurfæra"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 msgid "To build"
 msgstr "Á að byggja"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 msgid "To install"
 msgstr "Til uppsetningar"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 msgid "To reinstall"
 msgstr "Til enduruppsetningar"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 msgid "To upgrade"
 msgstr "Til uppfærslu"
 
-#: src/transaction.vala src/manager_window.vala
+#: src/transaction.vala src/manager_window.vala src/cli.vala
 msgid "Total download size"
 msgstr "Heildarstærð niðurhals"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 #, c-format
 msgid "Building %s"
 msgstr "Byggi %s"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 msgid "Transaction cancelled"
 msgstr "Hætt við aðgerð"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 msgid "Checking dependencies"
 msgstr "Athuga kerfiskröfur"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 msgid "Checking file conflicts"
 msgstr "Athuga árekstra skráa"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 msgid "Resolving dependencies"
 msgstr "Leysi kerfiskröfur"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 msgid "Checking inter-conflicts"
 msgstr "Athuga innri árekstra"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 #, c-format
 msgid "Installing %s"
 msgstr "Set upp %s"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 #, c-format
 msgid "Upgrading %s"
 msgstr "Uppfæri %s"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 #, c-format
 msgid "Reinstalling %s"
 msgstr "Enduruppsetning %s"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 #, c-format
 msgid "Downgrading %s"
 msgstr "Niðurfærsla á %s"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 #, c-format
 msgid "Removing %s"
 msgstr "Fjarlægi %s"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 msgid "Checking integrity"
 msgstr "Athuga gæði"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 msgid "Loading packages files"
 msgstr "Hleð inn pakkaskrám"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 msgid "Checking delta integrity"
 msgstr "Athuga gæði mismunaskráa"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 msgid "Applying deltas"
 msgstr "Virkja mismunaskrár"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 #, c-format
 msgid "Generating %s with %s"
 msgstr "Útbý %s með %s"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 msgid "Generation succeeded"
 msgstr "Tókst að útbúa"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 msgid "Generation failed"
 msgstr "Mistókst að útbúa"
 
@@ -270,77 +270,77 @@ msgstr "Mistókst að útbúa"
 msgid "Configuring %s"
 msgstr "Stilli %s"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 msgid "Downloading"
 msgstr "Sæki"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 #, c-format
 msgid "Downloading %s"
 msgstr "Sæki %s"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 msgid "Checking available disk space"
 msgstr "Athuga tiltækt diskpláss"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 #, c-format
 msgid "%s optionally requires %s"
 msgstr "%s þarfnast mögulega %s"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 #, c-format
 msgid "Database file for %s does not exist"
 msgstr "Gagnagrunnsskrá fyrir %s er ekki til"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 msgid "Checking keyring"
 msgstr "Athuga með dulritunarlykla"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 msgid "Downloading required keys"
 msgstr "Næ í nauðsynlega dulritunarlykla"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 #, c-format
 msgid "%s installed as %s.pacnew"
 msgstr "%s uppsett sem %s.pacnew"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 #, c-format
 msgid "%s installed as %s.pacsave"
 msgstr "%s uppsett sem %s.pacsave"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 msgid "Running pre-transaction hooks"
 msgstr "Keyri forathuganir fyrir aðgerðir"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 msgid "Running post-transaction hooks"
 msgstr "Keyri frágangsathuganir eftir aðgerðir"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 #, c-format
 msgid "About %u seconds remaining"
 msgstr "Um það bil %u sekúndur eftir"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 #, c-format
 msgid "About %lu minute remaining"
 msgid_plural "About %lu minutes remaining"
 msgstr[0] "Um það bil %lu mínúta eftir"
 msgstr[1] "Um það bil %lu mínútur eftir"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 #, c-format
 msgid "Refreshing %s"
 msgstr "Endurles %s"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 msgid "Error"
 msgstr "Villa"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 msgid "Warning"
 msgstr "Aðvörun"
 
@@ -349,11 +349,11 @@ msgstr "Aðvörun"
 msgid "_Close"
 msgstr "_Loka"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 msgid "Transaction successfully finished"
 msgstr "Aðgerð lokið - tókst"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 msgid "Nothing to do"
 msgstr "Ekkert sem hægt er að gera"
 
@@ -361,11 +361,11 @@ msgstr "Ekkert sem hægt er að gera"
 msgid "Pamac is already running"
 msgstr "Pamac er þegar í keyrslu"
 
-#: src/installer.vala src/manager_window.vala
+#: src/installer.vala src/manager_window.vala src/cli.vala
 msgid "Waiting for another package manager to quit"
 msgstr "Bíð eftir að annar pakka framkvæmdastjórn hætti"
 
-#: src/tray.vala src/manager_window.vala
+#: src/tray.vala src/manager_window.vala src/cli.vala
 msgid "Your system is up-to-date"
 msgstr "Kerfið þitt er með öllum nýjasta hugbúnaðinum"
 
@@ -373,7 +373,7 @@ msgstr "Kerfið þitt er með öllum nýjasta hugbúnaðinum"
 msgid "_Quit"
 msgstr "_Hætta"
 
-#: src/tray.vala
+#: src/tray.vala src/cli.vala
 #, c-format
 msgid "%u available update"
 msgid_plural "%u available updates"
@@ -420,7 +420,7 @@ msgstr[1] "%u aðgerðir í bið"
 msgid "Categories"
 msgstr "Flokkar"
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "Groups"
 msgstr "Hópar"
 
@@ -428,7 +428,7 @@ msgstr "Hópar"
 msgid "Repositories"
 msgstr "Hugbúnaðarsöfn"
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "Installed"
 msgstr "Uppsett"
 
@@ -492,7 +492,7 @@ msgstr "Stillingar"
 msgid "System Tools"
 msgstr "Kerfis verkfæri"
 
-#: src/manager_window.vala resources/preferences_dialog.ui
+#: src/manager_window.vala src/cli.vala resources/preferences_dialog.ui
 msgid "AUR"
 msgstr "AUR"
 
@@ -504,7 +504,7 @@ msgstr "Kerfiskröfur"
 msgid "Files"
 msgstr "Skrár"
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "Install Reason"
 msgstr "Ástæða uppsetningar"
 
@@ -512,63 +512,63 @@ msgstr "Ástæða uppsetningar"
 msgid "Mark as explicitly installed"
 msgstr "Merkja sem sérstaklega uppsett"
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "Licenses"
 msgstr "Notkunarleyfi"
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala src/cli.vala resources/manager_window.ui
 msgid "Repository"
 msgstr "Hugbúnaðarsafn"
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "Packager"
 msgstr "Pakkari"
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "Build Date"
 msgstr "Byggingardagsetning"
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "Install Date"
 msgstr "Uppsetningardagur"
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "Signatures"
 msgstr "Undirritanir"
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "Backup files"
 msgstr "Öryggisafrit"
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "Depends On"
 msgstr "Er háð"
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "Optional Dependencies"
 msgstr "Valkvæðar kerfiskröfur"
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "Required By"
 msgstr "Krafist af"
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "Optional For"
 msgstr "Valfrjálst fyrir"
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "Provides"
 msgstr "Skaffar"
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "Replaces"
 msgstr "Kemur í staðinn fyrir"
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "Conflicts With"
 msgstr "Stangast á við "
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "Package Base"
 msgstr "Grunnpakki"
 
@@ -576,27 +576,27 @@ msgstr "Grunnpakki"
 msgid "Maintainer"
 msgstr "Umsjónarmaður"
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "First Submitted"
 msgstr "Fyrst lagt fram"
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "Last Modified"
 msgstr "Síðast breytt"
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "Votes"
 msgstr "Atkvæði"
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "Out of Date"
 msgstr "Úrelt"
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "Make Dependencies"
 msgstr "Geri kerfiskröfur"
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "Check Dependencies"
 msgstr "Athuga kerfiskröfur"
 
@@ -604,7 +604,7 @@ msgstr "Athuga kerfiskröfur"
 msgid "Search"
 msgstr "Leita"
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala src/cli.vala resources/manager_window.ui
 msgid "Name"
 msgstr "Nafn"
 
@@ -644,6 +644,144 @@ msgstr "Byggja skrá"
 #: src/preferences_dialog.vala
 msgid "Worldwide"
 msgstr "Út um allan heim"
+
+#: src/cli.vala
+msgid "Available actions"
+msgstr ""
+
+#: src/cli.vala
+msgid "action"
+msgstr ""
+
+#: src/cli.vala
+msgid "options"
+msgstr ""
+
+#: src/cli.vala
+msgid "package(s)"
+msgstr ""
+
+#: src/cli.vala
+msgid "Search for packages or files, multiple search terms can be specified"
+msgstr ""
+
+#: src/cli.vala
+msgid "file(s)"
+msgstr ""
+
+#: src/cli.vala
+msgid "Display package details, multiple packages can be specified"
+msgstr ""
+
+#: src/cli.vala
+msgid "List packages, groups, repositories or files"
+msgstr ""
+
+#: src/cli.vala
+msgid "group(s)"
+msgstr ""
+
+#: src/cli.vala
+msgid "repo(s)"
+msgstr ""
+
+#: src/cli.vala
+msgid "Build packages from AUR and install them with their dependencies"
+msgstr ""
+
+#: src/cli.vala
+msgid "dir"
+msgstr ""
+
+#: src/cli.vala
+msgid "Install packages from repositories, path or url"
+msgstr ""
+
+#: src/cli.vala
+msgid "glob"
+msgstr ""
+
+#: src/cli.vala
+msgid "Reinstall packages"
+msgstr ""
+
+#: src/cli.vala
+msgid "Remove packages"
+msgstr ""
+
+#: src/cli.vala
+msgid "Safely check for updates without modifiying the databases"
+msgstr ""
+
+#: src/cli.vala
+msgid "Upgrade your system"
+msgstr ""
+
+#: src/cli.vala resources/manager_window.ui
+msgid "Version"
+msgstr "Útgáfa"
+
+#: src/cli.vala
+msgid "Description"
+msgstr ""
+
+#: src/cli.vala
+msgid "URL"
+msgstr ""
+
+#: src/cli.vala resources/manager_window.ui
+msgid "Size"
+msgstr "Stærð"
+
+#: src/cli.vala
+#, c-format
+msgid "No package owns %s\n"
+msgstr ""
+
+#: src/cli.vala
+#, c-format
+msgid "%s is owned by %s"
+msgstr ""
+
+#: src/cli.vala
+#, c-format
+msgid "There is %u member in group %s"
+msgid_plural "There are %u members in group %s"
+msgstr[0] ""
+msgstr[1] ""
+
+#: src/cli.vala
+msgid "Enter a selection (default=all)"
+msgstr ""
+
+#: src/cli.vala
+msgid "Total installed size"
+msgstr ""
+
+#: src/cli.vala
+msgid "Total removed size"
+msgstr ""
+
+#: src/cli.vala
+msgid "Commit transaction"
+msgstr ""
+
+#: src/cli.vala
+msgid "[y/N]"
+msgstr ""
+
+#: src/cli.vala
+msgid "y"
+msgstr ""
+
+#: src/cli.vala
+msgid "yes"
+msgstr ""
+
+#: src/cli.vala
+#, c-format
+msgid "Enter a number (default=%d)"
+msgstr ""
 
 #: resources/choose_provider_dialog.ui
 msgid "Choose a Provider"
@@ -688,14 +826,6 @@ msgstr "Um"
 #: resources/manager_window.ui
 msgid "State"
 msgstr "Staða"
-
-#: resources/manager_window.ui
-msgid "Version"
-msgstr "Útgáfa"
-
-#: resources/manager_window.ui
-msgid "Size"
-msgstr "Stærð"
 
 #: resources/manager_window.ui
 msgid "Popularity"

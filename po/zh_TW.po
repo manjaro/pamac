@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2018-05-26 17:59+0200\n"
-"PO-Revision-Date: 2018-05-28 06:51+0000\n"
+"POT-Creation-Date: 2018-08-16 12:06+0200\n"
+"PO-Revision-Date: 2018-08-18 13:36+0000\n"
 "Last-Translator: Jeff Huang <s8321414@gmail.com>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
@@ -66,7 +66,7 @@ msgstr "初始化事務處理失敗"
 msgid "Failed to prepare transaction"
 msgstr "準備事務處理失敗"
 
-#: src/system_daemon.vala
+#: src/system_daemon.vala src/cli.vala
 #, c-format
 msgid "target not found: %s"
 msgstr "目標找不到： %s"
@@ -142,127 +142,127 @@ msgstr "複製"
 msgid "Refreshing mirrors list"
 msgstr "正在重新整理鏡像列表"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 msgid "Synchronizing package databases"
 msgstr "正在同步套件庫"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 msgid "Starting full system upgrade"
 msgstr "正在開始全系統升級"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 msgid "Preparing"
 msgstr "準備中"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 #, c-format
 msgid "Choose a provider for %s"
 msgstr "選擇一個 %s 的提供者"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 msgid "To remove"
 msgstr "移除"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 msgid "To downgrade"
 msgstr "降級"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 msgid "To build"
 msgstr "構建"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 msgid "To install"
 msgstr "安裝"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 msgid "To reinstall"
 msgstr "重新安裝"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 msgid "To upgrade"
 msgstr "更新"
 
-#: src/transaction.vala src/manager_window.vala
+#: src/transaction.vala src/manager_window.vala src/cli.vala
 msgid "Total download size"
 msgstr "總計下載大小"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 #, c-format
 msgid "Building %s"
 msgstr "正在構建 %s"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 msgid "Transaction cancelled"
 msgstr "已取消事務處理"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 msgid "Checking dependencies"
 msgstr "正在檢查依賴關係"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 msgid "Checking file conflicts"
 msgstr "正在檢查檔案衝突"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 msgid "Resolving dependencies"
 msgstr "正在解決依賴關係"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 msgid "Checking inter-conflicts"
 msgstr "正在檢查內部衝途"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 #, c-format
 msgid "Installing %s"
 msgstr "正在安裝 %s"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 #, c-format
 msgid "Upgrading %s"
 msgstr "正在升級 %s"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 #, c-format
 msgid "Reinstalling %s"
 msgstr "正在重新安裝 %s"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 #, c-format
 msgid "Downgrading %s"
 msgstr "正在降級 %s"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 #, c-format
 msgid "Removing %s"
 msgstr "正在移除 %s"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 msgid "Checking integrity"
 msgstr "正在檢查軟體包完整性"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 msgid "Loading packages files"
 msgstr "正在載入套件檔案"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 msgid "Checking delta integrity"
 msgstr "正在檢查增量包完整性"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 msgid "Applying deltas"
 msgstr "正在套用增量包"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 #, c-format
 msgid "Generating %s with %s"
 msgstr "正在生成 %s (使用 %s)"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 msgid "Generation succeeded"
 msgstr "生成成功"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 msgid "Generation failed"
 msgstr "生成失敗"
 
@@ -271,76 +271,76 @@ msgstr "生成失敗"
 msgid "Configuring %s"
 msgstr "正在設定 %s"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 msgid "Downloading"
 msgstr "正在下載"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 #, c-format
 msgid "Downloading %s"
 msgstr "正在下載 %s"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 msgid "Checking available disk space"
 msgstr "正在檢查可用磁碟空間"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 #, c-format
 msgid "%s optionally requires %s"
 msgstr "%s 選擇性需要 %s"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 #, c-format
 msgid "Database file for %s does not exist"
 msgstr "%s 資料庫檔案不存在"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 msgid "Checking keyring"
 msgstr "正在檢查鑰匙圈"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 msgid "Downloading required keys"
 msgstr "正在下載需要的鑰匙"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 #, c-format
 msgid "%s installed as %s.pacnew"
 msgstr "%s 已安裝為 %s.pacnew"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 #, c-format
 msgid "%s installed as %s.pacsave"
 msgstr "%s 已安裝為 %s.pacsave"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 msgid "Running pre-transaction hooks"
 msgstr "正在執行前處理掛鉤"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 msgid "Running post-transaction hooks"
 msgstr "正在執行後處理掛鉤"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 #, c-format
 msgid "About %u seconds remaining"
 msgstr "大約剩餘 %u 秒"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 #, c-format
 msgid "About %lu minute remaining"
 msgid_plural "About %lu minutes remaining"
 msgstr[0] "大約剩餘 %lu 分鐘"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 #, c-format
 msgid "Refreshing %s"
 msgstr "正在更新 %s 內容"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 msgid "Error"
 msgstr "錯誤"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 msgid "Warning"
 msgstr "警告"
 
@@ -349,11 +349,11 @@ msgstr "警告"
 msgid "_Close"
 msgstr "關閉(_C)"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 msgid "Transaction successfully finished"
 msgstr "事務處理成功完成"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 msgid "Nothing to do"
 msgstr "已無事可作"
 
@@ -361,11 +361,11 @@ msgstr "已無事可作"
 msgid "Pamac is already running"
 msgstr "Pamac仍在執行中"
 
-#: src/installer.vala src/manager_window.vala
+#: src/installer.vala src/manager_window.vala src/cli.vala
 msgid "Waiting for another package manager to quit"
 msgstr "正在等待其他套件管理員結束"
 
-#: src/tray.vala src/manager_window.vala
+#: src/tray.vala src/manager_window.vala src/cli.vala
 msgid "Your system is up-to-date"
 msgstr "您的系統已經是最新的"
 
@@ -373,7 +373,7 @@ msgstr "您的系統已經是最新的"
 msgid "_Quit"
 msgstr "離開(_Q)"
 
-#: src/tray.vala
+#: src/tray.vala src/cli.vala
 #, c-format
 msgid "%u available update"
 msgid_plural "%u available updates"
@@ -418,7 +418,7 @@ msgstr[0] "%u 個擱置中的動作"
 msgid "Categories"
 msgstr "分類"
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "Groups"
 msgstr "套件群組"
 
@@ -426,7 +426,7 @@ msgstr "套件群組"
 msgid "Repositories"
 msgstr "套件庫"
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "Installed"
 msgstr "已安裝"
 
@@ -490,7 +490,7 @@ msgstr "設定"
 msgid "System Tools"
 msgstr "系統工具"
 
-#: src/manager_window.vala resources/preferences_dialog.ui
+#: src/manager_window.vala src/cli.vala resources/preferences_dialog.ui
 msgid "AUR"
 msgstr "AUR"
 
@@ -502,7 +502,7 @@ msgstr "依賴關係"
 msgid "Files"
 msgstr "檔案"
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "Install Reason"
 msgstr "安裝原因"
 
@@ -510,63 +510,63 @@ msgstr "安裝原因"
 msgid "Mark as explicitly installed"
 msgstr "標示為單獨指定安裝"
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "Licenses"
 msgstr "授權條款"
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala src/cli.vala resources/manager_window.ui
 msgid "Repository"
 msgstr "套件庫"
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "Packager"
 msgstr "打包者"
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "Build Date"
 msgstr "構建日期"
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "Install Date"
 msgstr "安裝日期"
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "Signatures"
 msgstr "數位簽章"
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "Backup files"
 msgstr "備份檔案"
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "Depends On"
 msgstr "依賴於"
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "Optional Dependencies"
 msgstr "選擇性依賴關係"
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "Required By"
 msgstr "被需要"
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "Optional For"
 msgstr "為後面這些軟體包的可選依賴"
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "Provides"
 msgstr "提供"
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "Replaces"
 msgstr "取代"
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "Conflicts With"
 msgstr "與下列套件衝突"
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "Package Base"
 msgstr "套件基礎"
 
@@ -574,27 +574,27 @@ msgstr "套件基礎"
 msgid "Maintainer"
 msgstr "維護者"
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "First Submitted"
 msgstr "首次遞交"
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "Last Modified"
 msgstr "最後修改"
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "Votes"
 msgstr "投票"
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "Out of Date"
 msgstr "過期"
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "Make Dependencies"
 msgstr "構建時依賴關係"
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "Check Dependencies"
 msgstr "檢查用依賴關係"
 
@@ -602,7 +602,7 @@ msgstr "檢查用依賴關係"
 msgid "Search"
 msgstr "搜尋"
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala src/cli.vala resources/manager_window.ui
 msgid "Name"
 msgstr "名稱"
 
@@ -642,6 +642,143 @@ msgstr "構建目錄"
 #: src/preferences_dialog.vala
 msgid "Worldwide"
 msgstr "全世界"
+
+#: src/cli.vala
+msgid "Available actions"
+msgstr "可用的動作"
+
+#: src/cli.vala
+msgid "action"
+msgstr "動作"
+
+#: src/cli.vala
+msgid "options"
+msgstr "選項"
+
+#: src/cli.vala
+msgid "package(s)"
+msgstr "軟體包"
+
+#: src/cli.vala
+msgid "Search for packages or files, multiple search terms can be specified"
+msgstr "搜尋軟體包或檔案，可以指定多個搜尋關鍵字"
+
+#: src/cli.vala
+msgid "file(s)"
+msgstr "檔案"
+
+#: src/cli.vala
+msgid "Display package details, multiple packages can be specified"
+msgstr "顯示軟體包詳細資訊，可以指定多個軟體包"
+
+#: src/cli.vala
+msgid "List packages, groups, repositories or files"
+msgstr "列出軟體包、群組、軟體庫或檔案"
+
+#: src/cli.vala
+msgid "group(s)"
+msgstr "群組"
+
+#: src/cli.vala
+msgid "repo(s)"
+msgstr "軟體庫"
+
+#: src/cli.vala
+msgid "Build packages from AUR and install them with their dependencies"
+msgstr "從 AUR 構建軟體包並與它們的相依軟體包一同安裝"
+
+#: src/cli.vala
+msgid "dir"
+msgstr "目錄"
+
+#: src/cli.vala
+msgid "Install packages from repositories, path or url"
+msgstr "從軟體庫、路徑或 URL 安裝軟體包"
+
+#: src/cli.vala
+msgid "glob"
+msgstr "全域"
+
+#: src/cli.vala
+msgid "Reinstall packages"
+msgstr "重新安裝軟體包"
+
+#: src/cli.vala
+msgid "Remove packages"
+msgstr "移除軟體包"
+
+#: src/cli.vala
+msgid "Safely check for updates without modifiying the databases"
+msgstr "不修改資料庫的更新安全檢查"
+
+#: src/cli.vala
+msgid "Upgrade your system"
+msgstr "更新您的系統"
+
+#: src/cli.vala resources/manager_window.ui
+msgid "Version"
+msgstr "版本"
+
+#: src/cli.vala
+msgid "Description"
+msgstr "描述"
+
+#: src/cli.vala
+msgid "URL"
+msgstr "URL"
+
+#: src/cli.vala resources/manager_window.ui
+msgid "Size"
+msgstr "大小"
+
+#: src/cli.vala
+#, c-format
+msgid "No package owns %s\n"
+msgstr "沒有軟體包擁有 %s\n"
+
+#: src/cli.vala
+#, c-format
+msgid "%s is owned by %s"
+msgstr "%s 被 %s 擁有"
+
+#: src/cli.vala
+#, c-format
+msgid "There is %u member in group %s"
+msgid_plural "There are %u members in group %s"
+msgstr[0] "在群組 %s 中有 %u 個成員"
+
+#: src/cli.vala
+msgid "Enter a selection (default=all)"
+msgstr "輸入選擇（預設=all）"
+
+#: src/cli.vala
+msgid "Total installed size"
+msgstr "總安裝大小"
+
+#: src/cli.vala
+msgid "Total removed size"
+msgstr "總移除大小"
+
+#: src/cli.vala
+msgid "Commit transaction"
+msgstr "遞交處理"
+
+#: src/cli.vala
+msgid "[y/N]"
+msgstr "[y/N]"
+
+#: src/cli.vala
+msgid "y"
+msgstr "y"
+
+#: src/cli.vala
+msgid "yes"
+msgstr "yes"
+
+#: src/cli.vala
+#, c-format
+msgid "Enter a number (default=%d)"
+msgstr "輸入數字（預設=%d）"
 
 #: resources/choose_provider_dialog.ui
 msgid "Choose a Provider"
@@ -686,14 +823,6 @@ msgstr "關於"
 #: resources/manager_window.ui
 msgid "State"
 msgstr "狀態"
-
-#: resources/manager_window.ui
-msgid "Version"
-msgstr "版本"
-
-#: resources/manager_window.ui
-msgid "Size"
-msgstr "大小"
 
 #: resources/manager_window.ui
 msgid "Popularity"

@@ -26,8 +26,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2018-05-26 17:59+0200\n"
-"PO-Revision-Date: 2018-05-27 13:35+0000\n"
+"POT-Creation-Date: 2018-08-16 12:06+0200\n"
+"PO-Revision-Date: 2018-08-18 01:12+0000\n"
 "Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Norwegian Bokmål (http://www.transifex.com/manjarolinux/manjaro-pamac/language/nb/)\n"
 "MIME-Version: 1.0\n"
@@ -80,7 +80,7 @@ msgstr "Kunne ikke initiere transaksjon"
 msgid "Failed to prepare transaction"
 msgstr "Kunne ikke forberede transaksjon"
 
-#: src/system_daemon.vala
+#: src/system_daemon.vala src/cli.vala
 #, c-format
 msgid "target not found: %s"
 msgstr "mål ikke funnet: %s"
@@ -156,127 +156,127 @@ msgstr "Kopier"
 msgid "Refreshing mirrors list"
 msgstr "Oppdaterer listen over pakkebrønner"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 msgid "Synchronizing package databases"
 msgstr "Synkroniserer pakkedatabaser"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 msgid "Starting full system upgrade"
 msgstr "Starter full systemoppgradering"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 msgid "Preparing"
 msgstr "Forbereder"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 #, c-format
 msgid "Choose a provider for %s"
 msgstr "Velg en leverandør for %s"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 msgid "To remove"
 msgstr "Å fjerne"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 msgid "To downgrade"
 msgstr "Å nedgradere"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 msgid "To build"
 msgstr "Å bygge"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 msgid "To install"
 msgstr "Å installere"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 msgid "To reinstall"
 msgstr "Å reinstallere"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 msgid "To upgrade"
 msgstr "Å oppgradere"
 
-#: src/transaction.vala src/manager_window.vala
+#: src/transaction.vala src/manager_window.vala src/cli.vala
 msgid "Total download size"
 msgstr "Samlet nedlastingsstørrelse"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 #, c-format
 msgid "Building %s"
 msgstr "Bygger %s"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 msgid "Transaction cancelled"
 msgstr "Transaksjon avbrutt"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 msgid "Checking dependencies"
 msgstr "Sjekker avhengigheter"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 msgid "Checking file conflicts"
 msgstr "Sjekker fil konflikter"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 msgid "Resolving dependencies"
 msgstr "Ordner avhengigheter"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 msgid "Checking inter-conflicts"
 msgstr "Sjekker inter-konflikter"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 #, c-format
 msgid "Installing %s"
 msgstr "Installerer %s"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 #, c-format
 msgid "Upgrading %s"
 msgstr "Oppdaterer %s"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 #, c-format
 msgid "Reinstalling %s"
 msgstr "Reinstallerer %s"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 #, c-format
 msgid "Downgrading %s"
 msgstr "Nedgraderer %s"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 #, c-format
 msgid "Removing %s"
 msgstr "Fjerner %s"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 msgid "Checking integrity"
 msgstr "Sjekker integritet"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 msgid "Loading packages files"
 msgstr "Laster pakke filer"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 msgid "Checking delta integrity"
 msgstr "Sjekker integritet"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 msgid "Applying deltas"
 msgstr "Anfører deltaer"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 #, c-format
 msgid "Generating %s with %s"
 msgstr "Generer %s med %s"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 msgid "Generation succeeded"
 msgstr "Generering lyktes"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 msgid "Generation failed"
 msgstr "Generering feilet"
 
@@ -285,77 +285,77 @@ msgstr "Generering feilet"
 msgid "Configuring %s"
 msgstr "Konfigurerer %s"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 msgid "Downloading"
 msgstr "Laster ned"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 #, c-format
 msgid "Downloading %s"
 msgstr "Laster ned %s"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 msgid "Checking available disk space"
 msgstr "Kontrollerer ledig diskplass"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 #, c-format
 msgid "%s optionally requires %s"
 msgstr "%s valgfritt krever %s"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 #, c-format
 msgid "Database file for %s does not exist"
 msgstr "Databasefilen for %s finnes ikke"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 msgid "Checking keyring"
 msgstr "Kontrollerer nøkkelring"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 msgid "Downloading required keys"
 msgstr "Laster ned nødvendige nøkkelringer"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 #, c-format
 msgid "%s installed as %s.pacnew"
 msgstr "%s installert som %s.pacnew"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 #, c-format
 msgid "%s installed as %s.pacsave"
 msgstr "%s installert som %s.pacsave"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 msgid "Running pre-transaction hooks"
 msgstr "Kjører forberedende rutiner"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 msgid "Running post-transaction hooks"
 msgstr "Kjører avsluttende rutiner"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 #, c-format
 msgid "About %u seconds remaining"
 msgstr "Ca %u sekunder gjenstår"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 #, c-format
 msgid "About %lu minute remaining"
 msgid_plural "About %lu minutes remaining"
 msgstr[0] "Ca %lu minutter gjenstår"
 msgstr[1] "Ca %lu minutter gjenstår"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 #, c-format
 msgid "Refreshing %s"
 msgstr "Oppfrisker %s"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 msgid "Error"
 msgstr "Feil"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 msgid "Warning"
 msgstr "Advarsel"
 
@@ -364,11 +364,11 @@ msgstr "Advarsel"
 msgid "_Close"
 msgstr "_Lukk"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 msgid "Transaction successfully finished"
 msgstr "Transaksjonen avsluttet vellykket"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 msgid "Nothing to do"
 msgstr "Ingenting å gjøre"
 
@@ -376,11 +376,11 @@ msgstr "Ingenting å gjøre"
 msgid "Pamac is already running"
 msgstr "Pamac kjører allerede"
 
-#: src/installer.vala src/manager_window.vala
+#: src/installer.vala src/manager_window.vala src/cli.vala
 msgid "Waiting for another package manager to quit"
 msgstr "Venter på at en annen pakkebehandler skal avslutte"
 
-#: src/tray.vala src/manager_window.vala
+#: src/tray.vala src/manager_window.vala src/cli.vala
 msgid "Your system is up-to-date"
 msgstr "Systemet ditt er oppdatert"
 
@@ -388,7 +388,7 @@ msgstr "Systemet ditt er oppdatert"
 msgid "_Quit"
 msgstr "_Avslutt"
 
-#: src/tray.vala
+#: src/tray.vala src/cli.vala
 #, c-format
 msgid "%u available update"
 msgid_plural "%u available updates"
@@ -435,7 +435,7 @@ msgstr[1] "%u operasjoner venter"
 msgid "Categories"
 msgstr "Kategorier"
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "Groups"
 msgstr "Grupper"
 
@@ -443,7 +443,7 @@ msgstr "Grupper"
 msgid "Repositories"
 msgstr "Pakkebrønner"
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "Installed"
 msgstr "Installert"
 
@@ -507,7 +507,7 @@ msgstr "Innstillinger"
 msgid "System Tools"
 msgstr "Systemverktøy"
 
-#: src/manager_window.vala resources/preferences_dialog.ui
+#: src/manager_window.vala src/cli.vala resources/preferences_dialog.ui
 msgid "AUR"
 msgstr "AUR"
 
@@ -519,7 +519,7 @@ msgstr "Avhengigheter"
 msgid "Files"
 msgstr "Filer"
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "Install Reason"
 msgstr "Grunn til Installasjon"
 
@@ -527,63 +527,63 @@ msgstr "Grunn til Installasjon"
 msgid "Mark as explicitly installed"
 msgstr "Marker som eksplisitt installert"
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "Licenses"
 msgstr "Lisenser"
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala src/cli.vala resources/manager_window.ui
 msgid "Repository"
 msgstr "Arkiv"
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "Packager"
 msgstr "Pakker"
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "Build Date"
 msgstr "Byggedato"
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "Install Date"
 msgstr "Installasjons Dato"
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "Signatures"
 msgstr "Signaturer"
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "Backup files"
 msgstr "Sikkerhetskopier filene"
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "Depends On"
 msgstr "Avhenger av"
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "Optional Dependencies"
 msgstr "Valgfrie avhengigheter"
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "Required By"
 msgstr "Krevd av"
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "Optional For"
 msgstr "Valgfri for"
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "Provides"
 msgstr "Tilbyr"
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "Replaces"
 msgstr "Erstatter"
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "Conflicts With"
 msgstr "I konflikt med"
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "Package Base"
 msgstr "Pakkebase"
 
@@ -591,27 +591,27 @@ msgstr "Pakkebase"
 msgid "Maintainer"
 msgstr "Vedlikeholder"
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "First Submitted"
 msgstr "Første gang registrert"
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "Last Modified"
 msgstr "Sist endret"
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "Votes"
 msgstr "Stemmer"
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "Out of Date"
 msgstr "Utdatert"
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "Make Dependencies"
 msgstr "Lag avhengigheter"
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "Check Dependencies"
 msgstr "Sjekk avhengigheter"
 
@@ -619,7 +619,7 @@ msgstr "Sjekk avhengigheter"
 msgid "Search"
 msgstr "Søk"
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala src/cli.vala resources/manager_window.ui
 msgid "Name"
 msgstr "Navn"
 
@@ -659,6 +659,144 @@ msgstr "Byggkatalog"
 #: src/preferences_dialog.vala
 msgid "Worldwide"
 msgstr "Verdensomspennende"
+
+#: src/cli.vala
+msgid "Available actions"
+msgstr ""
+
+#: src/cli.vala
+msgid "action"
+msgstr ""
+
+#: src/cli.vala
+msgid "options"
+msgstr ""
+
+#: src/cli.vala
+msgid "package(s)"
+msgstr ""
+
+#: src/cli.vala
+msgid "Search for packages or files, multiple search terms can be specified"
+msgstr ""
+
+#: src/cli.vala
+msgid "file(s)"
+msgstr ""
+
+#: src/cli.vala
+msgid "Display package details, multiple packages can be specified"
+msgstr ""
+
+#: src/cli.vala
+msgid "List packages, groups, repositories or files"
+msgstr ""
+
+#: src/cli.vala
+msgid "group(s)"
+msgstr ""
+
+#: src/cli.vala
+msgid "repo(s)"
+msgstr ""
+
+#: src/cli.vala
+msgid "Build packages from AUR and install them with their dependencies"
+msgstr ""
+
+#: src/cli.vala
+msgid "dir"
+msgstr ""
+
+#: src/cli.vala
+msgid "Install packages from repositories, path or url"
+msgstr ""
+
+#: src/cli.vala
+msgid "glob"
+msgstr ""
+
+#: src/cli.vala
+msgid "Reinstall packages"
+msgstr ""
+
+#: src/cli.vala
+msgid "Remove packages"
+msgstr ""
+
+#: src/cli.vala
+msgid "Safely check for updates without modifiying the databases"
+msgstr ""
+
+#: src/cli.vala
+msgid "Upgrade your system"
+msgstr ""
+
+#: src/cli.vala resources/manager_window.ui
+msgid "Version"
+msgstr "Versjon"
+
+#: src/cli.vala
+msgid "Description"
+msgstr ""
+
+#: src/cli.vala
+msgid "URL"
+msgstr ""
+
+#: src/cli.vala resources/manager_window.ui
+msgid "Size"
+msgstr "Størrelse"
+
+#: src/cli.vala
+#, c-format
+msgid "No package owns %s\n"
+msgstr ""
+
+#: src/cli.vala
+#, c-format
+msgid "%s is owned by %s"
+msgstr ""
+
+#: src/cli.vala
+#, c-format
+msgid "There is %u member in group %s"
+msgid_plural "There are %u members in group %s"
+msgstr[0] ""
+msgstr[1] ""
+
+#: src/cli.vala
+msgid "Enter a selection (default=all)"
+msgstr ""
+
+#: src/cli.vala
+msgid "Total installed size"
+msgstr ""
+
+#: src/cli.vala
+msgid "Total removed size"
+msgstr ""
+
+#: src/cli.vala
+msgid "Commit transaction"
+msgstr ""
+
+#: src/cli.vala
+msgid "[y/N]"
+msgstr ""
+
+#: src/cli.vala
+msgid "y"
+msgstr ""
+
+#: src/cli.vala
+msgid "yes"
+msgstr ""
+
+#: src/cli.vala
+#, c-format
+msgid "Enter a number (default=%d)"
+msgstr ""
 
 #: resources/choose_provider_dialog.ui
 msgid "Choose a Provider"
@@ -703,14 +841,6 @@ msgstr "Om"
 #: resources/manager_window.ui
 msgid "State"
 msgstr "Tilstand"
-
-#: resources/manager_window.ui
-msgid "Version"
-msgstr "Versjon"
-
-#: resources/manager_window.ui
-msgid "Size"
-msgstr "Størrelse"
 
 #: resources/manager_window.ui
 msgid "Popularity"

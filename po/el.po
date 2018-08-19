@@ -12,6 +12,7 @@
 # kouros kouros <kormikg@yahoo.gr>, 2016-2017
 # philm <philm@manjaro.org>, 2014
 # Panagiotis Mantzios <pmantzios@hotmail.com>, 2017
+# Panagiotis Mantzios <pmantzios@hotmail.com>, 2018
 # philm <philm@manjaro.org>, 2014-2015
 # Savoritias <inactive+Savoritias@transifex.com>, 2014
 # Savoritias <inactive+Savoritias@transifex.com>, 2014
@@ -23,8 +24,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2018-05-26 17:59+0200\n"
-"PO-Revision-Date: 2018-05-27 13:35+0000\n"
+"POT-Creation-Date: 2018-08-16 12:06+0200\n"
+"PO-Revision-Date: 2018-08-18 01:12+0000\n"
 "Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Greek (http://www.transifex.com/manjarolinux/manjaro-pamac/language/el/)\n"
 "MIME-Version: 1.0\n"
@@ -77,7 +78,7 @@ msgstr "Η διεργασία init απέτυχε"
 msgid "Failed to prepare transaction"
 msgstr "Απέτυχε η προετοιμασία της διεργασίας"
 
-#: src/system_daemon.vala
+#: src/system_daemon.vala src/cli.vala
 #, c-format
 msgid "target not found: %s"
 msgstr "δεν βρέθηκε ο προορισμός: %s"
@@ -153,127 +154,127 @@ msgstr "Αντιγραφή"
 msgid "Refreshing mirrors list"
 msgstr "Ανανέωση της λίστας διακομιστών (servers)"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 msgid "Synchronizing package databases"
 msgstr "Συγχρονισμός των βάσεων δεδομένων"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 msgid "Starting full system upgrade"
 msgstr "Έναρξη πλήρους αναβάθμισης του συστήματος"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 msgid "Preparing"
 msgstr "Προετοιμασία"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 #, c-format
 msgid "Choose a provider for %s"
 msgstr "Επιλέξτε έναν πάροχο για το %s"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 msgid "To remove"
 msgstr "Προς αφαίρεση"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 msgid "To downgrade"
 msgstr "Προς υποβάθμισ"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 msgid "To build"
 msgstr "Πρός δημιουργία"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 msgid "To install"
 msgstr "Προς εγκατάσταση"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 msgid "To reinstall"
 msgstr "Προς επανεγκατάσταση"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 msgid "To upgrade"
 msgstr "Προς αναβάθμιση"
 
-#: src/transaction.vala src/manager_window.vala
+#: src/transaction.vala src/manager_window.vala src/cli.vala
 msgid "Total download size"
 msgstr "Συνολικό μέγεθος προς λήψη:"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 #, c-format
 msgid "Building %s"
 msgstr "Δημιουργία %s"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 msgid "Transaction cancelled"
 msgstr "Η διεργασία ακυρώθηκε"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 msgid "Checking dependencies"
 msgstr "Έλεγχος εξαρτήσεων"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 msgid "Checking file conflicts"
 msgstr "Έλεγχος για διενέξεις αρχείων"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 msgid "Resolving dependencies"
 msgstr "Επίλυση εξαρτήσεων"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 msgid "Checking inter-conflicts"
 msgstr "Έλεγχος για εσωτερικές διενέξεις"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 #, c-format
 msgid "Installing %s"
 msgstr "Εγκατάσταση %s"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 #, c-format
 msgid "Upgrading %s"
 msgstr "Αναβάθμιση %s"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 #, c-format
 msgid "Reinstalling %s"
 msgstr "Επανεγκατάσταση %s"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 #, c-format
 msgid "Downgrading %s"
 msgstr "Υποβάθμιση %s"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 #, c-format
 msgid "Removing %s"
 msgstr "Αφαίρεση %s"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 msgid "Checking integrity"
 msgstr "Έλεγχος ακεραιότητας"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 msgid "Loading packages files"
 msgstr "Φόρτωση αρχείων πακέτων"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 msgid "Checking delta integrity"
 msgstr "Έλεγχος ακεραιότητας delta"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 msgid "Applying deltas"
 msgstr "Εφαρμογή deltas"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 #, c-format
 msgid "Generating %s with %s"
 msgstr "Δημιουργία %s με %s"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 msgid "Generation succeeded"
 msgstr "Η δημιουργία ολοκληρώθηκε επιτυχώς!"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 msgid "Generation failed"
 msgstr "Η δημιουργία απέτυχε."
 
@@ -282,77 +283,77 @@ msgstr "Η δημιουργία απέτυχε."
 msgid "Configuring %s"
 msgstr "Ρύθμιση %s"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 msgid "Downloading"
 msgstr "Λήψη"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 #, c-format
 msgid "Downloading %s"
 msgstr "Λήψη %s"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 msgid "Checking available disk space"
 msgstr "Έλεγχος ελεύθερου χώρου στον δίσκο"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 #, c-format
 msgid "%s optionally requires %s"
 msgstr "Το %s: απαιτεί προαιρετικά το %s"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 #, c-format
 msgid "Database file for %s does not exist"
 msgstr "Δεν υπάρχει το αρχείο βάσης δεδομένων για το %s "
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 msgid "Checking keyring"
 msgstr "Έλεγχος keyring"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 msgid "Downloading required keys"
 msgstr "Μεταφόρτωση των απαιτούμενων κλειδιών"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 #, c-format
 msgid "%s installed as %s.pacnew"
 msgstr "Το %s εγκαταστάθηκε ως %s.pacnew"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 #, c-format
 msgid "%s installed as %s.pacsave"
 msgstr "Το %s εγκαταστάθηκε ως %s.pacsave"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 msgid "Running pre-transaction hooks"
 msgstr "Τρέχουν hooks προ της διεργασίας"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 msgid "Running post-transaction hooks"
 msgstr "Τρέχουν hooks μετά τη διεργασία"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 #, c-format
 msgid "About %u seconds remaining"
 msgstr "Απομένουν περίπου %u δευτερόλεπτα"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 #, c-format
 msgid "About %lu minute remaining"
 msgid_plural "About %lu minutes remaining"
 msgstr[0] "%lu λεπτά απομένουν"
 msgstr[1] "Απομένουν περίπου %lu λεπτά"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 #, c-format
 msgid "Refreshing %s"
 msgstr "Ανανέωση %s"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 msgid "Error"
 msgstr "Σφάλμα"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 msgid "Warning"
 msgstr "Προειδοποίηση"
 
@@ -361,11 +362,11 @@ msgstr "Προειδοποίηση"
 msgid "_Close"
 msgstr "_Κλείσιμο"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 msgid "Transaction successfully finished"
 msgstr "Οι ενέργειες ολοκληρώθηκαν επιτυχώς"
 
-#: src/transaction.vala
+#: src/transaction.vala src/cli.vala
 msgid "Nothing to do"
 msgstr "Δεν υπάρχει τίποτε να γίνει"
 
@@ -373,11 +374,11 @@ msgstr "Δεν υπάρχει τίποτε να γίνει"
 msgid "Pamac is already running"
 msgstr "Ο Pamac είναι ήδη ενεργός"
 
-#: src/installer.vala src/manager_window.vala
+#: src/installer.vala src/manager_window.vala src/cli.vala
 msgid "Waiting for another package manager to quit"
 msgstr "Περιμένοντας να τερματίσει ένας άλλος διαχειριστής πακέτων."
 
-#: src/tray.vala src/manager_window.vala
+#: src/tray.vala src/manager_window.vala src/cli.vala
 msgid "Your system is up-to-date"
 msgstr "Το σύστημα σας είναι πλήρως ενημερωμένο"
 
@@ -385,7 +386,7 @@ msgstr "Το σύστημα σας είναι πλήρως ενημερωμέν�
 msgid "_Quit"
 msgstr "Έξ_οδος"
 
-#: src/tray.vala
+#: src/tray.vala src/cli.vala
 #, c-format
 msgid "%u available update"
 msgid_plural "%u available updates"
@@ -432,7 +433,7 @@ msgstr[1] "%u εκκρεμείς διαδικασίες"
 msgid "Categories"
 msgstr "Κατηγορίες"
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "Groups"
 msgstr "Ομάδες"
 
@@ -440,7 +441,7 @@ msgstr "Ομάδες"
 msgid "Repositories"
 msgstr "Αποθετήρια"
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "Installed"
 msgstr "Εγκατεστημένα"
 
@@ -504,7 +505,7 @@ msgstr "Ρυθμίσεις"
 msgid "System Tools"
 msgstr "Εργαλεία Συστήματος"
 
-#: src/manager_window.vala resources/preferences_dialog.ui
+#: src/manager_window.vala src/cli.vala resources/preferences_dialog.ui
 msgid "AUR"
 msgstr "AUR"
 
@@ -516,7 +517,7 @@ msgstr "Εξαρτήσεις"
 msgid "Files"
 msgstr "Αρχεία"
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "Install Reason"
 msgstr "Λόγος για εγκατάσταση"
 
@@ -524,63 +525,63 @@ msgstr "Λόγος για εγκατάσταση"
 msgid "Mark as explicitly installed"
 msgstr "Σήμανση ως ρητώς εγκατεστημένο"
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "Licenses"
 msgstr "Άδειες"
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala src/cli.vala resources/manager_window.ui
 msgid "Repository"
 msgstr "Αποθετήριο"
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "Packager"
 msgstr "Δημιουργός πακέτου"
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "Build Date"
 msgstr "Ημερομηνία Δημιουργίας"
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "Install Date"
 msgstr "Ημερομηνία εγκατάστασης"
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "Signatures"
 msgstr "Υπογραφές"
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "Backup files"
 msgstr "Δημιουργία αντιγράφων ασφαλείας αρχείων"
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "Depends On"
 msgstr "Εξαρτάτε από"
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "Optional Dependencies"
 msgstr "Προαιρετικές Εξαρτήσεις"
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "Required By"
 msgstr "Απαιτείτε από"
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "Optional For"
 msgstr "Προαιρετικό Για"
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "Provides"
 msgstr "Παρέχει"
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "Replaces"
 msgstr "Αντικαθιστά"
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "Conflicts With"
 msgstr "Διένεξη με"
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "Package Base"
 msgstr "Βάση Πακέτου"
 
@@ -588,27 +589,27 @@ msgstr "Βάση Πακέτου"
 msgid "Maintainer"
 msgstr "Συντηρητής"
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "First Submitted"
 msgstr "Αρχική Υποβολή"
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "Last Modified"
 msgstr "Τελευταία Τροποποίηση"
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "Votes"
 msgstr "Ψήφοι"
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "Out of Date"
 msgstr "Ξεπερασμένο"
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "Make Dependencies"
 msgstr "Εξαρτήσεις κατά την Δημιουργία"
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "Check Dependencies"
 msgstr "Έλεγχος Εξαρτήσεων"
 
@@ -616,7 +617,7 @@ msgstr "Έλεγχος Εξαρτήσεων"
 msgid "Search"
 msgstr "Αναζήτηση"
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala src/cli.vala resources/manager_window.ui
 msgid "Name"
 msgstr "Όνομα"
 
@@ -656,6 +657,144 @@ msgstr "Κατάλογος δημιουργίας"
 #: src/preferences_dialog.vala
 msgid "Worldwide"
 msgstr "Παγκοσμίως"
+
+#: src/cli.vala
+msgid "Available actions"
+msgstr ""
+
+#: src/cli.vala
+msgid "action"
+msgstr ""
+
+#: src/cli.vala
+msgid "options"
+msgstr ""
+
+#: src/cli.vala
+msgid "package(s)"
+msgstr ""
+
+#: src/cli.vala
+msgid "Search for packages or files, multiple search terms can be specified"
+msgstr ""
+
+#: src/cli.vala
+msgid "file(s)"
+msgstr ""
+
+#: src/cli.vala
+msgid "Display package details, multiple packages can be specified"
+msgstr ""
+
+#: src/cli.vala
+msgid "List packages, groups, repositories or files"
+msgstr ""
+
+#: src/cli.vala
+msgid "group(s)"
+msgstr ""
+
+#: src/cli.vala
+msgid "repo(s)"
+msgstr ""
+
+#: src/cli.vala
+msgid "Build packages from AUR and install them with their dependencies"
+msgstr ""
+
+#: src/cli.vala
+msgid "dir"
+msgstr ""
+
+#: src/cli.vala
+msgid "Install packages from repositories, path or url"
+msgstr ""
+
+#: src/cli.vala
+msgid "glob"
+msgstr ""
+
+#: src/cli.vala
+msgid "Reinstall packages"
+msgstr ""
+
+#: src/cli.vala
+msgid "Remove packages"
+msgstr ""
+
+#: src/cli.vala
+msgid "Safely check for updates without modifiying the databases"
+msgstr ""
+
+#: src/cli.vala
+msgid "Upgrade your system"
+msgstr ""
+
+#: src/cli.vala resources/manager_window.ui
+msgid "Version"
+msgstr "Έκδοση"
+
+#: src/cli.vala
+msgid "Description"
+msgstr ""
+
+#: src/cli.vala
+msgid "URL"
+msgstr ""
+
+#: src/cli.vala resources/manager_window.ui
+msgid "Size"
+msgstr "Μέγεθος"
+
+#: src/cli.vala
+#, c-format
+msgid "No package owns %s\n"
+msgstr ""
+
+#: src/cli.vala
+#, c-format
+msgid "%s is owned by %s"
+msgstr ""
+
+#: src/cli.vala
+#, c-format
+msgid "There is %u member in group %s"
+msgid_plural "There are %u members in group %s"
+msgstr[0] ""
+msgstr[1] ""
+
+#: src/cli.vala
+msgid "Enter a selection (default=all)"
+msgstr ""
+
+#: src/cli.vala
+msgid "Total installed size"
+msgstr ""
+
+#: src/cli.vala
+msgid "Total removed size"
+msgstr ""
+
+#: src/cli.vala
+msgid "Commit transaction"
+msgstr ""
+
+#: src/cli.vala
+msgid "[y/N]"
+msgstr ""
+
+#: src/cli.vala
+msgid "y"
+msgstr ""
+
+#: src/cli.vala
+msgid "yes"
+msgstr ""
+
+#: src/cli.vala
+#, c-format
+msgid "Enter a number (default=%d)"
+msgstr ""
 
 #: resources/choose_provider_dialog.ui
 msgid "Choose a Provider"
@@ -702,14 +841,6 @@ msgid "State"
 msgstr "Κατάσταση"
 
 #: resources/manager_window.ui
-msgid "Version"
-msgstr "Έκδοση"
-
-#: resources/manager_window.ui
-msgid "Size"
-msgstr "Μέγεθος"
-
-#: resources/manager_window.ui
 msgid "Popularity"
 msgstr "Δημοτικότητα"
 
@@ -749,7 +880,7 @@ msgstr "Έλεγχος για αναβαθμίσεις"
 
 #: resources/preferences_dialog.ui
 msgid "Automatically download updates"
-msgstr ""
+msgstr "Αυτόματη λήψη ενημερώσεων"
 
 #: resources/preferences_dialog.ui
 msgid "Hide tray icon when no update available"
