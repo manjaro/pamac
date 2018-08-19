@@ -20,14 +20,14 @@
 namespace Pamac {
 
 	public class Installer: Gtk.Application {
+		ApplicationCommandLine cmd;
 		Transaction transaction;
 		ProgressDialog progress_dialog;
-		bool pamac_run;
 		bool important_details;
 
 		public Installer () {
 			application_id = "org.manjaro.pamac.installer";
-			flags |= ApplicationFlags.HANDLES_OPEN;
+			flags |= ApplicationFlags.HANDLES_COMMAND_LINE;
 		}
 
 		public override void startup () {
@@ -37,46 +37,55 @@ namespace Pamac {
 
 			base.startup ();
 
-			pamac_run = check_pamac_running ();
-			if (pamac_run) {
-				var msg = new Gtk.MessageDialog (null,
-												Gtk.DialogFlags.MODAL,
-												Gtk.MessageType.ERROR,
-												Gtk.ButtonsType.OK,
-												dgettext (null, "Pamac is already running"));
-				msg.run ();
-				msg.destroy ();
-			} else {
-				important_details = false;
-				// integrate progress box and term widget
-				progress_dialog = new ProgressDialog ();
-				transaction = new Transaction (progress_dialog as Gtk.ApplicationWindow);
-				transaction.mode = Transaction.Mode.INSTALLER;
-				transaction.finished.connect (on_transaction_finished);
-				transaction.important_details_outpout.connect (on_important_details_outpout);
-				progress_dialog.box.pack_start (transaction.progress_box);
-				progress_dialog.box.reorder_child (transaction.progress_box, 0);
-				transaction.term_window.height_request = 200;
-				progress_dialog.expander.add (transaction.term_window);
-				progress_dialog.close_button.clicked.connect (on_close_button_clicked);
-				progress_dialog.close_button.visible = false;
-				this.hold ();
-			}
+			important_details = false;
+			// integrate progress box and term widget
+			progress_dialog = new ProgressDialog ();
+			transaction = new Transaction (progress_dialog as Gtk.ApplicationWindow);
+			transaction.mode = Transaction.Mode.INSTALLER;
+			transaction.finished.connect (on_transaction_finished);
+			transaction.important_details_outpout.connect (on_important_details_outpout);
+			progress_dialog.box.pack_start (transaction.progress_box);
+			progress_dialog.box.reorder_child (transaction.progress_box, 0);
+			transaction.term_window.height_request = 200;
+			progress_dialog.expander.add (transaction.term_window);
+			progress_dialog.close_button.clicked.connect (on_close_button_clicked);
+			progress_dialog.close_button.visible = false;
 		}
 
-		public override void activate () {
-			if (!pamac_run) {
-				print ("\nError: Path(s) of tarball(s) to install is needed\n");
-				transaction.stop_daemon ();
-				this.release ();
-			}
-		}
-
-		public override void open (File[] files, string hint) {
-			if (!pamac_run) {
-				foreach (unowned File file in files) {
-					transaction.to_load.add (file.get_path ());
+		public override int command_line (ApplicationCommandLine cmd) {
+			this.cmd = cmd;
+			string[] args = cmd.get_arguments ();
+			foreach (unowned string target in args[1:args.length]) {
+				// check for local or remote path
+				if (".pkg.tar" in target) {
+					if ("://" in target) {
+						if ("file://" in target) {
+							// handle file:// uri
+							var file = File.new_for_uri (target);
+							string? absolute_path = file.get_path ();
+							if (absolute_path != null) {
+								transaction.to_load.add (absolute_path);
+							}
+						} else {
+							// add url in to_load, pkg will be downloaded by system_daemon
+							transaction.to_load.add (target);
+						}
+					} else {
+						// handle local or absolute path
+						var file = File.new_for_path (target);
+						string? absolute_path = file.get_path ();
+						if (absolute_path != null) {
+							transaction.to_load.add (absolute_path);
+						}
+					}
+				} else {
+					transaction.to_install.add (target);
 				}
+			}
+			if (transaction.to_install.length == 0 && transaction.to_load.length == 0) {
+				stdout.printf (dgettext (null, "Nothing to do") + ".\n");
+			} else {
+				this.hold ();
 				progress_dialog.show ();
 				if (transaction.get_lock ()) {
 					transaction.run ();
@@ -93,19 +102,7 @@ namespace Pamac {
 					});
 				}
 			}
-		}
-
-		bool check_pamac_running () {
-			Application app;
-			bool run = false;
-			app = new Application ("org.manjaro.pamac.manager", 0);
-			try {
-				app.register ();
-			} catch (GLib.Error e) {
-				stderr.printf ("%s\n", e.message);
-			}
-			run = app.get_is_remote ();
-			return run;
+			return cmd.get_exit_status ();
 		}
 
 		void on_important_details_outpout (bool must_show) {
@@ -123,6 +120,9 @@ namespace Pamac {
 				progress_dialog.close_button.visible = true;
 			} else {
 				this.release ();
+			}
+			if (!success) {
+				cmd.set_exit_status (1);
 			}
 		}
 
