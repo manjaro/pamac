@@ -16,8 +16,8 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2018-08-16 12:06+0200\n"
-"PO-Revision-Date: 2018-08-18 01:12+0000\n"
-"Last-Translator: philm <philm@manjaro.org>\n"
+"PO-Revision-Date: 2018-08-21 10:34+0000\n"
+"Last-Translator: Galin Iskrenov <loot270@abv.bg>\n"
 "Language-Team: Bulgarian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/bg/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -651,75 +651,75 @@ msgstr "По света"
 
 #: src/cli.vala
 msgid "Available actions"
-msgstr ""
+msgstr "Достъпни действия"
 
 #: src/cli.vala
 msgid "action"
-msgstr ""
+msgstr "действие"
 
 #: src/cli.vala
 msgid "options"
-msgstr ""
+msgstr "настройки "
 
 #: src/cli.vala
 msgid "package(s)"
-msgstr ""
+msgstr "пакет(и)"
 
 #: src/cli.vala
 msgid "Search for packages or files, multiple search terms can be specified"
-msgstr ""
+msgstr "Търсене на пакети или файлове, могат да се посочат няколко думи за търсене"
 
 #: src/cli.vala
 msgid "file(s)"
-msgstr ""
+msgstr "файл(ове)"
 
 #: src/cli.vala
 msgid "Display package details, multiple packages can be specified"
-msgstr ""
+msgstr "Показване на детайлите на пакета, могат да се посочат няколко пакета"
 
 #: src/cli.vala
 msgid "List packages, groups, repositories or files"
-msgstr ""
+msgstr "Списък пакети, групи, хранилища или файлове"
 
 #: src/cli.vala
 msgid "group(s)"
-msgstr ""
+msgstr "група(и)"
 
 #: src/cli.vala
 msgid "repo(s)"
-msgstr ""
+msgstr "хранилище(а)"
 
 #: src/cli.vala
 msgid "Build packages from AUR and install them with their dependencies"
-msgstr ""
+msgstr "Създавайте пакети от AUR и ги инсталирайте с техните зависимости"
 
 #: src/cli.vala
 msgid "dir"
-msgstr ""
+msgstr "dir"
 
 #: src/cli.vala
 msgid "Install packages from repositories, path or url"
-msgstr ""
+msgstr "Инсталирайте пакети от хранилища, път или URL адрес"
 
 #: src/cli.vala
 msgid "glob"
-msgstr ""
+msgstr "glob"
 
 #: src/cli.vala
 msgid "Reinstall packages"
-msgstr ""
+msgstr "Преинсталиране на пакети"
 
 #: src/cli.vala
 msgid "Remove packages"
-msgstr ""
+msgstr "Премахване на пакети"
 
 #: src/cli.vala
 msgid "Safely check for updates without modifiying the databases"
-msgstr ""
+msgstr "Безопасно проверявайте за актуализации без да променяте базите от данни"
 
 #: src/cli.vala
 msgid "Upgrade your system"
-msgstr ""
+msgstr "Надстройте системата си"
 
 #: src/cli.vala resources/manager_window.ui
 msgid "Version"
@@ -727,11 +727,11 @@ msgstr "Версия"
 
 #: src/cli.vala
 msgid "Description"
-msgstr ""
+msgstr "Описание"
 
 #: src/cli.vala
 msgid "URL"
-msgstr ""
+msgstr "URL"
 
 #: src/cli.vala resources/manager_window.ui
 msgid "Size"
@@ -740,52 +740,52 @@ msgstr "Размер"
 #: src/cli.vala
 #, c-format
 msgid "No package owns %s\n"
-msgstr ""
+msgstr "Няма собствен пакет %s\n"
 
 #: src/cli.vala
 #, c-format
 msgid "%s is owned by %s"
-msgstr ""
+msgstr "%s е собственост на %s"
 
 #: src/cli.vala
 #, c-format
 msgid "There is %u member in group %s"
 msgid_plural "There are %u members in group %s"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Има %u член в група %s"
+msgstr[1] "Има %u члена в група %s"
 
 #: src/cli.vala
 msgid "Enter a selection (default=all)"
-msgstr ""
+msgstr "Въведете селекция (default=all)"
 
 #: src/cli.vala
 msgid "Total installed size"
-msgstr ""
+msgstr "Общ инсталиран размер"
 
 #: src/cli.vala
 msgid "Total removed size"
-msgstr ""
+msgstr "Общ отстранен размер"
 
 #: src/cli.vala
 msgid "Commit transaction"
-msgstr ""
+msgstr "Потвърждаване на транзакцията"
 
 #: src/cli.vala
 msgid "[y/N]"
-msgstr ""
+msgstr "[y/N]"
 
 #: src/cli.vala
 msgid "y"
-msgstr ""
+msgstr "y"
 
 #: src/cli.vala
 msgid "yes"
-msgstr ""
+msgstr "yes"
 
 #: src/cli.vala
 #, c-format
 msgid "Enter a number (default=%d)"
-msgstr ""
+msgstr "Въведете номер (default=%d)"
 
 #: resources/choose_provider_dialog.ui
 msgid "Choose a Provider"
