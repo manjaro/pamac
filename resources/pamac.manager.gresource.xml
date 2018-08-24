@@ -13,4 +13,8 @@
     <file preprocess="to-pixdata">package-upgrade.png</file>
     <file preprocess="to-pixdata">package-generic.png</file>
   </gresource>
+  <gresource prefix="/org/manjaro/pamac/preferences">
+    <file preprocess="xml-stripblanks">preferences_dialog.ui</file>
+    <file preprocess="xml-stripblanks">choose_ignorepkgs_dialog.ui</file>
+  </gresource>
 </gresources>

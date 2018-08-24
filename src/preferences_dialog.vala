@@ -62,11 +62,11 @@ namespace Pamac {
 		Gtk.CheckButton cache_only_uninstalled_checkbutton;
 
 		Gtk.ListStore ignorepkgs_liststore;
-		Transaction transaction;
+		TransactionGtk transaction;
 		uint64 previous_refresh_period;
 		string preferences_choosen_country;
 
-		public PreferencesDialog (Transaction transaction) {
+		public PreferencesDialog (TransactionGtk transaction) {
 			int use_header_bar;
 			Gtk.Settings.get_default ().get ("gtk-dialogs-use-header", out use_header_bar);
 			Object (transient_for: transaction.application_window, use_header_bar: use_header_bar);
@@ -75,9 +75,9 @@ namespace Pamac {
 			refresh_period_label.set_markup (dgettext (null, "How often to check for updates, value in hours") +":");
 			cache_keep_nb_label.set_markup (dgettext (null, "Number of versions of each package to keep in the cache") +":");
 			aur_build_dir_label.set_markup (dgettext (null, "Build directory") +":");
-			remove_unrequired_deps_button.active = transaction.recurse;
-			check_space_button.active = transaction.get_checkspace ();
-			if (transaction.refresh_period == 0) {
+			remove_unrequired_deps_button.active = transaction.database.config.recurse;
+			check_space_button.active = transaction.database.get_checkspace ();
+			if (transaction.database.config.refresh_period == 0) {
 				check_updates_button.active = false;
 				refresh_period_label.sensitive = false;
 				// set default value
@@ -89,18 +89,18 @@ namespace Pamac {
 				ignorepkgs_box.sensitive = false;
 			} else {
 				check_updates_button.active = true;
-				refresh_period_spin_button.value = transaction.refresh_period;
-				previous_refresh_period = transaction.refresh_period;
+				refresh_period_spin_button.value = transaction.database.config.refresh_period;
+				previous_refresh_period = transaction.database.config.refresh_period;
 			}
-			no_update_hide_icon_checkbutton.active = transaction.no_update_hide_icon;
-			download_updates_checkbutton.active = transaction.download_updates;
-			cache_keep_nb_spin_button.value = transaction.keep_num_pkgs;
-			cache_only_uninstalled_checkbutton.active = transaction.rm_only_uninstalled;
+			no_update_hide_icon_checkbutton.active = transaction.database.config.no_update_hide_icon;
+			download_updates_checkbutton.active = transaction.database.config.download_updates;
+			cache_keep_nb_spin_button.value = transaction.database.config.clean_keep_num_pkgs;
+			cache_only_uninstalled_checkbutton.active = transaction.database.config.clean_rm_only_uninstalled;
 
 			// populate ignorepkgs_liststore
 			ignorepkgs_liststore = new Gtk.ListStore (1, typeof (string));
 			ignorepkgs_treeview.set_model (ignorepkgs_liststore);
-			foreach (unowned string ignorepkg in transaction.get_ignorepkgs ()) {
+			foreach (unowned string ignorepkg in transaction.database.get_ignorepkgs ()) {
 				ignorepkgs_liststore.insert_with_values (null, -1, 0, ignorepkg);
 			}
 			remove_unrequired_deps_button.state_set.connect (on_remove_unrequired_deps_button_state_set);
@@ -114,17 +114,17 @@ namespace Pamac {
 			cache_only_uninstalled_checkbutton.toggled.connect (on_cache_only_uninstalled_checkbutton_toggled);
 			transaction.write_pamac_config_finished.connect (on_write_pamac_config_finished);
 
-			AlpmPackage pkg = transaction.find_installed_satisfier ("pacman-mirrors");
+			AlpmPackage pkg = transaction.database.find_installed_satisfier ("pacman-mirrors");
 			if (pkg.name == "") {
 				mirrors_config_box.visible = false;
 			} else {
 				mirrors_country_comboboxtext.append_text (dgettext (null, "Worldwide"));
 				mirrors_country_comboboxtext.active = 0;
 				if (transaction.preferences_available_countries.length == 0) {
-					transaction.preferences_available_countries = transaction.get_mirrors_countries ();
+					transaction.preferences_available_countries = transaction.database.get_mirrors_countries ();
 				}
 				int index = 1;
-				preferences_choosen_country = transaction.get_mirrors_choosen_country ();
+				preferences_choosen_country = transaction.database.get_mirrors_choosen_country ();
 				foreach (unowned string country in transaction.preferences_available_countries) {
 					mirrors_country_comboboxtext.append_text (country);
 					if (country == preferences_choosen_country) {
@@ -135,18 +135,18 @@ namespace Pamac {
 				mirrors_country_comboboxtext.changed.connect (on_mirrors_country_comboboxtext_changed);
 			}
 
-			enable_aur_button.active = transaction.enable_aur;
-			aur_build_dir_label.sensitive = transaction.enable_aur;
-			aur_build_dir_file_chooser.sensitive = transaction.enable_aur;
-			aur_build_dir_file_chooser.set_filename (transaction.aur_build_dir);
+			enable_aur_button.active = transaction.database.config.enable_aur;
+			aur_build_dir_label.sensitive = transaction.database.config.enable_aur;
+			aur_build_dir_file_chooser.sensitive = transaction.database.config.enable_aur;
+			aur_build_dir_file_chooser.set_filename (transaction.database.config.aur_build_dir);
 			// add /tmp choice always visible
 			try {
 				aur_build_dir_file_chooser.add_shortcut_folder ("/tmp");
 			} catch (GLib.Error e) {
 				stderr.printf ("%s\n", e.message);
 			}
-			check_aur_updates_checkbutton.active = transaction.check_aur_updates;
-			check_aur_updates_checkbutton.sensitive = transaction.enable_aur;
+			check_aur_updates_checkbutton.active = transaction.database.config.check_aur_updates;
+			check_aur_updates_checkbutton.sensitive = transaction.database.config.enable_aur;
 			enable_aur_button.state_set.connect (on_enable_aur_button_state_set);
 			aur_build_dir_file_chooser.file_set.connect (on_aur_build_dir_set);
 			check_aur_updates_checkbutton.toggled.connect (on_check_aur_updates_checkbutton_toggled);
@@ -268,10 +268,10 @@ namespace Pamac {
 			while (Gtk.events_pending ()) {
 				Gtk.main_iteration ();
 			}
-			transaction.get_installed_pkgs.begin ((obj, res) => {
-				var pkgs = transaction.get_installed_pkgs.end (res);
+			transaction.database.get_installed_pkgs_async.begin ((obj, res) => {
+				var pkgs = transaction.database.get_installed_pkgs_async.end (res);
 				// make a copy of ignorepkgs to store uninstalled ones
-				string[] ignorepkgs = transaction.get_ignorepkgs ();
+				string[] ignorepkgs = transaction.database.get_ignorepkgs ();
 				var ignorepkgs_set = new GenericSet<string?> (str_hash, str_equal);
 				foreach (unowned string ignorepkg in ignorepkgs) {
 					ignorepkgs_set.add (ignorepkg);
@@ -342,7 +342,7 @@ namespace Pamac {
 		void on_write_alpm_config_finished (bool checkspace) {
 			check_space_button.state = checkspace;
 			ignorepkgs_liststore.clear ();
-			foreach (unowned string ignorepkg in transaction.get_ignorepkgs ()) {
+			foreach (unowned string ignorepkg in transaction.database.get_ignorepkgs ()) {
 				ignorepkgs_liststore.insert_with_values (null, -1, 0, ignorepkg);
 			}
 		}
@@ -363,7 +363,7 @@ namespace Pamac {
 
 		[GtkCallback]
 		void on_cache_clean_button_clicked () {
-			transaction.clean_cache (transaction.keep_num_pkgs, transaction.rm_only_uninstalled);
+			transaction.clean_cache (transaction.database.config.clean_keep_num_pkgs, transaction.database.config.clean_rm_only_uninstalled);
 		}
 	}
 }

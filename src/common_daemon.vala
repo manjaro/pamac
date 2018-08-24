@@ -34,6 +34,12 @@ namespace Pamac {
 		public AURPackage[] aur_updates;
 	}
 
+	public struct UpdatesPriv {
+		public bool syncfirst;
+		public AlpmPackage[] repos_updates;
+		public AURPackage[] aur_updates;
+	}
+
 	public struct ErrorInfos {
 		public uint no;
 		public string message;
@@ -43,3 +49,4 @@ namespace Pamac {
 		}
 	}
 }
+

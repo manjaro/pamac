@@ -18,27 +18,30 @@
  */
 
 namespace Pamac {
-	public class Config {
-		string conf_path;
+	public class Config: Object {
 		HashTable<string,string> _environment_variables;
 
-		public bool recurse { get; private set; }
-		public uint64 refresh_period { get; private set; }
-		public bool no_update_hide_icon { get; private set; }
-		public bool enable_aur { get; private set; }
-		public string aur_build_dir { get; private set; }
-		public bool check_aur_updates { get; private set; }
-		public bool download_updates { get; private set; }
-		public uint64 keep_num_pkgs { get; private set; }
-		public bool rm_only_uninstalled { get; private set; }
+		public string conf_path { get; construct; }
+		public bool recurse { get; set; }
+		public uint64 refresh_period { get; set; }
+		public bool no_update_hide_icon { get; set; }
+		public bool enable_aur { get; set; }
+		public string aur_build_dir { get; set; }
+		public bool check_aur_updates { get; set; }
+		public bool download_updates { get; set; }
+		public uint64 clean_keep_num_pkgs { get;  set; }
+		public bool clean_rm_only_uninstalled { get; set; }
 		public unowned HashTable<string,string> environment_variables {
 			get {
 				return _environment_variables;
 			}
 		}
 
-		public Config (string path) {
-			conf_path = path;
+		public Config (string conf_path) {
+			Object(conf_path: conf_path);
+		}
+
+		construct {
 			//get environment variables
 			_environment_variables = new HashTable<string,string> (str_hash, str_equal);
 			var utsname = Posix.utsname();
@@ -76,8 +79,8 @@ namespace Pamac {
 			aur_build_dir = "/tmp";
 			check_aur_updates = false;
 			download_updates = false;
-			keep_num_pkgs = 3;
-			rm_only_uninstalled = false;
+			clean_keep_num_pkgs = 3;
+			clean_rm_only_uninstalled = false;
 			parse_file (conf_path);
 		}
 
@@ -112,10 +115,10 @@ namespace Pamac {
 						} else if (key == "KeepNumPackages") {
 							if (splitted.length == 2) {
 								unowned string val = splitted[1]._strip ();
-								keep_num_pkgs = uint64.parse (val);
+								clean_keep_num_pkgs = uint64.parse (val);
 							}
 						} else if (key == "OnlyRmUninstalled") {
-							rm_only_uninstalled = true;
+							clean_rm_only_uninstalled = true;
 						} else if (key == "NoUpdateHideIcon") {
 							no_update_hide_icon = true;
 						} else if (key == "EnableAUR") {

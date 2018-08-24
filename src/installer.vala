@@ -21,7 +21,8 @@ namespace Pamac {
 
 	public class Installer: Gtk.Application {
 		ApplicationCommandLine cmd;
-		Transaction transaction;
+		Database database;
+		TransactionGtk transaction;
 		ProgressDialog progress_dialog;
 		bool important_details;
 
@@ -38,11 +39,13 @@ namespace Pamac {
 			base.startup ();
 
 			important_details = false;
+			var pamac_config = new Config ("/etc/pamac.conf");
+			database = new Database (pamac_config);
 			// integrate progress box and term widget
 			progress_dialog = new ProgressDialog ();
-			transaction = new Transaction (progress_dialog as Gtk.ApplicationWindow);
-			transaction.mode = Transaction.Mode.INSTALLER;
+			transaction = new TransactionGtk (database, progress_dialog as Gtk.ApplicationWindow);
 			transaction.finished.connect (on_transaction_finished);
+			transaction.sysupgrade_finished.connect (on_transaction_finished);
 			transaction.important_details_outpout.connect (on_important_details_outpout);
 			progress_dialog.box.pack_start (transaction.progress_box);
 			progress_dialog.box.reorder_child (transaction.progress_box, 0);
@@ -55,40 +58,64 @@ namespace Pamac {
 		public override int command_line (ApplicationCommandLine cmd) {
 			this.cmd = cmd;
 			string[] args = cmd.get_arguments ();
-			foreach (unowned string target in args[1:args.length]) {
-				// check for local or remote path
-				if (".pkg.tar" in target) {
-					if ("://" in target) {
-						if ("file://" in target) {
-							// handle file:// uri
-							var file = File.new_for_uri (target);
-							string? absolute_path = file.get_path ();
-							if (absolute_path != null) {
-								transaction.to_load.add (absolute_path);
+			string[] to_install = {};
+			string[] to_remove = {};
+			string[] to_load = {};
+			if (args.length == 1) {
+				display_help ();
+				return cmd.get_exit_status ();
+			}
+			if (args[1] == "--help" || args[1] == "-h") {
+				display_help ();
+				return cmd.get_exit_status ();
+			} else {
+				bool add_to_remove = false;
+				int i = 1;
+				while (i < args.length) {
+					unowned string target = args[i];
+					if (target == "--remove") {
+						add_to_remove = true;
+					} else {
+						if (add_to_remove) {
+							to_remove += target;
+						} else if (".pkg.tar" in target) {
+							// check for local or remote path
+							if ("://" in target) {
+								if ("file://" in target) {
+									// handle file:// uri
+									var file = File.new_for_uri (target);
+									string? absolute_path = file.get_path ();
+									if (absolute_path != null) {
+										to_load += absolute_path;
+									}
+								} else {
+									// add url in to_load, pkg will be downloaded by system_daemon
+									to_load += target;
+								}
+							} else {
+								// handle local or absolute path
+								var file = File.new_for_path (target);
+								string? absolute_path = file.get_path ();
+								if (absolute_path != null) {
+									to_load += absolute_path;
+								}
 							}
 						} else {
-							// add url in to_load, pkg will be downloaded by system_daemon
-							transaction.to_load.add (target);
-						}
-					} else {
-						// handle local or absolute path
-						var file = File.new_for_path (target);
-						string? absolute_path = file.get_path ();
-						if (absolute_path != null) {
-							transaction.to_load.add (absolute_path);
+							to_install += target;
 						}
 					}
-				} else {
-					transaction.to_install.add (target);
+					i++;
 				}
 			}
-			if (transaction.to_install.length == 0 && transaction.to_load.length == 0) {
+			if (to_install.length == 0 
+				&& to_load.length == 0
+				&& to_remove.length == 0) {
 				stdout.printf (dgettext (null, "Nothing to do") + ".\n");
 			} else {
 				this.hold ();
 				progress_dialog.show ();
 				if (transaction.get_lock ()) {
-					transaction.run ();
+					transaction.start (to_install, to_remove, to_load, {}, {});
 				} else {
 					transaction.progress_box.action_label.label = dgettext (null, "Waiting for another package manager to quit") + "...";
 					transaction.start_progressbar_pulse ();
@@ -96,13 +123,22 @@ namespace Pamac {
 						bool locked = transaction.get_lock ();
 						if (locked) {
 							transaction.stop_progressbar_pulse ();
-							transaction.run ();
+							transaction.start (to_install, to_remove, to_load, {}, {});
 						}
 						return !locked;
 					});
 				}
 			}
 			return cmd.get_exit_status ();
+		}
+
+		void display_help () {
+			stdout.printf (dgettext (null, "Install packages from repositories, path or url"));
+			stdout.printf (" / ");
+			stdout.printf (dgettext (null, "Remove packages"));
+			stdout.printf ("\n\n");
+			stdout.printf ("pamac-installer <%s> [--remove] [%s]".printf (dgettext (null, "package(s)"), dgettext (null, "package(s)")));
+			stdout.printf ("\n");
 		}
 
 		void on_important_details_outpout (bool must_show) {

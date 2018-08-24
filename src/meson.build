@@ -31,15 +31,8 @@ common_vala_args = ['--pkg=posix', '--target-glib=2.38']
 common_c_args = ['-DGETTEXT_PACKAGE="pamac"']
 
 common_sources = ['common.vala', 'package.vala', 'pamac_config.vala']
-transaction_sources = ['transaction.vala', 'choose_provider_dialog.vala', 'transaction_sum_dialog.vala', 'progress_box.vala']
+transaction_gtk_sources = ['transaction-gtk.vala', 'choose_provider_dialog.vala', 'transaction_sum_dialog.vala', 'progress_box.vala']
 preferences_sources = ['preferences_dialog.vala', 'choose_ignorepkgs_dialog.vala']
-
-executable('pamac',
-	sources: [common_sources, 'version.vala','cli.vala'],
-	dependencies: [gio, posix, math],
-	vala_args: [common_vala_args, '--pkg=linux'],
-	c_args: common_c_args,
-	install: true)
 
 executable('pamac-clean-cache',
 	sources: ['pamac_config.vala', 'clean_cache.vala'],
@@ -72,25 +65,51 @@ executable('pamac-user-daemon',
 	install : true)
 
 executable('pamac-system-daemon',
-	sources: [common_sources, 'alpm_config.vala', 'aur.vala', 'system_daemon.vala'],
+	sources: ['common_daemon.vala', 'package.vala', 'pamac_config.vala', 'alpm_config.vala', 'aur.vala', 'system_daemon.vala'],
 	dependencies: [vala_deps, alpm_deps, json, libsoup, polkit, libcurl, appstream],
 	vala_args: [common_vala_args, alpm_vala_args, '--thread'],
 	c_args: [common_c_args, alpm_c_args],
 	install : true)
 
 libpamac = library('pamac',
-	sources: [common_sources, transaction_sources, preferences_sources, transaction_resources],
-	dependencies: [gtk3, gdk3, vte3, libnotify, posix, math],
+	sources: [common_sources, 'updates_priv.vala', 'database.vala', 'transaction.vala', 'transaction-cli.vala'],
+	dependencies: [gio, posix, math],
+	vala_args: [common_vala_args, '--pkg=linux'],
+	c_args: common_c_args,
+	vala_gir: 'Pamac-1.0.gir',
+	install: true,
+	install_dir: [true, true, true, true])
+
+libpamac_dep = declare_dependency(link_with: libpamac)
+
+executable('pamac',
+	sources: ['version.vala','cli.vala'],
+	dependencies: [gio, posix, math, libpamac_dep],
+	vala_args: common_vala_args,
+	c_args: common_c_args,
+	install: true)
+
+libpamac_gtk = library('pamac-gtk',
+	sources: [transaction_gtk_sources, transaction_resources],
+	dependencies: [gio, gtk3, vte3, libnotify, posix, math, libpamac_dep],
 	vala_args: common_vala_args,
 	c_args: common_c_args,
 	install: true,
 	install_dir: [true, true, true])
 
-libpamac_dep = declare_dependency(link_with: libpamac)
+# create typelib files
+g_ir_compiler = find_program('g-ir-compiler')
+custom_target('pamac typelib', command: [g_ir_compiler, '--shared-library', 'libpamac', '--output', '@OUTPUT@', join_paths(meson.current_build_dir(), 'Pamac-1.0.gir')],
+	output: 'Pamac-1.0.typelib',
+	depends: libpamac,
+	install: true,
+	install_dir: join_paths(get_option('libdir'), 'girepository-1.0'))
+
+libpamac_gtk_dep = declare_dependency(link_with: libpamac_gtk)
 
 executable('pamac-manager',
-	sources: ['version.vala', 'history_dialog.vala', 'manager_window.vala', 'manager.vala', manager_resources],
-	dependencies: [vala_deps, gtk3, gdk3, gdk_pixbuf2, libsoup, libpamac_dep],
+	sources: ['version.vala', 'history_dialog.vala', preferences_sources, 'manager_window.vala', 'manager.vala', manager_resources],
+	dependencies: [gtk3, libsoup, libpamac_dep, libpamac_gtk_dep],
 	vala_args: common_vala_args,
 	c_args: common_c_args,
 	install: true)
@@ -98,10 +117,10 @@ executable('pamac-manager',
 # create pamac-updater symlink
 meson.add_install_script('sh', '-c',
 	'ln -sf pamac-manager ${DESTDIR}/${MESON_INSTALL_PREFIX}/@0@/pamac-updater'.format(get_option('bindir')))
- 
+
 executable('pamac-installer',
 	sources: ['progress_dialog.vala', 'installer.vala', installer_resources],
-	dependencies: [gtk3, libpamac_dep],
+	dependencies: [gtk3, libpamac_dep, libpamac_gtk_dep],
 	vala_args: common_vala_args,
 	c_args: common_c_args,
 	install: true)

@@ -106,6 +106,7 @@ namespace Pamac {
 		public override void shutdown () {
 			base.shutdown ();
 			if (!pamac_run) {
+				manager_window.database.stop_daemon ();
 				manager_window.transaction.stop_daemon ();
 			}
 		}

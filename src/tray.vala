@@ -86,7 +86,7 @@ namespace Pamac {
 				try {
 					system_daemon = Bus.get_proxy_sync (BusType.SYSTEM, "org.manjaro.pamac.system", "/org/manjaro/pamac/system");
 					// Set environment variables
-					var pamac_config = new Pamac.Config ("/etc/pamac.conf");
+					var pamac_config = new Config ("/etc/pamac.conf");
 					system_daemon.set_environment_variables (pamac_config.environment_variables);
 					system_daemon.download_updates_finished.connect (on_download_updates_finished);
 				} catch (Error e) {
@@ -150,7 +150,7 @@ namespace Pamac {
 		public abstract void set_icon_visible (bool visible);
 
 		bool check_updates () {
-			var pamac_config = new Pamac.Config ("/etc/pamac.conf");
+			var pamac_config = new Config ("/etc/pamac.conf");
 			if (pamac_config.refresh_period != 0) {
 				try {
 					user_daemon.start_get_updates (pamac_config.enable_aur && pamac_config.check_aur_updates, true);
@@ -163,7 +163,7 @@ namespace Pamac {
 
 		void on_get_updates_finished (Updates updates) {
 			updates_nb = updates.repos_updates.length + updates.aur_updates.length;
-			var pamac_config = new Pamac.Config ("/etc/pamac.conf");
+			var pamac_config = new Config ("/etc/pamac.conf");
 			if (updates_nb == 0) {
 				set_icon (noupdate_icon_name);
 				set_tooltip (noupdate_info);
@@ -297,7 +297,7 @@ namespace Pamac {
 			Intl.textdomain ("pamac");
 			Intl.setlocale (LocaleCategory.ALL, "");
 
-			var pamac_config = new Pamac.Config ("/etc/pamac.conf");
+			var pamac_config = new Config ("/etc/pamac.conf");
 			// if refresh period is 0, just return so tray will exit
 			if (pamac_config.refresh_period == 0) {
 				return;

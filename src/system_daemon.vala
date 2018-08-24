@@ -86,7 +86,7 @@ namespace Pamac {
 		public signal void emit_log (uint level, string msg);
 		public signal void set_pkgreason_finished ();
 		public signal void refresh_finished (bool success);
-		public signal void get_updates_finished (Updates updates);
+		public signal void get_updates_finished (UpdatesPriv updates);
 		public signal void download_updates_finished ();
 		public signal void trans_prepare_finished (bool success);
 		public signal void trans_commit_finished (bool success);
@@ -107,6 +107,7 @@ namespace Pamac {
 			aurdb_path = "/tmp/pamac-aur";
 			aur_updates_results = new Json.Array ();
 			timer = new Timer ();
+			current_error = ErrorInfos ();
 			lock_id = new BusName ("");
 			refresh_handle ();
 			check_old_lock ();
@@ -306,7 +307,7 @@ namespace Pamac {
 
 		public void start_write_pamac_config (HashTable<string,Variant> new_pamac_conf, GLib.BusName sender) throws Error {
 			check_authorization.begin (sender, (obj, res) => {
-				var pamac_config = new Pamac.Config ("/etc/pamac.conf");
+				var pamac_config = new Config ("/etc/pamac.conf");
 				bool authorized = check_authorization.end (res);
 				if (authorized ) {
 					pamac_config.write (new_pamac_conf);
@@ -754,6 +755,7 @@ namespace Pamac {
 		}
 
 		private void get_updates () {
+			bool syncfirst = false;
 			AlpmPackage[] updates_infos = {};
 			unowned Alpm.Package? pkg = null;
 			unowned Alpm.Package? candidate = null;
@@ -764,76 +766,72 @@ namespace Pamac {
 					if (candidate != null) {
 						var infos = initialise_pkg_struct (candidate);
 						updates_infos += (owned) infos;
+						syncfirst = true;
 					}
 				}
 			}
-			if (updates_infos.length != 0) {
-				var updates = Updates () {
-					is_syncfirst = true,
-					repos_updates = (owned) updates_infos,
-					aur_updates = {}
-				};
-				get_updates_finished (updates);
-			} else {
-				string[] local_pkgs = {};
-				unowned Alpm.List<unowned Alpm.Package> pkgcache = alpm_handle.localdb.pkgcache;
-				while (pkgcache != null) {
-					unowned Alpm.Package installed_pkg = pkgcache.data;
-					// check if installed_pkg is in IgnorePkg or IgnoreGroup
-					if (alpm_handle.should_ignore (installed_pkg) == 0) {
+			string[] local_pkgs = {};
+			unowned Alpm.List<unowned Alpm.Package> pkgcache = alpm_handle.localdb.pkgcache;
+			while (pkgcache != null) {
+				unowned Alpm.Package installed_pkg = pkgcache.data;
+				// check if installed_pkg is in IgnorePkg or IgnoreGroup
+				if (alpm_handle.should_ignore (installed_pkg) == 0) {
+					if (syncfirst) {
+						candidate = null;
+					} else {
 						candidate = installed_pkg.sync_newversion (alpm_handle.syncdbs);
-						if (candidate != null) {
-							var infos = initialise_pkg_struct (candidate);
-							updates_infos += (owned) infos;
-						} else {
-							if (check_aur_updates && (!aur_updates_checked)) {
-								// check if installed_pkg is a local pkg
-								unowned Alpm.List<unowned Alpm.DB> syncdbs = alpm_handle.syncdbs;
-								while (syncdbs != null) {
-									unowned Alpm.DB db = syncdbs.data;
-									pkg = Alpm.find_satisfier (db.pkgcache, installed_pkg.name);
-									if (pkg != null) {
-										break;
-									}
-									syncdbs.next ();
+					}
+					if (candidate != null) {
+						var infos = initialise_pkg_struct (candidate);
+						updates_infos += (owned) infos;
+					} else {
+						if (check_aur_updates && (!aur_updates_checked)) {
+							// check if installed_pkg is a local pkg
+							unowned Alpm.List<unowned Alpm.DB> syncdbs = alpm_handle.syncdbs;
+							while (syncdbs != null) {
+								unowned Alpm.DB db = syncdbs.data;
+								pkg = Alpm.find_satisfier (db.pkgcache, installed_pkg.name);
+								if (pkg != null) {
+									break;
 								}
-								if (pkg == null) {
-									local_pkgs += installed_pkg.name;
-								}
+								syncdbs.next ();
+							}
+							if (pkg == null) {
+								local_pkgs += installed_pkg.name;
 							}
 						}
 					}
-					pkgcache.next ();
 				}
-				if (check_aur_updates) {
-					// get aur updates
-					if (!aur_updates_checked) {
-						AUR.multiinfo.begin (local_pkgs, (obj, res) => {
-							aur_updates_results = AUR.multiinfo.end (res);
-							aur_updates_checked = true;
-							var updates = Updates () {
-								is_syncfirst = false,
-								repos_updates = (owned) updates_infos,
-								aur_updates = get_aur_updates_infos ()
-							};
-							get_updates_finished (updates);
-						});
-					} else {
-						var updates = Updates () {
-							is_syncfirst = false,
+				pkgcache.next ();
+			}
+			if (check_aur_updates) {
+				// get aur updates
+				if (!aur_updates_checked) {
+					AUR.multiinfo.begin (local_pkgs, (obj, res) => {
+						aur_updates_results = AUR.multiinfo.end (res);
+						aur_updates_checked = true;
+						var updates = UpdatesPriv () {
+							syncfirst = syncfirst,
 							repos_updates = (owned) updates_infos,
 							aur_updates = get_aur_updates_infos ()
 						};
 						get_updates_finished (updates);
-					}
+					});
 				} else {
-					var updates = Updates () {
-						is_syncfirst = false,
+					var updates = UpdatesPriv () {
+						syncfirst = syncfirst,
 						repos_updates = (owned) updates_infos,
-						aur_updates = {}
+						aur_updates = get_aur_updates_infos ()
 					};
 					get_updates_finished (updates);
 				}
+			} else {
+				var updates = UpdatesPriv () {
+					syncfirst = syncfirst,
+					repos_updates = (owned) updates_infos,
+					aur_updates = {}
+				};
+				get_updates_finished (updates);
 			}
 		}
 

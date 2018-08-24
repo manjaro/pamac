@@ -20,11 +20,11 @@
 int main () {
 	var pamac_config = new Pamac.Config ("/etc/pamac.conf");
 	string rm_only_uninstalled_str = "";
-	if (pamac_config.rm_only_uninstalled) {
+	if (pamac_config.clean_rm_only_uninstalled) {
 		rm_only_uninstalled_str = "-u";
 	}
 	try {
-		Process.spawn_command_line_sync ("paccache -q --nocolor %s -r -k %llu".printf (rm_only_uninstalled_str, pamac_config.keep_num_pkgs));
+		Process.spawn_command_line_sync ("paccache -q --nocolor %s -r -k %llu".printf (rm_only_uninstalled_str, pamac_config.clean_keep_num_pkgs));
 	} catch (SpawnError e) {
 		stderr.printf ("SpawnError: %s\n", e.message);
 	}
