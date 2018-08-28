@@ -21,7 +21,6 @@ namespace Pamac {
 
 	class Manager : Gtk.Application {
 		ManagerWindow manager_window;
-		bool pamac_run;
 		bool started;
 
 		public Manager () {
@@ -36,36 +35,25 @@ namespace Pamac {
 
 			base.startup ();
 
-			pamac_run = check_pamac_running ();
-			if (pamac_run) {
-				var msg = new Gtk.MessageDialog (null,
-												Gtk.DialogFlags.MODAL,
-												Gtk.MessageType.ERROR,
-												Gtk.ButtonsType.OK,
-												dgettext (null, "Pamac is already running"));
-				msg.run ();
-				msg.destroy ();
-			} else {
-				manager_window = new ManagerWindow (this);
-				// quit accel
-				var action =  new SimpleAction ("quit", null);
-				action.activate.connect  (() => {this.quit ();});
-				this.add_action (action);
-				string[] accels = {"<Ctrl>Q", "<Ctrl>W"};
-				this.set_accels_for_action ("app.quit", accels);
-				// back accel
-				action =  new SimpleAction ("back", null);
-				action.activate.connect  (() => {manager_window.on_button_back_clicked ();});
-				this.add_action (action);
-				accels = {"<Alt>Left"};
-				this.set_accels_for_action ("app.back", accels);
-				// search accel
-				action =  new SimpleAction ("search", null);
-				action.activate.connect  (() => {manager_window.search_button.activate ();});
-				this.add_action (action);
-				accels = {"<Ctrl>F"};
-				this.set_accels_for_action ("app.search", accels);
-			}
+			manager_window = new ManagerWindow (this);
+			// quit accel
+			var action =  new SimpleAction ("quit", null);
+			action.activate.connect  (() => {this.quit ();});
+			this.add_action (action);
+			string[] accels = {"<Ctrl>Q", "<Ctrl>W"};
+			this.set_accels_for_action ("app.quit", accels);
+			// back accel
+			action =  new SimpleAction ("back", null);
+			action.activate.connect  (() => {manager_window.on_button_back_clicked ();});
+			this.add_action (action);
+			accels = {"<Alt>Left"};
+			this.set_accels_for_action ("app.back", accels);
+			// search accel
+			action =  new SimpleAction ("search", null);
+			action.activate.connect  (() => {manager_window.search_button.activate ();});
+			this.add_action (action);
+			accels = {"<Ctrl>F"};
+			this.set_accels_for_action ("app.search", accels);
 		}
 
 		public override int command_line (ApplicationCommandLine cmd) {
@@ -94,20 +82,20 @@ namespace Pamac {
 					entry.set_text (cmd.get_arguments ()[2]);
 				}
 			}
-			if (!pamac_run) {
-				manager_window.present ();
-				while (Gtk.events_pending ()) {
-					Gtk.main_iteration ();
-				}
+			manager_window.present ();
+			while (Gtk.events_pending ()) {
+				Gtk.main_iteration ();
 			}
 			return 0;
 		}
 
 		public override void shutdown () {
 			base.shutdown ();
-			if (!pamac_run) {
-				manager_window.database.stop_daemon ();
-				manager_window.transaction.stop_daemon ();
+			if (!check_pamac_running ()) {
+				// stop system_daemon
+				manager_window.transaction = null;
+				// stop user_daemon
+				manager_window.database = null;
 			}
 		}
 

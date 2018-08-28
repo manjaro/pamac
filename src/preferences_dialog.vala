@@ -114,18 +114,15 @@ namespace Pamac {
 			cache_only_uninstalled_checkbutton.toggled.connect (on_cache_only_uninstalled_checkbutton_toggled);
 			transaction.write_pamac_config_finished.connect (on_write_pamac_config_finished);
 
-			AlpmPackage pkg = transaction.database.find_installed_satisfier ("pacman-mirrors");
+			Package pkg = transaction.database.find_installed_satisfier ("pacman-mirrors");
 			if (pkg.name == "") {
 				mirrors_config_box.visible = false;
 			} else {
 				mirrors_country_comboboxtext.append_text (dgettext (null, "Worldwide"));
 				mirrors_country_comboboxtext.active = 0;
-				if (transaction.preferences_available_countries.length == 0) {
-					transaction.preferences_available_countries = transaction.database.get_mirrors_countries ();
-				}
 				int index = 1;
 				preferences_choosen_country = transaction.database.get_mirrors_choosen_country ();
-				foreach (unowned string country in transaction.preferences_available_countries) {
+				foreach (unowned string country in transaction.database.get_mirrors_countries ()) {
 					mirrors_country_comboboxtext.append_text (country);
 					if (country == preferences_choosen_country) {
 						mirrors_country_comboboxtext.active = index;
@@ -271,12 +268,12 @@ namespace Pamac {
 			transaction.database.get_installed_pkgs_async.begin ((obj, res) => {
 				var pkgs = transaction.database.get_installed_pkgs_async.end (res);
 				// make a copy of ignorepkgs to store uninstalled ones
-				string[] ignorepkgs = transaction.database.get_ignorepkgs ();
+				var ignorepkgs = transaction.database.get_ignorepkgs ();
 				var ignorepkgs_set = new GenericSet<string?> (str_hash, str_equal);
 				foreach (unowned string ignorepkg in ignorepkgs) {
 					ignorepkgs_set.add (ignorepkg);
 				}
-				foreach (unowned AlpmPackage pkg in pkgs) {
+				foreach (unowned Package pkg in pkgs) {
 					if (pkg.name in ignorepkgs_set) {
 						choose_ignorepkgs_dialog.pkgs_list.insert_with_values (null, -1, 0, true, 1, pkg.name);
 						ignorepkgs_set.remove (pkg.name);

@@ -1,7 +1,7 @@
 /*
  *  pamac-vala
  *
- *  Copyright (C) 2014-2018 Guillaume Benoit <guillaume@manjaro.org>
+ *  Copyright (C) 2018 Guillaume Benoit <guillaume@manjaro.org>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -20,7 +20,6 @@
 namespace Pamac {
 	public class TransactionGtk: Transaction {
 		//dialogs
-		public string[] preferences_available_countries;
 		TransactionSumDialog transaction_sum_dialog;
 		public GenericSet<string?> transaction_summary;
 		StringBuilder warning_textbuffer;
@@ -32,6 +31,8 @@ namespace Pamac {
 		public Gtk.ScrolledWindow term_window;
 		//parent window
 		public Gtk.ApplicationWindow? application_window { get; construct; }
+		// ask_confirmation option
+		public bool no_confirm_upgrade { get; set; }
 
 		public TransactionGtk (Database database, Gtk.ApplicationWindow? application_window) {
 			Object (database: database, application_window: application_window);
@@ -91,6 +92,12 @@ namespace Pamac {
 			if (database.config.recurse) {
 				flags |= (1 << 5); //Alpm.TransFlag.RECURSE
 			}
+			no_confirm_upgrade = false;
+		}
+
+		// destruction
+		~TransactionGtk () {
+			stop_daemon ();
 		}
 
 		bool on_term_button_press_event (Gdk.EventButton event) {
@@ -239,37 +246,47 @@ namespace Pamac {
 
 		protected override bool ask_confirmation (TransactionSummary summary) {
 			show_warnings (true);
+			uint must_confirm_length = summary.to_install.length ()
+									+ summary.to_downgrade.length ()
+									+ summary.to_reinstall.length ()
+									+ summary.to_remove.length ()
+									+ summary.to_build.length ();
+			if (no_confirm_upgrade 
+				&& must_confirm_length == 0
+				&& summary.to_upgrade.length () > 0) {
+				return true;
+			}
 			uint64 dsize = 0;
 			transaction_summary.remove_all ();
 			transaction_sum_dialog.sum_list.clear ();
 			var iter = Gtk.TreeIter ();
-			if (summary.to_remove.length > 0) {
-				foreach (unowned AlpmPackage infos in summary.to_remove) {
+			if (summary.to_remove.length () > 0) {
+				foreach (unowned Package infos in summary.to_remove) {
 					transaction_summary.add (infos.name);
 					transaction_sum_dialog.sum_list.insert_with_values (out iter, -1,
 												1, infos.name,
 												2, infos.version);
 				}
 				Gtk.TreePath path = transaction_sum_dialog.sum_list.get_path (iter);
-				int pos = (path.get_indices ()[0]) - (summary.to_remove.length - 1);
+				uint pos = (path.get_indices ()[0]) - (summary.to_remove.length () - 1);
 				transaction_sum_dialog.sum_list.get_iter (out iter, new Gtk.TreePath.from_indices (pos));
 				transaction_sum_dialog.sum_list.set (iter, 0, "<b>%s</b>".printf (dgettext (null, "To remove") + ":"));
 			}
-			if (summary.aur_conflicts_to_remove.length > 0) {
+			if (summary.aur_conflicts_to_remove.length () > 0) {
 				// do not add type enum because it is just infos
-				foreach (unowned AlpmPackage infos in summary.aur_conflicts_to_remove) {
+				foreach (unowned Package infos in summary.aur_conflicts_to_remove) {
 					transaction_summary.add (infos.name);
 					transaction_sum_dialog.sum_list.insert_with_values (out iter, -1,
 												1, infos.name,
 												2, infos.version);
 				}
 				Gtk.TreePath path = transaction_sum_dialog.sum_list.get_path (iter);
-				int pos = (path.get_indices ()[0]) - (summary.aur_conflicts_to_remove.length - 1);
+				uint pos = (path.get_indices ()[0]) - (summary.aur_conflicts_to_remove.length () - 1);
 				transaction_sum_dialog.sum_list.get_iter (out iter, new Gtk.TreePath.from_indices (pos));
 				transaction_sum_dialog.sum_list.set (iter, 0, "<b>%s</b>".printf (dgettext (null, "To remove") + ":"));
 			}
-			if (summary.to_downgrade.length > 0) {
-				foreach (unowned AlpmPackage infos in summary.to_downgrade) {
+			if (summary.to_downgrade.length () > 0) {
+				foreach (unowned Package infos in summary.to_downgrade) {
 					dsize += infos.download_size;
 					transaction_summary.add (infos.name);
 					transaction_sum_dialog.sum_list.insert_with_values (out iter, -1,
@@ -278,11 +295,11 @@ namespace Pamac {
 												3, "(%s)".printf (infos.installed_version));
 				}
 				Gtk.TreePath path = transaction_sum_dialog.sum_list.get_path (iter);
-				int pos = (path.get_indices ()[0]) - (summary.to_downgrade.length - 1);
+				uint pos = (path.get_indices ()[0]) - (summary.to_downgrade.length () - 1);
 				transaction_sum_dialog.sum_list.get_iter (out iter, new Gtk.TreePath.from_indices (pos));
 				transaction_sum_dialog.sum_list.set (iter, 0, "<b>%s</b>".printf (dgettext (null, "To downgrade") + ":"));
 			}
-			if (summary.to_build.length > 0) {
+			if (summary.to_build.length () > 0) {
 				foreach (unowned AURPackage infos in summary.to_build) {
 					transaction_summary.add (infos.name);
 					transaction_sum_dialog.sum_list.insert_with_values (out iter, -1,
@@ -290,12 +307,12 @@ namespace Pamac {
 												2, infos.version);
 				}
 				Gtk.TreePath path = transaction_sum_dialog.sum_list.get_path (iter);
-				int pos = (path.get_indices ()[0]) - (summary.to_build.length - 1);
+				uint pos = (path.get_indices ()[0]) - (summary.to_build.length () - 1);
 				transaction_sum_dialog.sum_list.get_iter (out iter, new Gtk.TreePath.from_indices (pos));
 				transaction_sum_dialog.sum_list.set (iter, 0, "<b>%s</b>".printf (dgettext (null, "To build") + ":"));
 			}
-			if (summary.to_install.length > 0) {
-				foreach (unowned AlpmPackage infos in summary.to_install) {
+			if (summary.to_install.length () > 0) {
+				foreach (unowned Package infos in summary.to_install) {
 					dsize += infos.download_size;
 					transaction_summary.add (infos.name);
 					transaction_sum_dialog.sum_list.insert_with_values (out iter, -1,
@@ -303,12 +320,12 @@ namespace Pamac {
 												2, infos.version);
 				}
 				Gtk.TreePath path = transaction_sum_dialog.sum_list.get_path (iter);
-				int pos = (path.get_indices ()[0]) - (summary.to_install.length - 1);
+				uint pos = (path.get_indices ()[0]) - (summary.to_install.length () - 1);
 				transaction_sum_dialog.sum_list.get_iter (out iter, new Gtk.TreePath.from_indices (pos));
 				transaction_sum_dialog.sum_list.set (iter, 0, "<b>%s</b>".printf (dgettext (null, "To install") + ":"));
 			}
-			if (summary.to_reinstall.length > 0) {
-				foreach (unowned AlpmPackage infos in summary.to_reinstall) {
+			if (summary.to_reinstall.length () > 0) {
+				foreach (unowned Package infos in summary.to_reinstall) {
 					dsize += infos.download_size;
 					transaction_summary.add (infos.name);
 					transaction_sum_dialog.sum_list.insert_with_values (out iter, -1,
@@ -316,13 +333,13 @@ namespace Pamac {
 												2, infos.version);
 				}
 				Gtk.TreePath path = transaction_sum_dialog.sum_list.get_path (iter);
-				int pos = (path.get_indices ()[0]) - (summary.to_reinstall.length - 1);
+				uint pos = (path.get_indices ()[0]) - (summary.to_reinstall.length () - 1);
 				transaction_sum_dialog.sum_list.get_iter (out iter, new Gtk.TreePath.from_indices (pos));
 				transaction_sum_dialog.sum_list.set (iter, 0, "<b>%s</b>".printf (dgettext (null, "To reinstall") + ":"));
 			}
-			if (summary.to_upgrade.length > 0) {
+			if (summary.to_upgrade.length () > 0) {
 				if (!no_confirm_upgrade) {
-					foreach (unowned AlpmPackage infos in summary.to_upgrade) {
+					foreach (unowned Package infos in summary.to_upgrade) {
 						dsize += infos.download_size;
 						transaction_summary.add (infos.name);
 						transaction_sum_dialog.sum_list.insert_with_values (out iter, -1,
@@ -331,7 +348,7 @@ namespace Pamac {
 													3, "(%s)".printf (infos.installed_version));
 					}
 					Gtk.TreePath path = transaction_sum_dialog.sum_list.get_path (iter);
-					int pos = (path.get_indices ()[0]) - (summary.to_upgrade.length - 1);
+					uint pos = (path.get_indices ()[0]) - (summary.to_upgrade.length () - 1);
 					transaction_sum_dialog.sum_list.get_iter (out iter, new Gtk.TreePath.from_indices (pos));
 					transaction_sum_dialog.sum_list.set (iter, 0, "<b>%s</b>".printf (dgettext (null, "To upgrade") + ":"));
 				}

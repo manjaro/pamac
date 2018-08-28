@@ -29,6 +29,8 @@ namespace Pamac {
 		string[] to_build;
 		bool force_refresh;
 		bool enable_downgrade;
+		bool trans_cancellable;
+		bool waiting;
 		string[] temporary_ignorepkgs;
 		string[] overwrite_files;
 		Subprocess pkttyagent;
@@ -42,6 +44,8 @@ namespace Pamac {
 			to_build = {};
 			force_refresh = false;
 			enable_downgrade = false;
+			trans_cancellable = false;
+			waiting = false;
 			overwrite_files = {};
 			var config = new Config ("/etc/pamac.conf");
 			database = new Database (config);
@@ -55,6 +59,19 @@ namespace Pamac {
 			} catch (Error e) {
 				stdout.printf ("%s: %s\n", dgettext (null, "Error"), e.message);
 			}
+			// connect to signal
+			transaction.start_downloading.connect (() => {
+				trans_cancellable = true;
+			});
+			transaction.stop_downloading.connect (() => {
+				trans_cancellable = false;
+			});
+			transaction.start_building.connect (() => {
+				trans_cancellable = true;
+			});
+			transaction.stop_building.connect (() => {
+				trans_cancellable = false;
+			});
 			// watch CTRl + C
 			Unix.signal_add (Posix.Signal.INT, trans_cancel);
 		}
@@ -165,13 +182,7 @@ namespace Pamac {
 			} else if (args[1] == "build") {
 				if (Posix.geteuid () == 0) {
 					// can't build as root
-					// display makepkg error and exit
-					try {
-						var process = new Subprocess.newv ({"makepkg"}, SubprocessFlags.NONE);
-						process.wait ();
-					} catch (Error e) {
-						print_error (e.message);
-					}
+					stdout.printf (dgettext (null, "Building packages as root is not allowed") + "\n");
 					cmd.set_exit_status (1);
 					return cmd.get_exit_status ();
 				}
@@ -300,21 +311,34 @@ namespace Pamac {
 
 		public override void shutdown () {
 			base.shutdown ();
-			database.stop_daemon ();
-			transaction.stop_daemon ();
+			// stop system_daemon
+			transaction = null;
+			// stop user_daemon
+			database = null;
 			pkttyagent.force_exit ();
 		}
 
 		bool trans_cancel () {
-			if (transaction.asking_user_input) {
-				transaction.release ();
-			} else {
+			if (waiting) {
+				waiting = false;
+				this.release ();
+			} else if (trans_cancellable) {
 				transaction.cancel ();
+			} else {
+				stdout.printf ("\n");
 			}
-			stdout.printf ("\n");
-			this.release ();
-			cmd.set_exit_status (1);
 			return false;
+		}
+
+		string concatenate_strings_list (List<string> list) {
+			var str_builder = new StringBuilder ();
+			foreach (unowned string str in list) {
+				if (str_builder.len > 0) {
+					str_builder.append (" ");
+				}
+				str_builder.append (str);
+			}
+			return str_builder.str;
 		}
 
 		string concatenate_strings (string[] list) {
@@ -579,6 +603,8 @@ namespace Pamac {
 
 		void display_checkupdates_help () {
 			stdout.printf (dgettext (null, "Safely check for updates without modifiying the databases"));
+			stdout.printf ("\n");
+			stdout.printf ("(%s)".printf (dgettext (null, "Exit code is 100 if updates are available")));
 			stdout.printf ("\n\n");
 			stdout.printf ("pamac checkupdates [%s]".printf (dgettext (null, "options")));
 			stdout.printf ("\n\n");
@@ -646,13 +672,13 @@ namespace Pamac {
 
 		void search_pkgs (string search_string) {
 			var pkgs = database.search_pkgs (search_string);
-			if (pkgs.length == 0) {
+			if (pkgs.length () == 0) {
 				cmd.set_exit_status (1);
 				return;
 			}
 			int version_length = 0;
 			int repo_length = 0;
-			foreach (unowned AlpmPackage pkg in pkgs) {
+			foreach (unowned Package pkg in pkgs) {
 				if (pkg.version.length > version_length) {
 					version_length = pkg.version.length;
 				}
@@ -661,9 +687,9 @@ namespace Pamac {
 				}
 			}
 			int available_width = transaction.get_term_width () - (version_length + repo_length + 3);
-			foreach (unowned AlpmPackage pkg in pkgs) {
+			foreach (unowned Package pkg in pkgs) {
 				string name = pkg.name;
-				if (pkg.origin == 2) {
+				if (pkg.installed_version != "") {
 					name = "%s [%s]".printf (pkg.name, dgettext (null, "Installed"));
 				}
 				var str_builder = new StringBuilder ();
@@ -688,8 +714,8 @@ namespace Pamac {
 		void search_in_aur (string search_string) {
 			this.hold ();
 			database.search_in_aur_async.begin (search_string, (obj,res) => {
-				AURPackage[] pkgs = database.search_in_aur_async.end (res);
-				if (pkgs.length == 0) {
+				var pkgs = database.search_in_aur_async.end (res);
+				if (pkgs.length () == 0) {
 					this.release ();
 					cmd.set_exit_status (1);
 					return;
@@ -794,10 +820,10 @@ namespace Pamac {
 				// URL
 				print_aligned (properties[3], ": %s".printf (details.url), max_length);
 				// Licenses
-				print_aligned (properties[4], ": %s".printf (details.licenses[0]), max_length);
+				print_aligned (properties[4], ": %s".printf (details.licenses.nth_data (0)), max_length);
 				i = 1;
-				while (i < details.licenses.length) {
-					print_aligned ("", "%s".printf (details.licenses[i]), max_length + 2);
+				while (i < details.licenses.length ()) {
+					print_aligned ("", "%s".printf (details.licenses.nth_data (i)), max_length + 2);
 					i++;
 				}
 				// Repository
@@ -805,8 +831,8 @@ namespace Pamac {
 				// Size
 				print_aligned (properties[6], ": %s".printf (format_size (details.size)), max_length);
 				// Groups
-				if (details.groups.length > 0) {
-					cuts = split_string (concatenate_strings (details.groups), max_length + 2);
+				if (details.groups.length () > 0) {
+					cuts = split_string (concatenate_strings_list (details.groups), max_length + 2);
 					print_aligned (properties[7], ": %s".printf (cuts[0]), max_length);
 					i = 1;
 					while (i < cuts.length) {
@@ -815,8 +841,8 @@ namespace Pamac {
 					}
 				}
 				// Depends
-				if (details.depends.length > 0) {
-					cuts = split_string (concatenate_strings (details.depends), max_length + 2);
+				if (details.depends.length () > 0) {
+					cuts = split_string (concatenate_strings_list (details.depends), max_length + 2);
 					print_aligned (properties[8], ": %s".printf (cuts[0]), max_length);
 					i = 1;
 					while (i < cuts.length) {
@@ -825,10 +851,9 @@ namespace Pamac {
 					}
 				}
 				// Opt depends
-				if (details.optdepends.length > 0) {
-					string depstring = details.optdepends[0];
-					var satisfier = AlpmPackage ();
-					satisfier = database.find_installed_satisfier (depstring);
+				if (details.optdepends.length () > 0) {
+					string depstring = details.optdepends.nth_data (0);
+					var satisfier = database.find_installed_satisfier (depstring);
 					if (satisfier.name != "") {
 						depstring = "%s [%s]".printf (depstring, dgettext (null, "Installed"));
 					}
@@ -840,9 +865,8 @@ namespace Pamac {
 						i++;
 					}
 					i = 1;
-					while (i < details.optdepends.length) {
-						depstring = details.optdepends[i];
-						satisfier = AlpmPackage ();
+					while (i < details.optdepends.length ()) {
+						depstring = details.optdepends.nth_data (i);
 						satisfier = database.find_installed_satisfier (depstring);
 						if (satisfier.name != "") {
 							depstring = "%s [%s]".printf (depstring, dgettext (null, "Installed"));
@@ -857,8 +881,8 @@ namespace Pamac {
 					}
 				}
 				// Required by
-				if (details.requiredby.length > 0) {
-					cuts = split_string (concatenate_strings (details.requiredby), max_length + 2);
+				if (details.requiredby.length () > 0) {
+					cuts = split_string (concatenate_strings_list (details.requiredby), max_length + 2);
 					print_aligned (properties[10], ": %s".printf (cuts[0]), max_length);
 					i = 1;
 					while (i < cuts.length) {
@@ -867,8 +891,8 @@ namespace Pamac {
 					}
 				}
 				// Optional for
-				if (details.optionalfor.length > 0) {
-					cuts = split_string (concatenate_strings (details.optionalfor), max_length + 2);
+				if (details.optionalfor.length () > 0) {
+					cuts = split_string (concatenate_strings_list (details.optionalfor), max_length + 2);
 					print_aligned (properties[11], ": %s".printf (cuts[0]), max_length);
 					i = 1;
 					while (i < cuts.length) {
@@ -877,8 +901,8 @@ namespace Pamac {
 					}
 				}
 				// Provides
-				if (details.provides.length > 0) {
-					cuts = split_string (concatenate_strings (details.provides), max_length + 2);
+				if (details.provides.length () > 0) {
+					cuts = split_string (concatenate_strings_list (details.provides), max_length + 2);
 					print_aligned (properties[12], ": %s".printf (cuts[0]), max_length);
 					i = 1;
 					while (i < cuts.length) {
@@ -887,8 +911,8 @@ namespace Pamac {
 					}
 				}
 				// Replaces
-				if (details.replaces.length > 0) {
-					cuts = split_string (concatenate_strings (details.replaces), max_length + 2);
+				if (details.replaces.length () > 0) {
+					cuts = split_string (concatenate_strings_list (details.replaces), max_length + 2);
 					print_aligned (properties[13], ": %s".printf (cuts[0]), max_length);
 					i = 1;
 					while (i < cuts.length) {
@@ -897,8 +921,8 @@ namespace Pamac {
 					}
 				}
 				// Conflicts
-				if (details.conflicts.length > 0) {
-					cuts = split_string (concatenate_strings (details.conflicts), max_length + 2);
+				if (details.conflicts.length () > 0) {
+					cuts = split_string (concatenate_strings_list (details.conflicts), max_length + 2);
 					print_aligned (properties[14], ": %s".printf (cuts[0]), max_length);
 					i = 1;
 					while (i < cuts.length) {
@@ -935,11 +959,11 @@ namespace Pamac {
 					print_aligned (properties[19], ": %s".printf (details.has_signature), max_length);
 				}
 				// Backup files
-				if (details.backups.length > 0) {
-					print_aligned (properties[20], ": %s".printf (details.backups[0]), max_length);
+				if (details.backups.length () > 0) {
+					print_aligned (properties[20], ": %s".printf (details.backups.nth_data (0)), max_length);
 					i = 1;
-					while (i < details.backups.length) {
-						print_aligned ("", "%s".printf (details.backups[i]), max_length + 2);
+					while (i < details.backups.length ()) {
+						print_aligned ("", "%s".printf (details.backups.nth_data (i)), max_length + 2);
 						i++;
 					}
 				}
@@ -976,8 +1000,8 @@ namespace Pamac {
 			}
 			foreach (string pkgname in pkgnames) {
 				this.hold ();
-				database.get_aur_details_async.begin (pkgname, (obj, res) => {
-					var details = database.get_aur_details_async.end (res);
+				database.get_aur_pkg_details_async.begin (pkgname, (obj, res) => {
+					var details = database.get_aur_pkg_details_async.end (res);
 					if (details.name == "") {
 						print_error (dgettext (null, "target not found: %s").printf (pkgname) + "\n");
 						this.release ();
@@ -1002,15 +1026,15 @@ namespace Pamac {
 					// URL
 					print_aligned (properties[4], ": %s".printf (details.url), max_length);
 					// Licenses
-					print_aligned (properties[5], ": %s".printf (details.licenses[0]), max_length);
+					print_aligned (properties[5], ": %s".printf (details.licenses.nth_data (0)), max_length);
 					i = 1;
-					while (i < details.licenses.length) {
-						print_aligned ("", "%s".printf (details.licenses[i]), max_length + 2);
+					while (i < details.licenses.length ()) {
+						print_aligned ("", "%s".printf (details.licenses.nth_data (i)), max_length + 2);
 						i++;
 					}
 					// Depends
-					if (details.depends.length > 0) {
-						cuts = split_string (concatenate_strings (details.depends), max_length + 2);
+					if (details.depends.length () > 0) {
+						cuts = split_string (concatenate_strings_list (details.depends), max_length + 2);
 						print_aligned (properties[6], ": %s".printf (cuts[0]), max_length);
 						i = 1;
 						while (i < cuts.length) {
@@ -1019,8 +1043,8 @@ namespace Pamac {
 						}
 					}
 					// Make Depends
-					if (details.makedepends.length > 0) {
-						cuts = split_string (concatenate_strings (details.makedepends), max_length + 2);
+					if (details.makedepends.length () > 0) {
+						cuts = split_string (concatenate_strings_list (details.makedepends), max_length + 2);
 						print_aligned (properties[7], ": %s".printf (cuts[0]), max_length);
 						i = 1;
 						while (i < cuts.length) {
@@ -1029,8 +1053,8 @@ namespace Pamac {
 						}
 					}
 					// Check Depends
-					if (details.checkdepends.length > 0) {
-						cuts = split_string (concatenate_strings (details.checkdepends), max_length + 2);
+					if (details.checkdepends.length () > 0) {
+						cuts = split_string (concatenate_strings_list (details.checkdepends), max_length + 2);
 						print_aligned (properties[8], ": %s".printf (cuts[0]), max_length);
 						i = 1;
 						while (i < cuts.length) {
@@ -1039,10 +1063,9 @@ namespace Pamac {
 						}
 					}
 					// Opt depends
-					if (details.optdepends.length > 0) {
-						string depstring = details.optdepends[0];
-						var satisfier = AlpmPackage ();
-						satisfier = database.find_installed_satisfier (depstring);
+					if (details.optdepends.length () > 0) {
+						string depstring = details.optdepends.nth_data (0);
+						var satisfier = database.find_installed_satisfier (depstring);
 						if (satisfier.name != "") {
 							depstring = "%s [%s]".printf (depstring, dgettext (null, "Installed"));
 						}
@@ -1054,9 +1077,8 @@ namespace Pamac {
 							i++;
 						}
 						i = 1;
-						while (i < details.optdepends.length) {
-							depstring = details.optdepends[i];
-							satisfier = AlpmPackage ();
+						while (i < details.optdepends.length ()) {
+							depstring = details.optdepends.nth_data (i);
 							satisfier = database.find_installed_satisfier (depstring);
 							if (satisfier.name != "") {
 								depstring = "%s [%s]".printf (depstring, dgettext (null, "Installed"));
@@ -1071,8 +1093,8 @@ namespace Pamac {
 						}
 					}
 					// Provides
-					if (details.provides.length > 0) {
-						cuts = split_string (concatenate_strings (details.provides), max_length + 2);
+					if (details.provides.length () > 0) {
+						cuts = split_string (concatenate_strings_list (details.provides), max_length + 2);
 						print_aligned (properties[10], ": %s".printf (cuts[0]), max_length);
 						i = 1;
 						while (i < cuts.length) {
@@ -1081,8 +1103,8 @@ namespace Pamac {
 						}
 					}
 					// Replaces
-					if (details.replaces.length > 0) {
-						cuts = split_string (concatenate_strings (details.replaces), max_length + 2);
+					if (details.replaces.length () > 0) {
+						cuts = split_string (concatenate_strings_list (details.replaces), max_length + 2);
 						print_aligned (properties[11], ": %s".printf (cuts[0]), max_length);
 						i = 1;
 						while (i < cuts.length) {
@@ -1091,8 +1113,8 @@ namespace Pamac {
 						}
 					}
 					// Conflicts
-					if (details.conflicts.length > 0) {
-						cuts = split_string (concatenate_strings (details.conflicts), max_length + 2);
+					if (details.conflicts.length () > 0) {
+						cuts = split_string (concatenate_strings_list (details.conflicts), max_length + 2);
 						print_aligned (properties[12], ": %s".printf (cuts[0]), max_length);
 						i = 1;
 						while (i < cuts.length) {
@@ -1120,14 +1142,14 @@ namespace Pamac {
 			}
 		}
 
-		void print_pkgs (AlpmPackage[] pkgs, bool print_installed) {
+		void print_pkgs (List<Package> pkgs, bool print_installed) {
 			int name_length = 0;
 			int version_length = 0;
 			int repo_length = 0;
 			int size_length = 0;
-			foreach (unowned AlpmPackage pkg in pkgs) {
+			foreach (unowned Package pkg in pkgs) {
 				string name = pkg.name;
-				if (print_installed && pkg.origin == 2) {
+				if (print_installed && pkg.installed_version != "") {
 					name = "%s [%s]".printf (pkg.name, dgettext (null, "Installed"));
 				}
 				int current_name_length = name.char_count ();
@@ -1154,7 +1176,7 @@ namespace Pamac {
 				// get left space to size
 				size_length += available_width - (margin * 4);
 			}
-			foreach (unowned AlpmPackage pkg in pkgs) {
+			foreach (unowned Package pkg in pkgs) {
 				// use this code to correctly aligned text with special characters
 				var str_builder = new StringBuilder ();
 				string name = pkg.name;
@@ -1194,7 +1216,7 @@ namespace Pamac {
 
 		void list_groups (string[] names) {
 			if (names.length == 0) {
-				string[] grpnames = database.get_groups_names ();
+				var grpnames = database.get_groups_names ();
 				foreach (unowned string name in grpnames) {
 					stdout.printf ("%s\n", name);
 				}
@@ -1202,7 +1224,7 @@ namespace Pamac {
 			}
 			foreach (unowned string name in names) {
 				var pkgs = database.get_group_pkgs (name);
-				if (pkgs.length == 0) {
+				if (pkgs.length () == 0) {
 					print_error (dgettext (null, "target not found: %s").printf (name));
 				} else {
 					print_pkgs (pkgs, true);
@@ -1213,7 +1235,7 @@ namespace Pamac {
 
 		void list_repos (string[] names) {
 			if (names.length == 0) {
-				string[] grpnames = database.get_repos_names ();
+				var grpnames = database.get_repos_names ();
 				foreach (unowned string name in grpnames) {
 					stdout.printf ("%s\n", name);
 				}
@@ -1221,7 +1243,7 @@ namespace Pamac {
 			}
 			foreach (unowned string name in names) {
 				var pkgs = database.get_repo_pkgs (name);
-				if (pkgs.length == 0) {
+				if (pkgs.length () == 0) {
 					print_error (dgettext (null, "target not found: %s").printf (name));
 				} else {
 					print_pkgs (pkgs, true);
@@ -1232,8 +1254,8 @@ namespace Pamac {
 
 		void list_files (string[] names) {
 			foreach (unowned string name in names) {
-				string[] files = database.get_pkg_files (name);
-				if (files.length == 0) {
+				var files = database.get_pkg_files (name);
+				if (files.length () == 0) {
 					print_error (dgettext (null, "target not found: %s").printf (name));
 				} else {
 					foreach (unowned string path in files) {
@@ -1271,7 +1293,7 @@ namespace Pamac {
 
 		void on_get_updates_finished (Updates updates) {
 			database.get_updates_finished.disconnect (on_get_updates_finished);
-			uint updates_nb = updates.repos_updates.length + updates.aur_updates.length;
+			uint updates_nb = updates.repos_updates.length () + updates.aur_updates.length ();
 			if (updates_nb == 0) {
 				stdout.printf ("%s\n", dgettext (null, "Your system is up-to-date"));
 			} else {
@@ -1281,7 +1303,7 @@ namespace Pamac {
 				int name_length = 0;
 				int version_length = 0;
 				int repo_length = 0;
-				foreach (unowned AlpmPackage pkg in updates.repos_updates) {
+				foreach (unowned Package pkg in updates.repos_updates) {
 					if (pkg.name.length > name_length) {
 						name_length = pkg.name.length;
 					}
@@ -1314,7 +1336,7 @@ namespace Pamac {
 				}
 				string info = ngettext ("%u available update", "%u available updates", updates_nb).printf (updates_nb);
 				stdout.printf ("%s:\n", info);
-				foreach (unowned AlpmPackage pkg in updates.repos_updates) {
+				foreach (unowned Package pkg in updates.repos_updates) {
 					stdout.printf ("%-*s %-*s %s \n", name_length + margin, pkg.name,
 													version_length + margin, pkg.version,
 													pkg.repo);
@@ -1362,8 +1384,8 @@ namespace Pamac {
 						to_install += target;
 						found = true;
 					} else {
-						string[] groupnames = database.get_groups_names ();
-						if (target in groupnames) {
+						var groupnames = database.get_groups_names ();
+						if (groupnames.find_custom (target, strcmp) != null) {
 							ask_group_confirmation (target);
 							found = true;
 						}
@@ -1389,7 +1411,7 @@ namespace Pamac {
 			int name_length = 0;
 			int version_length = 0;
 			int repo_length = 0;
-			foreach (unowned AlpmPackage pkg in pkgs) {
+			foreach (unowned Package pkg in pkgs) {
 				if (pkg.name.length > name_length) {
 					name_length = pkg.name.length;
 				}
@@ -1400,7 +1422,7 @@ namespace Pamac {
 					repo_length = pkg.repo.length;
 				}
 			}
-			int num_length = pkgs.length.to_string ().length + 1;
+			int num_length = pkgs.length ().to_string ().length + 1;
 			int total_width = num_length + name_length + version_length + repo_length + 4;
 			int margin = 0;
 			if (transaction.get_term_width () > total_width) {
@@ -1411,9 +1433,9 @@ namespace Pamac {
 				repo_length += available_width - (margin * 3);
 			}
 			stdout.printf ("%s:\n".printf (dngettext (null, "There is %u member in group %s",
-						"There are %u members in group %s", pkgs.length).printf (pkgs.length, grpname)));
+						"There are %u members in group %s", pkgs.length ()).printf (pkgs.length (), grpname)));
 			int num = 1;
-			foreach (unowned AlpmPackage pkg in pkgs) {
+			foreach (unowned Package pkg in pkgs) {
 				stdout.printf ("%*s %-*s %-*s %s \n", num_length, "%i:".printf (num),
 														name_length + margin, pkg.name,
 														version_length + margin, pkg.version,
@@ -1421,17 +1443,16 @@ namespace Pamac {
 				num++;
 			}
 			// get user input
-			transaction.asking_user_input = true;
 			while (true) {
 				stdout.printf ("%s: ", dgettext (null, "Enter a selection (default=all)"));
 				string ans = stdin.read_line ();
-				int64 nb;
-				int64[] numbers = {};
+				uint64 nb;
+				uint64[] numbers = {};
 				// remvove trailing newline
 				ans = ans.replace ("\n", "");
 				// just return use default
 				if (ans == "") {
-					foreach (unowned AlpmPackage pkg in pkgs) {
+					foreach (unowned Package pkg in pkgs) {
 						to_install += pkg.name;
 					}
 					break;
@@ -1448,15 +1469,15 @@ namespace Pamac {
 								if (int64.try_parse (splitted2[1], out end_num)) {
 									nb = beg_num;
 									while (nb <= end_num) {
-										if (nb >= 1 && nb < pkgs.length) {
+										if (nb >= 1 && nb < pkgs.length ()) {
 											numbers += nb;
 										}
 										nb++;
 									}
 								}
 							}
-						} else if (int64.try_parse (part, out nb)) {
-							if (nb >= 1 && nb < pkgs.length) {
+						} else if (uint64.try_parse (part, out nb)) {
+							if (nb >= 1 && nb < pkgs.length ()) {
 								numbers += nb;
 							}
 						}
@@ -1464,8 +1485,8 @@ namespace Pamac {
 				}
 				stdout.printf ("\n");
 				if (numbers.length > 0) {
-					foreach (int64 number in numbers) {
-						to_install += pkgs[number -1].name;
+					foreach (uint64 number in numbers) {
+						to_install += pkgs.nth_data ((uint) number -1).name;
 					}
 					break;
 				}
@@ -1487,11 +1508,11 @@ namespace Pamac {
 						}
 					}
 				} else {
-					string[] groupnames = database.get_groups_names ();
-					if (name in groupnames) {
+					var groupnames = database.get_groups_names ();
+					if (groupnames.find_custom (name, strcmp) != null) {
 						found = true;
 						var pkgs = database.get_group_pkgs (name);
-						foreach (unowned AlpmPackage pkg in pkgs) {
+						foreach (unowned Package pkg in pkgs) {
 							if (pkg.version == pkg.installed_version) {
 								to_install += name;
 							}
@@ -1523,11 +1544,11 @@ namespace Pamac {
 					to_remove += name;
 					found = true;
 				} else {
-					string[] groupnames = database.get_groups_names ();
-					if (name in groupnames) {
+					var groupnames = database.get_groups_names ();
+					if (groupnames.find_custom (name, strcmp) != null) {
 						found = true;
 						var pkgs = database.get_group_pkgs (name);
-						foreach (unowned AlpmPackage pkg in pkgs) {
+						foreach (unowned Package pkg in pkgs) {
 							if (pkg.version == pkg.installed_version) {
 								to_remove += pkg.name;
 								group_found = true;
@@ -1557,7 +1578,7 @@ namespace Pamac {
 
 		void remove_orphans () {
 			var pkgs = database.get_orphans ();
-			foreach (unowned AlpmPackage pkg in pkgs) {
+			foreach (unowned Package pkg in pkgs) {
 				to_remove += pkg.name;
 			}
 			transaction.flags = (1 << 4); //Alpm.TransFlag.CASCADE
@@ -1579,12 +1600,17 @@ namespace Pamac {
 			if (transaction.get_lock ()) {
 				action ();
 			} else {
+				waiting = true;
 				stdout.printf (dgettext (null, "Waiting for another package manager to quit") + "...\n");
 				this.hold ();
 				Timeout.add (5000, () => {
+					if (!waiting) {
+						return false;
+					}
 					bool locked = transaction.get_lock ();
 					if (locked) {
 						this.release ();
+						waiting = false;
 						action ();
 					}
 					return !locked;

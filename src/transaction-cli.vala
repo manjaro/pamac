@@ -23,8 +23,6 @@ namespace Pamac {
 		string current_line;
 		string current_action;
 
-		public bool asking_user_input { get; set; }
-
 		public TransactionCli (Database database) {
 			Object (database: database);
 		}
@@ -33,7 +31,6 @@ namespace Pamac {
 			downloading = false;
 			current_line = "";
 			current_action = "";
-			asking_user_input = false;
 			// connect to signal
 			emit_action.connect (print_action);
 			emit_action_progress.connect (print_action_progress);
@@ -41,15 +38,17 @@ namespace Pamac {
 			emit_script_output.connect (on_emit_script_output);
 			emit_warning.connect (print_warning);
 			emit_error.connect (print_error);
-			refresh_finished.connect (on_refresh_finished);
-			finished.connect (on_finished);
-			sysupgrade_finished.connect (on_finished);
 			start_downloading.connect (() => {
 				downloading = true;
 			});
 			stop_downloading.connect (() => {
 				downloading = false;
 			});
+		}
+
+		// destruction
+		~TransactionCli () {
+			stop_daemon ();
 		}
 
 		protected override async int run_cmd_line (string[] args, string working_directory, Cancellable cancellable) {
@@ -101,11 +100,6 @@ namespace Pamac {
 		}
 
 		void print_action (string action) {
-			if (action == dgettext (null, "Checking dependencies")
-				|| action == dgettext (null, "Resolving dependencies")
-				|| action == dgettext (null, "Downloading")) {
-				asking_user_input = false;
-			}
 			display_current_line ();
 			current_line = "";
 			stdout.printf (action);
@@ -190,7 +184,7 @@ namespace Pamac {
 		}
 
 		protected override int choose_provider (string depend, string[] providers) {
-			AlpmPackage[] pkgs = {};
+			Package[] pkgs = {};
 			foreach (unowned string pkgname in providers) {
 				var pkg = database.get_sync_pkg (pkgname);
 				if (pkg.name != "")  {
@@ -201,7 +195,7 @@ namespace Pamac {
 			int name_length = 0;
 			int version_length = 0;
 			int repo_length = 0;
-			foreach (unowned AlpmPackage pkg in pkgs) {
+			foreach (unowned Package pkg in pkgs) {
 				if (pkg.name.length > name_length) {
 					name_length = pkg.name.length;
 				}
@@ -224,7 +218,7 @@ namespace Pamac {
 			}
 			stdout.printf ("%s:\n".printf (dgettext (null, "Choose a provider for %s").printf (depend)));
 			int num = 1;
-			foreach (unowned AlpmPackage pkg in pkgs) {
+			foreach (unowned Package pkg in pkgs) {
 				stdout.printf ("%*s %-*s %-*s %-*s \n", num_length, "%i:".printf (num),
 														name_length + margin, pkg.name,
 														version_length + margin, pkg.version,
@@ -232,7 +226,6 @@ namespace Pamac {
 				num++;
 			}
 			// get user input
-			asking_user_input = true;
 			while (true) {
 				stdout.printf ("%s: ", dgettext (null, "Enter a number (default=%d)").printf (1));
 				string ans = stdin.read_line  ();
@@ -263,8 +256,8 @@ namespace Pamac {
 			int max_size_length = 0;
 			int margin = 0;
 			// first pass to compute pkgs size and strings length
-			if (summary.to_remove.length > 0) {
-				foreach (unowned AlpmPackage infos in summary.to_remove) {
+			if (summary.to_remove.length () > 0) {
+				foreach (unowned Package infos in summary.to_remove) {
 					rsize += infos.size;
 					if (infos.name.length > max_name_length) {
 						max_name_length = infos.name.length;
@@ -274,8 +267,8 @@ namespace Pamac {
 					}
 				}
 			}
-			if (summary.aur_conflicts_to_remove.length > 0) {
-				foreach (unowned AlpmPackage infos in summary.aur_conflicts_to_remove) {
+			if (summary.aur_conflicts_to_remove.length () > 0) {
+				foreach (unowned Package infos in summary.aur_conflicts_to_remove) {
 					rsize += infos.size;
 					if (infos.name.length > max_name_length) {
 						max_name_length = infos.name.length;
@@ -285,8 +278,8 @@ namespace Pamac {
 					}
 				}
 			}
-			if (summary.to_downgrade.length > 0) {
-				foreach (unowned AlpmPackage infos in summary.to_downgrade) {
+			if (summary.to_downgrade.length () > 0) {
+				foreach (unowned Package infos in summary.to_downgrade) {
 					dsize += infos.download_size;
 					var pkg = database.get_installed_pkg (infos.name);
 					isize += ((int64) infos.size - (int64) pkg.size);
@@ -305,7 +298,7 @@ namespace Pamac {
 					}
 				}
 			}
-			if (summary.to_build.length > 0) {
+			if (summary.to_build.length () > 0) {
 				foreach (unowned AURPackage infos in summary.to_build) {
 					if (infos.name.length > max_name_length) {
 						max_name_length = infos.name.length;
@@ -315,8 +308,8 @@ namespace Pamac {
 					}
 				}
 			}
-			if (summary.to_install.length > 0) {
-				foreach (unowned AlpmPackage infos in summary.to_install) {
+			if (summary.to_install.length () > 0) {
+				foreach (unowned Package infos in summary.to_install) {
 					dsize += infos.download_size;
 					var pkg = database.get_installed_pkg (infos.name);
 					isize += ((int64) infos.size - (int64) pkg.size);
@@ -332,8 +325,8 @@ namespace Pamac {
 					}
 				}
 			}
-			if (summary.to_reinstall.length > 0) {
-				foreach (unowned AlpmPackage infos in summary.to_reinstall) {
+			if (summary.to_reinstall.length () > 0) {
+				foreach (unowned Package infos in summary.to_reinstall) {
 					dsize += infos.download_size;
 					var pkg = database.get_installed_pkg (infos.name);
 					if (infos.name.length > max_name_length) {
@@ -348,8 +341,8 @@ namespace Pamac {
 					}
 				}
 			}
-			if (summary.to_upgrade.length > 0) {
-				foreach (unowned AlpmPackage infos in summary.to_upgrade) {
+			if (summary.to_upgrade.length () > 0) {
+				foreach (unowned Package infos in summary.to_upgrade) {
 					dsize += infos.download_size;
 					var pkg = database.get_installed_pkg (infos.name);
 					isize += ((int64) infos.size - (int64) pkg.size);
@@ -378,41 +371,41 @@ namespace Pamac {
 				// get left space to size
 				max_size_length += available_width - (margin * 4);
 			}
-			if (summary.to_upgrade.length > 0) {
-				stdout.printf (dgettext (null, "To upgrade") + " (%u):\n".printf (summary.to_upgrade.length));
-				foreach (unowned AlpmPackage infos in summary.to_upgrade) {
+			if (summary.to_upgrade.length () > 0) {
+				stdout.printf (dgettext (null, "To upgrade") + " (%u):\n".printf (summary.to_upgrade.length ()));
+				foreach (unowned Package infos in summary.to_upgrade) {
 					stdout.printf ("  %-*s %-*s %-*s %*s \n", max_name_length + margin, infos.name,
 														max_version_length + margin, infos.version,
 														max_installed_version_length + margin, "(%s)".printf (infos.installed_version),
 														max_size_length + margin, format_size (infos.size));
 				}
 			}
-			if (summary.to_reinstall.length > 0) {
-				stdout.printf (dgettext (null, "To reinstall") + " (%u):\n".printf (summary.to_reinstall.length));
-				foreach (unowned AlpmPackage infos in summary.to_reinstall) {
+			if (summary.to_reinstall.length () > 0) {
+				stdout.printf (dgettext (null, "To reinstall") + " (%u):\n".printf (summary.to_reinstall.length ()));
+				foreach (unowned Package infos in summary.to_reinstall) {
 					stdout.printf ("  %-*s %-*s %*s \n", max_name_length + margin, infos.name,
 														max_version_length + margin, infos.version,
 														max_size_length + margin, format_size (infos.size));
 				}
 			}
-			if (summary.to_install.length > 0) {
-				stdout.printf (dgettext (null, "To install") + " (%u):\n".printf (summary.to_install.length));
-				foreach (unowned AlpmPackage infos in summary.to_install) {
+			if (summary.to_install.length () > 0) {
+				stdout.printf (dgettext (null, "To install") + " (%u):\n".printf (summary.to_install.length ()));
+				foreach (unowned Package infos in summary.to_install) {
 					stdout.printf ("  %-*s %-*s %*s \n", max_name_length + margin, infos.name,
 														max_version_length + margin, infos.version,
 														max_size_length + margin, format_size (infos.size));
 				}
 			}
-			if (summary.to_build.length > 0) {
-				stdout.printf (dgettext (null, "To build") + " (%u):\n".printf (summary.to_build.length));
+			if (summary.to_build.length () > 0) {
+				stdout.printf (dgettext (null, "To build") + " (%u):\n".printf (summary.to_build.length ()));
 				foreach (unowned AURPackage infos in summary.to_build) {
 					stdout.printf ("  %-*s %-*s\n", max_name_length + margin, infos.name,
 													max_version_length + margin, infos.version);
 				}
 			}
-			if (summary.to_downgrade.length > 0) {
-				stdout.printf (dgettext (null, "To downgrade") + " (%u):\n".printf (summary.to_downgrade.length));
-				foreach (unowned AlpmPackage infos in summary.to_downgrade) {
+			if (summary.to_downgrade.length () > 0) {
+				stdout.printf (dgettext (null, "To downgrade") + " (%u):\n".printf (summary.to_downgrade.length ()));
+				foreach (unowned Package infos in summary.to_downgrade) {
 					stdout.printf ("  %-*s %-*s %-*s %*s \n", max_name_length + margin, infos.name,
 														max_version_length + margin, infos.version,
 														max_installed_version_length + margin, "(%s)".printf (infos.installed_version),
@@ -420,19 +413,19 @@ namespace Pamac {
 				}
 			}
 			bool to_remove_printed = false;
-			if (summary.to_remove.length > 0) {
-				stdout.printf (dgettext (null, "To remove") + " (%u):\n".printf (summary.to_remove.length));
+			if (summary.to_remove.length () > 0) {
+				stdout.printf (dgettext (null, "To remove") + " (%u):\n".printf (summary.to_remove.length ()));
 				to_remove_printed = true;
-				foreach (unowned AlpmPackage infos in summary.to_remove) {
+				foreach (unowned Package infos in summary.to_remove) {
 					stdout.printf ("  %-*s %-*s\n", max_name_length + margin, infos.name,
 													max_version_length + margin, infos.version);
 				}
 			}
-			if (summary.aur_conflicts_to_remove.length > 0) {
+			if (summary.aur_conflicts_to_remove.length () > 0) {
 				if (!to_remove_printed) {
-					stdout.printf (dgettext (null, "To remove") + " (%u):\n".printf (summary.aur_conflicts_to_remove.length));
+					stdout.printf (dgettext (null, "To remove") + " (%u):\n".printf (summary.aur_conflicts_to_remove.length ()));
 				}
-				foreach (unowned AlpmPackage infos in summary.aur_conflicts_to_remove) {
+				foreach (unowned Package infos in summary.aur_conflicts_to_remove) {
 					stdout.printf ("  %-*s %-*s\n", max_name_length + margin, infos.name,
 													max_version_length + margin, infos.version);
 				}
@@ -450,7 +443,6 @@ namespace Pamac {
 				stdout.printf ("%s: %s\n", dgettext (null, "Total removed size"), format_size (rsize));
 			}
 			// ask user confirmation
-			asking_user_input = true;
 			stdout.printf ("%s ? %s ", dgettext (null, "Commit transaction"), dgettext (null, "[y/N]"));
 			char buf[32];
 			if (stdin.gets (buf) != null) {
@@ -466,14 +458,6 @@ namespace Pamac {
 				}
 			}
 			return false;
-		}
-
-		void on_refresh_finished (bool success) {
-			asking_user_input = false;
-		}
-
-		void on_finished (bool success) {
-			asking_user_input = false;
 		}
 	}
 }

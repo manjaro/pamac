@@ -11,7 +11,7 @@ def on_installed_pkgs_ready_callback(source_object, result, user_data):
 		print("Error: ", e.message)
 	else:
 		for pkg in pkgs:
-			print(pkg.name, pkg.version)
+			print(pkg.get_name(), pkg.get_version())
 	finally:
 		loop.quit()
 

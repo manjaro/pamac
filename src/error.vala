@@ -18,9 +18,8 @@
  */
 
 namespace Pamac {
-	struct UpdatesPriv {
-		bool syncfirst;
-		AlpmPackage[] repos_updates;
-		AURPackage[] aur_updates;
+	struct ErrorInfos {
+		string message;
+		string[] details;
 	}
 }

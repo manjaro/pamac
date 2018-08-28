@@ -2,12 +2,14 @@ data/polkit/org.manjaro.pamac.policy.in
 src/user_daemon.vala
 src/system_daemon.vala
 src/transaction.vala
+src/transaction-gtk.vala
 src/installer.vala
 src/tray.vala
 src/manager.vala
 src/manager_window.vala
 src/preferences_dialog.vala
 src/choose_ignorepkgs_dialog.vala
+src/transaction-cli.vala
 src/cli.vala
 resources/choose_provider_dialog.ui
 resources/progress_dialog.ui

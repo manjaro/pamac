@@ -22,6 +22,7 @@ namespace Pamac {
 	interface SystemDaemon : Object {
 		public abstract void set_environment_variables (HashTable<string,string> variables) throws Error;
 		public abstract ErrorInfos get_current_error () throws Error;
+		public abstract string get_lockfile () throws Error;
 		public abstract bool get_lock () throws Error;
 		public abstract bool unlock () throws Error;
 		public abstract void start_get_authorization () throws Error;
@@ -31,17 +32,18 @@ namespace Pamac {
 		public abstract void clean_cache (uint64 keep_nb, bool only_uninstalled) throws Error;
 		public abstract void start_set_pkgreason (string pkgname, uint reason) throws Error;
 		public abstract void start_refresh (bool force) throws Error;
+		public abstract void start_downloading_updates () throws Error;
 		public abstract void start_sysupgrade_prepare (bool enable_downgrade, string[] temporary_ignorepkgs, string[] to_build, string[] overwrite_files) throws Error;
 		public abstract void start_trans_prepare (int transflags, string[] to_install, string[] to_remove, string[] to_load, string[] to_build, string[] overwrite_files) throws Error;
 		public abstract void choose_provider (int provider) throws Error;
-		public abstract TransactionSummary get_transaction_summary () throws Error;
+		public abstract TransactionSummaryStruct get_transaction_summary () throws Error;
 		public abstract void start_trans_commit () throws Error;
 		public abstract void trans_release () throws Error;
 		public abstract void trans_cancel () throws Error;
 		public abstract void start_get_updates (bool check_aur_updates) throws Error;
 		[DBus (no_reply = true)]
 		public abstract void quit () throws Error;
-		public signal void get_updates_finished (UpdatesPriv updates);
+		public signal void get_updates_finished (UpdatesStruct updates_struct);
 		public signal void emit_event (uint primary_event, uint secondary_event, string[] details);
 		public signal void emit_providers (string depend, string[] providers);
 		public signal void emit_progress (uint progress, string pkgname, uint percent, uint n_targets, uint current_target);
@@ -50,6 +52,7 @@ namespace Pamac {
 		public signal void emit_log (uint level, string msg);
 		public signal void set_pkgreason_finished ();
 		public signal void refresh_finished (bool success);
+		public signal void downloading_updates_finished ();
 		public signal void trans_prepare_finished (bool success);
 		public signal void trans_commit_finished (bool success);
 		public signal void get_authorization_finished (bool authorized);
@@ -97,7 +100,6 @@ namespace Pamac {
 		// transaction options
 		public Database database { get; construct set; }
 		public int flags { get; set; } //Alpm.TransFlag
-		public bool no_confirm_upgrade { get; set; }
 
 		public signal void emit_action (string action);
 		public signal void emit_action_progress (string action, string status, double progress);
@@ -110,6 +112,7 @@ namespace Pamac {
 		public signal void start_building ();
 		public signal void stop_building ();
 		public signal void important_details_outpout (bool must_show);
+		public signal void downloading_updates_finished ();
 		public signal void refresh_finished (bool success);
 		public signal void finished (bool success);
 		public signal void sysupgrade_finished (bool success);
@@ -126,10 +129,10 @@ namespace Pamac {
 		}
 
 		construct {
+			connecting_system_daemon ();
 			// transaction options
 			flags = 0;
 			enable_downgrade = false;
-			no_confirm_upgrade = false;
 			// run transaction data
 			current_action = "";
 			current_status = "";
@@ -174,7 +177,6 @@ namespace Pamac {
 
 		public bool get_lock () {
 			bool locked = false;
-			connecting_system_daemon ();
 			try {
 				locked = system_daemon.get_lock ();
 			} catch (Error e) {
@@ -258,12 +260,22 @@ namespace Pamac {
 			}
 		}
 
+		public string get_lockfile () {
+			string lockfile = "";
+			try {
+				lockfile = system_daemon.get_lockfile ();
+			} catch (Error e) {
+				stderr.printf ("get_lockfile: %s\n", e.message);
+			}
+			return lockfile;
+		}
+
 		public void start_refresh (bool force) {
+			// check autorization to send start_downloading signal after that
 			check_authorization.begin ((obj, res) => {
 				bool authorized = check_authorization.end (res);
 				if (authorized) {
 					emit_action (dgettext (null, "Synchronizing package databases") + "...");
-					connecting_system_daemon ();
 					connecting_dbus_signals ();
 					try {
 						system_daemon.start_refresh (force);
@@ -279,6 +291,20 @@ namespace Pamac {
 			});
 		}
 
+		public void start_downloading_updates () {
+			try {
+				system_daemon.start_downloading_updates ();
+				system_daemon.downloading_updates_finished.connect (on_downloading_updates_finished);
+			} catch (Error e) {
+				stderr.printf ("start_downloading_updates: %s\n", e.message);
+			}
+		}
+
+		void on_downloading_updates_finished () {
+			system_daemon.downloading_updates_finished.disconnect (on_downloading_updates_finished);
+			downloading_updates_finished ();
+		}
+
 		void start_get_updates_for_sysupgrade () {
 			try {
 				system_daemon.start_get_updates (database.config.check_aur_updates);
@@ -290,7 +316,6 @@ namespace Pamac {
 		}
 
 		void sysupgrade_real (string[] to_build) {
-			connecting_system_daemon ();
 			connecting_dbus_signals ();
 			try {
 				// this will respond with trans_prepare_finished signal
@@ -310,32 +335,31 @@ namespace Pamac {
 			start_get_updates_for_sysupgrade ();
 		}
 
-		void on_get_updates_for_sysupgrade_finished (UpdatesPriv updates) {
+		void on_get_updates_for_sysupgrade_finished (UpdatesStruct updates_struct) {
 			system_daemon.get_updates_finished.disconnect (on_get_updates_for_sysupgrade_finished);
 			// get syncfirst updates
-			if (updates.syncfirst) {
-				sysupgrade_after_trans = true;
+			if (updates_struct.syncfirst) {
 				to_install_first = {};
-				foreach (unowned AlpmPackage infos in updates.repos_updates) {
+				foreach (unowned PackageStruct infos in updates_struct.repos_updates) {
 					to_install_first += infos.name;
 				}
 				string[] to_build = {};
-				foreach (unowned AURPackage infos in updates.aur_updates) {
+				foreach (unowned AURPackageStruct infos in updates_struct.aur_updates) {
 					if (!(infos.name in temporary_ignorepkgs)) {
 						to_build += infos.name;
 					}
 				}
-				// run as a standard transaction
+				// to_install_first will be read by start_commit
 				sysupgrade_real (to_build);
 			} else {
-				if (updates.aur_updates.length != 0) {
+				if (updates_struct.aur_updates.length != 0) {
 					string[] to_build = {};
-					foreach (unowned AURPackage infos in updates.aur_updates) {
+					foreach (unowned AURPackageStruct infos in updates_struct.aur_updates) {
 						if (!(infos.name in temporary_ignorepkgs)) {
 							to_build += infos.name;
 						}
 					}
-					if (updates.repos_updates.length != 0) {
+					if (updates_struct.repos_updates.length != 0) {
 						sysupgrade_real (to_build);
 					} else {
 						// only aur updates
@@ -343,7 +367,7 @@ namespace Pamac {
 						start ({}, {}, {}, to_build, overwrite_files);
 					}
 				} else {
-					if (updates.repos_updates.length != 0) {
+					if (updates_struct.repos_updates.length != 0) {
 						sysupgrade_real ({});
 					} else {
 						finish_transaction (true);
@@ -364,7 +388,6 @@ namespace Pamac {
 		public void start (string[] to_install, string[] to_remove, string[] to_load, string[] to_build, string[] overwrite_files) {
 			this.overwrite_files = overwrite_files;
 			emit_action (dgettext (null, "Preparing") + "...");
-			connecting_system_daemon ();
 			connecting_dbus_signals ();
 			start_trans_prepare (to_install, to_remove, to_load, to_build);
 		}
@@ -374,6 +397,7 @@ namespace Pamac {
 				release ();
 				to_build_queue.clear ();
 				no_confirm_commit = true;
+				sysupgrade_after_trans = true;
 				start_trans_prepare (to_install_first, {}, {}, {});
 				to_install_first = {};
 			} else {
@@ -513,11 +537,9 @@ namespace Pamac {
 			}
 		}
 
-		public void stop_daemon () {
+		protected void stop_daemon () {
 			try {
-				if (system_daemon != null) {
-					system_daemon.quit ();
-				}
+				system_daemon.quit ();
 			} catch (Error e) {
 				stderr.printf ("quit: %s\n", e.message);
 			}
@@ -834,6 +856,10 @@ namespace Pamac {
 				important_details_outpout (false);
 				emit_error (line.replace ("\n", ""), {});
 			} else if (level == (1 << 1)) { //Alpm.LogLevel.WARNING
+				// warnings when no_confirm_commit should already have been sent
+				if (no_confirm_commit) {
+					return;
+				}
 				// do not show warning when manjaro-system remove db.lck
 				if (current_filename != "manjaro-system") {
 					if (current_filename != "") {
@@ -881,39 +907,40 @@ namespace Pamac {
 
 		void on_trans_prepare_finished (bool success) {
 			if (success) {
-				var summary = TransactionSummary ();
+				var summary_struct = TransactionSummaryStruct ();
 				try {
-					summary = system_daemon.get_transaction_summary ();
+					summary_struct = system_daemon.get_transaction_summary ();
 				} catch (Error e) {
 					stderr.printf ("get_transaction_summary: %s\n", e.message);
 				}
 				Type type = 0;
-				if ((summary.to_install.length
-					+ summary.to_downgrade.length
-					+ summary.to_reinstall.length) > 0) {
+				if ((summary_struct.to_install.length
+					+ summary_struct.to_downgrade.length
+					+ summary_struct.to_reinstall.length) > 0) {
 					type |= Type.INSTALL;
 				}
-				if (summary.to_remove.length > 0) {
+				if (summary_struct.to_remove.length > 0) {
 					type |= Type.REMOVE;
 				}
-				if (summary.to_upgrade.length > 0) {
+				if (summary_struct.to_upgrade.length > 0) {
 					type |= Type.UPDATE;
 				}
-				if (summary.to_build.length > 0) {
+				if (summary_struct.to_build.length > 0) {
 					type |= Type.BUILD;
 					// populate build queue
-					foreach (unowned string name in summary.aur_pkgbases_to_build) {
+					foreach (unowned string name in summary_struct.aur_pkgbases_to_build) {
 						to_build_queue.push_tail (name);
 					}
 					aur_pkgs_to_install = {};
-					foreach (unowned AURPackage infos in summary.to_build) {
+					foreach (unowned AURPackageStruct infos in summary_struct.to_build) {
 						aur_pkgs_to_install += infos.name;
 					}
 				}
-				if (no_confirm_commit
-					|| (no_confirm_upgrade && ((type & Type.REMOVE) == 0))) {
+				if (no_confirm_commit) {
+					no_confirm_commit = false;
 					start_commit ();
 				} else if (type != 0) {
+					var summary = new TransactionSummary (summary_struct);
 					if (ask_confirmation (summary)) {
 						if (type == Type.BUILD) {
 							// there only AUR packages to build
@@ -943,8 +970,6 @@ namespace Pamac {
 		}
 
 		void on_trans_commit_finished (bool success) {
-			// needed before build_aur_packages
-			no_confirm_commit = false;
 			if (success) {
 				if (to_build_queue.get_length () != 0) {
 					emit_script_output ("");

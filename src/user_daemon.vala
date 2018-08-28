@@ -85,18 +85,18 @@ namespace Pamac {
 		private Alpm.Handle? alpm_handle;
 		private Alpm.Handle? files_handle;
 		private bool repos_updates_checked;
-		private AlpmPackage[] repos_updates;
+		private PackageStruct[] repos_updates;
 		private bool check_aur_updates;
 		private bool aur_updates_checked;
 		private bool refresh_files_dbs;
-		private AURPackage[] aur_updates;
+		private AURPackageStruct[] aur_updates;
 		private HashTable<string, Json.Array> aur_search_results;
 		private HashTable<string, Json.Object> aur_infos;
 		private As.Store app_store;
 		private string locale;
 
 		public signal void emit_get_updates_progress (uint percent);
-		public signal void get_updates_finished (Updates updates);
+		public signal void get_updates_finished (UpdatesStruct updates);
 
 		public UserDaemon () {
 			alpm_config = new AlpmConfig ("/etc/pacman.conf");
@@ -193,10 +193,6 @@ namespace Pamac {
 			return alpm_handle.checkspace == 1 ? true : false;
 		}
 
-		public string get_lockfile () throws Error {
-			return alpm_handle.lockfile;
-		}
-
 		public string[] get_ignorepkgs () throws Error {
 			string[] result = {};
 			unowned Alpm.List<unowned string> ignorepkgs = alpm_handle.ignorepkgs;
@@ -219,19 +215,6 @@ namespace Pamac {
 			unowned Alpm.Package? pkg = alpm_handle.localdb.get_pkg (pkgname);
 			if (pkg != null) {
 				return pkg.reason;
-			}
-			return 0;
-		}
-
-		public uint get_pkg_origin (string pkgname) throws Error {
-			unowned Alpm.Package? pkg = alpm_handle.localdb.get_pkg (pkgname);
-			if (pkg != null) {
-				return pkg.origin;
-			} else {
-				pkg = get_syncpkg (pkgname);
-				if (pkg != null) {
-					return pkg.origin;
-				}
 			}
 			return 0;
 		}
@@ -297,7 +280,7 @@ namespace Pamac {
 			return matching_apps;
 		}
 
-		private AlpmPackage initialise_pkg_struct (Alpm.Package? alpm_pkg) {
+		private PackageStruct initialise_pkg_struct (Alpm.Package? alpm_pkg) {
 			if (alpm_pkg != null) {
 				string installed_version = "";
 				string repo_name = "";
@@ -327,7 +310,7 @@ namespace Pamac {
 						icon = get_app_icon (app, repo_name);
 					}
 				}
-				return AlpmPackage () {
+				return PackageStruct () {
 					name = alpm_pkg.name,
 					app_name = (owned) app_name,
 					version = alpm_pkg.version,
@@ -336,11 +319,10 @@ namespace Pamac {
 					repo = (owned) repo_name,
 					size = alpm_pkg.isize,
 					download_size = alpm_pkg.download_size,
-					origin = (uint) alpm_pkg.origin,
 					icon = (owned) icon
 				};
 			} else {
-				return AlpmPackage () {
+				return PackageStruct () {
 					name = "",
 					app_name = "",
 					version = "",
@@ -352,8 +334,8 @@ namespace Pamac {
 			}
 		}
 
-		private AlpmPackage[] initialise_pkg_structs (Alpm.Package? alpm_pkg) {
-			AlpmPackage[] pkgs = {};
+		private PackageStruct[] initialise_pkg_structs (Alpm.Package? alpm_pkg) {
+			PackageStruct[] pkgs = {};
 			if (alpm_pkg != null) {
 				string installed_version = "";
 				string repo_name = "";
@@ -375,7 +357,7 @@ namespace Pamac {
 					if (apps.length > 0) {
 						// alpm_pkg provide some apps
 						foreach (unowned As.App app in apps) {
-							pkgs += AlpmPackage () {
+							pkgs += PackageStruct () {
 								name = alpm_pkg.name,
 								app_name = get_app_name (app),
 								version = alpm_pkg.version,
@@ -384,12 +366,11 @@ namespace Pamac {
 								repo = repo_name,
 								size = alpm_pkg.isize,
 								download_size = alpm_pkg.download_size,
-								origin = (uint) alpm_pkg.origin,
 								icon = get_app_icon (app, repo_name)
 							};
 						}
 					} else {
-						pkgs += AlpmPackage () {
+						pkgs += PackageStruct () {
 							name = alpm_pkg.name,
 							app_name = "",
 							version = alpm_pkg.version,
@@ -398,12 +379,11 @@ namespace Pamac {
 							repo = repo_name,
 							size = alpm_pkg.isize,
 							download_size = alpm_pkg.download_size,
-							origin = (uint) alpm_pkg.origin,
 							icon = ""
 						};
 					}
 				} else {
-					pkgs += AlpmPackage () {
+					pkgs += PackageStruct () {
 						name = alpm_pkg.name,
 						app_name = "",
 						version = alpm_pkg.version,
@@ -412,7 +392,6 @@ namespace Pamac {
 						repo = repo_name,
 						size = alpm_pkg.isize,
 						download_size = alpm_pkg.download_size,
-						origin = (uint) alpm_pkg.origin,
 						icon = ""
 					};
 				}
@@ -420,16 +399,16 @@ namespace Pamac {
 			return pkgs;
 		}
 
-		public async AlpmPackage[] get_installed_pkgs_async () throws Error {
+		public async PackageStruct[] get_installed_pkgs_async () throws Error {
 			return get_installed_pkgs ();
 		}
 
-		public AlpmPackage[] get_installed_pkgs () throws Error {
-			AlpmPackage[] pkgs = {};
+		public PackageStruct[] get_installed_pkgs () throws Error {
+			PackageStruct[] pkgs = {};
 			unowned Alpm.List<unowned Alpm.Package> pkgcache = alpm_handle.localdb.pkgcache;
 			while (pkgcache != null) {
 				unowned Alpm.Package alpm_pkg = pkgcache.data;
-				foreach (unowned AlpmPackage pkg in initialise_pkg_structs (alpm_pkg)) {
+				foreach (unowned PackageStruct pkg in initialise_pkg_structs (alpm_pkg)) {
 					pkgs += pkg;
 				}
 				pkgcache.next ();
@@ -437,19 +416,19 @@ namespace Pamac {
 			return pkgs;
 		}
 
-		public async AlpmPackage[] get_installed_apps_async () throws Error {
+		public async PackageStruct[] get_installed_apps_async () throws Error {
 			return get_installed_apps ();
 		}
 
-		public AlpmPackage[] get_installed_apps () throws Error {
-			AlpmPackage[] pkgs = {};
+		public PackageStruct[] get_installed_apps () throws Error {
+			PackageStruct[] pkgs = {};
 			app_store.get_apps ().foreach ((app) => {
 				unowned string pkgname = app.get_pkgname_default ();
 				unowned Alpm.Package? local_pkg = alpm_handle.localdb.get_pkg (pkgname);
 				if (local_pkg != null) {
 					unowned Alpm.Package? sync_pkg = get_syncpkg (pkgname);
 					if (sync_pkg != null) {
-						pkgs += AlpmPackage () {
+						pkgs += PackageStruct () {
 							name = sync_pkg.name,
 							app_name = get_app_name (app),
 							version = sync_pkg.version,
@@ -458,7 +437,6 @@ namespace Pamac {
 							repo = sync_pkg.db.name,
 							size = sync_pkg.isize,
 							download_size = sync_pkg.download_size,
-							origin = (uint) local_pkg.origin,
 							icon = get_app_icon (app, sync_pkg.db.name)
 						};
 					}
@@ -467,17 +445,17 @@ namespace Pamac {
 			return pkgs;
 		}
 
-		public async AlpmPackage[] get_explicitly_installed_pkgs_async () throws Error {
+		public async PackageStruct[] get_explicitly_installed_pkgs_async () throws Error {
 			return get_explicitly_installed_pkgs ();
 		}
 
-		public AlpmPackage[] get_explicitly_installed_pkgs () throws Error {
-			AlpmPackage[] pkgs = {};
+		public PackageStruct[] get_explicitly_installed_pkgs () throws Error {
+			PackageStruct[] pkgs = {};
 			unowned Alpm.List<unowned Alpm.Package> pkgcache = alpm_handle.localdb.pkgcache;
 			while (pkgcache != null) {
 				unowned Alpm.Package alpm_pkg = pkgcache.data;
 				if (alpm_pkg.reason == Alpm.Package.Reason.EXPLICIT) {
-					foreach (unowned AlpmPackage pkg in initialise_pkg_structs (alpm_pkg)) {
+					foreach (unowned PackageStruct pkg in initialise_pkg_structs (alpm_pkg)) {
 						pkgs += pkg;
 					}
 				}
@@ -486,12 +464,12 @@ namespace Pamac {
 			return pkgs;
 		}
 
-		public async AlpmPackage[] get_foreign_pkgs_async () throws Error {
+		public async PackageStruct[] get_foreign_pkgs_async () throws Error {
 			return get_foreign_pkgs ();
 		}
 
-		public AlpmPackage[] get_foreign_pkgs() throws Error {
-			AlpmPackage[] pkgs = {};
+		public PackageStruct[] get_foreign_pkgs() throws Error {
+			PackageStruct[] pkgs = {};
 			unowned Alpm.List<unowned Alpm.Package> pkgcache = alpm_handle.localdb.pkgcache;
 			while (pkgcache != null) {
 				unowned Alpm.Package alpm_pkg = pkgcache.data;
@@ -507,7 +485,7 @@ namespace Pamac {
 					syncdbs.next ();
 				}
 				if (sync_found == false) {
-					foreach (unowned AlpmPackage pkg in initialise_pkg_structs (alpm_pkg)) {
+					foreach (unowned PackageStruct pkg in initialise_pkg_structs (alpm_pkg)) {
 						pkgs += pkg;
 					}
 				}
@@ -516,12 +494,12 @@ namespace Pamac {
 			return pkgs;
 		}
 
-		public async AlpmPackage[] get_orphans_async () throws Error {
+		public async PackageStruct[] get_orphans_async () throws Error {
 			return get_orphans ();
 		}
 
-		public AlpmPackage[] get_orphans () throws Error {
-			AlpmPackage[] pkgs = {};
+		public PackageStruct[] get_orphans () throws Error {
+			PackageStruct[] pkgs = {};
 			unowned Alpm.List<unowned Alpm.Package> pkgcache = alpm_handle.localdb.pkgcache;
 			while (pkgcache != null) {
 				unowned Alpm.Package alpm_pkg = pkgcache.data;
@@ -530,7 +508,7 @@ namespace Pamac {
 					if (requiredby.length == 0) {
 						Alpm.List<string> optionalfor = alpm_pkg.compute_optionalfor ();
 						if (optionalfor.length == 0) {
-							foreach (unowned AlpmPackage pkg in initialise_pkg_structs (alpm_pkg)) {
+							foreach (unowned PackageStruct pkg in initialise_pkg_structs (alpm_pkg)) {
 								pkgs += pkg;
 							}
 						} else {
@@ -545,11 +523,11 @@ namespace Pamac {
 			return pkgs;
 		}
 
-		public AlpmPackage get_installed_pkg (string pkgname) throws Error {
+		public PackageStruct get_installed_pkg (string pkgname) throws Error {
 			return initialise_pkg_struct (alpm_handle.localdb.get_pkg (pkgname));
 		}
 
-		public AlpmPackage find_installed_satisfier (string depstring) throws Error {
+		public PackageStruct find_installed_satisfier (string depstring) throws Error {
 			return initialise_pkg_struct (Alpm.find_satisfier (alpm_handle.localdb.pkgcache, depstring));
 		}
 
@@ -567,7 +545,7 @@ namespace Pamac {
 			return pkg;
 		}
 
-		public AlpmPackage get_sync_pkg (string pkgname) throws Error {
+		public PackageStruct get_sync_pkg (string pkgname) throws Error {
 			return initialise_pkg_struct (get_syncpkg (pkgname));
 		}
 
@@ -585,7 +563,7 @@ namespace Pamac {
 			return pkg;
 		}
 
-		public AlpmPackage find_sync_satisfier (string depstring) throws Error {
+		public PackageStruct find_sync_satisfier (string depstring) throws Error {
 			return initialise_pkg_struct (find_dbs_satisfier (depstring));
 		}
 
@@ -635,17 +613,17 @@ namespace Pamac {
 			return result;
 		}
 
-		public async AlpmPackage[] search_pkgs_async (string search_string) throws Error {
+		public async PackageStruct[] search_pkgs_async (string search_string) throws Error {
 			return search_pkgs (search_string);
 		}
 
-		public AlpmPackage[] search_pkgs(string search_string) throws Error {
-			AlpmPackage[] pkgs = {};
+		public PackageStruct[] search_pkgs(string search_string) throws Error {
+			PackageStruct[] pkgs = {};
 			Alpm.List<unowned Alpm.Package> alpm_pkgs = search_all_dbs (search_string);
 			unowned Alpm.List<unowned Alpm.Package> list = alpm_pkgs;
 			while (list != null) {
 				unowned Alpm.Package alpm_pkg = list.data;
-				foreach (unowned AlpmPackage pkg in initialise_pkg_structs (alpm_pkg)) {
+				foreach (unowned PackageStruct pkg in initialise_pkg_structs (alpm_pkg)) {
 					pkgs += pkg;
 				}
 				list.next ();
@@ -653,13 +631,21 @@ namespace Pamac {
 			return pkgs;
 		}
 
-		private AURPackage initialise_aur_struct (Json.Object json_object) {
+		private AURPackageStruct initialise_aur_struct (Json.Object? json_object) {
+			if (json_object == null) {
+				return AURPackageStruct () {
+					name = "",
+					version = "",
+					installed_version = "",
+					desc = ""
+				};
+			}
 			string installed_version = "";
 			unowned Alpm.Package? pkg = alpm_handle.localdb.get_pkg (json_object.get_string_member ("Name"));
 			if (pkg != null) {
 				installed_version = pkg.version;
 			}
-			return AURPackage () {
+			return AURPackageStruct () {
 				name = json_object.get_string_member ("Name"),
 				version = json_object.get_string_member ("Version"),
 				installed_version = (owned) installed_version,
@@ -669,24 +655,35 @@ namespace Pamac {
 			};
 		}
 
-		public async AURPackage[] search_in_aur_async (string search_string) throws Error {
+		public async AURPackageStruct[] search_in_aur_async (string search_string) throws Error {
 			if (!aur_search_results.contains (search_string)) {
 				Json.Array pkgs = yield AUR.search (search_string.split (" "));
 				aur_search_results.insert (search_string, pkgs);
 			}
-			AURPackage[] result = {};
+			AURPackageStruct[] result = {};
 			Json.Array aur_pkgs = aur_search_results.get (search_string);
 			aur_pkgs.foreach_element ((array, index, node) => {
 				Json.Object aur_pkg = node.get_object ();
 				// remove results which exist in repos
 				if (get_syncpkg (aur_pkg.get_string_member ("Name")) == null) {
-					result += initialise_aur_struct (node.get_object ());
+					result += initialise_aur_struct (aur_pkg);
 				}
 			});
 			return result;
 		}
 
-		public async AURPackageDetails get_aur_details_async (string pkgname) throws Error {
+		public async AURPackageStruct get_aur_pkg_async (string pkgname) throws Error {
+			if (!aur_infos.contains (pkgname)) {
+				Json.Array results = yield AUR.multiinfo ({pkgname});
+				if (results.get_length () > 0) {
+					aur_infos.insert (pkgname, results.get_object_element (0));
+				}
+			}
+			unowned Json.Object? json_object = aur_infos.lookup (pkgname);
+			return initialise_aur_struct (json_object);
+		}
+
+		public async AURPackageDetailsStruct get_aur_pkg_details_async (string pkgname) throws Error {
 			string name = "";
 			string version = "";
 			string desc = "";
@@ -706,7 +703,7 @@ namespace Pamac {
 			string[] provides = {};
 			string[] replaces = {};
 			string[] conflicts = {};
-			var details = AURPackageDetails ();
+			var details = AURPackageDetailsStruct ();
 			if (!aur_infos.contains (pkgname)) {
 				Json.Array results = yield AUR.multiinfo ({pkgname});
 				if (results.get_length () > 0) {
@@ -842,12 +839,12 @@ namespace Pamac {
 			return repos_names;
 		}
 
-		public async AlpmPackage[] get_repo_pkgs_async (string repo) throws Error {
+		public async PackageStruct[] get_repo_pkgs_async (string repo) throws Error {
 			return get_repo_pkgs (repo);
 		}
 
-		public AlpmPackage[] get_repo_pkgs (string repo) throws Error {
-			AlpmPackage[] pkgs = {};
+		public PackageStruct[] get_repo_pkgs (string repo) throws Error {
+			PackageStruct[] pkgs = {};
 			unowned Alpm.List<unowned Alpm.DB> syncdbs = alpm_handle.syncdbs;
 			while (syncdbs != null) {
 				unowned Alpm.DB db = syncdbs.data;
@@ -857,11 +854,11 @@ namespace Pamac {
 						unowned Alpm.Package sync_pkg = pkgcache.data;
 						unowned Alpm.Package? local_pkg = alpm_handle.localdb.get_pkg (sync_pkg.name);
 						if (local_pkg != null) {
-							foreach (unowned AlpmPackage pkg in initialise_pkg_structs (local_pkg)) {
+							foreach (unowned PackageStruct pkg in initialise_pkg_structs (local_pkg)) {
 								pkgs += pkg;
 							}
 						} else {
-							foreach (unowned AlpmPackage pkg in initialise_pkg_structs (sync_pkg)) {
+							foreach (unowned PackageStruct pkg in initialise_pkg_structs (sync_pkg)) {
 								pkgs += pkg;
 							}
 						}
@@ -930,17 +927,17 @@ namespace Pamac {
 			return result;
 		}
 
-		public async AlpmPackage[] get_group_pkgs_async (string groupname) throws Error {
+		public async PackageStruct[] get_group_pkgs_async (string groupname) throws Error {
 			return get_group_pkgs (groupname);
 		}
 
-		public AlpmPackage[] get_group_pkgs (string groupname) throws Error {
-			AlpmPackage[] pkgs = {};
+		public PackageStruct[] get_group_pkgs (string groupname) throws Error {
+			PackageStruct[] pkgs = {};
 			Alpm.List<unowned Alpm.Package> alpm_pkgs = group_pkgs (groupname);
 			unowned Alpm.List<unowned Alpm.Package> list = alpm_pkgs;
 			while (list != null) {
 				unowned Alpm.Package alpm_pkg = list.data;
-				foreach (unowned AlpmPackage pkg in initialise_pkg_structs (alpm_pkg)) {
+				foreach (unowned PackageStruct pkg in initialise_pkg_structs (alpm_pkg)) {
 					pkgs += pkg;
 				}
 				list.next ();
@@ -948,31 +945,28 @@ namespace Pamac {
 			return pkgs;
 		}
 
-		public async AlpmPackage[] get_category_pkgs_async (string category) throws Error {
+		public async PackageStruct[] get_category_pkgs_async (string category) throws Error {
 			return get_category_pkgs (category);
 		}
 
-		public AlpmPackage[] get_category_pkgs (string category) throws Error {
-			AlpmPackage[] pkgs = {};
+		public PackageStruct[] get_category_pkgs (string category) throws Error {
+			PackageStruct[] pkgs = {};
 			app_store.get_apps ().foreach ((app) => {
 				app.get_categories ().foreach ((cat_name) => {
 					if (cat_name == category) {
 						unowned string pkgname = app.get_pkgname_default ();
 						string installed_version = "";
 						string repo_name = "";
-						uint origin;
 						unowned Alpm.Package? local_pkg = alpm_handle.localdb.get_pkg (pkgname);
 						unowned Alpm.Package? sync_pkg = get_syncpkg (pkgname);
 						if (sync_pkg != null) {
 							if (local_pkg == null) {
 								repo_name = sync_pkg.db.name;
-								origin = (uint) sync_pkg.origin;
 							} else {
 								repo_name = sync_pkg.db.name;
 								installed_version = local_pkg.version;
-								origin = (uint) local_pkg.origin;
 							}
-							pkgs += AlpmPackage () {
+							pkgs += PackageStruct () {
 								name = sync_pkg.name,
 								app_name = get_app_name (app),
 								version = sync_pkg.version,
@@ -981,7 +975,6 @@ namespace Pamac {
 								repo = (owned) repo_name,
 								size = sync_pkg.isize,
 								download_size = sync_pkg.download_size,
-								origin = origin,
 								icon = get_app_icon (app, sync_pkg.db.name)
 							};
 						}
@@ -1010,10 +1003,11 @@ namespace Pamac {
 			return optdeps;
 		}
 
-		public AlpmPackageDetails get_pkg_details (string pkgname, string appname) throws Error {
+		public PackageDetailsStruct get_pkg_details (string pkgname, string appname) throws Error {
 			string name = "";
 			string app_name = "";
 			string version = "";
+			string installed_version = "";
 			string desc = "";
 			string long_desc = "";
 			string url = "";
@@ -1035,11 +1029,13 @@ namespace Pamac {
 			string[] provides = {};
 			string[] replaces = {};
 			string[] conflicts = {};
-			var details = AlpmPackageDetails ();
+			var details = PackageDetailsStruct ();
 			unowned Alpm.Package? alpm_pkg = alpm_handle.localdb.get_pkg (pkgname);
 			unowned Alpm.Package? sync_pkg = get_syncpkg (pkgname);
 			if (alpm_pkg == null) {
 				alpm_pkg = sync_pkg;
+			} else {
+				installed_version = alpm_pkg.version;
 			}
 			if (alpm_pkg != null) {
 				// name
@@ -1084,7 +1080,6 @@ namespace Pamac {
 						}
 					}
 				}
-				details.origin = (uint) alpm_pkg.origin;
 				details.size = alpm_pkg.isize;
 				// url can be null
 				if (alpm_pkg.url != null) {
@@ -1187,6 +1182,7 @@ namespace Pamac {
 			details.name = (owned) name;
 			details.app_name = (owned) app_name;
 			details.version = (owned) version;
+			details.installed_version = (owned) installed_version;
 			details.desc = (owned) desc;
 			details.long_desc = (owned) long_desc;
 			details.repo = (owned) repo;
@@ -1301,14 +1297,14 @@ namespace Pamac {
 
 		private int get_updates () {
 			if (repos_updates_checked && (aur_updates_checked || !check_aur_updates)) {
-				var updates = Updates () {
+				var updates = UpdatesStruct () {
 					repos_updates = repos_updates,
 					aur_updates = aur_updates
 				};
 				get_updates_finished (updates);
 				return 0;
 			}
-			AlpmPackage[] repos_updates = {};
+			PackageStruct[] repos_updates = {};
 			unowned Alpm.Package? pkg = null;
 			unowned Alpm.Package? candidate = null;
 			// use a tmp handle
@@ -1382,7 +1378,7 @@ namespace Pamac {
 						var aur_updates_json = AUR.multiinfo.end (res);
 						aur_updates_checked = true;
 						get_aur_updates (aur_updates_json);
-						var updates = Updates () {
+						var updates = UpdatesStruct () {
 							repos_updates = repos_updates,
 							aur_updates = aur_updates
 						};
@@ -1390,7 +1386,7 @@ namespace Pamac {
 						get_updates_finished (updates);
 					});
 				} else {
-					var updates = Updates () {
+					var updates = UpdatesStruct () {
 						repos_updates = repos_updates,
 						aur_updates = aur_updates
 					};
@@ -1398,7 +1394,7 @@ namespace Pamac {
 					get_updates_finished (updates);
 				}
 			} else {
-				var updates = Updates () {
+				var updates = UpdatesStruct () {
 					repos_updates = repos_updates,
 					aur_updates = {}
 				};

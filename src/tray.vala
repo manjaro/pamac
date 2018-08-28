@@ -25,28 +25,10 @@ const string noupdate_icon_name = "pamac-tray-no-update";
 const string noupdate_info = _("Your system is up-to-date");
 
 namespace Pamac {
-	[DBus (name = "org.manjaro.pamac.user")]
-	interface UserDaemon : Object {
-		public abstract void refresh_handle () throws Error;
-		public abstract string get_lockfile () throws Error;
-		public abstract void start_get_updates (bool check_aur_updates, bool refresh_files_dbs) throws Error;
-		[DBus (no_reply = true)]
-		public abstract void quit () throws Error;
-		public signal void get_updates_finished (Updates updates);
-	}
-	[DBus (name = "org.manjaro.pamac.system")]
-	interface SystemDaemon : Object {
-		public abstract void set_environment_variables (HashTable<string,string> variables) throws Error;
-		public abstract void start_download_updates () throws Error;
-		[DBus (no_reply = true)]
-		public abstract void quit () throws Error;
-		public signal void download_updates_finished ();
-	}
-
 	public abstract class TrayIcon: Gtk.Application {
 		Notify.Notification notification;
-		UserDaemon user_daemon;
-		SystemDaemon system_daemon;
+		Database database;
+		Transaction transaction;
 		bool extern_lock;
 		uint refresh_timeout_id;
 		public Gtk.Menu menu;
@@ -58,52 +40,24 @@ namespace Pamac {
 			flags = ApplicationFlags.FLAGS_NONE;
 		}
 
+		void init_database () {
+			if (database == null) {
+				var config = new Config ("/etc/pamac.conf");
+				database = new Database (config);
+				database.refresh_files_dbs_on_get_updates = true;
+			}
+		}
+
+		void init_transaction () {
+			if (transaction == null) {
+				if (database == null) {
+					init_database ();
+				}
+				transaction = new Transaction (database);
+			}
+		}
+
 		public abstract void init_status_icon ();
-
-		void start_user_daemon () {
-			if (user_daemon == null) {
-				try {
-					user_daemon = Bus.get_proxy_sync (BusType.SESSION, "org.manjaro.pamac.user", "/org/manjaro/pamac/user");
-					user_daemon.get_updates_finished.connect (on_get_updates_finished);
-				} catch (Error e) {
-					stderr.printf ("Error: %s\n", e.message);
-				}
-			}
-		}
-
-		void stop_user_daemon () {
-			if (!check_pamac_running ()) {
-				try {
-					user_daemon.quit ();
-				} catch (Error e) {
-					stderr.printf ("Error: %s\n", e.message);
-				}
-			}
-		}
-
-		void start_system_daemon () {
-			if (system_daemon == null) {
-				try {
-					system_daemon = Bus.get_proxy_sync (BusType.SYSTEM, "org.manjaro.pamac.system", "/org/manjaro/pamac/system");
-					// Set environment variables
-					var pamac_config = new Config ("/etc/pamac.conf");
-					system_daemon.set_environment_variables (pamac_config.environment_variables);
-					system_daemon.download_updates_finished.connect (on_download_updates_finished);
-				} catch (Error e) {
-					stderr.printf ("Error: %s\n", e.message);
-				}
-			}
-		}
-
-		void stop_system_daemon () {
-			if (!check_pamac_running ()) {
-				try {
-					system_daemon.quit ();
-				} catch (Error e) {
-					stderr.printf ("Error: %s\n", e.message);
-				}
-			}
-		}
 
 		// Create menu for right button
 		void create_menu () {
@@ -150,43 +104,44 @@ namespace Pamac {
 		public abstract void set_icon_visible (bool visible);
 
 		bool check_updates () {
-			var pamac_config = new Config ("/etc/pamac.conf");
-			if (pamac_config.refresh_period != 0) {
-				try {
-					user_daemon.start_get_updates (pamac_config.enable_aur && pamac_config.check_aur_updates, true);
-				} catch (Error e) {
-					stderr.printf ("Error: %s\n", e.message);
-				}
+			init_database ();
+			if (database.config.refresh_period != 0) {
+				database.start_get_updates ();
+				database.get_updates_finished.connect (on_get_updates_finished);
 			}
 			return true;
 		}
 
 		void on_get_updates_finished (Updates updates) {
-			updates_nb = updates.repos_updates.length + updates.aur_updates.length;
-			var pamac_config = new Config ("/etc/pamac.conf");
+			database.get_updates_finished.disconnect (on_get_updates_finished);
+			updates_nb = updates.repos_updates.length () + updates.aur_updates.length ();
 			if (updates_nb == 0) {
 				set_icon (noupdate_icon_name);
 				set_tooltip (noupdate_info);
-				set_icon_visible (!pamac_config.no_update_hide_icon);
+				set_icon_visible (!database.config.no_update_hide_icon);
 				close_notification ();
+				// stop user_daemon
+				database = null;
 			} else {
-				if (!check_pamac_running () && pamac_config.download_updates) {
-					start_system_daemon ();
-					try {
-						system_daemon.start_download_updates ();
-					} catch (Error e) {
-						stderr.printf ("Error: %s\n", e.message);
-					}
+				if (!check_pamac_running () && database.config.download_updates) {
+					init_transaction ();
+					transaction.start_downloading_updates ();
+					transaction.downloading_updates_finished.connect (on_downloading_updates_finished);
 				} else {
 					show_or_update_notification ();
+					// stop user_daemon
+					database = null;
 				}
 			}
-			stop_user_daemon ();
 		}
 
-		void on_download_updates_finished () {
+		void on_downloading_updates_finished () {
+			transaction.downloading_updates_finished.disconnect (on_downloading_updates_finished);
 			show_or_update_notification ();
-			stop_system_daemon ();
+			// stop system_daemon
+			transaction = null;
+			// stop user_daemon
+			database = null;
 		}
 
 		void show_or_update_notification () {
@@ -265,10 +220,8 @@ namespace Pamac {
 			if (extern_lock) {
 				if (!lockfile.query_exists ()) {
 					extern_lock = false;
-					try {
-						user_daemon.refresh_handle ();
-					} catch (Error e) {
-						stderr.printf ("Error: %s\n", e.message);
+					if (database != null) {
+						database.refresh ();
 					}
 					check_updates ();
 				}
@@ -316,14 +269,11 @@ namespace Pamac {
 
 			Notify.init (_("Package Manager"));
 
-			start_user_daemon ();
-			try {
-				lockfile = GLib.File.new_for_path (user_daemon.get_lockfile ());
-			} catch (Error e) {
-				stderr.printf ("Error: %s\n", e.message);
-				//try standard lock file
-				lockfile = GLib.File.new_for_path ("var/lib/pacman/db.lck");
-			}
+			init_transaction ();
+			lockfile = GLib.File.new_for_path (transaction.get_lockfile ());
+			// stop system_daemon
+			transaction = null;
+
 			Timeout.add (200, check_extern_lock);
 			// wait 30 seconds before check updates
 			Timeout.add_seconds (30, () => {

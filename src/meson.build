@@ -41,24 +41,8 @@ executable('pamac-clean-cache',
 	c_args: common_c_args,
 	install: true)
 
-executable('pamac-tray',
-	sources: [common_sources, 'tray.vala', 'tray-gtk.vala'],
-	dependencies: [gtk3, libnotify],
-	vala_args: common_vala_args,
-	c_args: common_c_args,
-	install: true)
-
-if get_option('enable-appindicator')
-	executable('pamac-tray-appindicator',
-		sources: [common_sources, 'tray.vala', 'tray-appindicator.vala'],
-		dependencies: [gtk3, libnotify, appindicator],
-		vala_args: common_vala_args,
-		c_args: common_c_args,
-		install: true)
-endif
-
 executable('pamac-user-daemon',
-	sources: ['alpm_config.vala', 'common.vala', 'package.vala', 'aur.vala', 'user_daemon.vala'],
+	sources: ['alpm_config.vala', 'common_daemon.vala', 'package.vala', 'aur.vala', 'user_daemon.vala'],
 	dependencies: [vala_deps, alpm_deps, json, libsoup, appstream],
 	vala_args: [common_vala_args, alpm_vala_args, '--thread'],
 	c_args: [common_c_args, alpm_c_args],
@@ -72,9 +56,9 @@ executable('pamac-system-daemon',
 	install : true)
 
 libpamac = library('pamac',
-	sources: [common_sources, 'updates_priv.vala', 'database.vala', 'transaction.vala', 'transaction-cli.vala'],
+	sources: [common_sources, 'error.vala', 'database.vala', 'transaction.vala'],
 	dependencies: [gio, posix, math],
-	vala_args: [common_vala_args, '--pkg=linux'],
+	vala_args: common_vala_args,
 	c_args: common_c_args,
 	vala_gir: 'Pamac-1.0.gir',
 	install: true,
@@ -83,11 +67,27 @@ libpamac = library('pamac',
 libpamac_dep = declare_dependency(link_with: libpamac)
 
 executable('pamac',
-	sources: ['version.vala','cli.vala'],
+	sources: ['version.vala', 'transaction-cli.vala', 'cli.vala'],
 	dependencies: [gio, posix, math, libpamac_dep],
+	vala_args: [common_vala_args, '--pkg=linux'],
+	c_args: common_c_args,
+	install: true)
+
+executable('pamac-tray',
+	sources: ['tray.vala', 'tray-gtk.vala'],
+	dependencies: [gtk3, libnotify, libpamac_dep],
 	vala_args: common_vala_args,
 	c_args: common_c_args,
 	install: true)
+
+if get_option('enable-appindicator')
+	executable('pamac-tray-appindicator',
+		sources: ['tray.vala', 'tray-appindicator.vala'],
+		dependencies: [gtk3, libnotify, appindicator, libpamac_dep],
+		vala_args: common_vala_args,
+		c_args: common_c_args,
+		install: true)
+endif
 
 libpamac_gtk = library('pamac-gtk',
 	sources: [transaction_gtk_sources, transaction_resources],

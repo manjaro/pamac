@@ -18,30 +18,95 @@
  */
 
 namespace Pamac {
-	public struct TransactionSummary {
-		public AlpmPackage[] to_install;
-		public AlpmPackage[] to_upgrade;
-		public AlpmPackage[] to_downgrade;
-		public AlpmPackage[] to_reinstall;
-		public AlpmPackage[] to_remove;
-		public AURPackage[] to_build;
-		public AlpmPackage[] aur_conflicts_to_remove;
+	public struct PackageStruct {
+		public string name;
+		public string app_name;
+		public string version;
+		public string installed_version;
+		public string desc;
+		public string repo;
+		public uint64 size;
+		public uint64 download_size;
+		public string icon;
+	}
+
+	public struct PackageDetailsStruct {
+		public string name;
+		public string app_name;
+		public string version;
+		public string installed_version;
+		public string desc;
+		public string long_desc;
+		public string repo;
+		public uint64 size;
+		public string url;
+		public string icon;
+		public string screenshot;
+		public string packager;
+		public string builddate;
+		public string installdate;
+		public string reason;
+		public string has_signature;
+		public string[] licenses;
+		public string[] depends;
+		public string[] optdepends;
+		public string[] requiredby;
+		public string[] optionalfor;
+		public string[] provides;
+		public string[] replaces;
+		public string[] conflicts;
+		public string[] groups;
+		public string[] backups;
+	}
+
+	public struct AURPackageStruct {
+		public string name;
+		public string version;
+		public string installed_version;
+		public string desc;
+		public double popularity;
+	}
+
+	public struct AURPackageDetailsStruct {
+		public string name;
+		public string version;
+		public string desc;
+		public double popularity;
+		public string packagebase;
+		public string url;
+		public string maintainer;
+		public string firstsubmitted;
+		public string lastmodified;
+		public string outofdate;
+		public int64 numvotes;
+		public string[] licenses;
+		public string[] depends;
+		public string[] makedepends;
+		public string[] checkdepends;
+		public string[] optdepends;
+		public string[] provides;
+		public string[] replaces;
+		public string[] conflicts;
+	}
+
+	public struct TransactionSummaryStruct {
+		public PackageStruct[] to_install;
+		public PackageStruct[] to_upgrade;
+		public PackageStruct[] to_downgrade;
+		public PackageStruct[] to_reinstall;
+		public PackageStruct[] to_remove;
+		public AURPackageStruct[] to_build;
+		public PackageStruct[] aur_conflicts_to_remove;
 		public string[] aur_pkgbases_to_build;
 	}
 
-	public struct Updates {
-		public AlpmPackage[] repos_updates;
-		public AURPackage[] aur_updates;
-	}
-
-	public struct UpdatesPriv {
+	public struct UpdatesStruct {
 		public bool syncfirst;
-		public AlpmPackage[] repos_updates;
-		public AURPackage[] aur_updates;
+		public PackageStruct[] repos_updates;
+		public AURPackageStruct[] aur_updates;
 	}
 
 	public struct ErrorInfos {
-		public uint no;
 		public string message;
 		public string[] details;
 		public ErrorInfos () {

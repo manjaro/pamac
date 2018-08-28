@@ -24,47 +24,46 @@ namespace Pamac {
 		public abstract void refresh_handle () throws Error;
 		public abstract string[] get_mirrors_countries () throws Error;
 		public abstract string get_mirrors_choosen_country () throws Error;
-		public abstract string get_lockfile () throws Error;
-		public abstract AlpmPackage get_installed_pkg (string pkgname) throws Error;
+		public abstract PackageStruct get_installed_pkg (string pkgname) throws Error;
 		public abstract bool get_checkspace () throws Error;
 		public abstract string[] get_ignorepkgs () throws Error;
 		public abstract bool should_hold (string pkgname) throws Error;
 		public abstract uint get_pkg_reason (string pkgname) throws Error;
-		public abstract uint get_pkg_origin (string pkgname) throws Error;
-		public abstract AlpmPackage[] get_installed_pkgs () throws Error;
-		public abstract AlpmPackage[] get_installed_apps () throws Error;
-		public abstract AlpmPackage[] get_explicitly_installed_pkgs () throws Error;
-		public abstract AlpmPackage[] get_foreign_pkgs () throws Error;
-		public abstract AlpmPackage[] get_orphans () throws Error;
-		public abstract async AlpmPackage[] get_installed_pkgs_async () throws Error;
-		public abstract async AlpmPackage[] get_installed_apps_async () throws Error;
-		public abstract async AlpmPackage[] get_explicitly_installed_pkgs_async () throws Error;
-		public abstract async AlpmPackage[] get_foreign_pkgs_async() throws Error;
-		public abstract async AlpmPackage[] get_orphans_async () throws Error;
-		public abstract AlpmPackage find_installed_satisfier (string depstring) throws Error;
-		public abstract AlpmPackage get_sync_pkg (string pkgname) throws Error;
-		public abstract AlpmPackage find_sync_satisfier (string depstring) throws Error;
-		public abstract AlpmPackage[] search_pkgs (string search_string) throws Error;
-		public abstract async AlpmPackage[] search_pkgs_async (string search_string) throws Error;
-		public abstract async AURPackage[] search_in_aur_async (string search_string) throws Error;
+		public abstract PackageStruct[] get_installed_pkgs () throws Error;
+		public abstract PackageStruct[] get_installed_apps () throws Error;
+		public abstract PackageStruct[] get_explicitly_installed_pkgs () throws Error;
+		public abstract PackageStruct[] get_foreign_pkgs () throws Error;
+		public abstract PackageStruct[] get_orphans () throws Error;
+		public abstract async PackageStruct[] get_installed_pkgs_async () throws Error;
+		public abstract async PackageStruct[] get_installed_apps_async () throws Error;
+		public abstract async PackageStruct[] get_explicitly_installed_pkgs_async () throws Error;
+		public abstract async PackageStruct[] get_foreign_pkgs_async() throws Error;
+		public abstract async PackageStruct[] get_orphans_async () throws Error;
+		public abstract PackageStruct find_installed_satisfier (string depstring) throws Error;
+		public abstract PackageStruct get_sync_pkg (string pkgname) throws Error;
+		public abstract PackageStruct find_sync_satisfier (string depstring) throws Error;
+		public abstract PackageStruct[] search_pkgs (string search_string) throws Error;
+		public abstract async PackageStruct[] search_pkgs_async (string search_string) throws Error;
+		public abstract async AURPackageStruct[] search_in_aur_async (string search_string) throws Error;
 		public abstract HashTable<string, Variant> search_files (string[] files) throws Error;
-		public abstract AlpmPackage[] get_category_pkgs (string category) throws Error;
-		public abstract async AlpmPackage[] get_category_pkgs_async (string category) throws Error;
+		public abstract PackageStruct[] get_category_pkgs (string category) throws Error;
+		public abstract async PackageStruct[] get_category_pkgs_async (string category) throws Error;
 		public abstract string[] get_repos_names () throws Error;
-		public abstract AlpmPackage[] get_repo_pkgs (string repo) throws Error;
-		public abstract async AlpmPackage[] get_repo_pkgs_async (string repo) throws Error;
+		public abstract PackageStruct[] get_repo_pkgs (string repo) throws Error;
+		public abstract async PackageStruct[] get_repo_pkgs_async (string repo) throws Error;
 		public abstract string[] get_groups_names () throws Error;
-		public abstract AlpmPackage[] get_group_pkgs (string groupname) throws Error;
-		public abstract async AlpmPackage[] get_group_pkgs_async (string groupname) throws Error;
-		public abstract AlpmPackageDetails get_pkg_details (string pkgname, string app_name) throws Error;
+		public abstract PackageStruct[] get_group_pkgs (string groupname) throws Error;
+		public abstract async PackageStruct[] get_group_pkgs_async (string groupname) throws Error;
+		public abstract PackageDetailsStruct get_pkg_details (string pkgname, string app_name) throws Error;
 		public abstract string[] get_pkg_files (string pkgname) throws Error;
-		public abstract async AURPackageDetails get_aur_details_async (string pkgname) throws Error;
+		public abstract async AURPackageStruct get_aur_pkg_async (string pkgname) throws Error;
+		public abstract async AURPackageDetailsStruct get_aur_pkg_details_async (string pkgname) throws Error;
 		public abstract string[] get_pkg_uninstalled_optdeps (string pkgname) throws Error;
 		public abstract void start_get_updates (bool check_aur_updates, bool refresh_files_dbs) throws Error;
 		[DBus (no_reply = true)]
 		public abstract void quit () throws Error;
 		public signal void emit_get_updates_progress (uint percent);
-		public signal void get_updates_finished (Updates updates);
+		public signal void get_updates_finished (UpdatesStruct updates_struct);
 	}
 
 	public class Database: Object {
@@ -74,6 +73,7 @@ namespace Pamac {
 		public signal void get_updates_finished (Updates updates);
 
 		public Config config { get; construct set; }
+		public bool refresh_files_dbs_on_get_updates { get; set; }
 
 		public Database (Config config) {
 			Object (config: config);
@@ -84,6 +84,7 @@ namespace Pamac {
 			if (config.enable_aur == false) {
 				config.check_aur_updates = false;
 			}
+			refresh_files_dbs_on_get_updates = false;
 		}
 
 		// destruction
@@ -101,7 +102,7 @@ namespace Pamac {
 			}
 		}
 
-		public void stop_daemon () {
+		void stop_daemon () {
 			try {
 				user_daemon.quit ();
 			} catch (Error e) {
@@ -125,10 +126,13 @@ namespace Pamac {
 			}
 		}
 
-		public string[] get_mirrors_countries () {
-			string[] countries = {};
+		public List<string> get_mirrors_countries () {
+			var countries = new List<string> ();
 			try {
-				countries = user_daemon.get_mirrors_countries ();
+				var countries_array = user_daemon.get_mirrors_countries ();
+				foreach (string country in countries_array) {
+					countries.append ((owned) country);
+				} 
 			} catch (Error e) {
 				stderr.printf ("get_mirrors_countries: %s\n", e.message);
 			}
@@ -155,42 +159,36 @@ namespace Pamac {
 			return checkspace;
 		}
 
-		public string[] get_ignorepkgs () {
-			string[] ignorepkgs = {};
+		public List<string> get_ignorepkgs () {
+			var ignorepkgs = new List<string> ();
 			try {
-				ignorepkgs = user_daemon.get_ignorepkgs ();
+				var ignorepkgs_array = user_daemon.get_ignorepkgs ();
+				foreach (string ignorepkg in ignorepkgs_array) {
+					ignorepkgs.append ((owned) ignorepkg);
+				}
 			} catch (Error e) {
 				stderr.printf ("get_ignorepkgs: %s\n", e.message);
 			}
 			return ignorepkgs;
 		}
 
-		public AlpmPackage get_installed_pkg (string pkgname) {
+		public Package get_installed_pkg (string pkgname) {
 			try {
-				return user_daemon.get_installed_pkg (pkgname);
+				var pkg_struct  = user_daemon.get_installed_pkg (pkgname);
+				return new Package.from_struct (pkg_struct);
 			} catch (Error e) {
 				stderr.printf ("get_installed_pkg: %s\n", e.message);
-				return AlpmPackage () {
-					name = "",
-					version = "",
-					desc = "",
-					repo = "",
-					icon = ""
-				};
+				return new Package ();
 			}
 		}
 
-		public AlpmPackage find_installed_satisfier (string depstring) {
+		public Package find_installed_satisfier (string depstring) {
 			try {
-				return user_daemon.find_installed_satisfier (depstring);
+				var pkg_struct  = user_daemon.find_installed_satisfier (depstring);
+				return new Package.from_struct (pkg_struct);
 			} catch (Error e) {
 				stderr.printf ("find_installed_satisfier: %s\n", e.message);
-				return AlpmPackage () {
-					name = "",
-					version = "",
-					desc = "",
-					repo = ""
-				};
+				return new Package ();
 			}
 		}
 
@@ -214,172 +212,191 @@ namespace Pamac {
 			return reason;
 		}
 
-		public uint get_pkg_origin (string pkgname) {
-			uint origin = 0;
+		public List<Package> get_installed_pkgs () {
+			var pkgs = new List<Package> ();
 			try {
-				origin = user_daemon.get_pkg_origin (pkgname);
-			} catch (Error e) {
-				stderr.printf ("get_pkg_origin: %s\n", e.message);
-			}
-			return origin;
-		}
-
-		public AlpmPackage[] get_installed_pkgs () {
-			AlpmPackage[] pkgs = {};
-			try {
-				pkgs = user_daemon.get_installed_pkgs ();
+				var pkg_structs = user_daemon.get_installed_pkgs ();
+				foreach (unowned PackageStruct pkg_struct in pkg_structs) {
+					pkgs.append (new Package.from_struct (pkg_struct));
+				}
 			} catch (Error e) {
 				stderr.printf ("get_installed_pkgs: %s\n", e.message);
 			}
 			return pkgs;
 		}
 
-		public AlpmPackage[] get_installed_apps () {
-			AlpmPackage[] pkgs = {};
+		public List<Package> get_installed_apps () {
+			var pkgs = new List<Package> ();
 			try {
-				pkgs = user_daemon.get_installed_apps ();
-			} catch (Error e) {
-				stderr.printf ("get_installed_apps: %s\n", e.message);
-			}
-			return pkgs;
-		}
-
-		public AlpmPackage[] get_explicitly_installed_pkgs () {
-			AlpmPackage[] pkgs = {};
-			try {
-				pkgs = user_daemon.get_explicitly_installed_pkgs ();
-			} catch (Error e) {
-				stderr.printf ("get_explicitly_installed_pkgs: %s\n", e.message);
-			}
-			return pkgs;
-		}
-
-		public AlpmPackage[] get_foreign_pkgs () {
-			AlpmPackage[] pkgs = {};
-			try {
-				pkgs = user_daemon.get_foreign_pkgs ();
-			} catch (Error e) {
-				stderr.printf ("get_foreign_pkgs: %s\n", e.message);
-			}
-			return pkgs;
-		}
-
-		public AlpmPackage[] get_orphans () {
-			AlpmPackage[] pkgs = {};
-			try {
-				pkgs = user_daemon.get_orphans ();
-			} catch (Error e) {
-				stderr.printf ("get_orphans: %s\n", e.message);
-			}
-			return pkgs;
-		}
-
-		public async AlpmPackage[] get_installed_pkgs_async () {
-			AlpmPackage[] pkgs = {};
-			try {
-				pkgs = yield user_daemon.get_installed_pkgs_async ();
-			} catch (Error e) {
-				stderr.printf ("get_installed_pkgs_async: %s\n", e.message);
-			}
-			return pkgs;
-		}
-
-		public async AlpmPackage[] get_installed_apps_async () {
-			AlpmPackage[] pkgs = {};
-			try {
-				pkgs = yield user_daemon.get_installed_apps_async ();
-			} catch (Error e) {
-				stderr.printf ("get_installed_apps_async: %s\n", e.message);
-			}
-			return pkgs;
-		}
-
-		public async AlpmPackage[] get_explicitly_installed_pkgs_async () {
-			AlpmPackage[] pkgs = {};
-			try {
-				pkgs = yield user_daemon.get_explicitly_installed_pkgs_async ();
-			} catch (Error e) {
-				stderr.printf ("get_explicitly_installed_pkgs_async: %s\n", e.message);
-			}
-			return pkgs;
-		}
-
-		public async AlpmPackage[] get_foreign_pkgs_async () {
-			AlpmPackage[] pkgs = {};
-			try {
-				pkgs = yield user_daemon.get_foreign_pkgs_async ();
-			} catch (Error e) {
-				stderr.printf ("get_foreign_pkgs_async: %s\n", e.message);
-			}
-			return pkgs;
-		}
-
-		public async AlpmPackage[] get_orphans_async () {
-			AlpmPackage[] pkgs = {};
-			try {
-				pkgs = yield user_daemon.get_orphans_async ();
-			} catch (Error e) {
-				stderr.printf ("get_orphans_async: %s\n", e.message);
-			}
-			return pkgs;
-		}
-
-		public AlpmPackage get_sync_pkg (string pkgname) {
-			try {
-				return user_daemon.get_sync_pkg (pkgname);
-			} catch (Error e) {
-				stderr.printf ("get_sync_pkg: %s\n", e.message);
-				return AlpmPackage () {
-					name = "",
-					version = "",
-					desc = "",
-					repo = ""
-				};
-			}
-		}
-
-		public AlpmPackage find_sync_satisfier (string depstring) {
-			try {
-				return user_daemon.find_sync_satisfier (depstring);
-			} catch (Error e) {
-				stderr.printf ("find_sync_satisfier: %s\n", e.message);
-				return AlpmPackage () {
-					name = "",
-					version = "",
-					desc = "",
-					repo = ""
-				};
-			}
-		}
-
-		public AlpmPackage[] search_pkgs (string search_string) {
-			AlpmPackage[] pkgs = {};
-			try {
-				pkgs = user_daemon.search_pkgs (search_string);
-			} catch (Error e) {
-				stderr.printf ("search_pkgs: %s\n", e.message);
-			}
-			return pkgs;
-		}
-
-		public async AlpmPackage[] search_pkgs_async (string search_string) {
-			AlpmPackage[] pkgs = {};
-			try {
-				pkgs = yield user_daemon.search_pkgs_async (search_string);
-			} catch (Error e) {
-				stderr.printf ("search_pkgs_async: %s\n", e.message);
-			}
-			return pkgs;
-		}
-
-		public async AURPackage[] search_in_aur_async (string search_string) {
-			AURPackage[] pkgs = {};
-			if (config.enable_aur) {
-				try {
-					pkgs = yield user_daemon.search_in_aur_async (search_string);
-				} catch (Error e) {
-					stderr.printf ("search_in_aur_async: %s\n", e.message);
+				var pkg_structs = user_daemon.get_installed_apps ();
+				foreach (unowned PackageStruct pkg_struct in pkg_structs) {
+					pkgs.append (new Package.from_struct (pkg_struct));
 				}
+			} catch (Error e) {
+				stderr.printf ("get_installed_pkgs: %s\n", e.message);
+			}
+			return pkgs;
+		}
+
+		public List<Package> get_explicitly_installed_pkgs () {
+			var pkgs = new List<Package> ();
+			try {
+				var pkg_structs = user_daemon.get_explicitly_installed_pkgs ();
+				foreach (unowned PackageStruct pkg_struct in pkg_structs) {
+					pkgs.append (new Package.from_struct (pkg_struct));
+				}
+			} catch (Error e) {
+				stderr.printf ("get_installed_pkgs: %s\n", e.message);
+			}
+			return pkgs;
+		}
+
+		public List<Package> get_foreign_pkgs () {
+			var pkgs = new List<Package> ();
+			try {
+				var pkg_structs = user_daemon.get_foreign_pkgs ();
+				foreach (unowned PackageStruct pkg_struct in pkg_structs) {
+					pkgs.append (new Package.from_struct (pkg_struct));
+				}
+			} catch (Error e) {
+				stderr.printf ("get_installed_pkgs: %s\n", e.message);
+			}
+			return pkgs;
+		}
+
+		public List<Package> get_orphans () {
+			var pkgs = new List<Package> ();
+			try {
+				var pkg_structs = user_daemon.get_orphans ();
+				foreach (unowned PackageStruct pkg_struct in pkg_structs) {
+					pkgs.append (new Package.from_struct (pkg_struct));
+				}
+			} catch (Error e) {
+				stderr.printf ("get_installed_pkgs: %s\n", e.message);
+			}
+			return pkgs;
+		}
+
+		public async List<Package> get_installed_pkgs_async () {
+			var pkgs = new List<Package> ();
+			try {
+				var pkg_structs = yield user_daemon.get_installed_pkgs_async ();
+				foreach (unowned PackageStruct pkg_struct in pkg_structs) {
+					pkgs.append (new Package.from_struct (pkg_struct));
+				}
+			} catch (Error e) {
+				stderr.printf ("get_installed_pkgs: %s\n", e.message);
+			}
+			return pkgs;
+		}
+
+		public async List<Package> get_installed_apps_async () {
+			var pkgs = new List<Package> ();
+			try {
+				var pkg_structs = yield user_daemon.get_installed_apps_async ();
+				foreach (unowned PackageStruct pkg_struct in pkg_structs) {
+					pkgs.append (new Package.from_struct (pkg_struct));
+				}
+			} catch (Error e) {
+				stderr.printf ("get_installed_pkgs: %s\n", e.message);
+			}
+			return pkgs;
+		}
+
+		public async List<Package> get_explicitly_installed_pkgs_async () {
+			var pkgs = new List<Package> ();
+			try {
+				var pkg_structs = yield user_daemon.get_explicitly_installed_pkgs_async ();
+				foreach (unowned PackageStruct pkg_struct in pkg_structs) {
+					pkgs.append (new Package.from_struct (pkg_struct));
+				}
+			} catch (Error e) {
+				stderr.printf ("get_installed_pkgs: %s\n", e.message);
+			}
+			return pkgs;
+		}
+
+		public async List<Package> get_foreign_pkgs_async () {
+			var pkgs = new List<Package> ();
+			try {
+				var pkg_structs = yield user_daemon.get_foreign_pkgs_async ();
+				foreach (unowned PackageStruct pkg_struct in pkg_structs) {
+					pkgs.append (new Package.from_struct (pkg_struct));
+				}
+			} catch (Error e) {
+				stderr.printf ("get_installed_pkgs: %s\n", e.message);
+			}
+			return pkgs;
+		}
+
+		public async List<Package> get_orphans_async () {
+			var pkgs = new List<Package> ();
+			try {
+				var pkg_structs = yield user_daemon.get_orphans_async ();
+				foreach (unowned PackageStruct pkg_struct in pkg_structs) {
+					pkgs.append (new Package.from_struct (pkg_struct));
+				}
+			} catch (Error e) {
+				stderr.printf ("get_installed_pkgs: %s\n", e.message);
+			}
+			return pkgs;
+		}
+
+		public Package get_sync_pkg (string pkgname) {
+			try {
+				var pkg_struct  = user_daemon.get_sync_pkg (pkgname);
+				return new Package.from_struct (pkg_struct);
+			} catch (Error e) {
+				stderr.printf ("find_installed_satisfier: %s\n", e.message);
+				return new Package ();
+			}
+		}
+
+		public Package find_sync_satisfier (string depstring) {
+			try {
+				var pkg_struct  = user_daemon.find_sync_satisfier (depstring);
+				return new Package.from_struct (pkg_struct);
+			} catch (Error e) {
+				stderr.printf ("find_installed_satisfier: %s\n", e.message);
+				return new Package ();
+			}
+		}
+
+		public List<Package> search_pkgs (string search_string) {
+			var pkgs = new List<Package> ();
+			try {
+				var pkg_structs = user_daemon.search_pkgs (search_string);
+				foreach (unowned PackageStruct pkg_struct in pkg_structs) {
+					pkgs.append (new Package.from_struct (pkg_struct));
+				}
+			} catch (Error e) {
+				stderr.printf ("get_installed_pkgs: %s\n", e.message);
+			}
+			return pkgs;
+		}
+
+		public async List<Package> search_pkgs_async (string search_string) {
+			var pkgs = new List<Package> ();
+			try {
+				var pkg_structs = yield user_daemon.search_pkgs_async (search_string);
+				foreach (unowned PackageStruct pkg_struct in pkg_structs) {
+					pkgs.append (new Package.from_struct (pkg_struct));
+				}
+			} catch (Error e) {
+				stderr.printf ("get_installed_pkgs: %s\n", e.message);
+			}
+			return pkgs;
+		}
+
+		public async List<AURPackage> search_in_aur_async (string search_string) {
+			var pkgs = new List<AURPackage> ();
+			try {
+				var pkg_structs = yield user_daemon.search_in_aur_async (search_string);
+				foreach (unowned AURPackageStruct pkg_struct in pkg_structs) {
+					pkgs.append (new AURPackage.from_struct (pkg_struct));
+				}
+			} catch (Error e) {
+				stderr.printf ("get_installed_pkgs: %s\n", e.message);
 			}
 			return pkgs;
 		}
@@ -394,149 +411,179 @@ namespace Pamac {
 			return result;
 		}
 
-		public AlpmPackage[] get_category_pkgs (string category) {
-			AlpmPackage[] pkgs = {};
+		public List<Package> get_category_pkgs (string category) {
+			var pkgs = new List<Package> ();
 			try {
-				pkgs = user_daemon.get_category_pkgs (category);
+				var pkg_structs = user_daemon.get_category_pkgs (category);
+				foreach (unowned PackageStruct pkg_struct in pkg_structs) {
+					pkgs.append (new Package.from_struct (pkg_struct));
+				}
 			} catch (Error e) {
-				stderr.printf ("get_category_pkgs: %s\n", e.message);
+				stderr.printf ("get_installed_pkgs: %s\n", e.message);
 			}
 			return pkgs;
 		}
 
-		public async AlpmPackage[] get_category_pkgs_async (string category) {
-			AlpmPackage[] pkgs = {};
+		public async List<Package> get_category_pkgs_async (string category) {
+			var pkgs = new List<Package> ();
 			try {
-				pkgs = yield user_daemon.get_category_pkgs_async (category);
+				var pkg_structs = yield user_daemon.get_category_pkgs_async (category);
+				foreach (unowned PackageStruct pkg_struct in pkg_structs) {
+					pkgs.append (new Package.from_struct (pkg_struct));
+				}
 			} catch (Error e) {
-				stderr.printf ("get_category_pkgs_async: %s\n", e.message);
+				stderr.printf ("get_installed_pkgs: %s\n", e.message);
 			}
 			return pkgs;
 		}
 
-		public string[] get_repos_names () {
-			string[] repos_names = {};
+		public List<string> get_repos_names () {
+			var repos_names = new List<string> ();
 			try {
-				repos_names = user_daemon.get_repos_names ();
+				var repos_names_array = user_daemon.get_repos_names ();
+				foreach (string repos_name in repos_names_array) {
+					repos_names.append ((owned) repos_name);
+				}
 			} catch (Error e) {
 				stderr.printf ("get_repos_names: %s\n", e.message);
 			}
 			return repos_names;
 		}
 
-		public AlpmPackage[] get_repo_pkgs (string repo) {
-			AlpmPackage[] pkgs = {};
+		public List<Package> get_repo_pkgs (string repo) {
+			var pkgs = new List<Package> ();
 			try {
-				pkgs = user_daemon.get_repo_pkgs (repo);
+				var pkg_structs = user_daemon.get_repo_pkgs (repo);
+				foreach (unowned PackageStruct pkg_struct in pkg_structs) {
+					pkgs.append (new Package.from_struct (pkg_struct));
+				}
 			} catch (Error e) {
-				stderr.printf ("get_repo_pkgs: %s\n", e.message);
+				stderr.printf ("get_installed_pkgs: %s\n", e.message);
 			}
 			return pkgs;
 		}
 
-		public async AlpmPackage[] get_repo_pkgs_async (string repo) {
-			AlpmPackage[] pkgs = {};
+		public async List<Package> get_repo_pkgs_async (string repo) {
+			var pkgs = new List<Package> ();
 			try {
-				pkgs = yield user_daemon.get_repo_pkgs_async (repo);
+				var pkg_structs = yield user_daemon.get_repo_pkgs_async (repo);
+				foreach (unowned PackageStruct pkg_struct in pkg_structs) {
+					pkgs.append (new Package.from_struct (pkg_struct));
+				}
 			} catch (Error e) {
-				stderr.printf ("get_repo_pkgs_async: %s\n", e.message);
+				stderr.printf ("get_installed_pkgs: %s\n", e.message);
 			}
 			return pkgs;
 		}
 
-		public string[] get_groups_names () {
-			string[] groups_names = {};
+		public List<string> get_groups_names () {
+			var groups_names = new List<string> ();
 			try {
-				groups_names = user_daemon.get_groups_names ();
+				var groups_names_array = user_daemon.get_groups_names ();
+				foreach (string groups_name in groups_names_array) {
+					groups_names.append ((owned) groups_name);
+				}
 			} catch (Error e) {
 				stderr.printf ("get_groups_names: %s\n", e.message);
 			}
 			return groups_names;
 		}
 
-		public AlpmPackage[] get_group_pkgs (string group_name) {
-			AlpmPackage[] pkgs = {};
+		public List<Package> get_group_pkgs (string group_name) {
+			var pkgs = new List<Package> ();
 			try {
-				pkgs = user_daemon.get_group_pkgs (group_name);
+				var pkg_structs = user_daemon.get_group_pkgs (group_name);
+				foreach (unowned PackageStruct pkg_struct in pkg_structs) {
+					pkgs.append (new Package.from_struct (pkg_struct));
+				}
 			} catch (Error e) {
-				stderr.printf ("get_group_pkgs: %s\n", e.message);
+				stderr.printf ("get_installed_pkgs: %s\n", e.message);
 			}
 			return pkgs;
 		}
 
-		public async AlpmPackage[] get_group_pkgs_async (string group_name) {
-			AlpmPackage[] pkgs = {};
+		public async List<Package> get_group_pkgs_async (string group_name) {
+			var pkgs = new List<Package> ();
 			try {
-				pkgs = yield user_daemon.get_group_pkgs_async (group_name);
+				var pkg_structs = yield user_daemon.get_group_pkgs_async (group_name);
+				foreach (unowned PackageStruct pkg_struct in pkg_structs) {
+					pkgs.append (new Package.from_struct (pkg_struct));
+				}
 			} catch (Error e) {
-				stderr.printf ("get_group_pkgs_async: %s\n", e.message);
+				stderr.printf ("get_installed_pkgs: %s\n", e.message);
 			}
 			return pkgs;
 		}
 
-		public string[] get_pkg_uninstalled_optdeps (string pkgname) {
-			string[] optdeps = {};
+		public List<string> get_pkg_uninstalled_optdeps (string pkgname) {
+			var optdeps = new List<string> ();
 			try {
-				optdeps = user_daemon.get_pkg_uninstalled_optdeps (pkgname);
+				var optdeps_array = user_daemon.get_pkg_uninstalled_optdeps (pkgname);
+				foreach (string optdep in optdeps_array) {
+					optdeps.append ((owned) optdep);
+				}
 			} catch (Error e) {
 				stderr.printf ("get_pkg_uninstalled_optdeps: %s\n", e.message);
 			}
 			return optdeps;
 		}
 
-		public AlpmPackageDetails get_pkg_details (string pkgname, string app_name) {
+		public PackageDetails get_pkg_details (string pkgname, string app_name) {
 			try {
-				return user_daemon.get_pkg_details (pkgname, app_name);
+				var pkg_struct = user_daemon.get_pkg_details (pkgname, app_name);
+				return new PackageDetails.from_struct (pkg_struct);
 			} catch (Error e) {
 				stderr.printf ("get_pkg_details: %s\n", e.message);
-				return AlpmPackageDetails () {
-					name = "",
-					version = "",
-					desc = "",
-					repo = "",
-					url = "",
-					packager = "",
-					builddate = "",
-					installdate = "",
-					reason = "",
-					has_signature = ""
-				};
+				return new PackageDetails ();
 			}
 		}
 
-		public string[] get_pkg_files (string pkgname) {
+		public List<string> get_pkg_files (string pkgname) {
+			var files = new List<string> ();
 			try {
-				return user_daemon.get_pkg_files (pkgname);
+				var files_array = user_daemon.get_pkg_files (pkgname);
+				foreach (string file in files_array) {
+					files.append ((owned) file);
+				}
 			} catch (Error e) {
 				stderr.printf ("get_pkg_files: %s\n", e.message);
-				return {};
+			}
+			return files;
+		}
+
+		public async AURPackage get_aur_pkg_async (string pkgname) {
+			if (config.enable_aur) {
+				try {
+					var pkg_struct = yield user_daemon.get_aur_pkg_async (pkgname);
+					return new AURPackage.from_struct (pkg_struct);
+				} catch (Error e) {
+					stderr.printf ("get_aur_details_async: %s\n", e.message);
+					return new AURPackage ();
+				}
+			} else {
+				return new AURPackage ();
 			}
 		}
 
-		public async AURPackageDetails get_aur_details_async (string pkgname) {
-			var pkg = AURPackageDetails () {
-				name = "",
-				version = "",
-				desc = "",
-				packagebase = "",
-				url = "",
-				maintainer = ""
-			};
+		public async AURPackageDetails get_aur_pkg_details_async (string pkgname) {
 			if (config.enable_aur) {
 				try {
-					pkg = yield user_daemon.get_aur_details_async (pkgname);
+					var pkg_struct = yield user_daemon.get_aur_pkg_details_async (pkgname);
+					return new AURPackageDetails.from_struct (pkg_struct);
 				} catch (Error e) {
 					stderr.printf ("get_aur_details_async: %s\n", e.message);
+					return new AURPackageDetails ();
 				}
+			} else {
+				return new AURPackageDetails ();
 			}
-			return pkg;
 		}
 
 		public void start_get_updates () {
 			user_daemon.emit_get_updates_progress.connect (on_emit_get_updates_progress);
 			user_daemon.get_updates_finished.connect (on_get_updates_finished);
 			try {
-				user_daemon.start_get_updates (config.check_aur_updates, false);
+				user_daemon.start_get_updates (config.check_aur_updates, refresh_files_dbs_on_get_updates);
 			} catch (Error e) {
 				stderr.printf ("start_get_updates: %s\n", e.message);
 			}
@@ -546,10 +593,10 @@ namespace Pamac {
 			get_updates_progress (percent);
 		}
 
-		void on_get_updates_finished (Updates updates) {
+		void on_get_updates_finished (UpdatesStruct updates_struct) {
 			user_daemon.emit_get_updates_progress.disconnect (on_emit_get_updates_progress);
 			user_daemon.get_updates_finished.disconnect (on_get_updates_finished);
-			get_updates_finished (updates);
+			get_updates_finished (new Updates (updates_struct));
 		}
 	}
 }

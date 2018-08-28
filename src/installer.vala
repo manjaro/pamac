@@ -151,7 +151,6 @@ namespace Pamac {
 		}
 
 		void on_transaction_finished (bool success) {
-			transaction.stop_daemon ();
 			if (!success || important_details) {
 				progress_dialog.close_button.visible = true;
 			} else {
@@ -160,6 +159,29 @@ namespace Pamac {
 			if (!success) {
 				cmd.set_exit_status (1);
 			}
+		}
+
+		public override void shutdown () {
+			base.shutdown ();
+			if (!check_pamac_running ()) {
+				// stop system_daemon
+				transaction = null;
+				// stop user_daemon
+				database = null;
+			}
+		}
+
+		bool check_pamac_running () {
+			Application app;
+			bool run = false;
+			app = new Application ("org.manjaro.pamac.manager", 0);
+			try {
+				app.register ();
+			} catch (GLib.Error e) {
+				stderr.printf ("%s\n", e.message);
+			}
+			run = app.get_is_remote ();
+			return run;
 		}
 
 		public static int main (string[] args) {
