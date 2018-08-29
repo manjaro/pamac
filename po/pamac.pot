@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2018-08-28 13:01+0200\n"
+"POT-Creation-Date: 2018-08-29 13:10+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -389,10 +389,6 @@ msgstr[1] ""
 msgid "Details"
 msgstr ""
 
-#: src/manager.vala
-msgid "Pamac is already running"
-msgstr ""
-
 #: src/manager_window.vala
 msgid "No package found"
 msgstr ""
@@ -768,7 +764,7 @@ msgstr ""
 
 #: src/cli.vala
 #, c-format
-msgid "No package owns %s\n"
+msgid "No package owns %s"
 msgstr ""
 
 #: src/cli.vala

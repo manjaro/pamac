@@ -1270,7 +1270,7 @@ namespace Pamac {
 			HashTable<string, Variant> result = database.search_files (files);
 			if (result.size () == 0) {
 				foreach (unowned string file in files) {
-					stdout.printf (dgettext (null, "No package owns %s\n").printf (file));
+					stdout.printf ("%s\n", dgettext (null, "No package owns %s").printf (file));
 				}
 				cmd.set_exit_status (1);
 				return;
