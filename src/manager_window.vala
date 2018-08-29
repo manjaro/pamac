@@ -1311,7 +1311,7 @@ namespace Pamac {
 					version = aur_pkg.installed_version;
 				}
 				aur_list.insert_with_values (null, -1,
-											0, aur_pkg.installed_version == "" ? 0 : 2, //Alpm.Package.From.LOCALDB
+											0, aur_pkg.installed_version == "" ? 1 : 0, // installed
 											1, aur_pkg.name,
 											2, "<b>%s</b>\n%s".printf (aur_pkg.name, Markup.escape_text (aur_pkg.desc)),
 											3, version,
