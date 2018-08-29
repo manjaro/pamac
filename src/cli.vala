@@ -1514,7 +1514,7 @@ namespace Pamac {
 						var pkgs = database.get_group_pkgs (name);
 						foreach (unowned Package pkg in pkgs) {
 							if (pkg.version == pkg.installed_version) {
-								to_install += name;
+								to_install += pkg.name;
 							}
 						}
 					}
