@@ -2,10 +2,10 @@ Pamac is a GUI for libalpm (pacman) with AUR and Appstream support
 
 #### Features
 
- - DBus daemon to perform transactions
- - GTK3 frontend
- - Tray icon
- - Updates notifications
+ - Library to access package infos and run transactions
+ - Python bindings
+ - GTK3 frontend with Dbus daemon
+ - Tray icon with Updates notifications
 
 #### Installing from source
 
