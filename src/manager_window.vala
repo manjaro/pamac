@@ -1853,7 +1853,6 @@ namespace Pamac {
 				case 0: // repos
 					Timeout.add (200, () => {
 						search_entry.grab_focus_without_selecting ();
-						search_entry.set_position (-1);
 						return false;
 					});
 					if (search_string == null) {
@@ -1871,7 +1870,6 @@ namespace Pamac {
 				case 1: // aur
 					Timeout.add (200, () => {
 						search_entry.grab_focus_without_selecting ();
-						search_entry.set_position (-1);
 						return false;
 					});
 					if (search_string == null) {
@@ -2131,8 +2129,10 @@ namespace Pamac {
 					return;
 				}
 				Timeout.add (200, () => {
-					search_entry.grab_focus_without_selecting ();
-					search_entry.set_position (-1);
+					if (!search_entry.has_focus) {
+						search_entry.grab_focus_without_selecting ();
+						search_entry.set_position (-1);
+					}
 					return false;
 				});
 				switch (origin_stack.visible_child_name) {
