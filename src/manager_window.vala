@@ -397,7 +397,10 @@ namespace Pamac {
 			searchbar.notify["search-mode-enabled"].connect (on_search_mode_enabled);
 			// enable "type to search"
 			this.key_press_event.connect ((event) => {
-				return searchbar.handle_event (event);
+				if (main_stack.visible_child_name == "browse") {
+					return searchbar.handle_event (event);
+				}
+				return false;
 			});
 
 			// create screenshots tmp dir
@@ -1387,6 +1390,9 @@ namespace Pamac {
 							}
 							return found;
 						});
+						if (!searchbar.search_mode_enabled) {
+							searchbar.search_mode_enabled = true;
+						}
 					}
 					break;
 				case "groups":
