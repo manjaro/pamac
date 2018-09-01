@@ -390,13 +390,15 @@ namespace Pamac {
 
 		public async List<AURPackage> search_in_aur_async (string search_string) {
 			var pkgs = new List<AURPackage> ();
-			try {
-				var pkg_structs = yield user_daemon.search_in_aur_async (search_string);
-				foreach (unowned AURPackageStruct pkg_struct in pkg_structs) {
-					pkgs.append (new AURPackage.from_struct (pkg_struct));
+			if (config.enable_aur) {
+				try {
+					var pkg_structs = yield user_daemon.search_in_aur_async (search_string);
+					foreach (unowned AURPackageStruct pkg_struct in pkg_structs) {
+						pkgs.append (new AURPackage.from_struct (pkg_struct));
+					}
+				} catch (Error e) {
+					stderr.printf ("get_installed_pkgs: %s\n", e.message);
 				}
-			} catch (Error e) {
-				stderr.printf ("get_installed_pkgs: %s\n", e.message);
 			}
 			return pkgs;
 		}

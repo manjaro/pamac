@@ -123,6 +123,7 @@ namespace Pamac {
 					if (args[2] == "--help" || args[2] == "-h") {
 						display_search_help ();
 					} else if (args[2] == "--aur" || args[2] == "-a") {
+						database.config.enable_aur = true;
 						search_in_aur (concatenate_strings (args[3:args.length]));
 					} else if (args[2] == "--files" || args[2] == "-f") {
 						search_files (args[3:args.length]);
@@ -137,6 +138,7 @@ namespace Pamac {
 					if (args[2] == "--help" || args[2] == "-h") {
 						display_info_help ();
 					} else if (args[2] == "--aur" || args[2] == "-a") {
+						database.config.enable_aur = true;
 						display_aur_infos(args[3:args.length]);
 					} else {
 						display_pkg_infos (args[2:args.length]);
