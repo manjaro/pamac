@@ -24,8 +24,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2018-08-16 12:06+0200\n"
-"PO-Revision-Date: 2018-08-18 01:12+0000\n"
+"POT-Creation-Date: 2018-08-29 13:10+0200\n"
+"PO-Revision-Date: 2018-08-29 12:34+0000\n"
 "Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Greek (http://www.transifex.com/manjarolinux/manjaro-pamac/language/el/)\n"
 "MIME-Version: 1.0\n"
@@ -62,7 +62,7 @@ msgstr "Όχι"
 msgid "Failed to initialize alpm library"
 msgstr "Αποτυχία ενεργοποίησης της βιβλιοθήκης alpm"
 
-#: src/system_daemon.vala src/transaction.vala
+#: src/system_daemon.vala
 msgid "Authentication failed"
 msgstr "Η πιστοποίηση απέτυχε"
 
@@ -142,139 +142,98 @@ msgstr "Το %s φαίνεται να έχει περικοπεί: %jd/%jd bytes
 msgid "failed retrieving file '%s' from %s : %s\n"
 msgstr "Αποτυχία ανάκτησης αρχείου '%s' από το %s : %s\n"
 
-#: src/transaction.vala src/tray.vala src/manager_window.vala
-msgid "Package Manager"
-msgstr "Διαχειριστής πακέτων"
-
-#: src/transaction.vala
-msgid "Copy"
-msgstr "Αντιγραφή"
-
 #: src/transaction.vala
 msgid "Refreshing mirrors list"
 msgstr "Ανανέωση της λίστας διακομιστών (servers)"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 msgid "Synchronizing package databases"
 msgstr "Συγχρονισμός των βάσεων δεδομένων"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 msgid "Starting full system upgrade"
 msgstr "Έναρξη πλήρους αναβάθμισης του συστήματος"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 msgid "Preparing"
 msgstr "Προετοιμασία"
 
-#: src/transaction.vala src/cli.vala
-#, c-format
-msgid "Choose a provider for %s"
-msgstr "Επιλέξτε έναν πάροχο για το %s"
-
-#: src/transaction.vala src/cli.vala
-msgid "To remove"
-msgstr "Προς αφαίρεση"
-
-#: src/transaction.vala src/cli.vala
-msgid "To downgrade"
-msgstr "Προς υποβάθμισ"
-
-#: src/transaction.vala src/cli.vala
-msgid "To build"
-msgstr "Πρός δημιουργία"
-
-#: src/transaction.vala src/cli.vala
-msgid "To install"
-msgstr "Προς εγκατάσταση"
-
-#: src/transaction.vala src/cli.vala
-msgid "To reinstall"
-msgstr "Προς επανεγκατάσταση"
-
-#: src/transaction.vala src/cli.vala
-msgid "To upgrade"
-msgstr "Προς αναβάθμιση"
-
-#: src/transaction.vala src/manager_window.vala src/cli.vala
-msgid "Total download size"
-msgstr "Συνολικό μέγεθος προς λήψη:"
-
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 #, c-format
 msgid "Building %s"
 msgstr "Δημιουργία %s"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 msgid "Transaction cancelled"
 msgstr "Η διεργασία ακυρώθηκε"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 msgid "Checking dependencies"
 msgstr "Έλεγχος εξαρτήσεων"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 msgid "Checking file conflicts"
 msgstr "Έλεγχος για διενέξεις αρχείων"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 msgid "Resolving dependencies"
 msgstr "Επίλυση εξαρτήσεων"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 msgid "Checking inter-conflicts"
 msgstr "Έλεγχος για εσωτερικές διενέξεις"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 #, c-format
 msgid "Installing %s"
 msgstr "Εγκατάσταση %s"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 #, c-format
 msgid "Upgrading %s"
 msgstr "Αναβάθμιση %s"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 #, c-format
 msgid "Reinstalling %s"
 msgstr "Επανεγκατάσταση %s"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 #, c-format
 msgid "Downgrading %s"
 msgstr "Υποβάθμιση %s"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 #, c-format
 msgid "Removing %s"
 msgstr "Αφαίρεση %s"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 msgid "Checking integrity"
 msgstr "Έλεγχος ακεραιότητας"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 msgid "Loading packages files"
 msgstr "Φόρτωση αρχείων πακέτων"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 msgid "Checking delta integrity"
 msgstr "Έλεγχος ακεραιότητας delta"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 msgid "Applying deltas"
 msgstr "Εφαρμογή deltas"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 #, c-format
 msgid "Generating %s with %s"
 msgstr "Δημιουργία %s με %s"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 msgid "Generation succeeded"
 msgstr "Η δημιουργία ολοκληρώθηκε επιτυχώς!"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 msgid "Generation failed"
 msgstr "Η δημιουργία απέτυχε."
 
@@ -283,100 +242,149 @@ msgstr "Η δημιουργία απέτυχε."
 msgid "Configuring %s"
 msgstr "Ρύθμιση %s"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 msgid "Downloading"
 msgstr "Λήψη"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 #, c-format
 msgid "Downloading %s"
 msgstr "Λήψη %s"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 msgid "Checking available disk space"
 msgstr "Έλεγχος ελεύθερου χώρου στον δίσκο"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 #, c-format
 msgid "%s optionally requires %s"
 msgstr "Το %s: απαιτεί προαιρετικά το %s"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 #, c-format
 msgid "Database file for %s does not exist"
 msgstr "Δεν υπάρχει το αρχείο βάσης δεδομένων για το %s "
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 msgid "Checking keyring"
 msgstr "Έλεγχος keyring"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 msgid "Downloading required keys"
 msgstr "Μεταφόρτωση των απαιτούμενων κλειδιών"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 #, c-format
 msgid "%s installed as %s.pacnew"
 msgstr "Το %s εγκαταστάθηκε ως %s.pacnew"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 #, c-format
 msgid "%s installed as %s.pacsave"
 msgstr "Το %s εγκαταστάθηκε ως %s.pacsave"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 msgid "Running pre-transaction hooks"
 msgstr "Τρέχουν hooks προ της διεργασίας"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 msgid "Running post-transaction hooks"
 msgstr "Τρέχουν hooks μετά τη διεργασία"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 #, c-format
 msgid "About %u seconds remaining"
 msgstr "Απομένουν περίπου %u δευτερόλεπτα"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 #, c-format
 msgid "About %lu minute remaining"
 msgid_plural "About %lu minutes remaining"
 msgstr[0] "%lu λεπτά απομένουν"
 msgstr[1] "Απομένουν περίπου %lu λεπτά"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 #, c-format
 msgid "Refreshing %s"
 msgstr "Ανανέωση %s"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala src/transaction-cli.vala src/cli.vala
 msgid "Error"
 msgstr "Σφάλμα"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala src/transaction-gtk.vala
 msgid "Warning"
 msgstr "Προειδοποίηση"
 
-#: src/transaction.vala resources/progress_dialog.ui
+#: src/transaction.vala src/installer.vala src/cli.vala
+msgid "Nothing to do"
+msgstr "Δεν υπάρχει τίποτε να γίνει"
+
+#: src/transaction.vala src/transaction-gtk.vala
+msgid "Transaction successfully finished"
+msgstr "Οι ενέργειες ολοκληρώθηκαν επιτυχώς"
+
+#: src/transaction-gtk.vala src/tray.vala src/manager_window.vala
+msgid "Package Manager"
+msgstr "Διαχειριστής πακέτων"
+
+#: src/transaction-gtk.vala
+msgid "Copy"
+msgstr "Αντιγραφή"
+
+#: src/transaction-gtk.vala src/transaction-cli.vala
+#, c-format
+msgid "Choose a provider for %s"
+msgstr "Επιλέξτε έναν πάροχο για το %s"
+
+#: src/transaction-gtk.vala src/transaction-cli.vala
+msgid "To remove"
+msgstr "Προς αφαίρεση"
+
+#: src/transaction-gtk.vala src/transaction-cli.vala
+msgid "To downgrade"
+msgstr "Προς υποβάθμισ"
+
+#: src/transaction-gtk.vala src/transaction-cli.vala
+msgid "To build"
+msgstr "Πρός δημιουργία"
+
+#: src/transaction-gtk.vala src/transaction-cli.vala
+msgid "To install"
+msgstr "Προς εγκατάσταση"
+
+#: src/transaction-gtk.vala src/transaction-cli.vala
+msgid "To reinstall"
+msgstr "Προς επανεγκατάσταση"
+
+#: src/transaction-gtk.vala src/transaction-cli.vala
+msgid "To upgrade"
+msgstr "Προς αναβάθμιση"
+
+#: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
+msgid "Total download size"
+msgstr "Συνολικό μέγεθος προς λήψη:"
+
+#: src/transaction-gtk.vala resources/progress_dialog.ui
 #: resources/history_dialog.ui resources/preferences_dialog.ui
 msgid "_Close"
 msgstr "_Κλείσιμο"
 
-#: src/transaction.vala src/cli.vala
-msgid "Transaction successfully finished"
-msgstr "Οι ενέργειες ολοκληρώθηκαν επιτυχώς"
-
-#: src/transaction.vala src/cli.vala
-msgid "Nothing to do"
-msgstr "Δεν υπάρχει τίποτε να γίνει"
-
-#: src/installer.vala src/manager.vala
-msgid "Pamac is already running"
-msgstr "Ο Pamac είναι ήδη ενεργός"
-
 #: src/installer.vala src/manager_window.vala src/cli.vala
 msgid "Waiting for another package manager to quit"
 msgstr "Περιμένοντας να τερματίσει ένας άλλος διαχειριστής πακέτων."
+
+#: src/installer.vala src/cli.vala
+msgid "Install packages from repositories, path or url"
+msgstr ""
+
+#: src/installer.vala src/cli.vala
+msgid "Remove packages"
+msgstr ""
+
+#: src/installer.vala src/cli.vala
+msgid "package(s)"
+msgstr ""
 
 #: src/tray.vala src/manager_window.vala src/cli.vala
 msgid "Your system is up-to-date"
@@ -658,6 +666,39 @@ msgstr "Κατάλογος δημιουργίας"
 msgid "Worldwide"
 msgstr "Παγκοσμίως"
 
+#: src/transaction-cli.vala
+#, c-format
+msgid "Enter a number (default=%d)"
+msgstr ""
+
+#: src/transaction-cli.vala
+msgid "Total installed size"
+msgstr ""
+
+#: src/transaction-cli.vala
+msgid "Total removed size"
+msgstr ""
+
+#: src/transaction-cli.vala
+msgid "Commit transaction"
+msgstr ""
+
+#: src/transaction-cli.vala
+msgid "[y/N]"
+msgstr ""
+
+#: src/transaction-cli.vala
+msgid "y"
+msgstr ""
+
+#: src/transaction-cli.vala
+msgid "yes"
+msgstr ""
+
+#: src/cli.vala
+msgid "Building packages as root is not allowed"
+msgstr ""
+
 #: src/cli.vala
 msgid "Available actions"
 msgstr ""
@@ -668,10 +709,6 @@ msgstr ""
 
 #: src/cli.vala
 msgid "options"
-msgstr ""
-
-#: src/cli.vala
-msgid "package(s)"
 msgstr ""
 
 #: src/cli.vala
@@ -707,10 +744,6 @@ msgid "dir"
 msgstr ""
 
 #: src/cli.vala
-msgid "Install packages from repositories, path or url"
-msgstr ""
-
-#: src/cli.vala
 msgid "glob"
 msgstr ""
 
@@ -719,11 +752,11 @@ msgid "Reinstall packages"
 msgstr ""
 
 #: src/cli.vala
-msgid "Remove packages"
+msgid "Safely check for updates without modifiying the databases"
 msgstr ""
 
 #: src/cli.vala
-msgid "Safely check for updates without modifiying the databases"
+msgid "Exit code is 100 if updates are available"
 msgstr ""
 
 #: src/cli.vala
@@ -748,7 +781,7 @@ msgstr "Μέγεθος"
 
 #: src/cli.vala
 #, c-format
-msgid "No package owns %s\n"
+msgid "No package owns %s"
 msgstr ""
 
 #: src/cli.vala
@@ -765,35 +798,6 @@ msgstr[1] ""
 
 #: src/cli.vala
 msgid "Enter a selection (default=all)"
-msgstr ""
-
-#: src/cli.vala
-msgid "Total installed size"
-msgstr ""
-
-#: src/cli.vala
-msgid "Total removed size"
-msgstr ""
-
-#: src/cli.vala
-msgid "Commit transaction"
-msgstr ""
-
-#: src/cli.vala
-msgid "[y/N]"
-msgstr ""
-
-#: src/cli.vala
-msgid "y"
-msgstr ""
-
-#: src/cli.vala
-msgid "yes"
-msgstr ""
-
-#: src/cli.vala
-#, c-format
-msgid "Enter a number (default=%d)"
 msgstr ""
 
 #: resources/choose_provider_dialog.ui

@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2018-08-16 12:06+0200\n"
-"PO-Revision-Date: 2018-08-18 01:12+0000\n"
+"POT-Creation-Date: 2018-08-29 13:10+0200\n"
+"PO-Revision-Date: 2018-08-29 12:34+0000\n"
 "Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Slovenian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/sl/)\n"
 "MIME-Version: 1.0\n"
@@ -53,7 +53,7 @@ msgstr "Ne"
 msgid "Failed to initialize alpm library"
 msgstr "Začenjanje alpm knjižnice je spodletelo"
 
-#: src/system_daemon.vala src/transaction.vala
+#: src/system_daemon.vala
 msgid "Authentication failed"
 msgstr "Potrditev identitete ni uspela"
 
@@ -133,139 +133,98 @@ msgstr "%s izgleda prirezanih: %jd%jd bitov\n"
 msgid "failed retrieving file '%s' from %s : %s\n"
 msgstr "napaka pri pridobivanju datoteke '%s' od %s : %s\n"
 
-#: src/transaction.vala src/tray.vala src/manager_window.vala
-msgid "Package Manager"
-msgstr "Upravljalnik paketov"
-
-#: src/transaction.vala
-msgid "Copy"
-msgstr "Kopiraj"
-
 #: src/transaction.vala
 msgid "Refreshing mirrors list"
 msgstr "Osveževanje seznama zrcal"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 msgid "Synchronizing package databases"
 msgstr "Sinhroniziranje podatkovnih baz"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 msgid "Starting full system upgrade"
 msgstr "Začenjanje nadgradnje celotnega sistema"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 msgid "Preparing"
 msgstr "Pripravljam"
 
-#: src/transaction.vala src/cli.vala
-#, c-format
-msgid "Choose a provider for %s"
-msgstr "Izberite ponudnika za %s"
-
-#: src/transaction.vala src/cli.vala
-msgid "To remove"
-msgstr "Za odstranitev"
-
-#: src/transaction.vala src/cli.vala
-msgid "To downgrade"
-msgstr "Za podgraditev"
-
-#: src/transaction.vala src/cli.vala
-msgid "To build"
-msgstr "Za izgradnjo"
-
-#: src/transaction.vala src/cli.vala
-msgid "To install"
-msgstr "Za namestitev"
-
-#: src/transaction.vala src/cli.vala
-msgid "To reinstall"
-msgstr "Za ponovno namestitev"
-
-#: src/transaction.vala src/cli.vala
-msgid "To upgrade"
-msgstr "Posodobiti"
-
-#: src/transaction.vala src/manager_window.vala src/cli.vala
-msgid "Total download size"
-msgstr "Celotna velikost prenosa"
-
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 #, c-format
 msgid "Building %s"
 msgstr "Grajenje %s"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 msgid "Transaction cancelled"
 msgstr "Transakcija preklicana"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 msgid "Checking dependencies"
 msgstr "Preverjam odvisnosti"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 msgid "Checking file conflicts"
 msgstr "Preverjam konflikte datotek"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 msgid "Resolving dependencies"
 msgstr "Razrešujem odvisnosti"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 msgid "Checking inter-conflicts"
 msgstr "Preverjanje medsebojnih sporov"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 #, c-format
 msgid "Installing %s"
 msgstr "Nameščanje %s"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 #, c-format
 msgid "Upgrading %s"
 msgstr "Nadgrajevanje %s"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 #, c-format
 msgid "Reinstalling %s"
 msgstr "Ponovno nameščanje %s"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 #, c-format
 msgid "Downgrading %s"
 msgstr "Podgrajevanje %s"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 #, c-format
 msgid "Removing %s"
 msgstr "Odstranjevanje %s"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 msgid "Checking integrity"
 msgstr "Preverjanje celovitosti"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 msgid "Loading packages files"
 msgstr "Nalaganje datotek paketov"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 msgid "Checking delta integrity"
 msgstr "Preverjanje celovitosti delta"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 msgid "Applying deltas"
 msgstr "Apliciranje delt"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 #, c-format
 msgid "Generating %s with %s"
 msgstr "Generiranje %s z %s"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 msgid "Generation succeeded"
 msgstr "Generiranje uspešno"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 msgid "Generation failed"
 msgstr "Generiranje ni bilo uspešno"
 
@@ -274,61 +233,61 @@ msgstr "Generiranje ni bilo uspešno"
 msgid "Configuring %s"
 msgstr "Konfiguriranje %s"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 msgid "Downloading"
 msgstr "Prenašanje"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 #, c-format
 msgid "Downloading %s"
 msgstr "Prenašanje %s"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 msgid "Checking available disk space"
 msgstr "Preverjanje razpoložljivega prostora"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 #, c-format
 msgid "%s optionally requires %s"
 msgstr "%s izbirno zahteva %s"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 #, c-format
 msgid "Database file for %s does not exist"
 msgstr "Datoteka podatkovne baze za %s ne obstaja"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 msgid "Checking keyring"
 msgstr "Preverjanje obroča ključev"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 msgid "Downloading required keys"
 msgstr "Prenašanje zahtevanih ključev"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 #, c-format
 msgid "%s installed as %s.pacnew"
 msgstr "%s nameščeno kot %s.pacnew"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 #, c-format
 msgid "%s installed as %s.pacsave"
 msgstr "%s nameščeno kot %s.pacsave"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 msgid "Running pre-transaction hooks"
 msgstr ""
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 msgid "Running post-transaction hooks"
 msgstr ""
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 #, c-format
 msgid "About %u seconds remaining"
 msgstr "Preostalo približno %u sekund"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 #, c-format
 msgid "About %lu minute remaining"
 msgid_plural "About %lu minutes remaining"
@@ -337,39 +296,88 @@ msgstr[1] "Še približno %lu minuti"
 msgstr[2] "Še približno %lu minut"
 msgstr[3] "Še približno %lu minut"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 #, c-format
 msgid "Refreshing %s"
 msgstr "Osveževanje %s"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala src/transaction-cli.vala src/cli.vala
 msgid "Error"
 msgstr "Napaka"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala src/transaction-gtk.vala
 msgid "Warning"
 msgstr "Opozorilo"
 
-#: src/transaction.vala resources/progress_dialog.ui
+#: src/transaction.vala src/installer.vala src/cli.vala
+msgid "Nothing to do"
+msgstr "Ni nobenih opravil"
+
+#: src/transaction.vala src/transaction-gtk.vala
+msgid "Transaction successfully finished"
+msgstr "Transakcija uspešno zaključena"
+
+#: src/transaction-gtk.vala src/tray.vala src/manager_window.vala
+msgid "Package Manager"
+msgstr "Upravljalnik paketov"
+
+#: src/transaction-gtk.vala
+msgid "Copy"
+msgstr "Kopiraj"
+
+#: src/transaction-gtk.vala src/transaction-cli.vala
+#, c-format
+msgid "Choose a provider for %s"
+msgstr "Izberite ponudnika za %s"
+
+#: src/transaction-gtk.vala src/transaction-cli.vala
+msgid "To remove"
+msgstr "Za odstranitev"
+
+#: src/transaction-gtk.vala src/transaction-cli.vala
+msgid "To downgrade"
+msgstr "Za podgraditev"
+
+#: src/transaction-gtk.vala src/transaction-cli.vala
+msgid "To build"
+msgstr "Za izgradnjo"
+
+#: src/transaction-gtk.vala src/transaction-cli.vala
+msgid "To install"
+msgstr "Za namestitev"
+
+#: src/transaction-gtk.vala src/transaction-cli.vala
+msgid "To reinstall"
+msgstr "Za ponovno namestitev"
+
+#: src/transaction-gtk.vala src/transaction-cli.vala
+msgid "To upgrade"
+msgstr "Posodobiti"
+
+#: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
+msgid "Total download size"
+msgstr "Celotna velikost prenosa"
+
+#: src/transaction-gtk.vala resources/progress_dialog.ui
 #: resources/history_dialog.ui resources/preferences_dialog.ui
 msgid "_Close"
 msgstr "_Zapri"
 
-#: src/transaction.vala src/cli.vala
-msgid "Transaction successfully finished"
-msgstr "Transakcija uspešno zaključena"
-
-#: src/transaction.vala src/cli.vala
-msgid "Nothing to do"
-msgstr "Ni nobenih opravil"
-
-#: src/installer.vala src/manager.vala
-msgid "Pamac is already running"
-msgstr "Pamac je že v teku"
-
 #: src/installer.vala src/manager_window.vala src/cli.vala
 msgid "Waiting for another package manager to quit"
 msgstr "Čakanje na izhod drugega paketnega upravljalnika"
+
+#: src/installer.vala src/cli.vala
+msgid "Install packages from repositories, path or url"
+msgstr ""
+
+#: src/installer.vala src/cli.vala
+msgid "Remove packages"
+msgstr ""
+
+#: src/installer.vala src/cli.vala
+msgid "package(s)"
+msgstr ""
 
 #: src/tray.vala src/manager_window.vala src/cli.vala
 msgid "Your system is up-to-date"
@@ -655,6 +663,39 @@ msgstr "Izgradi imenik"
 msgid "Worldwide"
 msgstr "Svetovno"
 
+#: src/transaction-cli.vala
+#, c-format
+msgid "Enter a number (default=%d)"
+msgstr ""
+
+#: src/transaction-cli.vala
+msgid "Total installed size"
+msgstr ""
+
+#: src/transaction-cli.vala
+msgid "Total removed size"
+msgstr ""
+
+#: src/transaction-cli.vala
+msgid "Commit transaction"
+msgstr ""
+
+#: src/transaction-cli.vala
+msgid "[y/N]"
+msgstr ""
+
+#: src/transaction-cli.vala
+msgid "y"
+msgstr ""
+
+#: src/transaction-cli.vala
+msgid "yes"
+msgstr ""
+
+#: src/cli.vala
+msgid "Building packages as root is not allowed"
+msgstr ""
+
 #: src/cli.vala
 msgid "Available actions"
 msgstr ""
@@ -665,10 +706,6 @@ msgstr ""
 
 #: src/cli.vala
 msgid "options"
-msgstr ""
-
-#: src/cli.vala
-msgid "package(s)"
 msgstr ""
 
 #: src/cli.vala
@@ -704,10 +741,6 @@ msgid "dir"
 msgstr ""
 
 #: src/cli.vala
-msgid "Install packages from repositories, path or url"
-msgstr ""
-
-#: src/cli.vala
 msgid "glob"
 msgstr ""
 
@@ -716,11 +749,11 @@ msgid "Reinstall packages"
 msgstr ""
 
 #: src/cli.vala
-msgid "Remove packages"
+msgid "Safely check for updates without modifiying the databases"
 msgstr ""
 
 #: src/cli.vala
-msgid "Safely check for updates without modifiying the databases"
+msgid "Exit code is 100 if updates are available"
 msgstr ""
 
 #: src/cli.vala
@@ -745,7 +778,7 @@ msgstr "Velikost"
 
 #: src/cli.vala
 #, c-format
-msgid "No package owns %s\n"
+msgid "No package owns %s"
 msgstr ""
 
 #: src/cli.vala
@@ -764,35 +797,6 @@ msgstr[3] ""
 
 #: src/cli.vala
 msgid "Enter a selection (default=all)"
-msgstr ""
-
-#: src/cli.vala
-msgid "Total installed size"
-msgstr ""
-
-#: src/cli.vala
-msgid "Total removed size"
-msgstr ""
-
-#: src/cli.vala
-msgid "Commit transaction"
-msgstr ""
-
-#: src/cli.vala
-msgid "[y/N]"
-msgstr ""
-
-#: src/cli.vala
-msgid "y"
-msgstr ""
-
-#: src/cli.vala
-msgid "yes"
-msgstr ""
-
-#: src/cli.vala
-#, c-format
-msgid "Enter a number (default=%d)"
 msgstr ""
 
 #: resources/choose_provider_dialog.ui

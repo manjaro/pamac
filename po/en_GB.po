@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2018-08-16 12:06+0200\n"
-"PO-Revision-Date: 2018-08-18 01:12+0000\n"
+"POT-Creation-Date: 2018-08-29 13:10+0200\n"
+"PO-Revision-Date: 2018-08-29 12:34+0000\n"
 "Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: English (United Kingdom) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/en_GB/)\n"
 "MIME-Version: 1.0\n"
@@ -51,7 +51,7 @@ msgstr "No"
 msgid "Failed to initialize alpm library"
 msgstr "Failed to initialize alpm library"
 
-#: src/system_daemon.vala src/transaction.vala
+#: src/system_daemon.vala
 msgid "Authentication failed"
 msgstr "Authentication failed"
 
@@ -131,139 +131,98 @@ msgstr "%s appears to be truncated: %jd/%jd bytes\n"
 msgid "failed retrieving file '%s' from %s : %s\n"
 msgstr "failed retrieving file '%s' from %s : %s\n"
 
-#: src/transaction.vala src/tray.vala src/manager_window.vala
-msgid "Package Manager"
-msgstr "Package Manager"
-
-#: src/transaction.vala
-msgid "Copy"
-msgstr "Copy"
-
 #: src/transaction.vala
 msgid "Refreshing mirrors list"
 msgstr "Refreshing mirrors list"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 msgid "Synchronizing package databases"
 msgstr "Synchronizing package databases"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 msgid "Starting full system upgrade"
 msgstr "Starting full system upgrade"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 msgid "Preparing"
 msgstr "Preparing"
 
-#: src/transaction.vala src/cli.vala
-#, c-format
-msgid "Choose a provider for %s"
-msgstr "Choose a provider for %s"
-
-#: src/transaction.vala src/cli.vala
-msgid "To remove"
-msgstr "To remove"
-
-#: src/transaction.vala src/cli.vala
-msgid "To downgrade"
-msgstr "To downgrade"
-
-#: src/transaction.vala src/cli.vala
-msgid "To build"
-msgstr "To build"
-
-#: src/transaction.vala src/cli.vala
-msgid "To install"
-msgstr "To install"
-
-#: src/transaction.vala src/cli.vala
-msgid "To reinstall"
-msgstr "To reinstall"
-
-#: src/transaction.vala src/cli.vala
-msgid "To upgrade"
-msgstr "To upgrade"
-
-#: src/transaction.vala src/manager_window.vala src/cli.vala
-msgid "Total download size"
-msgstr "Total download size"
-
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 #, c-format
 msgid "Building %s"
 msgstr "Building %s"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 msgid "Transaction cancelled"
 msgstr "Transaction cancelled"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 msgid "Checking dependencies"
 msgstr "Checking dependencies"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 msgid "Checking file conflicts"
 msgstr "Checking file conflicts"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 msgid "Resolving dependencies"
 msgstr "Resolving dependencies"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 msgid "Checking inter-conflicts"
 msgstr "Checking inter-conflicts"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 #, c-format
 msgid "Installing %s"
 msgstr "Installing %s"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 #, c-format
 msgid "Upgrading %s"
 msgstr "Upgrading %s"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 #, c-format
 msgid "Reinstalling %s"
 msgstr "Reinstalling %s"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 #, c-format
 msgid "Downgrading %s"
 msgstr "Downgrading %s"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 #, c-format
 msgid "Removing %s"
 msgstr "Removing %s"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 msgid "Checking integrity"
 msgstr "Checking integrity"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 msgid "Loading packages files"
 msgstr "Loading package files"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 msgid "Checking delta integrity"
 msgstr "Checking delta integrity"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 msgid "Applying deltas"
 msgstr "Applying deltas"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 #, c-format
 msgid "Generating %s with %s"
 msgstr "Generating %s with %s"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 msgid "Generation succeeded"
 msgstr "Generation succeeded"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 msgid "Generation failed"
 msgstr "Generation failed"
 
@@ -272,100 +231,149 @@ msgstr "Generation failed"
 msgid "Configuring %s"
 msgstr "Configuring %s"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 msgid "Downloading"
 msgstr "Downloading"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 #, c-format
 msgid "Downloading %s"
 msgstr "Downloading %s"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 msgid "Checking available disk space"
 msgstr "Checking available disc space"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 #, c-format
 msgid "%s optionally requires %s"
 msgstr "%s optionally requires %s"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 #, c-format
 msgid "Database file for %s does not exist"
 msgstr "Database file for %s does not exist"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 msgid "Checking keyring"
 msgstr "Checking keyring"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 msgid "Downloading required keys"
 msgstr "Downloading required keys"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 #, c-format
 msgid "%s installed as %s.pacnew"
 msgstr "%s installed as %s.pacnew"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 #, c-format
 msgid "%s installed as %s.pacsave"
 msgstr "%s installed as %s.pacsave"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 msgid "Running pre-transaction hooks"
 msgstr "Running pre-transaction hooks"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 msgid "Running post-transaction hooks"
 msgstr "Running post-transaction hooks"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 #, c-format
 msgid "About %u seconds remaining"
 msgstr "About %u seconds remaining"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 #, c-format
 msgid "About %lu minute remaining"
 msgid_plural "About %lu minutes remaining"
 msgstr[0] "About %lu minute remaining"
 msgstr[1] "About %lu minutes remaining"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 #, c-format
 msgid "Refreshing %s"
 msgstr "Refreshing %s"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala src/transaction-cli.vala src/cli.vala
 msgid "Error"
 msgstr "Error"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala src/transaction-gtk.vala
 msgid "Warning"
 msgstr "Warning"
 
-#: src/transaction.vala resources/progress_dialog.ui
+#: src/transaction.vala src/installer.vala src/cli.vala
+msgid "Nothing to do"
+msgstr "Nothing to do"
+
+#: src/transaction.vala src/transaction-gtk.vala
+msgid "Transaction successfully finished"
+msgstr "Transaction successfully finished"
+
+#: src/transaction-gtk.vala src/tray.vala src/manager_window.vala
+msgid "Package Manager"
+msgstr "Package Manager"
+
+#: src/transaction-gtk.vala
+msgid "Copy"
+msgstr "Copy"
+
+#: src/transaction-gtk.vala src/transaction-cli.vala
+#, c-format
+msgid "Choose a provider for %s"
+msgstr "Choose a provider for %s"
+
+#: src/transaction-gtk.vala src/transaction-cli.vala
+msgid "To remove"
+msgstr "To remove"
+
+#: src/transaction-gtk.vala src/transaction-cli.vala
+msgid "To downgrade"
+msgstr "To downgrade"
+
+#: src/transaction-gtk.vala src/transaction-cli.vala
+msgid "To build"
+msgstr "To build"
+
+#: src/transaction-gtk.vala src/transaction-cli.vala
+msgid "To install"
+msgstr "To install"
+
+#: src/transaction-gtk.vala src/transaction-cli.vala
+msgid "To reinstall"
+msgstr "To reinstall"
+
+#: src/transaction-gtk.vala src/transaction-cli.vala
+msgid "To upgrade"
+msgstr "To upgrade"
+
+#: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
+msgid "Total download size"
+msgstr "Total download size"
+
+#: src/transaction-gtk.vala resources/progress_dialog.ui
 #: resources/history_dialog.ui resources/preferences_dialog.ui
 msgid "_Close"
 msgstr "_Close"
 
-#: src/transaction.vala src/cli.vala
-msgid "Transaction successfully finished"
-msgstr "Transaction successfully finished"
-
-#: src/transaction.vala src/cli.vala
-msgid "Nothing to do"
-msgstr "Nothing to do"
-
-#: src/installer.vala src/manager.vala
-msgid "Pamac is already running"
-msgstr "Pamac is already running"
-
 #: src/installer.vala src/manager_window.vala src/cli.vala
 msgid "Waiting for another package manager to quit"
 msgstr "Waiting for another package manager to quit"
+
+#: src/installer.vala src/cli.vala
+msgid "Install packages from repositories, path or url"
+msgstr ""
+
+#: src/installer.vala src/cli.vala
+msgid "Remove packages"
+msgstr ""
+
+#: src/installer.vala src/cli.vala
+msgid "package(s)"
+msgstr ""
 
 #: src/tray.vala src/manager_window.vala src/cli.vala
 msgid "Your system is up-to-date"
@@ -647,6 +655,39 @@ msgstr "Build directory"
 msgid "Worldwide"
 msgstr "Worldwide"
 
+#: src/transaction-cli.vala
+#, c-format
+msgid "Enter a number (default=%d)"
+msgstr ""
+
+#: src/transaction-cli.vala
+msgid "Total installed size"
+msgstr ""
+
+#: src/transaction-cli.vala
+msgid "Total removed size"
+msgstr ""
+
+#: src/transaction-cli.vala
+msgid "Commit transaction"
+msgstr ""
+
+#: src/transaction-cli.vala
+msgid "[y/N]"
+msgstr ""
+
+#: src/transaction-cli.vala
+msgid "y"
+msgstr ""
+
+#: src/transaction-cli.vala
+msgid "yes"
+msgstr ""
+
+#: src/cli.vala
+msgid "Building packages as root is not allowed"
+msgstr ""
+
 #: src/cli.vala
 msgid "Available actions"
 msgstr ""
@@ -657,10 +698,6 @@ msgstr ""
 
 #: src/cli.vala
 msgid "options"
-msgstr ""
-
-#: src/cli.vala
-msgid "package(s)"
 msgstr ""
 
 #: src/cli.vala
@@ -696,10 +733,6 @@ msgid "dir"
 msgstr ""
 
 #: src/cli.vala
-msgid "Install packages from repositories, path or url"
-msgstr ""
-
-#: src/cli.vala
 msgid "glob"
 msgstr ""
 
@@ -708,11 +741,11 @@ msgid "Reinstall packages"
 msgstr ""
 
 #: src/cli.vala
-msgid "Remove packages"
+msgid "Safely check for updates without modifiying the databases"
 msgstr ""
 
 #: src/cli.vala
-msgid "Safely check for updates without modifiying the databases"
+msgid "Exit code is 100 if updates are available"
 msgstr ""
 
 #: src/cli.vala
@@ -737,7 +770,7 @@ msgstr "Size"
 
 #: src/cli.vala
 #, c-format
-msgid "No package owns %s\n"
+msgid "No package owns %s"
 msgstr ""
 
 #: src/cli.vala
@@ -754,35 +787,6 @@ msgstr[1] ""
 
 #: src/cli.vala
 msgid "Enter a selection (default=all)"
-msgstr ""
-
-#: src/cli.vala
-msgid "Total installed size"
-msgstr ""
-
-#: src/cli.vala
-msgid "Total removed size"
-msgstr ""
-
-#: src/cli.vala
-msgid "Commit transaction"
-msgstr ""
-
-#: src/cli.vala
-msgid "[y/N]"
-msgstr ""
-
-#: src/cli.vala
-msgid "y"
-msgstr ""
-
-#: src/cli.vala
-msgid "yes"
-msgstr ""
-
-#: src/cli.vala
-#, c-format
-msgid "Enter a number (default=%d)"
 msgstr ""
 
 #: resources/choose_provider_dialog.ui

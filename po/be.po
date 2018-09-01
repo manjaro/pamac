@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2018-05-26 17:59+0200\n"
-"PO-Revision-Date: 2018-06-27 20:00+0000\n"
-"Last-Translator: Zmicer Turok <zmicerturok@gmail.com>\n"
+"POT-Creation-Date: 2018-08-29 13:10+0200\n"
+"PO-Revision-Date: 2018-08-29 12:34+0000\n"
+"Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Belarusian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/be/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -47,7 +47,7 @@ msgstr "Не"
 msgid "Failed to initialize alpm library"
 msgstr "Памылка ініцыялізацыі бібліятэкі alpm"
 
-#: src/system_daemon.vala src/transaction.vala
+#: src/system_daemon.vala
 msgid "Authentication failed"
 msgstr "Памылка аўтарызацыі"
 
@@ -63,7 +63,7 @@ msgstr "Не атрымалася пачаць транзакцыю"
 msgid "Failed to prepare transaction"
 msgstr "Не атрымалася падрыхтаваць транзакцыю"
 
-#: src/system_daemon.vala
+#: src/system_daemon.vala src/cli.vala
 #, c-format
 msgid "target not found: %s"
 msgstr "мэта не знойдзена: %s"
@@ -127,14 +127,6 @@ msgstr "%s здаецца, паменшаны на: %jd/%jd байтаў\n"
 msgid "failed retrieving file '%s' from %s : %s\n"
 msgstr "памылка атрымання файла '%s' з %s : %s\n"
 
-#: src/transaction.vala src/tray.vala src/manager_window.vala
-msgid "Package Manager"
-msgstr "Кіраўнік пакункаў"
-
-#: src/transaction.vala
-msgid "Copy"
-msgstr "Капіраваць"
-
 #: src/transaction.vala
 msgid "Refreshing mirrors list"
 msgstr "Абнаўленне спіса люстэркаў"
@@ -150,39 +142,6 @@ msgstr "Запуск поўнага абнаўлення сістэмы"
 #: src/transaction.vala
 msgid "Preparing"
 msgstr "Падрыхтоўка"
-
-#: src/transaction.vala
-#, c-format
-msgid "Choose a provider for %s"
-msgstr "Абярыце правайдэра для %s"
-
-#: src/transaction.vala
-msgid "To remove"
-msgstr "Да выдалення"
-
-#: src/transaction.vala
-msgid "To downgrade"
-msgstr "Да аткату"
-
-#: src/transaction.vala
-msgid "To build"
-msgstr "Да зборкі"
-
-#: src/transaction.vala
-msgid "To install"
-msgstr "Да ўсталёўкі"
-
-#: src/transaction.vala
-msgid "To reinstall"
-msgstr "Да пераўсталёўкі"
-
-#: src/transaction.vala
-msgid "To upgrade"
-msgstr "Да абнаўлення"
-
-#: src/transaction.vala src/manager_window.vala
-msgid "Total download size"
-msgstr "Агульны памер спампоўкі"
 
 #: src/transaction.vala
 #, c-format
@@ -336,36 +295,85 @@ msgstr[3] "Засталося прыкладна %lu хвілін"
 msgid "Refreshing %s"
 msgstr "Абнаўленне %s"
 
-#: src/transaction.vala
+#: src/transaction.vala src/transaction-cli.vala src/cli.vala
 msgid "Error"
 msgstr "Памылка"
 
-#: src/transaction.vala
+#: src/transaction.vala src/transaction-gtk.vala
 msgid "Warning"
 msgstr "Увага"
 
-#: src/transaction.vala resources/progress_dialog.ui
+#: src/transaction.vala src/installer.vala src/cli.vala
+msgid "Nothing to do"
+msgstr "Няма задач"
+
+#: src/transaction.vala src/transaction-gtk.vala
+msgid "Transaction successfully finished"
+msgstr "Транзакцыя паспяхова завершана"
+
+#: src/transaction-gtk.vala src/tray.vala src/manager_window.vala
+msgid "Package Manager"
+msgstr "Кіраўнік пакункаў"
+
+#: src/transaction-gtk.vala
+msgid "Copy"
+msgstr "Капіраваць"
+
+#: src/transaction-gtk.vala src/transaction-cli.vala
+#, c-format
+msgid "Choose a provider for %s"
+msgstr "Абярыце правайдэра для %s"
+
+#: src/transaction-gtk.vala src/transaction-cli.vala
+msgid "To remove"
+msgstr "Да выдалення"
+
+#: src/transaction-gtk.vala src/transaction-cli.vala
+msgid "To downgrade"
+msgstr "Да аткату"
+
+#: src/transaction-gtk.vala src/transaction-cli.vala
+msgid "To build"
+msgstr "Да зборкі"
+
+#: src/transaction-gtk.vala src/transaction-cli.vala
+msgid "To install"
+msgstr "Да ўсталёўкі"
+
+#: src/transaction-gtk.vala src/transaction-cli.vala
+msgid "To reinstall"
+msgstr "Да пераўсталёўкі"
+
+#: src/transaction-gtk.vala src/transaction-cli.vala
+msgid "To upgrade"
+msgstr "Да абнаўлення"
+
+#: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
+msgid "Total download size"
+msgstr "Агульны памер спампоўкі"
+
+#: src/transaction-gtk.vala resources/progress_dialog.ui
 #: resources/history_dialog.ui resources/preferences_dialog.ui
 msgid "_Close"
 msgstr "_Закрыць"
 
-#: src/transaction.vala
-msgid "Transaction successfully finished"
-msgstr "Транзакцыя паспяхова завершана"
-
-#: src/transaction.vala
-msgid "Nothing to do"
-msgstr "Няма задач"
-
-#: src/installer.vala src/manager.vala
-msgid "Pamac is already running"
-msgstr "Pamac ужо запушчаны"
-
-#: src/installer.vala src/manager_window.vala
+#: src/installer.vala src/manager_window.vala src/cli.vala
 msgid "Waiting for another package manager to quit"
 msgstr "Чаканне закрыцця іншага кіраўніка пакункаў"
 
-#: src/tray.vala src/manager_window.vala
+#: src/installer.vala src/cli.vala
+msgid "Install packages from repositories, path or url"
+msgstr "Усталяваць пакункі з рэпазіторыяў, шляхоў альбо адрасоў"
+
+#: src/installer.vala src/cli.vala
+msgid "Remove packages"
+msgstr "Выдаліць пакункі"
+
+#: src/installer.vala src/cli.vala
+msgid "package(s)"
+msgstr "пакунак(кі)"
+
+#: src/tray.vala src/manager_window.vala src/cli.vala
 msgid "Your system is up-to-date"
 msgstr "Сістэма абноўлена"
 
@@ -373,7 +381,7 @@ msgstr "Сістэма абноўлена"
 msgid "_Quit"
 msgstr "_Выйсці"
 
-#: src/tray.vala
+#: src/tray.vala src/cli.vala
 #, c-format
 msgid "%u available update"
 msgid_plural "%u available updates"
@@ -424,7 +432,7 @@ msgstr[3] "%u чакаюць апрацоўкі"
 msgid "Categories"
 msgstr "Катэгорыі"
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "Groups"
 msgstr "Групы"
 
@@ -432,7 +440,7 @@ msgstr "Групы"
 msgid "Repositories"
 msgstr "Рэпазіторыі"
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "Installed"
 msgstr "Усталявана"
 
@@ -496,7 +504,7 @@ msgstr "Налады"
 msgid "System Tools"
 msgstr "Сістэмныя прылады"
 
-#: src/manager_window.vala resources/preferences_dialog.ui
+#: src/manager_window.vala src/cli.vala resources/preferences_dialog.ui
 msgid "AUR"
 msgstr "AUR"
 
@@ -508,7 +516,7 @@ msgstr "Залежнасці"
 msgid "Files"
 msgstr "Файлы"
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "Install Reason"
 msgstr "Прычына ўсталёўкі"
 
@@ -516,63 +524,63 @@ msgstr "Прычына ўсталёўкі"
 msgid "Mark as explicitly installed"
 msgstr "Пазначыць адмыслова ўсталяваным"
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "Licenses"
 msgstr "Ліцэнзіі"
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala src/cli.vala resources/manager_window.ui
 msgid "Repository"
 msgstr "Рэпазіторый"
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "Packager"
 msgstr "Пакавальнік"
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "Build Date"
 msgstr "Дата зборкі"
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "Install Date"
 msgstr "Дата ўсталёўкі"
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "Signatures"
 msgstr "Подпісы"
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "Backup files"
 msgstr "Файлы рэзервовых копій"
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "Depends On"
 msgstr "Залежыць ад"
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "Optional Dependencies"
 msgstr "Неабавязковыя залежнасці"
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "Required By"
 msgstr "Патрабуецца для"
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "Optional For"
 msgstr "Дадаткова для"
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "Provides"
 msgstr "Прадастаўляе"
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "Replaces"
 msgstr "Замяняе"
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "Conflicts With"
 msgstr "Канфліктуе з"
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "Package Base"
 msgstr "База пакунка"
 
@@ -580,27 +588,27 @@ msgstr "База пакунка"
 msgid "Maintainer"
 msgstr "Суправаджальнік"
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "First Submitted"
 msgstr "Першы раз адпраўлены"
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "Last Modified"
 msgstr "Апошнія змены"
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "Votes"
 msgstr "Галасоў"
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "Out of Date"
 msgstr "Састарэлы"
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "Make Dependencies"
 msgstr "Стварэнне залежнасцяў"
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "Check Dependencies"
 msgstr "Праверка залежнасцяў"
 
@@ -608,7 +616,7 @@ msgstr "Праверка залежнасцяў"
 msgid "Search"
 msgstr "Пошук"
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala src/cli.vala resources/manager_window.ui
 msgid "Name"
 msgstr "Назва"
 
@@ -648,6 +656,142 @@ msgstr "Каталог зборкі"
 #: src/preferences_dialog.vala
 msgid "Worldwide"
 msgstr "Сусветны"
+
+#: src/transaction-cli.vala
+#, c-format
+msgid "Enter a number (default=%d)"
+msgstr "Увядзіце лік (прадвызначана=%d)"
+
+#: src/transaction-cli.vala
+msgid "Total installed size"
+msgstr "Агулам усталявана"
+
+#: src/transaction-cli.vala
+msgid "Total removed size"
+msgstr "Агулам выдалена"
+
+#: src/transaction-cli.vala
+msgid "Commit transaction"
+msgstr "Пацвердзіць транзакцыю"
+
+#: src/transaction-cli.vala
+msgid "[y/N]"
+msgstr "[т/Н]"
+
+#: src/transaction-cli.vala
+msgid "y"
+msgstr "т"
+
+#: src/transaction-cli.vala
+msgid "yes"
+msgstr "так"
+
+#: src/cli.vala
+msgid "Building packages as root is not allowed"
+msgstr ""
+
+#: src/cli.vala
+msgid "Available actions"
+msgstr "Магчымыя дзеянні"
+
+#: src/cli.vala
+msgid "action"
+msgstr "дзеянне"
+
+#: src/cli.vala
+msgid "options"
+msgstr "параметры"
+
+#: src/cli.vala
+msgid "Search for packages or files, multiple search terms can be specified"
+msgstr "Пошук пакункаў альбо файлаў, можна вызначць некалькі ўмоў пошуку"
+
+#: src/cli.vala
+msgid "file(s)"
+msgstr "файл(ы)"
+
+#: src/cli.vala
+msgid "Display package details, multiple packages can be specified"
+msgstr "Паказаць звесткі аб пакунку, можна вызначыць некалькі пакункаў"
+
+#: src/cli.vala
+msgid "List packages, groups, repositories or files"
+msgstr "Спіс пакункаў, групаў, рэпазіторыяў альбо файлаў"
+
+#: src/cli.vala
+msgid "group(s)"
+msgstr "група(ы)"
+
+#: src/cli.vala
+msgid "repo(s)"
+msgstr "рэпазіторый(і)"
+
+#: src/cli.vala
+msgid "Build packages from AUR and install them with their dependencies"
+msgstr "Сабраць пакункі з AUR і ўсталяваць іх разам з залежнасцямі"
+
+#: src/cli.vala
+msgid "dir"
+msgstr "каталог"
+
+#: src/cli.vala
+msgid "glob"
+msgstr "глабальна"
+
+#: src/cli.vala
+msgid "Reinstall packages"
+msgstr "Пераўсталяваць пакункі"
+
+#: src/cli.vala
+msgid "Safely check for updates without modifiying the databases"
+msgstr "Бяспечная праверка на абнаўленні без змены баз даных"
+
+#: src/cli.vala
+msgid "Exit code is 100 if updates are available"
+msgstr ""
+
+#: src/cli.vala
+msgid "Upgrade your system"
+msgstr "Абнавіць сістэму"
+
+#: src/cli.vala resources/manager_window.ui
+msgid "Version"
+msgstr "Версія"
+
+#: src/cli.vala
+msgid "Description"
+msgstr "Апісанне"
+
+#: src/cli.vala
+msgid "URL"
+msgstr "URL"
+
+#: src/cli.vala resources/manager_window.ui
+msgid "Size"
+msgstr "Памер"
+
+#: src/cli.vala
+#, c-format
+msgid "No package owns %s"
+msgstr ""
+
+#: src/cli.vala
+#, c-format
+msgid "%s is owned by %s"
+msgstr "%s належыць %s"
+
+#: src/cli.vala
+#, c-format
+msgid "There is %u member in group %s"
+msgid_plural "There are %u members in group %s"
+msgstr[0] "У групе %s %u удзельнік"
+msgstr[1] "У групе %s %u удзельнікі"
+msgstr[2] "У групе %s %u удзельнікаў"
+msgstr[3] "У групе %s %uудзельнікаў"
+
+#: src/cli.vala
+msgid "Enter a selection (default=all)"
+msgstr "Увядзіце абранае (прадвызначана=усе)"
 
 #: resources/choose_provider_dialog.ui
 msgid "Choose a Provider"
@@ -692,14 +836,6 @@ msgstr "Пра праграму"
 #: resources/manager_window.ui
 msgid "State"
 msgstr "Стан"
-
-#: resources/manager_window.ui
-msgid "Version"
-msgstr "Версія"
-
-#: resources/manager_window.ui
-msgid "Size"
-msgstr "Памер"
 
 #: resources/manager_window.ui
 msgid "Popularity"

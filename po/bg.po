@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2018-08-16 12:06+0200\n"
-"PO-Revision-Date: 2018-08-21 10:34+0000\n"
+"POT-Creation-Date: 2018-08-29 13:10+0200\n"
+"PO-Revision-Date: 2018-08-30 07:43+0000\n"
 "Last-Translator: Galin Iskrenov <loot270@abv.bg>\n"
 "Language-Team: Bulgarian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/bg/)\n"
 "MIME-Version: 1.0\n"
@@ -53,7 +53,7 @@ msgstr "Не"
 msgid "Failed to initialize alpm library"
 msgstr "Неуспешна инициализация на библиотечен файл alpm"
 
-#: src/system_daemon.vala src/transaction.vala
+#: src/system_daemon.vala
 msgid "Authentication failed"
 msgstr "Неуспешно удостоверяване"
 
@@ -133,139 +133,98 @@ msgstr "%s изглежда непълен: %jd/%jd байта\n"
 msgid "failed retrieving file '%s' from %s : %s\n"
 msgstr "невъзможно изтегляне на '%s' от %s : %s\n"
 
-#: src/transaction.vala src/tray.vala src/manager_window.vala
-msgid "Package Manager"
-msgstr "Диспечер на пакети"
-
-#: src/transaction.vala
-msgid "Copy"
-msgstr "копиране"
-
 #: src/transaction.vala
 msgid "Refreshing mirrors list"
 msgstr "Обновяване на списъка с огледала"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 msgid "Synchronizing package databases"
 msgstr "Синхронизиране на пакетната база"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 msgid "Starting full system upgrade"
 msgstr "Започва пълно системно надграждане"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 msgid "Preparing"
 msgstr "Подготвяне"
 
-#: src/transaction.vala src/cli.vala
-#, c-format
-msgid "Choose a provider for %s"
-msgstr "Изберете доставчик на %s"
-
-#: src/transaction.vala src/cli.vala
-msgid "To remove"
-msgstr "За премахване"
-
-#: src/transaction.vala src/cli.vala
-msgid "To downgrade"
-msgstr "За понижаване"
-
-#: src/transaction.vala src/cli.vala
-msgid "To build"
-msgstr "За изграждане"
-
-#: src/transaction.vala src/cli.vala
-msgid "To install"
-msgstr "За инсталиране"
-
-#: src/transaction.vala src/cli.vala
-msgid "To reinstall"
-msgstr "За преинсталиране"
-
-#: src/transaction.vala src/cli.vala
-msgid "To upgrade"
-msgstr "За надграждане"
-
-#: src/transaction.vala src/manager_window.vala src/cli.vala
-msgid "Total download size"
-msgstr "Пълен размер за сваляне"
-
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 #, c-format
 msgid "Building %s"
 msgstr "изграждане %s"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 msgid "Transaction cancelled"
 msgstr "Транзакцията прекратена"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 msgid "Checking dependencies"
 msgstr "Проверка на зависимостите"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 msgid "Checking file conflicts"
 msgstr "Проверка за конфликти"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 msgid "Resolving dependencies"
 msgstr "Разрешаване на зависимости"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 msgid "Checking inter-conflicts"
 msgstr "Проверка за вътрешни конфликти"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 #, c-format
 msgid "Installing %s"
 msgstr "Инсталиране на %s"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 #, c-format
 msgid "Upgrading %s"
 msgstr "Надграждане на %s"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 #, c-format
 msgid "Reinstalling %s"
 msgstr "Преинсталиране на %s"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 #, c-format
 msgid "Downgrading %s"
 msgstr "Понижаване на версията на %s"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 #, c-format
 msgid "Removing %s"
 msgstr "Премахване на %s"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 msgid "Checking integrity"
 msgstr "Проверка за цялостност"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 msgid "Loading packages files"
 msgstr "Зареждане на пакетни файлове"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 msgid "Checking delta integrity"
 msgstr "Проверка на делта целостта"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 msgid "Applying deltas"
 msgstr "Прилагане на делта фрагментите"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 #, c-format
 msgid "Generating %s with %s"
 msgstr "Генериране на %s с %s"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 msgid "Generation succeeded"
 msgstr "Генерирането е успешно"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 msgid "Generation failed"
 msgstr "Генерирането се провали"
 
@@ -274,100 +233,149 @@ msgstr "Генерирането се провали"
 msgid "Configuring %s"
 msgstr "Конфигуриране на %s"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 msgid "Downloading"
 msgstr "Сваляне"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 #, c-format
 msgid "Downloading %s"
 msgstr "Изтегляне на %s"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 msgid "Checking available disk space"
 msgstr "Проверка за налично пространство на диска"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 #, c-format
 msgid "%s optionally requires %s"
 msgstr "%s като опция изисква %s"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 #, c-format
 msgid "Database file for %s does not exist"
 msgstr "Базов файл за %s не съществува"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 msgid "Checking keyring"
 msgstr "Проверка на пръстена за секретни ключове"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 msgid "Downloading required keys"
 msgstr "Сваляне на нужните ключове"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 #, c-format
 msgid "%s installed as %s.pacnew"
 msgstr "%s инсталиран като %s.pacnew"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 #, c-format
 msgid "%s installed as %s.pacsave"
 msgstr "%s инсталиран като %s.pacsave"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 msgid "Running pre-transaction hooks"
 msgstr "Изпълнение на pre-transaction hooks"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 msgid "Running post-transaction hooks"
 msgstr "Изпълнение на post-transaction hooks"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 #, c-format
 msgid "About %u seconds remaining"
 msgstr "Остават още %u секунди"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 #, c-format
 msgid "About %lu minute remaining"
 msgid_plural "About %lu minutes remaining"
 msgstr[0] "Остава още %lu минута"
 msgstr[1] "Остават още %lu минути"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 #, c-format
 msgid "Refreshing %s"
 msgstr "Обновяване на %s"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala src/transaction-cli.vala src/cli.vala
 msgid "Error"
 msgstr "Грешка"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala src/transaction-gtk.vala
 msgid "Warning"
 msgstr "Внимание"
 
-#: src/transaction.vala resources/progress_dialog.ui
+#: src/transaction.vala src/installer.vala src/cli.vala
+msgid "Nothing to do"
+msgstr "Нищо за правене"
+
+#: src/transaction.vala src/transaction-gtk.vala
+msgid "Transaction successfully finished"
+msgstr "Успешно завършена транзакция"
+
+#: src/transaction-gtk.vala src/tray.vala src/manager_window.vala
+msgid "Package Manager"
+msgstr "Диспечер на пакети"
+
+#: src/transaction-gtk.vala
+msgid "Copy"
+msgstr "копиране"
+
+#: src/transaction-gtk.vala src/transaction-cli.vala
+#, c-format
+msgid "Choose a provider for %s"
+msgstr "Изберете доставчик на %s"
+
+#: src/transaction-gtk.vala src/transaction-cli.vala
+msgid "To remove"
+msgstr "За премахване"
+
+#: src/transaction-gtk.vala src/transaction-cli.vala
+msgid "To downgrade"
+msgstr "За понижаване"
+
+#: src/transaction-gtk.vala src/transaction-cli.vala
+msgid "To build"
+msgstr "За изграждане"
+
+#: src/transaction-gtk.vala src/transaction-cli.vala
+msgid "To install"
+msgstr "За инсталиране"
+
+#: src/transaction-gtk.vala src/transaction-cli.vala
+msgid "To reinstall"
+msgstr "За преинсталиране"
+
+#: src/transaction-gtk.vala src/transaction-cli.vala
+msgid "To upgrade"
+msgstr "За надграждане"
+
+#: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
+msgid "Total download size"
+msgstr "Пълен размер за сваляне"
+
+#: src/transaction-gtk.vala resources/progress_dialog.ui
 #: resources/history_dialog.ui resources/preferences_dialog.ui
 msgid "_Close"
 msgstr "_Затвори"
 
-#: src/transaction.vala src/cli.vala
-msgid "Transaction successfully finished"
-msgstr "Успешно завършена транзакция"
-
-#: src/transaction.vala src/cli.vala
-msgid "Nothing to do"
-msgstr "Нищо за правене"
-
-#: src/installer.vala src/manager.vala
-msgid "Pamac is already running"
-msgstr "Pamac вече е пуснат"
-
 #: src/installer.vala src/manager_window.vala src/cli.vala
 msgid "Waiting for another package manager to quit"
 msgstr "Изчакване да завърши друг пакетен диспечер"
+
+#: src/installer.vala src/cli.vala
+msgid "Install packages from repositories, path or url"
+msgstr "Инсталирайте пакети от хранилища, път или URL адрес"
+
+#: src/installer.vala src/cli.vala
+msgid "Remove packages"
+msgstr "Премахване на пакети"
+
+#: src/installer.vala src/cli.vala
+msgid "package(s)"
+msgstr "пакет(и)"
 
 #: src/tray.vala src/manager_window.vala src/cli.vala
 msgid "Your system is up-to-date"
@@ -649,6 +657,39 @@ msgstr "Папка за изграждане"
 msgid "Worldwide"
 msgstr "По света"
 
+#: src/transaction-cli.vala
+#, c-format
+msgid "Enter a number (default=%d)"
+msgstr "Въведете номер (default=%d)"
+
+#: src/transaction-cli.vala
+msgid "Total installed size"
+msgstr "Общ инсталиран размер"
+
+#: src/transaction-cli.vala
+msgid "Total removed size"
+msgstr "Общ отстранен размер"
+
+#: src/transaction-cli.vala
+msgid "Commit transaction"
+msgstr "Потвърждаване на транзакцията"
+
+#: src/transaction-cli.vala
+msgid "[y/N]"
+msgstr "[y/N]"
+
+#: src/transaction-cli.vala
+msgid "y"
+msgstr "y"
+
+#: src/transaction-cli.vala
+msgid "yes"
+msgstr "yes"
+
+#: src/cli.vala
+msgid "Building packages as root is not allowed"
+msgstr "Изграждането на пакети като root не е позволено"
+
 #: src/cli.vala
 msgid "Available actions"
 msgstr "Достъпни действия"
@@ -660,10 +701,6 @@ msgstr "действие"
 #: src/cli.vala
 msgid "options"
 msgstr "настройки "
-
-#: src/cli.vala
-msgid "package(s)"
-msgstr "пакет(и)"
 
 #: src/cli.vala
 msgid "Search for packages or files, multiple search terms can be specified"
@@ -698,10 +735,6 @@ msgid "dir"
 msgstr "dir"
 
 #: src/cli.vala
-msgid "Install packages from repositories, path or url"
-msgstr "Инсталирайте пакети от хранилища, път или URL адрес"
-
-#: src/cli.vala
 msgid "glob"
 msgstr "glob"
 
@@ -710,12 +743,12 @@ msgid "Reinstall packages"
 msgstr "Преинсталиране на пакети"
 
 #: src/cli.vala
-msgid "Remove packages"
-msgstr "Премахване на пакети"
-
-#: src/cli.vala
 msgid "Safely check for updates without modifiying the databases"
 msgstr "Безопасно проверявайте за актуализации без да променяте базите от данни"
+
+#: src/cli.vala
+msgid "Exit code is 100 if updates are available"
+msgstr "Изходния код е 100 ако има атуализации"
 
 #: src/cli.vala
 msgid "Upgrade your system"
@@ -739,8 +772,8 @@ msgstr "Размер"
 
 #: src/cli.vala
 #, c-format
-msgid "No package owns %s\n"
-msgstr "Няма собствен пакет %s\n"
+msgid "No package owns %s"
+msgstr "Няма собствен пакет %s"
 
 #: src/cli.vala
 #, c-format
@@ -757,35 +790,6 @@ msgstr[1] "Има %u члена в група %s"
 #: src/cli.vala
 msgid "Enter a selection (default=all)"
 msgstr "Въведете селекция (default=all)"
-
-#: src/cli.vala
-msgid "Total installed size"
-msgstr "Общ инсталиран размер"
-
-#: src/cli.vala
-msgid "Total removed size"
-msgstr "Общ отстранен размер"
-
-#: src/cli.vala
-msgid "Commit transaction"
-msgstr "Потвърждаване на транзакцията"
-
-#: src/cli.vala
-msgid "[y/N]"
-msgstr "[y/N]"
-
-#: src/cli.vala
-msgid "y"
-msgstr "y"
-
-#: src/cli.vala
-msgid "yes"
-msgstr "yes"
-
-#: src/cli.vala
-#, c-format
-msgid "Enter a number (default=%d)"
-msgstr "Въведете номер (default=%d)"
 
 #: resources/choose_provider_dialog.ui
 msgid "Choose a Provider"

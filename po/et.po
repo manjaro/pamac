@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2018-05-26 17:59+0200\n"
-"PO-Revision-Date: 2018-07-07 13:10+0000\n"
+"POT-Creation-Date: 2018-08-29 13:10+0200\n"
+"PO-Revision-Date: 2018-09-01 07:38+0000\n"
 "Last-Translator: Madis\n"
 "Language-Team: Estonian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/et/)\n"
 "MIME-Version: 1.0\n"
@@ -51,7 +51,7 @@ msgstr "Ei"
 msgid "Failed to initialize alpm library"
 msgstr "alpm teeki käivitamine nurjus"
 
-#: src/system_daemon.vala src/transaction.vala
+#: src/system_daemon.vala
 msgid "Authentication failed"
 msgstr "Autentimine nurjus"
 
@@ -67,7 +67,7 @@ msgstr "Tehingu käivitamine nurjus"
 msgid "Failed to prepare transaction"
 msgstr "Tehingu ettevalmistamine nurjus"
 
-#: src/system_daemon.vala
+#: src/system_daemon.vala src/cli.vala
 #, c-format
 msgid "target not found: %s"
 msgstr "sihtkohta ei leitud: %s"
@@ -131,14 +131,6 @@ msgstr "%s tundub olevat kärbitud: %jd/%jd baiti\n"
 msgid "failed retrieving file '%s' from %s : %s\n"
 msgstr "faili „%s“ hankimine ebaõnnestus asukohast %s: %s\n"
 
-#: src/transaction.vala src/tray.vala src/manager_window.vala
-msgid "Package Manager"
-msgstr "Paketihaldur"
-
-#: src/transaction.vala
-msgid "Copy"
-msgstr "Kopeeri"
-
 #: src/transaction.vala
 msgid "Refreshing mirrors list"
 msgstr "Peegelsaitide nimistu värskendamine"
@@ -157,41 +149,8 @@ msgstr "Ettevalmistamine"
 
 #: src/transaction.vala
 #, c-format
-msgid "Choose a provider for %s"
-msgstr "Vali %s paketi pakkuja"
-
-#: src/transaction.vala
-msgid "To remove"
-msgstr "Eemaldada"
-
-#: src/transaction.vala
-msgid "To downgrade"
-msgstr "Paigaldada vanem versioon"
-
-#: src/transaction.vala
-msgid "To build"
-msgstr "Kompileerida"
-
-#: src/transaction.vala
-msgid "To install"
-msgstr "Paigaldada"
-
-#: src/transaction.vala
-msgid "To reinstall"
-msgstr "Taaspaigaldada"
-
-#: src/transaction.vala
-msgid "To upgrade"
-msgstr "Et täiendada"
-
-#: src/transaction.vala src/manager_window.vala
-msgid "Total download size"
-msgstr "Allalaadimise suurus kokku"
-
-#: src/transaction.vala
-#, c-format
 msgid "Building %s"
-msgstr "Kompileerin %s"
+msgstr "%s kompileerimine"
 
 #: src/transaction.vala
 msgid "Transaction cancelled"
@@ -216,27 +175,27 @@ msgstr "Omavaheliste konfliktide kontrollimine"
 #: src/transaction.vala
 #, c-format
 msgid "Installing %s"
-msgstr "Paigaldatakse %s"
+msgstr "%s paigaldamine"
 
 #: src/transaction.vala
 #, c-format
 msgid "Upgrading %s"
-msgstr "Uuendatakse %s"
+msgstr "%s täiendamine"
 
 #: src/transaction.vala
 #, c-format
 msgid "Reinstalling %s"
-msgstr "Paigaldatakse uuesti %s"
+msgstr "%s taaspaigaldamine"
 
 #: src/transaction.vala
 #, c-format
 msgid "Downgrading %s"
-msgstr "Muudetakse vanemaks versiooniks %s"
+msgstr "%s vanandamine"
 
 #: src/transaction.vala
 #, c-format
 msgid "Removing %s"
-msgstr "Eemaldatakse %s"
+msgstr "%s eemaldamine"
 
 #: src/transaction.vala
 msgid "Checking integrity"
@@ -270,7 +229,7 @@ msgstr "Genereerimine ebaõnnestus"
 #: src/transaction.vala
 #, c-format
 msgid "Configuring %s"
-msgstr "Häälestub %s"
+msgstr "%s seadistamine"
 
 #: src/transaction.vala
 msgid "Downloading"
@@ -336,38 +295,87 @@ msgstr[1] "Umbes %lu minutit jäänud"
 #: src/transaction.vala
 #, c-format
 msgid "Refreshing %s"
-msgstr "Värskendab %s"
+msgstr "%s värskendamine"
 
-#: src/transaction.vala
+#: src/transaction.vala src/transaction-cli.vala src/cli.vala
 msgid "Error"
 msgstr "Viga"
 
-#: src/transaction.vala
+#: src/transaction.vala src/transaction-gtk.vala
 msgid "Warning"
 msgstr "Hoiatus"
 
-#: src/transaction.vala resources/progress_dialog.ui
+#: src/transaction.vala src/installer.vala src/cli.vala
+msgid "Nothing to do"
+msgstr "Pole midagi teha"
+
+#: src/transaction.vala src/transaction-gtk.vala
+msgid "Transaction successfully finished"
+msgstr "Tehingud edukalt lõpetatud"
+
+#: src/transaction-gtk.vala src/tray.vala src/manager_window.vala
+msgid "Package Manager"
+msgstr "Paketihaldur"
+
+#: src/transaction-gtk.vala
+msgid "Copy"
+msgstr "Kopeeri"
+
+#: src/transaction-gtk.vala src/transaction-cli.vala
+#, c-format
+msgid "Choose a provider for %s"
+msgstr "Vali %s paketi pakkuja"
+
+#: src/transaction-gtk.vala src/transaction-cli.vala
+msgid "To remove"
+msgstr "Eemaldada"
+
+#: src/transaction-gtk.vala src/transaction-cli.vala
+msgid "To downgrade"
+msgstr "Paigaldada vanem versioon"
+
+#: src/transaction-gtk.vala src/transaction-cli.vala
+msgid "To build"
+msgstr "Kompileerida"
+
+#: src/transaction-gtk.vala src/transaction-cli.vala
+msgid "To install"
+msgstr "Paigaldada"
+
+#: src/transaction-gtk.vala src/transaction-cli.vala
+msgid "To reinstall"
+msgstr "Taaspaigaldada"
+
+#: src/transaction-gtk.vala src/transaction-cli.vala
+msgid "To upgrade"
+msgstr "Et täiendada"
+
+#: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
+msgid "Total download size"
+msgstr "Allalaadimise suurus kokku"
+
+#: src/transaction-gtk.vala resources/progress_dialog.ui
 #: resources/history_dialog.ui resources/preferences_dialog.ui
 msgid "_Close"
 msgstr "_Sulge"
 
-#: src/transaction.vala
-msgid "Transaction successfully finished"
-msgstr "Tehingud edukalt lõpetatud"
-
-#: src/transaction.vala
-msgid "Nothing to do"
-msgstr "Pole midagi teha"
-
-#: src/installer.vala src/manager.vala
-msgid "Pamac is already running"
-msgstr "Pamac juba töötab"
-
-#: src/installer.vala src/manager_window.vala
+#: src/installer.vala src/manager_window.vala src/cli.vala
 msgid "Waiting for another package manager to quit"
 msgstr "Ootan teise pakihalduri väljumist"
 
-#: src/tray.vala src/manager_window.vala
+#: src/installer.vala src/cli.vala
+msgid "Install packages from repositories, path or url"
+msgstr "Paigalda pakette hoidlatest, failiteest või URList"
+
+#: src/installer.vala src/cli.vala
+msgid "Remove packages"
+msgstr "Eemalda pakette"
+
+#: src/installer.vala src/cli.vala
+msgid "package(s)"
+msgstr "paket(id)"
+
+#: src/tray.vala src/manager_window.vala src/cli.vala
 msgid "Your system is up-to-date"
 msgstr "Sinu süsteem on ajakohane"
 
@@ -375,7 +383,7 @@ msgstr "Sinu süsteem on ajakohane"
 msgid "_Quit"
 msgstr "_Välju"
 
-#: src/tray.vala
+#: src/tray.vala src/cli.vala
 #, c-format
 msgid "%u available update"
 msgid_plural "%u available updates"
@@ -422,7 +430,7 @@ msgstr[1] "%u tegevust ootel"
 msgid "Categories"
 msgstr "Kategooriad"
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "Groups"
 msgstr "Grupid"
 
@@ -430,7 +438,7 @@ msgstr "Grupid"
 msgid "Repositories"
 msgstr "Hoidlad"
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "Installed"
 msgstr "Paigaldatud"
 
@@ -494,7 +502,7 @@ msgstr "Seaded"
 msgid "System Tools"
 msgstr "Süsteemitööriistad"
 
-#: src/manager_window.vala resources/preferences_dialog.ui
+#: src/manager_window.vala src/cli.vala resources/preferences_dialog.ui
 msgid "AUR"
 msgstr "AUR"
 
@@ -506,7 +514,7 @@ msgstr "Sõltuvused"
 msgid "Files"
 msgstr "Failid"
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "Install Reason"
 msgstr "Paigaldamise põhjus"
 
@@ -514,63 +522,63 @@ msgstr "Paigaldamise põhjus"
 msgid "Mark as explicitly installed"
 msgstr "Märgi otseselt paigaldatuks"
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "Licenses"
 msgstr "Litsentsid"
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala src/cli.vala resources/manager_window.ui
 msgid "Repository"
 msgstr "Hoidla"
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "Packager"
 msgstr "Pakendaja"
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "Build Date"
 msgstr "Kompileerimise kuupäev"
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "Install Date"
 msgstr "Paigalduse kuupäev"
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "Signatures"
 msgstr "Signatuurid"
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "Backup files"
 msgstr "Varukoopia failid"
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "Depends On"
 msgstr "Sõltuvused"
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "Optional Dependencies"
 msgstr "Valikulised sõltuvused"
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "Required By"
 msgstr "Mida nõuab"
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "Optional For"
 msgstr "Valikuline"
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "Provides"
 msgstr "Pakub"
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "Replaces"
 msgstr "Asendab"
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "Conflicts With"
 msgstr "Konfliktid"
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "Package Base"
 msgstr "Paketibaas"
 
@@ -578,27 +586,27 @@ msgstr "Paketibaas"
 msgid "Maintainer"
 msgstr "Haldaja"
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "First Submitted"
 msgstr "Esmaselt sisestatud"
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "Last Modified"
 msgstr "Viimati muudetud"
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "Votes"
 msgstr "Hääli"
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "Out of Date"
 msgstr "Vananenud"
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "Make Dependencies"
 msgstr "Make sõltuvused"
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "Check Dependencies"
 msgstr "Kontrolli sõltuvusi"
 
@@ -606,7 +614,7 @@ msgstr "Kontrolli sõltuvusi"
 msgid "Search"
 msgstr "Otsi"
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala src/cli.vala resources/manager_window.ui
 msgid "Name"
 msgstr "Nimi"
 
@@ -646,6 +654,140 @@ msgstr "Kompileerimise kaust"
 #: src/preferences_dialog.vala
 msgid "Worldwide"
 msgstr "Ülemaailmne"
+
+#: src/transaction-cli.vala
+#, c-format
+msgid "Enter a number (default=%d)"
+msgstr "Sisesta arv (vaikimisi=%d)"
+
+#: src/transaction-cli.vala
+msgid "Total installed size"
+msgstr "Paigalduse kogusuurus"
+
+#: src/transaction-cli.vala
+msgid "Total removed size"
+msgstr "Eemalduse kogusuurus"
+
+#: src/transaction-cli.vala
+msgid "Commit transaction"
+msgstr "Teosta tehing"
+
+#: src/transaction-cli.vala
+msgid "[y/N]"
+msgstr "[y/N]"
+
+#: src/transaction-cli.vala
+msgid "y"
+msgstr "y"
+
+#: src/transaction-cli.vala
+msgid "yes"
+msgstr "yes"
+
+#: src/cli.vala
+msgid "Building packages as root is not allowed"
+msgstr "Juurkasutajana pakettide ehitamine pole lubatud"
+
+#: src/cli.vala
+msgid "Available actions"
+msgstr "Saadaolevad tegevused"
+
+#: src/cli.vala
+msgid "action"
+msgstr "tegevus"
+
+#: src/cli.vala
+msgid "options"
+msgstr "valikud"
+
+#: src/cli.vala
+msgid "Search for packages or files, multiple search terms can be specified"
+msgstr "Otsi pakette või faile, määrata võib mitu otsinguterminit"
+
+#: src/cli.vala
+msgid "file(s)"
+msgstr "fail(id)"
+
+#: src/cli.vala
+msgid "Display package details, multiple packages can be specified"
+msgstr "Kuva paketi teave, määrata võib mitu paketti"
+
+#: src/cli.vala
+msgid "List packages, groups, repositories or files"
+msgstr "Kuva pakette, gruppe, hoidlaid või faile"
+
+#: src/cli.vala
+msgid "group(s)"
+msgstr "grup(id)"
+
+#: src/cli.vala
+msgid "repo(s)"
+msgstr "hoidla(d)"
+
+#: src/cli.vala
+msgid "Build packages from AUR and install them with their dependencies"
+msgstr "Ehita pakette AURist ning paigalda need nende sõltuvustega"
+
+#: src/cli.vala
+msgid "dir"
+msgstr "tee"
+
+#: src/cli.vala
+msgid "glob"
+msgstr "glob"
+
+#: src/cli.vala
+msgid "Reinstall packages"
+msgstr "Taaspaigalda paketid"
+
+#: src/cli.vala
+msgid "Safely check for updates without modifiying the databases"
+msgstr "Otsi turvaliselt uuendusi, ilma andmebaase muutmata"
+
+#: src/cli.vala
+msgid "Exit code is 100 if updates are available"
+msgstr "Väljumiskood on 100, kui uuendused on saadaval"
+
+#: src/cli.vala
+msgid "Upgrade your system"
+msgstr "Täienda oma süsteemi"
+
+#: src/cli.vala resources/manager_window.ui
+msgid "Version"
+msgstr "Versioon"
+
+#: src/cli.vala
+msgid "Description"
+msgstr "Kirjeldus"
+
+#: src/cli.vala
+msgid "URL"
+msgstr "URL"
+
+#: src/cli.vala resources/manager_window.ui
+msgid "Size"
+msgstr "Suurus"
+
+#: src/cli.vala
+#, c-format
+msgid "No package owns %s"
+msgstr "Ükski pakett ei oma %s"
+
+#: src/cli.vala
+#, c-format
+msgid "%s is owned by %s"
+msgstr "%s on %s oma"
+
+#: src/cli.vala
+#, c-format
+msgid "There is %u member in group %s"
+msgid_plural "There are %u members in group %s"
+msgstr[0] "Grupis %s on %u liige"
+msgstr[1] "Grupis %s on %u liiget"
+
+#: src/cli.vala
+msgid "Enter a selection (default=all)"
+msgstr "Sisesta valik (vaikimisi=kõik)"
 
 #: resources/choose_provider_dialog.ui
 msgid "Choose a Provider"
@@ -690,14 +832,6 @@ msgstr "Teave"
 #: resources/manager_window.ui
 msgid "State"
 msgstr "Olek"
-
-#: resources/manager_window.ui
-msgid "Version"
-msgstr "Versioon"
-
-#: resources/manager_window.ui
-msgid "Size"
-msgstr "Suurus"
 
 #: resources/manager_window.ui
 msgid "Popularity"

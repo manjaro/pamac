@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2018-08-16 12:06+0200\n"
-"PO-Revision-Date: 2018-08-18 11:37+0000\n"
+"POT-Creation-Date: 2018-08-29 13:10+0200\n"
+"PO-Revision-Date: 2018-08-29 20:49+0000\n"
 "Last-Translator: Moo\n"
 "Language-Team: Lithuanian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/lt/)\n"
 "MIME-Version: 1.0\n"
@@ -48,7 +48,7 @@ msgstr "Ne"
 msgid "Failed to initialize alpm library"
 msgstr "Nepavyko inicijuoti alpm bibliotekos"
 
-#: src/system_daemon.vala src/transaction.vala
+#: src/system_daemon.vala
 msgid "Authentication failed"
 msgstr "Nepavyko nustatyti tapatybę"
 
@@ -128,139 +128,98 @@ msgstr "Atrodo, kad %s yra sutrumpintas: %jd/%jd baitų\n"
 msgid "failed retrieving file '%s' from %s : %s\n"
 msgstr "nepavyko gauti failo \"%s\" iš %s : %s\n"
 
-#: src/transaction.vala src/tray.vala src/manager_window.vala
-msgid "Package Manager"
-msgstr "Paketų tvarkytuvė"
-
-#: src/transaction.vala
-msgid "Copy"
-msgstr "Kopijuoti"
-
 #: src/transaction.vala
 msgid "Refreshing mirrors list"
 msgstr "Iš naujo įkeliamas tinklaviečių sąrašas"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 msgid "Synchronizing package databases"
 msgstr "Sinchronizuojamos paketų duomenų bazės"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 msgid "Starting full system upgrade"
 msgstr "Pradedamas pilnas sistemos atnaujinimas"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 msgid "Preparing"
 msgstr "Ruošiama"
 
-#: src/transaction.vala src/cli.vala
-#, c-format
-msgid "Choose a provider for %s"
-msgstr "Pasirinkite tiekėją paketui %s"
-
-#: src/transaction.vala src/cli.vala
-msgid "To remove"
-msgstr "Planuojami pašalinti"
-
-#: src/transaction.vala src/cli.vala
-msgid "To downgrade"
-msgstr "Sendinti"
-
-#: src/transaction.vala src/cli.vala
-msgid "To build"
-msgstr "Kompiliuoti"
-
-#: src/transaction.vala src/cli.vala
-msgid "To install"
-msgstr "Planuojami įdiegti"
-
-#: src/transaction.vala src/cli.vala
-msgid "To reinstall"
-msgstr "Įdiegti iš naujo"
-
-#: src/transaction.vala src/cli.vala
-msgid "To upgrade"
-msgstr "Naujinti"
-
-#: src/transaction.vala src/manager_window.vala src/cli.vala
-msgid "Total download size"
-msgstr "Visų atsiuntimų dydis"
-
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 #, c-format
 msgid "Building %s"
 msgstr "Kompiliuojama %s"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 msgid "Transaction cancelled"
 msgstr "Operacijos atsisakyta"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 msgid "Checking dependencies"
 msgstr "Tikrinamos priklausomybės"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 msgid "Checking file conflicts"
 msgstr "Tikrinami failų konfliktai"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 msgid "Resolving dependencies"
 msgstr "Nustatomos priklausomybės"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 msgid "Checking inter-conflicts"
 msgstr "Tikrinami tarpusavio konfliktai"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 #, c-format
 msgid "Installing %s"
 msgstr "Diegiama %s"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 #, c-format
 msgid "Upgrading %s"
 msgstr "Atnaujinama %s"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 #, c-format
 msgid "Reinstalling %s"
 msgstr "Diegiama iš naujo %s"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 #, c-format
 msgid "Downgrading %s"
 msgstr "Sendinama %s"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 #, c-format
 msgid "Removing %s"
 msgstr "Šalinama %s"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 msgid "Checking integrity"
 msgstr "Tikrinamas vientisumas"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 msgid "Loading packages files"
 msgstr "Įkeliami paketų failai"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 msgid "Checking delta integrity"
 msgstr "Tikrinamas delta vientisumas"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 msgid "Applying deltas"
 msgstr "Pritaikomos deltos"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 #, c-format
 msgid "Generating %s with %s"
 msgstr "Kuriama %s su %s"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 msgid "Generation succeeded"
 msgstr "Kūrimas sėkmingas"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 msgid "Generation failed"
 msgstr "Kūrimas nepavyko"
 
@@ -269,61 +228,61 @@ msgstr "Kūrimas nepavyko"
 msgid "Configuring %s"
 msgstr "Konfigūruojama %s"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 msgid "Downloading"
 msgstr "Atsiunčiama"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 #, c-format
 msgid "Downloading %s"
 msgstr "Atsiunčiama %s"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 msgid "Checking available disk space"
 msgstr "Tikrinama prieinama vieta diske"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 #, c-format
 msgid "%s optionally requires %s"
 msgstr "%s pasirinktinai reikalauja %s"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 #, c-format
 msgid "Database file for %s does not exist"
 msgstr "Nėra duomenų bazės failui %s"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 msgid "Checking keyring"
 msgstr "Tikrinama raktinė"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 msgid "Downloading required keys"
 msgstr "Atsiunčiami reikalingi raktai"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 #, c-format
 msgid "%s installed as %s.pacnew"
 msgstr "%s įdiegta kaip %s.pacnew"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 #, c-format
 msgid "%s installed as %s.pacsave"
 msgstr "%s įdiegta kaip %s.pacsave"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 msgid "Running pre-transaction hooks"
 msgstr "Vykdomos prieš-operacijos gaudyklės"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 msgid "Running post-transaction hooks"
 msgstr "Vykdomos po-operacijos gaudyklės"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 #, c-format
 msgid "About %u seconds remaining"
 msgstr "Liko maždaug %u sekundžių"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 #, c-format
 msgid "About %lu minute remaining"
 msgid_plural "About %lu minutes remaining"
@@ -332,39 +291,88 @@ msgstr[1] "Liko maždaug %lu minutės"
 msgstr[2] "Liko maždaug %lu minučių"
 msgstr[3] "Liko maždaug %lu minučių"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 #, c-format
 msgid "Refreshing %s"
 msgstr "Įkeliama iš naujo %s"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala src/transaction-cli.vala src/cli.vala
 msgid "Error"
 msgstr "Klaida"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala src/transaction-gtk.vala
 msgid "Warning"
 msgstr "Įspėjimas"
 
-#: src/transaction.vala resources/progress_dialog.ui
+#: src/transaction.vala src/installer.vala src/cli.vala
+msgid "Nothing to do"
+msgstr "Nėra ką atlikti"
+
+#: src/transaction.vala src/transaction-gtk.vala
+msgid "Transaction successfully finished"
+msgstr "Operacija sėkmingai užbaigta"
+
+#: src/transaction-gtk.vala src/tray.vala src/manager_window.vala
+msgid "Package Manager"
+msgstr "Paketų tvarkytuvė"
+
+#: src/transaction-gtk.vala
+msgid "Copy"
+msgstr "Kopijuoti"
+
+#: src/transaction-gtk.vala src/transaction-cli.vala
+#, c-format
+msgid "Choose a provider for %s"
+msgstr "Pasirinkite tiekėją paketui %s"
+
+#: src/transaction-gtk.vala src/transaction-cli.vala
+msgid "To remove"
+msgstr "Planuojami pašalinti"
+
+#: src/transaction-gtk.vala src/transaction-cli.vala
+msgid "To downgrade"
+msgstr "Sendinti"
+
+#: src/transaction-gtk.vala src/transaction-cli.vala
+msgid "To build"
+msgstr "Kompiliuoti"
+
+#: src/transaction-gtk.vala src/transaction-cli.vala
+msgid "To install"
+msgstr "Planuojami įdiegti"
+
+#: src/transaction-gtk.vala src/transaction-cli.vala
+msgid "To reinstall"
+msgstr "Įdiegti iš naujo"
+
+#: src/transaction-gtk.vala src/transaction-cli.vala
+msgid "To upgrade"
+msgstr "Naujinti"
+
+#: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
+msgid "Total download size"
+msgstr "Visų atsiuntimų dydis"
+
+#: src/transaction-gtk.vala resources/progress_dialog.ui
 #: resources/history_dialog.ui resources/preferences_dialog.ui
 msgid "_Close"
 msgstr "_Užverti"
 
-#: src/transaction.vala src/cli.vala
-msgid "Transaction successfully finished"
-msgstr "Operacija sėkmingai užbaigta"
-
-#: src/transaction.vala src/cli.vala
-msgid "Nothing to do"
-msgstr "Nėra ką atlikti"
-
-#: src/installer.vala src/manager.vala
-msgid "Pamac is already running"
-msgstr "Pamac jau yra vykdoma"
-
 #: src/installer.vala src/manager_window.vala src/cli.vala
 msgid "Waiting for another package manager to quit"
 msgstr "Laukiama, kol kita paketų tvarkytuvė baigs savo darbą"
+
+#: src/installer.vala src/cli.vala
+msgid "Install packages from repositories, path or url"
+msgstr "Įdiegti paketus iš saugyklų, kelio ar url"
+
+#: src/installer.vala src/cli.vala
+msgid "Remove packages"
+msgstr "Šalinti paketus"
+
+#: src/installer.vala src/cli.vala
+msgid "package(s)"
+msgstr "paketas(-ai)"
 
 #: src/tray.vala src/manager_window.vala src/cli.vala
 msgid "Your system is up-to-date"
@@ -644,11 +652,44 @@ msgstr "Podėlyje laikomas kiekvieno paketo versijų skaičius"
 
 #: src/preferences_dialog.vala
 msgid "Build directory"
-msgstr "Kūrimo katalogas"
+msgstr "Kompiliavimo katalogas"
 
 #: src/preferences_dialog.vala
 msgid "Worldwide"
 msgstr "Viso pasaulio"
+
+#: src/transaction-cli.vala
+#, c-format
+msgid "Enter a number (default=%d)"
+msgstr "Įveskite skaičių (numatytasis=%d)"
+
+#: src/transaction-cli.vala
+msgid "Total installed size"
+msgstr "Bendras įdiegimo dydis"
+
+#: src/transaction-cli.vala
+msgid "Total removed size"
+msgstr "Bendras šalinimo dydis"
+
+#: src/transaction-cli.vala
+msgid "Commit transaction"
+msgstr "Atlikti operaciją"
+
+#: src/transaction-cli.vala
+msgid "[y/N]"
+msgstr "[t/N]"
+
+#: src/transaction-cli.vala
+msgid "y"
+msgstr "t"
+
+#: src/transaction-cli.vala
+msgid "yes"
+msgstr "taip"
+
+#: src/cli.vala
+msgid "Building packages as root is not allowed"
+msgstr "Paketų kompiliavimas supernaudotojo teisėmis nėra leidžiamas"
 
 #: src/cli.vala
 msgid "Available actions"
@@ -661,10 +702,6 @@ msgstr "veiksmas"
 #: src/cli.vala
 msgid "options"
 msgstr "parametrai"
-
-#: src/cli.vala
-msgid "package(s)"
-msgstr "paketas(-ai)"
 
 #: src/cli.vala
 msgid "Search for packages or files, multiple search terms can be specified"
@@ -692,15 +729,11 @@ msgstr "saugykla(-os)"
 
 #: src/cli.vala
 msgid "Build packages from AUR and install them with their dependencies"
-msgstr "Sukurti paketus iš AUR ir įdiegti juos kartu su jų priklausomybėmis"
+msgstr "Kompiliuoti paketus iš AUR ir įdiegti juos kartu su jų priklausomybėmis"
 
 #: src/cli.vala
 msgid "dir"
 msgstr "kat"
-
-#: src/cli.vala
-msgid "Install packages from repositories, path or url"
-msgstr "Įdiegti paketus iš saugyklų, kelio ar url"
 
 #: src/cli.vala
 msgid "glob"
@@ -711,12 +744,12 @@ msgid "Reinstall packages"
 msgstr "Įdiegti paketus iš naujo"
 
 #: src/cli.vala
-msgid "Remove packages"
-msgstr "Šalinti paketus"
-
-#: src/cli.vala
 msgid "Safely check for updates without modifiying the databases"
 msgstr "Saugiai patikrinti ar nėra atnaujinimų, nemodifikuojant duomenų bazių"
+
+#: src/cli.vala
+msgid "Exit code is 100 if updates are available"
+msgstr "Išėjimo kodas yra 100, jeigu yra prieinami atnaujinimai"
 
 #: src/cli.vala
 msgid "Upgrade your system"
@@ -740,8 +773,8 @@ msgstr "Dydis"
 
 #: src/cli.vala
 #, c-format
-msgid "No package owns %s\n"
-msgstr "%s nepriklauso jokiam paketui\n"
+msgid "No package owns %s"
+msgstr "%s nepriklauso jokiam paketui"
 
 #: src/cli.vala
 #, c-format
@@ -760,35 +793,6 @@ msgstr[3] "Grupėje %s yra %u narys"
 #: src/cli.vala
 msgid "Enter a selection (default=all)"
 msgstr "Įveskite pasirinkimą (numatytasis=visi)"
-
-#: src/cli.vala
-msgid "Total installed size"
-msgstr "Bendras įdiegimo dydis"
-
-#: src/cli.vala
-msgid "Total removed size"
-msgstr "Bendras šalinimo dydis"
-
-#: src/cli.vala
-msgid "Commit transaction"
-msgstr "Atlikti operaciją"
-
-#: src/cli.vala
-msgid "[y/N]"
-msgstr "[t/N]"
-
-#: src/cli.vala
-msgid "y"
-msgstr "t"
-
-#: src/cli.vala
-msgid "yes"
-msgstr "taip"
-
-#: src/cli.vala
-#, c-format
-msgid "Enter a number (default=%d)"
-msgstr "Įveskite skaičių (numatytasis=%d)"
 
 #: resources/choose_provider_dialog.ui
 msgid "Choose a Provider"

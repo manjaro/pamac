@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2018-08-16 12:06+0200\n"
-"PO-Revision-Date: 2018-08-24 15:18+0000\n"
+"POT-Creation-Date: 2018-08-29 13:10+0200\n"
+"PO-Revision-Date: 2018-08-29 15:10+0000\n"
 "Last-Translator: Takefumi Nagata\n"
 "Language-Team: Japanese (http://www.transifex.com/manjarolinux/manjaro-pamac/language/ja/)\n"
 "MIME-Version: 1.0\n"
@@ -52,7 +52,7 @@ msgstr "いいえ"
 msgid "Failed to initialize alpm library"
 msgstr "Alpmライブラリの初期化に失敗しました"
 
-#: src/system_daemon.vala src/transaction.vala
+#: src/system_daemon.vala
 msgid "Authentication failed"
 msgstr "認証に失敗しました"
 
@@ -132,139 +132,98 @@ msgstr "%s はサイズが小さくなる見込みです: %jd/%jd bytes\n"
 msgid "failed retrieving file '%s' from %s : %s\n"
 msgstr "ファイル '%s' を %s から検索できませんでした: %s\n"
 
-#: src/transaction.vala src/tray.vala src/manager_window.vala
-msgid "Package Manager"
-msgstr "パッケージマネージャ"
-
-#: src/transaction.vala
-msgid "Copy"
-msgstr "コピー"
-
 #: src/transaction.vala
 msgid "Refreshing mirrors list"
 msgstr "ミラーリストを更新"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 msgid "Synchronizing package databases"
 msgstr "パッケージのデータベースを同期"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 msgid "Starting full system upgrade"
 msgstr "フルシステムアップグレードを開始"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 msgid "Preparing"
 msgstr "準備しています"
 
-#: src/transaction.vala src/cli.vala
-#, c-format
-msgid "Choose a provider for %s"
-msgstr "%s の提供元を選択"
-
-#: src/transaction.vala src/cli.vala
-msgid "To remove"
-msgstr "削除するもの"
-
-#: src/transaction.vala src/cli.vala
-msgid "To downgrade"
-msgstr "ダウングレードするもの"
-
-#: src/transaction.vala src/cli.vala
-msgid "To build"
-msgstr "ビルドするもの"
-
-#: src/transaction.vala src/cli.vala
-msgid "To install"
-msgstr "インストールするもの"
-
-#: src/transaction.vala src/cli.vala
-msgid "To reinstall"
-msgstr "再インストールするもの"
-
-#: src/transaction.vala src/cli.vala
-msgid "To upgrade"
-msgstr "アップグレードするもの"
-
-#: src/transaction.vala src/manager_window.vala src/cli.vala
-msgid "Total download size"
-msgstr "ダウンロードサイズの合計"
-
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 #, c-format
 msgid "Building %s"
 msgstr "%s をビルドしています"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 msgid "Transaction cancelled"
 msgstr "トランザクションがキャンセルされました"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 msgid "Checking dependencies"
 msgstr "依存関係を確認しています"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 msgid "Checking file conflicts"
 msgstr "競合するファイルを確認しています"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 msgid "Resolving dependencies"
 msgstr "依存関係を解決しています"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 msgid "Checking inter-conflicts"
 msgstr "内部の競合を確認しています"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 #, c-format
 msgid "Installing %s"
 msgstr "%s をインストールしています"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 #, c-format
 msgid "Upgrading %s"
 msgstr "%s をアップグレードしています"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 #, c-format
 msgid "Reinstalling %s"
 msgstr "%s を再インストールしています"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 #, c-format
 msgid "Downgrading %s"
 msgstr "%s をダウングレードしています"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 #, c-format
 msgid "Removing %s"
 msgstr "%s を削除しています"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 msgid "Checking integrity"
 msgstr "整合性を確認しています"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 msgid "Loading packages files"
 msgstr "パッケージファイルをロードしています"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 msgid "Checking delta integrity"
 msgstr "差分を確認しています"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 msgid "Applying deltas"
 msgstr "差分を適用しています"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 #, c-format
 msgid "Generating %s with %s"
 msgstr "%s を %s で生成しています"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 msgid "Generation succeeded"
 msgstr "生成が成功しました"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 msgid "Generation failed"
 msgstr "生成が失敗しました"
 
@@ -273,99 +232,148 @@ msgstr "生成が失敗しました"
 msgid "Configuring %s"
 msgstr "%s を設定しています"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 msgid "Downloading"
 msgstr "ダウンロードしています"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 #, c-format
 msgid "Downloading %s"
 msgstr "%s をダウンロードしています"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 msgid "Checking available disk space"
 msgstr "使用可能なディスク容量を確認しています"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 #, c-format
 msgid "%s optionally requires %s"
 msgstr "%s はオプションとして %s を必要とします"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 #, c-format
 msgid "Database file for %s does not exist"
 msgstr "%s のデーターベースファイルが存在しません"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 msgid "Checking keyring"
 msgstr "キーリングを確認しています"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 msgid "Downloading required keys"
 msgstr "必要なキーをダウンロードしています"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 #, c-format
 msgid "%s installed as %s.pacnew"
 msgstr "%s を %s.pacnewとしてインストールしました"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 #, c-format
 msgid "%s installed as %s.pacsave"
 msgstr "%s を %s.pacsaveとしてインストールしました"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 msgid "Running pre-transaction hooks"
 msgstr "トランザクション前のフックを実行しています"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 msgid "Running post-transaction hooks"
 msgstr "トランザクション後のフックを実行しています"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 #, c-format
 msgid "About %u seconds remaining"
 msgstr "残り約 %u 秒"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 #, c-format
 msgid "About %lu minute remaining"
 msgid_plural "About %lu minutes remaining"
 msgstr[0] "残り約 %lu 分"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 #, c-format
 msgid "Refreshing %s"
 msgstr "%s を更新しています"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala src/transaction-cli.vala src/cli.vala
 msgid "Error"
 msgstr "エラー"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala src/transaction-gtk.vala
 msgid "Warning"
 msgstr "警告"
 
-#: src/transaction.vala resources/progress_dialog.ui
+#: src/transaction.vala src/installer.vala src/cli.vala
+msgid "Nothing to do"
+msgstr "何もすることがありません"
+
+#: src/transaction.vala src/transaction-gtk.vala
+msgid "Transaction successfully finished"
+msgstr "トランザクションが成功しました"
+
+#: src/transaction-gtk.vala src/tray.vala src/manager_window.vala
+msgid "Package Manager"
+msgstr "パッケージマネージャ"
+
+#: src/transaction-gtk.vala
+msgid "Copy"
+msgstr "コピー"
+
+#: src/transaction-gtk.vala src/transaction-cli.vala
+#, c-format
+msgid "Choose a provider for %s"
+msgstr "%s の提供元を選択"
+
+#: src/transaction-gtk.vala src/transaction-cli.vala
+msgid "To remove"
+msgstr "削除するもの"
+
+#: src/transaction-gtk.vala src/transaction-cli.vala
+msgid "To downgrade"
+msgstr "ダウングレードするもの"
+
+#: src/transaction-gtk.vala src/transaction-cli.vala
+msgid "To build"
+msgstr "ビルドするもの"
+
+#: src/transaction-gtk.vala src/transaction-cli.vala
+msgid "To install"
+msgstr "インストールするもの"
+
+#: src/transaction-gtk.vala src/transaction-cli.vala
+msgid "To reinstall"
+msgstr "再インストールするもの"
+
+#: src/transaction-gtk.vala src/transaction-cli.vala
+msgid "To upgrade"
+msgstr "アップグレードするもの"
+
+#: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
+msgid "Total download size"
+msgstr "ダウンロードサイズの合計"
+
+#: src/transaction-gtk.vala resources/progress_dialog.ui
 #: resources/history_dialog.ui resources/preferences_dialog.ui
 msgid "_Close"
 msgstr "閉じる (_C)"
 
-#: src/transaction.vala src/cli.vala
-msgid "Transaction successfully finished"
-msgstr "トランザクションが成功しました"
-
-#: src/transaction.vala src/cli.vala
-msgid "Nothing to do"
-msgstr "何もすることがありません"
-
-#: src/installer.vala src/manager.vala
-msgid "Pamac is already running"
-msgstr "Pamac は既に実行しています"
-
 #: src/installer.vala src/manager_window.vala src/cli.vala
 msgid "Waiting for another package manager to quit"
 msgstr "他のパッケージマネージャが終了するのを待っています"
+
+#: src/installer.vala src/cli.vala
+msgid "Install packages from repositories, path or url"
+msgstr "リポジトリからパッケージのインストール、パスまたはURL"
+
+#: src/installer.vala src/cli.vala
+msgid "Remove packages"
+msgstr "パッケージの削除"
+
+#: src/installer.vala src/cli.vala
+msgid "package(s)"
+msgstr "パッケージ"
 
 #: src/tray.vala src/manager_window.vala src/cli.vala
 msgid "Your system is up-to-date"
@@ -645,6 +653,39 @@ msgstr "ビルドディレクトリ"
 msgid "Worldwide"
 msgstr "全世界"
 
+#: src/transaction-cli.vala
+#, c-format
+msgid "Enter a number (default=%d)"
+msgstr "番号を入力（デフォルト 1%d）"
+
+#: src/transaction-cli.vala
+msgid "Total installed size"
+msgstr "インストールしたパッケージのサイズの合計"
+
+#: src/transaction-cli.vala
+msgid "Total removed size"
+msgstr "削除したパッケージのサイズの合計"
+
+#: src/transaction-cli.vala
+msgid "Commit transaction"
+msgstr "トランザクションを実行"
+
+#: src/transaction-cli.vala
+msgid "[y/N]"
+msgstr "[y/N]"
+
+#: src/transaction-cli.vala
+msgid "y"
+msgstr "y"
+
+#: src/transaction-cli.vala
+msgid "yes"
+msgstr "yes"
+
+#: src/cli.vala
+msgid "Building packages as root is not allowed"
+msgstr "ルート権限でのパッケージのビルドは許可されていません"
+
 #: src/cli.vala
 msgid "Available actions"
 msgstr "利用可能なアクション"
@@ -656,10 +697,6 @@ msgstr "アクション"
 #: src/cli.vala
 msgid "options"
 msgstr "オプション"
-
-#: src/cli.vala
-msgid "package(s)"
-msgstr "パッケージ"
 
 #: src/cli.vala
 msgid "Search for packages or files, multiple search terms can be specified"
@@ -694,10 +731,6 @@ msgid "dir"
 msgstr "dir"
 
 #: src/cli.vala
-msgid "Install packages from repositories, path or url"
-msgstr "リポジトリからパッケージのインストール、パスまたはURL"
-
-#: src/cli.vala
 msgid "glob"
 msgstr "glob"
 
@@ -706,16 +739,16 @@ msgid "Reinstall packages"
 msgstr "パッケージの再インストール"
 
 #: src/cli.vala
-msgid "Remove packages"
-msgstr "パッケージの削除"
-
-#: src/cli.vala
 msgid "Safely check for updates without modifiying the databases"
 msgstr "データベースの修正なしに、安全にアップデートを確認する"
 
 #: src/cli.vala
+msgid "Exit code is 100 if updates are available"
+msgstr "アップデートがりようできるならば、終了コードは100です。"
+
+#: src/cli.vala
 msgid "Upgrade your system"
-msgstr ""
+msgstr "システムのアップグレード"
 
 #: src/cli.vala resources/manager_window.ui
 msgid "Version"
@@ -735,7 +768,7 @@ msgstr "サイズ"
 
 #: src/cli.vala
 #, c-format
-msgid "No package owns %s\n"
+msgid "No package owns %s"
 msgstr ""
 
 #: src/cli.vala
@@ -751,35 +784,6 @@ msgstr[0] ""
 
 #: src/cli.vala
 msgid "Enter a selection (default=all)"
-msgstr ""
-
-#: src/cli.vala
-msgid "Total installed size"
-msgstr ""
-
-#: src/cli.vala
-msgid "Total removed size"
-msgstr ""
-
-#: src/cli.vala
-msgid "Commit transaction"
-msgstr ""
-
-#: src/cli.vala
-msgid "[y/N]"
-msgstr ""
-
-#: src/cli.vala
-msgid "y"
-msgstr ""
-
-#: src/cli.vala
-msgid "yes"
-msgstr ""
-
-#: src/cli.vala
-#, c-format
-msgid "Enter a number (default=%d)"
 msgstr ""
 
 #: resources/choose_provider_dialog.ui

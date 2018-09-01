@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2018-08-16 12:06+0200\n"
-"PO-Revision-Date: 2018-08-18 09:14+0000\n"
+"POT-Creation-Date: 2018-08-29 13:10+0200\n"
+"PO-Revision-Date: 2018-08-29 15:52+0000\n"
 "Last-Translator: Heimen Stoffels <vistausss@outlook.com>\n"
 "Language-Team: Dutch (Netherlands) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/nl_NL/)\n"
 "MIME-Version: 1.0\n"
@@ -51,7 +51,7 @@ msgstr "Nee"
 msgid "Failed to initialize alpm library"
 msgstr "Het initialiseren van de alpm-bibliotheek is mislukt"
 
-#: src/system_daemon.vala src/transaction.vala
+#: src/system_daemon.vala
 msgid "Authentication failed"
 msgstr "Authenticatie mislukt"
 
@@ -131,139 +131,98 @@ msgstr "%s lijkt afgebroken te zijn: %jd/%jd bytes\n"
 msgid "failed retrieving file '%s' from %s : %s\n"
 msgstr "het ophalen van het bestand '%s' vanaf %s is mislukt : %s\n"
 
-#: src/transaction.vala src/tray.vala src/manager_window.vala
-msgid "Package Manager"
-msgstr "Pakketbeheer"
-
-#: src/transaction.vala
-msgid "Copy"
-msgstr "Kopiëren"
-
 #: src/transaction.vala
 msgid "Refreshing mirrors list"
 msgstr "Bezig met vernieuwen van spiegelserverlijst"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 msgid "Synchronizing package databases"
 msgstr "Bezig met synchroniseren van de pakketdatabases"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 msgid "Starting full system upgrade"
 msgstr "Bezig met starten van volledige systeembijwerking"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 msgid "Preparing"
 msgstr "Bezig met voorbereiden"
 
-#: src/transaction.vala src/cli.vala
-#, c-format
-msgid "Choose a provider for %s"
-msgstr "Kies een leverancier voor %s"
-
-#: src/transaction.vala src/cli.vala
-msgid "To remove"
-msgstr "Te verwijderen"
-
-#: src/transaction.vala src/cli.vala
-msgid "To downgrade"
-msgstr "Te verlagen in versie"
-
-#: src/transaction.vala src/cli.vala
-msgid "To build"
-msgstr "Te bouwen"
-
-#: src/transaction.vala src/cli.vala
-msgid "To install"
-msgstr "Te installeren"
-
-#: src/transaction.vala src/cli.vala
-msgid "To reinstall"
-msgstr "Te herinstalleren"
-
-#: src/transaction.vala src/cli.vala
-msgid "To upgrade"
-msgstr "Te upgraden"
-
-#: src/transaction.vala src/manager_window.vala src/cli.vala
-msgid "Total download size"
-msgstr "Totale downloadgrootte"
-
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 #, c-format
 msgid "Building %s"
 msgstr "Bezig met bouwen van %s"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 msgid "Transaction cancelled"
 msgstr "De overdracht is geannuleerd"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 msgid "Checking dependencies"
 msgstr "Bezig met controleren van afhankelijkheden"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 msgid "Checking file conflicts"
 msgstr "Bezig met controleren van bestandsconflicten"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 msgid "Resolving dependencies"
 msgstr "Bezig met oplossen van afhankelijkheden"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 msgid "Checking inter-conflicts"
 msgstr "Bezig met controleren van interne conflicten"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 #, c-format
 msgid "Installing %s"
 msgstr "Bezig met installeren van %s"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 #, c-format
 msgid "Upgrading %s"
 msgstr "Bezig met bijwerken van %s"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 #, c-format
 msgid "Reinstalling %s"
 msgstr "Bezig met herinstalleren van %s"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 #, c-format
 msgid "Downgrading %s"
 msgstr "Bezig met verlagen van versie van %s"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 #, c-format
 msgid "Removing %s"
 msgstr "Bezig met verwijderen van %s"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 msgid "Checking integrity"
 msgstr "Bezig met controleren van integriteit"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 msgid "Loading packages files"
 msgstr "Bezig met laden van pakketbestanden"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 msgid "Checking delta integrity"
 msgstr "Bezig met controleren van delta-integriteit"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 msgid "Applying deltas"
 msgstr "Bezig met toepassen van delta's"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 #, c-format
 msgid "Generating %s with %s"
 msgstr "Bezig met genereren van %s met %s"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 msgid "Generation succeeded"
 msgstr "Het genereren is gelukt"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 msgid "Generation failed"
 msgstr "Het genereren is mislukt"
 
@@ -272,100 +231,149 @@ msgstr "Het genereren is mislukt"
 msgid "Configuring %s"
 msgstr "Bezig met instellen van %s"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 msgid "Downloading"
 msgstr "Bezig met downloaden"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 #, c-format
 msgid "Downloading %s"
 msgstr "Bezig met downloaden van %s"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 msgid "Checking available disk space"
 msgstr "Bezig met controleren van beschikbare schijfruimte"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 #, c-format
 msgid "%s optionally requires %s"
 msgstr "%s vereist %s (optioneel)"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 #, c-format
 msgid "Database file for %s does not exist"
 msgstr "Het databasebestand van %s bestaat niet"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 msgid "Checking keyring"
 msgstr "Bezig met controleren van sleutelbos"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 msgid "Downloading required keys"
 msgstr "Bezig met downloaden van vereiste sleutels"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 #, c-format
 msgid "%s installed as %s.pacnew"
 msgstr "%s is geïnstalleerd als %s.pacnew"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 #, c-format
 msgid "%s installed as %s.pacsave"
 msgstr "%s is geïnstalleerd als %s.pacsave"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 msgid "Running pre-transaction hooks"
 msgstr "Bezig met uitvoeren van voorbereiding van overdracht"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 msgid "Running post-transaction hooks"
 msgstr "Bezig met uitvoeren van afhandeling van overdracht"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 #, c-format
 msgid "About %u seconds remaining"
 msgstr "Nog ongeveer %u seconden te gaan"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 #, c-format
 msgid "About %lu minute remaining"
 msgid_plural "About %lu minutes remaining"
 msgstr[0] "Nog ongeveer %lu minuut te gaan"
 msgstr[1] "Nog ongeveer %lu minuten te gaan"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 #, c-format
 msgid "Refreshing %s"
 msgstr "Bezig met vernieuwen van %s"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala src/transaction-cli.vala src/cli.vala
 msgid "Error"
 msgstr "Fout"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala src/transaction-gtk.vala
 msgid "Warning"
 msgstr "Waarschuwing"
 
-#: src/transaction.vala resources/progress_dialog.ui
+#: src/transaction.vala src/installer.vala src/cli.vala
+msgid "Nothing to do"
+msgstr "Niets te doen"
+
+#: src/transaction.vala src/transaction-gtk.vala
+msgid "Transaction successfully finished"
+msgstr "De overdracht is succesvol afgerond"
+
+#: src/transaction-gtk.vala src/tray.vala src/manager_window.vala
+msgid "Package Manager"
+msgstr "Pakketbeheer"
+
+#: src/transaction-gtk.vala
+msgid "Copy"
+msgstr "Kopiëren"
+
+#: src/transaction-gtk.vala src/transaction-cli.vala
+#, c-format
+msgid "Choose a provider for %s"
+msgstr "Kies een leverancier voor %s"
+
+#: src/transaction-gtk.vala src/transaction-cli.vala
+msgid "To remove"
+msgstr "Te verwijderen"
+
+#: src/transaction-gtk.vala src/transaction-cli.vala
+msgid "To downgrade"
+msgstr "Te verlagen in versie"
+
+#: src/transaction-gtk.vala src/transaction-cli.vala
+msgid "To build"
+msgstr "Te bouwen"
+
+#: src/transaction-gtk.vala src/transaction-cli.vala
+msgid "To install"
+msgstr "Te installeren"
+
+#: src/transaction-gtk.vala src/transaction-cli.vala
+msgid "To reinstall"
+msgstr "Te herinstalleren"
+
+#: src/transaction-gtk.vala src/transaction-cli.vala
+msgid "To upgrade"
+msgstr "Te upgraden"
+
+#: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
+msgid "Total download size"
+msgstr "Totale downloadgrootte"
+
+#: src/transaction-gtk.vala resources/progress_dialog.ui
 #: resources/history_dialog.ui resources/preferences_dialog.ui
 msgid "_Close"
 msgstr "_Sluiten"
 
-#: src/transaction.vala src/cli.vala
-msgid "Transaction successfully finished"
-msgstr "De overdracht is succesvol afgerond"
-
-#: src/transaction.vala src/cli.vala
-msgid "Nothing to do"
-msgstr "Niets te doen"
-
-#: src/installer.vala src/manager.vala
-msgid "Pamac is already running"
-msgstr "Pamac draait al"
-
 #: src/installer.vala src/manager_window.vala src/cli.vala
 msgid "Waiting for another package manager to quit"
 msgstr "Bezig met wachten op het afsluiten van een andere pakketbeheerder"
+
+#: src/installer.vala src/cli.vala
+msgid "Install packages from repositories, path or url"
+msgstr "Installeer pakketten uit pakketbronnen, een pad of van een URL"
+
+#: src/installer.vala src/cli.vala
+msgid "Remove packages"
+msgstr "Pakketten verwijderen"
+
+#: src/installer.vala src/cli.vala
+msgid "package(s)"
+msgstr "pakket(ten)"
 
 #: src/tray.vala src/manager_window.vala src/cli.vala
 msgid "Your system is up-to-date"
@@ -647,6 +655,39 @@ msgstr "Bouwmap"
 msgid "Worldwide"
 msgstr "Wereldwijd"
 
+#: src/transaction-cli.vala
+#, c-format
+msgid "Enter a number (default=%d)"
+msgstr "Voer een getal in (standaard=%d)"
+
+#: src/transaction-cli.vala
+msgid "Total installed size"
+msgstr "Totale installatiegrootte"
+
+#: src/transaction-cli.vala
+msgid "Total removed size"
+msgstr "Totale verwijderde grootte"
+
+#: src/transaction-cli.vala
+msgid "Commit transaction"
+msgstr "Overdracht toepassen"
+
+#: src/transaction-cli.vala
+msgid "[y/N]"
+msgstr "[j/N]"
+
+#: src/transaction-cli.vala
+msgid "y"
+msgstr "j"
+
+#: src/transaction-cli.vala
+msgid "yes"
+msgstr "ja"
+
+#: src/cli.vala
+msgid "Building packages as root is not allowed"
+msgstr "Het bouwen van pakketten als root-gebruiker is niet toegestaan"
+
 #: src/cli.vala
 msgid "Available actions"
 msgstr "Beschikbare acties"
@@ -658,10 +699,6 @@ msgstr "actie"
 #: src/cli.vala
 msgid "options"
 msgstr "opties"
-
-#: src/cli.vala
-msgid "package(s)"
-msgstr "pakket(ten)"
 
 #: src/cli.vala
 msgid "Search for packages or files, multiple search terms can be specified"
@@ -696,10 +733,6 @@ msgid "dir"
 msgstr "map"
 
 #: src/cli.vala
-msgid "Install packages from repositories, path or url"
-msgstr "Installeer pakketten uit pakketbronnen, een pad of van een URL"
-
-#: src/cli.vala
 msgid "glob"
 msgstr "glob"
 
@@ -708,12 +741,12 @@ msgid "Reinstall packages"
 msgstr "Pakketten herinstalleren"
 
 #: src/cli.vala
-msgid "Remove packages"
-msgstr "Pakketten verwijderen"
-
-#: src/cli.vala
 msgid "Safely check for updates without modifiying the databases"
 msgstr "Veilig op updates controleren zonder de databanken aan te passen"
+
+#: src/cli.vala
+msgid "Exit code is 100 if updates are available"
+msgstr "Afsluitcode is 100 als er updates beschikbaar zijn"
 
 #: src/cli.vala
 msgid "Upgrade your system"
@@ -737,8 +770,8 @@ msgstr "Grootte"
 
 #: src/cli.vala
 #, c-format
-msgid "No package owns %s\n"
-msgstr "Er is geen eigenaar van %s\n"
+msgid "No package owns %s"
+msgstr "Er is geen eigenaar van %s"
 
 #: src/cli.vala
 #, c-format
@@ -755,35 +788,6 @@ msgstr[1] "Er zijn %u leden in de groep %s"
 #: src/cli.vala
 msgid "Enter a selection (default=all)"
 msgstr "Voer een selectie in (standaard=alles)"
-
-#: src/cli.vala
-msgid "Total installed size"
-msgstr "Totale installatiegrootte"
-
-#: src/cli.vala
-msgid "Total removed size"
-msgstr "Totale verwijderde grootte"
-
-#: src/cli.vala
-msgid "Commit transaction"
-msgstr "Overdracht toepassen"
-
-#: src/cli.vala
-msgid "[y/N]"
-msgstr "[j/N]"
-
-#: src/cli.vala
-msgid "y"
-msgstr "j"
-
-#: src/cli.vala
-msgid "yes"
-msgstr "ja"
-
-#: src/cli.vala
-#, c-format
-msgid "Enter a number (default=%d)"
-msgstr "Voer een getal in (standaard=%d)"
 
 #: resources/choose_provider_dialog.ui
 msgid "Choose a Provider"

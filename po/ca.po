@@ -18,8 +18,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2018-08-16 12:06+0200\n"
-"PO-Revision-Date: 2018-08-20 15:25+0000\n"
+"POT-Creation-Date: 2018-08-29 13:10+0200\n"
+"PO-Revision-Date: 2018-08-29 14:09+0000\n"
 "Last-Translator: Davidmp <medipas@gmail.com>\n"
 "Language-Team: Catalan (http://www.transifex.com/manjarolinux/manjaro-pamac/language/ca/)\n"
 "MIME-Version: 1.0\n"
@@ -56,7 +56,7 @@ msgstr "No"
 msgid "Failed to initialize alpm library"
 msgstr "Ha fallat la inicialització de la llibreria alpm."
 
-#: src/system_daemon.vala src/transaction.vala
+#: src/system_daemon.vala
 msgid "Authentication failed"
 msgstr "Autenticació fallida"
 
@@ -136,139 +136,98 @@ msgstr "%s sembla que estigui truncat: %jd/%jd bytes.\n"
 msgid "failed retrieving file '%s' from %s : %s\n"
 msgstr "ha fallat l'obtenció del fitxer \"%s\" des de %s : %s.\n"
 
-#: src/transaction.vala src/tray.vala src/manager_window.vala
-msgid "Package Manager"
-msgstr "Gestor de paquets"
-
-#: src/transaction.vala
-msgid "Copy"
-msgstr "Copia"
-
 #: src/transaction.vala
 msgid "Refreshing mirrors list"
 msgstr "Actualitzant la llista de rèpliques"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 msgid "Synchronizing package databases"
 msgstr "Sincronitzant les bases de dades dels paquets"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 msgid "Starting full system upgrade"
 msgstr "Iniciant una actualització completa del sistema"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 msgid "Preparing"
 msgstr "Preparant"
 
-#: src/transaction.vala src/cli.vala
-#, c-format
-msgid "Choose a provider for %s"
-msgstr "Trieu un proveïdor per a %s"
-
-#: src/transaction.vala src/cli.vala
-msgid "To remove"
-msgstr "Per suprimir"
-
-#: src/transaction.vala src/cli.vala
-msgid "To downgrade"
-msgstr "Per tornar a versió anterior"
-
-#: src/transaction.vala src/cli.vala
-msgid "To build"
-msgstr "Per construir"
-
-#: src/transaction.vala src/cli.vala
-msgid "To install"
-msgstr "Per instal·lar"
-
-#: src/transaction.vala src/cli.vala
-msgid "To reinstall"
-msgstr "Per reinstal·lar"
-
-#: src/transaction.vala src/cli.vala
-msgid "To upgrade"
-msgstr "Per actualitzar"
-
-#: src/transaction.vala src/manager_window.vala src/cli.vala
-msgid "Total download size"
-msgstr "Mida total de la baixada"
-
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 #, c-format
 msgid "Building %s"
 msgstr "Construint %s"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 msgid "Transaction cancelled"
 msgstr "Transacció cancel·lada"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 msgid "Checking dependencies"
 msgstr "Comprovant les dependències"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 msgid "Checking file conflicts"
 msgstr "Comprovant els conflictes entre fitxers"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 msgid "Resolving dependencies"
 msgstr "Resolent dependències"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 msgid "Checking inter-conflicts"
 msgstr "Comprovant els conflictes"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 #, c-format
 msgid "Installing %s"
 msgstr "Instal·lant %s"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 #, c-format
 msgid "Upgrading %s"
 msgstr "Actualitzant %s"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 #, c-format
 msgid "Reinstalling %s"
 msgstr "Reinstal·lant %s"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 #, c-format
 msgid "Downgrading %s"
 msgstr "Desactualitzant %s"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 #, c-format
 msgid "Removing %s"
 msgstr "Suprimint %s"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 msgid "Checking integrity"
 msgstr "Comprovant-ne la integritat"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 msgid "Loading packages files"
 msgstr "Carregant els fitxers dels paquets"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 msgid "Checking delta integrity"
 msgstr "Comprovant la integritat delta"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 msgid "Applying deltas"
 msgstr "Aplicant deltes"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 #, c-format
 msgid "Generating %s with %s"
 msgstr "Generant %s amb %s"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 msgid "Generation succeeded"
 msgstr "Generació acabada correctament"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 msgid "Generation failed"
 msgstr "La generació ha fallat"
 
@@ -277,100 +236,149 @@ msgstr "La generació ha fallat"
 msgid "Configuring %s"
 msgstr "Configurant %s"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 msgid "Downloading"
 msgstr "Baixant"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 #, c-format
 msgid "Downloading %s"
 msgstr "Baixant %s"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 msgid "Checking available disk space"
 msgstr "Comprovant l'espai disponible al disc"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 #, c-format
 msgid "%s optionally requires %s"
 msgstr "%s requereix opcionalment %s"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 #, c-format
 msgid "Database file for %s does not exist"
 msgstr "El fitxer de base de dades per a %s no existeix"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 msgid "Checking keyring"
 msgstr "Comprovant l'anell de claus"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 msgid "Downloading required keys"
 msgstr "Baixant les claus requerides"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 #, c-format
 msgid "%s installed as %s.pacnew"
 msgstr "%s instal·lat com a %s.pacnew"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 #, c-format
 msgid "%s installed as %s.pacsave"
 msgstr "%s instal·lat com a %s.pacsave"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 msgid "Running pre-transaction hooks"
 msgstr "Executant els ganxos de pretransacció"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 msgid "Running post-transaction hooks"
 msgstr "Executant els ganxos de posttransacció"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 #, c-format
 msgid "About %u seconds remaining"
 msgstr "Manquen uns %u segons"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 #, c-format
 msgid "About %lu minute remaining"
 msgid_plural "About %lu minutes remaining"
 msgstr[0] "Manca %lu minut"
 msgstr[1] "Manquen %lu minuts"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala
 #, c-format
 msgid "Refreshing %s"
 msgstr "Actualitzant %s"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala src/transaction-cli.vala src/cli.vala
 msgid "Error"
 msgstr "Error"
 
-#: src/transaction.vala src/cli.vala
+#: src/transaction.vala src/transaction-gtk.vala
 msgid "Warning"
 msgstr "Avís"
 
-#: src/transaction.vala resources/progress_dialog.ui
+#: src/transaction.vala src/installer.vala src/cli.vala
+msgid "Nothing to do"
+msgstr "Res per fer."
+
+#: src/transaction.vala src/transaction-gtk.vala
+msgid "Transaction successfully finished"
+msgstr "Transacció acabada amb èxit"
+
+#: src/transaction-gtk.vala src/tray.vala src/manager_window.vala
+msgid "Package Manager"
+msgstr "Gestor de paquets"
+
+#: src/transaction-gtk.vala
+msgid "Copy"
+msgstr "Copia"
+
+#: src/transaction-gtk.vala src/transaction-cli.vala
+#, c-format
+msgid "Choose a provider for %s"
+msgstr "Trieu un proveïdor per a %s"
+
+#: src/transaction-gtk.vala src/transaction-cli.vala
+msgid "To remove"
+msgstr "Per suprimir"
+
+#: src/transaction-gtk.vala src/transaction-cli.vala
+msgid "To downgrade"
+msgstr "Per tornar a versió anterior"
+
+#: src/transaction-gtk.vala src/transaction-cli.vala
+msgid "To build"
+msgstr "Per construir"
+
+#: src/transaction-gtk.vala src/transaction-cli.vala
+msgid "To install"
+msgstr "Per instal·lar"
+
+#: src/transaction-gtk.vala src/transaction-cli.vala
+msgid "To reinstall"
+msgstr "Per reinstal·lar"
+
+#: src/transaction-gtk.vala src/transaction-cli.vala
+msgid "To upgrade"
+msgstr "Per actualitzar"
+
+#: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
+msgid "Total download size"
+msgstr "Mida total de la baixada"
+
+#: src/transaction-gtk.vala resources/progress_dialog.ui
 #: resources/history_dialog.ui resources/preferences_dialog.ui
 msgid "_Close"
 msgstr "_Tanca"
 
-#: src/transaction.vala src/cli.vala
-msgid "Transaction successfully finished"
-msgstr "Transacció acabada amb èxit"
-
-#: src/transaction.vala src/cli.vala
-msgid "Nothing to do"
-msgstr "Res per fer."
-
-#: src/installer.vala src/manager.vala
-msgid "Pamac is already running"
-msgstr "El Pamac ja s'executa."
-
 #: src/installer.vala src/manager_window.vala src/cli.vala
 msgid "Waiting for another package manager to quit"
 msgstr "S'espera que s'aturi un altre gestor de paquets..."
+
+#: src/installer.vala src/cli.vala
+msgid "Install packages from repositories, path or url"
+msgstr "Instal·leu paquets des del repositori, camí o url."
+
+#: src/installer.vala src/cli.vala
+msgid "Remove packages"
+msgstr "Suprimeix els paquets"
+
+#: src/installer.vala src/cli.vala
+msgid "package(s)"
+msgstr "paquet/s"
 
 #: src/tray.vala src/manager_window.vala src/cli.vala
 msgid "Your system is up-to-date"
@@ -652,6 +660,39 @@ msgstr "Directori de construcció"
 msgid "Worldwide"
 msgstr "Arreu del món"
 
+#: src/transaction-cli.vala
+#, c-format
+msgid "Enter a number (default=%d)"
+msgstr "Introduïu un número (per defecte = %d)"
+
+#: src/transaction-cli.vala
+msgid "Total installed size"
+msgstr "Mida total de la instal·lació"
+
+#: src/transaction-cli.vala
+msgid "Total removed size"
+msgstr "Mida total de la supressió"
+
+#: src/transaction-cli.vala
+msgid "Commit transaction"
+msgstr "Fes la transacció"
+
+#: src/transaction-cli.vala
+msgid "[y/N]"
+msgstr "[s/N]"
+
+#: src/transaction-cli.vala
+msgid "y"
+msgstr "s"
+
+#: src/transaction-cli.vala
+msgid "yes"
+msgstr "sí"
+
+#: src/cli.vala
+msgid "Building packages as root is not allowed"
+msgstr "No es permet construir paquets com a usuari d'arrel."
+
 #: src/cli.vala
 msgid "Available actions"
 msgstr "Accions disponibles"
@@ -663,10 +704,6 @@ msgstr "acció"
 #: src/cli.vala
 msgid "options"
 msgstr "opcions"
-
-#: src/cli.vala
-msgid "package(s)"
-msgstr "paquet/s"
 
 #: src/cli.vala
 msgid "Search for packages or files, multiple search terms can be specified"
@@ -701,10 +738,6 @@ msgid "dir"
 msgstr "directori"
 
 #: src/cli.vala
-msgid "Install packages from repositories, path or url"
-msgstr "Instal·leu paquets des del repositori, camí o url."
-
-#: src/cli.vala
 msgid "glob"
 msgstr "global"
 
@@ -713,12 +746,12 @@ msgid "Reinstall packages"
 msgstr "Reinstal·la els paquets"
 
 #: src/cli.vala
-msgid "Remove packages"
-msgstr "Suprimeix els paquets"
-
-#: src/cli.vala
 msgid "Safely check for updates without modifiying the databases"
 msgstr "Comproveu si hi ha actualitzacions sense modificar les bases de dades."
+
+#: src/cli.vala
+msgid "Exit code is 100 if updates are available"
+msgstr "El codi de sortida és 100 si hi ha actualitzacions disponibles."
 
 #: src/cli.vala
 msgid "Upgrade your system"
@@ -742,8 +775,8 @@ msgstr "Mida"
 
 #: src/cli.vala
 #, c-format
-msgid "No package owns %s\n"
-msgstr "No hi ha cap paquet al qual pertanyi %s.\n"
+msgid "No package owns %s"
+msgstr "No hi ha cap paquet al qual pertanyi %s."
 
 #: src/cli.vala
 #, c-format
@@ -760,35 +793,6 @@ msgstr[1] "Hi ha %u membres al grup %s."
 #: src/cli.vala
 msgid "Enter a selection (default=all)"
 msgstr "Introduïu una selecció (per defecte = tot)"
-
-#: src/cli.vala
-msgid "Total installed size"
-msgstr "Mida total de la instal·lació"
-
-#: src/cli.vala
-msgid "Total removed size"
-msgstr "Mida total de la supressió"
-
-#: src/cli.vala
-msgid "Commit transaction"
-msgstr "Fes la transacció"
-
-#: src/cli.vala
-msgid "[y/N]"
-msgstr "[s/N]"
-
-#: src/cli.vala
-msgid "y"
-msgstr "s"
-
-#: src/cli.vala
-msgid "yes"
-msgstr "sí"
-
-#: src/cli.vala
-#, c-format
-msgid "Enter a number (default=%d)"
-msgstr "Introduïu un número (per defecte = %d)"
 
 #: resources/choose_provider_dialog.ui
 msgid "Choose a Provider"
@@ -908,7 +912,7 @@ msgstr "L'AUR és un repositori mantingut per la comunitat; per tant, pot compor
 
 #: resources/preferences_dialog.ui
 msgid "Enable AUR support"
-msgstr "Habilitar suport per AUR"
+msgstr "Habilita el suport per a l'AUR"
 
 #: resources/preferences_dialog.ui
 msgid "Allow Pamac to search and install packages from AUR"

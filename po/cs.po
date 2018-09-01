@@ -17,9 +17,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2018-05-26 17:59+0200\n"
-"PO-Revision-Date: 2018-06-11 14:38+0000\n"
-"Last-Translator: Vendula Durakova\n"
+"POT-Creation-Date: 2018-08-29 13:10+0200\n"
+"PO-Revision-Date: 2018-08-29 12:34+0000\n"
+"Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Czech (http://www.transifex.com/manjarolinux/manjaro-pamac/language/cs/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -55,7 +55,7 @@ msgstr "Ne"
 msgid "Failed to initialize alpm library"
 msgstr "Selhalo načtení knihovny alpm"
 
-#: src/system_daemon.vala src/transaction.vala
+#: src/system_daemon.vala
 msgid "Authentication failed"
 msgstr "Ověření oprávnění selhalo"
 
@@ -71,7 +71,7 @@ msgstr "Selhalo spuštění transakce"
 msgid "Failed to prepare transaction"
 msgstr "Selhala příprava transakce"
 
-#: src/system_daemon.vala
+#: src/system_daemon.vala src/cli.vala
 #, c-format
 msgid "target not found: %s"
 msgstr "cíl nenalezen: %s"
@@ -135,14 +135,6 @@ msgstr "%s se zdá být zkrácený o: %jd/%jd bytů\n"
 msgid "failed retrieving file '%s' from %s : %s\n"
 msgstr "selhalo získání souboru '%s' z %s : %s\n"
 
-#: src/transaction.vala src/tray.vala src/manager_window.vala
-msgid "Package Manager"
-msgstr "Správce balíčků"
-
-#: src/transaction.vala
-msgid "Copy"
-msgstr "Kopírovat"
-
 #: src/transaction.vala
 msgid "Refreshing mirrors list"
 msgstr "Obnova seznamu zrcadel"
@@ -158,39 +150,6 @@ msgstr "Spouštím povýšení celého systému"
 #: src/transaction.vala
 msgid "Preparing"
 msgstr "Připravuji"
-
-#: src/transaction.vala
-#, c-format
-msgid "Choose a provider for %s"
-msgstr "Vyberte poskytovatele pro %s"
-
-#: src/transaction.vala
-msgid "To remove"
-msgstr "Pro odstranění"
-
-#: src/transaction.vala
-msgid "To downgrade"
-msgstr "Pro downgrade"
-
-#: src/transaction.vala
-msgid "To build"
-msgstr "Vytvářím"
-
-#: src/transaction.vala
-msgid "To install"
-msgstr "Pro instalaci"
-
-#: src/transaction.vala
-msgid "To reinstall"
-msgstr "Pro přeinstalaci"
-
-#: src/transaction.vala
-msgid "To upgrade"
-msgstr "Aktualizovat"
-
-#: src/transaction.vala src/manager_window.vala
-msgid "Total download size"
-msgstr "Celková velikost ke stažení"
 
 #: src/transaction.vala
 #, c-format
@@ -344,36 +303,85 @@ msgstr[3] "Zbývá asi %lu minut"
 msgid "Refreshing %s"
 msgstr "Obnovování %s"
 
-#: src/transaction.vala
+#: src/transaction.vala src/transaction-cli.vala src/cli.vala
 msgid "Error"
 msgstr "Chyba"
 
-#: src/transaction.vala
+#: src/transaction.vala src/transaction-gtk.vala
 msgid "Warning"
 msgstr "Varování"
 
-#: src/transaction.vala resources/progress_dialog.ui
+#: src/transaction.vala src/installer.vala src/cli.vala
+msgid "Nothing to do"
+msgstr "Spolu nesouvisí"
+
+#: src/transaction.vala src/transaction-gtk.vala
+msgid "Transaction successfully finished"
+msgstr "Transakce úspěšně dokončena"
+
+#: src/transaction-gtk.vala src/tray.vala src/manager_window.vala
+msgid "Package Manager"
+msgstr "Správce balíčků"
+
+#: src/transaction-gtk.vala
+msgid "Copy"
+msgstr "Kopírovat"
+
+#: src/transaction-gtk.vala src/transaction-cli.vala
+#, c-format
+msgid "Choose a provider for %s"
+msgstr "Vyberte poskytovatele pro %s"
+
+#: src/transaction-gtk.vala src/transaction-cli.vala
+msgid "To remove"
+msgstr "Pro odstranění"
+
+#: src/transaction-gtk.vala src/transaction-cli.vala
+msgid "To downgrade"
+msgstr "Pro downgrade"
+
+#: src/transaction-gtk.vala src/transaction-cli.vala
+msgid "To build"
+msgstr "Vytvářím"
+
+#: src/transaction-gtk.vala src/transaction-cli.vala
+msgid "To install"
+msgstr "Pro instalaci"
+
+#: src/transaction-gtk.vala src/transaction-cli.vala
+msgid "To reinstall"
+msgstr "Pro přeinstalaci"
+
+#: src/transaction-gtk.vala src/transaction-cli.vala
+msgid "To upgrade"
+msgstr "Aktualizovat"
+
+#: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
+msgid "Total download size"
+msgstr "Celková velikost ke stažení"
+
+#: src/transaction-gtk.vala resources/progress_dialog.ui
 #: resources/history_dialog.ui resources/preferences_dialog.ui
 msgid "_Close"
 msgstr "_Zavřít"
 
-#: src/transaction.vala
-msgid "Transaction successfully finished"
-msgstr "Transakce úspěšně dokončena"
-
-#: src/transaction.vala
-msgid "Nothing to do"
-msgstr "Spolu nesouvisí"
-
-#: src/installer.vala src/manager.vala
-msgid "Pamac is already running"
-msgstr "Pamac je již spuštěn"
-
-#: src/installer.vala src/manager_window.vala
+#: src/installer.vala src/manager_window.vala src/cli.vala
 msgid "Waiting for another package manager to quit"
 msgstr "Čekání na ukončení jiného správce balíčků"
 
-#: src/tray.vala src/manager_window.vala
+#: src/installer.vala src/cli.vala
+msgid "Install packages from repositories, path or url"
+msgstr ""
+
+#: src/installer.vala src/cli.vala
+msgid "Remove packages"
+msgstr ""
+
+#: src/installer.vala src/cli.vala
+msgid "package(s)"
+msgstr ""
+
+#: src/tray.vala src/manager_window.vala src/cli.vala
 msgid "Your system is up-to-date"
 msgstr "Váš systém je aktuální"
 
@@ -381,7 +389,7 @@ msgstr "Váš systém je aktuální"
 msgid "_Quit"
 msgstr "_Ukončit"
 
-#: src/tray.vala
+#: src/tray.vala src/cli.vala
 #, c-format
 msgid "%u available update"
 msgid_plural "%u available updates"
@@ -432,7 +440,7 @@ msgstr[3] "%u nevyřízených operací"
 msgid "Categories"
 msgstr "Kategorie"
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "Groups"
 msgstr "Skupiny"
 
@@ -440,7 +448,7 @@ msgstr "Skupiny"
 msgid "Repositories"
 msgstr "Repozitáře"
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "Installed"
 msgstr "Nainstalováno"
 
@@ -504,7 +512,7 @@ msgstr "Nastavení"
 msgid "System Tools"
 msgstr "Systémové nástroje"
 
-#: src/manager_window.vala resources/preferences_dialog.ui
+#: src/manager_window.vala src/cli.vala resources/preferences_dialog.ui
 msgid "AUR"
 msgstr "AUR"
 
@@ -516,7 +524,7 @@ msgstr "Závislosti"
 msgid "Files"
 msgstr "Soubory"
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "Install Reason"
 msgstr "Důvod instalace"
 
@@ -524,63 +532,63 @@ msgstr "Důvod instalace"
 msgid "Mark as explicitly installed"
 msgstr "Označit jako explicitně nainstalované"
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "Licenses"
 msgstr "Licence"
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala src/cli.vala resources/manager_window.ui
 msgid "Repository"
 msgstr "Repozitář"
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "Packager"
 msgstr "Balíčkovač"
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "Build Date"
 msgstr "Datum sestavení"
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "Install Date"
 msgstr "Datum instalace"
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "Signatures"
 msgstr "Podpisy"
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "Backup files"
 msgstr "Záložní soubory"
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "Depends On"
 msgstr "Závisí na"
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "Optional Dependencies"
 msgstr "Volitelné závislosti"
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "Required By"
 msgstr "Vyžadováno"
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "Optional For"
 msgstr "Doplňky pro"
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "Provides"
 msgstr "Obsahuje"
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "Replaces"
 msgstr "Nahrazuje"
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "Conflicts With"
 msgstr "Konflikty s"
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "Package Base"
 msgstr "Základ balíčku"
 
@@ -588,27 +596,27 @@ msgstr "Základ balíčku"
 msgid "Maintainer"
 msgstr "Správce údržby"
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "First Submitted"
 msgstr "Poprvé zasláno"
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "Last Modified"
 msgstr "Naposledy upraveno"
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "Votes"
 msgstr "Hlasy"
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "Out of Date"
 msgstr "Zastaralý"
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "Make Dependencies"
 msgstr "Závislosti pro sestavení"
 
-#: src/manager_window.vala
+#: src/manager_window.vala src/cli.vala
 msgid "Check Dependencies"
 msgstr "Zkontrolovat závislosti"
 
@@ -616,7 +624,7 @@ msgstr "Zkontrolovat závislosti"
 msgid "Search"
 msgstr "Vyhledat"
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala src/cli.vala resources/manager_window.ui
 msgid "Name"
 msgstr "Název"
 
@@ -656,6 +664,142 @@ msgstr "Sestavovací adresář"
 #: src/preferences_dialog.vala
 msgid "Worldwide"
 msgstr "Celosvětový"
+
+#: src/transaction-cli.vala
+#, c-format
+msgid "Enter a number (default=%d)"
+msgstr ""
+
+#: src/transaction-cli.vala
+msgid "Total installed size"
+msgstr ""
+
+#: src/transaction-cli.vala
+msgid "Total removed size"
+msgstr ""
+
+#: src/transaction-cli.vala
+msgid "Commit transaction"
+msgstr ""
+
+#: src/transaction-cli.vala
+msgid "[y/N]"
+msgstr ""
+
+#: src/transaction-cli.vala
+msgid "y"
+msgstr ""
+
+#: src/transaction-cli.vala
+msgid "yes"
+msgstr ""
+
+#: src/cli.vala
+msgid "Building packages as root is not allowed"
+msgstr ""
+
+#: src/cli.vala
+msgid "Available actions"
+msgstr ""
+
+#: src/cli.vala
+msgid "action"
+msgstr ""
+
+#: src/cli.vala
+msgid "options"
+msgstr ""
+
+#: src/cli.vala
+msgid "Search for packages or files, multiple search terms can be specified"
+msgstr ""
+
+#: src/cli.vala
+msgid "file(s)"
+msgstr ""
+
+#: src/cli.vala
+msgid "Display package details, multiple packages can be specified"
+msgstr ""
+
+#: src/cli.vala
+msgid "List packages, groups, repositories or files"
+msgstr ""
+
+#: src/cli.vala
+msgid "group(s)"
+msgstr ""
+
+#: src/cli.vala
+msgid "repo(s)"
+msgstr ""
+
+#: src/cli.vala
+msgid "Build packages from AUR and install them with their dependencies"
+msgstr ""
+
+#: src/cli.vala
+msgid "dir"
+msgstr ""
+
+#: src/cli.vala
+msgid "glob"
+msgstr ""
+
+#: src/cli.vala
+msgid "Reinstall packages"
+msgstr ""
+
+#: src/cli.vala
+msgid "Safely check for updates without modifiying the databases"
+msgstr ""
+
+#: src/cli.vala
+msgid "Exit code is 100 if updates are available"
+msgstr ""
+
+#: src/cli.vala
+msgid "Upgrade your system"
+msgstr ""
+
+#: src/cli.vala resources/manager_window.ui
+msgid "Version"
+msgstr "Verze"
+
+#: src/cli.vala
+msgid "Description"
+msgstr ""
+
+#: src/cli.vala
+msgid "URL"
+msgstr ""
+
+#: src/cli.vala resources/manager_window.ui
+msgid "Size"
+msgstr "Velikost"
+
+#: src/cli.vala
+#, c-format
+msgid "No package owns %s"
+msgstr ""
+
+#: src/cli.vala
+#, c-format
+msgid "%s is owned by %s"
+msgstr ""
+
+#: src/cli.vala
+#, c-format
+msgid "There is %u member in group %s"
+msgid_plural "There are %u members in group %s"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+
+#: src/cli.vala
+msgid "Enter a selection (default=all)"
+msgstr ""
 
 #: resources/choose_provider_dialog.ui
 msgid "Choose a Provider"
@@ -700,14 +844,6 @@ msgstr "O programu"
 #: resources/manager_window.ui
 msgid "State"
 msgstr "Stav"
-
-#: resources/manager_window.ui
-msgid "Version"
-msgstr "Verze"
-
-#: resources/manager_window.ui
-msgid "Size"
-msgstr "Velikost"
 
 #: resources/manager_window.ui
 msgid "Popularity"
