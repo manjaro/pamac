@@ -2483,7 +2483,7 @@ namespace Pamac {
 				"authors", authors,
 				"version", VERSION,
 				"license_type", Gtk.License.GPL_3_0,
-				"website", "http://github.com/manjaro/pamac");
+				"website", "https://gitlab.manjaro.org/applications/pamac");
 		}
 
 		[GtkCallback]
