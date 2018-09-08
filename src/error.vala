@@ -21,5 +21,8 @@ namespace Pamac {
 	struct ErrorInfos {
 		string message;
 		string[] details;
+		public ErrorInfos () {
+			message = "";
+		}
 	}
 }

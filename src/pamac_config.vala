@@ -82,6 +82,9 @@ namespace Pamac {
 			clean_keep_num_pkgs = 3;
 			clean_rm_only_uninstalled = false;
 			parse_file (conf_path);
+			if (enable_aur == false) {
+				check_aur_updates = false;
+			}
 		}
 
 		void parse_file (string path) {

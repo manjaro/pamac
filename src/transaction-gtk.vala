@@ -85,19 +85,19 @@ namespace Pamac {
 			generate_mirrors_list_finished.connect (reset_progress_box);
 			start_building.connect (start_progressbar_pulse);
 			stop_building.connect (stop_progressbar_pulse);
+			write_pamac_config_finished.connect (set_trans_flags);
 			// notify
 			Notify.init (dgettext (null, "Package Manager"));
 			// flags
+			set_trans_flags ();
+			no_confirm_upgrade = false;
+		}
+
+		void set_trans_flags () {
 			flags = (1 << 4); //Alpm.TransFlag.CASCADE
 			if (database.config.recurse) {
 				flags |= (1 << 5); //Alpm.TransFlag.RECURSE
 			}
-			no_confirm_upgrade = false;
-		}
-
-		// destruction
-		~TransactionGtk () {
-			stop_daemon ();
 		}
 
 		bool on_term_button_press_event (Gdk.EventButton event) {

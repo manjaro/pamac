@@ -18,52 +18,6 @@
  */
 
 namespace Pamac {
-	[DBus (name = "org.manjaro.pamac.system")]
-	interface SystemDaemon : Object {
-		public abstract void set_environment_variables (HashTable<string,string> variables) throws Error;
-		public abstract ErrorInfos get_current_error () throws Error;
-		public abstract string get_lockfile () throws Error;
-		public abstract bool get_lock () throws Error;
-		public abstract bool unlock () throws Error;
-		public abstract void start_get_authorization () throws Error;
-		public abstract void start_write_pamac_config (HashTable<string,Variant> new_pamac_conf) throws Error;
-		public abstract void start_write_alpm_config (HashTable<string,Variant> new_alpm_conf) throws Error;
-		public abstract void start_generate_mirrors_list (string country) throws Error;
-		public abstract void clean_cache (uint64 keep_nb, bool only_uninstalled) throws Error;
-		public abstract void start_set_pkgreason (string pkgname, uint reason) throws Error;
-		public abstract void start_refresh (bool force) throws Error;
-		public abstract void start_downloading_updates () throws Error;
-		public abstract void start_sysupgrade_prepare (bool enable_downgrade, string[] temporary_ignorepkgs, string[] to_build, string[] overwrite_files) throws Error;
-		public abstract void start_trans_prepare (int transflags, string[] to_install, string[] to_remove, string[] to_load, string[] to_build, string[] overwrite_files) throws Error;
-		public abstract void choose_provider (int provider) throws Error;
-		public abstract TransactionSummaryStruct get_transaction_summary () throws Error;
-		public abstract void start_trans_commit () throws Error;
-		public abstract void trans_release () throws Error;
-		public abstract void trans_cancel () throws Error;
-		public abstract void start_get_updates (bool check_aur_updates) throws Error;
-		[DBus (no_reply = true)]
-		public abstract void quit () throws Error;
-		public signal void get_updates_finished (UpdatesStruct updates_struct);
-		public signal void emit_event (uint primary_event, uint secondary_event, string[] details);
-		public signal void emit_providers (string depend, string[] providers);
-		public signal void emit_progress (uint progress, string pkgname, uint percent, uint n_targets, uint current_target);
-		public signal void emit_download (string filename, uint64 xfered, uint64 total);
-		public signal void emit_totaldownload (uint64 total);
-		public signal void emit_log (uint level, string msg);
-		public signal void set_pkgreason_finished ();
-		public signal void refresh_finished (bool success);
-		public signal void downloading_updates_finished ();
-		public signal void trans_prepare_finished (bool success);
-		public signal void trans_commit_finished (bool success);
-		public signal void get_authorization_finished (bool authorized);
-		public signal void write_pamac_config_finished (bool recurse, uint64 refresh_period, bool no_update_hide_icon,
-														bool enable_aur, string aur_build_dir, bool check_aur_updates,
-														bool download_updates);
-		public signal void write_alpm_config_finished (bool checkspace);
-		public signal void generate_mirrors_list_data (string line);
-		public signal void generate_mirrors_list_finished ();
-	}
-
 	public class Transaction: Object {
 		enum Type {
 			INSTALL = (1 << 0),
@@ -71,7 +25,7 @@ namespace Pamac {
 			UPDATE = (1 << 2),
 			BUILD = (1 << 3)
 		}
-		SystemDaemon system_daemon;
+		TransactionInterface transaction_interface;
 		// run transaction data
 		string current_action;
 		string current_status;
@@ -129,7 +83,13 @@ namespace Pamac {
 		}
 
 		construct {
-			connecting_system_daemon ();
+			if (Posix.geteuid () == 0) {
+				// we are root
+				transaction_interface = new TransactionInterfaceRoot ();
+			} else {
+				// use dbus daemon
+				transaction_interface = new TransactionInterfaceDaemon (database.config);
+			}
 			// transaction options
 			flags = 0;
 			enable_downgrade = false;
@@ -153,7 +113,7 @@ namespace Pamac {
 
 		// destruction
 		~Transaction () {
-			stop_daemon ();
+			transaction_interface.quit ();
 		}
 
 		protected virtual bool ask_confirmation (TransactionSummary summary) {
@@ -167,107 +127,56 @@ namespace Pamac {
 		}
 
 		ErrorInfos get_current_error () {
-			try {
-				return system_daemon.get_current_error ();
-			} catch (Error e) {
-				stderr.printf ("get_current_error: %s\n", e.message);
-				return ErrorInfos ();
-			}
+			return transaction_interface.get_current_error ();
 		}
 
 		public bool get_lock () {
-			bool locked = false;
-			try {
-				locked = system_daemon.get_lock ();
-			} catch (Error e) {
-				stderr.printf ("get_lock: %s\n", e.message);
-			}
-			return locked;
+			return transaction_interface.get_lock ();
 		}
 
 		public bool unlock () {
-			bool unlocked = false;
-			try {
-				unlocked = system_daemon.unlock ();
-			} catch (Error e) {
-				stderr.printf ("unlock: %s\n", e.message);
-			}
-			return unlocked;
+			return transaction_interface.unlock ();
 		}
 
 		public async bool check_authorization () {
 			SourceFunc callback = check_authorization.callback;
 			bool authorized = false;
-			ulong handler_id = system_daemon.get_authorization_finished.connect ((authorized_) => {
+			ulong handler_id = transaction_interface.get_authorization_finished.connect ((authorized_) => {
 				authorized = authorized_;
 				Idle.add ((owned) callback);
 			});
-			try {
-				system_daemon.start_get_authorization ();
-			} catch (Error e) {
-				stderr.printf ("start_get_authorization: %s\n", e.message);
-			}
+			transaction_interface.start_get_authorization ();
 			yield;
-			system_daemon.disconnect (handler_id);
+			transaction_interface.disconnect (handler_id);
 			return authorized;
 		}
 
 		public void start_write_pamac_config (HashTable<string,Variant> new_pamac_conf) {
-			try {
-				system_daemon.start_write_pamac_config (new_pamac_conf);
-				system_daemon.write_pamac_config_finished.connect (on_write_pamac_config_finished);
-			} catch (Error e) {
-				stderr.printf ("start_write_pamac_config: %s\n", e.message);
-			}
+			transaction_interface.write_pamac_config_finished.connect (on_write_pamac_config_finished);
+			transaction_interface.start_write_pamac_config (new_pamac_conf);
 		}
 
 		public void start_write_alpm_config (HashTable<string,Variant> new_alpm_conf) {
-			try {
-				system_daemon.start_write_alpm_config (new_alpm_conf);
-				system_daemon.write_alpm_config_finished.connect (on_write_alpm_config_finished);
-			} catch (Error e) {
-				stderr.printf ("start_write_alpm_config: %s\n", e.message);
-			}
+			transaction_interface.write_alpm_config_finished.connect (on_write_alpm_config_finished);
+			transaction_interface.start_write_alpm_config (new_alpm_conf);
 		}
 
 		public void start_generate_mirrors_list (string country) {
 			emit_action (dgettext (null, "Refreshing mirrors list") + "...");
 			important_details_outpout (false);
 			start_generating_mirrors_list ();
-			try {
-				system_daemon.start_generate_mirrors_list (country);
-				system_daemon.generate_mirrors_list_data.connect (on_generate_mirrors_list_data);
-				system_daemon.generate_mirrors_list_finished.connect (on_generate_mirrors_list_finished);
-			} catch (Error e) {
-				stderr.printf ("start_generate_mirrors_list: %s\n", e.message);
-			}
+			transaction_interface.generate_mirrors_list_data.connect (on_generate_mirrors_list_data);
+			transaction_interface.generate_mirrors_list_finished.connect (on_generate_mirrors_list_finished);
+			transaction_interface.start_generate_mirrors_list (country);
 		}
 
 		public void clean_cache (uint64 keep_nb, bool only_uninstalled) {
-			try {
-				system_daemon.clean_cache (keep_nb, only_uninstalled);
-			} catch (Error e) {
-				stderr.printf ("clean_cache: %s\n", e.message);
-			}
+			transaction_interface.clean_cache (keep_nb, only_uninstalled);
 		}
 
 		public void start_set_pkgreason (string pkgname, uint reason) {
-			try {
-				system_daemon.start_set_pkgreason (pkgname, reason);
-				system_daemon.set_pkgreason_finished.connect (on_set_pkgreason_finished);
-			} catch (Error e) {
-				stderr.printf ("start_set_pkgreason: %s\n", e.message);
-			}
-		}
-
-		public string get_lockfile () {
-			string lockfile = "";
-			try {
-				lockfile = system_daemon.get_lockfile ();
-			} catch (Error e) {
-				stderr.printf ("get_lockfile: %s\n", e.message);
-			}
-			return lockfile;
+			transaction_interface.set_pkgreason_finished.connect (on_set_pkgreason_finished);
+			transaction_interface.start_set_pkgreason (pkgname, reason);
 		}
 
 		public void start_refresh (bool force) {
@@ -276,15 +185,10 @@ namespace Pamac {
 				bool authorized = check_authorization.end (res);
 				if (authorized) {
 					emit_action (dgettext (null, "Synchronizing package databases") + "...");
-					connecting_dbus_signals ();
-					try {
-						system_daemon.start_refresh (force);
-						system_daemon.refresh_finished.connect (on_refresh_finished);
-						start_downloading ();
-					} catch (Error e) {
-						stderr.printf ("start_refresh: %s\n", e.message);
-						on_refresh_finished (false);
-					}
+					connecting_signals ();
+					transaction_interface.refresh_finished.connect (on_refresh_finished);
+					transaction_interface.start_refresh (force);
+					start_downloading ();
 				} else {
 					on_refresh_finished (false);
 				}
@@ -292,38 +196,24 @@ namespace Pamac {
 		}
 
 		public void start_downloading_updates () {
-			try {
-				system_daemon.start_downloading_updates ();
-				system_daemon.downloading_updates_finished.connect (on_downloading_updates_finished);
-			} catch (Error e) {
-				stderr.printf ("start_downloading_updates: %s\n", e.message);
-			}
+			transaction_interface.downloading_updates_finished.connect (on_downloading_updates_finished);
+			transaction_interface.start_downloading_updates ();
 		}
 
 		void on_downloading_updates_finished () {
-			system_daemon.downloading_updates_finished.disconnect (on_downloading_updates_finished);
+			transaction_interface.downloading_updates_finished.disconnect (on_downloading_updates_finished);
 			downloading_updates_finished ();
 		}
 
 		void start_get_updates_for_sysupgrade () {
-			try {
-				system_daemon.start_get_updates (database.config.check_aur_updates);
-				system_daemon.get_updates_finished.connect (on_get_updates_for_sysupgrade_finished);
-			} catch (Error e) {
-				stderr.printf ("start_get_updates: %s\n", e.message);
-				finish_transaction (false);
-			}
+			transaction_interface.get_updates_finished.connect (on_get_updates_for_sysupgrade_finished);
+			transaction_interface.start_get_updates_for_sysupgrade (database.config.check_aur_updates);
 		}
 
 		void sysupgrade_real (string[] to_build) {
-			connecting_dbus_signals ();
-			try {
-				// this will respond with trans_prepare_finished signal
-				system_daemon.start_sysupgrade_prepare (enable_downgrade, temporary_ignorepkgs, to_build, overwrite_files);
-			} catch (Error e) {
-				stderr.printf ("start_sysupgrade_prepare: %s\n", e.message);
-				finish_transaction (false);
-			}
+			connecting_signals ();
+			// this will respond with trans_prepare_finished signal
+			transaction_interface.start_sysupgrade_prepare (enable_downgrade, temporary_ignorepkgs, to_build, overwrite_files);
 		}
 
 		public void start_sysupgrade (bool enable_downgrade, string[] temporary_ignorepkgs, string[] overwrite_files) {
@@ -336,7 +226,7 @@ namespace Pamac {
 		}
 
 		void on_get_updates_for_sysupgrade_finished (UpdatesStruct updates_struct) {
-			system_daemon.get_updates_finished.disconnect (on_get_updates_for_sysupgrade_finished);
+			transaction_interface.get_updates_finished.disconnect (on_get_updates_for_sysupgrade_finished);
 			// get syncfirst updates
 			if (updates_struct.syncfirst) {
 				to_install_first = {};
@@ -359,7 +249,8 @@ namespace Pamac {
 							to_build += infos.name;
 						}
 					}
-					if (updates_struct.repos_updates.length != 0) {
+					// always sysupgrade if enable_downgrade
+					if (enable_downgrade || updates_struct.repos_updates.length != 0) {
 						sysupgrade_real (to_build);
 					} else {
 						// only aur updates
@@ -367,9 +258,11 @@ namespace Pamac {
 						start ({}, {}, {}, to_build, overwrite_files);
 					}
 				} else {
-					if (updates_struct.repos_updates.length != 0) {
+					// always sysupgrade if enable_downgrade
+					if (enable_downgrade || updates_struct.repos_updates.length != 0) {
 						sysupgrade_real ({});
 					} else {
+						emit_action (dgettext (null, "Your system is up-to-date") + ".");
 						finish_transaction (true);
 					}
 				}
@@ -377,18 +270,13 @@ namespace Pamac {
 		}
 
 		void start_trans_prepare (string[] to_install, string[] to_remove, string[] to_load, string[] to_build) {
-			try {
-				system_daemon.start_trans_prepare (flags, to_install, to_remove, to_load, to_build, overwrite_files);
-			} catch (Error e) {
-				stderr.printf ("start_trans_prepare: %s\n", e.message);
-				finish_transaction (false);
-			}
+			transaction_interface.start_trans_prepare (flags, to_install, to_remove, to_load, to_build, overwrite_files);
 		}
 
 		public void start (string[] to_install, string[] to_remove, string[] to_load, string[] to_build, string[] overwrite_files) {
 			this.overwrite_files = overwrite_files;
 			emit_action (dgettext (null, "Preparing") + "...");
-			connecting_dbus_signals ();
+			connecting_signals ();
 			start_trans_prepare (to_install, to_remove, to_load, to_build);
 		}
 
@@ -401,12 +289,7 @@ namespace Pamac {
 				start_trans_prepare (to_install_first, {}, {}, {});
 				to_install_first = {};
 			} else {
-				try {
-					system_daemon.start_trans_commit ();
-				} catch (Error e) {
-					stderr.printf ("start_trans_commit: %s\n", e.message);
-					finish_transaction (false);
-				}
+				transaction_interface.start_trans_commit ();
 			}
 		}
 
@@ -518,11 +401,7 @@ namespace Pamac {
 			if (building) {
 				build_cancellable.cancel ();
 			} else {
-				try {
-					system_daemon.trans_cancel ();
-				} catch (Error e) {
-					stderr.printf ("trans_cancel: %s\n", e.message);
-				}
+				transaction_interface.trans_cancel ();
 			}
 			emit_script_output ("");
 			emit_action (dgettext (null, "Transaction cancelled") + ".");
@@ -530,19 +409,7 @@ namespace Pamac {
 		}
 
 		public void release () {
-			try {
-				system_daemon.trans_release ();
-			} catch (Error e) {
-				stderr.printf ("trans_release: %s\n", e.message);
-			}
-		}
-
-		protected void stop_daemon () {
-			try {
-				system_daemon.quit ();
-			} catch (Error e) {
-				stderr.printf ("quit: %s\n", e.message);
-			}
+			transaction_interface.trans_release ();
 		}
 
 		void on_emit_event (uint primary_event, uint secondary_event, string[] details) {
@@ -691,11 +558,7 @@ namespace Pamac {
 
 		void on_emit_providers (string depend, string[] providers) {
 			int index = choose_provider (depend, providers);
-			try {
-				system_daemon.choose_provider (index);
-			} catch (Error e) {
-				stderr.printf ("choose_provider: %s\n", e.message);
-			}
+			transaction_interface.choose_provider (index);
 		}
 
 		void on_emit_progress (uint progress, string pkgname, uint percent, uint n_targets, uint current_target) {
@@ -880,7 +743,7 @@ namespace Pamac {
 		}
 
 		void finish_transaction (bool success) {
-			disconnecting_dbus_signals ();
+			disconnecting_signals ();
 			database.refresh ();
 			if (sysupgrading) {
 				sysupgrade_finished (success);
@@ -899,20 +762,15 @@ namespace Pamac {
 				}
 			}
 			current_filename = "";
-			disconnecting_dbus_signals ();
-			system_daemon.refresh_finished.disconnect (on_refresh_finished);
+			disconnecting_signals ();
+			transaction_interface.refresh_finished.disconnect (on_refresh_finished);
 			database.refresh ();
 			refresh_finished (success);
 		}
 
 		void on_trans_prepare_finished (bool success) {
 			if (success) {
-				var summary_struct = TransactionSummaryStruct ();
-				try {
-					summary_struct = system_daemon.get_transaction_summary ();
-				} catch (Error e) {
-					stderr.printf ("get_transaction_summary: %s\n", e.message);
-				}
+				var summary_struct = transaction_interface.get_transaction_summary ();
 				Type type = 0;
 				if ((summary_struct.to_install.length
 					+ summary_struct.to_downgrade.length
@@ -986,7 +844,7 @@ namespace Pamac {
 					if (sysupgrade_after_trans) {
 						sysupgrade_after_trans = false;
 						no_confirm_commit = true;
-						disconnecting_dbus_signals ();
+						disconnecting_signals ();
 						start_sysupgrade (enable_downgrade, temporary_ignorepkgs, {});
 					} else {
 						emit_action (dgettext (null, "Transaction successfully finished") + ".");
@@ -994,9 +852,8 @@ namespace Pamac {
 					}
 				}
 			} else {
-				var err = get_current_error ();
 				to_build_queue.clear ();
-				handle_error (err);
+				handle_error (get_current_error ());
 			}
 			total_download = 0;
 			already_downloaded = 0;
@@ -1004,7 +861,7 @@ namespace Pamac {
 		}
 
 		void on_set_pkgreason_finished () {
-			system_daemon.set_pkgreason_finished.disconnect (on_set_pkgreason_finished);
+			transaction_interface.set_pkgreason_finished.disconnect (on_set_pkgreason_finished);
 			database.refresh ();
 			set_pkgreason_finished ();
 		}
@@ -1012,7 +869,7 @@ namespace Pamac {
 		void on_write_pamac_config_finished (bool recurse, uint64 refresh_period, bool no_update_hide_icon,
 											bool enable_aur, string aur_build_dir, bool check_aur_updates,
 											bool download_updates) {
-			system_daemon.write_pamac_config_finished.disconnect (on_write_pamac_config_finished);
+			transaction_interface.write_pamac_config_finished.disconnect (on_write_pamac_config_finished);
 			database.config.reload ();
 			write_pamac_config_finished (recurse, refresh_period, no_update_hide_icon,
 										enable_aur, aur_build_dir, check_aur_updates,
@@ -1020,7 +877,7 @@ namespace Pamac {
 		}
 
 		void on_write_alpm_config_finished (bool checkspace) {
-			system_daemon.write_alpm_config_finished.disconnect (on_write_alpm_config_finished);
+			transaction_interface.write_alpm_config_finished.disconnect (on_write_alpm_config_finished);
 			database.refresh ();
 			write_alpm_config_finished (checkspace);
 		}
@@ -1030,43 +887,31 @@ namespace Pamac {
 		}
 
 		void on_generate_mirrors_list_finished () {
-			system_daemon.generate_mirrors_list_data.disconnect (on_generate_mirrors_list_data);
-			system_daemon.generate_mirrors_list_finished.disconnect (on_generate_mirrors_list_finished);
+			transaction_interface.generate_mirrors_list_data.disconnect (on_generate_mirrors_list_data);
+			transaction_interface.generate_mirrors_list_finished.disconnect (on_generate_mirrors_list_finished);
 			generate_mirrors_list_finished ();
 		}
 
-		void connecting_system_daemon () {
-			if (system_daemon == null) {
-				try {
-					system_daemon = Bus.get_proxy_sync (BusType.SYSTEM, "org.manjaro.pamac.system", "/org/manjaro/pamac/system");
-					// Set environment variables
-					system_daemon.set_environment_variables (database.config.environment_variables);
-				} catch (Error e) {
-					stderr.printf ("set_environment_variables: %s\n", e.message);
-				}
-			}
+		void connecting_signals () {
+			transaction_interface.emit_event.connect (on_emit_event);
+			transaction_interface.emit_providers.connect (on_emit_providers);
+			transaction_interface.emit_progress.connect (on_emit_progress);
+			transaction_interface.emit_download.connect (on_emit_download);
+			transaction_interface.emit_totaldownload.connect (on_emit_totaldownload);
+			transaction_interface.emit_log.connect (on_emit_log);
+			transaction_interface.trans_prepare_finished.connect (on_trans_prepare_finished);
+			transaction_interface.trans_commit_finished.connect (on_trans_commit_finished);
 		}
 
-		void connecting_dbus_signals () {
-			system_daemon.emit_event.connect (on_emit_event);
-			system_daemon.emit_providers.connect (on_emit_providers);
-			system_daemon.emit_progress.connect (on_emit_progress);
-			system_daemon.emit_download.connect (on_emit_download);
-			system_daemon.emit_totaldownload.connect (on_emit_totaldownload);
-			system_daemon.emit_log.connect (on_emit_log);
-			system_daemon.trans_prepare_finished.connect (on_trans_prepare_finished);
-			system_daemon.trans_commit_finished.connect (on_trans_commit_finished);
-		}
-
-		void disconnecting_dbus_signals () {
-			system_daemon.emit_event.disconnect (on_emit_event);
-			system_daemon.emit_providers.disconnect (on_emit_providers);
-			system_daemon.emit_progress.disconnect (on_emit_progress);
-			system_daemon.emit_download.disconnect (on_emit_download);
-			system_daemon.emit_totaldownload.disconnect (on_emit_totaldownload);
-			system_daemon.emit_log.disconnect (on_emit_log);
-			system_daemon.trans_prepare_finished.disconnect (on_trans_prepare_finished);
-			system_daemon.trans_commit_finished.disconnect (on_trans_commit_finished);
+		void disconnecting_signals () {
+			transaction_interface.emit_event.disconnect (on_emit_event);
+			transaction_interface.emit_providers.disconnect (on_emit_providers);
+			transaction_interface.emit_progress.disconnect (on_emit_progress);
+			transaction_interface.emit_download.disconnect (on_emit_download);
+			transaction_interface.emit_totaldownload.disconnect (on_emit_totaldownload);
+			transaction_interface.emit_log.disconnect (on_emit_log);
+			transaction_interface.trans_prepare_finished.disconnect (on_trans_prepare_finished);
+			transaction_interface.trans_commit_finished.disconnect (on_trans_commit_finished);
 		}
 	}
 }

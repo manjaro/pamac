@@ -94,8 +94,6 @@ namespace Pamac {
 			if (!check_pamac_running ()) {
 				// stop system_daemon
 				manager_window.transaction = null;
-				// stop user_daemon
-				manager_window.database = null;
 			}
 		}
 

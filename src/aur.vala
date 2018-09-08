@@ -17,7 +17,7 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace AUR {
+namespace Pamac {
 	// AUR urls
 	const string aur_url = "http://aur.archlinux.org";
 	const string rpc_url = aur_url + "/rpc/?v=5";
@@ -49,7 +49,7 @@ namespace AUR {
 		return results;
 	}
 
-	public async Json.Array search (string[] needles) {
+	internal async Json.Array aur_search (string[] needles) {
 		if (needles.length == 0) {
 			return new Json.Array ();
 		} else {
@@ -81,7 +81,7 @@ namespace AUR {
 		}
 	}
 
-	public async Json.Array multiinfo (string[] pkgnames) {
+	internal async Json.Array aur_multiinfo (string[] pkgnames) {
 		if (pkgnames.length == 0) {
 			return new Json.Array ();
 		}

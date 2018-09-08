@@ -16,12 +16,13 @@
  *  You should have received a get of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+MainLoop loop;
 
 namespace Pamac {
-	class Cli: GLib.Application {
-		public ApplicationCommandLine cmd;
+	class Cli: Object {
+		public int exit_status;
 		public TransactionCli transaction;
-		public Database database;
+		Database database;
 		delegate void TransactionAction ();
 		string[] to_install;
 		string[] to_remove;
@@ -33,11 +34,10 @@ namespace Pamac {
 		bool waiting;
 		string[] temporary_ignorepkgs;
 		string[] overwrite_files;
-		Subprocess pkttyagent;
+		public Subprocess pkttyagent;
 
 		public Cli () {
-			application_id = "org.manjaro.pamac.cli";
-			flags = ApplicationFlags.HANDLES_COMMAND_LINE;
+			exit_status = 0;
 			to_install = {};
 			to_remove = {};
 			to_load = {};
@@ -47,48 +47,22 @@ namespace Pamac {
 			trans_cancellable = false;
 			waiting = false;
 			overwrite_files = {};
-			var config = new Config ("/etc/pamac.conf");
-			database = new Database (config);
-			transaction = new TransactionCli (database);
-			transaction.finished.connect (on_transaction_finished);
-			transaction.sysupgrade_finished.connect (on_transaction_finished);
-			transaction.refresh_finished.connect (on_refresh_finished);
-			// Use tty polkit authentication agent
-			try {
-				pkttyagent = new Subprocess.newv ({"pkttyagent"}, SubprocessFlags.NONE);
-			} catch (Error e) {
-				stdout.printf ("%s: %s\n", dgettext (null, "Error"), e.message);
+			if (Posix.geteuid () != 0) {
+				// Use tty polkit authentication agent
+				try {
+					pkttyagent = new Subprocess.newv ({"pkttyagent"}, SubprocessFlags.NONE);
+				} catch (Error e) {
+					stdout.printf ("%s: %s\n", dgettext (null, "Error"), e.message);
+				}
 			}
-			// connect to signal
-			transaction.start_downloading.connect (() => {
-				trans_cancellable = true;
-			});
-			transaction.stop_downloading.connect (() => {
-				trans_cancellable = false;
-			});
-			transaction.start_building.connect (() => {
-				trans_cancellable = true;
-			});
-			transaction.stop_building.connect (() => {
-				trans_cancellable = false;
-			});
 			// watch CTRl + C
 			Unix.signal_add (Posix.Signal.INT, trans_cancel);
 		}
 
-		public override void startup () {
-			// i18n
-			Intl.textdomain ("pamac");
-			Intl.setlocale (LocaleCategory.ALL, "");
-			base.startup ();
-		}
-
-		public override int command_line (ApplicationCommandLine cmd) {
-			this.cmd = cmd;
-			string[] args = cmd.get_arguments ();
+		public void parse_command_line (string[] args) {
 			if (args.length == 1) {
 				display_help ();
-				return cmd.get_exit_status ();
+				return;
 			}
 			if (args[1] == "--help" || args[1] == "-h") {
 				if (args.length > 2) {
@@ -123,11 +97,14 @@ namespace Pamac {
 					if (args[2] == "--help" || args[2] == "-h") {
 						display_search_help ();
 					} else if (args[2] == "--aur" || args[2] == "-a") {
+						init_database ();
 						database.config.enable_aur = true;
 						search_in_aur (concatenate_strings (args[3:args.length]));
 					} else if (args[2] == "--files" || args[2] == "-f") {
+						init_database ();
 						search_files (args[3:args.length]);
 					} else {
+						init_database ();
 						search_pkgs (concatenate_strings (args[2:args.length]));
 					}
 				} else {
@@ -138,9 +115,11 @@ namespace Pamac {
 					if (args[2] == "--help" || args[2] == "-h") {
 						display_info_help ();
 					} else if (args[2] == "--aur" || args[2] == "-a") {
+						init_database ();
 						database.config.enable_aur = true;
 						display_aur_infos(args[3:args.length]);
 					} else {
+						init_database ();
 						display_pkg_infos (args[2:args.length]);
 					}
 				} else {
@@ -151,18 +130,23 @@ namespace Pamac {
 					if (args[2] == "--help" || args[2] == "-h") {
 						display_list_help ();
 					} else if (args[2] == "--installed" || args[2] == "-i") {
+						init_database ();
 						list_installed ();
 					} else if (args[2] == "--orphans" || args[2] == "-o") {
+						init_database ();
 						list_orphans ();
 					} else if (args[2] == "--foreign" || args[2] == "-m") {
+						init_database ();
 						list_foreign ();
 					} else if (args[2] == "--groups" || args[2] == "-g") {
+						init_database ();
 						if (args.length > 3) {
 							list_groups (args[3:args.length]);
 						} else {
 							list_groups ({});
 						}
 					} else if (args[2] == "--repos" || args[2] == "-r") {
+						init_database ();
 						if (args.length > 3) {
 							list_repos (args[3:args.length]);
 						} else {
@@ -170,6 +154,7 @@ namespace Pamac {
 						}
 					} else if (args[2] == "--files" || args[2] == "-f") {
 						if (args.length > 3) {
+							init_database ();
 							list_files (args[3:args.length]);
 						} else {
 							display_list_help ();
@@ -178,6 +163,7 @@ namespace Pamac {
 						display_list_help ();
 					}
 				} else {
+					init_database ();
 					list_installed ();
 				}
 			
@@ -185,16 +171,18 @@ namespace Pamac {
 				if (Posix.geteuid () == 0) {
 					// can't build as root
 					stdout.printf (dgettext (null, "Building packages as root is not allowed") + "\n");
-					cmd.set_exit_status (1);
-					return cmd.get_exit_status ();
+					exit_status = 1;
+					return;
 				}
 				if (args.length > 2) {
 					if (args[2] == "--help" || args[2] == "-h") {
 						display_build_help ();
 					} else if (args[2] == "--builddir") {
+						init_transaction ();
 						transaction.database.config.aur_build_dir = args[3];
 						build_pkgs (args[4:args.length]);
 					} else {
+						init_transaction ();
 						build_pkgs (args[2:args.length]);
 					}
 				} else {
@@ -202,23 +190,24 @@ namespace Pamac {
 				}
 			} else if (args[1] == "install") {
 				if (args.length > 2) {
-					string[] targets = {};
-					int i = 2;
-					while (i < args.length) {
-						unowned string arg = args[i];
-						if (arg == "--overwrite") {
-							foreach (unowned string name in args[i + 1].split(",")) {
-								overwrite_files += name;
-							}
-							i++;
-						} else {
-							targets += arg;
-						}
-						i++;
-					}
 					if (args[2] == "--help" || args[2] == "-h") {
 						display_install_help ();
 					} else {
+						string[] targets = {};
+						int i = 2;
+						while (i < args.length) {
+							unowned string arg = args[i];
+							if (arg == "--overwrite") {
+								foreach (unowned string name in args[i + 1].split(",")) {
+									overwrite_files += name;
+								}
+								i++;
+							} else {
+								targets += arg;
+							}
+							i++;
+						}
+						init_transaction ();
 						install_pkgs (targets);
 					}
 				} else {
@@ -229,6 +218,7 @@ namespace Pamac {
 					if (args[2] == "--help" || args[2] == "-h") {
 						display_reinstall_help ();
 					} else {
+						init_transaction ();
 						reinstall_pkgs (args[2:args.length]);
 					}
 				} else {
@@ -239,12 +229,14 @@ namespace Pamac {
 					if (args[2] == "--help" || args[2] == "-h") {
 						display_remove_help ();
 					} else if (args[2] == "--orphans" || args[2] == "-o") {
+						init_transaction ();
 						if (args.length > 3) {
 							remove_pkgs (args[3:args.length], true);
 						} else {
 							remove_orphans ();
 						}
 					} else {
+						init_transaction ();
 						remove_pkgs (args[2:args.length]);
 					}
 				} else {
@@ -252,13 +244,15 @@ namespace Pamac {
 				}
 			} else if (args[1] == "checkupdates") {
 				if (args.length == 2) {
+					init_database ();
 					checkupdates ();
 				} else if (args.length == 3) {
 					if (args[2] == "--help" || args[2] == "-h") {
 						display_checkupdates_help ();
 					} else if (args[2] == "--aur" || args[2] == "-a") {
-						transaction.database.config.enable_aur = true;
-						transaction.database.config.check_aur_updates = true;
+						init_database ();
+						database.config.enable_aur = true;
+						database.config.check_aur_updates = true;
 						checkupdates ();
 					} else {
 						display_checkupdates_help ();
@@ -267,6 +261,7 @@ namespace Pamac {
 					display_checkupdates_help ();
 				}
 			} else if (args[1] == "update" || args[1] == "upgrade") {
+				init_transaction ();
 				bool error = false;
 				int i = 2;
 				while (i < args.length) {
@@ -276,6 +271,12 @@ namespace Pamac {
 						error = true;
 						break;
 					} else if (arg == "--aur"|| arg == "-a") {
+						if (Posix.geteuid () == 0) {
+							// can't build as root
+							stdout.printf (dgettext (null, "Building packages as root is not allowed") + "\n");
+							exit_status = 1;
+							return;
+						}
 						transaction.database.config.enable_aur = true;
 						transaction.database.config.check_aur_updates = true;
 					} else if (arg == "--builddir") {
@@ -308,28 +309,57 @@ namespace Pamac {
 			} else {
 				display_help ();
 			}
-			return cmd.get_exit_status ();
 		}
 
-		public override void shutdown () {
-			base.shutdown ();
-			// stop system_daemon
-			transaction = null;
-			// stop user_daemon
-			database = null;
-			pkttyagent.force_exit ();
+		void init_database () {
+			var config = new Config ("/etc/pamac.conf");
+			config.enable_aur = false;
+			config.check_aur_updates = false;
+			database = new Database (config);
+			database.get_updates_finished.connect (on_get_updates_finished);
+		}
+
+		void init_transaction () {
+			if (database == null) {
+				init_database ();
+			}
+			transaction = new TransactionCli (database);
+			transaction.finished.connect (on_transaction_finished);
+			transaction.sysupgrade_finished.connect (on_transaction_finished);
+			transaction.refresh_finished.connect (on_refresh_finished);
+			transaction.start_downloading.connect (() => {
+				trans_cancellable = true;
+			});
+			transaction.stop_downloading.connect (() => {
+				trans_cancellable = false;
+			});
+			transaction.start_building.connect (() => {
+				trans_cancellable = true;
+			});
+			transaction.stop_building.connect (() => {
+				trans_cancellable = false;
+			});
 		}
 
 		bool trans_cancel () {
 			if (waiting) {
 				waiting = false;
-				this.release ();
+				loop.quit ();
 			} else if (trans_cancellable) {
 				transaction.cancel ();
 			} else {
 				stdout.printf ("\n");
 			}
 			return false;
+		}
+
+		int get_term_width () {
+			int width = 80;
+			Linux.winsize win;
+			if (Linux.ioctl (Posix.STDOUT_FILENO, Linux.Termios.TIOCGWINSZ, out win) == 0) {
+				width = win.ws_col;
+			}
+			return width;
 		}
 
 		string concatenate_strings_list (List<string> list) {
@@ -355,14 +385,14 @@ namespace Pamac {
 		}
 
 		string[] split_string (string str, int margin, int width = 0) {
-			int term_width = transaction.get_term_width ();
+			int term_width = get_term_width ();
 			if (width == 0) {
 				width = term_width;
 			}
 			if (width > term_width) {
 				width = term_width;
 			}
-			int str_length = str.length;
+			int str_length = str.char_count ();
 			int available_width = width - margin;
 			if (available_width >= str_length) {
 				return {str};
@@ -406,7 +436,7 @@ namespace Pamac {
 
 		void print_error (string message) {
 			stdout.printf ("%s: %s\n", dgettext (null, "Error"), message);
-			cmd.set_exit_status (1);
+			exit_status = 1;
 		}
 
 		void display_version () {
@@ -465,14 +495,14 @@ namespace Pamac {
 			stdout.printf ("\n\n");
 			stdout.printf (dgettext (null, "options") + ":\n");
 			int max_length = 15;
-			string[] cuts = split_string ("search in AUR instead of repositories", max_length + 2);
+			string[] cuts = split_string (dgettext (null, "search in AUR instead of repositories"), max_length + 2);
 			print_aligned ("  -a, --aur", ": %s".printf (cuts[0]), max_length);
 			int i = 1;
 			while (i < cuts.length) {
 				print_aligned ("", "%s".printf (cuts[i]), max_length + 2);
 				i++;
 			}
-			cuts = split_string ("search for packages which own the given filenames (filenames can be partial)", max_length + 2);
+			cuts = split_string (dgettext (null, "search for packages which own the given filenames (filenames can be partial)"), max_length + 2);
 			print_aligned ("  -f, --files", ": %s".printf (cuts[0]), max_length);
 			i = 1;
 			while (i < cuts.length) {
@@ -488,7 +518,7 @@ namespace Pamac {
 			stdout.printf ("\n\n");
 			stdout.printf (dgettext (null, "options") + ":\n");
 			int max_length = 12;
-			string[] cuts = split_string ("search in AUR instead of repositories", max_length + 2);
+			string[] cuts = split_string (dgettext (null, "search in AUR instead of repositories"), max_length + 2);
 			print_aligned ("  -a, --aur", ": %s".printf (cuts[0]), max_length);
 			int i = 1;
 			while (i < cuts.length) {
@@ -504,42 +534,42 @@ namespace Pamac {
 			stdout.printf ("\n\n");
 			stdout.printf (dgettext (null, "options") + ":\n");
 			int max_length = 30;
-			string[] cuts = split_string ("list installed packages", max_length + 2);
+			string[] cuts = split_string (dgettext (null, "list installed packages"), max_length + 2);
 			print_aligned ("  -i, --installed", ": %s".printf (cuts[0]), max_length);
 			int i = 1;
 			while (i < cuts.length) {
 				print_aligned ("", "%s".printf (cuts[i]), max_length + 2);
 				i++;
 			}
-			cuts = split_string ("list packages that were installed as dependencies but are no longer required by any installed package", max_length + 2);
+			cuts = split_string (dgettext (null, "list packages that were installed as dependencies but are no longer required by any installed package"), max_length + 2);
 			print_aligned ("  -o, --orphans", ": %s".printf (cuts[0]), max_length);
 			i = 1;
 			while (i < cuts.length) {
 				print_aligned ("", "%s".printf (cuts[i]), max_length + 2);
 				i++;
 			}
-			cuts = split_string ("list packages that were not found in the repositories", max_length + 2);
+			cuts = split_string (dgettext (null, "list packages that were not found in the repositories"), max_length + 2);
 			print_aligned ("  -m, --foreign", ": %s".printf (cuts[0]), max_length);
 			i = 1;
 			while (i < cuts.length) {
 				print_aligned ("", "%s".printf (cuts[i]), max_length + 2);
 				i++;
 			}
-			cuts = split_string ("list all packages that are members of the given groups, if no group is given list all groups", max_length + 2);
+			cuts = split_string (dgettext (null, "list all packages that are members of the given groups, if no group is given list all groups"), max_length + 2);
 			print_aligned ("  %s [%s]".printf ("-g, --groups", dgettext (null, "group(s)")), ": %s".printf (cuts[0]), max_length);
 			i = 1;
 			while (i < cuts.length) {
 				print_aligned ("", "%s".printf (cuts[i]), max_length + 2);
 				i++;
 			}
-			cuts = split_string ("list all packages available in the given repos, if no repo is given list all repos", max_length + 2);
+			cuts = split_string (dgettext (null, "list all packages available in the given repos, if no repo is given list all repos"), max_length + 2);
 			print_aligned ("  %s [%s]".printf ("-r, --repos", dgettext (null, "repo(s)")), ": %s".printf (cuts[0]), max_length);
 			i = 1;
 			while (i < cuts.length) {
 				print_aligned ("", "%s".printf (cuts[i]), max_length + 2);
 				i++;
 			}
-			cuts = split_string ("list files owned by the given packages", max_length + 2);
+			cuts = split_string (dgettext (null, "list files owned by the given packages"), max_length + 2);
 			print_aligned ("  %s [%s]".printf ("-f, --files", dgettext (null, "file(s)")), ": %s".printf (cuts[0]), max_length);
 			i = 1;
 			while (i < cuts.length) {
@@ -555,7 +585,7 @@ namespace Pamac {
 			stdout.printf ("\n\n");
 			stdout.printf (dgettext (null, "options") + ":\n");
 			int max_length = 25;
-			string[] cuts = split_string ("build directory, if no directory is given the one specified in pamac.conf file is used", max_length + 2);
+			string[] cuts = split_string (dgettext (null, "build directory, if no directory is given the one specified in pamac.conf file is used"), max_length + 2);
 			print_aligned ("  %s <%s>".printf ("--builddir", dgettext (null, "dir")), ": %s".printf (cuts[0]), max_length);
 			int i = 1;
 			while (i < cuts.length) {
@@ -571,7 +601,7 @@ namespace Pamac {
 			stdout.printf ("\n\n");
 			stdout.printf (dgettext (null, "options") + ":\n");
 			int max_length = 25;
-			string[] cuts = split_string ("overwrite conflicting files, multiple patterns can be specified by separating them with a comma", max_length + 2);
+			string[] cuts = split_string (dgettext (null, "overwrite conflicting files, multiple patterns can be specified by separating them with a comma"), max_length + 2);
 			print_aligned ("  %s <%s>".printf ("--overwrite", dgettext (null, "glob")), ": %s".printf (cuts[0]), max_length);
 			int i = 1;
 			while (i < cuts.length) {
@@ -594,7 +624,7 @@ namespace Pamac {
 			stdout.printf ("\n\n");
 			stdout.printf (dgettext (null, "options") + ":\n");
 			int max_length = 15;
-			string[] cuts = split_string ("remove dependencies that are not required by other packages, if this option is used without package name remove all orphans", max_length + 2);
+			string[] cuts = split_string (dgettext (null, "remove dependencies that are not required by other packages, if this option is used without package name remove all orphans"), max_length + 2);
 			print_aligned ("-o, --orphans", ": %s".printf (cuts[0]), max_length);
 			int i = 1;
 			while (i < cuts.length) {
@@ -612,7 +642,7 @@ namespace Pamac {
 			stdout.printf ("\n\n");
 			stdout.printf (dgettext (null, "options") + ":\n");
 			int max_length = 12;
-			string[] cuts = split_string ("also check updates in AUR", max_length + 2);
+			string[] cuts = split_string (dgettext (null, "also check updates in AUR"), max_length + 2);
 			print_aligned ("  -a, --aur", ": %s".printf (cuts[0]), max_length);
 			int i = 1;
 			while (i < cuts.length) {
@@ -628,42 +658,42 @@ namespace Pamac {
 			stdout.printf ("\n\n");
 			stdout.printf (dgettext (null, "options") + ":\n");
 			int max_length = 30;
-			string[] cuts = split_string ("also upgrade packages installed from AUR", max_length + 2);
+			string[] cuts = split_string (dgettext (null, "also upgrade packages installed from AUR"), max_length + 2);
 			print_aligned ("  -a, --aur", ": %s".printf (cuts[0]), max_length);
 			int i = 1;
 			while (i < cuts.length) {
 				print_aligned ("", "%s".printf (cuts[i]), max_length + 2);
 				i++;
 			}
-			cuts = split_string ("build directory (use with --aur), if no directory is given the one specified in pamac.conf file is used", max_length + 2);
+			cuts = split_string (dgettext (null, "build directory (use with --aur), if no directory is given the one specified in pamac.conf file is used"), max_length + 2);
 			print_aligned ("  %s <%s>".printf ("--builddir", dgettext (null, "dir")), ": %s".printf (cuts[0]), max_length);
 			i = 1;
 			while (i < cuts.length) {
 				print_aligned ("", "%s".printf (cuts[i]), max_length + 2);
 				i++;
 			}
-			cuts = split_string ("force the refresh of the databases", max_length + 2);
+			cuts = split_string (dgettext (null, "force the refresh of the databases"), max_length + 2);
 			print_aligned ("  --force-refresh", ": %s".printf (cuts[0]), max_length);
 			i = 1;
 			while (i < cuts.length) {
 				print_aligned ("", "%s".printf (cuts[i]), max_length + 2);
 				i++;
 			}
-			cuts = split_string ("enable package downgrades", max_length + 2);
+			cuts = split_string (dgettext (null, "enable package downgrades"), max_length + 2);
 			print_aligned ("  --enable-downgrade", ": %s".printf (cuts[0]), max_length);
 			i = 1;
 			while (i < cuts.length) {
 				print_aligned ("", "%s".printf (cuts[i]), max_length + 2);
 				i++;
 			}
-			cuts = split_string ("ignore a package upgrade, multiple packages can be specified by separating them with a comma", max_length + 2);
+			cuts = split_string (dgettext (null, "ignore a package upgrade, multiple packages can be specified by separating them with a comma"), max_length + 2);
 			print_aligned ("  %s [%s]".printf ("--ignore", dgettext (null, "package(s)")), ": %s".printf (cuts[0]), max_length);
 			i = 1;
 			while (i < cuts.length) {
 				print_aligned ("", "%s".printf (cuts[i]), max_length + 2);
 				i++;
 			}
-			cuts = split_string ("overwrite conflicting files, multiple patterns can be specified by separating them with a comma", max_length + 2);
+			cuts = split_string (dgettext (null, "overwrite conflicting files, multiple patterns can be specified by separating them with a comma"), max_length + 2);
 			print_aligned ("  %s <%s>".printf ("--overwrite", dgettext (null, "glob")), ": %s".printf (cuts[0]), max_length);
 			i = 1;
 			while (i < cuts.length) {
@@ -675,7 +705,7 @@ namespace Pamac {
 		void search_pkgs (string search_string) {
 			var pkgs = database.search_pkgs (search_string);
 			if (pkgs.length () == 0) {
-				cmd.set_exit_status (1);
+				exit_status = 1;
 				return;
 			}
 			int version_length = 0;
@@ -688,7 +718,7 @@ namespace Pamac {
 					repo_length = pkg.repo.length;
 				}
 			}
-			int available_width = transaction.get_term_width () - (version_length + repo_length + 3);
+			int available_width = get_term_width () - (version_length + repo_length + 3);
 			foreach (unowned Package pkg in pkgs) {
 				string name = pkg.name;
 				if (pkg.installed_version != "") {
@@ -714,12 +744,10 @@ namespace Pamac {
 		}
 
 		void search_in_aur (string search_string) {
-			this.hold ();
 			database.search_in_aur_async.begin (search_string, (obj,res) => {
 				var pkgs = database.search_in_aur_async.end (res);
 				if (pkgs.length () == 0) {
-					this.release ();
-					cmd.set_exit_status (1);
+					exit_status = 1;
 					return;
 				}
 				int version_length = 0;
@@ -729,7 +757,7 @@ namespace Pamac {
 					}
 				}
 				int aur_length = dgettext (null, "AUR").char_count ();
-				int available_width = transaction.get_term_width () - (version_length + aur_length + 3);
+				int available_width = get_term_width () - (version_length + aur_length + 3);
 				// sort aur pkgs by popularity
 				var results = new List<AURPackage?> ();
 				foreach (unowned AURPackage pkg in pkgs) {
@@ -767,8 +795,9 @@ namespace Pamac {
 						print_aligned ("", cut, 2);
 					}
 				}
-				this.release ();
+				loop.quit ();
 			});
+			loop.run ();
 		}
 
 		void display_pkg_infos (string[] pkgnames) {
@@ -1001,12 +1030,10 @@ namespace Pamac {
 				}
 			}
 			foreach (string pkgname in pkgnames) {
-				this.hold ();
 				database.get_aur_pkg_details_async.begin (pkgname, (obj, res) => {
 					var details = database.get_aur_pkg_details_async.end (res);
 					if (details.name == "") {
 						print_error (dgettext (null, "target not found: %s").printf (pkgname) + "\n");
-						this.release ();
 						return;
 					}
 					// Name
@@ -1139,8 +1166,9 @@ namespace Pamac {
 						print_aligned (properties[17], ": %s".printf (details.outofdate), max_length);
 					}
 					stdout.printf ("\n");
-					this.release ();
+					loop.quit ();
 				});
+				loop.run ();
 			}
 		}
 
@@ -1171,9 +1199,9 @@ namespace Pamac {
 			}
 			int total_width = name_length + version_length + repo_length + size_length + 4;
 			int margin = 0;
-			if (transaction.get_term_width () > total_width) {
+			if (get_term_width () > total_width) {
 				// divide available space between columns
-				int available_width = transaction.get_term_width () - total_width;
+				int available_width = get_term_width () - total_width;
 				margin = available_width / 4;
 				// get left space to size
 				size_length += available_width - (margin * 4);
@@ -1274,7 +1302,7 @@ namespace Pamac {
 				foreach (unowned string file in files) {
 					stdout.printf ("%s\n", dgettext (null, "No package owns %s").printf (file));
 				}
-				cmd.set_exit_status (1);
+				exit_status = 1;
 				return;
 			}
 			var iter = HashTableIter<string, Variant> (result);
@@ -1288,19 +1316,17 @@ namespace Pamac {
 		}
 
 		void checkupdates () {
-			this.hold ();
 			database.start_get_updates ();
-			database.get_updates_finished.connect (on_get_updates_finished);
+			loop.run ();
 		}
 
 		void on_get_updates_finished (Updates updates) {
-			database.get_updates_finished.disconnect (on_get_updates_finished);
 			uint updates_nb = updates.repos_updates.length () + updates.aur_updates.length ();
 			if (updates_nb == 0) {
-				stdout.printf ("%s\n", dgettext (null, "Your system is up-to-date"));
+				stdout.printf ("%s.\n", dgettext (null, "Your system is up-to-date"));
 			} else {
 				// special status when updates are available
-				cmd.set_exit_status (100);
+				exit_status = 100;
 				// print pkgs
 				int name_length = 0;
 				int version_length = 0;
@@ -1329,9 +1355,9 @@ namespace Pamac {
 				}
 				int total_width = name_length + version_length + repo_length + 3;
 				int margin = 0;
-				if (transaction.get_term_width () > total_width) {
+				if (get_term_width () > total_width) {
 					// divide available space between columns
-					int available_width = transaction.get_term_width () - total_width;
+					int available_width = get_term_width () - total_width;
 					margin = available_width / 3;
 					// get left space to repo
 					repo_length += available_width - (margin * 3);
@@ -1349,7 +1375,7 @@ namespace Pamac {
 													dgettext (null, "AUR"));
 				}
 			}
-			this.release ();
+			loop.quit ();
 		}
 
 		void install_pkgs (string[] targets) {
@@ -1427,9 +1453,9 @@ namespace Pamac {
 			int num_length = pkgs.length ().to_string ().length + 1;
 			int total_width = num_length + name_length + version_length + repo_length + 4;
 			int margin = 0;
-			if (transaction.get_term_width () > total_width) {
+			if (get_term_width () > total_width) {
 				// divide available space between columns
-				int available_width = transaction.get_term_width () - total_width;
+				int available_width = get_term_width () - total_width;
 				margin = available_width / 3;
 				// get left space to repo
 				repo_length += available_width - (margin * 3);
@@ -1594,8 +1620,8 @@ namespace Pamac {
 		}
 
 		void start_transaction () {
-			this.hold ();
 			transaction.start (to_install, to_remove, to_load, to_build, overwrite_files);
+			loop.run ();
 		}
 
 		void try_lock_and_run (TransactionAction action) {
@@ -1604,29 +1630,33 @@ namespace Pamac {
 			} else {
 				waiting = true;
 				stdout.printf (dgettext (null, "Waiting for another package manager to quit") + "...\n");
-				this.hold ();
 				Timeout.add (5000, () => {
 					if (!waiting) {
 						return false;
 					}
 					bool locked = transaction.get_lock ();
 					if (locked) {
-						this.release ();
+						loop.quit ();
 						waiting = false;
 						action ();
 					}
 					return !locked;
 				});
+				loop.run ();
 			}
 		}
 
 		void start_refresh () {
-			this.hold ();
-			// let's time to pkttyagent to get registred
-			Timeout.add (200, () => {
+			if (Posix.geteuid () != 0) {
+				// let's time to pkttyagent to get registred
+				Timeout.add (200, () => {
+					transaction.start_refresh (force_refresh);
+					return false;
+				});
+			} else {
 				transaction.start_refresh (force_refresh);
-				return false;
-			});
+			}
+			loop.run ();
 		}
 
 		void on_refresh_finished (bool success) {
@@ -1634,37 +1664,49 @@ namespace Pamac {
 				transaction.start_sysupgrade (enable_downgrade, temporary_ignorepkgs, overwrite_files);
 			} else {
 				transaction.unlock ();
-				this.release ();
-				cmd.set_exit_status (1);
+				loop.quit ();
+				exit_status = 1;
 			}
 		}
 
 		void on_transaction_finished (bool success) {
 			transaction.unlock ();
-			this.release ();
+			loop.quit ();
 			if (!success) {
-				cmd.set_exit_status (1);
+				exit_status = 1;
 			}
 		}
 
 		public static int main (string[] args) {
-			// set dbus environment variable to allow launch in tty
-			try {
-				var process = new Subprocess.newv ({"dbus-launch"}, SubprocessFlags.STDOUT_PIPE | SubprocessFlags.STDERR_SILENCE);
-				var dis = new DataInputStream (process.get_stdout_pipe ());
-				string? line;
-				while ((line = dis.read_line ()) != null) {
-					string[] splitted = line.split ("=", 2);
-					unowned string key = splitted[0];
-					unowned string? val = splitted[1];
-					Environment.set_variable (key, val, true);
+			if (Posix.geteuid () != 0) {
+				// set dbus environment variable to allow launch in tty
+				try {
+					var process = new Subprocess.newv ({"dbus-launch"}, SubprocessFlags.STDOUT_PIPE | SubprocessFlags.STDERR_SILENCE);
+					var dis = new DataInputStream (process.get_stdout_pipe ());
+					string? line;
+					while ((line = dis.read_line ()) != null) {
+						string[] splitted = line.split ("=", 2);
+						unowned string key = splitted[0];
+						unowned string? val = splitted[1];
+						Environment.set_variable (key, val, true);
+					}
+				} catch (Error e) {
+					stderr.printf (e.message);
 				}
-			} catch (Error e) {
-				stderr.printf (e.message);
 			}
+			// i18n
+			Intl.textdomain ("pamac");
+			Intl.setlocale (LocaleCategory.ALL, "");
+			// run
+			loop = new MainLoop ();
 			var cli = new Cli();
-			cli.run (args);
-			return cli.cmd.get_exit_status ();
+			cli.parse_command_line (args);
+			// stop system_daemon
+			cli.transaction = null;
+			if (cli.pkttyagent != null) {
+				cli.pkttyagent.force_exit ();
+			}
+			return cli.exit_status;
 		}
 	}
 }

@@ -95,8 +95,7 @@ namespace Pamac {
 		private As.Store app_store;
 		private string locale;
 
-		public signal void emit_get_updates_progress (uint percent);
-		public signal void get_updates_finished (UpdatesStruct updates);
+		
 
 		public UserDaemon () {
 			alpm_config = new AlpmConfig ("/etc/pacman.conf");
@@ -299,6 +298,12 @@ namespace Pamac {
 						installed_version = local_pkg.version;
 					}
 					repo_name = alpm_pkg.db.name;
+				} else {
+					// load pkg or built pkg
+					unowned Alpm.Package? local_pkg = alpm_handle.localdb.get_pkg (alpm_pkg.name);
+					if (local_pkg != null) {
+						installed_version = local_pkg.version;
+					}
 				}
 				if (repo_name != "") {
 					// find if pkgname provides only one app

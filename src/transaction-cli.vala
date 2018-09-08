@@ -46,11 +46,6 @@ namespace Pamac {
 			});
 		}
 
-		// destruction
-		~TransactionCli () {
-			stop_daemon ();
-		}
-
 		protected override async int run_cmd_line (string[] args, string working_directory, Cancellable cancellable) {
 			int status = 1;
 			var launcher = new SubprocessLauncher (SubprocessFlags.NONE);

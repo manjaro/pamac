@@ -1,5 +1,5 @@
 data/polkit/org.manjaro.pamac.policy.in
-src/user_daemon.vala
+src/alpm_utils.vala
 src/system_daemon.vala
 src/transaction.vala
 src/transaction-gtk.vala

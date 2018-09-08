@@ -166,8 +166,6 @@ namespace Pamac {
 			if (!check_pamac_running ()) {
 				// stop system_daemon
 				transaction = null;
-				// stop user_daemon
-				database = null;
 			}
 		}
 

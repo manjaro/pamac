@@ -182,6 +182,8 @@ namespace Pamac {
 
 		public TransactionGtk transaction;
 		public Database database;
+		bool intern_lock;
+		GLib.File lockfile;
 		delegate void TransactionAction ();
 
 		bool refreshing;
@@ -268,7 +270,13 @@ namespace Pamac {
 				uint origin;
 				string pkgname;
 				treemodel.get (treeiter, 0, out origin, 1, out pkgname);
-				if (origin == 0) { // installed
+				if (filters_stack.visible_child_name == "updates") {
+					if (unlikely (temporary_ignorepkgs.contains (pkgname))) {
+						pixbuf = uninstalled_icon;
+					} else {
+						pixbuf = to_upgrade_icon;
+					}
+				} else if (origin == 0) { // installed
 					if (unlikely (transaction.transaction_summary.contains (pkgname))) {
 						pixbuf = installed_locked_icon;
 					} else if (unlikely (database.should_hold (pkgname))) {
@@ -284,8 +292,6 @@ namespace Pamac {
 					pixbuf = available_locked_icon;
 				} else if (unlikely (to_install.contains (pkgname))) {
 					pixbuf = to_install_icon;
-				} else if (unlikely (to_update.contains (pkgname))) {
-					pixbuf = to_upgrade_icon;
 				} else {
 					pixbuf = uninstalled_icon;
 				}
@@ -359,6 +365,11 @@ namespace Pamac {
 			database.get_updates_progress.connect (on_get_updates_progress);
 			database.get_updates_finished.connect (on_get_updates_finished);
 
+			// check extern lock
+			lockfile = GLib.File.new_for_path (database.get_lockfile ());
+			intern_lock = false;
+			Timeout.add (200, check_extern_lock);
+
 			transaction = new TransactionGtk (database, this as Gtk.ApplicationWindow);
 			transaction.no_confirm_upgrade = true;
 			transaction.start_downloading.connect (on_start_downloading);
@@ -424,6 +435,25 @@ namespace Pamac {
 			}
 		}
 
+		bool check_lock_and_updates () {
+			if (!lockfile.query_exists ()) {
+				database.refresh ();
+				refresh_packages_list ();
+				print("lock\n");
+				Timeout.add (200, check_extern_lock);
+				return false;
+			}
+			return true;
+		}
+
+		bool check_extern_lock () {
+			if (!intern_lock && lockfile.query_exists ()) {
+				Timeout.add (1000, check_lock_and_updates);
+				return false;
+			}
+			return true;
+		}
+
 		void on_write_pamac_config_finished (bool recurse, uint64 refresh_period, bool no_update_hide_icon,
 											bool enable_aur) {
 			support_aur (enable_aur);
@@ -431,6 +461,7 @@ namespace Pamac {
 
 		void on_set_pkgreason_finished () {
 			transaction.unlock ();
+			intern_lock = false;
 			scroll_to_top = false;
 			refresh_packages_list ();
 			if (main_stack.visible_child_name == "details") {
@@ -472,6 +503,7 @@ namespace Pamac {
 
 		void try_lock_and_run (TransactionAction action) {
 			if (transaction.get_lock ()) {
+				intern_lock = true;
 				action ();
 			} else {
 				waiting = true;
@@ -486,6 +518,7 @@ namespace Pamac {
 					bool locked = transaction.get_lock ();
 					if (locked) {
 						waiting = false;
+						intern_lock = true;
 						transaction.stop_progressbar_pulse ();
 						action ();
 					}
@@ -683,6 +716,7 @@ namespace Pamac {
 
 		void on_mark_explicit_button_clicked (Gtk.Button button) {
 			if (transaction.get_lock ()) {
+				intern_lock = true;
 				transaction.start_set_pkgreason (current_package_displayed, 0); //Alpm.Package.Reason.EXPLICIT
 			}
 		}
@@ -1434,7 +1468,11 @@ namespace Pamac {
 					select_all_button.visible = false;
 					apply_button.sensitive = false;
 					this.get_window ().set_cursor (new Gdk.Cursor.for_display (Gdk.Display.get_default (), Gdk.CursorType.WATCH));
-					database.start_get_updates ();
+					// let time to hide_sidebar
+					Timeout.add (200, () => {
+						database.start_get_updates ();
+						return false;
+					});
 					break;
 				case "pending":
 					this.title = dgettext (null, "Pending");
@@ -1605,13 +1643,13 @@ namespace Pamac {
 				} else if (to_remove.remove (pkgname)) {
 				} else {
 					if (origin == 0) { // installed
-						if (!database.should_hold (pkgname)) {
+						if (to_update.remove (pkgname)) {
+							temporary_ignorepkgs.add (pkgname);
+						} else if (temporary_ignorepkgs.remove (pkgname)) {
+							to_update.add (pkgname);
+						} else if (!database.should_hold (pkgname)) {
 							to_remove.add (pkgname);
 						}
-					} else if (to_update.remove (pkgname)) {
-						temporary_ignorepkgs.add (pkgname);
-					} else if (temporary_ignorepkgs.remove (pkgname)) {
-						to_update.add (pkgname);
 					} else {
 						to_install.add (pkgname);
 					}
@@ -2621,6 +2659,9 @@ namespace Pamac {
 
 		void on_get_updates_progress (uint percent) {
 			checking_label.set_markup ("<big><b>%s %u %</b></big>".printf (dgettext (null, "Checking for Updates"), percent));
+			while (Gtk.events_pending ()) {
+				Gtk.main_iteration ();
+			}
 		}
 
 		void on_get_updates_finished (Updates updates) {
@@ -2648,6 +2689,7 @@ namespace Pamac {
 				if (!refreshing && !transaction_running && !sysupgrade_running) {
 					hide_transaction_infobox ();
 				}
+				hide_sidebar ();
 				origin_stack.visible_child_name = "updated";
 				this.get_window ().set_cursor (null);
 			} else {
@@ -2736,6 +2778,7 @@ namespace Pamac {
 
 		void on_transaction_finished (bool success) {
 			transaction.unlock ();
+			intern_lock = false;
 			if (!success) {
 				foreach (unowned string name in previous_to_install) {
 					if (database.get_installed_pkg (name).name == "") {

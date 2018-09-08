@@ -42,7 +42,7 @@ class AlpmRepo {
 
 }
 
-public class AlpmConfig {
+internal class AlpmConfig {
 	string conf_path;
 	string? rootdir;
 	string? dbpath;

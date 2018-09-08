@@ -41,25 +41,18 @@ executable('pamac-clean-cache',
 	c_args: common_c_args,
 	install: true)
 
-executable('pamac-user-daemon',
-	sources: ['alpm_config.vala', 'common_daemon.vala', 'package.vala', 'aur.vala', 'user_daemon.vala'],
-	dependencies: [vala_deps, alpm_deps, json, libsoup, appstream],
-	vala_args: [common_vala_args, alpm_vala_args, '--thread'],
-	c_args: [common_c_args, alpm_c_args],
-	install : true)
-
 executable('pamac-system-daemon',
-	sources: ['common_daemon.vala', 'package.vala', 'pamac_config.vala', 'alpm_config.vala', 'aur.vala', 'system_daemon.vala'],
+	sources: ['common_daemon.vala', 'package.vala', 'pamac_config.vala', 'alpm_config.vala', 'aur.vala', 'alpm_utils.vala', 'system_daemon.vala'],
 	dependencies: [vala_deps, alpm_deps, json, libsoup, polkit, libcurl, appstream],
 	vala_args: [common_vala_args, alpm_vala_args, '--thread'],
 	c_args: [common_c_args, alpm_c_args],
 	install : true)
 
 libpamac = library('pamac',
-	sources: [common_sources, 'error.vala', 'database.vala', 'transaction.vala'],
-	dependencies: [gio, posix, math],
-	vala_args: common_vala_args,
-	c_args: common_c_args,
+	sources: [common_sources, 'error.vala', 'alpm_config.vala', 'aur.vala', 'database.vala', 'transaction_interface.vala', 'alpm_utils.vala', 'transaction_interface_root.vala', 'transaction_interface_daemon.vala', 'transaction.vala'],
+	dependencies: [gio, posix, math, json, appstream, libsoup, libalpm, libcurl],
+	vala_args: [common_vala_args, alpm_vala_args, '--thread'],
+	c_args: [common_c_args, alpm_c_args],
 	vala_gir: 'Pamac-1.0.gir',
 	install: true,
 	install_dir: [true, true, true, true])
