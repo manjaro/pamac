@@ -206,6 +206,9 @@ namespace Pamac {
 
 		public ManagerWindow (Gtk.Application application) {
 			Object (application: application);
+		}
+
+		construct {
 			unowned string? use_csd = Environment.get_variable ("GTK_CSD");
 			if (use_csd == "0") {
 				headerbar.show_close_button = false;
@@ -1612,20 +1615,23 @@ namespace Pamac {
 		void on_properties_stack_visible_child_changed () {
 			switch (properties_stack.visible_child_name) {
 				case "files":
+					files_textview.buffer.set_text ("", -1);
 					this.get_window ().set_cursor (new Gdk.Cursor.for_display (Gdk.Display.get_default (), Gdk.CursorType.WATCH));
 					while (Gtk.events_pending ()) {
 						Gtk.main_iteration ();
 					}
-					var files = database.get_pkg_files (current_package_displayed);
-					StringBuilder text = new StringBuilder ();
-					foreach (unowned string file in files) {
-						if (text.len > 0) {
-							text.append ("\n");
+					database.get_pkg_files_async.begin (current_package_displayed, (obj, res) => {
+						var files = database.get_pkg_files_async.end (res);
+						StringBuilder text = new StringBuilder ();
+						foreach (unowned string file in files) {
+							if (text.len > 0) {
+								text.append ("\n");
+							}
+							text.append (file);
 						}
-						text.append (file);
-					}
-					files_textview.buffer.set_text (text.str, (int) text.len);
-					this.get_window ().set_cursor (null);
+						files_textview.buffer.set_text (text.str, (int) text.len);
+						this.get_window ().set_cursor (null);
+					});
 					break;
 				default:
 					break;
