@@ -49,7 +49,7 @@ namespace Pamac {
 		return results;
 	}
 
-	internal async Json.Array aur_search (string[] needles) {
+	internal Json.Array aur_search (string[] needles) {
 		if (needles.length == 0) {
 			return new Json.Array ();
 		} else {
@@ -81,7 +81,7 @@ namespace Pamac {
 		}
 	}
 
-	internal async Json.Array aur_multiinfo (string[] pkgnames) {
+	internal Json.Array aur_multiinfo (string[] pkgnames) {
 		if (pkgnames.length == 0) {
 			return new Json.Array ();
 		}

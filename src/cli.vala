@@ -117,7 +117,7 @@ namespace Pamac {
 					} else if (args[2] == "--aur" || args[2] == "-a") {
 						init_database ();
 						database.config.enable_aur = true;
-						display_aur_infos(args[3:args.length]);
+						display_aur_infos (args[3:args.length]);
 					} else {
 						init_database ();
 						display_pkg_infos (args[2:args.length]);
@@ -744,60 +744,56 @@ namespace Pamac {
 		}
 
 		void search_in_aur (string search_string) {
-			database.search_in_aur_async.begin (search_string, (obj,res) => {
-				var pkgs = database.search_in_aur_async.end (res);
-				if (pkgs.length () == 0) {
-					exit_status = 1;
-					return;
+			var pkgs = database.search_in_aur (search_string);
+			if (pkgs.length () == 0) {
+				exit_status = 1;
+				return;
+			}
+			int version_length = 0;
+			foreach (unowned AURPackage pkg in pkgs) {
+				if (pkg.version.length > version_length) {
+					version_length = pkg.version.length;
 				}
-				int version_length = 0;
-				foreach (unowned AURPackage pkg in pkgs) {
-					if (pkg.version.length > version_length) {
-						version_length = pkg.version.length;
-					}
+			}
+			int aur_length = dgettext (null, "AUR").char_count ();
+			int available_width = get_term_width () - (version_length + aur_length + 3);
+			// sort aur pkgs by popularity
+			var results = new List<AURPackage?> ();
+			foreach (unowned AURPackage pkg in pkgs) {
+				results.append (pkg);
+			}
+			results.sort ((pkg1, pkg2) => {
+				double diff = pkg2.popularity - pkg1.popularity;
+				if (diff < 0) {
+					return -1;
+				} else if (diff > 0) {
+					return 1;
+				} else {
+					return 0;
 				}
-				int aur_length = dgettext (null, "AUR").char_count ();
-				int available_width = get_term_width () - (version_length + aur_length + 3);
-				// sort aur pkgs by popularity
-				var results = new List<AURPackage?> ();
-				foreach (unowned AURPackage pkg in pkgs) {
-					results.append (pkg);
-				}
-				results.sort ((pkg1, pkg2) => {
-					double diff = pkg2.popularity - pkg1.popularity;
-					if (diff < 0) {
-						return -1;
-					} else if (diff > 0) {
-						return 1;
-					} else {
-						return 0;
-					}
-				});
-				foreach (unowned AURPackage pkg in results) {
-					var str_builder = new StringBuilder ();
-					string name = pkg.name;
-					if (pkg.installed_version != "") {
-						name = "%s [%s]".printf (pkg.name, dgettext (null, "Installed"));
-					}
-					str_builder.append (name);
-					str_builder.append (" ");
-					int diff = available_width - name.char_count ();
-					if (diff > 0) {
-						while (diff > 0) {
-							str_builder.append (" ");
-							diff--;
-						}
-					}
-					str_builder.append ("%-*s %s \n".printf (version_length, pkg.version, dgettext (null, "AUR")));
-					stdout.printf ("%s", str_builder.str);
-					string[] cuts = split_string (pkg.desc, 2, available_width);
-					foreach (unowned string cut in cuts) {
-						print_aligned ("", cut, 2);
-					}
-				}
-				loop.quit ();
 			});
-			loop.run ();
+			foreach (unowned AURPackage pkg in results) {
+				var str_builder = new StringBuilder ();
+				string name = pkg.name;
+				if (pkg.installed_version != "") {
+					name = "%s [%s]".printf (pkg.name, dgettext (null, "Installed"));
+				}
+				str_builder.append (name);
+				str_builder.append (" ");
+				int diff = available_width - name.char_count ();
+				if (diff > 0) {
+					while (diff > 0) {
+						str_builder.append (" ");
+						diff--;
+					}
+				}
+				str_builder.append ("%-*s %s \n".printf (version_length, pkg.version, dgettext (null, "AUR")));
+				stdout.printf ("%s", str_builder.str);
+				string[] cuts = split_string (pkg.desc, 2, available_width);
+				foreach (unowned string cut in cuts) {
+					print_aligned ("", cut, 2);
+				}
+			}
 		}
 
 		void display_pkg_infos (string[] pkgnames) {
@@ -1030,145 +1026,141 @@ namespace Pamac {
 				}
 			}
 			foreach (string pkgname in pkgnames) {
-				database.get_aur_pkg_details_async.begin (pkgname, (obj, res) => {
-					var details = database.get_aur_pkg_details_async.end (res);
-					if (details.name == "") {
-						print_error (dgettext (null, "target not found: %s").printf (pkgname) + "\n");
-						return;
-					}
-					// Name
-					print_aligned (properties[0], ": %s".printf (details.name), max_length);
-					// Package Base
-					if (details.packagebase != details.name) {
-						print_aligned (properties[1], ": %s".printf (details.packagebase), max_length);
-					}
-					// Version
-					print_aligned (properties[2], ": %s".printf (details.version), max_length);
-					// Description
-					string[] cuts = split_string (details.desc, max_length + 2);
-					print_aligned (properties[3], ": %s".printf (cuts[0]), max_length);
-					int i = 1;
+				var details = database.get_aur_pkg_details (pkgname);
+				if (details.name == "") {
+					print_error (dgettext (null, "target not found: %s").printf (pkgname) + "\n");
+					return;
+				}
+				// Name
+				print_aligned (properties[0], ": %s".printf (details.name), max_length);
+				// Package Base
+				if (details.packagebase != details.name) {
+					print_aligned (properties[1], ": %s".printf (details.packagebase), max_length);
+				}
+				// Version
+				print_aligned (properties[2], ": %s".printf (details.version), max_length);
+				// Description
+				string[] cuts = split_string (details.desc, max_length + 2);
+				print_aligned (properties[3], ": %s".printf (cuts[0]), max_length);
+				int i = 1;
+				while (i < cuts.length) {
+					print_aligned ("", "%s".printf (cuts[i]), max_length + 2);
+					i++;
+				}
+				// URL
+				print_aligned (properties[4], ": %s".printf (details.url), max_length);
+				// Licenses
+				print_aligned (properties[5], ": %s".printf (details.licenses.nth_data (0)), max_length);
+				i = 1;
+				while (i < details.licenses.length ()) {
+					print_aligned ("", "%s".printf (details.licenses.nth_data (i)), max_length + 2);
+					i++;
+				}
+				// Depends
+				if (details.depends.length () > 0) {
+					cuts = split_string (concatenate_strings_list (details.depends), max_length + 2);
+					print_aligned (properties[6], ": %s".printf (cuts[0]), max_length);
+					i = 1;
 					while (i < cuts.length) {
 						print_aligned ("", "%s".printf (cuts[i]), max_length + 2);
 						i++;
 					}
-					// URL
-					print_aligned (properties[4], ": %s".printf (details.url), max_length);
-					// Licenses
-					print_aligned (properties[5], ": %s".printf (details.licenses.nth_data (0)), max_length);
+				}
+				// Make Depends
+				if (details.makedepends.length () > 0) {
+					cuts = split_string (concatenate_strings_list (details.makedepends), max_length + 2);
+					print_aligned (properties[7], ": %s".printf (cuts[0]), max_length);
 					i = 1;
-					while (i < details.licenses.length ()) {
-						print_aligned ("", "%s".printf (details.licenses.nth_data (i)), max_length + 2);
+					while (i < cuts.length) {
+						print_aligned ("", "%s".printf (cuts[i]), max_length + 2);
 						i++;
 					}
-					// Depends
-					if (details.depends.length () > 0) {
-						cuts = split_string (concatenate_strings_list (details.depends), max_length + 2);
-						print_aligned (properties[6], ": %s".printf (cuts[0]), max_length);
-						i = 1;
-						while (i < cuts.length) {
-							print_aligned ("", "%s".printf (cuts[i]), max_length + 2);
-							i++;
-						}
+				}
+				// Check Depends
+				if (details.checkdepends.length () > 0) {
+					cuts = split_string (concatenate_strings_list (details.checkdepends), max_length + 2);
+					print_aligned (properties[8], ": %s".printf (cuts[0]), max_length);
+					i = 1;
+					while (i < cuts.length) {
+						print_aligned ("", "%s".printf (cuts[i]), max_length + 2);
+						i++;
 					}
-					// Make Depends
-					if (details.makedepends.length () > 0) {
-						cuts = split_string (concatenate_strings_list (details.makedepends), max_length + 2);
-						print_aligned (properties[7], ": %s".printf (cuts[0]), max_length);
-						i = 1;
-						while (i < cuts.length) {
-							print_aligned ("", "%s".printf (cuts[i]), max_length + 2);
-							i++;
-						}
+				}
+				// Opt depends
+				if (details.optdepends.length () > 0) {
+					string depstring = details.optdepends.nth_data (0);
+					var satisfier = database.find_installed_satisfier (depstring);
+					if (satisfier.name != "") {
+						depstring = "%s [%s]".printf (depstring, dgettext (null, "Installed"));
 					}
-					// Check Depends
-					if (details.checkdepends.length () > 0) {
-						cuts = split_string (concatenate_strings_list (details.checkdepends), max_length + 2);
-						print_aligned (properties[8], ": %s".printf (cuts[0]), max_length);
-						i = 1;
-						while (i < cuts.length) {
-							print_aligned ("", "%s".printf (cuts[i]), max_length + 2);
-							i++;
-						}
+					cuts = split_string (depstring, max_length + 2);
+					print_aligned (properties[9], ": %s".printf (cuts[0]), max_length);
+					i = 1;
+					while (i < cuts.length) {
+						print_aligned ("", "%s".printf (cuts[i]), max_length + 2);
+						i++;
 					}
-					// Opt depends
-					if (details.optdepends.length () > 0) {
-						string depstring = details.optdepends.nth_data (0);
-						var satisfier = database.find_installed_satisfier (depstring);
+					i = 1;
+					while (i < details.optdepends.length ()) {
+						depstring = details.optdepends.nth_data (i);
+						satisfier = database.find_installed_satisfier (depstring);
 						if (satisfier.name != "") {
 							depstring = "%s [%s]".printf (depstring, dgettext (null, "Installed"));
 						}
 						cuts = split_string (depstring, max_length + 2);
-						print_aligned (properties[9], ": %s".printf (cuts[0]), max_length);
-						i = 1;
-						while (i < cuts.length) {
-							print_aligned ("", "%s".printf (cuts[i]), max_length + 2);
-							i++;
+						int j = 0;
+						while (j < cuts.length) {
+							print_aligned ("", "%s".printf (cuts[j]), max_length + 2);
+							j++;
 						}
-						i = 1;
-						while (i < details.optdepends.length ()) {
-							depstring = details.optdepends.nth_data (i);
-							satisfier = database.find_installed_satisfier (depstring);
-							if (satisfier.name != "") {
-								depstring = "%s [%s]".printf (depstring, dgettext (null, "Installed"));
-							}
-							cuts = split_string (depstring, max_length + 2);
-							int j = 0;
-							while (j < cuts.length) {
-								print_aligned ("", "%s".printf (cuts[j]), max_length + 2);
-								j++;
-							}
-							i++;
-						}
+						i++;
 					}
-					// Provides
-					if (details.provides.length () > 0) {
-						cuts = split_string (concatenate_strings_list (details.provides), max_length + 2);
-						print_aligned (properties[10], ": %s".printf (cuts[0]), max_length);
-						i = 1;
-						while (i < cuts.length) {
-							print_aligned ("", "%s".printf (cuts[i]), max_length + 2);
-							i++;
-						}
+				}
+				// Provides
+				if (details.provides.length () > 0) {
+					cuts = split_string (concatenate_strings_list (details.provides), max_length + 2);
+					print_aligned (properties[10], ": %s".printf (cuts[0]), max_length);
+					i = 1;
+					while (i < cuts.length) {
+						print_aligned ("", "%s".printf (cuts[i]), max_length + 2);
+						i++;
 					}
-					// Replaces
-					if (details.replaces.length () > 0) {
-						cuts = split_string (concatenate_strings_list (details.replaces), max_length + 2);
-						print_aligned (properties[11], ": %s".printf (cuts[0]), max_length);
-						i = 1;
-						while (i < cuts.length) {
-							print_aligned ("", "%s".printf (cuts[i]), max_length + 2);
-							i++;
-						}
+				}
+				// Replaces
+				if (details.replaces.length () > 0) {
+					cuts = split_string (concatenate_strings_list (details.replaces), max_length + 2);
+					print_aligned (properties[11], ": %s".printf (cuts[0]), max_length);
+					i = 1;
+					while (i < cuts.length) {
+						print_aligned ("", "%s".printf (cuts[i]), max_length + 2);
+						i++;
 					}
-					// Conflicts
-					if (details.conflicts.length () > 0) {
-						cuts = split_string (concatenate_strings_list (details.conflicts), max_length + 2);
-						print_aligned (properties[12], ": %s".printf (cuts[0]), max_length);
-						i = 1;
-						while (i < cuts.length) {
-							print_aligned ("", "%s".printf (cuts[i]), max_length + 2);
-							i++;
-						}
+				}
+				// Conflicts
+				if (details.conflicts.length () > 0) {
+					cuts = split_string (concatenate_strings_list (details.conflicts), max_length + 2);
+					print_aligned (properties[12], ": %s".printf (cuts[0]), max_length);
+					i = 1;
+					while (i < cuts.length) {
+						print_aligned ("", "%s".printf (cuts[i]), max_length + 2);
+						i++;
 					}
-					// Maintainer
-					if (details.maintainer != "") {
-						print_aligned (properties[13], ": %s".printf (details.maintainer), max_length);
-					}
-					// First Submitted
-					print_aligned (properties[14], ": %s".printf (details.firstsubmitted), max_length);
-					// Last Modified
-					print_aligned (properties[15], ": %s".printf (details.lastmodified), max_length);
-					// Votes
-					print_aligned (properties[16], ": %s".printf (details.numvotes.to_string ()), max_length);
-					// Last Modified
-					if (details.outofdate != "") {
-						print_aligned (properties[17], ": %s".printf (details.outofdate), max_length);
-					}
-					stdout.printf ("\n");
-					loop.quit ();
-				});
-				loop.run ();
+				}
+				// Maintainer
+				if (details.maintainer != "") {
+					print_aligned (properties[13], ": %s".printf (details.maintainer), max_length);
+				}
+				// First Submitted
+				print_aligned (properties[14], ": %s".printf (details.firstsubmitted), max_length);
+				// Last Modified
+				print_aligned (properties[15], ": %s".printf (details.lastmodified), max_length);
+				// Votes
+				print_aligned (properties[16], ": %s".printf (details.numvotes.to_string ()), max_length);
+				// Last Modified
+				if (details.outofdate != "") {
+					print_aligned (properties[17], ": %s".printf (details.outofdate), max_length);
+				}
+				stdout.printf ("\n");
 			}
 		}
 

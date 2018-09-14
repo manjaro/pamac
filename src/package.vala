@@ -40,8 +40,8 @@ namespace Pamac {
 				icon = ""
 			};
 		}
-		internal Package.from_struct (PackageStruct pkg_struct) {
-			this.pkg_struct = pkg_struct;
+		internal Package.from_struct (owned PackageStruct pkg_struct) {
+			this.pkg_struct = (owned) pkg_struct;
 		}
 	}
 
@@ -111,8 +111,8 @@ namespace Pamac {
 			groups_priv = new List<string> ();
 			backups_priv = new List<string> ();
 		}
-		internal PackageDetails.from_struct (PackageDetailsStruct pkg_struct) {
-			this.pkg_struct = pkg_struct;
+		internal PackageDetails.from_struct (owned PackageDetailsStruct pkg_struct) {
+			this.pkg_struct = (owned) pkg_struct;
 			licenses_priv = new List<string> ();
 			depends_priv = new List<string> ();
 			optdepends_priv = new List<string> ();
@@ -171,8 +171,8 @@ namespace Pamac {
 				desc = ""
 			};
 		}
-		internal AURPackage.from_struct (AURPackageStruct pkg_struct) {
-			this.pkg_struct = pkg_struct;
+		internal AURPackage.from_struct (owned AURPackageStruct pkg_struct) {
+			this.pkg_struct = (owned) pkg_struct;
 		}
 	}
 
@@ -226,8 +226,8 @@ namespace Pamac {
 			replaces_priv = new List<string> ();
 			conflicts_priv = new List<string> ();
 		}
-		internal AURPackageDetails.from_struct (AURPackageDetailsStruct pkg_struct) {
-			this.pkg_struct = pkg_struct;
+		internal AURPackageDetails.from_struct (owned AURPackageDetailsStruct pkg_struct) {
+			this.pkg_struct = (owned) pkg_struct;
 			licenses_priv = new List<string> ();
 			depends_priv = new List<string> ();
 			makedepends_priv = new List<string> ();
