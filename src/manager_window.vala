@@ -405,7 +405,6 @@ namespace Pamac {
 
 			main_stack.notify["visible-child"].connect (on_main_stack_visible_child_changed);
 			filters_stack.notify["visible-child"].connect (on_filters_stack_visible_child_changed);
-			origin_stack.notify["visible-child"].connect (on_origin_stack_visible_child_changed);
 			properties_stack.notify["visible-child"].connect (on_properties_stack_visible_child_changed);
 
 			searchbar.notify["search-mode-enabled"].connect (on_search_mode_enabled);
@@ -442,7 +441,6 @@ namespace Pamac {
 			if (!lockfile.query_exists ()) {
 				database.refresh ();
 				refresh_packages_list ();
-				print("lock\n");
 				Timeout.add (200, check_extern_lock);
 				return false;
 			}
@@ -1395,7 +1393,11 @@ namespace Pamac {
 					restore_packages_sort_order ();
 					show_sidebar ();
 					set_pendings_operations ();
-					show_default_pkgs ();
+					// let time to show_sidebar
+					Timeout.add (200, () => {
+						show_default_pkgs ();
+						return false;
+					});
 					break;
 				case "categories":
 					header_filter_label.label = dgettext (null, "Categories");
@@ -1403,7 +1405,11 @@ namespace Pamac {
 					restore_packages_sort_order ();
 					show_sidebar ();
 					set_pendings_operations ();
-					on_categories_listbox_row_activated (categories_listbox.get_selected_row ());
+					// let time to show_sidebar
+					Timeout.add (200, () => {
+						on_categories_listbox_row_activated (categories_listbox.get_selected_row ());
+						return false;
+					});
 					break;
 				case "search":
 					this.title = dgettext (null, "Search");
@@ -1438,7 +1444,11 @@ namespace Pamac {
 					restore_packages_sort_order ();
 					show_sidebar ();
 					set_pendings_operations ();
-					on_groups_listbox_row_activated (groups_listbox.get_selected_row ());
+					// let time to show_sidebar
+					Timeout.add (200, () => {
+						on_groups_listbox_row_activated (groups_listbox.get_selected_row ());
+						return false;
+					});
 					break;
 				case "installed":
 					header_filter_label.label = dgettext (null, "Installed");
@@ -1446,7 +1456,11 @@ namespace Pamac {
 					restore_packages_sort_order ();
 					show_sidebar ();
 					set_pendings_operations ();
-					on_installed_listbox_row_activated (installed_listbox.get_selected_row ());
+					// let time to show_sidebar
+					Timeout.add (200, () => {
+						on_installed_listbox_row_activated (installed_listbox.get_selected_row ());
+						return false;
+					});
 					break;
 				case "repos":
 					header_filter_label.label = dgettext (null, "Repositories");
@@ -1454,7 +1468,11 @@ namespace Pamac {
 					restore_packages_sort_order ();
 					show_sidebar ();
 					set_pendings_operations ();
-					on_repos_listbox_row_activated (repos_listbox.get_selected_row ());
+					// let time to show_sidebar
+					Timeout.add (200, () => {
+						on_repos_listbox_row_activated (repos_listbox.get_selected_row ());
+						return false;
+					});
 					break;
 				case "updates":
 					this.title = dgettext (null, "Updates");
@@ -1489,42 +1507,11 @@ namespace Pamac {
 					} else {
 						hide_sidebar ();
 					}
-					var pkgs = new List<Package> ();
-					foreach (unowned string pkgname in to_install) {
-						var pkg = database.get_installed_pkg (pkgname);
-						if (pkg.name == "") {
-							pkg = database.get_sync_pkg (pkgname);
-						}
-						if (pkg.name != "") {
-							pkgs.append (pkg);
-						}
-					}
-					foreach (unowned string pkgname in to_remove) {
-						var pkg = database.get_installed_pkg (pkgname);
-						if (pkg.name != "") {
-							pkgs.append (pkg);
-						}
-					}
-					if (pkgs.length () > 0) {
-						populate_packages_list (pkgs);
-					}
-					if (to_build.length != 0) {
-						var aur_pkgs = new List<AURPackage> ();
-						foreach (unowned string pkgname in to_build) {
-							database.get_aur_pkg_async.begin (pkgname, (obj, res) => {
-								var aur_pkg = database.get_aur_pkg_async.end (res);
-								if (aur_pkg.name != "") {
-									aur_pkgs.append (aur_pkg);
-									populate_aur_list (aur_pkgs);
-									if (aur_pkgs.length () > 0 ) {
-										if (pkgs.length () == 0) {
-											origin_stack.visible_child_name = "aur";
-										}
-									}
-								}
-							});
-						}
-					}
+					// let time to show/hide_sidebar
+					Timeout.add (200, () => {
+						on_pending_listbox_row_activated (pending_listbox.get_selected_row ());
+						return false;
+					});
 					break;
 				default:
 					break;
@@ -1817,43 +1804,6 @@ namespace Pamac {
 			set_pendings_operations ();
 		}
 
-		void on_origin_stack_visible_child_changed () {
-			switch (filters_stack.visible_child_name) {
-				case "updates":
-					if (origin_stack.visible_child_name == "repos") {
-						updates_listbox.get_row_at_index (0).activate ();
-					} else if (origin_stack.visible_child_name == "aur") {
-						updates_listbox.get_row_at_index (1).activate ();
-					}
-					break;
-				case "pending":
-					if (origin_stack.visible_child_name == "repos") {
-						pending_listbox.get_row_at_index (0).activate ();
-					} else if (origin_stack.visible_child_name == "aur") {
-						pending_listbox.get_row_at_index (1).activate ();
-					}
-					break;
-				case "search":
-					if (origin_stack.visible_child_name == "repos") {
-						search_listbox.get_row_at_index (0).activate ();
-					} else if (origin_stack.visible_child_name == "aur") {
-						search_listbox.get_row_at_index (1).activate ();
-					}
-					break;
-				default:
-					if (origin_stack.visible_child_name == "repos") {
-						updates_listbox.select_row (updates_listbox.get_row_at_index (0));
-						pending_listbox.select_row (pending_listbox.get_row_at_index (0));
-						search_listbox.select_row (search_listbox.get_row_at_index (0));
-					} else if (origin_stack.visible_child_name == "aur") {
-						updates_listbox.select_row (updates_listbox.get_row_at_index (1));
-						pending_listbox.select_row (pending_listbox.get_row_at_index (1));
-						search_listbox.select_row (search_listbox.get_row_at_index (1));
-					}
-					break;
-			}
-		}
-
 		[GtkCallback]
 		void on_updates_listbox_row_activated (Gtk.ListBoxRow row) {
 			int index = row.get_index ();
@@ -1877,17 +1827,100 @@ namespace Pamac {
 			switch (index) {
 				case 0: // repos
 					if ((to_install.length + to_remove.length) > 0) {
+						this.get_window ().set_cursor (new Gdk.Cursor.for_display (Gdk.Display.get_default (), Gdk.CursorType.WATCH));
 						origin_stack.visible_child_name = "repos";
+						row.activatable = true;
+						row.selectable = true;
+						row.can_focus = true;
+						row.get_child ().sensitive = true;
+						var pkgs = new List<Package> ();
+						foreach (unowned string pkgname in to_install) {
+							var pkg = database.get_installed_pkg (pkgname);
+							if (pkg.name == "") {
+								pkg = database.get_sync_pkg (pkgname);
+							}
+							if (pkg.name != "") {
+								pkgs.append (pkg);
+							}
+						}
+						foreach (unowned string pkgname in to_remove) {
+							var pkg = database.get_installed_pkg (pkgname);
+							if (pkg.name != "") {
+								pkgs.append (pkg);
+							}
+						}
+						populate_packages_list (pkgs);
+					}
+					unowned Gtk.ListBoxRow aur_row = pending_listbox.get_row_at_index (1);
+					if (to_build.length > 0) {
+						aur_row.activatable = true;
+						aur_row.selectable = true;
+						aur_row.can_focus = true;
+						aur_row.get_child ().sensitive = true;
+						if ((to_install.length + to_remove.length) == 0) {
+							row.activatable = false;
+							row.selectable = false;
+							row.has_focus = false;
+							row.can_focus = false;
+							row.get_child ().sensitive = false;
+							pending_listbox.select_row (aur_row);
+							on_pending_listbox_row_activated (pending_listbox.get_selected_row ());
+						}
 					} else {
-						origin_stack.visible_child_name = "no_item";
+						aur_row.activatable = false;
+						aur_row.selectable = false;
+						aur_row.has_focus = false;
+						aur_row.can_focus = false;
+						aur_row.get_child ().sensitive = false;
 					}
 					break;
 				case 1: // aur
-					origin_stack.visible_child_name = "aur";
+					if (to_build.length > 0) {
+						this.get_window ().set_cursor (new Gdk.Cursor.for_display (Gdk.Display.get_default (), Gdk.CursorType.WATCH));
+						row.activatable = true;
+						row.selectable = true;
+						row.can_focus = true;
+						row.get_child ().sensitive = true;
+						populate_pendings_aur_pkgs.begin ();
+					}
+					unowned Gtk.ListBoxRow repo_row = pending_listbox.get_row_at_index (0);
+					if ((to_install.length + to_remove.length) > 0) {
+						repo_row.activatable = true;
+						repo_row.selectable = true;
+						repo_row.can_focus = true;
+						repo_row.get_child ().sensitive = true;
+						if (to_build.length == 0) {
+							row.activatable = false;
+							row.selectable = false;
+							row.has_focus = false;
+							row.can_focus = false;
+							row.get_child ().sensitive = false;
+							pending_listbox.select_row (repo_row);
+							on_pending_listbox_row_activated (pending_listbox.get_selected_row ());
+						}
+					} else {
+						repo_row.activatable = false;
+						repo_row.selectable = false;
+						repo_row.has_focus = false;
+						repo_row.can_focus = false;
+						repo_row.get_child ().sensitive = false;
+					}
 					break;
 				default:
 					break;
 			}
+		}
+
+		async void populate_pendings_aur_pkgs () {
+			var aur_pkgs = new List<AURPackage> ();
+			foreach (unowned string pkgname in to_build) {
+				var aur_pkg = yield database.get_aur_pkg_async (pkgname);
+				if (aur_pkg.name != "") {
+					aur_pkgs.append (aur_pkg);
+				}
+			}
+			origin_stack.visible_child_name = "aur";
+			populate_aur_list (aur_pkgs);
 		}
 
 		[GtkCallback]
@@ -1908,8 +1941,26 @@ namespace Pamac {
 						Gtk.main_iteration ();
 					}
 					database.search_pkgs_async.begin (search_string, (obj, res) => {
-						populate_packages_list (database.search_pkgs_async.end (res));
+						if (database.config.enable_aur) {
+							show_sidebar ();
+						} else {
+							hide_sidebar ();
+						}
+						var pkgs = database.search_pkgs_async.end (res);
+						if (pkgs.length () == 0 && database.config.enable_aur) {
+							
+							database.search_in_aur_async.begin (search_string, (obj, res) => {
+								if (database.search_in_aur_async.end (res).length () > 0) {
+									origin_stack.visible_child_name = "aur";
+								} else {
+									populate_packages_list (pkgs);
+								}
+							});
+						} else {
+							populate_packages_list (pkgs);
+						}
 					});
+					aur_list.clear ();
 					break;
 				case 1: // aur
 					Timeout.add (200, () => {
@@ -1928,6 +1979,7 @@ namespace Pamac {
 					database.search_in_aur_async.begin (search_string, (obj, res) => {
 						populate_aur_list (database.search_in_aur_async.end (res));
 					});
+					packages_list.clear ();
 					break;
 				default:
 					break;
@@ -2179,57 +2231,7 @@ namespace Pamac {
 					}
 					return false;
 				});
-				switch (origin_stack.visible_child_name) {
-					case "repos":
-						database.search_pkgs_async.begin (search_string, (obj, res) => {
-							if (database.config.enable_aur) {
-								show_sidebar ();
-							} else {
-								hide_sidebar ();
-							}
-							var pkgs = database.search_pkgs_async.end (res);
-							if (pkgs.length () == 0 && database.config.enable_aur) {
-								packages_list.clear ();
-								database.search_in_aur_async.begin (search_string, (obj, res) => {
-									if (database.search_in_aur_async.end (res).length () > 0) {
-										origin_stack.visible_child_name = "aur";
-									} else {
-										populate_packages_list (pkgs);
-									}
-								});
-							} else {
-								populate_packages_list (pkgs);
-							}
-						});
-						aur_list.clear ();
-						break;
-					case "aur":
-						database.search_in_aur_async.begin (search_string, (obj, res) => {
-							populate_aur_list (database.search_in_aur_async.end (res));
-						});
-						packages_list.clear ();
-						break;
-					case "updated":
-						// select repos
-						if (database.config.enable_aur) {
-							show_sidebar ();
-						} else {
-							hide_sidebar ();
-						}
-						origin_stack.visible_child_name = "repos";
-						break;
-					case "no_item":
-						// select repos
-						if (database.config.enable_aur) {
-							show_sidebar ();
-						} else {
-							hide_sidebar ();
-						}
-						origin_stack.visible_child_name = "repos";
-						break;
-					default:
-						break;
-				}
+				on_search_listbox_row_activated (search_listbox.get_selected_row ());
 			}
 		}
 
@@ -2673,18 +2675,18 @@ namespace Pamac {
 		void on_get_updates_finished (Updates updates) {
 			// copy updates in lists (keep a ref of them)
 			repos_updates = new List<Package> ();
-			foreach (Package pkg in updates.repos_updates) {
-				repos_updates.append ((owned) pkg);
+			foreach (unowned Package pkg in updates.repos_updates) {
+				repos_updates.append (pkg);
 			}
 			aur_updates = new List<AURPackage> ();
-			foreach (AURPackage pkg in updates.aur_updates) {
-				aur_updates.append ((owned) pkg);
+			foreach (unowned AURPackage pkg in updates.aur_updates) {
+				aur_updates.append (pkg);
 			}
 			origin_stack.visible_child_name = "repos";
 			checking_spinner.active = false;
 			if (filters_stack.visible_child_name == "updates") {
 				populate_updates ();
-			} else if ((repos_updates.length () + aur_updates.length ()) > 0) {
+			} else {
 				this.get_window ().set_cursor (null);
 			}
 		}
@@ -2715,9 +2717,9 @@ namespace Pamac {
 					show_sidebar ();
 				}
 				if (repos_updates.length () > 0) {
-					origin_stack.visible_child_name = "repos";
+					on_updates_listbox_row_activated (updates_listbox.get_selected_row ());
 				} else {
-					origin_stack.visible_child_name = "aur";
+					on_updates_listbox_row_activated (updates_listbox.get_selected_row ());
 				}
 				if (main_stack.visible_child_name == "browse") {
 					select_all_button.visible = filters_stack.visible_child_name != "filters";
