@@ -366,7 +366,6 @@ namespace Pamac {
 			database = new Database (config);
 			database.enable_appstream ();
 			database.get_updates_progress.connect (on_get_updates_progress);
-			database.get_updates_finished.connect (on_get_updates_finished);
 
 			// check extern lock
 			lockfile = GLib.File.new_for_path (database.get_lockfile ());
@@ -1491,7 +1490,7 @@ namespace Pamac {
 					this.get_window ().set_cursor (new Gdk.Cursor.for_display (Gdk.Display.get_default (), Gdk.CursorType.WATCH));
 					// let time to hide_sidebar
 					Timeout.add (200, () => {
-						database.start_get_updates ();
+						database.get_updates_async.begin (on_get_updates_finished);
 						return false;
 					});
 					break;
@@ -2510,7 +2509,7 @@ namespace Pamac {
 			if (filters_stack.visible_child_name == "updates") {
 				origin_stack.visible_child_name = "checking";
 				checking_spinner.active = true;
-				database.start_get_updates ();
+				database.get_updates_async.begin (on_get_updates_finished);
 			} else {
 				this.get_window ().set_cursor (null);
 			}
@@ -2672,7 +2671,8 @@ namespace Pamac {
 			}
 		}
 
-		void on_get_updates_finished (Updates updates) {
+		void on_get_updates_finished (Object? source_object, AsyncResult res) {
+			var updates = database.get_updates_async.end (res);
 			// copy updates in lists (keep a ref of them)
 			repos_updates = new List<Package> ();
 			foreach (unowned Package pkg in updates.repos_updates) {

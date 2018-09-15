@@ -56,7 +56,6 @@ namespace Pamac {
 			var config = new Config ("/etc/pamac.conf");
 			database = new Database (config);
 			database.refresh_files_dbs_on_get_updates = true;
-			database.get_updates_finished.connect (on_get_updates_finished);
 			database.config.notify["refresh-period"].connect((obj, prop) => {
 				launch_refresh_timeout (database.config.refresh_period);
 			});
@@ -140,30 +139,29 @@ namespace Pamac {
 
 		bool check_updates () {
 			if (database.config.refresh_period != 0) {
-				database.start_get_updates ();
+				database.get_updates_async.begin ((obj, res) => {
+					var updates = database.get_updates_async.end (res);
+					updates_nb = updates.repos_updates.length () + updates.aur_updates.length ();
+					if (updates_nb == 0) {
+						set_icon (noupdate_icon_name);
+						set_tooltip (noupdate_info);
+						set_icon_visible (!database.config.no_update_hide_icon);
+						close_notification ();
+					} else {
+						if (!check_pamac_running () && database.config.download_updates) {
+							start_system_daemon ();
+							try {
+								system_daemon.start_download_updates ();
+							} catch (Error e) {
+								stderr.printf ("Error: %s\n", e.message);
+							}
+						} else {
+							show_or_update_notification ();
+						}
+					}
+				});
 			}
 			return true;
-		}
-
-		void on_get_updates_finished (Updates updates) {
-			updates_nb = updates.repos_updates.length () + updates.aur_updates.length ();
-			if (updates_nb == 0) {
-				set_icon (noupdate_icon_name);
-				set_tooltip (noupdate_info);
-				set_icon_visible (!database.config.no_update_hide_icon);
-				close_notification ();
-			} else {
-				if (!check_pamac_running () && database.config.download_updates) {
-					start_system_daemon ();
-					try {
-						system_daemon.start_download_updates ();
-					} catch (Error e) {
-						stderr.printf ("Error: %s\n", e.message);
-					}
-				} else {
-					show_or_update_notification ();
-				}
-			}
 		}
 
 		void on_downloading_updates_finished () {
@@ -249,7 +247,6 @@ namespace Pamac {
 
 		bool check_lock_and_updates () {
 			if (!lockfile.query_exists ()) {
-				database.refresh ();
 				check_updates ();
 				Timeout.add (200, check_extern_lock);
 				return false;

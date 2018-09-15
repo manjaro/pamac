@@ -316,7 +316,6 @@ namespace Pamac {
 			config.enable_aur = false;
 			config.check_aur_updates = false;
 			database = new Database (config);
-			database.get_updates_finished.connect (on_get_updates_finished);
 		}
 
 		void init_transaction () {
@@ -1308,11 +1307,7 @@ namespace Pamac {
 		}
 
 		void checkupdates () {
-			database.start_get_updates ();
-			loop.run ();
-		}
-
-		void on_get_updates_finished (Updates updates) {
+			var updates = database.get_updates ();
 			uint updates_nb = updates.repos_updates.length () + updates.aur_updates.length ();
 			if (updates_nb == 0) {
 				stdout.printf ("%s.\n", dgettext (null, "Your system is up-to-date"));

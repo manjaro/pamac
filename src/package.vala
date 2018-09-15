@@ -321,7 +321,11 @@ namespace Pamac {
 		List<AURPackage> aur_updates_priv;
 		public List<Package> repos_updates { get {return repos_updates_priv;} }
 		public List<AURPackage> aur_updates { get {return aur_updates_priv;} }
-		internal Updates (UpdatesStruct updates_struct) {
+		internal Updates () {
+			repos_updates_priv = new List<Package> ();
+			aur_updates_priv = new List<AURPackage> ();
+		}
+		internal Updates.from_struct (UpdatesStruct updates_struct) {
 			repos_updates_priv = new List<Package> ();
 			aur_updates_priv = new List<AURPackage> ();
 			foreach (unowned PackageStruct pkg_struct in updates_struct.repos_updates) {

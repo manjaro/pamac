@@ -21,7 +21,6 @@ namespace Pamac {
 	public class Database: Object {
 
 		public signal void get_updates_progress (uint percent);
-		public signal void get_updates_finished (Updates updates);
 
 		public Config config { get; construct set; }
 		public bool refresh_files_dbs_on_get_updates { get; set; }
@@ -405,28 +404,28 @@ namespace Pamac {
 			return pkg;
 		}
 
-		int get_updates () {
+		public Updates get_updates () {
 			alpm_utils.emit_get_updates_progress.connect (on_emit_get_updates_progress);
-			alpm_utils.get_updates_finished.connect (on_get_updates_finished);
 			alpm_utils.check_aur_updates = config.check_aur_updates;
 			// be sure we have the good updates
 			alpm_utils.refresh_handle ();
-			alpm_utils.get_updates (refresh_files_dbs_on_get_updates);
-			return 0;
+			return alpm_utils.get_updates (refresh_files_dbs_on_get_updates);
 		}
 
-		public void start_get_updates () {
-			new Thread<int> ("get_updates", get_updates);
+		public async Updates get_updates_async () {
+			SourceFunc callback = get_updates_async.callback;
+			var updates = new Updates ();
+			new Thread<int> ("get_updates", () => {
+				updates = get_updates ();
+				Idle.add ((owned) callback);
+				return 0;
+			});
+			yield;
+			return updates;
 		}
 
 		void on_emit_get_updates_progress (uint percent) {
 			get_updates_progress (percent);
-		}
-
-		void on_get_updates_finished (UpdatesStruct updates_struct) {
-			alpm_utils.emit_get_updates_progress.disconnect (on_emit_get_updates_progress);
-			alpm_utils.get_updates_finished.disconnect (on_get_updates_finished);
-			get_updates_finished (new Updates (updates_struct));
 		}
 	}
 }

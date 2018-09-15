@@ -355,9 +355,9 @@ namespace Pamac {
 							name = alpm_pkg.name,
 							app_name = "",
 							version = alpm_pkg.version,
-							installed_version = installed_version,
+							installed_version = (owned) installed_version,
 							desc = alpm_pkg.desc ?? "",
-							repo = repo_name,
+							repo = (owned) repo_name,
 							size = alpm_pkg.isize,
 							download_size = alpm_pkg.download_size,
 							icon = ""
@@ -368,9 +368,9 @@ namespace Pamac {
 						name = alpm_pkg.name,
 						app_name = "",
 						version = alpm_pkg.version,
-						installed_version = installed_version,
+						installed_version = (owned) installed_version,
 						desc = alpm_pkg.desc ?? "",
-						repo = repo_name,
+						repo = (owned) repo_name,
 						size = alpm_pkg.isize,
 						download_size = alpm_pkg.download_size,
 						icon = ""
@@ -1601,7 +1601,7 @@ namespace Pamac {
 			}
 		}
 
-		internal void get_updates (bool refresh_files_dbs) {
+		internal Updates get_updates (bool refresh_files_dbs) {
 			PackageStruct[] repos_updates = {};
 			unowned Alpm.Package? pkg = null;
 			unowned Alpm.Package? candidate = null;
@@ -1673,12 +1673,12 @@ namespace Pamac {
 				get_aur_updates (aur_multiinfo (local_pkgs));
 			}
 			var updates = UpdatesStruct () {
-				repos_updates = repos_updates,
-				aur_updates = aur_updates
+				repos_updates = (owned) repos_updates,
+				aur_updates = (owned) aur_updates
 			};
 			rwlock.reader_unlock ();
 			emit_get_updates_progress (100);
-			get_updates_finished (updates);
+			return new Updates.from_struct (updates);
 		}
 
 		internal void get_updates_for_sysupgrade () {
