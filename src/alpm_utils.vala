@@ -110,7 +110,6 @@ namespace Pamac {
 		HashTable<string, Json.Object> aur_infos;
 		As.Store app_store;
 		string locale;
-		RWLock rwlock;
 
 		public signal void emit_event (uint primary_event, uint secondary_event, string[] details);
 		public signal void emit_providers (string depend, string[] providers);
@@ -154,7 +153,6 @@ namespace Pamac {
 			} else {
 				locale = "C";
 			}
-			rwlock = RWLock ();
 		}
 
 		~AlpmUtils () {
@@ -175,7 +173,6 @@ namespace Pamac {
 		}
 
 		internal void refresh_handle () {
-			rwlock.writer_lock ();
 			alpm_config = new AlpmConfig ("/etc/pacman.conf");
 			alpm_handle = alpm_config.get_handle ();
 			if (alpm_handle == null) {
@@ -199,26 +196,21 @@ namespace Pamac {
 				files_handle.totaldlcb = (Alpm.TotalDownloadCallBack) cb_totaldownload;
 				files_handle.logcb = (Alpm.LogCallBack) cb_log;
 			}
-			rwlock.writer_unlock ();
 		}
 
 		internal bool get_checkspace () {
-			rwlock.reader_lock ();
 			bool checkspace = alpm_handle.checkspace == 1 ? true : false;
-			rwlock.reader_unlock ();
 			return checkspace;
 		}
 
 		internal List<string> get_ignorepkgs () {
 			var result = new List<string> ();
-			rwlock.reader_lock ();
 			unowned Alpm.List<unowned string> ignorepkgs = alpm_handle.ignorepkgs;
 			while (ignorepkgs != null) {
 				unowned string ignorepkg = ignorepkgs.data;
 				result.append (ignorepkg);
 				ignorepkgs.next ();
 			}
-			rwlock.reader_unlock ();
 			return result;
 		}
 
@@ -230,9 +222,7 @@ namespace Pamac {
 		}
 
 		internal uint get_pkg_reason (string pkgname) {
-			rwlock.reader_lock ();
 			unowned Alpm.Package? pkg = alpm_handle.localdb.get_pkg (pkgname);
-			rwlock.reader_unlock ();
 			if (pkg != null) {
 				return pkg.reason;
 			}
@@ -240,7 +230,6 @@ namespace Pamac {
 		}
 
 		internal void set_pkgreason (string pkgname, uint reason) {
-			rwlock.writer_lock ();
 			unowned Alpm.Package? pkg = alpm_handle.localdb.get_pkg (pkgname);
 			if (pkg != null) {
 				// lock the database
@@ -249,7 +238,6 @@ namespace Pamac {
 					alpm_handle.trans_release ();
 				}
 			}
-			rwlock.writer_unlock ();
 		}
 
 		string get_localized_string (HashTable<string,string> hashtable) {
@@ -380,7 +368,6 @@ namespace Pamac {
 
 		internal List<Package> get_installed_pkgs () {
 			var pkgs = new List<Package> ();
-			rwlock.reader_lock ();
 			unowned Alpm.List<unowned Alpm.Package> pkgcache = alpm_handle.localdb.pkgcache;
 			while (pkgcache != null) {
 				unowned Alpm.Package alpm_pkg = pkgcache.data;
@@ -389,7 +376,6 @@ namespace Pamac {
 				}
 				pkgcache.next ();
 			}
-			rwlock.reader_unlock ();
 			return pkgs;
 		}
 
@@ -397,7 +383,6 @@ namespace Pamac {
 			var result = new List<Package> ();
 			app_store.get_apps ().foreach ((app) => {
 				unowned string pkgname = app.get_pkgname_default ();
-				rwlock.reader_lock ();
 				unowned Alpm.Package? local_pkg = alpm_handle.localdb.get_pkg (pkgname);
 				if (local_pkg != null) {
 					unowned Alpm.Package? sync_pkg = get_syncpkg (pkgname);
@@ -415,7 +400,6 @@ namespace Pamac {
 						}));
 					}
 				}
-				rwlock.reader_unlock ();
 			});
 			// keep a ref pkg is needed
 			var pkgs = new List<Package> ();
@@ -427,7 +411,6 @@ namespace Pamac {
 
 		internal List<Package> get_explicitly_installed_pkgs () {
 			var pkgs = new List<Package> ();
-			rwlock.reader_lock ();
 			unowned Alpm.List<unowned Alpm.Package> pkgcache = alpm_handle.localdb.pkgcache;
 			while (pkgcache != null) {
 				unowned Alpm.Package alpm_pkg = pkgcache.data;
@@ -438,13 +421,11 @@ namespace Pamac {
 				}
 				pkgcache.next ();
 			}
-			rwlock.reader_unlock ();
 			return pkgs;
 		}
 
 		internal List<Package> get_foreign_pkgs () {
 			var pkgs = new List<Package> ();
-			rwlock.reader_lock ();
 			unowned Alpm.List<unowned Alpm.Package> pkgcache = alpm_handle.localdb.pkgcache;
 			while (pkgcache != null) {
 				unowned Alpm.Package alpm_pkg = pkgcache.data;
@@ -466,13 +447,11 @@ namespace Pamac {
 				}
 				pkgcache.next ();
 			}
-			rwlock.reader_unlock ();
 			return pkgs;
 		}
 
 		internal List<Package> get_orphans () {
 			var pkgs = new List<Package> ();
-			rwlock.reader_lock ();
 			unowned Alpm.List<unowned Alpm.Package> pkgcache = alpm_handle.localdb.pkgcache;
 			while (pkgcache != null) {
 				unowned Alpm.Package alpm_pkg = pkgcache.data;
@@ -493,22 +472,15 @@ namespace Pamac {
 				}
 				pkgcache.next ();
 			}
-			rwlock.reader_unlock ();
 			return pkgs;
 		}
 
 		internal Package get_installed_pkg (string pkgname) {
-			rwlock.reader_lock ();
-			var pkg = new Package.from_struct (initialise_pkg_struct (alpm_handle.localdb.get_pkg (pkgname)));
-			rwlock.reader_unlock ();
-			return pkg;
+			return new Package.from_struct (initialise_pkg_struct (alpm_handle.localdb.get_pkg (pkgname)));
 		}
 
 		internal Package find_installed_satisfier (string depstring) {
-			rwlock.reader_lock ();
-			var pkg = new Package.from_struct (initialise_pkg_struct (Alpm.find_satisfier (alpm_handle.localdb.pkgcache, depstring)));
-			rwlock.reader_unlock ();
-			return pkg;
+			return new Package.from_struct (initialise_pkg_struct (Alpm.find_satisfier (alpm_handle.localdb.pkgcache, depstring)));
 		}
 
 		unowned Alpm.Package? get_syncpkg (string name) {
@@ -526,9 +498,7 @@ namespace Pamac {
 		}
 
 		internal Package get_sync_pkg (string pkgname) {
-			rwlock.reader_lock ();
 			var pkg = new Package.from_struct (initialise_pkg_struct (get_syncpkg (pkgname)));
-			rwlock.reader_unlock ();
 			return pkg;
 		}
 
@@ -547,9 +517,7 @@ namespace Pamac {
 		}
 
 		internal Package find_sync_satisfier (string depstring) {
-			rwlock.reader_lock ();
 			var pkg = new Package.from_struct (initialise_pkg_struct (find_dbs_satisfier (depstring)));
-			rwlock.reader_unlock ();
 			return pkg;
 		}
 
@@ -601,7 +569,6 @@ namespace Pamac {
 
 		internal List<Package> search_pkgs (string search_string) {
 			var pkgs = new List<Package> ();
-			rwlock.reader_lock ();
 			Alpm.List<unowned Alpm.Package> alpm_pkgs = search_all_dbs (search_string);
 			unowned Alpm.List<unowned Alpm.Package> list = alpm_pkgs;
 			while (list != null) {
@@ -611,7 +578,6 @@ namespace Pamac {
 				}
 				list.next ();
 			}
-			rwlock.reader_unlock ();
 			return pkgs;
 		}
 
@@ -649,11 +615,9 @@ namespace Pamac {
 			aur_pkgs.foreach_element ((array, index, node) => {
 				Json.Object aur_pkg = node.get_object ();
 				// remove results which exist in repos
-				rwlock.reader_lock ();
 				if (get_syncpkg (aur_pkg.get_string_member ("Name")) == null) {
 					result.append (new AURPackage.from_struct (initialise_aur_struct (aur_pkg)));
 				}
-				rwlock.reader_unlock ();
 			});
 			// keep a ref pkg is needed
 			var pkgs = new List<AURPackage> ();
@@ -821,20 +785,17 @@ namespace Pamac {
 
 		internal List<string> get_repos_names () {
 			var repos_names = new List<string> ();
-			rwlock.reader_lock ();
 			unowned Alpm.List<unowned Alpm.DB> syncdbs = alpm_handle.syncdbs;
 			while (syncdbs != null) {
 				unowned Alpm.DB db = syncdbs.data;
 				repos_names.append (db.name);
 				syncdbs.next ();
 			}
-			rwlock.reader_unlock ();
 			return repos_names;
 		}
 
 		internal List<Package> get_repo_pkgs (string repo) {
 			var pkgs = new List<Package> ();
-			rwlock.reader_lock ();
 			unowned Alpm.List<unowned Alpm.DB> syncdbs = alpm_handle.syncdbs;
 			while (syncdbs != null) {
 				unowned Alpm.DB db = syncdbs.data;
@@ -858,13 +819,11 @@ namespace Pamac {
 				}
 				syncdbs.next ();
 			}
-			rwlock.reader_unlock ();
 			return pkgs;
 		}
 
 		internal List<string> get_groups_names () {
 			var groups_names = new List<string> ();
-			rwlock.reader_lock ();
 			unowned Alpm.List<unowned Alpm.Group> groupcache = alpm_handle.localdb.groupcache;
 			while (groupcache != null) {
 				unowned Alpm.Group group = groupcache.data;
@@ -886,13 +845,11 @@ namespace Pamac {
 				}
 				syncdbs.next ();
 			}
-			rwlock.reader_unlock ();
 			return groups_names;
 		}
 
 		Alpm.List<unowned Alpm.Package> group_pkgs (string group_name) {
 			Alpm.List<unowned Alpm.Package> result = null;
-			rwlock.reader_lock ();
 			unowned Alpm.Group? grp = alpm_handle.localdb.get_group (group_name);
 			if (grp != null) {
 				unowned Alpm.List<unowned Alpm.Package> packages = grp.packages;
@@ -918,13 +875,11 @@ namespace Pamac {
 				}
 				syncdbs.next ();
 			}
-			rwlock.reader_unlock ();
 			return result;
 		}
 
 		internal List<Package> get_group_pkgs (string groupname) {
 			var pkgs = new List<Package> ();
-			rwlock.reader_lock ();
 			Alpm.List<unowned Alpm.Package> alpm_pkgs = group_pkgs (groupname);
 			unowned Alpm.List<unowned Alpm.Package> list = alpm_pkgs;
 			while (list != null) {
@@ -934,7 +889,6 @@ namespace Pamac {
 				}
 				list.next ();
 			}
-			rwlock.reader_unlock ();
 			return pkgs;
 		}
 
@@ -946,7 +900,6 @@ namespace Pamac {
 						unowned string pkgname = app.get_pkgname_default ();
 						string installed_version = "";
 						string repo_name = "";
-						rwlock.reader_lock ();
 						unowned Alpm.Package? local_pkg = alpm_handle.localdb.get_pkg (pkgname);
 						unowned Alpm.Package? sync_pkg = get_syncpkg (pkgname);
 						if (sync_pkg != null) {
@@ -968,7 +921,6 @@ namespace Pamac {
 								icon = get_app_icon (app, sync_pkg.db.name)
 							}));
 						}
-						rwlock.reader_unlock ();
 					}
 				});
 			});
@@ -982,7 +934,6 @@ namespace Pamac {
 
 		internal List<string> get_pkg_uninstalled_optdeps (string pkgname) {
 			var optdeps = new List<string> ();
-			rwlock.reader_lock ();
 			unowned Alpm.Package? alpm_pkg = alpm_handle.localdb.get_pkg (pkgname);
 			if (alpm_pkg == null) {
 				alpm_pkg = get_syncpkg (pkgname);
@@ -997,7 +948,6 @@ namespace Pamac {
 					optdepends.next ();
 				}
 			}
-			rwlock.reader_unlock ();
 			return optdeps;
 		}
 
@@ -1028,7 +978,6 @@ namespace Pamac {
 			string[] replaces = {};
 			string[] conflicts = {};
 			var details = PackageDetailsStruct ();
-			rwlock.reader_lock ();
 			unowned Alpm.Package? alpm_pkg = alpm_handle.localdb.get_pkg (pkgname);
 			unowned Alpm.Package? sync_pkg = get_syncpkg (pkgname);
 			if (alpm_pkg == null) {
@@ -1178,7 +1127,6 @@ namespace Pamac {
 					list.next ();
 				}
 			}
-			rwlock.reader_unlock ();
 			details.name = (owned) name;
 			details.app_name = (owned) app_name;
 			details.version = (owned) version;
@@ -1209,7 +1157,6 @@ namespace Pamac {
 
 		internal List<string> get_pkg_files (string pkgname) {
 			var files = new List<string> ();
-			rwlock.reader_lock ();
 			unowned Alpm.Package? alpm_pkg = alpm_handle.localdb.get_pkg (pkgname);
 			if (alpm_pkg != null) {
 				unowned Alpm.FileList filelist = alpm_pkg.files;
@@ -1237,13 +1184,11 @@ namespace Pamac {
 					syncdbs.next ();
 				}
 			}
-			rwlock.reader_unlock ();
 			return files;
 		}
 
 		internal HashTable<string, Variant> search_files (string[] files) {
 			var result = new HashTable<string, Variant> (str_hash, str_equal);
-			rwlock.reader_lock ();
 			foreach (unowned string file in files) {
 				// search in localdb
 				unowned Alpm.List<unowned Alpm.Package> pkgcache = alpm_handle.localdb.pkgcache;
@@ -1295,7 +1240,6 @@ namespace Pamac {
 					syncdbs.next ();
 				}
 			}
-			rwlock.reader_unlock ();
 			return result;
 		}
 
@@ -1343,9 +1287,7 @@ namespace Pamac {
 			// a new handle is required to use copied databases
 			refresh_handle ();
 			// update ".db"
-			rwlock.writer_lock ();
 			bool success = update_dbs (alpm_handle, force);
-			rwlock.writer_unlock ();
 			if (cancellable.is_cancelled ()) {
 				refresh_finished (false);
 				return;
@@ -1353,9 +1295,7 @@ namespace Pamac {
 			// only refresh ".files" if force
 			if (force_refresh) {
 				// update ".files", do not need to know if we succeeded
-				rwlock.writer_lock ();
 				update_dbs (files_handle, force);
-				rwlock.writer_unlock ();
 			}
 			if (cancellable.is_cancelled ()) {
 				refresh_finished (false);
@@ -1499,7 +1439,6 @@ namespace Pamac {
 									string dep_name = Alpm.Depend.from_string (dep_string).name;
 									unowned Alpm.Package? pkg = null;
 									// search for the name first to avoid provides trouble
-									rwlock.reader_lock ();
 									pkg = alpm_handle.localdb.get_pkg (dep_name);
 									if (pkg == null) {
 										pkg = get_syncpkg (dep_name);
@@ -1509,7 +1448,6 @@ namespace Pamac {
 											dep_to_check += (owned) dep_name;
 										}
 									}
-									rwlock.reader_unlock ();
 								});
 							}
 						}
@@ -1605,7 +1543,6 @@ namespace Pamac {
 			unowned Alpm.Package? pkg = null;
 			unowned Alpm.Package? candidate = null;
 			// use a tmp handle
-			rwlock.reader_lock ();
 			var tmp_handle = alpm_config.get_handle (false, true);
 			// refresh tmp dbs
 			// count this step as 90% of the total
@@ -1665,7 +1602,6 @@ namespace Pamac {
 					aur_updates.append (new AURPackage.from_struct (aur_struct));
 				}
 			}
-			rwlock.reader_unlock ();
 			emit_get_updates_progress (100);
 			return new Updates.from_lists ((owned) repos_updates, (owned) aur_updates);
 		}
@@ -1676,7 +1612,6 @@ namespace Pamac {
 			AURPackageStruct[] aur_updates = {};
 			unowned Alpm.Package? pkg = null;
 			unowned Alpm.Package? candidate = null;
-			rwlock.reader_lock ();
 			foreach (unowned string name in alpm_config.get_syncfirsts ()) {
 				pkg = Alpm.find_satisfier (alpm_handle.localdb.pkgcache, name);
 				if (pkg != null) {
@@ -1709,7 +1644,6 @@ namespace Pamac {
 				syncfirst_repos_updates = (owned) syncfirst_updates,
 				aur_updates = (owned) aur_updates
 			};
-			rwlock.reader_unlock ();
 			get_updates_finished (updates);
 		}
 
@@ -1732,7 +1666,6 @@ namespace Pamac {
 		internal int download_updates () {
 			downloading_updates = true;
 			// use tmp handle
-			rwlock.reader_lock ();
 			var handle = alpm_config.get_handle (false, true, false);
 			handle.fetchcb = (Alpm.FetchCallBack) cb_fetch;
 			cancellable.reset ();
@@ -1750,7 +1683,6 @@ namespace Pamac {
 				}
 				handle.trans_release ();
 			}
-			rwlock.reader_unlock ();
 			downloading_updates = false;
 			downloading_updates_finished ();
 			return success;
@@ -2036,9 +1968,7 @@ namespace Pamac {
 		internal void trans_prepare () {
 			to_build_pkgs = {};
 			aur_pkgbases_to_build = new GLib.List<string> ();
-			rwlock.writer_lock ();
 			launch_trans_prepare_real ();
-			rwlock.writer_unlock ();
 		}
 
 		void launch_trans_prepare_real () {
@@ -2095,13 +2025,11 @@ namespace Pamac {
 				stderr.printf ("SpawnError: %s\n", e.message);
 			}
 			// get an handle with fake aur db and without emit signal callbacks
-			rwlock.writer_lock ();
 			alpm_handle = alpm_config.get_handle ();
 			if (alpm_handle == null) {
 				current_error = ErrorInfos () {
 					message = _("Failed to initialize alpm library")
 				};
-				rwlock.writer_unlock ();
 				trans_commit_finished (false);
 			} else {
 				alpm_handle.questioncb = (Alpm.QuestionCallBack) cb_question;
@@ -2240,9 +2168,7 @@ namespace Pamac {
 								stderr.printf ("SpawnError: %s\n", e.message);
 							}
 							// get standard handle
-							rwlock.writer_unlock ();
 							refresh_handle ();
-							rwlock.writer_lock ();
 							// warnings already emitted
 							alpm_handle.logcb = null;
 							// launch standard prepare
@@ -2254,7 +2180,6 @@ namespace Pamac {
 						trans_release ();
 					}
 				}
-				rwlock.writer_unlock ();
 				if (!success) {
 					// get standard handle
 					refresh_handle ();
@@ -2326,7 +2251,6 @@ namespace Pamac {
 		internal void trans_commit () {
 			current_error = ErrorInfos ();
 			bool success = true;
-			rwlock.writer_lock ();
 			add_overwrite_files ();
 			Alpm.List err_data;
 			if (alpm_handle.trans_commit (out err_data) == -1) {
@@ -2397,7 +2321,6 @@ namespace Pamac {
 				}
 				return false;
 			});
-			rwlock.writer_unlock ();
 			trans_commit_finished (success);
 		}
 
