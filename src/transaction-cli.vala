@@ -287,7 +287,7 @@ namespace Pamac {
 					if (infos.installed_version.length > max_installed_version_length) {
 						max_installed_version_length = infos.installed_version.length;
 					}
-					string size = format_size (pkg.size);
+					string size = format_size (infos.download_size);
 					if (size.length > max_size_length) {
 						max_size_length = size.length;
 					}
@@ -314,7 +314,7 @@ namespace Pamac {
 					if (infos.version.length > max_version_length) {
 						max_version_length = infos.version.length;
 					}
-					string size = format_size (pkg.size);
+					string size = format_size (infos.download_size);
 					if (size.length > max_size_length) {
 						max_size_length = size.length;
 					}
@@ -323,14 +323,13 @@ namespace Pamac {
 			if (summary.to_reinstall.length () > 0) {
 				foreach (unowned Package infos in summary.to_reinstall) {
 					dsize += infos.download_size;
-					var pkg = database.get_installed_pkg (infos.name);
 					if (infos.name.length > max_name_length) {
 						max_name_length = infos.name.length;
 					}
 					if (infos.version.length > max_version_length) {
 						max_version_length = infos.version.length;
 					}
-					string size = format_size (pkg.size);
+					string size = format_size (infos.download_size);
 					if (size.length > max_size_length) {
 						max_size_length = size.length;
 					}
@@ -350,7 +349,7 @@ namespace Pamac {
 					if (infos.installed_version.length > max_installed_version_length) {
 						max_installed_version_length = infos.installed_version.length;
 					}
-					string size = format_size (pkg.size);
+					string size = format_size (infos.download_size);
 					if (size.length > max_size_length) {
 						max_size_length = size.length;
 					}
@@ -369,26 +368,29 @@ namespace Pamac {
 			if (summary.to_upgrade.length () > 0) {
 				stdout.printf (dgettext (null, "To upgrade") + " (%u):\n".printf (summary.to_upgrade.length ()));
 				foreach (unowned Package infos in summary.to_upgrade) {
+					string size = infos.download_size == 0 ? "" : format_size (infos.download_size);
 					stdout.printf ("  %-*s %-*s %-*s %*s \n", max_name_length + margin, infos.name,
 														max_version_length + margin, infos.version,
 														max_installed_version_length + margin, "(%s)".printf (infos.installed_version),
-														max_size_length + margin, format_size (infos.size));
+														max_size_length + margin, size);
 				}
 			}
 			if (summary.to_reinstall.length () > 0) {
 				stdout.printf (dgettext (null, "To reinstall") + " (%u):\n".printf (summary.to_reinstall.length ()));
 				foreach (unowned Package infos in summary.to_reinstall) {
+					string size = infos.download_size == 0 ? "" : format_size (infos.download_size);
 					stdout.printf ("  %-*s %-*s %*s \n", max_name_length + margin, infos.name,
 														max_version_length + margin, infos.version,
-														max_size_length + margin, format_size (infos.size));
+														max_size_length + margin, size);
 				}
 			}
 			if (summary.to_install.length () > 0) {
 				stdout.printf (dgettext (null, "To install") + " (%u):\n".printf (summary.to_install.length ()));
 				foreach (unowned Package infos in summary.to_install) {
+					string size = infos.download_size == 0 ? "" : format_size (infos.download_size);
 					stdout.printf ("  %-*s %-*s %*s \n", max_name_length + margin, infos.name,
 														max_version_length + margin, infos.version,
-														max_size_length + margin, format_size (infos.size));
+														max_size_length + margin, size);
 				}
 			}
 			if (summary.to_build.length () > 0) {
@@ -401,10 +403,11 @@ namespace Pamac {
 			if (summary.to_downgrade.length () > 0) {
 				stdout.printf (dgettext (null, "To downgrade") + " (%u):\n".printf (summary.to_downgrade.length ()));
 				foreach (unowned Package infos in summary.to_downgrade) {
+					string size = infos.download_size == 0 ? "" : format_size (infos.download_size);
 					stdout.printf ("  %-*s %-*s %-*s %*s \n", max_name_length + margin, infos.name,
 														max_version_length + margin, infos.version,
 														max_installed_version_length + margin, "(%s)".printf (infos.installed_version),
-														max_size_length + margin, format_size (infos.size));
+														max_size_length + margin, size);
 				}
 			}
 			bool to_remove_printed = false;
