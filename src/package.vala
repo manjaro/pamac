@@ -325,15 +325,9 @@ namespace Pamac {
 			repos_updates_priv = new List<Package> ();
 			aur_updates_priv = new List<AURPackage> ();
 		}
-		internal Updates.from_struct (UpdatesStruct updates_struct) {
-			repos_updates_priv = new List<Package> ();
-			aur_updates_priv = new List<AURPackage> ();
-			foreach (unowned PackageStruct pkg_struct in updates_struct.repos_updates) {
-				repos_updates_priv.append (new Package.from_struct (pkg_struct));
-			}
-			foreach (unowned AURPackageStruct pkg_struct in updates_struct.aur_updates) {
-				aur_updates_priv.append (new AURPackage.from_struct (pkg_struct));
-			}
+		internal Updates.from_lists (owned List<Package> repos_updates, owned List<AURPackage> aur_updates) {
+			repos_updates_priv = (owned) repos_updates;
+			aur_updates_priv = (owned) aur_updates;
 		}
 	}
 }

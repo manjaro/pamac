@@ -227,46 +227,20 @@ namespace Pamac {
 
 		void on_get_updates_for_sysupgrade_finished (UpdatesStruct updates_struct) {
 			transaction_interface.get_updates_finished.disconnect (on_get_updates_for_sysupgrade_finished);
-			// get syncfirst updates
-			if (updates_struct.syncfirst) {
+			if (updates_struct.syncfirst_repos_updates.length != 0) {
 				to_install_first = {};
-				foreach (unowned PackageStruct infos in updates_struct.repos_updates) {
+				foreach (unowned PackageStruct infos in updates_struct.syncfirst_repos_updates) {
 					to_install_first += infos.name;
 				}
-				string[] to_build = {};
-				foreach (unowned AURPackageStruct infos in updates_struct.aur_updates) {
-					if (!(infos.name in temporary_ignorepkgs)) {
-						to_build += infos.name;
-					}
-				}
-				// to_install_first will be read by start_commit
-				sysupgrade_real (to_build);
-			} else {
-				if (updates_struct.aur_updates.length != 0) {
-					string[] to_build = {};
-					foreach (unowned AURPackageStruct infos in updates_struct.aur_updates) {
-						if (!(infos.name in temporary_ignorepkgs)) {
-							to_build += infos.name;
-						}
-					}
-					// always sysupgrade if enable_downgrade
-					if (enable_downgrade || updates_struct.repos_updates.length != 0) {
-						sysupgrade_real (to_build);
-					} else {
-						// only aur updates
-						// run as a standard transaction
-						start ({}, {}, {}, to_build, overwrite_files);
-					}
-				} else {
-					// always sysupgrade if enable_downgrade
-					if (enable_downgrade || updates_struct.repos_updates.length != 0) {
-						sysupgrade_real ({});
-					} else {
-						emit_action (dgettext (null, "Your system is up-to-date") + ".");
-						finish_transaction (true);
-					}
+			}
+			string[] to_build = {};
+			foreach (unowned AURPackageStruct infos in updates_struct.aur_updates) {
+				if (!(infos.name in temporary_ignorepkgs)) {
+					to_build += infos.name;
 				}
 			}
+			// to_install_first will be read by start_commit
+			sysupgrade_real (to_build);
 		}
 
 		void start_trans_prepare (string[] to_install, string[] to_remove, string[] to_load, string[] to_build) {

@@ -106,7 +106,6 @@ namespace Pamac {
 		internal Cancellable cancellable;
 		internal Curl.Easy curl;
 		internal bool downloading_updates;
-		AURPackageStruct[] aur_updates;
 		HashTable<string, Json.Array> aur_search_results;
 		HashTable<string, Json.Object> aur_infos;
 		As.Store app_store;
@@ -138,7 +137,6 @@ namespace Pamac {
 			refresh_handle ();
 			cancellable = new Cancellable ();
 			curl = new Curl.Easy ();
-			aur_updates = {};
 			aur_search_results = new HashTable<string, Json.Array> (str_hash, str_equal);
 			aur_infos = new HashTable<string, Json.Object> (str_hash, str_equal);
 			refreshed = false;
@@ -1602,7 +1600,8 @@ namespace Pamac {
 		}
 
 		internal Updates get_updates (bool refresh_files_dbs) {
-			PackageStruct[] repos_updates = {};
+			var repos_updates = new List<Package> ();
+			var aur_updates = new List<AURPackage> ();
 			unowned Alpm.Package? pkg = null;
 			unowned Alpm.Package? candidate = null;
 			// use a tmp handle
@@ -1645,20 +1644,11 @@ namespace Pamac {
 				if (tmp_handle.should_ignore (installed_pkg) == 0) {
 					candidate = installed_pkg.sync_newversion (tmp_handle.syncdbs);
 					if (candidate != null) {
-						var infos = initialise_pkg_struct (candidate);
-						repos_updates += (owned) infos;
+						repos_updates.append (new Package.from_struct (initialise_pkg_struct (candidate)));
 					} else {
 						if (check_aur_updates) {
 							// check if installed_pkg is a local pkg
-							syncdbs = tmp_handle.syncdbs;
-							while (syncdbs != null) {
-								unowned Alpm.DB db = syncdbs.data;
-								pkg = Alpm.find_satisfier (db.pkgcache, installed_pkg.name);
-								if (pkg != null) {
-									break;
-								}
-								syncdbs.next ();
-							}
+							pkg = get_syncpkg (installed_pkg.name);
 							if (pkg == null) {
 								local_pkgs += installed_pkg.name;
 							}
@@ -1670,20 +1660,20 @@ namespace Pamac {
 			emit_get_updates_progress (95);
 			if (check_aur_updates) {
 				// count this step as 5% of the total
-				get_aur_updates (aur_multiinfo (local_pkgs));
+				var aur_updates_structs = get_aur_updates (aur_multiinfo (local_pkgs));
+				foreach (unowned AURPackageStruct aur_struct in aur_updates_structs) {
+					aur_updates.append (new AURPackage.from_struct (aur_struct));
+				}
 			}
-			var updates = UpdatesStruct () {
-				repos_updates = (owned) repos_updates,
-				aur_updates = (owned) aur_updates
-			};
 			rwlock.reader_unlock ();
 			emit_get_updates_progress (100);
-			return new Updates.from_struct (updates);
+			return new Updates.from_lists ((owned) repos_updates, (owned) aur_updates);
 		}
 
 		internal void get_updates_for_sysupgrade () {
-			bool syncfirst = false;
-			PackageStruct[] updates_infos = {};
+			// only get syncfirst repos updates and aur updates
+			PackageStruct[] syncfirst_updates = {};
+			AURPackageStruct[] aur_updates = {};
 			unowned Alpm.Package? pkg = null;
 			unowned Alpm.Package? candidate = null;
 			rwlock.reader_lock ();
@@ -1693,59 +1683,38 @@ namespace Pamac {
 					candidate = pkg.sync_newversion (alpm_handle.syncdbs);
 					if (candidate != null) {
 						var infos = initialise_pkg_struct (candidate);
-						updates_infos += (owned) infos;
-						syncfirst = true;
+						syncfirst_updates += (owned) infos;
 					}
 				}
-			}
-			string[] local_pkgs = {};
-			unowned Alpm.List<unowned Alpm.Package> pkgcache = alpm_handle.localdb.pkgcache;
-			while (pkgcache != null) {
-				unowned Alpm.Package installed_pkg = pkgcache.data;
-				// check if installed_pkg is in IgnorePkg or IgnoreGroup
-				if (alpm_handle.should_ignore (installed_pkg) == 0) {
-					if (syncfirst) {
-						candidate = null;
-					} else {
-						candidate = installed_pkg.sync_newversion (alpm_handle.syncdbs);
-					}
-					if (candidate != null) {
-						var infos = initialise_pkg_struct (candidate);
-						updates_infos += (owned) infos;
-					} else {
-						if (check_aur_updates) {
-							// check if installed_pkg is a local pkg
-							unowned Alpm.List<unowned Alpm.DB> syncdbs = alpm_handle.syncdbs;
-							while (syncdbs != null) {
-								unowned Alpm.DB db = syncdbs.data;
-								pkg = Alpm.find_satisfier (db.pkgcache, installed_pkg.name);
-								if (pkg != null) {
-									break;
-								}
-								syncdbs.next ();
-							}
-							if (pkg == null) {
-								local_pkgs += installed_pkg.name;
-							}
-						}
-					}
-				}
-				pkgcache.next ();
 			}
 			if (check_aur_updates) {
-				get_aur_updates (aur_multiinfo (local_pkgs));
+				// get local pkgs
+				string[] local_pkgs = {};
+				unowned Alpm.List<unowned Alpm.Package> pkgcache = alpm_handle.localdb.pkgcache;
+				while (pkgcache != null) {
+					unowned Alpm.Package installed_pkg = pkgcache.data;
+					// check if installed_pkg is in IgnorePkg or IgnoreGroup
+					if (alpm_handle.should_ignore (installed_pkg) == 0) {
+						// check if installed_pkg is a local pkg
+						pkg = get_syncpkg (installed_pkg.name);
+						if (pkg == null) {
+							local_pkgs += installed_pkg.name;
+						}
+					}
+					pkgcache.next ();
+				}
+				aur_updates = get_aur_updates (aur_multiinfo (local_pkgs));
 			}
 			var updates = UpdatesStruct () {
-				syncfirst = syncfirst,
-				repos_updates = (owned) updates_infos,
-				aur_updates = aur_updates
+				syncfirst_repos_updates = (owned) syncfirst_updates,
+				aur_updates = (owned) aur_updates
 			};
 			rwlock.reader_unlock ();
 			get_updates_finished (updates);
 		}
 
-		void get_aur_updates (Json.Array aur_updates_json) {
-			aur_updates = {};
+		AURPackageStruct[] get_aur_updates (Json.Array aur_updates_json) {
+			AURPackageStruct[] aur_updates = {};
 			aur_updates_json.foreach_element ((array, index, node) => {
 				unowned Json.Object pkg_info = node.get_object ();
 				unowned string name = pkg_info.get_string_member ("Name");
@@ -1757,6 +1726,7 @@ namespace Pamac {
 					aur_updates += (owned) infos;
 				}
 			});
+			return aur_updates;
 		}
 
 		internal int download_updates () {

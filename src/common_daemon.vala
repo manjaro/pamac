@@ -101,8 +101,7 @@ namespace Pamac {
 	}
 
 	public struct UpdatesStruct {
-		public bool syncfirst;
-		public PackageStruct[] repos_updates;
+		public PackageStruct[] syncfirst_repos_updates;
 		public AURPackageStruct[] aur_updates;
 	}
 
