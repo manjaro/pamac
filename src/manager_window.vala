@@ -2719,6 +2719,7 @@ namespace Pamac {
 				if (repos_updates.length () > 0) {
 					on_updates_listbox_row_activated (updates_listbox.get_selected_row ());
 				} else {
+					updates_listbox.select_row (updates_listbox.get_row_at_index (1));
 					on_updates_listbox_row_activated (updates_listbox.get_selected_row ());
 				}
 				if (main_stack.visible_child_name == "browse") {

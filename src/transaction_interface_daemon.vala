@@ -231,8 +231,8 @@ namespace Pamac {
 
 		void start_sysupgrade_prepare (bool enable_downgrade,
 										string[] temporary_ignorepkgs,
-										string[] overwrite_files,
-										string[] to_build) {
+										string[] to_build,
+										string[] overwrite_files) {
 			try {
 				// this will respond with trans_prepare_finished signal
 				system_daemon.start_sysupgrade_prepare (enable_downgrade, temporary_ignorepkgs, to_build, overwrite_files);
