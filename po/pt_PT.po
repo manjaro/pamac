@@ -19,8 +19,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2018-08-29 13:10+0200\n"
-"PO-Revision-Date: 2018-08-29 12:34+0000\n"
+"POT-Creation-Date: 2018-09-08 17:58+0200\n"
+"PO-Revision-Date: 2018-09-09 01:06+0000\n"
 "Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
@@ -33,109 +33,109 @@ msgstr ""
 msgid "Authentication is required"
 msgstr "Autenticação necessária"
 
-#: src/user_daemon.vala
-msgid "Unknown"
-msgstr "Desconhecido"
-
-#: src/user_daemon.vala src/manager_window.vala
-msgid "Explicitly installed"
-msgstr "Explicitamente instalado"
-
-#: src/user_daemon.vala src/manager_window.vala
-msgid "Installed as a dependency for another package"
-msgstr "Instalado como dependência de outro pacote"
-
-#: src/user_daemon.vala
-msgid "Yes"
-msgstr "Sim"
-
-#: src/user_daemon.vala
-msgid "No"
-msgstr "Não"
-
-#: src/system_daemon.vala
+#: src/alpm_utils.vala
 msgid "Failed to initialize alpm library"
 msgstr "Falhou inicialização da biblioteca alpm"
 
-#: src/system_daemon.vala
-msgid "Authentication failed"
-msgstr "A autenticação falhou"
+#: src/alpm_utils.vala
+msgid "Unknown"
+msgstr "Desconhecido"
 
-#: src/system_daemon.vala
+#: src/alpm_utils.vala src/manager_window.vala
+msgid "Explicitly installed"
+msgstr "Explicitamente instalado"
+
+#: src/alpm_utils.vala src/manager_window.vala
+msgid "Installed as a dependency for another package"
+msgstr "Instalado como dependência de outro pacote"
+
+#: src/alpm_utils.vala
+msgid "Yes"
+msgstr "Sim"
+
+#: src/alpm_utils.vala
+msgid "No"
+msgstr "Não"
+
+#: src/alpm_utils.vala
 msgid "Failed to synchronize any databases"
 msgstr "Falhou sincronizar quaisquer bases de dados"
 
-#: src/system_daemon.vala
+#: src/alpm_utils.vala
 msgid "Failed to init transaction"
 msgstr "Falhou iniciar transação"
 
-#: src/system_daemon.vala
+#: src/alpm_utils.vala
 msgid "Failed to prepare transaction"
 msgstr "Falhou preparar a transacção"
 
-#: src/system_daemon.vala src/cli.vala
+#: src/alpm_utils.vala src/cli.vala
 #, c-format
 msgid "target not found: %s"
 msgstr "objecto não encontrado: %s"
 
-#: src/system_daemon.vala
+#: src/alpm_utils.vala
 #, c-format
 msgid "package %s does not have a valid architecture"
 msgstr "o pacote %s não tem uma arquitetura válida"
 
-#: src/system_daemon.vala
+#: src/alpm_utils.vala
 #, c-format
 msgid "unable to satisfy dependency '%s' required by %s"
 msgstr "incapaz de satisfazer a dependência '%s' requerida por %s"
 
-#: src/system_daemon.vala
+#: src/alpm_utils.vala
 #, c-format
 msgid "installing %s (%s) breaks dependency '%s' required by %s"
 msgstr "instalar %s (%s) quebra a dependência '%s' requerida por %s"
 
-#: src/system_daemon.vala
+#: src/alpm_utils.vala
 #, c-format
 msgid "removing %s breaks dependency '%s' required by %s"
 msgstr "remover %s quebra a dependência '%s' requerida por %s"
 
-#: src/system_daemon.vala
+#: src/alpm_utils.vala
 #, c-format
 msgid "%s and %s are in conflict"
 msgstr "%s e %s estão em conflito"
 
-#: src/system_daemon.vala
+#: src/alpm_utils.vala
 #, c-format
 msgid "%s needs to be removed but it is a locked package"
 msgstr "%s necessita ser removido, mas é um pacote bloqueado"
 
-#: src/system_daemon.vala
+#: src/alpm_utils.vala
 msgid "Failed to commit transaction"
 msgstr "Falhou submeter transacção"
 
-#: src/system_daemon.vala
+#: src/alpm_utils.vala
 #, c-format
 msgid "%s exists in both %s and %s"
 msgstr "%s existe tanto em %s como em %s"
 
-#: src/system_daemon.vala
+#: src/alpm_utils.vala
 #, c-format
 msgid "%s: %s already exists in filesystem"
 msgstr "%s: %s já existe no sistema de ficheiros"
 
-#: src/system_daemon.vala
+#: src/alpm_utils.vala
 #, c-format
 msgid "%s is invalid or corrupted"
 msgstr "%s é inválido ou está corrompido"
 
-#: src/system_daemon.vala
+#: src/alpm_utils.vala
 #, c-format
 msgid "%s appears to be truncated: %jd/%jd bytes\n"
 msgstr "%s parece estar truncada: %jd/%jd bytes\n"
 
-#: src/system_daemon.vala
+#: src/alpm_utils.vala
 #, c-format
 msgid "failed retrieving file '%s' from %s : %s\n"
 msgstr "falha ao recuperar arquivo '%s' de %s : %s\n"
+
+#: src/system_daemon.vala
+msgid "Authentication failed"
+msgstr "A autenticação falhou"
 
 #: src/transaction.vala
 msgid "Refreshing mirrors list"
@@ -148,6 +148,10 @@ msgstr "A sincronizar bases de dados de pacotes"
 #: src/transaction.vala
 msgid "Starting full system upgrade"
 msgstr "A iniciar atualização total do sistema"
+
+#: src/transaction.vala src/tray.vala src/manager_window.vala src/cli.vala
+msgid "Your system is up-to-date"
+msgstr "O sistema está actualizado"
 
 #: src/transaction.vala
 msgid "Preparing"
@@ -380,10 +384,6 @@ msgstr ""
 #: src/installer.vala src/cli.vala
 msgid "package(s)"
 msgstr ""
-
-#: src/tray.vala src/manager_window.vala src/cli.vala
-msgid "Your system is up-to-date"
-msgstr "O sistema está actualizado"
 
 #: src/tray.vala
 msgid "_Quit"
@@ -715,6 +715,15 @@ msgid "file(s)"
 msgstr ""
 
 #: src/cli.vala
+msgid "search in AUR instead of repositories"
+msgstr ""
+
+#: src/cli.vala
+msgid ""
+"search for packages which own the given filenames (filenames can be partial)"
+msgstr ""
+
+#: src/cli.vala
 msgid "Display package details, multiple packages can be specified"
 msgstr ""
 
@@ -723,7 +732,33 @@ msgid "List packages, groups, repositories or files"
 msgstr ""
 
 #: src/cli.vala
+msgid "list installed packages"
+msgstr ""
+
+#: src/cli.vala
+msgid ""
+"list packages that were installed as dependencies but are no longer required"
+" by any installed package"
+msgstr ""
+
+#: src/cli.vala
+msgid "list packages that were not found in the repositories"
+msgstr ""
+
+#: src/cli.vala
+msgid ""
+"list all packages that are members of the given groups, if no group is given"
+" list all groups"
+msgstr ""
+
+#: src/cli.vala
 msgid "group(s)"
+msgstr ""
+
+#: src/cli.vala
+msgid ""
+"list all packages available in the given repos, if no repo is given list all"
+" repos"
 msgstr ""
 
 #: src/cli.vala
@@ -731,11 +766,27 @@ msgid "repo(s)"
 msgstr ""
 
 #: src/cli.vala
+msgid "list files owned by the given packages"
+msgstr ""
+
+#: src/cli.vala
 msgid "Build packages from AUR and install them with their dependencies"
 msgstr ""
 
 #: src/cli.vala
+msgid ""
+"build directory, if no directory is given the one specified in pamac.conf "
+"file is used"
+msgstr ""
+
+#: src/cli.vala
 msgid "dir"
+msgstr ""
+
+#: src/cli.vala
+msgid ""
+"overwrite conflicting files, multiple patterns can be specified by "
+"separating them with a comma"
 msgstr ""
 
 #: src/cli.vala
@@ -747,6 +798,12 @@ msgid "Reinstall packages"
 msgstr ""
 
 #: src/cli.vala
+msgid ""
+"remove dependencies that are not required by other packages, if this option "
+"is used without package name remove all orphans"
+msgstr ""
+
+#: src/cli.vala
 msgid "Safely check for updates without modifiying the databases"
 msgstr ""
 
@@ -755,7 +812,35 @@ msgid "Exit code is 100 if updates are available"
 msgstr ""
 
 #: src/cli.vala
+msgid "also check updates in AUR"
+msgstr ""
+
+#: src/cli.vala
 msgid "Upgrade your system"
+msgstr ""
+
+#: src/cli.vala
+msgid "also upgrade packages installed from AUR"
+msgstr ""
+
+#: src/cli.vala
+msgid ""
+"build directory (use with --aur), if no directory is given the one specified"
+" in pamac.conf file is used"
+msgstr ""
+
+#: src/cli.vala
+msgid "force the refresh of the databases"
+msgstr ""
+
+#: src/cli.vala
+msgid "enable package downgrades"
+msgstr ""
+
+#: src/cli.vala
+msgid ""
+"ignore a package upgrade, multiple packages can be specified by separating "
+"them with a comma"
 msgstr ""
 
 #: src/cli.vala resources/manager_window.ui

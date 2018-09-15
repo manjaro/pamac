@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2018-08-29 13:10+0200\n"
-"PO-Revision-Date: 2018-08-29 20:49+0000\n"
+"POT-Creation-Date: 2018-09-08 17:58+0200\n"
+"PO-Revision-Date: 2018-09-09 18:13+0000\n"
 "Last-Translator: Moo\n"
 "Language-Team: Lithuanian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/lt/)\n"
 "MIME-Version: 1.0\n"
@@ -24,109 +24,109 @@ msgstr ""
 msgid "Authentication is required"
 msgstr "Reikalingas tapatybės nustatymas"
 
-#: src/user_daemon.vala
-msgid "Unknown"
-msgstr "Nežinoma"
-
-#: src/user_daemon.vala src/manager_window.vala
-msgid "Explicitly installed"
-msgstr "Savarankiškai įdiegtas"
-
-#: src/user_daemon.vala src/manager_window.vala
-msgid "Installed as a dependency for another package"
-msgstr "Įdiegtas kaip priklausomybė kitam paketui"
-
-#: src/user_daemon.vala
-msgid "Yes"
-msgstr "Taip"
-
-#: src/user_daemon.vala
-msgid "No"
-msgstr "Ne"
-
-#: src/system_daemon.vala
+#: src/alpm_utils.vala
 msgid "Failed to initialize alpm library"
 msgstr "Nepavyko inicijuoti alpm bibliotekos"
 
-#: src/system_daemon.vala
-msgid "Authentication failed"
-msgstr "Nepavyko nustatyti tapatybę"
+#: src/alpm_utils.vala
+msgid "Unknown"
+msgstr "Nežinoma"
 
-#: src/system_daemon.vala
+#: src/alpm_utils.vala src/manager_window.vala
+msgid "Explicitly installed"
+msgstr "Savarankiškai įdiegtas"
+
+#: src/alpm_utils.vala src/manager_window.vala
+msgid "Installed as a dependency for another package"
+msgstr "Įdiegtas kaip priklausomybė kitam paketui"
+
+#: src/alpm_utils.vala
+msgid "Yes"
+msgstr "Taip"
+
+#: src/alpm_utils.vala
+msgid "No"
+msgstr "Ne"
+
+#: src/alpm_utils.vala
 msgid "Failed to synchronize any databases"
 msgstr "Nepavyko sinchronizuoti jokių duomenų bazių"
 
-#: src/system_daemon.vala
+#: src/alpm_utils.vala
 msgid "Failed to init transaction"
 msgstr "Nepavyko inicijuoti operacijos"
 
-#: src/system_daemon.vala
+#: src/alpm_utils.vala
 msgid "Failed to prepare transaction"
 msgstr "Nepavyko paruošti operacijos"
 
-#: src/system_daemon.vala src/cli.vala
+#: src/alpm_utils.vala src/cli.vala
 #, c-format
 msgid "target not found: %s"
 msgstr "objektas nerastas: %s"
 
-#: src/system_daemon.vala
+#: src/alpm_utils.vala
 #, c-format
 msgid "package %s does not have a valid architecture"
 msgstr "paketas %s neturi teisingos architektūros"
 
-#: src/system_daemon.vala
+#: src/alpm_utils.vala
 #, c-format
 msgid "unable to satisfy dependency '%s' required by %s"
 msgstr "nepavyko patenkinti \"%s\" priklausomybių, kurių reikia paketui %s"
 
-#: src/system_daemon.vala
+#: src/alpm_utils.vala
 #, c-format
 msgid "installing %s (%s) breaks dependency '%s' required by %s"
 msgstr "įdiegiant %s (%s) sugadinama \"%s\" priklausomybė, kurios reikia paketui %s"
 
-#: src/system_daemon.vala
+#: src/alpm_utils.vala
 #, c-format
 msgid "removing %s breaks dependency '%s' required by %s"
 msgstr "šalinant %s sugadinama \"%s\" priklausomybė, kurios reikia paketui %s"
 
-#: src/system_daemon.vala
+#: src/alpm_utils.vala
 #, c-format
 msgid "%s and %s are in conflict"
 msgstr "%s ir %s tarpusavyje konfliktuoja"
 
-#: src/system_daemon.vala
+#: src/alpm_utils.vala
 #, c-format
 msgid "%s needs to be removed but it is a locked package"
 msgstr "%s turi būti pašalintas, tačiau tai yra užrakintas paketas"
 
-#: src/system_daemon.vala
+#: src/alpm_utils.vala
 msgid "Failed to commit transaction"
 msgstr "Nepavyko įvykdyti operacijos"
 
-#: src/system_daemon.vala
+#: src/alpm_utils.vala
 #, c-format
 msgid "%s exists in both %s and %s"
 msgstr "%s yra abiejuose %s ir %s"
 
-#: src/system_daemon.vala
+#: src/alpm_utils.vala
 #, c-format
 msgid "%s: %s already exists in filesystem"
 msgstr "%s: %s jau yra failų sistemoje"
 
-#: src/system_daemon.vala
+#: src/alpm_utils.vala
 #, c-format
 msgid "%s is invalid or corrupted"
 msgstr "%s yra neteisingas arba pažeistas"
 
-#: src/system_daemon.vala
+#: src/alpm_utils.vala
 #, c-format
 msgid "%s appears to be truncated: %jd/%jd bytes\n"
 msgstr "Atrodo, kad %s yra sutrumpintas: %jd/%jd baitų\n"
 
-#: src/system_daemon.vala
+#: src/alpm_utils.vala
 #, c-format
 msgid "failed retrieving file '%s' from %s : %s\n"
 msgstr "nepavyko gauti failo \"%s\" iš %s : %s\n"
+
+#: src/system_daemon.vala
+msgid "Authentication failed"
+msgstr "Nepavyko nustatyti tapatybę"
 
 #: src/transaction.vala
 msgid "Refreshing mirrors list"
@@ -139,6 +139,10 @@ msgstr "Sinchronizuojamos paketų duomenų bazės"
 #: src/transaction.vala
 msgid "Starting full system upgrade"
 msgstr "Pradedamas pilnas sistemos atnaujinimas"
+
+#: src/transaction.vala src/tray.vala src/manager_window.vala src/cli.vala
+msgid "Your system is up-to-date"
+msgstr "Jūsų sistemoje įdiegti visi naujausi atnaujinimai"
 
 #: src/transaction.vala
 msgid "Preparing"
@@ -373,10 +377,6 @@ msgstr "Šalinti paketus"
 #: src/installer.vala src/cli.vala
 msgid "package(s)"
 msgstr "paketas(-ai)"
-
-#: src/tray.vala src/manager_window.vala src/cli.vala
-msgid "Your system is up-to-date"
-msgstr "Jūsų sistemoje įdiegti visi naujausi atnaujinimai"
 
 #: src/tray.vala
 msgid "_Quit"
@@ -712,6 +712,15 @@ msgid "file(s)"
 msgstr "failas(-ai)"
 
 #: src/cli.vala
+msgid "search in AUR instead of repositories"
+msgstr "vietoj saugyklų, atlikti paiešką AUR"
+
+#: src/cli.vala
+msgid ""
+"search for packages which own the given filenames (filenames can be partial)"
+msgstr "ieškoti paketų, kuriems priklauso nurodyti failų pavadinimai (failų pavadinimai gali būti daliniai)"
+
+#: src/cli.vala
 msgid "Display package details, multiple packages can be specified"
 msgstr "Rodyti išsamesnę paketo informaciją, gali būti nurodyti keli paketai"
 
@@ -720,20 +729,62 @@ msgid "List packages, groups, repositories or files"
 msgstr "Išvardyti paketus, grupes, saugyklas ar failus"
 
 #: src/cli.vala
+msgid "list installed packages"
+msgstr "išvardyti įdiegtus paketus"
+
+#: src/cli.vala
+msgid ""
+"list packages that were installed as dependencies but are no longer required"
+" by any installed package"
+msgstr "išvardyti paketus, kurie buvo įdiegti kaip priklausomybės, tačiau daugiau nebereikalingi jokiam įdiegtam paketui"
+
+#: src/cli.vala
+msgid "list packages that were not found in the repositories"
+msgstr "išvardyti paketus, kurių nebuvo rasta saugyklose"
+
+#: src/cli.vala
+msgid ""
+"list all packages that are members of the given groups, if no group is given"
+" list all groups"
+msgstr "išvardyti paketus, kurie priklauso nurodytoms grupėms, jeigu nenurodyta jokia grupė, išvardyti visas grupes"
+
+#: src/cli.vala
 msgid "group(s)"
 msgstr "grupė(-ės)"
+
+#: src/cli.vala
+msgid ""
+"list all packages available in the given repos, if no repo is given list all"
+" repos"
+msgstr "išvardyti visus, nurodytose saugyklose prieinamus, paketus, jeigu nenurodyta jokia saugykla, išvardyti visas saugyklas"
 
 #: src/cli.vala
 msgid "repo(s)"
 msgstr "saugykla(-os)"
 
 #: src/cli.vala
+msgid "list files owned by the given packages"
+msgstr "išvardyti failus, kurie priklauso nurodytiems paketams"
+
+#: src/cli.vala
 msgid "Build packages from AUR and install them with their dependencies"
 msgstr "Kompiliuoti paketus iš AUR ir įdiegti juos kartu su jų priklausomybėmis"
 
 #: src/cli.vala
+msgid ""
+"build directory, if no directory is given the one specified in pamac.conf "
+"file is used"
+msgstr "kompiliavimo katalogas, jei nėra nurodytas joks katalogas, bus naudojamas tas, kuris nurodytas pamac.conf faile"
+
+#: src/cli.vala
 msgid "dir"
 msgstr "kat"
+
+#: src/cli.vala
+msgid ""
+"overwrite conflicting files, multiple patterns can be specified by "
+"separating them with a comma"
+msgstr "perrašyti konfliktuojančius failus, gali būti nurodyti keli šablonai, atskiriant juos kableliais"
 
 #: src/cli.vala
 msgid "glob"
@@ -744,6 +795,12 @@ msgid "Reinstall packages"
 msgstr "Įdiegti paketus iš naujo"
 
 #: src/cli.vala
+msgid ""
+"remove dependencies that are not required by other packages, if this option "
+"is used without package name remove all orphans"
+msgstr "šalinti priklausomybes, kurių nereikia jokiems kitiems paketams, jei šis parametras yra naudojamas be paketo pavadinimo, šalinti visus liekamuosius paketus"
+
+#: src/cli.vala
 msgid "Safely check for updates without modifiying the databases"
 msgstr "Saugiai patikrinti ar nėra atnaujinimų, nemodifikuojant duomenų bazių"
 
@@ -752,8 +809,36 @@ msgid "Exit code is 100 if updates are available"
 msgstr "Išėjimo kodas yra 100, jeigu yra prieinami atnaujinimai"
 
 #: src/cli.vala
+msgid "also check updates in AUR"
+msgstr "taip pat tikrinti atnaujinimus AUR saugykloje"
+
+#: src/cli.vala
 msgid "Upgrade your system"
 msgstr "Naujinti savo sistemą"
+
+#: src/cli.vala
+msgid "also upgrade packages installed from AUR"
+msgstr "taip pat naujinti paketus, įdiegtus iš AUR"
+
+#: src/cli.vala
+msgid ""
+"build directory (use with --aur), if no directory is given the one specified"
+" in pamac.conf file is used"
+msgstr "kompiliavimo katalogas (naudoti su --aur), jei nėra nurodytas joks katalogas, bus naudojamas tas, kuris nurodytas pamac.conf faile"
+
+#: src/cli.vala
+msgid "force the refresh of the databases"
+msgstr "priverstinai įkelti duomenų bazes iš naujo"
+
+#: src/cli.vala
+msgid "enable package downgrades"
+msgstr "įjungti paketų sendinimus"
+
+#: src/cli.vala
+msgid ""
+"ignore a package upgrade, multiple packages can be specified by separating "
+"them with a comma"
+msgstr "nepaisyti paketo atnaujinimų, gali būti nurodyti keli paketai, atskiriant juos kableliais"
 
 #: src/cli.vala resources/manager_window.ui
 msgid "Version"

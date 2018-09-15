@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2018-08-29 13:10+0200\n"
-"PO-Revision-Date: 2018-08-30 00:52+0000\n"
+"POT-Creation-Date: 2018-09-08 17:58+0200\n"
+"PO-Revision-Date: 2018-09-09 13:53+0000\n"
 "Last-Translator: Jeff Huang <s8321414@gmail.com>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
@@ -26,109 +26,109 @@ msgstr ""
 msgid "Authentication is required"
 msgstr "需要授權"
 
-#: src/user_daemon.vala
-msgid "Unknown"
-msgstr "未知的"
-
-#: src/user_daemon.vala src/manager_window.vala
-msgid "Explicitly installed"
-msgstr "單獨指定安裝"
-
-#: src/user_daemon.vala src/manager_window.vala
-msgid "Installed as a dependency for another package"
-msgstr "作爲其他套件的依賴關係安裝"
-
-#: src/user_daemon.vala
-msgid "Yes"
-msgstr "是"
-
-#: src/user_daemon.vala
-msgid "No"
-msgstr "否"
-
-#: src/system_daemon.vala
+#: src/alpm_utils.vala
 msgid "Failed to initialize alpm library"
 msgstr "初始化 alpm 函式庫失敗"
 
-#: src/system_daemon.vala
-msgid "Authentication failed"
-msgstr "授權失敗"
+#: src/alpm_utils.vala
+msgid "Unknown"
+msgstr "未知的"
 
-#: src/system_daemon.vala
+#: src/alpm_utils.vala src/manager_window.vala
+msgid "Explicitly installed"
+msgstr "單獨指定安裝"
+
+#: src/alpm_utils.vala src/manager_window.vala
+msgid "Installed as a dependency for another package"
+msgstr "作爲其他套件的依賴關係安裝"
+
+#: src/alpm_utils.vala
+msgid "Yes"
+msgstr "是"
+
+#: src/alpm_utils.vala
+msgid "No"
+msgstr "否"
+
+#: src/alpm_utils.vala
 msgid "Failed to synchronize any databases"
 msgstr "同步任何套件庫失敗"
 
-#: src/system_daemon.vala
+#: src/alpm_utils.vala
 msgid "Failed to init transaction"
 msgstr "初始化事務處理失敗"
 
-#: src/system_daemon.vala
+#: src/alpm_utils.vala
 msgid "Failed to prepare transaction"
 msgstr "準備事務處理失敗"
 
-#: src/system_daemon.vala src/cli.vala
+#: src/alpm_utils.vala src/cli.vala
 #, c-format
 msgid "target not found: %s"
 msgstr "目標找不到： %s"
 
-#: src/system_daemon.vala
+#: src/alpm_utils.vala
 #, c-format
 msgid "package %s does not have a valid architecture"
 msgstr "軟體包 %s 沒有有效的架構"
 
-#: src/system_daemon.vala
+#: src/alpm_utils.vala
 #, c-format
 msgid "unable to satisfy dependency '%s' required by %s"
 msgstr "無法滿足依賴關係 '%s' 由 %s 所要求"
 
-#: src/system_daemon.vala
+#: src/alpm_utils.vala
 #, c-format
 msgid "installing %s (%s) breaks dependency '%s' required by %s"
 msgstr "正在安裝%s (%s) 破壞了依賴關係 '%s' 由 %s 所要求"
 
-#: src/system_daemon.vala
+#: src/alpm_utils.vala
 #, c-format
 msgid "removing %s breaks dependency '%s' required by %s"
 msgstr "正在移除 %s 破壞依賴關係 '%s' 由 %s 所要求"
 
-#: src/system_daemon.vala
+#: src/alpm_utils.vala
 #, c-format
 msgid "%s and %s are in conflict"
 msgstr "%s 及 %s 衝突"
 
-#: src/system_daemon.vala
+#: src/alpm_utils.vala
 #, c-format
 msgid "%s needs to be removed but it is a locked package"
 msgstr "%s 需要被移除，但它是一個被鎖定的軟體包"
 
-#: src/system_daemon.vala
+#: src/alpm_utils.vala
 msgid "Failed to commit transaction"
 msgstr "提交事務處理失敗"
 
-#: src/system_daemon.vala
+#: src/alpm_utils.vala
 #, c-format
 msgid "%s exists in both %s and %s"
 msgstr "%s 同時存在於 %s 及 %s"
 
-#: src/system_daemon.vala
+#: src/alpm_utils.vala
 #, c-format
 msgid "%s: %s already exists in filesystem"
 msgstr "%s ： %s 已在檔案系統中存在"
 
-#: src/system_daemon.vala
+#: src/alpm_utils.vala
 #, c-format
 msgid "%s is invalid or corrupted"
 msgstr "%s 是無效或損毀的"
 
-#: src/system_daemon.vala
+#: src/alpm_utils.vala
 #, c-format
 msgid "%s appears to be truncated: %jd/%jd bytes\n"
 msgstr "%s 似乎被截斷了：%jd/%jd 位元組\n"
 
-#: src/system_daemon.vala
+#: src/alpm_utils.vala
 #, c-format
 msgid "failed retrieving file '%s' from %s : %s\n"
 msgstr "擷取檔案「%s」失敗，從 %s：%s\n"
+
+#: src/system_daemon.vala
+msgid "Authentication failed"
+msgstr "授權失敗"
 
 #: src/transaction.vala
 msgid "Refreshing mirrors list"
@@ -141,6 +141,10 @@ msgstr "正在同步套件庫"
 #: src/transaction.vala
 msgid "Starting full system upgrade"
 msgstr "正在開始全系統升級"
+
+#: src/transaction.vala src/tray.vala src/manager_window.vala src/cli.vala
+msgid "Your system is up-to-date"
+msgstr "您的系統已經是最新的"
 
 #: src/transaction.vala
 msgid "Preparing"
@@ -372,10 +376,6 @@ msgstr "移除軟體包"
 #: src/installer.vala src/cli.vala
 msgid "package(s)"
 msgstr "軟體包"
-
-#: src/tray.vala src/manager_window.vala src/cli.vala
-msgid "Your system is up-to-date"
-msgstr "您的系統已經是最新的"
 
 #: src/tray.vala
 msgid "_Quit"
@@ -705,6 +705,15 @@ msgid "file(s)"
 msgstr "檔案"
 
 #: src/cli.vala
+msgid "search in AUR instead of repositories"
+msgstr "在 AUR 而非軟體庫中搜尋"
+
+#: src/cli.vala
+msgid ""
+"search for packages which own the given filenames (filenames can be partial)"
+msgstr "搜尋擁有給定檔案名稱的軟體包（檔案名稱可以只有部份）"
+
+#: src/cli.vala
 msgid "Display package details, multiple packages can be specified"
 msgstr "顯示軟體包詳細資訊，可以指定多個軟體包"
 
@@ -713,20 +722,62 @@ msgid "List packages, groups, repositories or files"
 msgstr "列出軟體包、群組、軟體庫或檔案"
 
 #: src/cli.vala
+msgid "list installed packages"
+msgstr "列出已安裝的軟體包"
+
+#: src/cli.vala
+msgid ""
+"list packages that were installed as dependencies but are no longer required"
+" by any installed package"
+msgstr "列出以依賴關係安裝但已不再被任何已安裝的需要的軟體包"
+
+#: src/cli.vala
+msgid "list packages that were not found in the repositories"
+msgstr "列出在軟體庫中找不到的軟體包"
+
+#: src/cli.vala
+msgid ""
+"list all packages that are members of the given groups, if no group is given"
+" list all groups"
+msgstr "列出所有給定群組中的軟體包成員，若沒有給定的群組則會列出所有群組"
+
+#: src/cli.vala
 msgid "group(s)"
 msgstr "群組"
+
+#: src/cli.vala
+msgid ""
+"list all packages available in the given repos, if no repo is given list all"
+" repos"
+msgstr "列出給定軟體庫中的所有軟體包，若沒有給定的軟體庫則會列出所有軟體庫"
 
 #: src/cli.vala
 msgid "repo(s)"
 msgstr "軟體庫"
 
 #: src/cli.vala
+msgid "list files owned by the given packages"
+msgstr "列出所有給定軟體包擁有的檔案"
+
+#: src/cli.vala
 msgid "Build packages from AUR and install them with their dependencies"
 msgstr "從 AUR 構建軟體包並與它們的相依軟體包一同安裝"
 
 #: src/cli.vala
+msgid ""
+"build directory, if no directory is given the one specified in pamac.conf "
+"file is used"
+msgstr "構建目錄，若沒有給定的目路則會使用 pamac.conf 檔案中指定的"
+
+#: src/cli.vala
 msgid "dir"
 msgstr "目錄"
+
+#: src/cli.vala
+msgid ""
+"overwrite conflicting files, multiple patterns can be specified by "
+"separating them with a comma"
+msgstr "覆寫衝突的檔案，可以使用逗號分隔以指定多個模式"
 
 #: src/cli.vala
 msgid "glob"
@@ -737,6 +788,12 @@ msgid "Reinstall packages"
 msgstr "重新安裝軟體包"
 
 #: src/cli.vala
+msgid ""
+"remove dependencies that are not required by other packages, if this option "
+"is used without package name remove all orphans"
+msgstr "移除不再被其他軟體包所需要的依賴關係，若此選項沒有與軟體包名稱一同使用則會移除所有孤兒軟體包"
+
+#: src/cli.vala
 msgid "Safely check for updates without modifiying the databases"
 msgstr "不修改資料庫的更新安全檢查"
 
@@ -745,8 +802,36 @@ msgid "Exit code is 100 if updates are available"
 msgstr "有可用的更新時，結束碼會是 100"
 
 #: src/cli.vala
+msgid "also check updates in AUR"
+msgstr "也檢查 AUR 中的更新"
+
+#: src/cli.vala
 msgid "Upgrade your system"
 msgstr "更新您的系統"
+
+#: src/cli.vala
+msgid "also upgrade packages installed from AUR"
+msgstr "同時更新從 AUR 安裝的軟體包"
+
+#: src/cli.vala
+msgid ""
+"build directory (use with --aur), if no directory is given the one specified"
+" in pamac.conf file is used"
+msgstr "構建目錄（與 --aur 一同使用），若沒有給定的目錄，將會使用在 pamac.conf 檔案中指定的"
+
+#: src/cli.vala
+msgid "force the refresh of the databases"
+msgstr "強制重新整理資料庫"
+
+#: src/cli.vala
+msgid "enable package downgrades"
+msgstr "啟用軟體包降級"
+
+#: src/cli.vala
+msgid ""
+"ignore a package upgrade, multiple packages can be specified by separating "
+"them with a comma"
+msgstr "忽略軟體包升級，可以透過逗號分隔來指定多個軟體包"
 
 #: src/cli.vala resources/manager_window.ui
 msgid "Version"

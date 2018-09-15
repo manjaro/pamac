@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2018-08-29 13:10+0200\n"
-"PO-Revision-Date: 2018-08-29 13:44+0000\n"
+"POT-Creation-Date: 2018-09-08 17:58+0200\n"
+"PO-Revision-Date: 2018-09-09 07:45+0000\n"
 "Last-Translator: Lovro Kudelić <lovro.kudelic@outlook.com>\n"
 "Language-Team: Croatian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/hr/)\n"
 "MIME-Version: 1.0\n"
@@ -27,109 +27,109 @@ msgstr ""
 msgid "Authentication is required"
 msgstr "Potrebna je autorizacija"
 
-#: src/user_daemon.vala
-msgid "Unknown"
-msgstr "Nepoznato"
-
-#: src/user_daemon.vala src/manager_window.vala
-msgid "Explicitly installed"
-msgstr "Eksplicitno instalirano"
-
-#: src/user_daemon.vala src/manager_window.vala
-msgid "Installed as a dependency for another package"
-msgstr "Instalirano kao zavisnost za drugi paket"
-
-#: src/user_daemon.vala
-msgid "Yes"
-msgstr "Da"
-
-#: src/user_daemon.vala
-msgid "No"
-msgstr "Ne"
-
-#: src/system_daemon.vala
+#: src/alpm_utils.vala
 msgid "Failed to initialize alpm library"
 msgstr "Nije uspjela inicijalizacija alpm biblioteke"
 
-#: src/system_daemon.vala
-msgid "Authentication failed"
-msgstr "Autorizacija nije uspjela"
+#: src/alpm_utils.vala
+msgid "Unknown"
+msgstr "Nepoznato"
 
-#: src/system_daemon.vala
+#: src/alpm_utils.vala src/manager_window.vala
+msgid "Explicitly installed"
+msgstr "Eksplicitno instalirano"
+
+#: src/alpm_utils.vala src/manager_window.vala
+msgid "Installed as a dependency for another package"
+msgstr "Instalirano kao zavisnost za drugi paket"
+
+#: src/alpm_utils.vala
+msgid "Yes"
+msgstr "Da"
+
+#: src/alpm_utils.vala
+msgid "No"
+msgstr "Ne"
+
+#: src/alpm_utils.vala
 msgid "Failed to synchronize any databases"
 msgstr "Nije uspjela sinkronizacija niti jedne baze podataka"
 
-#: src/system_daemon.vala
+#: src/alpm_utils.vala
 msgid "Failed to init transaction"
 msgstr "Nije uspjela inicijalizacija transakcije"
 
-#: src/system_daemon.vala
+#: src/alpm_utils.vala
 msgid "Failed to prepare transaction"
 msgstr "Nije uspjela priprema transakcije"
 
-#: src/system_daemon.vala src/cli.vala
+#: src/alpm_utils.vala src/cli.vala
 #, c-format
 msgid "target not found: %s"
 msgstr "meta nije nađena: %s"
 
-#: src/system_daemon.vala
+#: src/alpm_utils.vala
 #, c-format
 msgid "package %s does not have a valid architecture"
 msgstr "paket %s nema valjanu arhitekturu"
 
-#: src/system_daemon.vala
+#: src/alpm_utils.vala
 #, c-format
 msgid "unable to satisfy dependency '%s' required by %s"
 msgstr "ne mogu ispuniti zavisnost '%s' koju zahtijeva %s"
 
-#: src/system_daemon.vala
+#: src/alpm_utils.vala
 #, c-format
 msgid "installing %s (%s) breaks dependency '%s' required by %s"
 msgstr "instaliram %s (%s) uništava zavisnost '%s'  koju zahtijeva %s"
 
-#: src/system_daemon.vala
+#: src/alpm_utils.vala
 #, c-format
 msgid "removing %s breaks dependency '%s' required by %s"
 msgstr "uklanjam %s uništava zavisnost '%s' koju zahtijeva %s"
 
-#: src/system_daemon.vala
+#: src/alpm_utils.vala
 #, c-format
 msgid "%s and %s are in conflict"
 msgstr "%s i %s su u sukobu"
 
-#: src/system_daemon.vala
+#: src/alpm_utils.vala
 #, c-format
 msgid "%s needs to be removed but it is a locked package"
 msgstr "%s mora biti uklonjen ali je paket zaključan"
 
-#: src/system_daemon.vala
+#: src/alpm_utils.vala
 msgid "Failed to commit transaction"
 msgstr "Izvršavanje transakcije nije uspjelo"
 
-#: src/system_daemon.vala
+#: src/alpm_utils.vala
 #, c-format
 msgid "%s exists in both %s and %s"
 msgstr "%s postoji u oba %s i %s"
 
-#: src/system_daemon.vala
+#: src/alpm_utils.vala
 #, c-format
 msgid "%s: %s already exists in filesystem"
 msgstr "%s: %s već postoji u datotečnom sustavu"
 
-#: src/system_daemon.vala
+#: src/alpm_utils.vala
 #, c-format
 msgid "%s is invalid or corrupted"
 msgstr "%s nije valjan ili je oštećen"
 
-#: src/system_daemon.vala
+#: src/alpm_utils.vala
 #, c-format
 msgid "%s appears to be truncated: %jd/%jd bytes\n"
 msgstr "Čini se da je %s odrezan: %jd/%jd bytes\n"
 
-#: src/system_daemon.vala
+#: src/alpm_utils.vala
 #, c-format
 msgid "failed retrieving file '%s' from %s : %s\n"
 msgstr "Nije uspjelo preuzimanje datoteke '%s' from %s : %s\n"
+
+#: src/system_daemon.vala
+msgid "Authentication failed"
+msgstr "Autorizacija nije uspjela"
 
 #: src/transaction.vala
 msgid "Refreshing mirrors list"
@@ -142,6 +142,10 @@ msgstr "Sinkroniziram bazu podataka paketa"
 #: src/transaction.vala
 msgid "Starting full system upgrade"
 msgstr "Pokrećem punu nadogradnju sustava"
+
+#: src/transaction.vala src/tray.vala src/manager_window.vala src/cli.vala
+msgid "Your system is up-to-date"
+msgstr "Nema novih nadogradnji"
 
 #: src/transaction.vala
 msgid "Preparing"
@@ -366,7 +370,7 @@ msgstr "Čekam na završetak drugog upravitelja paketa"
 
 #: src/installer.vala src/cli.vala
 msgid "Install packages from repositories, path or url"
-msgstr "Instaliraj pakete iz zrcalnih poslužitelja, putanja ili url"
+msgstr "Instaliraj pakete iz repozitorija, putanje ili url-a"
 
 #: src/installer.vala src/cli.vala
 msgid "Remove packages"
@@ -375,10 +379,6 @@ msgstr "Ukloni pakete"
 #: src/installer.vala src/cli.vala
 msgid "package(s)"
 msgstr "paket(i)"
-
-#: src/tray.vala src/manager_window.vala src/cli.vala
-msgid "Your system is up-to-date"
-msgstr "Nema novih nadogradnji"
 
 #: src/tray.vala
 msgid "_Quit"
@@ -712,28 +712,79 @@ msgid "file(s)"
 msgstr "datoteka(e)"
 
 #: src/cli.vala
+msgid "search in AUR instead of repositories"
+msgstr "pretražujte u AUR-u umjesto repozitorija"
+
+#: src/cli.vala
+msgid ""
+"search for packages which own the given filenames (filenames can be partial)"
+msgstr "traži pakete koji posjeduju dane nazive datoteka (imena datoteka mogu biti djelomična)"
+
+#: src/cli.vala
 msgid "Display package details, multiple packages can be specified"
 msgstr "Prikazivanje pojedinosti paketa, može se navesti više paketa odjedanput"
 
 #: src/cli.vala
 msgid "List packages, groups, repositories or files"
-msgstr "Prikaži pakete, grupe, zrcalne poslužitelje i datoteke"
+msgstr "Prikaži pakete, grupe, repozitorije ili datoteke"
+
+#: src/cli.vala
+msgid "list installed packages"
+msgstr "prikaži instalirane pakete"
+
+#: src/cli.vala
+msgid ""
+"list packages that were installed as dependencies but are no longer required"
+" by any installed package"
+msgstr "prikaži pakete koji su instalirani kao zavisnost, ali ih više ne zahtijeva niti jedan instalirani paket"
+
+#: src/cli.vala
+msgid "list packages that were not found in the repositories"
+msgstr "prikaži pakete koji nisu pronađeni u repozitorijima"
+
+#: src/cli.vala
+msgid ""
+"list all packages that are members of the given groups, if no group is given"
+" list all groups"
+msgstr "prikaži sve pakete koji su članovi navedenih grupa; ako grupa nije navedena, prikaži sve grupe"
 
 #: src/cli.vala
 msgid "group(s)"
 msgstr "grupa(e)"
 
 #: src/cli.vala
+msgid ""
+"list all packages available in the given repos, if no repo is given list all"
+" repos"
+msgstr "prikaži sve pakete koji su dostupni u danom repozitoriju; ako repozitorij nije naveden, prikaži sve repozitorije"
+
+#: src/cli.vala
 msgid "repo(s)"
-msgstr "zrcalni poslužitelj(i)"
+msgstr "repozitorij(i)"
+
+#: src/cli.vala
+msgid "list files owned by the given packages"
+msgstr "prikaži datoteke u vlasništvu navedenih paketa"
 
 #: src/cli.vala
 msgid "Build packages from AUR and install them with their dependencies"
 msgstr "Stvorite pakete iz AUR-a i instalirajte ih s njihovim ovisnostima"
 
 #: src/cli.vala
+msgid ""
+"build directory, if no directory is given the one specified in pamac.conf "
+"file is used"
+msgstr "izgradi direktorij, ako se ne dodjeljuje direktorij, koristi se onaj koji je naveden u pamac.conf datoteci"
+
+#: src/cli.vala
 msgid "dir"
 msgstr "direktorij"
+
+#: src/cli.vala
+msgid ""
+"overwrite conflicting files, multiple patterns can be specified by "
+"separating them with a comma"
+msgstr "prebriši datoteke u sukobu, može se odrediti više uzoraka odvajajući ih zarezom"
 
 #: src/cli.vala
 msgid "glob"
@@ -744,6 +795,12 @@ msgid "Reinstall packages"
 msgstr "Ponovno instaliraj pakete"
 
 #: src/cli.vala
+msgid ""
+"remove dependencies that are not required by other packages, if this option "
+"is used without package name remove all orphans"
+msgstr "ukloni zavisnosti koje drugi paketi ne zahtijevaju, ako se ta mogućnost upotrebljava bez naziva paketa ukloni sve nepotrebne pakete"
+
+#: src/cli.vala
 msgid "Safely check for updates without modifiying the databases"
 msgstr "Sigurno provjerite ažuriranja bez izmjene baza podataka"
 
@@ -752,8 +809,36 @@ msgid "Exit code is 100 if updates are available"
 msgstr "Izlazni kod 100 označuje da ima dostupnih ažuriranja"
 
 #: src/cli.vala
+msgid "also check updates in AUR"
+msgstr "također provjeri ažuriranja iz AUR-a"
+
+#: src/cli.vala
 msgid "Upgrade your system"
 msgstr "Nadogradite sustav"
+
+#: src/cli.vala
+msgid "also upgrade packages installed from AUR"
+msgstr "također nadogradi pakete instalirane iz AUR-a"
+
+#: src/cli.vala
+msgid ""
+"build directory (use with --aur), if no directory is given the one specified"
+" in pamac.conf file is used"
+msgstr "izgradi direktorij (koristiti naredbu --aur), ako direktorij nije naveden, koristi se onaj koji je naveden u pamac.conf datoteci"
+
+#: src/cli.vala
+msgid "force the refresh of the databases"
+msgstr "prisili osvježavanje baza podataka"
+
+#: src/cli.vala
+msgid "enable package downgrades"
+msgstr "dopusti povratak paketa na stariju verziju"
+
+#: src/cli.vala
+msgid ""
+"ignore a package upgrade, multiple packages can be specified by separating "
+"them with a comma"
+msgstr "zanemari nadogradnju paketa; može se odrediti više paketa odvajajući ih zarezom"
 
 #: src/cli.vala resources/manager_window.ui
 msgid "Version"

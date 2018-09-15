@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2018-08-29 13:10+0200\n"
-"PO-Revision-Date: 2018-08-29 15:52+0000\n"
+"POT-Creation-Date: 2018-09-08 17:58+0200\n"
+"PO-Revision-Date: 2018-09-09 09:42+0000\n"
 "Last-Translator: Heimen Stoffels <vistausss@outlook.com>\n"
 "Language-Team: Dutch (Netherlands) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/nl_NL/)\n"
 "MIME-Version: 1.0\n"
@@ -27,109 +27,109 @@ msgstr ""
 msgid "Authentication is required"
 msgstr "Authenticatie vereist"
 
-#: src/user_daemon.vala
-msgid "Unknown"
-msgstr "Onbekend"
-
-#: src/user_daemon.vala src/manager_window.vala
-msgid "Explicitly installed"
-msgstr "Expliciet geïnstalleerd"
-
-#: src/user_daemon.vala src/manager_window.vala
-msgid "Installed as a dependency for another package"
-msgstr "Geïnstalleerd als afhankelijkheid van een ander pakket"
-
-#: src/user_daemon.vala
-msgid "Yes"
-msgstr "Ja"
-
-#: src/user_daemon.vala
-msgid "No"
-msgstr "Nee"
-
-#: src/system_daemon.vala
+#: src/alpm_utils.vala
 msgid "Failed to initialize alpm library"
 msgstr "Het initialiseren van de alpm-bibliotheek is mislukt"
 
-#: src/system_daemon.vala
-msgid "Authentication failed"
-msgstr "Authenticatie mislukt"
+#: src/alpm_utils.vala
+msgid "Unknown"
+msgstr "Onbekend"
 
-#: src/system_daemon.vala
+#: src/alpm_utils.vala src/manager_window.vala
+msgid "Explicitly installed"
+msgstr "Expliciet geïnstalleerd"
+
+#: src/alpm_utils.vala src/manager_window.vala
+msgid "Installed as a dependency for another package"
+msgstr "Geïnstalleerd als afhankelijkheid van een ander pakket"
+
+#: src/alpm_utils.vala
+msgid "Yes"
+msgstr "Ja"
+
+#: src/alpm_utils.vala
+msgid "No"
+msgstr "Nee"
+
+#: src/alpm_utils.vala
 msgid "Failed to synchronize any databases"
-msgstr "Het synchroniseren van de databases is mislukt"
+msgstr "Het synchroniseren van de databanken is mislukt"
 
-#: src/system_daemon.vala
+#: src/alpm_utils.vala
 msgid "Failed to init transaction"
 msgstr "Het initialiseren van de overdracht is mislukt"
 
-#: src/system_daemon.vala
+#: src/alpm_utils.vala
 msgid "Failed to prepare transaction"
 msgstr "Het voorbereiden van de overdracht is mislukt"
 
-#: src/system_daemon.vala src/cli.vala
+#: src/alpm_utils.vala src/cli.vala
 #, c-format
 msgid "target not found: %s"
 msgstr "het doel kan niet worden gevonden: %s"
 
-#: src/system_daemon.vala
+#: src/alpm_utils.vala
 #, c-format
 msgid "package %s does not have a valid architecture"
 msgstr "pakket %s bevat een ongeldige architectuur"
 
-#: src/system_daemon.vala
+#: src/alpm_utils.vala
 #, c-format
 msgid "unable to satisfy dependency '%s' required by %s"
 msgstr "niet in staat om te voldoen aan afhankelijkheid '%s', vereist voor %s"
 
-#: src/system_daemon.vala
+#: src/alpm_utils.vala
 #, c-format
 msgid "installing %s (%s) breaks dependency '%s' required by %s"
 msgstr "installeren van %s (%s) doorbreekt afhankelijkheid '%s', vereist voor %s"
 
-#: src/system_daemon.vala
+#: src/alpm_utils.vala
 #, c-format
 msgid "removing %s breaks dependency '%s' required by %s"
 msgstr "verwijderen van %s doorbreekt afhankelijkheid '%s', vereist voor %s"
 
-#: src/system_daemon.vala
+#: src/alpm_utils.vala
 #, c-format
 msgid "%s and %s are in conflict"
 msgstr "%s en %s conflicteren"
 
-#: src/system_daemon.vala
+#: src/alpm_utils.vala
 #, c-format
 msgid "%s needs to be removed but it is a locked package"
 msgstr "%s moet worden verwijderd maar het pakket is vergrendeld"
 
-#: src/system_daemon.vala
+#: src/alpm_utils.vala
 msgid "Failed to commit transaction"
 msgstr "Het uitvoeren van de overdracht is mislukt"
 
-#: src/system_daemon.vala
+#: src/alpm_utils.vala
 #, c-format
 msgid "%s exists in both %s and %s"
 msgstr "%s is aanwezig in zowel %s als %s"
 
-#: src/system_daemon.vala
+#: src/alpm_utils.vala
 #, c-format
 msgid "%s: %s already exists in filesystem"
 msgstr "%s: %s is al aanwezig op het bestandssysteem"
 
-#: src/system_daemon.vala
+#: src/alpm_utils.vala
 #, c-format
 msgid "%s is invalid or corrupted"
 msgstr "%s is ongeldig of beschadigd"
 
-#: src/system_daemon.vala
+#: src/alpm_utils.vala
 #, c-format
 msgid "%s appears to be truncated: %jd/%jd bytes\n"
 msgstr "%s lijkt afgebroken te zijn: %jd/%jd bytes\n"
 
-#: src/system_daemon.vala
+#: src/alpm_utils.vala
 #, c-format
 msgid "failed retrieving file '%s' from %s : %s\n"
 msgstr "het ophalen van het bestand '%s' vanaf %s is mislukt : %s\n"
+
+#: src/system_daemon.vala
+msgid "Authentication failed"
+msgstr "Authenticatie mislukt"
 
 #: src/transaction.vala
 msgid "Refreshing mirrors list"
@@ -137,11 +137,15 @@ msgstr "Bezig met vernieuwen van spiegelserverlijst"
 
 #: src/transaction.vala
 msgid "Synchronizing package databases"
-msgstr "Bezig met synchroniseren van de pakketdatabases"
+msgstr "Bezig met synchroniseren van pakketdatabanken"
 
 #: src/transaction.vala
 msgid "Starting full system upgrade"
 msgstr "Bezig met starten van volledige systeembijwerking"
+
+#: src/transaction.vala src/tray.vala src/manager_window.vala src/cli.vala
+msgid "Your system is up-to-date"
+msgstr "Uw systeem is bijgewerkt"
 
 #: src/transaction.vala
 msgid "Preparing"
@@ -252,7 +256,7 @@ msgstr "%s vereist %s (optioneel)"
 #: src/transaction.vala
 #, c-format
 msgid "Database file for %s does not exist"
-msgstr "Het databasebestand van %s bestaat niet"
+msgstr "Het databankbestand van %s bestaat niet"
 
 #: src/transaction.vala
 msgid "Checking keyring"
@@ -374,10 +378,6 @@ msgstr "Pakketten verwijderen"
 #: src/installer.vala src/cli.vala
 msgid "package(s)"
 msgstr "pakket(ten)"
-
-#: src/tray.vala src/manager_window.vala src/cli.vala
-msgid "Your system is up-to-date"
-msgstr "Uw systeem is bijgewerkt"
 
 #: src/tray.vala
 msgid "_Quit"
@@ -709,6 +709,15 @@ msgid "file(s)"
 msgstr "bestand(en)"
 
 #: src/cli.vala
+msgid "search in AUR instead of repositories"
+msgstr "zoeken in AUR in plaats van pakketbronnen"
+
+#: src/cli.vala
+msgid ""
+"search for packages which own the given filenames (filenames can be partial)"
+msgstr "zoeken naar pakketten die overeenkomen met de opgegeven bestandsnamen (mag deels)"
+
+#: src/cli.vala
 msgid "Display package details, multiple packages can be specified"
 msgstr "Pakketgegevens tonen; er kunnen meerdere pakketten worden opgegeven"
 
@@ -717,20 +726,62 @@ msgid "List packages, groups, repositories or files"
 msgstr "Lijst met pakketten, groepen, pakketbronnen of bestanden"
 
 #: src/cli.vala
+msgid "list installed packages"
+msgstr "geïnstalleerde pakketten opsommen"
+
+#: src/cli.vala
+msgid ""
+"list packages that were installed as dependencies but are no longer required"
+" by any installed package"
+msgstr "pakketten opsommen die geïnstalleerd zijn als afhankelijkheden maar niet langer vereist zijn"
+
+#: src/cli.vala
+msgid "list packages that were not found in the repositories"
+msgstr "pakketten opsommen die niet zijn aangetroffen in de pakketbronnen"
+
+#: src/cli.vala
+msgid ""
+"list all packages that are members of the given groups, if no group is given"
+" list all groups"
+msgstr "alle pakketten opsommen die onderdeel zijn van de opgegeven groepen; bij geen groep worden alle groepen getoond"
+
+#: src/cli.vala
 msgid "group(s)"
 msgstr "groep(en)"
+
+#: src/cli.vala
+msgid ""
+"list all packages available in the given repos, if no repo is given list all"
+" repos"
+msgstr "alle pakketten opsommen die beschikbaar zijn in de opgegeven pakketbronnen; bij geen pakketbronnen worden ze allen getoond"
 
 #: src/cli.vala
 msgid "repo(s)"
 msgstr "pakketbron(nen)"
 
 #: src/cli.vala
+msgid "list files owned by the given packages"
+msgstr "bestanden opsommen die bij opgegeven pakketten horen"
+
+#: src/cli.vala
 msgid "Build packages from AUR and install them with their dependencies"
 msgstr "Bouw pakketten van AUR en installeer ze samen met hun afhankelijkheden"
 
 #: src/cli.vala
+msgid ""
+"build directory, if no directory is given the one specified in pamac.conf "
+"file is used"
+msgstr "bouwmap; als geen bouwmap wordt opgegeven, dan wordt die uit pamac.conf gebruikt"
+
+#: src/cli.vala
 msgid "dir"
 msgstr "map"
+
+#: src/cli.vala
+msgid ""
+"overwrite conflicting files, multiple patterns can be specified by "
+"separating them with a comma"
+msgstr "conflicterende bestanden overschrijven; meerdere patronen kunnen kommagescheiden worden opgegeven"
 
 #: src/cli.vala
 msgid "glob"
@@ -741,6 +792,12 @@ msgid "Reinstall packages"
 msgstr "Pakketten herinstalleren"
 
 #: src/cli.vala
+msgid ""
+"remove dependencies that are not required by other packages, if this option "
+"is used without package name remove all orphans"
+msgstr "afhankelijkheden verwijderen die niet vereist zijn door andere pakketten; als deze optie wordt gebruikt zonder pakketnaam, dan worden alle verouderde verwijderd"
+
+#: src/cli.vala
 msgid "Safely check for updates without modifiying the databases"
 msgstr "Veilig op updates controleren zonder de databanken aan te passen"
 
@@ -749,8 +806,36 @@ msgid "Exit code is 100 if updates are available"
 msgstr "Afsluitcode is 100 als er updates beschikbaar zijn"
 
 #: src/cli.vala
+msgid "also check updates in AUR"
+msgstr "ook controleren op AUR-updates"
+
+#: src/cli.vala
 msgid "Upgrade your system"
 msgstr "Systeem bijwerken"
+
+#: src/cli.vala
+msgid "also upgrade packages installed from AUR"
+msgstr "ook AUR-pakketten opwaarderen"
+
+#: src/cli.vala
+msgid ""
+"build directory (use with --aur), if no directory is given the one specified"
+" in pamac.conf file is used"
+msgstr "bouwmap (gebruik met --aur); als geen bouwmap wordt opgegeven, dan wordt die uit pamac.conf gebruikt"
+
+#: src/cli.vala
+msgid "force the refresh of the databases"
+msgstr "databanken geforceerd vernieuwen"
+
+#: src/cli.vala
+msgid "enable package downgrades"
+msgstr "pakketten afwaarderen inschakelen"
+
+#: src/cli.vala
+msgid ""
+"ignore a package upgrade, multiple packages can be specified by separating "
+"them with a comma"
+msgstr "een pakketopwaardering negeren; meerdere pakketten kunnen kommagescheiden worden opgegeven"
 
 #: src/cli.vala resources/manager_window.ui
 msgid "Version"
@@ -815,7 +900,7 @@ msgstr "Uitvoeren"
 
 #: resources/manager_window.ui
 msgid "Refresh databases"
-msgstr "Databases vernieuwen"
+msgstr "Databanken vernieuwen"
 
 #: resources/manager_window.ui
 msgid "View History"

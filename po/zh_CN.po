@@ -10,15 +10,17 @@
 # Dz Chen <wsxy162@gmail.com>, 2015
 # Dz Chen <wsxy162@gmail.com>, 2015
 # Dz Chen <wsxy162@gmail.com>, 2015-2017
+# f h <hffqyd@sina.com>, 2018
 # philm <philm@manjaro.org>, 2015
 # song day <songday@yeah.net>, 2018
+# 吴会欢（Nicholas） <whhxp1028@gmail.com>, 2018
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2018-08-29 13:10+0200\n"
-"PO-Revision-Date: 2018-08-29 12:34+0000\n"
-"Last-Translator: philm <philm@manjaro.org>\n"
+"POT-Creation-Date: 2018-09-08 17:58+0200\n"
+"PO-Revision-Date: 2018-09-10 11:57+0000\n"
+"Last-Translator: f h <hffqyd@sina.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -30,109 +32,109 @@ msgstr ""
 msgid "Authentication is required"
 msgstr "需要验证"
 
-#: src/user_daemon.vala
+#: src/alpm_utils.vala
+msgid "Failed to initialize alpm library"
+msgstr "初始化 alpm 库失败"
+
+#: src/alpm_utils.vala
 msgid "Unknown"
 msgstr "未知"
 
-#: src/user_daemon.vala src/manager_window.vala
+#: src/alpm_utils.vala src/manager_window.vala
 msgid "Explicitly installed"
 msgstr "单独指定安装"
 
-#: src/user_daemon.vala src/manager_window.vala
+#: src/alpm_utils.vala src/manager_window.vala
 msgid "Installed as a dependency for another package"
 msgstr "作为另一个软件包的依赖而安装"
 
-#: src/user_daemon.vala
+#: src/alpm_utils.vala
 msgid "Yes"
 msgstr "是"
 
-#: src/user_daemon.vala
+#: src/alpm_utils.vala
 msgid "No"
 msgstr "否"
 
-#: src/system_daemon.vala
-msgid "Failed to initialize alpm library"
-msgstr "初始化 Alpm 库失败"
-
-#: src/system_daemon.vala
-msgid "Authentication failed"
-msgstr "验证失败"
-
-#: src/system_daemon.vala
+#: src/alpm_utils.vala
 msgid "Failed to synchronize any databases"
 msgstr "同步数据库失败"
 
-#: src/system_daemon.vala
+#: src/alpm_utils.vala
 msgid "Failed to init transaction"
 msgstr "初始化事务失败"
 
-#: src/system_daemon.vala
+#: src/alpm_utils.vala
 msgid "Failed to prepare transaction"
 msgstr "准备事务失败"
 
-#: src/system_daemon.vala src/cli.vala
+#: src/alpm_utils.vala src/cli.vala
 #, c-format
 msgid "target not found: %s"
 msgstr "目标未找到：%s"
 
-#: src/system_daemon.vala
+#: src/alpm_utils.vala
 #, c-format
 msgid "package %s does not have a valid architecture"
 msgstr "软件包 %s 没有适用的架构"
 
-#: src/system_daemon.vala
+#: src/alpm_utils.vala
 #, c-format
 msgid "unable to satisfy dependency '%s' required by %s"
-msgstr "无法满足依赖关系 '%s' 由 %s 所要求"
+msgstr "无法满足依赖关系 '%s' 被 %s 所需要"
 
-#: src/system_daemon.vala
+#: src/alpm_utils.vala
 #, c-format
 msgid "installing %s (%s) breaks dependency '%s' required by %s"
-msgstr "正在安装%s (%s) 破坏了依赖关系 '%s' 由 %s 所要求"
+msgstr "安装%s (%s) 破坏了依赖关系， '%s' 被 %s 所需要"
 
-#: src/system_daemon.vala
+#: src/alpm_utils.vala
 #, c-format
 msgid "removing %s breaks dependency '%s' required by %s"
-msgstr "正在移除 %s 破坏依赖关系 '%s' 由 %s 所要求"
+msgstr "正在移除 %s 破坏依赖关系， '%s' 被 %s 所需要"
 
-#: src/system_daemon.vala
+#: src/alpm_utils.vala
 #, c-format
 msgid "%s and %s are in conflict"
 msgstr "%s 和 %s 有冲突"
 
-#: src/system_daemon.vala
+#: src/alpm_utils.vala
 #, c-format
 msgid "%s needs to be removed but it is a locked package"
-msgstr "%s 需要移除但已锁定"
+msgstr "%s 需要移除但被锁定"
 
-#: src/system_daemon.vala
+#: src/alpm_utils.vala
 msgid "Failed to commit transaction"
 msgstr "提交事务失败"
 
-#: src/system_daemon.vala
+#: src/alpm_utils.vala
 #, c-format
 msgid "%s exists in both %s and %s"
-msgstr "%s 存在于 %s 和 %s"
+msgstr "%s 同时存在于 %s 和 %s中"
 
-#: src/system_daemon.vala
+#: src/alpm_utils.vala
 #, c-format
 msgid "%s: %s already exists in filesystem"
 msgstr "%s： %s 已经在文件系统中存在"
 
-#: src/system_daemon.vala
+#: src/alpm_utils.vala
 #, c-format
 msgid "%s is invalid or corrupted"
 msgstr "%s 无效或已损坏"
 
-#: src/system_daemon.vala
+#: src/alpm_utils.vala
 #, c-format
 msgid "%s appears to be truncated: %jd/%jd bytes\n"
 msgstr "%s 似乎被截断了：%jd/%jd 字节\n"
 
-#: src/system_daemon.vala
+#: src/alpm_utils.vala
 #, c-format
 msgid "failed retrieving file '%s' from %s : %s\n"
-msgstr "从 %s 检索文件“%s”失败：%s\n"
+msgstr "从 %s 获取文件“%s”失败：%s\n"
+
+#: src/system_daemon.vala
+msgid "Authentication failed"
+msgstr "验证失败"
 
 #: src/transaction.vala
 msgid "Refreshing mirrors list"
@@ -145,6 +147,10 @@ msgstr "正在同步包数据库"
 #: src/transaction.vala
 msgid "Starting full system upgrade"
 msgstr "正在进行全面系统升级"
+
+#: src/transaction.vala src/tray.vala src/manager_window.vala src/cli.vala
+msgid "Your system is up-to-date"
+msgstr "系统为最新状态"
 
 #: src/transaction.vala
 msgid "Preparing"
@@ -198,7 +204,7 @@ msgstr "正在降级 %s"
 #: src/transaction.vala
 #, c-format
 msgid "Removing %s"
-msgstr "正在卸载 %s"
+msgstr "正在移除 %s"
 
 #: src/transaction.vala
 msgid "Checking integrity"
@@ -219,7 +225,7 @@ msgstr "正在应用增量"
 #: src/transaction.vala
 #, c-format
 msgid "Generating %s with %s"
-msgstr "正在生成 %s （使用 %s ）"
+msgstr "正在使用%s生成%s"
 
 #: src/transaction.vala
 msgid "Generation succeeded"
@@ -268,12 +274,12 @@ msgstr "正在下载所需密钥"
 #: src/transaction.vala
 #, c-format
 msgid "%s installed as %s.pacnew"
-msgstr "%s 安装作 %s.pacnew"
+msgstr "%s 安装为 %s.pacnew"
 
 #: src/transaction.vala
 #, c-format
 msgid "%s installed as %s.pacsave"
-msgstr "%s 安装作 %s.pacsave"
+msgstr "%s 安装为 %s.pacsave"
 
 #: src/transaction.vala
 msgid "Running pre-transaction hooks"
@@ -367,19 +373,15 @@ msgstr "正在等待另一包管理器退出"
 
 #: src/installer.vala src/cli.vala
 msgid "Install packages from repositories, path or url"
-msgstr ""
+msgstr "从仓库、路径或网址安装软件包"
 
 #: src/installer.vala src/cli.vala
 msgid "Remove packages"
-msgstr ""
+msgstr "移除软件包"
 
 #: src/installer.vala src/cli.vala
 msgid "package(s)"
-msgstr ""
-
-#: src/tray.vala src/manager_window.vala src/cli.vala
-msgid "Your system is up-to-date"
-msgstr "系统为最新状态"
+msgstr "软件包"
 
 #: src/tray.vala
 msgid "_Quit"
@@ -658,99 +660,184 @@ msgstr "全世界"
 #: src/transaction-cli.vala
 #, c-format
 msgid "Enter a number (default=%d)"
-msgstr ""
+msgstr "输入一个数字（默认值=%d）"
 
 #: src/transaction-cli.vala
 msgid "Total installed size"
-msgstr ""
+msgstr "总共已安装数量"
 
 #: src/transaction-cli.vala
 msgid "Total removed size"
-msgstr ""
+msgstr "总共已删除数量"
 
 #: src/transaction-cli.vala
 msgid "Commit transaction"
-msgstr ""
+msgstr "提交事务"
 
 #: src/transaction-cli.vala
 msgid "[y/N]"
-msgstr ""
+msgstr "[y/N]"
 
 #: src/transaction-cli.vala
 msgid "y"
-msgstr ""
+msgstr "y"
 
 #: src/transaction-cli.vala
 msgid "yes"
-msgstr ""
+msgstr "是"
 
 #: src/cli.vala
 msgid "Building packages as root is not allowed"
-msgstr ""
+msgstr "不允许以管理员身份建立包"
 
 #: src/cli.vala
 msgid "Available actions"
-msgstr ""
+msgstr "可用操作"
 
 #: src/cli.vala
 msgid "action"
-msgstr ""
+msgstr "操作"
 
 #: src/cli.vala
 msgid "options"
-msgstr ""
+msgstr "选项"
 
 #: src/cli.vala
 msgid "Search for packages or files, multiple search terms can be specified"
-msgstr ""
+msgstr "查找包或者文件，多个搜索行为可行"
 
 #: src/cli.vala
 msgid "file(s)"
-msgstr ""
+msgstr "文件"
+
+#: src/cli.vala
+msgid "search in AUR instead of repositories"
+msgstr "从AUR而不是仓库搜索"
+
+#: src/cli.vala
+msgid ""
+"search for packages which own the given filenames (filenames can be partial)"
+msgstr "搜索包含给定文件名的包（文件名可以不完整）"
 
 #: src/cli.vala
 msgid "Display package details, multiple packages can be specified"
-msgstr ""
+msgstr "展示包的细节，可以指定多个包"
 
 #: src/cli.vala
 msgid "List packages, groups, repositories or files"
-msgstr ""
+msgstr "列出包、组、仓库或者文件"
+
+#: src/cli.vala
+msgid "list installed packages"
+msgstr "列出已安装的包"
+
+#: src/cli.vala
+msgid ""
+"list packages that were installed as dependencies but are no longer required"
+" by any installed package"
+msgstr "列出已安装的但不再被任何已安装的包依赖的软件包"
+
+#: src/cli.vala
+msgid "list packages that were not found in the repositories"
+msgstr "列出在仓库中未发现的包"
+
+#: src/cli.vala
+msgid ""
+"list all packages that are members of the given groups, if no group is given"
+" list all groups"
+msgstr "列出指定组的所有包，若未指定组则列出所有组的"
 
 #: src/cli.vala
 msgid "group(s)"
-msgstr ""
+msgstr "组"
+
+#: src/cli.vala
+msgid ""
+"list all packages available in the given repos, if no repo is given list all"
+" repos"
+msgstr "列出指定仓库里所有的包，若未指定仓库列出所有仓库"
 
 #: src/cli.vala
 msgid "repo(s)"
-msgstr ""
+msgstr "仓库"
+
+#: src/cli.vala
+msgid "list files owned by the given packages"
+msgstr "列出指定包的文件"
 
 #: src/cli.vala
 msgid "Build packages from AUR and install them with their dependencies"
-msgstr ""
+msgstr "从AUR创建并安装包和依赖"
+
+#: src/cli.vala
+msgid ""
+"build directory, if no directory is given the one specified in pamac.conf "
+"file is used"
+msgstr "创建的目录，若未指定则使用pamac.conf中指定的"
 
 #: src/cli.vala
 msgid "dir"
-msgstr ""
+msgstr "文件目录"
+
+#: src/cli.vala
+msgid ""
+"overwrite conflicting files, multiple patterns can be specified by "
+"separating them with a comma"
+msgstr "覆盖冲突文件，多个模式使用逗号分隔"
 
 #: src/cli.vala
 msgid "glob"
-msgstr ""
+msgstr "全局"
 
 #: src/cli.vala
 msgid "Reinstall packages"
-msgstr ""
+msgstr "重新安装包"
+
+#: src/cli.vala
+msgid ""
+"remove dependencies that are not required by other packages, if this option "
+"is used without package name remove all orphans"
+msgstr "移除所有未被其他包使用的依赖，若未指定包名则移除所有的依赖"
 
 #: src/cli.vala
 msgid "Safely check for updates without modifiying the databases"
-msgstr ""
+msgstr "不修改数据库安全地检查更新"
 
 #: src/cli.vala
 msgid "Exit code is 100 if updates are available"
-msgstr ""
+msgstr "若有更新退出代码为100"
+
+#: src/cli.vala
+msgid "also check updates in AUR"
+msgstr "同时检查AUR更新"
 
 #: src/cli.vala
 msgid "Upgrade your system"
-msgstr ""
+msgstr "升级系统"
+
+#: src/cli.vala
+msgid "also upgrade packages installed from AUR"
+msgstr "同时更新从AUR安装的包"
+
+#: src/cli.vala
+msgid ""
+"build directory (use with --aur), if no directory is given the one specified"
+" in pamac.conf file is used"
+msgstr "创建的目录（和--aur一起使用），若未指定则使用pamac.conf中指定的"
+
+#: src/cli.vala
+msgid "force the refresh of the databases"
+msgstr "强制更新数据库"
+
+#: src/cli.vala
+msgid "enable package downgrades"
+msgstr "允许包降级"
+
+#: src/cli.vala
+msgid ""
+"ignore a package upgrade, multiple packages can be specified by separating "
+"them with a comma"
+msgstr "忽略一个包的更新，如需忽略多个包，可以在每两个包之间加入逗号分隔"
 
 #: src/cli.vala resources/manager_window.ui
 msgid "Version"
@@ -758,11 +845,11 @@ msgstr "版本"
 
 #: src/cli.vala
 msgid "Description"
-msgstr ""
+msgstr "描述"
 
 #: src/cli.vala
 msgid "URL"
-msgstr ""
+msgstr "URL"
 
 #: src/cli.vala resources/manager_window.ui
 msgid "Size"
@@ -771,22 +858,22 @@ msgstr "大小"
 #: src/cli.vala
 #, c-format
 msgid "No package owns %s"
-msgstr ""
+msgstr "没有包拥有%s"
 
 #: src/cli.vala
 #, c-format
 msgid "%s is owned by %s"
-msgstr ""
+msgstr "%s由%s所有"
 
 #: src/cli.vala
 #, c-format
 msgid "There is %u member in group %s"
 msgid_plural "There are %u members in group %s"
-msgstr[0] ""
+msgstr[0] "%s组中有%u个成员"
 
 #: src/cli.vala
 msgid "Enter a selection (default=all)"
-msgstr ""
+msgstr "输入选项（默认所有）"
 
 #: resources/choose_provider_dialog.ui
 msgid "Choose a Provider"
@@ -888,7 +975,7 @@ msgstr "常规"
 
 #: resources/preferences_dialog.ui
 msgid "Use mirrors from:"
-msgstr "使用镜像从："
+msgstr "使用镜像："
 
 #: resources/preferences_dialog.ui
 msgid "Refresh Mirrors List"
