@@ -391,7 +391,7 @@ namespace Pamac {
 			if (width > term_width) {
 				width = term_width;
 			}
-			int str_length = str.char_count ();
+			int str_length = str.length;
 			int available_width = width - margin;
 			if (available_width >= str_length) {
 				return {str};
@@ -1689,7 +1689,9 @@ namespace Pamac {
 			var cli = new Cli();
 			cli.parse_command_line (args);
 			// stop system_daemon
-			cli.transaction.quit_daemon ();
+			if (cli.transaction != null) {
+				cli.transaction.quit_daemon ();
+			}
 			if (cli.pkttyagent != null) {
 				cli.pkttyagent.force_exit ();
 			}

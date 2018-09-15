@@ -24,7 +24,7 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2018-09-08 17:58+0200\n"
-"PO-Revision-Date: 2018-09-15 13:11+0000\n"
+"PO-Revision-Date: 2018-09-15 15:12+0000\n"
 "Last-Translator: Guillaume Benoit <guillaume@manjaro.org>\n"
 "Language-Team: French (http://www.transifex.com/manjarolinux/manjaro-pamac/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -747,7 +747,7 @@ msgstr "liste les paquets installés en tant que dépendances mais qui ne sont p
 
 #: src/cli.vala
 msgid "list packages that were not found in the repositories"
-msgstr "liste les paquets qui n'ont pas disponibles dans les dépôts"
+msgstr "liste les paquets installés qui ne sont pas disponibles dans les dépôts"
 
 #: src/cli.vala
 msgid ""
@@ -763,7 +763,7 @@ msgstr "groupe(s)"
 msgid ""
 "list all packages available in the given repos, if no repo is given list all"
 " repos"
-msgstr "liste tous les paquets disponibles dans les dépôts donnés, si aucun dépôts n'est spécifié liste tous les dépôts"
+msgstr "liste tous les paquets disponibles dans les dépôts donnés, si aucun dépôt n'est spécifié liste tous les dépôts"
 
 #: src/cli.vala
 msgid "repo(s)"
