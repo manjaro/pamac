@@ -111,9 +111,8 @@ namespace Pamac {
 			timer = new Timer ();
 		}
 
-		// destruction
-		~Transaction () {
-			transaction_interface.quit ();
+		public void quit_daemon () {
+			transaction_interface.quit_daemon ();
 		}
 
 		protected virtual bool ask_confirmation (TransactionSummary summary) {

@@ -287,7 +287,7 @@ namespace Pamac {
 			}
 		}
 
-		public void quit () {
+		public void quit_daemon () {
 			try {
 				system_daemon.quit ();
 			} catch (Error e) {

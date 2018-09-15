@@ -93,7 +93,7 @@ namespace Pamac {
 			base.shutdown ();
 			if (!check_pamac_running ()) {
 				// stop system_daemon
-				manager_window.transaction = null;
+				manager_window.transaction.quit_daemon ();
 			}
 		}
 

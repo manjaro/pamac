@@ -1689,7 +1689,7 @@ namespace Pamac {
 			var cli = new Cli();
 			cli.parse_command_line (args);
 			// stop system_daemon
-			cli.transaction = null;
+			cli.transaction.quit_daemon ();
 			if (cli.pkttyagent != null) {
 				cli.pkttyagent.force_exit ();
 			}

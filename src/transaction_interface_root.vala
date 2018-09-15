@@ -286,7 +286,7 @@ namespace Pamac {
 			alpm_utils.trans_cancel ();
 		}
 
-		public void quit () {
+		public void quit_daemon () {
 			// nothing to do
 		}
 	}

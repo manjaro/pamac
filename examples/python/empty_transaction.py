@@ -37,6 +37,7 @@ def start_transaction():
 
 def on_trans_finished (transaction, success, data):
 	transaction.unlock()
+	transaction.quit_daemon()
 	loop.quit()
 
 if __name__ == "__main__":
