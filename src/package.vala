@@ -111,8 +111,8 @@ namespace Pamac {
 			groups_priv = new List<string> ();
 			backups_priv = new List<string> ();
 		}
-		internal PackageDetails.from_struct (owned PackageDetailsStruct pkg_struct) {
-			this.pkg_struct = (owned) pkg_struct;
+		internal PackageDetails.from_struct (owned PackageDetailsStruct pkg_struct_) {
+			pkg_struct = (owned) pkg_struct_;
 			licenses_priv = new List<string> ();
 			depends_priv = new List<string> ();
 			optdepends_priv = new List<string> ();
