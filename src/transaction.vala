@@ -690,7 +690,7 @@ namespace Pamac {
 					line = dgettext (null, "Error") + ": " + msg;
 				}
 				important_details_outpout (false);
-				emit_error (line.replace ("\n", ""), {});
+				emit_warning (line.replace ("\n", ""));
 			} else if (level == (1 << 1)) { //Alpm.LogLevel.WARNING
 				// warnings when no_confirm_commit should already have been sent
 				if (no_confirm_commit) {

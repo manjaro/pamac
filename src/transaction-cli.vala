@@ -161,10 +161,7 @@ namespace Pamac {
 
 		void print_error (string message, string[] details) {
 			display_current_line ();
-			if (downloading) {
-				// when downloading errors have no details
-				stdout.printf ("%s\n", message);
-			} else if (details.length > 0) {
+			if (details.length > 0) {
 				if (details.length == 1) {
 					stdout.printf ("%s: %s: %s\n", dgettext (null, "Error"), message, details[0]);
 				} else {

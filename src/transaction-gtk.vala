@@ -75,6 +75,7 @@ namespace Pamac {
 			emit_hook_progress.connect (display_hook_progress);
 			emit_script_output.connect (show_in_term);
 			emit_warning.connect ((msg) => {
+				show_in_term (msg);
 				warning_textbuffer.append (msg + "\n");
 			});
 			emit_error.connect (display_error);
@@ -455,10 +456,6 @@ namespace Pamac {
 			box.add (scrolledwindow);
 			dialog.default_width = 600;
 			dialog.default_height = 300;
-			dialog.show ();
-			dialog.response.connect (() => {
-				dialog.destroy ();
-			});
 			Timeout.add (1000, () => {
 				try {
 					var notification = new Notify.Notification (dgettext (null, "Package Manager"),
@@ -470,6 +467,8 @@ namespace Pamac {
 				}
 				return false;
 			});
+			dialog.run ();
+			dialog.destroy ();
 		}
 
 		void on_refresh_finished (bool success) {
