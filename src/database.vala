@@ -133,11 +133,10 @@ namespace Pamac {
 		}
 
 		public async List<Package> get_installed_pkgs_async () {
-			SourceFunc callback = get_installed_pkgs_async.callback;
 			var pkgs = new List<Package> ();
 			new Thread<int> ("get_installed_pkgs", () => {
 				pkgs = alpm_utils.get_installed_pkgs ();
-				Idle.add ((owned) callback);
+				get_installed_pkgs_async.callback ();
 				return 0;
 			});
 			yield;
@@ -149,11 +148,10 @@ namespace Pamac {
 		}
 
 		public async List<Package> get_installed_apps_async () {
-			SourceFunc callback = get_installed_apps_async.callback;
 			var pkgs = new List<Package> ();
 			new Thread<int> ("get_installed_apps", () => {
 				pkgs = alpm_utils.get_installed_apps ();
-				Idle.add ((owned) callback);
+				get_installed_apps_async.callback ();
 				return 0;
 			});
 			yield;
@@ -165,11 +163,10 @@ namespace Pamac {
 		}
 
 		public async List<Package> get_explicitly_installed_pkgs_async () {
-			SourceFunc callback = get_explicitly_installed_pkgs_async.callback;
 			var pkgs = new List<Package> ();
 			new Thread<int> ("get_explicitly_installed_pkgs", () => {
 				pkgs = alpm_utils.get_explicitly_installed_pkgs ();
-				Idle.add ((owned) callback);
+				get_explicitly_installed_pkgs_async.callback ();
 				return 0;
 			});
 			yield;
@@ -181,11 +178,10 @@ namespace Pamac {
 		}
 
 		public async List<Package> get_foreign_pkgs_async () {
-			SourceFunc callback = get_foreign_pkgs_async.callback;
 			var pkgs = new List<Package> ();
 			new Thread<int> ("get_foreign_pkgs", () => {
 				pkgs = alpm_utils.get_foreign_pkgs ();
-				Idle.add ((owned) callback);
+				get_foreign_pkgs_async.callback ();
 				return 0;
 			});
 			yield;
@@ -197,11 +193,10 @@ namespace Pamac {
 		}
 
 		public async List<Package> get_orphans_async () {
-			SourceFunc callback = get_orphans_async.callback;
 			var pkgs = new List<Package> ();
 			new Thread<int> ("get_orphans", () => {
 				pkgs = alpm_utils.get_orphans ();
-				Idle.add ((owned) callback);
+				get_orphans_async.callback ();
 				return 0;
 			});
 			yield;
@@ -225,11 +220,10 @@ namespace Pamac {
 		}
 
 		public async List<Package> search_pkgs_async (string search_string) {
-			SourceFunc callback = search_pkgs_async.callback;
 			var pkgs = new List<Package> ();
 			new Thread<int> ("search_pkgs", () => {
 				pkgs = alpm_utils.search_pkgs (search_string);
-				Idle.add ((owned) callback);
+				search_pkgs_async.callback ();
 				return 0;
 			});
 			yield;
@@ -249,11 +243,10 @@ namespace Pamac {
 		}
 
 		public async List<AURPackage> search_in_aur_async (string search_string) {
-			SourceFunc callback = search_in_aur_async.callback;
 			var pkgs = new List<AURPackage> ();
 			new Thread<int> ("search_in_aur", () => {
 				pkgs = alpm_utils.search_in_aur (search_string);
-				Idle.add ((owned) callback);
+				search_in_aur_async.callback ();
 				return 0;
 			});
 			yield;
@@ -273,11 +266,10 @@ namespace Pamac {
 		}
 
 		public async List<Package> get_category_pkgs_async (string category) {
-			SourceFunc callback = get_category_pkgs_async.callback;
 			var pkgs = new List<Package> ();
 			new Thread<int> ("get_category_pkgs", () => {
 				pkgs = alpm_utils.get_category_pkgs (category);
-				Idle.add ((owned) callback);
+				get_category_pkgs_async.callback ();
 				return 0;
 			});
 			yield;
@@ -297,11 +289,10 @@ namespace Pamac {
 		}
 
 		public async List<Package> get_repo_pkgs_async (string repo) {
-			SourceFunc callback = get_repo_pkgs_async.callback;
 			var pkgs = new List<Package> ();
 			new Thread<int> ("get_repo_pkgs", () => {
 				pkgs = alpm_utils.get_repo_pkgs (repo);
-				Idle.add ((owned) callback);
+				get_repo_pkgs_async.callback ();
 				return 0;
 			});
 			yield;
@@ -321,11 +312,10 @@ namespace Pamac {
 		}
 
 		public async List<Package> get_group_pkgs_async (string group_name) {
-			SourceFunc callback = get_group_pkgs_async.callback;
 			var pkgs = new List<Package> ();
 			new Thread<int> ("get_group_pkgs", () => {
 				pkgs = alpm_utils.get_group_pkgs (group_name);
-				Idle.add ((owned) callback);
+				get_group_pkgs_async.callback ();
 				return 0;
 			});
 			yield;
@@ -349,11 +339,10 @@ namespace Pamac {
 		}
 
 		public async List<string> get_pkg_files_async (string pkgname) {
-			SourceFunc callback = get_pkg_files_async.callback;
 			var files = new List<string> ();
 			new Thread<int> ("get_pkg_files", () => {
 				files = alpm_utils.get_pkg_files (pkgname);
-				Idle.add ((owned) callback);
+				get_pkg_files_async.callback ();
 				return 0;
 			});
 			yield;
@@ -373,11 +362,10 @@ namespace Pamac {
 		}
 
 		public async AURPackage get_aur_pkg_async (string pkgname) {
-			SourceFunc callback = get_aur_pkg_async.callback;
 			var pkg = new AURPackage ();
 			new Thread<int> ("get_aur_pkg", () => {
 				pkg = alpm_utils.get_aur_pkg (pkgname);
-				Idle.add ((owned) callback);
+				get_aur_pkg_async.callback ();
 				return 0;
 			});
 			yield;
@@ -393,11 +381,10 @@ namespace Pamac {
 		}
 
 		public async AURPackageDetails get_aur_pkg_details_async (string pkgname) {
-			SourceFunc callback = get_aur_pkg_details_async.callback;
 			var pkg = new AURPackageDetails ();
 			new Thread<int> ("get_aur_pkg_details", () => {
 				pkg = alpm_utils.get_aur_pkg_details (pkgname);
-				Idle.add ((owned) callback);
+				get_aur_pkg_details_async.callback ();
 				return 0;
 			});
 			yield;
@@ -413,11 +400,10 @@ namespace Pamac {
 		}
 
 		public async Updates get_updates_async () {
-			SourceFunc callback = get_updates_async.callback;
 			var updates = new Updates ();
 			new Thread<int> ("get_updates", () => {
 				updates = get_updates ();
-				Idle.add ((owned) callback);
+				get_updates_async.callback ();
 				return 0;
 			});
 			yield;

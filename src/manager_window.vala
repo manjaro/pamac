@@ -480,6 +480,13 @@ namespace Pamac {
 					show_sidebar ();
 				} else {
 					hide_sidebar ();
+					unowned Gtk.ListBoxRow repo_row = search_listbox.get_row_at_index (0);
+					repo_row.activatable = true;
+					repo_row.selectable = true;
+					repo_row.can_focus = true;
+					repo_row.get_child ().sensitive = true;
+					search_listbox.select_row (repo_row);
+					on_search_listbox_row_activated (search_listbox.get_selected_row ());
 					origin_stack.visible_child_name = "repos";
 				}
 			}
@@ -1947,10 +1954,16 @@ namespace Pamac {
 						}
 						var pkgs = database.search_pkgs_async.end (res);
 						if (pkgs.length () == 0 && database.config.enable_aur) {
-							
 							database.search_in_aur_async.begin (search_string, (obj, res) => {
+								unowned Gtk.ListBoxRow aur_row = search_listbox.get_row_at_index (1);
 								if (database.search_in_aur_async.end (res).length () > 0) {
-									origin_stack.visible_child_name = "aur";
+									row.activatable = false;
+									row.selectable = false;
+									row.has_focus = false;
+									row.can_focus = false;
+									row.get_child ().sensitive = false;
+									search_listbox.select_row (aur_row);
+									on_search_listbox_row_activated (search_listbox.get_selected_row ());
 								} else {
 									populate_packages_list (pkgs);
 								}
@@ -1977,6 +1990,21 @@ namespace Pamac {
 					}
 					database.search_in_aur_async.begin (search_string, (obj, res) => {
 						populate_aur_list (database.search_in_aur_async.end (res));
+					});
+					database.search_pkgs_async.begin (search_string, (obj, res) => {
+						unowned Gtk.ListBoxRow repo_row = search_listbox.get_row_at_index (0);
+						if (database.search_pkgs_async.end (res).length () > 0 ) {
+							repo_row.activatable = true;
+							repo_row.selectable = true;
+							repo_row.can_focus = true;
+							repo_row.get_child ().sensitive = true;
+						} else {
+							repo_row.activatable = false;
+							repo_row.selectable = false;
+							repo_row.has_focus = false;
+							repo_row.can_focus = false;
+							repo_row.get_child ().sensitive = false;
+						}
 					});
 					packages_list.clear ();
 					break;

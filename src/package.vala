@@ -226,8 +226,8 @@ namespace Pamac {
 			replaces_priv = new List<string> ();
 			conflicts_priv = new List<string> ();
 		}
-		internal AURPackageDetails.from_struct (owned AURPackageDetailsStruct pkg_struct) {
-			this.pkg_struct = (owned) pkg_struct;
+		internal AURPackageDetails.from_struct (owned AURPackageDetailsStruct pkg_struct_) {
+			this.pkg_struct = (owned) pkg_struct_;
 			licenses_priv = new List<string> ();
 			depends_priv = new List<string> ();
 			makedepends_priv = new List<string> ();
