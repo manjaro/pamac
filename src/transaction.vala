@@ -138,11 +138,10 @@ namespace Pamac {
 		}
 
 		public async bool check_authorization () {
-			SourceFunc callback = check_authorization.callback;
 			bool authorized = false;
 			ulong handler_id = transaction_interface.get_authorization_finished.connect ((authorized_) => {
 				authorized = authorized_;
-				Idle.add ((owned) callback);
+				check_authorization.callback ();
 			});
 			transaction_interface.start_get_authorization ();
 			yield;
