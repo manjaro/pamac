@@ -2564,14 +2564,7 @@ namespace Pamac {
 		[GtkCallback]
 		void on_details_button_clicked () {
 			important_details = false;
-			if (transaction_running || sysupgrade_running) {
-				main_stack.visible_child_name = "term";
-			} else {
-				uint total_pending = to_install.length + to_remove.length + to_build.length;
-				if (total_pending == 0) {
-					main_stack.visible_child_name = "term";
-				}
-			}
+			main_stack.visible_child_name = "term";
 		}
 
 		[GtkCallback]
