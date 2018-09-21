@@ -478,7 +478,9 @@ namespace Pamac {
 			alpm_utils.to_load = to_load;
 			alpm_utils.to_build = to_build;
 			alpm_utils.overwrite_files = overwrite_files;
-			alpm_utils.sysupgrade = true;
+			if (alpm_utils.to_install.length > 0) {
+				alpm_utils.sysupgrade = true;
+			}
 			if (alpm_utils.downloading_updates) {
 				alpm_utils.cancellable.cancel ();
 				// let time to cancel download updates
