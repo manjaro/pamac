@@ -339,6 +339,8 @@ namespace Pamac {
 					} else {
 						pixbuf = installed_icon;
 					}
+				} else if (unlikely (transaction.transaction_summary.contains (pkgname))) {
+					pixbuf = available_locked_icon;
 				} else if (unlikely (to_build.contains (pkgname))) {
 					pixbuf = to_install_icon;
 				} else {
@@ -1653,8 +1655,8 @@ namespace Pamac {
 						to_install.add (pkgname);
 					}
 				}
+				set_pendings_operations ();
 			}
-			set_pendings_operations ();
 		}
 
 		[GtkCallback]
@@ -1682,24 +1684,26 @@ namespace Pamac {
 			uint origin;
 			string pkgname;
 			aur_list.get (iter, 0, out origin, 1, out pkgname);
-			if (filters_stack.visible_child_name == "updates") {
-				if (to_update.remove (pkgname)) {
-					temporary_ignorepkgs.add (pkgname);
-				} else if (temporary_ignorepkgs.remove (pkgname)) {
-					to_update.add (pkgname);
-				}
-			} else if (origin == 0) { // installed
-				if (!transaction.transaction_summary.contains (pkgname)) {
-					if (to_remove.remove (pkgname)) {
-					} else if (!database.should_hold (pkgname)) {
-						to_remove.add (pkgname);
+			if (!transaction.transaction_summary.contains (pkgname)) {
+				if (filters_stack.visible_child_name == "updates") {
+					if (to_update.remove (pkgname)) {
+						temporary_ignorepkgs.add (pkgname);
+					} else if (temporary_ignorepkgs.remove (pkgname)) {
+						to_update.add (pkgname);
 					}
+				} else if (origin == 0) { // installed
+					if (!transaction.transaction_summary.contains (pkgname)) {
+						if (to_remove.remove (pkgname)) {
+						} else if (!database.should_hold (pkgname)) {
+							to_remove.add (pkgname);
+						}
+					}
+				} else if (to_build.remove (pkgname)) {
+				} else {
+					to_build.add (pkgname);
 				}
-			} else if (to_build.remove (pkgname)) {
-			} else {
-				to_build.add (pkgname);
+				set_pendings_operations ();
 			}
-			set_pendings_operations ();
 		}
 
 		[GtkCallback]
