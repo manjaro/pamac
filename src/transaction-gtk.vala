@@ -135,31 +135,6 @@ namespace Pamac {
 			}
 		}
 
-		protected override async int run_cmd_line (string[] args, string working_directory, Cancellable cancellable) {
-			int status = 1;
-			term.set_pty (pty);
-			var launcher = new SubprocessLauncher (SubprocessFlags.NONE);
-			launcher.set_cwd (working_directory);
-			launcher.set_environ (Environ.get ());
-			launcher.set_child_setup (pty.child_setup);
-			try {
-				Subprocess process = launcher.spawnv (args);
-				try {
-					yield process.wait_async (cancellable);
-					if (process.get_if_exited ()) {
-						status = process.get_exit_status ();
-					}
-				} catch (Error e) {
-					// cancelled
-					process.send_signal (Posix.Signal.INT);
-					process.send_signal (Posix.Signal.KILL);
-				}
-			} catch (Error e) {
-				stderr.printf ("Error: %s\n", e.message);
-			}
-			return status;
-		}
-
 		void display_action (string action) {
 			if (action != current_action) {
 				current_action = action;
