@@ -2085,7 +2085,7 @@ namespace Pamac {
 									install_item.sensitive = true;
 								}
 							}
-							if (origin == 0) { // installed
+							if (filters_stack.visible_child_name != "updates" && origin == 0) { // installed
 								remove_item.sensitive = true;
 							}
 						}
@@ -2143,8 +2143,10 @@ namespace Pamac {
 						Package pkg = database.get_installed_pkg (pkgname);
 						if (pkg.name != "") {
 							selected_pkgs.append (pkgname);
-							// there is for sure a pkg to remove
-							remove_item.sensitive = true;
+							if (filters_stack.visible_child_name != "updates") {
+								// there is for sure a pkg to remove
+								remove_item.sensitive = true;
+							}
 						} else {
 							selected_aur.append (pkgname);
 						}
