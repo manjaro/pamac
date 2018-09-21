@@ -52,7 +52,6 @@ namespace Pamac {
 			transaction.term_window.height_request = 200;
 			progress_dialog.expander.add (transaction.term_window);
 			progress_dialog.close_button.clicked.connect (on_close_button_clicked);
-			progress_dialog.close_button.visible = false;
 		}
 
 		public override int command_line (ApplicationCommandLine cmd) {
@@ -116,6 +115,7 @@ namespace Pamac {
 				progress_dialog.show ();
 				if (transaction.get_lock ()) {
 					transaction.start (to_install, to_remove, to_load, {}, {});
+					progress_dialog.close_button.visible = false;
 				} else {
 					transaction.progress_box.action_label.label = dgettext (null, "Waiting for another package manager to quit") + "...";
 					transaction.start_progressbar_pulse ();
