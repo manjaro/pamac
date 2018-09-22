@@ -1274,18 +1274,27 @@ namespace Pamac {
 			write_log_file ("synchronizing package lists");
 			cancellable.reset ();
 			int force = (force_refresh) ? 1 : 0;
-			// try to copy refresh dbs in tmp
 			string tmp_dbpath = "/tmp/pamac-checkdbs";
-			var file = GLib.File.new_for_path (tmp_dbpath);
-			if (file.query_exists ()) {
+			if (force_refresh) {
+				// remove dbs in tmp
 				try {
-					Process.spawn_command_line_sync ("cp -au %s/sync %s".printf (tmp_dbpath, alpm_handle.dbpath));
+					Process.spawn_command_line_sync ("rm -rf %s".printf (tmp_dbpath));
 				} catch (SpawnError e) {
 					stderr.printf ("SpawnError: %s\n", e.message);
 				}
+			} else {
+				// try to copy refresh dbs in tmp
+				var file = GLib.File.new_for_path (tmp_dbpath);
+				if (file.query_exists ()) {
+					try {
+						Process.spawn_command_line_sync ("cp -au %s/sync %s".printf (tmp_dbpath, alpm_handle.dbpath));
+					} catch (SpawnError e) {
+						stderr.printf ("SpawnError: %s\n", e.message);
+					}
+				}
+				// a new handle is required to use copied databases
+				refresh_handle ();
 			}
-			// a new handle is required to use copied databases
-			refresh_handle ();
 			// update ".db"
 			bool success = update_dbs (alpm_handle, force);
 			if (cancellable.is_cancelled ()) {
