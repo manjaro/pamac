@@ -1401,7 +1401,7 @@ namespace Pamac {
 			}
 		}
 
-		internal void compute_aur_build_list (string[] aur_list) {
+		internal void compute_aur_build_list () {
 			try {
 				Process.spawn_command_line_sync ("mkdir -p %s".printf (aurdb_path));
 			} catch (SpawnError e) {
@@ -1409,7 +1409,7 @@ namespace Pamac {
 			}
 			aur_desc_list.remove_all ();
 			already_checked_aur_dep.remove_all ();
-			check_aur_dep_list (aur_list);
+			check_aur_dep_list (to_build);
 		}
 
 		void check_aur_dep_list (string[] pkgnames) {

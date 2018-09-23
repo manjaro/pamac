@@ -44,6 +44,7 @@ namespace Pamac {
 		private string mirrorlist_country;
 		private ThreadPool<AlpmAction> thread_pool;
 		private BusName lock_id;
+		private bool authorized;
 		private GLib.File lockfile;
 
 		public signal void emit_event (uint primary_event, uint secondary_event, string[] details);
@@ -68,6 +69,7 @@ namespace Pamac {
 
 		public SystemDaemon () {
 			lock_id = new BusName ("");
+			authorized = false;
 			// alpm_utils global variable declared in alpm_utils.vala
 			alpm_utils = new AlpmUtils ();
 			lockfile = GLib.File.new_for_path (alpm_utils.alpm_handle.lockfile);
@@ -234,6 +236,7 @@ namespace Pamac {
 		public bool unlock (GLib.BusName sender) throws Error {
 			if (lock_id == sender) {
 				lock_id = new BusName ("");
+				authorized = false;
 				return true;
 			}
 			return false;
@@ -243,9 +246,12 @@ namespace Pamac {
 			if (lock_id != sender) {
 				return false;
 			}
-			bool authorized = false;
+			if (authorized) {
+				return true;
+			}
+			authorized = false;
 			try {
-				Polkit.Authority authority = Polkit.Authority.get_sync ();
+				Polkit.Authority authority = yield Polkit.Authority.get_async ();
 				Polkit.Subject subject = new Polkit.SystemBusName (sender);
 				var result = yield authority.check_authorization (
 					subject,
@@ -275,7 +281,7 @@ namespace Pamac {
 			check_authorization.begin (sender, (obj, res) => {
 				var pamac_config = new Config ("/etc/pamac.conf");
 				bool authorized = check_authorization.end (res);
-				if (authorized ) {
+				if (authorized) {
 					pamac_config.write (new_pamac_conf);
 					pamac_config.reload ();
 				}
@@ -295,7 +301,7 @@ namespace Pamac {
 		public void start_write_alpm_config (HashTable<string,Variant> new_alpm_conf, GLib.BusName sender) throws Error {
 			check_authorization.begin (sender, (obj, res) => {
 				bool authorized = check_authorization.end (res);
-				if (authorized ) {
+				if (authorized) {
 					this.new_alpm_conf = new_alpm_conf;
 					try {
 						thread_pool.add (new AlpmAction (write_alpm_config));
@@ -495,8 +501,8 @@ namespace Pamac {
 
 		private void launch_prepare_thread () {
 			if (alpm_utils.to_build.length != 0) {
-				alpm_utils.compute_aur_build_list (alpm_utils.to_build);
 				try {
+					thread_pool.add (new AlpmAction (alpm_utils.compute_aur_build_list));
 					thread_pool.add (new AlpmAction (alpm_utils.build_prepare));
 				} catch (ThreadError e) {
 					stderr.printf ("Thread Error %s\n", e.message);
