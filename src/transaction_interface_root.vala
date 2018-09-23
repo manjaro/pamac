@@ -256,7 +256,7 @@ namespace Pamac {
 
 		private void launch_prepare () {
 			if (alpm_utils.to_build.length != 0) {
-				alpm_utils.compute_aur_build_list (alpm_utils.to_build);
+				alpm_utils.compute_aur_build_list ();
 				new Thread<int> ("build_prepare", build_prepare);
 			} else {
 				new Thread<int> ("trans_prepare", trans_prepare);
