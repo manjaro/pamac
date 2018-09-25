@@ -141,7 +141,7 @@ namespace Pamac {
 			bool authorized = false;
 			ulong handler_id = transaction_interface.get_authorization_finished.connect ((authorized_) => {
 				authorized = authorized_;
-				check_authorization.callback ();
+				Idle.add (check_authorization.callback);
 			});
 			transaction_interface.start_get_authorization ();
 			yield;

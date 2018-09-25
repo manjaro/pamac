@@ -139,27 +139,25 @@ namespace Pamac {
 
 		bool check_updates () {
 			if (database.config.refresh_period != 0) {
-				database.get_updates_async.begin ((obj, res) => {
-					var updates = database.get_updates_async.end (res);
-					updates_nb = updates.repos_updates.length () + updates.aur_updates.length ();
-					if (updates_nb == 0) {
-						set_icon (noupdate_icon_name);
-						set_tooltip (noupdate_info);
-						set_icon_visible (!database.config.no_update_hide_icon);
-						close_notification ();
-					} else {
-						if (!check_pamac_running () && database.config.download_updates) {
-							start_system_daemon ();
-							try {
-								system_daemon.start_download_updates ();
-							} catch (Error e) {
-								stderr.printf ("Error: %s\n", e.message);
-							}
-						} else {
-							show_or_update_notification ();
+				var updates = database.get_updates ();
+				updates_nb = updates.repos_updates.length () + updates.aur_updates.length ();
+				if (updates_nb == 0) {
+					set_icon (noupdate_icon_name);
+					set_tooltip (noupdate_info);
+					set_icon_visible (!database.config.no_update_hide_icon);
+					close_notification ();
+				} else {
+					if (!check_pamac_running () && database.config.download_updates) {
+						start_system_daemon ();
+						try {
+							system_daemon.start_download_updates ();
+						} catch (Error e) {
+							stderr.printf ("Error: %s\n", e.message);
 						}
+					} else {
+						show_or_update_notification ();
 					}
-				});
+				}
 			}
 			return true;
 		}

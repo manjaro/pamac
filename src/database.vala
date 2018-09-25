@@ -136,7 +136,7 @@ namespace Pamac {
 			var pkgs = new List<Package> ();
 			new Thread<int> ("get_installed_pkgs", () => {
 				pkgs = alpm_utils.get_installed_pkgs ();
-				get_installed_pkgs_async.callback ();
+				Idle.add (get_installed_pkgs_async.callback);
 				return 0;
 			});
 			yield;
@@ -151,7 +151,7 @@ namespace Pamac {
 			var pkgs = new List<Package> ();
 			new Thread<int> ("get_installed_apps", () => {
 				pkgs = alpm_utils.get_installed_apps ();
-				get_installed_apps_async.callback ();
+				Idle.add (get_installed_apps_async.callback);
 				return 0;
 			});
 			yield;
@@ -166,7 +166,7 @@ namespace Pamac {
 			var pkgs = new List<Package> ();
 			new Thread<int> ("get_explicitly_installed_pkgs", () => {
 				pkgs = alpm_utils.get_explicitly_installed_pkgs ();
-				get_explicitly_installed_pkgs_async.callback ();
+				Idle.add (get_explicitly_installed_pkgs_async.callback);
 				return 0;
 			});
 			yield;
@@ -181,7 +181,7 @@ namespace Pamac {
 			var pkgs = new List<Package> ();
 			new Thread<int> ("get_foreign_pkgs", () => {
 				pkgs = alpm_utils.get_foreign_pkgs ();
-				get_foreign_pkgs_async.callback ();
+				Idle.add (get_foreign_pkgs_async.callback);
 				return 0;
 			});
 			yield;
@@ -196,7 +196,7 @@ namespace Pamac {
 			var pkgs = new List<Package> ();
 			new Thread<int> ("get_orphans", () => {
 				pkgs = alpm_utils.get_orphans ();
-				get_orphans_async.callback ();
+				Idle.add (get_orphans_async.callback);
 				return 0;
 			});
 			yield;
@@ -223,7 +223,7 @@ namespace Pamac {
 			var pkgs = new List<Package> ();
 			new Thread<int> ("search_pkgs", () => {
 				pkgs = alpm_utils.search_pkgs (search_string);
-				search_pkgs_async.callback ();
+				Idle.add (search_pkgs_async.callback);
 				return 0;
 			});
 			yield;
@@ -246,7 +246,7 @@ namespace Pamac {
 			var pkgs = new List<AURPackage> ();
 			new Thread<int> ("search_in_aur", () => {
 				pkgs = alpm_utils.search_in_aur (search_string);
-				search_in_aur_async.callback ();
+				Idle.add (search_in_aur_async.callback);
 				return 0;
 			});
 			yield;
@@ -269,7 +269,7 @@ namespace Pamac {
 			var pkgs = new List<Package> ();
 			new Thread<int> ("get_category_pkgs", () => {
 				pkgs = alpm_utils.get_category_pkgs (category);
-				get_category_pkgs_async.callback ();
+				Idle.add (get_category_pkgs_async.callback);
 				return 0;
 			});
 			yield;
@@ -292,7 +292,7 @@ namespace Pamac {
 			var pkgs = new List<Package> ();
 			new Thread<int> ("get_repo_pkgs", () => {
 				pkgs = alpm_utils.get_repo_pkgs (repo);
-				get_repo_pkgs_async.callback ();
+				Idle.add (get_repo_pkgs_async.callback);
 				return 0;
 			});
 			yield;
@@ -315,7 +315,7 @@ namespace Pamac {
 			var pkgs = new List<Package> ();
 			new Thread<int> ("get_group_pkgs", () => {
 				pkgs = alpm_utils.get_group_pkgs (group_name);
-				get_group_pkgs_async.callback ();
+				Idle.add (get_group_pkgs_async.callback);
 				return 0;
 			});
 			yield;
@@ -342,7 +342,7 @@ namespace Pamac {
 			var files = new List<string> ();
 			new Thread<int> ("get_pkg_files", () => {
 				files = alpm_utils.get_pkg_files (pkgname);
-				get_pkg_files_async.callback ();
+				Idle.add (get_pkg_files_async.callback);
 				return 0;
 			});
 			yield;
@@ -365,7 +365,7 @@ namespace Pamac {
 			var pkg = new AURPackage ();
 			new Thread<int> ("get_aur_pkg", () => {
 				pkg = alpm_utils.get_aur_pkg (pkgname);
-				get_aur_pkg_async.callback ();
+				Idle.add (get_aur_pkg_async.callback);
 				return 0;
 			});
 			yield;
@@ -384,7 +384,7 @@ namespace Pamac {
 			var pkg = new AURPackageDetails ();
 			new Thread<int> ("get_aur_pkg_details", () => {
 				pkg = alpm_utils.get_aur_pkg_details (pkgname);
-				get_aur_pkg_details_async.callback ();
+				Idle.add (get_aur_pkg_details_async.callback);
 				return 0;
 			});
 			yield;
@@ -403,7 +403,7 @@ namespace Pamac {
 			var updates = new Updates ();
 			new Thread<int> ("get_updates", () => {
 				updates = get_updates ();
-				get_updates_async.callback ();
+				Idle.add (get_updates_async.callback);
 				return 0;
 			});
 			yield;
