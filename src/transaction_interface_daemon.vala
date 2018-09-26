@@ -110,6 +110,7 @@ namespace Pamac {
 		}
 
 		void on_get_authorization_finished (bool authorized) {
+			system_daemon.get_authorization_finished.disconnect (on_get_authorization_finished);
 			get_authorization_finished (authorized);
 		}
 

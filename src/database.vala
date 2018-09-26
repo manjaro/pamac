@@ -133,78 +133,23 @@ namespace Pamac {
 		}
 
 		public async List<Package> get_installed_pkgs_async () {
-			var pkgs = new List<Package> ();
-			new Thread<int> ("get_installed_pkgs", () => {
-				pkgs = alpm_utils.get_installed_pkgs ();
-				Idle.add (get_installed_pkgs_async.callback);
-				return 0;
-			});
-			yield;
-			var result = new List<Package> ();
-			foreach (unowned Package pkg in pkgs) {
-				result.append (pkg);
-			}
-			return result;
+			return alpm_utils.get_installed_pkgs ();
 		}
 
 		public async List<Package> get_installed_apps_async () {
-			var pkgs = new List<Package> ();
-			new Thread<int> ("get_installed_apps", () => {
-				pkgs = alpm_utils.get_installed_apps ();
-				Idle.add (get_installed_apps_async.callback);
-				return 0;
-			});
-			yield;
-			var result = new List<Package> ();
-			foreach (unowned Package pkg in pkgs) {
-				result.append (pkg);
-			}
-			return result;
+			return alpm_utils.get_installed_apps ();
 		}
 
 		public async List<Package> get_explicitly_installed_pkgs_async () {
-			var pkgs = new List<Package> ();
-			new Thread<int> ("get_explicitly_installed_pkgs", () => {
-				pkgs = alpm_utils.get_explicitly_installed_pkgs ();
-				Idle.add (get_explicitly_installed_pkgs_async.callback);
-				return 0;
-			});
-			yield;
-			var result = new List<Package> ();
-			foreach (unowned Package pkg in pkgs) {
-				result.append (pkg);
-			}
-			return result;
+			return alpm_utils.get_explicitly_installed_pkgs ();
 		}
 
 		public async List<Package> get_foreign_pkgs_async () {
-			var pkgs = new List<Package> ();
-			new Thread<int> ("get_foreign_pkgs", () => {
-				pkgs = alpm_utils.get_foreign_pkgs ();
-				Idle.add (get_foreign_pkgs_async.callback);
-				return 0;
-			});
-			yield;
-			var result = new List<Package> ();
-			foreach (unowned Package pkg in pkgs) {
-				result.append (pkg);
-			}
-			return result;
+			return alpm_utils.get_foreign_pkgs ();
 		}
 
 		public async List<Package> get_orphans_async () {
-			var pkgs = new List<Package> ();
-			new Thread<int> ("get_orphans", () => {
-				pkgs = alpm_utils.get_orphans ();
-				Idle.add (get_orphans_async.callback);
-				return 0;
-			});
-			yield;
-			var result = new List<Package> ();
-			foreach (unowned Package pkg in pkgs) {
-				result.append (pkg);
-			}
-			return result;
+			return alpm_utils.get_orphans ();
 		}
 
 		public Package get_sync_pkg (string pkgname) {
@@ -220,18 +165,7 @@ namespace Pamac {
 		}
 
 		public async List<Package> search_pkgs_async (string search_string) {
-			var pkgs = new List<Package> ();
-			new Thread<int> ("search_pkgs", () => {
-				pkgs = alpm_utils.search_pkgs (search_string);
-				Idle.add (search_pkgs_async.callback);
-				return 0;
-			});
-			yield;
-			var result = new List<Package> ();
-			foreach (unowned Package pkg in pkgs) {
-				result.append (pkg);
-			}
-			return result;
+			return alpm_utils.search_pkgs (search_string);
 		}
 
 		public List<AURPackage> search_in_aur (string search_string) {
@@ -243,18 +177,7 @@ namespace Pamac {
 		}
 
 		public async List<AURPackage> search_in_aur_async (string search_string) {
-			var pkgs = new List<AURPackage> ();
-			new Thread<int> ("search_in_aur", () => {
-				pkgs = alpm_utils.search_in_aur (search_string);
-				Idle.add (search_in_aur_async.callback);
-				return 0;
-			});
-			yield;
-			var result = new List<AURPackage> ();
-			foreach (unowned AURPackage pkg in pkgs) {
-				result.append (pkg);
-			}
-			return result;
+			return search_in_aur (search_string);
 		}
 
 		public HashTable<string, Variant> search_files (string[] files) {
@@ -266,18 +189,7 @@ namespace Pamac {
 		}
 
 		public async List<Package> get_category_pkgs_async (string category) {
-			var pkgs = new List<Package> ();
-			new Thread<int> ("get_category_pkgs", () => {
-				pkgs = alpm_utils.get_category_pkgs (category);
-				Idle.add (get_category_pkgs_async.callback);
-				return 0;
-			});
-			yield;
-			var result = new List<Package> ();
-			foreach (unowned Package pkg in pkgs) {
-				result.append (pkg);
-			}
-			return result;
+			return alpm_utils.get_category_pkgs (category);
 		}
 
 		public List<string> get_repos_names () {
@@ -289,18 +201,7 @@ namespace Pamac {
 		}
 
 		public async List<Package> get_repo_pkgs_async (string repo) {
-			var pkgs = new List<Package> ();
-			new Thread<int> ("get_repo_pkgs", () => {
-				pkgs = alpm_utils.get_repo_pkgs (repo);
-				Idle.add (get_repo_pkgs_async.callback);
-				return 0;
-			});
-			yield;
-			var result = new List<Package> ();
-			foreach (unowned Package pkg in pkgs) {
-				result.append (pkg);
-			}
-			return result;
+			return alpm_utils.get_repo_pkgs (repo);
 		}
 
 		public List<string> get_groups_names () {
@@ -312,18 +213,7 @@ namespace Pamac {
 		}
 
 		public async List<Package> get_group_pkgs_async (string group_name) {
-			var pkgs = new List<Package> ();
-			new Thread<int> ("get_group_pkgs", () => {
-				pkgs = alpm_utils.get_group_pkgs (group_name);
-				Idle.add (get_group_pkgs_async.callback);
-				return 0;
-			});
-			yield;
-			var result = new List<Package> ();
-			foreach (unowned Package pkg in pkgs) {
-				result.append (pkg);
-			}
-			return result;
+			return alpm_utils.get_group_pkgs (group_name);
 		}
 
 		public List<string> get_pkg_uninstalled_optdeps (string pkgname) {
@@ -339,18 +229,7 @@ namespace Pamac {
 		}
 
 		public async List<string> get_pkg_files_async (string pkgname) {
-			var files = new List<string> ();
-			new Thread<int> ("get_pkg_files", () => {
-				files = alpm_utils.get_pkg_files (pkgname);
-				Idle.add (get_pkg_files_async.callback);
-				return 0;
-			});
-			yield;
-			var result = new List<string> ();
-			foreach (unowned string file in files) {
-				result.append (file);
-			}
-			return result;
+			return alpm_utils.get_pkg_files (pkgname);
 		}
 
 		public AURPackage get_aur_pkg (string pkgname) {
@@ -362,14 +241,7 @@ namespace Pamac {
 		}
 
 		public async AURPackage get_aur_pkg_async (string pkgname) {
-			var pkg = new AURPackage ();
-			new Thread<int> ("get_aur_pkg", () => {
-				pkg = alpm_utils.get_aur_pkg (pkgname);
-				Idle.add (get_aur_pkg_async.callback);
-				return 0;
-			});
-			yield;
-			return pkg;
+			return get_aur_pkg (pkgname);
 		}
 
 		public AURPackageDetails get_aur_pkg_details (string pkgname) {
@@ -381,14 +253,7 @@ namespace Pamac {
 		}
 
 		public async AURPackageDetails get_aur_pkg_details_async (string pkgname) {
-			var pkg = new AURPackageDetails ();
-			new Thread<int> ("get_aur_pkg_details", () => {
-				pkg = alpm_utils.get_aur_pkg_details (pkgname);
-				Idle.add (get_aur_pkg_details_async.callback);
-				return 0;
-			});
-			yield;
-			return pkg;
+			return get_aur_pkg_details (pkgname);
 		}
 
 		public Updates get_updates () {
@@ -400,14 +265,7 @@ namespace Pamac {
 		}
 
 		public async Updates get_updates_async () {
-			var updates = new Updates ();
-			new Thread<int> ("get_updates", () => {
-				updates = get_updates ();
-				Idle.add (get_updates_async.callback);
-				return 0;
-			});
-			yield;
-			return updates;
+			return get_updates ();
 		}
 
 		void on_emit_get_updates_progress (uint percent) {

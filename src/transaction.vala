@@ -35,6 +35,7 @@ namespace Pamac {
 		bool no_confirm_commit;
 		bool enable_downgrade;
 		bool sysupgrading;
+		bool force_refresh;
 		string[] to_install_first;
 		string[] temporary_ignorepkgs;
 		string[] overwrite_files;
@@ -67,6 +68,7 @@ namespace Pamac {
 		public signal void stop_building ();
 		public signal void important_details_outpout (bool must_show);
 		public signal void downloading_updates_finished ();
+		public signal void get_authorization_finished (bool authorized);
 		public signal void refresh_finished (bool success);
 		public signal void finished (bool success);
 		public signal void sysupgrade_finished (bool success);
@@ -90,6 +92,7 @@ namespace Pamac {
 				// use dbus daemon
 				transaction_interface = new TransactionInterfaceDaemon (database.config);
 			}
+			transaction_interface.get_authorization_finished.connect (on_get_authorization_finished);
 			// transaction options
 			flags = 0;
 			enable_downgrade = false;
@@ -137,16 +140,12 @@ namespace Pamac {
 			return transaction_interface.unlock ();
 		}
 
-		public async bool check_authorization () {
-			bool authorized = false;
-			ulong handler_id = transaction_interface.get_authorization_finished.connect ((authorized_) => {
-				authorized = authorized_;
-				Idle.add (check_authorization.callback);
-			});
+		public void start_get_authorization () {
 			transaction_interface.start_get_authorization ();
-			yield;
-			transaction_interface.disconnect (handler_id);
-			return authorized;
+		}
+
+		void on_get_authorization_finished (bool authorized) {
+			get_authorization_finished (authorized);
 		}
 
 		public void start_write_pamac_config (HashTable<string,Variant> new_pamac_conf) {
@@ -177,20 +176,24 @@ namespace Pamac {
 			transaction_interface.start_set_pkgreason (pkgname, reason);
 		}
 
+		void launch_refresh (bool authorized) {
+			get_authorization_finished.disconnect (launch_refresh);
+			if (authorized) {
+				emit_action (dgettext (null, "Synchronizing package databases") + "...");
+				connecting_signals ();
+				transaction_interface.refresh_finished.connect (on_refresh_finished);
+				transaction_interface.start_refresh (force_refresh);
+				start_downloading ();
+			} else {
+				on_refresh_finished (false);
+			}
+		}
+
 		public void start_refresh (bool force) {
+			force_refresh = force;
 			// check autorization to send start_downloading signal after that
-			check_authorization.begin ((obj, res) => {
-				bool authorized = check_authorization.end (res);
-				if (authorized) {
-					emit_action (dgettext (null, "Synchronizing package databases") + "...");
-					connecting_signals ();
-					transaction_interface.refresh_finished.connect (on_refresh_finished);
-					transaction_interface.start_refresh (force);
-					start_downloading ();
-				} else {
-					on_refresh_finished (false);
-				}
-			});
+			get_authorization_finished.connect (launch_refresh);
+			start_get_authorization ();
 		}
 
 		public void start_downloading_updates () {
@@ -803,19 +806,22 @@ namespace Pamac {
 			}
 		}
 
+		void launch_build_next_aur_package (bool authorized) {
+			get_authorization_finished.disconnect (launch_build_next_aur_package);
+			if (authorized) {
+				build_next_aur_package.begin ();
+			} else {
+				to_build_queue.clear ();
+				on_trans_commit_finished (false);
+			}
+		}
+
 		void on_trans_commit_finished (bool success) {
 			if (success) {
 				if (to_build_queue.get_length () != 0) {
 					emit_script_output ("");
-					check_authorization.begin ((obj, res) => {
-						bool authorized = check_authorization.end (res);
-						if (authorized) {
-							build_next_aur_package.begin ();
-						} else {
-							to_build_queue.clear ();
-							on_trans_commit_finished (false);
-						}
-					});
+					get_authorization_finished.connect (launch_build_next_aur_package);
+					start_get_authorization ();
 				} else {
 					if (sysupgrade_after_trans) {
 						sysupgrade_after_trans = false;

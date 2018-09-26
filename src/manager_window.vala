@@ -2333,8 +2333,11 @@ namespace Pamac {
 			} else if (category == dgettext (null, "System Tools")) {
 				matching_cat = "System";
 			}
-			database.get_category_pkgs_async.begin (matching_cat, (obj, res) => {
-				populate_packages_list (database.get_category_pkgs_async.end (res));
+			Timeout.add (200, () => {
+				database.get_category_pkgs_async.begin (matching_cat, (obj, res) => {
+					populate_packages_list (database.get_category_pkgs_async.end (res));
+				});
+				return false;
 			});
 		}
 
@@ -2345,8 +2348,11 @@ namespace Pamac {
 			var label = row.get_child () as Gtk.Label;
 			string group_name = label.label;
 			this.title = group_name;
-			database.get_group_pkgs_async.begin (group_name, (obj, res) => {
-				populate_packages_list (database.get_group_pkgs_async.end (res));
+			Timeout.add (200, () => {
+				database.get_group_pkgs_async.begin (group_name, (obj, res) => {
+					populate_packages_list (database.get_group_pkgs_async.end (res));
+				});
+				return false;
 			});
 		}
 
@@ -2359,23 +2365,35 @@ namespace Pamac {
 			int index = row.get_index ();
 			switch (index) {
 				case 0: // Installed
-					database.get_installed_pkgs_async.begin ((obj, res) => {
-						populate_packages_list (database.get_installed_pkgs_async.end (res));
+					Timeout.add (200, () => {
+						database.get_installed_pkgs_async.begin ((obj, res) => {
+							populate_packages_list (database.get_installed_pkgs_async.end (res));
+						});
+						return false;
 					});
 					break;
 				case 1: // Explicitly installed
-					database.get_explicitly_installed_pkgs_async.begin ((obj, res) => {
-						populate_packages_list (database.get_explicitly_installed_pkgs_async.end (res));
+					Timeout.add (200, () => {
+						database.get_explicitly_installed_pkgs_async.begin ((obj, res) => {
+							populate_packages_list (database.get_explicitly_installed_pkgs_async.end (res));
+						});
+						return false;
 					});
 					break;
 				case 2: // Orphans
-					database.get_orphans_async.begin ((obj, res) => {
-						populate_packages_list (database.get_orphans_async.end (res));
+					Timeout.add (200, () => {
+						database.get_orphans_async.begin ((obj, res) => {
+							populate_packages_list (database.get_orphans_async.end (res));
+						});
+						return false;
 					});
 					break;
 				case 3: // Foreign
-					database.get_foreign_pkgs_async.begin ((obj, res) => {
-						populate_packages_list (database.get_foreign_pkgs_async.end (res));
+					Timeout.add (200, () => {
+						database.get_foreign_pkgs_async.begin ((obj, res) => {
+							populate_packages_list (database.get_foreign_pkgs_async.end (res));
+						});
+						return false;
 					});
 					break;
 				default:
@@ -2390,8 +2408,11 @@ namespace Pamac {
 			var label = row.get_child () as Gtk.Label;
 			string repo = label.label;
 			this.title = repo;
-			database.get_repo_pkgs_async.begin (repo, (obj, res) => {
-				populate_packages_list (database.get_repo_pkgs_async.end (res));
+			Timeout.add (200, () => {
+				database.get_repo_pkgs_async.begin (repo, (obj, res) => {
+					populate_packages_list (database.get_repo_pkgs_async.end (res));
+				});
+				return false;
 			});
 		}
 
@@ -2524,18 +2545,21 @@ namespace Pamac {
 		}
 
 		public void run_preferences_dialog () {
-			transaction.check_authorization.begin ((obj, res) => {
-				bool authorized = transaction.check_authorization.end (res);
-				if (authorized) {
-					var preferences_dialog = new PreferencesDialog (transaction);
-					preferences_dialog.run ();
-					preferences_dialog.destroy ();
-					while (Gtk.events_pending ()) {
-						Gtk.main_iteration ();
-					}
+			transaction.get_authorization_finished.connect (launch_preferences_dialog);
+			transaction.start_get_authorization ();
+		}
+
+		void launch_preferences_dialog (bool authorized) {
+			transaction.get_authorization_finished.disconnect (launch_preferences_dialog);
+			if (authorized) {
+				var preferences_dialog = new PreferencesDialog (transaction);
+				preferences_dialog.run ();
+				preferences_dialog.destroy ();
+				while (Gtk.events_pending ()) {
+					Gtk.main_iteration ();
 				}
-				on_run_preferences_dialog_finished ();
-			});
+			}
+			on_run_preferences_dialog_finished ();
 		}
 
 		void on_run_preferences_dialog_finished () {
