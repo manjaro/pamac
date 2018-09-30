@@ -321,64 +321,48 @@ namespace Pamac {
 			build_cancellable.reset ();
 			important_details_outpout (false);
 			string [] built_pkgs = {};
-			int status = 1;
-			string builddir = Path.build_path ("/", database.config.aur_build_dir, "pamac-build");
-			status = yield run_cmd_line ({"mkdir", "-p", builddir}, "/", build_cancellable);
+			string pkgdir = Path.build_path ("/", database.config.aur_build_dir, "pamac-build", pkgname);
+			// building
+			building = true;
+			start_building ();
+			int status = yield run_cmd_line ({"makepkg", "-cf"}, pkgdir, build_cancellable);
+			if (build_cancellable.is_cancelled ()) {
+				status = 1;
+			}
 			if (status == 0) {
-				status = yield run_cmd_line ({"rm", "-rf", pkgname}, builddir, build_cancellable);
-				if (build_cancellable.is_cancelled ()) {
-					status = 1;
-				}
-				if (status == 0) {
-					building = true;
-					start_building ();
-					status = yield run_cmd_line ({"git", "clone", "https://aur.archlinux.org/%s.git".printf (pkgname)}, builddir, build_cancellable);
-					if (build_cancellable.is_cancelled ()) {
-						status = 1;
+				// get built pkgs path
+				var launcher = new SubprocessLauncher (SubprocessFlags.STDOUT_PIPE);
+				launcher.set_cwd (pkgdir);
+				try {
+					Subprocess process = launcher.spawnv ({"makepkg", "--packagelist"});
+					yield process.wait_async (null);
+					if (process.get_if_exited ()) {
+						status = process.get_exit_status ();
 					}
 					if (status == 0) {
-						string pkgdir = "%s/%s".printf (builddir, pkgname);
-						status = yield run_cmd_line ({"makepkg", "-cf"}, pkgdir, build_cancellable);
-						if (build_cancellable.is_cancelled ()) {
-							status = 1;
-						}
-						if (status == 0) {
-							// get built pkgs path
-							var launcher = new SubprocessLauncher (SubprocessFlags.STDOUT_PIPE);
-							launcher.set_cwd (pkgdir);
-							try {
-								Subprocess process = launcher.spawnv ({"makepkg", "--packagelist"});
-								yield process.wait_async (null);
-								if (process.get_if_exited ()) {
-									status = process.get_exit_status ();
+						var dis = new DataInputStream (process.get_stdout_pipe ());
+						string? line;
+						// Read lines until end of file (null) is reached
+						while ((line = dis.read_line ()) != null) {
+							var file = GLib.File.new_for_path (line);
+							string filename = file.get_basename ();
+							string name_version_release = filename.slice (0, filename.last_index_of_char ('-'));
+							string name_version = name_version_release.slice (0, name_version_release.last_index_of_char ('-'));
+							string name = name_version.slice (0, name_version.last_index_of_char ('-'));
+							if (name in aur_pkgs_to_install) {
+								if (!(line in built_pkgs)) {
+									built_pkgs += line;
 								}
-								if (status == 0) {
-									var dis = new DataInputStream (process.get_stdout_pipe ());
-									string? line;
-									// Read lines until end of file (null) is reached
-									while ((line = dis.read_line ()) != null) {
-										var file = GLib.File.new_for_path (line);
-										string filename = file.get_basename ();
-										string name_version_release = filename.slice (0, filename.last_index_of_char ('-'));
-										string name_version = name_version_release.slice (0, name_version_release.last_index_of_char ('-'));
-										string name = name_version.slice (0, name_version.last_index_of_char ('-'));
-										if (name in aur_pkgs_to_install) {
-											if (!(line in built_pkgs)) {
-												built_pkgs += line;
-											}
-										}
-									}
-								}
-							} catch (Error e) {
-								stderr.printf ("Error: %s\n", e.message);
-								status = 1;
 							}
 						}
 					}
-					stop_building ();
-					building = false;
+				} catch (Error e) {
+					stderr.printf ("Error: %s\n", e.message);
+					status = 1;
 				}
 			}
+			stop_building ();
+			building = false;
 			if (status == 0 && built_pkgs.length > 0) {
 				no_confirm_commit = true;
 				emit_script_output ("");
@@ -800,7 +784,7 @@ namespace Pamac {
 							}
 							if (build_files_to_review.length > 0) {
 								release ();
-								review_build_files_and_reprepare.begin (build_files_to_review);
+								review_build_files_and_reprepare.begin ((owned) build_files_to_review);
 								return;
 							}
 							// populate build queue
@@ -845,8 +829,10 @@ namespace Pamac {
 			}
 		}
 
-		async void review_build_files_and_reprepare (string[] build_files_to_review) {
-			foreach (string name in build_files_to_review) {
+		async void review_build_files_and_reprepare (owned string[] build_files_to_review) {
+			// keep string during review_build_files
+			string[] build_files = (owned) build_files_to_review;
+			foreach (unowned string name in build_files) {
 				yield review_build_files (name);
 				build_files_reviewed.add (name);
 			}
