@@ -1474,6 +1474,7 @@ namespace Pamac {
 						if (status == 0) {
 							return pkgdir_name;
 						} else {
+						    Process.spawn_command_line_sync ("rm -rf %s".printf (pkgdir_name));
 							launcher.set_cwd (builddir_name);
 							cmds = {"git", "clone", "-q", "--depth=1", "https://aur.archlinux.org/%s.git".printf (pkgname)};
 						}
@@ -1488,6 +1489,7 @@ namespace Pamac {
 			try {
 				Subprocess process = launcher.spawnv (cmds);
 				yield process.wait_async ();
+				Process.spawn_command_line_sync ("chmod --quiet -R ugo+w %s".printf (pkgdir_name));
 				if (process.get_if_exited ()) {
 					status = process.get_exit_status ();
 				}
