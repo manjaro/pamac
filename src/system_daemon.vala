@@ -39,6 +39,7 @@ public class AlpmAction {
 namespace Pamac {
 	[DBus (name = "org.manjaro.pamac.system")]
 	public class SystemDaemon: Object {
+		private Config config;
 		private bool refreshed;
 		private HashTable<string,Variant> new_alpm_conf;
 		private string mirrorlist_country;
@@ -55,7 +56,6 @@ namespace Pamac {
 		public signal void emit_log (uint level, string msg);
 		public signal void set_pkgreason_finished ();
 		public signal void refresh_finished (bool success);
-		public signal void get_updates_finished (UpdatesStruct updates);
 		public signal void downloading_updates_finished ();
 		public signal void trans_prepare_finished (bool success);
 		public signal void trans_commit_finished (bool success);
@@ -68,10 +68,11 @@ namespace Pamac {
 		public signal void generate_mirrors_list_finished ();
 
 		public SystemDaemon () {
+			config = new Config ("/etc/pamac.conf");
 			lock_id = new BusName ("");
 			authorized = false;
 			// alpm_utils global variable declared in alpm_utils.vala
-			alpm_utils = new AlpmUtils ();
+			alpm_utils = new AlpmUtils (config);
 			lockfile = GLib.File.new_for_path (alpm_utils.alpm_handle.lockfile);
 			check_old_lock ();
 			check_extern_lock ();
@@ -98,9 +99,6 @@ namespace Pamac {
 			});
 			alpm_utils.refresh_finished.connect ((success) => {
 				refresh_finished (success);
-			});
-			alpm_utils.get_updates_finished.connect ((updates) => {
-				get_updates_finished (updates);
 			});
 			alpm_utils.downloading_updates_finished.connect (() => {
 				downloading_updates_finished ();
@@ -279,15 +277,14 @@ namespace Pamac {
 
 		public void start_write_pamac_config (HashTable<string,Variant> new_pamac_conf, GLib.BusName sender) throws Error {
 			check_authorization.begin (sender, (obj, res) => {
-				var pamac_config = new Config ("/etc/pamac.conf");
 				bool authorized = check_authorization.end (res);
 				if (authorized) {
-					pamac_config.write (new_pamac_conf);
-					pamac_config.reload ();
+					config.write (new_pamac_conf);
+					config.reload ();
 				}
-				write_pamac_config_finished (pamac_config.recurse, pamac_config.refresh_period, pamac_config.no_update_hide_icon,
-											pamac_config.enable_aur, pamac_config.aur_build_dir, pamac_config.check_aur_updates,
-											pamac_config.download_updates);
+				write_pamac_config_finished (config.recurse, config.refresh_period, config.no_update_hide_icon,
+											config.enable_aur, config.aur_build_dir, config.check_aur_updates,
+											config.download_updates);
 			});
 		}
 
@@ -423,15 +420,6 @@ namespace Pamac {
 			}
 		}
 
-		public void start_get_updates_for_sysupgrade (bool check_aur_updates) throws Error {
-			alpm_utils.check_aur_updates = check_aur_updates;
-			try {
-				thread_pool.add (new AlpmAction (alpm_utils.get_updates_for_sysupgrade));
-			} catch (ThreadError e) {
-				stderr.printf ("Thread Error %s\n", e.message);
-			}
-		}
-
 		public void start_downloading_updates () throws Error {
 			// do not add this thread to the threadpool so it won't be queued
 			new Thread<int> ("download updates thread", alpm_utils.download_updates);
@@ -484,9 +472,7 @@ namespace Pamac {
 			alpm_utils.to_load = to_load;
 			alpm_utils.to_build = to_build;
 			alpm_utils.overwrite_files = overwrite_files;
-			if (alpm_utils.to_install.length > 0) {
-				alpm_utils.sysupgrade = true;
-			}
+			alpm_utils.sysupgrade = false;
 			if (alpm_utils.downloading_updates) {
 				alpm_utils.cancellable.cancel ();
 				// let time to cancel download updates
@@ -501,12 +487,13 @@ namespace Pamac {
 
 		private void launch_prepare_thread () {
 			if (alpm_utils.to_build.length != 0) {
-				try {
-					thread_pool.add (new AlpmAction (alpm_utils.compute_aur_build_list));
-					thread_pool.add (new AlpmAction (alpm_utils.build_prepare));
-				} catch (ThreadError e) {
-					stderr.printf ("Thread Error %s\n", e.message);
-				}
+				alpm_utils.compute_aur_build_list.begin (() => {
+					try {
+						thread_pool.add (new AlpmAction (alpm_utils.build_prepare));
+					} catch (ThreadError e) {
+						stderr.printf ("Thread Error %s\n", e.message);
+					}
+				});
 			} else {
 				try {
 					thread_pool.add (new AlpmAction (alpm_utils.trans_prepare));

@@ -163,12 +163,14 @@ namespace Pamac {
 		public string installed_version { get {return pkg_struct.installed_version;} }
 		public string desc { get {return pkg_struct.desc;} }
 		public double popularity { get {return pkg_struct.popularity;} }
+		public string packagebase { get {return pkg_struct.packagebase;} }
 		internal AURPackage () {
 			pkg_struct = AURPackageStruct () {
 				name = "",
 				version = "",
 				installed_version = "",
-				desc = ""
+				desc = "",
+				packagebase = ""
 			};
 		}
 		internal AURPackage.from_struct (owned AURPackageStruct pkg_struct) {

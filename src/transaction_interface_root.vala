@@ -44,9 +44,6 @@ namespace Pamac {
 			alpm_utils.refresh_finished.connect ((success) => {
 				refresh_finished (success);
 			});
-			alpm_utils.get_updates_finished.connect ((updates) => {
-				get_updates_finished (updates);
-			});
 			alpm_utils.downloading_updates_finished.connect (() => {
 				downloading_updates_finished ();
 			});
@@ -173,16 +170,6 @@ namespace Pamac {
 			}
 		}
 
-		int get_updates_for_sysupgrade () {
-			alpm_utils.get_updates_for_sysupgrade ();
-			return 0;
-		}
-
-		public void start_get_updates_for_sysupgrade (bool check_aur_updates) {
-			alpm_utils.check_aur_updates = check_aur_updates;
-			new Thread<int> ("get_updates_for_sysupgrade", get_updates_for_sysupgrade);
-		}
-
 		int download_updates () {
 			alpm_utils.download_updates ();
 			return 0;
@@ -229,9 +216,7 @@ namespace Pamac {
 			alpm_utils.to_load = to_load;
 			alpm_utils.to_build = to_build;
 			alpm_utils.overwrite_files = overwrite_files;
-			if (alpm_utils.to_install.length > 0) {
-				alpm_utils.sysupgrade = true;
-			}
+			alpm_utils.sysupgrade = false;
 			if (alpm_utils.downloading_updates) {
 				alpm_utils.cancellable.cancel ();
 				// let time to cancel download updates
@@ -249,15 +234,11 @@ namespace Pamac {
 			return 0;
 		}
 
-		int build_prepare () {
-			alpm_utils.build_prepare ();
-			return 0;
-		}
-
 		private void launch_prepare () {
 			if (alpm_utils.to_build.length != 0) {
-				alpm_utils.compute_aur_build_list ();
-				new Thread<int> ("build_prepare", build_prepare);
+				alpm_utils.compute_aur_build_list.begin (() => {
+					alpm_utils.build_prepare ();
+				});
 			} else {
 				new Thread<int> ("trans_prepare", trans_prepare);
 			}

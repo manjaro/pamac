@@ -31,7 +31,7 @@ namespace Pamac {
 
 		construct {
 			// alpm_utils global variable declared in alpm_utils.vala
-			alpm_utils = new AlpmUtils ();
+			alpm_utils = new AlpmUtils (config);
 			refresh_files_dbs_on_get_updates = false;
 		}
 
@@ -168,16 +168,12 @@ namespace Pamac {
 			return alpm_utils.search_pkgs (search_string);
 		}
 
-		public List<AURPackage> search_in_aur (string search_string) {
+		public async List<AURPackage> search_in_aur (string search_string) {
 			var pkgs = new List<AURPackage> ();
 			if (config.enable_aur) {
-				pkgs = alpm_utils.search_in_aur (search_string);
+				pkgs = yield alpm_utils.search_in_aur (search_string);
 			}
 			return pkgs;
-		}
-
-		public async List<AURPackage> search_in_aur_async (string search_string) {
-			return search_in_aur (search_string);
 		}
 
 		public HashTable<string, Variant> search_files (string[] files) {
@@ -232,40 +228,36 @@ namespace Pamac {
 			return alpm_utils.get_pkg_files (pkgname);
 		}
 
-		public AURPackage get_aur_pkg (string pkgname) {
+		public async string clone_build_files (string pkgname, bool overwrite_files) {
+			return yield alpm_utils.clone_build_files (pkgname, overwrite_files);
+		}
+
+		public async AURPackage get_aur_pkg (string pkgname) {
 			if (config.enable_aur) {
-				return alpm_utils.get_aur_pkg (pkgname);
+				return yield alpm_utils.get_aur_pkg (pkgname);
 			} else {
 				return new AURPackage ();
 			}
 		}
 
-		public async AURPackage get_aur_pkg_async (string pkgname) {
-			return get_aur_pkg (pkgname);
-		}
-
-		public AURPackageDetails get_aur_pkg_details (string pkgname) {
+		public async AURPackageDetails get_aur_pkg_details (string pkgname) {
 			if (config.enable_aur) {
-				return alpm_utils.get_aur_pkg_details (pkgname);
+				return yield alpm_utils.get_aur_pkg_details (pkgname);
 			} else {
 				return new AURPackageDetails ();
 			}
 		}
 
-		public async AURPackageDetails get_aur_pkg_details_async (string pkgname) {
-			return get_aur_pkg_details (pkgname);
+		public async List<AURPackage> get_aur_updates () {
+			return yield alpm_utils.get_aur_updates ();
 		}
 
-		public Updates get_updates () {
+		public async Updates get_updates () {
 			alpm_utils.emit_get_updates_progress.connect (on_emit_get_updates_progress);
 			alpm_utils.check_aur_updates = config.check_aur_updates;
 			// be sure we have the good updates
 			alpm_utils.refresh_handle ();
-			return alpm_utils.get_updates (refresh_files_dbs_on_get_updates);
-		}
-
-		public async Updates get_updates_async () {
-			return get_updates ();
+			return yield alpm_utils.get_updates (refresh_files_dbs_on_get_updates);
 		}
 
 		void on_emit_get_updates_progress (uint percent) {

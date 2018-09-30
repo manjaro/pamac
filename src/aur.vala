@@ -25,37 +25,41 @@ namespace Pamac {
 	const string rpc_multiinfo = "&type=info";
 	const string rpc_multiinfo_arg = "&arg[]=";
 
-	Json.Array rpc_query (string uri) {
+	async Json.Array rpc_query (string uri) {
+		SourceFunc callback = rpc_query.callback;
 		var results = new Json.Array ();
 		var session = new Soup.Session ();
 		// set a 15 seconds timeout because it is also the dbus daemon timeout
 		session.timeout = 15;
 		var message = new Soup.Message ("GET", uri);
 		var parser = new Json.Parser ();
-		session.send_message (message);
-		try {
-			parser.load_from_data ((string) message.response_body.flatten ().data, -1);
-		} catch (Error e) {
-			critical (e.message);
-		}
-		unowned Json.Node? root = parser.get_root ();
-		if (root != null) {
-			if (root.get_object ().get_string_member ("type") == "error") {
-				stderr.printf ("Failed to query %s from AUR\n", uri);
-			} else {
-				results = root.get_object ().get_array_member ("results");
+		session.queue_message (message, (sess, mess) => {
+			try {
+				parser.load_from_data ((string) mess.response_body.flatten ().data, -1);
+				unowned Json.Node? root = parser.get_root ();
+				if (root != null) {
+					if (root.get_object ().get_string_member ("type") == "error") {
+						stderr.printf ("Failed to query %s from AUR\n", uri);
+					} else {
+						results = root.get_object ().get_array_member ("results");
+					}
+				}
+			} catch (Error e) {
+				critical (e.message);
 			}
-		}
+			Idle.add ((owned) callback);
+		});
+		yield;
 		return results;
 	}
 
-	internal Json.Array aur_search (string[] needles) {
+	internal async Json.Array aur_search (string[] needles) {
 		if (needles.length == 0) {
 			return new Json.Array ();
 		} else {
 			Json.Array[] found_array = {};
 			foreach (unowned string needle in needles) {
-				found_array += rpc_query (rpc_url + rpc_search + Uri.escape_string (needle));
+				found_array += yield rpc_query (rpc_url + rpc_search + Uri.escape_string (needle));
 			}
 			var result = new Json.Array ();
 			foreach (unowned Json.Array found in found_array) {
@@ -81,17 +85,44 @@ namespace Pamac {
 		}
 	}
 
-	internal Json.Array aur_multiinfo (string[] pkgnames) {
+	internal async Json.Array aur_multiinfo (string[] pkgnames) {
 		if (pkgnames.length == 0) {
 			return new Json.Array ();
 		}
-		var builder = new StringBuilder ();
-		builder.append (rpc_url);
-		builder.append (rpc_multiinfo);
-		foreach (unowned string pkgname in pkgnames) {
-			builder.append (rpc_multiinfo_arg);
-			builder.append (Uri.escape_string (pkgname));
+		// query pkgnames hundred by hundred to avoid too long uri error
+		// example: ros-lunar-desktop
+		if (pkgnames.length <= 100) {
+			var builder = new StringBuilder ();
+			builder.append (rpc_url);
+			builder.append (rpc_multiinfo);
+			foreach (unowned string pkgname in pkgnames) {
+				builder.append (rpc_multiinfo_arg);
+				builder.append (Uri.escape_string (pkgname));
+			}
+			return yield rpc_query (builder.str);
+		} else {
+			var result = new Json.Array ();
+			int index_max = pkgnames.length - 1;
+			int index = 0;
+			while (index < index_max) {
+				var builder = new StringBuilder ();
+				builder.append (rpc_url);
+				builder.append (rpc_multiinfo);
+				for (int i = 0; i < 100; i++) {
+					unowned string pkgname = pkgnames[index];
+					builder.append (rpc_multiinfo_arg);
+					builder.append (Uri.escape_string (pkgname));
+					index++;
+					if (index == index_max) {
+						break;
+					}
+				}
+				var array = yield rpc_query (builder.str);
+				array.foreach_element ((array, index, node) => {
+					result.add_element (node);
+				});
+			}
+			return result;
 		}
-		return rpc_query (builder.str);
 	}
 }

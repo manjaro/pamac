@@ -39,10 +39,8 @@ namespace Pamac {
 		public abstract void start_trans_commit () throws Error;
 		public abstract void trans_release () throws Error;
 		public abstract void trans_cancel () throws Error;
-		public abstract void start_get_updates_for_sysupgrade (bool check_aur_updates) throws Error;
 		[DBus (no_reply = true)]
 		public abstract void quit () throws Error;
-		public signal void get_updates_finished (UpdatesStruct updates_struct);
 		public signal void emit_event (uint primary_event, uint secondary_event, string[] details);
 		public signal void emit_providers (string depend, string[] providers);
 		public signal void emit_progress (uint progress, string pkgname, uint percent, uint n_targets, uint current_target);
@@ -214,20 +212,6 @@ namespace Pamac {
 		void on_downloading_updates_finished () {
 			system_daemon.downloading_updates_finished.disconnect (on_downloading_updates_finished);
 			downloading_updates_finished ();
-		}
-
-		public void start_get_updates_for_sysupgrade (bool check_aur_updates) {
-			try {
-				system_daemon.start_get_updates_for_sysupgrade (check_aur_updates);
-				system_daemon.get_updates_finished.connect (on_get_updates_finished);
-			} catch (Error e) {
-				stderr.printf ("start_get_updates: %s\n", e.message);
-			}
-		}
-
-		void on_get_updates_finished (UpdatesStruct updates) {
-			system_daemon.get_updates_finished.disconnect (on_get_updates_finished);
-			get_updates_finished (updates);
 		}
 
 		void start_sysupgrade_prepare (bool enable_downgrade,

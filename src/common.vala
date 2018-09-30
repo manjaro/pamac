@@ -65,6 +65,7 @@ namespace Pamac {
 		public string installed_version;
 		public string desc;
 		public double popularity;
+		public string packagebase;
 	}
 
 	struct AURPackageDetailsStruct {
@@ -98,10 +99,5 @@ namespace Pamac {
 		public AURPackageStruct[] to_build;
 		public PackageStruct[] aur_conflicts_to_remove;
 		public string[] aur_pkgbases_to_build;
-	}
-
-	struct UpdatesStruct {
-		public PackageStruct[] syncfirst_repos_updates;
-		public AURPackageStruct[] aur_updates;
 	}
 }

@@ -454,5 +454,29 @@ namespace Pamac {
 			}
 			return false;
 		}
+
+		protected override async void review_build_files (string pkgname) {
+			string builddir_name = Path.build_path ("/", database.config.aur_build_dir, "pamac-build", pkgname);
+			string[] cmds = {"nano", "-S", "-w", "-i"};
+			// PKGBUILD
+			cmds += Path.build_path ("/", builddir_name, "PKGBUILD");
+			// other file
+			var build_dir = File.new_for_path (builddir_name);
+			try {
+				FileEnumerator enumerator = yield build_dir.enumerate_children_async ("standard::*", FileQueryInfoFlags.NONE);
+				FileInfo info;
+				while ((info = enumerator.next_file (null)) != null) {
+					unowned string filename = info.get_name ();
+					if (".install" in filename || ".patch" in filename) {
+						cmds += Path.build_path ("/", builddir_name, filename);
+					}
+				}
+				var process = new Subprocess.newv (cmds, SubprocessFlags.STDIN_INHERIT);
+				yield process.wait_async ();
+			} catch (Error e) {
+				print ("Error: %s\n", e.message);
+			}
+			yield regenerate_srcinfo (pkgname);
+		}
 	}
 }

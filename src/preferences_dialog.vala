@@ -136,9 +136,9 @@ namespace Pamac {
 			aur_build_dir_label.sensitive = transaction.database.config.enable_aur;
 			aur_build_dir_file_chooser.sensitive = transaction.database.config.enable_aur;
 			aur_build_dir_file_chooser.set_filename (transaction.database.config.aur_build_dir);
-			// add /tmp choice always visible
+			// add /var/tmp choice always visible
 			try {
-				aur_build_dir_file_chooser.add_shortcut_folder ("/tmp");
+				aur_build_dir_file_chooser.add_shortcut_folder ("/var/tmp");
 			} catch (GLib.Error e) {
 				stderr.printf ("%s\n", e.message);
 			}

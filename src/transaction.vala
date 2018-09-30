@@ -31,17 +31,20 @@ namespace Pamac {
 		string current_status;
 		double current_progress;
 		string current_filename;
-		bool sysupgrade_after_trans;
 		bool no_confirm_commit;
 		bool enable_downgrade;
 		bool sysupgrading;
 		bool force_refresh;
-		string[] to_install_first;
+		string[] to_install;
+		string[] to_remove;
+		string[] to_load;
+		string[] to_build;
 		string[] temporary_ignorepkgs;
 		string[] overwrite_files;
 		// building data
 		Queue<string> to_build_queue;
 		string[] aur_pkgs_to_install;
+		GenericSet<string?> build_files_reviewed;
 		bool building;
 		Cancellable build_cancellable;
 		// download data
@@ -62,6 +65,8 @@ namespace Pamac {
 		public signal void emit_script_output (string message);
 		public signal void emit_warning (string message);
 		public signal void emit_error (string message, string[] details);
+		public signal void start_preparing ();
+		public signal void stop_preparing ();
 		public signal void start_downloading ();
 		public signal void stop_downloading ();
 		public signal void start_building ();
@@ -100,14 +105,13 @@ namespace Pamac {
 			current_action = "";
 			current_status = "";
 			current_filename = "";
-			sysupgrade_after_trans = false;
 			no_confirm_commit = false;
 			sysupgrading = false;
-			to_install_first = {};
 			temporary_ignorepkgs = {};
 			overwrite_files = {};
 			// building data
 			to_build_queue = new Queue<string> ();
+			build_files_reviewed = new GenericSet<string?> (str_hash, str_equal);
 			build_cancellable = new Cancellable ();
 			building = false;
 			// download data
@@ -121,6 +125,35 @@ namespace Pamac {
 		protected virtual bool ask_confirmation (TransactionSummary summary) {
 			// no confirm
 			return true;
+		}
+
+		protected virtual async void review_build_files (string pkgname) {
+			// nothing
+		}
+
+		protected async void regenerate_srcinfo (string pkgname) {
+			string pkgdir_name = Path.build_path ("/", database.config.aur_build_dir, "pamac-build", pkgname);
+			// generate .SRCINFO
+			var launcher = new SubprocessLauncher (SubprocessFlags.STDOUT_PIPE);
+			launcher.set_cwd (pkgdir_name);
+			try {
+				Subprocess process = launcher.spawnv ({"makepkg", "--printsrcinfo"});
+				yield process.wait_async ();
+				var dis = new DataInputStream (process.get_stdout_pipe ());
+				var file = File.new_for_path (Path.build_path ("/", pkgdir_name, ".SRCINFO"));
+				try {
+					// delete the file before rewrite it
+					yield file.delete_async ();
+					// creating a DataOutputStream to the file
+					var dos = new DataOutputStream (yield file.create_async (FileCreateFlags.REPLACE_DESTINATION));
+					// writing makepkg output to .SRCINFO
+					yield dos.splice_async (dis, 0);
+				} catch (GLib.Error e) {
+					stderr.printf("%s\n", e.message);
+				}
+			} catch (Error e) {
+				stderr.printf ("Error: %s\n", e.message);
+			}
 		}
 
 		protected virtual int choose_provider (string depend, string[] providers) {
@@ -206,13 +239,7 @@ namespace Pamac {
 			downloading_updates_finished ();
 		}
 
-		void start_get_updates_for_sysupgrade () {
-			transaction_interface.get_updates_finished.connect (on_get_updates_for_sysupgrade_finished);
-			transaction_interface.start_get_updates_for_sysupgrade (database.config.check_aur_updates);
-		}
-
-		void sysupgrade_real (string[] to_build) {
-			connecting_signals ();
+		void sysupgrade_real () {
 			// this will respond with trans_prepare_finished signal
 			transaction_interface.start_sysupgrade_prepare (enable_downgrade, temporary_ignorepkgs, to_build, overwrite_files);
 		}
@@ -223,49 +250,41 @@ namespace Pamac {
 			this.overwrite_files = overwrite_files;
 			sysupgrading = true;
 			emit_action (dgettext (null, "Starting full system upgrade") + "...");
-			start_get_updates_for_sysupgrade ();
+			connecting_signals ();
+			if (database.config.check_aur_updates) {
+				database.get_aur_updates.begin ((obj, res) => {
+					var aur_updates = database.get_aur_updates.end (res);
+					to_build = {};
+					foreach (unowned AURPackage aur_update in aur_updates) {
+						if (!(aur_update.name in temporary_ignorepkgs)) {
+							to_build += aur_update.name;
+						}
+					}
+					sysupgrade_real ();
+				});
+			} else {
+				sysupgrade_real ();
+			}
 		}
 
-		void on_get_updates_for_sysupgrade_finished (UpdatesStruct updates_struct) {
-			transaction_interface.get_updates_finished.disconnect (on_get_updates_for_sysupgrade_finished);
-			if (updates_struct.syncfirst_repos_updates.length != 0) {
-				to_install_first = {};
-				foreach (unowned PackageStruct infos in updates_struct.syncfirst_repos_updates) {
-					to_install_first += infos.name;
-				}
-			}
-			string[] to_build = {};
-			foreach (unowned AURPackageStruct infos in updates_struct.aur_updates) {
-				if (!(infos.name in temporary_ignorepkgs)) {
-					to_build += infos.name;
-				}
-			}
-			// to_install_first will be read by start_commit
-			sysupgrade_real (to_build);
-		}
-
-		void start_trans_prepare (string[] to_install, string[] to_remove, string[] to_load, string[] to_build) {
+		void trans_prepare_real () {
 			transaction_interface.start_trans_prepare (flags, to_install, to_remove, to_load, to_build, overwrite_files);
 		}
 
 		public void start (string[] to_install, string[] to_remove, string[] to_load, string[] to_build, string[] overwrite_files) {
+			this.to_install = to_install;
+			this.to_remove = to_remove;
+			this.to_load = to_load;
+			this.to_build = to_build;
 			this.overwrite_files = overwrite_files;
 			emit_action (dgettext (null, "Preparing") + "...");
+			start_preparing ();
 			connecting_signals ();
-			start_trans_prepare (to_install, to_remove, to_load, to_build);
+			trans_prepare_real ();
 		}
 
 		void start_commit () {
-			if (to_install_first.length > 0) {
-				release ();
-				to_build_queue.clear ();
-				no_confirm_commit = true;
-				sysupgrade_after_trans = true;
-				start_trans_prepare (to_install_first, {}, {}, {});
-				to_install_first = {};
-			} else {
-				transaction_interface.start_trans_commit ();
-			}
+			transaction_interface.start_trans_commit ();
 		}
 
 		public virtual async int run_cmd_line (string[] args, string working_directory, Cancellable cancellable) {
@@ -303,12 +322,7 @@ namespace Pamac {
 			important_details_outpout (false);
 			string [] built_pkgs = {};
 			int status = 1;
-			string builddir;
-			if (database.config.aur_build_dir == "/tmp") {
-				builddir = "/tmp/pamac-build-%s".printf (Environment.get_user_name ());
-			} else {
-				builddir = database.config.aur_build_dir;
-			}
+			string builddir = Path.build_path ("/", database.config.aur_build_dir, "pamac-build");
 			status = yield run_cmd_line ({"mkdir", "-p", builddir}, "/", build_cancellable);
 			if (status == 0) {
 				status = yield run_cmd_line ({"rm", "-rf", pkgname}, builddir, build_cancellable);
@@ -368,7 +382,12 @@ namespace Pamac {
 			if (status == 0 && built_pkgs.length > 0) {
 				no_confirm_commit = true;
 				emit_script_output ("");
-				start_trans_prepare ({}, {}, built_pkgs, {});
+				to_install = {};
+				to_remove = {};
+				to_load = built_pkgs;
+				to_build = {};
+				overwrite_files = {};
+				trans_prepare_real ();
 			} else {
 				important_details_outpout (true);
 				to_build_queue.clear ();
@@ -764,14 +783,6 @@ namespace Pamac {
 				}
 				if (summary_struct.to_build.length > 0) {
 					type |= Type.BUILD;
-					// populate build queue
-					foreach (unowned string name in summary_struct.aur_pkgbases_to_build) {
-						to_build_queue.push_tail (name);
-					}
-					aur_pkgs_to_install = {};
-					foreach (unowned AURPackageStruct infos in summary_struct.to_build) {
-						aur_pkgs_to_install += infos.name;
-					}
 				}
 				if (no_confirm_commit) {
 					no_confirm_commit = false;
@@ -779,30 +790,74 @@ namespace Pamac {
 				} else if (type != 0) {
 					var summary = new TransactionSummary (summary_struct);
 					if (ask_confirmation (summary)) {
-						if (type == Type.BUILD) {
-							// there only AUR packages to build
-							release ();
-							on_trans_commit_finished (true);
+						if ((type & Type.BUILD) != 0) {
+							// ask to review build files
+							string[] build_files_to_review = {};
+							foreach (unowned string name in summary_struct.aur_pkgbases_to_build) {
+								if (!build_files_reviewed.contains (name)) {
+									build_files_to_review += name;
+								}
+							}
+							if (build_files_to_review.length > 0) {
+								release ();
+								review_build_files_and_reprepare.begin (build_files_to_review);
+								return;
+							}
+							// populate build queue
+							foreach (unowned string name in summary_struct.aur_pkgbases_to_build) {
+								to_build_queue.push_tail (name);
+							}
+							aur_pkgs_to_install = {};
+							foreach (unowned AURPackageStruct infos in summary_struct.to_build) {
+								aur_pkgs_to_install += infos.name;
+							}
+							stop_preparing ();
+							if (type == Type.BUILD) {
+								// there only AUR packages to build
+								release ();
+								on_trans_commit_finished (true);
+							} else {
+								start_commit ();
+							}
 						} else {
+							stop_preparing ();
 							start_commit ();
 						}
 					} else {
+						stop_preparing ();
 						emit_action (dgettext (null, "Transaction cancelled") + ".");
 						release ();
 						to_build_queue.clear ();
-						sysupgrade_after_trans = false;
 						finish_transaction (false);
 					}
 				} else {
 					//var err = ErrorInfos ();
 					//err.message = dgettext (null, "Nothing to do") + "\n";
+					stop_preparing ();
 					emit_action (dgettext (null, "Nothing to do") + ".");
 					release ();
 					finish_transaction (true);
 					//handle_error (err);
 				}
 			} else {
+				stop_preparing ();
 				handle_error (get_current_error ());
+			}
+		}
+
+		async void review_build_files_and_reprepare (string[] build_files_to_review) {
+			foreach (string name in build_files_to_review) {
+				yield review_build_files (name);
+				build_files_reviewed.add (name);
+			}
+			emit_script_output ("");
+			// prepare again
+			if (sysupgrading) {
+				emit_action (dgettext (null, "Starting full system upgrade") + "...");
+				sysupgrade_real ();
+			} else {
+				emit_action (dgettext (null, "Preparing") + "...");
+				trans_prepare_real ();
 			}
 		}
 
@@ -819,19 +874,13 @@ namespace Pamac {
 		void on_trans_commit_finished (bool success) {
 			if (success) {
 				if (to_build_queue.get_length () != 0) {
+					build_files_reviewed.remove_all ();
 					emit_script_output ("");
 					get_authorization_finished.connect (launch_build_next_aur_package);
 					start_get_authorization ();
 				} else {
-					if (sysupgrade_after_trans) {
-						sysupgrade_after_trans = false;
-						no_confirm_commit = true;
-						disconnecting_signals ();
-						start_sysupgrade (enable_downgrade, temporary_ignorepkgs, {});
-					} else {
-						emit_action (dgettext (null, "Transaction successfully finished") + ".");
-						finish_transaction (true);
-					}
+					emit_action (dgettext (null, "Transaction successfully finished") + ".");
+					finish_transaction (true);
 				}
 			} else {
 				to_build_queue.clear ();

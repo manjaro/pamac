@@ -76,7 +76,7 @@ namespace Pamac {
 			recurse = false;
 			no_update_hide_icon = false;
 			enable_aur = false;
-			aur_build_dir = "/tmp";
+			aur_build_dir = "/var/tmp";
 			check_aur_updates = false;
 			download_updates = false;
 			clean_keep_num_pkgs = 3;

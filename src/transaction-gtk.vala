@@ -29,6 +29,7 @@ namespace Pamac {
 		Vte.Terminal term;
 		Vte.Pty pty;
 		public Gtk.ScrolledWindow term_window;
+		public Gtk.Notebook build_files_notebook;
 		//parent window
 		public Gtk.ApplicationWindow? application_window { get; construct; }
 		// ask_confirmation option
@@ -69,6 +70,10 @@ namespace Pamac {
 			term_window.visible = true;
 			term_window.propagate_natural_height = true;
 			term_window.add (term);
+			// create build files notebook
+			build_files_notebook = new Gtk.Notebook ();
+			build_files_notebook.visible = true;
+			build_files_notebook.expand = true;
 			// connect to signal
 			emit_action.connect (display_action);
 			emit_action_progress.connect (display_action_progress);
@@ -84,6 +89,8 @@ namespace Pamac {
 			sysupgrade_finished.connect (on_finished);
 			start_generating_mirrors_list.connect (start_progressbar_pulse);
 			generate_mirrors_list_finished.connect (reset_progress_box);
+			start_preparing.connect (start_progressbar_pulse);
+			stop_preparing.connect (stop_progressbar_pulse);
 			start_building.connect (start_progressbar_pulse);
 			stop_building.connect (stop_progressbar_pulse);
 			write_pamac_config_finished.connect (set_trans_flags);
@@ -343,6 +350,138 @@ namespace Pamac {
 				transaction_summary.remove_all ();
 			}
 			return false;
+		}
+
+		public void destroy_widget (Gtk.Widget widget) {
+			widget.destroy ();
+		}
+
+		protected override async void review_build_files (string pkgname) {
+			// remove noteboook from manager_window properties stack
+			unowned Gtk.Stack? stack = build_files_notebook.get_parent () as Gtk.Stack;
+			if (stack != null) {
+				stack.remove (build_files_notebook);
+			}
+			// create dialog
+			var flags = Gtk.DialogFlags.MODAL;
+			int use_header_bar;
+			Gtk.Settings.get_default ().get ("gtk-dialogs-use-header", out use_header_bar);
+			if (use_header_bar == 1) {
+				flags |= Gtk.DialogFlags.USE_HEADER_BAR;
+			}
+			var dialog = new Gtk.Dialog.with_buttons (dgettext (null, "Review %s build files".printf (pkgname)),
+													application_window,
+													flags);
+			dialog.border_width = 6;
+			dialog.icon_name = "system-software-install";
+			unowned Gtk.Widget widget = dialog.add_button (dgettext (null, "_Close"), Gtk.ResponseType.CLOSE);
+			widget.can_focus = true;
+			widget.has_focus = true;
+			widget.can_default = true;
+			widget.has_default = true;
+			unowned Gtk.Box box = dialog.get_content_area ();
+			box.add (build_files_notebook);
+			dialog.default_width = 700;
+			dialog.default_height = 500;
+			// populate notebook
+			yield populate_build_files (pkgname, false);
+			// run
+			dialog.run ();
+			// re-add noteboook to manager_window properties stack
+			box.remove (build_files_notebook);
+			if (stack != null) {
+				stack.add_named (build_files_notebook, "build_files");
+			}
+			dialog.destroy ();
+			// save modifications
+			yield save_build_files (pkgname);
+		}
+
+		async void create_build_files_tab (File parent, string filename) {
+			var file = parent.get_child (filename);
+			if (file.query_exists ()) {
+				try {
+					StringBuilder text = new StringBuilder ();
+					var fis = yield file.read_async ();
+					var dis = new DataInputStream (fis);
+					string line;
+					while ((line = yield dis.read_line_async ()) != null) {
+						text.append (line);
+						text.append ("\n");
+					}
+					var scrolled_window = new Gtk.ScrolledWindow (null, null);
+					scrolled_window.visible = true;
+					var textview = new Gtk.TextView ();
+					textview.wrap_mode = Gtk.WrapMode.NONE;
+					textview.top_margin = 8;
+					textview.bottom_margin = 8;
+					textview.left_margin = 8;
+					textview.right_margin = 8;
+					textview.buffer.set_text (text.str, (int) text.len);
+					Gtk.TextIter iter;
+					textview.buffer.get_start_iter (out iter);
+					textview.buffer.place_cursor (iter);
+					textview.visible = true;
+					scrolled_window.add (textview);
+					var label =  new Gtk.Label (filename);
+					label.visible = true;
+					build_files_notebook.append_page (scrolled_window, label);
+				} catch (GLib.Error e) {
+					stderr.printf ("%s\n", e.message);
+				}
+			}
+		}
+
+		public async void populate_build_files (string pkgname, bool overwrite) {
+			build_files_notebook.foreach (destroy_widget);
+			string clone_dir_name = yield database.clone_build_files (pkgname, overwrite);
+			if (clone_dir_name != "") {
+				var clone_dir = File.new_for_path (clone_dir_name);
+				// PKGBUILD
+				yield create_build_files_tab (clone_dir, "PKGBUILD");
+				// other file
+				try {
+					FileEnumerator enumerator = yield clone_dir.enumerate_children_async ("standard::*", FileQueryInfoFlags.NONE);
+					FileInfo info;
+					while ((info = enumerator.next_file (null)) != null) {
+						string filename = info.get_name ();
+						if (".install" in filename || ".patch" in filename) {
+							yield create_build_files_tab (clone_dir, filename);
+						}
+					}
+				} catch (Error e) {
+					print ("Error: %s\n", e.message);
+				}
+			}
+		}
+
+		public async void save_build_files (string pkgname) {
+			string pkgdir_name = Path.build_path ("/", database.config.aur_build_dir, "pamac-build", pkgname);
+			int num_pages = build_files_notebook.get_n_pages ();
+			int index = 0;
+			while (index < num_pages) {
+				Gtk.Widget child = build_files_notebook.get_nth_page (index);
+				string file_name = Path.build_path ("/", pkgdir_name, build_files_notebook.get_tab_label_text (child));
+				var scrolled_window = child as Gtk.ScrolledWindow;
+				var textview = scrolled_window.get_child () as Gtk.TextView;
+				var file = File.new_for_path (file_name);
+				Gtk.TextIter start_iter;
+				Gtk.TextIter end_iter;
+				textview.buffer.get_start_iter (out start_iter);
+				textview.buffer.get_end_iter (out end_iter);
+				try {
+					// delete the file before rewrite it
+					yield file.delete_async ();
+					// creating a DataOutputStream to the file
+					var dos = new DataOutputStream (yield file.create_async (FileCreateFlags.REPLACE_DESTINATION));
+					// writing a string to the stream
+					dos.put_string (textview.buffer.get_text (start_iter, end_iter, false));
+				} catch (GLib.Error e) {
+					stderr.printf("%s\n", e.message);
+				}
+				index++;
+			}
+			yield regenerate_srcinfo (pkgname);
 		}
 
 		void show_warnings (bool block) {

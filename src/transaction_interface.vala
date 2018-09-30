@@ -37,9 +37,7 @@ namespace Pamac {
 		public abstract void start_trans_commit ();
 		public abstract void trans_release ();
 		public abstract void trans_cancel ();
-		public abstract void start_get_updates_for_sysupgrade (bool check_aur_updates);
 		public abstract void quit_daemon ();
-		public signal void get_updates_finished (UpdatesStruct updates_struct);
 		public signal void emit_event (uint primary_event, uint secondary_event, string[] details);
 		public signal void emit_providers (string depend, string[] providers);
 		public signal void emit_progress (uint progress, string pkgname, uint percent, uint n_targets, uint current_target);

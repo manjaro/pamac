@@ -99,7 +99,10 @@ namespace Pamac {
 					} else if (args[2] == "--aur" || args[2] == "-a") {
 						init_database ();
 						database.config.enable_aur = true;
-						search_in_aur (concatenate_strings (args[3:args.length]));
+						search_in_aur.begin (concatenate_strings (args[3:args.length]), () => {
+							loop.quit ();
+						});
+						loop.run ();
 					} else if (args[2] == "--files" || args[2] == "-f") {
 						init_database ();
 						search_files (args[3:args.length]);
@@ -117,7 +120,10 @@ namespace Pamac {
 					} else if (args[2] == "--aur" || args[2] == "-a") {
 						init_database ();
 						database.config.enable_aur = true;
-						display_aur_infos (args[3:args.length]);
+						display_aur_infos.begin (args[3:args.length], () => {
+							loop.quit ();
+						});
+						loop.run ();
 					} else {
 						init_database ();
 						display_pkg_infos (args[2:args.length]);
@@ -245,7 +251,10 @@ namespace Pamac {
 			} else if (args[1] == "checkupdates") {
 				if (args.length == 2) {
 					init_database ();
-					checkupdates ();
+					checkupdates.begin (() => {
+						loop.quit ();
+					});
+					loop.run ();
 				} else if (args.length == 3) {
 					if (args[2] == "--help" || args[2] == "-h") {
 						display_checkupdates_help ();
@@ -253,7 +262,10 @@ namespace Pamac {
 						init_database ();
 						database.config.enable_aur = true;
 						database.config.check_aur_updates = true;
-						checkupdates ();
+						checkupdates.begin ((obj, res) => {
+							loop.quit ();
+						});
+						loop.run ();
 					} else {
 						display_checkupdates_help ();
 					}
@@ -742,8 +754,8 @@ namespace Pamac {
 			}
 		}
 
-		void search_in_aur (string search_string) {
-			var pkgs = database.search_in_aur (search_string);
+		async void search_in_aur (string search_string) {
+			var pkgs = yield database.search_in_aur (search_string);
 			if (pkgs.length () == 0) {
 				exit_status = 1;
 				return;
@@ -997,7 +1009,7 @@ namespace Pamac {
 			}
 		}
 
-		void display_aur_infos (string[] pkgnames) {
+		async void display_aur_infos (string[] pkgnames) {
 			string[] properties = {};
 			properties += dgettext (null, "Name");
 			properties += dgettext (null, "Package Base");
@@ -1025,7 +1037,7 @@ namespace Pamac {
 				}
 			}
 			foreach (string pkgname in pkgnames) {
-				var details = database.get_aur_pkg_details (pkgname);
+				var details = yield database.get_aur_pkg_details (pkgname);
 				if (details.name == "") {
 					print_error (dgettext (null, "target not found: %s").printf (pkgname) + "\n");
 					return;
@@ -1306,8 +1318,8 @@ namespace Pamac {
 			}
 		}
 
-		void checkupdates () {
-			var updates = database.get_updates ();
+		async void checkupdates () {
+			var updates = yield database.get_updates ();
 			uint updates_nb = updates.repos_updates.length () + updates.aur_updates.length ();
 			if (updates_nb == 0) {
 				stdout.printf ("%s.\n", dgettext (null, "Your system is up-to-date"));
@@ -1362,7 +1374,6 @@ namespace Pamac {
 													dgettext (null, "AUR"));
 				}
 			}
-			loop.quit ();
 		}
 
 		void install_pkgs (string[] targets) {
