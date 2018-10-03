@@ -5,9 +5,9 @@ Pamac is a Package Manager based on libalpm with AUR and Appstream support
  - libpamac: Library to access package infos and run transactions
  - Python bindings for libpamac
  - pamac: a CLI
- - pamac_manager/pamac-updater: a Gtk3 GUI
+ - pamac-manager/pamac-updater: a Gtk3 GUI
  - pamac-tray: a Gtk3 tray icon with updates notifications
- - ppamac-tray-appindicator: a AppIndicator tray icon with updates notifications
+ - pamac-tray-appindicator: a AppIndicator tray icon with updates notifications
 
 #### Installing from source
 

@@ -39,11 +39,9 @@ namespace Pamac {
 
 	public abstract class TrayIcon: Gtk.Application {
 		Notify.Notification notification;
-		Database database;
 		SystemDaemon system_daemon;
 		bool extern_lock;
 		uint refresh_timeout_id;
-		public Gtk.Menu menu;
 		GLib.File lockfile;
 		uint updates_nb;
 
@@ -52,27 +50,12 @@ namespace Pamac {
 			flags = ApplicationFlags.FLAGS_NONE;
 		}
 
-		void init_database () {
-			var config = new Config ("/etc/pamac.conf");
-			database = new Database (config);
-			database.refresh_files_dbs_on_get_updates = true;
-			database.config.notify["refresh-period"].connect((obj, prop) => {
-				launch_refresh_timeout (database.config.refresh_period);
-			});
-			database.config.notify["check-aur-updates"].connect((obj, prop) => {
-				check_updates ();
-			});
-			database.config.notify["no-update-hide-icon"].connect((obj, prop) => {
-				set_icon_visible (!database.config.no_update_hide_icon);
-			});
-		}
-
-		void start_system_daemon () {
+		void start_system_daemon (HashTable<string,string> environment_variables) {
 			if (system_daemon == null) {
 				try {
 					system_daemon = Bus.get_proxy_sync (BusType.SYSTEM, "org.manjaro.pamac.system", "/org/manjaro/pamac/system");
 					// Set environment variables
-					system_daemon.set_environment_variables (database.config.environment_variables);
+					system_daemon.set_environment_variables (environment_variables);
 					system_daemon.downloading_updates_finished.connect (on_downloading_updates_finished);
 					system_daemon.write_pamac_config_finished.connect (on_write_pamac_config_finished);
 				} catch (Error e) {
@@ -94,8 +77,8 @@ namespace Pamac {
 		public abstract void init_status_icon ();
 
 		// Create menu for right button
-		void create_menu () {
-			menu = new Gtk.Menu ();
+		public Gtk.Menu create_menu () {
+			var menu = new Gtk.Menu ();
 			var item = new Gtk.MenuItem.with_label (_("Package Manager"));
 			item.activate.connect (execute_manager);
 			menu.append (item);
@@ -103,6 +86,7 @@ namespace Pamac {
 			item.activate.connect (this.release);
 			menu.append (item);
 			menu.show_all ();
+			return menu;
 		}
 
 		public void left_clicked () {
@@ -138,28 +122,51 @@ namespace Pamac {
 		public abstract void set_icon_visible (bool visible);
 
 		bool check_updates () {
-			if (database.config.refresh_period != 0) {
-				database.get_updates.begin ((obj, res) => {
-					var updates = database.get_updates.end (res);
-					updates_nb = updates.repos_updates.length () + updates.aur_updates.length ();
-					if (updates_nb == 0) {
-						set_icon (noupdate_icon_name);
-						set_tooltip (noupdate_info);
-						set_icon_visible (!database.config.no_update_hide_icon);
-						close_notification ();
-					} else {
-						if (!check_pamac_running () && database.config.download_updates) {
-							start_system_daemon ();
-							try {
-								system_daemon.start_download_updates ();
-							} catch (Error e) {
-								stderr.printf ("Error: %s\n", e.message);
+			var config = new Config ("/etc/pamac.conf");
+			if (config.refresh_period != 0) {
+				// get updates
+				string[] cmds = {"pamac", "checkupdates"};
+				if (config.check_aur_updates) {
+					cmds += "-a";
+				}
+				try {
+					var process = new Subprocess.newv (cmds, SubprocessFlags.STDOUT_PIPE);
+					process.wait ();
+					if (process.get_if_exited ()) {
+						int status = process.get_exit_status ();
+						// status 100 means updates are available
+						if (status == 100) {
+							var dis = new DataInputStream (process.get_stdout_pipe ());
+							updates_nb = 0;
+							// count lines
+							while (dis.read_line () != null) {
+								updates_nb++;
 							}
+							// remove the first which is not an update
+							updates_nb--;
+							if (!check_pamac_running () && config.download_updates) {
+								start_system_daemon (config.environment_variables);
+								try {
+									system_daemon.start_download_updates ();
+								} catch (Error e) {
+									stderr.printf ("Error: %s\n", e.message);
+								}
+							} else {
+								show_or_update_notification ();
+							}
+							// refresh files dbs in tmp
+							var database = new Database (config);
+							database.refresh_files_dbs ();
 						} else {
-							show_or_update_notification ();
+							set_icon (noupdate_icon_name);
+							set_tooltip (noupdate_info);
+							set_icon_visible (!config.no_update_hide_icon);
+							close_notification ();
 						}
 					}
-				});
+				} catch (Error e) {
+					stderr.printf ("Error: %s\n", e.message);
+				}
 			}
 			return true;
 		}
@@ -169,8 +176,12 @@ namespace Pamac {
 			stop_system_daemon ();
 		}
 
-		void on_write_pamac_config_finished () {
-			database.config.reload ();
+		void on_write_pamac_config_finished (bool recurse, uint64 refresh_period, bool no_update_hide_icon,
+											bool enable_aur, string aur_build_dir, bool check_aur_updates,
+											bool download_updates) {
+			set_icon_visible (!no_update_hide_icon);
+			launch_refresh_timeout (refresh_period);
+			check_updates ();
 		}
 
 		void show_or_update_notification () {
@@ -277,9 +288,9 @@ namespace Pamac {
 			Intl.textdomain ("pamac");
 			Intl.setlocale (LocaleCategory.ALL, "");
 
-			init_database ();
+			var config = new Config ("/etc/pamac.conf");
 			// if refresh period is 0, just return so tray will exit
-			if (database.config.refresh_period == 0) {
+			if (config.refresh_period == 0) {
 				return;
 			}
 
@@ -288,18 +299,18 @@ namespace Pamac {
 			extern_lock = false;
 			refresh_timeout_id = 0;
 
-			create_menu ();
 			init_status_icon ();
 			set_icon (noupdate_icon_name);
 			set_tooltip (noupdate_info);
-			set_icon_visible (!database.config.no_update_hide_icon);
+			set_icon_visible (!config.no_update_hide_icon);
 
 			Notify.init (_("Package Manager"));
 
-			start_system_daemon ();
+			start_system_daemon (config.environment_variables);
 			// start and stop daemon just to connect to signal
 			stop_system_daemon ();
 
+			var database = new Database (config);
 			lockfile = GLib.File.new_for_path (database.get_lockfile ());
 			Timeout.add (200, check_extern_lock);
 			// wait 30 seconds before check updates
@@ -307,7 +318,7 @@ namespace Pamac {
 				check_updates ();
 				return false;
 			});
-			launch_refresh_timeout (database.config.refresh_period);
+			launch_refresh_timeout (config.refresh_period);
 
 			this.hold ();
 		}

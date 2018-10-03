@@ -42,6 +42,9 @@ namespace Pamac {
 		string[] temporary_ignorepkgs;
 		string[] overwrite_files;
 		// building data
+		string aurdb_path;
+		GenericSet<string?> already_checked_aur_dep;
+		GenericSet<string?> aur_desc_list;
 		Queue<string> to_build_queue;
 		string[] aur_pkgs_to_install;
 		GenericSet<string?> build_files_reviewed;
@@ -92,7 +95,7 @@ namespace Pamac {
 		construct {
 			if (Posix.geteuid () == 0) {
 				// we are root
-				transaction_interface = new TransactionInterfaceRoot ();
+				transaction_interface = new TransactionInterfaceRoot (database.config);
 			} else {
 				// use dbus daemon
 				transaction_interface = new TransactionInterfaceDaemon (database.config);
@@ -110,6 +113,9 @@ namespace Pamac {
 			temporary_ignorepkgs = {};
 			overwrite_files = {};
 			// building data
+			aurdb_path = "/tmp/pamac-aur";
+			already_checked_aur_dep = new GenericSet<string?> (str_hash, str_equal);
+			aur_desc_list = new GenericSet<string?> (str_hash, str_equal);
 			to_build_queue = new Queue<string> ();
 			build_files_reviewed = new GenericSet<string?> (str_hash, str_equal);
 			build_cancellable = new Cancellable ();
@@ -239,6 +245,164 @@ namespace Pamac {
 			downloading_updates_finished ();
 		}
 
+		async void compute_aur_build_list () {
+			try {
+				Process.spawn_command_line_sync ("mkdir -p %s".printf (aurdb_path));
+			} catch (SpawnError e) {
+				stderr.printf ("SpawnError: %s\n", e.message);
+			}
+			aur_desc_list.remove_all ();
+			already_checked_aur_dep.remove_all ();
+			yield check_aur_dep_list (to_build);
+			// create a fake aur db
+			try {
+				var list = new StringBuilder ();
+				foreach (unowned string name_version in aur_desc_list) {
+					list.append (name_version);
+					list.append (" ");
+				}
+				Process.spawn_command_line_sync ("rm -f %ssync/aur.db".printf (database.get_db_path ()));
+				Process.spawn_command_line_sync ("bsdtar -cf %ssync/aur.db -C %s %s".printf (database.get_db_path (), aurdb_path, list.str));
+			} catch (SpawnError e) {
+				stderr.printf ("SpawnError: %s\n", e.message);
+			}
+		}
+
+		async void check_aur_dep_list (string[] pkgnames) {
+			string[] dep_to_check = {};
+			foreach (unowned string name in pkgnames) {
+				if (build_cancellable.is_cancelled ()) {
+					break;
+				}
+				string version = "";
+				string pkgbase = "";
+				string desc = "";
+				string[] depends = {};
+				string[] conflicts = {};
+				string[] provides = {};
+				string[] replaces = {};
+				// clone build files
+				emit_action (dgettext (null, "Checking %s build files".printf (name)) + "...");
+				string pkgdir_name = yield database.clone_build_files (name, false);
+				if (pkgdir_name == "") {
+					// error
+					continue;
+				}
+				// read .SRCINFO
+				var srcinfo = File.new_for_path (pkgdir_name + "/.SRCINFO");
+				try {
+					var dis = new DataInputStream (srcinfo.read ());
+					string line;
+					while ((line = dis.read_line ()) != null) {
+						if ("pkgbase = " in line) {
+							pkgbase = line.split ("pkgbase = ", 2)[1];
+						} else if ("pkgdesc = " in line) {
+							desc = line.split ("pkgdesc = ", 2)[1];
+						} else if ("pkgver = " in line) {
+							version = line.split ("pkgver = ", 2)[1];
+						} else if ("pkgrel = " in line) {
+							version += "-";
+							version += line.split ("pkgrel = ", 2)[1];
+						// compute depends, makedepends and checkdepends in depends
+						} else if ("checkdepends = " in line) {
+							depends += line.split ("checkdepends = ", 2)[1];
+						} else if ("makedepends = " in line) {
+							depends += line.split ("makedepends = ", 2)[1];
+						} else if ("depends = " in line) {
+							depends += line.split ("depends = ", 2)[1];
+						} else if ("provides = " in line) {
+							provides += line.split ("provides = ", 2)[1];
+						} else if ("conflicts = " in line) {
+							conflicts += line.split ("conflicts = ", 2)[1];
+						} else if ("replaces = " in line) {
+							replaces += line.split ("replaces = ", 2)[1];
+						}
+					}
+					// check deps
+					foreach (unowned string dep_string in depends) {
+						var pkg = database.find_installed_satisfier (dep_string);
+						if (pkg.name == "") {
+							pkg = database.find_sync_satisfier (dep_string);
+						}
+						if (pkg.name == "") {
+							string dep_name = Alpm.Depend.from_string (dep_string).name;
+							if (!(dep_name in already_checked_aur_dep)) {
+								already_checked_aur_dep.add (dep_name);
+								var aur_pkg = yield database.get_aur_pkg (dep_name);
+								if (aur_pkg.name != "") {
+									dep_to_check += (owned) dep_name;
+								}
+							}
+						}
+					}
+					// write desc file
+					string pkgdir = "%s-%s".printf (name, version);
+					string pkgdir_path = "%s/%s".printf (aurdb_path, pkgdir);
+					aur_desc_list.add (pkgdir);
+					var file = GLib.File.new_for_path (pkgdir_path);
+					// always recreate desc in case of .SRCINFO modifications
+					if (file.query_exists ()) {
+						Process.spawn_command_line_sync ("rm -rf %s".printf (pkgdir_path));
+					}
+					file.make_directory ();
+					file = GLib.File.new_for_path ("%s/desc".printf (pkgdir_path));
+					// creating a DataOutputStream to the file
+					var dos = new DataOutputStream (file.create (FileCreateFlags.REPLACE_DESTINATION));
+					// fake filename
+					dos.put_string ("%FILENAME%\n" + "%s-%s-any.pkg.tar.xz\n\n".printf (name, version));
+					// name
+					dos.put_string ("%NAME%\n%s\n\n".printf (name));
+					// version
+					dos.put_string ("%VERSION%\n%s\n\n".printf (version));
+					// base
+					dos.put_string ("%BASE%\n%s\n\n".printf (pkgbase));
+					// desc
+					dos.put_string ("%DESC%\n%s\n\n".printf (desc));
+					// version
+					dos.put_string ("%VERSION%\n%s\n\n".printf (version));
+					// fake arch
+					dos.put_string ("%ARCH%\nany\n\n");
+					// depends
+					if (depends.length > 0) {
+						dos.put_string ("%DEPENDS%\n");
+						foreach (unowned string depend in depends) {
+							dos.put_string ("%s\n".printf (depend));
+						}
+						dos.put_string ("\n");
+					}
+					// conflicts
+					if (conflicts.length > 0) {
+						dos.put_string ("%CONFLICTS%\n");
+						foreach (unowned string conflict in conflicts) {
+							dos.put_string ("%s\n".printf (conflict));
+						}
+						dos.put_string ("\n");
+					}
+					// provides
+					if (provides.length > 0) {
+						dos.put_string ("%PROVIDES%\n");
+						foreach (unowned string provide in provides) {
+							dos.put_string ("%s\n".printf (provide));
+						}
+						dos.put_string ("\n");
+					}
+					// replaces
+					if (replaces.length > 0) {
+						dos.put_string ("%REPLACES%\n");
+						foreach (unowned string replace in replaces) {
+							dos.put_string ("%s\n".printf (replace));
+						}
+						dos.put_string ("\n");
+					}
+				} catch (GLib.Error e) {
+					GLib.stderr.printf("%s\n", e.message);
+				}
+			}
+			if (dep_to_check.length > 0) {
+				yield check_aur_dep_list (dep_to_check);
+			}
+		}
+
 		void sysupgrade_real () {
 			// this will respond with trans_prepare_finished signal
 			transaction_interface.start_sysupgrade_prepare (enable_downgrade, temporary_ignorepkgs, to_build, overwrite_files);
@@ -268,7 +432,20 @@ namespace Pamac {
 		}
 
 		void trans_prepare_real () {
-			transaction_interface.start_trans_prepare (flags, to_install, to_remove, to_load, to_build, overwrite_files);
+			if (to_build.length != 0) {
+				// set building to allow cancellation
+				building = true;
+				build_cancellable.reset ();
+				compute_aur_build_list.begin (() => {
+					building = false;
+					if (build_cancellable.is_cancelled ()) {
+						on_trans_prepare_finished (false);
+					}
+					transaction_interface.start_trans_prepare (flags, to_install, to_remove, to_load, to_build, overwrite_files);
+				});
+			} else {
+				transaction_interface.start_trans_prepare (flags, to_install, to_remove, to_load, to_build, overwrite_files);
+			}
 		}
 
 		public void start (string[] to_install, string[] to_remove, string[] to_load, string[] to_build, string[] overwrite_files) {
@@ -343,7 +520,7 @@ namespace Pamac {
 						var dis = new DataInputStream (process.get_stdout_pipe ());
 						string? line;
 						// Read lines until end of file (null) is reached
-						while ((line = dis.read_line ()) != null) {
+						while ((line = yield dis.read_line_async ()) != null) {
 							var file = GLib.File.new_for_path (line);
 							string filename = file.get_basename ();
 							string name_version_release = filename.slice (0, filename.last_index_of_char ('-'));

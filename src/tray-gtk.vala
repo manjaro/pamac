@@ -31,6 +31,7 @@ namespace Pamac {
 
 		// Show popup menu on right button
 		void menu_popup () {
+			var menu = create_menu ();
 			menu.popup_at_pointer (null);
 		}
 

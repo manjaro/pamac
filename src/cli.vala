@@ -338,6 +338,12 @@ namespace Pamac {
 			transaction.finished.connect (on_transaction_finished);
 			transaction.sysupgrade_finished.connect (on_transaction_finished);
 			transaction.refresh_finished.connect (on_refresh_finished);
+			transaction.start_preparing.connect (() => {
+				trans_cancellable = true;
+			});
+			transaction.stop_preparing.connect (() => {
+				trans_cancellable = false;
+			});
 			transaction.start_downloading.connect (() => {
 				trans_cancellable = true;
 			});

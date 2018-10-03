@@ -456,6 +456,8 @@ namespace Pamac {
 		}
 
 		protected override async void review_build_files (string pkgname) {
+			stdout.printf (dgettext (null, "Review %s build files".printf (pkgname)) + "\n");
+			Posix.sleep (1);
 			string builddir_name = Path.build_path ("/", database.config.aur_build_dir, "pamac-build", pkgname);
 			string[] cmds = {"nano", "-S", "-w", "-i"};
 			// PKGBUILD

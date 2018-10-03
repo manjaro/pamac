@@ -188,7 +188,7 @@ class GetInfosCase(unittest.TestCase):
                 loop.quit()
             self.assertTrue(found)
 
-        self.db.search_in_aur_async(
+        self.db.search_in_aur(
             'pamac', on_search_aur_pkgs_ready_callback, None)
         loop.run()
 

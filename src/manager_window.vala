@@ -2843,9 +2843,11 @@ namespace Pamac {
 
 		void on_start_preparing () {
 			this.get_window ().set_cursor (new Gdk.Cursor.for_display (Gdk.Display.get_default (), Gdk.CursorType.WATCH));
+			cancel_button.sensitive = true;
 		}
 
 		void on_stop_preparing () {
+			cancel_button.sensitive = false;
 			this.get_window ().set_cursor (null);
 			// restore build_files_notebook
 			if (properties_listbox.get_selected_row ().get_index () == 3) {

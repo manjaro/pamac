@@ -27,6 +27,7 @@ namespace Pamac {
 			indicator_status_icon.set_status (AppIndicator.IndicatorStatus.PASSIVE);
 			// add a item without label to not show it in menu
 			// this allow left click action
+			var menu = create_menu ();
 			var item = new Gtk.MenuItem ();
 			item.visible = true;
 			item.activate.connect (left_clicked);

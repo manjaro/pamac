@@ -147,7 +147,9 @@ namespace Pamac {
 				current_action = action;
 				show_in_term (action);
 				progress_box.action_label.label = action;
-				progress_box.progressbar.fraction = 0;
+				if (pulse_timeout_id == 0) {
+					progress_box.progressbar.fraction = 0;
+				}
 				progress_box.progressbar.text = "";
 			}
 		}

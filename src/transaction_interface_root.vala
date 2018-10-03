@@ -20,9 +20,9 @@
 namespace Pamac {
 	internal class TransactionInterfaceRoot: Object, TransactionInterface {
 
-		public TransactionInterfaceRoot () {
+		public TransactionInterfaceRoot (Config config) {
 			// alpm_utils global variable declared in alpm_utils.vala
-			// and initiate in database.vala
+			alpm_utils = new AlpmUtils (config);
 			alpm_utils.emit_event.connect ((primary_event, secondary_event, details) => {
 				emit_event (primary_event, secondary_event, details);
 			});
@@ -229,6 +229,11 @@ namespace Pamac {
 			}
 		}
 
+		int build_prepare () {
+			alpm_utils.build_prepare ();
+			return 0;
+		}
+
 		int trans_prepare () {
 			alpm_utils.trans_prepare ();
 			return 0;
@@ -236,9 +241,7 @@ namespace Pamac {
 
 		private void launch_prepare () {
 			if (alpm_utils.to_build.length != 0) {
-				alpm_utils.compute_aur_build_list.begin (() => {
-					alpm_utils.build_prepare ();
-				});
+				new Thread<int> ("build_prepare", build_prepare);
 			} else {
 				new Thread<int> ("trans_prepare", trans_prepare);
 			}

@@ -487,13 +487,11 @@ namespace Pamac {
 
 		private void launch_prepare_thread () {
 			if (alpm_utils.to_build.length != 0) {
-				alpm_utils.compute_aur_build_list.begin (() => {
-					try {
-						thread_pool.add (new AlpmAction (alpm_utils.build_prepare));
-					} catch (ThreadError e) {
-						stderr.printf ("Thread Error %s\n", e.message);
-					}
-				});
+				try {
+					thread_pool.add (new AlpmAction (alpm_utils.build_prepare));
+				} catch (ThreadError e) {
+					stderr.printf ("Thread Error %s\n", e.message);
+				}
 			} else {
 				try {
 					thread_pool.add (new AlpmAction (alpm_utils.trans_prepare));
