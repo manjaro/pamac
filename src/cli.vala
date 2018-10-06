@@ -316,7 +316,7 @@ namespace Pamac {
 					i++;
 				}
 				if (!error) {
-					try_lock_and_run (start_refresh);
+					try_lock_and_run (start_sysupgrade);
 				}
 			} else {
 				display_help ();
@@ -337,7 +337,6 @@ namespace Pamac {
 			transaction = new TransactionCli (database);
 			transaction.finished.connect (on_transaction_finished);
 			transaction.sysupgrade_finished.connect (on_transaction_finished);
-			transaction.refresh_finished.connect (on_refresh_finished);
 			transaction.start_preparing.connect (() => {
 				trans_cancellable = true;
 			});
@@ -844,7 +843,7 @@ namespace Pamac {
 				}
 			}
 			foreach (unowned string pkgname in pkgnames) {
-				var details =  database.get_pkg_details (pkgname, "");
+				var details =  database.get_pkg_details (pkgname, "", false);
 				if (details.name == "") {
 					print_error (dgettext (null, "target not found: %s").printf (pkgname) + "\n");
 					continue;
@@ -1650,27 +1649,17 @@ namespace Pamac {
 			}
 		}
 
-		void start_refresh () {
+		void start_sysupgrade () {
 			if (Posix.geteuid () != 0) {
 				// let's time to pkttyagent to get registred
 				Timeout.add (200, () => {
-					transaction.start_refresh (force_refresh);
+					transaction.start_sysupgrade (force_refresh, enable_downgrade, temporary_ignorepkgs, overwrite_files);
 					return false;
 				});
 			} else {
-				transaction.start_refresh (force_refresh);
+				transaction.start_sysupgrade (force_refresh, enable_downgrade, temporary_ignorepkgs, overwrite_files);
 			}
 			loop.run ();
-		}
-
-		void on_refresh_finished (bool success) {
-			if (success) {
-				transaction.start_sysupgrade (enable_downgrade, temporary_ignorepkgs, overwrite_files);
-			} else {
-				transaction.unlock ();
-				loop.quit ();
-				exit_status = 1;
-			}
 		}
 
 		void on_transaction_finished (bool success) {

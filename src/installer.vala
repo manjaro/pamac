@@ -39,8 +39,8 @@ namespace Pamac {
 			base.startup ();
 
 			important_details = false;
-			var pamac_config = new Config ("/etc/pamac.conf");
-			database = new Database (pamac_config);
+			var config = new Config ("/etc/pamac.conf");
+			database = new Database (config);
 			// integrate progress box and term widget
 			progress_dialog = new ProgressDialog ();
 			transaction = new TransactionGtk (database, progress_dialog as Gtk.ApplicationWindow);
@@ -151,6 +151,7 @@ namespace Pamac {
 		}
 
 		void on_transaction_finished (bool success) {
+			transaction.unlock ();
 			if (!success || important_details) {
 				progress_dialog.close_button.visible = true;
 			} else {

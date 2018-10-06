@@ -7,7 +7,7 @@
     <property name="border_width">3</property>
     <property name="title" translatable="yes">Transaction Summary</property>
     <property name="window_position">center-on-parent</property>
-    <property name="default_width">600</property>
+    <property name="default_width">700</property>
     <property name="icon_name">system-software-install</property>
     <property name="type_hint">dialog</property>
     <property name="deletable">False</property>
@@ -53,11 +53,23 @@
                 <property name="position">1</property>
               </packing>
             </child>
+            <child>
+              <object class="GtkButton" id="review_button">
+                <property name="label" translatable="yes">Edit build files</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">False</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">2</property>
+              </packing>
+            </child>
           </object>
           <packing>
             <property name="expand">False</property>
             <property name="fill">True</property>
-            <property name="pack_type">end</property>
             <property name="position">2</property>
           </packing>
         </child>
@@ -152,6 +164,7 @@
     <action-widgets>
       <action-widget response="-6">cancel_button</action-widget>
       <action-widget response="-5">apply_button</action-widget>
+      <action-widget response="-2">review_button</action-widget>
     </action-widgets>
   </template>
 </interface>

@@ -49,6 +49,7 @@ namespace Pamac {
 		public signal void emit_log (uint level, string msg);
 		public signal void set_pkgreason_finished ();
 		public signal void refresh_finished (bool success);
+		public signal void database_modified ();
 		public signal void downloading_updates_finished ();
 		public signal void trans_prepare_finished (bool success);
 		public signal void trans_commit_finished (bool success);
@@ -312,6 +313,10 @@ namespace Pamac {
 			emit_log (level, msg);
 		}
 
+		void on_database_modified () {
+			database_modified ();
+		}
+
 		public TransactionSummaryStruct get_transaction_summary () {
 			var summary_struct = TransactionSummaryStruct ();
 			try {
@@ -341,6 +346,7 @@ namespace Pamac {
 			system_daemon.emit_download.connect (on_emit_download);
 			system_daemon.emit_totaldownload.connect (on_emit_totaldownload);
 			system_daemon.emit_log.connect (on_emit_log);
+			system_daemon.database_modified.connect (on_database_modified);
 			system_daemon.trans_prepare_finished.connect (on_trans_prepare_finished);
 			system_daemon.trans_commit_finished.connect (on_trans_commit_finished);
 		}

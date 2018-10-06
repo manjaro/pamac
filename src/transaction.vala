@@ -77,7 +77,6 @@ namespace Pamac {
 		public signal void important_details_outpout (bool must_show);
 		public signal void downloading_updates_finished ();
 		public signal void get_authorization_finished (bool authorized);
-		public signal void refresh_finished (bool success);
 		public signal void finished (bool success);
 		public signal void sysupgrade_finished (bool success);
 		public signal void set_pkgreason_finished ();
@@ -101,6 +100,7 @@ namespace Pamac {
 				transaction_interface = new TransactionInterfaceDaemon (database.config);
 			}
 			transaction_interface.get_authorization_finished.connect (on_get_authorization_finished);
+			transaction_interface.database_modified.connect (on_database_modified);
 			// transaction options
 			flags = 0;
 			enable_downgrade = false;
@@ -133,6 +133,11 @@ namespace Pamac {
 			return true;
 		}
 
+		protected virtual bool ask_review_build_files () {
+			// no review
+			return false;
+		}
+
 		protected virtual async void review_build_files (string pkgname) {
 			// nothing
 		}
@@ -147,16 +152,12 @@ namespace Pamac {
 				yield process.wait_async ();
 				var dis = new DataInputStream (process.get_stdout_pipe ());
 				var file = File.new_for_path (Path.build_path ("/", pkgdir_name, ".SRCINFO"));
-				try {
-					// delete the file before rewrite it
-					yield file.delete_async ();
-					// creating a DataOutputStream to the file
-					var dos = new DataOutputStream (yield file.create_async (FileCreateFlags.REPLACE_DESTINATION));
-					// writing makepkg output to .SRCINFO
-					yield dos.splice_async (dis, 0);
-				} catch (GLib.Error e) {
-					stderr.printf("%s\n", e.message);
-				}
+				// delete the file before rewrite it
+				yield file.delete_async ();
+				// creating a DataOutputStream to the file
+				var dos = new DataOutputStream (yield file.create_async (FileCreateFlags.REPLACE_DESTINATION));
+				// writing makepkg output to .SRCINFO
+				yield dos.splice_async (dis, 0);
 			} catch (Error e) {
 				stderr.printf ("Error: %s\n", e.message);
 			}
@@ -177,6 +178,10 @@ namespace Pamac {
 
 		public bool unlock () {
 			return transaction_interface.unlock ();
+		}
+
+		void on_database_modified () {
+			database.refresh ();
 		}
 
 		public void start_get_authorization () {
@@ -215,23 +220,48 @@ namespace Pamac {
 			transaction_interface.start_set_pkgreason (pkgname, reason);
 		}
 
-		void launch_refresh (bool authorized) {
-			get_authorization_finished.disconnect (launch_refresh);
-			if (authorized) {
-				emit_action (dgettext (null, "Synchronizing package databases") + "...");
-				connecting_signals ();
-				transaction_interface.refresh_finished.connect (on_refresh_finished);
-				transaction_interface.start_refresh (force_refresh);
-				start_downloading ();
+		void on_refresh_for_sysupgrade_finished (bool success) {
+			stop_downloading ();
+			current_filename = "";
+			transaction_interface.refresh_finished.disconnect (on_refresh_for_sysupgrade_finished);
+			if (!success) {
+				on_trans_prepare_finished (false);
 			} else {
-				on_refresh_finished (false);
+				sysupgrading = true;
+				emit_action (dgettext (null, "Starting full system upgrade") + "...");
+				if (database.config.check_aur_updates) {
+					database.get_aur_updates.begin ((obj, res) => {
+						var aur_updates = database.get_aur_updates.end (res);
+						to_build = {};
+						foreach (unowned AURPackage aur_update in aur_updates) {
+							if (!(aur_update.name in temporary_ignorepkgs)) {
+								to_build += aur_update.name;
+							}
+						}
+						sysupgrade_real ();
+					});
+				} else {
+					sysupgrade_real ();
+				}
 			}
 		}
 
-		public void start_refresh (bool force) {
-			force_refresh = force;
+		void launch_refresh_for_sysupgrade (bool authorized) {
+			get_authorization_finished.disconnect (launch_refresh_for_sysupgrade);
+			if (authorized) {
+				emit_action (dgettext (null, "Synchronizing package databases") + "...");
+				connecting_signals ();
+				transaction_interface.refresh_finished.connect (on_refresh_for_sysupgrade_finished);
+				transaction_interface.start_refresh (force_refresh);
+				start_downloading ();
+			} else {
+				on_refresh_for_sysupgrade_finished (false);
+			}
+		}
+
+		void start_refresh_for_sysupgrade () {
 			// check autorization to send start_downloading signal after that
-			get_authorization_finished.connect (launch_refresh);
+			get_authorization_finished.connect (launch_refresh_for_sysupgrade);
 			start_get_authorization ();
 		}
 
@@ -282,14 +312,14 @@ namespace Pamac {
 				string[] provides = {};
 				string[] replaces = {};
 				// clone build files
-				emit_action (dgettext (null, "Checking %s build files".printf (name)) + "...");
-				string pkgdir_name = yield database.clone_build_files (name, false);
-				if (pkgdir_name == "") {
+				emit_action (dgettext (null, "Checking %s dependencies".printf (name)) + "...");
+				File? clone_dir = yield database.clone_build_files (name, false);
+				if (clone_dir == null) {
 					// error
 					continue;
 				}
 				// read .SRCINFO
-				var srcinfo = File.new_for_path (pkgdir_name + "/.SRCINFO");
+				var srcinfo = clone_dir.get_child (".SRCINFO");
 				try {
 					var dis = new DataInputStream (srcinfo.read ());
 					string line;
@@ -308,6 +338,9 @@ namespace Pamac {
 							depends += line.split ("checkdepends = ", 2)[1];
 						} else if ("makedepends = " in line) {
 							depends += line.split ("makedepends = ", 2)[1];
+						} else if ("optdepends = " in line) {
+							// pass
+							continue;
 						} else if ("depends = " in line) {
 							depends += line.split ("depends = ", 2)[1];
 						} else if ("provides = " in line) {
@@ -404,31 +437,17 @@ namespace Pamac {
 		}
 
 		void sysupgrade_real () {
+			start_preparing ();
 			// this will respond with trans_prepare_finished signal
 			transaction_interface.start_sysupgrade_prepare (enable_downgrade, temporary_ignorepkgs, to_build, overwrite_files);
 		}
 
-		public void start_sysupgrade (bool enable_downgrade, string[] temporary_ignorepkgs, string[] overwrite_files) {
+		public void start_sysupgrade (bool force_refresh, bool enable_downgrade, string[] temporary_ignorepkgs, string[] overwrite_files) {
+			this.force_refresh = force_refresh;
 			this.enable_downgrade = enable_downgrade;
 			this.temporary_ignorepkgs = temporary_ignorepkgs;
 			this.overwrite_files = overwrite_files;
-			sysupgrading = true;
-			emit_action (dgettext (null, "Starting full system upgrade") + "...");
-			connecting_signals ();
-			if (database.config.check_aur_updates) {
-				database.get_aur_updates.begin ((obj, res) => {
-					var aur_updates = database.get_aur_updates.end (res);
-					to_build = {};
-					foreach (unowned AURPackage aur_update in aur_updates) {
-						if (!(aur_update.name in temporary_ignorepkgs)) {
-							to_build += aur_update.name;
-						}
-					}
-					sysupgrade_real ();
-				});
-			} else {
-				sysupgrade_real ();
-			}
+			start_refresh_for_sysupgrade ();
 		}
 
 		void trans_prepare_real () {
@@ -903,7 +922,6 @@ namespace Pamac {
 
 		void finish_transaction (bool success) {
 			disconnecting_signals ();
-			database.refresh ();
 			if (sysupgrading) {
 				sysupgrade_finished (success);
 				sysupgrading = false;
@@ -912,19 +930,14 @@ namespace Pamac {
 			}
 		}
 
-		void on_refresh_finished (bool success) {
-			stop_downloading ();
-			if (!success) {
-				var error = get_current_error ();
-				if (error.message != "") {
-					emit_error (error.message, error.details);
+		string[] get_build_files_to_review (string[] aur_pkgbases_to_build) {
+			string[] build_files_to_review = {};
+			foreach (unowned string name in aur_pkgbases_to_build) {
+				if (!build_files_reviewed.contains (name)) {
+					build_files_to_review += name;
 				}
 			}
-			current_filename = "";
-			disconnecting_signals ();
-			transaction_interface.refresh_finished.disconnect (on_refresh_finished);
-			database.refresh ();
-			refresh_finished (success);
+			return build_files_to_review;
 		}
 
 		void on_trans_prepare_finished (bool success) {
@@ -950,29 +963,24 @@ namespace Pamac {
 					start_commit ();
 				} else if (type != 0) {
 					var summary = new TransactionSummary (summary_struct);
-					if (ask_confirmation (summary)) {
-						if ((type & Type.BUILD) != 0) {
-							// ask to review build files
-							string[] build_files_to_review = {};
-							foreach (unowned string name in summary_struct.aur_pkgbases_to_build) {
-								if (!build_files_reviewed.contains (name)) {
-									build_files_to_review += name;
-								}
-							}
-							if (build_files_to_review.length > 0) {
-								release ();
-								review_build_files_and_reprepare.begin ((owned) build_files_to_review);
-								return;
-							}
-							// populate build queue
-							foreach (unowned string name in summary_struct.aur_pkgbases_to_build) {
-								to_build_queue.push_tail (name);
-							}
-							aur_pkgs_to_install = {};
-							foreach (unowned AURPackageStruct infos in summary_struct.to_build) {
-								aur_pkgs_to_install += infos.name;
-							}
-							stop_preparing ();
+					if ((type & Type.BUILD) != 0) {
+						// ask to review build files
+						string[] build_files_to_review = get_build_files_to_review (summary_struct.aur_pkgbases_to_build);
+						if (build_files_to_review.length > 0) {
+							release ();
+							review_build_files_and_reprepare.begin ((owned) build_files_to_review);
+							return;
+						}
+						// populate build queue
+						foreach (unowned string name in summary_struct.aur_pkgbases_to_build) {
+							to_build_queue.push_tail (name);
+						}
+						aur_pkgs_to_install = {};
+						foreach (unowned AURPackageStruct infos in summary_struct.to_build) {
+							aur_pkgs_to_install += infos.name;
+						}
+						stop_preparing ();
+						if (ask_confirmation (summary)) {
 							if (type == Type.BUILD) {
 								// there only AUR packages to build
 								release ();
@@ -980,15 +988,25 @@ namespace Pamac {
 							} else {
 								start_commit ();
 							}
+						} else if (ask_review_build_files ()) {
+							release ();
+							build_files_reviewed.remove_all ();
+							emit_script_output ("");
+							review_build_files_and_reprepare.begin (get_build_files_to_review (summary_struct.aur_pkgbases_to_build));
+							return;
 						} else {
-							stop_preparing ();
-							start_commit ();
+							emit_action (dgettext (null, "Transaction cancelled") + ".");
+							release ();
+							to_build_queue.clear ();
+							finish_transaction (false);
 						}
+					} else if (ask_confirmation (summary)) {
+						stop_preparing ();
+						start_commit ();
 					} else {
 						stop_preparing ();
 						emit_action (dgettext (null, "Transaction cancelled") + ".");
 						release ();
-						to_build_queue.clear ();
 						finish_transaction (false);
 					}
 				} else {
@@ -1029,7 +1047,6 @@ namespace Pamac {
 			if (authorized) {
 				build_next_aur_package.begin ();
 			} else {
-				to_build_queue.clear ();
 				on_trans_commit_finished (false);
 			}
 		}
@@ -1056,7 +1073,6 @@ namespace Pamac {
 
 		void on_set_pkgreason_finished () {
 			transaction_interface.set_pkgreason_finished.disconnect (on_set_pkgreason_finished);
-			database.refresh ();
 			set_pkgreason_finished ();
 		}
 
@@ -1072,7 +1088,6 @@ namespace Pamac {
 
 		void on_write_alpm_config_finished (bool checkspace) {
 			transaction_interface.write_alpm_config_finished.disconnect (on_write_alpm_config_finished);
-			database.refresh ();
 			write_alpm_config_finished (checkspace);
 		}
 

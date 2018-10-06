@@ -238,6 +238,25 @@ namespace Pamac {
 			}
 		}
 
+		protected override bool ask_review_build_files () {
+			// ask user confirmation
+			stdout.printf ("%s ? %s ", dgettext (null, "Review build files"), dgettext (null, "[y/N]"));
+			char buf[32];
+			if (stdin.gets (buf) != null) {
+				string ans = (string) buf;
+				// remove trailing newline and uppercase
+				ans = ans.replace ("\n", "").down ();
+				// just return use default
+				if (ans != "") {
+					if (ans == dgettext (null, "y") ||
+						ans == dgettext (null, "yes")) {
+						return true;
+					}
+				}
+			}
+			return false;
+		}
+
 		protected override bool ask_confirmation (TransactionSummary summary) {
 			uint64 dsize = 0;
 			uint64 rsize = 0;
@@ -458,19 +477,25 @@ namespace Pamac {
 		protected override async void review_build_files (string pkgname) {
 			stdout.printf (dgettext (null, "Review %s build files".printf (pkgname)) + "\n");
 			Posix.sleep (1);
-			string builddir_name = Path.build_path ("/", database.config.aur_build_dir, "pamac-build", pkgname);
+			string pkgdir_name = Path.build_path ("/", database.config.aur_build_dir, "pamac-build", pkgname);
 			string[] cmds = {"nano", "-S", "-w", "-i"};
+			// diff
+			string diff_name = Path.build_path ("/", pkgdir_name, "diff");
+			var diff_file = File.new_for_path (diff_name);
+			if (diff_file.query_exists ()) {
+				cmds += diff_name;
+			}
 			// PKGBUILD
-			cmds += Path.build_path ("/", builddir_name, "PKGBUILD");
+			cmds += Path.build_path ("/", pkgdir_name, "PKGBUILD");
 			// other file
-			var build_dir = File.new_for_path (builddir_name);
+			var pkgdir = File.new_for_path (pkgdir_name);
 			try {
-				FileEnumerator enumerator = yield build_dir.enumerate_children_async ("standard::*", FileQueryInfoFlags.NONE);
+				FileEnumerator enumerator = yield pkgdir.enumerate_children_async ("standard::*", FileQueryInfoFlags.NONE);
 				FileInfo info;
 				while ((info = enumerator.next_file (null)) != null) {
 					unowned string filename = info.get_name ();
 					if (".install" in filename || ".patch" in filename) {
-						cmds += Path.build_path ("/", builddir_name, filename);
+						cmds += Path.build_path ("/", pkgdir_name, filename);
 					}
 				}
 				var process = new Subprocess.newv (cmds, SubprocessFlags.STDIN_INHERIT);

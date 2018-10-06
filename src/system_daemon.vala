@@ -56,6 +56,7 @@ namespace Pamac {
 		public signal void emit_log (uint level, string msg);
 		public signal void set_pkgreason_finished ();
 		public signal void refresh_finished (bool success);
+		public signal void database_modified ();
 		public signal void downloading_updates_finished ();
 		public signal void trans_prepare_finished (bool success);
 		public signal void trans_commit_finished (bool success);
@@ -76,7 +77,7 @@ namespace Pamac {
 			lockfile = GLib.File.new_for_path (alpm_utils.alpm_handle.lockfile);
 			check_old_lock ();
 			check_extern_lock ();
-			Timeout.add (500, check_extern_lock);
+			Timeout.add (200, check_extern_lock);
 			create_thread_pool ();
 			refreshed = false;
 			alpm_utils.emit_event.connect ((primary_event, secondary_event, details) => {
@@ -107,6 +108,7 @@ namespace Pamac {
 				trans_prepare_finished (success);
 			});
 			alpm_utils.trans_commit_finished.connect ((success) => {
+				database_modified ();
 				trans_commit_finished (success);
 			});
 		}
@@ -209,6 +211,7 @@ namespace Pamac {
 				if (!lockfile.query_exists ()) {
 					lock_id = new BusName ("");
 					alpm_utils.refresh_handle ();
+					database_modified ();
 				}
 			} else {
 				if (lockfile.query_exists ()) {
@@ -292,6 +295,7 @@ namespace Pamac {
 			alpm_utils.alpm_config.write (new_alpm_conf);
 			alpm_utils.alpm_config.reload ();
 			alpm_utils.refresh_handle ();
+			database_modified ();
 			write_alpm_config_finished ((alpm_utils.alpm_handle.checkspace == 1));
 		}
 
@@ -326,6 +330,7 @@ namespace Pamac {
 			}
 			alpm_utils.alpm_config.reload ();
 			alpm_utils.refresh_handle ();
+			database_modified ();
 			generate_mirrors_list_finished ();
 		}
 
@@ -369,6 +374,7 @@ namespace Pamac {
 				if (authorized) {
 					alpm_utils.set_pkgreason (pkgname, reason);
 				}
+				database_modified ();
 				set_pkgreason_finished ();
 			});
 		}
@@ -379,13 +385,6 @@ namespace Pamac {
 				return;
 			}
 			alpm_utils.force_refresh = force;
-			if (alpm_utils.force_refresh) {
-				refreshed = false;
-			}
-			if (refreshed) {
-				refresh_finished (true);
-				return;
-			}
 			if (alpm_utils.downloading_updates) {
 				alpm_utils.cancellable.cancel ();
 				// let time to cancel download updates
@@ -541,12 +540,16 @@ namespace Pamac {
 
 		[DBus (no_reply = true)]
 		public void quit () throws Error {
-			// wait for all tasks to be processed
-			ThreadPool.free ((owned) thread_pool, false, true);
+			// do not quit if locked
+			if (lock_id != "" && lock_id != "extern"){
+				return;
+			}
 			// do not quit if downloading updates
 			if (alpm_utils.downloading_updates) {
 				return;
 			}
+			// wait for all tasks to be processed
+			ThreadPool.free ((owned) thread_pool, false, true);
 			loop.quit ();
 		}
 	}

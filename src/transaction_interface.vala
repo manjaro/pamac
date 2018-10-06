@@ -45,6 +45,7 @@ namespace Pamac {
 		public signal void emit_totaldownload (uint64 total);
 		public signal void emit_log (uint level, string msg);
 		public signal void set_pkgreason_finished ();
+		public signal void database_modified ();
 		public signal void refresh_finished (bool success);
 		public signal void downloading_updates_finished ();
 		public signal void trans_prepare_finished (bool success);

@@ -34,6 +34,7 @@ namespace Pamac {
 		public Gtk.ApplicationWindow? application_window { get; construct; }
 		// ask_confirmation option
 		public bool no_confirm_upgrade { get; set; }
+		bool review_build_files_answer;
 
 		public TransactionGtk (Database database, Gtk.ApplicationWindow? application_window) {
 			Object (database: database, application_window: application_window);
@@ -84,7 +85,6 @@ namespace Pamac {
 				warning_textbuffer.append (msg + "\n");
 			});
 			emit_error.connect (display_error);
-			refresh_finished.connect (on_refresh_finished);
 			finished.connect (on_finished);
 			sysupgrade_finished.connect (on_finished);
 			start_generating_mirrors_list.connect (start_progressbar_pulse);
@@ -99,6 +99,7 @@ namespace Pamac {
 			// flags
 			set_trans_flags ();
 			no_confirm_upgrade = false;
+			review_build_files_answer = false;
 		}
 
 		void set_trans_flags () {
@@ -229,6 +230,14 @@ namespace Pamac {
 			return index;
 		}
 
+		protected override bool ask_review_build_files () {
+			if (review_build_files_answer) {
+				review_build_files_answer = false;
+				return true;
+			}
+			return false;
+		}
+
 		protected override bool ask_confirmation (TransactionSummary summary) {
 			show_warnings (true);
 			uint must_confirm_length = summary.to_install.length ()
@@ -244,6 +253,7 @@ namespace Pamac {
 			uint64 dsize = 0;
 			transaction_summary.remove_all ();
 			transaction_sum_dialog.sum_list.clear ();
+			transaction_sum_dialog.review_button.visible = false;
 			var iter = Gtk.TreeIter ();
 			if (summary.to_remove.length () > 0) {
 				foreach (unowned Package infos in summary.to_remove) {
@@ -285,6 +295,7 @@ namespace Pamac {
 				transaction_sum_dialog.sum_list.set (iter, 0, "<b>%s</b>".printf (dgettext (null, "To downgrade") + ":"));
 			}
 			if (summary.to_build.length () > 0) {
+				transaction_sum_dialog.review_button.visible = true;
 				foreach (unowned AURPackage infos in summary.to_build) {
 					transaction_summary.add (infos.name);
 					transaction_sum_dialog.sum_list.insert_with_values (out iter, -1,
@@ -344,13 +355,16 @@ namespace Pamac {
 				transaction_sum_dialog.top_label.set_markup ("<b>%s: %s</b>".printf (dgettext (null, "Total download size"), format_size (dsize)));
 				transaction_sum_dialog.top_label.visible = true;
 			}
-			if (transaction_sum_dialog.run () == Gtk.ResponseType.OK) {
+			var response = transaction_sum_dialog.run ();
+			if (response == Gtk.ResponseType.OK) {
 				transaction_sum_dialog.hide ();
 				return true;
-			} else {
-				transaction_sum_dialog.hide ();
-				transaction_summary.remove_all ();
 			}
+			if (response == Gtk.ResponseType.REJECT) {
+				review_build_files_answer = true;
+			}
+			transaction_sum_dialog.hide ();
+			transaction_summary.remove_all ();
 			return false;
 		}
 
@@ -359,6 +373,8 @@ namespace Pamac {
 		}
 
 		protected override async void review_build_files (string pkgname) {
+			string action = dgettext (null, "Review %s build files".printf (pkgname));
+			display_action (action);
 			// remove noteboook from manager_window properties stack
 			unowned Gtk.Stack? stack = build_files_notebook.get_parent () as Gtk.Stack;
 			if (stack != null) {
@@ -371,26 +387,29 @@ namespace Pamac {
 			if (use_header_bar == 1) {
 				flags |= Gtk.DialogFlags.USE_HEADER_BAR;
 			}
-			var dialog = new Gtk.Dialog.with_buttons (dgettext (null, "Review %s build files".printf (pkgname)),
+			var dialog = new Gtk.Dialog.with_buttons (action,
 													application_window,
 													flags);
-			dialog.border_width = 6;
 			dialog.icon_name = "system-software-install";
 			unowned Gtk.Widget widget = dialog.add_button (dgettext (null, "_Close"), Gtk.ResponseType.CLOSE);
+			widget.margin_end = 6;
 			widget.can_focus = true;
 			widget.has_focus = true;
 			widget.can_default = true;
 			widget.has_default = true;
 			unowned Gtk.Box box = dialog.get_content_area ();
+			box.margin_bottom = 6;
+			build_files_notebook.margin = 6;
 			box.add (build_files_notebook);
 			dialog.default_width = 700;
 			dialog.default_height = 500;
 			// populate notebook
-			yield populate_build_files (pkgname, false);
+			yield populate_build_files (pkgname, false, false);
 			// run
 			dialog.run ();
 			// re-add noteboook to manager_window properties stack
 			box.remove (build_files_notebook);
+			build_files_notebook.margin = 0;
 			if (stack != null) {
 				stack.add_named (build_files_notebook, "build_files");
 			}
@@ -434,11 +453,17 @@ namespace Pamac {
 			}
 		}
 
-		public async void populate_build_files (string pkgname, bool overwrite) {
+		public async void populate_build_files (string pkgname, bool clone, bool overwrite) {
 			build_files_notebook.foreach (destroy_widget);
-			string clone_dir_name = yield database.clone_build_files (pkgname, overwrite);
-			if (clone_dir_name != "") {
-				var clone_dir = File.new_for_path (clone_dir_name);
+			File? clone_dir;
+			if (clone) {
+				clone_dir = yield database.clone_build_files (pkgname, overwrite);
+			} else {
+				clone_dir = File.new_for_path (Path.build_path ("/", database.config.aur_build_dir, "pamac-build", pkgname));
+			}
+			if (clone_dir != null) {
+				// diff
+				yield create_build_files_tab (clone_dir, "diff");
 				// PKGBUILD
 				yield create_build_files_tab (clone_dir, "PKGBUILD");
 				// other file
@@ -521,10 +546,10 @@ namespace Pamac {
 					dialog.run ();
 					dialog.destroy ();
 				} else {
-					dialog.show ();
 					dialog.response.connect (() => {
 						dialog.destroy ();
 					});
+					dialog.show ();
 				}
 				warning_textbuffer = new StringBuilder ();
 			}
@@ -587,11 +612,6 @@ namespace Pamac {
 			dialog.destroy ();
 		}
 
-		void on_refresh_finished (bool success) {
-			reset_progress_box ();
-			show_in_term ("");
-		}
-
 		void on_finished (bool success) {
 			if (success) {
 				try {
@@ -602,11 +622,13 @@ namespace Pamac {
 				} catch (Error e) {
 					stderr.printf ("Notify Error: %s", e.message);
 				}
+				show_warnings (false);
+			} else {
+				warning_textbuffer = new StringBuilder ();
 			}
 			transaction_summary.remove_all ();
 			reset_progress_box ();
 			show_in_term ("");
-			show_warnings (false);
 		}
 	}
 }

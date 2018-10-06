@@ -29,7 +29,6 @@ namespace Pamac {
 		internal Mutex provider_mutex;
 		internal int? choosen_provider;
 		internal bool force_refresh;
-		internal bool refreshed;
 		internal bool enable_downgrade;
 		internal int flags;
 		string[] to_syncfirst;
@@ -72,7 +71,6 @@ namespace Pamac {
 			refresh_handle ();
 			cancellable = new Cancellable ();
 			curl = new Curl.Easy ();
-			refreshed = false;
 			downloading_updates = false;
 			Curl.global_init (Curl.GLOBAL_SSL);
 		}
@@ -198,7 +196,6 @@ namespace Pamac {
 			if (cancellable.is_cancelled ()) {
 				refresh_finished (false);
 			} else if (success) {
-				refreshed = true;
 				refresh_finished (true);
 			} else {
 				current_error.message = _("Failed to synchronize any databases");
@@ -281,7 +278,7 @@ namespace Pamac {
 		internal int download_updates () {
 			downloading_updates = true;
 			// use tmp handle
-			var handle = alpm_config.get_handle (false, true, false);
+			var handle = alpm_config.get_handle (false, true);
 			handle.fetchcb = (Alpm.FetchCallBack) cb_fetch;
 			cancellable.reset ();
 			int success = handle.trans_init (Alpm.TransFlag.DOWNLOADONLY);
@@ -899,6 +896,14 @@ namespace Pamac {
 					}
 					trans_release ();
 					if (success) {
+						// remove syncfirsts from to_install
+						string[] to_install_backup = to_install;
+						to_install = {};
+						foreach (unowned string name in to_install_backup) {
+							if (!(name in to_syncfirst)) {
+								to_install += name;
+							}
+						}
 						success = trans_init (flags);
 						if (success && sysupgrade) {
 							success = trans_sysupgrade ();
@@ -929,7 +934,14 @@ namespace Pamac {
 						}
 						if (success) {
 							success = trans_prepare_real ();
-						} else {
+							// continue if needed
+							if (success && (alpm_handle.trans_to_add ().length + alpm_handle.trans_to_remove ().length) == 0) {
+								trans_release ();
+								trans_commit_finished (success);
+								return;
+							}
+						}
+						if (!success) {
 							trans_release ();
 						}
 					}

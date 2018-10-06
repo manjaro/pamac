@@ -90,7 +90,7 @@ namespace Pamac {
 		}
 
 		public void left_clicked () {
-			if (get_icon () == "pamac-tray-update") {
+			if (updates_nb > 0) {
 				execute_updater ();
 			} else {
 				execute_manager ();
@@ -116,8 +116,6 @@ namespace Pamac {
 		public abstract void set_tooltip (string info);
 
 		public abstract void set_icon (string icon);
-
-		public abstract string get_icon ();
 
 		public abstract void set_icon_visible (bool visible);
 
@@ -156,7 +154,7 @@ namespace Pamac {
 							}
 							// refresh files dbs in tmp
 							var database = new Database (config);
-							database.refresh_files_dbs ();
+							database.refresh_tmp_files_dbs.begin ();
 						} else {
 							set_icon (noupdate_icon_name);
 							set_tooltip (noupdate_info);
@@ -179,7 +177,6 @@ namespace Pamac {
 		void on_write_pamac_config_finished (bool recurse, uint64 refresh_period, bool no_update_hide_icon,
 											bool enable_aur, string aur_build_dir, bool check_aur_updates,
 											bool download_updates) {
-			set_icon_visible (!no_update_hide_icon);
 			launch_refresh_timeout (refresh_period);
 			check_updates ();
 		}

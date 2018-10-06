@@ -51,6 +51,7 @@ namespace Pamac {
 				trans_prepare_finished (success);
 			});
 			alpm_utils.trans_commit_finished.connect ((success) => {
+				database_modified ();
 				trans_commit_finished (success);
 			});
 			// set user agent
@@ -98,6 +99,7 @@ namespace Pamac {
 			alpm_utils.alpm_config.write (new_alpm_conf);
 			alpm_utils.alpm_config.reload ();
 			alpm_utils.refresh_handle ();
+			database_modified ();
 			write_alpm_config_finished ((alpm_utils.alpm_handle.checkspace == 1));
 		}
 
@@ -120,6 +122,7 @@ namespace Pamac {
 			}
 			alpm_utils.alpm_config.reload ();
 			alpm_utils.refresh_handle ();
+			database_modified ();
 			generate_mirrors_list_finished ();
 		}
 
@@ -144,6 +147,7 @@ namespace Pamac {
 
 		async void set_pkgreason (string pkgname, uint reason) {
 			alpm_utils.set_pkgreason (pkgname, reason);
+			database_modified ();
 			set_pkgreason_finished ();
 		}
 

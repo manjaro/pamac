@@ -50,7 +50,7 @@ executable('pamac-system-daemon',
 
 libpamac = library('pamac',
 	sources: [common_sources, 'error.vala', 'alpm_config.vala', 'aur.vala', 'database.vala', 'transaction_interface.vala', 'alpm_utils.vala', 'transaction_interface_root.vala', 'transaction_interface_daemon.vala', 'transaction.vala'],
-	dependencies: [gio, posix, math, json, appstream, libsoup, libalpm, libcurl],
+	dependencies: [alpm_deps, math, json, appstream, libsoup, libcurl],
 	vala_args: [common_vala_args, alpm_vala_args, '--thread'],
 	c_args: [common_c_args, alpm_c_args],
 	vala_gir: 'Pamac-1.0.gir',
