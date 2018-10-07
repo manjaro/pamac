@@ -174,7 +174,7 @@ namespace Pamac {
 				var file = GLib.File.new_for_path (tmp_dbpath);
 				if (file.query_exists ()) {
 					try {
-						Process.spawn_command_line_sync ("cp -au %s/sync %s".printf (tmp_dbpath, alpm_handle.dbpath));
+						Process.spawn_command_line_sync ("cp -ru %s/sync %s".printf (tmp_dbpath, alpm_handle.dbpath));
 					} catch (SpawnError e) {
 						stderr.printf ("SpawnError: %s\n", e.message);
 					}
@@ -665,6 +665,12 @@ namespace Pamac {
 				// emit warnings here
 				alpm_handle.logcb = (Alpm.LogCallBack) cb_log;
 				// fake aur db
+				string tmp_dbpath = "/tmp/pamac-checkdbs";
+				try {
+					Process.spawn_command_line_sync ("cp %s/sync/aur.db %ssync".printf (tmp_dbpath, alpm_handle.dbpath));
+				} catch (SpawnError e) {
+					stderr.printf ("SpawnError: %s\n", e.message);
+				}
 				alpm_handle.register_syncdb ("aur", 0);
 				// add to_build in to_install for the fake trans prepare
 				foreach (unowned string name in to_build) {
@@ -790,11 +796,6 @@ namespace Pamac {
 								pkgs_to_remove.next ();
 							}
 							trans_release ();
-							try {
-								Process.spawn_command_line_sync ("rm -f %ssync/aur.db".printf (alpm_handle.dbpath));
-							} catch (SpawnError e) {
-								stderr.printf ("SpawnError: %s\n", e.message);
-							}
 							// get standard handle
 							refresh_handle ();
 							// warnings already emitted
@@ -807,6 +808,11 @@ namespace Pamac {
 					} else {
 						trans_release ();
 					}
+				}
+				try {
+					Process.spawn_command_line_sync ("rm -f %ssync/aur.db".printf (alpm_handle.dbpath));
+				} catch (SpawnError e) {
+					stderr.printf ("SpawnError: %s\n", e.message);
 				}
 				if (!success) {
 					// get standard handle

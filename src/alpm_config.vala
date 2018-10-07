@@ -143,10 +143,10 @@ internal class AlpmConfig {
 				var file = GLib.File.new_for_path (tmp_dbpath);
 				if (!file.query_exists ()) {
 					Process.spawn_command_line_sync ("mkdir -p %s/sync".printf (tmp_dbpath));
-					Process.spawn_command_line_sync ("chmod -R 777 %s/sync".printf (tmp_dbpath));
+					Process.spawn_command_line_sync ("chmod -R ugo+w %s".printf (tmp_dbpath));
 				}
 				Process.spawn_command_line_sync ("ln -sf %slocal %s".printf (dbpath, tmp_dbpath));
-				Process.spawn_command_line_sync ("cp -au %ssync %s".printf (dbpath, tmp_dbpath));
+				Process.spawn_command_line_sync ("cp -ru %ssync %s".printf (dbpath, tmp_dbpath));
 				handle = new Alpm.Handle (rootdir, tmp_dbpath, out error);
 				if (error == Alpm.Errno.DB_VERSION) {
 					try {

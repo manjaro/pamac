@@ -374,8 +374,6 @@ namespace Pamac {
 				scroll_to_top = false;
 				refresh_packages_list ();
 			});
-			// refresh files dbs in tmp in background
-			database.refresh_tmp_files_dbs.begin ();
 
 			transaction = new TransactionGtk (database, this);
 			transaction.start_preparing.connect (on_start_preparing);
@@ -424,11 +422,14 @@ namespace Pamac {
 
 			// create screenshots tmp dir
 			string screenshots_tmp_dir = "/tmp/pamac-app-screenshots";
-			try {
-				Process.spawn_command_line_sync ("mkdir -p %s".printf (screenshots_tmp_dir));
-				Process.spawn_command_line_sync ("chmod -R 777 %s".printf (screenshots_tmp_dir));
-			} catch (SpawnError e) {
-				stderr.printf ("SpawnError: %s\n", e.message);
+			var file = GLib.File.new_for_path (screenshots_tmp_dir);
+			if (!file.query_exists ()) {
+				try {
+					Process.spawn_command_line_sync ("mkdir -p %s".printf (screenshots_tmp_dir));
+					Process.spawn_command_line_sync ("chmod -R ugo+w %s".printf (screenshots_tmp_dir));
+				} catch (SpawnError e) {
+					stderr.printf ("SpawnError: %s\n", e.message);
+				}
 			}
 		}
 

@@ -185,10 +185,12 @@ namespace Pamac {
 						display_build_help ();
 					} else if (args[2] == "--builddir") {
 						init_transaction ();
-						transaction.database.config.aur_build_dir = args[3];
+						database.config.enable_aur = true;
+						database.config.aur_build_dir = args[3];
 						build_pkgs (args[4:args.length]);
 					} else {
 						init_transaction ();
+						database.config.enable_aur = true;
 						build_pkgs (args[2:args.length]);
 					}
 				} else {
@@ -289,10 +291,10 @@ namespace Pamac {
 							exit_status = 1;
 							return;
 						}
-						transaction.database.config.enable_aur = true;
-						transaction.database.config.check_aur_updates = true;
+						database.config.enable_aur = true;
+						database.config.check_aur_updates = true;
 					} else if (arg == "--builddir") {
-						transaction.database.config.aur_build_dir = args[i+1];
+						database.config.aur_build_dir = args[i+1];
 						i++;
 					} else if (arg == "--force-refresh") {
 						force_refresh = true;

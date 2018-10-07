@@ -291,8 +291,8 @@ namespace Pamac {
 					list.append (name_version);
 					list.append (" ");
 				}
-				Process.spawn_command_line_sync ("rm -f %ssync/aur.db".printf (database.get_db_path ()));
-				Process.spawn_command_line_sync ("bsdtar -cf %ssync/aur.db -C %s %s".printf (database.get_db_path (), aurdb_path, list.str));
+				Process.spawn_command_line_sync ("rm -f %ssync/aur.db".printf (database.get_tmp_db_path ()));
+				Process.spawn_command_line_sync ("bsdtar -cf %ssync/aur.db -C %s %s".printf (database.get_tmp_db_path (), aurdb_path, list.str));
 			} catch (SpawnError e) {
 				stderr.printf ("SpawnError: %s\n", e.message);
 			}

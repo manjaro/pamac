@@ -69,12 +69,13 @@ namespace Pamac {
 
 		public void refresh () {
 			alpm_config = new AlpmConfig ("/etc/pacman.conf");
-			alpm_handle = alpm_config.get_handle ();
+			// use tmp dbs
+			alpm_handle = alpm_config.get_handle (false, true);
 			if (alpm_handle == null) {
 				critical (dgettext (null, "Failed to initialize alpm library"));
 				return;
 			} else {
-				files_handle = alpm_config.get_handle (true);
+				files_handle = alpm_config.get_handle (true, true);
 			}
 			refreshed ();
 		}
@@ -120,16 +121,12 @@ namespace Pamac {
 			return country;
 		}
 
-		public string get_db_path () {
+		internal string get_tmp_db_path () {
 			return alpm_handle.dbpath;
 		}
 
 		public bool get_checkspace () {
 			return alpm_handle.checkspace == 1 ? true : false;
-		}
-
-		public string get_lockfile () {
-			return alpm_handle.lockfile;
 		}
 
 		public List<string> get_ignorepkgs () {
@@ -1407,9 +1404,8 @@ namespace Pamac {
 			return get_aur_updates_real (yield aur_multiinfo (local_pkgs));
 		}
 
-		public async void refresh_tmp_files_dbs () {
-			var tmp_files_handle = alpm_config.get_handle (true, true);
-			unowned Alpm.List<unowned Alpm.DB> syncdbs = tmp_files_handle.syncdbs;
+		public void refresh_tmp_files_dbs () {
+			unowned Alpm.List<unowned Alpm.DB> syncdbs = files_handle.syncdbs;
 			while (syncdbs != null) {
 				unowned Alpm.DB db = syncdbs.data;
 				db.update (0);

@@ -28,6 +28,7 @@ namespace Pamac {
 	[DBus (name = "org.manjaro.pamac.system")]
 	interface SystemDaemon : Object {
 		public abstract void set_environment_variables (HashTable<string,string> variables) throws Error;
+		public abstract string get_lockfile () throws Error;
 		public abstract void start_download_updates () throws Error;
 		[DBus (no_reply = true)]
 		public abstract void quit () throws Error;
@@ -154,7 +155,7 @@ namespace Pamac {
 							}
 							// refresh files dbs in tmp
 							var database = new Database (config);
-							database.refresh_tmp_files_dbs.begin ();
+							database.refresh_tmp_files_dbs ();
 						} else {
 							set_icon (noupdate_icon_name);
 							set_tooltip (noupdate_info);
@@ -304,11 +305,15 @@ namespace Pamac {
 			Notify.init (_("Package Manager"));
 
 			start_system_daemon (config.environment_variables);
-			// start and stop daemon just to connect to signal
+			string lockfile_str = "/var/lib/pacman/db.lck";
+			try {
+				lockfile_str = system_daemon.get_lockfile ();
+			} catch (Error e) {
+				stderr.printf ("Error: %s\n", e.message);
+			}
 			stop_system_daemon ();
 
-			var database = new Database (config);
-			lockfile = GLib.File.new_for_path (database.get_lockfile ());
+			lockfile = GLib.File.new_for_path (lockfile_str);
 			Timeout.add (200, check_extern_lock);
 			// wait 30 seconds before check updates
 			Timeout.add_seconds (30, () => {
