@@ -57,23 +57,23 @@ class GetInfosCase(unittest.TestCase):
 
     def test_pacman_installed(self):
         """pacman installed for tests"""
-        pkg = self.db.get_pkg_details("pacman", "")
+        pkg = self.db.get_pkg_details("pacman", "", False)
         self.assertEqual("pacman", pkg.get_name())
         self.assertIsNotNone(pkg.props.installed_version)
 
     def test_not_installed(self):
         """detect not installed"""
         # package not exist
-        pkg = self.db.get_pkg_details("toto-test", "")
+        pkg = self.db.get_pkg_details("toto-test", "", False)
         self.assertNotEqual("toto-test", pkg.get_name())
         self.assertEqual(pkg.props.installed_version, "")
         # package exist
-        pkg = self.db.get_pkg_details("ruby-yard", "")
+        pkg = self.db.get_pkg_details("ruby-yard", "", False)
         self.assertEqual(pkg.props.installed_version, "")
 
     def test_giobject_detail_name(self):
         """attrs .props are same as fonctions"""
-        pkg = self.db.get_pkg_details("pacman", "")
+        pkg = self.db.get_pkg_details("pacman", "", False)
         self.assertEqual(pkg.props.name, pkg.get_name())
 
     def test_giobject_search_name(self):
@@ -127,7 +127,7 @@ class GetInfosCase(unittest.TestCase):
                 with self.subTest(pkg=pkg):
                     fdesc = f"/var/lib/pacman/local/{pkg.props.name}-{pkg.props.version}/desc"
                     self.assertTrue(os.path.exists(fdesc))
-                    package = self.db.get_pkg_details(pkg.props.name, "")
+                    package = self.db.get_pkg_details(pkg.props.name, "", False)
                     result = get_item_desc(fdesc, "%DEPENDS%")
                     for dep in result:
                         self.assertIn(dep, package.props.depends)
@@ -149,7 +149,7 @@ class GetInfosCase(unittest.TestCase):
 
     def test_date_detail_pacman(self):
         """valid date and locale date"""
-        pkg = self.db.get_pkg_details("pacman", "")
+        pkg = self.db.get_pkg_details("pacman", "", False)
         fdesc = f"/var/lib/pacman/local/{pkg.props.name}-{pkg.props.version}/desc"
         self.assertTrue(os.path.exists(fdesc))
         result = get_item_desc(fdesc, "%BUILDDATE%")
@@ -159,7 +159,7 @@ class GetInfosCase(unittest.TestCase):
 
     def test_files(self):
         """files same as pacman db"""
-        pkg = self.db.get_pkg_details("pacman", "")
+        pkg = self.db.get_pkg_details("pacman", "", False)
         fdesc = f"/var/lib/pacman/local/{pkg.props.name}-{pkg.props.version}/files"
         self.assertTrue(os.path.exists(fdesc))
         myfiles = self.db.get_pkg_files("pacman")

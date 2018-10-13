@@ -30,8 +30,8 @@ namespace Pamac {
 		public abstract void start_set_pkgreason (string pkgname, uint reason);
 		public abstract void start_refresh (bool force);
 		public abstract void start_downloading_updates ();
-		public abstract void start_sysupgrade_prepare (bool enable_downgrade, string[] temporary_ignorepkgs, string[] to_build, string[] overwrite_files);
-		public abstract void start_trans_prepare (int transflags, string[] to_install, string[] to_remove, string[] to_load, string[] to_build, string[] overwrite_files);
+		public abstract void start_sysupgrade_prepare (bool enable_downgrade, string[] to_build, string[] temporary_ignorepkgs, string[] overwrite_files);
+		public abstract void start_trans_prepare (int transflags, string[] to_install, string[] to_remove, string[] to_load, string[] to_build, string[] temporary_ignorepkgs, string[] overwrite_files);
 		public abstract void choose_provider (int provider);
 		public abstract TransactionSummaryStruct get_transaction_summary ();
 		public abstract void start_trans_commit ();
@@ -40,6 +40,7 @@ namespace Pamac {
 		public abstract void quit_daemon ();
 		public signal void emit_event (uint primary_event, uint secondary_event, string[] details);
 		public signal void emit_providers (string depend, string[] providers);
+		public signal void emit_unresolvables (string[] unresolvables);
 		public signal void emit_progress (uint progress, string pkgname, uint percent, uint n_targets, uint current_target);
 		public signal void emit_download (string filename, uint64 xfered, uint64 total);
 		public signal void emit_totaldownload (uint64 total);

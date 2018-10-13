@@ -47,7 +47,7 @@ namespace Pamac {
 		GenericSet<string?> aur_desc_list;
 		Queue<string> to_build_queue;
 		string[] aur_pkgs_to_install;
-		GenericSet<string?> build_files_reviewed;
+		string[] aur_unresolvables;
 		bool building;
 		Cancellable build_cancellable;
 		// download data
@@ -113,11 +113,10 @@ namespace Pamac {
 			temporary_ignorepkgs = {};
 			overwrite_files = {};
 			// building data
-			aurdb_path = "/tmp/pamac-aur";
+			aurdb_path = "/tmp/pamac/aur-%s".printf (Environment.get_user_name ());
 			already_checked_aur_dep = new GenericSet<string?> (str_hash, str_equal);
 			aur_desc_list = new GenericSet<string?> (str_hash, str_equal);
 			to_build_queue = new Queue<string> ();
-			build_files_reviewed = new GenericSet<string?> (str_hash, str_equal);
 			build_cancellable = new Cancellable ();
 			building = false;
 			// download data
@@ -128,39 +127,82 @@ namespace Pamac {
 			transaction_interface.quit_daemon ();
 		}
 
-		protected virtual bool ask_confirmation (TransactionSummary summary) {
+		protected virtual bool ask_commit (TransactionSummary summary) {
 			// no confirm
 			return true;
 		}
 
-		protected virtual bool ask_review_build_files () {
-			// no review
+		protected virtual bool ask_edit_build_files (TransactionSummary summary) {
+			// no edit
 			return false;
 		}
 
-		protected virtual async void review_build_files (string pkgname) {
-			// nothing
+		protected virtual async bool edit_build_files (string[] pkgnames) {
+			// success
+			return true;
 		}
 
-		protected async void regenerate_srcinfo (string pkgname) {
-			string pkgdir_name = Path.build_path ("/", database.config.aur_build_dir, "pamac-build", pkgname);
+		protected async string[] get_build_files (string pkgname) {
+			string pkgdir_name = Path.build_path ("/", database.config.aur_build_dir, pkgname);
+			string[] files = {};
+			// PKGBUILD
+			files += Path.build_path ("/", pkgdir_name, "PKGBUILD");
+			var srcinfo = File.new_for_path (Path.build_path ("/", pkgdir_name, ".SRCINFO"));
+			try {
+				// read .SRCINFO
+				var dis = new DataInputStream (srcinfo.read ());
+				string line;
+				while ((line = yield dis.read_line_async ()) != null) {
+					if ("source = " in line) {
+						string source = line.split (" = ", 2)[1];
+						if (!("://" in source)) {
+							string source_path = Path.build_path ("/", pkgdir_name, source);
+							var source_file = File.new_for_path (source_path);
+							if (source_file.query_exists ()) {
+								files += source_path;
+							}
+						}
+					} else if ("install = " in line) {
+						string install = line.split (" = ", 2)[1];
+						string install_path = Path.build_path ("/", pkgdir_name, install);
+						var install_file = File.new_for_path (install_path);
+						if (install_file.query_exists ()) {
+							files += install_path;
+						}
+					}
+				}
+			} catch (GLib.Error e) {
+				stderr.printf("Error: %s\n", e.message);
+			}
+			return files;
+		}
+
+		protected async bool regenerate_srcinfo (string pkgname) {
+			string pkgdir_name = Path.build_path ("/", database.config.aur_build_dir, pkgname);
 			// generate .SRCINFO
 			var launcher = new SubprocessLauncher (SubprocessFlags.STDOUT_PIPE);
 			launcher.set_cwd (pkgdir_name);
+			emit_action (dgettext (null, "Generating %s informations").printf (pkgname) + "...");
 			try {
 				Subprocess process = launcher.spawnv ({"makepkg", "--printsrcinfo"});
 				yield process.wait_async ();
-				var dis = new DataInputStream (process.get_stdout_pipe ());
-				var file = File.new_for_path (Path.build_path ("/", pkgdir_name, ".SRCINFO"));
-				// delete the file before rewrite it
-				yield file.delete_async ();
-				// creating a DataOutputStream to the file
-				var dos = new DataOutputStream (yield file.create_async (FileCreateFlags.REPLACE_DESTINATION));
-				// writing makepkg output to .SRCINFO
-				yield dos.splice_async (dis, 0);
+				if (process.get_if_exited ()) {
+					if (process.get_exit_status () == 0) {
+						var dis = new DataInputStream (process.get_stdout_pipe ());
+						var file = File.new_for_path (Path.build_path ("/", pkgdir_name, ".SRCINFO"));
+						// delete the file before rewrite it
+						yield file.delete_async ();
+						// creating a DataOutputStream to the file
+						var dos = new DataOutputStream (yield file.create_async (FileCreateFlags.REPLACE_DESTINATION));
+						// writing makepkg output to .SRCINFO
+						yield dos.splice_async (dis, 0);
+						return true;
+					}
+				}
 			} catch (Error e) {
 				stderr.printf ("Error: %s\n", e.message);
 			}
+			return false;
 		}
 
 		protected virtual int choose_provider (string depend, string[] providers) {
@@ -275,171 +317,301 @@ namespace Pamac {
 			downloading_updates_finished ();
 		}
 
-		async void compute_aur_build_list () {
+		async bool compute_aur_build_list () {
+			string tmp_path = "/tmp/pamac";
 			try {
+				var file = GLib.File.new_for_path (tmp_path);
+				if (!file.query_exists ()) {
+					Process.spawn_command_line_sync ("mkdir -p %s".printf (tmp_path));
+					Process.spawn_command_line_sync ("chmod a+w %s".printf (tmp_path));
+				}
 				Process.spawn_command_line_sync ("mkdir -p %s".printf (aurdb_path));
 			} catch (SpawnError e) {
 				stderr.printf ("SpawnError: %s\n", e.message);
 			}
 			aur_desc_list.remove_all ();
 			already_checked_aur_dep.remove_all ();
-			yield check_aur_dep_list (to_build);
-			// create a fake aur db
-			try {
-				var list = new StringBuilder ();
-				foreach (unowned string name_version in aur_desc_list) {
-					list.append (name_version);
-					list.append (" ");
+			bool success = yield check_aur_dep_list (to_build);
+			if (success) {
+				// create a fake aur db
+				try {
+					var list = new StringBuilder ();
+					foreach (unowned string name_version in aur_desc_list) {
+						list.append (name_version);
+						list.append (" ");
+					}
+					Process.spawn_command_line_sync ("rm -f %s/aur.db".printf (tmp_path));
+					Process.spawn_command_line_sync ("bsdtar -cf %s/aur.db -C %s %s".printf (tmp_path, aurdb_path, list.str));
+				} catch (SpawnError e) {
+					stderr.printf ("SpawnError: %s\n", e.message);
+					success = false;
 				}
-				Process.spawn_command_line_sync ("rm -f %ssync/aur.db".printf (database.get_tmp_db_path ()));
-				Process.spawn_command_line_sync ("bsdtar -cf %ssync/aur.db -C %s %s".printf (database.get_tmp_db_path (), aurdb_path, list.str));
-			} catch (SpawnError e) {
-				stderr.printf ("SpawnError: %s\n", e.message);
 			}
+			return success;
 		}
 
-		async void check_aur_dep_list (string[] pkgnames) {
+		async bool check_aur_dep_list (string[] pkgnames) {
 			string[] dep_to_check = {};
-			foreach (unowned string name in pkgnames) {
+			foreach (unowned string pkgname in pkgnames) {
 				if (build_cancellable.is_cancelled ()) {
-					break;
+					return false;
 				}
 				string version = "";
 				string pkgbase = "";
 				string desc = "";
-				string[] depends = {};
-				string[] conflicts = {};
-				string[] provides = {};
-				string[] replaces = {};
-				// clone build files
-				emit_action (dgettext (null, "Checking %s dependencies".printf (name)) + "...");
-				File? clone_dir = yield database.clone_build_files (name, false);
+				string[] global_depends = {};
+				string[] global_checkdepends = {};
+				string[] global_makedepends = {};
+				string[] global_conflicts = {};
+				string[] global_provides = {};
+				string[] global_replaces = {};
+				File? clone_dir;
+				var aur_pkg = yield database.get_aur_pkg (pkgname);
+				if (aur_pkg.name == "") {
+					emit_error (dgettext (null, "target not found: %s").printf (pkgname), {});
+					return false;
+				} else {
+					// clone build files
+					emit_action (dgettext (null, "Checking %s dependencies".printf (pkgname)) + "...");
+					if (aur_pkg.name != aur_pkg.packagebase) {
+						// we have a split package
+						clone_dir = yield database.clone_build_files (aur_pkg.packagebase, false);
+					} else {
+						clone_dir = yield database.clone_build_files (aur_pkg.name, false);
+					}
+				}
 				if (clone_dir == null) {
 					// error
-					continue;
+					return false;
 				}
-				// read .SRCINFO
 				var srcinfo = clone_dir.get_child (".SRCINFO");
 				try {
+					// read .SRCINFO
 					var dis = new DataInputStream (srcinfo.read ());
 					string line;
-					while ((line = dis.read_line ()) != null) {
+					string current_section = "";
+					bool current_section_is_pkgbase = true;
+					string arch = Posix.utsname ().machine;
+					string[] pkgnames_found = {};
+					var pkgnames_table = new HashTable<string, AURPackageDetailsStruct?> (str_hash, str_equal);
+					while ((line = yield dis.read_line_async ()) != null) {
 						if ("pkgbase = " in line) {
-							pkgbase = line.split ("pkgbase = ", 2)[1];
+							pkgbase = line.split (" = ", 2)[1];
 						} else if ("pkgdesc = " in line) {
-							desc = line.split ("pkgdesc = ", 2)[1];
+							desc = line.split (" = ", 2)[1];
+							if (!current_section_is_pkgbase) {
+								unowned AURPackageDetailsStruct? details_struct = pkgnames_table.get (current_section);
+								if (details_struct != null) {
+									details_struct.desc = desc;
+								}
+							}
 						} else if ("pkgver = " in line) {
 							version = line.split ("pkgver = ", 2)[1];
 						} else if ("pkgrel = " in line) {
 							version += "-";
 							version += line.split ("pkgrel = ", 2)[1];
-						// compute depends, makedepends and checkdepends in depends
-						} else if ("checkdepends = " in line) {
-							depends += line.split ("checkdepends = ", 2)[1];
-						} else if ("makedepends = " in line) {
-							depends += line.split ("makedepends = ", 2)[1];
-						} else if ("optdepends = " in line) {
+						} else if ("epoch = " in line) {
+							version = "%s:%s".printf (line.split (" = ", 2)[1], version);
+						// don't compute optdepends, it will be done by makepkg
+						} else if ("optdepends" in line) {
 							// pass
 							continue;
-						} else if ("depends = " in line) {
-							depends += line.split ("depends = ", 2)[1];
-						} else if ("provides = " in line) {
-							provides += line.split ("provides = ", 2)[1];
-						} else if ("conflicts = " in line) {
-							conflicts += line.split ("conflicts = ", 2)[1];
-						} else if ("replaces = " in line) {
-							replaces += line.split ("replaces = ", 2)[1];
-						}
-					}
-					// check deps
-					foreach (unowned string dep_string in depends) {
-						var pkg = database.find_installed_satisfier (dep_string);
-						if (pkg.name == "") {
-							pkg = database.find_sync_satisfier (dep_string);
-						}
-						if (pkg.name == "") {
-							string dep_name = Alpm.Depend.from_string (dep_string).name;
-							if (!(dep_name in already_checked_aur_dep)) {
-								already_checked_aur_dep.add (dep_name);
-								var aur_pkg = yield database.get_aur_pkg (dep_name);
-								if (aur_pkg.name != "") {
-									dep_to_check += (owned) dep_name;
+						// compute depends, makedepends and checkdepends:
+						// list name may contains arch, e.g. depends_x86_64
+						// depends, provides, replaces and conflicts in pkgbase section are stored
+						// in order to be added after if the list in pkgname is empty,
+						// makedepends and checkdepends will be added in depends
+						} else if ("depends" in line) {
+							if ("depends = " in line || "depends_%s = ".printf (arch) in line) {
+								string depend = line.split (" = ", 2)[1];
+								if (current_section_is_pkgbase){
+									if ("checkdepends" in line) {
+										global_checkdepends += depend;
+									} else if ("makedepends" in line) {
+										global_makedepends += depend;
+									} else {
+										global_depends += depend;
+									}
+								} else {
+									unowned AURPackageDetailsStruct? details_struct = pkgnames_table.get (current_section);
+									if (details_struct != null) {
+										details_struct.depends += depend;
+									}
 								}
+							}
+						} else if ("provides" in line) {
+							if ("provides = " in line || "provides_%s = ".printf (arch) in line) {
+								string provide = line.split (" = ", 2)[1];
+								if (current_section_is_pkgbase) {
+									global_provides += provide;
+								} else {
+									unowned AURPackageDetailsStruct? details_struct = pkgnames_table.get (current_section);
+									if (details_struct != null) {
+										details_struct.provides += provide;
+									}
+								}
+							}
+						} else if ("conflicts" in line) {
+							if ("conflicts = " in line || "conflicts_%s = ".printf (arch) in line) {
+								string conflict = line.split (" = ", 2)[1];
+								if (current_section_is_pkgbase) {
+									global_conflicts += conflict;
+								} else {
+									unowned AURPackageDetailsStruct? details_struct = pkgnames_table.get (current_section);
+									if (details_struct != null) {
+										details_struct.conflicts += conflict;
+									}
+								}
+							}
+						} else if ("replaces" in line) {
+							if ("replaces = " in line || "replaces_%s = ".printf (arch) in line) {
+								string replace = line.split (" = ", 2)[1];
+								if (current_section_is_pkgbase) {
+									global_replaces += replace;
+								} else {
+									unowned AURPackageDetailsStruct? details_struct = pkgnames_table.get (current_section);
+									if (details_struct != null) {
+										details_struct.replaces += replace;
+									}
+								}
+							}
+						} else if ("pkgname = " in line) {
+							string pkgname_found = line.split (" = ", 2)[1];
+							current_section = pkgname_found;
+							current_section_is_pkgbase = false;
+							pkgnames_found += pkgname_found;
+							if (!pkgnames_table.contains (pkgname_found)) {
+								var details_struct = AURPackageDetailsStruct () {
+									name = pkgname_found,
+									version = version,
+									desc = desc,
+									packagebase = pkgbase
+								};
+								pkgnames_table.insert (pkgname_found, (owned) details_struct);
 							}
 						}
 					}
-					// write desc file
-					string pkgdir = "%s-%s".printf (name, version);
-					string pkgdir_path = "%s/%s".printf (aurdb_path, pkgdir);
-					aur_desc_list.add (pkgdir);
-					var file = GLib.File.new_for_path (pkgdir_path);
-					// always recreate desc in case of .SRCINFO modifications
-					if (file.query_exists ()) {
-						Process.spawn_command_line_sync ("rm -rf %s".printf (pkgdir_path));
-					}
-					file.make_directory ();
-					file = GLib.File.new_for_path ("%s/desc".printf (pkgdir_path));
-					// creating a DataOutputStream to the file
-					var dos = new DataOutputStream (file.create (FileCreateFlags.REPLACE_DESTINATION));
-					// fake filename
-					dos.put_string ("%FILENAME%\n" + "%s-%s-any.pkg.tar.xz\n\n".printf (name, version));
-					// name
-					dos.put_string ("%NAME%\n%s\n\n".printf (name));
-					// version
-					dos.put_string ("%VERSION%\n%s\n\n".printf (version));
-					// base
-					dos.put_string ("%BASE%\n%s\n\n".printf (pkgbase));
-					// desc
-					dos.put_string ("%DESC%\n%s\n\n".printf (desc));
-					// version
-					dos.put_string ("%VERSION%\n%s\n\n".printf (version));
-					// fake arch
-					dos.put_string ("%ARCH%\nany\n\n");
-					// depends
-					if (depends.length > 0) {
-						dos.put_string ("%DEPENDS%\n");
-						foreach (unowned string depend in depends) {
-							dos.put_string ("%s\n".printf (depend));
+					// create fake aur db entries
+					foreach (unowned string pkgname_found in pkgnames_found) {
+						unowned AURPackageDetailsStruct? details_struct = pkgnames_table.get (pkgname_found);
+						// populate empty list will global ones
+						if (global_depends.length > 0 && details_struct.depends.length == 0) {
+							details_struct.depends = (owned) global_depends;
 						}
-						dos.put_string ("\n");
-					}
-					// conflicts
-					if (conflicts.length > 0) {
-						dos.put_string ("%CONFLICTS%\n");
-						foreach (unowned string conflict in conflicts) {
-							dos.put_string ("%s\n".printf (conflict));
+						if (global_provides.length > 0 && details_struct.provides.length == 0) {
+							details_struct.provides = (owned) global_provides;
 						}
-						dos.put_string ("\n");
-					}
-					// provides
-					if (provides.length > 0) {
-						dos.put_string ("%PROVIDES%\n");
-						foreach (unowned string provide in provides) {
-							dos.put_string ("%s\n".printf (provide));
+						if (global_conflicts.length > 0 && details_struct.conflicts.length == 0) {
+							details_struct.conflicts = (owned) global_conflicts;
 						}
-						dos.put_string ("\n");
-					}
-					// replaces
-					if (replaces.length > 0) {
-						dos.put_string ("%REPLACES%\n");
-						foreach (unowned string replace in replaces) {
-							dos.put_string ("%s\n".printf (replace));
+						if (global_replaces.length > 0 && details_struct.replaces.length == 0) {
+							details_struct.replaces = (owned) global_replaces;
 						}
-						dos.put_string ("\n");
+						// add checkdepends and makedepends in depends
+						if (global_checkdepends.length > 0 ) {
+							foreach (unowned string depend in global_checkdepends) {
+								details_struct.depends += depend;
+							}
+						}
+						if (global_makedepends.length > 0 ) {
+							foreach (unowned string depend in global_makedepends) {
+								details_struct.depends += depend;
+							}
+						}
+						// check deps
+						already_checked_aur_dep.add (pkgname_found);
+						foreach (unowned string dep_string in details_struct.depends) {
+							var pkg = database.find_installed_satisfier (dep_string);
+							if (pkg.name == "") {
+								pkg = database.find_sync_satisfier (dep_string);
+							}
+							if (pkg.name == "") {
+								string dep_name = Alpm.Depend.from_string (dep_string).name;
+								if (!(dep_name in already_checked_aur_dep)) {
+									already_checked_aur_dep.add (dep_name);
+									aur_pkg = yield database.get_aur_pkg (dep_name);
+									if (aur_pkg.name != "") {
+										dep_to_check += (owned) dep_name;
+									}
+								}
+							}
+						}
+						// write desc file
+						string pkgdir = "%s-%s".printf (pkgname_found, details_struct.version);
+						string pkgdir_path = "%s/%s".printf (aurdb_path, pkgdir);
+						aur_desc_list.add (pkgdir);
+						var file = GLib.File.new_for_path (pkgdir_path);
+						if (!file.query_exists ()) {
+							file.make_directory ();
+						}
+						file = GLib.File.new_for_path ("%s/desc".printf (pkgdir_path));
+						// always recreate desc in case of .SRCINFO modifications
+						if (file.query_exists ()) {
+							yield file.delete_async ();
+						}
+						// creating a DataOutputStream to the file
+						var dos = new DataOutputStream (file.create (FileCreateFlags.REPLACE_DESTINATION));
+						// fake filename
+						dos.put_string ("%FILENAME%\n" + "%s-%s-any.pkg.tar.xz\n\n".printf (pkgname_found, details_struct.version));
+						// name
+						dos.put_string ("%NAME%\n%s\n\n".printf (pkgname_found));
+						// version
+						dos.put_string ("%VERSION%\n%s\n\n".printf (details_struct.version));
+						// base
+						dos.put_string ("%BASE%\n%s\n\n".printf (details_struct.packagebase));
+						// desc
+						dos.put_string ("%DESC%\n%s\n\n".printf (details_struct.desc));
+						// arch (double %% before ARCH to escape %A)
+						dos.put_string ("%%ARCH%\n%s\n\n".printf (arch));
+						// depends
+						if (details_struct.depends.length > 0) {
+							dos.put_string ("%DEPENDS%\n");
+							foreach (unowned string depend in details_struct.depends) {
+								dos.put_string ("%s\n".printf (depend));
+							}
+							dos.put_string ("\n");
+						}
+						// conflicts
+						if (details_struct.conflicts.length > 0) {
+							dos.put_string ("%CONFLICTS%\n");
+							foreach (unowned string conflict in details_struct.conflicts) {
+								dos.put_string ("%s\n".printf (conflict));
+							}
+							dos.put_string ("\n");
+						}
+						// provides
+						if (details_struct.provides.length > 0) {
+							dos.put_string ("%PROVIDES%\n");
+							foreach (unowned string provide in details_struct.provides) {
+								dos.put_string ("%s\n".printf (provide));
+							}
+							dos.put_string ("\n");
+						}
+						// replaces
+						if (details_struct.replaces.length > 0) {
+							dos.put_string ("%REPLACES%\n");
+							foreach (unowned string replace in details_struct.replaces) {
+								dos.put_string ("%s\n".printf (replace));
+							}
+							dos.put_string ("\n");
+						}
 					}
 				} catch (GLib.Error e) {
-					GLib.stderr.printf("%s\n", e.message);
+					stderr.printf("Error: %s\n", e.message);
+					return false;
 				}
 			}
+			bool success = true;
 			if (dep_to_check.length > 0) {
-				yield check_aur_dep_list (dep_to_check);
+				success = yield check_aur_dep_list (dep_to_check);
 			}
+			return success;
 		}
 
 		void sysupgrade_real () {
 			start_preparing ();
 			// this will respond with trans_prepare_finished signal
-			transaction_interface.start_sysupgrade_prepare (enable_downgrade, temporary_ignorepkgs, to_build, overwrite_files);
+			transaction_interface.start_sysupgrade_prepare (enable_downgrade, to_build, temporary_ignorepkgs, overwrite_files);
 		}
 
 		public void start_sysupgrade (bool force_refresh, bool enable_downgrade, string[] temporary_ignorepkgs, string[] overwrite_files) {
@@ -455,23 +627,26 @@ namespace Pamac {
 				// set building to allow cancellation
 				building = true;
 				build_cancellable.reset ();
-				compute_aur_build_list.begin (() => {
+				compute_aur_build_list.begin ((obj, res) => {
+					bool success = compute_aur_build_list.end (res);
 					building = false;
-					if (build_cancellable.is_cancelled ()) {
+					if (!success || build_cancellable.is_cancelled ()) {
 						on_trans_prepare_finished (false);
 					}
-					transaction_interface.start_trans_prepare (flags, to_install, to_remove, to_load, to_build, overwrite_files);
+					aur_unresolvables = {};
+					transaction_interface.start_trans_prepare (flags, to_install, to_remove, to_load, to_build, temporary_ignorepkgs, overwrite_files);
 				});
 			} else {
-				transaction_interface.start_trans_prepare (flags, to_install, to_remove, to_load, to_build, overwrite_files);
+				transaction_interface.start_trans_prepare (flags, to_install, to_remove, to_load, to_build, temporary_ignorepkgs, overwrite_files);
 			}
 		}
 
-		public void start (string[] to_install, string[] to_remove, string[] to_load, string[] to_build, string[] overwrite_files) {
+		public void start (string[] to_install, string[] to_remove, string[] to_load, string[] to_build, string[] temporary_ignorepkgs, string[] overwrite_files) {
 			this.to_install = to_install;
 			this.to_remove = to_remove;
 			this.to_load = to_load;
 			this.to_build = to_build;
+			this.temporary_ignorepkgs = temporary_ignorepkgs;
 			this.overwrite_files = overwrite_files;
 			emit_action (dgettext (null, "Preparing") + "...");
 			start_preparing ();
@@ -517,7 +692,7 @@ namespace Pamac {
 			build_cancellable.reset ();
 			important_details_outpout (false);
 			string [] built_pkgs = {};
-			string pkgdir = Path.build_path ("/", database.config.aur_build_dir, "pamac-build", pkgname);
+			string pkgdir = Path.build_path ("/", database.config.aur_build_dir, pkgname);
 			// building
 			building = true;
 			start_building ();
@@ -739,6 +914,12 @@ namespace Pamac {
 			transaction_interface.choose_provider (index);
 		}
 
+		void on_emit_unresolvables (string[] unresolvables) {
+			foreach (unowned string unresolvable in unresolvables) {
+				aur_unresolvables += unresolvable;
+			}
+		}
+
 		void on_emit_progress (uint progress, string pkgname, uint percent, uint n_targets, uint current_target) {
 			double fraction;
 			switch (progress) {
@@ -930,17 +1111,8 @@ namespace Pamac {
 			}
 		}
 
-		string[] get_build_files_to_review (string[] aur_pkgbases_to_build) {
-			string[] build_files_to_review = {};
-			foreach (unowned string name in aur_pkgbases_to_build) {
-				if (!build_files_reviewed.contains (name)) {
-					build_files_to_review += name;
-				}
-			}
-			return build_files_to_review;
-		}
-
 		void on_trans_prepare_finished (bool success) {
+			stop_preparing ();
 			if (success) {
 				var summary_struct = transaction_interface.get_transaction_summary ();
 				Type type = 0;
@@ -964,14 +1136,16 @@ namespace Pamac {
 				} else if (type != 0) {
 					var summary = new TransactionSummary (summary_struct);
 					if ((type & Type.BUILD) != 0) {
-						// ask to review build files
-						string[] build_files_to_review = get_build_files_to_review (summary_struct.aur_pkgbases_to_build);
-						if (build_files_to_review.length > 0) {
-							release ();
-							review_build_files_and_reprepare.begin ((owned) build_files_to_review);
-							return;
+						// ask to edit build files
+						if (summary_struct.aur_pkgbases_to_build.length > 0) {
+							if (ask_edit_build_files (summary)) {
+								release ();
+								edit_build_files_and_reprepare.begin (summary_struct.aur_pkgbases_to_build);
+								return;
+							}
 						}
 						// populate build queue
+						to_build_queue.clear ();
 						foreach (unowned string name in summary_struct.aur_pkgbases_to_build) {
 							to_build_queue.push_tail (name);
 						}
@@ -979,8 +1153,7 @@ namespace Pamac {
 						foreach (unowned AURPackageStruct infos in summary_struct.to_build) {
 							aur_pkgs_to_install += infos.name;
 						}
-						stop_preparing ();
-						if (ask_confirmation (summary)) {
+						if (ask_commit (summary)) {
 							if (type == Type.BUILD) {
 								// there only AUR packages to build
 								release ();
@@ -988,23 +1161,15 @@ namespace Pamac {
 							} else {
 								start_commit ();
 							}
-						} else if (ask_review_build_files ()) {
-							release ();
-							build_files_reviewed.remove_all ();
-							emit_script_output ("");
-							review_build_files_and_reprepare.begin (get_build_files_to_review (summary_struct.aur_pkgbases_to_build));
-							return;
 						} else {
 							emit_action (dgettext (null, "Transaction cancelled") + ".");
 							release ();
 							to_build_queue.clear ();
 							finish_transaction (false);
 						}
-					} else if (ask_confirmation (summary)) {
-						stop_preparing ();
+					} else if (ask_commit (summary)) {
 						start_commit ();
 					} else {
-						stop_preparing ();
 						emit_action (dgettext (null, "Transaction cancelled") + ".");
 						release ();
 						finish_transaction (false);
@@ -1012,34 +1177,66 @@ namespace Pamac {
 				} else {
 					//var err = ErrorInfos ();
 					//err.message = dgettext (null, "Nothing to do") + "\n";
-					stop_preparing ();
 					emit_action (dgettext (null, "Nothing to do") + ".");
 					release ();
 					finish_transaction (true);
 					//handle_error (err);
 				}
+			} else if (to_build.length > 0) {
+				check_aur_unresolvables_and_edit_build_files.begin ();
 			} else {
-				stop_preparing ();
 				handle_error (get_current_error ());
 			}
 		}
 
-		async void review_build_files_and_reprepare (owned string[] build_files_to_review) {
-			// keep string during review_build_files
-			string[] build_files = (owned) build_files_to_review;
-			foreach (unowned string name in build_files) {
-				yield review_build_files (name);
-				build_files_reviewed.add (name);
-			}
-			emit_script_output ("");
-			// prepare again
-			if (sysupgrading) {
-				emit_action (dgettext (null, "Starting full system upgrade") + "...");
-				sysupgrade_real ();
+		async void edit_build_files_and_reprepare (string[] pkgnames) {
+			// keep string during edit_build_files
+			string[] pkgnames_copy = pkgnames;
+			bool success = yield edit_build_files (pkgnames_copy);
+			if (success) {
+				emit_script_output ("");
+				// prepare again
+				if (sysupgrading) {
+					emit_action (dgettext (null, "Starting full system upgrade") + "...");
+					sysupgrade_real ();
+				} else {
+					emit_action (dgettext (null, "Preparing") + "...");
+					trans_prepare_real ();
+				}
 			} else {
-				emit_action (dgettext (null, "Preparing") + "...");
-				trans_prepare_real ();
+				if (ask_edit_build_files (new TransactionSummary (TransactionSummaryStruct ()))) {
+					edit_build_files_and_reprepare.begin (pkgnames_copy);
+					return;
+				}
+				var error = ErrorInfos () {
+					message = dgettext (null, "Failed to prepare transaction")
+				};
+				handle_error (error);
 			}
+		}
+
+		async void check_aur_unresolvables_and_edit_build_files () {
+			string[] aur_unresolvables_backup = aur_unresolvables;
+			aur_unresolvables = {};
+			foreach (unowned string unresolvable in aur_unresolvables_backup) {
+				var aur_pkg = yield database.get_aur_pkg (unresolvable);
+				if (aur_pkg.name != "") {
+					aur_unresolvables += aur_pkg.name;
+				}
+			}
+			// also add other pkgs in to_build
+			foreach (unowned string name in to_build) {
+				if (!(name in aur_unresolvables)) {
+					aur_unresolvables += name;
+				}
+			}
+			if (aur_unresolvables.length > 0) {
+				if (ask_edit_build_files (new TransactionSummary (TransactionSummaryStruct ()))) {
+					edit_build_files_and_reprepare.begin (aur_unresolvables);
+					return;
+				}
+			}
+			handle_error (get_current_error ());
 		}
 
 		void launch_build_next_aur_package (bool authorized) {
@@ -1054,7 +1251,6 @@ namespace Pamac {
 		void on_trans_commit_finished (bool success) {
 			if (success) {
 				if (to_build_queue.get_length () != 0) {
-					build_files_reviewed.remove_all ();
 					emit_script_output ("");
 					get_authorization_finished.connect (launch_build_next_aur_package);
 					start_get_authorization ();
@@ -1104,6 +1300,7 @@ namespace Pamac {
 		void connecting_signals () {
 			transaction_interface.emit_event.connect (on_emit_event);
 			transaction_interface.emit_providers.connect (on_emit_providers);
+			transaction_interface.emit_unresolvables.connect (on_emit_unresolvables);
 			transaction_interface.emit_progress.connect (on_emit_progress);
 			transaction_interface.emit_download.connect (on_emit_download);
 			transaction_interface.emit_totaldownload.connect (on_emit_totaldownload);

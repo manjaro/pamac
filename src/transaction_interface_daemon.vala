@@ -32,8 +32,8 @@ namespace Pamac {
 		public abstract void start_set_pkgreason (string pkgname, uint reason) throws Error;
 		public abstract void start_refresh (bool force) throws Error;
 		public abstract void start_downloading_updates () throws Error;
-		public abstract void start_sysupgrade_prepare (bool enable_downgrade, string[] temporary_ignorepkgs, string[] to_build, string[] overwrite_files) throws Error;
-		public abstract void start_trans_prepare (int transflags, string[] to_install, string[] to_remove, string[] to_load, string[] to_build, string[] overwrite_files) throws Error;
+		public abstract void start_sysupgrade_prepare (bool enable_downgrade, string[] to_build, string[] temporary_ignorepkgs, string[] overwrite_files) throws Error;
+		public abstract void start_trans_prepare (int transflags, string[] to_install, string[] to_remove, string[] to_load, string[] to_build, string[] temporary_ignorepkgs, string[] overwrite_files) throws Error;
 		public abstract void choose_provider (int provider) throws Error;
 		public abstract TransactionSummaryStruct get_transaction_summary () throws Error;
 		public abstract void start_trans_commit () throws Error;
@@ -43,6 +43,7 @@ namespace Pamac {
 		public abstract void quit () throws Error;
 		public signal void emit_event (uint primary_event, uint secondary_event, string[] details);
 		public signal void emit_providers (string depend, string[] providers);
+		public signal void emit_unresolvables (string[] unresolvables);
 		public signal void emit_progress (uint progress, string pkgname, uint percent, uint n_targets, uint current_target);
 		public signal void emit_download (string filename, uint64 xfered, uint64 total);
 		public signal void emit_totaldownload (uint64 total);
@@ -216,12 +217,12 @@ namespace Pamac {
 		}
 
 		void start_sysupgrade_prepare (bool enable_downgrade,
-										string[] temporary_ignorepkgs,
 										string[] to_build,
+										string[] temporary_ignorepkgs,
 										string[] overwrite_files) {
 			try {
 				// this will respond with trans_prepare_finished signal
-				system_daemon.start_sysupgrade_prepare (enable_downgrade, temporary_ignorepkgs, to_build, overwrite_files);
+				system_daemon.start_sysupgrade_prepare (enable_downgrade, to_build, temporary_ignorepkgs, overwrite_files);
 			} catch (Error e) {
 				stderr.printf ("start_sysupgrade_prepare: %s\n", e.message);
 			}
@@ -233,9 +234,10 @@ namespace Pamac {
 								string[] to_remove,
 								string[] to_load,
 								string[] to_build,
+								string[] temporary_ignorepkgs,
 								string[] overwrite_files) {
 			try {
-				system_daemon.start_trans_prepare (flags, to_install, to_remove, to_load, to_build, overwrite_files);
+				system_daemon.start_trans_prepare (flags, to_install, to_remove, to_load, to_build, temporary_ignorepkgs, overwrite_files);
 			} catch (Error e) {
 				stderr.printf ("start_trans_prepare: %s\n", e.message);
 			}
@@ -297,6 +299,10 @@ namespace Pamac {
 			}
 		}
 
+		void on_emit_unresolvables (string[] unresolvables) {
+			emit_unresolvables (unresolvables);
+		}
+
 		void on_emit_progress (uint progress, string pkgname, uint percent, uint n_targets, uint current_target) {
 			emit_progress (progress, pkgname, percent, n_targets, current_target);
 		}
@@ -342,6 +348,7 @@ namespace Pamac {
 		void connecting_dbus_signals () {
 			system_daemon.emit_event.connect (on_emit_event);
 			system_daemon.emit_providers.connect (on_emit_providers);
+			system_daemon.emit_unresolvables.connect (on_emit_unresolvables);
 			system_daemon.emit_progress.connect (on_emit_progress);
 			system_daemon.emit_download.connect (on_emit_download);
 			system_daemon.emit_totaldownload.connect (on_emit_totaldownload);

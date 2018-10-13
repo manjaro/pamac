@@ -50,6 +50,7 @@ namespace Pamac {
 
 		public signal void emit_event (uint primary_event, uint secondary_event, string[] details);
 		public signal void emit_providers (string depend, string[] providers);
+		public signal void emit_unresolvables (string[] unresolvables);
 		public signal void emit_progress (uint progress, string pkgname, uint percent, uint n_targets, uint current_target);
 		public signal void emit_download (string filename, uint64 xfered, uint64 total);
 		public signal void emit_totaldownload (uint64 total);
@@ -85,6 +86,9 @@ namespace Pamac {
 			});
 			alpm_utils.emit_providers.connect ((depend, providers) => {
 				emit_providers (depend, providers);
+			});
+			alpm_utils.emit_unresolvables.connect ((unresolvables) => {
+				emit_unresolvables (unresolvables);
 			});
 			alpm_utils.emit_progress.connect ((progress, pkgname, percent, n_targets, current_target) => {
 				emit_progress (progress, pkgname, percent, n_targets, current_target);
@@ -425,8 +429,8 @@ namespace Pamac {
 		}
 
 		public void start_sysupgrade_prepare (bool enable_downgrade,
-											string[] temporary_ignorepkgs,
 											string[] to_build,
+											string[] temporary_ignorepkgs,
 											string[] overwrite_files,
 											GLib.BusName sender) throws Error {
 			if (lock_id != sender) {
@@ -459,6 +463,7 @@ namespace Pamac {
 										string[] to_remove,
 										string[] to_load,
 										string[] to_build,
+										string[] temporary_ignorepkgs,
 										string[] overwrite_files,
 										GLib.BusName sender) throws Error {
 			if (lock_id != sender) {
@@ -470,6 +475,7 @@ namespace Pamac {
 			alpm_utils.to_remove = to_remove;
 			alpm_utils.to_load = to_load;
 			alpm_utils.to_build = to_build;
+			alpm_utils.temporary_ignorepkgs = temporary_ignorepkgs;
 			alpm_utils.overwrite_files = overwrite_files;
 			alpm_utils.sysupgrade = false;
 			if (alpm_utils.downloading_updates) {

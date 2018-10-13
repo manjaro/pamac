@@ -69,13 +69,12 @@ namespace Pamac {
 
 		public void refresh () {
 			alpm_config = new AlpmConfig ("/etc/pacman.conf");
-			// use tmp dbs
-			alpm_handle = alpm_config.get_handle (false, true);
+			alpm_handle = alpm_config.get_handle ();
 			if (alpm_handle == null) {
 				critical (dgettext (null, "Failed to initialize alpm library"));
 				return;
 			} else {
-				files_handle = alpm_config.get_handle (true, true);
+				files_handle = alpm_config.get_handle (true);
 			}
 			refreshed ();
 		}
@@ -119,10 +118,6 @@ namespace Pamac {
 				stderr.printf ("Error: %s\n", e.message);
 			}
 			return country;
-		}
-
-		internal string get_tmp_db_path () {
-			return alpm_handle.dbpath;
 		}
 
 		public bool get_checkspace () {
@@ -958,11 +953,11 @@ namespace Pamac {
 					}
 					// reason
 					if (alpm_pkg.reason == Alpm.Package.Reason.EXPLICIT) {
-						reason = _("Explicitly installed");
+						reason = dgettext (null, "Explicitly installed");
 					} else if (alpm_pkg.reason == Alpm.Package.Reason.DEPEND) {
-						reason = _("Installed as a dependency for another package");
+						reason = dgettext (null, "Installed as a dependency for another package");
 					} else {
-						reason = _("Unknown");
+						reason = dgettext (null, "Unknown");
 					}
 					// install_date
 					time = GLib.Time.local ((time_t) alpm_pkg.installdate);
@@ -994,7 +989,7 @@ namespace Pamac {
 					// repos
 					repo = alpm_pkg.db.name;
 					// signature
-					has_signature = alpm_pkg.base64_sig != null ? _("Yes") : _("No");
+					has_signature = alpm_pkg.base64_sig != null ? dgettext (null, "Yes") : dgettext (null, "No");
 				}
 				// depends
 				list = alpm_pkg.depends;
@@ -1097,29 +1092,6 @@ namespace Pamac {
 			return get_pkg_files (pkgname);
 		}
 
-		string get_srcinfo_version (string pkgdir_name) {
-			StringBuilder version = new StringBuilder ();
-			// assume file exists
-			var srcinfo = File.new_for_path (pkgdir_name + "/.SRCINFO");
-			try {
-				var dis = new DataInputStream (srcinfo.read ());
-				string line;
-				while ((line = dis.read_line ()) != null) {
-					if ("pkgver = " in line) {
-						version.append (line.split ("pkgver = ", 2)[1]);
-					} else if ("pkgrel = " in line) {
-						version.append ("-");
-						version.append (line.split ("pkgrel = ", 2)[1]);
-						// we have all we want
-						break;
-					}
-				}
-			} catch (GLib.Error e) {
-				stderr.printf ("%s\n", e.message);
-			}
-			return version.str;
-		}
-
 		async int launch_subprocess (SubprocessLauncher launcher, string[] cmds) {
 			int status = 1;
 			try {
@@ -1136,14 +1108,12 @@ namespace Pamac {
 
 		public async File? clone_build_files (string pkgname, bool overwrite_files) {
 			int status = 1;
-			string builddir_name = Path.build_path ("/", config.aur_build_dir, "pamac-build");
 			string[] cmds;
 			var launcher = new SubprocessLauncher (SubprocessFlags.NONE);
-			var builddir = File.new_for_path (builddir_name);
+			var builddir = File.new_for_path (config.aur_build_dir);
 			if (!builddir.query_exists ()) {
 				try {
 					builddir.make_directory_with_parents ();
-					Process.spawn_command_line_sync ("chmod --quiet -R ugo+w %s".printf (builddir_name));
 				} catch (Error e) {
 					stderr.printf ("Error: %s\n", e.message);
 				}
@@ -1151,16 +1121,11 @@ namespace Pamac {
 			var pkgdir = builddir.get_child (pkgname);
 			if (pkgdir.query_exists ()) {
 				if (overwrite_files) {
-					launcher.set_cwd (builddir_name);
-					cmds = {"rm", "-rf %s".printf (pkgdir.get_path ())};
+					launcher.set_cwd (config.aur_build_dir);
+					cmds = {"rm", "-rf", "%s".printf (pkgdir.get_path ())};
 					yield launch_subprocess (launcher, cmds);
 					cmds = {"git", "clone", "-q", "--depth=1", "https://aur.archlinux.org/%s.git".printf (pkgname)};
 				} else {
-					var aur_pkg = yield get_aur_pkg (pkgname);
-					if (aur_pkg.version == get_srcinfo_version (pkgdir.get_path ())) {
-						// up to date
-						return pkgdir;
-					}
 					// fetch modifications
 					launcher.set_cwd (pkgdir.get_path ());
 					cmds = {"git", "fetch", "-q"};
@@ -1169,20 +1134,33 @@ namespace Pamac {
 					if (status == 0) {
 						launcher.set_flags (SubprocessFlags.STDOUT_PIPE);
 						try {
-							Subprocess process = launcher.spawnv ({"git", "diff", "origin/master"});
-							yield process.wait_async ();
-							var dis = new DataInputStream (process.get_stdout_pipe ());
 							var file = File.new_for_path (Path.build_path ("/", pkgdir.get_path (), "diff"));
 							if (file.query_exists ()) {
 								// delete the file before rewrite it
 								yield file.delete_async ();
 							}
-							// creating a DataOutputStream to the file
-							var dos = new DataOutputStream (yield file.create_async (FileCreateFlags.REPLACE_DESTINATION));
-							// writing makepkg output to diff
-							yield dos.splice_async (dis, 0);
+							cmds = {"git", "diff", "--exit-code", "origin/master"};
+							FileEnumerator enumerator = yield pkgdir.enumerate_children_async ("standard::*", FileQueryInfoFlags.NONE);
+							FileInfo info;
+							// don't see .SRCINFO diff
+							while ((info = enumerator.next_file (null)) != null) {
+								string filename = info.get_name ();
+								if (filename != ".SRCINFO") {
+									cmds += filename;
+								}
+							}
+							Subprocess process = launcher.spawnv (cmds);
+							yield process.wait_async ();
 							if (process.get_if_exited ()) {
 								status = process.get_exit_status ();
+							}
+							if (status == 1) {
+								// there is a diff
+								var dis = new DataInputStream (process.get_stdout_pipe ());
+								var dos = new DataOutputStream (yield file.create_async (FileCreateFlags.REPLACE_DESTINATION));
+								// writing output to diff
+								yield dos.splice_async (dis, 0);
+								status = 0;
 							}
 						} catch (Error e) {
 							stderr.printf ("Error: %s\n", e.message);
@@ -1197,24 +1175,17 @@ namespace Pamac {
 					if (status == 0) {
 						return pkgdir;
 					} else {
-						launcher.set_cwd (builddir_name);
-						cmds = {"rm", "-rf %s".printf (pkgdir.get_path ())};
+						launcher.set_cwd (config.aur_build_dir);
+						cmds = {"rm", "-rf", "%s".printf (pkgdir.get_path ())};
 						yield launch_subprocess (launcher, cmds);
 						cmds = {"git", "clone", "-q", "--depth=1", "https://aur.archlinux.org/%s.git".printf (pkgname)};
 					}
 				}
 			} else {
-				launcher.set_cwd (builddir_name);
+				launcher.set_cwd (config.aur_build_dir);
 				cmds = {"git", "clone", "-q", "--depth=1", "https://aur.archlinux.org/%s.git".printf (pkgname)};
 			}
 			status = yield launch_subprocess (launcher, cmds);
-			if (status == 0) {
-				try {
-					Process.spawn_command_line_sync ("chmod --quiet -R ugo+w %s".printf (pkgdir.get_path ()));
-				} catch (Error e) {
-					stderr.printf ("Error: %s\n", e.message);
-				}
-			}
 			if (status == 0) {
 				return pkgdir;
 			}
@@ -1308,7 +1279,7 @@ namespace Pamac {
 							licenses += _node.get_string ();
 						});
 					} else {
-						licenses += _("Unknown");
+						licenses += dgettext (null, "Unknown");
 					}
 					// depends
 					node = json_object.get_member ("Depends");
@@ -1405,7 +1376,8 @@ namespace Pamac {
 		}
 
 		public void refresh_tmp_files_dbs () {
-			unowned Alpm.List<unowned Alpm.DB> syncdbs = files_handle.syncdbs;
+			var tmp_files_handle = alpm_config.get_handle (true, true);
+			unowned Alpm.List<unowned Alpm.DB> syncdbs = tmp_files_handle.syncdbs;
 			while (syncdbs != null) {
 				unowned Alpm.DB db = syncdbs.data;
 				db.update (0);

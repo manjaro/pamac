@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2018-09-08 17:58+0200\n"
+"POT-Creation-Date: 2018-10-13 11:01+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -21,28 +21,8 @@ msgstr ""
 msgid "Authentication is required"
 msgstr ""
 
-#: src/alpm_utils.vala
+#: src/alpm_utils.vala src/database.vala
 msgid "Failed to initialize alpm library"
-msgstr ""
-
-#: src/alpm_utils.vala
-msgid "Unknown"
-msgstr ""
-
-#: src/alpm_utils.vala src/manager_window.vala
-msgid "Explicitly installed"
-msgstr ""
-
-#: src/alpm_utils.vala src/manager_window.vala
-msgid "Installed as a dependency for another package"
-msgstr ""
-
-#: src/alpm_utils.vala
-msgid "Yes"
-msgstr ""
-
-#: src/alpm_utils.vala
-msgid "No"
 msgstr ""
 
 #: src/alpm_utils.vala
@@ -53,11 +33,11 @@ msgstr ""
 msgid "Failed to init transaction"
 msgstr ""
 
-#: src/alpm_utils.vala
+#: src/alpm_utils.vala src/transaction.vala src/transaction-gtk.vala
 msgid "Failed to prepare transaction"
 msgstr ""
 
-#: src/alpm_utils.vala src/cli.vala
+#: src/alpm_utils.vala src/transaction.vala src/cli.vala
 #, c-format
 msgid "target not found: %s"
 msgstr ""
@@ -125,8 +105,37 @@ msgstr ""
 msgid "Authentication failed"
 msgstr ""
 
+#: src/database.vala src/manager_window.vala
+msgid "Explicitly installed"
+msgstr ""
+
+#: src/database.vala src/manager_window.vala
+msgid "Installed as a dependency for another package"
+msgstr ""
+
+#: src/database.vala
+msgid "Unknown"
+msgstr ""
+
+#: src/database.vala
+msgid "Yes"
+msgstr ""
+
+#: src/database.vala
+msgid "No"
+msgstr ""
+
+#: src/transaction.vala
+#, c-format
+msgid "Generating %s informations"
+msgstr ""
+
 #: src/transaction.vala
 msgid "Refreshing mirrors list"
+msgstr ""
+
+#: src/transaction.vala
+msgid "Starting full system upgrade"
 msgstr ""
 
 #: src/transaction.vala
@@ -134,11 +143,8 @@ msgid "Synchronizing package databases"
 msgstr ""
 
 #: src/transaction.vala
-msgid "Starting full system upgrade"
-msgstr ""
-
-#: src/transaction.vala src/tray.vala src/manager_window.vala src/cli.vala
-msgid "Your system is up-to-date"
+#, c-format
+msgid "Checking %s dependencies"
 msgstr ""
 
 #: src/transaction.vala
@@ -352,6 +358,21 @@ msgstr ""
 msgid "Total download size"
 msgstr ""
 
+#: src/transaction-gtk.vala src/transaction-cli.vala
+#, c-format
+msgid "Edit %s build files"
+msgstr ""
+
+#: src/transaction-gtk.vala src/manager_window.vala
+#: resources/transaction_sum_dialog.ui resources/manager_window.ui
+#: resources/choose_ignorepkgs_dialog.ui
+msgid "_Cancel"
+msgstr ""
+
+#: src/transaction-gtk.vala
+msgid "Save"
+msgstr ""
+
 #: src/transaction-gtk.vala resources/progress_dialog.ui
 #: resources/history_dialog.ui resources/preferences_dialog.ui
 msgid "_Close"
@@ -371,6 +392,10 @@ msgstr ""
 
 #: src/installer.vala src/cli.vala
 msgid "package(s)"
+msgstr ""
+
+#: src/tray.vala src/manager_window.vala src/cli.vala
+msgid "Your system is up-to-date"
 msgstr ""
 
 #: src/tray.vala
@@ -407,6 +432,10 @@ msgstr ""
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Install"
+msgstr ""
+
+#: src/manager_window.vala resources/manager_window.ui
+msgid "Build"
 msgstr ""
 
 #: src/manager_window.vala resources/manager_window.ui
@@ -506,6 +535,10 @@ msgstr ""
 
 #: src/manager_window.vala
 msgid "Files"
+msgstr ""
+
+#: src/manager_window.vala
+msgid "Build files"
 msgstr ""
 
 #: src/manager_window.vala src/cli.vala
@@ -616,11 +649,6 @@ msgstr ""
 msgid "Install Local Packages"
 msgstr ""
 
-#: src/manager_window.vala resources/transaction_sum_dialog.ui
-#: resources/manager_window.ui resources/choose_ignorepkgs_dialog.ui
-msgid "_Cancel"
-msgstr ""
-
 #: src/manager_window.vala
 msgid "_Open"
 msgstr ""
@@ -655,6 +683,22 @@ msgid "Enter a number (default=%d)"
 msgstr ""
 
 #: src/transaction-cli.vala
+msgid "[y/N]"
+msgstr ""
+
+#: src/transaction-cli.vala
+msgid "y"
+msgstr ""
+
+#: src/transaction-cli.vala
+msgid "yes"
+msgstr ""
+
+#: src/transaction-cli.vala resources/transaction_sum_dialog.ui
+msgid "Edit build files"
+msgstr ""
+
+#: src/transaction-cli.vala
 msgid "Total installed size"
 msgstr ""
 
@@ -667,15 +711,8 @@ msgid "Commit transaction"
 msgstr ""
 
 #: src/transaction-cli.vala
-msgid "[y/N]"
-msgstr ""
-
-#: src/transaction-cli.vala
-msgid "y"
-msgstr ""
-
-#: src/transaction-cli.vala
-msgid "yes"
+#, c-format
+msgid "View %s build files diff"
 msgstr ""
 
 #: src/cli.vala
@@ -773,6 +810,12 @@ msgstr ""
 
 #: src/cli.vala
 msgid ""
+"ignore a package upgrade, multiple packages can be specified by separating "
+"them with a comma"
+msgstr ""
+
+#: src/cli.vala
+msgid ""
 "overwrite conflicting files, multiple patterns can be specified by "
 "separating them with a comma"
 msgstr ""
@@ -823,12 +866,6 @@ msgstr ""
 
 #: src/cli.vala
 msgid "enable package downgrades"
-msgstr ""
-
-#: src/cli.vala
-msgid ""
-"ignore a package upgrade, multiple packages can be specified by separating "
-"them with a comma"
 msgstr ""
 
 #: src/cli.vala resources/manager_window.ui
@@ -909,6 +946,10 @@ msgid "About"
 msgstr ""
 
 #: resources/manager_window.ui
+msgid "Select All"
+msgstr ""
+
+#: resources/manager_window.ui
 msgid "State"
 msgstr ""
 
@@ -925,11 +966,11 @@ msgid "Reinstall"
 msgstr ""
 
 #: resources/manager_window.ui
-msgid "_Apply"
+msgid "Reset build files"
 msgstr ""
 
 #: resources/manager_window.ui
-msgid "Select All"
+msgid "_Apply"
 msgstr ""
 
 #: resources/preferences_dialog.ui

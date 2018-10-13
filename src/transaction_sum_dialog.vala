@@ -27,7 +27,7 @@ namespace Pamac {
 		[GtkChild]
 		Gtk.TreeView treeview;
 		[GtkChild]
-		public Gtk.Button review_button;
+		public Gtk.Button edit_button;
 
 		public Gtk.ListStore sum_list;
 

@@ -54,7 +54,7 @@
               </packing>
             </child>
             <child>
-              <object class="GtkButton" id="review_button">
+              <object class="GtkButton" id="edit_button">
                 <property name="label" translatable="yes">Edit build files</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
@@ -164,7 +164,7 @@
     <action-widgets>
       <action-widget response="-6">cancel_button</action-widget>
       <action-widget response="-5">apply_button</action-widget>
-      <action-widget response="-2">review_button</action-widget>
+      <action-widget response="-2">edit_button</action-widget>
     </action-widgets>
   </template>
 </interface>

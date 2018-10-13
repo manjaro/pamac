@@ -138,14 +138,19 @@ internal class AlpmConfig {
 		Alpm.Errno error = 0;
 		Alpm.Handle? handle = null;
 		if (tmp_db) {
-			string tmp_dbpath = "/tmp/pamac-checkdbs";
+			string tmp_path = "/tmp/pamac";
+			string tmp_dbpath = "/tmp/pamac/dbs-%s".printf (Environment.get_user_name ());
 			try {
-				var file = GLib.File.new_for_path (tmp_dbpath);
+				var file = GLib.File.new_for_path (tmp_path);
 				if (!file.query_exists ()) {
-					Process.spawn_command_line_sync ("mkdir -p %s/sync".printf (tmp_dbpath));
-					Process.spawn_command_line_sync ("chmod -R ugo+w %s".printf (tmp_dbpath));
+					Process.spawn_command_line_sync ("mkdir -p %s".printf (tmp_path));
+					Process.spawn_command_line_sync ("chmod a+w %s".printf (tmp_path));
 				}
-				Process.spawn_command_line_sync ("ln -sf %slocal %s".printf (dbpath, tmp_dbpath));
+				file = GLib.File.new_for_path (tmp_dbpath);
+				if (!file.query_exists ()) {
+					Process.spawn_command_line_sync ("mkdir -p %s".printf (tmp_dbpath));
+					Process.spawn_command_line_sync ("ln -s %slocal %s".printf (dbpath, tmp_dbpath));
+				}
 				Process.spawn_command_line_sync ("cp -ru %ssync %s".printf (dbpath, tmp_dbpath));
 				handle = new Alpm.Handle (rootdir, tmp_dbpath, out error);
 				if (error == Alpm.Errno.DB_VERSION) {

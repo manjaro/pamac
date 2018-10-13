@@ -210,6 +210,11 @@ namespace Pamac {
 									overwrite_files += name;
 								}
 								i++;
+							} else if (arg == "--ignore") {
+								foreach (unowned string name in args[i + 1].split(",")) {
+									temporary_ignorepkgs += name;
+								}
+								i++;
 							} else {
 								targets += arg;
 							}
@@ -588,7 +593,7 @@ namespace Pamac {
 				i++;
 			}
 			cuts = split_string (dgettext (null, "list files owned by the given packages"), max_length + 2);
-			print_aligned ("  %s [%s]".printf ("-f, --files", dgettext (null, "file(s)")), ": %s".printf (cuts[0]), max_length);
+			print_aligned ("  %s <%s>".printf ("-f, --files", dgettext (null, "package(s)")), ": %s".printf (cuts[0]), max_length);
 			i = 1;
 			while (i < cuts.length) {
 				print_aligned ("", "%s".printf (cuts[i]), max_length + 2);
@@ -619,9 +624,16 @@ namespace Pamac {
 			stdout.printf ("\n\n");
 			stdout.printf (dgettext (null, "options") + ":\n");
 			int max_length = 25;
-			string[] cuts = split_string (dgettext (null, "overwrite conflicting files, multiple patterns can be specified by separating them with a comma"), max_length + 2);
-			print_aligned ("  %s <%s>".printf ("--overwrite", dgettext (null, "glob")), ": %s".printf (cuts[0]), max_length);
+			string[] cuts = split_string (dgettext (null, "ignore a package upgrade, multiple packages can be specified by separating them with a comma"), max_length + 2);
+			print_aligned ("  %s <%s>".printf ("--ignore", dgettext (null, "package(s)")), ": %s".printf (cuts[0]), max_length);
 			int i = 1;
+			while (i < cuts.length) {
+				print_aligned ("", "%s".printf (cuts[i]), max_length + 2);
+				i++;
+			}
+			cuts = split_string (dgettext (null, "overwrite conflicting files, multiple patterns can be specified by separating them with a comma"), max_length + 2);
+			print_aligned ("  %s <%s>".printf ("--overwrite", dgettext (null, "glob")), ": %s".printf (cuts[0]), max_length);
+			i = 1;
 			while (i < cuts.length) {
 				print_aligned ("", "%s".printf (cuts[i]), max_length + 2);
 				i++;
@@ -705,7 +717,7 @@ namespace Pamac {
 				i++;
 			}
 			cuts = split_string (dgettext (null, "ignore a package upgrade, multiple packages can be specified by separating them with a comma"), max_length + 2);
-			print_aligned ("  %s [%s]".printf ("--ignore", dgettext (null, "package(s)")), ": %s".printf (cuts[0]), max_length);
+			print_aligned ("  %s <%s>".printf ("--ignore", dgettext (null, "package(s)")), ": %s".printf (cuts[0]), max_length);
 			i = 1;
 			while (i < cuts.length) {
 				print_aligned ("", "%s".printf (cuts[i]), max_length + 2);
@@ -1619,13 +1631,36 @@ namespace Pamac {
 			try_lock_and_run (start_transaction);
 		}
 
+		async bool check_build_pkgs () {
+			bool success = true;
+			foreach (unowned string pkgname in to_build)  {
+				var aur_pkg = yield database.get_aur_pkg (pkgname);
+				if (aur_pkg.name == "") {
+					print_error (dgettext (null, "target not found: %s").printf (pkgname) + "\n");
+					success = false;
+				}
+				if (!success) {
+					break;
+				}
+			}
+			return success;
+		}
+
 		void build_pkgs (string[] to_build) {
 			this.to_build = to_build;
-			try_lock_and_run (start_transaction);
+			bool success = false;
+			check_build_pkgs.begin ((obj, res) => {
+				success = check_build_pkgs.end (res);
+				loop.quit ();
+			});
+			loop.run ();
+			if (success) {
+				try_lock_and_run (start_transaction);
+			}
 		}
 
 		void start_transaction () {
-			transaction.start (to_install, to_remove, to_load, to_build, overwrite_files);
+			transaction.start (to_install, to_remove, to_load, to_build, temporary_ignorepkgs, overwrite_files);
 			loop.run ();
 		}
 

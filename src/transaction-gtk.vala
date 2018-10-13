@@ -34,7 +34,8 @@ namespace Pamac {
 		public Gtk.ApplicationWindow? application_window { get; construct; }
 		// ask_confirmation option
 		public bool no_confirm_upgrade { get; set; }
-		bool review_build_files_answer;
+		bool summary_shown;
+		bool commit_transaction_answer;
 
 		public TransactionGtk (Database database, Gtk.ApplicationWindow? application_window) {
 			Object (database: database, application_window: application_window);
@@ -75,6 +76,8 @@ namespace Pamac {
 			build_files_notebook = new Gtk.Notebook ();
 			build_files_notebook.visible = true;
 			build_files_notebook.expand = true;
+			build_files_notebook.scrollable = true;
+			build_files_notebook.enable_popup = true;
 			// connect to signal
 			emit_action.connect (display_action);
 			emit_action_progress.connect (display_action_progress);
@@ -98,8 +101,10 @@ namespace Pamac {
 			Notify.init (dgettext (null, "Package Manager"));
 			// flags
 			set_trans_flags ();
+			// ask_confirmation option
 			no_confirm_upgrade = false;
-			review_build_files_answer = false;
+			summary_shown = false;
+			commit_transaction_answer = false;
 		}
 
 		void set_trans_flags () {
@@ -230,30 +235,53 @@ namespace Pamac {
 			return index;
 		}
 
-		protected override bool ask_review_build_files () {
-			if (review_build_files_answer) {
-				review_build_files_answer = false;
-				return true;
+		protected override bool ask_edit_build_files (TransactionSummary summary) {
+			bool answer = false;
+			summary_shown = true;
+			int response = show_summary (summary);
+			if (response == Gtk.ResponseType.OK) {
+				// Commit
+				commit_transaction_answer = true;
+			} else if (response == Gtk.ResponseType.CANCEL) {
+				// Cancel transaction
+				commit_transaction_answer = false;
+			} else if (response == Gtk.ResponseType.REJECT) {
+				// Edit build files
+				answer = true;
 			}
-			return false;
+			return answer;
 		}
 
-		protected override bool ask_confirmation (TransactionSummary summary) {
-			show_warnings (true);
-			uint must_confirm_length = summary.to_install.length ()
+		protected override bool ask_commit (TransactionSummary summary) {
+			if (summary_shown) {
+				summary_shown = false;
+				return commit_transaction_answer;
+			} else {
+				uint must_confirm_length = summary.to_install.length ()
 									+ summary.to_downgrade.length ()
 									+ summary.to_reinstall.length ()
 									+ summary.to_remove.length ()
 									+ summary.to_build.length ();
-			if (no_confirm_upgrade 
-				&& must_confirm_length == 0
-				&& summary.to_upgrade.length () > 0) {
-				return true;
+				if (no_confirm_upgrade
+					&& must_confirm_length == 0
+					&& summary.to_upgrade.length () > 0) {
+					return true;
+				}
+				summary_shown = true;
+				int response = show_summary (summary);
+				if (response == Gtk.ResponseType.OK) {
+					// Commit
+					return true;
+				}
 			}
+			return false;
+		}
+
+		int show_summary (TransactionSummary summary) {
 			uint64 dsize = 0;
 			transaction_summary.remove_all ();
 			transaction_sum_dialog.sum_list.clear ();
-			transaction_sum_dialog.review_button.visible = false;
+			transaction_sum_dialog.edit_button.visible = false;
 			var iter = Gtk.TreeIter ();
 			if (summary.to_remove.length () > 0) {
 				foreach (unowned Package infos in summary.to_remove) {
@@ -295,7 +323,7 @@ namespace Pamac {
 				transaction_sum_dialog.sum_list.set (iter, 0, "<b>%s</b>".printf (dgettext (null, "To downgrade") + ":"));
 			}
 			if (summary.to_build.length () > 0) {
-				transaction_sum_dialog.review_button.visible = true;
+				transaction_sum_dialog.edit_button.visible = true;
 				foreach (unowned AURPackage infos in summary.to_build) {
 					transaction_summary.add (infos.name);
 					transaction_sum_dialog.sum_list.insert_with_values (out iter, -1,
@@ -355,160 +383,196 @@ namespace Pamac {
 				transaction_sum_dialog.top_label.set_markup ("<b>%s: %s</b>".printf (dgettext (null, "Total download size"), format_size (dsize)));
 				transaction_sum_dialog.top_label.visible = true;
 			}
-			var response = transaction_sum_dialog.run ();
-			if (response == Gtk.ResponseType.OK) {
-				transaction_sum_dialog.hide ();
-				return true;
+			if (transaction_summary.length == 0) {
+				// empty summary comes in case of transaction preparation failure
+				// with pkgs to build so we show warnings ans ask to edit build files
+				transaction_sum_dialog.edit_button.visible = true;
+				if (warning_textbuffer.len > 0) {
+					transaction_sum_dialog.sum_list.insert_with_values (out iter, -1,
+												0, Markup.escape_text (warning_textbuffer.str));
+					warning_textbuffer = new StringBuilder ();
+				} else {
+					transaction_sum_dialog.sum_list.insert_with_values (out iter, -1,
+												0, dgettext (null, "Failed to prepare transaction"));
+				}
+			} else {
+				show_warnings (true);
 			}
-			if (response == Gtk.ResponseType.REJECT) {
-				review_build_files_answer = true;
-			}
+			int response = transaction_sum_dialog.run ();
 			transaction_sum_dialog.hide ();
-			transaction_summary.remove_all ();
-			return false;
+			return response;
 		}
 
 		public void destroy_widget (Gtk.Widget widget) {
 			widget.destroy ();
 		}
 
-		protected override async void review_build_files (string pkgname) {
-			string action = dgettext (null, "Review %s build files".printf (pkgname));
-			display_action (action);
-			// remove noteboook from manager_window properties stack
-			unowned Gtk.Stack? stack = build_files_notebook.get_parent () as Gtk.Stack;
-			if (stack != null) {
-				stack.remove (build_files_notebook);
+		protected override async bool edit_build_files (string[] pkgnames) {
+			bool success = true;
+			foreach (unowned string pkgname in pkgnames) {
+				string action = dgettext (null, "Edit %s build files".printf (pkgname));
+				display_action (action);
+				// remove noteboook from manager_window properties stack
+				unowned Gtk.Stack? stack = build_files_notebook.get_parent () as Gtk.Stack;
+				if (stack != null) {
+					stack.remove (build_files_notebook);
+				}
+				// create dialog
+				var flags = Gtk.DialogFlags.MODAL;
+				int use_header_bar;
+				Gtk.Settings.get_default ().get ("gtk-dialogs-use-header", out use_header_bar);
+				if (use_header_bar == 1) {
+					flags |= Gtk.DialogFlags.USE_HEADER_BAR;
+				}
+				var dialog = new Gtk.Dialog.with_buttons (action,
+														application_window,
+														flags);
+				dialog.icon_name = "system-software-install";
+				dialog.add_button (dgettext (null, "Save"), Gtk.ResponseType.CLOSE);
+				unowned Gtk.Widget widget = dialog.add_button (dgettext (null, "_Cancel"), Gtk.ResponseType.CANCEL);
+				widget.can_focus = true;
+				widget.has_focus = true;
+				widget.can_default = true;
+				widget.has_default = true;
+				unowned Gtk.Box box = dialog.get_content_area ();
+				box.margin_bottom = 6;
+				build_files_notebook.margin = 6;
+				box.add (build_files_notebook);
+				dialog.default_width = 700;
+				dialog.default_height = 500;
+				// populate notebook
+				success = yield populate_build_files (pkgname, false, false);
+				// run
+				int response = dialog.run ();
+				// re-add noteboook to manager_window properties stack
+				box.remove (build_files_notebook);
+				build_files_notebook.margin = 0;
+				if (stack != null) {
+					stack.add_named (build_files_notebook, "build_files");
+				}
+				dialog.destroy ();
+				if (response == Gtk.ResponseType.CLOSE) {
+					// save modifications
+					success = yield save_build_files (pkgname);
+				}
+				if (!success) {
+					break;
+				}
 			}
-			// create dialog
-			var flags = Gtk.DialogFlags.MODAL;
-			int use_header_bar;
-			Gtk.Settings.get_default ().get ("gtk-dialogs-use-header", out use_header_bar);
-			if (use_header_bar == 1) {
-				flags |= Gtk.DialogFlags.USE_HEADER_BAR;
-			}
-			var dialog = new Gtk.Dialog.with_buttons (action,
-													application_window,
-													flags);
-			dialog.icon_name = "system-software-install";
-			unowned Gtk.Widget widget = dialog.add_button (dgettext (null, "_Close"), Gtk.ResponseType.CLOSE);
-			widget.margin_end = 6;
-			widget.can_focus = true;
-			widget.has_focus = true;
-			widget.can_default = true;
-			widget.has_default = true;
-			unowned Gtk.Box box = dialog.get_content_area ();
-			box.margin_bottom = 6;
-			build_files_notebook.margin = 6;
-			box.add (build_files_notebook);
-			dialog.default_width = 700;
-			dialog.default_height = 500;
-			// populate notebook
-			yield populate_build_files (pkgname, false, false);
-			// run
-			dialog.run ();
-			// re-add noteboook to manager_window properties stack
-			box.remove (build_files_notebook);
-			build_files_notebook.margin = 0;
-			if (stack != null) {
-				stack.add_named (build_files_notebook, "build_files");
-			}
-			dialog.destroy ();
-			// save modifications
-			yield save_build_files (pkgname);
+			return success;
 		}
 
-		async void create_build_files_tab (File parent, string filename) {
-			var file = parent.get_child (filename);
-			if (file.query_exists ()) {
-				try {
-					StringBuilder text = new StringBuilder ();
-					var fis = yield file.read_async ();
-					var dis = new DataInputStream (fis);
-					string line;
-					while ((line = yield dis.read_line_async ()) != null) {
-						text.append (line);
-						text.append ("\n");
-					}
-					var scrolled_window = new Gtk.ScrolledWindow (null, null);
-					scrolled_window.visible = true;
-					var textview = new Gtk.TextView ();
-					textview.wrap_mode = Gtk.WrapMode.NONE;
-					textview.top_margin = 8;
-					textview.bottom_margin = 8;
-					textview.left_margin = 8;
-					textview.right_margin = 8;
-					textview.buffer.set_text (text.str, (int) text.len);
+		async bool create_build_files_tab (string filename, bool editable = true) {
+			var file = File.new_for_path (filename);
+			try {
+				StringBuilder text = new StringBuilder ();
+				var fis = yield file.read_async ();
+				var dis = new DataInputStream (fis);
+				string line;
+				while ((line = yield dis.read_line_async ()) != null) {
+					text.append (line);
+					text.append ("\n");
+				}
+				var scrolled_window = new Gtk.ScrolledWindow (null, null);
+				scrolled_window.visible = true;
+				var textview = new Gtk.TextView ();
+				textview.visible = true;
+				textview.editable = editable;
+				textview.wrap_mode = Gtk.WrapMode.NONE;
+				textview.set_monospace (true);
+				textview.input_hints = Gtk.InputHints.NO_EMOJI;
+				textview.top_margin = 8;
+				textview.bottom_margin = 8;
+				textview.left_margin = 8;
+				textview.right_margin = 8;
+				textview.buffer.set_text (text.str, (int) text.len);
+				textview.buffer.set_modified (false);
+				if (editable) {
 					Gtk.TextIter iter;
 					textview.buffer.get_start_iter (out iter);
 					textview.buffer.place_cursor (iter);
-					textview.visible = true;
-					scrolled_window.add (textview);
-					var label =  new Gtk.Label (filename);
-					label.visible = true;
-					build_files_notebook.append_page (scrolled_window, label);
-				} catch (GLib.Error e) {
-					stderr.printf ("%s\n", e.message);
+				} else {
+					textview.cursor_visible = false;
 				}
+				scrolled_window.add (textview);
+				var label =  new Gtk.Label (file.get_basename ());
+				label.visible = true;
+				build_files_notebook.append_page (scrolled_window, label);
+			} catch (GLib.Error e) {
+				stderr.printf ("%s\n", e.message);
+				return false;
 			}
+			return true;
 		}
 
-		public async void populate_build_files (string pkgname, bool clone, bool overwrite) {
+		public async bool populate_build_files (string pkgname, bool clone, bool overwrite) {
 			build_files_notebook.foreach (destroy_widget);
-			File? clone_dir;
 			if (clone) {
-				clone_dir = yield database.clone_build_files (pkgname, overwrite);
-			} else {
-				clone_dir = File.new_for_path (Path.build_path ("/", database.config.aur_build_dir, "pamac-build", pkgname));
-			}
-			if (clone_dir != null) {
-				// diff
-				yield create_build_files_tab (clone_dir, "diff");
-				// PKGBUILD
-				yield create_build_files_tab (clone_dir, "PKGBUILD");
-				// other file
-				try {
-					FileEnumerator enumerator = yield clone_dir.enumerate_children_async ("standard::*", FileQueryInfoFlags.NONE);
-					FileInfo info;
-					while ((info = enumerator.next_file (null)) != null) {
-						string filename = info.get_name ();
-						if (".install" in filename || ".patch" in filename) {
-							yield create_build_files_tab (clone_dir, filename);
-						}
-					}
-				} catch (Error e) {
-					print ("Error: %s\n", e.message);
+				File? clone_dir = yield database.clone_build_files (pkgname, overwrite);
+				if (clone_dir == null) {
+					// error
+					return false;
 				}
 			}
+			bool success = true;
+			string[] file_paths = yield get_build_files (pkgname);
+			foreach (unowned string path in file_paths) {
+				if ("PKGBUILD" in path) {
+					success = yield create_build_files_tab (path);
+					// add diff after PKGBUILD, do not failed if no diff
+					string diff_path = Path.build_path ("/", database.config.aur_build_dir, pkgname, "diff");
+					var diff_file = File.new_for_path (diff_path);
+					if (diff_file.query_exists ()) {
+						success = yield create_build_files_tab (diff_path, false);
+					}
+				} else {
+					// other file
+					success = yield create_build_files_tab (path);
+				}
+				if (!success) {
+					break;
+				}
+			}
+			return success;
 		}
 
-		public async void save_build_files (string pkgname) {
-			string pkgdir_name = Path.build_path ("/", database.config.aur_build_dir, "pamac-build", pkgname);
+		public async bool save_build_files (string pkgname) {
+			bool success = true;
 			int num_pages = build_files_notebook.get_n_pages ();
 			int index = 0;
 			while (index < num_pages) {
 				Gtk.Widget child = build_files_notebook.get_nth_page (index);
-				string file_name = Path.build_path ("/", pkgdir_name, build_files_notebook.get_tab_label_text (child));
 				var scrolled_window = child as Gtk.ScrolledWindow;
 				var textview = scrolled_window.get_child () as Gtk.TextView;
-				var file = File.new_for_path (file_name);
-				Gtk.TextIter start_iter;
-				Gtk.TextIter end_iter;
-				textview.buffer.get_start_iter (out start_iter);
-				textview.buffer.get_end_iter (out end_iter);
-				try {
-					// delete the file before rewrite it
-					yield file.delete_async ();
-					// creating a DataOutputStream to the file
-					var dos = new DataOutputStream (yield file.create_async (FileCreateFlags.REPLACE_DESTINATION));
-					// writing a string to the stream
-					dos.put_string (textview.buffer.get_text (start_iter, end_iter, false));
-				} catch (GLib.Error e) {
-					stderr.printf("%s\n", e.message);
+				if (textview.buffer.get_modified () == true) {
+					string pkgdir_name = Path.build_path ("/", database.config.aur_build_dir, pkgname);
+					string file_name = Path.build_path ("/", pkgdir_name, build_files_notebook.get_tab_label_text (child));
+					var file = File.new_for_path (file_name);
+					Gtk.TextIter start_iter;
+					Gtk.TextIter end_iter;
+					textview.buffer.get_start_iter (out start_iter);
+					textview.buffer.get_end_iter (out end_iter);
+					try {
+						// delete the file before rewrite it
+						yield file.delete_async ();
+						// creating a DataOutputStream to the file
+						var dos = new DataOutputStream (yield file.create_async (FileCreateFlags.REPLACE_DESTINATION));
+						// writing a string to the stream
+						dos.put_string (textview.buffer.get_text (start_iter, end_iter, false));
+						if (build_files_notebook.get_tab_label_text (child) == "PKGBUILD") {
+							success = yield regenerate_srcinfo (pkgname);
+						}
+					} catch (GLib.Error e) {
+						stderr.printf("%s\n", e.message);
+						success = false;
+					}
+				}
+				if (!success) {
+					break;
 				}
 				index++;
 			}
-			yield regenerate_srcinfo (pkgname);
+			return success;
 		}
 
 		void show_warnings (bool block) {

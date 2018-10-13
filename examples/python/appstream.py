@@ -26,7 +26,7 @@ if __name__ == "__main__":
     for pkg in pkgs:
         print_pkg_name (pkg)
     print ("")
-    details = db.get_pkg_details(pkgname, appname)
+    details = db.get_pkg_details(pkgname, appname, False)
     print_pkg_details (details)
 
     print ("")
@@ -36,5 +36,5 @@ if __name__ == "__main__":
     for pkg in pkgs:
         print_pkg_name (pkg)
     print ("")
-    details = db.get_pkg_details(pkgname, appname)
+    details = db.get_pkg_details(pkgname, appname, False)
     print_pkg_details (details)

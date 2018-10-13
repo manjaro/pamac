@@ -29,6 +29,9 @@ namespace Pamac {
 			alpm_utils.emit_providers.connect ((depend, providers) => {
 				emit_providers (depend, providers);
 			});
+			alpm_utils.emit_unresolvables.connect ((unresolvables) => {
+				emit_unresolvables (unresolvables);
+			});
 			alpm_utils.emit_progress.connect ((progress, pkgname, percent, n_targets, current_target) => {
 				emit_progress (progress, pkgname, percent, n_targets, current_target);
 			});
@@ -184,8 +187,8 @@ namespace Pamac {
 		}
 
 		public void start_sysupgrade_prepare (bool enable_downgrade,
-											string[] temporary_ignorepkgs,
 											string[] to_build,
+											string[] temporary_ignorepkgs,
 											string[] overwrite_files) {
 			alpm_utils.enable_downgrade = enable_downgrade;
 			alpm_utils.temporary_ignorepkgs = temporary_ignorepkgs;
@@ -213,12 +216,14 @@ namespace Pamac {
 										string[] to_remove,
 										string[] to_load,
 										string[] to_build,
+										string[] temporary_ignorepkgs,
 										string[] overwrite_files) {
 			alpm_utils.flags = flags;
 			alpm_utils.to_install = to_install;
 			alpm_utils.to_remove = to_remove;
 			alpm_utils.to_load = to_load;
 			alpm_utils.to_build = to_build;
+			alpm_utils.temporary_ignorepkgs = temporary_ignorepkgs;
 			alpm_utils.overwrite_files = overwrite_files;
 			alpm_utils.sysupgrade = false;
 			if (alpm_utils.downloading_updates) {

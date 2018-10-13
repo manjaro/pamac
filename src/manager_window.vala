@@ -426,7 +426,7 @@ namespace Pamac {
 			if (!file.query_exists ()) {
 				try {
 					Process.spawn_command_line_sync ("mkdir -p %s".printf (screenshots_tmp_dir));
-					Process.spawn_command_line_sync ("chmod -R ugo+w %s".printf (screenshots_tmp_dir));
+					Process.spawn_command_line_sync ("chmod -R a+w %s".printf (screenshots_tmp_dir));
 				} catch (SpawnError e) {
 					stderr.printf ("SpawnError: %s\n", e.message);
 				}
@@ -1664,6 +1664,7 @@ namespace Pamac {
 					});
 					break;
 				case "build_files":
+					reset_files_button.visible = true;
 					transaction.build_files_notebook.foreach (transaction.destroy_widget);
 					this.get_window ().set_cursor (new Gdk.Cursor.for_display (Gdk.Display.get_default (), Gdk.CursorType.WATCH));
 					while (Gtk.events_pending ()) {
@@ -2661,6 +2662,11 @@ namespace Pamac {
 				force_refresh = false;
 				transaction.no_confirm_upgrade = true;
 				try_lock_and_run (run_sysupgrade);
+			} else if (main_stack.visible_child_name == "details" &&
+					properties_stack.visible_child_name == "build_files") {
+					transaction.save_build_files.begin (current_package_displayed, () => {
+						try_lock_and_run (run_transaction);
+					});
 			} else {
 				try_lock_and_run (run_transaction);
 			}
@@ -2701,7 +2707,7 @@ namespace Pamac {
 				to_build_ += name;
 				previous_to_build.add (name);
 			}
-			transaction.start (to_install_, to_remove_, to_load_, to_build_, {});
+			transaction.start (to_install_, to_remove_, to_load_, to_build_, {}, {});
 			clear_lists ();
 			// let time to update packages states
 			Timeout.add (500, () => {

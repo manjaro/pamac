@@ -25,6 +25,7 @@ namespace Pamac {
 		internal AlpmConfig alpm_config;
 		internal Alpm.Handle? alpm_handle;
 		internal Alpm.Handle? files_handle;
+		internal string tmp_path;
 		internal Cond provider_cond;
 		internal Mutex provider_mutex;
 		internal int? choosen_provider;
@@ -51,6 +52,7 @@ namespace Pamac {
 
 		public signal void emit_event (uint primary_event, uint secondary_event, string[] details);
 		public signal void emit_providers (string depend, string[] providers);
+		public signal void emit_unresolvables (string[] unresolvables);
 		public signal void emit_progress (uint progress, string pkgname, uint percent, uint n_targets, uint current_target);
 		public signal void emit_download (string filename, uint64 xfered, uint64 total);
 		public signal void emit_totaldownload (uint64 total);
@@ -64,6 +66,7 @@ namespace Pamac {
 		public AlpmUtils (Config config) {
 			this.config = config;
 			alpm_config = new AlpmConfig ("/etc/pacman.conf");
+			tmp_path = "/tmp/pamac";
 			aur_pkgbases_to_build = new GLib.List<string> ();
 			to_install_as_dep = new HashTable<string, string> (str_hash, str_equal);
 			timer = new Timer ();
@@ -161,20 +164,19 @@ namespace Pamac {
 			write_log_file ("synchronizing package lists");
 			cancellable.reset ();
 			int force = (force_refresh) ? 1 : 0;
-			string tmp_dbpath = "/tmp/pamac-checkdbs";
 			if (force_refresh) {
 				// remove dbs in tmp
 				try {
-					Process.spawn_command_line_sync ("rm -rf %s".printf (tmp_dbpath));
+					Process.spawn_command_line_sync ("bash -c 'rm -rf %s/dbs*'".printf (tmp_path));
 				} catch (SpawnError e) {
 					stderr.printf ("SpawnError: %s\n", e.message);
 				}
 			} else {
 				// try to copy refresh dbs in tmp
-				var file = GLib.File.new_for_path (tmp_dbpath);
+				var file = GLib.File.new_for_path (tmp_path);
 				if (file.query_exists ()) {
 					try {
-						Process.spawn_command_line_sync ("cp -ru %s/sync %s".printf (tmp_dbpath, alpm_handle.dbpath));
+						Process.spawn_command_line_sync ("bash -c 'cp -u %s/dbs*/sync/*.{db,files} %ssync'".printf (tmp_path, alpm_handle.dbpath));
 					} catch (SpawnError e) {
 						stderr.printf ("SpawnError: %s\n", e.message);
 					}
@@ -590,6 +592,7 @@ namespace Pamac {
 		internal void trans_prepare () {
 			to_build_pkgs = {};
 			aur_pkgbases_to_build = new GLib.List<string> ();
+			to_install_as_dep.remove_all ();
 			launch_trans_prepare_real ();
 		}
 
@@ -653,6 +656,7 @@ namespace Pamac {
 		internal void build_prepare () {
 			to_build_pkgs = {};
 			aur_pkgbases_to_build = new GLib.List<string> ();
+			to_install_as_dep.remove_all ();
 			// get an handle with fake aur db and without emit signal callbacks
 			alpm_handle = alpm_config.get_handle ();
 			if (alpm_handle == null) {
@@ -665,9 +669,8 @@ namespace Pamac {
 				// emit warnings here
 				alpm_handle.logcb = (Alpm.LogCallBack) cb_log;
 				// fake aur db
-				string tmp_dbpath = "/tmp/pamac-checkdbs";
 				try {
-					Process.spawn_command_line_sync ("cp %s/sync/aur.db %ssync".printf (tmp_dbpath, alpm_handle.dbpath));
+					Process.spawn_command_line_sync ("cp %s/aur.db %ssync".printf (tmp_path, alpm_handle.dbpath));
 				} catch (SpawnError e) {
 					stderr.printf ("SpawnError: %s\n", e.message);
 				}
@@ -805,7 +808,8 @@ namespace Pamac {
 							launch_trans_prepare_real ();
 							alpm_handle.logcb = (Alpm.LogCallBack) cb_log;
 						}
-					} else {
+					}
+					if (!success) {
 						trans_release ();
 					}
 				}
@@ -1172,6 +1176,14 @@ void cb_question (Alpm.Question.Data data) {
 			data.conflict_remove = 1;
 			break;
 		case Alpm.Question.Type.REMOVE_PKGS:
+			string[] unresolvables = {};
+			unowned Alpm.List<unowned Alpm.Package> list = data.remove_pkgs_packages;
+			while (list != null) {
+				unowned Alpm.Package pkg = list.data;
+				unresolvables += pkg.name;
+				list.next ();
+			}
+			alpm_utils.emit_unresolvables (unresolvables);
 			// Return an error if there are top-level packages which have unresolvable dependencies
 			data.remove_pkgs_skip = 0;
 			break;
