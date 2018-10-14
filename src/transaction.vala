@@ -280,7 +280,23 @@ namespace Pamac {
 								to_build += aur_update.name;
 							}
 						}
-						sysupgrade_real ();
+						if (to_build.length != 0) {
+							// set building to allow cancellation
+							building = true;
+							build_cancellable.reset ();
+							compute_aur_build_list.begin ((obj, res) => {
+								bool compute_success = compute_aur_build_list.end (res);
+								building = false;
+								if (!compute_success || build_cancellable.is_cancelled ()) {
+									on_trans_prepare_finished (false);
+									return;
+								}
+								aur_unresolvables = {};
+								sysupgrade_real ();
+							});
+						} else {
+							sysupgrade_real ();
+						}
 					});
 				} else {
 					sysupgrade_real ();
@@ -356,30 +372,15 @@ namespace Pamac {
 				if (build_cancellable.is_cancelled ()) {
 					return false;
 				}
-				string version = "";
-				string pkgbase = "";
-				string desc = "";
-				string[] global_depends = {};
-				string[] global_checkdepends = {};
-				string[] global_makedepends = {};
-				string[] global_conflicts = {};
-				string[] global_provides = {};
-				string[] global_replaces = {};
-				File? clone_dir;
 				var aur_pkg = yield database.get_aur_pkg (pkgname);
 				if (aur_pkg.name == "") {
 					emit_error (dgettext (null, "target not found: %s").printf (pkgname), {});
 					return false;
-				} else {
-					// clone build files
-					emit_action (dgettext (null, "Checking %s dependencies".printf (pkgname)) + "...");
-					if (aur_pkg.name != aur_pkg.packagebase) {
-						// we have a split package
-						clone_dir = yield database.clone_build_files (aur_pkg.packagebase, false);
-					} else {
-						clone_dir = yield database.clone_build_files (aur_pkg.name, false);
-					}
 				}
+				// clone build files
+				emit_action (dgettext (null, "Checking %s dependencies".printf (pkgname)) + "...");
+				// use packagebase in case of split package
+				File? clone_dir = yield database.clone_build_files (aur_pkg.packagebase, false);
 				if (clone_dir == null) {
 					// error
 					return false;
@@ -391,8 +392,17 @@ namespace Pamac {
 					string line;
 					string current_section = "";
 					bool current_section_is_pkgbase = true;
+					string version = "";
+					string pkgbase = "";
+					string desc = "";
 					string arch = Posix.utsname ().machine;
 					string[] pkgnames_found = {};
+					string[] global_depends = {};
+					string[] global_checkdepends = {};
+					string[] global_makedepends = {};
+					string[] global_conflicts = {};
+					string[] global_provides = {};
+					string[] global_replaces = {};
 					var pkgnames_table = new HashTable<string, AURPackageDetailsStruct?> (str_hash, str_equal);
 					while ((line = yield dis.read_line_async ()) != null) {
 						if ("pkgbase = " in line) {
@@ -491,6 +501,9 @@ namespace Pamac {
 							}
 						}
 					}
+					foreach (unowned string pkgname_found in pkgnames_found) {
+						already_checked_aur_dep.add (pkgname_found);
+					}
 					// create fake aur db entries
 					foreach (unowned string pkgname_found in pkgnames_found) {
 						unowned AURPackageDetailsStruct? details_struct = pkgnames_table.get (pkgname_found);
@@ -519,7 +532,6 @@ namespace Pamac {
 							}
 						}
 						// check deps
-						already_checked_aur_dep.add (pkgname_found);
 						foreach (unowned string dep_string in details_struct.depends) {
 							var pkg = database.find_installed_satisfier (dep_string);
 							if (pkg.name == "") {
@@ -632,6 +644,7 @@ namespace Pamac {
 					building = false;
 					if (!success || build_cancellable.is_cancelled ()) {
 						on_trans_prepare_finished (false);
+						return;
 					}
 					aur_unresolvables = {};
 					transaction_interface.start_trans_prepare (flags, to_install, to_remove, to_load, to_build, temporary_ignorepkgs, overwrite_files);
