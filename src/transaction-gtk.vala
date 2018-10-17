@@ -690,6 +690,7 @@ namespace Pamac {
 			} else {
 				warning_textbuffer = new StringBuilder ();
 			}
+			summary_shown = false;
 			transaction_summary.remove_all ();
 			reset_progress_box ();
 			show_in_term ("");
