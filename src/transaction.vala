@@ -61,6 +61,7 @@ namespace Pamac {
 		// transaction options
 		public Database database { get; construct set; }
 		public int flags { get; set; } //Alpm.TransFlag
+		public bool clone_build_files { get; set; }
 
 		public signal void emit_action (string action);
 		public signal void emit_action_progress (string action, string status, double progress);
@@ -104,6 +105,7 @@ namespace Pamac {
 			// transaction options
 			flags = 0;
 			enable_downgrade = false;
+			clone_build_files = true;
 			// run transaction data
 			current_action = "";
 			current_status = "";
@@ -231,6 +233,7 @@ namespace Pamac {
 		}
 
 		void on_get_authorization_finished (bool authorized) {
+			emit_script_output ("");
 			get_authorization_finished (authorized);
 		}
 
@@ -372,19 +375,30 @@ namespace Pamac {
 				if (build_cancellable.is_cancelled ()) {
 					return false;
 				}
-				var aur_pkg = yield database.get_aur_pkg (pkgname);
-				if (aur_pkg.name == "") {
-					emit_error (dgettext (null, "target not found: %s").printf (pkgname), {});
-					return false;
+				File? clone_dir;
+				if (clone_build_files) {
+					var aur_pkg = yield database.get_aur_pkg (pkgname);
+					if (aur_pkg.name == "") {
+						emit_error (dgettext (null, "target not found: %s").printf (pkgname), {});
+						return false;
+					}
+					// clone build files
+					// use packagebase in case of split package
+					emit_action (dgettext (null, "Cloning %s build files".printf (pkgname)) + "...");
+					clone_dir = yield database.clone_build_files (aur_pkg.packagebase, false);
+					if (clone_dir == null) {
+						// error
+						return false;
+					}
+				} else {
+					clone_dir = File.new_for_path (Path.build_path ("/", database.config.aur_build_dir, pkgname));
+					if (!clone_dir.query_exists ()) {
+						// error
+						return false;
+					}
+					yield regenerate_srcinfo (pkgname);
 				}
-				// clone build files
 				emit_action (dgettext (null, "Checking %s dependencies".printf (pkgname)) + "...");
-				// use packagebase in case of split package
-				File? clone_dir = yield database.clone_build_files (aur_pkg.packagebase, false);
-				if (clone_dir == null) {
-					// error
-					return false;
-				}
 				var srcinfo = clone_dir.get_child (".SRCINFO");
 				try {
 					// read .SRCINFO
@@ -538,10 +552,10 @@ namespace Pamac {
 								pkg = database.find_sync_satisfier (dep_string);
 							}
 							if (pkg.name == "") {
-								string dep_name = Alpm.Depend.from_string (dep_string).name;
+								string dep_name = database.get_alpm_dep_name (dep_string);
 								if (!(dep_name in already_checked_aur_dep)) {
 									already_checked_aur_dep.add (dep_name);
-									aur_pkg = yield database.get_aur_pkg (dep_name);
+									var aur_pkg = yield database.get_aur_pkg (dep_name);
 									if (aur_pkg.name != "") {
 										dep_to_check += (owned) dep_name;
 									}

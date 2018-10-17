@@ -120,6 +120,10 @@ namespace Pamac {
 			return country;
 		}
 
+		public string get_alpm_dep_name (string dep_string) {
+			return Alpm.Depend.from_string (dep_string).name;
+		}
+
 		public bool get_checkspace () {
 			return alpm_handle.checkspace == 1 ? true : false;
 		}

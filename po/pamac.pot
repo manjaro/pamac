@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2018-10-13 11:01+0200\n"
+"POT-Creation-Date: 2018-10-17 16:07+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -140,6 +140,11 @@ msgstr ""
 
 #: src/transaction.vala
 msgid "Synchronizing package databases"
+msgstr ""
+
+#: src/transaction.vala src/cli.vala
+#, c-format
+msgid "Cloning %s build files"
 msgstr ""
 
 #: src/transaction.vala
@@ -363,14 +368,14 @@ msgstr ""
 msgid "Edit %s build files"
 msgstr ""
 
+#: src/transaction-gtk.vala
+msgid "Save"
+msgstr ""
+
 #: src/transaction-gtk.vala src/manager_window.vala
 #: resources/transaction_sum_dialog.ui resources/manager_window.ui
 #: resources/choose_ignorepkgs_dialog.ui
 msgid "_Cancel"
-msgstr ""
-
-#: src/transaction-gtk.vala
-msgid "Save"
 msgstr ""
 
 #: src/transaction-gtk.vala resources/progress_dialog.ui
@@ -720,6 +725,10 @@ msgid "Building packages as root is not allowed"
 msgstr ""
 
 #: src/cli.vala
+msgid "No PKGBUILD file found in current directory"
+msgstr ""
+
+#: src/cli.vala
 msgid "Available actions"
 msgstr ""
 
@@ -795,7 +804,7 @@ msgid "list files owned by the given packages"
 msgstr ""
 
 #: src/cli.vala
-msgid "Build packages from AUR and install them with their dependencies"
+msgid "Clone or sync packages build files from AUR"
 msgstr ""
 
 #: src/cli.vala
@@ -806,6 +815,33 @@ msgstr ""
 
 #: src/cli.vala
 msgid "dir"
+msgstr ""
+
+#: src/cli.vala
+msgid "also clone needed dependencies"
+msgstr ""
+
+#: src/cli.vala
+msgid "overwrite existing files"
+msgstr ""
+
+#: src/cli.vala
+msgid "Build packages from AUR and install them with their dependencies"
+msgstr ""
+
+#: src/cli.vala
+msgid ""
+"If no package name is given, use the PKGBUILD file is the current directory"
+msgstr ""
+
+#: src/cli.vala
+msgid ""
+"The build directory will be the parent directory, --builddir option will be "
+"ignored"
+msgstr ""
+
+#: src/cli.vala
+msgid "do not clone build files from AUR, only use local files"
 msgstr ""
 
 #: src/cli.vala
