@@ -698,7 +698,7 @@ namespace Pamac {
 		void display_build_help () {
 			stdout.printf (dgettext (null, "Build packages from AUR and install them with their dependencies"));
 			stdout.printf ("\n\n");
-			stdout.printf (dgettext (null, "If no package name is given, use the PKGBUILD file is the current directory"));
+			stdout.printf (dgettext (null, "If no package name is given, use the PKGBUILD file in the current directory"));
 			stdout.printf ("\n");
 			stdout.printf (dgettext (null, "The build directory will be the parent directory, --builddir option will be ignored"));
 			stdout.printf ("\n\n");
