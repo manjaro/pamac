@@ -136,9 +136,15 @@ namespace Pamac {
 				}
 				int width = get_term_width () - action.char_count () - 1;
 				string current_status = "[%s]".printf (status);
-				current_line = "%s %*s".printf (action, width, current_status);
-				stdout.printf (current_line);
-				stdout.printf ("\r");
+				if (width > current_status.length) {
+					current_line = "%s %*s".printf (action, width, current_status);
+					stdout.printf (current_line);
+					stdout.printf ("\r");
+				} else {
+					current_line = "%s %s".printf (action, current_status);
+					stdout.printf (current_line);
+					stdout.printf ("\n");
+				}
 			}
 			stdout.flush ();
 		}

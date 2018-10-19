@@ -1196,168 +1196,198 @@ namespace Pamac {
 			return null;
 		}
 
+		async void populate_aur_infos (string[] pkgnames) {
+			string[] names = {};
+			foreach (unowned string pkgname in pkgnames) {
+				if (!aur_infos.contains (pkgname)) {
+					names += pkgname;
+				}
+			}
+			if (names.length > 0) {
+				Json.Array results = yield aur_multiinfo (names);
+				results.foreach_element ((array, index, node) => {
+					unowned Json.Object? json_object = node.get_object ();
+					aur_infos.insert (json_object.get_string_member ("Name"), json_object);
+				});
+			}
+		}
+
 		public async AURPackage get_aur_pkg (string pkgname) {
 			if (config.enable_aur) {
-				if (!aur_infos.contains (pkgname)) {
-					Json.Array results = yield aur_multiinfo ({pkgname});
-					if (results.get_length () > 0) {
-						aur_infos.insert (pkgname, results.get_object_element (0));
-					}
-				}
-				unowned Json.Object? json_object = aur_infos.lookup (pkgname);
-				return new AURPackage.from_struct (initialise_aur_struct (json_object));
+				yield populate_aur_infos ({pkgname});
+				return new AURPackage.from_struct (initialise_aur_struct (aur_infos.lookup (pkgname)));
 			} else {
 				return new AURPackage ();
 			}
 		}
 
+		public async HashTable<string, AURPackage> get_aur_pkgs (string[] pkgnames) {
+			var data = new HashTable<string, AURPackage> (str_hash, str_equal);
+			if (config.enable_aur) {
+				yield populate_aur_infos (pkgnames);
+				foreach (unowned string pkgname in pkgnames) {
+					data.insert (pkgname, new AURPackage.from_struct (initialise_aur_struct (aur_infos.lookup (pkgname))));
+				}
+			}
+			return data;
+		}
+
+		AURPackageDetailsStruct initialise_aur_details_struct (Json.Object? json_object) {
+			string name = "";
+			string version = "";
+			string desc = "";
+			double popularity = 0;
+			string packagebase = "";
+			string url = "";
+			string maintainer = "";
+			string firstsubmitted = "";
+			string lastmodified = "";
+			string outofdate = "";
+			int64 numvotes = 0;
+			string[] licenses = {};
+			string[] depends = {};
+			string[] makedepends = {};
+			string[] checkdepends = {};
+			string[] optdepends = {};
+			string[] provides = {};
+			string[] replaces = {};
+			string[] conflicts = {};
+			if (json_object != null) {
+				// name
+				name = json_object.get_string_member ("Name");
+				// version
+				version = json_object.get_string_member ("Version");
+				// desc can be null
+				if (!json_object.get_null_member ("Description")) {
+					desc = json_object.get_string_member ("Description");
+				}
+				popularity = json_object.get_double_member ("Popularity");
+				// packagebase
+				packagebase = json_object.get_string_member ("PackageBase");
+				// url can be null
+				unowned Json.Node? node = json_object.get_member ("URL");
+				if (!node.is_null ()) {
+					url = node.get_string ();
+				}
+				// maintainer can be null
+				node = json_object.get_member ("Maintainer");
+				if (!node.is_null ()) {
+					maintainer = node.get_string ();
+				}
+				// firstsubmitted
+				GLib.Time time = GLib.Time.local ((time_t) json_object.get_int_member ("FirstSubmitted"));
+				firstsubmitted = time.format ("%x");
+				// lastmodified
+				time = GLib.Time.local ((time_t) json_object.get_int_member ("LastModified"));
+				lastmodified = time.format ("%x");
+				// outofdate can be null
+				node = json_object.get_member ("OutOfDate");
+				if (!node.is_null ()) {
+					time = GLib.Time.local ((time_t) node.get_int ());
+					outofdate = time.format ("%x");
+				}
+				//numvotes
+				numvotes = json_object.get_int_member ("NumVotes");
+				// licenses
+				node = json_object.get_member ("License");
+				if (!node.is_null ()) {
+					node.get_array ().foreach_element ((array, index, _node) => {
+						licenses += _node.get_string ();
+					});
+				} else {
+					licenses += dgettext (null, "Unknown");
+				}
+				// depends
+				node = json_object.get_member ("Depends");
+				if (node != null) {
+					node.get_array ().foreach_element ((array, index, _node) => {
+						depends += _node.get_string ();
+					});
+				}
+				// optdepends
+				node = json_object.get_member ("OptDepends");
+				if (node != null) {
+					node.get_array ().foreach_element ((array, index, _node) => {
+						optdepends += _node.get_string ();
+					});
+				}
+				// makedepends
+				node = json_object.get_member ("MakeDepends");
+				if (node != null) {
+					node.get_array ().foreach_element ((array, index, _node) => {
+						makedepends += _node.get_string ();
+					});
+				}
+				// checkdepends
+				node = json_object.get_member ("CheckDepends");
+				if (node != null) {
+					node.get_array ().foreach_element ((array, index, _node) => {
+						checkdepends += _node.get_string ();
+					});
+				}
+				// provides
+				node = json_object.get_member ("Provides");
+				if (node != null) {
+					node.get_array ().foreach_element ((array, index, _node) => {
+						provides += _node.get_string ();
+					});
+				}
+				// replaces
+				node = json_object.get_member ("Replaces");
+				if (node != null) {
+					node.get_array ().foreach_element ((array, index, _node) => {
+						replaces += _node.get_string ();
+					});
+				}
+				// conflicts
+				node = json_object.get_member ("Conflicts");
+				if (node != null) {
+					node.get_array ().foreach_element ((array, index, _node) => {
+						conflicts += _node.get_string ();
+					});
+				}
+			}
+			var details = AURPackageDetailsStruct ();
+			details.name = (owned) name;
+			details.version = (owned) version ;
+			details.desc = (owned) desc;
+			details.popularity = popularity;
+			details.packagebase = (owned) packagebase;
+			details.url = (owned) url;
+			details.maintainer = (owned) maintainer ;
+			details.firstsubmitted = (owned) firstsubmitted;
+			details.lastmodified = (owned) lastmodified;
+			details.outofdate = (owned) outofdate;
+			details.numvotes = numvotes;
+			details.licenses = (owned) licenses;
+			details.depends = (owned) depends;
+			details.optdepends = (owned) optdepends;
+			details.checkdepends = (owned) checkdepends;
+			details.makedepends = (owned) makedepends;
+			details.provides = (owned) provides;
+			details.replaces = (owned) replaces;
+			details.conflicts = (owned) conflicts;
+			return details;
+		}
+
 		public async AURPackageDetails get_aur_pkg_details (string pkgname) {
 			if (config.enable_aur) {
-				string name = "";
-				string version = "";
-				string desc = "";
-				double popularity = 0;
-				string packagebase = "";
-				string url = "";
-				string maintainer = "";
-				string firstsubmitted = "";
-				string lastmodified = "";
-				string outofdate = "";
-				int64 numvotes = 0;
-				string[] licenses = {};
-				string[] depends = {};
-				string[] makedepends = {};
-				string[] checkdepends = {};
-				string[] optdepends = {};
-				string[] provides = {};
-				string[] replaces = {};
-				string[] conflicts = {};
-				var details = AURPackageDetailsStruct ();
-				if (!aur_infos.contains (pkgname)) {
-					Json.Array results = yield aur_multiinfo ({pkgname});
-					if (results.get_length () > 0) {
-						aur_infos.insert (pkgname, results.get_object_element (0));
-					}
-				}
-				unowned Json.Object? json_object = aur_infos.lookup (pkgname);
-				if (json_object != null) {
-					// name
-					name = json_object.get_string_member ("Name");
-					// version
-					version = json_object.get_string_member ("Version");
-					// desc can be null
-					if (!json_object.get_null_member ("Description")) {
-						desc = json_object.get_string_member ("Description");
-					}
-					popularity = json_object.get_double_member ("Popularity");
-					// packagebase
-					packagebase = json_object.get_string_member ("PackageBase");
-					// url can be null
-					unowned Json.Node? node = json_object.get_member ("URL");
-					if (!node.is_null ()) {
-						url = node.get_string ();
-					}
-					// maintainer can be null
-					node = json_object.get_member ("Maintainer");
-					if (!node.is_null ()) {
-						maintainer = node.get_string ();
-					}
-					// firstsubmitted
-					GLib.Time time = GLib.Time.local ((time_t) json_object.get_int_member ("FirstSubmitted"));
-					firstsubmitted = time.format ("%x");
-					// lastmodified
-					time = GLib.Time.local ((time_t) json_object.get_int_member ("LastModified"));
-					lastmodified = time.format ("%x");
-					// outofdate can be null
-					node = json_object.get_member ("OutOfDate");
-					if (!node.is_null ()) {
-						time = GLib.Time.local ((time_t) node.get_int ());
-						outofdate = time.format ("%x");
-					}
-					//numvotes
-					numvotes = json_object.get_int_member ("NumVotes");
-					// licenses
-					node = json_object.get_member ("License");
-					if (!node.is_null ()) {
-						node.get_array ().foreach_element ((array, index, _node) => {
-							licenses += _node.get_string ();
-						});
-					} else {
-						licenses += dgettext (null, "Unknown");
-					}
-					// depends
-					node = json_object.get_member ("Depends");
-					if (node != null) {
-						node.get_array ().foreach_element ((array, index, _node) => {
-							depends += _node.get_string ();
-						});
-					}
-					// optdepends
-					node = json_object.get_member ("OptDepends");
-					if (node != null) {
-						node.get_array ().foreach_element ((array, index, _node) => {
-							optdepends += _node.get_string ();
-						});
-					}
-					// makedepends
-					node = json_object.get_member ("MakeDepends");
-					if (node != null) {
-						node.get_array ().foreach_element ((array, index, _node) => {
-							makedepends += _node.get_string ();
-						});
-					}
-					// checkdepends
-					node = json_object.get_member ("CheckDepends");
-					if (node != null) {
-						node.get_array ().foreach_element ((array, index, _node) => {
-							checkdepends += _node.get_string ();
-						});
-					}
-					// provides
-					node = json_object.get_member ("Provides");
-					if (node != null) {
-						node.get_array ().foreach_element ((array, index, _node) => {
-							provides += _node.get_string ();
-						});
-					}
-					// replaces
-					node = json_object.get_member ("Replaces");
-					if (node != null) {
-						node.get_array ().foreach_element ((array, index, _node) => {
-							replaces += _node.get_string ();
-						});
-					}
-					// conflicts
-					node = json_object.get_member ("Conflicts");
-					if (node != null) {
-						node.get_array ().foreach_element ((array, index, _node) => {
-							conflicts += _node.get_string ();
-						});
-					}
-				}
-				details.name = (owned) name;
-				details.version = (owned) version ;
-				details.desc = (owned) desc;
-				details.popularity = popularity;
-				details.packagebase = (owned) packagebase;
-				details.url = (owned) url;
-				details.maintainer = (owned) maintainer ;
-				details.firstsubmitted = (owned) firstsubmitted;
-				details.lastmodified = (owned) lastmodified;
-				details.outofdate = (owned) outofdate;
-				details.numvotes = numvotes;
-				details.licenses = (owned) licenses;
-				details.depends = (owned) depends;
-				details.optdepends = (owned) optdepends;
-				details.checkdepends = (owned) checkdepends;
-				details.makedepends = (owned) makedepends;
-				details.provides = (owned) provides;
-				details.replaces = (owned) replaces;
-				details.conflicts = (owned) conflicts;
-				return new AURPackageDetails.from_struct (details);
+				yield populate_aur_infos ({pkgname});
+				return new AURPackageDetails.from_struct (initialise_aur_details_struct (aur_infos.lookup (pkgname)));
 			} else {
 				return new AURPackageDetails ();
 			}
+		}
+
+		public async HashTable<string, AURPackageDetails> get_aur_pkgs_details (string[] pkgnames) {
+			var data = new HashTable<string, AURPackageDetails> (str_hash, str_equal);
+			if (config.enable_aur) {
+				yield populate_aur_infos (pkgnames);
+				foreach (unowned string pkgname in pkgnames) {
+					data.insert (pkgname, new AURPackageDetails.from_struct (initialise_aur_details_struct (aur_infos.lookup (pkgname))));
+				}
+			}
+			return data;
 		}
 
 		public async List<AURPackage> get_aur_updates () {

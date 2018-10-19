@@ -267,7 +267,6 @@ namespace Pamac {
 					&& summary.to_upgrade.length () > 0) {
 					return true;
 				}
-				summary_shown = true;
 				int response = show_summary (summary);
 				if (response == Gtk.ResponseType.OK) {
 					// Commit
@@ -690,7 +689,6 @@ namespace Pamac {
 			} else {
 				warning_textbuffer = new StringBuilder ();
 			}
-			summary_shown = false;
 			transaction_summary.remove_all ();
 			reset_progress_box ();
 			show_in_term ("");

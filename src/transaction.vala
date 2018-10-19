@@ -371,13 +371,17 @@ namespace Pamac {
 
 		async bool check_aur_dep_list (string[] pkgnames) {
 			string[] dep_to_check = {};
+			var aur_pkgs = new HashTable<string, AURPackage> (str_hash, str_equal);
+			if (clone_build_files) {
+				aur_pkgs = yield database.get_aur_pkgs (pkgnames);
+			}
 			foreach (unowned string pkgname in pkgnames) {
 				if (build_cancellable.is_cancelled ()) {
 					return false;
 				}
 				File? clone_dir;
 				if (clone_build_files) {
-					var aur_pkg = yield database.get_aur_pkg (pkgname);
+					unowned AURPackage aur_pkg = aur_pkgs.lookup (pkgname);
 					if (aur_pkg.name == "") {
 						emit_error (dgettext (null, "target not found: %s").printf (pkgname), {});
 						return false;
@@ -397,6 +401,9 @@ namespace Pamac {
 						return false;
 					}
 					yield regenerate_srcinfo (pkgname);
+				}
+				if (build_cancellable.is_cancelled ()) {
+					return false;
 				}
 				emit_action (dgettext (null, "Checking %s dependencies".printf (pkgname)) + "...");
 				var srcinfo = clone_dir.get_child (".SRCINFO");
@@ -555,10 +562,7 @@ namespace Pamac {
 								string dep_name = database.get_alpm_dep_name (dep_string);
 								if (!(dep_name in already_checked_aur_dep)) {
 									already_checked_aur_dep.add (dep_name);
-									var aur_pkg = yield database.get_aur_pkg (dep_name);
-									if (aur_pkg.name != "") {
-										dep_to_check += (owned) dep_name;
-									}
+									dep_to_check += (owned) dep_name;
 								}
 							}
 						}
@@ -1209,6 +1213,8 @@ namespace Pamac {
 					finish_transaction (true);
 					//handle_error (err);
 				}
+			} else if (build_cancellable.is_cancelled ()) {
+				finish_transaction (false);
 			} else if (to_build.length > 0) {
 				check_aur_unresolvables_and_edit_build_files.begin ();
 			} else {
@@ -1278,7 +1284,6 @@ namespace Pamac {
 		void on_trans_commit_finished (bool success) {
 			if (success) {
 				if (to_build_queue.get_length () != 0) {
-					emit_script_output ("");
 					get_authorization_finished.connect (launch_build_next_aur_package);
 					start_get_authorization ();
 				} else {
