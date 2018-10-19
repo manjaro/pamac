@@ -1160,8 +1160,11 @@ namespace Pamac {
 					max_length = prop.length;
 				}
 			}
-			foreach (string pkgname in pkgnames) {
-				var details = yield database.get_aur_pkg_details (pkgname);
+			var aur_pkgs = yield database.get_aur_pkgs_details (pkgnames);
+			var iter = HashTableIter<string, AURPackageDetails> (aur_pkgs);
+			unowned string pkgname;
+			unowned AURPackageDetails details;
+			while (iter.next (out pkgname, out details)) {
 				if (details.name == "") {
 					print_error (dgettext (null, "target not found: %s").printf (pkgname) + "\n");
 					return;
@@ -1748,11 +1751,15 @@ namespace Pamac {
 		}
 
 		async void clone_build_files_real (string[] pkgnames, bool overwrite, bool recurse) {
-			foreach (unowned string pkgname in pkgnames) {
-				var aur_pkg_details = yield database.get_aur_pkg_details (pkgname);
+			string[] dep_to_check = {};
+			var aur_pkgs = yield database.get_aur_pkgs_details (pkgnames);
+			var iter = HashTableIter<string, AURPackageDetails> (aur_pkgs);
+			unowned string pkgname;
+			unowned AURPackageDetails aur_pkg_details;
+			while (iter.next (out pkgname, out aur_pkg_details)) {
 				if (aur_pkg_details.name == "") {
 					print_error (dgettext (null, "target not found: %s").printf (pkgname) + "\n");
-					return;
+					continue;
 				} else {
 					// clone build files
 					stdout.printf (dgettext (null, "Cloning %s build files".printf (pkgname)) + "...\n");
@@ -1762,7 +1769,6 @@ namespace Pamac {
 						// error
 						return;
 					} else if (recurse) {
-						string[] dep_to_check = {};
 						var depends = new List<string> ();
 						foreach (unowned string depend in aur_pkg_details.depends) {
 							depends.append (depend);
@@ -1783,34 +1789,30 @@ namespace Pamac {
 								string dep_name = database.get_alpm_dep_name (dep_string);
 								if (!(dep_name in already_checked_aur_dep)) {
 									already_checked_aur_dep.add (dep_name);
-									var aur_pkg = yield database.get_aur_pkg (dep_name);
-									if (aur_pkg.name != "") {
-										dep_to_check += (owned) dep_name;
-									}
+									dep_to_check += (owned) dep_name;
 								}
 							}
-						}
-						if (dep_to_check.length > 0) {
-							yield clone_build_files_real (dep_to_check, overwrite, recurse);
 						}
 					}
 				}
 			}
+			if (dep_to_check.length > 0) {
+				yield clone_build_files_real (dep_to_check, overwrite, recurse);
+			}
 		}
 
 		async bool check_build_pkgs () {
-			bool success = true;
-			foreach (unowned string pkgname in to_build)  {
-				var aur_pkg = yield database.get_aur_pkg (pkgname);
+			var aur_pkgs = yield database.get_aur_pkgs (to_build);
+			var iter = HashTableIter<string, AURPackage> (aur_pkgs);
+			unowned string pkgname;
+			unowned AURPackage aur_pkg;
+			while (iter.next (out pkgname, out aur_pkg)) {
 				if (aur_pkg.name == "") {
 					print_error (dgettext (null, "target not found: %s").printf (pkgname) + "\n");
-					success = false;
-				}
-				if (!success) {
-					break;
+					return false;
 				}
 			}
-			return success;
+			return true;
 		}
 
 		void build_pkgs (string[] to_build) {
