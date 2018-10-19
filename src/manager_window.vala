@@ -1964,8 +1964,12 @@ namespace Pamac {
 
 		async void populate_pendings_aur_pkgs () {
 			var aur_pkgs = new List<AURPackage> ();
-			foreach (unowned string pkgname in to_build) {
-				var aur_pkg = yield database.get_aur_pkg (pkgname);
+			string[] to_build_array = {};
+			foreach (unowned string name in to_build)  {
+				to_build_array += name;
+			}
+			var table = yield database.get_aur_pkgs (to_build_array);
+			foreach (unowned AURPackage aur_pkg in table.get_values ())  {
 				if (aur_pkg.name != "") {
 					aur_pkgs.append (aur_pkg);
 				}
