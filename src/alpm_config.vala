@@ -151,7 +151,7 @@ internal class AlpmConfig {
 					Process.spawn_command_line_sync ("mkdir -p %s".printf (tmp_dbpath));
 					Process.spawn_command_line_sync ("ln -s %slocal %s".printf (dbpath, tmp_dbpath));
 				}
-				Process.spawn_command_line_sync ("cp -ru %ssync %s".printf (dbpath, tmp_dbpath));
+				Process.spawn_command_line_sync ("cp -au %ssync %s".printf (dbpath, tmp_dbpath));
 				handle = new Alpm.Handle (rootdir, tmp_dbpath, out error);
 				if (error == Alpm.Errno.DB_VERSION) {
 					try {
