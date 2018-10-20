@@ -952,6 +952,27 @@ namespace Pamac {
 			Gtk.Widget? previous_widget = null;
 			if (details.repo != "") {
 				previous_widget = populate_details_grid (dgettext (null, "Repository"), details.repo, previous_widget);
+			} else {
+				AURPackageDetails aur_pkg_details = yield database.get_aur_pkg_details (details.name);
+				if (aur_pkg_details.packagebase != ""
+					&& aur_pkg_details.packagebase != details.name) {
+					previous_widget = populate_details_grid (dgettext (null, "Package Base"), aur_pkg_details.packagebase, previous_widget);
+				}
+				if (aur_pkg_details.maintainer != "") {
+					previous_widget = populate_details_grid (dgettext (null, "Maintainer"), aur_pkg_details.maintainer, previous_widget);
+				}
+				if (aur_pkg_details.firstsubmitted != "") {
+					previous_widget = populate_details_grid (dgettext (null, "First Submitted"), aur_pkg_details.firstsubmitted, previous_widget);
+				}
+				if (aur_pkg_details.lastmodified != "") {
+					previous_widget = populate_details_grid (dgettext (null, "Last Modified"), aur_pkg_details.lastmodified, previous_widget);
+				}
+				if (aur_pkg_details.numvotes != 0) {
+					previous_widget = populate_details_grid (dgettext (null, "Votes"), aur_pkg_details.numvotes.to_string (), previous_widget);
+				}
+				if (aur_pkg_details.outofdate != "") {
+					previous_widget = populate_details_grid (dgettext (null, "Out of Date"), aur_pkg_details.outofdate, previous_widget);
+				}
 			}
 			if (details.groups.length () > 0) {
 				var label = new Gtk.Label ("<b>%s</b>".printf (dgettext (null, "Groups") + ":"));
