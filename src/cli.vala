@@ -191,7 +191,6 @@ namespace Pamac {
 							} else if (arg == "--recurse" || arg == "-r") {
 								recurse = true;
 							} else if (arg == "--builddir") {
-								stdout.printf ("dir %s\n", args[i + 1]);
 								if (args[i + 1] != null) {
 									database.config.aur_build_dir = args[i + 1];
 								}
@@ -251,6 +250,15 @@ namespace Pamac {
 					File? parent = current_dir.get_parent ();
 					if (parent != null) {
 						database.config.aur_build_dir = parent.get_path ();
+					}
+				} else if (!transaction.clone_build_files) {
+					// check if targets exist
+					foreach (unowned string target in targets) {
+						var dir = File.new_for_path (Path.build_path ("/", database.config.aur_build_dir, target));
+						if (!dir.query_exists ()) {
+							print_error (dgettext (null, "target not found: %s").printf (target));
+							return;
+						}
 					}
 				}
 				build_pkgs (targets);
@@ -964,7 +972,7 @@ namespace Pamac {
 			foreach (unowned string pkgname in pkgnames) {
 				var details =  database.get_pkg_details (pkgname, "", false);
 				if (details.name == "") {
-					print_error (dgettext (null, "target not found: %s").printf (pkgname) + "\n");
+					print_error (dgettext (null, "target not found: %s").printf (pkgname));
 					continue;
 				}
 				// Name
@@ -1166,7 +1174,7 @@ namespace Pamac {
 			unowned AURPackageDetails details;
 			while (iter.next (out pkgname, out details)) {
 				if (details.name == "") {
-					print_error (dgettext (null, "target not found: %s").printf (pkgname) + "\n");
+					print_error (dgettext (null, "target not found: %s").printf (pkgname));
 					return;
 				}
 				// Name
@@ -1758,7 +1766,7 @@ namespace Pamac {
 			unowned AURPackageDetails aur_pkg_details;
 			while (iter.next (out pkgname, out aur_pkg_details)) {
 				if (aur_pkg_details.name == "") {
-					print_error (dgettext (null, "target not found: %s").printf (pkgname) + "\n");
+					print_error (dgettext (null, "target not found: %s").printf (pkgname));
 					continue;
 				} else {
 					// clone build files
@@ -1808,7 +1816,7 @@ namespace Pamac {
 			unowned AURPackage aur_pkg;
 			while (iter.next (out pkgname, out aur_pkg)) {
 				if (aur_pkg.name == "") {
-					print_error (dgettext (null, "target not found: %s").printf (pkgname) + "\n");
+					print_error (dgettext (null, "target not found: %s").printf (pkgname));
 					return false;
 				}
 			}

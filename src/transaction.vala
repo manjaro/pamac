@@ -174,7 +174,7 @@ namespace Pamac {
 					}
 				}
 			} catch (GLib.Error e) {
-				stderr.printf("Error: %s\n", e.message);
+				stderr.printf ("Error: %s\n", e.message);
 			}
 			return files;
 		}
@@ -185,25 +185,39 @@ namespace Pamac {
 			var launcher = new SubprocessLauncher (SubprocessFlags.STDOUT_PIPE);
 			launcher.set_cwd (pkgdir_name);
 			emit_action (dgettext (null, "Generating %s informations").printf (pkgname) + "...");
+			// set building to allow cancellation
+			building = true;
 			try {
 				Subprocess process = launcher.spawnv ({"makepkg", "--printsrcinfo"});
-				yield process.wait_async ();
-				if (process.get_if_exited ()) {
-					if (process.get_exit_status () == 0) {
-						var dis = new DataInputStream (process.get_stdout_pipe ());
-						var file = File.new_for_path (Path.build_path ("/", pkgdir_name, ".SRCINFO"));
-						// delete the file before rewrite it
-						yield file.delete_async ();
-						// creating a DataOutputStream to the file
-						var dos = new DataOutputStream (yield file.create_async (FileCreateFlags.REPLACE_DESTINATION));
-						// writing makepkg output to .SRCINFO
-						yield dos.splice_async (dis, 0);
-						return true;
+				try {
+					yield process.wait_async (build_cancellable);
+					if (process.get_if_exited ()) {
+						if (process.get_exit_status () == 0) {
+							try {
+								var dis = new DataInputStream (process.get_stdout_pipe ());
+								var file = File.new_for_path (Path.build_path ("/", pkgdir_name, ".SRCINFO"));
+								// delete the file before rewrite it
+								yield file.delete_async ();
+								// creating a DataOutputStream to the file
+								var dos = new DataOutputStream (yield file.create_async (FileCreateFlags.REPLACE_DESTINATION));
+								// writing makepkg output to .SRCINFO
+								yield dos.splice_async (dis, 0);
+								building = false;
+								return true;
+							} catch (Error e) {
+								stderr.printf ("Error: %s\n", e.message);
+							}
+						}
 					}
+				} catch (Error e) {
+					// cancelled
+					process.send_signal (Posix.Signal.INT);
+					process.send_signal (Posix.Signal.KILL);
 				}
 			} catch (Error e) {
 				stderr.printf ("Error: %s\n", e.message);
 			}
+			building = false;
 			return false;
 		}
 
@@ -272,34 +286,18 @@ namespace Pamac {
 			if (!success) {
 				on_trans_prepare_finished (false);
 			} else {
+				to_build = {};
 				sysupgrading = true;
 				emit_action (dgettext (null, "Starting full system upgrade") + "...");
 				if (database.config.check_aur_updates) {
 					database.get_aur_updates.begin ((obj, res) => {
 						var aur_updates = database.get_aur_updates.end (res);
-						to_build = {};
 						foreach (unowned AURPackage aur_update in aur_updates) {
 							if (!(aur_update.name in temporary_ignorepkgs)) {
 								to_build += aur_update.name;
 							}
 						}
-						if (to_build.length != 0) {
-							// set building to allow cancellation
-							building = true;
-							build_cancellable.reset ();
-							compute_aur_build_list.begin ((obj, res) => {
-								bool compute_success = compute_aur_build_list.end (res);
-								building = false;
-								if (!compute_success || build_cancellable.is_cancelled ()) {
-									on_trans_prepare_finished (false);
-									return;
-								}
-								aur_unresolvables = {};
-								sysupgrade_real ();
-							});
-						} else {
-							sysupgrade_real ();
-						}
+						sysupgrade_real ();
 					});
 				} else {
 					sysupgrade_real ();
@@ -336,7 +334,7 @@ namespace Pamac {
 			downloading_updates_finished ();
 		}
 
-		async bool compute_aur_build_list () {
+		async void compute_aur_build_list () {
 			string tmp_path = "/tmp/pamac";
 			try {
 				var file = GLib.File.new_for_path (tmp_path);
@@ -350,8 +348,8 @@ namespace Pamac {
 			}
 			aur_desc_list.remove_all ();
 			already_checked_aur_dep.remove_all ();
-			bool success = yield check_aur_dep_list (to_build);
-			if (success) {
+			yield check_aur_dep_list (to_build);
+			if (aur_desc_list.length > 0) {
 				// create a fake aur db
 				try {
 					var list = new StringBuilder ();
@@ -363,13 +361,11 @@ namespace Pamac {
 					Process.spawn_command_line_sync ("bsdtar -cf %s/aur.db -C %s %s".printf (tmp_path, aurdb_path, list.str));
 				} catch (SpawnError e) {
 					stderr.printf ("SpawnError: %s\n", e.message);
-					success = false;
 				}
 			}
-			return success;
 		}
 
-		async bool check_aur_dep_list (string[] pkgnames) {
+		async void check_aur_dep_list (string[] pkgnames) {
 			string[] dep_to_check = {};
 			var aur_pkgs = new HashTable<string, AURPackage> (str_hash, str_equal);
 			if (clone_build_files) {
@@ -377,14 +373,14 @@ namespace Pamac {
 			}
 			foreach (unowned string pkgname in pkgnames) {
 				if (build_cancellable.is_cancelled ()) {
-					return false;
+					return;
 				}
 				File? clone_dir;
 				if (clone_build_files) {
 					unowned AURPackage aur_pkg = aur_pkgs.lookup (pkgname);
 					if (aur_pkg.name == "") {
-						emit_error (dgettext (null, "target not found: %s").printf (pkgname), {});
-						return false;
+						// error
+						continue;
 					}
 					// clone build files
 					// use packagebase in case of split package
@@ -392,18 +388,21 @@ namespace Pamac {
 					clone_dir = yield database.clone_build_files (aur_pkg.packagebase, false);
 					if (clone_dir == null) {
 						// error
-						return false;
+						continue;
 					}
 				} else {
 					clone_dir = File.new_for_path (Path.build_path ("/", database.config.aur_build_dir, pkgname));
 					if (!clone_dir.query_exists ()) {
 						// error
-						return false;
+						continue;
 					}
-					yield regenerate_srcinfo (pkgname);
+					if (!(yield regenerate_srcinfo (pkgname))) {
+						// error
+						continue;
+					}
 				}
 				if (build_cancellable.is_cancelled ()) {
-					return false;
+					return;
 				}
 				emit_action (dgettext (null, "Checking %s dependencies".printf (pkgname)) + "...");
 				var srcinfo = clone_dir.get_child (".SRCINFO");
@@ -627,21 +626,35 @@ namespace Pamac {
 						}
 					}
 				} catch (GLib.Error e) {
-					stderr.printf("Error: %s\n", e.message);
-					return false;
+					stderr.printf ("Error: %s\n", e.message);
+					continue;
 				}
 			}
-			bool success = true;
 			if (dep_to_check.length > 0) {
-				success = yield check_aur_dep_list (dep_to_check);
+				yield check_aur_dep_list (dep_to_check);
 			}
-			return success;
 		}
 
 		void sysupgrade_real () {
 			start_preparing ();
-			// this will respond with trans_prepare_finished signal
-			transaction_interface.start_sysupgrade_prepare (enable_downgrade, to_build, temporary_ignorepkgs, overwrite_files);
+			if (to_build.length != 0) {
+				// set building to allow cancellation
+				building = true;
+				build_cancellable.reset ();
+				compute_aur_build_list.begin (() => {
+					building = false;
+					if (build_cancellable.is_cancelled ()) {
+						on_trans_prepare_finished (false);
+						return;
+					}
+					aur_unresolvables = {};
+					// this will respond with trans_prepare_finished signal
+					transaction_interface.start_sysupgrade_prepare (enable_downgrade, to_build, temporary_ignorepkgs, overwrite_files);
+				});
+			} else {
+				// this will respond with trans_prepare_finished signal
+				transaction_interface.start_sysupgrade_prepare (enable_downgrade, to_build, temporary_ignorepkgs, overwrite_files);
+			}
 		}
 
 		public void start_sysupgrade (bool force_refresh, bool enable_downgrade, string[] temporary_ignorepkgs, string[] overwrite_files) {
@@ -653,14 +666,14 @@ namespace Pamac {
 		}
 
 		void trans_prepare_real () {
+			start_preparing ();
 			if (to_build.length != 0) {
 				// set building to allow cancellation
 				building = true;
 				build_cancellable.reset ();
-				compute_aur_build_list.begin ((obj, res) => {
-					bool success = compute_aur_build_list.end (res);
+				compute_aur_build_list.begin (() => {
 					building = false;
-					if (!success || build_cancellable.is_cancelled ()) {
+					if (build_cancellable.is_cancelled ()) {
 						on_trans_prepare_finished (false);
 						return;
 					}
@@ -680,7 +693,6 @@ namespace Pamac {
 			this.temporary_ignorepkgs = temporary_ignorepkgs;
 			this.overwrite_files = overwrite_files;
 			emit_action (dgettext (null, "Preparing") + "...");
-			start_preparing ();
 			connecting_signals ();
 			trans_prepare_real ();
 		}
@@ -737,7 +749,7 @@ namespace Pamac {
 				launcher.set_cwd (pkgdir);
 				try {
 					Subprocess process = launcher.spawnv ({"makepkg", "--packagelist"});
-					yield process.wait_async (null);
+					yield process.wait_async (build_cancellable);
 					if (process.get_if_exited ()) {
 						status = process.get_exit_status ();
 					}
@@ -1216,6 +1228,7 @@ namespace Pamac {
 			} else if (build_cancellable.is_cancelled ()) {
 				finish_transaction (false);
 			} else if (to_build.length > 0) {
+				emit_action (dgettext (null, "Failed to prepare transaction") + ".");
 				check_aur_unresolvables_and_edit_build_files.begin ();
 			} else {
 				handle_error (get_current_error ());
