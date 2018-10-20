@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2018-09-08 17:58+0200\n"
-"PO-Revision-Date: 2018-09-09 07:47+0000\n"
+"POT-Creation-Date: 2018-10-18 11:38+0200\n"
+"PO-Revision-Date: 2018-10-18 12:04+0000\n"
 "Last-Translator: Madis\n"
 "Language-Team: Estonian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/et/)\n"
 "MIME-Version: 1.0\n"
@@ -27,29 +27,9 @@ msgstr ""
 msgid "Authentication is required"
 msgstr "Autentimine on vajalik"
 
-#: src/alpm_utils.vala
+#: src/alpm_utils.vala src/database.vala
 msgid "Failed to initialize alpm library"
 msgstr "alpm teeki käivitamine nurjus"
-
-#: src/alpm_utils.vala
-msgid "Unknown"
-msgstr "Tundmatu"
-
-#: src/alpm_utils.vala src/manager_window.vala
-msgid "Explicitly installed"
-msgstr "Otseselt paigaldatud"
-
-#: src/alpm_utils.vala src/manager_window.vala
-msgid "Installed as a dependency for another package"
-msgstr "Paigaldatud teise paketi sõltuvusena"
-
-#: src/alpm_utils.vala
-msgid "Yes"
-msgstr "Jah"
-
-#: src/alpm_utils.vala
-msgid "No"
-msgstr "Ei"
 
 #: src/alpm_utils.vala
 msgid "Failed to synchronize any databases"
@@ -59,11 +39,11 @@ msgstr "Andmebaaside sünkroniseerimine ebaõnnestus"
 msgid "Failed to init transaction"
 msgstr "Tehingu käivitamine nurjus"
 
-#: src/alpm_utils.vala
+#: src/alpm_utils.vala src/transaction.vala src/transaction-gtk.vala
 msgid "Failed to prepare transaction"
 msgstr "Tehingu ettevalmistamine nurjus"
 
-#: src/alpm_utils.vala src/cli.vala
+#: src/alpm_utils.vala src/transaction.vala src/cli.vala
 #, c-format
 msgid "target not found: %s"
 msgstr "sihtkohta ei leitud: %s"
@@ -131,21 +111,52 @@ msgstr "faili „%s“ hankimine ebaõnnestus asukohast %s: %s\n"
 msgid "Authentication failed"
 msgstr "Autentimine nurjus"
 
+#: src/database.vala src/manager_window.vala
+msgid "Explicitly installed"
+msgstr "Otseselt paigaldatud"
+
+#: src/database.vala src/manager_window.vala
+msgid "Installed as a dependency for another package"
+msgstr "Paigaldatud teise paketi sõltuvusena"
+
+#: src/database.vala
+msgid "Unknown"
+msgstr "Tundmatu"
+
+#: src/database.vala
+msgid "Yes"
+msgstr "Jah"
+
+#: src/database.vala
+msgid "No"
+msgstr "Ei"
+
+#: src/transaction.vala
+#, c-format
+msgid "Generating %s informations"
+msgstr "%s info genereerimine"
+
 #: src/transaction.vala
 msgid "Refreshing mirrors list"
 msgstr "Peegelsaitide nimistu värskendamine"
 
 #: src/transaction.vala
-msgid "Synchronizing package databases"
-msgstr "Pakettide andmebaaside sünkroniseerimine"
-
-#: src/transaction.vala
 msgid "Starting full system upgrade"
 msgstr "Täieliku süsteemi uuendamise alustamine"
 
-#: src/transaction.vala src/tray.vala src/manager_window.vala src/cli.vala
-msgid "Your system is up-to-date"
-msgstr "Sinu süsteem on ajakohane"
+#: src/transaction.vala
+msgid "Synchronizing package databases"
+msgstr "Pakettide andmebaaside sünkroniseerimine"
+
+#: src/transaction.vala src/cli.vala
+#, c-format
+msgid "Cloning %s build files"
+msgstr "%s ehitusfailide kloonimine"
+
+#: src/transaction.vala
+#, c-format
+msgid "Checking %s dependencies"
+msgstr "%s sõltuvuste kontrollimine"
 
 #: src/transaction.vala
 msgid "Preparing"
@@ -358,6 +369,21 @@ msgstr "Et täiendada"
 msgid "Total download size"
 msgstr "Allalaadimise suurus kokku"
 
+#: src/transaction-gtk.vala src/transaction-cli.vala
+#, c-format
+msgid "Edit %s build files"
+msgstr "Muuda %s ehitusfaili"
+
+#: src/transaction-gtk.vala
+msgid "Save"
+msgstr "Salvesta"
+
+#: src/transaction-gtk.vala src/manager_window.vala
+#: resources/transaction_sum_dialog.ui resources/manager_window.ui
+#: resources/choose_ignorepkgs_dialog.ui
+msgid "_Cancel"
+msgstr "_Katkesta"
+
 #: src/transaction-gtk.vala resources/progress_dialog.ui
 #: resources/history_dialog.ui resources/preferences_dialog.ui
 msgid "_Close"
@@ -378,6 +404,10 @@ msgstr "Eemalda pakette"
 #: src/installer.vala src/cli.vala
 msgid "package(s)"
 msgstr "paket(id)"
+
+#: src/tray.vala src/manager_window.vala src/cli.vala
+msgid "Your system is up-to-date"
+msgstr "Sinu süsteem on ajakohane"
 
 #: src/tray.vala
 msgid "_Quit"
@@ -414,6 +444,10 @@ msgstr "Täienda"
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Install"
 msgstr "Paigalda"
+
+#: src/manager_window.vala resources/manager_window.ui
+msgid "Build"
+msgstr "Ehita"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Remove"
@@ -513,6 +547,10 @@ msgstr "Sõltuvused"
 #: src/manager_window.vala
 msgid "Files"
 msgstr "Failid"
+
+#: src/manager_window.vala
+msgid "Build files"
+msgstr "Ehitusfailid"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Install Reason"
@@ -622,11 +660,6 @@ msgstr "Nimi"
 msgid "Install Local Packages"
 msgstr "Paigalda kohalikke pakette"
 
-#: src/manager_window.vala resources/transaction_sum_dialog.ui
-#: resources/manager_window.ui resources/choose_ignorepkgs_dialog.ui
-msgid "_Cancel"
-msgstr "_Katkesta"
-
 #: src/manager_window.vala
 msgid "_Open"
 msgstr "_Ava"
@@ -661,6 +694,22 @@ msgid "Enter a number (default=%d)"
 msgstr "Sisesta arv (vaikimisi=%d)"
 
 #: src/transaction-cli.vala
+msgid "[y/N]"
+msgstr "[y/N]"
+
+#: src/transaction-cli.vala
+msgid "y"
+msgstr "y"
+
+#: src/transaction-cli.vala
+msgid "yes"
+msgstr "yes"
+
+#: src/transaction-cli.vala resources/transaction_sum_dialog.ui
+msgid "Edit build files"
+msgstr "Muuda ehitusfaile"
+
+#: src/transaction-cli.vala
 msgid "Total installed size"
 msgstr "Paigalduse kogusuurus"
 
@@ -673,20 +722,17 @@ msgid "Commit transaction"
 msgstr "Teosta tehing"
 
 #: src/transaction-cli.vala
-msgid "[y/N]"
-msgstr "[y/N]"
-
-#: src/transaction-cli.vala
-msgid "y"
-msgstr "y"
-
-#: src/transaction-cli.vala
-msgid "yes"
-msgstr "yes"
+#, c-format
+msgid "View %s build files diff"
+msgstr "Vaata %s ehitusfaili erinevusi"
 
 #: src/cli.vala
 msgid "Building packages as root is not allowed"
 msgstr "Juurkasutajana pakettide ehitamine pole lubatud"
+
+#: src/cli.vala
+msgid "No PKGBUILD file found in current directory"
+msgstr "Praegusest kataloogist ei leitud PKGBUILD-faili"
 
 #: src/cli.vala
 msgid "Available actions"
@@ -764,8 +810,8 @@ msgid "list files owned by the given packages"
 msgstr "loetle antud pakettide omatud failid"
 
 #: src/cli.vala
-msgid "Build packages from AUR and install them with their dependencies"
-msgstr "Ehita pakette AURist ning paigalda need nende sõltuvustega"
+msgid "Clone or sync packages build files from AUR"
+msgstr "Klooni või sünkrooni pakettide ehitusfailid AURist"
 
 #: src/cli.vala
 msgid ""
@@ -776,6 +822,39 @@ msgstr "kompileerimise kaust; kui kausta ei anta, valitakse failis pamac.conf m�
 #: src/cli.vala
 msgid "dir"
 msgstr "tee"
+
+#: src/cli.vala
+msgid "also clone needed dependencies"
+msgstr "klooni ka nõutud sõltuvused"
+
+#: src/cli.vala
+msgid "overwrite existing files"
+msgstr "kirjuta olemasolevad failid üle"
+
+#: src/cli.vala
+msgid "Build packages from AUR and install them with their dependencies"
+msgstr "Ehita pakette AURist ning paigalda need nende sõltuvustega"
+
+#: src/cli.vala
+msgid ""
+"If no package name is given, use the PKGBUILD file in the current directory"
+msgstr "Kui paketinime pole antud, kasuta praeguses kataloogis olevat PKGBUILD-faili "
+
+#: src/cli.vala
+msgid ""
+"The build directory will be the parent directory, --builddir option will be "
+"ignored"
+msgstr "Ehituskataloog saab ülemkataloogiks, valikut --builddir ignoreeritakse"
+
+#: src/cli.vala
+msgid "do not clone build files from AUR, only use local files"
+msgstr "ära klooni ehitusfaile AURist, kasuta ainult kohalikke faile"
+
+#: src/cli.vala
+msgid ""
+"ignore a package upgrade, multiple packages can be specified by separating "
+"them with a comma"
+msgstr "ignoreeri paketitäiendust; võib sisestada mitu paketti, eraldades neid komaga"
 
 #: src/cli.vala
 msgid ""
@@ -830,12 +909,6 @@ msgstr "sunni kõikide andmebaaside värskendamine"
 #: src/cli.vala
 msgid "enable package downgrades"
 msgstr "luba pakettide vanandid"
-
-#: src/cli.vala
-msgid ""
-"ignore a package upgrade, multiple packages can be specified by separating "
-"them with a comma"
-msgstr "ignoreeri paketitäiendust; võib sisestada mitu paketti, eraldades neid komaga"
 
 #: src/cli.vala resources/manager_window.ui
 msgid "Version"
@@ -915,6 +988,10 @@ msgid "About"
 msgstr "Teave"
 
 #: resources/manager_window.ui
+msgid "Select All"
+msgstr "Vali kõik"
+
+#: resources/manager_window.ui
 msgid "State"
 msgstr "Olek"
 
@@ -931,12 +1008,12 @@ msgid "Reinstall"
 msgstr "Paigalda uuesti"
 
 #: resources/manager_window.ui
-msgid "_Apply"
-msgstr "_Rakenda"
+msgid "Reset build files"
+msgstr "Lähtesta ehitusfailid"
 
 #: resources/manager_window.ui
-msgid "Select All"
-msgstr "Vali kõik"
+msgid "_Apply"
+msgstr "_Rakenda"
 
 #: resources/preferences_dialog.ui
 msgid "Remove unrequired dependencies"

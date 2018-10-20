@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2018-09-08 17:58+0200\n"
-"PO-Revision-Date: 2018-09-09 01:06+0000\n"
-"Last-Translator: philm <philm@manjaro.org>\n"
+"POT-Creation-Date: 2018-10-18 11:38+0200\n"
+"PO-Revision-Date: 2018-10-18 09:49+0000\n"
+"Last-Translator: Guillaume Benoit <guillaume@manjaro.org>\n"
 "Language-Team: Icelandic (http://www.transifex.com/manjarolinux/manjaro-pamac/language/is/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -25,29 +25,9 @@ msgstr ""
 msgid "Authentication is required"
 msgstr "Auðkenningar er krafist"
 
-#: src/alpm_utils.vala
+#: src/alpm_utils.vala src/database.vala
 msgid "Failed to initialize alpm library"
 msgstr "Mistókst að frumstilla alpm aðgerðasafnið"
-
-#: src/alpm_utils.vala
-msgid "Unknown"
-msgstr "Óþekkt"
-
-#: src/alpm_utils.vala src/manager_window.vala
-msgid "Explicitly installed"
-msgstr "Sérstaklega uppsett"
-
-#: src/alpm_utils.vala src/manager_window.vala
-msgid "Installed as a dependency for another package"
-msgstr "Sett upp sem hæði fyrir annan pakka"
-
-#: src/alpm_utils.vala
-msgid "Yes"
-msgstr "Já"
-
-#: src/alpm_utils.vala
-msgid "No"
-msgstr "Nei"
 
 #: src/alpm_utils.vala
 msgid "Failed to synchronize any databases"
@@ -57,11 +37,11 @@ msgstr "Mistókst að samstilla nokkurn gagnagrunn"
 msgid "Failed to init transaction"
 msgstr "Mistókst að frumstilla aðgerð"
 
-#: src/alpm_utils.vala
+#: src/alpm_utils.vala src/transaction.vala src/transaction-gtk.vala
 msgid "Failed to prepare transaction"
 msgstr "Mistókst að undirbúa aðgerð"
 
-#: src/alpm_utils.vala src/cli.vala
+#: src/alpm_utils.vala src/transaction.vala src/cli.vala
 #, c-format
 msgid "target not found: %s"
 msgstr "úttak fannst ekki: %s"
@@ -129,21 +109,52 @@ msgstr "Mistókst að endurheimta skrá '%s' frá %s : %s\n"
 msgid "Authentication failed"
 msgstr "Auðkenning mistókst"
 
+#: src/database.vala src/manager_window.vala
+msgid "Explicitly installed"
+msgstr "Sérstaklega uppsett"
+
+#: src/database.vala src/manager_window.vala
+msgid "Installed as a dependency for another package"
+msgstr "Sett upp sem hæði fyrir annan pakka"
+
+#: src/database.vala
+msgid "Unknown"
+msgstr "Óþekkt"
+
+#: src/database.vala
+msgid "Yes"
+msgstr "Já"
+
+#: src/database.vala
+msgid "No"
+msgstr "Nei"
+
+#: src/transaction.vala
+#, c-format
+msgid "Generating %s informations"
+msgstr ""
+
 #: src/transaction.vala
 msgid "Refreshing mirrors list"
 msgstr "Endurles speglalista"
 
 #: src/transaction.vala
-msgid "Synchronizing package databases"
-msgstr "Samstilli gagnagrunna fyrir pakka"
-
-#: src/transaction.vala
 msgid "Starting full system upgrade"
 msgstr "Hef fulla stýrikerfisuppfærslu"
 
-#: src/transaction.vala src/tray.vala src/manager_window.vala src/cli.vala
-msgid "Your system is up-to-date"
-msgstr "Kerfið þitt er með öllum nýjasta hugbúnaðinum"
+#: src/transaction.vala
+msgid "Synchronizing package databases"
+msgstr "Samstilli gagnagrunna fyrir pakka"
+
+#: src/transaction.vala src/cli.vala
+#, c-format
+msgid "Cloning %s build files"
+msgstr ""
+
+#: src/transaction.vala
+#, c-format
+msgid "Checking %s dependencies"
+msgstr ""
 
 #: src/transaction.vala
 msgid "Preparing"
@@ -356,6 +367,21 @@ msgstr "Til uppfærslu"
 msgid "Total download size"
 msgstr "Heildarstærð niðurhals"
 
+#: src/transaction-gtk.vala src/transaction-cli.vala
+#, c-format
+msgid "Edit %s build files"
+msgstr ""
+
+#: src/transaction-gtk.vala
+msgid "Save"
+msgstr ""
+
+#: src/transaction-gtk.vala src/manager_window.vala
+#: resources/transaction_sum_dialog.ui resources/manager_window.ui
+#: resources/choose_ignorepkgs_dialog.ui
+msgid "_Cancel"
+msgstr "_Hætta við"
+
 #: src/transaction-gtk.vala resources/progress_dialog.ui
 #: resources/history_dialog.ui resources/preferences_dialog.ui
 msgid "_Close"
@@ -376,6 +402,10 @@ msgstr ""
 #: src/installer.vala src/cli.vala
 msgid "package(s)"
 msgstr ""
+
+#: src/tray.vala src/manager_window.vala src/cli.vala
+msgid "Your system is up-to-date"
+msgstr "Kerfið þitt er með öllum nýjasta hugbúnaðinum"
 
 #: src/tray.vala
 msgid "_Quit"
@@ -412,6 +442,10 @@ msgstr "Uppfærsla"
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Install"
 msgstr "Setja upp"
+
+#: src/manager_window.vala resources/manager_window.ui
+msgid "Build"
+msgstr ""
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Remove"
@@ -511,6 +545,10 @@ msgstr "Kerfiskröfur"
 #: src/manager_window.vala
 msgid "Files"
 msgstr "Skrár"
+
+#: src/manager_window.vala
+msgid "Build files"
+msgstr ""
 
 #: src/manager_window.vala src/cli.vala
 msgid "Install Reason"
@@ -620,11 +658,6 @@ msgstr "Nafn"
 msgid "Install Local Packages"
 msgstr "Setja upp pakka á tölvunni"
 
-#: src/manager_window.vala resources/transaction_sum_dialog.ui
-#: resources/manager_window.ui resources/choose_ignorepkgs_dialog.ui
-msgid "_Cancel"
-msgstr "_Hætta við"
-
 #: src/manager_window.vala
 msgid "_Open"
 msgstr "_Opna"
@@ -659,6 +692,22 @@ msgid "Enter a number (default=%d)"
 msgstr ""
 
 #: src/transaction-cli.vala
+msgid "[y/N]"
+msgstr ""
+
+#: src/transaction-cli.vala
+msgid "y"
+msgstr ""
+
+#: src/transaction-cli.vala
+msgid "yes"
+msgstr ""
+
+#: src/transaction-cli.vala resources/transaction_sum_dialog.ui
+msgid "Edit build files"
+msgstr ""
+
+#: src/transaction-cli.vala
 msgid "Total installed size"
 msgstr ""
 
@@ -671,19 +720,16 @@ msgid "Commit transaction"
 msgstr ""
 
 #: src/transaction-cli.vala
-msgid "[y/N]"
-msgstr ""
-
-#: src/transaction-cli.vala
-msgid "y"
-msgstr ""
-
-#: src/transaction-cli.vala
-msgid "yes"
+#, c-format
+msgid "View %s build files diff"
 msgstr ""
 
 #: src/cli.vala
 msgid "Building packages as root is not allowed"
+msgstr ""
+
+#: src/cli.vala
+msgid "No PKGBUILD file found in current directory"
 msgstr ""
 
 #: src/cli.vala
@@ -762,7 +808,7 @@ msgid "list files owned by the given packages"
 msgstr ""
 
 #: src/cli.vala
-msgid "Build packages from AUR and install them with their dependencies"
+msgid "Clone or sync packages build files from AUR"
 msgstr ""
 
 #: src/cli.vala
@@ -773,6 +819,39 @@ msgstr ""
 
 #: src/cli.vala
 msgid "dir"
+msgstr ""
+
+#: src/cli.vala
+msgid "also clone needed dependencies"
+msgstr ""
+
+#: src/cli.vala
+msgid "overwrite existing files"
+msgstr ""
+
+#: src/cli.vala
+msgid "Build packages from AUR and install them with their dependencies"
+msgstr ""
+
+#: src/cli.vala
+msgid ""
+"If no package name is given, use the PKGBUILD file in the current directory"
+msgstr ""
+
+#: src/cli.vala
+msgid ""
+"The build directory will be the parent directory, --builddir option will be "
+"ignored"
+msgstr ""
+
+#: src/cli.vala
+msgid "do not clone build files from AUR, only use local files"
+msgstr ""
+
+#: src/cli.vala
+msgid ""
+"ignore a package upgrade, multiple packages can be specified by separating "
+"them with a comma"
 msgstr ""
 
 #: src/cli.vala
@@ -827,12 +906,6 @@ msgstr ""
 
 #: src/cli.vala
 msgid "enable package downgrades"
-msgstr ""
-
-#: src/cli.vala
-msgid ""
-"ignore a package upgrade, multiple packages can be specified by separating "
-"them with a comma"
 msgstr ""
 
 #: src/cli.vala resources/manager_window.ui
@@ -913,6 +986,10 @@ msgid "About"
 msgstr "Um"
 
 #: resources/manager_window.ui
+msgid "Select All"
+msgstr "Velja allt"
+
+#: resources/manager_window.ui
 msgid "State"
 msgstr "Staða"
 
@@ -929,12 +1006,12 @@ msgid "Reinstall"
 msgstr "Enduruppsetning"
 
 #: resources/manager_window.ui
-msgid "_Apply"
-msgstr "_Virkja"
+msgid "Reset build files"
+msgstr ""
 
 #: resources/manager_window.ui
-msgid "Select All"
-msgstr "Velja allt"
+msgid "_Apply"
+msgstr "_Virkja"
 
 #: resources/preferences_dialog.ui
 msgid "Remove unrequired dependencies"

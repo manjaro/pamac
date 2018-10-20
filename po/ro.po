@@ -17,9 +17,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2018-09-08 17:58+0200\n"
-"PO-Revision-Date: 2018-09-09 01:06+0000\n"
-"Last-Translator: philm <philm@manjaro.org>\n"
+"POT-Creation-Date: 2018-10-18 11:38+0200\n"
+"PO-Revision-Date: 2018-10-18 09:49+0000\n"
+"Last-Translator: Guillaume Benoit <guillaume@manjaro.org>\n"
 "Language-Team: Romanian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/ro/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -31,29 +31,9 @@ msgstr ""
 msgid "Authentication is required"
 msgstr "Este necesară autentificarea"
 
-#: src/alpm_utils.vala
+#: src/alpm_utils.vala src/database.vala
 msgid "Failed to initialize alpm library"
 msgstr "Nu s-a inițializat librăria alpm"
-
-#: src/alpm_utils.vala
-msgid "Unknown"
-msgstr "Necunoscut"
-
-#: src/alpm_utils.vala src/manager_window.vala
-msgid "Explicitly installed"
-msgstr "Instalat explicit"
-
-#: src/alpm_utils.vala src/manager_window.vala
-msgid "Installed as a dependency for another package"
-msgstr "Instalat ca dependență a unui alt pachet"
-
-#: src/alpm_utils.vala
-msgid "Yes"
-msgstr "Da"
-
-#: src/alpm_utils.vala
-msgid "No"
-msgstr "Nu"
 
 #: src/alpm_utils.vala
 msgid "Failed to synchronize any databases"
@@ -63,11 +43,11 @@ msgstr "Nu s-au sincronizat bazele de date"
 msgid "Failed to init transaction"
 msgstr "Nu s-a inițializat tranzacția"
 
-#: src/alpm_utils.vala
+#: src/alpm_utils.vala src/transaction.vala src/transaction-gtk.vala
 msgid "Failed to prepare transaction"
 msgstr "Nu s-a pregătit tranzacția"
 
-#: src/alpm_utils.vala src/cli.vala
+#: src/alpm_utils.vala src/transaction.vala src/cli.vala
 #, c-format
 msgid "target not found: %s"
 msgstr "țintă negăsită: %s"
@@ -135,21 +115,52 @@ msgstr "Nu s-a putut recupera fișierul '%s' din %s:%s\n"
 msgid "Authentication failed"
 msgstr "Autentificare eșuată"
 
+#: src/database.vala src/manager_window.vala
+msgid "Explicitly installed"
+msgstr "Instalat explicit"
+
+#: src/database.vala src/manager_window.vala
+msgid "Installed as a dependency for another package"
+msgstr "Instalat ca dependență a unui alt pachet"
+
+#: src/database.vala
+msgid "Unknown"
+msgstr "Necunoscut"
+
+#: src/database.vala
+msgid "Yes"
+msgstr "Da"
+
+#: src/database.vala
+msgid "No"
+msgstr "Nu"
+
+#: src/transaction.vala
+#, c-format
+msgid "Generating %s informations"
+msgstr ""
+
 #: src/transaction.vala
 msgid "Refreshing mirrors list"
 msgstr "Se reîmprospătează lista de oglinzi"
 
 #: src/transaction.vala
-msgid "Synchronizing package databases"
-msgstr "Se sincronizează bazele de date ale pachetelor"
-
-#: src/transaction.vala
 msgid "Starting full system upgrade"
 msgstr "Se pornește actualizarea completă de sistem"
 
-#: src/transaction.vala src/tray.vala src/manager_window.vala src/cli.vala
-msgid "Your system is up-to-date"
-msgstr "Sistemul vostru este la zi"
+#: src/transaction.vala
+msgid "Synchronizing package databases"
+msgstr "Se sincronizează bazele de date ale pachetelor"
+
+#: src/transaction.vala src/cli.vala
+#, c-format
+msgid "Cloning %s build files"
+msgstr ""
+
+#: src/transaction.vala
+#, c-format
+msgid "Checking %s dependencies"
+msgstr ""
 
 #: src/transaction.vala
 msgid "Preparing"
@@ -363,6 +374,21 @@ msgstr "Actualizează"
 msgid "Total download size"
 msgstr "Mărimea totală a descărcării"
 
+#: src/transaction-gtk.vala src/transaction-cli.vala
+#, c-format
+msgid "Edit %s build files"
+msgstr ""
+
+#: src/transaction-gtk.vala
+msgid "Save"
+msgstr ""
+
+#: src/transaction-gtk.vala src/manager_window.vala
+#: resources/transaction_sum_dialog.ui resources/manager_window.ui
+#: resources/choose_ignorepkgs_dialog.ui
+msgid "_Cancel"
+msgstr "_Anulează"
+
 #: src/transaction-gtk.vala resources/progress_dialog.ui
 #: resources/history_dialog.ui resources/preferences_dialog.ui
 msgid "_Close"
@@ -383,6 +409,10 @@ msgstr ""
 #: src/installer.vala src/cli.vala
 msgid "package(s)"
 msgstr ""
+
+#: src/tray.vala src/manager_window.vala src/cli.vala
+msgid "Your system is up-to-date"
+msgstr "Sistemul vostru este la zi"
 
 #: src/tray.vala
 msgid "_Quit"
@@ -420,6 +450,10 @@ msgstr "Se înnoiește"
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Install"
 msgstr "Instalează"
+
+#: src/manager_window.vala resources/manager_window.ui
+msgid "Build"
+msgstr ""
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Remove"
@@ -520,6 +554,10 @@ msgstr "Dependențe"
 #: src/manager_window.vala
 msgid "Files"
 msgstr "Fișiere"
+
+#: src/manager_window.vala
+msgid "Build files"
+msgstr ""
 
 #: src/manager_window.vala src/cli.vala
 msgid "Install Reason"
@@ -629,11 +667,6 @@ msgstr "Nume"
 msgid "Install Local Packages"
 msgstr "Instalează pachete locale"
 
-#: src/manager_window.vala resources/transaction_sum_dialog.ui
-#: resources/manager_window.ui resources/choose_ignorepkgs_dialog.ui
-msgid "_Cancel"
-msgstr "_Anulează"
-
 #: src/manager_window.vala
 msgid "_Open"
 msgstr "_Deschide"
@@ -668,6 +701,22 @@ msgid "Enter a number (default=%d)"
 msgstr ""
 
 #: src/transaction-cli.vala
+msgid "[y/N]"
+msgstr ""
+
+#: src/transaction-cli.vala
+msgid "y"
+msgstr ""
+
+#: src/transaction-cli.vala
+msgid "yes"
+msgstr ""
+
+#: src/transaction-cli.vala resources/transaction_sum_dialog.ui
+msgid "Edit build files"
+msgstr ""
+
+#: src/transaction-cli.vala
 msgid "Total installed size"
 msgstr ""
 
@@ -680,19 +729,16 @@ msgid "Commit transaction"
 msgstr ""
 
 #: src/transaction-cli.vala
-msgid "[y/N]"
-msgstr ""
-
-#: src/transaction-cli.vala
-msgid "y"
-msgstr ""
-
-#: src/transaction-cli.vala
-msgid "yes"
+#, c-format
+msgid "View %s build files diff"
 msgstr ""
 
 #: src/cli.vala
 msgid "Building packages as root is not allowed"
+msgstr ""
+
+#: src/cli.vala
+msgid "No PKGBUILD file found in current directory"
 msgstr ""
 
 #: src/cli.vala
@@ -771,7 +817,7 @@ msgid "list files owned by the given packages"
 msgstr ""
 
 #: src/cli.vala
-msgid "Build packages from AUR and install them with their dependencies"
+msgid "Clone or sync packages build files from AUR"
 msgstr ""
 
 #: src/cli.vala
@@ -782,6 +828,39 @@ msgstr ""
 
 #: src/cli.vala
 msgid "dir"
+msgstr ""
+
+#: src/cli.vala
+msgid "also clone needed dependencies"
+msgstr ""
+
+#: src/cli.vala
+msgid "overwrite existing files"
+msgstr ""
+
+#: src/cli.vala
+msgid "Build packages from AUR and install them with their dependencies"
+msgstr ""
+
+#: src/cli.vala
+msgid ""
+"If no package name is given, use the PKGBUILD file in the current directory"
+msgstr ""
+
+#: src/cli.vala
+msgid ""
+"The build directory will be the parent directory, --builddir option will be "
+"ignored"
+msgstr ""
+
+#: src/cli.vala
+msgid "do not clone build files from AUR, only use local files"
+msgstr ""
+
+#: src/cli.vala
+msgid ""
+"ignore a package upgrade, multiple packages can be specified by separating "
+"them with a comma"
 msgstr ""
 
 #: src/cli.vala
@@ -836,12 +915,6 @@ msgstr ""
 
 #: src/cli.vala
 msgid "enable package downgrades"
-msgstr ""
-
-#: src/cli.vala
-msgid ""
-"ignore a package upgrade, multiple packages can be specified by separating "
-"them with a comma"
 msgstr ""
 
 #: src/cli.vala resources/manager_window.ui
@@ -923,6 +996,10 @@ msgid "About"
 msgstr "Despre Pamac"
 
 #: resources/manager_window.ui
+msgid "Select All"
+msgstr "Selectează tot"
+
+#: resources/manager_window.ui
 msgid "State"
 msgstr "Stare"
 
@@ -939,12 +1016,12 @@ msgid "Reinstall"
 msgstr "Reinstalează"
 
 #: resources/manager_window.ui
-msgid "_Apply"
-msgstr "_Aplică"
+msgid "Reset build files"
+msgstr ""
 
 #: resources/manager_window.ui
-msgid "Select All"
-msgstr "Selectează tot"
+msgid "_Apply"
+msgstr "_Aplică"
 
 #: resources/preferences_dialog.ui
 msgid "Remove unrequired dependencies"
