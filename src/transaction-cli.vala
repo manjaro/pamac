@@ -483,7 +483,7 @@ namespace Pamac {
 			string diff_path = Path.build_path ("/", database.config.aur_build_dir, pkgname, "diff");
 			var diff_file = File.new_for_path (diff_path);
 			if (diff_file.query_exists ()) {
-				if (ask_user ("%s ?".printf (dgettext (null, "View %s build files diff".printf (pkgname))))) {
+				if (ask_user ("%s ?".printf (dgettext (null, "View %s build files diff").printf (pkgname)))) {
 					string[] cmds = {"nano", "-S", "-w", "-v", diff_path};
 					try {
 						var process = new Subprocess.newv (cmds, SubprocessFlags.STDIN_INHERIT);

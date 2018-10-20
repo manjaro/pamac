@@ -24,7 +24,7 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2018-10-18 11:38+0200\n"
-"PO-Revision-Date: 2018-10-18 15:53+0000\n"
+"PO-Revision-Date: 2018-10-20 15:43+0000\n"
 "Last-Translator: Guillaume Benoit <guillaume@manjaro.org>\n"
 "Language-Team: French (http://www.transifex.com/manjarolinux/manjaro-pamac/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -144,7 +144,7 @@ msgstr "Non"
 #: src/transaction.vala
 #, c-format
 msgid "Generating %s informations"
-msgstr "Génération de %s informations"
+msgstr "Création des informations de %s"
 
 #: src/transaction.vala
 msgid "Refreshing mirrors list"
@@ -166,7 +166,7 @@ msgstr "Clonage des fichiers de construction de %s"
 #: src/transaction.vala
 #, c-format
 msgid "Checking %s dependencies"
-msgstr "Vérification de %s dépendances"
+msgstr "Vérification des dépendances de %s"
 
 #: src/transaction.vala
 msgid "Preparing"
@@ -241,15 +241,15 @@ msgstr "Application des deltas"
 #: src/transaction.vala
 #, c-format
 msgid "Generating %s with %s"
-msgstr "Génération de %s avec %s "
+msgstr "Création de %s avec %s"
 
 #: src/transaction.vala
 msgid "Generation succeeded"
-msgstr "Génération réussie"
+msgstr "Création réussie"
 
 #: src/transaction.vala
 msgid "Generation failed"
-msgstr "Génération échouée"
+msgstr "Création échouée"
 
 #: src/transaction.vala
 #, c-format

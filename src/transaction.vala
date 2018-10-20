@@ -384,7 +384,7 @@ namespace Pamac {
 					}
 					// clone build files
 					// use packagebase in case of split package
-					emit_action (dgettext (null, "Cloning %s build files".printf (pkgname)) + "...");
+					emit_action (dgettext (null, "Cloning %s build files").printf (pkgname) + "...");
 					clone_dir = yield database.clone_build_files (aur_pkg.packagebase, false);
 					if (clone_dir == null) {
 						// error
@@ -404,7 +404,7 @@ namespace Pamac {
 				if (build_cancellable.is_cancelled ()) {
 					return;
 				}
-				emit_action (dgettext (null, "Checking %s dependencies".printf (pkgname)) + "...");
+				emit_action (dgettext (null, "Checking %s dependencies").printf (pkgname) + "...");
 				var srcinfo = clone_dir.get_child (".SRCINFO");
 				try {
 					// read .SRCINFO

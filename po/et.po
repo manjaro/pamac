@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2018-10-18 11:38+0200\n"
-"PO-Revision-Date: 2018-10-18 12:04+0000\n"
+"PO-Revision-Date: 2018-10-20 12:29+0000\n"
 "Last-Translator: Madis\n"
 "Language-Team: Estonian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/et/)\n"
 "MIME-Version: 1.0\n"
@@ -363,7 +363,7 @@ msgstr "Taaspaigaldada"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "To upgrade"
-msgstr "Et täiendada"
+msgstr "Täiendada"
 
 #: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
 msgid "Total download size"
@@ -719,7 +719,7 @@ msgstr "Eemalduse kogusuurus"
 
 #: src/transaction-cli.vala
 msgid "Commit transaction"
-msgstr "Teosta tehing"
+msgstr "Teostad tehingu"
 
 #: src/transaction-cli.vala
 #, c-format
