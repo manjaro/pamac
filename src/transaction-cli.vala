@@ -506,9 +506,8 @@ namespace Pamac {
 				yield process.wait_async ();
 				if (process.get_if_exited ()) {
 					if (process.get_exit_status () == 0) {
-						// emit start_preparing to make regenerate_srcinfo cancellable
-						start_preparing ();
-						return yield regenerate_srcinfo (pkgname);
+						var cancellable = new Cancellable ();
+						return yield database.regenerate_srcinfo (pkgname, cancellable);
 					}
 				}
 			} catch (Error e) {

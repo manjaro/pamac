@@ -237,7 +237,6 @@ namespace Pamac {
 					i++;
 				}
 				if (targets.length == 0) {
-					// set pkgname to the current dir
 					var current_dir = File.new_for_path (Environment.get_current_dir ());
 					var pkgbuild = current_dir.get_child ("PKGBUILD");
 					if (!pkgbuild.query_exists ()) {
@@ -245,20 +244,36 @@ namespace Pamac {
 						stdout.printf ("\n");
 						return;
 					}
-					targets += current_dir.get_basename ();
 					// set buildir to the parent dir
 					File? parent = current_dir.get_parent ();
 					if (parent != null) {
 						database.config.aur_build_dir = parent.get_path ();
 					}
-				} else if (!transaction.clone_build_files) {
+					string? pkgbase = current_dir.get_basename ();
+					if (pkgbase != null) {
+						// add pkgnames of srcinfo to targets
+						var cancellable = new Cancellable ();
+						database.regenerate_srcinfo.begin (pkgbase, cancellable, (obj, res) => {
+							bool success = database.regenerate_srcinfo.end (res);
+							if (success) {
+								foreach (unowned string pkgname in database.get_srcinfo_pkgnames (pkgbase)) {
+									targets += pkgname;
+								}
+							}
+							loop.quit ();
+						});
+						loop.run ();
+					}
+				} else if (transaction.clone_build_files) {
 					// check if targets exist
-					foreach (unowned string target in targets) {
-						var dir = File.new_for_path (Path.build_path ("/", database.config.aur_build_dir, target));
-						if (!dir.query_exists ()) {
-							print_error (dgettext (null, "target not found: %s").printf (target));
-							return;
-						}
+					bool success = true;
+					check_build_pkgs.begin (targets, (obj, res) => {
+						success = check_build_pkgs.end (res);
+						loop.quit ();
+					});
+					loop.run ();
+					if (!success) {
+						return;
 					}
 				}
 				build_pkgs (targets);
@@ -1770,7 +1785,7 @@ namespace Pamac {
 					continue;
 				} else {
 					// clone build files
-					stdout.printf (dgettext (null, "Cloning %s build files".printf (pkgname)) + "...\n");
+					stdout.printf (dgettext (null, "Cloning %s build files").printf (aur_pkg_details.packagebase) + "...\n");
 					// use packagebase in case of split package
 					File? clone_dir = yield database.clone_build_files (aur_pkg_details.packagebase, overwrite);
 					if (clone_dir == null) {
@@ -1809,31 +1824,24 @@ namespace Pamac {
 			}
 		}
 
-		async bool check_build_pkgs () {
-			var aur_pkgs = yield database.get_aur_pkgs (to_build);
+		async bool check_build_pkgs (string[] targets) {
+			var aur_pkgs = yield database.get_aur_pkgs (targets);
 			var iter = HashTableIter<string, AURPackage> (aur_pkgs);
 			unowned string pkgname;
 			unowned AURPackage aur_pkg;
+			bool success = true;
 			while (iter.next (out pkgname, out aur_pkg)) {
 				if (aur_pkg.name == "") {
 					print_error (dgettext (null, "target not found: %s").printf (pkgname));
-					return false;
+					success = false;
 				}
 			}
-			return true;
+			return success;
 		}
 
 		void build_pkgs (string[] to_build) {
 			this.to_build = to_build;
-			bool success = false;
-			check_build_pkgs.begin ((obj, res) => {
-				success = check_build_pkgs.end (res);
-				loop.quit ();
-			});
-			loop.run ();
-			if (success) {
-				try_lock_and_run (start_transaction);
-			}
+			try_lock_and_run (start_transaction);
 		}
 
 		void start_transaction () {

@@ -1146,9 +1146,9 @@ namespace Pamac {
 							cmds = {"git", "diff", "--exit-code", "origin/master"};
 							FileEnumerator enumerator = yield pkgdir.enumerate_children_async ("standard::*", FileQueryInfoFlags.NONE);
 							FileInfo info;
-							// don't see .SRCINFO diff
+							// don't show .SRCINFO diff
 							while ((info = enumerator.next_file (null)) != null) {
-								string filename = info.get_name ();
+								unowned string filename = info.get_name ();
 								if (filename != ".SRCINFO") {
 									cmds += filename;
 								}
@@ -1194,6 +1194,57 @@ namespace Pamac {
 				return pkgdir;
 			}
 			return null;
+		}
+
+		public async bool regenerate_srcinfo (string pkgname, Cancellable? cancellable = null) {
+			string pkgdir_name = Path.build_path ("/", config.aur_build_dir, pkgname);
+			var srcinfo = File.new_for_path (Path.build_path ("/", pkgdir_name, ".SRCINFO"));
+			var pkgbuild = File.new_for_path (Path.build_path ("/", pkgdir_name, "PKGBUILD"));
+			// check if PKGBUILD was modified after .SRCINFO
+			try {
+				FileInfo info = srcinfo.query_info ("time::modified", 0);
+				TimeVal srcinfo_time = info.get_modification_time ();
+				info = pkgbuild.query_info ("time::modified", 0);
+				TimeVal pkgbuild_time = info.get_modification_time ();
+				if (pkgbuild_time.tv_sec <= srcinfo_time.tv_sec) {
+					// no need to regenerate
+					return true;
+				}
+			} catch (Error e) {
+				stderr.printf ("Error: %s\n", e.message);
+			}
+			// generate .SRCINFO
+			var launcher = new SubprocessLauncher (SubprocessFlags.STDOUT_PIPE);
+			launcher.set_cwd (pkgdir_name);
+			try {
+				Subprocess process = launcher.spawnv ({"makepkg", "--printsrcinfo"});
+				try {
+					yield process.wait_async (cancellable);
+					if (process.get_if_exited ()) {
+						if (process.get_exit_status () == 0) {
+							try {
+								var dis = new DataInputStream (process.get_stdout_pipe ());
+								// delete the file before rewrite it
+								yield srcinfo.delete_async ();
+								// creating a DataOutputStream to the file
+								var dos = new DataOutputStream (yield srcinfo.create_async (FileCreateFlags.REPLACE_DESTINATION));
+								// writing makepkg output to .SRCINFO
+								yield dos.splice_async (dis, 0);
+								return true;
+							} catch (Error e) {
+								stderr.printf ("Error: %s\n", e.message);
+							}
+						}
+					}
+				} catch (Error e) {
+					// cancelled
+					process.send_signal (Posix.Signal.INT);
+					process.send_signal (Posix.Signal.KILL);
+				}
+			} catch (Error e) {
+				stderr.printf ("Error: %s\n", e.message);
+			}
+			return false;
 		}
 
 		async void populate_aur_infos (string[] pkgnames) {
@@ -1388,6 +1439,27 @@ namespace Pamac {
 				}
 			}
 			return data;
+		}
+
+		public string[] get_srcinfo_pkgnames (string pkgdir) {
+			string[] pkgnames = {};
+			var srcinfo = File.new_for_path (Path.build_path ("/", config.aur_build_dir, pkgdir, ".SRCINFO"));
+			if (srcinfo.query_exists ()) {
+				try {
+					// read .SRCINFO
+					var dis = new DataInputStream (srcinfo.read ());
+					string line;
+					while ((line = dis.read_line ()) != null) {
+						if ("pkgname = " in line) {
+							string pkgname = line.split (" = ", 2)[1];
+							pkgnames += (owned) pkgname;
+						}
+					}
+				} catch (GLib.Error e) {
+					stderr.printf ("Error: %s\n", e.message);
+				}
+			}
+			return pkgnames;
 		}
 
 		public async List<AURPackage> get_aur_updates () {

@@ -375,6 +375,9 @@ namespace Pamac {
 				if (build_cancellable.is_cancelled ()) {
 					return;
 				}
+				if (already_checked_aur_dep.contains (pkgname)) {
+					continue;
+				}
 				File? clone_dir;
 				if (clone_build_files) {
 					unowned AURPackage aur_pkg = aur_pkgs.lookup (pkgname);
@@ -384,22 +387,39 @@ namespace Pamac {
 					}
 					// clone build files
 					// use packagebase in case of split package
-					emit_action (dgettext (null, "Cloning %s build files").printf (pkgname) + "...");
+					emit_action (dgettext (null, "Cloning %s build files").printf (aur_pkg.packagebase) + "...");
 					clone_dir = yield database.clone_build_files (aur_pkg.packagebase, false);
 					if (clone_dir == null) {
 						// error
 						continue;
 					}
+					already_checked_aur_dep.add (aur_pkg.packagebase);
 				} else {
 					clone_dir = File.new_for_path (Path.build_path ("/", database.config.aur_build_dir, pkgname));
 					if (!clone_dir.query_exists ()) {
+						// didn't find the target
+						// parse all builddir to be sure to find it
+						var builddir = File.new_for_path (database.config.aur_build_dir);
+						try {
+							FileEnumerator enumerator = yield builddir.enumerate_children_async ("standard::*", FileQueryInfoFlags.NONE);
+							FileInfo info;
+							while ((info = enumerator.next_file (null)) != null) {
+								unowned string filename = info.get_name ();
+								if (!(filename in already_checked_aur_dep)) {
+									dep_to_check += filename;
+								}
+							}
+						} catch (GLib.Error e) {
+							stderr.printf ("Error: %s\n", e.message);
+						}
+						continue;
+					}
+					emit_action (dgettext (null, "Generating %s informations").printf (pkgname) + "...");
+					if (!(yield database.regenerate_srcinfo (pkgname, build_cancellable))) {
 						// error
 						continue;
 					}
-					if (!(yield regenerate_srcinfo (pkgname))) {
-						// error
-						continue;
-					}
+					already_checked_aur_dep.add (pkgname);
 				}
 				if (build_cancellable.is_cancelled ()) {
 					return;
@@ -560,7 +580,6 @@ namespace Pamac {
 							if (pkg.name == "") {
 								string dep_name = database.get_alpm_dep_name (dep_string);
 								if (!(dep_name in already_checked_aur_dep)) {
-									already_checked_aur_dep.add (dep_name);
 									dep_to_check += (owned) dep_name;
 								}
 							}

@@ -265,6 +265,7 @@ namespace Pamac {
 				if (no_confirm_upgrade
 					&& must_confirm_length == 0
 					&& summary.to_upgrade.length () > 0) {
+					show_warnings (true);
 					return true;
 				}
 				int response = show_summary (summary);
@@ -559,7 +560,7 @@ namespace Pamac {
 						// writing a string to the stream
 						dos.put_string (textview.buffer.get_text (start_iter, end_iter, false));
 						if (build_files_notebook.get_tab_label_text (child) == "PKGBUILD") {
-							success = yield regenerate_srcinfo (pkgname);
+							success = yield database.regenerate_srcinfo (pkgname);
 						}
 					} catch (GLib.Error e) {
 						stderr.printf("%s\n", e.message);
