@@ -128,6 +128,7 @@ namespace Pamac {
 				if (config.check_aur_updates) {
 					cmds += "-a";
 				}
+				updates_nb = 0;
 				try {
 					var process = new Subprocess.newv (cmds, SubprocessFlags.STDOUT_PIPE);
 					process.wait ();
@@ -136,7 +137,6 @@ namespace Pamac {
 						// status 100 means updates are available
 						if (status == 100) {
 							var dis = new DataInputStream (process.get_stdout_pipe ());
-							updates_nb = 0;
 							// count lines
 							while (dis.read_line () != null) {
 								updates_nb++;
