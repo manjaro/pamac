@@ -554,6 +554,7 @@ namespace Pamac {
 			string[] actions = {"--version",
 								"--help,-h",
 								"checkupdates",
+								"update,upgrade",
 								"search",
 								"info",
 								"list",
@@ -561,9 +562,9 @@ namespace Pamac {
 								"reinstall",
 								"clone",
 								"build",
-								"remove",
-								"update,upgrade"};
+								"remove"};
 			string[] options_actions = {"checkupdates",
+										"update,upgrade",
 										"search",
 										"info",
 										"list",
@@ -571,8 +572,7 @@ namespace Pamac {
 										"reinstall",
 										"build",
 										"clone",
-										"remove",
-										"update,upgrade"};
+										"remove"};
 			string[] targets_actions = {"search",
 										"info",
 										"list",
@@ -580,8 +580,7 @@ namespace Pamac {
 										"reinstall",
 										"build",
 										"clone",
-										"remove",
-										"update,upgrade"};
+										"remove"};
 			stdout.printf (dgettext (null, "Available actions") + ":\n");
 			foreach (unowned string action in actions) {
 				stdout.printf ("  pamac %-14s".printf (action));
@@ -592,7 +591,11 @@ namespace Pamac {
 					stdout.printf (" [%s]".printf (dgettext (null,  "options")));
 				}
 				if (action in targets_actions) {
-					stdout.printf (" <%s>".printf (dgettext (null,  "package(s)")));
+					if (action == "remove" || action == "build") {
+						stdout.printf (" [%s]".printf (dgettext (null,  "package(s)")));
+					} else {
+						stdout.printf (" <%s>".printf (dgettext (null,  "package(s)")));
+					}
 				}
 				stdout.printf ("\n");
 			}
