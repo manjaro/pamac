@@ -21,6 +21,7 @@
 # Daniil <rostovslipknot@gmail.com>, 2013
 # Michael Kogan <photon89@googlemail.com>, 2016
 # Mikhail Krassavin <mikhail.krassavin@gmail.com>, 2017
+# Nik Sn <nekitnik123@myrambler.ru>, 2018
 # Lexyc <nirudak@mail.ru>, 2014-2015
 # Lowrider <pams@imail.ru>, 2015
 # Paulo Fino <finomeno@gmail.com>, 2014
@@ -35,8 +36,8 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2018-10-18 11:38+0200\n"
-"PO-Revision-Date: 2018-10-18 09:49+0000\n"
-"Last-Translator: Guillaume Benoit <guillaume@manjaro.org>\n"
+"PO-Revision-Date: 2018-10-21 13:50+0000\n"
+"Last-Translator: Nik Sn <nekitnik123@myrambler.ru>\n"
 "Language-Team: Russian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -155,7 +156,7 @@ msgstr "Нет"
 #: src/transaction.vala
 #, c-format
 msgid "Generating %s informations"
-msgstr ""
+msgstr "Генерация информации о %s"
 
 #: src/transaction.vala
 msgid "Refreshing mirrors list"
@@ -172,12 +173,12 @@ msgstr "Синхронизация баз данных пакетов"
 #: src/transaction.vala src/cli.vala
 #, c-format
 msgid "Cloning %s build files"
-msgstr ""
+msgstr "Клонирование сборочных файлов %s"
 
 #: src/transaction.vala
 #, c-format
 msgid "Checking %s dependencies"
-msgstr ""
+msgstr "Проверка зависимостей для %s"
 
 #: src/transaction.vala
 msgid "Preparing"
@@ -395,11 +396,11 @@ msgstr "Общий размер загрузки"
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
 msgid "Edit %s build files"
-msgstr ""
+msgstr "Редактировать сборочные файлы %s"
 
 #: src/transaction-gtk.vala
 msgid "Save"
-msgstr ""
+msgstr "Сохранить"
 
 #: src/transaction-gtk.vala src/manager_window.vala
 #: resources/transaction_sum_dialog.ui resources/manager_window.ui
@@ -472,7 +473,7 @@ msgstr "Установить"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Build"
-msgstr ""
+msgstr "Собрать"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Remove"
@@ -577,7 +578,7 @@ msgstr "Файлы"
 
 #: src/manager_window.vala
 msgid "Build files"
-msgstr ""
+msgstr "Сборочные файлы"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Install Reason"
@@ -734,7 +735,7 @@ msgstr "да"
 
 #: src/transaction-cli.vala resources/transaction_sum_dialog.ui
 msgid "Edit build files"
-msgstr ""
+msgstr "Редактировать сборочные файлы"
 
 #: src/transaction-cli.vala
 msgid "Total installed size"
@@ -751,7 +752,7 @@ msgstr "Завершение транзакции"
 #: src/transaction-cli.vala
 #, c-format
 msgid "View %s build files diff"
-msgstr ""
+msgstr "Посмотреть разницу сборочный файлов %s"
 
 #: src/cli.vala
 msgid "Building packages as root is not allowed"
@@ -759,7 +760,7 @@ msgstr "Сборка пакетов от имени администратора
 
 #: src/cli.vala
 msgid "No PKGBUILD file found in current directory"
-msgstr ""
+msgstr "В текущем каталоге не найдено файлов PKGBUILD"
 
 #: src/cli.vala
 msgid "Available actions"
@@ -838,7 +839,7 @@ msgstr "просмотреть список файлов, принадлежащ
 
 #: src/cli.vala
 msgid "Clone or sync packages build files from AUR"
-msgstr ""
+msgstr "Клонировать или синхронизировать сборочные файлы пакетов из AUR"
 
 #: src/cli.vala
 msgid ""
@@ -852,11 +853,11 @@ msgstr "директория"
 
 #: src/cli.vala
 msgid "also clone needed dependencies"
-msgstr ""
+msgstr "также клонировать необходимые зависимости"
 
 #: src/cli.vala
 msgid "overwrite existing files"
-msgstr ""
+msgstr "перезаписать существующие фалы"
 
 #: src/cli.vala
 msgid "Build packages from AUR and install them with their dependencies"
@@ -865,17 +866,17 @@ msgstr "Собрать пакеты из AUR и установить их вме
 #: src/cli.vala
 msgid ""
 "If no package name is given, use the PKGBUILD file in the current directory"
-msgstr ""
+msgstr "Если не дано имени пакета, используйте файл PKGBUILD в текущем каталоге"
 
 #: src/cli.vala
 msgid ""
 "The build directory will be the parent directory, --builddir option will be "
 "ignored"
-msgstr ""
+msgstr "Директория сборки будет родительским каталогом, опция --builddir будет проигнорирована"
 
 #: src/cli.vala
 msgid "do not clone build files from AUR, only use local files"
-msgstr ""
+msgstr "не клонировать файлы сборки из AUR, использовать только локальные файлы"
 
 #: src/cli.vala
 msgid ""
@@ -967,10 +968,10 @@ msgstr "%sпринадлежит %s"
 #, c-format
 msgid "There is %u member in group %s"
 msgid_plural "There are %u members in group %s"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "В группе %s %u членов"
+msgstr[1] "В группе %s %u членов"
+msgstr[2] "В группе %s %u членов"
+msgstr[3] "В группе %s %u членов"
 
 #: src/cli.vala
 msgid "Enter a selection (default=all)"
@@ -1038,7 +1039,7 @@ msgstr "Переустановить"
 
 #: resources/manager_window.ui
 msgid "Reset build files"
-msgstr ""
+msgstr "Сбросить сборочные файлы"
 
 #: resources/manager_window.ui
 msgid "_Apply"

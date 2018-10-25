@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2018-10-18 11:38+0200\n"
-"PO-Revision-Date: 2018-10-19 18:04+0000\n"
+"PO-Revision-Date: 2018-10-24 16:36+0000\n"
 "Last-Translator: Dušan Kazik <prescott66@gmail.com>\n"
 "Language-Team: Slovak (http://www.transifex.com/manjarolinux/manjaro-pamac/language/sk/)\n"
 "MIME-Version: 1.0\n"
@@ -833,11 +833,11 @@ msgstr "priečinok"
 
 #: src/cli.vala
 msgid "also clone needed dependencies"
-msgstr ""
+msgstr "tiež klonovať potrebné závislosti"
 
 #: src/cli.vala
 msgid "overwrite existing files"
-msgstr ""
+msgstr "prepísať existujúce súbory"
 
 #: src/cli.vala
 msgid "Build packages from AUR and install them with their dependencies"
@@ -1019,7 +1019,7 @@ msgstr "Preinštalovať"
 
 #: resources/manager_window.ui
 msgid "Reset build files"
-msgstr ""
+msgstr "Obnoviť súbory zostavenia"
 
 #: resources/manager_window.ui
 msgid "_Apply"

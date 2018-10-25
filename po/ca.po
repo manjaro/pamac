@@ -19,8 +19,8 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2018-10-18 11:38+0200\n"
-"PO-Revision-Date: 2018-10-18 09:49+0000\n"
-"Last-Translator: Guillaume Benoit <guillaume@manjaro.org>\n"
+"PO-Revision-Date: 2018-10-22 14:44+0000\n"
+"Last-Translator: Davidmp <medipas@gmail.com>\n"
 "Language-Team: Catalan (http://www.transifex.com/manjarolinux/manjaro-pamac/language/ca/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -139,7 +139,7 @@ msgstr "No"
 #: src/transaction.vala
 #, c-format
 msgid "Generating %s informations"
-msgstr ""
+msgstr "Generant %s informacions"
 
 #: src/transaction.vala
 msgid "Refreshing mirrors list"
@@ -156,12 +156,12 @@ msgstr "Sincronitzant les bases de dades dels paquets"
 #: src/transaction.vala src/cli.vala
 #, c-format
 msgid "Cloning %s build files"
-msgstr ""
+msgstr "Clonant %s fitxers de construcció"
 
 #: src/transaction.vala
 #, c-format
 msgid "Checking %s dependencies"
-msgstr ""
+msgstr "Comprovant %s dependències"
 
 #: src/transaction.vala
 msgid "Preparing"
@@ -377,11 +377,11 @@ msgstr "Mida total de la baixada"
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
 msgid "Edit %s build files"
-msgstr ""
+msgstr "Edita %s fitxers de construcció"
 
 #: src/transaction-gtk.vala
 msgid "Save"
-msgstr ""
+msgstr "Desa"
 
 #: src/transaction-gtk.vala src/manager_window.vala
 #: resources/transaction_sum_dialog.ui resources/manager_window.ui
@@ -452,7 +452,7 @@ msgstr "Instal·la"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Build"
-msgstr ""
+msgstr "Construeix"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Remove"
@@ -555,7 +555,7 @@ msgstr "Fitxers"
 
 #: src/manager_window.vala
 msgid "Build files"
-msgstr ""
+msgstr "Fitxers de construcció"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Install Reason"
@@ -712,7 +712,7 @@ msgstr "sí"
 
 #: src/transaction-cli.vala resources/transaction_sum_dialog.ui
 msgid "Edit build files"
-msgstr ""
+msgstr "Edita els fitxers de construcció"
 
 #: src/transaction-cli.vala
 msgid "Total installed size"
@@ -729,7 +729,7 @@ msgstr "Fes la transacció"
 #: src/transaction-cli.vala
 #, c-format
 msgid "View %s build files diff"
-msgstr ""
+msgstr "Mostra les %s diferències dels fitxers de construcció"
 
 #: src/cli.vala
 msgid "Building packages as root is not allowed"
@@ -737,7 +737,7 @@ msgstr "No es permet construir paquets com a usuari d'arrel."
 
 #: src/cli.vala
 msgid "No PKGBUILD file found in current directory"
-msgstr ""
+msgstr "No s'ha trobat cap fitxer PKGBUILD al directori actual."
 
 #: src/cli.vala
 msgid "Available actions"
@@ -816,7 +816,7 @@ msgstr "Llista els fitxers que pertanyin als paquets proporcionats."
 
 #: src/cli.vala
 msgid "Clone or sync packages build files from AUR"
-msgstr ""
+msgstr "Clona o sincronitza els fitxers de construcció de paquets de l'AUR."
 
 #: src/cli.vala
 msgid ""
@@ -830,11 +830,11 @@ msgstr "directori"
 
 #: src/cli.vala
 msgid "also clone needed dependencies"
-msgstr ""
+msgstr "Clona també les dependències necessàries."
 
 #: src/cli.vala
 msgid "overwrite existing files"
-msgstr ""
+msgstr "Sobreescriu els fitxers existents."
 
 #: src/cli.vala
 msgid "Build packages from AUR and install them with their dependencies"
@@ -843,17 +843,17 @@ msgstr "Construeix paquets de l'AUR i instal·lal's amb les dependències."
 #: src/cli.vala
 msgid ""
 "If no package name is given, use the PKGBUILD file in the current directory"
-msgstr ""
+msgstr "Si no es proporciona cap nom de paquet, s'usa el fitxer PKGBUILD del directori actual."
 
 #: src/cli.vala
 msgid ""
 "The build directory will be the parent directory, --builddir option will be "
 "ignored"
-msgstr ""
+msgstr "El directori de construcció serà el directori pare, s'ignorarà l'opció --builddir."
 
 #: src/cli.vala
 msgid "do not clone build files from AUR, only use local files"
-msgstr ""
+msgstr "No clonis fitxers de construcció de l'AUR, usa només els fitxers locals."
 
 #: src/cli.vala
 msgid ""
@@ -1014,7 +1014,7 @@ msgstr "Reinstal·la"
 
 #: resources/manager_window.ui
 msgid "Reset build files"
-msgstr ""
+msgstr "Restableix els fitxers de construcció"
 
 #: resources/manager_window.ui
 msgid "_Apply"

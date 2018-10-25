@@ -15,8 +15,8 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2018-10-18 11:38+0200\n"
-"PO-Revision-Date: 2018-10-18 09:49+0000\n"
-"Last-Translator: Guillaume Benoit <guillaume@manjaro.org>\n"
+"PO-Revision-Date: 2018-10-22 20:54+0000\n"
+"Last-Translator: UTUMI Hirosi <utuhiro78@yahoo.co.jp>\n"
 "Language-Team: Japanese (http://www.transifex.com/manjarolinux/manjaro-pamac/language/ja/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -135,7 +135,7 @@ msgstr "いいえ"
 #: src/transaction.vala
 #, c-format
 msgid "Generating %s informations"
-msgstr ""
+msgstr "%s の情報を生成"
 
 #: src/transaction.vala
 msgid "Refreshing mirrors list"
@@ -152,12 +152,12 @@ msgstr "パッケージのデータベースを同期"
 #: src/transaction.vala src/cli.vala
 #, c-format
 msgid "Cloning %s build files"
-msgstr ""
+msgstr " %s のビルドファイルを複製"
 
 #: src/transaction.vala
 #, c-format
 msgid "Checking %s dependencies"
-msgstr ""
+msgstr "%s の依存を確認中"
 
 #: src/transaction.vala
 msgid "Preparing"
@@ -372,11 +372,11 @@ msgstr "ダウンロードサイズの合計"
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
 msgid "Edit %s build files"
-msgstr ""
+msgstr "%s ビルドファイルの編集"
 
 #: src/transaction-gtk.vala
 msgid "Save"
-msgstr ""
+msgstr "保存"
 
 #: src/transaction-gtk.vala src/manager_window.vala
 #: resources/transaction_sum_dialog.ui resources/manager_window.ui
@@ -446,7 +446,7 @@ msgstr "インストール"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Build"
-msgstr ""
+msgstr "ビルド"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Remove"
@@ -548,7 +548,7 @@ msgstr "ファイル"
 
 #: src/manager_window.vala
 msgid "Build files"
-msgstr ""
+msgstr "ビルドファイル"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Install Reason"
@@ -705,7 +705,7 @@ msgstr "yes"
 
 #: src/transaction-cli.vala resources/transaction_sum_dialog.ui
 msgid "Edit build files"
-msgstr ""
+msgstr "ビルドファイルの編集"
 
 #: src/transaction-cli.vala
 msgid "Total installed size"
@@ -722,7 +722,7 @@ msgstr "トランザクションを実行"
 #: src/transaction-cli.vala
 #, c-format
 msgid "View %s build files diff"
-msgstr ""
+msgstr "%s ビルドファイルの差分を見る"
 
 #: src/cli.vala
 msgid "Building packages as root is not allowed"
@@ -730,7 +730,7 @@ msgstr "ルート権限でのパッケージのビルドは許可されていま
 
 #: src/cli.vala
 msgid "No PKGBUILD file found in current directory"
-msgstr ""
+msgstr "カレントディレクトリにPKGBUILDファイルが存在しません"
 
 #: src/cli.vala
 msgid "Available actions"
@@ -809,7 +809,7 @@ msgstr "パッケージに属するファイルのリスト"
 
 #: src/cli.vala
 msgid "Clone or sync packages build files from AUR"
-msgstr ""
+msgstr "AUR からパッケージのビルドファイルを複製あるいは同期"
 
 #: src/cli.vala
 msgid ""
@@ -823,11 +823,11 @@ msgstr "dir"
 
 #: src/cli.vala
 msgid "also clone needed dependencies"
-msgstr ""
+msgstr "クローンが必要な依存パッケージも"
 
 #: src/cli.vala
 msgid "overwrite existing files"
-msgstr ""
+msgstr "既存のファイルに上書き"
 
 #: src/cli.vala
 msgid "Build packages from AUR and install them with their dependencies"
@@ -836,17 +836,17 @@ msgstr "AURからパッケージをビルドし、依存パッケージととも
 #: src/cli.vala
 msgid ""
 "If no package name is given, use the PKGBUILD file in the current directory"
-msgstr ""
+msgstr "パッケージ名が指定されていない場合は、カレントディレクトリのPKGBUILDファイルを使用します"
 
 #: src/cli.vala
 msgid ""
 "The build directory will be the parent directory, --builddir option will be "
 "ignored"
-msgstr ""
+msgstr "ビルドディレクトリは1つ上のディレクトリとなり、--builddirオプションは無視されます"
 
 #: src/cli.vala
 msgid "do not clone build files from AUR, only use local files"
-msgstr ""
+msgstr "AURからビルド用のファイルをクローンせず、ローカルファイルのみを使用する"
 
 #: src/cli.vala
 msgid ""
@@ -1006,7 +1006,7 @@ msgstr "再インストール"
 
 #: resources/manager_window.ui
 msgid "Reset build files"
-msgstr ""
+msgstr "ビルド用のファイルをリセット"
 
 #: resources/manager_window.ui
 msgid "_Apply"
