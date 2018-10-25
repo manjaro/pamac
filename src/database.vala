@@ -206,7 +206,10 @@ namespace Pamac {
 				if (as_screenshot.get_kind () == As.ScreenshotKind.DEFAULT) {
 					As.Image? as_image = as_screenshot.get_source ();
 					if (as_image != null) {
-						screenshot = as_image.get_url ();
+						unowned string? url = as_image.get_url ();
+						if (url != null) {
+							screenshot = url;
+						}
 					}
 				}
 			});
