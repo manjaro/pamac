@@ -1286,8 +1286,6 @@ namespace Pamac {
 			packages_list.clear ();
 			if (pkgs.length () == 0) {
 				origin_stack.visible_child_name = "no_item";
-				packages_treeview.thaw_child_notify ();
-				packages_treeview.thaw_notify ();
 				select_all_button.visible = false;
 				this.get_window ().set_cursor (null);
 				return;
@@ -1371,8 +1369,6 @@ namespace Pamac {
 			aur_list.clear ();
 			if (pkgs.length () == 0) {
 				origin_stack.visible_child_name = "no_item";
-				aur_treeview.thaw_child_notify ();
-				aur_treeview.thaw_notify ();
 				select_all_button.visible = false;
 				this.get_window ().set_cursor (null);
 				return;
@@ -1690,20 +1686,20 @@ namespace Pamac {
 			string pkgname;
 			packages_list.get (iter, 0, out origin, 1, out pkgname);
 			if (!transaction.transaction_summary.contains (pkgname)) {
-				if (to_install.remove (pkgname)) {
-				} else if (to_remove.remove (pkgname)) {
-				} else {
-					if (origin == 0) { // installed
-						if (to_update.remove (pkgname)) {
-							temporary_ignorepkgs.add (pkgname);
-						} else if (temporary_ignorepkgs.remove (pkgname)) {
-							to_update.add (pkgname);
-						} else if (!database.should_hold (pkgname)) {
-							to_remove.add (pkgname);
-						}
-					} else {
-						to_install.add (pkgname);
+				if (filters_stack.visible_child_name == "updates") {
+					if (to_update.remove (pkgname)) {
+						temporary_ignorepkgs.add (pkgname);
+					} else if (temporary_ignorepkgs.remove (pkgname)) {
+						to_update.add (pkgname);
 					}
+				} else if (origin == 0) { // installed
+					if (to_remove.remove (pkgname)) {
+					} else if (!database.should_hold (pkgname)) {
+						to_remove.add (pkgname);
+					}
+				} else if (to_install.remove (pkgname)) {
+				} else {
+					to_install.add (pkgname);
 				}
 				set_pendings_operations ();
 			}
@@ -1742,11 +1738,9 @@ namespace Pamac {
 						to_update.add (pkgname);
 					}
 				} else if (origin == 0) { // installed
-					if (!transaction.transaction_summary.contains (pkgname)) {
-						if (to_remove.remove (pkgname)) {
-						} else if (!database.should_hold (pkgname)) {
-							to_remove.add (pkgname);
-						}
+					if (to_remove.remove (pkgname)) {
+					} else if (!database.should_hold (pkgname)) {
+						to_remove.add (pkgname);
 					}
 				} else if (to_build.remove (pkgname)) {
 				} else {
@@ -1881,12 +1875,31 @@ namespace Pamac {
 			int index = row.get_index ();
 			switch (index) {
 				case 0: // repos
+					this.get_window ().set_cursor (new Gdk.Cursor.for_display (Gdk.Display.get_default (), Gdk.CursorType.WATCH));
 					origin_stack.visible_child_name = "repos";
+					row.activatable = true;
+					row.selectable = true;
+					row.can_focus = true;
+					row.get_child ().sensitive = true;
 					populate_packages_list (repos_updates);
 					break;
 				case 1: // aur
 					origin_stack.visible_child_name = "aur";
+					this.get_window ().set_cursor (new Gdk.Cursor.for_display (Gdk.Display.get_default (), Gdk.CursorType.WATCH));
 					populate_aur_list (aur_updates);
+					unowned Gtk.ListBoxRow repo_row = updates_listbox.get_row_at_index (0);
+					if (repos_updates.length () > 0) {
+						repo_row.activatable = true;
+						repo_row.selectable = true;
+						repo_row.can_focus = true;
+						repo_row.get_child ().sensitive = true;
+					} else {
+						repo_row.activatable = false;
+						repo_row.selectable = false;
+						repo_row.has_focus = false;
+						repo_row.can_focus = false;
+						repo_row.get_child ().sensitive = false;
+					}
 					break;
 				default:
 					break;
@@ -2830,6 +2843,7 @@ namespace Pamac {
 					show_sidebar ();
 				}
 				if (repos_updates.length () > 0) {
+					updates_listbox.select_row (updates_listbox.get_row_at_index (0));
 					on_updates_listbox_row_activated (updates_listbox.get_selected_row ());
 				} else {
 					updates_listbox.select_row (updates_listbox.get_row_at_index (1));
