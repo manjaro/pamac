@@ -27,6 +27,15 @@ namespace Pamac {
 		As.Store app_store;
 		string locale;
 
+		class AURUpdates {
+			public List<AURPackage> updates;
+			public List<AURPackage> outofdate;
+			public AURUpdates (owned List<AURPackage> updates, owned List<AURPackage> outofdate) {
+				this.updates = (owned) updates;
+				this.outofdate = (owned) outofdate;
+			}
+		}
+
 		public signal void get_updates_progress (uint percent);
 		public signal void refreshed ();
 
@@ -162,6 +171,23 @@ namespace Pamac {
 			return 0;
 		}
 
+		public List<string> get_uninstalled_optdeps (string pkgname) {
+			var optdeps = new List<string> ();
+			unowned Alpm.Package? pkg = get_syncpkg (pkgname);
+			if (pkg != null) {
+				unowned Alpm.List<unowned Alpm.Depend> optdepends = pkg.optdepends;
+				while (optdepends != null) {
+					string optdep = optdepends.data.compute_string ();
+					unowned Alpm.Package? satisfier = Alpm.find_satisfier (alpm_handle.localdb.pkgcache, optdep);
+					if (satisfier == null) {
+						optdeps.append ((owned) optdep);
+					}
+					optdepends.next ();
+				}
+			}
+			return optdeps;
+		}
+
 		string get_localized_string (HashTable<string,string> hashtable) {
 			unowned string val;
 			if (!hashtable.lookup_extended (locale, null, out val)) {
@@ -238,6 +264,16 @@ namespace Pamac {
 					unowned Alpm.Package? sync_pkg = get_syncpkg (alpm_pkg.name);
 					if (sync_pkg != null) {
 						repo_name = sync_pkg.db.name;
+					} else if (config.enable_aur) {
+						var loop = new MainLoop ();
+						get_aur_pkg.begin (alpm_pkg.name, (obj, res) => {
+							var aur_pkg = get_aur_pkg.end (res);
+							if (aur_pkg.name != "") {
+								repo_name = dgettext (null, "AUR");
+							}
+							loop.quit ();
+						});
+						loop.run ();
 					}
 				} else if (alpm_pkg.origin == Alpm.Package.From.SYNCDB) {
 					unowned Alpm.Package? local_pkg = alpm_handle.localdb.get_pkg (alpm_pkg.name);
@@ -245,14 +281,8 @@ namespace Pamac {
 						installed_version = local_pkg.version;
 					}
 					repo_name = alpm_pkg.db.name;
-				} else {
-					// load pkg or built pkg
-					unowned Alpm.Package? local_pkg = alpm_handle.localdb.get_pkg (alpm_pkg.name);
-					if (local_pkg != null) {
-						installed_version = local_pkg.version;
-					}
 				}
-				if (repo_name != "") {
+				if (repo_name != "" && repo_name != dgettext (null, "AUR")) {
 					// find if pkgname provides only one app
 					As.App[] matching_apps = get_pkgname_matching_apps (alpm_pkg.name);
 					if (matching_apps.length == 1) {
@@ -296,6 +326,16 @@ namespace Pamac {
 					unowned Alpm.Package? sync_pkg = get_syncpkg (alpm_pkg.name);
 					if (sync_pkg != null) {
 						repo_name = sync_pkg.db.name;
+					} else if (config.enable_aur) {
+						var loop = new MainLoop ();
+						get_aur_pkg.begin (alpm_pkg.name, (obj, res) => {
+							var aur_pkg = get_aur_pkg.end (res);
+							if (aur_pkg.name != "") {
+								repo_name = dgettext (null, "AUR");
+							}
+							loop.quit ();
+						});
+						loop.run ();
 					}
 				} else if (alpm_pkg.origin == Alpm.Package.From.SYNCDB) {
 					unowned Alpm.Package? local_pkg = alpm_handle.localdb.get_pkg (alpm_pkg.name);
@@ -304,7 +344,7 @@ namespace Pamac {
 					}
 					repo_name = alpm_pkg.db.name;
 				}
-				if (repo_name != "") {
+				if (repo_name != "" && repo_name != dgettext (null, "AUR")) {
 					As.App[] apps = get_pkgname_matching_apps (alpm_pkg.name);
 					if (apps.length > 0) {
 						// alpm_pkg provide some apps
@@ -582,13 +622,21 @@ namespace Pamac {
 					version = "",
 					installed_version = "",
 					desc = "",
-					packagebase = ""
+					packagebase = "",
+					outofdate = ""
 				};
 			}
 			string installed_version = "";
 			unowned Alpm.Package? pkg = alpm_handle.localdb.get_pkg (json_object.get_string_member ("Name"));
 			if (pkg != null) {
 				installed_version = pkg.version;
+			}
+			// set out of date
+			string outofdate = "";
+			unowned Json.Node? out_node = json_object.get_member ("OutOfDate");
+			if (!out_node.is_null ()) {
+				var time = GLib.Time.local ((time_t) out_node.get_int ());
+				outofdate = time.format ("%x");
 			}
 			return AURPackageStruct () {
 				name = json_object.get_string_member ("Name"),
@@ -597,7 +645,8 @@ namespace Pamac {
 				// desc can be null
 				desc = json_object.get_null_member ("Description") ? "" : json_object.get_string_member ("Description"),
 				popularity = json_object.get_double_member ("Popularity"),
-				packagebase = json_object.get_string_member ("PackageBase")
+				packagebase = json_object.get_string_member ("PackageBase"),
+				outofdate = (owned) outofdate
 			};
 		}
 
@@ -882,10 +931,11 @@ namespace Pamac {
 			var details = PackageDetailsStruct ();
 			unowned Alpm.Package? alpm_pkg = alpm_handle.localdb.get_pkg (pkgname);
 			unowned Alpm.Package? sync_pkg = get_syncpkg (pkgname);
+			if (alpm_pkg != null) {
+				installed_version = alpm_pkg.version;
+			}
 			if (alpm_pkg == null || use_sync_pkg) {
 				alpm_pkg = sync_pkg;
-			} else {
-				installed_version = alpm_pkg.version;
 			}
 			if (alpm_pkg != null) {
 				// name
@@ -957,6 +1007,16 @@ namespace Pamac {
 					// repo
 					if (sync_pkg != null) {
 						repo = sync_pkg.db.name;
+					} else if (config.enable_aur) {
+						var loop = new MainLoop ();
+						get_aur_pkg.begin (alpm_pkg.name, (obj, res) => {
+							var aur_pkg = get_aur_pkg.end (res);
+							if (aur_pkg.name != "") {
+								repo = dgettext (null, "AUR");
+							}
+							loop.quit ();
+						});
+						loop.run ();
 					}
 					// reason
 					if (alpm_pkg.reason == Alpm.Package.Reason.EXPLICIT) {
@@ -1227,10 +1287,11 @@ namespace Pamac {
 						if (process.get_exit_status () == 0) {
 							try {
 								var dis = new DataInputStream (process.get_stdout_pipe ());
+								var file = File.new_for_path (Path.build_path ("/", pkgdir_name, ".SRCINFO"));
 								// delete the file before rewrite it
-								yield srcinfo.delete_async ();
+								yield file.delete_async ();
 								// creating a DataOutputStream to the file
-								var dos = new DataOutputStream (yield srcinfo.create_async (FileCreateFlags.REPLACE_DESTINATION));
+								var dos = new DataOutputStream (yield file.create_async (FileCreateFlags.REPLACE_DESTINATION));
 								// writing makepkg output to .SRCINFO
 								yield dos.splice_async (dis, 0);
 								return true;
@@ -1468,6 +1529,7 @@ namespace Pamac {
 		public async List<AURPackage> get_aur_updates () {
 			// get local pkgs
 			string[] local_pkgs = {};
+			string[] vcs_local_pkgs = {};
 			unowned Alpm.List<unowned Alpm.Package> pkgcache = alpm_handle.localdb.pkgcache;
 			while (pkgcache != null) {
 				unowned Alpm.Package installed_pkg = pkgcache.data;
@@ -1476,12 +1538,22 @@ namespace Pamac {
 					// check if installed_pkg is a local pkg
 					unowned Alpm.Package? pkg = get_syncpkg (installed_pkg.name);
 					if (pkg == null) {
-						local_pkgs += installed_pkg.name;
+						if (config.check_aur_vcs_updates &&
+							(installed_pkg.name.has_suffix ("-git")
+							|| installed_pkg.name.has_suffix ("-svn")
+							|| installed_pkg.name.has_suffix ("-bzr")
+							|| installed_pkg.name.has_suffix ("-hg"))) {
+							vcs_local_pkgs += installed_pkg.name;
+						} else {
+							local_pkgs += installed_pkg.name;
+						}
 					}
 				}
 				pkgcache.next ();
 			}
-			return get_aur_updates_real (yield aur_multiinfo (local_pkgs));
+			Json.Array aur_infos = yield aur_multiinfo (local_pkgs);
+			AURUpdates aur_updates = yield get_aur_updates_real (aur_infos, vcs_local_pkgs);
+			return (owned) aur_updates.updates;
 		}
 
 		public void refresh_tmp_files_dbs () {
@@ -1517,6 +1589,7 @@ namespace Pamac {
 			// check updates
 			// count this step as 5% of the total
 			string[] local_pkgs = {};
+			string[] vcs_local_pkgs = {};
 			unowned Alpm.List<unowned Alpm.Package> pkgcache = tmp_handle.localdb.pkgcache;
 			while (pkgcache != null) {
 				unowned Alpm.Package installed_pkg = pkgcache.data;
@@ -1530,7 +1603,15 @@ namespace Pamac {
 							// check if installed_pkg is a local pkg
 							pkg = get_syncpkg (installed_pkg.name);
 							if (pkg == null) {
-								local_pkgs += installed_pkg.name;
+								if (config.check_aur_vcs_updates &&
+									(installed_pkg.name.has_suffix ("-git")
+									|| installed_pkg.name.has_suffix ("-svn")
+									|| installed_pkg.name.has_suffix ("-bzr")
+									|| installed_pkg.name.has_suffix ("-hg"))) {
+									vcs_local_pkgs += installed_pkg.name;
+								} else {
+									local_pkgs += installed_pkg.name;
+								}
 							}
 						}
 					}
@@ -1541,27 +1622,121 @@ namespace Pamac {
 			if (config.check_aur_updates) {
 				// count this step as 5% of the total
 				get_updates_progress (100);
-				return new Updates.from_lists ((owned) repos_updates, get_aur_updates_real (yield aur_multiinfo (local_pkgs)));
+				Json.Array aur_infos = yield aur_multiinfo (local_pkgs);
+				AURUpdates aur_updates = yield get_aur_updates_real (aur_infos, vcs_local_pkgs);
+				return new Updates.from_lists ((owned) repos_updates, (owned) aur_updates.updates, (owned) aur_updates.outofdate);
 			} else {
 				get_updates_progress (100);
-				return new Updates.from_lists ((owned) repos_updates, new List<AURPackage> ());
+				return new Updates.from_lists ((owned) repos_updates, new List<AURPackage> (), new List<AURPackage> ());
 			}
 		}
 
-		List<AURPackage> get_aur_updates_real (Json.Array aur_updates_json) {
-			var aur_updates = new List<AURPackage> ();
-			aur_updates_json.foreach_element ((array, index, node) => {
+		async List<AURPackage> get_vcs_last_version (string[] vcs_local_pkgs) {
+			var vcs_packages = new List<AURPackage> ();
+			foreach (unowned string pkgname in vcs_local_pkgs) {
+				// get last build files
+				File? clone_dir = yield clone_build_files (pkgname, false);
+				if (clone_dir != null) {
+					// get last sources
+					// no output to not pollute checkupdates output
+					var launcher = new SubprocessLauncher (SubprocessFlags.STDOUT_SILENCE | SubprocessFlags.STDERR_SILENCE);
+					launcher.set_cwd (clone_dir.get_path ());
+					string[] cmds = {"makepkg", "--nobuild", "--noprepare"};
+					int status = yield launch_subprocess (launcher, cmds);
+					if (status == 0) {
+						bool success = yield regenerate_srcinfo (clone_dir.get_basename ());
+						if (success) {
+							var srcinfo = clone_dir.get_child (".SRCINFO");
+							try {
+								// read .SRCINFO
+								var dis = new DataInputStream (srcinfo.read ());
+								string line;
+								string current_section = "";
+								bool current_section_is_pkgbase = true;
+								string version = "";
+								string pkgbase = "";
+								string desc = "";
+								string[] pkgnames_found = {};
+								var pkgnames_table = new HashTable<string, AURPackageStruct?> (str_hash, str_equal);
+								while ((line = yield dis.read_line_async ()) != null) {
+									if ("pkgbase = " in line) {
+										pkgbase = line.split (" = ", 2)[1];
+									} else if ("pkgdesc = " in line) {
+										desc = line.split (" = ", 2)[1];
+										if (!current_section_is_pkgbase) {
+											unowned AURPackageStruct? aur_struct = pkgnames_table.get (current_section);
+											if (aur_struct != null) {
+												aur_struct.desc = desc;
+											}
+										}
+									} else if ("pkgver = " in line) {
+										version = line.split ("pkgver = ", 2)[1];
+									} else if ("pkgrel = " in line) {
+										version += "-";
+										version += line.split ("pkgrel = ", 2)[1];
+									} else if ("epoch = " in line) {
+										version = "%s:%s".printf (line.split (" = ", 2)[1], version);
+									} else if ("pkgname = " in line) {
+										string pkgname_found = line.split (" = ", 2)[1];
+										current_section = pkgname_found;
+										current_section_is_pkgbase = false;
+										pkgnames_found += pkgname_found;
+										if (!pkgnames_table.contains (pkgname_found)) {
+											string installed_version = "";
+											unowned Alpm.Package? pkg = alpm_handle.localdb.get_pkg (pkgname_found);
+											if (pkg != null) {
+												installed_version = pkg.version;
+											}
+											var aur_struct = AURPackageStruct () {
+												name = pkgname_found,
+												version = version,
+												installed_version = (owned) installed_version,
+												desc = desc,
+												packagebase = pkgbase
+											};
+											pkgnames_table.insert (pkgname_found, (owned) aur_struct);
+										}
+									}
+								}
+								foreach (unowned string pkgname_found in pkgnames_found) {
+									AURPackageStruct? aur_struct = pkgnames_table.take (pkgname_found);
+									vcs_packages.append (new AURPackage.from_struct ((owned) aur_struct));
+								}
+							} catch (GLib.Error e) {
+								stderr.printf ("Error: %s\n", e.message);
+								continue;
+							}
+						}
+					}
+				}
+			}
+			return vcs_packages;
+		}
+
+		async AURUpdates get_aur_updates_real (Json.Array aur_infos, string[] vcs_local_pkgs) {
+			var updates = new List<AURPackage> ();
+			var outofdate = new List<AURPackage> ();
+			if (config.check_aur_vcs_updates) {
+				var vcs_updates = yield get_vcs_last_version (vcs_local_pkgs);
+				foreach (unowned AURPackage aur_pkg in vcs_updates) {
+					if (Alpm.pkg_vercmp (aur_pkg.version, aur_pkg.installed_version) == 1) {
+						updates.append (aur_pkg);
+					}
+				}
+			}
+			aur_infos.foreach_element ((array, index, node) => {
 				unowned Json.Object pkg_info = node.get_object ();
 				unowned string name = pkg_info.get_string_member ("Name");
 				unowned string new_version = pkg_info.get_string_member ("Version");
 				unowned string old_version = alpm_handle.localdb.get_pkg (name).version;
 				if (Alpm.pkg_vercmp (new_version, old_version) == 1) {
-					var infos = initialise_aur_struct (pkg_info);
-					infos.installed_version = old_version;
-					aur_updates.append (new AURPackage.from_struct ((owned) infos));
+					updates.append (new AURPackage.from_struct (initialise_aur_struct (pkg_info)));
+				} else if (!pkg_info.get_member ("OutOfDate").is_null ()) {
+					// get out of date packages
+					outofdate.append (new AURPackage.from_struct (initialise_aur_struct (pkg_info)));
 				}
 			});
-			return (owned) aur_updates;
+			return new AURUpdates ((owned) updates, (owned) outofdate);
 		}
 	}
 }

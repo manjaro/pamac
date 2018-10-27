@@ -83,7 +83,7 @@ namespace Pamac {
 		public signal void set_pkgreason_finished ();
 		public signal void write_pamac_config_finished (bool recurse, uint64 refresh_period, bool no_update_hide_icon,
 														bool enable_aur, string aur_build_dir, bool check_aur_updates,
-														bool download_updates);
+														bool check_aur_vcs_updates, bool download_updates);
 		public signal void write_alpm_config_finished (bool checkspace);
 		public signal void start_generating_mirrors_list ();
 		public signal void generate_mirrors_list_finished ();
@@ -179,46 +179,9 @@ namespace Pamac {
 			return files;
 		}
 
-		protected async bool regenerate_srcinfo (string pkgname) {
-			string pkgdir_name = Path.build_path ("/", database.config.aur_build_dir, pkgname);
-			// generate .SRCINFO
-			var launcher = new SubprocessLauncher (SubprocessFlags.STDOUT_PIPE);
-			launcher.set_cwd (pkgdir_name);
-			emit_action (dgettext (null, "Generating %s informations").printf (pkgname) + "...");
-			// set building to allow cancellation
-			building = true;
-			try {
-				Subprocess process = launcher.spawnv ({"makepkg", "--printsrcinfo"});
-				try {
-					yield process.wait_async (build_cancellable);
-					if (process.get_if_exited ()) {
-						if (process.get_exit_status () == 0) {
-							try {
-								var dis = new DataInputStream (process.get_stdout_pipe ());
-								var file = File.new_for_path (Path.build_path ("/", pkgdir_name, ".SRCINFO"));
-								// delete the file before rewrite it
-								yield file.delete_async ();
-								// creating a DataOutputStream to the file
-								var dos = new DataOutputStream (yield file.create_async (FileCreateFlags.REPLACE_DESTINATION));
-								// writing makepkg output to .SRCINFO
-								yield dos.splice_async (dis, 0);
-								building = false;
-								return true;
-							} catch (Error e) {
-								stderr.printf ("Error: %s\n", e.message);
-							}
-						}
-					}
-				} catch (Error e) {
-					// cancelled
-					process.send_signal (Posix.Signal.INT);
-					process.send_signal (Posix.Signal.KILL);
-				}
-			} catch (Error e) {
-				stderr.printf ("Error: %s\n", e.message);
-			}
-			building = false;
-			return false;
+		protected virtual List<string> choose_optdeps (string pkgname, List<string> optdeps) {
+			// do not install optdeps
+			return new List<string> ();
 		}
 
 		protected virtual int choose_provider (string depend, string[] providers) {
@@ -419,7 +382,6 @@ namespace Pamac {
 						// error
 						continue;
 					}
-					already_checked_aur_dep.add (pkgname);
 				}
 				if (build_cancellable.is_cancelled ()) {
 					return;
@@ -711,6 +673,29 @@ namespace Pamac {
 			this.to_build = to_build;
 			this.temporary_ignorepkgs = temporary_ignorepkgs;
 			this.overwrite_files = overwrite_files;
+			// choose optdeps
+			string[] to_add_to_install = {};
+			foreach (unowned string name in this.to_install) {
+				// do not check if reinstall
+				if (database.get_installed_pkg (name).name == "") {
+					List<string> uninstalled_optdeps = database.get_uninstalled_optdeps (name);
+					var real_uninstalled_optdeps = new List<string> ();
+					foreach (unowned string optdep in uninstalled_optdeps) {
+						string optdep_name = optdep.split (": ", 2)[0];
+						if (!(optdep_name in this.to_install) && !(optdep_name in to_add_to_install)) {
+							real_uninstalled_optdeps.append (optdep);
+						}
+					}
+					if (real_uninstalled_optdeps.length () > 0) {
+						foreach (unowned string optdep in choose_optdeps (name, real_uninstalled_optdeps)) {
+							to_add_to_install += optdep;
+						}
+					}
+				}
+			}
+			foreach (unowned string name in to_add_to_install) {
+				this.to_install += name;
+			}
 			emit_action (dgettext (null, "Preparing") + "...");
 			connecting_signals ();
 			trans_prepare_real ();
@@ -758,7 +743,7 @@ namespace Pamac {
 			// building
 			building = true;
 			start_building ();
-			int status = yield run_cmd_line ({"makepkg", "-cf"}, pkgdir, build_cancellable);
+			int status = yield run_cmd_line ({"makepkg", "-m", "-cf"}, pkgdir, build_cancellable);
 			if (build_cancellable.is_cancelled ()) {
 				status = 1;
 			}
@@ -1338,12 +1323,12 @@ namespace Pamac {
 
 		void on_write_pamac_config_finished (bool recurse, uint64 refresh_period, bool no_update_hide_icon,
 											bool enable_aur, string aur_build_dir, bool check_aur_updates,
-											bool download_updates) {
+											bool check_aur_vcs_updates, bool download_updates) {
 			transaction_interface.write_pamac_config_finished.disconnect (on_write_pamac_config_finished);
 			database.config.reload ();
 			write_pamac_config_finished (recurse, refresh_period, no_update_hide_icon,
 										enable_aur, aur_build_dir, check_aur_updates,
-										download_updates);
+										check_aur_vcs_updates, download_updates);
 		}
 
 		void on_write_alpm_config_finished (bool checkspace) {

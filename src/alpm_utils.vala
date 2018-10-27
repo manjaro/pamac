@@ -777,7 +777,8 @@ namespace Pamac {
 											version = trans_pkg.version,
 											installed_version = "",
 											desc = "",
-											packagebase = ""
+											packagebase = "",
+											outofdate = ""
 										};
 										if (!(trans_pkg.name in to_build)) {
 											to_install_as_dep.insert (trans_pkg.name, trans_pkg.name);

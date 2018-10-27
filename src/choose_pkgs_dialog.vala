@@ -1,7 +1,7 @@
 /*
  *  pamac-vala
  *
- *  Copyright (C) 2014-2018 Guillaume Benoit <guillaume@manjaro.org>
+ *  Copyright (C) 2015-2018 Guillaume Benoit <guillaume@manjaro.org>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -19,25 +19,31 @@
 
 namespace Pamac {
 
-	[GtkTemplate (ui = "/org/manjaro/pamac/transaction/transaction_sum_dialog.ui")]
-	class TransactionSumDialog : Gtk.Dialog {
+	[GtkTemplate (ui = "/org/manjaro/pamac/transaction/choose_pkgs_dialog.ui")]
+	public class ChoosePkgsDialog : Gtk.Dialog {
 
 		[GtkChild]
-		public Gtk.Label top_label;
-		[GtkChild]
-		Gtk.TreeView treeview;
-		[GtkChild]
-		public Gtk.Button edit_button;
+		public Gtk.TreeView treeview;
 
-		public Gtk.ListStore sum_list;
+		public Gtk.ListStore pkgs_list;
 
-		public TransactionSumDialog (Gtk.ApplicationWindow? window) {
+		public ChoosePkgsDialog (Gtk.Window window) {
 			int use_header_bar;
 			Gtk.Settings.get_default ().get ("gtk-dialogs-use-header", out use_header_bar);
 			Object (transient_for: window, use_header_bar: use_header_bar);
 
-			sum_list = new Gtk.ListStore (6, typeof (string), typeof (string), typeof (string), typeof (string), typeof (string), typeof (string));
-			treeview.set_model (sum_list);
+			pkgs_list = new Gtk.ListStore (2, typeof (bool), typeof (string));
+			treeview.set_model (pkgs_list);
+		}
+
+		[GtkCallback]
+		void on_renderertoggle_toggled (string path) {
+			Gtk.TreeIter iter;
+			bool selected;
+			if (pkgs_list.get_iter_from_string (out iter, path)) {
+				pkgs_list.get (iter, 0, out selected);
+				pkgs_list.set (iter, 0, !selected);
+			}
 		}
 	}
 }

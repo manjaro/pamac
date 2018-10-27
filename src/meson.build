@@ -31,8 +31,8 @@ common_vala_args = ['--pkg=posix', '--target-glib=2.38']
 common_c_args = ['-DGETTEXT_PACKAGE="pamac"']
 
 common_sources = ['common.vala', 'package.vala', 'pamac_config.vala']
-transaction_gtk_sources = ['transaction-gtk.vala', 'choose_provider_dialog.vala', 'transaction_sum_dialog.vala', 'progress_box.vala']
-preferences_sources = ['preferences_dialog.vala', 'choose_ignorepkgs_dialog.vala']
+transaction_gtk_sources = ['transaction-gtk.vala', 'choose_provider_dialog.vala', 'choose_pkgs_dialog.vala', 'transaction_sum_dialog.vala', 'progress_box.vala']
+preferences_sources = ['preferences_dialog.vala']
 
 executable('pamac-clean-cache',
 	sources: ['pamac_config.vala', 'clean_cache.vala'],

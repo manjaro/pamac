@@ -19,8 +19,7 @@
 
 namespace Pamac {
 	// AUR urls
-	const string aur_url = "http://aur.archlinux.org";
-	const string rpc_url = aur_url + "/rpc/?v=5";
+	const string rpc_url = "https://aur.archlinux.org/rpc/?v=5";
 	const string rpc_search = "&type=search&arg=";
 	const string rpc_multiinfo = "&type=info";
 	const string rpc_multiinfo_arg = "&arg[]=";

@@ -64,7 +64,7 @@ namespace Pamac {
 		public signal void get_authorization_finished (bool authorized);
 		public signal void write_pamac_config_finished (bool recurse, uint64 refresh_period, bool no_update_hide_icon,
 														bool enable_aur, string aur_build_dir, bool check_aur_updates,
-														bool download_updates);
+														bool check_aur_vcs_updates, bool download_updates);
 		public signal void write_alpm_config_finished (bool checkspace);
 		public signal void generate_mirrors_list_data (string line);
 		public signal void generate_mirrors_list_finished ();
@@ -291,7 +291,7 @@ namespace Pamac {
 				}
 				write_pamac_config_finished (config.recurse, config.refresh_period, config.no_update_hide_icon,
 											config.enable_aur, config.aur_build_dir, config.check_aur_updates,
-											config.download_updates);
+											config.check_aur_vcs_updates, config.download_updates);
 			});
 		}
 
@@ -322,7 +322,7 @@ namespace Pamac {
 		private void generate_mirrors_list () {
 			try {
 				var process = new Subprocess.newv (
-					{"pacman-mirrors", "-c", mirrorlist_country},
+					{"pacman-mirrors", "--no-color", "-c", mirrorlist_country},
 					SubprocessFlags.STDOUT_PIPE | SubprocessFlags.STDERR_MERGE);
 				var dis = new DataInputStream (process.get_stdout_pipe ());
 				string? line;

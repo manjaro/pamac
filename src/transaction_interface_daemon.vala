@@ -57,7 +57,7 @@ namespace Pamac {
 		public signal void get_authorization_finished (bool authorized);
 		public signal void write_pamac_config_finished (bool recurse, uint64 refresh_period, bool no_update_hide_icon,
 														bool enable_aur, string aur_build_dir, bool check_aur_updates,
-														bool download_updates);
+														bool check_aur_vcs_updates, bool download_updates);
 		public signal void write_alpm_config_finished (bool checkspace);
 		public signal void generate_mirrors_list_data (string line);
 		public signal void generate_mirrors_list_finished ();
@@ -125,11 +125,11 @@ namespace Pamac {
 
 		void on_write_pamac_config_finished (bool recurse, uint64 refresh_period, bool no_update_hide_icon,
 											bool enable_aur, string aur_build_dir, bool check_aur_updates,
-											bool download_updates) {
+											bool check_aur_vcs_updates, bool download_updates) {
 			system_daemon.write_pamac_config_finished.disconnect (on_write_pamac_config_finished);
 			write_pamac_config_finished (recurse, refresh_period, no_update_hide_icon,
 										enable_aur, aur_build_dir, check_aur_updates,
-										download_updates);
+										check_aur_vcs_updates, download_updates);
 		}
 
 		public void start_write_alpm_config (HashTable<string,Variant> new_alpm_conf) {

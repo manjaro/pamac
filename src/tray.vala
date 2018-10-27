@@ -124,10 +124,7 @@ namespace Pamac {
 			var config = new Config ("/etc/pamac.conf");
 			if (config.refresh_period != 0) {
 				// get updates
-				string[] cmds = {"pamac", "checkupdates"};
-				if (config.check_aur_updates) {
-					cmds += "-a";
-				}
+				string[] cmds = {"pamac", "checkupdates", "-q"};
 				updates_nb = 0;
 				try {
 					var process = new Subprocess.newv (cmds, SubprocessFlags.STDOUT_PIPE);
@@ -141,8 +138,6 @@ namespace Pamac {
 							while (dis.read_line () != null) {
 								updates_nb++;
 							}
-							// remove the first which is not an update
-							updates_nb--;
 							if (!check_pamac_running () && config.download_updates) {
 								start_system_daemon (config.environment_variables);
 								try {
@@ -198,6 +193,7 @@ namespace Pamac {
 			try {
 				close_notification ();
 				notification = new Notify.Notification (_("Package Manager"), info, "system-software-update");
+				notification.set_timeout (Notify.EXPIRES_DEFAULT);
 				notification.add_action ("default", _("Details"), execute_updater);
 				notification.show ();
 			} catch (Error e) {

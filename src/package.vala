@@ -164,13 +164,15 @@ namespace Pamac {
 		public string desc { get {return pkg_struct.desc;} }
 		public double popularity { get {return pkg_struct.popularity;} }
 		public string packagebase { get {return pkg_struct.packagebase;} }
+		public string outofdate { get {return pkg_struct.outofdate;} }
 		internal AURPackage () {
 			pkg_struct = AURPackageStruct () {
 				name = "",
 				version = "",
 				installed_version = "",
 				desc = "",
-				packagebase = ""
+				packagebase = "",
+				outofdate = ""
 			};
 		}
 		internal AURPackage.from_struct (owned AURPackageStruct pkg_struct) {
@@ -321,15 +323,19 @@ namespace Pamac {
 	public class Updates: Object {
 		List<Package> repos_updates_priv;
 		List<AURPackage> aur_updates_priv;
+		List<AURPackage> outofdate_priv;
 		public List<Package> repos_updates { get {return repos_updates_priv;} }
 		public List<AURPackage> aur_updates { get {return aur_updates_priv;} }
+		public List<AURPackage> outofdate { get {return outofdate_priv;} }
 		internal Updates () {
 			repos_updates_priv = new List<Package> ();
 			aur_updates_priv = new List<AURPackage> ();
+			outofdate_priv =  new List<AURPackage> ();
 		}
-		internal Updates.from_lists (owned List<Package> repos_updates, owned List<AURPackage> aur_updates) {
+		internal Updates.from_lists (owned List<Package> repos_updates, owned List<AURPackage> aur_updates, owned List<AURPackage> outofdate) {
 			repos_updates_priv = (owned) repos_updates;
 			aur_updates_priv = (owned) aur_updates;
+			outofdate_priv = (owned) outofdate;
 		}
 	}
 }

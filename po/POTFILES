@@ -9,7 +9,7 @@ src/tray.vala
 src/manager.vala
 src/manager_window.vala
 src/preferences_dialog.vala
-src/choose_ignorepkgs_dialog.vala
+src/choose_pkgs_dialog.vala
 src/transaction-cli.vala
 src/cli.vala
 resources/choose_provider_dialog.ui
@@ -18,4 +18,4 @@ resources/history_dialog.ui
 resources/transaction_sum_dialog.ui
 resources/manager_window.ui
 resources/preferences_dialog.ui
-resources/choose_ignorepkgs_dialog.ui
+resources/choose_pkgs_dialog.ui

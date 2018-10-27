@@ -91,7 +91,7 @@ namespace Pamac {
 			pamac_config.reload ();
 			write_pamac_config_finished (pamac_config.recurse, pamac_config.refresh_period, pamac_config.no_update_hide_icon,
 										pamac_config.enable_aur, pamac_config.aur_build_dir, pamac_config.check_aur_updates,
-										pamac_config.download_updates);
+										pamac_config.check_aur_vcs_updates, pamac_config.download_updates);
 		}
 
 		public void start_write_pamac_config (HashTable<string,Variant> new_pamac_conf) {

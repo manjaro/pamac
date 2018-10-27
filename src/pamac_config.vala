@@ -28,6 +28,7 @@ namespace Pamac {
 		public bool enable_aur { get; set; }
 		public string aur_build_dir { get; set; }
 		public bool check_aur_updates { get; set; }
+		public bool check_aur_vcs_updates { get; set; }
 		public bool download_updates { get; set; }
 		public uint64 clean_keep_num_pkgs { get;  set; }
 		public bool clean_rm_only_uninstalled { get; set; }
@@ -78,6 +79,7 @@ namespace Pamac {
 			enable_aur = false;
 			aur_build_dir = "/var/tmp";
 			check_aur_updates = false;
+			check_aur_vcs_updates = false;
 			download_updates = false;
 			clean_keep_num_pkgs = 3;
 			clean_rm_only_uninstalled = false;
@@ -89,6 +91,9 @@ namespace Pamac {
 			}
 			if (enable_aur == false) {
 				check_aur_updates = false;
+				check_aur_vcs_updates = false;
+			} else if (check_aur_updates == false) {
+				check_aur_vcs_updates = false;
 			}
 		}
 
@@ -137,6 +142,8 @@ namespace Pamac {
 							}
 						} else if (key == "CheckAURUpdates") {
 							check_aur_updates = true;
+						} else if (key == "CheckAURVCSUpdates") {
+							check_aur_vcs_updates = true;
 						} else if (key == "DownloadUpdates") {
 							download_updates = true;
 						}
@@ -241,6 +248,17 @@ namespace Pamac {
 							} else {
 								data.append (line + "\n");
 							}
+						} else if (line.contains ("CheckAURVCSUpdates")) {
+							if (new_conf.lookup_extended ("CheckAURVCSUpdates", null, out variant)) {
+								if (variant.get_boolean ()) {
+									data.append ("CheckAURVCSUpdates\n");
+								} else {
+									data.append ("#CheckAURVCSUpdates\n");
+								}
+								new_conf.remove ("CheckAURVCSUpdates");
+							} else {
+								data.append (line + "\n");
+							}
 						} else if (line.contains ("DownloadUpdates")) {
 							if (new_conf.lookup_extended ("DownloadUpdates", null, out variant)) {
 								if (variant.get_boolean ()) {
@@ -306,6 +324,12 @@ namespace Pamac {
 							data.append ("CheckAURUpdates\n");
 						} else {
 							data.append ("#CheckAURUpdates\n");
+						}
+					} else if (key == "CheckAURVCSUpdates") {
+						if (val.get_boolean ()) {
+							data.append ("CheckAURVCSUpdates\n");
+						} else {
+							data.append ("#CheckAURVCSUpdates\n");
 						}
 					} else if (key == "DownloadUpdates") {
 						if (val.get_boolean ()) {

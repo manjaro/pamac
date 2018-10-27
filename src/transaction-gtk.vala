@@ -26,10 +26,10 @@ namespace Pamac {
 		string current_action;
 		public ProgressBox progress_box;
 		uint pulse_timeout_id;
-		Vte.Terminal term;
-		Vte.Pty pty;
-		public Gtk.ScrolledWindow term_window;
+		public Gtk.ScrolledWindow details_window;
+		Gtk.TextView details_textview;
 		public Gtk.Notebook build_files_notebook;
+		public ChoosePkgsDialog choose_pkgs_dialog;
 		//parent window
 		public Gtk.ApplicationWindow? application_window { get; construct; }
 		// ask_confirmation option
@@ -42,7 +42,7 @@ namespace Pamac {
 		}
 
 		construct {
-			//creating dialogs
+			// create dialogs
 			this.application_window = application_window;
 			transaction_sum_dialog = new TransactionSumDialog (application_window);
 			transaction_summary = new GenericSet<string?> (str_hash, str_equal);
@@ -50,28 +50,27 @@ namespace Pamac {
 			current_action = "";
 			progress_box = new ProgressBox ();
 			progress_box.progressbar.text = "";
-			//creating terminal
-			term = new Vte.Terminal ();
-			term.set_scrollback_lines (-1);
-			term.expand = true;
-			term.visible = true;
-			var black = Gdk.RGBA ();
-			black.parse ("black");
-			term.set_color_cursor (black);
-			term.button_press_event.connect (on_term_button_press_event);
-			term.key_press_event.connect (on_term_key_press_event);
-			// creating pty for term
-			try {
-				pty = term.pty_new_sync (Vte.PtyFlags.NO_HELPER);
-			} catch (Error e) {
-				stderr.printf ("Error: %s\n", e.message);
-			}
-			// add term in a grid with a scrollbar
-			term_window = new Gtk.ScrolledWindow (null, term.vadjustment);
-			term_window.expand = true;
-			term_window.visible = true;
-			term_window.propagate_natural_height = true;
-			term_window.add (term);
+			choose_pkgs_dialog = new ChoosePkgsDialog (application_window);
+			// create details textview
+			details_window = new Gtk.ScrolledWindow (null, null);
+			details_window.visible = true;
+			details_window.expand = true;
+			details_textview = new Gtk.TextView ();
+			details_textview.visible = true;
+			details_textview.editable = false;
+			details_textview.wrap_mode = Gtk.WrapMode.NONE;
+			details_textview.set_monospace (true);
+			details_textview.input_hints = Gtk.InputHints.NO_EMOJI;
+			details_textview.top_margin = 8;
+			details_textview.bottom_margin = 8;
+			details_textview.left_margin = 8;
+			details_textview.right_margin = 8;
+			Gtk.TextIter iter;
+			details_textview.buffer.get_end_iter (out iter);
+			// place a mark at iter, the mark will stay there after we
+			// insert some text at the end because it has right gravity.
+			details_textview.buffer.create_mark ("scroll", iter, false);
+			details_window.add (details_textview);
 			// create build files notebook
 			build_files_notebook = new Gtk.Notebook ();
 			build_files_notebook.visible = true;
@@ -82,9 +81,9 @@ namespace Pamac {
 			emit_action.connect (display_action);
 			emit_action_progress.connect (display_action_progress);
 			emit_hook_progress.connect (display_hook_progress);
-			emit_script_output.connect (show_in_term);
+			emit_script_output.connect (show_details);
 			emit_warning.connect ((msg) => {
-				show_in_term (msg);
+				show_details (msg);
 				warning_textbuffer.append (msg + "\n");
 			});
 			emit_error.connect (display_error);
@@ -114,44 +113,20 @@ namespace Pamac {
 			}
 		}
 
-		bool on_term_button_press_event (Gdk.EventButton event) {
-			// Check if right mouse button was clicked
-			if (event.type == Gdk.EventType.BUTTON_PRESS && event.button == 3) {
-				if (term.get_has_selection ()) {
-					var right_click_menu = new Gtk.Menu ();
-					var copy_item = new Gtk.MenuItem.with_label (dgettext (null, "Copy"));
-					copy_item.activate.connect (() => {term.copy_clipboard ();});
-					right_click_menu.append (copy_item);
-					right_click_menu.show_all ();
-					right_click_menu.popup_at_pointer (event);
-					return true;
-				}
-			}
-			return false;
-		}
-
-		bool on_term_key_press_event (Gdk.EventKey event) {
-			// Check if Ctrl + c keys were pressed
-			if (((event.state & Gdk.ModifierType.CONTROL_MASK) != 0) && (Gdk.keyval_name (event.keyval) == "c")) {
-				term.copy_clipboard ();
-				return true;
-			}
-			return false;
-		}
-
-		void show_in_term (string message) {
-			term.set_pty (pty);
-			try {
-				Process.spawn_async (null, {"echo", message}, null, SpawnFlags.SEARCH_PATH, pty.child_setup, null);
-			} catch (SpawnError e) {
-				stderr.printf ("SpawnError: %s\n", e.message);
-			}
+		void show_details (string message) {
+			Gtk.TextIter iter;
+			details_textview.buffer.get_end_iter (out iter);
+			details_textview.buffer.insert (ref iter, message, -1);
+			details_textview.buffer.insert (ref iter, "\n", 1);
+			// scroll the mark onscreen
+			unowned Gtk.TextMark mark = details_textview.buffer.get_mark ("scroll");
+			details_textview.scroll_mark_onscreen (mark);
 		}
 
 		void display_action (string action) {
 			if (action != current_action) {
 				current_action = action;
-				show_in_term (action);
+				show_details (action);
 				progress_box.action_label.label = action;
 				if (pulse_timeout_id == 0) {
 					progress_box.progressbar.fraction = 0;
@@ -163,7 +138,7 @@ namespace Pamac {
 		void display_action_progress (string action, string status, double progress) {
 			if (action != current_action) {
 				current_action = action;
-				show_in_term (action);
+				show_details (action);
 				progress_box.action_label.label = action;
 			}
 			progress_box.progressbar.fraction = progress;
@@ -173,10 +148,10 @@ namespace Pamac {
 		void display_hook_progress (string action, string details, string status, double progress) {
 			if (action != current_action) {
 				current_action = action;
-				show_in_term (action);
+				show_details (action);
 				progress_box.action_label.label = action;
 			}
-			show_in_term (details);
+			show_details (details);
 			progress_box.progressbar.fraction = progress;
 			progress_box.progressbar.text = status;
 		}
@@ -200,6 +175,30 @@ namespace Pamac {
 				pulse_timeout_id = 0;
 				progress_box.progressbar.fraction = 0;
 			}
+		}
+
+		protected override List<string> choose_optdeps (string pkgname, List<string> optdeps) {
+			var optdeps_to_install = new List<string> ();
+			choose_pkgs_dialog.title = dgettext (null, "Choose optional dependencies for %s").printf (pkgname);
+			choose_pkgs_dialog.pkgs_list.clear ();
+			foreach (unowned string name in optdeps) {
+				choose_pkgs_dialog.pkgs_list.insert_with_values (null, -1, 0, false, 1, name);
+			}
+			if (choose_pkgs_dialog.run () == Gtk.ResponseType.OK) {
+				choose_pkgs_dialog.pkgs_list.foreach ((model, path, iter) => {
+					GLib.Value val;
+					// get value at column 0 to know if it is selected
+					model.get_value (iter, 0, out val);
+					if ((bool) val) {
+						// get value at column 1 to get the pkg name
+						model.get_value (iter, 1, out val);
+						optdeps_to_install.append ((string) val);
+					}
+					return false;
+				});
+			}
+			choose_pkgs_dialog.hide ();
+			return (owned) optdeps_to_install;
 		}
 
 		protected override int choose_provider (string depend, string[] providers) {
@@ -283,39 +282,48 @@ namespace Pamac {
 			transaction_sum_dialog.sum_list.clear ();
 			transaction_sum_dialog.edit_button.visible = false;
 			var iter = Gtk.TreeIter ();
+			bool to_remove_printed = false;
 			if (summary.to_remove.length () > 0) {
-				foreach (unowned Package infos in summary.to_remove) {
-					transaction_summary.add (infos.name);
+				foreach (unowned Package pkg in summary.to_remove) {
+					transaction_summary.add (pkg.name);
 					transaction_sum_dialog.sum_list.insert_with_values (out iter, -1,
-												1, infos.name,
-												2, infos.version);
+												1, pkg.name,
+												2, pkg.version,
+												4, pkg.repo);
 				}
 				Gtk.TreePath path = transaction_sum_dialog.sum_list.get_path (iter);
 				uint pos = (path.get_indices ()[0]) - (summary.to_remove.length () - 1);
 				transaction_sum_dialog.sum_list.get_iter (out iter, new Gtk.TreePath.from_indices (pos));
 				transaction_sum_dialog.sum_list.set (iter, 0, "<b>%s</b>".printf (dgettext (null, "To remove") + ":"));
+				to_remove_printed = true;
 			}
 			if (summary.aur_conflicts_to_remove.length () > 0) {
 				// do not add type enum because it is just infos
-				foreach (unowned Package infos in summary.aur_conflicts_to_remove) {
-					transaction_summary.add (infos.name);
+				foreach (unowned Package pkg in summary.aur_conflicts_to_remove) {
+					transaction_summary.add (pkg.name);
 					transaction_sum_dialog.sum_list.insert_with_values (out iter, -1,
-												1, infos.name,
-												2, infos.version);
+												1, pkg.name,
+												2, pkg.version,
+												4, pkg.repo);
 				}
-				Gtk.TreePath path = transaction_sum_dialog.sum_list.get_path (iter);
-				uint pos = (path.get_indices ()[0]) - (summary.aur_conflicts_to_remove.length () - 1);
-				transaction_sum_dialog.sum_list.get_iter (out iter, new Gtk.TreePath.from_indices (pos));
-				transaction_sum_dialog.sum_list.set (iter, 0, "<b>%s</b>".printf (dgettext (null, "To remove") + ":"));
+				if (!to_remove_printed) {
+					Gtk.TreePath path = transaction_sum_dialog.sum_list.get_path (iter);
+					uint pos = (path.get_indices ()[0]) - (summary.aur_conflicts_to_remove.length () - 1);
+					transaction_sum_dialog.sum_list.get_iter (out iter, new Gtk.TreePath.from_indices (pos));
+					transaction_sum_dialog.sum_list.set (iter, 0, "<b>%s</b>".printf (dgettext (null, "To remove") + ":"));
+				}
 			}
 			if (summary.to_downgrade.length () > 0) {
-				foreach (unowned Package infos in summary.to_downgrade) {
-					dsize += infos.download_size;
-					transaction_summary.add (infos.name);
+				foreach (unowned Package pkg in summary.to_downgrade) {
+					dsize += pkg.download_size;
+					string size = pkg.download_size == 0 ? "" : format_size (pkg.download_size);
+					transaction_summary.add (pkg.name);
 					transaction_sum_dialog.sum_list.insert_with_values (out iter, -1,
-												1, infos.name,
-												2, infos.version,
-												3, "(%s)".printf (infos.installed_version));
+												1, pkg.name,
+												2, pkg.version,
+												3, "(%s)".printf (pkg.installed_version),
+												4, pkg.repo,
+												5, size);
 				}
 				Gtk.TreePath path = transaction_sum_dialog.sum_list.get_path (iter);
 				uint pos = (path.get_indices ()[0]) - (summary.to_downgrade.length () - 1);
@@ -324,11 +332,12 @@ namespace Pamac {
 			}
 			if (summary.to_build.length () > 0) {
 				transaction_sum_dialog.edit_button.visible = true;
-				foreach (unowned AURPackage infos in summary.to_build) {
-					transaction_summary.add (infos.name);
+				foreach (unowned AURPackage aur_pkg in summary.to_build) {
+					transaction_summary.add (aur_pkg.name);
 					transaction_sum_dialog.sum_list.insert_with_values (out iter, -1,
-												1, infos.name,
-												2, infos.version);
+												1, aur_pkg.name,
+												2, aur_pkg.version,
+												4, dgettext (null, "AUR"));
 				}
 				Gtk.TreePath path = transaction_sum_dialog.sum_list.get_path (iter);
 				uint pos = (path.get_indices ()[0]) - (summary.to_build.length () - 1);
@@ -336,12 +345,15 @@ namespace Pamac {
 				transaction_sum_dialog.sum_list.set (iter, 0, "<b>%s</b>".printf (dgettext (null, "To build") + ":"));
 			}
 			if (summary.to_install.length () > 0) {
-				foreach (unowned Package infos in summary.to_install) {
-					dsize += infos.download_size;
-					transaction_summary.add (infos.name);
+				foreach (unowned Package pkg in summary.to_install) {
+					dsize += pkg.download_size;
+					string size = pkg.download_size == 0 ? "" : format_size (pkg.download_size);
+					transaction_summary.add (pkg.name);
 					transaction_sum_dialog.sum_list.insert_with_values (out iter, -1,
-												1, infos.name,
-												2, infos.version);
+												1, pkg.name,
+												2, pkg.version,
+												4, pkg.repo,
+												5, size);
 				}
 				Gtk.TreePath path = transaction_sum_dialog.sum_list.get_path (iter);
 				uint pos = (path.get_indices ()[0]) - (summary.to_install.length () - 1);
@@ -349,12 +361,15 @@ namespace Pamac {
 				transaction_sum_dialog.sum_list.set (iter, 0, "<b>%s</b>".printf (dgettext (null, "To install") + ":"));
 			}
 			if (summary.to_reinstall.length () > 0) {
-				foreach (unowned Package infos in summary.to_reinstall) {
-					dsize += infos.download_size;
-					transaction_summary.add (infos.name);
+				foreach (unowned Package pkg in summary.to_reinstall) {
+					dsize += pkg.download_size;
+					string size = pkg.download_size == 0 ? "" : format_size (pkg.download_size);
+					transaction_summary.add (pkg.name);
 					transaction_sum_dialog.sum_list.insert_with_values (out iter, -1,
-												1, infos.name,
-												2, infos.version);
+												1, pkg.name,
+												2, pkg.version,
+												4, pkg.repo,
+												5, size);
 				}
 				Gtk.TreePath path = transaction_sum_dialog.sum_list.get_path (iter);
 				uint pos = (path.get_indices ()[0]) - (summary.to_reinstall.length () - 1);
@@ -363,13 +378,16 @@ namespace Pamac {
 			}
 			if (summary.to_upgrade.length () > 0) {
 				if (!no_confirm_upgrade) {
-					foreach (unowned Package infos in summary.to_upgrade) {
-						dsize += infos.download_size;
-						transaction_summary.add (infos.name);
+					foreach (unowned Package pkg in summary.to_upgrade) {
+						dsize += pkg.download_size;
+						string size = pkg.download_size == 0 ? "" : format_size (pkg.download_size);
+						transaction_summary.add (pkg.name);
 						transaction_sum_dialog.sum_list.insert_with_values (out iter, -1,
-													1, infos.name,
-													2, infos.version,
-													3, "(%s)".printf (infos.installed_version));
+													1, pkg.name,
+													2, pkg.version,
+													3, "(%s)".printf (pkg.installed_version),
+													4, pkg.repo,
+													5, size);
 					}
 					Gtk.TreePath path = transaction_sum_dialog.sum_list.get_path (iter);
 					uint pos = (path.get_indices ()[0]) - (summary.to_upgrade.length () - 1);
@@ -634,13 +652,13 @@ namespace Pamac {
 			dialog.icon_name = "system-software-install";
 			var textbuffer = new StringBuilder ();
 			if (details.length != 0) {
-				show_in_term (message + ":");
+				show_details (message + ":");
 				foreach (unowned string detail in details) {
-					show_in_term (detail);
+					show_details (detail);
 					textbuffer.append (detail + "\n");
 				}
 			} else {
-				show_in_term (message);
+				show_details (message);
 				textbuffer.append (message);
 			}
 			dialog.deletable = false;
@@ -692,7 +710,7 @@ namespace Pamac {
 			}
 			transaction_summary.remove_all ();
 			reset_progress_box ();
-			show_in_term ("");
+			show_details ("");
 		}
 	}
 }

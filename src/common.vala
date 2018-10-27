@@ -66,6 +66,7 @@ namespace Pamac {
 		public string desc;
 		public double popularity;
 		public string packagebase;
+		public string outofdate;
 	}
 
 	struct AURPackageDetailsStruct {

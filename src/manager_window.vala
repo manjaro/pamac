@@ -391,7 +391,7 @@ namespace Pamac {
 			transaction.generate_mirrors_list_finished.connect (on_generate_mirrors_list_finished);
 
 			// integrate progress box and term widget
-			main_stack.add_named (transaction.term_window, "term");
+			main_stack.add_named (transaction.details_window, "term");
 			transaction_infobox.pack_start (transaction.progress_box);
 			// integrate build files notebook
 			properties_stack.add_named (transaction.build_files_notebook, "build_files");
@@ -2677,7 +2677,8 @@ namespace Pamac {
 
 		[GtkCallback]
 		void on_apply_button_clicked () {
-			if (filters_stack.visible_child_name == "updates") {
+			if (filters_stack.visible_child_name == "updates" &&
+				main_stack.visible_child_name == "browse") {
 				force_refresh = false;
 				transaction.no_confirm_upgrade = true;
 				try_lock_and_run (run_sysupgrade);

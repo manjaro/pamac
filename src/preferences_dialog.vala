@@ -55,6 +55,8 @@ namespace Pamac {
 		[GtkChild]
 		Gtk.CheckButton check_aur_updates_checkbutton;
 		[GtkChild]
+		Gtk.CheckButton check_aur_vcs_updates_checkbutton;
+		[GtkChild]
 		Gtk.Label cache_keep_nb_label;
 		[GtkChild]
 		Gtk.SpinButton cache_keep_nb_spin_button;
@@ -144,9 +146,13 @@ namespace Pamac {
 			}
 			check_aur_updates_checkbutton.active = transaction.database.config.check_aur_updates;
 			check_aur_updates_checkbutton.sensitive = transaction.database.config.enable_aur;
+			check_aur_vcs_updates_checkbutton.active = transaction.database.config.check_aur_vcs_updates;
+			check_aur_vcs_updates_checkbutton.sensitive = transaction.database.config.enable_aur
+														&& transaction.database.config.check_aur_updates;
 			enable_aur_button.state_set.connect (on_enable_aur_button_state_set);
 			aur_build_dir_file_chooser.file_set.connect (on_aur_build_dir_set);
 			check_aur_updates_checkbutton.toggled.connect (on_check_aur_updates_checkbutton_toggled);
+			check_aur_vcs_updates_checkbutton.toggled.connect (on_check_aur_vcs_updates_checkbutton_toggled);
 		}
 
 		bool on_remove_unrequired_deps_button_state_set (bool new_state) {
@@ -221,9 +227,15 @@ namespace Pamac {
 			transaction.start_write_pamac_config (new_pamac_conf);
 		}
 
+		void on_check_aur_vcs_updates_checkbutton_toggled () {
+			var new_pamac_conf = new HashTable<string,Variant> (str_hash, str_equal);
+			new_pamac_conf.insert ("CheckAURVCSUpdates", new Variant.boolean (check_aur_vcs_updates_checkbutton.active));
+			transaction.start_write_pamac_config (new_pamac_conf);
+		}
+
 		void on_write_pamac_config_finished (bool recurse, uint64 refresh_period, bool no_update_hide_icon,
 											bool enable_aur, string aur_build_dir, bool check_aur_updates,
-											bool download_updates) {
+											bool check_aur_vcs_updates, bool download_updates) {
 			remove_unrequired_deps_button.state = recurse;
 			if (refresh_period == 0) {
 				check_updates_button.state = false;
@@ -249,6 +261,8 @@ namespace Pamac {
 			aur_build_dir_file_chooser.sensitive = enable_aur;
 			check_aur_updates_checkbutton.active = check_aur_updates;
 			check_aur_updates_checkbutton.sensitive = enable_aur;
+			check_aur_vcs_updates_checkbutton.active = check_aur_vcs_updates;
+			check_aur_vcs_updates_checkbutton.sensitive = enable_aur && check_aur_updates;
 		}
 
 		bool on_check_space_button_state_set (bool new_state) {
@@ -260,7 +274,7 @@ namespace Pamac {
 
 		[GtkCallback]
 		void on_add_ignorepkgs_button_clicked () {
-			var choose_ignorepkgs_dialog = new ChooseIgnorepkgsDialog (this);
+			transaction.choose_pkgs_dialog.title = dgettext (null, "Choose Ignored Upgrades");
 			this.get_window ().set_cursor (new Gdk.Cursor.for_display (Gdk.Display.get_default (), Gdk.CursorType.WATCH));
 			while (Gtk.events_pending ()) {
 				Gtk.main_iteration ();
@@ -273,18 +287,19 @@ namespace Pamac {
 				foreach (unowned string ignorepkg in ignorepkgs) {
 					ignorepkgs_set.add (ignorepkg);
 				}
+				transaction.choose_pkgs_dialog.pkgs_list.clear ();
 				foreach (unowned Package pkg in pkgs) {
 					if (pkg.name in ignorepkgs_set) {
-						choose_ignorepkgs_dialog.pkgs_list.insert_with_values (null, -1, 0, true, 1, pkg.name);
+						transaction.choose_pkgs_dialog.pkgs_list.insert_with_values (null, -1, 0, true, 1, pkg.name);
 						ignorepkgs_set.remove (pkg.name);
 					} else {
-						choose_ignorepkgs_dialog.pkgs_list.insert_with_values (null, -1, 0, false, 1, pkg.name);
+						transaction.choose_pkgs_dialog.pkgs_list.insert_with_values (null, -1, 0, false, 1, pkg.name);
 					}
 				}
 				this.get_window ().set_cursor (null);
-				if (choose_ignorepkgs_dialog.run () == Gtk.ResponseType.OK) {
+				if (transaction.choose_pkgs_dialog.run () == Gtk.ResponseType.OK) {
 					var ignorepkg_string = new StringBuilder ();
-					choose_ignorepkgs_dialog.pkgs_list.foreach ((model, path, iter) => {
+					transaction.choose_pkgs_dialog.pkgs_list.foreach ((model, path, iter) => {
 						GLib.Value val;
 						// get value at column 0 to know if it is selected
 						model.get_value (iter, 0, out val);
@@ -307,7 +322,7 @@ namespace Pamac {
 					new_alpm_conf.insert ("IgnorePkg", new Variant.string (ignorepkg_string.str));
 					transaction.start_write_alpm_config (new_alpm_conf);
 				}
-				choose_ignorepkgs_dialog.destroy ();
+				transaction.choose_pkgs_dialog.hide ();
 				while (Gtk.events_pending ()) {
 					Gtk.main_iteration ();
 				}
