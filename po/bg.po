@@ -15,9 +15,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2018-09-08 17:58+0200\n"
-"PO-Revision-Date: 2018-09-11 17:52+0000\n"
-"Last-Translator: Georgi Georgiev <georgiev_1994@abv.bg>\n"
+"POT-Creation-Date: 2018-10-18 11:38+0200\n"
+"PO-Revision-Date: 2018-10-19 12:57+0000\n"
+"Last-Translator: Galin Iskrenov <loot270@abv.bg>\n"
 "Language-Team: Bulgarian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/bg/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -29,29 +29,9 @@ msgstr ""
 msgid "Authentication is required"
 msgstr "Изисква се идентификация"
 
-#: src/alpm_utils.vala
+#: src/alpm_utils.vala src/database.vala
 msgid "Failed to initialize alpm library"
 msgstr "Неуспешна инициализация на библиотечен файл alpm"
-
-#: src/alpm_utils.vala
-msgid "Unknown"
-msgstr "Непознат"
-
-#: src/alpm_utils.vala src/manager_window.vala
-msgid "Explicitly installed"
-msgstr "Изрично инсталиран"
-
-#: src/alpm_utils.vala src/manager_window.vala
-msgid "Installed as a dependency for another package"
-msgstr "Инсталиран като зависимост за друг пакет"
-
-#: src/alpm_utils.vala
-msgid "Yes"
-msgstr "Да"
-
-#: src/alpm_utils.vala
-msgid "No"
-msgstr "Не"
 
 #: src/alpm_utils.vala
 msgid "Failed to synchronize any databases"
@@ -61,11 +41,11 @@ msgstr "Неуспешна синхронизация на бази данни"
 msgid "Failed to init transaction"
 msgstr "Неуспешен старт на транзакцията"
 
-#: src/alpm_utils.vala
+#: src/alpm_utils.vala src/transaction.vala src/transaction-gtk.vala
 msgid "Failed to prepare transaction"
 msgstr "Неуспешно подготвяне на транзакцията"
 
-#: src/alpm_utils.vala src/cli.vala
+#: src/alpm_utils.vala src/transaction.vala src/cli.vala
 #, c-format
 msgid "target not found: %s"
 msgstr "неоткрита цел: %s"
@@ -133,21 +113,52 @@ msgstr "невъзможно изтегляне на '%s' от %s : %s\n"
 msgid "Authentication failed"
 msgstr "Неуспешно удостоверяване"
 
+#: src/database.vala src/manager_window.vala
+msgid "Explicitly installed"
+msgstr "Изрично инсталиран"
+
+#: src/database.vala src/manager_window.vala
+msgid "Installed as a dependency for another package"
+msgstr "Инсталиран като зависимост за друг пакет"
+
+#: src/database.vala
+msgid "Unknown"
+msgstr "Непознат"
+
+#: src/database.vala
+msgid "Yes"
+msgstr "Да"
+
+#: src/database.vala
+msgid "No"
+msgstr "Не"
+
+#: src/transaction.vala
+#, c-format
+msgid "Generating %s informations"
+msgstr "Генерация %s информация"
+
 #: src/transaction.vala
 msgid "Refreshing mirrors list"
 msgstr "Обновяване на списъка с огледала"
 
 #: src/transaction.vala
-msgid "Synchronizing package databases"
-msgstr "Синхронизиране на пакетната база"
-
-#: src/transaction.vala
 msgid "Starting full system upgrade"
 msgstr "Започва пълно системно надграждане"
 
-#: src/transaction.vala src/tray.vala src/manager_window.vala src/cli.vala
-msgid "Your system is up-to-date"
-msgstr "Вашата система е актуална"
+#: src/transaction.vala
+msgid "Synchronizing package databases"
+msgstr "Синхронизиране на пакетната база"
+
+#: src/transaction.vala src/cli.vala
+#, c-format
+msgid "Cloning %s build files"
+msgstr "Клониране %s изграждащи файлове"
+
+#: src/transaction.vala
+#, c-format
+msgid "Checking %s dependencies"
+msgstr "Проверка%s зависимости"
 
 #: src/transaction.vala
 msgid "Preparing"
@@ -360,6 +371,21 @@ msgstr "За надграждане"
 msgid "Total download size"
 msgstr "Пълен размер за сваляне"
 
+#: src/transaction-gtk.vala src/transaction-cli.vala
+#, c-format
+msgid "Edit %s build files"
+msgstr "Редакция %s изграждащ файл"
+
+#: src/transaction-gtk.vala
+msgid "Save"
+msgstr "Запази"
+
+#: src/transaction-gtk.vala src/manager_window.vala
+#: resources/transaction_sum_dialog.ui resources/manager_window.ui
+#: resources/choose_ignorepkgs_dialog.ui
+msgid "_Cancel"
+msgstr "_Отказ"
+
 #: src/transaction-gtk.vala resources/progress_dialog.ui
 #: resources/history_dialog.ui resources/preferences_dialog.ui
 msgid "_Close"
@@ -380,6 +406,10 @@ msgstr "Премахване на пакети"
 #: src/installer.vala src/cli.vala
 msgid "package(s)"
 msgstr "пакет(и)"
+
+#: src/tray.vala src/manager_window.vala src/cli.vala
+msgid "Your system is up-to-date"
+msgstr "Вашата система е актуална"
 
 #: src/tray.vala
 msgid "_Quit"
@@ -416,6 +446,10 @@ msgstr "Надграждане"
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Install"
 msgstr "Инсталиране"
+
+#: src/manager_window.vala resources/manager_window.ui
+msgid "Build"
+msgstr "Изградено"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Remove"
@@ -515,6 +549,10 @@ msgstr "Зависимости"
 #: src/manager_window.vala
 msgid "Files"
 msgstr "Файлове"
+
+#: src/manager_window.vala
+msgid "Build files"
+msgstr "Изграждане на файлове"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Install Reason"
@@ -624,11 +662,6 @@ msgstr "Име"
 msgid "Install Local Packages"
 msgstr "Инсталиране на локални пакети"
 
-#: src/manager_window.vala resources/transaction_sum_dialog.ui
-#: resources/manager_window.ui resources/choose_ignorepkgs_dialog.ui
-msgid "_Cancel"
-msgstr "_Отказ"
-
 #: src/manager_window.vala
 msgid "_Open"
 msgstr "_Отвори"
@@ -663,6 +696,22 @@ msgid "Enter a number (default=%d)"
 msgstr "Въведете номер (по подразбиране=%d)"
 
 #: src/transaction-cli.vala
+msgid "[y/N]"
+msgstr "[y/N]"
+
+#: src/transaction-cli.vala
+msgid "y"
+msgstr "y"
+
+#: src/transaction-cli.vala
+msgid "yes"
+msgstr "yes"
+
+#: src/transaction-cli.vala resources/transaction_sum_dialog.ui
+msgid "Edit build files"
+msgstr "Редакция на изграждащи файлове"
+
+#: src/transaction-cli.vala
 msgid "Total installed size"
 msgstr "Общ инсталиран размер"
 
@@ -675,20 +724,17 @@ msgid "Commit transaction"
 msgstr "Потвърждаване на транзакцията"
 
 #: src/transaction-cli.vala
-msgid "[y/N]"
-msgstr "[y/N]"
-
-#: src/transaction-cli.vala
-msgid "y"
-msgstr "y"
-
-#: src/transaction-cli.vala
-msgid "yes"
-msgstr "yes"
+#, c-format
+msgid "View %s build files diff"
+msgstr "Преглед %s разлики в изграждащи файлове"
 
 #: src/cli.vala
 msgid "Building packages as root is not allowed"
 msgstr "Изграждането на пакети като root потребител не е позволено"
+
+#: src/cli.vala
+msgid "No PKGBUILD file found in current directory"
+msgstr "Няма открит PKGBUILD файл в текущата папка"
 
 #: src/cli.vala
 msgid "Available actions"
@@ -766,8 +812,8 @@ msgid "list files owned by the given packages"
 msgstr "списък на файловете, притежавани от дадените пакети"
 
 #: src/cli.vala
-msgid "Build packages from AUR and install them with their dependencies"
-msgstr "Създавайте пакети от AUR и ги инсталирайте с техните зависимости"
+msgid "Clone or sync packages build files from AUR"
+msgstr "Клониране или синхронизиране на пакети изграждащи файлове от AUR"
 
 #: src/cli.vala
 msgid ""
@@ -778,6 +824,39 @@ msgstr "папка за изграждане, ако не е зададена д
 #: src/cli.vala
 msgid "dir"
 msgstr "dir"
+
+#: src/cli.vala
+msgid "also clone needed dependencies"
+msgstr "нужна е клонираща нужда от зависимости"
+
+#: src/cli.vala
+msgid "overwrite existing files"
+msgstr "презаписване на съществуващи файлове"
+
+#: src/cli.vala
+msgid "Build packages from AUR and install them with their dependencies"
+msgstr "Създавайте пакети от AUR и ги инсталирайте с техните зависимости"
+
+#: src/cli.vala
+msgid ""
+"If no package name is given, use the PKGBUILD file in the current directory"
+msgstr "Ако няма име на пакет, използвайте файла PKGBUILD в текущата директория"
+
+#: src/cli.vala
+msgid ""
+"The build directory will be the parent directory, --builddir option will be "
+"ignored"
+msgstr "Директорията за изграждане ще бъде основната директория, опцията --builddir ще бъде пренебрегната"
+
+#: src/cli.vala
+msgid "do not clone build files from AUR, only use local files"
+msgstr "не клонирай изграждащи файлове от AUR, използване само локални файлове"
+
+#: src/cli.vala
+msgid ""
+"ignore a package upgrade, multiple packages can be specified by separating "
+"them with a comma"
+msgstr "игнориране на надграждане на пакет, могат да се укажат множество пакети, разделени със запетая"
 
 #: src/cli.vala
 msgid ""
@@ -832,12 +911,6 @@ msgstr "принудително опресняване на базите от �
 #: src/cli.vala
 msgid "enable package downgrades"
 msgstr "разрешено връщане в по-ниска версия на пакетите"
-
-#: src/cli.vala
-msgid ""
-"ignore a package upgrade, multiple packages can be specified by separating "
-"them with a comma"
-msgstr "игнориране на надграждане на пакет, могат да се укажат множество пакети, разделени със запетая"
 
 #: src/cli.vala resources/manager_window.ui
 msgid "Version"
@@ -917,6 +990,10 @@ msgid "About"
 msgstr "Относно"
 
 #: resources/manager_window.ui
+msgid "Select All"
+msgstr "Всичко"
+
+#: resources/manager_window.ui
 msgid "State"
 msgstr "Състояние"
 
@@ -933,12 +1010,12 @@ msgid "Reinstall"
 msgstr "Преинсталиране"
 
 #: resources/manager_window.ui
-msgid "_Apply"
-msgstr "_Приложи"
+msgid "Reset build files"
+msgstr "Нулиране на изграждащи файлове"
 
 #: resources/manager_window.ui
-msgid "Select All"
-msgstr "Всичко"
+msgid "_Apply"
+msgstr "_Приложи"
 
 #: resources/preferences_dialog.ui
 msgid "Remove unrequired dependencies"

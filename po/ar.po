@@ -10,15 +10,16 @@
 # كريم أولاد الشلحة <herr.linux88@gmail.com>, 2013-2014
 # Mohamed Shahin <mohamedali180@gmail.com>, 2016
 # mohammadA <mohammadAbdulhadi1@gmail.com>, 2018
+# moh t <taiba_mohamed@hotmail.com>, 2018
 # philm <philm@manjaro.org>, 2015
 # محمدأمين الصامت <mohamedamin.samet@gmail.com>, 2017
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2018-09-08 17:58+0200\n"
-"PO-Revision-Date: 2018-09-15 11:12+0000\n"
-"Last-Translator: mohammadA <mohammadAbdulhadi1@gmail.com>\n"
+"POT-Creation-Date: 2018-10-18 11:38+0200\n"
+"PO-Revision-Date: 2018-10-26 19:55+0000\n"
+"Last-Translator: moh t <taiba_mohamed@hotmail.com>\n"
 "Language-Team: Arabic (http://www.transifex.com/manjarolinux/manjaro-pamac/language/ar/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -30,29 +31,9 @@ msgstr ""
 msgid "Authentication is required"
 msgstr "صلاحيات مطلوبة"
 
-#: src/alpm_utils.vala
+#: src/alpm_utils.vala src/database.vala
 msgid "Failed to initialize alpm library"
 msgstr "فشل تهيئة  مكتبة alpm"
-
-#: src/alpm_utils.vala
-msgid "Unknown"
-msgstr "مجهول"
-
-#: src/alpm_utils.vala src/manager_window.vala
-msgid "Explicitly installed"
-msgstr "مثبتة بوضوح"
-
-#: src/alpm_utils.vala src/manager_window.vala
-msgid "Installed as a dependency for another package"
-msgstr "تثبيت كإعتمادية لحزمة أخرى"
-
-#: src/alpm_utils.vala
-msgid "Yes"
-msgstr "نعم"
-
-#: src/alpm_utils.vala
-msgid "No"
-msgstr "لا"
 
 #: src/alpm_utils.vala
 msgid "Failed to synchronize any databases"
@@ -62,11 +43,11 @@ msgstr "فشل مزامنة أي قواعد بيانات"
 msgid "Failed to init transaction"
 msgstr "فشل تشغيل المعاملات"
 
-#: src/alpm_utils.vala
+#: src/alpm_utils.vala src/transaction.vala src/transaction-gtk.vala
 msgid "Failed to prepare transaction"
 msgstr "فشل في إعداد المعاملة"
 
-#: src/alpm_utils.vala src/cli.vala
+#: src/alpm_utils.vala src/transaction.vala src/cli.vala
 #, c-format
 msgid "target not found: %s"
 msgstr "المستهدف لم يتم العثور عليه: %s"
@@ -134,21 +115,52 @@ msgstr "فشل الحصول على الملف '%s' من %s : %s\n"
 msgid "Authentication failed"
 msgstr "فشل الإستوثاق"
 
+#: src/database.vala src/manager_window.vala
+msgid "Explicitly installed"
+msgstr "مثبتة بوضوح"
+
+#: src/database.vala src/manager_window.vala
+msgid "Installed as a dependency for another package"
+msgstr "تثبيت كإعتمادية لحزمة أخرى"
+
+#: src/database.vala
+msgid "Unknown"
+msgstr "مجهول"
+
+#: src/database.vala
+msgid "Yes"
+msgstr "نعم"
+
+#: src/database.vala
+msgid "No"
+msgstr "لا"
+
+#: src/transaction.vala
+#, c-format
+msgid "Generating %s informations"
+msgstr "توليد %s المعلومات"
+
 #: src/transaction.vala
 msgid "Refreshing mirrors list"
 msgstr "يُنعش قائمة المرايا"
 
 #: src/transaction.vala
-msgid "Synchronizing package databases"
-msgstr "يزامن قاعدة بيانات الحزم"
-
-#: src/transaction.vala
 msgid "Starting full system upgrade"
 msgstr "يبدأ ترقية كامل النظام"
 
-#: src/transaction.vala src/tray.vala src/manager_window.vala src/cli.vala
-msgid "Your system is up-to-date"
-msgstr "نظامك محدث"
+#: src/transaction.vala
+msgid "Synchronizing package databases"
+msgstr "يزامن قاعدة بيانات الحزم"
+
+#: src/transaction.vala src/cli.vala
+#, c-format
+msgid "Cloning %s build files"
+msgstr "استنساخ %s ملفات البناء"
+
+#: src/transaction.vala
+#, c-format
+msgid "Checking %s dependencies"
+msgstr ""
 
 #: src/transaction.vala
 msgid "Preparing"
@@ -365,6 +377,21 @@ msgstr "للترقية"
 msgid "Total download size"
 msgstr "إجمالي حجم التنزيل"
 
+#: src/transaction-gtk.vala src/transaction-cli.vala
+#, c-format
+msgid "Edit %s build files"
+msgstr ""
+
+#: src/transaction-gtk.vala
+msgid "Save"
+msgstr "حفظ"
+
+#: src/transaction-gtk.vala src/manager_window.vala
+#: resources/transaction_sum_dialog.ui resources/manager_window.ui
+#: resources/choose_ignorepkgs_dialog.ui
+msgid "_Cancel"
+msgstr "_ألغ"
+
 #: src/transaction-gtk.vala resources/progress_dialog.ui
 #: resources/history_dialog.ui resources/preferences_dialog.ui
 msgid "_Close"
@@ -380,11 +407,15 @@ msgstr ""
 
 #: src/installer.vala src/cli.vala
 msgid "Remove packages"
-msgstr ""
+msgstr "ازالة الحزم"
 
 #: src/installer.vala src/cli.vala
 msgid "package(s)"
-msgstr ""
+msgstr "حزمة(حزم)"
+
+#: src/tray.vala src/manager_window.vala src/cli.vala
+msgid "Your system is up-to-date"
+msgstr "نظامك محدث"
 
 #: src/tray.vala
 msgid "_Quit"
@@ -425,6 +456,10 @@ msgstr "رقّ"
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Install"
 msgstr "تثبيت"
+
+#: src/manager_window.vala resources/manager_window.ui
+msgid "Build"
+msgstr "بناء"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Remove"
@@ -475,7 +510,7 @@ msgstr "أجنبي"
 
 #: src/manager_window.vala
 msgid "Accessories"
-msgstr ""
+msgstr "مستلزمات"
 
 #: src/manager_window.vala
 msgid "Audio & Video"
@@ -528,6 +563,10 @@ msgstr "تبعيات"
 #: src/manager_window.vala
 msgid "Files"
 msgstr "ملفات"
+
+#: src/manager_window.vala
+msgid "Build files"
+msgstr "بناء الملفات"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Install Reason"
@@ -637,11 +676,6 @@ msgstr "إسم"
 msgid "Install Local Packages"
 msgstr "تثبيت الحزم المحلية"
 
-#: src/manager_window.vala resources/transaction_sum_dialog.ui
-#: resources/manager_window.ui resources/choose_ignorepkgs_dialog.ui
-msgid "_Cancel"
-msgstr "_ألغ"
-
 #: src/manager_window.vala
 msgid "_Open"
 msgstr "ا_فتح"
@@ -676,6 +710,22 @@ msgid "Enter a number (default=%d)"
 msgstr "أدخل رقمًا (المبدئي=%d)"
 
 #: src/transaction-cli.vala
+msgid "[y/N]"
+msgstr "[نعم/لا]"
+
+#: src/transaction-cli.vala
+msgid "y"
+msgstr "نعم"
+
+#: src/transaction-cli.vala
+msgid "yes"
+msgstr "نعم"
+
+#: src/transaction-cli.vala resources/transaction_sum_dialog.ui
+msgid "Edit build files"
+msgstr ""
+
+#: src/transaction-cli.vala
 msgid "Total installed size"
 msgstr "إجمالي الحجم المثبّت"
 
@@ -688,20 +738,17 @@ msgid "Commit transaction"
 msgstr ""
 
 #: src/transaction-cli.vala
-msgid "[y/N]"
-msgstr ""
-
-#: src/transaction-cli.vala
-msgid "y"
-msgstr ""
-
-#: src/transaction-cli.vala
-msgid "yes"
+#, c-format
+msgid "View %s build files diff"
 msgstr ""
 
 #: src/cli.vala
 msgid "Building packages as root is not allowed"
 msgstr "لا يسمح ببناء الحزم بصلاحيات الجذر"
+
+#: src/cli.vala
+msgid "No PKGBUILD file found in current directory"
+msgstr ""
 
 #: src/cli.vala
 msgid "Available actions"
@@ -713,7 +760,7 @@ msgstr ""
 
 #: src/cli.vala
 msgid "options"
-msgstr ""
+msgstr "خيارات"
 
 #: src/cli.vala
 msgid "Search for packages or files, multiple search terms can be specified"
@@ -742,7 +789,7 @@ msgstr ""
 
 #: src/cli.vala
 msgid "list installed packages"
-msgstr ""
+msgstr "قائمة الحزم المثبتة"
 
 #: src/cli.vala
 msgid ""
@@ -779,7 +826,7 @@ msgid "list files owned by the given packages"
 msgstr ""
 
 #: src/cli.vala
-msgid "Build packages from AUR and install them with their dependencies"
+msgid "Clone or sync packages build files from AUR"
 msgstr ""
 
 #: src/cli.vala
@@ -790,6 +837,39 @@ msgstr ""
 
 #: src/cli.vala
 msgid "dir"
+msgstr ""
+
+#: src/cli.vala
+msgid "also clone needed dependencies"
+msgstr ""
+
+#: src/cli.vala
+msgid "overwrite existing files"
+msgstr "اعد الكتابة فوق الملفات الموجودة"
+
+#: src/cli.vala
+msgid "Build packages from AUR and install them with their dependencies"
+msgstr ""
+
+#: src/cli.vala
+msgid ""
+"If no package name is given, use the PKGBUILD file in the current directory"
+msgstr ""
+
+#: src/cli.vala
+msgid ""
+"The build directory will be the parent directory, --builddir option will be "
+"ignored"
+msgstr "دليل البناء سيصبح الدليل الاب الخيار builddir-- سيتجاهل "
+
+#: src/cli.vala
+msgid "do not clone build files from AUR, only use local files"
+msgstr "لا تستنسخ ملفات البناء من AUR استخدم فقط الملفات المحلية"
+
+#: src/cli.vala
+msgid ""
+"ignore a package upgrade, multiple packages can be specified by separating "
+"them with a comma"
 msgstr ""
 
 #: src/cli.vala
@@ -804,7 +884,7 @@ msgstr ""
 
 #: src/cli.vala
 msgid "Reinstall packages"
-msgstr ""
+msgstr "اعد تثبيت الحزم"
 
 #: src/cli.vala
 msgid ""
@@ -818,7 +898,7 @@ msgstr ""
 
 #: src/cli.vala
 msgid "Exit code is 100 if updates are available"
-msgstr ""
+msgstr "رمز الخروج 100 اذا وجدت التحديثات"
 
 #: src/cli.vala
 msgid "also check updates in AUR"
@@ -826,7 +906,7 @@ msgstr ""
 
 #: src/cli.vala
 msgid "Upgrade your system"
-msgstr ""
+msgstr "رق نظامك"
 
 #: src/cli.vala
 msgid "also upgrade packages installed from AUR"
@@ -846,23 +926,17 @@ msgstr ""
 msgid "enable package downgrades"
 msgstr ""
 
-#: src/cli.vala
-msgid ""
-"ignore a package upgrade, multiple packages can be specified by separating "
-"them with a comma"
-msgstr ""
-
 #: src/cli.vala resources/manager_window.ui
 msgid "Version"
 msgstr "إصدار"
 
 #: src/cli.vala
 msgid "Description"
-msgstr ""
+msgstr "وصف"
 
 #: src/cli.vala
 msgid "URL"
-msgstr ""
+msgstr "رابط"
 
 #: src/cli.vala resources/manager_window.ui
 msgid "Size"
@@ -934,6 +1008,10 @@ msgid "About"
 msgstr "حول"
 
 #: resources/manager_window.ui
+msgid "Select All"
+msgstr "اختر الكل"
+
+#: resources/manager_window.ui
 msgid "State"
 msgstr "حالة"
 
@@ -950,12 +1028,12 @@ msgid "Reinstall"
 msgstr "إعادة التثبيت"
 
 #: resources/manager_window.ui
-msgid "_Apply"
-msgstr "_طبّق"
+msgid "Reset build files"
+msgstr ""
 
 #: resources/manager_window.ui
-msgid "Select All"
-msgstr "اختر الكل"
+msgid "_Apply"
+msgstr "_طبّق"
 
 #: resources/preferences_dialog.ui
 msgid "Remove unrequired dependencies"

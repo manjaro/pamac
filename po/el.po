@@ -24,9 +24,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2018-09-08 17:58+0200\n"
-"PO-Revision-Date: 2018-09-09 01:06+0000\n"
-"Last-Translator: philm <philm@manjaro.org>\n"
+"POT-Creation-Date: 2018-10-18 11:38+0200\n"
+"PO-Revision-Date: 2018-10-18 09:49+0000\n"
+"Last-Translator: Guillaume Benoit <guillaume@manjaro.org>\n"
 "Language-Team: Greek (http://www.transifex.com/manjarolinux/manjaro-pamac/language/el/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -38,29 +38,9 @@ msgstr ""
 msgid "Authentication is required"
 msgstr "Απαιτείται πιστοποίηση"
 
-#: src/alpm_utils.vala
+#: src/alpm_utils.vala src/database.vala
 msgid "Failed to initialize alpm library"
 msgstr "Αποτυχία ενεργοποίησης της βιβλιοθήκης alpm"
-
-#: src/alpm_utils.vala
-msgid "Unknown"
-msgstr "Άγνωστο"
-
-#: src/alpm_utils.vala src/manager_window.vala
-msgid "Explicitly installed"
-msgstr "Εγκαταστάθηκε ρητά"
-
-#: src/alpm_utils.vala src/manager_window.vala
-msgid "Installed as a dependency for another package"
-msgstr "Εγκαταστήθηκε ως εξάρτηση για ένα άλλο πακέτο"
-
-#: src/alpm_utils.vala
-msgid "Yes"
-msgstr "Ναι"
-
-#: src/alpm_utils.vala
-msgid "No"
-msgstr "Όχι"
 
 #: src/alpm_utils.vala
 msgid "Failed to synchronize any databases"
@@ -70,11 +50,11 @@ msgstr "Αποτυχία συγχρονισμού των βάσεων δεδομ
 msgid "Failed to init transaction"
 msgstr "Η διεργασία init απέτυχε"
 
-#: src/alpm_utils.vala
+#: src/alpm_utils.vala src/transaction.vala src/transaction-gtk.vala
 msgid "Failed to prepare transaction"
 msgstr "Απέτυχε η προετοιμασία της διεργασίας"
 
-#: src/alpm_utils.vala src/cli.vala
+#: src/alpm_utils.vala src/transaction.vala src/cli.vala
 #, c-format
 msgid "target not found: %s"
 msgstr "δεν βρέθηκε ο προορισμός: %s"
@@ -142,21 +122,52 @@ msgstr "Αποτυχία ανάκτησης αρχείου '%s' από το %s :
 msgid "Authentication failed"
 msgstr "Η πιστοποίηση απέτυχε"
 
+#: src/database.vala src/manager_window.vala
+msgid "Explicitly installed"
+msgstr "Εγκαταστάθηκε ρητά"
+
+#: src/database.vala src/manager_window.vala
+msgid "Installed as a dependency for another package"
+msgstr "Εγκαταστήθηκε ως εξάρτηση για ένα άλλο πακέτο"
+
+#: src/database.vala
+msgid "Unknown"
+msgstr "Άγνωστο"
+
+#: src/database.vala
+msgid "Yes"
+msgstr "Ναι"
+
+#: src/database.vala
+msgid "No"
+msgstr "Όχι"
+
+#: src/transaction.vala
+#, c-format
+msgid "Generating %s informations"
+msgstr ""
+
 #: src/transaction.vala
 msgid "Refreshing mirrors list"
 msgstr "Ανανέωση της λίστας διακομιστών (servers)"
 
 #: src/transaction.vala
-msgid "Synchronizing package databases"
-msgstr "Συγχρονισμός των βάσεων δεδομένων"
-
-#: src/transaction.vala
 msgid "Starting full system upgrade"
 msgstr "Έναρξη πλήρους αναβάθμισης του συστήματος"
 
-#: src/transaction.vala src/tray.vala src/manager_window.vala src/cli.vala
-msgid "Your system is up-to-date"
-msgstr "Το σύστημα σας είναι πλήρως ενημερωμένο"
+#: src/transaction.vala
+msgid "Synchronizing package databases"
+msgstr "Συγχρονισμός των βάσεων δεδομένων"
+
+#: src/transaction.vala src/cli.vala
+#, c-format
+msgid "Cloning %s build files"
+msgstr ""
+
+#: src/transaction.vala
+#, c-format
+msgid "Checking %s dependencies"
+msgstr ""
 
 #: src/transaction.vala
 msgid "Preparing"
@@ -369,6 +380,21 @@ msgstr "Προς αναβάθμιση"
 msgid "Total download size"
 msgstr "Συνολικό μέγεθος προς λήψη:"
 
+#: src/transaction-gtk.vala src/transaction-cli.vala
+#, c-format
+msgid "Edit %s build files"
+msgstr ""
+
+#: src/transaction-gtk.vala
+msgid "Save"
+msgstr ""
+
+#: src/transaction-gtk.vala src/manager_window.vala
+#: resources/transaction_sum_dialog.ui resources/manager_window.ui
+#: resources/choose_ignorepkgs_dialog.ui
+msgid "_Cancel"
+msgstr "Άκυρο"
+
 #: src/transaction-gtk.vala resources/progress_dialog.ui
 #: resources/history_dialog.ui resources/preferences_dialog.ui
 msgid "_Close"
@@ -389,6 +415,10 @@ msgstr ""
 #: src/installer.vala src/cli.vala
 msgid "package(s)"
 msgstr ""
+
+#: src/tray.vala src/manager_window.vala src/cli.vala
+msgid "Your system is up-to-date"
+msgstr "Το σύστημα σας είναι πλήρως ενημερωμένο"
 
 #: src/tray.vala
 msgid "_Quit"
@@ -425,6 +455,10 @@ msgstr "Αναβάθμιση"
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Install"
 msgstr "Εγκατάσταση"
+
+#: src/manager_window.vala resources/manager_window.ui
+msgid "Build"
+msgstr ""
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Remove"
@@ -524,6 +558,10 @@ msgstr "Εξαρτήσεις"
 #: src/manager_window.vala
 msgid "Files"
 msgstr "Αρχεία"
+
+#: src/manager_window.vala
+msgid "Build files"
+msgstr ""
 
 #: src/manager_window.vala src/cli.vala
 msgid "Install Reason"
@@ -633,11 +671,6 @@ msgstr "Όνομα"
 msgid "Install Local Packages"
 msgstr "Εγκατάσταση Τοπικών Πακέτων"
 
-#: src/manager_window.vala resources/transaction_sum_dialog.ui
-#: resources/manager_window.ui resources/choose_ignorepkgs_dialog.ui
-msgid "_Cancel"
-msgstr "Άκυρο"
-
 #: src/manager_window.vala
 msgid "_Open"
 msgstr "Άνοιγμα"
@@ -672,6 +705,22 @@ msgid "Enter a number (default=%d)"
 msgstr ""
 
 #: src/transaction-cli.vala
+msgid "[y/N]"
+msgstr ""
+
+#: src/transaction-cli.vala
+msgid "y"
+msgstr ""
+
+#: src/transaction-cli.vala
+msgid "yes"
+msgstr ""
+
+#: src/transaction-cli.vala resources/transaction_sum_dialog.ui
+msgid "Edit build files"
+msgstr ""
+
+#: src/transaction-cli.vala
 msgid "Total installed size"
 msgstr ""
 
@@ -684,19 +733,16 @@ msgid "Commit transaction"
 msgstr ""
 
 #: src/transaction-cli.vala
-msgid "[y/N]"
-msgstr ""
-
-#: src/transaction-cli.vala
-msgid "y"
-msgstr ""
-
-#: src/transaction-cli.vala
-msgid "yes"
+#, c-format
+msgid "View %s build files diff"
 msgstr ""
 
 #: src/cli.vala
 msgid "Building packages as root is not allowed"
+msgstr ""
+
+#: src/cli.vala
+msgid "No PKGBUILD file found in current directory"
 msgstr ""
 
 #: src/cli.vala
@@ -775,7 +821,7 @@ msgid "list files owned by the given packages"
 msgstr ""
 
 #: src/cli.vala
-msgid "Build packages from AUR and install them with their dependencies"
+msgid "Clone or sync packages build files from AUR"
 msgstr ""
 
 #: src/cli.vala
@@ -786,6 +832,39 @@ msgstr ""
 
 #: src/cli.vala
 msgid "dir"
+msgstr ""
+
+#: src/cli.vala
+msgid "also clone needed dependencies"
+msgstr ""
+
+#: src/cli.vala
+msgid "overwrite existing files"
+msgstr ""
+
+#: src/cli.vala
+msgid "Build packages from AUR and install them with their dependencies"
+msgstr ""
+
+#: src/cli.vala
+msgid ""
+"If no package name is given, use the PKGBUILD file in the current directory"
+msgstr ""
+
+#: src/cli.vala
+msgid ""
+"The build directory will be the parent directory, --builddir option will be "
+"ignored"
+msgstr ""
+
+#: src/cli.vala
+msgid "do not clone build files from AUR, only use local files"
+msgstr ""
+
+#: src/cli.vala
+msgid ""
+"ignore a package upgrade, multiple packages can be specified by separating "
+"them with a comma"
 msgstr ""
 
 #: src/cli.vala
@@ -840,12 +919,6 @@ msgstr ""
 
 #: src/cli.vala
 msgid "enable package downgrades"
-msgstr ""
-
-#: src/cli.vala
-msgid ""
-"ignore a package upgrade, multiple packages can be specified by separating "
-"them with a comma"
 msgstr ""
 
 #: src/cli.vala resources/manager_window.ui
@@ -926,6 +999,10 @@ msgid "About"
 msgstr "Σχετικά"
 
 #: resources/manager_window.ui
+msgid "Select All"
+msgstr "Επιλογή Όλων"
+
+#: resources/manager_window.ui
 msgid "State"
 msgstr "Κατάσταση"
 
@@ -942,12 +1019,12 @@ msgid "Reinstall"
 msgstr "Επανεγκατάσταση"
 
 #: resources/manager_window.ui
-msgid "_Apply"
-msgstr "Εφαρμογή"
+msgid "Reset build files"
+msgstr ""
 
 #: resources/manager_window.ui
-msgid "Select All"
-msgstr "Επιλογή Όλων"
+msgid "_Apply"
+msgstr "Εφαρμογή"
 
 #: resources/preferences_dialog.ui
 msgid "Remove unrequired dependencies"

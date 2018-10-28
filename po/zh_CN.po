@@ -18,9 +18,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2018-09-08 17:58+0200\n"
-"PO-Revision-Date: 2018-09-10 11:57+0000\n"
-"Last-Translator: f h <hffqyd@sina.com>\n"
+"POT-Creation-Date: 2018-10-18 11:38+0200\n"
+"PO-Revision-Date: 2018-10-18 09:49+0000\n"
+"Last-Translator: Guillaume Benoit <guillaume@manjaro.org>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -32,29 +32,9 @@ msgstr ""
 msgid "Authentication is required"
 msgstr "需要验证"
 
-#: src/alpm_utils.vala
+#: src/alpm_utils.vala src/database.vala
 msgid "Failed to initialize alpm library"
 msgstr "初始化 alpm 库失败"
-
-#: src/alpm_utils.vala
-msgid "Unknown"
-msgstr "未知"
-
-#: src/alpm_utils.vala src/manager_window.vala
-msgid "Explicitly installed"
-msgstr "单独指定安装"
-
-#: src/alpm_utils.vala src/manager_window.vala
-msgid "Installed as a dependency for another package"
-msgstr "作为另一个软件包的依赖而安装"
-
-#: src/alpm_utils.vala
-msgid "Yes"
-msgstr "是"
-
-#: src/alpm_utils.vala
-msgid "No"
-msgstr "否"
 
 #: src/alpm_utils.vala
 msgid "Failed to synchronize any databases"
@@ -64,11 +44,11 @@ msgstr "同步数据库失败"
 msgid "Failed to init transaction"
 msgstr "初始化事务失败"
 
-#: src/alpm_utils.vala
+#: src/alpm_utils.vala src/transaction.vala src/transaction-gtk.vala
 msgid "Failed to prepare transaction"
 msgstr "准备事务失败"
 
-#: src/alpm_utils.vala src/cli.vala
+#: src/alpm_utils.vala src/transaction.vala src/cli.vala
 #, c-format
 msgid "target not found: %s"
 msgstr "目标未找到：%s"
@@ -136,21 +116,52 @@ msgstr "从 %s 获取文件“%s”失败：%s\n"
 msgid "Authentication failed"
 msgstr "验证失败"
 
+#: src/database.vala src/manager_window.vala
+msgid "Explicitly installed"
+msgstr "单独指定安装"
+
+#: src/database.vala src/manager_window.vala
+msgid "Installed as a dependency for another package"
+msgstr "作为另一个软件包的依赖而安装"
+
+#: src/database.vala
+msgid "Unknown"
+msgstr "未知"
+
+#: src/database.vala
+msgid "Yes"
+msgstr "是"
+
+#: src/database.vala
+msgid "No"
+msgstr "否"
+
+#: src/transaction.vala
+#, c-format
+msgid "Generating %s informations"
+msgstr ""
+
 #: src/transaction.vala
 msgid "Refreshing mirrors list"
 msgstr "正在刷新镜像列表"
 
 #: src/transaction.vala
-msgid "Synchronizing package databases"
-msgstr "正在同步包数据库"
-
-#: src/transaction.vala
 msgid "Starting full system upgrade"
 msgstr "正在进行全面系统升级"
 
-#: src/transaction.vala src/tray.vala src/manager_window.vala src/cli.vala
-msgid "Your system is up-to-date"
-msgstr "系统为最新状态"
+#: src/transaction.vala
+msgid "Synchronizing package databases"
+msgstr "正在同步包数据库"
+
+#: src/transaction.vala src/cli.vala
+#, c-format
+msgid "Cloning %s build files"
+msgstr ""
+
+#: src/transaction.vala
+#, c-format
+msgid "Checking %s dependencies"
+msgstr ""
 
 #: src/transaction.vala
 msgid "Preparing"
@@ -362,6 +373,21 @@ msgstr "更新"
 msgid "Total download size"
 msgstr "总下载大小"
 
+#: src/transaction-gtk.vala src/transaction-cli.vala
+#, c-format
+msgid "Edit %s build files"
+msgstr ""
+
+#: src/transaction-gtk.vala
+msgid "Save"
+msgstr ""
+
+#: src/transaction-gtk.vala src/manager_window.vala
+#: resources/transaction_sum_dialog.ui resources/manager_window.ui
+#: resources/choose_ignorepkgs_dialog.ui
+msgid "_Cancel"
+msgstr "取消(_C)"
+
 #: src/transaction-gtk.vala resources/progress_dialog.ui
 #: resources/history_dialog.ui resources/preferences_dialog.ui
 msgid "_Close"
@@ -382,6 +408,10 @@ msgstr "移除软件包"
 #: src/installer.vala src/cli.vala
 msgid "package(s)"
 msgstr "软件包"
+
+#: src/tray.vala src/manager_window.vala src/cli.vala
+msgid "Your system is up-to-date"
+msgstr "系统为最新状态"
 
 #: src/tray.vala
 msgid "_Quit"
@@ -417,6 +447,10 @@ msgstr "升级"
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Install"
 msgstr "安装"
+
+#: src/manager_window.vala resources/manager_window.ui
+msgid "Build"
+msgstr ""
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Remove"
@@ -515,6 +549,10 @@ msgstr "依赖"
 #: src/manager_window.vala
 msgid "Files"
 msgstr "文件"
+
+#: src/manager_window.vala
+msgid "Build files"
+msgstr ""
 
 #: src/manager_window.vala src/cli.vala
 msgid "Install Reason"
@@ -624,11 +662,6 @@ msgstr "名称"
 msgid "Install Local Packages"
 msgstr "安装本地软件包"
 
-#: src/manager_window.vala resources/transaction_sum_dialog.ui
-#: resources/manager_window.ui resources/choose_ignorepkgs_dialog.ui
-msgid "_Cancel"
-msgstr "取消(_C)"
-
 #: src/manager_window.vala
 msgid "_Open"
 msgstr "打开(_O)"
@@ -663,6 +696,22 @@ msgid "Enter a number (default=%d)"
 msgstr "输入一个数字（默认值=%d）"
 
 #: src/transaction-cli.vala
+msgid "[y/N]"
+msgstr "[y/N]"
+
+#: src/transaction-cli.vala
+msgid "y"
+msgstr "y"
+
+#: src/transaction-cli.vala
+msgid "yes"
+msgstr "是"
+
+#: src/transaction-cli.vala resources/transaction_sum_dialog.ui
+msgid "Edit build files"
+msgstr ""
+
+#: src/transaction-cli.vala
 msgid "Total installed size"
 msgstr "总共已安装数量"
 
@@ -675,20 +724,17 @@ msgid "Commit transaction"
 msgstr "提交事务"
 
 #: src/transaction-cli.vala
-msgid "[y/N]"
-msgstr "[y/N]"
-
-#: src/transaction-cli.vala
-msgid "y"
-msgstr "y"
-
-#: src/transaction-cli.vala
-msgid "yes"
-msgstr "是"
+#, c-format
+msgid "View %s build files diff"
+msgstr ""
 
 #: src/cli.vala
 msgid "Building packages as root is not allowed"
 msgstr "不允许以管理员身份建立包"
+
+#: src/cli.vala
+msgid "No PKGBUILD file found in current directory"
+msgstr ""
 
 #: src/cli.vala
 msgid "Available actions"
@@ -766,8 +812,8 @@ msgid "list files owned by the given packages"
 msgstr "列出指定包的文件"
 
 #: src/cli.vala
-msgid "Build packages from AUR and install them with their dependencies"
-msgstr "从AUR创建并安装包和依赖"
+msgid "Clone or sync packages build files from AUR"
+msgstr ""
 
 #: src/cli.vala
 msgid ""
@@ -778,6 +824,39 @@ msgstr "创建的目录，若未指定则使用pamac.conf中指定的"
 #: src/cli.vala
 msgid "dir"
 msgstr "文件目录"
+
+#: src/cli.vala
+msgid "also clone needed dependencies"
+msgstr ""
+
+#: src/cli.vala
+msgid "overwrite existing files"
+msgstr ""
+
+#: src/cli.vala
+msgid "Build packages from AUR and install them with their dependencies"
+msgstr "从AUR创建并安装包和依赖"
+
+#: src/cli.vala
+msgid ""
+"If no package name is given, use the PKGBUILD file in the current directory"
+msgstr ""
+
+#: src/cli.vala
+msgid ""
+"The build directory will be the parent directory, --builddir option will be "
+"ignored"
+msgstr ""
+
+#: src/cli.vala
+msgid "do not clone build files from AUR, only use local files"
+msgstr ""
+
+#: src/cli.vala
+msgid ""
+"ignore a package upgrade, multiple packages can be specified by separating "
+"them with a comma"
+msgstr "忽略一个包的更新，如需忽略多个包，可以在每两个包之间加入逗号分隔"
 
 #: src/cli.vala
 msgid ""
@@ -832,12 +911,6 @@ msgstr "强制更新数据库"
 #: src/cli.vala
 msgid "enable package downgrades"
 msgstr "允许包降级"
-
-#: src/cli.vala
-msgid ""
-"ignore a package upgrade, multiple packages can be specified by separating "
-"them with a comma"
-msgstr "忽略一个包的更新，如需忽略多个包，可以在每两个包之间加入逗号分隔"
 
 #: src/cli.vala resources/manager_window.ui
 msgid "Version"
@@ -916,6 +989,10 @@ msgid "About"
 msgstr "关于"
 
 #: resources/manager_window.ui
+msgid "Select All"
+msgstr "选取所有"
+
+#: resources/manager_window.ui
 msgid "State"
 msgstr "状态"
 
@@ -932,12 +1009,12 @@ msgid "Reinstall"
 msgstr "重新安装"
 
 #: resources/manager_window.ui
-msgid "_Apply"
-msgstr "应用(_A)"
+msgid "Reset build files"
+msgstr ""
 
 #: resources/manager_window.ui
-msgid "Select All"
-msgstr "选取所有"
+msgid "_Apply"
+msgstr "应用(_A)"
 
 #: resources/preferences_dialog.ui
 msgid "Remove unrequired dependencies"

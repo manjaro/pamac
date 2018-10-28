@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2018-09-08 17:58+0200\n"
-"PO-Revision-Date: 2018-09-09 07:45+0000\n"
+"POT-Creation-Date: 2018-10-18 11:38+0200\n"
+"PO-Revision-Date: 2018-10-18 19:47+0000\n"
 "Last-Translator: Lovro Kudelić <lovro.kudelic@outlook.com>\n"
 "Language-Team: Croatian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/hr/)\n"
 "MIME-Version: 1.0\n"
@@ -27,29 +27,9 @@ msgstr ""
 msgid "Authentication is required"
 msgstr "Potrebna je autorizacija"
 
-#: src/alpm_utils.vala
+#: src/alpm_utils.vala src/database.vala
 msgid "Failed to initialize alpm library"
 msgstr "Nije uspjela inicijalizacija alpm biblioteke"
-
-#: src/alpm_utils.vala
-msgid "Unknown"
-msgstr "Nepoznato"
-
-#: src/alpm_utils.vala src/manager_window.vala
-msgid "Explicitly installed"
-msgstr "Eksplicitno instalirano"
-
-#: src/alpm_utils.vala src/manager_window.vala
-msgid "Installed as a dependency for another package"
-msgstr "Instalirano kao zavisnost za drugi paket"
-
-#: src/alpm_utils.vala
-msgid "Yes"
-msgstr "Da"
-
-#: src/alpm_utils.vala
-msgid "No"
-msgstr "Ne"
 
 #: src/alpm_utils.vala
 msgid "Failed to synchronize any databases"
@@ -59,11 +39,11 @@ msgstr "Nije uspjela sinkronizacija niti jedne baze podataka"
 msgid "Failed to init transaction"
 msgstr "Nije uspjela inicijalizacija transakcije"
 
-#: src/alpm_utils.vala
+#: src/alpm_utils.vala src/transaction.vala src/transaction-gtk.vala
 msgid "Failed to prepare transaction"
 msgstr "Nije uspjela priprema transakcije"
 
-#: src/alpm_utils.vala src/cli.vala
+#: src/alpm_utils.vala src/transaction.vala src/cli.vala
 #, c-format
 msgid "target not found: %s"
 msgstr "meta nije nađena: %s"
@@ -131,21 +111,52 @@ msgstr "Nije uspjelo preuzimanje datoteke '%s' from %s : %s\n"
 msgid "Authentication failed"
 msgstr "Autorizacija nije uspjela"
 
+#: src/database.vala src/manager_window.vala
+msgid "Explicitly installed"
+msgstr "Eksplicitno instalirano"
+
+#: src/database.vala src/manager_window.vala
+msgid "Installed as a dependency for another package"
+msgstr "Instalirano kao zavisnost za drugi paket"
+
+#: src/database.vala
+msgid "Unknown"
+msgstr "Nepoznato"
+
+#: src/database.vala
+msgid "Yes"
+msgstr "Da"
+
+#: src/database.vala
+msgid "No"
+msgstr "Ne"
+
+#: src/transaction.vala
+#, c-format
+msgid "Generating %s informations"
+msgstr "Generiram %s informacije"
+
 #: src/transaction.vala
 msgid "Refreshing mirrors list"
 msgstr "Osvježavam listu zrcalnih poslužitelja"
 
 #: src/transaction.vala
-msgid "Synchronizing package databases"
-msgstr "Sinkroniziram bazu podataka paketa"
-
-#: src/transaction.vala
 msgid "Starting full system upgrade"
 msgstr "Pokrećem punu nadogradnju sustava"
 
-#: src/transaction.vala src/tray.vala src/manager_window.vala src/cli.vala
-msgid "Your system is up-to-date"
-msgstr "Nema novih nadogradnji"
+#: src/transaction.vala
+msgid "Synchronizing package databases"
+msgstr "Sinkroniziram bazu podataka paketa"
+
+#: src/transaction.vala src/cli.vala
+#, c-format
+msgid "Cloning %s build files"
+msgstr "Kloniram %s datoteke za stvaranje"
+
+#: src/transaction.vala
+#, c-format
+msgid "Checking %s dependencies"
+msgstr "Provjeravam %s zavisnosti"
 
 #: src/transaction.vala
 msgid "Preparing"
@@ -359,6 +370,21 @@ msgstr "Za nadograditi"
 msgid "Total download size"
 msgstr "Ukupna veličina za preuzimanje"
 
+#: src/transaction-gtk.vala src/transaction-cli.vala
+#, c-format
+msgid "Edit %s build files"
+msgstr "Uredi %s datoteke za stvaranje"
+
+#: src/transaction-gtk.vala
+msgid "Save"
+msgstr "Spremi"
+
+#: src/transaction-gtk.vala src/manager_window.vala
+#: resources/transaction_sum_dialog.ui resources/manager_window.ui
+#: resources/choose_ignorepkgs_dialog.ui
+msgid "_Cancel"
+msgstr "_Odustani"
+
 #: src/transaction-gtk.vala resources/progress_dialog.ui
 #: resources/history_dialog.ui resources/preferences_dialog.ui
 msgid "_Close"
@@ -379,6 +405,10 @@ msgstr "Ukloni pakete"
 #: src/installer.vala src/cli.vala
 msgid "package(s)"
 msgstr "paket(i)"
+
+#: src/tray.vala src/manager_window.vala src/cli.vala
+msgid "Your system is up-to-date"
+msgstr "Nema novih nadogradnji"
 
 #: src/tray.vala
 msgid "_Quit"
@@ -416,6 +446,10 @@ msgstr "Nadogradnja"
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Install"
 msgstr "Instaliraj"
+
+#: src/manager_window.vala resources/manager_window.ui
+msgid "Build"
+msgstr "Stvori"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Remove"
@@ -516,6 +550,10 @@ msgstr "Zavisnosti"
 #: src/manager_window.vala
 msgid "Files"
 msgstr "Datoteke"
+
+#: src/manager_window.vala
+msgid "Build files"
+msgstr "Datoteke za stvaranje"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Install Reason"
@@ -625,11 +663,6 @@ msgstr "Ime"
 msgid "Install Local Packages"
 msgstr "Instaliraj lokalne pakete"
 
-#: src/manager_window.vala resources/transaction_sum_dialog.ui
-#: resources/manager_window.ui resources/choose_ignorepkgs_dialog.ui
-msgid "_Cancel"
-msgstr "_Odustani"
-
 #: src/manager_window.vala
 msgid "_Open"
 msgstr "_Otvori"
@@ -664,6 +697,22 @@ msgid "Enter a number (default=%d)"
 msgstr "Unesite broj (zadano = %d)"
 
 #: src/transaction-cli.vala
+msgid "[y/N]"
+msgstr "[da/NE]"
+
+#: src/transaction-cli.vala
+msgid "y"
+msgstr "da"
+
+#: src/transaction-cli.vala
+msgid "yes"
+msgstr "da"
+
+#: src/transaction-cli.vala resources/transaction_sum_dialog.ui
+msgid "Edit build files"
+msgstr "Uredit datoteke za stvaranje"
+
+#: src/transaction-cli.vala
 msgid "Total installed size"
 msgstr "Ukupna instalirana veličina"
 
@@ -676,20 +725,17 @@ msgid "Commit transaction"
 msgstr "Izvršite transakciju"
 
 #: src/transaction-cli.vala
-msgid "[y/N]"
-msgstr "[da/NE]"
-
-#: src/transaction-cli.vala
-msgid "y"
-msgstr "da"
-
-#: src/transaction-cli.vala
-msgid "yes"
-msgstr "da"
+#, c-format
+msgid "View %s build files diff"
+msgstr "Pogledaj %s razlike datoteka za stvaranje"
 
 #: src/cli.vala
 msgid "Building packages as root is not allowed"
 msgstr "Stvaranje paketa kao root nije dozvoljeno"
+
+#: src/cli.vala
+msgid "No PKGBUILD file found in current directory"
+msgstr "Nije pronađena PKGBUILD datoteka u trenutnom direktoriju "
 
 #: src/cli.vala
 msgid "Available actions"
@@ -767,8 +813,8 @@ msgid "list files owned by the given packages"
 msgstr "prikaži datoteke u vlasništvu navedenih paketa"
 
 #: src/cli.vala
-msgid "Build packages from AUR and install them with their dependencies"
-msgstr "Stvorite pakete iz AUR-a i instalirajte ih s njihovim ovisnostima"
+msgid "Clone or sync packages build files from AUR"
+msgstr "Kloniraj ili sinkroniziraj datoteke za stvaranje paketa iz AUR-a"
 
 #: src/cli.vala
 msgid ""
@@ -779,6 +825,39 @@ msgstr "izgradi direktorij, ako se ne dodjeljuje direktorij, koristi se onaj koj
 #: src/cli.vala
 msgid "dir"
 msgstr "direktorij"
+
+#: src/cli.vala
+msgid "also clone needed dependencies"
+msgstr "također kloniraj potrebne zavisnosti"
+
+#: src/cli.vala
+msgid "overwrite existing files"
+msgstr "prepiši postojeće datoteke"
+
+#: src/cli.vala
+msgid "Build packages from AUR and install them with their dependencies"
+msgstr "Stvorite pakete iz AUR-a i instalirajte ih s njihovim ovisnostima"
+
+#: src/cli.vala
+msgid ""
+"If no package name is given, use the PKGBUILD file in the current directory"
+msgstr "Ako nije dodijeljen naziv paketa, koristi PKGBUILD datoteku u postojećem direktoriju"
+
+#: src/cli.vala
+msgid ""
+"The build directory will be the parent directory, --builddir option will be "
+"ignored"
+msgstr "Direktorij za stvaranje će biti nadređeni direktorij; --builddir opcija će se ignorirati"
+
+#: src/cli.vala
+msgid "do not clone build files from AUR, only use local files"
+msgstr "nemoj klonirati datoteke za stvaranje iz AUR-a; koristi samo lokalne datoteke"
+
+#: src/cli.vala
+msgid ""
+"ignore a package upgrade, multiple packages can be specified by separating "
+"them with a comma"
+msgstr "zanemari nadogradnju paketa; može se odrediti više paketa odvajajući ih zarezom"
 
 #: src/cli.vala
 msgid ""
@@ -833,12 +912,6 @@ msgstr "prisili osvježavanje baza podataka"
 #: src/cli.vala
 msgid "enable package downgrades"
 msgstr "dopusti povratak paketa na stariju verziju"
-
-#: src/cli.vala
-msgid ""
-"ignore a package upgrade, multiple packages can be specified by separating "
-"them with a comma"
-msgstr "zanemari nadogradnju paketa; može se odrediti više paketa odvajajući ih zarezom"
 
 #: src/cli.vala resources/manager_window.ui
 msgid "Version"
@@ -919,6 +992,10 @@ msgid "About"
 msgstr "O programu"
 
 #: resources/manager_window.ui
+msgid "Select All"
+msgstr "Odaberi sve"
+
+#: resources/manager_window.ui
 msgid "State"
 msgstr "Stanje"
 
@@ -935,12 +1012,12 @@ msgid "Reinstall"
 msgstr "Ponovno instaliraj"
 
 #: resources/manager_window.ui
-msgid "_Apply"
-msgstr "_Primijeni"
+msgid "Reset build files"
+msgstr "Ponovno postavi datoteke za stvaranje"
 
 #: resources/manager_window.ui
-msgid "Select All"
-msgstr "Odaberi sve"
+msgid "_Apply"
+msgstr "_Primijeni"
 
 #: resources/preferences_dialog.ui
 msgid "Remove unrequired dependencies"

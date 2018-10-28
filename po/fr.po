@@ -23,8 +23,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2018-09-08 17:58+0200\n"
-"PO-Revision-Date: 2018-09-15 15:12+0000\n"
+"POT-Creation-Date: 2018-10-18 11:38+0200\n"
+"PO-Revision-Date: 2018-10-20 15:43+0000\n"
 "Last-Translator: Guillaume Benoit <guillaume@manjaro.org>\n"
 "Language-Team: French (http://www.transifex.com/manjarolinux/manjaro-pamac/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -37,29 +37,9 @@ msgstr ""
 msgid "Authentication is required"
 msgstr "Authentification nécessaire"
 
-#: src/alpm_utils.vala
+#: src/alpm_utils.vala src/database.vala
 msgid "Failed to initialize alpm library"
 msgstr "L’initialisation de la librairie alpm a échoué"
-
-#: src/alpm_utils.vala
-msgid "Unknown"
-msgstr "Inconnu"
-
-#: src/alpm_utils.vala src/manager_window.vala
-msgid "Explicitly installed"
-msgstr "Explicitement installé"
-
-#: src/alpm_utils.vala src/manager_window.vala
-msgid "Installed as a dependency for another package"
-msgstr "Installé comme dépendance d’un autre paquet"
-
-#: src/alpm_utils.vala
-msgid "Yes"
-msgstr "Oui"
-
-#: src/alpm_utils.vala
-msgid "No"
-msgstr "Non"
 
 #: src/alpm_utils.vala
 msgid "Failed to synchronize any databases"
@@ -69,11 +49,11 @@ msgstr "La synchronisation a échoué"
 msgid "Failed to init transaction"
 msgstr "L’initialisation de la transaction a échoué"
 
-#: src/alpm_utils.vala
+#: src/alpm_utils.vala src/transaction.vala src/transaction-gtk.vala
 msgid "Failed to prepare transaction"
 msgstr "La préparation de la transaction a échoué"
 
-#: src/alpm_utils.vala src/cli.vala
+#: src/alpm_utils.vala src/transaction.vala src/cli.vala
 #, c-format
 msgid "target not found: %s"
 msgstr "impossible de trouver la cible : %s"
@@ -141,21 +121,52 @@ msgstr "Échec de récupération du fichier « %s » provenant de %s : %s\n"
 msgid "Authentication failed"
 msgstr "L’authentification a échoué"
 
+#: src/database.vala src/manager_window.vala
+msgid "Explicitly installed"
+msgstr "Explicitement installé"
+
+#: src/database.vala src/manager_window.vala
+msgid "Installed as a dependency for another package"
+msgstr "Installé comme dépendance d’un autre paquet"
+
+#: src/database.vala
+msgid "Unknown"
+msgstr "Inconnu"
+
+#: src/database.vala
+msgid "Yes"
+msgstr "Oui"
+
+#: src/database.vala
+msgid "No"
+msgstr "Non"
+
+#: src/transaction.vala
+#, c-format
+msgid "Generating %s informations"
+msgstr "Création des informations de %s"
+
 #: src/transaction.vala
 msgid "Refreshing mirrors list"
 msgstr "Actualisation de la liste des miroirs"
 
 #: src/transaction.vala
-msgid "Synchronizing package databases"
-msgstr "Synchronisation des bases de données des paquets"
-
-#: src/transaction.vala
 msgid "Starting full system upgrade"
 msgstr "Début de la mise à jour complète du système"
 
-#: src/transaction.vala src/tray.vala src/manager_window.vala src/cli.vala
-msgid "Your system is up-to-date"
-msgstr "Votre système est à jour"
+#: src/transaction.vala
+msgid "Synchronizing package databases"
+msgstr "Synchronisation des bases de données des paquets"
+
+#: src/transaction.vala src/cli.vala
+#, c-format
+msgid "Cloning %s build files"
+msgstr "Clonage des fichiers de construction de %s"
+
+#: src/transaction.vala
+#, c-format
+msgid "Checking %s dependencies"
+msgstr "Vérification des dépendances de %s"
 
 #: src/transaction.vala
 msgid "Preparing"
@@ -230,15 +241,15 @@ msgstr "Application des deltas"
 #: src/transaction.vala
 #, c-format
 msgid "Generating %s with %s"
-msgstr "Génération de %s avec %s "
+msgstr "Création de %s avec %s"
 
 #: src/transaction.vala
 msgid "Generation succeeded"
-msgstr "Génération réussie"
+msgstr "Création réussie"
 
 #: src/transaction.vala
 msgid "Generation failed"
-msgstr "Génération échouée"
+msgstr "Création échouée"
 
 #: src/transaction.vala
 #, c-format
@@ -368,6 +379,21 @@ msgstr "À mettre à jour "
 msgid "Total download size"
 msgstr "Taille totale de téléchargement "
 
+#: src/transaction-gtk.vala src/transaction-cli.vala
+#, c-format
+msgid "Edit %s build files"
+msgstr "Éditer les fichiers de construction de %s"
+
+#: src/transaction-gtk.vala
+msgid "Save"
+msgstr "Enregistrer"
+
+#: src/transaction-gtk.vala src/manager_window.vala
+#: resources/transaction_sum_dialog.ui resources/manager_window.ui
+#: resources/choose_ignorepkgs_dialog.ui
+msgid "_Cancel"
+msgstr "_Annuler"
+
 #: src/transaction-gtk.vala resources/progress_dialog.ui
 #: resources/history_dialog.ui resources/preferences_dialog.ui
 msgid "_Close"
@@ -388,6 +414,10 @@ msgstr "Désinstaller des paquets"
 #: src/installer.vala src/cli.vala
 msgid "package(s)"
 msgstr "paquet(s)"
+
+#: src/tray.vala src/manager_window.vala src/cli.vala
+msgid "Your system is up-to-date"
+msgstr "Votre système est à jour"
 
 #: src/tray.vala
 msgid "_Quit"
@@ -424,6 +454,10 @@ msgstr "Mise à niveau"
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Install"
 msgstr "Installer"
+
+#: src/manager_window.vala resources/manager_window.ui
+msgid "Build"
+msgstr "Construire"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Remove"
@@ -523,6 +557,10 @@ msgstr "Dépendances"
 #: src/manager_window.vala
 msgid "Files"
 msgstr "Fichiers"
+
+#: src/manager_window.vala
+msgid "Build files"
+msgstr "Fichiers de construction"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Install Reason"
@@ -632,11 +670,6 @@ msgstr "Nom"
 msgid "Install Local Packages"
 msgstr "Installer des paquets locaux"
 
-#: src/manager_window.vala resources/transaction_sum_dialog.ui
-#: resources/manager_window.ui resources/choose_ignorepkgs_dialog.ui
-msgid "_Cancel"
-msgstr "_Annuler"
-
 #: src/manager_window.vala
 msgid "_Open"
 msgstr "_Ouvrir"
@@ -671,6 +704,22 @@ msgid "Enter a number (default=%d)"
 msgstr "Entrer un nombre (par défaut = %d)"
 
 #: src/transaction-cli.vala
+msgid "[y/N]"
+msgstr "[o/N]"
+
+#: src/transaction-cli.vala
+msgid "y"
+msgstr "o"
+
+#: src/transaction-cli.vala
+msgid "yes"
+msgstr "oui"
+
+#: src/transaction-cli.vala resources/transaction_sum_dialog.ui
+msgid "Edit build files"
+msgstr "Éditer les fichiers de construction"
+
+#: src/transaction-cli.vala
 msgid "Total installed size"
 msgstr "Taille totale installée"
 
@@ -683,20 +732,17 @@ msgid "Commit transaction"
 msgstr "Exécuter la transaction"
 
 #: src/transaction-cli.vala
-msgid "[y/N]"
-msgstr "[o/N]"
-
-#: src/transaction-cli.vala
-msgid "y"
-msgstr "o"
-
-#: src/transaction-cli.vala
-msgid "yes"
-msgstr "oui"
+#, c-format
+msgid "View %s build files diff"
+msgstr "Voir le diff des fichiers de construction de %s"
 
 #: src/cli.vala
 msgid "Building packages as root is not allowed"
 msgstr "La construction de paquets en tant que superutilsateur est interdite"
+
+#: src/cli.vala
+msgid "No PKGBUILD file found in current directory"
+msgstr "Aucun fichier PKGBUILD trouvé dans le répertoire courant"
 
 #: src/cli.vala
 msgid "Available actions"
@@ -774,8 +820,8 @@ msgid "list files owned by the given packages"
 msgstr "liste les fichiers appartenant aux paquets spécifiés"
 
 #: src/cli.vala
-msgid "Build packages from AUR and install them with their dependencies"
-msgstr "Construire des paquets depuis AUR et les installer avec leurs dépendances"
+msgid "Clone or sync packages build files from AUR"
+msgstr "Cloner ou mettre à jour les fichiers de construction depuis AUR"
 
 #: src/cli.vala
 msgid ""
@@ -786,6 +832,39 @@ msgstr "répertoire de construction, si aucun répertoire n'est donné, celui sp
 #: src/cli.vala
 msgid "dir"
 msgstr "rép"
+
+#: src/cli.vala
+msgid "also clone needed dependencies"
+msgstr "cloner aussi les dépendances"
+
+#: src/cli.vala
+msgid "overwrite existing files"
+msgstr "écraser les fichiers existants"
+
+#: src/cli.vala
+msgid "Build packages from AUR and install them with their dependencies"
+msgstr "Construire des paquets depuis AUR et les installer avec leurs dépendances"
+
+#: src/cli.vala
+msgid ""
+"If no package name is given, use the PKGBUILD file in the current directory"
+msgstr "Si aucun nom de paquet n'est donné, utilise le fichier PKGBUILD dans le répertoire courant"
+
+#: src/cli.vala
+msgid ""
+"The build directory will be the parent directory, --builddir option will be "
+"ignored"
+msgstr "Le répertoire de construction sera le répertoire parent, l'option --builddir sera ignoré"
+
+#: src/cli.vala
+msgid "do not clone build files from AUR, only use local files"
+msgstr "ne pas cloner les fichiers de construction depuis AUR, utiliser seulement les fichiers locaux"
+
+#: src/cli.vala
+msgid ""
+"ignore a package upgrade, multiple packages can be specified by separating "
+"them with a comma"
+msgstr "ignorer la mise à jour de paquets, plusieurs paquets peuvent être spécifiés en les séparant par une virgule"
 
 #: src/cli.vala
 msgid ""
@@ -840,12 +919,6 @@ msgstr "forcer le rafraîchissement des bases de données"
 #: src/cli.vala
 msgid "enable package downgrades"
 msgstr "autoriser le retour à une version antérieur des paquets"
-
-#: src/cli.vala
-msgid ""
-"ignore a package upgrade, multiple packages can be specified by separating "
-"them with a comma"
-msgstr "ignorer la mise à jour de paquets, plusieurs paquets peuvent être spécifiés en les séparant par une virgule"
 
 #: src/cli.vala resources/manager_window.ui
 msgid "Version"
@@ -925,6 +998,10 @@ msgid "About"
 msgstr "À propos"
 
 #: resources/manager_window.ui
+msgid "Select All"
+msgstr "Tout sélectionner"
+
+#: resources/manager_window.ui
 msgid "State"
 msgstr "État"
 
@@ -941,12 +1018,12 @@ msgid "Reinstall"
 msgstr "Réinstaller"
 
 #: resources/manager_window.ui
-msgid "_Apply"
-msgstr "_Appliquer"
+msgid "Reset build files"
+msgstr "Réinitialiser"
 
 #: resources/manager_window.ui
-msgid "Select All"
-msgstr "Tout sélectionner"
+msgid "_Apply"
+msgstr "_Appliquer"
 
 #: resources/preferences_dialog.ui
 msgid "Remove unrequired dependencies"
