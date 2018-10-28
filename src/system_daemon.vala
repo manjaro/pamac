@@ -39,6 +39,7 @@ public class AlpmAction {
 namespace Pamac {
 	[DBus (name = "org.manjaro.pamac.system")]
 	public class SystemDaemon: Object {
+		private Config config;
 		private bool refreshed;
 		private HashTable<string,Variant> new_alpm_conf;
 		private string mirrorlist_country;
@@ -49,13 +50,14 @@ namespace Pamac {
 
 		public signal void emit_event (uint primary_event, uint secondary_event, string[] details);
 		public signal void emit_providers (string depend, string[] providers);
+		public signal void emit_unresolvables (string[] unresolvables);
 		public signal void emit_progress (uint progress, string pkgname, uint percent, uint n_targets, uint current_target);
 		public signal void emit_download (string filename, uint64 xfered, uint64 total);
 		public signal void emit_totaldownload (uint64 total);
 		public signal void emit_log (uint level, string msg);
 		public signal void set_pkgreason_finished ();
 		public signal void refresh_finished (bool success);
-		public signal void get_updates_finished (UpdatesStruct updates);
+		public signal void database_modified ();
 		public signal void downloading_updates_finished ();
 		public signal void trans_prepare_finished (bool success);
 		public signal void trans_commit_finished (bool success);
@@ -68,14 +70,15 @@ namespace Pamac {
 		public signal void generate_mirrors_list_finished ();
 
 		public SystemDaemon () {
+			config = new Config ("/etc/pamac.conf");
 			lock_id = new BusName ("");
 			authorized = false;
 			// alpm_utils global variable declared in alpm_utils.vala
-			alpm_utils = new AlpmUtils ();
+			alpm_utils = new AlpmUtils (config);
 			lockfile = GLib.File.new_for_path (alpm_utils.alpm_handle.lockfile);
 			check_old_lock ();
 			check_extern_lock ();
-			Timeout.add (500, check_extern_lock);
+			Timeout.add (200, check_extern_lock);
 			create_thread_pool ();
 			refreshed = false;
 			alpm_utils.emit_event.connect ((primary_event, secondary_event, details) => {
@@ -83,6 +86,9 @@ namespace Pamac {
 			});
 			alpm_utils.emit_providers.connect ((depend, providers) => {
 				emit_providers (depend, providers);
+			});
+			alpm_utils.emit_unresolvables.connect ((unresolvables) => {
+				emit_unresolvables (unresolvables);
 			});
 			alpm_utils.emit_progress.connect ((progress, pkgname, percent, n_targets, current_target) => {
 				emit_progress (progress, pkgname, percent, n_targets, current_target);
@@ -99,9 +105,6 @@ namespace Pamac {
 			alpm_utils.refresh_finished.connect ((success) => {
 				refresh_finished (success);
 			});
-			alpm_utils.get_updates_finished.connect ((updates) => {
-				get_updates_finished (updates);
-			});
 			alpm_utils.downloading_updates_finished.connect (() => {
 				downloading_updates_finished ();
 			});
@@ -109,6 +112,7 @@ namespace Pamac {
 				trans_prepare_finished (success);
 			});
 			alpm_utils.trans_commit_finished.connect ((success) => {
+				database_modified ();
 				trans_commit_finished (success);
 			});
 		}
@@ -211,6 +215,7 @@ namespace Pamac {
 				if (!lockfile.query_exists ()) {
 					lock_id = new BusName ("");
 					alpm_utils.refresh_handle ();
+					database_modified ();
 				}
 			} else {
 				if (lockfile.query_exists ()) {
@@ -279,15 +284,14 @@ namespace Pamac {
 
 		public void start_write_pamac_config (HashTable<string,Variant> new_pamac_conf, GLib.BusName sender) throws Error {
 			check_authorization.begin (sender, (obj, res) => {
-				var pamac_config = new Config ("/etc/pamac.conf");
 				bool authorized = check_authorization.end (res);
 				if (authorized) {
-					pamac_config.write (new_pamac_conf);
-					pamac_config.reload ();
+					config.write (new_pamac_conf);
+					config.reload ();
 				}
-				write_pamac_config_finished (pamac_config.recurse, pamac_config.refresh_period, pamac_config.no_update_hide_icon,
-											pamac_config.enable_aur, pamac_config.aur_build_dir, pamac_config.check_aur_updates,
-											pamac_config.download_updates);
+				write_pamac_config_finished (config.recurse, config.refresh_period, config.no_update_hide_icon,
+											config.enable_aur, config.aur_build_dir, config.check_aur_updates,
+											config.download_updates);
 			});
 		}
 
@@ -295,6 +299,7 @@ namespace Pamac {
 			alpm_utils.alpm_config.write (new_alpm_conf);
 			alpm_utils.alpm_config.reload ();
 			alpm_utils.refresh_handle ();
+			database_modified ();
 			write_alpm_config_finished ((alpm_utils.alpm_handle.checkspace == 1));
 		}
 
@@ -329,6 +334,7 @@ namespace Pamac {
 			}
 			alpm_utils.alpm_config.reload ();
 			alpm_utils.refresh_handle ();
+			database_modified ();
 			generate_mirrors_list_finished ();
 		}
 
@@ -372,6 +378,7 @@ namespace Pamac {
 				if (authorized) {
 					alpm_utils.set_pkgreason (pkgname, reason);
 				}
+				database_modified ();
 				set_pkgreason_finished ();
 			});
 		}
@@ -382,13 +389,6 @@ namespace Pamac {
 				return;
 			}
 			alpm_utils.force_refresh = force;
-			if (alpm_utils.force_refresh) {
-				refreshed = false;
-			}
-			if (refreshed) {
-				refresh_finished (true);
-				return;
-			}
 			if (alpm_utils.downloading_updates) {
 				alpm_utils.cancellable.cancel ();
 				// let time to cancel download updates
@@ -423,23 +423,14 @@ namespace Pamac {
 			}
 		}
 
-		public void start_get_updates_for_sysupgrade (bool check_aur_updates) throws Error {
-			alpm_utils.check_aur_updates = check_aur_updates;
-			try {
-				thread_pool.add (new AlpmAction (alpm_utils.get_updates_for_sysupgrade));
-			} catch (ThreadError e) {
-				stderr.printf ("Thread Error %s\n", e.message);
-			}
-		}
-
 		public void start_downloading_updates () throws Error {
 			// do not add this thread to the threadpool so it won't be queued
 			new Thread<int> ("download updates thread", alpm_utils.download_updates);
 		}
 
 		public void start_sysupgrade_prepare (bool enable_downgrade,
-											string[] temporary_ignorepkgs,
 											string[] to_build,
+											string[] temporary_ignorepkgs,
 											string[] overwrite_files,
 											GLib.BusName sender) throws Error {
 			if (lock_id != sender) {
@@ -472,6 +463,7 @@ namespace Pamac {
 										string[] to_remove,
 										string[] to_load,
 										string[] to_build,
+										string[] temporary_ignorepkgs,
 										string[] overwrite_files,
 										GLib.BusName sender) throws Error {
 			if (lock_id != sender) {
@@ -483,10 +475,9 @@ namespace Pamac {
 			alpm_utils.to_remove = to_remove;
 			alpm_utils.to_load = to_load;
 			alpm_utils.to_build = to_build;
+			alpm_utils.temporary_ignorepkgs = temporary_ignorepkgs;
 			alpm_utils.overwrite_files = overwrite_files;
-			if (alpm_utils.to_install.length > 0) {
-				alpm_utils.sysupgrade = true;
-			}
+			alpm_utils.sysupgrade = false;
 			if (alpm_utils.downloading_updates) {
 				alpm_utils.cancellable.cancel ();
 				// let time to cancel download updates
@@ -502,7 +493,6 @@ namespace Pamac {
 		private void launch_prepare_thread () {
 			if (alpm_utils.to_build.length != 0) {
 				try {
-					thread_pool.add (new AlpmAction (alpm_utils.compute_aur_build_list));
 					thread_pool.add (new AlpmAction (alpm_utils.build_prepare));
 				} catch (ThreadError e) {
 					stderr.printf ("Thread Error %s\n", e.message);
@@ -556,12 +546,16 @@ namespace Pamac {
 
 		[DBus (no_reply = true)]
 		public void quit () throws Error {
-			// wait for all tasks to be processed
-			ThreadPool.free ((owned) thread_pool, false, true);
+			// do not quit if locked
+			if (lock_id != "" && lock_id != "extern"){
+				return;
+			}
 			// do not quit if downloading updates
 			if (alpm_utils.downloading_updates) {
 				return;
 			}
+			// wait for all tasks to be processed
+			ThreadPool.free ((owned) thread_pool, false, true);
 			loop.quit ();
 		}
 	}

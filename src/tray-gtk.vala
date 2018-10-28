@@ -31,6 +31,7 @@ namespace Pamac {
 
 		// Show popup menu on right button
 		void menu_popup () {
+			var menu = create_menu ();
 			menu.popup_at_pointer (null);
 		}
 
@@ -42,16 +43,8 @@ namespace Pamac {
 			status_icon.set_from_icon_name (icon);
 		}
 
-		public override string get_icon () {
-			return status_icon.get_icon_name ();
-		}
-
 		public override void set_icon_visible (bool visible) {
-			if (visible) {
-				status_icon.visible = true;
-			} else {
-				status_icon.visible = false;
-			}
+			status_icon.visible = visible;
 		}
 	}
 }

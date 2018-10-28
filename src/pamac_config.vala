@@ -76,12 +76,17 @@ namespace Pamac {
 			recurse = false;
 			no_update_hide_icon = false;
 			enable_aur = false;
-			aur_build_dir = "/tmp";
+			aur_build_dir = "/var/tmp";
 			check_aur_updates = false;
 			download_updates = false;
 			clean_keep_num_pkgs = 3;
 			clean_rm_only_uninstalled = false;
 			parse_file (conf_path);
+			if (aur_build_dir == "/var/tmp") {
+				aur_build_dir = Path.build_path ("/", aur_build_dir, "pamac-build-%s".printf (Environment.get_user_name ()));
+			} else {
+				aur_build_dir = Path.build_path ("/", aur_build_dir, "pamac-build");
+			}
 			if (enable_aur == false) {
 				check_aur_updates = false;
 			}

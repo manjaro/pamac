@@ -34,6 +34,7 @@ namespace Pamac {
 		bool waiting;
 		string[] temporary_ignorepkgs;
 		string[] overwrite_files;
+		GenericSet<string?> already_checked_aur_dep;
 		public Subprocess pkttyagent;
 
 		public Cli () {
@@ -99,7 +100,10 @@ namespace Pamac {
 					} else if (args[2] == "--aur" || args[2] == "-a") {
 						init_database ();
 						database.config.enable_aur = true;
-						search_in_aur (concatenate_strings (args[3:args.length]));
+						search_in_aur.begin (concatenate_strings (args[3:args.length]), () => {
+							loop.quit ();
+						});
+						loop.run ();
 					} else if (args[2] == "--files" || args[2] == "-f") {
 						init_database ();
 						search_files (args[3:args.length]);
@@ -117,7 +121,10 @@ namespace Pamac {
 					} else if (args[2] == "--aur" || args[2] == "-a") {
 						init_database ();
 						database.config.enable_aur = true;
-						display_aur_infos (args[3:args.length]);
+						display_aur_infos.begin (args[3:args.length], () => {
+							loop.quit ();
+						});
+						loop.run ();
 					} else {
 						init_database ();
 						display_pkg_infos (args[2:args.length]);
@@ -166,7 +173,38 @@ namespace Pamac {
 					init_database ();
 					list_installed ();
 				}
-			
+			} else if (args[1] == "clone") {
+				if (args.length > 2) {
+					if (args[2] == "--help" || args[2] == "-h") {
+						display_clone_help ();
+					} else {
+						init_database ();
+						database.config.enable_aur = true;
+						string[] targets = {};
+						bool overwrite = false;
+						bool recurse = false;
+						int i = 2;
+						while (i < args.length) {
+							unowned string arg = args[i];
+							if (arg == "--overwrite") {
+								overwrite = true;
+							} else if (arg == "--recurse" || arg == "-r") {
+								recurse = true;
+							} else if (arg == "--builddir") {
+								if (args[i + 1] != null) {
+									database.config.aur_build_dir = args[i + 1];
+								}
+								i++;
+							} else {
+								targets += arg;
+							}
+							i++;
+						}
+						clone_build_files (targets, overwrite, recurse);
+					}
+				} else {
+					display_clone_help ();
+				}
 			} else if (args[1] == "build") {
 				if (Posix.geteuid () == 0) {
 					// can't build as root
@@ -177,17 +215,68 @@ namespace Pamac {
 				if (args.length > 2) {
 					if (args[2] == "--help" || args[2] == "-h") {
 						display_build_help ();
-					} else if (args[2] == "--builddir") {
-						init_transaction ();
-						transaction.database.config.aur_build_dir = args[3];
-						build_pkgs (args[4:args.length]);
-					} else {
-						init_transaction ();
-						build_pkgs (args[2:args.length]);
+						return;
 					}
-				} else {
-					display_build_help ();
 				}
+				init_transaction ();
+				database.config.enable_aur = true;
+				string[] targets = {};
+				int i = 2;
+				while (i < args.length) {
+					unowned string arg = args[i];
+					if (arg == "--no-clone") {
+						transaction.clone_build_files = false;
+					} else if (arg == "--builddir") {
+						if (args[i + 1] != null) {
+							database.config.aur_build_dir = args[i + 1];
+						}
+						i++;
+					} else {
+						targets += arg;
+					}
+					i++;
+				}
+				if (targets.length == 0) {
+					var current_dir = File.new_for_path (Environment.get_current_dir ());
+					var pkgbuild = current_dir.get_child ("PKGBUILD");
+					if (!pkgbuild.query_exists ()) {
+						stdout.printf (dgettext (null, "No PKGBUILD file found in current directory"));
+						stdout.printf ("\n");
+						return;
+					}
+					// set buildir to the parent dir
+					File? parent = current_dir.get_parent ();
+					if (parent != null) {
+						database.config.aur_build_dir = parent.get_path ();
+					}
+					string? pkgbase = current_dir.get_basename ();
+					if (pkgbase != null) {
+						// add pkgnames of srcinfo to targets
+						var cancellable = new Cancellable ();
+						database.regenerate_srcinfo.begin (pkgbase, cancellable, (obj, res) => {
+							bool success = database.regenerate_srcinfo.end (res);
+							if (success) {
+								foreach (unowned string pkgname in database.get_srcinfo_pkgnames (pkgbase)) {
+									targets += pkgname;
+								}
+							}
+							loop.quit ();
+						});
+						loop.run ();
+					}
+				} else if (transaction.clone_build_files) {
+					// check if targets exist
+					bool success = true;
+					check_build_pkgs.begin (targets, (obj, res) => {
+						success = check_build_pkgs.end (res);
+						loop.quit ();
+					});
+					loop.run ();
+					if (!success) {
+						return;
+					}
+				}
+				build_pkgs (targets);
 			} else if (args[1] == "install") {
 				if (args.length > 2) {
 					if (args[2] == "--help" || args[2] == "-h") {
@@ -200,6 +289,11 @@ namespace Pamac {
 							if (arg == "--overwrite") {
 								foreach (unowned string name in args[i + 1].split(",")) {
 									overwrite_files += name;
+								}
+								i++;
+							} else if (arg == "--ignore") {
+								foreach (unowned string name in args[i + 1].split(",")) {
+									temporary_ignorepkgs += name;
 								}
 								i++;
 							} else {
@@ -245,7 +339,10 @@ namespace Pamac {
 			} else if (args[1] == "checkupdates") {
 				if (args.length == 2) {
 					init_database ();
-					checkupdates ();
+					checkupdates.begin (() => {
+						loop.quit ();
+					});
+					loop.run ();
 				} else if (args.length == 3) {
 					if (args[2] == "--help" || args[2] == "-h") {
 						display_checkupdates_help ();
@@ -253,7 +350,10 @@ namespace Pamac {
 						init_database ();
 						database.config.enable_aur = true;
 						database.config.check_aur_updates = true;
-						checkupdates ();
+						checkupdates.begin ((obj, res) => {
+							loop.quit ();
+						});
+						loop.run ();
 					} else {
 						display_checkupdates_help ();
 					}
@@ -277,10 +377,12 @@ namespace Pamac {
 							exit_status = 1;
 							return;
 						}
-						transaction.database.config.enable_aur = true;
-						transaction.database.config.check_aur_updates = true;
+						database.config.enable_aur = true;
+						database.config.check_aur_updates = true;
 					} else if (arg == "--builddir") {
-						transaction.database.config.aur_build_dir = args[i+1];
+						if (args[i + 1] != null) {
+							database.config.aur_build_dir = args[i + 1];
+						}
 						i++;
 					} else if (arg == "--force-refresh") {
 						force_refresh = true;
@@ -304,7 +406,7 @@ namespace Pamac {
 					i++;
 				}
 				if (!error) {
-					try_lock_and_run (start_refresh);
+					try_lock_and_run (start_sysupgrade);
 				}
 			} else {
 				display_help ();
@@ -325,7 +427,12 @@ namespace Pamac {
 			transaction = new TransactionCli (database);
 			transaction.finished.connect (on_transaction_finished);
 			transaction.sysupgrade_finished.connect (on_transaction_finished);
-			transaction.refresh_finished.connect (on_refresh_finished);
+			transaction.start_preparing.connect (() => {
+				trans_cancellable = true;
+			});
+			transaction.stop_preparing.connect (() => {
+				trans_cancellable = false;
+			});
 			transaction.start_downloading.connect (() => {
 				trans_cancellable = true;
 			});
@@ -343,6 +450,7 @@ namespace Pamac {
 		bool trans_cancel () {
 			if (waiting) {
 				waiting = false;
+				stdout.printf ("\n");
 				loop.quit ();
 			} else if (trans_cancellable) {
 				transaction.cancel ();
@@ -446,31 +554,33 @@ namespace Pamac {
 			string[] actions = {"--version",
 								"--help,-h",
 								"checkupdates",
+								"update,upgrade",
 								"search",
 								"info",
 								"list",
 								"install",
 								"reinstall",
+								"clone",
 								"build",
-								"remove",
-								"update,upgrade"};
+								"remove"};
 			string[] options_actions = {"checkupdates",
+										"update,upgrade",
 										"search",
 										"info",
 										"list",
 										"install",
 										"reinstall",
 										"build",
-										"remove",
-										"update,upgrade"};
+										"clone",
+										"remove"};
 			string[] targets_actions = {"search",
 										"info",
 										"list",
 										"install",
 										"reinstall",
 										"build",
-										"remove",
-										"update,upgrade"};
+										"clone",
+										"remove"};
 			stdout.printf (dgettext (null, "Available actions") + ":\n");
 			foreach (unowned string action in actions) {
 				stdout.printf ("  pamac %-14s".printf (action));
@@ -481,7 +591,11 @@ namespace Pamac {
 					stdout.printf (" [%s]".printf (dgettext (null,  "options")));
 				}
 				if (action in targets_actions) {
-					stdout.printf (" <%s>".printf (dgettext (null,  "package(s)")));
+					if (action == "remove" || action == "build") {
+						stdout.printf (" [%s]".printf (dgettext (null,  "package(s)")));
+					} else {
+						stdout.printf (" <%s>".printf (dgettext (null,  "package(s)")));
+					}
 				}
 				stdout.printf ("\n");
 			}
@@ -569,7 +683,37 @@ namespace Pamac {
 				i++;
 			}
 			cuts = split_string (dgettext (null, "list files owned by the given packages"), max_length + 2);
-			print_aligned ("  %s [%s]".printf ("-f, --files", dgettext (null, "file(s)")), ": %s".printf (cuts[0]), max_length);
+			print_aligned ("  %s <%s>".printf ("-f, --files", dgettext (null, "package(s)")), ": %s".printf (cuts[0]), max_length);
+			i = 1;
+			while (i < cuts.length) {
+				print_aligned ("", "%s".printf (cuts[i]), max_length + 2);
+				i++;
+			}
+		}
+
+		void display_clone_help () {
+			stdout.printf (dgettext (null, "Clone or sync packages build files from AUR"));
+			stdout.printf ("\n\n");
+			stdout.printf ("pamac clone [%s] <%s>".printf (dgettext (null, "options"), dgettext (null, "package(s)")));
+			stdout.printf ("\n\n");
+			stdout.printf (dgettext (null, "options") + ":\n");
+			int max_length = 25;
+			string[] cuts = split_string (dgettext (null, "build directory, if no directory is given the one specified in pamac.conf file is used"), max_length + 2);
+			print_aligned ("  %s <%s>".printf ("--builddir", dgettext (null, "dir")), ": %s".printf (cuts[0]), max_length);
+			int i = 1;
+			while (i < cuts.length) {
+				print_aligned ("", "%s".printf (cuts[i]), max_length + 2);
+				i++;
+			}
+			cuts = split_string (dgettext (null, "also clone needed dependencies"), max_length + 2);
+			print_aligned ("  -r,--recurse", ": %s".printf (cuts[0]), max_length);
+			i = 1;
+			while (i < cuts.length) {
+				print_aligned ("", "%s".printf (cuts[i]), max_length + 2);
+				i++;
+			}
+			cuts = split_string (dgettext (null, "overwrite existing files"), max_length + 2);
+			print_aligned ("  --overwrite", ": %s".printf (cuts[0]), max_length);
 			i = 1;
 			while (i < cuts.length) {
 				print_aligned ("", "%s".printf (cuts[i]), max_length + 2);
@@ -580,13 +724,24 @@ namespace Pamac {
 		void display_build_help () {
 			stdout.printf (dgettext (null, "Build packages from AUR and install them with their dependencies"));
 			stdout.printf ("\n\n");
-			stdout.printf ("pamac build [%s] <%s>".printf (dgettext (null, "options"), dgettext (null, "package(s)")));
+			stdout.printf (dgettext (null, "If no package name is given, use the PKGBUILD file in the current directory"));
+			stdout.printf ("\n");
+			stdout.printf (dgettext (null, "The build directory will be the parent directory, --builddir option will be ignored"));
+			stdout.printf ("\n\n");
+			stdout.printf ("pamac build [%s] [%s]".printf (dgettext (null, "options"), dgettext (null, "package(s)")));
 			stdout.printf ("\n\n");
 			stdout.printf (dgettext (null, "options") + ":\n");
 			int max_length = 25;
 			string[] cuts = split_string (dgettext (null, "build directory, if no directory is given the one specified in pamac.conf file is used"), max_length + 2);
 			print_aligned ("  %s <%s>".printf ("--builddir", dgettext (null, "dir")), ": %s".printf (cuts[0]), max_length);
 			int i = 1;
+			while (i < cuts.length) {
+				print_aligned ("", "%s".printf (cuts[i]), max_length + 2);
+				i++;
+			}
+			cuts = split_string (dgettext (null, "do not clone build files from AUR, only use local files"), max_length + 2);
+			print_aligned ("  --no-clone", ": %s".printf (cuts[0]), max_length);
+			i = 1;
 			while (i < cuts.length) {
 				print_aligned ("", "%s".printf (cuts[i]), max_length + 2);
 				i++;
@@ -600,9 +755,16 @@ namespace Pamac {
 			stdout.printf ("\n\n");
 			stdout.printf (dgettext (null, "options") + ":\n");
 			int max_length = 25;
-			string[] cuts = split_string (dgettext (null, "overwrite conflicting files, multiple patterns can be specified by separating them with a comma"), max_length + 2);
-			print_aligned ("  %s <%s>".printf ("--overwrite", dgettext (null, "glob")), ": %s".printf (cuts[0]), max_length);
+			string[] cuts = split_string (dgettext (null, "ignore a package upgrade, multiple packages can be specified by separating them with a comma"), max_length + 2);
+			print_aligned ("  %s <%s>".printf ("--ignore", dgettext (null, "package(s)")), ": %s".printf (cuts[0]), max_length);
 			int i = 1;
+			while (i < cuts.length) {
+				print_aligned ("", "%s".printf (cuts[i]), max_length + 2);
+				i++;
+			}
+			cuts = split_string (dgettext (null, "overwrite conflicting files, multiple patterns can be specified by separating them with a comma"), max_length + 2);
+			print_aligned ("  %s <%s>".printf ("--overwrite", dgettext (null, "glob")), ": %s".printf (cuts[0]), max_length);
+			i = 1;
 			while (i < cuts.length) {
 				print_aligned ("", "%s".printf (cuts[i]), max_length + 2);
 				i++;
@@ -686,7 +848,7 @@ namespace Pamac {
 				i++;
 			}
 			cuts = split_string (dgettext (null, "ignore a package upgrade, multiple packages can be specified by separating them with a comma"), max_length + 2);
-			print_aligned ("  %s [%s]".printf ("--ignore", dgettext (null, "package(s)")), ": %s".printf (cuts[0]), max_length);
+			print_aligned ("  %s <%s>".printf ("--ignore", dgettext (null, "package(s)")), ": %s".printf (cuts[0]), max_length);
 			i = 1;
 			while (i < cuts.length) {
 				print_aligned ("", "%s".printf (cuts[i]), max_length + 2);
@@ -742,8 +904,8 @@ namespace Pamac {
 			}
 		}
 
-		void search_in_aur (string search_string) {
-			var pkgs = database.search_in_aur (search_string);
+		async void search_in_aur (string search_string) {
+			var pkgs = yield database.search_in_aur (search_string);
 			if (pkgs.length () == 0) {
 				exit_status = 1;
 				return;
@@ -826,9 +988,9 @@ namespace Pamac {
 				}
 			}
 			foreach (unowned string pkgname in pkgnames) {
-				var details =  database.get_pkg_details (pkgname, "");
+				var details =  database.get_pkg_details (pkgname, "", false);
 				if (details.name == "") {
-					print_error (dgettext (null, "target not found: %s").printf (pkgname) + "\n");
+					print_error (dgettext (null, "target not found: %s").printf (pkgname));
 					continue;
 				}
 				// Name
@@ -997,7 +1159,7 @@ namespace Pamac {
 			}
 		}
 
-		void display_aur_infos (string[] pkgnames) {
+		async void display_aur_infos (string[] pkgnames) {
 			string[] properties = {};
 			properties += dgettext (null, "Name");
 			properties += dgettext (null, "Package Base");
@@ -1024,10 +1186,13 @@ namespace Pamac {
 					max_length = prop.length;
 				}
 			}
-			foreach (string pkgname in pkgnames) {
-				var details = database.get_aur_pkg_details (pkgname);
+			var aur_pkgs = yield database.get_aur_pkgs_details (pkgnames);
+			var iter = HashTableIter<string, AURPackageDetails> (aur_pkgs);
+			unowned string pkgname;
+			unowned AURPackageDetails details;
+			while (iter.next (out pkgname, out details)) {
 				if (details.name == "") {
-					print_error (dgettext (null, "target not found: %s").printf (pkgname) + "\n");
+					print_error (dgettext (null, "target not found: %s").printf (pkgname));
 					return;
 				}
 				// Name
@@ -1306,8 +1471,8 @@ namespace Pamac {
 			}
 		}
 
-		void checkupdates () {
-			var updates = database.get_updates ();
+		async void checkupdates () {
+			var updates = yield database.get_updates ();
 			uint updates_nb = updates.repos_updates.length () + updates.aur_updates.length ();
 			if (updates_nb == 0) {
 				stdout.printf ("%s.\n", dgettext (null, "Your system is up-to-date"));
@@ -1362,7 +1527,6 @@ namespace Pamac {
 													dgettext (null, "AUR"));
 				}
 			}
-			loop.quit ();
 		}
 
 		void install_pkgs (string[] targets) {
@@ -1601,13 +1765,90 @@ namespace Pamac {
 			try_lock_and_run (start_transaction);
 		}
 
+		void clone_build_files (string[] pkgnames, bool overwrite, bool recurse) {
+			already_checked_aur_dep = new GenericSet<string?> (str_hash, str_equal);
+			// set waiting to allow cancellation
+			waiting = true;
+			clone_build_files_real.begin (pkgnames, overwrite, recurse, () => {
+				waiting = false;
+				loop.quit ();
+			});
+			loop.run ();
+		}
+
+		async void clone_build_files_real (string[] pkgnames, bool overwrite, bool recurse) {
+			string[] dep_to_check = {};
+			var aur_pkgs = yield database.get_aur_pkgs_details (pkgnames);
+			var iter = HashTableIter<string, AURPackageDetails> (aur_pkgs);
+			unowned string pkgname;
+			unowned AURPackageDetails aur_pkg_details;
+			while (iter.next (out pkgname, out aur_pkg_details)) {
+				if (aur_pkg_details.name == "") {
+					print_error (dgettext (null, "target not found: %s").printf (pkgname));
+					continue;
+				} else {
+					// clone build files
+					stdout.printf (dgettext (null, "Cloning %s build files").printf (aur_pkg_details.packagebase) + "...\n");
+					// use packagebase in case of split package
+					File? clone_dir = yield database.clone_build_files (aur_pkg_details.packagebase, overwrite);
+					if (clone_dir == null) {
+						// error
+						return;
+					} else if (recurse) {
+						var depends = new List<string> ();
+						foreach (unowned string depend in aur_pkg_details.depends) {
+							depends.append (depend);
+						}
+						foreach (unowned string depend in aur_pkg_details.makedepends) {
+							depends.append (depend);
+						}
+						foreach (unowned string depend in aur_pkg_details.checkdepends) {
+							depends.append (depend);
+						}
+						// check deps
+						foreach (unowned string dep_string in depends) {
+							var pkg = database.find_installed_satisfier (dep_string);
+							if (pkg.name == "") {
+								pkg = database.find_sync_satisfier (dep_string);
+							}
+							if (pkg.name == "") {
+								string dep_name = database.get_alpm_dep_name (dep_string);
+								if (!(dep_name in already_checked_aur_dep)) {
+									already_checked_aur_dep.add (dep_name);
+									dep_to_check += (owned) dep_name;
+								}
+							}
+						}
+					}
+				}
+			}
+			if (dep_to_check.length > 0) {
+				yield clone_build_files_real (dep_to_check, overwrite, recurse);
+			}
+		}
+
+		async bool check_build_pkgs (string[] targets) {
+			var aur_pkgs = yield database.get_aur_pkgs (targets);
+			var iter = HashTableIter<string, AURPackage> (aur_pkgs);
+			unowned string pkgname;
+			unowned AURPackage aur_pkg;
+			bool success = true;
+			while (iter.next (out pkgname, out aur_pkg)) {
+				if (aur_pkg.name == "") {
+					print_error (dgettext (null, "target not found: %s").printf (pkgname));
+					success = false;
+				}
+			}
+			return success;
+		}
+
 		void build_pkgs (string[] to_build) {
 			this.to_build = to_build;
 			try_lock_and_run (start_transaction);
 		}
 
 		void start_transaction () {
-			transaction.start (to_install, to_remove, to_load, to_build, overwrite_files);
+			transaction.start (to_install, to_remove, to_load, to_build, temporary_ignorepkgs, overwrite_files);
 			loop.run ();
 		}
 
@@ -1633,27 +1874,17 @@ namespace Pamac {
 			}
 		}
 
-		void start_refresh () {
+		void start_sysupgrade () {
 			if (Posix.geteuid () != 0) {
 				// let's time to pkttyagent to get registred
 				Timeout.add (200, () => {
-					transaction.start_refresh (force_refresh);
+					transaction.start_sysupgrade (force_refresh, enable_downgrade, temporary_ignorepkgs, overwrite_files);
 					return false;
 				});
 			} else {
-				transaction.start_refresh (force_refresh);
+				transaction.start_sysupgrade (force_refresh, enable_downgrade, temporary_ignorepkgs, overwrite_files);
 			}
 			loop.run ();
-		}
-
-		void on_refresh_finished (bool success) {
-			if (success) {
-				transaction.start_sysupgrade (enable_downgrade, temporary_ignorepkgs, overwrite_files);
-			} else {
-				transaction.unlock ();
-				loop.quit ();
-				exit_status = 1;
-			}
 		}
 
 		void on_transaction_finished (bool success) {

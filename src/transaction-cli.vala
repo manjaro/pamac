@@ -22,6 +22,7 @@ namespace Pamac {
 		bool downloading;
 		string current_line;
 		string current_action;
+		bool summary_shown;
 
 		public TransactionCli (Database database) {
 			Object (database: database);
@@ -31,6 +32,7 @@ namespace Pamac {
 			downloading = false;
 			current_line = "";
 			current_action = "";
+			summary_shown = false;
 			// connect to signal
 			emit_action.connect (print_action);
 			emit_action_progress.connect (print_action_progress);
@@ -134,9 +136,15 @@ namespace Pamac {
 				}
 				int width = get_term_width () - action.char_count () - 1;
 				string current_status = "[%s]".printf (status);
-				current_line = "%s %*s".printf (action, width, current_status);
-				stdout.printf (current_line);
-				stdout.printf ("\r");
+				if (width > current_status.length) {
+					current_line = "%s %*s".printf (action, width, current_status);
+					stdout.printf (current_line);
+					stdout.printf ("\r");
+				} else {
+					current_line = "%s %s".printf (action, current_status);
+					stdout.printf (current_line);
+					stdout.printf ("\n");
+				}
 			}
 			stdout.flush ();
 		}
@@ -238,7 +246,32 @@ namespace Pamac {
 			}
 		}
 
-		protected override bool ask_confirmation (TransactionSummary summary) {
+		bool ask_user (string question) {
+			// ask user confirmation
+			stdout.printf ("%s %s ", question, dgettext (null, "[y/N]"));
+			char buf[32];
+			if (stdin.gets (buf) != null) {
+				string ans = (string) buf;
+				// remove trailing newline and uppercase
+				ans = ans.replace ("\n", "").down ();
+				// just return use default
+				if (ans != "") {
+					if (ans == dgettext (null, "y") ||
+						ans == dgettext (null, "yes")) {
+						return true;
+					}
+				}
+			}
+			return false;
+		}
+
+		protected override bool ask_edit_build_files (TransactionSummary summary) {
+			show_summary (summary);
+			summary_shown = true;
+			return ask_user ("%s ?".printf (dgettext (null, "Edit build files")));
+		}
+
+		void show_summary (TransactionSummary summary) {
 			uint64 dsize = 0;
 			uint64 rsize = 0;
 			int64 isize = 0;
@@ -437,22 +470,69 @@ namespace Pamac {
 			if (rsize > 0) {
 				stdout.printf ("%s: %s\n", dgettext (null, "Total removed size"), format_size (rsize));
 			}
-			// ask user confirmation
-			stdout.printf ("%s ? %s ", dgettext (null, "Commit transaction"), dgettext (null, "[y/N]"));
-			char buf[32];
-			if (stdin.gets (buf) != null) {
-				string ans = (string) buf;
-				// remove trailing newline and uppercase
-				ans = ans.replace ("\n", "").down ();
-				// just return use default
-				if (ans != "") {
-					if (ans == dgettext (null, "y") ||
-						ans == dgettext (null, "yes")) {
-						return true;
+		}
+
+		protected override bool ask_commit (TransactionSummary summary) {
+			if (!summary_shown) {
+				show_summary (summary);
+			}
+			return ask_user ("%s ?".printf (dgettext (null, "Commit transaction")));
+		}
+
+		async void ask_view_diff (string pkgname) {
+			string diff_path = Path.build_path ("/", database.config.aur_build_dir, pkgname, "diff");
+			var diff_file = File.new_for_path (diff_path);
+			if (diff_file.query_exists ()) {
+				if (ask_user ("%s ?".printf (dgettext (null, "View %s build files diff").printf (pkgname)))) {
+					string[] cmds = {"nano", "-S", "-w", "-v", diff_path};
+					try {
+						var process = new Subprocess.newv (cmds, SubprocessFlags.STDIN_INHERIT);
+						yield process.wait_async ();
+					} catch (Error e) {
+						print ("Error: %s\n", e.message);
 					}
 				}
 			}
+		}
+
+		async bool edit_single_build_files (string pkgname) {
+			string[] cmds = {"nano", "-S", "-w", "-i"};
+			string[] files = yield get_build_files (pkgname);
+			foreach (unowned string file in files) {
+				cmds += file;
+			}
+			try {
+				var process = new Subprocess.newv (cmds, SubprocessFlags.STDIN_INHERIT);
+				yield process.wait_async ();
+				if (process.get_if_exited ()) {
+					if (process.get_exit_status () == 0) {
+						var cancellable = new Cancellable ();
+						return yield database.regenerate_srcinfo (pkgname, cancellable);
+					}
+				}
+			} catch (Error e) {
+				print ("Error: %s\n", e.message);
+			}
 			return false;
+		}
+
+		protected override async bool edit_build_files (string[] pkgnames) {
+			if (pkgnames.length == 1) {
+				yield ask_view_diff (pkgnames[0]);
+				return yield edit_single_build_files (pkgnames[0]);
+			} else {
+				bool success = true;
+				foreach (unowned string pkgname in pkgnames) {
+					yield ask_view_diff (pkgname);
+					if (ask_user ("%s ?".printf (dgettext (null, "Edit %s build files".printf (pkgname))))) {
+						success = yield edit_single_build_files (pkgname);
+					}
+					if (!success) {
+						break;
+					}
+				}
+				return success;
+			}
 		}
 	}
 }

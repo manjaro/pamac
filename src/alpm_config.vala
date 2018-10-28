@@ -134,20 +134,24 @@ internal class AlpmConfig {
 		}
 	}
 
-	public Alpm.Handle? get_handle (bool files_db = false, bool tmp_db = false, bool copy_dbs = true) {
+	public Alpm.Handle? get_handle (bool files_db = false, bool tmp_db = false) {
 		Alpm.Errno error = 0;
 		Alpm.Handle? handle = null;
 		if (tmp_db) {
-			string tmp_dbpath = "/tmp/pamac-checkdbs";
+			string tmp_path = "/tmp/pamac";
+			string tmp_dbpath = "/tmp/pamac/dbs-%s".printf (Environment.get_user_name ());
 			try {
-				if (! GLib.FileUtils.test (tmp_dbpath, GLib.FileTest.IS_DIR)) {
-					Process.spawn_command_line_sync ("mkdir -p %s/sync".printf (tmp_dbpath));
-					Process.spawn_command_line_sync ("ln -sf %slocal %s".printf (dbpath, tmp_dbpath));
-					Process.spawn_command_line_sync ("chmod -R 777 %s/sync".printf (tmp_dbpath));
-					if (copy_dbs) {
-						Process.spawn_command_line_sync ("bash -c 'cp -p %ssync/*.{db,files} %s/sync'".printf (dbpath, tmp_dbpath));
-					}
+				var file = GLib.File.new_for_path (tmp_path);
+				if (!file.query_exists ()) {
+					Process.spawn_command_line_sync ("mkdir -p %s".printf (tmp_path));
+					Process.spawn_command_line_sync ("chmod a+w %s".printf (tmp_path));
 				}
+				file = GLib.File.new_for_path (tmp_dbpath);
+				if (!file.query_exists ()) {
+					Process.spawn_command_line_sync ("mkdir -p %s".printf (tmp_dbpath));
+					Process.spawn_command_line_sync ("ln -s %slocal %s".printf (dbpath, tmp_dbpath));
+				}
+				Process.spawn_command_line_sync ("cp -au %ssync %s".printf (dbpath, tmp_dbpath));
 				handle = new Alpm.Handle (rootdir, tmp_dbpath, out error);
 				if (error == Alpm.Errno.DB_VERSION) {
 					try {

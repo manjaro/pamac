@@ -109,8 +109,6 @@ namespace Pamac {
 		[GtkChild]
 		Gtk.Label checking_label;
 		[GtkChild]
-		Gtk.Spinner checking_spinner;
-		[GtkChild]
 		Gtk.Stack properties_stack;
 		[GtkChild]
 		Gtk.ListBox properties_listbox;
@@ -139,6 +137,10 @@ namespace Pamac {
 		[GtkChild]
 		Gtk.ToggleButton install_togglebutton;
 		[GtkChild]
+		Gtk.ToggleButton build_togglebutton;
+		[GtkChild]
+		Gtk.Button reset_files_button;
+		[GtkChild]
 		Gtk.TextView files_textview;
 		[GtkChild]
 		Gtk.Box transaction_infobox;
@@ -156,6 +158,7 @@ namespace Pamac {
 		Gtk.MenuItem deselect_item;
 		Gtk.MenuItem upgrade_item;
 		Gtk.MenuItem install_item;
+		Gtk.MenuItem build_item;
 		Gtk.MenuItem remove_item;
 		Gtk.MenuItem details_item;
 		GLib.List<string> selected_pkgs;
@@ -182,11 +185,8 @@ namespace Pamac {
 
 		public TransactionGtk transaction;
 		public Database database;
-		bool intern_lock;
-		GLib.File lockfile;
 		delegate void TransactionAction ();
 
-		bool refreshing;
 		bool important_details;
 		bool transaction_running;
 		bool sysupgrade_running;
@@ -202,6 +202,7 @@ namespace Pamac {
 		Gtk.Label pending_label;
 		Gtk.ListBoxRow pending_row;
 		Gtk.ListBoxRow files_row;
+		Gtk.ListBoxRow build_files_row;
 		bool scroll_to_top;
 
 		public ManagerWindow (Gtk.Application application) {
@@ -218,7 +219,6 @@ namespace Pamac {
 			select_all_button.visible = false;
 			scroll_to_top = true;
 			searchbar.connect_entry (search_entry);
-			refreshing = false;
 			important_details = false;
 			transaction_running = false;
 			sysupgrade_running  = false;
@@ -241,6 +241,9 @@ namespace Pamac {
 			install_item = new Gtk.MenuItem.with_label (dgettext (null, "Install"));
 			install_item.activate.connect (on_install_item_activate);
 			right_click_menu.append (install_item);
+			build_item = new Gtk.MenuItem.with_label (dgettext (null, "Build"));
+			build_item.activate.connect (on_build_item_activate);
+			right_click_menu.append (build_item);
 			remove_item = new Gtk.MenuItem.with_label (dgettext (null, "Remove"));
 			remove_item.activate.connect (on_remove_item_activate);
 			right_click_menu.append (remove_item);
@@ -249,7 +252,6 @@ namespace Pamac {
 			details_item = new Gtk.MenuItem.with_label (dgettext (null, "Details"));
 			details_item.activate.connect (on_details_item_activate);
 			right_click_menu.append (details_item);
-			right_click_menu.show_all ();
 
 			packages_list = new Gtk.ListStore (9,
 											typeof (uint), //origin
@@ -368,20 +370,19 @@ namespace Pamac {
 			database = new Database (config);
 			database.enable_appstream ();
 			database.get_updates_progress.connect (on_get_updates_progress);
+			database.refreshed.connect (() => {
+				scroll_to_top = false;
+				refresh_packages_list ();
+			});
 
-			// check extern lock
-			lockfile = GLib.File.new_for_path (database.get_lockfile ());
-			intern_lock = false;
-			Timeout.add (200, check_extern_lock);
-
-			transaction = new TransactionGtk (database, this as Gtk.ApplicationWindow);
-			transaction.no_confirm_upgrade = true;
+			transaction = new TransactionGtk (database, this);
+			transaction.start_preparing.connect (on_start_preparing);
+			transaction.stop_preparing.connect (on_stop_preparing);
 			transaction.start_downloading.connect (on_start_downloading);
 			transaction.stop_downloading.connect (on_stop_downloading);
 			transaction.start_building.connect (on_start_building);
 			transaction.stop_building.connect (on_stop_building);
 			transaction.important_details_outpout.connect (on_important_details_outpout);
-			transaction.refresh_finished.connect (on_refresh_finished);
 			transaction.sysupgrade_finished.connect (on_transaction_finished);
 			transaction.finished.connect (on_transaction_finished);
 			transaction.write_pamac_config_finished.connect (on_write_pamac_config_finished);
@@ -392,6 +393,8 @@ namespace Pamac {
 			// integrate progress box and term widget
 			main_stack.add_named (transaction.term_window, "term");
 			transaction_infobox.pack_start (transaction.progress_box);
+			// integrate build files notebook
+			properties_stack.add_named (transaction.build_files_notebook, "build_files");
 
 			display_package_queue = new Queue<string> ();
 			to_install = new GenericSet<string?> (str_hash, str_equal);
@@ -419,41 +422,26 @@ namespace Pamac {
 
 			// create screenshots tmp dir
 			string screenshots_tmp_dir = "/tmp/pamac-app-screenshots";
-			try {
-				Process.spawn_command_line_sync ("mkdir -p %s".printf (screenshots_tmp_dir));
-				Process.spawn_command_line_sync ("chmod -R 777 %s".printf (screenshots_tmp_dir));
-			} catch (SpawnError e) {
-				stderr.printf ("SpawnError: %s\n", e.message);
+			var file = GLib.File.new_for_path (screenshots_tmp_dir);
+			if (!file.query_exists ()) {
+				try {
+					Process.spawn_command_line_sync ("mkdir -p %s".printf (screenshots_tmp_dir));
+					Process.spawn_command_line_sync ("chmod -R a+w %s".printf (screenshots_tmp_dir));
+				} catch (SpawnError e) {
+					stderr.printf ("SpawnError: %s\n", e.message);
+				}
 			}
 		}
 
 		[GtkCallback]
 		bool on_ManagerWindow_delete_event () {
-			if (transaction_running || sysupgrade_running || refreshing || generate_mirrors_list) {
+			if (transaction_running || sysupgrade_running || generate_mirrors_list) {
 				// do not close window
 				return true;
 			} else {
 				// close window
 				return false;
 			}
-		}
-
-		bool check_lock_and_updates () {
-			if (!lockfile.query_exists ()) {
-				database.refresh ();
-				refresh_packages_list ();
-				Timeout.add (200, check_extern_lock);
-				return false;
-			}
-			return true;
-		}
-
-		bool check_extern_lock () {
-			if (!intern_lock && lockfile.query_exists ()) {
-				Timeout.add (1000, check_lock_and_updates);
-				return false;
-			}
-			return true;
 		}
 
 		void on_write_pamac_config_finished (bool recurse, uint64 refresh_period, bool no_update_hide_icon,
@@ -463,9 +451,6 @@ namespace Pamac {
 
 		void on_set_pkgreason_finished () {
 			transaction.unlock ();
-			intern_lock = false;
-			scroll_to_top = false;
-			refresh_packages_list ();
 			if (main_stack.visible_child_name == "details") {
 				if (database.get_installed_pkg (current_package_displayed).name != ""
 					|| database.get_sync_pkg (current_package_displayed).name != "") {
@@ -512,12 +497,12 @@ namespace Pamac {
 
 		void try_lock_and_run (TransactionAction action) {
 			if (transaction.get_lock ()) {
-				intern_lock = true;
 				action ();
 			} else {
 				waiting = true;
 				transaction.progress_box.action_label.label = dgettext (null, "Waiting for another package manager to quit") + "...";
 				transaction.start_progressbar_pulse ();
+				apply_button.sensitive = false;
 				cancel_button.sensitive = true;
 				show_transaction_infobox ();
 				Timeout.add (5000, () => {
@@ -527,7 +512,6 @@ namespace Pamac {
 					bool locked = transaction.get_lock ();
 					if (locked) {
 						waiting = false;
-						intern_lock = true;
 						transaction.stop_progressbar_pulse ();
 						action ();
 					}
@@ -538,7 +522,7 @@ namespace Pamac {
 
 		void set_pendings_operations () {
 			refresh_state_icons ();
-			if (!transaction_running && !generate_mirrors_list && !refreshing && !sysupgrade_running) {
+			if (!transaction_running && !generate_mirrors_list && !sysupgrade_running) {
 				if (filters_stack.visible_child_name == "updates") {
 					uint64 total_dsize = 0;
 					packages_list.foreach ((model, path, iter) => {
@@ -555,7 +539,7 @@ namespace Pamac {
 					} else {
 						transaction.progress_box.action_label.label = "";
 					}
-					if (!transaction_running && !generate_mirrors_list && !refreshing && !sysupgrade_running
+					if (!transaction_running && !generate_mirrors_list && !sysupgrade_running
 						&& (to_update.length > 0)) {
 						apply_button.sensitive = true;
 					} else {
@@ -707,6 +691,11 @@ namespace Pamac {
 			files_row.visible = true;
 			files_row.add (label);
 			properties_listbox.add (files_row);
+			label = create_list_label (dgettext (null, "Build files"));
+			build_files_row = new Gtk.ListBoxRow ();
+			build_files_row.visible = false;
+			build_files_row.add (label);
+			properties_listbox.add (build_files_row);
 			properties_listbox.select_row (properties_listbox.get_row_at_index (0));
 		}
 
@@ -725,7 +714,6 @@ namespace Pamac {
 
 		void on_mark_explicit_button_clicked (Gtk.Button button) {
 			if (transaction.get_lock ()) {
-				intern_lock = true;
 				transaction.start_set_pkgreason (current_package_displayed, 0); //Alpm.Package.Reason.EXPLICIT
 			}
 		}
@@ -824,10 +812,6 @@ namespace Pamac {
 			return label as Gtk.Widget;
 		}
 
-		void destroy_widget (Gtk.Widget widget) {
-			widget.destroy ();
-		}
-
 		async Gdk.Pixbuf get_screenshot_pixbuf (string url) {
 			var uri = File.new_for_uri (url);
 			var cached_screenshot = File.new_for_path ("/tmp/pamac-app-screenshots/%s".printf (uri.get_basename ()));
@@ -868,8 +852,8 @@ namespace Pamac {
 			return pixbuf;
 		}
 
-		void set_package_details (string pkgname, string app_name) {
-			PackageDetails details = database.get_pkg_details (pkgname, app_name);
+		async void set_package_details (string pkgname, string app_name, bool sync_pkg) {
+			PackageDetails details = database.get_pkg_details (pkgname, app_name, sync_pkg);
 			// download screenshot
 			app_screenshot.pixbuf = null;
 			if (details.screenshot != "") {
@@ -927,6 +911,8 @@ namespace Pamac {
 			licenses_label.set_text (licenses.str);
 			if (details.installed_version != "") {
 				install_togglebutton.visible = false;
+				build_togglebutton.visible = false;
+				reset_files_button.visible = false;
 				remove_togglebutton.visible = true;
 				remove_togglebutton.active = to_remove.contains (details.name);
 				reinstall_togglebutton.visible = false;
@@ -937,32 +923,56 @@ namespace Pamac {
 						reinstall_togglebutton.active = to_install.contains (details.name);
 					}
 				} else {
-					database.get_aur_pkg_details_async.begin (details.name, (obj, res) => {
-						AURPackageDetails aur_details = database.get_aur_pkg_details_async.end (res);
-						if (aur_details.name != "") {
-							// always show reinstall button for VCS package
-							if (aur_details.name.has_suffix ("-git") ||
-								aur_details.name.has_suffix ("-svn") ||
-								aur_details.name.has_suffix ("-bzr") ||
-								aur_details.name.has_suffix ("-hg") ||
-								aur_details.version == details.version) {
-								reinstall_togglebutton.visible = true;
-								reinstall_togglebutton.active = to_build.contains (details.name);
-							}
+					AURPackage aur_pkg = yield database.get_aur_pkg (details.name);
+					if (aur_pkg.name != "") {
+						// always show reinstall button for VCS package
+						if (aur_pkg.name.has_suffix ("-git") ||
+							aur_pkg.name.has_suffix ("-svn") ||
+							aur_pkg.name.has_suffix ("-bzr") ||
+							aur_pkg.name.has_suffix ("-hg") ||
+							aur_pkg.version == details.version) {
+							build_togglebutton.visible = true;
+							build_togglebutton.active = to_build.contains (details.name);
 						}
-					});
+						build_files_row.visible = true;
+						string aur_url = "http://aur.archlinux.org/packages/" + details.name;
+						link_label.set_markup ("<a href=\"%s\">%s</a>\n\n<a href=\"%s\">%s</a>".printf (escaped_url, escaped_url, aur_url, aur_url));
+					}
 				}
 			} else {
 				remove_togglebutton.visible = false;
 				reinstall_togglebutton.visible = false;
+				build_togglebutton.visible = false;
+				reset_files_button.visible = false;
 				install_togglebutton.visible = true;
 				install_togglebutton.active = to_install.contains (details.name);
 			}
 			// details
-			details_grid.foreach (destroy_widget);
+			details_grid.foreach (transaction.destroy_widget);
 			Gtk.Widget? previous_widget = null;
 			if (details.repo != "") {
 				previous_widget = populate_details_grid (dgettext (null, "Repository"), details.repo, previous_widget);
+			} else {
+				AURPackageDetails aur_pkg_details = yield database.get_aur_pkg_details (details.name);
+				if (aur_pkg_details.packagebase != ""
+					&& aur_pkg_details.packagebase != details.name) {
+					previous_widget = populate_details_grid (dgettext (null, "Package Base"), aur_pkg_details.packagebase, previous_widget);
+				}
+				if (aur_pkg_details.maintainer != "") {
+					previous_widget = populate_details_grid (dgettext (null, "Maintainer"), aur_pkg_details.maintainer, previous_widget);
+				}
+				if (aur_pkg_details.firstsubmitted != "") {
+					previous_widget = populate_details_grid (dgettext (null, "First Submitted"), aur_pkg_details.firstsubmitted, previous_widget);
+				}
+				if (aur_pkg_details.lastmodified != "") {
+					previous_widget = populate_details_grid (dgettext (null, "Last Modified"), aur_pkg_details.lastmodified, previous_widget);
+				}
+				if (aur_pkg_details.numvotes != 0) {
+					previous_widget = populate_details_grid (dgettext (null, "Votes"), aur_pkg_details.numvotes.to_string (), previous_widget);
+				}
+				if (aur_pkg_details.outofdate != "") {
+					previous_widget = populate_details_grid (dgettext (null, "Out of Date"), aur_pkg_details.outofdate, previous_widget);
+				}
 			}
 			if (details.groups.length () > 0) {
 				var label = new Gtk.Label ("<b>%s</b>".printf (dgettext (null, "Groups") + ":"));
@@ -1015,7 +1025,7 @@ namespace Pamac {
 			}
 			details_grid.show_all ();
 			// deps
-			deps_grid.foreach (destroy_widget);
+			deps_grid.foreach (transaction.destroy_widget);
 			previous_widget = null;
 			if (details.depends.length () > 0) {
 				previous_widget = populate_dep_grid (dgettext (null, "Depends On"), details.depends, previous_widget);
@@ -1061,7 +1071,7 @@ namespace Pamac {
 			}
 		}
 
-		void set_aur_details (string pkgname) {
+		async void set_aur_details (string pkgname) {
 			app_image.pixbuf = null;
 			app_screenshot.pixbuf = null;
 			name_label.set_text ("");
@@ -1072,95 +1082,100 @@ namespace Pamac {
 			remove_togglebutton.visible = false;
 			reinstall_togglebutton.visible = false;
 			install_togglebutton.visible = false;
+			build_togglebutton.visible = false;
+			reset_files_button.visible = false;
 			properties_listbox.visible = false;
-			details_grid.foreach (destroy_widget);
-			deps_grid.foreach (destroy_widget);
+			details_grid.foreach (transaction.destroy_widget);
+			deps_grid.foreach (transaction.destroy_widget);
 			this.get_window ().set_cursor (new Gdk.Cursor.for_display (Gdk.Display.get_default (), Gdk.CursorType.WATCH));
 			while (Gtk.events_pending ()) {
 				Gtk.main_iteration ();
 			}
-			database.get_aur_pkg_details_async.begin (pkgname, (obj, res) => {
-				AURPackageDetails details = database.get_aur_pkg_details_async.end (res);
-				// infos
-				name_label.set_markup ("<big><b>%s  %s</b></big>".printf (details.name, details.version));
-				app_image.pixbuf = package_icon;
-				desc_label.set_text (details.desc);
-				string aur_url = "http://aur.archlinux.org/packages/" + details.name;
-				string escaped_url = Markup.escape_text (details.url);
-				link_label.set_markup ("<a href=\"%s\">%s</a>\n\n<a href=\"%s\">%s</a>".printf (escaped_url, escaped_url, aur_url, aur_url));
-				StringBuilder licenses = new StringBuilder ();
-				licenses.append (dgettext (null, "Licenses"));
-				licenses.append (":");
-				foreach (unowned string license in details.licenses) {
-					licenses.append (" ");
-					licenses.append (license);
+			AURPackageDetails details = yield database.get_aur_pkg_details (pkgname);
+			// infos
+			name_label.set_markup ("<big><b>%s  %s</b></big>".printf (details.name, details.version));
+			app_image.pixbuf = package_icon;
+			desc_label.set_text (details.desc);
+			string aur_url = "http://aur.archlinux.org/packages/" + details.name;
+			string escaped_url = Markup.escape_text (details.url);
+			link_label.set_markup ("<a href=\"%s\">%s</a>\n\n<a href=\"%s\">%s</a>".printf (escaped_url, escaped_url, aur_url, aur_url));
+			StringBuilder licenses = new StringBuilder ();
+			licenses.append (dgettext (null, "Licenses"));
+			licenses.append (":");
+			foreach (unowned string license in details.licenses) {
+				licenses.append (" ");
+				licenses.append (license);
+			}
+			licenses_label.set_text (licenses.str);
+			build_togglebutton.visible = true;
+			build_togglebutton.active = to_build.contains (details.name);
+			Package pkg = database.get_installed_pkg (details.name);
+			if (pkg.name != "") {
+				remove_togglebutton.visible = true;
+				remove_togglebutton.active = to_remove.contains (pkg.name);
+			}
+			// details
+			properties_listbox.visible = true;
+			details_grid.foreach (transaction.destroy_widget);
+			Gtk.Widget? previous_widget = null;
+			if (details.packagebase != details.name) {
+				previous_widget = populate_details_grid (dgettext (null, "Package Base"), details.packagebase, previous_widget);
+			}
+			if (details.maintainer != "") {
+				previous_widget = populate_details_grid (dgettext (null, "Maintainer"), details.maintainer, previous_widget);
+			}
+			previous_widget = populate_details_grid (dgettext (null, "First Submitted"), details.firstsubmitted, previous_widget);
+			previous_widget = populate_details_grid (dgettext (null, "Last Modified"), details.lastmodified, previous_widget);
+			previous_widget = populate_details_grid (dgettext (null, "Votes"), details.numvotes.to_string (), previous_widget);
+			if (details.outofdate != "") {
+				previous_widget = populate_details_grid (dgettext (null, "Out of Date"), details.outofdate, previous_widget);
+			}
+			details_grid.show_all ();
+			// deps
+			previous_widget = null;
+			if (details.depends.length () > 0) {
+				previous_widget = populate_dep_grid (dgettext (null, "Depends On"), details.depends, previous_widget);
+			}
+			if (details.makedepends.length () > 0) {
+				previous_widget = populate_dep_grid (dgettext (null, "Make Dependencies"), details.makedepends, previous_widget);
+			}
+			if (details.checkdepends.length () > 0) {
+				previous_widget = populate_dep_grid (dgettext (null, "Check Dependencies"), details.checkdepends, previous_widget);
+			}
+			if (details.optdepends.length () > 0) {
+				previous_widget = populate_dep_grid (dgettext (null, "Optional Dependencies"), details.optdepends, previous_widget);
+			}
+			if (details.provides.length () > 0) {
+				var label = new Gtk.Label ("<b>%s</b>".printf (dgettext (null, "Provides") + ":"));
+				label.use_markup = true;
+				label.halign = Gtk.Align.START;
+				label.valign = Gtk.Align.START;
+				label.margin_top = 6;
+				deps_grid.attach_next_to (label, previous_widget, Gtk.PositionType.BOTTOM);
+				var box = new Gtk.Box (Gtk.Orientation.VERTICAL, 12);
+				box.margin = 3;
+				foreach (unowned string name in details.provides) {
+					var label2 = new Gtk.Label (name);
+					label2.halign = Gtk.Align.START;
+					label2.margin_start = 12;
+					box.pack_start (label2);
 				}
-				licenses_label.set_text (licenses.str);
-				install_togglebutton.visible = true;
-				install_togglebutton.active = to_build.contains (details.name);
-				Package pkg = database.get_installed_pkg (details.name);
-				if (pkg.name != "") {
-					remove_togglebutton.visible = true;
-					remove_togglebutton.active = to_remove.contains (pkg.name);
-				}
-				// details
-				properties_listbox.visible = true;
-				details_grid.foreach (destroy_widget);
-				Gtk.Widget? previous_widget = null;
-				if (details.packagebase != details.name) {
-					previous_widget = populate_details_grid (dgettext (null, "Package Base"), details.packagebase, previous_widget);
-				}
-				if (details.maintainer != "") {
-					previous_widget = populate_details_grid (dgettext (null, "Maintainer"), details.maintainer, previous_widget);
-				}
-				previous_widget = populate_details_grid (dgettext (null, "First Submitted"), details.firstsubmitted, previous_widget);
-				previous_widget = populate_details_grid (dgettext (null, "Last Modified"), details.lastmodified, previous_widget);
-				previous_widget = populate_details_grid (dgettext (null, "Votes"), details.numvotes.to_string (), previous_widget);
-				if (details.outofdate != "") {
-					previous_widget = populate_details_grid (dgettext (null, "Out of Date"), details.outofdate, previous_widget);
-				}
-				details_grid.show_all ();
-				// deps
-				previous_widget = null;
-				if (details.depends.length () > 0) {
-					previous_widget = populate_dep_grid (dgettext (null, "Depends On"), details.depends, previous_widget);
-				}
-				if (details.makedepends.length () > 0) {
-					previous_widget = populate_dep_grid (dgettext (null, "Make Dependencies"), details.makedepends, previous_widget);
-				}
-				if (details.checkdepends.length () > 0) {
-					previous_widget = populate_dep_grid (dgettext (null, "Check Dependencies"), details.checkdepends, previous_widget);
-				}
-				if (details.optdepends.length () > 0) {
-					previous_widget = populate_dep_grid (dgettext (null, "Optional Dependencies"), details.optdepends, previous_widget);
-				}
-				if (details.provides.length () > 0) {
-					var label = new Gtk.Label ("<b>%s</b>".printf (dgettext (null, "Provides") + ":"));
-					label.use_markup = true;
-					label.halign = Gtk.Align.START;
-					label.valign = Gtk.Align.START;
-					label.margin_top = 6;
-					deps_grid.attach_next_to (label, previous_widget, Gtk.PositionType.BOTTOM);
-					var box = new Gtk.Box (Gtk.Orientation.VERTICAL, 12);
-					box.margin = 3;
-					foreach (unowned string name in details.provides) {
-						var label2 = new Gtk.Label (name);
-						label2.halign = Gtk.Align.START;
-						label2.margin_start = 12;
-						box.pack_start (label2);
-					}
-					deps_grid.attach_next_to (box, label, Gtk.PositionType.RIGHT);
-					previous_widget = label as Gtk.Widget;
-				}
-				if (details.replaces.length () > 0) {
-					previous_widget = populate_dep_grid (dgettext (null, "Replaces"), details.replaces, previous_widget);
-				}
-				if (details.conflicts.length () > 0) {
-					previous_widget = populate_dep_grid (dgettext (null, "Conflicts With"), details.conflicts, previous_widget);
-				}
-				deps_grid.show_all ();
-				this.get_window ().set_cursor (null);
-			});
+				deps_grid.attach_next_to (box, label, Gtk.PositionType.RIGHT);
+				previous_widget = label as Gtk.Widget;
+			}
+			if (details.replaces.length () > 0) {
+				previous_widget = populate_dep_grid (dgettext (null, "Replaces"), details.replaces, previous_widget);
+			}
+			if (details.conflicts.length () > 0) {
+				previous_widget = populate_dep_grid (dgettext (null, "Conflicts With"), details.conflicts, previous_widget);
+			}
+			deps_grid.show_all ();
+			this.get_window ().set_cursor (null);
+			// build files
+			// will be populated on properties_stack switch
+			if (properties_stack.visible_child_name == "build_files") {
+				on_properties_stack_visible_child_changed ();
+			}
 		}
 
 		[GtkCallback]
@@ -1168,13 +1183,20 @@ namespace Pamac {
 			int index = row.get_index ();
 			switch (index) {
 				case 0: // details
+					reset_files_button.visible = false;
 					properties_stack.visible_child_name = "details";
 					break;
 				case 1: // deps
+					reset_files_button.visible = false;
 					properties_stack.visible_child_name = "deps";
 					break;
 				case 2: // files
+					reset_files_button.visible = false;
 					properties_stack.visible_child_name = "files";
+					break;
+				case 3: // build files
+					reset_files_button.visible = true;
+					properties_stack.visible_child_name = "build_files";
 					break;
 				default:
 					break;
@@ -1185,20 +1207,41 @@ namespace Pamac {
 		void on_install_togglebutton_toggled () {
 			if (install_togglebutton.active) {
 				install_togglebutton.get_style_context ().add_class (Gtk.STYLE_CLASS_SUGGESTED_ACTION);
-				Package find_pkg = database.get_sync_pkg (current_package_displayed);
-				if (find_pkg.name != "") {
-					to_install.add (current_package_displayed);
-				} else {
-					to_build.add (current_package_displayed);
-				}
+				to_install.add (current_package_displayed);
 			} else {
 				install_togglebutton.get_style_context ().remove_class (Gtk.STYLE_CLASS_SUGGESTED_ACTION);
-				if (to_install.remove (current_package_displayed)) {
-				} else {
-					to_build.remove (current_package_displayed);
-				}
+				to_install.remove (current_package_displayed);
 			}
 			set_pendings_operations ();
+		}
+
+		[GtkCallback]
+		void on_build_togglebutton_toggled () {
+			if (build_togglebutton.active) {
+				build_togglebutton.get_style_context ().add_class (Gtk.STYLE_CLASS_SUGGESTED_ACTION);
+				to_build.add (current_package_displayed);
+				if (properties_stack.visible_child_name == "build_files") {
+					transaction.save_build_files.begin (current_package_displayed);
+				}
+			} else {
+				build_togglebutton.get_style_context ().remove_class (Gtk.STYLE_CLASS_SUGGESTED_ACTION);
+				to_build.remove (current_package_displayed);
+			}
+			set_pendings_operations ();
+		}
+
+		[GtkCallback]
+		void on_reset_files_button_clicked () {
+			transaction.build_files_notebook.foreach (transaction.destroy_widget);
+			this.get_window ().set_cursor (new Gdk.Cursor.for_display (Gdk.Display.get_default (), Gdk.CursorType.WATCH));
+			while (Gtk.events_pending ()) {
+				Gtk.main_iteration ();
+			}
+			database.get_aur_pkg.begin (current_package_displayed, (obj, res) => {
+				AURPackage pkg = database.get_aur_pkg.end (res);
+				transaction.populate_build_files.begin (pkg.packagebase, true, true);
+				this.get_window ().set_cursor (null);
+			});
 		}
 
 		[GtkCallback]
@@ -1240,20 +1283,9 @@ namespace Pamac {
 
 		void populate_packages_list (List<Package> pkgs) {
 			// populate liststore
-			packages_treeview.freeze_notify ();
-			packages_treeview.freeze_child_notify ();
 			packages_list.clear ();
-			// scroll to top
-			if (scroll_to_top) {
-				packages_scrolledwindow.vadjustment.value = 0;
-			} else {
-				// don't scroll to top just once
-				scroll_to_top = true;
-			}
 			if (pkgs.length () == 0) {
 				origin_stack.visible_child_name = "no_item";
-				packages_treeview.thaw_child_notify ();
-				packages_treeview.thaw_notify ();
 				select_all_button.visible = false;
 				this.get_window ().set_cursor (null);
 				return;
@@ -1263,82 +1295,80 @@ namespace Pamac {
 				}
 			}
 			foreach (unowned Package pkg in pkgs) {
-				uint origin = 0;
-				string version;
-				uint64 size;
-				string size_str;
-				string summary;
-				Gdk.Pixbuf pixbuf = null;
-				if (pkg.app_name == "") {
-					summary = "<b>%s</b>\n%s".printf (pkg.name, Markup.escape_text (pkg.desc));
-				} else {
-					summary = "<b>%s  (%s)</b>\n%s".printf (Markup.escape_text (pkg.app_name), pkg.name, Markup.escape_text (pkg.desc));
-				}
-				if (filters_stack.visible_child_name == "updates") {
-					version = "<b>%s</b>\n(%s)".printf (pkg.version, pkg.installed_version);
-					size = pkg.download_size;
-					size_str = pkg.download_size == 0 ? "" : GLib.format_size (pkg.download_size);
-				} else {
-					version = pkg.version;
-					size = pkg.size;
-					size_str = GLib.format_size (pkg.size);
-				}
-				if (pkg.icon != "") {
-					try {
-						pixbuf = new Gdk.Pixbuf.from_file_at_scale (pkg.icon, 32, 32, true);
-					} catch (GLib.Error e) {
-						// some icons are not in the right repo
-						string icon = pkg.icon;
-						if ("extra" in pkg.icon) {
-							icon = pkg.icon.replace ("extra", "community");
-						} else if ("community" in pkg.icon) {
-							icon = pkg.icon.replace ("community", "extra");
-						}
-						try {
-							pixbuf = new Gdk.Pixbuf.from_file_at_scale (icon, 32, 32, true);
-						} catch (GLib.Error e) {
-							pixbuf = package_icon.scale_simple (32, 32, Gdk.InterpType.BILINEAR);
-							stderr.printf ("%s: %s\n", pkg.icon, e.message);
-						}
-					}
-				} else {
-					pixbuf = package_icon.scale_simple (32, 32, Gdk.InterpType.BILINEAR);
-				}
-				if (pkg.installed_version == "") {
-					origin = 1;
-				}
-				packages_list.insert_with_values (null, -1,
-												0, origin,
-												1, pkg.name,
-												2, summary,
-												3, version,
-												4, pkg.repo,
-												5, size,
-												6, size_str,
-												7, pkg.app_name,
-												8, pixbuf);
+				create_packagelist_row (pkg);
 			}
-			packages_treeview.thaw_child_notify ();
-			packages_treeview.thaw_notify ();
-			this.get_window ().set_cursor (null);
-		}
-
-		void populate_aur_list (List<AURPackage> pkgs) {
-			// populate liststore
-			aur_treeview.freeze_notify ();
-			aur_treeview.freeze_child_notify ();
-			aur_list.clear ();
 			// scroll to top
 			if (scroll_to_top) {
-				aur_scrolledwindow.vadjustment.value = 0;
+				packages_scrolledwindow.vadjustment.value = 0;
 			} else {
 				// don't scroll to top just once
 				scroll_to_top = true;
 			}
+			this.get_window ().set_cursor (null);
+		}
+
+		void create_packagelist_row (Package pkg) {
+			uint origin = 0;
+			string version;
+			uint64 size;
+			string size_str;
+			string summary;
+			Gdk.Pixbuf pixbuf = null;
+			if (pkg.app_name == "") {
+				summary = "<b>%s</b>\n%s".printf (pkg.name, Markup.escape_text (pkg.desc));
+			} else {
+				summary = "<b>%s  (%s)</b>\n%s".printf (Markup.escape_text (pkg.app_name), pkg.name, Markup.escape_text (pkg.desc));
+			}
+			if (filters_stack.visible_child_name == "updates") {
+				version = "<b>%s</b>\n(%s)".printf (pkg.version, pkg.installed_version);
+				size = pkg.download_size;
+				size_str = pkg.download_size == 0 ? "" : GLib.format_size (pkg.download_size);
+			} else {
+				version = pkg.version;
+				size = pkg.size;
+				size_str = GLib.format_size (pkg.size);
+			}
+			if (pkg.icon != "") {
+				try {
+					pixbuf = new Gdk.Pixbuf.from_file_at_scale (pkg.icon, 32, 32, true);
+				} catch (GLib.Error e) {
+					// some icons are not in the right repo
+					string icon = pkg.icon;
+					if ("extra" in pkg.icon) {
+						icon = pkg.icon.replace ("extra", "community");
+					} else if ("community" in pkg.icon) {
+						icon = pkg.icon.replace ("community", "extra");
+					}
+					try {
+						pixbuf = new Gdk.Pixbuf.from_file_at_scale (icon, 32, 32, true);
+					} catch (GLib.Error e) {
+						pixbuf = package_icon.scale_simple (32, 32, Gdk.InterpType.BILINEAR);
+						stderr.printf ("%s: %s\n", pkg.icon, e.message);
+					}
+				}
+			} else {
+				pixbuf = package_icon.scale_simple (32, 32, Gdk.InterpType.BILINEAR);
+			}
+			if (pkg.installed_version == "") {
+				origin = 1;
+			}
+			packages_list.insert_with_values (null, -1,
+											0, origin,
+											1, pkg.name,
+											2, summary,
+											3, version,
+											4, pkg.repo,
+											5, size,
+											6, size_str,
+											7, pkg.app_name,
+											8, pixbuf);
+		}
+
+		void populate_aur_list (List<AURPackage> pkgs) {
+			// populate liststore
+			aur_list.clear ();
 			if (pkgs.length () == 0) {
 				origin_stack.visible_child_name = "no_item";
-				aur_treeview.thaw_child_notify ();
-				aur_treeview.thaw_notify ();
 				select_all_button.visible = false;
 				this.get_window ().set_cursor (null);
 				return;
@@ -1348,26 +1378,35 @@ namespace Pamac {
 				}
 			}
 			foreach (unowned AURPackage aur_pkg in pkgs) {
-				string version;
-				if (filters_stack.visible_child_name == "updates") {
-					version = "<b>%s</b>\n(%s)".printf (aur_pkg.version, aur_pkg.installed_version);
-				} else if (aur_pkg.installed_version == "") {
-					version = aur_pkg.version;
-				} else {
-					version = aur_pkg.installed_version;
-				}
-				aur_list.insert_with_values (null, -1,
-											0, aur_pkg.installed_version == "" ? 1 : 0, // installed
-											1, aur_pkg.name,
-											2, "<b>%s</b>\n%s".printf (aur_pkg.name, Markup.escape_text (aur_pkg.desc)),
-											3, version,
-											4, aur_pkg.popularity,
-											5, "%.2f".printf (aur_pkg.popularity),
-											6, package_icon.scale_simple (32, 32, Gdk.InterpType.BILINEAR));
+				create_aurlist_row (aur_pkg);
 			}
-			aur_treeview.thaw_child_notify ();
-			aur_treeview.thaw_notify ();
+			// scroll to top
+			if (scroll_to_top) {
+				aur_scrolledwindow.vadjustment.value = 0;
+			} else {
+				// don't scroll to top just once
+				scroll_to_top = true;
+			}
 			this.get_window ().set_cursor (null);
+		}
+
+		void create_aurlist_row (AURPackage aur_pkg) {
+			string version;
+			if (filters_stack.visible_child_name == "updates") {
+				version = "<b>%s</b>\n(%s)".printf (aur_pkg.version, aur_pkg.installed_version);
+			} else if (aur_pkg.installed_version == "") {
+				version = aur_pkg.version;
+			} else {
+				version = aur_pkg.installed_version;
+			}
+			aur_list.insert_with_values (null, -1,
+										0, aur_pkg.installed_version == "" ? 1 : 0, // installed
+										1, aur_pkg.name,
+										2, "<b>%s</b>\n%s".printf (aur_pkg.name, Markup.escape_text (aur_pkg.desc)),
+										3, version,
+										4, aur_pkg.popularity,
+										5, "%.2f".printf (aur_pkg.popularity),
+										6, package_icon.scale_simple (32, 32, Gdk.InterpType.BILINEAR));
 		}
 
 		void save_packages_sort_order () {
@@ -1491,7 +1530,6 @@ namespace Pamac {
 					packages_list.set_sort_column_id (2, Gtk.SortType.ASCENDING);
 					hide_sidebar ();
 					origin_stack.visible_child_name = "checking";
-					checking_spinner.active = true;
 					packages_list.clear ();
 					aur_list.clear ();
 					select_all_button.visible = false;
@@ -1499,7 +1537,7 @@ namespace Pamac {
 					this.get_window ().set_cursor (new Gdk.Cursor.for_display (Gdk.Display.get_default (), Gdk.CursorType.WATCH));
 					// let time to hide_sidebar
 					Timeout.add (200, () => {
-						database.get_updates_async.begin (on_get_updates_finished);
+						database.get_updates.begin (on_get_updates_finished);
 						return false;
 					});
 					break;
@@ -1526,10 +1564,15 @@ namespace Pamac {
 			}
 		}
 
-		void display_package_properties (string pkgname, string app_name = "") {
+		void display_package_properties (string pkgname, string app_name = "", bool sync_pkg = false) {
 			current_package_displayed = pkgname;
+			// select details if build files was selected
+			if (properties_listbox.get_selected_row ().get_index () == 3) {
+				properties_listbox.get_row_at_index (0).activate ();
+			}
 			files_row.visible = true;
-			set_package_details (current_package_displayed, app_name);
+			build_files_row.visible = false;
+			set_package_details.begin (current_package_displayed, app_name, sync_pkg);
 		}
 
 		void display_aur_properties (string pkgname) {
@@ -1539,7 +1582,8 @@ namespace Pamac {
 				properties_listbox.get_row_at_index (0).activate ();
 			}
 			files_row.visible = false;
-			set_aur_details (current_package_displayed);
+			build_files_row.visible = true;
+			set_aur_details.begin (current_package_displayed);
 		}
 
 		[GtkCallback]
@@ -1555,56 +1599,45 @@ namespace Pamac {
 				string pkgname;
 				string app_name;
 				packages_list.get (iter, 1, out pkgname, 7, out app_name);
-				display_package_properties (pkgname, app_name);
+				bool sync_pkg = false;
+				if (filters_stack.visible_child_name == "updates") {
+					sync_pkg = true;
+				}
+				display_package_properties (pkgname, app_name, sync_pkg);
 				this.get_window ().set_cursor (null);
 			}
 		}
 
 		void on_dep_button_clicked (Gtk.Button button) {
-				if (display_package_queue.find_custom (current_package_displayed, strcmp) == null) {
-					display_package_queue.push_tail (current_package_displayed);
-				}
-				string depstring = button.label;
-				// if depstring contains a version restriction search a satisfier directly
-				if (">" in depstring || "=" in depstring || "<" in depstring) {
-					var pkg = database.find_installed_satisfier (depstring);
-					if (pkg.name != "") {
-						display_package_properties (pkg.name);
-					} else {
-						pkg = database.find_sync_satisfier (depstring);
-						if (pkg.name != "") {
-							display_package_properties (pkg.name);
-						}
-					}
+			bool sync_pkg = false;
+			if (filters_stack.visible_child_name == "updates") {
+				sync_pkg = true;
+			}
+			if (display_package_queue.find_custom (current_package_displayed, strcmp) == null) {
+				display_package_queue.push_tail (current_package_displayed);
+			}
+			string depstring = button.label;
+			var pkg = database.find_installed_satisfier (depstring);
+			if (pkg.name != "") {
+				display_package_properties (pkg.name, "", sync_pkg);
+			} else {
+				pkg = database.find_sync_satisfier (depstring);
+				if (pkg.name != "") {
+					display_package_properties (pkg.name, "", sync_pkg);
 				} else {
-					// just search for the name first to search for AUR after
-					if (database.get_installed_pkg (depstring).name != "") {
-						display_package_properties (depstring);
-					} else if (database.get_sync_pkg (depstring).name != "") {
-						display_package_properties (depstring);
-					} else {
-						this.get_window ().set_cursor (new Gdk.Cursor.for_display (Gdk.Display.get_default (), Gdk.CursorType.WATCH));
-						while (Gtk.events_pending ()) {
-							Gtk.main_iteration ();
-						}
-						database.get_aur_pkg_details_async.begin (depstring, (obj, res) => {
-							this.get_window ().set_cursor (null);
-							if (database.get_aur_pkg_details_async.end (res).name != "") {
-								display_aur_properties (depstring);
-							} else {
-								var pkg = database.find_installed_satisfier (depstring);
-								if (pkg.name != "") {
-									display_package_properties (pkg.name);
-								} else {
-									pkg = database.find_sync_satisfier (depstring);
-									if (pkg.name != "") {
-										display_package_properties (pkg.name);
-									}
-								}
-							}
-						});
+					this.get_window ().set_cursor (new Gdk.Cursor.for_display (Gdk.Display.get_default (), Gdk.CursorType.WATCH));
+					while (Gtk.events_pending ()) {
+						Gtk.main_iteration ();
 					}
+					string dep_name = database.get_alpm_dep_name (depstring);
+					database.get_aur_pkg.begin (dep_name, (obj, res) => {
+						this.get_window ().set_cursor (null);
+						if (database.get_aur_pkg.end (res).name != "") {
+							display_aur_properties (dep_name);
+						}
+					});
 				}
+			}
 		}
 
 		void on_properties_stack_visible_child_changed () {
@@ -1628,6 +1661,19 @@ namespace Pamac {
 						this.get_window ().set_cursor (null);
 					});
 					break;
+				case "build_files":
+					reset_files_button.visible = true;
+					transaction.build_files_notebook.foreach (transaction.destroy_widget);
+					this.get_window ().set_cursor (new Gdk.Cursor.for_display (Gdk.Display.get_default (), Gdk.CursorType.WATCH));
+					while (Gtk.events_pending ()) {
+						Gtk.main_iteration ();
+					}
+					database.get_aur_pkg.begin (current_package_displayed, (obj, res) => {
+						AURPackage pkg = database.get_aur_pkg.end (res);
+						transaction.populate_build_files.begin (pkg.packagebase, true, false);
+						this.get_window ().set_cursor (null);
+					});
+					break;
 				default:
 					break;
 			}
@@ -1640,20 +1686,20 @@ namespace Pamac {
 			string pkgname;
 			packages_list.get (iter, 0, out origin, 1, out pkgname);
 			if (!transaction.transaction_summary.contains (pkgname)) {
-				if (to_install.remove (pkgname)) {
-				} else if (to_remove.remove (pkgname)) {
-				} else {
-					if (origin == 0) { // installed
-						if (to_update.remove (pkgname)) {
-							temporary_ignorepkgs.add (pkgname);
-						} else if (temporary_ignorepkgs.remove (pkgname)) {
-							to_update.add (pkgname);
-						} else if (!database.should_hold (pkgname)) {
-							to_remove.add (pkgname);
-						}
-					} else {
-						to_install.add (pkgname);
+				if (filters_stack.visible_child_name == "updates") {
+					if (to_update.remove (pkgname)) {
+						temporary_ignorepkgs.add (pkgname);
+					} else if (temporary_ignorepkgs.remove (pkgname)) {
+						to_update.add (pkgname);
 					}
+				} else if (origin == 0) { // installed
+					if (to_remove.remove (pkgname)) {
+					} else if (!database.should_hold (pkgname)) {
+						to_remove.add (pkgname);
+					}
+				} else if (to_install.remove (pkgname)) {
+				} else {
+					to_install.add (pkgname);
 				}
 				set_pendings_operations ();
 			}
@@ -1692,11 +1738,9 @@ namespace Pamac {
 						to_update.add (pkgname);
 					}
 				} else if (origin == 0) { // installed
-					if (!transaction.transaction_summary.contains (pkgname)) {
-						if (to_remove.remove (pkgname)) {
-						} else if (!database.should_hold (pkgname)) {
-							to_remove.add (pkgname);
-						}
+					if (to_remove.remove (pkgname)) {
+					} else if (!database.should_hold (pkgname)) {
+						to_remove.add (pkgname);
 					}
 				} else if (to_build.remove (pkgname)) {
 				} else {
@@ -1713,6 +1757,10 @@ namespace Pamac {
 					filters_stack.visible_child_name = "filters";
 					break;
 				case "details":
+					bool sync_pkg = false;
+					if (filters_stack.visible_child_name == "updates") {
+						sync_pkg = true;
+					}
 					string? pkgname = display_package_queue.pop_tail ();
 					if (pkgname != null) {
 						Package pkg = database.get_installed_pkg (pkgname);
@@ -1720,8 +1768,8 @@ namespace Pamac {
 							pkg = database.get_sync_pkg (pkgname);
 						}
 						if (pkg.name == "") {
-							database.get_aur_pkg_details_async.begin (pkgname, (obj, res) => {
-								if (database.get_aur_pkg_details_async.end (res).name != "") {
+							database.get_aur_pkg.begin (pkgname, (obj, res) => {
+								if (database.get_aur_pkg.end (res).name != "") {
 									display_aur_properties (pkgname);
 								} else {
 									pkg = database.find_installed_satisfier (pkgname);
@@ -1729,12 +1777,12 @@ namespace Pamac {
 										pkg = database.find_sync_satisfier (pkgname);
 									}
 									if (pkg.name != "") {
-										display_package_properties (pkgname);
+										display_package_properties (pkgname, "", sync_pkg);
 									}
 								}
 							});
 						} else {
-							display_package_properties (pkgname);
+							display_package_properties (pkgname, "", sync_pkg);
 						}
 					} else {
 						main_stack.visible_child_name = "browse";
@@ -1754,6 +1802,10 @@ namespace Pamac {
 					to_install.add (pkgname);
 				}
 			}
+			set_pendings_operations ();
+		}
+
+		void on_build_item_activate () {
 			foreach (unowned string pkgname in selected_aur) {
 				to_build.add (pkgname);
 			}
@@ -1763,7 +1815,11 @@ namespace Pamac {
 		void on_details_item_activate () {
 			// show details for the first selected package
 			if (selected_pkgs.length () == 1) {
-				display_package_properties (selected_pkgs.data);
+				bool sync_pkg = false;
+				if (filters_stack.visible_child_name == "updates") {
+					sync_pkg = true;
+				}
+				display_package_properties (selected_pkgs.data, "", sync_pkg);
 				main_stack.visible_child_name = "details";
 			} else if (selected_aur.length () == 1) {
 				display_aur_properties (selected_aur.data);
@@ -1819,12 +1875,31 @@ namespace Pamac {
 			int index = row.get_index ();
 			switch (index) {
 				case 0: // repos
+					this.get_window ().set_cursor (new Gdk.Cursor.for_display (Gdk.Display.get_default (), Gdk.CursorType.WATCH));
 					origin_stack.visible_child_name = "repos";
+					row.activatable = true;
+					row.selectable = true;
+					row.can_focus = true;
+					row.get_child ().sensitive = true;
 					populate_packages_list (repos_updates);
 					break;
 				case 1: // aur
 					origin_stack.visible_child_name = "aur";
+					this.get_window ().set_cursor (new Gdk.Cursor.for_display (Gdk.Display.get_default (), Gdk.CursorType.WATCH));
 					populate_aur_list (aur_updates);
+					unowned Gtk.ListBoxRow repo_row = updates_listbox.get_row_at_index (0);
+					if (repos_updates.length () > 0) {
+						repo_row.activatable = true;
+						repo_row.selectable = true;
+						repo_row.can_focus = true;
+						repo_row.get_child ().sensitive = true;
+					} else {
+						repo_row.activatable = false;
+						repo_row.selectable = false;
+						repo_row.has_focus = false;
+						repo_row.can_focus = false;
+						repo_row.get_child ().sensitive = false;
+					}
 					break;
 				default:
 					break;
@@ -1923,8 +1998,12 @@ namespace Pamac {
 
 		async void populate_pendings_aur_pkgs () {
 			var aur_pkgs = new List<AURPackage> ();
-			foreach (unowned string pkgname in to_build) {
-				var aur_pkg = yield database.get_aur_pkg_async (pkgname);
+			string[] to_build_array = {};
+			foreach (unowned string name in to_build)  {
+				to_build_array += name;
+			}
+			var table = yield database.get_aur_pkgs (to_build_array);
+			foreach (unowned AURPackage aur_pkg in table.get_values ())  {
 				if (aur_pkg.name != "") {
 					aur_pkgs.append (aur_pkg);
 				}
@@ -1958,9 +2037,9 @@ namespace Pamac {
 						}
 						var pkgs = database.search_pkgs_async.end (res);
 						if (pkgs.length () == 0 && database.config.enable_aur) {
-							database.search_in_aur_async.begin (search_string, (obj, res) => {
+							database.search_in_aur.begin (search_string, (obj, res) => {
 								unowned Gtk.ListBoxRow aur_row = search_listbox.get_row_at_index (1);
-								if (database.search_in_aur_async.end (res).length () > 0) {
+								if (database.search_in_aur.end (res).length () > 0) {
 									row.activatable = false;
 									row.selectable = false;
 									row.has_focus = false;
@@ -1992,8 +2071,8 @@ namespace Pamac {
 					while (Gtk.events_pending ()) {
 						Gtk.main_iteration ();
 					}
-					database.search_in_aur_async.begin (search_string, (obj, res) => {
-						populate_aur_list (database.search_in_aur_async.end (res));
+					database.search_in_aur.begin (search_string, (obj, res) => {
+						populate_aur_list (database.search_in_aur.end (res));
 					});
 					database.search_pkgs_async.begin (search_string, (obj, res) => {
 						unowned Gtk.ListBoxRow repo_row = search_listbox.get_row_at_index (0);
@@ -2041,10 +2120,11 @@ namespace Pamac {
 					GLib.List<Gtk.TreePath> selected_paths = selection.get_selected_rows (null);
 					selected_pkgs = new GLib.List<string> ();
 					selected_aur = new GLib.List<string> ();
-					deselect_item.sensitive = false;
-					upgrade_item.sensitive = false;
-					install_item.sensitive = false;
-					remove_item.sensitive = false;
+					deselect_item.visible = false;
+					upgrade_item.visible = false;
+					install_item.visible = false;
+					build_item.visible = false;
+					remove_item.visible = false;
 					if (selected_paths.length () == 1) {
 						Gtk.TreePath path = selected_paths.data;
 						Gtk.TreeIter iter;
@@ -2054,20 +2134,20 @@ namespace Pamac {
 						string pkgversion;
 						packages_list.get (iter, 0, out origin, 1, out pkgname, 3, out pkgversion);
 						selected_pkgs.append (pkgname);
-						details_item.sensitive = true;
+						details_item.visible = true;
 						if (to_install.contains (pkgname)
 							|| to_remove.contains (pkgname)
 							|| to_update.contains (pkgname)) {
-							deselect_item.sensitive = true;
+							deselect_item.visible = true;
 						} else if (temporary_ignorepkgs.contains (pkgname)) {
-							upgrade_item.sensitive = true;
+							upgrade_item.visible = true;
 						} else if (origin == 0) { // installed
-							remove_item.sensitive = true;
+							remove_item.visible = true;
 						} else if (origin == 1) {
-							install_item.sensitive = true;
+							install_item.visible = true;
 						}
 					} else {
-						details_item.sensitive = false;
+						details_item.visible = false;
 						foreach (unowned Gtk.TreePath path in selected_paths) {
 							Gtk.TreeIter iter;
 							packages_list.get_iter (out iter, path);
@@ -2075,22 +2155,22 @@ namespace Pamac {
 							string pkgname;
 							packages_list.get (iter, 0, out origin, 1, out pkgname);
 							selected_pkgs.append (pkgname);
-							if (!deselect_item.sensitive) {
+							if (!deselect_item.visible) {
 								if (to_install.contains (pkgname)
 									|| to_remove.contains (pkgname)
 									|| to_update.contains (pkgname)) {
-									deselect_item.sensitive = true;
+									deselect_item.visible = true;
 								}
 							}
 							if (origin == 1) {
 								if (temporary_ignorepkgs.contains (pkgname)) {
-									upgrade_item.sensitive = true;
+									upgrade_item.visible = true;
 								} else {
-									install_item.sensitive = true;
+									install_item.visible = true;
 								}
 							}
 							if (filters_stack.visible_child_name != "updates" && origin == 0) { // installed
-								remove_item.sensitive = true;
+								remove_item.visible = true;
 							}
 						}
 					}
@@ -2130,14 +2210,15 @@ namespace Pamac {
 					GLib.List<Gtk.TreePath> selected_paths = selection.get_selected_rows (null);
 					selected_pkgs = new GLib.List<string> ();
 					selected_aur = new GLib.List<string> ();
-					deselect_item.sensitive = false;
-					upgrade_item.sensitive = false;
-					install_item.sensitive = false;
-					remove_item.sensitive = false;
+					deselect_item.visible = false;
+					upgrade_item.visible = false;
+					install_item.visible = false;
+					build_item.visible = false;
+					remove_item.visible = false;
 					if (selected_paths.length () == 1) {
-						details_item.sensitive = true;
+						details_item.visible = true;
 					} else {
-						details_item.sensitive = false;
+						details_item.visible = false;
 					}
 					foreach (unowned Gtk.TreePath path in selected_paths) {
 						Gtk.TreeIter iter;
@@ -2147,9 +2228,9 @@ namespace Pamac {
 						Package pkg = database.get_installed_pkg (pkgname);
 						if (pkg.name != "") {
 							selected_pkgs.append (pkgname);
-							if (filters_stack.visible_child_name != "updates") {
+							if (filters_stack.visible_child_name != "updates" && !to_remove.contains (pkgname)) {
 								// there is for sure a pkg to remove
-								remove_item.sensitive = true;
+								remove_item.visible = true;
 							}
 						} else {
 							selected_aur.append (pkgname);
@@ -2157,17 +2238,17 @@ namespace Pamac {
 					}
 					foreach (unowned string pkgname in selected_aur) {
 						if (to_build.contains (pkgname)) {
-							deselect_item.sensitive = true;
+							deselect_item.visible = true;
 						} else {
-							install_item.sensitive = true;
+							build_item.visible = true;
 						}
 					}
 					foreach (unowned string pkgname in selected_pkgs) {
 						if (to_remove.contains (pkgname)
 							|| to_update.contains (pkgname)) {
-							deselect_item.sensitive = true;
+							deselect_item.visible = true;
 						} else if (temporary_ignorepkgs.contains (pkgname)) {
-							upgrade_item.sensitive = true;
+							upgrade_item.visible = true;
 						}
 					}
 					right_click_menu.popup_at_pointer (event);
@@ -2566,8 +2647,7 @@ namespace Pamac {
 			transaction.unlock ();
 			if (filters_stack.visible_child_name == "updates") {
 				origin_stack.visible_child_name = "checking";
-				checking_spinner.active = true;
-				database.get_updates_async.begin (on_get_updates_finished);
+				database.get_updates.begin (on_get_updates_finished);
 			} else {
 				this.get_window ().set_cursor (null);
 			}
@@ -2599,9 +2679,13 @@ namespace Pamac {
 		void on_apply_button_clicked () {
 			if (filters_stack.visible_child_name == "updates") {
 				force_refresh = false;
-				refreshing = true;
-				sysupgrade_running = true;
-				try_lock_and_run (run_refresh);
+				transaction.no_confirm_upgrade = true;
+				try_lock_and_run (run_sysupgrade);
+			} else if (main_stack.visible_child_name == "details" &&
+					properties_stack.visible_child_name == "build_files") {
+					transaction.save_build_files.begin (current_package_displayed, () => {
+						try_lock_and_run (run_transaction);
+					});
 			} else {
 				try_lock_and_run (run_transaction);
 			}
@@ -2618,6 +2702,7 @@ namespace Pamac {
 		}
 
 		void run_transaction () {
+			transaction.no_confirm_upgrade = false;
 			transaction_running = true;
 			apply_button.sensitive = false;
 			cancel_button.sensitive = false;
@@ -2641,7 +2726,7 @@ namespace Pamac {
 				to_build_ += name;
 				previous_to_build.add (name);
 			}
-			transaction.start (to_install_, to_remove_, to_load_, to_build_, {});
+			transaction.start (to_install_, to_remove_, to_load_, to_build_, {}, {});
 			clear_lists ();
 			// let time to update packages states
 			Timeout.add (500, () => {
@@ -2651,14 +2736,16 @@ namespace Pamac {
 		}
 
 		void run_sysupgrade () {
+			this.get_window ().set_cursor (new Gdk.Cursor.for_display (Gdk.Display.get_default (), Gdk.CursorType.WATCH));
 			sysupgrade_running = true;
 			apply_button.sensitive = false;
-			cancel_button.sensitive = false;
+			cancel_button.sensitive = true;
 			string[] temp_ign_pkgs = {};
 			foreach (unowned string name in temporary_ignorepkgs) {
 				temp_ign_pkgs += name;
 			}
-			transaction.start_sysupgrade (false, temp_ign_pkgs, {});
+			show_transaction_infobox ();
+			transaction.start_sysupgrade (force_refresh, false, temp_ign_pkgs, {});
 			// let time to update packages states
 			Timeout.add (500, () => {
 				refresh_state_icons ();
@@ -2674,9 +2761,6 @@ namespace Pamac {
 				set_pendings_operations ();
 			} else if (transaction_running) {
 				transaction_running = false;
-				transaction.cancel ();
-			} else if (refreshing) {
-				refreshing = false;
 				transaction.cancel ();
 			} else if (sysupgrade_running) {
 				sysupgrade_running = false;
@@ -2703,16 +2787,8 @@ namespace Pamac {
 		[GtkCallback]
 		void on_refresh_button_clicked () {
 			force_refresh = true;
-			refreshing = true;
-			try_lock_and_run (run_refresh);
-		}
-
-		void run_refresh () {
-			this.get_window ().set_cursor (new Gdk.Cursor.for_display (Gdk.Display.get_default (), Gdk.CursorType.WATCH));
-			apply_button.sensitive = false;
-			cancel_button.sensitive = true;
-			show_transaction_infobox ();
-			transaction.start_refresh (force_refresh);
+			transaction.no_confirm_upgrade = false;
+			try_lock_and_run (run_sysupgrade);
 		}
 
 		void on_get_updates_progress (uint percent) {
@@ -2723,7 +2799,7 @@ namespace Pamac {
 		}
 
 		void on_get_updates_finished (Object? source_object, AsyncResult res) {
-			var updates = database.get_updates_async.end (res);
+			var updates = database.get_updates.end (res);
 			// copy updates in lists (keep a ref of them)
 			repos_updates = new List<Package> ();
 			foreach (unowned Package pkg in updates.repos_updates) {
@@ -2734,7 +2810,6 @@ namespace Pamac {
 				aur_updates.append (pkg);
 			}
 			origin_stack.visible_child_name = "repos";
-			checking_spinner.active = false;
 			if (filters_stack.visible_child_name == "updates") {
 				populate_updates ();
 			} else {
@@ -2745,7 +2820,7 @@ namespace Pamac {
 		void populate_updates () {
 			to_update.remove_all ();
 			if ((repos_updates.length () + aur_updates.length ()) == 0) {
-				if (!refreshing && !transaction_running && !sysupgrade_running) {
+				if (!transaction_running && !sysupgrade_running) {
 					hide_transaction_infobox ();
 				}
 				hide_sidebar ();
@@ -2768,6 +2843,7 @@ namespace Pamac {
 					show_sidebar ();
 				}
 				if (repos_updates.length () > 0) {
+					updates_listbox.select_row (updates_listbox.get_row_at_index (0));
 					on_updates_listbox_row_activated (updates_listbox.get_selected_row ());
 				} else {
 					updates_listbox.select_row (updates_listbox.get_row_at_index (1));
@@ -2777,6 +2853,20 @@ namespace Pamac {
 					select_all_button.visible = filters_stack.visible_child_name != "filters";
 				}
 				set_pendings_operations ();
+			}
+		}
+
+		void on_start_preparing () {
+			this.get_window ().set_cursor (new Gdk.Cursor.for_display (Gdk.Display.get_default (), Gdk.CursorType.WATCH));
+			cancel_button.sensitive = true;
+		}
+
+		void on_stop_preparing () {
+			cancel_button.sensitive = false;
+			this.get_window ().set_cursor (null);
+			// restore build_files_notebook
+			if (properties_listbox.get_selected_row ().get_index () == 3) {
+				properties_stack.visible_child_name = "build_files";
 			}
 		}
 
@@ -2816,29 +2906,8 @@ namespace Pamac {
 			generate_mirrors_list = false;
 		}
 
-		void on_refresh_finished (bool success) {
-			refreshing = false;
-			if (sysupgrade_running) {
-				run_sysupgrade ();
-			} else {
-				scroll_to_top = false;
-				refresh_packages_list ();
-				if (main_stack.visible_child_name == "details") {
-					if (database.get_installed_pkg (current_package_displayed).name != ""
-						|| database.get_sync_pkg (current_package_displayed).name != "") {
-						display_package_properties (current_package_displayed);
-					} else {
-						display_aur_properties (current_package_displayed);
-					}
-				} else if (main_stack.visible_child_name == "term") {
-					button_back.visible = true;
-				}
-			}
-		}
-
 		void on_transaction_finished (bool success) {
 			transaction.unlock ();
-			intern_lock = false;
 			if (!success) {
 				foreach (unowned string name in previous_to_install) {
 					if (database.get_installed_pkg (name).name == "") {
@@ -2858,7 +2927,6 @@ namespace Pamac {
 			}
 			clear_previous_lists ();
 			scroll_to_top = false;
-			refresh_packages_list ();
 			if (main_stack.visible_child_name == "details") {
 				if (database.get_installed_pkg (current_package_displayed).name != ""
 					|| database.get_sync_pkg (current_package_displayed).name != "") {

@@ -39,8 +39,8 @@ namespace Pamac {
 			base.startup ();
 
 			important_details = false;
-			var pamac_config = new Config ("/etc/pamac.conf");
-			database = new Database (pamac_config);
+			var config = new Config ("/etc/pamac.conf");
+			database = new Database (config);
 			// integrate progress box and term widget
 			progress_dialog = new ProgressDialog ();
 			transaction = new TransactionGtk (database, progress_dialog as Gtk.ApplicationWindow);
@@ -114,7 +114,7 @@ namespace Pamac {
 				this.hold ();
 				progress_dialog.show ();
 				if (transaction.get_lock ()) {
-					transaction.start (to_install, to_remove, to_load, {}, {});
+					transaction.start (to_install, to_remove, to_load, {}, {}, {});
 					progress_dialog.close_button.visible = false;
 				} else {
 					transaction.progress_box.action_label.label = dgettext (null, "Waiting for another package manager to quit") + "...";
@@ -123,7 +123,7 @@ namespace Pamac {
 						bool locked = transaction.get_lock ();
 						if (locked) {
 							transaction.stop_progressbar_pulse ();
-							transaction.start (to_install, to_remove, to_load, {}, {});
+							transaction.start (to_install, to_remove, to_load, {}, {}, {});
 						}
 						return !locked;
 					});
@@ -151,6 +151,7 @@ namespace Pamac {
 		}
 
 		void on_transaction_finished (bool success) {
+			transaction.unlock ();
 			if (!success || important_details) {
 				progress_dialog.close_button.visible = true;
 			} else {

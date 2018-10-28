@@ -20,14 +20,17 @@
 namespace Pamac {
 	internal class TransactionInterfaceRoot: Object, TransactionInterface {
 
-		public TransactionInterfaceRoot () {
+		public TransactionInterfaceRoot (Config config) {
 			// alpm_utils global variable declared in alpm_utils.vala
-			// and initiate in database.vala
+			alpm_utils = new AlpmUtils (config);
 			alpm_utils.emit_event.connect ((primary_event, secondary_event, details) => {
 				emit_event (primary_event, secondary_event, details);
 			});
 			alpm_utils.emit_providers.connect ((depend, providers) => {
 				emit_providers (depend, providers);
+			});
+			alpm_utils.emit_unresolvables.connect ((unresolvables) => {
+				emit_unresolvables (unresolvables);
 			});
 			alpm_utils.emit_progress.connect ((progress, pkgname, percent, n_targets, current_target) => {
 				emit_progress (progress, pkgname, percent, n_targets, current_target);
@@ -44,9 +47,6 @@ namespace Pamac {
 			alpm_utils.refresh_finished.connect ((success) => {
 				refresh_finished (success);
 			});
-			alpm_utils.get_updates_finished.connect ((updates) => {
-				get_updates_finished (updates);
-			});
 			alpm_utils.downloading_updates_finished.connect (() => {
 				downloading_updates_finished ();
 			});
@@ -54,6 +54,7 @@ namespace Pamac {
 				trans_prepare_finished (success);
 			});
 			alpm_utils.trans_commit_finished.connect ((success) => {
+				database_modified ();
 				trans_commit_finished (success);
 			});
 			// set user agent
@@ -101,6 +102,7 @@ namespace Pamac {
 			alpm_utils.alpm_config.write (new_alpm_conf);
 			alpm_utils.alpm_config.reload ();
 			alpm_utils.refresh_handle ();
+			database_modified ();
 			write_alpm_config_finished ((alpm_utils.alpm_handle.checkspace == 1));
 		}
 
@@ -123,6 +125,7 @@ namespace Pamac {
 			}
 			alpm_utils.alpm_config.reload ();
 			alpm_utils.refresh_handle ();
+			database_modified ();
 			generate_mirrors_list_finished ();
 		}
 
@@ -147,6 +150,7 @@ namespace Pamac {
 
 		async void set_pkgreason (string pkgname, uint reason) {
 			alpm_utils.set_pkgreason (pkgname, reason);
+			database_modified ();
 			set_pkgreason_finished ();
 		}
 
@@ -173,16 +177,6 @@ namespace Pamac {
 			}
 		}
 
-		int get_updates_for_sysupgrade () {
-			alpm_utils.get_updates_for_sysupgrade ();
-			return 0;
-		}
-
-		public void start_get_updates_for_sysupgrade (bool check_aur_updates) {
-			alpm_utils.check_aur_updates = check_aur_updates;
-			new Thread<int> ("get_updates_for_sysupgrade", get_updates_for_sysupgrade);
-		}
-
 		int download_updates () {
 			alpm_utils.download_updates ();
 			return 0;
@@ -193,8 +187,8 @@ namespace Pamac {
 		}
 
 		public void start_sysupgrade_prepare (bool enable_downgrade,
-											string[] temporary_ignorepkgs,
 											string[] to_build,
+											string[] temporary_ignorepkgs,
 											string[] overwrite_files) {
 			alpm_utils.enable_downgrade = enable_downgrade;
 			alpm_utils.temporary_ignorepkgs = temporary_ignorepkgs;
@@ -222,16 +216,16 @@ namespace Pamac {
 										string[] to_remove,
 										string[] to_load,
 										string[] to_build,
+										string[] temporary_ignorepkgs,
 										string[] overwrite_files) {
 			alpm_utils.flags = flags;
 			alpm_utils.to_install = to_install;
 			alpm_utils.to_remove = to_remove;
 			alpm_utils.to_load = to_load;
 			alpm_utils.to_build = to_build;
+			alpm_utils.temporary_ignorepkgs = temporary_ignorepkgs;
 			alpm_utils.overwrite_files = overwrite_files;
-			if (alpm_utils.to_install.length > 0) {
-				alpm_utils.sysupgrade = true;
-			}
+			alpm_utils.sysupgrade = false;
 			if (alpm_utils.downloading_updates) {
 				alpm_utils.cancellable.cancel ();
 				// let time to cancel download updates
@@ -244,19 +238,18 @@ namespace Pamac {
 			}
 		}
 
-		int trans_prepare () {
-			alpm_utils.trans_prepare ();
-			return 0;
-		}
-
 		int build_prepare () {
 			alpm_utils.build_prepare ();
 			return 0;
 		}
 
+		int trans_prepare () {
+			alpm_utils.trans_prepare ();
+			return 0;
+		}
+
 		private void launch_prepare () {
 			if (alpm_utils.to_build.length != 0) {
-				alpm_utils.compute_aur_build_list ();
 				new Thread<int> ("build_prepare", build_prepare);
 			} else {
 				new Thread<int> ("trans_prepare", trans_prepare);
