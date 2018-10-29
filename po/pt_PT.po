@@ -16,13 +16,14 @@
 # José Vieira <jvieira33@sapo.pt>, 2017
 # My Name <sleep.code.eat.repeat@gmail.com>, 2018
 # philm <philm@manjaro.org>, 2015
+# Rui <xymarior@yandex.com>, 2018
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2018-10-18 11:38+0200\n"
-"PO-Revision-Date: 2018-10-18 09:49+0000\n"
-"Last-Translator: Guillaume Benoit <guillaume@manjaro.org>\n"
+"PO-Revision-Date: 2018-10-28 12:10+0000\n"
+"Last-Translator: Rui <xymarior@yandex.com>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -48,12 +49,12 @@ msgstr "Falhou iniciar transação"
 
 #: src/alpm_utils.vala src/transaction.vala src/transaction-gtk.vala
 msgid "Failed to prepare transaction"
-msgstr "Falhou preparar a transacção"
+msgstr "Falhou preparar a transação"
 
 #: src/alpm_utils.vala src/transaction.vala src/cli.vala
 #, c-format
 msgid "target not found: %s"
-msgstr "objecto não encontrado: %s"
+msgstr "objeto não encontrado: %s"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -87,7 +88,7 @@ msgstr "%s necessita ser removido, mas é um pacote bloqueado"
 
 #: src/alpm_utils.vala
 msgid "Failed to commit transaction"
-msgstr "Falhou submeter transacção"
+msgstr "Falhou submeter transação"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -112,7 +113,7 @@ msgstr "%s parece estar truncada: %jd/%jd bytes\n"
 #: src/alpm_utils.vala
 #, c-format
 msgid "failed retrieving file '%s' from %s : %s\n"
-msgstr "falha ao recuperar arquivo '%s' de %s : %s\n"
+msgstr "falha ao recuperar o ficheiro '%s' de %s : %s\n"
 
 #: src/system_daemon.vala
 msgid "Authentication failed"
@@ -141,11 +142,11 @@ msgstr "Não"
 #: src/transaction.vala
 #, c-format
 msgid "Generating %s informations"
-msgstr ""
+msgstr "A gerar %s informações"
 
 #: src/transaction.vala
 msgid "Refreshing mirrors list"
-msgstr "Actualizar lista clones (mirrors)"
+msgstr "Atualizar lista clones (mirrors)"
 
 #: src/transaction.vala
 msgid "Starting full system upgrade"
@@ -158,12 +159,12 @@ msgstr "A sincronizar bases de dados de pacotes"
 #: src/transaction.vala src/cli.vala
 #, c-format
 msgid "Cloning %s build files"
-msgstr ""
+msgstr "A clonar %s ficheiros de compilação"
 
 #: src/transaction.vala
 #, c-format
 msgid "Checking %s dependencies"
-msgstr ""
+msgstr "A verificar %s dependências"
 
 #: src/transaction.vala
 msgid "Preparing"
@@ -176,7 +177,7 @@ msgstr "Criando %s"
 
 #: src/transaction.vala
 msgid "Transaction cancelled"
-msgstr "Transacção cancelada"
+msgstr "Transação cancelada"
 
 #: src/transaction.vala
 msgid "Checking dependencies"
@@ -184,7 +185,7 @@ msgstr "A verificar dependências"
 
 #: src/transaction.vala
 msgid "Checking file conflicts"
-msgstr "A verificar conflito entre pacotes"
+msgstr "A verificar conflitos entre ficheiros"
 
 #: src/transaction.vala
 msgid "Resolving dependencies"
@@ -202,7 +203,7 @@ msgstr "A instalar %s"
 #: src/transaction.vala
 #, c-format
 msgid "Upgrading %s"
-msgstr "A actualizar %s"
+msgstr "A atualizar %s"
 
 #: src/transaction.vala
 #, c-format
@@ -333,7 +334,7 @@ msgstr "Nada a fazer"
 
 #: src/transaction.vala src/transaction-gtk.vala
 msgid "Transaction successfully finished"
-msgstr "Transacção finalizada com êxito"
+msgstr "Transação finalizada com êxito"
 
 #: src/transaction-gtk.vala src/tray.vala src/manager_window.vala
 msgid "Package Manager"
@@ -379,11 +380,11 @@ msgstr "Tamanho total do download"
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
 msgid "Edit %s build files"
-msgstr ""
+msgstr "Editar %s ficheiros de compilação"
 
 #: src/transaction-gtk.vala
 msgid "Save"
-msgstr ""
+msgstr "Gravar"
 
 #: src/transaction-gtk.vala src/manager_window.vala
 #: resources/transaction_sum_dialog.ui resources/manager_window.ui
@@ -402,7 +403,7 @@ msgstr "Esperando que outro gestor de pacotes termine"
 
 #: src/installer.vala src/cli.vala
 msgid "Install packages from repositories, path or url"
-msgstr "Instalar pacotes de repositórios, directório ou url"
+msgstr "Instalar pacotes de repositórios, diretório ou url"
 
 #: src/installer.vala src/cli.vala
 msgid "Remove packages"
@@ -414,7 +415,7 @@ msgstr "pacote(s)"
 
 #: src/tray.vala src/manager_window.vala src/cli.vala
 msgid "Your system is up-to-date"
-msgstr "O sistema está actualizado"
+msgstr "O sistema está atualizado"
 
 #: src/tray.vala
 msgid "_Quit"
@@ -424,8 +425,8 @@ msgstr "_Sair"
 #, c-format
 msgid "%u available update"
 msgid_plural "%u available updates"
-msgstr[0] "%u actualização disponível"
-msgstr[1] "%u actualizações disponíveis"
+msgstr[0] "%u atualização disponível"
+msgstr[1] "%u atualizações disponíveis"
 
 #: src/tray.vala src/manager_window.vala resources/progress_dialog.ui
 #: resources/manager_window.ui
@@ -438,7 +439,7 @@ msgstr "Nenhum pacote encontrado"
 
 #: src/manager_window.vala
 msgid "Checking for Updates"
-msgstr "A procurar actualizações"
+msgstr "A procurar atualizações"
 
 #: src/manager_window.vala
 msgid "Deselect"
@@ -454,7 +455,7 @@ msgstr "Instalar"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Build"
-msgstr ""
+msgstr "Compilação"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Remove"
@@ -557,7 +558,7 @@ msgstr "Ficheiros"
 
 #: src/manager_window.vala
 msgid "Build files"
-msgstr ""
+msgstr "Ficheiros de compilação"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Install Reason"
@@ -681,7 +682,7 @@ msgstr "Uma interface Gtk3 para libalpm"
 
 #: src/preferences_dialog.vala resources/preferences_dialog.ui
 msgid "How often to check for updates, value in hours"
-msgstr "Frequência de verificação de actualizações, valor em horas"
+msgstr "Frequência de verificação de atualizações, valor em horas"
 
 #: src/preferences_dialog.vala resources/preferences_dialog.ui
 msgid "Number of versions of each package to keep in the cache"
@@ -689,7 +690,7 @@ msgstr "Número de versões de cada pacote a manter na cache"
 
 #: src/preferences_dialog.vala
 msgid "Build directory"
-msgstr "Directório de compilação"
+msgstr "Diretório de compilação"
 
 #: src/preferences_dialog.vala
 msgid "Worldwide"
@@ -714,7 +715,7 @@ msgstr "sim"
 
 #: src/transaction-cli.vala resources/transaction_sum_dialog.ui
 msgid "Edit build files"
-msgstr ""
+msgstr "Editar ficheiros de compilação"
 
 #: src/transaction-cli.vala
 msgid "Total installed size"
@@ -726,12 +727,12 @@ msgstr "Tamanho total removido"
 
 #: src/transaction-cli.vala
 msgid "Commit transaction"
-msgstr "Submeter transacção"
+msgstr "Submeter transação"
 
 #: src/transaction-cli.vala
 #, c-format
 msgid "View %s build files diff"
-msgstr ""
+msgstr "Ver %s diferenças dos ficheiros de compilação"
 
 #: src/cli.vala
 msgid "Building packages as root is not allowed"
@@ -739,15 +740,15 @@ msgstr "construir pacotes como root não é permitido"
 
 #: src/cli.vala
 msgid "No PKGBUILD file found in current directory"
-msgstr ""
+msgstr "Não foi encontrado o ficheiro PKGBUILD no diretório atual"
 
 #: src/cli.vala
 msgid "Available actions"
-msgstr "Acções disponíveis"
+msgstr "Ações disponíveis"
 
 #: src/cli.vala
 msgid "action"
-msgstr "acção"
+msgstr "ação"
 
 #: src/cli.vala
 msgid "options"
@@ -818,13 +819,13 @@ msgstr "listar ficheiros dos pacotes especificados"
 
 #: src/cli.vala
 msgid "Clone or sync packages build files from AUR"
-msgstr ""
+msgstr "Clonar ou sincronizar pacotes de ficheiros de compilação do AUR"
 
 #: src/cli.vala
 msgid ""
 "build directory, if no directory is given the one specified in pamac.conf "
 "file is used"
-msgstr ""
+msgstr "diretório de compilação. Se não for indicado um diretório será utilizado o especificado no ficheiro pamac.conf"
 
 #: src/cli.vala
 msgid "dir"
@@ -832,11 +833,11 @@ msgstr "dir"
 
 #: src/cli.vala
 msgid "also clone needed dependencies"
-msgstr ""
+msgstr "clonar também dependências necessárias"
 
 #: src/cli.vala
 msgid "overwrite existing files"
-msgstr ""
+msgstr "sobrescrever ficheiros existentes"
 
 #: src/cli.vala
 msgid "Build packages from AUR and install them with their dependencies"
@@ -845,29 +846,29 @@ msgstr "construir pacotes do AUR e instala-los com suas dependências"
 #: src/cli.vala
 msgid ""
 "If no package name is given, use the PKGBUILD file in the current directory"
-msgstr ""
+msgstr "Se não for indicado nenhum nome do pacote, usar o ficheiro PKGBUILD no diretório atual"
 
 #: src/cli.vala
 msgid ""
 "The build directory will be the parent directory, --builddir option will be "
 "ignored"
-msgstr ""
+msgstr "O diretório de compilação será o diretório pai, a opção --builddir será ignorada"
 
 #: src/cli.vala
 msgid "do not clone build files from AUR, only use local files"
-msgstr ""
+msgstr "não clonar ficheiros de compilação do AUR, usar apenas ficheiros locais"
 
 #: src/cli.vala
 msgid ""
 "ignore a package upgrade, multiple packages can be specified by separating "
 "them with a comma"
-msgstr "ignorar atualização do pacote, múltiplos pacotes podem ser especificados separando-os com vírgulas"
+msgstr "ignorar atualização do pacote, podem ser especificados múltiplos pacotes separando-os com vírgulas"
 
 #: src/cli.vala
 msgid ""
 "overwrite conflicting files, multiple patterns can be specified by "
 "separating them with a comma"
-msgstr "subscrever ficheiros conflituosos, múltiplos padrões podem ser especificados separando-os com uma vírgula"
+msgstr "sobrescrever ficheiros em conflito, podem ser especificados múltiplos padrões separando-os com uma vírgula"
 
 #: src/cli.vala
 msgid "glob"
@@ -881,37 +882,37 @@ msgstr "Reinstalar pacotes"
 msgid ""
 "remove dependencies that are not required by other packages, if this option "
 "is used without package name remove all orphans"
-msgstr "remover dependências que não são requeridas por outros pacotes, se esta opção for usada sem o nome do pacote remove todos os orfãos"
+msgstr "remover dependências que não são requeridas por outros pacotes, se esta opção for usada sem o nome do pacote remove todos os órfãos"
 
 #: src/cli.vala
 msgid "Safely check for updates without modifiying the databases"
-msgstr "verificação segura por atualizações sem modificar as bases de dados"
+msgstr "verificação segura por atualizações sem alterar as bases de dados"
 
 #: src/cli.vala
 msgid "Exit code is 100 if updates are available"
-msgstr "Código de saída é 100 se estiverem disponíveis actualizações"
+msgstr "Código de saída é 100 se estiverem disponíveis atualizações"
 
 #: src/cli.vala
 msgid "also check updates in AUR"
-msgstr "procurar também actualizações no AUR"
+msgstr "procurar também atualizações no AUR"
 
 #: src/cli.vala
 msgid "Upgrade your system"
-msgstr "Actualizar o seu sistema"
+msgstr "Atualizar o seu sistema"
 
 #: src/cli.vala
 msgid "also upgrade packages installed from AUR"
-msgstr "também actualizar pacotes instalados a partir do AUR"
+msgstr "também atualizar pacotes instalados a partir do AUR"
 
 #: src/cli.vala
 msgid ""
 "build directory (use with --aur), if no directory is given the one specified"
 " in pamac.conf file is used"
-msgstr ""
+msgstr "diretório da compilação (usar com --aur). Se não for indicado um diretório será utilizado o especificado no ficheiro pamac.conf"
 
 #: src/cli.vala
 msgid "force the refresh of the databases"
-msgstr "forçar actualização das bases de dados"
+msgstr "forçar atualização das bases de dados"
 
 #: src/cli.vala
 msgid "enable package downgrades"
@@ -952,7 +953,7 @@ msgstr[1] "Existem %umembros no grupo %s"
 
 #: src/cli.vala
 msgid "Enter a selection (default=all)"
-msgstr "Inserir uma selecção (pré-definição=todos)"
+msgstr "Inserir uma seleção (pré-definição=todos)"
 
 #: resources/choose_provider_dialog.ui
 msgid "Choose a Provider"
@@ -972,7 +973,7 @@ msgstr "Histórico do Pamac"
 
 #: resources/transaction_sum_dialog.ui
 msgid "Transaction Summary"
-msgstr "Sumário da transacção"
+msgstr "Sumário da transação"
 
 #: resources/transaction_sum_dialog.ui
 msgid "Commit"
@@ -980,7 +981,7 @@ msgstr "submeter"
 
 #: resources/manager_window.ui
 msgid "Refresh databases"
-msgstr "Actualizar bases de dados"
+msgstr "Atualizar bases de dados"
 
 #: resources/manager_window.ui
 msgid "View History"
@@ -1016,7 +1017,7 @@ msgstr "Reinstalar"
 
 #: resources/manager_window.ui
 msgid "Reset build files"
-msgstr ""
+msgstr "Repor ficheiros de compilação"
 
 #: resources/manager_window.ui
 msgid "_Apply"
