@@ -48,10 +48,12 @@ namespace Pamac {
 			});
 		}
 
-		protected override async int run_cmd_line (string[] args, string working_directory, Cancellable cancellable) {
+		protected override async int run_cmd_line (string[] args, string? working_directory, Cancellable cancellable) {
 			int status = 1;
 			var launcher = new SubprocessLauncher (SubprocessFlags.NONE);
-			launcher.set_cwd (working_directory);
+			if (working_directory != null) {
+				launcher.set_cwd (working_directory);
+			}
 			launcher.set_environ (Environ.get ());
 			try {
 				Subprocess process = launcher.spawnv (args);
@@ -312,7 +314,13 @@ namespace Pamac {
 					}
 				}
 			}
+			stdout.printf ("\n");
 			return false;
+		}
+
+		protected override bool ask_import_key (string pkgname, string key, string owner) {
+			stdout.printf ("%s.\n".printf (dgettext (null, "The PGP key %s is needed to verify %s source files").printf (key, pkgname)));
+			return ask_user ("%s ?".printf (dgettext (null, "Trust %s and import the PGP key").printf (owner)));
 		}
 
 		protected override bool ask_edit_build_files (TransactionSummary summary) {

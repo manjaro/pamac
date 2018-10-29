@@ -144,6 +144,11 @@ namespace Pamac {
 			return true;
 		}
 
+		protected virtual bool ask_import_key (string pkgname, string key, string owner) {
+			// no import
+			return false;
+		}
+
 		protected async string[] get_build_files (string pkgname) {
 			string pkgdir_name = Path.build_path ("/", database.config.aur_build_dir, pkgname);
 			string[] files = {};
@@ -405,6 +410,7 @@ namespace Pamac {
 					string[] global_conflicts = {};
 					string[] global_provides = {};
 					string[] global_replaces = {};
+					string[] global_validpgpkeys = {};
 					var pkgnames_table = new HashTable<string, AURPackageDetailsStruct?> (str_hash, str_equal);
 					while ((line = yield dis.read_line_async ()) != null) {
 						if ("pkgbase = " in line) {
@@ -486,6 +492,11 @@ namespace Pamac {
 										details_struct.replaces += replace;
 									}
 								}
+							}
+						// grab validpgpkeys to check if they are imported
+						} else if ("validpgpkeys" in line) {
+							if ("validpgpkeys = " in line) {
+								global_validpgpkeys += line.split (" = ", 2)[1];
 							}
 						} else if ("pkgname = " in line) {
 							string pkgname_found = line.split (" = ", 2)[1];
@@ -606,6 +617,10 @@ namespace Pamac {
 							dos.put_string ("\n");
 						}
 					}
+					// check signature
+					if (global_validpgpkeys.length > 0) {
+						yield check_signature (pkgname, global_validpgpkeys);
+					}
 				} catch (GLib.Error e) {
 					stderr.printf ("Error: %s\n", e.message);
 					continue;
@@ -613,6 +628,47 @@ namespace Pamac {
 			}
 			if (dep_to_check.length > 0) {
 				yield check_aur_dep_list (dep_to_check);
+			}
+		}
+
+		async void check_signature (string pkgname, string[] keys) {
+			foreach (unowned string key in keys) {
+				var launcher = new SubprocessLauncher (SubprocessFlags.STDOUT_SILENCE | SubprocessFlags.STDERR_SILENCE);
+				try {
+					var process = launcher.spawnv ({"gpg", "--with-colons", "--batch", "--list-keys", key});
+					yield process.wait_async ();
+					if (process.get_if_exited ()) {
+						if (process.get_exit_status () != 0) {
+							// key is not imported in keyring
+							// try to get key infos
+							launcher.set_flags (SubprocessFlags.STDOUT_PIPE | SubprocessFlags.STDERR_MERGE);
+							process = launcher.spawnv ({"gpg", "--with-colons", "--batch", "--search-keys", key});
+							yield process.wait_async ();
+							if (process.get_if_exited ()) {
+								if (process.get_exit_status () == 0) {
+									var dis = new DataInputStream (process.get_stdout_pipe ());
+									string? line;
+									while ((line = dis.read_line ()) != null) {
+										// get first uid line
+										if ("uid:" in line) {
+											string owner = line.split (":", 3)[1];
+											if (ask_import_key (pkgname, key, owner)) {
+												int status = yield run_cmd_line ({"gpg", "--with-colons", "--batch", "--recv-keys", key}, null, build_cancellable);
+												emit_script_output ("");
+												if (status != 0) {
+													emit_error (dgettext (null, "key %s could not be imported").printf (key), {});
+												}
+											}
+											break;
+										}
+									}
+								}
+							}
+						}
+					}
+				} catch (Error e) {
+					stderr.printf ("Error: %s\n", e.message);
+				} 
 			}
 		}
 
@@ -705,10 +761,12 @@ namespace Pamac {
 			transaction_interface.start_trans_commit ();
 		}
 
-		public virtual async int run_cmd_line (string[] args, string working_directory, Cancellable cancellable) {
+		public virtual async int run_cmd_line (string[] args, string? working_directory, Cancellable cancellable) {
 			int status = 1;
 			var launcher = new SubprocessLauncher (SubprocessFlags.STDOUT_PIPE | SubprocessFlags.STDERR_MERGE);
-			launcher.set_cwd (working_directory);
+			if (working_directory != null) {
+				launcher.set_cwd (working_directory);
+			}
 			launcher.set_environ (Environ.get ());
 			try {
 				Subprocess process = launcher.spawnv (args);
@@ -743,7 +801,7 @@ namespace Pamac {
 			// building
 			building = true;
 			start_building ();
-			int status = yield run_cmd_line ({"makepkg", "-m", "-cf"}, pkgdir, build_cancellable);
+			int status = yield run_cmd_line ({"makepkg", "-cCf"}, pkgdir, build_cancellable);
 			if (build_cancellable.is_cancelled ()) {
 				status = 1;
 			}

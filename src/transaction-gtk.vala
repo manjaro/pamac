@@ -234,6 +234,47 @@ namespace Pamac {
 			return index;
 		}
 
+		protected override bool ask_import_key (string pkgname, string key, string owner) {
+			var flags = Gtk.DialogFlags.MODAL;
+			int use_header_bar;
+			Gtk.Settings.get_default ().get ("gtk-dialogs-use-header", out use_header_bar);
+			if (use_header_bar == 1) {
+				flags |= Gtk.DialogFlags.USE_HEADER_BAR;
+			}
+			var dialog = new Gtk.Dialog.with_buttons (dgettext (null, "Import PGP key"),
+													application_window,
+													flags);
+			dialog.border_width = 6;
+			dialog.icon_name = "system-software-install";
+			dialog.deletable = false;
+			dialog.add_button (dgettext (null, "Trust and Import"), Gtk.ResponseType.OK);
+			unowned Gtk.Widget widget = dialog.add_button (dgettext (null, "_Cancel"), Gtk.ResponseType.CANCEL);
+			widget.can_focus = true;
+			widget.has_focus = true;
+			widget.can_default = true;
+			widget.has_default = true;
+			var textbuffer = new StringBuilder ();
+			textbuffer.append (dgettext (null, "The PGP key %s is needed to verify %s source files").printf (key, pkgname));
+			textbuffer.append (".\n");
+			textbuffer.append (dgettext (null, "Trust %s and import the PGP key").printf (owner));
+			textbuffer.append (" ?");
+			var label = new Gtk.Label (textbuffer.str);
+			label.selectable = true;
+			label.margin = 12;
+			label.visible = true;
+			unowned Gtk.Box box = dialog.get_content_area ();
+			box.add (label);
+			box.valign = Gtk.Align.CENTER;
+			dialog.default_width = 800;
+			dialog.default_height = 150;
+			int response = dialog.run ();
+			dialog.destroy ();
+			if (response == Gtk.ResponseType.OK) {
+				return true;
+			}
+			return false;
+		}
+
 		protected override bool ask_edit_build_files (TransactionSummary summary) {
 			bool answer = false;
 			summary_shown = true;
