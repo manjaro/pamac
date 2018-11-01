@@ -147,7 +147,7 @@ namespace Pamac {
 
 		public abstract string get_icon ();
 
-		public abstract void set_icon_visible (bool visible);
+		public abstract void set_icon_visible (bool visible, bool forceHide);
 
 		bool check_updates () {
 			var pamac_config = new Pamac.Config ("/etc/pamac.conf");
@@ -167,7 +167,7 @@ namespace Pamac {
 			if (updates_nb == 0) {
 				set_icon (noupdate_icon_name);
 				set_tooltip (noupdate_info);
-				set_icon_visible (!pamac_config.no_update_hide_icon);
+				set_icon_visible (!pamac_config.no_update_hide_icon, pamac_config.always_hide_icon);
 				close_notification ();
 			} else {
 				if (!check_pamac_running () && pamac_config.download_updates) {
@@ -190,10 +190,11 @@ namespace Pamac {
 		}
 
 		void show_or_update_notification () {
+            var pamac_config = new Pamac.Config ("/etc/pamac.conf");
 			string info = ngettext ("%u available update", "%u available updates", updates_nb).printf (updates_nb);
 			set_icon (update_icon_name);
 			set_tooltip (info);
-			set_icon_visible (true);
+			set_icon_visible (true, pamac_config.always_hide_icon);
 			if (check_pamac_running ()) {
 				update_notification (info);
 			} else {
@@ -312,7 +313,13 @@ namespace Pamac {
 			init_status_icon ();
 			set_icon (noupdate_icon_name);
 			set_tooltip (noupdate_info);
-			set_icon_visible (!pamac_config.no_update_hide_icon);
+            
+            if (pamac_config.always_hide_icon) {
+                set_icon_visible(false, pamac_config.always_hide_icon);
+            }
+            else {
+                set_icon_visible (!pamac_config.no_update_hide_icon, pamac_config.always_hide_icon);
+            }
 
 			Notify.init (_("Package Manager"));
 
