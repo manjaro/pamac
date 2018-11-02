@@ -942,7 +942,6 @@ namespace Pamac {
 					break;
 				case 25: //Alpm.Event.Type.RETRIEVE_START
 					start_downloading ();
-					emit_action (dgettext (null, "Downloading") + "...");
 					break;
 				case 26: //Alpm.Event.Type.RETRIEVE_DONE
 				case 27: //Alpm.Event.Type.RETRIEVE_FAILED

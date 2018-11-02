@@ -33,6 +33,10 @@ namespace Pamac {
 		[GtkChild]
 		Gtk.SpinButton refresh_period_spin_button;
 		[GtkChild]
+		Gtk.Label max_parallel_downloads_label;
+		[GtkChild]
+		Gtk.SpinButton max_parallel_downloads_spin_button;
+		[GtkChild]
 		Gtk.CheckButton no_update_hide_icon_checkbutton;
 		[GtkChild]
 		Gtk.CheckButton download_updates_checkbutton;
@@ -75,6 +79,7 @@ namespace Pamac {
 
 			this.transaction = transaction;
 			refresh_period_label.set_markup (dgettext (null, "How often to check for updates, value in hours") +":");
+			max_parallel_downloads_label.set_markup (dgettext (null, "Maximun parallel downloads") +":");
 			cache_keep_nb_label.set_markup (dgettext (null, "Number of versions of each package to keep in the cache") +":");
 			aur_build_dir_label.set_markup (dgettext (null, "Build directory") +":");
 			remove_unrequired_deps_button.active = transaction.database.config.recurse;
@@ -94,6 +99,7 @@ namespace Pamac {
 				refresh_period_spin_button.value = transaction.database.config.refresh_period;
 				previous_refresh_period = transaction.database.config.refresh_period;
 			}
+			max_parallel_downloads_spin_button.value = transaction.database.config.max_parallel_downloads;
 			no_update_hide_icon_checkbutton.active = transaction.database.config.no_update_hide_icon;
 			download_updates_checkbutton.active = transaction.database.config.download_updates;
 			cache_keep_nb_spin_button.value = transaction.database.config.clean_keep_num_pkgs;
@@ -110,6 +116,7 @@ namespace Pamac {
 			transaction.write_alpm_config_finished.connect (on_write_alpm_config_finished);
 			check_updates_button.state_set.connect (on_check_updates_button_state_set);
 			refresh_period_spin_button.value_changed.connect (on_refresh_period_spin_button_value_changed);
+			max_parallel_downloads_spin_button.value_changed.connect (on_max_parallel_downloads_spin_button_value_changed);
 			no_update_hide_icon_checkbutton.toggled.connect (on_no_update_hide_icon_checkbutton_toggled);
 			download_updates_checkbutton.toggled.connect (on_download_updates_checkbutton_toggled);
 			cache_keep_nb_spin_button.value_changed.connect (on_cache_keep_nb_spin_button_value_changed);
@@ -181,6 +188,12 @@ namespace Pamac {
 		void on_refresh_period_spin_button_value_changed () {
 			var new_pamac_conf = new HashTable<string,Variant> (str_hash, str_equal);
 			new_pamac_conf.insert ("RefreshPeriod", new Variant.uint64 (refresh_period_spin_button.get_value_as_int ()));
+			transaction.start_write_pamac_config (new_pamac_conf);
+		}
+
+		void on_max_parallel_downloads_spin_button_value_changed () {
+			var new_pamac_conf = new HashTable<string,Variant> (str_hash, str_equal);
+			new_pamac_conf.insert ("MaxParallelDownloads", new Variant.uint64 (max_parallel_downloads_spin_button.get_value_as_int ()));
 			transaction.start_write_pamac_config (new_pamac_conf);
 		}
 

@@ -971,7 +971,7 @@ namespace Pamac {
 			return true;
 		}
 
-		void download_files () {
+		void download_files (uint64 max_parallel_downloads) {
 			// use to track downloads progress
 			uint timeout_id = Timeout.add (500, compute_multi_download_progress);
 			multi_progress = new HashTable<string, uint64?> (str_hash, str_equal);
@@ -1023,20 +1023,22 @@ namespace Pamac {
 			emit_event (Alpm.Event.Type.RETRIEVE_START, 0, {});
 			emit_multi_download (0, total_download);
 			// create a thread pool which will download files
-			// there will be one thread per mirror
+			// there will be two threads per mirror
 			try {
 				var dload_thread_pool = new ThreadPool<DownloadServer>.with_owned_data (
 					// call alpm_action.run () on thread start
 					(download_server) => {
 						download_server.download_files ();
 					},
-					// 5 simultaneous downloads
-					5,
+					// max simultaneous threads = max simultaneous downloads
+					(int) max_parallel_downloads,
 					// exclusive threads
 					true
 				);
 				mirrors_table.foreach_steal ((mirror, repo_set) => {
 					try {
+						// two connections per mirror
+						dload_thread_pool.add (new DownloadServer (mirror, repo_set));
 						dload_thread_pool.add (new DownloadServer (mirror, repo_set));
 					} catch (ThreadError e) {
 						stderr.printf ("Thread Error %s\n", e.message);
@@ -1055,9 +1057,6 @@ namespace Pamac {
 		}
 
 		internal void trans_commit () {
-			// custom parallel download
-			download_files ();
-			// real commit
 			add_overwrite_files ();
 			bool success = false;
 			if (to_syncfirst.length > 0) {
@@ -1150,6 +1149,17 @@ namespace Pamac {
 		bool trans_commit_real () {
 			current_error = ErrorInfos ();
 			bool success = true;
+			var config = new Config ("/etc/pamac.conf");
+			if (config.max_parallel_downloads >= 2) {
+				// custom parallel downloads
+				download_files (config.max_parallel_downloads);
+				if (cancellable.is_cancelled ()) {
+					trans_release ();
+					trans_commit_finished (false);
+					return false;
+				}
+			}
+			// real commit
 			Alpm.List err_data;
 			if (alpm_handle.trans_commit (out err_data) == -1) {
 				Alpm.Errno errno = alpm_handle.errno ();

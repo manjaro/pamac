@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2018-10-27 11:19+0200\n"
+"POT-Creation-Date: 2018-11-02 12:33+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -158,6 +158,11 @@ msgid "Checking %s dependencies"
 msgstr ""
 
 #: src/transaction.vala
+#, c-format
+msgid "key %s could not be imported"
+msgstr ""
+
+#: src/transaction.vala
 msgid "Preparing"
 msgstr ""
 
@@ -243,10 +248,6 @@ msgstr ""
 #: src/transaction.vala
 #, c-format
 msgid "Configuring %s"
-msgstr ""
-
-#: src/transaction.vala
-msgid "Downloading"
 msgstr ""
 
 #: src/transaction.vala
@@ -341,6 +342,30 @@ msgstr ""
 msgid "Choose a provider for %s"
 msgstr ""
 
+#: src/transaction-gtk.vala
+msgid "Import PGP key"
+msgstr ""
+
+#: src/transaction-gtk.vala
+msgid "Trust and Import"
+msgstr ""
+
+#: src/transaction-gtk.vala src/manager_window.vala
+#: resources/transaction_sum_dialog.ui resources/manager_window.ui
+#: resources/choose_pkgs_dialog.ui
+msgid "_Cancel"
+msgstr ""
+
+#: src/transaction-gtk.vala src/transaction-cli.vala
+#, c-format
+msgid "The PGP key %s is needed to verify %s source files"
+msgstr ""
+
+#: src/transaction-gtk.vala src/transaction-cli.vala
+#, c-format
+msgid "Trust %s and import the PGP key"
+msgstr ""
+
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "To remove"
 msgstr ""
@@ -376,12 +401,6 @@ msgstr ""
 
 #: src/transaction-gtk.vala
 msgid "Save"
-msgstr ""
-
-#: src/transaction-gtk.vala src/manager_window.vala
-#: resources/transaction_sum_dialog.ui resources/manager_window.ui
-#: resources/choose_pkgs_dialog.ui
-msgid "_Cancel"
 msgstr ""
 
 #: src/transaction-gtk.vala resources/progress_dialog.ui
@@ -670,6 +689,10 @@ msgstr ""
 
 #: src/preferences_dialog.vala resources/preferences_dialog.ui
 msgid "How often to check for updates, value in hours"
+msgstr ""
+
+#: src/preferences_dialog.vala resources/preferences_dialog.ui
+msgid "Maximun parallel downloads"
 msgstr ""
 
 #: src/preferences_dialog.vala resources/preferences_dialog.ui

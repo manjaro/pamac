@@ -30,6 +30,7 @@ namespace Pamac {
 		public bool check_aur_updates { get; set; }
 		public bool check_aur_vcs_updates { get; set; }
 		public bool download_updates { get; set; }
+		public uint64 max_parallel_downloads { get; set; }
 		public uint64 clean_keep_num_pkgs { get;  set; }
 		public bool clean_rm_only_uninstalled { get; set; }
 		public unowned HashTable<string,string> environment_variables {
@@ -75,12 +76,14 @@ namespace Pamac {
 		public void reload () {
 			// set default options
 			recurse = false;
+			refresh_period = 6;
 			no_update_hide_icon = false;
 			enable_aur = false;
 			aur_build_dir = "/var/tmp";
 			check_aur_updates = false;
 			check_aur_vcs_updates = false;
 			download_updates = false;
+			max_parallel_downloads = 1;
 			clean_keep_num_pkgs = 3;
 			clean_rm_only_uninstalled = false;
 			parse_file (conf_path);
@@ -94,6 +97,14 @@ namespace Pamac {
 				check_aur_vcs_updates = false;
 			} else if (check_aur_updates == false) {
 				check_aur_vcs_updates = false;
+			}
+			// limited max_parallel_downloads
+			if (max_parallel_downloads > 10) {
+				max_parallel_downloads = 10;
+			}
+			// check updates at least once a week
+			if (refresh_period > 168) {
+				refresh_period = 168;
 			}
 		}
 
@@ -146,6 +157,11 @@ namespace Pamac {
 							check_aur_vcs_updates = true;
 						} else if (key == "DownloadUpdates") {
 							download_updates = true;
+						} else if (key == "MaxParallelDownloads") {
+							if (splitted.length == 2) {
+								unowned string val = splitted[1]._strip ();
+								max_parallel_downloads = uint64.parse (val);
+							}
 						}
 					}
 				} catch (GLib.Error e) {
@@ -270,6 +286,13 @@ namespace Pamac {
 							} else {
 								data.append (line + "\n");
 							}
+						} else if (line.contains ("MaxParallelDownloads")) {
+							if (new_conf.lookup_extended ("MaxParallelDownloads", null, out variant)) {
+								data.append ("MaxParallelDownloads = %llu\n".printf (variant.get_uint64 ()));
+								new_conf.remove ("MaxParallelDownloads");
+							} else {
+								data.append (line + "\n");
+							}
 						} else {
 							data.append (line + "\n");
 						}
@@ -337,6 +360,8 @@ namespace Pamac {
 						} else {
 							data.append ("#DownloadUpdates\n");
 						}
+					} else if (key == "MaxParallelDownloads") {
+						data.append ("MaxParallelDownloads = %llu\n".printf (val.get_uint64 ()));
 					}
 				}
 			}
