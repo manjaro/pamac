@@ -2162,12 +2162,11 @@ namespace Pamac {
 									deselect_item.visible = true;
 								}
 							}
+							if (temporary_ignorepkgs.contains (pkgname)) {
+								upgrade_item.visible = true;
+							}
 							if (origin == 1) {
-								if (temporary_ignorepkgs.contains (pkgname)) {
-									upgrade_item.visible = true;
-								} else {
-									install_item.visible = true;
-								}
+								install_item.visible = true;
 							}
 							if (filters_stack.visible_child_name != "updates" && origin == 0) { // installed
 								remove_item.visible = true;
