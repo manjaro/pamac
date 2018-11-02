@@ -217,6 +217,7 @@ namespace Pamac {
 
 			button_back.visible = false;
 			select_all_button.visible = false;
+			details_button.sensitive = false;
 			scroll_to_top = true;
 			searchbar.connect_entry (search_entry);
 			important_details = false;
@@ -2514,14 +2515,18 @@ namespace Pamac {
 					select_all_button.visible = filters_stack.visible_child_name != "filters"
 												&& origin_stack.visible_child_name != "updated";
 					search_button.visible = true;
-					details_button.sensitive = true;
+					if (transaction.details_textview.buffer.get_char_count () > 0) {
+						details_button.sensitive = true;
+					}
 					break;
 				case "details":
 					button_back.visible = true;
 					header_filter_label.set_markup ("");
 					select_all_button.visible = false;
 					search_button.visible = false;
-					details_button.sensitive = true;
+					if (transaction.details_textview.buffer.get_char_count () > 0) {
+						details_button.sensitive = true;
+					}
 					break;
 				case "term":
 					button_back.visible = true;
@@ -2689,6 +2694,7 @@ namespace Pamac {
 			} else {
 				try_lock_and_run (run_transaction);
 			}
+			details_button.sensitive = true;
 		}
 
 		bool refresh_row (Gtk.TreeModel model, Gtk.TreePath path, Gtk.TreeIter iter) {

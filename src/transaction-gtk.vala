@@ -27,7 +27,7 @@ namespace Pamac {
 		public ProgressBox progress_box;
 		uint pulse_timeout_id;
 		public Gtk.ScrolledWindow details_window;
-		Gtk.TextView details_textview;
+		public Gtk.TextView details_textview;
 		public Gtk.Notebook build_files_notebook;
 		public ChoosePkgsDialog choose_pkgs_dialog;
 		//parent window
