@@ -46,6 +46,7 @@ namespace Pamac {
 		public signal void emit_unresolvables (string[] unresolvables);
 		public signal void emit_progress (uint progress, string pkgname, uint percent, uint n_targets, uint current_target);
 		public signal void emit_download (string filename, uint64 xfered, uint64 total);
+		public signal void emit_multi_download (uint64 xfered, uint64 total);
 		public signal void emit_totaldownload (uint64 total);
 		public signal void emit_log (uint level, string msg);
 		public signal void set_pkgreason_finished ();
@@ -311,6 +312,10 @@ namespace Pamac {
 			emit_download (filename, xfered, total);
 		}
 
+		void on_emit_multi_download (uint64 xfered, uint64 total) {
+			emit_multi_download (xfered, total);
+		}
+
 		void on_emit_totaldownload (uint64 total) {
 			emit_totaldownload (total);
 		}
@@ -351,6 +356,7 @@ namespace Pamac {
 			system_daemon.emit_unresolvables.connect (on_emit_unresolvables);
 			system_daemon.emit_progress.connect (on_emit_progress);
 			system_daemon.emit_download.connect (on_emit_download);
+			system_daemon.emit_multi_download.connect (on_emit_multi_download);
 			system_daemon.emit_totaldownload.connect (on_emit_totaldownload);
 			system_daemon.emit_log.connect (on_emit_log);
 			system_daemon.database_modified.connect (on_database_modified);

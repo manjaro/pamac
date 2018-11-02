@@ -80,6 +80,7 @@ namespace Pamac {
 			// connect to signal
 			emit_action.connect (display_action);
 			emit_action_progress.connect (display_action_progress);
+			emit_download_progress.connect (display_action_progress);
 			emit_hook_progress.connect (display_hook_progress);
 			emit_script_output.connect (show_details);
 			emit_warning.connect ((msg) => {

@@ -43,6 +43,7 @@ namespace Pamac {
 		public signal void emit_unresolvables (string[] unresolvables);
 		public signal void emit_progress (uint progress, string pkgname, uint percent, uint n_targets, uint current_target);
 		public signal void emit_download (string filename, uint64 xfered, uint64 total);
+		public signal void emit_multi_download (uint64 xfered, uint64 total);
 		public signal void emit_totaldownload (uint64 total);
 		public signal void emit_log (uint level, string msg);
 		public signal void set_pkgreason_finished ();

@@ -19,7 +19,6 @@
 
 namespace Pamac {
 	public class TransactionCli: Transaction {
-		bool downloading;
 		string current_line;
 		string current_action;
 		bool summary_shown;
@@ -29,23 +28,17 @@ namespace Pamac {
 		}
 
 		construct {
-			downloading = false;
 			current_line = "";
 			current_action = "";
 			summary_shown = false;
 			// connect to signal
 			emit_action.connect (print_action);
 			emit_action_progress.connect (print_action_progress);
+			emit_download_progress.connect (print_download_progress);
 			emit_hook_progress.connect (print_hook_progress);
 			emit_script_output.connect (on_emit_script_output);
 			emit_warning.connect (print_warning);
 			emit_error.connect (print_error);
-			start_downloading.connect (() => {
-				downloading = true;
-			});
-			stop_downloading.connect (() => {
-				downloading = false;
-			});
 		}
 
 		protected override async int run_cmd_line (string[] args, string? working_directory, Cancellable cancellable) {
@@ -105,48 +98,49 @@ namespace Pamac {
 			stdout.printf ("\n");
 		}
 
-		void print_action_progress (string action, string status, double progress) {
-			if (downloading) {
-				if (progress == 0) {
-					current_action = action;
-					current_line = status;
-					stdout.printf (action);
-					stdout.printf ("\n");
-					stdout.printf (status);
-				} else if (progress == 1) {
-					current_line = "";
-					// clean line
-					stdout.printf ("\r%*s\r", get_term_width (), "");
-				} else if (action == current_action) {
-					current_line = status;
-					// clean line
-					stdout.printf ("\r%*s\r", get_term_width (), "");
-					stdout.printf (status);
-				} else {
-					current_action = action;
-					current_line = status;
-					// clean line
-					stdout.printf ("\r%*s\r", get_term_width (), "");
-					stdout.printf (action);
-					stdout.printf ("\n");
-					stdout.printf (status);
-				}
+		void print_download_progress (string action, string status, double progress) {
+			if (progress == 0) {
+				current_action = action;
+				current_line = status;
+				stdout.printf (action);
+				stdout.printf ("\n");
+				stdout.printf (status);
+			} else if (progress == 1) {
+				current_line = "";
+				// clean line
+				stdout.printf ("\r%*s\r", get_term_width (), "");
+			} else if (action == current_action) {
+				current_line = status;
+				// clean line
+				stdout.printf ("\r%*s\r", get_term_width (), "");
+				stdout.printf (status);
 			} else {
-				if (action != current_action) {
-					current_action = action;
-					display_current_line ();
-				}
-				int width = get_term_width () - action.char_count () - 1;
-				string current_status = "[%s]".printf (status);
-				if (width > current_status.length) {
-					current_line = "%s %*s".printf (action, width, current_status);
-					stdout.printf (current_line);
-					stdout.printf ("\r");
-				} else {
-					current_line = "%s %s".printf (action, current_status);
-					stdout.printf (current_line);
-					stdout.printf ("\n");
-				}
+				current_action = action;
+				current_line = status;
+				// clean line
+				stdout.printf ("\r%*s\r", get_term_width (), "");
+				stdout.printf (action);
+				stdout.printf ("\n");
+				stdout.printf (status);
+			}
+			stdout.flush ();
+		}
+
+		void print_action_progress (string action, string status, double progress) {
+			if (action != current_action) {
+				current_action = action;
+				display_current_line ();
+			}
+			int width = get_term_width () - action.char_count () - 1;
+			string current_status = "[%s]".printf (status);
+			if (width > current_status.length) {
+				current_line = "%s %*s".printf (action, width, current_status);
+				stdout.printf (current_line);
+				stdout.printf ("\r");
+			} else {
+				current_line = "%s %s".printf (action, current_status);
+				stdout.printf (current_line);
+				stdout.printf ("\n");
 			}
 			stdout.flush ();
 		}

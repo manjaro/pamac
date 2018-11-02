@@ -19,6 +19,68 @@
 
 Pamac.AlpmUtils alpm_utils;
 
+uint64 prevprogress;
+uint64 total_download;
+HashTable<string, uint64?> multi_progress;
+HashTable<string, AsyncQueue> queues_table;
+
+class DownloadServer: Object {
+	Curl.Easy curl;
+	string cachedir;
+	string server_url;
+	GenericSet<string?> repos;
+
+	public DownloadServer (owned string server_url, owned GenericSet<string?> repos) {
+		curl = new Curl.Easy ();
+		curl.setopt (Curl.Option.FAILONERROR, 1L);
+		curl.setopt (Curl.Option.CONNECTTIMEOUT, 30L);
+		curl.setopt (Curl.Option.FILETIME, 1L);
+		curl.setopt (Curl.Option.FOLLOWLOCATION, 1L);
+		curl.setopt (Curl.Option.XFERINFOFUNCTION, cb_multi_download);
+		curl.setopt (Curl.Option.LOW_SPEED_LIMIT, 1L);
+		curl.setopt (Curl.Option.LOW_SPEED_TIME, 30L);
+		curl.setopt (Curl.Option.NETRC, Curl.NetRCOption.OPTIONAL);
+		curl.setopt (Curl.Option.HTTPAUTH, Curl.CURLAUTH_ANY);
+		cachedir = alpm_utils.alpm_handle.cachedirs.nth (0).data;
+		this.server_url = server_url;
+		this.repos = repos;
+	}
+
+	public void download_files () {
+		foreach (unowned string repo in repos) {
+			if (alpm_utils.cancellable.is_cancelled ()) {
+				return;
+			}
+			unowned AsyncQueue<string>? dload_queue = queues_table.lookup (repo);
+			if (dload_queue == null) {
+				continue;
+			}
+			// check if download are available
+			while (dload_queue.length () > 0) {
+				if (alpm_utils.cancellable.is_cancelled ()) {
+					return;
+				}
+				// wait for the lock
+				dload_queue.lock ();
+				string? filename = dload_queue.try_pop_unlocked ();
+				dload_queue.unlock ();
+				if (filename != null) {
+					alpm_utils.emit_event (Alpm.Event.Type.PKGDOWNLOAD_START, 0, {filename});
+					int ret = curl_dload (curl, "%s/%s/%s/%s".printf (server_url, repo, alpm_utils.alpm_handle.arch, filename), cachedir, 0);
+					if (ret == -1) {
+						// error
+						// re-add filename to queue and return to use another mirror
+						dload_queue.lock ();
+						dload_queue.push_front_unlocked (filename);
+						dload_queue.unlock ();
+						return;
+					}
+				}
+			}
+		}
+	}
+}
+
 namespace Pamac {
 	internal class AlpmUtils: Object {
 		Config config;
@@ -55,6 +117,7 @@ namespace Pamac {
 		public signal void emit_unresolvables (string[] unresolvables);
 		public signal void emit_progress (uint progress, string pkgname, uint percent, uint n_targets, uint current_target);
 		public signal void emit_download (string filename, uint64 xfered, uint64 total);
+		public signal void emit_multi_download (uint64 xfered, uint64 total);
 		public signal void emit_totaldownload (uint64 total);
 		public signal void emit_log (uint level, string msg);
 		public signal void refresh_finished (bool success);
@@ -73,9 +136,18 @@ namespace Pamac {
 			current_error = ErrorInfos ();
 			refresh_handle ();
 			cancellable = new Cancellable ();
-			curl = new Curl.Easy ();
-			downloading_updates = false;
 			Curl.global_init (Curl.GLOBAL_SSL);
+			curl = new Curl.Easy ();
+			curl.setopt (Curl.Option.FAILONERROR, 1L);
+			curl.setopt (Curl.Option.CONNECTTIMEOUT, 30L);
+			curl.setopt (Curl.Option.FILETIME, 1L);
+			curl.setopt (Curl.Option.FOLLOWLOCATION, 1L);
+			curl.setopt (Curl.Option.XFERINFOFUNCTION, cb_download);
+			curl.setopt (Curl.Option.LOW_SPEED_LIMIT, 1L);
+			curl.setopt (Curl.Option.LOW_SPEED_TIME, 30L);
+			curl.setopt (Curl.Option.NETRC, Curl.NetRCOption.OPTIONAL);
+			curl.setopt (Curl.Option.HTTPAUTH, Curl.CURLAUTH_ANY);
+			downloading_updates = false;
 		}
 
 		~AlpmUtils () {
@@ -890,7 +962,102 @@ namespace Pamac {
 			return summary;
 		}
 
+		bool compute_multi_download_progress () {
+			uint64 total_progress = 0;
+			multi_progress.foreach ((filename, progress) => {
+				total_progress += progress;
+			});
+			emit_multi_download (total_progress, total_download);
+			return true;
+		}
+
+		void download_files () {
+			// use to track downloads progress
+			uint timeout_id = Timeout.add (500, compute_multi_download_progress);
+			multi_progress = new HashTable<string, uint64?> (str_hash, str_equal);
+			// create the table of async queues
+			// one queue per repo
+			queues_table = new HashTable<string, AsyncQueue<string>> (str_hash, str_equal);
+			// get files to download
+			total_download = 0;
+			unowned Alpm.List<unowned Alpm.Package> pkgs_to_add = alpm_utils.alpm_handle.trans_to_add ();
+			while (pkgs_to_add != null) {
+				unowned Alpm.Package trans_pkg = pkgs_to_add.data;
+				uint64 download_size = trans_pkg.download_size;
+				if (download_size > 0) {
+					total_download += trans_pkg.download_size;
+					if (trans_pkg.db != null) {
+						if (queues_table.contains (trans_pkg.db.name)) {
+							unowned AsyncQueue<string> queue = queues_table.lookup (trans_pkg.db.name);
+							queue.push (trans_pkg.filename);
+						} else {
+							var queue = new AsyncQueue<string> ();
+							queue.push (trans_pkg.filename);
+							queues_table.insert (trans_pkg.db.name, queue);
+						}
+					}
+				}
+				pkgs_to_add.next ();
+			}
+			// compute the dbs available for each mirror
+			var mirrors_table = new HashTable<string, GenericSet<string>> (str_hash, str_equal);
+			unowned Alpm.List<unowned Alpm.DB> syncdbs = alpm_utils.alpm_handle.syncdbs;
+			while (syncdbs != null) {
+				unowned Alpm.DB db = syncdbs.data;
+				unowned Alpm.List<unowned string> servers = db.servers;
+				while (servers != null) {
+					unowned string server_full = servers.data;
+					string server = server_full.replace ("/%s".printf (alpm_utils.alpm_handle.arch), "").replace ("/%s".printf (db.name), "");
+					if (mirrors_table.contains (server)) {
+						unowned GenericSet<string> repos_set = mirrors_table.lookup (server);
+						repos_set.add (db.name);
+					} else {
+						var repos_set = new GenericSet<string> (str_hash, str_equal);
+						repos_set.add (db.name);
+						mirrors_table.insert (server, repos_set);
+					}
+					servers.next ();
+				}
+				syncdbs.next ();
+			}
+			emit_event (Alpm.Event.Type.RETRIEVE_START, 0, {});
+			emit_multi_download (0, total_download);
+			// create a thread pool which will download files
+			// there will be one thread per mirror
+			try {
+				var dload_thread_pool = new ThreadPool<DownloadServer>.with_owned_data (
+					// call alpm_action.run () on thread start
+					(download_server) => {
+						download_server.download_files ();
+					},
+					// 5 simultaneous downloads
+					5,
+					// exclusive threads
+					true
+				);
+				mirrors_table.foreach_steal ((mirror, repo_set) => {
+					try {
+						dload_thread_pool.add (new DownloadServer (mirror, repo_set));
+					} catch (ThreadError e) {
+						stderr.printf ("Thread Error %s\n", e.message);
+					}
+					return true;
+				});
+				// wait for all thread to finish
+				ThreadPool.free ((owned) dload_thread_pool, false, true);
+			} catch (ThreadError e) {
+				stderr.printf ("Thread Error %s\n", e.message);
+			}
+			// stop compute_multi_download_progress
+			Source.remove (timeout_id);
+			emit_multi_download (total_download, total_download);
+			alpm_utils.emit_event (Alpm.Event.Type.RETRIEVE_DONE, 0, {});
+		}
+
 		internal void trans_commit () {
+			// custom parallel download
+			download_files ();
+			// real commit
 			add_overwrite_files ();
 			bool success = false;
 			if (to_syncfirst.length > 0) {
@@ -1246,7 +1413,15 @@ void cb_progress (Alpm.Progress progress, string pkgname, int percent, uint n_ta
 	}
 }
 
-uint64 prevprogress;
+int cb_multi_download (void* data, uint64 dltotal, uint64 dlnow, uint64 ultotal, uint64 ulnow) {
+
+	if (unlikely (alpm_utils.cancellable.is_cancelled ())) {
+		return 1;
+	}
+
+	multi_progress.insert ((string) data, dlnow);
+	return 0;
+}
 
 int cb_download (void* data, uint64 dltotal, uint64 dlnow, uint64 ultotal, uint64 ulnow) {
 
@@ -1278,6 +1453,11 @@ int cb_download (void* data, uint64 dltotal, uint64 dlnow, uint64 ultotal, uint6
 }
 
 int cb_fetch (string fileurl, string localpath, int force) {
+	prevprogress = 0;
+	return curl_dload (alpm_utils.curl, fileurl, localpath, force);
+}
+
+int curl_dload (Curl.Easy curl, string fileurl, string localpath, int force) {
 	if (alpm_utils.cancellable.is_cancelled ()) {
 		return -1;
 	}
@@ -1287,20 +1467,14 @@ int cb_fetch (string fileurl, string localpath, int force) {
 	var destfile = GLib.File.new_for_path (localpath + url.get_basename ());
 	var tempfile = GLib.File.new_for_path (destfile.get_path () + ".part");
 
-	alpm_utils.curl.reset ();
-	alpm_utils.curl.setopt (Curl.Option.FAILONERROR, 1L);
-	alpm_utils.curl.setopt (Curl.Option.CONNECTTIMEOUT, 30L);
-	alpm_utils.curl.setopt (Curl.Option.FILETIME, 1L);
-	alpm_utils.curl.setopt (Curl.Option.FOLLOWLOCATION, 1L);
-	alpm_utils.curl.setopt (Curl.Option.XFERINFOFUNCTION, cb_download);
-	alpm_utils.curl.setopt (Curl.Option.LOW_SPEED_LIMIT, 1L);
-	alpm_utils.curl.setopt (Curl.Option.LOW_SPEED_TIME, 30L);
-	alpm_utils.curl.setopt (Curl.Option.NETRC, Curl.NetRCOption.OPTIONAL);
-	alpm_utils.curl.setopt (Curl.Option.HTTPAUTH, Curl.CURLAUTH_ANY);
-	alpm_utils.curl.setopt (Curl.Option.URL, fileurl);
-	alpm_utils.curl.setopt (Curl.Option.ERRORBUFFER, error_buffer);
-	alpm_utils.curl.setopt (Curl.Option.NOPROGRESS, 0L);
-	alpm_utils.curl.setopt (Curl.Option.XFERINFODATA, (void*) url.get_basename ());
+	// reset previous options
+	curl.setopt (Curl.Option.TIMECONDITION, Curl.TimeCond.NONE);
+	curl.setopt (Curl.Option.TIMEVALUE, 0L);
+	curl.setopt (Curl.Option.RESUME_FROM_LARGE, 0L);
+	curl.setopt (Curl.Option.URL, fileurl);
+	curl.setopt (Curl.Option.ERRORBUFFER, error_buffer);
+	curl.setopt (Curl.Option.NOPROGRESS, 0L);
+	curl.setopt (Curl.Option.XFERINFODATA, (void*) url.get_basename ());
 
 	bool remove_partial_download = true;
 	if (fileurl.contains (".pkg.tar.") && !fileurl.has_suffix (".sig")) {
@@ -1308,21 +1482,20 @@ int cb_fetch (string fileurl, string localpath, int force) {
 	}
 
 	string open_mode = "wb";
-	prevprogress = 0;
 
 	try {
 		if (force == 0) {
 			if (destfile.query_exists ()) {
 				// start from scratch only download if our local is out of date.
-				alpm_utils.curl.setopt (Curl.Option.TIMECONDITION, Curl.TimeCond.IFMODSINCE);
+				curl.setopt (Curl.Option.TIMECONDITION, Curl.TimeCond.IFMODSINCE);
 				FileInfo info = destfile.query_info ("time::modified", 0);
 				TimeVal time = info.get_modification_time ();
-				alpm_utils.curl.setopt (Curl.Option.TIMEVALUE, time.tv_sec);
+				curl.setopt (Curl.Option.TIMEVALUE, time.tv_sec);
 			} else if (tempfile.query_exists ()) {
 				// a previous partial download exists, resume from end of file.
 				FileInfo info = tempfile.query_info ("standard::size", 0);
 				int64 size = info.get_size ();
-				alpm_utils.curl.setopt (Curl.Option.RESUME_FROM_LARGE, size);
+				curl.setopt (Curl.Option.RESUME_FROM_LARGE, size);
 				open_mode = "ab";
 			}
 		} else {
@@ -1340,17 +1513,17 @@ int cb_fetch (string fileurl, string localpath, int force) {
 		return -1;
 	}
 
-	alpm_utils.curl.setopt (Curl.Option.WRITEDATA, localf);
+	curl.setopt (Curl.Option.WRITEDATA, localf);
 
 	// perform transfer
-	Curl.Code err = alpm_utils.curl.perform ();
+	Curl.Code err = curl.perform ();
 
 
 	// disconnect relationships from the curl handle for things that might go out
 	// of scope, but could still be touched on connection teardown. This really
 	// only applies to FTP transfers.
-	alpm_utils.curl.setopt (Curl.Option.NOPROGRESS, 1L);
-	alpm_utils.curl.setopt (Curl.Option.ERRORBUFFER, null);
+	curl.setopt (Curl.Option.NOPROGRESS, 1L);
+	curl.setopt (Curl.Option.ERRORBUFFER, null);
 
 	int ret;
 
@@ -1362,11 +1535,11 @@ int cb_fetch (string fileurl, string localpath, int force) {
 			unowned string effective_url;
 
 			// retrieve info about the state of the transfer
-			alpm_utils.curl.getinfo (Curl.Info.FILETIME, out remote_time);
-			alpm_utils.curl.getinfo (Curl.Info.CONTENT_LENGTH_DOWNLOAD, out remote_size);
-			alpm_utils.curl.getinfo (Curl.Info.SIZE_DOWNLOAD, out bytes_dl);
-			alpm_utils.curl.getinfo (Curl.Info.CONDITION_UNMET, out timecond);
-			alpm_utils.curl.getinfo (Curl.Info.EFFECTIVE_URL, out effective_url);
+			curl.getinfo (Curl.Info.FILETIME, out remote_time);
+			curl.getinfo (Curl.Info.CONTENT_LENGTH_DOWNLOAD, out remote_size);
+			curl.getinfo (Curl.Info.SIZE_DOWNLOAD, out bytes_dl);
+			curl.getinfo (Curl.Info.CONDITION_UNMET, out timecond);
+			curl.getinfo (Curl.Info.EFFECTIVE_URL, out effective_url);
 
 			if (timecond == 1 && bytes_dl == 0) {
 				// time condition was met and we didn't download anything. we need to
