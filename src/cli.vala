@@ -48,14 +48,6 @@ namespace Pamac {
 			trans_cancellable = false;
 			waiting = false;
 			overwrite_files = {};
-			if (Posix.geteuid () != 0) {
-				// Use tty polkit authentication agent
-				try {
-					pkttyagent = new Subprocess.newv ({"pkttyagent"}, SubprocessFlags.NONE);
-				} catch (Error e) {
-					stdout.printf ("%s: %s\n", dgettext (null, "Error"), e.message);
-				}
-			}
 			// watch CTRl + C
 			Unix.signal_add (Posix.Signal.INT, trans_cancel);
 		}
@@ -473,6 +465,14 @@ namespace Pamac {
 			transaction.stop_building.connect (() => {
 				trans_cancellable = false;
 			});
+			if (Posix.geteuid () != 0) {
+				// Use tty polkit authentication agent
+				try {
+					pkttyagent = new Subprocess.newv ({"pkttyagent"}, SubprocessFlags.NONE);
+				} catch (Error e) {
+					stdout.printf ("%s: %s\n", dgettext (null, "Error"), e.message);
+				}
+			}
 		}
 
 		bool trans_cancel () {
@@ -2051,22 +2051,6 @@ namespace Pamac {
 		}
 
 		public static int main (string[] args) {
-			if (Posix.geteuid () != 0) {
-				// set dbus environment variable to allow launch in tty
-				try {
-					var process = new Subprocess.newv ({"dbus-launch"}, SubprocessFlags.STDOUT_PIPE | SubprocessFlags.STDERR_SILENCE);
-					var dis = new DataInputStream (process.get_stdout_pipe ());
-					string? line;
-					while ((line = dis.read_line ()) != null) {
-						string[] splitted = line.split ("=", 2);
-						unowned string key = splitted[0];
-						unowned string? val = splitted[1];
-						Environment.set_variable (key, val, true);
-					}
-				} catch (Error e) {
-					stderr.printf (e.message);
-				}
-			}
 			// i18n
 			Intl.textdomain ("pamac");
 			Intl.setlocale (LocaleCategory.ALL, "");
