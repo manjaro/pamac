@@ -531,9 +531,9 @@ namespace Pamac {
 			}
 			result.join (syncpkgs.diff (result, (Alpm.List.CompareFunc) alpm_pkg_compare_name));
 			// search in appstream
-			if (search_string.length >= 3) {
+			string[]? search_terms = As.utils_search_tokenize (search_string);
+			if (search_terms != null) {
 				Alpm.List<unowned Alpm.Package> appstream_result = null;
-				string[] search_terms = As.utils_search_tokenize (search_string);
 				app_store.get_apps ().foreach ((app) => {
 					uint match_score = app.search_matches_all (search_terms);
 					if (match_score > 0) {
