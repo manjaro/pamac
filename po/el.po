@@ -25,8 +25,8 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2018-10-18 11:38+0200\n"
-"PO-Revision-Date: 2018-10-18 09:49+0000\n"
-"Last-Translator: Guillaume Benoit <guillaume@manjaro.org>\n"
+"PO-Revision-Date: 2018-10-31 23:47+0000\n"
+"Last-Translator: Πέτρος Σαμαράς <psamaras1@gmail.com>\n"
 "Language-Team: Greek (http://www.transifex.com/manjarolinux/manjaro-pamac/language/el/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -145,7 +145,7 @@ msgstr "Όχι"
 #: src/transaction.vala
 #, c-format
 msgid "Generating %s informations"
-msgstr ""
+msgstr "Δημιουργούνται πληροφορίες για %s"
 
 #: src/transaction.vala
 msgid "Refreshing mirrors list"
@@ -162,12 +162,12 @@ msgstr "Συγχρονισμός των βάσεων δεδομένων"
 #: src/transaction.vala src/cli.vala
 #, c-format
 msgid "Cloning %s build files"
-msgstr ""
+msgstr "Κλωνοποίηση αρχείων δόμησης %s"
 
 #: src/transaction.vala
 #, c-format
 msgid "Checking %s dependencies"
-msgstr ""
+msgstr "Έλεγχος εξαρτήσεων %s"
 
 #: src/transaction.vala
 msgid "Preparing"
@@ -300,11 +300,11 @@ msgstr "Το %s εγκαταστάθηκε ως %s.pacsave"
 
 #: src/transaction.vala
 msgid "Running pre-transaction hooks"
-msgstr "Τρέχουν hooks προ της διεργασίας"
+msgstr "Εκτελούνται hooks προ της διεργασίας"
 
 #: src/transaction.vala
 msgid "Running post-transaction hooks"
-msgstr "Τρέχουν hooks μετά τη διεργασία"
+msgstr "Εκτελούνται hooks μετά τη διεργασία"
 
 #: src/transaction.vala
 #, c-format
@@ -383,11 +383,11 @@ msgstr "Συνολικό μέγεθος προς λήψη:"
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
 msgid "Edit %s build files"
-msgstr ""
+msgstr "Επεξεργασία αρχείων δόμησης %s"
 
 #: src/transaction-gtk.vala
 msgid "Save"
-msgstr ""
+msgstr "Αποθήκευση"
 
 #: src/transaction-gtk.vala src/manager_window.vala
 #: resources/transaction_sum_dialog.ui resources/manager_window.ui
@@ -402,19 +402,19 @@ msgstr "_Κλείσιμο"
 
 #: src/installer.vala src/manager_window.vala src/cli.vala
 msgid "Waiting for another package manager to quit"
-msgstr "Περιμένοντας να τερματίσει ένας άλλος διαχειριστής πακέτων."
+msgstr "Αναμονή τερματισμού άλλου διαχειριστή πακέτων."
 
 #: src/installer.vala src/cli.vala
 msgid "Install packages from repositories, path or url"
-msgstr ""
+msgstr "Εγκατάσταση πακέτων από αποθήκες, διαδρομή ή URL."
 
 #: src/installer.vala src/cli.vala
 msgid "Remove packages"
-msgstr ""
+msgstr "Αφαίρεση πακέτων"
 
 #: src/installer.vala src/cli.vala
 msgid "package(s)"
-msgstr ""
+msgstr "πακέτο(α)"
 
 #: src/tray.vala src/manager_window.vala src/cli.vala
 msgid "Your system is up-to-date"
@@ -458,7 +458,7 @@ msgstr "Εγκατάσταση"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Build"
-msgstr ""
+msgstr "Δόμηση"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Remove"
@@ -561,7 +561,7 @@ msgstr "Αρχεία"
 
 #: src/manager_window.vala
 msgid "Build files"
-msgstr ""
+msgstr "Αρχεία δόμησης"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Install Reason"
@@ -702,224 +702,224 @@ msgstr "Παγκοσμίως"
 #: src/transaction-cli.vala
 #, c-format
 msgid "Enter a number (default=%d)"
-msgstr ""
+msgstr "Εισάγετε έναν αριθμό (προεπιλογή=%d )"
 
 #: src/transaction-cli.vala
 msgid "[y/N]"
-msgstr ""
+msgstr "(ν/Ο)"
 
 #: src/transaction-cli.vala
 msgid "y"
-msgstr ""
+msgstr "ν"
 
 #: src/transaction-cli.vala
 msgid "yes"
-msgstr ""
+msgstr "ναι"
 
 #: src/transaction-cli.vala resources/transaction_sum_dialog.ui
 msgid "Edit build files"
-msgstr ""
+msgstr "Επεξεργασία αρχείων δόμησης"
 
 #: src/transaction-cli.vala
 msgid "Total installed size"
-msgstr ""
+msgstr "Συνολικό μέγεθος εγκατεστημένων"
 
 #: src/transaction-cli.vala
 msgid "Total removed size"
-msgstr ""
+msgstr "Συνολικό μέγεθος αφαίρεσης"
 
 #: src/transaction-cli.vala
 msgid "Commit transaction"
-msgstr ""
+msgstr "Εκτέλεση διεργασίας"
 
 #: src/transaction-cli.vala
 #, c-format
 msgid "View %s build files diff"
-msgstr ""
+msgstr "Εμφάνιση διαφορών αρχείων δόμησης %s"
 
 #: src/cli.vala
 msgid "Building packages as root is not allowed"
-msgstr ""
+msgstr "Η δόμηση πακέτων ως root δεν επιτρέπεται"
 
 #: src/cli.vala
 msgid "No PKGBUILD file found in current directory"
-msgstr ""
+msgstr "Δεν βρέθηκε PKGBUILD στον τρέχοντα φάκελο"
 
 #: src/cli.vala
 msgid "Available actions"
-msgstr ""
+msgstr "Διαθέσιμες ενέργειες"
 
 #: src/cli.vala
 msgid "action"
-msgstr ""
+msgstr "ενέργεια"
 
 #: src/cli.vala
 msgid "options"
-msgstr ""
+msgstr "επιλογές"
 
 #: src/cli.vala
 msgid "Search for packages or files, multiple search terms can be specified"
-msgstr ""
+msgstr "Αναζήτηση για πακέτα ή αρχεία, μπορούν να οριστούν πολλαπλοί όροι αναζήτησης"
 
 #: src/cli.vala
 msgid "file(s)"
-msgstr ""
+msgstr "αρχείο(α)"
 
 #: src/cli.vala
 msgid "search in AUR instead of repositories"
-msgstr ""
+msgstr "αναζήτηση στο AUR αντί για τα αποθετήρια"
 
 #: src/cli.vala
 msgid ""
 "search for packages which own the given filenames (filenames can be partial)"
-msgstr ""
+msgstr "αναζήτηση για πακέτα στα οποία ανήκουν τα δεδομένα ονόματα αρχείων (τα ονόματα αρχείων μπορούν να είναι ελλιπή)"
 
 #: src/cli.vala
 msgid "Display package details, multiple packages can be specified"
-msgstr ""
+msgstr "Εμφάνιση λεπτομερειών πακέτου, μπορούν να οριστούν πολλαπλά πακέτα"
 
 #: src/cli.vala
 msgid "List packages, groups, repositories or files"
-msgstr ""
+msgstr "Κατάλογος πακέτων, ομάδων, αποθετηρίων ή αρχείων"
 
 #: src/cli.vala
 msgid "list installed packages"
-msgstr ""
+msgstr "εμφάνιση εγκατεστημένων πακέτων"
 
 #: src/cli.vala
 msgid ""
 "list packages that were installed as dependencies but are no longer required"
 " by any installed package"
-msgstr ""
+msgstr "εμφάνιση πακέτων εγκατεστημένων ως εξαρτήσεις, αλλά δεν απαιτούνται πλέον από κανένα εγκατεστημένο πακέτο"
 
 #: src/cli.vala
 msgid "list packages that were not found in the repositories"
-msgstr ""
+msgstr "εμφάνιση πακέτων που δεν βρέθηκαν στα αποθετήρια"
 
 #: src/cli.vala
 msgid ""
 "list all packages that are members of the given groups, if no group is given"
 " list all groups"
-msgstr ""
+msgstr "εμφάνιση όλων των πακέτων που είναι μέλη των δεδομένων ομάδων, αν δεν δίνεται ομάδα εμφάνιση όλων των ομάδων"
 
 #: src/cli.vala
 msgid "group(s)"
-msgstr ""
+msgstr "ομάδα(ες)"
 
 #: src/cli.vala
 msgid ""
 "list all packages available in the given repos, if no repo is given list all"
 " repos"
-msgstr ""
+msgstr "εμφάνιση όλων των πακέτων που είναι διαθέσιμα στα δεδομένα αποθετήρια, αν δεν δίνεται αποθετήριο εμφάνιση όλων των αποθετηρίων"
 
 #: src/cli.vala
 msgid "repo(s)"
-msgstr ""
+msgstr "αποθετήριο(α)"
 
 #: src/cli.vala
 msgid "list files owned by the given packages"
-msgstr ""
+msgstr "εμφάνιση αρχείων που ανήκουν στα δεδομένα πακέτα"
 
 #: src/cli.vala
 msgid "Clone or sync packages build files from AUR"
-msgstr ""
+msgstr "Κλωνοποίηση ή συγχρονισμός αρχείων δόμησης πακέτων από AUR"
 
 #: src/cli.vala
 msgid ""
 "build directory, if no directory is given the one specified in pamac.conf "
 "file is used"
-msgstr ""
+msgstr "κατάλογος δόμησης, αν δεν δίνεται κατάλογος θα χρησιμοποιείται ο ορισμένος στο pamac.conf"
 
 #: src/cli.vala
 msgid "dir"
-msgstr ""
+msgstr "κατ"
 
 #: src/cli.vala
 msgid "also clone needed dependencies"
-msgstr ""
+msgstr "επιπλέον κλωνοποίηση απαιτούμενων εξαρτήσεων"
 
 #: src/cli.vala
 msgid "overwrite existing files"
-msgstr ""
+msgstr "αντικατάσταση υπαρχόντων αρχείων"
 
 #: src/cli.vala
 msgid "Build packages from AUR and install them with their dependencies"
-msgstr ""
+msgstr "Δόμηση πακέτων από AUR και εγκατάστασή τους μαζί με τις εξαρτήσεις τους"
 
 #: src/cli.vala
 msgid ""
 "If no package name is given, use the PKGBUILD file in the current directory"
-msgstr ""
+msgstr "Αν δεν δίνεται όνομα πακέτου, χρήση του αρχείου PKGBUILD από τον τρέχοντα κατάλογο"
 
 #: src/cli.vala
 msgid ""
 "The build directory will be the parent directory, --builddir option will be "
 "ignored"
-msgstr ""
+msgstr "Ο κατάλογος δόμησης θα είναι ο γονικός κατάλογος, η επιλογή --builddir θα αγνοηθεί"
 
 #: src/cli.vala
 msgid "do not clone build files from AUR, only use local files"
-msgstr ""
+msgstr "να μην κλωνοποιηθούν αρχεία δόμησης από AUR, χρήση μόνο τοπικών αρχείων"
 
 #: src/cli.vala
 msgid ""
 "ignore a package upgrade, multiple packages can be specified by separating "
 "them with a comma"
-msgstr ""
+msgstr "παράλειψη αναβάθμισης πακέτου, μπορούν να οριστούν πολλαπλά πακέτα διαχωρισμένα με κόμμα"
 
 #: src/cli.vala
 msgid ""
 "overwrite conflicting files, multiple patterns can be specified by "
 "separating them with a comma"
-msgstr ""
+msgstr "αντικατάσταση συγκρουόμενων αρχείων, μπορούν να οριστούν πολλαπλά σχέδια/μοτίβα διαχωρισμένα κόμμα"
 
 #: src/cli.vala
 msgid "glob"
-msgstr ""
+msgstr "glob"
 
 #: src/cli.vala
 msgid "Reinstall packages"
-msgstr ""
+msgstr "Επανεγκατεστημένα πακέτα"
 
 #: src/cli.vala
 msgid ""
 "remove dependencies that are not required by other packages, if this option "
 "is used without package name remove all orphans"
-msgstr ""
+msgstr "αφαίρεση εξαρτήσεων που δεν απαιτούνται από άλλα πακέτα, αν δεν δίνεται όνομα πακέτου, αφαίρεση όλων των ορφανών"
 
 #: src/cli.vala
 msgid "Safely check for updates without modifiying the databases"
-msgstr ""
+msgstr "Ασφαλής έλεγχος για ενημερώσεις χωρίς τροποποίηση των βάσεων δεδομένων"
 
 #: src/cli.vala
 msgid "Exit code is 100 if updates are available"
-msgstr ""
+msgstr "Κωδικός εξόδου 100 αν υπάρχουν διαθέσιμες ενημερώσεις"
 
 #: src/cli.vala
 msgid "also check updates in AUR"
-msgstr ""
+msgstr "επιπλέον έλεγχος στο AUR"
 
 #: src/cli.vala
 msgid "Upgrade your system"
-msgstr ""
+msgstr "Αναβάθμισε το σύστημά σου"
 
 #: src/cli.vala
 msgid "also upgrade packages installed from AUR"
-msgstr ""
+msgstr "επιπλέον αναβάθμισε πακέτα εγκατεστημένα από το AUR"
 
 #: src/cli.vala
 msgid ""
 "build directory (use with --aur), if no directory is given the one specified"
 " in pamac.conf file is used"
-msgstr ""
+msgstr "κατάλογος δόμησης (χρήση με --aur), αν δεν δίνεται κατάλογος, χρήση του ορισμένου στο pamac.conf"
 
 #: src/cli.vala
 msgid "force the refresh of the databases"
-msgstr ""
+msgstr "επιβολή ανανέωσης των βάσεων δεδομένων"
 
 #: src/cli.vala
 msgid "enable package downgrades"
-msgstr ""
+msgstr "να επιτρέπεται υποβάθμιση πακέτων"
 
 #: src/cli.vala resources/manager_window.ui
 msgid "Version"
@@ -927,11 +927,11 @@ msgstr "Έκδοση"
 
 #: src/cli.vala
 msgid "Description"
-msgstr ""
+msgstr "Περιγραφή"
 
 #: src/cli.vala
 msgid "URL"
-msgstr ""
+msgstr "URL"
 
 #: src/cli.vala resources/manager_window.ui
 msgid "Size"
@@ -940,23 +940,23 @@ msgstr "Μέγεθος"
 #: src/cli.vala
 #, c-format
 msgid "No package owns %s"
-msgstr ""
+msgstr "Το%s δεν ανήκει σε κανένα πακέτο"
 
 #: src/cli.vala
 #, c-format
 msgid "%s is owned by %s"
-msgstr ""
+msgstr "Το%s ανήκει στο%s"
 
 #: src/cli.vala
 #, c-format
 msgid "There is %u member in group %s"
 msgid_plural "There are %u members in group %s"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Υπάρχει %u μέλος στην ομάδα %s"
+msgstr[1] "Υπάρχουν %u μέλη στην ομάδα %s"
 
 #: src/cli.vala
 msgid "Enter a selection (default=all)"
-msgstr ""
+msgstr "Εισάγετε μια επιλογή (προκαθορισμένο=all)"
 
 #: resources/choose_provider_dialog.ui
 msgid "Choose a Provider"
@@ -1020,7 +1020,7 @@ msgstr "Επανεγκατάσταση"
 
 #: resources/manager_window.ui
 msgid "Reset build files"
-msgstr ""
+msgstr "Επαναφορά αρχείων δόμησης"
 
 #: resources/manager_window.ui
 msgid "_Apply"

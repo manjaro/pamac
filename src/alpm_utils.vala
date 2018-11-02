@@ -784,13 +784,6 @@ namespace Pamac {
 					}
 					syncdbs.next ();
 				}
-				// git is needed to build pkgs
-				if (Alpm.find_satisfier (alpm_handle.localdb.pkgcache, "git") == null) {
-					to_install += "git";
-				} else {
-					// remove the needed pkg from to_remove
-					backup_to_remove.remove ("git");
-				}
 				to_remove = {};
 				foreach (unowned string name in backup_to_remove) {
 					to_remove += name;
