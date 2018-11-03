@@ -216,7 +216,6 @@ namespace Pamac {
 		}
 
 		void on_get_authorization_finished (bool authorized) {
-			emit_script_output ("");
 			get_authorization_finished (authorized);
 		}
 

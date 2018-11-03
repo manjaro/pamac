@@ -290,6 +290,7 @@ namespace Pamac {
 					return index;
 				}
 			}
+			stdout.printf ("\n");
 		}
 
 		bool ask_user (string question) {

@@ -51,6 +51,10 @@ namespace Pamac {
 		[GtkChild]
 		Gtk.HeaderBar headerbar;
 		[GtkChild]
+		Gtk.Revealer notification_revealer;
+		[GtkChild]
+		Gtk.Label notification_label;
+		[GtkChild]
 		public Gtk.Stack main_stack;
 		[GtkChild]
 		Gtk.Button button_back;
@@ -197,6 +201,7 @@ namespace Pamac {
 		List<Package> repos_updates;
 		List<AURPackage> aur_updates;
 
+		uint notification_timeout_id;
 		uint search_entry_timeout_id;
 		string search_string;
 		Gtk.Label pending_label;
@@ -432,6 +437,9 @@ namespace Pamac {
 					stderr.printf ("SpawnError: %s\n", e.message);
 				}
 			}
+
+			// connect notification signal
+			transaction.emit_notification.connect ((msg) => { show_in_app_notification (msg, true); });
 		}
 
 		[GtkCallback]
@@ -443,6 +451,41 @@ namespace Pamac {
 				// close window
 				return false;
 			}
+		}
+
+		public void show_in_app_notification (string msg, bool expires) {
+			close_in_app_notification ();
+			notification_label.label = msg;
+			notification_revealer.reveal_child = true;
+			while (Gtk.events_pending ()) {
+				Gtk.main_iteration ();
+			}
+			if (expires) {
+				notification_timeout_id = Timeout.add (5000, () => {
+					notification_revealer.reveal_child = false;
+					while (Gtk.events_pending ()) {
+						Gtk.main_iteration ();
+					}
+					notification_timeout_id = 0;
+					return false;
+				});
+			}
+		}
+
+		public void close_in_app_notification () {
+			if (notification_timeout_id != 0) {
+				Source.remove (notification_timeout_id);
+				notification_timeout_id = 0;
+			}
+			notification_revealer.reveal_child = false;
+			while (Gtk.events_pending ()) {
+				Gtk.main_iteration ();
+			}
+		}
+
+		[GtkCallback]
+		void on_notification_close_button_clicked () {
+			close_in_app_notification ();
 		}
 
 		void on_write_pamac_config_finished (bool recurse, uint64 refresh_period, bool no_update_hide_icon,
@@ -599,7 +642,18 @@ namespace Pamac {
 			pending_label.sensitive = active;
 		}
 
-		public void update_lists () {
+		public async void update_lists () {
+			// loading notification
+			show_in_app_notification (dgettext (null, "Loading") + "...", false);
+			Timeout.add (200, () => {
+				update_lists_real ();
+				Idle.add (update_lists.callback);
+				return false;
+			});
+			yield;
+		}
+
+		void update_lists_real () {
 			Gtk.Label label;
 			label = create_list_label (dgettext (null, "Categories"));
 			filters_listbox.add (label);
@@ -698,6 +752,9 @@ namespace Pamac {
 			build_files_row.add (label);
 			properties_listbox.add (build_files_row);
 			properties_listbox.select_row (properties_listbox.get_row_at_index (0));
+
+			// close loading notification
+			close_in_app_notification ();
 		}
 
 		void clear_lists () {

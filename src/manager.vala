@@ -61,30 +61,39 @@ namespace Pamac {
 			if (manager_window == null) {
 				return 1;
 			}
-			if (cmd.get_arguments ()[0] == "pamac-updater") {
-				if (!started) {
-					manager_window.update_lists ();
-					started = true;
-				}
-				manager_window.display_package_queue.clear ();
-				manager_window.main_stack.visible_child_name = "browse";
-				manager_window.filters_stack.visible_child_name = "updates";
-			} else if (!started) {
-				manager_window.update_lists ();
-				manager_window.refresh_packages_list ();
-				started = true;
-			}
-			if (cmd.get_arguments ().length == 3) {
-				if (cmd.get_arguments ()[1] == "--search") {
-					manager_window.display_package_queue.clear ();
-					manager_window.search_button.active = true;
-					var entry = manager_window.search_comboboxtext.get_child () as Gtk.Entry;
-					entry.set_text (cmd.get_arguments ()[2]);
-				}
-			}
 			manager_window.present ();
 			while (Gtk.events_pending ()) {
 				Gtk.main_iteration ();
+			}
+			if (!started) {
+				manager_window.update_lists.begin (() => {
+					started = true;
+					if (cmd.get_arguments ()[0] == "pamac-updater") {
+						manager_window.display_package_queue.clear ();
+						manager_window.main_stack.visible_child_name = "browse";
+						manager_window.filters_stack.visible_child_name = "updates";
+					} else if (cmd.get_arguments ().length == 3
+								&& cmd.get_arguments ()[1] == "--search") {
+						manager_window.display_package_queue.clear ();
+						manager_window.search_button.active = true;
+						var entry = manager_window.search_comboboxtext.get_child () as Gtk.Entry;
+						entry.set_text (cmd.get_arguments ()[2]);
+					} else {
+						manager_window.refresh_packages_list ();
+					}
+				});
+			} else if (cmd.get_arguments ()[0] == "pamac-updater") {
+				manager_window.display_package_queue.clear ();
+				manager_window.main_stack.visible_child_name = "browse";
+				manager_window.filters_stack.visible_child_name = "updates";
+			} else if (cmd.get_arguments ().length == 3
+						&& cmd.get_arguments ()[1] == "--search") {
+				manager_window.display_package_queue.clear ();
+				manager_window.search_button.active = true;
+				var entry = manager_window.search_comboboxtext.get_child () as Gtk.Entry;
+				entry.set_text (cmd.get_arguments ()[2]);
+			} else {
+				manager_window.refresh_packages_list ();
 			}
 			return 0;
 		}
