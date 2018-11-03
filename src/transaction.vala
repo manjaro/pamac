@@ -764,7 +764,7 @@ namespace Pamac {
 
 		public virtual async int run_cmd_line (string[] args, string? working_directory, Cancellable cancellable) {
 			int status = 1;
-			var launcher = new SubprocessLauncher (SubprocessFlags.STDOUT_PIPE | SubprocessFlags.STDERR_MERGE);
+			var launcher = new SubprocessLauncher (SubprocessFlags.STDIN_INHERIT | SubprocessFlags.STDOUT_PIPE | SubprocessFlags.STDERR_MERGE);
 			if (working_directory != null) {
 				launcher.set_cwd (working_directory);
 			}
