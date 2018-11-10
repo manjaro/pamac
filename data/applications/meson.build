@@ -1,4 +1,5 @@
 install_data('pamac-installer.desktop', install_dir: join_paths(get_option('datadir'), 'applications'))
+install_data('pamac-updater.desktop', install_dir: join_paths(get_option('datadir'), 'applications'))
 install_data('org.manjaro.pamac.manager.desktop', install_dir: join_paths(get_option('datadir'), 'applications'))
 install_data('pamac-tray.desktop', install_dir: join_paths(get_option('sysconfdir'), 'xdg', 'autostart'))
 if get_option('enable-appindicator')

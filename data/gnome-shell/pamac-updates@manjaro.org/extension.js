@@ -37,7 +37,6 @@ const Util = imports.misc.util;
 const ExtensionUtils = imports.misc.extensionUtils;
 const Me = ExtensionUtils.getCurrentExtension();
 
-const Format = imports.format;
 const Gettext = imports.gettext.domain("pamac");
 const _ = Gettext.gettext;
 
@@ -51,7 +50,8 @@ let CHECK_INTERVAL     = 6;   // 6h
 let NOTIFY             = true;
 let TRANSIENT          = false;
 let CHECK_CMD          = ["pamac", "checkupdates", "-q", "--refresh-tmp-files-dbs"];
-let MANAGER_CMD        = "pamac-manager --updates";
+let UPDATER_CMD        = "pamac-manager --updates";
+let MANAGER_CMD        = "pamac-manager";
 let PACMAN_LOCK         = "/var/lib/pacman/db.lck";
 let STRIP_VERSIONS     = false;
 
@@ -62,7 +62,6 @@ let UPDATES_LIST       = [];
 
 
 function init() {
-	String.prototype.format = Format.format;
 }
 
 const PamacUpdateIndicator = new Lang.Class({
@@ -137,7 +136,11 @@ const PamacUpdateIndicator = new Lang.Class({
 	},
 
 	_openManager: function () {
-		Util.spawnCommandLine(MANAGER_CMD);
+		if (UPDATES_PENDING > 0) {
+			Util.spawnCommandLine(UPDATER_CMD);
+		} else {
+			Util.spawnCommandLine(MANAGER_CMD);
+		}
 	},
 
 	_applyConfig: function() {
