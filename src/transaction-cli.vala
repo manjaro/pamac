@@ -287,10 +287,10 @@ namespace Pamac {
 				stdout.printf ("\n");
 				if (nb >= 1 && nb <= providers.length) {
 					int index = (int) nb - 1;
+					stdout.printf ("\n");
 					return index;
 				}
 			}
-			stdout.printf ("\n");
 		}
 
 		bool ask_user (string question) {

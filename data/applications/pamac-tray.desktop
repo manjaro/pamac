@@ -5,4 +5,4 @@ Exec=sh -c "GDK_BACKEND=x11 pamac-tray"
 Terminal=false
 Type=Application
 StartupNotify=false
-NotShowIn=KDE;
+NotShowIn=KDE;GNOME;

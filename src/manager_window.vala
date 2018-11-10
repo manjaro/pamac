@@ -51,10 +51,6 @@ namespace Pamac {
 		[GtkChild]
 		Gtk.HeaderBar headerbar;
 		[GtkChild]
-		Gtk.Revealer notification_revealer;
-		[GtkChild]
-		Gtk.Label notification_label;
-		[GtkChild]
 		public Gtk.Stack main_stack;
 		[GtkChild]
 		Gtk.Button button_back;
@@ -188,7 +184,7 @@ namespace Pamac {
 		public GenericSet<string?> previous_to_build;
 
 		public TransactionGtk transaction;
-		public Database database;
+		public Database database { get; construct; }
 		delegate void TransactionAction ();
 
 		bool important_details;
@@ -201,7 +197,6 @@ namespace Pamac {
 		List<Package> repos_updates;
 		List<AURPackage> aur_updates;
 
-		uint notification_timeout_id;
 		uint search_entry_timeout_id;
 		string search_string;
 		Gtk.Label pending_label;
@@ -210,8 +205,8 @@ namespace Pamac {
 		Gtk.ListBoxRow build_files_row;
 		bool scroll_to_top;
 
-		public ManagerWindow (Gtk.Application application) {
-			Object (application: application);
+		public ManagerWindow (Gtk.Application application, Database database) {
+			Object (application: application, database: database);
 		}
 
 		construct {
@@ -233,10 +228,6 @@ namespace Pamac {
 			updated_label.set_markup ("<big><b>%s</b></big>".printf (dgettext (null, "Your system is up-to-date")));
 			no_item_label.set_markup ("<big><b>%s</b></big>".printf (dgettext (null, "No package found")));
 			checking_label.set_markup ("<big><b>%s</b></big>".printf (dgettext (null, "Checking for Updates")));
-			this.get_window ().set_cursor (new Gdk.Cursor.for_display (Gdk.Display.get_default (), Gdk.CursorType.WATCH));
-			while (Gtk.events_pending ()) {
-				Gtk.main_iteration ();
-			}
 			right_click_menu = new Gtk.Menu ();
 			deselect_item = new Gtk.MenuItem.with_label (dgettext (null, "Deselect"));
 			deselect_item.activate.connect (on_deselect_item_activate);
@@ -359,28 +350,28 @@ namespace Pamac {
 			aur_state_renderer.activated.connect (on_aur_state_icon_activated);
 
 			try {
-				installed_icon = new Gdk.Pixbuf.from_resource ("/org/manjaro/pamac/manager/package-installed-updated.png");
-				uninstalled_icon = new Gdk.Pixbuf.from_resource ("/org/manjaro/pamac/manager/package-available.png");
-				to_install_icon = new Gdk.Pixbuf.from_resource ("/org/manjaro/pamac/manager/package-install.png");
-				to_reinstall_icon = new Gdk.Pixbuf.from_resource ("/org/manjaro/pamac/manager/package-reinstall.png");
-				to_remove_icon = new Gdk.Pixbuf.from_resource ("/org/manjaro/pamac/manager/package-remove.png");
-				to_upgrade_icon = new Gdk.Pixbuf.from_resource ("/org/manjaro/pamac/manager/package-upgrade.png");
-				installed_locked_icon = new Gdk.Pixbuf.from_resource ("/org/manjaro/pamac/manager/package-installed-locked.png");
-				available_locked_icon = new Gdk.Pixbuf.from_resource ("/org/manjaro/pamac/manager/package-available-locked.png");
-				package_icon = new Gdk.Pixbuf.from_resource ("/org/manjaro/pamac/manager/package-generic.png");
+				installed_icon = new Gdk.Pixbuf.from_resource ("/org/manjaro/pamac/manager/package-installed-updated.svg");
+				uninstalled_icon = new Gdk.Pixbuf.from_resource ("/org/manjaro/pamac/manager/package-available.svg");
+				to_install_icon = new Gdk.Pixbuf.from_resource ("/org/manjaro/pamac/manager/package-install.svg");
+				to_reinstall_icon = new Gdk.Pixbuf.from_resource ("/org/manjaro/pamac/manager/package-reinstall.svg");
+				to_remove_icon = new Gdk.Pixbuf.from_resource ("/org/manjaro/pamac/manager/package-remove.svg");
+				to_upgrade_icon = new Gdk.Pixbuf.from_resource ("/org/manjaro/pamac/manager/package-upgrade.svg");
+				installed_locked_icon = new Gdk.Pixbuf.from_resource ("/org/manjaro/pamac/manager/package-installed-locked.svg");
+				available_locked_icon = new Gdk.Pixbuf.from_resource ("/org/manjaro/pamac/manager/package-available-locked.svg");
+				package_icon = new Gdk.Pixbuf.from_resource ("/org/manjaro/pamac/manager/package-generic.svg");
 			} catch (GLib.Error e) {
 				stderr.printf ("%s\n", e.message);
 			}
 
-			var config = new Config ("/etc/pamac.conf");
-			database = new Database (config);
-			database.enable_appstream ();
+			// database
 			database.get_updates_progress.connect (on_get_updates_progress);
 			database.refreshed.connect (() => {
 				scroll_to_top = false;
 				refresh_packages_list ();
 			});
+			create_all_listbox ();
 
+			// transaction
 			transaction = new TransactionGtk (database, this);
 			transaction.start_preparing.connect (on_start_preparing);
 			transaction.stop_preparing.connect (on_stop_preparing);
@@ -437,9 +428,6 @@ namespace Pamac {
 					stderr.printf ("SpawnError: %s\n", e.message);
 				}
 			}
-
-			// connect notification signal
-			transaction.emit_notification.connect ((msg) => { show_in_app_notification (msg, true); });
 		}
 
 		[GtkCallback]
@@ -451,41 +439,6 @@ namespace Pamac {
 				// close window
 				return false;
 			}
-		}
-
-		public void show_in_app_notification (string msg, bool expires) {
-			close_in_app_notification ();
-			notification_label.label = msg;
-			notification_revealer.reveal_child = true;
-			while (Gtk.events_pending ()) {
-				Gtk.main_iteration ();
-			}
-			if (expires) {
-				notification_timeout_id = Timeout.add (5000, () => {
-					notification_revealer.reveal_child = false;
-					while (Gtk.events_pending ()) {
-						Gtk.main_iteration ();
-					}
-					notification_timeout_id = 0;
-					return false;
-				});
-			}
-		}
-
-		public void close_in_app_notification () {
-			if (notification_timeout_id != 0) {
-				Source.remove (notification_timeout_id);
-				notification_timeout_id = 0;
-			}
-			notification_revealer.reveal_child = false;
-			while (Gtk.events_pending ()) {
-				Gtk.main_iteration ();
-			}
-		}
-
-		[GtkCallback]
-		void on_notification_close_button_clicked () {
-			close_in_app_notification ();
 		}
 
 		void on_write_pamac_config_finished (bool recurse, uint64 refresh_period, bool no_update_hide_icon,
@@ -642,18 +595,7 @@ namespace Pamac {
 			pending_label.sensitive = active;
 		}
 
-		public async void update_lists () {
-			// loading notification
-			show_in_app_notification (dgettext (null, "Loading") + "...", false);
-			Timeout.add (200, () => {
-				update_lists_real ();
-				Idle.add (update_lists.callback);
-				return false;
-			});
-			yield;
-		}
-
-		void update_lists_real () {
+		void create_all_listbox () {
 			Gtk.Label label;
 			label = create_list_label (dgettext (null, "Categories"));
 			filters_listbox.add (label);
@@ -752,9 +694,6 @@ namespace Pamac {
 			build_files_row.add (label);
 			properties_listbox.add (build_files_row);
 			properties_listbox.select_row (properties_listbox.get_row_at_index (0));
-
-			// close loading notification
-			close_in_app_notification ();
 		}
 
 		void clear_lists () {
@@ -1622,7 +1561,7 @@ namespace Pamac {
 			}
 		}
 
-		void display_package_properties (string pkgname, string app_name = "", bool sync_pkg = false) {
+		public void display_package_properties (string pkgname, string app_name = "", bool sync_pkg = false) {
 			current_package_displayed = pkgname;
 			// select details if build files was selected
 			if (properties_listbox.get_selected_row ().get_index () == 3) {

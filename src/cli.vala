@@ -340,6 +340,8 @@ namespace Pamac {
 				init_database ();
 				bool error = false;
 				bool quiet = false;
+				bool refresh_tmp_files_dbs = false;
+				bool download_updates = false;
 				int i = 2;
 				while (i < args.length) {
 					unowned string arg = args[i];
@@ -347,12 +349,16 @@ namespace Pamac {
 						display_checkupdates_help ();
 						error = true;
 						break;
-					} else if (arg == "--quiet"|| arg == "-q") {
+					} else if (arg == "--quiet" || arg == "-q") {
 						quiet = true;
-					} else if (arg == "--aur"|| arg == "-a") {
+					} else if (arg == "--refresh-tmp-files-dbs") {
+						refresh_tmp_files_dbs = true;
+					} else if (arg == "--download-updates") {
+						download_updates = true;
+					} else if (arg == "--aur" || arg == "-a") {
 						database.config.enable_aur = true;
 						database.config.check_aur_updates = true;
-					} else if (arg == "-aq"|| arg == "-qa") {
+					} else if (arg == "-aq" || arg == "-qa") {
 						database.config.enable_aur = true;
 						database.config.check_aur_updates = true;
 						quiet = true;
@@ -377,7 +383,7 @@ namespace Pamac {
 					i++;
 				}
 				if (!error) {
-					checkupdates.begin (quiet, () => {
+					checkupdates.begin (quiet, refresh_tmp_files_dbs, download_updates, () => {
 						loop.quit ();
 					});
 					loop.run ();
@@ -1599,7 +1605,7 @@ namespace Pamac {
 			}
 		}
 
-		async void checkupdates (bool quiet) {
+		async void checkupdates (bool quiet, bool refresh_tmp_files_dbs, bool download_updates) {
 			var updates = yield database.get_updates ();
 			uint updates_nb = updates.repos_updates.length () + updates.aur_updates.length ();
 			if (updates_nb == 0) {
@@ -1630,9 +1636,22 @@ namespace Pamac {
 			} else {
 				// special status when updates are available
 				exit_status = 100;
+				// refresh tmp files dbs
+				if (refresh_tmp_files_dbs) {
+					database.refresh_tmp_files_dbs ();
+				}
+				// download updates
+				if (download_updates) {
+					transaction = new TransactionCli (database);
+					transaction.downloading_updates_finished.connect (() => {
+						Idle.add (checkupdates.callback);
+					});
+					transaction.start_downloading_updates ();
+					yield;
+				}
 				if (quiet) {
 					foreach (unowned Package pkg in updates.repos_updates) {
-						stdout.printf ("%s  %s\n", pkg.name,pkg.version);
+						stdout.printf ("%s  %s -> %s\n", pkg.name, pkg.installed_version, pkg.version);
 					}
 					foreach (unowned AURPackage pkg in updates.aur_updates) {
 						// do not show out of date packages

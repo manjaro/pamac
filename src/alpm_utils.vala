@@ -355,6 +355,13 @@ namespace Pamac {
 			var handle = alpm_config.get_handle (false, true);
 			handle.fetchcb = (Alpm.FetchCallBack) cb_fetch;
 			cancellable.reset ();
+			// refresh tmp dbs
+			unowned Alpm.List<unowned Alpm.DB> syncdbs = handle.syncdbs;
+			while (syncdbs != null) {
+				unowned Alpm.DB db = syncdbs.data;
+				db.update (0);
+				syncdbs.next ();
+			}
 			int success = handle.trans_init (Alpm.TransFlag.DOWNLOADONLY);
 			// can't add nolock flag with commit so remove unneeded lock
 			handle.unlock ();
@@ -368,6 +375,12 @@ namespace Pamac {
 					}
 				}
 				handle.trans_release ();
+			}
+			// remove dbs in tmp
+			try {
+				Process.spawn_command_line_sync ("rm -rf %s/dbs-root".printf (tmp_path));
+			} catch (SpawnError e) {
+				stderr.printf ("SpawnError: %s\n", e.message);
 			}
 			downloading_updates = false;
 			downloading_updates_finished ();

@@ -61,6 +61,16 @@ namespace Pamac {
 			} else {
 				locale = "C";
 			}
+			// load alpm databases in memory
+			unowned Alpm.List<unowned Alpm.Package> pkgcache = alpm_handle.localdb.pkgcache;
+			unowned Alpm.List<unowned Alpm.Group> groupcache = alpm_handle.localdb.groupcache;
+			unowned Alpm.List<unowned Alpm.DB> syncdbs = alpm_handle.syncdbs;
+			while (syncdbs != null) {
+				unowned Alpm.DB db = syncdbs.data;
+				pkgcache = db.pkgcache;
+				groupcache = db.groupcache;
+				syncdbs.next ();
+			}
 		}
 
 		public void enable_appstream () {

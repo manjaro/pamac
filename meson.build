@@ -1,4 +1,7 @@
-project('pamac', 'c', 'vala')
+project('pamac', 'c', 'vala',
+		default_options : [
+		'prefix=/usr',
+		'sysconfdir=/etc',])
 
 subdir('resources')
 subdir('src')

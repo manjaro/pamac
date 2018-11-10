@@ -37,8 +37,6 @@ namespace Pamac {
 		bool summary_shown;
 		bool commit_transaction_answer;
 
-		public signal void emit_notification (string message);
-
 		public TransactionGtk (Database database, Gtk.ApplicationWindow? application_window) {
 			Object (database: database, application_window: application_window);
 		}
@@ -99,6 +97,8 @@ namespace Pamac {
 			start_building.connect (start_progressbar_pulse);
 			stop_building.connect (stop_progressbar_pulse);
 			write_pamac_config_finished.connect (set_trans_flags);
+			// notify
+			Notify.init (dgettext (null, "Package Manager"));
 			// flags
 			set_trans_flags ();
 			// ask_confirmation option
@@ -721,13 +721,31 @@ namespace Pamac {
 			box.add (scrolledwindow);
 			dialog.default_width = 600;
 			dialog.default_height = 300;
+			Timeout.add (1000, () => {
+				try {
+					var notification = new Notify.Notification (dgettext (null, "Package Manager"),
+																message,
+																"system-software-update");
+					notification.show ();
+				} catch (Error e) {
+					stderr.printf ("Notify Error: %s", e.message);
+				}
+				return false;
+			});
 			dialog.run ();
 			dialog.destroy ();
 		}
 
 		void on_finished (bool success) {
 			if (success) {
-				emit_notification (dgettext (null, "Transaction successfully finished"));
+				try {
+					var notification = new Notify.Notification (dgettext (null, "Package Manager"),
+																dgettext (null, "Transaction successfully finished"),
+																"system-software-update");
+					notification.show ();
+				} catch (Error e) {
+					stderr.printf ("Notify Error: %s", e.message);
+				}
 				show_warnings (false);
 			} else {
 				warning_textbuffer = new StringBuilder ();

@@ -1,6 +1,7 @@
 subdir('applications')
 subdir('config')
 subdir('dbus')
+subdir('gnome-shell')
 subdir('icons')
 subdir('mime')
 subdir('polkit')

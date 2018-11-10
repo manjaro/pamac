@@ -1,2 +1,17 @@
-install_data('org.manjaro.pamac.system.service', install_dir: join_paths(get_option('datadir'), 'dbus-1/system-services'))
-install_data('org.manjaro.pamac.system.conf', install_dir: join_paths(get_option('sysconfdir'), 'dbus-1/system.d'))
+dbusconf = configuration_data()
+dbusconf.set('bindir', join_paths(get_option('prefix'), get_option('bindir')))
+configure_file(
+  input: 'org.manjaro.pamac.manager.service.in',
+  output: 'org.manjaro.pamac.manager.service',
+  configuration: dbusconf,
+  install: true,
+  install_dir: join_paths(get_option('datadir'), 'dbus-1', 'services'),
+)
+configure_file(
+  input: 'org.manjaro.pamac.system.service.in',
+  output: 'org.manjaro.pamac.system.service',
+  configuration: dbusconf,
+  install: true,
+  install_dir: join_paths(get_option('datadir'), 'dbus-1', 'system-services'),
+)
+install_data('org.manjaro.pamac.system.conf', install_dir: join_paths(get_option('sysconfdir'), 'dbus-1', 'system.d'))

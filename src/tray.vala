@@ -29,13 +29,11 @@ namespace Pamac {
 	interface SystemDaemon : Object {
 		public abstract void set_environment_variables (HashTable<string,string> variables) throws Error;
 		public abstract string get_lockfile () throws Error;
-		public abstract void start_download_updates () throws Error;
 		[DBus (no_reply = true)]
 		public abstract void quit () throws Error;
-		public signal void downloading_updates_finished ();
 		public signal void write_pamac_config_finished (bool recurse, uint64 refresh_period, bool no_update_hide_icon,
 														bool enable_aur, string aur_build_dir, bool check_aur_updates,
-														bool download_updates);
+														bool check_aur_vcs_updates, bool download_updates);
 	}
 
 	public abstract class TrayIcon: Gtk.Application {
@@ -57,7 +55,6 @@ namespace Pamac {
 					system_daemon = Bus.get_proxy_sync (BusType.SYSTEM, "org.manjaro.pamac.system", "/org/manjaro/pamac/system");
 					// Set environment variables
 					system_daemon.set_environment_variables (environment_variables);
-					system_daemon.downloading_updates_finished.connect (on_downloading_updates_finished);
 					system_daemon.write_pamac_config_finished.connect (on_write_pamac_config_finished);
 				} catch (Error e) {
 					stderr.printf ("Error: %s\n", e.message);
@@ -124,40 +121,36 @@ namespace Pamac {
 			var config = new Config ("/etc/pamac.conf");
 			if (config.refresh_period != 0) {
 				// get updates
-				string[] cmds = {"pamac", "checkupdates", "-q"};
+				string[] cmds = {"pamac", "checkupdates", "-q", "--refresh-tmp-files-dbs"};
+				if (config.download_updates) {
+					cmds+= "--download-updates";
+				}
 				updates_nb = 0;
 				try {
 					var process = new Subprocess.newv (cmds, SubprocessFlags.STDOUT_PIPE);
-					process.wait ();
-					if (process.get_if_exited ()) {
-						int status = process.get_exit_status ();
-						// status 100 means updates are available
-						if (status == 100) {
-							var dis = new DataInputStream (process.get_stdout_pipe ());
-							// count lines
-							while (dis.read_line () != null) {
-								updates_nb++;
-							}
-							if (!check_pamac_running () && config.download_updates) {
-								start_system_daemon (config.environment_variables);
+					process.wait_async.begin (null, () => {
+						if (process.get_if_exited ()) {
+							int status = process.get_exit_status ();
+							// status 100 means updates are available
+							if (status == 100) {
+								var dis = new DataInputStream (process.get_stdout_pipe ());
+								// count lines
 								try {
-									system_daemon.start_download_updates ();
+									while (dis.read_line () != null) {
+										updates_nb++;
+									}
 								} catch (Error e) {
 									stderr.printf ("Error: %s\n", e.message);
 								}
-							} else {
 								show_or_update_notification ();
+							} else {
+								set_icon (noupdate_icon_name);
+								set_tooltip (noupdate_info);
+								set_icon_visible (!config.no_update_hide_icon);
+								close_notification ();
 							}
-							// refresh files dbs in tmp
-							var database = new Database (config);
-							database.refresh_tmp_files_dbs ();
-						} else {
-							set_icon (noupdate_icon_name);
-							set_tooltip (noupdate_info);
-							set_icon_visible (!config.no_update_hide_icon);
-							close_notification ();
 						}
-					}
+					});
 				} catch (Error e) {
 					stderr.printf ("Error: %s\n", e.message);
 				}
@@ -165,14 +158,7 @@ namespace Pamac {
 			return true;
 		}
 
-		void on_downloading_updates_finished () {
-			show_or_update_notification ();
-			stop_system_daemon ();
-		}
-
-		void on_write_pamac_config_finished (bool recurse, uint64 refresh_period, bool no_update_hide_icon,
-											bool enable_aur, string aur_build_dir, bool check_aur_updates,
-											bool download_updates) {
+		void on_write_pamac_config_finished (bool recurse, uint64 refresh_period) {
 			launch_refresh_timeout (refresh_period);
 			check_updates ();
 		}
