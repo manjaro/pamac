@@ -8,14 +8,17 @@ def on_emit_action (transaction, action, data):
 	print(action)
 
 def on_emit_action_progress (transaction, action, status, progress, data):
-	print("{} {}".format(action, status))
+	print(f"{action} {status}")
+
+def on_emit_hook_progress (transaction, action, details, status, progress, data):
+	print(f"{action} {details} {status}")
 
 def on_emit_warning (transaction, message, data):
 	print(message)
 
 def on_emit_error (transaction, message, details, details_length, data):
 	if details_length > 0:
-		print("{}:".format(message))
+		print(f"{message}:")
 		for detail in details:
 			print(detail)
 	else:
@@ -29,9 +32,10 @@ def start_transaction():
 	to_remove = []
 	to_load = []
 	to_build = []
+	temporary_ignorepkgs = []
 	overwrite_files = []
 	if transaction.get_lock():
-		transaction.start (to_install, to_remove, to_load, to_build, overwrite_files)
+		transaction.start (to_install, to_remove, to_load, to_build, temporary_ignorepkgs, overwrite_files)
 		# launch a loop to wait for finished signal to be emitted
 		loop.run()
 
@@ -48,6 +52,7 @@ if __name__ == "__main__":
 	data = None
 	transaction.connect ("emit-action", on_emit_action, data)
 	transaction.connect ("emit-action-progress", on_emit_action_progress, data)
+	transaction.connect ("emit-hook-progress", on_emit_hook_progress, data)
 	transaction.connect ("emit-error", on_emit_error, data)
 	transaction.connect ("emit-warning", on_emit_warning, data)
 	transaction.connect ("finished", on_trans_finished, data)
