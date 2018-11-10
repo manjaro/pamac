@@ -41,7 +41,9 @@ namespace Pamac {
 		SystemDaemon system_daemon;
 		bool extern_lock;
 		uint refresh_timeout_id;
+		uint check_lock_timeout_id;
 		GLib.File lockfile;
+		FileMonitor monitor;
 		uint updates_nb;
 
 		public TrayIcon () {
@@ -97,7 +99,7 @@ namespace Pamac {
 
 		void execute_updater () {
 			try {
-				Process.spawn_command_line_async ("pamac-updater");
+				Process.spawn_command_line_async ("pamac-manager --updates");
 			} catch (SpawnError e) {
 				stderr.printf ("SpawnError: %s\n", e.message);
 			}
@@ -239,18 +241,18 @@ namespace Pamac {
 		bool check_lock_and_updates () {
 			if (!lockfile.query_exists ()) {
 				check_updates ();
-				Timeout.add (200, check_extern_lock);
-				return false;
 			}
-			return true;
+			check_lock_timeout_id = 0;
+			return false;
 		}
 
-		bool check_extern_lock () {
-			if (lockfile.query_exists ()) {
-				Timeout.add (1000, check_lock_and_updates);
-				return false;
+		void check_extern_lock (File src, File? dest, FileMonitorEvent event_type) {
+			if (event_type == FileMonitorEvent.DELETED) {
+				if (check_lock_timeout_id != 0) {
+					Source.remove (check_lock_timeout_id);
+				}
+				check_lock_timeout_id = Timeout.add (500, check_lock_and_updates);
 			}
-			return true;
 		}
 
 		void launch_refresh_timeout (uint64 refresh_period_in_hours) {
@@ -296,7 +298,12 @@ namespace Pamac {
 			stop_system_daemon ();
 
 			lockfile = GLib.File.new_for_path (lockfile_str);
-			Timeout.add (200, check_extern_lock);
+			try {
+				monitor = lockfile.monitor (FileMonitorFlags.NONE, null);
+				monitor.changed.connect (check_extern_lock);
+			} catch (Error e) {
+				stderr.printf ("Error: %s\n", e.message);
+			}
 			// wait 30 seconds before check updates
 			Timeout.add_seconds (30, () => {
 				check_updates ();

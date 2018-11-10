@@ -52,7 +52,7 @@ let NOTIFY             = true;
 let TRANSIENT          = false;
 let CHECK_CMD          = ["pamac", "checkupdates", "-q", "--refresh-tmp-files-dbs"];
 let MANAGER_CMD        = "pamac-manager --updates";
-let PACMAN_DIR         = "/var/lib/pacman/local";
+let PACMAN_LOCK         = "/var/lib/pacman/db.lck";
 let STRIP_VERSIONS     = false;
 
 /* Variables we want to keep when extension is disabled (eg during screen lock) */
@@ -76,6 +76,7 @@ const PamacUpdateIndicator = new Lang.Class({
 	_updateProcess_pid: null,
 	_updateList: [],
 	_config: null,
+	_pacman_lock: null,
 
 	_init: function() {
 		this.parent(0.0, "PamacUpdateIndicator");
@@ -124,14 +125,14 @@ const PamacUpdateIndicator = new Lang.Class({
 				that._checkUpdates();
 				that._FirstTimeoutId = null;
 				FIRST_BOOT = 0;
-				that._startFolderMonitor();
+				that._startLockMonitor();
 				return false; // Run once
 			});
 		} else {
 			// Restore previous state
 			this._updateList = UPDATES_LIST;
 			this._updateStatus(UPDATES_PENDING);
-			this._startFolderMonitor();
+			this._startLockMonitor();
 		}
 	},
 
@@ -196,23 +197,24 @@ const PamacUpdateIndicator = new Lang.Class({
 		this.menuExpander.setSubmenuShown(false);
 	},
 
-	_startFolderMonitor: function() {
-		if (PACMAN_DIR) {
-			this.pacman_dir = Gio.file_new_for_path(PACMAN_DIR);
-			this.monitor = this.pacman_dir.monitor_directory(0, null);
-			this.monitor.connect('changed', Lang.bind(this, this._onFolderChanged));
-		}
+	_startLockMonitor: function() {
+		this._pacman_lock = Gio.file_new_for_path(PACMAN_LOCK);
+		this.monitor = this._pacman_lock.monitor(0, null);
+		this.monitor.connect('changed', Lang.bind(this, this._onLockChanged));
 	},
 
-	_onFolderChanged: function() {
-		// Folder have changed ! Let's schedule a check in a few seconds
-		let that = this;
-		if (this._FirstTimeoutId) GLib.source_remove(this._FirstTimeoutId);
-		this._FirstTimeoutId = GLib.timeout_add_seconds(GLib.PRIORITY_DEFAULT, 5, function () {
-			that._checkUpdates();
-			that._FirstTimeoutId = null;
-			return false;
-		});
+	_onLockChanged: function(object, file, other_file, event_type) {
+		if (event_type == Gio.FileMonitorEvent.DELETED) {
+			let that = this;
+			if (this._FirstTimeoutId) GLib.source_remove(this._FirstTimeoutId);
+			this._FirstTimeoutId = GLib.timeout_add(GLib.PRIORITY_DEFAULT, 500, function () {
+				if (!that._pacman_lock.query_exists(null)) {
+					that._checkUpdates();
+					that._FirstTimeoutId = null;
+					return false;
+				}
+			});
+		}
 	},
 
 	_updateStatus: function(updatesCount) {
