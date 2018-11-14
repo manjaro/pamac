@@ -184,7 +184,7 @@
                       <object class="GtkSpinButton" id="max_parallel_downloads_spin_button">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
-                        <property name="tooltip_text" translatable="yes">Maximun parallel downloads</property>
+                        <property name="tooltip_text" translatable="yes">Maximum parallel downloads</property>
                         <property name="halign">end</property>
                         <property name="caps_lock_warning">False</property>
                         <property name="input_purpose">number</property>

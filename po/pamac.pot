@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2018-11-02 12:33+0100\n"
+"POT-Creation-Date: 2018-11-13 15:01+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -692,7 +692,7 @@ msgid "How often to check for updates, value in hours"
 msgstr ""
 
 #: src/preferences_dialog.vala resources/preferences_dialog.ui
-msgid "Maximun parallel downloads"
+msgid "Maximum parallel downloads"
 msgstr ""
 
 #: src/preferences_dialog.vala resources/preferences_dialog.ui

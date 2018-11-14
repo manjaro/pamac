@@ -79,7 +79,7 @@ namespace Pamac {
 
 			this.transaction = transaction;
 			refresh_period_label.set_markup (dgettext (null, "How often to check for updates, value in hours") +":");
-			max_parallel_downloads_label.set_markup (dgettext (null, "Maximun parallel downloads") +":");
+			max_parallel_downloads_label.set_markup (dgettext (null, "Maximum parallel downloads") +":");
 			cache_keep_nb_label.set_markup (dgettext (null, "Number of versions of each package to keep in the cache") +":");
 			aur_build_dir_label.set_markup (dgettext (null, "Build directory") +":");
 			remove_unrequired_deps_button.active = transaction.database.config.recurse;
