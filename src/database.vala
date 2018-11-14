@@ -1643,7 +1643,11 @@ namespace Pamac {
 
 		async List<AURPackage> get_vcs_last_version (string[] vcs_local_pkgs) {
 			var vcs_packages = new List<AURPackage> ();
+			var already_checked =  new GenericSet<string?> (str_hash, str_equal);
 			foreach (unowned string pkgname in vcs_local_pkgs) {
+				if (already_checked.contains (pkgname)) {
+					continue;
+				}
 				// get last build files
 				File? clone_dir = yield clone_build_files (pkgname, false);
 				if (clone_dir != null) {
@@ -1663,10 +1667,10 @@ namespace Pamac {
 								string line;
 								string current_section = "";
 								bool current_section_is_pkgbase = true;
-								string version = "";
+								var version = new StringBuilder ();
 								string pkgbase = "";
 								string desc = "";
-								string[] pkgnames_found = {};
+								var pkgnames_found = new SList<string> ();
 								var pkgnames_table = new HashTable<string, AURPackageStruct?> (str_hash, str_equal);
 								while ((line = yield dis.read_line_async ()) != null) {
 									if ("pkgbase = " in line) {
@@ -1680,31 +1684,28 @@ namespace Pamac {
 											}
 										}
 									} else if ("pkgver = " in line) {
-										version = line.split ("pkgver = ", 2)[1];
+										version.append (line.split (" = ", 2)[1]);
 									} else if ("pkgrel = " in line) {
-										version += "-";
-										version += line.split ("pkgrel = ", 2)[1];
+										version.append ("-");
+										version.append (line.split (" = ", 2)[1]);
 									} else if ("epoch = " in line) {
-										version = "%s:%s".printf (line.split (" = ", 2)[1], version);
+										version.prepend (":");
+										version.prepend (line.split (" = ", 2)[1]);
 									} else if ("pkgname = " in line) {
 										string pkgname_found = line.split (" = ", 2)[1];
 										current_section = pkgname_found;
 										current_section_is_pkgbase = false;
-										pkgnames_found += pkgname_found;
-										if (!pkgnames_table.contains (pkgname_found)) {
-											string installed_version = "";
-											unowned Alpm.Package? pkg = alpm_handle.localdb.get_pkg (pkgname_found);
-											if (pkg != null) {
-												installed_version = pkg.version;
-											}
+										pkgnames_found.append (pkgname_found);
+										if (pkgname_found in vcs_local_pkgs) {
 											var aur_struct = AURPackageStruct () {
 												name = pkgname_found,
-												version = version,
-												installed_version = (owned) installed_version,
+												version = version.str,
+												installed_version = alpm_handle.localdb.get_pkg (pkgname_found).version,
 												desc = desc,
 												packagebase = pkgbase
 											};
 											pkgnames_table.insert (pkgname_found, (owned) aur_struct);
+											already_checked.add ((owned) pkgname_found);
 										}
 									}
 								}
