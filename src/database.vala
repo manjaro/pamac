@@ -1695,7 +1695,6 @@ namespace Pamac {
 										string pkgname_found = line.split (" = ", 2)[1];
 										current_section = pkgname_found;
 										current_section_is_pkgbase = false;
-										pkgnames_found.append (pkgname_found);
 										if (pkgname_found in vcs_local_pkgs) {
 											var aur_struct = AURPackageStruct () {
 												name = pkgname_found,
@@ -1705,6 +1704,7 @@ namespace Pamac {
 												packagebase = pkgbase
 											};
 											pkgnames_table.insert (pkgname_found, (owned) aur_struct);
+											pkgnames_found.append (pkgname_found);
 											already_checked.add ((owned) pkgname_found);
 										}
 									}
