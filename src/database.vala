@@ -1246,6 +1246,7 @@ namespace Pamac {
 					}
 					// merge modifications
 					if (status == 0) {
+						launcher.set_flags (SubprocessFlags.STDOUT_SILENCE | SubprocessFlags.STDERR_SILENCE);
 						cmds = {"git", "merge", "-q"};
 						status = yield launch_subprocess (launcher, cmds);
 					}
