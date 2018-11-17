@@ -1797,6 +1797,7 @@ namespace Pamac {
 			}
 			// get user input
 			while (true) {
+				stdout.printf ("\n");
 				stdout.printf ("%s: ", dgettext (null, "Enter a selection (default=%s)").printf (dgettext (null, "all")));
 				string ans = stdin.read_line ();
 				uint64 nb;
@@ -1836,7 +1837,6 @@ namespace Pamac {
 						}
 					}
 				}
-				stdout.printf ("\n");
 				if (numbers.length > 0) {
 					foreach (uint64 number in numbers) {
 						to_install += pkgs.nth_data ((uint) number -1).name;

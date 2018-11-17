@@ -56,12 +56,16 @@ namespace Pamac {
 		if (needles.length == 0) {
 			return new Json.Array ();
 		} else {
-			Json.Array[] found_array = {};
+			var all_found = new SList<Json.Array> ();
 			foreach (unowned string needle in needles) {
-				found_array += yield rpc_query (rpc_url + rpc_search + Uri.escape_string (needle));
+				var builder = new StringBuilder ();
+				builder.append (rpc_url);
+				builder.append (rpc_search);
+				builder.append (Uri.escape_string (needle));
+				all_found.append (yield rpc_query (builder.str));
 			}
 			var result = new Json.Array ();
-			foreach (unowned Json.Array found in found_array) {
+			foreach (unowned Json.Array found in all_found) {
 				if (found.get_length () == 0) {
 					continue;
 				}

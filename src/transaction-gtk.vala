@@ -178,7 +178,7 @@ namespace Pamac {
 			}
 		}
 
-		protected override List<string> choose_optdeps (string pkgname, List<string> optdeps) {
+		protected override List<string> choose_optdeps (string pkgname, string[] optdeps) {
 			var optdeps_to_install = new List<string> ();
 			choose_pkgs_dialog.title = dgettext (null, "Choose optional dependencies for %s").printf (pkgname);
 			choose_pkgs_dialog.pkgs_list.clear ();

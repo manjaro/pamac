@@ -94,14 +94,14 @@ namespace Pamac {
 		internal bool force_refresh;
 		internal bool enable_downgrade;
 		internal int flags;
-		string[] to_syncfirst;
+		GenericSet<string?> to_syncfirst;
 		internal string[] to_install;
 		internal string[] to_remove;
 		internal string[] to_load;
 		internal string[] to_build;
 		internal bool sysupgrade;
 		AURPackageStruct[] to_build_pkgs;
-		GLib.List<string> aur_pkgbases_to_build;
+		GenericSet<string?> aur_pkgbases_to_build;
 		HashTable<string, string> to_install_as_dep;
 		internal string[] temporary_ignorepkgs;
 		internal string[] overwrite_files;
@@ -130,7 +130,8 @@ namespace Pamac {
 			this.config = config;
 			alpm_config = new AlpmConfig ("/etc/pacman.conf");
 			tmp_path = "/tmp/pamac";
-			aur_pkgbases_to_build = new GLib.List<string> ();
+			to_syncfirst = new GenericSet<string?> (str_hash, str_equal);
+			aur_pkgbases_to_build = new GenericSet<string?> (str_hash, str_equal);
 			to_install_as_dep = new HashTable<string, string> (str_hash, str_equal);
 			timer = new Timer ();
 			current_error = ErrorInfos ();
@@ -413,13 +414,13 @@ namespace Pamac {
 				return false;
 			}
 			// check syncfirsts
-			to_syncfirst = {};
+			to_syncfirst.remove_all ();
 			foreach (unowned string name in alpm_config.get_syncfirsts ()) {
 				unowned Alpm.Package? pkg = Alpm.find_satisfier (alpm_handle.localdb.pkgcache, name);
 				if (pkg != null) {
 					unowned Alpm.Package? candidate = pkg.sync_newversion (alpm_handle.syncdbs);
 					if (candidate != null) {
-						to_syncfirst += candidate.name;
+						to_syncfirst.add (candidate.name);
 					}
 				}
 			}
@@ -676,7 +677,8 @@ namespace Pamac {
 
 		internal void trans_prepare () {
 			to_build_pkgs = {};
-			aur_pkgbases_to_build = new GLib.List<string> ();
+			aur_conflicts_to_remove = {};
+			aur_pkgbases_to_build.remove_all ();
 			to_install_as_dep.remove_all ();
 			launch_trans_prepare_real ();
 		}
@@ -740,7 +742,7 @@ namespace Pamac {
 
 		internal void build_prepare () {
 			to_build_pkgs = {};
-			aur_pkgbases_to_build = new GLib.List<string> ();
+			aur_pkgbases_to_build.remove_all ();
 			to_install_as_dep.remove_all ();
 			// get an handle with fake aur db and without emit signal callbacks
 			alpm_handle = alpm_config.get_handle ();
@@ -847,9 +849,7 @@ namespace Pamac {
 								if (db != null) {
 									if (db.name == "aur") {
 										// it is a aur pkg to build
-										if (aur_pkgbases_to_build.find_custom (trans_pkg.pkgbase, strcmp) == null) {
-											aur_pkgbases_to_build.append (trans_pkg.pkgbase);
-										}
+										aur_pkgbases_to_build.add (trans_pkg.pkgbase);
 										to_build_pkgs += AURPackageStruct () {
 											name = trans_pkg.name,
 											version = trans_pkg.version,
@@ -946,11 +946,6 @@ namespace Pamac {
 				to_remove += initialise_pkg_struct (trans_pkg);
 				pkgs_to_remove.next ();
 			}
-			PackageStruct[] conflicts_to_remove = {};
-			foreach (unowned PackageStruct pkg in aur_conflicts_to_remove){
-				conflicts_to_remove += pkg;
-			}
-			aur_conflicts_to_remove = {};
 			string[] pkgbases_to_build = {};
 			foreach (unowned string name in aur_pkgbases_to_build) {
 				pkgbases_to_build += name;
@@ -962,7 +957,7 @@ namespace Pamac {
 				to_reinstall = (owned) to_reinstall,
 				to_remove = (owned) to_remove,
 				to_build = to_build_pkgs,
-				aur_conflicts_to_remove = (owned) conflicts_to_remove,
+				aur_conflicts_to_remove = aur_conflicts_to_remove,
 				aur_pkgbases_to_build = (owned) pkgbases_to_build
 			};
 			return summary;

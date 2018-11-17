@@ -361,50 +361,50 @@ internal class AlpmConfig {
 				// DataInputStream, so we can read line by line
 				var dis = new DataInputStream (file.read ());
 				string? line;
-				string[] data = {};
+				var data = new StringBuilder ();
 				// Read lines until end of file (null) is reached
 				while ((line = dis.read_line ()) != null) {
 					if (line.length == 0) {
-						data += "\n";
+						data.append ("\n");
 						continue;
 					}
 					if (line.contains ("IgnorePkg")) {
 						if (new_conf.contains ("IgnorePkg")) {
 							string val = new_conf.get ("IgnorePkg").get_string ();
 							if (val == "") {
-								data += "#IgnorePkg   =\n";
+								data.append ("#IgnorePkg   =\n");
 							} else {
-								data += "IgnorePkg   = %s\n".printf (val);
+								data.append ("IgnorePkg   = %s\n".printf (val));
 							}
 							// simply comment other IgnorePkg lines
 							new_conf.replace ("IgnorePkg", "");
 						} else {
-							data += line + "\n";
+							data.append (line);
+							data.append ("\n");
 						}
 					} else if (line.contains ("CheckSpace")) {
 						if (new_conf.contains ("CheckSpace")) {
 							bool val = new_conf.get ("CheckSpace").get_boolean ();
 							if (val) {
-								data += "CheckSpace\n";
+								data.append ("CheckSpace\n");
 							} else {
-								data += "#CheckSpace\n";
+								data.append ("#CheckSpace\n");
 							}
 							new_conf.remove ("CheckSpace");
 						} else {
-							data += line + "\n";
+							data.append (line);
+							data.append ("\n");
 						}
 					} else {
-						data += line + "\n";
+						data.append (line);
+						data.append ("\n");
 					}
 				}
 				// delete the file before rewrite it
 				file.delete ();
 				// creating a DataOutputStream to the file
 				var dos = new DataOutputStream (file.create (FileCreateFlags.REPLACE_DESTINATION));
-				foreach (unowned string new_line in data) {
-					// writing a short string to the stream
-					dos.put_string (new_line);
-				}
+				dos.put_string (data.str);
 				reload ();
 			} catch (GLib.Error e) {
 				GLib.stderr.printf("%s\n", e.message);

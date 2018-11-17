@@ -252,14 +252,14 @@ namespace Pamac {
 			return screenshot;
 		}
 
-		As.App[] get_pkgname_matching_apps (string pkgname) {
-			As.App[] matching_apps = {};
+		SList<As.App> get_pkgname_matching_apps (string pkgname) {
+			var matching_apps = new SList<As.App> ();
 			app_store.get_apps ().foreach ((app) => {
 				if (app.get_pkgname_default () == pkgname) {
-					matching_apps += app;
+					matching_apps.append (app);
 				}
 			});
-			return matching_apps;
+			return (owned) matching_apps;
 		}
 
 		PackageStruct initialise_pkg_struct (Alpm.Package? alpm_pkg) {
@@ -294,9 +294,9 @@ namespace Pamac {
 				}
 				if (repo_name != "" && repo_name != dgettext (null, "AUR")) {
 					// find if pkgname provides only one app
-					As.App[] matching_apps = get_pkgname_matching_apps (alpm_pkg.name);
-					if (matching_apps.length == 1) {
-						As.App app = matching_apps[0];
+					var matching_apps = get_pkgname_matching_apps (alpm_pkg.name);
+					if (matching_apps.length () == 1) {
+						As.App app = matching_apps.nth_data (0);
 						app_name = get_app_name (app);
 						desc = get_app_summary (app);
 						icon = get_app_icon (app, repo_name);
@@ -355,8 +355,8 @@ namespace Pamac {
 					repo_name = alpm_pkg.db.name;
 				}
 				if (repo_name != "" && repo_name != dgettext (null, "AUR")) {
-					As.App[] apps = get_pkgname_matching_apps (alpm_pkg.name);
-					if (apps.length > 0) {
+					var apps = get_pkgname_matching_apps (alpm_pkg.name);
+					if (apps.length () > 0) {
 						// alpm_pkg provide some apps
 						foreach (unowned As.App app in apps) {
 							pkgs.append (new Package.from_struct (PackageStruct () {
@@ -975,9 +975,9 @@ namespace Pamac {
 						});
 					} else {
 						// find if pkgname provides only one app
-						As.App[] matching_apps = get_pkgname_matching_apps (pkgname);
-						if (matching_apps.length == 1) {
-							As.App app = matching_apps[0];
+						var matching_apps = get_pkgname_matching_apps (pkgname);
+						if (matching_apps.length () == 1) {
+							As.App app = matching_apps.nth_data (0);
 							app_name = get_app_name (app);
 							desc = get_app_summary (app);
 							try {
@@ -1668,7 +1668,7 @@ namespace Pamac {
 								string line;
 								string current_section = "";
 								bool current_section_is_pkgbase = true;
-								var version = new StringBuilder ();
+								var version = new StringBuilder ("");
 								string pkgbase = "";
 								string desc = "";
 								var pkgnames_found = new SList<string> ();

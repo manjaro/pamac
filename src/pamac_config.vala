@@ -174,7 +174,7 @@ namespace Pamac {
 
 		public void write (HashTable<string,Variant> new_conf) {
 			var file = GLib.File.new_for_path (conf_path);
-			var data = new GLib.List<string> ();
+			var data = new StringBuilder();
 			if (file.query_exists ()) {
 				try {
 					// Open file for reading and wrap returned FileInputStream into a
@@ -197,21 +197,24 @@ namespace Pamac {
 								}
 								new_conf.remove ("RemoveUnrequiredDeps");
 							} else {
-								data.append (line + "\n");
+								data.append (line);
+								data.append ("\n");
 							}
 						} else if (line.contains ("RefreshPeriod")) {
 							if (new_conf.lookup_extended ("RefreshPeriod", null, out variant)) {
 								data.append ("RefreshPeriod = %llu\n".printf (variant.get_uint64 ()));
 								new_conf.remove ("RefreshPeriod");
 							} else {
-								data.append (line + "\n");
+								data.append (line);
+								data.append ("\n");
 							}
 						} else if (line.contains ("KeepNumPackages")) {
 							if (new_conf.lookup_extended ("KeepNumPackages", null, out variant)) {
 								data.append ("KeepNumPackages = %llu\n".printf (variant.get_uint64 ()));
 								new_conf.remove ("KeepNumPackages");
 							} else {
-								data.append (line + "\n");
+								data.append (line);
+								data.append ("\n");
 							}
 						} else if (line.contains ("OnlyRmUninstalled")) {
 							if (new_conf.lookup_extended ("OnlyRmUninstalled", null, out variant)) {
@@ -222,7 +225,8 @@ namespace Pamac {
 								}
 								new_conf.remove ("OnlyRmUninstalled");
 							} else {
-								data.append (line + "\n");
+								data.append (line);
+								data.append ("\n");
 							}
 						} else if (line.contains ("NoUpdateHideIcon")) {
 							if (new_conf.lookup_extended ("NoUpdateHideIcon", null, out variant)) {
@@ -233,7 +237,8 @@ namespace Pamac {
 								}
 								new_conf.remove ("NoUpdateHideIcon");
 							} else {
-								data.append (line + "\n");
+								data.append (line);
+								data.append ("\n");
 							}
 						} else if (line.contains ("EnableAUR")) {
 							if (new_conf.lookup_extended ("EnableAUR", null, out variant)) {
@@ -244,14 +249,16 @@ namespace Pamac {
 								}
 								new_conf.remove ("EnableAUR");
 							} else {
-								data.append (line + "\n");
+								data.append (line);
+								data.append ("\n");
 							}
 						} else if (line.contains ("BuildDirectory")) {
 							if (new_conf.lookup_extended ("BuildDirectory", null, out variant)) {
 								data.append ("BuildDirectory = %s\n".printf (variant.get_string ()));
 								new_conf.remove ("BuildDirectory");
 							} else {
-								data.append (line + "\n");
+								data.append (line);
+								data.append ("\n");
 							}
 						} else if (line.contains ("CheckAURUpdates")) {
 							if (new_conf.lookup_extended ("CheckAURUpdates", null, out variant)) {
@@ -262,7 +269,8 @@ namespace Pamac {
 								}
 								new_conf.remove ("CheckAURUpdates");
 							} else {
-								data.append (line + "\n");
+								data.append (line);
+								data.append ("\n");
 							}
 						} else if (line.contains ("CheckAURVCSUpdates")) {
 							if (new_conf.lookup_extended ("CheckAURVCSUpdates", null, out variant)) {
@@ -273,7 +281,8 @@ namespace Pamac {
 								}
 								new_conf.remove ("CheckAURVCSUpdates");
 							} else {
-								data.append (line + "\n");
+								data.append (line);
+								data.append ("\n");
 							}
 						} else if (line.contains ("DownloadUpdates")) {
 							if (new_conf.lookup_extended ("DownloadUpdates", null, out variant)) {
@@ -284,17 +293,20 @@ namespace Pamac {
 								}
 								new_conf.remove ("DownloadUpdates");
 							} else {
-								data.append (line + "\n");
+								data.append (line);
+								data.append ("\n");
 							}
 						} else if (line.contains ("MaxParallelDownloads")) {
 							if (new_conf.lookup_extended ("MaxParallelDownloads", null, out variant)) {
 								data.append ("MaxParallelDownloads = %llu\n".printf (variant.get_uint64 ()));
 								new_conf.remove ("MaxParallelDownloads");
 							} else {
-								data.append (line + "\n");
+								data.append (line);
+								data.append ("\n");
 							}
 						} else {
-							data.append (line + "\n");
+							data.append (line);
+							data.append ("\n");
 						}
 					}
 					// delete the file before rewrite it
@@ -369,10 +381,7 @@ namespace Pamac {
 			try {
 				// creating a DataOutputStream to the file
 				var dos = new DataOutputStream (file.create (FileCreateFlags.REPLACE_DESTINATION));
-				foreach (unowned string new_line in data) {
-					// writing a short string to the stream
-					dos.put_string (new_line);
-				}
+				dos.put_string (data.str);
 			} catch (GLib.Error e) {
 				GLib.stderr.printf("%s\n", e.message);
 			}

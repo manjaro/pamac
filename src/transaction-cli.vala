@@ -179,10 +179,10 @@ namespace Pamac {
 			}
 		}
 
-		protected override List<string> choose_optdeps (string pkgname, List<string> optdeps) {
+		protected override List<string> choose_optdeps (string pkgname, string[] optdeps) {
 			var optdeps_to_install = new List<string> ();
 			// print pkgs
-			int num_length = optdeps.length ().to_string ().length + 1;
+			int num_length = optdeps.length.to_string ().length + 1;
 			stdout.printf ("%s:\n".printf (dgettext (null, "Choose optional dependencies for %s").printf (pkgname)));
 			int num = 1;
 			foreach (unowned string name in optdeps) {
@@ -193,6 +193,7 @@ namespace Pamac {
 			}
 			// get user input
 			while (true) {
+				stdout.printf ("\n");
 				stdout.printf ("%s: ", dgettext (null, "Enter a selection (default=%s)").printf (dgettext (null, "none")));
 				string ans = stdin.read_line ();
 				uint64 nb;
@@ -215,7 +216,7 @@ namespace Pamac {
 								if (int64.try_parse (splitted2[1], out end_num)) {
 									nb = beg_num;
 									while (nb <= end_num) {
-										if (nb >= 1 && nb < optdeps.length ()) {
+										if (nb >= 1 && nb <= optdeps.length) {
 											numbers += nb;
 										}
 										nb++;
@@ -223,16 +224,15 @@ namespace Pamac {
 								}
 							}
 						} else if (uint64.try_parse (part, out nb)) {
-							if (nb >= 1 && nb < optdeps.length ()) {
+							if (nb >= 1 && nb <= optdeps.length) {
 								numbers += nb;
 							}
 						}
 					}
 				}
-				stdout.printf ("\n");
 				if (numbers.length > 0) {
 					foreach (uint64 number in numbers) {
-						optdeps_to_install.append (optdeps.nth_data ((uint) number -1));
+						optdeps_to_install.append (optdeps[number -1]);
 					}
 					break;
 				}
@@ -242,11 +242,11 @@ namespace Pamac {
 		}
 
 		protected override int choose_provider (string depend, string[] providers) {
-			Package[] pkgs = {};
+			var pkgs = new SList<Package> ();
 			foreach (unowned string pkgname in providers) {
 				var pkg = database.get_sync_pkg (pkgname);
 				if (pkg.name != "")  {
-					pkgs += pkg;
+					pkgs.append (pkg);
 				}
 			}
 			// print pkgs
@@ -273,6 +273,7 @@ namespace Pamac {
 			}
 			// get user input
 			while (true) {
+				stdout.printf ("\n");
 				stdout.printf ("%s: ", dgettext (null, "Enter a number (default=%d)").printf (1));
 				string ans = stdin.read_line  ();
 				int64 nb;
@@ -284,7 +285,6 @@ namespace Pamac {
 				} else if (!int64.try_parse (ans, out nb)) {
 					nb = 0;
 				}
-				stdout.printf ("\n");
 				if (nb >= 1 && nb <= providers.length) {
 					int index = (int) nb - 1;
 					stdout.printf ("\n");
