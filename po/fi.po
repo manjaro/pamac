@@ -7,6 +7,7 @@
 # Ammuu5, 2017-2018
 # EscoP, 2015
 # EscoP, 2015
+# Jari Lankinen <lankinen.jari@gmail.com>, 2018
 # Luki <jbkammer@gmail.com>, 2013,2015
 # Luki <jbkammer@gmail.com>, 2013,2015
 # philm <philm@manjaro.org>, 2015
@@ -19,8 +20,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2018-10-18 11:38+0200\n"
-"PO-Revision-Date: 2018-10-18 09:49+0000\n"
+"POT-Creation-Date: 2018-11-13 15:01+0100\n"
+"PO-Revision-Date: 2018-11-13 14:07+0000\n"
 "Last-Translator: Guillaume Benoit <guillaume@manjaro.org>\n"
 "Language-Team: Finnish (http://www.transifex.com/manjarolinux/manjaro-pamac/language/fi/)\n"
 "MIME-Version: 1.0\n"
@@ -49,7 +50,7 @@ msgstr "Tapahtumaa ei saatu käynnistettyä"
 msgid "Failed to prepare transaction"
 msgstr "Tapahtumaa ei saatu valmisteltua"
 
-#: src/alpm_utils.vala src/transaction.vala src/cli.vala
+#: src/alpm_utils.vala src/cli.vala
 #, c-format
 msgid "target not found: %s"
 msgstr "kohdetta ei löydetty: %s"
@@ -117,6 +118,11 @@ msgstr "tiedoston noutaminen epäonnistui '%s' palvelimelta %s : %s\n"
 msgid "Authentication failed"
 msgstr "Todennus epäonnistui"
 
+#: src/database.vala src/transaction-gtk.vala src/manager_window.vala
+#: src/transaction-cli.vala src/cli.vala resources/preferences_dialog.ui
+msgid "AUR"
+msgstr "AUR"
+
 #: src/database.vala src/manager_window.vala
 msgid "Explicitly installed"
 msgstr "Käyttäjän asentama"
@@ -138,11 +144,6 @@ msgid "No"
 msgstr "Ei"
 
 #: src/transaction.vala
-#, c-format
-msgid "Generating %s informations"
-msgstr ""
-
-#: src/transaction.vala
 msgid "Refreshing mirrors list"
 msgstr "Päivitetään peilipalvelin lista"
 
@@ -157,11 +158,21 @@ msgstr "Synkronoidaan pakettitietokantoja"
 #: src/transaction.vala src/cli.vala
 #, c-format
 msgid "Cloning %s build files"
-msgstr ""
+msgstr "Kloonataan %s koontitiedostoja"
+
+#: src/transaction.vala
+#, c-format
+msgid "Generating %s informations"
+msgstr "Luodaan %s tietoja"
 
 #: src/transaction.vala
 #, c-format
 msgid "Checking %s dependencies"
+msgstr "Tarkistetaan %s riippuvuuksia"
+
+#: src/transaction.vala
+#, c-format
+msgid "key %s could not be imported"
 msgstr ""
 
 #: src/transaction.vala
@@ -253,10 +264,6 @@ msgid "Configuring %s"
 msgstr "Konfiguroidaan %s"
 
 #: src/transaction.vala
-msgid "Downloading"
-msgstr "Ladataan"
-
-#: src/transaction.vala
 #, c-format
 msgid "Downloading %s"
 msgstr "Ladataan %s"
@@ -338,14 +345,39 @@ msgstr "Toimenpide suoritettu onnistuneesti"
 msgid "Package Manager"
 msgstr "Paketinhallinta"
 
-#: src/transaction-gtk.vala
-msgid "Copy"
-msgstr "Kopioi"
+#: src/transaction-gtk.vala src/transaction-cli.vala
+#, c-format
+msgid "Choose optional dependencies for %s"
+msgstr ""
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
 msgid "Choose a provider for %s"
 msgstr "Valitse tarjoaja kohteelle %s"
+
+#: src/transaction-gtk.vala
+msgid "Import PGP key"
+msgstr ""
+
+#: src/transaction-gtk.vala
+msgid "Trust and Import"
+msgstr ""
+
+#: src/transaction-gtk.vala src/manager_window.vala
+#: resources/transaction_sum_dialog.ui resources/manager_window.ui
+#: resources/choose_pkgs_dialog.ui
+msgid "_Cancel"
+msgstr "_Peruuta"
+
+#: src/transaction-gtk.vala src/transaction-cli.vala
+#, c-format
+msgid "The PGP key %s is needed to verify %s source files"
+msgstr ""
+
+#: src/transaction-gtk.vala src/transaction-cli.vala
+#, c-format
+msgid "Trust %s and import the PGP key"
+msgstr ""
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "To remove"
@@ -378,17 +410,11 @@ msgstr "Latauksen kokonaiskoko"
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
 msgid "Edit %s build files"
-msgstr ""
+msgstr "Muokkaa %skoontitiedostoja"
 
 #: src/transaction-gtk.vala
 msgid "Save"
-msgstr ""
-
-#: src/transaction-gtk.vala src/manager_window.vala
-#: resources/transaction_sum_dialog.ui resources/manager_window.ui
-#: resources/choose_ignorepkgs_dialog.ui
-msgid "_Cancel"
-msgstr "_Peruuta"
+msgstr "Tallenna"
 
 #: src/transaction-gtk.vala resources/progress_dialog.ui
 #: resources/history_dialog.ui resources/preferences_dialog.ui
@@ -405,11 +431,11 @@ msgstr ""
 
 #: src/installer.vala src/cli.vala
 msgid "Remove packages"
-msgstr ""
+msgstr "Poista paketteja"
 
 #: src/installer.vala src/cli.vala
 msgid "package(s)"
-msgstr ""
+msgstr "paketti"
 
 #: src/tray.vala src/manager_window.vala src/cli.vala
 msgid "Your system is up-to-date"
@@ -453,7 +479,7 @@ msgstr "Asenna"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Build"
-msgstr ""
+msgstr "Koonti"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Remove"
@@ -542,10 +568,6 @@ msgstr "Asetukset"
 msgid "System Tools"
 msgstr "Järjestelmän hallinta"
 
-#: src/manager_window.vala src/cli.vala resources/preferences_dialog.ui
-msgid "AUR"
-msgstr "AUR"
-
 #: src/manager_window.vala
 msgid "Dependencies"
 msgstr "Riippuvuudet"
@@ -556,7 +578,7 @@ msgstr "Tiedostot"
 
 #: src/manager_window.vala
 msgid "Build files"
-msgstr ""
+msgstr "Koontitiedostot"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Install Reason"
@@ -575,12 +597,36 @@ msgid "Repository"
 msgstr "Pakettivarasto"
 
 #: src/manager_window.vala src/cli.vala
+msgid "Package Base"
+msgstr "Perus paketti"
+
+#: src/manager_window.vala src/cli.vala
+msgid "Maintainer"
+msgstr "Ylläpitäjä"
+
+#: src/manager_window.vala src/cli.vala
+msgid "First Submitted"
+msgstr "Ensimmäinen versio"
+
+#: src/manager_window.vala src/cli.vala
+msgid "Last Modified"
+msgstr "Viimeksi muutettu"
+
+#: src/manager_window.vala src/cli.vala
+msgid "Votes"
+msgstr "Ääniä"
+
+#: src/manager_window.vala src/cli.vala
+msgid "Out of Date"
+msgstr "Vanhentunut"
+
+#: src/manager_window.vala src/cli.vala
 msgid "Packager"
 msgstr "Pakkaaja"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Build Date"
-msgstr "Kasauspäivämäärä"
+msgstr "Koontipäivämäärä"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Install Date"
@@ -623,30 +669,6 @@ msgid "Conflicts With"
 msgstr "Ristiriidat"
 
 #: src/manager_window.vala src/cli.vala
-msgid "Package Base"
-msgstr "Perus paketti"
-
-#: src/manager_window.vala
-msgid "Maintainer"
-msgstr "Ylläpitäjä"
-
-#: src/manager_window.vala src/cli.vala
-msgid "First Submitted"
-msgstr "Ensimmäinen versio"
-
-#: src/manager_window.vala src/cli.vala
-msgid "Last Modified"
-msgstr "Viimeksi muutettu"
-
-#: src/manager_window.vala src/cli.vala
-msgid "Votes"
-msgstr "Ääniä"
-
-#: src/manager_window.vala src/cli.vala
-msgid "Out of Date"
-msgstr "Vanhentunut"
-
-#: src/manager_window.vala src/cli.vala
 msgid "Make Dependencies"
 msgstr "Kasaa riippuvuudet"
 
@@ -683,21 +705,38 @@ msgid "How often to check for updates, value in hours"
 msgstr "Kuinka usein tarkistetaan päivityksiä, arvo tunneissa"
 
 #: src/preferences_dialog.vala resources/preferences_dialog.ui
+msgid "Maximum parallel downloads"
+msgstr ""
+
+#: src/preferences_dialog.vala resources/preferences_dialog.ui
 msgid "Number of versions of each package to keep in the cache"
 msgstr "Paketin versioiden määrä joka säilytetään"
 
 #: src/preferences_dialog.vala
 msgid "Build directory"
-msgstr "Kasaus hakemisto"
+msgstr "Koontihakemisto"
 
 #: src/preferences_dialog.vala
 msgid "Worldwide"
 msgstr "Maailmanlaajuinen"
 
+#: src/preferences_dialog.vala
+msgid "Choose Ignored Upgrades"
+msgstr "Valitse ohitettavat päivitykset"
+
+#: src/transaction-cli.vala src/cli.vala
+#, c-format
+msgid "Enter a selection (default=%s)"
+msgstr ""
+
+#: src/transaction-cli.vala
+msgid "none"
+msgstr ""
+
 #: src/transaction-cli.vala
 #, c-format
 msgid "Enter a number (default=%d)"
-msgstr ""
+msgstr "Syötä numero (oletus=%d)"
 
 #: src/transaction-cli.vala
 msgid "[y/N]"
@@ -713,15 +752,15 @@ msgstr ""
 
 #: src/transaction-cli.vala resources/transaction_sum_dialog.ui
 msgid "Edit build files"
-msgstr ""
+msgstr "Muokkaa koontitiedostoja"
 
 #: src/transaction-cli.vala
 msgid "Total installed size"
-msgstr ""
+msgstr "Koko asennetuna yhteensä"
 
 #: src/transaction-cli.vala
 msgid "Total removed size"
-msgstr ""
+msgstr "Koko poistettuna yhteensä"
 
 #: src/transaction-cli.vala
 msgid "Commit transaction"
@@ -730,7 +769,7 @@ msgstr ""
 #: src/transaction-cli.vala
 #, c-format
 msgid "View %s build files diff"
-msgstr ""
+msgstr "Näytä %s koontitiedostojen eroavaisuudet"
 
 #: src/cli.vala
 msgid "Building packages as root is not allowed"
@@ -741,27 +780,31 @@ msgid "No PKGBUILD file found in current directory"
 msgstr ""
 
 #: src/cli.vala
-msgid "Available actions"
+msgid "Check development packages updates as root is not allowed"
 msgstr ""
+
+#: src/cli.vala
+msgid "Available actions"
+msgstr "Saatavilla olevat toiminnot"
 
 #: src/cli.vala
 msgid "action"
-msgstr ""
+msgstr "toiminto"
 
 #: src/cli.vala
 msgid "options"
-msgstr ""
+msgstr "asetukset"
 
 #: src/cli.vala
 msgid "Search for packages or files, multiple search terms can be specified"
-msgstr ""
+msgstr "Etsi paketteja tai tiedostoja, voit määritellä useampia hakutermejä"
 
 #: src/cli.vala
 msgid "file(s)"
-msgstr ""
+msgstr "tiedosto(t)"
 
 #: src/cli.vala
-msgid "search in AUR instead of repositories"
+msgid "also search in AUR"
 msgstr ""
 
 #: src/cli.vala
@@ -778,8 +821,16 @@ msgid "List packages, groups, repositories or files"
 msgstr ""
 
 #: src/cli.vala
-msgid "list installed packages"
+msgid "group(s)"
 msgstr ""
+
+#: src/cli.vala
+msgid "repo(s)"
+msgstr ""
+
+#: src/cli.vala
+msgid "list installed packages"
+msgstr "Listaa asennetut paketit"
 
 #: src/cli.vala
 msgid ""
@@ -798,17 +849,9 @@ msgid ""
 msgstr ""
 
 #: src/cli.vala
-msgid "group(s)"
-msgstr ""
-
-#: src/cli.vala
 msgid ""
 "list all packages available in the given repos, if no repo is given list all"
 " repos"
-msgstr ""
-
-#: src/cli.vala
-msgid "repo(s)"
 msgstr ""
 
 #: src/cli.vala
@@ -820,13 +863,13 @@ msgid "Clone or sync packages build files from AUR"
 msgstr ""
 
 #: src/cli.vala
-msgid ""
-"build directory, if no directory is given the one specified in pamac.conf "
-"file is used"
+msgid "dir"
 msgstr ""
 
 #: src/cli.vala
-msgid "dir"
+msgid ""
+"build directory, if no directory is given the one specified in pamac.conf "
+"file is used"
 msgstr ""
 
 #: src/cli.vala
@@ -857,6 +900,10 @@ msgid "do not clone build files from AUR, only use local files"
 msgstr ""
 
 #: src/cli.vala
+msgid "glob"
+msgstr ""
+
+#: src/cli.vala
 msgid ""
 "ignore a package upgrade, multiple packages can be specified by separating "
 "them with a comma"
@@ -866,10 +913,6 @@ msgstr ""
 msgid ""
 "overwrite conflicting files, multiple patterns can be specified by "
 "separating them with a comma"
-msgstr ""
-
-#: src/cli.vala
-msgid "glob"
 msgstr ""
 
 #: src/cli.vala
@@ -892,6 +935,20 @@ msgstr ""
 
 #: src/cli.vala
 msgid "also check updates in AUR"
+msgstr ""
+
+#: src/cli.vala
+msgid "also check development packages updates (use with --aur)"
+msgstr ""
+
+#: src/cli.vala
+msgid "only print one line per update"
+msgstr ""
+
+#: src/cli.vala
+msgid ""
+"build directory (use with --devel), if no directory is given the one "
+"specified in pamac.conf file is used"
 msgstr ""
 
 #: src/cli.vala
@@ -950,14 +1007,14 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: src/cli.vala
-msgid "Enter a selection (default=all)"
+msgid "all"
 msgstr ""
 
 #: resources/choose_provider_dialog.ui
 msgid "Choose a Provider"
 msgstr "Valitse toimittaja"
 
-#: resources/choose_provider_dialog.ui resources/choose_ignorepkgs_dialog.ui
+#: resources/choose_provider_dialog.ui resources/choose_pkgs_dialog.ui
 msgid "Choose"
 msgstr "Valitse"
 
@@ -1086,6 +1143,10 @@ msgid "Check for updates from AUR"
 msgstr "Tarkista päivitykset AUR pakettilähteestä"
 
 #: resources/preferences_dialog.ui
+msgid "Check for development packages updates"
+msgstr ""
+
+#: resources/preferences_dialog.ui
 msgid "Remove only the versions of uninstalled packages"
 msgstr "Poista vain asentamattomien pakettien versiot"
 
@@ -1096,7 +1157,3 @@ msgstr "Tyhjennä historia"
 #: resources/preferences_dialog.ui
 msgid "Cache"
 msgstr "Varasto"
-
-#: resources/choose_ignorepkgs_dialog.ui
-msgid "Choose Ignored Upgrades"
-msgstr "Valitse ohitettavat päivitykset"

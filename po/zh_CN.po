@@ -18,8 +18,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2018-10-18 11:38+0200\n"
-"PO-Revision-Date: 2018-10-18 09:49+0000\n"
+"POT-Creation-Date: 2018-11-13 15:01+0100\n"
+"PO-Revision-Date: 2018-11-13 14:07+0000\n"
 "Last-Translator: Guillaume Benoit <guillaume@manjaro.org>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
@@ -48,7 +48,7 @@ msgstr "初始化事务失败"
 msgid "Failed to prepare transaction"
 msgstr "准备事务失败"
 
-#: src/alpm_utils.vala src/transaction.vala src/cli.vala
+#: src/alpm_utils.vala src/cli.vala
 #, c-format
 msgid "target not found: %s"
 msgstr "目标未找到：%s"
@@ -116,6 +116,11 @@ msgstr "从 %s 获取文件“%s”失败：%s\n"
 msgid "Authentication failed"
 msgstr "验证失败"
 
+#: src/database.vala src/transaction-gtk.vala src/manager_window.vala
+#: src/transaction-cli.vala src/cli.vala resources/preferences_dialog.ui
+msgid "AUR"
+msgstr "AUR"
+
 #: src/database.vala src/manager_window.vala
 msgid "Explicitly installed"
 msgstr "单独指定安装"
@@ -137,11 +142,6 @@ msgid "No"
 msgstr "否"
 
 #: src/transaction.vala
-#, c-format
-msgid "Generating %s informations"
-msgstr ""
-
-#: src/transaction.vala
 msgid "Refreshing mirrors list"
 msgstr "正在刷新镜像列表"
 
@@ -160,7 +160,17 @@ msgstr ""
 
 #: src/transaction.vala
 #, c-format
+msgid "Generating %s informations"
+msgstr ""
+
+#: src/transaction.vala
+#, c-format
 msgid "Checking %s dependencies"
+msgstr ""
+
+#: src/transaction.vala
+#, c-format
+msgid "key %s could not be imported"
 msgstr ""
 
 #: src/transaction.vala
@@ -252,10 +262,6 @@ msgid "Configuring %s"
 msgstr "正在配置 %s"
 
 #: src/transaction.vala
-msgid "Downloading"
-msgstr "正在下载"
-
-#: src/transaction.vala
 #, c-format
 msgid "Downloading %s"
 msgstr "正在下载 %s"
@@ -336,14 +342,39 @@ msgstr "事务成功完成"
 msgid "Package Manager"
 msgstr "软件包管理器"
 
-#: src/transaction-gtk.vala
-msgid "Copy"
-msgstr "复制"
+#: src/transaction-gtk.vala src/transaction-cli.vala
+#, c-format
+msgid "Choose optional dependencies for %s"
+msgstr ""
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
 msgid "Choose a provider for %s"
 msgstr "选择 %s 的提供者"
+
+#: src/transaction-gtk.vala
+msgid "Import PGP key"
+msgstr ""
+
+#: src/transaction-gtk.vala
+msgid "Trust and Import"
+msgstr ""
+
+#: src/transaction-gtk.vala src/manager_window.vala
+#: resources/transaction_sum_dialog.ui resources/manager_window.ui
+#: resources/choose_pkgs_dialog.ui
+msgid "_Cancel"
+msgstr "取消(_C)"
+
+#: src/transaction-gtk.vala src/transaction-cli.vala
+#, c-format
+msgid "The PGP key %s is needed to verify %s source files"
+msgstr ""
+
+#: src/transaction-gtk.vala src/transaction-cli.vala
+#, c-format
+msgid "Trust %s and import the PGP key"
+msgstr ""
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "To remove"
@@ -381,12 +412,6 @@ msgstr ""
 #: src/transaction-gtk.vala
 msgid "Save"
 msgstr ""
-
-#: src/transaction-gtk.vala src/manager_window.vala
-#: resources/transaction_sum_dialog.ui resources/manager_window.ui
-#: resources/choose_ignorepkgs_dialog.ui
-msgid "_Cancel"
-msgstr "取消(_C)"
 
 #: src/transaction-gtk.vala resources/progress_dialog.ui
 #: resources/history_dialog.ui resources/preferences_dialog.ui
@@ -538,10 +563,6 @@ msgstr "设置"
 msgid "System Tools"
 msgstr "系统工具"
 
-#: src/manager_window.vala src/cli.vala resources/preferences_dialog.ui
-msgid "AUR"
-msgstr "AUR"
-
 #: src/manager_window.vala
 msgid "Dependencies"
 msgstr "依赖"
@@ -569,6 +590,30 @@ msgstr "许可"
 #: src/manager_window.vala src/cli.vala resources/manager_window.ui
 msgid "Repository"
 msgstr "软件仓库"
+
+#: src/manager_window.vala src/cli.vala
+msgid "Package Base"
+msgstr "包基础"
+
+#: src/manager_window.vala src/cli.vala
+msgid "Maintainer"
+msgstr "维护者"
+
+#: src/manager_window.vala src/cli.vala
+msgid "First Submitted"
+msgstr "首次提交"
+
+#: src/manager_window.vala src/cli.vala
+msgid "Last Modified"
+msgstr "最后修改"
+
+#: src/manager_window.vala src/cli.vala
+msgid "Votes"
+msgstr "得票"
+
+#: src/manager_window.vala src/cli.vala
+msgid "Out of Date"
+msgstr "过期"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Packager"
@@ -619,30 +664,6 @@ msgid "Conflicts With"
 msgstr "与后者冲突"
 
 #: src/manager_window.vala src/cli.vala
-msgid "Package Base"
-msgstr "包基础"
-
-#: src/manager_window.vala
-msgid "Maintainer"
-msgstr "维护者"
-
-#: src/manager_window.vala src/cli.vala
-msgid "First Submitted"
-msgstr "首次提交"
-
-#: src/manager_window.vala src/cli.vala
-msgid "Last Modified"
-msgstr "最后修改"
-
-#: src/manager_window.vala src/cli.vala
-msgid "Votes"
-msgstr "得票"
-
-#: src/manager_window.vala src/cli.vala
-msgid "Out of Date"
-msgstr "过期"
-
-#: src/manager_window.vala src/cli.vala
 msgid "Make Dependencies"
 msgstr "构建依赖关系"
 
@@ -679,6 +700,10 @@ msgid "How often to check for updates, value in hours"
 msgstr "检查更新的频率，单位为小时"
 
 #: src/preferences_dialog.vala resources/preferences_dialog.ui
+msgid "Maximum parallel downloads"
+msgstr ""
+
+#: src/preferences_dialog.vala resources/preferences_dialog.ui
 msgid "Number of versions of each package to keep in the cache"
 msgstr "每个软件包保留在缓存中的版本数目"
 
@@ -689,6 +714,19 @@ msgstr "构建目录"
 #: src/preferences_dialog.vala
 msgid "Worldwide"
 msgstr "全世界"
+
+#: src/preferences_dialog.vala
+msgid "Choose Ignored Upgrades"
+msgstr "选择忽略的更新"
+
+#: src/transaction-cli.vala src/cli.vala
+#, c-format
+msgid "Enter a selection (default=%s)"
+msgstr ""
+
+#: src/transaction-cli.vala
+msgid "none"
+msgstr ""
 
 #: src/transaction-cli.vala
 #, c-format
@@ -737,6 +775,10 @@ msgid "No PKGBUILD file found in current directory"
 msgstr ""
 
 #: src/cli.vala
+msgid "Check development packages updates as root is not allowed"
+msgstr ""
+
+#: src/cli.vala
 msgid "Available actions"
 msgstr "可用操作"
 
@@ -757,8 +799,8 @@ msgid "file(s)"
 msgstr "文件"
 
 #: src/cli.vala
-msgid "search in AUR instead of repositories"
-msgstr "从AUR而不是仓库搜索"
+msgid "also search in AUR"
+msgstr ""
 
 #: src/cli.vala
 msgid ""
@@ -772,6 +814,14 @@ msgstr "展示包的细节，可以指定多个包"
 #: src/cli.vala
 msgid "List packages, groups, repositories or files"
 msgstr "列出包、组、仓库或者文件"
+
+#: src/cli.vala
+msgid "group(s)"
+msgstr "组"
+
+#: src/cli.vala
+msgid "repo(s)"
+msgstr "仓库"
 
 #: src/cli.vala
 msgid "list installed packages"
@@ -794,18 +844,10 @@ msgid ""
 msgstr "列出指定组的所有包，若未指定组则列出所有组的"
 
 #: src/cli.vala
-msgid "group(s)"
-msgstr "组"
-
-#: src/cli.vala
 msgid ""
 "list all packages available in the given repos, if no repo is given list all"
 " repos"
 msgstr "列出指定仓库里所有的包，若未指定仓库列出所有仓库"
-
-#: src/cli.vala
-msgid "repo(s)"
-msgstr "仓库"
 
 #: src/cli.vala
 msgid "list files owned by the given packages"
@@ -816,14 +858,14 @@ msgid "Clone or sync packages build files from AUR"
 msgstr ""
 
 #: src/cli.vala
+msgid "dir"
+msgstr "文件目录"
+
+#: src/cli.vala
 msgid ""
 "build directory, if no directory is given the one specified in pamac.conf "
 "file is used"
 msgstr "创建的目录，若未指定则使用pamac.conf中指定的"
-
-#: src/cli.vala
-msgid "dir"
-msgstr "文件目录"
 
 #: src/cli.vala
 msgid "also clone needed dependencies"
@@ -853,6 +895,10 @@ msgid "do not clone build files from AUR, only use local files"
 msgstr ""
 
 #: src/cli.vala
+msgid "glob"
+msgstr "全局"
+
+#: src/cli.vala
 msgid ""
 "ignore a package upgrade, multiple packages can be specified by separating "
 "them with a comma"
@@ -863,10 +909,6 @@ msgid ""
 "overwrite conflicting files, multiple patterns can be specified by "
 "separating them with a comma"
 msgstr "覆盖冲突文件，多个模式使用逗号分隔"
-
-#: src/cli.vala
-msgid "glob"
-msgstr "全局"
 
 #: src/cli.vala
 msgid "Reinstall packages"
@@ -889,6 +931,20 @@ msgstr "若有更新退出代码为100"
 #: src/cli.vala
 msgid "also check updates in AUR"
 msgstr "同时检查AUR更新"
+
+#: src/cli.vala
+msgid "also check development packages updates (use with --aur)"
+msgstr ""
+
+#: src/cli.vala
+msgid "only print one line per update"
+msgstr ""
+
+#: src/cli.vala
+msgid ""
+"build directory (use with --devel), if no directory is given the one "
+"specified in pamac.conf file is used"
+msgstr ""
 
 #: src/cli.vala
 msgid "Upgrade your system"
@@ -945,14 +1001,14 @@ msgid_plural "There are %u members in group %s"
 msgstr[0] "%s组中有%u个成员"
 
 #: src/cli.vala
-msgid "Enter a selection (default=all)"
-msgstr "输入选项（默认所有）"
+msgid "all"
+msgstr ""
 
 #: resources/choose_provider_dialog.ui
 msgid "Choose a Provider"
 msgstr "选择提供者"
 
-#: resources/choose_provider_dialog.ui resources/choose_ignorepkgs_dialog.ui
+#: resources/choose_provider_dialog.ui resources/choose_pkgs_dialog.ui
 msgid "Choose"
 msgstr "选择"
 
@@ -1081,6 +1137,10 @@ msgid "Check for updates from AUR"
 msgstr "从 AUR 检查更新"
 
 #: resources/preferences_dialog.ui
+msgid "Check for development packages updates"
+msgstr ""
+
+#: resources/preferences_dialog.ui
 msgid "Remove only the versions of uninstalled packages"
 msgstr "只清除已卸载软件包的版本"
 
@@ -1091,7 +1151,3 @@ msgstr "清除缓存"
 #: resources/preferences_dialog.ui
 msgid "Cache"
 msgstr "缓存"
-
-#: resources/choose_ignorepkgs_dialog.ui
-msgid "Choose Ignored Upgrades"
-msgstr "选择忽略的更新"

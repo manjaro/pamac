@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2018-10-18 11:38+0200\n"
-"PO-Revision-Date: 2018-10-22 20:54+0000\n"
+"POT-Creation-Date: 2018-11-13 15:01+0100\n"
+"PO-Revision-Date: 2018-11-16 02:38+0000\n"
 "Last-Translator: UTUMI Hirosi <utuhiro78@yahoo.co.jp>\n"
 "Language-Team: Japanese (http://www.transifex.com/manjarolinux/manjaro-pamac/language/ja/)\n"
 "MIME-Version: 1.0\n"
@@ -44,7 +44,7 @@ msgstr "トランザクションの初期化に失敗しました"
 msgid "Failed to prepare transaction"
 msgstr "トランザクションの準備に失敗しました"
 
-#: src/alpm_utils.vala src/transaction.vala src/cli.vala
+#: src/alpm_utils.vala src/cli.vala
 #, c-format
 msgid "target not found: %s"
 msgstr "ターゲットが見つかりません: %s"
@@ -112,6 +112,11 @@ msgstr "ファイル '%s' を %s から検索できませんでした: %s\n"
 msgid "Authentication failed"
 msgstr "認証に失敗しました"
 
+#: src/database.vala src/transaction-gtk.vala src/manager_window.vala
+#: src/transaction-cli.vala src/cli.vala resources/preferences_dialog.ui
+msgid "AUR"
+msgstr "AUR"
+
 #: src/database.vala src/manager_window.vala
 msgid "Explicitly installed"
 msgstr "明示的にインストール"
@@ -133,11 +138,6 @@ msgid "No"
 msgstr "いいえ"
 
 #: src/transaction.vala
-#, c-format
-msgid "Generating %s informations"
-msgstr "%s の情報を生成"
-
-#: src/transaction.vala
 msgid "Refreshing mirrors list"
 msgstr "ミラーリストを更新"
 
@@ -156,8 +156,18 @@ msgstr " %s のビルドファイルを複製"
 
 #: src/transaction.vala
 #, c-format
+msgid "Generating %s informations"
+msgstr "%s の情報を生成"
+
+#: src/transaction.vala
+#, c-format
 msgid "Checking %s dependencies"
 msgstr "%s の依存を確認中"
+
+#: src/transaction.vala
+#, c-format
+msgid "key %s could not be imported"
+msgstr "鍵 %s をインポートできませんでした"
 
 #: src/transaction.vala
 msgid "Preparing"
@@ -248,10 +258,6 @@ msgid "Configuring %s"
 msgstr "%s を設定しています"
 
 #: src/transaction.vala
-msgid "Downloading"
-msgstr "ダウンロードしています"
-
-#: src/transaction.vala
 #, c-format
 msgid "Downloading %s"
 msgstr "%s をダウンロードしています"
@@ -332,14 +338,39 @@ msgstr "トランザクションが成功しました"
 msgid "Package Manager"
 msgstr "パッケージマネージャ"
 
-#: src/transaction-gtk.vala
-msgid "Copy"
-msgstr "コピー"
+#: src/transaction-gtk.vala src/transaction-cli.vala
+#, c-format
+msgid "Choose optional dependencies for %s"
+msgstr "%s のオプションとしてインストールするものを選択"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
 msgid "Choose a provider for %s"
 msgstr "%s の提供元を選択"
+
+#: src/transaction-gtk.vala
+msgid "Import PGP key"
+msgstr "PGP鍵をインポート"
+
+#: src/transaction-gtk.vala
+msgid "Trust and Import"
+msgstr "信用とインポート"
+
+#: src/transaction-gtk.vala src/manager_window.vala
+#: resources/transaction_sum_dialog.ui resources/manager_window.ui
+#: resources/choose_pkgs_dialog.ui
+msgid "_Cancel"
+msgstr "キャンセル (_C)"
+
+#: src/transaction-gtk.vala src/transaction-cli.vala
+#, c-format
+msgid "The PGP key %s is needed to verify %s source files"
+msgstr "%s ソースファイルを検証するにはPGP鍵 %s が必要です"
+
+#: src/transaction-gtk.vala src/transaction-cli.vala
+#, c-format
+msgid "Trust %s and import the PGP key"
+msgstr "%s を信用してPGP鍵をインポートする"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "To remove"
@@ -377,12 +408,6 @@ msgstr "%s ビルドファイルの編集"
 #: src/transaction-gtk.vala
 msgid "Save"
 msgstr "保存"
-
-#: src/transaction-gtk.vala src/manager_window.vala
-#: resources/transaction_sum_dialog.ui resources/manager_window.ui
-#: resources/choose_ignorepkgs_dialog.ui
-msgid "_Cancel"
-msgstr "キャンセル (_C)"
 
 #: src/transaction-gtk.vala resources/progress_dialog.ui
 #: resources/history_dialog.ui resources/preferences_dialog.ui
@@ -534,10 +559,6 @@ msgstr "設定"
 msgid "System Tools"
 msgstr "システムツール"
 
-#: src/manager_window.vala src/cli.vala resources/preferences_dialog.ui
-msgid "AUR"
-msgstr "AUR"
-
 #: src/manager_window.vala
 msgid "Dependencies"
 msgstr "依存関係"
@@ -565,6 +586,30 @@ msgstr "ライセンス"
 #: src/manager_window.vala src/cli.vala resources/manager_window.ui
 msgid "Repository"
 msgstr "リポジトリ"
+
+#: src/manager_window.vala src/cli.vala
+msgid "Package Base"
+msgstr "パッケージベース"
+
+#: src/manager_window.vala src/cli.vala
+msgid "Maintainer"
+msgstr "メンテナ"
+
+#: src/manager_window.vala src/cli.vala
+msgid "First Submitted"
+msgstr "最初に出した日"
+
+#: src/manager_window.vala src/cli.vala
+msgid "Last Modified"
+msgstr "最終更新日"
+
+#: src/manager_window.vala src/cli.vala
+msgid "Votes"
+msgstr "投票数"
+
+#: src/manager_window.vala src/cli.vala
+msgid "Out of Date"
+msgstr "古くなっています"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Packager"
@@ -615,30 +660,6 @@ msgid "Conflicts With"
 msgstr "競合するもの"
 
 #: src/manager_window.vala src/cli.vala
-msgid "Package Base"
-msgstr "パッケージベース"
-
-#: src/manager_window.vala
-msgid "Maintainer"
-msgstr "メンテナ"
-
-#: src/manager_window.vala src/cli.vala
-msgid "First Submitted"
-msgstr "最初に出した日"
-
-#: src/manager_window.vala src/cli.vala
-msgid "Last Modified"
-msgstr "最終更新日"
-
-#: src/manager_window.vala src/cli.vala
-msgid "Votes"
-msgstr "投票数"
-
-#: src/manager_window.vala src/cli.vala
-msgid "Out of Date"
-msgstr "古くなっています"
-
-#: src/manager_window.vala src/cli.vala
 msgid "Make Dependencies"
 msgstr "必要なパッケージを作成"
 
@@ -675,6 +696,10 @@ msgid "How often to check for updates, value in hours"
 msgstr "アップデートを確認する間隔 (1時間単位)"
 
 #: src/preferences_dialog.vala resources/preferences_dialog.ui
+msgid "Maximum parallel downloads"
+msgstr "最大同時ダウンロード数"
+
+#: src/preferences_dialog.vala resources/preferences_dialog.ui
 msgid "Number of versions of each package to keep in the cache"
 msgstr "キャッシュに保存するパッケージのバージョン数"
 
@@ -685,6 +710,19 @@ msgstr "ビルドディレクトリ"
 #: src/preferences_dialog.vala
 msgid "Worldwide"
 msgstr "全世界"
+
+#: src/preferences_dialog.vala
+msgid "Choose Ignored Upgrades"
+msgstr "無視するアップグレードを選択"
+
+#: src/transaction-cli.vala src/cli.vala
+#, c-format
+msgid "Enter a selection (default=%s)"
+msgstr "選択するものを入力 (デフォルト=%s)"
+
+#: src/transaction-cli.vala
+msgid "none"
+msgstr "なし"
 
 #: src/transaction-cli.vala
 #, c-format
@@ -733,6 +771,10 @@ msgid "No PKGBUILD file found in current directory"
 msgstr "カレントディレクトリにPKGBUILDファイルが存在しません"
 
 #: src/cli.vala
+msgid "Check development packages updates as root is not allowed"
+msgstr "rootが許可されていないものとして開発用パッケージの更新を確認"
+
+#: src/cli.vala
 msgid "Available actions"
 msgstr "利用可能なアクション"
 
@@ -753,8 +795,8 @@ msgid "file(s)"
 msgstr "ファイル"
 
 #: src/cli.vala
-msgid "search in AUR instead of repositories"
-msgstr "リポジトリに代わってAURを検索"
+msgid "also search in AUR"
+msgstr "AURも検索"
 
 #: src/cli.vala
 msgid ""
@@ -768,6 +810,14 @@ msgstr "パッケージの詳細を表示する際、複数のパッケージを
 #: src/cli.vala
 msgid "List packages, groups, repositories or files"
 msgstr "パッケージ、グループ、リポジトリまたはファイルのリスト"
+
+#: src/cli.vala
+msgid "group(s)"
+msgstr "グループ"
+
+#: src/cli.vala
+msgid "repo(s)"
+msgstr "リポジトリ"
 
 #: src/cli.vala
 msgid "list installed packages"
@@ -790,18 +840,10 @@ msgid ""
 msgstr "グループに属する全てのパッケージのリスト、もしグループが指定されていない場合は全てのグループについてのリスト"
 
 #: src/cli.vala
-msgid "group(s)"
-msgstr "グループ"
-
-#: src/cli.vala
 msgid ""
 "list all packages available in the given repos, if no repo is given list all"
 " repos"
 msgstr "指定されたリポジトリで利用可能な全てのパッケージのリスト、もしリポジトリが指定されていない場合は全てのリポジトリについてのリスト"
-
-#: src/cli.vala
-msgid "repo(s)"
-msgstr "リポジトリ"
 
 #: src/cli.vala
 msgid "list files owned by the given packages"
@@ -812,14 +854,14 @@ msgid "Clone or sync packages build files from AUR"
 msgstr "AUR からパッケージのビルドファイルを複製あるいは同期"
 
 #: src/cli.vala
+msgid "dir"
+msgstr "dir"
+
+#: src/cli.vala
 msgid ""
 "build directory, if no directory is given the one specified in pamac.conf "
 "file is used"
 msgstr "ビルドを行うディレクトリ、もしデジレクトリが指定されていない場合はpamac.confで指定されたものを使用"
-
-#: src/cli.vala
-msgid "dir"
-msgstr "dir"
 
 #: src/cli.vala
 msgid "also clone needed dependencies"
@@ -849,6 +891,10 @@ msgid "do not clone build files from AUR, only use local files"
 msgstr "AURからビルド用のファイルをクローンせず、ローカルファイルのみを使用する"
 
 #: src/cli.vala
+msgid "glob"
+msgstr "glob"
+
+#: src/cli.vala
 msgid ""
 "ignore a package upgrade, multiple packages can be specified by separating "
 "them with a comma"
@@ -859,10 +905,6 @@ msgid ""
 "overwrite conflicting files, multiple patterns can be specified by "
 "separating them with a comma"
 msgstr "コンフリクトするファイルを上書きする。カンマ区切りで複数のパターンを指定できる"
-
-#: src/cli.vala
-msgid "glob"
-msgstr "glob"
 
 #: src/cli.vala
 msgid "Reinstall packages"
@@ -885,6 +927,20 @@ msgstr "アップデートがりようできるならば、終了コードは100
 #: src/cli.vala
 msgid "also check updates in AUR"
 msgstr "AURのパッケージの更新も確認する"
+
+#: src/cli.vala
+msgid "also check development packages updates (use with --aur)"
+msgstr "開発用パッケージの更新も確認 (--aur と一緒に使う)"
+
+#: src/cli.vala
+msgid "only print one line per update"
+msgstr "1つの更新につき1行だけ表示"
+
+#: src/cli.vala
+msgid ""
+"build directory (use with --devel), if no directory is given the one "
+"specified in pamac.conf file is used"
+msgstr "ビルドディレクトリ (--devel と一緒に使う)。ディレクトリの指定がなければ pamac.conf ファイルで指定されたものが使われる"
 
 #: src/cli.vala
 msgid "Upgrade your system"
@@ -941,14 +997,14 @@ msgid_plural "There are %u members in group %s"
 msgstr[0] "グループ%s 内に %u のパッケージがあります。"
 
 #: src/cli.vala
-msgid "Enter a selection (default=all)"
-msgstr "選択するものを入力 (デフォルト=全て)"
+msgid "all"
+msgstr "全て"
 
 #: resources/choose_provider_dialog.ui
 msgid "Choose a Provider"
 msgstr "提供元を選択"
 
-#: resources/choose_provider_dialog.ui resources/choose_ignorepkgs_dialog.ui
+#: resources/choose_provider_dialog.ui resources/choose_pkgs_dialog.ui
 msgid "Choose"
 msgstr " 選択"
 
@@ -1077,6 +1133,10 @@ msgid "Check for updates from AUR"
 msgstr "AUR のアップデートを確認する"
 
 #: resources/preferences_dialog.ui
+msgid "Check for development packages updates"
+msgstr "開発用パッケージの更新を確認"
+
+#: resources/preferences_dialog.ui
 msgid "Remove only the versions of uninstalled packages"
 msgstr "アンインストールしたパッケージのバージョンのみ削除"
 
@@ -1087,7 +1147,3 @@ msgstr "キャッシュを削除"
 #: resources/preferences_dialog.ui
 msgid "Cache"
 msgstr "キャッシュ"
-
-#: resources/choose_ignorepkgs_dialog.ui
-msgid "Choose Ignored Upgrades"
-msgstr "無視するアップグレードを選択"

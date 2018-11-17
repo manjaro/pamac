@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2018-10-18 11:38+0200\n"
-"PO-Revision-Date: 2018-10-18 20:03+0000\n"
+"POT-Creation-Date: 2018-11-13 15:01+0100\n"
+"PO-Revision-Date: 2018-11-15 22:25+0000\n"
 "Last-Translator: Moo\n"
 "Language-Team: Lithuanian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/lt/)\n"
 "MIME-Version: 1.0\n"
@@ -40,7 +40,7 @@ msgstr "Nepavyko inicijuoti operacijos"
 msgid "Failed to prepare transaction"
 msgstr "Nepavyko paruošti operacijos"
 
-#: src/alpm_utils.vala src/transaction.vala src/cli.vala
+#: src/alpm_utils.vala src/cli.vala
 #, c-format
 msgid "target not found: %s"
 msgstr "objektas nerastas: %s"
@@ -108,6 +108,11 @@ msgstr "nepavyko gauti failo \"%s\" iš %s : %s\n"
 msgid "Authentication failed"
 msgstr "Nepavyko nustatyti tapatybę"
 
+#: src/database.vala src/transaction-gtk.vala src/manager_window.vala
+#: src/transaction-cli.vala src/cli.vala resources/preferences_dialog.ui
+msgid "AUR"
+msgstr "AUR"
+
 #: src/database.vala src/manager_window.vala
 msgid "Explicitly installed"
 msgstr "Savarankiškai įdiegtas"
@@ -129,11 +134,6 @@ msgid "No"
 msgstr "Ne"
 
 #: src/transaction.vala
-#, c-format
-msgid "Generating %s informations"
-msgstr "Kuriama %s informacija"
-
-#: src/transaction.vala
 msgid "Refreshing mirrors list"
 msgstr "Iš naujo įkeliamas tinklaviečių sąrašas"
 
@@ -152,8 +152,18 @@ msgstr "Klonuojami %s kompiliavimo failai"
 
 #: src/transaction.vala
 #, c-format
+msgid "Generating %s informations"
+msgstr "Kuriama %s informacija"
+
+#: src/transaction.vala
+#, c-format
 msgid "Checking %s dependencies"
 msgstr "Tikrinamos %s priklausomybės"
+
+#: src/transaction.vala
+#, c-format
+msgid "key %s could not be imported"
+msgstr "nepavyko importuoti rakto %s"
 
 #: src/transaction.vala
 msgid "Preparing"
@@ -244,10 +254,6 @@ msgid "Configuring %s"
 msgstr "Konfigūruojama %s"
 
 #: src/transaction.vala
-msgid "Downloading"
-msgstr "Atsiunčiama"
-
-#: src/transaction.vala
 #, c-format
 msgid "Downloading %s"
 msgstr "Atsiunčiama %s"
@@ -331,14 +337,39 @@ msgstr "Operacija sėkmingai užbaigta"
 msgid "Package Manager"
 msgstr "Paketų tvarkytuvė"
 
-#: src/transaction-gtk.vala
-msgid "Copy"
-msgstr "Kopijuoti"
+#: src/transaction-gtk.vala src/transaction-cli.vala
+#, c-format
+msgid "Choose optional dependencies for %s"
+msgstr "Pasirinkite pasirinktines %s priklausomybes"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
 msgid "Choose a provider for %s"
 msgstr "Pasirinkite tiekėją paketui %s"
+
+#: src/transaction-gtk.vala
+msgid "Import PGP key"
+msgstr "Importuoti PGP raktą"
+
+#: src/transaction-gtk.vala
+msgid "Trust and Import"
+msgstr "Pasitikėti ir importuoti"
+
+#: src/transaction-gtk.vala src/manager_window.vala
+#: resources/transaction_sum_dialog.ui resources/manager_window.ui
+#: resources/choose_pkgs_dialog.ui
+msgid "_Cancel"
+msgstr "_Atsisakyti"
+
+#: src/transaction-gtk.vala src/transaction-cli.vala
+#, c-format
+msgid "The PGP key %s is needed to verify %s source files"
+msgstr "Reikalingas PGP raktas %s, kad būtų patvirtinti %s šaltinio failai"
+
+#: src/transaction-gtk.vala src/transaction-cli.vala
+#, c-format
+msgid "Trust %s and import the PGP key"
+msgstr "Pasitikėti %s ir importuoti PGP raktą"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "To remove"
@@ -376,12 +407,6 @@ msgstr "Taisyti %s kompiliavimo failus"
 #: src/transaction-gtk.vala
 msgid "Save"
 msgstr "Įrašyti"
-
-#: src/transaction-gtk.vala src/manager_window.vala
-#: resources/transaction_sum_dialog.ui resources/manager_window.ui
-#: resources/choose_ignorepkgs_dialog.ui
-msgid "_Cancel"
-msgstr "_Atsisakyti"
 
 #: src/transaction-gtk.vala resources/progress_dialog.ui
 #: resources/history_dialog.ui resources/preferences_dialog.ui
@@ -539,10 +564,6 @@ msgstr "Nustatymai"
 msgid "System Tools"
 msgstr "Sistemos įrankiai"
 
-#: src/manager_window.vala src/cli.vala resources/preferences_dialog.ui
-msgid "AUR"
-msgstr "AUR"
-
 #: src/manager_window.vala
 msgid "Dependencies"
 msgstr "Priklausomybės"
@@ -570,6 +591,30 @@ msgstr "Licencijos"
 #: src/manager_window.vala src/cli.vala resources/manager_window.ui
 msgid "Repository"
 msgstr "Saugykla"
+
+#: src/manager_window.vala src/cli.vala
+msgid "Package Base"
+msgstr "Paketo bazė"
+
+#: src/manager_window.vala src/cli.vala
+msgid "Maintainer"
+msgstr "Prižiūrėtojas"
+
+#: src/manager_window.vala src/cli.vala
+msgid "First Submitted"
+msgstr "Pirmą kartą pateiktas"
+
+#: src/manager_window.vala src/cli.vala
+msgid "Last Modified"
+msgstr "Paskutinį kartą keistas"
+
+#: src/manager_window.vala src/cli.vala
+msgid "Votes"
+msgstr "Balsų"
+
+#: src/manager_window.vala src/cli.vala
+msgid "Out of Date"
+msgstr "Pasenęs"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Packager"
@@ -620,30 +665,6 @@ msgid "Conflicts With"
 msgstr "Konfliktuoja su"
 
 #: src/manager_window.vala src/cli.vala
-msgid "Package Base"
-msgstr "Paketo bazė"
-
-#: src/manager_window.vala
-msgid "Maintainer"
-msgstr "Prižiūrėtojas"
-
-#: src/manager_window.vala src/cli.vala
-msgid "First Submitted"
-msgstr "Pirmą kartą pateiktas"
-
-#: src/manager_window.vala src/cli.vala
-msgid "Last Modified"
-msgstr "Paskutinį kartą keistas"
-
-#: src/manager_window.vala src/cli.vala
-msgid "Votes"
-msgstr "Balsų"
-
-#: src/manager_window.vala src/cli.vala
-msgid "Out of Date"
-msgstr "Pasenęs"
-
-#: src/manager_window.vala src/cli.vala
 msgid "Make Dependencies"
 msgstr "Kurti priklausomybes"
 
@@ -680,6 +701,10 @@ msgid "How often to check for updates, value in hours"
 msgstr "Kaip dažnai tikrinti ar yra atnaujinimų, reikšmė valandomis"
 
 #: src/preferences_dialog.vala resources/preferences_dialog.ui
+msgid "Maximum parallel downloads"
+msgstr "Daugiausia lygiagrečių atsisiuntimų"
+
+#: src/preferences_dialog.vala resources/preferences_dialog.ui
 msgid "Number of versions of each package to keep in the cache"
 msgstr "Podėlyje laikomas kiekvieno paketo versijų skaičius"
 
@@ -690,6 +715,19 @@ msgstr "Kompiliavimo katalogas"
 #: src/preferences_dialog.vala
 msgid "Worldwide"
 msgstr "Viso pasaulio"
+
+#: src/preferences_dialog.vala
+msgid "Choose Ignored Upgrades"
+msgstr "Pasirinkti nepaisomus atnaujinimus"
+
+#: src/transaction-cli.vala src/cli.vala
+#, c-format
+msgid "Enter a selection (default=%s)"
+msgstr "Įveskite pasirinkimą (numatytasis=%s)"
+
+#: src/transaction-cli.vala
+msgid "none"
+msgstr "nėra"
 
 #: src/transaction-cli.vala
 #, c-format
@@ -738,6 +776,10 @@ msgid "No PKGBUILD file found in current directory"
 msgstr "Esamame kataloge nerasta jokio PKGBUILD failo"
 
 #: src/cli.vala
+msgid "Check development packages updates as root is not allowed"
+msgstr "Plėtojimo paketų atnaujinimų tikrinimas supernaudotojo teisėmis nėra leidžiamas"
+
+#: src/cli.vala
 msgid "Available actions"
 msgstr "Prieinami veiksmai"
 
@@ -758,8 +800,8 @@ msgid "file(s)"
 msgstr "failas(-ai)"
 
 #: src/cli.vala
-msgid "search in AUR instead of repositories"
-msgstr "vietoj saugyklų, atlikti paiešką AUR"
+msgid "also search in AUR"
+msgstr "taip pat ieškoti AUR saugykloje"
 
 #: src/cli.vala
 msgid ""
@@ -773,6 +815,14 @@ msgstr "Rodyti išsamesnę paketo informaciją, gali būti nurodyti keli paketai
 #: src/cli.vala
 msgid "List packages, groups, repositories or files"
 msgstr "Išvardyti paketus, grupes, saugyklas ar failus"
+
+#: src/cli.vala
+msgid "group(s)"
+msgstr "grupė(-ės)"
+
+#: src/cli.vala
+msgid "repo(s)"
+msgstr "saugykla(-os)"
 
 #: src/cli.vala
 msgid "list installed packages"
@@ -795,18 +845,10 @@ msgid ""
 msgstr "išvardyti paketus, kurie priklauso nurodytoms grupėms, jeigu nenurodyta jokia grupė, išvardyti visas grupes"
 
 #: src/cli.vala
-msgid "group(s)"
-msgstr "grupė(-ės)"
-
-#: src/cli.vala
 msgid ""
 "list all packages available in the given repos, if no repo is given list all"
 " repos"
 msgstr "išvardyti visus, nurodytose saugyklose prieinamus, paketus, jeigu nenurodyta jokia saugykla, išvardyti visas saugyklas"
-
-#: src/cli.vala
-msgid "repo(s)"
-msgstr "saugykla(-os)"
 
 #: src/cli.vala
 msgid "list files owned by the given packages"
@@ -817,14 +859,14 @@ msgid "Clone or sync packages build files from AUR"
 msgstr "Klonuoti ar sinchronizuoti paketų kompiliavimo failus iš AUR"
 
 #: src/cli.vala
+msgid "dir"
+msgstr "kat"
+
+#: src/cli.vala
 msgid ""
 "build directory, if no directory is given the one specified in pamac.conf "
 "file is used"
 msgstr "kompiliavimo katalogas, jei nėra nurodytas joks katalogas, bus naudojamas tas, kuris nurodytas pamac.conf faile"
-
-#: src/cli.vala
-msgid "dir"
-msgstr "kat"
 
 #: src/cli.vala
 msgid "also clone needed dependencies"
@@ -854,6 +896,10 @@ msgid "do not clone build files from AUR, only use local files"
 msgstr "neklonuoti kompiliavimo failų iš AUR, naudoti tik vietinius failus"
 
 #: src/cli.vala
+msgid "glob"
+msgstr "visuot"
+
+#: src/cli.vala
 msgid ""
 "ignore a package upgrade, multiple packages can be specified by separating "
 "them with a comma"
@@ -864,10 +910,6 @@ msgid ""
 "overwrite conflicting files, multiple patterns can be specified by "
 "separating them with a comma"
 msgstr "perrašyti konfliktuojančius failus, gali būti nurodyti keli šablonai, atskiriant juos kableliais"
-
-#: src/cli.vala
-msgid "glob"
-msgstr "visuot"
 
 #: src/cli.vala
 msgid "Reinstall packages"
@@ -890,6 +932,20 @@ msgstr "Išėjimo kodas yra 100, jeigu yra prieinami atnaujinimai"
 #: src/cli.vala
 msgid "also check updates in AUR"
 msgstr "taip pat tikrinti atnaujinimus AUR saugykloje"
+
+#: src/cli.vala
+msgid "also check development packages updates (use with --aur)"
+msgstr "taip pat tikrinti plėtojimo paketų atnaujinimų (naudoti su --aur)"
+
+#: src/cli.vala
+msgid "only print one line per update"
+msgstr "kiekvienam atnaujinimui išvesti po vieną eilutę"
+
+#: src/cli.vala
+msgid ""
+"build directory (use with --devel), if no directory is given the one "
+"specified in pamac.conf file is used"
+msgstr "kompiliavimo katalogas (naudoti su --devel), jei nėra nurodytas joks katalogas, bus naudojamas tas, kuris nurodytas pamac.conf faile"
 
 #: src/cli.vala
 msgid "Upgrade your system"
@@ -949,14 +1005,14 @@ msgstr[2] "Grupėje %s yra %u narių"
 msgstr[3] "Grupėje %s yra %u narys"
 
 #: src/cli.vala
-msgid "Enter a selection (default=all)"
-msgstr "Įveskite pasirinkimą (numatytasis=visi)"
+msgid "all"
+msgstr "visi"
 
 #: resources/choose_provider_dialog.ui
 msgid "Choose a Provider"
 msgstr "Pasirinkite tiekėją"
 
-#: resources/choose_provider_dialog.ui resources/choose_ignorepkgs_dialog.ui
+#: resources/choose_provider_dialog.ui resources/choose_pkgs_dialog.ui
 msgid "Choose"
 msgstr "Pasirinkti"
 
@@ -1085,6 +1141,10 @@ msgid "Check for updates from AUR"
 msgstr "Tikrinti atnaujinimus iš AUR"
 
 #: resources/preferences_dialog.ui
+msgid "Check for development packages updates"
+msgstr "Tikrinti plėtojimo paketų atnaujinimų"
+
+#: resources/preferences_dialog.ui
 msgid "Remove only the versions of uninstalled packages"
 msgstr "Šalinti tik pašalintų paketų versijas"
 
@@ -1095,7 +1155,3 @@ msgstr "Išvalyti podėlį"
 #: resources/preferences_dialog.ui
 msgid "Cache"
 msgstr "Podėlis"
-
-#: resources/choose_ignorepkgs_dialog.ui
-msgid "Choose Ignored Upgrades"
-msgstr "Pasirinkti nepaisomus atnaujinimus"

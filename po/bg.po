@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2018-10-18 11:38+0200\n"
-"PO-Revision-Date: 2018-10-19 12:57+0000\n"
+"POT-Creation-Date: 2018-11-13 15:01+0100\n"
+"PO-Revision-Date: 2018-11-14 11:01+0000\n"
 "Last-Translator: Galin Iskrenov <loot270@abv.bg>\n"
 "Language-Team: Bulgarian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/bg/)\n"
 "MIME-Version: 1.0\n"
@@ -45,7 +45,7 @@ msgstr "Неуспешен старт на транзакцията"
 msgid "Failed to prepare transaction"
 msgstr "Неуспешно подготвяне на транзакцията"
 
-#: src/alpm_utils.vala src/transaction.vala src/cli.vala
+#: src/alpm_utils.vala src/cli.vala
 #, c-format
 msgid "target not found: %s"
 msgstr "неоткрита цел: %s"
@@ -113,6 +113,11 @@ msgstr "невъзможно изтегляне на '%s' от %s : %s\n"
 msgid "Authentication failed"
 msgstr "Неуспешно удостоверяване"
 
+#: src/database.vala src/transaction-gtk.vala src/manager_window.vala
+#: src/transaction-cli.vala src/cli.vala resources/preferences_dialog.ui
+msgid "AUR"
+msgstr "AUR"
+
 #: src/database.vala src/manager_window.vala
 msgid "Explicitly installed"
 msgstr "Изрично инсталиран"
@@ -134,11 +139,6 @@ msgid "No"
 msgstr "Не"
 
 #: src/transaction.vala
-#, c-format
-msgid "Generating %s informations"
-msgstr "Генерация %s информация"
-
-#: src/transaction.vala
 msgid "Refreshing mirrors list"
 msgstr "Обновяване на списъка с огледала"
 
@@ -157,8 +157,18 @@ msgstr "Клониране %s изграждащи файлове"
 
 #: src/transaction.vala
 #, c-format
+msgid "Generating %s informations"
+msgstr "Генерация %s информация"
+
+#: src/transaction.vala
+#, c-format
 msgid "Checking %s dependencies"
 msgstr "Проверка%s зависимости"
+
+#: src/transaction.vala
+#, c-format
+msgid "key %s could not be imported"
+msgstr "ключът %s не може да се внесе"
 
 #: src/transaction.vala
 msgid "Preparing"
@@ -249,10 +259,6 @@ msgid "Configuring %s"
 msgstr "Конфигуриране на %s"
 
 #: src/transaction.vala
-msgid "Downloading"
-msgstr "Сваляне"
-
-#: src/transaction.vala
 #, c-format
 msgid "Downloading %s"
 msgstr "Изтегляне на %s"
@@ -334,14 +340,39 @@ msgstr "Успешно завършена транзакция"
 msgid "Package Manager"
 msgstr "Диспечер на пакети"
 
-#: src/transaction-gtk.vala
-msgid "Copy"
-msgstr "копиране"
+#: src/transaction-gtk.vala src/transaction-cli.vala
+#, c-format
+msgid "Choose optional dependencies for %s"
+msgstr "Изберете опционални зависимости за %s"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
 msgid "Choose a provider for %s"
 msgstr "Изберете доставчик на %s"
+
+#: src/transaction-gtk.vala
+msgid "Import PGP key"
+msgstr "Внасяне на PGP ключ"
+
+#: src/transaction-gtk.vala
+msgid "Trust and Import"
+msgstr "Доверяване и внасяне"
+
+#: src/transaction-gtk.vala src/manager_window.vala
+#: resources/transaction_sum_dialog.ui resources/manager_window.ui
+#: resources/choose_pkgs_dialog.ui
+msgid "_Cancel"
+msgstr "_Отказ"
+
+#: src/transaction-gtk.vala src/transaction-cli.vala
+#, c-format
+msgid "The PGP key %s is needed to verify %s source files"
+msgstr "PGP ключ %s е нужен за потвърждаване на сорсовия файл %s "
+
+#: src/transaction-gtk.vala src/transaction-cli.vala
+#, c-format
+msgid "Trust %s and import the PGP key"
+msgstr "Доверяване на %s и внасяне на PGP ключ"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "To remove"
@@ -379,12 +410,6 @@ msgstr "Редакция %s изграждащ файл"
 #: src/transaction-gtk.vala
 msgid "Save"
 msgstr "Запази"
-
-#: src/transaction-gtk.vala src/manager_window.vala
-#: resources/transaction_sum_dialog.ui resources/manager_window.ui
-#: resources/choose_ignorepkgs_dialog.ui
-msgid "_Cancel"
-msgstr "_Отказ"
 
 #: src/transaction-gtk.vala resources/progress_dialog.ui
 #: resources/history_dialog.ui resources/preferences_dialog.ui
@@ -538,10 +563,6 @@ msgstr "Настройки"
 msgid "System Tools"
 msgstr "Системни инструменти"
 
-#: src/manager_window.vala src/cli.vala resources/preferences_dialog.ui
-msgid "AUR"
-msgstr "AUR"
-
 #: src/manager_window.vala
 msgid "Dependencies"
 msgstr "Зависимости"
@@ -569,6 +590,30 @@ msgstr "Лицензи"
 #: src/manager_window.vala src/cli.vala resources/manager_window.ui
 msgid "Repository"
 msgstr "Хранилище"
+
+#: src/manager_window.vala src/cli.vala
+msgid "Package Base"
+msgstr "Пакетна база"
+
+#: src/manager_window.vala src/cli.vala
+msgid "Maintainer"
+msgstr "Собственик"
+
+#: src/manager_window.vala src/cli.vala
+msgid "First Submitted"
+msgstr "Създаден"
+
+#: src/manager_window.vala src/cli.vala
+msgid "Last Modified"
+msgstr "Последна промяна"
+
+#: src/manager_window.vala src/cli.vala
+msgid "Votes"
+msgstr "Гласове"
+
+#: src/manager_window.vala src/cli.vala
+msgid "Out of Date"
+msgstr "Остарял"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Packager"
@@ -619,30 +664,6 @@ msgid "Conflicts With"
 msgstr "Конфликт със"
 
 #: src/manager_window.vala src/cli.vala
-msgid "Package Base"
-msgstr "Пакетна база"
-
-#: src/manager_window.vala
-msgid "Maintainer"
-msgstr "Собственик"
-
-#: src/manager_window.vala src/cli.vala
-msgid "First Submitted"
-msgstr "Създаден"
-
-#: src/manager_window.vala src/cli.vala
-msgid "Last Modified"
-msgstr "Последна промяна"
-
-#: src/manager_window.vala src/cli.vala
-msgid "Votes"
-msgstr "Гласове"
-
-#: src/manager_window.vala src/cli.vala
-msgid "Out of Date"
-msgstr "Остарял"
-
-#: src/manager_window.vala src/cli.vala
 msgid "Make Dependencies"
 msgstr "Направи зависимости"
 
@@ -679,6 +700,10 @@ msgid "How often to check for updates, value in hours"
 msgstr "Колко често да се проверява за актуализации, стойност в часове"
 
 #: src/preferences_dialog.vala resources/preferences_dialog.ui
+msgid "Maximum parallel downloads"
+msgstr "Максимум паралелни сваляния "
+
+#: src/preferences_dialog.vala resources/preferences_dialog.ui
 msgid "Number of versions of each package to keep in the cache"
 msgstr "Брой версии от всеки пакет запазени в кеша"
 
@@ -689,6 +714,19 @@ msgstr "Папка за изграждане"
 #: src/preferences_dialog.vala
 msgid "Worldwide"
 msgstr "По света"
+
+#: src/preferences_dialog.vala
+msgid "Choose Ignored Upgrades"
+msgstr "Избор на пренебрегнати надграждания"
+
+#: src/transaction-cli.vala src/cli.vala
+#, c-format
+msgid "Enter a selection (default=%s)"
+msgstr "Въведете избор (по подразбиране=%s)"
+
+#: src/transaction-cli.vala
+msgid "none"
+msgstr "нищо"
 
 #: src/transaction-cli.vala
 #, c-format
@@ -737,6 +775,10 @@ msgid "No PKGBUILD file found in current directory"
 msgstr "Няма открит PKGBUILD файл в текущата папка"
 
 #: src/cli.vala
+msgid "Check development packages updates as root is not allowed"
+msgstr "Проверка за актуализации на пакети за разработки не е разрешено за root"
+
+#: src/cli.vala
 msgid "Available actions"
 msgstr "Достъпни действия"
 
@@ -757,8 +799,8 @@ msgid "file(s)"
 msgstr "файл(ове)"
 
 #: src/cli.vala
-msgid "search in AUR instead of repositories"
-msgstr "търсене в AUR, вместо в хранилищата"
+msgid "also search in AUR"
+msgstr "търси и в AUR"
 
 #: src/cli.vala
 msgid ""
@@ -772,6 +814,14 @@ msgstr "Показване на детайлите на пакета, могат
 #: src/cli.vala
 msgid "List packages, groups, repositories or files"
 msgstr "Списък пакети, групи, хранилища или файлове"
+
+#: src/cli.vala
+msgid "group(s)"
+msgstr "група(и)"
+
+#: src/cli.vala
+msgid "repo(s)"
+msgstr "хранилище(а)"
 
 #: src/cli.vala
 msgid "list installed packages"
@@ -794,18 +844,10 @@ msgid ""
 msgstr "да се изброят всички пакети, които са членове на дадените групи, ако не се зададе група, да се изброят всички групи"
 
 #: src/cli.vala
-msgid "group(s)"
-msgstr "група(и)"
-
-#: src/cli.vala
 msgid ""
 "list all packages available in the given repos, if no repo is given list all"
 " repos"
 msgstr "списък на всички пакети, налични в дадено хранилище, ако не е зададено да се даде списък с всички хранилища"
-
-#: src/cli.vala
-msgid "repo(s)"
-msgstr "хранилище(а)"
 
 #: src/cli.vala
 msgid "list files owned by the given packages"
@@ -816,14 +858,14 @@ msgid "Clone or sync packages build files from AUR"
 msgstr "Клониране или синхронизиране на пакети изграждащи файлове от AUR"
 
 #: src/cli.vala
+msgid "dir"
+msgstr "dir"
+
+#: src/cli.vala
 msgid ""
 "build directory, if no directory is given the one specified in pamac.conf "
 "file is used"
 msgstr "папка за изграждане, ако не е зададена да се използва тази в   pamac.conf"
-
-#: src/cli.vala
-msgid "dir"
-msgstr "dir"
 
 #: src/cli.vala
 msgid "also clone needed dependencies"
@@ -853,6 +895,10 @@ msgid "do not clone build files from AUR, only use local files"
 msgstr "не клонирай изграждащи файлове от AUR, използване само локални файлове"
 
 #: src/cli.vala
+msgid "glob"
+msgstr "glob"
+
+#: src/cli.vala
 msgid ""
 "ignore a package upgrade, multiple packages can be specified by separating "
 "them with a comma"
@@ -863,10 +909,6 @@ msgid ""
 "overwrite conflicting files, multiple patterns can be specified by "
 "separating them with a comma"
 msgstr "презаписване на несъвместими файлове, множество шаблони могат да бъдат зададени чрез разделянето им с запетая"
-
-#: src/cli.vala
-msgid "glob"
-msgstr "glob"
 
 #: src/cli.vala
 msgid "Reinstall packages"
@@ -889,6 +931,20 @@ msgstr "Изходния код е 100 ако има атуализации"
 #: src/cli.vala
 msgid "also check updates in AUR"
 msgstr "също така проверка за актуализации в AUR"
+
+#: src/cli.vala
+msgid "also check development packages updates (use with --aur)"
+msgstr "също така провери за актуализации на пакетите за разработки (използвай с --aur)"
+
+#: src/cli.vala
+msgid "only print one line per update"
+msgstr "отпечатва само един ред за актуализация"
+
+#: src/cli.vala
+msgid ""
+"build directory (use with --devel), if no directory is given the one "
+"specified in pamac.conf file is used"
+msgstr "папка за изграждане (използвай с --devel), ако не е дадена директория, използва се тази в pamac.conf файла"
 
 #: src/cli.vala
 msgid "Upgrade your system"
@@ -946,14 +1002,14 @@ msgstr[0] "Има %u член в група %s"
 msgstr[1] "Има %u члена в група %s"
 
 #: src/cli.vala
-msgid "Enter a selection (default=all)"
-msgstr "Въведете селекция (по подразбиране=всички)"
+msgid "all"
+msgstr "всичко"
 
 #: resources/choose_provider_dialog.ui
 msgid "Choose a Provider"
 msgstr "Изберете доставчик"
 
-#: resources/choose_provider_dialog.ui resources/choose_ignorepkgs_dialog.ui
+#: resources/choose_provider_dialog.ui resources/choose_pkgs_dialog.ui
 msgid "Choose"
 msgstr "Избери"
 
@@ -1082,6 +1138,10 @@ msgid "Check for updates from AUR"
 msgstr "Проверка за актуализации от  AUR"
 
 #: resources/preferences_dialog.ui
+msgid "Check for development packages updates"
+msgstr "Проверка за актуализации на пакети за разработки"
+
+#: resources/preferences_dialog.ui
 msgid "Remove only the versions of uninstalled packages"
 msgstr "Премахване само версиите на деинсталираните пакети"
 
@@ -1092,7 +1152,3 @@ msgstr "Почистване на кеша"
 #: resources/preferences_dialog.ui
 msgid "Cache"
 msgstr "Кеш"
-
-#: resources/choose_ignorepkgs_dialog.ui
-msgid "Choose Ignored Upgrades"
-msgstr "Избор на пренебрегнати надграждания"

@@ -7,14 +7,15 @@
 # Douwe Bootsma <d_bootsma@hotmail.com>, 2013
 # Guillaume Benoit <guillaume@manjaro.org>, 2013
 # Heimen Stoffels <vistausss@outlook.com>, 2016-2018
+# Mr. Nanook, 2018
 # ringo.dekroon <ringodekroon@gmail.com>, 2013
 # ringo.dekroon <ringodekroon@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2018-10-18 11:38+0200\n"
-"PO-Revision-Date: 2018-10-18 12:31+0000\n"
+"POT-Creation-Date: 2018-11-13 15:01+0100\n"
+"PO-Revision-Date: 2018-11-13 16:33+0000\n"
 "Last-Translator: Heimen Stoffels <vistausss@outlook.com>\n"
 "Language-Team: Dutch (Netherlands) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/nl_NL/)\n"
 "MIME-Version: 1.0\n"
@@ -43,7 +44,7 @@ msgstr "Het initialiseren van de overdracht is mislukt"
 msgid "Failed to prepare transaction"
 msgstr "Het voorbereiden van de overdracht is mislukt"
 
-#: src/alpm_utils.vala src/transaction.vala src/cli.vala
+#: src/alpm_utils.vala src/cli.vala
 #, c-format
 msgid "target not found: %s"
 msgstr "het doel kan niet worden gevonden: %s"
@@ -111,6 +112,11 @@ msgstr "het ophalen van het bestand '%s' vanaf %s is mislukt : %s\n"
 msgid "Authentication failed"
 msgstr "Authenticatie mislukt"
 
+#: src/database.vala src/transaction-gtk.vala src/manager_window.vala
+#: src/transaction-cli.vala src/cli.vala resources/preferences_dialog.ui
+msgid "AUR"
+msgstr "AUR"
+
 #: src/database.vala src/manager_window.vala
 msgid "Explicitly installed"
 msgstr "Expliciet geïnstalleerd"
@@ -132,11 +138,6 @@ msgid "No"
 msgstr "Nee"
 
 #: src/transaction.vala
-#, c-format
-msgid "Generating %s informations"
-msgstr "Bezig met genereren van informatie %s"
-
-#: src/transaction.vala
 msgid "Refreshing mirrors list"
 msgstr "Bezig met vernieuwen van spiegelserverlijst"
 
@@ -155,8 +156,18 @@ msgstr "Bezig met klonen van %s bouwbestanden"
 
 #: src/transaction.vala
 #, c-format
+msgid "Generating %s informations"
+msgstr "Bezig met genereren van informatie %s"
+
+#: src/transaction.vala
+#, c-format
 msgid "Checking %s dependencies"
 msgstr "Bezig met controleren van %s afhankelijkheden"
+
+#: src/transaction.vala
+#, c-format
+msgid "key %s could not be imported"
+msgstr "De sleutel %s kan niet worden geïmporteerd"
 
 #: src/transaction.vala
 msgid "Preparing"
@@ -247,10 +258,6 @@ msgid "Configuring %s"
 msgstr "Bezig met instellen van %s"
 
 #: src/transaction.vala
-msgid "Downloading"
-msgstr "Bezig met downloaden"
-
-#: src/transaction.vala
 #, c-format
 msgid "Downloading %s"
 msgstr "Bezig met downloaden van %s"
@@ -332,14 +339,39 @@ msgstr "De overdracht is succesvol afgerond"
 msgid "Package Manager"
 msgstr "Pakketbeheer"
 
-#: src/transaction-gtk.vala
-msgid "Copy"
-msgstr "Kopiëren"
+#: src/transaction-gtk.vala src/transaction-cli.vala
+#, c-format
+msgid "Choose optional dependencies for %s"
+msgstr "Kies optionele afhankelijkheden voor %s"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
 msgid "Choose a provider for %s"
 msgstr "Kies een leverancier voor %s"
+
+#: src/transaction-gtk.vala
+msgid "Import PGP key"
+msgstr "PGP-sleutel importeren"
+
+#: src/transaction-gtk.vala
+msgid "Trust and Import"
+msgstr "Vertrouwen en importeren"
+
+#: src/transaction-gtk.vala src/manager_window.vala
+#: resources/transaction_sum_dialog.ui resources/manager_window.ui
+#: resources/choose_pkgs_dialog.ui
+msgid "_Cancel"
+msgstr "_Annuleren"
+
+#: src/transaction-gtk.vala src/transaction-cli.vala
+#, c-format
+msgid "The PGP key %s is needed to verify %s source files"
+msgstr "De PGP-sleutel %s is benodigd om %s bronbestanden te verifiëren"
+
+#: src/transaction-gtk.vala src/transaction-cli.vala
+#, c-format
+msgid "Trust %s and import the PGP key"
+msgstr "%s vertrouwen en PGP-sleutel importeren"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "To remove"
@@ -377,12 +409,6 @@ msgstr "%s bouwbestanden bewerken"
 #: src/transaction-gtk.vala
 msgid "Save"
 msgstr "Opslaan"
-
-#: src/transaction-gtk.vala src/manager_window.vala
-#: resources/transaction_sum_dialog.ui resources/manager_window.ui
-#: resources/choose_ignorepkgs_dialog.ui
-msgid "_Cancel"
-msgstr "_Annuleren"
 
 #: src/transaction-gtk.vala resources/progress_dialog.ui
 #: resources/history_dialog.ui resources/preferences_dialog.ui
@@ -494,7 +520,7 @@ msgstr "Derde partij-pakketten"
 
 #: src/manager_window.vala
 msgid "Accessories"
-msgstr "Accesoires"
+msgstr "Accessoires"
 
 #: src/manager_window.vala
 msgid "Audio & Video"
@@ -510,7 +536,7 @@ msgstr "Educatie"
 
 #: src/manager_window.vala
 msgid "Games"
-msgstr "Spelle"
+msgstr "Spellen"
 
 #: src/manager_window.vala
 msgid "Graphics"
@@ -535,10 +561,6 @@ msgstr "Instellingen"
 #: src/manager_window.vala
 msgid "System Tools"
 msgstr "Systeemhulpmiddelen"
-
-#: src/manager_window.vala src/cli.vala resources/preferences_dialog.ui
-msgid "AUR"
-msgstr "AUR"
 
 #: src/manager_window.vala
 msgid "Dependencies"
@@ -567,6 +589,30 @@ msgstr "Licenties"
 #: src/manager_window.vala src/cli.vala resources/manager_window.ui
 msgid "Repository"
 msgstr "Pakketbron"
+
+#: src/manager_window.vala src/cli.vala
+msgid "Package Base"
+msgstr "Pakketgroep"
+
+#: src/manager_window.vala src/cli.vala
+msgid "Maintainer"
+msgstr "Beheerder"
+
+#: src/manager_window.vala src/cli.vala
+msgid "First Submitted"
+msgstr "Voor het eerst toegevoegd op"
+
+#: src/manager_window.vala src/cli.vala
+msgid "Last Modified"
+msgstr "Laatst bijgewerkt op"
+
+#: src/manager_window.vala src/cli.vala
+msgid "Votes"
+msgstr "Stemmen"
+
+#: src/manager_window.vala src/cli.vala
+msgid "Out of Date"
+msgstr "Verouderd"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Packager"
@@ -617,30 +663,6 @@ msgid "Conflicts With"
 msgstr "Conflicteert met"
 
 #: src/manager_window.vala src/cli.vala
-msgid "Package Base"
-msgstr "Pakketgroep"
-
-#: src/manager_window.vala
-msgid "Maintainer"
-msgstr "Beheerder"
-
-#: src/manager_window.vala src/cli.vala
-msgid "First Submitted"
-msgstr "Voor het eerst toegevoegd op"
-
-#: src/manager_window.vala src/cli.vala
-msgid "Last Modified"
-msgstr "Laatst bijgewerkt op"
-
-#: src/manager_window.vala src/cli.vala
-msgid "Votes"
-msgstr "Stemmen"
-
-#: src/manager_window.vala src/cli.vala
-msgid "Out of Date"
-msgstr "Verouderd"
-
-#: src/manager_window.vala src/cli.vala
 msgid "Make Dependencies"
 msgstr "Afhankelijkheden bouwen"
 
@@ -677,6 +699,10 @@ msgid "How often to check for updates, value in hours"
 msgstr "Hoe vaak moet er worden gecontroleerd op updates? (waarde in uren)"
 
 #: src/preferences_dialog.vala resources/preferences_dialog.ui
+msgid "Maximum parallel downloads"
+msgstr "Maximum aantal gelijktijdige downloads"
+
+#: src/preferences_dialog.vala resources/preferences_dialog.ui
 msgid "Number of versions of each package to keep in the cache"
 msgstr "Aantal in de cache te houden versies van elk pakket"
 
@@ -687,6 +713,19 @@ msgstr "Bouwmap"
 #: src/preferences_dialog.vala
 msgid "Worldwide"
 msgstr "Wereldwijd"
+
+#: src/preferences_dialog.vala
+msgid "Choose Ignored Upgrades"
+msgstr "Kies genegeerde upgrades"
+
+#: src/transaction-cli.vala src/cli.vala
+#, c-format
+msgid "Enter a selection (default=%s)"
+msgstr "Voer een selectie in (standaard=%s)"
+
+#: src/transaction-cli.vala
+msgid "none"
+msgstr "geen"
 
 #: src/transaction-cli.vala
 #, c-format
@@ -735,6 +774,10 @@ msgid "No PKGBUILD file found in current directory"
 msgstr "Geen PKGBUILD-bestand aangetroffen in huidige map"
 
 #: src/cli.vala
+msgid "Check development packages updates as root is not allowed"
+msgstr "Het controleren van de ontwikkelingspakketten-updates als root-gebruiker is niet toegestaan"
+
+#: src/cli.vala
 msgid "Available actions"
 msgstr "Beschikbare acties"
 
@@ -755,8 +798,8 @@ msgid "file(s)"
 msgstr "bestand(en)"
 
 #: src/cli.vala
-msgid "search in AUR instead of repositories"
-msgstr "zoeken in AUR in plaats van pakketbronnen"
+msgid "also search in AUR"
+msgstr "ook zoeken in AUR"
 
 #: src/cli.vala
 msgid ""
@@ -770,6 +813,14 @@ msgstr "Pakketgegevens tonen; er kunnen meerdere pakketten worden opgegeven"
 #: src/cli.vala
 msgid "List packages, groups, repositories or files"
 msgstr "Lijst met pakketten, groepen, pakketbronnen of bestanden"
+
+#: src/cli.vala
+msgid "group(s)"
+msgstr "groep(en)"
+
+#: src/cli.vala
+msgid "repo(s)"
+msgstr "pakketbron(nen)"
 
 #: src/cli.vala
 msgid "list installed packages"
@@ -792,18 +843,10 @@ msgid ""
 msgstr "alle pakketten opsommen die onderdeel zijn van de opgegeven groepen; bij geen groep worden alle groepen getoond"
 
 #: src/cli.vala
-msgid "group(s)"
-msgstr "groep(en)"
-
-#: src/cli.vala
 msgid ""
 "list all packages available in the given repos, if no repo is given list all"
 " repos"
 msgstr "alle pakketten opsommen die beschikbaar zijn in de opgegeven pakketbronnen; bij geen pakketbronnen worden ze allen getoond"
-
-#: src/cli.vala
-msgid "repo(s)"
-msgstr "pakketbron(nen)"
 
 #: src/cli.vala
 msgid "list files owned by the given packages"
@@ -814,14 +857,14 @@ msgid "Clone or sync packages build files from AUR"
 msgstr "Pakketbouwbestanden klonen of synchroniseren van/met AUR"
 
 #: src/cli.vala
+msgid "dir"
+msgstr "map"
+
+#: src/cli.vala
 msgid ""
 "build directory, if no directory is given the one specified in pamac.conf "
 "file is used"
 msgstr "bouwmap; als geen bouwmap wordt opgegeven, dan wordt die uit pamac.conf gebruikt"
-
-#: src/cli.vala
-msgid "dir"
-msgstr "map"
 
 #: src/cli.vala
 msgid "also clone needed dependencies"
@@ -851,6 +894,10 @@ msgid "do not clone build files from AUR, only use local files"
 msgstr "geen bouwbestanden klonen van AUR; alleen lokale bestanden gebruiken"
 
 #: src/cli.vala
+msgid "glob"
+msgstr "glob"
+
+#: src/cli.vala
 msgid ""
 "ignore a package upgrade, multiple packages can be specified by separating "
 "them with a comma"
@@ -861,10 +908,6 @@ msgid ""
 "overwrite conflicting files, multiple patterns can be specified by "
 "separating them with a comma"
 msgstr "conflicterende bestanden overschrijven; meerdere patronen kunnen kommagescheiden worden opgegeven"
-
-#: src/cli.vala
-msgid "glob"
-msgstr "glob"
 
 #: src/cli.vala
 msgid "Reinstall packages"
@@ -887,6 +930,20 @@ msgstr "Afsluitcode is 100 als er updates beschikbaar zijn"
 #: src/cli.vala
 msgid "also check updates in AUR"
 msgstr "ook controleren op AUR-updates"
+
+#: src/cli.vala
+msgid "also check development packages updates (use with --aur)"
+msgstr "ook controleren op ontwikkelingspakketten-updates (gebruiken met --aur)"
+
+#: src/cli.vala
+msgid "only print one line per update"
+msgstr "slechts één regel per update tonen"
+
+#: src/cli.vala
+msgid ""
+"build directory (use with --devel), if no directory is given the one "
+"specified in pamac.conf file is used"
+msgstr "bouwmap (gebruik met --aur); als geen bouwmap wordt opgegeven, dan wordt die uit pamac.conf gebruikt"
 
 #: src/cli.vala
 msgid "Upgrade your system"
@@ -944,14 +1001,14 @@ msgstr[0] "Er is %u lid in de groep %s"
 msgstr[1] "Er zijn %u leden in de groep %s"
 
 #: src/cli.vala
-msgid "Enter a selection (default=all)"
-msgstr "Voer een selectie in (standaard=alles)"
+msgid "all"
+msgstr "alles"
 
 #: resources/choose_provider_dialog.ui
 msgid "Choose a Provider"
 msgstr "Kies een leverancier"
 
-#: resources/choose_provider_dialog.ui resources/choose_ignorepkgs_dialog.ui
+#: resources/choose_provider_dialog.ui resources/choose_pkgs_dialog.ui
 msgid "Choose"
 msgstr "Kiezen"
 
@@ -1080,6 +1137,10 @@ msgid "Check for updates from AUR"
 msgstr "Controleren op AUR-updates"
 
 #: resources/preferences_dialog.ui
+msgid "Check for development packages updates"
+msgstr "Controleren op ontwikkelingspakketten-updates"
+
+#: resources/preferences_dialog.ui
 msgid "Remove only the versions of uninstalled packages"
 msgstr "Alleen versies verwijderen van gedeïnstalleerde pakketten"
 
@@ -1090,7 +1151,3 @@ msgstr "Cache opschonen"
 #: resources/preferences_dialog.ui
 msgid "Cache"
 msgstr "Cache"
-
-#: resources/choose_ignorepkgs_dialog.ui
-msgid "Choose Ignored Upgrades"
-msgstr "Kies genegeerde upgrades"

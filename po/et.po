@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2018-10-18 11:38+0200\n"
-"PO-Revision-Date: 2018-10-20 12:29+0000\n"
+"POT-Creation-Date: 2018-11-13 15:01+0100\n"
+"PO-Revision-Date: 2018-11-13 18:36+0000\n"
 "Last-Translator: Madis\n"
 "Language-Team: Estonian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/et/)\n"
 "MIME-Version: 1.0\n"
@@ -43,7 +43,7 @@ msgstr "Tehingu käivitamine nurjus"
 msgid "Failed to prepare transaction"
 msgstr "Tehingu ettevalmistamine nurjus"
 
-#: src/alpm_utils.vala src/transaction.vala src/cli.vala
+#: src/alpm_utils.vala src/cli.vala
 #, c-format
 msgid "target not found: %s"
 msgstr "sihtkohta ei leitud: %s"
@@ -111,6 +111,11 @@ msgstr "faili „%s“ hankimine ebaõnnestus asukohast %s: %s\n"
 msgid "Authentication failed"
 msgstr "Autentimine nurjus"
 
+#: src/database.vala src/transaction-gtk.vala src/manager_window.vala
+#: src/transaction-cli.vala src/cli.vala resources/preferences_dialog.ui
+msgid "AUR"
+msgstr "AUR"
+
 #: src/database.vala src/manager_window.vala
 msgid "Explicitly installed"
 msgstr "Otseselt paigaldatud"
@@ -132,11 +137,6 @@ msgid "No"
 msgstr "Ei"
 
 #: src/transaction.vala
-#, c-format
-msgid "Generating %s informations"
-msgstr "%s info genereerimine"
-
-#: src/transaction.vala
 msgid "Refreshing mirrors list"
 msgstr "Peegelsaitide nimistu värskendamine"
 
@@ -155,8 +155,18 @@ msgstr "%s ehitusfailide kloonimine"
 
 #: src/transaction.vala
 #, c-format
+msgid "Generating %s informations"
+msgstr "%s info genereerimine"
+
+#: src/transaction.vala
+#, c-format
 msgid "Checking %s dependencies"
 msgstr "%s sõltuvuste kontrollimine"
+
+#: src/transaction.vala
+#, c-format
+msgid "key %s could not be imported"
+msgstr "võtit %s ei saanud importida"
 
 #: src/transaction.vala
 msgid "Preparing"
@@ -247,10 +257,6 @@ msgid "Configuring %s"
 msgstr "%s seadistamine"
 
 #: src/transaction.vala
-msgid "Downloading"
-msgstr "Allalaadimine"
-
-#: src/transaction.vala
 #, c-format
 msgid "Downloading %s"
 msgstr "%s allalaadimine"
@@ -332,14 +338,39 @@ msgstr "Tehingud edukalt lõpetatud"
 msgid "Package Manager"
 msgstr "Paketihaldur"
 
-#: src/transaction-gtk.vala
-msgid "Copy"
-msgstr "Kopeeri"
+#: src/transaction-gtk.vala src/transaction-cli.vala
+#, c-format
+msgid "Choose optional dependencies for %s"
+msgstr "Vali valikulised sõltuvused %s jaoks"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
 msgid "Choose a provider for %s"
 msgstr "Vali %s paketi pakkuja"
+
+#: src/transaction-gtk.vala
+msgid "Import PGP key"
+msgstr "Impordi PGP-võti"
+
+#: src/transaction-gtk.vala
+msgid "Trust and Import"
+msgstr "Usalda ja impordi"
+
+#: src/transaction-gtk.vala src/manager_window.vala
+#: resources/transaction_sum_dialog.ui resources/manager_window.ui
+#: resources/choose_pkgs_dialog.ui
+msgid "_Cancel"
+msgstr "_Katkesta"
+
+#: src/transaction-gtk.vala src/transaction-cli.vala
+#, c-format
+msgid "The PGP key %s is needed to verify %s source files"
+msgstr "PGP-võti %s on vajalik %s lähtefailide kinnitamiseks"
+
+#: src/transaction-gtk.vala src/transaction-cli.vala
+#, c-format
+msgid "Trust %s and import the PGP key"
+msgstr "Usalda %s ja impordi PGP-võti"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "To remove"
@@ -377,12 +408,6 @@ msgstr "Muuda %s ehitusfaili"
 #: src/transaction-gtk.vala
 msgid "Save"
 msgstr "Salvesta"
-
-#: src/transaction-gtk.vala src/manager_window.vala
-#: resources/transaction_sum_dialog.ui resources/manager_window.ui
-#: resources/choose_ignorepkgs_dialog.ui
-msgid "_Cancel"
-msgstr "_Katkesta"
 
 #: src/transaction-gtk.vala resources/progress_dialog.ui
 #: resources/history_dialog.ui resources/preferences_dialog.ui
@@ -536,10 +561,6 @@ msgstr "Seaded"
 msgid "System Tools"
 msgstr "Süsteemitööriistad"
 
-#: src/manager_window.vala src/cli.vala resources/preferences_dialog.ui
-msgid "AUR"
-msgstr "AUR"
-
 #: src/manager_window.vala
 msgid "Dependencies"
 msgstr "Sõltuvused"
@@ -567,6 +588,30 @@ msgstr "Litsentsid"
 #: src/manager_window.vala src/cli.vala resources/manager_window.ui
 msgid "Repository"
 msgstr "Hoidla"
+
+#: src/manager_window.vala src/cli.vala
+msgid "Package Base"
+msgstr "Paketibaas"
+
+#: src/manager_window.vala src/cli.vala
+msgid "Maintainer"
+msgstr "Haldaja"
+
+#: src/manager_window.vala src/cli.vala
+msgid "First Submitted"
+msgstr "Esmaselt sisestatud"
+
+#: src/manager_window.vala src/cli.vala
+msgid "Last Modified"
+msgstr "Viimati muudetud"
+
+#: src/manager_window.vala src/cli.vala
+msgid "Votes"
+msgstr "Hääli"
+
+#: src/manager_window.vala src/cli.vala
+msgid "Out of Date"
+msgstr "Vananenud"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Packager"
@@ -617,30 +662,6 @@ msgid "Conflicts With"
 msgstr "Konfliktid"
 
 #: src/manager_window.vala src/cli.vala
-msgid "Package Base"
-msgstr "Paketibaas"
-
-#: src/manager_window.vala
-msgid "Maintainer"
-msgstr "Haldaja"
-
-#: src/manager_window.vala src/cli.vala
-msgid "First Submitted"
-msgstr "Esmaselt sisestatud"
-
-#: src/manager_window.vala src/cli.vala
-msgid "Last Modified"
-msgstr "Viimati muudetud"
-
-#: src/manager_window.vala src/cli.vala
-msgid "Votes"
-msgstr "Hääli"
-
-#: src/manager_window.vala src/cli.vala
-msgid "Out of Date"
-msgstr "Vananenud"
-
-#: src/manager_window.vala src/cli.vala
 msgid "Make Dependencies"
 msgstr "Make sõltuvused"
 
@@ -677,6 +698,10 @@ msgid "How often to check for updates, value in hours"
 msgstr "Kui tihti kontrollida uuendusi, väärtus tundides"
 
 #: src/preferences_dialog.vala resources/preferences_dialog.ui
+msgid "Maximum parallel downloads"
+msgstr "Maksimaalsed paralleelsed allalaadimised"
+
+#: src/preferences_dialog.vala resources/preferences_dialog.ui
 msgid "Number of versions of each package to keep in the cache"
 msgstr "Versioonide arv igas pakis, mida hoida vahemälus"
 
@@ -687,6 +712,19 @@ msgstr "Kompileerimise kaust"
 #: src/preferences_dialog.vala
 msgid "Worldwide"
 msgstr "Ülemaailmne"
+
+#: src/preferences_dialog.vala
+msgid "Choose Ignored Upgrades"
+msgstr "Vali ignoreeritud uuendused"
+
+#: src/transaction-cli.vala src/cli.vala
+#, c-format
+msgid "Enter a selection (default=%s)"
+msgstr "Sisesta valik (vaikimisi=%s)"
+
+#: src/transaction-cli.vala
+msgid "none"
+msgstr "puudub"
 
 #: src/transaction-cli.vala
 #, c-format
@@ -735,6 +773,10 @@ msgid "No PKGBUILD file found in current directory"
 msgstr "Praegusest kataloogist ei leitud PKGBUILD-faili"
 
 #: src/cli.vala
+msgid "Check development packages updates as root is not allowed"
+msgstr "Arenduspakettide uuenduste kontrollimine juurkasutajana pole lubatud"
+
+#: src/cli.vala
 msgid "Available actions"
 msgstr "Saadaolevad tegevused"
 
@@ -755,8 +797,8 @@ msgid "file(s)"
 msgstr "fail(id)"
 
 #: src/cli.vala
-msgid "search in AUR instead of repositories"
-msgstr "otsi hoidlate asemel AURist"
+msgid "also search in AUR"
+msgstr "otsi ka AURist"
 
 #: src/cli.vala
 msgid ""
@@ -770,6 +812,14 @@ msgstr "Kuva paketi teave, määrata võib mitu paketti"
 #: src/cli.vala
 msgid "List packages, groups, repositories or files"
 msgstr "Kuva pakette, gruppe, hoidlaid või faile"
+
+#: src/cli.vala
+msgid "group(s)"
+msgstr "grup(id)"
+
+#: src/cli.vala
+msgid "repo(s)"
+msgstr "hoidla(d)"
 
 #: src/cli.vala
 msgid "list installed packages"
@@ -792,18 +842,10 @@ msgid ""
 msgstr "loetle kõik paketid, mis on antud gruppide liikmed; kui gruppi pole määratud, loetle kõik grupid"
 
 #: src/cli.vala
-msgid "group(s)"
-msgstr "grup(id)"
-
-#: src/cli.vala
 msgid ""
 "list all packages available in the given repos, if no repo is given list all"
 " repos"
 msgstr "loetle kõik paketid, mis on saadaval antud hoidlates; kui hoidlat ei määratud, loetle kõik hoidlad"
-
-#: src/cli.vala
-msgid "repo(s)"
-msgstr "hoidla(d)"
 
 #: src/cli.vala
 msgid "list files owned by the given packages"
@@ -814,14 +856,14 @@ msgid "Clone or sync packages build files from AUR"
 msgstr "Klooni või sünkrooni pakettide ehitusfailid AURist"
 
 #: src/cli.vala
+msgid "dir"
+msgstr "tee"
+
+#: src/cli.vala
 msgid ""
 "build directory, if no directory is given the one specified in pamac.conf "
 "file is used"
 msgstr "kompileerimise kaust; kui kausta ei anta, valitakse failis pamac.conf määratu"
-
-#: src/cli.vala
-msgid "dir"
-msgstr "tee"
 
 #: src/cli.vala
 msgid "also clone needed dependencies"
@@ -851,6 +893,10 @@ msgid "do not clone build files from AUR, only use local files"
 msgstr "ära klooni ehitusfaile AURist, kasuta ainult kohalikke faile"
 
 #: src/cli.vala
+msgid "glob"
+msgstr "glob"
+
+#: src/cli.vala
 msgid ""
 "ignore a package upgrade, multiple packages can be specified by separating "
 "them with a comma"
@@ -861,10 +907,6 @@ msgid ""
 "overwrite conflicting files, multiple patterns can be specified by "
 "separating them with a comma"
 msgstr "kirjuta konfliktiga failid üle; võimalik sisestada mitu mustrit, eraldades neid komaga"
-
-#: src/cli.vala
-msgid "glob"
-msgstr "glob"
 
 #: src/cli.vala
 msgid "Reinstall packages"
@@ -887,6 +929,20 @@ msgstr "Väljumiskood on 100, kui uuendused on saadaval"
 #: src/cli.vala
 msgid "also check updates in AUR"
 msgstr "lisaks kontrolli AURist uuendusi"
+
+#: src/cli.vala
+msgid "also check development packages updates (use with --aur)"
+msgstr "kontrolli ka arenduspakettide uuendusi (kasuta koos --aur)"
+
+#: src/cli.vala
+msgid "only print one line per update"
+msgstr "prindi vaid üks rida uuenduse kohta"
+
+#: src/cli.vala
+msgid ""
+"build directory (use with --devel), if no directory is given the one "
+"specified in pamac.conf file is used"
+msgstr "kompileerimise kaust (kasuta koos --devel); kui kausta pole määratud, kasutatakse failis pamac.conf määratut"
 
 #: src/cli.vala
 msgid "Upgrade your system"
@@ -944,14 +1000,14 @@ msgstr[0] "Grupis %s on %u liige"
 msgstr[1] "Grupis %s on %u liiget"
 
 #: src/cli.vala
-msgid "Enter a selection (default=all)"
-msgstr "Sisesta valik (vaikimisi=kõik)"
+msgid "all"
+msgstr "kõik"
 
 #: resources/choose_provider_dialog.ui
 msgid "Choose a Provider"
 msgstr "Valige pakkuja"
 
-#: resources/choose_provider_dialog.ui resources/choose_ignorepkgs_dialog.ui
+#: resources/choose_provider_dialog.ui resources/choose_pkgs_dialog.ui
 msgid "Choose"
 msgstr "Vali"
 
@@ -1080,6 +1136,10 @@ msgid "Check for updates from AUR"
 msgstr "Kontrolli uuendusi AURist"
 
 #: resources/preferences_dialog.ui
+msgid "Check for development packages updates"
+msgstr "Kontrolli arenduspakettide uuendusi"
+
+#: resources/preferences_dialog.ui
 msgid "Remove only the versions of uninstalled packages"
 msgstr "Kustuta ainult eemaldatud pakettide versioonid"
 
@@ -1090,7 +1150,3 @@ msgstr "Tühjenda vahemälu"
 #: resources/preferences_dialog.ui
 msgid "Cache"
 msgstr "Vahemälu"
-
-#: resources/choose_ignorepkgs_dialog.ui
-msgid "Choose Ignored Upgrades"
-msgstr "Vali ignoreeritud uuendused"

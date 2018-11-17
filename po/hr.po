@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2018-10-18 11:38+0200\n"
-"PO-Revision-Date: 2018-10-18 19:47+0000\n"
+"POT-Creation-Date: 2018-11-13 15:01+0100\n"
+"PO-Revision-Date: 2018-11-13 16:07+0000\n"
 "Last-Translator: Lovro Kudelić <lovro.kudelic@outlook.com>\n"
 "Language-Team: Croatian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/hr/)\n"
 "MIME-Version: 1.0\n"
@@ -43,7 +43,7 @@ msgstr "Nije uspjela inicijalizacija transakcije"
 msgid "Failed to prepare transaction"
 msgstr "Nije uspjela priprema transakcije"
 
-#: src/alpm_utils.vala src/transaction.vala src/cli.vala
+#: src/alpm_utils.vala src/cli.vala
 #, c-format
 msgid "target not found: %s"
 msgstr "meta nije nađena: %s"
@@ -111,6 +111,11 @@ msgstr "Nije uspjelo preuzimanje datoteke '%s' from %s : %s\n"
 msgid "Authentication failed"
 msgstr "Autorizacija nije uspjela"
 
+#: src/database.vala src/transaction-gtk.vala src/manager_window.vala
+#: src/transaction-cli.vala src/cli.vala resources/preferences_dialog.ui
+msgid "AUR"
+msgstr "AUR"
+
 #: src/database.vala src/manager_window.vala
 msgid "Explicitly installed"
 msgstr "Eksplicitno instalirano"
@@ -132,11 +137,6 @@ msgid "No"
 msgstr "Ne"
 
 #: src/transaction.vala
-#, c-format
-msgid "Generating %s informations"
-msgstr "Generiram %s informacije"
-
-#: src/transaction.vala
 msgid "Refreshing mirrors list"
 msgstr "Osvježavam listu zrcalnih poslužitelja"
 
@@ -155,8 +155,18 @@ msgstr "Kloniram %s datoteke za stvaranje"
 
 #: src/transaction.vala
 #, c-format
+msgid "Generating %s informations"
+msgstr "Generiram %s informacije"
+
+#: src/transaction.vala
+#, c-format
 msgid "Checking %s dependencies"
 msgstr "Provjeravam %s zavisnosti"
+
+#: src/transaction.vala
+#, c-format
+msgid "key %s could not be imported"
+msgstr "ključ %s se ne može uvesti"
 
 #: src/transaction.vala
 msgid "Preparing"
@@ -247,10 +257,6 @@ msgid "Configuring %s"
 msgstr "Postavljam %s"
 
 #: src/transaction.vala
-msgid "Downloading"
-msgstr "Preuzimam"
-
-#: src/transaction.vala
 #, c-format
 msgid "Downloading %s"
 msgstr "Preuzimam %s"
@@ -333,14 +339,39 @@ msgstr "Transakcija uspješno završena"
 msgid "Package Manager"
 msgstr "Upravitelj paketa"
 
-#: src/transaction-gtk.vala
-msgid "Copy"
-msgstr "Kopiraj"
+#: src/transaction-gtk.vala src/transaction-cli.vala
+#, c-format
+msgid "Choose optional dependencies for %s"
+msgstr "Odaberi neobavezne zavisnosti za %s"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
 msgid "Choose a provider for %s"
 msgstr "Odaberi davatelja za %s"
+
+#: src/transaction-gtk.vala
+msgid "Import PGP key"
+msgstr "Uvezi PGP ključ"
+
+#: src/transaction-gtk.vala
+msgid "Trust and Import"
+msgstr "Povjerenje i uvoz"
+
+#: src/transaction-gtk.vala src/manager_window.vala
+#: resources/transaction_sum_dialog.ui resources/manager_window.ui
+#: resources/choose_pkgs_dialog.ui
+msgid "_Cancel"
+msgstr "_Odustani"
+
+#: src/transaction-gtk.vala src/transaction-cli.vala
+#, c-format
+msgid "The PGP key %s is needed to verify %s source files"
+msgstr "PGP ključ %s je potreban za provjeru %s izvornih datoteka."
+
+#: src/transaction-gtk.vala src/transaction-cli.vala
+#, c-format
+msgid "Trust %s and import the PGP key"
+msgstr "Povjeri %s i uvezi PGP ključ"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "To remove"
@@ -378,12 +409,6 @@ msgstr "Uredi %s datoteke za stvaranje"
 #: src/transaction-gtk.vala
 msgid "Save"
 msgstr "Spremi"
-
-#: src/transaction-gtk.vala src/manager_window.vala
-#: resources/transaction_sum_dialog.ui resources/manager_window.ui
-#: resources/choose_ignorepkgs_dialog.ui
-msgid "_Cancel"
-msgstr "_Odustani"
 
 #: src/transaction-gtk.vala resources/progress_dialog.ui
 #: resources/history_dialog.ui resources/preferences_dialog.ui
@@ -539,10 +564,6 @@ msgstr "Postavke"
 msgid "System Tools"
 msgstr "Alati sustava"
 
-#: src/manager_window.vala src/cli.vala resources/preferences_dialog.ui
-msgid "AUR"
-msgstr "AUR"
-
 #: src/manager_window.vala
 msgid "Dependencies"
 msgstr "Zavisnosti"
@@ -570,6 +591,30 @@ msgstr "Licence"
 #: src/manager_window.vala src/cli.vala resources/manager_window.ui
 msgid "Repository"
 msgstr "Repozitorij"
+
+#: src/manager_window.vala src/cli.vala
+msgid "Package Base"
+msgstr "Paketna baza"
+
+#: src/manager_window.vala src/cli.vala
+msgid "Maintainer"
+msgstr "Održavatelj"
+
+#: src/manager_window.vala src/cli.vala
+msgid "First Submitted"
+msgstr "Prvi postavio"
+
+#: src/manager_window.vala src/cli.vala
+msgid "Last Modified"
+msgstr "Zadnja promjena"
+
+#: src/manager_window.vala src/cli.vala
+msgid "Votes"
+msgstr "Glasovi"
+
+#: src/manager_window.vala src/cli.vala
+msgid "Out of Date"
+msgstr "Zastario"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Packager"
@@ -620,30 +665,6 @@ msgid "Conflicts With"
 msgstr "U sukobu sa"
 
 #: src/manager_window.vala src/cli.vala
-msgid "Package Base"
-msgstr "Paketna baza"
-
-#: src/manager_window.vala
-msgid "Maintainer"
-msgstr "Održavatelj"
-
-#: src/manager_window.vala src/cli.vala
-msgid "First Submitted"
-msgstr "Prvi postavio"
-
-#: src/manager_window.vala src/cli.vala
-msgid "Last Modified"
-msgstr "Zadnja promjena"
-
-#: src/manager_window.vala src/cli.vala
-msgid "Votes"
-msgstr "Glasovi"
-
-#: src/manager_window.vala src/cli.vala
-msgid "Out of Date"
-msgstr "Zastario"
-
-#: src/manager_window.vala src/cli.vala
 msgid "Make Dependencies"
 msgstr "Zavisnosti za stvaranje paketa"
 
@@ -680,6 +701,10 @@ msgid "How often to check for updates, value in hours"
 msgstr "Koliko često provjeravati ažuriranja, vrijednost u satima"
 
 #: src/preferences_dialog.vala resources/preferences_dialog.ui
+msgid "Maximum parallel downloads"
+msgstr "Maksimum paralelnih preuzimanja"
+
+#: src/preferences_dialog.vala resources/preferences_dialog.ui
 msgid "Number of versions of each package to keep in the cache"
 msgstr "Broj različitih verzija paketa za spremiti u predmemoriju"
 
@@ -690,6 +715,19 @@ msgstr "Direktorij za stvaranje paketa"
 #: src/preferences_dialog.vala
 msgid "Worldwide"
 msgstr "Globalno"
+
+#: src/preferences_dialog.vala
+msgid "Choose Ignored Upgrades"
+msgstr "Odaberi ignorirane nadogradnje"
+
+#: src/transaction-cli.vala src/cli.vala
+#, c-format
+msgid "Enter a selection (default=%s)"
+msgstr "Unesite odabir (zadano = %s)"
+
+#: src/transaction-cli.vala
+msgid "none"
+msgstr "nijedan"
 
 #: src/transaction-cli.vala
 #, c-format
@@ -738,6 +776,10 @@ msgid "No PKGBUILD file found in current directory"
 msgstr "Nije pronađena PKGBUILD datoteka u trenutnom direktoriju "
 
 #: src/cli.vala
+msgid "Check development packages updates as root is not allowed"
+msgstr "Provjeri ažuriranja razvojnih paketa jer root nije dopušten"
+
+#: src/cli.vala
 msgid "Available actions"
 msgstr "Dostupne radnje"
 
@@ -758,8 +800,8 @@ msgid "file(s)"
 msgstr "datoteka(e)"
 
 #: src/cli.vala
-msgid "search in AUR instead of repositories"
-msgstr "pretražujte u AUR-u umjesto repozitorija"
+msgid "also search in AUR"
+msgstr "također traži u AUR-u"
 
 #: src/cli.vala
 msgid ""
@@ -773,6 +815,14 @@ msgstr "Prikazivanje pojedinosti paketa, može se navesti više paketa odjedanpu
 #: src/cli.vala
 msgid "List packages, groups, repositories or files"
 msgstr "Prikaži pakete, grupe, repozitorije ili datoteke"
+
+#: src/cli.vala
+msgid "group(s)"
+msgstr "grupa(e)"
+
+#: src/cli.vala
+msgid "repo(s)"
+msgstr "repozitorij(i)"
 
 #: src/cli.vala
 msgid "list installed packages"
@@ -795,18 +845,10 @@ msgid ""
 msgstr "prikaži sve pakete koji su članovi navedenih grupa; ako grupa nije navedena, prikaži sve grupe"
 
 #: src/cli.vala
-msgid "group(s)"
-msgstr "grupa(e)"
-
-#: src/cli.vala
 msgid ""
 "list all packages available in the given repos, if no repo is given list all"
 " repos"
 msgstr "prikaži sve pakete koji su dostupni u danom repozitoriju; ako repozitorij nije naveden, prikaži sve repozitorije"
-
-#: src/cli.vala
-msgid "repo(s)"
-msgstr "repozitorij(i)"
 
 #: src/cli.vala
 msgid "list files owned by the given packages"
@@ -817,14 +859,14 @@ msgid "Clone or sync packages build files from AUR"
 msgstr "Kloniraj ili sinkroniziraj datoteke za stvaranje paketa iz AUR-a"
 
 #: src/cli.vala
+msgid "dir"
+msgstr "direktorij"
+
+#: src/cli.vala
 msgid ""
 "build directory, if no directory is given the one specified in pamac.conf "
 "file is used"
 msgstr "izgradi direktorij, ako se ne dodjeljuje direktorij, koristi se onaj koji je naveden u pamac.conf datoteci"
-
-#: src/cli.vala
-msgid "dir"
-msgstr "direktorij"
 
 #: src/cli.vala
 msgid "also clone needed dependencies"
@@ -854,6 +896,10 @@ msgid "do not clone build files from AUR, only use local files"
 msgstr "nemoj klonirati datoteke za stvaranje iz AUR-a; koristi samo lokalne datoteke"
 
 #: src/cli.vala
+msgid "glob"
+msgstr "globalno"
+
+#: src/cli.vala
 msgid ""
 "ignore a package upgrade, multiple packages can be specified by separating "
 "them with a comma"
@@ -864,10 +910,6 @@ msgid ""
 "overwrite conflicting files, multiple patterns can be specified by "
 "separating them with a comma"
 msgstr "prebriši datoteke u sukobu, može se odrediti više uzoraka odvajajući ih zarezom"
-
-#: src/cli.vala
-msgid "glob"
-msgstr "globalno"
 
 #: src/cli.vala
 msgid "Reinstall packages"
@@ -890,6 +932,20 @@ msgstr "Izlazni kod 100 označuje da ima dostupnih ažuriranja"
 #: src/cli.vala
 msgid "also check updates in AUR"
 msgstr "također provjeri ažuriranja iz AUR-a"
+
+#: src/cli.vala
+msgid "also check development packages updates (use with --aur)"
+msgstr "također provjeri ažuriranja razvojnih paketa (koristiti naredbu --aur)"
+
+#: src/cli.vala
+msgid "only print one line per update"
+msgstr "ispisuj samo jednu liniju po ažuriranju"
+
+#: src/cli.vala
+msgid ""
+"build directory (use with --devel), if no directory is given the one "
+"specified in pamac.conf file is used"
+msgstr "izgradi direktorij (koristiti naredbu --aur), ako direktorij nije naveden, koristi se onaj koji je naveden u pamac.conf datoteci"
 
 #: src/cli.vala
 msgid "Upgrade your system"
@@ -948,14 +1004,14 @@ msgstr[1] "Postoji %u članova u grupi %s"
 msgstr[2] "Postoji %u članova u grupi %s"
 
 #: src/cli.vala
-msgid "Enter a selection (default=all)"
-msgstr "Unesite odabir (zadano = sve)"
+msgid "all"
+msgstr "sve"
 
 #: resources/choose_provider_dialog.ui
 msgid "Choose a Provider"
 msgstr "Odaberi davatelja"
 
-#: resources/choose_provider_dialog.ui resources/choose_ignorepkgs_dialog.ui
+#: resources/choose_provider_dialog.ui resources/choose_pkgs_dialog.ui
 msgid "Choose"
 msgstr "Odaberi"
 
@@ -1084,6 +1140,10 @@ msgid "Check for updates from AUR"
 msgstr "Provjeri ažuriranja iz AUR-a"
 
 #: resources/preferences_dialog.ui
+msgid "Check for development packages updates"
+msgstr "Provjeri ažuriranja razvojnih paketa"
+
+#: resources/preferences_dialog.ui
 msgid "Remove only the versions of uninstalled packages"
 msgstr "Ukloni samo verzije deinstaliranih paketa"
 
@@ -1094,7 +1154,3 @@ msgstr "Očisti predmemoriju"
 #: resources/preferences_dialog.ui
 msgid "Cache"
 msgstr "Predmemorija"
-
-#: resources/choose_ignorepkgs_dialog.ui
-msgid "Choose Ignored Upgrades"
-msgstr "Odaberi ignorirane nadogradnje"

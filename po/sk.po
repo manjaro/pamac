@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2018-10-18 11:38+0200\n"
-"PO-Revision-Date: 2018-10-24 16:36+0000\n"
+"POT-Creation-Date: 2018-11-13 15:01+0100\n"
+"PO-Revision-Date: 2018-11-13 18:35+0000\n"
 "Last-Translator: Dušan Kazik <prescott66@gmail.com>\n"
 "Language-Team: Slovak (http://www.transifex.com/manjarolinux/manjaro-pamac/language/sk/)\n"
 "MIME-Version: 1.0\n"
@@ -45,7 +45,7 @@ msgstr "Zlyhalo zahájenie transakcie"
 msgid "Failed to prepare transaction"
 msgstr "Zlyhalo pripravovanie transakcie"
 
-#: src/alpm_utils.vala src/transaction.vala src/cli.vala
+#: src/alpm_utils.vala src/cli.vala
 #, c-format
 msgid "target not found: %s"
 msgstr "cieľ sa nenašiel: %s"
@@ -113,6 +113,11 @@ msgstr "Zlyhalo prijímanie súboru „%s“ z %s: %s\n"
 msgid "Authentication failed"
 msgstr "Zlyhalo overenie"
 
+#: src/database.vala src/transaction-gtk.vala src/manager_window.vala
+#: src/transaction-cli.vala src/cli.vala resources/preferences_dialog.ui
+msgid "AUR"
+msgstr "AUR"
+
 #: src/database.vala src/manager_window.vala
 msgid "Explicitly installed"
 msgstr "Výlučne nainštalované"
@@ -134,11 +139,6 @@ msgid "No"
 msgstr "Nie"
 
 #: src/transaction.vala
-#, c-format
-msgid "Generating %s informations"
-msgstr "Generujú sa informácie o balíku %s"
-
-#: src/transaction.vala
 msgid "Refreshing mirrors list"
 msgstr "Obnovuje sa zoznam zrkadiel"
 
@@ -157,8 +157,18 @@ msgstr "Klonujú sa súbory zostavenia balíka %s"
 
 #: src/transaction.vala
 #, c-format
+msgid "Generating %s informations"
+msgstr "Generujú sa informácie o balíku %s"
+
+#: src/transaction.vala
+#, c-format
 msgid "Checking %s dependencies"
 msgstr "Kontrolujú sa závislosti balíka %s"
+
+#: src/transaction.vala
+#, c-format
+msgid "key %s could not be imported"
+msgstr "kľúč %s sa nepodarilo importovať"
 
 #: src/transaction.vala
 msgid "Preparing"
@@ -249,10 +259,6 @@ msgid "Configuring %s"
 msgstr "Nastavuje sa %s"
 
 #: src/transaction.vala
-msgid "Downloading"
-msgstr "Preberá sa"
-
-#: src/transaction.vala
 #, c-format
 msgid "Downloading %s"
 msgstr "Preberá sa %s"
@@ -336,14 +342,39 @@ msgstr "Transakcia bola úspešná"
 msgid "Package Manager"
 msgstr "Správca balíkov"
 
-#: src/transaction-gtk.vala
-msgid "Copy"
-msgstr "Kopírovať"
+#: src/transaction-gtk.vala src/transaction-cli.vala
+#, c-format
+msgid "Choose optional dependencies for %s"
+msgstr "Voľba voliteľných závislostí pre balík %s"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
 msgid "Choose a provider for %s"
 msgstr "Zvoľte poskytovateľa pre %s"
+
+#: src/transaction-gtk.vala
+msgid "Import PGP key"
+msgstr "Import kľúča PGP"
+
+#: src/transaction-gtk.vala
+msgid "Trust and Import"
+msgstr "Dôverovať a importovať"
+
+#: src/transaction-gtk.vala src/manager_window.vala
+#: resources/transaction_sum_dialog.ui resources/manager_window.ui
+#: resources/choose_pkgs_dialog.ui
+msgid "_Cancel"
+msgstr "_Zrušiť"
+
+#: src/transaction-gtk.vala src/transaction-cli.vala
+#, c-format
+msgid "The PGP key %s is needed to verify %s source files"
+msgstr "Kľúč PGP %s je potrebný na overenie zdrojových súborov balíka %s"
+
+#: src/transaction-gtk.vala src/transaction-cli.vala
+#, c-format
+msgid "Trust %s and import the PGP key"
+msgstr "Dôverovať vlastníkovi %s a importovať kľúč PGP"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "To remove"
@@ -381,12 +412,6 @@ msgstr "Upraviť súbory zostavenia balíka %s"
 #: src/transaction-gtk.vala
 msgid "Save"
 msgstr "Uložiť"
-
-#: src/transaction-gtk.vala src/manager_window.vala
-#: resources/transaction_sum_dialog.ui resources/manager_window.ui
-#: resources/choose_ignorepkgs_dialog.ui
-msgid "_Cancel"
-msgstr "_Zrušiť"
 
 #: src/transaction-gtk.vala resources/progress_dialog.ui
 #: resources/history_dialog.ui resources/preferences_dialog.ui
@@ -544,10 +569,6 @@ msgstr "Nastavenia"
 msgid "System Tools"
 msgstr "Systémové nástroje"
 
-#: src/manager_window.vala src/cli.vala resources/preferences_dialog.ui
-msgid "AUR"
-msgstr "AUR"
-
 #: src/manager_window.vala
 msgid "Dependencies"
 msgstr "Závislosti"
@@ -575,6 +596,30 @@ msgstr "Licencie"
 #: src/manager_window.vala src/cli.vala resources/manager_window.ui
 msgid "Repository"
 msgstr "Repozitár"
+
+#: src/manager_window.vala src/cli.vala
+msgid "Package Base"
+msgstr "Základ balíku"
+
+#: src/manager_window.vala src/cli.vala
+msgid "Maintainer"
+msgstr "Správca"
+
+#: src/manager_window.vala src/cli.vala
+msgid "First Submitted"
+msgstr "Prvýkrát vydaný"
+
+#: src/manager_window.vala src/cli.vala
+msgid "Last Modified"
+msgstr "Posledná úprava"
+
+#: src/manager_window.vala src/cli.vala
+msgid "Votes"
+msgstr "Hlasy"
+
+#: src/manager_window.vala src/cli.vala
+msgid "Out of Date"
+msgstr "Neaktuálny"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Packager"
@@ -625,30 +670,6 @@ msgid "Conflicts With"
 msgstr "Je v konflikte s"
 
 #: src/manager_window.vala src/cli.vala
-msgid "Package Base"
-msgstr "Základ balíku"
-
-#: src/manager_window.vala
-msgid "Maintainer"
-msgstr "Správca"
-
-#: src/manager_window.vala src/cli.vala
-msgid "First Submitted"
-msgstr "Prvýkrát vydaný"
-
-#: src/manager_window.vala src/cli.vala
-msgid "Last Modified"
-msgstr "Posledná úprava"
-
-#: src/manager_window.vala src/cli.vala
-msgid "Votes"
-msgstr "Hlasy"
-
-#: src/manager_window.vala src/cli.vala
-msgid "Out of Date"
-msgstr "Neaktuálny"
-
-#: src/manager_window.vala src/cli.vala
 msgid "Make Dependencies"
 msgstr "Vytvoriť závislosti"
 
@@ -685,6 +706,10 @@ msgid "How often to check for updates, value in hours"
 msgstr "Ako často kontrolovať aktualizácie, hodnota je v hodinách"
 
 #: src/preferences_dialog.vala resources/preferences_dialog.ui
+msgid "Maximum parallel downloads"
+msgstr "Maximum súčasných preberaní"
+
+#: src/preferences_dialog.vala resources/preferences_dialog.ui
 msgid "Number of versions of each package to keep in the cache"
 msgstr "Počet verzií každého balíka, ktoré ponechať vo vyrovnávacej pamäti"
 
@@ -695,6 +720,19 @@ msgstr "Adresár zostavenia"
 #: src/preferences_dialog.vala
 msgid "Worldwide"
 msgstr "Celého sveta"
+
+#: src/preferences_dialog.vala
+msgid "Choose Ignored Upgrades"
+msgstr "Voľba ignorovaných aktualizácií"
+
+#: src/transaction-cli.vala src/cli.vala
+#, c-format
+msgid "Enter a selection (default=%s)"
+msgstr "Zadajte výber (predvolený=%s)"
+
+#: src/transaction-cli.vala
+msgid "none"
+msgstr "žiadny"
 
 #: src/transaction-cli.vala
 #, c-format
@@ -743,6 +781,10 @@ msgid "No PKGBUILD file found in current directory"
 msgstr "V aktuálnom adresári sa nenašiel žiadny súbor PKGBUILD"
 
 #: src/cli.vala
+msgid "Check development packages updates as root is not allowed"
+msgstr "Kontrola aktualizácií balíkov vo vývoji ako správca nie je umožnená"
+
+#: src/cli.vala
 msgid "Available actions"
 msgstr "Dostupné akcie"
 
@@ -763,8 +805,8 @@ msgid "file(s)"
 msgstr "súbor(-y)"
 
 #: src/cli.vala
-msgid "search in AUR instead of repositories"
-msgstr "vyhľadávať v AUR namiesto repozitárov"
+msgid "also search in AUR"
+msgstr "hľadať tiež v repozitári AUR"
 
 #: src/cli.vala
 msgid ""
@@ -778,6 +820,14 @@ msgstr "Zobraziť podrobnosti o balíku. Možno uviesť aj viacero balíkov"
 #: src/cli.vala
 msgid "List packages, groups, repositories or files"
 msgstr "Vypísať balíky, skupiny, repozitáre alebo súbory"
+
+#: src/cli.vala
+msgid "group(s)"
+msgstr "skupina(-y)"
+
+#: src/cli.vala
+msgid "repo(s)"
+msgstr "repozitár(e)"
 
 #: src/cli.vala
 msgid "list installed packages"
@@ -800,18 +850,10 @@ msgid ""
 msgstr "vypísať všetky balíky, ktoré sú členmi daných skupín. Ak nie je udaná skupina, vypísať všetky skupiny"
 
 #: src/cli.vala
-msgid "group(s)"
-msgstr "skupina(-y)"
-
-#: src/cli.vala
 msgid ""
 "list all packages available in the given repos, if no repo is given list all"
 " repos"
 msgstr "vypísať všetky balíky, ktoré sú dostupné v zadaných repozitároch. Ak nebol zadaný repozitár, vypísať všetky repozitáre"
-
-#: src/cli.vala
-msgid "repo(s)"
-msgstr "repozitár(e)"
 
 #: src/cli.vala
 msgid "list files owned by the given packages"
@@ -822,14 +864,14 @@ msgid "Clone or sync packages build files from AUR"
 msgstr ""
 
 #: src/cli.vala
+msgid "dir"
+msgstr "priečinok"
+
+#: src/cli.vala
 msgid ""
 "build directory, if no directory is given the one specified in pamac.conf "
 "file is used"
 msgstr "zostaviť priečinok. Ak nebol priečinok zadaný, použije sa ten, čo je určený v súbore pamac.conf"
-
-#: src/cli.vala
-msgid "dir"
-msgstr "priečinok"
 
 #: src/cli.vala
 msgid "also clone needed dependencies"
@@ -859,6 +901,10 @@ msgid "do not clone build files from AUR, only use local files"
 msgstr ""
 
 #: src/cli.vala
+msgid "glob"
+msgstr "vzor"
+
+#: src/cli.vala
 msgid ""
 "ignore a package upgrade, multiple packages can be specified by separating "
 "them with a comma"
@@ -869,10 +915,6 @@ msgid ""
 "overwrite conflicting files, multiple patterns can be specified by "
 "separating them with a comma"
 msgstr "prepísať konfliktné súbory. Je možné zadať viac vzorov ak ich oddelíte čiarkou"
-
-#: src/cli.vala
-msgid "glob"
-msgstr "vzor"
 
 #: src/cli.vala
 msgid "Reinstall packages"
@@ -886,7 +928,7 @@ msgstr "odstrániť závislosti, ktoré nie sú vyžadované inými balíkmi. Ak
 
 #: src/cli.vala
 msgid "Safely check for updates without modifiying the databases"
-msgstr "Skontrolovať aktualizácie bez rizika (bez zmien v databázach)"
+msgstr "Bezpečne skontrolovať aktualizácie bez úprav databáz"
 
 #: src/cli.vala
 msgid "Exit code is 100 if updates are available"
@@ -895,6 +937,20 @@ msgstr "Ak sú dostupné aktualizácie, vystupný kód je 100"
 #: src/cli.vala
 msgid "also check updates in AUR"
 msgstr "skontrolovať aj aktualizácie v AUR"
+
+#: src/cli.vala
+msgid "also check development packages updates (use with --aur)"
+msgstr ""
+
+#: src/cli.vala
+msgid "only print one line per update"
+msgstr ""
+
+#: src/cli.vala
+msgid ""
+"build directory (use with --devel), if no directory is given the one "
+"specified in pamac.conf file is used"
+msgstr ""
 
 #: src/cli.vala
 msgid "Upgrade your system"
@@ -954,14 +1010,14 @@ msgstr[2] "V skupine %s je %u členov"
 msgstr[3] "V skupine %s je %u členov"
 
 #: src/cli.vala
-msgid "Enter a selection (default=all)"
-msgstr "Zadaj výber (predvolené=všetko)"
+msgid "all"
+msgstr "všetko"
 
 #: resources/choose_provider_dialog.ui
 msgid "Choose a Provider"
 msgstr "Voľba poskytovateľa"
 
-#: resources/choose_provider_dialog.ui resources/choose_ignorepkgs_dialog.ui
+#: resources/choose_provider_dialog.ui resources/choose_pkgs_dialog.ui
 msgid "Choose"
 msgstr "Zvoliť"
 
@@ -1090,6 +1146,10 @@ msgid "Check for updates from AUR"
 msgstr "Kontrolovať aktualizácie z repozitára AUR"
 
 #: resources/preferences_dialog.ui
+msgid "Check for development packages updates"
+msgstr "Kontrolovať aktualizácie balíkov vo vývoji"
+
+#: resources/preferences_dialog.ui
 msgid "Remove only the versions of uninstalled packages"
 msgstr "Odstrániť iba verzie odinštalovaných balíkov"
 
@@ -1100,7 +1160,3 @@ msgstr "Vyčistiť vyrovnávaciu pamäť"
 #: resources/preferences_dialog.ui
 msgid "Cache"
 msgstr "Vyrovnávacia pamäť"
-
-#: resources/choose_ignorepkgs_dialog.ui
-msgid "Choose Ignored Upgrades"
-msgstr "Voľba ignorovaných aktualizácií"

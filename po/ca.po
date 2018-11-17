@@ -18,9 +18,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2018-10-18 11:38+0200\n"
-"PO-Revision-Date: 2018-10-22 14:44+0000\n"
-"Last-Translator: Davidmp <medipas@gmail.com>\n"
+"POT-Creation-Date: 2018-11-13 15:01+0100\n"
+"PO-Revision-Date: 2018-11-13 14:07+0000\n"
+"Last-Translator: Guillaume Benoit <guillaume@manjaro.org>\n"
 "Language-Team: Catalan (http://www.transifex.com/manjarolinux/manjaro-pamac/language/ca/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -48,7 +48,7 @@ msgstr "Ha fallat la inicialització de la transacció."
 msgid "Failed to prepare transaction"
 msgstr "Ha fallat la preparació de la transacció."
 
-#: src/alpm_utils.vala src/transaction.vala src/cli.vala
+#: src/alpm_utils.vala src/cli.vala
 #, c-format
 msgid "target not found: %s"
 msgstr "objectiu no trobat: %s"
@@ -116,6 +116,11 @@ msgstr "ha fallat l'obtenció del fitxer \"%s\" des de %s : %s.\n"
 msgid "Authentication failed"
 msgstr "Autenticació fallida"
 
+#: src/database.vala src/transaction-gtk.vala src/manager_window.vala
+#: src/transaction-cli.vala src/cli.vala resources/preferences_dialog.ui
+msgid "AUR"
+msgstr "AUR"
+
 #: src/database.vala src/manager_window.vala
 msgid "Explicitly installed"
 msgstr "Explícitament instal·lat"
@@ -137,11 +142,6 @@ msgid "No"
 msgstr "No"
 
 #: src/transaction.vala
-#, c-format
-msgid "Generating %s informations"
-msgstr "Generant %s informacions"
-
-#: src/transaction.vala
 msgid "Refreshing mirrors list"
 msgstr "Actualitzant la llista de rèpliques"
 
@@ -160,8 +160,18 @@ msgstr "Clonant %s fitxers de construcció"
 
 #: src/transaction.vala
 #, c-format
+msgid "Generating %s informations"
+msgstr "Generant %s informacions"
+
+#: src/transaction.vala
+#, c-format
 msgid "Checking %s dependencies"
 msgstr "Comprovant %s dependències"
+
+#: src/transaction.vala
+#, c-format
+msgid "key %s could not be imported"
+msgstr ""
 
 #: src/transaction.vala
 msgid "Preparing"
@@ -252,10 +262,6 @@ msgid "Configuring %s"
 msgstr "Configurant %s"
 
 #: src/transaction.vala
-msgid "Downloading"
-msgstr "Baixant"
-
-#: src/transaction.vala
 #, c-format
 msgid "Downloading %s"
 msgstr "Baixant %s"
@@ -337,14 +343,39 @@ msgstr "Transacció acabada amb èxit"
 msgid "Package Manager"
 msgstr "Gestor de paquets"
 
-#: src/transaction-gtk.vala
-msgid "Copy"
-msgstr "Copia"
+#: src/transaction-gtk.vala src/transaction-cli.vala
+#, c-format
+msgid "Choose optional dependencies for %s"
+msgstr ""
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
 msgid "Choose a provider for %s"
 msgstr "Trieu un proveïdor per a %s"
+
+#: src/transaction-gtk.vala
+msgid "Import PGP key"
+msgstr ""
+
+#: src/transaction-gtk.vala
+msgid "Trust and Import"
+msgstr ""
+
+#: src/transaction-gtk.vala src/manager_window.vala
+#: resources/transaction_sum_dialog.ui resources/manager_window.ui
+#: resources/choose_pkgs_dialog.ui
+msgid "_Cancel"
+msgstr "_Cancel·la"
+
+#: src/transaction-gtk.vala src/transaction-cli.vala
+#, c-format
+msgid "The PGP key %s is needed to verify %s source files"
+msgstr ""
+
+#: src/transaction-gtk.vala src/transaction-cli.vala
+#, c-format
+msgid "Trust %s and import the PGP key"
+msgstr ""
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "To remove"
@@ -382,12 +413,6 @@ msgstr "Edita %s fitxers de construcció"
 #: src/transaction-gtk.vala
 msgid "Save"
 msgstr "Desa"
-
-#: src/transaction-gtk.vala src/manager_window.vala
-#: resources/transaction_sum_dialog.ui resources/manager_window.ui
-#: resources/choose_ignorepkgs_dialog.ui
-msgid "_Cancel"
-msgstr "_Cancel·la"
 
 #: src/transaction-gtk.vala resources/progress_dialog.ui
 #: resources/history_dialog.ui resources/preferences_dialog.ui
@@ -541,10 +566,6 @@ msgstr "Configuració"
 msgid "System Tools"
 msgstr "Eines del sistema"
 
-#: src/manager_window.vala src/cli.vala resources/preferences_dialog.ui
-msgid "AUR"
-msgstr "AUR"
-
 #: src/manager_window.vala
 msgid "Dependencies"
 msgstr "Dependències"
@@ -572,6 +593,30 @@ msgstr "Llicències"
 #: src/manager_window.vala src/cli.vala resources/manager_window.ui
 msgid "Repository"
 msgstr "Repositori"
+
+#: src/manager_window.vala src/cli.vala
+msgid "Package Base"
+msgstr "Base de paquets"
+
+#: src/manager_window.vala src/cli.vala
+msgid "Maintainer"
+msgstr "Mantenidor"
+
+#: src/manager_window.vala src/cli.vala
+msgid "First Submitted"
+msgstr "Primera presentació"
+
+#: src/manager_window.vala src/cli.vala
+msgid "Last Modified"
+msgstr "Última modificació"
+
+#: src/manager_window.vala src/cli.vala
+msgid "Votes"
+msgstr "Vots"
+
+#: src/manager_window.vala src/cli.vala
+msgid "Out of Date"
+msgstr "Caducat"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Packager"
@@ -622,30 +667,6 @@ msgid "Conflicts With"
 msgstr "Té conflicte amb"
 
 #: src/manager_window.vala src/cli.vala
-msgid "Package Base"
-msgstr "Base de paquets"
-
-#: src/manager_window.vala
-msgid "Maintainer"
-msgstr "Mantenidor"
-
-#: src/manager_window.vala src/cli.vala
-msgid "First Submitted"
-msgstr "Primera presentació"
-
-#: src/manager_window.vala src/cli.vala
-msgid "Last Modified"
-msgstr "Última modificació"
-
-#: src/manager_window.vala src/cli.vala
-msgid "Votes"
-msgstr "Vots"
-
-#: src/manager_window.vala src/cli.vala
-msgid "Out of Date"
-msgstr "Caducat"
-
-#: src/manager_window.vala src/cli.vala
 msgid "Make Dependencies"
 msgstr "Fes les dependències"
 
@@ -682,6 +703,10 @@ msgid "How often to check for updates, value in hours"
 msgstr "Freqüència per comprovar si hi ha actualitzacions, valor en hores"
 
 #: src/preferences_dialog.vala resources/preferences_dialog.ui
+msgid "Maximum parallel downloads"
+msgstr ""
+
+#: src/preferences_dialog.vala resources/preferences_dialog.ui
 msgid "Number of versions of each package to keep in the cache"
 msgstr "Nombre de versions de cada paquet per mantenir a la memòria cau"
 
@@ -692,6 +717,19 @@ msgstr "Directori de construcció"
 #: src/preferences_dialog.vala
 msgid "Worldwide"
 msgstr "Arreu del món"
+
+#: src/preferences_dialog.vala
+msgid "Choose Ignored Upgrades"
+msgstr "Trieu les actualitzacions que s'ignoren."
+
+#: src/transaction-cli.vala src/cli.vala
+#, c-format
+msgid "Enter a selection (default=%s)"
+msgstr ""
+
+#: src/transaction-cli.vala
+msgid "none"
+msgstr ""
 
 #: src/transaction-cli.vala
 #, c-format
@@ -740,6 +778,10 @@ msgid "No PKGBUILD file found in current directory"
 msgstr "No s'ha trobat cap fitxer PKGBUILD al directori actual."
 
 #: src/cli.vala
+msgid "Check development packages updates as root is not allowed"
+msgstr ""
+
+#: src/cli.vala
 msgid "Available actions"
 msgstr "Accions disponibles"
 
@@ -760,8 +802,8 @@ msgid "file(s)"
 msgstr "fitxer/s"
 
 #: src/cli.vala
-msgid "search in AUR instead of repositories"
-msgstr "Cerca a l'AUR i no als repositoris."
+msgid "also search in AUR"
+msgstr ""
 
 #: src/cli.vala
 msgid ""
@@ -775,6 +817,14 @@ msgstr "Mostra els detalls dels paquets. Es poden especificar diversos paquets."
 #: src/cli.vala
 msgid "List packages, groups, repositories or files"
 msgstr "Llista paquets, grups, repositoris o fitxers."
+
+#: src/cli.vala
+msgid "group(s)"
+msgstr "grup/s"
+
+#: src/cli.vala
+msgid "repo(s)"
+msgstr "repositori/s"
 
 #: src/cli.vala
 msgid "list installed packages"
@@ -797,18 +847,10 @@ msgid ""
 msgstr "Llista tots els paquets que formen part dels grups proporcionats. Si no se'n diu cap, es llisten de tots els grups."
 
 #: src/cli.vala
-msgid "group(s)"
-msgstr "grup/s"
-
-#: src/cli.vala
 msgid ""
 "list all packages available in the given repos, if no repo is given list all"
 " repos"
 msgstr "Llista tots els paquets disponibles als repositoris proporcionats. Si no se'n diu cap, es llisten de tots els repositoris."
-
-#: src/cli.vala
-msgid "repo(s)"
-msgstr "repositori/s"
 
 #: src/cli.vala
 msgid "list files owned by the given packages"
@@ -819,14 +861,14 @@ msgid "Clone or sync packages build files from AUR"
 msgstr "Clona o sincronitza els fitxers de construcció de paquets de l'AUR."
 
 #: src/cli.vala
+msgid "dir"
+msgstr "directori"
+
+#: src/cli.vala
 msgid ""
 "build directory, if no directory is given the one specified in pamac.conf "
 "file is used"
 msgstr "Directori de construcció. Si no se'n diu cap, s'usa el que s'especifica al fitxer pamac.conf."
-
-#: src/cli.vala
-msgid "dir"
-msgstr "directori"
 
 #: src/cli.vala
 msgid "also clone needed dependencies"
@@ -856,6 +898,10 @@ msgid "do not clone build files from AUR, only use local files"
 msgstr "No clonis fitxers de construcció de l'AUR, usa només els fitxers locals."
 
 #: src/cli.vala
+msgid "glob"
+msgstr "global"
+
+#: src/cli.vala
 msgid ""
 "ignore a package upgrade, multiple packages can be specified by separating "
 "them with a comma"
@@ -866,10 +912,6 @@ msgid ""
 "overwrite conflicting files, multiple patterns can be specified by "
 "separating them with a comma"
 msgstr "Sobreescriu els fitxers amb conflictes. Es poden especificar diversos patrons separant-los amb comes."
-
-#: src/cli.vala
-msgid "glob"
-msgstr "global"
 
 #: src/cli.vala
 msgid "Reinstall packages"
@@ -892,6 +934,20 @@ msgstr "El codi de sortida és 100 si hi ha actualitzacions disponibles."
 #: src/cli.vala
 msgid "also check updates in AUR"
 msgstr "Comprova també les actualitzacions de l'AUR."
+
+#: src/cli.vala
+msgid "also check development packages updates (use with --aur)"
+msgstr ""
+
+#: src/cli.vala
+msgid "only print one line per update"
+msgstr ""
+
+#: src/cli.vala
+msgid ""
+"build directory (use with --devel), if no directory is given the one "
+"specified in pamac.conf file is used"
+msgstr ""
 
 #: src/cli.vala
 msgid "Upgrade your system"
@@ -949,14 +1005,14 @@ msgstr[0] "Hi ha %u membre al grup %s."
 msgstr[1] "Hi ha %u membres al grup %s."
 
 #: src/cli.vala
-msgid "Enter a selection (default=all)"
-msgstr "Introduïu una selecció (per defecte = tot)"
+msgid "all"
+msgstr ""
 
 #: resources/choose_provider_dialog.ui
 msgid "Choose a Provider"
 msgstr "Trieu un proveïdor"
 
-#: resources/choose_provider_dialog.ui resources/choose_ignorepkgs_dialog.ui
+#: resources/choose_provider_dialog.ui resources/choose_pkgs_dialog.ui
 msgid "Choose"
 msgstr "Tria"
 
@@ -1085,6 +1141,10 @@ msgid "Check for updates from AUR"
 msgstr "Comprova si hi ha actualitzacions de l'AUR."
 
 #: resources/preferences_dialog.ui
+msgid "Check for development packages updates"
+msgstr ""
+
+#: resources/preferences_dialog.ui
 msgid "Remove only the versions of uninstalled packages"
 msgstr "Suprimeix només les versions dels paquets desinstal·lats."
 
@@ -1095,7 +1155,3 @@ msgstr "Neteja la memòria cau"
 #: resources/preferences_dialog.ui
 msgid "Cache"
 msgstr "Memòria cau"
-
-#: resources/choose_ignorepkgs_dialog.ui
-msgid "Choose Ignored Upgrades"
-msgstr "Trieu les actualitzacions que s'ignoren."
