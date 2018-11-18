@@ -42,7 +42,7 @@ executable('pamac-clean-cache',
 	install: true)
 
 executable('pamac-system-daemon',
-	sources: ['common_daemon.vala', 'package.vala', 'pamac_config.vala', 'alpm_config.vala', 'alpm_utils.vala', 'system_daemon.vala'],
+	sources: ['common_daemon.vala', 'pamac_config.vala', 'alpm_config.vala', 'alpm_utils.vala', 'system_daemon.vala'],
 	dependencies: [vala_deps, alpm_deps, json, libsoup, polkit, libcurl, appstream],
 	vala_args: [common_vala_args, alpm_vala_args, '--thread'],
 	c_args: [common_c_args, alpm_c_args],
