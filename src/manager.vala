@@ -41,8 +41,10 @@ namespace Pamac {
 			search_provider_id = 0;
 			search_provider = new SearchProvider (database);
 			search_provider.show_details.connect ((pkgname, timestamp) => {
-				create_manager_window ();
-				manager_window.refresh_packages_list ();
+				if (manager_window == null) {
+					create_manager_window ();
+					manager_window.refresh_packages_list ();
+				}
 				manager_window.main_stack.visible_child_name = "details";
 				manager_window.display_package_properties (pkgname, "", false);
 				manager_window.present_with_time (timestamp);
@@ -55,7 +57,9 @@ namespace Pamac {
 					}
 					str_builder.append (str);
 				}
-				create_manager_window ();
+				if (manager_window == null) {
+					create_manager_window ();
+				}
 				manager_window.display_package_queue.clear ();
 				manager_window.search_button.active = true;
 				var entry = manager_window.search_comboboxtext.get_child () as Gtk.Entry;
@@ -73,7 +77,9 @@ namespace Pamac {
 
 			var action = new SimpleAction ("updates", null);
 			action.activate.connect (() => {
-				create_manager_window ();
+				if (manager_window == null) {
+					create_manager_window ();
+				}
 				manager_window.display_package_queue.clear ();
 				manager_window.main_stack.visible_child_name = "browse";
 				manager_window.filters_stack.visible_child_name = "updates";
@@ -83,9 +89,6 @@ namespace Pamac {
 		}
 
 		void create_manager_window () {
-			if (manager_window != null) {
-				return;
-			}
 			manager_window = new ManagerWindow (this, database);
 			// quit accel
 			var action =  new SimpleAction ("quit", null);
@@ -125,8 +128,10 @@ namespace Pamac {
 
 		protected override void activate () {
 			base.activate ();
-			create_manager_window ();
-			manager_window.refresh_packages_list ();
+			if (manager_window == null) {
+				create_manager_window ();
+				manager_window.refresh_packages_list ();
+			}
 			manager_window.present ();
 		}
 
