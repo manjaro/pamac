@@ -1156,7 +1156,6 @@ namespace Pamac {
 				download_files (config.max_parallel_downloads);
 				if (cancellable.is_cancelled ()) {
 					trans_release ();
-					trans_commit_finished (false);
 					return false;
 				}
 			}
@@ -1167,7 +1166,6 @@ namespace Pamac {
 				// cancel the download return an EXTERNAL_DOWNLOAD error
 				if (errno == Alpm.Errno.EXTERNAL_DOWNLOAD && cancellable.is_cancelled ()) {
 					trans_release ();
-					trans_commit_finished (false);
 					return false;
 				}
 				current_error.message = _("Failed to commit transaction");
@@ -1626,7 +1624,7 @@ int curl_dload (Curl.Easy curl, string fileurl, string localpath, int force) {
 				string hostname = url.get_uri ().split("/")[2];
 				string error = _("failed retrieving file '%s' from %s : %s\n").printf (
 											url.get_basename (), hostname, (string) error_buffer);
-				alpm_utils.emit_log ((uint) Alpm.LogLevel.ERROR, error);
+				alpm_utils.emit_log ((uint) Alpm.LogLevel.WARNING, error);
 				alpm_utils.current_error.details = {error};
 			}
 			ret = -1;
