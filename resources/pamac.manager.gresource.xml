@@ -3,15 +3,6 @@
   <gresource prefix="/org/manjaro/pamac/manager">
     <file preprocess="xml-stripblanks">manager_window.ui</file>
     <file preprocess="xml-stripblanks">history_dialog.ui</file>
-    <file preprocess="to-pixdata">package-available.svg</file>
-    <file preprocess="to-pixdata">package-available-locked.svg</file>
-    <file preprocess="to-pixdata">package-install.svg</file>
-    <file preprocess="to-pixdata">package-installed-locked.svg</file>
-    <file preprocess="to-pixdata">package-installed-updated.svg</file>
-    <file preprocess="to-pixdata">package-reinstall.svg</file>
-    <file preprocess="to-pixdata">package-remove.svg</file>
-    <file preprocess="to-pixdata">package-upgrade.svg</file>
-    <file preprocess="to-pixdata">package-generic.svg</file>
   </gresource>
   <gresource prefix="/org/manjaro/pamac/preferences">
     <file preprocess="xml-stripblanks">preferences_dialog.ui</file>

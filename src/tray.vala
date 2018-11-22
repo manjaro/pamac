@@ -45,6 +45,7 @@ namespace Pamac {
 		GLib.File lockfile;
 		FileMonitor monitor;
 		uint updates_nb;
+		Gtk.IconTheme icon_theme;
 
 		public TrayIcon () {
 			application_id = "org.manjaro.pamac.tray";
@@ -265,6 +266,15 @@ namespace Pamac {
 			}
 		}
 
+		void on_icon_theme_changed () {
+			icon_theme = Gtk.IconTheme.get_default ();
+			if (updates_nb > 0) {
+				set_icon (update_icon_name);
+			} else {
+				set_icon (noupdate_icon_name);
+			}
+		}
+
 		public override void startup () {
 			// i18n
 			Intl.textdomain ("pamac");
@@ -281,6 +291,8 @@ namespace Pamac {
 			extern_lock = false;
 			refresh_timeout_id = 0;
 
+			icon_theme = Gtk.IconTheme.get_default ();
+			icon_theme.changed.connect (on_icon_theme_changed);
 			init_status_icon ();
 			set_icon (noupdate_icon_name);
 			set_tooltip (noupdate_info);

@@ -76,12 +76,18 @@ const PamacUpdateIndicator = new Lang.Class({
 	_updateList: [],
 	_config: null,
 	_pacman_lock: null,
+	_icon_theme: null,
 
 	_init: function() {
 		this.parent(0.0, "PamacUpdateIndicator");
-		Gtk.IconTheme.get_default().append_search_path(Me.dir.get_child('icons').get_path());
+		// Set icon theme
+		let that = this;
+		this._icon_theme = Gtk.IconTheme.get_default();
+		this._icon_theme.connect('changed', function () {
+			that._icon_theme = Gtk.IconTheme.get_default();
+		});
 
-		this.updateIcon = new St.Icon({icon_name: "pamac-tray-no-update", style_class: 'system-status-icon'});
+		this.updateIcon = new St.Icon({icon_name: "pamac-tray-no-update", icon_size: 20, style_class: 'system-status-icon'});
 
 		let box = new St.BoxLayout({ vertical: false, style_class: 'panel-status-menu-box' });
 		this.label = new St.Label({ text: '',

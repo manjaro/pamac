@@ -37,6 +37,7 @@ namespace Pamac {
 	[GtkTemplate (ui = "/org/manjaro/pamac/manager/manager_window.ui")]
 	class ManagerWindow : Gtk.ApplicationWindow {
 		// icons
+		Gtk.IconTheme icon_theme;
 		Gdk.Pixbuf? installed_icon;
 		Gdk.Pixbuf? uninstalled_icon;
 		Gdk.Pixbuf? to_install_icon;
@@ -275,6 +276,8 @@ namespace Pamac {
 				if (filters_stack.visible_child_name == "updates") {
 					if (unlikely (temporary_ignorepkgs.contains (pkgname))) {
 						pixbuf = uninstalled_icon;
+					} else if (unlikely (transaction.transaction_summary.contains (pkgname))) {
+						pixbuf = installed_locked_icon;
 					} else {
 						pixbuf = to_upgrade_icon;
 					}
@@ -323,6 +326,8 @@ namespace Pamac {
 				if (filters_stack.visible_child_name == "updates") {
 					if (unlikely (temporary_ignorepkgs.contains (pkgname))) {
 						pixbuf = uninstalled_icon;
+					} else if (unlikely (transaction.transaction_summary.contains (pkgname))) {
+						pixbuf = installed_locked_icon;
 					} else {
 						pixbuf = to_upgrade_icon;
 					}
@@ -349,19 +354,10 @@ namespace Pamac {
 			});
 			aur_state_renderer.activated.connect (on_aur_state_icon_activated);
 
-			try {
-				installed_icon = new Gdk.Pixbuf.from_resource ("/org/manjaro/pamac/manager/package-installed-updated.svg");
-				uninstalled_icon = new Gdk.Pixbuf.from_resource ("/org/manjaro/pamac/manager/package-available.svg");
-				to_install_icon = new Gdk.Pixbuf.from_resource ("/org/manjaro/pamac/manager/package-install.svg");
-				to_reinstall_icon = new Gdk.Pixbuf.from_resource ("/org/manjaro/pamac/manager/package-reinstall.svg");
-				to_remove_icon = new Gdk.Pixbuf.from_resource ("/org/manjaro/pamac/manager/package-remove.svg");
-				to_upgrade_icon = new Gdk.Pixbuf.from_resource ("/org/manjaro/pamac/manager/package-upgrade.svg");
-				installed_locked_icon = new Gdk.Pixbuf.from_resource ("/org/manjaro/pamac/manager/package-installed-locked.svg");
-				available_locked_icon = new Gdk.Pixbuf.from_resource ("/org/manjaro/pamac/manager/package-available-locked.svg");
-				package_icon = new Gdk.Pixbuf.from_resource ("/org/manjaro/pamac/manager/package-generic.svg");
-			} catch (GLib.Error e) {
-				stderr.printf ("%s\n", e.message);
-			}
+			// icons
+			icon_theme = Gtk.IconTheme.get_default ();
+			icon_theme.changed.connect (update_icons);
+			update_icons ();
 
 			// database
 			database.get_updates_progress.connect (on_get_updates_progress);
@@ -427,6 +423,23 @@ namespace Pamac {
 				} catch (SpawnError e) {
 					stderr.printf ("SpawnError: %s\n", e.message);
 				}
+			}
+		}
+
+		void update_icons () {
+			icon_theme = Gtk.IconTheme.get_default ();
+			try {
+				installed_icon = icon_theme.load_icon ("package-installed-updated", 16, 0);
+				uninstalled_icon = icon_theme.load_icon ("package-available", 16, 0);
+				to_install_icon = icon_theme.load_icon ("package-install", 16, 0);
+				to_reinstall_icon = icon_theme.load_icon ("package-reinstall", 16, 0);
+				to_remove_icon = icon_theme.load_icon ("package-remove", 16, 0);
+				to_upgrade_icon = icon_theme.load_icon ("package-upgrade", 16, 0);
+				installed_locked_icon = icon_theme.load_icon ("package-installed-locked", 16, 0);
+				available_locked_icon = icon_theme.load_icon ("package-available-locked", 16, 0);
+				package_icon = icon_theme.load_icon ("package-x-generic", 64, 0);
+			} catch (GLib.Error e) {
+				stderr.printf ("%s\n", e.message);
 			}
 		}
 
