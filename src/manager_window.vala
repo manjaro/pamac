@@ -2027,10 +2027,8 @@ namespace Pamac {
 			int index = row.get_index ();
 			switch (index) {
 				case 0: // repos
-					Timeout.add (200, () => {
 						search_entry.grab_focus_without_selecting ();
-						return false;
-					});
+						search_entry.set_position (-1);
 					if (search_string == null) {
 						return;
 					}
@@ -2068,10 +2066,8 @@ namespace Pamac {
 					aur_list.clear ();
 					break;
 				case 1: // aur
-					Timeout.add (200, () => {
 						search_entry.grab_focus_without_selecting ();
-						return false;
-					});
+						search_entry.set_position (-1);
 					if (search_string == null) {
 						origin_stack.visible_child_name = "no_item";
 						return;
@@ -2341,19 +2337,12 @@ namespace Pamac {
 			} else {
 				// a history line was choosen
 				this.get_window ().set_cursor (new Gdk.Cursor.for_display (Gdk.Display.get_default (), Gdk.CursorType.WATCH));
-				search_string = search_comboboxtext.get_active_text ();
+				search_string = search_comboboxtext.get_active_text ().strip ();
 				if (filters_stack.visible_child_name != "search") {
 					// this function will be recalled when refresh_packages_list
 					filters_stack.visible_child_name = "search";
 					return;
 				}
-				Timeout.add (200, () => {
-					if (!search_entry.has_focus) {
-						search_entry.grab_focus_without_selecting ();
-						search_entry.set_position (-1);
-					}
-					return false;
-				});
 				on_search_listbox_row_activated (search_listbox.get_selected_row ());
 			}
 		}
