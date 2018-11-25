@@ -205,6 +205,7 @@ namespace Pamac {
 		Gtk.ListBoxRow files_row;
 		Gtk.ListBoxRow build_files_row;
 		bool scroll_to_top;
+		string current_filter;
 
 		public ManagerWindow (Gtk.Application application, Database database) {
 			Object (application: application, database: database);
@@ -584,7 +585,11 @@ namespace Pamac {
 		void show_default_pkgs () {
 			this.get_window ().set_cursor (new Gdk.Cursor.for_display (Gdk.Display.get_default (), Gdk.CursorType.WATCH));
 			origin_stack.visible_child_name = "repos";
+			current_filter = "installed_apps";
 			database.get_installed_apps_async.begin ((obj, res) => {
+				if (current_filter != "installed_apps") {
+					return;
+				}
 				populate_packages_list (database.get_installed_apps_async.end (res));
 			});
 		}
@@ -2037,7 +2042,11 @@ namespace Pamac {
 					while (Gtk.events_pending ()) {
 						Gtk.main_iteration ();
 					}
+					current_filter = "search_pkgs_%s".printf (search_string);
 					database.search_pkgs_async.begin (search_string, (obj, res) => {
+						if (current_filter != "search_pkgs_%s".printf (search_string)) {
+							return;
+						}
 						if (database.config.enable_aur) {
 							show_sidebar ();
 						} else {
@@ -2077,7 +2086,11 @@ namespace Pamac {
 					while (Gtk.events_pending ()) {
 						Gtk.main_iteration ();
 					}
+					current_filter = "search_in_aur";
 					database.search_in_aur.begin (search_string, (obj, res) => {
+						if (current_filter != "search_in_aur") {
+							return;
+						}
 						populate_aur_list (database.search_in_aur.end (res));
 					});
 					database.search_pkgs_async.begin (search_string, (obj, res) => {
@@ -2413,7 +2426,11 @@ namespace Pamac {
 				matching_cat = "System";
 			}
 			Timeout.add (200, () => {
+				current_filter = "category_pkgs_%s".printf (matching_cat);
 				database.get_category_pkgs_async.begin (matching_cat, (obj, res) => {
+					if (current_filter != "category_pkgs_%s".printf (matching_cat)) {
+						return;
+					}
 					populate_packages_list (database.get_category_pkgs_async.end (res));
 				});
 				return false;
@@ -2428,7 +2445,11 @@ namespace Pamac {
 			string group_name = label.label;
 			this.title = group_name;
 			Timeout.add (200, () => {
+				current_filter = "group_pkgs_%s".printf (group_name);
 				database.get_group_pkgs_async.begin (group_name, (obj, res) => {
+					if (current_filter != "group_pkgs_%s".printf (group_name)) {
+						return;
+					}
 					populate_packages_list (database.get_group_pkgs_async.end (res));
 				});
 				return false;
@@ -2445,7 +2466,11 @@ namespace Pamac {
 			switch (index) {
 				case 0: // Installed
 					Timeout.add (200, () => {
+						current_filter = "installed_pkgs";
 						database.get_installed_pkgs_async.begin ((obj, res) => {
+							if (current_filter != "installed_pkgs") {
+								return;
+							}
 							populate_packages_list (database.get_installed_pkgs_async.end (res));
 						});
 						return false;
@@ -2453,7 +2478,11 @@ namespace Pamac {
 					break;
 				case 1: // Explicitly installed
 					Timeout.add (200, () => {
+						current_filter = "explicitly_installed_pkgs";
 						database.get_explicitly_installed_pkgs_async.begin ((obj, res) => {
+							if (current_filter != "explicitly_installed_pkgs") {
+								return;
+							}
 							populate_packages_list (database.get_explicitly_installed_pkgs_async.end (res));
 						});
 						return false;
@@ -2461,7 +2490,11 @@ namespace Pamac {
 					break;
 				case 2: // Orphans
 					Timeout.add (200, () => {
+						current_filter = "orphans";
 						database.get_orphans_async.begin ((obj, res) => {
+							if (current_filter != "orphans") {
+								return;
+							}
 							populate_packages_list (database.get_orphans_async.end (res));
 						});
 						return false;
@@ -2469,7 +2502,11 @@ namespace Pamac {
 					break;
 				case 3: // Foreign
 					Timeout.add (200, () => {
+						current_filter = "foreign_pkgs";
 						database.get_foreign_pkgs_async.begin ((obj, res) => {
+							if (current_filter != "foreign_pkgs") {
+								return;
+							}
 							populate_packages_list (database.get_foreign_pkgs_async.end (res));
 						});
 						return false;
@@ -2488,7 +2525,11 @@ namespace Pamac {
 			string repo = label.label;
 			this.title = repo;
 			Timeout.add (200, () => {
+				current_filter = "repo_pkgs_%s".printf (repo);
 				database.get_repo_pkgs_async.begin (repo, (obj, res) => {
+					if (current_filter != "repo_pkgs_%s".printf (repo)) {
+						return;
+					}
 					populate_packages_list (database.get_repo_pkgs_async.end (res));
 				});
 				return false;
