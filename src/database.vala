@@ -1649,12 +1649,13 @@ namespace Pamac {
 		}
 
 		public async Updates get_updates () {
+			SourceFunc callback = get_updates.callback;
 			// be sure we have the good updates
 			alpm_config = new AlpmConfig ("/etc/pacman.conf");
 			string[] local_pkgs = {};
 			string[] vcs_local_pkgs = {};
 			var repos_updates = new List<Package> ();
-			new Thread<int> ("get_updates", () => {
+			ThreadFunc<int> run = () => {
 				var tmp_handle = alpm_config.get_handle (false, true);
 				// refresh tmp dbs
 				// count this step as 90% of the total
@@ -1699,9 +1700,10 @@ namespace Pamac {
 					}
 					pkgcache.next ();
 				}
-				Idle.add (get_updates.callback);
+				Idle.add ((owned) callback);
 				return 0;
-			});
+			};
+			new Thread<int> ("get_updates", run);
 			yield;
 			get_updates_progress (95);
 			if (config.check_aur_updates) {
