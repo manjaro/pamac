@@ -1655,11 +1655,11 @@ namespace Pamac {
 			string[] local_pkgs = {};
 			string[] vcs_local_pkgs = {};
 			var repos_updates = new List<Package> ();
+			get_updates_progress (0);
 			ThreadFunc<int> run = () => {
 				var tmp_handle = alpm_config.get_handle (false, true);
 				// refresh tmp dbs
 				// count this step as 90% of the total
-				get_updates_progress (0);
 				unowned Alpm.List<unowned Alpm.DB> syncdbs = tmp_handle.syncdbs;
 				size_t dbs_count = syncdbs.length;
 				size_t i = 0;
@@ -1668,7 +1668,10 @@ namespace Pamac {
 					db.update (0);
 					syncdbs.next ();
 					i++;
-					get_updates_progress ((uint) ((double) i / dbs_count * (double) 90));
+					Idle.add (() => {
+						get_updates_progress ((uint) ((double) i / dbs_count * (double) 90));
+						return false;
+					});
 				}
 				// check updates
 				// count this step as 5% of the total
