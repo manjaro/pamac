@@ -4,6 +4,7 @@
 # Guillaume Benoit <guillaume@manjaro.org>, 2013-2018.
 # 
 # Translators:
+# Julia Marcinkowska <jmarcinkowska@gmail.com>, 2018
 # Marcin Domański <marcin.domanski92@gmail.com>, 2018
 # Piotr Miller <nwg.piotr@gmail.com>, 2018
 # Ulther Ego <ulther@protonmail.com>, 2018
@@ -12,8 +13,8 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2018-11-13 15:01+0100\n"
-"PO-Revision-Date: 2018-11-13 14:07+0000\n"
-"Last-Translator: Guillaume Benoit <guillaume@manjaro.org>\n"
+"PO-Revision-Date: 2018-11-26 13:34+0000\n"
+"Last-Translator: Julia Marcinkowska <jmarcinkowska@gmail.com>\n"
 "Language-Team: Polish (Poland) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/pl_PL/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -54,7 +55,7 @@ msgstr "pakiet %s nie ma poprawnej architektury"
 #: src/alpm_utils.vala
 #, c-format
 msgid "unable to satisfy dependency '%s' required by %s"
-msgstr "nie można spełnić zależności '%s' wymaganych przez %s"
+msgstr "nie można spełnić zależności '%s' wymaganej przez %s"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -341,7 +342,7 @@ msgstr "Menadżer pakietów"
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
 msgid "Choose optional dependencies for %s"
-msgstr ""
+msgstr "Wybierz opcjonalne zależności dla %s"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
@@ -350,11 +351,11 @@ msgstr "Wybierz dostawcę dla %s"
 
 #: src/transaction-gtk.vala
 msgid "Import PGP key"
-msgstr ""
+msgstr "Importuj klucz PGP"
 
 #: src/transaction-gtk.vala
 msgid "Trust and Import"
-msgstr ""
+msgstr "Zaufaj i importuj"
 
 #: src/transaction-gtk.vala src/manager_window.vala
 #: resources/transaction_sum_dialog.ui resources/manager_window.ui
@@ -365,12 +366,12 @@ msgstr "_Anuluj"
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
 msgid "The PGP key %s is needed to verify %s source files"
-msgstr ""
+msgstr "Klucz PGP %s jest potrzebny do weryfikacji plików źródłowych %s"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
 msgid "Trust %s and import the PGP key"
-msgstr ""
+msgstr "Zaufaj %s i importuj klucz PGP"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "To remove"
@@ -442,9 +443,9 @@ msgstr "_Wyjście "
 #, c-format
 msgid "%u available update"
 msgid_plural "%u available updates"
-msgstr[0] "%udostępna aktualizacja"
-msgstr[1] "%udostępnych aktualizacji"
-msgstr[2] "%udostępnych aktualizacji"
+msgstr[0] "%u dostępna aktualizacja"
+msgstr[1] "%u dostępnych aktualizacji"
+msgstr[2] "%u dostępnych aktualizacji"
 msgstr[3] "%u dostępnych aktualizacji"
 
 #: src/tray.vala src/manager_window.vala resources/progress_dialog.ui
@@ -703,7 +704,7 @@ msgstr "Jak często sprawdzać aktualizacje, wartość w godzinach"
 
 #: src/preferences_dialog.vala resources/preferences_dialog.ui
 msgid "Maximum parallel downloads"
-msgstr ""
+msgstr "Maksymalnie równoległych pobrań"
 
 #: src/preferences_dialog.vala resources/preferences_dialog.ui
 msgid "Number of versions of each package to keep in the cache"
@@ -728,7 +729,7 @@ msgstr ""
 
 #: src/transaction-cli.vala
 msgid "none"
-msgstr ""
+msgstr "brak"
 
 #: src/transaction-cli.vala
 #, c-format
@@ -770,7 +771,7 @@ msgstr "Kopiowanie %s plików budowania"
 
 #: src/cli.vala
 msgid "Building packages as root is not allowed"
-msgstr "Budowanie pakietów jak root jest niedozwolone"
+msgstr "Budowanie pakietów jako root jest niedozwolone"
 
 #: src/cli.vala
 msgid "No PKGBUILD file found in current directory"
@@ -802,7 +803,7 @@ msgstr "plik(ów)"
 
 #: src/cli.vala
 msgid "also search in AUR"
-msgstr ""
+msgstr "wyszukaj również w AUR-ze"
 
 #: src/cli.vala
 msgid ""

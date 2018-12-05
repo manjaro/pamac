@@ -6,6 +6,7 @@
 # Translators:
 # Alexander B <beliy@yandex.ru>, 2017
 # AlexanderFilev, 2015
+# Alexey Ermakov <strangebrew@yandex.ru>, 2018
 # Victor Kukshiev <andrey0bolkonsky@gmail.com>, 2013
 # Daniil <rostovslipknot@gmail.com>, 2013
 # XXXKXXX <klyuchnikov.evgeny@gmail.com>, 2018
@@ -31,13 +32,14 @@
 # Анатолий Валерианович <ffox909@mail.ru>, 2014-2017
 # Victor Kukshiev <andrey0bolkonsky@gmail.com>, 2013,2015
 # Дмитрий Герасимов <dimonmmk@yandex.ru>, 2016-2017
+# Егор Орлёнок <orlov.keril@gmail.com>, 2018
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2018-11-13 15:01+0100\n"
-"PO-Revision-Date: 2018-11-13 14:07+0000\n"
-"Last-Translator: Guillaume Benoit <guillaume@manjaro.org>\n"
+"PO-Revision-Date: 2018-12-05 07:11+0000\n"
+"Last-Translator: Егор Орлёнок <orlov.keril@gmail.com>\n"
 "Language-Team: Russian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -47,19 +49,19 @@ msgstr ""
 
 #: data/polkit/org.manjaro.pamac.policy.in
 msgid "Authentication is required"
-msgstr "Требуется авторизация"
+msgstr "Требуется аутентификация"
 
 #: src/alpm_utils.vala src/database.vala
 msgid "Failed to initialize alpm library"
-msgstr "Ошибка инициализации библиотеки alpm"
+msgstr "Не удалось инициализировать библиотеку alpm"
 
 #: src/alpm_utils.vala
 msgid "Failed to synchronize any databases"
-msgstr "Ошибка синхронизации со всеми базами данных"
+msgstr "Не удалось синхронизировать базы данных "
 
 #: src/alpm_utils.vala
 msgid "Failed to init transaction"
-msgstr "Ошибка начала транзакции"
+msgstr "Не удалось выполнить транзакцию"
 
 #: src/alpm_utils.vala src/transaction.vala src/transaction-gtk.vala
 msgid "Failed to prepare transaction"
@@ -188,7 +190,7 @@ msgstr "Проверка зависимостей для %s"
 #: src/transaction.vala
 #, c-format
 msgid "key %s could not be imported"
-msgstr ""
+msgstr "ключ %s не может быть импортирован"
 
 #: src/transaction.vala
 msgid "Preparing"
@@ -374,7 +376,7 @@ msgstr "Укажите источник %s"
 
 #: src/transaction-gtk.vala
 msgid "Import PGP key"
-msgstr ""
+msgstr "Импортировать PGP-ключ"
 
 #: src/transaction-gtk.vala
 msgid "Trust and Import"
@@ -389,7 +391,7 @@ msgstr "_Отмена"
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
 msgid "The PGP key %s is needed to verify %s source files"
-msgstr ""
+msgstr "PGP-ключ %s нужен для проверки исходных файлов %s"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
@@ -727,7 +729,7 @@ msgstr "Укажите интервал поиска обновлений, в ч
 
 #: src/preferences_dialog.vala resources/preferences_dialog.ui
 msgid "Maximum parallel downloads"
-msgstr ""
+msgstr "Максимум параллельных загрузок"
 
 #: src/preferences_dialog.vala resources/preferences_dialog.ui
 msgid "Number of versions of each package to keep in the cache"
@@ -826,7 +828,7 @@ msgstr "файл(-ы)"
 
 #: src/cli.vala
 msgid "also search in AUR"
-msgstr ""
+msgstr "также искать в AUR"
 
 #: src/cli.vala
 msgid ""
@@ -1031,7 +1033,7 @@ msgstr[3] "В группе %s %u членов"
 
 #: src/cli.vala
 msgid "all"
-msgstr ""
+msgstr "все"
 
 #: resources/choose_provider_dialog.ui
 msgid "Choose a Provider"
