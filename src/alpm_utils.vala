@@ -1624,7 +1624,7 @@ int curl_dload (Curl.Easy curl, string fileurl, string localpath, int force) {
 				string hostname = url.get_uri ().split("/")[2];
 				string error = _("failed retrieving file '%s' from %s : %s\n").printf (
 											url.get_basename (), hostname, (string) error_buffer);
-				alpm_utils.emit_log ((uint) Alpm.LogLevel.WARNING, error);
+				//alpm_utils.emit_log ((uint) Alpm.LogLevel.WARNING, error);
 				alpm_utils.current_error.details = {error};
 			}
 			ret = -1;
