@@ -2944,6 +2944,7 @@ namespace Pamac {
 		void on_start_generating_mirrors_list () {
 			generate_mirrors_list = true;
 			apply_button.sensitive = false;
+			details_button.sensitive = true;
 			show_transaction_infobox ();
 		}
 
