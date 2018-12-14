@@ -101,7 +101,7 @@ namespace Pamac {
 		internal string[] to_build;
 		internal bool sysupgrade;
 		AURPackageStruct[] to_build_pkgs;
-		GenericSet<string?> aur_pkgbases_to_build;
+		SList<string> aur_pkgbases_to_build;
 		HashTable<string, string> to_install_as_dep;
 		internal string[] temporary_ignorepkgs;
 		internal string[] overwrite_files;
@@ -131,7 +131,6 @@ namespace Pamac {
 			alpm_config = new AlpmConfig ("/etc/pacman.conf");
 			tmp_path = "/tmp/pamac";
 			to_syncfirst = new GenericSet<string?> (str_hash, str_equal);
-			aur_pkgbases_to_build = new GenericSet<string?> (str_hash, str_equal);
 			to_install_as_dep = new HashTable<string, string> (str_hash, str_equal);
 			timer = new Timer ();
 			current_error = ErrorInfos ();
@@ -678,7 +677,7 @@ namespace Pamac {
 		internal void trans_prepare () {
 			to_build_pkgs = {};
 			aur_conflicts_to_remove = {};
-			aur_pkgbases_to_build.remove_all ();
+			aur_pkgbases_to_build = new SList<string> ();
 			to_install_as_dep.remove_all ();
 			launch_trans_prepare_real ();
 		}
@@ -742,7 +741,7 @@ namespace Pamac {
 
 		internal void build_prepare () {
 			to_build_pkgs = {};
-			aur_pkgbases_to_build.remove_all ();
+			aur_pkgbases_to_build = new SList<string> ();
 			to_install_as_dep.remove_all ();
 			// get an handle with fake aur db and without emit signal callbacks
 			alpm_handle = alpm_config.get_handle ();
@@ -849,7 +848,9 @@ namespace Pamac {
 								if (db != null) {
 									if (db.name == "aur") {
 										// it is a aur pkg to build
-										aur_pkgbases_to_build.add (trans_pkg.pkgbase);
+										if (aur_pkgbases_to_build.find_custom (trans_pkg.pkgbase, strcmp) == null) {
+											aur_pkgbases_to_build.append (trans_pkg.pkgbase);
+										}
 										to_build_pkgs += AURPackageStruct () {
 											name = trans_pkg.name,
 											version = trans_pkg.version,
