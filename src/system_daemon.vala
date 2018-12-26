@@ -441,7 +441,7 @@ namespace Pamac {
 				trans_prepare_finished (false);
 				return;
 			}
-			alpm_utils.enable_downgrade = enable_downgrade;
+			alpm_utils.config.enable_downgrade = enable_downgrade;
 			alpm_utils.temporary_ignorepkgs = temporary_ignorepkgs;
 			alpm_utils.overwrite_files = overwrite_files;
 			alpm_utils.sysupgrade = true;

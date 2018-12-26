@@ -2790,7 +2790,7 @@ namespace Pamac {
 				temp_ign_pkgs += name;
 			}
 			show_transaction_infobox ();
-			transaction.start_sysupgrade (force_refresh, false, temp_ign_pkgs, {});
+			transaction.start_sysupgrade (force_refresh, database.config.enable_downgrade, temp_ign_pkgs, {});
 			// let time to update packages states
 			Timeout.add (500, () => {
 				refresh_state_icons ();

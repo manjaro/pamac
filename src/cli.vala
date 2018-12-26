@@ -29,7 +29,6 @@ namespace Pamac {
 		string[] to_load;
 		string[] to_build;
 		bool force_refresh;
-		bool enable_downgrade;
 		bool trans_cancellable;
 		bool waiting;
 		string[] temporary_ignorepkgs;
@@ -44,7 +43,6 @@ namespace Pamac {
 			to_load = {};
 			to_build = {};
 			force_refresh = false;
-			enable_downgrade = false;
 			trans_cancellable = false;
 			waiting = false;
 			overwrite_files = {};
@@ -415,7 +413,7 @@ namespace Pamac {
 					} else if (arg == "--force-refresh") {
 						force_refresh = true;
 					} else if (arg == "--enable-downgrade") {
-						enable_downgrade = true;
+						database.config.enable_downgrade = true;
 					} else if (arg == "--ignore") {
 						foreach (unowned string name in args[i + 1].split(",")) {
 							temporary_ignorepkgs += name;
@@ -2052,11 +2050,11 @@ namespace Pamac {
 			if (Posix.geteuid () != 0) {
 				// let's time to pkttyagent to get registred
 				Timeout.add (200, () => {
-					transaction.start_sysupgrade (force_refresh, enable_downgrade, temporary_ignorepkgs, overwrite_files);
+					transaction.start_sysupgrade (force_refresh, database.config.enable_downgrade, temporary_ignorepkgs, overwrite_files);
 					return false;
 				});
 			} else {
-				transaction.start_sysupgrade (force_refresh, enable_downgrade, temporary_ignorepkgs, overwrite_files);
+				transaction.start_sysupgrade (force_refresh, database.config.enable_downgrade, temporary_ignorepkgs, overwrite_files);
 			}
 			loop.run ();
 		}

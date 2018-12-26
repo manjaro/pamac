@@ -83,7 +83,7 @@ class DownloadServer: Object {
 
 namespace Pamac {
 	internal class AlpmUtils: Object {
-		Config config;
+		internal Config config;
 		internal AlpmConfig alpm_config;
 		internal Alpm.Handle? alpm_handle;
 		internal Alpm.Handle? files_handle;
@@ -92,7 +92,6 @@ namespace Pamac {
 		internal Mutex provider_mutex;
 		internal int? choosen_provider;
 		internal bool force_refresh;
-		internal bool enable_downgrade;
 		internal int flags;
 		GenericSet<string?> to_syncfirst;
 		internal string[] to_install;
@@ -404,7 +403,7 @@ namespace Pamac {
 		bool trans_sysupgrade () {
 			current_error = ErrorInfos ();
 			add_ignorepkgs ();
-			if (alpm_handle.trans_sysupgrade ((enable_downgrade) ? 1 : 0) == -1) {
+			if (alpm_handle.trans_sysupgrade ((config.enable_downgrade) ? 1 : 0) == -1) {
 				Alpm.Errno errno = alpm_handle.errno ();
 				current_error.message = _("Failed to prepare transaction");
 				if (errno != 0) {
@@ -1151,7 +1150,6 @@ namespace Pamac {
 		bool trans_commit_real () {
 			current_error = ErrorInfos ();
 			bool success = true;
-			var config = new Config ("/etc/pamac.conf");
 			if (config.max_parallel_downloads >= 2) {
 				// custom parallel downloads
 				download_files (config.max_parallel_downloads);

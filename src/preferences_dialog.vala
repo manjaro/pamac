@@ -29,6 +29,8 @@ namespace Pamac {
 		[GtkChild]
 		Gtk.Switch check_updates_button;
 		[GtkChild]
+		Gtk.Switch enable_downgrade_button;
+		[GtkChild]
 		Gtk.Label refresh_period_label;
 		[GtkChild]
 		Gtk.SpinButton refresh_period_spin_button;
@@ -84,6 +86,7 @@ namespace Pamac {
 			aur_build_dir_label.set_markup (dgettext (null, "Build directory") +":");
 			remove_unrequired_deps_button.active = transaction.database.config.recurse;
 			check_space_button.active = transaction.database.get_checkspace ();
+			enable_downgrade_button.active = transaction.database.config.enable_downgrade;
 			if (transaction.database.config.refresh_period == 0) {
 				check_updates_button.active = false;
 				refresh_period_label.sensitive = false;
@@ -115,6 +118,7 @@ namespace Pamac {
 			check_space_button.state_set.connect (on_check_space_button_state_set);
 			transaction.write_alpm_config_finished.connect (on_write_alpm_config_finished);
 			check_updates_button.state_set.connect (on_check_updates_button_state_set);
+			enable_downgrade_button.state_set.connect (on_enable_downgrade_button_state_set);
 			refresh_period_spin_button.value_changed.connect (on_refresh_period_spin_button_value_changed);
 			max_parallel_downloads_spin_button.value_changed.connect (on_max_parallel_downloads_spin_button_value_changed);
 			no_update_hide_icon_checkbutton.toggled.connect (on_no_update_hide_icon_checkbutton_toggled);
@@ -182,6 +186,14 @@ namespace Pamac {
 				new_pamac_conf.insert ("RefreshPeriod", new Variant.uint64 (0));
 			}
 			transaction.start_write_pamac_config (new_pamac_conf);
+			return true;
+		}
+
+		bool on_enable_downgrade_button_state_set (bool new_state) {
+			var new_pamac_conf = new HashTable<string,Variant> (str_hash, str_equal);
+			new_pamac_conf.insert ("EnableDowngrade", new Variant.boolean (new_state));
+			transaction.start_write_pamac_config (new_pamac_conf);
+			enable_downgrade_button.state = new_state;
 			return true;
 		}
 

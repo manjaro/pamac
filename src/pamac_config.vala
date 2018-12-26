@@ -23,6 +23,7 @@ namespace Pamac {
 
 		public string conf_path { get; construct; }
 		public bool recurse { get; set; }
+		public bool enable_downgrade { get; set; }
 		public uint64 refresh_period { get; set; }
 		public bool no_update_hide_icon { get; set; }
 		public bool enable_aur { get; set; }
@@ -76,6 +77,7 @@ namespace Pamac {
 		public void reload () {
 			// set default options
 			recurse = false;
+			enable_downgrade = false;
 			refresh_period = 6;
 			no_update_hide_icon = false;
 			enable_aur = false;
@@ -131,6 +133,8 @@ namespace Pamac {
 						unowned string key = splitted[0]._strip ();
 						if (key == "RemoveUnrequiredDeps") {
 							recurse = true;
+						} else if (key == "EnableDowngrade") {
+							enable_downgrade = true;
 						} else if (key == "RefreshPeriod") {
 							if (splitted.length == 2) {
 								unowned string val = splitted[1]._strip ();
@@ -196,6 +200,18 @@ namespace Pamac {
 									data.append ("#RemoveUnrequiredDeps\n");
 								}
 								new_conf.remove ("RemoveUnrequiredDeps");
+							} else {
+								data.append (line);
+								data.append ("\n");
+							}
+						} else if (line.contains ("EnableDowngrade")) {
+							if (new_conf.lookup_extended ("EnableDowngrade", null, out variant)) {
+								if (variant.get_boolean ()) {
+									data.append ("EnableDowngrade\n");
+								} else {
+									data.append ("#EnableDowngrade\n");
+								}
+								new_conf.remove ("EnableDowngrade");
 							} else {
 								data.append (line);
 								data.append ("\n");
@@ -329,6 +345,12 @@ namespace Pamac {
 							data.append ("RemoveUnrequiredDeps\n");
 						} else {
 							data.append ("#RemoveUnrequiredDeps\n");
+						}
+					} else if (key == "EnableDowngrade") {
+						if (val.get_boolean ()) {
+							data.append ("EnableDowngrade\n");
+						} else {
+							data.append ("#EnableDowngrade\n");
 						}
 					} else if (key == "RefreshPeriod") {
 						data.append ("RefreshPeriod = %llu\n".printf (val.get_uint64 ()));

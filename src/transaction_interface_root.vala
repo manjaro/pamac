@@ -193,7 +193,7 @@ namespace Pamac {
 											string[] to_build,
 											string[] temporary_ignorepkgs,
 											string[] overwrite_files) {
-			alpm_utils.enable_downgrade = enable_downgrade;
+			alpm_utils.config.enable_downgrade = enable_downgrade;
 			alpm_utils.temporary_ignorepkgs = temporary_ignorepkgs;
 			alpm_utils.overwrite_files = overwrite_files;
 			alpm_utils.sysupgrade = true;
