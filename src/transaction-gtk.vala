@@ -248,8 +248,9 @@ namespace Pamac {
 			dialog.border_width = 6;
 			dialog.icon_name = "system-software-install";
 			dialog.deletable = false;
-			dialog.add_button (dgettext (null, "Trust and Import"), Gtk.ResponseType.OK);
-			unowned Gtk.Widget widget = dialog.add_button (dgettext (null, "_Cancel"), Gtk.ResponseType.CANCEL);
+			unowned Gtk.Widget widget = dialog.add_button (dgettext (null, "Trust and Import"), Gtk.ResponseType.OK);
+			widget.receives_default = true;
+			widget = dialog.add_button (dgettext (null, "_Cancel"), Gtk.ResponseType.CANCEL);
 			widget.can_focus = true;
 			widget.has_focus = true;
 			widget.can_default = true;
@@ -488,8 +489,9 @@ namespace Pamac {
 														application_window,
 														flags);
 				dialog.icon_name = "system-software-install";
-				dialog.add_button (dgettext (null, "Save"), Gtk.ResponseType.CLOSE);
-				unowned Gtk.Widget widget = dialog.add_button (dgettext (null, "_Cancel"), Gtk.ResponseType.CANCEL);
+				unowned Gtk.Widget widget = dialog.add_button (dgettext (null, "Save"), Gtk.ResponseType.CLOSE);
+				widget.receives_default = true;
+				widget = dialog.add_button (dgettext (null, "_Cancel"), Gtk.ResponseType.CANCEL);
 				widget.can_focus = true;
 				widget.has_focus = true;
 				widget.can_default = true;

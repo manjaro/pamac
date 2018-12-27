@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated with glade 3.20.0 -->
+<!-- Generated with glade 3.22.1 -->
 <interface>
   <requires lib="gtk+" version="3.20"/>
   <template class="PamacProgressDialog" parent="GtkApplicationWindow">
@@ -10,6 +10,9 @@
     <property name="default_width">600</property>
     <property name="icon_name">system-software-install</property>
     <property name="deletable">False</property>
+    <child>
+      <placeholder/>
+    </child>
     <child>
       <object class="GtkBox" id="box">
         <property name="visible">True</property>
@@ -51,7 +54,7 @@
                 <property name="label" translatable="yes">_Close</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
-                <property name="receives_default">False</property>
+                <property name="receives_default">True</property>
                 <property name="use_underline">True</property>
               </object>
               <packing>

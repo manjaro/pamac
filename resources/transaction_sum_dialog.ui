@@ -45,7 +45,7 @@
                 <property name="label" translatable="yes">Commit</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
-                <property name="receives_default">False</property>
+                <property name="receives_default">True</property>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -58,7 +58,7 @@
                 <property name="label" translatable="yes">Edit build files</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
-                <property name="receives_default">False</property>
+                <property name="receives_default">True</property>
               </object>
               <packing>
                 <property name="expand">False</property>
