@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2018-11-13 15:01+0100\n"
-"PO-Revision-Date: 2018-11-13 16:07+0000\n"
+"POT-Creation-Date: 2018-12-26 12:00+0100\n"
+"PO-Revision-Date: 2018-12-28 09:07+0000\n"
 "Last-Translator: Lovro Kudelić <lovro.kudelic@outlook.com>\n"
 "Language-Team: Croatian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/hr/)\n"
 "MIME-Version: 1.0\n"
@@ -379,7 +379,7 @@ msgstr "Za ukloniti"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "To downgrade"
-msgstr "Vratiti na staru verziju"
+msgstr "Vratiti paket na staru verziju"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "To build"
@@ -967,7 +967,7 @@ msgstr "prisili osvježavanje baza podataka"
 
 #: src/cli.vala
 msgid "enable package downgrades"
-msgstr "dopusti povratak paketa na stariju verziju"
+msgstr "dopusti povratak na staru verziju paketa"
 
 #: src/cli.vala resources/manager_window.ui
 msgid "Version"
@@ -1088,6 +1088,10 @@ msgstr "Prilikom uklanjanja paketa, ukloniti njegove zavisnosti koje ne zahtijev
 #: resources/preferences_dialog.ui
 msgid "Check available disk space"
 msgstr "Provjera dostupnog prostora na disku"
+
+#: resources/preferences_dialog.ui
+msgid "Enable downgrade"
+msgstr "Dopusti povratak na staru verziju paketa"
 
 #: resources/preferences_dialog.ui
 msgid "Check for updates"
