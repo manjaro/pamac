@@ -15,6 +15,7 @@
 # Marcin Mikołajczak <me@m4sk.in>, 2017
 # Marcin Mikołajczak <me@m4sk.in>, 2018
 # Marcin Mikołajczak <me@m4sk.in>, 2016
+# Piotr Komur <pkomur@gmail.com>, 2018
 # Piotr Miller <nwg.piotr@gmail.com>, 2018
 # Piotr Strębski <strebski@gmail.com>, 2017-2018
 # Piotr Strębski <strebski@gmail.com>, 2013-2017
@@ -25,9 +26,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2018-11-13 15:01+0100\n"
-"PO-Revision-Date: 2018-11-13 14:07+0000\n"
-"Last-Translator: Guillaume Benoit <guillaume@manjaro.org>\n"
+"POT-Creation-Date: 2018-12-26 12:00+0100\n"
+"PO-Revision-Date: 2018-12-28 00:23+0000\n"
+"Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Polish (http://www.transifex.com/manjarolinux/manjaro-pamac/language/pl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -163,22 +164,22 @@ msgstr "Synchronizacja baz danych pakietów"
 #: src/transaction.vala src/cli.vala
 #, c-format
 msgid "Cloning %s build files"
-msgstr ""
+msgstr "Kopiowanie %s plików kompilacji"
 
 #: src/transaction.vala
 #, c-format
 msgid "Generating %s informations"
-msgstr ""
+msgstr "Generowanie %s informacji"
 
 #: src/transaction.vala
 #, c-format
 msgid "Checking %s dependencies"
-msgstr ""
+msgstr "Sprawdzanie %s zależności"
 
 #: src/transaction.vala
 #, c-format
 msgid "key %s could not be imported"
-msgstr ""
+msgstr "klucz %s nie mógł zostać zaimportowany"
 
 #: src/transaction.vala
 msgid "Preparing"
@@ -355,7 +356,7 @@ msgstr "Menedżer pakietów"
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
 msgid "Choose optional dependencies for %s"
-msgstr ""
+msgstr "Wybierz opcjonalne zależności dla %s"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
@@ -364,11 +365,11 @@ msgstr "Wybierz dostawcę dla %s"
 
 #: src/transaction-gtk.vala
 msgid "Import PGP key"
-msgstr ""
+msgstr "Importuj klucz PGP"
 
 #: src/transaction-gtk.vala
 msgid "Trust and Import"
-msgstr ""
+msgstr "Zaufaj i importuj"
 
 #: src/transaction-gtk.vala src/manager_window.vala
 #: resources/transaction_sum_dialog.ui resources/manager_window.ui
@@ -379,12 +380,12 @@ msgstr "_Anuluj"
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
 msgid "The PGP key %s is needed to verify %s source files"
-msgstr ""
+msgstr "Klucz PGP %s jest potrzebny do weryfikacji plików źródłowych %s"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
 msgid "Trust %s and import the PGP key"
-msgstr ""
+msgstr "Zaufaj %s i importuj klucz PGP"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "To remove"
@@ -417,11 +418,11 @@ msgstr "Całkowity rozmiar pobierania"
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
 msgid "Edit %s build files"
-msgstr ""
+msgstr "Edytuj%s pliki budowania"
 
 #: src/transaction-gtk.vala
 msgid "Save"
-msgstr ""
+msgstr "Zapisz"
 
 #: src/transaction-gtk.vala resources/progress_dialog.ui
 #: resources/history_dialog.ui resources/preferences_dialog.ui
@@ -488,7 +489,7 @@ msgstr "Zainstaluj"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Build"
-msgstr ""
+msgstr "Zbuduj"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Remove"
@@ -589,7 +590,7 @@ msgstr "Pliki"
 
 #: src/manager_window.vala
 msgid "Build files"
-msgstr ""
+msgstr "Zbuduj pliki"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Install Reason"
@@ -717,7 +718,7 @@ msgstr "Jak często sprawdzać aktualizacje, wartość w godzinach"
 
 #: src/preferences_dialog.vala resources/preferences_dialog.ui
 msgid "Maximum parallel downloads"
-msgstr ""
+msgstr "Maksymalnie równoległych pobrań"
 
 #: src/preferences_dialog.vala resources/preferences_dialog.ui
 msgid "Number of versions of each package to keep in the cache"
@@ -738,11 +739,11 @@ msgstr "Wybierz ignorowane aktualizacje"
 #: src/transaction-cli.vala src/cli.vala
 #, c-format
 msgid "Enter a selection (default=%s)"
-msgstr ""
+msgstr "Podaj wybór (domyślnie= %s)"
 
 #: src/transaction-cli.vala
 msgid "none"
-msgstr ""
+msgstr "brak"
 
 #: src/transaction-cli.vala
 #, c-format
@@ -763,7 +764,7 @@ msgstr "tak"
 
 #: src/transaction-cli.vala resources/transaction_sum_dialog.ui
 msgid "Edit build files"
-msgstr ""
+msgstr "Edytuj pliki budowania"
 
 #: src/transaction-cli.vala
 msgid "Total installed size"
@@ -780,7 +781,7 @@ msgstr "Zatwierdź operację"
 #: src/transaction-cli.vala
 #, c-format
 msgid "View %s build files diff"
-msgstr ""
+msgstr "Podgląd różnic %s plików budowania"
 
 #: src/cli.vala
 msgid "Building packages as root is not allowed"
@@ -788,11 +789,11 @@ msgstr "Tworzenie pakietów w trybie administratora jest niedozwolone"
 
 #: src/cli.vala
 msgid "No PKGBUILD file found in current directory"
-msgstr ""
+msgstr "Nie znaleziono pliku PKGBUILD w bieżącym katalogu"
 
 #: src/cli.vala
 msgid "Check development packages updates as root is not allowed"
-msgstr ""
+msgstr "Sprawdzanie aktualizacji pakietów deweloperskich w trybie administratora jest niedozwolone"
 
 #: src/cli.vala
 msgid "Available actions"
@@ -816,7 +817,7 @@ msgstr "plik(i)"
 
 #: src/cli.vala
 msgid "also search in AUR"
-msgstr ""
+msgstr "wyszukaj również w AUR"
 
 #: src/cli.vala
 msgid ""
@@ -871,7 +872,7 @@ msgstr "listuje pliki należące do podanego pakietu"
 
 #: src/cli.vala
 msgid "Clone or sync packages build files from AUR"
-msgstr ""
+msgstr "Sklonuj lub zsynchronizuj pliki pakietów budowanych z AUR"
 
 #: src/cli.vala
 msgid "dir"
@@ -885,11 +886,11 @@ msgstr "katalog budowania, jeśli katalog nie jest podany - zostanie użyty kata
 
 #: src/cli.vala
 msgid "also clone needed dependencies"
-msgstr ""
+msgstr "pobierz także wymagane zależności"
 
 #: src/cli.vala
 msgid "overwrite existing files"
-msgstr ""
+msgstr "nadpisz istniejące pliki"
 
 #: src/cli.vala
 msgid "Build packages from AUR and install them with their dependencies"
@@ -898,17 +899,17 @@ msgstr "Buduj pakiety z AUR i zainstaluj wraz z zależnościami"
 #: src/cli.vala
 msgid ""
 "If no package name is given, use the PKGBUILD file in the current directory"
-msgstr ""
+msgstr "Jeśli nie podano nazwy pakietu, użyty zostanie plik PKGBUILD w bieżącym katalogu"
 
 #: src/cli.vala
 msgid ""
 "The build directory will be the parent directory, --builddir option will be "
 "ignored"
-msgstr ""
+msgstr "Katalog budowania będzie katalogiem nadrzędnym, opcja --builddir będzie ignorowana"
 
 #: src/cli.vala
 msgid "do not clone build files from AUR, only use local files"
-msgstr ""
+msgstr "nie klonuj plików budowania z AUR - użyj plików lokalnych"
 
 #: src/cli.vala
 msgid "glob"
@@ -950,17 +951,17 @@ msgstr "sprawdź także aktualizacje w AUR"
 
 #: src/cli.vala
 msgid "also check development packages updates (use with --aur)"
-msgstr ""
+msgstr "sprawdź też aktualizacje pakietów deweloperskich (użycie z --aur)"
 
 #: src/cli.vala
 msgid "only print one line per update"
-msgstr ""
+msgstr "wypisz tylko jedną linię dla każdej aktualizacji"
 
 #: src/cli.vala
 msgid ""
 "build directory (use with --devel), if no directory is given the one "
 "specified in pamac.conf file is used"
-msgstr ""
+msgstr "katalog budowania (użycie z --dlevel), jeśli nie podano katalogu, użyty zostanie katalog określony w pamac.conf"
 
 #: src/cli.vala
 msgid "Upgrade your system"
@@ -1021,7 +1022,7 @@ msgstr[3] "Jest %u członków grupy %s"
 
 #: src/cli.vala
 msgid "all"
-msgstr ""
+msgstr "wszystkie"
 
 #: resources/choose_provider_dialog.ui
 msgid "Choose a Provider"
@@ -1085,7 +1086,7 @@ msgstr "Przeinstaluj"
 
 #: resources/manager_window.ui
 msgid "Reset build files"
-msgstr ""
+msgstr "Resetuj pliki budowania"
 
 #: resources/manager_window.ui
 msgid "_Apply"
@@ -1104,6 +1105,10 @@ msgstr "Podczas usuwania pakietu usuwać także te zależności, które nie są 
 #: resources/preferences_dialog.ui
 msgid "Check available disk space"
 msgstr "Sprawdzaj dostępną przestrzeń dyskową"
+
+#: resources/preferences_dialog.ui
+msgid "Enable downgrade"
+msgstr ""
 
 #: resources/preferences_dialog.ui
 msgid "Check for updates"
@@ -1157,7 +1162,7 @@ msgstr "Sprawdzaj aktualizacje w AUR"
 
 #: resources/preferences_dialog.ui
 msgid "Check for development packages updates"
-msgstr ""
+msgstr "Sprawdź aktualizacje pakietów deweloperskich"
 
 #: resources/preferences_dialog.ui
 msgid "Remove only the versions of uninstalled packages"

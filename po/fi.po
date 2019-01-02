@@ -9,6 +9,7 @@
 # EscoP, 2015
 # Jari Lankinen <lankinen.jari@gmail.com>, 2018
 # Luki <jbkammer@gmail.com>, 2013,2015
+# Johannes Lakkisto <jclc@protonmail.com>, 2018
 # Luki <jbkammer@gmail.com>, 2013,2015
 # philm <philm@manjaro.org>, 2015
 # Sami Korkalainen, 2013-2014
@@ -20,9 +21,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2018-11-13 15:01+0100\n"
-"PO-Revision-Date: 2018-12-03 07:33+0000\n"
-"Last-Translator: Ammuu5\n"
+"POT-Creation-Date: 2018-12-26 12:00+0100\n"
+"PO-Revision-Date: 2018-12-30 05:12+0000\n"
+"Last-Translator: Johannes Lakkisto <jclc@protonmail.com>\n"
 "Language-Team: Finnish (http://www.transifex.com/manjarolinux/manjaro-pamac/language/fi/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -40,7 +41,7 @@ msgstr "alpm‐kirjaston valmistelu epäonnistui"
 
 #: src/alpm_utils.vala
 msgid "Failed to synchronize any databases"
-msgstr "Tietokantojen synkronointi epäonnistui."
+msgstr "Tietokantojen synkronointi epäonnistui"
 
 #: src/alpm_utils.vala
 msgid "Failed to init transaction"
@@ -173,7 +174,7 @@ msgstr "Tarkistetaan %s riippuvuuksia"
 #: src/transaction.vala
 #, c-format
 msgid "key %s could not be imported"
-msgstr ""
+msgstr "avainta %s ei voitu tuoda"
 
 #: src/transaction.vala
 msgid "Preparing"
@@ -348,7 +349,7 @@ msgstr "Paketinhallinta"
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
 msgid "Choose optional dependencies for %s"
-msgstr ""
+msgstr "Valitse valinnaiset riippuvuudet paketille %s"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
@@ -357,7 +358,7 @@ msgstr "Valitse tarjoaja kohteelle %s"
 
 #: src/transaction-gtk.vala
 msgid "Import PGP key"
-msgstr ""
+msgstr "Tuo PGP-avain"
 
 #: src/transaction-gtk.vala
 msgid "Trust and Import"
@@ -372,7 +373,7 @@ msgstr "_Peruuta"
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
 msgid "The PGP key %s is needed to verify %s source files"
-msgstr ""
+msgstr "PGP-avain %s vaaditaan lähdetiedostojen %s todentamiseksi"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
@@ -427,7 +428,7 @@ msgstr "Odotetaan toisen pakettienhallintatyökalun lopettavan"
 
 #: src/installer.vala src/cli.vala
 msgid "Install packages from repositories, path or url"
-msgstr ""
+msgstr "Asenna paketteja pakettivarastoista, polusta tai URL:ista"
 
 #: src/installer.vala src/cli.vala
 msgid "Remove packages"
@@ -727,11 +728,11 @@ msgstr "Valitse ohitettavat päivitykset"
 #: src/transaction-cli.vala src/cli.vala
 #, c-format
 msgid "Enter a selection (default=%s)"
-msgstr ""
+msgstr "Syötä valinta (oletus=%s)"
 
 #: src/transaction-cli.vala
 msgid "none"
-msgstr ""
+msgstr "ei mikään"
 
 #: src/transaction-cli.vala
 #, c-format
@@ -740,15 +741,15 @@ msgstr "Syötä numero (oletus=%d)"
 
 #: src/transaction-cli.vala
 msgid "[y/N]"
-msgstr ""
+msgstr "[k/N]"
 
 #: src/transaction-cli.vala
 msgid "y"
-msgstr ""
+msgstr "k"
 
 #: src/transaction-cli.vala
 msgid "yes"
-msgstr ""
+msgstr "kyllä"
 
 #: src/transaction-cli.vala resources/transaction_sum_dialog.ui
 msgid "Edit build files"
@@ -764,7 +765,7 @@ msgstr "Koko poistettuna yhteensä"
 
 #: src/transaction-cli.vala
 msgid "Commit transaction"
-msgstr ""
+msgstr "Toteuta toimenpide"
 
 #: src/transaction-cli.vala
 #, c-format
@@ -773,11 +774,11 @@ msgstr "Näytä %s koontitiedostojen eroavaisuudet"
 
 #: src/cli.vala
 msgid "Building packages as root is not allowed"
-msgstr ""
+msgstr "Pakettien koontia root-käyttäjänä ei ole sallittu"
 
 #: src/cli.vala
 msgid "No PKGBUILD file found in current directory"
-msgstr ""
+msgstr "PKGBUILD-tiedostoa ei löytynyt nykyisestä hakemistosta"
 
 #: src/cli.vala
 msgid "Check development packages updates as root is not allowed"
@@ -805,7 +806,7 @@ msgstr "tiedosto(t)"
 
 #: src/cli.vala
 msgid "also search in AUR"
-msgstr ""
+msgstr "etsi myös AUR:ista"
 
 #: src/cli.vala
 msgid ""
@@ -822,11 +823,11 @@ msgstr ""
 
 #: src/cli.vala
 msgid "group(s)"
-msgstr ""
+msgstr "ryhmä(t)"
 
 #: src/cli.vala
 msgid "repo(s)"
-msgstr ""
+msgstr "pakettivarasto(t)"
 
 #: src/cli.vala
 msgid "list installed packages"
@@ -897,7 +898,7 @@ msgstr ""
 
 #: src/cli.vala
 msgid "do not clone build files from AUR, only use local files"
-msgstr ""
+msgstr "älä kloonaa koontitiedostoja AUR:ista, käytä vain paikallisia tiedostoja"
 
 #: src/cli.vala
 msgid "glob"
@@ -1091,6 +1092,10 @@ msgstr "Pakettia poistettaessa, poista myös pakettiriippuvuudet jotka eivät ol
 #: resources/preferences_dialog.ui
 msgid "Check available disk space"
 msgstr "Tarkista kovalevyn käytettävissä oleva koko"
+
+#: resources/preferences_dialog.ui
+msgid "Enable downgrade"
+msgstr ""
 
 #: resources/preferences_dialog.ui
 msgid "Check for updates"

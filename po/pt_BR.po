@@ -19,6 +19,7 @@
 # Gustavo Martins <gustavo737@gmail.com>, 2018
 # Holmes <holmes_holmes@live.com>, 2013-2014
 # Holmes <holmes_holmes@live.com>, 2013
+# José Elias <jose.elias.0703@gmail.com>, 2018
 # Julio Neto <julioneto@id.uff.br>, 2018
 # Leonardo Teodoro <leonardosilvateodoro@hotmail.com>, 2018
 # Luis Fernando Planella Gonzalez <lfpg.dev@gmail.com>, 2017
@@ -35,9 +36,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2018-11-13 15:01+0100\n"
-"PO-Revision-Date: 2018-11-13 14:07+0000\n"
-"Last-Translator: Guillaume Benoit <guillaume@manjaro.org>\n"
+"POT-Creation-Date: 2018-12-26 12:00+0100\n"
+"PO-Revision-Date: 2018-12-30 12:30+0000\n"
+"Last-Translator: José Elias <jose.elias.0703@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -372,11 +373,11 @@ msgstr "Escolha um provedor para %s"
 
 #: src/transaction-gtk.vala
 msgid "Import PGP key"
-msgstr ""
+msgstr "Importar chave PGP"
 
 #: src/transaction-gtk.vala
 msgid "Trust and Import"
-msgstr ""
+msgstr "Confiar e Importar"
 
 #: src/transaction-gtk.vala src/manager_window.vala
 #: resources/transaction_sum_dialog.ui resources/manager_window.ui
@@ -721,7 +722,7 @@ msgstr "Vezes para verificar se há atualizações, o valor em horas"
 
 #: src/preferences_dialog.vala resources/preferences_dialog.ui
 msgid "Maximum parallel downloads"
-msgstr ""
+msgstr "Máximo de downloads paralelos"
 
 #: src/preferences_dialog.vala resources/preferences_dialog.ui
 msgid "Number of versions of each package to keep in the cache"
@@ -746,7 +747,7 @@ msgstr ""
 
 #: src/transaction-cli.vala
 msgid "none"
-msgstr ""
+msgstr "nenhum"
 
 #: src/transaction-cli.vala
 #, c-format
@@ -796,7 +797,7 @@ msgstr "Nenhum arquivo PKGBUILD encontrado no diretório atual"
 
 #: src/cli.vala
 msgid "Check development packages updates as root is not allowed"
-msgstr ""
+msgstr "Verificar atualizações de pacotes de desenvolvimento, já que o root não é permitido"
 
 #: src/cli.vala
 msgid "Available actions"
@@ -820,7 +821,7 @@ msgstr "arquivo(s)"
 
 #: src/cli.vala
 msgid "also search in AUR"
-msgstr ""
+msgstr "também pesquisar no AUR"
 
 #: src/cli.vala
 msgid ""
@@ -875,7 +876,7 @@ msgstr "listar arquivos que são de propriedade dos pacotes especificados"
 
 #: src/cli.vala
 msgid "Clone or sync packages build files from AUR"
-msgstr ""
+msgstr "Clonar ou sincronizar arquivos de pacotes de construção do AUR"
 
 #: src/cli.vala
 msgid "dir"
@@ -908,15 +909,15 @@ msgstr "Se nenhum nome de pacote for fornecido, usar o arquivo PKGBUILD no diret
 msgid ""
 "The build directory will be the parent directory, --builddir option will be "
 "ignored"
-msgstr ""
+msgstr "O diretório de construção será o diretório pai, a opção --builddir será ignorada"
 
 #: src/cli.vala
 msgid "do not clone build files from AUR, only use local files"
-msgstr ""
+msgstr "não clonar arquivos de construção do AUR, use apenas arquivos locais"
 
 #: src/cli.vala
 msgid "glob"
-msgstr ""
+msgstr "glob"
 
 #: src/cli.vala
 msgid ""
@@ -954,7 +955,7 @@ msgstr "também procurar atualizações no AUR"
 
 #: src/cli.vala
 msgid "also check development packages updates (use with --aur)"
-msgstr ""
+msgstr "também verificar atualizações de pacotes de desenvolvimento (use com --aur)"
 
 #: src/cli.vala
 msgid "only print one line per update"
@@ -1108,6 +1109,10 @@ msgid "Check available disk space"
 msgstr "Verificar o espaço disponível em disco"
 
 #: resources/preferences_dialog.ui
+msgid "Enable downgrade"
+msgstr ""
+
+#: resources/preferences_dialog.ui
 msgid "Check for updates"
 msgstr "Verificar atualizações"
 
@@ -1159,7 +1164,7 @@ msgstr "Verificar atualizações do AUR"
 
 #: resources/preferences_dialog.ui
 msgid "Check for development packages updates"
-msgstr ""
+msgstr "Verificar por atualizações de pacotes de desenvolvimento"
 
 #: resources/preferences_dialog.ui
 msgid "Remove only the versions of uninstalled packages"

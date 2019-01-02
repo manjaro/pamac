@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2018-11-13 15:01+0100\n"
-"PO-Revision-Date: 2018-11-13 16:33+0000\n"
+"POT-Creation-Date: 2018-12-26 12:00+0100\n"
+"PO-Revision-Date: 2018-12-28 11:33+0000\n"
 "Last-Translator: Heimen Stoffels <vistausss@outlook.com>\n"
 "Language-Team: Dutch (Netherlands) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/nl_NL/)\n"
 "MIME-Version: 1.0\n"
@@ -1085,6 +1085,10 @@ msgstr "Verwijder, bij het verwijderen van een pakket, ook de afhankelijkheden d
 #: resources/preferences_dialog.ui
 msgid "Check available disk space"
 msgstr "Beschikbare schijfruimte controleren"
+
+#: resources/preferences_dialog.ui
+msgid "Enable downgrade"
+msgstr "Afwaarderen inschakelen"
 
 #: resources/preferences_dialog.ui
 msgid "Check for updates"

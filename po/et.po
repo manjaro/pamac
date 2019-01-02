@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2018-11-13 15:01+0100\n"
-"PO-Revision-Date: 2018-11-13 18:36+0000\n"
+"POT-Creation-Date: 2018-12-26 12:00+0100\n"
+"PO-Revision-Date: 2018-12-28 07:37+0000\n"
 "Last-Translator: Madis\n"
 "Language-Team: Estonian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/et/)\n"
 "MIME-Version: 1.0\n"
@@ -1084,6 +1084,10 @@ msgstr "Paketi eemaldamisel eemalda ka tema sõltuvused, mis ei ole enam ühegi 
 #: resources/preferences_dialog.ui
 msgid "Check available disk space"
 msgstr "Kontrolli olemasolevat kettaruumi"
+
+#: resources/preferences_dialog.ui
+msgid "Enable downgrade"
+msgstr "Luba vanemad versioonid"
 
 #: resources/preferences_dialog.ui
 msgid "Check for updates"

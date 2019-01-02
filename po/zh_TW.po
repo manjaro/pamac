@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2018-11-13 15:01+0100\n"
-"PO-Revision-Date: 2018-11-14 02:38+0000\n"
+"POT-Creation-Date: 2018-12-26 12:00+0100\n"
+"PO-Revision-Date: 2018-12-28 02:43+0000\n"
 "Last-Translator: Jeff Huang <s8321414@gmail.com>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
@@ -1079,6 +1079,10 @@ msgstr "當移除一個軟體包時，同時移除它的不被其他軟體包需
 #: resources/preferences_dialog.ui
 msgid "Check available disk space"
 msgstr "檢查可用磁碟空間"
+
+#: resources/preferences_dialog.ui
+msgid "Enable downgrade"
+msgstr "啟用降級"
 
 #: resources/preferences_dialog.ui
 msgid "Check for updates"

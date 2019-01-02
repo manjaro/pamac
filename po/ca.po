@@ -8,7 +8,7 @@
 # Davidmp <medipas@gmail.com>, 2015
 # Guillaume Benoit <guillaume@manjaro.org>, 2013
 # Ramon Buldó <rbuldo@gmail.com>, 2013
-# Davidmp <medipas@gmail.com>, 2015-2018
+# Davidmp <medipas@gmail.com>, 2015-2019
 # Oriol Fernandez <oriolfa@ono.com>, 2013-2014
 # philm <philm@manjaro.org>, 2015
 # Ramon Buldó <rbuldo@gmail.com>, 2013,2016
@@ -18,9 +18,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2018-11-13 15:01+0100\n"
-"PO-Revision-Date: 2018-11-13 14:07+0000\n"
-"Last-Translator: Guillaume Benoit <guillaume@manjaro.org>\n"
+"POT-Creation-Date: 2018-12-26 12:00+0100\n"
+"PO-Revision-Date: 2019-01-01 10:50+0000\n"
+"Last-Translator: Davidmp <medipas@gmail.com>\n"
 "Language-Team: Catalan (http://www.transifex.com/manjarolinux/manjaro-pamac/language/ca/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -171,7 +171,7 @@ msgstr "Comprovant %s dependències"
 #: src/transaction.vala
 #, c-format
 msgid "key %s could not be imported"
-msgstr ""
+msgstr "la clau %s no s'ha pogut importar"
 
 #: src/transaction.vala
 msgid "Preparing"
@@ -346,7 +346,7 @@ msgstr "Gestor de paquets"
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
 msgid "Choose optional dependencies for %s"
-msgstr ""
+msgstr "Trieu les dependències opcionals per a %s"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
@@ -355,11 +355,11 @@ msgstr "Trieu un proveïdor per a %s"
 
 #: src/transaction-gtk.vala
 msgid "Import PGP key"
-msgstr ""
+msgstr "Importa la clau PGP"
 
 #: src/transaction-gtk.vala
 msgid "Trust and Import"
-msgstr ""
+msgstr "Confia-hi i importa-la"
 
 #: src/transaction-gtk.vala src/manager_window.vala
 #: resources/transaction_sum_dialog.ui resources/manager_window.ui
@@ -370,12 +370,12 @@ msgstr "_Cancel·la"
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
 msgid "The PGP key %s is needed to verify %s source files"
-msgstr ""
+msgstr "La clau PGP %s és necessària per verificar %s fitxers de codi font."
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
 msgid "Trust %s and import the PGP key"
-msgstr ""
+msgstr "Confia en %s i importa'n la clau PGP"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "To remove"
@@ -704,7 +704,7 @@ msgstr "Freqüència per comprovar si hi ha actualitzacions, valor en hores"
 
 #: src/preferences_dialog.vala resources/preferences_dialog.ui
 msgid "Maximum parallel downloads"
-msgstr ""
+msgstr "Màxim de baixades en paral·lel"
 
 #: src/preferences_dialog.vala resources/preferences_dialog.ui
 msgid "Number of versions of each package to keep in the cache"
@@ -725,11 +725,11 @@ msgstr "Trieu les actualitzacions que s'ignoren."
 #: src/transaction-cli.vala src/cli.vala
 #, c-format
 msgid "Enter a selection (default=%s)"
-msgstr ""
+msgstr "Introduïu una selecció (per defecte = %s)"
 
 #: src/transaction-cli.vala
 msgid "none"
-msgstr ""
+msgstr "cap"
 
 #: src/transaction-cli.vala
 #, c-format
@@ -779,7 +779,7 @@ msgstr "No s'ha trobat cap fitxer PKGBUILD al directori actual."
 
 #: src/cli.vala
 msgid "Check development packages updates as root is not allowed"
-msgstr ""
+msgstr "No es permet comprovar si hi ha actualitzacions de paquets de desenvolupament com a usuari d'arrel"
 
 #: src/cli.vala
 msgid "Available actions"
@@ -803,7 +803,7 @@ msgstr "fitxer/s"
 
 #: src/cli.vala
 msgid "also search in AUR"
-msgstr ""
+msgstr "cerca també a l'AUR"
 
 #: src/cli.vala
 msgid ""
@@ -937,17 +937,17 @@ msgstr "Comprova també les actualitzacions de l'AUR."
 
 #: src/cli.vala
 msgid "also check development packages updates (use with --aur)"
-msgstr ""
+msgstr "comprova també si hi ha actualitzacions de paquets de desenvolupament (useu-ho amb --aur)"
 
 #: src/cli.vala
 msgid "only print one line per update"
-msgstr ""
+msgstr "imprimeix només una línia per cada actualització"
 
 #: src/cli.vala
 msgid ""
 "build directory (use with --devel), if no directory is given the one "
 "specified in pamac.conf file is used"
-msgstr ""
+msgstr "directori de construcció (useu-ho amb --devel); si no se'n diu cap, s'usa el que s'especifica al fitxer pamac.conf"
 
 #: src/cli.vala
 msgid "Upgrade your system"
@@ -1006,7 +1006,7 @@ msgstr[1] "Hi ha %u membres al grup %s."
 
 #: src/cli.vala
 msgid "all"
-msgstr ""
+msgstr "tot"
 
 #: resources/choose_provider_dialog.ui
 msgid "Choose a Provider"
@@ -1091,6 +1091,10 @@ msgid "Check available disk space"
 msgstr "Comprova l'espai disponible al disc"
 
 #: resources/preferences_dialog.ui
+msgid "Enable downgrade"
+msgstr "Habilita la desactualització"
+
+#: resources/preferences_dialog.ui
 msgid "Check for updates"
 msgstr "Comprova si hi ha actualitzacions"
 
@@ -1142,7 +1146,7 @@ msgstr "Comprova si hi ha actualitzacions de l'AUR."
 
 #: resources/preferences_dialog.ui
 msgid "Check for development packages updates"
-msgstr ""
+msgstr "Comprova si hi ha actualitzacions de paquets de desenvolupament"
 
 #: resources/preferences_dialog.ui
 msgid "Remove only the versions of uninstalled packages"

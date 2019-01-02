@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2018-11-13 15:01+0100\n"
-"PO-Revision-Date: 2018-11-16 08:31+0000\n"
+"POT-Creation-Date: 2018-12-26 12:00+0100\n"
+"PO-Revision-Date: 2018-12-28 21:15+0000\n"
 "Last-Translator: Demiray Muhterem <mdemiray@msn.com>\n"
 "Language-Team: Turkish (http://www.transifex.com/manjarolinux/manjaro-pamac/language/tr/)\n"
 "MIME-Version: 1.0\n"
@@ -1086,6 +1086,10 @@ msgstr "Bir paket kaldırılırken, başka bir uygulama aynı bağımlılıklar�
 #: resources/preferences_dialog.ui
 msgid "Check available disk space"
 msgstr "Kullanılabilir disk alanını kontrol et"
+
+#: resources/preferences_dialog.ui
+msgid "Enable downgrade"
+msgstr "Sürüm düşürmeyi etkinleştir"
 
 #: resources/preferences_dialog.ui
 msgid "Check for updates"

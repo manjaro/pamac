@@ -18,9 +18,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2018-11-13 15:01+0100\n"
-"PO-Revision-Date: 2018-11-13 14:07+0000\n"
-"Last-Translator: Guillaume Benoit <guillaume@manjaro.org>\n"
+"POT-Creation-Date: 2018-12-26 12:00+0100\n"
+"PO-Revision-Date: 2018-12-28 00:23+0000\n"
+"Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Persian (Iran) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/fa_IR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1089,6 +1089,10 @@ msgstr "زمانی که  یک بسته را حذف می کنید، وابستگ�
 #: resources/preferences_dialog.ui
 msgid "Check available disk space"
 msgstr "بررسی فضای موجود بر روی دیسک"
+
+#: resources/preferences_dialog.ui
+msgid "Enable downgrade"
+msgstr ""
 
 #: resources/preferences_dialog.ui
 msgid "Check for updates"
