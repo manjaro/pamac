@@ -847,9 +847,11 @@ namespace Pamac {
 								if (db != null) {
 									if (db.name == "aur") {
 										// it is a aur pkg to build
-										if (aur_pkgbases_to_build.find_custom (trans_pkg.pkgbase, strcmp) == null) {
-											aur_pkgbases_to_build.append (trans_pkg.pkgbase);
+										unowned SList<string> found = aur_pkgbases_to_build.find_custom (trans_pkg.pkgbase, strcmp);
+										if (found != null) {
+											aur_pkgbases_to_build.delete_link (found);
 										}
+										aur_pkgbases_to_build.append (trans_pkg.pkgbase);
 										to_build_pkgs += AURPackageStruct () {
 											name = trans_pkg.name,
 											version = trans_pkg.version,
