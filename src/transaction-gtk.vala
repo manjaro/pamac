@@ -27,6 +27,7 @@ namespace Pamac {
 		public ProgressBox progress_box;
 		uint pulse_timeout_id;
 		public Gtk.ScrolledWindow details_window;
+		double scroll_value;
 		public Gtk.TextView details_textview;
 		public Gtk.Notebook build_files_notebook;
 		public ChoosePkgsDialog choose_pkgs_dialog;
@@ -119,9 +120,11 @@ namespace Pamac {
 			details_textview.buffer.get_end_iter (out iter);
 			details_textview.buffer.insert (ref iter, message, -1);
 			details_textview.buffer.insert (ref iter, "\n", 1);
-			// scroll the mark onscreen
-			unowned Gtk.TextMark mark = details_textview.buffer.get_mark ("scroll");
-			details_textview.scroll_mark_onscreen (mark);
+			if (details_window.vadjustment.value >= scroll_value) {
+				scroll_value = details_window.vadjustment.value;
+				// scroll the mark onscreen
+				details_textview.scroll_mark_onscreen (details_textview.buffer.get_mark ("scroll"));
+			}
 		}
 
 		void display_action (string action) {
