@@ -5,7 +5,7 @@
 # 
 # Translators:
 # Dušan Kazik, 2014
-# Dušan Kazik <prescott66@gmail.com>, 2014-2018
+# Dušan Kazik <prescott66@gmail.com>, 2014-2019
 # Inoki Sakaeru, 2013
 # Miroslav Ďurian <aasami@gmail.com>, 2018
 # Patrik Bubák, 2014
@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2018-12-26 12:00+0100\n"
-"PO-Revision-Date: 2018-12-29 13:37+0000\n"
+"PO-Revision-Date: 2019-01-05 22:13+0000\n"
 "Last-Translator: Dušan Kazik <prescott66@gmail.com>\n"
 "Language-Team: Slovak (http://www.transifex.com/manjarolinux/manjaro-pamac/language/sk/)\n"
 "MIME-Version: 1.0\n"
@@ -297,11 +297,11 @@ msgstr "%s bol nainštalovaný ako %s.pacsave"
 
 #: src/transaction.vala
 msgid "Running pre-transaction hooks"
-msgstr "Spúšťajú sa predtransakčné háky"
+msgstr "Spúšťajú sa predtransakčné háčiky"
 
 #: src/transaction.vala
 msgid "Running post-transaction hooks"
-msgstr "Spúšťajú sa potransakčné háky"
+msgstr "Spúšťajú sa potransakčné háčiky"
 
 #: src/transaction.vala
 #, c-format
@@ -703,7 +703,7 @@ msgstr "Rozhranie Gtk3 pre knižnicu libalpm"
 
 #: src/preferences_dialog.vala resources/preferences_dialog.ui
 msgid "How often to check for updates, value in hours"
-msgstr "Ako často kontrolovať aktualizácie, hodnota je v hodinách"
+msgstr "Ako často kontrolovať aktualizácie (hodnota je v hodinách)"
 
 #: src/preferences_dialog.vala resources/preferences_dialog.ui
 msgid "Maximum parallel downloads"

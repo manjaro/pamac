@@ -22,15 +22,15 @@
 # Italwizzie, 2014
 # Paolo Dongilli <paolo.dongilli@gmail.com>, 2013,2015
 # philm <philm@manjaro.org>, 2015
-# Pietro Francesco Fontana, 2017-2018
+# Pietro Francesco Fontana, 2017-2019
 # Saverio <saverio.brancaccio@gmail.com>, 2018
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2018-12-26 12:00+0100\n"
-"PO-Revision-Date: 2018-12-28 00:23+0000\n"
-"Last-Translator: philm <philm@manjaro.org>\n"
+"PO-Revision-Date: 2019-02-22 22:32+0000\n"
+"Last-Translator: Pietro Francesco Fontana\n"
 "Language-Team: Italian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/it/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -181,7 +181,7 @@ msgstr "Controllo %s dipendenze in corso"
 #: src/transaction.vala
 #, c-format
 msgid "key %s could not be imported"
-msgstr ""
+msgstr "la chiave %s non può essere importata"
 
 #: src/transaction.vala
 msgid "Preparing"
@@ -356,7 +356,7 @@ msgstr "Gestore dei pacchetti"
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
 msgid "Choose optional dependencies for %s"
-msgstr ""
+msgstr "Scegli le dipendenze opzionali per %s"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
@@ -365,11 +365,11 @@ msgstr "Scegli un provider per %s"
 
 #: src/transaction-gtk.vala
 msgid "Import PGP key"
-msgstr ""
+msgstr "Importa la chiave PGP"
 
 #: src/transaction-gtk.vala
 msgid "Trust and Import"
-msgstr ""
+msgstr "Ritieni affidabile e Importa"
 
 #: src/transaction-gtk.vala src/manager_window.vala
 #: resources/transaction_sum_dialog.ui resources/manager_window.ui
@@ -380,12 +380,12 @@ msgstr "_Annulla"
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
 msgid "The PGP key %s is needed to verify %s source files"
-msgstr ""
+msgstr "La chiave PGP %s è richiesta per verificare i file sorgenti di %s"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
 msgid "Trust %s and import the PGP key"
-msgstr ""
+msgstr "Ritieni affidabile %s e importa la chiave PGP"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "To remove"
@@ -714,7 +714,7 @@ msgstr "Con quale frequenza controllare gli aggiornamenti, il valore in ore"
 
 #: src/preferences_dialog.vala resources/preferences_dialog.ui
 msgid "Maximum parallel downloads"
-msgstr ""
+msgstr "Massimo numero di download paralleli"
 
 #: src/preferences_dialog.vala resources/preferences_dialog.ui
 msgid "Number of versions of each package to keep in the cache"
@@ -735,11 +735,11 @@ msgstr "Seleziona gli aggiornamenti ignorati"
 #: src/transaction-cli.vala src/cli.vala
 #, c-format
 msgid "Enter a selection (default=%s)"
-msgstr ""
+msgstr "Inserisci una scelta (predefinita=%s)"
 
 #: src/transaction-cli.vala
 msgid "none"
-msgstr ""
+msgstr "nessuno"
 
 #: src/transaction-cli.vala
 #, c-format
@@ -789,7 +789,7 @@ msgstr "Non è stato trovato alcun file PKGBUILD nella cartella attuale"
 
 #: src/cli.vala
 msgid "Check development packages updates as root is not allowed"
-msgstr ""
+msgstr "Non è permesso controllare la presenza di aggiornamenti per pacchetti di sviluppo come root"
 
 #: src/cli.vala
 msgid "Available actions"
@@ -813,7 +813,7 @@ msgstr "file(s)"
 
 #: src/cli.vala
 msgid "also search in AUR"
-msgstr ""
+msgstr "cerca anche in AUR"
 
 #: src/cli.vala
 msgid ""
@@ -947,17 +947,17 @@ msgstr "controlla gli aggiornamenti anche in AUR"
 
 #: src/cli.vala
 msgid "also check development packages updates (use with --aur)"
-msgstr ""
+msgstr "cerca aggiornamenti anche per i pacchetti di sviluppo (da utilizzare con --aur)"
 
 #: src/cli.vala
 msgid "only print one line per update"
-msgstr ""
+msgstr "stampa solo una linea per aggiornamento"
 
 #: src/cli.vala
 msgid ""
 "build directory (use with --devel), if no directory is given the one "
 "specified in pamac.conf file is used"
-msgstr ""
+msgstr "cartella di compilazione (da utilizzare con --devel), se non viene fornita alcuna cartella verrà utilizzata quella specificata nel file pamac.conf"
 
 #: src/cli.vala
 msgid "Upgrade your system"
@@ -1016,7 +1016,7 @@ msgstr[1] "Ci sono %u membri nel gruppo %s"
 
 #: src/cli.vala
 msgid "all"
-msgstr ""
+msgstr "tutti"
 
 #: resources/choose_provider_dialog.ui
 msgid "Choose a Provider"
@@ -1102,7 +1102,7 @@ msgstr "Controlla spazio disponibile su disco"
 
 #: resources/preferences_dialog.ui
 msgid "Enable downgrade"
-msgstr ""
+msgstr "Abilita downgrade"
 
 #: resources/preferences_dialog.ui
 msgid "Check for updates"
@@ -1156,7 +1156,7 @@ msgstr "Controlla gli aggiornamenti da AUR"
 
 #: resources/preferences_dialog.ui
 msgid "Check for development packages updates"
-msgstr ""
+msgstr "Controlla aggiornamenti per pacchetti di sviluppo"
 
 #: resources/preferences_dialog.ui
 msgid "Remove only the versions of uninstalled packages"

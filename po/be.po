@@ -4,14 +4,14 @@
 # Guillaume Benoit <guillaume@manjaro.org>, 2013-2018.
 # 
 # Translators:
-# Zmicer Turok <zmicerturok@gmail.com>, 2018
+# Zmicer Turok <zmicerturok@gmail.com>, 2018-2019
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2018-12-26 12:00+0100\n"
-"PO-Revision-Date: 2018-12-28 00:23+0000\n"
-"Last-Translator: philm <philm@manjaro.org>\n"
+"PO-Revision-Date: 2019-01-16 21:00+0000\n"
+"Last-Translator: Zmicer Turok <zmicerturok@gmail.com>\n"
 "Language-Team: Belarusian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/be/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -147,22 +147,22 @@ msgstr "Сінхранізацыя баз даных пакункаў"
 #: src/transaction.vala src/cli.vala
 #, c-format
 msgid "Cloning %s build files"
-msgstr ""
+msgstr "Капіяванне файлаў для зборкі %s"
 
 #: src/transaction.vala
 #, c-format
 msgid "Generating %s informations"
-msgstr ""
+msgstr "Збор інфармацыі па %s"
 
 #: src/transaction.vala
 #, c-format
 msgid "Checking %s dependencies"
-msgstr ""
+msgstr "Праверка залежнасцяў %s"
 
 #: src/transaction.vala
 #, c-format
 msgid "key %s could not be imported"
-msgstr ""
+msgstr "ключ %s немагчыма імпартаваць"
 
 #: src/transaction.vala
 msgid "Preparing"
@@ -330,7 +330,7 @@ msgstr "Няма задач"
 
 #: src/transaction.vala src/transaction-gtk.vala
 msgid "Transaction successfully finished"
-msgstr "Транзакцыя паспяхова завершана"
+msgstr "Транзакцыя паспяхова завершаная"
 
 #: src/transaction-gtk.vala src/tray.vala src/manager_window.vala
 msgid "Package Manager"
@@ -339,7 +339,7 @@ msgstr "Кіраўнік пакункаў"
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
 msgid "Choose optional dependencies for %s"
-msgstr ""
+msgstr "Абярыце неабавязковыя залежнасці для %s"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
@@ -348,11 +348,11 @@ msgstr "Абярыце правайдэра для %s"
 
 #: src/transaction-gtk.vala
 msgid "Import PGP key"
-msgstr ""
+msgstr "Імпарт ключа PGP"
 
 #: src/transaction-gtk.vala
 msgid "Trust and Import"
-msgstr ""
+msgstr "Ухваліць і імпартаваць"
 
 #: src/transaction-gtk.vala src/manager_window.vala
 #: resources/transaction_sum_dialog.ui resources/manager_window.ui
@@ -376,7 +376,7 @@ msgstr "Да выдалення"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "To downgrade"
-msgstr "Да аткату"
+msgstr "Да адраблення"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "To build"
@@ -430,7 +430,7 @@ msgstr "пакунак(кі)"
 
 #: src/tray.vala src/manager_window.vala src/cli.vala
 msgid "Your system is up-to-date"
-msgstr "Сістэма абноўлена"
+msgstr "Сістэма абноўленая"
 
 #: src/tray.vala
 msgid "_Quit"
@@ -593,7 +593,7 @@ msgstr "Рэпазіторый"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Package Base"
-msgstr "База пакунка"
+msgstr "База пакункаў"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Maintainer"

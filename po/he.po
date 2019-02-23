@@ -9,13 +9,14 @@
 # GenghisKhan <genghiskhan@gmx.ca>, 2013-2016
 # Xc Vb <kassavlt@gmail.com>, 2014
 # philm <philm@manjaro.org>, 2015
+# Xc Vb <kassavlt@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2018-12-26 12:00+0100\n"
-"PO-Revision-Date: 2018-12-28 00:23+0000\n"
-"Last-Translator: philm <philm@manjaro.org>\n"
+"PO-Revision-Date: 2019-02-08 13:47+0000\n"
+"Last-Translator: Eyal Reiner <eyal.reiner@yandex.com>\n"
 "Language-Team: Hebrew (http://www.transifex.com/manjarolinux/manjaro-pamac/language/he/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -151,22 +152,22 @@ msgstr "כעת מסנכרן מסדי נתוני חבילה"
 #: src/transaction.vala src/cli.vala
 #, c-format
 msgid "Cloning %s build files"
-msgstr ""
+msgstr "משכפל %s קבצי מערכת"
 
 #: src/transaction.vala
 #, c-format
 msgid "Generating %s informations"
-msgstr ""
+msgstr "מייצר %s אינפורמציה"
 
 #: src/transaction.vala
 #, c-format
 msgid "Checking %s dependencies"
-msgstr ""
+msgstr "בודק %s דרישות הכרחיות"
 
 #: src/transaction.vala
 #, c-format
 msgid "key %s could not be imported"
-msgstr ""
+msgstr "מפתח %s לא ניתן לייבוא"
 
 #: src/transaction.vala
 msgid "Preparing"
@@ -295,11 +296,11 @@ msgstr "%s מותקנת בתור %s.pacsave"
 
 #: src/transaction.vala
 msgid "Running pre-transaction hooks"
-msgstr "מריץ pre-transaction hooks"
+msgstr "מריץ חיבורי טרום טרנזאקציה"
 
 #: src/transaction.vala
 msgid "Running post-transaction hooks"
-msgstr "מריץ post-transaction hooks"
+msgstr "מריץ חיבורים פוסט טרנזאקציה"
 
 #: src/transaction.vala
 #, c-format
@@ -343,7 +344,7 @@ msgstr "מנהל חבילה"
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
 msgid "Choose optional dependencies for %s"
-msgstr ""
+msgstr "בחר תלויות אופציונליות עבור %s"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
@@ -352,11 +353,11 @@ msgstr "בחר ספק עבור %s"
 
 #: src/transaction-gtk.vala
 msgid "Import PGP key"
-msgstr ""
+msgstr "ייבא מתתח PGP"
 
 #: src/transaction-gtk.vala
 msgid "Trust and Import"
-msgstr ""
+msgstr "אשר וייבא"
 
 #: src/transaction-gtk.vala src/manager_window.vala
 #: resources/transaction_sum_dialog.ui resources/manager_window.ui
@@ -367,12 +368,12 @@ msgstr "_ביטול"
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
 msgid "The PGP key %s is needed to verify %s source files"
-msgstr ""
+msgstr "מפתח ה-PGP %s דרוש על מנת לוודא %s קבצי מקור"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
 msgid "Trust %s and import the PGP key"
-msgstr ""
+msgstr "אשר %s וייבא מפתח PGP"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "To remove"
@@ -405,11 +406,11 @@ msgstr "גודל הורדה כולל"
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
 msgid "Edit %s build files"
-msgstr ""
+msgstr "ערוך %s קבצי מערכת"
 
 #: src/transaction-gtk.vala
 msgid "Save"
-msgstr ""
+msgstr "שמור"
 
 #: src/transaction-gtk.vala resources/progress_dialog.ui
 #: resources/history_dialog.ui resources/preferences_dialog.ui
@@ -422,15 +423,15 @@ msgstr "ממתין למנהל חבילות אחר לחדול מפעולתו"
 
 #: src/installer.vala src/cli.vala
 msgid "Install packages from repositories, path or url"
-msgstr ""
+msgstr "התקן חבילות ממאגרים, נתיב בכונן או קישור"
 
 #: src/installer.vala src/cli.vala
 msgid "Remove packages"
-msgstr ""
+msgstr "הסר חבילות"
 
 #: src/installer.vala src/cli.vala
 msgid "package(s)"
-msgstr ""
+msgstr "חבילה(ות)"
 
 #: src/tray.vala src/manager_window.vala src/cli.vala
 msgid "Your system is up-to-date"
@@ -476,7 +477,7 @@ msgstr "התקן"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Build"
-msgstr ""
+msgstr "בנה"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Remove"
@@ -577,7 +578,7 @@ msgstr "קבצים"
 
 #: src/manager_window.vala
 msgid "Build files"
-msgstr ""
+msgstr "בנה קבצים"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Install Reason"
@@ -705,7 +706,7 @@ msgstr "מהי תדירות בדיקת העדכונים, בשעות"
 
 #: src/preferences_dialog.vala resources/preferences_dialog.ui
 msgid "Maximum parallel downloads"
-msgstr ""
+msgstr "מקסימום הורדות מקבילות"
 
 #: src/preferences_dialog.vala resources/preferences_dialog.ui
 msgid "Number of versions of each package to keep in the cache"
@@ -726,16 +727,16 @@ msgstr "בחר שדרוגים מנוכרים"
 #: src/transaction-cli.vala src/cli.vala
 #, c-format
 msgid "Enter a selection (default=%s)"
-msgstr ""
+msgstr "הזן בחירה (ברירת מחדל=%s)"
 
 #: src/transaction-cli.vala
 msgid "none"
-msgstr ""
+msgstr "אין"
 
 #: src/transaction-cli.vala
 #, c-format
 msgid "Enter a number (default=%d)"
-msgstr ""
+msgstr "הזן מספר (ברירת מחדל=%d)"
 
 #: src/transaction-cli.vala
 msgid "[y/N]"
@@ -747,141 +748,141 @@ msgstr "y"
 
 #: src/transaction-cli.vala
 msgid "yes"
-msgstr ""
+msgstr "כן"
 
 #: src/transaction-cli.vala resources/transaction_sum_dialog.ui
 msgid "Edit build files"
-msgstr ""
+msgstr "ערוך קבצי התקנה"
 
 #: src/transaction-cli.vala
 msgid "Total installed size"
-msgstr ""
+msgstr "סך הכל גודל התקנה"
 
 #: src/transaction-cli.vala
 msgid "Total removed size"
-msgstr ""
+msgstr "סך הכל גודל להסרה"
 
 #: src/transaction-cli.vala
 msgid "Commit transaction"
-msgstr ""
+msgstr "בצע טרנזאקציה"
 
 #: src/transaction-cli.vala
 #, c-format
 msgid "View %s build files diff"
-msgstr ""
+msgstr "עיין %s בהבדלי קבצי ההתקנה"
 
 #: src/cli.vala
 msgid "Building packages as root is not allowed"
-msgstr ""
+msgstr "בניית חבילות התקנה כמשתמש ROOT איננה מותרת"
 
 #: src/cli.vala
 msgid "No PKGBUILD file found in current directory"
-msgstr ""
+msgstr "לא נמצא קובץ PKGBUILD בספרייה הנוכחית"
 
 #: src/cli.vala
 msgid "Check development packages updates as root is not allowed"
-msgstr ""
+msgstr "לא ניתן לבדוק עדכונים לחבילות כמשתמש ROOT"
 
 #: src/cli.vala
 msgid "Available actions"
-msgstr ""
+msgstr "פעולות אפשריות"
 
 #: src/cli.vala
 msgid "action"
-msgstr ""
+msgstr "פעולה"
 
 #: src/cli.vala
 msgid "options"
-msgstr ""
+msgstr "אפשרויות"
 
 #: src/cli.vala
 msgid "Search for packages or files, multiple search terms can be specified"
-msgstr ""
+msgstr "חפש חבילות או קבצים, ניתן לציין מונחי חיפוש רבים"
 
 #: src/cli.vala
 msgid "file(s)"
-msgstr ""
+msgstr "קובץ(ים)"
 
 #: src/cli.vala
 msgid "also search in AUR"
-msgstr ""
+msgstr "חפש גם ב-AUR"
 
 #: src/cli.vala
 msgid ""
 "search for packages which own the given filenames (filenames can be partial)"
-msgstr ""
+msgstr "חפש חבילות שהקובץ שצויין הינו חלק מהן (שם הקובץ יכול להיות חלקי)"
 
 #: src/cli.vala
 msgid "Display package details, multiple packages can be specified"
-msgstr ""
+msgstr "הצג פרטי חבילה, ניתן לציין מספר חבילות"
 
 #: src/cli.vala
 msgid "List packages, groups, repositories or files"
-msgstr ""
+msgstr "מנה חבילות, קבוצות, מאגרים או קבצים"
 
 #: src/cli.vala
 msgid "group(s)"
-msgstr ""
+msgstr "קבוצה(ות)"
 
 #: src/cli.vala
 msgid "repo(s)"
-msgstr ""
+msgstr "מאגר(ים)"
 
 #: src/cli.vala
 msgid "list installed packages"
-msgstr ""
+msgstr "מנה חבילות מותקנות"
 
 #: src/cli.vala
 msgid ""
 "list packages that were installed as dependencies but are no longer required"
 " by any installed package"
-msgstr ""
+msgstr "מנה חבילות שהותקנו כדרישות-קדם אך כעת כבר אינן נדרשות על ידי אף חבילה מותקנת"
 
 #: src/cli.vala
 msgid "list packages that were not found in the repositories"
-msgstr ""
+msgstr "מנה חבילות שלא נמצאו במאגרים"
 
 #: src/cli.vala
 msgid ""
 "list all packages that are members of the given groups, if no group is given"
 " list all groups"
-msgstr ""
+msgstr "מנה את כל החבילות שהינן חברות בקבוצות הנזכרות, אם לא תצויין קבוצה יוצגו כל הקבוצות"
 
 #: src/cli.vala
 msgid ""
 "list all packages available in the given repos, if no repo is given list all"
 " repos"
-msgstr ""
+msgstr "מנה את כל הקבוצות הזמינות במאגרים המצויינים, אם לא צויין מאגר - מנה את כל החבילות"
 
 #: src/cli.vala
 msgid "list files owned by the given packages"
-msgstr ""
+msgstr "מנה קבצים השייכים לחבילה הצויינת"
 
 #: src/cli.vala
 msgid "Clone or sync packages build files from AUR"
-msgstr ""
+msgstr "שכפל או סנכרן קבצי התקנת חבילות מ-AUR"
 
 #: src/cli.vala
 msgid "dir"
-msgstr ""
+msgstr "ספרייה"
 
 #: src/cli.vala
 msgid ""
 "build directory, if no directory is given the one specified in pamac.conf "
 "file is used"
-msgstr ""
+msgstr "ספריית בניית ההתקנהף אם לא צויינה ספרייה, עשה שימוש בזו שמצויינת בקובץ ההגדרות: pamac.conf"
 
 #: src/cli.vala
 msgid "also clone needed dependencies"
-msgstr ""
+msgstr "שכפל גם את התלויות הנדרשות"
 
 #: src/cli.vala
 msgid "overwrite existing files"
-msgstr ""
+msgstr "כתוב מחדש קבצים קיימים"
 
 #: src/cli.vala
 msgid "Build packages from AUR and install them with their dependencies"
-msgstr ""
+msgstr "בנה חבילות מ-AUR והתקן אותם יחד עם קבצים נוספים שנדרשים לתוכנה"
 
 #: src/cli.vala
 msgid ""

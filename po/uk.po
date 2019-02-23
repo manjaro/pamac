@@ -6,6 +6,7 @@
 # Translators:
 # dsafsadf <heneral@gmail.com>, 2017
 # Oleksa Pletinskiy <opletinskiy@gmail.com>, 2018
+# Paul S <paul.smbg@gmail.com>, 2019
 # Rax Garfield <admin@dvizho.ks.ua>, 2012
 # Roman <rom85@i.ua>, 2013
 # Roman <rom85@i.ua>, 2013
@@ -16,7 +17,7 @@
 # Trado.Verde, 2015-2016
 # Yarema aka Knedlyk <yupadmin@gmail.com>, 2018
 # zubr139, 2013,2015
-# zubr139, 2013,2015-2016
+# zubr139, 2013,2015-2016,2019
 # zubr139, 2013
 # Володимир Братко <Yamaha373@outlook.com>, 2018
 # Данило Коростіль <ted.korostiled@gmail.com>, 2011
@@ -25,8 +26,8 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2018-12-26 12:00+0100\n"
-"PO-Revision-Date: 2018-12-28 00:23+0000\n"
-"Last-Translator: philm <philm@manjaro.org>\n"
+"PO-Revision-Date: 2019-02-07 18:16+0000\n"
+"Last-Translator: zubr139\n"
 "Language-Team: Ukrainian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/uk/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -87,7 +88,7 @@ msgstr "%s та %s конфліктують"
 #: src/alpm_utils.vala
 #, c-format
 msgid "%s needs to be removed but it is a locked package"
-msgstr "%s має бути вилученим, проте є заблокованим пакунком"
+msgstr "%s потрібно видалити, але це заблокований пакет"
 
 #: src/alpm_utils.vala
 msgid "Failed to commit transaction"
@@ -111,7 +112,7 @@ msgstr "%s недійсний чи пошкоджений"
 #: src/alpm_utils.vala
 #, c-format
 msgid "%s appears to be truncated: %jd/%jd bytes\n"
-msgstr "%s вочевідь обрізаний: %jd/%jd байтів\n"
+msgstr "%s вочевидь обрізаний: %jd/%jd байтів\n"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -120,7 +121,7 @@ msgstr "не вдалося вилучити файл '%s' з %s : %s\n"
 
 #: src/system_daemon.vala
 msgid "Authentication failed"
-msgstr "Помилка аутентифікації"
+msgstr "Помилка автентифікації"
 
 #: src/database.vala src/transaction-gtk.vala src/manager_window.vala
 #: src/transaction-cli.vala src/cli.vala resources/preferences_dialog.ui
@@ -129,7 +130,7 @@ msgstr "AUR"
 
 #: src/database.vala src/manager_window.vala
 msgid "Explicitly installed"
-msgstr "Явно встановлено"
+msgstr "Свідомо встановлено"
 
 #: src/database.vala src/manager_window.vala
 msgid "Installed as a dependency for another package"
@@ -162,22 +163,22 @@ msgstr "Синхронізування баз даних пакунків"
 #: src/transaction.vala src/cli.vala
 #, c-format
 msgid "Cloning %s build files"
-msgstr ""
+msgstr "Клонування %s файлів збирання"
 
 #: src/transaction.vala
 #, c-format
 msgid "Generating %s informations"
-msgstr ""
+msgstr "Створення %s інформації"
 
 #: src/transaction.vala
 #, c-format
 msgid "Checking %s dependencies"
-msgstr ""
+msgstr "Перевірка %s залежностей"
 
 #: src/transaction.vala
 #, c-format
 msgid "key %s could not be imported"
-msgstr ""
+msgstr "ключ %s не вдалося імпортувати"
 
 #: src/transaction.vala
 msgid "Preparing"
@@ -202,7 +203,7 @@ msgstr "Перевірка конфліктування файлів"
 
 #: src/transaction.vala
 msgid "Resolving dependencies"
-msgstr "Дозволити залежності"
+msgstr "Вирішення залежностей"
 
 #: src/transaction.vala
 msgid "Checking inter-conflicts"
@@ -279,7 +280,7 @@ msgstr "Перевірка вільного місця на диску"
 #: src/transaction.vala
 #, c-format
 msgid "%s optionally requires %s"
-msgstr "%s опціонально потребує %s"
+msgstr "%s необов'язково потребує %s"
 
 #: src/transaction.vala
 #, c-format
@@ -341,7 +342,7 @@ msgstr "Увага"
 
 #: src/transaction.vala src/installer.vala src/cli.vala
 msgid "Nothing to do"
-msgstr "Немає роботи"
+msgstr "Нічого робити"
 
 #: src/transaction.vala src/transaction-gtk.vala
 msgid "Transaction successfully finished"
@@ -354,7 +355,7 @@ msgstr "Менеджер пакетів"
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
 msgid "Choose optional dependencies for %s"
-msgstr ""
+msgstr "Виберіть необов'язкові залежності для %s"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
@@ -363,11 +364,11 @@ msgstr "Обрати провайдера для %s"
 
 #: src/transaction-gtk.vala
 msgid "Import PGP key"
-msgstr ""
+msgstr "Імпортувати ключ PGP"
 
 #: src/transaction-gtk.vala
 msgid "Trust and Import"
-msgstr ""
+msgstr "Завірити та імпортувати"
 
 #: src/transaction-gtk.vala src/manager_window.vala
 #: resources/transaction_sum_dialog.ui resources/manager_window.ui
@@ -378,12 +379,12 @@ msgstr "_Скасувати"
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
 msgid "The PGP key %s is needed to verify %s source files"
-msgstr ""
+msgstr "Ключ PGP %s необхідний для перевірки %s вихідних файлів"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
 msgid "Trust %s and import the PGP key"
-msgstr ""
+msgstr "Завірити %s і імпортувати ключ PGP"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "To remove"
@@ -416,11 +417,11 @@ msgstr "Загальний розмір завантаження"
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
 msgid "Edit %s build files"
-msgstr ""
+msgstr "Редагувати %s файлів збирання"
 
 #: src/transaction-gtk.vala
 msgid "Save"
-msgstr ""
+msgstr "Зберегти"
 
 #: src/transaction-gtk.vala resources/progress_dialog.ui
 #: resources/history_dialog.ui resources/preferences_dialog.ui
@@ -429,7 +430,7 @@ msgstr "_Закрити"
 
 #: src/installer.vala src/manager_window.vala src/cli.vala
 msgid "Waiting for another package manager to quit"
-msgstr "Очікування іншого менеджера пакунків."
+msgstr "Очікування виходу іншого менеджера пакунків."
 
 #: src/installer.vala src/cli.vala
 msgid "Install packages from repositories, path or url"
@@ -437,7 +438,7 @@ msgstr "Встановити пакунки з репозиторіїв, шля�
 
 #: src/installer.vala src/cli.vala
 msgid "Remove packages"
-msgstr "Усунути пакунки"
+msgstr "Видалити пакунки"
 
 #: src/installer.vala src/cli.vala
 msgid "package(s)"
@@ -487,7 +488,7 @@ msgstr "Встановлення"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Build"
-msgstr ""
+msgstr "Збірка"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Remove"
@@ -540,7 +541,7 @@ msgstr "Приладдя"
 
 #: src/manager_window.vala
 msgid "Audio & Video"
-msgstr "Аудіо та відео"
+msgstr "Звук та відео"
 
 #: src/manager_window.vala
 msgid "Development"
@@ -588,7 +589,7 @@ msgstr "Файли"
 
 #: src/manager_window.vala
 msgid "Build files"
-msgstr ""
+msgstr "Збірка файлів"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Install Reason"
@@ -596,7 +597,7 @@ msgstr "Причина встановлення"
 
 #: src/manager_window.vala
 msgid "Mark as explicitly installed"
-msgstr "Позначити як явно встановлене"
+msgstr "Позначити як свідомо встановлене"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Licenses"
@@ -664,7 +665,7 @@ msgstr "Вимагається"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Optional For"
-msgstr "Додатково для"
+msgstr "Необов'язково для"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Provides"
@@ -712,11 +713,11 @@ msgstr "Інтерфейс Gtk3 для libalpm"
 
 #: src/preferences_dialog.vala resources/preferences_dialog.ui
 msgid "How often to check for updates, value in hours"
-msgstr "Як часто перевіряти оновлення (значення в годинах)"
+msgstr "Як часто слід перевіряти наявність оновлень, значення в годинах"
 
 #: src/preferences_dialog.vala resources/preferences_dialog.ui
 msgid "Maximum parallel downloads"
-msgstr ""
+msgstr "Максимальна кількість паралельних завантажень"
 
 #: src/preferences_dialog.vala resources/preferences_dialog.ui
 msgid "Number of versions of each package to keep in the cache"
@@ -737,16 +738,16 @@ msgstr "Оберіть ігноровані Оновлення"
 #: src/transaction-cli.vala src/cli.vala
 #, c-format
 msgid "Enter a selection (default=%s)"
-msgstr ""
+msgstr "Введіть вибір (усталено=%s)"
 
 #: src/transaction-cli.vala
 msgid "none"
-msgstr ""
+msgstr "немає"
 
 #: src/transaction-cli.vala
 #, c-format
 msgid "Enter a number (default=%d)"
-msgstr "Унесіть число (усталено=%d)"
+msgstr "Введіть число (усталено=%d)"
 
 #: src/transaction-cli.vala
 msgid "[y/N]"
@@ -762,15 +763,15 @@ msgstr "так"
 
 #: src/transaction-cli.vala resources/transaction_sum_dialog.ui
 msgid "Edit build files"
-msgstr ""
+msgstr "Редагувати файли збирання"
 
 #: src/transaction-cli.vala
 msgid "Total installed size"
-msgstr "Загальний встановлений розмір"
+msgstr "Загальний розмір встановлення"
 
 #: src/transaction-cli.vala
 msgid "Total removed size"
-msgstr "Загальний розмір усунутого"
+msgstr "Загальний розмір видалення"
 
 #: src/transaction-cli.vala
 msgid "Commit transaction"
@@ -779,19 +780,19 @@ msgstr "Здійснити транзакцію"
 #: src/transaction-cli.vala
 #, c-format
 msgid "View %s build files diff"
-msgstr ""
+msgstr "Переглянути різницю %s файлів збирання"
 
 #: src/cli.vala
 msgid "Building packages as root is not allowed"
-msgstr ""
+msgstr "Створення пакунків як root не допускається"
 
 #: src/cli.vala
 msgid "No PKGBUILD file found in current directory"
-msgstr ""
+msgstr "У поточному каталозі не знайдено файл PKGBUILD"
 
 #: src/cli.vala
 msgid "Check development packages updates as root is not allowed"
-msgstr ""
+msgstr "Перевірка оновлень пакунків розробки як root не допускається"
 
 #: src/cli.vala
 msgid "Available actions"
@@ -803,11 +804,11 @@ msgstr "дія"
 
 #: src/cli.vala
 msgid "options"
-msgstr "вибори"
+msgstr "варіанти"
 
 #: src/cli.vala
 msgid "Search for packages or files, multiple search terms can be specified"
-msgstr ""
+msgstr "Шукати пакети або файли, можна вказати кілька пошукових термінів"
 
 #: src/cli.vala
 msgid "file(s)"
@@ -815,20 +816,20 @@ msgstr "файл(ів)"
 
 #: src/cli.vala
 msgid "also search in AUR"
-msgstr ""
+msgstr "також шукати в AUR"
 
 #: src/cli.vala
 msgid ""
 "search for packages which own the given filenames (filenames can be partial)"
-msgstr ""
+msgstr "шукати пакунки, які мають власні назви файлів (імена файлів можуть бути частковими)"
 
 #: src/cli.vala
 msgid "Display package details, multiple packages can be specified"
-msgstr ""
+msgstr "Відображати подробиці пакета, можна вказати кілька пакетів"
 
 #: src/cli.vala
 msgid "List packages, groups, repositories or files"
-msgstr ""
+msgstr "Перелік пакетів, груп, сховищ або файлів"
 
 #: src/cli.vala
 msgid "group(s)"
@@ -840,90 +841,90 @@ msgstr "репозиторі(ї)й"
 
 #: src/cli.vala
 msgid "list installed packages"
-msgstr ""
+msgstr "показати встановлені пакунки"
 
 #: src/cli.vala
 msgid ""
 "list packages that were installed as dependencies but are no longer required"
 " by any installed package"
-msgstr ""
+msgstr "показати пакунки, які були встановлені як залежність, але більше не потрібні для будь-якого встановленого пакета"
 
 #: src/cli.vala
 msgid "list packages that were not found in the repositories"
-msgstr ""
+msgstr "показати пакети, які не були знайдені в сховищах"
 
 #: src/cli.vala
 msgid ""
 "list all packages that are members of the given groups, if no group is given"
 " list all groups"
-msgstr ""
+msgstr "показати всі пакунки, що є членами даних груп, якщо жодної групи не вказано список всіх груп"
 
 #: src/cli.vala
 msgid ""
 "list all packages available in the given repos, if no repo is given list all"
 " repos"
-msgstr ""
+msgstr "показати всі пакунки, доступні в даному репозиторії, якщо не вказано репозиторію, показати всі репозиторії"
 
 #: src/cli.vala
 msgid "list files owned by the given packages"
-msgstr ""
+msgstr "показати файли, що належать даним пакетам"
 
 #: src/cli.vala
 msgid "Clone or sync packages build files from AUR"
-msgstr ""
+msgstr "Клонувати чи синхронізувати пакунки файлів збирання з AUR"
 
 #: src/cli.vala
 msgid "dir"
-msgstr ""
+msgstr "каталог"
 
 #: src/cli.vala
 msgid ""
 "build directory, if no directory is given the one specified in pamac.conf "
 "file is used"
-msgstr ""
+msgstr "каталог для збірки, якщо не вказано жодного каталогу, використати той, що вказаний в файлі pamac.conf"
 
 #: src/cli.vala
 msgid "also clone needed dependencies"
-msgstr ""
+msgstr "також клонувати необхідні залежності"
 
 #: src/cli.vala
 msgid "overwrite existing files"
-msgstr ""
+msgstr "перезаписати існуючі файли"
 
 #: src/cli.vala
 msgid "Build packages from AUR and install them with their dependencies"
-msgstr ""
+msgstr "Зібрати пакунки з AUR та встановити їх разом з їхніми залежностями"
 
 #: src/cli.vala
 msgid ""
 "If no package name is given, use the PKGBUILD file in the current directory"
-msgstr ""
+msgstr "Якщо назву пакета не вказано, скористайтеся файлом PKGBUILD у поточному каталозі"
 
 #: src/cli.vala
 msgid ""
 "The build directory will be the parent directory, --builddir option will be "
 "ignored"
-msgstr ""
+msgstr "Каталог збирання буде батьківським каталогом, параметр --builddir буде проігноровано"
 
 #: src/cli.vala
 msgid "do not clone build files from AUR, only use local files"
-msgstr ""
+msgstr "не клонувати файли збірки з AUR, використати лише локальні файли"
 
 #: src/cli.vala
 msgid "glob"
-msgstr ""
+msgstr "glob"
 
 #: src/cli.vala
 msgid ""
 "ignore a package upgrade, multiple packages can be specified by separating "
 "them with a comma"
-msgstr ""
+msgstr "ігнорувати оновлення пакета, можна вказати кілька пакетів, розділивши їх комами"
 
 #: src/cli.vala
 msgid ""
 "overwrite conflicting files, multiple patterns can be specified by "
 "separating them with a comma"
-msgstr ""
+msgstr "перезапимати конфліктуючі файли, можна вказати кілька шаблонів, розділивши їх комами"
 
 #: src/cli.vala
 msgid "Reinstall packages"
@@ -933,33 +934,33 @@ msgstr "Перевстановити пакунки"
 msgid ""
 "remove dependencies that are not required by other packages, if this option "
 "is used without package name remove all orphans"
-msgstr ""
+msgstr "видалити залежності, яких не потребують інші пакунки, якщо ця опція використовується без імені пакета, будуть видалені всі непотрібні пакунки"
 
 #: src/cli.vala
 msgid "Safely check for updates without modifiying the databases"
-msgstr ""
+msgstr "Безпечно перевіряйте наявність оновлень без зміни баз даних"
 
 #: src/cli.vala
 msgid "Exit code is 100 if updates are available"
-msgstr ""
+msgstr "Код виходу - 100, якщо доступні оновлення"
 
 #: src/cli.vala
 msgid "also check updates in AUR"
-msgstr ""
+msgstr "також перевірити оновлення в AUR"
 
 #: src/cli.vala
 msgid "also check development packages updates (use with --aur)"
-msgstr ""
+msgstr "також перевірити оновлення пакетів розробки (використовуйте з --aur)"
 
 #: src/cli.vala
 msgid "only print one line per update"
-msgstr ""
+msgstr "виводити лише один рядок на оновлення"
 
 #: src/cli.vala
 msgid ""
 "build directory (use with --devel), if no directory is given the one "
 "specified in pamac.conf file is used"
-msgstr ""
+msgstr "каталог збірки (використовуйте з --devel), якщо не вказано жодного каталогу, буде використано той, що вказаний в файлі pamac.conf"
 
 #: src/cli.vala
 msgid "Upgrade your system"
@@ -967,21 +968,21 @@ msgstr "Оновити вашу систему"
 
 #: src/cli.vala
 msgid "also upgrade packages installed from AUR"
-msgstr ""
+msgstr "також оновити пакунки, встановлені з AUR"
 
 #: src/cli.vala
 msgid ""
 "build directory (use with --aur), if no directory is given the one specified"
 " in pamac.conf file is used"
-msgstr ""
+msgstr "каталог збірки (використовувати з --aur), якщо не вказано жодного каталогу, буде використано той, що вказаний в файлі pamac.conf"
 
 #: src/cli.vala
 msgid "force the refresh of the databases"
-msgstr ""
+msgstr "примусово оновити бази даних"
 
 #: src/cli.vala
 msgid "enable package downgrades"
-msgstr ""
+msgstr "увімкнути пониження пакунків"
 
 #: src/cli.vala resources/manager_window.ui
 msgid "Version"
@@ -993,7 +994,7 @@ msgstr "Опис"
 
 #: src/cli.vala
 msgid "URL"
-msgstr "Ланка"
+msgstr "Посилання"
 
 #: src/cli.vala resources/manager_window.ui
 msgid "Size"
@@ -1002,25 +1003,25 @@ msgstr "Розмір"
 #: src/cli.vala
 #, c-format
 msgid "No package owns %s"
-msgstr ""
+msgstr "Жодному пакунку не належить %s"
 
 #: src/cli.vala
 #, c-format
 msgid "%s is owned by %s"
-msgstr ""
+msgstr "%s належить %s"
 
 #: src/cli.vala
 #, c-format
 msgid "There is %u member in group %s"
 msgid_plural "There are %u members in group %s"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "У групі %s є %u член"
+msgstr[1] "У групі %s є %u члени"
+msgstr[2] "У групі %s є %u членів"
+msgstr[3] "У групі %s є %u членів"
 
 #: src/cli.vala
 msgid "all"
-msgstr ""
+msgstr "все"
 
 #: resources/choose_provider_dialog.ui
 msgid "Choose a Provider"
@@ -1028,11 +1029,11 @@ msgstr "Оберіть Провайдера"
 
 #: resources/choose_provider_dialog.ui resources/choose_pkgs_dialog.ui
 msgid "Choose"
-msgstr "Вибирати"
+msgstr "Вибрати"
 
 #: resources/progress_dialog.ui
 msgid "Progress"
-msgstr "Прогрес"
+msgstr "Поступ"
 
 #: resources/history_dialog.ui
 msgid "Pamac History"
@@ -1040,7 +1041,7 @@ msgstr "Історія Pamac"
 
 #: resources/transaction_sum_dialog.ui
 msgid "Transaction Summary"
-msgstr "Інформація по операціях"
+msgstr "Підсумок операцій"
 
 #: resources/transaction_sum_dialog.ui
 msgid "Commit"
@@ -1084,7 +1085,7 @@ msgstr "Перевстановлення"
 
 #: resources/manager_window.ui
 msgid "Reset build files"
-msgstr ""
+msgstr "Скинути файли збірки"
 
 #: resources/manager_window.ui
 msgid "_Apply"
@@ -1098,15 +1099,15 @@ msgstr "Вилучити непотрібні залежності"
 msgid ""
 "When removing a package, also remove its dependencies that are not required "
 "by other packages"
-msgstr "При вилученні пакунку, також видаляйте його залежності, що не потребуються іншими пакунками"
+msgstr "При вилученні пакунку, також видалити його залежності, що не потрібні для інших пакетів"
 
 #: resources/preferences_dialog.ui
 msgid "Check available disk space"
-msgstr "Перевірити доступне місце на диску"
+msgstr "Перевірка доступного простору на диску"
 
 #: resources/preferences_dialog.ui
 msgid "Enable downgrade"
-msgstr ""
+msgstr "Увімкнути пониження"
 
 #: resources/preferences_dialog.ui
 msgid "Check for updates"
@@ -1118,7 +1119,7 @@ msgstr "Автоматично завантажити оновлення"
 
 #: resources/preferences_dialog.ui
 msgid "Hide tray icon when no update available"
-msgstr "Приховати значок з панелі завдань, коли немає доступних оновлень"
+msgstr "Приховати значок з панелі завдань, якщо немає доступних оновлень"
 
 #: resources/preferences_dialog.ui
 msgid "Ignore upgrades for:"
@@ -1134,7 +1135,7 @@ msgstr "Використовувати дзеркала з:"
 
 #: resources/preferences_dialog.ui
 msgid "Refresh Mirrors List"
-msgstr "Оновити список зеркал"
+msgstr "Оновити список дзеркал"
 
 #: resources/preferences_dialog.ui
 msgid "Official Repositories"
@@ -1144,7 +1145,7 @@ msgstr "Офіційні репозиторії"
 msgid ""
 "AUR is a community maintained repository so it presents potential risks and problems.\n"
 "All AUR users should be familiar with the build process."
-msgstr "AUR це репозиторій, що підтримується спільнотою, а отже являє собою потенційні ризики та проблеми.\nВсі користувачі AUR мають знати про процес побудови."
+msgstr "AUR це репозиторій, що підтримується спільнотою, а отже являє собою потенційні ризики та проблеми.\nВсі користувачі AUR мають знати про процес побудови пакунків."
 
 #: resources/preferences_dialog.ui
 msgid "Enable AUR support"
@@ -1156,15 +1157,15 @@ msgstr "Дозволити Pamac шукати та встановлювати п
 
 #: resources/preferences_dialog.ui
 msgid "Check for updates from AUR"
-msgstr "Перевірка оновлень AUR"
+msgstr "Перевірка оновлень в AUR"
 
 #: resources/preferences_dialog.ui
 msgid "Check for development packages updates"
-msgstr ""
+msgstr "Перевірте наявність оновлень пакунків розробки"
 
 #: resources/preferences_dialog.ui
 msgid "Remove only the versions of uninstalled packages"
-msgstr "Видалити лишень версії вилучиних пакунків"
+msgstr "Видалити лише версії видалених пакунків"
 
 #: resources/preferences_dialog.ui
 msgid "Clean cache"
