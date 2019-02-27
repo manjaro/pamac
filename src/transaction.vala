@@ -950,14 +950,6 @@ namespace Pamac {
 				case 27: //Alpm.Event.Type.RETRIEVE_FAILED
 					stop_downloading ();
 					break;
-				case 28: //Alpm.Event.Type.PKGDOWNLOAD_START
-					// special case handle differently
-					string name_version_release = details[0].slice (0, details[0].last_index_of_char ('-'));
-					string name_version = name_version_release.slice (0, name_version_release.last_index_of_char ('-'));
-					string name = name_version.slice (0, name_version.last_index_of_char ('-'));
-					string version_release = details[0].replace (name + "-", "").replace (".pkg.tar.xz", "");
-					current_action = dgettext (null, "Downloading %s").printf ("%s (%s)".printf (name, version_release)) + "...";
-					break;
 				case 31: //Alpm.Event.Type.DISKSPACE_START
 					current_action = dgettext (null, "Checking available disk space") + "...";
 					break;
@@ -1068,8 +1060,15 @@ namespace Pamac {
 			var text = new StringBuilder ();
 			double fraction;
 			if (total_download > 0) {
+				if (filename != "" && filename != current_filename) {
+					current_filename = filename;
+					string name_version_release = filename.slice (0, filename.last_index_of_char ('-'));
+					string name_version = name_version_release.slice (0, name_version_release.last_index_of_char ('-'));
+					string name = name_version.slice (0, name_version.last_index_of_char ('-'));
+					string version_release = filename.replace (name + "-", "").replace (".pkg.tar.xz", "");
+					current_action = dgettext (null, "Downloading %s").printf ("%s (%s)".printf (name, version_release)) + "...";
+				}
 				if (xfered == 0) {
-					// start download pkg is handled by Alpm.Event.Type.PKGDOWNLOAD_START
 					previous_xfered = 0;
 					fraction = current_progress;
 					text.append (current_status);
@@ -1149,58 +1148,6 @@ namespace Pamac {
 						text.append ("%s".printf (format_size (xfered)));
 					}
 					// reinitialize timer
-					timer.start ();
-				}
-			}
-			if (fraction != current_progress) {
-				current_progress = fraction;
-			}
-			if (text.str != current_status) {
-				current_status = text.str;
-			}
-			emit_download_progress (current_action, current_status, current_progress);
-		}
-
-		void on_emit_multi_download (uint64 xfered, uint64 total) {
-			var text = new StringBuilder ();
-			double fraction;
-			if (xfered == 0) {
-				// start download pkg is handled by Alpm.Event.Type.PKGDOWNLOAD_START
-				previous_xfered = 0;
-				fraction = current_progress;
-				text.append (current_status);
-				timer.start ();
-			} else {
-				if (timer.elapsed () > 0.1) {
-					download_rate = ((download_rate * rates_nb) + (uint64) ((xfered - previous_xfered) / timer.elapsed ())) / (rates_nb + 1);
-					rates_nb++;
-				}
-				already_downloaded += xfered - previous_xfered;
-				previous_xfered = xfered;
-				fraction = (double) already_downloaded / total;
-				if (fraction <= 1) {
-					text.append ("%s/%s".printf (format_size (already_downloaded), format_size (total)));
-					uint64 remaining_seconds = 0;
-					if (download_rate > 0) {
-						remaining_seconds = (total - already_downloaded) / download_rate;
-					}
-					// display remaining time after 5s and only if more than 10s are remaining
-					if (remaining_seconds > 9 && rates_nb > 9) {
-						text.append ("  ");
-						if (remaining_seconds <= 50) {
-							text.append (dgettext (null, "About %u seconds remaining").printf ((uint) Math.ceilf ((float) remaining_seconds / 10) * 10));
-						} else {
-							uint remaining_minutes = (uint) Math.ceilf ((float) remaining_seconds / 60);
-							text.append (dngettext (null, "About %lu minute remaining",
-										"About %lu minutes remaining", remaining_minutes).printf (remaining_minutes));
-						}
-					}
-				} else {
-					text.append ("%s".printf (format_size (already_downloaded)));
-				}
-				if (xfered == total) {
-					current_filename = "";
-				} else {
 					timer.start ();
 				}
 			}
@@ -1465,7 +1412,6 @@ namespace Pamac {
 			transaction_interface.emit_unresolvables.connect (on_emit_unresolvables);
 			transaction_interface.emit_progress.connect (on_emit_progress);
 			transaction_interface.emit_download.connect (on_emit_download);
-			transaction_interface.emit_multi_download.connect (on_emit_multi_download);
 			transaction_interface.emit_totaldownload.connect (on_emit_totaldownload);
 			transaction_interface.emit_log.connect (on_emit_log);
 			transaction_interface.trans_prepare_finished.connect (on_trans_prepare_finished);
@@ -1477,7 +1423,6 @@ namespace Pamac {
 			transaction_interface.emit_providers.disconnect (on_emit_providers);
 			transaction_interface.emit_progress.disconnect (on_emit_progress);
 			transaction_interface.emit_download.disconnect (on_emit_download);
-			transaction_interface.emit_multi_download.disconnect (on_emit_multi_download);
 			transaction_interface.emit_totaldownload.disconnect (on_emit_totaldownload);
 			transaction_interface.emit_log.disconnect (on_emit_log);
 			transaction_interface.trans_prepare_finished.disconnect (on_trans_prepare_finished);

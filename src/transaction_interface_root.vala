@@ -38,9 +38,6 @@ namespace Pamac {
 			alpm_utils.emit_download.connect ((filename, xfered, total) => {
 				emit_download (filename, xfered, total);
 			});
-			alpm_utils.emit_multi_download.connect ((xfered, total) => {
-				emit_multi_download (xfered, total);
-			});
 			alpm_utils.emit_totaldownload.connect ((total) => {
 				emit_totaldownload (total);
 			});

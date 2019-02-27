@@ -19,6 +19,7 @@
 
 Pamac.AlpmUtils alpm_utils;
 
+string current_filename;
 uint64 prevprogress;
 uint64 total_download;
 HashTable<string, uint64?> multi_progress;
@@ -65,7 +66,8 @@ class DownloadServer: Object {
 				string? filename = dload_queue.try_pop_unlocked ();
 				dload_queue.unlock ();
 				if (filename != null) {
-					alpm_utils.emit_event (Alpm.Event.Type.PKGDOWNLOAD_START, 0, {filename});
+					current_filename = filename;
+					alpm_utils.compute_multi_download_progress ();
 					int ret = curl_dload (curl, "%s/%s/%s/%s".printf (server_url, repo, alpm_utils.alpm_handle.arch, filename), cachedir, 0);
 					if (ret == -1) {
 						// error
@@ -116,7 +118,6 @@ namespace Pamac {
 		public signal void emit_unresolvables (string[] unresolvables);
 		public signal void emit_progress (uint progress, string pkgname, uint percent, uint n_targets, uint current_target);
 		public signal void emit_download (string filename, uint64 xfered, uint64 total);
-		public signal void emit_multi_download (uint64 xfered, uint64 total);
 		public signal void emit_totaldownload (uint64 total);
 		public signal void emit_log (uint level, string msg);
 		public signal void refresh_finished (bool success);
@@ -965,18 +966,16 @@ namespace Pamac {
 			return summary;
 		}
 
-		bool compute_multi_download_progress () {
+		public bool compute_multi_download_progress () {
 			uint64 total_progress = 0;
 			multi_progress.foreach ((filename, progress) => {
 				total_progress += progress;
 			});
-			emit_multi_download (total_progress, total_download);
+			emit_download (current_filename, total_progress, total_download);
 			return true;
 		}
 
 		void download_files (uint64 max_parallel_downloads) {
-			// use to track downloads progress
-			uint timeout_id = Timeout.add (500, compute_multi_download_progress);
 			multi_progress = new HashTable<string, uint64?> (str_hash, str_equal);
 			// create the table of async queues
 			// one queue per repo
@@ -1023,8 +1022,12 @@ namespace Pamac {
 				}
 				syncdbs.next ();
 			}
+			emit_totaldownload (total_download);
 			emit_event (Alpm.Event.Type.RETRIEVE_START, 0, {});
-			emit_multi_download (0, total_download);
+			current_filename = "";
+			emit_download ("", 0, total_download);
+			// use to track downloads progress
+			uint timeout_id = Timeout.add (500, compute_multi_download_progress);
 			// create a thread pool which will download files
 			// there will be two threads per mirror
 			try {
@@ -1055,8 +1058,9 @@ namespace Pamac {
 			}
 			// stop compute_multi_download_progress
 			Source.remove (timeout_id);
-			emit_multi_download (total_download, total_download);
-			alpm_utils.emit_event (Alpm.Event.Type.RETRIEVE_DONE, 0, {});
+			emit_download ("", total_download, total_download);
+			emit_event (Alpm.Event.Type.RETRIEVE_DONE, 0, {});
+			emit_totaldownload (0);
 		}
 
 		internal void trans_commit () {
@@ -1439,21 +1443,19 @@ int cb_download (void* data, uint64 dltotal, uint64 dlnow, uint64 ultotal, uint6
 		return 1;
 	}
 
-	string filename = (string) data;
-
 	if (unlikely (dlnow == 0 || dltotal == 0 || prevprogress == dltotal)) {
 		return 0;
 	} else if (unlikely (prevprogress == 0)) {
-		alpm_utils.emit_download (filename, 0, dltotal);
-		alpm_utils.emit_download (filename, dlnow, dltotal);
+		alpm_utils.emit_download ((string) data, 0, dltotal);
+		alpm_utils.emit_download ((string) data, dlnow, dltotal);
 		alpm_utils.timer.start ();
 	} else if (unlikely (dlnow == dltotal)) {
-		alpm_utils.emit_download (filename, dlnow, dltotal);
+		alpm_utils.emit_download ((string) data, dlnow, dltotal);
 		alpm_utils.timer.stop ();
 	} else if (likely (alpm_utils.timer.elapsed () < 0.5)) {
 		return 0;
 	} else {
-		alpm_utils.emit_download (filename, dlnow, dltotal);
+		alpm_utils.emit_download ((string) data, dlnow, dltotal);
 		alpm_utils.timer.start ();
 	}
 
