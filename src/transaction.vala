@@ -763,6 +763,15 @@ namespace Pamac {
 			transaction_interface.start_trans_commit ();
 		}
 
+		string remove_bash_colors (string msg) {
+			Regex regex = /\x1B\[[0-9;]*[JKmsu]/;
+			try {
+				return regex.replace (msg, -1, 0, "");
+			} catch (Error e) {
+				return msg;
+			}
+		}
+
 		public virtual async int run_cmd_line (string[] args, string? working_directory, Cancellable cancellable) {
 			int status = 1;
 			var launcher = new SubprocessLauncher (SubprocessFlags.STDIN_INHERIT | SubprocessFlags.STDOUT_PIPE | SubprocessFlags.STDERR_MERGE);
@@ -775,7 +784,7 @@ namespace Pamac {
 				var dis = new DataInputStream (process.get_stdout_pipe ());
 				string? line;
 				while ((line = yield dis.read_line_async (Priority.DEFAULT, cancellable)) != null) {
-					emit_script_output (line);
+					emit_script_output (remove_bash_colors (line));
 				}
 				try {
 					yield process.wait_async (cancellable);
@@ -940,7 +949,7 @@ namespace Pamac {
 						emit_action (dgettext (null, "Configuring %s").printf (current_filename) + "...");
 						current_filename = "";
 					}
-					emit_script_output (details[0].replace ("\n", ""));
+					emit_script_output (remove_bash_colors (details[0]).replace ("\n", ""));
 					important_details_outpout (false);
 					break;
 				case 25: //Alpm.Event.Type.RETRIEVE_START
