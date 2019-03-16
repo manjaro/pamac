@@ -1082,6 +1082,10 @@ namespace Pamac {
 					fraction = current_progress;
 					text.append (current_status);
 					timer.start ();
+				} else if (xfered == total_download) {
+					timer.stop ();
+					fraction = 1;
+					current_filename = "";
 				} else {
 					if (timer.elapsed () > 0.1) {
 						download_rate = ((download_rate * rates_nb) + (uint64) ((xfered - previous_xfered) / timer.elapsed ())) / (rates_nb + 1);
