@@ -454,7 +454,7 @@ namespace Pamac {
 			} else {
 				bool success = trans_add_pkg_real (pkg);
 				if (success) {
-					if (("linux31" in pkg.name) || ("linux4" in pkg.name)) {
+					if (("linux31" in pkg.name) || ("linux4" in pkg.name) || ("linux5" in pkg.name)) {
 						string[] installed_kernels = {};
 						string[] installed_modules = {};
 						unowned Alpm.List<unowned Alpm.Package> pkgcache = alpm_handle.localdb.pkgcache;
