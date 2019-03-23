@@ -460,7 +460,7 @@ namespace Pamac {
 						unowned Alpm.List<unowned Alpm.Package> pkgcache = alpm_handle.localdb.pkgcache;
 						while (pkgcache != null) {
 							unowned Alpm.Package local_pkg = pkgcache.data;
-							if (("linux31" in local_pkg.name) || ("linux4" in local_pkg.name)) {
+							if (("linux31" in local_pkg.name) || ("linux4" in local_pkg.name) || ("linux5" in local_pkg.name)) {
 								string[] local_pkg_splitted = local_pkg.name.split ("-", 2);
 								if ((local_pkg_splitted[0] in installed_kernels) == false) {
 									installed_kernels += local_pkg_splitted[0];
