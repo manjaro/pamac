@@ -2,7 +2,7 @@
  *  pamac-vala
  *
  *  Copyright (C) 2014  Paolo Borelli <pborelli@gnome.org>
- *  Copyright (C) 2018 Guillaume Benoit <guillaume@manjaro.org>
+ *  Copyright (C) 2018-2019 Guillaume Benoit <guillaume@manjaro.org>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
