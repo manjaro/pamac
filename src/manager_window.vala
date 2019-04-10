@@ -473,20 +473,24 @@ namespace Pamac {
 	}
 
 		void support_aur (bool enable_aur) {
-			if (filters_stack.visible_child_name == "search") {
-				if (enable_aur) {
-					show_sidebar ();
-				} else {
-					hide_sidebar ();
-					unowned Gtk.ListBoxRow repo_row = search_listbox.get_row_at_index (0);
-					repo_row.activatable = true;
-					repo_row.selectable = true;
-					repo_row.can_focus = true;
-					repo_row.get_child ().sensitive = true;
-					search_listbox.select_row (repo_row);
-					on_search_listbox_row_activated (search_listbox.get_selected_row ());
-					origin_stack.visible_child_name = "repos";
-				}
+			unowned Gtk.ListBoxRow aur_row = search_listbox.get_row_at_index (2);
+			if (enable_aur) {
+				aur_row.visible = true;
+			} else {
+				aur_row.visible = false;
+				unowned Gtk.ListBoxRow installed_row = search_listbox.get_row_at_index (0);
+				installed_row.activatable = true;
+				installed_row.selectable = true;
+				installed_row.can_focus = true;
+				installed_row.get_child ().sensitive = true;
+				search_listbox.select_row (installed_row);
+				on_search_listbox_row_activated (search_listbox.get_selected_row ());
+				unowned Gtk.ListBoxRow repos_row = search_listbox.get_row_at_index (1);
+				repos_row.activatable = true;
+				repos_row.selectable = true;
+				repos_row.can_focus = true;
+				repos_row.get_child ().sensitive = true;
+				origin_stack.visible_child_name = "repos";
 			}
 		}
 
@@ -691,11 +695,16 @@ namespace Pamac {
 			label = create_list_label (dgettext (null, "AUR"));
 			pending_listbox.add (label);
 			pending_listbox.select_row (pending_listbox.get_row_at_index (0));
+			label = create_list_label (dgettext (null, "Installed"));
+			search_listbox.add (label);
 			label = create_list_label (dgettext (null, "Repositories"));
 			search_listbox.add (label);
 			label = create_list_label (dgettext (null, "AUR"));
 			search_listbox.add (label);
 			search_listbox.select_row (search_listbox.get_row_at_index (0));
+			if (database.config.enable_aur == false) {
+				search_listbox.get_row_at_index (2).visible = false;
+			}
 
 			label = create_list_label (dgettext (null, "Details"));
 			properties_listbox.add (label);
@@ -2031,9 +2040,9 @@ namespace Pamac {
 		void on_search_listbox_row_activated (Gtk.ListBoxRow row) {
 			int index = row.get_index ();
 			switch (index) {
-				case 0: // repos
-						search_entry.grab_focus_without_selecting ();
-						search_entry.set_position (-1);
+				case 0: // installed
+					search_entry.grab_focus_without_selecting ();
+					search_entry.set_position (-1);
 					if (search_string == null) {
 						return;
 					}
@@ -2042,41 +2051,150 @@ namespace Pamac {
 					while (Gtk.events_pending ()) {
 						Gtk.main_iteration ();
 					}
-					current_filter = "search_pkgs_%s".printf (search_string);
-					database.search_pkgs_async.begin (search_string, (obj, res) => {
-						if (current_filter != "search_pkgs_%s".printf (search_string)) {
+					current_filter = "search_installed_pkgs_%s".printf (search_string);
+					database.search_installed_pkgs_async.begin (search_string, (obj, res) => {
+						if (current_filter != "search_installed_pkgs_%s".printf (search_string)) {
 							return;
 						}
-						if (database.config.enable_aur) {
-							show_sidebar ();
-						} else {
-							hide_sidebar ();
-						}
-						var pkgs = database.search_pkgs_async.end (res);
-						if (pkgs.length () == 0 && database.config.enable_aur) {
-							database.search_in_aur.begin (search_string, (obj, res) => {
-								unowned Gtk.ListBoxRow aur_row = search_listbox.get_row_at_index (1);
-								if (database.search_in_aur.end (res).length () > 0) {
+						var pkgs = database.search_installed_pkgs_async.end (res);
+						if (pkgs.length () == 0) {
+							database.search_repos_pkgs_async.begin (search_string, (obj, res) => {
+								if (database.search_repos_pkgs_async.end (res).length () > 0) {
 									row.activatable = false;
 									row.selectable = false;
 									row.has_focus = false;
 									row.can_focus = false;
 									row.get_child ().sensitive = false;
-									search_listbox.select_row (aur_row);
+									unowned Gtk.ListBoxRow repos_row = search_listbox.get_row_at_index (1);
+									repos_row.activatable = true;
+									repos_row.selectable = true;
+									repos_row.can_focus = true;
+									repos_row.get_child ().sensitive = true;
+									search_listbox.select_row (repos_row);
 									on_search_listbox_row_activated (search_listbox.get_selected_row ());
+								} else if (database.config.enable_aur) {
+									database.search_in_aur.begin (search_string, (obj, res) => {
+										if (database.search_in_aur.end (res).length () > 0) {
+											row.activatable = false;
+											row.selectable = false;
+											row.has_focus = false;
+											row.can_focus = false;
+											row.get_child ().sensitive = false;
+											unowned Gtk.ListBoxRow repos_row = search_listbox.get_row_at_index (1);
+											repos_row.activatable = false;
+											repos_row.selectable = false;
+											repos_row.has_focus = false;
+											repos_row.can_focus = false;
+											repos_row.get_child ().sensitive = false;
+											unowned Gtk.ListBoxRow aur_row = search_listbox.get_row_at_index (2);
+											aur_row.activatable = true;
+											aur_row.selectable = true;
+											aur_row.can_focus = true;
+											aur_row.get_child ().sensitive = true;
+											search_listbox.select_row (aur_row);
+											on_search_listbox_row_activated (search_listbox.get_selected_row ());
+										} else {
+											populate_packages_list (pkgs);
+										}
+									});
 								} else {
 									populate_packages_list (pkgs);
 								}
 							});
 						} else {
 							populate_packages_list (pkgs);
+							database.search_repos_pkgs_async.begin (search_string, (obj, res) => {
+								if (database.search_repos_pkgs_async.end (res).length () > 0) {
+									unowned Gtk.ListBoxRow repos_row = search_listbox.get_row_at_index (1);
+									repos_row.activatable = true;
+									repos_row.selectable = true;
+									repos_row.can_focus = true;
+									repos_row.get_child ().sensitive = true;
+								}
+							});
 						}
 					});
 					aur_list.clear ();
 					break;
-				case 1: // aur
-						search_entry.grab_focus_without_selecting ();
-						search_entry.set_position (-1);
+				case 1: // repos
+					search_entry.grab_focus_without_selecting ();
+					search_entry.set_position (-1);
+					if (search_string == null) {
+						return;
+					}
+					origin_stack.visible_child_name = "repos";
+					this.get_window ().set_cursor (new Gdk.Cursor.for_display (Gdk.Display.get_default (), Gdk.CursorType.WATCH));
+					while (Gtk.events_pending ()) {
+						Gtk.main_iteration ();
+					}
+					current_filter = "search_repos_pkgs_%s".printf (search_string);
+					database.search_repos_pkgs_async.begin (search_string, (obj, res) => {
+						if (current_filter != "search_repos_pkgs_%s".printf (search_string)) {
+							return;
+						}
+						var pkgs = database.search_repos_pkgs_async.end (res);
+						if (pkgs.length () == 0) {
+							database.search_installed_pkgs_async.begin (search_string, (obj, res) => {
+								if (database.search_installed_pkgs_async.end (res).length () > 0) {
+									row.activatable = false;
+									row.selectable = false;
+									row.has_focus = false;
+									row.can_focus = false;
+									row.get_child ().sensitive = false;
+									unowned Gtk.ListBoxRow installed_row = search_listbox.get_row_at_index (0);
+									installed_row.activatable = true;
+									installed_row.selectable = true;
+									installed_row.can_focus = true;
+									installed_row.get_child ().sensitive = true;
+									search_listbox.select_row (installed_row);
+									on_search_listbox_row_activated (search_listbox.get_selected_row ());
+								} else if (database.config.enable_aur) {
+									database.search_in_aur.begin (search_string, (obj, res) => {
+										if (database.search_in_aur.end (res).length () > 0) {
+											row.activatable = false;
+											row.selectable = false;
+											row.has_focus = false;
+											row.can_focus = false;
+											row.get_child ().sensitive = false;
+											unowned Gtk.ListBoxRow installed_row = search_listbox.get_row_at_index (0);
+											installed_row.activatable = false;
+											installed_row.selectable = false;
+											installed_row.has_focus = false;
+											installed_row.can_focus = false;
+											installed_row.get_child ().sensitive = false;
+											unowned Gtk.ListBoxRow aur_row = search_listbox.get_row_at_index (2);
+											aur_row.activatable = true;
+											aur_row.selectable = true;
+											aur_row.can_focus = true;
+											aur_row.get_child ().sensitive = true;
+											search_listbox.select_row (aur_row);
+											on_search_listbox_row_activated (search_listbox.get_selected_row ());
+										} else {
+											populate_packages_list (pkgs);
+										}
+									});
+								} else {
+									populate_packages_list (pkgs);
+								}
+							});
+						} else {
+							populate_packages_list (pkgs);
+							database.search_installed_pkgs_async.begin (search_string, (obj, res) => {
+								if (database.search_installed_pkgs_async.end (res).length () > 0) {
+									unowned Gtk.ListBoxRow installed_row = search_listbox.get_row_at_index (0);
+									installed_row.activatable = true;
+									installed_row.selectable = true;
+									installed_row.can_focus = true;
+									installed_row.get_child ().sensitive = true;
+								}
+							});
+						}
+					});
+					aur_list.clear ();
+					break;
+				case 2: // aur
+					search_entry.grab_focus_without_selecting ();
+					search_entry.set_position (-1);
 					if (search_string == null) {
 						origin_stack.visible_child_name = "no_item";
 						return;
@@ -2093,19 +2211,34 @@ namespace Pamac {
 						}
 						populate_aur_list (database.search_in_aur.end (res));
 					});
-					database.search_pkgs_async.begin (search_string, (obj, res) => {
-						unowned Gtk.ListBoxRow repo_row = search_listbox.get_row_at_index (0);
-						if (database.search_pkgs_async.end (res).length () > 0 ) {
-							repo_row.activatable = true;
-							repo_row.selectable = true;
-							repo_row.can_focus = true;
-							repo_row.get_child ().sensitive = true;
+					database.search_installed_pkgs_async.begin (search_string, (obj, res) => {
+						unowned Gtk.ListBoxRow installed_row = search_listbox.get_row_at_index (0);
+						if (database.search_installed_pkgs_async.end (res).length () > 0 ) {
+							installed_row.activatable = true;
+							installed_row.selectable = true;
+							installed_row.can_focus = true;
+							installed_row.get_child ().sensitive = true;
 						} else {
-							repo_row.activatable = false;
-							repo_row.selectable = false;
-							repo_row.has_focus = false;
-							repo_row.can_focus = false;
-							repo_row.get_child ().sensitive = false;
+							installed_row.activatable = false;
+							installed_row.selectable = false;
+							installed_row.has_focus = false;
+							installed_row.can_focus = false;
+							installed_row.get_child ().sensitive = false;
+						}
+					});
+					database.search_repos_pkgs_async.begin (search_string, (obj, res) => {
+						unowned Gtk.ListBoxRow repos_row = search_listbox.get_row_at_index (1);
+						if (database.search_repos_pkgs_async.end (res).length () > 0 ) {
+							repos_row.activatable = true;
+							repos_row.selectable = true;
+							repos_row.can_focus = true;
+							repos_row.get_child ().sensitive = true;
+						} else {
+							repos_row.activatable = false;
+							repos_row.selectable = false;
+							repos_row.has_focus = false;
+							repos_row.can_focus = false;
+							repos_row.get_child ().sensitive = false;
 						}
 					});
 					packages_list.clear ();

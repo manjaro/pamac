@@ -596,6 +596,134 @@ namespace Pamac {
 			return new Package.from_struct (initialise_pkg_struct (find_dbs_satisfier (depstring)));
 		}
 
+		Alpm.List<unowned Alpm.Package> search_local_db (string search_string) {
+			Alpm.List<unowned string> needles = null;
+			string[] splitted = search_string.split (" ");
+			foreach (unowned string part in splitted) {
+				needles.add (part);
+			}
+			Alpm.List<unowned Alpm.Package> result = alpm_handle.localdb.search (needles);
+			// search in appstream
+			string[]? search_terms = As.utils_search_tokenize (search_string);
+			if (search_terms != null) {
+				Alpm.List<unowned Alpm.Package> appstream_result = null;
+				app_store.get_apps ().foreach ((app) => {
+					uint match_score = app.search_matches_all (search_terms);
+					if (match_score > 0) {
+						unowned string pkgname = app.get_pkgname_default ();
+						unowned Alpm.Package? alpm_pkg = alpm_handle.localdb.get_pkg (pkgname);
+						if (alpm_pkg != null) {
+							if (appstream_result.find (alpm_pkg, (Alpm.List.CompareFunc) alpm_pkg_compare_name) == null) {
+								appstream_result.add (alpm_pkg);
+							}
+						}
+					}
+				});
+				result.join (appstream_result.diff (result, (Alpm.List.CompareFunc) alpm_pkg_compare_name));
+			}
+			// use custom sort function
+			global_search_string = search_string;
+			result.sort (result.length, (Alpm.List.CompareFunc) alpm_pkg_sort_search_by_relevance);
+			return result;
+		}
+
+		Alpm.List<unowned Alpm.Package> search_sync_dbs (string search_string) {
+			Alpm.List<unowned string> needles = null;
+			string[] splitted = search_string.split (" ");
+			foreach (unowned string part in splitted) {
+				needles.add (part);
+			}
+			Alpm.List<unowned Alpm.Package> localpkgs = alpm_handle.localdb.search (needles);
+			Alpm.List<unowned Alpm.Package> syncpkgs = null;
+			unowned Alpm.List<unowned Alpm.DB> syncdbs = alpm_handle.syncdbs;
+			while (syncdbs != null) {
+				unowned Alpm.DB db = syncdbs.data;
+				if (syncpkgs.length == 0) {
+					syncpkgs = db.search (needles);
+				} else {
+					syncpkgs.join (db.search (needles).diff (syncpkgs, (Alpm.List.CompareFunc) alpm_pkg_compare_name));
+				}
+				syncdbs.next ();
+			}
+			// remove localpkgs
+			Alpm.List<unowned Alpm.Package> result = syncpkgs.diff (localpkgs, (Alpm.List.CompareFunc) alpm_pkg_compare_name);
+			// search in appstream
+			string[]? search_terms = As.utils_search_tokenize (search_string);
+			if (search_terms != null) {
+				Alpm.List<unowned Alpm.Package> appstream_result = null;
+				app_store.get_apps ().foreach ((app) => {
+					uint match_score = app.search_matches_all (search_terms);
+					if (match_score > 0) {
+						unowned string pkgname = app.get_pkgname_default ();
+						unowned Alpm.Package? alpm_pkg = alpm_handle.localdb.get_pkg (pkgname);
+						if (alpm_pkg == null) {
+							alpm_pkg = get_syncpkg (pkgname);
+							if (alpm_pkg != null) {
+								if (appstream_result.find (alpm_pkg, (Alpm.List.CompareFunc) alpm_pkg_compare_name) == null) {
+									appstream_result.add (alpm_pkg);
+								}
+							}
+						}
+					}
+				});
+				result.join (appstream_result.diff (result, (Alpm.List.CompareFunc) alpm_pkg_compare_name));
+			}
+			// use custom sort function
+			global_search_string = search_string;
+			result.sort (result.length, (Alpm.List.CompareFunc) alpm_pkg_sort_search_by_relevance);
+			return result;
+		}
+
+		public List<Package> search_installed_pkgs (string search_string) {
+			var pkgs = new List<Package> ();
+			Alpm.List<unowned Alpm.Package> alpm_pkgs = search_local_db (search_string);
+			unowned Alpm.List<unowned Alpm.Package> list = alpm_pkgs;
+			while (list != null) {
+				unowned Alpm.Package alpm_pkg = list.data;
+				foreach (unowned Package pkg in initialise_pkgs (alpm_pkg)) {
+					pkgs.append (pkg);
+				}
+				list.next ();
+			}
+			return pkgs;
+		}
+
+		public async List<Package> search_installed_pkgs_async (string search_string) {
+			var pkgs = new List<Package> ();
+			new Thread<int> ("search_installed_pkgs", () => {
+				pkgs =  search_installed_pkgs (search_string);
+				Idle.add (search_installed_pkgs_async.callback);
+				return 0;
+			});
+			yield;
+			return (owned) pkgs;
+		}
+
+		public List<Package> search_repos_pkgs (string search_string) {
+			var pkgs = new List<Package> ();
+			Alpm.List<unowned Alpm.Package> alpm_pkgs = search_sync_dbs (search_string);
+			unowned Alpm.List<unowned Alpm.Package> list = alpm_pkgs;
+			while (list != null) {
+				unowned Alpm.Package alpm_pkg = list.data;
+				foreach (unowned Package pkg in initialise_pkgs (alpm_pkg)) {
+					pkgs.append (pkg);
+				}
+				list.next ();
+			}
+			return pkgs;
+		}
+
+		public async List<Package> search_repos_pkgs_async (string search_string) {
+			var pkgs = new List<Package> ();
+			new Thread<int> ("search_repos_pkgs", () => {
+				pkgs =  search_repos_pkgs (search_string);
+				Idle.add (search_repos_pkgs_async.callback);
+				return 0;
+			});
+			yield;
+			return (owned) pkgs;
+		}
+
 		Alpm.List<unowned Alpm.Package> search_all_dbs (string search_string) {
 			Alpm.List<unowned string> needles = null;
 			string[] splitted = search_string.split (" ");
@@ -711,8 +839,9 @@ namespace Pamac {
 			Json.Array aur_pkgs = aur_search_results.get (search_string);
 			aur_pkgs.foreach_element ((array, index, node) => {
 				Json.Object aur_pkg = node.get_object ();
-				// remove results which exist in repos
-				if (get_syncpkg (aur_pkg.get_string_member ("Name")) == null) {
+				// remove results which is installed or exist in repos
+				if (alpm_handle.localdb.get_pkg (aur_pkg.get_string_member ("Name")) == null
+					&& get_syncpkg (aur_pkg.get_string_member ("Name")) == null) {
 					result.append (new AURPackage.from_struct (initialise_aur_struct (aur_pkg)));
 				}
 			});

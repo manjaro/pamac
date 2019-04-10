@@ -934,12 +934,9 @@ namespace Pamac {
 			}
 		}
 
-		SearchFunc<Package, string> search_in_pkgs = (pkg, name) => {
-			return strcmp (pkg.name, name);
-		};
-
 		async void search_pkgs (string search_string) {
-			var pkgs = database.search_pkgs (search_string);
+			var installed_pkgs = database.search_installed_pkgs (search_string);
+			var repos_pkgs = database.search_repos_pkgs (search_string);
 			var aur_pkgs = new List<AURPackage> ();
 			if (database.config.enable_aur) {
 				aur_pkgs = yield database.search_in_aur (search_string);
@@ -957,7 +954,15 @@ namespace Pamac {
 			}
 			int version_length = 0;
 			int repo_length = 0;
-			foreach (unowned Package pkg in pkgs) {
+			foreach (unowned Package pkg in installed_pkgs) {
+				if (pkg.version.length > version_length) {
+					version_length = pkg.version.length;
+				}
+				if (pkg.repo.length > repo_length) {
+					repo_length = pkg.repo.length;
+				}
+			}
+			foreach (unowned Package pkg in repos_pkgs) {
 				if (pkg.version.length > version_length) {
 					version_length = pkg.version.length;
 				}
@@ -976,40 +981,51 @@ namespace Pamac {
 				}
 			}
 			int available_width = get_term_width () - (version_length + repo_length + 4);
-			if (pkgs.length () > 0) {
-				foreach (unowned Package pkg in pkgs) {
-					string name = pkg.name;
-					if (pkg.installed_version != "") {
-						name = "%s [%s]".printf (pkg.name, dgettext (null, "Installed"));
+			foreach (unowned Package pkg in installed_pkgs) {
+				string installed = "[%s]".printf (dgettext (null, "Installed"));
+				int installed_available_width = available_width - (installed.char_count () + 1);
+				var str_builder = new StringBuilder ();
+				str_builder.append (pkg.name);
+				str_builder.append (" ");
+				int diff = installed_available_width - pkg.name.length;
+				if (diff > 0) {
+					while (diff > 0) {
+						str_builder.append (" ");
+						diff--;
 					}
-					var str_builder = new StringBuilder ();
-					str_builder.append (name);
-					str_builder.append (" ");
-					int diff = available_width - name.char_count ();
-					if (diff > 0) {
-						while (diff > 0) {
-							str_builder.append (" ");
-							diff--;
-						}
+				}
+				str_builder.append (installed);
+				str_builder.append (" ");
+				str_builder.append ("%-*s  %s \n".printf (version_length, pkg.version, pkg.repo));
+				stdout.printf ("%s", str_builder.str);
+				string[] cuts = split_string (pkg.desc, 2, available_width);
+				foreach (unowned string cut in cuts) {
+					print_aligned ("", cut, 2);
+				}
+			}
+			foreach (unowned Package pkg in repos_pkgs) {
+				var str_builder = new StringBuilder ();
+				str_builder.append (pkg.name);
+				str_builder.append (" ");
+				int diff = available_width - pkg.name.length;
+				if (diff > 0) {
+					while (diff > 0) {
+						str_builder.append (" ");
+						diff--;
 					}
-					str_builder.append ("%-*s  %s \n".printf (version_length, pkg.version, pkg.repo));
-					stdout.printf ("%s", str_builder.str);
-					string[] cuts = split_string (pkg.desc, 2, available_width);
-					foreach (unowned string cut in cuts) {
-						print_aligned ("", cut, 2);
-					}
+				}
+				str_builder.append ("%-*s  %s \n".printf (version_length, pkg.version, pkg.repo));
+				stdout.printf ("%s", str_builder.str);
+				string[] cuts = split_string (pkg.desc, 2, available_width);
+				foreach (unowned string cut in cuts) {
+					print_aligned ("", cut, 2);
 				}
 			}
 			if (aur_pkgs.length () > 0) {
-				if (pkgs.length () > 0) {
+				if (installed_pkgs.length () > 0 || repos_pkgs.length () > 0) {
 					stdout.printf ("\n");
 				}
 				foreach (unowned AURPackage aur_pkg in aur_pkgs) {
-					unowned List<Package>? found = pkgs.search (aur_pkg.name, search_in_pkgs);
-					if (found != null) {
-						// pkg already printed
-						continue;
-					}
 					var str_builder = new StringBuilder ();
 					string name = aur_pkg.name;
 					if (aur_pkg.installed_version != "") {

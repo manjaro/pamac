@@ -49,7 +49,7 @@ namespace Pamac {
 				}
 				str_builder.append (str);
 			}
-			List<Package> pkgs = yield database.search_pkgs_async (str_builder.str);
+			List<Package> pkgs = yield database.search_repos_pkgs_async (str_builder.str);
 			var result = new GenericArray<string> ();
 			foreach (unowned Package pkg in pkgs) {
 				result.add (pkg.name);
