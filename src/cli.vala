@@ -1,7 +1,7 @@
 /*
  *  pamac-vala
  *
- *  Copyright (C) 2018 Guillaume Benoit <guillaume@manjaro.org>
+ *  Copyright (C) 2019 Guillaume Benoit <guillaume@manjaro.org>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -229,6 +229,8 @@ namespace Pamac {
 							database.config.aur_build_dir = args[i + 1];
 						}
 						i++;
+					} else if (arg == "--no-confirm") {
+						transaction.no_confirm = true;
 					} else {
 						targets += arg;
 					}
@@ -280,6 +282,7 @@ namespace Pamac {
 					if (args[2] == "--help" || args[2] == "-h") {
 						display_install_help ();
 					} else {
+						init_transaction ();
 						string[] targets = {};
 						int i = 2;
 						while (i < args.length) {
@@ -294,12 +297,13 @@ namespace Pamac {
 									temporary_ignorepkgs += name;
 								}
 								i++;
+							} else if (arg == "--no-confirm") {
+								transaction.no_confirm = true;
 							} else {
 								targets += arg;
 							}
 							i++;
 						}
-						init_transaction ();
 						install_pkgs (targets);
 					}
 				} else {
@@ -311,7 +315,23 @@ namespace Pamac {
 						display_reinstall_help ();
 					} else {
 						init_transaction ();
-						reinstall_pkgs (args[2:args.length]);
+						string[] targets = {};
+						int i = 2;
+						while (i < args.length) {
+							unowned string arg = args[i];
+							if (arg == "--overwrite") {
+								foreach (unowned string name in args[i + 1].split(",")) {
+									overwrite_files += name;
+								}
+								i++;
+							} else if (arg == "--no-confirm") {
+								transaction.no_confirm = true;
+							} else {
+								targets += arg;
+							}
+							i++;
+						}
+						reinstall_pkgs (targets);
 					}
 				} else {
 					display_reinstall_help ();
@@ -320,16 +340,27 @@ namespace Pamac {
 				if (args.length > 2) {
 					if (args[2] == "--help" || args[2] == "-h") {
 						display_remove_help ();
-					} else if (args[2] == "--orphans" || args[2] == "-o") {
-						init_transaction ();
-						if (args.length > 3) {
-							remove_pkgs (args[3:args.length], true);
-						} else {
-							remove_orphans ();
-						}
 					} else {
 						init_transaction ();
-						remove_pkgs (args[2:args.length]);
+						bool recurse = false;
+						string[] targets = {};
+						int i = 2;
+						while (i < args.length) {
+							unowned string arg = args[i];
+							if (arg == "--orphans" || arg == "-o") {
+								recurse = true;
+							} else if (arg == "--no-confirm") {
+								transaction.no_confirm = true;
+							} else {
+								targets += arg;
+							}
+							i++;
+						}
+						if (targets.length > 0) {
+							remove_pkgs (targets, recurse);
+						} else if (recurse) {
+							remove_orphans ();
+						}
 					}
 				} else {
 					display_remove_help ();
@@ -424,6 +455,8 @@ namespace Pamac {
 							overwrite_files += name;
 						}
 						i++;
+					} else if (arg == "--no-confirm") {
+						transaction.no_confirm = true;
 					} else {
 						display_upgrade_help ();
 						error = true;
@@ -773,7 +806,8 @@ namespace Pamac {
 			stdout.printf (dgettext (null, "options") + ":\n");
 			int max_length = 0;
 			string[] options = {"  %s <%s>".printf ("--builddir", dgettext (null, "dir")),
-								"  --no-clone"};
+								"  --no-clone",
+								"  --no-confirm"};
 			foreach (unowned string option in options) {
 				int length = option.char_count ();
 				if (length > max_length) {
@@ -781,7 +815,8 @@ namespace Pamac {
 				}
 			}
 			string[] details = {dgettext (null, "build directory, if no directory is given the one specified in pamac.conf file is used"),
-								dgettext (null, "do not clone build files from AUR, only use local files")};
+								dgettext (null, "do not clone build files from AUR, only use local files"),
+								dgettext (null, "bypass any and all confirmation messages")};
 			int i = 0;
 			foreach (unowned string option in options) {
 				string[] cuts = split_string (details[i], max_length + 3);
@@ -803,7 +838,8 @@ namespace Pamac {
 			stdout.printf (dgettext (null, "options") + ":\n");
 			int max_length = 0;
 			string[] options = {"  %s <%s>".printf ("--ignore", dgettext (null, "package(s)")),
-								"  %s <%s>".printf ("--overwrite", dgettext (null, "glob"))};
+								"  %s <%s>".printf ("--overwrite", dgettext (null, "glob")),
+								"  --no-confirm"};
 			foreach (unowned string option in options) {
 				int length = option.char_count ();
 				if (length > max_length) {
@@ -811,7 +847,8 @@ namespace Pamac {
 				}
 			}
 			string[] details = {dgettext (null, "ignore a package upgrade, multiple packages can be specified by separating them with a comma"),
-								dgettext (null, "overwrite conflicting files, multiple patterns can be specified by separating them with a comma")};
+								dgettext (null, "overwrite conflicting files, multiple patterns can be specified by separating them with a comma"),
+								dgettext (null, "bypass any and all confirmation messages")};
 			int i = 0;
 			foreach (unowned string option in options) {
 				string[] cuts = split_string (details[i], max_length + 3);
@@ -830,6 +867,29 @@ namespace Pamac {
 			stdout.printf ("\n\n");
 			stdout.printf ("pamac reinstall <%s>".printf ("%s,%s".printf (dgettext (null, "package(s)"), dgettext (null, "group(s)"))));
 			stdout.printf ("\n\n");
+			stdout.printf (dgettext (null, "options") + ":\n");
+			int max_length = 0;
+			string[] options = {"  %s <%s>".printf ("--overwrite", dgettext (null, "glob")),
+								"  --no-confirm"};
+			foreach (unowned string option in options) {
+				int length = option.char_count ();
+				if (length > max_length) {
+					max_length = length;
+				}
+			}
+			string[] details = {dgettext (null, "overwrite conflicting files, multiple patterns can be specified by separating them with a comma"),
+								dgettext (null, "bypass any and all confirmation messages")};
+			int i = 0;
+			foreach (unowned string option in options) {
+				string[] cuts = split_string (details[i], max_length + 3);
+				print_aligned (option, " : %s".printf (cuts[0]), max_length);
+				int j = 1;
+				while (j < cuts.length) {
+					print_aligned ("", "%s".printf (cuts[j]), max_length + 3);
+					j++;
+				}
+				i++;
+			}
 		}
 
 		void display_remove_help () {
@@ -839,14 +899,16 @@ namespace Pamac {
 			stdout.printf ("\n\n");
 			stdout.printf (dgettext (null, "options") + ":\n");
 			int max_length = 0;
-			string[] options = {"-o, --orphans"};
+			string[] options = {"  -o, --orphans",
+								"  --no-confirm"};
 			foreach (unowned string option in options) {
 				int length = option.char_count ();
 				if (length > max_length) {
 					max_length = length;
 				}
 			}
-			string[] details = {dgettext (null, "remove dependencies that are not required by other packages, if this option is used without package name remove all orphans")};
+			string[] details = {dgettext (null, "remove dependencies that are not required by other packages, if this option is used without package name remove all orphans"),
+								dgettext (null, "bypass any and all confirmation messages")};
 			int i = 0;
 			foreach (unowned string option in options) {
 				string[] cuts = split_string (details[i], max_length + 3);
@@ -908,7 +970,8 @@ namespace Pamac {
 								"  --force-refresh",
 								"  --enable-downgrade",
 								"  %s <%s>".printf ("--ignore", dgettext (null, "package(s)")),
-								"  %s <%s>".printf ("--overwrite", dgettext (null, "glob"))};
+								"  %s <%s>".printf ("--overwrite", dgettext (null, "glob")),
+								"  --no-confirm"};
 			foreach (unowned string option in options) {
 				int length = option.char_count ();
 				if (length > max_length) {
@@ -920,7 +983,8 @@ namespace Pamac {
 								dgettext (null, "force the refresh of the databases"),
 								dgettext (null, "enable package downgrades"),
 								dgettext (null, "ignore a package upgrade, multiple packages can be specified by separating them with a comma"),
-								dgettext (null, "overwrite conflicting files, multiple patterns can be specified by separating them with a comma")};
+								dgettext (null, "overwrite conflicting files, multiple patterns can be specified by separating them with a comma"),
+								dgettext (null, "bypass any and all confirmation messages")};
 			int i = 0;
 			foreach (unowned string option in options) {
 				string[] cuts = split_string (details[i], max_length + 3);

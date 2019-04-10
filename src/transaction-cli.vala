@@ -1,7 +1,7 @@
 /*
  *  pamac-vala
  *
- *  Copyright (C) 2018 Guillaume Benoit <guillaume@manjaro.org>
+ *  Copyright (C) 2019 Guillaume Benoit <guillaume@manjaro.org>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -22,6 +22,7 @@ namespace Pamac {
 		string current_line;
 		string current_action;
 		bool summary_shown;
+		public bool no_confirm { get; set; }
 
 		public TransactionCli (Database database) {
 			Object (database: database);
@@ -31,6 +32,7 @@ namespace Pamac {
 			current_line = "";
 			current_action = "";
 			summary_shown = false;
+			no_confirm = false;
 			// connect to signal
 			emit_action.connect (print_action);
 			emit_action_progress.connect (print_action_progress);
@@ -181,6 +183,9 @@ namespace Pamac {
 
 		protected override List<string> choose_optdeps (string pkgname, string[] optdeps) {
 			var optdeps_to_install = new List<string> ();
+			if (no_confirm) {
+				return optdeps_to_install;
+			}
 			// print pkgs
 			int num_length = optdeps.length.to_string ().length + 1;
 			stdout.printf ("%s:\n".printf (dgettext (null, "Choose optional dependencies for %s").printf (pkgname)));
@@ -242,6 +247,10 @@ namespace Pamac {
 		}
 
 		protected override int choose_provider (string depend, string[] providers) {
+			if (no_confirm) {
+				// choose first provider
+				return 0;
+			}
 			var pkgs = new SList<Package> ();
 			foreach (unowned string pkgname in providers) {
 				var pkg = database.get_sync_pkg (pkgname);
@@ -294,6 +303,9 @@ namespace Pamac {
 		}
 
 		bool ask_user (string question) {
+			if (no_confirm) {
+				return true;
+			}
 			// ask user confirmation
 			stdout.printf ("%s %s ", question, dgettext (null, "[y/N]"));
 			char buf[32];
