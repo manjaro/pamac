@@ -302,10 +302,9 @@ namespace Pamac {
 				summary_shown = false;
 				return commit_transaction_answer;
 			} else {
-				uint must_confirm_length = summary.to_install.length ()
-									+ summary.to_downgrade.length ()
-									+ summary.to_reinstall.length ()
+				uint must_confirm_length = summary.to_downgrade.length ()
 									+ summary.to_remove.length ()
+									+ summary.aur_conflicts_to_remove.length ()
 									+ summary.to_build.length ();
 				if (no_confirm_upgrade
 					&& must_confirm_length == 0
