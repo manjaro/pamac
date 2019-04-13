@@ -1850,6 +1850,12 @@ namespace Pamac {
 
 		void ask_group_confirmation (string grpname) {
 			var pkgs = database.get_group_pkgs (grpname);
+			if (transaction.no_confirm) {
+				foreach (unowned Package pkg in pkgs) {
+					to_install += pkg.name;
+				}
+				return;
+			}
 			// print pkgs
 			int name_length = 0;
 			int version_length = 0;
