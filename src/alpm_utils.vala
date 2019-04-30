@@ -100,6 +100,7 @@ namespace Pamac {
 		internal string[] to_remove;
 		internal string[] to_load;
 		internal string[] to_build;
+		internal string[] to_mark_as_dep;
 		internal bool sysupgrade;
 		AURPackageStruct[] to_build_pkgs;
 		SList<string> aur_pkgbases_to_build;
@@ -560,26 +561,55 @@ namespace Pamac {
 		}
 
 		bool trans_remove_pkg (string pkgname) {
+			bool success = true;
 			current_error = ErrorInfos ();
 			unowned Alpm.Package? pkg =  alpm_handle.localdb.get_pkg (pkgname);
 			if (pkg == null) {
 				current_error.message = _("Failed to prepare transaction");
 				current_error.details = { _("target not found: %s").printf (pkgname) };
-				return false;
+				success = false;
 			} else if (alpm_handle.trans_remove_pkg (pkg) == -1) {
 				Alpm.Errno errno = alpm_handle.errno ();
-				if (errno == Alpm.Errno.TRANS_DUP_TARGET) {
-					// just skip duplicate targets
-					return true;
-				} else {
+				// just skip duplicate targets
+				if (errno != Alpm.Errno.TRANS_DUP_TARGET) {
 					current_error.message = _("Failed to prepare transaction");
 					if (errno != 0) {
 						current_error.details = { "%s: %s".printf (pkg.name, Alpm.strerror (errno)) };
 					}
-					return false;
+					success = false;
 				}
 			}
-			return true;
+			if (success) {
+				if ((flags & Alpm.TransFlag.RECURSE) != 0) {
+					// also remove uneedded optdepends
+					unowned Alpm.List<unowned Alpm.Depend> optdepends = pkg.optdepends;
+					while (optdepends != null) {
+						unowned Alpm.Depend optdep = optdepends.data;
+						unowned Alpm.Package opt_pkg = Alpm.find_satisfier (alpm_handle.localdb.pkgcache, optdep.name);
+						if (opt_pkg != null) {
+							if (opt_pkg.reason == Alpm.Package.Reason.DEPEND) {
+								Alpm.List<string> requiredby = opt_pkg.compute_requiredby ();
+								if (requiredby.length == 0) {
+									Alpm.List<string> optionalfor = opt_pkg.compute_optionalfor ();
+									// opt_pkg is at least optional for pkg
+									if (optionalfor.length == 1) {
+										success = trans_remove_pkg (opt_pkg.name);
+									} else {
+										optionalfor.free_inner (GLib.free);
+									}
+								} else {
+									requiredby.free_inner (GLib.free);
+								}
+							}
+						}
+						if (!success) {
+							break;
+						}
+						optdepends.next ();
+					}
+				}
+			}
+			return success;
 		}
 
 		bool trans_prepare_real () {
@@ -679,6 +709,9 @@ namespace Pamac {
 			aur_conflicts_to_remove = {};
 			aur_pkgbases_to_build = new SList<string> ();
 			to_install_as_dep.remove_all ();
+			foreach (unowned string name in to_mark_as_dep) {
+				to_install_as_dep.insert (name, name);
+			}
 			launch_trans_prepare_real ();
 		}
 
@@ -743,6 +776,9 @@ namespace Pamac {
 			to_build_pkgs = {};
 			aur_pkgbases_to_build = new SList<string> ();
 			to_install_as_dep.remove_all ();
+			foreach (unowned string name in to_mark_as_dep) {
+				to_install_as_dep.insert (name, name);
+			}
 			// get an handle with fake aur db and without emit signal callbacks
 			alpm_handle = alpm_config.get_handle ();
 			if (alpm_handle == null) {

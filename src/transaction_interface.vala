@@ -31,7 +31,7 @@ namespace Pamac {
 		public abstract void start_refresh (bool force);
 		public abstract void start_downloading_updates ();
 		public abstract void start_sysupgrade_prepare (bool enable_downgrade, string[] to_build, string[] temporary_ignorepkgs, string[] overwrite_files);
-		public abstract void start_trans_prepare (int transflags, string[] to_install, string[] to_remove, string[] to_load, string[] to_build, string[] temporary_ignorepkgs, string[] overwrite_files);
+		public abstract void start_trans_prepare (int transflags, string[] to_install, string[] to_remove, string[] to_load, string[] to_build, string[] temporary_ignorepkgs, string[] overwrite_files, string[] to_mark_as_dep);
 		public abstract void choose_provider (int provider);
 		public abstract TransactionSummaryStruct get_transaction_summary ();
 		public abstract void start_trans_commit ();

@@ -465,6 +465,7 @@ namespace Pamac {
 										string[] to_build,
 										string[] temporary_ignorepkgs,
 										string[] overwrite_files,
+										string[] to_mark_as_dep,
 										GLib.BusName sender) throws Error {
 			if (lock_id != sender) {
 				trans_prepare_finished (false);
@@ -477,6 +478,7 @@ namespace Pamac {
 			alpm_utils.to_build = to_build;
 			alpm_utils.temporary_ignorepkgs = temporary_ignorepkgs;
 			alpm_utils.overwrite_files = overwrite_files;
+			alpm_utils.to_mark_as_dep = to_mark_as_dep;
 			alpm_utils.sysupgrade = false;
 			if (alpm_utils.downloading_updates) {
 				alpm_utils.cancellable.cancel ();

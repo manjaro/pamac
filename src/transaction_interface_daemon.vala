@@ -33,7 +33,7 @@ namespace Pamac {
 		public abstract void start_refresh (bool force) throws Error;
 		public abstract void start_downloading_updates () throws Error;
 		public abstract void start_sysupgrade_prepare (bool enable_downgrade, string[] to_build, string[] temporary_ignorepkgs, string[] overwrite_files) throws Error;
-		public abstract void start_trans_prepare (int transflags, string[] to_install, string[] to_remove, string[] to_load, string[] to_build, string[] temporary_ignorepkgs, string[] overwrite_files) throws Error;
+		public abstract void start_trans_prepare (int transflags, string[] to_install, string[] to_remove, string[] to_load, string[] to_build, string[] temporary_ignorepkgs, string[] overwrite_files, string[] to_mark_as_dep) throws Error;
 		public abstract void choose_provider (int provider) throws Error;
 		public abstract TransactionSummaryStruct get_transaction_summary () throws Error;
 		public abstract void start_trans_commit () throws Error;
@@ -235,9 +235,10 @@ namespace Pamac {
 								string[] to_load,
 								string[] to_build,
 								string[] temporary_ignorepkgs,
-								string[] overwrite_files) {
+								string[] overwrite_files,
+								string[] to_mark_as_dep) {
 			try {
-				system_daemon.start_trans_prepare (flags, to_install, to_remove, to_load, to_build, temporary_ignorepkgs, overwrite_files);
+				system_daemon.start_trans_prepare (flags, to_install, to_remove, to_load, to_build, temporary_ignorepkgs, overwrite_files, to_mark_as_dep);
 			} catch (Error e) {
 				stderr.printf ("start_trans_prepare: %s\n", e.message);
 			}

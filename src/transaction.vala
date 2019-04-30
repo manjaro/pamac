@@ -41,6 +41,7 @@ namespace Pamac {
 		string[] to_build;
 		string[] temporary_ignorepkgs;
 		string[] overwrite_files;
+		string[] to_mark_as_dep;
 		// building data
 		string aurdb_path;
 		GenericSet<string?> already_checked_aur_dep;
@@ -113,8 +114,6 @@ namespace Pamac {
 			current_filename = "";
 			no_confirm_commit = false;
 			sysupgrading = false;
-			temporary_ignorepkgs = {};
-			overwrite_files = {};
 			// building data
 			aurdb_path = "/tmp/pamac/aur-%s".printf (Environment.get_user_name ());
 			already_checked_aur_dep = new GenericSet<string?> (str_hash, str_equal);
@@ -717,10 +716,10 @@ namespace Pamac {
 						return;
 					}
 					aur_unresolvables = {};
-					transaction_interface.start_trans_prepare (flags, to_install, to_remove, to_load, to_build, temporary_ignorepkgs, overwrite_files);
+					transaction_interface.start_trans_prepare (flags, to_install, to_remove, to_load, to_build, temporary_ignorepkgs, overwrite_files, to_mark_as_dep);
 				});
 			} else {
-				transaction_interface.start_trans_prepare (flags, to_install, to_remove, to_load, to_build, temporary_ignorepkgs, overwrite_files);
+				transaction_interface.start_trans_prepare (flags, to_install, to_remove, to_load, to_build, temporary_ignorepkgs, overwrite_files, to_mark_as_dep);
 			}
 		}
 
@@ -731,6 +730,7 @@ namespace Pamac {
 			this.to_build = to_build;
 			this.temporary_ignorepkgs = temporary_ignorepkgs;
 			this.overwrite_files = overwrite_files;
+			this.to_mark_as_dep = {};
 			// choose optdeps
 			var to_add_to_install = new GenericSet<string?> (str_hash, str_equal);
 			foreach (unowned string name in this.to_install) {
@@ -746,13 +746,15 @@ namespace Pamac {
 					}
 					if (real_uninstalled_optdeps.length > 0) {
 						foreach (unowned string optdep in choose_optdeps (name, real_uninstalled_optdeps.data)) {
-							to_add_to_install.add (optdep);
+							string optdep_name = optdep.split (": ", 2)[0];
+							to_add_to_install.add (optdep_name);
 						}
 					}
 				}
 			}
 			foreach (unowned string name in to_add_to_install) {
 				this.to_install += name;
+				this.to_mark_as_dep += name;
 			}
 			emit_action (dgettext (null, "Preparing") + "...");
 			connecting_signals ();
