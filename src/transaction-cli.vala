@@ -558,7 +558,7 @@ namespace Pamac {
 			if (!summary_shown) {
 				show_summary (summary);
 			}
-			return ask_user ("%s ?".printf (dgettext (null, "Commit transaction")));
+			return ask_user ("%s ?".printf (dgettext (null, "Apply transaction")));
 		}
 
 		async void ask_view_diff (string pkgname) {

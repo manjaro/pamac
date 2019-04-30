@@ -1,13 +1,13 @@
 # Translation of Pamac.
-# Copyright (C) 2013-2018 Manjaro Developers <manjaro-dev@manjaro.org>
+# Copyright (C) 2013-2019 Manjaro Developers <manjaro-dev@manjaro.org>
 # This file is distributed under the same license as the Pamac package.
-# Guillaume Benoit <guillaume@manjaro.org>, 2013-2018.
+# Guillaume Benoit <guillaume@manjaro.org>, 2013-2019.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: Pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2018-05-26 17:59+0200\n"
+"POT-Creation-Date: 2019-04-30 11:58+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
