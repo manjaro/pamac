@@ -758,7 +758,25 @@ namespace Pamac {
 			}
 			if (success) {
 				foreach (unowned string path in to_load) {
-					success = trans_load_pkg (path);
+					// mv tarball in cachedir if it's a built package
+					// check for "/var/tmp/pamac-build" because
+					// default aur_build_dir is "/var/tmp/pamac-build-root" here
+					if (path.has_prefix ("/var/tmp/pamac-build")
+						|| path.has_prefix (config.aur_build_dir)) {
+						// get first cachedir
+						unowned Alpm.List<unowned string> cachedirs = alpm_handle.cachedirs;
+						unowned string cachedir = cachedirs.data;
+						try {
+							Process.spawn_command_line_sync ("mv -f %s %s".printf (path, cachedir));
+							string tarball_name = Path.get_basename (path);
+							string new_path = "%s%s".printf (cachedir, tarball_name);
+							success = trans_load_pkg (new_path);
+						} catch (SpawnError e) {
+							stderr.printf ("SpawnError: %s\n", e.message);
+						}
+					} else {
+						success = trans_load_pkg (path);
+					}
 					if (!success) {
 						break;
 					}
