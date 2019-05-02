@@ -735,7 +735,7 @@ namespace Pamac {
 			var to_add_to_install = new GenericSet<string?> (str_hash, str_equal);
 			foreach (unowned string name in this.to_install) {
 				// do not check if reinstall
-				if (database.get_installed_pkg (name).name == "") {
+				if (database.is_installed_pkg (name)) {
 					List<string> uninstalled_optdeps = database.get_uninstalled_optdeps (name);
 					var real_uninstalled_optdeps = new GenericArray<string> ();
 					foreach (unowned string optdep in uninstalled_optdeps) {
@@ -806,6 +806,7 @@ namespace Pamac {
 
 		async void build_next_aur_package () {
 			string pkgname = to_build_queue.pop_head ();
+			emit_script_output ("");
 			emit_action (dgettext (null, "Building %s").printf (pkgname) + "...");
 			build_cancellable.reset ();
 			important_details_outpout (false);

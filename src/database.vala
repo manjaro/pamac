@@ -147,6 +147,95 @@ namespace Pamac {
 			return alpm_handle.checkspace == 1 ? true : false;
 		}
 
+		public HashTable<string, int64?> get_clean_cache_details (uint64 keep_nb, bool only_uninstalled) {
+			var filenames_size = new HashTable<string, int64?> (str_hash, str_equal);
+			var pkg_version_filenames = new HashTable<string, SList<string>> (str_hash, str_equal);
+			var pkg_versions = new HashTable<string, SList<string>> (str_hash, str_equal);
+			// compute all infos
+			unowned Alpm.List<unowned string> cachedirs_names = alpm_handle.cachedirs;
+			while (cachedirs_names != null) {
+				unowned string cachedir_name = cachedirs_names.data;
+				var cachedir = File.new_for_path (cachedir_name);
+				try {
+					FileEnumerator enumerator = cachedir.enumerate_children ("standard::*", FileQueryInfoFlags.NONE);
+					FileInfo info;
+					while ((info = enumerator.next_file (null)) != null) {
+						unowned string filename = info.get_name ();
+						string absolute_filename = "%s%s".printf (cachedir_name, filename);
+						string name_version_release = filename.slice (0, filename.last_index_of_char ('-'));
+						int release_index = name_version_release.last_index_of_char ('-');
+						string name_version = name_version_release.slice (0, release_index);
+						int version_index = name_version.last_index_of_char ('-');
+						string name = name_version.slice (0, version_index);
+						if (only_uninstalled && is_installed_pkg (name)) {
+							continue;
+						}
+						filenames_size.insert (absolute_filename, info.get_size ());
+						if (pkg_versions.contains (name)) {
+							if (pkg_version_filenames.contains (name_version_release)) {
+								// case of .sig file
+								unowned SList<string> filenames = pkg_version_filenames.lookup (name_version_release);
+								filenames.append (absolute_filename);
+							} else {
+								unowned SList<string> versions = pkg_versions.lookup (name);
+								string version = name_version.slice (version_index + 1, name_version.length);
+								string release = name_version_release.slice (release_index + 1, name_version_release.length);
+								string version_release = "%s-%s".printf (version, release);
+								versions.append ((owned) version_release);
+								var filenames = new SList<string> ();
+								filenames.append (absolute_filename);
+								pkg_version_filenames.insert (name_version_release, (owned) filenames);
+							}
+						} else {
+							var versions = new SList<string> ();
+							string version = name_version.slice (version_index + 1, name_version.length);
+							string release = name_version_release.slice (release_index + 1, name_version_release.length);
+							string version_release = "%s-%s".printf (version, release);
+							versions.append ((owned) version_release);
+							pkg_versions.insert (name, (owned) versions);
+							var filenames = new SList<string> ();
+							filenames.append (absolute_filename);
+							pkg_version_filenames.insert (name_version_release, (owned) filenames);
+						}
+					}
+				} catch (GLib.Error e) {
+					stderr.printf ("Error: %s\n", e.message);
+				}
+				cachedirs_names.next ();
+			}
+			if (keep_nb == 0) {
+				return filenames_size;
+			}
+			// filter candidates
+			var iter = HashTableIter<string, SList<string>> (pkg_versions);
+			unowned string name;
+			unowned SList<string> versions;
+			while (iter.next (out name, out versions)) {
+				// sort versions
+				uint length = versions.length ();
+				if (length > keep_nb) {
+					versions.sort ((version1, version2) => {
+						// reverse version 1 and version2 to have higher versions first
+						return Alpm.pkg_vercmp (version2, version1);
+					});
+				}
+				uint i = 1;
+				foreach (unowned string version in versions) {
+					unowned SList<string>? filenames = pkg_version_filenames.lookup ("%s-%s".printf (name, version));
+					if (filenames != null) {
+						foreach (unowned string filename in filenames) {
+							filenames_size.remove (filename);
+						}
+					}
+					i++;
+					if (i > keep_nb) {
+						break;
+					}
+				}
+			}
+			return filenames_size;
+		}
+
 		public List<string> get_ignorepkgs () {
 			var result = new List<string> ();
 			unowned Alpm.List<unowned string> ignorepkgs = alpm_handle.ignorepkgs;
@@ -156,6 +245,10 @@ namespace Pamac {
 				ignorepkgs.next ();
 			}
 			return result;
+		}
+
+		public bool is_installed_pkg (string pkgname) {
+			return alpm_handle.localdb.get_pkg (pkgname) != null;
 		}
 
 		public Package get_installed_pkg (string pkgname) {
