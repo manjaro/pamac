@@ -75,6 +75,8 @@ namespace Pamac {
 						display_checkupdates_help ();
 					} else if (args[2] == "upgrade" || args[2] == "update") {
 						display_upgrade_help ();
+					} else if (args[2] == "clean") {
+						display_clean_help ();
 					} else {
 						display_help ();
 					}
@@ -467,6 +469,105 @@ namespace Pamac {
 				if (!error) {
 					try_lock_and_run (start_sysupgrade);
 				}
+			} else if (args[1] == "clean") {
+				init_transaction ();
+				bool error = false;
+				bool verbose = false;
+				bool build_files = false;
+				bool dry_run = false;
+				bool no_confirm = false;
+				int i = 2;
+				while (i < args.length) {
+					unowned string arg = args[i];
+					if (arg == "--help" || arg == "-h") {
+						display_clean_help ();
+						error = true;
+						break;
+					} else if (arg == "--build-files" || arg == "-b") {
+						build_files = true;
+					} else if (arg == "--no-confirm") {
+						no_confirm = true;
+					} else if (arg == "--keep" || arg == "-k") {
+						if (args[i + 1] != null) {
+							int64 num;
+							if (int64.try_parse (args[i + 1], out num)) {
+								database.config.clean_keep_num_pkgs = num;
+							} else {
+								display_clean_help ();
+								error = true;
+								break;
+							}
+						} else {
+							display_clean_help ();
+							error = true;
+							break;
+						}
+						i++;
+					} else if (arg.has_prefix ("-k")) {
+						string number = arg.split ("-k", 2)[1];
+						if (number.has_prefix ("=")) {
+							number = number.split ("=", 2)[1];
+							if (number == "") {
+								display_clean_help ();
+								error = true;
+								break;
+							}
+						}
+						int64 num;
+						if (int64.try_parse (number, out num)) {
+							database.config.clean_keep_num_pkgs = num;
+						} else {
+							display_clean_help ();
+							error = true;
+							break;
+						}
+					} else if (arg == "--uninstalled" || arg == "-u") {
+						database.config.clean_rm_only_uninstalled = true;
+					} else if (arg == "--dry-run" || arg == "-d") {
+						dry_run = true;
+					} else if (arg == "--verbose" || arg == "-v") {
+						verbose = true;
+					} else if (arg == "-bv" || arg == "-vb") {
+						build_files = true;
+						verbose = true;
+					} else if (arg == "-dv" || arg == "-vd") {
+						dry_run = true;
+						verbose = true;
+					} else if (arg == "-bd" || arg == "-db") {
+						dry_run = true;
+						build_files = true;
+					} else if (arg == "-du" || arg == "-ud") {
+						dry_run = true;
+						database.config.clean_rm_only_uninstalled = true;
+					} else if (arg == "-uv" || arg == "-vu") {
+						verbose = true;
+						database.config.clean_rm_only_uninstalled = true;
+					} else if (arg == "-bdv" || arg == "-bvd"
+							|| arg == "-dbv" || arg == "-dvb"
+							|| arg == "-vbd" || arg == "-vdb") {
+						build_files = true;
+						dry_run = true;
+						verbose = true;
+					} else if (arg == "-udv" || arg == "-uvd"
+							|| arg == "-duv" || arg == "-dvu"
+							|| arg == "-vud" || arg == "-vdu") {
+						database.config.clean_rm_only_uninstalled = true;
+						dry_run = true;
+						verbose = true;
+					} else {
+						display_clean_help ();
+						error = true;
+						break;
+					}
+					i++;
+				}
+				if (!error) {
+					if (build_files) {
+						clean_build_files (dry_run, verbose, no_confirm);
+					} else {
+						clean_cache (dry_run, verbose, no_confirm);
+					}
+				}
 			} else {
 				display_help ();
 			}
@@ -618,6 +719,7 @@ namespace Pamac {
 		void display_help () {
 			string[] actions = {"--version",
 								"--help,-h",
+								"clean",
 								"checkupdates",
 								"update,upgrade",
 								"search",
@@ -628,7 +730,8 @@ namespace Pamac {
 								"clone",
 								"build",
 								"remove"};
-			string[] options_actions = {"checkupdates",
+			string[] options_actions = {"clean",
+										"checkupdates",
 										"update,upgrade",
 										"search",
 										"info",
@@ -984,6 +1087,44 @@ namespace Pamac {
 								dgettext (null, "enable package downgrades"),
 								dgettext (null, "ignore a package upgrade, multiple packages can be specified by separating them with a comma"),
 								dgettext (null, "overwrite conflicting files, multiple patterns can be specified by separating them with a comma"),
+								dgettext (null, "bypass any and all confirmation messages")};
+			int i = 0;
+			foreach (unowned string option in options) {
+				string[] cuts = split_string (details[i], max_length + 3);
+				print_aligned (option, " : %s".printf (cuts[0]), max_length);
+				int j = 1;
+				while (j < cuts.length) {
+					print_aligned ("", "%s".printf (cuts[j]), max_length + 3);
+					j++;
+				}
+				i++;
+			}
+		}
+
+		void display_clean_help () {
+			stdout.printf (dgettext (null, "Clean packages cache or build files"));
+			stdout.printf ("\n\n");
+			stdout.printf ("pamac clean [%s]".printf (dgettext (null, "options")));
+			stdout.printf ("\n\n");
+			stdout.printf (dgettext (null, "options") + ":\n");
+			int max_length = 0;
+			string[] options = {"  %s <%s>".printf ("-k, --keep", dgettext (null, "number")),
+								"  -u, --uninstalled",
+								"  -b, --build-files",
+								"  -d, --dry-run",
+								"  -v, --verbose",
+								"  --no-confirm"};
+			foreach (unowned string option in options) {
+				int length = option.char_count ();
+				if (length > max_length) {
+					max_length = length;
+				}
+			}
+			string[] details = {dgettext (null, "specify how many versions of each package are kept in the cache directory"),
+								dgettext (null, "only target uninstalled packages"),
+								dgettext (null, "remove all build files, the build directory is the one specified in pamac.conf"),
+								dgettext (null, "do not remove files, only find candidate packages"),
+								dgettext (null, "also display all files names"),
 								dgettext (null, "bypass any and all confirmation messages")};
 			int i = 0;
 			foreach (unowned string option in options) {
@@ -1793,6 +1934,85 @@ namespace Pamac {
 			}
 		}
 
+		bool ask_user (string question) {
+			// ask user confirmation
+			stdout.printf ("%s %s ", question, dgettext (null, "[y/N]"));
+			char buf[32];
+			if (stdin.gets (buf) != null) {
+				string ans = (string) buf;
+				// remove trailing newline and uppercase
+				ans = ans.replace ("\n", "").down ();
+				// just return use default
+				if (ans != "") {
+					if (ans == dgettext (null, "y") ||
+						ans == dgettext (null, "yes")) {
+						return true;
+					}
+				}
+			}
+			return false;
+		}
+
+		void clean_cache (bool dry_run, bool verbose, bool no_confirm) {
+			HashTable<string, int64?> details = database.get_clean_cache_details (database.config.clean_keep_num_pkgs, database.config.clean_rm_only_uninstalled);
+			int64 total_size = 0;
+			var filenames = new SList<string> ();
+			var iter = HashTableIter<string, int64?> (details);
+			unowned string filename;
+			int64? size;
+			while (iter.next (out filename, out size)) {
+				total_size += size;
+				filenames.append (filename);
+			}
+			if (database.config.clean_rm_only_uninstalled) {
+				stdout.printf ("%s\n", dgettext (null, "Remove only the versions of uninstalled packages"));
+			}
+			stdout.printf ("%s: %llu\n\n", dgettext (null, "Number of versions of each package to keep in the cache"), database.config.clean_keep_num_pkgs);
+			if (verbose) {
+				filenames.sort (strcmp);
+				foreach (unowned string name in filenames) {
+					stdout.printf ("%s\n", name);
+				}
+				stdout.printf ("\n");
+			}
+			uint files_nb = filenames.length ();
+			stdout.printf ("%s: %s  (%s)\n".printf (dgettext (null, "To delete"), dngettext (null, "%u file", "%u files", files_nb).printf (files_nb), format_size (total_size)));
+			if (files_nb == 0 || dry_run) {
+				return;
+			}
+			if (no_confirm || ask_user ("%s ?".printf (dgettext (null, "Clean cache")))) {
+				transaction.clean_cache (database.config.clean_keep_num_pkgs, database.config.clean_rm_only_uninstalled);
+			}
+		}
+
+		void clean_build_files (bool dry_run, bool verbose, bool no_confirm) {
+			HashTable<string, int64?> details = database.get_build_files_details (database.config.aur_build_dir);
+			int64 total_size = 0;
+			var filenames = new SList<string> ();
+			var iter = HashTableIter<string, int64?> (details);
+			unowned string filename;
+			int64? size;
+			while (iter.next (out filename, out size)) {
+				total_size += size;
+				filenames.append (filename);
+			}
+			if (verbose) {
+				filenames.sort (strcmp);
+				foreach (unowned string name in filenames) {
+					stdout.printf ("%s\n", name);
+				}
+				stdout.printf ("\n");
+			}
+			uint files_nb = filenames.length ();
+			stdout.printf ("%s: %s  (%s)\n".printf (dgettext (null, "To delete"), dngettext (null, "%u file", "%u files", files_nb).printf (files_nb), format_size (total_size)));
+			if (files_nb == 0 || dry_run) {
+				return;
+			}
+			if (no_confirm || ask_user ("%s ?".printf (dgettext (null, "Clean build files")))) {
+				transaction.clean_build_files (database.config.aur_build_dir);
+			}
+		}
+
 		void install_pkgs (string[] targets) {
 			foreach (unowned string target in targets) {
 				bool found = false;
@@ -1868,8 +2088,8 @@ namespace Pamac {
 				}
 			}
 			int num_length = pkgs.length ().to_string ().length + 1;
-			stdout.printf ("%s:\n".printf (dngettext (null, "There is %u member in group %s",
-						"There are %u members in group %s", pkgs.length ()).printf (pkgs.length (), grpname)));
+			stdout.printf ("%s:\n".printf (dngettext (null, "There is %1u member in group %2s",
+						"There are %1u members in group %2s", pkgs.length ()).printf (pkgs.length (), grpname)));
 			int num = 1;
 			foreach (unowned Package pkg in pkgs) {
 				stdout.printf ("%*s  %-*s  %-*s  %s\n",

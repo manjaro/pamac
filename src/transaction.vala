@@ -242,6 +242,10 @@ namespace Pamac {
 			transaction_interface.clean_cache (keep_nb, only_uninstalled);
 		}
 
+		public void clean_build_files (string build_dir) {
+			transaction_interface.clean_build_files (build_dir);
+		}
+
 		public void start_set_pkgreason (string pkgname, uint reason) {
 			transaction_interface.set_pkgreason_finished.connect (on_set_pkgreason_finished);
 			transaction_interface.start_set_pkgreason (pkgname, reason);
