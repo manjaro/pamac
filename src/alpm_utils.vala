@@ -192,6 +192,21 @@ namespace Pamac {
 			}
 		}
 
+		internal void clean_cache (keep_nb, only_uninstalled) {
+			var database = new Pamac.Database (config);
+			HashTable<string, int64?> details = database.get_clean_cache_details (keep_nb, only_uninstalled);
+			var iter = HashTableIter<string, int64?> (details);
+			unowned string name;
+			while (iter.next (out name, null)) {
+				var file = GLib.File.new_for_path (name);
+				try {
+					file.delete ();
+				} catch (GLib.Error e) {
+					stderr.printf("%s\n", e.message);
+				}
+			}
+		}
+
 		unowned Alpm.Package? get_syncpkg (string name) {
 			unowned Alpm.Package? pkg = null;
 			unowned Alpm.List<unowned Alpm.DB> syncdbs = alpm_handle.syncdbs;

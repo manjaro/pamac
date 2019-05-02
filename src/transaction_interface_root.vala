@@ -134,18 +134,7 @@ namespace Pamac {
 		}
 
 		public void clean_cache (uint64 keep_nb, bool only_uninstalled) {
-			string[] commands = {"paccache", "--nocolor", "-rq"};
-			commands += "-k%llu".printf (keep_nb);
-			if (only_uninstalled) {
-				commands += "-u";
-			}
-			try {
-				new Subprocess.newv (
-					commands,
-					SubprocessFlags.STDOUT_SILENCE | SubprocessFlags.STDERR_SILENCE);
-			} catch (Error e) {
-				stderr.printf ("Error: %s\n", e.message);
-			}
+			alpm_utils.clean_cache (keep_nb, only_uninstalled);
 		}
 
 		async void set_pkgreason (string pkgname, uint reason) {

@@ -356,18 +356,7 @@ namespace Pamac {
 			check_authorization.begin (sender, (obj, res) => {
 				bool authorized = check_authorization.end (res);
 				if (authorized) {
-					string[] commands = {"paccache", "--nocolor", "-rq"};
-					commands += "-k%llu".printf (keep_nb);
-					if (only_uninstalled) {
-						commands += "-u";
-					}
-					try {
-						new Subprocess.newv (
-							commands,
-							SubprocessFlags.STDOUT_SILENCE | SubprocessFlags.STDERR_SILENCE);
-					} catch (Error e) {
-						stderr.printf ("Error: %s\n", e.message);
-					}
+					alpm_utils.clean_cache (keep_nb, only_uninstalled);
 				}
 			});
 		}
