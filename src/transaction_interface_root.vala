@@ -137,6 +137,10 @@ namespace Pamac {
 			alpm_utils.clean_cache (keep_nb, only_uninstalled);
 		}
 
+		public void clean_build_files (string build_dir) {
+			alpm_utils.clean_build_files (build_dir);
+		}
+
 		async void set_pkgreason (string pkgname, uint reason) {
 			alpm_utils.set_pkgreason (pkgname, reason);
 			database_modified ();

@@ -27,6 +27,7 @@ namespace Pamac {
 		public abstract void start_write_alpm_config (HashTable<string,Variant> new_alpm_conf);
 		public abstract void start_generate_mirrors_list (string country);
 		public abstract void clean_cache (uint64 keep_nb, bool only_uninstalled);
+		public abstract void clean_build_files (string build_dir);
 		public abstract void start_set_pkgreason (string pkgname, uint reason);
 		public abstract void start_refresh (bool force);
 		public abstract void start_downloading_updates ();

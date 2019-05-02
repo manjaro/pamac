@@ -361,6 +361,15 @@ namespace Pamac {
 			});
 		}
 
+		public void clean_build_files (string build_dir, GLib.BusName sender) throws Error {
+			check_authorization.begin (sender, (obj, res) => {
+				bool authorized = check_authorization.end (res);
+				if (authorized) {
+					alpm_utils.clean_build_files (build_dir);
+				}
+			});
+		}
+
 		public void start_set_pkgreason (string pkgname, uint reason, GLib.BusName sender) throws Error {
 			check_authorization.begin (sender, (obj, res) => {
 				bool authorized = check_authorization.end (res);

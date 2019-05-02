@@ -34,20 +34,6 @@ common_sources = ['common.vala', 'package.vala', 'pamac_config.vala']
 transaction_gtk_sources = ['transaction-gtk.vala', 'choose_provider_dialog.vala', 'choose_pkgs_dialog.vala', 'transaction_sum_dialog.vala', 'progress_box.vala']
 preferences_sources = ['preferences_dialog.vala']
 
-executable('pamac-clean-cache',
-	sources: ['pamac_config.vala', 'clean_cache.vala'],
-	dependencies: [gio],
-	vala_args: common_vala_args,
-	c_args: common_c_args,
-	install: true)
-
-executable('pamac-system-daemon',
-	sources: ['common_daemon.vala', 'pamac_config.vala', 'alpm_config.vala', 'alpm_utils.vala', 'system_daemon.vala'],
-	dependencies: [vala_deps, alpm_deps, json, libsoup, polkit, libcurl, appstream],
-	vala_args: [common_vala_args, alpm_vala_args],
-	c_args: [common_c_args, alpm_c_args],
-	install : true)
-
 libpamac = library('pamac',
 	sources: [common_sources, 'error.vala', 'alpm_config.vala', 'aur.vala', 'database.vala', 'transaction_interface.vala', 'alpm_utils.vala', 'transaction_interface_root.vala', 'transaction_interface_daemon.vala', 'transaction.vala'],
 	dependencies: [alpm_deps, math, json, appstream, libsoup, libcurl],
@@ -58,6 +44,20 @@ libpamac = library('pamac',
 	install_dir: [true, true, true, true])
 
 libpamac_dep = declare_dependency(link_with: libpamac)
+
+executable('pamac-clean-cache',
+	sources: ['clean_cache.vala'],
+	dependencies: [gio, libpamac_dep],
+	vala_args: common_vala_args,
+	c_args: common_c_args,
+	install: true)
+
+executable('pamac-system-daemon',
+	sources: ['common_daemon.vala', 'alpm_utils.vala', 'alpm_config.vala', 'system_daemon.vala'],
+	dependencies: [vala_deps, alpm_deps, json, libsoup, polkit, libcurl, appstream, libpamac_dep],
+	vala_args: [common_vala_args, alpm_vala_args],
+	c_args: [common_c_args, alpm_c_args],
+	install : true)
 
 executable('pamac',
 	sources: ['version.vala', 'transaction-cli.vala', 'cli.vala'],

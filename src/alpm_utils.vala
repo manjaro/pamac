@@ -192,7 +192,7 @@ namespace Pamac {
 			}
 		}
 
-		internal void clean_cache (keep_nb, only_uninstalled) {
+		internal void clean_cache (uint64 keep_nb, bool only_uninstalled) {
 			var database = new Pamac.Database (config);
 			HashTable<string, int64?> details = database.get_clean_cache_details (keep_nb, only_uninstalled);
 			var iter = HashTableIter<string, int64?> (details);
@@ -204,6 +204,15 @@ namespace Pamac {
 				} catch (GLib.Error e) {
 					stderr.printf("%s\n", e.message);
 				}
+			}
+		}
+
+		internal void clean_build_files (string build_dir) {
+			try {
+				Process.spawn_command_line_sync ("rm -rf %s".printf (build_dir));
+				Process.spawn_command_line_sync ("mkdir -p %s".printf (build_dir));
+			} catch (SpawnError e) {
+				stderr.printf ("SpawnError: %s\n", e.message);
 			}
 		}
 

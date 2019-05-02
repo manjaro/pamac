@@ -29,6 +29,7 @@ namespace Pamac {
 		public abstract void start_write_alpm_config (HashTable<string,Variant> new_alpm_conf) throws Error;
 		public abstract void start_generate_mirrors_list (string country) throws Error;
 		public abstract void clean_cache (uint64 keep_nb, bool only_uninstalled) throws Error;
+		public abstract void clean_build_files (string build_dir) throws Error;
 		public abstract void start_set_pkgreason (string pkgname, uint reason) throws Error;
 		public abstract void start_refresh (bool force) throws Error;
 		public abstract void start_downloading_updates () throws Error;
@@ -171,6 +172,14 @@ namespace Pamac {
 				system_daemon.clean_cache (keep_nb, only_uninstalled);
 			} catch (Error e) {
 				stderr.printf ("clean_cache: %s\n", e.message);
+			}
+		}
+
+		public void clean_build_files (string build_dir) {
+			try {
+				system_daemon.clean_build_files (build_dir);
+			} catch (Error e) {
+				stderr.printf ("clean_build_files: %s\n", e.message);
 			}
 		}
 

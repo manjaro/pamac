@@ -236,6 +236,30 @@ namespace Pamac {
 			return filenames_size;
 		}
 
+		void enumerate_directory (string directory_path, ref HashTable<string, int64?> filenames_size) {
+			var directory = GLib.File.new_for_path (directory_path);
+			try {
+				FileEnumerator enumerator = directory.enumerate_children ("standard::*", FileQueryInfoFlags.NONE);
+				FileInfo info;
+				while ((info = enumerator.next_file (null)) != null) {
+					string absolute_filename = Path.build_path ("/", directory.get_path (), info.get_name ());
+					if (info.get_file_type () == FileType.DIRECTORY) {
+						enumerate_directory (absolute_filename, ref filenames_size);
+					} else {
+						filenames_size.insert (absolute_filename, info.get_size ());
+					}
+				}
+			} catch (GLib.Error e) {
+				stderr.printf ("Error: %s\n", e.message);
+			}
+		}
+
+		public HashTable<string, int64?> get_build_files_details (string aur_build_dir) {
+			var filenames_size = new HashTable<string, int64?> (str_hash, str_equal);
+			enumerate_directory (aur_build_dir, ref filenames_size);
+			return filenames_size;
+		}
+
 		public List<string> get_ignorepkgs () {
 			var result = new List<string> ();
 			unowned Alpm.List<unowned string> ignorepkgs = alpm_handle.ignorepkgs;
