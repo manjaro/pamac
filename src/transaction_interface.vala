@@ -26,8 +26,8 @@ namespace Pamac {
 		public abstract void start_write_pamac_config (HashTable<string,Variant> new_pamac_conf);
 		public abstract void start_write_alpm_config (HashTable<string,Variant> new_alpm_conf);
 		public abstract void start_generate_mirrors_list (string country);
-		public abstract void clean_cache (uint64 keep_nb, bool only_uninstalled);
-		public abstract void clean_build_files (string build_dir);
+		public abstract void start_clean_cache (uint64 keep_nb, bool only_uninstalled);
+		public abstract void start_clean_build_files (string build_dir);
 		public abstract void start_set_pkgreason (string pkgname, uint reason);
 		public abstract void start_refresh (bool force);
 		public abstract void start_downloading_updates ();
@@ -46,7 +46,7 @@ namespace Pamac {
 		public signal void emit_download (string filename, uint64 xfered, uint64 total);
 		public signal void emit_totaldownload (uint64 total);
 		public signal void emit_log (uint level, string msg);
-		public signal void set_pkgreason_finished ();
+		public signal void set_pkgreason_finished (bool success);
 		public signal void database_modified ();
 		public signal void refresh_finished (bool success);
 		public signal void downloading_updates_finished ();
@@ -59,5 +59,7 @@ namespace Pamac {
 		public signal void write_alpm_config_finished (bool checkspace);
 		public signal void generate_mirrors_list_data (string line);
 		public signal void generate_mirrors_list_finished ();
+		public signal void clean_cache_finished (bool success);
+		public signal void clean_build_files_finished (bool success);
 	}
 }

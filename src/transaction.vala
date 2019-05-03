@@ -89,6 +89,8 @@ namespace Pamac {
 		public signal void write_alpm_config_finished (bool checkspace);
 		public signal void start_generating_mirrors_list ();
 		public signal void generate_mirrors_list_finished ();
+		public signal void clean_cache_finished ();
+		public signal void clean_build_files_finished ();
 
 		public Transaction (Database database) {
 			Object (database: database);
@@ -238,12 +240,14 @@ namespace Pamac {
 			transaction_interface.start_generate_mirrors_list (country);
 		}
 
-		public void clean_cache (uint64 keep_nb, bool only_uninstalled) {
-			transaction_interface.clean_cache (keep_nb, only_uninstalled);
+		public void start_clean_cache (uint64 keep_nb, bool only_uninstalled) {
+			transaction_interface.clean_cache_finished.connect (on_clean_cache_finished);
+			transaction_interface.start_clean_cache (keep_nb, only_uninstalled);
 		}
 
-		public void clean_build_files (string build_dir) {
-			transaction_interface.clean_build_files (build_dir);
+		public void start_clean_build_files (string build_dir) {
+			transaction_interface.clean_build_files_finished.connect (on_clean_build_files_finished);
+			transaction_interface.start_clean_build_files (build_dir);
 		}
 
 		public void start_set_pkgreason (string pkgname, uint reason) {
@@ -739,7 +743,7 @@ namespace Pamac {
 			var to_add_to_install = new GenericSet<string?> (str_hash, str_equal);
 			foreach (unowned string name in this.to_install) {
 				// do not check if reinstall
-				if (database.is_installed_pkg (name)) {
+				if (!database.is_installed_pkg (name)) {
 					List<string> uninstalled_optdeps = database.get_uninstalled_optdeps (name);
 					var real_uninstalled_optdeps = new GenericArray<string> ();
 					foreach (unowned string optdep in uninstalled_optdeps) {
@@ -1394,6 +1398,28 @@ namespace Pamac {
 			total_download = 0;
 			already_downloaded = 0;
 			current_filename = "";
+		}
+
+		void on_clean_cache_finished (bool success) {
+			transaction_interface.clean_cache_finished.disconnect (on_clean_cache_finished);
+			if (!success) {
+				handle_error (get_current_error ());
+			}
+			clean_cache_finished ();
+		}
+
+		void on_clean_build_files_finished (bool success) {
+			transaction_interface.clean_build_files_finished.disconnect (on_clean_build_files_finished);
+			// recreate buildir here to have good permissions
+			try {
+				Process.spawn_command_line_sync ("mkdir -p %s".printf (database.config.aur_build_dir));
+			} catch (SpawnError e) {
+				stderr.printf ("SpawnError: %s\n", e.message);
+			}
+			if (!success) {
+				handle_error (get_current_error ());
+			}
+			clean_build_files_finished ();
 		}
 
 		void on_set_pkgreason_finished () {

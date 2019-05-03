@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2019-04-30 11:58+0200\n"
+"POT-Creation-Date: 2019-05-03 12:41+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -695,7 +695,7 @@ msgstr ""
 msgid "Maximum parallel downloads"
 msgstr ""
 
-#: src/preferences_dialog.vala resources/preferences_dialog.ui
+#: src/preferences_dialog.vala src/cli.vala resources/preferences_dialog.ui
 msgid "Number of versions of each package to keep in the cache"
 msgstr ""
 
@@ -706,6 +706,17 @@ msgstr ""
 #: src/preferences_dialog.vala
 msgid "Worldwide"
 msgstr ""
+
+#: src/preferences_dialog.vala src/cli.vala
+msgid "To delete"
+msgstr ""
+
+#: src/preferences_dialog.vala src/cli.vala
+#, c-format
+msgid "%u file"
+msgid_plural "%u files"
+msgstr[0] ""
+msgstr[1] ""
 
 #: src/preferences_dialog.vala
 msgid "Choose Ignored Upgrades"
@@ -725,15 +736,15 @@ msgstr ""
 msgid "Enter a number (default=%d)"
 msgstr ""
 
-#: src/transaction-cli.vala
+#: src/transaction-cli.vala src/cli.vala
 msgid "[y/N]"
 msgstr ""
 
-#: src/transaction-cli.vala
+#: src/transaction-cli.vala src/cli.vala
 msgid "y"
 msgstr ""
 
-#: src/transaction-cli.vala
+#: src/transaction-cli.vala src/cli.vala
 msgid "yes"
 msgstr ""
 
@@ -964,6 +975,37 @@ msgstr ""
 msgid "enable package downgrades"
 msgstr ""
 
+#: src/cli.vala
+msgid "Clean packages cache or build files"
+msgstr ""
+
+#: src/cli.vala
+msgid "number"
+msgstr ""
+
+#: src/cli.vala
+msgid ""
+"specify how many versions of each package are kept in the cache directory"
+msgstr ""
+
+#: src/cli.vala
+msgid "only target uninstalled packages"
+msgstr ""
+
+#: src/cli.vala
+msgid ""
+"remove all build files, the build directory is the one specified in pamac."
+"conf"
+msgstr ""
+
+#: src/cli.vala
+msgid "do not remove files, only find candidate packages"
+msgstr ""
+
+#: src/cli.vala
+msgid "also display all files names"
+msgstr ""
+
 #: src/cli.vala resources/manager_window.ui
 msgid "Version"
 msgstr ""
@@ -988,6 +1030,18 @@ msgstr ""
 #: src/cli.vala
 #, c-format
 msgid "%s is owned by %s"
+msgstr ""
+
+#: src/cli.vala resources/preferences_dialog.ui
+msgid "Remove only the versions of uninstalled packages"
+msgstr ""
+
+#: src/cli.vala resources/preferences_dialog.ui
+msgid "Clean cache"
+msgstr ""
+
+#: src/cli.vala resources/preferences_dialog.ui
+msgid "Clean build files"
 msgstr ""
 
 #: src/cli.vala
@@ -1136,14 +1190,6 @@ msgstr ""
 
 #: resources/preferences_dialog.ui
 msgid "Check for development packages updates"
-msgstr ""
-
-#: resources/preferences_dialog.ui
-msgid "Remove only the versions of uninstalled packages"
-msgstr ""
-
-#: resources/preferences_dialog.ui
-msgid "Clean cache"
 msgstr ""
 
 #: resources/preferences_dialog.ui

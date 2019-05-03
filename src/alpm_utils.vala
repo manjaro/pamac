@@ -181,15 +181,17 @@ namespace Pamac {
 			}
 		}
 
-		internal void set_pkgreason (string pkgname, uint reason) {
+		internal bool set_pkgreason (string pkgname, uint reason) {
 			unowned Alpm.Package? pkg = alpm_handle.localdb.get_pkg (pkgname);
 			if (pkg != null) {
 				// lock the database
 				if (alpm_handle.trans_init (0) == 0) {
 					pkg.reason = (Alpm.Package.Reason) reason;
 					alpm_handle.trans_release ();
+					return true;
 				}
 			}
+			return false;
 		}
 
 		internal void clean_cache (uint64 keep_nb, bool only_uninstalled) {
@@ -210,7 +212,6 @@ namespace Pamac {
 		internal void clean_build_files (string build_dir) {
 			try {
 				Process.spawn_command_line_sync ("rm -rf %s".printf (build_dir));
-				Process.spawn_command_line_sync ("mkdir -p %s".printf (build_dir));
 			} catch (SpawnError e) {
 				stderr.printf ("SpawnError: %s\n", e.message);
 			}

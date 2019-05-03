@@ -147,6 +147,8 @@ namespace Pamac {
 			return alpm_handle.checkspace == 1 ? true : false;
 		}
 
+		public CompareFunc<string> vercmp = Alpm.pkg_vercmp;
+
 		public HashTable<string, int64?> get_clean_cache_details (uint64 keep_nb, bool only_uninstalled) {
 			var filenames_size = new HashTable<string, int64?> (str_hash, str_equal);
 			var pkg_version_filenames = new HashTable<string, SList<string>> (str_hash, str_equal);

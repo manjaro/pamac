@@ -68,6 +68,14 @@ namespace Pamac {
 		Gtk.SpinButton cache_keep_nb_spin_button;
 		[GtkChild]
 		Gtk.CheckButton cache_only_uninstalled_checkbutton;
+		[GtkChild]
+		Gtk.Button clean_build_files_button;
+		[GtkChild]
+		Gtk.Label clean_build_files_label;
+		[GtkChild]
+		Gtk.Label clean_cache_label;
+		[GtkChild]
+		Gtk.Button clean_cache_button;
 
 		Gtk.ListStore ignorepkgs_liststore;
 		TransactionGtk transaction;
@@ -107,6 +115,7 @@ namespace Pamac {
 			download_updates_checkbutton.active = transaction.database.config.download_updates;
 			cache_keep_nb_spin_button.value = transaction.database.config.clean_keep_num_pkgs;
 			cache_only_uninstalled_checkbutton.active = transaction.database.config.clean_rm_only_uninstalled;
+			refresh_clean_cache_button ();
 
 			// populate ignorepkgs_liststore
 			ignorepkgs_liststore = new Gtk.ListStore (1, typeof (string));
@@ -126,6 +135,8 @@ namespace Pamac {
 			cache_keep_nb_spin_button.value_changed.connect (on_cache_keep_nb_spin_button_value_changed);
 			cache_only_uninstalled_checkbutton.toggled.connect (on_cache_only_uninstalled_checkbutton_toggled);
 			transaction.write_pamac_config_finished.connect (on_write_pamac_config_finished);
+			transaction.clean_cache_finished.connect (refresh_clean_cache_button);
+			transaction.clean_build_files_finished.connect (refresh_clean_build_files_button);
 
 			Package pkg = transaction.database.find_installed_satisfier ("pacman-mirrors");
 			if (pkg.name == "") {
@@ -159,6 +170,7 @@ namespace Pamac {
 				stderr.printf ("%s\n", e.message);
 			}
 			aur_build_dir_file_chooser.select_filename (current_build_dir);
+			refresh_clean_build_files_button ();
 			check_aur_updates_checkbutton.active = transaction.database.config.check_aur_updates;
 			check_aur_updates_checkbutton.sensitive = transaction.database.config.enable_aur;
 			check_aur_vcs_updates_checkbutton.active = transaction.database.config.check_aur_vcs_updates;
@@ -168,6 +180,43 @@ namespace Pamac {
 			aur_build_dir_file_chooser.file_set.connect (on_aur_build_dir_set);
 			check_aur_updates_checkbutton.toggled.connect (on_check_aur_updates_checkbutton_toggled);
 			check_aur_vcs_updates_checkbutton.toggled.connect (on_check_aur_vcs_updates_checkbutton_toggled);
+		}
+
+		void refresh_clean_cache_button () {
+			HashTable<string, int64?> details = transaction.database.get_clean_cache_details (transaction.database.config.clean_keep_num_pkgs, transaction.database.config.clean_rm_only_uninstalled);
+			int64 total_size = 0;
+			uint files_nb = 0;
+			foreach (int64 size in details.get_values ()) {
+				total_size += size;
+				files_nb++;
+			}
+			clean_cache_label.set_markup ("<b>%s:  %s  (%s)</b>".printf (dgettext (null, "To delete"), dngettext (null, "%u file", "%u files", files_nb).printf (files_nb), format_size (total_size)));
+			if (files_nb++ > 0) {
+				clean_cache_button.sensitive = true;
+			} else {
+				clean_cache_button.sensitive = false;
+			}
+		}
+
+		void refresh_clean_build_files_button () {
+			if (transaction.database.config.enable_aur) {
+				HashTable<string, int64?> details = transaction.database.get_build_files_details (transaction.database.config.aur_build_dir);
+				int64 total_size = 0;
+				uint files_nb = 0;
+				foreach (int64 size in details.get_values ()) {
+					total_size += size;
+					files_nb++;
+				}
+				clean_build_files_label.set_markup ("<b>%s:  %s  (%s)</b>".printf (dgettext (null, "To delete"), dngettext (null, "%u file", "%u files", files_nb).printf (files_nb), format_size (total_size)));
+				if (files_nb++ > 0) {
+					clean_build_files_button.sensitive = true;
+				} else {
+					clean_build_files_button.sensitive = false;
+				}
+			} else {
+				clean_build_files_label.set_markup ("");
+				clean_build_files_button.sensitive = false;
+			}
 		}
 
 		bool on_remove_unrequired_deps_button_state_set (bool new_state) {
@@ -214,15 +263,21 @@ namespace Pamac {
 		}
 
 		void on_cache_keep_nb_spin_button_value_changed () {
+			uint64 keep_nb = cache_keep_nb_spin_button.get_value_as_int ();
 			var new_pamac_conf = new HashTable<string,Variant> (str_hash, str_equal);
-			new_pamac_conf.insert ("KeepNumPackages", new Variant.uint64 (cache_keep_nb_spin_button.get_value_as_int ()));
+			new_pamac_conf.insert ("KeepNumPackages", new Variant.uint64 (keep_nb));
 			transaction.start_write_pamac_config (new_pamac_conf);
+			transaction.database.config.clean_keep_num_pkgs = keep_nb;
+			refresh_clean_cache_button ();
 		}
 
 		void on_cache_only_uninstalled_checkbutton_toggled () {
+			bool only_uninstalled = cache_only_uninstalled_checkbutton.active;
 			var new_pamac_conf = new HashTable<string,Variant> (str_hash, str_equal);
-			new_pamac_conf.insert ("OnlyRmUninstalled", new Variant.boolean (cache_only_uninstalled_checkbutton.active));
+			new_pamac_conf.insert ("OnlyRmUninstalled", new Variant.boolean (only_uninstalled));
 			transaction.start_write_pamac_config (new_pamac_conf);
+			transaction.database.config.clean_rm_only_uninstalled = only_uninstalled;
+			refresh_clean_cache_button ();
 		}
 
 		void on_no_update_hide_icon_checkbutton_toggled () {
@@ -246,8 +301,11 @@ namespace Pamac {
 
 		void on_aur_build_dir_set () {
 			var new_pamac_conf = new HashTable<string,Variant> (str_hash, str_equal);
-			new_pamac_conf.insert ("BuildDirectory", new Variant.string (aur_build_dir_file_chooser.get_filename ()));
+			string builddir = aur_build_dir_file_chooser.get_filename ();
+			new_pamac_conf.insert ("BuildDirectory", new Variant.string (builddir));
 			transaction.start_write_pamac_config (new_pamac_conf);
+			transaction.database.config.aur_build_dir = builddir;
+			refresh_clean_build_files_button ();
 		}
 
 		void on_check_aur_updates_checkbutton_toggled () {
@@ -288,6 +346,7 @@ namespace Pamac {
 			enable_aur_button.state = enable_aur;
 			aur_build_dir_label.sensitive = enable_aur;
 			aur_build_dir_file_chooser.sensitive = enable_aur;
+			refresh_clean_build_files_button ();
 			check_aur_updates_checkbutton.active = check_aur_updates;
 			check_aur_updates_checkbutton.sensitive = enable_aur;
 			check_aur_vcs_updates_checkbutton.active = check_aur_vcs_updates;
@@ -403,8 +462,13 @@ namespace Pamac {
 		}
 
 		[GtkCallback]
-		void on_cache_clean_button_clicked () {
-			transaction.clean_cache (transaction.database.config.clean_keep_num_pkgs, transaction.database.config.clean_rm_only_uninstalled);
+		void on_clean_cache_button_clicked () {
+			transaction.start_clean_cache (transaction.database.config.clean_keep_num_pkgs, transaction.database.config.clean_rm_only_uninstalled);
+		}
+
+		[GtkCallback]
+		void on_clean_build_files_button_clicked () {
+			transaction.start_clean_build_files (transaction.database.config.aur_build_dir);
 		}
 	}
 }

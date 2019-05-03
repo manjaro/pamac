@@ -55,7 +55,7 @@ namespace Pamac {
 		public signal void emit_download (string filename, uint64 xfered, uint64 total);
 		public signal void emit_totaldownload (uint64 total);
 		public signal void emit_log (uint level, string msg);
-		public signal void set_pkgreason_finished ();
+		public signal void set_pkgreason_finished (bool success);
 		public signal void refresh_finished (bool success);
 		public signal void database_modified ();
 		public signal void downloading_updates_finished ();
@@ -68,6 +68,8 @@ namespace Pamac {
 		public signal void write_alpm_config_finished (bool checkspace);
 		public signal void generate_mirrors_list_data (string line);
 		public signal void generate_mirrors_list_finished ();
+		public signal void clean_cache_finished (bool success);
+		public signal void clean_build_files_finished (bool success);
 
 		public SystemDaemon () {
 			config = new Config ("/etc/pamac.conf");
@@ -352,32 +354,35 @@ namespace Pamac {
 			});
 		}
 
-		public void clean_cache (uint64 keep_nb, bool only_uninstalled, GLib.BusName sender) throws Error {
+		public void start_clean_cache (uint64 keep_nb, bool only_uninstalled, GLib.BusName sender) throws Error {
 			check_authorization.begin (sender, (obj, res) => {
 				bool authorized = check_authorization.end (res);
 				if (authorized) {
 					alpm_utils.clean_cache (keep_nb, only_uninstalled);
 				}
+				clean_cache_finished (authorized);
 			});
 		}
 
-		public void clean_build_files (string build_dir, GLib.BusName sender) throws Error {
+		public void start_clean_build_files (string build_dir, GLib.BusName sender) throws Error {
 			check_authorization.begin (sender, (obj, res) => {
 				bool authorized = check_authorization.end (res);
 				if (authorized) {
 					alpm_utils.clean_build_files (build_dir);
 				}
+				clean_build_files_finished (authorized);
 			});
 		}
 
 		public void start_set_pkgreason (string pkgname, uint reason, GLib.BusName sender) throws Error {
 			check_authorization.begin (sender, (obj, res) => {
 				bool authorized = check_authorization.end (res);
+				bool success = false;
 				if (authorized) {
-					alpm_utils.set_pkgreason (pkgname, reason);
+					success = alpm_utils.set_pkgreason (pkgname, reason);
 				}
 				database_modified ();
-				set_pkgreason_finished ();
+				set_pkgreason_finished (success);
 			});
 		}
 

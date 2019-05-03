@@ -1968,21 +1968,33 @@ namespace Pamac {
 				stdout.printf ("%s\n", dgettext (null, "Remove only the versions of uninstalled packages"));
 			}
 			stdout.printf ("%s: %llu\n\n", dgettext (null, "Number of versions of each package to keep in the cache"), database.config.clean_keep_num_pkgs);
-			if (verbose) {
-				filenames.sort (strcmp);
+			uint files_nb = filenames.length ();
+			if (verbose && files_nb > 0) {
+				filenames.sort (database.vercmp);
 				foreach (unowned string name in filenames) {
 					stdout.printf ("%s\n", name);
 				}
 				stdout.printf ("\n");
 			}
-			uint files_nb = filenames.length ();
 			stdout.printf ("%s: %s  (%s)\n".printf (dgettext (null, "To delete"), dngettext (null, "%u file", "%u files", files_nb).printf (files_nb), format_size (total_size)));
 			if (files_nb == 0 || dry_run) {
 				return;
 			}
 			if (no_confirm || ask_user ("%s ?".printf (dgettext (null, "Clean cache")))) {
-				transaction.clean_cache (database.config.clean_keep_num_pkgs, database.config.clean_rm_only_uninstalled);
+				try_lock_and_run (clean_cache_real);
 			}
+		}
+
+		void clean_cache_real () {
+			transaction.clean_cache_finished.connect (on_clean_cache_finished);
+			transaction.start_clean_cache (database.config.clean_keep_num_pkgs, database.config.clean_rm_only_uninstalled);
+			loop.run ();
+		}
+
+		void on_clean_cache_finished () {
+			transaction.clean_cache_finished.disconnect (on_clean_cache_finished);
+			transaction.unlock ();
+			loop.quit ();
 		}
 
 		void clean_build_files (bool dry_run, bool verbose, bool no_confirm) {
@@ -1996,21 +2008,33 @@ namespace Pamac {
 				total_size += size;
 				filenames.append (filename);
 			}
-			if (verbose) {
+			uint files_nb = filenames.length ();
+			if (verbose && files_nb > 0) {
 				filenames.sort (strcmp);
 				foreach (unowned string name in filenames) {
 					stdout.printf ("%s\n", name);
 				}
 				stdout.printf ("\n");
 			}
-			uint files_nb = filenames.length ();
 			stdout.printf ("%s: %s  (%s)\n".printf (dgettext (null, "To delete"), dngettext (null, "%u file", "%u files", files_nb).printf (files_nb), format_size (total_size)));
 			if (files_nb == 0 || dry_run) {
 				return;
 			}
 			if (no_confirm || ask_user ("%s ?".printf (dgettext (null, "Clean build files")))) {
-				transaction.clean_build_files (database.config.aur_build_dir);
+				try_lock_and_run (clean_build_files_real);
 			}
+		}
+
+		void clean_build_files_real () {
+			transaction.clean_build_files_finished.connect (on_clean_build_files_finished);
+			transaction.start_clean_build_files (database.config.aur_build_dir);
+			loop.run ();
+		}
+
+		void on_clean_build_files_finished () {
+			transaction.clean_build_files_finished.disconnect (on_clean_build_files_finished);
+			transaction.unlock ();
+			loop.quit ();
 		}
 
 		void install_pkgs (string[] targets) {
@@ -2088,8 +2112,8 @@ namespace Pamac {
 				}
 			}
 			int num_length = pkgs.length ().to_string ().length + 1;
-			stdout.printf ("%s:\n".printf (dngettext (null, "There is %1u member in group %2s",
-						"There are %1u members in group %2s", pkgs.length ()).printf (pkgs.length (), grpname)));
+			stdout.printf ("%s:\n".printf (dngettext (null, "There is %u member in group %s",
+						"There are %u members in group %s", pkgs.length ()).printf (pkgs.length (), grpname)));
 			int num = 1;
 			foreach (unowned Package pkg in pkgs) {
 				stdout.printf ("%*s  %-*s  %-*s  %s\n",

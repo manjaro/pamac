@@ -3,7 +3,7 @@
 <interface>
   <requires lib="gtk+" version="3.20"/>
   <object class="GtkAdjustment" id="cache_keep_nb_adjustment">
-    <property name="upper">10</property>
+    <property name="upper">5</property>
     <property name="value">3</property>
     <property name="step_increment">1</property>
     <property name="page_increment">10</property>
@@ -780,6 +780,47 @@ All AUR users should be familiar with the build process.</property>
                     <property name="position">4</property>
                   </packing>
                 </child>
+                <child>
+                  <object class="GtkBox" id="clean_build_files_button_box">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="margin_top">12</property>
+                    <property name="spacing">12</property>
+                    <child>
+                      <object class="GtkLabel" id="clean_build_files_label">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="halign">end</property>
+                        <property name="hexpand">True</property>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">True</property>
+                        <property name="position">0</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkButton" id="clean_build_files_button">
+                        <property name="label" translatable="yes">Clean build files</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="receives_default">True</property>
+                        <property name="halign">end</property>
+                        <signal name="clicked" handler="on_clean_build_files_button_clicked" swapped="no"/>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">True</property>
+                        <property name="position">1</property>
+                      </packing>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">5</property>
+                  </packing>
+                </child>
               </object>
               <packing>
                 <property name="position">2</property>
@@ -870,14 +911,39 @@ All AUR users should be familiar with the build process.</property>
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkButton" id="cache_clean_button">
-                    <property name="label" translatable="yes">Clean cache</property>
+                  <object class="GtkBox" id="clean_cache_button_box">
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">True</property>
-                    <property name="halign">end</property>
+                    <property name="can_focus">False</property>
                     <property name="margin_top">12</property>
-                    <signal name="clicked" handler="on_cache_clean_button_clicked" swapped="no"/>
+                    <property name="spacing">12</property>
+                    <child>
+                      <object class="GtkLabel" id="clean_cache_label">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="halign">end</property>
+                        <property name="hexpand">True</property>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">True</property>
+                        <property name="position">0</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkButton" id="clean_cache_button">
+                        <property name="label" translatable="yes">Clean cache</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="receives_default">True</property>
+                        <property name="halign">end</property>
+                        <signal name="clicked" handler="on_clean_cache_button_clicked" swapped="no"/>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">True</property>
+                        <property name="position">1</property>
+                      </packing>
+                    </child>
                   </object>
                   <packing>
                     <property name="expand">False</property>

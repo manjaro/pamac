@@ -28,8 +28,8 @@ namespace Pamac {
 		public abstract void start_write_pamac_config (HashTable<string,Variant> new_pamac_conf) throws Error;
 		public abstract void start_write_alpm_config (HashTable<string,Variant> new_alpm_conf) throws Error;
 		public abstract void start_generate_mirrors_list (string country) throws Error;
-		public abstract void clean_cache (uint64 keep_nb, bool only_uninstalled) throws Error;
-		public abstract void clean_build_files (string build_dir) throws Error;
+		public abstract void start_clean_cache (uint64 keep_nb, bool only_uninstalled) throws Error;
+		public abstract void start_clean_build_files (string build_dir) throws Error;
 		public abstract void start_set_pkgreason (string pkgname, uint reason) throws Error;
 		public abstract void start_refresh (bool force) throws Error;
 		public abstract void start_downloading_updates () throws Error;
@@ -49,7 +49,7 @@ namespace Pamac {
 		public signal void emit_download (string filename, uint64 xfered, uint64 total);
 		public signal void emit_totaldownload (uint64 total);
 		public signal void emit_log (uint level, string msg);
-		public signal void set_pkgreason_finished ();
+		public signal void set_pkgreason_finished (bool success);
 		public signal void refresh_finished (bool success);
 		public signal void database_modified ();
 		public signal void downloading_updates_finished ();
@@ -62,6 +62,8 @@ namespace Pamac {
 		public signal void write_alpm_config_finished (bool checkspace);
 		public signal void generate_mirrors_list_data (string line);
 		public signal void generate_mirrors_list_finished ();
+		public signal void clean_cache_finished (bool success);
+		public signal void clean_build_files_finished (bool success);
 	}
 
 	internal class TransactionInterfaceDaemon: Object, TransactionInterface {
@@ -167,20 +169,32 @@ namespace Pamac {
 			generate_mirrors_list_finished ();
 		}
 
-		public void clean_cache (uint64 keep_nb, bool only_uninstalled) {
+		public void start_clean_cache (uint64 keep_nb, bool only_uninstalled) {
 			try {
-				system_daemon.clean_cache (keep_nb, only_uninstalled);
+				system_daemon.start_clean_cache (keep_nb, only_uninstalled);
+				system_daemon.clean_cache_finished.connect (on_clean_cache_finished);
 			} catch (Error e) {
 				stderr.printf ("clean_cache: %s\n", e.message);
 			}
 		}
 
-		public void clean_build_files (string build_dir) {
+		void on_clean_cache_finished (bool success) {
+			system_daemon.clean_cache_finished.disconnect (on_clean_cache_finished);
+			clean_cache_finished (success);
+		}
+
+		public void start_clean_build_files (string build_dir) {
 			try {
-				system_daemon.clean_build_files (build_dir);
+				system_daemon.start_clean_build_files (build_dir);
+				system_daemon.clean_build_files_finished.connect (on_clean_build_files_finished);
 			} catch (Error e) {
 				stderr.printf ("clean_build_files: %s\n", e.message);
 			}
+		}
+
+		void on_clean_build_files_finished (bool success) {
+			system_daemon.clean_build_files_finished.disconnect (on_clean_build_files_finished);
+			clean_build_files_finished (success);
 		}
 
 		public void start_set_pkgreason (string pkgname, uint reason) {
@@ -192,9 +206,9 @@ namespace Pamac {
 			}
 		}
 
-		void on_set_pkgreason_finished () {
+		void on_set_pkgreason_finished (bool success) {
 			system_daemon.set_pkgreason_finished.disconnect (on_set_pkgreason_finished);
-			set_pkgreason_finished ();
+			set_pkgreason_finished (success);
 		}
 
 		public void start_refresh (bool force) {

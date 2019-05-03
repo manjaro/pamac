@@ -45,13 +45,6 @@ libpamac = library('pamac',
 
 libpamac_dep = declare_dependency(link_with: libpamac)
 
-executable('pamac-clean-cache',
-	sources: ['clean_cache.vala'],
-	dependencies: [gio, libpamac_dep],
-	vala_args: common_vala_args,
-	c_args: common_c_args,
-	install: true)
-
 executable('pamac-system-daemon',
 	sources: ['common_daemon.vala', 'alpm_utils.vala', 'alpm_config.vala', 'system_daemon.vala'],
 	dependencies: [vala_deps, alpm_deps, json, libsoup, polkit, libcurl, appstream, libpamac_dep],

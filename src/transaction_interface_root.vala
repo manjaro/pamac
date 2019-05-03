@@ -133,18 +133,28 @@ namespace Pamac {
 			generate_mirrors_list.begin (country);
 		}
 
-		public void clean_cache (uint64 keep_nb, bool only_uninstalled) {
+		async void clean_cache (uint64 keep_nb, bool only_uninstalled) {
 			alpm_utils.clean_cache (keep_nb, only_uninstalled);
+			clean_cache_finished (true);
 		}
 
-		public void clean_build_files (string build_dir) {
+		public void start_clean_cache (uint64 keep_nb, bool only_uninstalled) {
+			clean_cache.begin (keep_nb, only_uninstalled);
+		}
+
+		async void clean_build_files (string build_dir) {
 			alpm_utils.clean_build_files (build_dir);
+			clean_build_files_finished (true);
+		}
+
+		public void start_clean_build_files (string build_dir) {
+			clean_build_files.begin (build_dir);
 		}
 
 		async void set_pkgreason (string pkgname, uint reason) {
-			alpm_utils.set_pkgreason (pkgname, reason);
+			bool success = alpm_utils.set_pkgreason (pkgname, reason);
 			database_modified ();
-			set_pkgreason_finished ();
+			set_pkgreason_finished (success);
 		}
 
 		public void start_set_pkgreason (string pkgname, uint reason) {
