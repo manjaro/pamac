@@ -693,6 +693,10 @@ namespace Pamac {
 			return pkg;
 		}
 
+		public bool is_sync_pkg (string pkgname) {
+			return get_syncpkg (pkgname) != null;
+		}
+
 		public Package get_sync_pkg (string pkgname) {
 			return new Package.from_struct (initialise_pkg_struct (get_syncpkg (pkgname)));
 		}

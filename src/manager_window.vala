@@ -463,8 +463,8 @@ namespace Pamac {
 		void on_set_pkgreason_finished () {
 			transaction.unlock ();
 			if (main_stack.visible_child_name == "details") {
-				if (database.get_installed_pkg (current_package_displayed).name != ""
-					|| database.get_sync_pkg (current_package_displayed).name != "") {
+				if (database.is_installed_pkg (current_package_displayed)
+					|| database.is_sync_pkg (current_package_displayed)) {
 					display_package_properties (current_package_displayed);
 				} else {
 					display_aur_properties (current_package_displayed);
@@ -1133,10 +1133,9 @@ namespace Pamac {
 			licenses_label.set_text (licenses.str);
 			build_togglebutton.visible = true;
 			build_togglebutton.active = to_build.contains (details.name);
-			Package pkg = database.get_installed_pkg (details.name);
-			if (pkg.name != "") {
+			if (database.is_installed_pkg (details.name)) {
 				remove_togglebutton.visible = true;
-				remove_togglebutton.active = to_remove.contains (pkg.name);
+				remove_togglebutton.active = to_remove.contains (details.name);
 			}
 			// details
 			properties_listbox.visible = true;
@@ -1290,8 +1289,7 @@ namespace Pamac {
 				remove_togglebutton.get_style_context ().remove_class (Gtk.STYLE_CLASS_DESTRUCTIVE_ACTION);
 				reinstall_togglebutton.get_style_context ().add_class (Gtk.STYLE_CLASS_SUGGESTED_ACTION);
 				to_remove.remove (current_package_displayed);
-				Package find_pkg = database.get_sync_pkg (current_package_displayed);
-				if (find_pkg.name != "") {
+				if (database.is_sync_pkg (current_package_displayed)) {
 					to_install.add (current_package_displayed);
 				} else {
 					// availability in AUR was checked in set_package_details
@@ -1787,16 +1785,14 @@ namespace Pamac {
 					}
 					string? pkgname = display_package_queue.pop_tail ();
 					if (pkgname != null) {
-						Package pkg = database.get_installed_pkg (pkgname);
-						if (pkg.name == "") {
-							pkg = database.get_sync_pkg (pkgname);
-						}
-						if (pkg.name == "") {
+						if (database.is_installed_pkg (pkgname) || database.is_sync_pkg (pkgname)) {
+							display_package_properties (pkgname, "", sync_pkg);
+						} else {
 							database.get_aur_pkg.begin (pkgname, (obj, res) => {
 								if (database.get_aur_pkg.end (res).name != "") {
 									display_aur_properties (pkgname);
 								} else {
-									pkg = database.find_installed_satisfier (pkgname);
+									var pkg = database.find_installed_satisfier (pkgname);
 									if (pkg.name == "") {
 										pkg = database.find_sync_satisfier (pkgname);
 									}
@@ -1805,8 +1801,6 @@ namespace Pamac {
 									}
 								}
 							});
-						} else {
-							display_package_properties (pkgname, "", sync_pkg);
 						}
 					} else {
 						main_stack.visible_child_name = "browse";
@@ -1822,7 +1816,7 @@ namespace Pamac {
 
 		void on_install_item_activate () {
 			foreach (unowned string pkgname in selected_pkgs) {
-				if (database.get_installed_pkg (pkgname).name == "") {
+				if (!database.is_installed_pkg (pkgname)) {
 					to_install.add (pkgname);
 				}
 			}
@@ -1855,7 +1849,7 @@ namespace Pamac {
 			foreach (unowned string pkgname in selected_pkgs) {
 				to_install.remove (pkgname);
 				if (!database.should_hold (pkgname)) {
-					if (database.get_installed_pkg (pkgname).name != "") {
+					if (database.is_installed_pkg (pkgname)) {
 						to_remove.add (pkgname);
 					}
 				}
@@ -2376,8 +2370,7 @@ namespace Pamac {
 						aur_list.get_iter (out iter, path);
 						string pkgname;
 						aur_list.get (iter, 1, out pkgname);
-						Package pkg = database.get_installed_pkg (pkgname);
-						if (pkg.name != "") {
+						if (database.is_installed_pkg (pkgname)) {
 							selected_pkgs.append (pkgname);
 							if (filters_stack.visible_child_name != "updates" && !to_remove.contains (pkgname)) {
 								// there is for sure a pkg to remove
@@ -2728,34 +2721,14 @@ namespace Pamac {
 			while (Gtk.events_pending ()) {
 				Gtk.main_iteration ();
 			}
-			var file = GLib.File.new_for_path ("/var/log/pacman.log");
-			if (!file.query_exists ()) {
-				GLib.stderr.printf ("File '%s' doesn't exist.\n", file.get_path ());
-			} else {
-				StringBuilder text = new StringBuilder ();
-				try {
-					// Open file for reading and wrap returned FileInputStream into a
-					// DataInputStream, so we can read line by line
-					var dis = new DataInputStream (file.read ());
-					string line;
-					// Read lines until end of file (null) is reached
-					while ((line = dis.read_line ()) != null) {
-						// construct text in reverse order
-						text.prepend (line + "\n");
-					}
-				} catch (GLib.Error e) {
-					stderr.printf ("%s\n", e.message);
-				}
-				var history_dialog = new HistoryDialog (this);
-				history_dialog.textview.buffer.set_text (text.str, (int) text.len);
-				this.get_window ().set_cursor (null);
-				history_dialog.show ();
-				history_dialog.response.connect (() => {
-					history_dialog.destroy ();
-				});
-				while (Gtk.events_pending ()) {
-					Gtk.main_iteration ();
-				}
+			var history_dialog = new HistoryDialog (this);
+			this.get_window ().set_cursor (null);
+			history_dialog.show ();
+			history_dialog.response.connect (() => {
+				history_dialog.destroy ();
+			});
+			while (Gtk.events_pending ()) {
+				Gtk.main_iteration ();
 			}
 		}
 
@@ -2949,8 +2922,8 @@ namespace Pamac {
 				scroll_to_top = false;
 				refresh_packages_list ();
 				if (main_stack.visible_child_name == "details") {
-					if (database.get_installed_pkg (current_package_displayed).name != ""
-						|| database.get_sync_pkg (current_package_displayed).name != "") {
+					if (database.is_installed_pkg (current_package_displayed)
+						|| database.is_sync_pkg (current_package_displayed)) {
 						display_package_properties (current_package_displayed);
 					} else {
 						display_aur_properties (current_package_displayed);
@@ -3089,17 +3062,17 @@ namespace Pamac {
 			transaction.unlock ();
 			if (!success) {
 				foreach (unowned string name in previous_to_install) {
-					if (database.get_installed_pkg (name).name == "") {
+					if (!database.is_installed_pkg (name)) {
 						to_install.add (name);
 					}
 				}
 				foreach (unowned string name in previous_to_remove) {
-					if (database.get_installed_pkg (name).name != "") {
+					if (database.is_installed_pkg (name)) {
 						to_remove.add (name);
 					}
 				}
 				foreach (unowned string name in previous_to_build) {
-					if (database.get_installed_pkg (name).name == "") {
+					if (!database.is_installed_pkg (name)) {
 						to_build.add (name);
 					}
 				}
@@ -3107,8 +3080,8 @@ namespace Pamac {
 			clear_previous_lists ();
 			scroll_to_top = false;
 			if (main_stack.visible_child_name == "details") {
-				if (database.get_installed_pkg (current_package_displayed).name != ""
-					|| database.get_sync_pkg (current_package_displayed).name != "") {
+				if (database.is_installed_pkg (current_package_displayed)
+					|| database.is_sync_pkg (current_package_displayed)) {
 					display_package_properties (current_package_displayed);
 				} else {
 					display_aur_properties (current_package_displayed);

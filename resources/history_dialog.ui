@@ -45,6 +45,80 @@
           </packing>
         </child>
         <child>
+          <object class="GtkBox" id="search_box">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <child>
+              <object class="GtkSearchEntry" id="search_entry">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="caps_lock_warning">False</property>
+                <property name="primary_icon_name">edit-find-symbolic</property>
+                <property name="secondary_icon_name">edit-clear-symbolic</property>
+                <signal name="icon-press" handler="on_search_entry_icon_press" swapped="no"/>
+                <signal name="next-match" handler="on_search_entry_next_match" swapped="no"/>
+                <signal name="previous-match" handler="on_search_entry_previous_match" swapped="no"/>
+                <signal name="search-changed" handler="on_search_entry_search_changed" swapped="no"/>
+              </object>
+              <packing>
+                <property name="expand">True</property>
+                <property name="fill">True</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkButton" id="go_up_button">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="focus_on_click">False</property>
+                <property name="receives_default">True</property>
+                <signal name="clicked" handler="on_go_up_button_clicked" swapped="no"/>
+                <child>
+                  <object class="GtkImage" id="go_up_image">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="icon_name">go-up-symbolic</property>
+                  </object>
+                </child>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkButton" id="go_down_button">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="focus_on_click">False</property>
+                <property name="receives_default">True</property>
+                <signal name="clicked" handler="on_go_down_button_clicked" swapped="no"/>
+                <child>
+                  <object class="GtkImage" id="go_down_image">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="icon_name">go-down-symbolic</property>
+                  </object>
+                </child>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">2</property>
+              </packing>
+            </child>
+            <style>
+              <class name="linked"/>
+            </style>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
+        <child>
           <object class="GtkScrolledWindow" id="scrolledwindow">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
@@ -58,7 +132,6 @@
                 <property name="pixels_above_lines">2</property>
                 <property name="pixels_below_lines">2</property>
                 <property name="editable">False</property>
-                <property name="cursor_visible">False</property>
               </object>
             </child>
           </object>

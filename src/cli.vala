@@ -2221,8 +2221,7 @@ namespace Pamac {
 			bool group_found = false;
 			foreach (unowned string name in names) {
 				bool found = false;
-				var local_pkg = database.get_installed_pkg (name);
-				if (local_pkg.name != "") {
+				if (database.is_installed_pkg (name)) {
 					to_remove += name;
 					found = true;
 				} else {
