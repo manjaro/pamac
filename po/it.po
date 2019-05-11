@@ -1,7 +1,7 @@
 # Translation of Pamac.
-# Copyright (C) 2013-2018 Manjaro Developers <manjaro-dev@manjaro.org>
+# Copyright (C) 2013-2019 Manjaro Developers <manjaro-dev@manjaro.org>
 # This file is distributed under the same license as the Pamac package.
-# Guillaume Benoit <guillaume@manjaro.org>, 2013-2018.
+# Guillaume Benoit <guillaume@manjaro.org>, 2013-2019.
 # 
 # Translators:
 # Achille Merendino <merendinoachille@gmail.com>, 2018
@@ -23,14 +23,14 @@
 # Paolo Dongilli <paolo.dongilli@gmail.com>, 2013,2015
 # philm <philm@manjaro.org>, 2015
 # Pietro Francesco Fontana, 2017-2019
-# Saverio <saverio.brancaccio@gmail.com>, 2018
+# Saverio <saverio.brancaccio@gmail.com>, 2018-2019
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2018-12-26 12:00+0100\n"
-"PO-Revision-Date: 2019-02-22 22:32+0000\n"
-"Last-Translator: Pietro Francesco Fontana\n"
+"POT-Creation-Date: 2019-05-03 12:41+0200\n"
+"PO-Revision-Date: 2019-05-04 01:14+0000\n"
+"Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Italian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/it/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -272,11 +272,6 @@ msgid "Configuring %s"
 msgstr "Configurazione di %s"
 
 #: src/transaction.vala
-#, c-format
-msgid "Downloading %s"
-msgstr "Scaricamento di %s"
-
-#: src/transaction.vala
 msgid "Checking available disk space"
 msgstr "Controllo spazio disponibile su disco"
 
@@ -315,6 +310,11 @@ msgstr "Esecuzione pre-transaction hooks"
 #: src/transaction.vala
 msgid "Running post-transaction hooks"
 msgstr "Esecuzione post-transaction hooks"
+
+#: src/transaction.vala
+#, c-format
+msgid "Downloading %s"
+msgstr "Scaricamento di %s"
 
 #: src/transaction.vala
 #, c-format
@@ -716,7 +716,7 @@ msgstr "Con quale frequenza controllare gli aggiornamenti, il valore in ore"
 msgid "Maximum parallel downloads"
 msgstr "Massimo numero di download paralleli"
 
-#: src/preferences_dialog.vala resources/preferences_dialog.ui
+#: src/preferences_dialog.vala src/cli.vala resources/preferences_dialog.ui
 msgid "Number of versions of each package to keep in the cache"
 msgstr "Numero delle versioni di ogni pacchetto da conservare nella cache"
 
@@ -727,6 +727,17 @@ msgstr "Directory di costruzione"
 #: src/preferences_dialog.vala
 msgid "Worldwide"
 msgstr "Mondiale"
+
+#: src/preferences_dialog.vala src/cli.vala
+msgid "To delete"
+msgstr ""
+
+#: src/preferences_dialog.vala src/cli.vala
+#, c-format
+msgid "%u file"
+msgid_plural "%u files"
+msgstr[0] ""
+msgstr[1] ""
 
 #: src/preferences_dialog.vala
 msgid "Choose Ignored Upgrades"
@@ -746,15 +757,15 @@ msgstr "nessuno"
 msgid "Enter a number (default=%d)"
 msgstr "Inserisci un numero (default=%d)"
 
-#: src/transaction-cli.vala
+#: src/transaction-cli.vala src/cli.vala
 msgid "[y/N]"
 msgstr "[s/N]"
 
-#: src/transaction-cli.vala
+#: src/transaction-cli.vala src/cli.vala
 msgid "y"
 msgstr "s"
 
-#: src/transaction-cli.vala
+#: src/transaction-cli.vala src/cli.vala
 msgid "yes"
 msgstr "sì"
 
@@ -771,8 +782,8 @@ msgid "Total removed size"
 msgstr "Dimensione rimossa totale"
 
 #: src/transaction-cli.vala
-msgid "Commit transaction"
-msgstr "Inizializzazione operazione"
+msgid "Apply transaction"
+msgstr "Applica la transazione"
 
 #: src/transaction-cli.vala
 #, c-format
@@ -908,6 +919,10 @@ msgid "do not clone build files from AUR, only use local files"
 msgstr "non clonare file di costruzione da AUR, usa solo file locali"
 
 #: src/cli.vala
+msgid "bypass any and all confirmation messages"
+msgstr "ignora tutto, anche i messaggi di conferma"
+
+#: src/cli.vala
 msgid "glob"
 msgstr "glob"
 
@@ -981,6 +996,37 @@ msgstr "forza la ricarica dei database"
 msgid "enable package downgrades"
 msgstr "abilita il downgrade dei pacchetti"
 
+#: src/cli.vala
+msgid "Clean packages cache or build files"
+msgstr ""
+
+#: src/cli.vala
+msgid "number"
+msgstr ""
+
+#: src/cli.vala
+msgid ""
+"specify how many versions of each package are kept in the cache directory"
+msgstr ""
+
+#: src/cli.vala
+msgid "only target uninstalled packages"
+msgstr ""
+
+#: src/cli.vala
+msgid ""
+"remove all build files, the build directory is the one specified in "
+"pamac.conf"
+msgstr ""
+
+#: src/cli.vala
+msgid "do not remove files, only find candidate packages"
+msgstr ""
+
+#: src/cli.vala
+msgid "also display all files names"
+msgstr ""
+
 #: src/cli.vala resources/manager_window.ui
 msgid "Version"
 msgstr "Versione"
@@ -1006,6 +1052,18 @@ msgstr "Nessun pacchetto possiede %s"
 #, c-format
 msgid "%s is owned by %s"
 msgstr "%s è di proprietà di %s"
+
+#: src/cli.vala resources/preferences_dialog.ui
+msgid "Remove only the versions of uninstalled packages"
+msgstr "Rimuovi solo le versioni dei pacchetti disinstallati"
+
+#: src/cli.vala resources/preferences_dialog.ui
+msgid "Clean cache"
+msgstr "Pulisci cache"
+
+#: src/cli.vala resources/preferences_dialog.ui
+msgid "Clean build files"
+msgstr ""
 
 #: src/cli.vala
 #, c-format
@@ -1038,9 +1096,9 @@ msgstr "Cronologia di Pamac"
 msgid "Transaction Summary"
 msgstr "Riassunto delle transazioni"
 
-#: resources/transaction_sum_dialog.ui
-msgid "Commit"
-msgstr "Esegui"
+#: resources/transaction_sum_dialog.ui resources/manager_window.ui
+msgid "_Apply"
+msgstr "_Applica"
 
 #: resources/manager_window.ui
 msgid "Refresh databases"
@@ -1081,10 +1139,6 @@ msgstr "Reinstalla"
 #: resources/manager_window.ui
 msgid "Reset build files"
 msgstr "Esegui un reset dei file di costruzione"
-
-#: resources/manager_window.ui
-msgid "_Apply"
-msgstr "_Applica"
 
 #: resources/preferences_dialog.ui
 msgid "Remove unrequired dependencies"
@@ -1157,14 +1211,6 @@ msgstr "Controlla gli aggiornamenti da AUR"
 #: resources/preferences_dialog.ui
 msgid "Check for development packages updates"
 msgstr "Controlla aggiornamenti per pacchetti di sviluppo"
-
-#: resources/preferences_dialog.ui
-msgid "Remove only the versions of uninstalled packages"
-msgstr "Rimuovi solo le versioni dei pacchetti disinstallati"
-
-#: resources/preferences_dialog.ui
-msgid "Clean cache"
-msgstr "Pulisci cache"
 
 #: resources/preferences_dialog.ui
 msgid "Cache"

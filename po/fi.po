@@ -1,7 +1,7 @@
 # Translation of Pamac.
-# Copyright (C) 2013-2018 Manjaro Developers <manjaro-dev@manjaro.org>
+# Copyright (C) 2013-2019 Manjaro Developers <manjaro-dev@manjaro.org>
 # This file is distributed under the same license as the Pamac package.
-# Guillaume Benoit <guillaume@manjaro.org>, 2013-2018.
+# Guillaume Benoit <guillaume@manjaro.org>, 2013-2019.
 # 
 # Translators:
 # Ammuu5, 2017-2018
@@ -22,9 +22,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2018-12-26 12:00+0100\n"
-"PO-Revision-Date: 2019-02-18 13:59+0000\n"
-"Last-Translator: Esa Päiviö\n"
+"POT-Creation-Date: 2019-05-03 12:41+0200\n"
+"PO-Revision-Date: 2019-05-04 01:14+0000\n"
+"Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Finnish (http://www.transifex.com/manjarolinux/manjaro-pamac/language/fi/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -266,11 +266,6 @@ msgid "Configuring %s"
 msgstr "Konfiguroidaan %s"
 
 #: src/transaction.vala
-#, c-format
-msgid "Downloading %s"
-msgstr "Ladataan %s"
-
-#: src/transaction.vala
 msgid "Checking available disk space"
 msgstr "Tarkistetaan saatavilla olevaa levytilaa"
 
@@ -309,6 +304,11 @@ msgstr "Suoritetaan asennusta edeltävät työt"
 #: src/transaction.vala
 msgid "Running post-transaction hooks"
 msgstr "Suoritetaan asennuksen jälkeiset työt"
+
+#: src/transaction.vala
+#, c-format
+msgid "Downloading %s"
+msgstr "Ladataan %s"
 
 #: src/transaction.vala
 #, c-format
@@ -710,7 +710,7 @@ msgstr "Kuinka usein tarkistetaan päivityksiä, arvo tunneissa"
 msgid "Maximum parallel downloads"
 msgstr "Yhtäaikaisten latausten enimmäismäärä"
 
-#: src/preferences_dialog.vala resources/preferences_dialog.ui
+#: src/preferences_dialog.vala src/cli.vala resources/preferences_dialog.ui
 msgid "Number of versions of each package to keep in the cache"
 msgstr "Paketin versioiden määrä joka säilytetään"
 
@@ -721,6 +721,17 @@ msgstr "Koontihakemisto"
 #: src/preferences_dialog.vala
 msgid "Worldwide"
 msgstr "Maailmanlaajuinen"
+
+#: src/preferences_dialog.vala src/cli.vala
+msgid "To delete"
+msgstr ""
+
+#: src/preferences_dialog.vala src/cli.vala
+#, c-format
+msgid "%u file"
+msgid_plural "%u files"
+msgstr[0] ""
+msgstr[1] ""
 
 #: src/preferences_dialog.vala
 msgid "Choose Ignored Upgrades"
@@ -740,15 +751,15 @@ msgstr "ei mikään"
 msgid "Enter a number (default=%d)"
 msgstr "Syötä numero (oletus=%d)"
 
-#: src/transaction-cli.vala
+#: src/transaction-cli.vala src/cli.vala
 msgid "[y/N]"
 msgstr "[k/N]"
 
-#: src/transaction-cli.vala
+#: src/transaction-cli.vala src/cli.vala
 msgid "y"
 msgstr "k"
 
-#: src/transaction-cli.vala
+#: src/transaction-cli.vala src/cli.vala
 msgid "yes"
 msgstr "kyllä"
 
@@ -765,8 +776,8 @@ msgid "Total removed size"
 msgstr "Koko poistettuna yhteensä"
 
 #: src/transaction-cli.vala
-msgid "Commit transaction"
-msgstr "Toteuta toimenpide"
+msgid "Apply transaction"
+msgstr ""
 
 #: src/transaction-cli.vala
 #, c-format
@@ -902,6 +913,10 @@ msgid "do not clone build files from AUR, only use local files"
 msgstr "älä kloonaa koontitiedostoja AUR:ista, käytä vain paikallisia tiedostoja"
 
 #: src/cli.vala
+msgid "bypass any and all confirmation messages"
+msgstr ""
+
+#: src/cli.vala
 msgid "glob"
 msgstr ""
 
@@ -975,6 +990,37 @@ msgstr "pakota tietokantojen päivitys"
 msgid "enable package downgrades"
 msgstr ""
 
+#: src/cli.vala
+msgid "Clean packages cache or build files"
+msgstr ""
+
+#: src/cli.vala
+msgid "number"
+msgstr ""
+
+#: src/cli.vala
+msgid ""
+"specify how many versions of each package are kept in the cache directory"
+msgstr ""
+
+#: src/cli.vala
+msgid "only target uninstalled packages"
+msgstr ""
+
+#: src/cli.vala
+msgid ""
+"remove all build files, the build directory is the one specified in "
+"pamac.conf"
+msgstr ""
+
+#: src/cli.vala
+msgid "do not remove files, only find candidate packages"
+msgstr ""
+
+#: src/cli.vala
+msgid "also display all files names"
+msgstr ""
+
 #: src/cli.vala resources/manager_window.ui
 msgid "Version"
 msgstr "Versio"
@@ -999,6 +1045,18 @@ msgstr ""
 #: src/cli.vala
 #, c-format
 msgid "%s is owned by %s"
+msgstr ""
+
+#: src/cli.vala resources/preferences_dialog.ui
+msgid "Remove only the versions of uninstalled packages"
+msgstr "Poista vain asentamattomien pakettien versiot"
+
+#: src/cli.vala resources/preferences_dialog.ui
+msgid "Clean cache"
+msgstr "Tyhjennä historia"
+
+#: src/cli.vala resources/preferences_dialog.ui
+msgid "Clean build files"
 msgstr ""
 
 #: src/cli.vala
@@ -1032,9 +1090,9 @@ msgstr "Pamacin historia"
 msgid "Transaction Summary"
 msgstr "Toimenpiteiden yhteenveto"
 
-#: resources/transaction_sum_dialog.ui
-msgid "Commit"
-msgstr "Toteuta"
+#: resources/transaction_sum_dialog.ui resources/manager_window.ui
+msgid "_Apply"
+msgstr "_hyväksy"
 
 #: resources/manager_window.ui
 msgid "Refresh databases"
@@ -1075,10 +1133,6 @@ msgstr "Asenna uudelleen"
 #: resources/manager_window.ui
 msgid "Reset build files"
 msgstr ""
-
-#: resources/manager_window.ui
-msgid "_Apply"
-msgstr "_hyväksy"
 
 #: resources/preferences_dialog.ui
 msgid "Remove unrequired dependencies"
@@ -1151,14 +1205,6 @@ msgstr "Tarkista päivitykset AUR pakettilähteestä"
 #: resources/preferences_dialog.ui
 msgid "Check for development packages updates"
 msgstr ""
-
-#: resources/preferences_dialog.ui
-msgid "Remove only the versions of uninstalled packages"
-msgstr "Poista vain asentamattomien pakettien versiot"
-
-#: resources/preferences_dialog.ui
-msgid "Clean cache"
-msgstr "Tyhjennä historia"
 
 #: resources/preferences_dialog.ui
 msgid "Cache"

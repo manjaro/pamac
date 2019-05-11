@@ -1,7 +1,7 @@
 # Translation of Pamac.
-# Copyright (C) 2013-2018 Manjaro Developers <manjaro-dev@manjaro.org>
+# Copyright (C) 2013-2019 Manjaro Developers <manjaro-dev@manjaro.org>
 # This file is distributed under the same license as the Pamac package.
-# Guillaume Benoit <guillaume@manjaro.org>, 2013-2018.
+# Guillaume Benoit <guillaume@manjaro.org>, 2013-2019.
 # 
 # Translators:
 # acutbal <acutbal@gmail.com>, 2017
@@ -18,9 +18,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2018-12-26 12:00+0100\n"
-"PO-Revision-Date: 2019-01-01 10:50+0000\n"
-"Last-Translator: Davidmp <medipas@gmail.com>\n"
+"POT-Creation-Date: 2019-05-03 12:41+0200\n"
+"PO-Revision-Date: 2019-05-04 01:14+0000\n"
+"Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Catalan (http://www.transifex.com/manjarolinux/manjaro-pamac/language/ca/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -262,11 +262,6 @@ msgid "Configuring %s"
 msgstr "Configurant %s"
 
 #: src/transaction.vala
-#, c-format
-msgid "Downloading %s"
-msgstr "Baixant %s"
-
-#: src/transaction.vala
 msgid "Checking available disk space"
 msgstr "Comprovant l'espai disponible al disc"
 
@@ -305,6 +300,11 @@ msgstr "Executant els ganxos de pretransacció"
 #: src/transaction.vala
 msgid "Running post-transaction hooks"
 msgstr "Executant els ganxos de posttransacció"
+
+#: src/transaction.vala
+#, c-format
+msgid "Downloading %s"
+msgstr "Baixant %s"
 
 #: src/transaction.vala
 #, c-format
@@ -706,7 +706,7 @@ msgstr "Freqüència per comprovar si hi ha actualitzacions, valor en hores"
 msgid "Maximum parallel downloads"
 msgstr "Màxim de baixades en paral·lel"
 
-#: src/preferences_dialog.vala resources/preferences_dialog.ui
+#: src/preferences_dialog.vala src/cli.vala resources/preferences_dialog.ui
 msgid "Number of versions of each package to keep in the cache"
 msgstr "Nombre de versions de cada paquet per mantenir a la memòria cau"
 
@@ -717,6 +717,17 @@ msgstr "Directori de construcció"
 #: src/preferences_dialog.vala
 msgid "Worldwide"
 msgstr "Arreu del món"
+
+#: src/preferences_dialog.vala src/cli.vala
+msgid "To delete"
+msgstr ""
+
+#: src/preferences_dialog.vala src/cli.vala
+#, c-format
+msgid "%u file"
+msgid_plural "%u files"
+msgstr[0] ""
+msgstr[1] ""
 
 #: src/preferences_dialog.vala
 msgid "Choose Ignored Upgrades"
@@ -736,15 +747,15 @@ msgstr "cap"
 msgid "Enter a number (default=%d)"
 msgstr "Introduïu un número (per defecte = %d)"
 
-#: src/transaction-cli.vala
+#: src/transaction-cli.vala src/cli.vala
 msgid "[y/N]"
 msgstr "[s/N]"
 
-#: src/transaction-cli.vala
+#: src/transaction-cli.vala src/cli.vala
 msgid "y"
 msgstr "s"
 
-#: src/transaction-cli.vala
+#: src/transaction-cli.vala src/cli.vala
 msgid "yes"
 msgstr "sí"
 
@@ -761,8 +772,8 @@ msgid "Total removed size"
 msgstr "Mida total de la supressió"
 
 #: src/transaction-cli.vala
-msgid "Commit transaction"
-msgstr "Fes la transacció"
+msgid "Apply transaction"
+msgstr ""
 
 #: src/transaction-cli.vala
 #, c-format
@@ -898,6 +909,10 @@ msgid "do not clone build files from AUR, only use local files"
 msgstr "No clonis fitxers de construcció de l'AUR, usa només els fitxers locals."
 
 #: src/cli.vala
+msgid "bypass any and all confirmation messages"
+msgstr ""
+
+#: src/cli.vala
 msgid "glob"
 msgstr "global"
 
@@ -971,6 +986,37 @@ msgstr "Força el refresc de les bases de dades."
 msgid "enable package downgrades"
 msgstr "Habilita la desactualització de paquets."
 
+#: src/cli.vala
+msgid "Clean packages cache or build files"
+msgstr ""
+
+#: src/cli.vala
+msgid "number"
+msgstr ""
+
+#: src/cli.vala
+msgid ""
+"specify how many versions of each package are kept in the cache directory"
+msgstr ""
+
+#: src/cli.vala
+msgid "only target uninstalled packages"
+msgstr ""
+
+#: src/cli.vala
+msgid ""
+"remove all build files, the build directory is the one specified in "
+"pamac.conf"
+msgstr ""
+
+#: src/cli.vala
+msgid "do not remove files, only find candidate packages"
+msgstr ""
+
+#: src/cli.vala
+msgid "also display all files names"
+msgstr ""
+
 #: src/cli.vala resources/manager_window.ui
 msgid "Version"
 msgstr "Versió"
@@ -996,6 +1042,18 @@ msgstr "No hi ha cap paquet al qual pertanyi %s."
 #, c-format
 msgid "%s is owned by %s"
 msgstr "%s pertany a %s."
+
+#: src/cli.vala resources/preferences_dialog.ui
+msgid "Remove only the versions of uninstalled packages"
+msgstr "Suprimeix només les versions dels paquets desinstal·lats."
+
+#: src/cli.vala resources/preferences_dialog.ui
+msgid "Clean cache"
+msgstr "Neteja la memòria cau"
+
+#: src/cli.vala resources/preferences_dialog.ui
+msgid "Clean build files"
+msgstr ""
 
 #: src/cli.vala
 #, c-format
@@ -1028,9 +1086,9 @@ msgstr "Historial del Pamac"
 msgid "Transaction Summary"
 msgstr "Resum de la transacció"
 
-#: resources/transaction_sum_dialog.ui
-msgid "Commit"
-msgstr "Fes-ho"
+#: resources/transaction_sum_dialog.ui resources/manager_window.ui
+msgid "_Apply"
+msgstr "_Aplica"
 
 #: resources/manager_window.ui
 msgid "Refresh databases"
@@ -1071,10 +1129,6 @@ msgstr "Reinstal·la"
 #: resources/manager_window.ui
 msgid "Reset build files"
 msgstr "Restableix els fitxers de construcció"
-
-#: resources/manager_window.ui
-msgid "_Apply"
-msgstr "_Aplica"
 
 #: resources/preferences_dialog.ui
 msgid "Remove unrequired dependencies"
@@ -1147,14 +1201,6 @@ msgstr "Comprova si hi ha actualitzacions de l'AUR."
 #: resources/preferences_dialog.ui
 msgid "Check for development packages updates"
 msgstr "Comprova si hi ha actualitzacions de paquets de desenvolupament"
-
-#: resources/preferences_dialog.ui
-msgid "Remove only the versions of uninstalled packages"
-msgstr "Suprimeix només les versions dels paquets desinstal·lats."
-
-#: resources/preferences_dialog.ui
-msgid "Clean cache"
-msgstr "Neteja la memòria cau"
 
 #: resources/preferences_dialog.ui
 msgid "Cache"

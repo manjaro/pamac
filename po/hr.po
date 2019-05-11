@@ -1,11 +1,11 @@
 # Translation of Pamac.
-# Copyright (C) 2013-2018 Manjaro Developers <manjaro-dev@manjaro.org>
+# Copyright (C) 2013-2019 Manjaro Developers <manjaro-dev@manjaro.org>
 # This file is distributed under the same license as the Pamac package.
-# Guillaume Benoit <guillaume@manjaro.org>, 2013-2018.
+# Guillaume Benoit <guillaume@manjaro.org>, 2013-2019.
 # 
 # Translators:
 # Lovro Kudelić <lovro.kudelic@outlook.com>, 2016
-# Lovro Kudelić <lovro.kudelic@outlook.com>, 2016-2018
+# Lovro Kudelić <lovro.kudelic@outlook.com>, 2016-2019
 # philm <philm@manjaro.org>, 2015
 # ssik64 <ssik64@gmail.com>, 2014
 # ssik64 <ssik64@gmail.com>, 2014
@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2018-12-26 12:00+0100\n"
-"PO-Revision-Date: 2018-12-28 09:07+0000\n"
+"POT-Creation-Date: 2019-05-03 12:41+0200\n"
+"PO-Revision-Date: 2019-05-09 20:03+0000\n"
 "Last-Translator: Lovro Kudelić <lovro.kudelic@outlook.com>\n"
 "Language-Team: Croatian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/hr/)\n"
 "MIME-Version: 1.0\n"
@@ -257,11 +257,6 @@ msgid "Configuring %s"
 msgstr "Postavljam %s"
 
 #: src/transaction.vala
-#, c-format
-msgid "Downloading %s"
-msgstr "Preuzimam %s"
-
-#: src/transaction.vala
 msgid "Checking available disk space"
 msgstr "Provjeravam dostupni prostor na disku"
 
@@ -300,6 +295,11 @@ msgstr "Izvršavam prije-transakcijske procese"
 #: src/transaction.vala
 msgid "Running post-transaction hooks"
 msgstr "Izvršavam poslije-transakcijske procese"
+
+#: src/transaction.vala
+#, c-format
+msgid "Downloading %s"
+msgstr "Preuzimam %s"
 
 #: src/transaction.vala
 #, c-format
@@ -704,7 +704,7 @@ msgstr "Koliko često provjeravati ažuriranja, vrijednost u satima"
 msgid "Maximum parallel downloads"
 msgstr "Maksimum paralelnih preuzimanja"
 
-#: src/preferences_dialog.vala resources/preferences_dialog.ui
+#: src/preferences_dialog.vala src/cli.vala resources/preferences_dialog.ui
 msgid "Number of versions of each package to keep in the cache"
 msgstr "Broj različitih verzija paketa za spremiti u predmemoriju"
 
@@ -715,6 +715,18 @@ msgstr "Direktorij za stvaranje paketa"
 #: src/preferences_dialog.vala
 msgid "Worldwide"
 msgstr "Globalno"
+
+#: src/preferences_dialog.vala src/cli.vala
+msgid "To delete"
+msgstr "Izbrisati"
+
+#: src/preferences_dialog.vala src/cli.vala
+#, c-format
+msgid "%u file"
+msgid_plural "%u files"
+msgstr[0] "%u datoteka"
+msgstr[1] "%u datoteke"
+msgstr[2] "%u datoteka"
 
 #: src/preferences_dialog.vala
 msgid "Choose Ignored Upgrades"
@@ -734,15 +746,15 @@ msgstr "nijedan"
 msgid "Enter a number (default=%d)"
 msgstr "Unesite broj (zadano = %d)"
 
-#: src/transaction-cli.vala
+#: src/transaction-cli.vala src/cli.vala
 msgid "[y/N]"
 msgstr "[da/NE]"
 
-#: src/transaction-cli.vala
+#: src/transaction-cli.vala src/cli.vala
 msgid "y"
 msgstr "da"
 
-#: src/transaction-cli.vala
+#: src/transaction-cli.vala src/cli.vala
 msgid "yes"
 msgstr "da"
 
@@ -759,8 +771,8 @@ msgid "Total removed size"
 msgstr "Ukupna uklonjena veličina"
 
 #: src/transaction-cli.vala
-msgid "Commit transaction"
-msgstr "Izvršite transakciju"
+msgid "Apply transaction"
+msgstr "Primijeni transakciju"
 
 #: src/transaction-cli.vala
 #, c-format
@@ -866,7 +878,7 @@ msgstr "direktorij"
 msgid ""
 "build directory, if no directory is given the one specified in pamac.conf "
 "file is used"
-msgstr "izgradi direktorij, ako se ne dodjeljuje direktorij, koristi se onaj koji je naveden u pamac.conf datoteci"
+msgstr "stvori direktorij, ako direktorij nije naveden, koristi se onaj koji je naveden u pamac.conf datoteci"
 
 #: src/cli.vala
 msgid "also clone needed dependencies"
@@ -894,6 +906,10 @@ msgstr "Direktorij za stvaranje će biti nadređeni direktorij; --builddir opcij
 #: src/cli.vala
 msgid "do not clone build files from AUR, only use local files"
 msgstr "nemoj klonirati datoteke za stvaranje iz AUR-a; koristi samo lokalne datoteke"
+
+#: src/cli.vala
+msgid "bypass any and all confirmation messages"
+msgstr "zaobići bilo koju i sve poruke potvrde"
 
 #: src/cli.vala
 msgid "glob"
@@ -945,7 +961,7 @@ msgstr "ispisuj samo jednu liniju po ažuriranju"
 msgid ""
 "build directory (use with --devel), if no directory is given the one "
 "specified in pamac.conf file is used"
-msgstr "izgradi direktorij (koristiti naredbu --aur), ako direktorij nije naveden, koristi se onaj koji je naveden u pamac.conf datoteci"
+msgstr "stvori direktorij (koristiti naredbu --aur), ako direktorij nije naveden, koristi se onaj koji je naveden u pamac.conf datoteci"
 
 #: src/cli.vala
 msgid "Upgrade your system"
@@ -959,7 +975,7 @@ msgstr "također nadogradi pakete instalirane iz AUR-a"
 msgid ""
 "build directory (use with --aur), if no directory is given the one specified"
 " in pamac.conf file is used"
-msgstr "izgradi direktorij (koristiti naredbu --aur), ako direktorij nije naveden, koristi se onaj koji je naveden u pamac.conf datoteci"
+msgstr "stvori direktorij (koristiti naredbu --aur), ako direktorij nije naveden, koristi se onaj koji je naveden u pamac.conf datoteci"
 
 #: src/cli.vala
 msgid "force the refresh of the databases"
@@ -968,6 +984,37 @@ msgstr "prisili osvježavanje baza podataka"
 #: src/cli.vala
 msgid "enable package downgrades"
 msgstr "dopusti povratak na staru verziju paketa"
+
+#: src/cli.vala
+msgid "Clean packages cache or build files"
+msgstr "Očistite predmemoriju paketa ili stvorite datoteke"
+
+#: src/cli.vala
+msgid "number"
+msgstr "broj"
+
+#: src/cli.vala
+msgid ""
+"specify how many versions of each package are kept in the cache directory"
+msgstr "odrediti koliko se verzija svakog paketa čuva u direktoriju predmemorije"
+
+#: src/cli.vala
+msgid "only target uninstalled packages"
+msgstr "ciljajte samo deinstalirane pakete"
+
+#: src/cli.vala
+msgid ""
+"remove all build files, the build directory is the one specified in "
+"pamac.conf"
+msgstr "ukloniti sve datoteke stvaranja, direktorij je onaj naveden u pamac.conf"
+
+#: src/cli.vala
+msgid "do not remove files, only find candidate packages"
+msgstr "ne uklanjajte datoteke, samo pronađite pakete kandidata"
+
+#: src/cli.vala
+msgid "also display all files names"
+msgstr "također prikaži imena svih datoteka"
 
 #: src/cli.vala resources/manager_window.ui
 msgid "Version"
@@ -994,6 +1041,18 @@ msgstr "Nijedan paket ne sadrži %s"
 #, c-format
 msgid "%s is owned by %s"
 msgstr "%s je u vlasništvu %s"
+
+#: src/cli.vala resources/preferences_dialog.ui
+msgid "Remove only the versions of uninstalled packages"
+msgstr "Ukloni samo verzije deinstaliranih paketa"
+
+#: src/cli.vala resources/preferences_dialog.ui
+msgid "Clean cache"
+msgstr "Očisti predmemoriju"
+
+#: src/cli.vala resources/preferences_dialog.ui
+msgid "Clean build files"
+msgstr "Očistite datoteke stvaranja"
 
 #: src/cli.vala
 #, c-format
@@ -1027,9 +1086,9 @@ msgstr "Pamac povijest"
 msgid "Transaction Summary"
 msgstr "Sažetak transakcija"
 
-#: resources/transaction_sum_dialog.ui
-msgid "Commit"
-msgstr "Izvrši"
+#: resources/transaction_sum_dialog.ui resources/manager_window.ui
+msgid "_Apply"
+msgstr "_Primijeni"
 
 #: resources/manager_window.ui
 msgid "Refresh databases"
@@ -1070,10 +1129,6 @@ msgstr "Ponovno instaliraj"
 #: resources/manager_window.ui
 msgid "Reset build files"
 msgstr "Ponovno postavi datoteke za stvaranje"
-
-#: resources/manager_window.ui
-msgid "_Apply"
-msgstr "_Primijeni"
 
 #: resources/preferences_dialog.ui
 msgid "Remove unrequired dependencies"
@@ -1146,14 +1201,6 @@ msgstr "Provjeri ažuriranja iz AUR-a"
 #: resources/preferences_dialog.ui
 msgid "Check for development packages updates"
 msgstr "Provjeri ažuriranja razvojnih paketa"
-
-#: resources/preferences_dialog.ui
-msgid "Remove only the versions of uninstalled packages"
-msgstr "Ukloni samo verzije deinstaliranih paketa"
-
-#: resources/preferences_dialog.ui
-msgid "Clean cache"
-msgstr "Očisti predmemoriju"
 
 #: resources/preferences_dialog.ui
 msgid "Cache"

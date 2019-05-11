@@ -1,11 +1,11 @@
 # Translation of Pamac.
-# Copyright (C) 2013-2018 Manjaro Developers <manjaro-dev@manjaro.org>
+# Copyright (C) 2013-2019 Manjaro Developers <manjaro-dev@manjaro.org>
 # This file is distributed under the same license as the Pamac package.
-# Guillaume Benoit <guillaume@manjaro.org>, 2013-2018.
+# Guillaume Benoit <guillaume@manjaro.org>, 2013-2019.
 # 
 # Translators:
 # Alexander B <beliy@yandex.ru>, 2017
-# AlexanderFilev, 2015
+# Al, 2015
 # Alexey Ermakov <strangebrew@yandex.ru>, 2018
 # Andrei Stepanov <adem4ik@gmail.com>, 2019
 # Victor Kukshiev <andrey0bolkonsky@gmail.com>, 2013
@@ -14,7 +14,7 @@
 # Анатолий Валерианович <ffox909@mail.ru>, 2014
 # Paulo Fino <finomeno@gmail.com>, 2014
 # Анатолий Валерианович <ffox909@mail.ru>, 2014
-# AlexanderFilev, 2015
+# Al, 2015
 # Artalus, 2018
 # Kirill Virt <spakes1999@gmail.com>, 2018
 # XXXKXXX <klyuchnikov.evgeny@gmail.com>, 2018-2019
@@ -40,9 +40,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2018-12-26 12:00+0100\n"
-"PO-Revision-Date: 2019-02-08 15:52+0000\n"
-"Last-Translator: Andrei Stepanov <adem4ik@gmail.com>\n"
+"POT-Creation-Date: 2019-05-03 12:41+0200\n"
+"PO-Revision-Date: 2019-05-04 01:14+0000\n"
+"Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Russian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -284,11 +284,6 @@ msgid "Configuring %s"
 msgstr "Настройка %s"
 
 #: src/transaction.vala
-#, c-format
-msgid "Downloading %s"
-msgstr "Загрузка %s"
-
-#: src/transaction.vala
 msgid "Checking available disk space"
 msgstr "Проверка доступного дискового пространства"
 
@@ -327,6 +322,11 @@ msgstr "Работа pre-transaction hooks"
 #: src/transaction.vala
 msgid "Running post-transaction hooks"
 msgstr "Работа post-transaction hooks"
+
+#: src/transaction.vala
+#, c-format
+msgid "Downloading %s"
+msgstr "Загрузка %s"
 
 #: src/transaction.vala
 #, c-format
@@ -734,7 +734,7 @@ msgstr "Укажите интервал поиска обновлений, в ч
 msgid "Maximum parallel downloads"
 msgstr "Максимум параллельных загрузок"
 
-#: src/preferences_dialog.vala resources/preferences_dialog.ui
+#: src/preferences_dialog.vala src/cli.vala resources/preferences_dialog.ui
 msgid "Number of versions of each package to keep in the cache"
 msgstr "Сохранять в кэше предыдущие версии пакетов в количестве"
 
@@ -745,6 +745,19 @@ msgstr "Каталог сборки"
 #: src/preferences_dialog.vala
 msgid "Worldwide"
 msgstr "Мировой"
+
+#: src/preferences_dialog.vala src/cli.vala
+msgid "To delete"
+msgstr ""
+
+#: src/preferences_dialog.vala src/cli.vala
+#, c-format
+msgid "%u file"
+msgid_plural "%u files"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
 
 #: src/preferences_dialog.vala
 msgid "Choose Ignored Upgrades"
@@ -764,15 +777,15 @@ msgstr "нет"
 msgid "Enter a number (default=%d)"
 msgstr "Введите число (по умолчанию=%d)"
 
-#: src/transaction-cli.vala
+#: src/transaction-cli.vala src/cli.vala
 msgid "[y/N]"
 msgstr "[д/Н]"
 
-#: src/transaction-cli.vala
+#: src/transaction-cli.vala src/cli.vala
 msgid "y"
 msgstr "д"
 
-#: src/transaction-cli.vala
+#: src/transaction-cli.vala src/cli.vala
 msgid "yes"
 msgstr "да"
 
@@ -789,8 +802,8 @@ msgid "Total removed size"
 msgstr "Общий размер удаленного"
 
 #: src/transaction-cli.vala
-msgid "Commit transaction"
-msgstr "Завершение транзакции"
+msgid "Apply transaction"
+msgstr ""
 
 #: src/transaction-cli.vala
 #, c-format
@@ -926,6 +939,10 @@ msgid "do not clone build files from AUR, only use local files"
 msgstr "не клонировать файлы сборки из AUR, использовать только локальные файлы"
 
 #: src/cli.vala
+msgid "bypass any and all confirmation messages"
+msgstr ""
+
+#: src/cli.vala
 msgid "glob"
 msgstr "глоб."
 
@@ -999,6 +1016,37 @@ msgstr "принудительное обновление баз данных"
 msgid "enable package downgrades"
 msgstr "разрешить понижение версий пакетов"
 
+#: src/cli.vala
+msgid "Clean packages cache or build files"
+msgstr ""
+
+#: src/cli.vala
+msgid "number"
+msgstr ""
+
+#: src/cli.vala
+msgid ""
+"specify how many versions of each package are kept in the cache directory"
+msgstr ""
+
+#: src/cli.vala
+msgid "only target uninstalled packages"
+msgstr ""
+
+#: src/cli.vala
+msgid ""
+"remove all build files, the build directory is the one specified in "
+"pamac.conf"
+msgstr ""
+
+#: src/cli.vala
+msgid "do not remove files, only find candidate packages"
+msgstr ""
+
+#: src/cli.vala
+msgid "also display all files names"
+msgstr ""
+
 #: src/cli.vala resources/manager_window.ui
 msgid "Version"
 msgstr "Версия"
@@ -1024,6 +1072,18 @@ msgstr "Нет пакетов, принадлежащих %s"
 #, c-format
 msgid "%s is owned by %s"
 msgstr "%sпринадлежит %s"
+
+#: src/cli.vala resources/preferences_dialog.ui
+msgid "Remove only the versions of uninstalled packages"
+msgstr "Удалять из кэша предыдущие версии только для удалённых пакетов"
+
+#: src/cli.vala resources/preferences_dialog.ui
+msgid "Clean cache"
+msgstr "Очистить кэш"
+
+#: src/cli.vala resources/preferences_dialog.ui
+msgid "Clean build files"
+msgstr ""
 
 #: src/cli.vala
 #, c-format
@@ -1058,9 +1118,9 @@ msgstr "Журнал Pamac"
 msgid "Transaction Summary"
 msgstr "Сводка транзакции"
 
-#: resources/transaction_sum_dialog.ui
-msgid "Commit"
-msgstr "Далее"
+#: resources/transaction_sum_dialog.ui resources/manager_window.ui
+msgid "_Apply"
+msgstr "_Применить"
 
 #: resources/manager_window.ui
 msgid "Refresh databases"
@@ -1101,10 +1161,6 @@ msgstr "Переустановить"
 #: resources/manager_window.ui
 msgid "Reset build files"
 msgstr "Сбросить сборочные файлы"
-
-#: resources/manager_window.ui
-msgid "_Apply"
-msgstr "_Применить"
 
 #: resources/preferences_dialog.ui
 msgid "Remove unrequired dependencies"
@@ -1177,14 +1233,6 @@ msgstr "Проверить обновления AUR"
 #: resources/preferences_dialog.ui
 msgid "Check for development packages updates"
 msgstr "Проверка обновлений пакетов в разработке"
-
-#: resources/preferences_dialog.ui
-msgid "Remove only the versions of uninstalled packages"
-msgstr "Удалять из кэша предыдущие версии только для удалённых пакетов"
-
-#: resources/preferences_dialog.ui
-msgid "Clean cache"
-msgstr "Очистить кэш"
 
 #: resources/preferences_dialog.ui
 msgid "Cache"

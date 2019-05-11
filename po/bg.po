@@ -1,10 +1,10 @@
 # Translation of Pamac.
-# Copyright (C) 2013-2018 Manjaro Developers <manjaro-dev@manjaro.org>
+# Copyright (C) 2013-2019 Manjaro Developers <manjaro-dev@manjaro.org>
 # This file is distributed under the same license as the Pamac package.
-# Guillaume Benoit <guillaume@manjaro.org>, 2013-2018.
+# Guillaume Benoit <guillaume@manjaro.org>, 2013-2019.
 # 
 # Translators:
-# Galin Iskrenov <loot270@abv.bg>, 2013-2018
+# Galin Iskrenov <loot270@abv.bg>, 2013-2019
 # Georgi Georgiev <georgiev_1994@abv.bg>, 2014
 # Georgi Georgiev <georgiev_1994@abv.bg>, 2014,2016,2018
 # Galin Iskrenov <loot270@abv.bg>, 2013
@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2018-12-26 12:00+0100\n"
-"PO-Revision-Date: 2018-12-28 08:45+0000\n"
+"POT-Creation-Date: 2019-05-03 12:41+0200\n"
+"PO-Revision-Date: 2019-05-07 05:32+0000\n"
 "Last-Translator: Galin Iskrenov <loot270@abv.bg>\n"
 "Language-Team: Bulgarian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/bg/)\n"
 "MIME-Version: 1.0\n"
@@ -158,7 +158,7 @@ msgstr "Клониране %s изграждащи файлове"
 #: src/transaction.vala
 #, c-format
 msgid "Generating %s informations"
-msgstr "Генерация %s информация"
+msgstr "Генерация %s информации"
 
 #: src/transaction.vala
 #, c-format
@@ -259,11 +259,6 @@ msgid "Configuring %s"
 msgstr "Конфигуриране на %s"
 
 #: src/transaction.vala
-#, c-format
-msgid "Downloading %s"
-msgstr "Изтегляне на %s"
-
-#: src/transaction.vala
 msgid "Checking available disk space"
 msgstr "Проверка за налично пространство на диска"
 
@@ -302,6 +297,11 @@ msgstr "Изпълнение на pre-transaction hooks"
 #: src/transaction.vala
 msgid "Running post-transaction hooks"
 msgstr "Изпълнение на post-transaction hooks"
+
+#: src/transaction.vala
+#, c-format
+msgid "Downloading %s"
+msgstr "Изтегляне на %s"
 
 #: src/transaction.vala
 #, c-format
@@ -474,7 +474,7 @@ msgstr "Инсталиране"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Build"
-msgstr "Изградено"
+msgstr "Изграждане"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Remove"
@@ -703,7 +703,7 @@ msgstr "Колко често да се проверява за актуализ
 msgid "Maximum parallel downloads"
 msgstr "Максимум паралелни сваляния "
 
-#: src/preferences_dialog.vala resources/preferences_dialog.ui
+#: src/preferences_dialog.vala src/cli.vala resources/preferences_dialog.ui
 msgid "Number of versions of each package to keep in the cache"
 msgstr "Брой версии от всеки пакет запазени в кеша"
 
@@ -714,6 +714,17 @@ msgstr "Папка за изграждане"
 #: src/preferences_dialog.vala
 msgid "Worldwide"
 msgstr "По света"
+
+#: src/preferences_dialog.vala src/cli.vala
+msgid "To delete"
+msgstr "За изтриване"
+
+#: src/preferences_dialog.vala src/cli.vala
+#, c-format
+msgid "%u file"
+msgid_plural "%u files"
+msgstr[0] "%u файл"
+msgstr[1] "%u файлове"
 
 #: src/preferences_dialog.vala
 msgid "Choose Ignored Upgrades"
@@ -733,15 +744,15 @@ msgstr "нищо"
 msgid "Enter a number (default=%d)"
 msgstr "Въведете номер (по подразбиране=%d)"
 
-#: src/transaction-cli.vala
+#: src/transaction-cli.vala src/cli.vala
 msgid "[y/N]"
 msgstr "[y/N]"
 
-#: src/transaction-cli.vala
+#: src/transaction-cli.vala src/cli.vala
 msgid "y"
 msgstr "y"
 
-#: src/transaction-cli.vala
+#: src/transaction-cli.vala src/cli.vala
 msgid "yes"
 msgstr "yes"
 
@@ -758,8 +769,8 @@ msgid "Total removed size"
 msgstr "Общ отстранен размер"
 
 #: src/transaction-cli.vala
-msgid "Commit transaction"
-msgstr "Потвърждаване на транзакцията"
+msgid "Apply transaction"
+msgstr "Приложи транзакцията"
 
 #: src/transaction-cli.vala
 #, c-format
@@ -895,6 +906,10 @@ msgid "do not clone build files from AUR, only use local files"
 msgstr "не клонирай изграждащи файлове от AUR, използване само локални файлове"
 
 #: src/cli.vala
+msgid "bypass any and all confirmation messages"
+msgstr "заобикаляй някои и всички съобщения за потвърждение"
+
+#: src/cli.vala
 msgid "glob"
 msgstr "glob"
 
@@ -968,6 +983,37 @@ msgstr "принудително опресняване на базите от �
 msgid "enable package downgrades"
 msgstr "разрешено връщане в по-ниска версия на пакетите"
 
+#: src/cli.vala
+msgid "Clean packages cache or build files"
+msgstr "Почистване кеш пакети или изграждане на файлове"
+
+#: src/cli.vala
+msgid "number"
+msgstr "номер"
+
+#: src/cli.vala
+msgid ""
+"specify how many versions of each package are kept in the cache directory"
+msgstr "посочете колко версии от всеки пакет се съхраняват в директорията на кеша"
+
+#: src/cli.vala
+msgid "only target uninstalled packages"
+msgstr "насочен само към деинсталирани пакети"
+
+#: src/cli.vala
+msgid ""
+"remove all build files, the build directory is the one specified in "
+"pamac.conf"
+msgstr "премахнете всички файлове за изграждане, директорията build е тази, посочена в pamac.conf"
+
+#: src/cli.vala
+msgid "do not remove files, only find candidate packages"
+msgstr "без премахване на файлове, намиране само на възможни пакети"
+
+#: src/cli.vala
+msgid "also display all files names"
+msgstr "показва и всички имена на файлове"
+
 #: src/cli.vala resources/manager_window.ui
 msgid "Version"
 msgstr "Версия"
@@ -993,6 +1039,18 @@ msgstr "Никой пакет не притежава %s"
 #, c-format
 msgid "%s is owned by %s"
 msgstr "%s е собственост на %s"
+
+#: src/cli.vala resources/preferences_dialog.ui
+msgid "Remove only the versions of uninstalled packages"
+msgstr "Премахване само версиите на деинсталираните пакети"
+
+#: src/cli.vala resources/preferences_dialog.ui
+msgid "Clean cache"
+msgstr "Почистване на кеша"
+
+#: src/cli.vala resources/preferences_dialog.ui
+msgid "Clean build files"
+msgstr "Почистване файловете за изграждане"
 
 #: src/cli.vala
 #, c-format
@@ -1025,9 +1083,9 @@ msgstr "История на Pamac"
 msgid "Transaction Summary"
 msgstr "Резюме на транзакцията"
 
-#: resources/transaction_sum_dialog.ui
-msgid "Commit"
-msgstr "Потвърди"
+#: resources/transaction_sum_dialog.ui resources/manager_window.ui
+msgid "_Apply"
+msgstr "_Приложи"
 
 #: resources/manager_window.ui
 msgid "Refresh databases"
@@ -1068,10 +1126,6 @@ msgstr "Преинсталиране"
 #: resources/manager_window.ui
 msgid "Reset build files"
 msgstr "Нулиране на изграждащи файлове"
-
-#: resources/manager_window.ui
-msgid "_Apply"
-msgstr "_Приложи"
 
 #: resources/preferences_dialog.ui
 msgid "Remove unrequired dependencies"
@@ -1144,14 +1198,6 @@ msgstr "Проверка за актуализации от  AUR"
 #: resources/preferences_dialog.ui
 msgid "Check for development packages updates"
 msgstr "Проверка за актуализации на пакети за разработки"
-
-#: resources/preferences_dialog.ui
-msgid "Remove only the versions of uninstalled packages"
-msgstr "Премахване само версиите на деинсталираните пакети"
-
-#: resources/preferences_dialog.ui
-msgid "Clean cache"
-msgstr "Почистване на кеша"
 
 #: resources/preferences_dialog.ui
 msgid "Cache"

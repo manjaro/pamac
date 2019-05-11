@@ -1,7 +1,7 @@
 # Translation of Pamac.
-# Copyright (C) 2013-2018 Manjaro Developers <manjaro-dev@manjaro.org>
+# Copyright (C) 2013-2019 Manjaro Developers <manjaro-dev@manjaro.org>
 # This file is distributed under the same license as the Pamac package.
-# Guillaume Benoit <guillaume@manjaro.org>, 2013-2018.
+# Guillaume Benoit <guillaume@manjaro.org>, 2013-2019.
 # 
 # Translators:
 # BALLOON a.k.a. Fu-sen., 2015
@@ -14,9 +14,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2018-12-26 12:00+0100\n"
-"PO-Revision-Date: 2018-12-29 15:25+0000\n"
-"Last-Translator: UTUMI Hirosi <utuhiro78@yahoo.co.jp>\n"
+"POT-Creation-Date: 2019-05-03 12:41+0200\n"
+"PO-Revision-Date: 2019-05-04 01:14+0000\n"
+"Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Japanese (http://www.transifex.com/manjarolinux/manjaro-pamac/language/ja/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -258,11 +258,6 @@ msgid "Configuring %s"
 msgstr "%s を設定しています"
 
 #: src/transaction.vala
-#, c-format
-msgid "Downloading %s"
-msgstr "%s をダウンロードしています"
-
-#: src/transaction.vala
 msgid "Checking available disk space"
 msgstr "使用可能なディスク容量を確認しています"
 
@@ -301,6 +296,11 @@ msgstr "トランザクション前のフックを実行しています"
 #: src/transaction.vala
 msgid "Running post-transaction hooks"
 msgstr "トランザクション後のフックを実行しています"
+
+#: src/transaction.vala
+#, c-format
+msgid "Downloading %s"
+msgstr "%s をダウンロードしています"
 
 #: src/transaction.vala
 #, c-format
@@ -699,7 +699,7 @@ msgstr "アップデートを確認する間隔 (1時間単位)"
 msgid "Maximum parallel downloads"
 msgstr "最大同時ダウンロード数"
 
-#: src/preferences_dialog.vala resources/preferences_dialog.ui
+#: src/preferences_dialog.vala src/cli.vala resources/preferences_dialog.ui
 msgid "Number of versions of each package to keep in the cache"
 msgstr "キャッシュに保存するパッケージのバージョン数"
 
@@ -710,6 +710,16 @@ msgstr "ビルドディレクトリ"
 #: src/preferences_dialog.vala
 msgid "Worldwide"
 msgstr "全世界"
+
+#: src/preferences_dialog.vala src/cli.vala
+msgid "To delete"
+msgstr ""
+
+#: src/preferences_dialog.vala src/cli.vala
+#, c-format
+msgid "%u file"
+msgid_plural "%u files"
+msgstr[0] ""
 
 #: src/preferences_dialog.vala
 msgid "Choose Ignored Upgrades"
@@ -729,15 +739,15 @@ msgstr "なし"
 msgid "Enter a number (default=%d)"
 msgstr "番号を入力（デフォルト 1%d）"
 
-#: src/transaction-cli.vala
+#: src/transaction-cli.vala src/cli.vala
 msgid "[y/N]"
 msgstr "[y/N]"
 
-#: src/transaction-cli.vala
+#: src/transaction-cli.vala src/cli.vala
 msgid "y"
 msgstr "y"
 
-#: src/transaction-cli.vala
+#: src/transaction-cli.vala src/cli.vala
 msgid "yes"
 msgstr "yes"
 
@@ -754,8 +764,8 @@ msgid "Total removed size"
 msgstr "削除したパッケージのサイズの合計"
 
 #: src/transaction-cli.vala
-msgid "Commit transaction"
-msgstr "トランザクションを実行"
+msgid "Apply transaction"
+msgstr ""
 
 #: src/transaction-cli.vala
 #, c-format
@@ -891,6 +901,10 @@ msgid "do not clone build files from AUR, only use local files"
 msgstr "AURからビルド用のファイルをクローンせず、ローカルファイルのみを使用する"
 
 #: src/cli.vala
+msgid "bypass any and all confirmation messages"
+msgstr ""
+
+#: src/cli.vala
 msgid "glob"
 msgstr "glob"
 
@@ -964,6 +978,37 @@ msgstr "強制的にデータベースをアップデートする"
 msgid "enable package downgrades"
 msgstr "パッケージのダウングレードを可能にする"
 
+#: src/cli.vala
+msgid "Clean packages cache or build files"
+msgstr ""
+
+#: src/cli.vala
+msgid "number"
+msgstr ""
+
+#: src/cli.vala
+msgid ""
+"specify how many versions of each package are kept in the cache directory"
+msgstr ""
+
+#: src/cli.vala
+msgid "only target uninstalled packages"
+msgstr ""
+
+#: src/cli.vala
+msgid ""
+"remove all build files, the build directory is the one specified in "
+"pamac.conf"
+msgstr ""
+
+#: src/cli.vala
+msgid "do not remove files, only find candidate packages"
+msgstr ""
+
+#: src/cli.vala
+msgid "also display all files names"
+msgstr ""
+
 #: src/cli.vala resources/manager_window.ui
 msgid "Version"
 msgstr "バージョン"
@@ -989,6 +1034,18 @@ msgstr "%s を持つパッケージがありません"
 #, c-format
 msgid "%s is owned by %s"
 msgstr "%s は  %s に属しています"
+
+#: src/cli.vala resources/preferences_dialog.ui
+msgid "Remove only the versions of uninstalled packages"
+msgstr "アンインストール済みのパッケージのバージョンのみ削除する"
+
+#: src/cli.vala resources/preferences_dialog.ui
+msgid "Clean cache"
+msgstr "キャッシュを削除"
+
+#: src/cli.vala resources/preferences_dialog.ui
+msgid "Clean build files"
+msgstr ""
 
 #: src/cli.vala
 #, c-format
@@ -1020,9 +1077,9 @@ msgstr "Pamacの履歴"
 msgid "Transaction Summary"
 msgstr "トランザクションの概要"
 
-#: resources/transaction_sum_dialog.ui
-msgid "Commit"
-msgstr "コミット"
+#: resources/transaction_sum_dialog.ui resources/manager_window.ui
+msgid "_Apply"
+msgstr "適用 (_A)"
 
 #: resources/manager_window.ui
 msgid "Refresh databases"
@@ -1063,10 +1120,6 @@ msgstr "再インストール"
 #: resources/manager_window.ui
 msgid "Reset build files"
 msgstr "ビルド用のファイルをリセット"
-
-#: resources/manager_window.ui
-msgid "_Apply"
-msgstr "適用 (_A)"
 
 #: resources/preferences_dialog.ui
 msgid "Remove unrequired dependencies"
@@ -1139,14 +1192,6 @@ msgstr "AURのアップデートを確認する"
 #: resources/preferences_dialog.ui
 msgid "Check for development packages updates"
 msgstr "開発用パッケージのアップデートを確認する"
-
-#: resources/preferences_dialog.ui
-msgid "Remove only the versions of uninstalled packages"
-msgstr "アンインストール済みのパッケージのバージョンのみ削除する"
-
-#: resources/preferences_dialog.ui
-msgid "Clean cache"
-msgstr "キャッシュを削除"
 
 #: resources/preferences_dialog.ui
 msgid "Cache"

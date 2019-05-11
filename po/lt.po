@@ -1,17 +1,17 @@
 # Translation of Pamac.
-# Copyright (C) 2013-2018 Manjaro Developers <manjaro-dev@manjaro.org>
+# Copyright (C) 2013-2019 Manjaro Developers <manjaro-dev@manjaro.org>
 # This file is distributed under the same license as the Pamac package.
-# Guillaume Benoit <guillaume@manjaro.org>, 2013-2018.
+# Guillaume Benoit <guillaume@manjaro.org>, 2013-2019.
 # 
 # Translators:
 # Moo, 2015
-# Moo, 2015-2018
+# Moo, 2015-2019
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2018-12-26 12:00+0100\n"
-"PO-Revision-Date: 2018-12-28 15:37+0000\n"
+"POT-Creation-Date: 2019-05-03 12:41+0200\n"
+"PO-Revision-Date: 2019-05-04 19:19+0000\n"
 "Last-Translator: Moo\n"
 "Language-Team: Lithuanian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/lt/)\n"
 "MIME-Version: 1.0\n"
@@ -254,11 +254,6 @@ msgid "Configuring %s"
 msgstr "Konfigūruojama %s"
 
 #: src/transaction.vala
-#, c-format
-msgid "Downloading %s"
-msgstr "Atsiunčiama %s"
-
-#: src/transaction.vala
 msgid "Checking available disk space"
 msgstr "Tikrinama prieinama vieta diske"
 
@@ -297,6 +292,11 @@ msgstr "Vykdomos prieš-operacijos gaudyklės"
 #: src/transaction.vala
 msgid "Running post-transaction hooks"
 msgstr "Vykdomos po-operacijos gaudyklės"
+
+#: src/transaction.vala
+#, c-format
+msgid "Downloading %s"
+msgstr "Atsiunčiama %s"
 
 #: src/transaction.vala
 #, c-format
@@ -704,7 +704,7 @@ msgstr "Kaip dažnai tikrinti ar yra atnaujinimų, reikšmė valandomis"
 msgid "Maximum parallel downloads"
 msgstr "Daugiausia lygiagrečių atsisiuntimų"
 
-#: src/preferences_dialog.vala resources/preferences_dialog.ui
+#: src/preferences_dialog.vala src/cli.vala resources/preferences_dialog.ui
 msgid "Number of versions of each package to keep in the cache"
 msgstr "Podėlyje laikomas kiekvieno paketo versijų skaičius"
 
@@ -715,6 +715,19 @@ msgstr "Kompiliavimo katalogas"
 #: src/preferences_dialog.vala
 msgid "Worldwide"
 msgstr "Viso pasaulio"
+
+#: src/preferences_dialog.vala src/cli.vala
+msgid "To delete"
+msgstr "Ištrinti"
+
+#: src/preferences_dialog.vala src/cli.vala
+#, c-format
+msgid "%u file"
+msgid_plural "%u files"
+msgstr[0] "%u failas"
+msgstr[1] "%u failai"
+msgstr[2] "%u failų"
+msgstr[3] "%u failas"
 
 #: src/preferences_dialog.vala
 msgid "Choose Ignored Upgrades"
@@ -734,15 +747,15 @@ msgstr "nėra"
 msgid "Enter a number (default=%d)"
 msgstr "Įveskite skaičių (numatytasis=%d)"
 
-#: src/transaction-cli.vala
+#: src/transaction-cli.vala src/cli.vala
 msgid "[y/N]"
 msgstr "[t/N]"
 
-#: src/transaction-cli.vala
+#: src/transaction-cli.vala src/cli.vala
 msgid "y"
 msgstr "t"
 
-#: src/transaction-cli.vala
+#: src/transaction-cli.vala src/cli.vala
 msgid "yes"
 msgstr "taip"
 
@@ -759,8 +772,8 @@ msgid "Total removed size"
 msgstr "Bendras šalinimo dydis"
 
 #: src/transaction-cli.vala
-msgid "Commit transaction"
-msgstr "Atlikti operaciją"
+msgid "Apply transaction"
+msgstr "Taikyti operaciją"
 
 #: src/transaction-cli.vala
 #, c-format
@@ -896,6 +909,10 @@ msgid "do not clone build files from AUR, only use local files"
 msgstr "neklonuoti kompiliavimo failų iš AUR, naudoti tik vietinius failus"
 
 #: src/cli.vala
+msgid "bypass any and all confirmation messages"
+msgstr "apeiti bet kokius ir visus patvirtinimo pranešimus"
+
+#: src/cli.vala
 msgid "glob"
 msgstr "visuot"
 
@@ -969,6 +986,37 @@ msgstr "priverstinai įkelti duomenų bazes iš naujo"
 msgid "enable package downgrades"
 msgstr "įjungti paketų sendinimus"
 
+#: src/cli.vala
+msgid "Clean packages cache or build files"
+msgstr "Išvalyti paketų podėlį ar kompiliavimo failus"
+
+#: src/cli.vala
+msgid "number"
+msgstr "skaičius"
+
+#: src/cli.vala
+msgid ""
+"specify how many versions of each package are kept in the cache directory"
+msgstr "nurodykite kiek kiekvieno paketo versijų bus laikoma podėlio kataloge"
+
+#: src/cli.vala
+msgid "only target uninstalled packages"
+msgstr "taikyti tik pašalintiems paketams"
+
+#: src/cli.vala
+msgid ""
+"remove all build files, the build directory is the one specified in "
+"pamac.conf"
+msgstr "šalinti visus kompiliavimo failus, kompiliavimo katalogas yra tas, kuris yra nurodytas pamac.conf faile"
+
+#: src/cli.vala
+msgid "do not remove files, only find candidate packages"
+msgstr "nešalinti failų, tik rasti potencialius paketus"
+
+#: src/cli.vala
+msgid "also display all files names"
+msgstr "taip pat rodyti visus failų pavadinimus"
+
 #: src/cli.vala resources/manager_window.ui
 msgid "Version"
 msgstr "Versija"
@@ -994,6 +1042,18 @@ msgstr "%s nepriklauso jokiam paketui"
 #, c-format
 msgid "%s is owned by %s"
 msgstr "%s priklauso paketui %s"
+
+#: src/cli.vala resources/preferences_dialog.ui
+msgid "Remove only the versions of uninstalled packages"
+msgstr "Šalinti tik pašalintų paketų versijas"
+
+#: src/cli.vala resources/preferences_dialog.ui
+msgid "Clean cache"
+msgstr "Išvalyti podėlį"
+
+#: src/cli.vala resources/preferences_dialog.ui
+msgid "Clean build files"
+msgstr "Išvalyti kompiliavimo failus"
 
 #: src/cli.vala
 #, c-format
@@ -1028,9 +1088,9 @@ msgstr "Pamac žurnalas"
 msgid "Transaction Summary"
 msgstr "Operacijos suvestinė"
 
-#: resources/transaction_sum_dialog.ui
-msgid "Commit"
-msgstr "Vykdyti"
+#: resources/transaction_sum_dialog.ui resources/manager_window.ui
+msgid "_Apply"
+msgstr "_Taikyti"
 
 #: resources/manager_window.ui
 msgid "Refresh databases"
@@ -1071,10 +1131,6 @@ msgstr "Įdiegti iš naujo"
 #: resources/manager_window.ui
 msgid "Reset build files"
 msgstr "Atstatyti kompiliavimo failus"
-
-#: resources/manager_window.ui
-msgid "_Apply"
-msgstr "_Taikyti"
 
 #: resources/preferences_dialog.ui
 msgid "Remove unrequired dependencies"
@@ -1147,14 +1203,6 @@ msgstr "Tikrinti atnaujinimus iš AUR"
 #: resources/preferences_dialog.ui
 msgid "Check for development packages updates"
 msgstr "Tikrinti plėtojimo paketų atnaujinimų"
-
-#: resources/preferences_dialog.ui
-msgid "Remove only the versions of uninstalled packages"
-msgstr "Šalinti tik pašalintų paketų versijas"
-
-#: resources/preferences_dialog.ui
-msgid "Clean cache"
-msgstr "Išvalyti podėlį"
 
 #: resources/preferences_dialog.ui
 msgid "Cache"

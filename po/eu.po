@@ -1,7 +1,7 @@
 # Translation of Pamac.
-# Copyright (C) 2013-2018 Manjaro Developers <manjaro-dev@manjaro.org>
+# Copyright (C) 2013-2019 Manjaro Developers <manjaro-dev@manjaro.org>
 # This file is distributed under the same license as the Pamac package.
-# Guillaume Benoit <guillaume@manjaro.org>, 2013-2018.
+# Guillaume Benoit <guillaume@manjaro.org>, 2013-2019.
 # 
 # Translators:
 # John Smith <aboutafteragain@gmail.com>, 2015
@@ -14,9 +14,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2018-12-26 12:00+0100\n"
-"PO-Revision-Date: 2019-03-13 06:02+0000\n"
-"Last-Translator: Gontzal M. Pujana <juchuf@gmail.com>\n"
+"POT-Creation-Date: 2019-05-03 12:41+0200\n"
+"PO-Revision-Date: 2019-05-04 01:14+0000\n"
+"Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Basque (http://www.transifex.com/manjarolinux/manjaro-pamac/language/eu/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -34,7 +34,7 @@ msgstr "Ezin izan da alpm liburutegia hasieratu"
 
 #: src/alpm_utils.vala
 msgid "Failed to synchronize any databases"
-msgstr "Datu baseak sinkronizatzeak huts egin du"
+msgstr "Datu baseen sinkronizazioak huts egin du"
 
 #: src/alpm_utils.vala
 msgid "Failed to init transaction"
@@ -152,7 +152,7 @@ msgstr "Pakete datu-baseak sinkronizatzen"
 #: src/transaction.vala src/cli.vala
 #, c-format
 msgid "Cloning %s build files"
-msgstr "%s(r)en eraiketa fitxategiak klonatzen"
+msgstr "%s: eraiketa fitxategiak klonatzen"
 
 #: src/transaction.vala
 #, c-format
@@ -162,7 +162,7 @@ msgstr "%s informazioak sortzen"
 #: src/transaction.vala
 #, c-format
 msgid "Checking %s dependencies"
-msgstr "%s(r)en menpekotasunak egiaztatzen"
+msgstr "%s: menpekotasunak egiaztatzen"
 
 #: src/transaction.vala
 #, c-format
@@ -258,11 +258,6 @@ msgid "Configuring %s"
 msgstr "%s konfiguratzen"
 
 #: src/transaction.vala
-#, c-format
-msgid "Downloading %s"
-msgstr "%s deskargatzen"
-
-#: src/transaction.vala
 msgid "Checking available disk space"
 msgstr "Eskuragarri dagoen disko espazioa egiaztatzen"
 
@@ -301,6 +296,11 @@ msgstr "Transakzio aurreko kakoak exekutatzen"
 #: src/transaction.vala
 msgid "Running post-transaction hooks"
 msgstr "Transakzio osteko kakoak exekutatzen"
+
+#: src/transaction.vala
+#, c-format
+msgid "Downloading %s"
+msgstr "%s deskargatzen"
 
 #: src/transaction.vala
 #, c-format
@@ -379,7 +379,7 @@ msgstr "Kentzeko"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "To downgrade"
-msgstr "Bertsio-zahartu"
+msgstr "Bertsio-zahartzeko"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "To build"
@@ -443,7 +443,7 @@ msgstr "_Irten"
 #, c-format
 msgid "%u available update"
 msgid_plural "%u available updates"
-msgstr[0] "eguneraketa %u eskuragarri"
+msgstr[0] "Eguneraketa %u eskuragarri"
 msgstr[1] "%u eguneraketa eskuragarri"
 
 #: src/tray.vala src/manager_window.vala resources/progress_dialog.ui
@@ -461,7 +461,7 @@ msgstr "Eguneraketak bilatzen"
 
 #: src/manager_window.vala
 msgid "Deselect"
-msgstr "Desautatu"
+msgstr "Desmarkatu"
 
 #: src/manager_window.vala
 msgid "Upgrade"
@@ -696,13 +696,13 @@ msgstr "Gtk3n eraikitako ibalpm liburutegiaren interfaze bat"
 
 #: src/preferences_dialog.vala resources/preferences_dialog.ui
 msgid "How often to check for updates, value in hours"
-msgstr "Eguneraketak egiaztatzeko maiztasuna, orduetan"
+msgstr "Eguneraketak egiaztatzeko maiztasuna, ordutan"
 
 #: src/preferences_dialog.vala resources/preferences_dialog.ui
 msgid "Maximum parallel downloads"
 msgstr "Gehienezko deskarga paraleloak"
 
-#: src/preferences_dialog.vala resources/preferences_dialog.ui
+#: src/preferences_dialog.vala src/cli.vala resources/preferences_dialog.ui
 msgid "Number of versions of each package to keep in the cache"
 msgstr "Katxean gorde beharreko pakete bakotzeko bertsio kopurua"
 
@@ -713,6 +713,17 @@ msgstr "Eraiketa direktorioa"
 #: src/preferences_dialog.vala
 msgid "Worldwide"
 msgstr "Mundu mailakoa"
+
+#: src/preferences_dialog.vala src/cli.vala
+msgid "To delete"
+msgstr ""
+
+#: src/preferences_dialog.vala src/cli.vala
+#, c-format
+msgid "%u file"
+msgid_plural "%u files"
+msgstr[0] ""
+msgstr[1] ""
 
 #: src/preferences_dialog.vala
 msgid "Choose Ignored Upgrades"
@@ -732,15 +743,15 @@ msgstr "bat ere ez"
 msgid "Enter a number (default=%d)"
 msgstr "Sartu zenbaki bat (lehenetsia=%d)"
 
-#: src/transaction-cli.vala
+#: src/transaction-cli.vala src/cli.vala
 msgid "[y/N]"
 msgstr "[b/E]"
 
-#: src/transaction-cli.vala
+#: src/transaction-cli.vala src/cli.vala
 msgid "y"
 msgstr "b"
 
-#: src/transaction-cli.vala
+#: src/transaction-cli.vala src/cli.vala
 msgid "yes"
 msgstr "bai"
 
@@ -757,8 +768,8 @@ msgid "Total removed size"
 msgstr "Kendutako tamaina guztira"
 
 #: src/transaction-cli.vala
-msgid "Commit transaction"
-msgstr "Egikaritu transakzioa"
+msgid "Apply transaction"
+msgstr ""
 
 #: src/transaction-cli.vala
 #, c-format
@@ -894,6 +905,10 @@ msgid "do not clone build files from AUR, only use local files"
 msgstr "ez klonatu eraiketa fitxategiak AURetik, erabili fitxategi lokalak soilik"
 
 #: src/cli.vala
+msgid "bypass any and all confirmation messages"
+msgstr ""
+
+#: src/cli.vala
 msgid "glob"
 msgstr "glob"
 
@@ -967,6 +982,37 @@ msgstr "behartu datu-baseen freskatzea"
 msgid "enable package downgrades"
 msgstr "gaitu paketeen bertsio zaharragoak"
 
+#: src/cli.vala
+msgid "Clean packages cache or build files"
+msgstr ""
+
+#: src/cli.vala
+msgid "number"
+msgstr ""
+
+#: src/cli.vala
+msgid ""
+"specify how many versions of each package are kept in the cache directory"
+msgstr ""
+
+#: src/cli.vala
+msgid "only target uninstalled packages"
+msgstr ""
+
+#: src/cli.vala
+msgid ""
+"remove all build files, the build directory is the one specified in "
+"pamac.conf"
+msgstr ""
+
+#: src/cli.vala
+msgid "do not remove files, only find candidate packages"
+msgstr ""
+
+#: src/cli.vala
+msgid "also display all files names"
+msgstr ""
+
 #: src/cli.vala resources/manager_window.ui
 msgid "Version"
 msgstr "Bertsioa"
@@ -992,6 +1038,18 @@ msgstr "%s ez du pakete jaberik"
 #, c-format
 msgid "%s is owned by %s"
 msgstr "%s(r)en jabetza %s(e)k du"
+
+#: src/cli.vala resources/preferences_dialog.ui
+msgid "Remove only the versions of uninstalled packages"
+msgstr "Kendu deinstalatutako paketeen bertsioak besterik ez"
+
+#: src/cli.vala resources/preferences_dialog.ui
+msgid "Clean cache"
+msgstr "Garbitu katxea"
+
+#: src/cli.vala resources/preferences_dialog.ui
+msgid "Clean build files"
+msgstr ""
 
 #: src/cli.vala
 #, c-format
@@ -1024,9 +1082,9 @@ msgstr "Pamac Historia"
 msgid "Transaction Summary"
 msgstr "Transakzioaren laburpena"
 
-#: resources/transaction_sum_dialog.ui
-msgid "Commit"
-msgstr "Bidali"
+#: resources/transaction_sum_dialog.ui resources/manager_window.ui
+msgid "_Apply"
+msgstr "_Aplikatu"
 
 #: resources/manager_window.ui
 msgid "Refresh databases"
@@ -1054,7 +1112,7 @@ msgstr "Egoera"
 
 #: resources/manager_window.ui
 msgid "Popularity"
-msgstr "Populartasuna"
+msgstr "Ospea"
 
 #: resources/manager_window.ui
 msgid "Browse"
@@ -1067,10 +1125,6 @@ msgstr "Berrinstalatu"
 #: resources/manager_window.ui
 msgid "Reset build files"
 msgstr "Berezarri eraiketa fitxategiak"
-
-#: resources/manager_window.ui
-msgid "_Apply"
-msgstr "_Aplikatu"
 
 #: resources/preferences_dialog.ui
 msgid "Remove unrequired dependencies"
@@ -1143,14 +1197,6 @@ msgstr "Egiaztatu AUReko eguneraketak"
 #: resources/preferences_dialog.ui
 msgid "Check for development packages updates"
 msgstr "Egiaztatu garapen paketeen eguneraketak"
-
-#: resources/preferences_dialog.ui
-msgid "Remove only the versions of uninstalled packages"
-msgstr "Kendu deinstalatutako paketeen bertsioak besterik ez"
-
-#: resources/preferences_dialog.ui
-msgid "Clean cache"
-msgstr "Garbitu katxea"
 
 #: resources/preferences_dialog.ui
 msgid "Cache"

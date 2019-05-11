@@ -1,7 +1,7 @@
 # Translation of Pamac.
-# Copyright (C) 2013-2018 Manjaro Developers <manjaro-dev@manjaro.org>
+# Copyright (C) 2013-2019 Manjaro Developers <manjaro-dev@manjaro.org>
 # This file is distributed under the same license as the Pamac package.
-# Guillaume Benoit <guillaume@manjaro.org>, 2013-2018.
+# Guillaume Benoit <guillaume@manjaro.org>, 2013-2019.
 # 
 # Translators:
 # Dušan Kazik, 2014
@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2018-12-26 12:00+0100\n"
-"PO-Revision-Date: 2019-01-05 22:13+0000\n"
+"POT-Creation-Date: 2019-05-03 12:41+0200\n"
+"PO-Revision-Date: 2019-05-04 07:01+0000\n"
 "Last-Translator: Dušan Kazik <prescott66@gmail.com>\n"
 "Language-Team: Slovak (http://www.transifex.com/manjarolinux/manjaro-pamac/language/sk/)\n"
 "MIME-Version: 1.0\n"
@@ -259,11 +259,6 @@ msgid "Configuring %s"
 msgstr "Nastavuje sa %s"
 
 #: src/transaction.vala
-#, c-format
-msgid "Downloading %s"
-msgstr "Preberá sa %s"
-
-#: src/transaction.vala
 msgid "Checking available disk space"
 msgstr "Kontroluje sa dostupné miesto na disku"
 
@@ -302,6 +297,11 @@ msgstr "Spúšťajú sa predtransakčné háčiky"
 #: src/transaction.vala
 msgid "Running post-transaction hooks"
 msgstr "Spúšťajú sa potransakčné háčiky"
+
+#: src/transaction.vala
+#, c-format
+msgid "Downloading %s"
+msgstr "Preberá sa %s"
 
 #: src/transaction.vala
 #, c-format
@@ -709,7 +709,7 @@ msgstr "Ako často kontrolovať aktualizácie (hodnota je v hodinách)"
 msgid "Maximum parallel downloads"
 msgstr "Maximum súčasných preberaní"
 
-#: src/preferences_dialog.vala resources/preferences_dialog.ui
+#: src/preferences_dialog.vala src/cli.vala resources/preferences_dialog.ui
 msgid "Number of versions of each package to keep in the cache"
 msgstr "Počet verzií každého balíka, ktoré ponechať vo vyrovnávacej pamäti"
 
@@ -720,6 +720,19 @@ msgstr "Adresár zostavenia"
 #: src/preferences_dialog.vala
 msgid "Worldwide"
 msgstr "Celého sveta"
+
+#: src/preferences_dialog.vala src/cli.vala
+msgid "To delete"
+msgstr "Na odstránenie"
+
+#: src/preferences_dialog.vala src/cli.vala
+#, c-format
+msgid "%u file"
+msgid_plural "%u files"
+msgstr[0] "%u súbor"
+msgstr[1] "%u súbory"
+msgstr[2] "%u súborov"
+msgstr[3] "%u súborov"
 
 #: src/preferences_dialog.vala
 msgid "Choose Ignored Upgrades"
@@ -739,15 +752,15 @@ msgstr "žiadny"
 msgid "Enter a number (default=%d)"
 msgstr "Zadajte číslo (predvolené=%d)"
 
-#: src/transaction-cli.vala
+#: src/transaction-cli.vala src/cli.vala
 msgid "[y/N]"
 msgstr "[a/N]"
 
-#: src/transaction-cli.vala
+#: src/transaction-cli.vala src/cli.vala
 msgid "y"
 msgstr "a"
 
-#: src/transaction-cli.vala
+#: src/transaction-cli.vala src/cli.vala
 msgid "yes"
 msgstr "áno"
 
@@ -764,8 +777,8 @@ msgid "Total removed size"
 msgstr "Celková odstraňovaná veľkosť"
 
 #: src/transaction-cli.vala
-msgid "Commit transaction"
-msgstr "Vykonať operáciu"
+msgid "Apply transaction"
+msgstr "Vykonať transakciu"
 
 #: src/transaction-cli.vala
 #, c-format
@@ -901,6 +914,10 @@ msgid "do not clone build files from AUR, only use local files"
 msgstr ""
 
 #: src/cli.vala
+msgid "bypass any and all confirmation messages"
+msgstr "obísť akékoľvek potvrdzujúce správy"
+
+#: src/cli.vala
 msgid "glob"
 msgstr "vzor"
 
@@ -974,6 +991,37 @@ msgstr "vynútiť obnovenie databáz"
 msgid "enable package downgrades"
 msgstr "povoliť ponižovanie balíkov"
 
+#: src/cli.vala
+msgid "Clean packages cache or build files"
+msgstr ""
+
+#: src/cli.vala
+msgid "number"
+msgstr ""
+
+#: src/cli.vala
+msgid ""
+"specify how many versions of each package are kept in the cache directory"
+msgstr ""
+
+#: src/cli.vala
+msgid "only target uninstalled packages"
+msgstr ""
+
+#: src/cli.vala
+msgid ""
+"remove all build files, the build directory is the one specified in "
+"pamac.conf"
+msgstr ""
+
+#: src/cli.vala
+msgid "do not remove files, only find candidate packages"
+msgstr ""
+
+#: src/cli.vala
+msgid "also display all files names"
+msgstr ""
+
 #: src/cli.vala resources/manager_window.ui
 msgid "Version"
 msgstr "Verzia"
@@ -999,6 +1047,18 @@ msgstr "Niet balíka čo by obsahoval %s"
 #, c-format
 msgid "%s is owned by %s"
 msgstr "%s je obsiahnutý v %s"
+
+#: src/cli.vala resources/preferences_dialog.ui
+msgid "Remove only the versions of uninstalled packages"
+msgstr "Odstrániť iba verzie odinštalovaných balíkov"
+
+#: src/cli.vala resources/preferences_dialog.ui
+msgid "Clean cache"
+msgstr "Vyčistiť vyrovnávaciu pamäť"
+
+#: src/cli.vala resources/preferences_dialog.ui
+msgid "Clean build files"
+msgstr ""
 
 #: src/cli.vala
 #, c-format
@@ -1033,9 +1093,9 @@ msgstr "História programu Pamac"
 msgid "Transaction Summary"
 msgstr "Súhrn transakcie"
 
-#: resources/transaction_sum_dialog.ui
-msgid "Commit"
-msgstr "Vykonať"
+#: resources/transaction_sum_dialog.ui resources/manager_window.ui
+msgid "_Apply"
+msgstr "_Použiť"
 
 #: resources/manager_window.ui
 msgid "Refresh databases"
@@ -1076,10 +1136,6 @@ msgstr "Preinštalovať"
 #: resources/manager_window.ui
 msgid "Reset build files"
 msgstr "Obnoviť súbory zostavenia"
-
-#: resources/manager_window.ui
-msgid "_Apply"
-msgstr "_Použiť"
 
 #: resources/preferences_dialog.ui
 msgid "Remove unrequired dependencies"
@@ -1152,14 +1208,6 @@ msgstr "Kontrolovať aktualizácie z repozitára AUR"
 #: resources/preferences_dialog.ui
 msgid "Check for development packages updates"
 msgstr "Kontrolovať aktualizácie balíkov vo vývoji"
-
-#: resources/preferences_dialog.ui
-msgid "Remove only the versions of uninstalled packages"
-msgstr "Odstrániť iba verzie odinštalovaných balíkov"
-
-#: resources/preferences_dialog.ui
-msgid "Clean cache"
-msgstr "Vyčistiť vyrovnávaciu pamäť"
 
 #: resources/preferences_dialog.ui
 msgid "Cache"

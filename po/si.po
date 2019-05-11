@@ -1,7 +1,7 @@
 # Translation of Pamac.
-# Copyright (C) 2013-2018 Manjaro Developers <manjaro-dev@manjaro.org>
+# Copyright (C) 2013-2019 Manjaro Developers <manjaro-dev@manjaro.org>
 # This file is distributed under the same license as the Pamac package.
-# Guillaume Benoit <guillaume@manjaro.org>, 2013-2018.
+# Guillaume Benoit <guillaume@manjaro.org>, 2013-2019.
 # 
 # Translators:
 # Enindu Alahapperuma <enindu@yahoo.com>, 2014
@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2018-12-26 12:00+0100\n"
-"PO-Revision-Date: 2018-12-28 00:23+0000\n"
+"POT-Creation-Date: 2019-05-03 12:41+0200\n"
+"PO-Revision-Date: 2019-05-04 01:14+0000\n"
 "Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Sinhala (http://www.transifex.com/manjarolinux/manjaro-pamac/language/si/)\n"
 "MIME-Version: 1.0\n"
@@ -254,11 +254,6 @@ msgid "Configuring %s"
 msgstr ""
 
 #: src/transaction.vala
-#, c-format
-msgid "Downloading %s"
-msgstr ""
-
-#: src/transaction.vala
 msgid "Checking available disk space"
 msgstr ""
 
@@ -296,6 +291,11 @@ msgstr ""
 
 #: src/transaction.vala
 msgid "Running post-transaction hooks"
+msgstr ""
+
+#: src/transaction.vala
+#, c-format
+msgid "Downloading %s"
 msgstr ""
 
 #: src/transaction.vala
@@ -698,7 +698,7 @@ msgstr ""
 msgid "Maximum parallel downloads"
 msgstr ""
 
-#: src/preferences_dialog.vala resources/preferences_dialog.ui
+#: src/preferences_dialog.vala src/cli.vala resources/preferences_dialog.ui
 msgid "Number of versions of each package to keep in the cache"
 msgstr ""
 
@@ -709,6 +709,17 @@ msgstr ""
 #: src/preferences_dialog.vala
 msgid "Worldwide"
 msgstr ""
+
+#: src/preferences_dialog.vala src/cli.vala
+msgid "To delete"
+msgstr ""
+
+#: src/preferences_dialog.vala src/cli.vala
+#, c-format
+msgid "%u file"
+msgid_plural "%u files"
+msgstr[0] ""
+msgstr[1] ""
 
 #: src/preferences_dialog.vala
 msgid "Choose Ignored Upgrades"
@@ -728,15 +739,15 @@ msgstr ""
 msgid "Enter a number (default=%d)"
 msgstr ""
 
-#: src/transaction-cli.vala
+#: src/transaction-cli.vala src/cli.vala
 msgid "[y/N]"
 msgstr ""
 
-#: src/transaction-cli.vala
+#: src/transaction-cli.vala src/cli.vala
 msgid "y"
 msgstr ""
 
-#: src/transaction-cli.vala
+#: src/transaction-cli.vala src/cli.vala
 msgid "yes"
 msgstr ""
 
@@ -753,7 +764,7 @@ msgid "Total removed size"
 msgstr ""
 
 #: src/transaction-cli.vala
-msgid "Commit transaction"
+msgid "Apply transaction"
 msgstr ""
 
 #: src/transaction-cli.vala
@@ -890,6 +901,10 @@ msgid "do not clone build files from AUR, only use local files"
 msgstr ""
 
 #: src/cli.vala
+msgid "bypass any and all confirmation messages"
+msgstr ""
+
+#: src/cli.vala
 msgid "glob"
 msgstr ""
 
@@ -963,6 +978,37 @@ msgstr ""
 msgid "enable package downgrades"
 msgstr ""
 
+#: src/cli.vala
+msgid "Clean packages cache or build files"
+msgstr ""
+
+#: src/cli.vala
+msgid "number"
+msgstr ""
+
+#: src/cli.vala
+msgid ""
+"specify how many versions of each package are kept in the cache directory"
+msgstr ""
+
+#: src/cli.vala
+msgid "only target uninstalled packages"
+msgstr ""
+
+#: src/cli.vala
+msgid ""
+"remove all build files, the build directory is the one specified in "
+"pamac.conf"
+msgstr ""
+
+#: src/cli.vala
+msgid "do not remove files, only find candidate packages"
+msgstr ""
+
+#: src/cli.vala
+msgid "also display all files names"
+msgstr ""
+
 #: src/cli.vala resources/manager_window.ui
 msgid "Version"
 msgstr ""
@@ -987,6 +1033,18 @@ msgstr ""
 #: src/cli.vala
 #, c-format
 msgid "%s is owned by %s"
+msgstr ""
+
+#: src/cli.vala resources/preferences_dialog.ui
+msgid "Remove only the versions of uninstalled packages"
+msgstr ""
+
+#: src/cli.vala resources/preferences_dialog.ui
+msgid "Clean cache"
+msgstr ""
+
+#: src/cli.vala resources/preferences_dialog.ui
+msgid "Clean build files"
 msgstr ""
 
 #: src/cli.vala
@@ -1020,8 +1078,8 @@ msgstr ""
 msgid "Transaction Summary"
 msgstr ""
 
-#: resources/transaction_sum_dialog.ui
-msgid "Commit"
+#: resources/transaction_sum_dialog.ui resources/manager_window.ui
+msgid "_Apply"
 msgstr ""
 
 #: resources/manager_window.ui
@@ -1062,10 +1120,6 @@ msgstr ""
 
 #: resources/manager_window.ui
 msgid "Reset build files"
-msgstr ""
-
-#: resources/manager_window.ui
-msgid "_Apply"
 msgstr ""
 
 #: resources/preferences_dialog.ui
@@ -1138,14 +1192,6 @@ msgstr ""
 
 #: resources/preferences_dialog.ui
 msgid "Check for development packages updates"
-msgstr ""
-
-#: resources/preferences_dialog.ui
-msgid "Remove only the versions of uninstalled packages"
-msgstr ""
-
-#: resources/preferences_dialog.ui
-msgid "Clean cache"
 msgstr ""
 
 #: resources/preferences_dialog.ui

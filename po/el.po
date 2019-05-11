@@ -1,7 +1,7 @@
 # Translation of Pamac.
-# Copyright (C) 2013-2018 Manjaro Developers <manjaro-dev@manjaro.org>
+# Copyright (C) 2013-2019 Manjaro Developers <manjaro-dev@manjaro.org>
 # This file is distributed under the same license as the Pamac package.
-# Guillaume Benoit <guillaume@manjaro.org>, 2013-2018.
+# Guillaume Benoit <guillaume@manjaro.org>, 2013-2019.
 # 
 # Translators:
 # angel_solomos, 2013
@@ -11,6 +11,7 @@
 # Guillaume Benoit <guillaume@manjaro.org>, 2013
 # kouros kouros <kormikg@yahoo.gr>, 2016-2017
 # philm <philm@manjaro.org>, 2014
+# Panagiotis Englezos <panagiotisegl@gmail.com>, 2019
 # Panagiotis Mantzios <pmantzios@hotmail.com>, 2017
 # Panagiotis Mantzios <pmantzios@hotmail.com>, 2018
 # philm <philm@manjaro.org>, 2014-2015
@@ -24,8 +25,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2018-12-26 12:00+0100\n"
-"PO-Revision-Date: 2018-12-28 00:23+0000\n"
+"POT-Creation-Date: 2019-05-03 12:41+0200\n"
+"PO-Revision-Date: 2019-05-04 01:14+0000\n"
 "Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Greek (http://www.transifex.com/manjarolinux/manjaro-pamac/language/el/)\n"
 "MIME-Version: 1.0\n"
@@ -268,11 +269,6 @@ msgid "Configuring %s"
 msgstr "Ρύθμιση %s"
 
 #: src/transaction.vala
-#, c-format
-msgid "Downloading %s"
-msgstr "Λήψη %s"
-
-#: src/transaction.vala
 msgid "Checking available disk space"
 msgstr "Έλεγχος ελεύθερου χώρου στον δίσκο"
 
@@ -311,6 +307,11 @@ msgstr "Εκτελούνται hooks προ της διεργασίας"
 #: src/transaction.vala
 msgid "Running post-transaction hooks"
 msgstr "Εκτελούνται hooks μετά τη διεργασία"
+
+#: src/transaction.vala
+#, c-format
+msgid "Downloading %s"
+msgstr "Λήψη %s"
 
 #: src/transaction.vala
 #, c-format
@@ -712,7 +713,7 @@ msgstr "Πόσο συχνά να γίνεται έλεγχος για αναβα
 msgid "Maximum parallel downloads"
 msgstr ""
 
-#: src/preferences_dialog.vala resources/preferences_dialog.ui
+#: src/preferences_dialog.vala src/cli.vala resources/preferences_dialog.ui
 msgid "Number of versions of each package to keep in the cache"
 msgstr "Πλήθος των εκδόσεων για κάθε πακέτο που θα παραμένουν στην αποθήκη"
 
@@ -723,6 +724,17 @@ msgstr "Κατάλογος δημιουργίας"
 #: src/preferences_dialog.vala
 msgid "Worldwide"
 msgstr "Παγκοσμίως"
+
+#: src/preferences_dialog.vala src/cli.vala
+msgid "To delete"
+msgstr ""
+
+#: src/preferences_dialog.vala src/cli.vala
+#, c-format
+msgid "%u file"
+msgid_plural "%u files"
+msgstr[0] ""
+msgstr[1] ""
 
 #: src/preferences_dialog.vala
 msgid "Choose Ignored Upgrades"
@@ -735,22 +747,22 @@ msgstr ""
 
 #: src/transaction-cli.vala
 msgid "none"
-msgstr ""
+msgstr "Κανένα"
 
 #: src/transaction-cli.vala
 #, c-format
 msgid "Enter a number (default=%d)"
 msgstr "Εισάγετε έναν αριθμό (προεπιλογή=%d )"
 
-#: src/transaction-cli.vala
+#: src/transaction-cli.vala src/cli.vala
 msgid "[y/N]"
 msgstr "(ν/Ο)"
 
-#: src/transaction-cli.vala
+#: src/transaction-cli.vala src/cli.vala
 msgid "y"
 msgstr "ν"
 
-#: src/transaction-cli.vala
+#: src/transaction-cli.vala src/cli.vala
 msgid "yes"
 msgstr "ναι"
 
@@ -767,8 +779,8 @@ msgid "Total removed size"
 msgstr "Συνολικό μέγεθος αφαίρεσης"
 
 #: src/transaction-cli.vala
-msgid "Commit transaction"
-msgstr "Εκτέλεση διεργασίας"
+msgid "Apply transaction"
+msgstr ""
 
 #: src/transaction-cli.vala
 #, c-format
@@ -904,6 +916,10 @@ msgid "do not clone build files from AUR, only use local files"
 msgstr "να μην κλωνοποιηθούν αρχεία δόμησης από AUR, χρήση μόνο τοπικών αρχείων"
 
 #: src/cli.vala
+msgid "bypass any and all confirmation messages"
+msgstr ""
+
+#: src/cli.vala
 msgid "glob"
 msgstr "glob"
 
@@ -977,6 +993,37 @@ msgstr "επιβολή ανανέωσης των βάσεων δεδομένων
 msgid "enable package downgrades"
 msgstr "να επιτρέπεται υποβάθμιση πακέτων"
 
+#: src/cli.vala
+msgid "Clean packages cache or build files"
+msgstr ""
+
+#: src/cli.vala
+msgid "number"
+msgstr ""
+
+#: src/cli.vala
+msgid ""
+"specify how many versions of each package are kept in the cache directory"
+msgstr ""
+
+#: src/cli.vala
+msgid "only target uninstalled packages"
+msgstr ""
+
+#: src/cli.vala
+msgid ""
+"remove all build files, the build directory is the one specified in "
+"pamac.conf"
+msgstr ""
+
+#: src/cli.vala
+msgid "do not remove files, only find candidate packages"
+msgstr ""
+
+#: src/cli.vala
+msgid "also display all files names"
+msgstr ""
+
 #: src/cli.vala resources/manager_window.ui
 msgid "Version"
 msgstr "Έκδοση"
@@ -1003,6 +1050,18 @@ msgstr "Το%s δεν ανήκει σε κανένα πακέτο"
 msgid "%s is owned by %s"
 msgstr "Το%s ανήκει στο%s"
 
+#: src/cli.vala resources/preferences_dialog.ui
+msgid "Remove only the versions of uninstalled packages"
+msgstr "Διέγραψε μόνο τις εκδόσεις των απεγκατεστημένων πακέτων."
+
+#: src/cli.vala resources/preferences_dialog.ui
+msgid "Clean cache"
+msgstr "Καθαρισμός προσωρινής αποθήκης"
+
+#: src/cli.vala resources/preferences_dialog.ui
+msgid "Clean build files"
+msgstr ""
+
 #: src/cli.vala
 #, c-format
 msgid "There is %u member in group %s"
@@ -1012,7 +1071,7 @@ msgstr[1] "Υπάρχουν %u μέλη στην ομάδα %s"
 
 #: src/cli.vala
 msgid "all"
-msgstr ""
+msgstr "Όλα"
 
 #: resources/choose_provider_dialog.ui
 msgid "Choose a Provider"
@@ -1034,9 +1093,9 @@ msgstr "Ιστορικο Pacmac"
 msgid "Transaction Summary"
 msgstr "Περίληψη ενεργειών"
 
-#: resources/transaction_sum_dialog.ui
-msgid "Commit"
-msgstr "Εκτέλεση"
+#: resources/transaction_sum_dialog.ui resources/manager_window.ui
+msgid "_Apply"
+msgstr "Εφαρμογή"
 
 #: resources/manager_window.ui
 msgid "Refresh databases"
@@ -1077,10 +1136,6 @@ msgstr "Επανεγκατάσταση"
 #: resources/manager_window.ui
 msgid "Reset build files"
 msgstr "Επαναφορά αρχείων δόμησης"
-
-#: resources/manager_window.ui
-msgid "_Apply"
-msgstr "Εφαρμογή"
 
 #: resources/preferences_dialog.ui
 msgid "Remove unrequired dependencies"
@@ -1153,14 +1208,6 @@ msgstr "Έλεγχος για αναβαθμίσεις από το AUR"
 #: resources/preferences_dialog.ui
 msgid "Check for development packages updates"
 msgstr ""
-
-#: resources/preferences_dialog.ui
-msgid "Remove only the versions of uninstalled packages"
-msgstr "Διέγραψε μόνο τις εκδόσεις των απεγκατεστημένων πακέτων."
-
-#: resources/preferences_dialog.ui
-msgid "Clean cache"
-msgstr "Καθαρισμός προσωρινής αποθήκης"
 
 #: resources/preferences_dialog.ui
 msgid "Cache"

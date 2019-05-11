@@ -1,7 +1,7 @@
 # Translation of Pamac.
-# Copyright (C) 2013-2018 Manjaro Developers <manjaro-dev@manjaro.org>
+# Copyright (C) 2013-2019 Manjaro Developers <manjaro-dev@manjaro.org>
 # This file is distributed under the same license as the Pamac package.
-# Guillaume Benoit <guillaume@manjaro.org>, 2013-2018.
+# Guillaume Benoit <guillaume@manjaro.org>, 2013-2019.
 # 
 # Translators:
 # Charles Monzat <c.monzat@laposte.net>, 2018-2019
@@ -9,7 +9,7 @@
 # Charles Monzat <c.monzat@laposte.net>, 2018
 # DasFranck <franck97comics@gmail.com>, 2013
 # DasFranck <franck97comics@gmail.com>, 2013
-# Guillaume Benoit <guillaume@manjaro.org>, 2013-2018
+# Guillaume Benoit <guillaume@manjaro.org>, 2013-2019
 # Jean Delmas, 2015
 # jdelmas, 2015
 # philm <philm@manjaro.org>, 2013
@@ -23,9 +23,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2018-12-26 12:00+0100\n"
-"PO-Revision-Date: 2019-01-15 11:58+0000\n"
-"Last-Translator: Charles Monzat <c.monzat@laposte.net>\n"
+"POT-Creation-Date: 2019-05-03 12:41+0200\n"
+"PO-Revision-Date: 2019-05-11 07:38+0000\n"
+"Last-Translator: Guillaume Benoit <guillaume@manjaro.org>\n"
 "Language-Team: French (http://www.transifex.com/manjarolinux/manjaro-pamac/language/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -267,11 +267,6 @@ msgid "Configuring %s"
 msgstr "Configuration de %s"
 
 #: src/transaction.vala
-#, c-format
-msgid "Downloading %s"
-msgstr "Téléchargement de %s"
-
-#: src/transaction.vala
 msgid "Checking available disk space"
 msgstr "Vérification de l’espace disque disponible"
 
@@ -310,6 +305,11 @@ msgstr "Exécution des crochets de pré-transaction"
 #: src/transaction.vala
 msgid "Running post-transaction hooks"
 msgstr "Exécution des crochets de post-transaction"
+
+#: src/transaction.vala
+#, c-format
+msgid "Downloading %s"
+msgstr "Téléchargement de %s"
 
 #: src/transaction.vala
 #, c-format
@@ -593,7 +593,7 @@ msgstr "Marquer comme explicitement installé"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Licenses"
-msgstr "Licences"
+msgstr "Licences "
 
 #: src/manager_window.vala src/cli.vala resources/manager_window.ui
 msgid "Repository"
@@ -711,7 +711,7 @@ msgstr "Fréquence de vérification des mises à jour, valeur en heures "
 msgid "Maximum parallel downloads"
 msgstr "Nombre maximal de téléchargements en parallèle "
 
-#: src/preferences_dialog.vala resources/preferences_dialog.ui
+#: src/preferences_dialog.vala src/cli.vala resources/preferences_dialog.ui
 msgid "Number of versions of each package to keep in the cache"
 msgstr "Nombre de versions de chaque paquet à conserver dans le cache "
 
@@ -722,6 +722,17 @@ msgstr "Dossier de construction "
 #: src/preferences_dialog.vala
 msgid "Worldwide"
 msgstr "Monde entier"
+
+#: src/preferences_dialog.vala src/cli.vala
+msgid "To delete"
+msgstr "À supprimer "
+
+#: src/preferences_dialog.vala src/cli.vala
+#, c-format
+msgid "%u file"
+msgid_plural "%u files"
+msgstr[0] "%u fichier"
+msgstr[1] "%u fichiers"
 
 #: src/preferences_dialog.vala
 msgid "Choose Ignored Upgrades"
@@ -741,15 +752,15 @@ msgstr "aucun"
 msgid "Enter a number (default=%d)"
 msgstr "Entrer un nombre (par défaut = %d)"
 
-#: src/transaction-cli.vala
+#: src/transaction-cli.vala src/cli.vala
 msgid "[y/N]"
 msgstr "[o/N]"
 
-#: src/transaction-cli.vala
+#: src/transaction-cli.vala src/cli.vala
 msgid "y"
 msgstr "o"
 
-#: src/transaction-cli.vala
+#: src/transaction-cli.vala src/cli.vala
 msgid "yes"
 msgstr "oui"
 
@@ -766,8 +777,8 @@ msgid "Total removed size"
 msgstr "Taille totale libérée"
 
 #: src/transaction-cli.vala
-msgid "Commit transaction"
-msgstr "Exécuter la transaction"
+msgid "Apply transaction"
+msgstr "Appliquer la transaction"
 
 #: src/transaction-cli.vala
 #, c-format
@@ -813,7 +824,7 @@ msgstr "rechercher également dans AUR"
 #: src/cli.vala
 msgid ""
 "search for packages which own the given filenames (filenames can be partial)"
-msgstr "rechercher les paquets auxquels appartiennent les noms de fichier donnés (les noms de fichiers peuvent être partiels)"
+msgstr "rechercher les paquets auxquels appartiennent les noms de fichiers donnés (les noms de fichiers peuvent être partiels)"
 
 #: src/cli.vala
 msgid "Display package details, multiple packages can be specified"
@@ -903,6 +914,10 @@ msgid "do not clone build files from AUR, only use local files"
 msgstr "ne pas cloner les fichiers de construction depuis AUR, utiliser seulement les fichiers locaux"
 
 #: src/cli.vala
+msgid "bypass any and all confirmation messages"
+msgstr "ignorer tous les messages de confirmation"
+
+#: src/cli.vala
 msgid "glob"
 msgstr "glob"
 
@@ -976,6 +991,37 @@ msgstr "forcer le rafraîchissement des bases de données"
 msgid "enable package downgrades"
 msgstr "autoriser le retour à une version antérieure des paquets"
 
+#: src/cli.vala
+msgid "Clean packages cache or build files"
+msgstr "Nettoyer le cache des paquets ou les fichiers de construction"
+
+#: src/cli.vala
+msgid "number"
+msgstr "nombre"
+
+#: src/cli.vala
+msgid ""
+"specify how many versions of each package are kept in the cache directory"
+msgstr "spécifie combien de versions de chaque paquet sont conservées dans le cache"
+
+#: src/cli.vala
+msgid "only target uninstalled packages"
+msgstr "cible uniquement les paquets désinstallés"
+
+#: src/cli.vala
+msgid ""
+"remove all build files, the build directory is the one specified in "
+"pamac.conf"
+msgstr "supprime tous les fichiers de construction, le répertoire de construction est celui spécifié dans pamac.conf"
+
+#: src/cli.vala
+msgid "do not remove files, only find candidate packages"
+msgstr "ne supprime pas les fichiers, recherche seulement les paquets à enlever"
+
+#: src/cli.vala
+msgid "also display all files names"
+msgstr "affiche également tous les noms de fichiers"
+
 #: src/cli.vala resources/manager_window.ui
 msgid "Version"
 msgstr "Version"
@@ -1001,6 +1047,18 @@ msgstr "Le fichier %s n’appartient à aucun paquet"
 #, c-format
 msgid "%s is owned by %s"
 msgstr "Le fichier %s appartient à %s"
+
+#: src/cli.vala resources/preferences_dialog.ui
+msgid "Remove only the versions of uninstalled packages"
+msgstr "Supprimer seulement les versions de paquets désinstallés"
+
+#: src/cli.vala resources/preferences_dialog.ui
+msgid "Clean cache"
+msgstr "Nettoyer le cache"
+
+#: src/cli.vala resources/preferences_dialog.ui
+msgid "Clean build files"
+msgstr "Nettoyer les fichiers de construction"
 
 #: src/cli.vala
 #, c-format
@@ -1033,9 +1091,9 @@ msgstr "Historique de Pamac"
 msgid "Transaction Summary"
 msgstr "Résumé de la transaction"
 
-#: resources/transaction_sum_dialog.ui
-msgid "Commit"
-msgstr "Valider"
+#: resources/transaction_sum_dialog.ui resources/manager_window.ui
+msgid "_Apply"
+msgstr "_Appliquer"
 
 #: resources/manager_window.ui
 msgid "Refresh databases"
@@ -1076,10 +1134,6 @@ msgstr "Réinstaller"
 #: resources/manager_window.ui
 msgid "Reset build files"
 msgstr "Réinitialiser"
-
-#: resources/manager_window.ui
-msgid "_Apply"
-msgstr "_Appliquer"
 
 #: resources/preferences_dialog.ui
 msgid "Remove unrequired dependencies"
@@ -1152,14 +1206,6 @@ msgstr "Vérifier les mises à jour depuis AUR"
 #: resources/preferences_dialog.ui
 msgid "Check for development packages updates"
 msgstr "Vérifier les mises à jour des paquets en cours de développement"
-
-#: resources/preferences_dialog.ui
-msgid "Remove only the versions of uninstalled packages"
-msgstr "Supprimer seulement les versions de paquets désinstallés"
-
-#: resources/preferences_dialog.ui
-msgid "Clean cache"
-msgstr "Nettoyer le cache"
 
 #: resources/preferences_dialog.ui
 msgid "Cache"

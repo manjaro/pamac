@@ -1,12 +1,12 @@
 # Translation of Pamac.
-# Copyright (C) 2013-2018 Manjaro Developers <manjaro-dev@manjaro.org>
+# Copyright (C) 2013-2019 Manjaro Developers <manjaro-dev@manjaro.org>
 # This file is distributed under the same license as the Pamac package.
-# Guillaume Benoit <guillaume@manjaro.org>, 2013-2018.
+# Guillaume Benoit <guillaume@manjaro.org>, 2013-2019.
 # 
 # Translators:
 # Douwe Bootsma <d_bootsma@hotmail.com>, 2013
 # Douwe Bootsma <d_bootsma@hotmail.com>, 2013-2015
-# flipper <flipper@tutanota.com>, 2016
+# flipper, 2016
 # Guillaume Benoit <guillaume@manjaro.org>, 2013
 # Guillaume Benoit <guillaume@manjaro.org>, 2013
 # Heimen Stoffels <vistausss@outlook.com>, 2016-2018
@@ -25,9 +25,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2018-12-26 12:00+0100\n"
-"PO-Revision-Date: 2019-03-13 12:03+0000\n"
-"Last-Translator: Jarvin Sterkenburg <jarvin-j@hotmail.com>\n"
+"POT-Creation-Date: 2019-05-03 12:41+0200\n"
+"PO-Revision-Date: 2019-05-04 01:14+0000\n"
+"Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Dutch (http://www.transifex.com/manjarolinux/manjaro-pamac/language/nl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -269,11 +269,6 @@ msgid "Configuring %s"
 msgstr "Configureren %s"
 
 #: src/transaction.vala
-#, c-format
-msgid "Downloading %s"
-msgstr "Downloaden %s"
-
-#: src/transaction.vala
 msgid "Checking available disk space"
 msgstr "Controleren beschikbare schijfruimte"
 
@@ -312,6 +307,11 @@ msgstr "Bezig met uitvoeren van voorbereidingen voor overdracht"
 #: src/transaction.vala
 msgid "Running post-transaction hooks"
 msgstr "Bezig met uitvoeren van afhandelingen van overdracht"
+
+#: src/transaction.vala
+#, c-format
+msgid "Downloading %s"
+msgstr "Downloaden %s"
 
 #: src/transaction.vala
 #, c-format
@@ -713,7 +713,7 @@ msgstr "Controle interval voor updates, waarde in uren"
 msgid "Maximum parallel downloads"
 msgstr "Maximale parallelle downloads"
 
-#: src/preferences_dialog.vala resources/preferences_dialog.ui
+#: src/preferences_dialog.vala src/cli.vala resources/preferences_dialog.ui
 msgid "Number of versions of each package to keep in the cache"
 msgstr "Aantal in de cache te houden versies van elk pakket"
 
@@ -724,6 +724,17 @@ msgstr "Bouwmap"
 #: src/preferences_dialog.vala
 msgid "Worldwide"
 msgstr "Wereldwijd"
+
+#: src/preferences_dialog.vala src/cli.vala
+msgid "To delete"
+msgstr ""
+
+#: src/preferences_dialog.vala src/cli.vala
+#, c-format
+msgid "%u file"
+msgid_plural "%u files"
+msgstr[0] ""
+msgstr[1] ""
 
 #: src/preferences_dialog.vala
 msgid "Choose Ignored Upgrades"
@@ -743,15 +754,15 @@ msgstr "geen"
 msgid "Enter a number (default=%d)"
 msgstr "Voer een getal in (standaard=%d)"
 
-#: src/transaction-cli.vala
+#: src/transaction-cli.vala src/cli.vala
 msgid "[y/N]"
 msgstr "[j/N]"
 
-#: src/transaction-cli.vala
+#: src/transaction-cli.vala src/cli.vala
 msgid "y"
 msgstr "j"
 
-#: src/transaction-cli.vala
+#: src/transaction-cli.vala src/cli.vala
 msgid "yes"
 msgstr "ja"
 
@@ -768,8 +779,8 @@ msgid "Total removed size"
 msgstr "Totale verwijderde grootte"
 
 #: src/transaction-cli.vala
-msgid "Commit transaction"
-msgstr "Overdracht toepassen"
+msgid "Apply transaction"
+msgstr ""
 
 #: src/transaction-cli.vala
 #, c-format
@@ -905,6 +916,10 @@ msgid "do not clone build files from AUR, only use local files"
 msgstr ""
 
 #: src/cli.vala
+msgid "bypass any and all confirmation messages"
+msgstr ""
+
+#: src/cli.vala
 msgid "glob"
 msgstr "glob"
 
@@ -978,6 +993,37 @@ msgstr ""
 msgid "enable package downgrades"
 msgstr ""
 
+#: src/cli.vala
+msgid "Clean packages cache or build files"
+msgstr ""
+
+#: src/cli.vala
+msgid "number"
+msgstr ""
+
+#: src/cli.vala
+msgid ""
+"specify how many versions of each package are kept in the cache directory"
+msgstr ""
+
+#: src/cli.vala
+msgid "only target uninstalled packages"
+msgstr ""
+
+#: src/cli.vala
+msgid ""
+"remove all build files, the build directory is the one specified in "
+"pamac.conf"
+msgstr ""
+
+#: src/cli.vala
+msgid "do not remove files, only find candidate packages"
+msgstr ""
+
+#: src/cli.vala
+msgid "also display all files names"
+msgstr ""
+
 #: src/cli.vala resources/manager_window.ui
 msgid "Version"
 msgstr "Versie"
@@ -1003,6 +1049,18 @@ msgstr "Er is geen eigenaar van %s"
 #, c-format
 msgid "%s is owned by %s"
 msgstr "%s is eigenaar van %s"
+
+#: src/cli.vala resources/preferences_dialog.ui
+msgid "Remove only the versions of uninstalled packages"
+msgstr "Alleen versies verwijderen van gedeïnstalleerde pakketten"
+
+#: src/cli.vala resources/preferences_dialog.ui
+msgid "Clean cache"
+msgstr "Cache opschonen"
+
+#: src/cli.vala resources/preferences_dialog.ui
+msgid "Clean build files"
+msgstr ""
 
 #: src/cli.vala
 #, c-format
@@ -1035,9 +1093,9 @@ msgstr "Pamac Geschiedenis"
 msgid "Transaction Summary"
 msgstr "Transactie Overzicht"
 
-#: resources/transaction_sum_dialog.ui
-msgid "Commit"
-msgstr "Uitvoeren"
+#: resources/transaction_sum_dialog.ui resources/manager_window.ui
+msgid "_Apply"
+msgstr "_Toepassen"
 
 #: resources/manager_window.ui
 msgid "Refresh databases"
@@ -1078,10 +1136,6 @@ msgstr "Herinstalleren"
 #: resources/manager_window.ui
 msgid "Reset build files"
 msgstr ""
-
-#: resources/manager_window.ui
-msgid "_Apply"
-msgstr "_Toepassen"
 
 #: resources/preferences_dialog.ui
 msgid "Remove unrequired dependencies"
@@ -1154,14 +1208,6 @@ msgstr "Controleer AUR voor opwaarderingen"
 #: resources/preferences_dialog.ui
 msgid "Check for development packages updates"
 msgstr ""
-
-#: resources/preferences_dialog.ui
-msgid "Remove only the versions of uninstalled packages"
-msgstr "Alleen versies verwijderen van gedeïnstalleerde pakketten"
-
-#: resources/preferences_dialog.ui
-msgid "Clean cache"
-msgstr "Cache opschonen"
 
 #: resources/preferences_dialog.ui
 msgid "Cache"

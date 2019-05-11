@@ -1,7 +1,7 @@
 # Translation of Pamac.
-# Copyright (C) 2013-2018 Manjaro Developers <manjaro-dev@manjaro.org>
+# Copyright (C) 2013-2019 Manjaro Developers <manjaro-dev@manjaro.org>
 # This file is distributed under the same license as the Pamac package.
-# Guillaume Benoit <guillaume@manjaro.org>, 2013-2018.
+# Guillaume Benoit <guillaume@manjaro.org>, 2013-2019.
 # 
 # Translators:
 # Alexander Lindberg <alexanderlndbrg@gmail.com>, 2013-2014
@@ -13,14 +13,16 @@
 # philm <philm@manjaro.org>, 2015
 # riiga <riiga_92@hotmail.com>, 2014,2016-2017
 # riiga <riiga_92@hotmail.com>, 2014,2016
+# Simon, 2019
+# Simon, 2019
 # Tommy Arvidsson <tarvidsson7834@gmail.com>, 2013
 # Tommy Arvidsson <tarvidsson7834@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2018-12-26 12:00+0100\n"
-"PO-Revision-Date: 2018-12-28 00:23+0000\n"
+"POT-Creation-Date: 2019-05-03 12:41+0200\n"
+"PO-Revision-Date: 2019-05-04 01:14+0000\n"
 "Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Swedish (http://www.transifex.com/manjarolinux/manjaro-pamac/language/sv/)\n"
 "MIME-Version: 1.0\n"
@@ -157,7 +159,7 @@ msgstr "Synkroniserar paketdatabaser"
 #: src/transaction.vala src/cli.vala
 #, c-format
 msgid "Cloning %s build files"
-msgstr ""
+msgstr "Klonar %s byggfiler"
 
 #: src/transaction.vala
 #, c-format
@@ -167,12 +169,12 @@ msgstr ""
 #: src/transaction.vala
 #, c-format
 msgid "Checking %s dependencies"
-msgstr ""
+msgstr "Kontrollerar %s besittningar"
 
 #: src/transaction.vala
 #, c-format
 msgid "key %s could not be imported"
-msgstr ""
+msgstr "nyckel %s kunde ej importeras"
 
 #: src/transaction.vala
 msgid "Preparing"
@@ -263,11 +265,6 @@ msgid "Configuring %s"
 msgstr "Konfigurerar %s"
 
 #: src/transaction.vala
-#, c-format
-msgid "Downloading %s"
-msgstr "Laddar ner %s"
-
-#: src/transaction.vala
 msgid "Checking available disk space"
 msgstr "Kontrollerar tillgängligt diskutrymme"
 
@@ -309,6 +306,11 @@ msgstr "Kör transaktionsefterarbeten"
 
 #: src/transaction.vala
 #, c-format
+msgid "Downloading %s"
+msgstr "Laddar ner %s"
+
+#: src/transaction.vala
+#, c-format
 msgid "About %u seconds remaining"
 msgstr "Cirka %u sekunder återstår"
 
@@ -347,7 +349,7 @@ msgstr "Pakethanterare"
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
 msgid "Choose optional dependencies for %s"
-msgstr ""
+msgstr "Välj valfria besittningar för %s"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
@@ -356,11 +358,11 @@ msgstr "Välj en leverantör för %s"
 
 #: src/transaction-gtk.vala
 msgid "Import PGP key"
-msgstr ""
+msgstr "Importera PGP-nyckel"
 
 #: src/transaction-gtk.vala
 msgid "Trust and Import"
-msgstr ""
+msgstr "Tilltro och Importera"
 
 #: src/transaction-gtk.vala src/manager_window.vala
 #: resources/transaction_sum_dialog.ui resources/manager_window.ui
@@ -371,12 +373,12 @@ msgstr "_Avbryt"
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
 msgid "The PGP key %s is needed to verify %s source files"
-msgstr ""
+msgstr "PGP-nyckeln %s krävs för att verifiera %s källfiler"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
 msgid "Trust %s and import the PGP key"
-msgstr ""
+msgstr "Tilltro %s och importera PGP-nyckel"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "To remove"
@@ -409,11 +411,11 @@ msgstr "Total nedladdningsstorlek"
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
 msgid "Edit %s build files"
-msgstr ""
+msgstr "Redigera %s byggfiler"
 
 #: src/transaction-gtk.vala
 msgid "Save"
-msgstr ""
+msgstr "Spara"
 
 #: src/transaction-gtk.vala resources/progress_dialog.ui
 #: resources/history_dialog.ui resources/preferences_dialog.ui
@@ -426,15 +428,15 @@ msgstr "Väntar på att annan instans av pakethanteraren ska avslutas"
 
 #: src/installer.vala src/cli.vala
 msgid "Install packages from repositories, path or url"
-msgstr ""
+msgstr "Installera paket från besittningar, sökväg eller länk"
 
 #: src/installer.vala src/cli.vala
 msgid "Remove packages"
-msgstr ""
+msgstr "Ta bort paket"
 
 #: src/installer.vala src/cli.vala
 msgid "package(s)"
-msgstr ""
+msgstr "Paket"
 
 #: src/tray.vala src/manager_window.vala src/cli.vala
 msgid "Your system is up-to-date"
@@ -478,7 +480,7 @@ msgstr "Installera"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Build"
-msgstr ""
+msgstr "Bygga"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Remove"
@@ -577,7 +579,7 @@ msgstr "Filer"
 
 #: src/manager_window.vala
 msgid "Build files"
-msgstr ""
+msgstr "Bygger filer"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Install Reason"
@@ -705,9 +707,9 @@ msgstr "Hur ofta söka efter uppdateringar, ange i timmar"
 
 #: src/preferences_dialog.vala resources/preferences_dialog.ui
 msgid "Maximum parallel downloads"
-msgstr ""
+msgstr "Maximalt parallella nedladdningar"
 
-#: src/preferences_dialog.vala resources/preferences_dialog.ui
+#: src/preferences_dialog.vala src/cli.vala resources/preferences_dialog.ui
 msgid "Number of versions of each package to keep in the cache"
 msgstr "Antal versioner av varje paket att behålla i cachen"
 
@@ -719,6 +721,17 @@ msgstr "Byggmapp"
 msgid "Worldwide"
 msgstr "Världsomspännande"
 
+#: src/preferences_dialog.vala src/cli.vala
+msgid "To delete"
+msgstr ""
+
+#: src/preferences_dialog.vala src/cli.vala
+#, c-format
+msgid "%u file"
+msgid_plural "%u files"
+msgstr[0] ""
+msgstr[1] ""
+
 #: src/preferences_dialog.vala
 msgid "Choose Ignored Upgrades"
 msgstr "Välj ignorerade paket"
@@ -726,176 +739,180 @@ msgstr "Välj ignorerade paket"
 #: src/transaction-cli.vala src/cli.vala
 #, c-format
 msgid "Enter a selection (default=%s)"
-msgstr ""
+msgstr "Gör ett val (standard=%s)"
 
 #: src/transaction-cli.vala
 msgid "none"
-msgstr ""
+msgstr "inga"
 
 #: src/transaction-cli.vala
 #, c-format
 msgid "Enter a number (default=%d)"
-msgstr ""
+msgstr "Välj ett nummer (standard=%d)"
 
-#: src/transaction-cli.vala
+#: src/transaction-cli.vala src/cli.vala
 msgid "[y/N]"
 msgstr ""
 
-#: src/transaction-cli.vala
+#: src/transaction-cli.vala src/cli.vala
 msgid "y"
 msgstr ""
 
-#: src/transaction-cli.vala
+#: src/transaction-cli.vala src/cli.vala
 msgid "yes"
-msgstr ""
+msgstr "ja"
 
 #: src/transaction-cli.vala resources/transaction_sum_dialog.ui
 msgid "Edit build files"
-msgstr ""
+msgstr "Redigera byggfiler"
 
 #: src/transaction-cli.vala
 msgid "Total installed size"
-msgstr ""
+msgstr "Total installationsstorlek"
 
 #: src/transaction-cli.vala
 msgid "Total removed size"
-msgstr ""
+msgstr "Total borttagen storlek"
 
 #: src/transaction-cli.vala
-msgid "Commit transaction"
+msgid "Apply transaction"
 msgstr ""
 
 #: src/transaction-cli.vala
 #, c-format
 msgid "View %s build files diff"
-msgstr ""
+msgstr "Se %s byggfilers skillnad"
 
 #: src/cli.vala
 msgid "Building packages as root is not allowed"
-msgstr ""
+msgstr "Att bygga paket som rootanvändare är ej tillåtet"
 
 #: src/cli.vala
 msgid "No PKGBUILD file found in current directory"
-msgstr ""
+msgstr "Ingen PKGBUILD-fil hittades i den nuvarande sökvägen"
 
 #: src/cli.vala
 msgid "Check development packages updates as root is not allowed"
-msgstr ""
+msgstr "Kontrollerar uppdateringar av utvecklarpaket då root ej är tillåtet"
 
 #: src/cli.vala
 msgid "Available actions"
-msgstr ""
+msgstr "Tillgängliga åtgärder"
 
 #: src/cli.vala
 msgid "action"
-msgstr ""
+msgstr "åtgärd"
 
 #: src/cli.vala
 msgid "options"
-msgstr ""
+msgstr "val"
 
 #: src/cli.vala
 msgid "Search for packages or files, multiple search terms can be specified"
-msgstr ""
+msgstr "Sök efter paket eller filer, flera sökalternativ kan specificeras"
 
 #: src/cli.vala
 msgid "file(s)"
-msgstr ""
+msgstr "fil(er)"
 
 #: src/cli.vala
 msgid "also search in AUR"
-msgstr ""
+msgstr "sök även i AUR"
 
 #: src/cli.vala
 msgid ""
 "search for packages which own the given filenames (filenames can be partial)"
-msgstr ""
+msgstr "sök efter paket som äger de angivna filnamnen (filnamn kan vara ofullständiga)"
 
 #: src/cli.vala
 msgid "Display package details, multiple packages can be specified"
-msgstr ""
+msgstr "Visa paketdetajler, flera paket kan anges"
 
 #: src/cli.vala
 msgid "List packages, groups, repositories or files"
-msgstr ""
+msgstr "Lista paket, grupper, förråd eller filer"
 
 #: src/cli.vala
 msgid "group(s)"
-msgstr ""
+msgstr "grupp(er)"
 
 #: src/cli.vala
 msgid "repo(s)"
-msgstr ""
+msgstr "förråd"
 
 #: src/cli.vala
 msgid "list installed packages"
-msgstr ""
+msgstr "lista installerade paket"
 
 #: src/cli.vala
 msgid ""
 "list packages that were installed as dependencies but are no longer required"
 " by any installed package"
-msgstr ""
+msgstr "lista paket som installerades som besittningar, som ej behövs längre av andra paket"
 
 #: src/cli.vala
 msgid "list packages that were not found in the repositories"
-msgstr ""
+msgstr "lista paket som ej hittades i förråden"
 
 #: src/cli.vala
 msgid ""
 "list all packages that are members of the given groups, if no group is given"
 " list all groups"
-msgstr ""
+msgstr "lista alla paket som är medlemmar av de angivna grupperna, om ingen grupp har angetts, lista alla grupper"
 
 #: src/cli.vala
 msgid ""
 "list all packages available in the given repos, if no repo is given list all"
 " repos"
-msgstr ""
+msgstr "lista alla tillgängliga paket i de angivna förråden, om inget förråd har angetts, visa alla förråd"
 
 #: src/cli.vala
 msgid "list files owned by the given packages"
-msgstr ""
+msgstr "lista filer som ägs av de angivna paketen"
 
 #: src/cli.vala
 msgid "Clone or sync packages build files from AUR"
-msgstr ""
+msgstr "klona eller synkronisera paketens byggfiler från AUR"
 
 #: src/cli.vala
 msgid "dir"
-msgstr ""
+msgstr "katalog"
 
 #: src/cli.vala
 msgid ""
 "build directory, if no directory is given the one specified in pamac.conf "
 "file is used"
-msgstr ""
+msgstr "bygg katalog, om ingen katalog har angetts kommer befintlig katalog i pamac.conf användas att istället"
 
 #: src/cli.vala
 msgid "also clone needed dependencies"
-msgstr ""
+msgstr "klona även nödvändiga besittningar"
 
 #: src/cli.vala
 msgid "overwrite existing files"
-msgstr ""
+msgstr "skriv över befintliga filer"
 
 #: src/cli.vala
 msgid "Build packages from AUR and install them with their dependencies"
-msgstr ""
+msgstr "bygg paket från AUR och installera dem med deras besittningar"
 
 #: src/cli.vala
 msgid ""
 "If no package name is given, use the PKGBUILD file in the current directory"
-msgstr ""
+msgstr "Om inget paketnamn har angetts, använd PKGBUILD-filen i nuvarande katalog"
 
 #: src/cli.vala
 msgid ""
 "The build directory will be the parent directory, --builddir option will be "
 "ignored"
-msgstr ""
+msgstr "Byggkatalogen kommer vara den övre katalogen, --builddir alternativet kommer att ignoreras"
 
 #: src/cli.vala
 msgid "do not clone build files from AUR, only use local files"
+msgstr "klona ej byggfiler från AUR, använd enbart lokala filer"
+
+#: src/cli.vala
+msgid "bypass any and all confirmation messages"
 msgstr ""
 
 #: src/cli.vala
@@ -906,70 +923,101 @@ msgstr ""
 msgid ""
 "ignore a package upgrade, multiple packages can be specified by separating "
 "them with a comma"
-msgstr ""
+msgstr "Ignorera en paketuppgradering, flertal paket kan anges genom att separera dem med ett kommatecken"
 
 #: src/cli.vala
 msgid ""
 "overwrite conflicting files, multiple patterns can be specified by "
 "separating them with a comma"
-msgstr ""
+msgstr "skriv över motstridiga filer, flera mönster kan anges genom att separera dem med ett kommatecken"
 
 #: src/cli.vala
 msgid "Reinstall packages"
-msgstr ""
+msgstr "Ominstallera paket"
 
 #: src/cli.vala
 msgid ""
 "remove dependencies that are not required by other packages, if this option "
 "is used without package name remove all orphans"
-msgstr ""
+msgstr "ta bort besittningar som ej behövs av andra paket, om detta alternativet används utan ett namn ta bort alla överblivna paket"
 
 #: src/cli.vala
 msgid "Safely check for updates without modifiying the databases"
-msgstr ""
+msgstr "Säkert leta efter uppdateringar utan att modifiera databaserna"
 
 #: src/cli.vala
 msgid "Exit code is 100 if updates are available"
-msgstr ""
+msgstr "Avgångskoden är 100 om uppdateringar är tillgängliga"
 
 #: src/cli.vala
 msgid "also check updates in AUR"
-msgstr ""
+msgstr "leta även efter uppdateringar i AUR"
 
 #: src/cli.vala
 msgid "also check development packages updates (use with --aur)"
-msgstr ""
+msgstr "leta även efter uppdateringar för utvecklarpaket (använd med --aur)"
 
 #: src/cli.vala
 msgid "only print one line per update"
-msgstr ""
+msgstr "visa endast en rad per uppdatering"
 
 #: src/cli.vala
 msgid ""
 "build directory (use with --devel), if no directory is given the one "
 "specified in pamac.conf file is used"
-msgstr ""
+msgstr "bygg katalogen (använd med --devel), om ingen katalog angetts, kommer en befintlig katalog i pamac.conf att användas istället"
 
 #: src/cli.vala
 msgid "Upgrade your system"
-msgstr ""
+msgstr "Uppgradera ditt system"
 
 #: src/cli.vala
 msgid "also upgrade packages installed from AUR"
-msgstr ""
+msgstr "uppgradera även paket som har installerats från AUR"
 
 #: src/cli.vala
 msgid ""
 "build directory (use with --aur), if no directory is given the one specified"
 " in pamac.conf file is used"
-msgstr ""
+msgstr "bygg katalogen (använd med --aur), om ingen katalog angetts, kommer en befintlig katalog i pamac.conf att användas istället"
 
 #: src/cli.vala
 msgid "force the refresh of the databases"
-msgstr ""
+msgstr "forcera en uppdatering av databaserna"
 
 #: src/cli.vala
 msgid "enable package downgrades"
+msgstr "aktivera paketnedgraderingar"
+
+#: src/cli.vala
+msgid "Clean packages cache or build files"
+msgstr ""
+
+#: src/cli.vala
+msgid "number"
+msgstr ""
+
+#: src/cli.vala
+msgid ""
+"specify how many versions of each package are kept in the cache directory"
+msgstr ""
+
+#: src/cli.vala
+msgid "only target uninstalled packages"
+msgstr ""
+
+#: src/cli.vala
+msgid ""
+"remove all build files, the build directory is the one specified in "
+"pamac.conf"
+msgstr ""
+
+#: src/cli.vala
+msgid "do not remove files, only find candidate packages"
+msgstr ""
+
+#: src/cli.vala
+msgid "also display all files names"
 msgstr ""
 
 #: src/cli.vala resources/manager_window.ui
@@ -978,11 +1026,11 @@ msgstr "Version"
 
 #: src/cli.vala
 msgid "Description"
-msgstr ""
+msgstr "Beskrivning"
 
 #: src/cli.vala
 msgid "URL"
-msgstr ""
+msgstr "URL"
 
 #: src/cli.vala resources/manager_window.ui
 msgid "Size"
@@ -991,11 +1039,23 @@ msgstr "Storlek"
 #: src/cli.vala
 #, c-format
 msgid "No package owns %s"
-msgstr ""
+msgstr "Inget paket äger %s"
 
 #: src/cli.vala
 #, c-format
 msgid "%s is owned by %s"
+msgstr "%s ägs av %s"
+
+#: src/cli.vala resources/preferences_dialog.ui
+msgid "Remove only the versions of uninstalled packages"
+msgstr "Ta endast bort gamla versioner av borttagna paket"
+
+#: src/cli.vala resources/preferences_dialog.ui
+msgid "Clean cache"
+msgstr "Rensa cache"
+
+#: src/cli.vala resources/preferences_dialog.ui
+msgid "Clean build files"
 msgstr ""
 
 #: src/cli.vala
@@ -1007,7 +1067,7 @@ msgstr[1] ""
 
 #: src/cli.vala
 msgid "all"
-msgstr ""
+msgstr "alla"
 
 #: resources/choose_provider_dialog.ui
 msgid "Choose a Provider"
@@ -1029,9 +1089,9 @@ msgstr "Pamachistorik"
 msgid "Transaction Summary"
 msgstr "Summering av överföring"
 
-#: resources/transaction_sum_dialog.ui
-msgid "Commit"
-msgstr "Genomför"
+#: resources/transaction_sum_dialog.ui resources/manager_window.ui
+msgid "_Apply"
+msgstr "_Tillämpa"
 
 #: resources/manager_window.ui
 msgid "Refresh databases"
@@ -1071,11 +1131,7 @@ msgstr "Återinstallera"
 
 #: resources/manager_window.ui
 msgid "Reset build files"
-msgstr ""
-
-#: resources/manager_window.ui
-msgid "_Apply"
-msgstr "_Tillämpa"
+msgstr "Återställ byggfiler"
 
 #: resources/preferences_dialog.ui
 msgid "Remove unrequired dependencies"
@@ -1093,7 +1149,7 @@ msgstr "Kontrollera tillgängligt diskutrymme"
 
 #: resources/preferences_dialog.ui
 msgid "Enable downgrade"
-msgstr ""
+msgstr "Aktivera nedgradering"
 
 #: resources/preferences_dialog.ui
 msgid "Check for updates"
@@ -1101,7 +1157,7 @@ msgstr "Leta efter uppdateringar"
 
 #: resources/preferences_dialog.ui
 msgid "Automatically download updates"
-msgstr ""
+msgstr "Ladda automatiskt ned uppdateringar"
 
 #: resources/preferences_dialog.ui
 msgid "Hide tray icon when no update available"
@@ -1147,15 +1203,7 @@ msgstr "Leta efter uppdateringar i AUR"
 
 #: resources/preferences_dialog.ui
 msgid "Check for development packages updates"
-msgstr ""
-
-#: resources/preferences_dialog.ui
-msgid "Remove only the versions of uninstalled packages"
-msgstr "Ta endast bort gamla versioner av borttagna paket"
-
-#: resources/preferences_dialog.ui
-msgid "Clean cache"
-msgstr "Rensa cache"
+msgstr "Leta efter uppdateringar för utvecklarpaket"
 
 #: resources/preferences_dialog.ui
 msgid "Cache"

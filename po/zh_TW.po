@@ -1,19 +1,19 @@
 # Translation of Pamac.
-# Copyright (C) 2013-2018 Manjaro Developers <manjaro-dev@manjaro.org>
+# Copyright (C) 2013-2019 Manjaro Developers <manjaro-dev@manjaro.org>
 # This file is distributed under the same license as the Pamac package.
-# Guillaume Benoit <guillaume@manjaro.org>, 2013-2018.
+# Guillaume Benoit <guillaume@manjaro.org>, 2013-2019.
 # 
 # Translators:
 # Hsiu-Ming Chang <cges30901@gmail.com>, 2016
 # Hsiu-Ming Chang <cges30901@gmail.com>, 2016
-# Jeff Huang <s8321414@gmail.com>, 2014-2018
+# Jeff Huang <s8321414@gmail.com>, 2014-2019
 # Jeff Huang <s8321414@gmail.com>, 2013-2014
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2018-12-26 12:00+0100\n"
-"PO-Revision-Date: 2018-12-28 02:43+0000\n"
+"POT-Creation-Date: 2019-05-03 12:41+0200\n"
+"PO-Revision-Date: 2019-05-04 02:35+0000\n"
 "Last-Translator: Jeff Huang <s8321414@gmail.com>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
@@ -256,11 +256,6 @@ msgid "Configuring %s"
 msgstr "正在設定 %s"
 
 #: src/transaction.vala
-#, c-format
-msgid "Downloading %s"
-msgstr "正在下載 %s"
-
-#: src/transaction.vala
 msgid "Checking available disk space"
 msgstr "正在檢查可用磁碟空間"
 
@@ -299,6 +294,11 @@ msgstr "正在執行前處理掛鉤"
 #: src/transaction.vala
 msgid "Running post-transaction hooks"
 msgstr "正在執行後處理掛鉤"
+
+#: src/transaction.vala
+#, c-format
+msgid "Downloading %s"
+msgstr "正在下載 %s"
 
 #: src/transaction.vala
 #, c-format
@@ -697,7 +697,7 @@ msgstr "請選擇您想要檢查更新的頻率，單位是小時"
 msgid "Maximum parallel downloads"
 msgstr "最大平行下載"
 
-#: src/preferences_dialog.vala resources/preferences_dialog.ui
+#: src/preferences_dialog.vala src/cli.vala resources/preferences_dialog.ui
 msgid "Number of versions of each package to keep in the cache"
 msgstr "每個軟體包要保留在快取中的版本數量"
 
@@ -708,6 +708,16 @@ msgstr "構建目錄"
 #: src/preferences_dialog.vala
 msgid "Worldwide"
 msgstr "全世界"
+
+#: src/preferences_dialog.vala src/cli.vala
+msgid "To delete"
+msgstr "要刪除"
+
+#: src/preferences_dialog.vala src/cli.vala
+#, c-format
+msgid "%u file"
+msgid_plural "%u files"
+msgstr[0] "%u 個檔案"
 
 #: src/preferences_dialog.vala
 msgid "Choose Ignored Upgrades"
@@ -727,15 +737,15 @@ msgstr "無"
 msgid "Enter a number (default=%d)"
 msgstr "輸入數字（預設=%d）"
 
-#: src/transaction-cli.vala
+#: src/transaction-cli.vala src/cli.vala
 msgid "[y/N]"
 msgstr "[y/N]"
 
-#: src/transaction-cli.vala
+#: src/transaction-cli.vala src/cli.vala
 msgid "y"
 msgstr "y"
 
-#: src/transaction-cli.vala
+#: src/transaction-cli.vala src/cli.vala
 msgid "yes"
 msgstr "yes"
 
@@ -752,8 +762,8 @@ msgid "Total removed size"
 msgstr "總移除大小"
 
 #: src/transaction-cli.vala
-msgid "Commit transaction"
-msgstr "遞交處理"
+msgid "Apply transaction"
+msgstr "套用處理"
 
 #: src/transaction-cli.vala
 #, c-format
@@ -889,6 +899,10 @@ msgid "do not clone build files from AUR, only use local files"
 msgstr "不要從 AUR 再製構建檔案，僅使用本機檔案"
 
 #: src/cli.vala
+msgid "bypass any and all confirmation messages"
+msgstr "略過任何及所有確認訊息"
+
+#: src/cli.vala
 msgid "glob"
 msgstr "全域"
 
@@ -962,6 +976,37 @@ msgstr "強制重新整理資料庫"
 msgid "enable package downgrades"
 msgstr "啟用軟體包降級"
 
+#: src/cli.vala
+msgid "Clean packages cache or build files"
+msgstr "清除軟體包快取或建構檔案"
+
+#: src/cli.vala
+msgid "number"
+msgstr "號碼"
+
+#: src/cli.vala
+msgid ""
+"specify how many versions of each package are kept in the cache directory"
+msgstr "指定每個軟體包要保留多少個版本在快取目錄中"
+
+#: src/cli.vala
+msgid "only target uninstalled packages"
+msgstr "僅針對已解除安裝的軟體包"
+
+#: src/cli.vala
+msgid ""
+"remove all build files, the build directory is the one specified in "
+"pamac.conf"
+msgstr "移除所有建構檔案，在 pamac.conf 中指定建構目錄"
+
+#: src/cli.vala
+msgid "do not remove files, only find candidate packages"
+msgstr "不要移除檔案，僅尋找候選軟體包"
+
+#: src/cli.vala
+msgid "also display all files names"
+msgstr "也顯示所有檔案名稱"
+
 #: src/cli.vala resources/manager_window.ui
 msgid "Version"
 msgstr "版本"
@@ -987,6 +1032,18 @@ msgstr "沒有軟體包擁有 %s"
 #, c-format
 msgid "%s is owned by %s"
 msgstr "%s 被 %s 擁有"
+
+#: src/cli.vala resources/preferences_dialog.ui
+msgid "Remove only the versions of uninstalled packages"
+msgstr "僅移除未安裝的軟體包版本"
+
+#: src/cli.vala resources/preferences_dialog.ui
+msgid "Clean cache"
+msgstr "清除快取"
+
+#: src/cli.vala resources/preferences_dialog.ui
+msgid "Clean build files"
+msgstr "清除建構檔案"
 
 #: src/cli.vala
 #, c-format
@@ -1018,9 +1075,9 @@ msgstr "Pamac 歷史"
 msgid "Transaction Summary"
 msgstr "事務處理概要"
 
-#: resources/transaction_sum_dialog.ui
-msgid "Commit"
-msgstr "遞交"
+#: resources/transaction_sum_dialog.ui resources/manager_window.ui
+msgid "_Apply"
+msgstr "套用(_A)"
 
 #: resources/manager_window.ui
 msgid "Refresh databases"
@@ -1061,10 +1118,6 @@ msgstr "重新安裝"
 #: resources/manager_window.ui
 msgid "Reset build files"
 msgstr "重設構建檔案"
-
-#: resources/manager_window.ui
-msgid "_Apply"
-msgstr "套用(_A)"
 
 #: resources/preferences_dialog.ui
 msgid "Remove unrequired dependencies"
@@ -1137,14 +1190,6 @@ msgstr "自 AUR 檢查更新"
 #: resources/preferences_dialog.ui
 msgid "Check for development packages updates"
 msgstr "檢查開發軟體包更新"
-
-#: resources/preferences_dialog.ui
-msgid "Remove only the versions of uninstalled packages"
-msgstr "僅移除未安裝的軟體包版本"
-
-#: resources/preferences_dialog.ui
-msgid "Clean cache"
-msgstr "清除快取"
 
 #: resources/preferences_dialog.ui
 msgid "Cache"
