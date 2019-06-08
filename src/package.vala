@@ -25,7 +25,9 @@ namespace Pamac {
 		public string version { get {return pkg_struct.version;} }
 		public string installed_version { get {return pkg_struct.installed_version;} }
 		public string desc { get {return pkg_struct.desc;} }
-		public string repo { get {return pkg_struct.repo;} }
+		public string repo { get {return pkg_struct.repo;}
+							internal set {pkg_struct.repo = value;}
+							}
 		public uint64 size { get {return pkg_struct.size;} }
 		public uint64 download_size { get {return pkg_struct.download_size;} }
 		public string icon { get {return pkg_struct.icon;} }

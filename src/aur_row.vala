@@ -1,7 +1,7 @@
 /*
  *  pamac-vala
  *
- *  Copyright (C) 2014-2019 Guillaume Benoit <guillaume@manjaro.org>
+ *  Copyright (C) 2019 Guillaume Benoit <guillaume@manjaro.org>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -19,27 +19,29 @@
 
 namespace Pamac {
 
-	[GtkTemplate (ui = "/org/manjaro/pamac/transaction/transaction_sum_dialog.ui")]
-	class TransactionSumDialog : Gtk.Dialog {
+	[GtkTemplate (ui = "/org/manjaro/pamac/manager/aur_row.ui")]
+	public class AURRow : Gtk.ListBoxRow {
 
 		[GtkChild]
-		public Gtk.Label top_label;
+		public Gtk.Image app_icon;
 		[GtkChild]
-		Gtk.TreeView treeview;
+		public Gtk.Label name_label;
 		[GtkChild]
-		public Gtk.Button edit_button;
+		public Gtk.Label desc_label;
 		[GtkChild]
-		public Gtk.Button cancel_button;
+		public Gtk.Label version_label;
+		[GtkChild]
+		public Gtk.ToggleButton action_togglebutton;
+		[GtkChild]
+		public Gtk.Button details_button;
 
-		public Gtk.ListStore sum_list;
+		public AURPackage aur_pkg;
 
-		public TransactionSumDialog (Gtk.ApplicationWindow? window) {
-			int use_header_bar;
-			Gtk.Settings.get_default ().get ("gtk-dialogs-use-header", out use_header_bar);
-			Object (transient_for: window, use_header_bar: use_header_bar);
-
-			sum_list = new Gtk.ListStore (6, typeof (string), typeof (string), typeof (string), typeof (string), typeof (string), typeof (string));
-			treeview.set_model (sum_list);
+		public AURRow (AURPackage aur_pkg) {
+			Object ();
+			this.aur_pkg = aur_pkg;
 		}
+
 	}
+
 }

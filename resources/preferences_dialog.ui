@@ -35,7 +35,7 @@
       <object class="GtkBox" id="dialog-vbox">
         <property name="can_focus">False</property>
         <property name="orientation">vertical</property>
-        <property name="spacing">12</property>
+        <property name="spacing">6</property>
         <child internal-child="action_area">
           <object class="GtkButtonBox" id="dialog-action_area">
             <property name="can_focus">False</property>
@@ -66,6 +66,7 @@
           <object class="GtkNotebook" id="notebook">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
+            <property name="vexpand">True</property>
             <child>
               <object class="GtkBox" id="general_config_box">
                 <property name="visible">True</property>
@@ -376,6 +377,7 @@
                   <object class="GtkBox" id="ignorepkgs_box">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
+                    <property name="vexpand">True</property>
                     <property name="spacing">6</property>
                     <child>
                       <object class="GtkLabel" id="ignorepkgs_label">
@@ -400,13 +402,13 @@
                         <property name="margin_left">12</property>
                         <property name="margin_start">12</property>
                         <property name="hexpand">True</property>
-                        <property name="vexpand">True</property>
                         <property name="orientation">vertical</property>
                         <child>
                           <object class="GtkScrolledWindow" id="ignorepkgs_scrolledwindow">
                             <property name="height_request">100</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
+                            <property name="vexpand">True</property>
                             <property name="hscrollbar_policy">never</property>
                             <property name="shadow_type">in</property>
                             <child>
@@ -434,7 +436,7 @@
                             </child>
                           </object>
                           <packing>
-                            <property name="expand">True</property>
+                            <property name="expand">False</property>
                             <property name="fill">True</property>
                             <property name="position">0</property>
                           </packing>
@@ -483,14 +485,14 @@
                         </child>
                       </object>
                       <packing>
-                        <property name="expand">True</property>
+                        <property name="expand">False</property>
                         <property name="fill">True</property>
                         <property name="position">1</property>
                       </packing>
                     </child>
                   </object>
                   <packing>
-                    <property name="expand">True</property>
+                    <property name="expand">False</property>
                     <property name="fill">True</property>
                     <property name="position">8</property>
                   </packing>
@@ -613,7 +615,7 @@
                       </object>
                       <packing>
                         <property name="expand">False</property>
-                        <property name="fill">False</property>
+                        <property name="fill">True</property>
                         <property name="position">0</property>
                       </packing>
                     </child>
@@ -641,7 +643,7 @@ All AUR users should be familiar with the build process.</property>
                       </object>
                       <packing>
                         <property name="expand">False</property>
-                        <property name="fill">False</property>
+                        <property name="fill">True</property>
                         <property name="position">0</property>
                       </packing>
                     </child>
@@ -969,7 +971,7 @@ All AUR users should be familiar with the build process.</property>
             </child>
           </object>
           <packing>
-            <property name="expand">True</property>
+            <property name="expand">False</property>
             <property name="fill">True</property>
             <property name="position">0</property>
           </packing>

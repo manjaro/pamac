@@ -102,6 +102,9 @@ namespace Pamac {
 
 		void print_download_progress (string action, string status, double progress) {
 			if (progress == 0) {
+				if (action == current_action) {
+					return;
+				}
 				current_action = action;
 				current_line = status;
 				stdout.printf (action);

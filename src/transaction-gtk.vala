@@ -38,6 +38,8 @@ namespace Pamac {
 		bool summary_shown;
 		bool commit_transaction_answer;
 
+		public signal void transaction_sum_populated ();
+
 		public TransactionGtk (Database database, Gtk.ApplicationWindow? application_window) {
 			Object (database: database, application_window: application_window);
 		}
@@ -51,6 +53,7 @@ namespace Pamac {
 			current_action = "";
 			progress_box = new ProgressBox ();
 			progress_box.progressbar.text = "";
+			progress_box.progressbar.visible = false;
 			choose_pkgs_dialog = new ChoosePkgsDialog (application_window);
 			// create details textview
 			details_window = new Gtk.ScrolledWindow (null, null);
@@ -75,6 +78,7 @@ namespace Pamac {
 			// create build files notebook
 			build_files_notebook = new Gtk.Notebook ();
 			build_files_notebook.visible = true;
+			build_files_notebook.show_border = false;
 			build_files_notebook.expand = true;
 			build_files_notebook.scrollable = true;
 			build_files_notebook.enable_popup = true;
@@ -93,6 +97,7 @@ namespace Pamac {
 			sysupgrade_finished.connect (on_finished);
 			start_generating_mirrors_list.connect (start_progressbar_pulse);
 			generate_mirrors_list_finished.connect (reset_progress_box);
+			start_downloading.connect (() => {progress_box.progressbar.visible = true;});
 			start_preparing.connect (start_progressbar_pulse);
 			stop_preparing.connect (stop_progressbar_pulse);
 			start_building.connect (start_progressbar_pulse);
@@ -166,10 +171,12 @@ namespace Pamac {
 			stop_progressbar_pulse ();
 			progress_box.progressbar.fraction = 0;
 			progress_box.progressbar.text = "";
+			progress_box.progressbar.visible = false;
 		}
 
 		public void start_progressbar_pulse () {
 			stop_progressbar_pulse ();
+			progress_box.progressbar.visible = true;
 			pulse_timeout_id = Timeout.add (500, (GLib.SourceFunc) progress_box.progressbar.pulse);
 		}
 
@@ -178,6 +185,7 @@ namespace Pamac {
 				Source.remove (pulse_timeout_id);
 				pulse_timeout_id = 0;
 				progress_box.progressbar.fraction = 0;
+				progress_box.progressbar.visible = false;
 			}
 		}
 
@@ -188,6 +196,7 @@ namespace Pamac {
 			foreach (unowned string name in optdeps) {
 				choose_pkgs_dialog.pkgs_list.insert_with_values (null, -1, 0, false, 1, name);
 			}
+			choose_pkgs_dialog.valid_button.grab_focus ();
 			if (choose_pkgs_dialog.run () == Gtk.ResponseType.OK) {
 				choose_pkgs_dialog.pkgs_list.foreach ((model, path, iter) => {
 					GLib.Value val;
@@ -209,6 +218,7 @@ namespace Pamac {
 			var choose_provider_dialog = new ChooseProviderDialog (application_window);
 			choose_provider_dialog.title = dgettext (null, "Choose a provider for %s").printf (depend);
 			unowned Gtk.Box box = choose_provider_dialog.get_content_area ();
+			box.vexpand = true;
 			Gtk.RadioButton? last_radiobutton = null;
 			Gtk.RadioButton? first_radiobutton = null;
 			foreach (unowned string provider in providers) {
@@ -248,12 +258,11 @@ namespace Pamac {
 			var dialog = new Gtk.Dialog.with_buttons (dgettext (null, "Import PGP key"),
 													application_window,
 													flags);
-			dialog.border_width = 6;
+			dialog.border_width = 3;
 			dialog.icon_name = "system-software-install";
 			dialog.deletable = false;
-			unowned Gtk.Widget widget = dialog.add_button (dgettext (null, "Trust and Import"), Gtk.ResponseType.OK);
-			widget.receives_default = true;
-			widget = dialog.add_button (dgettext (null, "_Cancel"), Gtk.ResponseType.CANCEL);
+			dialog.add_button (dgettext (null, "Trust and Import"), Gtk.ResponseType.OK);
+			unowned Gtk.Widget widget = dialog.add_button (dgettext (null, "_Cancel"), Gtk.ResponseType.CANCEL);
 			widget.can_focus = true;
 			widget.has_focus = true;
 			widget.can_default = true;
@@ -270,6 +279,7 @@ namespace Pamac {
 			unowned Gtk.Box box = dialog.get_content_area ();
 			box.add (label);
 			box.valign = Gtk.Align.CENTER;
+			box.spacing = 6;
 			dialog.default_width = 800;
 			dialog.default_height = 150;
 			int response = dialog.run ();
@@ -461,6 +471,8 @@ namespace Pamac {
 			} else {
 				show_warnings (true);
 			}
+			transaction_sum_populated ();
+			transaction_sum_dialog.cancel_button.grab_focus ();
 			int response = transaction_sum_dialog.run ();
 			transaction_sum_dialog.hide ();
 			return response;
@@ -491,16 +503,15 @@ namespace Pamac {
 														application_window,
 														flags);
 				dialog.icon_name = "system-software-install";
-				unowned Gtk.Widget widget = dialog.add_button (dgettext (null, "Save"), Gtk.ResponseType.CLOSE);
-				widget.receives_default = true;
-				widget = dialog.add_button (dgettext (null, "_Cancel"), Gtk.ResponseType.CANCEL);
+				dialog.border_width = 3;
+				dialog.add_button (dgettext (null, "Save"), Gtk.ResponseType.CLOSE);
+				unowned Gtk.Widget widget = dialog.add_button (dgettext (null, "_Cancel"), Gtk.ResponseType.CANCEL);
 				widget.can_focus = true;
 				widget.has_focus = true;
 				widget.can_default = true;
 				widget.has_default = true;
 				unowned Gtk.Box box = dialog.get_content_area ();
-				box.margin_bottom = 6;
-				build_files_notebook.margin = 6;
+				box.spacing = 6;
 				box.add (build_files_notebook);
 				dialog.default_width = 700;
 				dialog.default_height = 500;
@@ -510,7 +521,6 @@ namespace Pamac {
 				int response = dialog.run ();
 				// re-add noteboook to manager_window properties stack
 				box.remove (build_files_notebook);
-				build_files_notebook.margin = 0;
 				if (stack != null) {
 					stack.add_named (build_files_notebook, "build_files");
 				}
@@ -570,16 +580,17 @@ namespace Pamac {
 		}
 
 		public async bool populate_build_files (string pkgname, bool clone, bool overwrite) {
-			build_files_notebook.foreach (destroy_widget);
 			if (clone) {
 				File? clone_dir = yield database.clone_build_files (pkgname, overwrite);
 				if (clone_dir == null) {
 					// error
+					build_files_notebook.foreach (destroy_widget);
 					return false;
 				}
 			}
 			bool success = true;
 			string[] file_paths = yield get_build_files (pkgname);
+			build_files_notebook.foreach (destroy_widget);
 			foreach (unowned string path in file_paths) {
 				if ("PKGBUILD" in path) {
 					success = yield create_build_files_tab (path);
@@ -650,7 +661,7 @@ namespace Pamac {
 				var dialog = new Gtk.Dialog.with_buttons (dgettext (null, "Warning"),
 														application_window,
 														flags);
-				dialog.border_width = 6;
+				dialog.border_width = 3;
 				dialog.icon_name = "system-software-install";
 				dialog.deletable = false;
 				unowned Gtk.Widget widget = dialog.add_button (dgettext (null, "_Close"), Gtk.ResponseType.CLOSE);
@@ -668,6 +679,7 @@ namespace Pamac {
 				scrolledwindow.expand = true;
 				unowned Gtk.Box box = dialog.get_content_area ();
 				box.add (scrolledwindow);
+				box.spacing = 6;
 				dialog.default_width = 600;
 				dialog.default_height = 300;
 				if (block) {
@@ -694,7 +706,7 @@ namespace Pamac {
 			var dialog = new Gtk.Dialog.with_buttons (message,
 													application_window,
 													flags);
-			dialog.border_width = 6;
+			dialog.border_width = 3;
 			dialog.icon_name = "system-software-install";
 			var textbuffer = new StringBuilder ();
 			if (details.length != 0) {
@@ -723,6 +735,7 @@ namespace Pamac {
 			scrolledwindow.expand = true;
 			unowned Gtk.Box box = dialog.get_content_area ();
 			box.add (scrolledwindow);
+			box.spacing = 6;
 			dialog.default_width = 600;
 			dialog.default_height = 300;
 			Timeout.add (1000, () => {
@@ -754,7 +767,6 @@ namespace Pamac {
 			} else {
 				warning_textbuffer = new StringBuilder ();
 			}
-			transaction_summary.remove_all ();
 			reset_progress_box ();
 			show_details ("");
 		}

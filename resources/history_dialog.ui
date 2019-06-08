@@ -48,10 +48,12 @@
           <object class="GtkBox" id="search_box">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
+            <property name="halign">center</property>
             <child>
               <object class="GtkSearchEntry" id="search_entry">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
+                <property name="width_chars">50</property>
                 <property name="caps_lock_warning">False</property>
                 <property name="primary_icon_name">edit-find-symbolic</property>
                 <property name="secondary_icon_name">edit-clear-symbolic</property>
@@ -61,7 +63,7 @@
                 <signal name="search-changed" handler="on_search_entry_search_changed" swapped="no"/>
               </object>
               <packing>
-                <property name="expand">True</property>
+                <property name="expand">False</property>
                 <property name="fill">True</property>
                 <property name="position">0</property>
               </packing>
@@ -122,6 +124,7 @@
           <object class="GtkScrolledWindow" id="scrolledwindow">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
+            <property name="vexpand">True</property>
             <property name="shadow_type">in</property>
             <property name="min_content_width">300</property>
             <property name="min_content_height">400</property>
@@ -136,7 +139,7 @@
             </child>
           </object>
           <packing>
-            <property name="expand">True</property>
+            <property name="expand">False</property>
             <property name="fill">True</property>
             <property name="position">1</property>
           </packing>

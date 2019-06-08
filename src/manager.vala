@@ -82,7 +82,7 @@ namespace Pamac {
 				}
 				manager_window.display_package_queue.clear ();
 				manager_window.main_stack.visible_child_name = "browse";
-				manager_window.filters_stack.visible_child_name = "updates";
+				manager_window.browse_stack.visible_child_name = "updates";
 				manager_window.present ();
 			});
 			this.add_action (action);

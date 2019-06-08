@@ -24,6 +24,8 @@ namespace Pamac {
 
 		[GtkChild]
 		public Gtk.TreeView treeview;
+		[GtkChild]
+		public Gtk.Button valid_button;
 
 		public Gtk.ListStore pkgs_list;
 

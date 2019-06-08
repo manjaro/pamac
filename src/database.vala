@@ -78,7 +78,6 @@ namespace Pamac {
 				app_store.load (As.StoreLoadFlags.APP_INFO_SYSTEM);
 				app_store.set_search_match (As.AppSearchMatch.PKGNAME
 											| As.AppSearchMatch.DESCRIPTION
-											| As.AppSearchMatch.COMMENT
 											| As.AppSearchMatch.NAME
 											| As.AppSearchMatch.KEYWORD);
 			} catch (Error e) {
@@ -374,8 +373,10 @@ namespace Pamac {
 		SList<As.App> get_pkgname_matching_apps (string pkgname) {
 			var matching_apps = new SList<As.App> ();
 			app_store.get_apps ().foreach ((app) => {
-				if (app.get_pkgname_default () == pkgname) {
-					matching_apps.append (app);
+				if (app.get_kind () == As.AppKind.DESKTOP) {
+					if (app.get_pkgname_default () == pkgname) {
+						matching_apps.append (app);
+					}
 				}
 			});
 			return (owned) matching_apps;
@@ -445,9 +446,12 @@ namespace Pamac {
 			}
 		}
 
-		List<Package> initialise_pkgs (Alpm.Package? alpm_pkg) {
+		List<Package> initialise_pkgs (Alpm.List<unowned Alpm.Package>? alpm_pkgs) {
 			var pkgs = new List<Package> ();
-			if (alpm_pkg != null) {
+			var data = new HashTable<string, Package> (str_hash, str_equal);
+			string[] foreign_pkgnames = {};
+			while (alpm_pkgs != null) {
+				unowned Alpm.Package alpm_pkg = alpm_pkgs.data;
 				string installed_version = "";
 				string repo_name = "";
 				if (alpm_pkg.origin == Alpm.Package.From.LOCALDB) {
@@ -456,15 +460,7 @@ namespace Pamac {
 					if (sync_pkg != null) {
 						repo_name = sync_pkg.db.name;
 					} else if (config.enable_aur) {
-						var loop = new MainLoop ();
-						get_aur_pkg.begin (alpm_pkg.name, (obj, res) => {
-							var aur_pkg = get_aur_pkg.end (res);
-							if (aur_pkg.name != "") {
-								repo_name = dgettext (null, "AUR");
-							}
-							loop.quit ();
-						});
-						loop.run ();
+						foreign_pkgnames += alpm_pkg.name;
 					}
 				} else if (alpm_pkg.origin == Alpm.Package.From.SYNCDB) {
 					unowned Alpm.Package? local_pkg = alpm_handle.localdb.get_pkg (alpm_pkg.name);
@@ -473,7 +469,33 @@ namespace Pamac {
 					}
 					repo_name = alpm_pkg.db.name;
 				}
-				if (repo_name != "" && repo_name != dgettext (null, "AUR")) {
+				if (repo_name == "" ) {
+					if (config.enable_aur) {
+						data.insert (alpm_pkg.name, new Package.from_struct (PackageStruct () {
+							name = alpm_pkg.name,
+							app_name = "",
+							version = alpm_pkg.version,
+							installed_version = (owned) installed_version,
+							desc = alpm_pkg.desc ?? "",
+							repo = (owned) repo_name,
+							size = alpm_pkg.isize,
+							download_size = alpm_pkg.download_size,
+							icon = ""
+						}));
+					} else {
+						pkgs.append (new Package.from_struct (PackageStruct () {
+							name = alpm_pkg.name,
+							app_name = "",
+							version = alpm_pkg.version,
+							installed_version = (owned) installed_version,
+							desc = alpm_pkg.desc ?? "",
+							repo = (owned) repo_name,
+							size = alpm_pkg.isize,
+							download_size = alpm_pkg.download_size,
+							icon = ""
+						}));
+					}
+				} else {
 					var apps = get_pkgname_matching_apps (alpm_pkg.name);
 					if (apps.length () > 0) {
 						// alpm_pkg provide some apps
@@ -503,55 +525,64 @@ namespace Pamac {
 							icon = ""
 						}));
 					}
-				} else {
-					pkgs.append (new Package.from_struct (PackageStruct () {
-						name = alpm_pkg.name,
-						app_name = "",
-						version = alpm_pkg.version,
-						installed_version = (owned) installed_version,
-						desc = alpm_pkg.desc ?? "",
-						repo = (owned) repo_name,
-						size = alpm_pkg.isize,
-						download_size = alpm_pkg.download_size,
-						icon = ""
-					}));
+				}
+				alpm_pkgs.next ();
+			}
+			// get aur infos
+			if (foreign_pkgnames.length > 0) {
+				var loop = new MainLoop ();
+				get_aur_pkgs.begin (foreign_pkgnames, (obj, res) => {
+					var aur_pkgs = get_aur_pkgs.end (res);
+					var iter = HashTableIter<string, AURPackage> (aur_pkgs);
+					unowned string pkgname;
+					unowned AURPackage aur_pkg;
+					while (iter.next (out pkgname, out aur_pkg)) {
+						if (aur_pkg.name != "") {
+							unowned Package pkg = data.lookup (pkgname);
+							if (pkg != null) {
+								pkg.repo = dgettext (null, "AUR");
+							}
+						}
+					}
+					loop.quit ();
+				});
+				loop.run ();
+				var iter = HashTableIter<string, Package> (data);
+				unowned Package pkg;
+				while (iter.next (null, out pkg)) {
+					pkgs.append (pkg);
 				}
 			}
 			return pkgs;
 		}
 
 		public List<Package> get_installed_pkgs () {
-			var pkgs = new List<Package> ();
-			unowned Alpm.List<unowned Alpm.Package> pkgcache = alpm_handle.localdb.pkgcache;
-			while (pkgcache != null) {
-				unowned Alpm.Package alpm_pkg = pkgcache.data;
-				foreach (unowned Package pkg in initialise_pkgs (alpm_pkg)) {
-					pkgs.append (pkg);
-				}
-				pkgcache.next ();
-			}
+			var pkgs = initialise_pkgs (alpm_handle.localdb.pkgcache);
+			pkgs.sort (pkg_compare_name);
 			return pkgs;
 		}
 
 		public List<Package> get_installed_apps () {
 			var result = new List<Package> ();
 			app_store.get_apps ().foreach ((app) => {
-				unowned string pkgname = app.get_pkgname_default ();
-				unowned Alpm.Package? local_pkg = alpm_handle.localdb.get_pkg (pkgname);
-				if (local_pkg != null) {
-					unowned Alpm.Package? sync_pkg = get_syncpkg (pkgname);
-					if (sync_pkg != null) {
-						result.append (new Package.from_struct (PackageStruct () {
-							name = sync_pkg.name,
-							app_name = get_app_name (app),
-							version = sync_pkg.version,
-							installed_version = local_pkg.version,
-							desc = get_app_summary (app),
-							repo = sync_pkg.db.name,
-							size = sync_pkg.isize,
-							download_size = sync_pkg.download_size,
-							icon = get_app_icon (app, sync_pkg.db.name)
-						}));
+				if (app.get_kind () == As.AppKind.DESKTOP) {
+					unowned string pkgname = app.get_pkgname_default ();
+					unowned Alpm.Package? local_pkg = alpm_handle.localdb.get_pkg (pkgname);
+					if (local_pkg != null) {
+						unowned Alpm.Package? sync_pkg = get_syncpkg (pkgname);
+						if (sync_pkg != null) {
+							result.append (new Package.from_struct (PackageStruct () {
+								name = sync_pkg.name,
+								app_name = get_app_name (app),
+								version = sync_pkg.version,
+								installed_version = local_pkg.version,
+								desc = get_app_summary (app),
+								repo = sync_pkg.db.name,
+								size = sync_pkg.isize,
+								download_size = sync_pkg.download_size,
+								icon = get_app_icon (app, sync_pkg.db.name)
+							}));
+						}
 					}
 				}
 			});
@@ -559,22 +590,22 @@ namespace Pamac {
 		}
 
 		public List<Package> get_explicitly_installed_pkgs () {
-			var pkgs = new List<Package> ();
+			Alpm.List<unowned Alpm.Package> alpm_pkgs = null;
 			unowned Alpm.List<unowned Alpm.Package> pkgcache = alpm_handle.localdb.pkgcache;
 			while (pkgcache != null) {
 				unowned Alpm.Package alpm_pkg = pkgcache.data;
 				if (alpm_pkg.reason == Alpm.Package.Reason.EXPLICIT) {
-					foreach (unowned Package pkg in initialise_pkgs (alpm_pkg)) {
-						pkgs.append (pkg);
-					}
+					alpm_pkgs.add (alpm_pkg);
 				}
 				pkgcache.next ();
 			}
+			var pkgs = initialise_pkgs (alpm_pkgs);
+			pkgs.sort (pkg_compare_name);
 			return pkgs;
 		}
 
 		public List<Package> get_foreign_pkgs () {
-			var pkgs = new List<Package> ();
+			Alpm.List<unowned Alpm.Package> alpm_pkgs = null;
 			unowned Alpm.List<unowned Alpm.Package> pkgcache = alpm_handle.localdb.pkgcache;
 			while (pkgcache != null) {
 				unowned Alpm.Package alpm_pkg = pkgcache.data;
@@ -590,17 +621,17 @@ namespace Pamac {
 					syncdbs.next ();
 				}
 				if (sync_found == false) {
-					foreach (unowned Package pkg in initialise_pkgs (alpm_pkg)) {
-						pkgs.append (pkg);
-					}
+					alpm_pkgs.add (alpm_pkg);
 				}
 				pkgcache.next ();
 			}
+			var pkgs = initialise_pkgs (alpm_pkgs);
+			pkgs.sort (pkg_compare_name);
 			return pkgs;
 		}
 
 		public List<Package> get_orphans () {
-			var pkgs = new List<Package> ();
+			Alpm.List<unowned Alpm.Package> alpm_pkgs = null;
 			unowned Alpm.List<unowned Alpm.Package> pkgcache = alpm_handle.localdb.pkgcache;
 			while (pkgcache != null) {
 				unowned Alpm.Package alpm_pkg = pkgcache.data;
@@ -609,9 +640,7 @@ namespace Pamac {
 					if (requiredby.length == 0) {
 						Alpm.List<string> optionalfor = alpm_pkg.compute_optionalfor ();
 						if (optionalfor.length == 0) {
-							foreach (unowned Package pkg in initialise_pkgs (alpm_pkg)) {
-								pkgs.append (pkg);
-							}
+							alpm_pkgs.add (alpm_pkg);
 						} else {
 							optionalfor.free_inner (GLib.free);
 						}
@@ -621,6 +650,8 @@ namespace Pamac {
 				}
 				pkgcache.next ();
 			}
+			var pkgs = initialise_pkgs (alpm_pkgs);
+			pkgs.sort (pkg_compare_name);
 			return pkgs;
 		}
 
@@ -731,22 +762,21 @@ namespace Pamac {
 			if (search_terms != null) {
 				Alpm.List<unowned Alpm.Package> appstream_result = null;
 				app_store.get_apps ().foreach ((app) => {
-					uint match_score = app.search_matches_all (search_terms);
-					if (match_score > 0) {
-						unowned string pkgname = app.get_pkgname_default ();
-						unowned Alpm.Package? alpm_pkg = alpm_handle.localdb.get_pkg (pkgname);
-						if (alpm_pkg != null) {
-							if (appstream_result.find (alpm_pkg, (Alpm.List.CompareFunc) alpm_pkg_compare_name) == null) {
-								appstream_result.add (alpm_pkg);
+					if (app.get_kind () == As.AppKind.DESKTOP) {
+						uint match_score = app.search_matches_all (search_terms);
+						if (match_score > 0) {
+							unowned string pkgname = app.get_pkgname_default ();
+							unowned Alpm.Package? alpm_pkg = alpm_handle.localdb.get_pkg (pkgname);
+							if (alpm_pkg != null) {
+								if (appstream_result.find (alpm_pkg, (Alpm.List.CompareFunc) alpm_pkg_compare_name) == null) {
+									appstream_result.add (alpm_pkg);
+								}
 							}
 						}
 					}
 				});
 				result.join (appstream_result.diff (result, (Alpm.List.CompareFunc) alpm_pkg_compare_name));
 			}
-			// use custom sort function
-			global_search_string = search_string;
-			result.sort (result.length, (Alpm.List.CompareFunc) alpm_pkg_sort_search_by_relevance);
 			return result;
 		}
 
@@ -775,15 +805,17 @@ namespace Pamac {
 			if (search_terms != null) {
 				Alpm.List<unowned Alpm.Package> appstream_result = null;
 				app_store.get_apps ().foreach ((app) => {
-					uint match_score = app.search_matches_all (search_terms);
-					if (match_score > 0) {
-						unowned string pkgname = app.get_pkgname_default ();
-						unowned Alpm.Package? alpm_pkg = alpm_handle.localdb.get_pkg (pkgname);
-						if (alpm_pkg == null) {
-							alpm_pkg = get_syncpkg (pkgname);
-							if (alpm_pkg != null) {
-								if (appstream_result.find (alpm_pkg, (Alpm.List.CompareFunc) alpm_pkg_compare_name) == null) {
-									appstream_result.add (alpm_pkg);
+					if (app.get_kind () == As.AppKind.DESKTOP) {
+						uint match_score = app.search_matches_all (search_terms);
+						if (match_score > 0) {
+							unowned string pkgname = app.get_pkgname_default ();
+							unowned Alpm.Package? alpm_pkg = alpm_handle.localdb.get_pkg (pkgname);
+							if (alpm_pkg == null) {
+								alpm_pkg = get_syncpkg (pkgname);
+								if (alpm_pkg != null) {
+									if (appstream_result.find (alpm_pkg, (Alpm.List.CompareFunc) alpm_pkg_compare_name) == null) {
+										appstream_result.add (alpm_pkg);
+									}
 								}
 							}
 						}
@@ -791,23 +823,14 @@ namespace Pamac {
 				});
 				result.join (appstream_result.diff (result, (Alpm.List.CompareFunc) alpm_pkg_compare_name));
 			}
-			// use custom sort function
-			global_search_string = search_string;
-			result.sort (result.length, (Alpm.List.CompareFunc) alpm_pkg_sort_search_by_relevance);
 			return result;
 		}
 
 		public List<Package> search_installed_pkgs (string search_string) {
-			var pkgs = new List<Package> ();
-			Alpm.List<unowned Alpm.Package> alpm_pkgs = search_local_db (search_string);
-			unowned Alpm.List<unowned Alpm.Package> list = alpm_pkgs;
-			while (list != null) {
-				unowned Alpm.Package alpm_pkg = list.data;
-				foreach (unowned Package pkg in initialise_pkgs (alpm_pkg)) {
-					pkgs.append (pkg);
-				}
-				list.next ();
-			}
+			var pkgs = initialise_pkgs (search_local_db (search_string));
+			// use custom sort function
+			global_search_string = search_string;
+			pkgs.sort (pkg_sort_search_by_relevance);
 			return pkgs;
 		}
 
@@ -823,16 +846,10 @@ namespace Pamac {
 		}
 
 		public List<Package> search_repos_pkgs (string search_string) {
-			var pkgs = new List<Package> ();
-			Alpm.List<unowned Alpm.Package> alpm_pkgs = search_sync_dbs (search_string);
-			unowned Alpm.List<unowned Alpm.Package> list = alpm_pkgs;
-			while (list != null) {
-				unowned Alpm.Package alpm_pkg = list.data;
-				foreach (unowned Package pkg in initialise_pkgs (alpm_pkg)) {
-					pkgs.append (pkg);
-				}
-				list.next ();
-			}
+			var pkgs = initialise_pkgs (search_sync_dbs (search_string));
+			// use custom sort function
+			global_search_string = search_string;
+			pkgs.sort (pkg_sort_search_by_relevance);
 			return pkgs;
 		}
 
@@ -871,39 +888,32 @@ namespace Pamac {
 			if (search_terms != null) {
 				Alpm.List<unowned Alpm.Package> appstream_result = null;
 				app_store.get_apps ().foreach ((app) => {
-					uint match_score = app.search_matches_all (search_terms);
-					if (match_score > 0) {
-						unowned string pkgname = app.get_pkgname_default ();
-						unowned Alpm.Package? alpm_pkg = alpm_handle.localdb.get_pkg (pkgname);
-						if (alpm_pkg == null) {
-							alpm_pkg = get_syncpkg (pkgname);
-						}
-						if (alpm_pkg != null) {
-							if (appstream_result.find (alpm_pkg, (Alpm.List.CompareFunc) alpm_pkg_compare_name) == null) {
-								appstream_result.add (alpm_pkg);
+					if (app.get_kind () == As.AppKind.DESKTOP) {
+						uint match_score = app.search_matches_all (search_terms);
+						if (match_score > 0) {
+							unowned string pkgname = app.get_pkgname_default ();
+							unowned Alpm.Package? alpm_pkg = alpm_handle.localdb.get_pkg (pkgname);
+							if (alpm_pkg == null) {
+								alpm_pkg = get_syncpkg (pkgname);
+							}
+							if (alpm_pkg != null) {
+								if (appstream_result.find (alpm_pkg, (Alpm.List.CompareFunc) alpm_pkg_compare_name) == null) {
+									appstream_result.add (alpm_pkg);
+								}
 							}
 						}
 					}
 				});
 				result.join (appstream_result.diff (result, (Alpm.List.CompareFunc) alpm_pkg_compare_name));
 			}
-			// use custom sort function
-			global_search_string = search_string;
-			result.sort (result.length, (Alpm.List.CompareFunc) alpm_pkg_sort_search_by_relevance);
 			return result;
 		}
 
 		public List<Package> search_pkgs (string search_string) {
-			var pkgs = new List<Package> ();
-			Alpm.List<unowned Alpm.Package> alpm_pkgs = search_all_dbs (search_string);
-			unowned Alpm.List<unowned Alpm.Package> list = alpm_pkgs;
-			while (list != null) {
-				unowned Alpm.Package alpm_pkg = list.data;
-				foreach (unowned Package pkg in initialise_pkgs (alpm_pkg)) {
-					pkgs.append (pkg);
-				}
-				list.next ();
-			}
+			var pkgs = initialise_pkgs (search_all_dbs (search_string));
+			// use custom sort function
+			global_search_string = search_string;
+			pkgs.sort (pkg_sort_search_by_relevance);
 			return pkgs;
 		}
 
@@ -1088,7 +1098,7 @@ namespace Pamac {
 		}
 
 		public List<Package> get_repo_pkgs (string repo) {
-			var pkgs = new List<Package> ();
+			Alpm.List<unowned Alpm.Package> alpm_pkgs = null;
 			unowned Alpm.List<unowned Alpm.DB> syncdbs = alpm_handle.syncdbs;
 			while (syncdbs != null) {
 				unowned Alpm.DB db = syncdbs.data;
@@ -1098,13 +1108,9 @@ namespace Pamac {
 						unowned Alpm.Package sync_pkg = pkgcache.data;
 						unowned Alpm.Package? local_pkg = alpm_handle.localdb.get_pkg (sync_pkg.name);
 						if (local_pkg != null) {
-							foreach (unowned Package pkg in initialise_pkgs (local_pkg)) {
-								pkgs.append (pkg);
-							}
+							alpm_pkgs.add (local_pkg);
 						} else {
-							foreach (unowned Package pkg in initialise_pkgs (sync_pkg)) {
-								pkgs.append (pkg);
-							}
+							alpm_pkgs.add (sync_pkg);
 						}
 						pkgcache.next ();
 					}
@@ -1112,6 +1118,8 @@ namespace Pamac {
 				}
 				syncdbs.next ();
 			}
+			var pkgs = initialise_pkgs (alpm_pkgs);
+			pkgs.sort (pkg_compare_name);
 			return pkgs;
 		}
 
@@ -1183,16 +1191,8 @@ namespace Pamac {
 		}
 
 		public List<Package> get_group_pkgs (string group_name) {
-			var pkgs = new List<Package> ();
-			Alpm.List<unowned Alpm.Package> alpm_pkgs = group_pkgs (group_name);
-			unowned Alpm.List<unowned Alpm.Package> list = alpm_pkgs;
-			while (list != null) {
-				unowned Alpm.Package alpm_pkg = list.data;
-				foreach (unowned Package pkg in initialise_pkgs (alpm_pkg)) {
-					pkgs.append (pkg);
-				}
-				list.next ();
-			}
+			var pkgs = initialise_pkgs (group_pkgs (group_name));
+			pkgs.sort (pkg_compare_name);
 			return pkgs;
 		}
 
@@ -1274,7 +1274,8 @@ namespace Pamac {
 					if (appname != "") {
 						bool found = false;
 						app_store.get_apps ().foreach ((app) => {
-							if (!found && get_app_name (app) == appname) {
+							if (!found && app.get_kind () == As.AppKind.DESKTOP
+								&& get_app_name (app) == appname) {
 								found = true;
 								if (app.get_pkgname_default () == alpm_pkg.name) {
 									app_name = appname;
@@ -2088,9 +2089,13 @@ private int alpm_pkg_compare_name (Alpm.Package pkg_a, Alpm.Package pkg_b) {
 	return strcmp (pkg_a.name, pkg_b.name);
 }
 
+private int pkg_compare_name (Pamac.Package pkg_a, Pamac.Package pkg_b) {
+	return strcmp (pkg_a.name, pkg_b.name);
+}
+
 private string global_search_string;
 
-private int alpm_pkg_sort_search_by_relevance (Alpm.Package pkg_a, Alpm.Package pkg_b) {
+private int pkg_sort_search_by_relevance (Pamac.Package pkg_a, Pamac.Package pkg_b) {
 	if (global_search_string != null) {
 		// display exact match first
 		if (pkg_a.name == global_search_string) {

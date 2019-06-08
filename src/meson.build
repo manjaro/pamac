@@ -94,7 +94,7 @@ custom_target('pamac typelib', command: [g_ir_compiler, '--shared-library', 'lib
 libpamac_gtk_dep = declare_dependency(link_with: libpamac_gtk)
 
 executable('pamac-manager',
-	sources: ['version.vala', 'history_dialog.vala', preferences_sources, 'manager_window.vala', 'manager.vala', 'search-provider.vala', manager_resources],
+	sources: ['version.vala', 'history_dialog.vala', preferences_sources, 'package_row.vala', 'aur_row.vala', 'manager_window.vala', 'manager.vala', 'search-provider.vala', manager_resources],
 	dependencies: [gtk3, libsoup, libpamac_dep, libpamac_gtk_dep],
 	vala_args: common_vala_args,
 	c_args: common_c_args,

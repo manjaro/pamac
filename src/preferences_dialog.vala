@@ -384,6 +384,7 @@ namespace Pamac {
 						transaction.choose_pkgs_dialog.pkgs_list.insert_with_values (null, -1, 0, false, 1, pkg.name);
 					}
 				}
+				transaction.choose_pkgs_dialog.valid_button.grab_focus ();
 				this.get_window ().set_cursor (null);
 				if (transaction.choose_pkgs_dialog.run () == Gtk.ResponseType.OK) {
 					var ignorepkg_string = new StringBuilder ();
@@ -411,9 +412,6 @@ namespace Pamac {
 					transaction.start_write_alpm_config (new_alpm_conf);
 				}
 				transaction.choose_pkgs_dialog.hide ();
-				while (Gtk.events_pending ()) {
-					Gtk.main_iteration ();
-				}
 			});
 		}
 
