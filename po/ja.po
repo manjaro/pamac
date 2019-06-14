@@ -8,15 +8,15 @@
 # ふうせん Fu-sen. | BALLOON a.k.a. Fu-sen., 2015
 # philm <philm@manjaro.org>, 2015
 # Takefumi Nagata, 2013-2018
-# UTUMI Hirosi <utuhiro78@yahoo.co.jp>, 2017-2018
+# UTUMI Hirosi <utuhiro78@yahoo.co.jp>, 2017-2019
 # David Blaszyk <david@sudomail.ne.jp>, 2017
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2019-05-03 12:41+0200\n"
-"PO-Revision-Date: 2019-05-04 01:14+0000\n"
-"Last-Translator: philm <philm@manjaro.org>\n"
+"PO-Revision-Date: 2019-06-05 23:44+0000\n"
+"Last-Translator: UTUMI Hirosi <utuhiro78@yahoo.co.jp>\n"
 "Language-Team: Japanese (http://www.transifex.com/manjarolinux/manjaro-pamac/language/ja/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -713,13 +713,13 @@ msgstr "全世界"
 
 #: src/preferences_dialog.vala src/cli.vala
 msgid "To delete"
-msgstr ""
+msgstr "削除するもの"
 
 #: src/preferences_dialog.vala src/cli.vala
 #, c-format
 msgid "%u file"
 msgid_plural "%u files"
-msgstr[0] ""
+msgstr[0] "%u ファイル"
 
 #: src/preferences_dialog.vala
 msgid "Choose Ignored Upgrades"
@@ -765,7 +765,7 @@ msgstr "削除したパッケージのサイズの合計"
 
 #: src/transaction-cli.vala
 msgid "Apply transaction"
-msgstr ""
+msgstr "トランザクションを適用する"
 
 #: src/transaction-cli.vala
 #, c-format
@@ -902,7 +902,7 @@ msgstr "AURからビルド用のファイルをクローンせず、ローカル
 
 #: src/cli.vala
 msgid "bypass any and all confirmation messages"
-msgstr ""
+msgstr "全ての確認メッセージを無視する"
 
 #: src/cli.vala
 msgid "glob"
@@ -980,34 +980,34 @@ msgstr "パッケージのダウングレードを可能にする"
 
 #: src/cli.vala
 msgid "Clean packages cache or build files"
-msgstr ""
+msgstr "パッケージキャッシュまたはビルドファイルを空にする"
 
 #: src/cli.vala
 msgid "number"
-msgstr ""
+msgstr "数字"
 
 #: src/cli.vala
 msgid ""
 "specify how many versions of each package are kept in the cache directory"
-msgstr ""
+msgstr "キャッシュディレクトリに保持する各パッケージのバージョン数を指定する"
 
 #: src/cli.vala
 msgid "only target uninstalled packages"
-msgstr ""
+msgstr "アンインストール済みのパッケージのみを対象とする"
 
 #: src/cli.vala
 msgid ""
 "remove all build files, the build directory is the one specified in "
 "pamac.conf"
-msgstr ""
+msgstr "全てのビルドファイルを削除します。ビルドディレクトリはpamac.confで指定されているものです"
 
 #: src/cli.vala
 msgid "do not remove files, only find candidate packages"
-msgstr ""
+msgstr "ファイルを削除せず、候補パッケージの検索のみを行う"
 
 #: src/cli.vala
 msgid "also display all files names"
-msgstr ""
+msgstr "全てのファイル名も表示する"
 
 #: src/cli.vala resources/manager_window.ui
 msgid "Version"
@@ -1045,7 +1045,7 @@ msgstr "キャッシュを削除"
 
 #: src/cli.vala resources/preferences_dialog.ui
 msgid "Clean build files"
-msgstr ""
+msgstr "ビルドファイルを空にする"
 
 #: src/cli.vala
 #, c-format

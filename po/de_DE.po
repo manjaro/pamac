@@ -5,7 +5,7 @@
 # 
 # Translators:
 # Andreas Eitel, 2018
-# Andreas Eitel <github-aneitel@online.de>, 2018
+# Andreas Eitel <github-aneitel@online.de>, 2018-2019
 # Jan Jansen, 2017
 # Jan Jansen, 2017
 # N3tt3rm4n, 2017
@@ -16,8 +16,8 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2019-05-03 12:41+0200\n"
-"PO-Revision-Date: 2019-05-04 01:14+0000\n"
-"Last-Translator: philm <philm@manjaro.org>\n"
+"PO-Revision-Date: 2019-05-30 19:55+0000\n"
+"Last-Translator: Andreas Eitel <github-aneitel@online.de>\n"
 "Language-Team: German (Germany) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/de_DE/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -717,14 +717,14 @@ msgstr "Weltweit"
 
 #: src/preferences_dialog.vala src/cli.vala
 msgid "To delete"
-msgstr ""
+msgstr "Zum Löschen"
 
 #: src/preferences_dialog.vala src/cli.vala
 #, c-format
 msgid "%u file"
 msgid_plural "%u files"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%u Datei"
+msgstr[1] "%u Dateien"
 
 #: src/preferences_dialog.vala
 msgid "Choose Ignored Upgrades"
@@ -770,7 +770,7 @@ msgstr "Gesamtgröße entfernt"
 
 #: src/transaction-cli.vala
 msgid "Apply transaction"
-msgstr ""
+msgstr "Transaktion anwenden"
 
 #: src/transaction-cli.vala
 #, c-format
@@ -907,7 +907,7 @@ msgstr "klone keine Build-Dateien von AUR, nutze nur lokale Dateien"
 
 #: src/cli.vala
 msgid "bypass any and all confirmation messages"
-msgstr ""
+msgstr "alle Bestätigungsmeldungen umgehen"
 
 #: src/cli.vala
 msgid "glob"
@@ -985,34 +985,34 @@ msgstr "Paketdegradierung einschalten"
 
 #: src/cli.vala
 msgid "Clean packages cache or build files"
-msgstr ""
+msgstr "Bereinigen des Paket-Cache oder der Build-Dateien"
 
 #: src/cli.vala
 msgid "number"
-msgstr ""
+msgstr "Nummer"
 
 #: src/cli.vala
 msgid ""
 "specify how many versions of each package are kept in the cache directory"
-msgstr ""
+msgstr "Geben Sie an, wie viele Versionen jedes Pakets im Cache-Verzeichnis gespeichert sind"
 
 #: src/cli.vala
 msgid "only target uninstalled packages"
-msgstr ""
+msgstr "nur auf deinstallierte Pakete anwenden"
 
 #: src/cli.vala
 msgid ""
 "remove all build files, the build directory is the one specified in "
 "pamac.conf"
-msgstr ""
+msgstr "alle Build-Dateien entfernen, das Build-Verzeichnis ist das in der pamac.conf angegebene"
 
 #: src/cli.vala
 msgid "do not remove files, only find candidate packages"
-msgstr ""
+msgstr "keine Dateien entfernen, nur Kandidatenpakete finden"
 
 #: src/cli.vala
 msgid "also display all files names"
-msgstr ""
+msgstr "zeigt auch alle Dateinamen an"
 
 #: src/cli.vala resources/manager_window.ui
 msgid "Version"
@@ -1050,7 +1050,7 @@ msgstr "Puffer leeren"
 
 #: src/cli.vala resources/preferences_dialog.ui
 msgid "Clean build files"
-msgstr ""
+msgstr "Bereinigung der Build-Dateien"
 
 #: src/cli.vala
 #, c-format

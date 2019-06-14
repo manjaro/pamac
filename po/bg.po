@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2019-05-03 12:41+0200\n"
-"PO-Revision-Date: 2019-05-07 05:32+0000\n"
+"PO-Revision-Date: 2019-05-14 12:54+0000\n"
 "Last-Translator: Galin Iskrenov <loot270@abv.bg>\n"
 "Language-Team: Bulgarian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/bg/)\n"
 "MIME-Version: 1.0\n"
@@ -185,7 +185,7 @@ msgstr "Транзакцията прекратена"
 
 #: src/transaction.vala
 msgid "Checking dependencies"
-msgstr "Проверка на зависимостите"
+msgstr "Проверка на зависимости"
 
 #: src/transaction.vala
 msgid "Checking file conflicts"

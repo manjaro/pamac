@@ -6,6 +6,7 @@
 # Translators:
 # Morten Rene <arath.inc@gmail.com>, 2014
 # Bård Spein <baard.spein@gmail.com>, 2013
+# Elias Nykrem <bloodaxeNOR@protonmail.com>, 2019
 # Guillaume Benoit <guillaume@manjaro.org>, 2013
 # Harald H. <haarektrans@gmail.com>, 2015
 # Harald H. <haarektrans@gmail.com>, 2015
@@ -28,8 +29,8 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2019-05-03 12:41+0200\n"
-"PO-Revision-Date: 2019-05-04 01:14+0000\n"
-"Last-Translator: philm <philm@manjaro.org>\n"
+"PO-Revision-Date: 2019-06-09 23:37+0000\n"
+"Last-Translator: Elias Nykrem <bloodaxeNOR@protonmail.com>\n"
 "Language-Team: Norwegian Bokmål (http://www.transifex.com/manjarolinux/manjaro-pamac/language/nb/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -70,17 +71,17 @@ msgstr "Pakken %s har ikke en gyldig arkitektur"
 #: src/alpm_utils.vala
 #, c-format
 msgid "unable to satisfy dependency '%s' required by %s"
-msgstr ""
+msgstr "kunne ikke tilfredsstille avhengighet '1%s'  som kreves av 1%s"
 
 #: src/alpm_utils.vala
 #, c-format
 msgid "installing %s (%s) breaks dependency '%s' required by %s"
-msgstr ""
+msgstr "å installere 1%s (1%s) bryter avhengighet '1%s' som kreves av 1%s"
 
 #: src/alpm_utils.vala
 #, c-format
 msgid "removing %s breaks dependency '%s' required by %s"
-msgstr ""
+msgstr "å fjerne 1%s bryter avhengighet '1%s' som kreves av 1%s"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -175,12 +176,12 @@ msgstr ""
 #: src/transaction.vala
 #, c-format
 msgid "Checking %s dependencies"
-msgstr ""
+msgstr "Sjekker 1%s avhengigheter"
 
 #: src/transaction.vala
 #, c-format
 msgid "key %s could not be imported"
-msgstr ""
+msgstr "nøkkel 1%s kunne ikke importeres"
 
 #: src/transaction.vala
 msgid "Preparing"
@@ -355,7 +356,7 @@ msgstr "Pakke Behandler"
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
 msgid "Choose optional dependencies for %s"
-msgstr ""
+msgstr "Velg valgfrie avhengigheter for 1%s"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
@@ -368,7 +369,7 @@ msgstr "Importer PGP-nøkkel"
 
 #: src/transaction-gtk.vala
 msgid "Trust and Import"
-msgstr ""
+msgstr "Stol på og importer"
 
 #: src/transaction-gtk.vala src/manager_window.vala
 #: resources/transaction_sum_dialog.ui resources/manager_window.ui
@@ -379,12 +380,12 @@ msgstr "_Avbryt"
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
 msgid "The PGP key %s is needed to verify %s source files"
-msgstr ""
+msgstr "PGP nøkkel 1%s er nødvendig for å verifisere 1%s"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
 msgid "Trust %s and import the PGP key"
-msgstr ""
+msgstr "Stol på 1%s og importer PGP nøkkelen"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "To remove"
@@ -438,11 +439,11 @@ msgstr ""
 
 #: src/installer.vala src/cli.vala
 msgid "Remove packages"
-msgstr ""
+msgstr "Fjern pakker"
 
 #: src/installer.vala src/cli.vala
 msgid "package(s)"
-msgstr ""
+msgstr "pakke(r)"
 
 #: src/tray.vala src/manager_window.vala src/cli.vala
 msgid "Your system is up-to-date"
@@ -470,7 +471,7 @@ msgstr "Ingen pakke funnet"
 
 #: src/manager_window.vala
 msgid "Checking for Updates"
-msgstr ""
+msgstr "Ser etter oppdateringer"
 
 #: src/manager_window.vala
 msgid "Deselect"
@@ -713,7 +714,7 @@ msgstr "Hvor ofte skal oppdateringer sees etter, verdi i timer "
 
 #: src/preferences_dialog.vala resources/preferences_dialog.ui
 msgid "Maximum parallel downloads"
-msgstr ""
+msgstr "Maks parallelle nedlastninger"
 
 #: src/preferences_dialog.vala src/cli.vala resources/preferences_dialog.ui
 msgid "Number of versions of each package to keep in the cache"
@@ -729,14 +730,14 @@ msgstr "Verdensomspennende"
 
 #: src/preferences_dialog.vala src/cli.vala
 msgid "To delete"
-msgstr ""
+msgstr "Å slette"
 
 #: src/preferences_dialog.vala src/cli.vala
 #, c-format
 msgid "%u file"
 msgid_plural "%u files"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "1%u fil"
+msgstr[1] "%u filer"
 
 #: src/preferences_dialog.vala
 msgid "Choose Ignored Upgrades"
@@ -774,15 +775,15 @@ msgstr ""
 
 #: src/transaction-cli.vala
 msgid "Total installed size"
-msgstr ""
+msgstr "Total mengde installert"
 
 #: src/transaction-cli.vala
 msgid "Total removed size"
-msgstr ""
+msgstr "Total mengde fjernet"
 
 #: src/transaction-cli.vala
 msgid "Apply transaction"
-msgstr ""
+msgstr "Gjennomfør transaksjon"
 
 #: src/transaction-cli.vala
 #, c-format
@@ -795,7 +796,7 @@ msgstr ""
 
 #: src/cli.vala
 msgid "No PKGBUILD file found in current directory"
-msgstr ""
+msgstr "Ingen PKBUILD fil funnet i gjeldende mappe"
 
 #: src/cli.vala
 msgid "Check development packages updates as root is not allowed"
@@ -803,11 +804,11 @@ msgstr ""
 
 #: src/cli.vala
 msgid "Available actions"
-msgstr ""
+msgstr "Tilgjengelige handlinger"
 
 #: src/cli.vala
 msgid "action"
-msgstr ""
+msgstr "handling"
 
 #: src/cli.vala
 msgid "options"
@@ -815,24 +816,24 @@ msgstr "valg"
 
 #: src/cli.vala
 msgid "Search for packages or files, multiple search terms can be specified"
-msgstr ""
+msgstr "Søk etter pakker eller filer, flere krav for søk kan bli spesifisert"
 
 #: src/cli.vala
 msgid "file(s)"
-msgstr ""
+msgstr "fil(er)"
 
 #: src/cli.vala
 msgid "also search in AUR"
-msgstr ""
+msgstr "søk også i AUR"
 
 #: src/cli.vala
 msgid ""
 "search for packages which own the given filenames (filenames can be partial)"
-msgstr ""
+msgstr "søk etter pakker som er i besittelse av følgende filnavn (kan være segment av filnavnet)"
 
 #: src/cli.vala
 msgid "Display package details, multiple packages can be specified"
-msgstr ""
+msgstr "Vis pakkedetaljer, flere pakker kan bli spesifisert"
 
 #: src/cli.vala
 msgid "List packages, groups, repositories or files"
@@ -840,7 +841,7 @@ msgstr ""
 
 #: src/cli.vala
 msgid "group(s)"
-msgstr ""
+msgstr "Gruppe(r)"
 
 #: src/cli.vala
 msgid "repo(s)"
@@ -878,7 +879,7 @@ msgstr ""
 
 #: src/cli.vala
 msgid "Clone or sync packages build files from AUR"
-msgstr ""
+msgstr "Klone eller synkronisere  pakkens bygge filer fra AUR"
 
 #: src/cli.vala
 msgid "dir"
@@ -892,20 +893,20 @@ msgstr ""
 
 #: src/cli.vala
 msgid "also clone needed dependencies"
-msgstr ""
+msgstr "også klone nødvendige avhengigheter"
 
 #: src/cli.vala
 msgid "overwrite existing files"
-msgstr ""
+msgstr "overskriv eksisterende filer"
 
 #: src/cli.vala
 msgid "Build packages from AUR and install them with their dependencies"
-msgstr ""
+msgstr "Bygg pakkene fra AUR og installer de med deres avhengigheter"
 
 #: src/cli.vala
 msgid ""
 "If no package name is given, use the PKGBUILD file in the current directory"
-msgstr ""
+msgstr "Om ikke noe pakkenavn er oppgitt, bruk PKBUILD filen i gjeldende mappe"
 
 #: src/cli.vala
 msgid ""
@@ -915,11 +916,11 @@ msgstr ""
 
 #: src/cli.vala
 msgid "do not clone build files from AUR, only use local files"
-msgstr ""
+msgstr "ikke klone byggefiler fra AUR, benytt bare lokale filer"
 
 #: src/cli.vala
 msgid "bypass any and all confirmation messages"
-msgstr ""
+msgstr "forbigå alle bekreftende meldinger"
 
 #: src/cli.vala
 msgid "glob"
@@ -957,7 +958,7 @@ msgstr ""
 
 #: src/cli.vala
 msgid "also check updates in AUR"
-msgstr ""
+msgstr "sjekk også oppdateringer i AUR"
 
 #: src/cli.vala
 msgid "also check development packages updates (use with --aur)"
@@ -1045,12 +1046,12 @@ msgstr "Størrelse"
 #: src/cli.vala
 #, c-format
 msgid "No package owns %s"
-msgstr ""
+msgstr "Ingen pakke eier 1%s"
 
 #: src/cli.vala
 #, c-format
 msgid "%s is owned by %s"
-msgstr ""
+msgstr "1%s eies av 1%s"
 
 #: src/cli.vala resources/preferences_dialog.ui
 msgid "Remove only the versions of uninstalled packages"
@@ -1062,14 +1063,14 @@ msgstr "Tøm hurtiglageret"
 
 #: src/cli.vala resources/preferences_dialog.ui
 msgid "Clean build files"
-msgstr ""
+msgstr "Rensk opp byggefiler"
 
 #: src/cli.vala
 #, c-format
 msgid "There is %u member in group %s"
 msgid_plural "There are %u members in group %s"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Der er 1%u medlem i gruppen 2%s"
+msgstr[1] "Der er %u medlemmer i gruppen 2%s"
 
 #: src/cli.vala
 msgid "all"
@@ -1163,7 +1164,7 @@ msgstr "Se etter oppdateringer"
 
 #: resources/preferences_dialog.ui
 msgid "Automatically download updates"
-msgstr ""
+msgstr "Automatisk last ned oppdateringer"
 
 #: resources/preferences_dialog.ui
 msgid "Hide tray icon when no update available"
@@ -1209,7 +1210,7 @@ msgstr "Se etter oppdateringer fra AUR"
 
 #: resources/preferences_dialog.ui
 msgid "Check for development packages updates"
-msgstr ""
+msgstr "Se etter oppdateringer for utviklerpakker"
 
 #: resources/preferences_dialog.ui
 msgid "Cache"
