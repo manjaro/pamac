@@ -2646,12 +2646,8 @@ namespace Pamac {
 
 		[GtkCallback]
 		void on_preferences_button_clicked () {
-			if (transaction.get_lock ()) {
-				this.get_window ().set_cursor (new Gdk.Cursor.for_display (Gdk.Display.get_default (), Gdk.CursorType.WATCH));
-				run_preferences_dialog ();
-			} else {
-				transaction.display_error (dgettext (null, "Waiting for another package manager to quit"), {});
-			}
+			this.get_window ().set_cursor (new Gdk.Cursor.for_display (Gdk.Display.get_default (), Gdk.CursorType.WATCH));
+			run_preferences_dialog ();
 		}
 
 		public void run_preferences_dialog () {
@@ -2670,7 +2666,6 @@ namespace Pamac {
 		}
 
 		void on_run_preferences_dialog_finished () {
-			transaction.unlock ();
 			if (browse_stack.visible_child_name == "updates") {
 				database.get_updates.begin (on_get_updates_finished);
 				origin_stack.visible_child_name = "checking";
@@ -2752,7 +2747,7 @@ namespace Pamac {
 			this.get_window ().set_cursor (new Gdk.Cursor.for_display (Gdk.Display.get_default (), Gdk.CursorType.WATCH));
 			sysupgrade_running = true;
 			apply_button.sensitive = false;
-			cancel_button.sensitive = true;
+			cancel_button.sensitive = false;
 			string[] temp_ign_pkgs = {};
 			foreach (unowned string name in temporary_ignorepkgs) {
 				temp_ign_pkgs += name;
@@ -2854,7 +2849,7 @@ namespace Pamac {
 
 		void on_start_preparing () {
 			this.get_window ().set_cursor (new Gdk.Cursor.for_display (Gdk.Display.get_default (), Gdk.CursorType.WATCH));
-			cancel_button.sensitive = true;
+			cancel_button.sensitive = false;
 		}
 
 		void on_stop_preparing () {

@@ -585,12 +585,6 @@ namespace Pamac {
 			transaction = new TransactionCli (database);
 			transaction.finished.connect (on_transaction_finished);
 			transaction.sysupgrade_finished.connect (on_transaction_finished);
-			transaction.start_preparing.connect (() => {
-				trans_cancellable = true;
-			});
-			transaction.stop_preparing.connect (() => {
-				trans_cancellable = false;
-			});
 			transaction.start_downloading.connect (() => {
 				trans_cancellable = true;
 			});
@@ -623,7 +617,7 @@ namespace Pamac {
 			} else {
 				stdout.printf ("\n");
 			}
-			return false;
+			return true;
 		}
 
 		int get_term_width () {

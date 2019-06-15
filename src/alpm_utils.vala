@@ -726,6 +726,10 @@ namespace Pamac {
 					success = false;
 				}
 			}
+			if (cancellable.is_cancelled ()) {
+				trans_release ();
+				return false;
+			}
 			return success;
 		}
 
