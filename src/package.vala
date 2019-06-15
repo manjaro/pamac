@@ -276,7 +276,6 @@ namespace Pamac {
 		List<Package> to_reinstall_priv;
 		List<Package> to_remove_priv;
 		List<AURPackage> to_build_priv;
-		List<Package> aur_conflicts_to_remove_priv;
 		List<string> aur_pkgbases_to_build_priv;
 		public List<Package> to_install { get {return to_install_priv;} }
 		public List<Package> to_upgrade { get {return to_upgrade_priv;} }
@@ -284,7 +283,6 @@ namespace Pamac {
 		public List<Package> to_reinstall { get {return to_reinstall_priv;} }
 		public List<Package> to_remove { get {return to_remove_priv;} }
 		public List<AURPackage> to_build { get {return to_build_priv;} }
-		public List<Package> aur_conflicts_to_remove { get {return aur_conflicts_to_remove_priv;} }
 		public List<string> aur_pkgbases_to_build { get {return aur_pkgbases_to_build_priv;} }
 		internal TransactionSummary (TransactionSummaryStruct summary_struct) {
 			to_install_priv = new List<Package> ();
@@ -293,29 +291,34 @@ namespace Pamac {
 			to_reinstall_priv = new List<Package> ();
 			to_remove_priv = new List<Package> ();
 			to_build_priv = new List<AURPackage> ();
-			aur_conflicts_to_remove_priv = new List<Package> ();
 			aur_pkgbases_to_build_priv = new List<string> ();
 			foreach (unowned PackageStruct pkg_struct in summary_struct.to_install) {
 				to_install_priv.append (new Package.from_struct (pkg_struct));
 			}
+			to_install_priv.sort (compare_name_pkg);
 			foreach (unowned PackageStruct pkg_struct in summary_struct.to_upgrade) {
 				to_upgrade_priv.append (new Package.from_struct (pkg_struct));
 			}
+			to_upgrade_priv.sort (compare_name_pkg);
 			foreach (unowned PackageStruct pkg_struct in summary_struct.to_downgrade) {
 				to_downgrade_priv.append (new Package.from_struct (pkg_struct));
 			}
+			to_downgrade_priv.sort (compare_name_pkg);
 			foreach (unowned PackageStruct pkg_struct in summary_struct.to_reinstall) {
 				to_reinstall_priv.append (new Package.from_struct (pkg_struct));
 			}
+			to_reinstall_priv.sort (compare_name_pkg);
 			foreach (unowned PackageStruct pkg_struct in summary_struct.to_remove) {
 				to_remove_priv.append (new Package.from_struct (pkg_struct));
 			}
 			foreach (unowned AURPackageStruct pkg_struct in summary_struct.to_build) {
 				to_build_priv.append (new AURPackage.from_struct (pkg_struct));
 			}
+			to_build_priv.sort (compare_name_aur);
 			foreach (unowned PackageStruct pkg_struct in summary_struct.aur_conflicts_to_remove) {
-				aur_conflicts_to_remove_priv.append (new Package.from_struct (pkg_struct));
+				to_remove_priv.append (new Package.from_struct (pkg_struct));
 			}
+			to_remove_priv.sort (compare_name_pkg);
 			foreach (unowned string str in summary_struct.aur_pkgbases_to_build) {
 				aur_pkgbases_to_build_priv.append (str);
 			}
@@ -340,4 +343,12 @@ namespace Pamac {
 			outofdate_priv = (owned) outofdate;
 		}
 	}
+}
+
+int compare_name_pkg (Pamac.Package pkg_a, Pamac.Package pkg_b) {
+	return strcmp (pkg_a.name, pkg_b.name);
+}
+
+int compare_name_aur (Pamac.AURPackage pkg_a, Pamac.AURPackage pkg_b) {
+	return strcmp (pkg_a.name, pkg_b.name);
 }

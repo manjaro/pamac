@@ -314,7 +314,6 @@ namespace Pamac {
 			} else {
 				uint must_confirm_length = summary.to_downgrade.length ()
 									+ summary.to_remove.length ()
-									+ summary.aur_conflicts_to_remove.length ()
 									+ summary.to_build.length ();
 				if (no_confirm_upgrade
 					&& must_confirm_length == 0
@@ -351,22 +350,6 @@ namespace Pamac {
 				transaction_sum_dialog.sum_list.get_iter (out iter, new Gtk.TreePath.from_indices (pos));
 				transaction_sum_dialog.sum_list.set (iter, 0, "<b>%s</b>".printf (dgettext (null, "To remove") + ":"));
 				to_remove_printed = true;
-			}
-			if (summary.aur_conflicts_to_remove.length () > 0) {
-				// do not add type enum because it is just infos
-				foreach (unowned Package pkg in summary.aur_conflicts_to_remove) {
-					transaction_summary.add (pkg.name);
-					transaction_sum_dialog.sum_list.insert_with_values (out iter, -1,
-												1, pkg.name,
-												2, pkg.version,
-												4, pkg.repo);
-				}
-				if (!to_remove_printed) {
-					Gtk.TreePath path = transaction_sum_dialog.sum_list.get_path (iter);
-					uint pos = (path.get_indices ()[0]) - (summary.aur_conflicts_to_remove.length () - 1);
-					transaction_sum_dialog.sum_list.get_iter (out iter, new Gtk.TreePath.from_indices (pos));
-					transaction_sum_dialog.sum_list.set (iter, 0, "<b>%s</b>".printf (dgettext (null, "To remove") + ":"));
-				}
 			}
 			if (summary.to_downgrade.length () > 0) {
 				foreach (unowned Package pkg in summary.to_downgrade) {
