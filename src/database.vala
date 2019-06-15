@@ -431,6 +431,8 @@ namespace Pamac {
 					repo = (owned) repo_name,
 					size = alpm_pkg.isize,
 					download_size = alpm_pkg.download_size,
+					builddate = alpm_pkg.builddate,
+					installdate = alpm_pkg.installdate,
 					icon = (owned) icon
 				};
 			} else {
@@ -480,6 +482,8 @@ namespace Pamac {
 							repo = (owned) repo_name,
 							size = alpm_pkg.isize,
 							download_size = alpm_pkg.download_size,
+							builddate = alpm_pkg.builddate,
+							installdate = alpm_pkg.installdate,
 							icon = ""
 						}));
 					} else {
@@ -492,6 +496,8 @@ namespace Pamac {
 							repo = (owned) repo_name,
 							size = alpm_pkg.isize,
 							download_size = alpm_pkg.download_size,
+							builddate = alpm_pkg.builddate,
+							installdate = alpm_pkg.installdate,
 							icon = ""
 						}));
 					}
@@ -509,6 +515,8 @@ namespace Pamac {
 								repo = repo_name,
 								size = alpm_pkg.isize,
 								download_size = alpm_pkg.download_size,
+								builddate = alpm_pkg.builddate,
+								installdate = alpm_pkg.installdate,
 								icon = get_app_icon (app, repo_name)
 							}));
 						}
@@ -522,6 +530,8 @@ namespace Pamac {
 							repo = (owned) repo_name,
 							size = alpm_pkg.isize,
 							download_size = alpm_pkg.download_size,
+							builddate = alpm_pkg.builddate,
+							installdate = alpm_pkg.installdate,
 							icon = ""
 						}));
 					}
@@ -578,8 +588,10 @@ namespace Pamac {
 								installed_version = local_pkg.version,
 								desc = get_app_summary (app),
 								repo = sync_pkg.db.name,
-								size = sync_pkg.isize,
+								size = local_pkg.isize,
 								download_size = sync_pkg.download_size,
+								builddate = local_pkg.builddate,
+								installdate = local_pkg.installdate,
 								icon = get_app_icon (app, sync_pkg.db.name)
 							}));
 						}
@@ -935,8 +947,7 @@ namespace Pamac {
 					version = "",
 					installed_version = "",
 					desc = "",
-					packagebase = "",
-					outofdate = ""
+					packagebase = ""
 				};
 			}
 			string installed_version = "";
@@ -945,11 +956,10 @@ namespace Pamac {
 				installed_version = pkg.version;
 			}
 			// set out of date
-			string outofdate = "";
+			uint64 outofdate = 0;
 			unowned Json.Node? out_node = json_object.get_member ("OutOfDate");
 			if (!out_node.is_null ()) {
-				var time = GLib.Time.local ((time_t) out_node.get_int ());
-				outofdate = time.format ("%x");
+				outofdate = (uint64) out_node.get_int ();
 			}
 			return AURPackageStruct () {
 				name = json_object.get_string_member ("Name"),
@@ -959,7 +969,8 @@ namespace Pamac {
 				desc = json_object.get_null_member ("Description") ? "" : json_object.get_string_member ("Description"),
 				popularity = json_object.get_double_member ("Popularity"),
 				packagebase = json_object.get_string_member ("PackageBase"),
-				outofdate = (owned) outofdate
+				lastmodified = (uint64) json_object.get_int_member ("LastModified"),
+				outofdate = outofdate
 			};
 		}
 
@@ -1241,8 +1252,8 @@ namespace Pamac {
 			string has_signature = "";
 			string reason = "";
 			string packager = "";
-			string builddate = "";
-			string installdate = "";
+			uint64 builddate = 0;
+			uint64 installdate = 0;
 			string[] groups = {};
 			string[] backups = {};
 			string[] licenses = {};
@@ -1327,8 +1338,7 @@ namespace Pamac {
 					list.next ();
 				}
 				// build_date
-				GLib.Time time = GLib.Time.local ((time_t) alpm_pkg.builddate);
-				builddate = time.format ("%x");
+				builddate = alpm_pkg.builddate;
 				// local pkg
 				if (alpm_pkg.origin == Alpm.Package.From.LOCALDB) {
 					// repo
@@ -1354,8 +1364,7 @@ namespace Pamac {
 						reason = dgettext (null, "Unknown");
 					}
 					// install_date
-					time = GLib.Time.local ((time_t) alpm_pkg.installdate);
-					installdate = time.format ("%x");
+					installdate = alpm_pkg.installdate;
 					// backups
 					list = alpm_pkg.backups;
 					while (list != null) {
@@ -1429,8 +1438,8 @@ namespace Pamac {
 				icon = (owned) icon,
 				screenshot = (owned) screenshot,
 				packager = (owned) packager,
-				builddate = (owned) builddate,
-				installdate = (owned) installdate,
+				builddate = builddate,
+				installdate = installdate,
 				reason = (owned) reason,
 				has_signature = (owned) has_signature,
 				licenses = (owned) licenses,
@@ -1690,10 +1699,10 @@ namespace Pamac {
 			string packagebase = "";
 			string url = "";
 			string maintainer = "";
-			string firstsubmitted = "";
-			string lastmodified = "";
-			string outofdate = "";
-			int64 numvotes = 0;
+			uint64 firstsubmitted = 0;
+			uint64 lastmodified = 0;
+			uint64 outofdate = 0;
+			uint64 numvotes = 0;
 			string[] licenses = {};
 			string[] depends = {};
 			string[] makedepends = {};
@@ -1725,19 +1734,16 @@ namespace Pamac {
 					maintainer = node.get_string ();
 				}
 				// firstsubmitted
-				GLib.Time time = GLib.Time.local ((time_t) json_object.get_int_member ("FirstSubmitted"));
-				firstsubmitted = time.format ("%x");
+				firstsubmitted = (uint64) json_object.get_int_member ("FirstSubmitted");
 				// lastmodified
-				time = GLib.Time.local ((time_t) json_object.get_int_member ("LastModified"));
-				lastmodified = time.format ("%x");
+				lastmodified = (uint64) json_object.get_int_member ("LastModified");
 				// outofdate can be null
 				node = json_object.get_member ("OutOfDate");
 				if (!node.is_null ()) {
-					time = GLib.Time.local ((time_t) node.get_int ());
-					outofdate = time.format ("%x");
+					outofdate = (uint64) node.get_int ();
 				}
 				//numvotes
-				numvotes = json_object.get_int_member ("NumVotes");
+				numvotes = (uint64) json_object.get_int_member ("NumVotes");
 				// licenses
 				node = json_object.get_member ("License");
 				if (!node.is_null ()) {
@@ -1805,9 +1811,9 @@ namespace Pamac {
 			details.packagebase = (owned) packagebase;
 			details.url = (owned) url;
 			details.maintainer = (owned) maintainer ;
-			details.firstsubmitted = (owned) firstsubmitted;
-			details.lastmodified = (owned) lastmodified;
-			details.outofdate = (owned) outofdate;
+			details.firstsubmitted = firstsubmitted;
+			details.lastmodified = lastmodified;
+			details.outofdate = outofdate;
 			details.numvotes = numvotes;
 			details.licenses = (owned) licenses;
 			details.depends = (owned) depends;

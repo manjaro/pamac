@@ -1228,14 +1228,16 @@ namespace Pamac {
 					var str_builder = new StringBuilder ();
 					string name = aur_pkg.name;
 					if (aur_pkg.installed_version != "") {
-						if (aur_pkg.outofdate != "") {
+						if (aur_pkg.outofdate != 0) {
+							var time = GLib.Time.local ((time_t) aur_pkg.outofdate);
 							name = "%s [%s] (%s: %s)".printf (aur_pkg.name, dgettext (null, "Installed"),
-															dgettext (null, "Out of Date"), aur_pkg.outofdate);
+															dgettext (null, "Out of Date"), time.format ("%x"));
 						} else {
 							name = "%s [%s]".printf (aur_pkg.name, dgettext (null, "Installed"));
 						}
-					} else if (aur_pkg.outofdate != "") {
-						name = "%s (%s: %s)".printf (aur_pkg.name, dgettext (null, "Out of Date"), aur_pkg.outofdate);
+					} else if (aur_pkg.outofdate != 0) {
+						var time = GLib.Time.local ((time_t) aur_pkg.outofdate);
+						name = "%s (%s: %s)".printf (aur_pkg.name, dgettext (null, "Out of Date"), time.format ("%x"));
 					}
 					str_builder.append (name);
 					str_builder.append (" ");
@@ -1337,22 +1339,16 @@ namespace Pamac {
 					print_aligned ("", "%s".printf (details.licenses.nth_data (i)), max_length + 2);
 					i++;
 				}
+				// Repository
 				if (details.repo != "") {
-					// Repository
-					print_aligned (properties[5], ": %s".printf (details.repo), max_length);
-					// Size
-					print_aligned (properties[6], ": %s".printf (format_size (details.size)), max_length);
-				} else {
+					print_aligned (properties[5], ": %s".printf (dgettext (null, "AUR")), max_length);
+				}
+				// Size
+				print_aligned (properties[6], ": %s".printf (format_size (details.size)), max_length);
+				if (details.repo == dgettext (null, "AUR")) {
 					AURPackageDetails aur_pkg_details = yield database.get_aur_pkg_details (details.name);
-					// Repository
-					if (aur_pkg_details.packagebase != "") {
-						print_aligned (properties[5], ": %s".printf (dgettext (null, "AUR")), max_length);
-					}
-					// Size
-					print_aligned (properties[6], ": %s".printf (format_size (details.size)), max_length);
 					// Package Base
-					if (aur_pkg_details.packagebase != ""
-						&& aur_pkg_details.packagebase != details.name) {
+					if (aur_pkg_details.packagebase != details.name) {
 						print_aligned (properties[21], ": %s".printf (aur_pkg_details.packagebase), max_length);
 					}
 					// Maintainer
@@ -1360,20 +1356,23 @@ namespace Pamac {
 						print_aligned (properties[22], ": %s".printf (aur_pkg_details.maintainer), max_length);
 					}
 					// First Submitted
-					if (aur_pkg_details.firstsubmitted != "") {
-						print_aligned (properties[23], ": %s".printf (aur_pkg_details.firstsubmitted), max_length);
+					if (aur_pkg_details.firstsubmitted != 0) {
+						var time = GLib.Time.local ((time_t) aur_pkg_details.firstsubmitted);
+						print_aligned (properties[23], ": %s".printf (time.format ("%x")), max_length);
 					}
 					// Last Modified
-					if (aur_pkg_details.lastmodified != "") {
-						print_aligned (properties[24], ": %s".printf (aur_pkg_details.lastmodified), max_length);
+					if (aur_pkg_details.lastmodified != 0) {
+						var time = GLib.Time.local ((time_t) aur_pkg_details.lastmodified);
+						print_aligned (properties[24], ": %s".printf (time.format ("%x")), max_length);
 					}
 					// Votes
 					if (aur_pkg_details.numvotes != 0) {
 						print_aligned (properties[25], ": %s".printf (aur_pkg_details.numvotes.to_string ()), max_length);
 					}
 					// Out of Date
-					if (aur_pkg_details.outofdate != "") {
-						print_aligned (properties[26], ": %s".printf (aur_pkg_details.outofdate), max_length);
+					if (aur_pkg_details.outofdate != 0) {
+						var time = GLib.Time.local ((time_t) aur_pkg_details.outofdate);
+						print_aligned (properties[26], ": %s".printf (time.format ("%x")), max_length);
 					}
 				}
 				// Groups
@@ -1485,10 +1484,12 @@ namespace Pamac {
 					i++;
 				}
 				// Build date
-				print_aligned (properties[16], ": %s".printf (details.builddate), max_length);
+				var time = GLib.Time.local ((time_t) details.builddate);
+				print_aligned (properties[16], ": %s".printf (time.format ("%x")), max_length);
 				// Install date
-				if (details.installdate != "") {
-					print_aligned (properties[17], ": %s".printf (details.installdate), max_length);
+				if (details.installdate != 0) {
+					time = GLib.Time.local ((time_t) details.installdate);
+					print_aligned (properties[17], ": %s".printf (time.format ("%x")), max_length);
 				}
 				// Reason
 				if (details.reason != "") {
@@ -1675,14 +1676,17 @@ namespace Pamac {
 					print_aligned (properties[14], ": %s".printf (details.maintainer), max_length);
 				}
 				// First Submitted
-				print_aligned (properties[15], ": %s".printf (details.firstsubmitted), max_length);
+				var time = GLib.Time.local ((time_t) details.firstsubmitted);
+				print_aligned (properties[15], ": %s".printf (time.format ("%x")), max_length);
 				// Last Modified
-				print_aligned (properties[16], ": %s".printf (details.lastmodified), max_length);
+				time = GLib.Time.local ((time_t) details.lastmodified);
+				print_aligned (properties[16], ": %s".printf (time.format ("%x")), max_length);
 				// Votes
 				print_aligned (properties[17], ": %s".printf (details.numvotes.to_string ()), max_length);
 				// Out of Date
-				if (details.outofdate != "") {
-					print_aligned (properties[18], ": %s".printf (details.outofdate), max_length);
+				if (details.outofdate != 0) {
+					time = GLib.Time.local ((time_t) details.outofdate);
+					print_aligned (properties[18], ": %s".printf (time.format ("%x")), max_length);
 				}
 				stdout.printf ("\n");
 			}
@@ -1868,7 +1872,7 @@ namespace Pamac {
 					}
 					foreach (unowned AURPackage pkg in updates.aur_updates) {
 						// do not show out of date packages
-						if (pkg.outofdate == "") {
+						if (pkg.outofdate == 0) {
 							stdout.printf ("%s  %s\n", pkg.name, pkg.version);
 						}
 					}

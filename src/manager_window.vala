@@ -108,6 +108,42 @@ namespace Pamac {
 		return strcmp (str_a, str_b);
 	}
 
+	int sort_pkgs_by_date (Package pkg_a, Package pkg_b) {
+		if (pkg_a.installed_version == "") {
+			if (pkg_b.installed_version == "") {
+				if (pkg_a.builddate > pkg_b.builddate) {
+					return -1;
+				}
+				if (pkg_b.builddate > pkg_a.builddate) {
+					return 1;
+				}
+				return sort_pkgs_by_name (pkg_a, pkg_b);
+			} else {
+				return 1;
+			}
+		}
+		if (pkg_b.installed_version == "") {
+			if (pkg_a.installed_version == "") {
+				if (pkg_a.builddate > pkg_b.builddate) {
+					return -1;
+				}
+				if (pkg_b.builddate > pkg_a.builddate) {
+					return 1;
+				}
+				return sort_pkgs_by_name (pkg_a, pkg_b);
+			} else {
+				return -1;
+			}
+		}
+		if (pkg_a.installdate > pkg_b.installdate) {
+			return -1;
+		}
+		if (pkg_b.installdate > pkg_a.installdate) {
+			return 1;
+		}
+		return sort_pkgs_by_name (pkg_a, pkg_b);
+	}
+
 	int sort_pkgs_by_repo (Package pkg_a, Package pkg_b) {
 		int index_a = -2;
 		if (pkg_a.repo == dgettext (null, "AUR")) {
@@ -172,6 +208,22 @@ namespace Pamac {
 
 	int sort_aur_by_name (AURPackage pkg_a, AURPackage pkg_b) {
 		return strcmp (pkg_a.name, pkg_b.name);
+	}
+
+	int sort_aur_by_date (AURPackage pkg_a, AURPackage pkg_b) {
+		if (pkg_a.outofdate > pkg_b.outofdate) {
+			return 1;
+		}
+		if (pkg_b.outofdate > pkg_a.outofdate) {
+			return -1;
+		}
+		if (pkg_a.lastmodified > pkg_b.lastmodified) {
+			return -1;
+		}
+		if (pkg_b.lastmodified > pkg_a.lastmodified) {
+			return 1;
+		}
+		return sort_aur_by_name (pkg_a, pkg_b);
 	}
 
 	[GtkTemplate (ui = "/org/manjaro/pamac/manager/manager_window.ui")]
@@ -995,26 +1047,29 @@ namespace Pamac {
 			Gtk.Widget? previous_widget = null;
 			if (details.repo != "") {
 				previous_widget = populate_details_grid (dgettext (null, "Repository"), details.repo, previous_widget);
-			} else {
+			}
+			if (details.repo == dgettext (null, "AUR")) {
 				AURPackageDetails aur_pkg_details = yield database.get_aur_pkg_details (details.name);
-				if (aur_pkg_details.packagebase != ""
-					&& aur_pkg_details.packagebase != details.name) {
+				if (aur_pkg_details.packagebase != details.name) {
 					previous_widget = populate_details_grid (dgettext (null, "Package Base"), aur_pkg_details.packagebase, previous_widget);
 				}
 				if (aur_pkg_details.maintainer != "") {
 					previous_widget = populate_details_grid (dgettext (null, "Maintainer"), aur_pkg_details.maintainer, previous_widget);
 				}
-				if (aur_pkg_details.firstsubmitted != "") {
-					previous_widget = populate_details_grid (dgettext (null, "First Submitted"), aur_pkg_details.firstsubmitted, previous_widget);
+				if (aur_pkg_details.firstsubmitted != 0) {
+					var time = GLib.Time.local ((time_t) aur_pkg_details.firstsubmitted);
+					previous_widget = populate_details_grid (dgettext (null, "First Submitted"), time.format ("%x"), previous_widget);
 				}
-				if (aur_pkg_details.lastmodified != "") {
-					previous_widget = populate_details_grid (dgettext (null, "Last Modified"), aur_pkg_details.lastmodified, previous_widget);
+				if (aur_pkg_details.lastmodified != 0) {
+					var time = GLib.Time.local ((time_t) aur_pkg_details.lastmodified);
+					previous_widget = populate_details_grid (dgettext (null, "Last Modified"), time.format ("%x"), previous_widget);
 				}
 				if (aur_pkg_details.numvotes != 0) {
 					previous_widget = populate_details_grid (dgettext (null, "Votes"), aur_pkg_details.numvotes.to_string (), previous_widget);
 				}
-				if (aur_pkg_details.outofdate != "") {
-					previous_widget = populate_details_grid (dgettext (null, "Out of Date"), aur_pkg_details.outofdate, previous_widget);
+				if (aur_pkg_details.outofdate != 0) {
+					var time = GLib.Time.local ((time_t) aur_pkg_details.outofdate);
+					previous_widget = populate_details_grid (dgettext (null, "Out of Date"), time.format ("%x"), previous_widget);
 				}
 			}
 			if (details.groups.length () > 0) {
@@ -1042,9 +1097,11 @@ namespace Pamac {
 			} else {
 				previous_widget = populate_details_grid (dgettext (null, "Packager"), details.packager, previous_widget);
 			}
-			previous_widget = populate_details_grid (dgettext (null, "Build Date"), details.builddate, previous_widget);
-			if (details.installdate != "") {
-				previous_widget = populate_details_grid (dgettext (null, "Install Date"), details.installdate, previous_widget);
+			var time = GLib.Time.local ((time_t) details.builddate);
+			previous_widget = populate_details_grid (dgettext (null, "Build Date"), time.format ("%x"), previous_widget);
+			if (details.installdate != 0) {
+				time = GLib.Time.local ((time_t) details.installdate);
+				previous_widget = populate_details_grid (dgettext (null, "Install Date"), time.format ("%x"), previous_widget);
 			}
 			if (details.reason != "") {
 				previous_widget = populate_details_grid (dgettext (null, "Install Reason"), details.reason, previous_widget);
@@ -1153,11 +1210,14 @@ namespace Pamac {
 			if (details.maintainer != "") {
 				previous_widget = populate_details_grid (dgettext (null, "Maintainer"), details.maintainer, previous_widget);
 			}
-			previous_widget = populate_details_grid (dgettext (null, "First Submitted"), details.firstsubmitted, previous_widget);
-			previous_widget = populate_details_grid (dgettext (null, "Last Modified"), details.lastmodified, previous_widget);
+			var time = GLib.Time.local ((time_t) details.firstsubmitted);
+			previous_widget = populate_details_grid (dgettext (null, "First Submitted"), time.format ("%x"), previous_widget);
+			time = GLib.Time.local ((time_t) details.lastmodified);
+			previous_widget = populate_details_grid (dgettext (null, "Last Modified"), time.format ("%x"), previous_widget);
 			previous_widget = populate_details_grid (dgettext (null, "Votes"), details.numvotes.to_string (), previous_widget);
-			if (details.outofdate != "") {
-				previous_widget = populate_details_grid (dgettext (null, "Out of Date"), details.outofdate, previous_widget);
+			if (details.outofdate != 0) {
+				time = GLib.Time.local ((time_t) details.outofdate);
+				previous_widget = populate_details_grid (dgettext (null, "Out of Date"), time.format ("%x"), previous_widget);
 			}
 			details_grid.show_all ();
 			// deps
@@ -1346,10 +1406,13 @@ namespace Pamac {
 				case 1: // name
 					current_packages_list.sort (sort_pkgs_by_name);
 					break;
-				case 2: // repository
+				case 2: // date
+					current_packages_list.sort (sort_pkgs_by_date);
+					break;
+				case 3: // repository
 					current_packages_list.sort (sort_pkgs_by_repo);
 					break;
-				case 3: // size
+				case 4: // size
 					current_packages_list.sort (sort_pkgs_by_size);
 					break;
 				default:
@@ -1575,6 +1638,9 @@ namespace Pamac {
 					break;
 				case 1: // name
 					current_aur_list.sort (sort_aur_by_name);
+					break;
+				case 2: // date
+					current_aur_list.sort (sort_aur_by_date);
 					break;
 				default:
 					break;
@@ -2575,7 +2641,7 @@ namespace Pamac {
 					sort_order_box.visible = true;
 					// check if aur was used
 					Gtk.TreeIter iter;
-					if (!sort_comboboxtext.get_model ().get_iter (out iter, new Gtk.TreePath.from_indices (2, -1))) {
+					if (!sort_comboboxtext.get_model ().get_iter (out iter, new Gtk.TreePath.from_indices (3, -1))) {
 						sort_comboboxtext.append_text (dgettext (null, "Repository"));
 						sort_comboboxtext.append_text (dgettext (null, "Size"));
 					}
@@ -2584,13 +2650,13 @@ namespace Pamac {
 					sort_order_box.visible = true;
 					Gtk.TreeIter iter;
 					// check if packages was used
-					if (sort_comboboxtext.get_model ().get_iter (out iter, new Gtk.TreePath.from_indices (2, -1))) {
-						if (sort_comboboxtext.active == 2
-							|| sort_comboboxtext.active == 3) {
+					if (sort_comboboxtext.get_model ().get_iter (out iter, new Gtk.TreePath.from_indices (3, -1))) {
+						if (sort_comboboxtext.active == 3
+							|| sort_comboboxtext.active == 4) {
 							sort_comboboxtext.active = 0;
 						}
-						sort_comboboxtext.remove (2);
-						sort_comboboxtext.remove (2);
+						sort_comboboxtext.remove (3);
+						sort_comboboxtext.remove (3);
 					}
 					break;
 				default:

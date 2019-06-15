@@ -561,6 +561,7 @@
                                     <items>
                                       <item translatable="yes">Relevance</item>
                                       <item translatable="yes">Name</item>
+                                      <item translatable="yes">Date</item>
                                       <item translatable="yes">Repository</item>
                                       <item translatable="yes">Size</item>
                                     </items>

@@ -28,6 +28,8 @@ namespace Pamac {
 		public uint64 size;
 		public uint64 download_size;
 		public string icon;
+		public uint64 builddate;
+		public uint64 installdate;
 	}
 
 	struct PackageDetailsStruct {
@@ -43,8 +45,8 @@ namespace Pamac {
 		public string icon;
 		public string screenshot;
 		public string packager;
-		public string builddate;
-		public string installdate;
+		public uint64 builddate;
+		public uint64 installdate;
 		public string reason;
 		public string has_signature;
 		public string[] licenses;
@@ -66,7 +68,8 @@ namespace Pamac {
 		public string desc;
 		public double popularity;
 		public string packagebase;
-		public string outofdate;
+		public uint64 lastmodified;
+		public uint64 outofdate;
 	}
 
 	struct AURPackageDetailsStruct {
@@ -77,10 +80,10 @@ namespace Pamac {
 		public string packagebase;
 		public string url;
 		public string maintainer;
-		public string firstsubmitted;
-		public string lastmodified;
-		public string outofdate;
-		public int64 numvotes;
+		public uint64 firstsubmitted;
+		public uint64 lastmodified;
+		public uint64 outofdate;
+		public uint64 numvotes;
 		public string[] licenses;
 		public string[] depends;
 		public string[] makedepends;

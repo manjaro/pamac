@@ -31,6 +31,8 @@ namespace Pamac {
 		public uint64 size { get {return pkg_struct.size;} }
 		public uint64 download_size { get {return pkg_struct.download_size;} }
 		public string icon { get {return pkg_struct.icon;} }
+		public uint64 builddate { get {return pkg_struct.builddate;} }
+		public uint64 installdate { get {return pkg_struct.installdate;} }
 		internal Package () {
 			pkg_struct = PackageStruct () {
 				name = "",
@@ -61,8 +63,8 @@ namespace Pamac {
 		public string icon { get {return pkg_struct.icon;} }
 		public string screenshot { get {return pkg_struct.screenshot;} }
 		public string packager { get {return pkg_struct.packager;} }
-		public string builddate { get {return pkg_struct.builddate;} }
-		public string installdate { get {return pkg_struct.installdate;} }
+		public uint64 builddate { get {return pkg_struct.builddate;} }
+		public uint64 installdate { get {return pkg_struct.installdate;} }
 		public string reason { get {return pkg_struct.reason;} }
 		public string has_signature { get {return pkg_struct.has_signature;} }
 		List<string> licenses_priv;
@@ -97,8 +99,6 @@ namespace Pamac {
 				icon = "",
 				screenshot = "",
 				packager = "",
-				builddate = "",
-				installdate = "",
 				reason = "",
 				has_signature = ""
 			};
@@ -166,15 +166,15 @@ namespace Pamac {
 		public string desc { get {return pkg_struct.desc;} }
 		public double popularity { get {return pkg_struct.popularity;} }
 		public string packagebase { get {return pkg_struct.packagebase;} }
-		public string outofdate { get {return pkg_struct.outofdate;} }
+		public uint64 lastmodified { get {return pkg_struct.lastmodified;} }
+		public uint64 outofdate { get {return pkg_struct.outofdate;} }
 		internal AURPackage () {
 			pkg_struct = AURPackageStruct () {
 				name = "",
 				version = "",
 				installed_version = "",
 				desc = "",
-				packagebase = "",
-				outofdate = ""
+				packagebase = ""
 			};
 		}
 		internal AURPackage.from_struct (owned AURPackageStruct pkg_struct) {
@@ -191,10 +191,10 @@ namespace Pamac {
 		public string packagebase { get {return pkg_struct.packagebase;} }
 		public string url { get {return pkg_struct.url;} }
 		public string maintainer { get {return pkg_struct.maintainer;} }
-		public string firstsubmitted { get {return pkg_struct.firstsubmitted;} }
-		public string lastmodified { get {return pkg_struct.lastmodified;} }
-		public string outofdate { get {return pkg_struct.outofdate;} }
-		public int64 numvotes  { get {return pkg_struct.numvotes;} }
+		public uint64 firstsubmitted { get {return pkg_struct.firstsubmitted;} }
+		public uint64 lastmodified { get {return pkg_struct.lastmodified;} }
+		public uint64 outofdate { get {return pkg_struct.outofdate;} }
+		public uint64 numvotes  { get {return pkg_struct.numvotes;} }
 		List<string> licenses_priv;
 		List<string> depends_priv;
 		List<string> makedepends_priv;
@@ -218,10 +218,7 @@ namespace Pamac {
 				desc = "",
 				packagebase = "",
 				url = "",
-				maintainer = "",
-				firstsubmitted = "",
-				lastmodified = "",
-				outofdate = ""
+				maintainer = ""
 			};
 			licenses_priv = new List<string> ();
 			depends_priv = new List<string> ();

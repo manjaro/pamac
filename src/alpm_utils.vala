@@ -360,6 +360,8 @@ namespace Pamac {
 					repo = (owned) repo_name,
 					size = alpm_pkg.isize,
 					download_size = alpm_pkg.download_size,
+					builddate = alpm_pkg.builddate,
+					installdate = alpm_pkg.installdate,
 					icon = ""
 				};
 			} else {
@@ -941,8 +943,7 @@ namespace Pamac {
 											version = trans_pkg.version,
 											installed_version = "",
 											desc = "",
-											packagebase = "",
-											outofdate = ""
+											packagebase = ""
 										};
 										if (!(trans_pkg.name in to_build)) {
 											to_install_as_dep.insert (trans_pkg.name, trans_pkg.name);
