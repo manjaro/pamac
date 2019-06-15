@@ -1085,7 +1085,7 @@ namespace Pamac {
 					string name_version_release = filename.slice (0, filename.last_index_of_char ('-'));
 					string name_version = name_version_release.slice (0, name_version_release.last_index_of_char ('-'));
 					string name = name_version.slice (0, name_version.last_index_of_char ('-'));
-					string version_release = filename.replace (name + "-", "").replace (".pkg.tar.xz", "");
+					string version_release = name_version_release.replace (name + "-", "");
 					current_action = dgettext (null, "Downloading %s").printf ("%s (%s)".printf (name, version_release)) + "...";
 				}
 				if (xfered == 0) {
