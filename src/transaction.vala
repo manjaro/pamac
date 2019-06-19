@@ -255,6 +255,62 @@ namespace Pamac {
 			transaction_interface.start_set_pkgreason (pkgname, reason);
 		}
 
+		void on_refresh_for_install_finished (bool success) {
+			stop_downloading ();
+			current_filename = "";
+			transaction_interface.refresh_finished.disconnect (on_refresh_for_install_finished);
+			if (!success) {
+				on_trans_prepare_finished (false);
+			} else {
+				// choose optdeps
+				var to_add_to_install = new GenericSet<string?> (str_hash, str_equal);
+				foreach (unowned string name in this.to_install) {
+					// do not check if reinstall
+					if (!database.is_installed_pkg (name)) {
+						List<string> uninstalled_optdeps = database.get_uninstalled_optdeps (name);
+						var real_uninstalled_optdeps = new GenericArray<string> ();
+						foreach (unowned string optdep in uninstalled_optdeps) {
+							string optdep_name = optdep.split (": ", 2)[0];
+							if (!(optdep_name in this.to_install) && !(optdep_name in to_add_to_install)) {
+								real_uninstalled_optdeps.add (optdep);
+							}
+						}
+						if (real_uninstalled_optdeps.length > 0) {
+							foreach (unowned string optdep in choose_optdeps (name, real_uninstalled_optdeps.data)) {
+								string optdep_name = optdep.split (": ", 2)[0];
+								to_add_to_install.add (optdep_name);
+							}
+						}
+					}
+				}
+				foreach (unowned string name in to_add_to_install) {
+					this.to_install += name;
+					this.to_mark_as_dep += name;
+				}
+				emit_action (dgettext (null, "Preparing") + "...");
+				trans_prepare_real ();
+			}
+		}
+
+		void launch_refresh_for_install (bool authorized) {
+			get_authorization_finished.disconnect (launch_refresh_for_sysupgrade);
+			if (authorized) {
+				emit_action (dgettext (null, "Synchronizing package databases") + "...");
+				connecting_signals ();
+				transaction_interface.refresh_finished.connect (on_refresh_for_install_finished);
+				transaction_interface.start_refresh (force_refresh);
+				start_downloading ();
+			} else {
+				on_refresh_for_install_finished (false);
+			}
+		}
+
+		void start_refresh_for_install () {
+			// check autorization to send start_downloading signal after that
+			get_authorization_finished.connect (launch_refresh_for_install);
+			start_get_authorization ();
+		}
+
 		void on_refresh_for_sysupgrade_finished (bool success) {
 			stop_downloading ();
 			current_filename = "";
@@ -738,34 +794,13 @@ namespace Pamac {
 			this.temporary_ignorepkgs = temporary_ignorepkgs;
 			this.overwrite_files = overwrite_files;
 			this.to_mark_as_dep = {};
-			// choose optdeps
-			var to_add_to_install = new GenericSet<string?> (str_hash, str_equal);
-			foreach (unowned string name in this.to_install) {
-				// do not check if reinstall
-				if (!database.is_installed_pkg (name)) {
-					List<string> uninstalled_optdeps = database.get_uninstalled_optdeps (name);
-					var real_uninstalled_optdeps = new GenericArray<string> ();
-					foreach (unowned string optdep in uninstalled_optdeps) {
-						string optdep_name = optdep.split (": ", 2)[0];
-						if (!(optdep_name in this.to_install) && !(optdep_name in to_add_to_install)) {
-							real_uninstalled_optdeps.add (optdep);
-						}
-					}
-					if (real_uninstalled_optdeps.length > 0) {
-						foreach (unowned string optdep in choose_optdeps (name, real_uninstalled_optdeps.data)) {
-							string optdep_name = optdep.split (": ", 2)[0];
-							to_add_to_install.add (optdep_name);
-						}
-					}
-				}
+			if (this.to_install.length > 0) {
+				start_refresh_for_install ();
+			} else {
+				emit_action (dgettext (null, "Preparing") + "...");
+				connecting_signals ();
+				trans_prepare_real ();
 			}
-			foreach (unowned string name in to_add_to_install) {
-				this.to_install += name;
-				this.to_mark_as_dep += name;
-			}
-			emit_action (dgettext (null, "Preparing") + "...");
-			connecting_signals ();
-			trans_prepare_real ();
 		}
 
 		void start_commit () {

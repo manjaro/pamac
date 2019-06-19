@@ -2347,7 +2347,15 @@ namespace Pamac {
 		}
 
 		void start_transaction () {
-			transaction.start (to_install, to_remove, to_load, to_build, temporary_ignorepkgs, overwrite_files);
+			if (to_install.length > 0 && Posix.geteuid () != 0) {
+				// let's time to pkttyagent to get registred
+				Timeout.add (200, () => {
+					transaction.start (to_install, to_remove, to_load, to_build, temporary_ignorepkgs, overwrite_files);
+					return false;
+				});
+			} else {
+				transaction.start (to_install, to_remove, to_load, to_build, temporary_ignorepkgs, overwrite_files);
+			}
 			loop.run ();
 		}
 
