@@ -132,6 +132,13 @@ internal class AlpmConfig {
 		if (arch == null) {
 			arch = Posix.utsname().machine;
 		}
+		// add archlinux-keyring and manjaro-keyring to syncfirsts
+		if (syncfirsts.find_custom ("archlinux-keyring", strcmp) == null) {
+			syncfirsts.append ("archlinux-keyring");
+		}
+		if (syncfirsts.find_custom ("manjaro-keyring", strcmp) == null) {
+			syncfirsts.append ("manjaro-keyring");
+		}
 	}
 
 	public Alpm.Handle? get_handle (bool files_db = false, bool tmp_db = false) {
