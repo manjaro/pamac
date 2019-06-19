@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2019-06-14 09:12+0200\n"
+"POT-Creation-Date: 2019-06-19 23:21+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -135,11 +135,15 @@ msgid "Refreshing mirrors list"
 msgstr ""
 
 #: src/transaction.vala
-msgid "Starting full system upgrade"
+msgid "Preparing"
 msgstr ""
 
 #: src/transaction.vala
 msgid "Synchronizing package databases"
+msgstr ""
+
+#: src/transaction.vala
+msgid "Starting full system upgrade"
 msgstr ""
 
 #: src/transaction.vala src/cli.vala
@@ -160,10 +164,6 @@ msgstr ""
 #: src/transaction.vala
 #, c-format
 msgid "key %s could not be imported"
-msgstr ""
-
-#: src/transaction.vala
-msgid "Preparing"
 msgstr ""
 
 #: src/transaction.vala
@@ -1105,6 +1105,10 @@ msgstr ""
 
 #: resources/manager_window.ui
 msgid "Relevance"
+msgstr ""
+
+#: resources/manager_window.ui
+msgid "Date"
 msgstr ""
 
 #: resources/manager_window.ui
