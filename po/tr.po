@@ -9,6 +9,7 @@
 # Demiray Muhterem <mdemiray@msn.com>, 2018
 # Guillaume Benoit <guillaume@manjaro.org>, 2013
 # philm <philm@manjaro.org>, 2015
+# Serdar Sağlam <teknomobil@msn.com>, 2019
 # Yusuf Faruk DOĞAN <yfdogan@gmail.com>, 2013
 # Yusuf Faruk DOĞAN <yfdogan@gmail.com>, 2013
 msgid ""
@@ -16,8 +17,8 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2019-05-03 12:41+0200\n"
-"PO-Revision-Date: 2019-05-13 22:06+0000\n"
-"Last-Translator: Demiray Muhterem <mdemiray@msn.com>\n"
+"PO-Revision-Date: 2019-06-14 15:45+0000\n"
+"Last-Translator: Serdar Sağlam <teknomobil@msn.com>\n"
 "Language-Team: Turkish (http://www.transifex.com/manjarolinux/manjaro-pamac/language/tr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -35,11 +36,11 @@ msgstr "Alpm kütüphanesi başlatılamadı"
 
 #: src/alpm_utils.vala
 msgid "Failed to synchronize any databases"
-msgstr "Hiçbir veritabanı senkronize edilemedi"
+msgstr "Hiçbir veritabanı eşitlenemedi"
 
 #: src/alpm_utils.vala
 msgid "Failed to init transaction"
-msgstr "init işlemi başarısız"
+msgstr "İşlem başlatılamadı"
 
 #: src/alpm_utils.vala src/transaction.vala src/transaction-gtk.vala
 msgid "Failed to prepare transaction"
@@ -312,8 +313,8 @@ msgstr "%u saniyesi kaldı"
 #, c-format
 msgid "About %lu minute remaining"
 msgid_plural "About %lu minutes remaining"
-msgstr[0] "%lu dakikası kaldı"
-msgstr[1] "About %lu minutes remaining"
+msgstr[0] "Yaklaşık %lu dakika kaldı"
+msgstr[1] "Yaklaşık %lu dakika kaldı"
 
 #: src/transaction.vala
 #, c-format
@@ -509,7 +510,7 @@ msgstr "Güncellemeler"
 
 #: src/manager_window.vala
 msgid "Pending"
-msgstr "Kurulacak Paketler"
+msgstr "Kurulacak paketler"
 
 #: src/manager_window.vala
 msgid "Orphans"
@@ -517,7 +518,7 @@ msgstr "Sahipsiz paketler"
 
 #: src/manager_window.vala
 msgid "Foreign"
-msgstr "Yabancı Paketler"
+msgstr "Yabancı paketler"
 
 #: src/manager_window.vala
 msgid "Accessories"
@@ -681,7 +682,7 @@ msgstr "İsim"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Install Local Packages"
-msgstr "Bilgisayarından paket yükle"
+msgstr "Yerel Paketleri Kur"
 
 #: src/manager_window.vala
 msgid "_Open"
@@ -1089,7 +1090,7 @@ msgstr "_Uygula"
 
 #: resources/manager_window.ui
 msgid "Refresh databases"
-msgstr "Veritabanını yenile"
+msgstr "Veritabanlarını Yenile"
 
 #: resources/manager_window.ui
 msgid "View History"
