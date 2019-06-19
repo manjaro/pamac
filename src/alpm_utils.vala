@@ -1263,10 +1263,6 @@ namespace Pamac {
 					case Alpm.Errno.FILE_CONFLICTS:
 						string[] details = {};
 						details += Alpm.strerror (errno) + ":";
-						//TransFlag flags = alpm_handle.trans_get_flags ();
-						//if ((flags & TransFlag.FORCE) != 0) {
-							//details += _("unable to %s directory-file conflicts").printf ("--force");
-						//}
 						unowned Alpm.List<Alpm.FileConflict*> list = err_data;
 						while (list != null) {
 							Alpm.FileConflict* conflict = list.data;
@@ -1299,7 +1295,7 @@ namespace Pamac {
 						current_error.details = (owned) details;
 						break;
 					case Alpm.Errno.EXTERNAL_DOWNLOAD:
-						// details are set in cb_fetch
+						// details are set in curl_dload
 						break;
 					default:
 						current_error.details = {Alpm.strerror (errno)};
