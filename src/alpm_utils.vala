@@ -358,7 +358,7 @@ namespace Pamac {
 					installed_version = (owned) installed_version,
 					desc = (owned) desc,
 					repo = (owned) repo_name,
-					size = alpm_pkg.isize,
+					installed_size = alpm_pkg.isize,
 					download_size = alpm_pkg.download_size,
 					builddate = alpm_pkg.builddate,
 					installdate = alpm_pkg.installdate,
@@ -621,9 +621,8 @@ namespace Pamac {
 									// opt_pkg is at least optional for pkg
 									if (optionalfor.length == 1) {
 										success = trans_remove_pkg (opt_pkg.name);
-									} else {
-										optionalfor.free_inner (GLib.free);
 									}
+									optionalfor.free_inner (GLib.free);
 								} else {
 									requiredby.free_inner (GLib.free);
 								}

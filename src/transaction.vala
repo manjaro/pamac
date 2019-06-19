@@ -412,23 +412,23 @@ namespace Pamac {
 					string desc = "";
 					string arch = Posix.utsname ().machine;
 					var pkgnames_found = new SList<string> ();
-					var global_depends = new GenericArray<string> ();
+					var global_depends = new List<string> ();
 					var global_checkdepends = new SList<string> ();
 					var global_makedepends = new SList<string> ();
-					var global_conflicts = new GenericArray<string> ();
-					var global_provides = new GenericArray<string> ();
-					var global_replaces = new GenericArray<string> ();
-					var global_validpgpkeys = new GenericArray<string> ();
-					var pkgnames_table = new HashTable<string, AURPackageDetailsStruct?> (str_hash, str_equal);
+					var global_conflicts = new List<string> ();
+					var global_provides = new List<string> ();
+					var global_replaces = new List<string> ();
+					var global_validpgpkeys = new SList<string> ();
+					var pkgnames_table = new HashTable<string, AURPackageDetails> (str_hash, str_equal);
 					while ((line = yield dis.read_line_async ()) != null) {
 						if ("pkgbase = " in line) {
 							pkgbase = line.split (" = ", 2)[1];
 						} else if ("pkgdesc = " in line) {
 							desc = line.split (" = ", 2)[1];
 							if (!current_section_is_pkgbase) {
-								unowned AURPackageDetailsStruct? details_struct = pkgnames_table.get (current_section);
-								if (details_struct != null) {
-									details_struct.desc = desc;
+								unowned AURPackageDetails? details = pkgnames_table.get (current_section);
+								if (details != null) {
+									details.desc = desc;
 								}
 							}
 						} else if ("pkgver = " in line) {
@@ -453,16 +453,16 @@ namespace Pamac {
 								string depend = line.split (" = ", 2)[1];
 								if (current_section_is_pkgbase){
 									if ("checkdepends" in line) {
-										global_checkdepends.append (depend);
+										global_checkdepends.append ((owned) depend);
 									} else if ("makedepends" in line) {
-										global_makedepends.append (depend);
+										global_makedepends.append ((owned) depend);
 									} else {
-										global_depends.add (depend);
+										global_depends.append ((owned) depend);
 									}
 								} else {
-									unowned AURPackageDetailsStruct? details_struct = pkgnames_table.get (current_section);
-									if (details_struct != null) {
-										details_struct.depends += depend;
+									unowned AURPackageDetails? details = pkgnames_table.get (current_section);
+									if (details != null) {
+										details.depends_priv.append ((owned) depend);
 									}
 								}
 							}
@@ -470,11 +470,11 @@ namespace Pamac {
 							if ("provides = " in line || "provides_%s = ".printf (arch) in line) {
 								string provide = line.split (" = ", 2)[1];
 								if (current_section_is_pkgbase) {
-									global_provides.add (provide);
+									global_provides.append ((owned) provide);
 								} else {
-									unowned AURPackageDetailsStruct? details_struct = pkgnames_table.get (current_section);
-									if (details_struct != null) {
-										details_struct.provides += provide;
+									unowned AURPackageDetails? details = pkgnames_table.get (current_section);
+									if (details != null) {
+										details.provides_priv.append ((owned) provide);
 									}
 								}
 							}
@@ -482,11 +482,11 @@ namespace Pamac {
 							if ("conflicts = " in line || "conflicts_%s = ".printf (arch) in line) {
 								string conflict = line.split (" = ", 2)[1];
 								if (current_section_is_pkgbase) {
-									global_conflicts.add (conflict);
+									global_conflicts.append ((owned) conflict);
 								} else {
-									unowned AURPackageDetailsStruct? details_struct = pkgnames_table.get (current_section);
-									if (details_struct != null) {
-										details_struct.conflicts += conflict;
+									unowned AURPackageDetails? details = pkgnames_table.get (current_section);
+									if (details != null) {
+										details.conflicts_priv.append ((owned) conflict);
 									}
 								}
 							}
@@ -494,31 +494,30 @@ namespace Pamac {
 							if ("replaces = " in line || "replaces_%s = ".printf (arch) in line) {
 								string replace = line.split (" = ", 2)[1];
 								if (current_section_is_pkgbase) {
-									global_replaces.add (replace);
+									global_replaces.append ((owned) replace);
 								} else {
-									unowned AURPackageDetailsStruct? details_struct = pkgnames_table.get (current_section);
-									if (details_struct != null) {
-										details_struct.replaces += replace;
+									unowned AURPackageDetails? details = pkgnames_table.get (current_section);
+									if (details != null) {
+										details.replaces_priv.append ((owned) replace);
 									}
 								}
 							}
 						// grab validpgpkeys to check if they are imported
 						} else if ("validpgpkeys" in line) {
 							if ("validpgpkeys = " in line) {
-								global_validpgpkeys.add (line.split (" = ", 2)[1]);
+								global_validpgpkeys.append (line.split (" = ", 2)[1]);
 							}
 						} else if ("pkgname = " in line) {
 							string pkgname_found = line.split (" = ", 2)[1];
 							current_section = pkgname_found;
 							current_section_is_pkgbase = false;
 							if (!pkgnames_table.contains (pkgname_found)) {
-								var details_struct = AURPackageDetailsStruct () {
-									name = pkgname_found,
-									version = version.str,
-									desc = desc,
-									packagebase = pkgbase
-								};
-								pkgnames_table.insert (pkgname_found, (owned) details_struct);
+								var details = new AURPackageDetails ();
+								details.name = pkgname_found;
+								details.version = version.str;
+								details.desc = desc;
+								details.packagebase = pkgbase;
+								pkgnames_table.insert (pkgname_found, details);
 								pkgnames_found.append ((owned) pkgname_found);
 							}
 						}
@@ -528,33 +527,33 @@ namespace Pamac {
 					}
 					// create fake aur db entries
 					foreach (unowned string pkgname_found in pkgnames_found) {
-						unowned AURPackageDetailsStruct? details_struct = pkgnames_table.get (pkgname_found);
+						unowned AURPackageDetails? details = pkgnames_table.get (pkgname_found);
 						// populate empty list will global ones
-						if (global_depends.length > 0 && details_struct.depends.length == 0) {
-							details_struct.depends = (owned) global_depends.data;
+						if (global_depends.length () > 0 && details.depends.length () == 0) {
+							details.depends_priv = (owned) global_depends;
 						}
-						if (global_provides.length > 0 && details_struct.provides.length == 0) {
-							details_struct.provides = (owned) global_provides.data;
+						if (global_provides.length () > 0 && details.provides.length () == 0) {
+							details.provides_priv = (owned) global_provides;
 						}
-						if (global_conflicts.length > 0 && details_struct.conflicts.length == 0) {
-							details_struct.conflicts = (owned) global_conflicts.data;
+						if (global_conflicts.length () > 0 && details.conflicts.length () == 0) {
+							details.conflicts_priv = (owned) global_conflicts;
 						}
-						if (global_replaces.length > 0 && details_struct.replaces.length == 0) {
-							details_struct.replaces = (owned) global_replaces.data;
+						if (global_replaces.length () > 0 && details.replaces.length () == 0) {
+							details.replaces_priv = (owned) global_replaces;
 						}
 						// add checkdepends and makedepends in depends
 						if (global_checkdepends.length () > 0 ) {
 							foreach (unowned string depend in global_checkdepends) {
-								details_struct.depends += depend;
+								details.depends_priv.append (depend);
 							}
 						}
 						if (global_makedepends.length () > 0 ) {
 							foreach (unowned string depend in global_makedepends) {
-								details_struct.depends += depend;
+								details.depends_priv.append (depend);
 							}
 						}
 						// check deps
-						foreach (unowned string dep_string in details_struct.depends) {
+						foreach (unowned string dep_string in details.depends) {
 							var pkg = database.find_installed_satisfier (dep_string);
 							if (pkg.name == "") {
 								pkg = database.find_sync_satisfier (dep_string);
@@ -567,7 +566,7 @@ namespace Pamac {
 							}
 						}
 						// write desc file
-						string pkgdir = "%s-%s".printf (pkgname_found, details_struct.version);
+						string pkgdir = "%s-%s".printf (pkgname_found, details.version);
 						string pkgdir_path = "%s/%s".printf (aurdb_path, pkgdir);
 						aur_desc_list.add (pkgdir);
 						var file = GLib.File.new_for_path (pkgdir_path);
@@ -582,53 +581,53 @@ namespace Pamac {
 						// creating a DataOutputStream to the file
 						var dos = new DataOutputStream (file.create (FileCreateFlags.REPLACE_DESTINATION));
 						// fake filename
-						dos.put_string ("%FILENAME%\n" + "%s-%s-any.pkg.tar.xz\n\n".printf (pkgname_found, details_struct.version));
+						dos.put_string ("%FILENAME%\n" + "%s-%s-any.pkg.tar.xz\n\n".printf (pkgname_found, details.version));
 						// name
 						dos.put_string ("%NAME%\n%s\n\n".printf (pkgname_found));
 						// version
-						dos.put_string ("%VERSION%\n%s\n\n".printf (details_struct.version));
+						dos.put_string ("%VERSION%\n%s\n\n".printf (details.version));
 						// base
-						dos.put_string ("%BASE%\n%s\n\n".printf (details_struct.packagebase));
+						dos.put_string ("%BASE%\n%s\n\n".printf (details.packagebase));
 						// desc
-						dos.put_string ("%DESC%\n%s\n\n".printf (details_struct.desc));
+						dos.put_string ("%DESC%\n%s\n\n".printf (details.desc));
 						// arch (double %% before ARCH to escape %A)
 						dos.put_string ("%%ARCH%\n%s\n\n".printf (arch));
 						// depends
-						if (details_struct.depends.length > 0) {
+						if (details.depends.length () > 0) {
 							dos.put_string ("%DEPENDS%\n");
-							foreach (unowned string depend in details_struct.depends) {
+							foreach (unowned string depend in details.depends) {
 								dos.put_string ("%s\n".printf (depend));
 							}
 							dos.put_string ("\n");
 						}
 						// conflicts
-						if (details_struct.conflicts.length > 0) {
+						if (details.conflicts.length () > 0) {
 							dos.put_string ("%CONFLICTS%\n");
-							foreach (unowned string conflict in details_struct.conflicts) {
+							foreach (unowned string conflict in details.conflicts) {
 								dos.put_string ("%s\n".printf (conflict));
 							}
 							dos.put_string ("\n");
 						}
 						// provides
-						if (details_struct.provides.length > 0) {
+						if (details.provides.length () > 0) {
 							dos.put_string ("%PROVIDES%\n");
-							foreach (unowned string provide in details_struct.provides) {
+							foreach (unowned string provide in details.provides) {
 								dos.put_string ("%s\n".printf (provide));
 							}
 							dos.put_string ("\n");
 						}
 						// replaces
-						if (details_struct.replaces.length > 0) {
+						if (details.replaces.length () > 0) {
 							dos.put_string ("%REPLACES%\n");
-							foreach (unowned string replace in details_struct.replaces) {
+							foreach (unowned string replace in details.replaces) {
 								dos.put_string ("%s\n".printf (replace));
 							}
 							dos.put_string ("\n");
 						}
 					}
 					// check signature
-					if (global_validpgpkeys.length > 0) {
-						yield check_signature (pkgname, global_validpgpkeys.data);
+					if (global_validpgpkeys.length () > 0) {
+						yield check_signature (pkgname, global_validpgpkeys);
 					}
 				} catch (GLib.Error e) {
 					stderr.printf ("Error: %s\n", e.message);
@@ -640,7 +639,7 @@ namespace Pamac {
 			}
 		}
 
-		async void check_signature (string pkgname, string[] keys) {
+		async void check_signature (string pkgname, SList<string> keys) {
 			foreach (unowned string key in keys) {
 				var launcher = new SubprocessLauncher (SubprocessFlags.STDOUT_SILENCE | SubprocessFlags.STDERR_SILENCE);
 				try {

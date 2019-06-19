@@ -350,7 +350,7 @@ namespace Pamac {
 			// first pass to compute pkgs size and strings length
 			if (summary.to_remove.length () > 0) {
 				foreach (unowned Package pkg in summary.to_remove) {
-					rsize += pkg.size;
+					rsize += pkg.installed_size;
 					if (pkg.name.length > name_length) {
 						name_length = pkg.name.length;
 					}
@@ -366,7 +366,7 @@ namespace Pamac {
 				foreach (unowned Package pkg in summary.to_downgrade) {
 					dsize += pkg.download_size;
 					var installed_pkg = database.get_installed_pkg (pkg.name);
-					isize += ((int64) pkg.size - (int64) installed_pkg.size);
+					isize += ((int64) pkg.installed_size - (int64) installed_pkg.installed_size);
 					if (pkg.name.length > name_length) {
 						name_length = pkg.name.length;
 					}
@@ -398,7 +398,7 @@ namespace Pamac {
 				foreach (unowned Package pkg in summary.to_install) {
 					dsize += pkg.download_size;
 					var installed_pkg = database.get_installed_pkg (pkg.name);
-					isize += ((int64) pkg.size - (int64) installed_pkg.size);
+					isize += ((int64) pkg.installed_size - (int64) installed_pkg.installed_size);
 					if (pkg.name.length > name_length) {
 						name_length = pkg.name.length;
 					}
@@ -428,7 +428,7 @@ namespace Pamac {
 				foreach (unowned Package pkg in summary.to_upgrade) {
 					dsize += pkg.download_size;
 					var installed_pkg = database.get_installed_pkg (pkg.name);
-					isize += ((int64) pkg.size - (int64) installed_pkg.size);
+					isize += ((int64) pkg.installed_size - (int64) installed_pkg.installed_size);
 					if (pkg.name.length > name_length) {
 						name_length = pkg.name.length;
 					}

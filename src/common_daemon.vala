@@ -25,40 +25,11 @@ namespace Pamac {
 		public string installed_version;
 		public string desc;
 		public string repo;
-		public uint64 size;
+		public uint64 installed_size;
 		public uint64 download_size;
 		public string icon;
 		public uint64 builddate;
 		public uint64 installdate;
-	}
-
-	public struct PackageDetailsStruct {
-		public string name;
-		public string app_name;
-		public string version;
-		public string installed_version;
-		public string desc;
-		public string long_desc;
-		public string repo;
-		public uint64 size;
-		public string url;
-		public string icon;
-		public string screenshot;
-		public string packager;
-		public string builddate;
-		public string installdate;
-		public string reason;
-		public string has_signature;
-		public string[] licenses;
-		public string[] depends;
-		public string[] optdepends;
-		public string[] requiredby;
-		public string[] optionalfor;
-		public string[] provides;
-		public string[] replaces;
-		public string[] conflicts;
-		public string[] groups;
-		public string[] backups;
 	}
 
 	public struct AURPackageStruct {
@@ -70,28 +41,6 @@ namespace Pamac {
 		public string packagebase;
 		public uint64 lastmodified;
 		public uint64 outofdate;
-	}
-
-	public struct AURPackageDetailsStruct {
-		public string name;
-		public string version;
-		public string desc;
-		public double popularity;
-		public string packagebase;
-		public string url;
-		public string maintainer;
-		public uint64 firstsubmitted;
-		public uint64 lastmodified;
-		public string outofdate;
-		public uint64 numvotes;
-		public string[] licenses;
-		public string[] depends;
-		public string[] makedepends;
-		public string[] checkdepends;
-		public string[] optdepends;
-		public string[] provides;
-		public string[] replaces;
-		public string[] conflicts;
 	}
 
 	public struct TransactionSummaryStruct {

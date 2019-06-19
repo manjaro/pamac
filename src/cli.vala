@@ -1344,7 +1344,7 @@ namespace Pamac {
 					print_aligned (properties[5], ": %s".printf (dgettext (null, "AUR")), max_length);
 				}
 				// Size
-				print_aligned (properties[6], ": %s".printf (format_size (details.size)), max_length);
+				print_aligned (properties[6], ": %s".printf (format_size (details.installed_size)), max_length);
 				if (details.repo == dgettext (null, "AUR")) {
 					AURPackageDetails aur_pkg_details = yield database.get_aur_pkg_details (details.name);
 					// Package Base
@@ -1731,7 +1731,7 @@ namespace Pamac {
 				str_builder.append ("%-*s  %-*s  %s\n".printf (
 									version_length, pkg.version,
 									repo_length, pkg.repo,
-									format_size (pkg.size)));
+									format_size (pkg.installed_size)));
 				stdout.printf ("%s", str_builder.str);
 			}
 		}

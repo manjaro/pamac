@@ -19,64 +19,75 @@
 
 namespace Pamac {
 	public class Package: Object {
-		PackageStruct pkg_struct;
-		public string name { get {return pkg_struct.name;} }
-		public string app_name { get {return pkg_struct.app_name;} }
-		public string version { get {return pkg_struct.version;} }
-		public string installed_version { get {return pkg_struct.installed_version;} }
-		public string desc { get {return pkg_struct.desc;} }
-		public string repo { get {return pkg_struct.repo;}
-							internal set {pkg_struct.repo = value;}
-							}
-		public uint64 size { get {return pkg_struct.size;} }
-		public uint64 download_size { get {return pkg_struct.download_size;} }
-		public string icon { get {return pkg_struct.icon;} }
-		public uint64 builddate { get {return pkg_struct.builddate;} }
-		public uint64 installdate { get {return pkg_struct.installdate;} }
-		internal Package () {
-			pkg_struct = PackageStruct () {
-				name = "",
-				app_name = "",
-				version = "",
-				installed_version = "",
-				desc = "",
-				repo = "",
-				icon = ""
-			};
+		public string name { get; internal set; default = "";}
+		public string app_name { get; internal set; default = "";}
+		public string version { get; internal set; default = "";}
+		public string installed_version { get; internal set; default = "";}
+		public string desc { get; internal set; default = "";}
+		public string repo { get; internal set; default = "";}
+		public uint64 installed_size { get; internal set; }
+		public uint64 download_size { get; internal set; }
+		public string icon { get; internal set; default = "";}
+		public uint64 builddate { get; internal set; }
+		public uint64 installdate { get; internal set; }
+		internal Package () {}
+		internal Package.from_struct (PackageStruct pkg_struct) {
+			name = pkg_struct.name;
+			app_name = pkg_struct.app_name;
+			version = pkg_struct.version;
+			installed_version = pkg_struct.installed_version;
+			desc = pkg_struct.desc;
+			repo = pkg_struct.repo;
+			icon = pkg_struct.icon;
+			installed_size = pkg_struct.installed_size;
+			download_size = pkg_struct.download_size;
+			builddate = pkg_struct.builddate;
+			installdate = pkg_struct.installdate;
 		}
-		internal Package.from_struct (owned PackageStruct pkg_struct) {
-			this.pkg_struct = (owned) pkg_struct;
+		internal Package dup () {
+			var pkg = new Package ();
+			pkg.name = this.name;
+			pkg.app_name = this.app_name;
+			pkg.version = this.version;
+			pkg.installed_version = this.installed_version;
+			pkg.desc = this.desc;
+			pkg.repo = this.repo;
+			pkg.icon = this.icon;
+			pkg.installed_size = this.installed_size;
+			pkg.download_size = this.download_size;
+			pkg.builddate = this.builddate;
+			pkg.installdate = this.installdate;
+			return pkg;
 		}
 	}
 
 	public class PackageDetails: Object {
-		PackageDetailsStruct pkg_struct;
-		public string name { get {return pkg_struct.name;} }
-		public string app_name { get {return pkg_struct.app_name;} }
-		public string version { get {return pkg_struct.version;} }
-		public string installed_version { get {return pkg_struct.installed_version;} }
-		public string desc { get {return pkg_struct.desc;} }
-		public string long_desc { get {return pkg_struct.long_desc;} }
-		public string repo { get {return pkg_struct.repo;} }
-		public uint64 size { get {return pkg_struct.size;} }
-		public string url { get {return pkg_struct.url;} }
-		public string icon { get {return pkg_struct.icon;} }
-		public string screenshot { get {return pkg_struct.screenshot;} }
-		public string packager { get {return pkg_struct.packager;} }
-		public uint64 builddate { get {return pkg_struct.builddate;} }
-		public uint64 installdate { get {return pkg_struct.installdate;} }
-		public string reason { get {return pkg_struct.reason;} }
-		public string has_signature { get {return pkg_struct.has_signature;} }
-		List<string> licenses_priv;
-		List<string> depends_priv;
-		List<string> optdepends_priv;
-		List<string> requiredby_priv;
-		List<string> optionalfor_priv;
-		List<string> provides_priv;
-		List<string> replaces_priv;
-		List<string> conflicts_priv;
-		List<string> groups_priv;
-		List<string> backups_priv;
+		internal List<string> licenses_priv;
+		internal List<string> depends_priv;
+		internal List<string> optdepends_priv;
+		internal List<string> requiredby_priv;
+		internal List<string> optionalfor_priv;
+		internal List<string> provides_priv;
+		internal List<string> replaces_priv;
+		internal List<string> conflicts_priv;
+		internal List<string> groups_priv;
+		internal List<string> backups_priv;
+		public string name { get; internal set; default = "";}
+		public string app_name { get; internal set; default = "";}
+		public string version { get; internal set; default = "";}
+		public string installed_version { get; internal set; default = "";}
+		public string desc { get; internal set; default = "";}
+		public string long_desc { get; internal set; default = "";}
+		public string repo { get; internal set; default = "";}
+		public string url { get; internal set; default = "";}
+		public string icon { get; internal set; default = "";}
+		public string screenshot { get; internal set; default = "";}
+		public string packager { get; internal set; default = "";}
+		public uint64 installed_size { get; internal set; }
+		public uint64 builddate { get; internal set; }
+		public uint64 installdate { get; internal set; }
+		public string reason { get; internal set; default = "";}
+		public string has_signature { get; internal set; default = "";}
 		public List<string> licenses { get {return licenses_priv;} }
 		public List<string> depends { get {return depends_priv;} }
 		public List<string> optdepends { get {return optdepends_priv;} }
@@ -88,20 +99,6 @@ namespace Pamac {
 		public List<string> groups { get {return groups_priv;} }
 		public List<string> backups { get {return backups_priv;} }
 		internal PackageDetails () {
-			pkg_struct = PackageDetailsStruct () {
-				name = "",
-				app_name = "",
-				version = "",
-				desc = "",
-				long_desc = "",
-				repo = "",
-				url = "",
-				icon = "",
-				screenshot = "",
-				packager = "",
-				reason = "",
-				has_signature = ""
-			};
 			licenses_priv = new List<string> ();
 			depends_priv = new List<string> ();
 			optdepends_priv = new List<string> ();
@@ -112,97 +109,51 @@ namespace Pamac {
 			conflicts_priv = new List<string> ();
 			groups_priv = new List<string> ();
 			backups_priv = new List<string> ();
-		}
-		internal PackageDetails.from_struct (owned PackageDetailsStruct pkg_struct_) {
-			pkg_struct = (owned) pkg_struct_;
-			licenses_priv = new List<string> ();
-			depends_priv = new List<string> ();
-			optdepends_priv = new List<string> ();
-			requiredby_priv = new List<string> ();
-			optionalfor_priv = new List<string> ();
-			provides_priv = new List<string> ();
-			replaces_priv = new List<string> ();
-			conflicts_priv = new List<string> ();
-			groups_priv = new List<string> ();
-			backups_priv = new List<string> ();
-			foreach (unowned string str in pkg_struct.licenses) {
-				licenses_priv.append (str);
-			}
-			foreach (unowned string str in pkg_struct.depends) {
-				depends_priv.append (str);
-			}
-			foreach (unowned string str in pkg_struct.optdepends) {
-				optdepends_priv.append (str);
-			}
-			foreach (unowned string str in pkg_struct.requiredby) {
-				requiredby_priv.append (str);
-			}
-			foreach (unowned string str in pkg_struct.optionalfor) {
-				optionalfor_priv.append (str);
-			}
-			foreach (unowned string str in pkg_struct.provides) {
-				provides_priv.append (str);
-			}
-			foreach (unowned string str in pkg_struct.replaces) {
-				replaces_priv.append (str);
-			}
-			foreach (unowned string str in pkg_struct.conflicts) {
-				conflicts_priv.append (str);
-			}
-			foreach (unowned string str in pkg_struct.groups) {
-				groups_priv.append (str);
-			}
-			foreach (unowned string str in pkg_struct.backups) {
-				backups_priv.append (str);
-			}
 		}
 	}
 
 	public class AURPackage: Object {
-		AURPackageStruct pkg_struct;
-		public string name { get {return pkg_struct.name;} }
-		public string version { get {return pkg_struct.version;} }
-		public string installed_version { get {return pkg_struct.installed_version;} }
-		public string desc { get {return pkg_struct.desc;} }
-		public double popularity { get {return pkg_struct.popularity;} }
-		public string packagebase { get {return pkg_struct.packagebase;} }
-		public uint64 lastmodified { get {return pkg_struct.lastmodified;} }
-		public uint64 outofdate { get {return pkg_struct.outofdate;} }
-		internal AURPackage () {
-			pkg_struct = AURPackageStruct () {
-				name = "",
-				version = "",
-				installed_version = "",
-				desc = "",
-				packagebase = ""
-			};
-		}
-		internal AURPackage.from_struct (owned AURPackageStruct pkg_struct) {
-			this.pkg_struct = (owned) pkg_struct;
+		public string name { get; internal set; default = "";}
+		public string version { get; internal set; default = "";}
+		public string installed_version { get; internal set; default = "";}
+		public string desc { get; internal set; default = "";}
+		public double popularity { get; internal set; }
+		public string packagebase { get; internal set; default = "";}
+		public uint64 lastmodified { get; internal set; }
+		public uint64 outofdate { get; internal set; }
+		internal AURPackage () {}
+		internal AURPackage.from_struct (AURPackageStruct pkg_struct) {
+			name = pkg_struct.name;
+			version = pkg_struct.version;
+			desc = pkg_struct.desc;
+			installed_version = pkg_struct.installed_version;
+			packagebase = pkg_struct.packagebase;
+			popularity = pkg_struct.popularity;
+			lastmodified = pkg_struct.lastmodified;
+			outofdate = pkg_struct.outofdate;
 		}
 	}
 
 	public class AURPackageDetails: Object {
-		AURPackageDetailsStruct pkg_struct;
-		public string name { get {return pkg_struct.name;} }
-		public string version { get {return pkg_struct.version;} }
-		public string desc { get {return pkg_struct.desc;} }
-		public double popularity { get {return pkg_struct.popularity;} }
-		public string packagebase { get {return pkg_struct.packagebase;} }
-		public string url { get {return pkg_struct.url;} }
-		public string maintainer { get {return pkg_struct.maintainer;} }
-		public uint64 firstsubmitted { get {return pkg_struct.firstsubmitted;} }
-		public uint64 lastmodified { get {return pkg_struct.lastmodified;} }
-		public uint64 outofdate { get {return pkg_struct.outofdate;} }
-		public uint64 numvotes  { get {return pkg_struct.numvotes;} }
-		List<string> licenses_priv;
-		List<string> depends_priv;
-		List<string> makedepends_priv;
-		List<string> checkdepends_priv;
-		List<string> optdepends_priv;
-		List<string> provides_priv;
-		List<string> replaces_priv;
-		List<string> conflicts_priv;
+		public string name { get; internal set; default = "";}
+		public string version { get; internal set; default = "";}
+		public string desc { get; internal set; default = "";}
+		public double popularity { get; internal set; }
+		public string packagebase { get; internal set; default = "";}
+		public string url { get; internal set; default = "";}
+		public string maintainer { get; internal set; default = "";}
+		public uint64 firstsubmitted { get; internal set; }
+		public uint64 lastmodified { get; internal set; }
+		public uint64 outofdate { get; internal set; }
+		public uint64 numvotes  { get; internal set; }
+		internal List<string> licenses_priv;
+		internal List<string> depends_priv;
+		internal List<string> makedepends_priv;
+		internal List<string> checkdepends_priv;
+		internal List<string> optdepends_priv;
+		internal List<string> provides_priv;
+		internal List<string> replaces_priv;
+		internal List<string> conflicts_priv;
 		public List<string> licenses { get {return licenses_priv;} }
 		public List<string> depends { get {return depends_priv;} }
 		public List<string> makedepends { get {return makedepends_priv;} }
@@ -212,14 +163,6 @@ namespace Pamac {
 		public List<string> replaces { get {return replaces_priv;} }
 		public List<string> conflicts { get {return conflicts_priv;} }
 		internal AURPackageDetails () {
-			pkg_struct = AURPackageDetailsStruct () {
-				name = "",
-				version = "",
-				desc = "",
-				packagebase = "",
-				url = "",
-				maintainer = ""
-			};
 			licenses_priv = new List<string> ();
 			depends_priv = new List<string> ();
 			makedepends_priv = new List<string> ();
@@ -228,41 +171,6 @@ namespace Pamac {
 			provides_priv = new List<string> ();
 			replaces_priv = new List<string> ();
 			conflicts_priv = new List<string> ();
-		}
-		internal AURPackageDetails.from_struct (owned AURPackageDetailsStruct pkg_struct_) {
-			this.pkg_struct = (owned) pkg_struct_;
-			licenses_priv = new List<string> ();
-			depends_priv = new List<string> ();
-			makedepends_priv = new List<string> ();
-			checkdepends_priv = new List<string> ();
-			optdepends_priv = new List<string> ();
-			provides_priv = new List<string> ();
-			replaces_priv = new List<string> ();
-			conflicts_priv = new List<string> ();
-			foreach (unowned string str in pkg_struct.licenses) {
-				licenses_priv.append (str);
-			}
-			foreach (unowned string str in pkg_struct.depends) {
-				depends_priv.append (str);
-			}
-			foreach (unowned string str in pkg_struct.makedepends) {
-				makedepends_priv.append (str);
-			}
-			foreach (unowned string str in pkg_struct.checkdepends) {
-				checkdepends_priv.append (str);
-			}
-			foreach (unowned string str in pkg_struct.optdepends) {
-				optdepends_priv.append (str);
-			}
-			foreach (unowned string str in pkg_struct.provides) {
-				provides_priv.append (str);
-			}
-			foreach (unowned string str in pkg_struct.replaces) {
-				replaces_priv.append (str);
-			}
-			foreach (unowned string str in pkg_struct.conflicts) {
-				conflicts_priv.append (str);
-			}
 		}
 	}
 

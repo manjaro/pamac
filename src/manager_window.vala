@@ -173,10 +173,10 @@ namespace Pamac {
 	}
 
 	int sort_pkgs_by_size (Package pkg_a, Package pkg_b) {
-		if (pkg_a.size > pkg_b.size) {
+		if (pkg_a.installed_size > pkg_b.installed_size) {
 			return -1;
 		}
-		if (pkg_b.size > pkg_a.size) {
+		if (pkg_b.installed_size > pkg_a.installed_size) {
 			return 1;
 		}
 		return sort_pkgs_by_name (pkg_a, pkg_b);
@@ -1515,7 +1515,7 @@ namespace Pamac {
 				label.ellipsize = Pango.EllipsizeMode.END;
 				label.xalign = 0;
 				row.version_box.pack_start (label);
-				row.size_label.label = GLib.format_size (pkg.size);
+				row.size_label.label = GLib.format_size (pkg.installed_size);
 			}
 			row.repo_label.label = pkg.repo;
 			Gdk.Pixbuf pixbuf;
