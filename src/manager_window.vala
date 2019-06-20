@@ -302,6 +302,8 @@ namespace Pamac {
 		[GtkChild]
 		Gtk.Stack properties_stack;
 		[GtkChild]
+		Gtk.Box build_files_box;
+		[GtkChild]
 		Gtk.ListBox properties_listbox;
 		[GtkChild]
 		Gtk.Grid deps_grid;
@@ -321,6 +323,8 @@ namespace Pamac {
 		Gtk.Label link_label;
 		[GtkChild]
 		Gtk.Label licenses_label;
+		[GtkChild]
+		Gtk.Button launch_button;
 		[GtkChild]
 		Gtk.ToggleButton remove_togglebutton;
 		[GtkChild]
@@ -346,6 +350,7 @@ namespace Pamac {
 
 		public Queue<string> display_package_queue;
 		string current_package_displayed;
+		string current_launchable;
 		string current_files;
 		string current_build_files;
 		GenericSet<string?> previous_to_install;
@@ -489,7 +494,7 @@ namespace Pamac {
 			main_stack.add_named (transaction.details_window, "term");
 			transaction_infobox.pack_start (transaction.progress_box);
 			// integrate build files notebook
-			properties_stack.add_named (transaction.build_files_notebook, "build_files");
+			build_files_box.add (transaction.build_files_notebook);
 
 			display_package_queue = new Queue<string> ();
 			to_install = new GenericSet<string?> (str_hash, str_equal);
@@ -807,7 +812,7 @@ namespace Pamac {
 		}
 
 		Gtk.Widget populate_details_grid (string detail_type, string detail, Gtk.Widget? previous_widget) {
-			var label = new Gtk.Label ("<b>%s</b>".printf (detail_type + ":"));
+			var label = new Gtk.Label ("<b>%s:</b>".printf (detail_type));
 			label.use_markup = true;
 			label.halign = Gtk.Align.START;
 			label.valign = Gtk.Align.START;
@@ -863,7 +868,7 @@ namespace Pamac {
 		}
 
 		Gtk.Widget populate_dep_grid (string dep_type, List<string> dep_list, Gtk.Widget? previous_widget, bool add_install_button = false) {
-			var label = new Gtk.Label ("<b>%s</b>".printf (dep_type + ":"));
+			var label = new Gtk.Label ("<b>%s:</b>".printf (dep_type));
 			label.use_markup = true;
 			label.halign = Gtk.Align.START;
 			label.valign = Gtk.Align.START;
@@ -1000,6 +1005,10 @@ namespace Pamac {
 			}
 			licenses_label.set_text (licenses.str);
 			if (details.installed_version != "") {
+				if (details.launchable != "") {
+					launch_button.visible = true;
+					current_launchable = details.launchable;
+				}
 				install_togglebutton.visible = false;
 				build_togglebutton.visible = false;
 				reset_files_button.visible = false;
@@ -1035,6 +1044,7 @@ namespace Pamac {
 					}
 				}
 			} else {
+				launch_button.visible = false;
 				remove_togglebutton.visible = false;
 				reinstall_togglebutton.visible = false;
 				build_togglebutton.visible = false;
@@ -1319,6 +1329,15 @@ namespace Pamac {
 					break;
 				default:
 					break;
+			}
+		}
+
+		[GtkCallback]
+		void on_launch_button_clicked () {
+			try {
+				Process.spawn_command_line_sync ("gtk-launch %s".printf (current_launchable));
+			} catch (SpawnError e) {
+				stderr.printf ("SpawnError: %s\n", e.message);
 			}
 		}
 

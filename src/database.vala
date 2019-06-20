@@ -334,6 +334,14 @@ namespace Pamac {
 			return get_localized_string (app.get_names ());
 		}
 
+		string get_app_launchable (As.App app) {
+			As.Launchable? launchable = app.get_launchable_by_kind (As.LaunchableKind.DESKTOP_ID);
+			if (launchable != null) {
+				return launchable.get_value ();
+			}
+			return "";
+		}
+
 		string get_app_summary (As.App app) {
 			return get_localized_string (app.get_comments ());
 		}
@@ -1211,6 +1219,7 @@ namespace Pamac {
 								found = true;
 								if (app.get_pkgname_default () == alpm_pkg.name) {
 									details.app_name = appname;
+									details.launchable = get_app_launchable (app);
 									details.desc = get_app_summary (app);
 									try {
 										details.long_desc = As.markup_convert_simple (get_app_description (app));
@@ -1228,6 +1237,7 @@ namespace Pamac {
 						if (matching_apps.length () == 1) {
 							As.App app = matching_apps.nth_data (0);
 							details.app_name = get_app_name (app);
+							details.launchable = get_app_launchable (app);
 							details.desc = get_app_summary (app);
 							try {
 								details.long_desc = As.markup_convert_simple (get_app_description (app));

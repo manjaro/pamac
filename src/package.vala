@@ -74,6 +74,7 @@ namespace Pamac {
 		internal List<string> backups_priv;
 		public string name { get; internal set; default = "";}
 		public string app_name { get; internal set; default = "";}
+		public string launchable { get; internal set; default = "";}
 		public string version { get; internal set; default = "";}
 		public string installed_version { get; internal set; default = "";}
 		public string desc { get; internal set; default = "";}

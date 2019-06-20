@@ -471,9 +471,9 @@ namespace Pamac {
 				string action = dgettext (null, "Edit %s build files".printf (pkgname));
 				display_action (action);
 				// remove noteboook from manager_window properties stack
-				unowned Gtk.Stack? stack = build_files_notebook.get_parent () as Gtk.Stack;
-				if (stack != null) {
-					stack.remove (build_files_notebook);
+				unowned Gtk.Box? manager_box = build_files_notebook.get_parent () as Gtk.Box;
+				if (manager_box != null) {
+					manager_box.remove (build_files_notebook);
 				}
 				// create dialog
 				var flags = Gtk.DialogFlags.MODAL;
@@ -504,8 +504,8 @@ namespace Pamac {
 				int response = dialog.run ();
 				// re-add noteboook to manager_window properties stack
 				box.remove (build_files_notebook);
-				if (stack != null) {
-					stack.add_named (build_files_notebook, "build_files");
+				if (manager_box != null) {
+					manager_box.add (build_files_notebook);
 				}
 				dialog.destroy ();
 				if (response == Gtk.ResponseType.CLOSE) {
