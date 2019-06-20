@@ -2135,7 +2135,10 @@ namespace Pamac {
 			while (true) {
 				stdout.printf ("\n");
 				stdout.printf ("%s: ", dgettext (null, "Enter a selection (default=%s)").printf (dgettext (null, "all")));
-				string ans = stdin.read_line ();
+				string? ans = stdin.read_line ();
+				if (ans == null) {
+					break;
+				}
 				uint64 nb;
 				uint64[] numbers = {};
 				// remvove trailing newline

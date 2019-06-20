@@ -203,7 +203,10 @@ namespace Pamac {
 			while (true) {
 				stdout.printf ("\n");
 				stdout.printf ("%s: ", dgettext (null, "Enter a selection (default=%s)").printf (dgettext (null, "none")));
-				string ans = stdin.read_line ();
+				string? ans = stdin.read_line ();
+				if (ans == null) {
+					break;
+				}
 				uint64 nb;
 				uint64[] numbers = {};
 				// remvove trailing newline
@@ -287,7 +290,11 @@ namespace Pamac {
 			while (true) {
 				stdout.printf ("\n");
 				stdout.printf ("%s: ", dgettext (null, "Enter a number (default=%d)").printf (1));
-				string ans = stdin.read_line  ();
+				string? ans = stdin.read_line  ();
+				if (ans == null) {
+					stdout.printf ("\n");
+					return 1;
+				}
 				int64 nb;
 				// remvove trailing newline
 				ans = ans.replace ("\n", "");
