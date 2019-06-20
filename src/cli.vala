@@ -438,6 +438,14 @@ namespace Pamac {
 						}
 						database.config.enable_aur = true;
 						database.config.check_aur_updates = true;
+					} else if (arg == "--devel") {
+						if (Posix.geteuid () == 0) {
+							// can't check as root
+							stdout.printf (dgettext (null, "Check development packages updates as root is not allowed") + "\n");
+							exit_status = 1;
+							return;
+						}
+						database.config.check_aur_vcs_updates = true;
 					} else if (arg == "--builddir") {
 						if (args[i + 1] != null) {
 							database.config.aur_build_dir = args[i + 1];
@@ -1063,6 +1071,7 @@ namespace Pamac {
 			stdout.printf (dgettext (null, "options") + ":\n");
 			int max_length = 0;
 			string[] options = {"  -a, --aur",
+								"  --devel",
 								"  %s <%s>".printf ("--builddir", dgettext (null, "dir")),
 								"  --force-refresh",
 								"  --enable-downgrade",
@@ -1076,6 +1085,7 @@ namespace Pamac {
 				}
 			}
 			string[] details = {dgettext (null, "also upgrade packages installed from AUR"),
+								dgettext (null, "also upgrade development packages (use with --aur)"),
 								dgettext (null, "build directory (use with --aur), if no directory is given the one specified in pamac.conf file is used"),
 								dgettext (null, "force the refresh of the databases"),
 								dgettext (null, "enable package downgrades"),
