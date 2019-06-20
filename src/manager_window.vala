@@ -2189,12 +2189,18 @@ namespace Pamac {
 						} else {
 							populate_packages_list ((owned) pkgs);
 							database.search_repos_pkgs_async.begin (search_string, (obj, res) => {
+								unowned Gtk.ListBoxRow repos_row = search_listbox.get_row_at_index (1);
 								if (database.search_repos_pkgs_async.end (res).length () > 0) {
-									unowned Gtk.ListBoxRow repos_row = search_listbox.get_row_at_index (1);
 									repos_row.activatable = true;
 									repos_row.selectable = true;
 									repos_row.can_focus = true;
 									repos_row.get_child ().sensitive = true;
+								} else {
+									repos_row.activatable = false;
+									repos_row.selectable = false;
+									repos_row.has_focus = false;
+									repos_row.can_focus = false;
+									repos_row.get_child ().sensitive = false;
 								}
 							});
 						}
@@ -2260,12 +2266,18 @@ namespace Pamac {
 						} else {
 							populate_packages_list ((owned) pkgs);
 							database.search_installed_pkgs_async.begin (search_string, (obj, res) => {
+								unowned Gtk.ListBoxRow installed_row = search_listbox.get_row_at_index (0);
 								if (database.search_installed_pkgs_async.end (res).length () > 0) {
-									unowned Gtk.ListBoxRow installed_row = search_listbox.get_row_at_index (0);
 									installed_row.activatable = true;
 									installed_row.selectable = true;
 									installed_row.can_focus = true;
 									installed_row.get_child ().sensitive = true;
+								} else {
+									installed_row.activatable = false;
+									installed_row.selectable = false;
+									installed_row.has_focus = false;
+									installed_row.can_focus = false;
+									installed_row.get_child ().sensitive = false;
 								}
 							});
 						}
