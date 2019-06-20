@@ -96,10 +96,10 @@
   <template class="PamacManagerWindow" parent="GtkApplicationWindow">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
-    <property name="default_width">955</property>
-    <property name="default_height">500</property>
+    <property name="default_width">980</property>
+    <property name="default_height">600</property>
     <property name="icon_name">system-software-install</property>
-    <property name="gravity">center</property>
+    <property name="has_resize_grip">True</property>
     <property name="show_menubar">False</property>
     <signal name="delete-event" handler="on_ManagerWindow_delete_event" swapped="no"/>
     <child type="titlebar">
