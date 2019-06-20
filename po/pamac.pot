@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2019-06-19 23:21+0200\n"
+"POT-Creation-Date: 2019-06-20 11:09+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -942,6 +942,10 @@ msgid "also upgrade packages installed from AUR"
 msgstr ""
 
 #: src/cli.vala
+msgid "also upgrade development packages (use with --aur)"
+msgstr ""
+
+#: src/cli.vala
 msgid ""
 "build directory (use with --aur), if no directory is given the one specified "
 "in pamac.conf file is used"
@@ -1113,6 +1117,10 @@ msgstr ""
 
 #: resources/manager_window.ui
 msgid "Browse"
+msgstr ""
+
+#: resources/manager_window.ui
+msgid "Launch"
 msgstr ""
 
 #: resources/manager_window.ui
