@@ -111,13 +111,9 @@ namespace Pamac {
 				downloading_updates_finished ();
 			});
 			alpm_utils.trans_prepare_finished.connect ((success) => {
-				if (!success) {
-					unlock_priv ();
-				}
 				trans_prepare_finished (success);
 			});
 			alpm_utils.trans_commit_finished.connect ((success) => {
-				unlock_priv ();
 				database_modified ();
 				trans_commit_finished (success);
 			});
@@ -246,7 +242,8 @@ namespace Pamac {
 
 		public bool unlock (GLib.BusName sender) throws Error {
 			if (lock_id == sender) {
-				unlock_priv ();
+				lock_id = new BusName ("");
+				authorized = false;
 				return true;
 			}
 			return false;
@@ -387,6 +384,10 @@ namespace Pamac {
 		}
 
 		public void start_refresh (bool force, GLib.BusName sender) throws Error {
+			if (lock_id != sender) {
+				refresh_finished (false);
+				return;
+			}
 			alpm_utils.force_refresh = force;
 			if (alpm_utils.downloading_updates) {
 				alpm_utils.cancellable.cancel ();
@@ -539,7 +540,6 @@ namespace Pamac {
 				return;
 			}
 			alpm_utils.trans_release ();
-			unlock_priv ();
 		}
 
 		public void trans_cancel (GLib.BusName sender) throws Error {
@@ -547,12 +547,6 @@ namespace Pamac {
 				return;
 			}
 			alpm_utils.trans_cancel ();
-			unlock_priv ();
-		}
-
-		private void unlock_priv () {
-			lock_id = new BusName ("");
-			authorized = false;
 		}
 
 		[DBus (no_reply = true)]

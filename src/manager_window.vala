@@ -359,7 +359,6 @@ namespace Pamac {
 
 		public TransactionGtk transaction;
 		public Database database { get; construct; }
-		delegate void TransactionAction ();
 
 		bool important_details;
 		bool transaction_running;
@@ -449,6 +448,8 @@ namespace Pamac {
 
 			// transaction
 			transaction = new TransactionGtk (database, this);
+			transaction.start_waiting.connect (on_start_waiting);
+			transaction.stop_waiting.connect (on_stop_waiting);
 			transaction.start_preparing.connect (on_start_preparing);
 			transaction.stop_preparing.connect (on_stop_preparing);
 			transaction.start_downloading.connect (on_start_downloading);
@@ -566,7 +567,6 @@ namespace Pamac {
 		}
 
 		void on_set_pkgreason_finished () {
-			transaction.unlock ();
 			if (main_stack.visible_child_name == "details") {
 				if (database.is_installed_pkg (current_package_displayed)
 					|| database.is_sync_pkg (current_package_displayed)) {
@@ -612,31 +612,6 @@ namespace Pamac {
 
 		void show_transaction_infobox () {
 			transaction_infobox_revealer.set_reveal_child (true);
-		}
-
-		void try_lock_and_run (TransactionAction action) {
-			if (transaction.get_lock ()) {
-				action ();
-			} else {
-				waiting = true;
-				transaction.progress_box.action_label.label = dgettext (null, "Waiting for another package manager to quit") + "...";
-				transaction.start_progressbar_pulse ();
-				apply_button.sensitive = false;
-				cancel_button.sensitive = true;
-				show_transaction_infobox ();
-				Timeout.add (5000, () => {
-					if (!waiting) {
-						return false;
-					}
-					bool locked = transaction.get_lock ();
-					if (locked) {
-						waiting = false;
-						transaction.stop_progressbar_pulse ();
-						action ();
-					}
-					return !locked;
-				});
-			}
 		}
 
 		void set_pendings_operations () {
@@ -806,9 +781,7 @@ namespace Pamac {
 		}
 
 		void on_mark_explicit_button_clicked (Gtk.Button button) {
-			if (transaction.get_lock ()) {
-				transaction.start_set_pkgreason (current_package_displayed, 0); //Alpm.Package.Reason.EXPLICIT
-			}
+			transaction.start_set_pkgreason (current_package_displayed, 0); //Alpm.Package.Reason.EXPLICIT
 		}
 
 		Gtk.Widget populate_details_grid (string detail_type, string detail, Gtk.Widget? previous_widget) {
@@ -2734,7 +2707,7 @@ namespace Pamac {
 						to_load.add (path);
 					}
 					chooser.destroy ();
-					try_lock_and_run (run_transaction);
+					run_transaction ();
 				}
 			} else {
 				chooser.destroy ();
@@ -2799,14 +2772,14 @@ namespace Pamac {
 				main_stack.visible_child_name == "browse") {
 				force_refresh = false;
 				transaction.no_confirm_upgrade = true;
-				try_lock_and_run (run_sysupgrade);
+				run_sysupgrade ();
 			} else if (main_stack.visible_child_name == "details" &&
 					properties_stack.visible_child_name == "build_files") {
 					transaction.save_build_files.begin (current_package_displayed, () => {
-						try_lock_and_run (run_transaction);
+						run_transaction ();
 					});
 			} else {
-				try_lock_and_run (run_transaction);
+				run_transaction ();
 			}
 			details_button.sensitive = true;
 		}
@@ -2857,6 +2830,7 @@ namespace Pamac {
 		void on_cancel_button_clicked () {
 			if (waiting) {
 				waiting = false;
+				transaction.cancel ();
 				transaction.stop_progressbar_pulse ();
 				set_pendings_operations ();
 			} else if (transaction_running) {
@@ -2885,7 +2859,7 @@ namespace Pamac {
 		void on_refresh_button_clicked () {
 			force_refresh = true;
 			transaction.no_confirm_upgrade = false;
-			try_lock_and_run (run_sysupgrade);
+			run_sysupgrade ();
 		}
 
 		void on_get_updates_progress (uint percent) {
@@ -2944,6 +2918,16 @@ namespace Pamac {
 			}
 		}
 
+		void on_start_waiting () {
+			waiting = true;
+			cancel_button.sensitive = true;
+		}
+
+		void on_stop_waiting () {
+			waiting = false;
+			cancel_button.sensitive = false;
+		}
+
 		void on_start_preparing () {
 			this.get_window ().set_cursor (new Gdk.Cursor.for_display (Gdk.Display.get_default (), Gdk.CursorType.WATCH));
 			cancel_button.sensitive = false;
@@ -2996,7 +2980,6 @@ namespace Pamac {
 		}
 
 		void on_transaction_finished (bool success) {
-			transaction.unlock ();
 			if (!success) {
 				foreach (unowned string name in previous_to_install) {
 					if (!database.is_installed_pkg (name)) {

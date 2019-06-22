@@ -26,6 +26,8 @@ namespace Pamac {
 			BUILD = (1 << 3)
 		}
 		TransactionInterface transaction_interface;
+		delegate void TransactionAction ();
+		bool waiting;
 		// run transaction data
 		string current_action;
 		string current_status;
@@ -71,6 +73,8 @@ namespace Pamac {
 		public signal void emit_script_output (string message);
 		public signal void emit_warning (string message);
 		public signal void emit_error (string message, string[] details);
+		public signal void start_waiting ();
+		public signal void stop_waiting ();
 		public signal void start_preparing ();
 		public signal void stop_preparing ();
 		public signal void start_downloading ();
@@ -106,6 +110,7 @@ namespace Pamac {
 			}
 			transaction_interface.get_authorization_finished.connect (on_get_authorization_finished);
 			transaction_interface.database_modified.connect (on_database_modified);
+			waiting = false;
 			// transaction options
 			flags = 0;
 			enable_downgrade = false;
@@ -199,14 +204,6 @@ namespace Pamac {
 
 		ErrorInfos get_current_error () {
 			return transaction_interface.get_current_error ();
-		}
-
-		public bool get_lock () {
-			return transaction_interface.get_lock ();
-		}
-
-		public bool unlock () {
-			return transaction_interface.unlock ();
 		}
 
 		void on_database_modified () {
@@ -763,7 +760,7 @@ namespace Pamac {
 			this.enable_downgrade = enable_downgrade;
 			this.temporary_ignorepkgs = temporary_ignorepkgs;
 			this.overwrite_files = overwrite_files;
-			start_refresh_for_sysupgrade ();
+			try_lock_and_run (start_refresh_for_sysupgrade);
 		}
 
 		void trans_prepare_real () {
@@ -786,6 +783,36 @@ namespace Pamac {
 			}
 		}
 
+		void try_lock_and_run (TransactionAction action) {
+			if (transaction_interface.get_lock ()) {
+				action ();
+			} else {
+				waiting = true;
+				start_waiting ();
+				emit_action (dgettext (null, "Waiting for another package manager to quit") + "...");
+				int pass = 0;
+				Timeout.add (1000, () => {
+					if (!waiting) {
+						stop_waiting ();
+						finish_transaction (false);
+						return false;
+					}
+					bool locked = transaction_interface.get_lock ();
+					if (locked) {
+						waiting = false;
+						stop_waiting ();
+						action ();
+					}
+					pass++;
+					// wait 10 min max
+					if (pass == 599) {
+						cancel ();
+					}
+					return !locked;
+				});
+			}
+		}
+
 		public void start (string[] to_install, string[] to_remove, string[] to_load, string[] to_build, string[] temporary_ignorepkgs, string[] overwrite_files) {
 			this.to_install = to_install;
 			this.to_remove = to_remove;
@@ -795,11 +822,13 @@ namespace Pamac {
 			this.overwrite_files = overwrite_files;
 			this.to_mark_as_dep = {};
 			if (this.to_install.length > 0) {
-				start_refresh_for_install ();
+				try_lock_and_run (start_refresh_for_install);
 			} else {
-				emit_action (dgettext (null, "Preparing") + "...");
-				connecting_signals ();
-				trans_prepare_real ();
+				try_lock_and_run (() => {
+					emit_action (dgettext (null, "Preparing") + "...");
+					connecting_signals ();
+					trans_prepare_real ();
+				});
 			}
 		}
 
@@ -916,6 +945,8 @@ namespace Pamac {
 		public void cancel () {
 			if (building) {
 				build_cancellable.cancel ();
+			} else if (waiting) {
+				waiting = false;
 			} else {
 				transaction_interface.trans_cancel ();
 			}
@@ -1274,6 +1305,7 @@ namespace Pamac {
 			} else {
 				finished (success);
 			}
+			transaction_interface.unlock ();
 		}
 
 		void on_trans_prepare_finished (bool success) {

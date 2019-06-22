@@ -23,14 +23,13 @@ namespace Pamac {
 		public int exit_status;
 		public TransactionCli transaction;
 		Database database;
-		delegate void TransactionAction ();
 		string[] to_install;
 		string[] to_remove;
 		string[] to_load;
 		string[] to_build;
 		bool force_refresh;
 		bool trans_cancellable;
-		bool waiting;
+		bool cloning;
 		string[] temporary_ignorepkgs;
 		string[] overwrite_files;
 		GenericSet<string?> already_checked_aur_dep;
@@ -44,7 +43,7 @@ namespace Pamac {
 			to_build = {};
 			force_refresh = false;
 			trans_cancellable = false;
-			waiting = false;
+			cloning = false;
 			overwrite_files = {};
 			// watch CTRl + C
 			Unix.signal_add (Posix.Signal.INT, trans_cancel);
@@ -475,7 +474,7 @@ namespace Pamac {
 					i++;
 				}
 				if (!error) {
-					try_lock_and_run (start_sysupgrade);
+					start_sysupgrade ();
 				}
 			} else if (args[1] == "clean") {
 				init_transaction ();
@@ -593,6 +592,12 @@ namespace Pamac {
 			transaction = new TransactionCli (database);
 			transaction.finished.connect (on_transaction_finished);
 			transaction.sysupgrade_finished.connect (on_transaction_finished);
+			transaction.start_waiting.connect (() => {
+				trans_cancellable = true;
+			});
+			transaction.stop_waiting.connect (() => {
+				trans_cancellable = false;
+			});
 			transaction.start_downloading.connect (() => {
 				trans_cancellable = true;
 			});
@@ -616,8 +621,8 @@ namespace Pamac {
 		}
 
 		bool trans_cancel () {
-			if (waiting) {
-				waiting = false;
+			if (cloning) {
+				cloning = false;
 				stdout.printf ("\n");
 				loop.quit ();
 			} else if (trans_cancellable) {
@@ -1989,19 +1994,14 @@ namespace Pamac {
 				return;
 			}
 			if (no_confirm || ask_user ("%s ?".printf (dgettext (null, "Clean cache")))) {
-				try_lock_and_run (clean_cache_real);
+				transaction.clean_cache_finished.connect (on_clean_cache_finished);
+				transaction.start_clean_cache (database.config.clean_keep_num_pkgs, database.config.clean_rm_only_uninstalled);
+				loop.run ();
 			}
-		}
-
-		void clean_cache_real () {
-			transaction.clean_cache_finished.connect (on_clean_cache_finished);
-			transaction.start_clean_cache (database.config.clean_keep_num_pkgs, database.config.clean_rm_only_uninstalled);
-			loop.run ();
 		}
 
 		void on_clean_cache_finished () {
 			transaction.clean_cache_finished.disconnect (on_clean_cache_finished);
-			transaction.unlock ();
 			loop.quit ();
 		}
 
@@ -2029,19 +2029,14 @@ namespace Pamac {
 				return;
 			}
 			if (no_confirm || ask_user ("%s ?".printf (dgettext (null, "Clean build files")))) {
-				try_lock_and_run (clean_build_files_real);
+				transaction.clean_build_files_finished.connect (on_clean_build_files_finished);
+				transaction.start_clean_build_files (database.config.aur_build_dir);
+				loop.run ();
 			}
-		}
-
-		void clean_build_files_real () {
-			transaction.clean_build_files_finished.connect (on_clean_build_files_finished);
-			transaction.start_clean_build_files (database.config.aur_build_dir);
-			loop.run ();
 		}
 
 		void on_clean_build_files_finished () {
 			transaction.clean_build_files_finished.disconnect (on_clean_build_files_finished);
-			transaction.unlock ();
 			loop.quit ();
 		}
 
@@ -2097,7 +2092,7 @@ namespace Pamac {
 			}
 			// do not install a package if it is already installed and up to date
 			transaction.flags = (1 << 13); //Alpm.TransFlag.NEEDED
-			try_lock_and_run (start_transaction);
+			start_transaction ();
 		}
 
 		void ask_group_confirmation (string grpname) {
@@ -2225,7 +2220,7 @@ namespace Pamac {
 				stdout.printf (dgettext (null, "Nothing to do") + ".\n");
 				return;
 			}
-			try_lock_and_run (start_transaction);
+			start_transaction ();
 		}
 
 		void remove_pkgs (string[] names, bool recurse = false) {
@@ -2265,7 +2260,7 @@ namespace Pamac {
 			if (recurse) {
 				transaction.flags |= (1 << 5); //Alpm.TransFlag.RECURSE
 			}
-			try_lock_and_run (start_transaction);
+			start_transaction ();
 		}
 
 		void remove_orphans () {
@@ -2275,15 +2270,14 @@ namespace Pamac {
 			}
 			transaction.flags = (1 << 4); //Alpm.TransFlag.CASCADE
 			transaction.flags |= (1 << 5); //Alpm.TransFlag.RECURSE
-			try_lock_and_run (start_transaction);
+			start_transaction ();
 		}
 
 		void clone_build_files (string[] pkgnames, bool overwrite, bool recurse) {
 			already_checked_aur_dep = new GenericSet<string?> (str_hash, str_equal);
-			// set waiting to allow cancellation
-			waiting = true;
+			cloning = true;
 			clone_build_files_real.begin (pkgnames, overwrite, recurse, () => {
-				waiting = false;
+				cloning = false;
 				loop.quit ();
 			});
 			loop.run ();
@@ -2356,7 +2350,7 @@ namespace Pamac {
 
 		void build_pkgs (string[] to_build) {
 			this.to_build = to_build;
-			try_lock_and_run (start_transaction);
+			start_transaction ();
 		}
 
 		void start_transaction () {
@@ -2370,28 +2364,6 @@ namespace Pamac {
 				transaction.start (to_install, to_remove, to_load, to_build, temporary_ignorepkgs, overwrite_files);
 			}
 			loop.run ();
-		}
-
-		void try_lock_and_run (TransactionAction action) {
-			if (transaction.get_lock ()) {
-				action ();
-			} else {
-				waiting = true;
-				stdout.printf (dgettext (null, "Waiting for another package manager to quit") + "...\n");
-				Timeout.add (5000, () => {
-					if (!waiting) {
-						return false;
-					}
-					bool locked = transaction.get_lock ();
-					if (locked) {
-						loop.quit ();
-						waiting = false;
-						action ();
-					}
-					return !locked;
-				});
-				loop.run ();
-			}
 		}
 
 		void start_sysupgrade () {
@@ -2408,7 +2380,6 @@ namespace Pamac {
 		}
 
 		void on_transaction_finished (bool success) {
-			transaction.unlock ();
 			loop.quit ();
 			if (!success) {
 				exit_status = 1;

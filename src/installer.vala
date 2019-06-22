@@ -113,21 +113,8 @@ namespace Pamac {
 			} else {
 				this.hold ();
 				progress_dialog.show ();
-				if (transaction.get_lock ()) {
-					transaction.start (to_install, to_remove, to_load, {}, {}, {});
-					progress_dialog.close_button.visible = false;
-				} else {
-					transaction.progress_box.action_label.label = dgettext (null, "Waiting for another package manager to quit") + "...";
-					transaction.start_progressbar_pulse ();
-					Timeout.add (5000, () => {
-						bool locked = transaction.get_lock ();
-						if (locked) {
-							transaction.stop_progressbar_pulse ();
-							transaction.start (to_install, to_remove, to_load, {}, {}, {});
-						}
-						return !locked;
-					});
-				}
+				transaction.start (to_install, to_remove, to_load, {}, {}, {});
+				progress_dialog.close_button.visible = false;
 			}
 			return cmd.get_exit_status ();
 		}
@@ -151,7 +138,6 @@ namespace Pamac {
 		}
 
 		void on_transaction_finished (bool success) {
-			transaction.unlock ();
 			if (!success || important_details) {
 				progress_dialog.close_button.visible = true;
 			} else {

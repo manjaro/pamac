@@ -98,6 +98,8 @@ namespace Pamac {
 			start_generating_mirrors_list.connect (start_progressbar_pulse);
 			generate_mirrors_list_finished.connect (reset_progress_box);
 			start_downloading.connect (() => {progress_box.progressbar.visible = true;});
+			start_waiting.connect (start_progressbar_pulse);
+			stop_waiting.connect (stop_progressbar_pulse);
 			start_preparing.connect (start_progressbar_pulse);
 			stop_preparing.connect (stop_progressbar_pulse);
 			start_building.connect (start_progressbar_pulse);
