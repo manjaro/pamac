@@ -1158,6 +1158,8 @@ namespace Pamac {
 			this.get_window ().set_cursor (new Gdk.Cursor.for_display (Gdk.Display.get_default (), Gdk.CursorType.WATCH));
 			AURPackageDetails details = yield database.get_aur_pkg_details (pkgname);
 			app_screenshot.pixbuf = null;
+			launch_button.visible = false;
+			remove_togglebutton.visible = false;
 			reinstall_togglebutton.visible = false;
 			install_togglebutton.visible = false;
 			reset_files_button.visible = false;
