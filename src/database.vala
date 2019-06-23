@@ -1300,7 +1300,7 @@ namespace Pamac {
 					unowned Alpm.List<unowned Alpm.Backup> backups_list = alpm_pkg.backups;
 					while (backups_list != null) {
 						details.backups_priv.append ("/" + backups_list.data.name);
-						list.next ();
+						backups_list.next ();
 					}
 					// requiredby
 					Alpm.List<string> pkg_requiredby = alpm_pkg.compute_requiredby ();
