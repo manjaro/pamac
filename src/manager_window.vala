@@ -1743,7 +1743,7 @@ namespace Pamac {
 		}
 
 		public void refresh_packages_list () {
-			button_back.visible = (main_stack.visible_child_name != "browse" || filters_stack.visible_child_name != "filters");
+			button_back.visible = (main_stack.visible_child_name != "browse" || (browse_stack.visible_child_name == "browse" && filters_stack.visible_child_name != "filters"));
 			if (browse_stack.visible_child_name == "browse") {
 				show_sidebar ();
 				search_button.visible = true;
@@ -2591,15 +2591,17 @@ namespace Pamac {
 			switch (main_stack.visible_child_name) {
 				case "browse":
 					main_stack_switcher.visible = true;
-					button_back.visible = filters_stack.visible_child_name != "filters";
-					if (filters_stack.visible_child_name == "categories") {
-						header_filter_label.set_markup ("<b>%s</b>".printf (dgettext (null, "Categories")));
-					} else if (filters_stack.visible_child_name == "groups") {
-						header_filter_label.set_markup ("<b>%s</b>".printf (dgettext (null, "Groups")));
-					} else if (filters_stack.visible_child_name == "repos") {
-						header_filter_label.set_markup ("<b>%s</b>".printf (dgettext (null, "Repositories")));
-					} else {
-						header_filter_label.label = "";
+					button_back.visible = (browse_stack.visible_child_name == "browse" && filters_stack.visible_child_name != "filters");
+					if (browse_stack.visible_child_name == "browse") {
+						if (filters_stack.visible_child_name == "categories") {
+							header_filter_label.set_markup ("<b>%s</b>".printf (dgettext (null, "Categories")));
+						} else if (filters_stack.visible_child_name == "groups") {
+							header_filter_label.set_markup ("<b>%s</b>".printf (dgettext (null, "Groups")));
+						} else if (filters_stack.visible_child_name == "repos") {
+							header_filter_label.set_markup ("<b>%s</b>".printf (dgettext (null, "Repositories")));
+						} else {
+							header_filter_label.label = "";
+						}
 					}
 					if (browse_stack.visible_child_name == "updates"
 						|| browse_stack.visible_child_name == "pending") {
