@@ -78,7 +78,6 @@ namespace Pamac {
 			// alpm_utils global variable declared in alpm_utils.vala
 			alpm_utils = new AlpmUtils (config);
 			lockfile = GLib.File.new_for_path (alpm_utils.alpm_handle.lockfile);
-			check_old_lock ();
 			check_extern_lock ();
 			Timeout.add (200, check_extern_lock);
 			create_thread_pool ();
@@ -105,15 +104,20 @@ namespace Pamac {
 				emit_log (level, msg);
 			});
 			alpm_utils.refresh_finished.connect ((success) => {
+				lock_id = new BusName ("");
 				refresh_finished (success);
 			});
 			alpm_utils.downloading_updates_finished.connect (() => {
 				downloading_updates_finished ();
 			});
 			alpm_utils.trans_prepare_finished.connect ((success) => {
+				if (!success) {
+					lock_id = new BusName ("");
+				}
 				trans_prepare_finished (success);
 			});
 			alpm_utils.trans_commit_finished.connect ((success) => {
+				lock_id = new BusName ("");
 				database_modified ();
 				trans_commit_finished (success);
 			});
@@ -160,58 +164,6 @@ namespace Pamac {
 			}
 		}
 
-		private void check_old_lock () {
-			if (lockfile.query_exists ()) {
-				int exit_status;
-				string output;
-				uint64 lockfile_time;
-				try {
-					// get lockfile modification time since epoch
-					Process.spawn_command_line_sync ("stat -c %Y %s".printf (alpm_utils.alpm_handle.lockfile),
-													out output,
-													null,
-													out exit_status);
-					if (exit_status == 0) {
-						string[] splitted = output.split ("\n");
-						if (splitted.length == 2) {
-							if (uint64.try_parse (splitted[0], out lockfile_time)) {
-								uint64 boot_time;
-								// get boot time since epoch
-								Process.spawn_command_line_sync ("cat /proc/stat",
-																out output,
-																null,
-																out exit_status);
-								if (exit_status == 0) {
-									splitted = output.split ("\n");
-									foreach (unowned string line in splitted) {
-										if ("btime" in line) {
-											string[] space_splitted = line.split (" ");
-											if (space_splitted.length == 2) {
-												if (uint64.try_parse (space_splitted[1], out boot_time)) {
-													// check if lock file is older than boot time
-													if (lockfile_time < boot_time) {
-														// remove the unneeded lock file.
-														try {
-															lockfile.delete ();
-														} catch (Error e) {
-															stderr.printf ("Error: %s\n", e.message);
-														}
-														lock_id = new BusName ("");
-													}
-												}
-											}
-										}
-									}
-								}
-							}
-						}
-					}
-				} catch (SpawnError e) {
-					stderr.printf ("Error: %s\n", e.message);
-				}
-			}
-		}
-
 		private bool check_extern_lock () {
 			if (lock_id == "extern") {
 				if (!lockfile.query_exists ()) {
@@ -230,20 +182,8 @@ namespace Pamac {
 			return true;
 		}
 
-		public bool get_lock (GLib.BusName sender) throws Error {
-			if (lock_id == sender) {
-				return true;
-			} else if (lock_id == "") {
-				lock_id = sender;
-				return true;
-			}
-			return false;
-		}
-
-		public bool unlock (GLib.BusName sender) throws Error {
-			if (lock_id == sender) {
-				lock_id = new BusName ("");
-				authorized = false;
+		public bool get_lock () throws Error {
+			if (lock_id != "extern") {
 				return true;
 			}
 			return false;
@@ -376,7 +316,9 @@ namespace Pamac {
 				bool authorized = check_authorization.end (res);
 				bool success = false;
 				if (authorized) {
+					lock_id = sender;
 					success = alpm_utils.set_pkgreason (pkgname, reason);
+					lock_id = new BusName ("");
 				}
 				database_modified ();
 				set_pkgreason_finished (success);
@@ -384,10 +326,6 @@ namespace Pamac {
 		}
 
 		public void start_refresh (bool force, GLib.BusName sender) throws Error {
-			if (lock_id != sender) {
-				refresh_finished (false);
-				return;
-			}
 			alpm_utils.force_refresh = force;
 			if (alpm_utils.downloading_updates) {
 				alpm_utils.cancellable.cancel ();
@@ -396,6 +334,7 @@ namespace Pamac {
 					check_authorization.begin (sender, (obj, res) => {
 						bool authorized = check_authorization.end (res);
 						if (authorized) {
+							lock_id = sender;
 							launch_refresh_thread ();
 						} else {
 							refresh_finished (false);
@@ -407,6 +346,7 @@ namespace Pamac {
 				check_authorization.begin (sender, (obj, res) => {
 					bool authorized = check_authorization.end (res);
 					if (authorized) {
+						lock_id = sender;
 						launch_refresh_thread ();
 					} else {
 						refresh_finished (false);
@@ -433,10 +373,6 @@ namespace Pamac {
 											string[] temporary_ignorepkgs,
 											string[] overwrite_files,
 											GLib.BusName sender) throws Error {
-			if (lock_id != sender) {
-				trans_prepare_finished (false);
-				return;
-			}
 			alpm_utils.config.enable_downgrade = enable_downgrade;
 			alpm_utils.temporary_ignorepkgs = temporary_ignorepkgs;
 			alpm_utils.overwrite_files = overwrite_files;
@@ -450,10 +386,12 @@ namespace Pamac {
 				alpm_utils.cancellable.cancel ();
 				// let time to cancel download updates
 				Timeout.add (1000, () => {
+					lock_id = sender;
 					launch_prepare_thread ();
 					return false;
 				});
 			} else {
+				lock_id = sender;
 				launch_prepare_thread ();
 			}
 		}
@@ -467,10 +405,6 @@ namespace Pamac {
 										string[] overwrite_files,
 										string[] to_mark_as_dep,
 										GLib.BusName sender) throws Error {
-			if (lock_id != sender) {
-				trans_prepare_finished (false);
-				return;
-			}
 			alpm_utils.flags = flags;
 			alpm_utils.to_install = to_install;
 			alpm_utils.to_remove = to_remove;
@@ -484,10 +418,12 @@ namespace Pamac {
 				alpm_utils.cancellable.cancel ();
 				// let time to cancel download updates
 				Timeout.add (1000, () => {
+					lock_id = sender;
 					launch_prepare_thread ();
 					return false;
 				});
 			} else {
+				lock_id = sender;
 				launch_prepare_thread ();
 			}
 		}
@@ -523,13 +459,13 @@ namespace Pamac {
 			check_authorization.begin (sender, (obj, res) => {
 				bool authorized = check_authorization.end (res);
 				if (authorized) {
-					try {
-						thread_pool.add (new AlpmAction (alpm_utils.trans_commit));
-					} catch (ThreadError e) {
-						stderr.printf ("Thread Error %s\n", e.message);
-					}
+					alpm_utils.alpm_mutex.lock ();
+					alpm_utils.commit = true;
+					alpm_utils.alpm_cond.signal ();
+					alpm_utils.alpm_mutex.unlock ();
 				} else {
 					alpm_utils.trans_release ();
+					lock_id = new BusName ("");
 					trans_commit_finished (false);
 				}
 			});
@@ -551,10 +487,6 @@ namespace Pamac {
 
 		[DBus (no_reply = true)]
 		public void quit () throws Error {
-			// do not quit if locked
-			if (lock_id != "" && lock_id != "extern"){
-				return;
-			}
 			// do not quit if downloading updates
 			if (alpm_utils.downloading_updates) {
 				return;

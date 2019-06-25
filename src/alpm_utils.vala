@@ -90,9 +90,10 @@ namespace Pamac {
 		internal Alpm.Handle? alpm_handle;
 		internal Alpm.Handle? files_handle;
 		internal string tmp_path;
-		internal Cond provider_cond;
-		internal Mutex provider_mutex;
+		internal Cond alpm_cond;
+		internal Mutex alpm_mutex;
 		internal int? choosen_provider;
+		internal bool? commit;
 		internal bool force_refresh;
 		internal int flags;
 		GenericSet<string?> to_syncfirst;
@@ -149,10 +150,63 @@ namespace Pamac {
 			curl.setopt (Curl.Option.NETRC, Curl.NetRCOption.OPTIONAL);
 			curl.setopt (Curl.Option.HTTPAUTH, Curl.CURLAUTH_ANY);
 			downloading_updates = false;
+			check_old_lock ();
 		}
 
 		~AlpmUtils () {
 			Curl.global_cleanup ();
+		}
+
+		void check_old_lock () {
+			var lockfile = GLib.File.new_for_path (alpm_handle.lockfile);
+			if (lockfile.query_exists ()) {
+				int exit_status;
+				string output;
+				uint64 lockfile_time;
+				try {
+					// get lockfile modification time since epoch
+					Process.spawn_command_line_sync ("stat -c %Y %s".printf (alpm_handle.lockfile),
+													out output,
+													null,
+													out exit_status);
+					if (exit_status == 0) {
+						string[] splitted = output.split ("\n");
+						if (splitted.length == 2) {
+							if (uint64.try_parse (splitted[0], out lockfile_time)) {
+								uint64 boot_time;
+								// get boot time since epoch
+								Process.spawn_command_line_sync ("cat /proc/stat",
+																out output,
+																null,
+																out exit_status);
+								if (exit_status == 0) {
+									splitted = output.split ("\n");
+									foreach (unowned string line in splitted) {
+										if ("btime" in line) {
+											string[] space_splitted = line.split (" ");
+											if (space_splitted.length == 2) {
+												if (uint64.try_parse (space_splitted[1], out boot_time)) {
+													// check if lock file is older than boot time
+													if (lockfile_time < boot_time) {
+														// remove the unneeded lock file.
+														try {
+															lockfile.delete ();
+														} catch (Error e) {
+															stderr.printf ("Error: %s\n", e.message);
+														}
+													}
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				} catch (SpawnError e) {
+					stderr.printf ("Error: %s\n", e.message);
+				}
+			}
 		}
 
 		internal void refresh_handle () {
@@ -391,9 +445,9 @@ namespace Pamac {
 				syncdbs.next ();
 			}
 			int success = handle.trans_init (Alpm.TransFlag.DOWNLOADONLY);
-			// can't add nolock flag with commit so remove unneeded lock
-			handle.unlock ();
 			if (success == 0) {
+				// can't add nolock flag with commit so remove unneeded lock
+				handle.unlock ();
 				success = handle.trans_sysupgrade (0);
 				if (success == 0) {
 					Alpm.List err_data;
@@ -818,6 +872,20 @@ namespace Pamac {
 				trans_release ();
 			}
 			trans_prepare_finished (success);
+			if (success) {
+				// wait for a commit/release answer;
+				alpm_cond = Cond ();
+				alpm_mutex = Mutex ();
+				commit = null;
+				alpm_mutex.lock ();
+				while (commit == null) {
+					alpm_cond.wait (alpm_mutex);
+				}
+				alpm_mutex.unlock ();
+				if (commit) {
+					trans_commit ();
+				}
+			}
 		}
 
 		internal void build_prepare () {
@@ -996,10 +1064,10 @@ namespace Pamac {
 		}
 
 		internal void choose_provider (int provider) {
-			provider_mutex.lock ();
+			alpm_mutex.lock ();
 			choosen_provider = provider;
-			provider_cond.signal ();
-			provider_mutex.unlock ();
+			alpm_cond.signal ();
+			alpm_mutex.unlock ();
 		}
 
 		internal TransactionSummaryStruct get_transaction_summary () {
@@ -1065,7 +1133,7 @@ namespace Pamac {
 			queues_table = new HashTable<string, AsyncQueue<string>> (str_hash, str_equal);
 			// get files to download
 			total_download = 0;
-			unowned Alpm.List<unowned Alpm.Package> pkgs_to_add = alpm_utils.alpm_handle.trans_to_add ();
+			unowned Alpm.List<unowned Alpm.Package> pkgs_to_add = alpm_handle.trans_to_add ();
 			while (pkgs_to_add != null) {
 				unowned Alpm.Package trans_pkg = pkgs_to_add.data;
 				uint64 download_size = trans_pkg.download_size;
@@ -1086,13 +1154,13 @@ namespace Pamac {
 			}
 			// compute the dbs available for each mirror
 			var mirrors_table = new HashTable<string, GenericSet<string>> (str_hash, str_equal);
-			unowned Alpm.List<unowned Alpm.DB> syncdbs = alpm_utils.alpm_handle.syncdbs;
+			unowned Alpm.List<unowned Alpm.DB> syncdbs = alpm_handle.syncdbs;
 			while (syncdbs != null) {
 				unowned Alpm.DB db = syncdbs.data;
 				unowned Alpm.List<unowned string> servers = db.servers;
 				while (servers != null) {
 					unowned string server_full = servers.data;
-					string server = server_full.replace ("/%s".printf (alpm_utils.alpm_handle.arch), "").replace ("/%s".printf (db.name), "");
+					string server = server_full.replace ("/%s".printf (alpm_handle.arch), "").replace ("/%s".printf (db.name), "");
 					if (mirrors_table.contains (server)) {
 						unowned GenericSet<string> repos_set = mirrors_table.lookup (server);
 						repos_set.add (db.name);
@@ -1308,6 +1376,10 @@ namespace Pamac {
 		}
 
 		internal void trans_release () {
+			alpm_mutex.lock ();
+			commit = false;
+			alpm_cond.signal ();
+			alpm_mutex.unlock ();
 			alpm_handle.trans_release ();
 			remove_ignorepkgs ();
 			remove_overwrite_files ();
@@ -1461,16 +1533,16 @@ void cb_question (Alpm.Question.Data data) {
 				providers_str += pkg.name;
 				list.next ();
 			}
-			alpm_utils.provider_cond = Cond ();
-			alpm_utils.provider_mutex = Mutex ();
+			alpm_utils.alpm_cond = Cond ();
+			alpm_utils.alpm_mutex = Mutex ();
 			alpm_utils.choosen_provider = null;
 			alpm_utils.emit_providers (depend_str, providers_str);
-			alpm_utils.provider_mutex.lock ();
+			alpm_utils.alpm_mutex.lock ();
 			while (alpm_utils.choosen_provider == null) {
-				alpm_utils.provider_cond.wait (alpm_utils.provider_mutex);
+				alpm_utils.alpm_cond.wait (alpm_utils.alpm_mutex);
 			}
 			data.select_provider_use_index = alpm_utils.choosen_provider;
-			alpm_utils.provider_mutex.unlock ();
+			alpm_utils.alpm_mutex.unlock ();
 			break;
 		case Alpm.Question.Type.CORRUPTED_PKG:
 			// Auto-remove corrupted pkgs in cache

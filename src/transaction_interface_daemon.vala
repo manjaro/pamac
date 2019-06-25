@@ -23,7 +23,6 @@ namespace Pamac {
 		public abstract void set_environment_variables (HashTable<string,string> variables) throws Error;
 		public abstract ErrorInfos get_current_error () throws Error;
 		public abstract bool get_lock () throws Error;
-		public abstract bool unlock () throws Error;
 		public abstract void start_get_authorization () throws Error;
 		public abstract void start_write_pamac_config (HashTable<string,Variant> new_pamac_conf) throws Error;
 		public abstract void start_write_alpm_config (HashTable<string,Variant> new_alpm_conf) throws Error;
@@ -91,16 +90,6 @@ namespace Pamac {
 				stderr.printf ("get_lock: %s\n", e.message);
 			}
 			return locked;
-		}
-
-		public bool unlock () {
-			bool unlocked = false;
-			try {
-				unlocked = system_daemon.unlock ();
-			} catch (Error e) {
-				stderr.printf ("unlock: %s\n", e.message);
-			}
-			return unlocked;
 		}
 
 		public void start_get_authorization () {

@@ -67,12 +67,10 @@ namespace Pamac {
 		}
 
 		public bool get_lock () {
-			// we are root
-			return true;
-		}
-
-		public bool unlock () {
-			// we are root
+			var lockfile = GLib.File.new_for_path (alpm_utils.alpm_handle.lockfile);
+			if (lockfile.query_exists ()) {
+				return false;
+			}
 			return true;
 		}
 
@@ -269,13 +267,11 @@ namespace Pamac {
 			return alpm_utils.get_transaction_summary ();
 		}
 
-		int trans_commit () {
-			alpm_utils.trans_commit ();
-			return 0;
-		}
-
 		public void start_trans_commit () {
-			new Thread<int> ("trans_commit", trans_commit);
+			alpm_utils.alpm_mutex.lock ();
+			alpm_utils.commit = true;
+			alpm_utils.alpm_cond.signal ();
+			alpm_utils.alpm_mutex.unlock ();
 		}
 
 		public void trans_release () {

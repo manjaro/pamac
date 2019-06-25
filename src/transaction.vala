@@ -1305,7 +1305,6 @@ namespace Pamac {
 			} else {
 				finished (success);
 			}
-			transaction_interface.unlock ();
 		}
 
 		void on_trans_prepare_finished (bool success) {

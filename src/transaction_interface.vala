@@ -21,7 +21,6 @@ namespace Pamac {
 	internal interface TransactionInterface : Object {
 		public abstract ErrorInfos get_current_error ();
 		public abstract bool get_lock ();
-		public abstract bool unlock ();
 		public abstract void start_get_authorization ();
 		public abstract void start_write_pamac_config (HashTable<string,Variant> new_pamac_conf);
 		public abstract void start_write_alpm_config (HashTable<string,Variant> new_alpm_conf);
