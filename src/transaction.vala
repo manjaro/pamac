@@ -290,7 +290,7 @@ namespace Pamac {
 		}
 
 		void launch_refresh_for_install (bool authorized) {
-			get_authorization_finished.disconnect (launch_refresh_for_sysupgrade);
+			get_authorization_finished.disconnect (launch_refresh_for_install);
 			if (authorized) {
 				emit_action (dgettext (null, "Synchronizing package databases") + "...");
 				connecting_signals ();
