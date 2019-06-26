@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2019-05-03 12:41+0200\n"
-"PO-Revision-Date: 2019-06-13 21:35+0000\n"
-"Last-Translator: Zmicer Turok <nashtlumach@gmail.com>\n"
+"POT-Creation-Date: 2019-06-20 11:09+0200\n"
+"PO-Revision-Date: 2019-06-21 00:53+0000\n"
+"Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Belarusian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/be/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -138,12 +138,16 @@ msgid "Refreshing mirrors list"
 msgstr "Абнаўленне спіса люстэркаў"
 
 #: src/transaction.vala
-msgid "Starting full system upgrade"
-msgstr "Запуск поўнага абнаўлення сістэмы"
+msgid "Preparing"
+msgstr "Падрыхтоўка"
 
 #: src/transaction.vala
 msgid "Synchronizing package databases"
 msgstr "Сінхранізацыя баз даных пакункаў"
+
+#: src/transaction.vala
+msgid "Starting full system upgrade"
+msgstr "Запуск поўнага абнаўлення сістэмы"
 
 #: src/transaction.vala src/cli.vala
 #, c-format
@@ -164,10 +168,6 @@ msgstr "Праверка залежнасцяў %s"
 #, c-format
 msgid "key %s could not be imported"
 msgstr "ключ %s немагчыма імпартаваць"
-
-#: src/transaction.vala
-msgid "Preparing"
-msgstr "Падрыхтоўка"
 
 #: src/transaction.vala
 #, c-format
@@ -333,7 +333,7 @@ msgstr "Няма задач"
 msgid "Transaction successfully finished"
 msgstr "Транзакцыя паспяхова завершаная"
 
-#: src/transaction-gtk.vala src/tray.vala src/manager_window.vala
+#: src/transaction-gtk.vala src/tray.vala
 msgid "Package Manager"
 msgstr "Кіраўнік пакункаў"
 
@@ -460,26 +460,6 @@ msgid "Checking for Updates"
 msgstr "Праверка на абнаўленні"
 
 #: src/manager_window.vala
-msgid "Deselect"
-msgstr "Адвярнуць вылучэнне"
-
-#: src/manager_window.vala
-msgid "Upgrade"
-msgstr "Абнавіць"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Install"
-msgstr "Усталяваць"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Build"
-msgstr "Сабраць"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Remove"
-msgstr "Выдаліць"
-
-#: src/manager_window.vala
 #, c-format
 msgid "%u pending operation"
 msgid_plural "%u pending operations"
@@ -500,17 +480,9 @@ msgstr "Групы"
 msgid "Repositories"
 msgstr "Рэпазіторыі"
 
-#: src/manager_window.vala src/cli.vala
+#: src/manager_window.vala src/cli.vala resources/manager_window.ui
 msgid "Installed"
 msgstr "Усталявана"
-
-#: src/manager_window.vala
-msgid "Updates"
-msgstr "Абнаўленні"
-
-#: src/manager_window.vala
-msgid "Pending"
-msgstr "Да апрацоўкі"
 
 #: src/manager_window.vala
 msgid "Orphans"
@@ -583,6 +555,10 @@ msgstr "Прычына ўсталёўкі"
 #: src/manager_window.vala
 msgid "Mark as explicitly installed"
 msgstr "Пазначыць адмыслова ўсталяваным"
+
+#: src/manager_window.vala resources/manager_window.ui
+msgid "Install"
+msgstr "Усталяваць"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Licenses"
@@ -672,13 +648,17 @@ msgstr "Стварэнне залежнасцяў"
 msgid "Check Dependencies"
 msgstr "Праверка залежнасцяў"
 
+#: src/manager_window.vala
+msgid "Upgrade"
+msgstr "Абнавіць"
+
 #: src/manager_window.vala resources/manager_window.ui
-msgid "Search"
-msgstr "Пошук"
+msgid "Remove"
+msgstr "Выдаліць"
 
 #: src/manager_window.vala src/cli.vala resources/manager_window.ui
-msgid "Name"
-msgstr "Назва"
+msgid "Size"
+msgstr "Памер"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Install Local Packages"
@@ -973,6 +953,10 @@ msgid "also upgrade packages installed from AUR"
 msgstr "таксама абнаўляць пакункі, ўсталяваныя з AUR"
 
 #: src/cli.vala
+msgid "also upgrade development packages (use with --aur)"
+msgstr ""
+
+#: src/cli.vala
 msgid ""
 "build directory (use with --aur), if no directory is given the one specified"
 " in pamac.conf file is used"
@@ -1018,6 +1002,10 @@ msgid "also display all files names"
 msgstr "таксама адлюстроўваць усе назвы файлаў"
 
 #: src/cli.vala resources/manager_window.ui
+msgid "Name"
+msgstr "Назва"
+
+#: src/cli.vala
 msgid "Version"
 msgstr "Версія"
 
@@ -1028,10 +1016,6 @@ msgstr "Апісанне"
 #: src/cli.vala
 msgid "URL"
 msgstr "URL"
-
-#: src/cli.vala resources/manager_window.ui
-msgid "Size"
-msgstr "Памер"
 
 #: src/cli.vala
 #, c-format
@@ -1109,24 +1093,56 @@ msgid "About"
 msgstr "Пра праграму"
 
 #: resources/manager_window.ui
-msgid "Select All"
-msgstr "Абраць усе"
+msgid "Search"
+msgstr "Пошук"
 
 #: resources/manager_window.ui
-msgid "State"
-msgstr "Стан"
+msgid "All"
+msgstr ""
 
 #: resources/manager_window.ui
-msgid "Popularity"
-msgstr "Папулярнасць"
+msgid "Pending"
+msgstr "Да апрацоўкі"
+
+#: resources/manager_window.ui
+msgid "Updates"
+msgstr "Абнаўленні"
+
+#: resources/manager_window.ui
+msgid "Remove all"
+msgstr ""
+
+#: resources/manager_window.ui
+msgid "Install all"
+msgstr ""
+
+#: resources/manager_window.ui
+msgid "Sort by"
+msgstr ""
+
+#: resources/manager_window.ui
+msgid "Relevance"
+msgstr ""
+
+#: resources/manager_window.ui
+msgid "Date"
+msgstr ""
 
 #: resources/manager_window.ui
 msgid "Browse"
 msgstr "Агляд"
 
 #: resources/manager_window.ui
+msgid "Launch"
+msgstr ""
+
+#: resources/manager_window.ui
 msgid "Reinstall"
 msgstr "Пераўсталяваць"
+
+#: resources/manager_window.ui
+msgid "Build"
+msgstr "Сабраць"
 
 #: resources/manager_window.ui
 msgid "Reset build files"

@@ -28,9 +28,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2019-05-03 12:41+0200\n"
-"PO-Revision-Date: 2019-06-09 23:37+0000\n"
-"Last-Translator: Elias Nykrem <bloodaxeNOR@protonmail.com>\n"
+"POT-Creation-Date: 2019-06-20 11:09+0200\n"
+"PO-Revision-Date: 2019-06-21 00:53+0000\n"
+"Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Norwegian Bokmål (http://www.transifex.com/manjarolinux/manjaro-pamac/language/nb/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -156,12 +156,16 @@ msgid "Refreshing mirrors list"
 msgstr "Oppdaterer listen over pakkebrønner"
 
 #: src/transaction.vala
-msgid "Starting full system upgrade"
-msgstr "Starter full systemoppgradering"
+msgid "Preparing"
+msgstr "Forbereder"
 
 #: src/transaction.vala
 msgid "Synchronizing package databases"
 msgstr "Synkroniserer pakkedatabaser"
+
+#: src/transaction.vala
+msgid "Starting full system upgrade"
+msgstr "Starter full systemoppgradering"
 
 #: src/transaction.vala src/cli.vala
 #, c-format
@@ -182,10 +186,6 @@ msgstr "Sjekker 1%s avhengigheter"
 #, c-format
 msgid "key %s could not be imported"
 msgstr "nøkkel 1%s kunne ikke importeres"
-
-#: src/transaction.vala
-msgid "Preparing"
-msgstr "Forbereder"
 
 #: src/transaction.vala
 #, c-format
@@ -349,7 +349,7 @@ msgstr "Ingenting å gjøre"
 msgid "Transaction successfully finished"
 msgstr "Transaksjonen avsluttet vellykket"
 
-#: src/transaction-gtk.vala src/tray.vala src/manager_window.vala
+#: src/transaction-gtk.vala src/tray.vala
 msgid "Package Manager"
 msgstr "Pakke Behandler"
 
@@ -474,26 +474,6 @@ msgid "Checking for Updates"
 msgstr "Ser etter oppdateringer"
 
 #: src/manager_window.vala
-msgid "Deselect"
-msgstr "Fjern markeringen"
-
-#: src/manager_window.vala
-msgid "Upgrade"
-msgstr "Oppgrader"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Install"
-msgstr "Installer"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Build"
-msgstr ""
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Remove"
-msgstr "Fjern"
-
-#: src/manager_window.vala
 #, c-format
 msgid "%u pending operation"
 msgid_plural "%u pending operations"
@@ -512,17 +492,9 @@ msgstr "Grupper"
 msgid "Repositories"
 msgstr "Pakkebrønner"
 
-#: src/manager_window.vala src/cli.vala
+#: src/manager_window.vala src/cli.vala resources/manager_window.ui
 msgid "Installed"
 msgstr "Installert"
-
-#: src/manager_window.vala
-msgid "Updates"
-msgstr "Oppdateringer"
-
-#: src/manager_window.vala
-msgid "Pending"
-msgstr "Venter på behandling"
 
 #: src/manager_window.vala
 msgid "Orphans"
@@ -595,6 +567,10 @@ msgstr "Grunn til Installasjon"
 #: src/manager_window.vala
 msgid "Mark as explicitly installed"
 msgstr "Marker som eksplisitt installert"
+
+#: src/manager_window.vala resources/manager_window.ui
+msgid "Install"
+msgstr "Installer"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Licenses"
@@ -684,13 +660,17 @@ msgstr "Lag avhengigheter"
 msgid "Check Dependencies"
 msgstr "Sjekk avhengigheter"
 
+#: src/manager_window.vala
+msgid "Upgrade"
+msgstr "Oppgrader"
+
 #: src/manager_window.vala resources/manager_window.ui
-msgid "Search"
-msgstr "Søk"
+msgid "Remove"
+msgstr "Fjern"
 
 #: src/manager_window.vala src/cli.vala resources/manager_window.ui
-msgid "Name"
-msgstr "Navn"
+msgid "Size"
+msgstr "Størrelse"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Install Local Packages"
@@ -983,6 +963,10 @@ msgid "also upgrade packages installed from AUR"
 msgstr ""
 
 #: src/cli.vala
+msgid "also upgrade development packages (use with --aur)"
+msgstr ""
+
+#: src/cli.vala
 msgid ""
 "build directory (use with --aur), if no directory is given the one specified"
 " in pamac.conf file is used"
@@ -1028,6 +1012,10 @@ msgid "also display all files names"
 msgstr ""
 
 #: src/cli.vala resources/manager_window.ui
+msgid "Name"
+msgstr "Navn"
+
+#: src/cli.vala
 msgid "Version"
 msgstr "Versjon"
 
@@ -1038,10 +1026,6 @@ msgstr "Beskrivelse"
 #: src/cli.vala
 msgid "URL"
 msgstr ""
-
-#: src/cli.vala resources/manager_window.ui
-msgid "Size"
-msgstr "Størrelse"
 
 #: src/cli.vala
 #, c-format
@@ -1117,24 +1101,56 @@ msgid "About"
 msgstr "Om"
 
 #: resources/manager_window.ui
-msgid "Select All"
-msgstr "Velg alle"
+msgid "Search"
+msgstr "Søk"
 
 #: resources/manager_window.ui
-msgid "State"
-msgstr "Tilstand"
+msgid "All"
+msgstr ""
 
 #: resources/manager_window.ui
-msgid "Popularity"
-msgstr "Popularitet"
+msgid "Pending"
+msgstr "Venter på behandling"
+
+#: resources/manager_window.ui
+msgid "Updates"
+msgstr "Oppdateringer"
+
+#: resources/manager_window.ui
+msgid "Remove all"
+msgstr ""
+
+#: resources/manager_window.ui
+msgid "Install all"
+msgstr ""
+
+#: resources/manager_window.ui
+msgid "Sort by"
+msgstr ""
+
+#: resources/manager_window.ui
+msgid "Relevance"
+msgstr ""
+
+#: resources/manager_window.ui
+msgid "Date"
+msgstr ""
 
 #: resources/manager_window.ui
 msgid "Browse"
 msgstr "Bla"
 
 #: resources/manager_window.ui
+msgid "Launch"
+msgstr ""
+
+#: resources/manager_window.ui
 msgid "Reinstall"
 msgstr "Installer på nytt"
+
+#: resources/manager_window.ui
+msgid "Build"
+msgstr ""
 
 #: resources/manager_window.ui
 msgid "Reset build files"

@@ -17,8 +17,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2019-05-03 12:41+0200\n"
-"PO-Revision-Date: 2019-05-04 01:14+0000\n"
+"POT-Creation-Date: 2019-06-20 11:09+0200\n"
+"PO-Revision-Date: 2019-06-21 00:53+0000\n"
 "Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Romanian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/ro/)\n"
 "MIME-Version: 1.0\n"
@@ -145,12 +145,16 @@ msgid "Refreshing mirrors list"
 msgstr "Se reîmprospătează lista de oglinzi"
 
 #: src/transaction.vala
-msgid "Starting full system upgrade"
-msgstr "Se pornește actualizarea completă de sistem"
+msgid "Preparing"
+msgstr "Se prepară"
 
 #: src/transaction.vala
 msgid "Synchronizing package databases"
 msgstr "Se sincronizează bazele de date ale pachetelor"
+
+#: src/transaction.vala
+msgid "Starting full system upgrade"
+msgstr "Se pornește actualizarea completă de sistem"
 
 #: src/transaction.vala src/cli.vala
 #, c-format
@@ -171,10 +175,6 @@ msgstr ""
 #, c-format
 msgid "key %s could not be imported"
 msgstr ""
-
-#: src/transaction.vala
-msgid "Preparing"
-msgstr "Se prepară"
 
 #: src/transaction.vala
 #, c-format
@@ -339,7 +339,7 @@ msgstr "Nimic de făcut"
 msgid "Transaction successfully finished"
 msgstr "Tranzacția s-a terminat cu succes"
 
-#: src/transaction-gtk.vala src/tray.vala src/manager_window.vala
+#: src/transaction-gtk.vala src/tray.vala
 msgid "Package Manager"
 msgstr "Gestionar de pachete"
 
@@ -465,26 +465,6 @@ msgid "Checking for Updates"
 msgstr "Verificare actualizări"
 
 #: src/manager_window.vala
-msgid "Deselect"
-msgstr "Deselectează"
-
-#: src/manager_window.vala
-msgid "Upgrade"
-msgstr "Se înnoiește"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Install"
-msgstr "Instalează"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Build"
-msgstr ""
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Remove"
-msgstr "Elimină"
-
-#: src/manager_window.vala
 #, c-format
 msgid "%u pending operation"
 msgid_plural "%u pending operations"
@@ -504,17 +484,9 @@ msgstr "Grupe"
 msgid "Repositories"
 msgstr "Depozite"
 
-#: src/manager_window.vala src/cli.vala
+#: src/manager_window.vala src/cli.vala resources/manager_window.ui
 msgid "Installed"
 msgstr "Instalate"
-
-#: src/manager_window.vala
-msgid "Updates"
-msgstr "Actualizări"
-
-#: src/manager_window.vala
-msgid "Pending"
-msgstr "În așteptare"
 
 #: src/manager_window.vala
 msgid "Orphans"
@@ -587,6 +559,10 @@ msgstr "Motivul instalării"
 #: src/manager_window.vala
 msgid "Mark as explicitly installed"
 msgstr "Marchează ca instalat explicit"
+
+#: src/manager_window.vala resources/manager_window.ui
+msgid "Install"
+msgstr "Instalează"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Licenses"
@@ -676,13 +652,17 @@ msgstr "Crează dependețele"
 msgid "Check Dependencies"
 msgstr "Verifică dependențele"
 
+#: src/manager_window.vala
+msgid "Upgrade"
+msgstr "Se înnoiește"
+
 #: src/manager_window.vala resources/manager_window.ui
-msgid "Search"
-msgstr "Caută"
+msgid "Remove"
+msgstr "Elimină"
 
 #: src/manager_window.vala src/cli.vala resources/manager_window.ui
-msgid "Name"
-msgstr "Nume"
+msgid "Size"
+msgstr "Mărime"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Install Local Packages"
@@ -976,6 +956,10 @@ msgid "also upgrade packages installed from AUR"
 msgstr ""
 
 #: src/cli.vala
+msgid "also upgrade development packages (use with --aur)"
+msgstr ""
+
+#: src/cli.vala
 msgid ""
 "build directory (use with --aur), if no directory is given the one specified"
 " in pamac.conf file is used"
@@ -1021,6 +1005,10 @@ msgid "also display all files names"
 msgstr ""
 
 #: src/cli.vala resources/manager_window.ui
+msgid "Name"
+msgstr "Nume"
+
+#: src/cli.vala
 msgid "Version"
 msgstr "Versiune"
 
@@ -1031,10 +1019,6 @@ msgstr ""
 #: src/cli.vala
 msgid "URL"
 msgstr ""
-
-#: src/cli.vala resources/manager_window.ui
-msgid "Size"
-msgstr "Mărime"
 
 #: src/cli.vala
 #, c-format
@@ -1111,24 +1095,56 @@ msgid "About"
 msgstr "Despre Pamac"
 
 #: resources/manager_window.ui
-msgid "Select All"
-msgstr "Selectează tot"
+msgid "Search"
+msgstr "Caută"
 
 #: resources/manager_window.ui
-msgid "State"
-msgstr "Stare"
+msgid "All"
+msgstr ""
 
 #: resources/manager_window.ui
-msgid "Popularity"
-msgstr "Popularitate"
+msgid "Pending"
+msgstr "În așteptare"
+
+#: resources/manager_window.ui
+msgid "Updates"
+msgstr "Actualizări"
+
+#: resources/manager_window.ui
+msgid "Remove all"
+msgstr ""
+
+#: resources/manager_window.ui
+msgid "Install all"
+msgstr ""
+
+#: resources/manager_window.ui
+msgid "Sort by"
+msgstr ""
+
+#: resources/manager_window.ui
+msgid "Relevance"
+msgstr ""
+
+#: resources/manager_window.ui
+msgid "Date"
+msgstr ""
 
 #: resources/manager_window.ui
 msgid "Browse"
 msgstr "Navighează"
 
 #: resources/manager_window.ui
+msgid "Launch"
+msgstr ""
+
+#: resources/manager_window.ui
 msgid "Reinstall"
 msgstr "Reinstalează"
+
+#: resources/manager_window.ui
+msgid "Build"
+msgstr ""
 
 #: resources/manager_window.ui
 msgid "Reset build files"

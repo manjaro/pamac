@@ -18,9 +18,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2019-05-03 12:41+0200\n"
-"PO-Revision-Date: 2019-05-15 22:26+0000\n"
-"Last-Translator: Lajos Pasztor <mrlajos@gmail.com>\n"
+"POT-Creation-Date: 2019-06-20 11:09+0200\n"
+"PO-Revision-Date: 2019-06-21 00:53+0000\n"
+"Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Hungarian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/hu/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -146,12 +146,16 @@ msgid "Refreshing mirrors list"
 msgstr "Tükrök listájának frissítése"
 
 #: src/transaction.vala
-msgid "Starting full system upgrade"
-msgstr "Teljes rendszerfrissítés megkezdése"
+msgid "Preparing"
+msgstr "Előkészítés"
 
 #: src/transaction.vala
 msgid "Synchronizing package databases"
 msgstr "Csomag adatbázisok szinkronizálása"
+
+#: src/transaction.vala
+msgid "Starting full system upgrade"
+msgstr "Teljes rendszerfrissítés megkezdése"
 
 #: src/transaction.vala src/cli.vala
 #, c-format
@@ -172,10 +176,6 @@ msgstr "%s függőségek ellenőrzése"
 #, c-format
 msgid "key %s could not be imported"
 msgstr "a(z) %s kulcs betöltése sikertelen"
-
-#: src/transaction.vala
-msgid "Preparing"
-msgstr "Előkészítés"
 
 #: src/transaction.vala
 #, c-format
@@ -339,7 +339,7 @@ msgstr "Semmi teendő"
 msgid "Transaction successfully finished"
 msgstr "A tranzakció sikeresen végrehajtódott"
 
-#: src/transaction-gtk.vala src/tray.vala src/manager_window.vala
+#: src/transaction-gtk.vala src/tray.vala
 msgid "Package Manager"
 msgstr "Csomagkezelő"
 
@@ -464,26 +464,6 @@ msgid "Checking for Updates"
 msgstr "Frissítések keresése"
 
 #: src/manager_window.vala
-msgid "Deselect"
-msgstr "Kiválasztás megszüntetése"
-
-#: src/manager_window.vala
-msgid "Upgrade"
-msgstr "Frissítés"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Install"
-msgstr "Telepítés"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Build"
-msgstr "Build"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Remove"
-msgstr "Eltávolít"
-
-#: src/manager_window.vala
 #, c-format
 msgid "%u pending operation"
 msgid_plural "%u pending operations"
@@ -502,17 +482,9 @@ msgstr "Csoportok"
 msgid "Repositories"
 msgstr "Tárolók"
 
-#: src/manager_window.vala src/cli.vala
+#: src/manager_window.vala src/cli.vala resources/manager_window.ui
 msgid "Installed"
 msgstr "Telepített"
-
-#: src/manager_window.vala
-msgid "Updates"
-msgstr "Frissítések"
-
-#: src/manager_window.vala
-msgid "Pending"
-msgstr "Függőben lévő"
 
 #: src/manager_window.vala
 msgid "Orphans"
@@ -585,6 +557,10 @@ msgstr "Telepítés oka"
 #: src/manager_window.vala
 msgid "Mark as explicitly installed"
 msgstr "Megjelölés kifejezett telepítésre"
+
+#: src/manager_window.vala resources/manager_window.ui
+msgid "Install"
+msgstr "Telepítés"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Licenses"
@@ -674,13 +650,17 @@ msgstr "Függőségek létrehozása"
 msgid "Check Dependencies"
 msgstr "Függőségek ellenőrzése"
 
+#: src/manager_window.vala
+msgid "Upgrade"
+msgstr "Frissítés"
+
 #: src/manager_window.vala resources/manager_window.ui
-msgid "Search"
-msgstr "Keresés"
+msgid "Remove"
+msgstr "Eltávolít"
 
 #: src/manager_window.vala src/cli.vala resources/manager_window.ui
-msgid "Name"
-msgstr "Név"
+msgid "Size"
+msgstr "Méret"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Install Local Packages"
@@ -973,6 +953,10 @@ msgid "also upgrade packages installed from AUR"
 msgstr "AUR-ból telepített csomagok frissítése"
 
 #: src/cli.vala
+msgid "also upgrade development packages (use with --aur)"
+msgstr ""
+
+#: src/cli.vala
 msgid ""
 "build directory (use with --aur), if no directory is given the one specified"
 " in pamac.conf file is used"
@@ -1018,6 +1002,10 @@ msgid "also display all files names"
 msgstr "jelenítse meg a fájl neveket"
 
 #: src/cli.vala resources/manager_window.ui
+msgid "Name"
+msgstr "Név"
+
+#: src/cli.vala
 msgid "Version"
 msgstr "Verzió"
 
@@ -1028,10 +1016,6 @@ msgstr "Leírás"
 #: src/cli.vala
 msgid "URL"
 msgstr "URL"
-
-#: src/cli.vala resources/manager_window.ui
-msgid "Size"
-msgstr "Méret"
 
 #: src/cli.vala
 #, c-format
@@ -1107,24 +1091,56 @@ msgid "About"
 msgstr "A Pamac-ról"
 
 #: resources/manager_window.ui
-msgid "Select All"
-msgstr "Összes kijelölése"
+msgid "Search"
+msgstr "Keresés"
 
 #: resources/manager_window.ui
-msgid "State"
-msgstr "Állapot"
+msgid "All"
+msgstr ""
 
 #: resources/manager_window.ui
-msgid "Popularity"
-msgstr "Népszerűség"
+msgid "Pending"
+msgstr "Függőben lévő"
+
+#: resources/manager_window.ui
+msgid "Updates"
+msgstr "Frissítések"
+
+#: resources/manager_window.ui
+msgid "Remove all"
+msgstr ""
+
+#: resources/manager_window.ui
+msgid "Install all"
+msgstr ""
+
+#: resources/manager_window.ui
+msgid "Sort by"
+msgstr ""
+
+#: resources/manager_window.ui
+msgid "Relevance"
+msgstr ""
+
+#: resources/manager_window.ui
+msgid "Date"
+msgstr ""
 
 #: resources/manager_window.ui
 msgid "Browse"
 msgstr "Keresés"
 
 #: resources/manager_window.ui
+msgid "Launch"
+msgstr ""
+
+#: resources/manager_window.ui
 msgid "Reinstall"
 msgstr "Újra telepít"
+
+#: resources/manager_window.ui
+msgid "Build"
+msgstr "Build"
 
 #: resources/manager_window.ui
 msgid "Reset build files"

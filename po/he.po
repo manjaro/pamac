@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2019-05-03 12:41+0200\n"
-"PO-Revision-Date: 2019-05-04 01:14+0000\n"
+"POT-Creation-Date: 2019-06-20 11:09+0200\n"
+"PO-Revision-Date: 2019-06-21 00:53+0000\n"
 "Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Hebrew (http://www.transifex.com/manjarolinux/manjaro-pamac/language/he/)\n"
 "MIME-Version: 1.0\n"
@@ -142,12 +142,16 @@ msgid "Refreshing mirrors list"
 msgstr "כעת מרענן רשימת mirrors"
 
 #: src/transaction.vala
-msgid "Starting full system upgrade"
-msgstr "כעת מתחיל שדרוג מערכת מלא"
+msgid "Preparing"
+msgstr "כעת מתכונן"
 
 #: src/transaction.vala
 msgid "Synchronizing package databases"
 msgstr "כעת מסנכרן מסדי נתוני חבילה"
+
+#: src/transaction.vala
+msgid "Starting full system upgrade"
+msgstr "כעת מתחיל שדרוג מערכת מלא"
 
 #: src/transaction.vala src/cli.vala
 #, c-format
@@ -168,10 +172,6 @@ msgstr "בודק %s דרישות הכרחיות"
 #, c-format
 msgid "key %s could not be imported"
 msgstr "מפתח %s לא ניתן לייבוא"
-
-#: src/transaction.vala
-msgid "Preparing"
-msgstr "כעת מתכונן"
 
 #: src/transaction.vala
 #, c-format
@@ -337,7 +337,7 @@ msgstr "אין מה לעשות"
 msgid "Transaction successfully finished"
 msgstr "טרנזקציה הסתיימה בהצלחה"
 
-#: src/transaction-gtk.vala src/tray.vala src/manager_window.vala
+#: src/transaction-gtk.vala src/tray.vala
 msgid "Package Manager"
 msgstr "מנהל חבילה"
 
@@ -464,26 +464,6 @@ msgid "Checking for Updates"
 msgstr "בודק עדכונים"
 
 #: src/manager_window.vala
-msgid "Deselect"
-msgstr "בטל בחירה"
-
-#: src/manager_window.vala
-msgid "Upgrade"
-msgstr "שדרג"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Install"
-msgstr "התקן"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Build"
-msgstr "בנה"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Remove"
-msgstr "הסר"
-
-#: src/manager_window.vala
 #, c-format
 msgid "%u pending operation"
 msgid_plural "%u pending operations"
@@ -504,17 +484,9 @@ msgstr "קבוצה"
 msgid "Repositories"
 msgstr "מאגרים"
 
-#: src/manager_window.vala src/cli.vala
+#: src/manager_window.vala src/cli.vala resources/manager_window.ui
 msgid "Installed"
 msgstr "מותקנות"
-
-#: src/manager_window.vala
-msgid "Updates"
-msgstr "עדכונים"
-
-#: src/manager_window.vala
-msgid "Pending"
-msgstr "תלוי ועומד"
 
 #: src/manager_window.vala
 msgid "Orphans"
@@ -587,6 +559,10 @@ msgstr "סיבת התקנה"
 #: src/manager_window.vala
 msgid "Mark as explicitly installed"
 msgstr "סמן בתור מותקנת בברור"
+
+#: src/manager_window.vala resources/manager_window.ui
+msgid "Install"
+msgstr "התקן"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Licenses"
@@ -676,13 +652,17 @@ msgstr "צור תלויות"
 msgid "Check Dependencies"
 msgstr "בדוק תלויות"
 
+#: src/manager_window.vala
+msgid "Upgrade"
+msgstr "שדרג"
+
 #: src/manager_window.vala resources/manager_window.ui
-msgid "Search"
-msgstr "חיפוש"
+msgid "Remove"
+msgstr "הסר"
 
 #: src/manager_window.vala src/cli.vala resources/manager_window.ui
-msgid "Name"
-msgstr "שם"
+msgid "Size"
+msgstr "גודל"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Install Local Packages"
@@ -977,6 +957,10 @@ msgid "also upgrade packages installed from AUR"
 msgstr ""
 
 #: src/cli.vala
+msgid "also upgrade development packages (use with --aur)"
+msgstr ""
+
+#: src/cli.vala
 msgid ""
 "build directory (use with --aur), if no directory is given the one specified"
 " in pamac.conf file is used"
@@ -1022,6 +1006,10 @@ msgid "also display all files names"
 msgstr ""
 
 #: src/cli.vala resources/manager_window.ui
+msgid "Name"
+msgstr "שם"
+
+#: src/cli.vala
 msgid "Version"
 msgstr "גרסא"
 
@@ -1032,10 +1020,6 @@ msgstr ""
 #: src/cli.vala
 msgid "URL"
 msgstr ""
-
-#: src/cli.vala resources/manager_window.ui
-msgid "Size"
-msgstr "גודל"
 
 #: src/cli.vala
 #, c-format
@@ -1113,24 +1097,56 @@ msgid "About"
 msgstr "אודות"
 
 #: resources/manager_window.ui
-msgid "Select All"
-msgstr "בחר הכל"
+msgid "Search"
+msgstr "חיפוש"
 
 #: resources/manager_window.ui
-msgid "State"
-msgstr "מצב"
+msgid "All"
+msgstr ""
 
 #: resources/manager_window.ui
-msgid "Popularity"
-msgstr "פופולריות"
+msgid "Pending"
+msgstr "תלוי ועומד"
+
+#: resources/manager_window.ui
+msgid "Updates"
+msgstr "עדכונים"
+
+#: resources/manager_window.ui
+msgid "Remove all"
+msgstr ""
+
+#: resources/manager_window.ui
+msgid "Install all"
+msgstr ""
+
+#: resources/manager_window.ui
+msgid "Sort by"
+msgstr ""
+
+#: resources/manager_window.ui
+msgid "Relevance"
+msgstr ""
+
+#: resources/manager_window.ui
+msgid "Date"
+msgstr ""
 
 #: resources/manager_window.ui
 msgid "Browse"
 msgstr "עיין"
 
 #: resources/manager_window.ui
+msgid "Launch"
+msgstr ""
+
+#: resources/manager_window.ui
 msgid "Reinstall"
 msgstr "התקן שוב"
+
+#: resources/manager_window.ui
+msgid "Build"
+msgstr "בנה"
 
 #: resources/manager_window.ui
 msgid "Reset build files"

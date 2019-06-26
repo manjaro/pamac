@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2019-05-03 12:41+0200\n"
-"PO-Revision-Date: 2019-05-04 01:14+0000\n"
+"POT-Creation-Date: 2019-06-20 11:09+0200\n"
+"PO-Revision-Date: 2019-06-21 00:53+0000\n"
 "Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Serbian (Latin) (Serbia) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/sr_RS@latin/)\n"
 "MIME-Version: 1.0\n"
@@ -137,12 +137,16 @@ msgid "Refreshing mirrors list"
 msgstr "Osvežavanje liste izvora"
 
 #: src/transaction.vala
-msgid "Starting full system upgrade"
-msgstr "Započinjem punu nadogradnju sistema"
+msgid "Preparing"
+msgstr "Proprema"
 
 #: src/transaction.vala
 msgid "Synchronizing package databases"
 msgstr "Sinhronizacija baze podataka paketa"
+
+#: src/transaction.vala
+msgid "Starting full system upgrade"
+msgstr "Započinjem punu nadogradnju sistema"
 
 #: src/transaction.vala src/cli.vala
 #, c-format
@@ -163,10 +167,6 @@ msgstr ""
 #, c-format
 msgid "key %s could not be imported"
 msgstr ""
-
-#: src/transaction.vala
-msgid "Preparing"
-msgstr "Proprema"
 
 #: src/transaction.vala
 #, c-format
@@ -331,7 +331,7 @@ msgstr "Nema se šta činiti"
 msgid "Transaction successfully finished"
 msgstr "Prenos uspešno završen"
 
-#: src/transaction-gtk.vala src/tray.vala src/manager_window.vala
+#: src/transaction-gtk.vala src/tray.vala
 msgid "Package Manager"
 msgstr "Upravnik Paketa"
 
@@ -457,26 +457,6 @@ msgid "Checking for Updates"
 msgstr "Provera ažuriranja"
 
 #: src/manager_window.vala
-msgid "Deselect"
-msgstr "Poništi"
-
-#: src/manager_window.vala
-msgid "Upgrade"
-msgstr "Nadogradi"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Install"
-msgstr "Installiraj"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Build"
-msgstr ""
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Remove"
-msgstr "Ukloni"
-
-#: src/manager_window.vala
 #, c-format
 msgid "%u pending operation"
 msgid_plural "%u pending operations"
@@ -496,17 +476,9 @@ msgstr "Grupe"
 msgid "Repositories"
 msgstr "Skladišta"
 
-#: src/manager_window.vala src/cli.vala
+#: src/manager_window.vala src/cli.vala resources/manager_window.ui
 msgid "Installed"
 msgstr "Instalirani"
-
-#: src/manager_window.vala
-msgid "Updates"
-msgstr "Ažuriranja"
-
-#: src/manager_window.vala
-msgid "Pending"
-msgstr "Čekaju"
 
 #: src/manager_window.vala
 msgid "Orphans"
@@ -579,6 +551,10 @@ msgstr "Razlog Instalacije"
 #: src/manager_window.vala
 msgid "Mark as explicitly installed"
 msgstr "Označi kao izričito instalirano"
+
+#: src/manager_window.vala resources/manager_window.ui
+msgid "Install"
+msgstr "Installiraj"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Licenses"
@@ -668,13 +644,17 @@ msgstr "Zavisnosti Pravljenja"
 msgid "Check Dependencies"
 msgstr "Provera zavisnosti"
 
+#: src/manager_window.vala
+msgid "Upgrade"
+msgstr "Nadogradi"
+
 #: src/manager_window.vala resources/manager_window.ui
-msgid "Search"
-msgstr "Pretraga"
+msgid "Remove"
+msgstr "Ukloni"
 
 #: src/manager_window.vala src/cli.vala resources/manager_window.ui
-msgid "Name"
-msgstr "Ime"
+msgid "Size"
+msgstr "Veličina"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Install Local Packages"
@@ -968,6 +948,10 @@ msgid "also upgrade packages installed from AUR"
 msgstr ""
 
 #: src/cli.vala
+msgid "also upgrade development packages (use with --aur)"
+msgstr ""
+
+#: src/cli.vala
 msgid ""
 "build directory (use with --aur), if no directory is given the one specified"
 " in pamac.conf file is used"
@@ -1013,6 +997,10 @@ msgid "also display all files names"
 msgstr ""
 
 #: src/cli.vala resources/manager_window.ui
+msgid "Name"
+msgstr "Ime"
+
+#: src/cli.vala
 msgid "Version"
 msgstr "Verzija"
 
@@ -1023,10 +1011,6 @@ msgstr ""
 #: src/cli.vala
 msgid "URL"
 msgstr ""
-
-#: src/cli.vala resources/manager_window.ui
-msgid "Size"
-msgstr "Veličina"
 
 #: src/cli.vala
 #, c-format
@@ -1103,24 +1087,56 @@ msgid "About"
 msgstr "O..."
 
 #: resources/manager_window.ui
-msgid "Select All"
-msgstr "Označi Sve"
+msgid "Search"
+msgstr "Pretraga"
 
 #: resources/manager_window.ui
-msgid "State"
-msgstr "Stanje"
+msgid "All"
+msgstr ""
 
 #: resources/manager_window.ui
-msgid "Popularity"
-msgstr "Popularnost"
+msgid "Pending"
+msgstr "Čekaju"
+
+#: resources/manager_window.ui
+msgid "Updates"
+msgstr "Ažuriranja"
+
+#: resources/manager_window.ui
+msgid "Remove all"
+msgstr ""
+
+#: resources/manager_window.ui
+msgid "Install all"
+msgstr ""
+
+#: resources/manager_window.ui
+msgid "Sort by"
+msgstr ""
+
+#: resources/manager_window.ui
+msgid "Relevance"
+msgstr ""
+
+#: resources/manager_window.ui
+msgid "Date"
+msgstr ""
 
 #: resources/manager_window.ui
 msgid "Browse"
 msgstr "Razgledaj"
 
 #: resources/manager_window.ui
+msgid "Launch"
+msgstr ""
+
+#: resources/manager_window.ui
 msgid "Reinstall"
 msgstr "Ponovo Instaliraj"
+
+#: resources/manager_window.ui
+msgid "Build"
+msgstr ""
 
 #: resources/manager_window.ui
 msgid "Reset build files"

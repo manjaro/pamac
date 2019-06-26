@@ -10,9 +10,9 @@
 # Guillaume Benoit <guillaume@manjaro.org>, 2013
 # Guillaume Benoit <guillaume@manjaro.org>, 2013
 # Hasan Al Banna, 2014
-# se7entime <se7entime@openmailbox.org>, 2014-2015
+# se7entime <se7entime@disroot.org>, 2014-2015
 # Mohamad Hasan Al Banna, 2014
-# se7entime <se7entime@openmailbox.org>, 2013-2014
+# se7entime <se7entime@disroot.org>, 2013-2014
 # Rizki Aulia Rachman <rizkiaulia.r@gmail.com>, 2013
 # opik16 <opik.r16@gmail.com>, 2016
 # opik16 <opik.r16@gmail.com>, 2016
@@ -25,8 +25,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2019-05-03 12:41+0200\n"
-"PO-Revision-Date: 2019-05-04 01:14+0000\n"
+"POT-Creation-Date: 2019-06-20 11:09+0200\n"
+"PO-Revision-Date: 2019-06-21 00:53+0000\n"
 "Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Indonesian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/id/)\n"
 "MIME-Version: 1.0\n"
@@ -153,12 +153,16 @@ msgid "Refreshing mirrors list"
 msgstr "Menyegarkan daftar cermin"
 
 #: src/transaction.vala
-msgid "Starting full system upgrade"
-msgstr "Memulai pembaruan keseluruhan sistem"
+msgid "Preparing"
+msgstr "Menyiapkan"
 
 #: src/transaction.vala
 msgid "Synchronizing package databases"
 msgstr "Sedang menyinkronkan basis data paket"
+
+#: src/transaction.vala
+msgid "Starting full system upgrade"
+msgstr "Memulai pembaruan keseluruhan sistem"
 
 #: src/transaction.vala src/cli.vala
 #, c-format
@@ -179,10 +183,6 @@ msgstr ""
 #, c-format
 msgid "key %s could not be imported"
 msgstr ""
-
-#: src/transaction.vala
-msgid "Preparing"
-msgstr "Menyiapkan"
 
 #: src/transaction.vala
 #, c-format
@@ -345,7 +345,7 @@ msgstr "Tidak ada yang harus dilakukan"
 msgid "Transaction successfully finished"
 msgstr "Transaksi sukses terselesaikan"
 
-#: src/transaction-gtk.vala src/tray.vala src/manager_window.vala
+#: src/transaction-gtk.vala src/tray.vala
 msgid "Package Manager"
 msgstr "Manajer Paket"
 
@@ -469,26 +469,6 @@ msgid "Checking for Updates"
 msgstr "Mengecek Update"
 
 #: src/manager_window.vala
-msgid "Deselect"
-msgstr "Hapus pilihan"
-
-#: src/manager_window.vala
-msgid "Upgrade"
-msgstr "Upgrade"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Install"
-msgstr "Pasang"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Build"
-msgstr ""
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Remove"
-msgstr "Hapus"
-
-#: src/manager_window.vala
 #, c-format
 msgid "%u pending operation"
 msgid_plural "%u pending operations"
@@ -506,17 +486,9 @@ msgstr "Grup"
 msgid "Repositories"
 msgstr "Repositori"
 
-#: src/manager_window.vala src/cli.vala
+#: src/manager_window.vala src/cli.vala resources/manager_window.ui
 msgid "Installed"
 msgstr "Terpasang"
-
-#: src/manager_window.vala
-msgid "Updates"
-msgstr "Update"
-
-#: src/manager_window.vala
-msgid "Pending"
-msgstr "Menunggu"
 
 #: src/manager_window.vala
 msgid "Orphans"
@@ -589,6 +561,10 @@ msgstr "Alasan Pasang"
 #: src/manager_window.vala
 msgid "Mark as explicitly installed"
 msgstr "Tandai sebagai yang sudah terpasang"
+
+#: src/manager_window.vala resources/manager_window.ui
+msgid "Install"
+msgstr "Pasang"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Licenses"
@@ -678,13 +654,17 @@ msgstr "Membuat Dependensi"
 msgid "Check Dependencies"
 msgstr "Memeriksa Dependensi"
 
+#: src/manager_window.vala
+msgid "Upgrade"
+msgstr "Upgrade"
+
 #: src/manager_window.vala resources/manager_window.ui
-msgid "Search"
-msgstr "Cari"
+msgid "Remove"
+msgstr "Hapus"
 
 #: src/manager_window.vala src/cli.vala resources/manager_window.ui
-msgid "Name"
-msgstr "Nama"
+msgid "Size"
+msgstr "Ukuran"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Install Local Packages"
@@ -976,6 +956,10 @@ msgid "also upgrade packages installed from AUR"
 msgstr ""
 
 #: src/cli.vala
+msgid "also upgrade development packages (use with --aur)"
+msgstr ""
+
+#: src/cli.vala
 msgid ""
 "build directory (use with --aur), if no directory is given the one specified"
 " in pamac.conf file is used"
@@ -1021,6 +1005,10 @@ msgid "also display all files names"
 msgstr ""
 
 #: src/cli.vala resources/manager_window.ui
+msgid "Name"
+msgstr "Nama"
+
+#: src/cli.vala
 msgid "Version"
 msgstr "Versi"
 
@@ -1031,10 +1019,6 @@ msgstr ""
 #: src/cli.vala
 msgid "URL"
 msgstr ""
-
-#: src/cli.vala resources/manager_window.ui
-msgid "Size"
-msgstr "Ukuran"
 
 #: src/cli.vala
 #, c-format
@@ -1109,24 +1093,56 @@ msgid "About"
 msgstr "Tentang"
 
 #: resources/manager_window.ui
-msgid "Select All"
-msgstr "Pilih Semua"
+msgid "Search"
+msgstr "Cari"
 
 #: resources/manager_window.ui
-msgid "State"
-msgstr "Keadaan"
+msgid "All"
+msgstr ""
 
 #: resources/manager_window.ui
-msgid "Popularity"
-msgstr "Popularitas"
+msgid "Pending"
+msgstr "Menunggu"
+
+#: resources/manager_window.ui
+msgid "Updates"
+msgstr "Update"
+
+#: resources/manager_window.ui
+msgid "Remove all"
+msgstr ""
+
+#: resources/manager_window.ui
+msgid "Install all"
+msgstr ""
+
+#: resources/manager_window.ui
+msgid "Sort by"
+msgstr ""
+
+#: resources/manager_window.ui
+msgid "Relevance"
+msgstr ""
+
+#: resources/manager_window.ui
+msgid "Date"
+msgstr ""
 
 #: resources/manager_window.ui
 msgid "Browse"
 msgstr "Jelajahi"
 
 #: resources/manager_window.ui
+msgid "Launch"
+msgstr ""
+
+#: resources/manager_window.ui
 msgid "Reinstall"
 msgstr "Memasang ulang"
+
+#: resources/manager_window.ui
+msgid "Build"
+msgstr ""
 
 #: resources/manager_window.ui
 msgid "Reset build files"

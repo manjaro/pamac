@@ -25,8 +25,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2019-05-03 12:41+0200\n"
-"PO-Revision-Date: 2019-05-04 01:14+0000\n"
+"POT-Creation-Date: 2019-06-20 11:09+0200\n"
+"PO-Revision-Date: 2019-06-21 00:53+0000\n"
 "Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Greek (http://www.transifex.com/manjarolinux/manjaro-pamac/language/el/)\n"
 "MIME-Version: 1.0\n"
@@ -153,12 +153,16 @@ msgid "Refreshing mirrors list"
 msgstr "Ανανέωση της λίστας διακομιστών (servers)"
 
 #: src/transaction.vala
-msgid "Starting full system upgrade"
-msgstr "Έναρξη πλήρους αναβάθμισης του συστήματος"
+msgid "Preparing"
+msgstr "Προετοιμασία"
 
 #: src/transaction.vala
 msgid "Synchronizing package databases"
 msgstr "Συγχρονισμός των βάσεων δεδομένων"
+
+#: src/transaction.vala
+msgid "Starting full system upgrade"
+msgstr "Έναρξη πλήρους αναβάθμισης του συστήματος"
 
 #: src/transaction.vala src/cli.vala
 #, c-format
@@ -179,10 +183,6 @@ msgstr "Έλεγχος εξαρτήσεων %s"
 #, c-format
 msgid "key %s could not be imported"
 msgstr ""
-
-#: src/transaction.vala
-msgid "Preparing"
-msgstr "Προετοιμασία"
 
 #: src/transaction.vala
 #, c-format
@@ -346,7 +346,7 @@ msgstr "Δεν υπάρχει τίποτε να γίνει"
 msgid "Transaction successfully finished"
 msgstr "Οι ενέργειες ολοκληρώθηκαν επιτυχώς"
 
-#: src/transaction-gtk.vala src/tray.vala src/manager_window.vala
+#: src/transaction-gtk.vala src/tray.vala
 msgid "Package Manager"
 msgstr "Διαχειριστής πακέτων"
 
@@ -471,26 +471,6 @@ msgid "Checking for Updates"
 msgstr "Έλεγχος για Ενημερώσεις"
 
 #: src/manager_window.vala
-msgid "Deselect"
-msgstr "Αποεπιλογή"
-
-#: src/manager_window.vala
-msgid "Upgrade"
-msgstr "Αναβάθμιση"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Install"
-msgstr "Εγκατάσταση"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Build"
-msgstr "Δόμηση"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Remove"
-msgstr "Απεγκατάσταση"
-
-#: src/manager_window.vala
 #, c-format
 msgid "%u pending operation"
 msgid_plural "%u pending operations"
@@ -509,17 +489,9 @@ msgstr "Ομάδες"
 msgid "Repositories"
 msgstr "Αποθετήρια"
 
-#: src/manager_window.vala src/cli.vala
+#: src/manager_window.vala src/cli.vala resources/manager_window.ui
 msgid "Installed"
 msgstr "Εγκατεστημένα"
-
-#: src/manager_window.vala
-msgid "Updates"
-msgstr "Ενημερώσεις"
-
-#: src/manager_window.vala
-msgid "Pending"
-msgstr "Εκκρεμή"
 
 #: src/manager_window.vala
 msgid "Orphans"
@@ -592,6 +564,10 @@ msgstr "Λόγος για εγκατάσταση"
 #: src/manager_window.vala
 msgid "Mark as explicitly installed"
 msgstr "Σήμανση ως ρητώς εγκατεστημένο"
+
+#: src/manager_window.vala resources/manager_window.ui
+msgid "Install"
+msgstr "Εγκατάσταση"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Licenses"
@@ -681,13 +657,17 @@ msgstr "Εξαρτήσεις κατά την Δημιουργία"
 msgid "Check Dependencies"
 msgstr "Έλεγχος Εξαρτήσεων"
 
+#: src/manager_window.vala
+msgid "Upgrade"
+msgstr "Αναβάθμιση"
+
 #: src/manager_window.vala resources/manager_window.ui
-msgid "Search"
-msgstr "Αναζήτηση"
+msgid "Remove"
+msgstr "Απεγκατάσταση"
 
 #: src/manager_window.vala src/cli.vala resources/manager_window.ui
-msgid "Name"
-msgstr "Όνομα"
+msgid "Size"
+msgstr "Μέγεθος"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Install Local Packages"
@@ -980,6 +960,10 @@ msgid "also upgrade packages installed from AUR"
 msgstr "επιπλέον αναβάθμισε πακέτα εγκατεστημένα από το AUR"
 
 #: src/cli.vala
+msgid "also upgrade development packages (use with --aur)"
+msgstr ""
+
+#: src/cli.vala
 msgid ""
 "build directory (use with --aur), if no directory is given the one specified"
 " in pamac.conf file is used"
@@ -1025,6 +1009,10 @@ msgid "also display all files names"
 msgstr ""
 
 #: src/cli.vala resources/manager_window.ui
+msgid "Name"
+msgstr "Όνομα"
+
+#: src/cli.vala
 msgid "Version"
 msgstr "Έκδοση"
 
@@ -1035,10 +1023,6 @@ msgstr "Περιγραφή"
 #: src/cli.vala
 msgid "URL"
 msgstr "URL"
-
-#: src/cli.vala resources/manager_window.ui
-msgid "Size"
-msgstr "Μέγεθος"
 
 #: src/cli.vala
 #, c-format
@@ -1114,24 +1098,56 @@ msgid "About"
 msgstr "Σχετικά"
 
 #: resources/manager_window.ui
-msgid "Select All"
-msgstr "Επιλογή Όλων"
+msgid "Search"
+msgstr "Αναζήτηση"
 
 #: resources/manager_window.ui
-msgid "State"
-msgstr "Κατάσταση"
+msgid "All"
+msgstr ""
 
 #: resources/manager_window.ui
-msgid "Popularity"
-msgstr "Δημοτικότητα"
+msgid "Pending"
+msgstr "Εκκρεμή"
+
+#: resources/manager_window.ui
+msgid "Updates"
+msgstr "Ενημερώσεις"
+
+#: resources/manager_window.ui
+msgid "Remove all"
+msgstr ""
+
+#: resources/manager_window.ui
+msgid "Install all"
+msgstr ""
+
+#: resources/manager_window.ui
+msgid "Sort by"
+msgstr ""
+
+#: resources/manager_window.ui
+msgid "Relevance"
+msgstr ""
+
+#: resources/manager_window.ui
+msgid "Date"
+msgstr ""
 
 #: resources/manager_window.ui
 msgid "Browse"
 msgstr "Αναζήτηση"
 
 #: resources/manager_window.ui
+msgid "Launch"
+msgstr ""
+
+#: resources/manager_window.ui
 msgid "Reinstall"
 msgstr "Επανεγκατάσταση"
+
+#: resources/manager_window.ui
+msgid "Build"
+msgstr "Δόμηση"
 
 #: resources/manager_window.ui
 msgid "Reset build files"

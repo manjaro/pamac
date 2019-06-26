@@ -14,9 +14,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2019-05-03 12:41+0200\n"
-"PO-Revision-Date: 2019-06-05 23:44+0000\n"
-"Last-Translator: UTUMI Hirosi <utuhiro78@yahoo.co.jp>\n"
+"POT-Creation-Date: 2019-06-20 11:09+0200\n"
+"PO-Revision-Date: 2019-06-21 00:53+0000\n"
+"Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Japanese (http://www.transifex.com/manjarolinux/manjaro-pamac/language/ja/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -142,12 +142,16 @@ msgid "Refreshing mirrors list"
 msgstr "ミラーリストをアップデートしています"
 
 #: src/transaction.vala
-msgid "Starting full system upgrade"
-msgstr "フルシステムアップグレードを開始しました"
+msgid "Preparing"
+msgstr "準備しています"
 
 #: src/transaction.vala
 msgid "Synchronizing package databases"
 msgstr "パッケージのデータベースを同期しています"
+
+#: src/transaction.vala
+msgid "Starting full system upgrade"
+msgstr "フルシステムアップグレードを開始しました"
 
 #: src/transaction.vala src/cli.vala
 #, c-format
@@ -168,10 +172,6 @@ msgstr "%s が依存するものを確認しています"
 #, c-format
 msgid "key %s could not be imported"
 msgstr "鍵 %s をインポートできませんでした"
-
-#: src/transaction.vala
-msgid "Preparing"
-msgstr "準備しています"
 
 #: src/transaction.vala
 #, c-format
@@ -334,7 +334,7 @@ msgstr "何もすることがありません"
 msgid "Transaction successfully finished"
 msgstr "トランザクションが成功しました"
 
-#: src/transaction-gtk.vala src/tray.vala src/manager_window.vala
+#: src/transaction-gtk.vala src/tray.vala
 msgid "Package Manager"
 msgstr "パッケージマネージャ"
 
@@ -458,26 +458,6 @@ msgid "Checking for Updates"
 msgstr "アップデートがあるか確認しています"
 
 #: src/manager_window.vala
-msgid "Deselect"
-msgstr "選択を解除"
-
-#: src/manager_window.vala
-msgid "Upgrade"
-msgstr "アップグレード"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Install"
-msgstr "インストール"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Build"
-msgstr "ビルド"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Remove"
-msgstr "削除"
-
-#: src/manager_window.vala
 #, c-format
 msgid "%u pending operation"
 msgid_plural "%u pending operations"
@@ -495,17 +475,9 @@ msgstr "グループ"
 msgid "Repositories"
 msgstr "リポジトリ"
 
-#: src/manager_window.vala src/cli.vala
+#: src/manager_window.vala src/cli.vala resources/manager_window.ui
 msgid "Installed"
 msgstr "インストール済み"
-
-#: src/manager_window.vala
-msgid "Updates"
-msgstr "アップデート"
-
-#: src/manager_window.vala
-msgid "Pending"
-msgstr "保留中"
 
 #: src/manager_window.vala
 msgid "Orphans"
@@ -578,6 +550,10 @@ msgstr "インストールした理由"
 #: src/manager_window.vala
 msgid "Mark as explicitly installed"
 msgstr "明示的にインストールしたものとしてマーク"
+
+#: src/manager_window.vala resources/manager_window.ui
+msgid "Install"
+msgstr "インストール"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Licenses"
@@ -667,13 +643,17 @@ msgstr "必要なパッケージを作成"
 msgid "Check Dependencies"
 msgstr "必要なパッケージを確認する"
 
+#: src/manager_window.vala
+msgid "Upgrade"
+msgstr "アップグレード"
+
 #: src/manager_window.vala resources/manager_window.ui
-msgid "Search"
-msgstr "検索"
+msgid "Remove"
+msgstr "削除"
 
 #: src/manager_window.vala src/cli.vala resources/manager_window.ui
-msgid "Name"
-msgstr "名前"
+msgid "Size"
+msgstr "サイズ"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Install Local Packages"
@@ -965,6 +945,10 @@ msgid "also upgrade packages installed from AUR"
 msgstr "AURからインストールしたパッケージもアップグレードする"
 
 #: src/cli.vala
+msgid "also upgrade development packages (use with --aur)"
+msgstr ""
+
+#: src/cli.vala
 msgid ""
 "build directory (use with --aur), if no directory is given the one specified"
 " in pamac.conf file is used"
@@ -1010,6 +994,10 @@ msgid "also display all files names"
 msgstr "全てのファイル名も表示する"
 
 #: src/cli.vala resources/manager_window.ui
+msgid "Name"
+msgstr "名前"
+
+#: src/cli.vala
 msgid "Version"
 msgstr "バージョン"
 
@@ -1020,10 +1008,6 @@ msgstr "説明"
 #: src/cli.vala
 msgid "URL"
 msgstr "URL"
-
-#: src/cli.vala resources/manager_window.ui
-msgid "Size"
-msgstr "サイズ"
 
 #: src/cli.vala
 #, c-format
@@ -1098,24 +1082,56 @@ msgid "About"
 msgstr "About"
 
 #: resources/manager_window.ui
-msgid "Select All"
-msgstr "全て選択"
+msgid "Search"
+msgstr "検索"
 
 #: resources/manager_window.ui
-msgid "State"
-msgstr "状態"
+msgid "All"
+msgstr ""
 
 #: resources/manager_window.ui
-msgid "Popularity"
-msgstr "人気度"
+msgid "Pending"
+msgstr "保留中"
+
+#: resources/manager_window.ui
+msgid "Updates"
+msgstr "アップデート"
+
+#: resources/manager_window.ui
+msgid "Remove all"
+msgstr ""
+
+#: resources/manager_window.ui
+msgid "Install all"
+msgstr ""
+
+#: resources/manager_window.ui
+msgid "Sort by"
+msgstr ""
+
+#: resources/manager_window.ui
+msgid "Relevance"
+msgstr ""
+
+#: resources/manager_window.ui
+msgid "Date"
+msgstr ""
 
 #: resources/manager_window.ui
 msgid "Browse"
 msgstr "閲覧"
 
 #: resources/manager_window.ui
+msgid "Launch"
+msgstr ""
+
+#: resources/manager_window.ui
 msgid "Reinstall"
 msgstr "再インストール"
+
+#: resources/manager_window.ui
+msgid "Build"
+msgstr "ビルド"
 
 #: resources/manager_window.ui
 msgid "Reset build files"

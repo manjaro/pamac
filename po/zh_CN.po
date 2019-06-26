@@ -7,9 +7,9 @@
 # CaoMu <icaomu@gmail.com>, 2018
 # Daetalus <daetalusun@gmail.com>, 2014
 # Daetalus <daetalusun@gmail.com>, 2014
-# Dz Chen <wsxy162@gmail.com>, 2015
-# Dz Chen <wsxy162@gmail.com>, 2015
-# Dz Chen <wsxy162@gmail.com>, 2015-2017
+# Dingzhong Chen <wsxy162@gmail.com>, 2015
+# Dingzhong Chen <wsxy162@gmail.com>, 2015
+# Dingzhong Chen <wsxy162@gmail.com>, 2015-2017
 # f h <hffqyd@sina.com>, 2018
 # philm <philm@manjaro.org>, 2015
 # Ruochen Wang <wangkevin920@163.com>, 2018
@@ -19,8 +19,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2019-05-03 12:41+0200\n"
-"PO-Revision-Date: 2019-05-04 01:14+0000\n"
+"POT-Creation-Date: 2019-06-20 11:09+0200\n"
+"PO-Revision-Date: 2019-06-21 00:53+0000\n"
 "Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
@@ -147,12 +147,16 @@ msgid "Refreshing mirrors list"
 msgstr "正在刷新镜像列表"
 
 #: src/transaction.vala
-msgid "Starting full system upgrade"
-msgstr "正在进行全面系统升级"
+msgid "Preparing"
+msgstr "准备中"
 
 #: src/transaction.vala
 msgid "Synchronizing package databases"
 msgstr "正在同步包数据库"
+
+#: src/transaction.vala
+msgid "Starting full system upgrade"
+msgstr "正在进行全面系统升级"
 
 #: src/transaction.vala src/cli.vala
 #, c-format
@@ -173,10 +177,6 @@ msgstr ""
 #, c-format
 msgid "key %s could not be imported"
 msgstr "密钥%s无法被导入"
-
-#: src/transaction.vala
-msgid "Preparing"
-msgstr "准备中"
 
 #: src/transaction.vala
 #, c-format
@@ -339,7 +339,7 @@ msgstr "无需做任何事"
 msgid "Transaction successfully finished"
 msgstr "事务成功完成"
 
-#: src/transaction-gtk.vala src/tray.vala src/manager_window.vala
+#: src/transaction-gtk.vala src/tray.vala
 msgid "Package Manager"
 msgstr "软件包管理器"
 
@@ -463,26 +463,6 @@ msgid "Checking for Updates"
 msgstr "正在检查更新"
 
 #: src/manager_window.vala
-msgid "Deselect"
-msgstr "取消选择"
-
-#: src/manager_window.vala
-msgid "Upgrade"
-msgstr "升级"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Install"
-msgstr "安装"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Build"
-msgstr "构建"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Remove"
-msgstr "移除"
-
-#: src/manager_window.vala
 #, c-format
 msgid "%u pending operation"
 msgid_plural "%u pending operations"
@@ -500,17 +480,9 @@ msgstr "组"
 msgid "Repositories"
 msgstr "库"
 
-#: src/manager_window.vala src/cli.vala
+#: src/manager_window.vala src/cli.vala resources/manager_window.ui
 msgid "Installed"
 msgstr "已安装"
-
-#: src/manager_window.vala
-msgid "Updates"
-msgstr "更新"
-
-#: src/manager_window.vala
-msgid "Pending"
-msgstr "待处理"
 
 #: src/manager_window.vala
 msgid "Orphans"
@@ -583,6 +555,10 @@ msgstr "安装原因"
 #: src/manager_window.vala
 msgid "Mark as explicitly installed"
 msgstr "标记为单独指定安装"
+
+#: src/manager_window.vala resources/manager_window.ui
+msgid "Install"
+msgstr "安装"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Licenses"
@@ -672,13 +648,17 @@ msgstr "构建依赖关系"
 msgid "Check Dependencies"
 msgstr "检查依赖关系"
 
+#: src/manager_window.vala
+msgid "Upgrade"
+msgstr "升级"
+
 #: src/manager_window.vala resources/manager_window.ui
-msgid "Search"
-msgstr "搜索"
+msgid "Remove"
+msgstr "移除"
 
 #: src/manager_window.vala src/cli.vala resources/manager_window.ui
-msgid "Name"
-msgstr "名称"
+msgid "Size"
+msgstr "大小"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Install Local Packages"
@@ -970,6 +950,10 @@ msgid "also upgrade packages installed from AUR"
 msgstr "同时更新从AUR安装的包"
 
 #: src/cli.vala
+msgid "also upgrade development packages (use with --aur)"
+msgstr ""
+
+#: src/cli.vala
 msgid ""
 "build directory (use with --aur), if no directory is given the one specified"
 " in pamac.conf file is used"
@@ -1015,6 +999,10 @@ msgid "also display all files names"
 msgstr ""
 
 #: src/cli.vala resources/manager_window.ui
+msgid "Name"
+msgstr "名称"
+
+#: src/cli.vala
 msgid "Version"
 msgstr "版本"
 
@@ -1025,10 +1013,6 @@ msgstr "描述"
 #: src/cli.vala
 msgid "URL"
 msgstr "URL"
-
-#: src/cli.vala resources/manager_window.ui
-msgid "Size"
-msgstr "大小"
 
 #: src/cli.vala
 #, c-format
@@ -1103,24 +1087,56 @@ msgid "About"
 msgstr "关于"
 
 #: resources/manager_window.ui
-msgid "Select All"
-msgstr "选取所有"
+msgid "Search"
+msgstr "搜索"
 
 #: resources/manager_window.ui
-msgid "State"
-msgstr "状态"
+msgid "All"
+msgstr ""
 
 #: resources/manager_window.ui
-msgid "Popularity"
-msgstr "人气"
+msgid "Pending"
+msgstr "待处理"
+
+#: resources/manager_window.ui
+msgid "Updates"
+msgstr "更新"
+
+#: resources/manager_window.ui
+msgid "Remove all"
+msgstr ""
+
+#: resources/manager_window.ui
+msgid "Install all"
+msgstr ""
+
+#: resources/manager_window.ui
+msgid "Sort by"
+msgstr ""
+
+#: resources/manager_window.ui
+msgid "Relevance"
+msgstr ""
+
+#: resources/manager_window.ui
+msgid "Date"
+msgstr ""
 
 #: resources/manager_window.ui
 msgid "Browse"
 msgstr "浏览"
 
 #: resources/manager_window.ui
+msgid "Launch"
+msgstr ""
+
+#: resources/manager_window.ui
 msgid "Reinstall"
 msgstr "重新安装"
+
+#: resources/manager_window.ui
+msgid "Build"
+msgstr "构建"
 
 #: resources/manager_window.ui
 msgid "Reset build files"

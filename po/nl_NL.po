@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2019-05-03 12:41+0200\n"
-"PO-Revision-Date: 2019-05-05 10:30+0000\n"
+"POT-Creation-Date: 2019-06-20 11:09+0200\n"
+"PO-Revision-Date: 2019-06-21 15:09+0000\n"
 "Last-Translator: Heimen Stoffels <vistausss@outlook.com>\n"
 "Language-Team: Dutch (Netherlands) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/nl_NL/)\n"
 "MIME-Version: 1.0\n"
@@ -142,12 +142,16 @@ msgid "Refreshing mirrors list"
 msgstr "Bezig met vernieuwen van spiegelserverlijst"
 
 #: src/transaction.vala
-msgid "Starting full system upgrade"
-msgstr "Bezig met starten van volledige systeembijwerking"
+msgid "Preparing"
+msgstr "Bezig met voorbereiden"
 
 #: src/transaction.vala
 msgid "Synchronizing package databases"
 msgstr "Bezig met synchroniseren van pakketdatabanken"
+
+#: src/transaction.vala
+msgid "Starting full system upgrade"
+msgstr "Bezig met starten van volledige systeembijwerking"
 
 #: src/transaction.vala src/cli.vala
 #, c-format
@@ -168,10 +172,6 @@ msgstr "Bezig met controleren van %s afhankelijkheden"
 #, c-format
 msgid "key %s could not be imported"
 msgstr "De sleutel %s kan niet worden geïmporteerd"
-
-#: src/transaction.vala
-msgid "Preparing"
-msgstr "Bezig met voorbereiden"
 
 #: src/transaction.vala
 #, c-format
@@ -335,7 +335,7 @@ msgstr "Niets te doen"
 msgid "Transaction successfully finished"
 msgstr "De overdracht is succesvol afgerond"
 
-#: src/transaction-gtk.vala src/tray.vala src/manager_window.vala
+#: src/transaction-gtk.vala src/tray.vala
 msgid "Package Manager"
 msgstr "Pakketbeheer"
 
@@ -460,26 +460,6 @@ msgid "Checking for Updates"
 msgstr "Bezig met zoeken naar updates"
 
 #: src/manager_window.vala
-msgid "Deselect"
-msgstr "Deselecteren"
-
-#: src/manager_window.vala
-msgid "Upgrade"
-msgstr "Bijwerken"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Install"
-msgstr "Installeren"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Build"
-msgstr "Bouwen"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Remove"
-msgstr "Verwijderen"
-
-#: src/manager_window.vala
 #, c-format
 msgid "%u pending operation"
 msgid_plural "%u pending operations"
@@ -498,17 +478,9 @@ msgstr "Groepen"
 msgid "Repositories"
 msgstr "Pakketbronnen"
 
-#: src/manager_window.vala src/cli.vala
+#: src/manager_window.vala src/cli.vala resources/manager_window.ui
 msgid "Installed"
 msgstr "Geïnstalleerd"
-
-#: src/manager_window.vala
-msgid "Updates"
-msgstr "Updates"
-
-#: src/manager_window.vala
-msgid "Pending"
-msgstr "In wachtrij"
 
 #: src/manager_window.vala
 msgid "Orphans"
@@ -581,6 +553,10 @@ msgstr "Installatiereden"
 #: src/manager_window.vala
 msgid "Mark as explicitly installed"
 msgstr "Markeren als expliciet geïnstalleerd"
+
+#: src/manager_window.vala resources/manager_window.ui
+msgid "Install"
+msgstr "Installeren"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Licenses"
@@ -670,13 +646,17 @@ msgstr "Afhankelijkheden bouwen"
 msgid "Check Dependencies"
 msgstr "Afhankelijkheden controleren"
 
+#: src/manager_window.vala
+msgid "Upgrade"
+msgstr "Bijwerken"
+
 #: src/manager_window.vala resources/manager_window.ui
-msgid "Search"
-msgstr "Zoeken"
+msgid "Remove"
+msgstr "Verwijderen"
 
 #: src/manager_window.vala src/cli.vala resources/manager_window.ui
-msgid "Name"
-msgstr "Naam"
+msgid "Size"
+msgstr "Grootte"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Install Local Packages"
@@ -969,6 +949,10 @@ msgid "also upgrade packages installed from AUR"
 msgstr "ook AUR-pakketten opwaarderen"
 
 #: src/cli.vala
+msgid "also upgrade development packages (use with --aur)"
+msgstr "ook ontwikkelingspakketten-updates (gebruiken met --aur)"
+
+#: src/cli.vala
 msgid ""
 "build directory (use with --aur), if no directory is given the one specified"
 " in pamac.conf file is used"
@@ -1003,17 +987,21 @@ msgstr "Alleen versies verwijderen van gedeïnstalleerde pakketten"
 msgid ""
 "remove all build files, the build directory is the one specified in "
 "pamac.conf"
-msgstr ""
+msgstr "alle bouwbestanden verwijderen; de bouwmap is die uit pamac.conf"
 
 #: src/cli.vala
 msgid "do not remove files, only find candidate packages"
-msgstr ""
+msgstr "geen bestanden verwijderen, alleen kandidaten aangeven"
 
 #: src/cli.vala
 msgid "also display all files names"
-msgstr ""
+msgstr "ook alle bestandsnamen tonen"
 
 #: src/cli.vala resources/manager_window.ui
+msgid "Name"
+msgstr "Naam"
+
+#: src/cli.vala
 msgid "Version"
 msgstr "Versie"
 
@@ -1024,10 +1012,6 @@ msgstr "Omschrijving"
 #: src/cli.vala
 msgid "URL"
 msgstr "URL"
-
-#: src/cli.vala resources/manager_window.ui
-msgid "Size"
-msgstr "Grootte"
 
 #: src/cli.vala
 #, c-format
@@ -1049,7 +1033,7 @@ msgstr "Cache opschonen"
 
 #: src/cli.vala resources/preferences_dialog.ui
 msgid "Clean build files"
-msgstr ""
+msgstr "Bouwbestanden verwijderen"
 
 #: src/cli.vala
 #, c-format
@@ -1103,24 +1087,56 @@ msgid "About"
 msgstr "Over"
 
 #: resources/manager_window.ui
-msgid "Select All"
-msgstr "Alles selecteren"
+msgid "Search"
+msgstr "Zoeken"
 
 #: resources/manager_window.ui
-msgid "State"
-msgstr "Status"
+msgid "All"
+msgstr "Alle"
 
 #: resources/manager_window.ui
-msgid "Popularity"
-msgstr "Populariteit"
+msgid "Pending"
+msgstr "In wachtrij"
+
+#: resources/manager_window.ui
+msgid "Updates"
+msgstr "Updates"
+
+#: resources/manager_window.ui
+msgid "Remove all"
+msgstr "Alles verwijderen"
+
+#: resources/manager_window.ui
+msgid "Install all"
+msgstr "Alles installeren"
+
+#: resources/manager_window.ui
+msgid "Sort by"
+msgstr "Sorteren op"
+
+#: resources/manager_window.ui
+msgid "Relevance"
+msgstr "Relevantie"
+
+#: resources/manager_window.ui
+msgid "Date"
+msgstr "Datum"
 
 #: resources/manager_window.ui
 msgid "Browse"
 msgstr "Bladeren"
 
 #: resources/manager_window.ui
+msgid "Launch"
+msgstr "Geopend"
+
+#: resources/manager_window.ui
 msgid "Reinstall"
 msgstr "Opnieuw installeren"
+
+#: resources/manager_window.ui
+msgid "Build"
+msgstr "Bouwen"
 
 #: resources/manager_window.ui
 msgid "Reset build files"

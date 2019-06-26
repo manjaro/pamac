@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2019-05-03 12:41+0200\n"
-"PO-Revision-Date: 2019-05-04 01:14+0000\n"
+"POT-Creation-Date: 2019-06-20 11:09+0200\n"
+"PO-Revision-Date: 2019-06-21 00:53+0000\n"
 "Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Uzbek (http://www.transifex.com/manjarolinux/manjaro-pamac/language/uz/)\n"
 "MIME-Version: 1.0\n"
@@ -139,11 +139,15 @@ msgid "Refreshing mirrors list"
 msgstr ""
 
 #: src/transaction.vala
-msgid "Starting full system upgrade"
-msgstr ""
+msgid "Preparing"
+msgstr "Tayyorlanmoqda"
 
 #: src/transaction.vala
 msgid "Synchronizing package databases"
+msgstr ""
+
+#: src/transaction.vala
+msgid "Starting full system upgrade"
 msgstr ""
 
 #: src/transaction.vala src/cli.vala
@@ -165,10 +169,6 @@ msgstr ""
 #, c-format
 msgid "key %s could not be imported"
 msgstr ""
-
-#: src/transaction.vala
-msgid "Preparing"
-msgstr "Tayyorlanmoqda"
 
 #: src/transaction.vala
 #, c-format
@@ -331,7 +331,7 @@ msgstr "Vazifalar yo'q"
 msgid "Transaction successfully finished"
 msgstr "Tranzaksiya muvaffaqiyatli tugadi"
 
-#: src/transaction-gtk.vala src/tray.vala src/manager_window.vala
+#: src/transaction-gtk.vala src/tray.vala
 msgid "Package Manager"
 msgstr "Paket boshqaruvchisi"
 
@@ -455,26 +455,6 @@ msgid "Checking for Updates"
 msgstr ""
 
 #: src/manager_window.vala
-msgid "Deselect"
-msgstr "Tanlashni bekor qilish"
-
-#: src/manager_window.vala
-msgid "Upgrade"
-msgstr ""
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Install"
-msgstr "O'rnatish"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Build"
-msgstr ""
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Remove"
-msgstr "O'chirish"
-
-#: src/manager_window.vala
 #, c-format
 msgid "%u pending operation"
 msgid_plural "%u pending operations"
@@ -492,17 +472,9 @@ msgstr "Guruhlar"
 msgid "Repositories"
 msgstr "Repozitoriylar"
 
-#: src/manager_window.vala src/cli.vala
+#: src/manager_window.vala src/cli.vala resources/manager_window.ui
 msgid "Installed"
 msgstr "O'rnatilgan"
-
-#: src/manager_window.vala
-msgid "Updates"
-msgstr ""
-
-#: src/manager_window.vala
-msgid "Pending"
-msgstr ""
 
 #: src/manager_window.vala
 msgid "Orphans"
@@ -575,6 +547,10 @@ msgstr "O'rnatish sababi"
 #: src/manager_window.vala
 msgid "Mark as explicitly installed"
 msgstr "Aniq o'rnatilgan sifatida belgilash"
+
+#: src/manager_window.vala resources/manager_window.ui
+msgid "Install"
+msgstr "O'rnatish"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Licenses"
@@ -664,13 +640,17 @@ msgstr ""
 msgid "Check Dependencies"
 msgstr ""
 
+#: src/manager_window.vala
+msgid "Upgrade"
+msgstr ""
+
 #: src/manager_window.vala resources/manager_window.ui
-msgid "Search"
-msgstr "Qidirish"
+msgid "Remove"
+msgstr "O'chirish"
 
 #: src/manager_window.vala src/cli.vala resources/manager_window.ui
-msgid "Name"
-msgstr "Nomi"
+msgid "Size"
+msgstr "Hajmi"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Install Local Packages"
@@ -962,6 +942,10 @@ msgid "also upgrade packages installed from AUR"
 msgstr ""
 
 #: src/cli.vala
+msgid "also upgrade development packages (use with --aur)"
+msgstr ""
+
+#: src/cli.vala
 msgid ""
 "build directory (use with --aur), if no directory is given the one specified"
 " in pamac.conf file is used"
@@ -1007,6 +991,10 @@ msgid "also display all files names"
 msgstr ""
 
 #: src/cli.vala resources/manager_window.ui
+msgid "Name"
+msgstr "Nomi"
+
+#: src/cli.vala
 msgid "Version"
 msgstr "Versiya"
 
@@ -1017,10 +1005,6 @@ msgstr ""
 #: src/cli.vala
 msgid "URL"
 msgstr ""
-
-#: src/cli.vala resources/manager_window.ui
-msgid "Size"
-msgstr "Hajmi"
 
 #: src/cli.vala
 #, c-format
@@ -1095,15 +1079,39 @@ msgid "About"
 msgstr "Haqida"
 
 #: resources/manager_window.ui
-msgid "Select All"
+msgid "Search"
+msgstr "Qidirish"
+
+#: resources/manager_window.ui
+msgid "All"
 msgstr ""
 
 #: resources/manager_window.ui
-msgid "State"
-msgstr "Holati"
+msgid "Pending"
+msgstr ""
 
 #: resources/manager_window.ui
-msgid "Popularity"
+msgid "Updates"
+msgstr ""
+
+#: resources/manager_window.ui
+msgid "Remove all"
+msgstr ""
+
+#: resources/manager_window.ui
+msgid "Install all"
+msgstr ""
+
+#: resources/manager_window.ui
+msgid "Sort by"
+msgstr ""
+
+#: resources/manager_window.ui
+msgid "Relevance"
+msgstr ""
+
+#: resources/manager_window.ui
+msgid "Date"
 msgstr ""
 
 #: resources/manager_window.ui
@@ -1111,8 +1119,16 @@ msgid "Browse"
 msgstr ""
 
 #: resources/manager_window.ui
+msgid "Launch"
+msgstr ""
+
+#: resources/manager_window.ui
 msgid "Reinstall"
 msgstr "Qayta o'rnatish"
+
+#: resources/manager_window.ui
+msgid "Build"
+msgstr ""
 
 #: resources/manager_window.ui
 msgid "Reset build files"

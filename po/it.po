@@ -28,9 +28,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2019-05-03 12:41+0200\n"
-"PO-Revision-Date: 2019-05-31 08:20+0000\n"
-"Last-Translator: l3nn4rt\n"
+"POT-Creation-Date: 2019-06-20 11:09+0200\n"
+"PO-Revision-Date: 2019-06-21 00:53+0000\n"
+"Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Italian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/it/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -156,12 +156,16 @@ msgid "Refreshing mirrors list"
 msgstr "Aggiornamento della lista dei mirror"
 
 #: src/transaction.vala
-msgid "Starting full system upgrade"
-msgstr "Inizio aggiornamento completo del sistema"
+msgid "Preparing"
+msgstr "Preparazione"
 
 #: src/transaction.vala
 msgid "Synchronizing package databases"
 msgstr "Sincronizzazione database dei pacchetti"
+
+#: src/transaction.vala
+msgid "Starting full system upgrade"
+msgstr "Inizio aggiornamento completo del sistema"
 
 #: src/transaction.vala src/cli.vala
 #, c-format
@@ -182,10 +186,6 @@ msgstr "Controllo %s dipendenze in corso"
 #, c-format
 msgid "key %s could not be imported"
 msgstr "la chiave %s non può essere importata"
-
-#: src/transaction.vala
-msgid "Preparing"
-msgstr "Preparazione"
 
 #: src/transaction.vala
 #, c-format
@@ -349,7 +349,7 @@ msgstr "Niente da fare"
 msgid "Transaction successfully finished"
 msgstr "Transazione completata con successo"
 
-#: src/transaction-gtk.vala src/tray.vala src/manager_window.vala
+#: src/transaction-gtk.vala src/tray.vala
 msgid "Package Manager"
 msgstr "Gestore dei pacchetti"
 
@@ -474,26 +474,6 @@ msgid "Checking for Updates"
 msgstr "Verifica degli aggiornamenti"
 
 #: src/manager_window.vala
-msgid "Deselect"
-msgstr "Deseleziona"
-
-#: src/manager_window.vala
-msgid "Upgrade"
-msgstr "Aggiorna"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Install"
-msgstr "Installa"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Build"
-msgstr "Costruisci"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Remove"
-msgstr "Rimuovi"
-
-#: src/manager_window.vala
 #, c-format
 msgid "%u pending operation"
 msgid_plural "%u pending operations"
@@ -512,17 +492,9 @@ msgstr "Gruppi"
 msgid "Repositories"
 msgstr "Repository"
 
-#: src/manager_window.vala src/cli.vala
+#: src/manager_window.vala src/cli.vala resources/manager_window.ui
 msgid "Installed"
 msgstr "Installati"
-
-#: src/manager_window.vala
-msgid "Updates"
-msgstr "Aggiornamenti"
-
-#: src/manager_window.vala
-msgid "Pending"
-msgstr "In attesa"
 
 #: src/manager_window.vala
 msgid "Orphans"
@@ -595,6 +567,10 @@ msgstr "Motivo della installazione"
 #: src/manager_window.vala
 msgid "Mark as explicitly installed"
 msgstr "Segna come installato esplicitamente"
+
+#: src/manager_window.vala resources/manager_window.ui
+msgid "Install"
+msgstr "Installa"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Licenses"
@@ -684,13 +660,17 @@ msgstr "Crea dipendenze"
 msgid "Check Dependencies"
 msgstr "Controlla le dipendenze"
 
+#: src/manager_window.vala
+msgid "Upgrade"
+msgstr "Aggiorna"
+
 #: src/manager_window.vala resources/manager_window.ui
-msgid "Search"
-msgstr "Cerca"
+msgid "Remove"
+msgstr "Rimuovi"
 
 #: src/manager_window.vala src/cli.vala resources/manager_window.ui
-msgid "Name"
-msgstr "Nome"
+msgid "Size"
+msgstr "Dimensione"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Install Local Packages"
@@ -983,6 +963,10 @@ msgid "also upgrade packages installed from AUR"
 msgstr "aggiorna anche i pacchetti installati da AUR"
 
 #: src/cli.vala
+msgid "also upgrade development packages (use with --aur)"
+msgstr ""
+
+#: src/cli.vala
 msgid ""
 "build directory (use with --aur), if no directory is given the one specified"
 " in pamac.conf file is used"
@@ -1028,6 +1012,10 @@ msgid "also display all files names"
 msgstr "mostra anche i nomi dei file"
 
 #: src/cli.vala resources/manager_window.ui
+msgid "Name"
+msgstr "Nome"
+
+#: src/cli.vala
 msgid "Version"
 msgstr "Versione"
 
@@ -1038,10 +1026,6 @@ msgstr "Descrizione"
 #: src/cli.vala
 msgid "URL"
 msgstr "URL"
-
-#: src/cli.vala resources/manager_window.ui
-msgid "Size"
-msgstr "Dimensione"
 
 #: src/cli.vala
 #, c-format
@@ -1117,24 +1101,56 @@ msgid "About"
 msgstr "Informazioni"
 
 #: resources/manager_window.ui
-msgid "Select All"
-msgstr "Seleziona tutto"
+msgid "Search"
+msgstr "Cerca"
 
 #: resources/manager_window.ui
-msgid "State"
-msgstr "Stato"
+msgid "All"
+msgstr ""
 
 #: resources/manager_window.ui
-msgid "Popularity"
-msgstr "Popolarità"
+msgid "Pending"
+msgstr "In attesa"
+
+#: resources/manager_window.ui
+msgid "Updates"
+msgstr "Aggiornamenti"
+
+#: resources/manager_window.ui
+msgid "Remove all"
+msgstr ""
+
+#: resources/manager_window.ui
+msgid "Install all"
+msgstr ""
+
+#: resources/manager_window.ui
+msgid "Sort by"
+msgstr ""
+
+#: resources/manager_window.ui
+msgid "Relevance"
+msgstr ""
+
+#: resources/manager_window.ui
+msgid "Date"
+msgstr ""
 
 #: resources/manager_window.ui
 msgid "Browse"
 msgstr "Naviga"
 
 #: resources/manager_window.ui
+msgid "Launch"
+msgstr ""
+
+#: resources/manager_window.ui
 msgid "Reinstall"
 msgstr "Reinstalla"
+
+#: resources/manager_window.ui
+msgid "Build"
+msgstr "Costruisci"
 
 #: resources/manager_window.ui
 msgid "Reset build files"

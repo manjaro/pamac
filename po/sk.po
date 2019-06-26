@@ -15,9 +15,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2019-05-03 12:41+0200\n"
-"PO-Revision-Date: 2019-05-04 07:01+0000\n"
-"Last-Translator: Dušan Kazik <prescott66@gmail.com>\n"
+"POT-Creation-Date: 2019-06-20 11:09+0200\n"
+"PO-Revision-Date: 2019-06-21 00:53+0000\n"
+"Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Slovak (http://www.transifex.com/manjarolinux/manjaro-pamac/language/sk/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -143,12 +143,16 @@ msgid "Refreshing mirrors list"
 msgstr "Obnovuje sa zoznam zrkadiel"
 
 #: src/transaction.vala
-msgid "Starting full system upgrade"
-msgstr "Spúšťa sa kompletná aktualizácia systému"
+msgid "Preparing"
+msgstr "Pripravuje sa"
 
 #: src/transaction.vala
 msgid "Synchronizing package databases"
 msgstr "Synchronizujú sa databázy balíkov"
+
+#: src/transaction.vala
+msgid "Starting full system upgrade"
+msgstr "Spúšťa sa kompletná aktualizácia systému"
 
 #: src/transaction.vala src/cli.vala
 #, c-format
@@ -169,10 +173,6 @@ msgstr "Kontrolujú sa závislosti balíka %s"
 #, c-format
 msgid "key %s could not be imported"
 msgstr "kľúč %s sa nepodarilo importovať"
-
-#: src/transaction.vala
-msgid "Preparing"
-msgstr "Pripravuje sa"
 
 #: src/transaction.vala
 #, c-format
@@ -338,7 +338,7 @@ msgstr "Nič na vykonanie"
 msgid "Transaction successfully finished"
 msgstr "Transakcia bola úspešná"
 
-#: src/transaction-gtk.vala src/tray.vala src/manager_window.vala
+#: src/transaction-gtk.vala src/tray.vala
 msgid "Package Manager"
 msgstr "Správca balíkov"
 
@@ -465,26 +465,6 @@ msgid "Checking for Updates"
 msgstr "Kontrolujú sa aktualizácie"
 
 #: src/manager_window.vala
-msgid "Deselect"
-msgstr "Odznačiť"
-
-#: src/manager_window.vala
-msgid "Upgrade"
-msgstr "Aktualizovať"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Install"
-msgstr "Inštalovať"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Build"
-msgstr "Zostaviť"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Remove"
-msgstr "Odstrániť"
-
-#: src/manager_window.vala
 #, c-format
 msgid "%u pending operation"
 msgid_plural "%u pending operations"
@@ -505,17 +485,9 @@ msgstr "Skupiny"
 msgid "Repositories"
 msgstr "Repozitáre"
 
-#: src/manager_window.vala src/cli.vala
+#: src/manager_window.vala src/cli.vala resources/manager_window.ui
 msgid "Installed"
 msgstr "Nainštalované"
-
-#: src/manager_window.vala
-msgid "Updates"
-msgstr "Aktualizácie"
-
-#: src/manager_window.vala
-msgid "Pending"
-msgstr "Na vybavenie"
 
 #: src/manager_window.vala
 msgid "Orphans"
@@ -588,6 +560,10 @@ msgstr "Dôvod inštalácie"
 #: src/manager_window.vala
 msgid "Mark as explicitly installed"
 msgstr "Označiť ako explicitne nainštalované"
+
+#: src/manager_window.vala resources/manager_window.ui
+msgid "Install"
+msgstr "Inštalovať"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Licenses"
@@ -677,13 +653,17 @@ msgstr "Vytvoriť závislosti"
 msgid "Check Dependencies"
 msgstr "Skontrolovať závislosti"
 
+#: src/manager_window.vala
+msgid "Upgrade"
+msgstr "Aktualizovať"
+
 #: src/manager_window.vala resources/manager_window.ui
-msgid "Search"
-msgstr "Vyhľadávanie"
+msgid "Remove"
+msgstr "Odstrániť"
 
 #: src/manager_window.vala src/cli.vala resources/manager_window.ui
-msgid "Name"
-msgstr "Názov"
+msgid "Size"
+msgstr "Veľkosť"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Install Local Packages"
@@ -978,6 +958,10 @@ msgid "also upgrade packages installed from AUR"
 msgstr "povýšiť aj balíky, ktoré boli nainštalované z AUR"
 
 #: src/cli.vala
+msgid "also upgrade development packages (use with --aur)"
+msgstr ""
+
+#: src/cli.vala
 msgid ""
 "build directory (use with --aur), if no directory is given the one specified"
 " in pamac.conf file is used"
@@ -1023,6 +1007,10 @@ msgid "also display all files names"
 msgstr ""
 
 #: src/cli.vala resources/manager_window.ui
+msgid "Name"
+msgstr "Názov"
+
+#: src/cli.vala
 msgid "Version"
 msgstr "Verzia"
 
@@ -1033,10 +1021,6 @@ msgstr "Popis"
 #: src/cli.vala
 msgid "URL"
 msgstr "URL"
-
-#: src/cli.vala resources/manager_window.ui
-msgid "Size"
-msgstr "Veľkosť"
 
 #: src/cli.vala
 #, c-format
@@ -1114,24 +1098,56 @@ msgid "About"
 msgstr "O aplikácii"
 
 #: resources/manager_window.ui
-msgid "Select All"
-msgstr "Vybrať všetko"
+msgid "Search"
+msgstr "Vyhľadávanie"
 
 #: resources/manager_window.ui
-msgid "State"
-msgstr "Stav"
+msgid "All"
+msgstr ""
 
 #: resources/manager_window.ui
-msgid "Popularity"
-msgstr "Obľúbenosť"
+msgid "Pending"
+msgstr "Na vybavenie"
+
+#: resources/manager_window.ui
+msgid "Updates"
+msgstr "Aktualizácie"
+
+#: resources/manager_window.ui
+msgid "Remove all"
+msgstr ""
+
+#: resources/manager_window.ui
+msgid "Install all"
+msgstr ""
+
+#: resources/manager_window.ui
+msgid "Sort by"
+msgstr ""
+
+#: resources/manager_window.ui
+msgid "Relevance"
+msgstr ""
+
+#: resources/manager_window.ui
+msgid "Date"
+msgstr ""
 
 #: resources/manager_window.ui
 msgid "Browse"
 msgstr "Prehliadanie"
 
 #: resources/manager_window.ui
+msgid "Launch"
+msgstr ""
+
+#: resources/manager_window.ui
 msgid "Reinstall"
 msgstr "Preinštalovať"
+
+#: resources/manager_window.ui
+msgid "Build"
+msgstr "Zostaviť"
 
 #: resources/manager_window.ui
 msgid "Reset build files"
