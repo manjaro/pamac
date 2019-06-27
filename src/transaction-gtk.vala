@@ -105,8 +105,6 @@ namespace Pamac {
 			start_building.connect (start_progressbar_pulse);
 			stop_building.connect (stop_progressbar_pulse);
 			write_pamac_config_finished.connect (set_trans_flags);
-			// notify
-			Notify.init (dgettext (null, "Package Manager"));
 			// flags
 			set_trans_flags ();
 			// ask_confirmation option
@@ -724,14 +722,9 @@ namespace Pamac {
 			dialog.default_width = 600;
 			dialog.default_height = 300;
 			Timeout.add (1000, () => {
-				try {
-					var notification = new Notify.Notification (dgettext (null, "Package Manager"),
-																message,
-																"system-software-update");
-					notification.show ();
-				} catch (Error e) {
-					stderr.printf ("Notify Error: %s", e.message);
-				}
+				var notification = new Notification (dgettext (null, "Package Manager"));
+				notification.set_body (message);
+				this.application_window.application.send_notification ("pamac-manager", notification);
 				return false;
 			});
 			dialog.run ();
@@ -740,14 +733,9 @@ namespace Pamac {
 
 		void on_finished (bool success) {
 			if (success) {
-				try {
-					var notification = new Notify.Notification (dgettext (null, "Package Manager"),
-																dgettext (null, "Transaction successfully finished"),
-																"system-software-update");
-					notification.show ();
-				} catch (Error e) {
-					stderr.printf ("Notify Error: %s", e.message);
-				}
+				var notification = new Notification (dgettext (null, "Package Manager"));
+				notification.set_body (dgettext (null, "Transaction successfully finished"));
+				this.application_window.application.send_notification ("pamac-manager", notification);
 				show_warnings (false);
 			} else {
 				warning_textbuffer = new StringBuilder ();
