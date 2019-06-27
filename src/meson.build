@@ -39,9 +39,22 @@ libpamac = library('pamac',
 	dependencies: [alpm_deps, math, json, appstream, libsoup, libcurl],
 	vala_args: [common_vala_args, alpm_vala_args],
 	c_args: [common_c_args, alpm_c_args],
-	vala_gir: 'Pamac-1.0.gir',
+	vala_gir: 'Pamac-8.0.gir',
 	install: true,
 	install_dir: [true, true, true, true])
+
+# create pkg-config file
+pkg = import('pkgconfig')
+pkg.generate(libpamac,
+	description: 'Pamac Library')
+
+# create typelib files
+g_ir_compiler = find_program('g-ir-compiler')
+custom_target('pamac typelib', command: [g_ir_compiler, '--shared-library', 'libpamac', '--output', '@OUTPUT@', join_paths(meson.current_build_dir(), 'Pamac-8.0.gir')],
+	output: 'Pamac-8.0.typelib',
+	depends: libpamac,
+	install: true,
+	install_dir: join_paths(get_option('libdir'), 'girepository-1.0'))
 
 libpamac_dep = declare_dependency(link_with: libpamac)
 
@@ -82,14 +95,6 @@ libpamac_gtk = library('pamac-gtk',
 	c_args: common_c_args,
 	install: true,
 	install_dir: [true, true, true])
-
-# create typelib files
-g_ir_compiler = find_program('g-ir-compiler')
-custom_target('pamac typelib', command: [g_ir_compiler, '--shared-library', 'libpamac', '--output', '@OUTPUT@', join_paths(meson.current_build_dir(), 'Pamac-1.0.gir')],
-	output: 'Pamac-1.0.typelib',
-	depends: libpamac,
-	install: true,
-	install_dir: join_paths(get_option('libdir'), 'girepository-1.0'))
 
 libpamac_gtk_dep = declare_dependency(link_with: libpamac_gtk)
 
