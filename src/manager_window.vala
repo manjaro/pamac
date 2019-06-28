@@ -1622,6 +1622,21 @@ namespace Pamac {
 					pamac_row.action_togglebutton.get_style_context ().remove_class (Gtk.STYLE_CLASS_DESTRUCTIVE_ACTION);
 				}
 			});
+			aur_listbox.foreach ((row) => {
+				unowned AURRow pamac_row = row as AURRow;
+				if (pamac_row == null) {
+					return;
+				}
+				unowned string pkgname = pamac_row.aur_pkg.name;
+				pamac_row.action_togglebutton.sensitive = true;
+				if (pkgname in to_build) {
+					pamac_row.action_togglebutton.active = true;
+					pamac_row.action_togglebutton.get_style_context ().add_class (Gtk.STYLE_CLASS_SUGGESTED_ACTION);
+				} else {
+					pamac_row.action_togglebutton.active = false;
+					pamac_row.action_togglebutton.get_style_context ().remove_class (Gtk.STYLE_CLASS_SUGGESTED_ACTION);
+				}
+			});
 		}
 
 		void sort_aur_list () {
