@@ -981,6 +981,8 @@ namespace Pamac {
 				if (details.launchable != "") {
 					launch_button.visible = true;
 					current_launchable = details.launchable;
+				} else {
+					launch_button.visible = false;
 				}
 				install_togglebutton.visible = false;
 				build_togglebutton.visible = false;
