@@ -29,7 +29,7 @@ namespace Pamac {
 		[GtkChild]
 		public Gtk.Label desc_label;
 		[GtkChild]
-		public Gtk.Label version_label;
+		public Gtk.Box version_box;
 		[GtkChild]
 		public Gtk.ToggleButton action_togglebutton;
 		[GtkChild]

@@ -1560,8 +1560,10 @@ namespace Pamac {
 				});
 			} else if (is_update) {
 				row.action_togglebutton.label = dgettext (null, "Upgrade");
-				row.action_togglebutton.active = true;
-				row.action_togglebutton.get_style_context ().add_class (Gtk.STYLE_CLASS_SUGGESTED_ACTION);
+				if (!(pkg.name in temporary_ignorepkgs)) {
+					row.action_togglebutton.active = true;
+					row.action_togglebutton.get_style_context ().add_class (Gtk.STYLE_CLASS_SUGGESTED_ACTION);
+				}
 				row.action_togglebutton.toggled.connect ((button) => {
 					if (button.active) {
 						to_update.add (pkg.name);
@@ -1634,6 +1636,12 @@ namespace Pamac {
 				if (pkgname in to_build) {
 					pamac_row.action_togglebutton.active = true;
 					pamac_row.action_togglebutton.get_style_context ().add_class (Gtk.STYLE_CLASS_SUGGESTED_ACTION);
+				} else if (pkgname in to_update) {
+					pamac_row.action_togglebutton.active = true;
+					pamac_row.action_togglebutton.get_style_context ().add_class (Gtk.STYLE_CLASS_SUGGESTED_ACTION);
+				} else if (pkgname in temporary_ignorepkgs) {
+					pamac_row.action_togglebutton.active = false;
+					pamac_row.action_togglebutton.get_style_context ().remove_class (Gtk.STYLE_CLASS_SUGGESTED_ACTION);
 				} else {
 					pamac_row.action_togglebutton.active = false;
 					pamac_row.action_togglebutton.get_style_context ().remove_class (Gtk.STYLE_CLASS_SUGGESTED_ACTION);
@@ -1726,35 +1734,70 @@ namespace Pamac {
 		}
 
 		void create_aurlist_row (AURPackage aur_pkg) {
+			bool is_update = browse_stack.visible_child_name == "updates";
 			var row = new AURRow (aur_pkg);
 			//populate info
 			row.name_label.set_markup ("<b>%s</b>".printf (aur_pkg.name));
-			if (browse_stack.visible_child_name == "updates") {
-				row.version_label.set_markup ("<b>%s</b>\n(%s)".printf (aur_pkg.version, aur_pkg.installed_version));
-			} else if (aur_pkg.installed_version == "") {
-				row.version_label.label = aur_pkg.version;
+			if (is_update) {
+				var label = new Gtk.Label (aur_pkg.version);
+				label.visible = true;
+				label.width_chars = 10;
+				label.max_width_chars = 10;
+				label.ellipsize = Pango.EllipsizeMode.END;
+				label.xalign = 0;
+				row.version_box.pack_start (label);
+				label = new Gtk.Label ("(%s)".printf (aur_pkg.installed_version));
+				label.visible = true;
+				label.width_chars = 10;
+				label.max_width_chars = 10;
+				label.ellipsize = Pango.EllipsizeMode.END;
+				label.xalign = 0;
+				row.version_box.pack_start (label);
 			} else {
-				row.version_label.label = aur_pkg.installed_version;
+				var label = new Gtk.Label (aur_pkg.version);
+				label.visible = true;
+				label.width_chars = 10;
+				label.max_width_chars = 10;
+				label.ellipsize = Pango.EllipsizeMode.END;
+				label.xalign = 0;
+				row.version_box.pack_start (label);
 			}
 			row.desc_label.label = aur_pkg.desc;
 			row.app_icon.pixbuf = package_icon.scale_simple (32, 32, Gdk.InterpType.BILINEAR);
 			row.details_button.clicked.connect (() => {
 				on_aur_listbox_row_activated (row);
 			});
-			if (aur_pkg.name in to_build) {
-				row.action_togglebutton.active = true;
-				row.action_togglebutton.get_style_context ().add_class (Gtk.STYLE_CLASS_SUGGESTED_ACTION);
-			}
-			row.action_togglebutton.toggled.connect ((button) => {
-				if (button.active) {
-					button.get_style_context ().add_class (Gtk.STYLE_CLASS_SUGGESTED_ACTION);
-					to_build.add (aur_pkg.name);
-				} else {
-					button.get_style_context ().remove_class (Gtk.STYLE_CLASS_SUGGESTED_ACTION);
-					to_build.remove (aur_pkg.name);
+			if (is_update) {
+				if (!(aur_pkg.name in temporary_ignorepkgs)) {
+					row.action_togglebutton.active = true;
+					row.action_togglebutton.get_style_context ().add_class (Gtk.STYLE_CLASS_SUGGESTED_ACTION);
 				}
-				set_pendings_operations ();
-			});
+				row.action_togglebutton.toggled.connect ((button) => {
+					if (button.active) {
+						to_update.add (aur_pkg.name);
+						temporary_ignorepkgs.remove (aur_pkg.name);
+					} else {
+						to_update.remove (aur_pkg.name);
+						temporary_ignorepkgs.add (aur_pkg.name);
+					}
+					refresh_listbox_buttons ();
+					set_pendings_operations ();
+				});
+			} else {
+				if (aur_pkg.name in to_build) {
+					row.action_togglebutton.active = true;
+					row.action_togglebutton.get_style_context ().add_class (Gtk.STYLE_CLASS_SUGGESTED_ACTION);
+				}
+				row.action_togglebutton.toggled.connect ((button) => {
+					if (button.active) {
+						to_build.add (aur_pkg.name);
+					} else {
+						to_build.remove (aur_pkg.name);
+					}
+					refresh_listbox_buttons ();
+					set_pendings_operations ();
+				});
+			}
 			// insert
 			aur_listbox.add (row);
 		}
