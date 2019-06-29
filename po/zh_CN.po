@@ -11,6 +11,7 @@
 # Dingzhong Chen <wsxy162@gmail.com>, 2015
 # Dingzhong Chen <wsxy162@gmail.com>, 2015-2017
 # f h <hffqyd@sina.com>, 2018
+# Tramsifex <g1325875@outlook.com>, 2019
 # philm <philm@manjaro.org>, 2015
 # Ruochen Wang <wangkevin920@163.com>, 2018
 # song day <songday@yeah.net>, 2018
@@ -20,8 +21,8 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2019-06-20 11:09+0200\n"
-"PO-Revision-Date: 2019-06-21 00:53+0000\n"
-"Last-Translator: philm <philm@manjaro.org>\n"
+"PO-Revision-Date: 2019-06-29 11:31+0000\n"
+"Last-Translator: Tramsifex <g1325875@outlook.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -161,17 +162,17 @@ msgstr "正在进行全面系统升级"
 #: src/transaction.vala src/cli.vala
 #, c-format
 msgid "Cloning %s build files"
-msgstr ""
+msgstr "正在克隆 %s 构建文件"
 
 #: src/transaction.vala
 #, c-format
 msgid "Generating %s informations"
-msgstr ""
+msgstr "正在生成 %s 信息"
 
 #: src/transaction.vala
 #, c-format
 msgid "Checking %s dependencies"
-msgstr ""
+msgstr "正在检查 %s 依赖关系"
 
 #: src/transaction.vala
 #, c-format
@@ -370,7 +371,7 @@ msgstr "取消(_C)"
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
 msgid "The PGP key %s is needed to verify %s source files"
-msgstr ""
+msgstr "需要 PGP 密钥 %s用于验证 %s 源文件"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
@@ -408,7 +409,7 @@ msgstr "总下载大小"
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
 msgid "Edit %s build files"
-msgstr ""
+msgstr "编辑%s 构建文件"
 
 #: src/transaction-gtk.vala
 msgid "Save"
@@ -546,7 +547,7 @@ msgstr "文件"
 
 #: src/manager_window.vala
 msgid "Build files"
-msgstr ""
+msgstr "构建文件"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Install Reason"
@@ -698,13 +699,13 @@ msgstr "全世界"
 
 #: src/preferences_dialog.vala src/cli.vala
 msgid "To delete"
-msgstr ""
+msgstr "可删除"
 
 #: src/preferences_dialog.vala src/cli.vala
 #, c-format
 msgid "%u file"
 msgid_plural "%u files"
-msgstr[0] ""
+msgstr[0] "%u 个文件"
 
 #: src/preferences_dialog.vala
 msgid "Choose Ignored Upgrades"
@@ -717,7 +718,7 @@ msgstr "键入一个组合（默认为%s）"
 
 #: src/transaction-cli.vala
 msgid "none"
-msgstr ""
+msgstr "无"
 
 #: src/transaction-cli.vala
 #, c-format
@@ -738,7 +739,7 @@ msgstr "是"
 
 #: src/transaction-cli.vala resources/transaction_sum_dialog.ui
 msgid "Edit build files"
-msgstr ""
+msgstr "编辑构建文件"
 
 #: src/transaction-cli.vala
 msgid "Total installed size"
@@ -750,12 +751,12 @@ msgstr "总共已删除数量"
 
 #: src/transaction-cli.vala
 msgid "Apply transaction"
-msgstr ""
+msgstr "应用事务"
 
 #: src/transaction-cli.vala
 #, c-format
 msgid "View %s build files diff"
-msgstr ""
+msgstr "查看%s 构建文件差异"
 
 #: src/cli.vala
 msgid "Building packages as root is not allowed"
@@ -767,7 +768,7 @@ msgstr "在当前目录下未找到 PKGBUILD 文件"
 
 #: src/cli.vala
 msgid "Check development packages updates as root is not allowed"
-msgstr ""
+msgstr "不允许以管理员身份检查开发软件包更新"
 
 #: src/cli.vala
 msgid "Available actions"
@@ -846,7 +847,7 @@ msgstr "列出指定包的文件"
 
 #: src/cli.vala
 msgid "Clone or sync packages build files from AUR"
-msgstr ""
+msgstr "从 AUR 克隆或同步软件包构建文件"
 
 #: src/cli.vala
 msgid "dir"
@@ -860,7 +861,7 @@ msgstr "创建的目录，若未指定则使用pamac.conf中指定的"
 
 #: src/cli.vala
 msgid "also clone needed dependencies"
-msgstr ""
+msgstr "同时克隆所需的依赖关系"
 
 #: src/cli.vala
 msgid "overwrite existing files"
@@ -879,15 +880,15 @@ msgstr "如果未指定包名，将使用当前目录的 PKGBUILD 文件"
 msgid ""
 "The build directory will be the parent directory, --builddir option will be "
 "ignored"
-msgstr ""
+msgstr "构建目录将是父目录，忽略--builddir 选项"
 
 #: src/cli.vala
 msgid "do not clone build files from AUR, only use local files"
-msgstr ""
+msgstr "不从 AUR 克隆构建文件，仅使用本地文件"
 
 #: src/cli.vala
 msgid "bypass any and all confirmation messages"
-msgstr ""
+msgstr "跳过所有确认消息"
 
 #: src/cli.vala
 msgid "glob"
@@ -929,7 +930,7 @@ msgstr "同时检查AUR更新"
 
 #: src/cli.vala
 msgid "also check development packages updates (use with --aur)"
-msgstr ""
+msgstr "同时检查开发软件包更新 (使用 --aur)"
 
 #: src/cli.vala
 msgid "only print one line per update"
@@ -939,7 +940,7 @@ msgstr "每行仅打印一条更新"
 msgid ""
 "build directory (use with --devel), if no directory is given the one "
 "specified in pamac.conf file is used"
-msgstr ""
+msgstr "构建目录 (使用 --devel)，若未指定则使用pamac.conf中指定的目录"
 
 #: src/cli.vala
 msgid "Upgrade your system"
@@ -951,7 +952,7 @@ msgstr "同时更新从AUR安装的包"
 
 #: src/cli.vala
 msgid "also upgrade development packages (use with --aur)"
-msgstr ""
+msgstr "同时升级开发软件包 (使用 --aur)"
 
 #: src/cli.vala
 msgid ""
@@ -969,34 +970,34 @@ msgstr "允许包降级"
 
 #: src/cli.vala
 msgid "Clean packages cache or build files"
-msgstr ""
+msgstr "清理软件包缓存或构建文件"
 
 #: src/cli.vala
 msgid "number"
-msgstr ""
+msgstr "数目"
 
 #: src/cli.vala
 msgid ""
 "specify how many versions of each package are kept in the cache directory"
-msgstr ""
+msgstr "指定每个软件包保留在缓存目录的版本数目"
 
 #: src/cli.vala
 msgid "only target uninstalled packages"
-msgstr ""
+msgstr "仅针对已卸载的软件包"
 
 #: src/cli.vala
 msgid ""
 "remove all build files, the build directory is the one specified in "
 "pamac.conf"
-msgstr ""
+msgstr "移除所有构建文件，使用pamac.conf中指定的构建目录"
 
 #: src/cli.vala
 msgid "do not remove files, only find candidate packages"
-msgstr ""
+msgstr "不移除文件，仅查找候选软件包"
 
 #: src/cli.vala
 msgid "also display all files names"
-msgstr ""
+msgstr "同时显示所有文件名称"
 
 #: src/cli.vala resources/manager_window.ui
 msgid "Name"
@@ -1034,7 +1035,7 @@ msgstr "清除缓存"
 
 #: src/cli.vala resources/preferences_dialog.ui
 msgid "Clean build files"
-msgstr ""
+msgstr "清理构建文件"
 
 #: src/cli.vala
 #, c-format
@@ -1092,7 +1093,7 @@ msgstr "搜索"
 
 #: resources/manager_window.ui
 msgid "All"
-msgstr ""
+msgstr "全部"
 
 #: resources/manager_window.ui
 msgid "Pending"
@@ -1104,23 +1105,23 @@ msgstr "更新"
 
 #: resources/manager_window.ui
 msgid "Remove all"
-msgstr ""
+msgstr "全部移除"
 
 #: resources/manager_window.ui
 msgid "Install all"
-msgstr ""
+msgstr "全部安装"
 
 #: resources/manager_window.ui
 msgid "Sort by"
-msgstr ""
+msgstr "排序依据"
 
 #: resources/manager_window.ui
 msgid "Relevance"
-msgstr ""
+msgstr "相关性"
 
 #: resources/manager_window.ui
 msgid "Date"
-msgstr ""
+msgstr "日期"
 
 #: resources/manager_window.ui
 msgid "Browse"
@@ -1128,7 +1129,7 @@ msgstr "浏览"
 
 #: resources/manager_window.ui
 msgid "Launch"
-msgstr ""
+msgstr "启动"
 
 #: resources/manager_window.ui
 msgid "Reinstall"
@@ -1140,7 +1141,7 @@ msgstr "构建"
 
 #: resources/manager_window.ui
 msgid "Reset build files"
-msgstr ""
+msgstr "重置构建文件"
 
 #: resources/preferences_dialog.ui
 msgid "Remove unrequired dependencies"
@@ -1158,7 +1159,7 @@ msgstr "检查可用磁盘空间"
 
 #: resources/preferences_dialog.ui
 msgid "Enable downgrade"
-msgstr ""
+msgstr "启用降级"
 
 #: resources/preferences_dialog.ui
 msgid "Check for updates"
@@ -1212,7 +1213,7 @@ msgstr "从 AUR 检查更新"
 
 #: resources/preferences_dialog.ui
 msgid "Check for development packages updates"
-msgstr ""
+msgstr "检查开发软件包更新"
 
 #: resources/preferences_dialog.ui
 msgid "Cache"
