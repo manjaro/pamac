@@ -267,11 +267,16 @@ namespace Pamac {
 			return alpm_utils.get_transaction_summary ();
 		}
 
-		public void start_trans_commit () {
+		int trans_commit () {
 			alpm_utils.alpm_mutex.lock ();
 			alpm_utils.commit = true;
 			alpm_utils.alpm_cond.signal ();
 			alpm_utils.alpm_mutex.unlock ();
+			return 0;
+		}
+ 
+		public void start_trans_commit () {
+			new Thread<int> ("trans_commit", trans_commit);
 		}
 
 		public void trans_release () {
