@@ -246,6 +246,8 @@ namespace Pamac {
 		[GtkChild]
 		Gtk.ModelButton preferences_button;
 		[GtkChild]
+		Gtk.Box browse_box;
+		[GtkChild]
 		Gtk.ListBox packages_listbox;
 		[GtkChild]
 		Gtk.ListBox aur_listbox;
@@ -2405,6 +2407,11 @@ namespace Pamac {
 			} else {
 				searchbar.search_mode_enabled = false;
 			}
+			// fix #602
+			install_all_button.no_show_all = true;
+			remove_all_button.no_show_all = true;
+			browse_box.show_all ();
+			//
 		}
 
 		bool search_entry_timeout_callback () {
