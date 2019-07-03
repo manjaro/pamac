@@ -940,7 +940,7 @@ namespace Pamac {
 			}
 			// set out of date
 			unowned Json.Node? out_node = json_object.get_member ("OutOfDate");
-			if (out_node != null) {
+			if (!out_node.is_null ()) {
 				aur_pkg.outofdate = (uint64) out_node.get_int ();
 			}
 			return aur_pkg;
@@ -1639,12 +1639,12 @@ namespace Pamac {
 				aur_details.packagebase = json_object.get_string_member ("PackageBase");
 				// url can be null
 				unowned Json.Node? node = json_object.get_member ("URL");
-				if (node != null) {
+				if (!node.is_null ()) {
 					aur_details.url = node.get_string ();
 				}
 				// maintainer can be null
 				node = json_object.get_member ("Maintainer");
-				if (node != null) {
+				if (!node.is_null ()) {
 					aur_details.maintainer = node.get_string ();
 				}
 				// firstsubmitted
@@ -1653,7 +1653,7 @@ namespace Pamac {
 				aur_details.lastmodified = (uint64) json_object.get_int_member ("LastModified");
 				// outofdate can be null
 				node = json_object.get_member ("OutOfDate");
-				if (node != null) {
+				if (!node.is_null ()) {
 					aur_details.outofdate = (uint64) node.get_int ();
 				}
 				//numvotes
@@ -1976,7 +1976,7 @@ namespace Pamac {
 				unowned string old_version = alpm_handle.localdb.get_pkg (name).version;
 				if (Alpm.pkg_vercmp (new_version, old_version) == 1) {
 					updates.append (initialise_aur_pkg (pkg_info));
-				} else if (pkg_info.get_member ("OutOfDate") != null) {
+				} else if (!pkg_info.get_member ("OutOfDate").is_null ()) {
 					// get out of date packages
 					outofdate.append (initialise_aur_pkg (pkg_info));
 				}
