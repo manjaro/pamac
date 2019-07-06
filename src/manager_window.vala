@@ -749,7 +749,12 @@ namespace Pamac {
 			search_listbox.add (create_list_row (dgettext (null, "AUR")));
 			search_listbox.select_row (search_listbox.get_row_at_index (0));
 			if (database.config.enable_aur == false) {
-				search_listbox.get_row_at_index (2).visible = false;
+				unowned Gtk.ListBoxRow row = search_listbox.get_row_at_index (2);
+				row.visible = false;
+				// related to #602 fix
+				row.no_show_all = true;
+				row.get_child ().no_show_all = true;
+				//
 			}
 
 			properties_listbox.add (create_list_row (dgettext (null, "Details")));
