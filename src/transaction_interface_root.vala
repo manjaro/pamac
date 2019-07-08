@@ -268,10 +268,7 @@ namespace Pamac {
 		}
 
 		int trans_commit () {
-			alpm_utils.alpm_mutex.lock ();
-			alpm_utils.commit = true;
-			alpm_utils.alpm_cond.signal ();
-			alpm_utils.alpm_mutex.unlock ();
+			alpm_utils.trans_commit ();
 			return 0;
 		}
  

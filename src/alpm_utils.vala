@@ -90,10 +90,9 @@ namespace Pamac {
 		internal Alpm.Handle? alpm_handle;
 		internal Alpm.Handle? files_handle;
 		internal string tmp_path;
-		internal Cond alpm_cond;
-		internal Mutex alpm_mutex;
+		internal Cond provider_cond;
+		internal Mutex provider_mutex;
 		internal int? choosen_provider;
-		internal bool? commit;
 		internal bool force_refresh;
 		internal int flags;
 		GenericSet<string?> to_syncfirst;
@@ -872,20 +871,6 @@ namespace Pamac {
 				trans_release ();
 			}
 			trans_prepare_finished (success);
-			if (success) {
-				// wait for a commit/release answer;
-				alpm_cond = Cond ();
-				alpm_mutex = Mutex ();
-				commit = null;
-				alpm_mutex.lock ();
-				while (commit == null) {
-					alpm_cond.wait (alpm_mutex);
-				}
-				alpm_mutex.unlock ();
-				if (commit) {
-					trans_commit ();
-				}
-			}
 		}
 
 		internal void build_prepare () {
@@ -1064,10 +1049,10 @@ namespace Pamac {
 		}
 
 		internal void choose_provider (int provider) {
-			alpm_mutex.lock ();
+			provider_mutex.lock ();
 			choosen_provider = provider;
-			alpm_cond.signal ();
-			alpm_mutex.unlock ();
+			provider_cond.signal ();
+			provider_mutex.unlock ();
 		}
 
 		internal TransactionSummaryStruct get_transaction_summary () {
@@ -1376,10 +1361,6 @@ namespace Pamac {
 		}
 
 		internal void trans_release () {
-			alpm_mutex.lock ();
-			commit = false;
-			alpm_cond.signal ();
-			alpm_mutex.unlock ();
 			alpm_handle.trans_release ();
 			remove_ignorepkgs ();
 			remove_overwrite_files ();
@@ -1533,16 +1514,16 @@ void cb_question (Alpm.Question.Data data) {
 				providers_str += pkg.name;
 				list.next ();
 			}
-			alpm_utils.alpm_cond = Cond ();
-			alpm_utils.alpm_mutex = Mutex ();
+			alpm_utils.provider_cond = Cond ();
+			alpm_utils.provider_mutex = Mutex ();
 			alpm_utils.choosen_provider = null;
 			alpm_utils.emit_providers (depend_str, providers_str);
-			alpm_utils.alpm_mutex.lock ();
+			alpm_utils.provider_mutex.lock ();
 			while (alpm_utils.choosen_provider == null) {
-				alpm_utils.alpm_cond.wait (alpm_utils.alpm_mutex);
+				alpm_utils.provider_cond.wait (alpm_utils.provider_mutex);
 			}
 			data.select_provider_use_index = alpm_utils.choosen_provider;
-			alpm_utils.alpm_mutex.unlock ();
+			alpm_utils.provider_mutex.unlock ();
 			break;
 		case Alpm.Question.Type.CORRUPTED_PKG:
 			// Auto-remove corrupted pkgs in cache

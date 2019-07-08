@@ -459,10 +459,11 @@ namespace Pamac {
 			check_authorization.begin (sender, (obj, res) => {
 				bool authorized = check_authorization.end (res);
 				if (authorized) {
-					alpm_utils.alpm_mutex.lock ();
-					alpm_utils.commit = true;
-					alpm_utils.alpm_cond.signal ();
-					alpm_utils.alpm_mutex.unlock ();
+					try {
+						thread_pool.add (new AlpmAction (alpm_utils.trans_commit));
+					} catch (ThreadError e) {
+						stderr.printf ("Thread Error %s\n", e.message);
+					}
 				} else {
 					alpm_utils.trans_release ();
 					lock_id = new BusName ("");
