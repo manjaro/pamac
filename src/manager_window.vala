@@ -361,6 +361,7 @@ namespace Pamac {
 
 		public TransactionGtk transaction;
 		public Database database { get; construct; }
+		LocalConfig local_config;
 
 		bool important_details;
 		bool transaction_running;
@@ -390,6 +391,12 @@ namespace Pamac {
 			unowned string? use_csd = Environment.get_variable ("GTK_CSD");
 			if (use_csd == "0") {
 				headerbar.show_close_button = false;
+			}
+			local_config = new LocalConfig ("%s/pamac/size".printf (Environment.get_user_config_dir ()));
+			this.resize ((int) local_config.width, (int) local_config.height);
+			if (local_config.maximized) {
+				this.set_default_size ((int) local_config.width, (int) local_config.height);
+				this.maximize ();
 			}
 
 			button_back.visible = false;
@@ -558,6 +565,18 @@ namespace Pamac {
 				// do not close window
 				return true;
 			} else {
+				// save window size
+				var local_conf = new HashTable<string,Variant> (str_hash, str_equal);
+				if (this.is_maximized) {
+					local_conf.insert ("maximized", new Variant.boolean (true));
+				} else {
+					int width, height;
+					this.get_size (out width, out height);
+					local_conf.insert ("maximized", new Variant.boolean (false));
+					local_conf.insert ("width", new Variant.uint64 (width));
+					local_conf.insert ("height", new Variant.uint64 (height));
+				}
+				local_config.write (local_conf);
 				// close window
 				return false;
 			}
