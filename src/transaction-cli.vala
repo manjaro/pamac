@@ -568,7 +568,14 @@ namespace Pamac {
 		}
 
 		async bool edit_single_build_files (string pkgname) {
-			string[] cmds = {"nano", "-S", "-w", "-i"};
+			string[] cmds = {};
+			unowned string? editor = Environment.get_variable ("EDITOR");
+			if (editor == null || editor == "nano") {
+				cmds += "nano";
+				cmds += "-i";
+			} else {
+				cmds += editor;
+			}
 			string[] files = yield get_build_files (pkgname);
 			foreach (unowned string file in files) {
 				cmds += file;
