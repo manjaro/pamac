@@ -313,9 +313,6 @@ namespace Pamac {
 		}
 
 		bool ask_user (string question) {
-			if (no_confirm) {
-				return true;
-			}
 			// ask user confirmation
 			stdout.printf ("%s %s ", question, dgettext (null, "[y/N]"));
 			char buf[32];
@@ -337,12 +334,18 @@ namespace Pamac {
 
 		protected override bool ask_import_key (string pkgname, string key, string owner) {
 			stdout.printf ("%s.\n".printf (dgettext (null, "The PGP key %s is needed to verify %s source files").printf (key, pkgname)));
+			if (no_confirm) {
+				return true;
+			}
 			return ask_user ("%s ?".printf (dgettext (null, "Trust %s and import the PGP key").printf (owner)));
 		}
 
 		protected override bool ask_edit_build_files (TransactionSummary summary) {
 			show_summary (summary);
 			summary_shown = true;
+			if (no_confirm) {
+				return false;
+			}
 			return ask_user ("%s ?".printf (dgettext (null, "Edit build files")));
 		}
 
@@ -539,6 +542,9 @@ namespace Pamac {
 		protected override bool ask_commit (TransactionSummary summary) {
 			if (!summary_shown) {
 				show_summary (summary);
+			}
+			if (no_confirm) {
+				return true;
 			}
 			return ask_user ("%s ?".printf (dgettext (null, "Apply transaction")));
 		}
