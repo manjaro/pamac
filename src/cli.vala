@@ -1958,7 +1958,9 @@ namespace Pamac {
 				// just return use default
 				if (ans != "") {
 					if (ans == dgettext (null, "y") ||
-						ans == dgettext (null, "yes")) {
+						ans == dgettext (null, "yes") ||
+						ans == "y" ||
+						ans == "yes") {
 						return true;
 					}
 				}
