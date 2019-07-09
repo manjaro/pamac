@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2019-06-20 11:09+0200\n"
-"PO-Revision-Date: 2019-06-26 06:05+0000\n"
+"PO-Revision-Date: 2019-07-08 05:38+0000\n"
 "Last-Translator: Galin Iskrenov <loot270@abv.bg>\n"
 "Language-Team: Bulgarian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/bg/)\n"
 "MIME-Version: 1.0\n"
@@ -1017,7 +1017,7 @@ msgstr "URL"
 #: src/cli.vala
 #, c-format
 msgid "No package owns %s"
-msgstr "Никой пакет не притежава %s"
+msgstr "Няма пакет притежаващ %s"
 
 #: src/cli.vala
 #, c-format
