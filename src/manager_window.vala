@@ -1184,6 +1184,8 @@ namespace Pamac {
 
 		async void set_aur_details (string pkgname) {
 			this.get_window ().set_cursor (new Gdk.Cursor.for_display (Gdk.Display.get_default (), Gdk.CursorType.WATCH));
+			details_grid.foreach (transaction.destroy_widget);
+			deps_grid.foreach (transaction.destroy_widget);
 			AURPackageDetails details = yield database.get_aur_pkg_details (pkgname);
 			app_screenshot.pixbuf = null;
 			launch_button.visible = false;
@@ -1215,7 +1217,6 @@ namespace Pamac {
 			}
 			// details
 			properties_listbox.visible = true;
-			details_grid.foreach (transaction.destroy_widget);
 			Gtk.Widget? previous_widget = null;
 			if (details.packagebase != details.name) {
 				previous_widget = populate_details_grid (dgettext (null, "Package Base"), details.packagebase, previous_widget);
