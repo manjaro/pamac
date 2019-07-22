@@ -18,7 +18,7 @@ import subprocess
 import locale
 from datetime import date
 import unittest
-gi.require_version('Pamac', '1.0')
+gi.require_version('Pamac', '8.0')
 # import xml /usr/share/gir-1.0/Pamac-1.0.gir
 from gi.repository import GLib, Pamac
 
