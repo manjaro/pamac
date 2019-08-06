@@ -29,8 +29,8 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2019-06-20 11:09+0200\n"
-"PO-Revision-Date: 2019-06-21 00:53+0000\n"
-"Last-Translator: philm <philm@manjaro.org>\n"
+"PO-Revision-Date: 2019-07-28 01:48+0000\n"
+"Last-Translator: Elias Nykrem <bloodaxeNOR@protonmail.com>\n"
 "Language-Team: Norwegian Bokmål (http://www.transifex.com/manjarolinux/manjaro-pamac/language/nb/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -170,7 +170,7 @@ msgstr "Starter full systemoppgradering"
 #: src/transaction.vala src/cli.vala
 #, c-format
 msgid "Cloning %s build files"
-msgstr ""
+msgstr "Kloner %s byggefiler"
 
 #: src/transaction.vala
 #, c-format
@@ -418,7 +418,7 @@ msgstr "Samlet nedlastingsstørrelse"
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
 msgid "Edit %s build files"
-msgstr ""
+msgstr "Rediger %s byggefiler"
 
 #: src/transaction-gtk.vala
 msgid "Save"
@@ -558,7 +558,7 @@ msgstr "Filer"
 
 #: src/manager_window.vala
 msgid "Build files"
-msgstr ""
+msgstr "Byggefiler"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Install Reason"
@@ -751,7 +751,7 @@ msgstr "ja"
 
 #: src/transaction-cli.vala resources/transaction_sum_dialog.ui
 msgid "Edit build files"
-msgstr ""
+msgstr "Rediger byggefiler"
 
 #: src/transaction-cli.vala
 msgid "Total installed size"
@@ -772,7 +772,7 @@ msgstr ""
 
 #: src/cli.vala
 msgid "Building packages as root is not allowed"
-msgstr ""
+msgstr "Bygging av pakkene som root er ikke tillatt"
 
 #: src/cli.vala
 msgid "No PKGBUILD file found in current directory"

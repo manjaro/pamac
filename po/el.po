@@ -9,7 +9,8 @@
 # angel_solomos, 2013
 # Efstathios Iosifidis <iefstathios@gmail.com>, 2016-2017
 # Guillaume Benoit <guillaume@manjaro.org>, 2013
-# kouros kouros <kormikg@yahoo.gr>, 2016-2017
+# kouros kouros <kormikg@yahoo.gr>, 2016-2017,2019
+# Lefteris Andrianakis <lefterisandrianakis@gmail.com>, 2019
 # philm <philm@manjaro.org>, 2014
 # Panagiotis Englezos <panagiotisegl@gmail.com>, 2019
 # Panagiotis Mantzios <pmantzios@hotmail.com>, 2017
@@ -26,8 +27,8 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2019-06-20 11:09+0200\n"
-"PO-Revision-Date: 2019-06-21 00:53+0000\n"
-"Last-Translator: philm <philm@manjaro.org>\n"
+"PO-Revision-Date: 2019-07-24 14:06+0000\n"
+"Last-Translator: Lefteris Andrianakis <lefterisandrianakis@gmail.com>\n"
 "Language-Team: Greek (http://www.transifex.com/manjarolinux/manjaro-pamac/language/el/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -182,7 +183,7 @@ msgstr "Έλεγχος εξαρτήσεων %s"
 #: src/transaction.vala
 #, c-format
 msgid "key %s could not be imported"
-msgstr ""
+msgstr "το κλειδί %sδεν μπορεί να εισαχθεί"
 
 #: src/transaction.vala
 #, c-format
@@ -353,7 +354,7 @@ msgstr "Διαχειριστής πακέτων"
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
 msgid "Choose optional dependencies for %s"
-msgstr ""
+msgstr "Επέλεξε προαιρετικές εξαρτήσεις για το %s"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
@@ -362,11 +363,11 @@ msgstr "Επιλέξτε έναν πάροχο για το %s"
 
 #: src/transaction-gtk.vala
 msgid "Import PGP key"
-msgstr ""
+msgstr "Εισαγωγή PGP κλειδιού"
 
 #: src/transaction-gtk.vala
 msgid "Trust and Import"
-msgstr ""
+msgstr "Εμπιστοσύνη και εισαγωγή"
 
 #: src/transaction-gtk.vala src/manager_window.vala
 #: resources/transaction_sum_dialog.ui resources/manager_window.ui
@@ -377,12 +378,12 @@ msgstr "Άκυρο"
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
 msgid "The PGP key %s is needed to verify %s source files"
-msgstr ""
+msgstr "Το PGP κλειδί%s απαιτείται για να επικυρώσει %s πηγαία αρχεία"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
 msgid "Trust %s and import the PGP key"
-msgstr ""
+msgstr "Εμπιστοσύνη %sκαι εισαγωγή του PGP κλειδιού"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "To remove"
@@ -691,7 +692,7 @@ msgstr "Πόσο συχνά να γίνεται έλεγχος για αναβα
 
 #: src/preferences_dialog.vala resources/preferences_dialog.ui
 msgid "Maximum parallel downloads"
-msgstr ""
+msgstr "Μέγιστες παράλληλες λήψεις"
 
 #: src/preferences_dialog.vala src/cli.vala resources/preferences_dialog.ui
 msgid "Number of versions of each package to keep in the cache"
@@ -707,14 +708,14 @@ msgstr "Παγκοσμίως"
 
 #: src/preferences_dialog.vala src/cli.vala
 msgid "To delete"
-msgstr ""
+msgstr "Προς διαγραφή"
 
 #: src/preferences_dialog.vala src/cli.vala
 #, c-format
 msgid "%u file"
 msgid_plural "%u files"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%u  αρχείο"
+msgstr[1] "%u αρχεία"
 
 #: src/preferences_dialog.vala
 msgid "Choose Ignored Upgrades"
@@ -723,7 +724,7 @@ msgstr "Επιλογή Αγνόησης Αναβαθμίσεων"
 #: src/transaction-cli.vala src/cli.vala
 #, c-format
 msgid "Enter a selection (default=%s)"
-msgstr ""
+msgstr "Εισάγετε μια επιλογή (προεπιλεγμένο=%s)"
 
 #: src/transaction-cli.vala
 msgid "none"
@@ -760,7 +761,7 @@ msgstr "Συνολικό μέγεθος αφαίρεσης"
 
 #: src/transaction-cli.vala
 msgid "Apply transaction"
-msgstr ""
+msgstr "Εφαρμογή διεργασίας"
 
 #: src/transaction-cli.vala
 #, c-format
@@ -773,11 +774,11 @@ msgstr "Η δόμηση πακέτων ως root δεν επιτρέπεται"
 
 #: src/cli.vala
 msgid "No PKGBUILD file found in current directory"
-msgstr "Δεν βρέθηκε PKGBUILD στον τρέχοντα φάκελο"
+msgstr "Δεν βρέθηκε PKGBUILD στον τρέχοντα κατάλογο"
 
 #: src/cli.vala
 msgid "Check development packages updates as root is not allowed"
-msgstr ""
+msgstr "Οι αναβαθμίσεις των  development packages ως root δεν επιτρέπεται"
 
 #: src/cli.vala
 msgid "Available actions"
@@ -801,7 +802,7 @@ msgstr "αρχείο(α)"
 
 #: src/cli.vala
 msgid "also search in AUR"
-msgstr ""
+msgstr "επιπλέον έλεγχος στο AUR "
 
 #: src/cli.vala
 msgid ""
@@ -897,7 +898,7 @@ msgstr "να μην κλωνοποιηθούν αρχεία δόμησης απ�
 
 #: src/cli.vala
 msgid "bypass any and all confirmation messages"
-msgstr ""
+msgstr "Παρέκαμψε οποιοδήποτε και όλα τα μηνύματα επιβεβαίωσης"
 
 #: src/cli.vala
 msgid "glob"
@@ -939,17 +940,17 @@ msgstr "επιπλέον έλεγχος στο AUR"
 
 #: src/cli.vala
 msgid "also check development packages updates (use with --aur)"
-msgstr ""
+msgstr "επέλεξε επίσης την αναβάθμιση των development packages (χρήση με --aur)"
 
 #: src/cli.vala
 msgid "only print one line per update"
-msgstr ""
+msgstr "εκτύπωσε μόνο μία γραμμή ανά ενημέρωση"
 
 #: src/cli.vala
 msgid ""
 "build directory (use with --devel), if no directory is given the one "
 "specified in pamac.conf file is used"
-msgstr ""
+msgstr "κατάλογος δόμησης (χρήση με --devel), αν δεν δίνεται κατάλογος θα χρησιμοποιείται ο ορισμένος στο pamac.conf "
 
 #: src/cli.vala
 msgid "Upgrade your system"
@@ -961,7 +962,7 @@ msgstr "επιπλέον αναβάθμισε πακέτα εγκατεστημ�
 
 #: src/cli.vala
 msgid "also upgrade development packages (use with --aur)"
-msgstr ""
+msgstr "αναβάθμισε επίσης τα development packages (χρήση με --aur)"
 
 #: src/cli.vala
 msgid ""
@@ -979,34 +980,34 @@ msgstr "να επιτρέπεται υποβάθμιση πακέτων"
 
 #: src/cli.vala
 msgid "Clean packages cache or build files"
-msgstr ""
+msgstr "Καθαρισμός αποθήκης πακέτων ή αρχείων δόμησης"
 
 #: src/cli.vala
 msgid "number"
-msgstr ""
+msgstr "αριθμός"
 
 #: src/cli.vala
 msgid ""
 "specify how many versions of each package are kept in the cache directory"
-msgstr ""
+msgstr "καθόρισε πόσες εκδόσεις κάθε πακέτου διατηρούνται στον κατάλογο cache"
 
 #: src/cli.vala
 msgid "only target uninstalled packages"
-msgstr ""
+msgstr "στοχεύστε μόνο απεγκατεστημένα πακέτα"
 
 #: src/cli.vala
 msgid ""
 "remove all build files, the build directory is the one specified in "
 "pamac.conf"
-msgstr ""
+msgstr "διέγραψε όλα τα αρχεία δόμησης, ο κατάλογος δόμησης είναι ο ορισμένος στο pamac.conf"
 
 #: src/cli.vala
 msgid "do not remove files, only find candidate packages"
-msgstr ""
+msgstr "μην αφαιρείς αρχεία, βρες μόνο υποψήφια πακέτα"
 
 #: src/cli.vala
 msgid "also display all files names"
-msgstr ""
+msgstr "εμφάνισε επίσης όλα τα ονόματα αρχείων"
 
 #: src/cli.vala resources/manager_window.ui
 msgid "Name"
@@ -1044,7 +1045,7 @@ msgstr "Καθαρισμός προσωρινής αποθήκης"
 
 #: src/cli.vala resources/preferences_dialog.ui
 msgid "Clean build files"
-msgstr ""
+msgstr "Καθάρισε τα αρχεία δόμησης"
 
 #: src/cli.vala
 #, c-format
@@ -1055,7 +1056,7 @@ msgstr[1] "Υπάρχουν %u μέλη στην ομάδα %s"
 
 #: src/cli.vala
 msgid "all"
-msgstr "Όλα"
+msgstr "όλα"
 
 #: resources/choose_provider_dialog.ui
 msgid "Choose a Provider"
@@ -1103,7 +1104,7 @@ msgstr "Αναζήτηση"
 
 #: resources/manager_window.ui
 msgid "All"
-msgstr ""
+msgstr "Όλα"
 
 #: resources/manager_window.ui
 msgid "Pending"
@@ -1115,23 +1116,23 @@ msgstr "Ενημερώσεις"
 
 #: resources/manager_window.ui
 msgid "Remove all"
-msgstr ""
+msgstr "Αφαίρεση όλων"
 
 #: resources/manager_window.ui
 msgid "Install all"
-msgstr ""
+msgstr "Εγκατάσταση όλων"
 
 #: resources/manager_window.ui
 msgid "Sort by"
-msgstr ""
+msgstr "Ταξινόμηση κατά"
 
 #: resources/manager_window.ui
 msgid "Relevance"
-msgstr ""
+msgstr "Συνάφεια"
 
 #: resources/manager_window.ui
 msgid "Date"
-msgstr ""
+msgstr "Ημέρα"
 
 #: resources/manager_window.ui
 msgid "Browse"
@@ -1139,7 +1140,7 @@ msgstr "Αναζήτηση"
 
 #: resources/manager_window.ui
 msgid "Launch"
-msgstr ""
+msgstr "Φόρτωση"
 
 #: resources/manager_window.ui
 msgid "Reinstall"
@@ -1169,7 +1170,7 @@ msgstr "Έλεγχος ελεύθερου χώρου στον δίσκο"
 
 #: resources/preferences_dialog.ui
 msgid "Enable downgrade"
-msgstr ""
+msgstr "Να επιτρέπεται η υποβάθμιση"
 
 #: resources/preferences_dialog.ui
 msgid "Check for updates"
@@ -1223,7 +1224,7 @@ msgstr "Έλεγχος για αναβαθμίσεις από το AUR"
 
 #: resources/preferences_dialog.ui
 msgid "Check for development packages updates"
-msgstr ""
+msgstr "Έλεγξε για αναβαθμίσεις των development packages"
 
 #: resources/preferences_dialog.ui
 msgid "Cache"

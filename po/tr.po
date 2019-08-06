@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2019-06-20 11:09+0200\n"
-"PO-Revision-Date: 2019-06-21 08:31+0000\n"
+"PO-Revision-Date: 2019-07-19 05:51+0000\n"
 "Last-Translator: Demiray Muhterem <mdemiray@msn.com>\n"
 "Language-Team: Turkish (http://www.transifex.com/manjarolinux/manjaro-pamac/language/tr/)\n"
 "MIME-Version: 1.0\n"
@@ -203,7 +203,7 @@ msgstr "Paketler arası çakışma kontrolü"
 #: src/transaction.vala
 #, c-format
 msgid "Installing %s"
-msgstr "Yükleniyor %s"
+msgstr "Kuruluyor %s"
 
 #: src/transaction.vala
 #, c-format
@@ -344,7 +344,7 @@ msgstr "Paket Yöneticisi"
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
 msgid "Choose optional dependencies for %s"
-msgstr "%siçin isteğe bağlı bağımlılıkları seçin "
+msgstr "%s için isteğe bağlı bağımlılıkları seç"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
@@ -363,7 +363,7 @@ msgstr "Güven ve İçe Aktar"
 #: resources/transaction_sum_dialog.ui resources/manager_window.ui
 #: resources/choose_pkgs_dialog.ui
 msgid "_Cancel"
-msgstr "_Vazgeç"
+msgstr "_İptal"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
@@ -570,7 +570,7 @@ msgstr "Depo"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Package Base"
-msgstr "Paket Veritabanı"
+msgstr "Paket Tabanı"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Maintainer"
@@ -578,7 +578,7 @@ msgstr "Sorumlu"
 
 #: src/manager_window.vala src/cli.vala
 msgid "First Submitted"
-msgstr "İlk ekleyen"
+msgstr "İlk Ekleyen"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Last Modified"
@@ -626,7 +626,7 @@ msgstr "İhtiyac Duyulan"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Optional For"
-msgstr "Tercihe bağlı olanlar"
+msgstr "İsteğe Bağlı"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Provides"
@@ -642,7 +642,7 @@ msgstr "Çakışan Paketler"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Make Dependencies"
-msgstr "Bağımlılıkları düzenle"
+msgstr "Bağımlılıkları Düzenle"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Check Dependencies"
@@ -650,7 +650,7 @@ msgstr "Bağımlılık Kontrolü"
 
 #: src/manager_window.vala
 msgid "Upgrade"
-msgstr "Sistemi yükselt"
+msgstr "Güncelle"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Remove"
@@ -682,11 +682,11 @@ msgstr "Güncellemeler ne sıklıkta kontrol edilecek, saat belirtin"
 
 #: src/preferences_dialog.vala resources/preferences_dialog.ui
 msgid "Maximum parallel downloads"
-msgstr "Azami eşzamanlı indirme"
+msgstr "Azami eş zamanlı indirme"
 
 #: src/preferences_dialog.vala src/cli.vala resources/preferences_dialog.ui
 msgid "Number of versions of each package to keep in the cache"
-msgstr "Önbellekte tutlacak her bir paketin sürüm sayısı"
+msgstr "Önbellekte tutulacak her bir paketin sürüm sayısı"
 
 #: src/preferences_dialog.vala
 msgid "Build directory"
@@ -801,7 +801,7 @@ msgstr "Verilen dosya isimlerine sahip olan paketleri ara (dosya isimleri kısmi
 
 #: src/cli.vala
 msgid "Display package details, multiple packages can be specified"
-msgstr "Paket detaylarını göster, birden fazla paket belirlenebilir"
+msgstr "Paket ayrıntılarını göster, birden fazla paket belirlenebilir"
 
 #: src/cli.vala
 msgid "List packages, groups, repositories or files"
@@ -926,7 +926,7 @@ msgstr "Güncellemeler mevcutsa çıkış kodunuz 100"
 
 #: src/cli.vala
 msgid "also check updates in AUR"
-msgstr "AUR'da güncellemeleri de kontrol et"
+msgstr "ayrıca AUR güncellemeleri kontrol et"
 
 #: src/cli.vala
 msgid "also check development packages updates (use with --aur)"
@@ -1074,7 +1074,7 @@ msgstr "_Uygula"
 
 #: resources/manager_window.ui
 msgid "Refresh databases"
-msgstr "Veritabanlarını Yenile"
+msgstr "Veritabanlarını yenile"
 
 #: resources/manager_window.ui
 msgid "View History"
@@ -1110,7 +1110,7 @@ msgstr "Tümünü kaldır"
 
 #: resources/manager_window.ui
 msgid "Install all"
-msgstr "Tümünü yükle"
+msgstr "Tümünü kur"
 
 #: resources/manager_window.ui
 msgid "Sort by"
@@ -1168,11 +1168,11 @@ msgstr "Güncellemeleri kontrol et"
 
 #: resources/preferences_dialog.ui
 msgid "Automatically download updates"
-msgstr "Güncelleme varsa indir ancak yükleme"
+msgstr "Güncellemeleri otomatik olarak indir"
 
 #: resources/preferences_dialog.ui
 msgid "Hide tray icon when no update available"
-msgstr "Güncelleme yok ise sistem ikonunu gizle"
+msgstr "Güncelleme olmadığında tepsi simgesini gizle"
 
 #: resources/preferences_dialog.ui
 msgid "Ignore upgrades for:"

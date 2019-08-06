@@ -6,13 +6,14 @@
 # Translators:
 # Guillaume Benoit <guillaume@manjaro.org>, 2019
 # José Luis Castro Guerrero <jlcastrogro@gmail.com>, 2018
+# José Luis Castro Guerrero <jlcastrogro@gmail.com>, 2018
 # Omar Jair Purata Funes <omarpurataf@colegiomonclair.edu.mx>, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2019-06-20 11:09+0200\n"
-"PO-Revision-Date: 2019-07-09 09:35+0000\n"
+"PO-Revision-Date: 2019-08-06 07:33+0000\n"
 "Last-Translator: Guillaume Benoit <guillaume@manjaro.org>\n"
 "Language-Team: Spanish (Mexico) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/es_MX/)\n"
 "MIME-Version: 1.0\n"
@@ -143,8 +144,8 @@ msgid "Preparing"
 msgstr "Preparando"
 
 #: src/transaction.vala
-msgid "Synchronizing databases packages"
-msgstr "Sincronizando los paquetes de las bases de datos"
+msgid "Synchronizing package databases"
+msgstr "Sincronizando las pases de datos de paquetes"
 
 #: src/transaction.vala
 msgid "Starting full system upgrade"
@@ -792,8 +793,7 @@ msgstr "Incluir la búsqueda en AUR"
 #: src/cli.vala
 msgid ""
 "search for packages which own the given filenames (filenames can be partial)"
-msgstr ""
-"Búsqueda para paquetes que pertenecen a los nombres de archivos proporcionados, (los nombres pueden ser parciales)"
+msgstr "Búsqueda para paquetes que pertenecen a los nombres de archivos proporcionados, (los nombres pueden ser parciales)"
 
 #: src/cli.vala
 msgid "Display package details, multiple packages can be specified"
@@ -819,9 +819,7 @@ msgstr "Enlista paquetes instalados"
 msgid ""
 "list packages that were installed as dependencies but are no longer required"
 " by any installed package"
-msgstr ""
-"Enlista paquetes que fueron instalados como dependencias y que ya no son requeridos"
-" por ningún paquete instalado"
+msgstr "Enlista paquetes que fueron instalados como dependencias y que ya no son requeridos por ningún paquete instalado"
 
 #: src/cli.vala
 msgid "list packages that were not found in the repositories"
@@ -831,15 +829,13 @@ msgstr "Enlista paquetes que no fueron encontrados en los repositorios"
 msgid ""
 "list all packages that are members of the given groups, if no group is given"
 " list all groups"
-msgstr "Enlista todos los paquetes que son miembros de los grupos proporcionados, si ningún grupo es especificado"
-" Enlista todos los grupos"
+msgstr "Enlista todos los paquetes que son miembros de los grupos proporcionados, si ningún grupo es especificado Enlista todos los grupos"
 
 #: src/cli.vala
 msgid ""
 "list all packages available in the given repos, if no repo is given list all"
 " repos"
-msgstr "Enlista todos los paquetes disponibles en los repos proporcionados, si ningún repo es especificado"
-" repos"
+msgstr "Enlista todos los paquetes disponibles en los repos proporcionados, si ningún repo es especificado repos"
 
 #: src/cli.vala
 msgid "list files owned by the given packages"
@@ -857,8 +853,7 @@ msgstr "dir"
 msgid ""
 "build directory, if no directory is given the one specified in pamac.conf "
 "file is used"
-msgstr "Construye directorio, si ningún directorio es proporcionado el especificado en pamac.conf"
-"será utilizado"
+msgstr "Construye directorio, si ningún directorio es proporcionado el especificado en pamac.confserá utilizado"
 
 #: src/cli.vala
 msgid "also clone needed dependencies"
@@ -881,8 +876,7 @@ msgstr "Si ningún paquete es proporcionado, usa el archivo PKGBUILD en el direc
 msgid ""
 "The build directory will be the parent directory, --builddir option will be "
 "ignored"
-msgstr "El directorio construido será el directorio padre, la opción --builddir será "
-"ignorada"
+msgstr "El directorio construido será el directorio padre, la opción --builddir será ignorada"
 
 #: src/cli.vala
 msgid "do not clone build files from AUR, only use local files"
@@ -900,15 +894,13 @@ msgstr "glob"
 msgid ""
 "ignore a package upgrade, multiple packages can be specified by separating "
 "them with a comma"
-msgstr "Ignorar actualización de un paquete, paquetes múltiples pueden ser especificados separándolos "
-"por una coma"
+msgstr "Ignorar actualización de un paquete, paquetes múltiples pueden ser especificados separándolos por una coma"
 
 #: src/cli.vala
 msgid ""
 "overwrite conflicting files, multiple patterns can be specified by "
 "separating them with a comma"
-msgstr "sobrescribir archivos en conflicto, patrones múltiples pueden ser especificados separándolos"
-"por una coma"
+msgstr "sobrescribir archivos en conflicto, patrones múltiples pueden ser especificados separándolospor una coma"
 
 #: src/cli.vala
 msgid "Reinstall packages"
@@ -918,8 +910,7 @@ msgstr "Reinstalar paquetes"
 msgid ""
 "remove dependencies that are not required by other packages, if this option "
 "is used without package name remove all orphans"
-msgstr "Eliminar dependencias que ya no son requeridas por otros paquetes, si esta opción"
-"es ocupada sin nombre del paquete elimina todos los huérfanos"
+msgstr "Eliminar dependencias que ya no son requeridas por otros paquetes, si esta opciónes ocupada sin nombre del paquete elimina todos los huérfanos"
 
 #: src/cli.vala
 msgid "Safely check for updates without modifiying the databases"
@@ -945,8 +936,7 @@ msgstr "Mostrar una linea por cada actualización (update)"
 msgid ""
 "build directory (use with --devel), if no directory is given the one "
 "specified in pamac.conf file is used"
-msgstr "Construye directorio (use con --devel), si ningún directorio es proporcionado "
-"el especificado en pamac.conf será utilizado"
+msgstr "Construye directorio (use con --devel), si ningún directorio es proporcionado el especificado en pamac.conf será utilizado"
 
 #: src/cli.vala
 msgid "Upgrade your system"
@@ -964,8 +954,7 @@ msgstr "Incluir las actualizaciones (upgrade) de los paquetes de desarrollo (use
 msgid ""
 "build directory (use with --aur), if no directory is given the one specified"
 " in pamac.conf file is used"
-msgstr "Construye directorio (use con --aur), si ningún directorio es proporcionado"
-" el especificado en pamac.conf será utilizado"
+msgstr "Construye directorio (use con --aur), si ningún directorio es proporcionado el especificado en pamac.conf será utilizado"
 
 #: src/cli.vala
 msgid "force the refresh of the databases"
@@ -996,8 +985,7 @@ msgstr "único objetivo paquetes desinstalados"
 msgid ""
 "remove all build files, the build directory is the one specified in "
 "pamac.conf"
-msgstr "Elimina todos los archivos construidos, El directorio de construcción es el especificado en "
-"pamac.conf"
+msgstr "Elimina todos los archivos construidos, El directorio de construcción es el especificado en pamac.conf"
 
 #: src/cli.vala
 msgid "do not remove files, only find candidate packages"

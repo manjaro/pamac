@@ -15,7 +15,7 @@
 # f6d3887df5c5bcb13fc1d4fb04e37f17, 2018
 # Trado.Verde, 2015
 # Trado.Verde, 2015-2016
-# Yarema aka Knedlyk <yupadmin@gmail.com>, 2018
+# Yarema aka Knedlyk <yupadmin@gmail.com>, 2018-2019
 # zubr139, 2013,2015
 # zubr139, 2013,2015-2016,2019
 # zubr139, 2013
@@ -26,8 +26,8 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2019-06-20 11:09+0200\n"
-"PO-Revision-Date: 2019-06-21 00:53+0000\n"
-"Last-Translator: philm <philm@manjaro.org>\n"
+"PO-Revision-Date: 2019-07-09 13:37+0000\n"
+"Last-Translator: Yarema aka Knedlyk <yupadmin@gmail.com>\n"
 "Language-Team: Ukrainian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/uk/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -969,7 +969,7 @@ msgstr "також оновити пакунки, встановлені з AUR"
 
 #: src/cli.vala
 msgid "also upgrade development packages (use with --aur)"
-msgstr ""
+msgstr "також оновити розробницькі пакунки (використовувати з --aur)"
 
 #: src/cli.vala
 msgid ""
@@ -1113,7 +1113,7 @@ msgstr "Пошук"
 
 #: resources/manager_window.ui
 msgid "All"
-msgstr ""
+msgstr "Всі"
 
 #: resources/manager_window.ui
 msgid "Pending"
@@ -1125,23 +1125,23 @@ msgstr "Оновлення"
 
 #: resources/manager_window.ui
 msgid "Remove all"
-msgstr ""
+msgstr "Вилучити всі"
 
 #: resources/manager_window.ui
 msgid "Install all"
-msgstr ""
+msgstr "Встановити всі"
 
 #: resources/manager_window.ui
 msgid "Sort by"
-msgstr ""
+msgstr "Сортувати за"
 
 #: resources/manager_window.ui
 msgid "Relevance"
-msgstr ""
+msgstr "Релевантністю\n "
 
 #: resources/manager_window.ui
 msgid "Date"
-msgstr ""
+msgstr "Датою"
 
 #: resources/manager_window.ui
 msgid "Browse"
@@ -1149,7 +1149,7 @@ msgstr "Огляд"
 
 #: resources/manager_window.ui
 msgid "Launch"
-msgstr ""
+msgstr "Запустити"
 
 #: resources/manager_window.ui
 msgid "Reinstall"
