@@ -29,8 +29,8 @@ namespace Pamac {
 		[GtkChild]
 		public Gtk.Expander expander;
 
-		public ProgressDialog () {
-			Object ();
+		public ProgressDialog (Gtk.Application application) {
+			Object (application: application);
 		}
 
 	}

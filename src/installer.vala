@@ -42,7 +42,7 @@ namespace Pamac {
 			var config = new Config ("/etc/pamac.conf");
 			database = new Database (config);
 			// integrate progress box and term widget
-			progress_dialog = new ProgressDialog ();
+			progress_dialog = new ProgressDialog (this);
 			transaction = new TransactionGtk (database, progress_dialog as Gtk.ApplicationWindow);
 			transaction.finished.connect (on_transaction_finished);
 			transaction.sysupgrade_finished.connect (on_transaction_finished);
@@ -60,6 +60,7 @@ namespace Pamac {
 			string[] to_install = {};
 			string[] to_remove = {};
 			string[] to_load = {};
+			string[] to_build = {};
 			if (args.length == 1) {
 				display_help ();
 				return cmd.get_exit_status ();
@@ -69,14 +70,21 @@ namespace Pamac {
 				return cmd.get_exit_status ();
 			} else {
 				bool add_to_remove = false;
+				bool add_to_build = false;
 				int i = 1;
 				while (i < args.length) {
 					unowned string target = args[i];
 					if (target == "--remove") {
 						add_to_remove = true;
+						add_to_build = false;
+					} else if (target == "--build") {
+						add_to_build = true;
+						add_to_remove = false;
 					} else {
 						if (add_to_remove) {
 							to_remove += target;
+						} else if (add_to_build) {
+							to_build += target;
 						} else if (".pkg.tar" in target) {
 							// check for local or remote path
 							if ("://" in target) {
@@ -108,29 +116,59 @@ namespace Pamac {
 			}
 			if (to_install.length == 0 
 				&& to_load.length == 0
+				&& to_build.length == 0
 				&& to_remove.length == 0) {
 				stdout.printf (dgettext (null, "Nothing to do") + ".\n");
 			} else {
-				this.hold ();
-				progress_dialog.show ();
-				transaction.start (to_install, to_remove, to_load, {}, {}, {});
-				progress_dialog.close_button.visible = false;
+				if (to_build.length > 0) {
+					// check if targets exist
+					check_build_pkgs.begin (to_build, (obj, res) => {
+						bool success = check_build_pkgs.end (res);
+						if (success) {
+							progress_dialog.show ();
+							transaction.start (to_install, to_remove, to_load, to_build, {}, {});
+							progress_dialog.close_button.visible = false;
+						} else {
+							this.release ();
+							cmd.set_exit_status (1);
+						}
+					});
+				} else {
+					progress_dialog.show ();
+					transaction.start (to_install, to_remove, {}, to_build, {}, {});
+					progress_dialog.close_button.visible = false;
+				}
 			}
 			return cmd.get_exit_status ();
 		}
 
+		async bool check_build_pkgs (string[] targets) {
+			var aur_pkgs = yield database.get_aur_pkgs (targets);
+			var iter = HashTableIter<string, AURPackage> (aur_pkgs);
+			unowned string pkgname;
+			unowned AURPackage aur_pkg;
+			while (iter.next (out pkgname, out aur_pkg)) {
+				if (aur_pkg.name == "") {
+					transaction.display_error (dgettext (null, "Failed to prepare transaction"), {dgettext (null, "target not found: %s").printf (pkgname)});
+					return false;
+				}
+			}
+			return true;
+		}
+
 		void display_help () {
 			stdout.printf (dgettext (null, "Install packages from repositories, path or url"));
-			stdout.printf (" / ");
+			stdout.printf ("\n");
 			stdout.printf (dgettext (null, "Remove packages"));
+			stdout.printf ("\n");
+			stdout.printf (dgettext (null, "Build packages from AUR and install them with their dependencies"));
 			stdout.printf ("\n\n");
-			stdout.printf ("pamac-installer <%s> [--remove] [%s]".printf (dgettext (null, "package(s)"), dgettext (null, "package(s)")));
+			stdout.printf ("pamac-installer [%s] [--remove] [%s] [--build] [%s]".printf (dgettext (null, "package(s)"), dgettext (null, "package(s)"), dgettext (null, "package(s)")));
 			stdout.printf ("\n");
 		}
 
 		void on_important_details_outpout (bool must_show) {
 			important_details = true;
-			progress_dialog.expander.expanded = true;
 		}
 
 		void on_close_button_clicked () {
@@ -139,6 +177,7 @@ namespace Pamac {
 
 		void on_transaction_finished (bool success) {
 			if (!success || important_details) {
+				progress_dialog.expander.expanded = true;
 				progress_dialog.close_button.visible = true;
 			} else {
 				this.release ();
