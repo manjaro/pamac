@@ -2744,6 +2744,7 @@ namespace Pamac {
 					search_button.visible = false;
 					details_button.sensitive = false;
 					details_button.get_style_context ().remove_class (Gtk.STYLE_CLASS_SUGGESTED_ACTION);
+					details_button.relief = Gtk.ReliefStyle.NONE;
 					break;
 				default:
 					break;
@@ -3083,6 +3084,7 @@ namespace Pamac {
 				button_back.visible = false;
 			} else if (main_stack.visible_child_name != "term") {
 				important_details = true;
+				details_button.relief = Gtk.ReliefStyle.NORMAL;
 				details_button.get_style_context ().add_class (Gtk.STYLE_CLASS_SUGGESTED_ACTION);
 			}
 		}
