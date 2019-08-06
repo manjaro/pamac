@@ -45,6 +45,7 @@ namespace Pamac {
 				}
 			} catch (Error e) {
 				critical (e.message);
+				stderr.printf ("Failed to query %s from AUR\n", uri);
 			}
 			Idle.add ((owned) callback);
 		});
