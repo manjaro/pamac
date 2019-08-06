@@ -87,7 +87,7 @@ const PamacUpdateIndicator = new Lang.Class({
 			that._icon_theme = Gtk.IconTheme.get_default();
 		});
 
-		this.updateIcon = new St.Icon({icon_name: "pamac-tray-no-update", icon_size: 20, style_class: 'system-status-icon'});
+		this.updateIcon = new St.Icon({icon_name: "pamac-tray-no-update", icon_size: 24, style_class: 'system-status-icon'});
 
 		let box = new St.BoxLayout({ vertical: false, style_class: 'panel-status-menu-box' });
 		this.label = new St.Label({ text: '',
