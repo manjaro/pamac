@@ -288,6 +288,8 @@ namespace Pamac {
 		[GtkChild]
 		Gtk.Button install_all_button;
 		[GtkChild]
+		Gtk.Button ignore_all_button;
+		[GtkChild]
 		Gtk.Box sort_order_box;
 		[GtkChild]
 		Gtk.ComboBoxText sort_comboboxtext;
@@ -402,6 +404,7 @@ namespace Pamac {
 			button_back.visible = false;
 			remove_all_button.visible = false;
 			install_all_button.visible = false;
+			ignore_all_button.visible = false;
 			details_button.sensitive = false;
 			scroll_to_top = true;
 			searchbar.connect_entry (search_entry);
@@ -1762,6 +1765,7 @@ namespace Pamac {
 			//populate info
 			row.name_label.set_markup ("<b>%s</b>".printf (aur_pkg.name));
 			if (is_update) {
+				row.action_togglebutton.label = dgettext (null, "Upgrade");
 				var label = new Gtk.Label (aur_pkg.version);
 				label.visible = true;
 				label.width_chars = 10;
@@ -1837,6 +1841,7 @@ namespace Pamac {
 						search_button.active = false;
 						remove_all_button.visible = false;
 						install_all_button.visible = false;
+						ignore_all_button.visible = false;
 						set_pendings_operations ();
 						break;
 					case "categories":
@@ -1845,12 +1850,14 @@ namespace Pamac {
 						search_button.active = false;
 						remove_all_button.visible = false;
 						install_all_button.visible = false;
+						ignore_all_button.visible = false;
 						set_pendings_operations ();
 						break;
 					case "groups":
 						on_groups_listbox_row_activated (groups_listbox.get_selected_row ());
 						header_filter_label.set_markup ("<b>%s</b>".printf (dgettext (null, "Groups")));
 						search_button.active = false;
+						ignore_all_button.visible = false;
 						set_pendings_operations ();
 						break;
 					case "repos":
@@ -1859,6 +1866,7 @@ namespace Pamac {
 						search_button.active = false;
 						remove_all_button.visible = false;
 						install_all_button.visible = false;
+						ignore_all_button.visible = false;
 						set_pendings_operations ();
 						break;
 					default:
@@ -1871,6 +1879,7 @@ namespace Pamac {
 				search_button.active = false;
 				search_button.visible = true;
 				install_all_button.visible = false;
+				ignore_all_button.visible = false;
 				set_pendings_operations ();
 			} else if (browse_stack.visible_child_name == "updates") {
 				database.get_updates.begin (on_get_updates_finished);
@@ -1882,7 +1891,8 @@ namespace Pamac {
 				search_button.visible = false;
 				remove_all_button.visible = false;
 				install_all_button.visible = false;
-				apply_button.sensitive = false;;
+				ignore_all_button.visible = false;
+				apply_button.sensitive = false;
 			} else if (browse_stack.visible_child_name == "pending") {
 				on_pending_listbox_row_activated (pending_listbox.get_selected_row ());
 				if (to_build.length == 0) {
@@ -1893,6 +1903,7 @@ namespace Pamac {
 				search_button.visible = false;
 				remove_all_button.visible = false;
 				install_all_button.visible = false;
+				ignore_all_button.visible = false;
 			} else if (browse_stack.visible_child_name == "search") {
 				if (search_string != null) {
 					// select last search_string
@@ -1916,6 +1927,7 @@ namespace Pamac {
 				header_filter_label.label = "";
 				remove_all_button.visible = false;
 				install_all_button.visible = false;
+				ignore_all_button.visible = false;
 				set_pendings_operations ();
 			}
 		}
@@ -2047,6 +2059,7 @@ namespace Pamac {
 					row.selectable = true;
 					row.can_focus = true;
 					row.get_child ().sensitive = true;
+					ignore_all_button.visible = false;
 					var pkgs = new List<Package> ();
 					foreach (unowned Package pkg in repos_updates) {
 						pkgs.append (pkg);
@@ -2060,6 +2073,9 @@ namespace Pamac {
 						pkgs.append (pkg);
 					}
 					populate_aur_list.begin ((owned) pkgs);
+					if (aur_updates.length () > 0) {
+						ignore_all_button.visible = true;
+					}
 					unowned Gtk.ListBoxRow repo_row = updates_listbox.get_row_at_index (0);
 					if (repos_updates.length () > 0) {
 						repo_row.activatable = true;
@@ -2415,6 +2431,16 @@ namespace Pamac {
 			set_pendings_operations ();
 		}
 
+		[GtkCallback]
+		void on_ignore_all_button_clicked () {
+			foreach (unowned AURPackage aur_pkg in current_aur_list) {
+				to_update.remove (aur_pkg.name);
+				temporary_ignorepkgs.add (aur_pkg.name);
+			}
+			refresh_listbox_buttons ();
+			set_pendings_operations ();
+		}
+
 		void on_search_mode_enabled () {
 			if (searchbar.search_mode_enabled) {
 				search_button.active = true;
@@ -2431,6 +2457,7 @@ namespace Pamac {
 			// fix #602
 			install_all_button.no_show_all = true;
 			remove_all_button.no_show_all = true;
+			ignore_all_button.no_show_all = true;
 			browse_box.show_all ();
 			//
 		}
