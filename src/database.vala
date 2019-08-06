@@ -19,9 +19,23 @@
 
 namespace Pamac {
 	public class Database: Object {
+		delegate void AlpmActionDelegate ();
+
+		[Compact]
+		class AlpmAction {
+			public unowned AlpmActionDelegate action_delegate;
+			public AlpmAction (AlpmActionDelegate action_delegate) {
+				this.action_delegate = action_delegate;
+			}
+			public void run () {
+				action_delegate ();
+			}
+		}
+
 		AlpmConfig alpm_config;
 		Alpm.Handle? alpm_handle;
 		Alpm.Handle? files_handle;
+		ThreadPool<AlpmAction> thread_pool;
 		HashTable<string, Json.Array> aur_search_results;
 		HashTable<string, Json.Object> aur_infos;
 		As.Store app_store;
@@ -46,6 +60,7 @@ namespace Pamac {
 		}
 
 		construct {
+			create_thread_pool ();
 			refresh ();
 			aur_search_results = new HashTable<string, Json.Array> (str_hash, str_equal);
 			aur_infos = new HashTable<string, Json.Object> (str_hash, str_equal);
@@ -73,6 +88,24 @@ namespace Pamac {
 			}
 		}
 
+		void create_thread_pool () {
+			// create a thread pool which will run alpm action one after one
+			try {
+				thread_pool = new ThreadPool<AlpmAction>.with_owned_data (
+					// call alpm_action.run () on thread start
+					(alpm_action) => {
+						alpm_action.run ();
+					},
+					// only one thread created so alpm action will run one after one
+					1,
+					// exclusive thread
+					true
+				);
+			} catch (ThreadError e) {
+				stderr.printf ("Thread Error %s\n", e.message);
+			}
+		}
+
 		public void enable_appstream () {
 			try {
 				app_store.load (As.StoreLoadFlags.APP_INFO_SYSTEM);
@@ -85,17 +118,31 @@ namespace Pamac {
 			}
 		}
 
-		public void refresh () {
-			lock (alpm_config) {
-				alpm_config = new AlpmConfig ("/etc/pacman.conf");
-				alpm_handle = alpm_config.get_handle ();
-				if (alpm_handle == null) {
-					critical (dgettext (null, "Failed to initialize alpm library"));
-					return;
-				} else {
-					files_handle = alpm_config.get_handle (true);
-				}
+		async void refresh_async () {
+			try {
+				thread_pool.add (new AlpmAction (() => {
+					alpm_config = new AlpmConfig ("/etc/pacman.conf");
+					alpm_handle = alpm_config.get_handle ();
+					if (alpm_handle == null) {
+						critical (dgettext (null, "Failed to initialize alpm library"));
+						return;
+					} else {
+						files_handle = alpm_config.get_handle (true);
+					}
+					Idle.add (refresh_async.callback);
+				}));
+			} catch (ThreadError e) {
+				stderr.printf ("Thread Error %s\n", e.message);
 			}
+			yield;
+		}
+
+		public void refresh () {
+			var loop = new MainLoop ();
+			refresh_async.begin (() => {
+				loop.quit ();
+			});
+			loop.run ();
 			refreshed ();
 		}
 
@@ -635,65 +682,70 @@ namespace Pamac {
 
 		public async List<Package> get_installed_pkgs_async () {
 			var pkgs = new List<Package> ();
-			new Thread<int> ("get_installed_pkgs", () => {
-				lock (alpm_config) {
-					pkgs =  get_installed_pkgs ();
-				}
-				Idle.add (get_installed_pkgs_async.callback);
-				return 0;
-			});
+			try {
+				thread_pool.add (new AlpmAction (() => {
+					pkgs = get_installed_pkgs ();
+					Idle.add (get_installed_pkgs_async.callback);
+				}));
+			} catch (ThreadError e) {
+				stderr.printf ("Thread Error %s\n", e.message);
+			}
 			yield;
 			return (owned) pkgs;
 		}
 
 		public async List<Package> get_installed_apps_async () {
 			var pkgs = new List<Package> ();
-			new Thread<int> ("get_installed_apps", () => {
-				lock (alpm_config) {
-					pkgs =  get_installed_apps ();
-				}
-				Idle.add (get_installed_apps_async.callback);
-				return 0;
-			});
+			try {
+				thread_pool.add (new AlpmAction (() => {
+					pkgs = get_installed_apps ();
+					Idle.add (get_installed_apps_async.callback);
+				}));
+			} catch (ThreadError e) {
+				stderr.printf ("Thread Error %s\n", e.message);
+			}
 			yield;
 			return (owned) pkgs;
 		}
 
 		public async List<Package> get_explicitly_installed_pkgs_async () {
 			var pkgs = new List<Package> ();
-			new Thread<int> ("get_explicitly_installed_pkgs", () => {
-				lock (alpm_config) {
-					pkgs =  get_explicitly_installed_pkgs ();
-				}
-				Idle.add (get_explicitly_installed_pkgs_async.callback);
-				return 0;
-			});
+			try {
+				thread_pool.add (new AlpmAction (() => {
+					pkgs = get_explicitly_installed_pkgs ();
+					Idle.add (get_explicitly_installed_pkgs_async.callback);
+				}));
+			} catch (ThreadError e) {
+				stderr.printf ("Thread Error %s\n", e.message);
+			}
 			yield;
 			return (owned) pkgs;
 		}
 
 		public async List<Package> get_foreign_pkgs_async () {
 			var pkgs = new List<Package> ();
-			new Thread<int> ("get_foreign_pkgs", () => {
-				lock (alpm_config) {
-					pkgs =  get_foreign_pkgs ();
-				}
-				Idle.add (get_foreign_pkgs_async.callback);
-				return 0;
-			});
+			try {
+				thread_pool.add (new AlpmAction (() => {
+					pkgs = get_foreign_pkgs ();
+					Idle.add (get_foreign_pkgs_async.callback);
+				}));
+			} catch (ThreadError e) {
+				stderr.printf ("Thread Error %s\n", e.message);
+			}
 			yield;
 			return (owned) pkgs;
 		}
 
 		public async List<Package> get_orphans_async () {
 			var pkgs = new List<Package> ();
-			new Thread<int> ("get_orphans", () => {
-				lock (alpm_config) {
-					pkgs =  get_orphans ();
-				}
-				Idle.add (get_orphans_async.callback);
-				return 0;
-			});
+			try {
+				thread_pool.add (new AlpmAction (() => {
+					pkgs = get_orphans ();
+					Idle.add (get_orphans_async.callback);
+				}));
+			} catch (ThreadError e) {
+				stderr.printf ("Thread Error %s\n", e.message);
+			}
 			yield;
 			return (owned) pkgs;
 		}
@@ -824,13 +876,14 @@ namespace Pamac {
 
 		public async List<Package> search_installed_pkgs_async (string search_string) {
 			var pkgs = new List<Package> ();
-			new Thread<int> ("search_installed_pkgs", () => {
-				lock (alpm_config) {
-					pkgs =  search_installed_pkgs (search_string);
-				}
-				Idle.add (search_installed_pkgs_async.callback);
-				return 0;
-			});
+			try {
+				thread_pool.add (new AlpmAction (() => {
+					pkgs = search_installed_pkgs (search_string);
+					Idle.add (search_installed_pkgs_async.callback);
+				}));
+			} catch (ThreadError e) {
+				stderr.printf ("Thread Error %s\n", e.message);
+			}
 			yield;
 			return (owned) pkgs;
 		}
@@ -845,13 +898,14 @@ namespace Pamac {
 
 		public async List<Package> search_repos_pkgs_async (string search_string) {
 			var pkgs = new List<Package> ();
-			new Thread<int> ("search_repos_pkgs", () => {
-				lock (alpm_config) {
-					pkgs =  search_repos_pkgs (search_string);
-				}
-				Idle.add (search_repos_pkgs_async.callback);
-				return 0;
-			});
+			try {
+				thread_pool.add (new AlpmAction (() => {
+					pkgs = search_repos_pkgs (search_string);
+					Idle.add (search_repos_pkgs_async.callback);
+				}));
+			} catch (ThreadError e) {
+				stderr.printf ("Thread Error %s\n", e.message);
+			}
 			yield;
 			return (owned) pkgs;
 		}
@@ -911,13 +965,14 @@ namespace Pamac {
 
 		public async List<Package> search_pkgs_async (string search_string) {
 			var pkgs = new List<Package> ();
-			new Thread<int> ("search_pkgs", () => {
-				lock (alpm_config) {
-					pkgs =  search_pkgs (search_string);
-				}
-				Idle.add (search_pkgs_async.callback);
-				return 0;
-			});
+			try {
+				thread_pool.add (new AlpmAction (() => {
+					pkgs = search_pkgs (search_string);
+					Idle.add (search_pkgs_async.callback);
+				}));
+			} catch (ThreadError e) {
+				stderr.printf ("Thread Error %s\n", e.message);
+			}
 			yield;
 			return (owned) pkgs;
 		}
@@ -1060,13 +1115,14 @@ namespace Pamac {
 
 		public async List<Package> get_category_pkgs_async (string category) {
 			var pkgs = new List<Package> ();
-			new Thread<int> ("get_category_pkgs", () => {
-				lock (alpm_config) {
-					pkgs =  get_category_pkgs (category);
-				}
-				Idle.add (get_category_pkgs_async.callback);
-				return 0;
-			});
+			try {
+				thread_pool.add (new AlpmAction (() => {
+					pkgs = get_category_pkgs (category);
+					Idle.add (get_category_pkgs_async.callback);
+				}));
+			} catch (ThreadError e) {
+				stderr.printf ("Thread Error %s\n", e.message);
+			}
 			yield;
 			return (owned) pkgs;
 		}
@@ -1110,13 +1166,14 @@ namespace Pamac {
 
 		public async List<Package> get_repo_pkgs_async (string repo) {
 			var pkgs = new List<Package> ();
-			new Thread<int> ("get_repo_pkgs", () => {
-				lock (alpm_config) {
-					pkgs =  get_repo_pkgs (repo);
-				}
-				Idle.add (get_repo_pkgs_async.callback);
-				return 0;
-			});
+			try {
+				thread_pool.add (new AlpmAction (() => {
+					pkgs = get_repo_pkgs (repo);
+					Idle.add (get_repo_pkgs_async.callback);
+				}));
+			} catch (ThreadError e) {
+				stderr.printf ("Thread Error %s\n", e.message);
+			}
 			yield;
 			return (owned) pkgs;
 		}
@@ -1185,13 +1242,14 @@ namespace Pamac {
 
 		public async List<Package> get_group_pkgs_async (string group_name) {
 			var pkgs = new List<Package> ();
-			new Thread<int> ("get_group_pkgs", () => {
-				lock (alpm_config) {
-					pkgs =  get_group_pkgs (group_name);
-				}
-				Idle.add (get_group_pkgs_async.callback);
-				return 0;
-			});
+			try {
+				thread_pool.add (new AlpmAction (() => {
+					pkgs = get_group_pkgs (group_name);
+					Idle.add (get_group_pkgs_async.callback);
+				}));
+			} catch (ThreadError e) {
+				stderr.printf ("Thread Error %s\n", e.message);
+			}
 			yield;
 			return (owned) pkgs;
 		}
@@ -1423,13 +1481,14 @@ namespace Pamac {
 
 		public async List<string> get_pkg_files_async (string pkgname) {
 			var files = new List<string> ();
-			new Thread<int> ("get_pkg_files", () => {
-				lock (alpm_config) {
+			try {
+				thread_pool.add (new AlpmAction (() => {
 					files = get_pkg_files (pkgname);
-				}
-				Idle.add (get_pkg_files_async.callback);
-				return 0;
-			});
+					Idle.add (get_pkg_files_async.callback);
+				}));
+			} catch (ThreadError e) {
+				stderr.printf ("Thread Error %s\n", e.message);
+			}
 			yield;
 			return (owned) files;
 		}
@@ -1809,66 +1868,63 @@ namespace Pamac {
 			string[] vcs_local_pkgs = {};
 			var repos_updates = new List<Package> ();
 			get_updates_progress (0);
-			ThreadFunc<int> run = () => {
-				lock (alpm_config) {
-					var tmp_handle = alpm_config.get_handle (false, true);
-					// refresh tmp dbs
-					// count this step as 90% of the total
-					unowned Alpm.List<unowned Alpm.DB> syncdbs = tmp_handle.syncdbs;
-					size_t dbs_count = syncdbs.length;
-					size_t i = 0;
-					while (syncdbs != null) {
-						unowned Alpm.DB db = syncdbs.data;
-						db.update (0);
-						syncdbs.next ();
-						i++;
-						Idle.add (() => {
-							get_updates_progress ((uint) ((double) i / dbs_count * (double) 90));
-							return false;
-						});
-					}
-					// check updates
-					// count this step as 5% of the total
-					unowned Alpm.List<unowned Alpm.Package> pkgcache = tmp_handle.localdb.pkgcache;
-					while (pkgcache != null) {
-						unowned Alpm.Package installed_pkg = pkgcache.data;
-						// check if installed_pkg is in IgnorePkg or IgnoreGroup
-						if (tmp_handle.should_ignore (installed_pkg) == 0) {
-							unowned Alpm.Package? candidate = installed_pkg.sync_newversion (tmp_handle.syncdbs);
-							if (candidate != null) {
-								repos_updates.append (initialise_pkg (candidate));
-							} else {
-								if (config.check_aur_updates) {
-									// check if installed_pkg is a local pkg
-									unowned Alpm.Package? pkg = get_syncpkg (installed_pkg.name);
-									if (pkg == null) {
-										if (config.check_aur_vcs_updates &&
-											(installed_pkg.name.has_suffix ("-git")
-											|| installed_pkg.name.has_suffix ("-svn")
-											|| installed_pkg.name.has_suffix ("-bzr")
-											|| installed_pkg.name.has_suffix ("-hg"))) {
-											vcs_local_pkgs += installed_pkg.name;
-										} else {
-											local_pkgs += installed_pkg.name;
-										}
+			new Thread<int> ("get_updates", () => {
+				var tmp_handle = alpm_config.get_handle (false, true);
+				// refresh tmp dbs
+				// count this step as 90% of the total
+				unowned Alpm.List<unowned Alpm.DB> syncdbs = tmp_handle.syncdbs;
+				size_t dbs_count = syncdbs.length;
+				size_t i = 0;
+				while (syncdbs != null) {
+					unowned Alpm.DB db = syncdbs.data;
+					db.update (0);
+					syncdbs.next ();
+					i++;
+					Idle.add (() => {
+						get_updates_progress ((uint) ((double) i / dbs_count * (double) 90));
+						return false;
+					});
+				}
+				// check updates
+				// count this step as 5% of the total
+				unowned Alpm.List<unowned Alpm.Package> pkgcache = tmp_handle.localdb.pkgcache;
+				while (pkgcache != null) {
+					unowned Alpm.Package installed_pkg = pkgcache.data;
+					// check if installed_pkg is in IgnorePkg or IgnoreGroup
+					if (tmp_handle.should_ignore (installed_pkg) == 0) {
+						unowned Alpm.Package? candidate = installed_pkg.sync_newversion (tmp_handle.syncdbs);
+						if (candidate != null) {
+							repos_updates.append (initialise_pkg (candidate));
+						} else {
+							if (config.check_aur_updates) {
+								// check if installed_pkg is a local pkg
+								unowned Alpm.Package? pkg = get_syncpkg (installed_pkg.name);
+								if (pkg == null) {
+									if (config.check_aur_vcs_updates &&
+										(installed_pkg.name.has_suffix ("-git")
+										|| installed_pkg.name.has_suffix ("-svn")
+										|| installed_pkg.name.has_suffix ("-bzr")
+										|| installed_pkg.name.has_suffix ("-hg"))) {
+										vcs_local_pkgs += installed_pkg.name;
+									} else {
+										local_pkgs += installed_pkg.name;
 									}
 								}
 							}
 						}
-						pkgcache.next ();
 					}
-					Idle.add ((owned) callback);
-					return 0;
+					pkgcache.next ();
 				}
-			};
-			new Thread<int> ("get_updates", run);
+				Idle.add ((owned) callback);
+				return 0;
+			});
 			yield;
-			get_updates_progress (95);
 			if (config.check_aur_updates) {
 				// count this step as 5% of the total
-				get_updates_progress (100);
+				get_updates_progress (95);
 				Json.Array aur_infos = yield aur_multiinfo (local_pkgs);
 				AURUpdates aur_updates = yield get_aur_updates_real (aur_infos, vcs_local_pkgs);
+				get_updates_progress (100);
 				return new Updates.from_lists ((owned) repos_updates, (owned) aur_updates.updates, (owned) aur_updates.outofdate);
 			} else {
 				get_updates_progress (100);
