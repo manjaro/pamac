@@ -639,15 +639,11 @@ namespace Pamac {
 			if (!transaction_running && !generate_mirrors_list && !sysupgrade_running) {
 				if (browse_stack.visible_child_name == "updates") {
 					uint64 total_dsize = 0;
-					packages_listbox.foreach ((row) => {
-						unowned PackageRow pamac_row = row as PackageRow;
-						if (pamac_row == null) {
-							return;
+					foreach (unowned Package pkg in current_packages_list) {
+						if (pkg.name in to_update) {
+							total_dsize += pkg.download_size;
 						}
-						if (to_update.contains (pamac_row.pkg.name)) {
-							total_dsize += pamac_row.pkg.download_size;
-						}
-					});
+					}
 					if (total_dsize > 0) {
 						transaction.progress_box.action_label.set_markup("<b>%s: %s</b>".printf (dgettext (null, "Total download size"), format_size (total_dsize)));
 					} else {
