@@ -135,7 +135,7 @@ namespace Pamac {
 					});
 				} else {
 					progress_dialog.show ();
-					transaction.start (to_install, to_remove, {}, to_build, {}, {});
+					transaction.start (to_install, to_remove, to_load, to_build, {}, {});
 					progress_dialog.close_button.visible = false;
 				}
 			}
