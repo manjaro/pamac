@@ -27,7 +27,7 @@
 # Michael G. <m.gasperl@gmail.com>, 2019
 # N3tt3rm4n, 2017
 # philm <philm@manjaro.org>, 2013
-# philm <philm@manjaro.org>, 2013-2018
+# philm <philm@manjaro.org>, 2013-2019
 # Tim, 2014
 # Tobias B. <aema-001@kabelmail.de>, 2013
 # Tobias B. <aema-001@kabelmail.de>, 2013
@@ -37,7 +37,7 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2019-08-06 16:57+0200\n"
-"PO-Revision-Date: 2019-08-07 00:47+0000\n"
+"PO-Revision-Date: 2019-08-17 07:35+0000\n"
 "Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: German (http://www.transifex.com/manjarolinux/manjaro-pamac/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -1134,7 +1134,7 @@ msgstr "Alles installieren"
 
 #: resources/manager_window.ui
 msgid "Ignore all"
-msgstr ""
+msgstr "Alle ignorieren"
 
 #: resources/manager_window.ui
 msgid "Sort by"

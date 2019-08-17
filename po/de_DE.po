@@ -10,13 +10,13 @@
 # Jan Jansen, 2017
 # N3tt3rm4n, 2017
 # N3tt3rm4n, 2017
-# philm <philm@manjaro.org>, 2018
+# philm <philm@manjaro.org>, 2018-2019
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2019-08-06 16:57+0200\n"
-"PO-Revision-Date: 2019-08-07 00:47+0000\n"
+"PO-Revision-Date: 2019-08-17 07:37+0000\n"
 "Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: German (Germany) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/de_DE/)\n"
 "MIME-Version: 1.0\n"
@@ -951,7 +951,7 @@ msgstr "aktualisiere auch Pakete die von AUR installiert wurden"
 
 #: src/cli.vala
 msgid "also upgrade development packages (use with --aur)"
-msgstr ""
+msgstr "auch Entwicklungspakete erneuern (nutze --aur)"
 
 #: src/cli.vala
 msgid ""
@@ -1093,7 +1093,7 @@ msgstr "Suchen"
 
 #: resources/manager_window.ui
 msgid "All"
-msgstr ""
+msgstr "Alles"
 
 #: resources/manager_window.ui
 msgid "Pending"
@@ -1105,27 +1105,27 @@ msgstr "Aktualisierungen"
 
 #: resources/manager_window.ui
 msgid "Remove all"
-msgstr ""
+msgstr "Alles entfernen"
 
 #: resources/manager_window.ui
 msgid "Install all"
-msgstr ""
+msgstr "Alles installieren"
 
 #: resources/manager_window.ui
 msgid "Ignore all"
-msgstr ""
+msgstr "Alle ignorieren"
 
 #: resources/manager_window.ui
 msgid "Sort by"
-msgstr ""
+msgstr "Sortiere bei"
 
 #: resources/manager_window.ui
 msgid "Relevance"
-msgstr ""
+msgstr "Relevanz"
 
 #: resources/manager_window.ui
 msgid "Date"
-msgstr ""
+msgstr "Datum"
 
 #: resources/manager_window.ui
 msgid "Browse"
@@ -1133,7 +1133,7 @@ msgstr "Durchstöbern"
 
 #: resources/manager_window.ui
 msgid "Launch"
-msgstr ""
+msgstr "Starte"
 
 #: resources/manager_window.ui
 msgid "Reinstall"
