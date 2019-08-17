@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2019-06-20 11:09+0200\n"
-"PO-Revision-Date: 2019-06-21 12:07+0000\n"
+"POT-Creation-Date: 2019-08-06 16:57+0200\n"
+"PO-Revision-Date: 2019-08-07 07:37+0000\n"
 "Last-Translator: Lovro Kudelić <lovro.kudelic@outlook.com>\n"
 "Language-Team: Croatian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/hr/)\n"
 "MIME-Version: 1.0\n"
@@ -171,6 +171,10 @@ msgstr "Provjeravam %s zavisnosti"
 #, c-format
 msgid "key %s could not be imported"
 msgstr "ključ %s se ne može uvesti"
+
+#: src/transaction.vala
+msgid "Waiting for another package manager to quit"
+msgstr "Čekam na završetak drugog upravitelja paketa"
 
 #: src/transaction.vala
 #, c-format
@@ -335,10 +339,6 @@ msgstr "Ništa za učiniti"
 msgid "Transaction successfully finished"
 msgstr "Transakcija uspješno završena"
 
-#: src/transaction-gtk.vala src/tray.vala
-msgid "Package Manager"
-msgstr "Upravitelj paketa"
-
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
 msgid "Choose optional dependencies for %s"
@@ -415,9 +415,9 @@ msgstr "Spremi"
 msgid "_Close"
 msgstr "_Zatvori"
 
-#: src/installer.vala src/manager_window.vala src/cli.vala
-msgid "Waiting for another package manager to quit"
-msgstr "Čekam na završetak drugog upravitelja paketa"
+#: src/transaction-gtk.vala src/tray.vala
+msgid "Package Manager"
+msgstr "Upravitelj paketa"
 
 #: src/installer.vala src/cli.vala
 msgid "Install packages from repositories, path or url"
@@ -1113,6 +1113,10 @@ msgstr "Ukloni sve"
 #: resources/manager_window.ui
 msgid "Install all"
 msgstr "Instaliraj sve"
+
+#: resources/manager_window.ui
+msgid "Ignore all"
+msgstr "Ignoriraj sve"
 
 #: resources/manager_window.ui
 msgid "Sort by"

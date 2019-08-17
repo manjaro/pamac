@@ -18,8 +18,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2019-06-20 11:09+0200\n"
-"PO-Revision-Date: 2019-06-21 11:19+0000\n"
+"POT-Creation-Date: 2019-08-06 16:57+0200\n"
+"PO-Revision-Date: 2019-08-13 16:20+0000\n"
 "Last-Translator: Davidmp <medipas@gmail.com>\n"
 "Language-Team: Catalan (http://www.transifex.com/manjarolinux/manjaro-pamac/language/ca/)\n"
 "MIME-Version: 1.0\n"
@@ -176,6 +176,10 @@ msgstr "Comprovant %s dependències"
 #, c-format
 msgid "key %s could not be imported"
 msgstr "la clau %s no s'ha pogut importar"
+
+#: src/transaction.vala
+msgid "Waiting for another package manager to quit"
+msgstr "S'espera que s'aturi un altre gestor de paquets..."
 
 #: src/transaction.vala
 #, c-format
@@ -339,10 +343,6 @@ msgstr "Res per fer."
 msgid "Transaction successfully finished"
 msgstr "Transacció acabada amb èxit"
 
-#: src/transaction-gtk.vala src/tray.vala
-msgid "Package Manager"
-msgstr "Gestor de paquets"
-
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
 msgid "Choose optional dependencies for %s"
@@ -419,9 +419,9 @@ msgstr "Desa"
 msgid "_Close"
 msgstr "_Tanca"
 
-#: src/installer.vala src/manager_window.vala src/cli.vala
-msgid "Waiting for another package manager to quit"
-msgstr "S'espera que s'aturi un altre gestor de paquets..."
+#: src/transaction-gtk.vala src/tray.vala
+msgid "Package Manager"
+msgstr "Gestor de paquets"
 
 #: src/installer.vala src/cli.vala
 msgid "Install packages from repositories, path or url"
@@ -1113,6 +1113,10 @@ msgstr "Suprimeix-ho tot"
 #: resources/manager_window.ui
 msgid "Install all"
 msgstr "Instal·la-ho tot"
+
+#: resources/manager_window.ui
+msgid "Ignore all"
+msgstr "Ignora-ho tot"
 
 #: resources/manager_window.ui
 msgid "Sort by"

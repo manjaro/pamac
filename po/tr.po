@@ -16,9 +16,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2019-06-20 11:09+0200\n"
-"PO-Revision-Date: 2019-07-19 05:51+0000\n"
-"Last-Translator: Demiray Muhterem <mdemiray@msn.com>\n"
+"POT-Creation-Date: 2019-08-06 16:57+0200\n"
+"PO-Revision-Date: 2019-08-07 17:32+0000\n"
+"Last-Translator: Serdar Sağlam <teknomobil@msn.com>\n"
 "Language-Team: Turkish (http://www.transifex.com/manjarolinux/manjaro-pamac/language/tr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -176,6 +176,10 @@ msgid "key %s could not be imported"
 msgstr "%s anahtar içe aktarılamadı"
 
 #: src/transaction.vala
+msgid "Waiting for another package manager to quit"
+msgstr "Diğer paket yöneticisinin kapanması ya da durması bekleniyor"
+
+#: src/transaction.vala
 #, c-format
 msgid "Building %s"
 msgstr "%s İnşa ediliyor"
@@ -213,7 +217,7 @@ msgstr "Yükseltiliyor %s"
 #: src/transaction.vala
 #, c-format
 msgid "Reinstalling %s"
-msgstr "Tekrar yükleniyor %s"
+msgstr "Tekrar kuruluyor %s"
 
 #: src/transaction.vala
 #, c-format
@@ -337,10 +341,6 @@ msgstr "Yapılacak Bir Şey Yok"
 msgid "Transaction successfully finished"
 msgstr "Işlem Başarılı"
 
-#: src/transaction-gtk.vala src/tray.vala
-msgid "Package Manager"
-msgstr "Paket Yöneticisi"
-
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
 msgid "Choose optional dependencies for %s"
@@ -417,9 +417,9 @@ msgstr "Kaydet"
 msgid "_Close"
 msgstr "_Kapat"
 
-#: src/installer.vala src/manager_window.vala src/cli.vala
-msgid "Waiting for another package manager to quit"
-msgstr "Diğer paket yöneticisinin kapanması ya da durması bekleniyor"
+#: src/transaction-gtk.vala src/tray.vala
+msgid "Package Manager"
+msgstr "Paket Yöneticisi"
 
 #: src/installer.vala src/cli.vala
 msgid "Install packages from repositories, path or url"
@@ -1111,6 +1111,10 @@ msgstr "Tümünü kaldır"
 #: resources/manager_window.ui
 msgid "Install all"
 msgstr "Tümünü kur"
+
+#: resources/manager_window.ui
+msgid "Ignore all"
+msgstr "Tümünü yoksay"
 
 #: resources/manager_window.ui
 msgid "Sort by"

@@ -4,6 +4,7 @@
 # Guillaume Benoit <guillaume@manjaro.org>, 2013-2019.
 # 
 # Translators:
+# David Gallegos <davidmartingallegos@gmail.com>, 2019
 # Germán Leonardo Vaja <german.vaja@gmail.com>, 2018
 # Guillermo Schvartzman <guillermohs9@gmail.com>, 2018
 # Mauricio López <mlopez@pronet.com.uy>, 2018
@@ -11,9 +12,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2019-06-20 11:09+0200\n"
-"PO-Revision-Date: 2019-06-21 00:53+0000\n"
-"Last-Translator: philm <philm@manjaro.org>\n"
+"POT-Creation-Date: 2019-08-06 16:57+0200\n"
+"PO-Revision-Date: 2019-08-08 13:41+0000\n"
+"Last-Translator: David Gallegos <davidmartingallegos@gmail.com>\n"
 "Language-Team: Spanish (Argentina) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/es_AR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -168,7 +169,11 @@ msgstr "Chequeando %s dependencias"
 #: src/transaction.vala
 #, c-format
 msgid "key %s could not be imported"
-msgstr ""
+msgstr "la llave %s no pudo ser importada"
+
+#: src/transaction.vala
+msgid "Waiting for another package manager to quit"
+msgstr "Esperando que finalice otro gestor de paquetes"
 
 #: src/transaction.vala
 #, c-format
@@ -332,10 +337,6 @@ msgstr "Sin nada para hacer"
 msgid "Transaction successfully finished"
 msgstr "Transacción finalizada con éxito"
 
-#: src/transaction-gtk.vala src/tray.vala
-msgid "Package Manager"
-msgstr "Gestor de Paquetes"
-
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
 msgid "Choose optional dependencies for %s"
@@ -412,9 +413,9 @@ msgstr "Guardar"
 msgid "_Close"
 msgstr "_Cerrar"
 
-#: src/installer.vala src/manager_window.vala src/cli.vala
-msgid "Waiting for another package manager to quit"
-msgstr "Esperando que finalice otro gestor de paquetes"
+#: src/transaction-gtk.vala src/tray.vala
+msgid "Package Manager"
+msgstr "Gestor de Paquetes"
 
 #: src/installer.vala src/cli.vala
 msgid "Install packages from repositories, path or url"
@@ -1105,6 +1106,10 @@ msgstr ""
 
 #: resources/manager_window.ui
 msgid "Install all"
+msgstr ""
+
+#: resources/manager_window.ui
+msgid "Ignore all"
 msgstr ""
 
 #: resources/manager_window.ui

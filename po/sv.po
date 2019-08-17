@@ -21,8 +21,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2019-06-20 11:09+0200\n"
-"PO-Revision-Date: 2019-06-21 00:53+0000\n"
+"POT-Creation-Date: 2019-08-06 16:57+0200\n"
+"PO-Revision-Date: 2019-08-07 00:47+0000\n"
 "Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Swedish (http://www.transifex.com/manjarolinux/manjaro-pamac/language/sv/)\n"
 "MIME-Version: 1.0\n"
@@ -179,6 +179,10 @@ msgstr "Kontrollerar %s besittningar"
 #, c-format
 msgid "key %s could not be imported"
 msgstr "nyckel %s kunde ej importeras"
+
+#: src/transaction.vala
+msgid "Waiting for another package manager to quit"
+msgstr "Väntar på att annan instans av pakethanteraren ska avslutas"
 
 #: src/transaction.vala
 #, c-format
@@ -342,10 +346,6 @@ msgstr "Inget att göra"
 msgid "Transaction successfully finished"
 msgstr "Överföring lyckades"
 
-#: src/transaction-gtk.vala src/tray.vala
-msgid "Package Manager"
-msgstr "Pakethanterare"
-
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
 msgid "Choose optional dependencies for %s"
@@ -422,9 +422,9 @@ msgstr "Spara"
 msgid "_Close"
 msgstr "_Stäng"
 
-#: src/installer.vala src/manager_window.vala src/cli.vala
-msgid "Waiting for another package manager to quit"
-msgstr "Väntar på att annan instans av pakethanteraren ska avslutas"
+#: src/transaction-gtk.vala src/tray.vala
+msgid "Package Manager"
+msgstr "Pakethanterare"
 
 #: src/installer.vala src/cli.vala
 msgid "Install packages from repositories, path or url"
@@ -1115,6 +1115,10 @@ msgstr ""
 
 #: resources/manager_window.ui
 msgid "Install all"
+msgstr ""
+
+#: resources/manager_window.ui
+msgid "Ignore all"
 msgstr ""
 
 #: resources/manager_window.ui

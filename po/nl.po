@@ -25,8 +25,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2019-06-20 11:09+0200\n"
-"PO-Revision-Date: 2019-06-21 00:53+0000\n"
+"POT-Creation-Date: 2019-08-06 16:57+0200\n"
+"PO-Revision-Date: 2019-08-07 00:47+0000\n"
 "Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Dutch (http://www.transifex.com/manjarolinux/manjaro-pamac/language/nl/)\n"
 "MIME-Version: 1.0\n"
@@ -183,6 +183,10 @@ msgstr "Controleer %s afhankelijken"
 #, c-format
 msgid "key %s could not be imported"
 msgstr "sleutel %s kon niet geïmporteerd worden"
+
+#: src/transaction.vala
+msgid "Waiting for another package manager to quit"
+msgstr "Bezig met wachten totdat een andere pakketbeheerder afgesloten wordt"
 
 #: src/transaction.vala
 #, c-format
@@ -346,10 +350,6 @@ msgstr "Niets te doen"
 msgid "Transaction successfully finished"
 msgstr "Transactie succesvol afgerond"
 
-#: src/transaction-gtk.vala src/tray.vala
-msgid "Package Manager"
-msgstr "Pakket Manager"
-
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
 msgid "Choose optional dependencies for %s"
@@ -426,9 +426,9 @@ msgstr "Opslaan"
 msgid "_Close"
 msgstr "_Sluiten"
 
-#: src/installer.vala src/manager_window.vala src/cli.vala
-msgid "Waiting for another package manager to quit"
-msgstr "Bezig met wachten totdat een andere pakketbeheerder afgesloten wordt"
+#: src/transaction-gtk.vala src/tray.vala
+msgid "Package Manager"
+msgstr "Pakket Manager"
 
 #: src/installer.vala src/cli.vala
 msgid "Install packages from repositories, path or url"
@@ -1119,6 +1119,10 @@ msgstr ""
 
 #: resources/manager_window.ui
 msgid "Install all"
+msgstr ""
+
+#: resources/manager_window.ui
+msgid "Ignore all"
 msgstr ""
 
 #: resources/manager_window.ui

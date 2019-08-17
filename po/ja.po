@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2019-06-20 11:09+0200\n"
-"PO-Revision-Date: 2019-07-20 14:33+0000\n"
+"POT-Creation-Date: 2019-08-06 16:57+0200\n"
+"PO-Revision-Date: 2019-08-09 13:23+0000\n"
 "Last-Translator: UTUMI Hirosi <utuhiro78@yahoo.co.jp>\n"
 "Language-Team: Japanese (http://www.transifex.com/manjarolinux/manjaro-pamac/language/ja/)\n"
 "MIME-Version: 1.0\n"
@@ -172,6 +172,10 @@ msgstr "%s が依存するものを確認しています"
 #, c-format
 msgid "key %s could not be imported"
 msgstr "鍵 %s をインポートできませんでした"
+
+#: src/transaction.vala
+msgid "Waiting for another package manager to quit"
+msgstr "他のパッケージマネージャが終了するのを待っています"
 
 #: src/transaction.vala
 #, c-format
@@ -334,10 +338,6 @@ msgstr "何もすることがありません"
 msgid "Transaction successfully finished"
 msgstr "トランザクションが成功しました"
 
-#: src/transaction-gtk.vala src/tray.vala
-msgid "Package Manager"
-msgstr "パッケージマネージャ"
-
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
 msgid "Choose optional dependencies for %s"
@@ -370,7 +370,7 @@ msgstr "%s ソースファイルを検証するにはPGP鍵 %s が必要です"
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
 msgid "Trust %s and import the PGP key"
-msgstr "%s を信用してPGP鍵をインポートする"
+msgstr "%s を信用してPGP鍵をインポートしますか"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "To remove"
@@ -414,9 +414,9 @@ msgstr "保存"
 msgid "_Close"
 msgstr "閉じる (_C)"
 
-#: src/installer.vala src/manager_window.vala src/cli.vala
-msgid "Waiting for another package manager to quit"
-msgstr "他のパッケージマネージャが終了するのを待っています"
+#: src/transaction-gtk.vala src/tray.vala
+msgid "Package Manager"
+msgstr "パッケージマネージャ"
 
 #: src/installer.vala src/cli.vala
 msgid "Install packages from repositories, path or url"
@@ -1104,6 +1104,10 @@ msgstr "全て削除"
 #: resources/manager_window.ui
 msgid "Install all"
 msgstr "全てインストール"
+
+#: resources/manager_window.ui
+msgid "Ignore all"
+msgstr "全て無視"
 
 #: resources/manager_window.ui
 msgid "Sort by"

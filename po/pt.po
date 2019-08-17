@@ -7,6 +7,7 @@
 # António Correia, 2014
 # Bruno Guerreiro <american.jesus.pt@gmail.com>, 2015
 # Carlos Reis <reiscarlos1976@gmail.com>, 2015
+# Hugo Carvalho <hugokarvalho@hotmail.com>, 2019
 # Igor Diogo <idgr2001@protonmail.com>, 2018
 # José Vieira <jvieira33@sapo.pt>, 2017
 # maique madeira <maique@xanato.net>, 2018
@@ -17,9 +18,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2019-06-20 11:09+0200\n"
-"PO-Revision-Date: 2019-06-21 00:53+0000\n"
-"Last-Translator: philm <philm@manjaro.org>\n"
+"POT-Creation-Date: 2019-08-06 16:57+0200\n"
+"PO-Revision-Date: 2019-08-11 09:39+0000\n"
+"Last-Translator: Hugo Carvalho <hugokarvalho@hotmail.com>\n"
 "Language-Team: Portuguese (http://www.transifex.com/manjarolinux/manjaro-pamac/language/pt/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -175,6 +176,10 @@ msgstr "A verificar %s dependências"
 #, c-format
 msgid "key %s could not be imported"
 msgstr "chave %s não pôde ser importada"
+
+#: src/transaction.vala
+msgid "Waiting for another package manager to quit"
+msgstr "Esperando que outro gestor de pacotes termine"
 
 #: src/transaction.vala
 #, c-format
@@ -338,10 +343,6 @@ msgstr "Nada a fazer"
 msgid "Transaction successfully finished"
 msgstr "Transação finalizada com êxito"
 
-#: src/transaction-gtk.vala src/tray.vala
-msgid "Package Manager"
-msgstr "Gestor de Pacotes"
-
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
 msgid "Choose optional dependencies for %s"
@@ -418,9 +419,9 @@ msgstr "Gravar"
 msgid "_Close"
 msgstr "_Fechar"
 
-#: src/installer.vala src/manager_window.vala src/cli.vala
-msgid "Waiting for another package manager to quit"
-msgstr "Esperando que outro gestor de pacotes termine"
+#: src/transaction-gtk.vala src/tray.vala
+msgid "Package Manager"
+msgstr "Gestor de Pacotes"
 
 #: src/installer.vala src/cli.vala
 msgid "Install packages from repositories, path or url"
@@ -953,7 +954,7 @@ msgstr "também atualizar pacotes instalados a partir do AUR"
 
 #: src/cli.vala
 msgid "also upgrade development packages (use with --aur)"
-msgstr ""
+msgstr "também atualiza os pacotes de desenvolvimento (use com --aur)"
 
 #: src/cli.vala
 msgid ""
@@ -1095,7 +1096,7 @@ msgstr "Procurar"
 
 #: resources/manager_window.ui
 msgid "All"
-msgstr ""
+msgstr "Tudo"
 
 #: resources/manager_window.ui
 msgid "Pending"
@@ -1107,23 +1108,27 @@ msgstr "Atualizações"
 
 #: resources/manager_window.ui
 msgid "Remove all"
-msgstr ""
+msgstr "Remover tudo"
 
 #: resources/manager_window.ui
 msgid "Install all"
-msgstr ""
+msgstr "Instalar tudo"
+
+#: resources/manager_window.ui
+msgid "Ignore all"
+msgstr "Ignorar tudo"
 
 #: resources/manager_window.ui
 msgid "Sort by"
-msgstr ""
+msgstr "Ordenar por"
 
 #: resources/manager_window.ui
 msgid "Relevance"
-msgstr ""
+msgstr "Relevância"
 
 #: resources/manager_window.ui
 msgid "Date"
-msgstr ""
+msgstr "Data"
 
 #: resources/manager_window.ui
 msgid "Browse"
@@ -1131,7 +1136,7 @@ msgstr "Navegar"
 
 #: resources/manager_window.ui
 msgid "Launch"
-msgstr ""
+msgstr "Lançar"
 
 #: resources/manager_window.ui
 msgid "Reinstall"

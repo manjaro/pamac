@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2019-06-20 11:09+0200\n"
-"PO-Revision-Date: 2019-06-21 12:21+0000\n"
+"POT-Creation-Date: 2019-08-06 16:57+0200\n"
+"PO-Revision-Date: 2019-08-07 09:46+0000\n"
 "Last-Translator: Moo\n"
 "Language-Team: Lithuanian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/lt/)\n"
 "MIME-Version: 1.0\n"
@@ -168,6 +168,10 @@ msgstr "Tikrinamos %s priklausomybės"
 #, c-format
 msgid "key %s could not be imported"
 msgstr "nepavyko importuoti rakto %s"
+
+#: src/transaction.vala
+msgid "Waiting for another package manager to quit"
+msgstr "Laukiama, kol kita paketų tvarkytuvė baigs savo darbą"
 
 #: src/transaction.vala
 #, c-format
@@ -333,10 +337,6 @@ msgstr "Nėra ką atlikti"
 msgid "Transaction successfully finished"
 msgstr "Operacija sėkmingai užbaigta"
 
-#: src/transaction-gtk.vala src/tray.vala
-msgid "Package Manager"
-msgstr "Paketų tvarkytuvė"
-
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
 msgid "Choose optional dependencies for %s"
@@ -413,9 +413,9 @@ msgstr "Įrašyti"
 msgid "_Close"
 msgstr "_Užverti"
 
-#: src/installer.vala src/manager_window.vala src/cli.vala
-msgid "Waiting for another package manager to quit"
-msgstr "Laukiama, kol kita paketų tvarkytuvė baigs savo darbą"
+#: src/transaction-gtk.vala src/tray.vala
+msgid "Package Manager"
+msgstr "Paketų tvarkytuvė"
 
 #: src/installer.vala src/cli.vala
 msgid "Install packages from repositories, path or url"
@@ -1115,6 +1115,10 @@ msgstr "Šalinti visus"
 #: resources/manager_window.ui
 msgid "Install all"
 msgstr "Įdiegti visus"
+
+#: resources/manager_window.ui
+msgid "Ignore all"
+msgstr "Nepaisyti visų"
 
 #: resources/manager_window.ui
 msgid "Sort by"

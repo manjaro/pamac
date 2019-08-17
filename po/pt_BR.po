@@ -11,6 +11,7 @@
 # Arnt <qtgzmanager@gmail.com>, 2014
 # Demetrius Ribeiro de Paula <dribeiro@brainet.ca>, 2017
 # Diego S. Seabra <diegosseabra@gmail.com>, 2017
+# Edson A. Santos <eda.santos2@gmail.com>, 2019
 # Fábio Nogueira <fnogueira@gnome.org>, 2015
 # Francisco Barbosa <franksigma26@gmail.com>, 2018
 # Gabriel Henrique <inactive+DarkSkull@transifex.com>, 2017
@@ -37,9 +38,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2019-06-20 11:09+0200\n"
-"PO-Revision-Date: 2019-06-21 00:53+0000\n"
-"Last-Translator: philm <philm@manjaro.org>\n"
+"POT-Creation-Date: 2019-08-06 16:57+0200\n"
+"PO-Revision-Date: 2019-08-12 14:23+0000\n"
+"Last-Translator: Edson A. Santos <eda.santos2@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -195,6 +196,10 @@ msgstr "Verificando 1%s dependências"
 #, c-format
 msgid "key %s could not be imported"
 msgstr "A chave 1%s não pode ser importada"
+
+#: src/transaction.vala
+msgid "Waiting for another package manager to quit"
+msgstr "Esperando por outro gerenciador de pacotes para sair"
 
 #: src/transaction.vala
 #, c-format
@@ -358,10 +363,6 @@ msgstr "Nada para fazer"
 msgid "Transaction successfully finished"
 msgstr "Transação finalizada com êxito"
 
-#: src/transaction-gtk.vala src/tray.vala
-msgid "Package Manager"
-msgstr "Gerenciador de pacotes"
-
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
 msgid "Choose optional dependencies for %s"
@@ -438,9 +439,9 @@ msgstr "Salvar"
 msgid "_Close"
 msgstr "_Fechar"
 
-#: src/installer.vala src/manager_window.vala src/cli.vala
-msgid "Waiting for another package manager to quit"
-msgstr "Esperando por outro gerenciador de pacotes para sair"
+#: src/transaction-gtk.vala src/tray.vala
+msgid "Package Manager"
+msgstr "Gerenciador de pacotes"
 
 #: src/installer.vala src/cli.vala
 msgid "Install packages from repositories, path or url"
@@ -719,14 +720,14 @@ msgstr "Mundial"
 
 #: src/preferences_dialog.vala src/cli.vala
 msgid "To delete"
-msgstr ""
+msgstr "Para eliminar"
 
 #: src/preferences_dialog.vala src/cli.vala
 #, c-format
 msgid "%u file"
 msgid_plural "%u files"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%u arquivo"
+msgstr[1] "%u arquivos"
 
 #: src/preferences_dialog.vala
 msgid "Choose Ignored Upgrades"
@@ -909,7 +910,7 @@ msgstr "não clonar arquivos de construção do AUR, use apenas arquivos locais"
 
 #: src/cli.vala
 msgid "bypass any and all confirmation messages"
-msgstr ""
+msgstr "Ignorar todas e quaisquer mensagens de confirmação"
 
 #: src/cli.vala
 msgid "glob"
@@ -973,7 +974,7 @@ msgstr "também atualizar os pacotes instalados do AUR"
 
 #: src/cli.vala
 msgid "also upgrade development packages (use with --aur)"
-msgstr ""
+msgstr "Também atualizar os pacotes de desenvolvimento (use com --aur)"
 
 #: src/cli.vala
 msgid ""
@@ -1004,7 +1005,7 @@ msgstr "Especificar quantas versões de cada pacote são mantidas no diretório 
 
 #: src/cli.vala
 msgid "only target uninstalled packages"
-msgstr ""
+msgstr "Somente pacotes desinstalados como alvo"
 
 #: src/cli.vala
 msgid ""
@@ -1014,11 +1015,11 @@ msgstr "remover todos os arquivos de compilação, o diretório de compilação 
 
 #: src/cli.vala
 msgid "do not remove files, only find candidate packages"
-msgstr ""
+msgstr "Não remover arquivos, apenas encontre pacotes candidatos"
 
 #: src/cli.vala
 msgid "also display all files names"
-msgstr ""
+msgstr "Também exibir todos os nomes de arquivos"
 
 #: src/cli.vala resources/manager_window.ui
 msgid "Name"
@@ -1115,7 +1116,7 @@ msgstr "Procurar"
 
 #: resources/manager_window.ui
 msgid "All"
-msgstr ""
+msgstr "Todos"
 
 #: resources/manager_window.ui
 msgid "Pending"
@@ -1127,23 +1128,27 @@ msgstr "Atualizações"
 
 #: resources/manager_window.ui
 msgid "Remove all"
-msgstr ""
+msgstr "Remover todos"
 
 #: resources/manager_window.ui
 msgid "Install all"
-msgstr ""
+msgstr "Instalar todos"
+
+#: resources/manager_window.ui
+msgid "Ignore all"
+msgstr "Ignorar todos"
 
 #: resources/manager_window.ui
 msgid "Sort by"
-msgstr ""
+msgstr "Classificar por"
 
 #: resources/manager_window.ui
 msgid "Relevance"
-msgstr ""
+msgstr "Relevância"
 
 #: resources/manager_window.ui
 msgid "Date"
-msgstr ""
+msgstr "Data"
 
 #: resources/manager_window.ui
 msgid "Browse"
@@ -1151,7 +1156,7 @@ msgstr "Navegar"
 
 #: resources/manager_window.ui
 msgid "Launch"
-msgstr ""
+msgstr "Executar"
 
 #: resources/manager_window.ui
 msgid "Reinstall"

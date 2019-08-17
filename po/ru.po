@@ -41,8 +41,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2019-06-20 11:09+0200\n"
-"PO-Revision-Date: 2019-08-06 12:08+0000\n"
+"POT-Creation-Date: 2019-08-06 16:57+0200\n"
+"PO-Revision-Date: 2019-08-07 03:28+0000\n"
 "Last-Translator: Andrei Stepanov <adem4ik@gmail.com>\n"
 "Language-Team: Russian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/ru/)\n"
 "MIME-Version: 1.0\n"
@@ -199,6 +199,10 @@ msgstr "Проверка зависимостей для %s"
 #, c-format
 msgid "key %s could not be imported"
 msgstr "ключ %s не может быть импортирован"
+
+#: src/transaction.vala
+msgid "Waiting for another package manager to quit"
+msgstr "Ожидание выхода другого менеджера пакетов"
 
 #: src/transaction.vala
 #, c-format
@@ -364,10 +368,6 @@ msgstr "Нет заданий"
 msgid "Transaction successfully finished"
 msgstr "Транзакция успешно завершена"
 
-#: src/transaction-gtk.vala src/tray.vala
-msgid "Package Manager"
-msgstr "Менеджер пакетов"
-
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
 msgid "Choose optional dependencies for %s"
@@ -444,9 +444,9 @@ msgstr "Сохранить"
 msgid "_Close"
 msgstr "_Закрыть"
 
-#: src/installer.vala src/manager_window.vala src/cli.vala
-msgid "Waiting for another package manager to quit"
-msgstr "Ожидание выхода другого менеджера пакетов"
+#: src/transaction-gtk.vala src/tray.vala
+msgid "Package Manager"
+msgstr "Менеджер пакетов"
 
 #: src/installer.vala src/cli.vala
 msgid "Install packages from repositories, path or url"
@@ -1146,6 +1146,10 @@ msgstr "Удалить все"
 #: resources/manager_window.ui
 msgid "Install all"
 msgstr "Установить все"
+
+#: resources/manager_window.ui
+msgid "Ignore all"
+msgstr "Игнорировать все"
 
 #: resources/manager_window.ui
 msgid "Sort by"

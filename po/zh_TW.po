@@ -6,15 +6,16 @@
 # Translators:
 # Hsiu-Ming Chang <cges30901@gmail.com>, 2016
 # Hsiu-Ming Chang <cges30901@gmail.com>, 2016
-# Jeff Huang <s8321414@gmail.com>, 2014-2019
-# Jeff Huang <s8321414@gmail.com>, 2013-2014
+# 黃柏諺 <s8321414@gmail.com>, 2014-2019
+# 黃柏諺 <s8321414@gmail.com>, 2013-2014
+# 黃柏諺 <s8321414@gmail.com>, 2019
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2019-06-20 11:09+0200\n"
-"PO-Revision-Date: 2019-06-22 00:23+0000\n"
-"Last-Translator: Jeff Huang <s8321414@gmail.com>\n"
+"POT-Creation-Date: 2019-08-06 16:57+0200\n"
+"PO-Revision-Date: 2019-08-07 03:58+0000\n"
+"Last-Translator: 黃柏諺 <s8321414@gmail.com>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -170,6 +171,10 @@ msgstr "正在檢查 %s 相依性"
 #, c-format
 msgid "key %s could not be imported"
 msgstr "金鑰 %s 無法匯入"
+
+#: src/transaction.vala
+msgid "Waiting for another package manager to quit"
+msgstr "正在等待其他套件管理員結束"
 
 #: src/transaction.vala
 #, c-format
@@ -332,10 +337,6 @@ msgstr "已無事可作"
 msgid "Transaction successfully finished"
 msgstr "事務處理成功完成"
 
-#: src/transaction-gtk.vala src/tray.vala
-msgid "Package Manager"
-msgstr "套件管理員"
-
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
 msgid "Choose optional dependencies for %s"
@@ -412,9 +413,9 @@ msgstr "儲存"
 msgid "_Close"
 msgstr "關閉(_C)"
 
-#: src/installer.vala src/manager_window.vala src/cli.vala
-msgid "Waiting for another package manager to quit"
-msgstr "正在等待其他套件管理員結束"
+#: src/transaction-gtk.vala src/tray.vala
+msgid "Package Manager"
+msgstr "套件管理員"
 
 #: src/installer.vala src/cli.vala
 msgid "Install packages from repositories, path or url"
@@ -1102,6 +1103,10 @@ msgstr "移除全部"
 #: resources/manager_window.ui
 msgid "Install all"
 msgstr "安裝全部"
+
+#: resources/manager_window.ui
+msgid "Ignore all"
+msgstr "忽略全部"
 
 #: resources/manager_window.ui
 msgid "Sort by"

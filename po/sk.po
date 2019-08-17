@@ -15,9 +15,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2019-06-20 11:09+0200\n"
-"PO-Revision-Date: 2019-06-21 00:53+0000\n"
-"Last-Translator: philm <philm@manjaro.org>\n"
+"POT-Creation-Date: 2019-08-06 16:57+0200\n"
+"PO-Revision-Date: 2019-08-14 20:01+0000\n"
+"Last-Translator: Dušan Kazik <prescott66@gmail.com>\n"
 "Language-Team: Slovak (http://www.transifex.com/manjarolinux/manjaro-pamac/language/sk/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -173,6 +173,10 @@ msgstr "Kontrolujú sa závislosti balíka %s"
 #, c-format
 msgid "key %s could not be imported"
 msgstr "kľúč %s sa nepodarilo importovať"
+
+#: src/transaction.vala
+msgid "Waiting for another package manager to quit"
+msgstr "Čaká sa na ukončenie iného správcu balíkov"
 
 #: src/transaction.vala
 #, c-format
@@ -338,10 +342,6 @@ msgstr "Nič na vykonanie"
 msgid "Transaction successfully finished"
 msgstr "Transakcia bola úspešná"
 
-#: src/transaction-gtk.vala src/tray.vala
-msgid "Package Manager"
-msgstr "Správca balíkov"
-
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
 msgid "Choose optional dependencies for %s"
@@ -418,9 +418,9 @@ msgstr "Uložiť"
 msgid "_Close"
 msgstr "_Zavrieť"
 
-#: src/installer.vala src/manager_window.vala src/cli.vala
-msgid "Waiting for another package manager to quit"
-msgstr "Čaká sa na ukončenie iného správcu balíkov"
+#: src/transaction-gtk.vala src/tray.vala
+msgid "Package Manager"
+msgstr "Správca balíkov"
 
 #: src/installer.vala src/cli.vala
 msgid "Install packages from repositories, path or url"
@@ -1042,7 +1042,7 @@ msgstr "Vyčistiť vyrovnávaciu pamäť"
 
 #: src/cli.vala resources/preferences_dialog.ui
 msgid "Clean build files"
-msgstr ""
+msgstr "Vyčistiť súbory zostavení"
 
 #: src/cli.vala
 #, c-format
@@ -1103,7 +1103,7 @@ msgstr "Vyhľadávanie"
 
 #: resources/manager_window.ui
 msgid "All"
-msgstr ""
+msgstr "Všetko"
 
 #: resources/manager_window.ui
 msgid "Pending"
@@ -1115,23 +1115,27 @@ msgstr "Aktualizácie"
 
 #: resources/manager_window.ui
 msgid "Remove all"
-msgstr ""
+msgstr "Odstrániť všetko"
 
 #: resources/manager_window.ui
 msgid "Install all"
-msgstr ""
+msgstr "Nainštalovať všetko"
+
+#: resources/manager_window.ui
+msgid "Ignore all"
+msgstr "Ignorovať všetky"
 
 #: resources/manager_window.ui
 msgid "Sort by"
-msgstr ""
+msgstr "Usporiadať podľa"
 
 #: resources/manager_window.ui
 msgid "Relevance"
-msgstr ""
+msgstr "Relevantnosť"
 
 #: resources/manager_window.ui
 msgid "Date"
-msgstr ""
+msgstr "Dátum"
 
 #: resources/manager_window.ui
 msgid "Browse"
@@ -1139,7 +1143,7 @@ msgstr "Prehliadanie"
 
 #: resources/manager_window.ui
 msgid "Launch"
-msgstr ""
+msgstr "Spustiť"
 
 #: resources/manager_window.ui
 msgid "Reinstall"

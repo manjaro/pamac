@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2019-06-20 11:09+0200\n"
-"PO-Revision-Date: 2019-06-21 00:53+0000\n"
+"POT-Creation-Date: 2019-08-06 16:57+0200\n"
+"PO-Revision-Date: 2019-08-07 00:47+0000\n"
 "Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Basque (http://www.transifex.com/manjarolinux/manjaro-pamac/language/eu/)\n"
 "MIME-Version: 1.0\n"
@@ -172,6 +172,10 @@ msgstr "%s: menpekotasunak egiaztatzen"
 #, c-format
 msgid "key %s could not be imported"
 msgstr "%s gakoa ezin izan da inportatu"
+
+#: src/transaction.vala
+msgid "Waiting for another package manager to quit"
+msgstr "BEste pakete kudeatzaile bat irten dadin zai"
 
 #: src/transaction.vala
 #, c-format
@@ -335,10 +339,6 @@ msgstr "Ezer ez egiteko"
 msgid "Transaction successfully finished"
 msgstr "Transakzioa ongi burutu da"
 
-#: src/transaction-gtk.vala src/tray.vala
-msgid "Package Manager"
-msgstr "Pakete Kudeatzailea"
-
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
 msgid "Choose optional dependencies for %s"
@@ -415,9 +415,9 @@ msgstr "Gorde"
 msgid "_Close"
 msgstr "_Itxi"
 
-#: src/installer.vala src/manager_window.vala src/cli.vala
-msgid "Waiting for another package manager to quit"
-msgstr "BEste pakete kudeatzaile bat irten dadin zai"
+#: src/transaction-gtk.vala src/tray.vala
+msgid "Package Manager"
+msgstr "Pakete Kudeatzailea"
 
 #: src/installer.vala src/cli.vala
 msgid "Install packages from repositories, path or url"
@@ -1108,6 +1108,10 @@ msgstr ""
 
 #: resources/manager_window.ui
 msgid "Install all"
+msgstr ""
+
+#: resources/manager_window.ui
+msgid "Ignore all"
 msgstr ""
 
 #: resources/manager_window.ui

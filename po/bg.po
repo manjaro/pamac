@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2019-06-20 11:09+0200\n"
-"PO-Revision-Date: 2019-07-08 05:38+0000\n"
+"POT-Creation-Date: 2019-08-06 16:57+0200\n"
+"PO-Revision-Date: 2019-08-08 13:15+0000\n"
 "Last-Translator: Galin Iskrenov <loot270@abv.bg>\n"
 "Language-Team: Bulgarian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/bg/)\n"
 "MIME-Version: 1.0\n"
@@ -173,6 +173,10 @@ msgstr "Проверка%s зависимости"
 #, c-format
 msgid "key %s could not be imported"
 msgstr "ключът %s не може да се внесе"
+
+#: src/transaction.vala
+msgid "Waiting for another package manager to quit"
+msgstr "Изчакване да завърши друг пакетен диспечер"
 
 #: src/transaction.vala
 #, c-format
@@ -336,10 +340,6 @@ msgstr "Нищо за правене"
 msgid "Transaction successfully finished"
 msgstr "Успешно завършена транзакция"
 
-#: src/transaction-gtk.vala src/tray.vala
-msgid "Package Manager"
-msgstr "Диспечер на пакети"
-
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
 msgid "Choose optional dependencies for %s"
@@ -416,9 +416,9 @@ msgstr "Запази"
 msgid "_Close"
 msgstr "_Затвори"
 
-#: src/installer.vala src/manager_window.vala src/cli.vala
-msgid "Waiting for another package manager to quit"
-msgstr "Изчакване да завърши друг пакетен диспечер"
+#: src/transaction-gtk.vala src/tray.vala
+msgid "Package Manager"
+msgstr "Диспечер на пакети"
 
 #: src/installer.vala src/cli.vala
 msgid "Install packages from repositories, path or url"
@@ -1110,6 +1110,10 @@ msgstr "Премахни всички"
 #: resources/manager_window.ui
 msgid "Install all"
 msgstr "Инсталирай всички"
+
+#: resources/manager_window.ui
+msgid "Ignore all"
+msgstr "Игнорирай всичко"
 
 #: resources/manager_window.ui
 msgid "Sort by"

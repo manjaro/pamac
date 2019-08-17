@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2019-06-20 11:09+0200\n"
-"PO-Revision-Date: 2019-06-21 00:53+0000\n"
+"POT-Creation-Date: 2019-08-06 16:57+0200\n"
+"PO-Revision-Date: 2019-08-07 00:47+0000\n"
 "Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Hebrew (Israel) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/he_IL/)\n"
 "MIME-Version: 1.0\n"
@@ -165,6 +165,10 @@ msgstr ""
 #: src/transaction.vala
 #, c-format
 msgid "key %s could not be imported"
+msgstr ""
+
+#: src/transaction.vala
+msgid "Waiting for another package manager to quit"
 msgstr ""
 
 #: src/transaction.vala
@@ -331,10 +335,6 @@ msgstr ""
 msgid "Transaction successfully finished"
 msgstr ""
 
-#: src/transaction-gtk.vala src/tray.vala
-msgid "Package Manager"
-msgstr ""
-
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
 msgid "Choose optional dependencies for %s"
@@ -411,8 +411,8 @@ msgstr ""
 msgid "_Close"
 msgstr ""
 
-#: src/installer.vala src/manager_window.vala src/cli.vala
-msgid "Waiting for another package manager to quit"
+#: src/transaction-gtk.vala src/tray.vala
+msgid "Package Manager"
 msgstr ""
 
 #: src/installer.vala src/cli.vala
@@ -1112,6 +1112,10 @@ msgstr ""
 
 #: resources/manager_window.ui
 msgid "Install all"
+msgstr ""
+
+#: resources/manager_window.ui
+msgid "Ignore all"
 msgstr ""
 
 #: resources/manager_window.ui

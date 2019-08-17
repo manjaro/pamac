@@ -28,8 +28,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2019-06-20 11:09+0200\n"
-"PO-Revision-Date: 2019-07-28 01:48+0000\n"
+"POT-Creation-Date: 2019-08-06 16:57+0200\n"
+"PO-Revision-Date: 2019-08-13 11:30+0000\n"
 "Last-Translator: Elias Nykrem <bloodaxeNOR@protonmail.com>\n"
 "Language-Team: Norwegian Bokmål (http://www.transifex.com/manjarolinux/manjaro-pamac/language/nb/)\n"
 "MIME-Version: 1.0\n"
@@ -186,6 +186,10 @@ msgstr "Sjekker 1%s avhengigheter"
 #, c-format
 msgid "key %s could not be imported"
 msgstr "nøkkel 1%s kunne ikke importeres"
+
+#: src/transaction.vala
+msgid "Waiting for another package manager to quit"
+msgstr "Venter på at en annen pakkebehandler skal avslutte"
 
 #: src/transaction.vala
 #, c-format
@@ -349,10 +353,6 @@ msgstr "Ingenting å gjøre"
 msgid "Transaction successfully finished"
 msgstr "Transaksjonen avsluttet vellykket"
 
-#: src/transaction-gtk.vala src/tray.vala
-msgid "Package Manager"
-msgstr "Pakke Behandler"
-
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
 msgid "Choose optional dependencies for %s"
@@ -429,9 +429,9 @@ msgstr "Lagre"
 msgid "_Close"
 msgstr "_Lukk"
 
-#: src/installer.vala src/manager_window.vala src/cli.vala
-msgid "Waiting for another package manager to quit"
-msgstr "Venter på at en annen pakkebehandler skal avslutte"
+#: src/transaction-gtk.vala src/tray.vala
+msgid "Package Manager"
+msgstr "Pakke Behandler"
 
 #: src/installer.vala src/cli.vala
 msgid "Install packages from repositories, path or url"
@@ -910,7 +910,7 @@ msgstr ""
 msgid ""
 "ignore a package upgrade, multiple packages can be specified by separating "
 "them with a comma"
-msgstr ""
+msgstr "ignorer en pakke-oppgradering, flere pakker kan bli spesifiserte ved å separere de med et komma."
 
 #: src/cli.vala
 msgid ""
@@ -920,7 +920,7 @@ msgstr ""
 
 #: src/cli.vala
 msgid "Reinstall packages"
-msgstr ""
+msgstr "Reinstaller pakker"
 
 #: src/cli.vala
 msgid ""
@@ -978,7 +978,7 @@ msgstr ""
 
 #: src/cli.vala
 msgid "enable package downgrades"
-msgstr ""
+msgstr "aktiver pakke nedgradering"
 
 #: src/cli.vala
 msgid "Clean packages cache or build files"
@@ -986,7 +986,7 @@ msgstr ""
 
 #: src/cli.vala
 msgid "number"
-msgstr ""
+msgstr "nummer"
 
 #: src/cli.vala
 msgid ""
@@ -1118,23 +1118,27 @@ msgstr "Oppdateringer"
 
 #: resources/manager_window.ui
 msgid "Remove all"
-msgstr ""
+msgstr "Fjern alle"
 
 #: resources/manager_window.ui
 msgid "Install all"
-msgstr ""
+msgstr "Installer alle"
+
+#: resources/manager_window.ui
+msgid "Ignore all"
+msgstr "Ignorer alle"
 
 #: resources/manager_window.ui
 msgid "Sort by"
-msgstr ""
+msgstr "Sorter etter"
 
 #: resources/manager_window.ui
 msgid "Relevance"
-msgstr ""
+msgstr "Relevans"
 
 #: resources/manager_window.ui
 msgid "Date"
-msgstr ""
+msgstr "Dato"
 
 #: resources/manager_window.ui
 msgid "Browse"
@@ -1142,7 +1146,7 @@ msgstr "Bla"
 
 #: resources/manager_window.ui
 msgid "Launch"
-msgstr ""
+msgstr "Oppstart"
 
 #: resources/manager_window.ui
 msgid "Reinstall"
@@ -1172,7 +1176,7 @@ msgstr "Sjekk tilgjengelig diskplass"
 
 #: resources/preferences_dialog.ui
 msgid "Enable downgrade"
-msgstr ""
+msgstr "Aktiver nedgradering"
 
 #: resources/preferences_dialog.ui
 msgid "Check for updates"
