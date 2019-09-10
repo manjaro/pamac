@@ -47,7 +47,7 @@ namespace Pamac {
 		uint updates_nb;
 		Gtk.IconTheme icon_theme;
 
-		public TrayIcon () {
+		protected TrayIcon () {
 			application_id = "org.manjaro.pamac.tray";
 			flags = ApplicationFlags.FLAGS_NONE;
 		}
