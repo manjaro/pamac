@@ -28,42 +28,28 @@ namespace Pamac {
 		TransactionInterface transaction_interface;
 		delegate void TransactionAction ();
 		bool waiting;
+		protected MainLoop loop;
 		// run transaction data
-		string current_action;
-		string current_status;
-		double current_progress;
-		string current_filename;
-		bool no_confirm_commit;
-		bool enable_downgrade;
 		bool sysupgrading;
-		bool force_refresh;
-		string[] to_install;
-		string[] to_remove;
-		string[] to_load;
-		string[] to_build;
-		string[] temporary_ignorepkgs;
-		string[] overwrite_files;
-		string[] to_mark_as_dep;
+		GenericSet<string?> to_install;
+		GenericSet<string?> to_remove;
+		GenericSet<string?> to_load;
+		GenericSet<string?> to_build;
+		GenericSet<string?> temporary_ignorepkgs;
+		#if ENABLE_SNAP
+		HashTable<string, SnapPackage> snap_to_install;
+		HashTable<string, SnapPackage> snap_to_remove;
+		#endif
 		// building data
 		string aurdb_path;
 		GenericSet<string?> already_checked_aur_dep;
 		GenericSet<string?> aur_desc_list;
 		Queue<string> to_build_queue;
 		GenericSet<string?> aur_pkgs_to_install;
-		string[] aur_unresolvables;
 		bool building;
 		Cancellable build_cancellable;
-		// download data
-		Timer timer;
-		uint64 total_download;
-		uint64 already_downloaded;
-		uint64 previous_xfered;
-		uint64 download_rate;
-		uint64 rates_nb;
-
 		// transaction options
 		public Database database { get; construct set; }
-		public int flags { get; set; } //Alpm.TransFlag
 		public bool clone_build_files { get; set; }
 
 		public signal void emit_action (string action);
@@ -82,19 +68,6 @@ namespace Pamac {
 		public signal void start_building ();
 		public signal void stop_building ();
 		public signal void important_details_outpout (bool must_show);
-		public signal void downloading_updates_finished ();
-		public signal void get_authorization_finished (bool authorized);
-		public signal void finished (bool success);
-		public signal void sysupgrade_finished (bool success);
-		public signal void set_pkgreason_finished ();
-		public signal void write_pamac_config_finished (bool recurse, uint64 refresh_period, bool no_update_hide_icon,
-														bool enable_aur, string aur_build_dir, bool check_aur_updates,
-														bool check_aur_vcs_updates, bool download_updates);
-		public signal void write_alpm_config_finished (bool checkspace);
-		public signal void start_generating_mirrors_list ();
-		public signal void generate_mirrors_list_finished ();
-		public signal void clean_cache_finished ();
-		public signal void clean_build_files_finished ();
 
 		public Transaction (Database database) {
 			Object (database: database);
@@ -108,19 +81,21 @@ namespace Pamac {
 				// use dbus daemon
 				transaction_interface = new TransactionInterfaceDaemon (database.config);
 			}
-			transaction_interface.get_authorization_finished.connect (on_get_authorization_finished);
-			transaction_interface.database_modified.connect (on_database_modified);
 			waiting = false;
+			loop = new MainLoop ();
 			// transaction options
-			flags = 0;
-			enable_downgrade = false;
 			clone_build_files = true;
 			// run transaction data
-			current_action = "";
-			current_status = "";
-			current_filename = "";
-			no_confirm_commit = false;
 			sysupgrading = false;
+			to_install = new GenericSet<string?> (str_hash, str_equal);
+			to_remove = new GenericSet<string?> (str_hash, str_equal);
+			to_load = new GenericSet<string?> (str_hash, str_equal);
+			to_build = new GenericSet<string?> (str_hash, str_equal);
+			temporary_ignorepkgs = new GenericSet<string?> (str_hash, str_equal);
+			#if ENABLE_SNAP
+			snap_to_install = new HashTable<string, SnapPackage> (str_hash, str_equal);
+			snap_to_remove = new HashTable<string, SnapPackage> (str_hash, str_equal);
+			#endif
 			// building data
 			aurdb_path = "/tmp/pamac/aur-%s".printf (Environment.get_user_name ());
 			already_checked_aur_dep = new GenericSet<string?> (str_hash, str_equal);
@@ -129,8 +104,6 @@ namespace Pamac {
 			to_build_queue = new Queue<string> ();
 			build_cancellable = new Cancellable ();
 			building = false;
-			// download data
-			timer = new Timer ();
 		}
 
 		public void quit_daemon () {
@@ -147,9 +120,8 @@ namespace Pamac {
 			return false;
 		}
 
-		protected virtual async bool edit_build_files (string[] pkgnames) {
-			// success
-			return true;
+		protected virtual void edit_build_files (string[] pkgnames) {
+			// do nothing
 		}
 
 		protected virtual bool ask_import_key (string pkgname, string key, string owner) {
@@ -157,15 +129,15 @@ namespace Pamac {
 			return false;
 		}
 
-		protected async string[] get_build_files (string pkgname) {
+		protected async SList<string> get_build_files (string pkgname) {
 			string pkgdir_name = Path.build_path ("/", database.config.aur_build_dir, pkgname);
-			var files = new GenericArray<string> ();
+			var files = new SList<string> ();
 			// PKGBUILD
-			files.add (Path.build_path ("/", pkgdir_name, "PKGBUILD"));
+			files.append (Path.build_path ("/", pkgdir_name, "PKGBUILD"));
 			var srcinfo = File.new_for_path (Path.build_path ("/", pkgdir_name, ".SRCINFO"));
 			try {
 				// read .SRCINFO
-				var dis = new DataInputStream (srcinfo.read ());
+				var dis = new DataInputStream (yield srcinfo.read_async ());
 				string line;
 				while ((line = yield dis.read_line_async ()) != null) {
 					if ("source = " in line) {
@@ -174,7 +146,7 @@ namespace Pamac {
 							string source_path = Path.build_path ("/", pkgdir_name, source);
 							var source_file = File.new_for_path (source_path);
 							if (source_file.query_exists ()) {
-								files.add (source_path);
+								files.append (source_path);
 							}
 						}
 					} else if ("install = " in line) {
@@ -182,19 +154,19 @@ namespace Pamac {
 						string install_path = Path.build_path ("/", pkgdir_name, install);
 						var install_file = File.new_for_path (install_path);
 						if (install_file.query_exists ()) {
-							files.add (install_path);
+							files.append (install_path);
 						}
 					}
 				}
 			} catch (GLib.Error e) {
-				stderr.printf ("Error: %s\n", e.message);
+				critical ("%s\n", e.message);
 			}
-			return (owned) files.data;
+			return (owned) files;
 		}
 
-		protected virtual List<string> choose_optdeps (string pkgname, string[] optdeps) {
+		protected virtual string[] choose_optdeps (string pkgname, string[] optdeps) {
 			// do not install optdeps
-			return new List<string> ();
+			return {};
 		}
 
 		protected virtual int choose_provider (string depend, string[] providers) {
@@ -206,191 +178,97 @@ namespace Pamac {
 			return transaction_interface.get_current_error ();
 		}
 
-		void on_database_modified () {
+		public bool get_authorization () {
+			return transaction_interface.get_authorization ();
+		}
+
+		public void generate_mirrors_list (string country) {
+			string country_copy = country;
+			emit_action (dgettext (null, "Refreshing mirrors list") + "...");
+			important_details_outpout (false);
+			transaction_interface.generate_mirrors_list_data.connect (on_generate_mirrors_list_data);
+			transaction_interface.generate_mirrors_list (country_copy);
+			transaction_interface.generate_mirrors_list_data.disconnect (on_generate_mirrors_list_data);
 			database.refresh ();
 		}
 
-		public void start_get_authorization () {
-			transaction_interface.start_get_authorization ();
+		void on_generate_mirrors_list_data (string line) {
+			emit_script_output (line);
 		}
 
-		void on_get_authorization_finished (bool authorized) {
-			get_authorization_finished (authorized);
-		}
-
-		public void start_write_pamac_config (HashTable<string,Variant> new_pamac_conf) {
-			transaction_interface.write_pamac_config_finished.connect (on_write_pamac_config_finished);
-			transaction_interface.start_write_pamac_config (new_pamac_conf);
-		}
-
-		public void start_write_alpm_config (HashTable<string,Variant> new_alpm_conf) {
-			transaction_interface.write_alpm_config_finished.connect (on_write_alpm_config_finished);
-			transaction_interface.start_write_alpm_config (new_alpm_conf);
-		}
-
-		public void start_generate_mirrors_list (string country) {
-			emit_action (dgettext (null, "Refreshing mirrors list") + "...");
-			important_details_outpout (false);
-			start_generating_mirrors_list ();
-			transaction_interface.generate_mirrors_list_data.connect (on_generate_mirrors_list_data);
-			transaction_interface.generate_mirrors_list_finished.connect (on_generate_mirrors_list_finished);
-			transaction_interface.start_generate_mirrors_list (country);
-		}
-
-		public void start_clean_cache (uint64 keep_nb, bool only_uninstalled) {
-			transaction_interface.clean_cache_finished.connect (on_clean_cache_finished);
-			transaction_interface.start_clean_cache (keep_nb, only_uninstalled);
-		}
-
-		public void start_clean_build_files (string build_dir) {
-			transaction_interface.clean_build_files_finished.connect (on_clean_build_files_finished);
-			transaction_interface.start_clean_build_files (build_dir);
-		}
-
-		public void start_set_pkgreason (string pkgname, uint reason) {
-			transaction_interface.set_pkgreason_finished.connect (on_set_pkgreason_finished);
-			transaction_interface.start_set_pkgreason (pkgname, reason);
-		}
-
-		void on_refresh_for_install_finished (bool success) {
-			stop_downloading ();
-			current_filename = "";
-			transaction_interface.refresh_finished.disconnect (on_refresh_for_install_finished);
+		public void clean_cache () {
+			HashTable<string, int64?> details = database.get_clean_cache_details ();
+			var iter = HashTableIter<string, int64?> (details);
+			var array = new GenericArray<string> (details.length);
+			unowned string name;
+			while (iter.next (out name, null)) {
+				array.add (name);
+			}
+			bool success = transaction_interface.clean_cache (array.data);
 			if (!success) {
-				on_trans_prepare_finished (false);
-			} else {
-				// choose optdeps
-				var to_add_to_install = new GenericSet<string?> (str_hash, str_equal);
-				foreach (unowned string name in this.to_install) {
-					// do not check if reinstall
-					if (!database.is_installed_pkg (name)) {
-						List<string> uninstalled_optdeps = database.get_uninstalled_optdeps (name);
-						var real_uninstalled_optdeps = new GenericArray<string> ();
-						foreach (unowned string optdep in uninstalled_optdeps) {
-							string optdep_name = optdep.split (": ", 2)[0];
-							if (!(optdep_name in this.to_install) && !(optdep_name in to_add_to_install)) {
-								real_uninstalled_optdeps.add (optdep);
-							}
-						}
-						if (real_uninstalled_optdeps.length > 0) {
-							foreach (unowned string optdep in choose_optdeps (name, real_uninstalled_optdeps.data)) {
-								string optdep_name = optdep.split (": ", 2)[0];
-								to_add_to_install.add (optdep_name);
-							}
-						}
-					}
-				}
-				foreach (unowned string name in to_add_to_install) {
-					this.to_install += name;
-					this.to_mark_as_dep += name;
-				}
-				emit_action (dgettext (null, "Preparing") + "...");
-				trans_prepare_real ();
+				handle_error (get_current_error ());
 			}
 		}
 
-		void launch_refresh_for_install (bool authorized) {
-			get_authorization_finished.disconnect (launch_refresh_for_install);
-			if (authorized) {
-				emit_action (dgettext (null, "Synchronizing package databases") + "...");
-				connecting_signals ();
-				transaction_interface.refresh_finished.connect (on_refresh_for_install_finished);
-				transaction_interface.start_refresh (force_refresh);
-				start_downloading ();
-			} else {
-				on_refresh_for_install_finished (false);
-			}
-		}
-
-		void start_refresh_for_install () {
-			// check autorization to send start_downloading signal after that
-			get_authorization_finished.connect (launch_refresh_for_install);
-			start_get_authorization ();
-		}
-
-		void on_refresh_for_sysupgrade_finished (bool success) {
-			stop_downloading ();
-			current_filename = "";
-			transaction_interface.refresh_finished.disconnect (on_refresh_for_sysupgrade_finished);
-			if (!success) {
-				on_trans_prepare_finished (false);
-			} else {
-				to_build = {};
-				sysupgrading = true;
-				emit_action (dgettext (null, "Starting full system upgrade") + "...");
-				if (database.config.check_aur_updates) {
-					database.get_aur_updates.begin ((obj, res) => {
-						var aur_updates = database.get_aur_updates.end (res);
-						foreach (unowned AURPackage aur_update in aur_updates) {
-							if (!(aur_update.name in temporary_ignorepkgs)) {
-								to_build += aur_update.name;
-							}
-						}
-						sysupgrade_real ();
-					});
-				} else {
-					sysupgrade_real ();
-				}
-			}
-		}
-
-		void launch_refresh_for_sysupgrade (bool authorized) {
-			get_authorization_finished.disconnect (launch_refresh_for_sysupgrade);
-			if (authorized) {
-				emit_action (dgettext (null, "Synchronizing package databases") + "...");
-				connecting_signals ();
-				transaction_interface.refresh_finished.connect (on_refresh_for_sysupgrade_finished);
-				transaction_interface.start_refresh (force_refresh);
-				start_downloading ();
-			} else {
-				on_refresh_for_sysupgrade_finished (false);
-			}
-		}
-
-		void start_refresh_for_sysupgrade () {
-			// check autorization to send start_downloading signal after that
-			get_authorization_finished.connect (launch_refresh_for_sysupgrade);
-			start_get_authorization ();
-		}
-
-		public void start_downloading_updates () {
-			transaction_interface.downloading_updates_finished.connect (on_downloading_updates_finished);
-			transaction_interface.start_downloading_updates ();
-		}
-
-		void on_downloading_updates_finished () {
-			transaction_interface.downloading_updates_finished.disconnect (on_downloading_updates_finished);
-			downloading_updates_finished ();
-		}
-
-		async void compute_aur_build_list () {
-			string tmp_path = "/tmp/pamac";
+		public void clean_build_files () {
+			bool success = transaction_interface.clean_build_files (database.config.aur_build_dir);
+			// recreate buildir here to have good permissions
 			try {
-				var file = GLib.File.new_for_path (tmp_path);
-				if (!file.query_exists ()) {
-					Process.spawn_command_line_sync ("mkdir -p %s".printf (tmp_path));
-					Process.spawn_command_line_sync ("chmod a+w %s".printf (tmp_path));
-				}
-				Process.spawn_command_line_sync ("mkdir -p %s".printf (aurdb_path));
+				Process.spawn_command_line_sync ("mkdir -p %s".printf (database.config.aur_build_dir));
 			} catch (SpawnError e) {
 				stderr.printf ("SpawnError: %s\n", e.message);
 			}
+			if (!success) {
+				handle_error (get_current_error ());
+			}
+		}
+
+		public bool set_pkgreason (string pkgname, uint reason) {
+			string pkgname_copy = pkgname;
+			bool success = transaction_interface.set_pkgreason (pkgname_copy, reason);
+			database.refresh ();
+			return success;
+		}
+
+		public void download_updates () {
+			transaction_interface.download_updates ();
+		}
+
+		void compute_aur_build_list () {
+			// set building to allow cancellation
+			building = true;
+			build_cancellable.reset ();
+			compute_aur_build_list_real.begin (() => {
+				building = false;
+				loop.quit ();
+			});
+			loop.run ();
+		}
+
+		async void compute_aur_build_list_real () {
+			string tmp_path = "/tmp/pamac";
+			var launcher = new SubprocessLauncher (SubprocessFlags.NONE);
+			var file = GLib.File.new_for_path (tmp_path);
+			if (!file.query_exists ()) {
+				yield database.launch_subprocess (launcher, {"mkdir", "-p", tmp_path});
+				yield database.launch_subprocess (launcher, {"chmod", "a+w", tmp_path});
+			}
+			yield database.launch_subprocess (launcher, {"mkdir", "-p", aurdb_path});
 			aur_desc_list.remove_all ();
 			already_checked_aur_dep.remove_all ();
-			yield check_aur_dep_list (to_build);
+			var to_build_array = new GenericArray<string> ();
+			foreach (unowned string pkgname in to_build) {
+				to_build_array.add (pkgname);
+			}
+			yield check_aur_dep_list (to_build_array.data);
 			if (aur_desc_list.length > 0) {
 				// create a fake aur db
-				try {
-					var list = new StringBuilder ();
-					foreach (unowned string name_version in aur_desc_list) {
-						list.append (name_version);
-						list.append (" ");
-					}
-					Process.spawn_command_line_sync ("rm -f %s/aur.db".printf (tmp_path));
-					Process.spawn_command_line_sync ("bsdtar -cf %s/aur.db -C %s %s".printf (tmp_path, aurdb_path, list.str));
-				} catch (SpawnError e) {
-					stderr.printf ("SpawnError: %s\n", e.message);
+				yield database.launch_subprocess (launcher, {"rm", "-f", "%s/aur.db".printf (tmp_path)});
+				string[] cmds = {"bsdtar", "-cf", "%s/aur.db".printf (tmp_path), "-C", aurdb_path};
+				foreach (unowned string name_version in aur_desc_list) {
+					cmds += name_version;
 				}
+				yield database.launch_subprocess (launcher, cmds);
 			}
 		}
 
@@ -398,7 +276,7 @@ namespace Pamac {
 			var dep_to_check = new GenericArray<string> ();
 			var aur_pkgs = new HashTable<string, AURPackage> (str_hash, str_equal);
 			if (clone_build_files) {
-				aur_pkgs = yield database.get_aur_pkgs (pkgnames);
+				aur_pkgs = database.get_aur_pkgs (pkgnames);
 			}
 			foreach (unowned string pkgname in pkgnames) {
 				if (build_cancellable.is_cancelled ()) {
@@ -409,15 +287,15 @@ namespace Pamac {
 				}
 				File? clone_dir;
 				if (clone_build_files) {
-					unowned AURPackage aur_pkg = aur_pkgs.lookup (pkgname);
-					if (aur_pkg.name == "") {
+					unowned AURPackage? aur_pkg = aur_pkgs.lookup (pkgname);
+					if (aur_pkg == null) {
 						// error
 						continue;
 					}
 					// clone build files
 					// use packagebase in case of split package
 					emit_action (dgettext (null, "Cloning %s build files").printf (aur_pkg.packagebase) + "...");
-					clone_dir = yield database.clone_build_files (aur_pkg.packagebase, false);
+					clone_dir = database.clone_build_files (aur_pkg.packagebase, false);
 					if (clone_dir == null) {
 						// error
 						continue;
@@ -439,12 +317,12 @@ namespace Pamac {
 								}
 							}
 						} catch (GLib.Error e) {
-							stderr.printf ("Error: %s\n", e.message);
+							critical ("%s\n", e.message);
 						}
 						continue;
 					}
 					emit_action (dgettext (null, "Generating %s informations").printf (pkgname) + "...");
-					if (!(yield database.regenerate_srcinfo (pkgname, build_cancellable))) {
+					if (!(database.regenerate_srcinfo (pkgname, build_cancellable))) {
 						// error
 						continue;
 					}
@@ -456,8 +334,8 @@ namespace Pamac {
 				var srcinfo = clone_dir.get_child (".SRCINFO");
 				try {
 					// read .SRCINFO
-					var dis = new DataInputStream (srcinfo.read ());
-					string line;
+					var dis = new DataInputStream (yield srcinfo.read_async ());
+					string? line;
 					string current_section = "";
 					bool current_section_is_pkgbase = true;
 					var version = new StringBuilder ("");
@@ -472,16 +350,16 @@ namespace Pamac {
 					var global_provides = new List<string> ();
 					var global_replaces = new List<string> ();
 					var global_validpgpkeys = new SList<string> ();
-					var pkgnames_table = new HashTable<string, AURPackageDetails> (str_hash, str_equal);
+					var pkgnames_table = new HashTable<string, AURPackage> (str_hash, str_equal);
 					while ((line = yield dis.read_line_async ()) != null) {
 						if ("pkgbase = " in line) {
 							pkgbase = line.split (" = ", 2)[1];
 						} else if ("pkgdesc = " in line) {
 							desc = line.split (" = ", 2)[1];
 							if (!current_section_is_pkgbase) {
-								unowned AURPackageDetails? details = pkgnames_table.get (current_section);
-								if (details != null) {
-									details.desc = desc;
+								unowned AURPackage? aur_pkg = pkgnames_table.get (current_section);
+								if (aur_pkg != null) {
+									aur_pkg.desc = desc;
 								}
 							}
 						} else if ("pkgver = " in line) {
@@ -513,9 +391,9 @@ namespace Pamac {
 										global_depends.append ((owned) depend);
 									}
 								} else {
-									unowned AURPackageDetails? details = pkgnames_table.get (current_section);
-									if (details != null) {
-										details.depends_priv.append ((owned) depend);
+									unowned AURPackage? aur_pkg = pkgnames_table.get (current_section);
+									if (aur_pkg != null) {
+										aur_pkg.depends_priv.append ((owned) depend);
 									}
 								}
 							}
@@ -525,9 +403,9 @@ namespace Pamac {
 								if (current_section_is_pkgbase) {
 									global_provides.append ((owned) provide);
 								} else {
-									unowned AURPackageDetails? details = pkgnames_table.get (current_section);
-									if (details != null) {
-										details.provides_priv.append ((owned) provide);
+									unowned AURPackage? aur_pkg = pkgnames_table.get (current_section);
+									if (aur_pkg != null) {
+										aur_pkg.provides_priv.append ((owned) provide);
 									}
 								}
 							}
@@ -537,9 +415,9 @@ namespace Pamac {
 								if (current_section_is_pkgbase) {
 									global_conflicts.append ((owned) conflict);
 								} else {
-									unowned AURPackageDetails? details = pkgnames_table.get (current_section);
-									if (details != null) {
-										details.conflicts_priv.append ((owned) conflict);
+									unowned AURPackage? aur_pkg = pkgnames_table.get (current_section);
+									if (aur_pkg != null) {
+										aur_pkg.conflicts_priv.append ((owned) conflict);
 									}
 								}
 							}
@@ -549,9 +427,9 @@ namespace Pamac {
 								if (current_section_is_pkgbase) {
 									global_replaces.append ((owned) replace);
 								} else {
-									unowned AURPackageDetails? details = pkgnames_table.get (current_section);
-									if (details != null) {
-										details.replaces_priv.append ((owned) replace);
+									unowned AURPackage? aur_pkg = pkgnames_table.get (current_section);
+									if (aur_pkg != null) {
+										aur_pkg.replaces_priv.append ((owned) replace);
 									}
 								}
 							}
@@ -565,12 +443,12 @@ namespace Pamac {
 							current_section = pkgname_found;
 							current_section_is_pkgbase = false;
 							if (!pkgnames_table.contains (pkgname_found)) {
-								var details = new AURPackageDetails ();
-								details.name = pkgname_found;
-								details.version = version.str;
-								details.desc = desc;
-								details.packagebase = pkgbase;
-								pkgnames_table.insert (pkgname_found, details);
+								var aur_pkg = new AURPackage ();
+								aur_pkg.name = pkgname_found;
+								aur_pkg.version = version.str;
+								aur_pkg.desc = desc;
+								aur_pkg.packagebase = pkgbase;
+								pkgnames_table.insert (pkgname_found, aur_pkg);
 								pkgnames_found.append ((owned) pkgname_found);
 							}
 						}
@@ -580,38 +458,40 @@ namespace Pamac {
 					}
 					// create fake aur db entries
 					foreach (unowned string pkgname_found in pkgnames_found) {
-						unowned AURPackageDetails? details = pkgnames_table.get (pkgname_found);
+						unowned AURPackage? aur_pkg = pkgnames_table.get (pkgname_found);
 						// populate empty list will global ones
-						if (global_depends.length () > 0 && details.depends.length () == 0) {
-							details.depends_priv = (owned) global_depends;
+						if (global_depends.length () > 0 && aur_pkg.depends.length () == 0) {
+							aur_pkg.depends_priv = (owned) global_depends;
 						}
-						if (global_provides.length () > 0 && details.provides.length () == 0) {
-							details.provides_priv = (owned) global_provides;
+						if (global_provides.length () > 0 && aur_pkg.provides.length () == 0) {
+							aur_pkg.provides_priv = (owned) global_provides;
 						}
-						if (global_conflicts.length () > 0 && details.conflicts.length () == 0) {
-							details.conflicts_priv = (owned) global_conflicts;
+						if (global_conflicts.length () > 0 && aur_pkg.conflicts.length () == 0) {
+							aur_pkg.conflicts_priv = (owned) global_conflicts;
 						}
-						if (global_replaces.length () > 0 && details.replaces.length () == 0) {
-							details.replaces_priv = (owned) global_replaces;
+						if (global_replaces.length () > 0 && aur_pkg.replaces.length () == 0) {
+							aur_pkg.replaces_priv = (owned) global_replaces;
 						}
 						// add checkdepends and makedepends in depends
 						if (global_checkdepends.length () > 0 ) {
 							foreach (unowned string depend in global_checkdepends) {
-								details.depends_priv.append (depend);
+								aur_pkg.depends_priv.append (depend);
 							}
 						}
 						if (global_makedepends.length () > 0 ) {
 							foreach (unowned string depend in global_makedepends) {
-								details.depends_priv.append (depend);
+								aur_pkg.depends_priv.append (depend);
 							}
 						}
 						// check deps
-						foreach (unowned string dep_string in details.depends) {
-							var pkg = database.find_installed_satisfier (dep_string);
-							if (pkg.name == "") {
-								pkg = database.find_sync_satisfier (dep_string);
+						foreach (unowned string dep_string in aur_pkg.depends) {
+							Package? pkg = null;
+							if (database.has_installed_satisfier (dep_string)) {
+								pkg = database.get_installed_satisfier (dep_string);
+							} else if (database.has_sync_satisfier (dep_string)) {
+								pkg = database.get_sync_satisfier (dep_string);
 							}
-							if (pkg.name == "") {
+							if (pkg == null) {
 								string dep_name = database.get_alpm_dep_name (dep_string);
 								if (!(dep_name in already_checked_aur_dep)) {
 									dep_to_check.add ((owned) dep_name);
@@ -619,7 +499,7 @@ namespace Pamac {
 							}
 						}
 						// write desc file
-						string pkgdir = "%s-%s".printf (pkgname_found, details.version);
+						string pkgdir = "%s-%s".printf (pkgname_found, aur_pkg.version);
 						string pkgdir_path = "%s/%s".printf (aurdb_path, pkgdir);
 						aur_desc_list.add (pkgdir);
 						var file = GLib.File.new_for_path (pkgdir_path);
@@ -627,52 +507,55 @@ namespace Pamac {
 							file.make_directory ();
 						}
 						file = GLib.File.new_for_path ("%s/desc".printf (pkgdir_path));
+						FileOutputStream fos;
 						// always recreate desc in case of .SRCINFO modifications
 						if (file.query_exists ()) {
-							yield file.delete_async ();
+							fos = yield file.replace_async (null, false, FileCreateFlags.NONE);
+						} else {
+							fos = yield file.create_async (FileCreateFlags.NONE);
 						}
 						// creating a DataOutputStream to the file
-						var dos = new DataOutputStream (file.create (FileCreateFlags.REPLACE_DESTINATION));
+						var dos = new DataOutputStream (fos);
 						// fake filename
-						dos.put_string ("%FILENAME%\n" + "%s-%s-any.pkg.tar.xz\n\n".printf (pkgname_found, details.version));
+						dos.put_string ("%FILENAME%\n" + "%s-%s-any.pkg.tar.xz\n\n".printf (pkgname_found, aur_pkg.version));
 						// name
 						dos.put_string ("%NAME%\n%s\n\n".printf (pkgname_found));
 						// version
-						dos.put_string ("%VERSION%\n%s\n\n".printf (details.version));
+						dos.put_string ("%VERSION%\n%s\n\n".printf (aur_pkg.version));
 						// base
-						dos.put_string ("%BASE%\n%s\n\n".printf (details.packagebase));
+						dos.put_string ("%BASE%\n%s\n\n".printf (aur_pkg.packagebase));
 						// desc
-						dos.put_string ("%DESC%\n%s\n\n".printf (details.desc));
+						dos.put_string ("%DESC%\n%s\n\n".printf (aur_pkg.desc));
 						// arch (double %% before ARCH to escape %A)
 						dos.put_string ("%%ARCH%\n%s\n\n".printf (arch));
 						// depends
-						if (details.depends.length () > 0) {
+						if (aur_pkg.depends.length () > 0) {
 							dos.put_string ("%DEPENDS%\n");
-							foreach (unowned string depend in details.depends) {
+							foreach (unowned string depend in aur_pkg.depends) {
 								dos.put_string ("%s\n".printf (depend));
 							}
 							dos.put_string ("\n");
 						}
 						// conflicts
-						if (details.conflicts.length () > 0) {
+						if (aur_pkg.conflicts.length () > 0) {
 							dos.put_string ("%CONFLICTS%\n");
-							foreach (unowned string conflict in details.conflicts) {
+							foreach (unowned string conflict in aur_pkg.conflicts) {
 								dos.put_string ("%s\n".printf (conflict));
 							}
 							dos.put_string ("\n");
 						}
 						// provides
-						if (details.provides.length () > 0) {
+						if (aur_pkg.provides.length () > 0) {
 							dos.put_string ("%PROVIDES%\n");
-							foreach (unowned string provide in details.provides) {
+							foreach (unowned string provide in aur_pkg.provides) {
 								dos.put_string ("%s\n".printf (provide));
 							}
 							dos.put_string ("\n");
 						}
 						// replaces
-						if (details.replaces.length () > 0) {
+						if (aur_pkg.replaces.length () > 0) {
 							dos.put_string ("%REPLACES%\n");
-							foreach (unowned string replace in details.replaces) {
+							foreach (unowned string replace in aur_pkg.replaces) {
 								dos.put_string ("%s\n".printf (replace));
 							}
 							dos.put_string ("\n");
@@ -683,7 +566,7 @@ namespace Pamac {
 						yield check_signature (pkgname, global_validpgpkeys);
 					}
 				} catch (GLib.Error e) {
-					stderr.printf ("Error: %s\n", e.message);
+					critical ("%s\n", e.message);
 					continue;
 				}
 			}
@@ -709,12 +592,12 @@ namespace Pamac {
 								if (process.get_exit_status () == 0) {
 									var dis = new DataInputStream (process.get_stdout_pipe ());
 									string? line;
-									while ((line = dis.read_line ()) != null) {
+									while ((line = yield dis.read_line_async ()) != null) {
 										// get first uid line
 										if ("uid:" in line) {
 											string owner = line.split (":", 3)[1];
 											if (ask_import_key (pkgname, key, owner)) {
-												int status = yield run_cmd_line ({"gpg", "--with-colons", "--batch", "--recv-keys", key}, null, build_cancellable);
+												int status = run_cmd_line ({"gpg", "--with-colons", "--batch", "--recv-keys", key}, null, build_cancellable);
 												emit_script_output ("");
 												if (status != 0) {
 													emit_error (dgettext (null, "key %s could not be imported").printf (key), {});
@@ -728,113 +611,263 @@ namespace Pamac {
 						}
 					}
 				} catch (Error e) {
-					stderr.printf ("Error: %s\n", e.message);
+					critical ("%s\n", e.message);
 				} 
 			}
 		}
 
-		void sysupgrade_real () {
-			start_preparing ();
-			if (to_build.length != 0) {
-				// set building to allow cancellation
-				building = true;
-				build_cancellable.reset ();
-				compute_aur_build_list.begin (() => {
-					building = false;
-					if (build_cancellable.is_cancelled ()) {
-						on_trans_prepare_finished (false);
-						return;
+		public bool run () {
+			bool success = true;
+			if (sysupgrading ||
+				to_install.length > 0 ||
+				to_remove.length > 0 ||
+				to_load.length > 0 ||
+				to_build.length > 0 ) {
+				success = trans_run_real ();
+				database.refresh ();
+				if (success) {
+					if (to_build_queue.get_length () != 0) {
+						success = get_authorization ();
+						if (success) {
+							success = build_aur_packages ();
+							database.refresh ();
+						}
+						#if ENABLE_SNAP
+						if (snap_to_install.length > 0 ||
+							snap_to_remove.length > 0) {
+							success = run_snap_transaction ();
+							database.refresh ();
+						}
+						#endif
+						disconnecting_signals ();
+					#if ENABLE_SNAP
+					} else if (snap_to_install.length > 0 ||
+								snap_to_remove.length > 0) {
+						success = run_snap_transaction ();
+						database.refresh ();
+						disconnecting_signals ();
+					#endif
+					} else {
+						disconnecting_signals ();
+						if (sysupgrading) {
+							sysupgrading = false;
+						}
+						emit_action (dgettext (null, "Transaction successfully finished") + ".");
 					}
-					aur_unresolvables = {};
-					// this will respond with trans_prepare_finished signal
-					transaction_interface.start_sysupgrade_prepare (enable_downgrade, to_build, temporary_ignorepkgs, overwrite_files);
-				});
-			} else {
-				// this will respond with trans_prepare_finished signal
-				transaction_interface.start_sysupgrade_prepare (enable_downgrade, to_build, temporary_ignorepkgs, overwrite_files);
+				} else {
+					disconnecting_signals ();
+					to_build_queue.clear ();
+					#if ENABLE_SNAP
+					snap_to_install.remove_all ();
+					snap_to_remove.remove_all ();
+					#endif
+					handle_error (get_current_error ());
+				}
+				to_install.remove_all ();
+				to_remove.remove_all ();
+				to_load.remove_all ();
+				to_build.remove_all ();
+				temporary_ignorepkgs.remove_all ();
+			#if ENABLE_SNAP
+			} else if (snap_to_install.length > 0 ||
+						snap_to_remove.length > 0) {
+				emit_action (dgettext (null, "Preparing") + "...");
+				start_preparing ();
+				// ask confirmation
+				var summary = new TransactionSummary ();
+				var iter = HashTableIter<string, SnapPackage> (snap_to_install);
+				SnapPackage pkg;
+				while (iter.next (null, out pkg)) {
+					summary.to_install_priv.append (pkg);
+				}
+				iter = HashTableIter<string, SnapPackage> (snap_to_remove);
+				while (iter.next (null, out pkg)) {
+					summary.to_remove_priv.append (pkg);
+				}
+				if (ask_commit (summary)) {
+					stop_preparing ();
+					connecting_signals ();
+					success = run_snap_transaction ();
+					disconnecting_signals ();
+				} else {
+					stop_preparing ();
+					emit_action (dgettext (null, "Transaction cancelled") + ".");
+					success = false;
+				}
+			#endif
+			}
+			return success;
+		}
+
+		void add_optdeps () {
+			var to_add_to_install = new GenericSet<string?> (str_hash, str_equal);
+			foreach (unowned string name in to_install) {
+				// do not check if reinstall
+				if (!database.is_installed_pkg (name)) {
+					List<string> uninstalled_optdeps = database.get_uninstalled_optdeps (name);
+					var real_uninstalled_optdeps = new GenericArray<string> ();
+					foreach (unowned string optdep in uninstalled_optdeps) {
+						string optdep_name = optdep.split (": ", 2)[0];
+						if (!(optdep_name in to_install) && !(optdep_name in to_add_to_install)) {
+							real_uninstalled_optdeps.add (optdep);
+						}
+					}
+					if (real_uninstalled_optdeps.length > 0) {
+						foreach (unowned string optdep in choose_optdeps (name, real_uninstalled_optdeps.data)) {
+							string optdep_name = optdep.split (": ", 2)[0];
+							to_add_to_install.add (optdep_name);
+						}
+					}
+				}
+			}
+			foreach (unowned string name in to_add_to_install) {
+				add_pkg_to_install (name);
+				add_pkg_to_mark_as_dep (name);
 			}
 		}
 
-		public void start_sysupgrade (bool force_refresh, bool enable_downgrade, string[] temporary_ignorepkgs, string[] overwrite_files) {
-			this.force_refresh = force_refresh;
-			this.enable_downgrade = enable_downgrade;
-			this.temporary_ignorepkgs = temporary_ignorepkgs;
-			this.overwrite_files = overwrite_files;
-			try_lock_and_run (start_refresh_for_sysupgrade);
-		}
-
-		void trans_prepare_real () {
-			start_preparing ();
-			if (to_build.length != 0) {
+		bool trans_run_real () {
+			if (!wait_for_lock ()) {
+				return false;
+			}
+			connecting_signals ();
+			add_optdeps ();
+			if (sysupgrading) {
+				transaction_interface.set_enable_downgrade (database.config.enable_downgrade);
+				if (database.config.check_aur_updates) {
+					// add aur updates
+					var aur_updates = database.get_aur_updates ();
+					foreach (unowned AURPackage aur_update in aur_updates) {
+						if (!(aur_update.name in temporary_ignorepkgs)) {
+							add_aur_pkg_to_build (aur_update.name);
+						}
+					}
+				}
+			}
+			if (to_build.length > 0) {
+				// get authorization now before a potentially long task
+				if (!get_authorization ()) {
+					return false;
+				}
 				// set building to allow cancellation
 				building = true;
 				build_cancellable.reset ();
-				compute_aur_build_list.begin (() => {
-					building = false;
-					if (build_cancellable.is_cancelled ()) {
-						on_trans_prepare_finished (false);
-						return;
-					}
-					aur_unresolvables = {};
-					transaction_interface.start_trans_prepare (flags, to_install, to_remove, to_load, to_build, temporary_ignorepkgs, overwrite_files, to_mark_as_dep);
-				});
-			} else {
-				transaction_interface.start_trans_prepare (flags, to_install, to_remove, to_load, to_build, temporary_ignorepkgs, overwrite_files, to_mark_as_dep);
+				compute_aur_build_list ();
+				building = false;
+				if (build_cancellable.is_cancelled ()) {
+					return false;
+				}
 			}
+			return transaction_interface.trans_run ();
 		}
 
-		void try_lock_and_run (TransactionAction action) {
+		bool wait_for_lock () {
+			bool success = true;
 			if (transaction_interface.get_lock ()) {
-				action ();
+				return true;
 			} else {
 				waiting = true;
 				start_waiting ();
 				emit_action (dgettext (null, "Waiting for another package manager to quit") + "...");
 				int pass = 0;
-				Timeout.add (1000, () => {
+				Timeout.add (200, () => {
 					if (!waiting) {
 						stop_waiting ();
-						finish_transaction (false);
+						success = false;
+						loop.quit ();
 						return false;
 					}
-					bool locked = transaction_interface.get_lock ();
-					if (locked) {
-						waiting = false;
+					waiting = !transaction_interface.get_lock ();
+					if (waiting) {
+						pass++;
+						// wait 10 min max
+						if (pass == 600) {
+							waiting = false;
+							success = false;
+						}
+					}
+					if (!waiting) {
 						stop_waiting ();
-						action ();
+						loop.quit ();
 					}
-					pass++;
-					// wait 10 min max
-					if (pass == 599) {
-						cancel ();
-					}
-					return !locked;
+					return waiting;
 				});
+				loop.run ();
 			}
+			return success;
 		}
 
-		public void start (string[] to_install, string[] to_remove, string[] to_load, string[] to_build, string[] temporary_ignorepkgs, string[] overwrite_files) {
-			this.to_install = to_install;
-			this.to_remove = to_remove;
-			this.to_load = to_load;
-			this.to_build = to_build;
-			this.temporary_ignorepkgs = temporary_ignorepkgs;
-			this.overwrite_files = overwrite_files;
-			this.to_mark_as_dep = {};
-			if (this.to_install.length > 0) {
-				try_lock_and_run (start_refresh_for_install);
-			} else {
-				try_lock_and_run (() => {
-					emit_action (dgettext (null, "Preparing") + "...");
-					connecting_signals ();
-					trans_prepare_real ();
-				});
-			}
+		public void set_flags (int flags) {
+			transaction_interface.set_trans_flags (flags);
 		}
 
-		void start_commit () {
-			transaction_interface.start_trans_commit ();
+		public void add_pkg_to_install (string name) {
+			to_install.add (name);
+			transaction_interface.add_pkg_to_install (name);
 		}
+
+		public void add_pkg_to_remove (string name) {
+			to_remove.add (name);
+			transaction_interface.add_pkg_to_remove (name);
+		}
+
+		public void add_path_to_load (string path) {
+			to_load.add (path);
+			transaction_interface.add_path_to_load (path);
+		}
+
+		public void add_aur_pkg_to_build (string name) {
+			to_build.add (name);
+			transaction_interface.add_aur_pkg_to_build (name);
+		}
+
+		public void add_temporary_ignore_pkg (string name) {
+			temporary_ignorepkgs.add (name);
+			transaction_interface.add_temporary_ignore_pkg (name);
+		}
+
+		public void add_overwrite_file (string glob) {
+			transaction_interface.add_overwrite_file (glob);
+		}
+
+		public void add_pkg_to_mark_as_dep (string name) {
+			transaction_interface.add_pkg_to_mark_as_dep (name);
+		}
+
+		public void add_pkgs_to_upgrade (bool force_refresh) {
+			if (force_refresh) {
+				transaction_interface.set_force_refresh ();
+			}
+			transaction_interface.set_sysupgrade ();
+			sysupgrading = true;
+		}
+
+		#if ENABLE_SNAP
+		public void add_snap_to_install (SnapPackage pkg) {
+			snap_to_install.insert (pkg.name, pkg);
+		}
+
+		public void add_snap_to_remove (SnapPackage pkg) {
+			snap_to_remove.insert (pkg.name, pkg);
+		}
+
+		bool run_snap_transaction () {
+			var snap_to_install_array = new GenericArray<string> (snap_to_install.length);
+			var snap_to_remove_array = new GenericArray<string> (snap_to_remove.length);
+			var iter = HashTableIter<string, SnapPackage> (snap_to_install);
+			unowned string name;
+			while (iter.next (out name, null)) {
+				snap_to_install_array.add (name);
+			}
+			iter = HashTableIter<string, SnapPackage> (snap_to_remove);
+			while (iter.next (out name, null)) {
+				snap_to_remove_array.add (name);
+			}
+			snap_to_install.remove_all ();
+			snap_to_remove.remove_all ();
+			return transaction_interface.snap_trans_run (snap_to_install_array.data, snap_to_remove_array.data);
+		}
+		#endif
 
 		string remove_bash_colors (string msg) {
 			Regex regex = /\x1B\[[0-9;]*[JKmsu]/;
@@ -845,7 +878,7 @@ namespace Pamac {
 			}
 		}
 
-		public virtual async int run_cmd_line (string[] args, string? working_directory, Cancellable cancellable) {
+		public virtual int run_cmd_line (string[] args, string? working_directory, Cancellable cancellable) {
 			int status = 1;
 			var launcher = new SubprocessLauncher (SubprocessFlags.STDIN_INHERIT | SubprocessFlags.STDOUT_PIPE | SubprocessFlags.STDERR_MERGE);
 			if (working_directory != null) {
@@ -855,91 +888,138 @@ namespace Pamac {
 			try {
 				Subprocess process = launcher.spawnv (args);
 				var dis = new DataInputStream (process.get_stdout_pipe ());
-				string? line;
-				while ((line = yield dis.read_line_async (Priority.DEFAULT, cancellable)) != null) {
-					emit_script_output (remove_bash_colors (line));
-				}
-				try {
-					yield process.wait_async (cancellable);
-					if (process.get_if_exited ()) {
-						status = process.get_exit_status ();
+				string? line = null;
+				dis.read_line_async.begin (Priority.DEFAULT, cancellable, (obj, res) => {
+					try {
+						line = dis.read_line_async.end (res);
+					} catch (Error e) {
+						critical ("%s\n", e.message);
 					}
-				} catch (Error e) {
-					// cancelled
-					process.send_signal (Posix.Signal.INT);
-					process.send_signal (Posix.Signal.KILL);
+					loop.quit ();
+				});
+				loop.run ();
+				while (line != null) {
+					if (cancellable.is_cancelled ()) {
+						break;
+					}
+					emit_script_output (remove_bash_colors (line));
+					dis.read_line_async.begin (Priority.DEFAULT, cancellable, (obj, res) => {
+						try {
+							line = dis.read_line_async.end (res);
+						} catch (Error e) {
+							critical ("%s\n", e.message);
+						}
+						loop.quit ();
+					});
+					loop.run ();
 				}
+				process.wait_async.begin (cancellable, (obj, res) => {
+					try {
+						process.wait_async.end (res);
+						if (process.get_if_exited ()) {
+							status = process.get_exit_status ();
+						}
+					} catch (Error e) {
+						// cancelled
+						process.send_signal (Posix.Signal.INT);
+						process.send_signal (Posix.Signal.KILL);
+					}
+					loop.quit ();
+				});
+				loop.run ();
 			} catch (Error e) {
-				stderr.printf ("Error: %s\n", e.message);
+				critical ("%s\n", e.message);
 			}
 			return status;
 		}
 
-		async void build_next_aur_package () {
-			string pkgname = to_build_queue.pop_head ();
-			emit_script_output ("");
-			emit_action (dgettext (null, "Building %s").printf (pkgname) + "...");
-			build_cancellable.reset ();
-			important_details_outpout (false);
-			var built_pkgs = new GenericSet<string?> (str_hash, str_equal);
-			string pkgdir = Path.build_path ("/", database.config.aur_build_dir, pkgname);
-			// building
-			building = true;
-			start_building ();
-			int status = yield run_cmd_line ({"makepkg", "-cCf"}, pkgdir, build_cancellable);
-			if (build_cancellable.is_cancelled ()) {
-				status = 1;
-			}
-			if (status == 0) {
-				// get built pkgs path
-				var launcher = new SubprocessLauncher (SubprocessFlags.STDOUT_PIPE);
-				launcher.set_cwd (pkgdir);
-				try {
-					Subprocess process = launcher.spawnv ({"makepkg", "--packagelist"});
-					yield process.wait_async (build_cancellable);
-					if (process.get_if_exited ()) {
-						status = process.get_exit_status ();
-					}
-					if (status == 0) {
-						var dis = new DataInputStream (process.get_stdout_pipe ());
-						string? line;
-						// Read lines until end of file (null) is reached
-						while ((line = yield dis.read_line_async ()) != null) {
-							var file = GLib.File.new_for_path (line);
-							string filename = file.get_basename ();
-							string name_version_release = filename.slice (0, filename.last_index_of_char ('-'));
-							string name_version = name_version_release.slice (0, name_version_release.last_index_of_char ('-'));
-							string name = name_version.slice (0, name_version.last_index_of_char ('-'));
-							if (name in aur_pkgs_to_install) {
-								built_pkgs.add (line);
-							}
-						}
-					}
-				} catch (Error e) {
-					stderr.printf ("Error: %s\n", e.message);
+		bool build_aur_packages () {
+			bool success = true;
+			while (to_build_queue.length > 0) {
+				string pkgname = to_build_queue.pop_head ();
+				build_cancellable.reset ();
+				emit_script_output ("");
+				emit_action (dgettext (null, "Building %s").printf (pkgname) + "...");
+				important_details_outpout (false);
+				var built_pkgs = new GenericSet<string?> (str_hash, str_equal);
+				string pkgdir = Path.build_path ("/", database.config.aur_build_dir, pkgname);
+				// building
+				building = true;
+				start_building ();
+				int status = run_cmd_line ({"makepkg", "-cCf"}, pkgdir, build_cancellable);
+				if (build_cancellable.is_cancelled ()) {
 					status = 1;
 				}
-			}
-			stop_building ();
-			building = false;
-			if (status == 0 && built_pkgs.length > 0) {
-				var to_load_array = new GenericArray<string> ();
-				foreach (unowned string name in built_pkgs) {
-					to_load_array.add (name);
+				if (status == 0) {
+					// get built pkgs path
+					var launcher = new SubprocessLauncher (SubprocessFlags.STDOUT_PIPE);
+					launcher.set_cwd (pkgdir);
+					try {
+						Subprocess process = launcher.spawnv ({"makepkg", "--packagelist"});
+						process.wait_async.begin (null, () => {
+							loop.quit ();
+						});
+						loop.run ();
+						if (process.get_if_exited ()) {
+							status = process.get_exit_status ();
+						}
+						if (status == 0) {
+							var dis = new DataInputStream (process.get_stdout_pipe ());
+							string? line = null;
+							dis.read_line_async.begin (Priority.DEFAULT, null, (obj, res) => {
+								try {
+									line = dis.read_line_async.end (res);
+								} catch (Error e) {
+									critical ("%s\n", e.message);
+								}
+								loop.quit ();
+							});
+							loop.run ();
+							while (line != null) {
+								var file = GLib.File.new_for_path (line);
+								string filename = file.get_basename ();
+								string name_version_release = filename.slice (0, filename.last_index_of_char ('-'));
+								string name_version = name_version_release.slice (0, name_version_release.last_index_of_char ('-'));
+								string name = name_version.slice (0, name_version.last_index_of_char ('-'));
+								if (name in aur_pkgs_to_install) {
+									built_pkgs.add (line);
+								}
+								dis.read_line_async.begin (Priority.DEFAULT, null, (obj, res) => {
+									try {
+										line = dis.read_line_async.end (res);
+									} catch (Error e) {
+										critical ("%s\n", e.message);
+									}
+									loop.quit ();
+								});
+								loop.run ();
+							}
+						}
+					} catch (Error e) {
+						critical ("%s\n", e.message);
+						status = 1;
+					}
 				}
-				no_confirm_commit = true;
-				emit_script_output ("");
-				to_install = {};
-				to_remove = {};
-				to_load = (owned) to_load_array.data;
-				to_build = {};
-				overwrite_files = {};
-				trans_prepare_real ();
-			} else {
-				important_details_outpout (true);
-				to_build_queue.clear ();
-				finish_transaction (false);
+				stop_building ();
+				building = false;
+				if (status == 0 && built_pkgs.length > 0) {
+					foreach (unowned string name in built_pkgs) {
+						add_path_to_load (name);
+					}
+					transaction_interface.set_no_confirm_commit ();
+					emit_script_output ("");
+					success = transaction_interface.trans_run ();
+					if (!success) {
+						break;
+					}
+				} else {
+					important_details_outpout (true);
+					to_build_queue.clear ();
+					success = false;
+					break;
+				}
 			}
+			return success;
 		}
 
 		public void cancel () {
@@ -955,589 +1035,139 @@ namespace Pamac {
 			emit_script_output ("");
 		}
 
-		public void release () {
-			transaction_interface.trans_release ();
-		}
-
-		void on_emit_event (uint primary_event, uint secondary_event, string[] details) {
-			switch (primary_event) {
-				case 1: //Alpm.Event.Type.CHECKDEPS_START
-					emit_action (dgettext (null, "Checking dependencies") + "...");
-					break;
-				case 3: //Alpm.Event.Type.FILECONFLICTS_START
-					current_action = dgettext (null, "Checking file conflicts") + "...";
-					break;
-				case 5: //Alpm.Event.Type.RESOLVEDEPS_START
-					emit_action (dgettext (null, "Resolving dependencies") + "...");
-					break;
-				case 7: //Alpm.Event.Type.INTERCONFLICTS_START
-					emit_action (dgettext (null, "Checking inter-conflicts") + "...");
-					break;
-				case 11: //Alpm.Event.Type.PACKAGE_OPERATION_START
-					switch (secondary_event) {
-						// special case handle differently
-						case 1: //Alpm.Package.Operation.INSTALL
-							current_filename = details[0];
-							current_action = dgettext (null, "Installing %s").printf ("%s (%s)".printf (details[0], details[1])) + "...";
-							break;
-						case 2: //Alpm.Package.Operation.UPGRADE
-							current_filename = details[0];
-							current_action = dgettext (null, "Upgrading %s").printf ("%s (%s -> %s)".printf (details[0], details[1], details[2])) + "...";
-							break;
-						case 3: //Alpm.Package.Operation.REINSTALL
-							current_filename = details[0];
-							current_action = dgettext (null, "Reinstalling %s").printf ("%s (%s)".printf (details[0], details[1])) + "...";
-							break;
-						case 4: //Alpm.Package.Operation.DOWNGRADE
-							current_filename = details[0];
-							current_action = dgettext (null, "Downgrading %s").printf ("%s (%s -> %s)".printf (details[0], details[1], details[2])) + "...";
-							break;
-						case 5: //Alpm.Package.Operation.REMOVE
-							current_filename = details[0];
-							current_action = dgettext (null, "Removing %s").printf ("%s (%s)".printf (details[0], details[1])) + "...";
-							break;
-					}
-					break;
-				case 13: //Alpm.Event.Type.INTEGRITY_START
-					current_action = dgettext (null, "Checking integrity") + "...";
-					break;
-				case 15: //Alpm.Event.Type.LOAD_START
-					current_action = dgettext (null, "Loading packages files") + "...";
-					break;
-				case 17: //Alpm.Event.Type.DELTA_INTEGRITY_START
-					emit_action (dgettext (null, "Checking delta integrity") + "...");
-					break;
-				case 19: //Alpm.Event.Type.DELTA_PATCHES_START
-					emit_action (dgettext (null, "Applying deltas") + "...");
-					break;
-				case 21: //Alpm.Event.Type.DELTA_PATCH_START
-					emit_script_output (dgettext (null, "Generating %s with %s").printf (details[0], details[1]) + "...");
-					break;
-				case 22: //Alpm.Event.Type.DELTA_PATCH_DONE
-					emit_script_output (dgettext (null, "Generation succeeded") + ".");
-					break;
-				case 23: //Alpm.Event.Type.DELTA_PATCH_FAILED
-					emit_script_output (dgettext (null, "Generation failed") + ".");
-					break;
-				case 24: //Alpm.Event.Type.SCRIPTLET_INFO
-					// hooks output are also emitted as SCRIPTLET_INFO
-					if (current_filename != "") {
-						emit_action (dgettext (null, "Configuring %s").printf (current_filename) + "...");
-						current_filename = "";
-					}
-					emit_script_output (remove_bash_colors (details[0]).replace ("\n", ""));
-					important_details_outpout (false);
-					break;
-				case 25: //Alpm.Event.Type.RETRIEVE_START
-					start_downloading ();
-					break;
-				case 26: //Alpm.Event.Type.RETRIEVE_DONE
-				case 27: //Alpm.Event.Type.RETRIEVE_FAILED
-					stop_downloading ();
-					break;
-				case 31: //Alpm.Event.Type.DISKSPACE_START
-					current_action = dgettext (null, "Checking available disk space") + "...";
-					break;
-				case 33: //Alpm.Event.Type.OPTDEP_REMOVAL
-					emit_warning (dgettext (null, "%s optionally requires %s").printf (details[0], details[1]));
-					break;
-				case 34: //Alpm.Event.Type.DATABASE_MISSING
-					emit_script_output (dgettext (null, "Database file for %s does not exist").printf (details[0]) + ".");
-					break;
-				case 35: //Alpm.Event.Type.KEYRING_START
-					current_action = dgettext (null, "Checking keyring") + "...";
-					break;
-				case 37: //Alpm.Event.Type.KEY_DOWNLOAD_START
-					emit_action (dgettext (null, "Downloading required keys") + "...");
-					break;
-				case 39: //Alpm.Event.Type.PACNEW_CREATED
-					emit_script_output (dgettext (null, "%s installed as %s.pacnew").printf (details[0], details[0])+ ".");
-					break;
-				case 40: //Alpm.Event.Type.PACSAVE_CREATED
-					emit_script_output (dgettext (null, "%s installed as %s.pacsave").printf (details[0], details[0])+ ".");
-					break;
-				case 41: //Alpm.Event.Type.HOOK_START
-					switch (secondary_event) {
-						case 1: //Alpm.HookWhen.PRE_TRANSACTION
-							current_action = dgettext (null, "Running pre-transaction hooks") + "...";
-							break;
-						case 2: //Alpm.HookWhen.POST_TRANSACTION
-							current_filename = "";
-							current_action = dgettext (null, "Running post-transaction hooks") + "...";
-							break;
-						default:
-							break;
-					}
-					break;
-				case 43: // Alpm.Event.Type.HOOK_RUN_START
-					double progress = (double) int.parse (details[2]) / int.parse (details[3]);
-					string status = "%s/%s".printf (details[2], details[3]);
-					bool changed = false;
-					if (progress != current_progress) {
-						current_progress = progress;
-						changed = true;
-					}
-					if (status != current_status) {
-						current_status = status;
-						changed = true;
-					}
-					if (changed) {
-						if (details[1] != "") {
-							emit_hook_progress (current_action, details[1], current_status, current_progress);
-						} else {
-							emit_hook_progress (current_action, details[0], current_status, current_progress);
-						}
-					}
-					break;
-				default:
-					break;
-			}
-		}
-
-		void on_emit_providers (string depend, string[] providers) {
-			int index = choose_provider (depend, providers);
-			transaction_interface.choose_provider (index);
-		}
-
-		void on_emit_unresolvables (string[] unresolvables) {
-			foreach (unowned string unresolvable in unresolvables) {
-				aur_unresolvables += unresolvable;
-			}
-		}
-
-		void on_emit_progress (uint progress, string pkgname, uint percent, uint n_targets, uint current_target) {
-			double fraction;
-			switch (progress) {
-				case 0: //Alpm.Progress.ADD_START
-				case 1: //Alpm.Progress.UPGRADE_START
-				case 2: //Alpm.Progress.DOWNGRADE_START
-				case 3: //Alpm.Progress.REINSTALL_START
-				case 4: //Alpm.Progress.REMOVE_START
-					fraction = ((double) (current_target - 1) / n_targets) + ((double) percent / (100 * n_targets));
-					break;
-				case 5: //Alpm.Progress.CONFLICTS_START
-				case 6: //Alpm.Progress.DISKSPACE_START
-				case 7: //Alpm.Progress.INTEGRITY_START
-				case 8: //Alpm.Progress.LOAD_START
-				case 9: //Alpm.Progress.KEYRING_START
-				default:
-					fraction = (double) percent / 100;
-					break;
-			}
-			string status = "%lu/%lu".printf (current_target, n_targets);
-			bool changed = false;
-			if (fraction != current_progress) {
-				current_progress = fraction;
-				changed = true;
-			}
-			if (status != current_status) {
-				current_status = status;
-				changed = true;
-			}
-			if (changed) {
-				if (current_action != "") {
-					emit_action_progress (current_action, current_status, current_progress);
-				}
-			}
-		}
-
-		void on_emit_download (string filename, uint64 xfered, uint64 total) {
-			var text = new StringBuilder ();
-			double fraction;
-			if (total_download > 0) {
-				if (filename != "" && filename != current_filename) {
-					current_filename = filename;
-					string name_version_release = filename.slice (0, filename.last_index_of_char ('-'));
-					string name_version = name_version_release.slice (0, name_version_release.last_index_of_char ('-'));
-					string name = name_version.slice (0, name_version.last_index_of_char ('-'));
-					string version_release = name_version_release.replace (name + "-", "");
-					current_action = dgettext (null, "Downloading %s").printf ("%s (%s)".printf (name, version_release)) + "...";
-				}
-				if (xfered == 0) {
-					previous_xfered = 0;
-					fraction = current_progress;
-					text.append (current_status);
-					timer.start ();
-				} else if (xfered == total_download) {
-					timer.stop ();
-					fraction = 1;
-					current_filename = "";
-				} else {
-					if (timer.elapsed () > 0.1) {
-						download_rate = ((download_rate * rates_nb) + (uint64) ((xfered - previous_xfered) / timer.elapsed ())) / (rates_nb + 1);
-						rates_nb++;
-					}
-					already_downloaded += xfered - previous_xfered;
-					previous_xfered = xfered;
-					fraction = (double) already_downloaded / total_download;
-					if (fraction <= 1) {
-						text.append ("%s/%s  ".printf (format_size (already_downloaded), format_size (total_download)));
-						uint64 remaining_seconds = 0;
-						if (download_rate > 0) {
-							remaining_seconds = (total_download - already_downloaded) / download_rate;
-						}
-						// display remaining time after 5s and only if more than 10s are remaining
-						if (remaining_seconds > 9 && rates_nb > 9) {
-							if (remaining_seconds <= 50) {
-								text.append (dgettext (null, "About %u seconds remaining").printf ((uint) Math.ceilf ((float) remaining_seconds / 10) * 10));
-							} else {
-								uint remaining_minutes = (uint) Math.ceilf ((float) remaining_seconds / 60);
-								text.append (dngettext (null, "About %lu minute remaining",
-											"About %lu minutes remaining", remaining_minutes).printf (remaining_minutes));
-							}
-						}
-					} else {
-						text.append ("%s".printf (format_size (already_downloaded)));
-					}
-					if (xfered == total) {
-						current_filename = "";
-					} else {
-						timer.start ();
-					}
-				}
-			} else {
-				if (xfered == 0) {
-					previous_xfered = 0;
-					download_rate = 0;
-					rates_nb = 0;
-					fraction = 0;
-					timer.start ();
-					if (filename.has_suffix (".db") || filename.has_suffix (".files")) {
-						current_action = dgettext (null, "Refreshing %s").printf (filename) + "...";
-					}
-				} else if (xfered == total) {
-					timer.stop ();
-					fraction = 1;
-					current_filename = "";
-				} else {
-					if (timer.elapsed () > 0.1) {
-						download_rate = ((download_rate * rates_nb) + (uint64) ((xfered - previous_xfered) / timer.elapsed ())) / (rates_nb + 1);
-						rates_nb++;
-					}
-					previous_xfered = xfered;
-					fraction = (double) xfered / total;
-					if (fraction <= 1) {
-						text.append ("%s/%s".printf (format_size (xfered), format_size (total)));
-						uint64 remaining_seconds = 0;
-						if (download_rate > 0) {
-							remaining_seconds = (total - xfered) / download_rate;
-						}
-						// display remaining time after 5s and only if more than 10s are remaining
-						if (remaining_seconds > 9 && rates_nb > 9) {
-							text.append ("  ");
-							if (remaining_seconds <= 50) {
-								text.append (dgettext (null, "About %u seconds remaining").printf ((uint) Math.ceilf ((float) remaining_seconds / 10) * 10));
-							} else {
-								uint remaining_minutes = (uint) Math.ceilf ((float) remaining_seconds / 60);
-								text.append (dngettext (null, "About %lu minute remaining",
-											"About %lu minutes remaining", remaining_minutes).printf (remaining_minutes));
-							}
-						}
-					} else {
-						text.append ("%s".printf (format_size (xfered)));
-					}
-					// reinitialize timer
-					timer.start ();
-				}
-			}
-			if (fraction != current_progress) {
-				current_progress = fraction;
-			}
-			if (text.str != current_status) {
-				current_status = text.str;
-			}
-			emit_download_progress (current_action, current_status, current_progress);
-		}
-
-		void on_emit_totaldownload (uint64 total) {
-			download_rate = 0;
-			rates_nb = 0;
-			current_progress = 0;
-			current_status = "";
-			total_download = total;
-			//  this is emitted at the end of the total download 
-			// with the value 0 so stop our timer
-			if (total == 0) {
-				timer.stop ();
-			}
-		}
-
-		void on_emit_log (uint level, string msg) {
-			// msg ends with \n
-			string? line = null;
-			if (level == 1) { //Alpm.LogLevel.ERROR
-				if (current_filename != "") {
-					line = dgettext (null, "Error") + ": " + current_filename + ": " + msg;
-				} else {
-					line = dgettext (null, "Error") + ": " + msg;
-				}
-				important_details_outpout (false);
-				emit_warning (line.replace ("\n", ""));
-			} else if (level == (1 << 1)) { //Alpm.LogLevel.WARNING
-				// warnings when no_confirm_commit should already have been sent
-				if (no_confirm_commit) {
-					return;
-				}
-				// do not show warning when manjaro-system remove db.lck
-				if (current_filename != "manjaro-system") {
-					if (current_filename != "") {
-						line = dgettext (null, "Warning") + ": " + current_filename + ": " + msg;
-					} else {
-						line = dgettext (null, "Warning") + ": " + msg;
-					}
-					emit_warning (line.replace ("\n", ""));
-				}
-			}
+		int on_choose_provider (string depend, string[] providers) {
+			return choose_provider (depend, providers);
 		}
 
 		void handle_error (ErrorInfos error) {
 			if (error.message != "") {
 				emit_error (error.message, error.details);
 			}
-			finish_transaction (false);
 		}
 
-		void finish_transaction (bool success) {
-			disconnecting_signals ();
-			if (sysupgrading) {
-				sysupgrade_finished (success);
-				sysupgrading = false;
+		bool on_ask_commit (TransactionSummaryStruct summary_struct) {
+			if (build_cancellable.is_cancelled ()) {
+				return false;
 			} else {
-				finished (success);
-			}
-		}
-
-		void on_trans_prepare_finished (bool success) {
-			stop_preparing ();
-			if (success) {
-				var summary_struct = transaction_interface.get_transaction_summary ();
-				Type type = 0;
-				if ((summary_struct.to_install.length
-					+ summary_struct.to_downgrade.length
-					+ summary_struct.to_reinstall.length) > 0) {
-					type |= Type.INSTALL;
+				var summary = new TransactionSummary.from_struct (summary_struct);
+				#if ENABLE_SNAP
+				var iter = HashTableIter<string, SnapPackage> (snap_to_install);
+				SnapPackage pkg;
+				while (iter.next (null, out pkg)) {
+					summary.to_install_priv.append (pkg);
 				}
-				if (summary_struct.to_remove.length > 0) {
-					type |= Type.REMOVE;
+				iter = HashTableIter<string, SnapPackage> (snap_to_remove);
+				while (iter.next (null, out pkg)) {
+					summary.to_remove_priv.append (pkg);
 				}
-				if (summary_struct.to_upgrade.length > 0) {
-					type |= Type.UPDATE;
-				}
-				if (summary_struct.to_build.length > 0) {
-					type |= Type.BUILD;
-				}
-				if (no_confirm_commit) {
-					no_confirm_commit = false;
-					start_commit ();
-				} else if (type != 0) {
-					var summary = new TransactionSummary (summary_struct);
-					if ((type & Type.BUILD) != 0) {
-						// ask to edit build files
-						if (summary_struct.aur_pkgbases_to_build.length > 0) {
-							if (ask_edit_build_files (summary)) {
-								release ();
-								edit_build_files_and_reprepare.begin (summary_struct.aur_pkgbases_to_build);
-								return;
-							}
-						}
-						// populate build queue
-						to_build_queue.clear ();
-						foreach (unowned string name in summary_struct.aur_pkgbases_to_build) {
-							to_build_queue.push_tail (name);
-						}
-						aur_pkgs_to_install.remove_all ();
-						foreach (unowned AURPackageStruct infos in summary_struct.to_build) {
-							aur_pkgs_to_install.add (infos.name);
-						}
-						if (ask_commit (summary)) {
-							if (type == Type.BUILD) {
-								// there only AUR packages to build
-								release ();
-								on_trans_commit_finished (true);
-							} else {
-								start_commit ();
-							}
-						} else {
-							emit_action (dgettext (null, "Transaction cancelled") + ".");
-							release ();
-							to_build_queue.clear ();
-							finish_transaction (false);
-						}
-					} else if (ask_commit (summary)) {
-						start_commit ();
-					} else {
-						emit_action (dgettext (null, "Transaction cancelled") + ".");
-						release ();
-						finish_transaction (false);
-					}
-				} else {
-					//var err = ErrorInfos ();
-					//err.message = dgettext (null, "Nothing to do") + "\n";
-					emit_action (dgettext (null, "Nothing to do") + ".");
-					release ();
-					finish_transaction (true);
-					//handle_error (err);
-				}
-			} else if (build_cancellable.is_cancelled ()) {
-				finish_transaction (false);
-			} else if (to_build.length > 0) {
-				emit_action (dgettext (null, "Failed to prepare transaction") + ".");
-				check_aur_unresolvables_and_edit_build_files.begin ();
-			} else {
-				handle_error (get_current_error ());
-			}
-		}
-
-		async void edit_build_files_and_reprepare (string[] pkgnames) {
-			// keep string during edit_build_files
-			string[] pkgnames_copy = pkgnames;
-			bool success = yield edit_build_files (pkgnames_copy);
-			if (success) {
-				emit_script_output ("");
-				// prepare again
-				if (sysupgrading) {
-					emit_action (dgettext (null, "Starting full system upgrade") + "...");
-					sysupgrade_real ();
-				} else {
-					emit_action (dgettext (null, "Preparing") + "...");
-					trans_prepare_real ();
-				}
-			} else {
-				if (ask_edit_build_files (new TransactionSummary (TransactionSummaryStruct ()))) {
-					edit_build_files_and_reprepare.begin (pkgnames_copy);
-					return;
-				}
-				var error = ErrorInfos () {
-					message = dgettext (null, "Failed to prepare transaction")
-				};
-				handle_error (error);
-			}
-		}
-
-		async void check_aur_unresolvables_and_edit_build_files () {
-			string[] aur_unresolvables_backup = aur_unresolvables;
-			aur_unresolvables = {};
-			foreach (unowned string unresolvable in aur_unresolvables_backup) {
-				var aur_pkg = yield database.get_aur_pkg (unresolvable);
-				if (aur_pkg.name != "") {
-					aur_unresolvables += aur_pkg.name;
-				}
-			}
-			// also add other pkgs in to_build
-			foreach (unowned string name in to_build) {
-				if (!(name in aur_unresolvables)) {
-					aur_unresolvables += name;
-				}
-			}
-			if (aur_unresolvables.length > 0) {
-				if (ask_edit_build_files (new TransactionSummary (TransactionSummaryStruct ()))) {
-					edit_build_files_and_reprepare.begin (aur_unresolvables);
-					return;
-				}
-			}
-			handle_error (get_current_error ());
-		}
-
-		void launch_build_next_aur_package (bool authorized) {
-			get_authorization_finished.disconnect (launch_build_next_aur_package);
-			if (authorized) {
-				build_next_aur_package.begin ();
-			} else {
-				on_trans_commit_finished (false);
-			}
-		}
-
-		void on_trans_commit_finished (bool success) {
-			if (success) {
-				if (to_build_queue.get_length () != 0) {
-					get_authorization_finished.connect (launch_build_next_aur_package);
-					start_get_authorization ();
-				} else {
-					emit_action (dgettext (null, "Transaction successfully finished") + ".");
-					finish_transaction (true);
-				}
-			} else {
+				#endif
+				// populate build queue
 				to_build_queue.clear ();
-				handle_error (get_current_error ());
+				foreach (unowned string name in summary_struct.aur_pkgbases_to_build) {
+					to_build_queue.push_tail (name);
+				}
+				aur_pkgs_to_install.remove_all ();
+				foreach (unowned PackageStruct infos in summary_struct.to_build) {
+					aur_pkgs_to_install.add (infos.name);
+				}
+				return ask_commit (summary);
 			}
-			total_download = 0;
-			already_downloaded = 0;
-			current_filename = "";
 		}
 
-		void on_clean_cache_finished (bool success) {
-			transaction_interface.clean_cache_finished.disconnect (on_clean_cache_finished);
-			if (!success) {
-				handle_error (get_current_error ());
+		bool on_ask_edit_build_files (TransactionSummaryStruct summary_struct) {
+			var summary = new TransactionSummary.from_struct (summary_struct);
+			#if ENABLE_SNAP
+			var iter = HashTableIter<string, SnapPackage> (snap_to_install);
+			SnapPackage pkg;
+			while (iter.next (null, out pkg)) {
+				summary.to_install_priv.append (pkg);
 			}
-			clean_cache_finished ();
-		}
-
-		void on_clean_build_files_finished (bool success) {
-			transaction_interface.clean_build_files_finished.disconnect (on_clean_build_files_finished);
-			// recreate buildir here to have good permissions
-			try {
-				Process.spawn_command_line_sync ("mkdir -p %s".printf (database.config.aur_build_dir));
-			} catch (SpawnError e) {
-				stderr.printf ("SpawnError: %s\n", e.message);
+			iter = HashTableIter<string, SnapPackage> (snap_to_remove);
+			while (iter.next (null, out pkg)) {
+				summary.to_remove_priv.append (pkg);
 			}
-			if (!success) {
-				handle_error (get_current_error ());
-			}
-			clean_build_files_finished ();
+			#endif
+			return ask_edit_build_files (summary);
 		}
 
-		void on_set_pkgreason_finished () {
-			transaction_interface.set_pkgreason_finished.disconnect (on_set_pkgreason_finished);
-			set_pkgreason_finished ();
+		void on_edit_build_files (string[] pkgnames) {
+			edit_build_files (pkgnames);
 		}
 
-		void on_write_pamac_config_finished (bool recurse, uint64 refresh_period, bool no_update_hide_icon,
-											bool enable_aur, string aur_build_dir, bool check_aur_updates,
-											bool check_aur_vcs_updates, bool download_updates) {
-			transaction_interface.write_pamac_config_finished.disconnect (on_write_pamac_config_finished);
-			database.config.reload ();
-			write_pamac_config_finished (recurse, refresh_period, no_update_hide_icon,
-										enable_aur, aur_build_dir, check_aur_updates,
-										check_aur_vcs_updates, download_updates);
+		void on_emit_action (string action) {
+			emit_action (action);
 		}
 
-		void on_write_alpm_config_finished (bool checkspace) {
-			transaction_interface.write_alpm_config_finished.disconnect (on_write_alpm_config_finished);
-			write_alpm_config_finished (checkspace);
+		void on_emit_action_progress (string action, string status, double progress) {
+			emit_action_progress (action, status, progress);
 		}
 
-		void on_generate_mirrors_list_data (string line) {
-			emit_script_output (line);
+		void on_emit_download_progress (string action, string status, double progress) {
+			emit_download_progress (action, status, progress);
 		}
 
-		void on_generate_mirrors_list_finished () {
-			transaction_interface.generate_mirrors_list_data.disconnect (on_generate_mirrors_list_data);
-			transaction_interface.generate_mirrors_list_finished.disconnect (on_generate_mirrors_list_finished);
-			generate_mirrors_list_finished ();
+		void on_emit_hook_progress (string action, string details, string status, double progress) {
+			emit_hook_progress (action, details, status, progress);
+		}
+
+		void on_emit_script_output (string message) {
+			emit_script_output (message);
+		}
+
+		void on_emit_warning (string message) {
+			emit_warning (message);
+		}
+
+		void on_emit_error (string message, string[] details) {
+			emit_error (message, details);
+		}
+
+		void on_important_details_outpout (bool must_show) {
+			important_details_outpout (must_show);
+		}
+
+		void on_start_downloading () {
+			start_downloading ();
+		}
+
+		void on_stop_downloading () {
+			stop_downloading ();
 		}
 
 		void connecting_signals () {
-			transaction_interface.emit_event.connect (on_emit_event);
-			transaction_interface.emit_providers.connect (on_emit_providers);
-			transaction_interface.emit_unresolvables.connect (on_emit_unresolvables);
-			transaction_interface.emit_progress.connect (on_emit_progress);
-			transaction_interface.emit_download.connect (on_emit_download);
-			transaction_interface.emit_totaldownload.connect (on_emit_totaldownload);
-			transaction_interface.emit_log.connect (on_emit_log);
-			transaction_interface.trans_prepare_finished.connect (on_trans_prepare_finished);
-			transaction_interface.trans_commit_finished.connect (on_trans_commit_finished);
+			transaction_interface.choose_provider.connect (on_choose_provider);
+			transaction_interface.compute_aur_build_list.connect (compute_aur_build_list);
+			transaction_interface.ask_commit.connect (on_ask_commit);
+			transaction_interface.ask_edit_build_files.connect (on_ask_edit_build_files);
+			transaction_interface.edit_build_files.connect (on_edit_build_files);
+			transaction_interface.emit_action.connect (on_emit_action);
+			transaction_interface.emit_action_progress.connect (on_emit_action_progress);
+			transaction_interface.emit_download_progress.connect (on_emit_download_progress);
+			transaction_interface.emit_hook_progress.connect (on_emit_hook_progress);
+			transaction_interface.emit_script_output.connect (on_emit_script_output);
+			transaction_interface.emit_warning.connect (on_emit_warning);
+			transaction_interface.emit_error.connect (on_emit_error);
+			transaction_interface.important_details_outpout.connect (on_important_details_outpout);
+			transaction_interface.start_downloading.connect (on_start_downloading);
+			transaction_interface.stop_downloading.connect (on_stop_downloading);
 		}
 
 		void disconnecting_signals () {
-			transaction_interface.emit_event.disconnect (on_emit_event);
-			transaction_interface.emit_providers.disconnect (on_emit_providers);
-			transaction_interface.emit_progress.disconnect (on_emit_progress);
-			transaction_interface.emit_download.disconnect (on_emit_download);
-			transaction_interface.emit_totaldownload.disconnect (on_emit_totaldownload);
-			transaction_interface.emit_log.disconnect (on_emit_log);
-			transaction_interface.trans_prepare_finished.disconnect (on_trans_prepare_finished);
-			transaction_interface.trans_commit_finished.disconnect (on_trans_commit_finished);
+			transaction_interface.choose_provider.disconnect (on_choose_provider);
+			transaction_interface.compute_aur_build_list.disconnect (compute_aur_build_list);
+			transaction_interface.ask_commit.disconnect (on_ask_commit);
+			transaction_interface.ask_edit_build_files.disconnect (on_ask_edit_build_files);
+			transaction_interface.edit_build_files.disconnect (on_edit_build_files);
+			transaction_interface.emit_action.disconnect (on_emit_action);
+			transaction_interface.emit_action_progress.disconnect (on_emit_action_progress);
+			transaction_interface.emit_download_progress.disconnect (on_emit_download_progress);
+			transaction_interface.emit_hook_progress.disconnect (on_emit_hook_progress);
+			transaction_interface.emit_script_output.disconnect (on_emit_script_output);
+			transaction_interface.emit_warning.disconnect (on_emit_warning);
+			transaction_interface.emit_error.disconnect (on_emit_error);
+			transaction_interface.important_details_outpout.disconnect (on_important_details_outpout);
+			transaction_interface.start_downloading.disconnect (on_start_downloading);
+			transaction_interface.stop_downloading.disconnect (on_stop_downloading);
 		}
 	}
 }

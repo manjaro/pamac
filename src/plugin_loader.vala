@@ -18,30 +18,33 @@
  */
 
 namespace Pamac {
+	internal class PluginLoader<T> : Object {
+		public string path { get; private set; }
+		Type type;
+		Module module;
 
-	[GtkTemplate (ui = "/org/manjaro/pamac/manager/aur_row.ui")]
-	public class AURRow : Gtk.ListBoxRow {
+		delegate Type RegisterPluginFunction (Module module);
 
-		[GtkChild]
-		public Gtk.Image app_icon;
-		[GtkChild]
-		public Gtk.Label name_label;
-		[GtkChild]
-		public Gtk.Label desc_label;
-		[GtkChild]
-		public Gtk.Box version_box;
-		[GtkChild]
-		public Gtk.ToggleButton action_togglebutton;
-		[GtkChild]
-		public Gtk.Button details_button;
-
-		public AURPackage aur_pkg;
-
-		public AURRow (AURPackage aur_pkg) {
-			Object ();
-			this.aur_pkg = aur_pkg;
+		public PluginLoader (string name) {
+			assert (Module.supported ());
+			this.path = Module.build_path (null, name);
 		}
 
-	}
+		public bool load () {
+			module = Module.open (path, ModuleFlags.LAZY);
+			if (module == null) {
+				return false;
+			}
 
+			void* function;
+			module.symbol ("register_plugin", out function);
+			unowned RegisterPluginFunction register_plugin = (RegisterPluginFunction) function;
+			type = register_plugin (module);
+			return true;
+		}
+
+		public T new_object () {
+			return Object.new (type);
+		}
+	}
 }

@@ -22,7 +22,7 @@ namespace Pamac {
 		//dialogs
 		TransactionSumDialog transaction_sum_dialog;
 		public GenericSet<string?> transaction_summary;
-		StringBuilder warning_textbuffer;
+		public StringBuilder warning_textbuffer;
 		string current_action;
 		public ProgressBox progress_box;
 		uint pulse_timeout_id;
@@ -46,7 +46,6 @@ namespace Pamac {
 
 		construct {
 			// create dialogs
-			this.application_window = application_window;
 			transaction_sum_dialog = new TransactionSumDialog (application_window);
 			transaction_summary = new GenericSet<string?> (str_hash, str_equal);
 			warning_textbuffer = new StringBuilder ();
@@ -82,7 +81,7 @@ namespace Pamac {
 			build_files_notebook.expand = true;
 			build_files_notebook.scrollable = true;
 			build_files_notebook.enable_popup = true;
-			// connect to signal
+			// connect to signals
 			emit_action.connect (display_action);
 			emit_action_progress.connect (display_action_progress);
 			emit_download_progress.connect (display_action_progress);
@@ -93,10 +92,6 @@ namespace Pamac {
 				warning_textbuffer.append (msg + "\n");
 			});
 			emit_error.connect (display_error);
-			finished.connect (on_finished);
-			sysupgrade_finished.connect (on_finished);
-			start_generating_mirrors_list.connect (start_progressbar_pulse);
-			generate_mirrors_list_finished.connect (reset_progress_box);
 			start_downloading.connect (() => {progress_box.progressbar.visible = true;});
 			start_waiting.connect (start_progressbar_pulse);
 			stop_waiting.connect (stop_progressbar_pulse);
@@ -104,7 +99,6 @@ namespace Pamac {
 			stop_preparing.connect (stop_progressbar_pulse);
 			start_building.connect (start_progressbar_pulse);
 			stop_building.connect (stop_progressbar_pulse);
-			write_pamac_config_finished.connect (set_trans_flags);
 			// flags
 			set_trans_flags ();
 			// ask_confirmation option
@@ -113,14 +107,15 @@ namespace Pamac {
 			commit_transaction_answer = false;
 		}
 
-		void set_trans_flags () {
-			flags = (1 << 4); //Alpm.TransFlag.CASCADE
+		public void set_trans_flags () {
+			int flags = (1 << 4); //Alpm.TransFlag.CASCADE
 			if (database.config.recurse) {
 				flags |= (1 << 5); //Alpm.TransFlag.RECURSE
 			}
+			set_flags (flags);
 		}
 
-		void show_details (string message) {
+		public void show_details (string message) {
 			Gtk.TextIter iter;
 			details_textview.buffer.get_end_iter (out iter);
 			details_textview.buffer.insert (ref iter, message, -1);
@@ -185,12 +180,11 @@ namespace Pamac {
 				Source.remove (pulse_timeout_id);
 				pulse_timeout_id = 0;
 				progress_box.progressbar.fraction = 0;
-				progress_box.progressbar.visible = false;
 			}
 		}
 
-		protected override List<string> choose_optdeps (string pkgname, string[] optdeps) {
-			var optdeps_to_install = new List<string> ();
+		protected override string[] choose_optdeps (string pkgname, string[] optdeps) {
+			var optdeps_to_install = new GenericArray<string> ();
 			choose_pkgs_dialog.title = dgettext (null, "Choose optional dependencies for %s").printf (pkgname);
 			choose_pkgs_dialog.pkgs_list.clear ();
 			foreach (unowned string name in optdeps) {
@@ -205,13 +199,13 @@ namespace Pamac {
 					if ((bool) val) {
 						// get value at column 1 to get the pkg name
 						model.get_value (iter, 1, out val);
-						optdeps_to_install.append ((string) val);
+						optdeps_to_install.add ((string) val);
 					}
 					return false;
 				});
 			}
 			choose_pkgs_dialog.hide ();
-			return (owned) optdeps_to_install;
+			return (owned) optdeps_to_install.data;
 		}
 
 		protected override int choose_provider (string depend, string[] providers) {
@@ -336,7 +330,6 @@ namespace Pamac {
 			transaction_sum_dialog.sum_list.clear ();
 			transaction_sum_dialog.edit_button.visible = false;
 			var iter = Gtk.TreeIter ();
-			bool to_remove_printed = false;
 			if (summary.to_remove.length () > 0) {
 				foreach (unowned Package pkg in summary.to_remove) {
 					transaction_summary.add (pkg.name);
@@ -349,7 +342,6 @@ namespace Pamac {
 				uint pos = (path.get_indices ()[0]) - (summary.to_remove.length () - 1);
 				transaction_sum_dialog.sum_list.get_iter (out iter, new Gtk.TreePath.from_indices (pos));
 				transaction_sum_dialog.sum_list.set (iter, 0, "<b>%s</b>".printf (dgettext (null, "To remove") + ":"));
-				to_remove_printed = true;
 			}
 			if (summary.to_downgrade.length () > 0) {
 				foreach (unowned Package pkg in summary.to_downgrade) {
@@ -370,12 +362,12 @@ namespace Pamac {
 			}
 			if (summary.to_build.length () > 0) {
 				transaction_sum_dialog.edit_button.visible = true;
-				foreach (unowned AURPackage aur_pkg in summary.to_build) {
-					transaction_summary.add (aur_pkg.name);
+				foreach (unowned Package pkg in summary.to_build) {
+					transaction_summary.add (pkg.name);
 					transaction_sum_dialog.sum_list.insert_with_values (out iter, -1,
-												1, aur_pkg.name,
-												2, aur_pkg.version,
-												4, dgettext (null, "AUR"));
+												1, pkg.name,
+												2, pkg.version,
+												4, pkg.repo);
 				}
 				Gtk.TreePath path = transaction_sum_dialog.sum_list.get_path (iter);
 				uint pos = (path.get_indices ()[0]) - (summary.to_build.length () - 1);
@@ -465,11 +457,20 @@ namespace Pamac {
 			widget.destroy ();
 		}
 
-		protected override async bool edit_build_files (string[] pkgnames) {
-			bool success = true;
+		protected override void edit_build_files (string[] pkgnames) {
 			foreach (unowned string pkgname in pkgnames) {
 				string action = dgettext (null, "Edit %s build files".printf (pkgname));
 				display_action (action);
+				// populate notebook
+				bool success = false;
+				populate_build_files.begin (pkgname, false, false, (obj, res) => {
+					success = populate_build_files.end (res);
+					loop.quit ();
+				});
+				loop.run ();
+				if (!success) {
+					continue;
+				}
 				// remove noteboook from manager_window properties stack
 				unowned Gtk.Box? manager_box = build_files_notebook.get_parent () as Gtk.Box;
 				if (manager_box != null) {
@@ -498,8 +499,6 @@ namespace Pamac {
 				box.add (build_files_notebook);
 				dialog.default_width = 700;
 				dialog.default_height = 500;
-				// populate notebook
-				success = yield populate_build_files (pkgname, false, false);
 				// run
 				int response = dialog.run ();
 				// re-add noteboook to manager_window properties stack
@@ -510,16 +509,15 @@ namespace Pamac {
 				dialog.destroy ();
 				if (response == Gtk.ResponseType.CLOSE) {
 					// save modifications
-					success = yield save_build_files (pkgname);
-				}
-				if (!success) {
-					break;
+					save_build_files.begin (pkgname, () => {
+						loop.quit ();
+					});
+					loop.run ();
 				}
 			}
-			return success;
 		}
 
-		async bool create_build_files_tab (string filename, bool editable = true) {
+		async void create_build_files_tab (string filename, bool editable = true) {
 			var file = File.new_for_path (filename);
 			try {
 				StringBuilder text = new StringBuilder ();
@@ -529,6 +527,10 @@ namespace Pamac {
 				while ((line = yield dis.read_line_async ()) != null) {
 					text.append (line);
 					text.append ("\n");
+				}
+				// only show text file
+				if (!text.str.validate ()) {
+					return;
 				}
 				var scrolled_window = new Gtk.ScrolledWindow (null, null);
 				scrolled_window.visible = true;
@@ -556,46 +558,42 @@ namespace Pamac {
 				label.visible = true;
 				build_files_notebook.append_page (scrolled_window, label);
 			} catch (GLib.Error e) {
-				stderr.printf ("%s\n", e.message);
-				return false;
+				critical ("%s\n", e.message);
 			}
-			return true;
 		}
 
 		public async bool populate_build_files (string pkgname, bool clone, bool overwrite) {
 			if (clone) {
-				File? clone_dir = yield database.clone_build_files (pkgname, overwrite);
+				File? clone_dir = database.clone_build_files (pkgname, overwrite);
 				if (clone_dir == null) {
 					// error
 					build_files_notebook.foreach (destroy_widget);
 					return false;
 				}
 			}
-			bool success = true;
-			string[] file_paths = yield get_build_files (pkgname);
 			build_files_notebook.foreach (destroy_widget);
+			var file_paths = yield get_build_files (pkgname);
+			if (file_paths.length () == 0) {
+				return false;
+			}
 			foreach (unowned string path in file_paths) {
 				if ("PKGBUILD" in path) {
-					success = yield create_build_files_tab (path);
+					yield create_build_files_tab (path);
 					// add diff after PKGBUILD, do not failed if no diff
 					string diff_path = Path.build_path ("/", database.config.aur_build_dir, pkgname, "diff");
 					var diff_file = File.new_for_path (diff_path);
 					if (diff_file.query_exists ()) {
-						success = yield create_build_files_tab (diff_path, false);
+						yield create_build_files_tab (diff_path, false);
 					}
 				} else {
 					// other file
-					success = yield create_build_files_tab (path);
-				}
-				if (!success) {
-					break;
+					yield create_build_files_tab (path);
 				}
 			}
-			return success;
+			return true;
 		}
 
-		public async bool save_build_files (string pkgname) {
-			bool success = true;
+		public async void save_build_files (string pkgname) {
 			int num_pages = build_files_notebook.get_n_pages ();
 			int index = 0;
 			while (index < num_pages) {
@@ -614,26 +612,22 @@ namespace Pamac {
 						// delete the file before rewrite it
 						yield file.delete_async ();
 						// creating a DataOutputStream to the file
-						var dos = new DataOutputStream (yield file.create_async (FileCreateFlags.REPLACE_DESTINATION));
+						FileOutputStream fos = yield file.create_async (FileCreateFlags.NONE);
 						// writing a string to the stream
-						dos.put_string (textview.buffer.get_text (start_iter, end_iter, false));
+						string text = textview.buffer.get_text (start_iter, end_iter, false);
+						yield fos.write_all_async (text.data, Priority.DEFAULT, null, null);
 						if (build_files_notebook.get_tab_label_text (child) == "PKGBUILD") {
-							success = yield database.regenerate_srcinfo (pkgname);
+							database.regenerate_srcinfo (pkgname);
 						}
 					} catch (GLib.Error e) {
-						stderr.printf("%s\n", e.message);
-						success = false;
+						critical ("%s\n", e.message);
 					}
-				}
-				if (!success) {
-					break;
 				}
 				index++;
 			}
-			return success;
 		}
 
-		void show_warnings (bool block) {
+		public void show_warnings (bool block) {
 			if (warning_textbuffer.len > 0) {
 				var flags = Gtk.DialogFlags.MODAL;
 				int use_header_bar;
@@ -722,26 +716,17 @@ namespace Pamac {
 			dialog.default_width = 600;
 			dialog.default_height = 300;
 			Timeout.add (1000, () => {
-				var notification = new Notification (dgettext (null, "Package Manager"));
-				notification.set_body (message);
-				this.application_window.application.send_notification ("pamac-manager", notification);
+				show_notification (message);
 				return false;
 			});
 			dialog.run ();
 			dialog.destroy ();
 		}
 
-		void on_finished (bool success) {
-			if (success) {
-				var notification = new Notification (dgettext (null, "Package Manager"));
-				notification.set_body (dgettext (null, "Transaction successfully finished"));
-				this.application_window.application.send_notification ("pamac-manager", notification);
-				show_warnings (false);
-			} else {
-				warning_textbuffer = new StringBuilder ();
-			}
-			reset_progress_box ();
-			show_details ("");
+		public void show_notification (string message) {
+			var notification = new Notification (dgettext (null, "Package Manager"));
+			notification.set_body (message);
+			application_window.application.send_notification ("pamac-manager", notification);
 		}
 	}
 }

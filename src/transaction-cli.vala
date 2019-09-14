@@ -43,7 +43,7 @@ namespace Pamac {
 			emit_error.connect (print_error);
 		}
 
-		protected override async int run_cmd_line (string[] args, string? working_directory, Cancellable cancellable) {
+		protected override int run_cmd_line (string[] args, string? working_directory, Cancellable cancellable) {
 			int status = 1;
 			var launcher = new SubprocessLauncher (SubprocessFlags.STDIN_INHERIT);
 			if (working_directory != null) {
@@ -53,7 +53,7 @@ namespace Pamac {
 			try {
 				Subprocess process = launcher.spawnv (args);
 				try {
-					yield process.wait_async (cancellable);
+					process.wait (cancellable);
 					if (process.get_if_exited ()) {
 						status = process.get_exit_status ();
 					}
@@ -101,20 +101,7 @@ namespace Pamac {
 		}
 
 		void print_download_progress (string action, string status, double progress) {
-			if (progress == 0) {
-				if (action == current_action) {
-					return;
-				}
-				current_action = action;
-				current_line = status;
-				stdout.printf (action);
-				stdout.printf ("\n");
-				stdout.printf (status);
-			} else if (progress == 1) {
-				current_line = "";
-				// clean line
-				stdout.printf ("\r%*s\r", get_term_width (), "");
-			} else if (action == current_action) {
+			if (action == current_action) {
 				current_line = status;
 				// clean line
 				stdout.printf ("\r%*s\r", get_term_width (), "");
@@ -127,6 +114,11 @@ namespace Pamac {
 				stdout.printf (action);
 				stdout.printf ("\n");
 				stdout.printf (status);
+			}
+			if (progress == 1) {
+				current_line = "";
+				// clean line
+				stdout.printf ("\r%*s\r", get_term_width (), "");
 			}
 			stdout.flush ();
 		}
@@ -184,10 +176,9 @@ namespace Pamac {
 			}
 		}
 
-		protected override List<string> choose_optdeps (string pkgname, string[] optdeps) {
-			var optdeps_to_install = new List<string> ();
+		protected override string[] choose_optdeps (string pkgname, string[] optdeps) {
 			if (no_confirm) {
-				return optdeps_to_install;
+				return {};
 			}
 			// print pkgs
 			int num_length = optdeps.length.to_string ().length + 1;
@@ -199,6 +190,7 @@ namespace Pamac {
 								name);
 				num++;
 			}
+			var optdeps_to_install = new GenericArray<string> ();
 			// get user input
 			while (true) {
 				stdout.printf ("\n");
@@ -243,13 +235,13 @@ namespace Pamac {
 				}
 				if (numbers.length > 0) {
 					foreach (uint64 number in numbers) {
-						optdeps_to_install.append (optdeps[number -1]);
+						optdeps_to_install.add (optdeps[number -1]);
 					}
 					break;
 				}
 			}
 			stdout.printf ("\n");
-			return optdeps_to_install;
+			return (owned) optdeps_to_install.data;
 		}
 
 		protected override int choose_provider (string depend, string[] providers) {
@@ -260,7 +252,7 @@ namespace Pamac {
 			var pkgs = new SList<Package> ();
 			foreach (unowned string pkgname in providers) {
 				var pkg = database.get_sync_pkg (pkgname);
-				if (pkg.name != "")  {
+				if (pkg != null)  {
 					pkgs.append (pkg);
 				}
 			}
@@ -394,23 +386,22 @@ namespace Pamac {
 				}
 			}
 			if (summary.to_build.length () > 0) {
-				foreach (unowned AURPackage aur_pkg in summary.to_build) {
-					if (aur_pkg.name.length > name_length) {
-						name_length = aur_pkg.name.length;
+				foreach (unowned Package pkg in summary.to_build) {
+					if (pkg.name.length > name_length) {
+						name_length = pkg.name.length;
 					}
-					if (aur_pkg.version.length > version_length) {
-						version_length = aur_pkg.version.length;
+					if (pkg.version.length > version_length) {
+						version_length = pkg.version.length;
 					}
-					if (dgettext (null, "AUR").char_count () > repo_length) {
-						repo_length = dgettext (null, "AUR").char_count ();
+					if (pkg.repo.length > repo_length) {
+						repo_length = pkg.repo.length;
 					}
 				}
 			}
 			if (summary.to_install.length () > 0) {
 				foreach (unowned Package pkg in summary.to_install) {
 					dsize += pkg.download_size;
-					var installed_pkg = database.get_installed_pkg (pkg.name);
-					isize += ((int64) pkg.installed_size - (int64) installed_pkg.installed_size);
+					isize += (int64) pkg.installed_size;
 					if (pkg.name.length > name_length) {
 						name_length = pkg.name.length;
 					}
@@ -497,12 +488,12 @@ namespace Pamac {
 			}
 			if (summary.to_build.length () > 0) {
 				stdout.printf (dgettext (null, "To build") + " (%u):\n".printf (summary.to_build.length ()));
-				foreach (unowned AURPackage aur_pkg in summary.to_build) {
+				foreach (unowned Package pkg in summary.to_build) {
 					stdout.printf ("  %-*s  %-*s  %-*s  %s\n",
-									name_length, aur_pkg.name,
-									version_length , aur_pkg.version,
+									name_length, pkg.name,
+									version_length , pkg.version,
 									installed_version_length, "",
-									dgettext (null, "AUR"));
+									pkg.repo);
 				}
 			}
 			if (summary.to_downgrade.length () > 0) {
@@ -551,7 +542,7 @@ namespace Pamac {
 			return ask_user ("%s ?".printf (dgettext (null, "Apply transaction")));
 		}
 
-		async void ask_view_diff (string pkgname) {
+		void ask_view_diff (string pkgname) {
 			string diff_path = Path.build_path ("/", database.config.aur_build_dir, pkgname, "diff");
 			var diff_file = File.new_for_path (diff_path);
 			if (diff_file.query_exists ()) {
@@ -559,58 +550,57 @@ namespace Pamac {
 					string[] cmds = {"nano", "-S", "-w", "-v", diff_path};
 					try {
 						var process = new Subprocess.newv (cmds, SubprocessFlags.STDIN_INHERIT);
-						yield process.wait_async ();
+						process.wait ();
 					} catch (Error e) {
-						print ("Error: %s\n", e.message);
+						critical ("%s\n", e.message);
 					}
 				}
 			}
 		}
 
-		async bool edit_single_build_files (string pkgname) {
-			string[] cmds = {};
-			unowned string? editor = Environment.get_variable ("EDITOR");
-			if (editor == null || editor == "nano") {
-				cmds += "nano";
-				cmds += "-i";
-			} else {
-				cmds += editor;
-			}
-			string[] files = yield get_build_files (pkgname);
-			foreach (unowned string file in files) {
-				cmds += file;
-			}
-			try {
-				var process = new Subprocess.newv (cmds, SubprocessFlags.STDIN_INHERIT);
-				yield process.wait_async ();
-				if (process.get_if_exited ()) {
-					if (process.get_exit_status () == 0) {
-						var cancellable = new Cancellable ();
-						return yield database.regenerate_srcinfo (pkgname, cancellable);
+		void edit_single_build_files (string pkgname) {
+			get_build_files.begin (pkgname, (obj, res) => {
+				SList<string> files = get_build_files.end (res);
+				if (files.length () > 0) {
+					string[] cmds = {};
+					unowned string? editor = Environment.get_variable ("EDITOR");
+					if (editor == null || editor == "nano") {
+						cmds += "nano";
+						cmds += "-i";
+					} else {
+						cmds += editor;
+					}
+					foreach (unowned string file in files) {
+						cmds += file;
+					}
+					try {
+						var process = new Subprocess.newv (cmds, SubprocessFlags.STDIN_INHERIT);
+						process.wait ();
+						if (process.get_if_exited ()) {
+							if (process.get_exit_status () == 0) {
+								database.regenerate_srcinfo (pkgname);
+							}
+						}
+					} catch (Error e) {
+						critical ("%s\n", e.message);
 					}
 				}
-			} catch (Error e) {
-				print ("Error: %s\n", e.message);
-			}
-			return false;
+				loop.quit ();
+			});
+			loop.run ();
 		}
 
-		protected override async bool edit_build_files (string[] pkgnames) {
+		protected override void edit_build_files (string[] pkgnames) {
 			if (pkgnames.length == 1) {
-				yield ask_view_diff (pkgnames[0]);
-				return yield edit_single_build_files (pkgnames[0]);
+				ask_view_diff (pkgnames[0]);
+				edit_single_build_files (pkgnames[0]);
 			} else {
-				bool success = true;
 				foreach (unowned string pkgname in pkgnames) {
-					yield ask_view_diff (pkgname);
+					ask_view_diff (pkgname);
 					if (ask_user ("%s ?".printf (dgettext (null, "Edit %s build files".printf (pkgname))))) {
-						success = yield edit_single_build_files (pkgname);
-					}
-					if (!success) {
-						break;
+						edit_single_build_files (pkgname);
 					}
 				}
-				return success;
 			}
 		}
 	}

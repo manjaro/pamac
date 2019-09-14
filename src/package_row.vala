@@ -29,20 +29,17 @@ namespace Pamac {
 		[GtkChild]
 		public Gtk.Label desc_label;
 		[GtkChild]
-		public Gtk.Box version_box;
+		public Gtk.Label version_label;
 		[GtkChild]
 		public Gtk.Label repo_label;
 		[GtkChild]
 		public Gtk.Label size_label;
 		[GtkChild]
 		public Gtk.ToggleButton action_togglebutton;
-		[GtkChild]
-		public Gtk.Button details_button;
 
 		public Package pkg;
 
 		public PackageRow (Package pkg) {
-			Object ();
 			this.pkg = pkg;
 		}
 

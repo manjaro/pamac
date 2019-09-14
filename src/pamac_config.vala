@@ -20,6 +20,8 @@
 namespace Pamac {
 	public class Config: Object {
 		HashTable<string,string> _environment_variables;
+		Daemon system_daemon;
+		MainLoop loop;
 
 		public string conf_path { get; construct; }
 		public bool recurse { get; set; }
@@ -27,6 +29,11 @@ namespace Pamac {
 		public uint64 refresh_period { get; set; }
 		public bool no_update_hide_icon { get; set; }
 		public bool enable_aur { get; set; }
+		#if ENABLE_SNAP
+		public bool support_snap { get; set; }
+		public bool enable_snap { get; set; }
+		PluginLoader<SnapPlugin> snap_plugin_loader;
+		#endif
 		public string aur_build_dir { get; set; }
 		public bool check_aur_updates { get; set; }
 		public bool check_aur_vcs_updates { get; set; }
@@ -71,6 +78,14 @@ namespace Pamac {
 			}
 			// set default option
 			refresh_period = 6;
+			#if ENABLE_SNAP
+			// load snap plugin
+			support_snap = false;
+			snap_plugin_loader = new PluginLoader<SnapPlugin> ("pamac-snap");
+			if (snap_plugin_loader.load ()) {
+				support_snap = true;
+			}
+			#endif
 			reload ();
 		}
 
@@ -81,6 +96,9 @@ namespace Pamac {
 			refresh_period = 6;
 			no_update_hide_icon = false;
 			enable_aur = false;
+			#if ENABLE_SNAP
+			enable_snap = false;
+			#endif
 			aur_build_dir = "/var/tmp";
 			check_aur_updates = false;
 			check_aur_vcs_updates = false;
@@ -108,7 +126,21 @@ namespace Pamac {
 			if (refresh_period > 168) {
 				refresh_period = 168;
 			}
+			#if ENABLE_SNAP
+			if (!support_snap) {
+				enable_snap = false;
+			}
+			#endif
 		}
+
+		#if ENABLE_SNAP
+		public SnapPlugin? get_snap_plugin () {
+			if (support_snap) {
+				return snap_plugin_loader.new_object ();
+			}
+			return null;
+		}
+		#endif
 
 		void parse_file (string path) {
 			var file = GLib.File.new_for_path (path);
@@ -151,6 +183,10 @@ namespace Pamac {
 							no_update_hide_icon = true;
 						} else if (key == "EnableAUR") {
 							enable_aur = true;
+						#if ENABLE_SNAP
+						} else if (key == "EnableSnap") {
+							enable_snap = true;
+						#endif
 						} else if (key == "BuildDirectory") {
 							if (splitted.length == 2) {
 								aur_build_dir = splitted[1]._strip ();
@@ -173,6 +209,41 @@ namespace Pamac {
 				}
 			} else {
 				GLib.stderr.printf ("File '%s' doesn't exist.\n", path);
+			}
+		}
+
+		public void save () {
+			if (system_daemon == null) {
+				loop = new MainLoop ();
+				try {
+					system_daemon = Bus.get_proxy_sync (BusType.SYSTEM, "org.manjaro.pamac.daemon", "/org/manjaro/pamac/daemon");
+					system_daemon.write_pamac_config_finished.connect (() => { loop.quit (); });
+				} catch (Error e) {
+					critical ("save pamac config error: %s\n", e.message);
+				}
+			}
+			var new_pamac_conf = new HashTable<string,Variant> (str_hash, str_equal);
+			new_pamac_conf.insert ("RemoveUnrequiredDeps", new Variant.boolean (recurse));
+			new_pamac_conf.insert ("RefreshPeriod", new Variant.uint64 (refresh_period));
+			new_pamac_conf.insert ("NoUpdateHideIcon", new Variant.boolean (no_update_hide_icon));
+			new_pamac_conf.insert ("DownloadUpdates", new Variant.boolean (download_updates));
+			new_pamac_conf.insert ("EnableDowngrade", new Variant.boolean (enable_downgrade));
+			new_pamac_conf.insert ("MaxParallelDownloads", new Variant.uint64 (max_parallel_downloads));
+			new_pamac_conf.insert ("KeepNumPackages", new Variant.uint64 (clean_keep_num_pkgs));
+			new_pamac_conf.insert ("OnlyRmUninstalled", new Variant.boolean (clean_rm_only_uninstalled));
+			new_pamac_conf.insert ("EnableAUR", new Variant.boolean (enable_aur));
+			new_pamac_conf.insert ("CheckAURUpdates", new Variant.boolean (check_aur_updates));
+			new_pamac_conf.insert ("CheckAURVCSUpdates", new Variant.boolean (check_aur_vcs_updates));
+			string new_aur_build_dir = Path.get_dirname (aur_build_dir);
+			new_pamac_conf.insert ("BuildDirectory", new Variant.string (new_aur_build_dir));
+			#if ENABLE_SNAP
+			new_pamac_conf.insert ("EnableSnap", new Variant.boolean (enable_snap));
+			#endif
+			try {
+				system_daemon.start_write_pamac_config (new_pamac_conf);
+				loop.run ();
+			} catch (Error e) {
+				critical ("save pamac config error: %s\n", e.message);
 			}
 		}
 
@@ -268,6 +339,20 @@ namespace Pamac {
 								data.append (line);
 								data.append ("\n");
 							}
+						#if ENABLE_SNAP
+						} else if (line.contains ("EnableSnap")) {
+							if (new_conf.lookup_extended ("EnableSnap", null, out variant)) {
+								if (variant.get_boolean ()) {
+									data.append ("EnableSnap\n");
+								} else {
+									data.append ("#EnableSnap\n");
+								}
+								new_conf.remove ("EnableSnap");
+							} else {
+								data.append (line);
+								data.append ("\n");
+							}
+						#endif
 						} else if (line.contains ("BuildDirectory")) {
 							if (new_conf.lookup_extended ("BuildDirectory", null, out variant)) {
 								data.append ("BuildDirectory = %s\n".printf (variant.get_string ()));
@@ -374,6 +459,14 @@ namespace Pamac {
 						} else {
 							data.append ("#EnableAUR\n");
 						}
+					#if ENABLE_SNAP
+					} else if (key == "EnableSnap") {
+						if (val.get_boolean ()) {
+							data.append ("EnableSnap\n");
+						} else {
+							data.append ("#EnableSnap\n");
+						}
+					#endif
 					} else if (key == "BuildDirectory") {
 						data.append ("BuildDirectory = %s\n".printf (val.get_string ()));
 					} else if (key == "CheckAURUpdates") {

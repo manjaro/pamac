@@ -24,33 +24,37 @@ namespace Pamac {
 		public string version;
 		public string installed_version;
 		public string desc;
+		public string long_desc;
 		public string repo;
+		public string launchable;
 		public uint64 installed_size;
 		public uint64 download_size;
+		public string url;
 		public string icon;
-		public uint64 builddate;
 		public uint64 installdate;
-	}
 
-	public struct AURPackageStruct {
-		public string name;
-		public string version;
-		public string installed_version;
-		public string desc;
-		public double popularity;
-		public string packagebase;
-		public uint64 lastmodified;
-		public uint64 outofdate;
+		public PackageStruct () {
+			name = "";
+			app_name = "";
+			version = "";
+			installed_version = "";
+			desc = "";
+			long_desc = "";
+			repo = "";
+			launchable = "";
+			url = "";
+			icon = "";
+		}
 	}
 
 	public struct TransactionSummaryStruct {
-		public PackageStruct[] to_install;
-		public PackageStruct[] to_upgrade;
-		public PackageStruct[] to_downgrade;
-		public PackageStruct[] to_reinstall;
-		public PackageStruct[] to_remove;
-		public AURPackageStruct[] to_build;
-		public PackageStruct[] aur_conflicts_to_remove;
+		public PackageStruct?[] to_install;
+		public PackageStruct?[] to_upgrade;
+		public PackageStruct?[] to_downgrade;
+		public PackageStruct?[] to_reinstall;
+		public PackageStruct?[] to_remove;
+		public PackageStruct?[] to_build;
+		public PackageStruct?[] aur_conflicts_to_remove;
 		public string[] aur_pkgbases_to_build;
 	}
 

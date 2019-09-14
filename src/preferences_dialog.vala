@@ -25,8 +25,6 @@ namespace Pamac {
 		[GtkChild]
 		Gtk.Switch remove_unrequired_deps_button;
 		[GtkChild]
-		Gtk.Switch check_space_button;
-		[GtkChild]
 		Gtk.Switch check_updates_button;
 		[GtkChild]
 		Gtk.Switch enable_downgrade_button;
@@ -42,10 +40,6 @@ namespace Pamac {
 		Gtk.CheckButton no_update_hide_icon_checkbutton;
 		[GtkChild]
 		Gtk.CheckButton download_updates_checkbutton;
-		[GtkChild]
-		Gtk.Box ignorepkgs_box;
-		[GtkChild]
-		Gtk.TreeView ignorepkgs_treeview;
 		[GtkChild]
 		Gtk.Box mirrors_config_box;
 		[GtkChild]
@@ -76,8 +70,13 @@ namespace Pamac {
 		Gtk.Label clean_cache_label;
 		[GtkChild]
 		Gtk.Button clean_cache_button;
+		[GtkChild]
+		Gtk.Box snap_config_box;
+		#if ENABLE_SNAP
+		[GtkChild]
+		Gtk.Switch enable_snap_button;
+		#endif
 
-		Gtk.ListStore ignorepkgs_liststore;
 		TransactionGtk transaction;
 		uint64 previous_refresh_period;
 		string preferences_choosen_country;
@@ -93,7 +92,6 @@ namespace Pamac {
 			cache_keep_nb_label.set_markup (dgettext (null, "Number of versions of each package to keep in the cache") +":");
 			aur_build_dir_label.set_markup (dgettext (null, "Build directory") +":");
 			remove_unrequired_deps_button.active = transaction.database.config.recurse;
-			check_space_button.active = transaction.database.get_checkspace ();
 			enable_downgrade_button.active = transaction.database.config.enable_downgrade;
 			if (transaction.database.config.refresh_period == 0) {
 				check_updates_button.active = false;
@@ -104,7 +102,6 @@ namespace Pamac {
 				refresh_period_spin_button.sensitive = false;
 				no_update_hide_icon_checkbutton.sensitive = false;
 				download_updates_checkbutton.sensitive = false;
-				ignorepkgs_box.sensitive = false;
 			} else {
 				check_updates_button.active = true;
 				refresh_period_spin_button.value = transaction.database.config.refresh_period;
@@ -117,15 +114,7 @@ namespace Pamac {
 			cache_only_uninstalled_checkbutton.active = transaction.database.config.clean_rm_only_uninstalled;
 			refresh_clean_cache_button ();
 
-			// populate ignorepkgs_liststore
-			ignorepkgs_liststore = new Gtk.ListStore (1, typeof (string));
-			ignorepkgs_treeview.set_model (ignorepkgs_liststore);
-			foreach (unowned string ignorepkg in transaction.database.get_ignorepkgs ()) {
-				ignorepkgs_liststore.insert_with_values (null, -1, 0, ignorepkg);
-			}
 			remove_unrequired_deps_button.state_set.connect (on_remove_unrequired_deps_button_state_set);
-			check_space_button.state_set.connect (on_check_space_button_state_set);
-			transaction.write_alpm_config_finished.connect (on_write_alpm_config_finished);
 			check_updates_button.state_set.connect (on_check_updates_button_state_set);
 			enable_downgrade_button.state_set.connect (on_enable_downgrade_button_state_set);
 			refresh_period_spin_button.value_changed.connect (on_refresh_period_spin_button_value_changed);
@@ -134,12 +123,8 @@ namespace Pamac {
 			download_updates_checkbutton.toggled.connect (on_download_updates_checkbutton_toggled);
 			cache_keep_nb_spin_button.value_changed.connect (on_cache_keep_nb_spin_button_value_changed);
 			cache_only_uninstalled_checkbutton.toggled.connect (on_cache_only_uninstalled_checkbutton_toggled);
-			transaction.write_pamac_config_finished.connect (on_write_pamac_config_finished);
-			transaction.clean_cache_finished.connect (refresh_clean_cache_button);
-			transaction.clean_build_files_finished.connect (refresh_clean_build_files_button);
 
-			Package pkg = transaction.database.find_installed_satisfier ("pacman-mirrors");
-			if (pkg.name == "") {
+			if (!transaction.database.has_installed_satisfier ("pacman-mirrors")) {
 				mirrors_config_box.visible = false;
 			} else {
 				mirrors_country_comboboxtext.append_text (dgettext (null, "Worldwide"));
@@ -167,7 +152,7 @@ namespace Pamac {
 					aur_build_dir_file_chooser.add_shortcut_folder (current_build_dir);
 				}
 			} catch (GLib.Error e) {
-				stderr.printf ("%s\n", e.message);
+				critical ("%s\n", e.message);
 			}
 			aur_build_dir_file_chooser.select_filename (current_build_dir);
 			refresh_clean_build_files_button ();
@@ -180,10 +165,22 @@ namespace Pamac {
 			aur_build_dir_file_chooser.file_set.connect (on_aur_build_dir_set);
 			check_aur_updates_checkbutton.toggled.connect (on_check_aur_updates_checkbutton_toggled);
 			check_aur_vcs_updates_checkbutton.toggled.connect (on_check_aur_vcs_updates_checkbutton_toggled);
+
+			#if ENABLE_SNAP
+			if (transaction.database.config.support_snap) {
+				snap_config_box.visible = true;
+				enable_snap_button.active = transaction.database.config.enable_snap;
+				enable_snap_button.state_set.connect (on_enable_snap_button_state_set);
+			} else {
+				snap_config_box.visible = false;
+			}
+			#else
+			snap_config_box.visible = false;
+			#endif
 		}
 
 		void refresh_clean_cache_button () {
-			HashTable<string, int64?> details = transaction.database.get_clean_cache_details (transaction.database.config.clean_keep_num_pkgs, transaction.database.config.clean_rm_only_uninstalled);
+			HashTable<string, int64?> details = transaction.database.get_clean_cache_details ();
 			int64 total_size = 0;
 			uint files_nb = 0;
 			foreach (int64 size in details.get_values ()) {
@@ -200,7 +197,7 @@ namespace Pamac {
 
 		void refresh_clean_build_files_button () {
 			if (transaction.database.config.enable_aur) {
-				HashTable<string, int64?> details = transaction.database.get_build_files_details (transaction.database.config.aur_build_dir);
+				HashTable<string, int64?> details = transaction.database.get_build_files_details ();
 				int64 total_size = 0;
 				uint files_nb = 0;
 				foreach (int64 size in details.get_values ()) {
@@ -220,229 +217,90 @@ namespace Pamac {
 		}
 
 		bool on_remove_unrequired_deps_button_state_set (bool new_state) {
-			var new_pamac_conf = new HashTable<string,Variant> (str_hash, str_equal);
-			new_pamac_conf.insert ("RemoveUnrequiredDeps", new Variant.boolean (new_state));
-			transaction.start_write_pamac_config (new_pamac_conf);
+			remove_unrequired_deps_button.state = new_state;
+			transaction.database.config.recurse = new_state;
+			transaction.set_trans_flags ();
 			return true;
 		}
 
 		bool on_check_updates_button_state_set (bool new_state) {
-			var new_pamac_conf = new HashTable<string,Variant> (str_hash, str_equal);
+			check_updates_button.state = new_state;
 			refresh_period_label.sensitive = new_state;
 			refresh_period_spin_button.sensitive = new_state;
 			no_update_hide_icon_checkbutton.sensitive = new_state;
 			download_updates_checkbutton.sensitive = new_state;
-			ignorepkgs_box.sensitive = new_state;
 			if (new_state) {
-				new_pamac_conf.insert ("RefreshPeriod", new Variant.uint64 (previous_refresh_period));
+				transaction.database.config.refresh_period = previous_refresh_period;
 			} else {
-				new_pamac_conf.insert ("RefreshPeriod", new Variant.uint64 (0));
+				previous_refresh_period = transaction.database.config.refresh_period;
+				transaction.database.config.refresh_period = 0;
 			}
-			transaction.start_write_pamac_config (new_pamac_conf);
 			return true;
 		}
 
 		bool on_enable_downgrade_button_state_set (bool new_state) {
-			var new_pamac_conf = new HashTable<string,Variant> (str_hash, str_equal);
-			new_pamac_conf.insert ("EnableDowngrade", new Variant.boolean (new_state));
-			transaction.start_write_pamac_config (new_pamac_conf);
 			enable_downgrade_button.state = new_state;
+			transaction.database.config.enable_downgrade = new_state;
 			return true;
 		}
 
 		void on_refresh_period_spin_button_value_changed () {
-			var new_pamac_conf = new HashTable<string,Variant> (str_hash, str_equal);
-			new_pamac_conf.insert ("RefreshPeriod", new Variant.uint64 (refresh_period_spin_button.get_value_as_int ()));
-			transaction.start_write_pamac_config (new_pamac_conf);
+			transaction.database.config.refresh_period = refresh_period_spin_button.get_value_as_int ();
 		}
 
 		void on_max_parallel_downloads_spin_button_value_changed () {
-			var new_pamac_conf = new HashTable<string,Variant> (str_hash, str_equal);
-			new_pamac_conf.insert ("MaxParallelDownloads", new Variant.uint64 (max_parallel_downloads_spin_button.get_value_as_int ()));
-			transaction.start_write_pamac_config (new_pamac_conf);
+			transaction.database.config.max_parallel_downloads = max_parallel_downloads_spin_button.get_value_as_int ();
 		}
 
 		void on_cache_keep_nb_spin_button_value_changed () {
-			uint64 keep_nb = cache_keep_nb_spin_button.get_value_as_int ();
-			var new_pamac_conf = new HashTable<string,Variant> (str_hash, str_equal);
-			new_pamac_conf.insert ("KeepNumPackages", new Variant.uint64 (keep_nb));
-			transaction.start_write_pamac_config (new_pamac_conf);
-			transaction.database.config.clean_keep_num_pkgs = keep_nb;
+			transaction.database.config.clean_keep_num_pkgs = cache_keep_nb_spin_button.get_value_as_int ();
 			refresh_clean_cache_button ();
 		}
 
 		void on_cache_only_uninstalled_checkbutton_toggled () {
-			bool only_uninstalled = cache_only_uninstalled_checkbutton.active;
-			var new_pamac_conf = new HashTable<string,Variant> (str_hash, str_equal);
-			new_pamac_conf.insert ("OnlyRmUninstalled", new Variant.boolean (only_uninstalled));
-			transaction.start_write_pamac_config (new_pamac_conf);
-			transaction.database.config.clean_rm_only_uninstalled = only_uninstalled;
+			transaction.database.config.clean_rm_only_uninstalled = cache_only_uninstalled_checkbutton.active;
 			refresh_clean_cache_button ();
 		}
 
 		void on_no_update_hide_icon_checkbutton_toggled () {
-			var new_pamac_conf = new HashTable<string,Variant> (str_hash, str_equal);
-			new_pamac_conf.insert ("NoUpdateHideIcon", new Variant.boolean (no_update_hide_icon_checkbutton.active));
-			transaction.start_write_pamac_config (new_pamac_conf);
+			transaction.database.config.no_update_hide_icon = no_update_hide_icon_checkbutton.active;
 		}
 
 		void on_download_updates_checkbutton_toggled () {
-			var new_pamac_conf = new HashTable<string,Variant> (str_hash, str_equal);
-			new_pamac_conf.insert ("DownloadUpdates", new Variant.boolean (download_updates_checkbutton.active));
-			transaction.start_write_pamac_config (new_pamac_conf);
+			transaction.database.config.download_updates = download_updates_checkbutton.active;
 		}
 
 		bool on_enable_aur_button_state_set (bool new_state) {
-			var new_pamac_conf = new HashTable<string,Variant> (str_hash, str_equal);
-			new_pamac_conf.insert ("EnableAUR", new Variant.boolean (new_state));
-			transaction.start_write_pamac_config (new_pamac_conf);
+			enable_aur_button.state = new_state;
+			aur_build_dir_label.sensitive = new_state;
+			aur_build_dir_file_chooser.sensitive = new_state;
+			check_aur_updates_checkbutton.sensitive = new_state;
+			check_aur_vcs_updates_checkbutton.sensitive = new_state && check_aur_updates_checkbutton.active;
+			transaction.database.config.enable_aur = new_state;
+			refresh_clean_build_files_button ();
 			return true;
 		}
 
+		#if ENABLE_SNAP
+		bool on_enable_snap_button_state_set (bool new_state) {
+			enable_snap_button.state = new_state;
+			transaction.database.config.enable_snap = new_state;
+			return true;
+		}
+		#endif
+
 		void on_aur_build_dir_set () {
-			var new_pamac_conf = new HashTable<string,Variant> (str_hash, str_equal);
-			string builddir = aur_build_dir_file_chooser.get_filename ();
-			new_pamac_conf.insert ("BuildDirectory", new Variant.string (builddir));
-			transaction.start_write_pamac_config (new_pamac_conf);
-			transaction.database.config.aur_build_dir = builddir;
+			transaction.database.config.aur_build_dir = aur_build_dir_file_chooser.get_filename ();
 			refresh_clean_build_files_button ();
 		}
 
 		void on_check_aur_updates_checkbutton_toggled () {
-			var new_pamac_conf = new HashTable<string,Variant> (str_hash, str_equal);
-			new_pamac_conf.insert ("CheckAURUpdates", new Variant.boolean (check_aur_updates_checkbutton.active));
-			transaction.start_write_pamac_config (new_pamac_conf);
+			check_aur_vcs_updates_checkbutton.sensitive = transaction.database.config.enable_aur && check_aur_updates_checkbutton.active;
+			transaction.database.config.check_aur_updates = check_aur_updates_checkbutton.active;
 		}
 
 		void on_check_aur_vcs_updates_checkbutton_toggled () {
-			var new_pamac_conf = new HashTable<string,Variant> (str_hash, str_equal);
-			new_pamac_conf.insert ("CheckAURVCSUpdates", new Variant.boolean (check_aur_vcs_updates_checkbutton.active));
-			transaction.start_write_pamac_config (new_pamac_conf);
-		}
-
-		void on_write_pamac_config_finished (bool recurse, uint64 refresh_period, bool no_update_hide_icon,
-											bool enable_aur, string aur_build_dir, bool check_aur_updates,
-											bool check_aur_vcs_updates, bool download_updates) {
-			remove_unrequired_deps_button.state = recurse;
-			if (refresh_period == 0) {
-				check_updates_button.state = false;
-				refresh_period_label.sensitive = false;
-				refresh_period_spin_button.sensitive = false;
-				no_update_hide_icon_checkbutton.sensitive = false;
-				download_updates_checkbutton.sensitive = false;
-				ignorepkgs_box.sensitive = false;
-			} else {
-				check_updates_button.state = true;
-				refresh_period_label.sensitive = true;
-				refresh_period_spin_button.value = refresh_period;
-				previous_refresh_period = refresh_period;
-				refresh_period_spin_button.sensitive = true;
-				no_update_hide_icon_checkbutton.sensitive = true;
-				download_updates_checkbutton.sensitive = true;
-				ignorepkgs_box.sensitive = true;
-			}
-			no_update_hide_icon_checkbutton.active = no_update_hide_icon;
-			download_updates_checkbutton.active = download_updates;
-			enable_aur_button.state = enable_aur;
-			aur_build_dir_label.sensitive = enable_aur;
-			aur_build_dir_file_chooser.sensitive = enable_aur;
-			refresh_clean_build_files_button ();
-			check_aur_updates_checkbutton.active = check_aur_updates;
-			check_aur_updates_checkbutton.sensitive = enable_aur;
-			check_aur_vcs_updates_checkbutton.active = check_aur_vcs_updates;
-			check_aur_vcs_updates_checkbutton.sensitive = enable_aur && check_aur_updates;
-		}
-
-		bool on_check_space_button_state_set (bool new_state) {
-			var new_alpm_conf = new HashTable<string,Variant> (str_hash, str_equal);
-			new_alpm_conf.insert ("CheckSpace", new Variant.boolean (new_state));
-			transaction.start_write_alpm_config (new_alpm_conf);
-			return true;
-		}
-
-		[GtkCallback]
-		void on_add_ignorepkgs_button_clicked () {
-			transaction.choose_pkgs_dialog.title = dgettext (null, "Choose Ignored Upgrades");
-			this.get_window ().set_cursor (new Gdk.Cursor.for_display (Gdk.Display.get_default (), Gdk.CursorType.WATCH));
-			while (Gtk.events_pending ()) {
-				Gtk.main_iteration ();
-			}
-			transaction.database.get_installed_pkgs_async.begin ((obj, res) => {
-				var pkgs = transaction.database.get_installed_pkgs_async.end (res);
-				// make a copy of ignorepkgs to store uninstalled ones
-				var ignorepkgs = transaction.database.get_ignorepkgs ();
-				var ignorepkgs_set = new GenericSet<string?> (str_hash, str_equal);
-				foreach (unowned string ignorepkg in ignorepkgs) {
-					ignorepkgs_set.add (ignorepkg);
-				}
-				transaction.choose_pkgs_dialog.pkgs_list.clear ();
-				foreach (unowned Package pkg in pkgs) {
-					if (pkg.name in ignorepkgs_set) {
-						transaction.choose_pkgs_dialog.pkgs_list.insert_with_values (null, -1, 0, true, 1, pkg.name);
-						ignorepkgs_set.remove (pkg.name);
-					} else {
-						transaction.choose_pkgs_dialog.pkgs_list.insert_with_values (null, -1, 0, false, 1, pkg.name);
-					}
-				}
-				transaction.choose_pkgs_dialog.valid_button.grab_focus ();
-				this.get_window ().set_cursor (null);
-				if (transaction.choose_pkgs_dialog.run () == Gtk.ResponseType.OK) {
-					var ignorepkg_string = new StringBuilder ();
-					transaction.choose_pkgs_dialog.pkgs_list.foreach ((model, path, iter) => {
-						GLib.Value val;
-						// get value at column 0 to know if it is selected
-						model.get_value (iter, 0, out val);
-						if ((bool) val) {
-							// get value at column 1 to get the pkg name
-							model.get_value (iter, 1, out val);
-							if (ignorepkg_string.len != 0) {
-								ignorepkg_string.append (" ");
-							}
-							ignorepkg_string.append ((string) val);
-						}
-						return false;
-					});
-					// restore uninstalled ignorepkgs
-					foreach (unowned string ignorepkg in ignorepkgs_set) {
-						ignorepkg_string.append (" ");
-						ignorepkg_string.append (ignorepkg);
-					}
-					var new_alpm_conf = new HashTable<string,Variant> (str_hash, str_equal);
-					new_alpm_conf.insert ("IgnorePkg", new Variant.string (ignorepkg_string.str));
-					transaction.start_write_alpm_config (new_alpm_conf);
-				}
-				transaction.choose_pkgs_dialog.hide ();
-			});
-		}
-
-		[GtkCallback]
-		void on_remove_ignorepkgs_button_clicked () {
-			Gtk.TreeIter? iter;
-			Gtk.TreeSelection selection = ignorepkgs_treeview.get_selection ();
-			if (selection.get_selected (null, out iter)) {
-				ignorepkgs_liststore.remove (ref iter);
-				var ignorepkg_string = new StringBuilder ();
-				ignorepkgs_liststore.foreach ((model, path, iter) => {
-					GLib.Value name;
-					model.get_value (iter, 0, out name);
-					if (ignorepkg_string.len != 0) {
-						ignorepkg_string.append (" ");
-					}
-					ignorepkg_string.append ((string) name);
-					return false;
-				});
-				var new_alpm_conf = new HashTable<string,Variant> (str_hash, str_equal);
-				new_alpm_conf.insert ("IgnorePkg", new Variant.string (ignorepkg_string.str));
-				transaction.start_write_alpm_config (new_alpm_conf);
-			}
-		}
-
-		void on_write_alpm_config_finished (bool checkspace) {
-			check_space_button.state = checkspace;
-			ignorepkgs_liststore.clear ();
-			foreach (unowned string ignorepkg in transaction.database.get_ignorepkgs ()) {
-				ignorepkgs_liststore.insert_with_values (null, -1, 0, ignorepkg);
-			}
+			transaction.database.config.check_aur_vcs_updates = check_aur_vcs_updates_checkbutton.active;
 		}
 
 		void on_mirrors_country_comboboxtext_changed () {
@@ -455,18 +313,27 @@ namespace Pamac {
 			if (preferences_choosen_country == dgettext (null, "Worldwide")) {
 				preferences_choosen_country = "all";
 			}
-			transaction.start_generate_mirrors_list (preferences_choosen_country);
+			transaction.start_progressbar_pulse ();
+			var manager_window = transaction.application_window as ManagerWindow;
+			manager_window.generate_mirrors_list = true;
+			manager_window.apply_button.sensitive = false;
+			manager_window.details_button.sensitive = true;
+			transaction.generate_mirrors_list (preferences_choosen_country);
+			manager_window.generate_mirrors_list = false;
+			transaction.reset_progress_box ();
 			generate_mirrors_list_button.get_style_context ().remove_class (Gtk.STYLE_CLASS_SUGGESTED_ACTION);
 		}
 
 		[GtkCallback]
 		void on_clean_cache_button_clicked () {
-			transaction.start_clean_cache (transaction.database.config.clean_keep_num_pkgs, transaction.database.config.clean_rm_only_uninstalled);
+			transaction.clean_cache ();
+			refresh_clean_cache_button ();
 		}
 
 		[GtkCallback]
 		void on_clean_build_files_button_clicked () {
-			transaction.start_clean_build_files (transaction.database.config.aur_build_dir);
+			transaction.clean_build_files ();
+			refresh_clean_build_files_button ();
 		}
 	}
 }

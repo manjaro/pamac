@@ -1,6 +1,6 @@
 data/polkit/org.manjaro.pamac.policy.in
 src/alpm_utils.vala
-src/system_daemon.vala
+src/daemon.vala
 src/database.vala
 src/transaction.vala
 src/transaction-gtk.vala
@@ -12,6 +12,7 @@ src/preferences_dialog.vala
 src/choose_pkgs_dialog.vala
 src/transaction-cli.vala
 src/cli.vala
+src/snap_plugin.vala
 resources/choose_provider_dialog.ui
 resources/progress_dialog.ui
 resources/history_dialog.ui

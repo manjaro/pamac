@@ -44,8 +44,6 @@ namespace Pamac {
 			// integrate progress box and term widget
 			progress_dialog = new ProgressDialog (this);
 			transaction = new TransactionGtk (database, progress_dialog as Gtk.ApplicationWindow);
-			transaction.finished.connect (on_transaction_finished);
-			transaction.sysupgrade_finished.connect (on_transaction_finished);
 			transaction.important_details_outpout.connect (on_important_details_outpout);
 			progress_dialog.box.pack_start (transaction.progress_box);
 			progress_dialog.box.reorder_child (transaction.progress_box, 0);
@@ -122,28 +120,43 @@ namespace Pamac {
 			} else {
 				if (to_build.length > 0) {
 					// check if targets exist
-					check_build_pkgs.begin (to_build, (obj, res) => {
-						bool success = check_build_pkgs.end (res);
-						if (success) {
-							progress_dialog.show ();
-							transaction.start (to_install, to_remove, to_load, to_build, {}, {});
-							progress_dialog.close_button.visible = false;
-						} else {
-							this.release ();
-							cmd.set_exit_status (1);
+					bool success = check_build_pkgs (to_build);
+					if (success) {
+						foreach (unowned string name in to_build) {
+							transaction.add_aur_pkg_to_build (name);
 						}
-					});
+					} else {
+						this.release ();
+						return 1;
+					}
+				}
+				foreach (unowned string name in to_install) {
+					transaction.add_pkg_to_install (name);
+				}
+				foreach (unowned string name in to_remove) {
+					transaction.add_pkg_to_remove (name);
+				}
+				foreach (unowned string path in to_load) {
+					transaction.add_path_to_load (path);
+				}
+				progress_dialog.close_button.visible = false;
+				progress_dialog.show ();
+				bool success = transaction.run ();
+				if (!success || important_details) {
+					progress_dialog.expander.expanded = true;
+					progress_dialog.close_button.visible = true;
 				} else {
-					progress_dialog.show ();
-					transaction.start (to_install, to_remove, to_load, to_build, {}, {});
-					progress_dialog.close_button.visible = false;
+					this.release ();
+				}
+				if (!success) {
+					cmd.set_exit_status (1);
 				}
 			}
 			return cmd.get_exit_status ();
 		}
 
-		async bool check_build_pkgs (string[] targets) {
-			var aur_pkgs = yield database.get_aur_pkgs (targets);
+		bool check_build_pkgs (string[] targets) {
+			var aur_pkgs = database.get_aur_pkgs (targets);
 			var iter = HashTableIter<string, AURPackage> (aur_pkgs);
 			unowned string pkgname;
 			unowned AURPackage aur_pkg;
@@ -173,18 +186,6 @@ namespace Pamac {
 
 		void on_close_button_clicked () {
 			this.release ();
-		}
-
-		void on_transaction_finished (bool success) {
-			if (!success || important_details) {
-				progress_dialog.expander.expanded = true;
-				progress_dialog.close_button.visible = true;
-			} else {
-				this.release ();
-			}
-			if (!success) {
-				cmd.set_exit_status (1);
-			}
 		}
 
 		public override void shutdown () {

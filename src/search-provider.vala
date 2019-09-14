@@ -33,7 +33,7 @@ namespace Pamac {
 			this.database = database;
 		}
 
-		private string[] normalize_terms (string[] terms) {
+		string[] normalize_terms (string[] terms) {
 			var normalized_terms = new GenericArray<string> ();
 			foreach (string t in terms) {
 				normalized_terms.add (t.normalize ().casefold ());
@@ -41,7 +41,7 @@ namespace Pamac {
 			return normalized_terms.data;
 		}
 
-		private async string[] search_pkgs (string[] normalized_terms) {
+		string[] search_pkgs (string[] normalized_terms) {
 			var str_builder = new StringBuilder ();
 			foreach (unowned string str in normalized_terms) {
 				if (str_builder.len > 0) {
@@ -49,64 +49,64 @@ namespace Pamac {
 				}
 				str_builder.append (str);
 			}
-			List<Package> pkgs = yield database.search_repos_pkgs_async (str_builder.str);
+			List<Package> pkgs = database.search_repos_pkgs (str_builder.str);
 			var result = new GenericArray<string> ();
 			foreach (unowned Package pkg in pkgs) {
-				result.add (pkg.name);
+				// concat data into a string
+				var data_builder = new StringBuilder (pkg.name);
+				data_builder.append (";");
+				data_builder.append (pkg.desc);
+				data_builder.append (";");
+				data_builder.append (pkg.icon);
+				data_builder.append (";");
+				result.add (data_builder.str);
 			}
 			return result.data;
 		}
 
 		public async string[] get_initial_result_set (string[] terms) throws Error {
 			var normalized_terms = normalize_terms (terms);
-			return yield search_pkgs (normalized_terms);
+			return search_pkgs (normalized_terms);
 		}
 
 		public async string[] get_subsearch_result_set (string[] previous_results, string[] terms) throws Error {
 			var normalized_terms = normalize_terms (terms);
-			return yield search_pkgs (normalized_terms);
+			return search_pkgs (normalized_terms);
 		}
 
 		public HashTable<string, Variant>[] get_result_metas (string[] results) throws Error {
 			var result = new GenericArray<HashTable<string, Variant>> ();
-			int count = 0;
 			foreach (unowned string str in results) {
 				var meta = new HashTable<string, Variant> (str_hash, str_equal);
-				var pkg = database.get_installed_pkg (str);
-				if (pkg.name == "") {
-					pkg = database.get_sync_pkg (str);
-				}
-				if (pkg.name != "") {
-					count++;
-					meta.insert ("id", pkg.name);
-					meta.insert ("name", pkg.name);
-					meta.insert ("description", pkg.desc);
-					Icon? icon = null;
-					if (pkg.icon != "") {
-						try {
-							icon = new Gdk.Pixbuf.from_file (pkg.icon);
-						} catch (GLib.Error e) {
-							// some icons are not in the right repo
-							string icon_path = pkg.icon;
-							if ("extra" in pkg.icon) {
-								icon_path = pkg.icon.replace ("extra", "community");
-							} else if ("community" in pkg.icon) {
-								icon_path = pkg.icon.replace ("community", "extra");
-							}
-							try {
-								icon = new Gdk.Pixbuf.from_file (icon_path);
-							} catch (GLib.Error e) {
-								icon = new ThemedIcon ("package-x-generic");
-							}
+				string[] pkg_data = str.split (";", 4);
+				meta.insert ("id", pkg_data[0]);
+				meta.insert ("name", pkg_data[0]);
+				meta.insert ("description", pkg_data[1]);
+				Icon? icon = null;
+				if (pkg_data[2] != "") {
+					try {
+						icon = new Gdk.Pixbuf.from_file (pkg_data[2]);
+					} catch (Error e) {
+						// some icons are not in the right repo
+						string icon_path = pkg_data[2];
+						if ("extra" in icon_path) {
+							icon_path = icon_path.replace ("extra", "community");
+						} else if ("community" in icon_path) {
+							icon_path = icon_path.replace ("community", "extra");
 						}
-					} else {
-						icon = new ThemedIcon ("package-x-generic");
+						try {
+							icon = new Gdk.Pixbuf.from_file (icon_path);
+						} catch (Error e) {
+							icon = new ThemedIcon ("package-x-generic");
+						}
 					}
-					if (icon != null) {
-						meta.insert ("icon", icon.serialize ());
-					}
-					result.add (meta);
+				} else {
+					icon = new ThemedIcon ("package-x-generic");
 				}
+				if (icon != null) {
+					meta.insert ("icon", icon.serialize ());
+				}
+				result.add (meta);
 			}
 			return result.data;
 		}

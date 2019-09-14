@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2019-08-06 16:57+0200\n"
-"PO-Revision-Date: 2019-08-17 00:59+0000\n"
+"PO-Revision-Date: 2019-09-10 22:22+0000\n"
 "Last-Translator: Pedro Delgado\n"
 "Language-Team: Spanish (Mexico) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/es_MX/)\n"
 "MIME-Version: 1.0\n"
@@ -105,11 +105,11 @@ msgstr "%s parece estar truncado: %jd/%jd bytes\n"
 #: src/alpm_utils.vala
 #, c-format
 msgid "failed retrieving file '%s' from %s : %s\n"
-msgstr "Fallo al recibir el archivo '%s' de %s: %s\n"
+msgstr "Fallo al recuperar el archivo '%s' de %s: %s\n"
 
 #: src/system_daemon.vala
 msgid "Authentication failed"
-msgstr "Fallo de autenticación"
+msgstr "Autenticación fallida"
 
 #: src/database.vala src/transaction-gtk.vala src/manager_window.vala
 #: src/transaction-cli.vala src/cli.vala resources/preferences_dialog.ui
@@ -146,26 +146,26 @@ msgstr "Preparando"
 
 #: src/transaction.vala
 msgid "Synchronizing package databases"
-msgstr "Sincronizando las bases de datos de paquetes"
+msgstr "Sincronizando bases de datos de paquetes"
 
 #: src/transaction.vala
 msgid "Starting full system upgrade"
-msgstr "Comenzando la actualización completa del sistema"
+msgstr "Comenzando actualización completa del sistema"
 
 #: src/transaction.vala src/cli.vala
 #, c-format
 msgid "Cloning %s build files"
-msgstr "Clonando %s archivos construidos"
+msgstr "Clonando archivos de construcción de %s"
 
 #: src/transaction.vala
 #, c-format
 msgid "Generating %s informations"
-msgstr "Generando %s informes"
+msgstr "Generando información de %s"
 
 #: src/transaction.vala
 #, c-format
 msgid "Checking %s dependencies"
-msgstr "Verificando %s dependencias"
+msgstr "Verificando dependencias de %s"
 
 #: src/transaction.vala
 #, c-format
@@ -191,7 +191,7 @@ msgstr "Verificando dependencias"
 
 #: src/transaction.vala
 msgid "Checking file conflicts"
-msgstr "Revisando conflictos entre archivos"
+msgstr "Verificando conflictos de los archivos"
 
 #: src/transaction.vala
 msgid "Resolving dependencies"
@@ -199,7 +199,7 @@ msgstr "Resolviendo dependencias"
 
 #: src/transaction.vala
 msgid "Checking inter-conflicts"
-msgstr "Revisando inter-conflictos"
+msgstr "Verificando inter-conflictos"
 
 #: src/transaction.vala
 #, c-format
@@ -228,7 +228,7 @@ msgstr "Removiendo %s"
 
 #: src/transaction.vala
 msgid "Checking integrity"
-msgstr "Verificando la integridad"
+msgstr "Verificando integridad"
 
 #: src/transaction.vala
 msgid "Loading packages files"
@@ -236,7 +236,7 @@ msgstr "Cargando paquetes de archivos"
 
 #: src/transaction.vala
 msgid "Checking delta integrity"
-msgstr "Verificando la integridad delta"
+msgstr "Verificando integridad delta"
 
 #: src/transaction.vala
 msgid "Applying deltas"
@@ -253,7 +253,7 @@ msgstr "La generación tuvo éxito"
 
 #: src/transaction.vala
 msgid "Generation failed"
-msgstr "La generación ha fallado"
+msgstr "Generación fallida"
 
 #: src/transaction.vala
 #, c-format
@@ -262,7 +262,7 @@ msgstr "Configurando %s"
 
 #: src/transaction.vala
 msgid "Checking available disk space"
-msgstr "Verificando el espacio disponible en disco"
+msgstr "Verificando espacio disponible en el disco"
 
 #: src/transaction.vala
 #, c-format
@@ -276,11 +276,11 @@ msgstr "El archivo de base de datos para %s no existe"
 
 #: src/transaction.vala
 msgid "Checking keyring"
-msgstr "Verificando el registro de llaves (keyring)"
+msgstr "Verificando depósito de llaves (keyring)"
 
 #: src/transaction.vala
 msgid "Downloading required keys"
-msgstr "Descargando las llaves requeridas"
+msgstr "Descargando llaves requeridas"
 
 #: src/transaction.vala
 #, c-format
@@ -294,11 +294,11 @@ msgstr "%s instalado como %s.pacsave"
 
 #: src/transaction.vala
 msgid "Running pre-transaction hooks"
-msgstr "Ejecutando pre-transacciones hooks"
+msgstr "Ejecutando pre-transacción hooks"
 
 #: src/transaction.vala
 msgid "Running post-transaction hooks"
-msgstr "Ejecutando post-transacciones hooks"
+msgstr "Ejecutando post-transacción hooks"
 
 #: src/transaction.vala
 #, c-format
@@ -328,7 +328,7 @@ msgstr "Error"
 
 #: src/transaction.vala src/transaction-gtk.vala
 msgid "Warning"
-msgstr "Advertencia"
+msgstr "Aviso"
 
 #: src/transaction.vala src/installer.vala src/cli.vala
 msgid "Nothing to do"
@@ -336,17 +336,17 @@ msgstr "Nada que hacer"
 
 #: src/transaction.vala src/transaction-gtk.vala
 msgid "Transaction successfully finished"
-msgstr "Transacción completada correctamente"
+msgstr "Transacción finalizada con éxito"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
 msgid "Choose optional dependencies for %s"
-msgstr "Elija dependencias opcionales para %s"
+msgstr "Elegir dependencias opcionales para %s"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
 msgid "Choose a provider for %s"
-msgstr "Elija un proveedor para %s"
+msgstr "Elegir un proveedor para %s"
 
 #: src/transaction-gtk.vala
 msgid "Import PGP key"
@@ -370,7 +370,7 @@ msgstr "La llave PGP %s es necesaria para verificar los archivos fuente de %s"
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
 msgid "Trust %s and import the PGP key"
-msgstr "Confiar %s e importar la llave PGP"
+msgstr "Confiar en %s e importar la llave PGP"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "To remove"
@@ -403,7 +403,7 @@ msgstr "Tamaño total de la descarga"
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
 msgid "Edit %s build files"
-msgstr "Editar %s archivos construidos"
+msgstr "Editar archivos de construcción de %s"
 
 #: src/transaction-gtk.vala
 msgid "Save"
@@ -456,7 +456,7 @@ msgstr "Paquete no encontrado"
 
 #: src/manager_window.vala
 msgid "Checking for Updates"
-msgstr "Buscando actualizaciones"
+msgstr "Verificando actualizaciones"
 
 #: src/manager_window.vala
 #, c-format
@@ -531,7 +531,7 @@ msgstr "Configuraciones"
 
 #: src/manager_window.vala
 msgid "System Tools"
-msgstr "Herramientas de sistema"
+msgstr "Herramientas del sistema"
 
 #: src/manager_window.vala
 msgid "Dependencies"
@@ -543,7 +543,7 @@ msgstr "Archivos"
 
 #: src/manager_window.vala
 msgid "Build files"
-msgstr "Construir archivos"
+msgstr "Archivos de construcción"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Install Reason"
@@ -575,7 +575,7 @@ msgstr "Mantenedor"
 
 #: src/manager_window.vala src/cli.vala
 msgid "First Submitted"
-msgstr "Primer envío"
+msgstr "Primera presentación"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Last Modified"
@@ -675,7 +675,7 @@ msgstr "Una interfaz Gtk3 para libalpm"
 
 #: src/preferences_dialog.vala resources/preferences_dialog.ui
 msgid "How often to check for updates, value in hours"
-msgstr "Con qué frecuencia buscar actualizaciones, valor en horas"
+msgstr "Con qué frecuencia verificar actualizaciones, valor en horas"
 
 #: src/preferences_dialog.vala resources/preferences_dialog.ui
 msgid "Maximum parallel downloads"
@@ -691,7 +691,7 @@ msgstr "Directorio de construcción"
 
 #: src/preferences_dialog.vala
 msgid "Worldwide"
-msgstr "Mundial"
+msgstr "todo el mundo"
 
 #: src/preferences_dialog.vala src/cli.vala
 msgid "To delete"
@@ -706,7 +706,7 @@ msgstr[1] "%u archivos"
 
 #: src/preferences_dialog.vala
 msgid "Choose Ignored Upgrades"
-msgstr "Elija actualizaciones ignoradas"
+msgstr "Elegir actualizaciones ignoradas"
 
 #: src/transaction-cli.vala src/cli.vala
 #, c-format
@@ -736,7 +736,7 @@ msgstr "si"
 
 #: src/transaction-cli.vala resources/transaction_sum_dialog.ui
 msgid "Edit build files"
-msgstr "Editar archivos construidos"
+msgstr "Editar archivos de construcción"
 
 #: src/transaction-cli.vala
 msgid "Total installed size"
@@ -753,7 +753,7 @@ msgstr "Aplicar transacción"
 #: src/transaction-cli.vala
 #, c-format
 msgid "View %s build files diff"
-msgstr "Ver %s archivos diferentes (diff) construidos"
+msgstr "Ver archivos de construcción diff de %s"
 
 #: src/cli.vala
 msgid "Building packages as root is not allowed"
@@ -761,11 +761,11 @@ msgstr "Construir paquetes como root no esta permitido"
 
 #: src/cli.vala
 msgid "No PKGBUILD file found in current directory"
-msgstr "No fueron encontrados archivos PKGBUILD en el directorio actual"
+msgstr "No se encontró el archivo PKGBUILD en el directorio actual"
 
 #: src/cli.vala
 msgid "Check development packages updates as root is not allowed"
-msgstr "Revisar actualizaciones de archivos de desarrollo como root no esta permitido"
+msgstr "Verificar actualizaciones de paquetes de desarrollo como root no esta permitido"
 
 #: src/cli.vala
 msgid "Available actions"
@@ -781,7 +781,7 @@ msgstr "Opciones"
 
 #: src/cli.vala
 msgid "Search for packages or files, multiple search terms can be specified"
-msgstr "Búsqueda para paquetes o archivos, términos de búsqueda múltiples pueden ser especificados"
+msgstr "Buscar paquetes o archivos, términos de búsqueda múltiples pueden ser especificados"
 
 #: src/cli.vala
 msgid "file(s)"
@@ -794,7 +794,7 @@ msgstr "También buscar en el AUR"
 #: src/cli.vala
 msgid ""
 "search for packages which own the given filenames (filenames can be partial)"
-msgstr "Búsqueda para paquetes que pertenecen a los nombres de archivos proporcionados (los nombres pueden ser parciales)"
+msgstr "Buscar paquetes que posean los nombres de los archivos proporcionados (los nombres pueden ser parciales)"
 
 #: src/cli.vala
 msgid "Display package details, multiple packages can be specified"
@@ -830,21 +830,21 @@ msgstr "Enlistar paquetes que no fueron encontrados en los repositorios"
 msgid ""
 "list all packages that are members of the given groups, if no group is given"
 " list all groups"
-msgstr "Enlistar todos los paquetes que son miembros de los grupos proporcionados, si ningún grupo es especificado enlistar todos los grupos"
+msgstr "Enlistar todos los paquetes que son miembros de los grupos proporcionados, si ningún grupo es proporcionado enlistar todos los grupos"
 
 #: src/cli.vala
 msgid ""
 "list all packages available in the given repos, if no repo is given list all"
 " repos"
-msgstr "Enlistar todos los paquetes disponibles en los repos proporcionados, si ningún repo es especificado enlistar todos los repos"
+msgstr "Enlistar todos los paquetes disponibles en los repos proporcionados, si ningún repo es proporcionado enlistar todos los repos"
 
 #: src/cli.vala
 msgid "list files owned by the given packages"
-msgstr "Enlistar archivos que pertenecen a los paquetes proporcionados"
+msgstr "Enlistar archivos que son propiedad de los paquetes proporcionados"
 
 #: src/cli.vala
 msgid "Clone or sync packages build files from AUR"
-msgstr "Clonar o sincronizar archivos construidos desde el AUR"
+msgstr "Clonar o sincronizar archivos de construcción del AUR"
 
 #: src/cli.vala
 msgid "dir"
@@ -854,7 +854,7 @@ msgstr "dir"
 msgid ""
 "build directory, if no directory is given the one specified in pamac.conf "
 "file is used"
-msgstr "Construir directorio, si ningún directorio es proporcionado el especificado en pamac.conf será utilizado"
+msgstr "Directorio de construcción, si ningún directorio es proporcionado el especificado en pamac.conf será utilizado"
 
 #: src/cli.vala
 msgid "also clone needed dependencies"
@@ -862,7 +862,7 @@ msgstr "También clonar las dependencias necesarias"
 
 #: src/cli.vala
 msgid "overwrite existing files"
-msgstr "Sobrescribe archivos existentes"
+msgstr "Sobrescribir archivos existentes"
 
 #: src/cli.vala
 msgid "Build packages from AUR and install them with their dependencies"
@@ -871,7 +871,7 @@ msgstr "Construir paquetes del AUR e instalarlos con sus dependencias"
 #: src/cli.vala
 msgid ""
 "If no package name is given, use the PKGBUILD file in the current directory"
-msgstr "Si ningún paquete es proporcionado, usa el archivo PKGBUILD en el directorio actual"
+msgstr "Si ningún nombre de paquete es proporcionado, usa el archivo PKGBUILD en el directorio actual"
 
 #: src/cli.vala
 msgid ""
@@ -881,7 +881,7 @@ msgstr "El directorio de construcción será el directorio padre, la opción --b
 
 #: src/cli.vala
 msgid "do not clone build files from AUR, only use local files"
-msgstr "No clonar archivos construidos desde el AUR, usar unicamente archivos locales"
+msgstr "No clonar archivos de construcción del AUR, sólo usar archivos locales"
 
 #: src/cli.vala
 msgid "bypass any and all confirmation messages"
@@ -911,11 +911,11 @@ msgstr "Reinstalar paquetes"
 msgid ""
 "remove dependencies that are not required by other packages, if this option "
 "is used without package name remove all orphans"
-msgstr "Remover dependencias que ya no son requeridas por otros paquetes, si esta opción es ocupada sin nombre del paquete remueve todos los huérfanos"
+msgstr "Remover dependencias que ya no son requeridas por otros paquetes, si esta opción es ocupada sin el nombre del paquete remueve todos los huérfanos"
 
 #: src/cli.vala
 msgid "Safely check for updates without modifiying the databases"
-msgstr "Revisar de forma segura las actualizaciones sin modificar las bases de datos"
+msgstr "Verificar de forma segura las actualizaciones sin modificar las bases de datos"
 
 #: src/cli.vala
 msgid "Exit code is 100 if updates are available"
@@ -923,39 +923,39 @@ msgstr "El código de salida es 100 si hay actualizaciones disponibles"
 
 #: src/cli.vala
 msgid "also check updates in AUR"
-msgstr "También buscar actualizaciones en el AUR"
+msgstr "También verificar actualizaciones en el AUR"
 
 #: src/cli.vala
 msgid "also check development packages updates (use with --aur)"
-msgstr "También buscar actualizaciones de los paquetes de desarrollo (use con --aur)"
+msgstr "También verificar actualizaciones de los paquetes de desarrollo (use con --aur)"
 
 #: src/cli.vala
 msgid "only print one line per update"
-msgstr "Mostrar una linea por cada actualización"
+msgstr "Sólo mostrar una linea por actualización"
 
 #: src/cli.vala
 msgid ""
 "build directory (use with --devel), if no directory is given the one "
 "specified in pamac.conf file is used"
-msgstr "Construir directorio (use con --devel), si ningún directorio es proporcionado el especificado en pamac.conf será utilizado"
+msgstr "Directorio de construcción (use con --devel), si ningún directorio es proporcionado el especificado en pamac.conf será utilizado"
 
 #: src/cli.vala
 msgid "Upgrade your system"
-msgstr "Actualiza tu sistema"
+msgstr "Actualice su sistema"
 
 #: src/cli.vala
 msgid "also upgrade packages installed from AUR"
-msgstr "También actualizar (upgrade) paquetes instalados del AUR"
+msgstr "También actualizar paquetes instalados del AUR"
 
 #: src/cli.vala
 msgid "also upgrade development packages (use with --aur)"
-msgstr "También actualizar (upgrade) paquetes de desarrollo (use con --aur)"
+msgstr "También actualizar paquetes de desarrollo (use con --aur)"
 
 #: src/cli.vala
 msgid ""
 "build directory (use with --aur), if no directory is given the one specified"
 " in pamac.conf file is used"
-msgstr "Construir directorio (use con --aur), si ningún directorio es proporcionado el especificado en pamac.conf será utilizado"
+msgstr "Directorio de construcción (use con --aur), si ningún directorio es proporcionado el especificado en pamac.conf será utilizado"
 
 #: src/cli.vala
 msgid "force the refresh of the databases"
@@ -967,7 +967,7 @@ msgstr "Habilitar desactualización (downgrade) de paquetes"
 
 #: src/cli.vala
 msgid "Clean packages cache or build files"
-msgstr "Limpiar caché de los paquetes o archivos construidos"
+msgstr "Limpiar caché de los paquetes o archivos de construcción"
 
 #: src/cli.vala
 msgid "number"
@@ -980,17 +980,17 @@ msgstr "Especifique cuántas versiones de cada paquete se mantendrán en el dire
 
 #: src/cli.vala
 msgid "only target uninstalled packages"
-msgstr "Único objetivo paquetes desinstalados"
+msgstr "Sólo apuntar a paquetes desinstalados"
 
 #: src/cli.vala
 msgid ""
 "remove all build files, the build directory is the one specified in "
 "pamac.conf"
-msgstr "Remover todos los archivos construidos, el directorio de construcción es el especificado en pamac.conf"
+msgstr "Remover todos los archivos de construcción, el directorio de construcción es el especificado en pamac.conf"
 
 #: src/cli.vala
 msgid "do not remove files, only find candidate packages"
-msgstr "No remover archivos, solo encontrar paquetes candidatos"
+msgstr "No remover archivos, sólo encontrar paquetes candidatos"
 
 #: src/cli.vala
 msgid "also display all files names"
@@ -1024,7 +1024,7 @@ msgstr "%s es propiedad de %s"
 
 #: src/cli.vala resources/preferences_dialog.ui
 msgid "Remove only the versions of uninstalled packages"
-msgstr "Remover únicamente las versiones de paquetes desinstalados"
+msgstr "Sólo remover las versiones de paquetes desinstalados"
 
 #: src/cli.vala resources/preferences_dialog.ui
 msgid "Clean cache"
@@ -1032,7 +1032,7 @@ msgstr "Limpiar caché"
 
 #: src/cli.vala resources/preferences_dialog.ui
 msgid "Clean build files"
-msgstr "Limpiar archivos construidos"
+msgstr "Limpiar archivos de construcción"
 
 #: src/cli.vala
 #, c-format
@@ -1043,7 +1043,7 @@ msgstr[1] "Hay %u miembros en el grupo %s"
 
 #: src/cli.vala
 msgid "all"
-msgstr "Todos"
+msgstr "todo"
 
 #: resources/choose_provider_dialog.ui
 msgid "Choose a Provider"
@@ -1063,7 +1063,7 @@ msgstr "Historial de Pamac"
 
 #: resources/transaction_sum_dialog.ui
 msgid "Transaction Summary"
-msgstr "Resumen de transacción"
+msgstr "Resumen de la transacción"
 
 #: resources/transaction_sum_dialog.ui resources/manager_window.ui
 msgid "_Apply"
@@ -1103,15 +1103,15 @@ msgstr "Actualizaciones"
 
 #: resources/manager_window.ui
 msgid "Remove all"
-msgstr "Remover todos"
+msgstr "Remover todo"
 
 #: resources/manager_window.ui
 msgid "Install all"
-msgstr "Instalar todos"
+msgstr "Instalar todo"
 
 #: resources/manager_window.ui
 msgid "Ignore all"
-msgstr "Ignorar todos"
+msgstr "Ignorar todo"
 
 #: resources/manager_window.ui
 msgid "Sort by"
@@ -1143,7 +1143,7 @@ msgstr "Construir"
 
 #: resources/manager_window.ui
 msgid "Reset build files"
-msgstr "Restablecer (reset) archivos construidos"
+msgstr "Restablecer (reset) archivos de construcción"
 
 #: resources/preferences_dialog.ui
 msgid "Remove unrequired dependencies"
@@ -1157,7 +1157,7 @@ msgstr "Al remover un paquete, también se remueven sus dependencias que no son 
 
 #: resources/preferences_dialog.ui
 msgid "Check available disk space"
-msgstr "Verificar el espacio disponible en disco"
+msgstr "Verificar espacio disponible en el disco"
 
 #: resources/preferences_dialog.ui
 msgid "Enable downgrade"
@@ -1165,7 +1165,7 @@ msgstr "Habilitar desactualización (downgrade)"
 
 #: resources/preferences_dialog.ui
 msgid "Check for updates"
-msgstr "Buscar actualizaciones"
+msgstr "Verificar actualizaciones"
 
 #: resources/preferences_dialog.ui
 msgid "Automatically download updates"
@@ -1173,7 +1173,7 @@ msgstr "Descargar actualizaciones automáticamente"
 
 #: resources/preferences_dialog.ui
 msgid "Hide tray icon when no update available"
-msgstr "Ocultar el icono de la bandeja cuando no haya actualizaciones disponibles"
+msgstr "Ocultar icono de la bandeja cuando no haya actualizaciones disponibles"
 
 #: resources/preferences_dialog.ui
 msgid "Ignore upgrades for:"
@@ -1207,15 +1207,15 @@ msgstr "Habilitar soporte del AUR"
 
 #: resources/preferences_dialog.ui
 msgid "Allow Pamac to search and install packages from AUR"
-msgstr "Permitir a Pamac buscar e instalar paquetes desde el AUR"
+msgstr "Permitir a Pamac buscar e instalar paquetes del AUR"
 
 #: resources/preferences_dialog.ui
 msgid "Check for updates from AUR"
-msgstr "Buscar actualizaciones del AUR"
+msgstr "Verificar actualizaciones del AUR"
 
 #: resources/preferences_dialog.ui
 msgid "Check for development packages updates"
-msgstr "Buscar actualizaciones de paquetes de desarrollo"
+msgstr "Verificar actualizaciones de paquetes de desarrollo"
 
 #: resources/preferences_dialog.ui
 msgid "Cache"

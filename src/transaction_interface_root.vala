@@ -19,43 +19,55 @@
 
 namespace Pamac {
 	internal class TransactionInterfaceRoot: Object, TransactionInterface {
+		bool trans_run_success;
 
 		public TransactionInterfaceRoot (Config config) {
 			// alpm_utils global variable declared in alpm_utils.vala
 			alpm_utils = new AlpmUtils (config);
-			alpm_utils.emit_event.connect ((primary_event, secondary_event, details) => {
-				emit_event (primary_event, secondary_event, details);
+			alpm_utils.edit_build_files.connect ((pkgnames) => {
+				edit_build_files (pkgnames);
 			});
-			alpm_utils.emit_providers.connect ((depend, providers) => {
-				emit_providers (depend, providers);
+			alpm_utils.emit_action.connect ((action) => {
+				emit_action (action);
 			});
-			alpm_utils.emit_unresolvables.connect ((unresolvables) => {
-				emit_unresolvables (unresolvables);
+			alpm_utils.emit_action_progress.connect ((action, status, progress) => {
+				emit_action_progress (action, status, progress);
 			});
-			alpm_utils.emit_progress.connect ((progress, pkgname, percent, n_targets, current_target) => {
-				emit_progress (progress, pkgname, percent, n_targets, current_target);
+			alpm_utils.emit_hook_progress.connect ((action, details, status, progress) => {
+				emit_hook_progress (action, details, status, progress);
 			});
-			alpm_utils.emit_download.connect ((filename, xfered, total) => {
-				emit_download (filename, xfered, total);
+			alpm_utils.choose_provider.connect ((depend, providers) => {
+				return choose_provider (depend, providers);
 			});
-			alpm_utils.emit_totaldownload.connect ((total) => {
-				emit_totaldownload (total);
+			alpm_utils.compute_aur_build_list.connect (() => {
+				compute_aur_build_list ();
 			});
-			alpm_utils.emit_log.connect ((level, msg) => {
-				emit_log (level, msg);
+			alpm_utils.emit_download_progress.connect ((action, status, progress) => {
+				emit_download_progress (action, status, progress);
 			});
-			alpm_utils.refresh_finished.connect ((success) => {
-				refresh_finished (success);
+			alpm_utils.start_downloading.connect (() => {
+				start_downloading ();
 			});
-			alpm_utils.downloading_updates_finished.connect (() => {
-				downloading_updates_finished ();
+			alpm_utils.stop_downloading.connect (() => {
+				stop_downloading ();
 			});
-			alpm_utils.trans_prepare_finished.connect ((success) => {
-				trans_prepare_finished (success);
+			alpm_utils.emit_script_output.connect ((message) => {
+				emit_script_output (message);
 			});
-			alpm_utils.trans_commit_finished.connect ((success) => {
-				database_modified ();
-				trans_commit_finished (success);
+			alpm_utils.emit_warning.connect ((message) => {
+				emit_warning (message);
+			});
+			alpm_utils.emit_error.connect ((message, details) => {
+				emit_error (message, details);
+			});
+			alpm_utils.important_details_outpout.connect ((must_show) => {
+				important_details_outpout (must_show);
+			});
+			alpm_utils.get_authorization.connect (() => {
+				return get_authorization ();
+			});
+			alpm_utils.ask_commit.connect ((summary) => {
+				return ask_commit (summary);
 			});
 			// set user agent
 			var utsname = Posix.utsname();
@@ -74,41 +86,12 @@ namespace Pamac {
 			return true;
 		}
 
-		async void get_authorization () {
+		public bool get_authorization () {
 			// we are root
-			get_authorization_finished (true);
+			return true;
 		}
 
-		public void start_get_authorization () {
-			get_authorization.begin ();
-		}
-
-		async void write_pamac_config (HashTable<string,Variant> new_pamac_conf) {
-			var pamac_config = new Config ("/etc/pamac.conf");
-			pamac_config.write (new_pamac_conf);
-			pamac_config.reload ();
-			write_pamac_config_finished (pamac_config.recurse, pamac_config.refresh_period, pamac_config.no_update_hide_icon,
-										pamac_config.enable_aur, pamac_config.aur_build_dir, pamac_config.check_aur_updates,
-										pamac_config.check_aur_vcs_updates, pamac_config.download_updates);
-		}
-
-		public void start_write_pamac_config (HashTable<string,Variant> new_pamac_conf) {
-			write_pamac_config.begin (new_pamac_conf);
-		}
-
-		async void write_alpm_config (HashTable<string,Variant> new_alpm_conf) {
-			alpm_utils.alpm_config.write (new_alpm_conf);
-			alpm_utils.alpm_config.reload ();
-			alpm_utils.refresh_handle ();
-			database_modified ();
-			write_alpm_config_finished ((alpm_utils.alpm_handle.checkspace == 1));
-		}
-
-		public void start_write_alpm_config (HashTable<string,Variant> new_alpm_conf) {
-			write_alpm_config.begin (new_alpm_conf);
-		}
-
-		async void generate_mirrors_list (string country) {
+		public void generate_mirrors_list (string country) {
 			try {
 				var process = new Subprocess.newv (
 					{"pacman-mirrors", "-c", country},
@@ -119,166 +102,110 @@ namespace Pamac {
 					generate_mirrors_list_data (line);
 				}
 			} catch (Error e) {
-				stderr.printf ("Error: %s\n", e.message);
+				critical ("%s\n", e.message);
 			}
 			alpm_utils.alpm_config.reload ();
 			alpm_utils.refresh_handle ();
-			database_modified ();
-			generate_mirrors_list_finished ();
 		}
 
-		public void start_generate_mirrors_list (string country) {
-			generate_mirrors_list.begin (country);
+		public bool clean_cache (string[] filenames) {
+			return alpm_utils.clean_cache (filenames);
 		}
 
-		async void clean_cache (uint64 keep_nb, bool only_uninstalled) {
-			alpm_utils.clean_cache (keep_nb, only_uninstalled);
-			clean_cache_finished (true);
+		public bool clean_build_files (string aur_build_dir) {
+			return alpm_utils.clean_build_files (aur_build_dir);
 		}
 
-		public void start_clean_cache (uint64 keep_nb, bool only_uninstalled) {
-			clean_cache.begin (keep_nb, only_uninstalled);
-		}
-
-		async void clean_build_files (string build_dir) {
-			alpm_utils.clean_build_files (build_dir);
-			clean_build_files_finished (true);
-		}
-
-		public void start_clean_build_files (string build_dir) {
-			clean_build_files.begin (build_dir);
-		}
-
-		async void set_pkgreason (string pkgname, uint reason) {
+		public bool set_pkgreason (string pkgname, uint reason) {
 			bool success = alpm_utils.set_pkgreason (pkgname, reason);
-			database_modified ();
-			set_pkgreason_finished (success);
+			return success;
 		}
 
-		public void start_set_pkgreason (string pkgname, uint reason) {
-			set_pkgreason.begin (pkgname, reason);
-		}
-
-		int refresh () {
-			alpm_utils.refresh ();
-			return 0;
-		}
-
-		public void start_refresh (bool force) {
-			alpm_utils.force_refresh = force;
-			if (alpm_utils.downloading_updates) {
-				alpm_utils.cancellable.cancel ();
-				// let time to cancel download updates
-				Timeout.add (1000, () => {
-					new Thread<int> ("refresh", refresh);
-					return false;
-				});
-			} else {
-				new Thread<int> ("refresh", refresh);
-			}
-		}
-
-		int download_updates () {
+		public void download_updates () {
 			alpm_utils.download_updates ();
-			return 0;
 		}
 
-		public void start_downloading_updates () {
-			new Thread<int> ("download_updates", download_updates);
-		}
-
-		public void start_sysupgrade_prepare (bool enable_downgrade,
-											string[] to_build,
-											string[] temporary_ignorepkgs,
-											string[] overwrite_files) {
-			alpm_utils.config.enable_downgrade = enable_downgrade;
-			alpm_utils.temporary_ignorepkgs = temporary_ignorepkgs;
-			alpm_utils.overwrite_files = overwrite_files;
-			alpm_utils.sysupgrade = true;
-			alpm_utils.flags = 0;
-			alpm_utils.to_install = {};
-			alpm_utils.to_remove = {};
-			alpm_utils.to_load = {};
-			alpm_utils.to_build = to_build;
-			if (alpm_utils.downloading_updates) {
-				alpm_utils.cancellable.cancel ();
-				// let time to cancel download updates
-				Timeout.add (1000, () => {
-					launch_prepare ();
-					return false;
-				});
-			} else {
-				launch_prepare ();
-			}
-		}
-
-		public void start_trans_prepare (int flags,
-										string[] to_install,
-										string[] to_remove,
-										string[] to_load,
-										string[] to_build,
-										string[] temporary_ignorepkgs,
-										string[] overwrite_files,
-										string[] to_mark_as_dep) {
+		public void set_trans_flags (int flags) {
 			alpm_utils.flags = flags;
-			alpm_utils.to_install = to_install;
-			alpm_utils.to_remove = to_remove;
-			alpm_utils.to_load = to_load;
-			alpm_utils.to_build = to_build;
-			alpm_utils.temporary_ignorepkgs = temporary_ignorepkgs;
-			alpm_utils.overwrite_files = overwrite_files;
-			alpm_utils.to_mark_as_dep = to_mark_as_dep;
-			alpm_utils.sysupgrade = false;
-			if (alpm_utils.downloading_updates) {
-				alpm_utils.cancellable.cancel ();
-				// let time to cancel download updates
-				Timeout.add (1000, () => {
-					launch_prepare ();
-					return false;
-				});
-			} else {
-				launch_prepare ();
-			}
 		}
 
-		int build_prepare () {
-			alpm_utils.build_prepare ();
-			return 0;
+		public void set_no_confirm_commit () {
+			alpm_utils.no_confirm_commit = true;
 		}
 
-		int trans_prepare () {
-			alpm_utils.trans_prepare ();
-			return 0;
+		public void add_pkg_to_install (string name) {
+			alpm_utils.to_install.add (name);
 		}
 
-		private void launch_prepare () {
-			if (alpm_utils.to_build.length != 0) {
-				new Thread<int> ("build_prepare", build_prepare);
-			} else {
-				new Thread<int> ("trans_prepare", trans_prepare);
-			}
+		public void add_pkg_to_remove (string name) {
+			alpm_utils.to_remove.add (name);
 		}
 
-		public void choose_provider (int provider) {
-			alpm_utils.choose_provider (provider);
+		public void add_path_to_load (string path) {
+			alpm_utils.to_load.add (path);
 		}
 
-		public TransactionSummaryStruct get_transaction_summary () {
-			return alpm_utils.get_transaction_summary ();
+		public void add_aur_pkg_to_build (string name) {
+			alpm_utils.to_build.add (name);
 		}
 
-		int trans_commit () {
-			alpm_utils.trans_commit ();
-			return 0;
+		public void add_temporary_ignore_pkg (string name) {
+			alpm_utils.temporary_ignorepkgs.add (name);
+		}
+
+		public void add_overwrite_file (string glob) {
+			alpm_utils.overwrite_files.add (glob);
+		}
+
+		public void add_pkg_to_mark_as_dep (string name) {
+			alpm_utils.to_install_as_dep.insert (name, name);
+		}
+
+		public void set_sysupgrade () {
+			alpm_utils.sysupgrade = true;
+		}
+
+		public void set_enable_downgrade (bool downgrade) {
+			alpm_utils.enable_downgrade = downgrade;
 		}
  
-		public void start_trans_commit () {
-			new Thread<int> ("trans_commit", trans_commit);
+		public void set_force_refresh () {
+			alpm_utils.force_refresh = true;
 		}
 
-		public void trans_release () {
-			alpm_utils.trans_release ();
+		void trans_run_real () {
+			var loop = new MainLoop ();
+			new Thread<int> ("trans_run_real", () => {
+				trans_run_success = alpm_utils.trans_run ();
+				loop.quit ();
+				return 0;
+			});
+			loop.run ();
 		}
+
+		public bool trans_run () {
+			if (alpm_utils.downloading_updates) {
+				alpm_utils.cancellable.cancel ();
+				// let time to cancel download updates
+				var loop = new MainLoop ();
+				Timeout.add (1000, () => {
+					trans_run_real ();
+					loop.quit ();
+					return false;
+				});
+				loop.run ();
+			} else {
+				trans_run_real ();
+			}
+			return trans_run_success;
+		}
+
+		#if ENABLE_SNAP
+		public bool snap_trans_run (string[] to_install, string[] to_remove) {
+			// not implemented
+			return true;
+		}
+		#endif
 
 		public void trans_cancel () {
 			alpm_utils.trans_cancel ();

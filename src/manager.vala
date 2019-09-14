@@ -46,7 +46,7 @@ namespace Pamac {
 					manager_window.refresh_packages_list ();
 				}
 				manager_window.main_stack.visible_child_name = "details";
-				manager_window.display_package_properties (pkgname, "", false);
+				manager_window.display_package_details (this.database.get_sync_pkg (pkgname));
 				manager_window.present_with_time (timestamp);
 			});
 			search_provider.search_full.connect ((terms, timestamp) => {

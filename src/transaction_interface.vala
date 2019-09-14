@@ -21,44 +21,46 @@ namespace Pamac {
 	internal interface TransactionInterface : Object {
 		public abstract ErrorInfos get_current_error ();
 		public abstract bool get_lock ();
-		public abstract void start_get_authorization ();
-		public abstract void start_write_pamac_config (HashTable<string,Variant> new_pamac_conf);
-		public abstract void start_write_alpm_config (HashTable<string,Variant> new_alpm_conf);
-		public abstract void start_generate_mirrors_list (string country);
-		public abstract void start_clean_cache (uint64 keep_nb, bool only_uninstalled);
-		public abstract void start_clean_build_files (string build_dir);
-		public abstract void start_set_pkgreason (string pkgname, uint reason);
-		public abstract void start_refresh (bool force);
-		public abstract void start_downloading_updates ();
-		public abstract void start_sysupgrade_prepare (bool enable_downgrade, string[] to_build, string[] temporary_ignorepkgs, string[] overwrite_files);
-		public abstract void start_trans_prepare (int transflags, string[] to_install, string[] to_remove, string[] to_load, string[] to_build, string[] temporary_ignorepkgs, string[] overwrite_files, string[] to_mark_as_dep);
-		public abstract void choose_provider (int provider);
-		public abstract TransactionSummaryStruct get_transaction_summary ();
-		public abstract void start_trans_commit ();
-		public abstract void trans_release ();
+		public abstract bool get_authorization ();
+		public abstract void generate_mirrors_list (string country);
+		public abstract bool clean_cache (string[] filenames);
+		public abstract bool clean_build_files (string aur_build_dir);
+		public abstract bool set_pkgreason (string pkgname, uint reason);
+		public abstract void download_updates ();
+		public abstract void set_trans_flags (int flags);
+		public abstract void add_pkg_to_install (string name);
+		public abstract void add_pkg_to_remove (string name);
+		public abstract void add_path_to_load (string path);
+		public abstract void add_aur_pkg_to_build (string name);
+		public abstract void add_temporary_ignore_pkg (string name);
+		public abstract void add_overwrite_file (string glob);
+		public abstract void add_pkg_to_mark_as_dep (string name);
+		public abstract void set_sysupgrade ();
+		public abstract void set_enable_downgrade (bool downgrade);
+		public abstract void set_no_confirm_commit ();
+		public abstract void set_force_refresh ();
+		public abstract bool trans_run ();
 		public abstract void trans_cancel ();
 		public abstract void quit_daemon ();
-		public signal void emit_event (uint primary_event, uint secondary_event, string[] details);
-		public signal void emit_providers (string depend, string[] providers);
+		public signal int choose_provider (string depend, string[] providers);
+		public signal void compute_aur_build_list ();
+		public signal bool ask_edit_build_files (TransactionSummaryStruct summary);
+		public signal void edit_build_files (string[] pkgnames);
+		public signal bool ask_commit (TransactionSummaryStruct summary);
 		public signal void emit_unresolvables (string[] unresolvables);
-		public signal void emit_progress (uint progress, string pkgname, uint percent, uint n_targets, uint current_target);
-		public signal void emit_download (string filename, uint64 xfered, uint64 total);
-		public signal void emit_totaldownload (uint64 total);
-		public signal void emit_log (uint level, string msg);
-		public signal void set_pkgreason_finished (bool success);
-		public signal void database_modified ();
-		public signal void refresh_finished (bool success);
-		public signal void downloading_updates_finished ();
-		public signal void trans_prepare_finished (bool success);
-		public signal void trans_commit_finished (bool success);
-		public signal void get_authorization_finished (bool authorized);
-		public signal void write_pamac_config_finished (bool recurse, uint64 refresh_period, bool no_update_hide_icon,
-														bool enable_aur, string aur_build_dir, bool check_aur_updates,
-														bool check_aur_vcs_updates, bool download_updates);
-		public signal void write_alpm_config_finished (bool checkspace);
+		public signal void emit_action (string action);
+		public signal void emit_action_progress (string action, string status, double progress);
+		public signal void start_downloading ();
+		public signal void stop_downloading ();
+		public signal void emit_download_progress (string action, string status, double progress);
+		public signal void emit_hook_progress (string action, string details, string status, double progress);
+		public signal void emit_script_output (string message);
+		public signal void emit_warning (string message);
+		public signal void emit_error (string message, string[] details);
+		public signal void important_details_outpout (bool must_show);
 		public signal void generate_mirrors_list_data (string line);
-		public signal void generate_mirrors_list_finished ();
-		public signal void clean_cache_finished (bool success);
-		public signal void clean_build_files_finished (bool success);
+		#if ENABLE_SNAP
+		public abstract bool snap_trans_run (string[] to_install, string[] to_remove);
+		#endif
 	}
 }

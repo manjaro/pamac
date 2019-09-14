@@ -1,1 +1,2 @@
 option('enable-appindicator', type : 'boolean', value : false, description : 'tray icon using appindicator')
+option('enable-snap', type : 'boolean', value : false, description : 'install snap packages')

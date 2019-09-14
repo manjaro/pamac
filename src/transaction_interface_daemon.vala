@@ -18,57 +18,20 @@
  */
 
 namespace Pamac {
-	[DBus (name = "org.manjaro.pamac.system")]
-	interface SystemDaemon : Object {
-		public abstract void set_environment_variables (HashTable<string,string> variables) throws Error;
-		public abstract ErrorInfos get_current_error () throws Error;
-		public abstract bool get_lock () throws Error;
-		public abstract void start_get_authorization () throws Error;
-		public abstract void start_write_pamac_config (HashTable<string,Variant> new_pamac_conf) throws Error;
-		public abstract void start_write_alpm_config (HashTable<string,Variant> new_alpm_conf) throws Error;
-		public abstract void start_generate_mirrors_list (string country) throws Error;
-		public abstract void start_clean_cache (uint64 keep_nb, bool only_uninstalled) throws Error;
-		public abstract void start_clean_build_files (string build_dir) throws Error;
-		public abstract void start_set_pkgreason (string pkgname, uint reason) throws Error;
-		public abstract void start_refresh (bool force) throws Error;
-		public abstract void start_downloading_updates () throws Error;
-		public abstract void start_sysupgrade_prepare (bool enable_downgrade, string[] to_build, string[] temporary_ignorepkgs, string[] overwrite_files) throws Error;
-		public abstract void start_trans_prepare (int transflags, string[] to_install, string[] to_remove, string[] to_load, string[] to_build, string[] temporary_ignorepkgs, string[] overwrite_files, string[] to_mark_as_dep) throws Error;
-		public abstract void choose_provider (int provider) throws Error;
-		public abstract TransactionSummaryStruct get_transaction_summary () throws Error;
-		public abstract void start_trans_commit () throws Error;
-		public abstract void trans_release () throws Error;
-		public abstract void trans_cancel () throws Error;
-		[DBus (no_reply = true)]
-		public abstract void quit () throws Error;
-		public signal void emit_event (uint primary_event, uint secondary_event, string[] details);
-		public signal void emit_providers (string depend, string[] providers);
-		public signal void emit_unresolvables (string[] unresolvables);
-		public signal void emit_progress (uint progress, string pkgname, uint percent, uint n_targets, uint current_target);
-		public signal void emit_download (string filename, uint64 xfered, uint64 total);
-		public signal void emit_totaldownload (uint64 total);
-		public signal void emit_log (uint level, string msg);
-		public signal void set_pkgreason_finished (bool success);
-		public signal void refresh_finished (bool success);
-		public signal void database_modified ();
-		public signal void downloading_updates_finished ();
-		public signal void trans_prepare_finished (bool success);
-		public signal void trans_commit_finished (bool success);
-		public signal void get_authorization_finished (bool authorized);
-		public signal void write_pamac_config_finished (bool recurse, uint64 refresh_period, bool no_update_hide_icon,
-														bool enable_aur, string aur_build_dir, bool check_aur_updates,
-														bool check_aur_vcs_updates, bool download_updates);
-		public signal void write_alpm_config_finished (bool checkspace);
-		public signal void generate_mirrors_list_data (string line);
-		public signal void generate_mirrors_list_finished ();
-		public signal void clean_cache_finished (bool success);
-		public signal void clean_build_files_finished (bool success);
-	}
-
 	internal class TransactionInterfaceDaemon: Object, TransactionInterface {
-		SystemDaemon system_daemon;
+		Daemon system_daemon;
+		MainLoop loop;
+		bool get_authorization_authorized;
+		bool clean_cache_success;
+		bool clean_build_files_success;
+		bool set_pkgreason_success;
+		bool trans_run_success;
+		#if ENABLE_SNAP
+		bool snap_trans_run_success;
+		#endif
 
 		public TransactionInterfaceDaemon (Config config) {
+			loop = new MainLoop ();
 			connecting_system_daemon (config);
 			connecting_dbus_signals ();
 		}
@@ -77,7 +40,7 @@ namespace Pamac {
 			try {
 				return system_daemon.get_current_error ();
 			} catch (Error e) {
-				stderr.printf ("get_current_error: %s\n", e.message);
+				critical ("get_current_error: %s\n", e.message);
 				return ErrorInfos ();
 			}
 		}
@@ -87,269 +50,296 @@ namespace Pamac {
 			try {
 				locked = system_daemon.get_lock ();
 			} catch (Error e) {
-				stderr.printf ("get_lock: %s\n", e.message);
+				critical ("get_lock: %s\n", e.message);
 			}
 			return locked;
 		}
 
-		public void start_get_authorization () {
+		public bool get_authorization () {
 			try {
 				system_daemon.start_get_authorization ();
-				system_daemon.get_authorization_finished.connect (on_get_authorization_finished);
+				loop.run ();
+				return get_authorization_authorized;
 			} catch (Error e) {
-				stderr.printf ("start_get_authorization: %s\n", e.message);
+				critical ("start_get_authorization: %s\n", e.message);
 			}
+			return false;
 		}
 
 		void on_get_authorization_finished (bool authorized) {
-			system_daemon.get_authorization_finished.disconnect (on_get_authorization_finished);
-			get_authorization_finished (authorized);
+			get_authorization_authorized = authorized;
+			loop.quit ();
 		}
 
-		public void start_write_pamac_config (HashTable<string,Variant> new_pamac_conf) {
-			try {
-				system_daemon.start_write_pamac_config (new_pamac_conf);
-				system_daemon.write_pamac_config_finished.connect (on_write_pamac_config_finished);
-			} catch (Error e) {
-				stderr.printf ("start_write_pamac_config: %s\n", e.message);
-			}
-		}
 
-		void on_write_pamac_config_finished (bool recurse, uint64 refresh_period, bool no_update_hide_icon,
-											bool enable_aur, string aur_build_dir, bool check_aur_updates,
-											bool check_aur_vcs_updates, bool download_updates) {
-			system_daemon.write_pamac_config_finished.disconnect (on_write_pamac_config_finished);
-			write_pamac_config_finished (recurse, refresh_period, no_update_hide_icon,
-										enable_aur, aur_build_dir, check_aur_updates,
-										check_aur_vcs_updates, download_updates);
-		}
-
-		public void start_write_alpm_config (HashTable<string,Variant> new_alpm_conf) {
-			try {
-				system_daemon.start_write_alpm_config (new_alpm_conf);
-				system_daemon.write_alpm_config_finished.connect (on_write_alpm_config_finished);
-			} catch (Error e) {
-				stderr.printf ("start_write_alpm_config: %s\n", e.message);
-			}
-		}
-
-		void on_write_alpm_config_finished (bool checkspace) {
-			system_daemon.write_alpm_config_finished.disconnect (on_write_alpm_config_finished);
-			write_alpm_config_finished (checkspace);
-		}
-
-		public void start_generate_mirrors_list (string country) {
+		public void generate_mirrors_list (string country) {
 			try {
 				system_daemon.start_generate_mirrors_list (country);
-				system_daemon.generate_mirrors_list_data.connect (on_generate_mirrors_list_data);
-				system_daemon.generate_mirrors_list_finished.connect (on_generate_mirrors_list_finished);
+				loop.run ();
 			} catch (Error e) {
-				stderr.printf ("start_generate_mirrors_list: %s\n", e.message);
+				critical ("generate_mirrors_list: %s\n", e.message);
 			}
-		}
-
-		void on_generate_mirrors_list_data (string line) {
-			generate_mirrors_list_data (line);
 		}
 
 		void on_generate_mirrors_list_finished () {
-			system_daemon.generate_mirrors_list_data.disconnect (on_generate_mirrors_list_data);
-			system_daemon.generate_mirrors_list_finished.disconnect (on_generate_mirrors_list_finished);
-			generate_mirrors_list_finished ();
+			loop.quit ();
 		}
 
-		public void start_clean_cache (uint64 keep_nb, bool only_uninstalled) {
+		public bool clean_cache (string[] filenames) {
 			try {
-				system_daemon.start_clean_cache (keep_nb, only_uninstalled);
-				system_daemon.clean_cache_finished.connect (on_clean_cache_finished);
+				system_daemon.start_clean_cache (filenames);
+				loop.run ();
+				return clean_cache_success;
 			} catch (Error e) {
-				stderr.printf ("clean_cache: %s\n", e.message);
+				critical ("clean_cache: %s\n", e.message);
 			}
+			return false;
 		}
 
 		void on_clean_cache_finished (bool success) {
-			system_daemon.clean_cache_finished.disconnect (on_clean_cache_finished);
-			clean_cache_finished (success);
+			clean_cache_success = success;
+			loop.quit ();
 		}
 
-		public void start_clean_build_files (string build_dir) {
+		public bool clean_build_files (string aur_build_dir) {
 			try {
-				system_daemon.start_clean_build_files (build_dir);
-				system_daemon.clean_build_files_finished.connect (on_clean_build_files_finished);
+				system_daemon.start_clean_build_files (aur_build_dir);
+				loop.run ();
+				return clean_build_files_success;
 			} catch (Error e) {
-				stderr.printf ("clean_build_files: %s\n", e.message);
+				critical ("clean_build_files: %s\n", e.message);
 			}
+			return false;
 		}
 
-		void on_clean_build_files_finished (bool success) {
-			system_daemon.clean_build_files_finished.disconnect (on_clean_build_files_finished);
-			clean_build_files_finished (success);
+		void on_clean_clean_build_files_finished (bool success) {
+			clean_build_files_success = success;
+			loop.quit ();
 		}
 
-		public void start_set_pkgreason (string pkgname, uint reason) {
+		public bool set_pkgreason (string pkgname, uint reason) {
 			try {
 				system_daemon.start_set_pkgreason (pkgname, reason);
-				system_daemon.set_pkgreason_finished.connect (on_set_pkgreason_finished);
+				loop.run ();
+				return set_pkgreason_success;
 			} catch (Error e) {
-				stderr.printf ("start_set_pkgreason: %s\n", e.message);
+				critical ("set_pkgreason: %s\n", e.message);
 			}
+			return false;
 		}
 
 		void on_set_pkgreason_finished (bool success) {
-			system_daemon.set_pkgreason_finished.disconnect (on_set_pkgreason_finished);
-			set_pkgreason_finished (success);
+			set_pkgreason_success = success;
+			loop.quit ();
 		}
 
-		public void start_refresh (bool force) {
+		public void download_updates () {
 			try {
-				system_daemon.start_refresh (force);
-				system_daemon.refresh_finished.connect (on_refresh_finished);
+				system_daemon.start_download_updates ();
+				loop.run ();
 			} catch (Error e) {
-				stderr.printf ("start_refresh: %s\n", e.message);
+				critical ("start_downloading_updates: %s\n", e.message);
 			}
 		}
 
-		void on_refresh_finished (bool success) {
-			system_daemon.refresh_finished.disconnect (on_refresh_finished);
-			refresh_finished (success);
+		void on_download_updates_finished () {
+			loop.quit ();
 		}
 
-		public void start_downloading_updates () {
+		public void set_trans_flags (int flags) {
 			try {
-				system_daemon.start_downloading_updates ();
-				system_daemon.downloading_updates_finished.connect (on_downloading_updates_finished);
+				system_daemon.set_trans_flags (flags);
 			} catch (Error e) {
-				stderr.printf ("start_downloading_updates: %s\n", e.message);
+				critical ("set_trans_flags: %s\n", e.message);
 			}
 		}
 
-		void on_downloading_updates_finished () {
-			system_daemon.downloading_updates_finished.disconnect (on_downloading_updates_finished);
-			downloading_updates_finished ();
-		}
-
-		void start_sysupgrade_prepare (bool enable_downgrade,
-										string[] to_build,
-										string[] temporary_ignorepkgs,
-										string[] overwrite_files) {
+		public void set_no_confirm_commit () {
 			try {
-				// this will respond with trans_prepare_finished signal
-				system_daemon.start_sysupgrade_prepare (enable_downgrade, to_build, temporary_ignorepkgs, overwrite_files);
+				system_daemon.set_no_confirm_commit ();
 			} catch (Error e) {
-				stderr.printf ("start_sysupgrade_prepare: %s\n", e.message);
+				critical ("set_no_confirm_commit: %s\n", e.message);
 			}
 		}
 
-
-		void start_trans_prepare (int flags,
-								string[] to_install,
-								string[] to_remove,
-								string[] to_load,
-								string[] to_build,
-								string[] temporary_ignorepkgs,
-								string[] overwrite_files,
-								string[] to_mark_as_dep) {
+		public void add_pkg_to_install (string name) {
 			try {
-				system_daemon.start_trans_prepare (flags, to_install, to_remove, to_load, to_build, temporary_ignorepkgs, overwrite_files, to_mark_as_dep);
+				system_daemon.add_pkg_to_install (name);
 			} catch (Error e) {
-				stderr.printf ("start_trans_prepare: %s\n", e.message);
+				critical ("add_pkg_to_install: %s\n", e.message);
 			}
 		}
 
-		void on_trans_prepare_finished (bool success) {
-			trans_prepare_finished (success);
-		}
-
-		public void start_trans_commit () {
+		public void add_pkg_to_remove (string name) {
 			try {
-				system_daemon.start_trans_commit ();
+				system_daemon.add_pkg_to_remove (name);
 			} catch (Error e) {
-				stderr.printf ("start_trans_commit: %s\n", e.message);
+				critical ("add_pkg_to_remove: %s\n", e.message);
 			}
 		}
 
-		void on_trans_commit_finished (bool success) {
-			trans_commit_finished (success);
+		public void add_path_to_load (string path) {
+			try {
+				system_daemon.add_path_to_load (path);
+			} catch (Error e) {
+				critical ("add_path_to_load: %s\n", e.message);
+			}
+		}
+
+		public void add_aur_pkg_to_build (string name) {
+			try {
+				system_daemon.add_aur_pkg_to_build (name);
+			} catch (Error e) {
+				critical ("add_pkg_to_build: %s\n", e.message);
+			}
+		}
+
+		public void add_temporary_ignore_pkg (string name) {
+			try {
+				system_daemon.add_temporary_ignore_pkg (name);
+			} catch (Error e) {
+				critical ("add_temporary_ignore_pkg: %s\n", e.message);
+			}
+		}
+
+		public void add_overwrite_file (string glob) {
+			try {
+				system_daemon.add_overwrite_file (glob);
+			} catch (Error e) {
+				critical ("add_overwrite_file: %s\n", e.message);
+			}
+		}
+
+		public void add_pkg_to_mark_as_dep (string name) {
+			try {
+				system_daemon.add_pkg_to_mark_as_dep (name);
+			} catch (Error e) {
+				critical ("add_pkg_to_mark_as_dep: %s\n", e.message);
+			}
+		}
+
+		public void set_sysupgrade () {
+			try {
+				system_daemon.set_sysupgrade ();
+			} catch (Error e) {
+				critical ("set_sysupgrade: %s\n", e.message);
+			}
+		}
+
+		public void set_enable_downgrade (bool downgrade) {
+			try {
+				system_daemon.set_enable_downgrade (downgrade);
+			} catch (Error e) {
+				critical ("set_enable_downgrade: %s\n", e.message);
+			}
+		}
+
+		public void set_force_refresh () {
+			try {
+				system_daemon.set_force_refresh ();
+			} catch (Error e) {
+				critical ("set_force_refresh: %s\n", e.message);
+			}
+		}
+
+		public bool trans_run () {
+			try {
+				system_daemon.trans_run_finished.connect ((success) => {
+					trans_run_success = success;
+					loop.quit ();
+				});
+				system_daemon.start_trans_run ();
+				loop.run ();
+				return trans_run_success;
+			} catch (Error e) {
+				critical ("start_trans_run: %s\n", e.message);
+			}
+			return false;
 		}
 
 		public void trans_cancel () {
 			try {
 				system_daemon.trans_cancel ();
 			} catch (Error e) {
-				stderr.printf ("trans_cancel: %s\n", e.message);
+				critical ("trans_cancel: %s\n", e.message);
 			}
 		}
 
-		public void trans_release () {
+		#if ENABLE_SNAP
+		public bool snap_trans_run (string[] to_install, string[] to_remove) {
 			try {
-				system_daemon.trans_release ();
+				system_daemon.start_snap_trans_run (to_install, to_remove);
+				loop.run ();
+				return snap_trans_run_success;
 			} catch (Error e) {
-				stderr.printf ("trans_release: %s\n", e.message);
+				critical ("start_trans_run: %s\n", e.message);
 			}
+			return false;
 		}
+
+		void on_snap_trans_run_finished (bool success) {
+			snap_trans_run_success = success;
+			loop.quit ();
+		}
+		#endif
 
 		public void quit_daemon () {
 			try {
 				system_daemon.quit ();
 			} catch (Error e) {
-				stderr.printf ("quit: %s\n", e.message);
+				critical ("quit: %s\n", e.message);
 			}
 		}
 
-		void on_emit_event (uint primary_event, uint secondary_event, string[] details) {
-			emit_event (primary_event, secondary_event, details);
-		}
-
-		void on_emit_providers (string depend, string[] providers) {
-			emit_providers (depend, providers);
-		}
-
-		public void choose_provider (int index) {
+		void on_choose_provider (string depend, string[] providers) {
+			int index = choose_provider (depend, providers);
 			try {
-				system_daemon.choose_provider (index);
+				system_daemon.answer_choose_provider (index);
 			} catch (Error e) {
-				stderr.printf ("choose_provider: %s\n", e.message);
+				critical ("answer_choose_provider: %s\n", e.message);
 			}
 		}
 
-		void on_emit_unresolvables (string[] unresolvables) {
-			emit_unresolvables (unresolvables);
-		}
-
-		void on_emit_progress (uint progress, string pkgname, uint percent, uint n_targets, uint current_target) {
-			emit_progress (progress, pkgname, percent, n_targets, current_target);
-		}
-
-		void on_emit_download (string filename, uint64 xfered, uint64 total) {
-			emit_download (filename, xfered, total);
-		}
-
-		void on_emit_totaldownload (uint64 total) {
-			emit_totaldownload (total);
-		}
-
-		void on_emit_log (uint level, string msg) {
-			emit_log (level, msg);
-		}
-
-		void on_database_modified () {
-			database_modified ();
-		}
-
-		public TransactionSummaryStruct get_transaction_summary () {
-			var summary_struct = TransactionSummaryStruct ();
+		void on_compute_aur_build_list () {
+			compute_aur_build_list ();
 			try {
-				summary_struct = system_daemon.get_transaction_summary ();
+				system_daemon.aur_build_list_computed ();
 			} catch (Error e) {
-				stderr.printf ("get_transaction_summary: %s\n", e.message);
+				critical ("build_files_edited: %s\n", e.message);
 			}
-			return summary_struct;
+		}
+
+		void on_ask_edit_build_files (TransactionSummaryStruct summary) {
+			bool answer = ask_edit_build_files (summary);
+			try {
+				system_daemon.answer_ask_edit_build_files (answer);
+			} catch (Error e) {
+				critical ("answer_ask_edit_build_files: %s\n", e.message);
+			}
+		}
+
+		void on_edit_build_files (string[] pkgnames) {
+			edit_build_files (pkgnames);
+			try {
+				system_daemon.build_files_edited ();
+			} catch (Error e) {
+				critical ("build_files_edited: %s\n", e.message);
+			}
+		}
+
+		void on_ask_commit (TransactionSummaryStruct summary) {
+			bool answer = ask_commit (summary);
+			try {
+				system_daemon.answer_ask_commit (answer);
+			} catch (Error e) {
+				critical ("answer_ask_commit: %s\n", e.message);
+			}
 		}
 
 		void connecting_system_daemon (Config config) {
 			if (system_daemon == null) {
 				try {
-					system_daemon = Bus.get_proxy_sync (BusType.SYSTEM, "org.manjaro.pamac.system", "/org/manjaro/pamac/system");
+					system_daemon = Bus.get_proxy_sync (BusType.SYSTEM, "org.manjaro.pamac.daemon", "/org/manjaro/pamac/daemon");
 					// Set environment variables
 					system_daemon.set_environment_variables (config.environment_variables);
 				} catch (Error e) {
@@ -359,16 +349,31 @@ namespace Pamac {
 		}
 
 		void connecting_dbus_signals () {
-			system_daemon.emit_event.connect (on_emit_event);
-			system_daemon.emit_providers.connect (on_emit_providers);
-			system_daemon.emit_unresolvables.connect (on_emit_unresolvables);
-			system_daemon.emit_progress.connect (on_emit_progress);
-			system_daemon.emit_download.connect (on_emit_download);
-			system_daemon.emit_totaldownload.connect (on_emit_totaldownload);
-			system_daemon.emit_log.connect (on_emit_log);
-			system_daemon.database_modified.connect (on_database_modified);
-			system_daemon.trans_prepare_finished.connect (on_trans_prepare_finished);
-			system_daemon.trans_commit_finished.connect (on_trans_commit_finished);
+			system_daemon.choose_provider.connect (on_choose_provider);
+			system_daemon.compute_aur_build_list.connect (on_compute_aur_build_list);
+			system_daemon.ask_edit_build_files.connect (on_ask_edit_build_files);
+			system_daemon.edit_build_files.connect (on_edit_build_files);
+			system_daemon.ask_commit.connect (on_ask_commit);
+			system_daemon.emit_action.connect ((action) => { emit_action (action); });
+			system_daemon.emit_action_progress.connect ((action, status, progress) => { emit_action_progress (action, status, progress); });
+			system_daemon.emit_download_progress.connect ((action, status, progress) => { emit_download_progress (action, status, progress); });
+			system_daemon.emit_hook_progress.connect ((action, details, status, progress) => { emit_hook_progress (action, details, status, progress); });
+			system_daemon.emit_script_output.connect ((message) => { emit_script_output (message); });
+			system_daemon.emit_warning.connect ((message) => { emit_warning (message); });
+			system_daemon.emit_error.connect ((message,  details) => { emit_error (message,  details); });
+			system_daemon.important_details_outpout.connect ((must_show) => { important_details_outpout (must_show); });
+			system_daemon.start_downloading.connect (() => { start_downloading (); });
+			system_daemon.stop_downloading.connect (() => { stop_downloading (); });
+			system_daemon.get_authorization_finished.connect (on_get_authorization_finished);
+			system_daemon.clean_cache_finished.connect (on_clean_cache_finished);
+			system_daemon.clean_build_files_finished.connect (on_clean_clean_build_files_finished);
+			system_daemon.set_pkgreason_finished.connect (on_set_pkgreason_finished);
+			system_daemon.download_updates_finished.connect (on_download_updates_finished );
+			system_daemon.generate_mirrors_list_data.connect ((line) => { generate_mirrors_list_data (line); });
+			system_daemon.generate_mirrors_list_finished.connect (on_generate_mirrors_list_finished);
+			#if ENABLE_SNAP
+			system_daemon.snap_trans_run_finished.connect (on_snap_trans_run_finished);
+			#endif
 		}
 	}
 }
