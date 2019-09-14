@@ -25,20 +25,19 @@ const string noupdate_icon_name = "pamac-tray-no-update";
 const string noupdate_info = _("Your system is up-to-date");
 
 namespace Pamac {
-	[DBus (name = "org.manjaro.pamac.system")]
-	interface SystemDaemon : Object {
+	[DBus (name = "org.manjaro.pamac.daemon")]
+	interface Daemon : Object {
 		public abstract void set_environment_variables (HashTable<string,string> variables) throws Error;
 		public abstract string get_lockfile () throws Error;
 		[DBus (no_reply = true)]
 		public abstract void quit () throws Error;
-		public signal void write_pamac_config_finished (bool recurse, uint64 refresh_period, bool no_update_hide_icon,
-														bool enable_aur, string aur_build_dir, bool check_aur_updates,
-														bool check_aur_vcs_updates, bool download_updates);
+		public signal void write_pamac_config_finished ();
 	}
 
 	public abstract class TrayIcon: Gtk.Application {
 		Notify.Notification notification;
-		SystemDaemon system_daemon;
+		Daemon system_daemon;
+		Config config;
 		bool extern_lock;
 		uint refresh_timeout_id;
 		uint check_lock_timeout_id;
@@ -55,7 +54,7 @@ namespace Pamac {
 		void start_system_daemon (HashTable<string,string> environment_variables) {
 			if (system_daemon == null) {
 				try {
-					system_daemon = Bus.get_proxy_sync (BusType.SYSTEM, "org.manjaro.pamac.system", "/org/manjaro/pamac/system");
+					system_daemon = Bus.get_proxy_sync (BusType.SYSTEM, "org.manjaro.pamac.daemon", "/org/manjaro/pamac/daemon");
 					// Set environment variables
 					system_daemon.set_environment_variables (environment_variables);
 					system_daemon.write_pamac_config_finished.connect (on_write_pamac_config_finished);
@@ -161,8 +160,9 @@ namespace Pamac {
 			return true;
 		}
 
-		void on_write_pamac_config_finished (bool recurse, uint64 refresh_period) {
-			launch_refresh_timeout (refresh_period);
+		void on_write_pamac_config_finished () {
+			config.reload ();
+			launch_refresh_timeout (config.refresh_period);
 			check_updates ();
 		}
 
@@ -280,7 +280,7 @@ namespace Pamac {
 			Intl.textdomain ("pamac");
 			Intl.setlocale (LocaleCategory.ALL, "");
 
-			var config = new Config ("/etc/pamac.conf");
+			config = new Config ("/etc/pamac.conf");
 			// if refresh period is 0, just return so tray will exit
 			if (config.refresh_period == 0) {
 				return;

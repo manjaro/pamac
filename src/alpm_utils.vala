@@ -2039,9 +2039,7 @@ int dload (Soup.Session soup_session, string url, string localpath, int force, D
 			return -1;
 		}
 		size = message.response_headers.get_content_length ();
-		if (url.has_suffix (".db")) {
-			last_modified = message.response_headers.get_one ("Last-Modified");
-		}
+		last_modified = message.response_headers.get_one ("Last-Modified");
 
 		FileOutputStream output;
 		if (continue_download) {
