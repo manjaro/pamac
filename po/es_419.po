@@ -8,6 +8,7 @@
 # Joaquín Ludzcanoff <Desoxirribonucleosa97@outlook.com>, 2016
 # Julián Federico Hipólito <julianhipolito@gmail.com>, 2016-2017
 # Julián Federico Hipólito <julianhipolito@gmail.com>, 2016
+# kaze kaze <kaze@rlab.be>, 2019
 # Mat Mü <ematiasm@openmailbox.org>, 2016
 # Mauricio López <mlopez@pronet.com.uy>, 2018
 msgid ""
@@ -15,8 +16,8 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2019-08-06 16:57+0200\n"
-"PO-Revision-Date: 2019-08-07 00:47+0000\n"
-"Last-Translator: philm <philm@manjaro.org>\n"
+"PO-Revision-Date: 2019-08-29 23:49+0000\n"
+"Last-Translator: kaze kaze <kaze@rlab.be>\n"
 "Language-Team: Spanish (Latin America) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/es_419/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -696,14 +697,14 @@ msgstr "Mundial"
 
 #: src/preferences_dialog.vala src/cli.vala
 msgid "To delete"
-msgstr ""
+msgstr "A borrar"
 
 #: src/preferences_dialog.vala src/cli.vala
 #, c-format
 msgid "%u file"
 msgid_plural "%u files"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%uarchivo"
+msgstr[1] "%uarchivos"
 
 #: src/preferences_dialog.vala
 msgid "Choose Ignored Upgrades"
@@ -749,7 +750,7 @@ msgstr "Tamaño total eliminado "
 
 #: src/transaction-cli.vala
 msgid "Apply transaction"
-msgstr ""
+msgstr "Aplicar traducción"
 
 #: src/transaction-cli.vala
 #, c-format
@@ -886,7 +887,7 @@ msgstr "No clonar archivos construidos desde AUR, solo usar archivos locales"
 
 #: src/cli.vala
 msgid "bypass any and all confirmation messages"
-msgstr ""
+msgstr "ignorar todos los mensajes de confirmación"
 
 #: src/cli.vala
 msgid "glob"
@@ -950,7 +951,7 @@ msgstr "También actualizar paquetes instalados desde AUR"
 
 #: src/cli.vala
 msgid "also upgrade development packages (use with --aur)"
-msgstr ""
+msgstr "También comprobar las actualizaciones de los paquetes de desarrollo (usar con --aur)"
 
 #: src/cli.vala
 msgid ""
@@ -968,34 +969,34 @@ msgstr "Habilitar degradar paquetes"
 
 #: src/cli.vala
 msgid "Clean packages cache or build files"
-msgstr ""
+msgstr "Eliminar paquetes en cache o archivos de construcción"
 
 #: src/cli.vala
 msgid "number"
-msgstr ""
+msgstr "numero"
 
 #: src/cli.vala
 msgid ""
 "specify how many versions of each package are kept in the cache directory"
-msgstr ""
+msgstr "Especifica la cantidad de versiones  de cada paquete serán guardadas en el directorio de cache"
 
 #: src/cli.vala
 msgid "only target uninstalled packages"
-msgstr ""
+msgstr "contemplar solo paquetes desinstalados"
 
 #: src/cli.vala
 msgid ""
 "remove all build files, the build directory is the one specified in "
 "pamac.conf"
-msgstr ""
+msgstr "eliminar todos los archivos de construcción, el directorio de construcción es aquel definido en pacman.conf"
 
 #: src/cli.vala
 msgid "do not remove files, only find candidate packages"
-msgstr ""
+msgstr "no eliminar archivos, solo buscar paquetes candidatos"
 
 #: src/cli.vala
 msgid "also display all files names"
-msgstr ""
+msgstr "también mostrar todos los nombres de archivos"
 
 #: src/cli.vala resources/manager_window.ui
 msgid "Name"
@@ -1033,7 +1034,7 @@ msgstr "Limpiar caché"
 
 #: src/cli.vala resources/preferences_dialog.ui
 msgid "Clean build files"
-msgstr ""
+msgstr "Eliminar archivos de construccion"
 
 #: src/cli.vala
 #, c-format
@@ -1092,7 +1093,7 @@ msgstr "Buscar"
 
 #: resources/manager_window.ui
 msgid "All"
-msgstr ""
+msgstr "Todo"
 
 #: resources/manager_window.ui
 msgid "Pending"
@@ -1104,27 +1105,27 @@ msgstr "Actualizaciones"
 
 #: resources/manager_window.ui
 msgid "Remove all"
-msgstr ""
+msgstr "Eliminar todo"
 
 #: resources/manager_window.ui
 msgid "Install all"
-msgstr ""
+msgstr "Instalar todo"
 
 #: resources/manager_window.ui
 msgid "Ignore all"
-msgstr ""
+msgstr "Ignorar todo"
 
 #: resources/manager_window.ui
 msgid "Sort by"
-msgstr ""
+msgstr "Ordenar por"
 
 #: resources/manager_window.ui
 msgid "Relevance"
-msgstr ""
+msgstr "Relevancia"
 
 #: resources/manager_window.ui
 msgid "Date"
-msgstr ""
+msgstr "Fecha"
 
 #: resources/manager_window.ui
 msgid "Browse"
@@ -1132,7 +1133,7 @@ msgstr "Explorar"
 
 #: resources/manager_window.ui
 msgid "Launch"
-msgstr ""
+msgstr "Lanzar"
 
 #: resources/manager_window.ui
 msgid "Reinstall"
