@@ -205,6 +205,11 @@ namespace Pamac {
 			// not implemented
 			return true;
 		}
+
+		public bool snap_switch_channel (string snap_name, string channel) {
+			// not implemented
+			return true;
+		}
 		#endif
 
 		public void trans_cancel () {

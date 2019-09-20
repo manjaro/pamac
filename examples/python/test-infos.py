@@ -18,8 +18,7 @@ import subprocess
 import locale
 from datetime import date
 import unittest
-gi.require_version('Pamac', '8.0')
-# import xml /usr/share/gir-1.0/Pamac-1.0.gir
+gi.require_version('Pamac', '9.0')
 from gi.repository import GLib, Pamac
 
 
@@ -48,32 +47,32 @@ class GetInfosCase(unittest.TestCase):
     def setUp(self):
         """init tests"""
         locale.setlocale(locale.LC_ALL, '')
-        self.config = Pamac.Config(conf_path="/etc/pamac.conf")
-        self.config.set_enable_aur(True)  # is true
-        self.db = Pamac.Database(config=self.config)  # view src/database.vala
+        config = Pamac.Config(conf_path="/etc/pamac.conf")
+        config.set_enable_aur(True)  # is true
+        self.db = Pamac.Database(config=config)  # view src/database.vala
 
     def tearDown(self):
         pass
 
     def test_pacman_installed(self):
         """pacman installed for tests"""
-        pkg = self.db.get_pkg_details("pacman", "", False)
+        pkg = self.db.get_pkg("pacman")
         self.assertEqual("pacman", pkg.get_name())
         self.assertIsNotNone(pkg.props.installed_version)
 
     def test_not_installed(self):
         """detect not installed"""
         # package not exist
-        pkg = self.db.get_pkg_details("toto-test", "", False)
+        pkg = self.db.get_pkg("toto-test")
         self.assertNotEqual("toto-test", pkg.get_name())
         self.assertEqual(pkg.props.installed_version, "")
         # package exist
-        pkg = self.db.get_pkg_details("ruby-yard", "", False)
+        pkg = self.db.get_pkg("ruby-yard")
         self.assertEqual(pkg.props.installed_version, "")
 
     def test_giobject_detail_name(self):
         """attrs .props are same as fonctions"""
-        pkg = self.db.get_pkg_details("pacman", "", False)
+        pkg = self.db.get_pkg("pacman")
         self.assertEqual(pkg.props.name, pkg.get_name())
 
     def test_giobject_search_name(self):
@@ -127,7 +126,7 @@ class GetInfosCase(unittest.TestCase):
                 with self.subTest(pkg=pkg):
                     fdesc = f"/var/lib/pacman/local/{pkg.props.name}-{pkg.props.version}/desc"
                     self.assertTrue(os.path.exists(fdesc))
-                    package = self.db.get_pkg_details(pkg.props.name, "", False)
+                    package = self.db.get_pkg(pkg.props.name)
                     result = get_item_desc(fdesc, "%DEPENDS%")
                     for dep in result:
                         self.assertIn(dep, package.props.depends)
@@ -149,7 +148,7 @@ class GetInfosCase(unittest.TestCase):
 
     def test_date_detail_pacman(self):
         """valid date and locale date"""
-        pkg = self.db.get_pkg_details("pacman", "", False)
+        pkg = self.db.get_pkg("pacman")
         fdesc = f"/var/lib/pacman/local/{pkg.props.name}-{pkg.props.version}/desc"
         self.assertTrue(os.path.exists(fdesc))
         result = get_item_desc(fdesc, "%BUILDDATE%")
@@ -159,7 +158,7 @@ class GetInfosCase(unittest.TestCase):
 
     def test_files(self):
         """files same as pacman db"""
-        pkg = self.db.get_pkg_details("pacman", "", False)
+        pkg = self.db.get_pkg("pacman")
         fdesc = f"/var/lib/pacman/local/{pkg.props.name}-{pkg.props.version}/files"
         self.assertTrue(os.path.exists(fdesc))
         myfiles = self.db.get_pkg_files("pacman")
@@ -170,28 +169,16 @@ class GetInfosCase(unittest.TestCase):
 
     def test_search_aur(self):
         """simple search in aur"""
-        loop = GLib.MainLoop()
-
-        def on_search_aur_pkgs_ready_callback(source_object, result, user_data):
-            found = False
-            self.assertIsNone(user_data)
-            try:
-                pkgs = source_object.search_in_aur_finish(result)
-                for pkg in pkgs:
-                    with self.subTest(pkg=pkg):
-                        self.assertTrue(pkg.props.version)
-                        self.assertEqual(pkg.props.version, pkg.get_version())
-                        self.assertTrue(isinstance(
-                            pkg.props.popularity, (int, float)))
-                        found = True
-            finally:
-                loop.quit()
-            self.assertTrue(found)
-
-        self.db.search_in_aur(
-            'pamac', on_search_aur_pkgs_ready_callback, None)
-        loop.run()
-
+        pkgs = self.db.search_in_aur('pamac');
+        found = False
+        for pkg in pkgs:
+            with self.subTest(pkg=pkg):
+                self.assertTrue(pkg.props.version)
+                self.assertEqual(pkg.props.version, pkg.get_version())
+                self.assertTrue(isinstance(
+                    pkg.props.popularity, (int, float)))
+                found = True
+        self.assertTrue(found)
 
 if __name__ == '__main__':
     unittest.main(verbosity=2, failfast=True)

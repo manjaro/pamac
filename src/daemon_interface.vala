@@ -79,7 +79,9 @@ namespace Pamac {
 		public signal void clean_build_files_finished (bool success);
 		#if ENABLE_SNAP
 		public abstract void start_snap_trans_run (string[] to_install, string[] to_remove) throws Error;
+		public abstract void start_snap_switch_channel (string snap_name, string channel) throws Error;
 		public signal void snap_trans_run_finished (bool success);
+		public signal void snap_switch_channel_finished (bool success);
 		#endif
 	}
 }

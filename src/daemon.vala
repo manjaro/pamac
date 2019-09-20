@@ -58,6 +58,8 @@ namespace Pamac {
 		SnapPlugin snap_plugin;
 		string[] snap_to_install;
 		string[] snap_to_remove;
+		string snap_switch_name;
+		string snap_channel;
 		#endif
 
 		public signal void choose_provider (string depend, string[] providers);
@@ -86,6 +88,7 @@ namespace Pamac {
 		public signal void clean_build_files_finished (bool success);
 		#if ENABLE_SNAP
 		public signal void snap_trans_run_finished (bool success);
+		public signal void snap_switch_channel_finished (bool success);
 		#endif
 
 		public Daemon () {
@@ -555,6 +558,29 @@ namespace Pamac {
 				}
 			});
 			
+		}
+
+		void snap_switch_channel () {
+			bool success = snap_plugin.switch_channel (snap_switch_name, snap_channel);
+			snap_switch_channel_finished (success);
+		}
+
+		public void start_snap_switch_channel (string snap_name, string channel, GLib.BusName sender) throws Error {
+			snap_switch_name = snap_name;
+			snap_channel = channel;
+			check_authorization.begin (sender, (obj, res) => {
+				bool authorized = check_authorization.end (res);
+				if (authorized) {
+					try {
+						thread_pool.add (new AlpmAction (snap_switch_channel));
+					} catch (ThreadError e) {
+						critical ("%s\n", e.message);
+						snap_switch_channel_finished (false);
+					}
+				} else {
+					snap_switch_channel_finished (false);
+				}
+			});
 		}
 		#endif
 

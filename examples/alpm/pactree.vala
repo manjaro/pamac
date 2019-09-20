@@ -18,7 +18,7 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-// Compile with: valac --pkg=libalpm --vapidir=../vapi pactree.vala
+// Compile with: valac --pkg=libalpm --vapidir=../../vapi pactree.vala
 
 using Alpm;
 

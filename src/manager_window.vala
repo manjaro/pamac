@@ -983,7 +983,7 @@ namespace Pamac {
 						install_dep_button.toggled.connect (on_install_dep_button_toggled);
 						box2.pack_end (install_dep_button, false);
 						string dep_name = find_install_button_dep_name (install_dep_button);
-						install_dep_button.active = (dep_name in to_install); 
+						install_dep_button.active = (dep_name in to_install);
 					}
 					box.pack_start (box2);
 				} else {
@@ -1582,12 +1582,37 @@ namespace Pamac {
 				details_grid.attach_next_to (label, previous_widget, Gtk.PositionType.BOTTOM);
 				var box = new Gtk.Box (Gtk.Orientation.VERTICAL, 12);
 				foreach (unowned string channel in snap_pkg.channels) {
-					var label2 = new Gtk.Label (channel);
-					if (channel == snap_pkg.channel) {
-						label2.label = "%s (%s)".printf (channel, dgettext (null, "Installed"));
+					string[] split = channel.split (": ", 2);
+					string channel_name = split[0];
+					if (snap_pkg.channel != channel_name) {
+						var box2 = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 12);
+						box2.homogeneous = false;
+						var label2 = new Gtk.Label (channel);
+						label2.halign = Gtk.Align.START;
+						box2.pack_start (label2);
+						var install_button = new Gtk.Button.with_label (dgettext (null, "Install"));
+						install_button.margin = 3;
+						if (transaction_running || sysupgrade_running || generate_mirrors_list) {
+							install_button.sensitive = false;
+						} else {
+							install_button.clicked.connect ((button) => {
+								transaction_running = true;
+								set_snap_details (snap_pkg);
+								transaction.snap_switch_channel (snap_pkg.name, channel_name);
+								transaction_running = false;
+								transaction.reset_progress_box ();
+								if (current_package_displayed.name == snap_pkg.name) {
+									set_snap_details (database.get_snap (snap_pkg.name));
+								}
+							});
+						}
+						box2.pack_end (install_button, false);
+						box.pack_start (box2);
+					} else {
+						var label2 = new Gtk.Label (channel);
+						label2.halign = Gtk.Align.START;
+						box.pack_start (label2);
 					}
-					label2.halign = Gtk.Align.START;
-					box.pack_start (label2);
 				}
 				details_grid.attach_next_to (box, label, Gtk.PositionType.RIGHT);
 			}

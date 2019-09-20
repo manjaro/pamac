@@ -317,7 +317,7 @@ namespace Pamac {
 
 		public bool refresh () {
 			current_error = ErrorInfos ();
-			emit_action (_("Synchronizing package databases") + "...");
+			//emit_action (_("Synchronizing package databases") + "...");
 			start_downloading ();
 			write_log_file ("synchronizing package lists");
 			cancellable.reset ();
@@ -939,25 +939,7 @@ namespace Pamac {
 			}
 			if (success) {
 				foreach (unowned string path in to_load) {
-					// mv tarball in cachedir if it's a built package
-					// check for "/var/tmp/pamac-build" because
-					// default aur_build_dir is "/var/tmp/pamac-build-root" here
-					if (path.has_prefix ("/var/tmp/pamac-build")
-						|| path.has_prefix (config.aur_build_dir)) {
-						// get first cachedir
-						unowned Alpm.List<unowned string> cachedirs = alpm_handle.cachedirs;
-						unowned string cachedir = cachedirs.data;
-						try {
-							Process.spawn_command_line_sync ("mv -f %s %s".printf (path, cachedir));
-							string tarball_name = Path.get_basename (path);
-							string new_path = "%s%s".printf (cachedir, tarball_name);
-							success = trans_load_pkg (new_path);
-						} catch (SpawnError e) {
-							critical ("SpawnError: %s\n", e.message);
-						}
-					} else {
-						success = trans_load_pkg (path);
-					}
+					success = trans_load_pkg (path);
 					if (!success) {
 						break;
 					}
@@ -1345,6 +1327,19 @@ namespace Pamac {
 			}
 			success = trans_commit_real ();
 			if (success) {
+				foreach (unowned string path in to_load) {
+					// rm tarball if it's a built package
+					// check for "/var/tmp/pamac-build" because
+					// default aur_build_dir is "/var/tmp/pamac-build-root" here
+					if (path.has_prefix ("/var/tmp/pamac-build")
+						|| path.has_prefix (config.aur_build_dir)) {
+						try {
+							Process.spawn_command_line_sync ("rm -f %s".printf (path));
+						} catch (SpawnError e) {
+							critical ("SpawnError: %s\n", e.message);
+						}
+					}
+				}
 				to_install_as_dep.foreach_remove ((pkgname, val) => {
 					unowned Alpm.Package? pkg = alpm_handle.localdb.get_pkg (pkgname);
 					if (pkg != null) {
@@ -2052,29 +2047,24 @@ int dload (Soup.Session soup_session, string url, string localpath, int force, D
 		uint8[] buf = new uint8[4096];
 		// start download
 		dl_callback (filename, 0, size);
-		while (!alpm_utils.cancellable.is_cancelled ()) {
-			ssize_t read = input.read (buf);
+		while (true) {
+			ssize_t read = input.read (buf, alpm_utils.cancellable);
 			if (read == 0) {
 				// End of file reached
 				break;
 			}
 			output.write (buf[0:read]);
+			if (alpm_utils.cancellable.is_cancelled ()) {
+				break;
+			}
 			progress += read;
 			dl_callback (filename, progress, size);
 		}
 	} catch (Error e) {
-		alpm_utils.emit_warning ("%s: %s\n".printf (url, e.message));
-		try {
-			if (tempfile.query_exists ()) {
-				tempfile.delete ();
-			}
-		} catch (Error e) {
-			critical ("%s\n", e.message);
+		// cancelled download goes here
+		if (e.code != IOError.CANCELLED) {
+			alpm_utils.emit_warning ("%s: %s\n".printf (url, e.message));
 		}
-		return -1;
-	}
-
-	if (alpm_utils.cancellable.is_cancelled ()) {
 		if (remove_partial_download) {
 			try {
 				if (tempfile.query_exists ()) {
@@ -2085,24 +2075,24 @@ int dload (Soup.Session soup_session, string url, string localpath, int force, D
 			}
 		}
 		return -1;
-	} else {
-		// download succeeded
-		dl_callback (filename, size, size);
-		try {
-			tempfile.move (destfile, FileCopyFlags.OVERWRITE);
-			// set modification time
-			if (last_modified != null) {
-				string time_str = new Soup.Date.from_string (last_modified).to_string (Soup.DateFormat.ISO8601);
-				var datetime = new DateTime.from_iso8601 (time_str, new TimeZone.utc ());
-				FileInfo info = destfile.query_info ("time::modified", 0);
-				info.set_modification_date_time (datetime);
-				destfile.set_attributes_from_info (info, FileQueryInfoFlags.NONE);
-			}
-			return 0;
-		} catch (Error e) {
-			critical ("%s\n", e.message);
-			return -1;
+	}
+
+	// download succeeded
+	dl_callback (filename, size, size);
+	try {
+		tempfile.move (destfile, FileCopyFlags.OVERWRITE);
+		// set modification time
+		if (last_modified != null) {
+			string time_str = new Soup.Date.from_string (last_modified).to_string (Soup.DateFormat.ISO8601);
+			var datetime = new DateTime.from_iso8601 (time_str, new TimeZone.utc ());
+			FileInfo info = destfile.query_info ("time::modified", 0);
+			info.set_modification_date_time (datetime);
+			destfile.set_attributes_from_info (info, FileQueryInfoFlags.NONE);
 		}
+		return 0;
+	} catch (Error e) {
+		critical ("%s\n", e.message);
+		return -1;
 	}
 }
 

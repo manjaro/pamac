@@ -1112,8 +1112,7 @@ namespace Pamac {
 		}
 
 		void search_pkgs (string search_string) {
-			var installed_pkgs = database.search_installed_pkgs (search_string);
-			var repos_pkgs = database.search_repos_pkgs (search_string);
+			var pkgs = database.search_pkgs (search_string);
 			var aur_pkgs = new List<AURPackage> ();
 			if (database.config.enable_aur) {
 				aur_pkgs = database.search_aur_pkgs (search_string);
@@ -1131,15 +1130,7 @@ namespace Pamac {
 			}
 			int version_length = 0;
 			int repo_length = 0;
-			foreach (unowned AlpmPackage pkg in installed_pkgs) {
-				if (pkg.version.length > version_length) {
-					version_length = pkg.version.length;
-				}
-				if (pkg.repo.length > repo_length) {
-					repo_length = pkg.repo.length;
-				}
-			}
-			foreach (unowned AlpmPackage pkg in repos_pkgs) {
+			foreach (unowned AlpmPackage pkg in pkgs) {
 				if (pkg.version.length > version_length) {
 					version_length = pkg.version.length;
 				}
@@ -1158,38 +1149,27 @@ namespace Pamac {
 				}
 			}
 			int available_width = get_term_width () - (version_length + repo_length + 4);
-			foreach (unowned AlpmPackage pkg in installed_pkgs) {
-				string installed = "[%s]".printf (dgettext (null, "Installed"));
-				int installed_available_width = available_width - (installed.char_count () + 1);
+			string installed = "[%s]".printf (dgettext (null, "Installed"));
+			int installed_available_width = available_width - (installed.char_count () + 1);
+			foreach (unowned AlpmPackage pkg in pkgs) {
 				var str_builder = new StringBuilder ();
 				str_builder.append (pkg.name);
 				str_builder.append (" ");
-				int diff = installed_available_width - pkg.name.length;
+				int diff = 0;
+				if (pkg.installed_version != "") {
+					diff = installed_available_width - pkg.name.length;
+				} else {
+					diff = available_width - pkg.name.length;
+				}
 				if (diff > 0) {
 					while (diff > 0) {
 						str_builder.append (" ");
 						diff--;
 					}
 				}
-				str_builder.append (installed);
-				str_builder.append (" ");
-				str_builder.append ("%-*s  %s \n".printf (version_length, pkg.version, pkg.repo));
-				stdout.printf ("%s", str_builder.str);
-				string[] cuts = split_string (pkg.desc, 2, available_width);
-				foreach (unowned string cut in cuts) {
-					print_aligned ("", cut, 2);
-				}
-			}
-			foreach (unowned AlpmPackage pkg in repos_pkgs) {
-				var str_builder = new StringBuilder ();
-				str_builder.append (pkg.name);
-				str_builder.append (" ");
-				int diff = available_width - pkg.name.length;
-				if (diff > 0) {
-					while (diff > 0) {
-						str_builder.append (" ");
-						diff--;
-					}
+				if (pkg.installed_version != "") {
+					str_builder.append (installed);
+					str_builder.append (" ");
 				}
 				str_builder.append ("%-*s  %s \n".printf (version_length, pkg.version, pkg.repo));
 				stdout.printf ("%s", str_builder.str);
@@ -1199,38 +1179,33 @@ namespace Pamac {
 				}
 			}
 			if (aur_pkgs.length () > 0) {
-				if (installed_pkgs.length () > 0 || repos_pkgs.length () > 0) {
+				if (pkgs.length () > 0) {
 					stdout.printf ("\n");
 				}
 				foreach (unowned AURPackage aur_pkg in aur_pkgs) {
-					var str_builder = new StringBuilder ();
-					string name = aur_pkg.name;
-					if (aur_pkg.installed_version != "") {
+					if (aur_pkg.installed_version == "") {
+						var str_builder = new StringBuilder ();
+						string name = aur_pkg.name;
 						if (aur_pkg.outofdate != 0) {
 							var time = GLib.Time.local ((time_t) aur_pkg.outofdate);
-							name = "%s [%s] (%s: %s)".printf (aur_pkg.name, dgettext (null, "Installed"),
-															dgettext (null, "Out of Date"), time.format ("%x"));
-						} else {
-							name = "%s [%s]".printf (aur_pkg.name, dgettext (null, "Installed"));
-						}
-					} else if (aur_pkg.outofdate != 0) {
-						var time = GLib.Time.local ((time_t) aur_pkg.outofdate);
-						name = "%s (%s: %s)".printf (aur_pkg.name, dgettext (null, "Out of Date"), time.format ("%x"));
-					}
-					str_builder.append (name);
-					str_builder.append (" ");
-					int diff = available_width - name.char_count ();
-					if (diff > 0) {
-						while (diff > 0) {
 							str_builder.append (" ");
-							diff--;
+							str_builder.append ("(%s: %s)".printf (dgettext (null, "Out of Date"), time.format ("%x")));
 						}
-					}
-					str_builder.append ("%-*s  %s \n".printf (version_length, aur_pkg.version, dgettext (null, "AUR")));
-					stdout.printf ("%s", str_builder.str);
-					string[] cuts = split_string (aur_pkg.desc, 2, available_width);
-					foreach (unowned string cut in cuts) {
-						print_aligned ("", cut, 2);
+						str_builder.append (name);
+						str_builder.append (" ");
+						int diff = available_width - name.char_count ();
+						if (diff > 0) {
+							while (diff > 0) {
+								str_builder.append (" ");
+								diff--;
+							}
+						}
+						str_builder.append ("%-*s  %s \n".printf (version_length, aur_pkg.version, dgettext (null, "AUR")));
+						stdout.printf ("%s", str_builder.str);
+						string[] cuts = split_string (aur_pkg.desc, 2, available_width);
+						foreach (unowned string cut in cuts) {
+							print_aligned ("", cut, 2);
+						}
 					}
 				}
 			}

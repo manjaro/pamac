@@ -867,6 +867,13 @@ namespace Pamac {
 			snap_to_remove.remove_all ();
 			return transaction_interface.snap_trans_run (snap_to_install_array.data, snap_to_remove_array.data);
 		}
+
+		public bool snap_switch_channel (string snap_name, string channel) {
+			connecting_signals ();
+			bool success = transaction_interface.snap_switch_channel (snap_name, channel);
+			disconnecting_signals ();
+			return success;
+		}
 		#endif
 
 		string remove_bash_colors (string msg) {
@@ -946,7 +953,7 @@ namespace Pamac {
 				// building
 				building = true;
 				start_building ();
-				int status = run_cmd_line ({"makepkg", "-cCf"}, pkgdir, build_cancellable);
+				int status = run_cmd_line ({"makepkg", "--nosign", "-cCf", "PKGEXT=.pkg.tar", "PKGDEST=%s".printf (pkgdir)}, pkgdir, build_cancellable);
 				if (build_cancellable.is_cancelled ()) {
 					status = 1;
 				}
@@ -955,7 +962,7 @@ namespace Pamac {
 					var launcher = new SubprocessLauncher (SubprocessFlags.STDOUT_PIPE);
 					launcher.set_cwd (pkgdir);
 					try {
-						Subprocess process = launcher.spawnv ({"makepkg", "--packagelist"});
+						Subprocess process = launcher.spawnv ({"makepkg", "--packagelist", "PKGEXT=.pkg.tar", "PKGDEST=%s".printf (pkgdir)});
 						process.wait_async.begin (null, () => {
 							loop.quit ();
 						});

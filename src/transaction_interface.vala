@@ -61,6 +61,7 @@ namespace Pamac {
 		public signal void generate_mirrors_list_data (string line);
 		#if ENABLE_SNAP
 		public abstract bool snap_trans_run (string[] to_install, string[] to_remove);
+		public abstract bool snap_switch_channel (string snap_name, string channel);
 		#endif
 	}
 }

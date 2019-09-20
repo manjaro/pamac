@@ -28,6 +28,7 @@ namespace Pamac {
 		bool trans_run_success;
 		#if ENABLE_SNAP
 		bool snap_trans_run_success;
+		bool snap_switch_channel_success;
 		#endif
 
 		public TransactionInterfaceDaemon (Config config) {
@@ -272,13 +273,29 @@ namespace Pamac {
 				loop.run ();
 				return snap_trans_run_success;
 			} catch (Error e) {
-				critical ("start_trans_run: %s\n", e.message);
+				critical ("start_snap_trans_run: %s\n", e.message);
 			}
 			return false;
 		}
 
 		void on_snap_trans_run_finished (bool success) {
 			snap_trans_run_success = success;
+			loop.quit ();
+		}
+
+		public bool snap_switch_channel (string snap_name, string channel) {
+			try {
+				system_daemon.start_snap_switch_channel (snap_name, channel);
+				loop.run ();
+				return snap_switch_channel_success;
+			} catch (Error e) {
+				critical ("start_snap_switch_channel: %s\n", e.message);
+			}
+			return false;
+		}
+
+		void on_snap_switch_channel_finished (bool success) {
+			snap_switch_channel_success = success;
 			loop.quit ();
 		}
 		#endif
@@ -373,6 +390,7 @@ namespace Pamac {
 			system_daemon.generate_mirrors_list_finished.connect (on_generate_mirrors_list_finished);
 			#if ENABLE_SNAP
 			system_daemon.snap_trans_run_finished.connect (on_snap_trans_run_finished);
+			system_daemon.snap_switch_channel_finished.connect (on_snap_switch_channel_finished);
 			#endif
 		}
 	}

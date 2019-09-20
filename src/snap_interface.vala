@@ -33,6 +33,7 @@ namespace Pamac {
 		public abstract string get_installed_snap_icon (string name) throws Error;
 		public abstract List<SnapPackage> get_category_snaps (string category);
 		public abstract bool trans_run (string[] to_install, string[] to_remove);
+		public abstract bool switch_channel (string name, string channel);
 		public abstract void trans_cancel ();
 	}
 

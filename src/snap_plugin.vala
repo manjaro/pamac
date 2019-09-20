@@ -139,6 +139,7 @@ namespace Pamac {
 				store_snap.get_channels ().foreach ((channel) => {
 					snap_pkg.channels_priv.append ("%s:  %s".printf (channel.name, channel.version));
 				});
+				snap_pkg.channels_priv.reverse ();
 			} else {
 				if (snap.icon != null) {
 					snap_pkg.icon = snap.icon;
@@ -347,6 +348,22 @@ namespace Pamac {
 			} catch (Error e) {
 				if (!cancellable.is_cancelled ()) {
 					emit_error ("Snap install error", {e.message});
+				}
+			}
+			return false;
+		}
+
+		public bool switch_channel (string name, string channel) {
+			try {
+				current_pkgname = name;
+				current_action = dgettext (null, "Installing %s").printf (name);
+				emit_download = false;
+				init_download = true;
+				client.refresh_sync (name, channel, progress_callback, cancellable);
+				return true;
+			} catch (Error e) {
+				if (!cancellable.is_cancelled ()) {
+					emit_error ("Snap switch error", {e.message});
 				}
 			}
 			return false;
