@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2019-09-14 12:36+0200\n"
-"PO-Revision-Date: 2019-09-22 10:20+0000\n"
+"PO-Revision-Date: 2019-09-22 10:41+0000\n"
 "Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: German (Germany) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/de_DE/)\n"
 "MIME-Version: 1.0\n"
@@ -656,7 +656,7 @@ msgstr "Produktivität"
 
 #: src/manager_window.vala
 msgid "Communication & News"
-msgstr "Kommunikation & Nachrichten"
+msgstr "Kommunikation & News"
 
 #: src/manager_window.vala
 msgid "Education & Science"
