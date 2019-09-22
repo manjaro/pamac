@@ -17,8 +17,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2019-08-06 16:57+0200\n"
-"PO-Revision-Date: 2019-08-07 00:47+0000\n"
+"POT-Creation-Date: 2019-09-14 12:36+0200\n"
+"PO-Revision-Date: 2019-09-21 00:46+0000\n"
 "Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Korean (http://www.transifex.com/manjarolinux/manjaro-pamac/language/ko/)\n"
 "MIME-Version: 1.0\n"
@@ -28,26 +28,34 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 #: data/polkit/org.manjaro.pamac.policy.in
-msgid "Authentication is required"
-msgstr "인증이 필요합니다"
+msgid "Install, update, or remove packages"
+msgstr ""
+
+#: data/polkit/org.manjaro.pamac.policy.in
+msgid "Authentication is required to install, update, or remove packages"
+msgstr ""
 
 #: src/alpm_utils.vala src/database.vala
 msgid "Failed to initialize alpm library"
 msgstr "Alpm 라이브러리의 초기화에 실패함"
 
 #: src/alpm_utils.vala
-msgid "Failed to synchronize any databases"
-msgstr "데이터베이스 동기화에 실패함"
+msgid "Synchronizing package databases"
+msgstr "패키지 데이터베이스 동기화중"
+
+#: src/alpm_utils.vala
+msgid "Failed to synchronize databases"
+msgstr ""
 
 #: src/alpm_utils.vala
 msgid "Failed to init transaction"
 msgstr "처리과정 초기화에 실패함"
 
-#: src/alpm_utils.vala src/transaction.vala src/transaction-gtk.vala
+#: src/alpm_utils.vala src/transaction-gtk.vala src/installer.vala
 msgid "Failed to prepare transaction"
 msgstr "처리과정 준비에 실패함"
 
-#: src/alpm_utils.vala src/cli.vala
+#: src/alpm_utils.vala src/installer.vala src/cli.vala
 #, c-format
 msgid "target not found: %s"
 msgstr "대상을 찾을 수 없음: %s"
@@ -82,6 +90,18 @@ msgstr "%s 와 %s이(가) 충돌합니다"
 msgid "%s needs to be removed but it is a locked package"
 msgstr "%s을(를) 제거해야 하지만 잠긴 패키지입니다"
 
+#: src/alpm_utils.vala src/transaction.vala
+msgid "Transaction cancelled"
+msgstr "처리과정 취소됨"
+
+#: src/alpm_utils.vala src/installer.vala src/cli.vala
+msgid "Nothing to do"
+msgstr "아무 것도 할 것이 없습니다"
+
+#: src/alpm_utils.vala src/transaction.vala
+msgid "Preparing"
+msgstr "준비중"
+
 #: src/alpm_utils.vala
 msgid "Failed to commit transaction"
 msgstr "커밋 처리과정을 실패함"
@@ -102,21 +122,170 @@ msgid "%s is invalid or corrupted"
 msgstr "%s이(가) 유효하지 않거나 손상됨"
 
 #: src/alpm_utils.vala
+msgid "Checking dependencies"
+msgstr "의존성 확인중"
+
+#: src/alpm_utils.vala
+msgid "Checking file conflicts"
+msgstr "파일결함 확인중"
+
+#: src/alpm_utils.vala
+msgid "Resolving dependencies"
+msgstr "의존성 해결"
+
+#: src/alpm_utils.vala
+msgid "Checking inter-conflicts"
+msgstr "내부문제 확인중"
+
+#: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
-msgid "%s appears to be truncated: %jd/%jd bytes\n"
-msgstr "%s이(가) 잘린 것으로 나타남 : %jd / %jd bytes\n"
+msgid "Installing %s"
+msgstr "설치중 %s"
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "Upgrading %s"
+msgstr "업그레이드중 %s"
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "Reinstalling %s"
+msgstr "재설치중 %s"
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "Downgrading %s"
+msgstr "다운로드중 %s"
+
+#: src/alpm_utils.vala src/snap_plugin.vala
+#, c-format
+msgid "Removing %s"
+msgstr "제거중 %s"
+
+#: src/alpm_utils.vala
+msgid "Checking integrity"
+msgstr "무결성 확인중"
+
+#: src/alpm_utils.vala
+msgid "Loading packages files"
+msgstr "꾸러미 파일을 로드중입니다."
+
+#: src/alpm_utils.vala
+msgid "Checking delta integrity"
+msgstr "델타 무결성 확인중"
+
+#: src/alpm_utils.vala
+msgid "Applying deltas"
+msgstr "델타 적용중"
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "Generating %s with %s"
+msgstr "생성중 %s 와 %s"
+
+#: src/alpm_utils.vala
+msgid "Generation succeeded"
+msgstr "생성 성공"
+
+#: src/alpm_utils.vala
+msgid "Generation failed"
+msgstr "생성 실패"
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "Configuring %s"
+msgstr "%s 설정중"
+
+#: src/alpm_utils.vala
+msgid "Checking available disk space"
+msgstr "사용 가능한 디스크 공간 확인중"
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "%s optionally requires %s"
+msgstr "%s은(는) 옵션으로 %s을(를) 필요로 합니다"
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "Database file for %s does not exist"
+msgstr "%s의 데이터베이스 파일이 존재하지 않습니다"
+
+#: src/alpm_utils.vala
+msgid "Checking keyring"
+msgstr "키링 확인중"
+
+#: src/alpm_utils.vala
+msgid "Downloading required keys"
+msgstr "필요한 키 다운로드중"
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "%s installed as %s.pacnew"
+msgstr "%s은(는) %s.pacnew로 설치됨"
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "%s installed as %s.pacsave"
+msgstr "%s 는 %s.pacsave로 설치됨"
+
+#: src/alpm_utils.vala
+msgid "Running pre-transaction hooks"
+msgstr "처리과정전 후크 실행중"
+
+#: src/alpm_utils.vala
+msgid "Running post-transaction hooks"
+msgstr "처리과정후 후크 실행중"
+
+#: src/alpm_utils.vala src/snap_plugin.vala
+#, c-format
+msgid "About %u seconds remaining"
+msgstr "%u 초 정도 남음"
+
+#: src/alpm_utils.vala src/snap_plugin.vala
+#, c-format
+msgid "About %lu minute remaining"
+msgid_plural "About %lu minutes remaining"
+msgstr[0] "%lu 분 정도 남음"
+
+#: src/alpm_utils.vala src/transaction-cli.vala src/cli.vala
+msgid "Error"
+msgstr "오류"
+
+#: src/alpm_utils.vala src/transaction-gtk.vala
+msgid "Warning"
+msgstr "경고"
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "Download of %s started"
+msgstr ""
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "Download of %s finished"
+msgstr ""
+
+#: src/alpm_utils.vala src/snap_plugin.vala
+#, c-format
+msgid "Downloading %s"
+msgstr "%s 다운로드중"
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "Refreshing %s"
+msgstr "%s 새로 고치는중"
 
 #: src/alpm_utils.vala
 #, c-format
 msgid "failed retrieving file '%s' from %s : %s\n"
 msgstr "%s : %s에서 '%s' 파일을 검색하지 못했습니다 \n"
 
-#: src/system_daemon.vala
+#: src/daemon.vala
 msgid "Authentication failed"
 msgstr "인증 실패"
 
-#: src/database.vala src/transaction-gtk.vala src/manager_window.vala
-#: src/transaction-cli.vala src/cli.vala resources/preferences_dialog.ui
+#: src/database.vala src/manager_window.vala src/cli.vala
+#: resources/preferences_dialog.ui
 msgid "AUR"
 msgstr "AUR"
 
@@ -144,18 +313,6 @@ msgstr "아니요"
 msgid "Refreshing mirrors list"
 msgstr "미러 목록을 새로 고치는중"
 
-#: src/transaction.vala
-msgid "Preparing"
-msgstr "준비중"
-
-#: src/transaction.vala
-msgid "Synchronizing package databases"
-msgstr "패키지 데이터베이스 동기화중"
-
-#: src/transaction.vala
-msgid "Starting full system upgrade"
-msgstr "전체 시스템 업그레이드 시작"
-
 #: src/transaction.vala src/cli.vala
 #, c-format
 msgid "Cloning %s build files"
@@ -176,6 +333,10 @@ msgstr "%s 의존성 확인중"
 msgid "key %s could not be imported"
 msgstr "%s 키를 가져올 수 없습니다"
 
+#: src/transaction.vala src/manager_window.vala
+msgid "Transaction successfully finished"
+msgstr "처리과정을 성공적으로 완료했습니다"
+
 #: src/transaction.vala
 msgid "Waiting for another package manager to quit"
 msgstr "다른 패키지 관리자가 종료되기를 기다리는 중"
@@ -184,162 +345,6 @@ msgstr "다른 패키지 관리자가 종료되기를 기다리는 중"
 #, c-format
 msgid "Building %s"
 msgstr "%s 빌드중"
-
-#: src/transaction.vala
-msgid "Transaction cancelled"
-msgstr "처리과정 취소됨"
-
-#: src/transaction.vala
-msgid "Checking dependencies"
-msgstr "의존성 확인중"
-
-#: src/transaction.vala
-msgid "Checking file conflicts"
-msgstr "파일결함 확인중"
-
-#: src/transaction.vala
-msgid "Resolving dependencies"
-msgstr "의존성 해결"
-
-#: src/transaction.vala
-msgid "Checking inter-conflicts"
-msgstr "내부문제 확인중"
-
-#: src/transaction.vala
-#, c-format
-msgid "Installing %s"
-msgstr "설치중 %s"
-
-#: src/transaction.vala
-#, c-format
-msgid "Upgrading %s"
-msgstr "업그레이드중 %s"
-
-#: src/transaction.vala
-#, c-format
-msgid "Reinstalling %s"
-msgstr "재설치중 %s"
-
-#: src/transaction.vala
-#, c-format
-msgid "Downgrading %s"
-msgstr "다운로드중 %s"
-
-#: src/transaction.vala
-#, c-format
-msgid "Removing %s"
-msgstr "제거중 %s"
-
-#: src/transaction.vala
-msgid "Checking integrity"
-msgstr "무결성 확인중"
-
-#: src/transaction.vala
-msgid "Loading packages files"
-msgstr "꾸러미 파일을 로드중입니다."
-
-#: src/transaction.vala
-msgid "Checking delta integrity"
-msgstr "델타 무결성 확인중"
-
-#: src/transaction.vala
-msgid "Applying deltas"
-msgstr "델타 적용중"
-
-#: src/transaction.vala
-#, c-format
-msgid "Generating %s with %s"
-msgstr "생성중 %s 와 %s"
-
-#: src/transaction.vala
-msgid "Generation succeeded"
-msgstr "생성 성공"
-
-#: src/transaction.vala
-msgid "Generation failed"
-msgstr "생성 실패"
-
-#: src/transaction.vala
-#, c-format
-msgid "Configuring %s"
-msgstr "%s 설정중"
-
-#: src/transaction.vala
-msgid "Checking available disk space"
-msgstr "사용 가능한 디스크 공간 확인중"
-
-#: src/transaction.vala
-#, c-format
-msgid "%s optionally requires %s"
-msgstr "%s은(는) 옵션으로 %s을(를) 필요로 합니다"
-
-#: src/transaction.vala
-#, c-format
-msgid "Database file for %s does not exist"
-msgstr "%s의 데이터베이스 파일이 존재하지 않습니다"
-
-#: src/transaction.vala
-msgid "Checking keyring"
-msgstr "키링 확인중"
-
-#: src/transaction.vala
-msgid "Downloading required keys"
-msgstr "필요한 키 다운로드중"
-
-#: src/transaction.vala
-#, c-format
-msgid "%s installed as %s.pacnew"
-msgstr "%s은(는) %s.pacnew로 설치됨"
-
-#: src/transaction.vala
-#, c-format
-msgid "%s installed as %s.pacsave"
-msgstr "%s 는 %s.pacsave로 설치됨"
-
-#: src/transaction.vala
-msgid "Running pre-transaction hooks"
-msgstr "처리과정전 후크 실행중"
-
-#: src/transaction.vala
-msgid "Running post-transaction hooks"
-msgstr "처리과정후 후크 실행중"
-
-#: src/transaction.vala
-#, c-format
-msgid "Downloading %s"
-msgstr "%s 다운로드중"
-
-#: src/transaction.vala
-#, c-format
-msgid "About %u seconds remaining"
-msgstr "%u 초 정도 남음"
-
-#: src/transaction.vala
-#, c-format
-msgid "About %lu minute remaining"
-msgid_plural "About %lu minutes remaining"
-msgstr[0] "%lu 분 정도 남음"
-
-#: src/transaction.vala
-#, c-format
-msgid "Refreshing %s"
-msgstr "%s 새로 고치는중"
-
-#: src/transaction.vala src/transaction-cli.vala src/cli.vala
-msgid "Error"
-msgstr "오류"
-
-#: src/transaction.vala src/transaction-gtk.vala
-msgid "Warning"
-msgstr "경고"
-
-#: src/transaction.vala src/installer.vala src/cli.vala
-msgid "Nothing to do"
-msgstr "아무 것도 할 것이 없습니다"
-
-#: src/transaction.vala src/transaction-gtk.vala
-msgid "Transaction successfully finished"
-msgstr "처리과정을 성공적으로 완료했습니다"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
@@ -430,6 +435,10 @@ msgid "Remove packages"
 msgstr "패키지 제거"
 
 #: src/installer.vala src/cli.vala
+msgid "Build packages from AUR and install them with their dependencies"
+msgstr "AUR에서 패키지를 빌드하고 의존성으로 설치합니다"
+
+#: src/installer.vala src/cli.vala
 msgid "package(s)"
 msgstr "패키지"
 
@@ -466,21 +475,9 @@ msgid "%u pending operation"
 msgid_plural "%u pending operations"
 msgstr[0] "보류중인 작업 %u 개"
 
-#: src/manager_window.vala
-msgid "Categories"
-msgstr "카테고리"
-
-#: src/manager_window.vala src/cli.vala
-msgid "Groups"
-msgstr "그룹"
-
-#: src/manager_window.vala
-msgid "Repositories"
-msgstr "저장소"
-
-#: src/manager_window.vala src/cli.vala resources/manager_window.ui
-msgid "Installed"
-msgstr "설치됨"
+#: src/manager_window.vala resources/manager_window.ui
+msgid "All"
+msgstr "모두"
 
 #: src/manager_window.vala
 msgid "Orphans"
@@ -490,49 +487,18 @@ msgstr "고립된 패키지"
 msgid "Foreign"
 msgstr "외부 패키지"
 
-#: src/manager_window.vala
-msgid "Accessories"
-msgstr "액세서리"
+#: src/manager_window.vala src/snap_plugin.vala
+#: resources/preferences_dialog.ui
+msgid "Snap"
+msgstr ""
 
-#: src/manager_window.vala
-msgid "Audio & Video"
-msgstr "오디오 및 비디오"
+#: src/manager_window.vala resources/manager_window.ui
+msgid "Repositories"
+msgstr "저장소"
 
-#: src/manager_window.vala
-msgid "Development"
-msgstr "개발"
-
-#: src/manager_window.vala
-msgid "Education"
-msgstr "교육"
-
-#: src/manager_window.vala
-msgid "Games"
-msgstr "게임"
-
-#: src/manager_window.vala
-msgid "Graphics"
-msgstr "그래픽"
-
-#: src/manager_window.vala
-msgid "Internet"
-msgstr "인터넷"
-
-#: src/manager_window.vala
-msgid "Office"
-msgstr "오피스"
-
-#: src/manager_window.vala
-msgid "Science"
-msgstr "과학"
-
-#: src/manager_window.vala
-msgid "Settings"
-msgstr "설정"
-
-#: src/manager_window.vala
-msgid "System Tools"
-msgstr "시스템 도구"
+#: src/manager_window.vala src/cli.vala resources/manager_window.ui
+msgid "Installed"
+msgstr "설치됨"
 
 #: src/manager_window.vala
 msgid "Dependencies"
@@ -589,6 +555,10 @@ msgstr "투표 수"
 #: src/manager_window.vala src/cli.vala
 msgid "Out of Date"
 msgstr "만료"
+
+#: src/manager_window.vala src/cli.vala resources/manager_window.ui
+msgid "Groups"
+msgstr "그룹"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Packager"
@@ -647,16 +617,60 @@ msgid "Check Dependencies"
 msgstr "필요한 패키지 확인"
 
 #: src/manager_window.vala
+msgid "Publisher"
+msgstr ""
+
+#: src/manager_window.vala
+msgid "Channels"
+msgstr ""
+
+#: src/manager_window.vala
 msgid "Upgrade"
 msgstr "업그레이드"
+
+#: src/manager_window.vala resources/manager_window.ui
+msgid "Build"
+msgstr "빌드"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Remove"
 msgstr "제거"
 
-#: src/manager_window.vala src/cli.vala resources/manager_window.ui
-msgid "Size"
-msgstr "크기"
+#: src/manager_window.vala
+msgid "Featured"
+msgstr ""
+
+#: src/manager_window.vala
+msgid "Photo & Video"
+msgstr ""
+
+#: src/manager_window.vala
+msgid "Music & Audio"
+msgstr ""
+
+#: src/manager_window.vala
+msgid "Productivity"
+msgstr ""
+
+#: src/manager_window.vala
+msgid "Communication & News"
+msgstr ""
+
+#: src/manager_window.vala
+msgid "Education & Science"
+msgstr ""
+
+#: src/manager_window.vala
+msgid "Games"
+msgstr "게임"
+
+#: src/manager_window.vala
+msgid "Utilities"
+msgstr ""
+
+#: src/manager_window.vala
+msgid "Development"
+msgstr "개발"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Install Local Packages"
@@ -673,6 +687,10 @@ msgstr "Alpm 패키지"
 #: src/manager_window.vala
 msgid "A Gtk3 frontend for libalpm"
 msgstr "libalpm의 Gtk3 프론트엔트"
+
+#: src/manager_window.vala resources/manager_window.ui
+msgid "Categories"
+msgstr "카테고리"
 
 #: src/preferences_dialog.vala resources/preferences_dialog.ui
 msgid "How often to check for updates, value in hours"
@@ -703,10 +721,6 @@ msgstr "삭제 대상:"
 msgid "%u file"
 msgid_plural "%u files"
 msgstr[0] "%u파일 "
-
-#: src/preferences_dialog.vala
-msgid "Choose Ignored Upgrades"
-msgstr "무시하고 업그레이드 선택"
 
 #: src/transaction-cli.vala src/cli.vala
 #, c-format
@@ -865,10 +879,6 @@ msgid "overwrite existing files"
 msgstr "기존 파일 덮어쓰기"
 
 #: src/cli.vala
-msgid "Build packages from AUR and install them with their dependencies"
-msgstr "AUR에서 패키지를 빌드하고 의존성으로 설치합니다"
-
-#: src/cli.vala
 msgid ""
 "If no package name is given, use the PKGBUILD file in the current directory"
 msgstr "패키지 이름이 지정되지 않은 경우 현재 디렉토리에서 PKGBUILD 파일을 사용합니다"
@@ -1013,6 +1023,10 @@ msgid "URL"
 msgstr "URL"
 
 #: src/cli.vala
+msgid "Installed Size"
+msgstr ""
+
+#: src/cli.vala
 #, c-format
 msgid "No package owns %s"
 msgstr "% s을 (를) 가진 패키지가 없습니다"
@@ -1089,10 +1103,6 @@ msgid "Search"
 msgstr "검색"
 
 #: resources/manager_window.ui
-msgid "All"
-msgstr "모두"
-
-#: resources/manager_window.ui
 msgid "Pending"
 msgstr "보류중"
 
@@ -1121,8 +1131,8 @@ msgid "Relevance"
 msgstr "관련성"
 
 #: resources/manager_window.ui
-msgid "Date"
-msgstr "날짜"
+msgid "Size"
+msgstr "크기"
 
 #: resources/manager_window.ui
 msgid "Browse"
@@ -1135,10 +1145,6 @@ msgstr "실행"
 #: resources/manager_window.ui
 msgid "Reinstall"
 msgstr "재설치"
-
-#: resources/manager_window.ui
-msgid "Build"
-msgstr "빌드"
 
 #: resources/manager_window.ui
 msgid "Reset build files"
@@ -1155,10 +1161,6 @@ msgid ""
 msgstr "패키지를 제거할 때, 다른 패키지에서 필요로 하지 않는 종속 패키지를 제거합니다"
 
 #: resources/preferences_dialog.ui
-msgid "Check available disk space"
-msgstr "사용 가능한 디스크 공간 확인"
-
-#: resources/preferences_dialog.ui
 msgid "Enable downgrade"
 msgstr "다운 그레이드 사용"
 
@@ -1173,10 +1175,6 @@ msgstr "자동으로 업데이트 다운로드"
 #: resources/preferences_dialog.ui
 msgid "Hide tray icon when no update available"
 msgstr "사용 가능한 업데이트가 없을 때 트레이 아이콘 숨기기"
-
-#: resources/preferences_dialog.ui
-msgid "Ignore upgrades for:"
-msgstr "다음에 대한 업그레이드 무시:"
 
 #: resources/preferences_dialog.ui
 msgid "General"
@@ -1215,6 +1213,14 @@ msgstr "AUR에서 업데이트 확인"
 #: resources/preferences_dialog.ui
 msgid "Check for development packages updates"
 msgstr "개발 패키지 업데이트 확인"
+
+#: resources/preferences_dialog.ui
+msgid "Snap packages are maintained by their publisher."
+msgstr ""
+
+#: resources/preferences_dialog.ui
+msgid "Enable Snap support"
+msgstr ""
 
 #: resources/preferences_dialog.ui
 msgid "Cache"

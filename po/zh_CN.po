@@ -21,9 +21,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2019-08-06 16:57+0200\n"
-"PO-Revision-Date: 2019-09-11 13:36+0000\n"
-"Last-Translator: Tramsifex <sunnycode@protonmail.com>\n"
+"POT-Creation-Date: 2019-09-14 12:36+0200\n"
+"PO-Revision-Date: 2019-09-21 00:46+0000\n"
+"Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -32,26 +32,34 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 #: data/polkit/org.manjaro.pamac.policy.in
-msgid "Authentication is required"
-msgstr "需要验证"
+msgid "Install, update, or remove packages"
+msgstr ""
+
+#: data/polkit/org.manjaro.pamac.policy.in
+msgid "Authentication is required to install, update, or remove packages"
+msgstr ""
 
 #: src/alpm_utils.vala src/database.vala
 msgid "Failed to initialize alpm library"
 msgstr "初始化 alpm 库失败"
 
 #: src/alpm_utils.vala
-msgid "Failed to synchronize any databases"
-msgstr "同步数据库失败"
+msgid "Synchronizing package databases"
+msgstr "正在同步包数据库"
+
+#: src/alpm_utils.vala
+msgid "Failed to synchronize databases"
+msgstr ""
 
 #: src/alpm_utils.vala
 msgid "Failed to init transaction"
 msgstr "初始化事务失败"
 
-#: src/alpm_utils.vala src/transaction.vala src/transaction-gtk.vala
+#: src/alpm_utils.vala src/transaction-gtk.vala src/installer.vala
 msgid "Failed to prepare transaction"
 msgstr "准备事务失败"
 
-#: src/alpm_utils.vala src/cli.vala
+#: src/alpm_utils.vala src/installer.vala src/cli.vala
 #, c-format
 msgid "target not found: %s"
 msgstr "目标未找到：%s"
@@ -86,6 +94,18 @@ msgstr "%s 和 %s 有冲突"
 msgid "%s needs to be removed but it is a locked package"
 msgstr "%s 需要移除但被锁定"
 
+#: src/alpm_utils.vala src/transaction.vala
+msgid "Transaction cancelled"
+msgstr "事务已经取消"
+
+#: src/alpm_utils.vala src/installer.vala src/cli.vala
+msgid "Nothing to do"
+msgstr "无需做任何事"
+
+#: src/alpm_utils.vala src/transaction.vala
+msgid "Preparing"
+msgstr "准备中"
+
 #: src/alpm_utils.vala
 msgid "Failed to commit transaction"
 msgstr "提交事务失败"
@@ -106,21 +126,170 @@ msgid "%s is invalid or corrupted"
 msgstr "%s 无效或已损坏"
 
 #: src/alpm_utils.vala
+msgid "Checking dependencies"
+msgstr "正在检查依赖关系"
+
+#: src/alpm_utils.vala
+msgid "Checking file conflicts"
+msgstr "正在检查文件冲突"
+
+#: src/alpm_utils.vala
+msgid "Resolving dependencies"
+msgstr "正在解决依赖关系"
+
+#: src/alpm_utils.vala
+msgid "Checking inter-conflicts"
+msgstr "正在检查内部冲突"
+
+#: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
-msgid "%s appears to be truncated: %jd/%jd bytes\n"
-msgstr "%s 似乎被截断了：%jd/%jd 字节\n"
+msgid "Installing %s"
+msgstr "正在安装 %s"
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "Upgrading %s"
+msgstr "正在升级 %s"
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "Reinstalling %s"
+msgstr "正在重新安装 %s"
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "Downgrading %s"
+msgstr "正在降级 %s"
+
+#: src/alpm_utils.vala src/snap_plugin.vala
+#, c-format
+msgid "Removing %s"
+msgstr "正在移除 %s"
+
+#: src/alpm_utils.vala
+msgid "Checking integrity"
+msgstr "正在检查完整性"
+
+#: src/alpm_utils.vala
+msgid "Loading packages files"
+msgstr "正在载入包文件"
+
+#: src/alpm_utils.vala
+msgid "Checking delta integrity"
+msgstr "正在检查增量完整性"
+
+#: src/alpm_utils.vala
+msgid "Applying deltas"
+msgstr "正在应用增量"
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "Generating %s with %s"
+msgstr "正在使用%s生成%s"
+
+#: src/alpm_utils.vala
+msgid "Generation succeeded"
+msgstr "生成成功"
+
+#: src/alpm_utils.vala
+msgid "Generation failed"
+msgstr "生成失败"
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "Configuring %s"
+msgstr "正在配置 %s"
+
+#: src/alpm_utils.vala
+msgid "Checking available disk space"
+msgstr "正在检查可用磁盘空间"
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "%s optionally requires %s"
+msgstr "%s 可选依赖于 %s"
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "Database file for %s does not exist"
+msgstr "%s 的数据库文件不存在"
+
+#: src/alpm_utils.vala
+msgid "Checking keyring"
+msgstr "正在检查密钥环"
+
+#: src/alpm_utils.vala
+msgid "Downloading required keys"
+msgstr "正在下载所需密钥"
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "%s installed as %s.pacnew"
+msgstr "%s 安装为 %s.pacnew"
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "%s installed as %s.pacsave"
+msgstr "%s 安装为 %s.pacsave"
+
+#: src/alpm_utils.vala
+msgid "Running pre-transaction hooks"
+msgstr "正在运行前处理挂钩"
+
+#: src/alpm_utils.vala
+msgid "Running post-transaction hooks"
+msgstr "正在运行后处理挂钩"
+
+#: src/alpm_utils.vala src/snap_plugin.vala
+#, c-format
+msgid "About %u seconds remaining"
+msgstr "大约剩下 %u 秒钟"
+
+#: src/alpm_utils.vala src/snap_plugin.vala
+#, c-format
+msgid "About %lu minute remaining"
+msgid_plural "About %lu minutes remaining"
+msgstr[0] "剩下大约 %lu 分钟"
+
+#: src/alpm_utils.vala src/transaction-cli.vala src/cli.vala
+msgid "Error"
+msgstr "错误"
+
+#: src/alpm_utils.vala src/transaction-gtk.vala
+msgid "Warning"
+msgstr "警告"
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "Download of %s started"
+msgstr ""
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "Download of %s finished"
+msgstr ""
+
+#: src/alpm_utils.vala src/snap_plugin.vala
+#, c-format
+msgid "Downloading %s"
+msgstr "正在下载 %s"
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "Refreshing %s"
+msgstr "正在更新 %s"
 
 #: src/alpm_utils.vala
 #, c-format
 msgid "failed retrieving file '%s' from %s : %s\n"
 msgstr "从 %s 获取文件“%s”失败：%s\n"
 
-#: src/system_daemon.vala
+#: src/daemon.vala
 msgid "Authentication failed"
 msgstr "验证失败"
 
-#: src/database.vala src/transaction-gtk.vala src/manager_window.vala
-#: src/transaction-cli.vala src/cli.vala resources/preferences_dialog.ui
+#: src/database.vala src/manager_window.vala src/cli.vala
+#: resources/preferences_dialog.ui
 msgid "AUR"
 msgstr "AUR"
 
@@ -148,18 +317,6 @@ msgstr "否"
 msgid "Refreshing mirrors list"
 msgstr "正在刷新镜像列表"
 
-#: src/transaction.vala
-msgid "Preparing"
-msgstr "准备中"
-
-#: src/transaction.vala
-msgid "Synchronizing package databases"
-msgstr "正在同步包数据库"
-
-#: src/transaction.vala
-msgid "Starting full system upgrade"
-msgstr "正在进行全面系统升级"
-
 #: src/transaction.vala src/cli.vala
 #, c-format
 msgid "Cloning %s build files"
@@ -180,6 +337,10 @@ msgstr "正在检查 %s 依赖关系"
 msgid "key %s could not be imported"
 msgstr "密钥%s无法被导入"
 
+#: src/transaction.vala src/manager_window.vala
+msgid "Transaction successfully finished"
+msgstr "事务成功完成"
+
 #: src/transaction.vala
 msgid "Waiting for another package manager to quit"
 msgstr "正在等待另一包管理器退出"
@@ -188,162 +349,6 @@ msgstr "正在等待另一包管理器退出"
 #, c-format
 msgid "Building %s"
 msgstr "正在构建 %s"
-
-#: src/transaction.vala
-msgid "Transaction cancelled"
-msgstr "事务已经取消"
-
-#: src/transaction.vala
-msgid "Checking dependencies"
-msgstr "正在检查依赖关系"
-
-#: src/transaction.vala
-msgid "Checking file conflicts"
-msgstr "正在检查文件冲突"
-
-#: src/transaction.vala
-msgid "Resolving dependencies"
-msgstr "正在解决依赖关系"
-
-#: src/transaction.vala
-msgid "Checking inter-conflicts"
-msgstr "正在检查内部冲突"
-
-#: src/transaction.vala
-#, c-format
-msgid "Installing %s"
-msgstr "正在安装 %s"
-
-#: src/transaction.vala
-#, c-format
-msgid "Upgrading %s"
-msgstr "正在升级 %s"
-
-#: src/transaction.vala
-#, c-format
-msgid "Reinstalling %s"
-msgstr "正在重新安装 %s"
-
-#: src/transaction.vala
-#, c-format
-msgid "Downgrading %s"
-msgstr "正在降级 %s"
-
-#: src/transaction.vala
-#, c-format
-msgid "Removing %s"
-msgstr "正在移除 %s"
-
-#: src/transaction.vala
-msgid "Checking integrity"
-msgstr "正在检查完整性"
-
-#: src/transaction.vala
-msgid "Loading packages files"
-msgstr "正在载入包文件"
-
-#: src/transaction.vala
-msgid "Checking delta integrity"
-msgstr "正在检查增量完整性"
-
-#: src/transaction.vala
-msgid "Applying deltas"
-msgstr "正在应用增量"
-
-#: src/transaction.vala
-#, c-format
-msgid "Generating %s with %s"
-msgstr "正在使用%s生成%s"
-
-#: src/transaction.vala
-msgid "Generation succeeded"
-msgstr "生成成功"
-
-#: src/transaction.vala
-msgid "Generation failed"
-msgstr "生成失败"
-
-#: src/transaction.vala
-#, c-format
-msgid "Configuring %s"
-msgstr "正在配置 %s"
-
-#: src/transaction.vala
-msgid "Checking available disk space"
-msgstr "正在检查可用磁盘空间"
-
-#: src/transaction.vala
-#, c-format
-msgid "%s optionally requires %s"
-msgstr "%s 可选依赖于 %s"
-
-#: src/transaction.vala
-#, c-format
-msgid "Database file for %s does not exist"
-msgstr "%s 的数据库文件不存在"
-
-#: src/transaction.vala
-msgid "Checking keyring"
-msgstr "正在检查密钥环"
-
-#: src/transaction.vala
-msgid "Downloading required keys"
-msgstr "正在下载所需密钥"
-
-#: src/transaction.vala
-#, c-format
-msgid "%s installed as %s.pacnew"
-msgstr "%s 安装为 %s.pacnew"
-
-#: src/transaction.vala
-#, c-format
-msgid "%s installed as %s.pacsave"
-msgstr "%s 安装为 %s.pacsave"
-
-#: src/transaction.vala
-msgid "Running pre-transaction hooks"
-msgstr "正在运行前处理挂钩"
-
-#: src/transaction.vala
-msgid "Running post-transaction hooks"
-msgstr "正在运行后处理挂钩"
-
-#: src/transaction.vala
-#, c-format
-msgid "Downloading %s"
-msgstr "正在下载 %s"
-
-#: src/transaction.vala
-#, c-format
-msgid "About %u seconds remaining"
-msgstr "大约剩下 %u 秒钟"
-
-#: src/transaction.vala
-#, c-format
-msgid "About %lu minute remaining"
-msgid_plural "About %lu minutes remaining"
-msgstr[0] "剩下大约 %lu 分钟"
-
-#: src/transaction.vala
-#, c-format
-msgid "Refreshing %s"
-msgstr "正在更新 %s"
-
-#: src/transaction.vala src/transaction-cli.vala src/cli.vala
-msgid "Error"
-msgstr "错误"
-
-#: src/transaction.vala src/transaction-gtk.vala
-msgid "Warning"
-msgstr "警告"
-
-#: src/transaction.vala src/installer.vala src/cli.vala
-msgid "Nothing to do"
-msgstr "无需做任何事"
-
-#: src/transaction.vala src/transaction-gtk.vala
-msgid "Transaction successfully finished"
-msgstr "事务成功完成"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
@@ -434,6 +439,10 @@ msgid "Remove packages"
 msgstr "移除软件包"
 
 #: src/installer.vala src/cli.vala
+msgid "Build packages from AUR and install them with their dependencies"
+msgstr "从AUR创建并安装包和依赖"
+
+#: src/installer.vala src/cli.vala
 msgid "package(s)"
 msgstr "软件包"
 
@@ -470,21 +479,9 @@ msgid "%u pending operation"
 msgid_plural "%u pending operations"
 msgstr[0] "%u 个待处理的操作"
 
-#: src/manager_window.vala
-msgid "Categories"
-msgstr "分类"
-
-#: src/manager_window.vala src/cli.vala
-msgid "Groups"
-msgstr "组"
-
-#: src/manager_window.vala
-msgid "Repositories"
-msgstr "库"
-
-#: src/manager_window.vala src/cli.vala resources/manager_window.ui
-msgid "Installed"
-msgstr "已安装"
+#: src/manager_window.vala resources/manager_window.ui
+msgid "All"
+msgstr "全部"
 
 #: src/manager_window.vala
 msgid "Orphans"
@@ -494,49 +491,18 @@ msgstr "孤包"
 msgid "Foreign"
 msgstr "外部"
 
-#: src/manager_window.vala
-msgid "Accessories"
-msgstr "附加组件"
+#: src/manager_window.vala src/snap_plugin.vala
+#: resources/preferences_dialog.ui
+msgid "Snap"
+msgstr ""
 
-#: src/manager_window.vala
-msgid "Audio & Video"
-msgstr "音频与视频"
+#: src/manager_window.vala resources/manager_window.ui
+msgid "Repositories"
+msgstr "库"
 
-#: src/manager_window.vala
-msgid "Development"
-msgstr "开发"
-
-#: src/manager_window.vala
-msgid "Education"
-msgstr "教育"
-
-#: src/manager_window.vala
-msgid "Games"
-msgstr "游戏"
-
-#: src/manager_window.vala
-msgid "Graphics"
-msgstr "图形"
-
-#: src/manager_window.vala
-msgid "Internet"
-msgstr "网络"
-
-#: src/manager_window.vala
-msgid "Office"
-msgstr "办公软件"
-
-#: src/manager_window.vala
-msgid "Science"
-msgstr "科学"
-
-#: src/manager_window.vala
-msgid "Settings"
-msgstr "设置"
-
-#: src/manager_window.vala
-msgid "System Tools"
-msgstr "系统工具"
+#: src/manager_window.vala src/cli.vala resources/manager_window.ui
+msgid "Installed"
+msgstr "已安装"
 
 #: src/manager_window.vala
 msgid "Dependencies"
@@ -593,6 +559,10 @@ msgstr "得票"
 #: src/manager_window.vala src/cli.vala
 msgid "Out of Date"
 msgstr "过期"
+
+#: src/manager_window.vala src/cli.vala resources/manager_window.ui
+msgid "Groups"
+msgstr "组"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Packager"
@@ -651,16 +621,60 @@ msgid "Check Dependencies"
 msgstr "检查依赖关系"
 
 #: src/manager_window.vala
+msgid "Publisher"
+msgstr ""
+
+#: src/manager_window.vala
+msgid "Channels"
+msgstr ""
+
+#: src/manager_window.vala
 msgid "Upgrade"
 msgstr "升级"
+
+#: src/manager_window.vala resources/manager_window.ui
+msgid "Build"
+msgstr "构建"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Remove"
 msgstr "移除"
 
-#: src/manager_window.vala src/cli.vala resources/manager_window.ui
-msgid "Size"
-msgstr "大小"
+#: src/manager_window.vala
+msgid "Featured"
+msgstr ""
+
+#: src/manager_window.vala
+msgid "Photo & Video"
+msgstr ""
+
+#: src/manager_window.vala
+msgid "Music & Audio"
+msgstr ""
+
+#: src/manager_window.vala
+msgid "Productivity"
+msgstr ""
+
+#: src/manager_window.vala
+msgid "Communication & News"
+msgstr ""
+
+#: src/manager_window.vala
+msgid "Education & Science"
+msgstr ""
+
+#: src/manager_window.vala
+msgid "Games"
+msgstr "游戏"
+
+#: src/manager_window.vala
+msgid "Utilities"
+msgstr ""
+
+#: src/manager_window.vala
+msgid "Development"
+msgstr "开发"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Install Local Packages"
@@ -677,6 +691,10 @@ msgstr "Alpm 软件包"
 #: src/manager_window.vala
 msgid "A Gtk3 frontend for libalpm"
 msgstr "libalpm 的 GTK3 前端"
+
+#: src/manager_window.vala resources/manager_window.ui
+msgid "Categories"
+msgstr "分类"
 
 #: src/preferences_dialog.vala resources/preferences_dialog.ui
 msgid "How often to check for updates, value in hours"
@@ -707,10 +725,6 @@ msgstr "可删除"
 msgid "%u file"
 msgid_plural "%u files"
 msgstr[0] "%u 个文件"
-
-#: src/preferences_dialog.vala
-msgid "Choose Ignored Upgrades"
-msgstr "选择忽略的更新"
 
 #: src/transaction-cli.vala src/cli.vala
 #, c-format
@@ -869,10 +883,6 @@ msgid "overwrite existing files"
 msgstr "覆盖已有文件"
 
 #: src/cli.vala
-msgid "Build packages from AUR and install them with their dependencies"
-msgstr "从AUR创建并安装包和依赖"
-
-#: src/cli.vala
 msgid ""
 "If no package name is given, use the PKGBUILD file in the current directory"
 msgstr "如果未指定包名，将使用当前目录的 PKGBUILD 文件"
@@ -1017,6 +1027,10 @@ msgid "URL"
 msgstr "URL"
 
 #: src/cli.vala
+msgid "Installed Size"
+msgstr ""
+
+#: src/cli.vala
 #, c-format
 msgid "No package owns %s"
 msgstr "没有包拥有%s"
@@ -1093,10 +1107,6 @@ msgid "Search"
 msgstr "搜索"
 
 #: resources/manager_window.ui
-msgid "All"
-msgstr "全部"
-
-#: resources/manager_window.ui
 msgid "Pending"
 msgstr "待处理"
 
@@ -1125,8 +1135,8 @@ msgid "Relevance"
 msgstr "相关性"
 
 #: resources/manager_window.ui
-msgid "Date"
-msgstr "日期"
+msgid "Size"
+msgstr "大小"
 
 #: resources/manager_window.ui
 msgid "Browse"
@@ -1139,10 +1149,6 @@ msgstr "启动"
 #: resources/manager_window.ui
 msgid "Reinstall"
 msgstr "重新安装"
-
-#: resources/manager_window.ui
-msgid "Build"
-msgstr "构建"
 
 #: resources/manager_window.ui
 msgid "Reset build files"
@@ -1159,10 +1165,6 @@ msgid ""
 msgstr "移除软件包时，也移除该软件包需要，但其他软件包不需要的依赖"
 
 #: resources/preferences_dialog.ui
-msgid "Check available disk space"
-msgstr "检查可用磁盘空间"
-
-#: resources/preferences_dialog.ui
 msgid "Enable downgrade"
 msgstr "启用降级"
 
@@ -1177,10 +1179,6 @@ msgstr "自动下载更新"
 #: resources/preferences_dialog.ui
 msgid "Hide tray icon when no update available"
 msgstr "隐藏托盘图标当没有更新可用时"
-
-#: resources/preferences_dialog.ui
-msgid "Ignore upgrades for:"
-msgstr "忽略以下升级："
 
 #: resources/preferences_dialog.ui
 msgid "General"
@@ -1219,6 +1217,14 @@ msgstr "从 AUR 检查更新"
 #: resources/preferences_dialog.ui
 msgid "Check for development packages updates"
 msgstr "检查开发软件包更新"
+
+#: resources/preferences_dialog.ui
+msgid "Snap packages are maintained by their publisher."
+msgstr ""
+
+#: resources/preferences_dialog.ui
+msgid "Enable Snap support"
+msgstr ""
 
 #: resources/preferences_dialog.ui
 msgid "Cache"

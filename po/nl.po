@@ -25,8 +25,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2019-08-06 16:57+0200\n"
-"PO-Revision-Date: 2019-08-07 00:47+0000\n"
+"POT-Creation-Date: 2019-09-14 12:36+0200\n"
+"PO-Revision-Date: 2019-09-21 00:46+0000\n"
 "Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Dutch (http://www.transifex.com/manjarolinux/manjaro-pamac/language/nl/)\n"
 "MIME-Version: 1.0\n"
@@ -36,26 +36,34 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: data/polkit/org.manjaro.pamac.policy.in
-msgid "Authentication is required"
-msgstr "Verificatie vereist"
+msgid "Install, update, or remove packages"
+msgstr ""
+
+#: data/polkit/org.manjaro.pamac.policy.in
+msgid "Authentication is required to install, update, or remove packages"
+msgstr ""
 
 #: src/alpm_utils.vala src/database.vala
 msgid "Failed to initialize alpm library"
 msgstr "Initialiseren alpm bibliotheek mislukt"
 
 #: src/alpm_utils.vala
-msgid "Failed to synchronize any databases"
-msgstr "Synchroniseren van alle databases mislukt"
+msgid "Synchronizing package databases"
+msgstr "Synchroniseren pakket databases"
+
+#: src/alpm_utils.vala
+msgid "Failed to synchronize databases"
+msgstr ""
 
 #: src/alpm_utils.vala
 msgid "Failed to init transaction"
 msgstr "Initialiseren transactie mislukt"
 
-#: src/alpm_utils.vala src/transaction.vala src/transaction-gtk.vala
+#: src/alpm_utils.vala src/transaction-gtk.vala src/installer.vala
 msgid "Failed to prepare transaction"
 msgstr "Voorbereiden transactie mislukt"
 
-#: src/alpm_utils.vala src/cli.vala
+#: src/alpm_utils.vala src/installer.vala src/cli.vala
 #, c-format
 msgid "target not found: %s"
 msgstr "doel niet gevonden: %s"
@@ -90,6 +98,18 @@ msgstr "%s en %s conflicteren"
 msgid "%s needs to be removed but it is a locked package"
 msgstr "%s moet verwijderd worden maar is een lokaal pakket"
 
+#: src/alpm_utils.vala src/transaction.vala
+msgid "Transaction cancelled"
+msgstr "Transactie geannuleerd"
+
+#: src/alpm_utils.vala src/installer.vala src/cli.vala
+msgid "Nothing to do"
+msgstr "Niets te doen"
+
+#: src/alpm_utils.vala src/transaction.vala
+msgid "Preparing"
+msgstr "Voorbereiding"
+
 #: src/alpm_utils.vala
 msgid "Failed to commit transaction"
 msgstr "Starten transactie mislukt"
@@ -110,21 +130,171 @@ msgid "%s is invalid or corrupted"
 msgstr "%s is ongeldig of beschadigd"
 
 #: src/alpm_utils.vala
+msgid "Checking dependencies"
+msgstr "Controleren afhankelijkheden"
+
+#: src/alpm_utils.vala
+msgid "Checking file conflicts"
+msgstr "Controle bestandsconflicten"
+
+#: src/alpm_utils.vala
+msgid "Resolving dependencies"
+msgstr "Afhankelijkheden oplossen"
+
+#: src/alpm_utils.vala
+msgid "Checking inter-conflicts"
+msgstr "Controleren inter-conflicten"
+
+#: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
-msgid "%s appears to be truncated: %jd/%jd bytes\n"
-msgstr "%s lijkt te zijn afgebroken: %jd/%jd bytes\n"
+msgid "Installing %s"
+msgstr "Installeren  %s"
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "Upgrading %s"
+msgstr "Opwaarderen %s"
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "Reinstalling %s"
+msgstr "Herinstalleren %s"
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "Downgrading %s"
+msgstr "Downgraden %s"
+
+#: src/alpm_utils.vala src/snap_plugin.vala
+#, c-format
+msgid "Removing %s"
+msgstr "Verwijderen %s"
+
+#: src/alpm_utils.vala
+msgid "Checking integrity"
+msgstr "Controle op integriteit"
+
+#: src/alpm_utils.vala
+msgid "Loading packages files"
+msgstr "Pakket bestanden laden"
+
+#: src/alpm_utils.vala
+msgid "Checking delta integrity"
+msgstr "Delta integriteit controleren"
+
+#: src/alpm_utils.vala
+msgid "Applying deltas"
+msgstr "Toepassen delta's"
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "Generating %s with %s"
+msgstr "Genereren %s met %s"
+
+#: src/alpm_utils.vala
+msgid "Generation succeeded"
+msgstr "Genereren gelukt"
+
+#: src/alpm_utils.vala
+msgid "Generation failed"
+msgstr "Genereren mislukt"
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "Configuring %s"
+msgstr "Configureren %s"
+
+#: src/alpm_utils.vala
+msgid "Checking available disk space"
+msgstr "Controleren beschikbare schijfruimte"
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "%s optionally requires %s"
+msgstr "%s vereist optioneel %s"
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "Database file for %s does not exist"
+msgstr "Database bestand voor %s bestaat niet"
+
+#: src/alpm_utils.vala
+msgid "Checking keyring"
+msgstr "Controleren sleutelring "
+
+#: src/alpm_utils.vala
+msgid "Downloading required keys"
+msgstr "Downloaden benodigde sleutels"
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "%s installed as %s.pacnew"
+msgstr "%s geïnstalleerd als %s.pacnew"
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "%s installed as %s.pacsave"
+msgstr "%s geïnstalleerd als %s.pacsave"
+
+#: src/alpm_utils.vala
+msgid "Running pre-transaction hooks"
+msgstr "Bezig met uitvoeren van voorbereidingen voor overdracht"
+
+#: src/alpm_utils.vala
+msgid "Running post-transaction hooks"
+msgstr "Bezig met uitvoeren van afhandelingen van overdracht"
+
+#: src/alpm_utils.vala src/snap_plugin.vala
+#, c-format
+msgid "About %u seconds remaining"
+msgstr "Ongeveer %u seconden resterend"
+
+#: src/alpm_utils.vala src/snap_plugin.vala
+#, c-format
+msgid "About %lu minute remaining"
+msgid_plural "About %lu minutes remaining"
+msgstr[0] "Ongeveer %lu minuut resterend"
+msgstr[1] "Ongeveer %lu minuten resterend"
+
+#: src/alpm_utils.vala src/transaction-cli.vala src/cli.vala
+msgid "Error"
+msgstr "Fout"
+
+#: src/alpm_utils.vala src/transaction-gtk.vala
+msgid "Warning"
+msgstr "Waarschuwing"
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "Download of %s started"
+msgstr ""
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "Download of %s finished"
+msgstr ""
+
+#: src/alpm_utils.vala src/snap_plugin.vala
+#, c-format
+msgid "Downloading %s"
+msgstr "Downloaden %s"
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "Refreshing %s"
+msgstr "Verversen %s"
 
 #: src/alpm_utils.vala
 #, c-format
 msgid "failed retrieving file '%s' from %s : %s\n"
 msgstr "het ophalen van bestand '%s' uit %s is mislukt : %s\n"
 
-#: src/system_daemon.vala
+#: src/daemon.vala
 msgid "Authentication failed"
 msgstr "Authenticatie mislukt"
 
-#: src/database.vala src/transaction-gtk.vala src/manager_window.vala
-#: src/transaction-cli.vala src/cli.vala resources/preferences_dialog.ui
+#: src/database.vala src/manager_window.vala src/cli.vala
+#: resources/preferences_dialog.ui
 msgid "AUR"
 msgstr "AUR"
 
@@ -152,18 +322,6 @@ msgstr "Nee"
 msgid "Refreshing mirrors list"
 msgstr "Verversen lijst spiegelservers"
 
-#: src/transaction.vala
-msgid "Preparing"
-msgstr "Voorbereiding"
-
-#: src/transaction.vala
-msgid "Synchronizing package databases"
-msgstr "Synchroniseren pakket databases"
-
-#: src/transaction.vala
-msgid "Starting full system upgrade"
-msgstr "Volledige systeem upgrade starten"
-
 #: src/transaction.vala src/cli.vala
 #, c-format
 msgid "Cloning %s build files"
@@ -184,6 +342,10 @@ msgstr "Controleer %s afhankelijken"
 msgid "key %s could not be imported"
 msgstr "sleutel %s kon niet geïmporteerd worden"
 
+#: src/transaction.vala src/manager_window.vala
+msgid "Transaction successfully finished"
+msgstr "Transactie succesvol afgerond"
+
 #: src/transaction.vala
 msgid "Waiting for another package manager to quit"
 msgstr "Bezig met wachten totdat een andere pakketbeheerder afgesloten wordt"
@@ -192,163 +354,6 @@ msgstr "Bezig met wachten totdat een andere pakketbeheerder afgesloten wordt"
 #, c-format
 msgid "Building %s"
 msgstr "Bezig met bouwen van %s"
-
-#: src/transaction.vala
-msgid "Transaction cancelled"
-msgstr "Transactie geannuleerd"
-
-#: src/transaction.vala
-msgid "Checking dependencies"
-msgstr "Controleren afhankelijkheden"
-
-#: src/transaction.vala
-msgid "Checking file conflicts"
-msgstr "Controle bestandsconflicten"
-
-#: src/transaction.vala
-msgid "Resolving dependencies"
-msgstr "Afhankelijkheden oplossen"
-
-#: src/transaction.vala
-msgid "Checking inter-conflicts"
-msgstr "Controleren inter-conflicten"
-
-#: src/transaction.vala
-#, c-format
-msgid "Installing %s"
-msgstr "Installeren  %s"
-
-#: src/transaction.vala
-#, c-format
-msgid "Upgrading %s"
-msgstr "Opwaarderen %s"
-
-#: src/transaction.vala
-#, c-format
-msgid "Reinstalling %s"
-msgstr "Herinstalleren %s"
-
-#: src/transaction.vala
-#, c-format
-msgid "Downgrading %s"
-msgstr "Downgraden %s"
-
-#: src/transaction.vala
-#, c-format
-msgid "Removing %s"
-msgstr "Verwijderen %s"
-
-#: src/transaction.vala
-msgid "Checking integrity"
-msgstr "Controle op integriteit"
-
-#: src/transaction.vala
-msgid "Loading packages files"
-msgstr "Pakket bestanden laden"
-
-#: src/transaction.vala
-msgid "Checking delta integrity"
-msgstr "Delta integriteit controleren"
-
-#: src/transaction.vala
-msgid "Applying deltas"
-msgstr "Toepassen delta's"
-
-#: src/transaction.vala
-#, c-format
-msgid "Generating %s with %s"
-msgstr "Genereren %s met %s"
-
-#: src/transaction.vala
-msgid "Generation succeeded"
-msgstr "Genereren gelukt"
-
-#: src/transaction.vala
-msgid "Generation failed"
-msgstr "Genereren mislukt"
-
-#: src/transaction.vala
-#, c-format
-msgid "Configuring %s"
-msgstr "Configureren %s"
-
-#: src/transaction.vala
-msgid "Checking available disk space"
-msgstr "Controleren beschikbare schijfruimte"
-
-#: src/transaction.vala
-#, c-format
-msgid "%s optionally requires %s"
-msgstr "%s vereist optioneel %s"
-
-#: src/transaction.vala
-#, c-format
-msgid "Database file for %s does not exist"
-msgstr "Database bestand voor %s bestaat niet"
-
-#: src/transaction.vala
-msgid "Checking keyring"
-msgstr "Controleren sleutelring "
-
-#: src/transaction.vala
-msgid "Downloading required keys"
-msgstr "Downloaden benodigde sleutels"
-
-#: src/transaction.vala
-#, c-format
-msgid "%s installed as %s.pacnew"
-msgstr "%s geïnstalleerd als %s.pacnew"
-
-#: src/transaction.vala
-#, c-format
-msgid "%s installed as %s.pacsave"
-msgstr "%s geïnstalleerd als %s.pacsave"
-
-#: src/transaction.vala
-msgid "Running pre-transaction hooks"
-msgstr "Bezig met uitvoeren van voorbereidingen voor overdracht"
-
-#: src/transaction.vala
-msgid "Running post-transaction hooks"
-msgstr "Bezig met uitvoeren van afhandelingen van overdracht"
-
-#: src/transaction.vala
-#, c-format
-msgid "Downloading %s"
-msgstr "Downloaden %s"
-
-#: src/transaction.vala
-#, c-format
-msgid "About %u seconds remaining"
-msgstr "Ongeveer %u seconden resterend"
-
-#: src/transaction.vala
-#, c-format
-msgid "About %lu minute remaining"
-msgid_plural "About %lu minutes remaining"
-msgstr[0] "Ongeveer %lu minuut resterend"
-msgstr[1] "Ongeveer %lu minuten resterend"
-
-#: src/transaction.vala
-#, c-format
-msgid "Refreshing %s"
-msgstr "Verversen %s"
-
-#: src/transaction.vala src/transaction-cli.vala src/cli.vala
-msgid "Error"
-msgstr "Fout"
-
-#: src/transaction.vala src/transaction-gtk.vala
-msgid "Warning"
-msgstr "Waarschuwing"
-
-#: src/transaction.vala src/installer.vala src/cli.vala
-msgid "Nothing to do"
-msgstr "Niets te doen"
-
-#: src/transaction.vala src/transaction-gtk.vala
-msgid "Transaction successfully finished"
-msgstr "Transactie succesvol afgerond"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
@@ -439,6 +444,10 @@ msgid "Remove packages"
 msgstr "Pakketten verwijderen"
 
 #: src/installer.vala src/cli.vala
+msgid "Build packages from AUR and install them with their dependencies"
+msgstr "Bouw pakketten van AUR en installeer ze samen met hun afhankelijkheden"
+
+#: src/installer.vala src/cli.vala
 msgid "package(s)"
 msgstr "pakket(ten)"
 
@@ -477,21 +486,9 @@ msgid_plural "%u pending operations"
 msgstr[0] "%u resterende bewerking"
 msgstr[1] "%u resterende bewerkingen"
 
-#: src/manager_window.vala
-msgid "Categories"
-msgstr "Categorieën"
-
-#: src/manager_window.vala src/cli.vala
-msgid "Groups"
-msgstr "Groepen"
-
-#: src/manager_window.vala
-msgid "Repositories"
-msgstr "Repositories"
-
-#: src/manager_window.vala src/cli.vala resources/manager_window.ui
-msgid "Installed"
-msgstr "Geïnstalleerd"
+#: src/manager_window.vala resources/manager_window.ui
+msgid "All"
+msgstr ""
 
 #: src/manager_window.vala
 msgid "Orphans"
@@ -501,49 +498,18 @@ msgstr "Wezen"
 msgid "Foreign"
 msgstr "Derde partij-pakketten"
 
-#: src/manager_window.vala
-msgid "Accessories"
-msgstr "Accessoires"
+#: src/manager_window.vala src/snap_plugin.vala
+#: resources/preferences_dialog.ui
+msgid "Snap"
+msgstr ""
 
-#: src/manager_window.vala
-msgid "Audio & Video"
-msgstr "Beeld & Geluid"
+#: src/manager_window.vala resources/manager_window.ui
+msgid "Repositories"
+msgstr "Repositories"
 
-#: src/manager_window.vala
-msgid "Development"
-msgstr "Ontwikkeling"
-
-#: src/manager_window.vala
-msgid "Education"
-msgstr "Onderwijs"
-
-#: src/manager_window.vala
-msgid "Games"
-msgstr "Games"
-
-#: src/manager_window.vala
-msgid "Graphics"
-msgstr "Grafisch"
-
-#: src/manager_window.vala
-msgid "Internet"
-msgstr "Internet"
-
-#: src/manager_window.vala
-msgid "Office"
-msgstr "Kantoor"
-
-#: src/manager_window.vala
-msgid "Science"
-msgstr "Wetenschap"
-
-#: src/manager_window.vala
-msgid "Settings"
-msgstr "Instellingen"
-
-#: src/manager_window.vala
-msgid "System Tools"
-msgstr "Systeemhulpmiddelen"
+#: src/manager_window.vala src/cli.vala resources/manager_window.ui
+msgid "Installed"
+msgstr "Geïnstalleerd"
 
 #: src/manager_window.vala
 msgid "Dependencies"
@@ -600,6 +566,10 @@ msgstr "Stemmen"
 #: src/manager_window.vala src/cli.vala
 msgid "Out of Date"
 msgstr "Bouwdatum"
+
+#: src/manager_window.vala src/cli.vala resources/manager_window.ui
+msgid "Groups"
+msgstr "Groepen"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Packager"
@@ -658,16 +628,60 @@ msgid "Check Dependencies"
 msgstr "Afhankelijkheden controleren"
 
 #: src/manager_window.vala
+msgid "Publisher"
+msgstr ""
+
+#: src/manager_window.vala
+msgid "Channels"
+msgstr ""
+
+#: src/manager_window.vala
 msgid "Upgrade"
 msgstr "Bijwerken"
+
+#: src/manager_window.vala resources/manager_window.ui
+msgid "Build"
+msgstr "Bouwen"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Remove"
 msgstr "Verwijderen"
 
-#: src/manager_window.vala src/cli.vala resources/manager_window.ui
-msgid "Size"
-msgstr "Grootte"
+#: src/manager_window.vala
+msgid "Featured"
+msgstr ""
+
+#: src/manager_window.vala
+msgid "Photo & Video"
+msgstr ""
+
+#: src/manager_window.vala
+msgid "Music & Audio"
+msgstr ""
+
+#: src/manager_window.vala
+msgid "Productivity"
+msgstr ""
+
+#: src/manager_window.vala
+msgid "Communication & News"
+msgstr ""
+
+#: src/manager_window.vala
+msgid "Education & Science"
+msgstr ""
+
+#: src/manager_window.vala
+msgid "Games"
+msgstr "Games"
+
+#: src/manager_window.vala
+msgid "Utilities"
+msgstr ""
+
+#: src/manager_window.vala
+msgid "Development"
+msgstr "Ontwikkeling"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Install Local Packages"
@@ -684,6 +698,10 @@ msgstr "Almp Pakket"
 #: src/manager_window.vala
 msgid "A Gtk3 frontend for libalpm"
 msgstr "Een Gtk3 frontend voor libalpm"
+
+#: src/manager_window.vala resources/manager_window.ui
+msgid "Categories"
+msgstr "Categorieën"
 
 #: src/preferences_dialog.vala resources/preferences_dialog.ui
 msgid "How often to check for updates, value in hours"
@@ -715,10 +733,6 @@ msgid "%u file"
 msgid_plural "%u files"
 msgstr[0] ""
 msgstr[1] ""
-
-#: src/preferences_dialog.vala
-msgid "Choose Ignored Upgrades"
-msgstr "Kies genegeerde upgrades"
 
 #: src/transaction-cli.vala src/cli.vala
 #, c-format
@@ -877,10 +891,6 @@ msgid "overwrite existing files"
 msgstr ""
 
 #: src/cli.vala
-msgid "Build packages from AUR and install them with their dependencies"
-msgstr "Bouw pakketten van AUR en installeer ze samen met hun afhankelijkheden"
-
-#: src/cli.vala
 msgid ""
 "If no package name is given, use the PKGBUILD file in the current directory"
 msgstr ""
@@ -1025,6 +1035,10 @@ msgid "URL"
 msgstr "URL"
 
 #: src/cli.vala
+msgid "Installed Size"
+msgstr ""
+
+#: src/cli.vala
 #, c-format
 msgid "No package owns %s"
 msgstr "Er is geen eigenaar van %s"
@@ -1102,10 +1116,6 @@ msgid "Search"
 msgstr "Zoek"
 
 #: resources/manager_window.ui
-msgid "All"
-msgstr ""
-
-#: resources/manager_window.ui
 msgid "Pending"
 msgstr "Lopend"
 
@@ -1134,8 +1144,8 @@ msgid "Relevance"
 msgstr ""
 
 #: resources/manager_window.ui
-msgid "Date"
-msgstr ""
+msgid "Size"
+msgstr "Grootte"
 
 #: resources/manager_window.ui
 msgid "Browse"
@@ -1148,10 +1158,6 @@ msgstr ""
 #: resources/manager_window.ui
 msgid "Reinstall"
 msgstr "Herinstalleren"
-
-#: resources/manager_window.ui
-msgid "Build"
-msgstr "Bouwen"
 
 #: resources/manager_window.ui
 msgid "Reset build files"
@@ -1168,10 +1174,6 @@ msgid ""
 msgstr "Bij het verwijderen van een pakket ook afhankelijkheden verwijderen die niet meer gebruikt worden door andere pakketten"
 
 #: resources/preferences_dialog.ui
-msgid "Check available disk space"
-msgstr "Controlleer beschikbaar disk ruimte"
-
-#: resources/preferences_dialog.ui
 msgid "Enable downgrade"
 msgstr ""
 
@@ -1186,10 +1188,6 @@ msgstr "Updates automatisch downloaden"
 #: resources/preferences_dialog.ui
 msgid "Hide tray icon when no update available"
 msgstr "Verberg update icoon in de tray indien er geen update beschikbaar is "
-
-#: resources/preferences_dialog.ui
-msgid "Ignore upgrades for:"
-msgstr "Negeer upgrades voor:"
 
 #: resources/preferences_dialog.ui
 msgid "General"
@@ -1227,6 +1225,14 @@ msgstr "Controleer AUR voor opwaarderingen"
 
 #: resources/preferences_dialog.ui
 msgid "Check for development packages updates"
+msgstr ""
+
+#: resources/preferences_dialog.ui
+msgid "Snap packages are maintained by their publisher."
+msgstr ""
+
+#: resources/preferences_dialog.ui
+msgid "Enable Snap support"
 msgstr ""
 
 #: resources/preferences_dialog.ui
