@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2019-09-14 12:36+0200\n"
-"PO-Revision-Date: 2019-09-21 17:25+0000\n"
+"PO-Revision-Date: 2019-09-22 15:21+0000\n"
 "Last-Translator: Pedro Delgado\n"
 "Language-Team: Spanish (Mexico) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/es_MX/)\n"
 "MIME-Version: 1.0\n"
@@ -300,7 +300,7 @@ msgstr "Desconocido"
 
 #: src/database.vala
 msgid "Yes"
-msgstr "Si"
+msgstr "Sí"
 
 #: src/database.vala
 msgid "No"
@@ -746,7 +746,7 @@ msgstr "s"
 
 #: src/transaction-cli.vala src/cli.vala
 msgid "yes"
-msgstr "si"
+msgstr "sí"
 
 #: src/transaction-cli.vala resources/transaction_sum_dialog.ui
 msgid "Edit build files"

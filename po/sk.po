@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2019-09-14 12:36+0200\n"
-"PO-Revision-Date: 2019-09-22 08:54+0000\n"
+"PO-Revision-Date: 2019-09-24 07:33+0000\n"
 "Last-Translator: Dušan Kazik <prescott66@gmail.com>\n"
 "Language-Team: Slovak (http://www.transifex.com/manjarolinux/manjaro-pamac/language/sk/)\n"
 "MIME-Version: 1.0\n"
@@ -27,11 +27,11 @@ msgstr ""
 
 #: data/polkit/org.manjaro.pamac.policy.in
 msgid "Install, update, or remove packages"
-msgstr "Inštalácia, aktualizácia alebo odstránenie balíkov"
+msgstr "Inštalovanie, aktualizovanie alebo odstránenie balíkov"
 
 #: data/polkit/org.manjaro.pamac.policy.in
 msgid "Authentication is required to install, update, or remove packages"
-msgstr "Vyžaduje sa overenie totožnosti na inštaláciu, aktualizáciu alebo odstránenie balíkov"
+msgstr "Vyžaduje sa overenie totožnosti na inštalovanie, aktualizovanie alebo odstránenie balíkov"
 
 #: src/alpm_utils.vala src/database.vala
 msgid "Failed to initialize alpm library"
@@ -983,7 +983,7 @@ msgstr "vynútiť obnovenie databáz"
 
 #: src/cli.vala
 msgid "enable package downgrades"
-msgstr "povoliť ponižovanie balíkov"
+msgstr "povoliť prechod na staršiu verziu balíkov"
 
 #: src/cli.vala
 msgid "Clean packages cache or build files"
@@ -1034,7 +1034,7 @@ msgstr "URL"
 
 #: src/cli.vala
 msgid "Installed Size"
-msgstr ""
+msgstr "Veľkosť po inštalácii"
 
 #: src/cli.vala
 #, c-format
@@ -1213,7 +1213,7 @@ msgstr "AUR je repozitár spravovaný komunitou, preto predstavuje potenciálne 
 
 #: resources/preferences_dialog.ui
 msgid "Enable AUR support"
-msgstr "Zapnúť podporu repozitára AUR"
+msgstr "Povoliť podporu repozitára AUR"
 
 #: resources/preferences_dialog.ui
 msgid "Allow Pamac to search and install packages from AUR"
@@ -1229,11 +1229,11 @@ msgstr "Kontrolovať aktualizácie balíkov vo vývoji"
 
 #: resources/preferences_dialog.ui
 msgid "Snap packages are maintained by their publisher."
-msgstr ""
+msgstr "Balíky Snap sú spravované svojim vydavateľom."
 
 #: resources/preferences_dialog.ui
 msgid "Enable Snap support"
-msgstr ""
+msgstr "Povoliť podporu balíkov Snap"
 
 #: resources/preferences_dialog.ui
 msgid "Cache"
