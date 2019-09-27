@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2019-09-14 12:36+0200\n"
-"PO-Revision-Date: 2019-09-22 15:21+0000\n"
+"PO-Revision-Date: 2019-09-25 13:47+0000\n"
 "Last-Translator: Pedro Delgado\n"
 "Language-Team: Spanish (Mexico) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/es_MX/)\n"
 "MIME-Version: 1.0\n"
@@ -1221,7 +1221,7 @@ msgstr "Los paquetes Snap son mantenidos por su editor."
 
 #: resources/preferences_dialog.ui
 msgid "Enable Snap support"
-msgstr "Habilitar soporte Snap"
+msgstr "Habilitar soporte de Snap"
 
 #: resources/preferences_dialog.ui
 msgid "Cache"

@@ -4,151 +4,144 @@
 # Guillaume Benoit <guillaume@manjaro.org>, 2013-2019.
 # 
 # Translators:
-# enolp <enolp@softastur.org>, 2015-2016,2018-2019
-# enolp <enolp@softastur.org>, 2019
-# Ḷḷumex03 <tornes@opmbx.org>, 2013-2014
-# Ḷḷumex03 <tornes@opmbx.org>, 2014
-# Ḷḷumex03 <tornes@opmbx.org>, 2014-2015
-# philm <philm@manjaro.org>, 2015
-# Tornes Llume <l.lumex03.tornes@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2019-09-14 12:36+0200\n"
-"PO-Revision-Date: 2019-09-25 15:07+0000\n"
-"Last-Translator: enolp <enolp@softastur.org>\n"
-"Language-Team: Asturian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/ast/)\n"
+"PO-Revision-Date: 2019-09-21 00:46+0000\n"
+"Last-Translator: philm <philm@manjaro.org>\n"
+"Language-Team: Guarani (Paraguay) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/gug_PY/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: ast\n"
+"Language: gug_PY\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: data/polkit/org.manjaro.pamac.policy.in
 msgid "Install, update, or remove packages"
-msgstr "Instalación, anovamientu o desaniciu de paquetes"
+msgstr ""
 
 #: data/polkit/org.manjaro.pamac.policy.in
 msgid "Authentication is required to install, update, or remove packages"
-msgstr "Ríquese l'autenticación pa instalar, anovar o desaniciar paquetes"
+msgstr ""
 
 #: src/alpm_utils.vala src/database.vala
 msgid "Failed to initialize alpm library"
-msgstr "Fallu al aniciar la biblioteca ALPM"
+msgstr ""
 
 #: src/alpm_utils.vala
 msgid "Synchronizing package databases"
-msgstr "Sincronizando les bases de datos de paquetes"
+msgstr ""
 
 #: src/alpm_utils.vala
 msgid "Failed to synchronize databases"
-msgstr "Fallu al sincronizar les bases de datos"
+msgstr ""
 
 #: src/alpm_utils.vala
 msgid "Failed to init transaction"
-msgstr "Fallu al aniciar la transaición"
+msgstr ""
 
 #: src/alpm_utils.vala src/transaction-gtk.vala src/installer.vala
 msgid "Failed to prepare transaction"
-msgstr "Fallu al tresnar la transaición"
+msgstr ""
 
 #: src/alpm_utils.vala src/installer.vala src/cli.vala
 #, c-format
 msgid "target not found: %s"
-msgstr "nun s'alcontró'l destín: %s"
+msgstr ""
 
 #: src/alpm_utils.vala
 #, c-format
 msgid "package %s does not have a valid architecture"
-msgstr "el paquete %s nun tien una arquiteutura válida"
+msgstr ""
 
 #: src/alpm_utils.vala
 #, c-format
 msgid "unable to satisfy dependency '%s' required by %s"
-msgstr "nun pue satisfacese la dependencia «%s» riquida por %s"
+msgstr ""
 
 #: src/alpm_utils.vala
 #, c-format
 msgid "installing %s (%s) breaks dependency '%s' required by %s"
-msgstr "la instalación de %s (%s) ruempe la dependencia «%s» riquida por %s"
+msgstr ""
 
 #: src/alpm_utils.vala
 #, c-format
 msgid "removing %s breaks dependency '%s' required by %s"
-msgstr "el desaniciu de %s ruempe la dependencia «%s» riquida por %s"
+msgstr ""
 
 #: src/alpm_utils.vala
 #, c-format
 msgid "%s and %s are in conflict"
-msgstr "%s y %s tán en conflictu"
+msgstr ""
 
 #: src/alpm_utils.vala
 #, c-format
 msgid "%s needs to be removed but it is a locked package"
-msgstr "%s ha desaniciase pero ye un paquete bloquiáu"
+msgstr ""
 
 #: src/alpm_utils.vala src/transaction.vala
 msgid "Transaction cancelled"
-msgstr "Encaboxóse la transaición"
+msgstr ""
 
 #: src/alpm_utils.vala src/installer.vala src/cli.vala
 msgid "Nothing to do"
-msgstr "Nun hai que facer nada"
+msgstr ""
 
 #: src/alpm_utils.vala src/transaction.vala
 msgid "Preparing"
-msgstr "Tresnando"
+msgstr ""
 
 #: src/alpm_utils.vala
 msgid "Failed to commit transaction"
-msgstr "Fallu al unviar la transaición"
+msgstr ""
 
 #: src/alpm_utils.vala
 #, c-format
 msgid "%s exists in both %s and %s"
-msgstr "%s esiste en %s y %s"
+msgstr ""
 
 #: src/alpm_utils.vala
 #, c-format
 msgid "%s: %s already exists in filesystem"
-msgstr "%s: %s yá esiste nel sistema de ficheros"
+msgstr ""
 
 #: src/alpm_utils.vala
 #, c-format
 msgid "%s is invalid or corrupted"
-msgstr "%s nun val o toyóse"
+msgstr ""
 
 #: src/alpm_utils.vala
 msgid "Checking dependencies"
-msgstr "Comprobando les dependencies"
+msgstr ""
 
 #: src/alpm_utils.vala
 msgid "Checking file conflicts"
-msgstr "Comprobando conflictos colos ficheros"
+msgstr ""
 
 #: src/alpm_utils.vala
 msgid "Resolving dependencies"
-msgstr "Resolviendo les dependencies"
+msgstr ""
 
 #: src/alpm_utils.vala
 msgid "Checking inter-conflicts"
-msgstr "Comprobando interconflictos"
+msgstr ""
 
 #: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
 msgid "Installing %s"
-msgstr "Instalando %s"
+msgstr ""
 
 #: src/alpm_utils.vala
 #, c-format
 msgid "Upgrading %s"
-msgstr "Anovando %s"
+msgstr ""
 
 #: src/alpm_utils.vala
 #, c-format
 msgid "Reinstalling %s"
-msgstr "Reinstalando %s"
+msgstr ""
 
 #: src/alpm_utils.vala
 #, c-format
@@ -158,159 +151,159 @@ msgstr ""
 #: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
 msgid "Removing %s"
-msgstr "Desaniciando %s"
+msgstr ""
 
 #: src/alpm_utils.vala
 msgid "Checking integrity"
-msgstr "Comprobando la integridá"
+msgstr ""
 
 #: src/alpm_utils.vala
 msgid "Loading packages files"
-msgstr "Cargando los ficheros de los paquetes"
+msgstr ""
 
 #: src/alpm_utils.vala
 msgid "Checking delta integrity"
-msgstr "Comprobando la integridá de los deltes"
+msgstr ""
 
 #: src/alpm_utils.vala
 msgid "Applying deltas"
-msgstr "Aplicando les deltes"
+msgstr ""
 
 #: src/alpm_utils.vala
 #, c-format
 msgid "Generating %s with %s"
-msgstr "Xenerando %s con %s"
+msgstr ""
 
 #: src/alpm_utils.vala
 msgid "Generation succeeded"
-msgstr "La xeneración tuvo ésitu"
+msgstr ""
 
 #: src/alpm_utils.vala
 msgid "Generation failed"
-msgstr "Falló la xeneración"
+msgstr ""
 
 #: src/alpm_utils.vala
 #, c-format
 msgid "Configuring %s"
-msgstr "Configurando %s"
+msgstr ""
 
 #: src/alpm_utils.vala
 msgid "Checking available disk space"
-msgstr "Comprobando l'espaciu disponible en discu"
+msgstr ""
 
 #: src/alpm_utils.vala
 #, c-format
 msgid "%s optionally requires %s"
-msgstr "%s rique %s de mou opcional"
+msgstr ""
 
 #: src/alpm_utils.vala
 #, c-format
 msgid "Database file for %s does not exist"
-msgstr "El ficheru de base de datos de %s nun esiste"
+msgstr ""
 
 #: src/alpm_utils.vala
 msgid "Checking keyring"
-msgstr "Comprobando'l llaveru"
+msgstr ""
 
 #: src/alpm_utils.vala
 msgid "Downloading required keys"
-msgstr "Baxando les claves riquíes"
+msgstr ""
 
 #: src/alpm_utils.vala
 #, c-format
 msgid "%s installed as %s.pacnew"
-msgstr "%s instalóse como %s.pacnew"
+msgstr ""
 
 #: src/alpm_utils.vala
 #, c-format
 msgid "%s installed as %s.pacsave"
-msgstr "%s instalóse como %s.pacsave"
+msgstr ""
 
 #: src/alpm_utils.vala
 msgid "Running pre-transaction hooks"
-msgstr "Executando los gabitos d'enantes de la instalación"
+msgstr ""
 
 #: src/alpm_utils.vala
 msgid "Running post-transaction hooks"
-msgstr "Executando los gabitos de dempués de la instalación"
+msgstr ""
 
 #: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
 msgid "About %u seconds remaining"
-msgstr "Queden %u segundos aproximadamente"
+msgstr ""
 
 #: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
 msgid "About %lu minute remaining"
 msgid_plural "About %lu minutes remaining"
-msgstr[0] "Queda %lu minutu aproximadamente"
-msgstr[1] "Queden %lu minutos aproximadamente"
+msgstr[0] ""
+msgstr[1] ""
 
 #: src/alpm_utils.vala src/transaction-cli.vala src/cli.vala
 msgid "Error"
-msgstr "Fallu"
+msgstr ""
 
 #: src/alpm_utils.vala src/transaction-gtk.vala
 msgid "Warning"
-msgstr "Alvertencia"
+msgstr ""
 
 #: src/alpm_utils.vala
 #, c-format
 msgid "Download of %s started"
-msgstr "Anició la descarga de %s"
+msgstr ""
 
 #: src/alpm_utils.vala
 #, c-format
 msgid "Download of %s finished"
-msgstr "Finó la descarga de %s"
+msgstr ""
 
 #: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
 msgid "Downloading %s"
-msgstr "Baxando %s"
+msgstr ""
 
 #: src/alpm_utils.vala
 #, c-format
 msgid "Refreshing %s"
-msgstr "Refrescando %s"
+msgstr ""
 
 #: src/alpm_utils.vala
 #, c-format
 msgid "failed retrieving file '%s' from %s : %s\n"
-msgstr "fallu al recuperar el ficheru «%s» dende %s : %s\n"
+msgstr ""
 
 #: src/daemon.vala
 msgid "Authentication failed"
-msgstr "Falló l'autenticación"
+msgstr ""
 
 #: src/database.vala src/manager_window.vala src/cli.vala
 #: resources/preferences_dialog.ui
 msgid "AUR"
-msgstr "AUR"
+msgstr ""
 
 #: src/database.vala src/manager_window.vala
 msgid "Explicitly installed"
-msgstr "Instalóse esplicitamente"
+msgstr ""
 
 #: src/database.vala src/manager_window.vala
 msgid "Installed as a dependency for another package"
-msgstr "Instalóse como una dependencia d'otru paquete"
+msgstr ""
 
 #: src/database.vala
 msgid "Unknown"
-msgstr "Desonozse"
+msgstr ""
 
 #: src/database.vala
 msgid "Yes"
-msgstr "Sí"
+msgstr ""
 
 #: src/database.vala
 msgid "No"
-msgstr "Non"
+msgstr ""
 
 #: src/transaction.vala
 msgid "Refreshing mirrors list"
-msgstr "Refrescando la llista d'espeyos"
+msgstr ""
 
 #: src/transaction.vala src/cli.vala
 #, c-format
@@ -325,197 +318,197 @@ msgstr ""
 #: src/transaction.vala
 #, c-format
 msgid "Checking %s dependencies"
-msgstr "Comprobando les dependencies de %s"
+msgstr ""
 
 #: src/transaction.vala
 #, c-format
 msgid "key %s could not be imported"
-msgstr "la clave %s nun pudo importase"
+msgstr ""
 
 #: src/transaction.vala src/manager_window.vala
 msgid "Transaction successfully finished"
-msgstr "La transaición finó con ésitu"
+msgstr ""
 
 #: src/transaction.vala
 msgid "Waiting for another package manager to quit"
-msgstr "Esperando a que l'otru xestor de paquetes cole"
+msgstr ""
 
 #: src/transaction.vala
 #, c-format
 msgid "Building %s"
-msgstr "Compilando %s"
+msgstr ""
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
 msgid "Choose optional dependencies for %s"
-msgstr "Escoyeta de dependencies opcionales pa %s"
+msgstr ""
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
 msgid "Choose a provider for %s"
-msgstr "Escoyeta d'un fornidor pa %s"
+msgstr ""
 
 #: src/transaction-gtk.vala
 msgid "Import PGP key"
-msgstr "Importación d'una clave PGP"
+msgstr ""
 
 #: src/transaction-gtk.vala
 msgid "Trust and Import"
-msgstr "Enfotase ya importar"
+msgstr ""
 
 #: src/transaction-gtk.vala src/manager_window.vala
 #: resources/transaction_sum_dialog.ui resources/manager_window.ui
 #: resources/choose_pkgs_dialog.ui
 msgid "_Cancel"
-msgstr "_Encaboxar"
+msgstr ""
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
 msgid "The PGP key %s is needed to verify %s source files"
-msgstr "Precísase la clave PGP %s pa verificar los ficheros fonte de %s"
+msgstr ""
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
 msgid "Trust %s and import the PGP key"
-msgstr "¿Enfotase en %s ta importar la clave PGP"
+msgstr ""
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "To remove"
-msgstr "A desaniciar"
+msgstr ""
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "To downgrade"
-msgstr "A baxar de versión"
+msgstr ""
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "To build"
-msgstr "A compilar"
+msgstr ""
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "To install"
-msgstr "A instalar"
+msgstr ""
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "To reinstall"
-msgstr "A reinstalar"
+msgstr ""
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "To upgrade"
-msgstr "A anovar"
+msgstr ""
 
 #: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
 msgid "Total download size"
-msgstr "Tamañu total de la descarga"
+msgstr ""
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
 msgid "Edit %s build files"
-msgstr "Edición de los ficheros de compilación de %s"
+msgstr ""
 
 #: src/transaction-gtk.vala
 msgid "Save"
-msgstr "Guardar"
+msgstr ""
 
 #: src/transaction-gtk.vala resources/progress_dialog.ui
 #: resources/history_dialog.ui resources/preferences_dialog.ui
 msgid "_Close"
-msgstr "_Zarrar"
+msgstr ""
 
 #: src/transaction-gtk.vala src/tray.vala
 msgid "Package Manager"
-msgstr "Xestor de paquetes"
+msgstr ""
 
 #: src/installer.vala src/cli.vala
 msgid "Install packages from repositories, path or url"
-msgstr "Instala paquetes dende depósitos, caminos o URLs"
+msgstr ""
 
 #: src/installer.vala src/cli.vala
 msgid "Remove packages"
-msgstr "Desanicia paquetes"
+msgstr ""
 
 #: src/installer.vala src/cli.vala
 msgid "Build packages from AUR and install them with their dependencies"
-msgstr "Compila paquetes d'AUR ya instálalos coles sos dependencies"
+msgstr ""
 
 #: src/installer.vala src/cli.vala
 msgid "package(s)"
-msgstr "paquete(s)"
+msgstr ""
 
 #: src/tray.vala src/manager_window.vala src/cli.vala
 msgid "Your system is up-to-date"
-msgstr "El sistema ta anováu"
+msgstr ""
 
 #: src/tray.vala
 msgid "_Quit"
-msgstr "_Colar"
+msgstr ""
 
 #: src/tray.vala src/cli.vala
 #, c-format
 msgid "%u available update"
 msgid_plural "%u available updates"
-msgstr[0] "%u anovamientu disponible"
-msgstr[1] "%u anovamientos disponibles"
+msgstr[0] ""
+msgstr[1] ""
 
 #: src/tray.vala src/manager_window.vala resources/progress_dialog.ui
 #: resources/manager_window.ui
 msgid "Details"
-msgstr "Detalles"
+msgstr ""
 
 #: src/manager_window.vala
 msgid "No package found"
-msgstr "Nun s'alcontraron paquetes"
+msgstr ""
 
 #: src/manager_window.vala
 msgid "Checking for Updates"
-msgstr "Comprobando anovamientos"
+msgstr ""
 
 #: src/manager_window.vala
 #, c-format
 msgid "%u pending operation"
 msgid_plural "%u pending operations"
-msgstr[0] "%u operación pendiente"
-msgstr[1] "%u operaciones pendientes"
+msgstr[0] ""
+msgstr[1] ""
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "All"
-msgstr "Too"
+msgstr ""
 
 #: src/manager_window.vala
 msgid "Orphans"
-msgstr "Paquetes güérfanos"
+msgstr ""
 
 #: src/manager_window.vala
 msgid "Foreign"
-msgstr "Paquetes foriatos"
+msgstr ""
 
 #: src/manager_window.vala src/snap_plugin.vala
 #: resources/preferences_dialog.ui
 msgid "Snap"
-msgstr "Snap"
+msgstr ""
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Repositories"
-msgstr "Depósitos"
+msgstr ""
 
 #: src/manager_window.vala src/cli.vala resources/manager_window.ui
 msgid "Installed"
-msgstr "Instalóse"
+msgstr ""
 
 #: src/manager_window.vala
 msgid "Dependencies"
-msgstr "Dependencies"
+msgstr ""
 
 #: src/manager_window.vala
 msgid "Files"
-msgstr "Ficheros"
+msgstr ""
 
 #: src/manager_window.vala
 msgid "Build files"
-msgstr "Ficheros de compilación"
+msgstr ""
 
 #: src/manager_window.vala src/cli.vala
 msgid "Install Reason"
-msgstr "Razón de la instalación"
+msgstr ""
 
 #: src/manager_window.vala
 msgid "Mark as explicitly installed"
@@ -523,15 +516,15 @@ msgstr ""
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Install"
-msgstr "Instalar"
+msgstr ""
 
 #: src/manager_window.vala src/cli.vala
 msgid "Licenses"
-msgstr "Llicencia"
+msgstr ""
 
 #: src/manager_window.vala src/cli.vala resources/manager_window.ui
 msgid "Repository"
-msgstr "Depósitu"
+msgstr ""
 
 #: src/manager_window.vala src/cli.vala
 msgid "Package Base"
@@ -539,7 +532,7 @@ msgstr ""
 
 #: src/manager_window.vala src/cli.vala
 msgid "Maintainer"
-msgstr "Caltenedor"
+msgstr ""
 
 #: src/manager_window.vala src/cli.vala
 msgid "First Submitted"
@@ -547,67 +540,67 @@ msgstr ""
 
 #: src/manager_window.vala src/cli.vala
 msgid "Last Modified"
-msgstr "Última modificación"
+msgstr ""
 
 #: src/manager_window.vala src/cli.vala
 msgid "Votes"
-msgstr "Votos"
+msgstr ""
 
 #: src/manager_window.vala src/cli.vala
 msgid "Out of Date"
-msgstr "Ensin anovar dende'l"
+msgstr ""
 
 #: src/manager_window.vala src/cli.vala resources/manager_window.ui
 msgid "Groups"
-msgstr "Grupos"
+msgstr ""
 
 #: src/manager_window.vala src/cli.vala
 msgid "Packager"
-msgstr "Empaquetador"
+msgstr ""
 
 #: src/manager_window.vala src/cli.vala
 msgid "Build Date"
-msgstr "Data de compilación"
+msgstr ""
 
 #: src/manager_window.vala src/cli.vala
 msgid "Install Date"
-msgstr "Data d'instalación"
+msgstr ""
 
 #: src/manager_window.vala src/cli.vala
 msgid "Signatures"
-msgstr "Robla"
+msgstr ""
 
 #: src/manager_window.vala src/cli.vala
 msgid "Backup files"
-msgstr "Copies de seguranza"
+msgstr ""
 
 #: src/manager_window.vala src/cli.vala
 msgid "Depends On"
-msgstr "Depende de"
+msgstr ""
 
 #: src/manager_window.vala src/cli.vala
 msgid "Optional Dependencies"
-msgstr "Dependencies opcionales"
+msgstr ""
 
 #: src/manager_window.vala src/cli.vala
 msgid "Required By"
-msgstr "Riquíu por"
+msgstr ""
 
 #: src/manager_window.vala src/cli.vala
 msgid "Optional For"
-msgstr "Opcional pa"
+msgstr ""
 
 #: src/manager_window.vala src/cli.vala
 msgid "Provides"
-msgstr "Apurre"
+msgstr ""
 
 #: src/manager_window.vala src/cli.vala
 msgid "Replaces"
-msgstr "Troca"
+msgstr ""
 
 #: src/manager_window.vala src/cli.vala
 msgid "Conflicts With"
-msgstr "Fai conflictu con"
+msgstr ""
 
 #: src/manager_window.vala src/cli.vala
 msgid "Make Dependencies"
@@ -619,11 +612,11 @@ msgstr ""
 
 #: src/manager_window.vala
 msgid "Publisher"
-msgstr "Espublizador"
+msgstr ""
 
 #: src/manager_window.vala
 msgid "Channels"
-msgstr "Canales"
+msgstr ""
 
 #: src/manager_window.vala
 msgid "Upgrade"
@@ -631,103 +624,103 @@ msgstr ""
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Build"
-msgstr "Compilar"
+msgstr ""
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Remove"
-msgstr "Desaniciar"
+msgstr ""
 
 #: src/manager_window.vala
 msgid "Featured"
-msgstr "Destácase"
+msgstr ""
 
 #: src/manager_window.vala
 msgid "Photo & Video"
-msgstr "Semeyes y videu"
+msgstr ""
 
 #: src/manager_window.vala
 msgid "Music & Audio"
-msgstr "Música y audiu"
+msgstr ""
 
 #: src/manager_window.vala
 msgid "Productivity"
-msgstr "Productividá"
+msgstr ""
 
 #: src/manager_window.vala
 msgid "Communication & News"
-msgstr "Comunincación y noticies"
+msgstr ""
 
 #: src/manager_window.vala
 msgid "Education & Science"
-msgstr "Educación y ciencia"
+msgstr ""
 
 #: src/manager_window.vala
 msgid "Games"
-msgstr "Xuegos"
+msgstr ""
 
 #: src/manager_window.vala
 msgid "Utilities"
-msgstr "Utilidaes"
+msgstr ""
 
 #: src/manager_window.vala
 msgid "Development"
-msgstr "Desendolcu"
+msgstr ""
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Install Local Packages"
-msgstr "Instalar paquetes llocales"
+msgstr ""
 
 #: src/manager_window.vala
 msgid "_Open"
-msgstr "_Abrir"
+msgstr ""
 
 #: src/manager_window.vala
 msgid "Alpm Package"
-msgstr "Paquetes ALPM"
+msgstr ""
 
 #: src/manager_window.vala
 msgid "A Gtk3 frontend for libalpm"
-msgstr "Un frontal en GTK3 pa libalpm"
+msgstr ""
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Categories"
-msgstr "Estayes"
+msgstr ""
 
 #: src/preferences_dialog.vala resources/preferences_dialog.ui
 msgid "How often to check for updates, value in hours"
-msgstr "Cada cuántes hores comprobar los anovamientos"
+msgstr ""
 
 #: src/preferences_dialog.vala resources/preferences_dialog.ui
 msgid "Maximum parallel downloads"
-msgstr "Númberu máximu de descargues paraleles"
+msgstr ""
 
 #: src/preferences_dialog.vala src/cli.vala resources/preferences_dialog.ui
 msgid "Number of versions of each package to keep in the cache"
-msgstr "Númberu de versiones de cada paquete a caltener na cache"
+msgstr ""
 
 #: src/preferences_dialog.vala
 msgid "Build directory"
-msgstr "Direutoriu de compilación"
+msgstr ""
 
 #: src/preferences_dialog.vala
 msgid "Worldwide"
-msgstr "Tol mundu"
+msgstr ""
 
 #: src/preferences_dialog.vala src/cli.vala
 msgid "To delete"
-msgstr "A desaniciar"
+msgstr ""
 
 #: src/preferences_dialog.vala src/cli.vala
 #, c-format
 msgid "%u file"
 msgid_plural "%u files"
-msgstr[0] "%u ficheru"
-msgstr[1] "%u ficheros"
+msgstr[0] ""
+msgstr[1] ""
 
 #: src/transaction-cli.vala src/cli.vala
 #, c-format
 msgid "Enter a selection (default=%s)"
-msgstr "Introduz una esbilla (por defeutu=%s)"
+msgstr ""
 
 #: src/transaction-cli.vala
 msgid "none"
@@ -736,31 +729,31 @@ msgstr ""
 #: src/transaction-cli.vala
 #, c-format
 msgid "Enter a number (default=%d)"
-msgstr "Introduz un númberu (por defeutu=%s)"
+msgstr ""
 
 #: src/transaction-cli.vala src/cli.vala
 msgid "[y/N]"
-msgstr "[s/N]"
+msgstr ""
 
 #: src/transaction-cli.vala src/cli.vala
 msgid "y"
-msgstr "s"
+msgstr ""
 
 #: src/transaction-cli.vala src/cli.vala
 msgid "yes"
-msgstr "sí"
+msgstr ""
 
 #: src/transaction-cli.vala resources/transaction_sum_dialog.ui
 msgid "Edit build files"
-msgstr "Editar los ficheros de configuración"
+msgstr ""
 
 #: src/transaction-cli.vala
 msgid "Total installed size"
-msgstr "Tamañu total de la instalación"
+msgstr ""
 
 #: src/transaction-cli.vala
 msgid "Total removed size"
-msgstr "Tamañu total del desaniciu"
+msgstr ""
 
 #: src/transaction-cli.vala
 msgid "Apply transaction"
@@ -773,131 +766,131 @@ msgstr ""
 
 #: src/cli.vala
 msgid "Building packages as root is not allowed"
-msgstr "Nun se permite la compilación de paquetes como root"
+msgstr ""
 
 #: src/cli.vala
 msgid "No PKGBUILD file found in current directory"
-msgstr "Nun s'alcontró dengún ficheru PKGBUILD nel direutoriu actual"
+msgstr ""
 
 #: src/cli.vala
 msgid "Check development packages updates as root is not allowed"
-msgstr "La comprobación de los anovamientos de paquetes -git nun ta permitida como root"
+msgstr ""
 
 #: src/cli.vala
 msgid "Available actions"
-msgstr "Aiciones disponibles"
+msgstr ""
 
 #: src/cli.vala
 msgid "action"
-msgstr "aición"
+msgstr ""
 
 #: src/cli.vala
 msgid "options"
-msgstr "opciones"
+msgstr ""
 
 #: src/cli.vala
 msgid "Search for packages or files, multiple search terms can be specified"
-msgstr "Gueta paquetes o ficheros, puen especificase munchos términos de gueta"
+msgstr ""
 
 #: src/cli.vala
 msgid "file(s)"
-msgstr "ficheru(os)"
+msgstr ""
 
 #: src/cli.vala
 msgid "also search in AUR"
-msgstr "gueta tamién n'AUR"
+msgstr ""
 
 #: src/cli.vala
 msgid ""
 "search for packages which own the given filenames (filenames can be partial)"
-msgstr "gueta paquetes que tengan los nomes apurriós (puen tar incompletos)"
+msgstr ""
 
 #: src/cli.vala
 msgid "Display package details, multiple packages can be specified"
-msgstr "Amuesa detalles de los paquetes, puen especificase munchos paquetes"
+msgstr ""
 
 #: src/cli.vala
 msgid "List packages, groups, repositories or files"
-msgstr "Llista paquetes, grupos, depósitos o ficheros"
+msgstr ""
 
 #: src/cli.vala
 msgid "group(s)"
-msgstr "grupu(os)"
+msgstr ""
 
 #: src/cli.vala
 msgid "repo(s)"
-msgstr "depósitu(os)"
+msgstr ""
 
 #: src/cli.vala
 msgid "list installed packages"
-msgstr "llista los paquetes instalaos"
+msgstr ""
 
 #: src/cli.vala
 msgid ""
 "list packages that were installed as dependencies but are no longer required"
 " by any installed package"
-msgstr "llista los paquetes que s'instalaron como dependencies pero que dengún paquete instaláu rique yá"
+msgstr ""
 
 #: src/cli.vala
 msgid "list packages that were not found in the repositories"
-msgstr "llista los paquetes que nun s'alcontraron nos depósitos"
+msgstr ""
 
 #: src/cli.vala
 msgid ""
 "list all packages that are members of the given groups, if no group is given"
 " list all groups"
-msgstr "llista tolos paquetes que son miembros de los grupos apurríos. Si nun s'apurre dengún grupu, llístense toos"
+msgstr ""
 
 #: src/cli.vala
 msgid ""
 "list all packages available in the given repos, if no repo is given list all"
 " repos"
-msgstr "llista tolos paquetes disponible de los depósitos apurríos. Si nun s'apurre dengún depósitu, llístense toos"
+msgstr ""
 
 #: src/cli.vala
 msgid "list files owned by the given packages"
-msgstr "llista los ficheros que pertenezan a los paquetes apurríos"
+msgstr ""
 
 #: src/cli.vala
 msgid "Clone or sync packages build files from AUR"
-msgstr "Clona o sincroniza los paquetes de compilación d'AUR"
+msgstr ""
 
 #: src/cli.vala
 msgid "dir"
-msgstr "direutoriu"
+msgstr ""
 
 #: src/cli.vala
 msgid ""
 "build directory, if no directory is given the one specified in pamac.conf "
 "file is used"
-msgstr "direutoriu de compilación. Si nun s'apurrió dengún, va usase'l que s'especifique en pamac.conf"
+msgstr ""
 
 #: src/cli.vala
 msgid "also clone needed dependencies"
-msgstr "clona tamién les dependencies precises"
+msgstr ""
 
 #: src/cli.vala
 msgid "overwrite existing files"
-msgstr "sobrescribe los ficheros esistentes"
+msgstr ""
 
 #: src/cli.vala
 msgid ""
 "If no package name is given, use the PKGBUILD file in the current directory"
-msgstr "Si nun s'apurre un nome de paquete, usa'l ficheru PKGBUILD del direutoriu actual"
+msgstr ""
 
 #: src/cli.vala
 msgid ""
 "The build directory will be the parent directory, --builddir option will be "
 "ignored"
-msgstr "El direutoriu de compilación va ser el direutoriu pá, va inorase la opción --builddir"
+msgstr ""
 
 #: src/cli.vala
 msgid "do not clone build files from AUR, only use local files"
-msgstr "nun clona los ficheros de compilación d'AUR, namái usa los llocales"
+msgstr ""
 
 #: src/cli.vala
 msgid "bypass any and all confirmation messages"
-msgstr "salta cualesquier mensaxe de confirmación"
+msgstr ""
 
 #: src/cli.vala
 msgid "glob"
@@ -907,122 +900,122 @@ msgstr ""
 msgid ""
 "ignore a package upgrade, multiple packages can be specified by separating "
 "them with a comma"
-msgstr "inora l'anovamientu d'un paquete, puen especificase munchos paquetes separtándolos con una coma"
+msgstr ""
 
 #: src/cli.vala
 msgid ""
 "overwrite conflicting files, multiple patterns can be specified by "
 "separating them with a comma"
-msgstr "sobrescribe los ficheros conflictivos, puen especificase munchos patrones separtándolos con una coma"
+msgstr ""
 
 #: src/cli.vala
 msgid "Reinstall packages"
-msgstr "Reinstala paquetes"
+msgstr ""
 
 #: src/cli.vala
 msgid ""
 "remove dependencies that are not required by other packages, if this option "
 "is used without package name remove all orphans"
-msgstr "desanicia paquetes que nun rican otros. Si s'usa esta opción ensin un nome de paquete, desaníciense tolos güerfanos"
+msgstr ""
 
 #: src/cli.vala
 msgid "Safely check for updates without modifiying the databases"
-msgstr "Gueta de mou seguru anovamientos ensin modificar les bases de datos"
+msgstr ""
 
 #: src/cli.vala
 msgid "Exit code is 100 if updates are available"
-msgstr "El códigu de salida va ser 100 si hai anovamientos disponibles"
+msgstr ""
 
 #: src/cli.vala
 msgid "also check updates in AUR"
-msgstr "cumprueba tamién anovamientos n'AUR"
+msgstr ""
 
 #: src/cli.vala
 msgid "also check development packages updates (use with --aur)"
-msgstr "comprueba tamién los anovamientos de paquetes de desendolcu (usar con --aur)"
+msgstr ""
 
 #: src/cli.vala
 msgid "only print one line per update"
-msgstr "amuesa namái una llinia per anovamientu"
+msgstr ""
 
 #: src/cli.vala
 msgid ""
 "build directory (use with --devel), if no directory is given the one "
 "specified in pamac.conf file is used"
-msgstr "el direutoriu de compilación (usar con --devel). Si nun s'apurrió dengún, va usase'l que s'especifique en pamac.conf"
+msgstr ""
 
 #: src/cli.vala
 msgid "Upgrade your system"
-msgstr "Anueva'l sistema"
+msgstr ""
 
 #: src/cli.vala
 msgid "also upgrade packages installed from AUR"
-msgstr "anueva tamién los paquetes instalaos dende AUR"
+msgstr ""
 
 #: src/cli.vala
 msgid "also upgrade development packages (use with --aur)"
-msgstr "anueva tamién los paquetes -git (usar con --aur)"
+msgstr ""
 
 #: src/cli.vala
 msgid ""
 "build directory (use with --aur), if no directory is given the one specified"
 " in pamac.conf file is used"
-msgstr "el direutoriu de compilación (usar con --aur). Si nun s'apurrió dengún, va usase'l que s'especifique en pamac.conf"
+msgstr ""
 
 #: src/cli.vala
 msgid "force the refresh of the databases"
-msgstr "forcia'l refrescu de les bases de datos"
+msgstr ""
 
 #: src/cli.vala
 msgid "enable package downgrades"
-msgstr "activa les baxaes de versiones de los paquetes"
+msgstr ""
 
 #: src/cli.vala
 msgid "Clean packages cache or build files"
-msgstr "Llimpia los paquetes y ficheros de compilación de la caché"
+msgstr ""
 
 #: src/cli.vala
 msgid "number"
-msgstr "númberu"
+msgstr ""
 
 #: src/cli.vala
 msgid ""
 "specify how many versions of each package are kept in the cache directory"
-msgstr "especifica cuántes versiones de cada paquete se caltienen nel direutoriu de la caché"
+msgstr ""
 
 #: src/cli.vala
 msgid "only target uninstalled packages"
-msgstr "céntrase namái nos paquetes desinstalaos"
+msgstr ""
 
 #: src/cli.vala
 msgid ""
 "remove all build files, the build directory is the one specified in "
 "pamac.conf"
-msgstr "desanicia tolos ficheros de compilación, el direutoriu de compilación ye'l que s'especifique en pamac.conf"
+msgstr ""
 
 #: src/cli.vala
 msgid "do not remove files, only find candidate packages"
-msgstr "nun desanicia ficheros, namái alcuentra paquetes candidatos"
+msgstr ""
 
 #: src/cli.vala
 msgid "also display all files names"
-msgstr "amuesa tamién los nomes de tolos ficheros"
+msgstr ""
 
 #: src/cli.vala resources/manager_window.ui
 msgid "Name"
-msgstr "Nome"
+msgstr ""
 
 #: src/cli.vala
 msgid "Version"
-msgstr "Versión"
+msgstr ""
 
 #: src/cli.vala
 msgid "Description"
-msgstr "Descripción"
+msgstr ""
 
 #: src/cli.vala
 msgid "URL"
-msgstr "URL"
+msgstr ""
 
 #: src/cli.vala
 msgid "Installed Size"
@@ -1031,31 +1024,31 @@ msgstr ""
 #: src/cli.vala
 #, c-format
 msgid "No package owns %s"
-msgstr "%s nun pertenez a dengún paquete"
+msgstr ""
 
 #: src/cli.vala
 #, c-format
 msgid "%s is owned by %s"
-msgstr "%s pertenez a %s"
+msgstr ""
 
 #: src/cli.vala resources/preferences_dialog.ui
 msgid "Remove only the versions of uninstalled packages"
-msgstr "Desaniciar namái les versiones de los paquetes desinstalaos"
+msgstr ""
 
 #: src/cli.vala resources/preferences_dialog.ui
 msgid "Clean cache"
-msgstr "Llimpiar la caché"
+msgstr ""
 
 #: src/cli.vala resources/preferences_dialog.ui
 msgid "Clean build files"
-msgstr "Llimpiar los ficheros de compilación"
+msgstr ""
 
 #: src/cli.vala
 #, c-format
 msgid "There is %u member in group %s"
 msgid_plural "There are %u members in group %s"
-msgstr[0] "Hai %u miembru nel grupu %s"
-msgstr[1] "Hai %u miembros nel grupu %s"
+msgstr[0] ""
+msgstr[1] ""
 
 #: src/cli.vala
 msgid "all"
@@ -1063,11 +1056,11 @@ msgstr ""
 
 #: resources/choose_provider_dialog.ui
 msgid "Choose a Provider"
-msgstr "Escoyeta d'un fornidor"
+msgstr ""
 
 #: resources/choose_provider_dialog.ui resources/choose_pkgs_dialog.ui
 msgid "Choose"
-msgstr "Escoyer"
+msgstr ""
 
 #: resources/progress_dialog.ui
 msgid "Progress"
@@ -1075,31 +1068,31 @@ msgstr ""
 
 #: resources/history_dialog.ui
 msgid "Pamac History"
-msgstr "Historial de Pamac"
+msgstr ""
 
 #: resources/transaction_sum_dialog.ui
 msgid "Transaction Summary"
-msgstr "Sumariu de la transaición"
+msgstr ""
 
 #: resources/transaction_sum_dialog.ui resources/manager_window.ui
 msgid "_Apply"
-msgstr "_Aplicar"
+msgstr ""
 
 #: resources/manager_window.ui
 msgid "Refresh databases"
-msgstr "Refrescar les bases de datos"
+msgstr ""
 
 #: resources/manager_window.ui
 msgid "View History"
-msgstr "Ver l'historial"
+msgstr ""
 
 #: resources/manager_window.ui resources/preferences_dialog.ui
 msgid "Preferences"
-msgstr "Preferencies"
+msgstr ""
 
 #: resources/manager_window.ui
 msgid "About"
-msgstr "Tocante a"
+msgstr ""
 
 #: resources/manager_window.ui
 msgid "Search"
@@ -1107,35 +1100,35 @@ msgstr ""
 
 #: resources/manager_window.ui
 msgid "Pending"
-msgstr "Pendiente"
+msgstr ""
 
 #: resources/manager_window.ui
 msgid "Updates"
-msgstr "Anovamientos"
+msgstr ""
 
 #: resources/manager_window.ui
 msgid "Remove all"
-msgstr "Desaniciar too"
+msgstr ""
 
 #: resources/manager_window.ui
 msgid "Install all"
-msgstr "Instalar too"
+msgstr ""
 
 #: resources/manager_window.ui
 msgid "Ignore all"
-msgstr "Inorar too"
+msgstr ""
 
 #: resources/manager_window.ui
 msgid "Sort by"
-msgstr "Ordenar por"
+msgstr ""
 
 #: resources/manager_window.ui
 msgid "Relevance"
-msgstr "Relevancia"
+msgstr ""
 
 #: resources/manager_window.ui
 msgid "Size"
-msgstr "Tamañu"
+msgstr ""
 
 #: resources/manager_window.ui
 msgid "Browse"
@@ -1143,11 +1136,11 @@ msgstr ""
 
 #: resources/manager_window.ui
 msgid "Launch"
-msgstr "Llanzar"
+msgstr ""
 
 #: resources/manager_window.ui
 msgid "Reinstall"
-msgstr "Reinstalar"
+msgstr ""
 
 #: resources/manager_window.ui
 msgid "Reset build files"
@@ -1155,76 +1148,76 @@ msgstr ""
 
 #: resources/preferences_dialog.ui
 msgid "Remove unrequired dependencies"
-msgstr "Desaniciar les dependencies non riquíes"
+msgstr ""
 
 #: resources/preferences_dialog.ui
 msgid ""
 "When removing a package, also remove its dependencies that are not required "
 "by other packages"
-msgstr "Al desaniciar un paquete tamién se desanicien les sos dependencies que nun rican otros paquetes"
+msgstr ""
 
 #: resources/preferences_dialog.ui
 msgid "Enable downgrade"
-msgstr "Activar la baxada de versiones"
+msgstr ""
 
 #: resources/preferences_dialog.ui
 msgid "Check for updates"
-msgstr "Comprobar anovamientos"
+msgstr ""
 
 #: resources/preferences_dialog.ui
 msgid "Automatically download updates"
-msgstr "Baxar automáticamente los anovamientos"
+msgstr ""
 
 #: resources/preferences_dialog.ui
 msgid "Hide tray icon when no update available"
-msgstr "Anubrir l'iconu de la bandexa cuando nun heba anovamientos disponibles"
+msgstr ""
 
 #: resources/preferences_dialog.ui
 msgid "General"
-msgstr "Xeneral"
+msgstr ""
 
 #: resources/preferences_dialog.ui
 msgid "Use mirrors from:"
-msgstr "Usar los espeyos de:"
+msgstr ""
 
 #: resources/preferences_dialog.ui
 msgid "Refresh Mirrors List"
-msgstr "Refrescar la llista d'espeyos"
+msgstr ""
 
 #: resources/preferences_dialog.ui
 msgid "Official Repositories"
-msgstr "Depósitos oficiales"
+msgstr ""
 
 #: resources/preferences_dialog.ui
 msgid ""
 "AUR is a community maintained repository so it presents potential risks and problems.\n"
 "All AUR users should be familiar with the build process."
-msgstr "AUR ye un depósitu calteníu pola comunidá polo que pue presentar riesgos y problemes.\nTolos usuarios d'AUR deberíen conocer el procesu de compilación."
+msgstr ""
 
 #: resources/preferences_dialog.ui
 msgid "Enable AUR support"
-msgstr "Activar el sofitu p'AUR"
+msgstr ""
 
 #: resources/preferences_dialog.ui
 msgid "Allow Pamac to search and install packages from AUR"
-msgstr "Permite que Pamac guete ya instale paquetes d'AUR"
+msgstr ""
 
 #: resources/preferences_dialog.ui
 msgid "Check for updates from AUR"
-msgstr "Comprobar anovamientos d'AUR"
+msgstr ""
 
 #: resources/preferences_dialog.ui
 msgid "Check for development packages updates"
-msgstr "Comprobar los anovamientos de los paquetes «-git»"
+msgstr ""
 
 #: resources/preferences_dialog.ui
 msgid "Snap packages are maintained by their publisher."
-msgstr "Los paquetes Snap tán calteníos polos sos espublizadores."
+msgstr ""
 
 #: resources/preferences_dialog.ui
 msgid "Enable Snap support"
-msgstr "Activar el sofitu pa snap"
+msgstr ""
 
 #: resources/preferences_dialog.ui
 msgid "Cache"
-msgstr "Caché"
+msgstr ""
