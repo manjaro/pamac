@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2019-08-06 16:57+0200\n"
-"PO-Revision-Date: 2019-08-07 00:47+0000\n"
+"POT-Creation-Date: 2019-09-14 12:36+0200\n"
+"PO-Revision-Date: 2019-09-21 00:46+0000\n"
 "Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Albanian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/sq/)\n"
 "MIME-Version: 1.0\n"
@@ -20,26 +20,34 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: data/polkit/org.manjaro.pamac.policy.in
-msgid "Authentication is required"
-msgstr "Kërkohet autentifikim"
+msgid "Install, update, or remove packages"
+msgstr ""
+
+#: data/polkit/org.manjaro.pamac.policy.in
+msgid "Authentication is required to install, update, or remove packages"
+msgstr ""
 
 #: src/alpm_utils.vala src/database.vala
 msgid "Failed to initialize alpm library"
 msgstr "Dështoi në nisjen e bibliotekës alpm"
 
 #: src/alpm_utils.vala
-msgid "Failed to synchronize any databases"
-msgstr "Dështoi në njëkohësimim e ndonjë baze të të dhënave"
+msgid "Synchronizing package databases"
+msgstr "Duke njëkohësuar bazën e të dhënave të paketave"
+
+#: src/alpm_utils.vala
+msgid "Failed to synchronize databases"
+msgstr ""
 
 #: src/alpm_utils.vala
 msgid "Failed to init transaction"
 msgstr "Dështoi në nisjen e transaksionit"
 
-#: src/alpm_utils.vala src/transaction.vala src/transaction-gtk.vala
+#: src/alpm_utils.vala src/transaction-gtk.vala src/installer.vala
 msgid "Failed to prepare transaction"
 msgstr "Dështoi në përgatitjen e transaksionit"
 
-#: src/alpm_utils.vala src/cli.vala
+#: src/alpm_utils.vala src/installer.vala src/cli.vala
 #, c-format
 msgid "target not found: %s"
 msgstr "objektivi nuk u gjet: %s"
@@ -74,6 +82,18 @@ msgstr "%sdhe %s janë në konflikt"
 msgid "%s needs to be removed but it is a locked package"
 msgstr "%s duhet të hiqet, por kjo është një paketë e mbyllur"
 
+#: src/alpm_utils.vala src/transaction.vala
+msgid "Transaction cancelled"
+msgstr "Transaksioni u anulua"
+
+#: src/alpm_utils.vala src/installer.vala src/cli.vala
+msgid "Nothing to do"
+msgstr "Asgjë për të bërë"
+
+#: src/alpm_utils.vala src/transaction.vala
+msgid "Preparing"
+msgstr "Duke përgatitur"
+
 #: src/alpm_utils.vala
 msgid "Failed to commit transaction"
 msgstr "Dështoi në kryerjen e transaksionit"
@@ -94,21 +114,171 @@ msgid "%s is invalid or corrupted"
 msgstr "%s është i pavlefshëm ose i korruptuar"
 
 #: src/alpm_utils.vala
+msgid "Checking dependencies"
+msgstr " Duke kontrolluar varësitë"
+
+#: src/alpm_utils.vala
+msgid "Checking file conflicts"
+msgstr "Duke kontrolluar konfliktet e skedarëve"
+
+#: src/alpm_utils.vala
+msgid "Resolving dependencies"
+msgstr "Duke zgjidhur varësitë"
+
+#: src/alpm_utils.vala
+msgid "Checking inter-conflicts"
+msgstr "Duke kontrolluar ndër-konfliktet"
+
+#: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
-msgid "%s appears to be truncated: %jd/%jd bytes\n"
-msgstr "%sshfaqet të jetë i prerë: %jd/%jd  bytes \n"
+msgid "Installing %s"
+msgstr "Duke instaluar %s"
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "Upgrading %s"
+msgstr "Duke përmirësuar %s"
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "Reinstalling %s"
+msgstr "Duke reinstaluar %s"
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "Downgrading %s"
+msgstr "Duke ulur në gradë %s"
+
+#: src/alpm_utils.vala src/snap_plugin.vala
+#, c-format
+msgid "Removing %s"
+msgstr "Duke hequr %s"
+
+#: src/alpm_utils.vala
+msgid "Checking integrity"
+msgstr "Duke kontrolluar integritetin"
+
+#: src/alpm_utils.vala
+msgid "Loading packages files"
+msgstr "Duke ngarkuar paketat e skedarëve"
+
+#: src/alpm_utils.vala
+msgid "Checking delta integrity"
+msgstr "Duke kontrolluar integritetin e deltës"
+
+#: src/alpm_utils.vala
+msgid "Applying deltas"
+msgstr "Duke aplikuar deltat"
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "Generating %s with %s"
+msgstr "Duke gjeneruar %s me %s"
+
+#: src/alpm_utils.vala
+msgid "Generation succeeded"
+msgstr "Gjenerimi u krye me sukses"
+
+#: src/alpm_utils.vala
+msgid "Generation failed"
+msgstr "Gjenerimi dështoi"
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "Configuring %s"
+msgstr "Duke konfiguruar %s"
+
+#: src/alpm_utils.vala
+msgid "Checking available disk space"
+msgstr "Duke kontrolluar hapësirën në dispozicion të diskut"
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "%s optionally requires %s"
+msgstr "%smundësisht kërkon %s "
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "Database file for %s does not exist"
+msgstr "Baza e të dhënave e skedarit për %s nuk ekziston"
+
+#: src/alpm_utils.vala
+msgid "Checking keyring"
+msgstr "Duke kontrolluar mbajtëset e çelësave"
+
+#: src/alpm_utils.vala
+msgid "Downloading required keys"
+msgstr "Duke shkarkuar çelësat e kërkuara"
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "%s installed as %s.pacnew"
+msgstr "%s instaluar si %s.pacnew"
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "%s installed as %s.pacsave"
+msgstr "%s instaluar si %s.pacsave"
+
+#: src/alpm_utils.vala
+msgid "Running pre-transaction hooks"
+msgstr "Duke lëshuar grepat e para-transaksionit"
+
+#: src/alpm_utils.vala
+msgid "Running post-transaction hooks"
+msgstr "Duke lëshuar grepat e pas-transaksionit"
+
+#: src/alpm_utils.vala src/snap_plugin.vala
+#, c-format
+msgid "About %u seconds remaining"
+msgstr "Rreth %u sekonda të mbetur"
+
+#: src/alpm_utils.vala src/snap_plugin.vala
+#, c-format
+msgid "About %lu minute remaining"
+msgid_plural "About %lu minutes remaining"
+msgstr[0] "Rreth %lu minutë të mbetur"
+msgstr[1] "Rreth %lu minuta të mbetur"
+
+#: src/alpm_utils.vala src/transaction-cli.vala src/cli.vala
+msgid "Error"
+msgstr "Gabim"
+
+#: src/alpm_utils.vala src/transaction-gtk.vala
+msgid "Warning"
+msgstr "Paralajmërim"
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "Download of %s started"
+msgstr ""
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "Download of %s finished"
+msgstr ""
+
+#: src/alpm_utils.vala src/snap_plugin.vala
+#, c-format
+msgid "Downloading %s"
+msgstr "Duke shkarkuar %s"
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "Refreshing %s"
+msgstr "Duke rifreskuar %s"
 
 #: src/alpm_utils.vala
 #, c-format
 msgid "failed retrieving file '%s' from %s : %s\n"
 msgstr "dështim në marrjen skedarit '%s' nga %s : %s\n"
 
-#: src/system_daemon.vala
+#: src/daemon.vala
 msgid "Authentication failed"
 msgstr "Autentifikimi dështoi"
 
-#: src/database.vala src/transaction-gtk.vala src/manager_window.vala
-#: src/transaction-cli.vala src/cli.vala resources/preferences_dialog.ui
+#: src/database.vala src/manager_window.vala src/cli.vala
+#: resources/preferences_dialog.ui
 msgid "AUR"
 msgstr "AUR"
 
@@ -136,18 +306,6 @@ msgstr "Jo"
 msgid "Refreshing mirrors list"
 msgstr "Duke freskuar listën e pasqyrave"
 
-#: src/transaction.vala
-msgid "Preparing"
-msgstr "Duke përgatitur"
-
-#: src/transaction.vala
-msgid "Synchronizing package databases"
-msgstr "Duke njëkohësuar bazën e të dhënave të paketave"
-
-#: src/transaction.vala
-msgid "Starting full system upgrade"
-msgstr "Duke filluar përmirësim të plotë të sistemit"
-
 #: src/transaction.vala src/cli.vala
 #, c-format
 msgid "Cloning %s build files"
@@ -168,6 +326,10 @@ msgstr "Duke kontrolluar %s të varësive"
 msgid "key %s could not be imported"
 msgstr "çelësi %s nuk mund të importohet"
 
+#: src/transaction.vala src/manager_window.vala
+msgid "Transaction successfully finished"
+msgstr "Transaksioni përfundoi me sukses"
+
 #: src/transaction.vala
 msgid "Waiting for another package manager to quit"
 msgstr "Duke pritur që një tjetër menaxher paketash të largohet"
@@ -176,163 +338,6 @@ msgstr "Duke pritur që një tjetër menaxher paketash të largohet"
 #, c-format
 msgid "Building %s"
 msgstr "Duke ndërtuar %s"
-
-#: src/transaction.vala
-msgid "Transaction cancelled"
-msgstr "Transaksioni u anulua"
-
-#: src/transaction.vala
-msgid "Checking dependencies"
-msgstr " Duke kontrolluar varësitë"
-
-#: src/transaction.vala
-msgid "Checking file conflicts"
-msgstr "Duke kontrolluar konfliktet e skedarëve"
-
-#: src/transaction.vala
-msgid "Resolving dependencies"
-msgstr "Duke zgjidhur varësitë"
-
-#: src/transaction.vala
-msgid "Checking inter-conflicts"
-msgstr "Duke kontrolluar ndër-konfliktet"
-
-#: src/transaction.vala
-#, c-format
-msgid "Installing %s"
-msgstr "Duke instaluar %s"
-
-#: src/transaction.vala
-#, c-format
-msgid "Upgrading %s"
-msgstr "Duke përmirësuar %s"
-
-#: src/transaction.vala
-#, c-format
-msgid "Reinstalling %s"
-msgstr "Duke reinstaluar %s"
-
-#: src/transaction.vala
-#, c-format
-msgid "Downgrading %s"
-msgstr "Duke ulur në gradë %s"
-
-#: src/transaction.vala
-#, c-format
-msgid "Removing %s"
-msgstr "Duke hequr %s"
-
-#: src/transaction.vala
-msgid "Checking integrity"
-msgstr "Duke kontrolluar integritetin"
-
-#: src/transaction.vala
-msgid "Loading packages files"
-msgstr "Duke ngarkuar paketat e skedarëve"
-
-#: src/transaction.vala
-msgid "Checking delta integrity"
-msgstr "Duke kontrolluar integritetin e deltës"
-
-#: src/transaction.vala
-msgid "Applying deltas"
-msgstr "Duke aplikuar deltat"
-
-#: src/transaction.vala
-#, c-format
-msgid "Generating %s with %s"
-msgstr "Duke gjeneruar %s me %s"
-
-#: src/transaction.vala
-msgid "Generation succeeded"
-msgstr "Gjenerimi u krye me sukses"
-
-#: src/transaction.vala
-msgid "Generation failed"
-msgstr "Gjenerimi dështoi"
-
-#: src/transaction.vala
-#, c-format
-msgid "Configuring %s"
-msgstr "Duke konfiguruar %s"
-
-#: src/transaction.vala
-msgid "Checking available disk space"
-msgstr "Duke kontrolluar hapësirën në dispozicion të diskut"
-
-#: src/transaction.vala
-#, c-format
-msgid "%s optionally requires %s"
-msgstr "%smundësisht kërkon %s "
-
-#: src/transaction.vala
-#, c-format
-msgid "Database file for %s does not exist"
-msgstr "Baza e të dhënave e skedarit për %s nuk ekziston"
-
-#: src/transaction.vala
-msgid "Checking keyring"
-msgstr "Duke kontrolluar mbajtëset e çelësave"
-
-#: src/transaction.vala
-msgid "Downloading required keys"
-msgstr "Duke shkarkuar çelësat e kërkuara"
-
-#: src/transaction.vala
-#, c-format
-msgid "%s installed as %s.pacnew"
-msgstr "%s instaluar si %s.pacnew"
-
-#: src/transaction.vala
-#, c-format
-msgid "%s installed as %s.pacsave"
-msgstr "%s instaluar si %s.pacsave"
-
-#: src/transaction.vala
-msgid "Running pre-transaction hooks"
-msgstr "Duke lëshuar grepat e para-transaksionit"
-
-#: src/transaction.vala
-msgid "Running post-transaction hooks"
-msgstr "Duke lëshuar grepat e pas-transaksionit"
-
-#: src/transaction.vala
-#, c-format
-msgid "Downloading %s"
-msgstr "Duke shkarkuar %s"
-
-#: src/transaction.vala
-#, c-format
-msgid "About %u seconds remaining"
-msgstr "Rreth %u sekonda të mbetur"
-
-#: src/transaction.vala
-#, c-format
-msgid "About %lu minute remaining"
-msgid_plural "About %lu minutes remaining"
-msgstr[0] "Rreth %lu minutë të mbetur"
-msgstr[1] "Rreth %lu minuta të mbetur"
-
-#: src/transaction.vala
-#, c-format
-msgid "Refreshing %s"
-msgstr "Duke rifreskuar %s"
-
-#: src/transaction.vala src/transaction-cli.vala src/cli.vala
-msgid "Error"
-msgstr "Gabim"
-
-#: src/transaction.vala src/transaction-gtk.vala
-msgid "Warning"
-msgstr "Paralajmërim"
-
-#: src/transaction.vala src/installer.vala src/cli.vala
-msgid "Nothing to do"
-msgstr "Asgjë për të bërë"
-
-#: src/transaction.vala src/transaction-gtk.vala
-msgid "Transaction successfully finished"
-msgstr "Transaksioni përfundoi me sukses"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
@@ -423,6 +428,10 @@ msgid "Remove packages"
 msgstr "Hiq paketat"
 
 #: src/installer.vala src/cli.vala
+msgid "Build packages from AUR and install them with their dependencies"
+msgstr "Ndërto paketa nga AUR dhe instaloni ato me varësitë e tyre"
+
+#: src/installer.vala src/cli.vala
 msgid "package(s)"
 msgstr "paketa(t)"
 
@@ -461,21 +470,9 @@ msgid_plural "%u pending operations"
 msgstr[0] "%u operacion në pritje"
 msgstr[1] "%u operacione në pritje "
 
-#: src/manager_window.vala
-msgid "Categories"
-msgstr "Kategoritë"
-
-#: src/manager_window.vala src/cli.vala
-msgid "Groups"
-msgstr "Grupet"
-
-#: src/manager_window.vala
-msgid "Repositories"
-msgstr "Repozitorët"
-
-#: src/manager_window.vala src/cli.vala resources/manager_window.ui
-msgid "Installed"
-msgstr "Instaluar"
+#: src/manager_window.vala resources/manager_window.ui
+msgid "All"
+msgstr ""
 
 #: src/manager_window.vala
 msgid "Orphans"
@@ -485,49 +482,18 @@ msgstr "Jetimët"
 msgid "Foreign"
 msgstr "Të huaja"
 
-#: src/manager_window.vala
-msgid "Accessories"
-msgstr "Aksesorë"
+#: src/manager_window.vala src/snap_plugin.vala
+#: resources/preferences_dialog.ui
+msgid "Snap"
+msgstr ""
 
-#: src/manager_window.vala
-msgid "Audio & Video"
-msgstr "Audio dhe Video"
+#: src/manager_window.vala resources/manager_window.ui
+msgid "Repositories"
+msgstr "Repozitorët"
 
-#: src/manager_window.vala
-msgid "Development"
-msgstr "Zhvillim"
-
-#: src/manager_window.vala
-msgid "Education"
-msgstr "Edukim"
-
-#: src/manager_window.vala
-msgid "Games"
-msgstr "Lojëra"
-
-#: src/manager_window.vala
-msgid "Graphics"
-msgstr "Grafika"
-
-#: src/manager_window.vala
-msgid "Internet"
-msgstr "Internet"
-
-#: src/manager_window.vala
-msgid "Office"
-msgstr "Zyrë"
-
-#: src/manager_window.vala
-msgid "Science"
-msgstr "Shkencë"
-
-#: src/manager_window.vala
-msgid "Settings"
-msgstr "Cilësimet"
-
-#: src/manager_window.vala
-msgid "System Tools"
-msgstr "Mjetet e Sistemit"
+#: src/manager_window.vala src/cli.vala resources/manager_window.ui
+msgid "Installed"
+msgstr "Instaluar"
 
 #: src/manager_window.vala
 msgid "Dependencies"
@@ -584,6 +550,10 @@ msgstr "Vota"
 #: src/manager_window.vala src/cli.vala
 msgid "Out of Date"
 msgstr "Sdakuar"
+
+#: src/manager_window.vala src/cli.vala resources/manager_window.ui
+msgid "Groups"
+msgstr "Grupet"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Packager"
@@ -642,16 +612,60 @@ msgid "Check Dependencies"
 msgstr "Kontrollo varësitë"
 
 #: src/manager_window.vala
+msgid "Publisher"
+msgstr ""
+
+#: src/manager_window.vala
+msgid "Channels"
+msgstr ""
+
+#: src/manager_window.vala
 msgid "Upgrade"
 msgstr "Përmirëso"
+
+#: src/manager_window.vala resources/manager_window.ui
+msgid "Build"
+msgstr "Ndërto"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Remove"
 msgstr "Fshij"
 
-#: src/manager_window.vala src/cli.vala resources/manager_window.ui
-msgid "Size"
-msgstr "Madhësi"
+#: src/manager_window.vala
+msgid "Featured"
+msgstr ""
+
+#: src/manager_window.vala
+msgid "Photo & Video"
+msgstr ""
+
+#: src/manager_window.vala
+msgid "Music & Audio"
+msgstr ""
+
+#: src/manager_window.vala
+msgid "Productivity"
+msgstr ""
+
+#: src/manager_window.vala
+msgid "Communication & News"
+msgstr ""
+
+#: src/manager_window.vala
+msgid "Education & Science"
+msgstr ""
+
+#: src/manager_window.vala
+msgid "Games"
+msgstr "Lojëra"
+
+#: src/manager_window.vala
+msgid "Utilities"
+msgstr ""
+
+#: src/manager_window.vala
+msgid "Development"
+msgstr "Zhvillim"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Install Local Packages"
@@ -668,6 +682,10 @@ msgstr "Paketë Alpm"
 #: src/manager_window.vala
 msgid "A Gtk3 frontend for libalpm"
 msgstr "Një frontend i Gtk3 për libalpm"
+
+#: src/manager_window.vala resources/manager_window.ui
+msgid "Categories"
+msgstr "Kategoritë"
 
 #: src/preferences_dialog.vala resources/preferences_dialog.ui
 msgid "How often to check for updates, value in hours"
@@ -699,10 +717,6 @@ msgid "%u file"
 msgid_plural "%u files"
 msgstr[0] "%u skedar"
 msgstr[1] "%u skedarë"
-
-#: src/preferences_dialog.vala
-msgid "Choose Ignored Upgrades"
-msgstr "Zgjidhni Përmirësimet e Injoruara"
 
 #: src/transaction-cli.vala src/cli.vala
 #, c-format
@@ -861,10 +875,6 @@ msgid "overwrite existing files"
 msgstr "mbishkruaj skedarët ekzistues"
 
 #: src/cli.vala
-msgid "Build packages from AUR and install them with their dependencies"
-msgstr "Ndërto paketa nga AUR dhe instaloni ato me varësitë e tyre"
-
-#: src/cli.vala
 msgid ""
 "If no package name is given, use the PKGBUILD file in the current directory"
 msgstr "Nëse nuk jepet një emër pakete, përdorni skedarin PKGBUILD në direktorinë aktuale"
@@ -1009,6 +1019,10 @@ msgid "URL"
 msgstr "URL"
 
 #: src/cli.vala
+msgid "Installed Size"
+msgstr ""
+
+#: src/cli.vala
 #, c-format
 msgid "No package owns %s"
 msgstr "Asnjë paketë zotëron %s"
@@ -1086,10 +1100,6 @@ msgid "Search"
 msgstr "Kërko"
 
 #: resources/manager_window.ui
-msgid "All"
-msgstr ""
-
-#: resources/manager_window.ui
 msgid "Pending"
 msgstr "Në pritje"
 
@@ -1118,8 +1128,8 @@ msgid "Relevance"
 msgstr ""
 
 #: resources/manager_window.ui
-msgid "Date"
-msgstr ""
+msgid "Size"
+msgstr "Madhësi"
 
 #: resources/manager_window.ui
 msgid "Browse"
@@ -1132,10 +1142,6 @@ msgstr ""
 #: resources/manager_window.ui
 msgid "Reinstall"
 msgstr "Reinstalo"
-
-#: resources/manager_window.ui
-msgid "Build"
-msgstr "Ndërto"
 
 #: resources/manager_window.ui
 msgid "Reset build files"
@@ -1152,10 +1158,6 @@ msgid ""
 msgstr "Kur të hiqet një paketë, të heqë edhe varësitë e saj që nuk janë të kërkuara nga paketa të tjera"
 
 #: resources/preferences_dialog.ui
-msgid "Check available disk space"
-msgstr "Kontrolloni hapësirën në dispozicion të diskut"
-
-#: resources/preferences_dialog.ui
 msgid "Enable downgrade"
 msgstr "Mundëso uljen në gradë"
 
@@ -1170,10 +1172,6 @@ msgstr "Shkarko përditësimet automatikisht"
 #: resources/preferences_dialog.ui
 msgid "Hide tray icon when no update available"
 msgstr "Fshih ikonën nga paneli kur nuk ka përditësime"
-
-#: resources/preferences_dialog.ui
-msgid "Ignore upgrades for:"
-msgstr "Injoro përmirësimet për:"
 
 #: resources/preferences_dialog.ui
 msgid "General"
@@ -1212,6 +1210,14 @@ msgstr "Kontrolloni për përditësime nga AUR"
 #: resources/preferences_dialog.ui
 msgid "Check for development packages updates"
 msgstr "Kontrolloni për përditësimet e paketave të zhvillimit"
+
+#: resources/preferences_dialog.ui
+msgid "Snap packages are maintained by their publisher."
+msgstr ""
+
+#: resources/preferences_dialog.ui
+msgid "Enable Snap support"
+msgstr ""
 
 #: resources/preferences_dialog.ui
 msgid "Cache"

@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2019-08-06 16:57+0200\n"
-"PO-Revision-Date: 2019-08-14 20:01+0000\n"
+"POT-Creation-Date: 2019-09-14 12:36+0200\n"
+"PO-Revision-Date: 2019-09-24 07:33+0000\n"
 "Last-Translator: Dušan Kazik <prescott66@gmail.com>\n"
 "Language-Team: Slovak (http://www.transifex.com/manjarolinux/manjaro-pamac/language/sk/)\n"
 "MIME-Version: 1.0\n"
@@ -26,26 +26,34 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);\n"
 
 #: data/polkit/org.manjaro.pamac.policy.in
-msgid "Authentication is required"
-msgstr "Vyžaduje sa overenie totožnosti"
+msgid "Install, update, or remove packages"
+msgstr "Inštalovanie, aktualizovanie alebo odstránenie balíkov"
+
+#: data/polkit/org.manjaro.pamac.policy.in
+msgid "Authentication is required to install, update, or remove packages"
+msgstr "Vyžaduje sa overenie totožnosti na inštalovanie, aktualizovanie alebo odstránenie balíkov"
 
 #: src/alpm_utils.vala src/database.vala
 msgid "Failed to initialize alpm library"
 msgstr "Zlyhala inicializácia knižnice alpm"
 
 #: src/alpm_utils.vala
-msgid "Failed to synchronize any databases"
-msgstr "Zlyhalo synchronizovanie akejkoľvek databázy"
+msgid "Synchronizing package databases"
+msgstr "Synchronizujú sa databázy balíkov"
+
+#: src/alpm_utils.vala
+msgid "Failed to synchronize databases"
+msgstr "Zlyhalo synchronizovanie databáz"
 
 #: src/alpm_utils.vala
 msgid "Failed to init transaction"
 msgstr "Zlyhalo zahájenie transakcie"
 
-#: src/alpm_utils.vala src/transaction.vala src/transaction-gtk.vala
+#: src/alpm_utils.vala src/transaction-gtk.vala src/installer.vala
 msgid "Failed to prepare transaction"
 msgstr "Zlyhalo pripravovanie transakcie"
 
-#: src/alpm_utils.vala src/cli.vala
+#: src/alpm_utils.vala src/installer.vala src/cli.vala
 #, c-format
 msgid "target not found: %s"
 msgstr "cieľ sa nenašiel: %s"
@@ -80,6 +88,18 @@ msgstr "Balíky %s a %s sú v konflikte"
 msgid "%s needs to be removed but it is a locked package"
 msgstr "Balík %s sa musí odstrániť, ale je zablokovaný"
 
+#: src/alpm_utils.vala src/transaction.vala
+msgid "Transaction cancelled"
+msgstr "Transakcia bola zrušená"
+
+#: src/alpm_utils.vala src/installer.vala src/cli.vala
+msgid "Nothing to do"
+msgstr "Nič na vykonanie"
+
+#: src/alpm_utils.vala src/transaction.vala
+msgid "Preparing"
+msgstr "Pripravuje sa"
+
 #: src/alpm_utils.vala
 msgid "Failed to commit transaction"
 msgstr "Zlyhalo vykonanie transakcie"
@@ -100,21 +120,173 @@ msgid "%s is invalid or corrupted"
 msgstr "%s je neplatný alebo poškodený"
 
 #: src/alpm_utils.vala
+msgid "Checking dependencies"
+msgstr "Kontrolujú sa závislosti"
+
+#: src/alpm_utils.vala
+msgid "Checking file conflicts"
+msgstr "Kontrolujú sa konflikty medzi súbormi"
+
+#: src/alpm_utils.vala
+msgid "Resolving dependencies"
+msgstr "Riešia sa závislosti"
+
+#: src/alpm_utils.vala
+msgid "Checking inter-conflicts"
+msgstr "Kontrolujú sa konflikty medzi balíkmi"
+
+#: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
-msgid "%s appears to be truncated: %jd/%jd bytes\n"
-msgstr "Zdá sa, že %s má poškodenú veľkosť: %jd/%jd bajtov\n"
+msgid "Installing %s"
+msgstr "Inštaluje sa %s"
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "Upgrading %s"
+msgstr "Aktualizuje sa %s"
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "Reinstalling %s"
+msgstr "Preinštaluje sa %s"
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "Downgrading %s"
+msgstr "Degraduje sa %s"
+
+#: src/alpm_utils.vala src/snap_plugin.vala
+#, c-format
+msgid "Removing %s"
+msgstr "Odstraňuje sa %s"
+
+#: src/alpm_utils.vala
+msgid "Checking integrity"
+msgstr "Kontroluje sa integrita"
+
+#: src/alpm_utils.vala
+msgid "Loading packages files"
+msgstr "Načítavajú sa súbory balíkov"
+
+#: src/alpm_utils.vala
+msgid "Checking delta integrity"
+msgstr "Kontroluje sa integrita súčastí delta"
+
+#: src/alpm_utils.vala
+msgid "Applying deltas"
+msgstr "Aplikujú sa súčasti delta"
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "Generating %s with %s"
+msgstr "Generuje sa %s s %s"
+
+#: src/alpm_utils.vala
+msgid "Generation succeeded"
+msgstr "Generovanie bolo úspešné"
+
+#: src/alpm_utils.vala
+msgid "Generation failed"
+msgstr "Generovanie zlyhalo"
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "Configuring %s"
+msgstr "Nastavuje sa %s"
+
+#: src/alpm_utils.vala
+msgid "Checking available disk space"
+msgstr "Kontroluje sa dostupné miesto na disku"
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "%s optionally requires %s"
+msgstr "%s voliteľne vyžaduje %s"
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "Database file for %s does not exist"
+msgstr "Súbor databázy pre %s neexistuje"
+
+#: src/alpm_utils.vala
+msgid "Checking keyring"
+msgstr "Kontroluje sa register kľúčov"
+
+#: src/alpm_utils.vala
+msgid "Downloading required keys"
+msgstr "Preberajú sa požadované kľúče"
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "%s installed as %s.pacnew"
+msgstr "%s bol nainštalovaný ako %s.pacnew"
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "%s installed as %s.pacsave"
+msgstr "%s bol nainštalovaný ako %s.pacsave"
+
+#: src/alpm_utils.vala
+msgid "Running pre-transaction hooks"
+msgstr "Spúšťajú sa predtransakčné háčiky"
+
+#: src/alpm_utils.vala
+msgid "Running post-transaction hooks"
+msgstr "Spúšťajú sa potransakčné háčiky"
+
+#: src/alpm_utils.vala src/snap_plugin.vala
+#, c-format
+msgid "About %u seconds remaining"
+msgstr "Zostáva približne %u sekúnd"
+
+#: src/alpm_utils.vala src/snap_plugin.vala
+#, c-format
+msgid "About %lu minute remaining"
+msgid_plural "About %lu minutes remaining"
+msgstr[0] "Zostáva približne %lu minúta"
+msgstr[1] "Zostávajú približne %lu minúty"
+msgstr[2] "Zostáva približne %lu minút"
+msgstr[3] "Zostáva približne %lu minút"
+
+#: src/alpm_utils.vala src/transaction-cli.vala src/cli.vala
+msgid "Error"
+msgstr "Chyba"
+
+#: src/alpm_utils.vala src/transaction-gtk.vala
+msgid "Warning"
+msgstr "Upozornenie"
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "Download of %s started"
+msgstr "Preberanie balíka %s začalo"
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "Download of %s finished"
+msgstr "Preberanie balíka %s skončilo"
+
+#: src/alpm_utils.vala src/snap_plugin.vala
+#, c-format
+msgid "Downloading %s"
+msgstr "Preberá sa %s"
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "Refreshing %s"
+msgstr "Obnovuje sa %s"
 
 #: src/alpm_utils.vala
 #, c-format
 msgid "failed retrieving file '%s' from %s : %s\n"
 msgstr "Zlyhalo prijímanie súboru „%s“ z %s: %s\n"
 
-#: src/system_daemon.vala
+#: src/daemon.vala
 msgid "Authentication failed"
 msgstr "Zlyhalo overenie"
 
-#: src/database.vala src/transaction-gtk.vala src/manager_window.vala
-#: src/transaction-cli.vala src/cli.vala resources/preferences_dialog.ui
+#: src/database.vala src/manager_window.vala src/cli.vala
+#: resources/preferences_dialog.ui
 msgid "AUR"
 msgstr "AUR"
 
@@ -142,18 +314,6 @@ msgstr "Nie"
 msgid "Refreshing mirrors list"
 msgstr "Obnovuje sa zoznam zrkadiel"
 
-#: src/transaction.vala
-msgid "Preparing"
-msgstr "Pripravuje sa"
-
-#: src/transaction.vala
-msgid "Synchronizing package databases"
-msgstr "Synchronizujú sa databázy balíkov"
-
-#: src/transaction.vala
-msgid "Starting full system upgrade"
-msgstr "Spúšťa sa kompletná aktualizácia systému"
-
 #: src/transaction.vala src/cli.vala
 #, c-format
 msgid "Cloning %s build files"
@@ -174,6 +334,10 @@ msgstr "Kontrolujú sa závislosti balíka %s"
 msgid "key %s could not be imported"
 msgstr "kľúč %s sa nepodarilo importovať"
 
+#: src/transaction.vala src/manager_window.vala
+msgid "Transaction successfully finished"
+msgstr "Transakcia bola úspešná"
+
 #: src/transaction.vala
 msgid "Waiting for another package manager to quit"
 msgstr "Čaká sa na ukončenie iného správcu balíkov"
@@ -182,165 +346,6 @@ msgstr "Čaká sa na ukončenie iného správcu balíkov"
 #, c-format
 msgid "Building %s"
 msgstr "Zostavuje sa %s"
-
-#: src/transaction.vala
-msgid "Transaction cancelled"
-msgstr "Transakcia bola zrušená"
-
-#: src/transaction.vala
-msgid "Checking dependencies"
-msgstr "Kontrolujú sa závislosti"
-
-#: src/transaction.vala
-msgid "Checking file conflicts"
-msgstr "Kontrolujú sa konflikty medzi súbormi"
-
-#: src/transaction.vala
-msgid "Resolving dependencies"
-msgstr "Riešia sa závislosti"
-
-#: src/transaction.vala
-msgid "Checking inter-conflicts"
-msgstr "Kontrolujú sa konflikty medzi balíkmi"
-
-#: src/transaction.vala
-#, c-format
-msgid "Installing %s"
-msgstr "Inštaluje sa %s"
-
-#: src/transaction.vala
-#, c-format
-msgid "Upgrading %s"
-msgstr "Aktualizuje sa %s"
-
-#: src/transaction.vala
-#, c-format
-msgid "Reinstalling %s"
-msgstr "Preinštaluje sa %s"
-
-#: src/transaction.vala
-#, c-format
-msgid "Downgrading %s"
-msgstr "Degraduje sa %s"
-
-#: src/transaction.vala
-#, c-format
-msgid "Removing %s"
-msgstr "Odstraňuje sa %s"
-
-#: src/transaction.vala
-msgid "Checking integrity"
-msgstr "Kontroluje sa integrita"
-
-#: src/transaction.vala
-msgid "Loading packages files"
-msgstr "Načítavajú sa súbory balíkov"
-
-#: src/transaction.vala
-msgid "Checking delta integrity"
-msgstr "Kontroluje sa integrita súčastí delta"
-
-#: src/transaction.vala
-msgid "Applying deltas"
-msgstr "Aplikujú sa súčasti delta"
-
-#: src/transaction.vala
-#, c-format
-msgid "Generating %s with %s"
-msgstr "Generuje sa %s s %s"
-
-#: src/transaction.vala
-msgid "Generation succeeded"
-msgstr "Generovanie bolo úspešné"
-
-#: src/transaction.vala
-msgid "Generation failed"
-msgstr "Generovanie zlyhalo"
-
-#: src/transaction.vala
-#, c-format
-msgid "Configuring %s"
-msgstr "Nastavuje sa %s"
-
-#: src/transaction.vala
-msgid "Checking available disk space"
-msgstr "Kontroluje sa dostupné miesto na disku"
-
-#: src/transaction.vala
-#, c-format
-msgid "%s optionally requires %s"
-msgstr "%s voliteľne vyžaduje %s"
-
-#: src/transaction.vala
-#, c-format
-msgid "Database file for %s does not exist"
-msgstr "Súbor databázy pre %s neexistuje"
-
-#: src/transaction.vala
-msgid "Checking keyring"
-msgstr "Kontroluje sa register kľúčov"
-
-#: src/transaction.vala
-msgid "Downloading required keys"
-msgstr "Preberajú sa požadované kľúče"
-
-#: src/transaction.vala
-#, c-format
-msgid "%s installed as %s.pacnew"
-msgstr "%s bol nainštalovaný ako %s.pacnew"
-
-#: src/transaction.vala
-#, c-format
-msgid "%s installed as %s.pacsave"
-msgstr "%s bol nainštalovaný ako %s.pacsave"
-
-#: src/transaction.vala
-msgid "Running pre-transaction hooks"
-msgstr "Spúšťajú sa predtransakčné háčiky"
-
-#: src/transaction.vala
-msgid "Running post-transaction hooks"
-msgstr "Spúšťajú sa potransakčné háčiky"
-
-#: src/transaction.vala
-#, c-format
-msgid "Downloading %s"
-msgstr "Preberá sa %s"
-
-#: src/transaction.vala
-#, c-format
-msgid "About %u seconds remaining"
-msgstr "Zostáva približne %u sekúnd"
-
-#: src/transaction.vala
-#, c-format
-msgid "About %lu minute remaining"
-msgid_plural "About %lu minutes remaining"
-msgstr[0] "Zostáva približne %lu minúta"
-msgstr[1] "Zostávajú približne %lu minúty"
-msgstr[2] "Zostáva približne %lu minút"
-msgstr[3] "Zostáva približne %lu minút"
-
-#: src/transaction.vala
-#, c-format
-msgid "Refreshing %s"
-msgstr "Obnovuje sa %s"
-
-#: src/transaction.vala src/transaction-cli.vala src/cli.vala
-msgid "Error"
-msgstr "Chyba"
-
-#: src/transaction.vala src/transaction-gtk.vala
-msgid "Warning"
-msgstr "Upozornenie"
-
-#: src/transaction.vala src/installer.vala src/cli.vala
-msgid "Nothing to do"
-msgstr "Nič na vykonanie"
-
-#: src/transaction.vala src/transaction-gtk.vala
-msgid "Transaction successfully finished"
-msgstr "Transakcia bola úspešná"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
@@ -431,6 +436,10 @@ msgid "Remove packages"
 msgstr "Odstrániť balíčky"
 
 #: src/installer.vala src/cli.vala
+msgid "Build packages from AUR and install them with their dependencies"
+msgstr "Zostaviť balíky z AUR a nainštalovať ich aj z ich závislosťami"
+
+#: src/installer.vala src/cli.vala
 msgid "package(s)"
 msgstr "balík(-y)"
 
@@ -473,21 +482,9 @@ msgstr[1] "%u operácie na vybavenie"
 msgstr[2] "%u operácií na vybavenie"
 msgstr[3] "%u operácií na vybavenie"
 
-#: src/manager_window.vala
-msgid "Categories"
-msgstr "Kategórie"
-
-#: src/manager_window.vala src/cli.vala
-msgid "Groups"
-msgstr "Skupiny"
-
-#: src/manager_window.vala
-msgid "Repositories"
-msgstr "Repozitáre"
-
-#: src/manager_window.vala src/cli.vala resources/manager_window.ui
-msgid "Installed"
-msgstr "Nainštalované"
+#: src/manager_window.vala resources/manager_window.ui
+msgid "All"
+msgstr "Všetko"
 
 #: src/manager_window.vala
 msgid "Orphans"
@@ -497,49 +494,18 @@ msgstr "Osamotené balíky"
 msgid "Foreign"
 msgstr "Externé"
 
-#: src/manager_window.vala
-msgid "Accessories"
-msgstr "Príslušenstvo"
+#: src/manager_window.vala src/snap_plugin.vala
+#: resources/preferences_dialog.ui
+msgid "Snap"
+msgstr "Balíky Snap"
 
-#: src/manager_window.vala
-msgid "Audio & Video"
-msgstr "Zvuk a video"
+#: src/manager_window.vala resources/manager_window.ui
+msgid "Repositories"
+msgstr "Repozitáre"
 
-#: src/manager_window.vala
-msgid "Development"
-msgstr "Vývoj"
-
-#: src/manager_window.vala
-msgid "Education"
-msgstr "Vzdelávanie"
-
-#: src/manager_window.vala
-msgid "Games"
-msgstr "Hry"
-
-#: src/manager_window.vala
-msgid "Graphics"
-msgstr "Grafika"
-
-#: src/manager_window.vala
-msgid "Internet"
-msgstr "Internet"
-
-#: src/manager_window.vala
-msgid "Office"
-msgstr "Kancelária"
-
-#: src/manager_window.vala
-msgid "Science"
-msgstr "Veda"
-
-#: src/manager_window.vala
-msgid "Settings"
-msgstr "Nastavenia"
-
-#: src/manager_window.vala
-msgid "System Tools"
-msgstr "Systémové nástroje"
+#: src/manager_window.vala src/cli.vala resources/manager_window.ui
+msgid "Installed"
+msgstr "Nainštalované"
 
 #: src/manager_window.vala
 msgid "Dependencies"
@@ -596,6 +562,10 @@ msgstr "Hlasy"
 #: src/manager_window.vala src/cli.vala
 msgid "Out of Date"
 msgstr "Neaktuálny"
+
+#: src/manager_window.vala src/cli.vala resources/manager_window.ui
+msgid "Groups"
+msgstr "Skupiny"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Packager"
@@ -654,16 +624,60 @@ msgid "Check Dependencies"
 msgstr "Skontrolovať závislosti"
 
 #: src/manager_window.vala
+msgid "Publisher"
+msgstr "Vydavateľ"
+
+#: src/manager_window.vala
+msgid "Channels"
+msgstr "Kanály"
+
+#: src/manager_window.vala
 msgid "Upgrade"
 msgstr "Aktualizovať"
+
+#: src/manager_window.vala resources/manager_window.ui
+msgid "Build"
+msgstr "Zostaviť"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Remove"
 msgstr "Odstrániť"
 
-#: src/manager_window.vala src/cli.vala resources/manager_window.ui
-msgid "Size"
-msgstr "Veľkosť"
+#: src/manager_window.vala
+msgid "Featured"
+msgstr "Základné aplikácie"
+
+#: src/manager_window.vala
+msgid "Photo & Video"
+msgstr "Fotografie a video"
+
+#: src/manager_window.vala
+msgid "Music & Audio"
+msgstr "Hudba a audio"
+
+#: src/manager_window.vala
+msgid "Productivity"
+msgstr "Produktivita"
+
+#: src/manager_window.vala
+msgid "Communication & News"
+msgstr "Komunikácia a novinky"
+
+#: src/manager_window.vala
+msgid "Education & Science"
+msgstr "Vzdelávanie a veda"
+
+#: src/manager_window.vala
+msgid "Games"
+msgstr "Hry"
+
+#: src/manager_window.vala
+msgid "Utilities"
+msgstr "Nástroje"
+
+#: src/manager_window.vala
+msgid "Development"
+msgstr "Vývoj"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Install Local Packages"
@@ -680,6 +694,10 @@ msgstr "Autor balíka"
 #: src/manager_window.vala
 msgid "A Gtk3 frontend for libalpm"
 msgstr "Rozhranie Gtk3 pre knižnicu libalpm"
+
+#: src/manager_window.vala resources/manager_window.ui
+msgid "Categories"
+msgstr "Kategórie"
 
 #: src/preferences_dialog.vala resources/preferences_dialog.ui
 msgid "How often to check for updates, value in hours"
@@ -713,10 +731,6 @@ msgstr[0] "%u súbor"
 msgstr[1] "%u súbory"
 msgstr[2] "%u súborov"
 msgstr[3] "%u súborov"
-
-#: src/preferences_dialog.vala
-msgid "Choose Ignored Upgrades"
-msgstr "Voľba ignorovaných aktualizácií"
 
 #: src/transaction-cli.vala src/cli.vala
 #, c-format
@@ -875,10 +889,6 @@ msgid "overwrite existing files"
 msgstr "prepísať existujúce súbory"
 
 #: src/cli.vala
-msgid "Build packages from AUR and install them with their dependencies"
-msgstr "Zostaviť balíky z AUR a nainštalovať ich aj z ich závislosťami"
-
-#: src/cli.vala
 msgid ""
 "If no package name is given, use the PKGBUILD file in the current directory"
 msgstr ""
@@ -973,7 +983,7 @@ msgstr "vynútiť obnovenie databáz"
 
 #: src/cli.vala
 msgid "enable package downgrades"
-msgstr "povoliť ponižovanie balíkov"
+msgstr "povoliť prechod na staršiu verziu balíkov"
 
 #: src/cli.vala
 msgid "Clean packages cache or build files"
@@ -1021,6 +1031,10 @@ msgstr "Popis"
 #: src/cli.vala
 msgid "URL"
 msgstr "URL"
+
+#: src/cli.vala
+msgid "Installed Size"
+msgstr "Veľkosť po inštalácii"
 
 #: src/cli.vala
 #, c-format
@@ -1102,10 +1116,6 @@ msgid "Search"
 msgstr "Vyhľadávanie"
 
 #: resources/manager_window.ui
-msgid "All"
-msgstr "Všetko"
-
-#: resources/manager_window.ui
 msgid "Pending"
 msgstr "Na vybavenie"
 
@@ -1134,8 +1144,8 @@ msgid "Relevance"
 msgstr "Relevantnosť"
 
 #: resources/manager_window.ui
-msgid "Date"
-msgstr "Dátum"
+msgid "Size"
+msgstr "Veľkosť"
 
 #: resources/manager_window.ui
 msgid "Browse"
@@ -1148,10 +1158,6 @@ msgstr "Spustiť"
 #: resources/manager_window.ui
 msgid "Reinstall"
 msgstr "Preinštalovať"
-
-#: resources/manager_window.ui
-msgid "Build"
-msgstr "Zostaviť"
 
 #: resources/manager_window.ui
 msgid "Reset build files"
@@ -1168,10 +1174,6 @@ msgid ""
 msgstr "Pri odstránení balíka tiež odstráni závislosti, ktoré nie sú potrebné inými balíkmi"
 
 #: resources/preferences_dialog.ui
-msgid "Check available disk space"
-msgstr "Skontrolovať dostupné miesto"
-
-#: resources/preferences_dialog.ui
 msgid "Enable downgrade"
 msgstr "Povoliť prechod na staršiu verziu balíkov"
 
@@ -1186,10 +1188,6 @@ msgstr "Automaticky prevziať aktualizácie"
 #: resources/preferences_dialog.ui
 msgid "Hide tray icon when no update available"
 msgstr "Skryť ikonu v lište, keď nie sú dostupné žiadne aktualizácie"
-
-#: resources/preferences_dialog.ui
-msgid "Ignore upgrades for:"
-msgstr "Ignorovať aktualizácie balíkov:"
 
 #: resources/preferences_dialog.ui
 msgid "General"
@@ -1215,7 +1213,7 @@ msgstr "AUR je repozitár spravovaný komunitou, preto predstavuje potenciálne 
 
 #: resources/preferences_dialog.ui
 msgid "Enable AUR support"
-msgstr "Zapnúť podporu repozitára AUR"
+msgstr "Povoliť podporu repozitára AUR"
 
 #: resources/preferences_dialog.ui
 msgid "Allow Pamac to search and install packages from AUR"
@@ -1228,6 +1226,14 @@ msgstr "Kontrolovať aktualizácie z repozitára AUR"
 #: resources/preferences_dialog.ui
 msgid "Check for development packages updates"
 msgstr "Kontrolovať aktualizácie balíkov vo vývoji"
+
+#: resources/preferences_dialog.ui
+msgid "Snap packages are maintained by their publisher."
+msgstr "Balíky Snap sú spravované svojim vydavateľom."
+
+#: resources/preferences_dialog.ui
+msgid "Enable Snap support"
+msgstr "Povoliť podporu balíkov Snap"
 
 #: resources/preferences_dialog.ui
 msgid "Cache"

@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2019-08-06 16:57+0200\n"
-"PO-Revision-Date: 2019-08-13 10:55+0000\n"
-"Last-Translator: Zmicer Turok <nashtlumach@gmail.com>\n"
+"POT-Creation-Date: 2019-09-14 12:36+0200\n"
+"PO-Revision-Date: 2019-09-21 00:46+0000\n"
+"Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Belarusian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/be/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -21,26 +21,34 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);\n"
 
 #: data/polkit/org.manjaro.pamac.policy.in
-msgid "Authentication is required"
-msgstr "Патрабуецца аўтэнтыфікацыя"
+msgid "Install, update, or remove packages"
+msgstr ""
+
+#: data/polkit/org.manjaro.pamac.policy.in
+msgid "Authentication is required to install, update, or remove packages"
+msgstr ""
 
 #: src/alpm_utils.vala src/database.vala
 msgid "Failed to initialize alpm library"
 msgstr "Памылка ініцыялізацыі бібліятэкі alpm"
 
 #: src/alpm_utils.vala
-msgid "Failed to synchronize any databases"
-msgstr "Не атрымалася сінхранізаваць з усімі базамі даных"
+msgid "Synchronizing package databases"
+msgstr "Сінхранізацыя баз даных пакункаў"
+
+#: src/alpm_utils.vala
+msgid "Failed to synchronize databases"
+msgstr ""
 
 #: src/alpm_utils.vala
 msgid "Failed to init transaction"
 msgstr "Не атрымалася пачаць транзакцыю"
 
-#: src/alpm_utils.vala src/transaction.vala src/transaction-gtk.vala
+#: src/alpm_utils.vala src/transaction-gtk.vala src/installer.vala
 msgid "Failed to prepare transaction"
 msgstr "Не атрымалася падрыхтаваць транзакцыю"
 
-#: src/alpm_utils.vala src/cli.vala
+#: src/alpm_utils.vala src/installer.vala src/cli.vala
 #, c-format
 msgid "target not found: %s"
 msgstr "мэта не знойдзена: %s"
@@ -75,6 +83,18 @@ msgstr "%s і %s канфліктуюць"
 msgid "%s needs to be removed but it is a locked package"
 msgstr "%s патрэбна выдаліць, але пакунак заблакаваны"
 
+#: src/alpm_utils.vala src/transaction.vala
+msgid "Transaction cancelled"
+msgstr "Транзакцыя скасаваная"
+
+#: src/alpm_utils.vala src/installer.vala src/cli.vala
+msgid "Nothing to do"
+msgstr "Няма задач"
+
+#: src/alpm_utils.vala src/transaction.vala
+msgid "Preparing"
+msgstr "Падрыхтоўка"
+
 #: src/alpm_utils.vala
 msgid "Failed to commit transaction"
 msgstr "Памылка завяршэння транзакцыі"
@@ -95,21 +115,173 @@ msgid "%s is invalid or corrupted"
 msgstr "%s хібны альбо пашкоджаны"
 
 #: src/alpm_utils.vala
+msgid "Checking dependencies"
+msgstr "Праверка залежнасцяў"
+
+#: src/alpm_utils.vala
+msgid "Checking file conflicts"
+msgstr "Праверка файлаў на канфлікты"
+
+#: src/alpm_utils.vala
+msgid "Resolving dependencies"
+msgstr "Вырашэнне залежнасцяў"
+
+#: src/alpm_utils.vala
+msgid "Checking inter-conflicts"
+msgstr "Праверка на ўзаемныя канфлікты"
+
+#: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
-msgid "%s appears to be truncated: %jd/%jd bytes\n"
-msgstr "%s здаецца, паменшаны на: %jd/%jd байтаў\n"
+msgid "Installing %s"
+msgstr "Усталёўка %s"
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "Upgrading %s"
+msgstr "Абнаўленне %s"
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "Reinstalling %s"
+msgstr "Пераўсталёўка %s"
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "Downgrading %s"
+msgstr "Адкат %s"
+
+#: src/alpm_utils.vala src/snap_plugin.vala
+#, c-format
+msgid "Removing %s"
+msgstr "Выдаленне %s"
+
+#: src/alpm_utils.vala
+msgid "Checking integrity"
+msgstr "Праверка цэласнасці"
+
+#: src/alpm_utils.vala
+msgid "Loading packages files"
+msgstr "Загрузка файлаў пакункаў"
+
+#: src/alpm_utils.vala
+msgid "Checking delta integrity"
+msgstr "Праверка цэласнасці дэльтаў"
+
+#: src/alpm_utils.vala
+msgid "Applying deltas"
+msgstr "Ужыванне дэльтаў"
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "Generating %s with %s"
+msgstr "Генерацыя %s з %s"
+
+#: src/alpm_utils.vala
+msgid "Generation succeeded"
+msgstr "Згенеравана"
+
+#: src/alpm_utils.vala
+msgid "Generation failed"
+msgstr "Не атрымалася згегераваць"
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "Configuring %s"
+msgstr "Наладка %s"
+
+#: src/alpm_utils.vala
+msgid "Checking available disk space"
+msgstr "Праверка даступнай прасторы на дыску"
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "%s optionally requires %s"
+msgstr "%s патрабуецца неабавязковы %s"
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "Database file for %s does not exist"
+msgstr "Файл базы даных для %s не існуе"
+
+#: src/alpm_utils.vala
+msgid "Checking keyring"
+msgstr "Праверка вязкі ключоў"
+
+#: src/alpm_utils.vala
+msgid "Downloading required keys"
+msgstr "Спампоўванне неабходных ключоў"
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "%s installed as %s.pacnew"
+msgstr "%s усталяваны як %s.pacnew"
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "%s installed as %s.pacsave"
+msgstr "%s усталяваны як %s.pacsave"
+
+#: src/alpm_utils.vala
+msgid "Running pre-transaction hooks"
+msgstr "Запуск pre-transaction hooks"
+
+#: src/alpm_utils.vala
+msgid "Running post-transaction hooks"
+msgstr "Запуск post-transaction hooks"
+
+#: src/alpm_utils.vala src/snap_plugin.vala
+#, c-format
+msgid "About %u seconds remaining"
+msgstr "Засталося прыкладна %u секунд"
+
+#: src/alpm_utils.vala src/snap_plugin.vala
+#, c-format
+msgid "About %lu minute remaining"
+msgid_plural "About %lu minutes remaining"
+msgstr[0] "Засталася прыкладна %lu хвіліна"
+msgstr[1] "Засталося прыкладна %lu хвіліны"
+msgstr[2] "Засталося прыкладна %lu хвілін"
+msgstr[3] "Засталося прыкладна %lu хвілін"
+
+#: src/alpm_utils.vala src/transaction-cli.vala src/cli.vala
+msgid "Error"
+msgstr "Памылка"
+
+#: src/alpm_utils.vala src/transaction-gtk.vala
+msgid "Warning"
+msgstr "Увага"
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "Download of %s started"
+msgstr ""
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "Download of %s finished"
+msgstr ""
+
+#: src/alpm_utils.vala src/snap_plugin.vala
+#, c-format
+msgid "Downloading %s"
+msgstr "Спампоўванне %s"
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "Refreshing %s"
+msgstr "Абнаўленне %s"
 
 #: src/alpm_utils.vala
 #, c-format
 msgid "failed retrieving file '%s' from %s : %s\n"
 msgstr "памылка атрымання файла '%s' з %s : %s\n"
 
-#: src/system_daemon.vala
+#: src/daemon.vala
 msgid "Authentication failed"
 msgstr "Памылка аўтэнтыфікацыі"
 
-#: src/database.vala src/transaction-gtk.vala src/manager_window.vala
-#: src/transaction-cli.vala src/cli.vala resources/preferences_dialog.ui
+#: src/database.vala src/manager_window.vala src/cli.vala
+#: resources/preferences_dialog.ui
 msgid "AUR"
 msgstr "AUR"
 
@@ -137,18 +309,6 @@ msgstr "Не"
 msgid "Refreshing mirrors list"
 msgstr "Абнаўленне спіса люстэркаў"
 
-#: src/transaction.vala
-msgid "Preparing"
-msgstr "Падрыхтоўка"
-
-#: src/transaction.vala
-msgid "Synchronizing package databases"
-msgstr "Сінхранізацыя баз даных пакункаў"
-
-#: src/transaction.vala
-msgid "Starting full system upgrade"
-msgstr "Запуск поўнага абнаўлення сістэмы"
-
 #: src/transaction.vala src/cli.vala
 #, c-format
 msgid "Cloning %s build files"
@@ -169,6 +329,10 @@ msgstr "Праверка залежнасцяў %s"
 msgid "key %s could not be imported"
 msgstr "ключ %s немагчыма імпартаваць"
 
+#: src/transaction.vala src/manager_window.vala
+msgid "Transaction successfully finished"
+msgstr "Транзакцыя паспяхова завершаная"
+
 #: src/transaction.vala
 msgid "Waiting for another package manager to quit"
 msgstr "Чаканне закрыцця іншага кіраўніка пакункаў"
@@ -177,165 +341,6 @@ msgstr "Чаканне закрыцця іншага кіраўніка паку
 #, c-format
 msgid "Building %s"
 msgstr "Зборка %s"
-
-#: src/transaction.vala
-msgid "Transaction cancelled"
-msgstr "Транзакцыя скасаваная"
-
-#: src/transaction.vala
-msgid "Checking dependencies"
-msgstr "Праверка залежнасцяў"
-
-#: src/transaction.vala
-msgid "Checking file conflicts"
-msgstr "Праверка файлаў на канфлікты"
-
-#: src/transaction.vala
-msgid "Resolving dependencies"
-msgstr "Вырашэнне залежнасцяў"
-
-#: src/transaction.vala
-msgid "Checking inter-conflicts"
-msgstr "Праверка на ўзаемныя канфлікты"
-
-#: src/transaction.vala
-#, c-format
-msgid "Installing %s"
-msgstr "Усталёўка %s"
-
-#: src/transaction.vala
-#, c-format
-msgid "Upgrading %s"
-msgstr "Абнаўленне %s"
-
-#: src/transaction.vala
-#, c-format
-msgid "Reinstalling %s"
-msgstr "Пераўсталёўка %s"
-
-#: src/transaction.vala
-#, c-format
-msgid "Downgrading %s"
-msgstr "Адкат %s"
-
-#: src/transaction.vala
-#, c-format
-msgid "Removing %s"
-msgstr "Выдаленне %s"
-
-#: src/transaction.vala
-msgid "Checking integrity"
-msgstr "Праверка цэласнасці"
-
-#: src/transaction.vala
-msgid "Loading packages files"
-msgstr "Загрузка файлаў пакункаў"
-
-#: src/transaction.vala
-msgid "Checking delta integrity"
-msgstr "Праверка цэласнасці дэльтаў"
-
-#: src/transaction.vala
-msgid "Applying deltas"
-msgstr "Ужыванне дэльтаў"
-
-#: src/transaction.vala
-#, c-format
-msgid "Generating %s with %s"
-msgstr "Генерацыя %s з %s"
-
-#: src/transaction.vala
-msgid "Generation succeeded"
-msgstr "Згенеравана"
-
-#: src/transaction.vala
-msgid "Generation failed"
-msgstr "Не атрымалася згегераваць"
-
-#: src/transaction.vala
-#, c-format
-msgid "Configuring %s"
-msgstr "Наладка %s"
-
-#: src/transaction.vala
-msgid "Checking available disk space"
-msgstr "Праверка даступнай прасторы на дыску"
-
-#: src/transaction.vala
-#, c-format
-msgid "%s optionally requires %s"
-msgstr "%s патрабуецца неабавязковы %s"
-
-#: src/transaction.vala
-#, c-format
-msgid "Database file for %s does not exist"
-msgstr "Файл базы даных для %s не існуе"
-
-#: src/transaction.vala
-msgid "Checking keyring"
-msgstr "Праверка вязкі ключоў"
-
-#: src/transaction.vala
-msgid "Downloading required keys"
-msgstr "Спампоўванне неабходных ключоў"
-
-#: src/transaction.vala
-#, c-format
-msgid "%s installed as %s.pacnew"
-msgstr "%s усталяваны як %s.pacnew"
-
-#: src/transaction.vala
-#, c-format
-msgid "%s installed as %s.pacsave"
-msgstr "%s усталяваны як %s.pacsave"
-
-#: src/transaction.vala
-msgid "Running pre-transaction hooks"
-msgstr "Запуск pre-transaction hooks"
-
-#: src/transaction.vala
-msgid "Running post-transaction hooks"
-msgstr "Запуск post-transaction hooks"
-
-#: src/transaction.vala
-#, c-format
-msgid "Downloading %s"
-msgstr "Спампоўванне %s"
-
-#: src/transaction.vala
-#, c-format
-msgid "About %u seconds remaining"
-msgstr "Засталося прыкладна %u секунд"
-
-#: src/transaction.vala
-#, c-format
-msgid "About %lu minute remaining"
-msgid_plural "About %lu minutes remaining"
-msgstr[0] "Засталася прыкладна %lu хвіліна"
-msgstr[1] "Засталося прыкладна %lu хвіліны"
-msgstr[2] "Засталося прыкладна %lu хвілін"
-msgstr[3] "Засталося прыкладна %lu хвілін"
-
-#: src/transaction.vala
-#, c-format
-msgid "Refreshing %s"
-msgstr "Абнаўленне %s"
-
-#: src/transaction.vala src/transaction-cli.vala src/cli.vala
-msgid "Error"
-msgstr "Памылка"
-
-#: src/transaction.vala src/transaction-gtk.vala
-msgid "Warning"
-msgstr "Увага"
-
-#: src/transaction.vala src/installer.vala src/cli.vala
-msgid "Nothing to do"
-msgstr "Няма задач"
-
-#: src/transaction.vala src/transaction-gtk.vala
-msgid "Transaction successfully finished"
-msgstr "Транзакцыя паспяхова завершаная"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
@@ -426,6 +431,10 @@ msgid "Remove packages"
 msgstr "Выдаліць пакункі"
 
 #: src/installer.vala src/cli.vala
+msgid "Build packages from AUR and install them with their dependencies"
+msgstr "Сабраць пакункі з AUR і ўсталяваць іх разам з залежнасцямі"
+
+#: src/installer.vala src/cli.vala
 msgid "package(s)"
 msgstr "пакунак(кі)"
 
@@ -468,21 +477,9 @@ msgstr[1] "%u чакаюць апрацоўкі"
 msgstr[2] "%u чакаюць апрацоўкі"
 msgstr[3] "%u чакаюць апрацоўкі"
 
-#: src/manager_window.vala
-msgid "Categories"
-msgstr "Катэгорыі"
-
-#: src/manager_window.vala src/cli.vala
-msgid "Groups"
-msgstr "Групы"
-
-#: src/manager_window.vala
-msgid "Repositories"
-msgstr "Рэпазіторыі"
-
-#: src/manager_window.vala src/cli.vala resources/manager_window.ui
-msgid "Installed"
-msgstr "Усталявана"
+#: src/manager_window.vala resources/manager_window.ui
+msgid "All"
+msgstr "Усе"
 
 #: src/manager_window.vala
 msgid "Orphans"
@@ -492,49 +489,18 @@ msgstr "Невыкарыстоўваемыя"
 msgid "Foreign"
 msgstr "Вонкавыя"
 
-#: src/manager_window.vala
-msgid "Accessories"
-msgstr "Інструменты"
+#: src/manager_window.vala src/snap_plugin.vala
+#: resources/preferences_dialog.ui
+msgid "Snap"
+msgstr ""
 
-#: src/manager_window.vala
-msgid "Audio & Video"
-msgstr "Аўдыё і відэа"
+#: src/manager_window.vala resources/manager_window.ui
+msgid "Repositories"
+msgstr "Рэпазіторыі"
 
-#: src/manager_window.vala
-msgid "Development"
-msgstr "Распрацоўка"
-
-#: src/manager_window.vala
-msgid "Education"
-msgstr "Адукацыя"
-
-#: src/manager_window.vala
-msgid "Games"
-msgstr "Гульні"
-
-#: src/manager_window.vala
-msgid "Graphics"
-msgstr "Графіка"
-
-#: src/manager_window.vala
-msgid "Internet"
-msgstr "Інтэрнэт"
-
-#: src/manager_window.vala
-msgid "Office"
-msgstr "Офіс"
-
-#: src/manager_window.vala
-msgid "Science"
-msgstr "Навука"
-
-#: src/manager_window.vala
-msgid "Settings"
-msgstr "Налады"
-
-#: src/manager_window.vala
-msgid "System Tools"
-msgstr "Сістэмныя прылады"
+#: src/manager_window.vala src/cli.vala resources/manager_window.ui
+msgid "Installed"
+msgstr "Усталявана"
 
 #: src/manager_window.vala
 msgid "Dependencies"
@@ -591,6 +557,10 @@ msgstr "Галасоў"
 #: src/manager_window.vala src/cli.vala
 msgid "Out of Date"
 msgstr "Састарэлы"
+
+#: src/manager_window.vala src/cli.vala resources/manager_window.ui
+msgid "Groups"
+msgstr "Групы"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Packager"
@@ -649,16 +619,60 @@ msgid "Check Dependencies"
 msgstr "Праверка залежнасцяў"
 
 #: src/manager_window.vala
+msgid "Publisher"
+msgstr ""
+
+#: src/manager_window.vala
+msgid "Channels"
+msgstr ""
+
+#: src/manager_window.vala
 msgid "Upgrade"
 msgstr "Абнавіць"
+
+#: src/manager_window.vala resources/manager_window.ui
+msgid "Build"
+msgstr "Сабраць"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Remove"
 msgstr "Выдаліць"
 
-#: src/manager_window.vala src/cli.vala resources/manager_window.ui
-msgid "Size"
-msgstr "Памер"
+#: src/manager_window.vala
+msgid "Featured"
+msgstr ""
+
+#: src/manager_window.vala
+msgid "Photo & Video"
+msgstr ""
+
+#: src/manager_window.vala
+msgid "Music & Audio"
+msgstr ""
+
+#: src/manager_window.vala
+msgid "Productivity"
+msgstr ""
+
+#: src/manager_window.vala
+msgid "Communication & News"
+msgstr ""
+
+#: src/manager_window.vala
+msgid "Education & Science"
+msgstr ""
+
+#: src/manager_window.vala
+msgid "Games"
+msgstr "Гульні"
+
+#: src/manager_window.vala
+msgid "Utilities"
+msgstr ""
+
+#: src/manager_window.vala
+msgid "Development"
+msgstr "Распрацоўка"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Install Local Packages"
@@ -675,6 +689,10 @@ msgstr "Пакунак Alpm"
 #: src/manager_window.vala
 msgid "A Gtk3 frontend for libalpm"
 msgstr "Інтэрфейс Gtk3 для libalpm"
+
+#: src/manager_window.vala resources/manager_window.ui
+msgid "Categories"
+msgstr "Катэгорыі"
 
 #: src/preferences_dialog.vala resources/preferences_dialog.ui
 msgid "How often to check for updates, value in hours"
@@ -708,10 +726,6 @@ msgstr[0] "%u файл"
 msgstr[1] "%u файла"
 msgstr[2] "%u файлаў"
 msgstr[3] "%u файлаў"
-
-#: src/preferences_dialog.vala
-msgid "Choose Ignored Upgrades"
-msgstr "Абраць мінутыя абнаўленні"
 
 #: src/transaction-cli.vala src/cli.vala
 #, c-format
@@ -870,10 +884,6 @@ msgid "overwrite existing files"
 msgstr "перазапісваць існыя файлы"
 
 #: src/cli.vala
-msgid "Build packages from AUR and install them with their dependencies"
-msgstr "Сабраць пакункі з AUR і ўсталяваць іх разам з залежнасцямі"
-
-#: src/cli.vala
 msgid ""
 "If no package name is given, use the PKGBUILD file in the current directory"
 msgstr "Калі назва пакунка не пададзеная, выкарыстоўваць PKGBUILD у бягучым каталозе"
@@ -1018,6 +1028,10 @@ msgid "URL"
 msgstr "URL"
 
 #: src/cli.vala
+msgid "Installed Size"
+msgstr ""
+
+#: src/cli.vala
 #, c-format
 msgid "No package owns %s"
 msgstr "Няма пакункаў, што належаць %s"
@@ -1097,10 +1111,6 @@ msgid "Search"
 msgstr "Пошук"
 
 #: resources/manager_window.ui
-msgid "All"
-msgstr "Усе"
-
-#: resources/manager_window.ui
 msgid "Pending"
 msgstr "Да апрацоўкі"
 
@@ -1129,8 +1139,8 @@ msgid "Relevance"
 msgstr "Актуальнасць"
 
 #: resources/manager_window.ui
-msgid "Date"
-msgstr "Дата"
+msgid "Size"
+msgstr "Памер"
 
 #: resources/manager_window.ui
 msgid "Browse"
@@ -1143,10 +1153,6 @@ msgstr "Запуск"
 #: resources/manager_window.ui
 msgid "Reinstall"
 msgstr "Пераўсталяваць"
-
-#: resources/manager_window.ui
-msgid "Build"
-msgstr "Сабраць"
 
 #: resources/manager_window.ui
 msgid "Reset build files"
@@ -1163,10 +1169,6 @@ msgid ""
 msgstr "Пры выдаленні пакунка таксама выдаляць яго невыкарыстоўваемыя залежнасці"
 
 #: resources/preferences_dialog.ui
-msgid "Check available disk space"
-msgstr "Праверка даступнай на дыску прасторы"
-
-#: resources/preferences_dialog.ui
 msgid "Enable downgrade"
 msgstr "Уключыць паніжэнне версіі"
 
@@ -1181,10 +1183,6 @@ msgstr "Аўтаматычна спампоўваць абнаўленні"
 #: resources/preferences_dialog.ui
 msgid "Hide tray icon when no update available"
 msgstr "Хаваць значок на прасторы апавяшчэнняў пры адсутнасці абнаўленняў"
-
-#: resources/preferences_dialog.ui
-msgid "Ignore upgrades for:"
-msgstr "Не зважаць на абнаўленні для:"
 
 #: resources/preferences_dialog.ui
 msgid "General"
@@ -1223,6 +1221,14 @@ msgstr "Правяраць абнаўленні з AUR"
 #: resources/preferences_dialog.ui
 msgid "Check for development packages updates"
 msgstr "Праверка наяўнасці абнаўленняў распрацоўваемых пакункаў"
+
+#: resources/preferences_dialog.ui
+msgid "Snap packages are maintained by their publisher."
+msgstr ""
+
+#: resources/preferences_dialog.ui
+msgid "Enable Snap support"
+msgstr ""
 
 #: resources/preferences_dialog.ui
 msgid "Cache"

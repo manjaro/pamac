@@ -22,8 +22,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2019-08-06 16:57+0200\n"
-"PO-Revision-Date: 2019-08-07 00:47+0000\n"
+"POT-Creation-Date: 2019-09-14 12:36+0200\n"
+"PO-Revision-Date: 2019-09-21 00:46+0000\n"
 "Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Finnish (http://www.transifex.com/manjarolinux/manjaro-pamac/language/fi/)\n"
 "MIME-Version: 1.0\n"
@@ -33,26 +33,34 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: data/polkit/org.manjaro.pamac.policy.in
-msgid "Authentication is required"
-msgstr "Todennus vaaditaan"
+msgid "Install, update, or remove packages"
+msgstr ""
+
+#: data/polkit/org.manjaro.pamac.policy.in
+msgid "Authentication is required to install, update, or remove packages"
+msgstr ""
 
 #: src/alpm_utils.vala src/database.vala
 msgid "Failed to initialize alpm library"
 msgstr "alpm‐kirjaston valmistelu epäonnistui"
 
 #: src/alpm_utils.vala
-msgid "Failed to synchronize any databases"
-msgstr "Tietokantojen synkronointi epäonnistui"
+msgid "Synchronizing package databases"
+msgstr "Synkronoidaan pakettitietokantoja"
+
+#: src/alpm_utils.vala
+msgid "Failed to synchronize databases"
+msgstr ""
 
 #: src/alpm_utils.vala
 msgid "Failed to init transaction"
 msgstr "Tapahtumaa ei saatu käynnistettyä"
 
-#: src/alpm_utils.vala src/transaction.vala src/transaction-gtk.vala
+#: src/alpm_utils.vala src/transaction-gtk.vala src/installer.vala
 msgid "Failed to prepare transaction"
 msgstr "Tapahtumaa ei saatu valmisteltua"
 
-#: src/alpm_utils.vala src/cli.vala
+#: src/alpm_utils.vala src/installer.vala src/cli.vala
 #, c-format
 msgid "target not found: %s"
 msgstr "kohdetta ei löydetty: %s"
@@ -87,6 +95,18 @@ msgstr "%s ja %s ovat ristiriidassa"
 msgid "%s needs to be removed but it is a locked package"
 msgstr "%s täytyy poistaa mutta se on lukittu paketti"
 
+#: src/alpm_utils.vala src/transaction.vala
+msgid "Transaction cancelled"
+msgstr "Tapahtuma peruttiin"
+
+#: src/alpm_utils.vala src/installer.vala src/cli.vala
+msgid "Nothing to do"
+msgstr "Ei mitään tehtävää"
+
+#: src/alpm_utils.vala src/transaction.vala
+msgid "Preparing"
+msgstr "Valmistellaan"
+
 #: src/alpm_utils.vala
 msgid "Failed to commit transaction"
 msgstr "Tapahtumaa ei saatu tehtyä."
@@ -107,21 +127,171 @@ msgid "%s is invalid or corrupted"
 msgstr "%s on viallinen tai vioittunut"
 
 #: src/alpm_utils.vala
+msgid "Checking dependencies"
+msgstr "Selvitetään riippuvuuksia"
+
+#: src/alpm_utils.vala
+msgid "Checking file conflicts"
+msgstr "Tarkastetaan tiedostoristiriitoja"
+
+#: src/alpm_utils.vala
+msgid "Resolving dependencies"
+msgstr "Selvitetään riippuvuuksia"
+
+#: src/alpm_utils.vala
+msgid "Checking inter-conflicts"
+msgstr "Tarkistetaan pakettien välisiä ristiriitoja"
+
+#: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
-msgid "%s appears to be truncated: %jd/%jd bytes\n"
-msgstr "%s näyttää olevan katkennut: %jd/%jd tavua\n"
+msgid "Installing %s"
+msgstr "Asennetaan %s"
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "Upgrading %s"
+msgstr "Päivitetään %s"
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "Reinstalling %s"
+msgstr "Uudelleenasennetaan %s"
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "Downgrading %s"
+msgstr "Varhennetaan %s"
+
+#: src/alpm_utils.vala src/snap_plugin.vala
+#, c-format
+msgid "Removing %s"
+msgstr "Poistetaan %s"
+
+#: src/alpm_utils.vala
+msgid "Checking integrity"
+msgstr "Tarkastetaan eheyttä"
+
+#: src/alpm_utils.vala
+msgid "Loading packages files"
+msgstr "Ladataan paketin tiedostoja"
+
+#: src/alpm_utils.vala
+msgid "Checking delta integrity"
+msgstr "Tarkistetaan delta-eheyttä"
+
+#: src/alpm_utils.vala
+msgid "Applying deltas"
+msgstr "Asetetaan deltoja"
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "Generating %s with %s"
+msgstr "Luodaan %s deltalla %s"
+
+#: src/alpm_utils.vala
+msgid "Generation succeeded"
+msgstr "Luominen onnistui"
+
+#: src/alpm_utils.vala
+msgid "Generation failed"
+msgstr "Luominen epäonnistui"
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "Configuring %s"
+msgstr "Konfiguroidaan %s"
+
+#: src/alpm_utils.vala
+msgid "Checking available disk space"
+msgstr "Tarkistetaan saatavilla olevaa levytilaa"
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "%s optionally requires %s"
+msgstr "%s vaatii valinnaisesti paketin %s"
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "Database file for %s does not exist"
+msgstr "Tietokantatiedostoa pakettivarastolle %s ei löydy"
+
+#: src/alpm_utils.vala
+msgid "Checking keyring"
+msgstr "Tarkastetaan avainrengasta"
+
+#: src/alpm_utils.vala
+msgid "Downloading required keys"
+msgstr "Ladataan vaadittuja avaimia"
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "%s installed as %s.pacnew"
+msgstr "%s asennettiin tiedostona %s.pacnew"
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "%s installed as %s.pacsave"
+msgstr "%s asennettiin tiedostona %s.pacsave"
+
+#: src/alpm_utils.vala
+msgid "Running pre-transaction hooks"
+msgstr "Suoritetaan asennusta edeltävät työt"
+
+#: src/alpm_utils.vala
+msgid "Running post-transaction hooks"
+msgstr "Suoritetaan asennuksen jälkeiset työt"
+
+#: src/alpm_utils.vala src/snap_plugin.vala
+#, c-format
+msgid "About %u seconds remaining"
+msgstr "Noin %u sekunttia jäljellä"
+
+#: src/alpm_utils.vala src/snap_plugin.vala
+#, c-format
+msgid "About %lu minute remaining"
+msgid_plural "About %lu minutes remaining"
+msgstr[0] "Noin %lu minuutti jäljellä"
+msgstr[1] "Noin %lu minuuttia jäljellä"
+
+#: src/alpm_utils.vala src/transaction-cli.vala src/cli.vala
+msgid "Error"
+msgstr "Virhe"
+
+#: src/alpm_utils.vala src/transaction-gtk.vala
+msgid "Warning"
+msgstr "Varoitus"
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "Download of %s started"
+msgstr ""
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "Download of %s finished"
+msgstr ""
+
+#: src/alpm_utils.vala src/snap_plugin.vala
+#, c-format
+msgid "Downloading %s"
+msgstr "Ladataan %s"
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "Refreshing %s"
+msgstr "Virkistetään %s"
 
 #: src/alpm_utils.vala
 #, c-format
 msgid "failed retrieving file '%s' from %s : %s\n"
 msgstr "tiedoston noutaminen epäonnistui '%s' palvelimelta %s : %s\n"
 
-#: src/system_daemon.vala
+#: src/daemon.vala
 msgid "Authentication failed"
 msgstr "Todennus epäonnistui"
 
-#: src/database.vala src/transaction-gtk.vala src/manager_window.vala
-#: src/transaction-cli.vala src/cli.vala resources/preferences_dialog.ui
+#: src/database.vala src/manager_window.vala src/cli.vala
+#: resources/preferences_dialog.ui
 msgid "AUR"
 msgstr "AUR"
 
@@ -149,18 +319,6 @@ msgstr "Ei"
 msgid "Refreshing mirrors list"
 msgstr "Päivitetään peilipalvelin lista"
 
-#: src/transaction.vala
-msgid "Preparing"
-msgstr "Valmistellaan"
-
-#: src/transaction.vala
-msgid "Synchronizing package databases"
-msgstr "Synkronoidaan pakettitietokantoja"
-
-#: src/transaction.vala
-msgid "Starting full system upgrade"
-msgstr "Aloitetaan täysi järjestelmäpäivitys"
-
 #: src/transaction.vala src/cli.vala
 #, c-format
 msgid "Cloning %s build files"
@@ -181,6 +339,10 @@ msgstr "Tarkistetaan %s riippuvuuksia"
 msgid "key %s could not be imported"
 msgstr "avainta %s ei voitu tuoda"
 
+#: src/transaction.vala src/manager_window.vala
+msgid "Transaction successfully finished"
+msgstr "Toimenpide suoritettu onnistuneesti"
+
 #: src/transaction.vala
 msgid "Waiting for another package manager to quit"
 msgstr "Odotetaan toisen pakettienhallintatyökalun lopettavan"
@@ -189,163 +351,6 @@ msgstr "Odotetaan toisen pakettienhallintatyökalun lopettavan"
 #, c-format
 msgid "Building %s"
 msgstr "Kasataan %s"
-
-#: src/transaction.vala
-msgid "Transaction cancelled"
-msgstr "Tapahtuma peruttiin"
-
-#: src/transaction.vala
-msgid "Checking dependencies"
-msgstr "Selvitetään riippuvuuksia"
-
-#: src/transaction.vala
-msgid "Checking file conflicts"
-msgstr "Tarkastetaan tiedostoristiriitoja"
-
-#: src/transaction.vala
-msgid "Resolving dependencies"
-msgstr "Selvitetään riippuvuuksia"
-
-#: src/transaction.vala
-msgid "Checking inter-conflicts"
-msgstr "Tarkistetaan pakettien välisiä ristiriitoja"
-
-#: src/transaction.vala
-#, c-format
-msgid "Installing %s"
-msgstr "Asennetaan %s"
-
-#: src/transaction.vala
-#, c-format
-msgid "Upgrading %s"
-msgstr "Päivitetään %s"
-
-#: src/transaction.vala
-#, c-format
-msgid "Reinstalling %s"
-msgstr "Uudelleenasennetaan %s"
-
-#: src/transaction.vala
-#, c-format
-msgid "Downgrading %s"
-msgstr "Varhennetaan %s"
-
-#: src/transaction.vala
-#, c-format
-msgid "Removing %s"
-msgstr "Poistetaan %s"
-
-#: src/transaction.vala
-msgid "Checking integrity"
-msgstr "Tarkastetaan eheyttä"
-
-#: src/transaction.vala
-msgid "Loading packages files"
-msgstr "Ladataan paketin tiedostoja"
-
-#: src/transaction.vala
-msgid "Checking delta integrity"
-msgstr "Tarkistetaan delta-eheyttä"
-
-#: src/transaction.vala
-msgid "Applying deltas"
-msgstr "Asetetaan deltoja"
-
-#: src/transaction.vala
-#, c-format
-msgid "Generating %s with %s"
-msgstr "Luodaan %s deltalla %s"
-
-#: src/transaction.vala
-msgid "Generation succeeded"
-msgstr "Luominen onnistui"
-
-#: src/transaction.vala
-msgid "Generation failed"
-msgstr "Luominen epäonnistui"
-
-#: src/transaction.vala
-#, c-format
-msgid "Configuring %s"
-msgstr "Konfiguroidaan %s"
-
-#: src/transaction.vala
-msgid "Checking available disk space"
-msgstr "Tarkistetaan saatavilla olevaa levytilaa"
-
-#: src/transaction.vala
-#, c-format
-msgid "%s optionally requires %s"
-msgstr "%s vaatii valinnaisesti paketin %s"
-
-#: src/transaction.vala
-#, c-format
-msgid "Database file for %s does not exist"
-msgstr "Tietokantatiedostoa pakettivarastolle %s ei löydy"
-
-#: src/transaction.vala
-msgid "Checking keyring"
-msgstr "Tarkastetaan avainrengasta"
-
-#: src/transaction.vala
-msgid "Downloading required keys"
-msgstr "Ladataan vaadittuja avaimia"
-
-#: src/transaction.vala
-#, c-format
-msgid "%s installed as %s.pacnew"
-msgstr "%s asennettiin tiedostona %s.pacnew"
-
-#: src/transaction.vala
-#, c-format
-msgid "%s installed as %s.pacsave"
-msgstr "%s asennettiin tiedostona %s.pacsave"
-
-#: src/transaction.vala
-msgid "Running pre-transaction hooks"
-msgstr "Suoritetaan asennusta edeltävät työt"
-
-#: src/transaction.vala
-msgid "Running post-transaction hooks"
-msgstr "Suoritetaan asennuksen jälkeiset työt"
-
-#: src/transaction.vala
-#, c-format
-msgid "Downloading %s"
-msgstr "Ladataan %s"
-
-#: src/transaction.vala
-#, c-format
-msgid "About %u seconds remaining"
-msgstr "Noin %u sekunttia jäljellä"
-
-#: src/transaction.vala
-#, c-format
-msgid "About %lu minute remaining"
-msgid_plural "About %lu minutes remaining"
-msgstr[0] "Noin %lu minuutti jäljellä"
-msgstr[1] "Noin %lu minuuttia jäljellä"
-
-#: src/transaction.vala
-#, c-format
-msgid "Refreshing %s"
-msgstr "Virkistetään %s"
-
-#: src/transaction.vala src/transaction-cli.vala src/cli.vala
-msgid "Error"
-msgstr "Virhe"
-
-#: src/transaction.vala src/transaction-gtk.vala
-msgid "Warning"
-msgstr "Varoitus"
-
-#: src/transaction.vala src/installer.vala src/cli.vala
-msgid "Nothing to do"
-msgstr "Ei mitään tehtävää"
-
-#: src/transaction.vala src/transaction-gtk.vala
-msgid "Transaction successfully finished"
-msgstr "Toimenpide suoritettu onnistuneesti"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
@@ -436,6 +441,10 @@ msgid "Remove packages"
 msgstr "Poista paketteja"
 
 #: src/installer.vala src/cli.vala
+msgid "Build packages from AUR and install them with their dependencies"
+msgstr ""
+
+#: src/installer.vala src/cli.vala
 msgid "package(s)"
 msgstr "paketti"
 
@@ -474,21 +483,9 @@ msgid_plural "%u pending operations"
 msgstr[0] "%u operaatio odottaa"
 msgstr[1] "%u operaatiota odottaa"
 
-#: src/manager_window.vala
-msgid "Categories"
-msgstr "Kategoriat"
-
-#: src/manager_window.vala src/cli.vala
-msgid "Groups"
-msgstr "Ryhmät"
-
-#: src/manager_window.vala
-msgid "Repositories"
-msgstr "Pakettivarastot"
-
-#: src/manager_window.vala src/cli.vala resources/manager_window.ui
-msgid "Installed"
-msgstr "Asennettuna"
+#: src/manager_window.vala resources/manager_window.ui
+msgid "All"
+msgstr ""
 
 #: src/manager_window.vala
 msgid "Orphans"
@@ -498,49 +495,18 @@ msgstr "Orvot"
 msgid "Foreign"
 msgstr "Vieras"
 
-#: src/manager_window.vala
-msgid "Accessories"
-msgstr "Apuohjelmat"
+#: src/manager_window.vala src/snap_plugin.vala
+#: resources/preferences_dialog.ui
+msgid "Snap"
+msgstr ""
 
-#: src/manager_window.vala
-msgid "Audio & Video"
-msgstr "Ääni ja video"
+#: src/manager_window.vala resources/manager_window.ui
+msgid "Repositories"
+msgstr "Pakettivarastot"
 
-#: src/manager_window.vala
-msgid "Development"
-msgstr "Kehitys"
-
-#: src/manager_window.vala
-msgid "Education"
-msgstr "Opetus"
-
-#: src/manager_window.vala
-msgid "Games"
-msgstr "Pelit"
-
-#: src/manager_window.vala
-msgid "Graphics"
-msgstr "Grafiikka"
-
-#: src/manager_window.vala
-msgid "Internet"
-msgstr "Internet"
-
-#: src/manager_window.vala
-msgid "Office"
-msgstr "Toimisto"
-
-#: src/manager_window.vala
-msgid "Science"
-msgstr "Tiede"
-
-#: src/manager_window.vala
-msgid "Settings"
-msgstr "Asetukset"
-
-#: src/manager_window.vala
-msgid "System Tools"
-msgstr "Järjestelmän hallinta"
+#: src/manager_window.vala src/cli.vala resources/manager_window.ui
+msgid "Installed"
+msgstr "Asennettuna"
 
 #: src/manager_window.vala
 msgid "Dependencies"
@@ -597,6 +563,10 @@ msgstr "Ääniä"
 #: src/manager_window.vala src/cli.vala
 msgid "Out of Date"
 msgstr "Vanhentunut"
+
+#: src/manager_window.vala src/cli.vala resources/manager_window.ui
+msgid "Groups"
+msgstr "Ryhmät"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Packager"
@@ -655,16 +625,60 @@ msgid "Check Dependencies"
 msgstr "Tarkista riippuvuudet"
 
 #: src/manager_window.vala
+msgid "Publisher"
+msgstr ""
+
+#: src/manager_window.vala
+msgid "Channels"
+msgstr ""
+
+#: src/manager_window.vala
 msgid "Upgrade"
 msgstr "Päivitä"
+
+#: src/manager_window.vala resources/manager_window.ui
+msgid "Build"
+msgstr "Koonti"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Remove"
 msgstr "Poista"
 
-#: src/manager_window.vala src/cli.vala resources/manager_window.ui
-msgid "Size"
-msgstr "Koko"
+#: src/manager_window.vala
+msgid "Featured"
+msgstr ""
+
+#: src/manager_window.vala
+msgid "Photo & Video"
+msgstr ""
+
+#: src/manager_window.vala
+msgid "Music & Audio"
+msgstr ""
+
+#: src/manager_window.vala
+msgid "Productivity"
+msgstr ""
+
+#: src/manager_window.vala
+msgid "Communication & News"
+msgstr ""
+
+#: src/manager_window.vala
+msgid "Education & Science"
+msgstr ""
+
+#: src/manager_window.vala
+msgid "Games"
+msgstr "Pelit"
+
+#: src/manager_window.vala
+msgid "Utilities"
+msgstr ""
+
+#: src/manager_window.vala
+msgid "Development"
+msgstr "Kehitys"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Install Local Packages"
@@ -681,6 +695,10 @@ msgstr "Alpm paketti"
 #: src/manager_window.vala
 msgid "A Gtk3 frontend for libalpm"
 msgstr "Gtk3‐edustaohjelma libalpm:lle"
+
+#: src/manager_window.vala resources/manager_window.ui
+msgid "Categories"
+msgstr "Kategoriat"
 
 #: src/preferences_dialog.vala resources/preferences_dialog.ui
 msgid "How often to check for updates, value in hours"
@@ -712,10 +730,6 @@ msgid "%u file"
 msgid_plural "%u files"
 msgstr[0] "%u tiedosto"
 msgstr[1] "%u tiedostoa"
-
-#: src/preferences_dialog.vala
-msgid "Choose Ignored Upgrades"
-msgstr "Valitse ohitettavat päivitykset"
 
 #: src/transaction-cli.vala src/cli.vala
 #, c-format
@@ -874,10 +888,6 @@ msgid "overwrite existing files"
 msgstr ""
 
 #: src/cli.vala
-msgid "Build packages from AUR and install them with their dependencies"
-msgstr ""
-
-#: src/cli.vala
 msgid ""
 "If no package name is given, use the PKGBUILD file in the current directory"
 msgstr ""
@@ -1022,6 +1032,10 @@ msgid "URL"
 msgstr "URL"
 
 #: src/cli.vala
+msgid "Installed Size"
+msgstr ""
+
+#: src/cli.vala
 #, c-format
 msgid "No package owns %s"
 msgstr ""
@@ -1099,10 +1113,6 @@ msgid "Search"
 msgstr "Etsi"
 
 #: resources/manager_window.ui
-msgid "All"
-msgstr ""
-
-#: resources/manager_window.ui
 msgid "Pending"
 msgstr "Odottaa"
 
@@ -1131,8 +1141,8 @@ msgid "Relevance"
 msgstr ""
 
 #: resources/manager_window.ui
-msgid "Date"
-msgstr ""
+msgid "Size"
+msgstr "Koko"
 
 #: resources/manager_window.ui
 msgid "Browse"
@@ -1145,10 +1155,6 @@ msgstr ""
 #: resources/manager_window.ui
 msgid "Reinstall"
 msgstr "Asenna uudelleen"
-
-#: resources/manager_window.ui
-msgid "Build"
-msgstr "Koonti"
 
 #: resources/manager_window.ui
 msgid "Reset build files"
@@ -1165,10 +1171,6 @@ msgid ""
 msgstr "Pakettia poistettaessa, poista myös pakettiriippuvuudet jotka eivät ole muiden pakettien käytössä"
 
 #: resources/preferences_dialog.ui
-msgid "Check available disk space"
-msgstr "Tarkista kovalevyn käytettävissä oleva koko"
-
-#: resources/preferences_dialog.ui
 msgid "Enable downgrade"
 msgstr "Ota vanhentaminen käyttöön"
 
@@ -1183,10 +1185,6 @@ msgstr "Lataa päivitykset automaattisesti"
 #: resources/preferences_dialog.ui
 msgid "Hide tray icon when no update available"
 msgstr "Piilota pikku kuvake kun ei ole päivitettävää"
-
-#: resources/preferences_dialog.ui
-msgid "Ignore upgrades for:"
-msgstr "Jätä huomitta nämä paketit:"
 
 #: resources/preferences_dialog.ui
 msgid "General"
@@ -1225,6 +1223,14 @@ msgstr "Tarkista päivitykset AUR pakettilähteestä"
 #: resources/preferences_dialog.ui
 msgid "Check for development packages updates"
 msgstr "Tarkista kehityspakettien päivitykset"
+
+#: resources/preferences_dialog.ui
+msgid "Snap packages are maintained by their publisher."
+msgstr ""
+
+#: resources/preferences_dialog.ui
+msgid "Enable Snap support"
+msgstr ""
 
 #: resources/preferences_dialog.ui
 msgid "Cache"

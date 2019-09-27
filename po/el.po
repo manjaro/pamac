@@ -26,9 +26,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2019-08-06 16:57+0200\n"
-"PO-Revision-Date: 2019-08-07 00:47+0000\n"
-"Last-Translator: philm <philm@manjaro.org>\n"
+"POT-Creation-Date: 2019-09-14 12:36+0200\n"
+"PO-Revision-Date: 2019-09-25 21:53+0000\n"
+"Last-Translator: kouros kouros <kormikg@yahoo.gr>\n"
 "Language-Team: Greek (http://www.transifex.com/manjarolinux/manjaro-pamac/language/el/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -37,26 +37,34 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: data/polkit/org.manjaro.pamac.policy.in
-msgid "Authentication is required"
-msgstr "Απαιτείται πιστοποίηση"
+msgid "Install, update, or remove packages"
+msgstr "Εγκατέστησε, αναβάθμισε ή διέγραψε πακέτα"
+
+#: data/polkit/org.manjaro.pamac.policy.in
+msgid "Authentication is required to install, update, or remove packages"
+msgstr "Απαιτείται έλεγχος ταυτότητας για την εγκατάσταση, ενημέρωση ή κατάργηση πακέτων"
 
 #: src/alpm_utils.vala src/database.vala
 msgid "Failed to initialize alpm library"
 msgstr "Αποτυχία ενεργοποίησης της βιβλιοθήκης alpm"
 
 #: src/alpm_utils.vala
-msgid "Failed to synchronize any databases"
+msgid "Synchronizing package databases"
+msgstr "Συγχρονισμός των βάσεων δεδομένων"
+
+#: src/alpm_utils.vala
+msgid "Failed to synchronize databases"
 msgstr "Αποτυχία συγχρονισμού των βάσεων δεδομένων"
 
 #: src/alpm_utils.vala
 msgid "Failed to init transaction"
 msgstr "Η διεργασία init απέτυχε"
 
-#: src/alpm_utils.vala src/transaction.vala src/transaction-gtk.vala
+#: src/alpm_utils.vala src/transaction-gtk.vala src/installer.vala
 msgid "Failed to prepare transaction"
 msgstr "Απέτυχε η προετοιμασία της διεργασίας"
 
-#: src/alpm_utils.vala src/cli.vala
+#: src/alpm_utils.vala src/installer.vala src/cli.vala
 #, c-format
 msgid "target not found: %s"
 msgstr "δεν βρέθηκε ο προορισμός: %s"
@@ -91,6 +99,18 @@ msgstr "Το %s και το %s είναι σε διένεξη"
 msgid "%s needs to be removed but it is a locked package"
 msgstr "Το %s χρειάζεται να αφαιρεθεί αλλά είναι ένα κλειδωμένο πακέτο"
 
+#: src/alpm_utils.vala src/transaction.vala
+msgid "Transaction cancelled"
+msgstr "Η διεργασία ακυρώθηκε"
+
+#: src/alpm_utils.vala src/installer.vala src/cli.vala
+msgid "Nothing to do"
+msgstr "Δεν υπάρχει τίποτε να γίνει"
+
+#: src/alpm_utils.vala src/transaction.vala
+msgid "Preparing"
+msgstr "Προετοιμασία"
+
 #: src/alpm_utils.vala
 msgid "Failed to commit transaction"
 msgstr "Απέτυχε η πραγματοποίηση της διεργασίας"
@@ -111,21 +131,171 @@ msgid "%s is invalid or corrupted"
 msgstr "Το %s είναι άκυρο ή κατεστραμμένο"
 
 #: src/alpm_utils.vala
+msgid "Checking dependencies"
+msgstr "Έλεγχος εξαρτήσεων"
+
+#: src/alpm_utils.vala
+msgid "Checking file conflicts"
+msgstr "Έλεγχος για διενέξεις αρχείων"
+
+#: src/alpm_utils.vala
+msgid "Resolving dependencies"
+msgstr "Επίλυση εξαρτήσεων"
+
+#: src/alpm_utils.vala
+msgid "Checking inter-conflicts"
+msgstr "Έλεγχος για εσωτερικές διενέξεις"
+
+#: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
-msgid "%s appears to be truncated: %jd/%jd bytes\n"
-msgstr "Το %s φαίνεται να έχει περικοπεί: %jd/%jd bytes\n"
+msgid "Installing %s"
+msgstr "Εγκατάσταση %s"
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "Upgrading %s"
+msgstr "Αναβάθμιση %s"
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "Reinstalling %s"
+msgstr "Επανεγκατάσταση %s"
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "Downgrading %s"
+msgstr "Υποβάθμιση %s"
+
+#: src/alpm_utils.vala src/snap_plugin.vala
+#, c-format
+msgid "Removing %s"
+msgstr "Αφαίρεση %s"
+
+#: src/alpm_utils.vala
+msgid "Checking integrity"
+msgstr "Έλεγχος ακεραιότητας"
+
+#: src/alpm_utils.vala
+msgid "Loading packages files"
+msgstr "Φόρτωση αρχείων πακέτων"
+
+#: src/alpm_utils.vala
+msgid "Checking delta integrity"
+msgstr "Έλεγχος ακεραιότητας delta"
+
+#: src/alpm_utils.vala
+msgid "Applying deltas"
+msgstr "Εφαρμογή deltas"
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "Generating %s with %s"
+msgstr "Δημιουργία %s με %s"
+
+#: src/alpm_utils.vala
+msgid "Generation succeeded"
+msgstr "Η δημιουργία ολοκληρώθηκε επιτυχώς!"
+
+#: src/alpm_utils.vala
+msgid "Generation failed"
+msgstr "Η δημιουργία απέτυχε."
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "Configuring %s"
+msgstr "Ρύθμιση %s"
+
+#: src/alpm_utils.vala
+msgid "Checking available disk space"
+msgstr "Έλεγχος ελεύθερου χώρου στον δίσκο"
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "%s optionally requires %s"
+msgstr "Το %s: απαιτεί προαιρετικά το %s"
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "Database file for %s does not exist"
+msgstr "Δεν υπάρχει το αρχείο βάσης δεδομένων για το %s "
+
+#: src/alpm_utils.vala
+msgid "Checking keyring"
+msgstr "Έλεγχος keyring"
+
+#: src/alpm_utils.vala
+msgid "Downloading required keys"
+msgstr "Μεταφόρτωση των απαιτούμενων κλειδιών"
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "%s installed as %s.pacnew"
+msgstr "Το %s εγκαταστάθηκε ως %s.pacnew"
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "%s installed as %s.pacsave"
+msgstr "Το %s εγκαταστάθηκε ως %s.pacsave"
+
+#: src/alpm_utils.vala
+msgid "Running pre-transaction hooks"
+msgstr "Εκτελούνται hooks προ της διεργασίας"
+
+#: src/alpm_utils.vala
+msgid "Running post-transaction hooks"
+msgstr "Εκτελούνται hooks μετά τη διεργασία"
+
+#: src/alpm_utils.vala src/snap_plugin.vala
+#, c-format
+msgid "About %u seconds remaining"
+msgstr "Απομένουν περίπου %u δευτερόλεπτα"
+
+#: src/alpm_utils.vala src/snap_plugin.vala
+#, c-format
+msgid "About %lu minute remaining"
+msgid_plural "About %lu minutes remaining"
+msgstr[0] "%lu λεπτά απομένουν"
+msgstr[1] "Απομένουν περίπου %lu λεπτά"
+
+#: src/alpm_utils.vala src/transaction-cli.vala src/cli.vala
+msgid "Error"
+msgstr "Σφάλμα"
+
+#: src/alpm_utils.vala src/transaction-gtk.vala
+msgid "Warning"
+msgstr "Προειδοποίηση"
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "Download of %s started"
+msgstr "Λήψη %s ξεκίνησε"
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "Download of %s finished"
+msgstr "Μεταφόρτωση %s τελείωσε"
+
+#: src/alpm_utils.vala src/snap_plugin.vala
+#, c-format
+msgid "Downloading %s"
+msgstr "Λήψη %s"
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "Refreshing %s"
+msgstr "Ανανέωση %s"
 
 #: src/alpm_utils.vala
 #, c-format
 msgid "failed retrieving file '%s' from %s : %s\n"
 msgstr "Αποτυχία ανάκτησης αρχείου '%s' από το %s : %s\n"
 
-#: src/system_daemon.vala
+#: src/daemon.vala
 msgid "Authentication failed"
 msgstr "Η πιστοποίηση απέτυχε"
 
-#: src/database.vala src/transaction-gtk.vala src/manager_window.vala
-#: src/transaction-cli.vala src/cli.vala resources/preferences_dialog.ui
+#: src/database.vala src/manager_window.vala src/cli.vala
+#: resources/preferences_dialog.ui
 msgid "AUR"
 msgstr "AUR"
 
@@ -153,18 +323,6 @@ msgstr "Όχι"
 msgid "Refreshing mirrors list"
 msgstr "Ανανέωση της λίστας διακομιστών (servers)"
 
-#: src/transaction.vala
-msgid "Preparing"
-msgstr "Προετοιμασία"
-
-#: src/transaction.vala
-msgid "Synchronizing package databases"
-msgstr "Συγχρονισμός των βάσεων δεδομένων"
-
-#: src/transaction.vala
-msgid "Starting full system upgrade"
-msgstr "Έναρξη πλήρους αναβάθμισης του συστήματος"
-
 #: src/transaction.vala src/cli.vala
 #, c-format
 msgid "Cloning %s build files"
@@ -185,6 +343,10 @@ msgstr "Έλεγχος εξαρτήσεων %s"
 msgid "key %s could not be imported"
 msgstr "το κλειδί %sδεν μπορεί να εισαχθεί"
 
+#: src/transaction.vala src/manager_window.vala
+msgid "Transaction successfully finished"
+msgstr "Οι ενέργειες ολοκληρώθηκαν επιτυχώς"
+
 #: src/transaction.vala
 msgid "Waiting for another package manager to quit"
 msgstr "Αναμονή τερματισμού ενός άλλου διαχειριστή πακέτων."
@@ -193,163 +355,6 @@ msgstr "Αναμονή τερματισμού ενός άλλου διαχειρ
 #, c-format
 msgid "Building %s"
 msgstr "Δημιουργία %s"
-
-#: src/transaction.vala
-msgid "Transaction cancelled"
-msgstr "Η διεργασία ακυρώθηκε"
-
-#: src/transaction.vala
-msgid "Checking dependencies"
-msgstr "Έλεγχος εξαρτήσεων"
-
-#: src/transaction.vala
-msgid "Checking file conflicts"
-msgstr "Έλεγχος για διενέξεις αρχείων"
-
-#: src/transaction.vala
-msgid "Resolving dependencies"
-msgstr "Επίλυση εξαρτήσεων"
-
-#: src/transaction.vala
-msgid "Checking inter-conflicts"
-msgstr "Έλεγχος για εσωτερικές διενέξεις"
-
-#: src/transaction.vala
-#, c-format
-msgid "Installing %s"
-msgstr "Εγκατάσταση %s"
-
-#: src/transaction.vala
-#, c-format
-msgid "Upgrading %s"
-msgstr "Αναβάθμιση %s"
-
-#: src/transaction.vala
-#, c-format
-msgid "Reinstalling %s"
-msgstr "Επανεγκατάσταση %s"
-
-#: src/transaction.vala
-#, c-format
-msgid "Downgrading %s"
-msgstr "Υποβάθμιση %s"
-
-#: src/transaction.vala
-#, c-format
-msgid "Removing %s"
-msgstr "Αφαίρεση %s"
-
-#: src/transaction.vala
-msgid "Checking integrity"
-msgstr "Έλεγχος ακεραιότητας"
-
-#: src/transaction.vala
-msgid "Loading packages files"
-msgstr "Φόρτωση αρχείων πακέτων"
-
-#: src/transaction.vala
-msgid "Checking delta integrity"
-msgstr "Έλεγχος ακεραιότητας delta"
-
-#: src/transaction.vala
-msgid "Applying deltas"
-msgstr "Εφαρμογή deltas"
-
-#: src/transaction.vala
-#, c-format
-msgid "Generating %s with %s"
-msgstr "Δημιουργία %s με %s"
-
-#: src/transaction.vala
-msgid "Generation succeeded"
-msgstr "Η δημιουργία ολοκληρώθηκε επιτυχώς!"
-
-#: src/transaction.vala
-msgid "Generation failed"
-msgstr "Η δημιουργία απέτυχε."
-
-#: src/transaction.vala
-#, c-format
-msgid "Configuring %s"
-msgstr "Ρύθμιση %s"
-
-#: src/transaction.vala
-msgid "Checking available disk space"
-msgstr "Έλεγχος ελεύθερου χώρου στον δίσκο"
-
-#: src/transaction.vala
-#, c-format
-msgid "%s optionally requires %s"
-msgstr "Το %s: απαιτεί προαιρετικά το %s"
-
-#: src/transaction.vala
-#, c-format
-msgid "Database file for %s does not exist"
-msgstr "Δεν υπάρχει το αρχείο βάσης δεδομένων για το %s "
-
-#: src/transaction.vala
-msgid "Checking keyring"
-msgstr "Έλεγχος keyring"
-
-#: src/transaction.vala
-msgid "Downloading required keys"
-msgstr "Μεταφόρτωση των απαιτούμενων κλειδιών"
-
-#: src/transaction.vala
-#, c-format
-msgid "%s installed as %s.pacnew"
-msgstr "Το %s εγκαταστάθηκε ως %s.pacnew"
-
-#: src/transaction.vala
-#, c-format
-msgid "%s installed as %s.pacsave"
-msgstr "Το %s εγκαταστάθηκε ως %s.pacsave"
-
-#: src/transaction.vala
-msgid "Running pre-transaction hooks"
-msgstr "Εκτελούνται hooks προ της διεργασίας"
-
-#: src/transaction.vala
-msgid "Running post-transaction hooks"
-msgstr "Εκτελούνται hooks μετά τη διεργασία"
-
-#: src/transaction.vala
-#, c-format
-msgid "Downloading %s"
-msgstr "Λήψη %s"
-
-#: src/transaction.vala
-#, c-format
-msgid "About %u seconds remaining"
-msgstr "Απομένουν περίπου %u δευτερόλεπτα"
-
-#: src/transaction.vala
-#, c-format
-msgid "About %lu minute remaining"
-msgid_plural "About %lu minutes remaining"
-msgstr[0] "%lu λεπτά απομένουν"
-msgstr[1] "Απομένουν περίπου %lu λεπτά"
-
-#: src/transaction.vala
-#, c-format
-msgid "Refreshing %s"
-msgstr "Ανανέωση %s"
-
-#: src/transaction.vala src/transaction-cli.vala src/cli.vala
-msgid "Error"
-msgstr "Σφάλμα"
-
-#: src/transaction.vala src/transaction-gtk.vala
-msgid "Warning"
-msgstr "Προειδοποίηση"
-
-#: src/transaction.vala src/installer.vala src/cli.vala
-msgid "Nothing to do"
-msgstr "Δεν υπάρχει τίποτε να γίνει"
-
-#: src/transaction.vala src/transaction-gtk.vala
-msgid "Transaction successfully finished"
-msgstr "Οι ενέργειες ολοκληρώθηκαν επιτυχώς"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
@@ -440,6 +445,10 @@ msgid "Remove packages"
 msgstr "Αφαίρεση πακέτων"
 
 #: src/installer.vala src/cli.vala
+msgid "Build packages from AUR and install them with their dependencies"
+msgstr "Δόμηση πακέτων από AUR και εγκατάστασή τους μαζί με τις εξαρτήσεις τους"
+
+#: src/installer.vala src/cli.vala
 msgid "package(s)"
 msgstr "πακέτο(α)"
 
@@ -478,21 +487,9 @@ msgid_plural "%u pending operations"
 msgstr[0] "%u εκκρεμείς διαδικασίες"
 msgstr[1] "%u εκκρεμείς διαδικασίες"
 
-#: src/manager_window.vala
-msgid "Categories"
-msgstr "Κατηγορίες"
-
-#: src/manager_window.vala src/cli.vala
-msgid "Groups"
-msgstr "Ομάδες"
-
-#: src/manager_window.vala
-msgid "Repositories"
-msgstr "Αποθετήρια"
-
-#: src/manager_window.vala src/cli.vala resources/manager_window.ui
-msgid "Installed"
-msgstr "Εγκατεστημένα"
+#: src/manager_window.vala resources/manager_window.ui
+msgid "All"
+msgstr "Όλα"
 
 #: src/manager_window.vala
 msgid "Orphans"
@@ -502,49 +499,18 @@ msgstr "Ορφανά"
 msgid "Foreign"
 msgstr "Εξωτερικά (AUR)"
 
-#: src/manager_window.vala
-msgid "Accessories"
-msgstr "Βοηθήματα"
+#: src/manager_window.vala src/snap_plugin.vala
+#: resources/preferences_dialog.ui
+msgid "Snap"
+msgstr "Snap"
 
-#: src/manager_window.vala
-msgid "Audio & Video"
-msgstr "Ήχος και Βίντεο"
+#: src/manager_window.vala resources/manager_window.ui
+msgid "Repositories"
+msgstr "Αποθετήρια"
 
-#: src/manager_window.vala
-msgid "Development"
-msgstr "Ανάπτυξη"
-
-#: src/manager_window.vala
-msgid "Education"
-msgstr "Εκπαίδευση"
-
-#: src/manager_window.vala
-msgid "Games"
-msgstr "Παιχνίδια"
-
-#: src/manager_window.vala
-msgid "Graphics"
-msgstr "Γραφικά"
-
-#: src/manager_window.vala
-msgid "Internet"
-msgstr "Διαδίκτυο"
-
-#: src/manager_window.vala
-msgid "Office"
-msgstr "Γραφείο"
-
-#: src/manager_window.vala
-msgid "Science"
-msgstr "Επιστήμη"
-
-#: src/manager_window.vala
-msgid "Settings"
-msgstr "Ρυθμίσεις"
-
-#: src/manager_window.vala
-msgid "System Tools"
-msgstr "Εργαλεία Συστήματος"
+#: src/manager_window.vala src/cli.vala resources/manager_window.ui
+msgid "Installed"
+msgstr "Εγκατεστημένα"
 
 #: src/manager_window.vala
 msgid "Dependencies"
@@ -601,6 +567,10 @@ msgstr "Ψήφοι"
 #: src/manager_window.vala src/cli.vala
 msgid "Out of Date"
 msgstr "Ξεπερασμένο"
+
+#: src/manager_window.vala src/cli.vala resources/manager_window.ui
+msgid "Groups"
+msgstr "Ομάδες"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Packager"
@@ -659,16 +629,60 @@ msgid "Check Dependencies"
 msgstr "Έλεγχος Εξαρτήσεων"
 
 #: src/manager_window.vala
+msgid "Publisher"
+msgstr "Εκδότης"
+
+#: src/manager_window.vala
+msgid "Channels"
+msgstr "Κανάλια"
+
+#: src/manager_window.vala
 msgid "Upgrade"
 msgstr "Αναβάθμιση"
+
+#: src/manager_window.vala resources/manager_window.ui
+msgid "Build"
+msgstr "Δόμηση"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Remove"
 msgstr "Απεγκατάσταση"
 
-#: src/manager_window.vala src/cli.vala resources/manager_window.ui
-msgid "Size"
-msgstr "Μέγεθος"
+#: src/manager_window.vala
+msgid "Featured"
+msgstr "Προτεινόμενα"
+
+#: src/manager_window.vala
+msgid "Photo & Video"
+msgstr "Φωτογραφίες & Βίντεο"
+
+#: src/manager_window.vala
+msgid "Music & Audio"
+msgstr "Μουσική & Ήχος"
+
+#: src/manager_window.vala
+msgid "Productivity"
+msgstr "Παραγωγικότητα"
+
+#: src/manager_window.vala
+msgid "Communication & News"
+msgstr "Επικοινωνία & Νέα"
+
+#: src/manager_window.vala
+msgid "Education & Science"
+msgstr "Εκπαίδευση & Επιστήμη"
+
+#: src/manager_window.vala
+msgid "Games"
+msgstr "Παιχνίδια"
+
+#: src/manager_window.vala
+msgid "Utilities"
+msgstr "Βοηθήματα"
+
+#: src/manager_window.vala
+msgid "Development"
+msgstr "Ανάπτυξη"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Install Local Packages"
@@ -685,6 +699,10 @@ msgstr "Πακέτο Alpm"
 #: src/manager_window.vala
 msgid "A Gtk3 frontend for libalpm"
 msgstr "Μια διεπαφή gtk3 για το pyalpm"
+
+#: src/manager_window.vala resources/manager_window.ui
+msgid "Categories"
+msgstr "Κατηγορίες"
 
 #: src/preferences_dialog.vala resources/preferences_dialog.ui
 msgid "How often to check for updates, value in hours"
@@ -716,10 +734,6 @@ msgid "%u file"
 msgid_plural "%u files"
 msgstr[0] "%u  αρχείο"
 msgstr[1] "%u αρχεία"
-
-#: src/preferences_dialog.vala
-msgid "Choose Ignored Upgrades"
-msgstr "Επιλογή Αγνόησης Αναβαθμίσεων"
 
 #: src/transaction-cli.vala src/cli.vala
 #, c-format
@@ -878,10 +892,6 @@ msgid "overwrite existing files"
 msgstr "αντικατάσταση υπαρχόντων αρχείων"
 
 #: src/cli.vala
-msgid "Build packages from AUR and install them with their dependencies"
-msgstr "Δόμηση πακέτων από AUR και εγκατάστασή τους μαζί με τις εξαρτήσεις τους"
-
-#: src/cli.vala
 msgid ""
 "If no package name is given, use the PKGBUILD file in the current directory"
 msgstr "Αν δεν δίνεται όνομα πακέτου, χρήση του αρχείου PKGBUILD από τον τρέχοντα κατάλογο"
@@ -1026,6 +1036,10 @@ msgid "URL"
 msgstr "URL"
 
 #: src/cli.vala
+msgid "Installed Size"
+msgstr "Εγκατεστημένο μέγεθος"
+
+#: src/cli.vala
 #, c-format
 msgid "No package owns %s"
 msgstr "Το%s δεν ανήκει σε κανένα πακέτο"
@@ -1103,10 +1117,6 @@ msgid "Search"
 msgstr "Αναζήτηση"
 
 #: resources/manager_window.ui
-msgid "All"
-msgstr "Όλα"
-
-#: resources/manager_window.ui
 msgid "Pending"
 msgstr "Εκκρεμή"
 
@@ -1124,7 +1134,7 @@ msgstr "Εγκατάσταση όλων"
 
 #: resources/manager_window.ui
 msgid "Ignore all"
-msgstr ""
+msgstr "Αγνόησε τα όλα"
 
 #: resources/manager_window.ui
 msgid "Sort by"
@@ -1135,8 +1145,8 @@ msgid "Relevance"
 msgstr "Συνάφεια"
 
 #: resources/manager_window.ui
-msgid "Date"
-msgstr "Ημέρα"
+msgid "Size"
+msgstr "Μέγεθος"
 
 #: resources/manager_window.ui
 msgid "Browse"
@@ -1149,10 +1159,6 @@ msgstr "Φόρτωση"
 #: resources/manager_window.ui
 msgid "Reinstall"
 msgstr "Επανεγκατάσταση"
-
-#: resources/manager_window.ui
-msgid "Build"
-msgstr "Δόμηση"
 
 #: resources/manager_window.ui
 msgid "Reset build files"
@@ -1169,10 +1175,6 @@ msgid ""
 msgstr "Όταν αφαιρείται ένα πακέτο, επίσης να αφαιρούνται και οι εξαρτήσεις του, που δεν απαιτούνται από άλλα πακέτα"
 
 #: resources/preferences_dialog.ui
-msgid "Check available disk space"
-msgstr "Έλεγχος ελεύθερου χώρου στον δίσκο"
-
-#: resources/preferences_dialog.ui
 msgid "Enable downgrade"
 msgstr "Να επιτρέπεται η υποβάθμιση"
 
@@ -1187,10 +1189,6 @@ msgstr "Αυτόματη λήψη ενημερώσεων"
 #: resources/preferences_dialog.ui
 msgid "Hide tray icon when no update available"
 msgstr "Απόκρυψη εικονιδίου όταν δεν υπάρχει διαθέσιμη ενημέρωση"
-
-#: resources/preferences_dialog.ui
-msgid "Ignore upgrades for:"
-msgstr "Αγνοήστε τις αναβαθμίσεις για"
 
 #: resources/preferences_dialog.ui
 msgid "General"
@@ -1229,6 +1227,14 @@ msgstr "Έλεγχος για αναβαθμίσεις από το AUR"
 #: resources/preferences_dialog.ui
 msgid "Check for development packages updates"
 msgstr "Έλεγχος για αναβαθμίσεις των development packages"
+
+#: resources/preferences_dialog.ui
+msgid "Snap packages are maintained by their publisher."
+msgstr "Τα πακέτα Snap συντηρούνται από τον εκδότη τους."
+
+#: resources/preferences_dialog.ui
+msgid "Enable Snap support"
+msgstr "Ενεργοποίηση υποστήριξης Snap"
 
 #: resources/preferences_dialog.ui
 msgid "Cache"

@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2019-08-06 16:57+0200\n"
-"PO-Revision-Date: 2019-08-07 00:47+0000\n"
+"POT-Creation-Date: 2019-09-14 12:36+0200\n"
+"PO-Revision-Date: 2019-09-21 00:46+0000\n"
 "Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Basque (http://www.transifex.com/manjarolinux/manjaro-pamac/language/eu/)\n"
 "MIME-Version: 1.0\n"
@@ -25,26 +25,34 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: data/polkit/org.manjaro.pamac.policy.in
-msgid "Authentication is required"
-msgstr "Autentifikazioa behar da"
+msgid "Install, update, or remove packages"
+msgstr ""
+
+#: data/polkit/org.manjaro.pamac.policy.in
+msgid "Authentication is required to install, update, or remove packages"
+msgstr ""
 
 #: src/alpm_utils.vala src/database.vala
 msgid "Failed to initialize alpm library"
 msgstr "Ezin izan da alpm liburutegia hasieratu"
 
 #: src/alpm_utils.vala
-msgid "Failed to synchronize any databases"
-msgstr "Datu baseen sinkronizazioak huts egin du"
+msgid "Synchronizing package databases"
+msgstr "Pakete datu-baseak sinkronizatzen"
+
+#: src/alpm_utils.vala
+msgid "Failed to synchronize databases"
+msgstr ""
 
 #: src/alpm_utils.vala
 msgid "Failed to init transaction"
 msgstr "Transakzioa abiatzeak huts egin du"
 
-#: src/alpm_utils.vala src/transaction.vala src/transaction-gtk.vala
+#: src/alpm_utils.vala src/transaction-gtk.vala src/installer.vala
 msgid "Failed to prepare transaction"
 msgstr "Transakzioa prestatzeak huts egin du"
 
-#: src/alpm_utils.vala src/cli.vala
+#: src/alpm_utils.vala src/installer.vala src/cli.vala
 #, c-format
 msgid "target not found: %s"
 msgstr "helburua ez da aurkitu: %s"
@@ -79,6 +87,18 @@ msgstr "%s eta %s gatazkan daude"
 msgid "%s needs to be removed but it is a locked package"
 msgstr "%s kendu behar da baina kargatutako pakete bat da"
 
+#: src/alpm_utils.vala src/transaction.vala
+msgid "Transaction cancelled"
+msgstr "Transakzioa bertan behera utzi da"
+
+#: src/alpm_utils.vala src/installer.vala src/cli.vala
+msgid "Nothing to do"
+msgstr "Ezer ez egiteko"
+
+#: src/alpm_utils.vala src/transaction.vala
+msgid "Preparing"
+msgstr "Prestatzen"
+
 #: src/alpm_utils.vala
 msgid "Failed to commit transaction"
 msgstr "Huts egin du transakzioa egikaritzean"
@@ -99,21 +119,171 @@ msgid "%s is invalid or corrupted"
 msgstr "%s baliogabea da edo hondatuta dago"
 
 #: src/alpm_utils.vala
+msgid "Checking dependencies"
+msgstr "Menpekotasunak egiaztatzen"
+
+#: src/alpm_utils.vala
+msgid "Checking file conflicts"
+msgstr "Gatazkak egiaztatzen"
+
+#: src/alpm_utils.vala
+msgid "Resolving dependencies"
+msgstr "Menpekotasunak erabakitzen"
+
+#: src/alpm_utils.vala
+msgid "Checking inter-conflicts"
+msgstr "Barne gatazkak egiaztatzen"
+
+#: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
-msgid "%s appears to be truncated: %jd/%jd bytes\n"
-msgstr "Badirudi %s osatu gabe dagoela: %jd/%jd byte\n"
+msgid "Installing %s"
+msgstr "%s instalatzen"
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "Upgrading %s"
+msgstr "%s bertsio-berritzen"
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "Reinstalling %s"
+msgstr "%s berrinstalatzen"
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "Downgrading %s"
+msgstr "%s bertsio-zahartzen"
+
+#: src/alpm_utils.vala src/snap_plugin.vala
+#, c-format
+msgid "Removing %s"
+msgstr "%s kentzen"
+
+#: src/alpm_utils.vala
+msgid "Checking integrity"
+msgstr "Osotasuna egiaztatzen"
+
+#: src/alpm_utils.vala
+msgid "Loading packages files"
+msgstr "Paketeen fitxategiak kargatzen"
+
+#: src/alpm_utils.vala
+msgid "Checking delta integrity"
+msgstr "Deltaren osotasuna egiaztatzen"
+
+#: src/alpm_utils.vala
+msgid "Applying deltas"
+msgstr "Deltak aplikatzen"
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "Generating %s with %s"
+msgstr "%s sortzen %s erabilita"
+
+#: src/alpm_utils.vala
+msgid "Generation succeeded"
+msgstr "Sormena ongi burutu da"
+
+#: src/alpm_utils.vala
+msgid "Generation failed"
+msgstr "Sormenak huts egin du"
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "Configuring %s"
+msgstr "%s konfiguratzen"
+
+#: src/alpm_utils.vala
+msgid "Checking available disk space"
+msgstr "Eskuragarri dagoen disko espazioa egiaztatzen"
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "%s optionally requires %s"
+msgstr "%s: aukeran %s behar du"
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "Database file for %s does not exist"
+msgstr "Ez dago %s datu-base fitxategia"
+
+#: src/alpm_utils.vala
+msgid "Checking keyring"
+msgstr "Gako-sorta egiaztatzen"
+
+#: src/alpm_utils.vala
+msgid "Downloading required keys"
+msgstr "Beharrezko gakoak deskargatzen"
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "%s installed as %s.pacnew"
+msgstr "%s instalatu da %s.pacnew gisa"
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "%s installed as %s.pacsave"
+msgstr "%s instalatu da %s.pacsave gisa"
+
+#: src/alpm_utils.vala
+msgid "Running pre-transaction hooks"
+msgstr "Transakzio aurreko kakoak exekutatzen"
+
+#: src/alpm_utils.vala
+msgid "Running post-transaction hooks"
+msgstr "Transakzio osteko kakoak exekutatzen"
+
+#: src/alpm_utils.vala src/snap_plugin.vala
+#, c-format
+msgid "About %u seconds remaining"
+msgstr "%u segundo inguru falta dira"
+
+#: src/alpm_utils.vala src/snap_plugin.vala
+#, c-format
+msgid "About %lu minute remaining"
+msgid_plural "About %lu minutes remaining"
+msgstr[0] "Minutu %lu inguru falta da"
+msgstr[1] "%lu minutu inguru falta dira"
+
+#: src/alpm_utils.vala src/transaction-cli.vala src/cli.vala
+msgid "Error"
+msgstr "Errorea"
+
+#: src/alpm_utils.vala src/transaction-gtk.vala
+msgid "Warning"
+msgstr "Oharra"
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "Download of %s started"
+msgstr ""
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "Download of %s finished"
+msgstr ""
+
+#: src/alpm_utils.vala src/snap_plugin.vala
+#, c-format
+msgid "Downloading %s"
+msgstr "%s deskargatzen"
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "Refreshing %s"
+msgstr "%s freskatzen"
 
 #: src/alpm_utils.vala
 #, c-format
 msgid "failed retrieving file '%s' from %s : %s\n"
 msgstr "ezin izan da '%s' fitxategia eskuratu %s tik : %s\n"
 
-#: src/system_daemon.vala
+#: src/daemon.vala
 msgid "Authentication failed"
 msgstr "Autentifikazioak huts egin du"
 
-#: src/database.vala src/transaction-gtk.vala src/manager_window.vala
-#: src/transaction-cli.vala src/cli.vala resources/preferences_dialog.ui
+#: src/database.vala src/manager_window.vala src/cli.vala
+#: resources/preferences_dialog.ui
 msgid "AUR"
 msgstr "AUR"
 
@@ -141,18 +311,6 @@ msgstr "Ez"
 msgid "Refreshing mirrors list"
 msgstr "Ispiluen zerrenda berritzen"
 
-#: src/transaction.vala
-msgid "Preparing"
-msgstr "Prestatzen"
-
-#: src/transaction.vala
-msgid "Synchronizing package databases"
-msgstr "Pakete datu-baseak sinkronizatzen"
-
-#: src/transaction.vala
-msgid "Starting full system upgrade"
-msgstr "Sistema osoaren bertsio-berritzea abiarazten"
-
 #: src/transaction.vala src/cli.vala
 #, c-format
 msgid "Cloning %s build files"
@@ -173,6 +331,10 @@ msgstr "%s: menpekotasunak egiaztatzen"
 msgid "key %s could not be imported"
 msgstr "%s gakoa ezin izan da inportatu"
 
+#: src/transaction.vala src/manager_window.vala
+msgid "Transaction successfully finished"
+msgstr "Transakzioa ongi burutu da"
+
 #: src/transaction.vala
 msgid "Waiting for another package manager to quit"
 msgstr "BEste pakete kudeatzaile bat irten dadin zai"
@@ -181,163 +343,6 @@ msgstr "BEste pakete kudeatzaile bat irten dadin zai"
 #, c-format
 msgid "Building %s"
 msgstr "%s eraikitzen"
-
-#: src/transaction.vala
-msgid "Transaction cancelled"
-msgstr "Transakzioa bertan behera utzi da"
-
-#: src/transaction.vala
-msgid "Checking dependencies"
-msgstr "Menpekotasunak egiaztatzen"
-
-#: src/transaction.vala
-msgid "Checking file conflicts"
-msgstr "Gatazkak egiaztatzen"
-
-#: src/transaction.vala
-msgid "Resolving dependencies"
-msgstr "Menpekotasunak erabakitzen"
-
-#: src/transaction.vala
-msgid "Checking inter-conflicts"
-msgstr "Barne gatazkak egiaztatzen"
-
-#: src/transaction.vala
-#, c-format
-msgid "Installing %s"
-msgstr "%s instalatzen"
-
-#: src/transaction.vala
-#, c-format
-msgid "Upgrading %s"
-msgstr "%s bertsio-berritzen"
-
-#: src/transaction.vala
-#, c-format
-msgid "Reinstalling %s"
-msgstr "%s berrinstalatzen"
-
-#: src/transaction.vala
-#, c-format
-msgid "Downgrading %s"
-msgstr "%s bertsio-zahartzen"
-
-#: src/transaction.vala
-#, c-format
-msgid "Removing %s"
-msgstr "%s kentzen"
-
-#: src/transaction.vala
-msgid "Checking integrity"
-msgstr "Osotasuna egiaztatzen"
-
-#: src/transaction.vala
-msgid "Loading packages files"
-msgstr "Paketeen fitxategiak kargatzen"
-
-#: src/transaction.vala
-msgid "Checking delta integrity"
-msgstr "Deltaren osotasuna egiaztatzen"
-
-#: src/transaction.vala
-msgid "Applying deltas"
-msgstr "Deltak aplikatzen"
-
-#: src/transaction.vala
-#, c-format
-msgid "Generating %s with %s"
-msgstr "%s sortzen %s erabilita"
-
-#: src/transaction.vala
-msgid "Generation succeeded"
-msgstr "Sormena ongi burutu da"
-
-#: src/transaction.vala
-msgid "Generation failed"
-msgstr "Sormenak huts egin du"
-
-#: src/transaction.vala
-#, c-format
-msgid "Configuring %s"
-msgstr "%s konfiguratzen"
-
-#: src/transaction.vala
-msgid "Checking available disk space"
-msgstr "Eskuragarri dagoen disko espazioa egiaztatzen"
-
-#: src/transaction.vala
-#, c-format
-msgid "%s optionally requires %s"
-msgstr "%s: aukeran %s behar du"
-
-#: src/transaction.vala
-#, c-format
-msgid "Database file for %s does not exist"
-msgstr "Ez dago %s datu-base fitxategia"
-
-#: src/transaction.vala
-msgid "Checking keyring"
-msgstr "Gako-sorta egiaztatzen"
-
-#: src/transaction.vala
-msgid "Downloading required keys"
-msgstr "Beharrezko gakoak deskargatzen"
-
-#: src/transaction.vala
-#, c-format
-msgid "%s installed as %s.pacnew"
-msgstr "%s instalatu da %s.pacnew gisa"
-
-#: src/transaction.vala
-#, c-format
-msgid "%s installed as %s.pacsave"
-msgstr "%s instalatu da %s.pacsave gisa"
-
-#: src/transaction.vala
-msgid "Running pre-transaction hooks"
-msgstr "Transakzio aurreko kakoak exekutatzen"
-
-#: src/transaction.vala
-msgid "Running post-transaction hooks"
-msgstr "Transakzio osteko kakoak exekutatzen"
-
-#: src/transaction.vala
-#, c-format
-msgid "Downloading %s"
-msgstr "%s deskargatzen"
-
-#: src/transaction.vala
-#, c-format
-msgid "About %u seconds remaining"
-msgstr "%u segundo inguru falta dira"
-
-#: src/transaction.vala
-#, c-format
-msgid "About %lu minute remaining"
-msgid_plural "About %lu minutes remaining"
-msgstr[0] "Minutu %lu inguru falta da"
-msgstr[1] "%lu minutu inguru falta dira"
-
-#: src/transaction.vala
-#, c-format
-msgid "Refreshing %s"
-msgstr "%s freskatzen"
-
-#: src/transaction.vala src/transaction-cli.vala src/cli.vala
-msgid "Error"
-msgstr "Errorea"
-
-#: src/transaction.vala src/transaction-gtk.vala
-msgid "Warning"
-msgstr "Oharra"
-
-#: src/transaction.vala src/installer.vala src/cli.vala
-msgid "Nothing to do"
-msgstr "Ezer ez egiteko"
-
-#: src/transaction.vala src/transaction-gtk.vala
-msgid "Transaction successfully finished"
-msgstr "Transakzioa ongi burutu da"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
@@ -428,6 +433,10 @@ msgid "Remove packages"
 msgstr "Kendu paketeak"
 
 #: src/installer.vala src/cli.vala
+msgid "Build packages from AUR and install them with their dependencies"
+msgstr "Eraiki paketeak AURetik eta instalatu menpekotasunekin"
+
+#: src/installer.vala src/cli.vala
 msgid "package(s)"
 msgstr "paketea(k)"
 
@@ -466,21 +475,9 @@ msgid_plural "%u pending operations"
 msgstr[0] "Eragiketa %u egiteke"
 msgstr[1] "%u eragiketa egiteke"
 
-#: src/manager_window.vala
-msgid "Categories"
-msgstr "Kategoriak"
-
-#: src/manager_window.vala src/cli.vala
-msgid "Groups"
-msgstr "Taldeak"
-
-#: src/manager_window.vala
-msgid "Repositories"
-msgstr "Biltegiak"
-
-#: src/manager_window.vala src/cli.vala resources/manager_window.ui
-msgid "Installed"
-msgstr "Instalatuta"
+#: src/manager_window.vala resources/manager_window.ui
+msgid "All"
+msgstr ""
 
 #: src/manager_window.vala
 msgid "Orphans"
@@ -490,49 +487,18 @@ msgstr "Umezurtzak"
 msgid "Foreign"
 msgstr "Arrotza"
 
-#: src/manager_window.vala
-msgid "Accessories"
-msgstr "Osagarriak"
+#: src/manager_window.vala src/snap_plugin.vala
+#: resources/preferences_dialog.ui
+msgid "Snap"
+msgstr ""
 
-#: src/manager_window.vala
-msgid "Audio & Video"
-msgstr "Audio eta bideoa"
+#: src/manager_window.vala resources/manager_window.ui
+msgid "Repositories"
+msgstr "Biltegiak"
 
-#: src/manager_window.vala
-msgid "Development"
-msgstr "Garapena"
-
-#: src/manager_window.vala
-msgid "Education"
-msgstr "Hezkuntza"
-
-#: src/manager_window.vala
-msgid "Games"
-msgstr "Bideojokoak"
-
-#: src/manager_window.vala
-msgid "Graphics"
-msgstr "Grafikoak"
-
-#: src/manager_window.vala
-msgid "Internet"
-msgstr "Internet"
-
-#: src/manager_window.vala
-msgid "Office"
-msgstr "Bulegoa"
-
-#: src/manager_window.vala
-msgid "Science"
-msgstr "Zientzia"
-
-#: src/manager_window.vala
-msgid "Settings"
-msgstr "Ezarpenak"
-
-#: src/manager_window.vala
-msgid "System Tools"
-msgstr "Sistema-tresnak"
+#: src/manager_window.vala src/cli.vala resources/manager_window.ui
+msgid "Installed"
+msgstr "Instalatuta"
 
 #: src/manager_window.vala
 msgid "Dependencies"
@@ -589,6 +555,10 @@ msgstr "Botoak"
 #: src/manager_window.vala src/cli.vala
 msgid "Out of Date"
 msgstr "Zaharkitua"
+
+#: src/manager_window.vala src/cli.vala resources/manager_window.ui
+msgid "Groups"
+msgstr "Taldeak"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Packager"
@@ -647,16 +617,60 @@ msgid "Check Dependencies"
 msgstr "Egiaztatu menpekotasunak"
 
 #: src/manager_window.vala
+msgid "Publisher"
+msgstr ""
+
+#: src/manager_window.vala
+msgid "Channels"
+msgstr ""
+
+#: src/manager_window.vala
 msgid "Upgrade"
 msgstr "Bertsio-berritu"
+
+#: src/manager_window.vala resources/manager_window.ui
+msgid "Build"
+msgstr "Eraiki"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Remove"
 msgstr "Kendu"
 
-#: src/manager_window.vala src/cli.vala resources/manager_window.ui
-msgid "Size"
-msgstr "Tamaina"
+#: src/manager_window.vala
+msgid "Featured"
+msgstr ""
+
+#: src/manager_window.vala
+msgid "Photo & Video"
+msgstr ""
+
+#: src/manager_window.vala
+msgid "Music & Audio"
+msgstr ""
+
+#: src/manager_window.vala
+msgid "Productivity"
+msgstr ""
+
+#: src/manager_window.vala
+msgid "Communication & News"
+msgstr ""
+
+#: src/manager_window.vala
+msgid "Education & Science"
+msgstr ""
+
+#: src/manager_window.vala
+msgid "Games"
+msgstr "Bideojokoak"
+
+#: src/manager_window.vala
+msgid "Utilities"
+msgstr ""
+
+#: src/manager_window.vala
+msgid "Development"
+msgstr "Garapena"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Install Local Packages"
@@ -673,6 +687,10 @@ msgstr "Alpm paketea"
 #: src/manager_window.vala
 msgid "A Gtk3 frontend for libalpm"
 msgstr "Gtk3n eraikitako ibalpm liburutegiaren interfaze bat"
+
+#: src/manager_window.vala resources/manager_window.ui
+msgid "Categories"
+msgstr "Kategoriak"
 
 #: src/preferences_dialog.vala resources/preferences_dialog.ui
 msgid "How often to check for updates, value in hours"
@@ -704,10 +722,6 @@ msgid "%u file"
 msgid_plural "%u files"
 msgstr[0] ""
 msgstr[1] ""
-
-#: src/preferences_dialog.vala
-msgid "Choose Ignored Upgrades"
-msgstr "Hautatu ezikusitako bertsio-berritzeak"
 
 #: src/transaction-cli.vala src/cli.vala
 #, c-format
@@ -866,10 +880,6 @@ msgid "overwrite existing files"
 msgstr "gainitdatzi existitzen diren fitxategiak"
 
 #: src/cli.vala
-msgid "Build packages from AUR and install them with their dependencies"
-msgstr "Eraiki paketeak AURetik eta instalatu menpekotasunekin"
-
-#: src/cli.vala
 msgid ""
 "If no package name is given, use the PKGBUILD file in the current directory"
 msgstr "Ez bada pakete izena ematen, erabili direktorio honetako PKGBUILD fitxategia"
@@ -1014,6 +1024,10 @@ msgid "URL"
 msgstr "URL"
 
 #: src/cli.vala
+msgid "Installed Size"
+msgstr ""
+
+#: src/cli.vala
 #, c-format
 msgid "No package owns %s"
 msgstr "%s ez du pakete jaberik"
@@ -1091,10 +1105,6 @@ msgid "Search"
 msgstr "Bilatu"
 
 #: resources/manager_window.ui
-msgid "All"
-msgstr ""
-
-#: resources/manager_window.ui
 msgid "Pending"
 msgstr "Egiteke"
 
@@ -1123,8 +1133,8 @@ msgid "Relevance"
 msgstr ""
 
 #: resources/manager_window.ui
-msgid "Date"
-msgstr ""
+msgid "Size"
+msgstr "Tamaina"
 
 #: resources/manager_window.ui
 msgid "Browse"
@@ -1137,10 +1147,6 @@ msgstr ""
 #: resources/manager_window.ui
 msgid "Reinstall"
 msgstr "Berrinstalatu"
-
-#: resources/manager_window.ui
-msgid "Build"
-msgstr "Eraiki"
 
 #: resources/manager_window.ui
 msgid "Reset build files"
@@ -1157,10 +1163,6 @@ msgid ""
 msgstr "Pakete bat kentzean, bere menpekotasunak kendu ere beste paketeren batek behar ez baditu"
 
 #: resources/preferences_dialog.ui
-msgid "Check available disk space"
-msgstr "Egiaztatu eskuragarri dagoen disko espazioa"
-
-#: resources/preferences_dialog.ui
 msgid "Enable downgrade"
 msgstr "Gaitu bertsio-zaharketa"
 
@@ -1175,10 +1177,6 @@ msgstr "Deskargatu eguneraketak automatikoki"
 #: resources/preferences_dialog.ui
 msgid "Hide tray icon when no update available"
 msgstr "Ezkutatu barrako ikonoa eguneraketarik ez dagoenean"
-
-#: resources/preferences_dialog.ui
-msgid "Ignore upgrades for:"
-msgstr "Bertsio-berritzeak ezikusiten hauentzat:"
 
 #: resources/preferences_dialog.ui
 msgid "General"
@@ -1217,6 +1215,14 @@ msgstr "Egiaztatu AUReko eguneraketak"
 #: resources/preferences_dialog.ui
 msgid "Check for development packages updates"
 msgstr "Egiaztatu garapen paketeen eguneraketak"
+
+#: resources/preferences_dialog.ui
+msgid "Snap packages are maintained by their publisher."
+msgstr ""
+
+#: resources/preferences_dialog.ui
+msgid "Enable Snap support"
+msgstr ""
 
 #: resources/preferences_dialog.ui
 msgid "Cache"

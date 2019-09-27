@@ -22,9 +22,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2019-08-06 16:57+0200\n"
-"PO-Revision-Date: 2019-08-24 22:58+0000\n"
-"Last-Translator: Hugo Carvalho <hugokarvalho@hotmail.com>\n"
+"POT-Creation-Date: 2019-09-14 12:36+0200\n"
+"PO-Revision-Date: 2019-09-21 00:46+0000\n"
+"Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -33,26 +33,34 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: data/polkit/org.manjaro.pamac.policy.in
-msgid "Authentication is required"
-msgstr "Autenticação necessária"
+msgid "Install, update, or remove packages"
+msgstr ""
+
+#: data/polkit/org.manjaro.pamac.policy.in
+msgid "Authentication is required to install, update, or remove packages"
+msgstr ""
 
 #: src/alpm_utils.vala src/database.vala
 msgid "Failed to initialize alpm library"
 msgstr "Falhou inicialização da biblioteca alpm"
 
 #: src/alpm_utils.vala
-msgid "Failed to synchronize any databases"
-msgstr "Falhou sincronizar quaisquer bases de dados"
+msgid "Synchronizing package databases"
+msgstr "A sincronizar bases de dados de pacotes"
+
+#: src/alpm_utils.vala
+msgid "Failed to synchronize databases"
+msgstr ""
 
 #: src/alpm_utils.vala
 msgid "Failed to init transaction"
 msgstr "Falhou iniciar transação"
 
-#: src/alpm_utils.vala src/transaction.vala src/transaction-gtk.vala
+#: src/alpm_utils.vala src/transaction-gtk.vala src/installer.vala
 msgid "Failed to prepare transaction"
 msgstr "Falhou preparar a transação"
 
-#: src/alpm_utils.vala src/cli.vala
+#: src/alpm_utils.vala src/installer.vala src/cli.vala
 #, c-format
 msgid "target not found: %s"
 msgstr "objeto não encontrado: %s"
@@ -87,6 +95,18 @@ msgstr "%s e %s estão em conflito"
 msgid "%s needs to be removed but it is a locked package"
 msgstr "%s necessita ser removido, mas é um pacote bloqueado"
 
+#: src/alpm_utils.vala src/transaction.vala
+msgid "Transaction cancelled"
+msgstr "Transação cancelada"
+
+#: src/alpm_utils.vala src/installer.vala src/cli.vala
+msgid "Nothing to do"
+msgstr "Nada a fazer"
+
+#: src/alpm_utils.vala src/transaction.vala
+msgid "Preparing"
+msgstr "A preparar"
+
 #: src/alpm_utils.vala
 msgid "Failed to commit transaction"
 msgstr "Falhou submeter transação"
@@ -107,21 +127,171 @@ msgid "%s is invalid or corrupted"
 msgstr "%s é inválido ou está corrompido"
 
 #: src/alpm_utils.vala
+msgid "Checking dependencies"
+msgstr "A verificar dependências"
+
+#: src/alpm_utils.vala
+msgid "Checking file conflicts"
+msgstr "A verificar conflitos entre ficheiros"
+
+#: src/alpm_utils.vala
+msgid "Resolving dependencies"
+msgstr "A resolver dependências"
+
+#: src/alpm_utils.vala
+msgid "Checking inter-conflicts"
+msgstr "A verificar inter-conflitos"
+
+#: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
-msgid "%s appears to be truncated: %jd/%jd bytes\n"
-msgstr "%s parece estar truncada: %jd/%jd bytes\n"
+msgid "Installing %s"
+msgstr "A instalar %s"
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "Upgrading %s"
+msgstr "A atualizar %s"
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "Reinstalling %s"
+msgstr "A reinstalar %s"
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "Downgrading %s"
+msgstr "A substituir %s por versão anterior"
+
+#: src/alpm_utils.vala src/snap_plugin.vala
+#, c-format
+msgid "Removing %s"
+msgstr "A remover %s"
+
+#: src/alpm_utils.vala
+msgid "Checking integrity"
+msgstr "A verificar a integridade dos pacotes"
+
+#: src/alpm_utils.vala
+msgid "Loading packages files"
+msgstr "A carregar ficheiros de pacotes"
+
+#: src/alpm_utils.vala
+msgid "Checking delta integrity"
+msgstr "A verificar a integridade do delta"
+
+#: src/alpm_utils.vala
+msgid "Applying deltas"
+msgstr "A aplicar deltas"
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "Generating %s with %s"
+msgstr "A gerar %s com %s"
+
+#: src/alpm_utils.vala
+msgid "Generation succeeded"
+msgstr "Geração bem sucedida"
+
+#: src/alpm_utils.vala
+msgid "Generation failed"
+msgstr "Geração falhou"
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "Configuring %s"
+msgstr "A configurar %s"
+
+#: src/alpm_utils.vala
+msgid "Checking available disk space"
+msgstr "Verificação de espaço disponível em disco"
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "%s optionally requires %s"
+msgstr "%s requer opcionalmente %s"
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "Database file for %s does not exist"
+msgstr "Ficheiro da base de dados para %s não existe"
+
+#: src/alpm_utils.vala
+msgid "Checking keyring"
+msgstr "A verificar chaveiro"
+
+#: src/alpm_utils.vala
+msgid "Downloading required keys"
+msgstr "A transferir chaves necessárias"
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "%s installed as %s.pacnew"
+msgstr "%s instalado como %s.pacnew"
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "%s installed as %s.pacsave"
+msgstr "%s instalado como %s.pacsave"
+
+#: src/alpm_utils.vala
+msgid "Running pre-transaction hooks"
+msgstr "A executar ganchos (hooks) pré-transacionais"
+
+#: src/alpm_utils.vala
+msgid "Running post-transaction hooks"
+msgstr "A executar ganchos (hooks) pós-transacionais"
+
+#: src/alpm_utils.vala src/snap_plugin.vala
+#, c-format
+msgid "About %u seconds remaining"
+msgstr "Cerca de %u segundos restantes"
+
+#: src/alpm_utils.vala src/snap_plugin.vala
+#, c-format
+msgid "About %lu minute remaining"
+msgid_plural "About %lu minutes remaining"
+msgstr[0] "Cerca de %lu minuto restante"
+msgstr[1] "Cerca de %lu minutos restantes"
+
+#: src/alpm_utils.vala src/transaction-cli.vala src/cli.vala
+msgid "Error"
+msgstr "Erro"
+
+#: src/alpm_utils.vala src/transaction-gtk.vala
+msgid "Warning"
+msgstr "Aviso"
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "Download of %s started"
+msgstr ""
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "Download of %s finished"
+msgstr ""
+
+#: src/alpm_utils.vala src/snap_plugin.vala
+#, c-format
+msgid "Downloading %s"
+msgstr "A transferir %s"
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "Refreshing %s"
+msgstr "A atualizar %s"
 
 #: src/alpm_utils.vala
 #, c-format
 msgid "failed retrieving file '%s' from %s : %s\n"
 msgstr "falha ao recuperar o ficheiro '%s' de %s : %s\n"
 
-#: src/system_daemon.vala
+#: src/daemon.vala
 msgid "Authentication failed"
 msgstr "A autenticação falhou"
 
-#: src/database.vala src/transaction-gtk.vala src/manager_window.vala
-#: src/transaction-cli.vala src/cli.vala resources/preferences_dialog.ui
+#: src/database.vala src/manager_window.vala src/cli.vala
+#: resources/preferences_dialog.ui
 msgid "AUR"
 msgstr "AUR"
 
@@ -149,18 +319,6 @@ msgstr "Não"
 msgid "Refreshing mirrors list"
 msgstr "Atualizar lista clones (mirrors)"
 
-#: src/transaction.vala
-msgid "Preparing"
-msgstr "A preparar"
-
-#: src/transaction.vala
-msgid "Synchronizing package databases"
-msgstr "A sincronizar bases de dados de pacotes"
-
-#: src/transaction.vala
-msgid "Starting full system upgrade"
-msgstr "A iniciar atualização total do sistema"
-
 #: src/transaction.vala src/cli.vala
 #, c-format
 msgid "Cloning %s build files"
@@ -181,6 +339,10 @@ msgstr "A verificar %s dependências"
 msgid "key %s could not be imported"
 msgstr "chave %s não pôde ser importada"
 
+#: src/transaction.vala src/manager_window.vala
+msgid "Transaction successfully finished"
+msgstr "Transação finalizada com êxito"
+
 #: src/transaction.vala
 msgid "Waiting for another package manager to quit"
 msgstr "Esperando que outro gestor de pacotes termine"
@@ -189,163 +351,6 @@ msgstr "Esperando que outro gestor de pacotes termine"
 #, c-format
 msgid "Building %s"
 msgstr "Criando %s"
-
-#: src/transaction.vala
-msgid "Transaction cancelled"
-msgstr "Transação cancelada"
-
-#: src/transaction.vala
-msgid "Checking dependencies"
-msgstr "A verificar dependências"
-
-#: src/transaction.vala
-msgid "Checking file conflicts"
-msgstr "A verificar conflitos entre ficheiros"
-
-#: src/transaction.vala
-msgid "Resolving dependencies"
-msgstr "A resolver dependências"
-
-#: src/transaction.vala
-msgid "Checking inter-conflicts"
-msgstr "A verificar inter-conflitos"
-
-#: src/transaction.vala
-#, c-format
-msgid "Installing %s"
-msgstr "A instalar %s"
-
-#: src/transaction.vala
-#, c-format
-msgid "Upgrading %s"
-msgstr "A atualizar %s"
-
-#: src/transaction.vala
-#, c-format
-msgid "Reinstalling %s"
-msgstr "A reinstalar %s"
-
-#: src/transaction.vala
-#, c-format
-msgid "Downgrading %s"
-msgstr "A substituir %s por versão anterior"
-
-#: src/transaction.vala
-#, c-format
-msgid "Removing %s"
-msgstr "A remover %s"
-
-#: src/transaction.vala
-msgid "Checking integrity"
-msgstr "A verificar a integridade dos pacotes"
-
-#: src/transaction.vala
-msgid "Loading packages files"
-msgstr "A carregar ficheiros de pacotes"
-
-#: src/transaction.vala
-msgid "Checking delta integrity"
-msgstr "A verificar a integridade do delta"
-
-#: src/transaction.vala
-msgid "Applying deltas"
-msgstr "A aplicar deltas"
-
-#: src/transaction.vala
-#, c-format
-msgid "Generating %s with %s"
-msgstr "A gerar %s com %s"
-
-#: src/transaction.vala
-msgid "Generation succeeded"
-msgstr "Geração bem sucedida"
-
-#: src/transaction.vala
-msgid "Generation failed"
-msgstr "Geração falhou"
-
-#: src/transaction.vala
-#, c-format
-msgid "Configuring %s"
-msgstr "A configurar %s"
-
-#: src/transaction.vala
-msgid "Checking available disk space"
-msgstr "Verificação de espaço disponível em disco"
-
-#: src/transaction.vala
-#, c-format
-msgid "%s optionally requires %s"
-msgstr "%s requer opcionalmente %s"
-
-#: src/transaction.vala
-#, c-format
-msgid "Database file for %s does not exist"
-msgstr "Ficheiro da base de dados para %s não existe"
-
-#: src/transaction.vala
-msgid "Checking keyring"
-msgstr "A verificar chaveiro"
-
-#: src/transaction.vala
-msgid "Downloading required keys"
-msgstr "A transferir chaves necessárias"
-
-#: src/transaction.vala
-#, c-format
-msgid "%s installed as %s.pacnew"
-msgstr "%s instalado como %s.pacnew"
-
-#: src/transaction.vala
-#, c-format
-msgid "%s installed as %s.pacsave"
-msgstr "%s instalado como %s.pacsave"
-
-#: src/transaction.vala
-msgid "Running pre-transaction hooks"
-msgstr "A executar ganchos (hooks) pré-transacionais"
-
-#: src/transaction.vala
-msgid "Running post-transaction hooks"
-msgstr "A executar ganchos (hooks) pós-transacionais"
-
-#: src/transaction.vala
-#, c-format
-msgid "Downloading %s"
-msgstr "A transferir %s"
-
-#: src/transaction.vala
-#, c-format
-msgid "About %u seconds remaining"
-msgstr "Cerca de %u segundos restantes"
-
-#: src/transaction.vala
-#, c-format
-msgid "About %lu minute remaining"
-msgid_plural "About %lu minutes remaining"
-msgstr[0] "Cerca de %lu minuto restante"
-msgstr[1] "Cerca de %lu minutos restantes"
-
-#: src/transaction.vala
-#, c-format
-msgid "Refreshing %s"
-msgstr "A atualizar %s"
-
-#: src/transaction.vala src/transaction-cli.vala src/cli.vala
-msgid "Error"
-msgstr "Erro"
-
-#: src/transaction.vala src/transaction-gtk.vala
-msgid "Warning"
-msgstr "Aviso"
-
-#: src/transaction.vala src/installer.vala src/cli.vala
-msgid "Nothing to do"
-msgstr "Nada a fazer"
-
-#: src/transaction.vala src/transaction-gtk.vala
-msgid "Transaction successfully finished"
-msgstr "Transação finalizada com êxito"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
@@ -436,6 +441,10 @@ msgid "Remove packages"
 msgstr "Remover pacotes"
 
 #: src/installer.vala src/cli.vala
+msgid "Build packages from AUR and install them with their dependencies"
+msgstr "construir pacotes do AUR e instala-los com suas dependências"
+
+#: src/installer.vala src/cli.vala
 msgid "package(s)"
 msgstr "pacote(s)"
 
@@ -474,21 +483,9 @@ msgid_plural "%u pending operations"
 msgstr[0] "%u operação pendente"
 msgstr[1] "%u operações pendentes"
 
-#: src/manager_window.vala
-msgid "Categories"
-msgstr "Categorias"
-
-#: src/manager_window.vala src/cli.vala
-msgid "Groups"
-msgstr "Grupos"
-
-#: src/manager_window.vala
-msgid "Repositories"
-msgstr "Repositórios"
-
-#: src/manager_window.vala src/cli.vala resources/manager_window.ui
-msgid "Installed"
-msgstr "Instalado"
+#: src/manager_window.vala resources/manager_window.ui
+msgid "All"
+msgstr "Tudo"
 
 #: src/manager_window.vala
 msgid "Orphans"
@@ -498,49 +495,18 @@ msgstr "Orfãos"
 msgid "Foreign"
 msgstr "Estrangeiro"
 
-#: src/manager_window.vala
-msgid "Accessories"
-msgstr "Acessórios"
+#: src/manager_window.vala src/snap_plugin.vala
+#: resources/preferences_dialog.ui
+msgid "Snap"
+msgstr ""
 
-#: src/manager_window.vala
-msgid "Audio & Video"
-msgstr "Áudio & Vídeo"
+#: src/manager_window.vala resources/manager_window.ui
+msgid "Repositories"
+msgstr "Repositórios"
 
-#: src/manager_window.vala
-msgid "Development"
-msgstr "Desenvolvimento"
-
-#: src/manager_window.vala
-msgid "Education"
-msgstr "Educação"
-
-#: src/manager_window.vala
-msgid "Games"
-msgstr "Jogos"
-
-#: src/manager_window.vala
-msgid "Graphics"
-msgstr "Grafismo"
-
-#: src/manager_window.vala
-msgid "Internet"
-msgstr "Internet"
-
-#: src/manager_window.vala
-msgid "Office"
-msgstr "Escritório"
-
-#: src/manager_window.vala
-msgid "Science"
-msgstr "Ciência"
-
-#: src/manager_window.vala
-msgid "Settings"
-msgstr "Definições"
-
-#: src/manager_window.vala
-msgid "System Tools"
-msgstr "Ferramentas de sistema"
+#: src/manager_window.vala src/cli.vala resources/manager_window.ui
+msgid "Installed"
+msgstr "Instalado"
 
 #: src/manager_window.vala
 msgid "Dependencies"
@@ -597,6 +563,10 @@ msgstr "Votos"
 #: src/manager_window.vala src/cli.vala
 msgid "Out of Date"
 msgstr "Desatualizado"
+
+#: src/manager_window.vala src/cli.vala resources/manager_window.ui
+msgid "Groups"
+msgstr "Grupos"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Packager"
@@ -655,16 +625,60 @@ msgid "Check Dependencies"
 msgstr "Verificar dependências"
 
 #: src/manager_window.vala
+msgid "Publisher"
+msgstr ""
+
+#: src/manager_window.vala
+msgid "Channels"
+msgstr ""
+
+#: src/manager_window.vala
 msgid "Upgrade"
 msgstr "Atualizar"
+
+#: src/manager_window.vala resources/manager_window.ui
+msgid "Build"
+msgstr "Compilação"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Remove"
 msgstr "Remover"
 
-#: src/manager_window.vala src/cli.vala resources/manager_window.ui
-msgid "Size"
-msgstr "Tamanho"
+#: src/manager_window.vala
+msgid "Featured"
+msgstr ""
+
+#: src/manager_window.vala
+msgid "Photo & Video"
+msgstr ""
+
+#: src/manager_window.vala
+msgid "Music & Audio"
+msgstr ""
+
+#: src/manager_window.vala
+msgid "Productivity"
+msgstr ""
+
+#: src/manager_window.vala
+msgid "Communication & News"
+msgstr ""
+
+#: src/manager_window.vala
+msgid "Education & Science"
+msgstr ""
+
+#: src/manager_window.vala
+msgid "Games"
+msgstr "Jogos"
+
+#: src/manager_window.vala
+msgid "Utilities"
+msgstr ""
+
+#: src/manager_window.vala
+msgid "Development"
+msgstr "Desenvolvimento"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Install Local Packages"
@@ -681,6 +695,10 @@ msgstr "Pacote alpm"
 #: src/manager_window.vala
 msgid "A Gtk3 frontend for libalpm"
 msgstr "Uma interface Gtk3 para libalpm"
+
+#: src/manager_window.vala resources/manager_window.ui
+msgid "Categories"
+msgstr "Categorias"
 
 #: src/preferences_dialog.vala resources/preferences_dialog.ui
 msgid "How often to check for updates, value in hours"
@@ -712,10 +730,6 @@ msgid "%u file"
 msgid_plural "%u files"
 msgstr[0] "%u ficheiro"
 msgstr[1] "%u ficheiros"
-
-#: src/preferences_dialog.vala
-msgid "Choose Ignored Upgrades"
-msgstr "Escolher Atualizações Ignoradas"
 
 #: src/transaction-cli.vala src/cli.vala
 #, c-format
@@ -874,10 +888,6 @@ msgid "overwrite existing files"
 msgstr "sobrescrever ficheiros existentes"
 
 #: src/cli.vala
-msgid "Build packages from AUR and install them with their dependencies"
-msgstr "construir pacotes do AUR e instala-los com suas dependências"
-
-#: src/cli.vala
 msgid ""
 "If no package name is given, use the PKGBUILD file in the current directory"
 msgstr "Se não for indicado nenhum nome do pacote, usar o ficheiro PKGBUILD no diretório atual"
@@ -1022,6 +1032,10 @@ msgid "URL"
 msgstr "URL"
 
 #: src/cli.vala
+msgid "Installed Size"
+msgstr ""
+
+#: src/cli.vala
 #, c-format
 msgid "No package owns %s"
 msgstr "Nenhum pacote detém %s"
@@ -1099,10 +1113,6 @@ msgid "Search"
 msgstr "Procurar"
 
 #: resources/manager_window.ui
-msgid "All"
-msgstr "Tudo"
-
-#: resources/manager_window.ui
 msgid "Pending"
 msgstr "Pendente"
 
@@ -1131,8 +1141,8 @@ msgid "Relevance"
 msgstr "Relevância"
 
 #: resources/manager_window.ui
-msgid "Date"
-msgstr "Data"
+msgid "Size"
+msgstr "Tamanho"
 
 #: resources/manager_window.ui
 msgid "Browse"
@@ -1145,10 +1155,6 @@ msgstr "Lançar"
 #: resources/manager_window.ui
 msgid "Reinstall"
 msgstr "Reinstalar"
-
-#: resources/manager_window.ui
-msgid "Build"
-msgstr "Compilação"
 
 #: resources/manager_window.ui
 msgid "Reset build files"
@@ -1165,10 +1171,6 @@ msgid ""
 msgstr "Ao remover um pacote, remover também todas as suas dependências que não sejam requeridas por outros pacotes"
 
 #: resources/preferences_dialog.ui
-msgid "Check available disk space"
-msgstr "Verificar espaço disponível em disco"
-
-#: resources/preferences_dialog.ui
 msgid "Enable downgrade"
 msgstr "Possibilitar substituição por versão anterior"
 
@@ -1183,10 +1185,6 @@ msgstr "Descarregar atualizações automáticamente"
 #: resources/preferences_dialog.ui
 msgid "Hide tray icon when no update available"
 msgstr "Ocultar ícone da bandeja quando não houver atualização disponível"
-
-#: resources/preferences_dialog.ui
-msgid "Ignore upgrades for:"
-msgstr "Ignorar atualizações para:"
 
 #: resources/preferences_dialog.ui
 msgid "General"
@@ -1225,6 +1223,14 @@ msgstr "Verificar se há atualizações do AUR"
 #: resources/preferences_dialog.ui
 msgid "Check for development packages updates"
 msgstr "Verificar atualizações de pacotes de desenvolvimento"
+
+#: resources/preferences_dialog.ui
+msgid "Snap packages are maintained by their publisher."
+msgstr ""
+
+#: resources/preferences_dialog.ui
+msgid "Enable Snap support"
+msgstr ""
 
 #: resources/preferences_dialog.ui
 msgid "Cache"

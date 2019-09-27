@@ -21,8 +21,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2019-08-06 16:57+0200\n"
-"PO-Revision-Date: 2019-08-07 00:47+0000\n"
+"POT-Creation-Date: 2019-09-14 12:36+0200\n"
+"PO-Revision-Date: 2019-09-21 00:46+0000\n"
 "Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Swedish (http://www.transifex.com/manjarolinux/manjaro-pamac/language/sv/)\n"
 "MIME-Version: 1.0\n"
@@ -32,26 +32,34 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: data/polkit/org.manjaro.pamac.policy.in
-msgid "Authentication is required"
-msgstr "Autentisering krävs"
+msgid "Install, update, or remove packages"
+msgstr ""
+
+#: data/polkit/org.manjaro.pamac.policy.in
+msgid "Authentication is required to install, update, or remove packages"
+msgstr ""
 
 #: src/alpm_utils.vala src/database.vala
 msgid "Failed to initialize alpm library"
 msgstr "Misslyckades med att läsa in alpm-bibliotek"
 
 #: src/alpm_utils.vala
-msgid "Failed to synchronize any databases"
-msgstr "Misslyckades med att synkronisera databaser"
+msgid "Synchronizing package databases"
+msgstr "Synkroniserar paketdatabaser"
+
+#: src/alpm_utils.vala
+msgid "Failed to synchronize databases"
+msgstr ""
 
 #: src/alpm_utils.vala
 msgid "Failed to init transaction"
 msgstr "Misslyckades med att påbörja överföring"
 
-#: src/alpm_utils.vala src/transaction.vala src/transaction-gtk.vala
+#: src/alpm_utils.vala src/transaction-gtk.vala src/installer.vala
 msgid "Failed to prepare transaction"
 msgstr "Misslyckades med att förbereda överföring"
 
-#: src/alpm_utils.vala src/cli.vala
+#: src/alpm_utils.vala src/installer.vala src/cli.vala
 #, c-format
 msgid "target not found: %s"
 msgstr "mål ej funnet: %s"
@@ -86,6 +94,18 @@ msgstr "%s och %s konflikterar"
 msgid "%s needs to be removed but it is a locked package"
 msgstr "%s behöver tas bort, men är ett låst paket"
 
+#: src/alpm_utils.vala src/transaction.vala
+msgid "Transaction cancelled"
+msgstr "Överföring avbruten"
+
+#: src/alpm_utils.vala src/installer.vala src/cli.vala
+msgid "Nothing to do"
+msgstr "Inget att göra"
+
+#: src/alpm_utils.vala src/transaction.vala
+msgid "Preparing"
+msgstr "Förbereder"
+
 #: src/alpm_utils.vala
 msgid "Failed to commit transaction"
 msgstr "Misslyckades med att genomföra överföring"
@@ -106,21 +126,171 @@ msgid "%s is invalid or corrupted"
 msgstr "%s är ogiltig eller korrupt"
 
 #: src/alpm_utils.vala
+msgid "Checking dependencies"
+msgstr "Kollar beroenden"
+
+#: src/alpm_utils.vala
+msgid "Checking file conflicts"
+msgstr "Kontrollerar konflikter"
+
+#: src/alpm_utils.vala
+msgid "Resolving dependencies"
+msgstr "Löser beroenden"
+
+#: src/alpm_utils.vala
+msgid "Checking inter-conflicts"
+msgstr "Letar efter tvärskonflikter"
+
+#: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
-msgid "%s appears to be truncated: %jd/%jd bytes\n"
-msgstr "%s verkar vara trunkerad: %jd/%jd bytes\n"
+msgid "Installing %s"
+msgstr "Installerar %s"
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "Upgrading %s"
+msgstr "Uppgraderar %s"
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "Reinstalling %s"
+msgstr "Ominstallerar %s"
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "Downgrading %s"
+msgstr "Nedgraderar %s"
+
+#: src/alpm_utils.vala src/snap_plugin.vala
+#, c-format
+msgid "Removing %s"
+msgstr "Tar bort %s"
+
+#: src/alpm_utils.vala
+msgid "Checking integrity"
+msgstr "Kontrollerar integritet"
+
+#: src/alpm_utils.vala
+msgid "Loading packages files"
+msgstr "Laddar paketfiler"
+
+#: src/alpm_utils.vala
+msgid "Checking delta integrity"
+msgstr "Kontrollerar skillnadsintegritet"
+
+#: src/alpm_utils.vala
+msgid "Applying deltas"
+msgstr "Tillämpar skillnader"
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "Generating %s with %s"
+msgstr "Genererar %s med %s"
+
+#: src/alpm_utils.vala
+msgid "Generation succeeded"
+msgstr "Generering lyckades"
+
+#: src/alpm_utils.vala
+msgid "Generation failed"
+msgstr "Generering misslyckades"
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "Configuring %s"
+msgstr "Konfigurerar %s"
+
+#: src/alpm_utils.vala
+msgid "Checking available disk space"
+msgstr "Kontrollerar tillgängligt diskutrymme"
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "%s optionally requires %s"
+msgstr "%s kräver frivilligt %s"
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "Database file for %s does not exist"
+msgstr "Databasfilen för %s existerar inte"
+
+#: src/alpm_utils.vala
+msgid "Checking keyring"
+msgstr "Kontrollerar nyckelring"
+
+#: src/alpm_utils.vala
+msgid "Downloading required keys"
+msgstr "Laddar ner nödvändiga nycklar"
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "%s installed as %s.pacnew"
+msgstr "%s installerades som %s.pacnew"
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "%s installed as %s.pacsave"
+msgstr "%s installerades som %s.pacsave"
+
+#: src/alpm_utils.vala
+msgid "Running pre-transaction hooks"
+msgstr "Kör transaktionsförarbeten"
+
+#: src/alpm_utils.vala
+msgid "Running post-transaction hooks"
+msgstr "Kör transaktionsefterarbeten"
+
+#: src/alpm_utils.vala src/snap_plugin.vala
+#, c-format
+msgid "About %u seconds remaining"
+msgstr "Cirka %u sekunder återstår"
+
+#: src/alpm_utils.vala src/snap_plugin.vala
+#, c-format
+msgid "About %lu minute remaining"
+msgid_plural "About %lu minutes remaining"
+msgstr[0] "Cirka %lu minut återstår"
+msgstr[1] "Cirka %lu minuter återstår"
+
+#: src/alpm_utils.vala src/transaction-cli.vala src/cli.vala
+msgid "Error"
+msgstr "Fel"
+
+#: src/alpm_utils.vala src/transaction-gtk.vala
+msgid "Warning"
+msgstr "Varning"
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "Download of %s started"
+msgstr ""
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "Download of %s finished"
+msgstr ""
+
+#: src/alpm_utils.vala src/snap_plugin.vala
+#, c-format
+msgid "Downloading %s"
+msgstr "Laddar ner %s"
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "Refreshing %s"
+msgstr "Uppdaterar %s"
 
 #: src/alpm_utils.vala
 #, c-format
 msgid "failed retrieving file '%s' from %s : %s\n"
 msgstr "misslyckades med att hämta fil '%s' från %s : %s\n"
 
-#: src/system_daemon.vala
+#: src/daemon.vala
 msgid "Authentication failed"
 msgstr "Autentisering misslyckades"
 
-#: src/database.vala src/transaction-gtk.vala src/manager_window.vala
-#: src/transaction-cli.vala src/cli.vala resources/preferences_dialog.ui
+#: src/database.vala src/manager_window.vala src/cli.vala
+#: resources/preferences_dialog.ui
 msgid "AUR"
 msgstr "AUR"
 
@@ -148,18 +318,6 @@ msgstr "Nej"
 msgid "Refreshing mirrors list"
 msgstr "Uppdaterar spegellistor"
 
-#: src/transaction.vala
-msgid "Preparing"
-msgstr "Förbereder"
-
-#: src/transaction.vala
-msgid "Synchronizing package databases"
-msgstr "Synkroniserar paketdatabaser"
-
-#: src/transaction.vala
-msgid "Starting full system upgrade"
-msgstr "Påbörjar fullständig systemuppgradering"
-
 #: src/transaction.vala src/cli.vala
 #, c-format
 msgid "Cloning %s build files"
@@ -180,6 +338,10 @@ msgstr "Kontrollerar %s besittningar"
 msgid "key %s could not be imported"
 msgstr "nyckel %s kunde ej importeras"
 
+#: src/transaction.vala src/manager_window.vala
+msgid "Transaction successfully finished"
+msgstr "Överföring lyckades"
+
 #: src/transaction.vala
 msgid "Waiting for another package manager to quit"
 msgstr "Väntar på att annan instans av pakethanteraren ska avslutas"
@@ -188,163 +350,6 @@ msgstr "Väntar på att annan instans av pakethanteraren ska avslutas"
 #, c-format
 msgid "Building %s"
 msgstr "Bygger %s"
-
-#: src/transaction.vala
-msgid "Transaction cancelled"
-msgstr "Överföring avbruten"
-
-#: src/transaction.vala
-msgid "Checking dependencies"
-msgstr "Kollar beroenden"
-
-#: src/transaction.vala
-msgid "Checking file conflicts"
-msgstr "Kontrollerar konflikter"
-
-#: src/transaction.vala
-msgid "Resolving dependencies"
-msgstr "Löser beroenden"
-
-#: src/transaction.vala
-msgid "Checking inter-conflicts"
-msgstr "Letar efter tvärskonflikter"
-
-#: src/transaction.vala
-#, c-format
-msgid "Installing %s"
-msgstr "Installerar %s"
-
-#: src/transaction.vala
-#, c-format
-msgid "Upgrading %s"
-msgstr "Uppgraderar %s"
-
-#: src/transaction.vala
-#, c-format
-msgid "Reinstalling %s"
-msgstr "Ominstallerar %s"
-
-#: src/transaction.vala
-#, c-format
-msgid "Downgrading %s"
-msgstr "Nedgraderar %s"
-
-#: src/transaction.vala
-#, c-format
-msgid "Removing %s"
-msgstr "Tar bort %s"
-
-#: src/transaction.vala
-msgid "Checking integrity"
-msgstr "Kontrollerar integritet"
-
-#: src/transaction.vala
-msgid "Loading packages files"
-msgstr "Laddar paketfiler"
-
-#: src/transaction.vala
-msgid "Checking delta integrity"
-msgstr "Kontrollerar skillnadsintegritet"
-
-#: src/transaction.vala
-msgid "Applying deltas"
-msgstr "Tillämpar skillnader"
-
-#: src/transaction.vala
-#, c-format
-msgid "Generating %s with %s"
-msgstr "Genererar %s med %s"
-
-#: src/transaction.vala
-msgid "Generation succeeded"
-msgstr "Generering lyckades"
-
-#: src/transaction.vala
-msgid "Generation failed"
-msgstr "Generering misslyckades"
-
-#: src/transaction.vala
-#, c-format
-msgid "Configuring %s"
-msgstr "Konfigurerar %s"
-
-#: src/transaction.vala
-msgid "Checking available disk space"
-msgstr "Kontrollerar tillgängligt diskutrymme"
-
-#: src/transaction.vala
-#, c-format
-msgid "%s optionally requires %s"
-msgstr "%s kräver frivilligt %s"
-
-#: src/transaction.vala
-#, c-format
-msgid "Database file for %s does not exist"
-msgstr "Databasfilen för %s existerar inte"
-
-#: src/transaction.vala
-msgid "Checking keyring"
-msgstr "Kontrollerar nyckelring"
-
-#: src/transaction.vala
-msgid "Downloading required keys"
-msgstr "Laddar ner nödvändiga nycklar"
-
-#: src/transaction.vala
-#, c-format
-msgid "%s installed as %s.pacnew"
-msgstr "%s installerades som %s.pacnew"
-
-#: src/transaction.vala
-#, c-format
-msgid "%s installed as %s.pacsave"
-msgstr "%s installerades som %s.pacsave"
-
-#: src/transaction.vala
-msgid "Running pre-transaction hooks"
-msgstr "Kör transaktionsförarbeten"
-
-#: src/transaction.vala
-msgid "Running post-transaction hooks"
-msgstr "Kör transaktionsefterarbeten"
-
-#: src/transaction.vala
-#, c-format
-msgid "Downloading %s"
-msgstr "Laddar ner %s"
-
-#: src/transaction.vala
-#, c-format
-msgid "About %u seconds remaining"
-msgstr "Cirka %u sekunder återstår"
-
-#: src/transaction.vala
-#, c-format
-msgid "About %lu minute remaining"
-msgid_plural "About %lu minutes remaining"
-msgstr[0] "Cirka %lu minut återstår"
-msgstr[1] "Cirka %lu minuter återstår"
-
-#: src/transaction.vala
-#, c-format
-msgid "Refreshing %s"
-msgstr "Uppdaterar %s"
-
-#: src/transaction.vala src/transaction-cli.vala src/cli.vala
-msgid "Error"
-msgstr "Fel"
-
-#: src/transaction.vala src/transaction-gtk.vala
-msgid "Warning"
-msgstr "Varning"
-
-#: src/transaction.vala src/installer.vala src/cli.vala
-msgid "Nothing to do"
-msgstr "Inget att göra"
-
-#: src/transaction.vala src/transaction-gtk.vala
-msgid "Transaction successfully finished"
-msgstr "Överföring lyckades"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
@@ -435,6 +440,10 @@ msgid "Remove packages"
 msgstr "Ta bort paket"
 
 #: src/installer.vala src/cli.vala
+msgid "Build packages from AUR and install them with their dependencies"
+msgstr "bygg paket från AUR och installera dem med deras besittningar"
+
+#: src/installer.vala src/cli.vala
 msgid "package(s)"
 msgstr "Paket"
 
@@ -473,21 +482,9 @@ msgid_plural "%u pending operations"
 msgstr[0] "%u pågående åtgärd"
 msgstr[1] "%u pågående åtgärder"
 
-#: src/manager_window.vala
-msgid "Categories"
-msgstr "Kategorier"
-
-#: src/manager_window.vala src/cli.vala
-msgid "Groups"
-msgstr "Grupper"
-
-#: src/manager_window.vala
-msgid "Repositories"
-msgstr "Förråd (repo)"
-
-#: src/manager_window.vala src/cli.vala resources/manager_window.ui
-msgid "Installed"
-msgstr "Installerad"
+#: src/manager_window.vala resources/manager_window.ui
+msgid "All"
+msgstr ""
 
 #: src/manager_window.vala
 msgid "Orphans"
@@ -497,49 +494,18 @@ msgstr "Föräldralösa"
 msgid "Foreign"
 msgstr "Främmande"
 
-#: src/manager_window.vala
-msgid "Accessories"
-msgstr "Tillbehör"
+#: src/manager_window.vala src/snap_plugin.vala
+#: resources/preferences_dialog.ui
+msgid "Snap"
+msgstr ""
 
-#: src/manager_window.vala
-msgid "Audio & Video"
-msgstr "Ljud & Video"
+#: src/manager_window.vala resources/manager_window.ui
+msgid "Repositories"
+msgstr "Förråd (repo)"
 
-#: src/manager_window.vala
-msgid "Development"
-msgstr "Utveckling"
-
-#: src/manager_window.vala
-msgid "Education"
-msgstr "Utbildning"
-
-#: src/manager_window.vala
-msgid "Games"
-msgstr "Spel"
-
-#: src/manager_window.vala
-msgid "Graphics"
-msgstr "Grafik"
-
-#: src/manager_window.vala
-msgid "Internet"
-msgstr "Internet"
-
-#: src/manager_window.vala
-msgid "Office"
-msgstr "Kontor"
-
-#: src/manager_window.vala
-msgid "Science"
-msgstr "Vetenskap & matematik"
-
-#: src/manager_window.vala
-msgid "Settings"
-msgstr "Inställningar"
-
-#: src/manager_window.vala
-msgid "System Tools"
-msgstr "System"
+#: src/manager_window.vala src/cli.vala resources/manager_window.ui
+msgid "Installed"
+msgstr "Installerad"
 
 #: src/manager_window.vala
 msgid "Dependencies"
@@ -596,6 +562,10 @@ msgstr "Röster"
 #: src/manager_window.vala src/cli.vala
 msgid "Out of Date"
 msgstr "Föråldrat"
+
+#: src/manager_window.vala src/cli.vala resources/manager_window.ui
+msgid "Groups"
+msgstr "Grupper"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Packager"
@@ -654,16 +624,60 @@ msgid "Check Dependencies"
 msgstr "Kontrollera beroenden"
 
 #: src/manager_window.vala
+msgid "Publisher"
+msgstr ""
+
+#: src/manager_window.vala
+msgid "Channels"
+msgstr ""
+
+#: src/manager_window.vala
 msgid "Upgrade"
 msgstr "Uppgradera"
+
+#: src/manager_window.vala resources/manager_window.ui
+msgid "Build"
+msgstr "Bygga"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Remove"
 msgstr "Ta bort"
 
-#: src/manager_window.vala src/cli.vala resources/manager_window.ui
-msgid "Size"
-msgstr "Storlek"
+#: src/manager_window.vala
+msgid "Featured"
+msgstr ""
+
+#: src/manager_window.vala
+msgid "Photo & Video"
+msgstr ""
+
+#: src/manager_window.vala
+msgid "Music & Audio"
+msgstr ""
+
+#: src/manager_window.vala
+msgid "Productivity"
+msgstr ""
+
+#: src/manager_window.vala
+msgid "Communication & News"
+msgstr ""
+
+#: src/manager_window.vala
+msgid "Education & Science"
+msgstr ""
+
+#: src/manager_window.vala
+msgid "Games"
+msgstr "Spel"
+
+#: src/manager_window.vala
+msgid "Utilities"
+msgstr ""
+
+#: src/manager_window.vala
+msgid "Development"
+msgstr "Utveckling"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Install Local Packages"
@@ -680,6 +694,10 @@ msgstr "Alpm-paket"
 #: src/manager_window.vala
 msgid "A Gtk3 frontend for libalpm"
 msgstr "Ett Gtk3-gränssnitt för libalpm"
+
+#: src/manager_window.vala resources/manager_window.ui
+msgid "Categories"
+msgstr "Kategorier"
 
 #: src/preferences_dialog.vala resources/preferences_dialog.ui
 msgid "How often to check for updates, value in hours"
@@ -711,10 +729,6 @@ msgid "%u file"
 msgid_plural "%u files"
 msgstr[0] ""
 msgstr[1] ""
-
-#: src/preferences_dialog.vala
-msgid "Choose Ignored Upgrades"
-msgstr "Välj ignorerade paket"
 
 #: src/transaction-cli.vala src/cli.vala
 #, c-format
@@ -873,10 +887,6 @@ msgid "overwrite existing files"
 msgstr "skriv över befintliga filer"
 
 #: src/cli.vala
-msgid "Build packages from AUR and install them with their dependencies"
-msgstr "bygg paket från AUR och installera dem med deras besittningar"
-
-#: src/cli.vala
 msgid ""
 "If no package name is given, use the PKGBUILD file in the current directory"
 msgstr "Om inget paketnamn har angetts, använd PKGBUILD-filen i nuvarande katalog"
@@ -1021,6 +1031,10 @@ msgid "URL"
 msgstr "URL"
 
 #: src/cli.vala
+msgid "Installed Size"
+msgstr ""
+
+#: src/cli.vala
 #, c-format
 msgid "No package owns %s"
 msgstr "Inget paket äger %s"
@@ -1098,10 +1112,6 @@ msgid "Search"
 msgstr "Sök"
 
 #: resources/manager_window.ui
-msgid "All"
-msgstr ""
-
-#: resources/manager_window.ui
 msgid "Pending"
 msgstr "Pågående"
 
@@ -1130,8 +1140,8 @@ msgid "Relevance"
 msgstr ""
 
 #: resources/manager_window.ui
-msgid "Date"
-msgstr ""
+msgid "Size"
+msgstr "Storlek"
 
 #: resources/manager_window.ui
 msgid "Browse"
@@ -1144,10 +1154,6 @@ msgstr ""
 #: resources/manager_window.ui
 msgid "Reinstall"
 msgstr "Återinstallera"
-
-#: resources/manager_window.ui
-msgid "Build"
-msgstr "Bygga"
 
 #: resources/manager_window.ui
 msgid "Reset build files"
@@ -1164,10 +1170,6 @@ msgid ""
 msgstr "När ett paket tas bort, ta även bort de beroenden paketet har, men som inga andra paket kräver"
 
 #: resources/preferences_dialog.ui
-msgid "Check available disk space"
-msgstr "Kontrollera tillgängligt diskutrymme"
-
-#: resources/preferences_dialog.ui
 msgid "Enable downgrade"
 msgstr "Aktivera nedgradering"
 
@@ -1182,10 +1184,6 @@ msgstr "Ladda automatiskt ned uppdateringar"
 #: resources/preferences_dialog.ui
 msgid "Hide tray icon when no update available"
 msgstr "Göm programikonen när inga uppdateringar finns"
-
-#: resources/preferences_dialog.ui
-msgid "Ignore upgrades for:"
-msgstr "Ignorera uppdateringar för:"
 
 #: resources/preferences_dialog.ui
 msgid "General"
@@ -1224,6 +1222,14 @@ msgstr "Leta efter uppdateringar i AUR"
 #: resources/preferences_dialog.ui
 msgid "Check for development packages updates"
 msgstr "Leta efter uppdateringar för utvecklarpaket"
+
+#: resources/preferences_dialog.ui
+msgid "Snap packages are maintained by their publisher."
+msgstr ""
+
+#: resources/preferences_dialog.ui
+msgid "Enable Snap support"
+msgstr ""
 
 #: resources/preferences_dialog.ui
 msgid "Cache"
