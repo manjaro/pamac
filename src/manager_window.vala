@@ -2865,7 +2865,7 @@ namespace Pamac {
 		void on_remove_all_button_clicked () {
 			foreach (unowned Package pkg in current_packages_list) {
 				if (!transaction.transaction_summary.contains (pkg.name) && pkg.installed_version != ""
-				    && !database.should_hold (pkg.name)) {
+					&& !database.should_hold (pkg.name)) {
 					to_install.remove (pkg.name);
 					to_remove.add (pkg.name);
 				}
@@ -3211,6 +3211,8 @@ namespace Pamac {
 			Gtk.FileFilter package_filter = new Gtk.FileFilter ();
 			package_filter.set_filter_name (dgettext (null, "Alpm Package"));
 			package_filter.add_pattern ("*.pkg.tar.xz");
+			package_filter.add_pattern ("*.pkg.tar.gz");
+			package_filter.add_pattern ("*.pkg.tar");
 			chooser.add_filter (package_filter);
 			if (chooser.run () == Gtk.ResponseType.ACCEPT) {
 				SList<string> packages_paths = chooser.get_filenames ();

@@ -871,7 +871,6 @@ namespace Pamac {
 			total_download = 0;
 			already_downloaded = 0;
 			current_filename = "";
-			flags = 0;
 			sysupgrade = false;
 			enable_downgrade = config.enable_downgrade;
 			no_confirm_commit = false;
@@ -1934,7 +1933,7 @@ void cb_multi_download (string filename, uint64 xfered, uint64 total) {
 		string name_version = name_version_release.slice (0, name_version_release.last_index_of_char ('-'));
 		string name = name_version.slice (0, name_version.last_index_of_char ('-'));
 		string version_release = name_version_release.replace (name + "-", "");
-		current_action = _("Download of %s started").printf ("%s (%s)".printf (name, version_release)) + "...";
+		current_action = _("Download of %s started").printf ("%s (%s)".printf (name, version_release));
 		uint64 total_progress = 0;
 		multi_progress.foreach ((filename, progress) => {
 			total_progress += progress;
@@ -1945,7 +1944,7 @@ void cb_multi_download (string filename, uint64 xfered, uint64 total) {
 		string name_version = name_version_release.slice (0, name_version_release.last_index_of_char ('-'));
 		string name = name_version.slice (0, name_version.last_index_of_char ('-'));
 		string version_release = name_version_release.replace (name + "-", "");
-		current_action = _("Download of %s finished").printf ("%s (%s)".printf (name, version_release)) + "...";
+		current_action = _("Download of %s finished").printf ("%s (%s)".printf (name, version_release));
 		multi_progress.insert (filename, xfered);
 		uint64 total_progress = 0;
 		multi_progress.foreach ((filename, progress) => {
