@@ -97,42 +97,14 @@
               </packing>
             </child>
             <child>
-              <object class="GtkBox" id="repo_box">
+              <object class="GtkLabel" id="repo_label">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="spacing">6</property>
-                <child>
-                  <object class="GtkLabel" id="repo_label">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="width_chars">10</property>
-                    <property name="single_line_mode">True</property>
-                    <property name="max_width_chars">10</property>
-                    <property name="track_visited_links">False</property>
-                    <property name="xalign">0</property>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">0</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkLabel" id="size_label">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="width_chars">8</property>
-                    <property name="single_line_mode">True</property>
-                    <property name="max_width_chars">8</property>
-                    <property name="track_visited_links">False</property>
-                    <property name="xalign">0</property>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">1</property>
-                  </packing>
-                </child>
+                <property name="width_chars">10</property>
+                <property name="single_line_mode">True</property>
+                <property name="max_width_chars">10</property>
+                <property name="track_visited_links">False</property>
+                <property name="xalign">0</property>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -148,15 +120,44 @@
           </packing>
         </child>
         <child>
-          <object class="GtkToggleButton" id="action_togglebutton">
-            <property name="width_request">110</property>
+          <object class="GtkBox" id="button_box">
             <property name="visible">True</property>
-            <property name="can_focus">True</property>
-            <property name="focus_on_click">False</property>
-            <property name="receives_default">True</property>
-            <property name="halign">center</property>
-            <property name="valign">center</property>
-            <property name="always_show_image">True</property>
+            <property name="can_focus">False</property>
+            <property name="orientation">vertical</property>
+            <property name="spacing">6</property>
+            <child>
+              <object class="GtkToggleButton" id="action_togglebutton">
+                <property name="width_request">110</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="focus_on_click">False</property>
+                <property name="receives_default">True</property>
+                <property name="halign">center</property>
+                <property name="valign">center</property>
+                <property name="always_show_image">True</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkLabel" id="size_label">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="width_chars">8</property>
+                <property name="single_line_mode">True</property>
+                <property name="max_width_chars">8</property>
+                <property name="track_visited_links">False</property>
+                <property name="xalign">0.5</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
           </object>
           <packing>
             <property name="expand">False</property>
