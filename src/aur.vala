@@ -128,11 +128,11 @@ namespace Pamac {
 			return cached_infos.lookup (pkgname);
 		}
 
-		public List<Json.Object> get_multi_infos (string[] pkgnames) {
-			var result = new List<Json.Object> ();
+		public List<unowned Json.Object> get_multi_infos (string[] pkgnames) {
+			var result = new List<unowned Json.Object> ();
 			populate_infos (pkgnames);
 			foreach (unowned string pkgname in pkgnames) {
-				Json.Object? object = cached_infos.lookup (pkgname);
+				unowned Json.Object? object = cached_infos.lookup (pkgname);
 				if (object != null) {
 					result.append (object);
 				}
@@ -140,10 +140,10 @@ namespace Pamac {
 			return result;
 		}
 
-		public List<Json.Object> search_aur (string search_string) {
+		public List<unowned Json.Object> search_aur (string search_string) {
 			string[] needles = search_string.split (" ");
 			if (needles.length == 0) {
-				return new List<Json.Object> ();
+				return new List<unowned Json.Object> ();
 			} else {
 				var builder = new StringBuilder ();
 				builder.append (rpc_url);
