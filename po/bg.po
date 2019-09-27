@@ -16,8 +16,8 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2019-09-14 12:36+0200\n"
-"PO-Revision-Date: 2019-09-21 00:46+0000\n"
-"Last-Translator: philm <philm@manjaro.org>\n"
+"PO-Revision-Date: 2019-09-26 08:18+0000\n"
+"Last-Translator: Galin Iskrenov <loot270@abv.bg>\n"
 "Language-Team: Bulgarian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/bg/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -27,11 +27,11 @@ msgstr ""
 
 #: data/polkit/org.manjaro.pamac.policy.in
 msgid "Install, update, or remove packages"
-msgstr ""
+msgstr "Инсталиране, актуализиране или премахване на пакети"
 
 #: data/polkit/org.manjaro.pamac.policy.in
 msgid "Authentication is required to install, update, or remove packages"
-msgstr ""
+msgstr "Изисква се удостоверяване, за да инсталирате, актуализирате или да премахвате пакети"
 
 #: src/alpm_utils.vala src/database.vala
 msgid "Failed to initialize alpm library"
@@ -43,7 +43,7 @@ msgstr "Синхронизиране на пакетната база"
 
 #: src/alpm_utils.vala
 msgid "Failed to synchronize databases"
-msgstr ""
+msgstr "Не може да се синхронизира базата от данни"
 
 #: src/alpm_utils.vala
 msgid "Failed to init transaction"
@@ -257,12 +257,12 @@ msgstr "Внимание"
 #: src/alpm_utils.vala
 #, c-format
 msgid "Download of %s started"
-msgstr ""
+msgstr "Изтегляне на %s започна"
 
 #: src/alpm_utils.vala
 #, c-format
 msgid "Download of %s finished"
-msgstr ""
+msgstr "Изтегляне на %s приключи"
 
 #: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
@@ -491,7 +491,7 @@ msgstr "Чужди"
 #: src/manager_window.vala src/snap_plugin.vala
 #: resources/preferences_dialog.ui
 msgid "Snap"
-msgstr ""
+msgstr "Snap"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Repositories"
@@ -619,11 +619,11 @@ msgstr "Провери зависимости"
 
 #: src/manager_window.vala
 msgid "Publisher"
-msgstr ""
+msgstr "Издател"
 
 #: src/manager_window.vala
 msgid "Channels"
-msgstr ""
+msgstr "Канали"
 
 #: src/manager_window.vala
 msgid "Upgrade"
@@ -639,27 +639,27 @@ msgstr "Премахване"
 
 #: src/manager_window.vala
 msgid "Featured"
-msgstr ""
+msgstr "Препоръчано"
 
 #: src/manager_window.vala
 msgid "Photo & Video"
-msgstr ""
+msgstr "Фото и видео"
 
 #: src/manager_window.vala
 msgid "Music & Audio"
-msgstr ""
+msgstr "Музика и Аудио"
 
 #: src/manager_window.vala
 msgid "Productivity"
-msgstr ""
+msgstr "Продуктивност"
 
 #: src/manager_window.vala
 msgid "Communication & News"
-msgstr ""
+msgstr "Комуникация и новини"
 
 #: src/manager_window.vala
 msgid "Education & Science"
-msgstr ""
+msgstr "Образованието и науката"
 
 #: src/manager_window.vala
 msgid "Games"
@@ -667,7 +667,7 @@ msgstr "Игри"
 
 #: src/manager_window.vala
 msgid "Utilities"
-msgstr ""
+msgstr "Инструменти"
 
 #: src/manager_window.vala
 msgid "Development"
@@ -1026,7 +1026,7 @@ msgstr "URL"
 
 #: src/cli.vala
 msgid "Installed Size"
-msgstr ""
+msgstr "Инсталиран размер"
 
 #: src/cli.vala
 #, c-format
@@ -1219,11 +1219,11 @@ msgstr "Проверка за актуализации на пакети за р
 
 #: resources/preferences_dialog.ui
 msgid "Snap packages are maintained by their publisher."
-msgstr ""
+msgstr "Snap пакетите се поддържат от своя издател."
 
 #: resources/preferences_dialog.ui
 msgid "Enable Snap support"
-msgstr ""
+msgstr "Активиране на поддръжката Snap"
 
 #: resources/preferences_dialog.ui
 msgid "Cache"

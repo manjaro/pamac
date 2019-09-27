@@ -597,8 +597,7 @@ namespace Pamac {
 			// get aur infos
 			if (foreign_pkgnames.length > 0) {
 				foreach (unowned Json.Object json_object in aur.get_multi_infos (foreign_pkgnames)) {
-					string pkgname = json_object.get_string_member ("Name");
-					unowned AlpmPackage? pkg = data.lookup (pkgname);
+					unowned AlpmPackage? pkg = data.lookup (json_object.get_string_member ("Name"));
 					if (pkg != null) {
 						pkg.repo = dgettext (null, "AUR");
 					}
@@ -1686,7 +1685,7 @@ namespace Pamac {
 					return 0;
 				});
 				loop.run ();
-				List<Json.Object> aur_infos = aur.get_multi_infos (local_pkgs.data);
+				List<unowned Json.Object> aur_infos = aur.get_multi_infos (local_pkgs.data);
 				get_aur_updates_real.begin (aur_infos, vcs_local_pkgs, (obj, res) => {
 					AURUpdates aur_updates = get_aur_updates_real.end (res);
 					pkgs = (owned) aur_updates.updates;
@@ -1769,7 +1768,7 @@ namespace Pamac {
 			if (config.check_aur_updates) {
 				// count this step as 5% of the total
 				get_updates_progress (95);
-				List<Json.Object> aur_infos = aur.get_multi_infos (local_pkgs.data);
+				List<unowned Json.Object> aur_infos = aur.get_multi_infos (local_pkgs.data);
 				get_aur_updates_real.begin (aur_infos, vcs_local_pkgs, (obj, res) => {
 					AURUpdates aur_updates = get_aur_updates_real.end (res);
 					get_updates_progress (100);
@@ -1961,7 +1960,7 @@ namespace Pamac {
 			return vcs_packages;
 		}
 
-		async AURUpdates get_aur_updates_real (List<Json.Object> aur_infos, string[] vcs_local_pkgs) {
+		async AURUpdates get_aur_updates_real (List<unowned Json.Object> aur_infos, string[] vcs_local_pkgs) {
 			var updates = new List<AURPackage> ();
 			var outofdate = new List<AURPackage> ();
 			if (config.check_aur_vcs_updates) {
