@@ -23,7 +23,7 @@
 # Italwizzie, 2014
 # Paolo Dongilli <paolo.dongilli@gmail.com>, 2013,2015
 # philm <philm@manjaro.org>, 2015
-# Pietro Francesco Fontana, 2017-2019
+# Pietro F. Fontana, 2017-2019
 # Saverio <saverio.brancaccio@gmail.com>, 2018-2019
 msgid ""
 msgstr ""
