@@ -33,38 +33,38 @@ namespace Pamac {
 
 		public TransactionInterfaceDaemon (Config config) {
 			loop = new MainLoop ();
-			connecting_system_daemon (config);
-			connecting_dbus_signals ();
+			try {
+				connecting_system_daemon (config);
+				connecting_dbus_signals ();
+			} catch (Error e) {
+				critical ("failed to connect to dbus daemon: %s\n", e.message);
+			}
 		}
 
-		ErrorInfos get_current_error () {
+		ErrorInfos get_current_error () throws Error {
 			try {
 				return system_daemon.get_current_error ();
 			} catch (Error e) {
-				critical ("get_current_error: %s\n", e.message);
-				return ErrorInfos ();
+				throw e;
 			}
 		}
 
-		public bool get_lock () {
-			bool locked = false;
+		public bool get_lock () throws Error {
 			try {
-				locked = system_daemon.get_lock ();
+				return system_daemon.get_lock ();
 			} catch (Error e) {
-				critical ("get_lock: %s\n", e.message);
+				throw e;
 			}
-			return locked;
 		}
 
-		public bool get_authorization () {
+		public bool get_authorization () throws Error {
 			try {
 				system_daemon.start_get_authorization ();
 				loop.run ();
 				return get_authorization_authorized;
 			} catch (Error e) {
-				critical ("start_get_authorization: %s\n", e.message);
+				throw e;
 			}
-			return false;
 		}
 
 		void on_get_authorization_finished (bool authorized) {
@@ -73,12 +73,12 @@ namespace Pamac {
 		}
 
 
-		public void generate_mirrors_list (string country) {
+		public void generate_mirrors_list (string country) throws Error {
 			try {
 				system_daemon.start_generate_mirrors_list (country);
 				loop.run ();
 			} catch (Error e) {
-				critical ("generate_mirrors_list: %s\n", e.message);
+				throw e;
 			}
 		}
 
@@ -86,15 +86,14 @@ namespace Pamac {
 			loop.quit ();
 		}
 
-		public bool clean_cache (string[] filenames) {
+		public bool clean_cache (string[] filenames) throws Error {
 			try {
 				system_daemon.start_clean_cache (filenames);
 				loop.run ();
 				return clean_cache_success;
 			} catch (Error e) {
-				critical ("clean_cache: %s\n", e.message);
+				throw e;
 			}
-			return false;
 		}
 
 		void on_clean_cache_finished (bool success) {
@@ -102,15 +101,14 @@ namespace Pamac {
 			loop.quit ();
 		}
 
-		public bool clean_build_files (string aur_build_dir) {
+		public bool clean_build_files (string aur_build_dir) throws Error {
 			try {
 				system_daemon.start_clean_build_files (aur_build_dir);
 				loop.run ();
 				return clean_build_files_success;
 			} catch (Error e) {
-				critical ("clean_build_files: %s\n", e.message);
+				throw e;
 			}
-			return false;
 		}
 
 		void on_clean_clean_build_files_finished (bool success) {
@@ -118,15 +116,14 @@ namespace Pamac {
 			loop.quit ();
 		}
 
-		public bool set_pkgreason (string pkgname, uint reason) {
+		public bool set_pkgreason (string pkgname, uint reason) throws Error {
 			try {
 				system_daemon.start_set_pkgreason (pkgname, reason);
 				loop.run ();
 				return set_pkgreason_success;
 			} catch (Error e) {
-				critical ("set_pkgreason: %s\n", e.message);
+				throw e;
 			}
-			return false;
 		}
 
 		void on_set_pkgreason_finished (bool success) {
@@ -134,12 +131,12 @@ namespace Pamac {
 			loop.quit ();
 		}
 
-		public void download_updates () {
+		public void download_updates () throws Error {
 			try {
 				system_daemon.start_download_updates ();
 				loop.run ();
 			} catch (Error e) {
-				critical ("start_downloading_updates: %s\n", e.message);
+				throw e;
 			}
 		}
 
@@ -147,103 +144,103 @@ namespace Pamac {
 			loop.quit ();
 		}
 
-		public void set_trans_flags (int flags) {
+		public void set_trans_flags (int flags) throws Error {
 			try {
 				system_daemon.set_trans_flags (flags);
 			} catch (Error e) {
-				critical ("set_trans_flags: %s\n", e.message);
+				throw e;
 			}
 		}
 
-		public void set_no_confirm_commit () {
+		public void set_no_confirm_commit () throws Error {
 			try {
 				system_daemon.set_no_confirm_commit ();
 			} catch (Error e) {
-				critical ("set_no_confirm_commit: %s\n", e.message);
+				throw e;
 			}
 		}
 
-		public void add_pkg_to_install (string name) {
+		public void add_pkg_to_install (string name) throws Error {
 			try {
 				system_daemon.add_pkg_to_install (name);
 			} catch (Error e) {
-				critical ("add_pkg_to_install: %s\n", e.message);
+				throw e;
 			}
 		}
 
-		public void add_pkg_to_remove (string name) {
+		public void add_pkg_to_remove (string name) throws Error {
 			try {
 				system_daemon.add_pkg_to_remove (name);
 			} catch (Error e) {
-				critical ("add_pkg_to_remove: %s\n", e.message);
+				throw e;
 			}
 		}
 
-		public void add_path_to_load (string path) {
+		public void add_path_to_load (string path) throws Error {
 			try {
 				system_daemon.add_path_to_load (path);
 			} catch (Error e) {
-				critical ("add_path_to_load: %s\n", e.message);
+				throw e;
 			}
 		}
 
-		public void add_aur_pkg_to_build (string name) {
+		public void add_aur_pkg_to_build (string name) throws Error {
 			try {
 				system_daemon.add_aur_pkg_to_build (name);
 			} catch (Error e) {
-				critical ("add_pkg_to_build: %s\n", e.message);
+				throw e;
 			}
 		}
 
-		public void add_temporary_ignore_pkg (string name) {
+		public void add_temporary_ignore_pkg (string name) throws Error {
 			try {
 				system_daemon.add_temporary_ignore_pkg (name);
 			} catch (Error e) {
-				critical ("add_temporary_ignore_pkg: %s\n", e.message);
+				throw e;
 			}
 		}
 
-		public void add_overwrite_file (string glob) {
+		public void add_overwrite_file (string glob) throws Error {
 			try {
 				system_daemon.add_overwrite_file (glob);
 			} catch (Error e) {
-				critical ("add_overwrite_file: %s\n", e.message);
+				throw e;
 			}
 		}
 
-		public void add_pkg_to_mark_as_dep (string name) {
+		public void add_pkg_to_mark_as_dep (string name) throws Error {
 			try {
 				system_daemon.add_pkg_to_mark_as_dep (name);
 			} catch (Error e) {
-				critical ("add_pkg_to_mark_as_dep: %s\n", e.message);
+				throw e;
 			}
 		}
 
-		public void set_sysupgrade () {
+		public void set_sysupgrade () throws Error {
 			try {
 				system_daemon.set_sysupgrade ();
 			} catch (Error e) {
-				critical ("set_sysupgrade: %s\n", e.message);
+				throw e;
 			}
 		}
 
-		public void set_enable_downgrade (bool downgrade) {
+		public void set_enable_downgrade (bool downgrade) throws Error {
 			try {
 				system_daemon.set_enable_downgrade (downgrade);
 			} catch (Error e) {
-				critical ("set_enable_downgrade: %s\n", e.message);
+				throw e;
 			}
 		}
 
-		public void set_force_refresh () {
+		public void set_force_refresh () throws Error {
 			try {
 				system_daemon.set_force_refresh ();
 			} catch (Error e) {
-				critical ("set_force_refresh: %s\n", e.message);
+				throw e;
 			}
 		}
 
-		public bool trans_run () {
+		public bool trans_run () throws Error {
 			try {
 				system_daemon.trans_run_finished.connect ((success) => {
 					trans_run_success = success;
@@ -253,29 +250,27 @@ namespace Pamac {
 				loop.run ();
 				return trans_run_success;
 			} catch (Error e) {
-				critical ("start_trans_run: %s\n", e.message);
+				throw e;
 			}
-			return false;
 		}
 
-		public void trans_cancel () {
+		public void trans_cancel () throws Error {
 			try {
 				system_daemon.trans_cancel ();
 			} catch (Error e) {
-				critical ("trans_cancel: %s\n", e.message);
+				throw e;
 			}
 		}
 
 		#if ENABLE_SNAP
-		public bool snap_trans_run (string[] to_install, string[] to_remove) {
+		public bool snap_trans_run (string[] to_install, string[] to_remove) throws Error {
 			try {
 				system_daemon.start_snap_trans_run (to_install, to_remove);
 				loop.run ();
 				return snap_trans_run_success;
 			} catch (Error e) {
-				critical ("start_snap_trans_run: %s\n", e.message);
+				throw e;
 			}
-			return false;
 		}
 
 		void on_snap_trans_run_finished (bool success) {
@@ -283,15 +278,14 @@ namespace Pamac {
 			loop.quit ();
 		}
 
-		public bool snap_switch_channel (string snap_name, string channel) {
+		public bool snap_switch_channel (string snap_name, string channel) throws Error {
 			try {
 				system_daemon.start_snap_switch_channel (snap_name, channel);
 				loop.run ();
 				return snap_switch_channel_success;
 			} catch (Error e) {
-				critical ("start_snap_switch_channel: %s\n", e.message);
+				throw e;
 			}
-			return false;
 		}
 
 		void on_snap_switch_channel_finished (bool success) {
@@ -300,11 +294,11 @@ namespace Pamac {
 		}
 		#endif
 
-		public void quit_daemon () {
+		public void quit_daemon () throws Error {
 			try {
 				system_daemon.quit ();
 			} catch (Error e) {
-				critical ("quit: %s\n", e.message);
+				throw e;
 			}
 		}
 
@@ -353,14 +347,14 @@ namespace Pamac {
 			}
 		}
 
-		void connecting_system_daemon (Config config) {
+		void connecting_system_daemon (Config config) throws Error {
 			if (system_daemon == null) {
 				try {
 					system_daemon = Bus.get_proxy_sync (BusType.SYSTEM, "org.manjaro.pamac.daemon", "/org/manjaro/pamac/daemon");
 					// Set environment variables
 					system_daemon.set_environment_variables (config.environment_variables);
 				} catch (Error e) {
-					stderr.printf ("set_environment_variables: %s\n", e.message);
+					throw e;
 				}
 			}
 		}

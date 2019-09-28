@@ -107,7 +107,11 @@ namespace Pamac {
 		}
 
 		public void quit_daemon () {
-			transaction_interface.quit_daemon ();
+			try {
+				transaction_interface.quit_daemon ();
+			} catch (Error e) {
+				critical ("quit_daemon: %s\n", e.message);
+			}
 		}
 
 		protected virtual bool ask_commit (TransactionSummary summary) {
@@ -158,7 +162,7 @@ namespace Pamac {
 						}
 					}
 				}
-			} catch (GLib.Error e) {
+			} catch (Error e) {
 				critical ("%s\n", e.message);
 			}
 			return (owned) files;
@@ -175,19 +179,33 @@ namespace Pamac {
 		}
 
 		ErrorInfos get_current_error () {
-			return transaction_interface.get_current_error ();
+			try {
+				return transaction_interface.get_current_error ();
+			} catch (Error e) {
+				var error = ErrorInfos ();
+				error.message = e.message;
+				return error;
+			}
 		}
 
 		public bool get_authorization () {
-			return transaction_interface.get_authorization ();
+			try {
+				return transaction_interface.get_authorization ();
+			} catch (Error e) {
+				emit_error ("Daemon Error", {"get_authorization: %s".printf (e.message)});
+			}
+			return false;
 		}
 
 		public void generate_mirrors_list (string country) {
-			string country_copy = country;
 			emit_action (dgettext (null, "Refreshing mirrors list") + "...");
 			important_details_outpout (false);
 			transaction_interface.generate_mirrors_list_data.connect (on_generate_mirrors_list_data);
-			transaction_interface.generate_mirrors_list (country_copy);
+			try {
+				transaction_interface.generate_mirrors_list (country);
+			} catch (Error e) {
+				emit_error ("Daemon Error", {"generate_mirrors_list: %s".printf (e.message)});
+			}
 			transaction_interface.generate_mirrors_list_data.disconnect (on_generate_mirrors_list_data);
 			database.refresh ();
 		}
@@ -204,34 +222,49 @@ namespace Pamac {
 			while (iter.next (out name, null)) {
 				array.add (name);
 			}
-			bool success = transaction_interface.clean_cache (array.data);
-			if (!success) {
-				handle_error (get_current_error ());
+			try {
+				bool success = transaction_interface.clean_cache (array.data);
+				if (!success) {
+					handle_error (get_current_error ());
+				}
+			} catch (Error e) {
+				emit_error ("Daemon Error", {"clean_cache: %s".printf (e.message)});
 			}
 		}
 
 		public void clean_build_files () {
-			bool success = transaction_interface.clean_build_files (database.config.aur_build_dir);
+			try {
+				bool success = transaction_interface.clean_build_files (database.config.aur_build_dir);
+				if (!success) {
+					handle_error (get_current_error ());
+				}
+			} catch (Error e) {
+				emit_error ("Daemon Error", {"clean_build_files: %s".printf (e.message)});
+			}
 			// recreate buildir here to have good permissions
 			try {
 				Process.spawn_command_line_sync ("mkdir -p %s".printf (database.config.aur_build_dir));
 			} catch (SpawnError e) {
-				stderr.printf ("SpawnError: %s\n", e.message);
-			}
-			if (!success) {
-				handle_error (get_current_error ());
+				emit_error ("SpawnError: %s".printf (e.message), {});
 			}
 		}
 
 		public bool set_pkgreason (string pkgname, uint reason) {
-			string pkgname_copy = pkgname;
-			bool success = transaction_interface.set_pkgreason (pkgname_copy, reason);
+			try {
+				return transaction_interface.set_pkgreason (pkgname, reason);
+			} catch (Error e) {
+				emit_error ("Daemon Error", {"set_pkgreason: %s".printf (e.message)});
+			}
 			database.refresh ();
-			return success;
+			return false;
 		}
 
 		public void download_updates () {
-			transaction_interface.download_updates ();
+			try {
+				transaction_interface.download_updates ();
+			} catch (Error e) {
+				emit_error ("Daemon Error", {"download_updates: %s".printf (e.message)});
+			}
 		}
 
 		void compute_aur_build_list () {
@@ -316,7 +349,7 @@ namespace Pamac {
 									dep_to_check.add (filename);
 								}
 							}
-						} catch (GLib.Error e) {
+						} catch (Error e) {
 							critical ("%s\n", e.message);
 						}
 						continue;
@@ -565,7 +598,7 @@ namespace Pamac {
 					if (global_validpgpkeys.length () > 0) {
 						yield check_signature (pkgname, global_validpgpkeys);
 					}
-				} catch (GLib.Error e) {
+				} catch (Error e) {
 					critical ("%s\n", e.message);
 					continue;
 				}
@@ -617,6 +650,10 @@ namespace Pamac {
 		}
 
 		public bool run () {
+			if (transaction_interface == null) {
+				emit_error ("Daemon Error", {"failed to connect to dbus daemon"});
+				return false;
+			}
 			bool success = true;
 			if (sysupgrading ||
 				to_install.length > 0 ||
@@ -733,7 +770,11 @@ namespace Pamac {
 			connecting_signals ();
 			add_optdeps ();
 			if (sysupgrading) {
-				transaction_interface.set_enable_downgrade (database.config.enable_downgrade);
+				try {
+					transaction_interface.set_enable_downgrade (database.config.enable_downgrade);
+				} catch (Error e) {
+					emit_error ("Daemon Error", {"set_enable_downgrade: %s".printf (e.message)});
+				}
 				if (database.config.check_aur_updates) {
 					// add aur updates
 					var aur_updates = database.get_aur_updates ();
@@ -758,12 +799,23 @@ namespace Pamac {
 					return false;
 				}
 			}
-			return transaction_interface.trans_run ();
+			try {
+				return transaction_interface.trans_run ();
+			} catch (Error e) {
+				emit_error ("Daemon Error", {"trans_run: %s".printf (e.message)});
+				return false;
+			}
 		}
 
 		bool wait_for_lock () {
 			bool success = true;
-			if (transaction_interface.get_lock ()) {
+			try {
+				success = transaction_interface.get_lock ();
+			} catch (Error e) {
+				emit_error ("Daemon Error", {"get_lock: %s".printf (e.message)});
+				return false;
+			}
+			if (success) {
 				return true;
 			} else {
 				waiting = true;
@@ -777,7 +829,12 @@ namespace Pamac {
 						loop.quit ();
 						return false;
 					}
-					waiting = !transaction_interface.get_lock ();
+					try {
+						waiting = !transaction_interface.get_lock ();
+					} catch (Error e) {
+						emit_error ("Daemon Error", {"get_lock: %s".printf (e.message)});
+						return false;
+					}
 					if (waiting) {
 						pass++;
 						// wait 10 min max
@@ -798,47 +855,87 @@ namespace Pamac {
 		}
 
 		public void set_flags (int flags) {
-			transaction_interface.set_trans_flags (flags);
+			try {
+				transaction_interface.set_trans_flags (flags);
+			} catch (Error e) {
+				emit_error ("Daemon Error", {"set_trans_flags: %s".printf (e.message)});
+			}
 		}
 
 		public void add_pkg_to_install (string name) {
 			to_install.add (name);
-			transaction_interface.add_pkg_to_install (name);
+			try {
+				transaction_interface.add_pkg_to_install (name);
+			} catch (Error e) {
+				emit_error ("Daemon Error", {"add_pkg_to_install: %s".printf (e.message)});
+			}
 		}
 
 		public void add_pkg_to_remove (string name) {
 			to_remove.add (name);
-			transaction_interface.add_pkg_to_remove (name);
+			try {
+				transaction_interface.add_pkg_to_remove (name);
+			} catch (Error e) {
+				emit_error ("Daemon Error", {"add_pkg_to_remove: %s".printf (e.message)});
+			}
 		}
 
 		public void add_path_to_load (string path) {
 			to_load.add (path);
-			transaction_interface.add_path_to_load (path);
+			try {
+				transaction_interface.add_path_to_load (path);
+			} catch (Error e) {
+				emit_error ("Daemon Error", {"add_path_to_load: %s".printf (e.message)});
+			}
 		}
 
 		public void add_aur_pkg_to_build (string name) {
 			to_build.add (name);
-			transaction_interface.add_aur_pkg_to_build (name);
+			try {
+				transaction_interface.add_aur_pkg_to_build (name);
+			} catch (Error e) {
+				emit_error ("Daemon Error", {"add_aur_pkg_to_build: %s".printf (e.message)});
+			}
 		}
 
 		public void add_temporary_ignore_pkg (string name) {
 			temporary_ignorepkgs.add (name);
-			transaction_interface.add_temporary_ignore_pkg (name);
+			try {
+				transaction_interface.add_temporary_ignore_pkg (name);
+			} catch (Error e) {
+				emit_error ("Daemon Error", {"add_temporary_ignore_pkg: %s".printf (e.message)});
+			}
 		}
 
 		public void add_overwrite_file (string glob) {
-			transaction_interface.add_overwrite_file (glob);
+			try {
+				transaction_interface.add_overwrite_file (glob);
+			} catch (Error e) {
+				emit_error ("Daemon Error", {"add_overwrite_file: %s".printf (e.message)});
+			}
 		}
 
 		public void add_pkg_to_mark_as_dep (string name) {
-			transaction_interface.add_pkg_to_mark_as_dep (name);
+			try {
+				transaction_interface.add_pkg_to_mark_as_dep (name);
+			} catch (Error e) {
+				emit_error ("Daemon Error", {"add_pkg_to_mark_as_dep: %s".printf (e.message)});
+			}
 		}
 
 		public void add_pkgs_to_upgrade (bool force_refresh) {
 			if (force_refresh) {
-				transaction_interface.set_force_refresh ();
+				try {
+					transaction_interface.set_force_refresh ();
+				} catch (Error e) {
+					emit_error ("Daemon Error", {"set_force_refresh: %s".printf (e.message)});
+				}
 			}
-			transaction_interface.set_sysupgrade ();
+			try {
+				transaction_interface.set_sysupgrade ();
+			} catch (Error e) {
+				emit_error ("Daemon Error", {"set_sysupgrade: %s".printf (e.message)});
+			}
 			sysupgrading = true;
 		}
 
@@ -865,14 +962,23 @@ namespace Pamac {
 			}
 			snap_to_install.remove_all ();
 			snap_to_remove.remove_all ();
-			return transaction_interface.snap_trans_run (snap_to_install_array.data, snap_to_remove_array.data);
+			try {
+				return transaction_interface.snap_trans_run (snap_to_install_array.data, snap_to_remove_array.data);
+			} catch (Error e) {
+				emit_error ("Daemon Error", {"snap_trans_run: %s".printf (e.message)});
+				return false;
+			}
 		}
 
 		public bool snap_switch_channel (string snap_name, string channel) {
 			connecting_signals ();
-			bool success = transaction_interface.snap_switch_channel (snap_name, channel);
+			try {
+				return transaction_interface.snap_switch_channel (snap_name, channel);
+			} catch (Error e) {
+				emit_error ("Daemon Error", {"snap_switch_channel: %s".printf (e.message)});
+			}
 			disconnecting_signals ();
-			return success;
+			return false;
 		}
 		#endif
 
@@ -1013,9 +1119,14 @@ namespace Pamac {
 					foreach (unowned string name in built_pkgs) {
 						add_path_to_load (name);
 					}
-					transaction_interface.set_no_confirm_commit ();
-					emit_script_output ("");
-					success = transaction_interface.trans_run ();
+					try {
+						transaction_interface.set_no_confirm_commit ();
+						emit_script_output ("");
+						success = transaction_interface.trans_run ();
+					} catch (Error e) {
+						emit_error ("Daemon Error", {"trans_run: %s".printf (e.message)});
+						success = false;
+					}
 					if (!success) {
 						break;
 					}
@@ -1035,7 +1146,11 @@ namespace Pamac {
 			} else if (waiting) {
 				waiting = false;
 			} else {
-				transaction_interface.trans_cancel ();
+				try {
+					transaction_interface.trans_cancel ();
+				} catch (Error e) {
+					emit_error ("Daemon Error", {"trans_cancel: %s".printf (e.message)});
+				}
 			}
 			emit_script_output ("");
 			emit_action (dgettext (null, "Transaction cancelled") + ".");

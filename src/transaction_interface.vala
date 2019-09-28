@@ -19,29 +19,29 @@
 
 namespace Pamac {
 	internal interface TransactionInterface : Object {
-		public abstract ErrorInfos get_current_error ();
-		public abstract bool get_lock ();
-		public abstract bool get_authorization ();
-		public abstract void generate_mirrors_list (string country);
-		public abstract bool clean_cache (string[] filenames);
-		public abstract bool clean_build_files (string aur_build_dir);
-		public abstract bool set_pkgreason (string pkgname, uint reason);
-		public abstract void download_updates ();
-		public abstract void set_trans_flags (int flags);
-		public abstract void add_pkg_to_install (string name);
-		public abstract void add_pkg_to_remove (string name);
-		public abstract void add_path_to_load (string path);
-		public abstract void add_aur_pkg_to_build (string name);
-		public abstract void add_temporary_ignore_pkg (string name);
-		public abstract void add_overwrite_file (string glob);
-		public abstract void add_pkg_to_mark_as_dep (string name);
-		public abstract void set_sysupgrade ();
-		public abstract void set_enable_downgrade (bool downgrade);
-		public abstract void set_no_confirm_commit ();
-		public abstract void set_force_refresh ();
-		public abstract bool trans_run ();
-		public abstract void trans_cancel ();
-		public abstract void quit_daemon ();
+		public abstract ErrorInfos get_current_error () throws Error;
+		public abstract bool get_lock () throws Error;
+		public abstract bool get_authorization () throws Error;
+		public abstract void generate_mirrors_list (string country) throws Error;
+		public abstract bool clean_cache (string[] filenames) throws Error;
+		public abstract bool clean_build_files (string aur_build_dir) throws Error;
+		public abstract bool set_pkgreason (string pkgname, uint reason) throws Error;
+		public abstract void download_updates () throws Error;
+		public abstract void set_trans_flags (int flags) throws Error;
+		public abstract void add_pkg_to_install (string name) throws Error;
+		public abstract void add_pkg_to_remove (string name) throws Error;
+		public abstract void add_path_to_load (string path) throws Error;
+		public abstract void add_aur_pkg_to_build (string name) throws Error;
+		public abstract void add_temporary_ignore_pkg (string name) throws Error;
+		public abstract void add_overwrite_file (string glob) throws Error;
+		public abstract void add_pkg_to_mark_as_dep (string name) throws Error;
+		public abstract void set_sysupgrade () throws Error;
+		public abstract void set_enable_downgrade (bool downgrade) throws Error;
+		public abstract void set_no_confirm_commit () throws Error;
+		public abstract void set_force_refresh () throws Error;
+		public abstract bool trans_run () throws Error;
+		public abstract void trans_cancel () throws Error;
+		public abstract void quit_daemon () throws Error;
 		public signal int choose_provider (string depend, string[] providers);
 		public signal void compute_aur_build_list ();
 		public signal bool ask_edit_build_files (TransactionSummaryStruct summary);
@@ -60,8 +60,8 @@ namespace Pamac {
 		public signal void important_details_outpout (bool must_show);
 		public signal void generate_mirrors_list_data (string line);
 		#if ENABLE_SNAP
-		public abstract bool snap_trans_run (string[] to_install, string[] to_remove);
-		public abstract bool snap_switch_channel (string snap_name, string channel);
+		public abstract bool snap_trans_run (string[] to_install, string[] to_remove) throws Error;
+		public abstract bool snap_switch_channel (string snap_name, string channel) throws Error;
 		#endif
 	}
 }
