@@ -587,6 +587,7 @@ namespace Pamac {
 			this.key_press_event.connect ((event) => {
 				if (main_stack.visible_child_name == "browse"
 					&& (browse_stack.visible_child_name == "browse"
+					|| browse_stack.visible_child_name == "search"
 					|| browse_stack.visible_child_name == "installed")) {
 					return searchbar.handle_event (event);
 				}
@@ -653,12 +654,18 @@ namespace Pamac {
 				pending_aur_row.visible = true;
 				search_aur_row.visible = true;
 			} else {
+				if (updates_listbox.get_selected_row ().get_index () == 2) {
+					updates_listbox.select_row (updates_listbox.get_row_at_index (0));
+				}
+				if (pending_listbox.get_selected_row ().get_index () == 2) {
+					pending_listbox.select_row (pending_listbox.get_row_at_index (0));
+				}
+				if (search_listbox.get_selected_row ().get_index () == 3) {
+					search_listbox.select_row (search_listbox.get_row_at_index (0));
+				}
 				updates_aur_row.visible = false;
 				pending_aur_row.visible = false;
 				search_aur_row.visible = false;
-				updates_listbox.select_row (updates_listbox.get_row_at_index (0));
-				pending_listbox.select_row (pending_listbox.get_row_at_index (0));
-				search_listbox.select_row (search_listbox.get_row_at_index (0));
 			}
 		}
 
@@ -672,13 +679,18 @@ namespace Pamac {
 				pending_snap_row.visible = true;
 				search_snap_row.visible = true;
 			} else {
+				if (installed_listbox.get_selected_row ().get_index () == 4) {
+					installed_listbox.select_row (installed_listbox.get_row_at_index (0));
+				}
+				if (pending_listbox.get_selected_row ().get_index () == 3) {
+					pending_listbox.select_row (pending_listbox.get_row_at_index (0));
+				}
+				if (search_listbox.get_selected_row ().get_index () == 4) {
+					search_listbox.select_row (search_listbox.get_row_at_index (0));
+				}
 				installed_snap_row.visible = false;
 				pending_snap_row.visible = false;
 				search_snap_row.visible = false;
-				installed_listbox.select_row (installed_listbox.get_row_at_index (0));
-				updates_listbox.select_row (updates_listbox.get_row_at_index (0));
-				pending_listbox.select_row (pending_listbox.get_row_at_index (0));
-				search_listbox.select_row (search_listbox.get_row_at_index (0));
 			}
 		}
 		#endif
@@ -2214,24 +2226,9 @@ namespace Pamac {
 				install_all_button.visible = false;
 				ignore_all_button.visible = false;
 				set_pendings_operations ();
-				if (search_string != null) {
-					// select last search_string
-					bool found = false;
-					search_comboboxtext.get_model ().foreach ((model, path, iter) => {
-						string line;
-						model.get (iter, 0, out line);
-						if (line == search_string) {
-							found = true;
-							// we select the iter in search list
-							// it will populate the packages list with the comboboxtext changed signal
-							search_comboboxtext.set_active_iter (null);
-							search_comboboxtext.set_active_iter (iter);
-						}
-						return found;
-					});
-					if (!searchbar.search_mode_enabled) {
-						searchbar.search_mode_enabled = true;
-					}
+				on_search_comboboxtext_changed ();
+				if (!searchbar.search_mode_enabled) {
+					searchbar.search_mode_enabled = true;
 				}
 			}
 		}
@@ -2898,6 +2895,7 @@ namespace Pamac {
 		void on_search_mode_enabled () {
 			if (searchbar.search_mode_enabled) {
 				search_button.active = true;
+				browse_stack.visible_child_name = "search";
 			}
 		}
 
@@ -2963,11 +2961,6 @@ namespace Pamac {
 				// a history line was choosen
 				this.get_window ().set_cursor (new Gdk.Cursor.for_display (Gdk.Display.get_default (), Gdk.CursorType.WATCH));
 				search_string = search_comboboxtext.get_active_text ().strip ();
-				if (browse_stack.visible_child_name != "search") {
-					// this function will be recalled when refresh_packages_list
-					browse_stack.visible_child_name = "search";
-					return;
-				}
 				on_search_listbox_row_activated (search_listbox.get_selected_row ());
 			}
 		}
