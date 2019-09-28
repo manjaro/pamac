@@ -64,7 +64,12 @@ namespace Pamac {
 				important_details_outpout (must_show);
 			});
 			alpm_utils.get_authorization.connect (() => {
-				return get_authorization ();
+				try {
+					return get_authorization ();
+				} catch (Error e) {
+					critical ("get_authorization: %s\n", e.message);
+				}
+				return false;
 			});
 			alpm_utils.ask_commit.connect ((summary) => {
 				return ask_commit (summary);

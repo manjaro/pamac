@@ -317,7 +317,7 @@ namespace Pamac {
 
 		public bool refresh () {
 			current_error = ErrorInfos ();
-			//emit_action (_("Synchronizing package databases") + "...");
+			emit_action (_("Synchronizing package databases") + "...");
 			start_downloading ();
 			write_log_file ("synchronizing package lists");
 			cancellable.reset ();
