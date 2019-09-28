@@ -250,8 +250,8 @@ namespace Pamac {
 					null,
 					Polkit.CheckAuthorizationFlags.ALLOW_USER_INTERACTION);
 				authorized = result.get_is_authorized ();
-			} catch (GLib.Error e) {
-				stderr.printf ("%s\n", e.message);
+			} catch (Error e) {
+				critical ("%s\n", e.message);
 			}
 			if (!authorized) {
 				alpm_utils.current_error = ErrorInfos () {
@@ -262,13 +262,27 @@ namespace Pamac {
 		}
 
 		bool get_authorization_sync () {
-			var tmp_loop = new MainLoop ();
-			bool authorized = false;
-			check_authorization.begin (trans_run_sender, (obj, res) => {
-				authorized = check_authorization.end (res);
-				tmp_loop.quit ();
-			});
-			tmp_loop.run ();
+			if (authorized) {
+				return true;
+			}
+			authorized = false;
+			try {
+				Polkit.Authority authority = Polkit.Authority.get_sync ();
+				Polkit.Subject subject = new Polkit.SystemBusName (trans_run_sender);
+				var result = authority.check_authorization_sync (
+					subject,
+					"org.manjaro.pamac.commit",
+					null,
+					Polkit.CheckAuthorizationFlags.ALLOW_USER_INTERACTION);
+				authorized = result.get_is_authorized ();
+			} catch (Error e) {
+				critical ("%s\n", e.message);
+			}
+			if (!authorized) {
+				alpm_utils.current_error = ErrorInfos () {
+					message = _("Authentication failed")
+				};
+			}
 			return authorized;
 		}
 
