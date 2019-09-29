@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2019-09-14 12:36+0200\n"
-"PO-Revision-Date: 2019-09-22 04:49+0000\n"
+"PO-Revision-Date: 2019-09-28 22:43+0000\n"
 "Last-Translator: UTUMI Hirosi <utuhiro78@yahoo.co.jp>\n"
 "Language-Team: Japanese (http://www.transifex.com/manjarolinux/manjaro-pamac/language/ja/)\n"
 "MIME-Version: 1.0\n"
@@ -1121,7 +1121,7 @@ msgstr "全て無視"
 
 #: resources/manager_window.ui
 msgid "Sort by"
-msgstr "次のものでソート"
+msgstr "次でソート"
 
 #: resources/manager_window.ui
 msgid "Relevance"

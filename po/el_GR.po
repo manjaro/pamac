@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2019-09-14 12:36+0200\n"
-"PO-Revision-Date: 2019-09-26 18:44+0000\n"
+"PO-Revision-Date: 2019-09-27 23:30+0000\n"
 "Last-Translator: kouros kouros <kormikg@yahoo.gr>\n"
 "Language-Team: Greek (Greece) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/el_GR/)\n"
 "MIME-Version: 1.0\n"
@@ -639,7 +639,7 @@ msgstr "Προτεινόμενα"
 
 #: src/manager_window.vala
 msgid "Photo & Video"
-msgstr "Φωτογραφίες & Βίντεο"
+msgstr "Φωτογραφία & Βίντεο"
 
 #: src/manager_window.vala
 msgid "Music & Audio"
