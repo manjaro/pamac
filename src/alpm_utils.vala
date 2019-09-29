@@ -1104,11 +1104,11 @@ namespace Pamac {
 					// get standard handle
 					refresh_handle ();
 				}
-//~ 				try {
-//~ 					Process.spawn_command_line_sync ("rm -f %ssync/aur.db".printf (alpm_handle.dbpath));
-//~ 				} catch (SpawnError e) {
-//~ 					critical ("SpawnError: %s\n", e.message);
-//~ 				}
+				try {
+					Process.spawn_command_line_sync ("rm -f %ssync/aur.db".printf (alpm_handle.dbpath));
+				} catch (SpawnError e) {
+					critical ("SpawnError: %s\n", e.message);
+				}
 				stop_preparing ();
 				return success;
 			}

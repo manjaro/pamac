@@ -216,7 +216,7 @@ const PamacUpdateIndicator = new Lang.Class({
 		if (event_type == Gio.FileMonitorEvent.DELETED) {
 			let that = this;
 			if (this._FirstTimeoutId) GLib.source_remove(this._FirstTimeoutId);
-			this._FirstTimeoutId = GLib.timeout_add(GLib.PRIORITY_DEFAULT, 2000, function () {
+			this._FirstTimeoutId = GLib.timeout_add(GLib.PRIORITY_DEFAULT, 500, function () {
 				if (!that._pacman_lock.query_exists(null)) {
 					that._checkUpdates();
 					that._FirstTimeoutId = null;

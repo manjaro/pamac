@@ -2378,6 +2378,19 @@ namespace Pamac {
 						pkgs.append (pkg);
 					}
 					populate_packages_list ((owned) pkgs);
+					unowned Gtk.ListBoxRow repos_row = updates_listbox.get_row_at_index (1);
+					if (repos_updates.length () > 0) {
+						repos_row.activatable = true;
+						repos_row.selectable = true;
+						repos_row.can_focus = true;
+						repos_row.get_child ().sensitive = true;
+					} else {
+						repos_row.activatable = false;
+						repos_row.selectable = false;
+						repos_row.has_focus = false;
+						repos_row.can_focus = false;
+						repos_row.get_child ().sensitive = false;
+					}
 					break;
 				case 1: // repos
 					this.get_window ().set_cursor (new Gdk.Cursor.for_display (Gdk.Display.get_default (), Gdk.CursorType.WATCH));
@@ -2807,7 +2820,6 @@ namespace Pamac {
 					search_entry.grab_focus_without_selecting ();
 					search_entry.set_position (-1);
 					if (search_string == null) {
-						origin_stack.visible_child_name = "no_item";
 						return;
 					}
 					this.get_window ().set_cursor (new Gdk.Cursor.for_display (Gdk.Display.get_default (), Gdk.CursorType.WATCH));
@@ -2846,7 +2858,6 @@ namespace Pamac {
 					search_entry.grab_focus_without_selecting ();
 					search_entry.set_position (-1);
 					if (search_string == null) {
-						origin_stack.visible_child_name = "no_item";
 						return;
 					}
 					this.get_window ().set_cursor (new Gdk.Cursor.for_display (Gdk.Display.get_default (), Gdk.CursorType.WATCH));
@@ -3013,10 +3024,7 @@ namespace Pamac {
 			} else if (category == dgettext (null, "Development")) {
 				matching_cat = "Development";
 			}
-			Timeout.add (200, () => {
-				populate_packages_list (get_category_pkgs (matching_cat));
-				return false;
-			});
+			populate_packages_list (get_category_pkgs (matching_cat));
 		}
 
 		[GtkCallback]
@@ -3024,27 +3032,24 @@ namespace Pamac {
 			this.get_window ().set_cursor (new Gdk.Cursor.for_display (Gdk.Display.get_default (), Gdk.CursorType.WATCH));
 			unowned Gtk.Label label = row.get_child () as Gtk.Label;
 			unowned string group_name = label.label;
-			Timeout.add (200, () => {
-				var pkgs = database.get_group_pkgs (group_name);
-				bool found = false;
-				foreach (unowned AlpmPackage pkg in pkgs) {
-					if (pkg.installed_version == "") {
-						found = true;
-						break;
-					}
+			var pkgs = database.get_group_pkgs (group_name);
+			bool found = false;
+			foreach (unowned AlpmPackage pkg in pkgs) {
+				if (pkg.installed_version == "") {
+					found = true;
+					break;
 				}
-				install_all_button.visible = found;
-				found = false;
-				foreach (unowned AlpmPackage pkg in pkgs) {
-					if (pkg.installed_version != "") {
-						found = true;
-						break;
-					}
+			}
+			install_all_button.visible = found;
+			found = false;
+			foreach (unowned AlpmPackage pkg in pkgs) {
+				if (pkg.installed_version != "") {
+					found = true;
+					break;
 				}
-				remove_all_button.visible = found;
-				populate_packages_list ((owned) pkgs);
-				return false;
-			});
+			}
+			remove_all_button.visible = found;
+			populate_packages_list ((owned) pkgs);
 		}
 
 		[GtkCallback]
@@ -3053,52 +3058,33 @@ namespace Pamac {
 			int index = row.get_index ();
 			switch (index) {
 				case 0: // All
-					Timeout.add (200, () => {
-						List<Package> pkgs = database.get_installed_pkgs ();
-						remove_all_button.visible = false;
-						#if ENABLE_SNAP
-						if (database.config.enable_snap) {
-							var snaps = database.get_installed_snaps ();
-							pkgs.concat ((owned) snaps);
-							populate_packages_list ((owned) pkgs);
-						} else {
-							populate_packages_list ((owned) pkgs);
-						}
-						#else
-						populate_packages_list ((owned) pkgs);
-						#endif
-						return false;
-					});
+					List<Package> pkgs = database.get_installed_pkgs ();
+					remove_all_button.visible = false;
+					#if ENABLE_SNAP
+					if (database.config.enable_snap) {
+						var snaps = database.get_installed_snaps ();
+						pkgs.concat ((owned) snaps);
+					}
+					#endif
+					populate_packages_list ((owned) pkgs);
 					break;
 				case 1: // Explicitly installed
-					Timeout.add (200, () => {
-						populate_packages_list (database.get_explicitly_installed_pkgs ());
-						remove_all_button.visible = false;
-						return false;
-					});
+					populate_packages_list (database.get_explicitly_installed_pkgs ());
+					remove_all_button.visible = false;
 					break;
 				case 2: // Orphans
-					Timeout.add (200, () => {
-						var pkgs = database.get_orphans ();
-						remove_all_button.visible = pkgs.length () > 0;
-						populate_packages_list ((owned) pkgs);
-						return false;
-					});
+					var pkgs = database.get_orphans ();
+					remove_all_button.visible = pkgs.length () > 0;
+					populate_packages_list ((owned) pkgs);
 					break;
 				case 3: // Foreign
-					Timeout.add (200, () => {
-						populate_packages_list (database.get_foreign_pkgs ());
-						remove_all_button.visible = false;
-						return false;
-					});
+					populate_packages_list (database.get_foreign_pkgs ());
+					remove_all_button.visible = false;
 					break;
 				#if ENABLE_SNAP
 				case 4: // Snap
-					Timeout.add (200, () => {
-						populate_packages_list (database.get_installed_snaps ());
-						remove_all_button.visible = false;
-						return false;
-					});
+					populate_packages_list (database.get_installed_snaps ());
+					remove_all_button.visible = false;
 					break;
 				#endif
 				default:
@@ -3111,10 +3097,7 @@ namespace Pamac {
 			this.get_window ().set_cursor (new Gdk.Cursor.for_display (Gdk.Display.get_default (), Gdk.CursorType.WATCH));
 			unowned Gtk.Label label = row.get_child () as Gtk.Label;
 			unowned string repo = label.label;
-			Timeout.add (200, () => {
-				populate_packages_list (database.get_repo_pkgs (repo));
-				return false;
-			});
+			populate_packages_list (database.get_repo_pkgs (repo));
 		}
 
 		void on_main_stack_visible_child_changed () {

@@ -398,12 +398,10 @@
                                 <property name="width_request">175</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
-                                <property name="transition_type">slide-left-right</property>
                                 <child>
                                   <object class="GtkStack" id="filters_stack">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
-                                    <property name="transition_type">slide-left-right</property>
                                     <child>
                                       <object class="GtkScrolledWindow" id="categories_scrolledwindow">
                                         <property name="visible">True</property>
@@ -699,7 +697,6 @@
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                                 <property name="vexpand">True</property>
-                                <property name="transition_type">crossfade</property>
                                 <child>
                                   <object class="GtkScrolledWindow" id="packages_scrolledwindow">
                                     <property name="width_request">700</property>
