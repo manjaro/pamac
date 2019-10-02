@@ -278,15 +278,23 @@ namespace Pamac {
 			loop.run ();
 		}
 
+		async void launch_subprocess (string[] cmds) {
+			try {
+				var process = new Subprocess.newv (cmds, SubprocessFlags.NONE);
+				yield process.wait_async ();
+			} catch (Error e) {
+				critical ("%s\n", e.message);
+			}
+		}
+
 		async void compute_aur_build_list_real () {
 			string tmp_path = "/tmp/pamac";
-			var launcher = new SubprocessLauncher (SubprocessFlags.NONE);
 			var file = GLib.File.new_for_path (tmp_path);
 			if (!file.query_exists ()) {
-				yield database.launch_subprocess (launcher, {"mkdir", "-p", tmp_path});
-				yield database.launch_subprocess (launcher, {"chmod", "a+w", tmp_path});
+				yield launch_subprocess ({"mkdir", "-p", tmp_path});
+				yield launch_subprocess ({"chmod", "a+w", tmp_path});
 			}
-			yield database.launch_subprocess (launcher, {"mkdir", "-p", aurdb_path});
+			yield launch_subprocess ({"mkdir", "-p", aurdb_path});
 			aur_desc_list.remove_all ();
 			already_checked_aur_dep.remove_all ();
 			var to_build_array = new GenericArray<string> ();
@@ -296,18 +304,18 @@ namespace Pamac {
 			yield check_aur_dep_list (to_build_array.data);
 			if (aur_desc_list.length > 0) {
 				// create a fake aur db
-				yield database.launch_subprocess (launcher, {"rm", "-f", "%s/aur.db".printf (tmp_path)});
+				yield launch_subprocess ({"rm", "-f", "%s/aur.db".printf (tmp_path)});
 				string[] cmds = {"bsdtar", "-cf", "%s/aur.db".printf (tmp_path), "-C", aurdb_path};
 				foreach (unowned string name_version in aur_desc_list) {
 					cmds += name_version;
 				}
-				yield database.launch_subprocess (launcher, cmds);
+				yield launch_subprocess (cmds);
 			}
 		}
 
 		async void check_aur_dep_list (string[] pkgnames) {
 			var dep_to_check = new GenericArray<string> ();
-			var aur_pkgs = new HashTable<string, AURPackage> (str_hash, str_equal);
+			var aur_pkgs = new HashTable<string, AURPackage?> (str_hash, str_equal);
 			if (clone_build_files) {
 				aur_pkgs = database.get_aur_pkgs (pkgnames);
 			}

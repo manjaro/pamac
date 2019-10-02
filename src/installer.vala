@@ -157,11 +157,11 @@ namespace Pamac {
 
 		bool check_build_pkgs (string[] targets) {
 			var aur_pkgs = database.get_aur_pkgs (targets);
-			var iter = HashTableIter<string, AURPackage> (aur_pkgs);
+			var iter = HashTableIter<string, AURPackage?> (aur_pkgs);
 			unowned string pkgname;
-			unowned AURPackage aur_pkg;
+			unowned AURPackage? aur_pkg;
 			while (iter.next (out pkgname, out aur_pkg)) {
-				if (aur_pkg.name == "") {
+				if (aur_pkg == null) {
 					transaction.display_error (dgettext (null, "Failed to prepare transaction"), {dgettext (null, "target not found: %s").printf (pkgname)});
 					return false;
 				}

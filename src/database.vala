@@ -1300,11 +1300,11 @@ namespace Pamac {
 			return (owned) files;
 		}
 
-		internal async int launch_subprocess (SubprocessLauncher launcher, string[] cmds, Cancellable? cancellable = null) {
+		int launch_subprocess (SubprocessLauncher launcher, string[] cmds, Cancellable? cancellable = null) {
 			int status = 1;
 			try {
 				Subprocess process = launcher.spawnv (cmds);
-				yield process.wait_async (cancellable);
+				process.wait (cancellable);
 				if (cancellable.is_cancelled ()) {
 					process.force_exit ();
 					return 1;
@@ -1321,15 +1321,16 @@ namespace Pamac {
 		public File? clone_build_files (string pkgname, bool overwrite_files, Cancellable? cancellable = null) {
 			File? file = null;
 			string pkgname_copy = pkgname;
-			clone_build_files_real.begin (pkgname_copy, overwrite_files, cancellable, (obj, res) => {
-				file = clone_build_files_real.end (res);
+			new Thread<int> ("clone_build_files", () => {
+				file = clone_build_files_real (pkgname_copy, overwrite_files, cancellable);
 				loop.quit ();
+				return 0;
 			});
 			loop.run ();
 			return file;
 		}
 
-		async File? clone_build_files_real (string pkgname, bool overwrite_files, Cancellable? cancellable) {
+		File? clone_build_files_real (string pkgname, bool overwrite_files, Cancellable? cancellable) {
 			int status = 1;
 			string[] cmds;
 			var launcher = new SubprocessLauncher (SubprocessFlags.NONE);
@@ -1346,13 +1347,13 @@ namespace Pamac {
 				if (overwrite_files) {
 					launcher.set_cwd (config.aur_build_dir);
 					cmds = {"rm", "-rf", "%s".printf (pkgdir.get_path ())};
-					yield launch_subprocess (launcher, cmds);
+					launch_subprocess (launcher, cmds);
 					cmds = {"git", "clone", "-q", "--depth=1", "https://aur.archlinux.org/%s.git".printf (pkgname)};
 				} else {
 					// fetch modifications
 					launcher.set_cwd (pkgdir.get_path ());
 					cmds = {"git", "fetch", "-q"};
-					status = yield launch_subprocess (launcher, cmds, cancellable);
+					status = launch_subprocess (launcher, cmds, cancellable);
 					if (cancellable.is_cancelled ()) {
 						return null;
 					}
@@ -1363,10 +1364,10 @@ namespace Pamac {
 							var file = File.new_for_path (Path.build_path ("/", pkgdir.get_path (), "diff"));
 							if (file.query_exists ()) {
 								// delete the file before rewrite it
-								yield file.delete_async ();
+								file.delete ();
 							}
 							cmds = {"git", "diff", "--exit-code", "origin/master"};
-							FileEnumerator enumerator = yield pkgdir.enumerate_children_async ("standard::*", FileQueryInfoFlags.NONE);
+							FileEnumerator enumerator = pkgdir.enumerate_children ("standard::*", FileQueryInfoFlags.NONE);
 							FileInfo info;
 							// don't show .SRCINFO diff
 							while ((info = enumerator.next_file (null)) != null) {
@@ -1376,16 +1377,16 @@ namespace Pamac {
 								}
 							}
 							Subprocess process = launcher.spawnv (cmds);
-							yield process.wait_async ();
+							process.wait ();
 							if (process.get_if_exited ()) {
 								status = process.get_exit_status ();
 							}
 							if (status == 1) {
 								// there is a diff
 								var dis = new DataInputStream (process.get_stdout_pipe ());
-								var dos = new DataOutputStream (yield file.create_async (FileCreateFlags.NONE));
+								var dos = new DataOutputStream (file.create (FileCreateFlags.NONE));
 								// writing output to diff
-								yield dos.splice_async (dis, OutputStreamSpliceFlags.NONE);
+								dos.splice (dis, OutputStreamSpliceFlags.NONE);
 								status = 0;
 							}
 						} catch (Error e) {
@@ -1397,14 +1398,14 @@ namespace Pamac {
 					if (status == 0) {
 						launcher.set_flags (SubprocessFlags.STDOUT_SILENCE | SubprocessFlags.STDERR_SILENCE);
 						cmds = {"git", "merge", "-q"};
-						status = yield launch_subprocess (launcher, cmds);
+						status = launch_subprocess (launcher, cmds);
 					}
 					if (status == 0) {
 						return pkgdir;
 					} else {
 						launcher.set_cwd (config.aur_build_dir);
 						cmds = {"rm", "-rf", "%s".printf (pkgdir.get_path ())};
-						yield launch_subprocess (launcher, cmds);
+						launch_subprocess (launcher, cmds);
 						cmds = {"git", "clone", "-q", "--depth=1", "https://aur.archlinux.org/%s.git".printf (pkgname)};
 					}
 				}
@@ -1412,7 +1413,7 @@ namespace Pamac {
 				launcher.set_cwd (config.aur_build_dir);
 				cmds = {"git", "clone", "-q", "--depth=1", "https://aur.archlinux.org/%s.git".printf (pkgname)};
 			}
-			status = yield launch_subprocess (launcher, cmds, cancellable);
+			status = launch_subprocess (launcher, cmds, cancellable);
 			if (status == 0) {
 				return pkgdir;
 			}
@@ -1422,15 +1423,16 @@ namespace Pamac {
 		public bool regenerate_srcinfo (string pkgname, Cancellable? cancellable = null) {
 			bool success = false;
 			string pkgname_copy = pkgname;
-			regenerate_srcinfo_real.begin (pkgname_copy, cancellable, (obj, res) => {
-				success = regenerate_srcinfo_real.end (res);
+			new Thread<int> ("clone_build_files", () => {
+				success = regenerate_srcinfo_real (pkgname_copy, cancellable);
 				loop.quit ();
+				return 0;
 			});
 			loop.run ();
 			return success;
 		}
 
-		async bool regenerate_srcinfo_real (string pkgname, Cancellable? cancellable) {
+		bool regenerate_srcinfo_real (string pkgname, Cancellable? cancellable) {
 			string pkgdir_name = Path.build_path ("/", config.aur_build_dir, pkgname);
 			var srcinfo = File.new_for_path (Path.build_path ("/", pkgdir_name, ".SRCINFO"));
 			var pkgbuild = File.new_for_path (Path.build_path ("/", pkgdir_name, "PKGBUILD"));
@@ -1455,21 +1457,21 @@ namespace Pamac {
 			try {
 				Subprocess process = launcher.spawnv ({"makepkg", "--printsrcinfo"});
 				try {
-					yield process.wait_async (cancellable);
+					process.wait (cancellable);
 					if (process.get_if_exited ()) {
 						if (process.get_exit_status () == 0) {
 							try {
 								var dis = new DataInputStream (process.get_stdout_pipe ());
 								FileOutputStream fos;
 								if (srcinfo.query_exists ()) {
-									fos = yield srcinfo.replace_async (null, false, FileCreateFlags.NONE);
+									fos = srcinfo.replace (null, false, FileCreateFlags.NONE);
 								} else {
-									fos = yield srcinfo.create_async (FileCreateFlags.NONE);
+									fos = srcinfo.create (FileCreateFlags.NONE);
 								}
 								// creating a DataOutputStream to the file
 								var dos = new DataOutputStream (fos);
 								// writing makepkg output to .SRCINFO
-								yield dos.splice_async (dis, OutputStreamSpliceFlags.NONE);
+								dos.splice (dis, OutputStreamSpliceFlags.NONE);
 								return true;
 							} catch (Error e) {
 								critical ("%s\n", e.message);
@@ -1506,8 +1508,8 @@ namespace Pamac {
 			return pkg;
 		}
 
-		public HashTable<string, AURPackage> get_aur_pkgs (string[] pkgnames) {
-			var data = new HashTable<string, AURPackage> (str_hash, str_equal);
+		public HashTable<string, AURPackage?> get_aur_pkgs (string[] pkgnames) {
+			var data = new HashTable<string, AURPackage?> (str_hash, str_equal);
 			if (!config.enable_aur) {
 				return data;
 			}
@@ -1521,6 +1523,11 @@ namespace Pamac {
 				return 0;
 			});
 			loop.run ();
+			foreach (unowned string pkgname in pkgnames_copy) {
+				if (!data.contains (pkgname)) {
+					data.insert (pkgname, null);
+				}
+			}
 			return (owned) data;
 		}
 
@@ -1681,15 +1688,10 @@ namespace Pamac {
 						}
 						pkgcache.next ();
 					}
-					loop.quit ();
-					return 0;
-				});
-				loop.run ();
-				List<unowned Json.Object> aur_infos = aur.get_multi_infos (local_pkgs.data);
-				get_aur_updates_real.begin (aur_infos, vcs_local_pkgs, (obj, res) => {
-					AURUpdates aur_updates = get_aur_updates_real.end (res);
+					var aur_updates = get_aur_updates_real (aur.get_multi_infos (local_pkgs.data), vcs_local_pkgs);
 					pkgs = (owned) aur_updates.updates;
 					loop.quit ();
+					return 0;
 				});
 				loop.run ();
 			}
@@ -1761,29 +1763,33 @@ namespace Pamac {
 					}
 					pkgcache.next ();
 				}
+				if (config.check_aur_updates) {
+					// count this step as 5% of the total
+					Idle.add (() => {
+						get_updates_progress (95);
+						return false;
+					});
+					var aur_updates = get_aur_updates_real (aur.get_multi_infos (local_pkgs.data), vcs_local_pkgs);
+					Idle.add (() => {
+						get_updates_progress (100);
+						return false;
+					});
+					updates = new Updates.from_lists ((owned) repos_updates, (owned) aur_updates.updates, (owned) aur_updates.outofdate);
+				} else {
+					Idle.add (() => {
+						get_updates_progress (100);
+						return false;
+					});
+					updates = new Updates.from_lists ((owned) repos_updates, new List<AURPackage> (), new List<AURPackage> ());
+				}
 				loop.quit ();
 				return 0;
 			});
 			loop.run ();
-			if (config.check_aur_updates) {
-				// count this step as 5% of the total
-				get_updates_progress (95);
-				List<unowned Json.Object> aur_infos = aur.get_multi_infos (local_pkgs.data);
-				get_aur_updates_real.begin (aur_infos, vcs_local_pkgs, (obj, res) => {
-					AURUpdates aur_updates = get_aur_updates_real.end (res);
-					get_updates_progress (100);
-					updates = new Updates.from_lists ((owned) repos_updates, (owned) aur_updates.updates, (owned) aur_updates.outofdate);
-					loop.quit ();
-				});
-				loop.run ();
-			} else {
-				get_updates_progress (100);
-				updates = new Updates.from_lists ((owned) repos_updates, new List<AURPackage> (), new List<AURPackage> ());
-			}
 			return updates;
 		}
 
-		async SList<AURPackage> get_vcs_last_version (string[] vcs_local_pkgs) {
+		SList<AURPackage> get_vcs_last_version (string[] vcs_local_pkgs) {
 			var vcs_packages = new SList<AURPackage> ();
 			var already_checked =  new GenericSet<string?> (str_hash, str_equal);
 			foreach (unowned string pkgname in vcs_local_pkgs) {
@@ -1791,21 +1797,26 @@ namespace Pamac {
 					continue;
 				}
 				// get last build files
-				File? clone_dir = clone_build_files (pkgname, false);
+				unowned Json.Object? json_object = aur.get_infos (pkgname);
+				if (json_object == null) {
+					// error
+					continue;
+				}
+				File? clone_dir = clone_build_files_real (json_object.get_string_member ("PackageBase"), false, null);
 				if (clone_dir != null) {
 					// get last sources
 					// no output to not pollute checkupdates output
 					var launcher = new SubprocessLauncher (SubprocessFlags.STDOUT_SILENCE | SubprocessFlags.STDERR_SILENCE);
 					launcher.set_cwd (clone_dir.get_path ());
 					string[] cmds = {"makepkg", "--nobuild", "--noprepare"};
-					int status = yield launch_subprocess (launcher, cmds);
+					int status = launch_subprocess (launcher, cmds);
 					if (status == 0) {
-						bool success = regenerate_srcinfo (clone_dir.get_basename ());
+						bool success = regenerate_srcinfo_real (clone_dir.get_basename (), null);
 						if (success) {
 							var srcinfo = clone_dir.get_child (".SRCINFO");
 							try {
 								// read .SRCINFO
-								var dis = new DataInputStream (yield srcinfo.read_async ());
+								var dis = new DataInputStream (srcinfo.read ());
 								string? line;
 								string current_section = "";
 								bool current_section_is_pkgbase = true;
@@ -1822,7 +1833,7 @@ namespace Pamac {
 								var global_replaces = new List<string> ();
 								var global_validpgpkeys = new SList<string> ();
 								var pkgnames_table = new HashTable<string, AURPackage> (str_hash, str_equal);
-								while ((line = yield dis.read_line_async ()) != null) {
+								while ((line = dis.read_line ()) != null) {
 									if ("pkgbase = " in line) {
 										pkgbase = line.split (" = ", 2)[1];
 									} else if ("pkgdesc = " in line) {
@@ -1960,17 +1971,9 @@ namespace Pamac {
 			return vcs_packages;
 		}
 
-		async AURUpdates get_aur_updates_real (List<unowned Json.Object> aur_infos, string[] vcs_local_pkgs) {
+		AURUpdates get_aur_updates_real (List<unowned Json.Object> aur_infos, string[] vcs_local_pkgs) {
 			var updates = new List<AURPackage> ();
 			var outofdate = new List<AURPackage> ();
-			if (config.check_aur_vcs_updates) {
-				var vcs_updates = yield get_vcs_last_version (vcs_local_pkgs);
-				foreach (unowned AURPackage aur_pkg in vcs_updates) {
-					if (Alpm.pkg_vercmp (aur_pkg.version, aur_pkg.installed_version) == 1) {
-						updates.append (aur_pkg);
-					}
-				}
-			}
 			foreach (unowned Json.Object pkg_info in aur_infos) {
 				unowned string name = pkg_info.get_string_member ("Name");
 				unowned string new_version = pkg_info.get_string_member ("Version");
@@ -1981,6 +1984,14 @@ namespace Pamac {
 				} else if (!pkg_info.get_member ("OutOfDate").is_null ()) {
 					// get out of date packages
 					outofdate.append (initialise_aur_pkg (pkg_info, local_pkg));
+				}
+			}
+			if (config.check_aur_vcs_updates) {
+				var vcs_updates = get_vcs_last_version (vcs_local_pkgs);
+				foreach (unowned AURPackage aur_pkg in vcs_updates) {
+					if (Alpm.pkg_vercmp (aur_pkg.version, aur_pkg.installed_version) == 1) {
+						updates.append (aur_pkg);
+					}
 				}
 			}
 			return new AURUpdates ((owned) updates, (owned) outofdate);
@@ -2012,7 +2023,7 @@ namespace Pamac {
 			SnapPackage? pkg = null;
 			string name_copy = name;
 			if (config.enable_snap) {
-				new Thread<int> ("get_aur_pkgs", () => {
+				new Thread<int> ("get_snap", () => {
 					pkg = snap_plugin.get_snap (name_copy);
 					loop.quit ();
 					return 0;

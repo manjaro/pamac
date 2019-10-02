@@ -2646,8 +2646,8 @@ namespace Pamac {
 				to_build_array += name;
 			}
 			var table = database.get_aur_pkgs (to_build_array);
-			foreach (unowned AURPackage aur_pkg in table.get_values ())  {
-				if (aur_pkg.name != "") {
+			foreach (unowned AURPackage? aur_pkg in table.get_values ())  {
+				if (aur_pkg != null) {
 					aur_pkgs.append (aur_pkg);
 				}
 			}
