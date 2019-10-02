@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2019-09-14 12:36+0200\n"
-"PO-Revision-Date: 2019-09-25 15:07+0000\n"
+"PO-Revision-Date: 2019-09-29 21:31+0000\n"
 "Last-Translator: enolp <enolp@softastur.org>\n"
 "Language-Team: Asturian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/ast/)\n"
 "MIME-Version: 1.0\n"
@@ -153,7 +153,7 @@ msgstr "Reinstalando %s"
 #: src/alpm_utils.vala
 #, c-format
 msgid "Downgrading %s"
-msgstr ""
+msgstr "Baxando de versión a %s"
 
 #: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
@@ -315,12 +315,12 @@ msgstr "Refrescando la llista d'espeyos"
 #: src/transaction.vala src/cli.vala
 #, c-format
 msgid "Cloning %s build files"
-msgstr ""
+msgstr "Clonando los ficheros de compilación de %s"
 
 #: src/transaction.vala
 #, c-format
 msgid "Generating %s informations"
-msgstr ""
+msgstr "Xenerando la información de %s"
 
 #: src/transaction.vala
 #, c-format
@@ -519,7 +519,7 @@ msgstr "Razón de la instalación"
 
 #: src/manager_window.vala
 msgid "Mark as explicitly installed"
-msgstr ""
+msgstr "Marcar como Instalóse esplícitamente"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Install"
@@ -555,7 +555,7 @@ msgstr "Votos"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Out of Date"
-msgstr "Ensin anovar dende'l"
+msgstr "Ensin anovar"
 
 #: src/manager_window.vala src/cli.vala resources/manager_window.ui
 msgid "Groups"
@@ -627,7 +627,7 @@ msgstr "Canales"
 
 #: src/manager_window.vala
 msgid "Upgrade"
-msgstr ""
+msgstr "Anovar"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Build"
@@ -764,7 +764,7 @@ msgstr "Tamañu total del desaniciu"
 
 #: src/transaction-cli.vala
 msgid "Apply transaction"
-msgstr ""
+msgstr "¿Applicar la transaición"
 
 #: src/transaction-cli.vala
 #, c-format
@@ -781,7 +781,7 @@ msgstr "Nun s'alcontró dengún ficheru PKGBUILD nel direutoriu actual"
 
 #: src/cli.vala
 msgid "Check development packages updates as root is not allowed"
-msgstr "La comprobación de los anovamientos de paquetes -git nun ta permitida como root"
+msgstr "La comprobación de los anovamientos de paquetes «-git» nun ta permitida como root"
 
 #: src/cli.vala
 msgid "Available actions"
@@ -961,7 +961,7 @@ msgstr "anueva tamién los paquetes instalaos dende AUR"
 
 #: src/cli.vala
 msgid "also upgrade development packages (use with --aur)"
-msgstr "anueva tamién los paquetes -git (usar con --aur)"
+msgstr "anueva tamién los paquetes «-git» (usar con --aur)"
 
 #: src/cli.vala
 msgid ""
@@ -1071,7 +1071,7 @@ msgstr "Escoyer"
 
 #: resources/progress_dialog.ui
 msgid "Progress"
-msgstr ""
+msgstr "Progresu"
 
 #: resources/history_dialog.ui
 msgid "Pamac History"
@@ -1103,7 +1103,7 @@ msgstr "Tocante a"
 
 #: resources/manager_window.ui
 msgid "Search"
-msgstr ""
+msgstr "Guetar"
 
 #: resources/manager_window.ui
 msgid "Pending"
@@ -1139,7 +1139,7 @@ msgstr "Tamañu"
 
 #: resources/manager_window.ui
 msgid "Browse"
-msgstr ""
+msgstr "Restolar"
 
 #: resources/manager_window.ui
 msgid "Launch"
