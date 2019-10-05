@@ -19,7 +19,6 @@
 
 namespace Pamac {
 	internal interface TransactionInterface : Object {
-		public abstract ErrorInfos get_current_error () throws Error;
 		public abstract bool get_lock () throws Error;
 		public abstract bool get_authorization () throws Error;
 		public abstract void generate_mirrors_list (string country) throws Error;

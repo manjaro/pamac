@@ -21,7 +21,6 @@ namespace Pamac {
 	[DBus (name = "org.manjaro.pamac.daemon")]
 	interface Daemon : Object {
 		public abstract void set_environment_variables (HashTable<string,string> variables) throws Error;
-		public abstract ErrorInfos get_current_error () throws Error;
 		public abstract bool get_lock () throws Error;
 		public abstract void start_get_authorization () throws Error;
 		public abstract void start_write_pamac_config (HashTable<string,Variant> new_pamac_conf) throws Error;
