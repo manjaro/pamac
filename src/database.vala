@@ -36,6 +36,7 @@ namespace Pamac {
 		AUR aur;
 		As.Store app_store;
 		string locale;
+		GenericSet<string?> already_vcs_checked;
 		#if ENABLE_SNAP
 		SnapPlugin snap_plugin;
 		#endif
@@ -50,6 +51,7 @@ namespace Pamac {
 
 		construct {
 			loop = new MainLoop ();
+			already_vcs_checked = new GenericSet<string?>  (str_hash, str_equal);
 			refresh ();
 			aur = new AUR ();
 			// init appstream
@@ -103,6 +105,7 @@ namespace Pamac {
 			} else {
 				files_handle = alpm_config.get_handle (true);
 			}
+			already_vcs_checked.remove_all ();
 		}
 
 		public List<string> get_mirrors_countries () {
@@ -1791,9 +1794,8 @@ namespace Pamac {
 
 		SList<AURPackage> get_vcs_last_version (string[] vcs_local_pkgs) {
 			var vcs_packages = new SList<AURPackage> ();
-			var already_checked =  new GenericSet<string?> (str_hash, str_equal);
 			foreach (unowned string pkgname in vcs_local_pkgs) {
-				if (already_checked.contains (pkgname)) {
+				if (already_vcs_checked.contains (pkgname)) {
 					continue;
 				}
 				// get last build files
@@ -1933,7 +1935,7 @@ namespace Pamac {
 											aur_pkg.packagebase = pkgbase;
 											pkgnames_table.insert (pkgname_found, aur_pkg);
 											pkgnames_found.append (pkgname_found);
-											already_checked.add ((owned) pkgname_found);
+											already_vcs_checked.add ((owned) pkgname_found);
 										}
 									}
 								}
