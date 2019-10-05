@@ -178,16 +178,6 @@ namespace Pamac {
 			return 0;
 		}
 
-		ErrorInfos get_current_error () {
-			try {
-				return transaction_interface.get_current_error ();
-			} catch (Error e) {
-				var error = ErrorInfos ();
-				error.message = e.message;
-				return error;
-			}
-		}
-
 		public bool get_authorization () {
 			try {
 				return transaction_interface.get_authorization ();
@@ -223,10 +213,7 @@ namespace Pamac {
 				array.add (name);
 			}
 			try {
-				bool success = transaction_interface.clean_cache (array.data);
-				if (!success) {
-					handle_error (get_current_error ());
-				}
+				transaction_interface.clean_cache (array.data);
 			} catch (Error e) {
 				emit_error ("Daemon Error", {"clean_cache: %s".printf (e.message)});
 			}
@@ -234,10 +221,7 @@ namespace Pamac {
 
 		public void clean_build_files () {
 			try {
-				bool success = transaction_interface.clean_build_files (database.config.aur_build_dir);
-				if (!success) {
-					handle_error (get_current_error ());
-				}
+				transaction_interface.clean_build_files (database.config.aur_build_dir);
 			} catch (Error e) {
 				emit_error ("Daemon Error", {"clean_build_files: %s".printf (e.message)});
 			}
@@ -669,45 +653,34 @@ namespace Pamac {
 				to_load.length > 0 ||
 				to_build.length > 0 ) {
 				success = trans_run_real ();
-				database.refresh ();
 				if (success) {
 					if (to_build_queue.get_length () != 0) {
 						success = get_authorization ();
 						if (success) {
 							success = build_aur_packages ();
-							database.refresh ();
 						}
-						#if ENABLE_SNAP
+					}
+					#if ENABLE_SNAP
+					if (success) {
 						if (snap_to_install.length > 0 ||
 							snap_to_remove.length > 0) {
 							success = run_snap_transaction ();
-							database.refresh ();
 						}
-						#endif
-						disconnecting_signals ();
-					#if ENABLE_SNAP
-					} else if (snap_to_install.length > 0 ||
-								snap_to_remove.length > 0) {
-						success = run_snap_transaction ();
-						database.refresh ();
-						disconnecting_signals ();
-					#endif
-					} else {
-						disconnecting_signals ();
-						if (sysupgrading) {
-							sysupgrading = false;
-						}
-						emit_action (dgettext (null, "Transaction successfully finished") + ".");
 					}
+					#endif
+				}
+				disconnecting_signals ();
+				database.refresh ();
+				if (success) {
+					emit_action (dgettext (null, "Transaction successfully finished") + ".");
 				} else {
-					disconnecting_signals ();
 					to_build_queue.clear ();
 					#if ENABLE_SNAP
 					snap_to_install.remove_all ();
 					snap_to_remove.remove_all ();
 					#endif
-					handle_error (get_current_error ());
 				}
+				sysupgrading = false;
 				to_install.remove_all ();
 				to_remove.remove_all ();
 				to_load.remove_all ();
@@ -734,6 +707,9 @@ namespace Pamac {
 					connecting_signals ();
 					success = run_snap_transaction ();
 					disconnecting_signals ();
+					if (success) {
+						emit_action (dgettext (null, "Transaction successfully finished") + ".");
+					}
 				} else {
 					stop_preparing ();
 					emit_action (dgettext (null, "Transaction cancelled") + ".");
@@ -1167,12 +1143,6 @@ namespace Pamac {
 
 		int on_choose_provider (string depend, string[] providers) {
 			return choose_provider (depend, providers);
-		}
-
-		void handle_error (ErrorInfos error) {
-			if (error.message != "") {
-				emit_error (error.message, error.details);
-			}
 		}
 
 		bool on_ask_commit (TransactionSummaryStruct summary_struct) {

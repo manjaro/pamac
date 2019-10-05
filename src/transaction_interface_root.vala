@@ -79,10 +79,6 @@ namespace Pamac {
 			Environment.set_variable ("HTTP_USER_AGENT", "pamac (%s %s)".printf (utsname.sysname, utsname.machine), true);
 		}
 
-		public ErrorInfos get_current_error () {
-			return alpm_utils.current_error;
-		}
-
 		public bool get_lock () {
 			var lockfile = GLib.File.new_for_path (alpm_utils.alpm_handle.lockfile);
 			if (lockfile.query_exists ()) {

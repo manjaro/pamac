@@ -57,13 +57,5 @@ namespace Pamac {
 		public PackageStruct?[] aur_conflicts_to_remove;
 		public string[] aur_pkgbases_to_build;
 	}
-
-	public struct ErrorInfos {
-		public string message;
-		public string[] details;
-		public ErrorInfos () {
-			message = "";
-		}
-	}
 }
 

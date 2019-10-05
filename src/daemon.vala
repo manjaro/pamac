@@ -190,10 +190,6 @@ namespace Pamac {
 			return alpm_utils.alpm_handle.lockfile;
 		}
 
-		public ErrorInfos get_current_error () throws Error {
-			return alpm_utils.current_error;
-		}
-
 		void create_thread_pool () {
 			// create a thread pool which will run alpm action one after one
 			try {
@@ -209,6 +205,7 @@ namespace Pamac {
 				);
 			} catch (ThreadError e) {
 				critical ("%s\n", e.message);
+				emit_error ("Daemon Error", {e.message});
 			}
 		}
 
@@ -250,13 +247,12 @@ namespace Pamac {
 					null,
 					Polkit.CheckAuthorizationFlags.ALLOW_USER_INTERACTION);
 				authorized = result.get_is_authorized ();
+				if (!authorized) {
+					emit_error (_("Authentication failed"), {});
+				}
 			} catch (Error e) {
 				critical ("%s\n", e.message);
-			}
-			if (!authorized) {
-				alpm_utils.current_error = ErrorInfos () {
-					message = _("Authentication failed")
-				};
+				emit_error (_("Authentication failed"), {e.message});
 			}
 			return authorized;
 		}
@@ -277,26 +273,22 @@ namespace Pamac {
 				authorized = result.get_is_authorized ();
 			} catch (Error e) {
 				critical ("%s\n", e.message);
-			}
-			if (!authorized) {
-				alpm_utils.current_error = ErrorInfos () {
-					message = _("Authentication failed")
-				};
+				emit_error (_("Authentication failed"), {e.message});
 			}
 			return authorized;
 		}
 
 		public void start_get_authorization (GLib.BusName sender) throws Error {
 			check_authorization.begin (sender, (obj, res) => {
-				bool authorized = check_authorization.end (res);
-				get_authorization_finished (authorized);
+				bool tmp_authorized = check_authorization.end (res);
+				get_authorization_finished (tmp_authorized);
 			});
 		}
 
 		public void start_write_pamac_config (HashTable<string,Variant> new_pamac_conf, GLib.BusName sender) throws Error {
 			check_authorization.begin (sender, (obj, res) => {
-				bool authorized = check_authorization.end (res);
-				if (authorized) {
+				bool tmp_authorized = check_authorization.end (res);
+				if (tmp_authorized) {
 					config.write (new_pamac_conf);
 					config.reload ();
 				}
@@ -316,6 +308,7 @@ namespace Pamac {
 				}
 			} catch (Error e) {
 				critical ("%s\n", e.message);
+				emit_error ("Daemon Error", {e.message});
 			}
 			alpm_utils.alpm_config.reload ();
 			alpm_utils.refresh_handle ();
@@ -324,13 +317,14 @@ namespace Pamac {
 
 		public void start_generate_mirrors_list (string country, GLib.BusName sender) throws Error {
 			check_authorization.begin (sender, (obj, res) => {
-				bool authorized = check_authorization.end (res);
-				if (authorized) {
+				bool tmp_authorized = check_authorization.end (res);
+				if (tmp_authorized) {
 					mirrorlist_country = country;
 					try {
 						thread_pool.add (new AlpmAction (generate_mirrors_list));
 					} catch (ThreadError e) {
 						critical ("%s\n", e.message);
+						emit_error ("Daemon Error", {e.message});
 						generate_mirrors_list_finished ();
 					}
 				}
@@ -340,29 +334,29 @@ namespace Pamac {
 		public void start_clean_cache (string[] filenames, GLib.BusName sender) throws Error {
 			string[] names = filenames;
 			check_authorization.begin (sender, (obj, res) => {
-				bool authorized = check_authorization.end (res);
-				if (authorized) {
+				bool tmp_authorized = check_authorization.end (res);
+				if (tmp_authorized) {
 					alpm_utils.clean_cache (names);
 				}
-				clean_cache_finished (authorized);
+				clean_cache_finished (tmp_authorized);
 			});
 		}
 
 		public void start_clean_build_files (string aur_build_dir, GLib.BusName sender) throws Error {
 			check_authorization.begin (sender, (obj, res) => {
-				bool authorized = check_authorization.end (res);
-				if (authorized) {
+				bool tmp_authorized = check_authorization.end (res);
+				if (tmp_authorized) {
 					alpm_utils.clean_build_files (aur_build_dir);
 				}
-				clean_build_files_finished (authorized);
+				clean_build_files_finished (tmp_authorized);
 			});
 		}
 
 		public void start_set_pkgreason (string pkgname, uint reason, GLib.BusName sender) throws Error {
 			check_authorization.begin (sender, (obj, res) => {
-				bool authorized = check_authorization.end (res);
+				bool tmp_authorized = check_authorization.end (res);
 				bool success = false;
-				if (authorized) {
+				if (tmp_authorized) {
 					lock_id = sender;
 					success = alpm_utils.set_pkgreason (pkgname, reason);
 					lock_id = new BusName ("");
@@ -446,6 +440,7 @@ namespace Pamac {
 						thread_pool.add (new AlpmAction (trans_run));
 					} catch (ThreadError e) {
 						critical ("%s\n", e.message);
+						emit_error ("Daemon Error", {e.message});
 						trans_run_finished (false);
 					}
 					return false;
@@ -456,6 +451,7 @@ namespace Pamac {
 					thread_pool.add (new AlpmAction (trans_run));
 				} catch (ThreadError e) {
 					critical ("%s\n", e.message);
+					emit_error ("Daemon Error", {e.message});
 					trans_run_finished (false);
 				}
 			}
@@ -559,12 +555,13 @@ namespace Pamac {
 			snap_to_install = to_install;
 			snap_to_remove = to_remove;
 			check_authorization.begin (sender, (obj, res) => {
-				bool authorized = check_authorization.end (res);
-				if (authorized) {
+				bool tmp_authorized = check_authorization.end (res);
+				if (tmp_authorized) {
 					try {
 						thread_pool.add (new AlpmAction (snap_trans_run));
 					} catch (ThreadError e) {
 						critical ("%s\n", e.message);
+						emit_error ("Daemon Error", {e.message});
 						snap_trans_run_finished (false);
 					}
 				} else {
@@ -583,12 +580,13 @@ namespace Pamac {
 			snap_switch_name = snap_name;
 			snap_channel = channel;
 			check_authorization.begin (sender, (obj, res) => {
-				bool authorized = check_authorization.end (res);
-				if (authorized) {
+				bool tmp_authorized = check_authorization.end (res);
+				if (tmp_authorized) {
 					try {
 						thread_pool.add (new AlpmAction (snap_switch_channel));
 					} catch (ThreadError e) {
 						critical ("%s\n", e.message);
+						emit_error ("Daemon Error", {e.message});
 						snap_switch_channel_finished (false);
 					}
 				} else {

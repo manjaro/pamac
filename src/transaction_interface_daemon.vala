@@ -41,14 +41,6 @@ namespace Pamac {
 			}
 		}
 
-		ErrorInfos get_current_error () throws Error {
-			try {
-				return system_daemon.get_current_error ();
-			} catch (Error e) {
-				throw e;
-			}
-		}
-
 		public bool get_lock () throws Error {
 			try {
 				return system_daemon.get_lock ();
