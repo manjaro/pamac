@@ -36,7 +36,7 @@ namespace Pamac {
 		AUR aur;
 		As.Store app_store;
 		string locale;
-		GenericSet<string?> already_vcs_checked;
+		HashTable<string, AURPackage> aur_vcs_pkgs;
 		#if ENABLE_SNAP
 		SnapPlugin snap_plugin;
 		#endif
@@ -51,7 +51,7 @@ namespace Pamac {
 
 		construct {
 			loop = new MainLoop ();
-			already_vcs_checked = new GenericSet<string?>  (str_hash, str_equal);
+			aur_vcs_pkgs = new HashTable<string, AURPackage>  (str_hash, str_equal);
 			refresh ();
 			aur = new AUR ();
 			// init appstream
@@ -105,7 +105,7 @@ namespace Pamac {
 			} else {
 				files_handle = alpm_config.get_handle (true);
 			}
-			already_vcs_checked.remove_all ();
+			aur_vcs_pkgs.remove_all ();
 		}
 
 		public List<string> get_mirrors_countries () {
@@ -1792,10 +1792,9 @@ namespace Pamac {
 			return updates;
 		}
 
-		SList<AURPackage> get_vcs_last_version (string[] vcs_local_pkgs) {
-			var vcs_packages = new SList<AURPackage> ();
+		List<unowned AURPackage> get_vcs_last_version (string[] vcs_local_pkgs) {
 			foreach (unowned string pkgname in vcs_local_pkgs) {
-				if (already_vcs_checked.contains (pkgname)) {
+				if (aur_vcs_pkgs.contains (pkgname)) {
 					continue;
 				}
 				// get last build files
@@ -1934,8 +1933,7 @@ namespace Pamac {
 											aur_pkg.desc = desc;
 											aur_pkg.packagebase = pkgbase;
 											pkgnames_table.insert (pkgname_found, aur_pkg);
-											pkgnames_found.append (pkgname_found);
-											already_vcs_checked.add ((owned) pkgname_found);
+											pkgnames_found.append ((owned) pkgname_found);
 										}
 									}
 								}
@@ -1960,7 +1958,7 @@ namespace Pamac {
 									if (global_makedepends.length () > 0 ) {
 										aur_pkg.makedepends_priv = (owned) global_makedepends;
 									}
-									vcs_packages.append (aur_pkg);
+									aur_vcs_pkgs.insert (pkgname_found, aur_pkg);
 								}
 							} catch (GLib.Error e) {
 								critical ("%s\n", e.message);
@@ -1970,7 +1968,7 @@ namespace Pamac {
 					}
 				}
 			}
-			return vcs_packages;
+			return aur_vcs_pkgs.get_values ();
 		}
 
 		AURUpdates get_aur_updates_real (List<unowned Json.Object> aur_infos, string[] vcs_local_pkgs) {
