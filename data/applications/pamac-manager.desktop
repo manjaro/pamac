@@ -136,3 +136,4 @@ Terminal=false
 Type=Application
 Categories=GNOME;GTK;System;Settings;X-XFCE-SettingsDialog;X-XFCE-SystemSettings;
 StartupNotify=true
+NoDisplay=true
