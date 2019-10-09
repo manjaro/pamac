@@ -120,34 +120,76 @@ namespace Pamac {
 				return ask_commit_callback (summary);
 			});
 			alpm_utils.emit_action.connect ((action) => {
-				emit_action (action);
+				string action_copy = action;
+				Idle.add (() => {
+					emit_action (action_copy);
+					return false;
+				});
 			});
 			alpm_utils.emit_action_progress.connect ((action, status, progress) => {
-				emit_action_progress (action, status, progress);
+				string action_copy = action;
+				string status_copy = status;
+				Idle.add (() => {
+					emit_action_progress (action_copy, status_copy, progress);
+					return false;
+				});
 			});
 			alpm_utils.emit_hook_progress.connect ((action, details, status, progress) => {
-				emit_hook_progress (action, details, status, progress);
+				string action_copy = action;
+				string details_copy = details;
+				string status_copy = status;
+				Idle.add (() => {
+					emit_hook_progress (action_copy, details_copy, status_copy, progress);
+					return false;
+				});
 			});
 			alpm_utils.emit_download_progress.connect ((action, status, progress) => {
-				emit_download_progress (action, status, progress);
+				string action_copy = action;
+				string status_copy = status;
+				Idle.add (() => {
+					emit_download_progress (action_copy, status_copy, progress);
+					return false;
+				});
 			});
 			alpm_utils.start_downloading.connect (() => {
-				start_downloading ();
+				Idle.add (() => {
+					start_downloading ();
+					return false;
+				});
 			});
 			alpm_utils.stop_downloading.connect (() => {
-				stop_downloading ();
+				Idle.add (() => {
+					stop_downloading ();
+					return false;
+				});
 			});
 			alpm_utils.emit_script_output.connect ((message) => {
-				emit_script_output (message);
+				string message_copy = message;
+				Idle.add (() => {
+					emit_script_output (message_copy);
+					return false;
+				});
 			});
 			alpm_utils.emit_warning.connect ((message) => {
-				emit_warning (message);
+				string message_copy = message;
+				Idle.add (() => {
+					emit_warning (message_copy);
+					return false;
+				});
 			});
 			alpm_utils.emit_error.connect ((message, details) => {
-				emit_error (message, details);
+				string message_copy = message;
+				string[] details_copy = details;
+				Idle.add (() => {
+					emit_error (message_copy, details_copy);
+					return false;
+				});
 			});
 			alpm_utils.important_details_outpout.connect ((must_show) => {
-				important_details_outpout (must_show);
+				Idle.add (() => {
+					important_details_outpout (must_show);
+					return false;
+				});
 			});
 			alpm_utils.get_authorization.connect (() => {
 				return get_authorization_sync ();
@@ -155,19 +197,48 @@ namespace Pamac {
 			#if ENABLE_SNAP
 			snap_plugin = config.get_snap_plugin ();
 			snap_plugin.emit_action_progress.connect ((action, status, progress) => {
-				emit_action_progress (action, status, progress);
+				string action_copy = action;
+				string status_copy = status;
+				Idle.add (() => {
+					emit_action_progress (action_copy, status_copy, progress);
+					return false;
+				});
 			});
 			snap_plugin.emit_download_progress.connect ((action, status, progress) => {
-				emit_download_progress (action, status, progress);
+				string action_copy = action;
+				string status_copy = status;
+				Idle.add (() => {
+					emit_download_progress (action_copy, status_copy, progress);
+					return false;
+				});
 			});
 			snap_plugin.emit_script_output.connect ((message) => {
-				emit_script_output (message);
+				string message_copy = message;
+				Idle.add (() => {
+					emit_script_output (message_copy);
+					return false;
+				});
 			});
 			snap_plugin.emit_error.connect ((message,  details) => {
-				emit_error (message,  details);
+				string message_copy = message;
+				string[] details_copy = details;
+				Idle.add (() => {
+					emit_error (message_copy, details_copy);
+					return false;
+				});
 			});
-			snap_plugin.start_downloading.connect (() => { start_downloading (); });
-			snap_plugin.stop_downloading.connect (() => { stop_downloading (); });
+			snap_plugin.start_downloading.connect (() => {
+				Idle.add (() => {
+					start_downloading ();
+					return false;
+				});
+			});
+			snap_plugin.stop_downloading.connect (() => {
+				Idle.add (() => {
+					stop_downloading ();
+					return false;
+				});
+			});
 			#endif
 		}
 

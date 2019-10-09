@@ -2008,7 +2008,7 @@ int dload (Soup.Session soup_session, string url, string localpath, int force, D
 		if (message.status_code >= 400) {
 			// do not report error for missing sig
 			if (!url.has_suffix (".sig")) {
-				alpm_utils.emit_warning ("%s: Error %s\n".printf (url, message.status_code.to_string ()));
+				alpm_utils.emit_warning ("%s: %s %s".printf (url, _("Error"), message.status_code.to_string ()));
 			}
 			return -1;
 		}
