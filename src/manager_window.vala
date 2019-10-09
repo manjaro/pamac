@@ -890,6 +890,7 @@ namespace Pamac {
 
 		void on_mark_explicit_button_clicked (Gtk.Button button) {
 			transaction.set_pkgreason (current_package_displayed.name, 0); //Alpm.Package.Reason.EXPLICIT
+			refresh_details ();
 		}
 
 		Gtk.Widget populate_details_grid (string detail_type, string detail, Gtk.Widget? previous_widget) {

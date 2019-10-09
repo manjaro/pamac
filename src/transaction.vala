@@ -234,13 +234,14 @@ namespace Pamac {
 		}
 
 		public bool set_pkgreason (string pkgname, uint reason) {
+			bool success = false;
 			try {
-				return transaction_interface.set_pkgreason (pkgname, reason);
+				success = transaction_interface.set_pkgreason (pkgname, reason);
 			} catch (Error e) {
 				emit_error ("Daemon Error", {"set_pkgreason: %s".printf (e.message)});
 			}
 			database.refresh ();
-			return false;
+			return success;
 		}
 
 		public void download_updates () {
