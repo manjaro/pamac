@@ -96,7 +96,7 @@ const PamacUpdateIndicator = new Lang.Class({
 
 		box.add_child(this.updateIcon);
 		box.add_child(this.label);
-		this.actor.add_child(box);
+		this.add_child(box);
 
 		// Prepare the special menu : a submenu for updates list that will look like a regular menu item when disabled
 		// Scrollability will also be taken care of by the popupmenu
@@ -193,9 +193,9 @@ const PamacUpdateIndicator = new Lang.Class({
 
 	_checkShowHide: function() {
 		if (HIDE_NO_UPDATE && UPDATES_PENDING < 1) {
-			this.actor.visible = false;
+			this.visible = false;
 		} else {
-			this.actor.visible = true;
+			this.visible = true;
 		}
 		this.label.visible = SHOW_COUNT && UPDATES_PENDING > 0;
 	},
@@ -256,13 +256,13 @@ const PamacUpdateIndicator = new Lang.Class({
 	_updateMenuExpander: function(enabled, label) {
 		if (label == "") {
 			// No text, hide the menuitem
-			this.menuExpander.actor.visible = false;
+			this.menuExpander.visible = false;
 		} else {
 		// We make our expander look like a regular menu label if disabled
-			this.menuExpander.actor.reactive = enabled;
+			this.menuExpander.reactive = enabled;
 			this.menuExpander._triangle.visible = enabled;
 			this.menuExpander.label.set_text(label);
-			this.menuExpander.actor.visible = true;
+			this.menuExpander.visible = true;
 		}
 	},
 
