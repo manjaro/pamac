@@ -40,6 +40,8 @@ namespace Pamac {
 
 			important_details = false;
 			var config = new Config ("/etc/pamac.conf");
+			// do not remove orphans
+			config.recurse = false;
 			database = new Database (config);
 			// integrate progress box and term widget
 			progress_dialog = new ProgressDialog (this);
