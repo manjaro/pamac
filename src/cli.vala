@@ -1185,15 +1185,14 @@ namespace Pamac {
 				foreach (unowned AURPackage aur_pkg in aur_pkgs) {
 					if (aur_pkg.installed_version == "") {
 						var str_builder = new StringBuilder ();
-						string name = aur_pkg.name;
+						str_builder.append (aur_pkg.name);
 						if (aur_pkg.outofdate != 0) {
 							var time = GLib.Time.local ((time_t) aur_pkg.outofdate);
 							str_builder.append (" ");
 							str_builder.append ("(%s: %s)".printf (dgettext (null, "Out of Date"), time.format ("%x")));
 						}
-						str_builder.append (name);
 						str_builder.append (" ");
-						int diff = available_width - name.char_count ();
+						int diff = available_width - aur_pkg.name.char_count ();
 						if (diff > 0) {
 							while (diff > 0) {
 								str_builder.append (" ");
