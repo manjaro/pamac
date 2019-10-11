@@ -2129,8 +2129,10 @@ namespace Pamac {
 					}
 				#endif
 				} else if (pkg is AlpmPackage){
-					if (pkg.name in to_install ||
-						pkg.name in to_update ||
+					if (pkg.name in to_install && pkg.installed_version == "") {
+						pamac_row.action_togglebutton.active = true;
+						pamac_row.action_togglebutton.image = new Gtk.Image.from_icon_name ("object-select-symbolic", Gtk.IconSize.BUTTON);
+					} else if (pkg.name in to_update ||
 						pkg.name in to_remove) {
 						pamac_row.action_togglebutton.active = true;
 						pamac_row.action_togglebutton.image = new Gtk.Image.from_icon_name ("object-select-symbolic", Gtk.IconSize.BUTTON);
