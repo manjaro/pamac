@@ -85,6 +85,9 @@ namespace Pamac {
 					} else if (args[2] == "--files" || args[2] == "-f") {
 						init_database ();
 						search_files (args[3:args.length]);
+					} else if (args[2].has_prefix ("--")) {
+						// wrong arg
+						display_search_help ();
 					} else {
 						init_database ();
 						search_pkgs (concatenate_strings (args[2:args.length]));
@@ -100,6 +103,9 @@ namespace Pamac {
 						init_database ();
 						database.config.enable_aur = true;
 						display_pkg_infos (args[3:args.length]);
+					} else if (args[2].has_prefix ("-")) {
+						// wrong arg
+						display_info_help ();
 					} else {
 						init_database ();
 						// enable aur to display more info for installed pkgs from AUR
@@ -160,6 +166,7 @@ namespace Pamac {
 						string[] targets = {};
 						bool overwrite = false;
 						bool recurse = false;
+						bool error = false;
 						int i = 2;
 						while (i < args.length) {
 							unowned string arg = args[i];
@@ -172,10 +179,18 @@ namespace Pamac {
 									database.config.aur_build_dir = args[i + 1];
 								}
 								i++;
+							} else if (arg.has_prefix ("-")) {
+								// wrong arg
+								error = true;
+								break;
 							} else {
 								targets += arg;
 							}
 							i++;
+						}
+						if (error) {
+							display_clone_help ();
+							return;
 						}
 						clone_build_files (targets, overwrite, recurse);
 					}
@@ -193,11 +208,16 @@ namespace Pamac {
 					if (args[2] == "--help" || args[2] == "-h") {
 						display_build_help ();
 						return;
+					} else if (args[2].has_prefix ("-")) {
+						// wrong arg
+						display_build_help ();
+						return;
 					}
 				}
 				init_transaction ();
 				database.config.enable_aur = true;
 				string[] targets = {};
+				bool error = false;
 				int i = 2;
 				while (i < args.length) {
 					unowned string arg = args[i];
@@ -210,10 +230,18 @@ namespace Pamac {
 						i++;
 					} else if (arg == "--no-confirm") {
 						transaction.no_confirm = true;
+					} else if (arg.has_prefix ("-")) {
+						// wrong arg
+						error = true;
+						break;
 					} else {
 						targets += arg;
 					}
 					i++;
+				}
+				if (error) {
+					display_build_help ();
+					return;
 				}
 				if (targets.length == 0) {
 					var current_dir = File.new_for_path (Environment.get_current_dir ());
@@ -253,6 +281,7 @@ namespace Pamac {
 					} else {
 						init_transaction ();
 						string[] targets = {};
+						bool error = false;
 						int i = 2;
 						while (i < args.length) {
 							unowned string arg = args[i];
@@ -268,10 +297,18 @@ namespace Pamac {
 								i++;
 							} else if (arg == "--no-confirm") {
 								transaction.no_confirm = true;
+							} else if (arg.has_prefix ("-")) {
+								// wrong arg
+								error = true;
+								break;
 							} else {
 								targets += arg;
 							}
 							i++;
+						}
+						if (error) {
+							display_install_help ();
+							return;
 						}
 						install_pkgs (targets);
 					}
@@ -285,6 +322,7 @@ namespace Pamac {
 					} else {
 						init_transaction ();
 						string[] targets = {};
+						bool error = false;
 						int i = 2;
 						while (i < args.length) {
 							unowned string arg = args[i];
@@ -295,10 +333,18 @@ namespace Pamac {
 								i++;
 							} else if (arg == "--no-confirm") {
 								transaction.no_confirm = true;
+							} else if (arg.has_prefix ("-")) {
+								// wrong arg
+								error = true;
+								break;
 							} else {
 								targets += arg;
 							}
 							i++;
+						}
+						if (error) {
+							display_reinstall_help ();
+							return;
 						}
 						reinstall_pkgs (targets);
 					}
@@ -312,6 +358,7 @@ namespace Pamac {
 					} else {
 						init_transaction ();
 						bool recurse = false;
+						bool error = false;
 						string[] targets = {};
 						int i = 2;
 						while (i < args.length) {
@@ -320,10 +367,18 @@ namespace Pamac {
 								recurse = true;
 							} else if (arg == "--no-confirm") {
 								transaction.no_confirm = true;
+							} else if (arg.has_prefix ("-")) {
+								// wrong arg
+								error = true;
+								break;
 							} else {
 								targets += arg;
 							}
 							i++;
+						}
+						if (error) {
+							display_remove_help ();
+							return;
 						}
 						if (targets.length > 0) {
 							remove_pkgs (targets, recurse);
@@ -344,7 +399,6 @@ namespace Pamac {
 				while (i < args.length) {
 					unowned string arg = args[i];
 					if (arg == "--help" || arg == "-h") {
-						display_checkupdates_help ();
 						error = true;
 						break;
 					} else if (arg == "--quiet" || arg == "-q") {
@@ -374,15 +428,16 @@ namespace Pamac {
 						}
 						database.config.check_aur_vcs_updates = true;
 					} else {
-						display_checkupdates_help ();
 						error = true;
 						break;
 					}
 					i++;
 				}
-				if (!error) {
-					checkupdates (quiet, refresh_tmp_files_dbs, download_updates);
+				if (error) {
+					display_checkupdates_help ();
+					return;
 				}
+				checkupdates (quiet, refresh_tmp_files_dbs, download_updates);
 			} else if (args[1] == "update" || args[1] == "upgrade") {
 				init_transaction ();
 				bool error = false;
@@ -390,7 +445,6 @@ namespace Pamac {
 				while (i < args.length) {
 					unowned string arg = args[i];
 					if (arg == "--help" || arg == "-h") {
-						display_upgrade_help ();
 						error = true;
 						break;
 					} else if (arg == "--aur"|| arg == "-a") {
@@ -432,15 +486,16 @@ namespace Pamac {
 					} else if (arg == "--no-confirm") {
 						transaction.no_confirm = true;
 					} else {
-						display_upgrade_help ();
 						error = true;
 						break;
 					}
 					i++;
 				}
-				if (!error) {
-					run_sysupgrade ();
+				if (error) {
+					display_upgrade_help ();
+					return;
 				}
+				run_sysupgrade ();
 			} else if (args[1] == "clean") {
 				init_transaction ();
 				bool error = false;
@@ -452,7 +507,6 @@ namespace Pamac {
 				while (i < args.length) {
 					unowned string arg = args[i];
 					if (arg == "--help" || arg == "-h") {
-						display_clean_help ();
 						error = true;
 						break;
 					} else if (arg == "--build-files" || arg == "-b") {
@@ -527,18 +581,19 @@ namespace Pamac {
 						dry_run = true;
 						verbose = true;
 					} else {
-						display_clean_help ();
 						error = true;
 						break;
 					}
 					i++;
 				}
-				if (!error) {
-					if (build_files) {
-						clean_build_files (dry_run, verbose, no_confirm);
-					} else {
-						clean_cache (dry_run, verbose, no_confirm);
-					}
+				if (error) {
+					display_clean_help ();
+					return;
+				}
+				if (build_files) {
+					clean_build_files (dry_run, verbose, no_confirm);
+				} else {
+					clean_cache (dry_run, verbose, no_confirm);
 				}
 			} else {
 				display_help ();
