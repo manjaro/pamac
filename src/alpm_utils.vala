@@ -1865,14 +1865,14 @@ void cb_question (Alpm.Question.Data data) {
 			break;
 		case Alpm.Question.Type.SELECT_PROVIDER:
 			string depend_str = data.select_provider_depend.compute_string ();
-			var providers_str = new GenericArray<string> ();;
+			string[] providers_str = {};
 			unowned Alpm.List<unowned Alpm.Package> list = data.select_provider_providers;
 			while (list != null) {
 				unowned Alpm.Package pkg = list.data;
-				providers_str.add (pkg.name);
+				providers_str += pkg.name;
 				list.next ();
 			}
-			data.select_provider_use_index = alpm_utils.choose_provider (depend_str, providers_str.data);
+			data.select_provider_use_index = alpm_utils.choose_provider (depend_str, providers_str);
 			break;
 		case Alpm.Question.Type.CORRUPTED_PKG:
 			// Auto-remove corrupted pkgs in cache
