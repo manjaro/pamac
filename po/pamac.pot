@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2019-04-30 11:58+0200\n"
-"POT-Creation-Date: 2019-09-14 12:36+0200\n"
+"POT-Creation-Date: 2019-10-12 09:38+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -93,10 +93,6 @@ msgid "Preparing"
 msgstr ""
 
 #: src/alpm_utils.vala
-msgid "Failed to commit transaction"
-msgstr ""
-
-#: src/alpm_utils.vala
 #, c-format
 msgid "%s exists in both %s and %s"
 msgstr ""
@@ -109,6 +105,14 @@ msgstr ""
 #: src/alpm_utils.vala
 #, c-format
 msgid "%s is invalid or corrupted"
+msgstr ""
+
+#: src/alpm_utils.vala
+msgid "failed to retrieve some files"
+msgstr ""
+
+#: src/alpm_utils.vala
+msgid "Failed to commit transaction"
 msgstr ""
 
 #: src/alpm_utils.vala
@@ -264,11 +268,6 @@ msgstr ""
 #: src/alpm_utils.vala
 #, c-format
 msgid "Refreshing %s"
-msgstr ""
-
-#: src/alpm_utils.vala
-#, c-format
-msgid "failed retrieving file '%s' from %s : %s\n"
 msgstr ""
 
 #: src/daemon.vala

@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2019-09-14 12:36+0200\n"
-"PO-Revision-Date: 2019-09-25 13:47+0000\n"
+"PO-Revision-Date: 2019-10-09 16:43+0000\n"
 "Last-Translator: Pedro Delgado\n"
 "Language-Team: Spanish (Mexico) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/es_MX/)\n"
 "MIME-Version: 1.0\n"
@@ -131,7 +131,7 @@ msgstr "Resolviendo dependencias"
 
 #: src/alpm_utils.vala
 msgid "Checking inter-conflicts"
-msgstr "Verificando inter-conflictos"
+msgstr "Verificando interconflictos"
 
 #: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
@@ -226,11 +226,11 @@ msgstr "%s instalado como %s.pacsave"
 
 #: src/alpm_utils.vala
 msgid "Running pre-transaction hooks"
-msgstr "Ejecutando pre-transacción hooks"
+msgstr "Ejecutando pretransacción hooks"
 
 #: src/alpm_utils.vala
 msgid "Running post-transaction hooks"
-msgstr "Ejecutando post-transacción hooks"
+msgstr "Ejecutando postransacción hooks"
 
 #: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
