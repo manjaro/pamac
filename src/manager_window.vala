@@ -2110,7 +2110,8 @@ namespace Pamac {
 					pamac_row.action_togglebutton.sensitive = true;
 				}
 				if (pkg is AURPackage) {
-					if (pkg.name in to_build) {
+					if (pkg.name in to_build ||
+						pkg.name in to_update) {
 						pamac_row.action_togglebutton.active = true;
 						pamac_row.action_togglebutton.image = new Gtk.Image.from_icon_name ("object-select-symbolic", Gtk.IconSize.BUTTON);
 					} else {
