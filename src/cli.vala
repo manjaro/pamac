@@ -208,10 +208,6 @@ namespace Pamac {
 					if (args[2] == "--help" || args[2] == "-h") {
 						display_build_help ();
 						return;
-					} else if (args[2].has_prefix ("-")) {
-						// wrong arg
-						display_build_help ();
-						return;
 					}
 				}
 				init_transaction ();
