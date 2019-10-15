@@ -13,9 +13,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2019-09-14 12:36+0200\n"
-"PO-Revision-Date: 2019-09-21 09:47+0000\n"
-"Last-Translator: Lovro Kudelić <lovro.kudelic@outlook.com>\n"
+"POT-Creation-Date: 2019-10-12 09:38+0200\n"
+"PO-Revision-Date: 2019-10-12 12:30+0000\n"
+"Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Croatian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/hr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -99,10 +99,6 @@ msgid "Preparing"
 msgstr "Pripremam"
 
 #: src/alpm_utils.vala
-msgid "Failed to commit transaction"
-msgstr "Izvršavanje transakcije nije uspjelo"
-
-#: src/alpm_utils.vala
 #, c-format
 msgid "%s exists in both %s and %s"
 msgstr "%s postoji u oba %s i %s"
@@ -116,6 +112,14 @@ msgstr "%s: %s već postoji u datotečnom sustavu"
 #, c-format
 msgid "%s is invalid or corrupted"
 msgstr "%s nije valjan ili je oštećen"
+
+#: src/alpm_utils.vala
+msgid "failed to retrieve some files"
+msgstr ""
+
+#: src/alpm_utils.vala
+msgid "Failed to commit transaction"
+msgstr "Izvršavanje transakcije nije uspjelo"
 
 #: src/alpm_utils.vala
 msgid "Checking dependencies"
@@ -272,11 +276,6 @@ msgstr "Preuzimam %s"
 #, c-format
 msgid "Refreshing %s"
 msgstr "Osvježavam %s"
-
-#: src/alpm_utils.vala
-#, c-format
-msgid "failed retrieving file '%s' from %s : %s\n"
-msgstr "Nije uspjelo preuzimanje datoteke '%s' from %s : %s\n"
 
 #: src/daemon.vala
 msgid "Authentication failed"

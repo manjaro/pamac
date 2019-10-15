@@ -25,8 +25,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2019-09-14 12:36+0200\n"
-"PO-Revision-Date: 2019-09-21 00:46+0000\n"
+"POT-Creation-Date: 2019-10-12 09:38+0200\n"
+"PO-Revision-Date: 2019-10-12 12:30+0000\n"
 "Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Indonesian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/id/)\n"
 "MIME-Version: 1.0\n"
@@ -111,10 +111,6 @@ msgid "Preparing"
 msgstr "Menyiapkan"
 
 #: src/alpm_utils.vala
-msgid "Failed to commit transaction"
-msgstr "Gagal melakukan transaksi"
-
-#: src/alpm_utils.vala
 #, c-format
 msgid "%s exists in both %s and %s"
 msgstr "%s ada di dalam %s dan %s"
@@ -128,6 +124,14 @@ msgstr "%s: %s sudah ada di dalam berkas sistem"
 #, c-format
 msgid "%s is invalid or corrupted"
 msgstr "%s tidak valid atau rusak"
+
+#: src/alpm_utils.vala
+msgid "failed to retrieve some files"
+msgstr ""
+
+#: src/alpm_utils.vala
+msgid "Failed to commit transaction"
+msgstr "Gagal melakukan transaksi"
 
 #: src/alpm_utils.vala
 msgid "Checking dependencies"
@@ -282,11 +286,6 @@ msgstr "Mengunduh %s"
 #, c-format
 msgid "Refreshing %s"
 msgstr "Menyegarkan %s"
-
-#: src/alpm_utils.vala
-#, c-format
-msgid "failed retrieving file '%s' from %s : %s\n"
-msgstr "gagal mendapatkan berkas '%s' dari %s : %s\n"
 
 #: src/daemon.vala
 msgid "Authentication failed"

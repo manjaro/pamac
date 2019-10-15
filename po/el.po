@@ -26,9 +26,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2019-09-14 12:36+0200\n"
-"PO-Revision-Date: 2019-09-27 23:30+0000\n"
-"Last-Translator: kouros kouros <kormikg@yahoo.gr>\n"
+"POT-Creation-Date: 2019-10-12 09:38+0200\n"
+"PO-Revision-Date: 2019-10-12 12:30+0000\n"
+"Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Greek (http://www.transifex.com/manjarolinux/manjaro-pamac/language/el/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -112,10 +112,6 @@ msgid "Preparing"
 msgstr "Προετοιμασία"
 
 #: src/alpm_utils.vala
-msgid "Failed to commit transaction"
-msgstr "Απέτυχε η πραγματοποίηση της διεργασίας"
-
-#: src/alpm_utils.vala
 #, c-format
 msgid "%s exists in both %s and %s"
 msgstr "Το %s υπάρχει στο %s και στο %s"
@@ -129,6 +125,14 @@ msgstr "%s: Το %s υπάρχει ήδη στο σύστημα αρχείων"
 #, c-format
 msgid "%s is invalid or corrupted"
 msgstr "Το %s είναι άκυρο ή κατεστραμμένο"
+
+#: src/alpm_utils.vala
+msgid "failed to retrieve some files"
+msgstr ""
+
+#: src/alpm_utils.vala
+msgid "Failed to commit transaction"
+msgstr "Απέτυχε η πραγματοποίηση της διεργασίας"
 
 #: src/alpm_utils.vala
 msgid "Checking dependencies"
@@ -284,11 +288,6 @@ msgstr "Λήψη %s"
 #, c-format
 msgid "Refreshing %s"
 msgstr "Ανανέωση %s"
-
-#: src/alpm_utils.vala
-#, c-format
-msgid "failed retrieving file '%s' from %s : %s\n"
-msgstr "Αποτυχία ανάκτησης αρχείου '%s' από το %s : %s\n"
 
 #: src/daemon.vala
 msgid "Authentication failed"

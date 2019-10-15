@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2019-09-14 12:36+0200\n"
-"PO-Revision-Date: 2019-09-26 08:18+0000\n"
+"POT-Creation-Date: 2019-10-12 09:38+0200\n"
+"PO-Revision-Date: 2019-10-14 05:10+0000\n"
 "Last-Translator: Galin Iskrenov <loot270@abv.bg>\n"
 "Language-Team: Bulgarian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/bg/)\n"
 "MIME-Version: 1.0\n"
@@ -101,10 +101,6 @@ msgid "Preparing"
 msgstr "Подготвяне"
 
 #: src/alpm_utils.vala
-msgid "Failed to commit transaction"
-msgstr "Транзакцията неуспешна"
-
-#: src/alpm_utils.vala
 #, c-format
 msgid "%s exists in both %s and %s"
 msgstr "%s съществува в %s и в %s"
@@ -118,6 +114,14 @@ msgstr "%s: %s вече съществува във файловата сист�
 #, c-format
 msgid "%s is invalid or corrupted"
 msgstr "%s е невалиден или повреден"
+
+#: src/alpm_utils.vala
+msgid "failed to retrieve some files"
+msgstr "неуспешно изтегляне на някои файлове"
+
+#: src/alpm_utils.vala
+msgid "Failed to commit transaction"
+msgstr "Транзакцията неуспешна"
 
 #: src/alpm_utils.vala
 msgid "Checking dependencies"
@@ -273,11 +277,6 @@ msgstr "Изтегляне на %s"
 #, c-format
 msgid "Refreshing %s"
 msgstr "Обновяване на %s"
-
-#: src/alpm_utils.vala
-#, c-format
-msgid "failed retrieving file '%s' from %s : %s\n"
-msgstr "невъзможно изтегляне на '%s' от %s : %s\n"
 
 #: src/daemon.vala
 msgid "Authentication failed"

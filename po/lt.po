@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2019-09-14 12:36+0200\n"
-"PO-Revision-Date: 2019-09-22 13:47+0000\n"
+"POT-Creation-Date: 2019-10-12 09:38+0200\n"
+"PO-Revision-Date: 2019-10-12 21:10+0000\n"
 "Last-Translator: Moo\n"
 "Language-Team: Lithuanian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/lt/)\n"
 "MIME-Version: 1.0\n"
@@ -96,10 +96,6 @@ msgid "Preparing"
 msgstr "Ruošiama"
 
 #: src/alpm_utils.vala
-msgid "Failed to commit transaction"
-msgstr "Nepavyko įvykdyti operacijos"
-
-#: src/alpm_utils.vala
 #, c-format
 msgid "%s exists in both %s and %s"
 msgstr "%s yra abiejuose %s ir %s"
@@ -113,6 +109,14 @@ msgstr "%s: %s jau yra failų sistemoje"
 #, c-format
 msgid "%s is invalid or corrupted"
 msgstr "%s yra neteisingas arba pažeistas"
+
+#: src/alpm_utils.vala
+msgid "failed to retrieve some files"
+msgstr "nepavyko gauti kai kurių failų"
+
+#: src/alpm_utils.vala
+msgid "Failed to commit transaction"
+msgstr "Nepavyko įvykdyti operacijos"
 
 #: src/alpm_utils.vala
 msgid "Checking dependencies"
@@ -270,11 +274,6 @@ msgstr "Atsiunčiama %s"
 #, c-format
 msgid "Refreshing %s"
 msgstr "Įkeliama iš naujo %s"
-
-#: src/alpm_utils.vala
-#, c-format
-msgid "failed retrieving file '%s' from %s : %s\n"
-msgstr "nepavyko gauti failo \"%s\" iš %s : %s\n"
 
 #: src/daemon.vala
 msgid "Authentication failed"

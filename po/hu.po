@@ -19,8 +19,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2019-09-14 12:36+0200\n"
-"PO-Revision-Date: 2019-09-21 00:46+0000\n"
+"POT-Creation-Date: 2019-10-12 09:38+0200\n"
+"PO-Revision-Date: 2019-10-12 12:30+0000\n"
 "Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Hungarian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/hu/)\n"
 "MIME-Version: 1.0\n"
@@ -105,10 +105,6 @@ msgid "Preparing"
 msgstr "Előkészítés"
 
 #: src/alpm_utils.vala
-msgid "Failed to commit transaction"
-msgstr "Művelet végrehajtása sikertelen"
-
-#: src/alpm_utils.vala
 #, c-format
 msgid "%s exists in both %s and %s"
 msgstr "%s előfordul %s és %s -ben is"
@@ -122,6 +118,14 @@ msgstr "%s: %s már létezik a fájlrendszerben"
 #, c-format
 msgid "%s is invalid or corrupted"
 msgstr "%s hibás vagy sérült"
+
+#: src/alpm_utils.vala
+msgid "failed to retrieve some files"
+msgstr ""
+
+#: src/alpm_utils.vala
+msgid "Failed to commit transaction"
+msgstr "Művelet végrehajtása sikertelen"
 
 #: src/alpm_utils.vala
 msgid "Checking dependencies"
@@ -277,11 +281,6 @@ msgstr "Letöltés %s"
 #, c-format
 msgid "Refreshing %s"
 msgstr "Frissítés %s"
-
-#: src/alpm_utils.vala
-#, c-format
-msgid "failed retrieving file '%s' from %s : %s\n"
-msgstr "Hiba letöltés közben '%s' ennyiből %s : %s\n"
 
 #: src/daemon.vala
 msgid "Authentication failed"

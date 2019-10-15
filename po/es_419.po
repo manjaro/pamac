@@ -15,9 +15,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2019-09-14 12:36+0200\n"
-"PO-Revision-Date: 2019-09-21 00:46+0000\n"
-"Last-Translator: philm <philm@manjaro.org>\n"
+"POT-Creation-Date: 2019-10-12 09:38+0200\n"
+"PO-Revision-Date: 2019-10-15 01:16+0000\n"
+"Last-Translator: kaze kaze <kaze@rlab.be>\n"
 "Language-Team: Spanish (Latin America) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/es_419/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -27,11 +27,11 @@ msgstr ""
 
 #: data/polkit/org.manjaro.pamac.policy.in
 msgid "Install, update, or remove packages"
-msgstr ""
+msgstr "Instalar, actualizar o desinstalar paquetes"
 
 #: data/polkit/org.manjaro.pamac.policy.in
 msgid "Authentication is required to install, update, or remove packages"
-msgstr ""
+msgstr "Es necesario autenticarse para instalar, actualizar o desinstalar paquetes"
 
 #: src/alpm_utils.vala src/database.vala
 msgid "Failed to initialize alpm library"
@@ -43,7 +43,7 @@ msgstr "Sincronizando paquete de bases de datos"
 
 #: src/alpm_utils.vala
 msgid "Failed to synchronize databases"
-msgstr ""
+msgstr "Falló al sincronizar las bases de datos"
 
 #: src/alpm_utils.vala
 msgid "Failed to init transaction"
@@ -101,10 +101,6 @@ msgid "Preparing"
 msgstr "Preparando"
 
 #: src/alpm_utils.vala
-msgid "Failed to commit transaction"
-msgstr "Fallo al realizar la transacción"
-
-#: src/alpm_utils.vala
 #, c-format
 msgid "%s exists in both %s and %s"
 msgstr "%s existe tanto en %s como %s"
@@ -118,6 +114,14 @@ msgstr "%s: %s ya existe en el sistema de archivos"
 #, c-format
 msgid "%s is invalid or corrupted"
 msgstr "%s es inválido o corrupto"
+
+#: src/alpm_utils.vala
+msgid "failed to retrieve some files"
+msgstr "Falló al obtener algunos archivos"
+
+#: src/alpm_utils.vala
+msgid "Failed to commit transaction"
+msgstr "Fallo al realizar la transacción"
 
 #: src/alpm_utils.vala
 msgid "Checking dependencies"
@@ -257,12 +261,12 @@ msgstr "Alerta"
 #: src/alpm_utils.vala
 #, c-format
 msgid "Download of %s started"
-msgstr ""
+msgstr "La descarga de %s ya inició"
 
 #: src/alpm_utils.vala
 #, c-format
 msgid "Download of %s finished"
-msgstr ""
+msgstr "La descarga de %s terminó"
 
 #: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
@@ -273,11 +277,6 @@ msgstr "Descargando %s"
 #, c-format
 msgid "Refreshing %s"
 msgstr "Actualizando %s"
-
-#: src/alpm_utils.vala
-#, c-format
-msgid "failed retrieving file '%s' from %s : %s\n"
-msgstr "fallo al recuperar el archivo '%s' desde %s : %s\n"
 
 #: src/daemon.vala
 msgid "Authentication failed"
@@ -491,7 +490,7 @@ msgstr "Foráneo"
 #: src/manager_window.vala src/snap_plugin.vala
 #: resources/preferences_dialog.ui
 msgid "Snap"
-msgstr ""
+msgstr "Snap"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Repositories"
@@ -619,11 +618,11 @@ msgstr "Inspeccionar Dependencias"
 
 #: src/manager_window.vala
 msgid "Publisher"
-msgstr ""
+msgstr "Editor"
 
 #: src/manager_window.vala
 msgid "Channels"
-msgstr ""
+msgstr "Canales"
 
 #: src/manager_window.vala
 msgid "Upgrade"
@@ -639,27 +638,27 @@ msgstr "Remover"
 
 #: src/manager_window.vala
 msgid "Featured"
-msgstr ""
+msgstr "Destacado"
 
 #: src/manager_window.vala
 msgid "Photo & Video"
-msgstr ""
+msgstr "Foto & video"
 
 #: src/manager_window.vala
 msgid "Music & Audio"
-msgstr ""
+msgstr "Música & Audio"
 
 #: src/manager_window.vala
 msgid "Productivity"
-msgstr ""
+msgstr "Productividad"
 
 #: src/manager_window.vala
 msgid "Communication & News"
-msgstr ""
+msgstr "Comunicación & Noticias"
 
 #: src/manager_window.vala
 msgid "Education & Science"
-msgstr ""
+msgstr "Educación & Ciencia"
 
 #: src/manager_window.vala
 msgid "Games"
@@ -667,7 +666,7 @@ msgstr "Juegos"
 
 #: src/manager_window.vala
 msgid "Utilities"
-msgstr ""
+msgstr "Utilidades"
 
 #: src/manager_window.vala
 msgid "Development"
@@ -1026,7 +1025,7 @@ msgstr "URL"
 
 #: src/cli.vala
 msgid "Installed Size"
-msgstr ""
+msgstr "Tamaño luego de instalado"
 
 #: src/cli.vala
 #, c-format
@@ -1219,11 +1218,11 @@ msgstr "Comprobar actualizaciones de paquetes de desarrollo"
 
 #: resources/preferences_dialog.ui
 msgid "Snap packages are maintained by their publisher."
-msgstr ""
+msgstr "Los paquetes de Snap son mantenidos por quienes los publican."
 
 #: resources/preferences_dialog.ui
 msgid "Enable Snap support"
-msgstr ""
+msgstr "Habilitar el soporte para Snap"
 
 #: resources/preferences_dialog.ui
 msgid "Cache"

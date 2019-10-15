@@ -15,9 +15,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2019-09-14 12:36+0200\n"
-"PO-Revision-Date: 2019-09-29 21:31+0000\n"
-"Last-Translator: enolp <enolp@softastur.org>\n"
+"POT-Creation-Date: 2019-10-12 09:38+0200\n"
+"PO-Revision-Date: 2019-10-12 12:30+0000\n"
+"Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Asturian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/ast/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -101,10 +101,6 @@ msgid "Preparing"
 msgstr "Tresnando"
 
 #: src/alpm_utils.vala
-msgid "Failed to commit transaction"
-msgstr "Fallu al unviar la transaición"
-
-#: src/alpm_utils.vala
 #, c-format
 msgid "%s exists in both %s and %s"
 msgstr "%s esiste en %s y %s"
@@ -118,6 +114,14 @@ msgstr "%s: %s yá esiste nel sistema de ficheros"
 #, c-format
 msgid "%s is invalid or corrupted"
 msgstr "%s nun val o toyóse"
+
+#: src/alpm_utils.vala
+msgid "failed to retrieve some files"
+msgstr ""
+
+#: src/alpm_utils.vala
+msgid "Failed to commit transaction"
+msgstr "Fallu al unviar la transaición"
 
 #: src/alpm_utils.vala
 msgid "Checking dependencies"
@@ -273,11 +277,6 @@ msgstr "Baxando %s"
 #, c-format
 msgid "Refreshing %s"
 msgstr "Refrescando %s"
-
-#: src/alpm_utils.vala
-#, c-format
-msgid "failed retrieving file '%s' from %s : %s\n"
-msgstr "fallu al recuperar el ficheru «%s» dende %s : %s\n"
 
 #: src/daemon.vala
 msgid "Authentication failed"
