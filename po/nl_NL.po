@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2019-09-14 12:36+0200\n"
-"PO-Revision-Date: 2019-09-21 10:11+0000\n"
+"POT-Creation-Date: 2019-10-12 09:38+0200\n"
+"PO-Revision-Date: 2019-10-12 17:53+0000\n"
 "Last-Translator: Heimen Stoffels <vistausss@outlook.com>\n"
 "Language-Team: Dutch (Netherlands) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/nl_NL/)\n"
 "MIME-Version: 1.0\n"
@@ -100,10 +100,6 @@ msgid "Preparing"
 msgstr "Bezig met voorbereiden"
 
 #: src/alpm_utils.vala
-msgid "Failed to commit transaction"
-msgstr "Het uitvoeren van de overdracht is mislukt"
-
-#: src/alpm_utils.vala
 #, c-format
 msgid "%s exists in both %s and %s"
 msgstr "%s is aanwezig in zowel %s als %s"
@@ -117,6 +113,14 @@ msgstr "%s: %s is al aanwezig op het bestandssysteem"
 #, c-format
 msgid "%s is invalid or corrupted"
 msgstr "%s is ongeldig of beschadigd"
+
+#: src/alpm_utils.vala
+msgid "failed to retrieve some files"
+msgstr "kan sommige bestanden niet ophalen"
+
+#: src/alpm_utils.vala
+msgid "Failed to commit transaction"
+msgstr "Het uitvoeren van de overdracht is mislukt"
 
 #: src/alpm_utils.vala
 msgid "Checking dependencies"
@@ -272,11 +276,6 @@ msgstr "Bezig met downloaden van %s"
 #, c-format
 msgid "Refreshing %s"
 msgstr "Bezig met vernieuwen van %s"
-
-#: src/alpm_utils.vala
-#, c-format
-msgid "failed retrieving file '%s' from %s : %s\n"
-msgstr "het ophalen van het bestand '%s' vanaf %s is mislukt : %s\n"
 
 #: src/daemon.vala
 msgid "Authentication failed"

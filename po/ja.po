@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2019-09-14 12:36+0200\n"
-"PO-Revision-Date: 2019-09-28 22:43+0000\n"
+"POT-Creation-Date: 2019-10-12 09:38+0200\n"
+"PO-Revision-Date: 2019-10-12 13:58+0000\n"
 "Last-Translator: UTUMI Hirosi <utuhiro78@yahoo.co.jp>\n"
 "Language-Team: Japanese (http://www.transifex.com/manjarolinux/manjaro-pamac/language/ja/)\n"
 "MIME-Version: 1.0\n"
@@ -100,10 +100,6 @@ msgid "Preparing"
 msgstr "準備しています"
 
 #: src/alpm_utils.vala
-msgid "Failed to commit transaction"
-msgstr "トランザクションのコミットに失敗しました"
-
-#: src/alpm_utils.vala
 #, c-format
 msgid "%s exists in both %s and %s"
 msgstr "%s が %s と %s の両方に存在します"
@@ -117,6 +113,14 @@ msgstr "%s: %s は既にファイルシステムに存在します"
 #, c-format
 msgid "%s is invalid or corrupted"
 msgstr "%s は無効もしくは壊れています"
+
+#: src/alpm_utils.vala
+msgid "failed to retrieve some files"
+msgstr "一部のファイルを取得できませんでした"
+
+#: src/alpm_utils.vala
+msgid "Failed to commit transaction"
+msgstr "トランザクションのコミットに失敗しました"
 
 #: src/alpm_utils.vala
 msgid "Checking dependencies"
@@ -271,11 +275,6 @@ msgstr "%s をダウンロードしています"
 #, c-format
 msgid "Refreshing %s"
 msgstr "%s をアップデートしています"
-
-#: src/alpm_utils.vala
-#, c-format
-msgid "failed retrieving file '%s' from %s : %s\n"
-msgstr "ファイル '%s' を %s から検索できませんでした: %s\n"
 
 #: src/daemon.vala
 msgid "Authentication failed"

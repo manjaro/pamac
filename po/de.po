@@ -36,8 +36,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2019-09-14 12:36+0200\n"
-"PO-Revision-Date: 2019-09-22 10:41+0000\n"
+"POT-Creation-Date: 2019-10-12 09:38+0200\n"
+"PO-Revision-Date: 2019-10-12 12:30+0000\n"
 "Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: German (http://www.transifex.com/manjarolinux/manjaro-pamac/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -122,10 +122,6 @@ msgid "Preparing"
 msgstr "Vorbereitung"
 
 #: src/alpm_utils.vala
-msgid "Failed to commit transaction"
-msgstr "Vorgang konnte nicht abgeschlossen werden"
-
-#: src/alpm_utils.vala
 #, c-format
 msgid "%s exists in both %s and %s"
 msgstr "%s existiert in %s und %s"
@@ -139,6 +135,14 @@ msgstr "%s: %s existiert bereits im Dateisystem"
 #, c-format
 msgid "%s is invalid or corrupted"
 msgstr " %s ist ungültig oder beschädigt"
+
+#: src/alpm_utils.vala
+msgid "failed to retrieve some files"
+msgstr ""
+
+#: src/alpm_utils.vala
+msgid "Failed to commit transaction"
+msgstr "Vorgang konnte nicht abgeschlossen werden"
 
 #: src/alpm_utils.vala
 msgid "Checking dependencies"
@@ -294,11 +298,6 @@ msgstr "Herunterladen von %s"
 #, c-format
 msgid "Refreshing %s"
 msgstr "Aktualisierung von %s"
-
-#: src/alpm_utils.vala
-#, c-format
-msgid "failed retrieving file '%s' from %s : %s\n"
-msgstr "Konnte Datei '%s' nicht von %s übertragen : %s\n"
 
 #: src/daemon.vala
 msgid "Authentication failed"

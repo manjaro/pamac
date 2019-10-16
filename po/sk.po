@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2019-09-14 12:36+0200\n"
-"PO-Revision-Date: 2019-09-24 07:33+0000\n"
+"POT-Creation-Date: 2019-10-12 09:38+0200\n"
+"PO-Revision-Date: 2019-10-13 07:32+0000\n"
 "Last-Translator: Dušan Kazik <prescott66@gmail.com>\n"
 "Language-Team: Slovak (http://www.transifex.com/manjarolinux/manjaro-pamac/language/sk/)\n"
 "MIME-Version: 1.0\n"
@@ -101,10 +101,6 @@ msgid "Preparing"
 msgstr "Pripravuje sa"
 
 #: src/alpm_utils.vala
-msgid "Failed to commit transaction"
-msgstr "Zlyhalo vykonanie transakcie"
-
-#: src/alpm_utils.vala
 #, c-format
 msgid "%s exists in both %s and %s"
 msgstr "%s existuje v %s aj v %s"
@@ -118,6 +114,14 @@ msgstr "%s: %s už existuje v systéme súborov"
 #, c-format
 msgid "%s is invalid or corrupted"
 msgstr "%s je neplatný alebo poškodený"
+
+#: src/alpm_utils.vala
+msgid "failed to retrieve some files"
+msgstr "zlyhalo získavanie niektorých súborov"
+
+#: src/alpm_utils.vala
+msgid "Failed to commit transaction"
+msgstr "Zlyhalo vykonanie transakcie"
 
 #: src/alpm_utils.vala
 msgid "Checking dependencies"
@@ -275,11 +279,6 @@ msgstr "Preberá sa %s"
 #, c-format
 msgid "Refreshing %s"
 msgstr "Obnovuje sa %s"
-
-#: src/alpm_utils.vala
-#, c-format
-msgid "failed retrieving file '%s' from %s : %s\n"
-msgstr "Zlyhalo prijímanie súboru „%s“ z %s: %s\n"
 
 #: src/daemon.vala
 msgid "Authentication failed"

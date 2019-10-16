@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2019-09-14 12:36+0200\n"
-"PO-Revision-Date: 2019-09-21 00:46+0000\n"
+"POT-Creation-Date: 2019-10-12 09:38+0200\n"
+"PO-Revision-Date: 2019-10-12 12:30+0000\n"
 "Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Albanian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/sq/)\n"
 "MIME-Version: 1.0\n"
@@ -95,10 +95,6 @@ msgid "Preparing"
 msgstr "Duke përgatitur"
 
 #: src/alpm_utils.vala
-msgid "Failed to commit transaction"
-msgstr "Dështoi në kryerjen e transaksionit"
-
-#: src/alpm_utils.vala
 #, c-format
 msgid "%s exists in both %s and %s"
 msgstr "%s ekziston në të dy %s dhe %s"
@@ -112,6 +108,14 @@ msgstr "%s: %s ekziston tashmë në sistemin e skedarit"
 #, c-format
 msgid "%s is invalid or corrupted"
 msgstr "%s është i pavlefshëm ose i korruptuar"
+
+#: src/alpm_utils.vala
+msgid "failed to retrieve some files"
+msgstr ""
+
+#: src/alpm_utils.vala
+msgid "Failed to commit transaction"
+msgstr "Dështoi në kryerjen e transaksionit"
 
 #: src/alpm_utils.vala
 msgid "Checking dependencies"
@@ -267,11 +271,6 @@ msgstr "Duke shkarkuar %s"
 #, c-format
 msgid "Refreshing %s"
 msgstr "Duke rifreskuar %s"
-
-#: src/alpm_utils.vala
-#, c-format
-msgid "failed retrieving file '%s' from %s : %s\n"
-msgstr "dështim në marrjen skedarit '%s' nga %s : %s\n"
 
 #: src/daemon.vala
 msgid "Authentication failed"
