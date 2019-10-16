@@ -60,7 +60,7 @@ class DownloadServer: Object {
 				if (filename != null) {
 					current_filename = filename;
 					int ret = dload (soup_session,
-									"%s/%s/%s/%s".printf (server_url, repo, alpm_utils.alpm_handle.arch, filename),
+									"%s/%s".printf (server_url.replace ("$repo", repo), filename),
 									cachedir,
 									0,
 									cb_multi_download);
@@ -1189,7 +1189,7 @@ namespace Pamac {
 				unowned Alpm.List<unowned string> servers = db.servers;
 				while (servers != null) {
 					unowned string server_full = servers.data;
-					string server = server_full.replace ("/%s".printf (alpm_handle.arch), "").replace ("/%s".printf (db.name), "");
+					string server = server_full.replace (db.name, "$repo");
 					if (mirrors_table.contains (server)) {
 						unowned GenericSet<string> repos_set = mirrors_table.lookup (server);
 						repos_set.add (db.name);
