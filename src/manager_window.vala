@@ -1393,13 +1393,17 @@ namespace Pamac {
 			if (aur_pkg.maintainer != "") {
 				previous_widget = populate_details_grid (dgettext (null, "Maintainer"), aur_pkg.maintainer, previous_widget);
 			}
-			var time = GLib.Time.local ((time_t) aur_pkg.firstsubmitted);
-			previous_widget = populate_details_grid (dgettext (null, "First Submitted"), time.format ("%x"), previous_widget);
-			time = GLib.Time.local ((time_t) aur_pkg.lastmodified);
-			previous_widget = populate_details_grid (dgettext (null, "Last Modified"), time.format ("%x"), previous_widget);
+			if (aur_pkg.firstsubmitted != 0) {
+				var time = GLib.Time.local ((time_t) aur_pkg.firstsubmitted);
+				previous_widget = populate_details_grid (dgettext (null, "First Submitted"), time.format ("%x"), previous_widget);
+			}
+			if (aur_pkg.lastmodified != 0) {
+				var time = GLib.Time.local ((time_t) aur_pkg.lastmodified);
+				previous_widget = populate_details_grid (dgettext (null, "Last Modified"), time.format ("%x"), previous_widget);
+			}
 			previous_widget = populate_details_grid (dgettext (null, "Votes"), aur_pkg.numvotes.to_string (), previous_widget);
 			if (aur_pkg.outofdate != 0) {
-				time = GLib.Time.local ((time_t) aur_pkg.outofdate);
+				var time = GLib.Time.local ((time_t) aur_pkg.outofdate);
 				previous_widget = populate_details_grid (dgettext (null, "Out of Date"), time.format ("%x"), previous_widget);
 			}
 			if (aur_pkg.packager != "") {
@@ -1415,11 +1419,11 @@ namespace Pamac {
 				}
 			}
 			if (aur_pkg.builddate != 0) {
-				time = GLib.Time.local ((time_t) aur_pkg.builddate);
+				var time = GLib.Time.local ((time_t) aur_pkg.builddate);
 				previous_widget = populate_details_grid (dgettext (null, "Build Date"), time.format ("%x"), previous_widget);
 			}
 			if (aur_pkg.installdate != 0) {
-				time = GLib.Time.local ((time_t) aur_pkg.installdate);
+				var time = GLib.Time.local ((time_t) aur_pkg.installdate);
 				previous_widget = populate_details_grid (dgettext (null, "Install Date"), time.format ("%x"), previous_widget);
 			}
 			if (aur_pkg.reason != "") {
