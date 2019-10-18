@@ -195,50 +195,52 @@ namespace Pamac {
 				return get_authorization_sync ();
 			});
 			#if ENABLE_SNAP
-			snap_plugin = config.get_snap_plugin ();
-			snap_plugin.emit_action_progress.connect ((action, status, progress) => {
-				string action_copy = action;
-				string status_copy = status;
-				Idle.add (() => {
-					emit_action_progress (action_copy, status_copy, progress);
-					return false;
+			if (config.support_snap) {
+				snap_plugin = config.get_snap_plugin ();
+				snap_plugin.emit_action_progress.connect ((action, status, progress) => {
+					string action_copy = action;
+					string status_copy = status;
+					Idle.add (() => {
+						emit_action_progress (action_copy, status_copy, progress);
+						return false;
+					});
 				});
-			});
-			snap_plugin.emit_download_progress.connect ((action, status, progress) => {
-				string action_copy = action;
-				string status_copy = status;
-				Idle.add (() => {
-					emit_download_progress (action_copy, status_copy, progress);
-					return false;
+				snap_plugin.emit_download_progress.connect ((action, status, progress) => {
+					string action_copy = action;
+					string status_copy = status;
+					Idle.add (() => {
+						emit_download_progress (action_copy, status_copy, progress);
+						return false;
+					});
 				});
-			});
-			snap_plugin.emit_script_output.connect ((message) => {
-				string message_copy = message;
-				Idle.add (() => {
-					emit_script_output (message_copy);
-					return false;
+				snap_plugin.emit_script_output.connect ((message) => {
+					string message_copy = message;
+					Idle.add (() => {
+						emit_script_output (message_copy);
+						return false;
+					});
 				});
-			});
-			snap_plugin.emit_error.connect ((message,  details) => {
-				string message_copy = message;
-				string[] details_copy = details;
-				Idle.add (() => {
-					emit_error (message_copy, details_copy);
-					return false;
+				snap_plugin.emit_error.connect ((message,  details) => {
+					string message_copy = message;
+					string[] details_copy = details;
+					Idle.add (() => {
+						emit_error (message_copy, details_copy);
+						return false;
+					});
 				});
-			});
-			snap_plugin.start_downloading.connect (() => {
-				Idle.add (() => {
-					start_downloading ();
-					return false;
+				snap_plugin.start_downloading.connect (() => {
+					Idle.add (() => {
+						start_downloading ();
+						return false;
+					});
 				});
-			});
-			snap_plugin.stop_downloading.connect (() => {
-				Idle.add (() => {
-					stop_downloading ();
-					return false;
+				snap_plugin.stop_downloading.connect (() => {
+					Idle.add (() => {
+						stop_downloading ();
+						return false;
+					});
 				});
-			});
+			}
 			#endif
 		}
 
@@ -362,6 +364,13 @@ namespace Pamac {
 				if (tmp_authorized) {
 					config.write (new_pamac_conf);
 					config.reload ();
+					if (config.enable_snap) {
+						try {
+							Process.spawn_command_line_async ("systemctl enable --now snapd.service");
+						} catch (SpawnError e) {
+							critical ("%s\n", e.message);
+						}
+					}
 				}
 				write_pamac_config_finished ();
 			});
@@ -623,6 +632,12 @@ namespace Pamac {
 		}
 
 		public void start_snap_trans_run (string[] to_install, string[] to_remove, GLib.BusName sender) throws Error {
+			if (!config.enable_snap) {
+				Idle.add (() => {
+					snap_trans_run_finished (false);
+					return false;
+				});
+			}
 			snap_to_install = to_install;
 			snap_to_remove = to_remove;
 			check_authorization.begin (sender, (obj, res) => {
@@ -639,7 +654,6 @@ namespace Pamac {
 					snap_trans_run_finished (false);
 				}
 			});
-			
 		}
 
 		void snap_switch_channel () {
@@ -648,6 +662,12 @@ namespace Pamac {
 		}
 
 		public void start_snap_switch_channel (string snap_name, string channel, GLib.BusName sender) throws Error {
+			if (!config.enable_snap) {
+				Idle.add (() => {
+					snap_switch_channel_finished (false);
+					return false;
+				});
+			}
 			snap_switch_name = snap_name;
 			snap_channel = channel;
 			check_authorization.begin (sender, (obj, res) => {
@@ -669,7 +689,9 @@ namespace Pamac {
 
 		public void trans_cancel (GLib.BusName sender) throws Error {
 			#if ENABLE_SNAP
-			snap_plugin.trans_cancel ();
+			if (config.enable_snap) {
+				snap_plugin.trans_cancel ();
+			}
 			#endif
 			if (lock_id != sender) {
 				return;
