@@ -261,7 +261,7 @@ namespace Pamac {
 					}
 				}
 			} catch (GLib.Error e) {
-				critical ("%s\n", e.message);
+				stdout.printf ("%s\n", e.message);
 			}
 		}
 

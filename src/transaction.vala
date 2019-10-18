@@ -991,7 +991,9 @@ namespace Pamac {
 					try {
 						line = dis.read_line_async.end (res);
 					} catch (Error e) {
-						critical ("%s\n", e.message);
+						if (!cancellable.is_cancelled ()) {
+							critical ("%s\n", e.message);
+						}
 					}
 					loop.quit ();
 				});
@@ -1005,11 +1007,17 @@ namespace Pamac {
 						try {
 							line = dis.read_line_async.end (res);
 						} catch (Error e) {
-							critical ("%s\n", e.message);
+							if (!cancellable.is_cancelled ()) {
+								critical ("%s\n", e.message);
+							}
 						}
 						loop.quit ();
 					});
 					loop.run ();
+				}
+				if (cancellable.is_cancelled ()) {
+					process.send_signal (Posix.Signal.INT);
+					process.send_signal (Posix.Signal.KILL);
 				}
 				process.wait_async.begin (cancellable, (obj, res) => {
 					try {
