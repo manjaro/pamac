@@ -364,6 +364,7 @@ namespace Pamac {
 				if (tmp_authorized) {
 					config.write (new_pamac_conf);
 					config.reload ();
+					#if ENABLE_SNAP
 					if (config.enable_snap) {
 						try {
 							Process.spawn_command_line_async ("systemctl enable --now snapd.service");
@@ -371,6 +372,7 @@ namespace Pamac {
 							critical ("%s\n", e.message);
 						}
 					}
+					#endif
 				}
 				write_pamac_config_finished ();
 			});
