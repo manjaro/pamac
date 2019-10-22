@@ -771,10 +771,6 @@ namespace Pamac {
 				}
 			}
 			if (to_build.length > 0) {
-				// get authorization now before a potentially long task
-				if (!get_authorization ()) {
-					return false;
-				}
 				// set building to allow cancellation
 				building = true;
 				build_cancellable.reset ();
@@ -1052,7 +1048,11 @@ namespace Pamac {
 				// building
 				building = true;
 				start_building ();
-				int status = run_cmd_line ({"makepkg", "--nosign", "-cCf", "PKGEXT=.pkg.tar", "PKGDEST=%s".printf (pkgdir)}, pkgdir, build_cancellable);
+				string[] cmdline = {"makepkg", "--nosign", "-cCf", "PKGDEST=%s".printf (pkgdir)};
+				if (!database.config.keep_built_pkgs) {
+					cmdline += "PKGEXT=.pkg.tar";
+				}
+				int status = run_cmd_line (cmdline, pkgdir, build_cancellable);
 				if (build_cancellable.is_cancelled ()) {
 					status = 1;
 				}
@@ -1061,7 +1061,11 @@ namespace Pamac {
 					var launcher = new SubprocessLauncher (SubprocessFlags.STDOUT_PIPE);
 					launcher.set_cwd (pkgdir);
 					try {
-						Subprocess process = launcher.spawnv ({"makepkg", "--packagelist", "PKGEXT=.pkg.tar", "PKGDEST=%s".printf (pkgdir)});
+						cmdline = {"makepkg", "--packagelist", "PKGDEST=%s".printf (pkgdir)};
+						if (!database.config.keep_built_pkgs) {
+							cmdline += "PKGEXT=.pkg.tar";
+						}
+						Subprocess process = launcher.spawnv (cmdline);
 						process.wait_async.begin (null, () => {
 							loop.quit ();
 						});
@@ -1114,6 +1118,7 @@ namespace Pamac {
 					}
 					try {
 						transaction_interface.set_no_confirm_commit ();
+						transaction_interface.set_keep_built_pkgs (database.config.keep_built_pkgs);
 						emit_script_output ("");
 						success = transaction_interface.trans_run ();
 					} catch (Error e) {

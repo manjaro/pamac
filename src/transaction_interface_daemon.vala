@@ -216,6 +216,14 @@ namespace Pamac {
 			}
 		}
 
+		public void set_keep_built_pkgs (bool keep_built_pkgs) throws Error {
+			try {
+				system_daemon.set_keep_built_pkgs (keep_built_pkgs);
+			} catch (Error e) {
+				throw e;
+			}
+		}
+
 		public void set_enable_downgrade (bool downgrade) throws Error {
 			try {
 				system_daemon.set_enable_downgrade (downgrade);

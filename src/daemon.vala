@@ -307,9 +307,6 @@ namespace Pamac {
 		}
 
 		async bool check_authorization (GLib.BusName sender) {
-			if (authorized) {
-				return true;
-			}
 			authorized = false;
 			try {
 				Polkit.Authority authority = yield Polkit.Authority.get_async ();
@@ -496,6 +493,10 @@ namespace Pamac {
 
 		public void set_sysupgrade () throws Error {
 			alpm_utils.sysupgrade = true;
+		}
+
+		public void set_keep_built_pkgs (bool keep_built_pkgs) throws Error {
+			alpm_utils.keep_built_pkgs = keep_built_pkgs;
 		}
 
 		public void set_enable_downgrade (bool downgrade) throws Error {

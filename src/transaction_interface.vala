@@ -35,6 +35,7 @@ namespace Pamac {
 		public abstract void add_overwrite_file (string glob) throws Error;
 		public abstract void add_pkg_to_mark_as_dep (string name) throws Error;
 		public abstract void set_sysupgrade () throws Error;
+		public abstract void set_keep_built_pkgs (bool keep_built_pkgs) throws Error;
 		public abstract void set_enable_downgrade (bool downgrade) throws Error;
 		public abstract void set_no_confirm_commit () throws Error;
 		public abstract void set_force_refresh () throws Error;

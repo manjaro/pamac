@@ -25,6 +25,7 @@ namespace Pamac {
 
 		public string conf_path { get; construct; }
 		public bool recurse { get; set; }
+		public bool keep_built_pkgs { get; set; }
 		public bool enable_downgrade { get; set; }
 		public uint64 refresh_period { get; set; }
 		public bool no_update_hide_icon { get; set; }
@@ -92,6 +93,7 @@ namespace Pamac {
 		public void reload () {
 			// set default options
 			recurse = false;
+			keep_built_pkgs = false;
 			enable_downgrade = false;
 			refresh_period = 6;
 			no_update_hide_icon = false;
@@ -183,6 +185,8 @@ namespace Pamac {
 							no_update_hide_icon = true;
 						} else if (key == "EnableAUR") {
 							enable_aur = true;
+						} else if (key == "KeepBuiltPkgs") {
+							keep_built_pkgs = true;
 						#if ENABLE_SNAP
 						} else if (key == "EnableSnap") {
 							enable_snap = true;
@@ -232,6 +236,7 @@ namespace Pamac {
 			new_pamac_conf.insert ("KeepNumPackages", new Variant.uint64 (clean_keep_num_pkgs));
 			new_pamac_conf.insert ("OnlyRmUninstalled", new Variant.boolean (clean_rm_only_uninstalled));
 			new_pamac_conf.insert ("EnableAUR", new Variant.boolean (enable_aur));
+			new_pamac_conf.insert ("KeepBuiltPkgs", new Variant.boolean (keep_built_pkgs));
 			new_pamac_conf.insert ("CheckAURUpdates", new Variant.boolean (check_aur_updates));
 			new_pamac_conf.insert ("CheckAURVCSUpdates", new Variant.boolean (check_aur_vcs_updates));
 			string new_aur_build_dir = Path.get_dirname (aur_build_dir);
@@ -335,6 +340,18 @@ namespace Pamac {
 									data.append ("#EnableAUR\n");
 								}
 								new_conf.remove ("EnableAUR");
+							} else {
+								data.append (line);
+								data.append ("\n");
+							}
+						} else if (line.contains ("KeepBuiltPkgs")) {
+							if (new_conf.lookup_extended ("KeepBuiltPkgs", null, out variant)) {
+								if (variant.get_boolean ()) {
+									data.append ("KeepBuiltPkgs\n");
+								} else {
+									data.append ("#KeepBuiltPkgs\n");
+								}
+								new_conf.remove ("KeepBuiltPkgs");
 							} else {
 								data.append (line);
 								data.append ("\n");
@@ -458,6 +475,12 @@ namespace Pamac {
 							data.append ("EnableAUR\n");
 						} else {
 							data.append ("#EnableAUR\n");
+						}
+					} else if (key == "KeepBuiltPkgs") {
+						if (val.get_boolean ()) {
+							data.append ("KeepBuiltPkgs\n");
+						} else {
+							data.append ("#KeepBuiltPkgs\n");
 						}
 					#if ENABLE_SNAP
 					} else if (key == "EnableSnap") {

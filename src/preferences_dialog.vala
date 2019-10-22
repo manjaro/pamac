@@ -53,6 +53,8 @@ namespace Pamac {
 		[GtkChild]
 		Gtk.FileChooserButton aur_build_dir_file_chooser;
 		[GtkChild]
+		Gtk.CheckButton keep_built_pkgs_checkbutton;
+		[GtkChild]
 		Gtk.CheckButton check_aur_updates_checkbutton;
 		[GtkChild]
 		Gtk.CheckButton check_aur_vcs_updates_checkbutton;
@@ -156,6 +158,8 @@ namespace Pamac {
 			}
 			aur_build_dir_file_chooser.select_filename (current_build_dir);
 			refresh_clean_build_files_button ();
+			keep_built_pkgs_checkbutton.active = transaction.database.config.keep_built_pkgs;
+			keep_built_pkgs_checkbutton.sensitive = transaction.database.config.enable_aur;
 			check_aur_updates_checkbutton.active = transaction.database.config.check_aur_updates;
 			check_aur_updates_checkbutton.sensitive = transaction.database.config.enable_aur;
 			check_aur_vcs_updates_checkbutton.active = transaction.database.config.check_aur_vcs_updates;
@@ -163,6 +167,7 @@ namespace Pamac {
 														&& transaction.database.config.check_aur_updates;
 			enable_aur_button.state_set.connect (on_enable_aur_button_state_set);
 			aur_build_dir_file_chooser.file_set.connect (on_aur_build_dir_set);
+			keep_built_pkgs_checkbutton.toggled.connect (on_keep_built_pkgs_checkbutton_toggled);
 			check_aur_updates_checkbutton.toggled.connect (on_check_aur_updates_checkbutton_toggled);
 			check_aur_vcs_updates_checkbutton.toggled.connect (on_check_aur_vcs_updates_checkbutton_toggled);
 
@@ -274,6 +279,7 @@ namespace Pamac {
 			enable_aur_button.state = new_state;
 			aur_build_dir_label.sensitive = new_state;
 			aur_build_dir_file_chooser.sensitive = new_state;
+			keep_built_pkgs_checkbutton.sensitive = new_state;
 			check_aur_updates_checkbutton.sensitive = new_state;
 			check_aur_vcs_updates_checkbutton.sensitive = new_state && check_aur_updates_checkbutton.active;
 			transaction.database.config.enable_aur = new_state;
@@ -292,6 +298,10 @@ namespace Pamac {
 		void on_aur_build_dir_set () {
 			transaction.database.config.aur_build_dir = aur_build_dir_file_chooser.get_filename ();
 			refresh_clean_build_files_button ();
+		}
+
+		void on_keep_built_pkgs_checkbutton_toggled () {
+			transaction.database.config.keep_built_pkgs = keep_built_pkgs_checkbutton.active;
 		}
 
 		void on_check_aur_updates_checkbutton_toggled () {

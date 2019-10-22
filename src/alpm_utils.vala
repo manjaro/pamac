@@ -96,6 +96,7 @@ namespace Pamac {
 		public GenericSet<string?> to_remove;
 		public GenericSet<string?> to_load;
 		public GenericSet<string?> to_build;
+		public bool keep_built_pkgs;
 		public bool sysupgrade;
 		GenericArray<PackageStruct?> to_build_pkgs;
 		GenericArray<string> aur_pkgbases_to_build;
@@ -152,6 +153,7 @@ namespace Pamac {
 			current_action = "";
 			current_status = "";
 			enable_downgrade = config.enable_downgrade;
+			keep_built_pkgs = config.keep_built_pkgs;
 			force_refresh = false;
 			no_confirm_commit = false;
 			timer = new Timer ();
@@ -766,19 +768,6 @@ namespace Pamac {
 		}
 
 		public bool trans_run () {
-			if (sysupgrade ||
-				to_install.length > 0) {
-				if (!get_authorization ()) {
-					return false;
-				}
-				if (!refresh ()) {
-					return false;
-				}
-			}
-			return trans_run_real ();
-		}
-
-		bool trans_run_real () {
 			bool success;
 			if (to_build.length > 0) {
 				success = build_prepare ();
@@ -803,7 +792,7 @@ namespace Pamac {
 								aur_pkgbases_to_build = new GenericArray<string> ();
 								emit_script_output ("");
 								compute_aur_build_list ();
-								return trans_run_real ();
+								return trans_run ();
 							}
 							if (ask_commit (summary) && get_authorization ()) {
 								if (alpm_handle.trans_to_add ().length == 0 &&
@@ -849,7 +838,7 @@ namespace Pamac {
 					aur_pkgbases_to_build = new GenericArray<string> ();
 					emit_script_output ("");
 					compute_aur_build_list ();
-					return trans_run_real ();
+					return trans_run ();
 				}
 			}
 			trans_reset ();
@@ -862,6 +851,7 @@ namespace Pamac {
 			current_filename = "";
 			sysupgrade = false;
 			enable_downgrade = config.enable_downgrade;
+			keep_built_pkgs = config.keep_built_pkgs;
 			no_confirm_commit = false;
 			force_refresh = false;
 			to_build_pkgs = new GenericArray<PackageStruct?> ();
@@ -885,29 +875,35 @@ namespace Pamac {
 		}
 
 		bool launch_trans_prepare_real () {
-			bool success = trans_init (flags);
 			// check if you add upgrades to transaction
-			if (success) {
-				if (!sysupgrade && to_install.length > 0) {
-					foreach (unowned string name in to_install) {
-						unowned Alpm.Package? local_pkg = alpm_handle.localdb.get_pkg (name);
-						if (local_pkg == null) {
-							sysupgrade = true;
-							break;
-						} else {
-							unowned Alpm.Package? sync_pkg = get_syncpkg (name);
-							if (sync_pkg != null) {
-								if (local_pkg.version != sync_pkg.version) {
-									sysupgrade = true;
-									break;
-								}
-							}
-						}
-					}
+			if (!sysupgrade && to_install.length > 0) {
+				foreach (unowned string name in to_install) {
+					unowned Alpm.Package? local_pkg = alpm_handle.localdb.get_pkg (name);
+					if (local_pkg == null) {
+						sysupgrade = true;
+						break;
+					} else {
+						unowned Alpm.Package? sync_pkg = get_syncpkg (name);
+						if (sync_pkg != null) {
+							if (local_pkg.version != sync_pkg.version) {
+								sysupgrade = true;
+								break;
+ 							}
+ 						}
+ 					}
+ 				}
+			}
+			if (sysupgrade) {
+				if (!get_authorization ()) {
+					return false;
 				}
-				if (sysupgrade) {
-					success = trans_sysupgrade ();
-				}
+				if (!refresh ()) {
+					return false;
+ 				}
+ 			}
+			bool success = trans_init (flags);
+			if (success && sysupgrade) {
+				success = trans_sysupgrade ();
 			}
 			if (success) {
 				foreach (unowned string name in to_install) {
@@ -1314,15 +1310,17 @@ namespace Pamac {
 			success = trans_commit_real ();
 			if (success) {
 				foreach (unowned string path in to_load) {
-					// rm tarball if it's a built package
+					// check tarball if it's a built package
 					// check for "/var/tmp/pamac-build" because
 					// default aur_build_dir is "/var/tmp/pamac-build-root" here
-					if (path.has_prefix ("/var/tmp/pamac-build")
-						|| path.has_prefix (config.aur_build_dir)) {
-						try {
-							Process.spawn_command_line_sync ("rm -f %s".printf (path));
-						} catch (SpawnError e) {
-							critical ("SpawnError: %s\n", e.message);
+					if (path.has_prefix ("/var/tmp/pamac-build") || path.has_prefix (config.aur_build_dir)) {
+						if (!keep_built_pkgs) {
+							// rm built package
+							try {
+								Process.spawn_command_line_sync ("rm -f %s".printf (path));
+							} catch (SpawnError e) {
+								critical ("SpawnError: %s\n", e.message);
+							}
 						}
 					}
 				}

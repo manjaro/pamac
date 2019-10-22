@@ -226,6 +226,8 @@ namespace Pamac {
 						i++;
 					} else if (arg == "--no-confirm") {
 						transaction.no_confirm = true;
+					} else if (arg == "--keep" || arg == "-k") {
+						database.config.keep_built_pkgs = true;
 					} else if (arg.has_prefix ("-")) {
 						// wrong arg
 						error = true;
@@ -930,6 +932,7 @@ namespace Pamac {
 			stdout.printf (dgettext (null, "options") + ":\n");
 			int max_length = 0;
 			string[] options = {"  %s <%s>".printf ("--builddir", dgettext (null, "dir")),
+								"  -k, --keep",
 								"  --no-clone",
 								"  --no-confirm"};
 			foreach (unowned string option in options) {
@@ -939,6 +942,7 @@ namespace Pamac {
 				}
 			}
 			string[] details = {dgettext (null, "build directory, if no directory is given the one specified in pamac.conf file is used"),
+								dgettext (null, "keep built packages in cache after installation"),
 								dgettext (null, "do not clone build files from AUR, only use local files"),
 								dgettext (null, "bypass any and all confirmation messages")};
 			int i = 0;

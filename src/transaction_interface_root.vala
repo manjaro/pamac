@@ -166,6 +166,10 @@ namespace Pamac {
 			alpm_utils.sysupgrade = true;
 		}
 
+		public void set_keep_built_pkgs (bool keep_built_pkgs) {
+			alpm_utils.keep_built_pkgs = keep_built_pkgs;
+		}
+
 		public void set_enable_downgrade (bool downgrade) {
 			alpm_utils.enable_downgrade = downgrade;
 		}
