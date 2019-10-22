@@ -1743,7 +1743,7 @@ namespace Pamac {
 					unowned Alpm.Package installed_pkg = pkgcache.data;
 					// check if installed_pkg is in IgnorePkg or IgnoreGroup
 					if (tmp_handle.should_ignore (installed_pkg) == 0) {
-						unowned Alpm.Package? candidate = installed_pkg.sync_newversion (tmp_handle.syncdbs);
+						unowned Alpm.Package? candidate = installed_pkg.get_new_version (tmp_handle.syncdbs);
 						if (candidate != null) {
 							repos_updates.append (initialise_pkg (candidate));
 						} else {

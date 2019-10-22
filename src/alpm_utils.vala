@@ -487,7 +487,7 @@ namespace Pamac {
 			foreach (unowned string name in alpm_config.get_syncfirsts ()) {
 				unowned Alpm.Package? pkg = Alpm.find_satisfier (alpm_handle.localdb.pkgcache, name);
 				if (pkg != null) {
-					unowned Alpm.Package? candidate = pkg.sync_newversion (alpm_handle.syncdbs);
+					unowned Alpm.Package? candidate = pkg.get_new_version (alpm_handle.syncdbs);
 					if (candidate != null) {
 						to_syncfirst.add (candidate.name);
 					}
@@ -1379,7 +1379,6 @@ namespace Pamac {
 					case Alpm.Errno.PKG_INVALID:
 					case Alpm.Errno.PKG_INVALID_CHECKSUM:
 					case Alpm.Errno.PKG_INVALID_SIG:
-					case Alpm.Errno.DLT_INVALID:
 						details.add (Alpm.strerror (errno) + ":");
 						unowned Alpm.List<string*> list = err_data;
 						while (list != null) {
@@ -1472,21 +1471,6 @@ namespace Pamac {
 					break;
 				case 15: //Alpm.Event.Type.LOAD_START
 					current_action = dgettext (null, "Loading packages files") + "...";
-					break;
-				case 17: //Alpm.Event.Type.DELTA_INTEGRITY_START
-					emit_action (dgettext (null, "Checking delta integrity") + "...");
-					break;
-				case 19: //Alpm.Event.Type.DELTA_PATCHES_START
-					emit_action (dgettext (null, "Applying deltas") + "...");
-					break;
-				case 21: //Alpm.Event.Type.DELTA_PATCH_START
-					emit_script_output (dgettext (null, "Generating %s with %s").printf (details[0], details[1]) + "...");
-					break;
-				case 22: //Alpm.Event.Type.DELTA_PATCH_DONE
-					emit_script_output (dgettext (null, "Generation succeeded") + ".");
-					break;
-				case 23: //Alpm.Event.Type.DELTA_PATCH_FAILED
-					emit_script_output (dgettext (null, "Generation failed") + ".");
 					break;
 				case 24: //Alpm.Event.Type.SCRIPTLET_INFO
 					// hooks output are also emitted as SCRIPTLET_INFO
@@ -1802,10 +1786,6 @@ void cb_event (Alpm.Event.Data data) {
 				default:
 					break;
 			}
-			break;
-		case Alpm.Event.Type.DELTA_PATCH_START:
-			details.add (data.delta_patch_delta.to);
-			details.add (data.delta_patch_delta.delta);
 			break;
 		case Alpm.Event.Type.SCRIPTLET_INFO:
 			details.add (data.scriptlet_info_line);
