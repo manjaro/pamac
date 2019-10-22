@@ -1472,7 +1472,7 @@ namespace Pamac {
 				case 15: //Alpm.Event.Type.LOAD_START
 					current_action = dgettext (null, "Loading packages files") + "...";
 					break;
-				case 24: //Alpm.Event.Type.SCRIPTLET_INFO
+				case 17: //Alpm.Event.Type.SCRIPTLET_INFO
 					// hooks output are also emitted as SCRIPTLET_INFO
 					if (current_filename != "") {
 						emit_action (dgettext (null, "Configuring %s").printf (current_filename) + "...");
@@ -1481,35 +1481,35 @@ namespace Pamac {
 					emit_script_output (remove_bash_colors (details[0]).replace ("\n", ""));
 					important_details_outpout (false);
 					break;
-				case 25: //Alpm.Event.Type.RETRIEVE_START
+				case 18: //Alpm.Event.Type.RETRIEVE_START
 					start_downloading ();
 					break;
-				case 26: //Alpm.Event.Type.RETRIEVE_DONE
-				case 27: //Alpm.Event.Type.RETRIEVE_FAILED
+				case 19: //Alpm.Event.Type.RETRIEVE_DONE
+				case 20: //Alpm.Event.Type.RETRIEVE_FAILED
 					stop_downloading ();
 					break;
-				case 31: //Alpm.Event.Type.DISKSPACE_START
+				case 24: //Alpm.Event.Type.DISKSPACE_START
 					current_action = dgettext (null, "Checking available disk space") + "...";
 					break;
-				case 33: //Alpm.Event.Type.OPTDEP_REMOVAL
+				case 26: //Alpm.Event.Type.OPTDEP_REMOVAL
 					emit_warning (dgettext (null, "%s optionally requires %s").printf (details[0], details[1]));
 					break;
-				case 34: //Alpm.Event.Type.DATABASE_MISSING
+				case 27: //Alpm.Event.Type.DATABASE_MISSING
 					emit_script_output (dgettext (null, "Database file for %s does not exist").printf (details[0]) + ".");
 					break;
-				case 35: //Alpm.Event.Type.KEYRING_START
+				case 28: //Alpm.Event.Type.KEYRING_START
 					current_action = dgettext (null, "Checking keyring") + "...";
 					break;
-				case 37: //Alpm.Event.Type.KEY_DOWNLOAD_START
+				case 30: //Alpm.Event.Type.KEY_DOWNLOAD_START
 					emit_action (dgettext (null, "Downloading required keys") + "...");
 					break;
-				case 39: //Alpm.Event.Type.PACNEW_CREATED
+				case 32: //Alpm.Event.Type.PACNEW_CREATED
 					emit_script_output (dgettext (null, "%s installed as %s.pacnew").printf (details[0], details[0])+ ".");
 					break;
-				case 40: //Alpm.Event.Type.PACSAVE_CREATED
+				case 33: //Alpm.Event.Type.PACSAVE_CREATED
 					emit_script_output (dgettext (null, "%s installed as %s.pacsave").printf (details[0], details[0])+ ".");
 					break;
-				case 41: //Alpm.Event.Type.HOOK_START
+				case 34: //Alpm.Event.Type.HOOK_START
 					switch (secondary_event) {
 						case 1: //Alpm.HookWhen.PRE_TRANSACTION
 							current_action = dgettext (null, "Running pre-transaction hooks") + "...";
@@ -1522,7 +1522,7 @@ namespace Pamac {
 							break;
 					}
 					break;
-				case 43: // Alpm.Event.Type.HOOK_RUN_START
+				case 36: // Alpm.Event.Type.HOOK_RUN_START
 					double progress = (double) int.parse (details[2]) / int.parse (details[3]);
 					string status = "%s/%s".printf (details[2], details[3]);
 					bool changed = false;
