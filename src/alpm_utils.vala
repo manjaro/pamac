@@ -406,7 +406,11 @@ namespace Pamac {
 					if (local_pkg != null) {
 						pkg_struct.installed_version = local_pkg.version;
 					}
-					pkg_struct.repo = alpm_pkg.db.name;
+					if (alpm_pkg.db.name == "aur") {
+						pkg_struct.repo = dgettext (null, "AUR");
+					} else {
+						pkg_struct.repo = alpm_pkg.db.name;
+					}
 				} else {
 					// load pkg or built pkg
 					unowned Alpm.Package? local_pkg = alpm_handle.localdb.get_pkg (alpm_pkg.name);
@@ -955,11 +959,13 @@ namespace Pamac {
 				} catch (SpawnError e) {
 					emit_warning (e.message);
 				}
-				alpm_handle.register_syncdb ("aur", 0);
-				// add to_build in to_install for the fake trans prepare
+				unowned Alpm.DB? aur_db = alpm_handle.register_syncdb ("aur", 0);
+				if (aur_db == null) {
+					emit_error (_("Failed to initialize alpm library"), {});
+					return false;
+				}
+				// check if we need to remove debug package to avoid dep problem
 				foreach (unowned string name in to_build) {
-					to_install.add (name);
-					// check if we need to remove debug package to avoid dep problem
 					string debug_pkg_name = "%s-debug".printf (name);
 					if (alpm_handle.localdb.get_pkg (debug_pkg_name) != null) {
 						to_remove.add (debug_pkg_name);
@@ -1012,6 +1018,22 @@ namespace Pamac {
 							success = trans_remove_pkg (name);
 							if (!success) {
 								break;
+							}
+						}
+					}
+					if (success) {
+						// add to_build from fake aur db
+						foreach (unowned string name in to_build) {
+							unowned Alpm.Package? pkg = aur_db.get_pkg (name);
+							if (pkg == null) {
+								emit_error (_("Failed to prepare transaction"), {_("target not found: %s").printf (name)});
+								success = false;
+								break;
+							} else {
+								success = trans_add_pkg_real (pkg);
+								if (!success) {
+									break;
+								}
 							}
 						}
 					}
@@ -1313,8 +1335,21 @@ namespace Pamac {
 					// check tarball if it's a built package
 					// check for "/var/tmp/pamac-build" because
 					// default aur_build_dir is "/var/tmp/pamac-build-root" here
+					// if a custom PKGDEST is set in makepkg.conf, package won't be moved or deleted
 					if (path.has_prefix ("/var/tmp/pamac-build") || path.has_prefix (config.aur_build_dir)) {
-						if (!keep_built_pkgs) {
+						if (keep_built_pkgs) {
+							// get first cachedir
+							unowned Alpm.List<unowned string> cachedirs = alpm_handle.cachedirs;
+							unowned string cachedir = cachedirs.data;
+							try {
+								Process.spawn_command_line_sync ("mv -f %s %s".printf (path, cachedir));
+								string tarball_name = Path.get_basename (path);
+								string new_path = "%s%s".printf (cachedir, tarball_name);
+								success = trans_load_pkg (new_path);
+							} catch (SpawnError e) {
+								stderr.printf ("SpawnError: %s\n", e.message);
+							}
+						} else {
 							// rm built package
 							try {
 								Process.spawn_command_line_sync ("rm -f %s".printf (path));

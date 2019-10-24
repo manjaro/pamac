@@ -249,6 +249,8 @@ namespace Pamac {
 						stdout.printf ("\n");
 						return;
 					}
+					// set no clone is required
+					transaction.clone_build_files = false;
 					// set buildir to the parent dir
 					File? parent = current_dir.get_parent ();
 					if (parent != null) {
@@ -926,6 +928,8 @@ namespace Pamac {
 			stdout.printf (dgettext (null, "If no package name is given, use the PKGBUILD file in the current directory"));
 			stdout.printf ("\n");
 			stdout.printf (dgettext (null, "The build directory will be the parent directory, --builddir option will be ignored"));
+			stdout.printf ("\n");
+			stdout.printf (dgettext (null, "and --no-clone option will be enforced"));
 			stdout.printf ("\n\n");
 			stdout.printf ("pamac build [%s] [%s]".printf (dgettext (null, "options"), dgettext (null, "package(s)")));
 			stdout.printf ("\n\n");
@@ -1861,6 +1865,7 @@ namespace Pamac {
 		void install_pkgs (string[] targets) {
 			var to_install = new List<string> ();
 			var to_load = new List<string> ();
+			var to_build = new List<string> ();
 			foreach (unowned string target in targets) {
 				bool found = false;
 				// check for local or remote path
@@ -1901,11 +1906,23 @@ namespace Pamac {
 					}
 				}
 				if (!found) {
+					// enable_aur is checked in database.get_aur_pkg
+					AURPackage? aur_pkg = database.get_aur_pkg (target);
+					if (aur_pkg != null) {
+						stdout.printf ("%s\n", dgettext (null, "%s is only available from AUR").printf (target));
+						if (ask_user ("%s ?".printf (dgettext (null, "Build %s from AUR").printf (target)))) {
+							stdout.printf ("\n");
+							to_build.append (target);
+							found = true;
+						}
+					}
+				}
+				if (!found) {
 					print_error (dgettext (null, "target not found: %s").printf (target));
 					return;
 				}
 			}
-			if (to_install.length () == 0 && to_load.length () == 0) {
+			if (to_install.length () == 0 && to_load.length () == 0 && to_build.length () == 0) {
 				stdout.printf (dgettext (null, "Nothing to do") + ".\n");
 				return;
 			}
@@ -1916,6 +1933,9 @@ namespace Pamac {
 			}
 			foreach (unowned string path in to_load) {
 				transaction.add_path_to_load (path);
+			}
+			foreach (unowned string name in to_build) {
+				transaction.add_aur_pkg_to_build (name);
 			}
 			if (Posix.geteuid () != 0) {
 				var loop = new MainLoop ();
