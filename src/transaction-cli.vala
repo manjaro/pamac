@@ -552,7 +552,18 @@ namespace Pamac {
 			var diff_file = File.new_for_path (diff_path);
 			if (diff_file.query_exists ()) {
 				if (ask_user ("%s ?".printf (dgettext (null, "View %s build files diff").printf (pkgname)))) {
-					string[] cmds = {"nano", "-S", "-w", "-v", diff_path};
+					string[] cmds = {};
+					unowned string? editor = Environment.get_variable ("EDITOR");
+					if (editor == null || editor == "nano") {
+						cmds += "nano";
+						cmds += "-v";
+					} else {
+						// support args in EDITOR
+						foreach (unowned string str in editor.split (" ")) {
+							cmds += str;
+						}
+					}
+					cmds += diff_path;
 					try {
 						var process = new Subprocess.newv (cmds, SubprocessFlags.STDIN_INHERIT);
 						process.wait ();
@@ -573,7 +584,10 @@ namespace Pamac {
 						cmds += "nano";
 						cmds += "-i";
 					} else {
-						cmds += editor;
+						// support args in EDITOR
+						foreach (unowned string str in editor.split (" ")) {
+							cmds += str;
+						}
 					}
 					foreach (unowned string file in files) {
 						cmds += file;
