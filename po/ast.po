@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2019-10-12 09:38+0200\n"
-"PO-Revision-Date: 2019-10-12 12:30+0000\n"
+"POT-Creation-Date: 2019-10-23 12:23+0200\n"
+"PO-Revision-Date: 2019-10-23 13:22+0000\n"
 "Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Asturian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/ast/)\n"
 "MIME-Version: 1.0\n"
@@ -117,7 +117,7 @@ msgstr "%s nun val o toyóse"
 
 #: src/alpm_utils.vala
 msgid "failed to retrieve some files"
-msgstr ""
+msgstr "fallu al recuperar dalgunos ficheros"
 
 #: src/alpm_utils.vala
 msgid "Failed to commit transaction"
@@ -171,27 +171,6 @@ msgstr "Comprobando la integridá"
 #: src/alpm_utils.vala
 msgid "Loading packages files"
 msgstr "Cargando los ficheros de los paquetes"
-
-#: src/alpm_utils.vala
-msgid "Checking delta integrity"
-msgstr "Comprobando la integridá de los deltes"
-
-#: src/alpm_utils.vala
-msgid "Applying deltas"
-msgstr "Aplicando les deltes"
-
-#: src/alpm_utils.vala
-#, c-format
-msgid "Generating %s with %s"
-msgstr "Xenerando %s con %s"
-
-#: src/alpm_utils.vala
-msgid "Generation succeeded"
-msgstr "La xeneración tuvo ésitu"
-
-#: src/alpm_utils.vala
-msgid "Generation failed"
-msgstr "Falló la xeneración"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -891,6 +870,10 @@ msgid ""
 msgstr "El direutoriu de compilación va ser el direutoriu pá, va inorase la opción --builddir"
 
 #: src/cli.vala
+msgid "keep built packages in cache after installation"
+msgstr ""
+
+#: src/cli.vala
 msgid "do not clone build files from AUR, only use local files"
 msgstr "nun clona los ficheros de compilación d'AUR, namái usa los llocales"
 
@@ -900,7 +883,7 @@ msgstr "salta cualesquier mensaxe de confirmación"
 
 #: src/cli.vala
 msgid "glob"
-msgstr ""
+msgstr "parámetros"
 
 #: src/cli.vala
 msgid ""
@@ -1207,6 +1190,10 @@ msgstr "Activar el sofitu p'AUR"
 #: resources/preferences_dialog.ui
 msgid "Allow Pamac to search and install packages from AUR"
 msgstr "Permite que Pamac guete ya instale paquetes d'AUR"
+
+#: resources/preferences_dialog.ui
+msgid "Keep built packages in cache"
+msgstr ""
 
 #: resources/preferences_dialog.ui
 msgid "Check for updates from AUR"

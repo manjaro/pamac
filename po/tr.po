@@ -16,8 +16,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2019-10-12 09:38+0200\n"
-"PO-Revision-Date: 2019-10-12 23:32+0000\n"
+"POT-Creation-Date: 2019-10-23 12:23+0200\n"
+"PO-Revision-Date: 2019-10-23 19:36+0000\n"
 "Last-Translator: Serdar Sağlam <teknomobil@msn.com>\n"
 "Language-Team: Turkish (http://www.transifex.com/manjarolinux/manjaro-pamac/language/tr/)\n"
 "MIME-Version: 1.0\n"
@@ -172,27 +172,6 @@ msgstr "Bütünlük Denetleniyor"
 #: src/alpm_utils.vala
 msgid "Loading packages files"
 msgstr "Paket Dosyalari Yükleniyor"
-
-#: src/alpm_utils.vala
-msgid "Checking delta integrity"
-msgstr "Delta bütünlüğü kontrol ediliyor"
-
-#: src/alpm_utils.vala
-msgid "Applying deltas"
-msgstr "Deltalar uygulanıyor"
-
-#: src/alpm_utils.vala
-#, c-format
-msgid "Generating %s with %s"
-msgstr "Oluşturuluyor %s ile %s"
-
-#: src/alpm_utils.vala
-msgid "Generation succeeded"
-msgstr "Oluşturma başarılı"
-
-#: src/alpm_utils.vala
-msgid "Generation failed"
-msgstr "Oluşturulamadı"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -892,6 +871,10 @@ msgid ""
 msgstr "Derleme dizini üst dizin olacak, --builddir seçeneği göz ardı edilecek"
 
 #: src/cli.vala
+msgid "keep built packages in cache after installation"
+msgstr "kurulumdan sonra yerleşik paketleri önbellekte sakla"
+
+#: src/cli.vala
 msgid "do not clone build files from AUR, only use local files"
 msgstr "AUR'dan dosyaları derleme, sadece yerel dosyaları kullan"
 
@@ -1208,6 +1191,10 @@ msgstr "AUR desteği etkin"
 #: resources/preferences_dialog.ui
 msgid "Allow Pamac to search and install packages from AUR"
 msgstr "AUR paketleri aramak ve kurmak için izin ver"
+
+#: resources/preferences_dialog.ui
+msgid "Keep built packages in cache"
+msgstr "Yerleşik paketleri önbellekte sakla"
 
 #: resources/preferences_dialog.ui
 msgid "Check for updates from AUR"

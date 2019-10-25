@@ -21,8 +21,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2019-10-12 09:38+0200\n"
-"PO-Revision-Date: 2019-10-12 12:30+0000\n"
+"POT-Creation-Date: 2019-10-23 12:23+0200\n"
+"PO-Revision-Date: 2019-10-23 13:22+0000\n"
 "Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
@@ -177,27 +177,6 @@ msgstr "正在检查完整性"
 #: src/alpm_utils.vala
 msgid "Loading packages files"
 msgstr "正在载入包文件"
-
-#: src/alpm_utils.vala
-msgid "Checking delta integrity"
-msgstr "正在检查增量完整性"
-
-#: src/alpm_utils.vala
-msgid "Applying deltas"
-msgstr "正在应用增量"
-
-#: src/alpm_utils.vala
-#, c-format
-msgid "Generating %s with %s"
-msgstr "正在使用%s生成%s"
-
-#: src/alpm_utils.vala
-msgid "Generation succeeded"
-msgstr "生成成功"
-
-#: src/alpm_utils.vala
-msgid "Generation failed"
-msgstr "生成失败"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -893,6 +872,10 @@ msgid ""
 msgstr "构建目录将是父目录，忽略--builddir 选项"
 
 #: src/cli.vala
+msgid "keep built packages in cache after installation"
+msgstr ""
+
+#: src/cli.vala
 msgid "do not clone build files from AUR, only use local files"
 msgstr "不从 AUR 克隆构建文件，仅使用本地文件"
 
@@ -1208,6 +1191,10 @@ msgstr "启用 AUR 支持"
 #: resources/preferences_dialog.ui
 msgid "Allow Pamac to search and install packages from AUR"
 msgstr "允许 Pamac 从 AUR 中搜索并安装软件包"
+
+#: resources/preferences_dialog.ui
+msgid "Keep built packages in cache"
+msgstr ""
 
 #: resources/preferences_dialog.ui
 msgid "Check for updates from AUR"

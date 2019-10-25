@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2019-10-12 09:38+0200\n"
-"PO-Revision-Date: 2019-10-12 12:30+0000\n"
+"POT-Creation-Date: 2019-10-23 12:23+0200\n"
+"PO-Revision-Date: 2019-10-23 13:22+0000\n"
 "Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Icelandic (http://www.transifex.com/manjarolinux/manjaro-pamac/language/is/)\n"
 "MIME-Version: 1.0\n"
@@ -167,27 +167,6 @@ msgstr "Athuga gæði"
 #: src/alpm_utils.vala
 msgid "Loading packages files"
 msgstr "Hleð inn pakkaskrám"
-
-#: src/alpm_utils.vala
-msgid "Checking delta integrity"
-msgstr "Athuga gæði mismunaskráa"
-
-#: src/alpm_utils.vala
-msgid "Applying deltas"
-msgstr "Virkja mismunaskrár"
-
-#: src/alpm_utils.vala
-#, c-format
-msgid "Generating %s with %s"
-msgstr "Útbý %s með %s"
-
-#: src/alpm_utils.vala
-msgid "Generation succeeded"
-msgstr "Tókst að útbúa"
-
-#: src/alpm_utils.vala
-msgid "Generation failed"
-msgstr "Mistókst að útbúa"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -887,6 +866,10 @@ msgid ""
 msgstr ""
 
 #: src/cli.vala
+msgid "keep built packages in cache after installation"
+msgstr ""
+
+#: src/cli.vala
 msgid "do not clone build files from AUR, only use local files"
 msgstr ""
 
@@ -1203,6 +1186,10 @@ msgstr "Virkja AUR-stuðning"
 #: resources/preferences_dialog.ui
 msgid "Allow Pamac to search and install packages from AUR"
 msgstr "Leyfa Pamac að leita að og setja inn pakka frá AUR"
+
+#: resources/preferences_dialog.ui
+msgid "Keep built packages in cache"
+msgstr ""
 
 #: resources/preferences_dialog.ui
 msgid "Check for updates from AUR"

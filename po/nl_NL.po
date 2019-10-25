@@ -14,9 +14,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2019-10-12 09:38+0200\n"
-"PO-Revision-Date: 2019-10-12 17:53+0000\n"
-"Last-Translator: Heimen Stoffels <vistausss@outlook.com>\n"
+"POT-Creation-Date: 2019-10-23 12:23+0200\n"
+"PO-Revision-Date: 2019-10-23 13:22+0000\n"
+"Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Dutch (Netherlands) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/nl_NL/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -170,27 +170,6 @@ msgstr "Bezig met controleren van integriteit"
 #: src/alpm_utils.vala
 msgid "Loading packages files"
 msgstr "Bezig met laden van pakketbestanden"
-
-#: src/alpm_utils.vala
-msgid "Checking delta integrity"
-msgstr "Bezig met controleren van delta-integriteit"
-
-#: src/alpm_utils.vala
-msgid "Applying deltas"
-msgstr "Bezig met toepassen van delta's"
-
-#: src/alpm_utils.vala
-#, c-format
-msgid "Generating %s with %s"
-msgstr "Bezig met genereren van %s met %s"
-
-#: src/alpm_utils.vala
-msgid "Generation succeeded"
-msgstr "Het genereren is gelukt"
-
-#: src/alpm_utils.vala
-msgid "Generation failed"
-msgstr "Het genereren is mislukt"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -890,6 +869,10 @@ msgid ""
 msgstr "De bouwmap wordt de hoofdmap, --builddir wordt genegeerd"
 
 #: src/cli.vala
+msgid "keep built packages in cache after installation"
+msgstr ""
+
+#: src/cli.vala
 msgid "do not clone build files from AUR, only use local files"
 msgstr "geen bouwbestanden klonen van AUR; alleen lokale bestanden gebruiken"
 
@@ -1206,6 +1189,10 @@ msgstr "AUR-ondersteuning inschakelen"
 #: resources/preferences_dialog.ui
 msgid "Allow Pamac to search and install packages from AUR"
 msgstr "Pamac toestaan om pakketten van AUR te zoeken en installeren"
+
+#: resources/preferences_dialog.ui
+msgid "Keep built packages in cache"
+msgstr ""
 
 #: resources/preferences_dialog.ui
 msgid "Check for updates from AUR"

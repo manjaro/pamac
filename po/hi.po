@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2019-10-12 09:38+0200\n"
-"PO-Revision-Date: 2019-10-12 12:30+0000\n"
+"POT-Creation-Date: 2019-10-23 12:23+0200\n"
+"PO-Revision-Date: 2019-10-23 13:22+0000\n"
 "Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Hindi (http://www.transifex.com/manjarolinux/manjaro-pamac/language/hi/)\n"
 "MIME-Version: 1.0\n"
@@ -169,27 +169,6 @@ msgstr "अखंडता की जाँच"
 #: src/alpm_utils.vala
 msgid "Loading packages files"
 msgstr "लोड हो रहा है संकुल फाइलें"
-
-#: src/alpm_utils.vala
-msgid "Checking delta integrity"
-msgstr "डेल्टा अखंडता की जाँच"
-
-#: src/alpm_utils.vala
-msgid "Applying deltas"
-msgstr "डेल्टा लागू करना"
-
-#: src/alpm_utils.vala
-#, c-format
-msgid "Generating %s with %s"
-msgstr ""
-
-#: src/alpm_utils.vala
-msgid "Generation succeeded"
-msgstr ""
-
-#: src/alpm_utils.vala
-msgid "Generation failed"
-msgstr "जनरेशन विफल हुआ"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -889,6 +868,10 @@ msgid ""
 msgstr ""
 
 #: src/cli.vala
+msgid "keep built packages in cache after installation"
+msgstr ""
+
+#: src/cli.vala
 msgid "do not clone build files from AUR, only use local files"
 msgstr ""
 
@@ -1205,6 +1188,10 @@ msgstr "AUR समर्थन सक्रिय"
 #: resources/preferences_dialog.ui
 msgid "Allow Pamac to search and install packages from AUR"
 msgstr "Pamac AUR से संकुल को खोजने और स्थापित करने की अनुमति"
+
+#: resources/preferences_dialog.ui
+msgid "Keep built packages in cache"
+msgstr ""
 
 #: resources/preferences_dialog.ui
 msgid "Check for updates from AUR"

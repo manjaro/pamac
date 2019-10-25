@@ -39,8 +39,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2019-10-12 09:38+0200\n"
-"PO-Revision-Date: 2019-10-12 12:30+0000\n"
+"POT-Creation-Date: 2019-10-23 12:23+0200\n"
+"PO-Revision-Date: 2019-10-23 13:22+0000\n"
 "Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
@@ -195,27 +195,6 @@ msgstr "Verificando a integridade dos pacotes"
 #: src/alpm_utils.vala
 msgid "Loading packages files"
 msgstr "Carregando arquivos de pacotes"
-
-#: src/alpm_utils.vala
-msgid "Checking delta integrity"
-msgstr "Verificando a integridade do delta"
-
-#: src/alpm_utils.vala
-msgid "Applying deltas"
-msgstr "Aplicando deltas"
-
-#: src/alpm_utils.vala
-#, c-format
-msgid "Generating %s with %s"
-msgstr "Gerando %s com %s"
-
-#: src/alpm_utils.vala
-msgid "Generation succeeded"
-msgstr "Geração bem sucedida"
-
-#: src/alpm_utils.vala
-msgid "Generation failed"
-msgstr "Falha na geração"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -915,6 +894,10 @@ msgid ""
 msgstr "O diretório de construção será o diretório pai, a opção --builddir será ignorada"
 
 #: src/cli.vala
+msgid "keep built packages in cache after installation"
+msgstr ""
+
+#: src/cli.vala
 msgid "do not clone build files from AUR, only use local files"
 msgstr "não clonar arquivos de construção do AUR, use apenas arquivos locais"
 
@@ -1231,6 +1214,10 @@ msgstr "Habilitar o suporte AUR"
 #: resources/preferences_dialog.ui
 msgid "Allow Pamac to search and install packages from AUR"
 msgstr "Permitir a Pamac que procure e instale os pacotes a partir de AUR"
+
+#: resources/preferences_dialog.ui
+msgid "Keep built packages in cache"
+msgstr ""
 
 #: resources/preferences_dialog.ui
 msgid "Check for updates from AUR"

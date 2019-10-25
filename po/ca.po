@@ -8,6 +8,7 @@
 # Davidmp <medipas@gmail.com>, 2015
 # Guillaume Benoit <guillaume@manjaro.org>, 2013
 # Ramon Buldó <rbuldo@gmail.com>, 2013
+# Manuel Lladosa <manolollr@gmail.com>, 2019
 # Davidmp <medipas@gmail.com>, 2015-2019
 # Oriol Fernandez <oriolfa@ono.com>, 2013-2014
 # philm <philm@manjaro.org>, 2015
@@ -18,9 +19,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2019-10-12 09:38+0200\n"
-"PO-Revision-Date: 2019-10-14 13:24+0000\n"
-"Last-Translator: Davidmp <medipas@gmail.com>\n"
+"POT-Creation-Date: 2019-10-23 12:23+0200\n"
+"PO-Revision-Date: 2019-10-24 16:33+0000\n"
+"Last-Translator: Manuel Lladosa <manolollr@gmail.com>\n"
 "Language-Team: Catalan (http://www.transifex.com/manjarolinux/manjaro-pamac/language/ca/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -174,27 +175,6 @@ msgstr "Comprovant-ne la integritat"
 #: src/alpm_utils.vala
 msgid "Loading packages files"
 msgstr "Carregant els fitxers dels paquets"
-
-#: src/alpm_utils.vala
-msgid "Checking delta integrity"
-msgstr "Comprovant la integritat delta"
-
-#: src/alpm_utils.vala
-msgid "Applying deltas"
-msgstr "Aplicant deltes"
-
-#: src/alpm_utils.vala
-#, c-format
-msgid "Generating %s with %s"
-msgstr "Generant %s amb %s"
-
-#: src/alpm_utils.vala
-msgid "Generation succeeded"
-msgstr "Generació acabada correctament"
-
-#: src/alpm_utils.vala
-msgid "Generation failed"
-msgstr "La generació ha fallat"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -641,7 +621,7 @@ msgstr "Suprimeix"
 
 #: src/manager_window.vala
 msgid "Featured"
-msgstr "Característiques"
+msgstr "Destacat"
 
 #: src/manager_window.vala
 msgid "Photo & Video"
@@ -892,6 +872,10 @@ msgid ""
 "The build directory will be the parent directory, --builddir option will be "
 "ignored"
 msgstr "El directori de construcció serà el directori pare, s'ignorarà l'opció --builddir."
+
+#: src/cli.vala
+msgid "keep built packages in cache after installation"
+msgstr ""
 
 #: src/cli.vala
 msgid "do not clone build files from AUR, only use local files"
@@ -1210,6 +1194,10 @@ msgstr "Habilita el suport per a l'AUR"
 #: resources/preferences_dialog.ui
 msgid "Allow Pamac to search and install packages from AUR"
 msgstr "Permet al Pamac cercar i instal·lar paquets des de l'AUR."
+
+#: resources/preferences_dialog.ui
+msgid "Keep built packages in cache"
+msgstr ""
 
 #: resources/preferences_dialog.ui
 msgid "Check for updates from AUR"

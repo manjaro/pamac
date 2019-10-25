@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2019-10-12 09:38+0200\n"
-"PO-Revision-Date: 2019-10-12 17:34+0000\n"
+"POT-Creation-Date: 2019-10-23 12:23+0200\n"
+"PO-Revision-Date: 2019-10-23 15:35+0000\n"
 "Last-Translator: Madis Otenurm\n"
 "Language-Team: Estonian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/et/)\n"
 "MIME-Version: 1.0\n"
@@ -170,27 +170,6 @@ msgstr "Tervikluse kontroll"
 #: src/alpm_utils.vala
 msgid "Loading packages files"
 msgstr "Faili pakettide laadimine"
-
-#: src/alpm_utils.vala
-msgid "Checking delta integrity"
-msgstr "Kontrollitakse deltapakettide terviklust"
-
-#: src/alpm_utils.vala
-msgid "Applying deltas"
-msgstr "Deltapaketide rakendamine"
-
-#: src/alpm_utils.vala
-#, c-format
-msgid "Generating %s with %s"
-msgstr "Genereerib %s abil %s"
-
-#: src/alpm_utils.vala
-msgid "Generation succeeded"
-msgstr "Genereerimine õnnestus"
-
-#: src/alpm_utils.vala
-msgid "Generation failed"
-msgstr "Genereerimine ebaõnnestus"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -890,6 +869,10 @@ msgid ""
 msgstr "Ehituskataloog saab ülemkataloogiks, valikut --builddir ignoreeritakse"
 
 #: src/cli.vala
+msgid "keep built packages in cache after installation"
+msgstr "hoia ehitatud paketid peale paigaldust vahemälus"
+
+#: src/cli.vala
 msgid "do not clone build files from AUR, only use local files"
 msgstr "ära klooni ehitusfaile AURist, kasuta ainult kohalikke faile"
 
@@ -1206,6 +1189,10 @@ msgstr "Võimalda AURi tugi"
 #: resources/preferences_dialog.ui
 msgid "Allow Pamac to search and install packages from AUR"
 msgstr "Luba Pamacil otsida ning paigaldada pakette AURist"
+
+#: resources/preferences_dialog.ui
+msgid "Keep built packages in cache"
+msgstr "Hoia ehitatud paketid vahemälus"
 
 #: resources/preferences_dialog.ui
 msgid "Check for updates from AUR"

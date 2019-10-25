@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2019-10-12 09:38+0200\n"
-"PO-Revision-Date: 2019-10-12 12:30+0000\n"
+"POT-Creation-Date: 2019-10-23 12:23+0200\n"
+"PO-Revision-Date: 2019-10-23 13:22+0000\n"
 "Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Belarusian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/be/)\n"
 "MIME-Version: 1.0\n"
@@ -166,27 +166,6 @@ msgstr "Праверка цэласнасці"
 #: src/alpm_utils.vala
 msgid "Loading packages files"
 msgstr "Загрузка файлаў пакункаў"
-
-#: src/alpm_utils.vala
-msgid "Checking delta integrity"
-msgstr "Праверка цэласнасці дэльтаў"
-
-#: src/alpm_utils.vala
-msgid "Applying deltas"
-msgstr "Ужыванне дэльтаў"
-
-#: src/alpm_utils.vala
-#, c-format
-msgid "Generating %s with %s"
-msgstr "Генерацыя %s з %s"
-
-#: src/alpm_utils.vala
-msgid "Generation succeeded"
-msgstr "Згенеравана"
-
-#: src/alpm_utils.vala
-msgid "Generation failed"
-msgstr "Не атрымалася згегераваць"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -894,6 +873,10 @@ msgid ""
 msgstr "Каталог зборкі будзе бацькоўскім каталогам, параметр --builddir будзе праігнараваны"
 
 #: src/cli.vala
+msgid "keep built packages in cache after installation"
+msgstr ""
+
+#: src/cli.vala
 msgid "do not clone build files from AUR, only use local files"
 msgstr "не кланаваць файлы зборкі з AUR, выкарыстоўваць толькі лакальныя файлы"
 
@@ -1212,6 +1195,10 @@ msgstr "Уключыць падтрымку AUR"
 #: resources/preferences_dialog.ui
 msgid "Allow Pamac to search and install packages from AUR"
 msgstr "Дазволіць Pamac пошук і ўсталёўку з AUR"
+
+#: resources/preferences_dialog.ui
+msgid "Keep built packages in cache"
+msgstr ""
 
 #: resources/preferences_dialog.ui
 msgid "Check for updates from AUR"

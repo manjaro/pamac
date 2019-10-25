@@ -13,9 +13,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2019-10-12 09:38+0200\n"
-"PO-Revision-Date: 2019-10-12 12:30+0000\n"
-"Last-Translator: philm <philm@manjaro.org>\n"
+"POT-Creation-Date: 2019-10-23 12:23+0200\n"
+"PO-Revision-Date: 2019-10-23 17:23+0000\n"
+"Last-Translator: Lovro Kudelić <lovro.kudelic@outlook.com>\n"
 "Language-Team: Croatian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/hr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -115,7 +115,7 @@ msgstr "%s nije valjan ili je oštećen"
 
 #: src/alpm_utils.vala
 msgid "failed to retrieve some files"
-msgstr ""
+msgstr "nije uspjelo dohvaćanje nekih datoteka"
 
 #: src/alpm_utils.vala
 msgid "Failed to commit transaction"
@@ -169,27 +169,6 @@ msgstr "Provjeravam integritet"
 #: src/alpm_utils.vala
 msgid "Loading packages files"
 msgstr "Učitavam datoteke paketa"
-
-#: src/alpm_utils.vala
-msgid "Checking delta integrity"
-msgstr "Provjeravam delta integritet"
-
-#: src/alpm_utils.vala
-msgid "Applying deltas"
-msgstr "Potvrđujem delte"
-
-#: src/alpm_utils.vala
-#, c-format
-msgid "Generating %s with %s"
-msgstr "Stvaram %s sa %s"
-
-#: src/alpm_utils.vala
-msgid "Generation succeeded"
-msgstr "Stvaranje uspješno završeno"
-
-#: src/alpm_utils.vala
-msgid "Generation failed"
-msgstr "Stvaranje nije uspjelo"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -893,6 +872,10 @@ msgid ""
 msgstr "Direktorij za stvaranje će biti nadređeni direktorij; --builddir opcija će se ignorirati"
 
 #: src/cli.vala
+msgid "keep built packages in cache after installation"
+msgstr "zadrži izgrađene pakete u predmemoriji nakon instalacije"
+
+#: src/cli.vala
 msgid "do not clone build files from AUR, only use local files"
 msgstr "nemoj klonirati datoteke za stvaranje iz AUR-a; koristi samo lokalne datoteke"
 
@@ -1210,6 +1193,10 @@ msgstr "Omogući AUR podršku"
 #: resources/preferences_dialog.ui
 msgid "Allow Pamac to search and install packages from AUR"
 msgstr "Dozvoli Pamac-u da traži i instalira pakete iz AUR-a"
+
+#: resources/preferences_dialog.ui
+msgid "Keep built packages in cache"
+msgstr "Zadrži izgrađene pakete u predmemoriji"
 
 #: resources/preferences_dialog.ui
 msgid "Check for updates from AUR"

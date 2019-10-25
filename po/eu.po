@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2019-10-12 09:38+0200\n"
-"PO-Revision-Date: 2019-10-12 12:30+0000\n"
+"POT-Creation-Date: 2019-10-23 12:23+0200\n"
+"PO-Revision-Date: 2019-10-23 13:22+0000\n"
 "Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Basque (http://www.transifex.com/manjarolinux/manjaro-pamac/language/eu/)\n"
 "MIME-Version: 1.0\n"
@@ -170,27 +170,6 @@ msgstr "Osotasuna egiaztatzen"
 #: src/alpm_utils.vala
 msgid "Loading packages files"
 msgstr "Paketeen fitxategiak kargatzen"
-
-#: src/alpm_utils.vala
-msgid "Checking delta integrity"
-msgstr "Deltaren osotasuna egiaztatzen"
-
-#: src/alpm_utils.vala
-msgid "Applying deltas"
-msgstr "Deltak aplikatzen"
-
-#: src/alpm_utils.vala
-#, c-format
-msgid "Generating %s with %s"
-msgstr "%s sortzen %s erabilita"
-
-#: src/alpm_utils.vala
-msgid "Generation succeeded"
-msgstr "Sormena ongi burutu da"
-
-#: src/alpm_utils.vala
-msgid "Generation failed"
-msgstr "Sormenak huts egin du"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -890,6 +869,10 @@ msgid ""
 msgstr "Eraiketa direktorioa guraso direktorioa izango da, --builddir aukera ezikusia izango da"
 
 #: src/cli.vala
+msgid "keep built packages in cache after installation"
+msgstr ""
+
+#: src/cli.vala
 msgid "do not clone build files from AUR, only use local files"
 msgstr "ez klonatu eraiketa fitxategiak AURetik, erabili fitxategi lokalak soilik"
 
@@ -1206,6 +1189,10 @@ msgstr "Gaitu AUR euskarria"
 #: resources/preferences_dialog.ui
 msgid "Allow Pamac to search and install packages from AUR"
 msgstr "Pamac AURtik paketeak bilatzeko eta instalatzeko baimendu"
+
+#: resources/preferences_dialog.ui
+msgid "Keep built packages in cache"
+msgstr ""
 
 #: resources/preferences_dialog.ui
 msgid "Check for updates from AUR"

@@ -23,8 +23,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2019-10-12 09:38+0200\n"
-"PO-Revision-Date: 2019-10-14 08:05+0000\n"
+"POT-Creation-Date: 2019-10-23 12:23+0200\n"
+"PO-Revision-Date: 2019-10-24 16:55+0000\n"
 "Last-Translator: Charles Monzat <c.monzat@laposte.net>\n"
 "Language-Team: French (http://www.transifex.com/manjarolinux/manjaro-pamac/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -179,27 +179,6 @@ msgstr "Vérification de l’intégrité des paquets"
 #: src/alpm_utils.vala
 msgid "Loading packages files"
 msgstr "Chargement des fichiers des paquets"
-
-#: src/alpm_utils.vala
-msgid "Checking delta integrity"
-msgstr "Vérification de l’intégrité des deltas"
-
-#: src/alpm_utils.vala
-msgid "Applying deltas"
-msgstr "Application des deltas"
-
-#: src/alpm_utils.vala
-#, c-format
-msgid "Generating %s with %s"
-msgstr "Création de %s avec %s"
-
-#: src/alpm_utils.vala
-msgid "Generation succeeded"
-msgstr "Création réussie"
-
-#: src/alpm_utils.vala
-msgid "Generation failed"
-msgstr "Création échouée"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -899,6 +878,10 @@ msgid ""
 msgstr "Le répertoire de construction sera le répertoire parent, l’option --builddir sera ignoré"
 
 #: src/cli.vala
+msgid "keep built packages in cache after installation"
+msgstr "garder les paquets construits dans le cache après l’installation"
+
+#: src/cli.vala
 msgid "do not clone build files from AUR, only use local files"
 msgstr "ne pas cloner les fichiers de construction depuis AUR, utiliser seulement les fichiers locaux"
 
@@ -1215,6 +1198,10 @@ msgstr "Activer la prise en charge d’AUR"
 #: resources/preferences_dialog.ui
 msgid "Allow Pamac to search and install packages from AUR"
 msgstr "Permettre à Pamac de chercher et installer des paquets depuis AUR"
+
+#: resources/preferences_dialog.ui
+msgid "Keep built packages in cache"
+msgstr "Garder les paquets construits dans le cache"
 
 #: resources/preferences_dialog.ui
 msgid "Check for updates from AUR"

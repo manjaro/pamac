@@ -25,13 +25,14 @@
 # philm <philm@manjaro.org>, 2015
 # Pietro F. Fontana, 2017-2019
 # Saverio <saverio.brancaccio@gmail.com>, 2018-2019
+# Trazalca <trazalca@hotmail.com>, 2019
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2019-10-12 09:38+0200\n"
-"PO-Revision-Date: 2019-10-12 12:30+0000\n"
-"Last-Translator: philm <philm@manjaro.org>\n"
+"POT-Creation-Date: 2019-10-23 12:23+0200\n"
+"PO-Revision-Date: 2019-10-23 19:29+0000\n"
+"Last-Translator: Trazalca <trazalca@hotmail.com>\n"
 "Language-Team: Italian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/it/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -41,11 +42,11 @@ msgstr ""
 
 #: data/polkit/org.manjaro.pamac.policy.in
 msgid "Install, update, or remove packages"
-msgstr ""
+msgstr "Installa, aggiorna o rimuovi pacchetti"
 
 #: data/polkit/org.manjaro.pamac.policy.in
 msgid "Authentication is required to install, update, or remove packages"
-msgstr ""
+msgstr "Autenticazione richiesta per installare, aggiornare o rimuovere pacchetti"
 
 #: src/alpm_utils.vala src/database.vala
 msgid "Failed to initialize alpm library"
@@ -57,7 +58,7 @@ msgstr "Sincronizzazione database dei pacchetti"
 
 #: src/alpm_utils.vala
 msgid "Failed to synchronize databases"
-msgstr ""
+msgstr "Sincronizzazione database fallita"
 
 #: src/alpm_utils.vala
 msgid "Failed to init transaction"
@@ -131,7 +132,7 @@ msgstr "%s è danneggiato o non valido"
 
 #: src/alpm_utils.vala
 msgid "failed to retrieve some files"
-msgstr ""
+msgstr "impossibile recuperare alcuni file"
 
 #: src/alpm_utils.vala
 msgid "Failed to commit transaction"
@@ -185,27 +186,6 @@ msgstr "Verifico l'integrità dei pacchetti"
 #: src/alpm_utils.vala
 msgid "Loading packages files"
 msgstr "Caricamento dei file dei pacchetti"
-
-#: src/alpm_utils.vala
-msgid "Checking delta integrity"
-msgstr "Controllo dell'integrità dei delta"
-
-#: src/alpm_utils.vala
-msgid "Applying deltas"
-msgstr "Applicando deltas"
-
-#: src/alpm_utils.vala
-#, c-format
-msgid "Generating %s with %s"
-msgstr "Generazione %s con %s"
-
-#: src/alpm_utils.vala
-msgid "Generation succeeded"
-msgstr "Generazione riuscita"
-
-#: src/alpm_utils.vala
-msgid "Generation failed"
-msgstr "Generazione non riuscita"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -275,12 +255,12 @@ msgstr "Avviso"
 #: src/alpm_utils.vala
 #, c-format
 msgid "Download of %s started"
-msgstr ""
+msgstr "Download di %s iniziato"
 
 #: src/alpm_utils.vala
 #, c-format
 msgid "Download of %s finished"
-msgstr ""
+msgstr "Download di %s terminato"
 
 #: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
@@ -504,7 +484,7 @@ msgstr "Esterno"
 #: src/manager_window.vala src/snap_plugin.vala
 #: resources/preferences_dialog.ui
 msgid "Snap"
-msgstr ""
+msgstr "Snap"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Repositories"
@@ -632,11 +612,11 @@ msgstr "Controlla le dipendenze"
 
 #: src/manager_window.vala
 msgid "Publisher"
-msgstr ""
+msgstr "Publisher"
 
 #: src/manager_window.vala
 msgid "Channels"
-msgstr ""
+msgstr "Canali"
 
 #: src/manager_window.vala
 msgid "Upgrade"
@@ -652,27 +632,27 @@ msgstr "Rimuovi"
 
 #: src/manager_window.vala
 msgid "Featured"
-msgstr ""
+msgstr "In primo piano"
 
 #: src/manager_window.vala
 msgid "Photo & Video"
-msgstr ""
+msgstr "Foto & Video"
 
 #: src/manager_window.vala
 msgid "Music & Audio"
-msgstr ""
+msgstr "Musica & Audio"
 
 #: src/manager_window.vala
 msgid "Productivity"
-msgstr ""
+msgstr "Produttività"
 
 #: src/manager_window.vala
 msgid "Communication & News"
-msgstr ""
+msgstr "Comunicazione & Notizie"
 
 #: src/manager_window.vala
 msgid "Education & Science"
-msgstr ""
+msgstr "Educazione & Scienza"
 
 #: src/manager_window.vala
 msgid "Games"
@@ -680,7 +660,7 @@ msgstr "Giochi"
 
 #: src/manager_window.vala
 msgid "Utilities"
-msgstr ""
+msgstr "Utilità"
 
 #: src/manager_window.vala
 msgid "Development"
@@ -905,6 +885,10 @@ msgid ""
 msgstr "La cartella di costruzione sarà la cartella superiore, l'opzione --builddir verrà ignorata"
 
 #: src/cli.vala
+msgid "keep built packages in cache after installation"
+msgstr "Conserva i pacchetti creati nella cache dopo l'installazione"
+
+#: src/cli.vala
 msgid "do not clone build files from AUR, only use local files"
 msgstr "non clonare file di costruzione da AUR, usa solo file locali"
 
@@ -1039,7 +1023,7 @@ msgstr "URL"
 
 #: src/cli.vala
 msgid "Installed Size"
-msgstr ""
+msgstr "Dimensione installato"
 
 #: src/cli.vala
 #, c-format
@@ -1223,6 +1207,10 @@ msgid "Allow Pamac to search and install packages from AUR"
 msgstr "Permette a Pamac cercare e installare pacchetti dal AUR"
 
 #: resources/preferences_dialog.ui
+msgid "Keep built packages in cache"
+msgstr "Conserva i pacchetti creati nella cache"
+
+#: resources/preferences_dialog.ui
 msgid "Check for updates from AUR"
 msgstr "Controlla gli aggiornamenti da AUR"
 
@@ -1232,11 +1220,11 @@ msgstr "Controlla aggiornamenti per pacchetti di sviluppo"
 
 #: resources/preferences_dialog.ui
 msgid "Snap packages are maintained by their publisher."
-msgstr ""
+msgstr "I pacchetti Snap sono mantenuti dal relativo publisher."
 
 #: resources/preferences_dialog.ui
 msgid "Enable Snap support"
-msgstr ""
+msgstr "Abilita supporto Snap"
 
 #: resources/preferences_dialog.ui
 msgid "Cache"

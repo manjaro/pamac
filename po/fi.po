@@ -22,8 +22,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2019-10-12 09:38+0200\n"
-"PO-Revision-Date: 2019-10-12 12:30+0000\n"
+"POT-Creation-Date: 2019-10-23 12:23+0200\n"
+"PO-Revision-Date: 2019-10-23 13:22+0000\n"
 "Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Finnish (http://www.transifex.com/manjarolinux/manjaro-pamac/language/fi/)\n"
 "MIME-Version: 1.0\n"
@@ -34,11 +34,11 @@ msgstr ""
 
 #: data/polkit/org.manjaro.pamac.policy.in
 msgid "Install, update, or remove packages"
-msgstr ""
+msgstr "Asenna, päivitä tai poista paketteja"
 
 #: data/polkit/org.manjaro.pamac.policy.in
 msgid "Authentication is required to install, update, or remove packages"
-msgstr ""
+msgstr "Pakettien asennus, päivittäminen, tai poistaminen vaatii todennusta"
 
 #: src/alpm_utils.vala src/database.vala
 msgid "Failed to initialize alpm library"
@@ -50,7 +50,7 @@ msgstr "Synkronoidaan pakettitietokantoja"
 
 #: src/alpm_utils.vala
 msgid "Failed to synchronize databases"
-msgstr ""
+msgstr "Tietokantojen synkronointi epäonnistui"
 
 #: src/alpm_utils.vala
 msgid "Failed to init transaction"
@@ -124,7 +124,7 @@ msgstr "%s on viallinen tai vioittunut"
 
 #: src/alpm_utils.vala
 msgid "failed to retrieve some files"
-msgstr ""
+msgstr "joidenkin tiedostojen noutaminen epäonnistui"
 
 #: src/alpm_utils.vala
 msgid "Failed to commit transaction"
@@ -178,27 +178,6 @@ msgstr "Tarkastetaan eheyttä"
 #: src/alpm_utils.vala
 msgid "Loading packages files"
 msgstr "Ladataan paketin tiedostoja"
-
-#: src/alpm_utils.vala
-msgid "Checking delta integrity"
-msgstr "Tarkistetaan delta-eheyttä"
-
-#: src/alpm_utils.vala
-msgid "Applying deltas"
-msgstr "Asetetaan deltoja"
-
-#: src/alpm_utils.vala
-#, c-format
-msgid "Generating %s with %s"
-msgstr "Luodaan %s deltalla %s"
-
-#: src/alpm_utils.vala
-msgid "Generation succeeded"
-msgstr "Luominen onnistui"
-
-#: src/alpm_utils.vala
-msgid "Generation failed"
-msgstr "Luominen epäonnistui"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -367,7 +346,7 @@ msgstr "Tuo PGP-avain"
 
 #: src/transaction-gtk.vala
 msgid "Trust and Import"
-msgstr ""
+msgstr "Luota ja tuo"
 
 #: src/transaction-gtk.vala src/manager_window.vala
 #: resources/transaction_sum_dialog.ui resources/manager_window.ui
@@ -484,7 +463,7 @@ msgstr[1] "%u operaatiota odottaa"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "All"
-msgstr ""
+msgstr "Kaikki"
 
 #: src/manager_window.vala
 msgid "Orphans"
@@ -625,11 +604,11 @@ msgstr "Tarkista riippuvuudet"
 
 #: src/manager_window.vala
 msgid "Publisher"
-msgstr ""
+msgstr "Julkaisija"
 
 #: src/manager_window.vala
 msgid "Channels"
-msgstr ""
+msgstr "Kanavat"
 
 #: src/manager_window.vala
 msgid "Upgrade"
@@ -649,23 +628,23 @@ msgstr ""
 
 #: src/manager_window.vala
 msgid "Photo & Video"
-msgstr ""
+msgstr "Kuva & video"
 
 #: src/manager_window.vala
 msgid "Music & Audio"
-msgstr ""
+msgstr "Musiikki ja ääni"
 
 #: src/manager_window.vala
 msgid "Productivity"
-msgstr ""
+msgstr "Tuottavuus"
 
 #: src/manager_window.vala
 msgid "Communication & News"
-msgstr ""
+msgstr "Viestintä ja uutiset"
 
 #: src/manager_window.vala
 msgid "Education & Science"
-msgstr ""
+msgstr "Koulutus ja tiede"
 
 #: src/manager_window.vala
 msgid "Games"
@@ -673,7 +652,7 @@ msgstr "Pelit"
 
 #: src/manager_window.vala
 msgid "Utilities"
-msgstr ""
+msgstr "Apuohjelmat"
 
 #: src/manager_window.vala
 msgid "Development"
@@ -895,6 +874,10 @@ msgstr ""
 msgid ""
 "The build directory will be the parent directory, --builddir option will be "
 "ignored"
+msgstr ""
+
+#: src/cli.vala
+msgid "keep built packages in cache after installation"
 msgstr ""
 
 #: src/cli.vala
@@ -1121,11 +1104,11 @@ msgstr "Päivitykset"
 
 #: resources/manager_window.ui
 msgid "Remove all"
-msgstr ""
+msgstr "Poista kaikki"
 
 #: resources/manager_window.ui
 msgid "Install all"
-msgstr ""
+msgstr "Asenna kaikki"
 
 #: resources/manager_window.ui
 msgid "Ignore all"
@@ -1214,6 +1197,10 @@ msgstr "Ota AUR-tuki käyttöön"
 #: resources/preferences_dialog.ui
 msgid "Allow Pamac to search and install packages from AUR"
 msgstr "Anna Pamacin etsiä ja asentaa paketteja AUR:sta"
+
+#: resources/preferences_dialog.ui
+msgid "Keep built packages in cache"
+msgstr ""
 
 #: resources/preferences_dialog.ui
 msgid "Check for updates from AUR"

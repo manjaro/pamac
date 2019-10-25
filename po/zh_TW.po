@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2019-10-12 09:38+0200\n"
-"PO-Revision-Date: 2019-10-13 02:32+0000\n"
+"POT-Creation-Date: 2019-10-23 12:23+0200\n"
+"PO-Revision-Date: 2019-10-24 13:05+0000\n"
 "Last-Translator: 黃柏諺 <s8321414@gmail.com>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
@@ -169,27 +169,6 @@ msgstr "正在檢查軟體包完整性"
 #: src/alpm_utils.vala
 msgid "Loading packages files"
 msgstr "正在載入套件檔案"
-
-#: src/alpm_utils.vala
-msgid "Checking delta integrity"
-msgstr "正在檢查增量包完整性"
-
-#: src/alpm_utils.vala
-msgid "Applying deltas"
-msgstr "正在套用增量包"
-
-#: src/alpm_utils.vala
-#, c-format
-msgid "Generating %s with %s"
-msgstr "正在生成 %s (使用 %s)"
-
-#: src/alpm_utils.vala
-msgid "Generation succeeded"
-msgstr "生成成功"
-
-#: src/alpm_utils.vala
-msgid "Generation failed"
-msgstr "生成失敗"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -885,6 +864,10 @@ msgid ""
 msgstr "構建目錄將會是上層目錄，--builddir 選項將會被忽略"
 
 #: src/cli.vala
+msgid "keep built packages in cache after installation"
+msgstr "在安裝後將建置好的軟體包保留在快取中"
+
+#: src/cli.vala
 msgid "do not clone build files from AUR, only use local files"
 msgstr "不要從 AUR 再製構建檔案，僅使用本機檔案"
 
@@ -1200,6 +1183,10 @@ msgstr "啟用 AUR 支援"
 #: resources/preferences_dialog.ui
 msgid "Allow Pamac to search and install packages from AUR"
 msgstr "允許 Pamac 搜尋及安裝 AUR 上的軟體包"
+
+#: resources/preferences_dialog.ui
+msgid "Keep built packages in cache"
+msgstr "將建置好的軟體包保留在快取中"
 
 #: resources/preferences_dialog.ui
 msgid "Check for updates from AUR"

@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2019-10-12 09:38+0200\n"
-"PO-Revision-Date: 2019-10-12 21:10+0000\n"
-"Last-Translator: Moo\n"
+"POT-Creation-Date: 2019-10-23 12:23+0200\n"
+"PO-Revision-Date: 2019-10-23 13:22+0000\n"
+"Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Lithuanian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/lt/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -166,27 +166,6 @@ msgstr "Tikrinamas vientisumas"
 #: src/alpm_utils.vala
 msgid "Loading packages files"
 msgstr "Įkeliami paketų failai"
-
-#: src/alpm_utils.vala
-msgid "Checking delta integrity"
-msgstr "Tikrinamas delta vientisumas"
-
-#: src/alpm_utils.vala
-msgid "Applying deltas"
-msgstr "Pritaikomos deltos"
-
-#: src/alpm_utils.vala
-#, c-format
-msgid "Generating %s with %s"
-msgstr "Kuriama %s su %s"
-
-#: src/alpm_utils.vala
-msgid "Generation succeeded"
-msgstr "Kūrimas sėkmingas"
-
-#: src/alpm_utils.vala
-msgid "Generation failed"
-msgstr "Kūrimas nepavyko"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -894,6 +873,10 @@ msgid ""
 msgstr "Kompiliavimo katalogas bus virškatalogis, --builddir parametro bus nepaisoma"
 
 #: src/cli.vala
+msgid "keep built packages in cache after installation"
+msgstr ""
+
+#: src/cli.vala
 msgid "do not clone build files from AUR, only use local files"
 msgstr "neklonuoti kompiliavimo failų iš AUR, naudoti tik vietinius failus"
 
@@ -1212,6 +1195,10 @@ msgstr "Įjungti AUR palaikymą"
 #: resources/preferences_dialog.ui
 msgid "Allow Pamac to search and install packages from AUR"
 msgstr "Leisti Pamac ieškoti ir diegti paketus iš AUR"
+
+#: resources/preferences_dialog.ui
+msgid "Keep built packages in cache"
+msgstr ""
 
 #: resources/preferences_dialog.ui
 msgid "Check for updates from AUR"
