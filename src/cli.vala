@@ -1909,8 +1909,8 @@ namespace Pamac {
 					// enable_aur is checked in database.get_aur_pkg
 					AURPackage? aur_pkg = database.get_aur_pkg (target);
 					if (aur_pkg != null) {
-						stdout.printf ("%s\n", dgettext (null, "%s is only available from AUR").printf (target));
-						if (ask_user ("%s ?".printf (dgettext (null, "Build %s from AUR").printf (target)))) {
+						stdout.printf ("%s: %s\n", dgettext (null, "Warning"), dgettext (null, "%s is only available from AUR").printf (target));
+						if (!transaction.no_confirm && ask_user ("%s ?".printf (dgettext (null, "Build %s from AUR").printf (target)))) {
 							stdout.printf ("\n");
 							to_build.append (target);
 							found = true;
