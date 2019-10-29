@@ -20,29 +20,29 @@
 namespace Pamac {
 	[DBus (name = "org.manjaro.pamac.daemon")]
 	interface Daemon : Object {
+		public abstract string get_sender () throws Error;
 		public abstract void set_environment_variables (HashTable<string,string> variables) throws Error;
-		public abstract bool get_lock () throws Error;
 		public abstract void start_get_authorization () throws Error;
+		public abstract void remove_authorization () throws Error;
 		public abstract void start_write_pamac_config (HashTable<string,Variant> new_pamac_conf) throws Error;
 		public abstract void start_generate_mirrors_list (string country) throws Error;
 		public abstract void start_clean_cache (string[] filenames) throws Error;
 		public abstract void start_clean_build_files (string aur_build_dir) throws Error;
 		public abstract void start_set_pkgreason (string pkgname, uint reason) throws Error;
 		public abstract void start_download_updates () throws Error;
-		public abstract void set_trans_flags (int flags) throws Error;
-		public abstract void add_pkg_to_install (string name) throws Error;
-		public abstract void add_pkg_to_remove (string name) throws Error;
-		public abstract void add_path_to_load (string path) throws Error;
-		public abstract void add_aur_pkg_to_build (string name) throws Error;
-		public abstract void add_temporary_ignore_pkg (string name) throws Error;
-		public abstract void add_overwrite_file (string glob) throws Error;
-		public abstract void add_pkg_to_mark_as_dep (string name) throws Error;
-		public abstract void set_sysupgrade () throws Error;
-		public abstract void set_keep_built_pkgs (bool keep_built_pkgs) throws Error;
-		public abstract void set_enable_downgrade (bool downgrade) throws Error;
-		public abstract void set_no_confirm_commit () throws Error;
-		public abstract void set_force_refresh () throws Error;
-		public abstract void start_trans_run () throws Error;
+		public abstract void start_trans_run (bool sysupgrade,
+											bool force_refresh,
+											bool enable_downgrade,
+											bool no_confirm_commit,
+											bool keep_built_pkgs,
+											int trans_flags,
+											string[] to_install,
+											string[] to_remove,
+											string[] to_load,
+											string[] to_build,
+											string[] to_install_as_dep,
+											string[] temporary_ignorepkgs,
+											string[] overwrite_files) throws Error;
 		public abstract void answer_choose_provider (int provider) throws Error;
 		public abstract void aur_build_list_computed () throws Error;
 		public abstract void answer_ask_edit_build_files (bool answer) throws Error;
@@ -52,36 +52,37 @@ namespace Pamac {
 		public abstract void trans_cancel () throws Error;
 		[DBus (no_reply = true)]
 		public abstract void quit () throws Error;
-		public signal void choose_provider (string depend, string[] providers);
-		public signal void compute_aur_build_list ();
-		public signal void ask_commit (TransactionSummaryStruct summary);
-		public signal void ask_edit_build_files (TransactionSummaryStruct summary);
-		public signal void edit_build_files (string[] pkgnames);
-		public signal void emit_action (string action);
-		public signal void emit_action_progress (string action, string status, double progress);
-		public signal void emit_download_progress (string action, string status, double progress);
-		public signal void emit_hook_progress (string action, string details, string status, double progress);
-		public signal void emit_script_output (string message);
-		public signal void emit_warning (string message);
-		public signal void emit_error (string message, string[] details);
-		public signal void important_details_outpout (bool must_show);
-		public signal void start_downloading ();
-		public signal void stop_downloading ();
-		public signal void set_pkgreason_finished (bool success);
-		public signal void trans_run_finished (bool success);
-		public signal void database_modified ();
-		public signal void download_updates_finished ();
-		public signal void get_authorization_finished (bool authorized);
-		public signal void write_pamac_config_finished ();
-		public signal void generate_mirrors_list_data (string line);
-		public signal void generate_mirrors_list_finished ();
-		public signal void clean_cache_finished (bool success);
-		public signal void clean_build_files_finished (bool success);
+		public signal void choose_provider (string sender, string depend, string[] providers);
+		public signal void compute_aur_build_list (string sender);
+		public signal void ask_commit (string sender, TransactionSummaryStruct summary);
+		public signal void ask_edit_build_files (string sender, TransactionSummaryStruct summary);
+		public signal void edit_build_files (string sender, string[] pkgnames);
+		public signal void emit_action (string sender, string action);
+		public signal void emit_action_progress (string sender, string action, string status, double progress);
+		public signal void emit_download_progress (string sender, string action, string status, double progress);
+		public signal void emit_hook_progress (string sender, string action, string details, string status, double progress);
+		public signal void emit_script_output (string sender, string message);
+		public signal void emit_warning (string sender, string message);
+		public signal void emit_error (string sender, string message, string[] details);
+		public signal void important_details_outpout (string sender, bool must_show);
+		public signal void start_downloading (string sender);
+		public signal void stop_downloading (string sender);
+		public signal void set_pkgreason_finished (string sender, bool success);
+		public signal void start_waiting (string sender);
+		public signal void stop_waiting (string sender);
+		public signal void trans_run_finished (string sender, bool success);
+		public signal void download_updates_finished (string sender);
+		public signal void get_authorization_finished (string sender, bool authorized);
+		public signal void write_pamac_config_finished (string sender);
+		public signal void generate_mirrors_list_data (string sender, string line);
+		public signal void generate_mirrors_list_finished (string sender);
+		public signal void clean_cache_finished (string sender, bool success);
+		public signal void clean_build_files_finished (string sender, bool success);
 		#if ENABLE_SNAP
 		public abstract void start_snap_trans_run (string[] to_install, string[] to_remove) throws Error;
 		public abstract void start_snap_switch_channel (string snap_name, string channel) throws Error;
-		public signal void snap_trans_run_finished (bool success);
-		public signal void snap_switch_channel_finished (bool success);
+		public signal void snap_trans_run_finished (string sender, bool success);
+		public signal void snap_switch_channel_finished (string sender, bool success);
 		#endif
 	}
 }

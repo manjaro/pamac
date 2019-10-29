@@ -19,27 +19,26 @@
 
 namespace Pamac {
 	internal interface TransactionInterface : Object {
-		public abstract bool get_lock () throws Error;
 		public abstract bool get_authorization () throws Error;
+		public abstract void remove_authorization () throws Error;
 		public abstract void generate_mirrors_list (string country) throws Error;
 		public abstract bool clean_cache (string[] filenames) throws Error;
 		public abstract bool clean_build_files (string aur_build_dir) throws Error;
 		public abstract bool set_pkgreason (string pkgname, uint reason) throws Error;
 		public abstract void download_updates () throws Error;
-		public abstract void set_trans_flags (int flags) throws Error;
-		public abstract void add_pkg_to_install (string name) throws Error;
-		public abstract void add_pkg_to_remove (string name) throws Error;
-		public abstract void add_path_to_load (string path) throws Error;
-		public abstract void add_aur_pkg_to_build (string name) throws Error;
-		public abstract void add_temporary_ignore_pkg (string name) throws Error;
-		public abstract void add_overwrite_file (string glob) throws Error;
-		public abstract void add_pkg_to_mark_as_dep (string name) throws Error;
-		public abstract void set_sysupgrade () throws Error;
-		public abstract void set_keep_built_pkgs (bool keep_built_pkgs) throws Error;
-		public abstract void set_enable_downgrade (bool downgrade) throws Error;
-		public abstract void set_no_confirm_commit () throws Error;
-		public abstract void set_force_refresh () throws Error;
-		public abstract bool trans_run () throws Error;
+		public abstract bool trans_run (bool sysupgrade,
+										bool force_refresh,
+										bool enable_downgrade,
+										bool no_confirm_commit,
+										bool keep_built_pkgs,
+										int trans_flags,
+										string[] to_install,
+										string[] to_remove,
+										string[] to_load,
+										string[] to_build,
+										string[] to_install_as_dep,
+										string[] temporary_ignorepkgs,
+										string[] overwrite_files) throws Error;
 		public abstract void trans_cancel () throws Error;
 		public abstract void quit_daemon () throws Error;
 		public signal int choose_provider (string depend, string[] providers);
@@ -52,6 +51,8 @@ namespace Pamac {
 		public signal void emit_action_progress (string action, string status, double progress);
 		public signal void start_downloading ();
 		public signal void stop_downloading ();
+		public signal void start_waiting ();
+		public signal void stop_waiting ();
 		public signal void emit_download_progress (string action, string status, double progress);
 		public signal void emit_hook_progress (string action, string details, string status, double progress);
 		public signal void emit_script_output (string message);

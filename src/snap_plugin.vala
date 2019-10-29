@@ -19,6 +19,7 @@
 
 namespace Pamac {
 	public class Snap: Object, SnapPlugin {
+		string sender;
 		Snapd.Client client;
 		// download data
 		Cancellable cancellable;
@@ -306,8 +307,12 @@ namespace Pamac {
 			return (owned) result;
 		}
 
-		public bool trans_run (string[] to_install, string[] to_remove) {
+		public bool trans_run (string sender, string[] to_install, string[] to_remove) {
+			this.sender = sender;
 			cancellable.reset ();
+			if (!get_authorization (this.sender)) {
+				return false;
+			}
 			bool success = true;
 			foreach (unowned string name in to_remove) {
 				success = remove (name);
@@ -333,8 +338,10 @@ namespace Pamac {
 			return success;
 		}
 
-		public void trans_cancel () {
-			cancellable.cancel ();
+		public void trans_cancel (string sender) {
+			if (sender == this.sender) {
+				cancellable.cancel ();
+			}
 		}
 
 		bool install (string name, string? channel = null) {
@@ -347,13 +354,14 @@ namespace Pamac {
 				return true;
 			} catch (Error e) {
 				if (!cancellable.is_cancelled ()) {
-					emit_error ("Snap install error", {e.message});
+					emit_error (sender, "Snap install error", {e.message});
 				}
 			}
 			return false;
 		}
 
-		public bool switch_channel (string name, string channel) {
+		public bool switch_channel (string sender, string name, string channel) {
+			this.sender = sender;
 			try {
 				current_pkgname = name;
 				current_action = dgettext (null, "Installing %s").printf (name);
@@ -363,7 +371,7 @@ namespace Pamac {
 				return true;
 			} catch (Error e) {
 				if (!cancellable.is_cancelled ()) {
-					emit_error ("Snap switch error", {e.message});
+					emit_error (this.sender, "Snap switch error", {e.message});
 				}
 			}
 			return false;
@@ -376,7 +384,7 @@ namespace Pamac {
 				return true;
 			} catch (Error e) {
 				if (!cancellable.is_cancelled ()) {
-					emit_error ("Snap remove error", {e.message});
+					emit_error (this.sender, "Snap remove error", {e.message});
 				}
 			}
 			return false;
@@ -386,7 +394,7 @@ namespace Pamac {
 			var text = new StringBuilder ();
 			double fraction;
 			if (init_download) {
-				start_downloading ();
+				start_downloading (sender);
 				init_download = false;
 				download_rate = 0;
 				rates_nb = 0;
@@ -430,7 +438,7 @@ namespace Pamac {
 			if (text.str != current_status) {
 				current_status = text.str;
 			}
-			emit_download_progress (dgettext (null, "Downloading %s").printf (pkgname), current_status, current_progress);
+			emit_download_progress (sender, dgettext (null, "Downloading %s").printf (pkgname), current_status, current_progress);
 		}
 
 		void progress_callback (Snapd.Client client, Snapd.Change change, void* deprecated) {
@@ -443,11 +451,11 @@ namespace Pamac {
 						on_emit_download (current_pkgname, task.progress_done, task.progress_total);
 					} else if (task.summary != current_details) {
 						current_details = task.summary;
-						emit_script_output (current_details);
+						emit_script_output (sender, current_details);
 					}
 				} else if (emit_download && "Download" in task.summary && task.status == "Done") {
 					emit_download = false;
-					stop_downloading ();
+					stop_downloading (sender);
 				} else if (task.status == "Done") {
 					done += 1;
 				}
@@ -456,7 +464,7 @@ namespace Pamac {
 				}
 			});
 			if (!emit_download) {
-				emit_action_progress (current_action, "", (double) done / total);
+				emit_action_progress (sender, current_action, "", (double) done / total);
 			}
 		}
 	}

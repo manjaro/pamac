@@ -19,12 +19,13 @@
 
 namespace Pamac {
 	public interface SnapPlugin: Object {
-		public signal void emit_action_progress (string action, string status, double progress);
-		public signal void emit_download_progress (string action, string status, double progress);
-		public signal void emit_script_output (string message);
-		public signal void emit_error (string message, string[] details);
-		public signal void start_downloading ();
-		public signal void stop_downloading ();
+		public signal bool get_authorization (string sender);
+		public signal void emit_action_progress (string sender, string action, string status, double progress);
+		public signal void emit_download_progress (string sender, string action, string status, double progress);
+		public signal void emit_script_output (string sender, string message);
+		public signal void emit_error (string sender, string message, string[] details);
+		public signal void start_downloading (string sender);
+		public signal void stop_downloading (string sender);
 
 		public abstract List<SnapPackage> search_snaps (string search_string);
 		public abstract bool is_installed_snap (string name);
@@ -32,9 +33,9 @@ namespace Pamac {
 		public abstract List<SnapPackage> get_installed_snaps ();
 		public abstract string get_installed_snap_icon (string name) throws Error;
 		public abstract List<SnapPackage> get_category_snaps (string category);
-		public abstract bool trans_run (string[] to_install, string[] to_remove);
-		public abstract bool switch_channel (string name, string channel);
-		public abstract void trans_cancel ();
+		public abstract bool trans_run (string sender, string[] to_install, string[] to_remove);
+		public abstract bool switch_channel (string sender, string name, string channel);
+		public abstract void trans_cancel (string sender);
 	}
 
 	public class SnapPackage: Package {

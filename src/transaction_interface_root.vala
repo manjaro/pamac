@@ -20,50 +20,52 @@
 namespace Pamac {
 	internal class TransactionInterfaceRoot: Object, TransactionInterface {
 		bool trans_run_success;
+		Cancellable trans_cancellable;
 
 		public TransactionInterfaceRoot (Config config) {
+			trans_cancellable = new Cancellable ();
 			// alpm_utils global variable declared in alpm_utils.vala
 			alpm_utils = new AlpmUtils (config);
-			alpm_utils.edit_build_files.connect ((pkgnames) => {
+			alpm_utils.edit_build_files.connect ((sender, pkgnames) => {
 				edit_build_files (pkgnames);
 			});
-			alpm_utils.emit_action.connect ((action) => {
+			alpm_utils.emit_action.connect ((sender, action) => {
 				emit_action (action);
 			});
-			alpm_utils.emit_action_progress.connect ((action, status, progress) => {
+			alpm_utils.emit_action_progress.connect ((sender, action, status, progress) => {
 				emit_action_progress (action, status, progress);
 			});
-			alpm_utils.emit_hook_progress.connect ((action, details, status, progress) => {
+			alpm_utils.emit_hook_progress.connect ((sender, action, details, status, progress) => {
 				emit_hook_progress (action, details, status, progress);
 			});
-			alpm_utils.choose_provider.connect ((depend, providers) => {
+			alpm_utils.choose_provider.connect ((sender, depend, providers) => {
 				return choose_provider (depend, providers);
 			});
-			alpm_utils.compute_aur_build_list.connect (() => {
+			alpm_utils.compute_aur_build_list.connect ((sender) => {
 				compute_aur_build_list ();
 			});
-			alpm_utils.emit_download_progress.connect ((action, status, progress) => {
+			alpm_utils.emit_download_progress.connect ((sender, action, status, progress) => {
 				emit_download_progress (action, status, progress);
 			});
-			alpm_utils.start_downloading.connect (() => {
+			alpm_utils.start_downloading.connect ((sender) => {
 				start_downloading ();
 			});
-			alpm_utils.stop_downloading.connect (() => {
+			alpm_utils.stop_downloading.connect ((sender) => {
 				stop_downloading ();
 			});
-			alpm_utils.emit_script_output.connect ((message) => {
+			alpm_utils.emit_script_output.connect ((sender, message) => {
 				emit_script_output (message);
 			});
-			alpm_utils.emit_warning.connect ((message) => {
+			alpm_utils.emit_warning.connect ((sender, message) => {
 				emit_warning (message);
 			});
-			alpm_utils.emit_error.connect ((message, details) => {
+			alpm_utils.emit_error.connect ((sender, message, details) => {
 				emit_error (message, details);
 			});
-			alpm_utils.important_details_outpout.connect ((must_show) => {
+			alpm_utils.important_details_outpout.connect ((sender, must_show) => {
 				important_details_outpout (must_show);
 			});
-			alpm_utils.get_authorization.connect (() => {
+			alpm_utils.get_authorization.connect ((sender) => {
 				try {
 					return get_authorization ();
 				} catch (Error e) {
@@ -71,7 +73,7 @@ namespace Pamac {
 				}
 				return false;
 			});
-			alpm_utils.ask_commit.connect ((summary) => {
+			alpm_utils.ask_commit.connect ((sender, summary) => {
 				return ask_commit (summary);
 			});
 			// set user agent
@@ -79,17 +81,13 @@ namespace Pamac {
 			Environment.set_variable ("HTTP_USER_AGENT", "pamac (%s %s)".printf (utsname.sysname, utsname.machine), true);
 		}
 
-		public bool get_lock () {
-			var lockfile = GLib.File.new_for_path (alpm_utils.alpm_handle.lockfile);
-			if (lockfile.query_exists ()) {
-				return false;
-			}
-			return true;
-		}
-
 		public bool get_authorization () {
 			// we are root
 			return true;
+		}
+
+		public void remove_authorization () {
+			// nothing to do
 		}
 
 		public void generate_mirrors_list (string country) {
@@ -126,81 +124,122 @@ namespace Pamac {
 			alpm_utils.download_updates ();
 		}
 
-		public void set_trans_flags (int flags) {
-			alpm_utils.flags = flags;
-		}
-
-		public void set_no_confirm_commit () {
-			alpm_utils.no_confirm_commit = true;
-		}
-
-		public void add_pkg_to_install (string name) {
-			alpm_utils.to_install.add (name);
-		}
-
-		public void add_pkg_to_remove (string name) {
-			alpm_utils.to_remove.add (name);
-		}
-
-		public void add_path_to_load (string path) {
-			alpm_utils.to_load.add (path);
-		}
-
-		public void add_aur_pkg_to_build (string name) {
-			alpm_utils.to_build.add (name);
-		}
-
-		public void add_temporary_ignore_pkg (string name) {
-			alpm_utils.temporary_ignorepkgs.add (name);
-		}
-
-		public void add_overwrite_file (string glob) {
-			alpm_utils.overwrite_files.add (glob);
-		}
-
-		public void add_pkg_to_mark_as_dep (string name) {
-			alpm_utils.to_install_as_dep.insert (name, name);
-		}
-
-		public void set_sysupgrade () {
-			alpm_utils.sysupgrade = true;
-		}
-
-		public void set_keep_built_pkgs (bool keep_built_pkgs) {
-			alpm_utils.keep_built_pkgs = keep_built_pkgs;
-		}
-
-		public void set_enable_downgrade (bool downgrade) {
-			alpm_utils.enable_downgrade = downgrade;
-		}
- 
-		public void set_force_refresh () {
-			alpm_utils.force_refresh = true;
-		}
-
-		void trans_run_real () {
+		void trans_run_real (bool sysupgrade,
+							bool force_refresh,
+							bool enable_downgrade,
+							bool no_confirm_commit,
+							bool keep_built_pkgs,
+							int trans_flags,
+							string[] to_install,
+							string[] to_remove,
+							string[] to_load,
+							string[] to_build,
+							string[] to_install_as_dep,
+							string[] temporary_ignorepkgs,
+							string[] overwrite_files) {
 			var loop = new MainLoop ();
+			bool waiting = false;
+			var lockfile = GLib.File.new_for_path (alpm_utils.alpm_handle.lockfile);
+			trans_cancellable.reset ();
+			if (lockfile.query_exists ()) {
+				waiting = true;
+				start_waiting ();
+				emit_action (dgettext (null, "Waiting for another package manager to quit") + "...");
+				int i = 0;
+				Timeout.add (200, () => {
+					if (!lockfile.query_exists () || trans_cancellable.is_cancelled ()) {
+						loop.quit ();
+						return false;
+					}
+					i++;
+					// wait 5 min max
+					if (i == 1500) {
+						emit_action ("%s: %s.".printf (dgettext (null, "Transaction cancelled"), dgettext (null, "Timeout expired")));
+						trans_cancellable.cancel ();
+						loop.quit ();
+						return false;
+					}
+					return true;
+				});
+				loop.run ();
+			}
+			if (waiting) {
+				stop_waiting ();
+			}
+			if (trans_cancellable.is_cancelled ()) {
+				// cancelled
+				return;
+			}
 			new Thread<int> ("trans_run_real", () => {
-				trans_run_success = alpm_utils.trans_run ();
+				trans_run_success = alpm_utils.trans_run ("root",
+														sysupgrade,
+														force_refresh,
+														enable_downgrade,
+														no_confirm_commit,
+														keep_built_pkgs,
+														trans_flags,
+														to_install,
+														to_remove,
+														to_load,
+														to_build,
+														to_install_as_dep,
+														temporary_ignorepkgs,
+														overwrite_files);
 				loop.quit ();
 				return 0;
 			});
 			loop.run ();
 		}
 
-		public bool trans_run () {
+		public bool trans_run (bool sysupgrade,
+								bool force_refresh,
+								bool enable_downgrade,
+								bool no_confirm_commit,
+								bool keep_built_pkgs,
+								int trans_flags,
+								string[] to_install,
+								string[] to_remove,
+								string[] to_load,
+								string[] to_build,
+								string[] to_install_as_dep,
+								string[] temporary_ignorepkgs,
+								string[] overwrite_files) {
 			if (alpm_utils.downloading_updates) {
 				alpm_utils.cancellable.cancel ();
 				// let time to cancel download updates
 				var loop = new MainLoop ();
 				Timeout.add (1000, () => {
-					trans_run_real ();
+					trans_run_real (sysupgrade,
+									force_refresh,
+									enable_downgrade,
+									no_confirm_commit,
+									keep_built_pkgs,
+									trans_flags,
+									to_install,
+									to_remove,
+									to_load,
+									to_build,
+									to_install_as_dep,
+									temporary_ignorepkgs,
+									overwrite_files);
 					loop.quit ();
 					return false;
 				});
 				loop.run ();
 			} else {
-				trans_run_real ();
+				trans_run_real (sysupgrade,
+								force_refresh,
+								enable_downgrade,
+								no_confirm_commit,
+								keep_built_pkgs,
+								trans_flags,
+								to_install,
+								to_remove,
+								to_load,
+								to_build,
+								to_install_as_dep,
+								temporary_ignorepkgs,
+								overwrite_files);
 			}
 			return trans_run_success;
 		}
@@ -208,17 +247,18 @@ namespace Pamac {
 		#if ENABLE_SNAP
 		public bool snap_trans_run (string[] to_install, string[] to_remove) {
 			// not implemented
-			return true;
+			return false;
 		}
 
 		public bool snap_switch_channel (string snap_name, string channel) {
 			// not implemented
-			return true;
+			return false;
 		}
 		#endif
 
 		public void trans_cancel () {
-			alpm_utils.trans_cancel ();
+			trans_cancellable.cancel ();
+			alpm_utils.trans_cancel ("root");
 		}
 
 		public void quit_daemon () {

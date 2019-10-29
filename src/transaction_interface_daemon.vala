@@ -20,6 +20,7 @@
 namespace Pamac {
 	internal class TransactionInterfaceDaemon: Object, TransactionInterface {
 		Daemon system_daemon;
+		string sender;
 		MainLoop loop;
 		bool get_authorization_authorized;
 		bool clean_cache_success;
@@ -36,16 +37,9 @@ namespace Pamac {
 			try {
 				connecting_system_daemon (config);
 				connecting_dbus_signals ();
+				sender = system_daemon.get_sender ();
 			} catch (Error e) {
 				critical ("failed to connect to dbus daemon: %s\n", e.message);
-			}
-		}
-
-		public bool get_lock () throws Error {
-			try {
-				return system_daemon.get_lock ();
-			} catch (Error e) {
-				throw e;
 			}
 		}
 
@@ -59,11 +53,20 @@ namespace Pamac {
 			}
 		}
 
-		void on_get_authorization_finished (bool authorized) {
-			get_authorization_authorized = authorized;
-			loop.quit ();
+		void on_get_authorization_finished (string sender, bool authorized) {
+			if (sender == this.sender) {
+				get_authorization_authorized = authorized;
+				loop.quit ();
+			}
 		}
 
+		public void remove_authorization () throws Error {
+			try {
+				system_daemon.remove_authorization ();
+			} catch (Error e) {
+				throw e;
+			}
+		}
 
 		public void generate_mirrors_list (string country) throws Error {
 			try {
@@ -74,8 +77,16 @@ namespace Pamac {
 			}
 		}
 
-		void on_generate_mirrors_list_finished () {
-			loop.quit ();
+		void on_generate_mirrors_list_finished (string sender) {
+			if (sender == this.sender) {
+				loop.quit ();
+			}
+		}
+
+		void on_generate_mirrors_list_data (string sender, string line) {
+			if (sender == this.sender) {
+				generate_mirrors_list_data (line);
+			}
 		}
 
 		public bool clean_cache (string[] filenames) throws Error {
@@ -88,9 +99,11 @@ namespace Pamac {
 			}
 		}
 
-		void on_clean_cache_finished (bool success) {
-			clean_cache_success = success;
-			loop.quit ();
+		void on_clean_cache_finished (string sender, bool success) {
+			if (sender == this.sender) {
+				clean_cache_success = success;
+				loop.quit ();
+			}
 		}
 
 		public bool clean_build_files (string aur_build_dir) throws Error {
@@ -103,9 +116,11 @@ namespace Pamac {
 			}
 		}
 
-		void on_clean_clean_build_files_finished (bool success) {
-			clean_build_files_success = success;
-			loop.quit ();
+		void on_clean_clean_build_files_finished (string sender, bool success) {
+			if (sender == this.sender) {
+				clean_build_files_success = success;
+				loop.quit ();
+			}
 		}
 
 		public bool set_pkgreason (string pkgname, uint reason) throws Error {
@@ -118,9 +133,11 @@ namespace Pamac {
 			}
 		}
 
-		void on_set_pkgreason_finished (bool success) {
-			set_pkgreason_success = success;
-			loop.quit ();
+		void on_set_pkgreason_finished (string sender, bool success) {
+			if (sender == this.sender) {
+				set_pkgreason_success = success;
+				loop.quit ();
+			}
 		}
 
 		public void download_updates () throws Error {
@@ -132,126 +149,52 @@ namespace Pamac {
 			}
 		}
 
-		void on_download_updates_finished () {
-			loop.quit ();
-		}
-
-		public void set_trans_flags (int flags) throws Error {
-			try {
-				system_daemon.set_trans_flags (flags);
-			} catch (Error e) {
-				throw e;
+		void on_download_updates_finished (string sender) {
+			if (sender == this.sender) {
+				loop.quit ();
 			}
 		}
 
-		public void set_no_confirm_commit () throws Error {
+		public bool trans_run (bool sysupgrade,
+								bool force_refresh,
+								bool enable_downgrade,
+								bool no_confirm_commit,
+								bool keep_built_pkgs,
+								int trans_flags,
+								string[] to_install,
+								string[] to_remove,
+								string[] to_load,
+								string[] to_build,
+								string[] to_install_as_dep,
+								string[] temporary_ignorepkgs,
+								string[] overwrite_files) throws Error {
 			try {
-				system_daemon.set_no_confirm_commit ();
-			} catch (Error e) {
-				throw e;
-			}
-		}
-
-		public void add_pkg_to_install (string name) throws Error {
-			try {
-				system_daemon.add_pkg_to_install (name);
-			} catch (Error e) {
-				throw e;
-			}
-		}
-
-		public void add_pkg_to_remove (string name) throws Error {
-			try {
-				system_daemon.add_pkg_to_remove (name);
-			} catch (Error e) {
-				throw e;
-			}
-		}
-
-		public void add_path_to_load (string path) throws Error {
-			try {
-				system_daemon.add_path_to_load (path);
-			} catch (Error e) {
-				throw e;
-			}
-		}
-
-		public void add_aur_pkg_to_build (string name) throws Error {
-			try {
-				system_daemon.add_aur_pkg_to_build (name);
-			} catch (Error e) {
-				throw e;
-			}
-		}
-
-		public void add_temporary_ignore_pkg (string name) throws Error {
-			try {
-				system_daemon.add_temporary_ignore_pkg (name);
-			} catch (Error e) {
-				throw e;
-			}
-		}
-
-		public void add_overwrite_file (string glob) throws Error {
-			try {
-				system_daemon.add_overwrite_file (glob);
-			} catch (Error e) {
-				throw e;
-			}
-		}
-
-		public void add_pkg_to_mark_as_dep (string name) throws Error {
-			try {
-				system_daemon.add_pkg_to_mark_as_dep (name);
-			} catch (Error e) {
-				throw e;
-			}
-		}
-
-		public void set_sysupgrade () throws Error {
-			try {
-				system_daemon.set_sysupgrade ();
-			} catch (Error e) {
-				throw e;
-			}
-		}
-
-		public void set_keep_built_pkgs (bool keep_built_pkgs) throws Error {
-			try {
-				system_daemon.set_keep_built_pkgs (keep_built_pkgs);
-			} catch (Error e) {
-				throw e;
-			}
-		}
-
-		public void set_enable_downgrade (bool downgrade) throws Error {
-			try {
-				system_daemon.set_enable_downgrade (downgrade);
-			} catch (Error e) {
-				throw e;
-			}
-		}
-
-		public void set_force_refresh () throws Error {
-			try {
-				system_daemon.set_force_refresh ();
-			} catch (Error e) {
-				throw e;
-			}
-		}
-
-		public bool trans_run () throws Error {
-			try {
-				system_daemon.trans_run_finished.connect ((success) => {
-					trans_run_success = success;
-					loop.quit ();
-				});
-				system_daemon.start_trans_run ();
+				system_daemon.start_trans_run (sysupgrade,
+												force_refresh,
+												enable_downgrade,
+												no_confirm_commit,
+												keep_built_pkgs,
+												trans_flags,
+												to_install,
+												to_remove,
+												to_load,
+												to_build,
+												to_install_as_dep,
+												temporary_ignorepkgs,
+												overwrite_files);
 				loop.run ();
 				return trans_run_success;
 			} catch (Error e) {
 				throw e;
 			}
+		}
+
+		void on_trans_run_finished (string sender, bool success) {
+			if (sender != this.sender) {
+				return;
+			}
+			trans_run_success = success;
+			loop.quit ();
 		}
 
 		public void trans_cancel () throws Error {
@@ -273,7 +216,10 @@ namespace Pamac {
 			}
 		}
 
-		void on_snap_trans_run_finished (bool success) {
+		void on_snap_trans_run_finished (string sender, bool success) {
+			if (sender != this.sender) {
+				return;
+			}
 			snap_trans_run_success = success;
 			loop.quit ();
 		}
@@ -288,7 +234,10 @@ namespace Pamac {
 			}
 		}
 
-		void on_snap_switch_channel_finished (bool success) {
+		void on_snap_switch_channel_finished (string sender, bool success) {
+			if (sender != this.sender) {
+				return;
+			}
 			snap_switch_channel_success = success;
 			loop.quit ();
 		}
@@ -302,7 +251,10 @@ namespace Pamac {
 			}
 		}
 
-		void on_choose_provider (string depend, string[] providers) {
+		void on_choose_provider (string sender, string depend, string[] providers) {
+			if (sender != this.sender) {
+				return;
+			}
 			int index = choose_provider (depend, providers);
 			try {
 				system_daemon.answer_choose_provider (index);
@@ -311,7 +263,10 @@ namespace Pamac {
 			}
 		}
 
-		void on_compute_aur_build_list () {
+		void on_compute_aur_build_list (string sender) {
+			if (sender != this.sender) {
+				return;
+			}
 			compute_aur_build_list ();
 			try {
 				system_daemon.aur_build_list_computed ();
@@ -320,7 +275,10 @@ namespace Pamac {
 			}
 		}
 
-		void on_ask_edit_build_files (TransactionSummaryStruct summary) {
+		void on_ask_edit_build_files (string sender, TransactionSummaryStruct summary) {
+			if (sender != this.sender) {
+				return;
+			}
 			bool answer = ask_edit_build_files (summary);
 			try {
 				system_daemon.answer_ask_edit_build_files (answer);
@@ -329,7 +287,10 @@ namespace Pamac {
 			}
 		}
 
-		void on_edit_build_files (string[] pkgnames) {
+		void on_edit_build_files (string sender, string[] pkgnames) {
+			if (sender != this.sender) {
+				return;
+			}
 			edit_build_files (pkgnames);
 			try {
 				system_daemon.build_files_edited ();
@@ -338,12 +299,87 @@ namespace Pamac {
 			}
 		}
 
-		void on_ask_commit (TransactionSummaryStruct summary) {
+		void on_ask_commit (string sender, TransactionSummaryStruct summary) {
+			if (sender != this.sender) {
+				return;
+			}
 			bool answer = ask_commit (summary);
 			try {
 				system_daemon.answer_ask_commit (answer);
 			} catch (Error e) {
 				critical ("answer_ask_commit: %s\n", e.message);
+			}
+		}
+
+		void on_emit_action (string sender, string action) {
+			if (sender == this.sender) {
+				emit_action (action);
+			}
+		}
+
+		void on_emit_action_progress (string sender, string action, string status, double progress) {
+			if (sender == this.sender) {
+				emit_action_progress (action, status, progress);
+			}
+		}
+
+		void on_emit_download_progress (string sender, string action, string status, double progress) {
+			if (sender == this.sender) {
+				emit_download_progress (action, status, progress);
+			}
+		}
+
+		void on_emit_hook_progress (string sender, string action, string details, string status, double progress) {
+			if (sender == this.sender) {
+				emit_hook_progress (action, details, status, progress);
+			}
+		}
+
+		void on_emit_script_output (string sender, string message) {
+			if (sender == this.sender) {
+				emit_script_output (message);
+			}
+		}
+
+		void on_emit_warning (string sender, string message) {
+			if (sender == this.sender) {
+				emit_warning (message);
+			}
+		}
+
+		void on_emit_error (string sender, string message, string[] details) {
+			if (sender == this.sender) {
+				emit_error (message, details);
+			}
+		}
+
+		void on_important_details_outpout (string sender, bool must_show) {
+			if (sender == this.sender) {
+				important_details_outpout (must_show);
+			}
+		}
+
+		void on_start_downloading (string sender) {
+			if (sender == this.sender) {
+				start_downloading ();
+			}
+		}
+
+		void on_stop_downloading (string sender) {
+			if (sender == this.sender) {
+				stop_downloading ();
+			}
+		}
+
+		void on_start_waiting (string sender) {
+			if (sender == this.sender) {
+				start_waiting ();
+			}
+		}
+
+		void on_stop_waiting (string sender) {
+			if (sender == this.sender) {
+				stop_waiting ();
 			}
 		}
 
@@ -365,22 +401,25 @@ namespace Pamac {
 			system_daemon.ask_edit_build_files.connect (on_ask_edit_build_files);
 			system_daemon.edit_build_files.connect (on_edit_build_files);
 			system_daemon.ask_commit.connect (on_ask_commit);
-			system_daemon.emit_action.connect ((action) => { emit_action (action); });
-			system_daemon.emit_action_progress.connect ((action, status, progress) => { emit_action_progress (action, status, progress); });
-			system_daemon.emit_download_progress.connect ((action, status, progress) => { emit_download_progress (action, status, progress); });
-			system_daemon.emit_hook_progress.connect ((action, details, status, progress) => { emit_hook_progress (action, details, status, progress); });
-			system_daemon.emit_script_output.connect ((message) => { emit_script_output (message); });
-			system_daemon.emit_warning.connect ((message) => { emit_warning (message); });
-			system_daemon.emit_error.connect ((message,  details) => { emit_error (message,  details); });
-			system_daemon.important_details_outpout.connect ((must_show) => { important_details_outpout (must_show); });
-			system_daemon.start_downloading.connect (() => { start_downloading (); });
-			system_daemon.stop_downloading.connect (() => { stop_downloading (); });
+			system_daemon.emit_action.connect (on_emit_action);
+			system_daemon.emit_action_progress.connect (on_emit_action_progress);
+			system_daemon.emit_download_progress.connect (on_emit_download_progress);
+			system_daemon.emit_hook_progress.connect (on_emit_hook_progress);
+			system_daemon.emit_script_output.connect (on_emit_script_output);
+			system_daemon.emit_warning.connect (on_emit_warning);
+			system_daemon.emit_error.connect (on_emit_error);
+			system_daemon.important_details_outpout.connect (on_important_details_outpout);
+			system_daemon.start_downloading.connect (on_start_downloading);
+			system_daemon.stop_downloading.connect (on_stop_downloading);
+			system_daemon.start_waiting.connect (on_start_waiting);
+			system_daemon.stop_waiting.connect (on_stop_waiting);
 			system_daemon.get_authorization_finished.connect (on_get_authorization_finished);
 			system_daemon.clean_cache_finished.connect (on_clean_cache_finished);
 			system_daemon.clean_build_files_finished.connect (on_clean_clean_build_files_finished);
 			system_daemon.set_pkgreason_finished.connect (on_set_pkgreason_finished);
+			system_daemon.trans_run_finished.connect (on_trans_run_finished);
 			system_daemon.download_updates_finished.connect (on_download_updates_finished );
-			system_daemon.generate_mirrors_list_data.connect ((line) => { generate_mirrors_list_data (line); });
+			system_daemon.generate_mirrors_list_data.connect (on_generate_mirrors_list_data);
 			system_daemon.generate_mirrors_list_finished.connect (on_generate_mirrors_list_finished);
 			#if ENABLE_SNAP
 			system_daemon.snap_trans_run_finished.connect (on_snap_trans_run_finished);
