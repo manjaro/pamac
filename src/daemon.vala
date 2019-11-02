@@ -862,7 +862,6 @@ namespace Pamac {
 				return;
 			}
 			ThreadPool.stop_unused_threads ();
-			print ("unprocessed: %u, num_threads: %u\n", thread_pool.unprocessed (), thread_pool.get_num_threads ());
 			if (thread_pool.unprocessed () == 0 && thread_pool.get_num_threads () <= 1 ) {
 				// wait for last task to be processed
 				ThreadPool.free ((owned) thread_pool, false, true);
