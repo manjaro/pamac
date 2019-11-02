@@ -2328,6 +2328,9 @@ namespace Pamac {
 		[GtkCallback]
 		void on_packages_listbox_row_activated (Gtk.ListBoxRow row) {
 			unowned PackageRow pamac_row = row as PackageRow;
+			if (pamac_row == null) {
+				return;
+			}
 			display_details (pamac_row.pkg);
 			main_stack.visible_child_name = "details";
 		}
