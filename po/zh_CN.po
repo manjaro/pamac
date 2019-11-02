@@ -9,6 +9,7 @@
 # Daetalus <daetalusun@gmail.com>, 2014
 # Dingzhong Chen <wsxy162@gmail.com>, 2015
 # Dingzhong Chen <wsxy162@gmail.com>, 2015
+# Dingzhong Chen <wsxy162@gmail.com>, 2015
 # Dingzhong Chen <wsxy162@gmail.com>, 2015-2017
 # f h <hffqyd@sina.com>, 2018
 # Tramsifex <sunnycode@protonmail.com>, 2019
@@ -16,14 +17,16 @@
 # Ruochen Wang <wangkevin920@163.com>, 2018
 # song day <songday@yeah.net>, 2018
 # Tramsifex <sunnycode@protonmail.com>, 2019
+# taotieren <admin@taotieren.com>, 2019
+# Tramsifex <sunnycode@protonmail.com>, 2019
 # 吴会欢（Nicholas） <whhxp1028@gmail.com>, 2018
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2019-10-23 12:23+0200\n"
-"PO-Revision-Date: 2019-10-23 13:22+0000\n"
-"Last-Translator: philm <philm@manjaro.org>\n"
+"PO-Revision-Date: 2019-11-01 06:59+0000\n"
+"Last-Translator: taotieren <admin@taotieren.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -33,11 +36,11 @@ msgstr ""
 
 #: data/polkit/org.manjaro.pamac.policy.in
 msgid "Install, update, or remove packages"
-msgstr ""
+msgstr "安装、更新或删除程序包"
 
 #: data/polkit/org.manjaro.pamac.policy.in
 msgid "Authentication is required to install, update, or remove packages"
-msgstr ""
+msgstr "安装、更新或删除程序包需要身份验证"
 
 #: src/alpm_utils.vala src/database.vala
 msgid "Failed to initialize alpm library"
@@ -49,7 +52,7 @@ msgstr "正在同步包数据库"
 
 #: src/alpm_utils.vala
 msgid "Failed to synchronize databases"
-msgstr ""
+msgstr "无法同步数据库"
 
 #: src/alpm_utils.vala
 msgid "Failed to init transaction"
@@ -62,7 +65,7 @@ msgstr "准备事务失败"
 #: src/alpm_utils.vala src/installer.vala src/cli.vala
 #, c-format
 msgid "target not found: %s"
-msgstr "目标未找到：%s"
+msgstr "未找到目标： %s"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -72,12 +75,12 @@ msgstr "软件包 %s 没有适用的架构"
 #: src/alpm_utils.vala
 #, c-format
 msgid "unable to satisfy dependency '%s' required by %s"
-msgstr "无法满足被 %s 需要的依赖关系 '%s' "
+msgstr "无法满足 %s 要求的依赖项 \"%s\""
 
 #: src/alpm_utils.vala
 #, c-format
 msgid "installing %s (%s) breaks dependency '%s' required by %s"
-msgstr "安装%s (%s) 破坏了依赖关系， '%s' 被 %s 所需要"
+msgstr "安装 %s (%s) 破坏了依赖关系， '%s' 被 %s 所需要"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -104,7 +107,7 @@ msgstr "无需做任何事"
 
 #: src/alpm_utils.vala src/transaction.vala
 msgid "Preparing"
-msgstr "准备中"
+msgstr "正在准备"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -123,7 +126,7 @@ msgstr "%s 无效或已损坏"
 
 #: src/alpm_utils.vala
 msgid "failed to retrieve some files"
-msgstr ""
+msgstr "无法检索某些文件"
 
 #: src/alpm_utils.vala
 msgid "Failed to commit transaction"
@@ -226,13 +229,13 @@ msgstr "正在运行后处理挂钩"
 #: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
 msgid "About %u seconds remaining"
-msgstr "大约剩下 %u 秒钟"
+msgstr "剩余 %u 秒"
 
 #: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
 msgid "About %lu minute remaining"
 msgid_plural "About %lu minutes remaining"
-msgstr[0] "剩下大约 %lu 分钟"
+msgstr[0] "剩余 %lu 分钟"
 
 #: src/alpm_utils.vala src/transaction-cli.vala src/cli.vala
 msgid "Error"
@@ -245,12 +248,12 @@ msgstr "警告"
 #: src/alpm_utils.vala
 #, c-format
 msgid "Download of %s started"
-msgstr ""
+msgstr "已启动下载 %s"
 
 #: src/alpm_utils.vala
 #, c-format
 msgid "Download of %s finished"
-msgstr ""
+msgstr "下载已完成的 %s"
 
 #: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
@@ -313,7 +316,7 @@ msgstr "正在检查 %s 依赖关系"
 #: src/transaction.vala
 #, c-format
 msgid "key %s could not be imported"
-msgstr "密钥%s无法被导入"
+msgstr "无法导入密钥 %s"
 
 #: src/transaction.vala src/manager_window.vala
 msgid "Transaction successfully finished"
@@ -331,7 +334,7 @@ msgstr "正在构建 %s"
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
 msgid "Choose optional dependencies for %s"
-msgstr "选择%s的可选依赖"
+msgstr "选择 %s 的可选依赖"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
@@ -350,17 +353,17 @@ msgstr "信任并导入"
 #: resources/transaction_sum_dialog.ui resources/manager_window.ui
 #: resources/choose_pkgs_dialog.ui
 msgid "_Cancel"
-msgstr "取消(_C)"
+msgstr "取消 (_C)"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
 msgid "The PGP key %s is needed to verify %s source files"
-msgstr "需要 PGP 密钥 %s用于验证 %s 源文件"
+msgstr "需要 PGP 密钥 %s 用于验证 %s 源文件"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
 msgid "Trust %s and import the PGP key"
-msgstr "信任%s并导入 PGP 密钥"
+msgstr "信任 %s 并导入 PGP 密钥"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "To remove"
@@ -384,7 +387,7 @@ msgstr "重新安装"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "To upgrade"
-msgstr "更新"
+msgstr "升级"
 
 #: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
 msgid "Total download size"
@@ -393,7 +396,7 @@ msgstr "总下载大小"
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
 msgid "Edit %s build files"
-msgstr "编辑%s 构建文件"
+msgstr "编辑 %s 构建文件"
 
 #: src/transaction-gtk.vala
 msgid "Save"
@@ -402,7 +405,7 @@ msgstr "保存"
 #: src/transaction-gtk.vala resources/progress_dialog.ui
 #: resources/history_dialog.ui resources/preferences_dialog.ui
 msgid "_Close"
-msgstr "关闭(_C)"
+msgstr "关闭 (_C)"
 
 #: src/transaction-gtk.vala src/tray.vala
 msgid "Package Manager"
@@ -410,7 +413,7 @@ msgstr "软件包管理器"
 
 #: src/installer.vala src/cli.vala
 msgid "Install packages from repositories, path or url"
-msgstr "从仓库、路径或网址安装软件包"
+msgstr "从仓库、路径或 URL 安装软件包"
 
 #: src/installer.vala src/cli.vala
 msgid "Remove packages"
@@ -418,7 +421,7 @@ msgstr "移除软件包"
 
 #: src/installer.vala src/cli.vala
 msgid "Build packages from AUR and install them with their dependencies"
-msgstr "从AUR创建并安装包和依赖"
+msgstr "从 AUR 创建并安装包和依赖"
 
 #: src/installer.vala src/cli.vala
 msgid "package(s)"
@@ -430,7 +433,7 @@ msgstr "系统为最新状态"
 
 #: src/tray.vala
 msgid "_Quit"
-msgstr "退出(_Q)"
+msgstr "退出 (_Q)"
 
 #: src/tray.vala src/cli.vala
 #, c-format
@@ -472,11 +475,11 @@ msgstr "外部"
 #: src/manager_window.vala src/snap_plugin.vala
 #: resources/preferences_dialog.ui
 msgid "Snap"
-msgstr ""
+msgstr "Snap"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Repositories"
-msgstr "库"
+msgstr "仓库"
 
 #: src/manager_window.vala src/cli.vala resources/manager_window.ui
 msgid "Installed"
@@ -600,11 +603,11 @@ msgstr "检查依赖关系"
 
 #: src/manager_window.vala
 msgid "Publisher"
-msgstr ""
+msgstr "发布者"
 
 #: src/manager_window.vala
 msgid "Channels"
-msgstr ""
+msgstr "通道"
 
 #: src/manager_window.vala
 msgid "Upgrade"
@@ -620,27 +623,27 @@ msgstr "移除"
 
 #: src/manager_window.vala
 msgid "Featured"
-msgstr ""
+msgstr "特色"
 
 #: src/manager_window.vala
 msgid "Photo & Video"
-msgstr ""
+msgstr "照片与视频"
 
 #: src/manager_window.vala
 msgid "Music & Audio"
-msgstr ""
+msgstr "音乐与音频"
 
 #: src/manager_window.vala
 msgid "Productivity"
-msgstr ""
+msgstr "团队管理"
 
 #: src/manager_window.vala
 msgid "Communication & News"
-msgstr ""
+msgstr "通讯与新闻"
 
 #: src/manager_window.vala
 msgid "Education & Science"
-msgstr ""
+msgstr "教育与科学"
 
 #: src/manager_window.vala
 msgid "Games"
@@ -648,7 +651,7 @@ msgstr "游戏"
 
 #: src/manager_window.vala
 msgid "Utilities"
-msgstr ""
+msgstr "工具"
 
 #: src/manager_window.vala
 msgid "Development"
@@ -660,7 +663,7 @@ msgstr "安装本地软件包"
 
 #: src/manager_window.vala
 msgid "_Open"
-msgstr "打开(_O)"
+msgstr "打开 (_O)"
 
 #: src/manager_window.vala
 msgid "Alpm Package"
@@ -707,7 +710,7 @@ msgstr[0] "%u 个文件"
 #: src/transaction-cli.vala src/cli.vala
 #, c-format
 msgid "Enter a selection (default=%s)"
-msgstr "键入一个组合（默认为%s）"
+msgstr "键入一个组合（默认值 = %s）"
 
 #: src/transaction-cli.vala
 msgid "none"
@@ -716,7 +719,7 @@ msgstr "无"
 #: src/transaction-cli.vala
 #, c-format
 msgid "Enter a number (default=%d)"
-msgstr "输入一个数字（默认值=%d）"
+msgstr "输入一个数字（默认值 = %d）"
 
 #: src/transaction-cli.vala src/cli.vala
 msgid "[y/N]"
@@ -749,7 +752,7 @@ msgstr "应用事务"
 #: src/transaction-cli.vala
 #, c-format
 msgid "View %s build files diff"
-msgstr "查看%s 构建文件差异"
+msgstr "查看 %s 构建文件差异"
 
 #: src/cli.vala
 msgid "Building packages as root is not allowed"
@@ -850,7 +853,7 @@ msgstr "文件目录"
 msgid ""
 "build directory, if no directory is given the one specified in pamac.conf "
 "file is used"
-msgstr "创建的目录，若未指定则使用pamac.conf中指定的"
+msgstr "创建的目录，若未指定则使用 pamac.conf 中指定的"
 
 #: src/cli.vala
 msgid "also clone needed dependencies"
@@ -869,11 +872,11 @@ msgstr "如果未指定包名，将使用当前目录的 PKGBUILD 文件"
 msgid ""
 "The build directory will be the parent directory, --builddir option will be "
 "ignored"
-msgstr "构建目录将是父目录，忽略--builddir 选项"
+msgstr "构建目录将是父目录，忽略 --builddir 选项"
 
 #: src/cli.vala
 msgid "keep built packages in cache after installation"
-msgstr ""
+msgstr "安装后将内置包保存在缓存中"
 
 #: src/cli.vala
 msgid "do not clone build files from AUR, only use local files"
@@ -891,7 +894,7 @@ msgstr "全局"
 msgid ""
 "ignore a package upgrade, multiple packages can be specified by separating "
 "them with a comma"
-msgstr "忽略一个包的更新，如需忽略多个包，可以在每两个包之间加入逗号分隔"
+msgstr "忽略一个包的升级，如需忽略多个包，可以在每两个包之间加入逗号分隔"
 
 #: src/cli.vala
 msgid ""
@@ -915,11 +918,11 @@ msgstr "不修改数据库安全地检查更新"
 
 #: src/cli.vala
 msgid "Exit code is 100 if updates are available"
-msgstr "若有更新退出代码为100"
+msgstr "若有更新退出代码为 100"
 
 #: src/cli.vala
 msgid "also check updates in AUR"
-msgstr "同时检查AUR更新"
+msgstr "同时检查 AUR 更新"
 
 #: src/cli.vala
 msgid "also check development packages updates (use with --aur)"
@@ -933,7 +936,7 @@ msgstr "每行仅打印一条更新"
 msgid ""
 "build directory (use with --devel), if no directory is given the one "
 "specified in pamac.conf file is used"
-msgstr "构建目录 (使用 --devel)，若未指定则使用pamac.conf中指定的目录"
+msgstr "构建目录 (使用 --devel)，若未指定则使用 pamac.conf 中指定的目录"
 
 #: src/cli.vala
 msgid "Upgrade your system"
@@ -941,7 +944,7 @@ msgstr "升级系统"
 
 #: src/cli.vala
 msgid "also upgrade packages installed from AUR"
-msgstr "同时更新从AUR安装的包"
+msgstr "同时更新从 AUR 安装的包"
 
 #: src/cli.vala
 msgid "also upgrade development packages (use with --aur)"
@@ -951,7 +954,7 @@ msgstr "同时升级开发软件包 (使用 --aur)"
 msgid ""
 "build directory (use with --aur), if no directory is given the one specified"
 " in pamac.conf file is used"
-msgstr "创建的目录（和--aur一起使用），若未指定则使用pamac.conf中指定的"
+msgstr "创建的目录（和 --aur 一起使用），若未指定则使用 pamac.conf 中指定的"
 
 #: src/cli.vala
 msgid "force the refresh of the databases"
@@ -982,7 +985,7 @@ msgstr "仅针对已卸载的软件包"
 msgid ""
 "remove all build files, the build directory is the one specified in "
 "pamac.conf"
-msgstr "移除所有构建文件，使用pamac.conf中指定的构建目录"
+msgstr "移除所有构建文件，使用 pamac.conf 中指定的构建目录"
 
 #: src/cli.vala
 msgid "do not remove files, only find candidate packages"
@@ -1010,17 +1013,17 @@ msgstr "URL"
 
 #: src/cli.vala
 msgid "Installed Size"
-msgstr ""
+msgstr "安装大小"
 
 #: src/cli.vala
 #, c-format
 msgid "No package owns %s"
-msgstr "没有包拥有%s"
+msgstr "没有包拥有 %s"
 
 #: src/cli.vala
 #, c-format
 msgid "%s is owned by %s"
-msgstr "%s由%s所有"
+msgstr "%s 由 %s 所有"
 
 #: src/cli.vala resources/preferences_dialog.ui
 msgid "Remove only the versions of uninstalled packages"
@@ -1038,7 +1041,7 @@ msgstr "清理构建文件"
 #, c-format
 msgid "There is %u member in group %s"
 msgid_plural "There are %u members in group %s"
-msgstr[0] "%s组中有%u个成员"
+msgstr[0] "组 %s 中有 %u 成员"
 
 #: src/cli.vala
 msgid "all"
@@ -1058,7 +1061,7 @@ msgstr "进度"
 
 #: resources/history_dialog.ui
 msgid "Pamac History"
-msgstr "Pamac历史记录"
+msgstr "Pamac 历史记录"
 
 #: resources/transaction_sum_dialog.ui
 msgid "Transaction Summary"
@@ -1066,7 +1069,7 @@ msgstr "事务概要"
 
 #: resources/transaction_sum_dialog.ui resources/manager_window.ui
 msgid "_Apply"
-msgstr "应用(_A)"
+msgstr "应用 (_A)"
 
 #: resources/manager_window.ui
 msgid "Refresh databases"
@@ -1090,7 +1093,7 @@ msgstr "搜索"
 
 #: resources/manager_window.ui
 msgid "Pending"
-msgstr "待处理"
+msgstr "待定"
 
 #: resources/manager_window.ui
 msgid "Updates"
@@ -1194,7 +1197,7 @@ msgstr "允许 Pamac 从 AUR 中搜索并安装软件包"
 
 #: resources/preferences_dialog.ui
 msgid "Keep built packages in cache"
-msgstr ""
+msgstr "将内置包保留在缓存中"
 
 #: resources/preferences_dialog.ui
 msgid "Check for updates from AUR"
@@ -1206,11 +1209,11 @@ msgstr "检查开发软件包更新"
 
 #: resources/preferences_dialog.ui
 msgid "Snap packages are maintained by their publisher."
-msgstr ""
+msgstr "Snap 包由其发布者维护。"
 
 #: resources/preferences_dialog.ui
 msgid "Enable Snap support"
-msgstr ""
+msgstr "启用 Snap 支持"
 
 #: resources/preferences_dialog.ui
 msgid "Cache"

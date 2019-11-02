@@ -12,9 +12,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2019-10-12 09:38+0200\n"
-"PO-Revision-Date: 2019-10-18 06:13+0000\n"
-"Last-Translator: Thanos Nikolaou <nikolaoutns@protonmail.com>\n"
+"POT-Creation-Date: 2019-10-23 12:23+0200\n"
+"PO-Revision-Date: 2019-10-25 09:57+0000\n"
+"Last-Translator: kouros kouros <kormikg@yahoo.gr>\n"
 "Language-Team: Greek (Greece) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/el_GR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -168,27 +168,6 @@ msgstr "Έλεγχος ακεραιότητας"
 #: src/alpm_utils.vala
 msgid "Loading packages files"
 msgstr "Φόρτωση αρχείων πακέτων"
-
-#: src/alpm_utils.vala
-msgid "Checking delta integrity"
-msgstr "Έλεγχος ακεραιότητας delta"
-
-#: src/alpm_utils.vala
-msgid "Applying deltas"
-msgstr "Εφαρμογή deltas"
-
-#: src/alpm_utils.vala
-#, c-format
-msgid "Generating %s with %s"
-msgstr "Δημιουργία %s με %s"
-
-#: src/alpm_utils.vala
-msgid "Generation succeeded"
-msgstr "Η δημιουργία ολοκληρώθηκε επιτυχώς!"
-
-#: src/alpm_utils.vala
-msgid "Generation failed"
-msgstr "Η δημιουργία απέτυχε."
 
 #: src/alpm_utils.vala
 #, c-format
@@ -888,6 +867,10 @@ msgid ""
 msgstr "Ο κατάλογος δόμησης θα είναι ο γονικός κατάλογος, η επιλογή --builddir θα αγνοηθεί"
 
 #: src/cli.vala
+msgid "keep built packages in cache after installation"
+msgstr "διατήρησε τα δομημένα πακέτα στην αποθήκη μετά την εγκατάσταση"
+
+#: src/cli.vala
 msgid "do not clone build files from AUR, only use local files"
 msgstr "να μην κλωνοποιηθούν αρχεία δόμησης από AUR, χρήση μόνο τοπικών αρχείων"
 
@@ -1204,6 +1187,10 @@ msgstr "Ενεργοποίηση υποστήριξης AUR"
 #: resources/preferences_dialog.ui
 msgid "Allow Pamac to search and install packages from AUR"
 msgstr "Επίτρεψε στον pamac να ψάξει και να εγκαταστήσει πακέτα απο το AUR"
+
+#: resources/preferences_dialog.ui
+msgid "Keep built packages in cache"
+msgstr "Διατήρησε τα δομημένα πακέτα στην αποθήκη"
 
 #: resources/preferences_dialog.ui
 msgid "Check for updates from AUR"

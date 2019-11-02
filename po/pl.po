@@ -26,9 +26,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2019-10-12 09:38+0200\n"
-"PO-Revision-Date: 2019-10-22 12:44+0000\n"
-"Last-Translator: Piotr Komur <pkomur@gmail.com>\n"
+"POT-Creation-Date: 2019-10-23 12:23+0200\n"
+"PO-Revision-Date: 2019-10-23 13:22+0000\n"
+"Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Polish (http://www.transifex.com/manjarolinux/manjaro-pamac/language/pl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -105,7 +105,7 @@ msgstr "Operacja została anulowana"
 
 #: src/alpm_utils.vala src/installer.vala src/cli.vala
 msgid "Nothing to do"
-msgstr "Nie ma niczego do zrobienia"
+msgstr "Nie ma nic do zrobienia"
 
 #: src/alpm_utils.vala src/transaction.vala
 msgid "Preparing"
@@ -182,27 +182,6 @@ msgstr "Sprawdzanie spójności"
 #: src/alpm_utils.vala
 msgid "Loading packages files"
 msgstr "Wczytywanie plików pakietów"
-
-#: src/alpm_utils.vala
-msgid "Checking delta integrity"
-msgstr "Sprawdzanie integralności delta"
-
-#: src/alpm_utils.vala
-msgid "Applying deltas"
-msgstr "Zastosowywanie delt"
-
-#: src/alpm_utils.vala
-#, c-format
-msgid "Generating %s with %s"
-msgstr "Generowanie %s przy użyciu %s"
-
-#: src/alpm_utils.vala
-msgid "Generation succeeded"
-msgstr "Generowanie zakończone sukcesem"
-
-#: src/alpm_utils.vala
-msgid "Generation failed"
-msgstr "Generowanie nie powiodło się"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -671,7 +650,7 @@ msgstr "Produktywność"
 
 #: src/manager_window.vala
 msgid "Communication & News"
-msgstr "Komunikacja i Internet"
+msgstr "Internet"
 
 #: src/manager_window.vala
 msgid "Education & Science"
@@ -908,6 +887,10 @@ msgid ""
 "The build directory will be the parent directory, --builddir option will be "
 "ignored"
 msgstr "Katalog budowania będzie katalogiem nadrzędnym, opcja --builddir będzie ignorowana"
+
+#: src/cli.vala
+msgid "keep built packages in cache after installation"
+msgstr ""
 
 #: src/cli.vala
 msgid "do not clone build files from AUR, only use local files"
@@ -1228,6 +1211,10 @@ msgstr "Włącz obsługę AUR"
 #: resources/preferences_dialog.ui
 msgid "Allow Pamac to search and install packages from AUR"
 msgstr "Pozwól Pamacowi wyszukiwać i instalować pakiety z AUR"
+
+#: resources/preferences_dialog.ui
+msgid "Keep built packages in cache"
+msgstr ""
 
 #: resources/preferences_dialog.ui
 msgid "Check for updates from AUR"
