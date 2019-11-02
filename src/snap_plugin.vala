@@ -24,14 +24,16 @@ namespace Pamac {
 		// download data
 		Cancellable cancellable;
 		Timer timer;
-		bool emit_download;
+		bool downloading;
+		GenericSet<string> download_files;
 		bool init_download;
+		uint64 download_total;
 		uint64 previous_xfered;
 		uint64 download_rate;
 		uint64 rates_nb;
+		string main_action;
 		string current_action;
 		string current_details;
-		string current_pkgname;
 		double current_progress;
 		string current_status;
 
@@ -44,6 +46,8 @@ namespace Pamac {
 			// download data
 			cancellable = new Cancellable ();
 			timer = new Timer ();
+			downloading = false;
+			download_files = new GenericSet<string> (str_hash, str_equal);
 		}
 
 		bool app_name_matches_snap_name (Snapd.Snap snap, Snapd.App app) {
@@ -346,9 +350,7 @@ namespace Pamac {
 
 		bool install (string name, string? channel = null) {
 			try {
-				current_pkgname = name;
-				current_action = dgettext (null, "Installing %s").printf (name);
-				emit_download = false;
+				main_action = dgettext (null, "Installing %s").printf (name);
 				init_download = true;
 				client.install2_sync (Snapd.InstallFlags.NONE, name, channel, null, progress_callback, cancellable);
 				return true;
@@ -363,9 +365,7 @@ namespace Pamac {
 		public bool switch_channel (string sender, string name, string channel) {
 			this.sender = sender;
 			try {
-				current_pkgname = name;
-				current_action = dgettext (null, "Installing %s").printf (name);
-				emit_download = false;
+				main_action = dgettext (null, "Installing %s").printf (name);
 				init_download = true;
 				client.refresh_sync (name, channel, progress_callback, cancellable);
 				return true;
@@ -379,7 +379,7 @@ namespace Pamac {
 
 		bool remove (string name) {
 			try {
-				current_action = dgettext (null, "Removing %s").printf (name);
+				main_action = dgettext (null, "Removing %s").printf (name);
 				client.remove_sync (name, progress_callback, cancellable);
 				return true;
 			} catch (Error e) {
@@ -390,7 +390,7 @@ namespace Pamac {
 			return false;
 		}
 
-		void on_emit_download (string pkgname, uint64 xfered, uint64 total) {
+		void emit_download (uint64 xfered, uint64 total) {
 			var text = new StringBuilder ();
 			double fraction;
 			if (init_download) {
@@ -438,33 +438,53 @@ namespace Pamac {
 			if (text.str != current_status) {
 				current_status = text.str;
 			}
-			emit_download_progress (sender, dgettext (null, "Downloading %s").printf (pkgname), current_status, current_progress);
+			emit_download_progress (sender, current_action, current_status, current_progress);
 		}
 
 		void progress_callback (Snapd.Client client, Snapd.Change change, void* deprecated) {
-			int64 total = 0;
-			int64 done = 0;
+			uint total = 0;
+			uint done = 0;
+			uint64 download_progress = 0;
 			change.get_tasks ().foreach ((task) => {
-				if (task.status == "Doing") {
-					if ("Download" in task.summary) {
-						emit_download = true;
-						on_emit_download (current_pkgname, task.progress_done, task.progress_total);
-					} else if (task.summary != current_details) {
-						current_details = task.summary;
-						emit_script_output (sender, current_details);
+				if ("Download" in task.summary) {
+					if (task.status == "Doing") {
+						// at the beginning task.progress_total = 1 because the total download size is unknonwn
+						if (task.progress_total > 1 ) {
+							string pkgname = task.summary.split ("\"", 3)[1];
+							if (!download_files.contains (pkgname)) {
+								current_action = dgettext (null, "Download of %s started").printf (pkgname);
+								download_files.add ((owned) pkgname);
+								download_total += task.progress_total;
+							}
+							downloading = true;
+							download_progress += task.progress_done;
+							emit_download (download_progress, download_total);
+						}
+					} else if (task.status == "Done") {
+						string pkgname = task.summary.split ("\"", 3)[1];
+						if (download_files.contains (pkgname)) {
+							current_action = dgettext (null, "Download of %s finished").printf (pkgname);
+							download_files.remove (pkgname);
+							download_progress += task.progress_done;
+							emit_download (download_progress, download_total);
+						}
 					}
-				} else if (emit_download && "Download" in task.summary && task.status == "Done") {
-					emit_download = false;
-					stop_downloading (sender);
 				} else if (task.status == "Done") {
 					done += 1;
+				} else if (task.status == "Doing" && task.summary != current_details) {
+					current_details = task.summary;
+					emit_script_output (sender, current_details);
 				}
-				if (!emit_download) {
-					total += 1;
-				}
+				total += 1;
 			});
-			if (!emit_download) {
-				emit_action_progress (sender, current_action, "", (double) done / total);
+			if (downloading) {
+				if (download_files.length == 0) {
+					downloading = false;
+					download_total = 0;
+					stop_downloading (sender);
+				}
+			} else {
+				emit_action_progress (sender, main_action, "", (double) done / total);
 			}
 		}
 	}
