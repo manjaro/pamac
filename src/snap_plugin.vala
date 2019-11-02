@@ -112,6 +112,11 @@ namespace Pamac {
 			snap_pkg.app_name = snap.title;
 			snap_pkg.repo = dgettext (null, "Snap");
 			snap_pkg.channel = snap.channel;
+			if (snap.confinement == Snapd.Confinement.STRICT) {
+				snap_pkg.confined = dgettext (null, "Yes");
+			} else {
+				snap_pkg.confined = dgettext (null, "No");
+			}
 			//snap_pkg.download_size = snap.download_size;
 			Snapd.App? primary_app = get_primary_app (snap);
 			if (primary_app != null) {
@@ -355,7 +360,17 @@ namespace Pamac {
 				client.install2_sync (Snapd.InstallFlags.NONE, name, channel, null, progress_callback, cancellable);
 				return true;
 			} catch (Error e) {
-				if (!cancellable.is_cancelled ()) {
+				if (e is Snapd.Error.NEEDS_CLASSIC) {
+					try {
+						// confirmation already obtained in transaction.vala
+						client.install2_sync (Snapd.InstallFlags.CLASSIC, name, channel, null, progress_callback, cancellable);
+						return true;
+					} catch (Error e) {
+						if (!cancellable.is_cancelled ()) {
+							emit_error (sender, "Snap install error", {e.message});
+						}
+					}
+				} else if (!cancellable.is_cancelled ()) {
 					emit_error (sender, "Snap install error", {e.message});
 				}
 			}

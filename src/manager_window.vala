@@ -1587,6 +1587,9 @@ namespace Pamac {
 			if (snap_pkg.publisher != "") {
 				previous_widget = populate_details_grid (dgettext (null, "Publisher"), snap_pkg.publisher, previous_widget);
 			}
+			if (snap_pkg.confined != "") {
+				previous_widget = populate_details_grid (dgettext (null, "Confined in a Sandbox"), snap_pkg.confined, previous_widget);
+			}
 			if (snap_pkg.installdate != 0) {
 				var time = GLib.Time.local ((time_t) snap_pkg.installdate);
 				previous_widget = populate_details_grid (dgettext (null, "Install Date"), time.format ("%x"), previous_widget);

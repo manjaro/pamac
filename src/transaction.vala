@@ -186,6 +186,13 @@ namespace Pamac {
 			return 0;
 		}
 
+		#if ENABLE_SNAP
+		protected virtual bool ask_snap_install_classic (string name) {
+			// do not install
+			return false;
+		}
+		#endif
+
 		public bool get_authorization () {
 			try {
 				return transaction_interface.get_authorization ();
@@ -700,6 +707,28 @@ namespace Pamac {
 						snap_to_remove.length > 0) {
 				emit_action (dgettext (null, "Preparing") + "...");
 				start_preparing ();
+				if (snap_to_install.length > 0) {
+					// ask classic snaps
+					var iter = HashTableIter<string, SnapPackage> (snap_to_install);
+					var not_install = new List<unowned string> ();
+					unowned string snap_name;
+					SnapPackage pkg;
+					while (iter.next (out snap_name, out pkg)) {
+						if (pkg.confined != dgettext (null, "Yes")) {
+							if (!ask_snap_install_classic (pkg.app_name)) {
+								not_install.append (snap_name);
+							}
+						}
+					}
+					foreach (unowned string name in not_install) {
+						snap_to_install.remove (name);
+					}
+					if (snap_to_install.length + snap_to_remove.length == 0) {
+						stop_preparing ();
+						emit_action (dgettext (null, "Transaction cancelled") + ".");
+						return false;
+					}
+				}
 				// ask confirmation
 				var summary = new TransactionSummary ();
 				var iter = HashTableIter<string, SnapPackage> (snap_to_install);
@@ -1124,6 +1153,24 @@ namespace Pamac {
 			} else {
 				var summary = new TransactionSummary.from_struct (summary_struct);
 				#if ENABLE_SNAP
+				if (snap_to_install.length > 0) {
+					// ask classic snaps
+					var iter = HashTableIter<string, SnapPackage> (snap_to_install);
+					var not_install = new List<unowned string> ();
+					unowned string snap_name;
+					SnapPackage pkg;
+					while (iter.next (out snap_name, out pkg)) {
+						if (pkg.confined != dgettext (null, "Yes")) {
+							if (!ask_snap_install_classic (pkg.app_name)) {
+								not_install.append (snap_name);
+							}
+						}
+					}
+					foreach (unowned string name in not_install) {
+						snap_to_install.remove (name);
+					}
+				}
+				// add snaps to summary
 				var iter = HashTableIter<string, SnapPackage> (snap_to_install);
 				SnapPackage pkg;
 				while (iter.next (null, out pkg)) {

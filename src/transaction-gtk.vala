@@ -723,6 +723,55 @@ namespace Pamac {
 			dialog.destroy ();
 		}
 
+		#if ENABLE_SNAP
+		protected override bool ask_snap_install_classic (string name) {
+			var flags = Gtk.DialogFlags.MODAL;
+			int use_header_bar;
+			Gtk.Settings.get_default ().get ("gtk-dialogs-use-header", out use_header_bar);
+			if (use_header_bar == 1) {
+				flags |= Gtk.DialogFlags.USE_HEADER_BAR;
+			}
+			var dialog = new Gtk.Dialog.with_buttons (dgettext (null, "Warning"),
+													application_window,
+													flags);
+			dialog.border_width = 3;
+			dialog.icon_name = "system-software-install";
+			dialog.deletable = false;
+			dialog.add_button (dgettext (null, "Install"), Gtk.ResponseType.OK);
+			unowned Gtk.Widget widget = dialog.add_button (dgettext (null, "_Cancel"), Gtk.ResponseType.CANCEL);
+			widget.can_focus = true;
+			widget.has_focus = true;
+			widget.can_default = true;
+			widget.has_default = true;
+			var scrolledwindow = new Gtk.ScrolledWindow (null, null);
+			var textbuffer = new StringBuilder ();
+			textbuffer.append (dgettext (null, "The snap %s was published using classic confinement").printf (name));
+			textbuffer.append (".\n");
+			textbuffer.append ("It thus may perform arbitrary system changes outside of the security sandbox that snaps are usually confined to, which may put your system at risk");
+			textbuffer.append (".\n");
+			textbuffer.append (dgettext (null, "Install %s anyway").printf (name));
+			textbuffer.append (" ?");
+			var label = new Gtk.Label (textbuffer.str);
+			label.selectable = true;
+			label.margin = 12;
+			scrolledwindow.visible = true;
+			label.visible = true;
+			scrolledwindow.add (label);
+			scrolledwindow.expand = true;
+			unowned Gtk.Box box = dialog.get_content_area ();
+			box.add (scrolledwindow);
+			box.spacing = 6;
+			dialog.default_width = 900;
+			dialog.default_height = 150;
+			int response = dialog.run ();
+			dialog.destroy ();
+			if (response == Gtk.ResponseType.OK) {
+				return true;
+			}
+			return false;
+		}
+		#endif
+
 		public void show_notification (string message) {
 			var notification = new Notification (dgettext (null, "Package Manager"));
 			notification.set_body (message);

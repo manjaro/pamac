@@ -42,6 +42,7 @@ namespace Pamac {
 		public string channel { get; internal set; default = "";}
 		public string publisher { get; internal set; default = "";}
 		public string license { get; internal set; default = "";}
+		public string confined { get; internal set; default = "";}
 		internal List<string> screenshots_priv;
 		public List<string> screenshots { get {return screenshots_priv;} }
 		internal List<string> channels_priv;
