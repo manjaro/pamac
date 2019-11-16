@@ -687,23 +687,23 @@ namespace Pamac {
 			bool success = true;
 			Alpm.List err_data;
 			if (alpm_handle.trans_prepare (out err_data) == -1) {
-				var details = new GenericArray<string> ();
+				string[] details = {};
 				Alpm.Errno errno = alpm_handle.errno ();
 				switch (errno) {
 					case 0:
 						break;
 					case Alpm.Errno.PKG_INVALID_ARCH:
-						details.add (Alpm.strerror (errno) + ":");
+						details += Alpm.strerror (errno) + ":";
 						unowned Alpm.List<string*> list = err_data;
 						while (list != null) {
 							string* pkgname = list.data;
-							details.add (_("package %s does not have a valid architecture").printf (pkgname));
+							details += _("package %s does not have a valid architecture").printf (pkgname);
 							delete pkgname;
 							list.next ();
 						}
 						break;
 					case Alpm.Errno.UNSATISFIED_DEPS:
-						details.add (Alpm.strerror (errno) + ":");
+						details += Alpm.strerror (errno) + ":";
 						unowned Alpm.List<Alpm.DepMissing*> list = err_data;
 						while (list != null) {
 							Alpm.DepMissing* miss = list.data;
@@ -712,20 +712,20 @@ namespace Pamac {
 							unowned Alpm.Package pkg;
 							if (miss->causingpkg == null) {
 								/* package being installed/upgraded has unresolved dependency */
-								details.add (_("unable to satisfy dependency '%s' required by %s").printf (depstring, miss->target));
+								details += _("unable to satisfy dependency '%s' required by %s").printf (depstring, miss->target);
 							} else if ((pkg = Alpm.pkg_find (trans_add, miss->causingpkg)) != null) {
 								/* upgrading a package breaks a local dependency */
-								details.add (_("installing %s (%s) breaks dependency '%s' required by %s").printf (miss->causingpkg, pkg.version, depstring, miss->target));
+								details += _("installing %s (%s) breaks dependency '%s' required by %s").printf (miss->causingpkg, pkg.version, depstring, miss->target);
 							} else {
 								/* removing a package breaks a local dependency */
-								details.add (_("removing %s breaks dependency '%s' required by %s").printf (miss->causingpkg, depstring, miss->target));
+								details += _("removing %s breaks dependency '%s' required by %s").printf (miss->causingpkg, depstring, miss->target);
 							}
 							delete miss;
 							list.next ();
 						}
 						break;
 					case Alpm.Errno.CONFLICTING_DEPS:
-						details.add (Alpm.strerror (errno) + ":");
+						details += Alpm.strerror (errno) + ":";
 						unowned Alpm.List<Alpm.Conflict*> list = err_data;
 						while (list != null) {
 							Alpm.Conflict* conflict = list.data;
@@ -734,33 +734,33 @@ namespace Pamac {
 							if (conflict->reason.mod != Alpm.Depend.Mode.ANY) {
 								conflict_detail += " (%s)".printf (conflict->reason.compute_string ());
 							}
-							details.add ((owned) conflict_detail);
+							details += (owned) conflict_detail;
 							delete conflict;
 							list.next ();
 						}
 						break;
 					default:
-						details.add (Alpm.strerror (errno));
+						details += Alpm.strerror (errno);
 						break;
 				}
-				emit_error (sender, _("Failed to prepare transaction"), details.data);
+				emit_error (sender, _("Failed to prepare transaction"), details);
 				trans_release ();
 				success = false;
 			} else {
-				var details = new GenericArray<string> ();
+				string[] details = {};
 				// Search for holdpkg in target list
 				bool found_locked_pkg = false;
 				unowned Alpm.List<unowned Alpm.Package> to_remove = alpm_handle.trans_to_remove ();
 				while (to_remove != null) {
 					unowned Alpm.Package pkg = to_remove.data;
 					if (alpm_config.get_holdpkgs ().find_custom (pkg.name, strcmp) != null) {
-						details.add (_("%s needs to be removed but it is a locked package").printf (pkg.name));
+						details += _("%s needs to be removed but it is a locked package").printf (pkg.name);
 						found_locked_pkg = true;
 					}
 					to_remove.next ();
 				}
 				if (found_locked_pkg) {
-					emit_error (sender, _("Failed to prepare transaction"), details.data);
+					emit_error (sender, _("Failed to prepare transaction"), details);
 					trans_release ();
 					success = false;
 				}
@@ -803,7 +803,7 @@ namespace Pamac {
 			foreach (unowned string name in to_remove) {
 				this.to_remove.add (name);
 			}
-			foreach (unowned string name in to_install) {
+			foreach (unowned string name in to_install_as_dep) {
 				this.to_install_as_dep.insert (name, name);
 			}
 			return trans_run_real ();
@@ -1433,21 +1433,21 @@ namespace Pamac {
 					trans_release ();
 					return false;
 				}
-				var details = new GenericArray<string> ();
+				string[] details = {};
 				switch (errno) {
 					case 0:
 						break;
 					case Alpm.Errno.FILE_CONFLICTS:
-						details.add (Alpm.strerror (errno) + ":");
+						details += Alpm.strerror (errno) + ":";
 						unowned Alpm.List<Alpm.FileConflict*> list = err_data;
 						while (list != null) {
 							Alpm.FileConflict* conflict = list.data;
 							switch (conflict->type) {
 								case Alpm.FileConflict.Type.TARGET:
-									details.add (_("%s exists in both %s and %s").printf (conflict->file, conflict->target, conflict->ctarget));
+									details += _("%s exists in both %s and %s").printf (conflict->file, conflict->target, conflict->ctarget);
 									break;
 								case Alpm.FileConflict.Type.FILESYSTEM:
-									details.add (_("%s: %s already exists in filesystem").printf (conflict->target, conflict->file));
+									details += _("%s: %s already exists in filesystem").printf (conflict->target, conflict->file);
 									break;
 							}
 							delete conflict;
@@ -1457,23 +1457,23 @@ namespace Pamac {
 					case Alpm.Errno.PKG_INVALID:
 					case Alpm.Errno.PKG_INVALID_CHECKSUM:
 					case Alpm.Errno.PKG_INVALID_SIG:
-						details.add (Alpm.strerror (errno) + ":");
+						details += Alpm.strerror (errno) + ":";
 						unowned Alpm.List<string*> list = err_data;
 						while (list != null) {
 							string* filename = list.data;
-							details.add (_("%s is invalid or corrupted").printf (filename));
+							details += _("%s is invalid or corrupted").printf (filename);
 							delete filename;
 							list.next ();
 						}
 						break;
 					case Alpm.Errno.EXTERNAL_DOWNLOAD:
-						details.add (_("failed to retrieve some files"));
+						details += _("failed to retrieve some files");
 						break;
 					default:
-						details.add (Alpm.strerror (errno));
+						details += Alpm.strerror (errno);
 						break;
 				}
-				emit_error (sender, _("Failed to commit transaction"), details.data);
+				emit_error (sender, _("Failed to commit transaction"), details);
 				success = false;
 			}
 			trans_release ();
@@ -1816,7 +1816,7 @@ void write_log_file (string event) {
 }
 
 void cb_event (Alpm.Event.Data data) {
-	var details = new GenericArray<string> ();
+	string[] details = {};
 	uint secondary_type = 0;
 	switch (data.type) {
 		case Alpm.Event.Type.HOOK_START:
@@ -1832,38 +1832,38 @@ void cb_event (Alpm.Event.Data data) {
 			}
 			break;
 		case Alpm.Event.Type.HOOK_RUN_START:
-			details.add (data.hook_run_name);
-			details.add (data.hook_run_desc ?? "");
-			details.add (data.hook_run_position.to_string ());
-			details.add (data.hook_run_total.to_string ());
+			details += data.hook_run_name;
+			details += data.hook_run_desc ?? "";
+			details += data.hook_run_position.to_string ();
+			details += data.hook_run_total.to_string ();
 			break;
 		case Alpm.Event.Type.PACKAGE_OPERATION_START:
 			switch (data.package_operation_operation) {
 				case Alpm.Package.Operation.REMOVE:
-					details.add (data.package_operation_oldpkg.name);
-					details.add (data.package_operation_oldpkg.version);
+					details += data.package_operation_oldpkg.name;
+					details += data.package_operation_oldpkg.version;
 					secondary_type = (uint) Alpm.Package.Operation.REMOVE;
 					break;
 				case Alpm.Package.Operation.INSTALL:
-					details.add (data.package_operation_newpkg.name);
-					details.add (data.package_operation_newpkg.version);
+					details += data.package_operation_newpkg.name;
+					details += data.package_operation_newpkg.version;
 					secondary_type = (uint) Alpm.Package.Operation.INSTALL;
 					break;
 				case Alpm.Package.Operation.REINSTALL:
-					details.add (data.package_operation_newpkg.name);
-					details.add (data.package_operation_newpkg.version);
+					details += data.package_operation_newpkg.name;
+					details += data.package_operation_newpkg.version;
 					secondary_type = (uint) Alpm.Package.Operation.REINSTALL;
 					break;
 				case Alpm.Package.Operation.UPGRADE:
-					details.add (data.package_operation_oldpkg.name);
-					details.add (data.package_operation_oldpkg.version);
-					details.add (data.package_operation_newpkg.version);
+					details += data.package_operation_oldpkg.name;
+					details += data.package_operation_oldpkg.version;
+					details += data.package_operation_newpkg.version;
 					secondary_type = (uint) Alpm.Package.Operation.UPGRADE;
 					break;
 				case Alpm.Package.Operation.DOWNGRADE:
-					details.add (data.package_operation_oldpkg.name);
-					details.add (data.package_operation_oldpkg.version);
-					details.add (data.package_operation_newpkg.version);
+					details += data.package_operation_oldpkg.name;
+					details += data.package_operation_oldpkg.version;
+					details += data.package_operation_newpkg.version;
 					secondary_type = (uint) Alpm.Package.Operation.DOWNGRADE;
 					break;
 				default:
@@ -1871,32 +1871,32 @@ void cb_event (Alpm.Event.Data data) {
 			}
 			break;
 		case Alpm.Event.Type.SCRIPTLET_INFO:
-			details.add (data.scriptlet_info_line);
+			details += data.scriptlet_info_line;
 			break;
 		case Alpm.Event.Type.PKGDOWNLOAD_START:
 			// do not emit event when download is cancelled
 			if (alpm_utils.cancellable.is_cancelled ()) {
 				return;
 			}
-			details.add (data.pkgdownload_file);
+			details += data.pkgdownload_file;
 			break;
 		case Alpm.Event.Type.OPTDEP_REMOVAL:
-			details.add (data.optdep_removal_pkg.name);
-			details.add (data.optdep_removal_optdep.compute_string ());
+			details += data.optdep_removal_pkg.name;
+			details += data.optdep_removal_optdep.compute_string ();
 			break;
 		case Alpm.Event.Type.DATABASE_MISSING:
-			details.add (data.database_missing_dbname);
+			details += data.database_missing_dbname;
 			break;
 		case Alpm.Event.Type.PACNEW_CREATED:
-			details.add (data.pacnew_created_file);
+			details += data.pacnew_created_file;
 			break;
 		case Alpm.Event.Type.PACSAVE_CREATED:
-			details.add (data.pacsave_created_file);
+			details += data.pacsave_created_file;
 			break;
 		default:
 			break;
 	}
-	alpm_utils.emit_event ((uint) data.type, secondary_type, details.data);
+	alpm_utils.emit_event ((uint) data.type, secondary_type, details);
 }
 
 void cb_question (Alpm.Question.Data data) {
@@ -1974,9 +1974,22 @@ delegate void DownloadCallback (string filename, uint64 xfered, uint64 total);
 void cb_multi_download (string filename, uint64 xfered, uint64 total) {
 	if (xfered == 0) {
 		string name_version_release = filename.slice (0, filename.last_index_of_char ('-'));
+		if (name_version_release == null) {
+			return;
+		}
 		string name_version = name_version_release.slice (0, name_version_release.last_index_of_char ('-'));
-		string name = name_version.slice (0, name_version.last_index_of_char ('-'));
-		string version_release = name_version_release.replace (name + "-", "");
+		if (name_version == null) {
+			return;
+		}
+		int version_index = name_version.last_index_of_char ('-');
+		string name = name_version.slice (0, version_index);
+		if (name == null) {
+			return;
+		}
+		string version_release = name_version_release.slice (version_index + 1, name_version_release.length);
+		if (version_release == null) {
+			return;
+		}
 		current_action = _("Download of %s started").printf ("%s (%s)".printf (name, version_release));
 		uint64 total_progress = 0;
 		multi_progress.foreach ((filename, progress) => {
@@ -1985,9 +1998,22 @@ void cb_multi_download (string filename, uint64 xfered, uint64 total) {
 		alpm_utils.emit_download (total_progress, total_download, true);
 	} else if (xfered == total) {
 		string name_version_release = filename.slice (0, filename.last_index_of_char ('-'));
+		if (name_version_release == null) {
+			return;
+		}
 		string name_version = name_version_release.slice (0, name_version_release.last_index_of_char ('-'));
-		string name = name_version.slice (0, name_version.last_index_of_char ('-'));
-		string version_release = name_version_release.replace (name + "-", "");
+		if (name_version == null) {
+			return;
+		}
+		int version_index = name_version.last_index_of_char ('-');
+		string name = name_version.slice (0, version_index);
+		if (name == null) {
+			return;
+		}
+		string version_release = name_version_release.slice (version_index + 1, name_version_release.length);
+		if (version_release == null) {
+			return;
+		}
 		current_action = _("Download of %s finished").printf ("%s (%s)".printf (name, version_release));
 		multi_progress.insert (filename, xfered);
 		uint64 total_progress = 0;
@@ -2004,9 +2030,22 @@ void cb_download (string filename, uint64 xfered, uint64 total) {
 	if (xfered == 0) {
 		if (total_download > 0) {
 			string name_version_release = filename.slice (0, filename.last_index_of_char ('-'));
+			if (name_version_release == null) {
+				return;
+			}
 			string name_version = name_version_release.slice (0, name_version_release.last_index_of_char ('-'));
-			string name = name_version.slice (0, name_version.last_index_of_char ('-'));
-			string version_release = name_version_release.replace (name + "-", "");
+			if (name_version == null) {
+				return;
+			}
+			int version_index = name_version.last_index_of_char ('-');
+			string name = name_version.slice (0, version_index);
+			if (name == null) {
+				return;
+			}
+			string version_release = name_version_release.slice (version_index + 1, name_version_release.length);
+			if (version_release == null) {
+				return;
+			}
 			current_action = _("Downloading %s").printf ("%s (%s)".printf (name, version_release)) + "...";
 		} else if (filename.has_suffix (".db") || filename.has_suffix (".files")) {
 			current_action = _("Refreshing %s").printf (filename) + "...";
