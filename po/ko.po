@@ -17,9 +17,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2019-10-23 12:23+0200\n"
-"PO-Revision-Date: 2019-10-23 13:22+0000\n"
-"Last-Translator: philm <philm@manjaro.org>\n"
+"POT-Creation-Date: 2019-11-02 15:00+0100\n"
+"PO-Revision-Date: 2019-11-02 14:08+0000\n"
+"Last-Translator: Guillaume Benoit <guillaume@manjaro.org>\n"
 "Language-Team: Korean (http://www.transifex.com/manjarolinux/manjaro-pamac/language/ko/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -46,6 +46,11 @@ msgstr "패키지 데이터베이스 동기화중"
 #: src/alpm_utils.vala
 msgid "Failed to synchronize databases"
 msgstr "데이터베이스 동기화 실패함"
+
+#: src/alpm_utils.vala src/database.vala src/manager_window.vala src/cli.vala
+#: resources/preferences_dialog.ui
+msgid "AUR"
+msgstr "AUR"
 
 #: src/alpm_utils.vala
 msgid "Failed to init transaction"
@@ -90,7 +95,7 @@ msgstr "%s 와 %s이(가) 충돌합니다"
 msgid "%s needs to be removed but it is a locked package"
 msgstr "%s을(를) 제거해야 하지만 잠긴 패키지입니다"
 
-#: src/alpm_utils.vala src/transaction.vala
+#: src/alpm_utils.vala src/daemon.vala src/transaction.vala
 msgid "Transaction cancelled"
 msgstr "처리과정 취소됨"
 
@@ -234,21 +239,21 @@ msgstr[0] "%lu 분 정도 남음"
 msgid "Error"
 msgstr "오류"
 
-#: src/alpm_utils.vala src/transaction-gtk.vala
+#: src/alpm_utils.vala src/transaction-gtk.vala src/cli.vala
 msgid "Warning"
 msgstr "경고"
 
-#: src/alpm_utils.vala
+#: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
 msgid "Download of %s started"
 msgstr "%s 다운로드 시작됨"
 
-#: src/alpm_utils.vala
+#: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
 msgid "Download of %s finished"
 msgstr "%s 다운로드 완료"
 
-#: src/alpm_utils.vala src/snap_plugin.vala
+#: src/alpm_utils.vala
 #, c-format
 msgid "Downloading %s"
 msgstr "%s 다운로드중"
@@ -262,10 +267,13 @@ msgstr "%s 새로 고치는중"
 msgid "Authentication failed"
 msgstr "인증 실패"
 
-#: src/database.vala src/manager_window.vala src/cli.vala
-#: resources/preferences_dialog.ui
-msgid "AUR"
-msgstr "AUR"
+#: src/daemon.vala
+msgid "Waiting for another package manager to quit"
+msgstr "다른 패키지 관리자가 종료되기를 기다리는 중"
+
+#: src/daemon.vala
+msgid "Timeout expired"
+msgstr ""
 
 #: src/database.vala src/manager_window.vala
 msgid "Explicitly installed"
@@ -279,11 +287,11 @@ msgstr "다른 패키지에 대한 의존성으로 설치됨"
 msgid "Unknown"
 msgstr "알 수 없음"
 
-#: src/database.vala
+#: src/database.vala src/transaction.vala src/snap_plugin.vala
 msgid "Yes"
 msgstr "네"
 
-#: src/database.vala
+#: src/database.vala src/snap_plugin.vala
 msgid "No"
 msgstr "아니요"
 
@@ -314,10 +322,6 @@ msgstr "%s 키를 가져올 수 없습니다"
 #: src/transaction.vala src/manager_window.vala
 msgid "Transaction successfully finished"
 msgstr "처리과정을 성공적으로 완료했습니다"
-
-#: src/transaction.vala
-msgid "Waiting for another package manager to quit"
-msgstr "다른 패키지 관리자가 종료되기를 기다리는 중"
 
 #: src/transaction.vala
 #, c-format
@@ -399,6 +403,21 @@ msgstr "저장"
 #: resources/history_dialog.ui resources/preferences_dialog.ui
 msgid "_Close"
 msgstr "닫기 (_C)"
+
+#: src/transaction-gtk.vala src/manager_window.vala
+#: resources/manager_window.ui
+msgid "Install"
+msgstr "설치"
+
+#: src/transaction-gtk.vala
+#, c-format
+msgid "The snap %s was published using classic confinement"
+msgstr ""
+
+#: src/transaction-gtk.vala
+#, c-format
+msgid "Install %s anyway"
+msgstr ""
 
 #: src/transaction-gtk.vala src/tray.vala
 msgid "Package Manager"
@@ -498,10 +517,6 @@ msgstr "설치 이유"
 msgid "Mark as explicitly installed"
 msgstr "선택적으로 설치됨으로 표시"
 
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Install"
-msgstr "설치"
-
 #: src/manager_window.vala src/cli.vala
 msgid "Licenses"
 msgstr "라이센스"
@@ -597,6 +612,10 @@ msgstr "필요한 패키지 확인"
 #: src/manager_window.vala
 msgid "Publisher"
 msgstr "제작자"
+
+#: src/manager_window.vala
+msgid "Confined in a Sandbox"
+msgstr ""
 
 #: src/manager_window.vala
 msgid "Channels"
@@ -868,6 +887,10 @@ msgid ""
 msgstr "빌드 디렉토리는 상위 디렉토리가 되고, --builddir 옵션은 무시됩니다"
 
 #: src/cli.vala
+msgid "and --no-clone option will be enforced"
+msgstr ""
+
+#: src/cli.vala
 msgid "keep built packages in cache after installation"
 msgstr ""
 
@@ -1029,6 +1052,16 @@ msgstr "캐시 정리"
 #: src/cli.vala resources/preferences_dialog.ui
 msgid "Clean build files"
 msgstr "빌드 파일 정리"
+
+#: src/cli.vala
+#, c-format
+msgid "%s is only available from AUR"
+msgstr ""
+
+#: src/cli.vala
+#, c-format
+msgid "Build %s from AUR"
+msgstr ""
 
 #: src/cli.vala
 #, c-format

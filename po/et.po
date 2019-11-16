@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2019-10-23 12:23+0200\n"
-"PO-Revision-Date: 2019-10-23 15:35+0000\n"
+"POT-Creation-Date: 2019-11-02 15:00+0100\n"
+"PO-Revision-Date: 2019-11-02 16:48+0000\n"
 "Last-Translator: Madis Otenurm\n"
 "Language-Team: Estonian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/et/)\n"
 "MIME-Version: 1.0\n"
@@ -43,6 +43,11 @@ msgstr "Pakettide andmebaaside sünkroniseerimine"
 #: src/alpm_utils.vala
 msgid "Failed to synchronize databases"
 msgstr "Andmebaaside sünkroniseerimine ebaõnnestus"
+
+#: src/alpm_utils.vala src/database.vala src/manager_window.vala src/cli.vala
+#: resources/preferences_dialog.ui
+msgid "AUR"
+msgstr "AUR"
 
 #: src/alpm_utils.vala
 msgid "Failed to init transaction"
@@ -87,7 +92,7 @@ msgstr "%s ning %s on üksteisega vastuolus"
 msgid "%s needs to be removed but it is a locked package"
 msgstr "%s tuleb eemaldada aga see on lukustatud pakett"
 
-#: src/alpm_utils.vala src/transaction.vala
+#: src/alpm_utils.vala src/daemon.vala src/transaction.vala
 msgid "Transaction cancelled"
 msgstr "Tehing katkestatud"
 
@@ -232,21 +237,21 @@ msgstr[1] "Umbes %lu minutit jäänud"
 msgid "Error"
 msgstr "Viga"
 
-#: src/alpm_utils.vala src/transaction-gtk.vala
+#: src/alpm_utils.vala src/transaction-gtk.vala src/cli.vala
 msgid "Warning"
 msgstr "Hoiatus"
 
-#: src/alpm_utils.vala
+#: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
 msgid "Download of %s started"
 msgstr "%s allalaadimine alustatud"
 
-#: src/alpm_utils.vala
+#: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
 msgid "Download of %s finished"
 msgstr "%s allalaadimine lõpetatud"
 
-#: src/alpm_utils.vala src/snap_plugin.vala
+#: src/alpm_utils.vala
 #, c-format
 msgid "Downloading %s"
 msgstr "%s allalaadimine"
@@ -260,10 +265,13 @@ msgstr "%s värskendamine"
 msgid "Authentication failed"
 msgstr "Autentimine nurjus"
 
-#: src/database.vala src/manager_window.vala src/cli.vala
-#: resources/preferences_dialog.ui
-msgid "AUR"
-msgstr "AUR"
+#: src/daemon.vala
+msgid "Waiting for another package manager to quit"
+msgstr "Ootan teise pakihalduri väljumist"
+
+#: src/daemon.vala
+msgid "Timeout expired"
+msgstr "Ajalõpp aegus"
 
 #: src/database.vala src/manager_window.vala
 msgid "Explicitly installed"
@@ -277,11 +285,11 @@ msgstr "Paigaldatud teise paketi sõltuvusena"
 msgid "Unknown"
 msgstr "Tundmatu"
 
-#: src/database.vala
+#: src/database.vala src/transaction.vala src/snap_plugin.vala
 msgid "Yes"
 msgstr "Jah"
 
-#: src/database.vala
+#: src/database.vala src/snap_plugin.vala
 msgid "No"
 msgstr "Ei"
 
@@ -312,10 +320,6 @@ msgstr "võtit %s ei saanud importida"
 #: src/transaction.vala src/manager_window.vala
 msgid "Transaction successfully finished"
 msgstr "Tehingud edukalt lõpetatud"
-
-#: src/transaction.vala
-msgid "Waiting for another package manager to quit"
-msgstr "Ootan teise pakihalduri väljumist"
 
 #: src/transaction.vala
 #, c-format
@@ -397,6 +401,21 @@ msgstr "Salvesta"
 #: resources/history_dialog.ui resources/preferences_dialog.ui
 msgid "_Close"
 msgstr "_Sulge"
+
+#: src/transaction-gtk.vala src/manager_window.vala
+#: resources/manager_window.ui
+msgid "Install"
+msgstr "Paigalda"
+
+#: src/transaction-gtk.vala
+#, c-format
+msgid "The snap %s was published using classic confinement"
+msgstr "Snap %s avaldati klassikalise kitsendusega"
+
+#: src/transaction-gtk.vala
+#, c-format
+msgid "Install %s anyway"
+msgstr "Paigalda %s siiski"
 
 #: src/transaction-gtk.vala src/tray.vala
 msgid "Package Manager"
@@ -498,10 +517,6 @@ msgstr "Paigaldamise põhjus"
 msgid "Mark as explicitly installed"
 msgstr "Märgi otseselt paigaldatuks"
 
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Install"
-msgstr "Paigalda"
-
 #: src/manager_window.vala src/cli.vala
 msgid "Licenses"
 msgstr "Litsentsid"
@@ -597,6 +612,10 @@ msgstr "Kontrolli sõltuvusi"
 #: src/manager_window.vala
 msgid "Publisher"
 msgstr "Väljastaja"
+
+#: src/manager_window.vala
+msgid "Confined in a Sandbox"
+msgstr "Paigutatud liivakasti"
 
 #: src/manager_window.vala
 msgid "Channels"
@@ -869,6 +888,10 @@ msgid ""
 msgstr "Ehituskataloog saab ülemkataloogiks, valikut --builddir ignoreeritakse"
 
 #: src/cli.vala
+msgid "and --no-clone option will be enforced"
+msgstr "ning valik --no-clone jõustatakse"
+
+#: src/cli.vala
 msgid "keep built packages in cache after installation"
 msgstr "hoia ehitatud paketid peale paigaldust vahemälus"
 
@@ -1030,6 +1053,16 @@ msgstr "Tühjenda vahemälu"
 #: src/cli.vala resources/preferences_dialog.ui
 msgid "Clean build files"
 msgstr "Tühjenda ehitusfailid"
+
+#: src/cli.vala
+#, c-format
+msgid "%s is only available from AUR"
+msgstr "%s on saadaval ainult AURist"
+
+#: src/cli.vala
+#, c-format
+msgid "Build %s from AUR"
+msgstr "Ehita %s AURist"
 
 #: src/cli.vala
 #, c-format

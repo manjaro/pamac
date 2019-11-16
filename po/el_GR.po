@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2019-10-23 12:23+0200\n"
-"PO-Revision-Date: 2019-10-25 09:57+0000\n"
+"POT-Creation-Date: 2019-11-02 15:00+0100\n"
+"PO-Revision-Date: 2019-11-04 10:01+0000\n"
 "Last-Translator: kouros kouros <kormikg@yahoo.gr>\n"
 "Language-Team: Greek (Greece) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/el_GR/)\n"
 "MIME-Version: 1.0\n"
@@ -41,6 +41,11 @@ msgstr "Συγχρονισμός της βάσης δεδομένων"
 #: src/alpm_utils.vala
 msgid "Failed to synchronize databases"
 msgstr "Αποτυχία συγχρονισμού των βάσεων δεδομένων"
+
+#: src/alpm_utils.vala src/database.vala src/manager_window.vala src/cli.vala
+#: resources/preferences_dialog.ui
+msgid "AUR"
+msgstr "AUR"
 
 #: src/alpm_utils.vala
 msgid "Failed to init transaction"
@@ -85,7 +90,7 @@ msgstr "Το %s και το %s είναι σε διένεξη"
 msgid "%s needs to be removed but it is a locked package"
 msgstr "Το %s χρειάζεται να διαγραφεί αλλά είναι ένα κλειδωμένο πακέτο"
 
-#: src/alpm_utils.vala src/transaction.vala
+#: src/alpm_utils.vala src/daemon.vala src/transaction.vala
 msgid "Transaction cancelled"
 msgstr "Η διεργασία ακυρώθηκε"
 
@@ -230,21 +235,21 @@ msgstr[1] "%lu λεπτά απομένουν"
 msgid "Error"
 msgstr "Σφάλμα"
 
-#: src/alpm_utils.vala src/transaction-gtk.vala
+#: src/alpm_utils.vala src/transaction-gtk.vala src/cli.vala
 msgid "Warning"
 msgstr "Προειδοποίηση"
 
-#: src/alpm_utils.vala
+#: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
 msgid "Download of %s started"
 msgstr "Λήψη %s ξεκίνησε"
 
-#: src/alpm_utils.vala
+#: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
 msgid "Download of %s finished"
 msgstr "Μεταφόρτωση %s τελείωσε"
 
-#: src/alpm_utils.vala src/snap_plugin.vala
+#: src/alpm_utils.vala
 #, c-format
 msgid "Downloading %s"
 msgstr "Λήψη %s"
@@ -258,10 +263,13 @@ msgstr "Ανανέωση %s"
 msgid "Authentication failed"
 msgstr "Η πιστοποίηση απέτυχε"
 
-#: src/database.vala src/manager_window.vala src/cli.vala
-#: resources/preferences_dialog.ui
-msgid "AUR"
-msgstr "AUR"
+#: src/daemon.vala
+msgid "Waiting for another package manager to quit"
+msgstr "Αναμονή τερματισμού ενός άλλου διαχειριστή πακέτων."
+
+#: src/daemon.vala
+msgid "Timeout expired"
+msgstr "Το χρονικό όριο έχει λήξει"
 
 #: src/database.vala src/manager_window.vala
 msgid "Explicitly installed"
@@ -275,11 +283,11 @@ msgstr "Εγκαταστήθηκε ως εξάρτηση για ένα άλλο 
 msgid "Unknown"
 msgstr "Άγνωστο"
 
-#: src/database.vala
+#: src/database.vala src/transaction.vala src/snap_plugin.vala
 msgid "Yes"
 msgstr "Ναι"
 
-#: src/database.vala
+#: src/database.vala src/snap_plugin.vala
 msgid "No"
 msgstr "Όχι"
 
@@ -290,7 +298,7 @@ msgstr "Ανανέωση της λίστας διακομιστών (servers)"
 #: src/transaction.vala src/cli.vala
 #, c-format
 msgid "Cloning %s build files"
-msgstr "Κλωνοποίηση αρχείων δόμησης %s"
+msgstr "Κλωνοποίηση αρχείων κατασκευής %s"
 
 #: src/transaction.vala
 #, c-format
@@ -310,10 +318,6 @@ msgstr "το κλειδί %s δεν μπορεί να εισαχθεί"
 #: src/transaction.vala src/manager_window.vala
 msgid "Transaction successfully finished"
 msgstr "Οι ενέργειες ολοκληρώθηκαν επιτυχώς"
-
-#: src/transaction.vala
-msgid "Waiting for another package manager to quit"
-msgstr "Αναμονή τερματισμού ενός άλλου διαχειριστή πακέτων."
 
 #: src/transaction.vala
 #, c-format
@@ -385,7 +389,7 @@ msgstr "Συνολικό μέγεθος προς λήψη:"
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
 msgid "Edit %s build files"
-msgstr "Επεξεργασία αρχείων δόμησης %s"
+msgstr "Επεξεργασία αρχείων κατασκευής %s"
 
 #: src/transaction-gtk.vala
 msgid "Save"
@@ -395,6 +399,21 @@ msgstr "Αποθήκευση"
 #: resources/history_dialog.ui resources/preferences_dialog.ui
 msgid "_Close"
 msgstr "Κλείσιμο"
+
+#: src/transaction-gtk.vala src/manager_window.vala
+#: resources/manager_window.ui
+msgid "Install"
+msgstr "Εγκατάσταση"
+
+#: src/transaction-gtk.vala
+#, c-format
+msgid "The snap %s was published using classic confinement"
+msgstr "Το snap %s δημοσιεύθηκε χρησιμοποιώντας κλασικό περιορισμό"
+
+#: src/transaction-gtk.vala
+#, c-format
+msgid "Install %s anyway"
+msgstr "Εγκαταστήστε %s έτσι κι αλλιώς"
 
 #: src/transaction-gtk.vala src/tray.vala
 msgid "Package Manager"
@@ -410,7 +429,7 @@ msgstr "Αφαίρεση πακέτων"
 
 #: src/installer.vala src/cli.vala
 msgid "Build packages from AUR and install them with their dependencies"
-msgstr "Δόμηση πακέτων από AUR και εγκατάστασή τους μαζί με τις εξαρτήσεις τους"
+msgstr "Κατασκευή πακέτων από AUR και εγκατάστασή τους μαζί με τις εξαρτήσεις τους"
 
 #: src/installer.vala src/cli.vala
 msgid "package(s)"
@@ -486,7 +505,7 @@ msgstr "Αρχεία"
 
 #: src/manager_window.vala
 msgid "Build files"
-msgstr "Αρχεία δόμησης"
+msgstr "Αρχεία κατασκευής"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Install Reason"
@@ -495,10 +514,6 @@ msgstr "Λόγος για εγκατάσταση"
 #: src/manager_window.vala
 msgid "Mark as explicitly installed"
 msgstr "Σήμανση ως ρητώς εγκατεστημένο"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Install"
-msgstr "Εγκατάσταση"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Licenses"
@@ -595,6 +610,10 @@ msgstr "Έλεγχος εξαρτήσεων"
 #: src/manager_window.vala
 msgid "Publisher"
 msgstr "Εκδότης"
+
+#: src/manager_window.vala
+msgid "Confined in a Sandbox"
+msgstr "Περιορίζεται σε ένα Sandbox"
 
 #: src/manager_window.vala
 msgid "Channels"
@@ -727,7 +746,7 @@ msgstr "ναι"
 
 #: src/transaction-cli.vala resources/transaction_sum_dialog.ui
 msgid "Edit build files"
-msgstr "Επεξεργασία αρχείων δόμησης"
+msgstr "Επεξεργασία αρχείων κατασκευής"
 
 #: src/transaction-cli.vala
 msgid "Total installed size"
@@ -744,11 +763,11 @@ msgstr "Εφαρμογή διεργασίας"
 #: src/transaction-cli.vala
 #, c-format
 msgid "View %s build files diff"
-msgstr "Εμφάνιση διαφορών αρχείων δόμησης %s"
+msgstr "Εμφάνιση διαφορών αρχείων κατασκευής %s"
 
 #: src/cli.vala
 msgid "Building packages as root is not allowed"
-msgstr "Η δημιουργία πακέτων ως διαχειριστής δεν επιτρέπεται"
+msgstr "Η κατασκευή πακέτων ως διαχειριστής δεν επιτρέπεται"
 
 #: src/cli.vala
 msgid "No PKGBUILD file found in current directory"
@@ -835,7 +854,7 @@ msgstr "εμφάνιση αρχείων που ανήκουν στα δεδομ�
 
 #: src/cli.vala
 msgid "Clone or sync packages build files from AUR"
-msgstr "Κλωνοποίηση ή συγχρονισμός αρχείων δόμησης πακέτων από AUR"
+msgstr "Κλωνοποίηση ή συγχρονισμός αρχείων κατασκευής πακέτων από AUR"
 
 #: src/cli.vala
 msgid "dir"
@@ -867,12 +886,16 @@ msgid ""
 msgstr "Ο κατάλογος δόμησης θα είναι ο γονικός κατάλογος, η επιλογή --builddir θα αγνοηθεί"
 
 #: src/cli.vala
+msgid "and --no-clone option will be enforced"
+msgstr "και η επιλογή --no-clone θα εφαρμοστεί"
+
+#: src/cli.vala
 msgid "keep built packages in cache after installation"
-msgstr "διατήρησε τα δομημένα πακέτα στην αποθήκη μετά την εγκατάσταση"
+msgstr "διατήρησε τα πακέτα κατασκευής στην αποθήκη μετά την εγκατάσταση"
 
 #: src/cli.vala
 msgid "do not clone build files from AUR, only use local files"
-msgstr "να μην κλωνοποιηθούν αρχεία δόμησης από AUR, χρήση μόνο τοπικών αρχείων"
+msgstr "να μην κλωνοποιηθούν αρχεία κατασκευής από AUR, χρήση μόνο τοπικών αρχείων"
 
 #: src/cli.vala
 msgid "bypass any and all confirmation messages"
@@ -958,7 +981,7 @@ msgstr "ενεργοποίησε την υποβάθμιση των πακέτω
 
 #: src/cli.vala
 msgid "Clean packages cache or build files"
-msgstr "Καθαρισμός αποθήκης πακέτων ή αρχείων δόμησης"
+msgstr "Καθαρισμός αποθήκης πακέτων ή αρχείων κατασκευής"
 
 #: src/cli.vala
 msgid "number"
@@ -977,7 +1000,7 @@ msgstr "στοχεύστε μόνο απεγκατεστημένα πακέτα"
 msgid ""
 "remove all build files, the build directory is the one specified in "
 "pamac.conf"
-msgstr "διάγραψε όλα τα αρχεία δόμησης, ο κατάλογος δόμησης είναι ο ορισμένος στο pamac.conf"
+msgstr "διάγραψε όλα τα αρχεία κατασκευής, ο κατάλογος κατασκευής είναι ο ορισμένος στο pamac.conf"
 
 #: src/cli.vala
 msgid "do not remove files, only find candidate packages"
@@ -1027,7 +1050,17 @@ msgstr "Καθαρισμός αποθήκης"
 
 #: src/cli.vala resources/preferences_dialog.ui
 msgid "Clean build files"
-msgstr "Καθάρισε τα αρχεία δόμησης"
+msgstr "Καθάρισε τα αρχεία κατασκευής"
+
+#: src/cli.vala
+#, c-format
+msgid "%s is only available from AUR"
+msgstr "%sείναι διαθέσιμο μόνο από το AUR"
+
+#: src/cli.vala
+#, c-format
+msgid "Build %s from AUR"
+msgstr "Κατασκευάστηκε %s από το AUR"
 
 #: src/cli.vala
 #, c-format
@@ -1130,7 +1163,7 @@ msgstr "Επανεγκατάσταση"
 
 #: resources/manager_window.ui
 msgid "Reset build files"
-msgstr "Επαναφορά αρχείων δόμησης"
+msgstr "Επαναφορά αρχείων κατασκευής"
 
 #: resources/preferences_dialog.ui
 msgid "Remove unrequired dependencies"
@@ -1190,7 +1223,7 @@ msgstr "Επίτρεψε στον pamac να ψάξει και να εγκατα
 
 #: resources/preferences_dialog.ui
 msgid "Keep built packages in cache"
-msgstr "Διατήρησε τα δομημένα πακέτα στην αποθήκη"
+msgstr "Διατήρησε τα κατασκευασμένα πακέτα στην αποθήκη"
 
 #: resources/preferences_dialog.ui
 msgid "Check for updates from AUR"

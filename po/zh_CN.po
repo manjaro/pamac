@@ -24,8 +24,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2019-10-23 12:23+0200\n"
-"PO-Revision-Date: 2019-11-01 06:59+0000\n"
+"POT-Creation-Date: 2019-11-02 15:00+0100\n"
+"PO-Revision-Date: 2019-11-04 01:32+0000\n"
 "Last-Translator: taotieren <admin@taotieren.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
@@ -53,6 +53,11 @@ msgstr "正在同步包数据库"
 #: src/alpm_utils.vala
 msgid "Failed to synchronize databases"
 msgstr "无法同步数据库"
+
+#: src/alpm_utils.vala src/database.vala src/manager_window.vala src/cli.vala
+#: resources/preferences_dialog.ui
+msgid "AUR"
+msgstr "AUR"
 
 #: src/alpm_utils.vala
 msgid "Failed to init transaction"
@@ -97,7 +102,7 @@ msgstr "%s 和 %s 有冲突"
 msgid "%s needs to be removed but it is a locked package"
 msgstr "%s 需要移除但被锁定"
 
-#: src/alpm_utils.vala src/transaction.vala
+#: src/alpm_utils.vala src/daemon.vala src/transaction.vala
 msgid "Transaction cancelled"
 msgstr "事务已经取消"
 
@@ -241,21 +246,21 @@ msgstr[0] "剩余 %lu 分钟"
 msgid "Error"
 msgstr "错误"
 
-#: src/alpm_utils.vala src/transaction-gtk.vala
+#: src/alpm_utils.vala src/transaction-gtk.vala src/cli.vala
 msgid "Warning"
 msgstr "警告"
 
-#: src/alpm_utils.vala
+#: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
 msgid "Download of %s started"
 msgstr "已启动下载 %s"
 
-#: src/alpm_utils.vala
+#: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
 msgid "Download of %s finished"
 msgstr "下载已完成的 %s"
 
-#: src/alpm_utils.vala src/snap_plugin.vala
+#: src/alpm_utils.vala
 #, c-format
 msgid "Downloading %s"
 msgstr "正在下载 %s"
@@ -269,10 +274,13 @@ msgstr "正在更新 %s"
 msgid "Authentication failed"
 msgstr "验证失败"
 
-#: src/database.vala src/manager_window.vala src/cli.vala
-#: resources/preferences_dialog.ui
-msgid "AUR"
-msgstr "AUR"
+#: src/daemon.vala
+msgid "Waiting for another package manager to quit"
+msgstr "正在等待另一包管理器退出"
+
+#: src/daemon.vala
+msgid "Timeout expired"
+msgstr "超时已过期"
 
 #: src/database.vala src/manager_window.vala
 msgid "Explicitly installed"
@@ -286,11 +294,11 @@ msgstr "作为另一个软件包的依赖而安装"
 msgid "Unknown"
 msgstr "未知"
 
-#: src/database.vala
+#: src/database.vala src/transaction.vala src/snap_plugin.vala
 msgid "Yes"
 msgstr "是"
 
-#: src/database.vala
+#: src/database.vala src/snap_plugin.vala
 msgid "No"
 msgstr "否"
 
@@ -321,10 +329,6 @@ msgstr "无法导入密钥 %s"
 #: src/transaction.vala src/manager_window.vala
 msgid "Transaction successfully finished"
 msgstr "事务成功完成"
-
-#: src/transaction.vala
-msgid "Waiting for another package manager to quit"
-msgstr "正在等待另一包管理器退出"
 
 #: src/transaction.vala
 #, c-format
@@ -406,6 +410,21 @@ msgstr "保存"
 #: resources/history_dialog.ui resources/preferences_dialog.ui
 msgid "_Close"
 msgstr "关闭 (_C)"
+
+#: src/transaction-gtk.vala src/manager_window.vala
+#: resources/manager_window.ui
+msgid "Install"
+msgstr "安装"
+
+#: src/transaction-gtk.vala
+#, c-format
+msgid "The snap %s was published using classic confinement"
+msgstr "snap %s 使用经典限制发布"
+
+#: src/transaction-gtk.vala
+#, c-format
+msgid "Install %s anyway"
+msgstr "仍然安装 %s"
 
 #: src/transaction-gtk.vala src/tray.vala
 msgid "Package Manager"
@@ -505,10 +524,6 @@ msgstr "安装原因"
 msgid "Mark as explicitly installed"
 msgstr "标记为单独指定安装"
 
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Install"
-msgstr "安装"
-
 #: src/manager_window.vala src/cli.vala
 msgid "Licenses"
 msgstr "许可"
@@ -606,6 +621,10 @@ msgid "Publisher"
 msgstr "发布者"
 
 #: src/manager_window.vala
+msgid "Confined in a Sandbox"
+msgstr "被限制在沙盒中"
+
+#: src/manager_window.vala
 msgid "Channels"
 msgstr "通道"
 
@@ -623,7 +642,7 @@ msgstr "移除"
 
 #: src/manager_window.vala
 msgid "Featured"
-msgstr "特色"
+msgstr "精选"
 
 #: src/manager_window.vala
 msgid "Photo & Video"
@@ -875,6 +894,10 @@ msgid ""
 msgstr "构建目录将是父目录，忽略 --builddir 选项"
 
 #: src/cli.vala
+msgid "and --no-clone option will be enforced"
+msgstr "并且 --no-clone 选项将被强制执行"
+
+#: src/cli.vala
 msgid "keep built packages in cache after installation"
 msgstr "安装后将内置包保存在缓存中"
 
@@ -1036,6 +1059,16 @@ msgstr "清除缓存"
 #: src/cli.vala resources/preferences_dialog.ui
 msgid "Clean build files"
 msgstr "清理构建文件"
+
+#: src/cli.vala
+#, c-format
+msgid "%s is only available from AUR"
+msgstr "%s 只能从 AUR 获得"
+
+#: src/cli.vala
+#, c-format
+msgid "Build %s from AUR"
+msgstr "从 AUR 构建 %s"
 
 #: src/cli.vala
 #, c-format

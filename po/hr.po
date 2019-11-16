@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2019-10-23 12:23+0200\n"
-"PO-Revision-Date: 2019-10-23 17:23+0000\n"
+"POT-Creation-Date: 2019-11-02 15:00+0100\n"
+"PO-Revision-Date: 2019-11-02 20:33+0000\n"
 "Last-Translator: Lovro Kudelić <lovro.kudelic@outlook.com>\n"
 "Language-Team: Croatian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/hr/)\n"
 "MIME-Version: 1.0\n"
@@ -42,6 +42,11 @@ msgstr "Sinkroniziram bazu podataka paketa"
 #: src/alpm_utils.vala
 msgid "Failed to synchronize databases"
 msgstr "Sinkronizacija baze podataka nije uspjela"
+
+#: src/alpm_utils.vala src/database.vala src/manager_window.vala src/cli.vala
+#: resources/preferences_dialog.ui
+msgid "AUR"
+msgstr "AUR"
 
 #: src/alpm_utils.vala
 msgid "Failed to init transaction"
@@ -86,7 +91,7 @@ msgstr "%s i %s su u sukobu"
 msgid "%s needs to be removed but it is a locked package"
 msgstr "%s mora biti uklonjen ali je paket zaključan"
 
-#: src/alpm_utils.vala src/transaction.vala
+#: src/alpm_utils.vala src/daemon.vala src/transaction.vala
 msgid "Transaction cancelled"
 msgstr "Transakcija prekinuta"
 
@@ -232,21 +237,21 @@ msgstr[2] "Oko %lu minuta preostalo"
 msgid "Error"
 msgstr "Greška"
 
-#: src/alpm_utils.vala src/transaction-gtk.vala
+#: src/alpm_utils.vala src/transaction-gtk.vala src/cli.vala
 msgid "Warning"
 msgstr "Upozorenje"
 
-#: src/alpm_utils.vala
+#: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
 msgid "Download of %s started"
 msgstr "Preuzimanje %s je počelo"
 
-#: src/alpm_utils.vala
+#: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
 msgid "Download of %s finished"
 msgstr "Preuzimanje %s je završilo"
 
-#: src/alpm_utils.vala src/snap_plugin.vala
+#: src/alpm_utils.vala
 #, c-format
 msgid "Downloading %s"
 msgstr "Preuzimam %s"
@@ -260,10 +265,13 @@ msgstr "Osvježavam %s"
 msgid "Authentication failed"
 msgstr "Autorizacija nije uspjela"
 
-#: src/database.vala src/manager_window.vala src/cli.vala
-#: resources/preferences_dialog.ui
-msgid "AUR"
-msgstr "AUR"
+#: src/daemon.vala
+msgid "Waiting for another package manager to quit"
+msgstr "Čekam na završetak drugog upravitelja paketa"
+
+#: src/daemon.vala
+msgid "Timeout expired"
+msgstr "Timeout je istekao"
 
 #: src/database.vala src/manager_window.vala
 msgid "Explicitly installed"
@@ -277,11 +285,11 @@ msgstr "Instalirano kao zavisnost za drugi paket"
 msgid "Unknown"
 msgstr "Nepoznato"
 
-#: src/database.vala
+#: src/database.vala src/transaction.vala src/snap_plugin.vala
 msgid "Yes"
 msgstr "Da"
 
-#: src/database.vala
+#: src/database.vala src/snap_plugin.vala
 msgid "No"
 msgstr "Ne"
 
@@ -312,10 +320,6 @@ msgstr "ključ %s se ne može uvesti"
 #: src/transaction.vala src/manager_window.vala
 msgid "Transaction successfully finished"
 msgstr "Transakcija uspješno završena"
-
-#: src/transaction.vala
-msgid "Waiting for another package manager to quit"
-msgstr "Čekam na završetak drugog upravitelja paketa"
 
 #: src/transaction.vala
 #, c-format
@@ -397,6 +401,21 @@ msgstr "Spremi"
 #: resources/history_dialog.ui resources/preferences_dialog.ui
 msgid "_Close"
 msgstr "_Zatvori"
+
+#: src/transaction-gtk.vala src/manager_window.vala
+#: resources/manager_window.ui
+msgid "Install"
+msgstr "Instaliraj"
+
+#: src/transaction-gtk.vala
+#, c-format
+msgid "The snap %s was published using classic confinement"
+msgstr "Snap %s je objavljen korištenjem klasičnog zatvaranja"
+
+#: src/transaction-gtk.vala
+#, c-format
+msgid "Install %s anyway"
+msgstr "Svejedno instalirajte %s"
 
 #: src/transaction-gtk.vala src/tray.vala
 msgid "Package Manager"
@@ -500,10 +519,6 @@ msgstr "Razlog za instalaciju"
 msgid "Mark as explicitly installed"
 msgstr "Označi kao eksplicitno instalirano"
 
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Install"
-msgstr "Instaliraj"
-
 #: src/manager_window.vala src/cli.vala
 msgid "Licenses"
 msgstr "Licence"
@@ -599,6 +614,10 @@ msgstr "Provjera zavisnosti"
 #: src/manager_window.vala
 msgid "Publisher"
 msgstr "Izdavač"
+
+#: src/manager_window.vala
+msgid "Confined in a Sandbox"
+msgstr "Zatvoren u sandbox-u"
 
 #: src/manager_window.vala
 msgid "Channels"
@@ -872,6 +891,10 @@ msgid ""
 msgstr "Direktorij za stvaranje će biti nadređeni direktorij; --builddir opcija će se ignorirati"
 
 #: src/cli.vala
+msgid "and --no-clone option will be enforced"
+msgstr "i --no-clone opcija će biti primijenjena"
+
+#: src/cli.vala
 msgid "keep built packages in cache after installation"
 msgstr "zadrži izgrađene pakete u predmemoriji nakon instalacije"
 
@@ -1033,6 +1056,16 @@ msgstr "Očisti predmemoriju"
 #: src/cli.vala resources/preferences_dialog.ui
 msgid "Clean build files"
 msgstr "Očistite datoteke stvaranja"
+
+#: src/cli.vala
+#, c-format
+msgid "%s is only available from AUR"
+msgstr "%s je dostupan samo iz AUR-a"
+
+#: src/cli.vala
+#, c-format
+msgid "Build %s from AUR"
+msgstr "Stvori %s iz AUR-a"
 
 #: src/cli.vala
 #, c-format

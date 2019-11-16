@@ -10,14 +10,14 @@
 # Andrei Stepanov <adem4ik@gmail.com>, 2019
 # Victor Kukshiev <andrey0bolkonsky@gmail.com>, 2013
 # Daniil <rostovslipknot@gmail.com>, 2013
-# XXXKXXX <klyuchnikov.evgeny@gmail.com>, 2018
+# Eugene <klyuchnikov.evgeny@gmail.com>, 2018
 # Анатолий Валерианович <ffox909@mail.ru>, 2014
 # Paulo Fino <finomeno@gmail.com>, 2014
 # Анатолий Валерианович <ffox909@mail.ru>, 2014
 # Alexander Filev <ifillrok@gmail.com>, 2015
 # Artalus, 2018
 # Kirill Virt <spakes1999@gmail.com>, 2018
-# XXXKXXX <klyuchnikov.evgeny@gmail.com>, 2018-2019
+# Eugene <klyuchnikov.evgeny@gmail.com>, 2018-2019
 # Lexyc <nirudak@mail.ru>, 2014
 # Lowrider <pams@imail.ru>, 2015
 # Daniil <rostovslipknot@gmail.com>, 2013
@@ -41,8 +41,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2019-10-23 12:23+0200\n"
-"PO-Revision-Date: 2019-10-23 16:03+0000\n"
+"POT-Creation-Date: 2019-11-02 15:00+0100\n"
+"PO-Revision-Date: 2019-11-02 23:18+0000\n"
 "Last-Translator: Andrei Stepanov <adem4ik@gmail.com>\n"
 "Language-Team: Russian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/ru/)\n"
 "MIME-Version: 1.0\n"
@@ -70,6 +70,11 @@ msgstr "Синхронизация баз данных пакетов"
 #: src/alpm_utils.vala
 msgid "Failed to synchronize databases"
 msgstr "Не удалось синхронизировать базы данных"
+
+#: src/alpm_utils.vala src/database.vala src/manager_window.vala src/cli.vala
+#: resources/preferences_dialog.ui
+msgid "AUR"
+msgstr "AUR"
 
 #: src/alpm_utils.vala
 msgid "Failed to init transaction"
@@ -114,7 +119,7 @@ msgstr "конфликт между %s и %s"
 msgid "%s needs to be removed but it is a locked package"
 msgstr "%s необходимо удалить, но пакет заблокирован"
 
-#: src/alpm_utils.vala src/transaction.vala
+#: src/alpm_utils.vala src/daemon.vala src/transaction.vala
 msgid "Transaction cancelled"
 msgstr "Транзакция отменена"
 
@@ -261,21 +266,21 @@ msgstr[3] "Осталось примерно %lu минут"
 msgid "Error"
 msgstr "Ошибка"
 
-#: src/alpm_utils.vala src/transaction-gtk.vala
+#: src/alpm_utils.vala src/transaction-gtk.vala src/cli.vala
 msgid "Warning"
 msgstr "Внимание"
 
-#: src/alpm_utils.vala
+#: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
 msgid "Download of %s started"
 msgstr "Загрузка %s началась"
 
-#: src/alpm_utils.vala
+#: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
 msgid "Download of %s finished"
 msgstr "Загрузка %s закончилась"
 
-#: src/alpm_utils.vala src/snap_plugin.vala
+#: src/alpm_utils.vala
 #, c-format
 msgid "Downloading %s"
 msgstr "Загрузка %s"
@@ -289,10 +294,13 @@ msgstr "Обновление %s"
 msgid "Authentication failed"
 msgstr "Ошибка авторизации"
 
-#: src/database.vala src/manager_window.vala src/cli.vala
-#: resources/preferences_dialog.ui
-msgid "AUR"
-msgstr "AUR"
+#: src/daemon.vala
+msgid "Waiting for another package manager to quit"
+msgstr "Ожидание выхода другого менеджера пакетов"
+
+#: src/daemon.vala
+msgid "Timeout expired"
+msgstr "Время ожидания истекло"
 
 #: src/database.vala src/manager_window.vala
 msgid "Explicitly installed"
@@ -306,11 +314,11 @@ msgstr "Установлено как зависимость для другог
 msgid "Unknown"
 msgstr "Неизвестно"
 
-#: src/database.vala
+#: src/database.vala src/transaction.vala src/snap_plugin.vala
 msgid "Yes"
 msgstr "Да"
 
-#: src/database.vala
+#: src/database.vala src/snap_plugin.vala
 msgid "No"
 msgstr "Нет"
 
@@ -341,10 +349,6 @@ msgstr "ключ %s не может быть импортирован"
 #: src/transaction.vala src/manager_window.vala
 msgid "Transaction successfully finished"
 msgstr "Транзакция успешно завершена"
-
-#: src/transaction.vala
-msgid "Waiting for another package manager to quit"
-msgstr "Ожидание выхода другого менеджера пакетов"
 
 #: src/transaction.vala
 #, c-format
@@ -426,6 +430,21 @@ msgstr "Сохранить"
 #: resources/history_dialog.ui resources/preferences_dialog.ui
 msgid "_Close"
 msgstr "_Закрыть"
+
+#: src/transaction-gtk.vala src/manager_window.vala
+#: resources/manager_window.ui
+msgid "Install"
+msgstr "Установить"
+
+#: src/transaction-gtk.vala
+#, c-format
+msgid "The snap %s was published using classic confinement"
+msgstr "Snap-пакет %s был опубликован с использованием классического ограничения"
+
+#: src/transaction-gtk.vala
+#, c-format
+msgid "Install %s anyway"
+msgstr "Установить %s всё равно"
 
 #: src/transaction-gtk.vala src/tray.vala
 msgid "Package Manager"
@@ -531,10 +550,6 @@ msgstr "Причина установки"
 msgid "Mark as explicitly installed"
 msgstr "Отметить как специально установленный"
 
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Install"
-msgstr "Установить"
-
 #: src/manager_window.vala src/cli.vala
 msgid "Licenses"
 msgstr "Лицензии"
@@ -630,6 +645,10 @@ msgstr "Проверка зависимостей"
 #: src/manager_window.vala
 msgid "Publisher"
 msgstr "Издатель"
+
+#: src/manager_window.vala
+msgid "Confined in a Sandbox"
+msgstr "Ограничено песочницей"
 
 #: src/manager_window.vala
 msgid "Channels"
@@ -904,6 +923,10 @@ msgid ""
 msgstr "Директория сборки будет родительским каталогом, параметр --builddir будет проигнорирован"
 
 #: src/cli.vala
+msgid "and --no-clone option will be enforced"
+msgstr "и параметр --no-clone будет принудительно применён"
+
+#: src/cli.vala
 msgid "keep built packages in cache after installation"
 msgstr "хранить собранные пакеты в кэше после установки"
 
@@ -1065,6 +1088,16 @@ msgstr "Очистить кэш"
 #: src/cli.vala resources/preferences_dialog.ui
 msgid "Clean build files"
 msgstr "Очистить сборочные файлы"
+
+#: src/cli.vala
+#, c-format
+msgid "%s is only available from AUR"
+msgstr "%s доступен только из AUR"
+
+#: src/cli.vala
+#, c-format
+msgid "Build %s from AUR"
+msgstr "Собрать %s из AUR"
 
 #: src/cli.vala
 #, c-format

@@ -23,8 +23,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2019-10-23 12:23+0200\n"
-"PO-Revision-Date: 2019-10-24 16:55+0000\n"
+"POT-Creation-Date: 2019-11-02 15:00+0100\n"
+"PO-Revision-Date: 2019-11-06 15:58+0000\n"
 "Last-Translator: Charles Monzat <c.monzat@laposte.net>\n"
 "Language-Team: French (http://www.transifex.com/manjarolinux/manjaro-pamac/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -52,6 +52,11 @@ msgstr "Synchronisation des bases de données des paquets"
 #: src/alpm_utils.vala
 msgid "Failed to synchronize databases"
 msgstr "Impossible de synchroniser les bases de données"
+
+#: src/alpm_utils.vala src/database.vala src/manager_window.vala src/cli.vala
+#: resources/preferences_dialog.ui
+msgid "AUR"
+msgstr "AUR"
 
 #: src/alpm_utils.vala
 msgid "Failed to init transaction"
@@ -96,7 +101,7 @@ msgstr "%s et %s sont en conflit"
 msgid "%s needs to be removed but it is a locked package"
 msgstr "%s doit être désinstallé mais c’est un paquet verrouillé"
 
-#: src/alpm_utils.vala src/transaction.vala
+#: src/alpm_utils.vala src/daemon.vala src/transaction.vala
 msgid "Transaction cancelled"
 msgstr "Transaction annulée"
 
@@ -241,21 +246,21 @@ msgstr[1] "Environ %lu minutes restantes"
 msgid "Error"
 msgstr "Erreur"
 
-#: src/alpm_utils.vala src/transaction-gtk.vala
+#: src/alpm_utils.vala src/transaction-gtk.vala src/cli.vala
 msgid "Warning"
 msgstr "Avertissement "
 
-#: src/alpm_utils.vala
+#: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
 msgid "Download of %s started"
 msgstr "Début du téléchargement de %s"
 
-#: src/alpm_utils.vala
+#: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
 msgid "Download of %s finished"
 msgstr "Fin du téléchargement de %s"
 
-#: src/alpm_utils.vala src/snap_plugin.vala
+#: src/alpm_utils.vala
 #, c-format
 msgid "Downloading %s"
 msgstr "Téléchargement de %s"
@@ -269,10 +274,13 @@ msgstr "Actualisation de %s"
 msgid "Authentication failed"
 msgstr "L’authentification a échoué"
 
-#: src/database.vala src/manager_window.vala src/cli.vala
-#: resources/preferences_dialog.ui
-msgid "AUR"
-msgstr "AUR"
+#: src/daemon.vala
+msgid "Waiting for another package manager to quit"
+msgstr "En attente de la fin d’un autre gestionnaire de paquet"
+
+#: src/daemon.vala
+msgid "Timeout expired"
+msgstr "Délai d’attente expiré"
 
 #: src/database.vala src/manager_window.vala
 msgid "Explicitly installed"
@@ -286,11 +294,11 @@ msgstr "Installé comme dépendance d’un autre paquet"
 msgid "Unknown"
 msgstr "Inconnu"
 
-#: src/database.vala
+#: src/database.vala src/transaction.vala src/snap_plugin.vala
 msgid "Yes"
 msgstr "Oui"
 
-#: src/database.vala
+#: src/database.vala src/snap_plugin.vala
 msgid "No"
 msgstr "Non"
 
@@ -321,10 +329,6 @@ msgstr "Impossible d’importer la clé %s"
 #: src/transaction.vala src/manager_window.vala
 msgid "Transaction successfully finished"
 msgstr "Transaction terminée avec succès"
-
-#: src/transaction.vala
-msgid "Waiting for another package manager to quit"
-msgstr "En attente de la fin d’un autre gestionnaire de paquet"
 
 #: src/transaction.vala
 #, c-format
@@ -406,6 +410,21 @@ msgstr "Enregistrer"
 #: resources/history_dialog.ui resources/preferences_dialog.ui
 msgid "_Close"
 msgstr "_Fermer"
+
+#: src/transaction-gtk.vala src/manager_window.vala
+#: resources/manager_window.ui
+msgid "Install"
+msgstr "Installer"
+
+#: src/transaction-gtk.vala
+#, c-format
+msgid "The snap %s was published using classic confinement"
+msgstr "Le snap %s a été publié en utilisant le confinement classique"
+
+#: src/transaction-gtk.vala
+#, c-format
+msgid "Install %s anyway"
+msgstr "Installer %s quand même"
 
 #: src/transaction-gtk.vala src/tray.vala
 msgid "Package Manager"
@@ -507,10 +526,6 @@ msgstr "Motif d’installation "
 msgid "Mark as explicitly installed"
 msgstr "Marquer comme explicitement installé"
 
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Install"
-msgstr "Installer"
-
 #: src/manager_window.vala src/cli.vala
 msgid "Licenses"
 msgstr "Licences "
@@ -608,6 +623,10 @@ msgid "Publisher"
 msgstr "Éditeur"
 
 #: src/manager_window.vala
+msgid "Confined in a Sandbox"
+msgstr "Confiné dans un bac à sable"
+
+#: src/manager_window.vala
 msgid "Channels"
 msgstr "Canaux"
 
@@ -625,7 +644,7 @@ msgstr "Désinstaller"
 
 #: src/manager_window.vala
 msgid "Featured"
-msgstr "Mises en avant"
+msgstr "Recommandés"
 
 #: src/manager_window.vala
 msgid "Photo & Video"
@@ -878,6 +897,10 @@ msgid ""
 msgstr "Le répertoire de construction sera le répertoire parent, l’option --builddir sera ignoré"
 
 #: src/cli.vala
+msgid "and --no-clone option will be enforced"
+msgstr "et l’option --no-clone sera appliquée"
+
+#: src/cli.vala
 msgid "keep built packages in cache after installation"
 msgstr "garder les paquets construits dans le cache après l’installation"
 
@@ -1039,6 +1062,16 @@ msgstr "Nettoyer le cache"
 #: src/cli.vala resources/preferences_dialog.ui
 msgid "Clean build files"
 msgstr "Nettoyer les fichiers de construction"
+
+#: src/cli.vala
+#, c-format
+msgid "%s is only available from AUR"
+msgstr "%s est uniquement disponible à partir d’AUR"
+
+#: src/cli.vala
+#, c-format
+msgid "Build %s from AUR"
+msgstr "Construire %s à partir d’AUR"
 
 #: src/cli.vala
 #, c-format

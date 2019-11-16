@@ -14,9 +14,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2019-10-23 12:23+0200\n"
-"PO-Revision-Date: 2019-10-25 12:41+0000\n"
-"Last-Translator: Mr. Nanook\n"
+"POT-Creation-Date: 2019-11-02 15:00+0100\n"
+"PO-Revision-Date: 2019-11-02 16:44+0000\n"
+"Last-Translator: Heimen Stoffels <vistausss@outlook.com>\n"
 "Language-Team: Dutch (Netherlands) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/nl_NL/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -43,6 +43,11 @@ msgstr "Bezig met synchroniseren van pakketdatabanken"
 #: src/alpm_utils.vala
 msgid "Failed to synchronize databases"
 msgstr "Het synchroniseren van de databanken is mislukt"
+
+#: src/alpm_utils.vala src/database.vala src/manager_window.vala src/cli.vala
+#: resources/preferences_dialog.ui
+msgid "AUR"
+msgstr "AUR"
 
 #: src/alpm_utils.vala
 msgid "Failed to init transaction"
@@ -87,7 +92,7 @@ msgstr "%s en %s conflicteren"
 msgid "%s needs to be removed but it is a locked package"
 msgstr "%s moet worden verwijderd maar het pakket is vergrendeld"
 
-#: src/alpm_utils.vala src/transaction.vala
+#: src/alpm_utils.vala src/daemon.vala src/transaction.vala
 msgid "Transaction cancelled"
 msgstr "De overdracht is geannuleerd"
 
@@ -232,21 +237,21 @@ msgstr[1] "Nog ongeveer %lu minuten te gaan"
 msgid "Error"
 msgstr "Fout"
 
-#: src/alpm_utils.vala src/transaction-gtk.vala
+#: src/alpm_utils.vala src/transaction-gtk.vala src/cli.vala
 msgid "Warning"
 msgstr "Waarschuwing"
 
-#: src/alpm_utils.vala
+#: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
 msgid "Download of %s started"
 msgstr "%s wordt gedownload"
 
-#: src/alpm_utils.vala
+#: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
 msgid "Download of %s finished"
 msgstr "%s is gedownload"
 
-#: src/alpm_utils.vala src/snap_plugin.vala
+#: src/alpm_utils.vala
 #, c-format
 msgid "Downloading %s"
 msgstr "Bezig met downloaden van %s"
@@ -260,10 +265,13 @@ msgstr "Bezig met vernieuwen van %s"
 msgid "Authentication failed"
 msgstr "Authenticatie mislukt"
 
-#: src/database.vala src/manager_window.vala src/cli.vala
-#: resources/preferences_dialog.ui
-msgid "AUR"
-msgstr "AUR"
+#: src/daemon.vala
+msgid "Waiting for another package manager to quit"
+msgstr "Bezig met wachten op het afsluiten van een andere pakketbeheerder"
+
+#: src/daemon.vala
+msgid "Timeout expired"
+msgstr "Time-out verlopen"
 
 #: src/database.vala src/manager_window.vala
 msgid "Explicitly installed"
@@ -277,11 +285,11 @@ msgstr "Geïnstalleerd als afhankelijkheid van een ander pakket"
 msgid "Unknown"
 msgstr "Onbekend"
 
-#: src/database.vala
+#: src/database.vala src/transaction.vala src/snap_plugin.vala
 msgid "Yes"
 msgstr "Ja"
 
-#: src/database.vala
+#: src/database.vala src/snap_plugin.vala
 msgid "No"
 msgstr "Nee"
 
@@ -312,10 +320,6 @@ msgstr "De sleutel %s kan niet worden geïmporteerd"
 #: src/transaction.vala src/manager_window.vala
 msgid "Transaction successfully finished"
 msgstr "De overdracht is succesvol afgerond"
-
-#: src/transaction.vala
-msgid "Waiting for another package manager to quit"
-msgstr "Bezig met wachten op het afsluiten van een andere pakketbeheerder"
 
 #: src/transaction.vala
 #, c-format
@@ -397,6 +401,21 @@ msgstr "Opslaan"
 #: resources/history_dialog.ui resources/preferences_dialog.ui
 msgid "_Close"
 msgstr "_Sluiten"
+
+#: src/transaction-gtk.vala src/manager_window.vala
+#: resources/manager_window.ui
+msgid "Install"
+msgstr "Installeren"
+
+#: src/transaction-gtk.vala
+#, c-format
+msgid "The snap %s was published using classic confinement"
+msgstr "De snap, %s, beschikt over een traditionele sandbox"
+
+#: src/transaction-gtk.vala
+#, c-format
+msgid "Install %s anyway"
+msgstr "%s tóch installeren"
 
 #: src/transaction-gtk.vala src/tray.vala
 msgid "Package Manager"
@@ -498,10 +517,6 @@ msgstr "Installatiereden"
 msgid "Mark as explicitly installed"
 msgstr "Markeren als expliciet geïnstalleerd"
 
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Install"
-msgstr "Installeren"
-
 #: src/manager_window.vala src/cli.vala
 msgid "Licenses"
 msgstr "Licenties"
@@ -597,6 +612,10 @@ msgstr "Afhankelijkheden controleren"
 #: src/manager_window.vala
 msgid "Publisher"
 msgstr "Gepubliceerd door"
+
+#: src/manager_window.vala
+msgid "Confined in a Sandbox"
+msgstr "Traditonele sandbox"
 
 #: src/manager_window.vala
 msgid "Channels"
@@ -869,8 +888,12 @@ msgid ""
 msgstr "De bouwmap wordt de hoofdmap, --builddir wordt genegeerd"
 
 #: src/cli.vala
+msgid "and --no-clone option will be enforced"
+msgstr "en de optie --no-clone wordt afgedwongen"
+
+#: src/cli.vala
 msgid "keep built packages in cache after installation"
-msgstr ""
+msgstr "gebouwde pakketten bewaren in cache na installeren"
 
 #: src/cli.vala
 msgid "do not clone build files from AUR, only use local files"
@@ -1033,6 +1056,16 @@ msgstr "Bouwbestanden verwijderen"
 
 #: src/cli.vala
 #, c-format
+msgid "%s is only available from AUR"
+msgstr "%s is alleen beschikbaar via AUR"
+
+#: src/cli.vala
+#, c-format
+msgid "Build %s from AUR"
+msgstr "%s bouwen via AUR"
+
+#: src/cli.vala
+#, c-format
 msgid "There is %u member in group %s"
 msgid_plural "There are %u members in group %s"
 msgstr[0] "Er is %u lid in de groep %s"
@@ -1192,7 +1225,7 @@ msgstr "Pamac toestaan om pakketten van AUR te zoeken en installeren"
 
 #: resources/preferences_dialog.ui
 msgid "Keep built packages in cache"
-msgstr ""
+msgstr "Gebouwde pakketten bewaren in cache"
 
 #: resources/preferences_dialog.ui
 msgid "Check for updates from AUR"

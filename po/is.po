@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2019-10-23 12:23+0200\n"
-"PO-Revision-Date: 2019-10-30 14:34+0000\n"
-"Last-Translator: Kristján Magnússon\n"
+"POT-Creation-Date: 2019-11-02 15:00+0100\n"
+"PO-Revision-Date: 2019-11-02 14:08+0000\n"
+"Last-Translator: Guillaume Benoit <guillaume@manjaro.org>\n"
 "Language-Team: Icelandic (http://www.transifex.com/manjarolinux/manjaro-pamac/language/is/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -40,6 +40,11 @@ msgstr "Samstilli gagnagrunna fyrir pakka"
 #: src/alpm_utils.vala
 msgid "Failed to synchronize databases"
 msgstr ""
+
+#: src/alpm_utils.vala src/database.vala src/manager_window.vala src/cli.vala
+#: resources/preferences_dialog.ui
+msgid "AUR"
+msgstr "AUR"
 
 #: src/alpm_utils.vala
 msgid "Failed to init transaction"
@@ -84,7 +89,7 @@ msgstr "%s og %s stangast á"
 msgid "%s needs to be removed but it is a locked package"
 msgstr "%s þarf að fjarlægja en sá pakki er læstur"
 
-#: src/alpm_utils.vala src/transaction.vala
+#: src/alpm_utils.vala src/daemon.vala src/transaction.vala
 msgid "Transaction cancelled"
 msgstr "Hætt við aðgerð"
 
@@ -229,21 +234,21 @@ msgstr[1] "Um það bil %lu mínútur eftir"
 msgid "Error"
 msgstr "Villa"
 
-#: src/alpm_utils.vala src/transaction-gtk.vala
+#: src/alpm_utils.vala src/transaction-gtk.vala src/cli.vala
 msgid "Warning"
 msgstr "Aðvörun"
 
-#: src/alpm_utils.vala
+#: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
 msgid "Download of %s started"
 msgstr "Niðurhal af %s byrjað"
 
-#: src/alpm_utils.vala
+#: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
 msgid "Download of %s finished"
 msgstr "Niðurhal af %s lokið"
 
-#: src/alpm_utils.vala src/snap_plugin.vala
+#: src/alpm_utils.vala
 #, c-format
 msgid "Downloading %s"
 msgstr "Sæki %s"
@@ -257,10 +262,13 @@ msgstr "Endurles %s"
 msgid "Authentication failed"
 msgstr "Auðkenning mistókst"
 
-#: src/database.vala src/manager_window.vala src/cli.vala
-#: resources/preferences_dialog.ui
-msgid "AUR"
-msgstr "AUR"
+#: src/daemon.vala
+msgid "Waiting for another package manager to quit"
+msgstr "Bíð eftir að annar pakka framkvæmdastjórn hætti"
+
+#: src/daemon.vala
+msgid "Timeout expired"
+msgstr ""
 
 #: src/database.vala src/manager_window.vala
 msgid "Explicitly installed"
@@ -274,11 +282,11 @@ msgstr "Sett upp sem hæði fyrir annan pakka"
 msgid "Unknown"
 msgstr "Óþekkt"
 
-#: src/database.vala
+#: src/database.vala src/transaction.vala src/snap_plugin.vala
 msgid "Yes"
 msgstr "Já"
 
-#: src/database.vala
+#: src/database.vala src/snap_plugin.vala
 msgid "No"
 msgstr "Nei"
 
@@ -309,10 +317,6 @@ msgstr ""
 #: src/transaction.vala src/manager_window.vala
 msgid "Transaction successfully finished"
 msgstr "Aðgerð lokið - tókst"
-
-#: src/transaction.vala
-msgid "Waiting for another package manager to quit"
-msgstr "Bíð eftir að annar pakka framkvæmdastjórn hætti"
 
 #: src/transaction.vala
 #, c-format
@@ -394,6 +398,21 @@ msgstr "Vista"
 #: resources/history_dialog.ui resources/preferences_dialog.ui
 msgid "_Close"
 msgstr "_Loka"
+
+#: src/transaction-gtk.vala src/manager_window.vala
+#: resources/manager_window.ui
+msgid "Install"
+msgstr "Setja upp"
+
+#: src/transaction-gtk.vala
+#, c-format
+msgid "The snap %s was published using classic confinement"
+msgstr ""
+
+#: src/transaction-gtk.vala
+#, c-format
+msgid "Install %s anyway"
+msgstr ""
 
 #: src/transaction-gtk.vala src/tray.vala
 msgid "Package Manager"
@@ -495,10 +514,6 @@ msgstr "Ástæða uppsetningar"
 msgid "Mark as explicitly installed"
 msgstr "Merkja sem sérstaklega uppsett"
 
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Install"
-msgstr "Setja upp"
-
 #: src/manager_window.vala src/cli.vala
 msgid "Licenses"
 msgstr "Notkunarleyfi"
@@ -594,6 +609,10 @@ msgstr "Athuga kerfiskröfur"
 #: src/manager_window.vala
 msgid "Publisher"
 msgstr "Útgefandi"
+
+#: src/manager_window.vala
+msgid "Confined in a Sandbox"
+msgstr ""
 
 #: src/manager_window.vala
 msgid "Channels"
@@ -866,6 +885,10 @@ msgid ""
 msgstr ""
 
 #: src/cli.vala
+msgid "and --no-clone option will be enforced"
+msgstr ""
+
+#: src/cli.vala
 msgid "keep built packages in cache after installation"
 msgstr ""
 
@@ -1026,6 +1049,16 @@ msgstr "Hreinsa skyndiminni"
 
 #: src/cli.vala resources/preferences_dialog.ui
 msgid "Clean build files"
+msgstr ""
+
+#: src/cli.vala
+#, c-format
+msgid "%s is only available from AUR"
+msgstr ""
+
+#: src/cli.vala
+#, c-format
+msgid "Build %s from AUR"
 msgstr ""
 
 #: src/cli.vala

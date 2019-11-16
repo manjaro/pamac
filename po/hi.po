@@ -13,9 +13,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2019-10-23 12:23+0200\n"
-"PO-Revision-Date: 2019-10-23 13:22+0000\n"
-"Last-Translator: philm <philm@manjaro.org>\n"
+"POT-Creation-Date: 2019-11-02 15:00+0100\n"
+"PO-Revision-Date: 2019-11-02 14:08+0000\n"
+"Last-Translator: Guillaume Benoit <guillaume@manjaro.org>\n"
 "Language-Team: Hindi (http://www.transifex.com/manjarolinux/manjaro-pamac/language/hi/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -42,6 +42,11 @@ msgstr ""
 #: src/alpm_utils.vala
 msgid "Failed to synchronize databases"
 msgstr ""
+
+#: src/alpm_utils.vala src/database.vala src/manager_window.vala src/cli.vala
+#: resources/preferences_dialog.ui
+msgid "AUR"
+msgstr "AUR"
 
 #: src/alpm_utils.vala
 msgid "Failed to init transaction"
@@ -86,7 +91,7 @@ msgstr "%s और %s संघर्ष में हैं"
 msgid "%s needs to be removed but it is a locked package"
 msgstr "%sको हटाने की आयशकता है, लकिन यह एक अवरोधित पैकेज है | "
 
-#: src/alpm_utils.vala src/transaction.vala
+#: src/alpm_utils.vala src/daemon.vala src/transaction.vala
 msgid "Transaction cancelled"
 msgstr ""
 
@@ -231,21 +236,21 @@ msgstr[1] ""
 msgid "Error"
 msgstr "त्रुटि"
 
-#: src/alpm_utils.vala src/transaction-gtk.vala
+#: src/alpm_utils.vala src/transaction-gtk.vala src/cli.vala
 msgid "Warning"
 msgstr "चेतावनी"
 
-#: src/alpm_utils.vala
+#: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
 msgid "Download of %s started"
 msgstr ""
 
-#: src/alpm_utils.vala
+#: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
 msgid "Download of %s finished"
 msgstr ""
 
-#: src/alpm_utils.vala src/snap_plugin.vala
+#: src/alpm_utils.vala
 #, c-format
 msgid "Downloading %s"
 msgstr ""
@@ -259,10 +264,13 @@ msgstr ""
 msgid "Authentication failed"
 msgstr "सत्यापन विफल"
 
-#: src/database.vala src/manager_window.vala src/cli.vala
-#: resources/preferences_dialog.ui
-msgid "AUR"
-msgstr "AUR"
+#: src/daemon.vala
+msgid "Waiting for another package manager to quit"
+msgstr ""
+
+#: src/daemon.vala
+msgid "Timeout expired"
+msgstr ""
 
 #: src/database.vala src/manager_window.vala
 msgid "Explicitly installed"
@@ -276,11 +284,11 @@ msgstr "एक और पैकेज के लिए एक निर्भर
 msgid "Unknown"
 msgstr "अज्ञात"
 
-#: src/database.vala
+#: src/database.vala src/transaction.vala src/snap_plugin.vala
 msgid "Yes"
 msgstr "हाँ"
 
-#: src/database.vala
+#: src/database.vala src/snap_plugin.vala
 msgid "No"
 msgstr "नहीं"
 
@@ -311,10 +319,6 @@ msgstr ""
 #: src/transaction.vala src/manager_window.vala
 msgid "Transaction successfully finished"
 msgstr "लेन - देन सफलतापूर्वक समाप्त"
-
-#: src/transaction.vala
-msgid "Waiting for another package manager to quit"
-msgstr ""
 
 #: src/transaction.vala
 #, c-format
@@ -396,6 +400,21 @@ msgstr ""
 #: resources/history_dialog.ui resources/preferences_dialog.ui
 msgid "_Close"
 msgstr "_बंद"
+
+#: src/transaction-gtk.vala src/manager_window.vala
+#: resources/manager_window.ui
+msgid "Install"
+msgstr "स्थापित करें"
+
+#: src/transaction-gtk.vala
+#, c-format
+msgid "The snap %s was published using classic confinement"
+msgstr ""
+
+#: src/transaction-gtk.vala
+#, c-format
+msgid "Install %s anyway"
+msgstr ""
 
 #: src/transaction-gtk.vala src/tray.vala
 msgid "Package Manager"
@@ -497,10 +516,6 @@ msgstr "कारण स्थापित करें"
 msgid "Mark as explicitly installed"
 msgstr ""
 
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Install"
-msgstr "स्थापित करें"
-
 #: src/manager_window.vala src/cli.vala
 msgid "Licenses"
 msgstr "लाइसेंस"
@@ -595,6 +610,10 @@ msgstr "निर्भरताऒं   की जांच करें"
 
 #: src/manager_window.vala
 msgid "Publisher"
+msgstr ""
+
+#: src/manager_window.vala
+msgid "Confined in a Sandbox"
 msgstr ""
 
 #: src/manager_window.vala
@@ -868,6 +887,10 @@ msgid ""
 msgstr ""
 
 #: src/cli.vala
+msgid "and --no-clone option will be enforced"
+msgstr ""
+
+#: src/cli.vala
 msgid "keep built packages in cache after installation"
 msgstr ""
 
@@ -1028,6 +1051,16 @@ msgstr ""
 
 #: src/cli.vala resources/preferences_dialog.ui
 msgid "Clean build files"
+msgstr ""
+
+#: src/cli.vala
+#, c-format
+msgid "%s is only available from AUR"
+msgstr ""
+
+#: src/cli.vala
+#, c-format
+msgid "Build %s from AUR"
 msgstr ""
 
 #: src/cli.vala

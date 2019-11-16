@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2019-10-23 12:23+0200\n"
-"PO-Revision-Date: 2019-10-24 13:05+0000\n"
+"POT-Creation-Date: 2019-11-02 15:00+0100\n"
+"PO-Revision-Date: 2019-11-04 00:23+0000\n"
 "Last-Translator: 黃柏諺 <s8321414@gmail.com>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
@@ -42,6 +42,11 @@ msgstr "正在同步套件庫"
 #: src/alpm_utils.vala
 msgid "Failed to synchronize databases"
 msgstr "同步資料庫失敗"
+
+#: src/alpm_utils.vala src/database.vala src/manager_window.vala src/cli.vala
+#: resources/preferences_dialog.ui
+msgid "AUR"
+msgstr "AUR"
 
 #: src/alpm_utils.vala
 msgid "Failed to init transaction"
@@ -86,7 +91,7 @@ msgstr "%s 及 %s 衝突"
 msgid "%s needs to be removed but it is a locked package"
 msgstr "%s 需要被移除，但它是一個被鎖定的軟體包"
 
-#: src/alpm_utils.vala src/transaction.vala
+#: src/alpm_utils.vala src/daemon.vala src/transaction.vala
 msgid "Transaction cancelled"
 msgstr "已取消事務處理"
 
@@ -230,21 +235,21 @@ msgstr[0] "大約剩餘 %lu 分鐘"
 msgid "Error"
 msgstr "錯誤"
 
-#: src/alpm_utils.vala src/transaction-gtk.vala
+#: src/alpm_utils.vala src/transaction-gtk.vala src/cli.vala
 msgid "Warning"
 msgstr "警告"
 
-#: src/alpm_utils.vala
+#: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
 msgid "Download of %s started"
 msgstr "%s 的下載已開始"
 
-#: src/alpm_utils.vala
+#: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
 msgid "Download of %s finished"
 msgstr "%s 的下載已結束"
 
-#: src/alpm_utils.vala src/snap_plugin.vala
+#: src/alpm_utils.vala
 #, c-format
 msgid "Downloading %s"
 msgstr "正在下載 %s"
@@ -258,10 +263,13 @@ msgstr "正在更新 %s 內容"
 msgid "Authentication failed"
 msgstr "授權失敗"
 
-#: src/database.vala src/manager_window.vala src/cli.vala
-#: resources/preferences_dialog.ui
-msgid "AUR"
-msgstr "AUR"
+#: src/daemon.vala
+msgid "Waiting for another package manager to quit"
+msgstr "正在等待其他套件管理員結束"
+
+#: src/daemon.vala
+msgid "Timeout expired"
+msgstr "已到逾時"
 
 #: src/database.vala src/manager_window.vala
 msgid "Explicitly installed"
@@ -275,11 +283,11 @@ msgstr "作爲其他套件的依賴關係安裝"
 msgid "Unknown"
 msgstr "未知的"
 
-#: src/database.vala
+#: src/database.vala src/transaction.vala src/snap_plugin.vala
 msgid "Yes"
 msgstr "是"
 
-#: src/database.vala
+#: src/database.vala src/snap_plugin.vala
 msgid "No"
 msgstr "否"
 
@@ -310,10 +318,6 @@ msgstr "金鑰 %s 無法匯入"
 #: src/transaction.vala src/manager_window.vala
 msgid "Transaction successfully finished"
 msgstr "事務處理成功完成"
-
-#: src/transaction.vala
-msgid "Waiting for another package manager to quit"
-msgstr "正在等待其他套件管理員結束"
 
 #: src/transaction.vala
 #, c-format
@@ -395,6 +399,21 @@ msgstr "儲存"
 #: resources/history_dialog.ui resources/preferences_dialog.ui
 msgid "_Close"
 msgstr "關閉(_C)"
+
+#: src/transaction-gtk.vala src/manager_window.vala
+#: resources/manager_window.ui
+msgid "Install"
+msgstr "安裝"
+
+#: src/transaction-gtk.vala
+#, c-format
+msgid "The snap %s was published using classic confinement"
+msgstr "Snap %s 是以經典模式打包而成"
+
+#: src/transaction-gtk.vala
+#, c-format
+msgid "Install %s anyway"
+msgstr "無論如何都安裝 %s"
 
 #: src/transaction-gtk.vala src/tray.vala
 msgid "Package Manager"
@@ -494,10 +513,6 @@ msgstr "安裝原因"
 msgid "Mark as explicitly installed"
 msgstr "標示為單獨指定安裝"
 
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Install"
-msgstr "安裝"
-
 #: src/manager_window.vala src/cli.vala
 msgid "Licenses"
 msgstr "授權條款"
@@ -593,6 +608,10 @@ msgstr "檢查用依賴關係"
 #: src/manager_window.vala
 msgid "Publisher"
 msgstr "發佈者"
+
+#: src/manager_window.vala
+msgid "Confined in a Sandbox"
+msgstr "關在沙盒中"
 
 #: src/manager_window.vala
 msgid "Channels"
@@ -864,6 +883,10 @@ msgid ""
 msgstr "構建目錄將會是上層目錄，--builddir 選項將會被忽略"
 
 #: src/cli.vala
+msgid "and --no-clone option will be enforced"
+msgstr "且 --no-clone 選項將被強制執行"
+
+#: src/cli.vala
 msgid "keep built packages in cache after installation"
 msgstr "在安裝後將建置好的軟體包保留在快取中"
 
@@ -1025,6 +1048,16 @@ msgstr "清除快取"
 #: src/cli.vala resources/preferences_dialog.ui
 msgid "Clean build files"
 msgstr "清除建構檔案"
+
+#: src/cli.vala
+#, c-format
+msgid "%s is only available from AUR"
+msgstr "%s 僅從 AUR 提供"
+
+#: src/cli.vala
+#, c-format
+msgid "Build %s from AUR"
+msgstr "從 AUR 建構 %s"
 
 #: src/cli.vala
 #, c-format

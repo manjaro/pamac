@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2019-10-23 12:23+0200\n"
-"PO-Revision-Date: 2019-10-26 21:12+0000\n"
+"POT-Creation-Date: 2019-11-02 15:00+0100\n"
+"PO-Revision-Date: 2019-11-06 16:11+0000\n"
 "Last-Translator: UTUMI Hirosi <utuhiro78@yahoo.co.jp>\n"
 "Language-Team: Japanese (http://www.transifex.com/manjarolinux/manjaro-pamac/language/ja/)\n"
 "MIME-Version: 1.0\n"
@@ -43,6 +43,11 @@ msgstr "パッケージのデータベースを同期しています"
 #: src/alpm_utils.vala
 msgid "Failed to synchronize databases"
 msgstr "データベースの同期に失敗しました"
+
+#: src/alpm_utils.vala src/database.vala src/manager_window.vala src/cli.vala
+#: resources/preferences_dialog.ui
+msgid "AUR"
+msgstr "AUR"
 
 #: src/alpm_utils.vala
 msgid "Failed to init transaction"
@@ -87,7 +92,7 @@ msgstr "%s と %s が競合しています"
 msgid "%s needs to be removed but it is a locked package"
 msgstr "%s を削除する必要がありますが、ロックされています"
 
-#: src/alpm_utils.vala src/transaction.vala
+#: src/alpm_utils.vala src/daemon.vala src/transaction.vala
 msgid "Transaction cancelled"
 msgstr "トランザクションがキャンセルされました"
 
@@ -231,21 +236,21 @@ msgstr[0] "残り約 %lu 分"
 msgid "Error"
 msgstr "エラー"
 
-#: src/alpm_utils.vala src/transaction-gtk.vala
+#: src/alpm_utils.vala src/transaction-gtk.vala src/cli.vala
 msgid "Warning"
 msgstr "警告"
 
-#: src/alpm_utils.vala
+#: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
 msgid "Download of %s started"
 msgstr "%s のダウンロードを開始しました"
 
-#: src/alpm_utils.vala
+#: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
 msgid "Download of %s finished"
 msgstr "%s のダウンロードを完了しました"
 
-#: src/alpm_utils.vala src/snap_plugin.vala
+#: src/alpm_utils.vala
 #, c-format
 msgid "Downloading %s"
 msgstr "%s をダウンロードしています"
@@ -259,10 +264,13 @@ msgstr "%s をアップデートしています"
 msgid "Authentication failed"
 msgstr "認証に失敗しました"
 
-#: src/database.vala src/manager_window.vala src/cli.vala
-#: resources/preferences_dialog.ui
-msgid "AUR"
-msgstr "AUR"
+#: src/daemon.vala
+msgid "Waiting for another package manager to quit"
+msgstr "他のパッケージマネージャが終了するのを待っています"
+
+#: src/daemon.vala
+msgid "Timeout expired"
+msgstr "タイムアウト期限切れ"
 
 #: src/database.vala src/manager_window.vala
 msgid "Explicitly installed"
@@ -276,11 +284,11 @@ msgstr "他のパッケージから必要とされたもの"
 msgid "Unknown"
 msgstr "不明"
 
-#: src/database.vala
+#: src/database.vala src/transaction.vala src/snap_plugin.vala
 msgid "Yes"
 msgstr "はい"
 
-#: src/database.vala
+#: src/database.vala src/snap_plugin.vala
 msgid "No"
 msgstr "いいえ"
 
@@ -311,10 +319,6 @@ msgstr "鍵 %s をインポートできませんでした"
 #: src/transaction.vala src/manager_window.vala
 msgid "Transaction successfully finished"
 msgstr "トランザクションが成功しました"
-
-#: src/transaction.vala
-msgid "Waiting for another package manager to quit"
-msgstr "他のパッケージマネージャが終了するのを待っています"
 
 #: src/transaction.vala
 #, c-format
@@ -396,6 +400,21 @@ msgstr "保存"
 #: resources/history_dialog.ui resources/preferences_dialog.ui
 msgid "_Close"
 msgstr "閉じる (_C)"
+
+#: src/transaction-gtk.vala src/manager_window.vala
+#: resources/manager_window.ui
+msgid "Install"
+msgstr "インストール"
+
+#: src/transaction-gtk.vala
+#, c-format
+msgid "The snap %s was published using classic confinement"
+msgstr "スナップ %s は従来の制限を使用して公開されました"
+
+#: src/transaction-gtk.vala
+#, c-format
+msgid "Install %s anyway"
+msgstr "とにかく %s をインストール"
 
 #: src/transaction-gtk.vala src/tray.vala
 msgid "Package Manager"
@@ -495,10 +514,6 @@ msgstr "インストールした理由"
 msgid "Mark as explicitly installed"
 msgstr "明示的にインストールしたものとしてマーク"
 
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Install"
-msgstr "インストール"
-
 #: src/manager_window.vala src/cli.vala
 msgid "Licenses"
 msgstr "ライセンス"
@@ -594,6 +609,10 @@ msgstr "必要なパッケージを確認する"
 #: src/manager_window.vala
 msgid "Publisher"
 msgstr "発行元"
+
+#: src/manager_window.vala
+msgid "Confined in a Sandbox"
+msgstr "Sandboxに限定する"
 
 #: src/manager_window.vala
 msgid "Channels"
@@ -865,6 +884,10 @@ msgid ""
 msgstr "ビルドディレクトリは1つ上のディレクトリとなり、--builddir オプションは無視されます"
 
 #: src/cli.vala
+msgid "and --no-clone option will be enforced"
+msgstr "--no-clone を適用します"
+
+#: src/cli.vala
 msgid "keep built packages in cache after installation"
 msgstr "キャッシュ内のビルド済みパッケージをインストール後も保持する"
 
@@ -1026,6 +1049,16 @@ msgstr "キャッシュを削除"
 #: src/cli.vala resources/preferences_dialog.ui
 msgid "Clean build files"
 msgstr "ビルドファイルを空にする"
+
+#: src/cli.vala
+#, c-format
+msgid "%s is only available from AUR"
+msgstr "%s はAURからのみ利用できます"
+
+#: src/cli.vala
+#, c-format
+msgid "Build %s from AUR"
+msgstr "AURから %s をビルドする"
 
 #: src/cli.vala
 #, c-format

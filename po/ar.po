@@ -18,9 +18,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2019-10-23 12:23+0200\n"
-"PO-Revision-Date: 2019-10-23 13:22+0000\n"
-"Last-Translator: philm <philm@manjaro.org>\n"
+"POT-Creation-Date: 2019-11-02 15:00+0100\n"
+"PO-Revision-Date: 2019-11-02 14:08+0000\n"
+"Last-Translator: Guillaume Benoit <guillaume@manjaro.org>\n"
 "Language-Team: Arabic (http://www.transifex.com/manjarolinux/manjaro-pamac/language/ar/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -47,6 +47,11 @@ msgstr "يزامن قاعدة بيانات الحزم"
 #: src/alpm_utils.vala
 msgid "Failed to synchronize databases"
 msgstr "فشل في مزامنة قواعد البيانات"
+
+#: src/alpm_utils.vala src/database.vala src/manager_window.vala src/cli.vala
+#: resources/preferences_dialog.ui
+msgid "AUR"
+msgstr " مستودع العضو"
 
 #: src/alpm_utils.vala
 msgid "Failed to init transaction"
@@ -91,7 +96,7 @@ msgstr "%s و  %s في صراع"
 msgid "%s needs to be removed but it is a locked package"
 msgstr "%s تحتاج إلى إزالة لكنها حزمة مقفلة"
 
-#: src/alpm_utils.vala src/transaction.vala
+#: src/alpm_utils.vala src/daemon.vala src/transaction.vala
 msgid "Transaction cancelled"
 msgstr "ألغيت المعاملة"
 
@@ -240,21 +245,21 @@ msgstr[5] "الدقائق المتبقية حوالي %lu"
 msgid "Error"
 msgstr "خطأ"
 
-#: src/alpm_utils.vala src/transaction-gtk.vala
+#: src/alpm_utils.vala src/transaction-gtk.vala src/cli.vala
 msgid "Warning"
 msgstr "تحذير"
 
-#: src/alpm_utils.vala
+#: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
 msgid "Download of %s started"
 msgstr "بدأ تحميل %s"
 
-#: src/alpm_utils.vala
+#: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
 msgid "Download of %s finished"
 msgstr "تم تحميل %s"
 
-#: src/alpm_utils.vala src/snap_plugin.vala
+#: src/alpm_utils.vala
 #, c-format
 msgid "Downloading %s"
 msgstr "ينزّل %s"
@@ -268,10 +273,13 @@ msgstr "ينعش %s"
 msgid "Authentication failed"
 msgstr "فشل الإستوثاق"
 
-#: src/database.vala src/manager_window.vala src/cli.vala
-#: resources/preferences_dialog.ui
-msgid "AUR"
-msgstr " مستودع العضو"
+#: src/daemon.vala
+msgid "Waiting for another package manager to quit"
+msgstr "بانتظار خروج مدير حزم آخر"
+
+#: src/daemon.vala
+msgid "Timeout expired"
+msgstr ""
 
 #: src/database.vala src/manager_window.vala
 msgid "Explicitly installed"
@@ -285,11 +293,11 @@ msgstr "تثبيت كإعتمادية لحزمة أخرى"
 msgid "Unknown"
 msgstr "مجهول"
 
-#: src/database.vala
+#: src/database.vala src/transaction.vala src/snap_plugin.vala
 msgid "Yes"
 msgstr "نعم"
 
-#: src/database.vala
+#: src/database.vala src/snap_plugin.vala
 msgid "No"
 msgstr "لا"
 
@@ -320,10 +328,6 @@ msgstr ""
 #: src/transaction.vala src/manager_window.vala
 msgid "Transaction successfully finished"
 msgstr "تم إنهاء العملية بنجاح"
-
-#: src/transaction.vala
-msgid "Waiting for another package manager to quit"
-msgstr "بانتظار خروج مدير حزم آخر"
 
 #: src/transaction.vala
 #, c-format
@@ -405,6 +409,21 @@ msgstr "حفظ"
 #: resources/history_dialog.ui resources/preferences_dialog.ui
 msgid "_Close"
 msgstr "أ_غلق"
+
+#: src/transaction-gtk.vala src/manager_window.vala
+#: resources/manager_window.ui
+msgid "Install"
+msgstr "تثبيت"
+
+#: src/transaction-gtk.vala
+#, c-format
+msgid "The snap %s was published using classic confinement"
+msgstr ""
+
+#: src/transaction-gtk.vala
+#, c-format
+msgid "Install %s anyway"
+msgstr ""
 
 #: src/transaction-gtk.vala src/tray.vala
 msgid "Package Manager"
@@ -514,10 +533,6 @@ msgstr "سبب التثبيت"
 msgid "Mark as explicitly installed"
 msgstr "علم مثبت  صراحة"
 
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Install"
-msgstr "تثبيت"
-
 #: src/manager_window.vala src/cli.vala
 msgid "Licenses"
 msgstr "الرخص"
@@ -612,6 +627,10 @@ msgstr "تحقق التبعيات"
 
 #: src/manager_window.vala
 msgid "Publisher"
+msgstr ""
+
+#: src/manager_window.vala
+msgid "Confined in a Sandbox"
 msgstr ""
 
 #: src/manager_window.vala
@@ -889,6 +908,10 @@ msgid ""
 msgstr "دليل البناء سيصبح الدليل الاب الخيار builddir-- سيتجاهل "
 
 #: src/cli.vala
+msgid "and --no-clone option will be enforced"
+msgstr ""
+
+#: src/cli.vala
 msgid "keep built packages in cache after installation"
 msgstr ""
 
@@ -1049,6 +1072,16 @@ msgstr "نظّف الخبيئة"
 
 #: src/cli.vala resources/preferences_dialog.ui
 msgid "Clean build files"
+msgstr ""
+
+#: src/cli.vala
+#, c-format
+msgid "%s is only available from AUR"
+msgstr ""
+
+#: src/cli.vala
+#, c-format
+msgid "Build %s from AUR"
 msgstr ""
 
 #: src/cli.vala

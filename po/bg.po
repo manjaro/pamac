@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2019-10-23 12:23+0200\n"
-"PO-Revision-Date: 2019-10-24 06:36+0000\n"
+"POT-Creation-Date: 2019-11-02 15:00+0100\n"
+"PO-Revision-Date: 2019-11-04 06:23+0000\n"
 "Last-Translator: Galin Iskrenov <loot270@abv.bg>\n"
 "Language-Team: Bulgarian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/bg/)\n"
 "MIME-Version: 1.0\n"
@@ -44,6 +44,11 @@ msgstr "Синхронизиране на пакетната база"
 #: src/alpm_utils.vala
 msgid "Failed to synchronize databases"
 msgstr "Не може да се синхронизира базата от данни"
+
+#: src/alpm_utils.vala src/database.vala src/manager_window.vala src/cli.vala
+#: resources/preferences_dialog.ui
+msgid "AUR"
+msgstr "AUR"
 
 #: src/alpm_utils.vala
 msgid "Failed to init transaction"
@@ -88,7 +93,7 @@ msgstr "%s и %s са в конфликт"
 msgid "%s needs to be removed but it is a locked package"
 msgstr "%s трябва да се премахне, но е заключен пакет"
 
-#: src/alpm_utils.vala src/transaction.vala
+#: src/alpm_utils.vala src/daemon.vala src/transaction.vala
 msgid "Transaction cancelled"
 msgstr "Транзакцията прекратена"
 
@@ -233,21 +238,21 @@ msgstr[1] "Остават още %lu минути"
 msgid "Error"
 msgstr "Грешка"
 
-#: src/alpm_utils.vala src/transaction-gtk.vala
+#: src/alpm_utils.vala src/transaction-gtk.vala src/cli.vala
 msgid "Warning"
 msgstr "Внимание"
 
-#: src/alpm_utils.vala
+#: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
 msgid "Download of %s started"
 msgstr "Изтегляне на %s започна"
 
-#: src/alpm_utils.vala
+#: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
 msgid "Download of %s finished"
 msgstr "Изтегляне на %s приключи"
 
-#: src/alpm_utils.vala src/snap_plugin.vala
+#: src/alpm_utils.vala
 #, c-format
 msgid "Downloading %s"
 msgstr "Изтегляне на %s"
@@ -261,10 +266,13 @@ msgstr "Обновяване на %s"
 msgid "Authentication failed"
 msgstr "Неуспешно удостоверяване"
 
-#: src/database.vala src/manager_window.vala src/cli.vala
-#: resources/preferences_dialog.ui
-msgid "AUR"
-msgstr "AUR"
+#: src/daemon.vala
+msgid "Waiting for another package manager to quit"
+msgstr "Изчакване да завърши друг пакетен диспечер"
+
+#: src/daemon.vala
+msgid "Timeout expired"
+msgstr "Времето изтече"
 
 #: src/database.vala src/manager_window.vala
 msgid "Explicitly installed"
@@ -278,11 +286,11 @@ msgstr "Инсталиран като зависимост за друг пак�
 msgid "Unknown"
 msgstr "Непознат"
 
-#: src/database.vala
+#: src/database.vala src/transaction.vala src/snap_plugin.vala
 msgid "Yes"
 msgstr "Да"
 
-#: src/database.vala
+#: src/database.vala src/snap_plugin.vala
 msgid "No"
 msgstr "Не"
 
@@ -313,10 +321,6 @@ msgstr "ключът %s не може да се внесе"
 #: src/transaction.vala src/manager_window.vala
 msgid "Transaction successfully finished"
 msgstr "Успешно завършена транзакция"
-
-#: src/transaction.vala
-msgid "Waiting for another package manager to quit"
-msgstr "Изчакване да завърши друг пакетен диспечер"
 
 #: src/transaction.vala
 #, c-format
@@ -398,6 +402,21 @@ msgstr "Запази"
 #: resources/history_dialog.ui resources/preferences_dialog.ui
 msgid "_Close"
 msgstr "_Затвори"
+
+#: src/transaction-gtk.vala src/manager_window.vala
+#: resources/manager_window.ui
+msgid "Install"
+msgstr "Инсталиране"
+
+#: src/transaction-gtk.vala
+#, c-format
+msgid "The snap %s was published using classic confinement"
+msgstr "Снапът %s е публикуван използвайки класически ограничения"
+
+#: src/transaction-gtk.vala
+#, c-format
+msgid "Install %s anyway"
+msgstr "Инсталирай %s въпреки всичко"
 
 #: src/transaction-gtk.vala src/tray.vala
 msgid "Package Manager"
@@ -499,10 +518,6 @@ msgstr "Причина за инсталиране"
 msgid "Mark as explicitly installed"
 msgstr "Отбелязан като изрично инсталиран:"
 
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Install"
-msgstr "Инсталиране"
-
 #: src/manager_window.vala src/cli.vala
 msgid "Licenses"
 msgstr "Лицензи"
@@ -598,6 +613,10 @@ msgstr "Провери зависимости"
 #: src/manager_window.vala
 msgid "Publisher"
 msgstr "Издател"
+
+#: src/manager_window.vala
+msgid "Confined in a Sandbox"
+msgstr "Ограничен в пясъчника"
 
 #: src/manager_window.vala
 msgid "Channels"
@@ -870,6 +889,10 @@ msgid ""
 msgstr "Директорията за изграждане ще бъде основната директория, опцията --builddir ще бъде пренебрегната"
 
 #: src/cli.vala
+msgid "and --no-clone option will be enforced"
+msgstr "и опцията --no-clone ще бъде изпълнена"
+
+#: src/cli.vala
 msgid "keep built packages in cache after installation"
 msgstr "запази построените пакети в кеша след инсталацията"
 
@@ -1031,6 +1054,16 @@ msgstr "Почистване на кеша"
 #: src/cli.vala resources/preferences_dialog.ui
 msgid "Clean build files"
 msgstr "Почистване файловете за изграждане"
+
+#: src/cli.vala
+#, c-format
+msgid "%s is only available from AUR"
+msgstr "%s е достъпен само от AUR"
+
+#: src/cli.vala
+#, c-format
+msgid "Build %s from AUR"
+msgstr "Изгради %s от AUR"
 
 #: src/cli.vala
 #, c-format
