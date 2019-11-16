@@ -171,10 +171,19 @@ namespace Pamac {
 						unowned string filename = info.get_name ();
 						string absolute_filename = "%s%s".printf (cachedir_name, filename);
 						string name_version_release = filename.slice (0, filename.last_index_of_char ('-'));
+						if (name_version_release == null) {
+							continue;
+						}
 						int release_index = name_version_release.last_index_of_char ('-');
 						string name_version = name_version_release.slice (0, release_index);
+						if (name_version == null) {
+							continue;
+						}
 						int version_index = name_version.last_index_of_char ('-');
 						string name = name_version.slice (0, version_index);
+						if (name == null) {
+							continue;
+						}
 						if (config.clean_rm_only_uninstalled && is_installed_pkg (name)) {
 							continue;
 						}
@@ -186,9 +195,10 @@ namespace Pamac {
 								filenames.append (absolute_filename);
 							} else {
 								unowned SList<string> versions = pkg_versions.lookup (name);
-								string version = name_version.slice (version_index + 1, name_version.length);
-								string release = name_version_release.slice (release_index + 1, name_version_release.length);
-								string version_release = "%s-%s".printf (version, release);
+								string version_release = name_version_release.slice (version_index + 1, name_version_release.length);
+								if (version_release == null) {
+									continue;
+								}
 								versions.append ((owned) version_release);
 								var filenames = new SList<string> ();
 								filenames.append (absolute_filename);
@@ -196,9 +206,10 @@ namespace Pamac {
 							}
 						} else {
 							var versions = new SList<string> ();
-							string version = name_version.slice (version_index + 1, name_version.length);
-							string release = name_version_release.slice (release_index + 1, name_version_release.length);
-							string version_release = "%s-%s".printf (version, release);
+							string version_release = name_version_release.slice (version_index + 1, name_version_release.length);
+							if (version_release == null) {
+								continue;
+							}
 							versions.append ((owned) version_release);
 							pkg_versions.insert (name, (owned) versions);
 							var filenames = new SList<string> ();
