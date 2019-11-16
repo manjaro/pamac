@@ -72,9 +72,16 @@ custom_target('pamac typelib', command: [g_ir_compiler, '--shared-library', 'lib
 
 libpamac_dep = declare_dependency(link_with: libpamac)
 
+daemon_sources = ['common_daemon.vala', 'alpm_utils.vala', 'alpm_config.vala', 'pamac_config_daemon.vala', 'daemon.vala']
+daemon_dependencies = [vala_deps, alpm_deps, json, math, libsoup, polkit, appstream]
+if get_option('enable-snap')
+	daemon_sources += ['plugin_loader.vala', 'package.vala', 'snap_interface.vala']
+	daemon_dependencies += gmodule
+endif
+
 executable('pamac-daemon',
-	sources: ['common_daemon.vala', 'alpm_utils.vala', 'alpm_config.vala', 'daemon.vala'],
-	dependencies: [vala_deps, alpm_deps, json, math, libsoup, polkit, appstream, libpamac_dep],
+	sources: daemon_sources,
+	dependencies: daemon_dependencies,
 	vala_args: common_vala_args,
 	c_args: [common_c_args, alpm_c_args],
 	install : true)

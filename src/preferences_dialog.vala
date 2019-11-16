@@ -25,6 +25,10 @@ namespace Pamac {
 		[GtkChild]
 		Gtk.Switch remove_unrequired_deps_button;
 		[GtkChild]
+		Gtk.Switch check_space_button;
+		[GtkChild]
+		Gtk.Switch simple_install_button;
+		[GtkChild]
 		Gtk.Switch check_updates_button;
 		[GtkChild]
 		Gtk.Switch enable_downgrade_button;
@@ -40,6 +44,8 @@ namespace Pamac {
 		Gtk.CheckButton no_update_hide_icon_checkbutton;
 		[GtkChild]
 		Gtk.CheckButton download_updates_checkbutton;
+		[GtkChild]
+		Gtk.TreeView ignorepkgs_treeview;
 		[GtkChild]
 		Gtk.Box mirrors_config_box;
 		[GtkChild]
@@ -79,6 +85,7 @@ namespace Pamac {
 		Gtk.Switch enable_snap_button;
 		#endif
 
+		Gtk.ListStore ignorepkgs_liststore;
 		TransactionGtk transaction;
 		uint64 previous_refresh_period;
 		string preferences_choosen_country;
@@ -94,6 +101,8 @@ namespace Pamac {
 			cache_keep_nb_label.set_markup (dgettext (null, "Number of versions of each package to keep in the cache") +":");
 			aur_build_dir_label.set_markup (dgettext (null, "Build directory") +":");
 			remove_unrequired_deps_button.active = transaction.database.config.recurse;
+			check_space_button.active = transaction.database.config.checkspace;
+			simple_install_button.active = transaction.database.config.simple_install;
 			enable_downgrade_button.active = transaction.database.config.enable_downgrade;
 			if (transaction.database.config.refresh_period == 0) {
 				check_updates_button.active = false;
@@ -116,6 +125,12 @@ namespace Pamac {
 			cache_only_uninstalled_checkbutton.active = transaction.database.config.clean_rm_only_uninstalled;
 			refresh_clean_cache_button ();
 
+			// populate ignorepkgs_liststore
+			ignorepkgs_liststore = new Gtk.ListStore (1, typeof (string));
+			ignorepkgs_treeview.set_model (ignorepkgs_liststore);
+			populate_ignorepkgs_liststore ();
+			check_space_button.state_set.connect (on_check_space_button_state_set);
+			simple_install_button.state_set.connect (on_simple_install_button_state_set);
 			remove_unrequired_deps_button.state_set.connect (on_remove_unrequired_deps_button_state_set);
 			check_updates_button.state_set.connect (on_check_updates_button_state_set);
 			enable_downgrade_button.state_set.connect (on_enable_downgrade_button_state_set);
@@ -311,6 +326,82 @@ namespace Pamac {
 
 		void on_check_aur_vcs_updates_checkbutton_toggled () {
 			transaction.database.config.check_aur_vcs_updates = check_aur_vcs_updates_checkbutton.active;
+		}
+
+		bool on_check_space_button_state_set (bool new_state) {
+			check_space_button.state = new_state;
+			transaction.database.config.checkspace = new_state;
+			return true;
+		}
+
+		bool on_simple_install_button_state_set (bool new_state) {
+			simple_install_button.state = new_state;
+			transaction.database.config.simple_install = new_state;
+			return true;
+		}
+
+		void populate_ignorepkgs_liststore () {
+			ignorepkgs_liststore = new Gtk.ListStore (1, typeof (string));
+			ignorepkgs_treeview.set_model (ignorepkgs_liststore);
+			foreach (unowned string ignorepkg in transaction.database.config.ignorepkgs) {
+				ignorepkgs_liststore.insert_with_values (null, -1, 0, ignorepkg);
+			}
+		}
+
+		[GtkCallback]
+		void on_add_ignorepkgs_button_clicked () {
+			transaction.choose_pkgs_dialog.title = dgettext (null, "Choose Ignored Upgrades");
+			this.get_window ().set_cursor (new Gdk.Cursor.for_display (Gdk.Display.get_default (), Gdk.CursorType.WATCH));
+			while (Gtk.events_pending ()) {
+				Gtk.main_iteration ();
+			}
+			var pkgs = transaction.database.get_installed_pkgs ();
+			var ignorepkgs_unique = new GenericSet<string?> (str_hash, str_equal);;
+			transaction.choose_pkgs_dialog.pkgs_list.clear ();
+			foreach (unowned Package pkg in pkgs) {
+				if (pkg.name in ignorepkgs_unique) {
+					continue;
+				}
+				ignorepkgs_unique.add (pkg.name);
+				if (pkg.name in transaction.database.config.ignorepkgs) {
+					transaction.choose_pkgs_dialog.pkgs_list.insert_with_values (null, -1, 0, true, 1, pkg.name);
+				} else {
+					transaction.choose_pkgs_dialog.pkgs_list.insert_with_values (null, -1, 0, false, 1, pkg.name);
+				}
+			}
+			transaction.choose_pkgs_dialog.valid_button.grab_focus ();
+			this.get_window ().set_cursor (null);
+			if (transaction.choose_pkgs_dialog.run () == Gtk.ResponseType.OK) {
+				transaction.choose_pkgs_dialog.pkgs_list.foreach ((model, path, iter) => {
+					GLib.Value ign;
+					GLib.Value name;
+					// get value at column 0 to know if it is selected
+					model.get_value (iter, 0, out ign);
+					// get value at column 1 to get the pkg name
+					model.get_value (iter, 1, out name);
+					if ((bool) ign) {
+						transaction.database.config.add_ignorepkg ((string) name);
+					} else {
+						transaction.database.config.remove_ignorepkg ((string) name);
+					}
+					return false;
+				});
+				ignorepkgs_liststore.clear ();
+				populate_ignorepkgs_liststore ();
+			}
+			transaction.choose_pkgs_dialog.hide ();
+		}
+
+		[GtkCallback]
+		void on_remove_ignorepkgs_button_clicked () {
+			Gtk.TreeIter? iter;
+			Gtk.TreeSelection selection = ignorepkgs_treeview.get_selection ();
+			if (selection.get_selected (null, out iter)) {
+				GLib.Value name;
+				ignorepkgs_liststore.get_value (iter, 0, out name);
+				transaction.database.config.remove_ignorepkg ((string) name);
+				ignorepkgs_liststore.remove (ref iter);
+			}
 		}
 
 		void on_mirrors_country_comboboxtext_changed () {

@@ -29,6 +29,8 @@ public class AlpmAction {
 	public string sender;
 	public bool is_generate_mirrors_list;
 	public string country;
+	public bool is_write_alpm_config;
+	public HashTable<string,Variant> new_alpm_conf;
 	#if ENABLE_SNAP
 	public bool is_snap_switch;
 	public string snap_name;
@@ -42,6 +44,8 @@ public class AlpmAction {
 	public bool sysupgrade;
 	public bool force_refresh;
 	public bool enable_downgrade;
+	public bool simple_install;
+	public bool check_aur_updates;
 	public bool no_confirm_commit;
 	public bool keep_built_pkgs;
 	public int trans_flags;
@@ -60,11 +64,17 @@ public class AlpmAction {
 	public void run () {
 		if (is_generate_mirrors_list) {
 			pamac_daemon.generate_mirrors_list (sender, country);
+		} else if (is_set_pkgreason) {
+			pamac_daemon.set_pkgreason (sender, pkgname, reason);
+		} else if (is_write_alpm_config) {
+			pamac_daemon.write_alpm_config (sender, new_alpm_conf);
 		} else if (is_alpm) {
 			pamac_daemon.trans_run (sender,
 									sysupgrade,
 									force_refresh,
 									enable_downgrade,
+									simple_install,
+									check_aur_updates,
 									no_confirm_commit,
 									keep_built_pkgs,
 									trans_flags,
@@ -129,6 +139,7 @@ namespace Pamac {
 		public signal void trans_run_finished (string sender, bool success);
 		public signal void download_updates_finished (string sender);
 		public signal void get_authorization_finished (string sender, bool authorized);
+		public signal void write_alpm_config_finished (string sender);
 		public signal void write_pamac_config_finished (string sender);
 		public signal void generate_mirrors_list_data (string sender, string line);
 		public signal void generate_mirrors_list_finished (string sender);
@@ -176,86 +187,34 @@ namespace Pamac {
 				return ask_commit_callback (sender, summary);
 			});
 			alpm_utils.emit_action.connect ((sender, action) => {
-				string sender_copy = sender;
-				string action_copy = action;
-				Idle.add (() => {
-					emit_action (sender_copy, action_copy);
-					return false;
-				});
+				emit_action (sender, action);
 			});
 			alpm_utils.emit_action_progress.connect ((sender, action, status, progress) => {
-				string sender_copy = sender;
-				string action_copy = action;
-				string status_copy = status;
-				Idle.add (() => {
-					emit_action_progress (sender_copy, action_copy, status_copy, progress);
-					return false;
-				});
+				emit_action_progress (sender, action, status, progress);
 			});
 			alpm_utils.emit_hook_progress.connect ((sender, action, details, status, progress) => {
-				string sender_copy = sender;
-				string action_copy = action;
-				string details_copy = details;
-				string status_copy = status;
-				Idle.add (() => {
-					emit_hook_progress (sender_copy, action_copy, details_copy, status_copy, progress);
-					return false;
-				});
+				emit_hook_progress (sender, action, details, status, progress);
 			});
 			alpm_utils.emit_download_progress.connect ((sender, action, status, progress) => {
-				string sender_copy = sender;
-				string action_copy = action;
-				string status_copy = status;
-				Idle.add (() => {
-					emit_download_progress (sender_copy, action_copy, status_copy, progress);
-					return false;
-				});
+				emit_download_progress (sender, action, status, progress);
 			});
 			alpm_utils.start_downloading.connect ((sender) => {
-				string sender_copy = sender;
-				Idle.add (() => {
-					start_downloading (sender_copy);
-					return false;
-				});
+				start_downloading (sender);
 			});
 			alpm_utils.stop_downloading.connect ((sender) => {
-				string sender_copy = sender;
-				Idle.add (() => {
-					stop_downloading (sender_copy);
-					return false;
-				});
+				stop_downloading (sender);
 			});
 			alpm_utils.emit_script_output.connect ((sender, message) => {
-				string sender_copy = sender;
-				string message_copy = message;
-				Idle.add (() => {
-					emit_script_output (sender_copy, message_copy);
-					return false;
-				});
+				emit_script_output (sender, message);
 			});
 			alpm_utils.emit_warning.connect ((sender, message) => {
-				string sender_copy = sender;
-				string message_copy = message;
-				Idle.add (() => {
-					emit_warning (sender_copy, message_copy);
-					return false;
-				});
+				emit_warning (sender, message);
 			});
 			alpm_utils.emit_error.connect ((sender, message, details) => {
-				string sender_copy = sender;
-				string message_copy = message;
-				string[] details_copy = details;
-				Idle.add (() => {
-					emit_error (sender_copy, message_copy, details_copy);
-					return false;
-				});
+				emit_error (sender, message, details);
 			});
 			alpm_utils.important_details_outpout.connect ((sender, must_show) => {
-				string sender_copy = sender;
-				Idle.add (() => {
-					important_details_outpout (sender_copy, must_show);
-					return false;
-				});
+				important_details_outpout (sender, must_show);
 			});
 			alpm_utils.get_authorization.connect ((sender) => {
 				return get_authorization_sync (sender);
@@ -267,53 +226,22 @@ namespace Pamac {
 					return get_authorization_sync (sender);
 				});
 				snap_plugin.emit_action_progress.connect ((sender, action, status, progress) => {
-					string sender_copy = sender;
-					string action_copy = action;
-					string status_copy = status;
-					Idle.add (() => {
-						emit_action_progress (sender_copy, action_copy, status_copy, progress);
-						return false;
-					});
+					emit_action_progress (sender, action, status, progress);
 				});
 				snap_plugin.emit_download_progress.connect ((sender, action, status, progress) => {
-					string sender_copy = sender;
-					string action_copy = action;
-					string status_copy = status;
-					Idle.add (() => {
-						emit_download_progress (sender_copy, action_copy, status_copy, progress);
-						return false;
-					});
+					emit_download_progress (sender, action, status, progress);
 				});
 				snap_plugin.emit_script_output.connect ((sender, message) => {
-					string sender_copy = sender;
-					string message_copy = message;
-					Idle.add (() => {
-						emit_script_output (sender_copy, message_copy);
-						return false;
-					});
+					emit_script_output (sender, message);
 				});
 				snap_plugin.emit_error.connect ((sender, message,  details) => {
-					string sender_copy = sender;
-					string message_copy = message;
-					string[] details_copy = details;
-					Idle.add (() => {
-						emit_error (sender_copy, message_copy, details_copy);
-						return false;
-					});
+					emit_error (sender, message, details);
 				});
 				snap_plugin.start_downloading.connect ((sender) => {
-					string sender_copy = sender;
-					Idle.add (() => {
-						start_downloading (sender_copy);
-						return false;
-					});
+					start_downloading (sender);
 				});
 				snap_plugin.stop_downloading.connect ((sender) => {
-					string sender_copy = sender;
-					Idle.add (() => {
-						stop_downloading (sender_copy);
-						return false;
-					});
+					stop_downloading (sender);
 				});
 			}
 			#endif
@@ -442,6 +370,34 @@ namespace Pamac {
 			});
 		}
 
+		[DBus (visible = false)]
+		public void write_alpm_config (string sender, HashTable<string,Variant> new_alpm_conf) {
+			lockfile_mutex.lock ();
+			alpm_utils.alpm_config.write (new_alpm_conf);
+			alpm_utils.alpm_config.reload ();
+			alpm_utils.refresh_handle ();
+			lockfile_mutex.unlock ();
+			write_alpm_config_finished (sender);
+		}
+
+		public void start_write_alpm_config (HashTable<string,Variant> new_alpm_conf, BusName sender) throws Error {
+			check_authorization.begin (sender, (obj, res) => {
+				bool tmp_authorized = check_authorization.end (res);
+				if (tmp_authorized) {
+					try {
+						var action = new AlpmAction (this, sender);
+						action.is_write_alpm_config = true;
+						action.new_alpm_conf = new_alpm_conf;
+						thread_pool.add ((owned) action);
+					} catch (ThreadError e) {
+						critical ("%s\n", e.message);
+						emit_error (sender, "Daemon Error", {e.message});
+						write_alpm_config_finished (sender);
+					}
+				}
+			});
+		}
+
 		public void start_write_pamac_config (HashTable<string,Variant> new_pamac_conf, BusName sender) throws Error {
 			check_authorization.begin (sender, (obj, res) => {
 				bool tmp_authorized = check_authorization.end (res);
@@ -558,6 +514,8 @@ namespace Pamac {
 								bool sysupgrade,
 								bool force_refresh,
 								bool enable_downgrade,
+								bool simple_install,
+								bool check_aur_updates,
 								bool no_confirm_commit,
 								bool keep_built_pkgs,
 								int trans_flags,
@@ -605,6 +563,8 @@ namespace Pamac {
 												sysupgrade,
 												force_refresh,
 												enable_downgrade,
+												simple_install,
+												check_aur_updates,
 												no_confirm_commit,
 												keep_built_pkgs,
 												trans_flags,
@@ -622,6 +582,8 @@ namespace Pamac {
 		public void start_trans_run (bool sysupgrade,
 									bool force_refresh,
 									bool enable_downgrade,
+									bool simple_install,
+									bool check_aur_updates,
 									bool no_confirm_commit,
 									bool keep_built_pkgs,
 									int trans_flags,
@@ -643,6 +605,8 @@ namespace Pamac {
 						action.sysupgrade = sysupgrade;
 						action.force_refresh = force_refresh;
 						action.enable_downgrade = enable_downgrade;
+						action.simple_install = simple_install;
+						action.check_aur_updates = check_aur_updates;
 						action.no_confirm_commit = no_confirm_commit;
 						action.keep_built_pkgs = keep_built_pkgs;
 						action.trans_flags = trans_flags;
@@ -672,6 +636,8 @@ namespace Pamac {
 					action.sysupgrade = sysupgrade;
 					action.force_refresh = force_refresh;
 					action.enable_downgrade = enable_downgrade;
+					action.simple_install = simple_install;
+					action.check_aur_updates = check_aur_updates;
 					action.no_confirm_commit = no_confirm_commit;
 					action.keep_built_pkgs = keep_built_pkgs;
 					action.trans_flags = trans_flags;

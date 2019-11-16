@@ -24,6 +24,7 @@ namespace Pamac {
 		public abstract void set_environment_variables (HashTable<string,string> variables) throws Error;
 		public abstract void start_get_authorization () throws Error;
 		public abstract void remove_authorization () throws Error;
+		public abstract void start_write_alpm_config (HashTable<string,Variant> new_alpm_conf) throws Error;
 		public abstract void start_write_pamac_config (HashTable<string,Variant> new_pamac_conf) throws Error;
 		public abstract void start_generate_mirrors_list (string country) throws Error;
 		public abstract void start_clean_cache (string[] filenames) throws Error;
@@ -33,6 +34,8 @@ namespace Pamac {
 		public abstract void start_trans_run (bool sysupgrade,
 											bool force_refresh,
 											bool enable_downgrade,
+											bool simple_install,
+											bool check_aur_updates,
 											bool no_confirm_commit,
 											bool keep_built_pkgs,
 											int trans_flags,
@@ -73,6 +76,7 @@ namespace Pamac {
 		public signal void trans_run_finished (string sender, bool success);
 		public signal void download_updates_finished (string sender);
 		public signal void get_authorization_finished (string sender, bool authorized);
+		public signal void write_alpm_config_finished (string sender);
 		public signal void write_pamac_config_finished (string sender);
 		public signal void generate_mirrors_list_data (string sender, string line);
 		public signal void generate_mirrors_list_finished (string sender);

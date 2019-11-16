@@ -364,9 +364,14 @@ namespace Pamac {
 				transaction_sum_dialog.edit_button.visible = true;
 				foreach (unowned Package pkg in summary.to_build) {
 					transaction_summary.add (pkg.name);
+					string installed_version = "";
+					if (pkg.installed_version != "" && pkg.installed_version != pkg.version) {
+						installed_version = "(%s)".printf (pkg.installed_version);
+					}
 					transaction_sum_dialog.sum_list.insert_with_values (out iter, -1,
 												1, pkg.name,
 												2, pkg.version,
+												3, installed_version,
 												4, pkg.repo);
 				}
 				Gtk.TreePath path = transaction_sum_dialog.sum_list.get_path (iter);

@@ -72,7 +72,6 @@ namespace Pamac {
 		public PackageStruct?[] to_reinstall;
 		public PackageStruct?[] to_remove;
 		public PackageStruct?[] to_build;
-		public PackageStruct?[] aur_conflicts_to_remove;
 		public string[] aur_pkgbases_to_build;
 	}
 }

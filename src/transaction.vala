@@ -50,6 +50,7 @@ namespace Pamac {
 		GenericSet<string?> aur_desc_list;
 		Queue<string> to_build_queue;
 		GenericSet<string?> aur_pkgs_to_install;
+		List<AURPackage> aur_updates;
 		bool building;
 		Cancellable build_cancellable;
 		// transaction options
@@ -300,6 +301,9 @@ namespace Pamac {
 			var to_build_array = new GenericArray<string> ();
 			foreach (unowned string pkgname in to_build) {
 				to_build_array.add (pkgname);
+			}
+			foreach (unowned AURPackage aur_update in aur_updates) {
+				to_build_array.add (aur_update.name);
 			}
 			yield check_aur_dep_list (to_build_array.data);
 			if (aur_desc_list.length > 0) {
@@ -793,22 +797,20 @@ namespace Pamac {
 
 		bool trans_run_real () {
 			add_optdeps ();
-			if (sysupgrading) {
-				if (database.config.check_aur_updates) {
-					// add aur updates
-					var aur_updates = database.get_aur_updates ();
-					foreach (unowned AURPackage aur_update in aur_updates) {
-						if (!(aur_update.name in temporary_ignorepkgs)) {
-							add_aur_pkg_to_build (aur_update.name);
-						}
-					}
+			bool check_aur_updates_now = false;
+			if (sysupgrading && database.config.check_aur_updates) {
+				// add all aur updates with also ignored pkgs
+				aur_updates = database.get_all_aur_updates ();
+				if (aur_updates.length () > 0) {
+					check_aur_updates_now = true;
 				}
 			}
-			if (to_build.length > 0) {
+			if (to_build.length > 0 || check_aur_updates_now) {
 				// set building to allow cancellation
 				building = true;
 				build_cancellable.reset ();
 				compute_aur_build_list ();
+				aur_updates = new List<AURPackage> ();
 				building = false;
 				if (build_cancellable.is_cancelled ()) {
 					return false;
@@ -846,6 +848,8 @@ namespace Pamac {
 				return transaction_interface.trans_run (sysupgrading,
 														force_refresh,
 														database.config.enable_downgrade,
+														database.config.simple_install,
+														check_aur_updates_now,
 														false, // no_confirm_commit
 														database.config.keep_built_pkgs,
 														trans_flags,
@@ -1066,8 +1070,17 @@ namespace Pamac {
 								var file = GLib.File.new_for_path (line);
 								string filename = file.get_basename ();
 								string name_version_release = filename.slice (0, filename.last_index_of_char ('-'));
+								if (name_version_release == null) {
+									break;
+								}
 								string name_version = name_version_release.slice (0, name_version_release.last_index_of_char ('-'));
+								if (name_version == null) {
+									break;
+								}
 								string name = name_version.slice (0, name_version.last_index_of_char ('-'));
+								if (name == null) {
+									break;
+								}
 								if (name in aur_pkgs_to_install) {
 									built_pkgs.add (line);
 								}
@@ -1099,6 +1112,8 @@ namespace Pamac {
 						success = transaction_interface.trans_run (false, // sysupgrading,
 																	false, // force_refresh
 																	false, // enable_downgrade
+																	false, // simple_install
+																	false, // check_aur_updates
 																	true, // no_confirm_commit
 																	database.config.keep_built_pkgs,
 																	0, // trans_flags,

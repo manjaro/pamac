@@ -29,6 +29,8 @@ namespace Pamac {
 		public abstract bool trans_run (bool sysupgrade,
 										bool force_refresh,
 										bool enable_downgrade,
+										bool simple_install,
+										bool check_aur_updates,
 										bool no_confirm_commit,
 										bool keep_built_pkgs,
 										int trans_flags,

@@ -222,6 +222,8 @@ namespace Pamac {
 					} else if (arg == "--builddir") {
 						if (args[i + 1] != null) {
 							database.config.aur_build_dir = args[i + 1];
+							// keep built pkgs in the custom build dir
+							database.config.keep_built_pkgs = true;
 						}
 						i++;
 					} else if (arg == "--no-confirm") {
@@ -297,6 +299,8 @@ namespace Pamac {
 								i++;
 							} else if (arg == "--no-confirm") {
 								transaction.no_confirm = true;
+							} else if (arg == "--no-upgrade") {
+								transaction.database.config.simple_install = true;
 							} else if (arg.has_prefix ("-")) {
 								// wrong arg
 								error = true;
@@ -971,6 +975,7 @@ namespace Pamac {
 			int max_length = 0;
 			string[] options = {"  %s <%s>".printf ("--ignore", dgettext (null, "package(s)")),
 								"  %s <%s>".printf ("--overwrite", dgettext (null, "glob")),
+								"  --no-upgrade",
 								"  --no-confirm"};
 			foreach (unowned string option in options) {
 				int length = option.char_count ();
@@ -980,6 +985,7 @@ namespace Pamac {
 			}
 			string[] details = {dgettext (null, "ignore a package upgrade, multiple packages can be specified by separating them with a comma"),
 								dgettext (null, "overwrite conflicting files, multiple patterns can be specified by separating them with a comma"),
+								dgettext (null, "do not check for updates"),
 								dgettext (null, "bypass any and all confirmation messages")};
 			int i = 0;
 			foreach (unowned string option in options) {
@@ -1717,22 +1723,39 @@ namespace Pamac {
 				}
 				if (quiet) {
 					foreach (unowned AlpmPackage pkg in updates.repos_updates) {
-						stdout.printf ("%s  %s -> %s\n", pkg.name, pkg.installed_version, pkg.version);
-					}
-					foreach (unowned AURPackage pkg in updates.aur_updates) {
-						// do not show out of date packages
-						if (pkg.outofdate == 0) {
+						if (pkg.installed_version != "") {
+							stdout.printf ("%s  %s -> %s\n", pkg.name, pkg.installed_version, pkg.version);
+						} else {
+							// it's a replacer
 							stdout.printf ("%s  %s\n", pkg.name, pkg.version);
 						}
+					}
+					foreach (unowned AURPackage pkg in updates.aur_updates) {
+						stdout.printf ("%s  %s -> %s\n", pkg.name, pkg.installed_version, pkg.version);
 					}
 					return;
 				}
 				// print pkgs
 				int name_length = 0;
+				int installed_version_length = 0;
 				int version_length = 0;
 				foreach (unowned AlpmPackage pkg in updates.repos_updates) {
 					if (pkg.name.length > name_length) {
 						name_length = pkg.name.length;
+					}
+					if (pkg.installed_version.length > installed_version_length) {
+						installed_version_length = pkg.installed_version.length;
+					}
+					if (pkg.version.length > version_length) {
+						version_length = pkg.version.length;
+					}
+				}
+				foreach (unowned AlpmPackage pkg in updates.ignored_repos_updates) {
+					if (pkg.name.length > name_length) {
+						name_length = pkg.name.length;
+					}
+					if (pkg.installed_version.length > installed_version_length) {
+						installed_version_length = pkg.installed_version.length;
 					}
 					if (pkg.version.length > version_length) {
 						version_length = pkg.version.length;
@@ -1741,6 +1764,20 @@ namespace Pamac {
 				foreach (unowned AURPackage pkg in updates.aur_updates) {
 					if (pkg.name.length > name_length) {
 						name_length = pkg.name.length;
+					}
+					if (pkg.installed_version.length > installed_version_length) {
+						installed_version_length = pkg.installed_version.length;
+					}
+					if (pkg.version.length > version_length) {
+						version_length = pkg.version.length;
+					}
+				}
+				foreach (unowned AURPackage pkg in updates.ignored_aur_updates) {
+					if (pkg.name.length > name_length) {
+						name_length = pkg.name.length;
+					}
+					if (pkg.installed_version.length > installed_version_length) {
+						installed_version_length = pkg.installed_version.length;
 					}
 					if (pkg.version.length > version_length) {
 						version_length = pkg.version.length;
@@ -1757,16 +1794,38 @@ namespace Pamac {
 				string info = ngettext ("%u available update", "%u available updates", updates_nb).printf (updates_nb);
 				stdout.printf ("%s:\n", info);
 				foreach (unowned AlpmPackage pkg in updates.repos_updates) {
-					stdout.printf ("%-*s  %-*s  %s\n",
+					stdout.printf ("%-*s  %-*s -> %-*s  %s\n",
 									name_length, pkg.name,
+									installed_version_length, pkg.installed_version,
 									version_length, pkg.version,
 									pkg.repo);
 				}
 				foreach (unowned AURPackage pkg in updates.aur_updates) {
-					stdout.printf ("%-*s  %-*s  %s\n",
+					stdout.printf ("%-*s  %-*s -> %-*s  %s\n",
 									name_length, pkg.name,
+									installed_version_length, pkg.installed_version,
 									version_length, pkg.version,
 									dgettext (null, "AUR"));
+				}
+				uint ignored_updates_nb = updates.ignored_repos_updates.length () + updates.ignored_aur_updates.length ();
+				if (ignored_updates_nb > 0) {
+					// print ignored pkgs
+					info = ngettext ("%u ignored update", "%u ignored updates", ignored_updates_nb).printf (ignored_updates_nb);
+					stdout.printf ("\n%s:\n", info);
+					foreach (unowned AlpmPackage pkg in updates.ignored_repos_updates) {
+						stdout.printf ("%-*s  %-*s -> %-*s  %s\n",
+										name_length, pkg.name,
+										installed_version_length, pkg.installed_version,
+										version_length, pkg.version,
+										pkg.repo);
+					}
+					foreach (unowned AURPackage pkg in updates.ignored_aur_updates) {
+						stdout.printf ("%-*s  %-*s -> %-*s  %s\n",
+										name_length, pkg.name,
+										installed_version_length, pkg.installed_version,
+										version_length, pkg.version,
+										pkg.repo);
+					}
 				}
 				if (updates.outofdate.length () > 0) {
 					// print out of date pkgs

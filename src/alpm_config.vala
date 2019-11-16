@@ -50,14 +50,15 @@ internal class AlpmConfig {
 	string? gpgdir;
 	string? arch;
 	int usesyslog;
+	public bool checkspace;
 	GLib.List<string> cachedirs;
 	GLib.List<string> hookdirs;
 	GLib.List<string> ignoregroups;
-	GLib.List<string> ignorepkgs;
+	public GenericSet<string?> ignorepkgs = new GenericSet<string?> (str_hash, str_equal);
 	GLib.List<string> noextracts;
 	GLib.List<string> noupgrades;
-	GLib.List<string> holdpkgs;
-	GLib.List<string> syncfirsts;
+	public GLib.List<string> holdpkgs;
+	public GLib.List<string> syncfirsts;
 	Alpm.Signature.Level siglevel;
 	Alpm.Signature.Level localfilesiglevel;
 	Alpm.Signature.Level remotefilesiglevel;
@@ -71,25 +72,18 @@ internal class AlpmConfig {
 		reload ();
 	}
 
-	public unowned GLib.List<string> get_holdpkgs () {
-		return holdpkgs;
-	}
-
-	public unowned GLib.List<string> get_syncfirsts () {
-		return syncfirsts;
-	}
-
 	public void reload () {
 		// set default options
 		cachedirs = new GLib.List<string> ();
 		hookdirs = new GLib.List<string> ();
 		ignoregroups = new GLib.List<string> ();
-		ignorepkgs = new GLib.List<string> ();
+		ignorepkgs.remove_all ();
 		noextracts = new GLib.List<string> ();
 		noupgrades = new GLib.List<string> ();
 		holdpkgs = new GLib.List<string> ();
 		syncfirsts = new GLib.List<string> ();
 		usesyslog = 0;
+		checkspace = false;
 		siglevel = Alpm.Signature.Level.PACKAGE | Alpm.Signature.Level.PACKAGE_OPTIONAL | Alpm.Signature.Level.DATABASE | Alpm.Signature.Level.DATABASE_OPTIONAL;
 		localfilesiglevel = Alpm.Signature.Level.USE_DEFAULT;
 		remotefilesiglevel = Alpm.Signature.Level.USE_DEFAULT;
@@ -192,7 +186,7 @@ internal class AlpmConfig {
 		handle.gpgdir = gpgdir;
 		handle.arch = arch;
 		handle.usesyslog = usesyslog;
-		handle.checkspace = 1;
+		handle.checkspace = checkspace ? 1 : 0;
 		handle.defaultsiglevel = siglevel;
 		localfilesiglevel = merge_siglevel (siglevel, localfilesiglevel, localfilesiglevel_mask);
 		remotefilesiglevel = merge_siglevel (siglevel, remotefilesiglevel, remotefilesiglevel_mask);
@@ -254,6 +248,10 @@ internal class AlpmConfig {
 					}
 					if (line[0] == '[' && line[line.length-1] == ']') {
 						current_section = line[1:-1];
+						if (current_section == null) {
+							// error
+							continue;
+						}
 						if (current_section != "options") {
 							var repo = new AlpmRepo (current_section);
 							if (repo_order.find_custom (repo, AlpmRepo.compare_name) == null) {
@@ -298,6 +296,8 @@ internal class AlpmConfig {
 							}
 						} else if (key == "UseSysLog") {
 							usesyslog = 1;
+						} else if (key == "CheckSpace") {
+							checkspace = true;
 						} else if (key == "SigLevel") {
 							process_siglevel (val, ref siglevel, ref siglevel_mask);
 						} else if (key == "LocalFileSigLevel") {
@@ -318,7 +318,7 @@ internal class AlpmConfig {
 							}
 						} else if (key == "IgnorePkg") {
 							foreach (unowned string name in val.split (" ")) {
-								ignorepkgs.append (name);
+								ignorepkgs.add (name);
 							}
 						} else if (key == "Noextract") {
 							foreach (unowned string name in val.split (" ")) {
@@ -351,53 +351,65 @@ internal class AlpmConfig {
 		}
 	}
 
-//~ 	public void write (HashTable<string,Variant> new_conf) {
-//~ 		var file = GLib.File.new_for_path (conf_path);
-//~ 		if (file.query_exists ()) {
-//~ 			try {
-//~ 				// Open file for reading and wrap returned FileInputStream into a
-//~ 				// DataInputStream, so we can read line by line
-//~ 				var dis = new DataInputStream (file.read ());
-//~ 				string? line;
-//~ 				var data = new StringBuilder ();
-//~ 				// Read lines until end of file (null) is reached
-//~ 				while ((line = dis.read_line ()) != null) {
-//~ 					if (line.length == 0) {
-//~ 						data.append ("\n");
-//~ 						continue;
-//~ 					}
-//~ 					if (line.contains ("IgnorePkg")) {
-//~ 						if (new_conf.contains ("IgnorePkg")) {
-//~ 							string val = new_conf.get ("IgnorePkg").get_string ();
-//~ 							if (val == "") {
-//~ 								data.append ("#IgnorePkg   =\n");
-//~ 							} else {
-//~ 								data.append ("IgnorePkg   = %s\n".printf (val));
-//~ 							}
-//~ 							// simply comment other IgnorePkg lines
-//~ 							new_conf.replace ("IgnorePkg", "");
-//~ 						} else {
-//~ 							data.append (line);
-//~ 							data.append ("\n");
-//~ 						}
-//~ 					} else {
-//~ 						data.append (line);
-//~ 						data.append ("\n");
-//~ 					}
-//~ 				}
-//~ 				// delete the file before rewrite it
-//~ 				file.delete ();
-//~ 				// creating a DataOutputStream to the file
-//~ 				var dos = new DataOutputStream (file.create (FileCreateFlags.REPLACE_DESTINATION));
-//~ 				dos.put_string (data.str);
-//~ 				reload ();
-//~ 			} catch (GLib.Error e) {
-//~ 				GLib.stderr.printf("%s\n", e.message);
-//~ 			}
-//~ 		} else {
-//~ 			GLib.stderr.printf ("File '%s' doesn't exist.\n", conf_path);
-//~ 		}
-//~ 	}
+	public void write (HashTable<string,Variant> new_conf) {
+		var file = GLib.File.new_for_path (conf_path);
+		if (file.query_exists ()) {
+			try {
+				// Open file for reading and wrap returned FileInputStream into a
+				// DataInputStream, so we can read line by line
+				var dis = new DataInputStream (file.read ());
+				string? line;
+				var data = new StringBuilder ();
+				// Read lines until end of file (null) is reached
+				while ((line = dis.read_line ()) != null) {
+					if (line.length == 0) {
+						data.append ("\n");
+						continue;
+					}
+					if (line.contains ("IgnorePkg")) {
+						if (new_conf.contains ("IgnorePkg")) {
+							string val = new_conf.get ("IgnorePkg").get_string ();
+							if (val == "") {
+								data.append ("#IgnorePkg   =\n");
+							} else {
+								data.append ("IgnorePkg   = %s\n".printf (val));
+							}
+							// simply comment other IgnorePkg lines
+							new_conf.replace ("IgnorePkg", "");
+						} else {
+							data.append (line);
+							data.append ("\n");
+						}
+					} else if (line.contains ("CheckSpace")) {
+						if (new_conf.contains ("CheckSpace")) {
+							bool val = new_conf.get ("CheckSpace").get_boolean ();
+							if (val) {
+								data.append ("CheckSpace\n");
+							} else {
+								data.append ("#CheckSpace\n");
+							}
+							new_conf.remove ("CheckSpace");
+						} else {
+							data.append (line);
+							data.append ("\n");
+						}
+					} else {
+						data.append (line);
+						data.append ("\n");
+					}
+				}
+				// delete the file before rewrite it
+				file.delete ();
+				// creating a DataOutputStream to the file
+				var dos = new DataOutputStream (file.create (FileCreateFlags.REPLACE_DESTINATION));
+				dos.put_string (data.str);
+			} catch (GLib.Error e) {
+				GLib.stderr.printf("%s\n", e.message);
+			}
+		} else {
+			GLib.stderr.printf ("File '%s' doesn't exist.\n", conf_path);
+		}
+	}
 
 	Alpm.DB.Usage define_usage (string conf_string) {
 		Alpm.DB.Usage usage = 0;

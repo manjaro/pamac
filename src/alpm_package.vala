@@ -135,14 +135,11 @@ namespace Pamac {
 			foreach (unowned PackageStruct pkg_struct in summary_struct.to_remove) {
 				to_remove_priv.append (pkg_struct.to_pkg ());
 			}
+			to_remove_priv.sort (compare_name_pkg);
 			foreach (unowned PackageStruct pkg_struct in summary_struct.to_build) {
 				to_build_priv.append (pkg_struct.to_pkg ());
 			}
 			to_build_priv.sort (compare_name_pkg);
-			foreach (unowned PackageStruct pkg_struct in summary_struct.aur_conflicts_to_remove) {
-				to_remove_priv.append (pkg_struct.to_pkg ());
-			}
-			to_remove_priv.sort (compare_name_pkg);
 			foreach (unowned string str in summary_struct.aur_pkgbases_to_build) {
 				aur_pkgbases_to_build_priv.append (str);
 			}
@@ -151,21 +148,27 @@ namespace Pamac {
 
 	public class Updates: Object {
 		List<AlpmPackage> repos_updates_priv;
+		List<AlpmPackage> ignored_repos_updates_priv;
 		List<AURPackage> aur_updates_priv;
+		List<AURPackage> ignored_aur_updates_priv;
 		List<AURPackage> outofdate_priv;
 		public List<AlpmPackage> repos_updates { get {return repos_updates_priv;} }
+		public List<AlpmPackage> ignored_repos_updates { get {return ignored_repos_updates_priv;} }
 		public List<AURPackage> aur_updates { get {return aur_updates_priv;} }
+		public List<AURPackage> ignored_aur_updates { get {return ignored_aur_updates_priv;} }
 		public List<AURPackage> outofdate { get {return outofdate_priv;} }
 
-		internal Updates () {
-			repos_updates_priv = new List<AlpmPackage> ();
-			aur_updates_priv = new List<AURPackage> ();
-			outofdate_priv =  new List<AURPackage> ();
-		}
+		internal Updates () {}
 
-		internal Updates.from_lists (owned List<AlpmPackage> repos_updates, owned List<AURPackage> aur_updates, owned List<AURPackage> outofdate) {
+		internal Updates.from_lists (owned List<AlpmPackage> repos_updates,
+									owned List<AlpmPackage> ignored_repos_updates,
+									owned List<AURPackage> aur_updates,
+									owned List<AURPackage> ignored_aur_updates,
+									owned List<AURPackage> outofdate) {
 			repos_updates_priv = (owned) repos_updates;
+			ignored_repos_updates_priv = (owned) ignored_repos_updates;
 			aur_updates_priv = (owned) aur_updates;
+			ignored_aur_updates_priv = (owned) ignored_aur_updates;
 			outofdate_priv = (owned) outofdate;
 		}
 	}

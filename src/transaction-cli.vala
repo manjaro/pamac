@@ -398,6 +398,9 @@ namespace Pamac {
 					if (pkg.version.length > version_length) {
 						version_length = pkg.version.length;
 					}
+					if (pkg.installed_version.length > installed_version_length) {
+						installed_version_length = pkg.installed_version.length;
+					}
 					if (pkg.repo.length > repo_length) {
 						repo_length = pkg.repo.length;
 					}
@@ -494,10 +497,14 @@ namespace Pamac {
 			if (summary.to_build.length () > 0) {
 				stdout.printf (dgettext (null, "To build") + " (%u):\n".printf (summary.to_build.length ()));
 				foreach (unowned Package pkg in summary.to_build) {
+					string installed_version = "";
+					if (pkg.installed_version != "" && pkg.installed_version != pkg.version) {
+						installed_version = "(%s)".printf (pkg.installed_version);
+					}
 					stdout.printf ("  %-*s  %-*s  %-*s  %s\n",
 									name_length, pkg.name,
 									version_length , pkg.version,
-									installed_version_length, "",
+									installed_version_length, installed_version,
 									pkg.repo);
 				}
 			}

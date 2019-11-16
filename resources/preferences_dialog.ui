@@ -80,47 +80,6 @@
                 <property name="orientation">vertical</property>
                 <property name="spacing">6</property>
                 <child>
-                  <object class="GtkBox" id="box11">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="spacing">12</property>
-                    <child>
-                      <object class="GtkLabel" id="remove_unrequired_deps_label">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="halign">start</property>
-                        <property name="hexpand">True</property>
-                        <property name="label" translatable="yes">Remove unrequired dependencies</property>
-                        <property name="wrap">True</property>
-                        <property name="max_width_chars">300</property>
-                      </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">True</property>
-                        <property name="position">0</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkSwitch" id="remove_unrequired_deps_button">
-                        <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="tooltip_text" translatable="yes">When removing a package, also remove its dependencies that are not required by other packages</property>
-                        <property name="halign">end</property>
-                      </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">True</property>
-                        <property name="position">1</property>
-                      </packing>
-                    </child>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">0</property>
-                  </packing>
-                </child>
-                <child>
                   <object class="GtkBox" id="box4">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
@@ -164,47 +123,6 @@
                     <property name="expand">False</property>
                     <property name="fill">True</property>
                     <property name="position">2</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkBox" id="box6">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="spacing">12</property>
-                    <child>
-                      <object class="GtkLabel" id="enable_downgrade_label">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="halign">start</property>
-                        <property name="hexpand">True</property>
-                        <property name="label" translatable="yes">Enable downgrade</property>
-                        <property name="wrap">True</property>
-                        <property name="max_width_chars">300</property>
-                      </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">True</property>
-                        <property name="position">0</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkSwitch" id="enable_downgrade_button">
-                        <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="tooltip_text" translatable="yes">Enable downgrade</property>
-                        <property name="halign">end</property>
-                      </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">True</property>
-                        <property name="position">1</property>
-                      </packing>
-                    </child>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">3</property>
                   </packing>
                 </child>
                 <child>
@@ -345,6 +263,376 @@
               </packing>
             </child>
             <child>
+              <object class="GtkBox" id="advanced_config_box">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="margin_left">6</property>
+                <property name="margin_right">6</property>
+                <property name="margin_top">6</property>
+                <property name="margin_bottom">6</property>
+                <property name="orientation">vertical</property>
+                <property name="spacing">6</property>
+                <child>
+                  <object class="GtkInfoBar" id="advanced_infobar">
+                    <property name="visible">True</property>
+                    <property name="app_paintable">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="message_type">warning</property>
+                    <child internal-child="action_area">
+                      <object class="GtkButtonBox">
+                        <property name="can_focus">False</property>
+                        <property name="spacing">6</property>
+                        <child>
+                          <placeholder/>
+                        </child>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">True</property>
+                        <property name="position">0</property>
+                      </packing>
+                    </child>
+                    <child internal-child="content_area">
+                      <object class="GtkBox">
+                        <property name="can_focus">False</property>
+                        <property name="spacing">16</property>
+                        <child>
+                          <object class="GtkLabel" id="aur_warning_label2">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="halign">start</property>
+                            <property name="hexpand">True</property>
+                            <property name="label" translatable="yes">Bad configuration of those options can lead to system breakage.
+Modify them only if you know what you are doing.</property>
+                            <property name="wrap">True</property>
+                            <property name="max_width_chars">300</property>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">True</property>
+                            <property name="position">0</property>
+                          </packing>
+                        </child>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">True</property>
+                        <property name="position">0</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <placeholder/>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkBox" id="box9">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="spacing">12</property>
+                    <child>
+                      <object class="GtkLabel" id="check_space_label">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="halign">start</property>
+                        <property name="hexpand">True</property>
+                        <property name="label" translatable="yes">Check available disk space</property>
+                        <property name="wrap">True</property>
+                        <property name="max_width_chars">300</property>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">True</property>
+                        <property name="position">0</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkSwitch" id="check_space_button">
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="tooltip_text" translatable="yes">Check available disk space</property>
+                        <property name="halign">end</property>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">True</property>
+                        <property name="position">1</property>
+                      </packing>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">1</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkBox" id="box11">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="spacing">12</property>
+                    <child>
+                      <object class="GtkLabel" id="remove_unrequired_deps_label">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="halign">start</property>
+                        <property name="hexpand">True</property>
+                        <property name="label" translatable="yes">Remove unrequired dependencies</property>
+                        <property name="wrap">True</property>
+                        <property name="max_width_chars">300</property>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">True</property>
+                        <property name="position">0</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkSwitch" id="remove_unrequired_deps_button">
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="tooltip_text" translatable="yes">When removing a package, also remove its dependencies that are not required by other packages</property>
+                        <property name="halign">end</property>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">True</property>
+                        <property name="position">1</property>
+                      </packing>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">2</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkBox" id="box13">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="spacing">12</property>
+                    <child>
+                      <object class="GtkLabel" id="simple_install_label">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="halign">start</property>
+                        <property name="hexpand">True</property>
+                        <property name="label" translatable="yes">Do not check for updates when installing</property>
+                        <property name="wrap">True</property>
+                        <property name="max_width_chars">300</property>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">True</property>
+                        <property name="position">0</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkSwitch" id="simple_install_button">
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="tooltip_text" translatable="yes">Enable downgrade</property>
+                        <property name="halign">end</property>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">True</property>
+                        <property name="position">1</property>
+                      </packing>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">3</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkBox" id="box6">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="spacing">12</property>
+                    <child>
+                      <object class="GtkLabel" id="enable_downgrade_label">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="halign">start</property>
+                        <property name="hexpand">True</property>
+                        <property name="label" translatable="yes">Enable downgrade</property>
+                        <property name="wrap">True</property>
+                        <property name="max_width_chars">300</property>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">True</property>
+                        <property name="position">0</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkSwitch" id="enable_downgrade_button">
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="tooltip_text" translatable="yes">Enable downgrade</property>
+                        <property name="halign">end</property>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">True</property>
+                        <property name="position">1</property>
+                      </packing>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">4</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkBox" id="ignorepkgs_box">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="vexpand">True</property>
+                    <property name="spacing">6</property>
+                    <child>
+                      <object class="GtkLabel" id="ignorepkgs_label">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="halign">start</property>
+                        <property name="valign">start</property>
+                        <property name="label" translatable="yes">Ignore upgrades for:</property>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">True</property>
+                        <property name="position">0</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkBox" id="box10">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="margin_left">12</property>
+                        <property name="margin_start">12</property>
+                        <property name="hexpand">True</property>
+                        <property name="orientation">vertical</property>
+                        <child>
+                          <object class="GtkScrolledWindow" id="ignorepkgs_scrolledwindow">
+                            <property name="height_request">100</property>
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="vexpand">True</property>
+                            <property name="hscrollbar_policy">never</property>
+                            <property name="shadow_type">in</property>
+                            <child>
+                              <object class="GtkTreeView" id="ignorepkgs_treeview">
+                                <property name="visible">True</property>
+                                <property name="can_focus">True</property>
+                                <property name="headers_visible">False</property>
+                                <property name="search_column">0</property>
+                                <property name="show_expanders">False</property>
+                                <child internal-child="selection">
+                                  <object class="GtkTreeSelection"/>
+                                </child>
+                                <child>
+                                  <object class="GtkTreeViewColumn" id="treeviewcolumn1">
+                                    <property name="sizing">autosize</property>
+                                    <child>
+                                      <object class="GtkCellRendererText" id="cellrenderertext1"/>
+                                      <attributes>
+                                        <attribute name="text">0</attribute>
+                                      </attributes>
+                                    </child>
+                                  </object>
+                                </child>
+                              </object>
+                            </child>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">True</property>
+                            <property name="position">0</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkToolbar" id="ignorepkgs_toolbar">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="toolbar_style">icons</property>
+                            <property name="show_arrow">False</property>
+                            <property name="icon_size">1</property>
+                            <child>
+                              <object class="GtkToolButton" id="add_ignorepkgs_button">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="icon_name">list-add-symbolic</property>
+                                <signal name="clicked" handler="on_add_ignorepkgs_button_clicked" swapped="no"/>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="homogeneous">True</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkToolButton" id="remove_ignorepkgs_button">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="use_underline">True</property>
+                                <property name="icon_name">list-remove-symbolic</property>
+                                <signal name="clicked" handler="on_remove_ignorepkgs_button_clicked" swapped="no"/>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="homogeneous">True</property>
+                              </packing>
+                            </child>
+                            <style>
+                              <class name="inline-toolbar"/>
+                            </style>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">True</property>
+                            <property name="position">1</property>
+                          </packing>
+                        </child>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">True</property>
+                        <property name="position">1</property>
+                      </packing>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">5</property>
+                  </packing>
+                </child>
+              </object>
+              <packing>
+                <property name="position">1</property>
+              </packing>
+            </child>
+            <child type="tab">
+              <object class="GtkLabel" id="advanced_label">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="label" translatable="yes">Advanced</property>
+              </object>
+              <packing>
+                <property name="position">1</property>
+                <property name="tab_fill">False</property>
+              </packing>
+            </child>
+            <child>
               <object class="GtkBox" id="mirrors_config_box">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
@@ -414,7 +702,7 @@
                 </child>
               </object>
               <packing>
-                <property name="position">1</property>
+                <property name="position">2</property>
               </packing>
             </child>
             <child type="tab">
@@ -424,7 +712,7 @@
                 <property name="label" translatable="yes">Official Repositories</property>
               </object>
               <packing>
-                <property name="position">1</property>
+                <property name="position">2</property>
                 <property name="tab_fill">False</property>
               </packing>
             </child>
@@ -682,7 +970,7 @@ All AUR users should be familiar with the build process.</property>
                 </child>
               </object>
               <packing>
-                <property name="position">2</property>
+                <property name="position">3</property>
               </packing>
             </child>
             <child type="tab">
@@ -692,7 +980,7 @@ All AUR users should be familiar with the build process.</property>
                 <property name="label" translatable="yes">AUR</property>
               </object>
               <packing>
-                <property name="position">2</property>
+                <property name="position">3</property>
                 <property name="tab_fill">False</property>
               </packing>
             </child>
@@ -812,7 +1100,7 @@ All AUR users should be familiar with the build process.</property>
                 </child>
               </object>
               <packing>
-                <property name="position">3</property>
+                <property name="position">4</property>
               </packing>
             </child>
             <child type="tab">
@@ -822,7 +1110,7 @@ All AUR users should be familiar with the build process.</property>
                 <property name="label" translatable="yes">Snap</property>
               </object>
               <packing>
-                <property name="position">3</property>
+                <property name="position">4</property>
                 <property name="tab_fill">False</property>
               </packing>
             </child>
@@ -942,7 +1230,7 @@ All AUR users should be familiar with the build process.</property>
                 </child>
               </object>
               <packing>
-                <property name="position">4</property>
+                <property name="position">5</property>
               </packing>
             </child>
             <child type="tab">
@@ -952,7 +1240,7 @@ All AUR users should be familiar with the build process.</property>
                 <property name="label" translatable="yes">Cache</property>
               </object>
               <packing>
-                <property name="position">4</property>
+                <property name="position">5</property>
                 <property name="tab_fill">False</property>
               </packing>
             </child>

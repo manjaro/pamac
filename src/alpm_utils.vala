@@ -92,6 +92,8 @@ namespace Pamac {
 		bool sysupgrade;
 		bool force_refresh;
 		bool enable_downgrade;
+		bool simple_install;
+		bool check_aur_updates;
 		bool no_confirm_commit;
 		bool keep_built_pkgs;
 		int trans_flags;
@@ -105,7 +107,7 @@ namespace Pamac {
 		GenericArray<PackageStruct?> to_build_pkgs;
 		GenericArray<string> aur_pkgbases_to_build;
 		GenericSet<string?> to_syncfirst;
-		GenericArray<PackageStruct?> aur_conflicts_to_remove;
+		List<PackageStruct?> aur_conflicts_to_remove;
 		public Cancellable cancellable;
 		public bool downloading_updates;
 		// download data
@@ -137,14 +139,14 @@ namespace Pamac {
 
 		public AlpmUtils (Config config) {
 			this.config = config;
-			alpm_config = new AlpmConfig ("/etc/pacman.conf");
+			alpm_config = config.alpm_config;
 			tmp_path = "/tmp/pamac";
 			to_syncfirst = new GenericSet<string?> (str_hash, str_equal);
 			to_install = new GenericSet<string?> (str_hash, str_equal);
 			to_remove = new GenericSet<string?> (str_hash, str_equal);
 			to_install_as_dep = new HashTable<string, string> (str_hash, str_equal);
 			to_build_pkgs = new GenericArray<PackageStruct?> ();
-			aur_conflicts_to_remove = new GenericArray<PackageStruct?> ();
+			aur_conflicts_to_remove = new List<PackageStruct?> ();
 			aur_pkgbases_to_build = new GenericArray<string> ();
 			current_filename = "";
 			current_action = "";
@@ -218,7 +220,7 @@ namespace Pamac {
 		}
 
 		public void refresh_handle () {
-			alpm_config = new AlpmConfig ("/etc/pacman.conf");
+			alpm_config.reload ();
 			alpm_handle = alpm_config.get_handle ();
 			if (alpm_handle == null) {
 				critical ("%s\n", _("Failed to initialize alpm library"));
@@ -489,7 +491,7 @@ namespace Pamac {
 			}
 			// check syncfirsts
 			to_syncfirst.remove_all ();
-			foreach (unowned string name in alpm_config.get_syncfirsts ()) {
+			foreach (unowned string name in alpm_config.syncfirsts) {
 				unowned Alpm.Package? pkg = Alpm.find_satisfier (alpm_handle.localdb.pkgcache, name);
 				if (pkg != null) {
 					unowned Alpm.Package? candidate = pkg.get_new_version (alpm_handle.syncdbs);
@@ -753,7 +755,7 @@ namespace Pamac {
 				unowned Alpm.List<unowned Alpm.Package> to_remove = alpm_handle.trans_to_remove ();
 				while (to_remove != null) {
 					unowned Alpm.Package pkg = to_remove.data;
-					if (alpm_config.get_holdpkgs ().find_custom (pkg.name, strcmp) != null) {
+					if (alpm_config.holdpkgs.find_custom (pkg.name, strcmp) != null) {
 						details += _("%s needs to be removed but it is a locked package").printf (pkg.name);
 						found_locked_pkg = true;
 					}
@@ -776,6 +778,8 @@ namespace Pamac {
 								bool sysupgrade,
 								bool force_refresh,
 								bool enable_downgrade,
+								bool simple_install,
+								bool check_aur_updates,
 								bool no_confirm_commit,
 								bool keep_built_pkgs,
 								int trans_flags,
@@ -790,6 +794,8 @@ namespace Pamac {
 			this.sysupgrade = sysupgrade;
 			this.force_refresh = force_refresh;
 			this.enable_downgrade = enable_downgrade;
+			this.simple_install = simple_install;
+			this.check_aur_updates = check_aur_updates;
 			this.no_confirm_commit = no_confirm_commit;
 			this.keep_built_pkgs = keep_built_pkgs;
 			this.trans_flags = trans_flags;
@@ -811,7 +817,33 @@ namespace Pamac {
 
 		bool trans_run_real () {
 			bool success;
-			if (to_build.length > 0) {
+			// check if we need to sysupgrade
+			if (!sysupgrade && !simple_install && to_install.length > 0) {
+				foreach (unowned string name in to_install) {
+					unowned Alpm.Package? local_pkg = alpm_handle.localdb.get_pkg (name);
+					if (local_pkg == null) {
+						sysupgrade = true;
+						break;
+					} else {
+						unowned Alpm.Package? sync_pkg = get_syncpkg (name);
+						if (sync_pkg != null) {
+							if (local_pkg.version != sync_pkg.version) {
+								sysupgrade = true;
+								break;
+							}
+						}
+					}
+				}
+			}
+			if (sysupgrade) {
+				if (!get_authorization (sender)) {
+					return false;
+				}
+				if (!refresh ()) {
+					return false;
+				}
+			}
+			if (to_build.length > 0 || check_aur_updates) {
 				success = build_prepare ();
 			} else {
 				success = trans_prepare ();
@@ -830,7 +862,7 @@ namespace Pamac {
 								trans_release ();
 								edit_build_files (sender, summary.aur_pkgbases_to_build);
 								to_build_pkgs = new GenericArray<PackageStruct?> ();
-								aur_conflicts_to_remove = new GenericArray<PackageStruct?> ();
+								aur_conflicts_to_remove = new List<PackageStruct?> ();
 								aur_pkgbases_to_build = new GenericArray<string> ();
 								emit_script_output (sender, "");
 								compute_aur_build_list (sender);
@@ -886,7 +918,7 @@ namespace Pamac {
 					edit_build_files (sender, unresolvables.data);
 					unresolvables = new GenericArray<string> ();
 					to_build_pkgs = new GenericArray<PackageStruct?> ();
-					aur_conflicts_to_remove = new GenericArray<PackageStruct?> ();
+					aur_conflicts_to_remove = new List<PackageStruct?> ();
 					aur_pkgbases_to_build = new GenericArray<string> ();
 					emit_script_output (sender, "");
 					compute_aur_build_list (sender);
@@ -902,7 +934,7 @@ namespace Pamac {
 			already_downloaded = 0;
 			current_filename = "";
 			to_build_pkgs = new GenericArray<PackageStruct?> ();
-			aur_conflicts_to_remove = new GenericArray<PackageStruct?> ();
+			aur_conflicts_to_remove = new List<PackageStruct?> ();
 			aur_pkgbases_to_build = new GenericArray<string> ();
 			to_install.remove_all ();
 			to_remove.remove_all ();
@@ -922,32 +954,6 @@ namespace Pamac {
 		}
 
 		bool launch_trans_prepare_real () {
-			// check if you add upgrades to transaction
-			if (!sysupgrade && to_install.length > 0) {
-				foreach (unowned string name in to_install) {
-					unowned Alpm.Package? local_pkg = alpm_handle.localdb.get_pkg (name);
-					if (local_pkg == null) {
-						sysupgrade = true;
-						break;
-					} else {
-						unowned Alpm.Package? sync_pkg = get_syncpkg (name);
-						if (sync_pkg != null) {
-							if (local_pkg.version != sync_pkg.version) {
-								sysupgrade = true;
-								break;
- 							}
- 						}
- 					}
- 				}
-			}
-			if (sysupgrade) {
-				if (!get_authorization (sender)) {
-					return false;
-				}
-				if (!refresh ()) {
-					return false;
- 				}
- 			}
 			bool success = trans_init (trans_flags);
 			if (success && sysupgrade) {
 				success = trans_sysupgrade ();
@@ -1049,6 +1055,9 @@ namespace Pamac {
 					}
 					success = false;
 				}
+				if (success && sysupgrade) {
+					success = trans_sysupgrade ();
+				}
 				if (success) {
 					foreach (unowned string name in to_install) {
 						success = trans_add_pkg (name);
@@ -1100,21 +1109,29 @@ namespace Pamac {
 								if (db != null) {
 									if (db.name == "aur") {
 										// it is a aur pkg to build
-										uint index;
-										bool found = aur_pkgbases_to_build.find_with_equal_func (trans_pkg.pkgbase, str_equal, out index);
-										if (found) {
-											aur_pkgbases_to_build.remove_index (index);
-										}
+										//uint index;
+										//bool found = aur_pkgbases_to_build.find_with_equal_func (trans_pkg.pkgbase, str_equal, out index);
+										//if (found) {
+										//	aur_pkgbases_to_build.remove_index (index);
+										//}
 										aur_pkgbases_to_build.add (trans_pkg.pkgbase);
 										to_build_pkgs.add (initialise_pkg_struct (trans_pkg));
 										if (!(trans_pkg.name in to_build)) {
-											to_install_as_dep.insert (trans_pkg.name, trans_pkg.name);
+											// if it is already installed, it is an update
+											unowned Alpm.Package? installed_pkg = alpm_handle.localdb.get_pkg (trans_pkg.name);
+											if (installed_pkg == null) {
+												to_install_as_dep.insert (trans_pkg.name, trans_pkg.name);
+											}
 										}
 									} else {
 										// it is a pkg to install
 										real_to_install.add (trans_pkg.name);
 										if (!(trans_pkg.name in to_install)) {
-											to_install_as_dep.insert (trans_pkg.name, trans_pkg.name);
+											// if it is already installed, it is an update
+											unowned Alpm.Package? installed_pkg = alpm_handle.localdb.get_pkg (trans_pkg.name);
+											if (installed_pkg == null) {
+												to_install_as_dep.insert (trans_pkg.name, trans_pkg.name);
+											}
 										}
 									}
 								}
@@ -1125,7 +1142,7 @@ namespace Pamac {
 								unowned Alpm.Package trans_pkg = pkgs_to_remove.data;
 								// it is a pkg to remove
 								if (!(trans_pkg.name in to_remove)) {
-									aur_conflicts_to_remove.add (initialise_pkg_struct (trans_pkg));
+									aur_conflicts_to_remove.append (initialise_pkg_struct (trans_pkg));
 								}
 								pkgs_to_remove.next ();
 							}
@@ -1162,7 +1179,7 @@ namespace Pamac {
 			}
 		}
 
-		public TransactionSummaryStruct get_transaction_summary () {
+		TransactionSummaryStruct get_transaction_summary () {
 			var to_install = new GenericArray<PackageStruct?> ();
 			var to_upgrade = new GenericArray<PackageStruct?> ();
 			var to_downgrade = new GenericArray<PackageStruct?> ();
@@ -1192,6 +1209,13 @@ namespace Pamac {
 				to_remove.add (initialise_pkg_struct (trans_pkg));
 				pkgs_to_remove.next ();
 			}
+			foreach (unowned PackageStruct pkg_struct in aur_conflicts_to_remove) {
+				if (!to_remove.find_with_equal_func (pkg_struct, (strct_a, strct_b) => {
+					return strct_a.name == strct_b.name;
+				})) {
+					to_remove.add (pkg_struct);
+				}
+			}
 			var summary = TransactionSummaryStruct () {
 				to_install = (owned) to_install.data,
 				to_upgrade = (owned) to_upgrade.data,
@@ -1199,7 +1223,6 @@ namespace Pamac {
 				to_reinstall = (owned) to_reinstall.data,
 				to_remove = (owned) to_remove.data,
 				to_build = to_build_pkgs.data,
-				aur_conflicts_to_remove = aur_conflicts_to_remove.data,
 				aur_pkgbases_to_build = aur_pkgbases_to_build.data
 			};
 			return summary;

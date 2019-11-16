@@ -22,9 +22,11 @@ namespace Pamac {
 
 		class AURUpdates {
 			public List<AURPackage> updates;
+			public List<AURPackage> ignored_updates;
 			public List<AURPackage> outofdate;
-			public AURUpdates (owned List<AURPackage> updates, owned List<AURPackage> outofdate) {
+			public AURUpdates (owned List<AURPackage> updates, owned List<AURPackage> ignored_updates, owned List<AURPackage> outofdate) {
 				this.updates = (owned) updates;
+				this.ignored_updates = (owned) ignored_updates;
 				this.outofdate = (owned) outofdate;
 			}
 		}
@@ -50,6 +52,7 @@ namespace Pamac {
 		}
 
 		construct {
+			alpm_config = config.alpm_config;
 			loop = new MainLoop ();
 			aur_vcs_pkgs = new HashTable<string, AURPackage>  (str_hash, str_equal);
 			refresh ();
@@ -97,7 +100,7 @@ namespace Pamac {
 		}
 
 		public void refresh () {
-			alpm_config = new AlpmConfig ("/etc/pacman.conf");
+			alpm_config.reload ();
 			alpm_handle = alpm_config.get_handle ();
 			if (alpm_handle == null) {
 				critical (dgettext (null, "Failed to initialize alpm library"));
@@ -302,7 +305,7 @@ namespace Pamac {
 		}
 
 		public bool should_hold (string pkgname) {
-			if (alpm_config.get_holdpkgs ().find_custom (pkgname, strcmp) != null) {
+			if (alpm_config.holdpkgs.find_custom (pkgname, strcmp) != null) {
 				return true;
 			}
 			return false;
@@ -1674,41 +1677,37 @@ namespace Pamac {
 			return pkgnames;
 		}
 
-		public List<AURPackage> get_aur_updates () {
+		internal List<AURPackage> get_all_aur_updates () {
+			// do not check for ignore pkgs here to have a warning in alpm_utils build_prepare
 			var pkgs = new List<AURPackage> ();
 			var local_pkgs = new GenericArray<string> ();
 			string[] vcs_local_pkgs = {};
-			if (config.enable_aur) {
-				new Thread<int> ("get_aur_updates", () => {
-					// get local pkgs
-					unowned Alpm.List<unowned Alpm.Package> pkgcache = alpm_handle.localdb.pkgcache;
-					while (pkgcache != null) {
-						unowned Alpm.Package installed_pkg = pkgcache.data;
-						// check if installed_pkg is in IgnorePkg or IgnoreGroup
-						if (alpm_handle.should_ignore (installed_pkg) == 0) {
-							// check if installed_pkg is a local pkg
-							unowned Alpm.Package? pkg = get_syncpkg (installed_pkg.name);
-							if (pkg == null) {
-								if (config.check_aur_vcs_updates &&
-									(installed_pkg.name.has_suffix ("-git")
-									|| installed_pkg.name.has_suffix ("-svn")
-									|| installed_pkg.name.has_suffix ("-bzr")
-									|| installed_pkg.name.has_suffix ("-hg"))) {
-									vcs_local_pkgs += installed_pkg.name;
-								} else {
-									local_pkgs.add (installed_pkg.name);
-								}
-							}
+			new Thread<int> ("get_all_aur_updates", () => {
+				// get local pkgs
+				unowned Alpm.List<unowned Alpm.Package> pkgcache = alpm_handle.localdb.pkgcache;
+				while (pkgcache != null) {
+					unowned Alpm.Package installed_pkg = pkgcache.data;
+					// check if installed_pkg is a local pkg
+					unowned Alpm.Package? pkg = get_syncpkg (installed_pkg.name);
+					if (pkg == null) {
+						if (config.check_aur_vcs_updates &&
+							(installed_pkg.name.has_suffix ("-git")
+							|| installed_pkg.name.has_suffix ("-svn")
+							|| installed_pkg.name.has_suffix ("-bzr")
+							|| installed_pkg.name.has_suffix ("-hg"))) {
+							vcs_local_pkgs += installed_pkg.name;
+						} else {
+							local_pkgs.add (installed_pkg.name);
 						}
-						pkgcache.next ();
 					}
-					var aur_updates = get_aur_updates_real (aur.get_multi_infos (local_pkgs.data), vcs_local_pkgs);
-					pkgs = (owned) aur_updates.updates;
-					loop.quit ();
-					return 0;
-				});
-				loop.run ();
-			}
+					pkgcache.next ();
+				}
+				var aur_updates = get_aur_updates_real (aur.get_multi_infos (local_pkgs.data), vcs_local_pkgs, false);
+				pkgs = (owned) aur_updates.updates;
+				loop.quit ();
+				return 0;
+			});
+			loop.run ();
 			return (owned) pkgs;
 		}
 
@@ -1727,9 +1726,10 @@ namespace Pamac {
 			var local_pkgs = new GenericArray<string> ();
 			string[] vcs_local_pkgs = {};
 			var repos_updates = new List<AlpmPackage> ();
+			var ignored_updates = new List<AlpmPackage> ();
 			new Thread<int> ("get_updates", () => {
 				// be sure we have the good updates
-				alpm_config = new AlpmConfig ("/etc/pacman.conf");
+				alpm_config.reload ();
 				get_updates_progress (0);
 				var tmp_handle = alpm_config.get_handle (false, true);
 				// refresh tmp dbs
@@ -1752,25 +1752,29 @@ namespace Pamac {
 				unowned Alpm.List<unowned Alpm.Package> pkgcache = tmp_handle.localdb.pkgcache;
 				while (pkgcache != null) {
 					unowned Alpm.Package installed_pkg = pkgcache.data;
-					// check if installed_pkg is in IgnorePkg or IgnoreGroup
-					if (tmp_handle.should_ignore (installed_pkg) == 0) {
-						unowned Alpm.Package? candidate = installed_pkg.get_new_version (tmp_handle.syncdbs);
-						if (candidate != null) {
-							repos_updates.append (initialise_pkg (candidate));
+					unowned Alpm.Package? candidate = installed_pkg.get_new_version (tmp_handle.syncdbs);
+					if (candidate != null) {
+						// check if installed_pkg is in IgnorePkg or IgnoreGroup
+						// check if candidate is in IgnorePkg or IgnoreGroup in case of replacer
+						if (tmp_handle.should_ignore (installed_pkg) == 1 ||
+							tmp_handle.should_ignore (candidate) == 1) {
+							ignored_updates.append (initialise_pkg (candidate));
 						} else {
-							if (config.check_aur_updates) {
-								// check if installed_pkg is a local pkg
-								unowned Alpm.Package? pkg = get_syncpkg (installed_pkg.name);
-								if (pkg == null) {
-									if (config.check_aur_vcs_updates &&
-										(installed_pkg.name.has_suffix ("-git")
-										|| installed_pkg.name.has_suffix ("-svn")
-										|| installed_pkg.name.has_suffix ("-bzr")
-										|| installed_pkg.name.has_suffix ("-hg"))) {
-										vcs_local_pkgs += installed_pkg.name;
-									} else {
-										local_pkgs.add (installed_pkg.name);
-									}
+							repos_updates.append (initialise_pkg (candidate));
+						}
+					} else {
+						if (config.check_aur_updates) {
+							// check if installed_pkg is a local pkg
+							unowned Alpm.Package? pkg = get_syncpkg (installed_pkg.name);
+							if (pkg == null) {
+								if (config.check_aur_vcs_updates &&
+									(installed_pkg.name.has_suffix ("-git")
+									|| installed_pkg.name.has_suffix ("-svn")
+									|| installed_pkg.name.has_suffix ("-bzr")
+									|| installed_pkg.name.has_suffix ("-hg"))) {
+									vcs_local_pkgs += installed_pkg.name;
+								} else {
+									local_pkgs.add (installed_pkg.name);
 								}
 							}
 						}
@@ -1783,18 +1787,18 @@ namespace Pamac {
 						get_updates_progress (95);
 						return false;
 					});
-					var aur_updates = get_aur_updates_real (aur.get_multi_infos (local_pkgs.data), vcs_local_pkgs);
+					var aur_updates = get_aur_updates_real (aur.get_multi_infos (local_pkgs.data), vcs_local_pkgs, true);
 					Idle.add (() => {
 						get_updates_progress (100);
 						return false;
 					});
-					updates = new Updates.from_lists ((owned) repos_updates, (owned) aur_updates.updates, (owned) aur_updates.outofdate);
+					updates = new Updates.from_lists ((owned) repos_updates, (owned) ignored_updates, (owned) aur_updates.updates, (owned) aur_updates.ignored_updates, (owned) aur_updates.outofdate);
 				} else {
 					Idle.add (() => {
 						get_updates_progress (100);
 						return false;
 					});
-					updates = new Updates.from_lists ((owned) repos_updates, new List<AURPackage> (), new List<AURPackage> ());
+					updates = new Updates.from_lists ((owned) repos_updates, (owned) ignored_updates, new List<AURPackage> (), new List<AURPackage> (), new List<AURPackage> ());
 				}
 				loop.quit ();
 				return 0;
@@ -1982,16 +1986,25 @@ namespace Pamac {
 			return aur_vcs_pkgs.get_values ();
 		}
 
-		AURUpdates get_aur_updates_real (List<unowned Json.Object> aur_infos, string[] vcs_local_pkgs) {
+		AURUpdates get_aur_updates_real (List<unowned Json.Object> aur_infos, string[] vcs_local_pkgs, bool check_ignorepkgs) {
 			var updates = new List<AURPackage> ();
 			var outofdate = new List<AURPackage> ();
+			var ignored_updates = new List<AURPackage> ();
 			foreach (unowned Json.Object pkg_info in aur_infos) {
 				unowned string name = pkg_info.get_string_member ("Name");
 				unowned string new_version = pkg_info.get_string_member ("Version");
 				unowned Alpm.Package local_pkg = alpm_handle.localdb.get_pkg (name);
 				unowned string old_version = local_pkg.version;
 				if (Alpm.pkg_vercmp (new_version, old_version) == 1) {
-					updates.append (initialise_aur_pkg (pkg_info, local_pkg, true));
+					if (check_ignorepkgs) {
+						if (alpm_handle.ignorepkgs.find_str (name) == null) {
+							updates.append (initialise_aur_pkg (pkg_info, local_pkg, true));
+						} else {
+							ignored_updates.append (initialise_aur_pkg (pkg_info, local_pkg, true));
+						}
+					} else {
+						updates.append (initialise_aur_pkg (pkg_info, local_pkg, true));
+					}
 				} else if (!pkg_info.get_member ("OutOfDate").is_null ()) {
 					// get out of date packages
 					outofdate.append (initialise_aur_pkg (pkg_info, local_pkg));
@@ -2001,11 +2014,19 @@ namespace Pamac {
 				var vcs_updates = get_vcs_last_version (vcs_local_pkgs);
 				foreach (unowned AURPackage aur_pkg in vcs_updates) {
 					if (Alpm.pkg_vercmp (aur_pkg.version, aur_pkg.installed_version) == 1) {
-						updates.append (aur_pkg);
+						if (check_ignorepkgs) {
+							if (alpm_handle.ignorepkgs.find_str (aur_pkg.name) == null) {
+								updates.append (aur_pkg);
+							} else {
+								ignored_updates.append (aur_pkg);
+							}
+						} else {
+							updates.append (aur_pkg);
+						}
 					}
 				}
 			}
-			return new AURUpdates ((owned) updates, (owned) outofdate);
+			return new AURUpdates ((owned) updates, (owned) ignored_updates, (owned) outofdate);
 		}
 
 		#if ENABLE_SNAP
