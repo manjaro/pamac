@@ -194,25 +194,45 @@ namespace Pamac {
 					}
 					init_database ();
 					if (installed) {
-						list_installed ();
+						if (orphans) {
+							list_orphans ();
+						} else if (foreign || groups || repos || files) {
+							display_list_help ();
+						} else {
+							list_installed ();
+						}
 					} else if (orphans) {
-						list_orphans ();
+						if (foreign || groups || repos || files) {
+							display_list_help ();
+						} else {
+							list_orphans ();
+						}
 					} else if (foreign) {
-						list_foreign ();
+						if (orphans || groups || repos || files) {
+							display_list_help ();
+						} else {
+							list_foreign ();
+						}
 					} else if (groups) {
-						if (args.length > 2) {
+						if (installed || orphans || foreign || repos || files) {
+							display_list_help ();
+						} else if (args.length > 2) {
 							list_groups (args[2:args.length]);
 						} else {
 							list_groups ({});
 						}
 					} else if (repos) {
-						if (args.length > 2) {
+						if (installed || orphans || foreign || groups || files) {
+							display_list_help ();
+						} else if (args.length > 2) {
 							list_repos (args[2:args.length]);
 						} else {
 							list_repos ({});
 						}
 					} else if (files) {
-						if (args.length > 2) {
+						if (installed || orphans || foreign || groups || repos) {
+							display_list_help ();
+						} else if (args.length > 2) {
 							list_files (args[2:args.length]);
 						} else {
 							display_list_help ();
