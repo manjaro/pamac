@@ -270,8 +270,14 @@ namespace Pamac {
 		}
 
 		internal bool clean_build_files (string aur_build_dir) {
+			string real_aur_build_dir;
+			if (aur_build_dir == "/var/tmp") {
+				real_aur_build_dir = Path.build_path ("/", aur_build_dir, "pamac-build-%s".printf (Environment.get_user_name ()));
+			} else {
+				real_aur_build_dir = Path.build_path ("/", aur_build_dir, "pamac-build");
+			}
 			try {
-				Process.spawn_command_line_sync ("rm -rf %s".printf (aur_build_dir));
+				Process.spawn_command_line_sync ("rm -rf %s".printf (real_aur_build_dir));
 				return true;
 			} catch (SpawnError e) {
 				critical ("SpawnError: %s\n", e.message);
@@ -1996,20 +2002,20 @@ delegate void DownloadCallback (string filename, uint64 xfered, uint64 total);
 
 void cb_multi_download (string filename, uint64 xfered, uint64 total) {
 	if (xfered == 0) {
-		string name_version_release = filename.slice (0, filename.last_index_of_char ('-'));
+		string? name_version_release = filename.slice (0, filename.last_index_of_char ('-'));
 		if (name_version_release == null) {
 			return;
 		}
-		string name_version = name_version_release.slice (0, name_version_release.last_index_of_char ('-'));
+		string? name_version = name_version_release.slice (0, name_version_release.last_index_of_char ('-'));
 		if (name_version == null) {
 			return;
 		}
 		int version_index = name_version.last_index_of_char ('-');
-		string name = name_version.slice (0, version_index);
+		string? name = name_version.slice (0, version_index);
 		if (name == null) {
 			return;
 		}
-		string version_release = name_version_release.slice (version_index + 1, name_version_release.length);
+		string? version_release = name_version_release.slice (version_index + 1, name_version_release.length);
 		if (version_release == null) {
 			return;
 		}
@@ -2020,20 +2026,20 @@ void cb_multi_download (string filename, uint64 xfered, uint64 total) {
 		});
 		alpm_utils.emit_download (total_progress, total_download, true);
 	} else if (xfered == total) {
-		string name_version_release = filename.slice (0, filename.last_index_of_char ('-'));
+		string? name_version_release = filename.slice (0, filename.last_index_of_char ('-'));
 		if (name_version_release == null) {
 			return;
 		}
-		string name_version = name_version_release.slice (0, name_version_release.last_index_of_char ('-'));
+		string? name_version = name_version_release.slice (0, name_version_release.last_index_of_char ('-'));
 		if (name_version == null) {
 			return;
 		}
 		int version_index = name_version.last_index_of_char ('-');
-		string name = name_version.slice (0, version_index);
+		string? name = name_version.slice (0, version_index);
 		if (name == null) {
 			return;
 		}
-		string version_release = name_version_release.slice (version_index + 1, name_version_release.length);
+		string? version_release = name_version_release.slice (version_index + 1, name_version_release.length);
 		if (version_release == null) {
 			return;
 		}
@@ -2052,20 +2058,20 @@ void cb_multi_download (string filename, uint64 xfered, uint64 total) {
 void cb_download (string filename, uint64 xfered, uint64 total) {
 	if (xfered == 0) {
 		if (total_download > 0) {
-			string name_version_release = filename.slice (0, filename.last_index_of_char ('-'));
+			string? name_version_release = filename.slice (0, filename.last_index_of_char ('-'));
 			if (name_version_release == null) {
 				return;
 			}
-			string name_version = name_version_release.slice (0, name_version_release.last_index_of_char ('-'));
+			string? name_version = name_version_release.slice (0, name_version_release.last_index_of_char ('-'));
 			if (name_version == null) {
 				return;
 			}
 			int version_index = name_version.last_index_of_char ('-');
-			string name = name_version.slice (0, version_index);
+			string? name = name_version.slice (0, version_index);
 			if (name == null) {
 				return;
 			}
-			string version_release = name_version_release.slice (version_index + 1, name_version_release.length);
+			string? version_release = name_version_release.slice (version_index + 1, name_version_release.length);
 			if (version_release == null) {
 				return;
 			}

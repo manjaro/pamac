@@ -22,7 +22,6 @@ namespace Pamac {
 		public int exit_status;
 		public TransactionCli transaction;
 		Database database;
-		bool force_refresh;
 		bool trans_cancellable;
 		bool cloning;
 		Cancellable cancellable;
@@ -31,7 +30,6 @@ namespace Pamac {
 
 		public Cli () {
 			exit_status = 0;
-			force_refresh = false;
 			trans_cancellable = false;
 			cloning = false;
 			cancellable = new Cancellable ();
@@ -44,27 +42,42 @@ namespace Pamac {
 				display_help ();
 				return;
 			}
-			if (args[1] == "--help" || args[1] == "-h") {
-				if (args.length > 2) {
-					if (args[2] == "search") {
+			bool help = false;
+			bool version = false;
+			try {
+				var options = new OptionEntry[2];
+				options[0] = { "version", 'V', 0, OptionArg.NONE, ref version, null, null };
+				options[1] = { "help", 'h', 0, OptionArg.NONE, ref help, null, null };
+				var opt_context = new OptionContext (null);
+				opt_context.set_help_enabled (false);
+				opt_context.set_strict_posix (true);
+				opt_context.add_main_entries (options, null);
+				opt_context.parse (ref args);
+			} catch (OptionError e) {
+				display_help ();
+				return;
+			}
+			if (help) {
+				if (args.length == 2) {
+					if (args[1] == "search") {
 						display_search_help ();
-					} else if (args[2] == "info") {
+					} else if (args[1] == "info") {
 						display_info_help ();
-					} else if (args[2] == "list") {
+					} else if (args[1] == "list") {
 						display_list_help ();
-					} else if (args[2] == "build") {
+					} else if (args[1] == "build") {
 						display_build_help ();
-					} else if (args[2] == "install") {
+					} else if (args[1] == "install") {
 						display_install_help ();
-					} else if (args[2] == "reinstall") {
+					} else if (args[1] == "reinstall") {
 						display_reinstall_help ();
-					} else if (args[2] == "remove") {
+					} else if (args[1] == "remove") {
 						display_remove_help ();
-					} else if (args[2] == "checkupdates") {
+					} else if (args[1] == "checkupdates") {
 						display_checkupdates_help ();
-					} else if (args[2] == "upgrade" || args[2] == "update") {
+					} else if (args[1] == "upgrade" || args[2] == "update") {
 						display_upgrade_help ();
-					} else if (args[2] == "clean") {
+					} else if (args[1] == "clean") {
 						display_clean_help ();
 					} else {
 						display_help ();
@@ -72,84 +85,140 @@ namespace Pamac {
 				} else {
 					display_help ();
 				}
-			} else if (args[1] == "--version") {
+				return;
+			}
+			if (version) {
 				display_version ();
-			} else if (args[1] == "search") {
+				return;
+			}
+			if (args[1] == "search") {
 				if (args.length > 2) {
-					if (args[2] == "--help" || args[2] == "-h") {
+					bool aur = false;
+					bool files = false;
+					try {
+						var options = new OptionEntry[3];
+						options[0] = { "help", 'h', 0, OptionArg.NONE, ref help, null, null };
+						options[1] = { "aur", 'a', 0, OptionArg.NONE, ref aur, null, null };
+						options[2] = { "files", 'f', 0, OptionArg.NONE, ref files, null, null };
+						var opt_context = new OptionContext (null);
+						opt_context.set_help_enabled (false);
+						opt_context.add_main_entries (options, null);
+						opt_context.parse (ref args);
+					} catch (OptionError e) {
 						display_search_help ();
-					} else if (args[2] == "--aur" || args[2] == "-a") {
-						init_database ();
-						database.config.enable_aur = true;
-						search_pkgs (concatenate_strings (args[3:args.length]));
-					} else if (args[2] == "--files" || args[2] == "-f") {
-						init_database ();
-						search_files (args[3:args.length]);
-					} else if (args[2].has_prefix ("--")) {
-						// wrong arg
-						display_search_help ();
-					} else {
-						init_database ();
-						search_pkgs (concatenate_strings (args[2:args.length]));
+						return;
 					}
+					if (help) {
+						display_search_help ();
+						return;
+					}
+					if (args.length == 2) {
+						// no target
+						display_search_help ();
+						return;
+					}
+					init_database ();
+					foreach (unowned string arg in args) {
+						print("arg %s\n", arg);
+					}
+					if (files) {
+						search_files (args[2:args.length]);
+						return;
+					} else if (aur) {
+						database.config.enable_aur = true;
+					}
+					search_pkgs (concatenate_strings (args[2:args.length]));
 				} else {
 					display_search_help ();
 				}
 			} else if (args[1] == "info") {
 				if (args.length > 2) {
-					if (args[2] == "--help" || args[2] == "-h") {
+					bool aur = false;
+					try {
+						var options = new OptionEntry[2];
+						options[0] = { "help", 'h', 0, OptionArg.NONE, ref help, null, null };
+						options[1] = { "aur", 'a', 0, OptionArg.NONE, ref aur, null, null };
+						var opt_context = new OptionContext (null);
+						opt_context.set_help_enabled (false);
+						opt_context.add_main_entries (options, null);
+						opt_context.parse (ref args);
+					} catch (OptionError e) {
 						display_info_help ();
-					} else if (args[2] == "--aur" || args[2] == "-a") {
-						init_database ();
-						database.config.enable_aur = true;
-						display_pkg_infos (args[3:args.length]);
-					} else if (args[2].has_prefix ("-")) {
-						// wrong arg
-						display_info_help ();
-					} else {
-						init_database ();
-						// enable aur to display more info for installed pkgs from AUR
-						database.config.enable_aur = true;
-						display_pkg_infos (args[2:args.length]);
+						return;
 					}
+					if (help) {
+						display_info_help ();
+						return;
+					}
+					if (args.length == 2) {
+						// no target
+						display_info_help ();
+						return;
+					}
+					init_database ();
+					if (aur) {
+						database.config.enable_aur = true;
+					}
+					display_pkg_infos (args[2:args.length]);
 				} else {
 					display_info_help ();
 				}
 			} else if (args[1] == "list") {
 				if (args.length > 2) {
-					if (args[2] == "--help" || args[2] == "-h") {
+					bool installed = false;
+					bool orphans = false;
+					bool foreign = false;
+					bool groups = false;
+					bool repos = false;
+					bool files = false;
+					try {
+						var options = new OptionEntry[7];
+						options[0] = { "help", 'h', 0, OptionArg.NONE, ref help, null, null };
+						options[1] = { "installed", 'i', 0, OptionArg.NONE, ref installed, null, null };
+						options[2] = { "orphans", 'o', 0, OptionArg.NONE, ref orphans, null, null };
+						options[3] = { "foreign", 'm', 0, OptionArg.NONE, ref foreign, null, null };
+						options[4] = { "groups", 'g', 0, OptionArg.NONE, ref groups, null, null };
+						options[5] = { "repos", 'r', 0, OptionArg.NONE, ref repos, null, null };
+						options[6] = { "files", 'f', 0, OptionArg.NONE, ref files, null, null };
+						var opt_context = new OptionContext (null);
+						opt_context.set_help_enabled (false);
+						opt_context.add_main_entries (options, null);
+						opt_context.parse (ref args);
+					} catch (OptionError e) {
 						display_list_help ();
-					} else if (args[2] == "--installed" || args[2] == "-i") {
-						init_database ();
+						return;
+					}
+					if (help) {
+						display_list_help ();
+						return;
+					}
+					init_database ();
+					if (installed) {
 						list_installed ();
-					} else if (args[2] == "--orphans" || args[2] == "-o") {
-						init_database ();
+					} else if (orphans) {
 						list_orphans ();
-					} else if (args[2] == "--foreign" || args[2] == "-m") {
-						init_database ();
+					} else if (foreign) {
 						list_foreign ();
-					} else if (args[2] == "--groups" || args[2] == "-g") {
-						init_database ();
-						if (args.length > 3) {
-							list_groups (args[3:args.length]);
+					} else if (groups) {
+						if (args.length > 2) {
+							list_groups (args[2:args.length]);
 						} else {
 							list_groups ({});
 						}
-					} else if (args[2] == "--repos" || args[2] == "-r") {
-						init_database ();
-						if (args.length > 3) {
-							list_repos (args[3:args.length]);
+					} else if (repos) {
+						if (args.length > 2) {
+							list_repos (args[2:args.length]);
 						} else {
 							list_repos ({});
 						}
-					} else if (args[2] == "--files" || args[2] == "-f") {
-						if (args.length > 3) {
-							init_database ();
-							list_files (args[3:args.length]);
+					} else if (files) {
+						if (args.length > 2) {
+							list_files (args[2:args.length]);
 						} else {
 							display_list_help ();
 						}
 					} else {
+						print("error\n");
 						display_list_help ();
 					}
 				} else {
@@ -158,92 +227,92 @@ namespace Pamac {
 				}
 			} else if (args[1] == "clone") {
 				if (args.length > 2) {
-					if (args[2] == "--help" || args[2] == "-h") {
+					bool overwrite = false;
+					bool recurse = false;
+					string? builddir = null;
+					try {
+						var options = new OptionEntry[4];
+						options[0] = { "help", 'h', 0, OptionArg.NONE, ref help, null, null };
+						options[1] = { "overwrite", 0, 0, OptionArg.NONE, ref overwrite, null, null };
+						options[2] = { "recurse", 'r', 0, OptionArg.NONE, ref recurse, null, null };
+						options[3] = { "builddir", 0, 0, OptionArg.STRING, ref builddir, null, null };
+						var opt_context = new OptionContext (null);
+						opt_context.set_help_enabled (false);
+						opt_context.add_main_entries (options, null);
+						opt_context.parse (ref args);
+					} catch (OptionError e) {
 						display_clone_help ();
-					} else {
-						init_database ();
-						database.config.enable_aur = true;
-						string[] targets = {};
-						bool overwrite = false;
-						bool recurse = false;
-						bool error = false;
-						int i = 2;
-						while (i < args.length) {
-							unowned string arg = args[i];
-							if (arg == "--overwrite") {
-								overwrite = true;
-							} else if (arg == "--recurse" || arg == "-r") {
-								recurse = true;
-							} else if (arg == "--builddir") {
-								if (args[i + 1] != null) {
-									database.config.aur_build_dir = args[i + 1];
-								}
-								i++;
-							} else if (arg.has_prefix ("-")) {
-								// wrong arg
-								error = true;
-								break;
-							} else {
-								targets += arg;
-							}
-							i++;
-						}
-						if (error) {
-							display_clone_help ();
-							return;
-						}
-						clone_build_files (targets, overwrite, recurse);
+						return;
 					}
+					if (help) {
+						display_clone_help ();
+						return;
+					}
+					if (args.length == 2) {
+						// no target
+						display_clone_help ();
+						return;
+					}
+					init_database ();
+					database.config.enable_aur = true;
+					if (builddir != null) {
+						database.config.aur_build_dir = builddir;
+					}
+					clone_build_files (args[2:args.length], overwrite, recurse);
 				} else {
 					display_clone_help ();
 				}
 			} else if (args[1] == "build") {
+				bool no_clone = false;
+				bool no_confirm = false;
+				bool keep = false;
+				string? builddir = null;
+				if (args.length > 2) {
+					try {
+						var options = new OptionEntry[5];
+						options[0] = { "help", 'h', 0, OptionArg.NONE, ref help, null, null };
+						options[1] = { "no-clone", 0, 0, OptionArg.NONE, ref no_clone, null, null };
+						options[2] = { "no-confirm", 0, 0, OptionArg.NONE, ref no_confirm, null, null };
+						options[3] = { "keep", 'k', 0, OptionArg.NONE, ref keep, null, null };
+						options[4] = { "builddir", 0, 0, OptionArg.STRING, ref builddir, null, null };
+						var opt_context = new OptionContext (null);
+						opt_context.set_help_enabled (false);
+						opt_context.add_main_entries (options, null);
+						opt_context.parse (ref args);
+					} catch (OptionError e) {
+						display_build_help ();
+						return;
+					}
+					if (help) {
+						display_build_help ();
+						return;
+					}
+				}
 				if (Posix.geteuid () == 0) {
 					// can't build as root
 					stdout.printf (dgettext (null, "Building packages as root is not allowed") + "\n");
 					exit_status = 1;
 					return;
 				}
-				if (args.length > 2) {
-					if (args[2] == "--help" || args[2] == "-h") {
-						display_build_help ();
-						return;
-					}
-				}
 				init_transaction ();
 				database.config.enable_aur = true;
-				string[] targets = {};
-				bool error = false;
-				int i = 2;
-				while (i < args.length) {
-					unowned string arg = args[i];
-					if (arg == "--no-clone") {
-						transaction.clone_build_files = false;
-					} else if (arg == "--builddir") {
-						if (args[i + 1] != null) {
-							database.config.aur_build_dir = args[i + 1];
-							// keep built pkgs in the custom build dir
-							database.config.keep_built_pkgs = true;
-						}
-						i++;
-					} else if (arg == "--no-confirm") {
-						transaction.no_confirm = true;
-					} else if (arg == "--keep" || arg == "-k") {
-						database.config.keep_built_pkgs = true;
-					} else if (arg.has_prefix ("-")) {
-						// wrong arg
-						error = true;
-						break;
-					} else {
-						targets += arg;
-					}
-					i++;
+				if (no_clone) {
+					transaction.clone_build_files = false;
 				}
-				if (error) {
-					display_build_help ();
-					return;
+				if (no_confirm) {
+					transaction.no_confirm = true;
 				}
-				if (targets.length == 0) {
+				if (keep) {
+					database.config.keep_built_pkgs = true;
+				}
+				if (builddir != null) {
+					database.config.aur_build_dir = builddir;
+					// keep built pkgs in the custom build dir
+					database.config.keep_built_pkgs = true;
+				}
+				if (args.length == 2) {
+					// no target
+					string[] targets = {};
 					var current_dir = File.new_for_path (Environment.get_current_dir ());
 					var pkgbuild = current_dir.get_child ("PKGBUILD");
 					if (!pkgbuild.query_exists ()) {
@@ -268,331 +337,327 @@ namespace Pamac {
 							}
 						}
 					}
+					build_pkgs (targets);
+					return;
 				} else if (transaction.clone_build_files) {
 					// check if targets exist
-					bool success = check_build_pkgs (targets);
+					bool success = check_build_pkgs (args[2:args.length]);
 					if (!success) {
 						return;
 					}
 				}
-				build_pkgs (targets);
+				build_pkgs (args[2:args.length]);
 			} else if (args[1] == "install") {
 				if (args.length > 2) {
-					if (args[2] == "--help" || args[2] == "-h") {
+					bool no_confirm = false;
+					bool no_upgrade = false;
+					bool download_only = false;
+					bool as_deps = false;
+					bool as_explicit = false;
+					string? overwrite = null;
+					string? ignore = null;
+					try {
+						var options = new OptionEntry[8];
+						options[0] = { "help", 'h', 0, OptionArg.NONE, ref help, null, null };
+						options[1] = { "no-confirm", 0, 0, OptionArg.NONE, ref no_confirm, null, null };
+						options[2] = { "no-upgrade", 0, 0, OptionArg.NONE, ref no_upgrade, null, null };
+						options[3] = { "download-only", 'w', 0, OptionArg.NONE, ref download_only, null, null };
+						options[4] = { "as-deps", 0, 0, OptionArg.NONE, ref as_deps, null, null };
+						options[5] = { "as-explicit", 0, 0, OptionArg.NONE, ref as_explicit, null, null };
+						options[6] = { "overwrite", 0, 0, OptionArg.STRING, ref overwrite, null, null };
+						options[7] = { "ignore", 0, 0, OptionArg.STRING, ref ignore, null, null };
+						var opt_context = new OptionContext (null);
+						opt_context.set_help_enabled (false);
+						opt_context.add_main_entries (options, null);
+						opt_context.parse (ref args);
+					} catch (OptionError e) {
 						display_install_help ();
-					} else {
-						init_transaction ();
-						string[] targets = {};
-						bool error = false;
-						int i = 2;
-						while (i < args.length) {
-							unowned string arg = args[i];
-							if (arg == "--overwrite") {
-								foreach (unowned string glob in args[i + 1].split(",")) {
-									transaction.add_overwrite_file (glob);
-								}
-								i++;
-							} else if (arg == "--ignore") {
-								foreach (unowned string name in args[i + 1].split(",")) {
-									transaction.add_temporary_ignore_pkg (name);
-								}
-								i++;
-							} else if (arg == "--no-confirm") {
-								transaction.no_confirm = true;
-							} else if (arg == "--no-upgrade") {
-								transaction.database.config.simple_install = true;
-							} else if (arg.has_prefix ("-")) {
-								// wrong arg
-								error = true;
-								break;
-							} else {
-								targets += arg;
-							}
-							i++;
-						}
-						if (error) {
-							display_install_help ();
-							return;
-						}
-						install_pkgs (targets);
+						return;
 					}
+					if (help) {
+						display_install_help ();
+						return;
+					}
+					if (as_deps && as_explicit) {
+						display_install_help ();
+						return;
+					}
+					if (args.length == 2) {
+						// no target
+						display_install_help ();
+						return;
+					}
+					init_transaction ();
+					if (overwrite != null) {
+						foreach (unowned string glob in overwrite.split(",")) {
+							transaction.add_overwrite_file (glob);
+						}
+					}
+					if (ignore != null) {
+						foreach (unowned string name in ignore.split(",")) {
+							transaction.add_temporary_ignore_pkg (name);
+						}
+					}
+					if (no_confirm) {
+						transaction.no_confirm = true;
+					}
+					if (no_upgrade) {
+						transaction.database.config.simple_install = true;
+					}
+					install_pkgs (args[2:args.length], download_only, as_deps, as_explicit);
 				} else {
 					display_install_help ();
 				}
 			} else if (args[1] == "reinstall") {
 				if (args.length > 2) {
-					if (args[2] == "--help" || args[2] == "-h") {
+					bool no_confirm = false;
+					bool download_only = false;
+					bool as_deps = false;
+					bool as_explicit = false;
+					string? overwrite = null;
+					try {
+						var options = new OptionEntry[5];
+						options[0] = { "help", 'h', 0, OptionArg.NONE, ref help, null, null };
+						options[1] = { "no-confirm", 0, 0, OptionArg.NONE, ref no_confirm, null, null };
+						options[3] = { "download-only", 'w', 0, OptionArg.NONE, ref download_only, null, null };
+						options[2] = { "as-deps", 0, 0, OptionArg.NONE, ref as_deps, null, null };
+						options[3] = { "as-explicit", 0, 0, OptionArg.NONE, ref as_explicit, null, null };
+						options[4] = { "overwrite", 0, 0, OptionArg.STRING, ref overwrite, null, null };
+						var opt_context = new OptionContext (null);
+						opt_context.set_help_enabled (false);
+						opt_context.add_main_entries (options, null);
+						opt_context.parse (ref args);
+					} catch (OptionError e) {
 						display_reinstall_help ();
-					} else {
-						init_transaction ();
-						string[] targets = {};
-						bool error = false;
-						int i = 2;
-						while (i < args.length) {
-							unowned string arg = args[i];
-							if (arg == "--overwrite") {
-								foreach (unowned string glob in args[i + 1].split(",")) {
-									transaction.add_overwrite_file (glob);
-								}
-								i++;
-							} else if (arg == "--no-confirm") {
-								transaction.no_confirm = true;
-							} else if (arg.has_prefix ("-")) {
-								// wrong arg
-								error = true;
-								break;
-							} else {
-								targets += arg;
-							}
-							i++;
-						}
-						if (error) {
-							display_reinstall_help ();
-							return;
-						}
-						reinstall_pkgs (targets);
+						return;
 					}
+					if (help) {
+						display_reinstall_help ();
+						return;
+					}
+					if (as_deps && as_explicit) {
+						display_reinstall_help ();
+						return;
+					}
+					if (args.length == 2) {
+						// no target
+						display_reinstall_help ();
+						return;
+					}
+					init_transaction ();
+					if (overwrite != null) {
+						foreach (unowned string glob in overwrite.split(",")) {
+							transaction.add_overwrite_file (glob);
+						}
+					}
+					if (no_confirm) {
+						transaction.no_confirm = true;
+					}
+					reinstall_pkgs (args[2:args.length], download_only, as_deps, as_explicit);
 				} else {
 					display_reinstall_help ();
 				}
 			} else if (args[1] == "remove") {
 				if (args.length > 2) {
-					if (args[2] == "--help" || args[2] == "-h") {
+					bool no_confirm = false;
+					bool no_save = false;
+					bool orphans = false;
+					bool unneeded = false;
+					try {
+						var options = new OptionEntry[5];
+						options[0] = { "help", 'h', 0, OptionArg.NONE, ref help, null, null };
+						options[1] = { "no-confirm", 0, 0, OptionArg.NONE, ref no_confirm, null, null };
+						options[2] = { "orphans", 'o', 0, OptionArg.NONE, ref orphans, null, null };
+						options[3] = { "unneeded", 'u', 0, OptionArg.NONE, ref unneeded, null, null };
+						options[4] = { "no-save", 'n', 0, OptionArg.NONE, ref no_save, null, null };
+						var opt_context = new OptionContext (null);
+						opt_context.set_help_enabled (false);
+						opt_context.add_main_entries (options, null);
+						opt_context.parse (ref args);
+					} catch (OptionError e) {
 						display_remove_help ();
+						return;
+					}
+					if (help) {
+						display_remove_help ();
+						return;
+					}
+					if (args.length == 2) {
+						// no target
+						if (orphans) {
+							init_transaction ();
+							if (no_confirm) {
+								transaction.no_confirm = true;
+							}
+							remove_orphans ();
+						} else {
+							display_remove_help ();
+						}
 					} else {
 						init_transaction ();
-						bool recurse = false;
-						bool error = false;
-						string[] targets = {};
-						int i = 2;
-						while (i < args.length) {
-							unowned string arg = args[i];
-							if (arg == "--orphans" || arg == "-o") {
-								recurse = true;
-							} else if (arg == "--no-confirm") {
-								transaction.no_confirm = true;
-							} else if (arg.has_prefix ("-")) {
-								// wrong arg
-								error = true;
-								break;
-							} else {
-								targets += arg;
-							}
-							i++;
+						if (no_confirm) {
+							transaction.no_confirm = true;
 						}
-						if (error) {
-							display_remove_help ();
-							return;
-						}
-						if (targets.length > 0) {
-							remove_pkgs (targets, recurse);
-						} else if (recurse) {
-							remove_orphans ();
-						}
+						remove_pkgs (args[2:args.length], orphans, unneeded, no_save);
 					}
 				} else {
 					display_remove_help ();
 				}
 			} else if (args[1] == "checkupdates") {
-				init_database ();
-				bool error = false;
 				bool quiet = false;
+				bool aur = false;
+				bool devel = false;
 				bool refresh_tmp_files_dbs = false;
 				bool download_updates = false;
-				int i = 2;
-				while (i < args.length) {
-					unowned string arg = args[i];
-					if (arg == "--help" || arg == "-h") {
-						error = true;
-						break;
-					} else if (arg == "--quiet" || arg == "-q") {
-						quiet = true;
-					} else if (arg == "--refresh-tmp-files-dbs") {
-						refresh_tmp_files_dbs = true;
-					} else if (arg == "--download-updates") {
-						download_updates = true;
-					} else if (arg == "--aur" || arg == "-a") {
-						database.config.enable_aur = true;
-						database.config.check_aur_updates = true;
-					} else if (arg == "-aq" || arg == "-qa") {
-						database.config.enable_aur = true;
-						database.config.check_aur_updates = true;
-						quiet = true;
-					} else if (arg == "--builddir") {
-						if (args[i + 1] != null) {
-							database.config.aur_build_dir = args[i + 1];
-						}
-						i++;
-					} else if (arg == "--devel") {
-						if (Posix.geteuid () == 0) {
-							// can't check as root
-							stdout.printf (dgettext (null, "Check development packages updates as root is not allowed") + "\n");
-							exit_status = 1;
-							return;
-						}
-						database.config.check_aur_vcs_updates = true;
-					} else {
-						error = true;
-						break;
-					}
-					i++;
-				}
-				if (error) {
+				string? builddir = null;
+				try {
+					var options = new OptionEntry[7];
+					options[0] = { "help", 'h', 0, OptionArg.NONE, ref help, null, null };
+					options[1] = { "quiet", 'q', 0, OptionArg.NONE, ref quiet, null, null };
+					options[2] = { "aur", 'a', 0, OptionArg.NONE, ref aur, null, null };
+					options[3] = { "devel", 0, 0, OptionArg.NONE, ref devel, null, null };
+					options[4] = { "builddir", 0, 0, OptionArg.STRING, ref builddir, null, null };
+					options[5] = { "refresh-tmp-files-dbs", 0, 0, OptionArg.NONE, ref refresh_tmp_files_dbs, null, null };
+					options[6] = { "download-updates", 0, 0, OptionArg.NONE, ref download_updates, null, null };
+					var opt_context = new OptionContext (null);
+					opt_context.set_help_enabled (false);
+					opt_context.add_main_entries (options, null);
+					opt_context.parse (ref args);
+				} catch (OptionError e) {
 					display_checkupdates_help ();
 					return;
 				}
+				if (help) {
+					display_checkupdates_help ();
+					return;
+				}
+				init_database ();
+				if (aur) {
+					database.config.enable_aur = true;
+					database.config.check_aur_updates = true;
+				}
+				if (builddir != null) {
+					database.config.aur_build_dir = builddir;
+				}
+				if (devel) {
+					if (Posix.geteuid () == 0) {
+						// can't check as root
+						stdout.printf (dgettext (null, "Check development packages updates as root is not allowed") + "\n");
+						exit_status = 1;
+						return;
+					}
+					database.config.check_aur_vcs_updates = true;
+				}
 				checkupdates (quiet, refresh_tmp_files_dbs, download_updates);
 			} else if (args[1] == "update" || args[1] == "upgrade") {
-				init_transaction ();
-				bool error = false;
-				int i = 2;
-				while (i < args.length) {
-					unowned string arg = args[i];
-					if (arg == "--help" || arg == "-h") {
-						error = true;
-						break;
-					} else if (arg == "--aur"|| arg == "-a") {
-						if (Posix.geteuid () == 0) {
-							// can't build as root
-							stdout.printf (dgettext (null, "Building packages as root is not allowed") + "\n");
-							exit_status = 1;
-							return;
-						}
-						database.config.enable_aur = true;
-						database.config.check_aur_updates = true;
-					} else if (arg == "--devel") {
-						if (Posix.geteuid () == 0) {
-							// can't check as root
-							stdout.printf (dgettext (null, "Check development packages updates as root is not allowed") + "\n");
-							exit_status = 1;
-							return;
-						}
-						database.config.check_aur_vcs_updates = true;
-					} else if (arg == "--builddir") {
-						if (args[i + 1] != null) {
-							database.config.aur_build_dir = args[i + 1];
-						}
-						i++;
-					} else if (arg == "--force-refresh") {
-						force_refresh = true;
-					} else if (arg == "--enable-downgrade") {
-						database.config.enable_downgrade = true;
-					} else if (arg == "--ignore") {
-						foreach (unowned string name in args[i + 1].split(",")) {
-							transaction.add_temporary_ignore_pkg (name);
-						}
-						i++;
-					} else if (arg == "--overwrite") {
-						foreach (unowned string glob in args[i + 1].split(",")) {
-							transaction.add_overwrite_file (glob);
-						}
-						i++;
-					} else if (arg == "--no-confirm") {
-						transaction.no_confirm = true;
-					} else {
-						error = true;
-						break;
-					}
-					i++;
-				}
-				if (error) {
+				bool aur = false;
+				bool devel = false;
+				bool no_confirm = false;
+				bool force_refresh = false;
+				bool enable_downgrade = false;
+				string? builddir = null;
+				string? overwrite = null;
+				string? ignore = null;
+				try {
+					var options = new OptionEntry[9];
+					options[0] = { "help", 'h', 0, OptionArg.NONE, ref help, null, null };
+					options[1] = { "aur", 'a', 0, OptionArg.NONE, ref aur, null, null };
+					options[2] = { "devel", 0, 0, OptionArg.NONE, ref devel, null, null };
+					options[3] = { "builddir", 0, 0, OptionArg.STRING, ref builddir, null, null };
+					options[4] = { "no-confirm", 0, 0, OptionArg.NONE, ref no_confirm, null, null };
+					options[5] = { "force-refresh", 0, 0, OptionArg.NONE, ref force_refresh, null, null };
+					options[6] = { "enable-downgrade", 0, 0, OptionArg.NONE, ref enable_downgrade, null, null };
+					options[7] = { "overwrite", 0, 0, OptionArg.STRING, ref overwrite, null, null };
+					options[8] = { "ignore", 0, 0, OptionArg.STRING, ref ignore, null, null };
+					var opt_context = new OptionContext (null);
+					opt_context.set_help_enabled (false);
+					opt_context.add_main_entries (options, null);
+					opt_context.parse (ref args);
+				} catch (OptionError e) {
 					display_upgrade_help ();
 					return;
 				}
-				run_sysupgrade ();
-			} else if (args[1] == "clean") {
+				if (help) {
+					display_upgrade_help ();
+					return;
+				}
 				init_transaction ();
-				bool error = false;
+				if (aur) {
+					if (Posix.geteuid () == 0) {
+						// can't build as root
+						stdout.printf (dgettext (null, "Building packages as root is not allowed") + "\n");
+						exit_status = 1;
+						return;
+					}
+					database.config.enable_aur = true;
+					database.config.check_aur_updates = true;
+				}
+				if (devel) {
+					if (Posix.geteuid () == 0) {
+						// can't check as root
+						stdout.printf (dgettext (null, "Check development packages updates as root is not allowed") + "\n");
+						exit_status = 1;
+						return;
+					}
+					database.config.check_aur_vcs_updates = true;
+				}
+				if (builddir != null) {
+					database.config.aur_build_dir = builddir;
+				}
+				if (enable_downgrade) {
+					database.config.enable_downgrade = true;
+				}
+				if (ignore != null) {
+					foreach (unowned string name in ignore.split(",")) {
+						transaction.add_temporary_ignore_pkg (name);
+					}
+				}
+				if (overwrite != null) {
+					foreach (unowned string glob in overwrite.split(",")) {
+						transaction.add_overwrite_file (glob);
+					}
+				}
+				if (no_confirm) {
+					transaction.no_confirm = true;
+				}
+				run_sysupgrade (force_refresh);
+			} else if (args[1] == "clean") {
 				bool verbose = false;
 				bool build_files = false;
+				bool uninstalled = false;
 				bool dry_run = false;
 				bool no_confirm = false;
-				int i = 2;
-				while (i < args.length) {
-					unowned string arg = args[i];
-					if (arg == "--help" || arg == "-h") {
-						error = true;
-						break;
-					} else if (arg == "--build-files" || arg == "-b") {
-						build_files = true;
-					} else if (arg == "--no-confirm") {
-						no_confirm = true;
-					} else if (arg == "--keep" || arg == "-k") {
-						if (args[i + 1] != null) {
-							int64 num;
-							if (int64.try_parse (args[i + 1], out num)) {
-								database.config.clean_keep_num_pkgs = num;
-							} else {
-								display_clean_help ();
-								error = true;
-								break;
-							}
-						} else {
-							display_clean_help ();
-							error = true;
-							break;
-						}
-						i++;
-					} else if (arg.has_prefix ("-k")) {
-						string number = arg.split ("-k", 2)[1];
-						if (number.has_prefix ("=")) {
-							number = number.split ("=", 2)[1];
-							if (number == "") {
-								display_clean_help ();
-								error = true;
-								break;
-							}
-						}
-						int64 num;
-						if (int64.try_parse (number, out num)) {
-							database.config.clean_keep_num_pkgs = num;
-						} else {
-							display_clean_help ();
-							error = true;
-							break;
-						}
-					} else if (arg == "--uninstalled" || arg == "-u") {
-						database.config.clean_rm_only_uninstalled = true;
-					} else if (arg == "--dry-run" || arg == "-d") {
-						dry_run = true;
-					} else if (arg == "--verbose" || arg == "-v") {
-						verbose = true;
-					} else if (arg == "-bv" || arg == "-vb") {
-						build_files = true;
-						verbose = true;
-					} else if (arg == "-dv" || arg == "-vd") {
-						dry_run = true;
-						verbose = true;
-					} else if (arg == "-bd" || arg == "-db") {
-						dry_run = true;
-						build_files = true;
-					} else if (arg == "-du" || arg == "-ud") {
-						dry_run = true;
-						database.config.clean_rm_only_uninstalled = true;
-					} else if (arg == "-uv" || arg == "-vu") {
-						verbose = true;
-						database.config.clean_rm_only_uninstalled = true;
-					} else if (arg == "-bdv" || arg == "-bvd"
-							|| arg == "-dbv" || arg == "-dvb"
-							|| arg == "-vbd" || arg == "-vdb") {
-						build_files = true;
-						dry_run = true;
-						verbose = true;
-					} else if (arg == "-udv" || arg == "-uvd"
-							|| arg == "-duv" || arg == "-dvu"
-							|| arg == "-vud" || arg == "-vdu") {
-						database.config.clean_rm_only_uninstalled = true;
-						dry_run = true;
-						verbose = true;
-					} else {
-						error = true;
-						break;
-					}
-					i++;
-				}
-				if (error) {
+				int64 keep = -1;
+				try {
+					var options = new OptionEntry[7];
+					options[0] = { "help", 'h', 0, OptionArg.NONE, ref help, null, null };
+					options[1] = { "verbose", 'v', 0, OptionArg.NONE, ref verbose, null, null };
+					options[2] = { "build-files", 'b', 0, OptionArg.NONE, ref build_files, null, null };
+					options[3] = { "no-confirm", 0, 0, OptionArg.NONE, ref no_confirm, null, null };
+					options[4] = { "uninstalled", 0, 0, OptionArg.NONE, ref uninstalled, null, null };
+					options[5] = { "dry-run", 'd', 0, OptionArg.NONE, ref dry_run, null, null };
+					options[6] = { "keep", 'k', 0, OptionArg.INT64, ref keep, null, null };
+					var opt_context = new OptionContext (null);
+					opt_context.set_help_enabled (false);
+					opt_context.add_main_entries (options, null);
+					opt_context.parse (ref args);
+				} catch (OptionError e) {
 					display_clean_help ();
 					return;
+				}
+				if (help) {
+					display_clean_help ();
+					return;
+				}
+				init_transaction ();
+				if (keep > 0) {
+					database.config.clean_keep_num_pkgs = keep;
+				} else {
+					display_clean_help ();
+					return;
+				}
+				if (uninstalled) {
+					database.config.clean_rm_only_uninstalled = true;
 				}
 				if (build_files) {
 					clean_build_files (dry_run, verbose, no_confirm);
@@ -975,6 +1040,9 @@ namespace Pamac {
 			int max_length = 0;
 			string[] options = {"  %s <%s>".printf ("--ignore", dgettext (null, "package(s)")),
 								"  %s <%s>".printf ("--overwrite", dgettext (null, "glob")),
+								"  -w, --download-only",
+								"  --as-deps",
+								"  --as-explicit",
 								"  --no-upgrade",
 								"  --no-confirm"};
 			foreach (unowned string option in options) {
@@ -985,6 +1053,9 @@ namespace Pamac {
 			}
 			string[] details = {dgettext (null, "ignore a package upgrade, multiple packages can be specified by separating them with a comma"),
 								dgettext (null, "overwrite conflicting files, multiple patterns can be specified by separating them with a comma"),
+								dgettext (null, "download all packages but do not install/upgrade anything"),
+								dgettext (null, "mark all packages installed as a dependency"),
+								dgettext (null, "mark all packages explicitly installed"),
 								dgettext (null, "do not check for updates"),
 								dgettext (null, "bypass any and all confirmation messages")};
 			int i = 0;
@@ -1008,6 +1079,8 @@ namespace Pamac {
 			stdout.printf (dgettext (null, "options") + ":\n");
 			int max_length = 0;
 			string[] options = {"  %s <%s>".printf ("--overwrite", dgettext (null, "glob")),
+								"  --as-deps",
+								"  --as-explicit",
 								"  --no-confirm"};
 			foreach (unowned string option in options) {
 				int length = option.char_count ();
@@ -1016,6 +1089,8 @@ namespace Pamac {
 				}
 			}
 			string[] details = {dgettext (null, "overwrite conflicting files, multiple patterns can be specified by separating them with a comma"),
+								dgettext (null, "mark all packages installed as a dependency"),
+								dgettext (null, "mark all packages explicitly installed"),
 								dgettext (null, "bypass any and all confirmation messages")};
 			int i = 0;
 			foreach (unowned string option in options) {
@@ -1037,7 +1112,9 @@ namespace Pamac {
 			stdout.printf ("\n\n");
 			stdout.printf (dgettext (null, "options") + ":\n");
 			int max_length = 0;
-			string[] options = {"  -o, --orphans",
+			string[] options = {"  -u, --unneeded",
+								"  -o, --orphans",
+								"  -n, --no-save",
 								"  --no-confirm"};
 			foreach (unowned string option in options) {
 				int length = option.char_count ();
@@ -1045,7 +1122,9 @@ namespace Pamac {
 					max_length = length;
 				}
 			}
-			string[] details = {dgettext (null, "remove dependencies that are not required by other packages, if this option is used without package name remove all orphans"),
+			string[] details = {dgettext (null, "remove packages only if they are not required by any other packages"),
+								dgettext (null, "remove dependencies that are not required by other packages, if this option is used without package name remove all orphans"),
+								dgettext (null, "ignore files backup"),
 								dgettext (null, "bypass any and all confirmation messages")};
 			int i = 0;
 			foreach (unowned string option in options) {
@@ -1921,7 +2000,7 @@ namespace Pamac {
 			}
 		}
 
-		void install_pkgs (string[] targets) {
+		void install_pkgs (string[] targets, bool download_only, bool as_deps, bool as_explicit) {
 			var to_install = new List<string> ();
 			var to_load = new List<string> ();
 			var to_build = new List<string> ();
@@ -1986,7 +2065,16 @@ namespace Pamac {
 				return;
 			}
 			// do not install a package if it is already installed and up to date
-			transaction.set_flags (1 << 13); //Alpm.TransFlag.NEEDED
+			int flags = (1 << 13); //Alpm.TransFlag.NEEDED
+			if (download_only) {
+				flags |= (1 << 9); //Alpm.TransFlag.DOWNLOADONLY
+			}
+			if (as_deps) {
+				flags |= (1 << 8); //Alpm.TransFlag.ALLDEPS
+			} else if (as_explicit) {
+				flags |= (1 << 14); //Alpm.TransFlag.ALLEXPLICIT
+			}
+			transaction.set_flags (flags);
 			foreach (unowned string name in to_install) {
 				transaction.add_pkg_to_install (name);
 			}
@@ -2096,7 +2184,7 @@ namespace Pamac {
 			stdout.printf ("\n");
 		}
 
-		void reinstall_pkgs (string[] names) {
+		void reinstall_pkgs (string[] names, bool download_only, bool as_deps, bool as_explicit) {
 			var to_install = new List<string> ();
 			foreach (unowned string name in names) {
 				bool found = false;
@@ -2139,6 +2227,16 @@ namespace Pamac {
 			foreach (unowned string name in to_install) {
 				transaction.add_pkg_to_install (name);
 			}
+			int flags = 0;
+			if (download_only) {
+				flags |= (1 << 9); //Alpm.TransFlag.DOWNLOADONLY
+			}
+			if (as_deps) {
+				flags |= (1 << 8); //Alpm.TransFlag.ALLDEPS
+			} else if (as_explicit) {
+				flags |= (1 << 14); //Alpm.TransFlag.ALLEXPLICIT
+			}
+			transaction.set_flags (flags);
 			if (Posix.geteuid () != 0) {
 				var loop = new MainLoop ();
 				// let's time to pkttyagent to get registred
@@ -2153,7 +2251,7 @@ namespace Pamac {
 			}
 		}
 
-		void remove_pkgs (string[] names, bool recurse = false) {
+		void remove_pkgs (string[] names, bool recurse, bool unneeded, bool no_save) {
 			var to_remove = new List<string> ();
 			bool group_found = false;
 			foreach (unowned string name in names) {
@@ -2184,13 +2282,16 @@ namespace Pamac {
 				return;
 			}
 			int flags;
-			if (group_found) {
+			if (group_found || unneeded) {
 				flags = (1 << 15); //Alpm.TransFlag.UNNEEDED
 			} else {
 				flags = (1 << 4); //Alpm.TransFlag.CASCADE
 			}
 			if (recurse) {
 				flags |= (1 << 5); //Alpm.TransFlag.RECURSE
+			}
+			if (no_save) {
+				flags |= (1 << 2); //Alpm.TransFlag.NOSAVE
 			}
 			transaction.set_flags (flags);
 			foreach (unowned string name in to_remove) {
@@ -2303,7 +2404,7 @@ namespace Pamac {
 			}
 		}
 
-		void run_sysupgrade () {
+		void run_sysupgrade (bool force_refresh) {
 			transaction.add_pkgs_to_upgrade (force_refresh);
 			if (Posix.geteuid () != 0) {
 				var loop = new MainLoop ();

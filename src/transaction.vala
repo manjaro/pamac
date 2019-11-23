@@ -143,7 +143,12 @@ namespace Pamac {
 		}
 
 		protected async SList<string> get_build_files (string pkgname) {
-			string pkgdir_name = Path.build_path ("/", database.config.aur_build_dir, pkgname);
+			string pkgdir_name;
+			if (database.config.aur_build_dir == "/var/tmp") {
+				pkgdir_name = Path.build_path ("/", database.config.aur_build_dir, "pamac-build-%s".printf (Environment.get_user_name ()), pkgname);
+			} else {
+				pkgdir_name = Path.build_path ("/", database.config.aur_build_dir, "pamac-build", pkgname);
+			}
 			var files = new SList<string> ();
 			// PKGBUILD
 			files.append (Path.build_path ("/", pkgdir_name, "PKGBUILD"));
@@ -347,11 +352,17 @@ namespace Pamac {
 					}
 					already_checked_aur_dep.add (aur_pkg.packagebase);
 				} else {
-					clone_dir = File.new_for_path (Path.build_path ("/", database.config.aur_build_dir, pkgname));
+					string real_aur_build_dir;
+					if (database.config.aur_build_dir == "/var/tmp") {
+						real_aur_build_dir = Path.build_path ("/", database.config.aur_build_dir, "pamac-build-%s".printf (Environment.get_user_name ()));
+					} else {
+						real_aur_build_dir = Path.build_path ("/", database.config.aur_build_dir, "pamac-build");
+					}
+					clone_dir = File.new_for_path (Path.build_path ("/", real_aur_build_dir, pkgname));
 					if (!clone_dir.query_exists ()) {
 						// didn't find the target
 						// parse all builddir to be sure to find it
-						var builddir = File.new_for_path (database.config.aur_build_dir);
+						var builddir = File.new_for_path (real_aur_build_dir);
 						try {
 							FileEnumerator enumerator = yield builddir.enumerate_children_async ("standard::*", FileQueryInfoFlags.NONE);
 							FileInfo info;
@@ -1025,7 +1036,12 @@ namespace Pamac {
 				emit_action (dgettext (null, "Building %s").printf (pkgname) + "...");
 				important_details_outpout (false);
 				var built_pkgs = new GenericSet<string?> (str_hash, str_equal);
-				string pkgdir = Path.build_path ("/", database.config.aur_build_dir, pkgname);
+				string pkgdir;
+				if (database.config.aur_build_dir == "/var/tmp") {
+					pkgdir = Path.build_path ("/", database.config.aur_build_dir, "pamac-build-%s".printf (Environment.get_user_name ()), pkgname);
+				} else {
+					pkgdir = Path.build_path ("/", database.config.aur_build_dir, "pamac-build", pkgname);
+				}
 				// building
 				building = true;
 				start_building ();
@@ -1069,15 +1085,15 @@ namespace Pamac {
 							while (line != null) {
 								var file = GLib.File.new_for_path (line);
 								string filename = file.get_basename ();
-								string name_version_release = filename.slice (0, filename.last_index_of_char ('-'));
+								string? name_version_release = filename.slice (0, filename.last_index_of_char ('-'));
 								if (name_version_release == null) {
 									break;
 								}
-								string name_version = name_version_release.slice (0, name_version_release.last_index_of_char ('-'));
+								string? name_version = name_version_release.slice (0, name_version_release.last_index_of_char ('-'));
 								if (name_version == null) {
 									break;
 								}
-								string name = name_version.slice (0, name_version.last_index_of_char ('-'));
+								string? name = name_version.slice (0, name_version.last_index_of_char ('-'));
 								if (name == null) {
 									break;
 								}

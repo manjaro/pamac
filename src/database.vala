@@ -173,17 +173,17 @@ namespace Pamac {
 					while ((info = enumerator.next_file (null)) != null) {
 						unowned string filename = info.get_name ();
 						string absolute_filename = "%s%s".printf (cachedir_name, filename);
-						string name_version_release = filename.slice (0, filename.last_index_of_char ('-'));
+						string? name_version_release = filename.slice (0, filename.last_index_of_char ('-'));
 						if (name_version_release == null) {
 							continue;
 						}
 						int release_index = name_version_release.last_index_of_char ('-');
-						string name_version = name_version_release.slice (0, release_index);
+						string? name_version = name_version_release.slice (0, release_index);
 						if (name_version == null) {
 							continue;
 						}
 						int version_index = name_version.last_index_of_char ('-');
-						string name = name_version.slice (0, version_index);
+						string? name = name_version.slice (0, version_index);
 						if (name == null) {
 							continue;
 						}
@@ -198,7 +198,7 @@ namespace Pamac {
 								filenames.append (absolute_filename);
 							} else {
 								unowned SList<string> versions = pkg_versions.lookup (name);
-								string version_release = name_version_release.slice (version_index + 1, name_version_release.length);
+								string? version_release = name_version_release.slice (version_index + 1, name_version_release.length);
 								if (version_release == null) {
 									continue;
 								}
@@ -209,7 +209,7 @@ namespace Pamac {
 							}
 						} else {
 							var versions = new SList<string> ();
-							string version_release = name_version_release.slice (version_index + 1, name_version_release.length);
+							string? version_release = name_version_release.slice (version_index + 1, name_version_release.length);
 							if (version_release == null) {
 								continue;
 							}
@@ -280,8 +280,14 @@ namespace Pamac {
 		}
 
 		public HashTable<string, int64?> get_build_files_details () {
+			string real_aur_build_dir;
+			if (config.aur_build_dir == "/var/tmp") {
+				real_aur_build_dir = Path.build_path ("/", config.aur_build_dir, "pamac-build-%s".printf (Environment.get_user_name ()));
+			} else {
+				real_aur_build_dir = Path.build_path ("/", config.aur_build_dir, "pamac-build");
+			}
 			var filenames_size = new HashTable<string, int64?> (str_hash, str_equal);
-			enumerate_directory.begin (config.aur_build_dir, filenames_size, (obj, res) => {
+			enumerate_directory.begin (real_aur_build_dir, filenames_size, (obj, res) => {
 				loop.quit ();
 			});
 			loop.run ();
@@ -1351,7 +1357,13 @@ namespace Pamac {
 			int status = 1;
 			string[] cmds;
 			var launcher = new SubprocessLauncher (SubprocessFlags.NONE);
-			var builddir = File.new_for_path (config.aur_build_dir);
+			string real_aur_build_dir;
+			if (config.aur_build_dir == "/var/tmp") {
+				real_aur_build_dir = Path.build_path ("/", config.aur_build_dir, "pamac-build-%s".printf (Environment.get_user_name ()));
+			} else {
+				real_aur_build_dir = Path.build_path ("/", config.aur_build_dir, "pamac-build");
+			}
+			var builddir = File.new_for_path (real_aur_build_dir);
 			if (!builddir.query_exists ()) {
 				try {
 					builddir.make_directory_with_parents ();
@@ -1362,7 +1374,7 @@ namespace Pamac {
 			var pkgdir = builddir.get_child (pkgname);
 			if (pkgdir.query_exists ()) {
 				if (overwrite_files) {
-					launcher.set_cwd (config.aur_build_dir);
+					launcher.set_cwd (real_aur_build_dir);
 					cmds = {"rm", "-rf", "%s".printf (pkgdir.get_path ())};
 					launch_subprocess (launcher, cmds);
 					cmds = {"git", "clone", "-q", "--depth=1", "https://aur.archlinux.org/%s.git".printf (pkgname)};
@@ -1420,14 +1432,14 @@ namespace Pamac {
 					if (status == 0) {
 						return pkgdir;
 					} else {
-						launcher.set_cwd (config.aur_build_dir);
+						launcher.set_cwd (real_aur_build_dir);
 						cmds = {"rm", "-rf", "%s".printf (pkgdir.get_path ())};
 						launch_subprocess (launcher, cmds);
 						cmds = {"git", "clone", "-q", "--depth=1", "https://aur.archlinux.org/%s.git".printf (pkgname)};
 					}
 				}
 			} else {
-				launcher.set_cwd (config.aur_build_dir);
+				launcher.set_cwd (real_aur_build_dir);
 				cmds = {"git", "clone", "-q", "--depth=1", "https://aur.archlinux.org/%s.git".printf (pkgname)};
 			}
 			status = launch_subprocess (launcher, cmds, cancellable);
@@ -1450,7 +1462,12 @@ namespace Pamac {
 		}
 
 		bool regenerate_srcinfo_real (string pkgname, Cancellable? cancellable) {
-			string pkgdir_name = Path.build_path ("/", config.aur_build_dir, pkgname);
+			string pkgdir_name;
+			if (config.aur_build_dir == "/var/tmp") {
+				pkgdir_name = Path.build_path ("/", config.aur_build_dir, "pamac-build-%s".printf (Environment.get_user_name ()), pkgname);
+			} else {
+				pkgdir_name = Path.build_path ("/", config.aur_build_dir, "pamac-build", pkgname);
+			}
 			var srcinfo = File.new_for_path (Path.build_path ("/", pkgdir_name, ".SRCINFO"));
 			var pkgbuild = File.new_for_path (Path.build_path ("/", pkgdir_name, "PKGBUILD"));
 			if (srcinfo.query_exists ()) {
@@ -1658,7 +1675,12 @@ namespace Pamac {
 
 		public string[] get_srcinfo_pkgnames (string pkgdir) {
 			string[] pkgnames = {};
-			var srcinfo = File.new_for_path (Path.build_path ("/", config.aur_build_dir, pkgdir, ".SRCINFO"));
+			File srcinfo;
+			if (config.aur_build_dir == "/var/tmp") {
+				srcinfo = File.new_for_path (Path.build_path ("/", config.aur_build_dir, "pamac-build-%s".printf (Environment.get_user_name ()), pkgdir, ".SRCINFO"));
+			} else {
+				srcinfo = File.new_for_path (Path.build_path ("/", config.aur_build_dir, "pamac-build", pkgdir, ".SRCINFO"));
+			}
 			if (srcinfo.query_exists ()) {
 				try {
 					// read .SRCINFO

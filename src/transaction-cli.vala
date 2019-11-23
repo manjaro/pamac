@@ -555,7 +555,12 @@ namespace Pamac {
 		}
 
 		void ask_view_diff (string pkgname) {
-			string diff_path = Path.build_path ("/", database.config.aur_build_dir, pkgname, "diff");
+			string diff_path;
+			if (database.config.aur_build_dir == "/var/tmp") {
+				diff_path = Path.build_path ("/", database.config.aur_build_dir, "pamac-build-%s".printf (Environment.get_user_name ()), pkgname, "diff");
+			} else {
+				diff_path = Path.build_path ("/", database.config.aur_build_dir, "pamac-build", pkgname, "diff");
+			}
 			var diff_file = File.new_for_path (diff_path);
 			if (diff_file.query_exists ()) {
 				if (ask_user ("%s ?".printf (dgettext (null, "View %s build files diff").printf (pkgname)))) {

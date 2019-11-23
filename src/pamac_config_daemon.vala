@@ -55,11 +55,6 @@ namespace Pamac {
 			aur_build_dir = "/var/tmp";
 			max_parallel_downloads = 1;
 			parse_file (conf_path);
-			if (aur_build_dir == "/var/tmp") {
-				aur_build_dir = Path.build_path ("/", aur_build_dir, "pamac-build-%s".printf (Environment.get_user_name ()));
-			} else {
-				aur_build_dir = Path.build_path ("/", aur_build_dir, "pamac-build");
-			}
 			// limited max_parallel_downloads
 			if (max_parallel_downloads > 10) {
 				max_parallel_downloads = 10;
