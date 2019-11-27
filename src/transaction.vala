@@ -1045,8 +1045,9 @@ namespace Pamac {
 				// building
 				building = true;
 				start_building ();
-				string[] cmdline = {"makepkg", "--nosign", "-cCf", "PKGDEST=%s".printf (pkgdir)};
+				string[] cmdline = {"makepkg", "--nosign", "-cCf"};
 				if (!database.config.keep_built_pkgs) {
+					cmdline += "PKGDEST=%s".printf (pkgdir);
 					cmdline += "PKGEXT=.pkg.tar";
 				}
 				int status = run_cmd_line (cmdline, pkgdir, build_cancellable);
@@ -1058,8 +1059,9 @@ namespace Pamac {
 					var launcher = new SubprocessLauncher (SubprocessFlags.STDOUT_PIPE);
 					launcher.set_cwd (pkgdir);
 					try {
-						cmdline = {"makepkg", "--packagelist", "PKGDEST=%s".printf (pkgdir)};
+						cmdline = {"makepkg", "--packagelist"};
 						if (!database.config.keep_built_pkgs) {
+							cmdline += "PKGDEST=%s".printf (pkgdir);
 							cmdline += "PKGEXT=.pkg.tar";
 						}
 						Subprocess process = launcher.spawnv (cmdline);
