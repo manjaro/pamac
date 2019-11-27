@@ -133,3 +133,10 @@ executable('pamac-installer',
 	vala_args: common_vala_args,
 	c_args: common_c_args,
 	install: true)
+
+executable('dependency-checker',
+	sources: ['alpm_config.vala', 'dependency_checker.vala'],
+	dependencies: [vala_deps, alpm_deps],
+	vala_args: common_vala_args,
+	c_args: [common_c_args, alpm_c_args],
+	install : true)
