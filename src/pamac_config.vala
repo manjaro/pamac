@@ -271,8 +271,7 @@ namespace Pamac {
 			new_pamac_conf.insert ("KeepBuiltPkgs", new Variant.boolean (keep_built_pkgs));
 			new_pamac_conf.insert ("CheckAURUpdates", new Variant.boolean (check_aur_updates));
 			new_pamac_conf.insert ("CheckAURVCSUpdates", new Variant.boolean (check_aur_vcs_updates));
-			string new_aur_build_dir = Path.get_dirname (aur_build_dir);
-			new_pamac_conf.insert ("BuildDirectory", new Variant.string (new_aur_build_dir));
+			new_pamac_conf.insert ("BuildDirectory", new Variant.string (aur_build_dir));
 			#if ENABLE_SNAP
 			new_pamac_conf.insert ("EnableSnap", new Variant.boolean (enable_snap));
 			#endif

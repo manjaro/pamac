@@ -161,17 +161,16 @@ namespace Pamac {
 			enable_aur_button.active = transaction.database.config.enable_aur;
 			aur_build_dir_label.sensitive = transaction.database.config.enable_aur;
 			aur_build_dir_file_chooser.sensitive = transaction.database.config.enable_aur;
-			string default_build_dir = "var/tmp";
-			string current_build_dir = Path.get_dirname (transaction.database.config.aur_build_dir);
+			string default_build_dir = "/var/tmp";
 			try {
 				aur_build_dir_file_chooser.add_shortcut_folder (default_build_dir);
-				if (current_build_dir != default_build_dir) {
-					aur_build_dir_file_chooser.add_shortcut_folder (current_build_dir);
+				if (transaction.database.config.aur_build_dir != default_build_dir) {
+					aur_build_dir_file_chooser.add_shortcut_folder (transaction.database.config.aur_build_dir);
 				}
 			} catch (GLib.Error e) {
 				critical ("%s\n", e.message);
 			}
-			aur_build_dir_file_chooser.select_filename (current_build_dir);
+			aur_build_dir_file_chooser.select_filename (transaction.database.config.aur_build_dir);
 			refresh_clean_build_files_button ();
 			keep_built_pkgs_checkbutton.active = transaction.database.config.keep_built_pkgs;
 			keep_built_pkgs_checkbutton.sensitive = transaction.database.config.enable_aur;
