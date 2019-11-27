@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2019-11-23 11:46+0100\n"
+"POT-Creation-Date: 2019-11-27 21:28+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1211,7 +1211,7 @@ msgstr ""
 
 #: resources/preferences_dialog.ui
 msgid ""
-"Bad configuration of those options can lead to system breakage.\n"
+"Misconfiguration of these options can lead to system breakage.\n"
 "Modify them only if you know what you are doing."
 msgstr ""
 

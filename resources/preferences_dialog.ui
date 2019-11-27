@@ -302,7 +302,7 @@
                             <property name="can_focus">False</property>
                             <property name="halign">start</property>
                             <property name="hexpand">True</property>
-                            <property name="label" translatable="yes">Bad configuration of those options can lead to system breakage.
+                            <property name="label" translatable="yes">Misconfiguration of these options can lead to system breakage.
 Modify them only if you know what you are doing.</property>
                             <property name="wrap">True</property>
                             <property name="max_width_chars">300</property>
