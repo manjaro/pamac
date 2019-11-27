@@ -1415,11 +1415,8 @@ namespace Pamac {
 							unowned string cachedir = cachedirs.data;
 							try {
 								Process.spawn_command_line_sync ("mv -f %s %s".printf (path, cachedir));
-								string tarball_name = Path.get_basename (path);
-								string new_path = "%s%s".printf (cachedir, tarball_name);
-								success = trans_load_pkg (new_path);
 							} catch (SpawnError e) {
-								stderr.printf ("SpawnError: %s\n", e.message);
+								critical ("SpawnError: %s\n", e.message);
 							}
 						} else {
 							// rm built package
