@@ -15,9 +15,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2019-11-02 15:00+0100\n"
-"PO-Revision-Date: 2019-11-04 09:53+0000\n"
-"Last-Translator: Dušan Kazik <prescott66@gmail.com>\n"
+"POT-Creation-Date: 2019-11-27 21:28+0100\n"
+"PO-Revision-Date: 2019-11-28 00:43+0000\n"
+"Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Slovak (http://www.transifex.com/manjarolinux/manjaro-pamac/language/sk/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -274,7 +274,7 @@ msgstr "Čaká sa na ukončenie iného správcu balíkov"
 
 #: src/daemon.vala
 msgid "Timeout expired"
-msgstr ""
+msgstr "Časový limit vypršal"
 
 #: src/database.vala src/manager_window.vala
 msgid "Explicitly installed"
@@ -729,6 +729,10 @@ msgstr[1] "%u súbory"
 msgstr[2] "%u súborov"
 msgstr[3] "%u súborov"
 
+#: src/preferences_dialog.vala
+msgid "Choose Ignored Upgrades"
+msgstr "Voľba ignorovaných aktualizácií"
+
 #: src/transaction-cli.vala src/cli.vala
 #, c-format
 msgid "Enter a selection (default=%s)"
@@ -929,14 +933,38 @@ msgid ""
 msgstr "prepísať konfliktné súbory. Je možné zadať viac vzorov ak ich oddelíte čiarkou"
 
 #: src/cli.vala
+msgid "download all packages but do not install/upgrade anything"
+msgstr ""
+
+#: src/cli.vala
+msgid "mark all packages installed as a dependency"
+msgstr ""
+
+#: src/cli.vala
+msgid "mark all packages explicitly installed"
+msgstr ""
+
+#: src/cli.vala
+msgid "do not check for updates"
+msgstr ""
+
+#: src/cli.vala
 msgid "Reinstall packages"
 msgstr "Preinštalovať balíky"
+
+#: src/cli.vala
+msgid "remove packages only if they are not required by any other packages"
+msgstr ""
 
 #: src/cli.vala
 msgid ""
 "remove dependencies that are not required by other packages, if this option "
 "is used without package name remove all orphans"
 msgstr "odstrániť závislosti, ktoré nie sú vyžadované inými balíkmi. Ak sa táto voľba použije bez zadania mena balíka, odstránia sa všetky siroty"
+
+#: src/cli.vala
+msgid "ignore files backup"
+msgstr ""
 
 #: src/cli.vala
 msgid "Safely check for updates without modifiying the databases"
@@ -1050,6 +1078,15 @@ msgstr "Niet balíka čo by obsahoval %s"
 #, c-format
 msgid "%s is owned by %s"
 msgstr "%s je obsiahnutý v %s"
+
+#: src/cli.vala
+#, c-format
+msgid "%u ignored update"
+msgid_plural "%u ignored updates"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
 
 #: src/cli.vala resources/preferences_dialog.ui
 msgid "Remove only the versions of uninstalled packages"
@@ -1179,20 +1216,6 @@ msgid "Reset build files"
 msgstr "Obnoviť súbory zostavenia"
 
 #: resources/preferences_dialog.ui
-msgid "Remove unrequired dependencies"
-msgstr "Odstrániť nepožadované závislosti"
-
-#: resources/preferences_dialog.ui
-msgid ""
-"When removing a package, also remove its dependencies that are not required "
-"by other packages"
-msgstr "Pri odstránení balíka tiež odstráni závislosti, ktoré nie sú potrebné inými balíkmi"
-
-#: resources/preferences_dialog.ui
-msgid "Enable downgrade"
-msgstr "Povoliť prechod na staršiu verziu balíkov"
-
-#: resources/preferences_dialog.ui
 msgid "Check for updates"
 msgstr "Kontrolovať aktualizácie"
 
@@ -1207,6 +1230,42 @@ msgstr "Skryť ikonu v lište, keď nie sú dostupné žiadne aktualizácie"
 #: resources/preferences_dialog.ui
 msgid "General"
 msgstr "Všeobecné"
+
+#: resources/preferences_dialog.ui
+msgid ""
+"Misconfiguration of these options can lead to system breakage.\n"
+"Modify them only if you know what you are doing."
+msgstr ""
+
+#: resources/preferences_dialog.ui
+msgid "Check available disk space"
+msgstr "Skontrolovať dostupné miesto na disku"
+
+#: resources/preferences_dialog.ui
+msgid "Remove unrequired dependencies"
+msgstr "Odstrániť nepožadované závislosti"
+
+#: resources/preferences_dialog.ui
+msgid ""
+"When removing a package, also remove its dependencies that are not required "
+"by other packages"
+msgstr "Pri odstránení balíka tiež odstráni závislosti, ktoré nie sú potrebné inými balíkmi"
+
+#: resources/preferences_dialog.ui
+msgid "Do not check for updates when installing"
+msgstr "Nekontrolovať aktualizácie počas inštalovania"
+
+#: resources/preferences_dialog.ui
+msgid "Enable downgrade"
+msgstr "Povoliť prechod na staršiu verziu balíkov"
+
+#: resources/preferences_dialog.ui
+msgid "Ignore upgrades for:"
+msgstr "Ignorovať aktualizácie balíkov:"
+
+#: resources/preferences_dialog.ui
+msgid "Advanced"
+msgstr "Pokročilé"
 
 #: resources/preferences_dialog.ui
 msgid "Use mirrors from:"

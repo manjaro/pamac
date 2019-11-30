@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2019-11-02 15:00+0100\n"
-"PO-Revision-Date: 2019-11-06 16:11+0000\n"
+"POT-Creation-Date: 2019-11-27 21:28+0100\n"
+"PO-Revision-Date: 2019-11-28 05:51+0000\n"
 "Last-Translator: UTUMI Hirosi <utuhiro78@yahoo.co.jp>\n"
 "Language-Team: Japanese (http://www.transifex.com/manjarolinux/manjaro-pamac/language/ja/)\n"
 "MIME-Version: 1.0\n"
@@ -716,6 +716,10 @@ msgid "%u file"
 msgid_plural "%u files"
 msgstr[0] "%u ファイル"
 
+#: src/preferences_dialog.vala
+msgid "Choose Ignored Upgrades"
+msgstr "無視するアップグレードを選択"
+
 #: src/transaction-cli.vala src/cli.vala
 #, c-format
 msgid "Enter a selection (default=%s)"
@@ -916,14 +920,38 @@ msgid ""
 msgstr "コンフリクトするファイルを上書きする。カンマ区切りで複数のパターンを指定できる"
 
 #: src/cli.vala
+msgid "download all packages but do not install/upgrade anything"
+msgstr "全てのパッケージをダウンロードするがインストール/アップグレードは行わない"
+
+#: src/cli.vala
+msgid "mark all packages installed as a dependency"
+msgstr "インストールされている全てのパッケージを必要とされるものとしてマーク"
+
+#: src/cli.vala
+msgid "mark all packages explicitly installed"
+msgstr "全てのパッケージを明示的にインストールしたものとしてマーク"
+
+#: src/cli.vala
+msgid "do not check for updates"
+msgstr "アップデートを確認しない"
+
+#: src/cli.vala
 msgid "Reinstall packages"
 msgstr "パッケージの再インストール"
+
+#: src/cli.vala
+msgid "remove packages only if they are not required by any other packages"
+msgstr "他のパッケージから必要とされていないもののみ削除"
 
 #: src/cli.vala
 msgid ""
 "remove dependencies that are not required by other packages, if this option "
 "is used without package name remove all orphans"
 msgstr "他のパッケージから必要とされていないパッケージを削除する。パッケージ名を指定せずにこのオプションを使うと、孤立したパッケージを全て削除する"
+
+#: src/cli.vala
+msgid "ignore files backup"
+msgstr "ファイルのバックアップを無視"
 
 #: src/cli.vala
 msgid "Safely check for updates without modifiying the databases"
@@ -1037,6 +1065,12 @@ msgstr "%s を持つパッケージがありません"
 #, c-format
 msgid "%s is owned by %s"
 msgstr "%s は  %s に属しています"
+
+#: src/cli.vala
+#, c-format
+msgid "%u ignored update"
+msgid_plural "%u ignored updates"
+msgstr[0] "%u 個のアップデートを無視する"
 
 #: src/cli.vala resources/preferences_dialog.ui
 msgid "Remove only the versions of uninstalled packages"
@@ -1163,20 +1197,6 @@ msgid "Reset build files"
 msgstr "ビルド用のファイルをリセット"
 
 #: resources/preferences_dialog.ui
-msgid "Remove unrequired dependencies"
-msgstr "不要になった依存パッケージを削除する"
-
-#: resources/preferences_dialog.ui
-msgid ""
-"When removing a package, also remove its dependencies that are not required "
-"by other packages"
-msgstr "パッケージを削除するときに、他のパッケージからは必要とされない依存パッケージも削除する"
-
-#: resources/preferences_dialog.ui
-msgid "Enable downgrade"
-msgstr "ダウングレードを有効にする"
-
-#: resources/preferences_dialog.ui
 msgid "Check for updates"
 msgstr "アップデートがあるか確認する"
 
@@ -1191,6 +1211,42 @@ msgstr "アップデートがない時はトレイアイコンを隠す"
 #: resources/preferences_dialog.ui
 msgid "General"
 msgstr "一般"
+
+#: resources/preferences_dialog.ui
+msgid ""
+"Misconfiguration of these options can lead to system breakage.\n"
+"Modify them only if you know what you are doing."
+msgstr "これらのオプションの設定を誤ると、システムが壊れる可能性があります。\n自分が行っていることを理解している場合にのみ、それらを変更してください。"
+
+#: resources/preferences_dialog.ui
+msgid "Check available disk space"
+msgstr "利用可能なディスク容量を確認する"
+
+#: resources/preferences_dialog.ui
+msgid "Remove unrequired dependencies"
+msgstr "不要になった依存パッケージを削除する"
+
+#: resources/preferences_dialog.ui
+msgid ""
+"When removing a package, also remove its dependencies that are not required "
+"by other packages"
+msgstr "パッケージを削除するときに、他のパッケージからは必要とされない依存パッケージも削除する"
+
+#: resources/preferences_dialog.ui
+msgid "Do not check for updates when installing"
+msgstr "インストール時にアップデートを確認しない"
+
+#: resources/preferences_dialog.ui
+msgid "Enable downgrade"
+msgstr "ダウングレードを有効にする"
+
+#: resources/preferences_dialog.ui
+msgid "Ignore upgrades for:"
+msgstr "次のアップグレードを無視する:"
+
+#: resources/preferences_dialog.ui
+msgid "Advanced"
+msgstr "高度な設定"
 
 #: resources/preferences_dialog.ui
 msgid "Use mirrors from:"
@@ -1212,7 +1268,7 @@ msgstr "AURはコミュニティがメンテナンスしているリポジトリ
 
 #: resources/preferences_dialog.ui
 msgid "Enable AUR support"
-msgstr "AURのサポートを有効にする"
+msgstr "AURサポートを有効にする"
 
 #: resources/preferences_dialog.ui
 msgid "Allow Pamac to search and install packages from AUR"

@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2019-11-02 15:00+0100\n"
-"PO-Revision-Date: 2019-11-04 06:23+0000\n"
+"POT-Creation-Date: 2019-11-27 21:28+0100\n"
+"PO-Revision-Date: 2019-11-28 06:57+0000\n"
 "Last-Translator: Galin Iskrenov <loot270@abv.bg>\n"
 "Language-Team: Bulgarian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/bg/)\n"
 "MIME-Version: 1.0\n"
@@ -721,6 +721,10 @@ msgid_plural "%u files"
 msgstr[0] "%u файл"
 msgstr[1] "%u файлове"
 
+#: src/preferences_dialog.vala
+msgid "Choose Ignored Upgrades"
+msgstr "Choose Ignored Upgrades"
+
 #: src/transaction-cli.vala src/cli.vala
 #, c-format
 msgid "Enter a selection (default=%s)"
@@ -921,14 +925,38 @@ msgid ""
 msgstr "презаписване на несъвместими файлове, множество шаблони могат да бъдат зададени чрез разделянето им с запетая"
 
 #: src/cli.vala
+msgid "download all packages but do not install/upgrade anything"
+msgstr "изтегляне на всички пакети, но да не се инсталира/надгражда нищо"
+
+#: src/cli.vala
+msgid "mark all packages installed as a dependency"
+msgstr "маркиране на всички инсталирани пакети като зависимост"
+
+#: src/cli.vala
+msgid "mark all packages explicitly installed"
+msgstr "маркиране на всички пакети като изрично инсталирани"
+
+#: src/cli.vala
+msgid "do not check for updates"
+msgstr "не се проверява за актуализации"
+
+#: src/cli.vala
 msgid "Reinstall packages"
 msgstr "Преинсталиране на пакети"
+
+#: src/cli.vala
+msgid "remove packages only if they are not required by any other packages"
+msgstr "премахване на пакети, само ако те не се изисква от всички други пакети"
 
 #: src/cli.vala
 msgid ""
 "remove dependencies that are not required by other packages, if this option "
 "is used without package name remove all orphans"
 msgstr "премахнете зависимости, които не се изискват от други пакети, ако тази опция се използва без име на пакет, се премахват всички зависимости"
+
+#: src/cli.vala
+msgid "ignore files backup"
+msgstr "игнорира файлове за архивиране"
 
 #: src/cli.vala
 msgid "Safely check for updates without modifiying the databases"
@@ -1042,6 +1070,13 @@ msgstr "Няма пакет притежаващ %s"
 #, c-format
 msgid "%s is owned by %s"
 msgstr "%s е собственост на %s"
+
+#: src/cli.vala
+#, c-format
+msgid "%u ignored update"
+msgid_plural "%u ignored updates"
+msgstr[0] " %u игнорирана актуализация"
+msgstr[1] "%u игнорирани актуализации"
 
 #: src/cli.vala resources/preferences_dialog.ui
 msgid "Remove only the versions of uninstalled packages"
@@ -1169,20 +1204,6 @@ msgid "Reset build files"
 msgstr "Нулиране на изграждащи файлове"
 
 #: resources/preferences_dialog.ui
-msgid "Remove unrequired dependencies"
-msgstr "Премахни ненужни зависимости"
-
-#: resources/preferences_dialog.ui
-msgid ""
-"When removing a package, also remove its dependencies that are not required "
-"by other packages"
-msgstr "Премахвайки пакет, премахвате и зависимости, които не са необходими на други пакети"
-
-#: resources/preferences_dialog.ui
-msgid "Enable downgrade"
-msgstr "Позволи към по-ниска версия"
-
-#: resources/preferences_dialog.ui
 msgid "Check for updates"
 msgstr "Проверка за актуализации"
 
@@ -1197,6 +1218,42 @@ msgstr "Скрий в зоната за известия, когато няма 
 #: resources/preferences_dialog.ui
 msgid "General"
 msgstr "Главен"
+
+#: resources/preferences_dialog.ui
+msgid ""
+"Misconfiguration of these options can lead to system breakage.\n"
+"Modify them only if you know what you are doing."
+msgstr "Неправилното конфигуриране на тези настройки може да доведе до нарушение в системата.\nПроменяйте ги само ако знаете какво правите."
+
+#: resources/preferences_dialog.ui
+msgid "Check available disk space"
+msgstr "Проверка за свободно място"
+
+#: resources/preferences_dialog.ui
+msgid "Remove unrequired dependencies"
+msgstr "Премахни ненужни зависимости"
+
+#: resources/preferences_dialog.ui
+msgid ""
+"When removing a package, also remove its dependencies that are not required "
+"by other packages"
+msgstr "Премахвайки пакет, премахвате и зависимости, които не са необходими на други пакети"
+
+#: resources/preferences_dialog.ui
+msgid "Do not check for updates when installing"
+msgstr "Не се проверява за актуализации, когато се инсталира"
+
+#: resources/preferences_dialog.ui
+msgid "Enable downgrade"
+msgstr "Позволи към по-ниска версия"
+
+#: resources/preferences_dialog.ui
+msgid "Ignore upgrades for:"
+msgstr "Да не се надгражда:"
+
+#: resources/preferences_dialog.ui
+msgid "Advanced"
+msgstr "За напреднали"
 
 #: resources/preferences_dialog.ui
 msgid "Use mirrors from:"

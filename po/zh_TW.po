@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2019-11-02 15:00+0100\n"
-"PO-Revision-Date: 2019-11-04 00:23+0000\n"
+"POT-Creation-Date: 2019-11-27 21:28+0100\n"
+"PO-Revision-Date: 2019-11-28 02:28+0000\n"
 "Last-Translator: 黃柏諺 <s8321414@gmail.com>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
@@ -715,6 +715,10 @@ msgid "%u file"
 msgid_plural "%u files"
 msgstr[0] "%u 個檔案"
 
+#: src/preferences_dialog.vala
+msgid "Choose Ignored Upgrades"
+msgstr "選擇已忽略的升級"
+
 #: src/transaction-cli.vala src/cli.vala
 #, c-format
 msgid "Enter a selection (default=%s)"
@@ -915,14 +919,38 @@ msgid ""
 msgstr "覆寫衝突的檔案，可以使用逗號分隔以指定多個模式"
 
 #: src/cli.vala
+msgid "download all packages but do not install/upgrade anything"
+msgstr "下載所有軟體包但不要安裝／升級任何東西"
+
+#: src/cli.vala
+msgid "mark all packages installed as a dependency"
+msgstr "將所有軟體包標記為以依賴性安裝"
+
+#: src/cli.vala
+msgid "mark all packages explicitly installed"
+msgstr "將所有軟體包標記為單獨指定安裝"
+
+#: src/cli.vala
+msgid "do not check for updates"
+msgstr "不要檢查更新"
+
+#: src/cli.vala
 msgid "Reinstall packages"
 msgstr "重新安裝軟體包"
+
+#: src/cli.vala
+msgid "remove packages only if they are not required by any other packages"
+msgstr "僅在軟體包沒有被任何其他軟體包需要時才移除它"
 
 #: src/cli.vala
 msgid ""
 "remove dependencies that are not required by other packages, if this option "
 "is used without package name remove all orphans"
 msgstr "移除不再被其他軟體包所需要的依賴關係，若此選項沒有與軟體包名稱一同使用則會移除所有孤兒軟體包"
+
+#: src/cli.vala
+msgid "ignore files backup"
+msgstr "忽略檔案備份"
 
 #: src/cli.vala
 msgid "Safely check for updates without modifiying the databases"
@@ -1036,6 +1064,12 @@ msgstr "沒有軟體包擁有 %s"
 #, c-format
 msgid "%s is owned by %s"
 msgstr "%s 被 %s 擁有"
+
+#: src/cli.vala
+#, c-format
+msgid "%u ignored update"
+msgid_plural "%u ignored updates"
+msgstr[0] "%u 已忽略更新"
 
 #: src/cli.vala resources/preferences_dialog.ui
 msgid "Remove only the versions of uninstalled packages"
@@ -1162,20 +1196,6 @@ msgid "Reset build files"
 msgstr "重設構建檔案"
 
 #: resources/preferences_dialog.ui
-msgid "Remove unrequired dependencies"
-msgstr "移除不需要的相依性"
-
-#: resources/preferences_dialog.ui
-msgid ""
-"When removing a package, also remove its dependencies that are not required "
-"by other packages"
-msgstr "當移除一個軟體包時，同時移除它的不被其他軟體包需要的相依性"
-
-#: resources/preferences_dialog.ui
-msgid "Enable downgrade"
-msgstr "啟用降級"
-
-#: resources/preferences_dialog.ui
 msgid "Check for updates"
 msgstr "檢查更新"
 
@@ -1190,6 +1210,42 @@ msgstr "當沒有可用的更新時，隱藏系統匣圖示"
 #: resources/preferences_dialog.ui
 msgid "General"
 msgstr "一般"
+
+#: resources/preferences_dialog.ui
+msgid ""
+"Misconfiguration of these options can lead to system breakage.\n"
+"Modify them only if you know what you are doing."
+msgstr "這些選項設定錯誤可能會導致系統損壞。\n僅在您知道您在幹嘛的時候才修改它們。"
+
+#: resources/preferences_dialog.ui
+msgid "Check available disk space"
+msgstr "檢查可用的磁碟空間"
+
+#: resources/preferences_dialog.ui
+msgid "Remove unrequired dependencies"
+msgstr "移除不需要的相依性"
+
+#: resources/preferences_dialog.ui
+msgid ""
+"When removing a package, also remove its dependencies that are not required "
+"by other packages"
+msgstr "當移除一個軟體包時，同時移除它的不被其他軟體包需要的相依性"
+
+#: resources/preferences_dialog.ui
+msgid "Do not check for updates when installing"
+msgstr "在安裝時不要檢查更新"
+
+#: resources/preferences_dialog.ui
+msgid "Enable downgrade"
+msgstr "啟用降級"
+
+#: resources/preferences_dialog.ui
+msgid "Ignore upgrades for:"
+msgstr "忽略升級："
+
+#: resources/preferences_dialog.ui
+msgid "Advanced"
+msgstr "進階"
 
 #: resources/preferences_dialog.ui
 msgid "Use mirrors from:"

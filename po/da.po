@@ -25,9 +25,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2019-11-02 15:00+0100\n"
-"PO-Revision-Date: 2019-11-02 14:08+0000\n"
-"Last-Translator: Guillaume Benoit <guillaume@manjaro.org>\n"
+"POT-Creation-Date: 2019-11-27 21:28+0100\n"
+"PO-Revision-Date: 2019-11-28 00:43+0000\n"
+"Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Danish (http://www.transifex.com/manjarolinux/manjaro-pamac/language/da/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -731,6 +731,10 @@ msgid_plural "%u files"
 msgstr[0] ""
 msgstr[1] ""
 
+#: src/preferences_dialog.vala
+msgid "Choose Ignored Upgrades"
+msgstr ""
+
 #: src/transaction-cli.vala src/cli.vala
 #, c-format
 msgid "Enter a selection (default=%s)"
@@ -931,14 +935,38 @@ msgid ""
 msgstr "overskriv filer med konflikter. Der kan angives flere mønstre ved af adskille dem med et komma"
 
 #: src/cli.vala
+msgid "download all packages but do not install/upgrade anything"
+msgstr ""
+
+#: src/cli.vala
+msgid "mark all packages installed as a dependency"
+msgstr ""
+
+#: src/cli.vala
+msgid "mark all packages explicitly installed"
+msgstr ""
+
+#: src/cli.vala
+msgid "do not check for updates"
+msgstr ""
+
+#: src/cli.vala
 msgid "Reinstall packages"
 msgstr "Geninstaller pakker"
+
+#: src/cli.vala
+msgid "remove packages only if they are not required by any other packages"
+msgstr ""
 
 #: src/cli.vala
 msgid ""
 "remove dependencies that are not required by other packages, if this option "
 "is used without package name remove all orphans"
 msgstr "fjern afhængigheder som ikke kræves af andre pakker. Hvis tilvalget bruges uden pakkenavn, så fjern alle forælderløse"
+
+#: src/cli.vala
+msgid "ignore files backup"
+msgstr ""
 
 #: src/cli.vala
 msgid "Safely check for updates without modifiying the databases"
@@ -1052,6 +1080,13 @@ msgstr "Ingen pakke ejer %s"
 #, c-format
 msgid "%s is owned by %s"
 msgstr "%s ejes af %s"
+
+#: src/cli.vala
+#, c-format
+msgid "%u ignored update"
+msgid_plural "%u ignored updates"
+msgstr[0] ""
+msgstr[1] ""
 
 #: src/cli.vala resources/preferences_dialog.ui
 msgid "Remove only the versions of uninstalled packages"
@@ -1179,20 +1214,6 @@ msgid "Reset build files"
 msgstr "Nulstil byggefiler"
 
 #: resources/preferences_dialog.ui
-msgid "Remove unrequired dependencies"
-msgstr "Fjern unødvendige afhængigheder"
-
-#: resources/preferences_dialog.ui
-msgid ""
-"When removing a package, also remove its dependencies that are not required "
-"by other packages"
-msgstr "Når en pakke fjernes, så fjern også dens afhængigheder som ikke kræves af andre pakker"
-
-#: resources/preferences_dialog.ui
-msgid "Enable downgrade"
-msgstr "Aktivér nedgradering"
-
-#: resources/preferences_dialog.ui
 msgid "Check for updates"
 msgstr "Søg efter opdateringer"
 
@@ -1207,6 +1228,42 @@ msgstr "Skjul bakkeikon når der ikke er nogen opdatering"
 #: resources/preferences_dialog.ui
 msgid "General"
 msgstr "Generelt"
+
+#: resources/preferences_dialog.ui
+msgid ""
+"Misconfiguration of these options can lead to system breakage.\n"
+"Modify them only if you know what you are doing."
+msgstr ""
+
+#: resources/preferences_dialog.ui
+msgid "Check available disk space"
+msgstr ""
+
+#: resources/preferences_dialog.ui
+msgid "Remove unrequired dependencies"
+msgstr "Fjern unødvendige afhængigheder"
+
+#: resources/preferences_dialog.ui
+msgid ""
+"When removing a package, also remove its dependencies that are not required "
+"by other packages"
+msgstr "Når en pakke fjernes, så fjern også dens afhængigheder som ikke kræves af andre pakker"
+
+#: resources/preferences_dialog.ui
+msgid "Do not check for updates when installing"
+msgstr ""
+
+#: resources/preferences_dialog.ui
+msgid "Enable downgrade"
+msgstr "Aktivér nedgradering"
+
+#: resources/preferences_dialog.ui
+msgid "Ignore upgrades for:"
+msgstr ""
+
+#: resources/preferences_dialog.ui
+msgid "Advanced"
+msgstr ""
 
 #: resources/preferences_dialog.ui
 msgid "Use mirrors from:"

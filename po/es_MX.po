@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2019-11-02 15:00+0100\n"
-"PO-Revision-Date: 2019-11-02 17:55+0000\n"
+"POT-Creation-Date: 2019-11-27 21:28+0100\n"
+"PO-Revision-Date: 2019-11-28 13:13+0000\n"
 "Last-Translator: Pedro Delgado\n"
 "Language-Team: Spanish (Mexico) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/es_MX/)\n"
 "MIME-Version: 1.0\n"
@@ -719,6 +719,10 @@ msgid_plural "%u files"
 msgstr[0] "%u archivo"
 msgstr[1] "%u archivos"
 
+#: src/preferences_dialog.vala
+msgid "Choose Ignored Upgrades"
+msgstr "Elegir actualizaciones ignoradas"
+
 #: src/transaction-cli.vala src/cli.vala
 #, c-format
 msgid "Enter a selection (default=%s)"
@@ -919,14 +923,38 @@ msgid ""
 msgstr "Sobrescribir archivos en conflicto, patrones múltiples pueden ser especificados separándolos por una coma"
 
 #: src/cli.vala
+msgid "download all packages but do not install/upgrade anything"
+msgstr "Descargar todos los paquetes pero no instalar/actualizar nada"
+
+#: src/cli.vala
+msgid "mark all packages installed as a dependency"
+msgstr "Marcar todos los paquetes instalados como una dependencia"
+
+#: src/cli.vala
+msgid "mark all packages explicitly installed"
+msgstr "Marcar todos los paquetes instalados explícitamente"
+
+#: src/cli.vala
+msgid "do not check for updates"
+msgstr "No verificar actualizaciones"
+
+#: src/cli.vala
 msgid "Reinstall packages"
 msgstr "Reinstalar paquetes"
+
+#: src/cli.vala
+msgid "remove packages only if they are not required by any other packages"
+msgstr "Eliminar paquetes sólo si no son requeridos por otros paquetes"
 
 #: src/cli.vala
 msgid ""
 "remove dependencies that are not required by other packages, if this option "
 "is used without package name remove all orphans"
 msgstr "Remover dependencias que ya no son requeridas por otros paquetes, si esta opción es ocupada sin el nombre del paquete remueve todos los huérfanos"
+
+#: src/cli.vala
+msgid "ignore files backup"
+msgstr "Ignorar copias de seguridad"
 
 #: src/cli.vala
 msgid "Safely check for updates without modifiying the databases"
@@ -1040,6 +1068,13 @@ msgstr "Ningún paquete posee %s"
 #, c-format
 msgid "%s is owned by %s"
 msgstr "%s es propiedad de %s"
+
+#: src/cli.vala
+#, c-format
+msgid "%u ignored update"
+msgid_plural "%u ignored updates"
+msgstr[0] "%u actualización ignorada"
+msgstr[1] "%u actualizaciones ignoradas"
 
 #: src/cli.vala resources/preferences_dialog.ui
 msgid "Remove only the versions of uninstalled packages"
@@ -1167,20 +1202,6 @@ msgid "Reset build files"
 msgstr "Restablecer (reset) archivos de construcción"
 
 #: resources/preferences_dialog.ui
-msgid "Remove unrequired dependencies"
-msgstr "Remover dependencias no requeridas"
-
-#: resources/preferences_dialog.ui
-msgid ""
-"When removing a package, also remove its dependencies that are not required "
-"by other packages"
-msgstr "Al remover un paquete, también se remueven sus dependencias que no son requeridas por otros paquetes"
-
-#: resources/preferences_dialog.ui
-msgid "Enable downgrade"
-msgstr "Habilitar desactualización (downgrade)"
-
-#: resources/preferences_dialog.ui
 msgid "Check for updates"
 msgstr "Verificar actualizaciones"
 
@@ -1195,6 +1216,42 @@ msgstr "Ocultar icono del área de notificación cuando no haya actualizaciones 
 #: resources/preferences_dialog.ui
 msgid "General"
 msgstr "General"
+
+#: resources/preferences_dialog.ui
+msgid ""
+"Misconfiguration of these options can lead to system breakage.\n"
+"Modify them only if you know what you are doing."
+msgstr "La configuración incorrecta de estas opciones pueden romper el sistema.\nModifíquelas sólo si sabe lo que está haciendo."
+
+#: resources/preferences_dialog.ui
+msgid "Check available disk space"
+msgstr "Verificar espacio disponible en el disco"
+
+#: resources/preferences_dialog.ui
+msgid "Remove unrequired dependencies"
+msgstr "Remover dependencias no requeridas"
+
+#: resources/preferences_dialog.ui
+msgid ""
+"When removing a package, also remove its dependencies that are not required "
+"by other packages"
+msgstr "Al remover un paquete, también se remueven sus dependencias que no son requeridas por otros paquetes"
+
+#: resources/preferences_dialog.ui
+msgid "Do not check for updates when installing"
+msgstr "no verificar actualizaciones mientras se instalan"
+
+#: resources/preferences_dialog.ui
+msgid "Enable downgrade"
+msgstr "Habilitar desactualización (downgrade)"
+
+#: resources/preferences_dialog.ui
+msgid "Ignore upgrades for:"
+msgstr "Ignorar actualizaciones para:"
+
+#: resources/preferences_dialog.ui
+msgid "Advanced"
+msgstr "Avanzado"
 
 #: resources/preferences_dialog.ui
 msgid "Use mirrors from:"

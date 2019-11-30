@@ -19,8 +19,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2019-11-02 15:00+0100\n"
-"PO-Revision-Date: 2019-11-04 14:31+0000\n"
+"POT-Creation-Date: 2019-11-27 21:28+0100\n"
+"PO-Revision-Date: 2019-11-28 14:39+0000\n"
 "Last-Translator: Davidmp <medipas@gmail.com>\n"
 "Language-Team: Catalan (http://www.transifex.com/manjarolinux/manjaro-pamac/language/ca/)\n"
 "MIME-Version: 1.0\n"
@@ -43,7 +43,7 @@ msgstr "Ha fallat la inicialització de la llibreria alpm."
 
 #: src/alpm_utils.vala
 msgid "Synchronizing package databases"
-msgstr "Sincronitzant les bases de dades dels paquets"
+msgstr "Se sincronitzen les bases de dades dels paquets."
 
 #: src/alpm_utils.vala
 msgid "Failed to synchronize databases"
@@ -65,27 +65,27 @@ msgstr "Ha fallat la preparació de la transacció."
 #: src/alpm_utils.vala src/installer.vala src/cli.vala
 #, c-format
 msgid "target not found: %s"
-msgstr "objectiu no trobat: %s"
+msgstr "Objectiu no trobat: %s"
 
 #: src/alpm_utils.vala
 #, c-format
 msgid "package %s does not have a valid architecture"
-msgstr "el paquet %s no té una arquitectura vàlida."
+msgstr "El paquet %s no té una arquitectura vàlida."
 
 #: src/alpm_utils.vala
 #, c-format
 msgid "unable to satisfy dependency '%s' required by %s"
-msgstr "no es pot satisfer la dependència \"%s\" requerida per %s."
+msgstr "No es pot satisfer la dependència \"%s\" requerida per %s."
 
 #: src/alpm_utils.vala
 #, c-format
 msgid "installing %s (%s) breaks dependency '%s' required by %s"
-msgstr "instal·lar %s (%s) trenca la dependència \"%s\" requerida per %s."
+msgstr "Instal·lar %s (%s) trenca la dependència \"%s\" requerida per %s."
 
 #: src/alpm_utils.vala
 #, c-format
 msgid "removing %s breaks dependency '%s' required by %s"
-msgstr "suprimir %s trenca la dependència \"%s\" requerida per %s."
+msgstr "Suprimir %s trenca la dependència \"%s\" requerida per %s."
 
 #: src/alpm_utils.vala
 #, c-format
@@ -107,7 +107,7 @@ msgstr "Res per fer."
 
 #: src/alpm_utils.vala src/transaction.vala
 msgid "Preparing"
-msgstr "Preparant"
+msgstr "Es prepara"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -126,7 +126,7 @@ msgstr "%s no és vàlid o és corrupte."
 
 #: src/alpm_utils.vala
 msgid "failed to retrieve some files"
-msgstr "ha fallat recuperar alguns fitxers"
+msgstr "Ha fallat recuperar alguns fitxers."
 
 #: src/alpm_utils.vala
 msgid "Failed to commit transaction"
@@ -134,61 +134,61 @@ msgstr "Ha fallat l'execució de la transacció."
 
 #: src/alpm_utils.vala
 msgid "Checking dependencies"
-msgstr "Comprovant les dependències"
+msgstr "Es comproven les dependències."
 
 #: src/alpm_utils.vala
 msgid "Checking file conflicts"
-msgstr "Comprovant els conflictes entre fitxers"
+msgstr "Es comproven els conflictes entre fitxers."
 
 #: src/alpm_utils.vala
 msgid "Resolving dependencies"
-msgstr "Resolent dependències"
+msgstr "Es resolen les dependències."
 
 #: src/alpm_utils.vala
 msgid "Checking inter-conflicts"
-msgstr "Comprovant els conflictes"
+msgstr "Es comproven els conflictes."
 
 #: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
 msgid "Installing %s"
-msgstr "Instal·lant %s"
+msgstr "S'instal·la %s"
 
 #: src/alpm_utils.vala
 #, c-format
 msgid "Upgrading %s"
-msgstr "Actualitzant %s"
+msgstr "S'actualitza %s"
 
 #: src/alpm_utils.vala
 #, c-format
 msgid "Reinstalling %s"
-msgstr "Reinstal·lant %s"
+msgstr "Es reinstal·la %s"
 
 #: src/alpm_utils.vala
 #, c-format
 msgid "Downgrading %s"
-msgstr "Desactualitzant %s"
+msgstr "Es desactualitza %s"
 
 #: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
 msgid "Removing %s"
-msgstr "Suprimint %s"
+msgstr "Se suprimeix %s"
 
 #: src/alpm_utils.vala
 msgid "Checking integrity"
-msgstr "Comprovant-ne la integritat"
+msgstr "Se'n comprova la integritat."
 
 #: src/alpm_utils.vala
 msgid "Loading packages files"
-msgstr "Carregant els fitxers dels paquets"
+msgstr "Es carreguen els fitxers dels paquets."
 
 #: src/alpm_utils.vala
 #, c-format
 msgid "Configuring %s"
-msgstr "Configurant %s"
+msgstr "Es configura %s"
 
 #: src/alpm_utils.vala
 msgid "Checking available disk space"
-msgstr "Comprovant l'espai disponible al disc"
+msgstr "Es comprova l'espai disponible al disc."
 
 #: src/alpm_utils.vala
 #, c-format
@@ -202,41 +202,41 @@ msgstr "El fitxer de base de dades per a %s no existeix"
 
 #: src/alpm_utils.vala
 msgid "Checking keyring"
-msgstr "Comprovant l'anell de claus"
+msgstr "Es comprova el clauer."
 
 #: src/alpm_utils.vala
 msgid "Downloading required keys"
-msgstr "Baixant les claus requerides"
+msgstr "Es baixen les claus requerides."
 
 #: src/alpm_utils.vala
 #, c-format
 msgid "%s installed as %s.pacnew"
-msgstr "%s instal·lat com a %s.pacnew"
+msgstr "%s s'ha instal·lat com a %s.pacnew"
 
 #: src/alpm_utils.vala
 #, c-format
 msgid "%s installed as %s.pacsave"
-msgstr "%s instal·lat com a %s.pacsave"
+msgstr "%s s'ha instal·lat com a %s.pacsave"
 
 #: src/alpm_utils.vala
 msgid "Running pre-transaction hooks"
-msgstr "Executant els ganxos de pretransacció"
+msgstr "S'executen els ganxos de pretransacció."
 
 #: src/alpm_utils.vala
 msgid "Running post-transaction hooks"
-msgstr "Executant els ganxos de posttransacció"
+msgstr "S'executen els ganxos de posttransacció."
 
 #: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
 msgid "About %u seconds remaining"
-msgstr "Manquen uns %u segons"
+msgstr "Manquen uns %u segons."
 
 #: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
 msgid "About %lu minute remaining"
 msgid_plural "About %lu minutes remaining"
-msgstr[0] "Manca %lu minut"
-msgstr[1] "Manquen %lu minuts"
+msgstr[0] "Manca %lu minut."
+msgstr[1] "Manquen %lu minuts."
 
 #: src/alpm_utils.vala src/transaction-cli.vala src/cli.vala
 msgid "Error"
@@ -259,12 +259,12 @@ msgstr "Ha acabat la baixada de %s."
 #: src/alpm_utils.vala
 #, c-format
 msgid "Downloading %s"
-msgstr "Baixant %s"
+msgstr "Es baixa %s"
 
 #: src/alpm_utils.vala
 #, c-format
 msgid "Refreshing %s"
-msgstr "Actualitzant %s"
+msgstr "S'actualitza %s"
 
 #: src/daemon.vala
 msgid "Authentication failed"
@@ -300,27 +300,27 @@ msgstr "No"
 
 #: src/transaction.vala
 msgid "Refreshing mirrors list"
-msgstr "Actualitzant la llista de rèpliques"
+msgstr "S'actualitza la llista de rèpliques."
 
 #: src/transaction.vala src/cli.vala
 #, c-format
 msgid "Cloning %s build files"
-msgstr "Clonant %s fitxers de construcció"
+msgstr "Es clonen %s fitxers de construcció."
 
 #: src/transaction.vala
 #, c-format
 msgid "Generating %s informations"
-msgstr "Generant %s informacions"
+msgstr "Es generen informacions de %s."
 
 #: src/transaction.vala
 #, c-format
 msgid "Checking %s dependencies"
-msgstr "Comprovant %s dependències"
+msgstr "Es comproven les dependències de %s."
 
 #: src/transaction.vala
 #, c-format
 msgid "key %s could not be imported"
-msgstr "la clau %s no s'ha pogut importar"
+msgstr "La clau %s no s'ha pogut importar."
 
 #: src/transaction.vala src/manager_window.vala
 msgid "Transaction successfully finished"
@@ -329,7 +329,7 @@ msgstr "Transacció acabada amb èxit"
 #: src/transaction.vala
 #, c-format
 msgid "Building %s"
-msgstr "Construint %s"
+msgstr "Es construeix %s"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
@@ -363,7 +363,7 @@ msgstr "La clau PGP %s és necessària per verificar %s fitxers de codi font."
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
 msgid "Trust %s and import the PGP key"
-msgstr "Confia en %s i importa'n la clau PGP"
+msgstr "Confia en %s i importa'n la clau PGP."
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "To remove"
@@ -396,7 +396,7 @@ msgstr "Mida total de la baixada"
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
 msgid "Edit %s build files"
-msgstr "Edita %s fitxers de construcció"
+msgstr "Edita %s fitxers de construcció."
 
 #: src/transaction-gtk.vala
 msgid "Save"
@@ -428,7 +428,7 @@ msgstr "Gestor de paquets"
 
 #: src/installer.vala src/cli.vala
 msgid "Install packages from repositories, path or url"
-msgstr "Instal·la paquets des del repositori, camí o url."
+msgstr "Instal·la paquets des del repositori, camí o URL."
 
 #: src/installer.vala src/cli.vala
 msgid "Remove packages"
@@ -440,7 +440,7 @@ msgstr "Construeix paquets de l'AUR i instal·lal's amb les dependències."
 
 #: src/installer.vala src/cli.vala
 msgid "package(s)"
-msgstr "paquet/s"
+msgstr "Paquet/s"
 
 #: src/tray.vala src/manager_window.vala src/cli.vala
 msgid "Your system is up-to-date"
@@ -520,7 +520,7 @@ msgstr "Raó d'instal·lació"
 
 #: src/manager_window.vala
 msgid "Mark as explicitly installed"
-msgstr "Marca com a instal·lat explícitament."
+msgstr "Marca'l com a instal·lat explícitament."
 
 #: src/manager_window.vala src/cli.vala
 msgid "Licenses"
@@ -725,6 +725,10 @@ msgid_plural "%u files"
 msgstr[0] "%u fitxer"
 msgstr[1] "%u fitxers"
 
+#: src/preferences_dialog.vala
+msgid "Choose Ignored Upgrades"
+msgstr "Trieu les actualitzacions que s'ignoren."
+
 #: src/transaction-cli.vala src/cli.vala
 #, c-format
 msgid "Enter a selection (default=%s)"
@@ -770,7 +774,7 @@ msgstr "Aplica la transacció"
 #: src/transaction-cli.vala
 #, c-format
 msgid "View %s build files diff"
-msgstr "Mostra les %s diferències dels fitxers de construcció"
+msgstr "Mostra les %s diferències dels fitxers de construcció."
 
 #: src/cli.vala
 msgid "Building packages as root is not allowed"
@@ -782,7 +786,7 @@ msgstr "No s'ha trobat cap fitxer PKGBUILD al directori actual."
 
 #: src/cli.vala
 msgid "Check development packages updates as root is not allowed"
-msgstr "No es permet comprovar si hi ha actualitzacions de paquets de desenvolupament com a usuari d'arrel"
+msgstr "No es permet comprovar si hi ha actualitzacions de paquets de desenvolupament com a usuari d'arrel."
 
 #: src/cli.vala
 msgid "Available actions"
@@ -790,11 +794,11 @@ msgstr "Accions disponibles"
 
 #: src/cli.vala
 msgid "action"
-msgstr "acció"
+msgstr "Acció"
 
 #: src/cli.vala
 msgid "options"
-msgstr "opcions"
+msgstr "Opcions"
 
 #: src/cli.vala
 msgid "Search for packages or files, multiple search terms can be specified"
@@ -802,11 +806,11 @@ msgstr "Cerca paquets o fitxers. Es poden especificar diversos termes de cerca."
 
 #: src/cli.vala
 msgid "file(s)"
-msgstr "fitxer/s"
+msgstr "Fitxer/s"
 
 #: src/cli.vala
 msgid "also search in AUR"
-msgstr "cerca també a l'AUR"
+msgstr "Cerca també a l'AUR."
 
 #: src/cli.vala
 msgid ""
@@ -823,11 +827,11 @@ msgstr "Llista paquets, grups, repositoris o fitxers."
 
 #: src/cli.vala
 msgid "group(s)"
-msgstr "grup/s"
+msgstr "Grup/s"
 
 #: src/cli.vala
 msgid "repo(s)"
-msgstr "repositori/s"
+msgstr "Repositori/s"
 
 #: src/cli.vala
 msgid "list installed packages"
@@ -865,7 +869,7 @@ msgstr "Clona o sincronitza els fitxers de construcció de paquets de l'AUR."
 
 #: src/cli.vala
 msgid "dir"
-msgstr "directori"
+msgstr "Directori"
 
 #: src/cli.vala
 msgid ""
@@ -890,11 +894,11 @@ msgstr "Si no es proporciona cap nom de paquet, s'usa el fitxer PKGBUILD del dir
 msgid ""
 "The build directory will be the parent directory, --builddir option will be "
 "ignored"
-msgstr "El directori de construcció serà el directori pare, s'ignorarà l'opció --builddir."
+msgstr "El directori de construcció serà el directori pare, s'ignorarà l'opció --builddir"
 
 #: src/cli.vala
 msgid "and --no-clone option will be enforced"
-msgstr "i es forçarà l'opció --no-clone"
+msgstr "i es forçarà l'opció --no-clone."
 
 #: src/cli.vala
 msgid "keep built packages in cache after installation"
@@ -910,7 +914,7 @@ msgstr "Omet tots els missatges de confirmació."
 
 #: src/cli.vala
 msgid "glob"
-msgstr "global"
+msgstr "Global"
 
 #: src/cli.vala
 msgid ""
@@ -925,14 +929,38 @@ msgid ""
 msgstr "Sobreescriu els fitxers amb conflictes. Es poden especificar diversos patrons separant-los amb comes."
 
 #: src/cli.vala
+msgid "download all packages but do not install/upgrade anything"
+msgstr "Baixa tots els paquets però no instal·lis ni actualitzis res."
+
+#: src/cli.vala
+msgid "mark all packages installed as a dependency"
+msgstr "Marca tots els paquets instal·lats com a dependència."
+
+#: src/cli.vala
+msgid "mark all packages explicitly installed"
+msgstr "Marca tots els paquets instal·lats explícitament."
+
+#: src/cli.vala
+msgid "do not check for updates"
+msgstr "No comprovis si hi ha actualitzacions."
+
+#: src/cli.vala
 msgid "Reinstall packages"
 msgstr "Reinstal·la els paquets"
+
+#: src/cli.vala
+msgid "remove packages only if they are not required by any other packages"
+msgstr "Suprimeix paquets només si no els requereix cap altre paquet."
 
 #: src/cli.vala
 msgid ""
 "remove dependencies that are not required by other packages, if this option "
 "is used without package name remove all orphans"
-msgstr "Suprimeix les dependències que no són necessàries per a altres paquets. Si s'usa aquesta opció sense dir cap nom de paquet, se suprimeixen totes els orfes."
+msgstr "Suprimeix les dependències que no són necessàries per a altres paquets. Si s'usa aquesta opció sense dir cap nom de paquet, se suprimeixen tots els paquets orfes."
+
+#: src/cli.vala
+msgid "ignore files backup"
+msgstr "Ignora la còpia de seguretat de fitxers."
 
 #: src/cli.vala
 msgid "Safely check for updates without modifiying the databases"
@@ -948,11 +976,11 @@ msgstr "Comprova també les actualitzacions de l'AUR."
 
 #: src/cli.vala
 msgid "also check development packages updates (use with --aur)"
-msgstr "Comprova també si hi ha actualitzacions de paquets de desenvolupament (useu-ho amb --aur)"
+msgstr "Comprova també si hi ha actualitzacions de paquets de desenvolupament (useu-ho amb --aur)."
 
 #: src/cli.vala
 msgid "only print one line per update"
-msgstr "Imprimeix només una línia per cada actualització"
+msgstr "Imprimeix només una línia per cada actualització."
 
 #: src/cli.vala
 msgid ""
@@ -970,7 +998,7 @@ msgstr "Actualitza també els paquets instal·lats des de l'AUR."
 
 #: src/cli.vala
 msgid "also upgrade development packages (use with --aur)"
-msgstr "actualitza també els paquets de desenvolupament (useu-ho amb --aur)"
+msgstr "Actualitza també els paquets de desenvolupament (useu-ho amb --aur)."
 
 #: src/cli.vala
 msgid ""
@@ -1047,17 +1075,24 @@ msgstr "No hi ha cap paquet al qual pertanyi %s."
 msgid "%s is owned by %s"
 msgstr "%s pertany a %s."
 
+#: src/cli.vala
+#, c-format
+msgid "%u ignored update"
+msgid_plural "%u ignored updates"
+msgstr[0] "%u actualització ignorada"
+msgstr[1] "%u actualitzacions ignorades"
+
 #: src/cli.vala resources/preferences_dialog.ui
 msgid "Remove only the versions of uninstalled packages"
 msgstr "Suprimeix només les versions dels paquets desinstal·lats."
 
 #: src/cli.vala resources/preferences_dialog.ui
 msgid "Clean cache"
-msgstr "Neteja la memòria cau"
+msgstr "Neteja la memòria cau."
 
 #: src/cli.vala resources/preferences_dialog.ui
 msgid "Clean build files"
-msgstr "Neteja els fitxers de construcció"
+msgstr "Neteja els fitxers de construcció."
 
 #: src/cli.vala
 #, c-format
@@ -1067,7 +1102,7 @@ msgstr "%s només està disponible des de l'AUR."
 #: src/cli.vala
 #, c-format
 msgid "Build %s from AUR"
-msgstr "Costrueix %s de l'AUR"
+msgstr "Construeix %s de l'AUR"
 
 #: src/cli.vala
 #, c-format
@@ -1170,29 +1205,15 @@ msgstr "Reinstal·la"
 
 #: resources/manager_window.ui
 msgid "Reset build files"
-msgstr "Restableix els fitxers de construcció"
-
-#: resources/preferences_dialog.ui
-msgid "Remove unrequired dependencies"
-msgstr "Suprimeix les dependències no requerides"
-
-#: resources/preferences_dialog.ui
-msgid ""
-"When removing a package, also remove its dependencies that are not required "
-"by other packages"
-msgstr "En suprimir un paquet, suprimeix-ne també les dependències que no siguin requerides per altres paquets."
-
-#: resources/preferences_dialog.ui
-msgid "Enable downgrade"
-msgstr "Habilita la desactualització"
+msgstr "Restableix els fitxers de construcció."
 
 #: resources/preferences_dialog.ui
 msgid "Check for updates"
-msgstr "Comprova si hi ha actualitzacions"
+msgstr "Comprova si hi ha actualitzacions."
 
 #: resources/preferences_dialog.ui
 msgid "Automatically download updates"
-msgstr "Baixa les actualitzacions automàticament"
+msgstr "Baixa les actualitzacions automàticament."
 
 #: resources/preferences_dialog.ui
 msgid "Hide tray icon when no update available"
@@ -1201,6 +1222,42 @@ msgstr "Amaga la icona de la safata quan no hi hagi actualitzacions disponibles.
 #: resources/preferences_dialog.ui
 msgid "General"
 msgstr "General"
+
+#: resources/preferences_dialog.ui
+msgid ""
+"Misconfiguration of these options can lead to system breakage.\n"
+"Modify them only if you know what you are doing."
+msgstr "Una configuració incorrecta d'aquestes opcions pot comportar un trencament del sistema.\nModifiqueu-les només si sabeu el que feu."
+
+#: resources/preferences_dialog.ui
+msgid "Check available disk space"
+msgstr "Comprova l'espai disponible al disc."
+
+#: resources/preferences_dialog.ui
+msgid "Remove unrequired dependencies"
+msgstr "Suprimeix les dependències no requerides."
+
+#: resources/preferences_dialog.ui
+msgid ""
+"When removing a package, also remove its dependencies that are not required "
+"by other packages"
+msgstr "En suprimir un paquet, suprimeix-ne també les dependències que no siguin requerides per altres paquets."
+
+#: resources/preferences_dialog.ui
+msgid "Do not check for updates when installing"
+msgstr "No comprovis si hi ha actualitzacions en instal·lar."
+
+#: resources/preferences_dialog.ui
+msgid "Enable downgrade"
+msgstr "Habilita la desactualització."
+
+#: resources/preferences_dialog.ui
+msgid "Ignore upgrades for:"
+msgstr "Ignora les actualitzacions per als paquets següents:"
+
+#: resources/preferences_dialog.ui
+msgid "Advanced"
+msgstr "Avançat"
 
 #: resources/preferences_dialog.ui
 msgid "Use mirrors from:"
@@ -1222,7 +1279,7 @@ msgstr "L'AUR és un repositori mantingut per la comunitat; per tant, pot compor
 
 #: resources/preferences_dialog.ui
 msgid "Enable AUR support"
-msgstr "Habilita el suport per a l'AUR"
+msgstr "Habilita el suport per a l'AUR."
 
 #: resources/preferences_dialog.ui
 msgid "Allow Pamac to search and install packages from AUR"
@@ -1238,7 +1295,7 @@ msgstr "Comprova si hi ha actualitzacions de l'AUR."
 
 #: resources/preferences_dialog.ui
 msgid "Check for development packages updates"
-msgstr "Comprova si hi ha actualitzacions de paquets de desenvolupament"
+msgstr "Comprova si hi ha actualitzacions de paquets de desenvolupament."
 
 #: resources/preferences_dialog.ui
 msgid "Snap packages are maintained by their publisher."
@@ -1246,7 +1303,7 @@ msgstr "Els paquets de Snap són mantinguts pels seus editors."
 
 #: resources/preferences_dialog.ui
 msgid "Enable Snap support"
-msgstr "Habilita el suport de Snap"
+msgstr "Habilita el suport per a Snap."
 
 #: resources/preferences_dialog.ui
 msgid "Cache"

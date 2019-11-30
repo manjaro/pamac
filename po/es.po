@@ -26,9 +26,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2019-11-02 15:00+0100\n"
-"PO-Revision-Date: 2019-11-02 14:08+0000\n"
-"Last-Translator: Guillaume Benoit <guillaume@manjaro.org>\n"
+"POT-Creation-Date: 2019-11-27 21:28+0100\n"
+"PO-Revision-Date: 2019-11-28 00:43+0000\n"
+"Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Spanish (http://www.transifex.com/manjarolinux/manjaro-pamac/language/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -133,7 +133,7 @@ msgstr "%s es inválido o corrupto"
 
 #: src/alpm_utils.vala
 msgid "failed to retrieve some files"
-msgstr ""
+msgstr "Error al recuperar algunos archivos"
 
 #: src/alpm_utils.vala
 msgid "Failed to commit transaction"
@@ -283,7 +283,7 @@ msgstr "En espera de otro gestor de paquetes para salir"
 
 #: src/daemon.vala
 msgid "Timeout expired"
-msgstr ""
+msgstr "Tiempo agotado"
 
 #: src/database.vala src/manager_window.vala
 msgid "Explicitly installed"
@@ -422,12 +422,12 @@ msgstr "Instalar"
 #: src/transaction-gtk.vala
 #, c-format
 msgid "The snap %s was published using classic confinement"
-msgstr ""
+msgstr "El snap %s fue publicado usando el confinamiento clásico"
 
 #: src/transaction-gtk.vala
 #, c-format
 msgid "Install %s anyway"
-msgstr ""
+msgstr "Instalar %s de todos modos"
 
 #: src/transaction-gtk.vala src/tray.vala
 msgid "Package Manager"
@@ -623,11 +623,11 @@ msgstr "Comprobar Dependencias"
 
 #: src/manager_window.vala
 msgid "Publisher"
-msgstr ""
+msgstr "Editor"
 
 #: src/manager_window.vala
 msgid "Confined in a Sandbox"
-msgstr ""
+msgstr " Confinado en Sandbox"
 
 #: src/manager_window.vala
 msgid "Channels"
@@ -729,8 +729,12 @@ msgstr "Paquetes a eliminar"
 #, c-format
 msgid "%u file"
 msgid_plural "%u files"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%u archivos"
+msgstr[1] "%u archivos"
+
+#: src/preferences_dialog.vala
+msgid "Choose Ignored Upgrades"
+msgstr "Elija actualizaciones ignoradas"
 
 #: src/transaction-cli.vala src/cli.vala
 #, c-format
@@ -772,7 +776,7 @@ msgstr "Tamaño total eliminado"
 
 #: src/transaction-cli.vala
 msgid "Apply transaction"
-msgstr ""
+msgstr "Aplicar transacción"
 
 #: src/transaction-cli.vala
 #, c-format
@@ -901,11 +905,11 @@ msgstr "El  directorio construido será el directorio padre, la opción --buildd
 
 #: src/cli.vala
 msgid "and --no-clone option will be enforced"
-msgstr ""
+msgstr "Y la opción --no-clone se aplicará"
 
 #: src/cli.vala
 msgid "keep built packages in cache after installation"
-msgstr ""
+msgstr "Mantener paquetes construidos en caché  después de la instlación"
 
 #: src/cli.vala
 msgid "do not clone build files from AUR, only use local files"
@@ -932,14 +936,38 @@ msgid ""
 msgstr "Sobreescribe los archivos conflictivos, se pueden especificar múltiples patrones separándolos con una coma"
 
 #: src/cli.vala
+msgid "download all packages but do not install/upgrade anything"
+msgstr ""
+
+#: src/cli.vala
+msgid "mark all packages installed as a dependency"
+msgstr ""
+
+#: src/cli.vala
+msgid "mark all packages explicitly installed"
+msgstr "marcar todos los paquetes instalados explícitamente"
+
+#: src/cli.vala
+msgid "do not check for updates"
+msgstr "No buscar actualizaciones"
+
+#: src/cli.vala
 msgid "Reinstall packages"
 msgstr "Reinstalar paquetes"
+
+#: src/cli.vala
+msgid "remove packages only if they are not required by any other packages"
+msgstr ""
 
 #: src/cli.vala
 msgid ""
 "remove dependencies that are not required by other packages, if this option "
 "is used without package name remove all orphans"
 msgstr "elimina las dependencias que no son requeridas por otros paquetes, si esta opción se usa sin dar ningún nombre de paquete se eliminan los paquetes huérfanos"
+
+#: src/cli.vala
+msgid "ignore files backup"
+msgstr ""
 
 #: src/cli.vala
 msgid "Safely check for updates without modifiying the databases"
@@ -1022,7 +1050,7 @@ msgstr ""
 
 #: src/cli.vala
 msgid "also display all files names"
-msgstr ""
+msgstr "también mostrar todos los nombre de los archivos"
 
 #: src/cli.vala resources/manager_window.ui
 msgid "Name"
@@ -1054,6 +1082,13 @@ msgstr "Ningún paquete es propietario de %s"
 msgid "%s is owned by %s"
 msgstr "%s es propiedad de %s"
 
+#: src/cli.vala
+#, c-format
+msgid "%u ignored update"
+msgid_plural "%u ignored updates"
+msgstr[0] "%u Actualizaciones ignoradas"
+msgstr[1] "%u Actualizaciones ignoradas"
+
 #: src/cli.vala resources/preferences_dialog.ui
 msgid "Remove only the versions of uninstalled packages"
 msgstr "Eliminar sólo las versiones de los paquetes desinstalados"
@@ -1069,12 +1104,12 @@ msgstr "Limpiar archivos de compilación"
 #: src/cli.vala
 #, c-format
 msgid "%s is only available from AUR"
-msgstr ""
+msgstr "%s esta solo disponible desde AUR"
 
 #: src/cli.vala
 #, c-format
 msgid "Build %s from AUR"
-msgstr ""
+msgstr "Construir %s desde AUR"
 
 #: src/cli.vala
 #, c-format
@@ -1180,20 +1215,6 @@ msgid "Reset build files"
 msgstr "Restablecer archivos de compilación"
 
 #: resources/preferences_dialog.ui
-msgid "Remove unrequired dependencies"
-msgstr "Eliminar dependencias innecesarias "
-
-#: resources/preferences_dialog.ui
-msgid ""
-"When removing a package, also remove its dependencies that are not required "
-"by other packages"
-msgstr "Al eliminar un paquete,  eliminar también las dependencias que no son requeridas por otros paquetes"
-
-#: resources/preferences_dialog.ui
-msgid "Enable downgrade"
-msgstr "Habilitar el volver a una version anterior"
-
-#: resources/preferences_dialog.ui
 msgid "Check for updates"
 msgstr "Comprobar actualizaciones"
 
@@ -1208,6 +1229,42 @@ msgstr "Ocultar icono del área de notificación cuando no hayan actualizaciones
 #: resources/preferences_dialog.ui
 msgid "General"
 msgstr "General"
+
+#: resources/preferences_dialog.ui
+msgid ""
+"Misconfiguration of these options can lead to system breakage.\n"
+"Modify them only if you know what you are doing."
+msgstr ""
+
+#: resources/preferences_dialog.ui
+msgid "Check available disk space"
+msgstr "Verifique el espacio disponible en el disco"
+
+#: resources/preferences_dialog.ui
+msgid "Remove unrequired dependencies"
+msgstr "Eliminar dependencias innecesarias "
+
+#: resources/preferences_dialog.ui
+msgid ""
+"When removing a package, also remove its dependencies that are not required "
+"by other packages"
+msgstr "Al eliminar un paquete,  eliminar también las dependencias que no son requeridas por otros paquetes"
+
+#: resources/preferences_dialog.ui
+msgid "Do not check for updates when installing"
+msgstr "No buscar actualizaciones cuando se este instalando"
+
+#: resources/preferences_dialog.ui
+msgid "Enable downgrade"
+msgstr "Habilitar el volver a una version anterior"
+
+#: resources/preferences_dialog.ui
+msgid "Ignore upgrades for:"
+msgstr "Ignorar las actualizaciones para:"
+
+#: resources/preferences_dialog.ui
+msgid "Advanced"
+msgstr "Avanzado"
 
 #: resources/preferences_dialog.ui
 msgid "Use mirrors from:"
@@ -1237,7 +1294,7 @@ msgstr "Permitir a Pamac buscar e instalar paquetes desde AUR"
 
 #: resources/preferences_dialog.ui
 msgid "Keep built packages in cache"
-msgstr ""
+msgstr "Mantener paquetes construidos en caché"
 
 #: resources/preferences_dialog.ui
 msgid "Check for updates from AUR"
@@ -1249,11 +1306,11 @@ msgstr "Comprobar actualizaciones de paquetes en desarrollo."
 
 #: resources/preferences_dialog.ui
 msgid "Snap packages are maintained by their publisher."
-msgstr ""
+msgstr "Paquetes Snap son mantenidos por sus editores."
 
 #: resources/preferences_dialog.ui
 msgid "Enable Snap support"
-msgstr ""
+msgstr "Habilitar soporte Snap"
 
 #: resources/preferences_dialog.ui
 msgid "Cache"

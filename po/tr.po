@@ -9,6 +9,7 @@
 # Demiray Muhterem <mdemiray@msn.com>, 2018
 # Guillaume Benoit <guillaume@manjaro.org>, 2013
 # philm <philm@manjaro.org>, 2015
+# Sabri Ünal <libreajans@gmail.com>, 2019
 # Serdar Sağlam <teknomobil@msn.com>, 2019
 # Yusuf Faruk DOĞAN <yfdogan@gmail.com>, 2013
 # Yusuf Faruk DOĞAN <yfdogan@gmail.com>, 2013
@@ -16,9 +17,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2019-11-02 15:00+0100\n"
-"PO-Revision-Date: 2019-11-07 20:20+0000\n"
-"Last-Translator: Demiray Muhterem <mdemiray@msn.com>\n"
+"POT-Creation-Date: 2019-11-27 21:28+0100\n"
+"PO-Revision-Date: 2019-11-28 05:34+0000\n"
+"Last-Translator: Sabri Ünal <libreajans@gmail.com>\n"
 "Language-Team: Turkish (http://www.transifex.com/manjarolinux/manjaro-pamac/language/tr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -722,6 +723,10 @@ msgid_plural "%u files"
 msgstr[0] "%u dosya"
 msgstr[1] "%u dosya"
 
+#: src/preferences_dialog.vala
+msgid "Choose Ignored Upgrades"
+msgstr "Yoksayılan Yükseltmeleri Seç"
+
 #: src/transaction-cli.vala src/cli.vala
 #, c-format
 msgid "Enter a selection (default=%s)"
@@ -922,14 +927,38 @@ msgid ""
 msgstr "çakışan dosyaların üzerine yaz, birden çok komut virgülle ayırarak belirlenebilir"
 
 #: src/cli.vala
+msgid "download all packages but do not install/upgrade anything"
+msgstr "tüm paketleri indir ama hiçbir şeyi yükleme/yükseltme"
+
+#: src/cli.vala
+msgid "mark all packages installed as a dependency"
+msgstr "bağlı olan tüm paketleri işaretle"
+
+#: src/cli.vala
+msgid "mark all packages explicitly installed"
+msgstr "doğrudan yüklenen tüm paketleri işaretle"
+
+#: src/cli.vala
+msgid "do not check for updates"
+msgstr "güncellemeleri kontrol etme"
+
+#: src/cli.vala
 msgid "Reinstall packages"
 msgstr "Paketleri tekrar kur"
+
+#: src/cli.vala
+msgid "remove packages only if they are not required by any other packages"
+msgstr "paketleri yalnızca başka bir paket için gerekli olmadıklarında çıkar"
 
 #: src/cli.vala
 msgid ""
 "remove dependencies that are not required by other packages, if this option "
 "is used without package name remove all orphans"
 msgstr "diğer paketlerin gerektirmediği bağımlılıkları kaldır, paket adı olmadan bu seçenek kullanılıyorsa tüm sahipsiz paketleri kaldır"
+
+#: src/cli.vala
+msgid "ignore files backup"
+msgstr "dosya yedeklemesini yoksay"
 
 #: src/cli.vala
 msgid "Safely check for updates without modifiying the databases"
@@ -1043,6 +1072,13 @@ msgstr "Sahipsiz paket %s"
 #, c-format
 msgid "%s is owned by %s"
 msgstr "%s sahibi %s"
+
+#: src/cli.vala
+#, c-format
+msgid "%u ignored update"
+msgid_plural "%u ignored updates"
+msgstr[0] "%u güncelleme yoksayıldı"
+msgstr[1] "%u güncellemeleri yoksayıldı"
 
 #: src/cli.vala resources/preferences_dialog.ui
 msgid "Remove only the versions of uninstalled packages"
@@ -1170,20 +1206,6 @@ msgid "Reset build files"
 msgstr "Derleme dosyalarını sıfırla"
 
 #: resources/preferences_dialog.ui
-msgid "Remove unrequired dependencies"
-msgstr "Gereksiz bağımlılıkları kaldır"
-
-#: resources/preferences_dialog.ui
-msgid ""
-"When removing a package, also remove its dependencies that are not required "
-"by other packages"
-msgstr "Bir paket kaldırılırken, başka bir uygulama aynı bağımlılıkları kullanmıyorsa paketi bağımlılıkları ile birlikte kaldır"
-
-#: resources/preferences_dialog.ui
-msgid "Enable downgrade"
-msgstr "Sürüm düşürmeyi etkinleştir"
-
-#: resources/preferences_dialog.ui
 msgid "Check for updates"
 msgstr "Güncellemeleri kontrol et"
 
@@ -1198,6 +1220,42 @@ msgstr "Güncelleme olmadığında tepsi simgesini gizle"
 #: resources/preferences_dialog.ui
 msgid "General"
 msgstr "Genel"
+
+#: resources/preferences_dialog.ui
+msgid ""
+"Misconfiguration of these options can lead to system breakage.\n"
+"Modify them only if you know what you are doing."
+msgstr "Bu seçeneklerin yanlış yapılandırılması sistemin bozulmasına neden olabilir.\nYalnızca ne yaptığınızı biliyorsanız, onları değiştirin."
+
+#: resources/preferences_dialog.ui
+msgid "Check available disk space"
+msgstr "Kullanılabilir disk alanını kontrol et"
+
+#: resources/preferences_dialog.ui
+msgid "Remove unrequired dependencies"
+msgstr "Gereksiz bağımlılıkları kaldır"
+
+#: resources/preferences_dialog.ui
+msgid ""
+"When removing a package, also remove its dependencies that are not required "
+"by other packages"
+msgstr "Bir paket kaldırılırken, başka bir uygulama aynı bağımlılıkları kullanmıyorsa paketi bağımlılıkları ile birlikte kaldır"
+
+#: resources/preferences_dialog.ui
+msgid "Do not check for updates when installing"
+msgstr "Kurulum esnasında güncellemeleri kontrol etme"
+
+#: resources/preferences_dialog.ui
+msgid "Enable downgrade"
+msgstr "Sürüm düşürmeyi etkinleştir"
+
+#: resources/preferences_dialog.ui
+msgid "Ignore upgrades for:"
+msgstr "Şu paketleri güncelleme:"
+
+#: resources/preferences_dialog.ui
+msgid "Advanced"
+msgstr "Gelişmiş"
 
 #: resources/preferences_dialog.ui
 msgid "Use mirrors from:"

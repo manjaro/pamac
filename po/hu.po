@@ -14,14 +14,15 @@
 # 271a73fe325823f2941533b778424ef0, 2018
 # sivananda <kotagirisivananda@gmail.com>, 2014
 # Tamás Plaszkó, 2017
+# tothist <tothy87@gmail.com>, 2019
 # Zsolt Demeter <demeter52@windowslive.com>, 2019
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2019-11-02 15:00+0100\n"
-"PO-Revision-Date: 2019-11-02 14:08+0000\n"
-"Last-Translator: Guillaume Benoit <guillaume@manjaro.org>\n"
+"POT-Creation-Date: 2019-11-27 21:28+0100\n"
+"PO-Revision-Date: 2019-11-28 00:43+0000\n"
+"Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Hungarian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/hu/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -31,11 +32,11 @@ msgstr ""
 
 #: data/polkit/org.manjaro.pamac.policy.in
 msgid "Install, update, or remove packages"
-msgstr ""
+msgstr "Csomagok telepítése, frissítése vagy eltávolítása"
 
 #: data/polkit/org.manjaro.pamac.policy.in
 msgid "Authentication is required to install, update, or remove packages"
-msgstr ""
+msgstr "A csomagok telepítéséhez, frissítéséhez vagy eltávolításához hitelesítés szükséges"
 
 #: src/alpm_utils.vala src/database.vala
 msgid "Failed to initialize alpm library"
@@ -47,7 +48,7 @@ msgstr "Csomag adatbázisok szinkronizálása"
 
 #: src/alpm_utils.vala
 msgid "Failed to synchronize databases"
-msgstr ""
+msgstr "Nem sikerült az adatbázisok szinkronizálása"
 
 #: src/alpm_utils.vala src/database.vala src/manager_window.vala src/cli.vala
 #: resources/preferences_dialog.ui
@@ -126,7 +127,7 @@ msgstr "%s hibás vagy sérült"
 
 #: src/alpm_utils.vala
 msgid "failed to retrieve some files"
-msgstr ""
+msgstr "néhány fájl letöltése nem sikerült"
 
 #: src/alpm_utils.vala
 msgid "Failed to commit transaction"
@@ -249,12 +250,12 @@ msgstr "Figyelem"
 #: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
 msgid "Download of %s started"
-msgstr ""
+msgstr "A %s letöltése megkezdődött"
 
 #: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
 msgid "Download of %s finished"
-msgstr ""
+msgstr "A %s letöltése befejezödött"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -276,7 +277,7 @@ msgstr "Várakozás másik csomagkezelő kilépésére"
 
 #: src/daemon.vala
 msgid "Timeout expired"
-msgstr ""
+msgstr "Az időkorlát lejárt"
 
 #: src/database.vala src/manager_window.vala
 msgid "Explicitly installed"
@@ -420,7 +421,7 @@ msgstr ""
 #: src/transaction-gtk.vala
 #, c-format
 msgid "Install %s anyway"
-msgstr ""
+msgstr "Telepítse %s programot"
 
 #: src/transaction-gtk.vala src/tray.vala
 msgid "Package Manager"
@@ -616,7 +617,7 @@ msgstr "Függőségek ellenőrzése"
 
 #: src/manager_window.vala
 msgid "Publisher"
-msgstr ""
+msgstr "Kiadó"
 
 #: src/manager_window.vala
 msgid "Confined in a Sandbox"
@@ -624,7 +625,7 @@ msgstr ""
 
 #: src/manager_window.vala
 msgid "Channels"
-msgstr ""
+msgstr "Csatornák"
 
 #: src/manager_window.vala
 msgid "Upgrade"
@@ -640,27 +641,27 @@ msgstr "Eltávolít"
 
 #: src/manager_window.vala
 msgid "Featured"
-msgstr ""
+msgstr "Kiemelt"
 
 #: src/manager_window.vala
 msgid "Photo & Video"
-msgstr ""
+msgstr "Fotó és Videó"
 
 #: src/manager_window.vala
 msgid "Music & Audio"
-msgstr ""
+msgstr "Zene és Hang"
 
 #: src/manager_window.vala
 msgid "Productivity"
-msgstr ""
+msgstr "Termelékenység"
 
 #: src/manager_window.vala
 msgid "Communication & News"
-msgstr ""
+msgstr "Kommunikáció és Hírek"
 
 #: src/manager_window.vala
 msgid "Education & Science"
-msgstr ""
+msgstr "Oktatás és Tudomány"
 
 #: src/manager_window.vala
 msgid "Games"
@@ -668,7 +669,7 @@ msgstr "Játékok"
 
 #: src/manager_window.vala
 msgid "Utilities"
-msgstr ""
+msgstr "Segédprogramok"
 
 #: src/manager_window.vala
 msgid "Development"
@@ -724,6 +725,10 @@ msgid "%u file"
 msgid_plural "%u files"
 msgstr[0] "%u fájlok"
 msgstr[1] "%u fájlok"
+
+#: src/preferences_dialog.vala
+msgid "Choose Ignored Upgrades"
+msgstr ""
 
 #: src/transaction-cli.vala src/cli.vala
 #, c-format
@@ -898,7 +903,7 @@ msgstr ""
 
 #: src/cli.vala
 msgid "keep built packages in cache after installation"
-msgstr ""
+msgstr "tartsa a beépített csomagokat gyorsítótárban a telepítés után"
 
 #: src/cli.vala
 msgid "do not clone build files from AUR, only use local files"
@@ -925,14 +930,38 @@ msgid ""
 msgstr "Ütközést okozó fájlok felülírás, több minta is megadható vesszővel elválasztva"
 
 #: src/cli.vala
+msgid "download all packages but do not install/upgrade anything"
+msgstr ""
+
+#: src/cli.vala
+msgid "mark all packages installed as a dependency"
+msgstr ""
+
+#: src/cli.vala
+msgid "mark all packages explicitly installed"
+msgstr ""
+
+#: src/cli.vala
+msgid "do not check for updates"
+msgstr ""
+
+#: src/cli.vala
 msgid "Reinstall packages"
 msgstr "Csomagok újratelepítése"
+
+#: src/cli.vala
+msgid "remove packages only if they are not required by any other packages"
+msgstr ""
 
 #: src/cli.vala
 msgid ""
 "remove dependencies that are not required by other packages, if this option "
 "is used without package name remove all orphans"
 msgstr "más csomag által nem igényelt függőségek eltávolítása, ha nincs csomagnév megadva, akkor az összes árva eltávolításra kerül"
+
+#: src/cli.vala
+msgid "ignore files backup"
+msgstr ""
 
 #: src/cli.vala
 msgid "Safely check for updates without modifiying the databases"
@@ -1035,7 +1064,7 @@ msgstr "URL"
 
 #: src/cli.vala
 msgid "Installed Size"
-msgstr ""
+msgstr "Telepített méret"
 
 #: src/cli.vala
 #, c-format
@@ -1046,6 +1075,13 @@ msgstr "Nincs csomagtulajdonos%s"
 #, c-format
 msgid "%s is owned by %s"
 msgstr "%s tulajdonosa %s"
+
+#: src/cli.vala
+#, c-format
+msgid "%u ignored update"
+msgid_plural "%u ignored updates"
+msgstr[0] ""
+msgstr[1] ""
 
 #: src/cli.vala resources/preferences_dialog.ui
 msgid "Remove only the versions of uninstalled packages"
@@ -1062,12 +1098,12 @@ msgstr "Átmeneti telepítő fájlok tisztítása"
 #: src/cli.vala
 #, c-format
 msgid "%s is only available from AUR"
-msgstr ""
+msgstr "%s csak az AUR -ból érhető el."
 
 #: src/cli.vala
 #, c-format
 msgid "Build %s from AUR"
-msgstr ""
+msgstr "%s építése az AUR-ból"
 
 #: src/cli.vala
 #, c-format
@@ -1142,7 +1178,7 @@ msgstr "Összes telepítése"
 
 #: resources/manager_window.ui
 msgid "Ignore all"
-msgstr ""
+msgstr "Mindent figyelmen kivül hagy"
 
 #: resources/manager_window.ui
 msgid "Sort by"
@@ -1173,20 +1209,6 @@ msgid "Reset build files"
 msgstr "Build fájlok visszaállítása"
 
 #: resources/preferences_dialog.ui
-msgid "Remove unrequired dependencies"
-msgstr "Nem megkövetelt függőségek eltávolítása"
-
-#: resources/preferences_dialog.ui
-msgid ""
-"When removing a package, also remove its dependencies that are not required "
-"by other packages"
-msgstr "Csomag eltávolításakor távolítsa el a függőségeket amik nem megköveteltek más csomagok által"
-
-#: resources/preferences_dialog.ui
-msgid "Enable downgrade"
-msgstr "Régi verziókra való lépés engedélyezése"
-
-#: resources/preferences_dialog.ui
 msgid "Check for updates"
 msgstr "Frissítések keresése"
 
@@ -1201,6 +1223,42 @@ msgstr "Az ikon elrejtése, ha nincs elérhető frissítés"
 #: resources/preferences_dialog.ui
 msgid "General"
 msgstr "Általános"
+
+#: resources/preferences_dialog.ui
+msgid ""
+"Misconfiguration of these options can lead to system breakage.\n"
+"Modify them only if you know what you are doing."
+msgstr ""
+
+#: resources/preferences_dialog.ui
+msgid "Check available disk space"
+msgstr ""
+
+#: resources/preferences_dialog.ui
+msgid "Remove unrequired dependencies"
+msgstr "Nem megkövetelt függőségek eltávolítása"
+
+#: resources/preferences_dialog.ui
+msgid ""
+"When removing a package, also remove its dependencies that are not required "
+"by other packages"
+msgstr "Csomag eltávolításakor távolítsa el a függőségeket amik nem megköveteltek más csomagok által"
+
+#: resources/preferences_dialog.ui
+msgid "Do not check for updates when installing"
+msgstr ""
+
+#: resources/preferences_dialog.ui
+msgid "Enable downgrade"
+msgstr "Régi verziókra való lépés engedélyezése"
+
+#: resources/preferences_dialog.ui
+msgid "Ignore upgrades for:"
+msgstr ""
+
+#: resources/preferences_dialog.ui
+msgid "Advanced"
+msgstr ""
 
 #: resources/preferences_dialog.ui
 msgid "Use mirrors from:"
@@ -1230,7 +1288,7 @@ msgstr "Pamac kereshet és telepíthet csomagokat az AUR -ból"
 
 #: resources/preferences_dialog.ui
 msgid "Keep built packages in cache"
-msgstr ""
+msgstr "Tartsa a beépített csomagokat a gyorsítótárban"
 
 #: resources/preferences_dialog.ui
 msgid "Check for updates from AUR"
@@ -1242,11 +1300,11 @@ msgstr "Ellenőrizze a fejlesztés alatt álló csomagok frissítéseit"
 
 #: resources/preferences_dialog.ui
 msgid "Snap packages are maintained by their publisher."
-msgstr ""
+msgstr "Az Snap-csomagokat a kiadó karbantartja."
 
 #: resources/preferences_dialog.ui
 msgid "Enable Snap support"
-msgstr ""
+msgstr "Snap támogatás engedélyezése"
 
 #: resources/preferences_dialog.ui
 msgid "Cache"

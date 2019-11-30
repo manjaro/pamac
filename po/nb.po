@@ -18,6 +18,7 @@
 # Øystein Steffensen-Alværvik <internett@protonmail.com>, 2017
 # philm <philm@manjaro.org>, 2014-2015
 # Rune Slettebakken <runslett@gmail.com>, 2015
+# Rune Vikestad <rune.vikestad@outlook.com>, 2019
 # Tom Eirik Flovik <tflovik@online.no>, 2013
 # thomas <thomasbjornvold@gmail.com>, 2015-2016
 # Tom Eirik Flovik <tflovik@online.no>, 2013
@@ -28,9 +29,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2019-11-02 15:00+0100\n"
-"PO-Revision-Date: 2019-11-02 14:08+0000\n"
-"Last-Translator: Guillaume Benoit <guillaume@manjaro.org>\n"
+"POT-Creation-Date: 2019-11-27 21:28+0100\n"
+"PO-Revision-Date: 2019-11-28 00:43+0000\n"
+"Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Norwegian Bokmål (http://www.transifex.com/manjarolinux/manjaro-pamac/language/nb/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -40,11 +41,11 @@ msgstr ""
 
 #: data/polkit/org.manjaro.pamac.policy.in
 msgid "Install, update, or remove packages"
-msgstr ""
+msgstr "Installer, oppdater eller fjern pakker"
 
 #: data/polkit/org.manjaro.pamac.policy.in
 msgid "Authentication is required to install, update, or remove packages"
-msgstr ""
+msgstr "Autentisering er påkrevd for å kunne installere, oppdatere eller fjerne pakker"
 
 #: src/alpm_utils.vala src/database.vala
 msgid "Failed to initialize alpm library"
@@ -734,6 +735,10 @@ msgid_plural "%u files"
 msgstr[0] "1%u fil"
 msgstr[1] "%u filer"
 
+#: src/preferences_dialog.vala
+msgid "Choose Ignored Upgrades"
+msgstr ""
+
 #: src/transaction-cli.vala src/cli.vala
 #, c-format
 msgid "Enter a selection (default=%s)"
@@ -934,13 +939,37 @@ msgid ""
 msgstr ""
 
 #: src/cli.vala
+msgid "download all packages but do not install/upgrade anything"
+msgstr ""
+
+#: src/cli.vala
+msgid "mark all packages installed as a dependency"
+msgstr ""
+
+#: src/cli.vala
+msgid "mark all packages explicitly installed"
+msgstr ""
+
+#: src/cli.vala
+msgid "do not check for updates"
+msgstr ""
+
+#: src/cli.vala
 msgid "Reinstall packages"
 msgstr "Reinstaller pakker"
+
+#: src/cli.vala
+msgid "remove packages only if they are not required by any other packages"
+msgstr ""
 
 #: src/cli.vala
 msgid ""
 "remove dependencies that are not required by other packages, if this option "
 "is used without package name remove all orphans"
+msgstr ""
+
+#: src/cli.vala
+msgid "ignore files backup"
 msgstr ""
 
 #: src/cli.vala
@@ -1055,6 +1084,13 @@ msgstr "Ingen pakke eier 1%s"
 #, c-format
 msgid "%s is owned by %s"
 msgstr "1%s eies av 1%s"
+
+#: src/cli.vala
+#, c-format
+msgid "%u ignored update"
+msgid_plural "%u ignored updates"
+msgstr[0] ""
+msgstr[1] ""
 
 #: src/cli.vala resources/preferences_dialog.ui
 msgid "Remove only the versions of uninstalled packages"
@@ -1182,20 +1218,6 @@ msgid "Reset build files"
 msgstr ""
 
 #: resources/preferences_dialog.ui
-msgid "Remove unrequired dependencies"
-msgstr "Fjern avhengige pakker som er unødvendige"
-
-#: resources/preferences_dialog.ui
-msgid ""
-"When removing a package, also remove its dependencies that are not required "
-"by other packages"
-msgstr "Når du fjerner en pakke, fjern også dets avhengigheter som ikke kreves av andre pakker"
-
-#: resources/preferences_dialog.ui
-msgid "Enable downgrade"
-msgstr "Aktiver nedgradering"
-
-#: resources/preferences_dialog.ui
 msgid "Check for updates"
 msgstr "Se etter oppdateringer"
 
@@ -1210,6 +1232,42 @@ msgstr "Gjem ikon når det ikke finnes noen oppdateringer"
 #: resources/preferences_dialog.ui
 msgid "General"
 msgstr "Generelt"
+
+#: resources/preferences_dialog.ui
+msgid ""
+"Misconfiguration of these options can lead to system breakage.\n"
+"Modify them only if you know what you are doing."
+msgstr ""
+
+#: resources/preferences_dialog.ui
+msgid "Check available disk space"
+msgstr ""
+
+#: resources/preferences_dialog.ui
+msgid "Remove unrequired dependencies"
+msgstr "Fjern avhengige pakker som er unødvendige"
+
+#: resources/preferences_dialog.ui
+msgid ""
+"When removing a package, also remove its dependencies that are not required "
+"by other packages"
+msgstr "Når du fjerner en pakke, fjern også dets avhengigheter som ikke kreves av andre pakker"
+
+#: resources/preferences_dialog.ui
+msgid "Do not check for updates when installing"
+msgstr ""
+
+#: resources/preferences_dialog.ui
+msgid "Enable downgrade"
+msgstr "Aktiver nedgradering"
+
+#: resources/preferences_dialog.ui
+msgid "Ignore upgrades for:"
+msgstr ""
+
+#: resources/preferences_dialog.ui
+msgid "Advanced"
+msgstr ""
 
 #: resources/preferences_dialog.ui
 msgid "Use mirrors from:"
