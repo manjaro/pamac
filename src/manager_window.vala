@@ -3221,6 +3221,9 @@ namespace Pamac {
 		[GtkCallback]
 		void on_preferences_button_clicked () {
 			this.get_window ().set_cursor (new Gdk.Cursor.for_display (Gdk.Display.get_default (), Gdk.CursorType.WATCH));
+			while (Gtk.events_pending ()) {
+				Gtk.main_iteration ();
+			}
 			bool authorized = transaction.get_authorization ();
 			if (authorized) {
 				var preferences_dialog = new PreferencesDialog (transaction);

@@ -241,8 +241,14 @@ namespace Pamac {
 		}
 
 		public void clean_build_files () {
+			string real_aur_build_dir;
+			if (database.config.aur_build_dir == "/var/tmp") {
+				real_aur_build_dir = Path.build_path ("/", database.config.aur_build_dir, "pamac-build-%s".printf (Environment.get_user_name ()));
+			} else {
+				real_aur_build_dir = Path.build_path ("/", database.config.aur_build_dir, "pamac-build");
+			}
 			try {
-				transaction_interface.clean_build_files (database.config.aur_build_dir);
+				transaction_interface.clean_build_files (real_aur_build_dir);
 			} catch (Error e) {
 				emit_error ("Daemon Error", {"clean_build_files: %s".printf (e.message)});
 			}
@@ -709,7 +715,6 @@ namespace Pamac {
 				}
 				sysupgrading = false;
 				force_refresh = false;
-				trans_flags = 0;
 				to_install.remove_all ();
 				to_remove.remove_all ();
 				to_load.remove_all ();

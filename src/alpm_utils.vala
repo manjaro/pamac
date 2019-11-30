@@ -270,14 +270,8 @@ namespace Pamac {
 		}
 
 		internal bool clean_build_files (string aur_build_dir) {
-			string real_aur_build_dir;
-			if (aur_build_dir == "/var/tmp") {
-				real_aur_build_dir = Path.build_path ("/", aur_build_dir, "pamac-build-%s".printf (Environment.get_user_name ()));
-			} else {
-				real_aur_build_dir = Path.build_path ("/", aur_build_dir, "pamac-build");
-			}
 			try {
-				Process.spawn_command_line_sync ("rm -rf %s".printf (real_aur_build_dir));
+				Process.spawn_command_line_sync ("rm -rf %s".printf (aur_build_dir));
 				return true;
 			} catch (SpawnError e) {
 				critical ("SpawnError: %s\n", e.message);

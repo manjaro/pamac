@@ -672,9 +672,6 @@ namespace Pamac {
 				init_transaction ();
 				if (keep > 0) {
 					database.config.clean_keep_num_pkgs = keep;
-				} else {
-					display_clean_help ();
-					return;
 				}
 				if (uninstalled) {
 					database.config.clean_rm_only_uninstalled = true;
@@ -1983,7 +1980,11 @@ namespace Pamac {
 				}
 				stdout.printf ("\n");
 			}
-			stdout.printf ("%s: %s  (%s)\n".printf (dgettext (null, "To delete"), dngettext (null, "%u file", "%u files", files_nb).printf (files_nb), format_size (total_size)));
+			if (files_nb == 0) {
+				stdout.printf ("%s: %s\n".printf (dgettext (null, "To delete"), dngettext (null, "%u file", "%u files", files_nb).printf (files_nb)));
+			} else {
+				stdout.printf ("%s: %s  (%s)\n".printf (dgettext (null, "To delete"), dngettext (null, "%u file", "%u files", files_nb).printf (files_nb), format_size (total_size)));
+			}
 			if (files_nb == 0 || dry_run) {
 				return;
 			}
@@ -2011,7 +2012,11 @@ namespace Pamac {
 				}
 				stdout.printf ("\n");
 			}
-			stdout.printf ("%s: %s  (%s)\n".printf (dgettext (null, "To delete"), dngettext (null, "%u file", "%u files", files_nb).printf (files_nb), format_size (total_size)));
+			if (files_nb == 0) {
+				stdout.printf ("%s: %s\n".printf (dgettext (null, "To delete"), dngettext (null, "%u file", "%u files", files_nb).printf (files_nb)));
+			} else {
+				stdout.printf ("%s: %s  (%s)\n".printf (dgettext (null, "To delete"), dngettext (null, "%u file", "%u files", files_nb).printf (files_nb), format_size (total_size)));
+			}
 			if (files_nb == 0 || dry_run) {
 				return;
 			}
