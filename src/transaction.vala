@@ -283,30 +283,29 @@ namespace Pamac {
 			// set building to allow cancellation
 			building = true;
 			build_cancellable.reset ();
-			compute_aur_build_list_real.begin (() => {
-				building = false;
-				loop.quit ();
-			});
-			loop.run ();
+			start_building ();
+			compute_aur_build_list_real ();
+			stop_building ();
+			building = false;
 		}
 
-		async void launch_subprocess (string[] cmds) {
+		void launch_subprocess (string[] cmds) {
 			try {
 				var process = new Subprocess.newv (cmds, SubprocessFlags.NONE);
-				yield process.wait_async ();
+				process.wait ();
 			} catch (Error e) {
 				critical ("%s\n", e.message);
 			}
 		}
 
-		async void compute_aur_build_list_real () {
+		void compute_aur_build_list_real () {
 			string tmp_path = "/tmp/pamac";
 			var file = GLib.File.new_for_path (tmp_path);
 			if (!file.query_exists ()) {
-				yield launch_subprocess ({"mkdir", "-p", tmp_path});
-				yield launch_subprocess ({"chmod", "a+w", tmp_path});
+				launch_subprocess ({"mkdir", "-p", tmp_path});
+				launch_subprocess ({"chmod", "a+w", tmp_path});
 			}
-			yield launch_subprocess ({"mkdir", "-p", aurdb_path});
+			launch_subprocess ({"mkdir", "-p", aurdb_path});
 			aur_desc_list.remove_all ();
 			already_checked_aur_dep.remove_all ();
 			var to_build_array = new GenericArray<string> ();
@@ -316,19 +315,19 @@ namespace Pamac {
 			foreach (unowned AURPackage aur_update in aur_updates) {
 				to_build_array.add (aur_update.name);
 			}
-			yield check_aur_dep_list (to_build_array.data);
+			check_aur_dep_list (to_build_array.data);
 			if (aur_desc_list.length > 0) {
 				// create a fake aur db
-				yield launch_subprocess ({"rm", "-f", "%s/aur.db".printf (tmp_path)});
+				launch_subprocess ({"rm", "-f", "%s/aur.db".printf (tmp_path)});
 				string[] cmds = {"bsdtar", "-cf", "%s/aur.db".printf (tmp_path), "-C", aurdb_path};
 				foreach (unowned string name_version in aur_desc_list) {
 					cmds += name_version;
 				}
-				yield launch_subprocess (cmds);
+				launch_subprocess (cmds);
 			}
 		}
 
-		async void check_aur_dep_list (string[] pkgnames) {
+		void check_aur_dep_list (string[] pkgnames) {
 			var dep_to_check = new GenericArray<string> ();
 			var aur_pkgs = new HashTable<string, AURPackage?> (str_hash, str_equal);
 			if (clone_build_files) {
@@ -351,7 +350,10 @@ namespace Pamac {
 					// clone build files
 					// use packagebase in case of split package
 					emit_action (dgettext (null, "Cloning %s build files").printf (aur_pkg.packagebase) + "...");
-					clone_dir = database.clone_build_files (aur_pkg.packagebase, false);
+					clone_dir = database.clone_build_files (aur_pkg.packagebase, false, build_cancellable);
+					if (build_cancellable.is_cancelled ()) {
+						return;
+					}
 					if (clone_dir == null) {
 						// error
 						continue;
@@ -370,7 +372,7 @@ namespace Pamac {
 						// parse all builddir to be sure to find it
 						var builddir = File.new_for_path (real_aur_build_dir);
 						try {
-							FileEnumerator enumerator = yield builddir.enumerate_children_async ("standard::*", FileQueryInfoFlags.NONE);
+							FileEnumerator enumerator = builddir.enumerate_children ("standard::*", FileQueryInfoFlags.NONE);
 							FileInfo info;
 							while ((info = enumerator.next_file (null)) != null) {
 								unowned string filename = info.get_name ();
@@ -396,7 +398,7 @@ namespace Pamac {
 				var srcinfo = clone_dir.get_child (".SRCINFO");
 				try {
 					// read .SRCINFO
-					var dis = new DataInputStream (yield srcinfo.read_async ());
+					var dis = new DataInputStream (srcinfo.read ());
 					string? line;
 					string current_section = "";
 					bool current_section_is_pkgbase = true;
@@ -413,7 +415,7 @@ namespace Pamac {
 					var global_replaces = new List<string> ();
 					var global_validpgpkeys = new SList<string> ();
 					var pkgnames_table = new HashTable<string, AURPackage> (str_hash, str_equal);
-					while ((line = yield dis.read_line_async ()) != null) {
+					while ((line = dis.read_line ()) != null) {
 						if ("pkgbase = " in line) {
 							pkgbase = line.split (" = ", 2)[1];
 						} else if ("pkgdesc = " in line) {
@@ -572,9 +574,9 @@ namespace Pamac {
 						FileOutputStream fos;
 						// always recreate desc in case of .SRCINFO modifications
 						if (file.query_exists ()) {
-							fos = yield file.replace_async (null, false, FileCreateFlags.NONE);
+							fos = file.replace (null, false, FileCreateFlags.NONE);
 						} else {
-							fos = yield file.create_async (FileCreateFlags.NONE);
+							fos = file.create (FileCreateFlags.NONE);
 						}
 						// creating a DataOutputStream to the file
 						var dos = new DataOutputStream (fos);
@@ -625,7 +627,7 @@ namespace Pamac {
 					}
 					// check signature
 					if (global_validpgpkeys.length () > 0) {
-						yield check_signature (pkgname, global_validpgpkeys);
+						check_signature (pkgname, global_validpgpkeys);
 					}
 				} catch (Error e) {
 					critical ("%s\n", e.message);
@@ -633,28 +635,28 @@ namespace Pamac {
 				}
 			}
 			if (dep_to_check.length > 0) {
-				yield check_aur_dep_list (dep_to_check.data);
+				check_aur_dep_list (dep_to_check.data);
 			}
 		}
 
-		async void check_signature (string pkgname, SList<string> keys) {
+		void check_signature (string pkgname, SList<string> keys) {
 			foreach (unowned string key in keys) {
 				var launcher = new SubprocessLauncher (SubprocessFlags.STDOUT_SILENCE | SubprocessFlags.STDERR_SILENCE);
 				try {
 					var process = launcher.spawnv ({"gpg", "--with-colons", "--batch", "--list-keys", key});
-					yield process.wait_async ();
+					process.wait ();
 					if (process.get_if_exited ()) {
 						if (process.get_exit_status () != 0) {
 							// key is not imported in keyring
 							// try to get key infos
 							launcher.set_flags (SubprocessFlags.STDOUT_PIPE | SubprocessFlags.STDERR_MERGE);
 							process = launcher.spawnv ({"gpg", "--with-colons", "--batch", "--search-keys", key});
-							yield process.wait_async ();
+							process.wait ();
 							if (process.get_if_exited ()) {
 								if (process.get_exit_status () == 0) {
 									var dis = new DataInputStream (process.get_stdout_pipe ());
 									string? line;
-									while ((line = yield dis.read_line_async ()) != null) {
+									while ((line = dis.read_line ()) != null) {
 										// get first uid line
 										if ("uid:" in line) {
 											string owner = line.split (":", 3)[1];
@@ -822,12 +824,8 @@ namespace Pamac {
 				}
 			}
 			if (to_build.length > 0 || check_aur_updates_now) {
-				// set building to allow cancellation
-				building = true;
-				build_cancellable.reset ();
 				compute_aur_build_list ();
 				aur_updates = new List<AURPackage> ();
-				building = false;
 				if (build_cancellable.is_cancelled ()) {
 					return false;
 				}
