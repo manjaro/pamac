@@ -1327,13 +1327,16 @@ namespace Pamac {
 			int status = 1;
 			try {
 				Subprocess process = launcher.spawnv (cmds);
-				process.wait (cancellable);
-				if (cancellable.is_cancelled ()) {
-					process.force_exit ();
+				try {
+					process.wait (cancellable);
+					if (process.get_if_exited ()) {
+						status = process.get_exit_status ();
+					}
+				} catch (Error e) {
+					// cancelled
+					process.send_signal (Posix.Signal.INT);
+					process.send_signal (Posix.Signal.KILL);
 					return 1;
-				}
-				if (process.get_if_exited ()) {
-					status = process.get_exit_status ();
 				}
 			} catch (Error e) {
 				critical ("%s\n", e.message);

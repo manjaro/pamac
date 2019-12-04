@@ -670,7 +670,7 @@ namespace Pamac {
 					return;
 				}
 				init_transaction ();
-				if (keep > 0) {
+				if (keep >= 0) {
 					database.config.clean_keep_num_pkgs = keep;
 				}
 				if (uninstalled) {
