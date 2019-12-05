@@ -310,7 +310,7 @@ namespace Pamac {
 				}
 				if (Posix.geteuid () == 0) {
 					// can't build as root
-					stdout.printf (dgettext (null, "Building packages as root is not allowed") + "\n");
+					stdout.printf ("%s: %s\n", dgettext (null, "Error"), dgettext (null, "Building packages as root is not allowed"));
 					exit_status = 1;
 					return;
 				}
@@ -552,21 +552,21 @@ namespace Pamac {
 					return;
 				}
 				init_database ();
-				if (aur) {
+				if (aur || database.config.check_aur_updates) {
 					database.config.enable_aur = true;
 					database.config.check_aur_updates = true;
-				}
-				if (builddir != null) {
-					database.config.aur_build_dir = builddir;
-				}
-				if (devel) {
-					if (Posix.geteuid () == 0) {
-						// can't check as root
-						stdout.printf (dgettext (null, "Check development packages updates as root is not allowed") + "\n");
-						exit_status = 1;
-						return;
+					if (devel || database.config.check_aur_vcs_updates) {
+						if (Posix.geteuid () == 0) {
+							// can't check as root
+							stdout.printf ("%s: %s\n", dgettext (null, "Warning"), dgettext (null, "Check development packages updates as root is not allowed"));
+							database.config.check_aur_vcs_updates = false;
+						} else {
+							database.config.check_aur_vcs_updates = true;
+							if (builddir != null) {
+								database.config.aur_build_dir = builddir;
+							}
+						}
 					}
-					database.config.check_aur_vcs_updates = true;
 				}
 				checkupdates (quiet, refresh_tmp_files_dbs, download_updates);
 			} else if (args[1] == "update" || args[1] == "upgrade") {
@@ -602,27 +602,22 @@ namespace Pamac {
 					return;
 				}
 				init_transaction ();
-				if (aur) {
+				if (aur || database.config.enable_aur) {
 					if (Posix.geteuid () == 0) {
 						// can't build as root
-						stdout.printf (dgettext (null, "Building packages as root is not allowed") + "\n");
-						exit_status = 1;
-						return;
+						stdout.printf ("%s: %s\n", dgettext (null, "Warning"), dgettext (null, "Building packages as root is not allowed") + "\n");
+						database.config.enable_aur = false;
+						database.config.check_aur_updates = false;
+					} else {
+						database.config.enable_aur = true;
+						database.config.check_aur_updates = true;
+						if (devel) {
+							database.config.check_aur_vcs_updates = true;
+						}
+						if (builddir != null) {
+							database.config.aur_build_dir = builddir;
+						}
 					}
-					database.config.enable_aur = true;
-					database.config.check_aur_updates = true;
-				}
-				if (devel) {
-					if (Posix.geteuid () == 0) {
-						// can't check as root
-						stdout.printf (dgettext (null, "Check development packages updates as root is not allowed") + "\n");
-						exit_status = 1;
-						return;
-					}
-					database.config.check_aur_vcs_updates = true;
-				}
-				if (builddir != null) {
-					database.config.aur_build_dir = builddir;
 				}
 				if (enable_downgrade) {
 					database.config.enable_downgrade = true;
