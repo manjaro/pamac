@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2019-11-27 21:28+0100\n"
+"POT-Creation-Date: 2019-12-05 10:44+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -792,6 +792,14 @@ msgstr ""
 
 #: src/cli.vala
 msgid "file(s)"
+msgstr ""
+
+#: src/cli.vala
+msgid "only search for installed packages"
+msgstr ""
+
+#: src/cli.vala
+msgid "only search for packages in repositories"
 msgstr ""
 
 #: src/cli.vala

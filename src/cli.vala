@@ -93,13 +93,17 @@ namespace Pamac {
 			}
 			if (args[1] == "search") {
 				if (args.length > 2) {
+					bool installed = false;
+					bool repos = false;
 					bool aur = false;
 					bool files = false;
 					try {
-						var options = new OptionEntry[3];
+						var options = new OptionEntry[5];
 						options[0] = { "help", 'h', 0, OptionArg.NONE, ref help, null, null };
-						options[1] = { "aur", 'a', 0, OptionArg.NONE, ref aur, null, null };
-						options[2] = { "files", 'f', 0, OptionArg.NONE, ref files, null, null };
+						options[1] = { "installed", 'i', 0, OptionArg.NONE, ref installed, null, null };
+						options[2] = { "repos", 'r', 0, OptionArg.NONE, ref repos, null, null };
+						options[3] = { "aur", 'a', 0, OptionArg.NONE, ref aur, null, null };
+						options[4] = { "files", 'f', 0, OptionArg.NONE, ref files, null, null };
 						var opt_context = new OptionContext (null);
 						opt_context.set_help_enabled (false);
 						opt_context.add_main_entries (options, null);
@@ -118,16 +122,29 @@ namespace Pamac {
 						return;
 					}
 					init_database ();
-					foreach (unowned string arg in args) {
-						print("arg %s\n", arg);
-					}
 					if (files) {
 						search_files (args[2:args.length]);
 						return;
 					} else if (aur) {
 						database.config.enable_aur = true;
 					}
-					search_pkgs (concatenate_strings (args[2:args.length]));
+					if (installed) {
+						if (repos) {
+							display_search_help ();
+							return;
+						} else {
+							search_installed_pkgs (concatenate_strings (args[2:args.length]));
+						}
+					} else if (repos) {
+						if (installed) {
+							display_search_help ();
+							return;
+						} else {
+							search_repos_pkgs (concatenate_strings (args[2:args.length]));
+						}
+					} else {
+						search_pkgs (concatenate_strings (args[2:args.length]));
+					}
 				} else {
 					display_search_help ();
 				}
@@ -882,7 +899,9 @@ namespace Pamac {
 			stdout.printf ("\n\n");
 			stdout.printf (dgettext (null, "options") + ":\n");
 			int max_length = 0;
-			string[] options = {"  -a, --aur",
+			string[] options = {"  -i, --installed",
+								"  -r, --repos",
+								"  -a, --aur",
 								"  -f, --files"};
 			foreach (unowned string option in options) {
 				int length = option.char_count ();
@@ -890,7 +909,9 @@ namespace Pamac {
 					max_length = length;
 				}
 			}
-			string[] details = {dgettext (null, "also search in AUR"),
+			string[] details = {dgettext (null, "only search for installed packages"),
+								dgettext (null, "only search for packages in repositories"),
+								dgettext (null, "also search in AUR"),
 								dgettext (null, "search for packages which own the given filenames (filenames can be partial)")};
 			int i = 0;
 			foreach (unowned string option in options) {
@@ -1269,16 +1290,17 @@ namespace Pamac {
 
 		void search_pkgs (string search_string) {
 			var pkgs = database.search_pkgs (search_string);
+			pkgs.reverse ();
 			var aur_pkgs = new List<AURPackage> ();
 			if (database.config.enable_aur) {
 				aur_pkgs = database.search_aur_pkgs (search_string);
-				// sort aur pkgs by popularity
+				// sort aur pkgs by reverse popularity
 				aur_pkgs.sort ((pkg1, pkg2) => {
 					double diff = pkg2.popularity - pkg1.popularity;
 					if (diff < 0) {
-						return -1;
-					} else if (diff > 0) {
 						return 1;
+					} else if (diff > 0) {
+						return -1;
 					} else {
 						return 0;
 					}
@@ -1362,6 +1384,50 @@ namespace Pamac {
 							print_aligned ("", cut, 2);
 						}
 					}
+				}
+			}
+		}
+
+		void search_installed_pkgs (string search_string) {
+			var pkgs = database.search_installed_pkgs (search_string);
+			pkgs.reverse ();
+			simple_print_pkgs (pkgs);
+		}
+
+		void search_repos_pkgs (string search_string) {
+			var pkgs = database.search_repos_pkgs (search_string);
+			pkgs.reverse ();
+			simple_print_pkgs (pkgs);
+		}
+
+		void simple_print_pkgs (List<Package> pkgs) {
+			int version_length = 0;
+			int repo_length = 0;
+			foreach (unowned Package pkg in pkgs) {
+				if (pkg.version.length > version_length) {
+					version_length = pkg.version.length;
+				}
+				if (pkg.repo.length > repo_length) {
+					repo_length = pkg.repo.length;
+				}
+			}
+			int available_width = get_term_width () - (version_length + repo_length + 4);
+			foreach (unowned Package pkg in pkgs) {
+				var str_builder = new StringBuilder ();
+				str_builder.append (pkg.name);
+				str_builder.append (" ");
+				int diff = available_width - pkg.name.length;
+				if (diff > 0) {
+					while (diff > 0) {
+						str_builder.append (" ");
+						diff--;
+					}
+				}
+				str_builder.append ("%-*s  %s \n".printf (version_length, pkg.version, pkg.repo));
+				stdout.printf ("%s", str_builder.str);
+				string[] cuts = split_string (pkg.desc, 2, available_width);
+				foreach (unowned string cut in cuts) {
+					print_aligned ("", cut, 2);
 				}
 			}
 		}
