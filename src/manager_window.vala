@@ -49,66 +49,66 @@ namespace Pamac {
 			}
 			if (pkg_a.name.has_prefix (search_string + "-")) {
 				if (pkg_b.name.has_prefix (search_string + "-")) {
-					return strcmp (pkg_a.name, pkg_b.name);
+					return sort_pkgs_by_relevance (pkg_a, pkg_b);
 				}
 				return 0;
 			}
 			if (pkg_b.name.has_prefix (search_string + "-")) {
 				if (pkg_a.name.has_prefix (search_string + "-")) {
-					return strcmp (pkg_a.name, pkg_b.name);
+					return sort_pkgs_by_relevance (pkg_a, pkg_b);
 				}
 				return 1;
 			}
 			if (pkg_a.app_name.has_prefix (search_string)) {
 				if (pkg_b.app_name.has_prefix (search_string)) {
-					return strcmp (pkg_a.app_name, pkg_b.app_name);
+					return sort_pkgs_by_relevance (pkg_a, pkg_b);
 				}
 				return 0;
 			}
 			if (pkg_b.app_name.has_prefix (search_string)) {
 				if (pkg_a.app_name.has_prefix (search_string)) {
-					return strcmp (pkg_a.app_name, pkg_b.app_name);
+					return sort_pkgs_by_relevance (pkg_a, pkg_b);
 				}
 				return 1;
 			}
 			if (pkg_a.app_name.contains (search_string)) {
 				if (pkg_b.app_name.contains (search_string)) {
-					return strcmp (pkg_a.app_name, pkg_b.app_name);
+					return sort_pkgs_by_relevance (pkg_a, pkg_b);
 				}
 				return 0;
 			}
 			if (pkg_b.app_name.contains (search_string)) {
 				if (pkg_a.app_name.contains (search_string)) {
-					return strcmp (pkg_a.app_name, pkg_b.app_name);
+					return sort_pkgs_by_relevance (pkg_a, pkg_b);
 				}
 				return 1;
 			}
 			if (pkg_a.name.has_prefix (search_string)) {
 				if (pkg_b.name.has_prefix (search_string)) {
-					return strcmp (pkg_a.name, pkg_b.name);
+					return sort_pkgs_by_relevance (pkg_a, pkg_b);
 				}
 				return 0;
 			}
 			if (pkg_b.name.has_prefix (search_string)) {
 				if (pkg_a.name.has_prefix (search_string)) {
-					return strcmp (pkg_a.name, pkg_b.name);
+					return sort_pkgs_by_relevance (pkg_a, pkg_b);
 				}
 				return 1;
 			}
 			if (pkg_a.name.contains (search_string)) {
 				if (pkg_b.name.contains (search_string)) {
-					return strcmp (pkg_a.name, pkg_b.name);
+					return sort_pkgs_by_relevance (pkg_a, pkg_b);
 				}
 				return 0;
 			}
 			if (pkg_b.name.contains (search_string)) {
 				if (pkg_a.name.contains (search_string)) {
-					return strcmp (pkg_a.name, pkg_b.name);
+					return sort_pkgs_by_relevance (pkg_a, pkg_b);
 				}
 				return 1;
 			}
 		}
-		return sort_pkgs_by_name (pkg_a, pkg_b);
+		return sort_pkgs_by_relevance (pkg_a, pkg_b);
 	}
 
 	int sort_pkgs_by_relevance (Package pkg_a, Package pkg_b) {
@@ -274,6 +274,20 @@ namespace Pamac {
 	}
 
 	int sort_aur_by_relevance (AURPackage pkg_a, AURPackage pkg_b) {
+		if (pkg_a.name in to_remove) {
+			if (pkg_b.name in to_remove) {
+				return sort_pkgs_by_name (pkg_a, pkg_b);
+			} else {
+				return -1;
+			}
+		}
+		if (pkg_b.name in to_remove) {
+			if (pkg_a.name in to_remove) {
+				return sort_pkgs_by_name (pkg_a, pkg_b);
+			} else {
+				return 1;
+			}
+		}
 		if (pkg_a.name in to_build) {
 			if (pkg_b.name in to_build) {
 				return sort_pkgs_by_name (pkg_a, pkg_b);
@@ -286,6 +300,34 @@ namespace Pamac {
 				return sort_pkgs_by_name (pkg_a, pkg_b);
 			} else {
 				return 1;
+			}
+		}
+		if (pkg_a.name in temporary_ignorepkgs) {
+			if (pkg_b.name in temporary_ignorepkgs) {
+				return sort_pkgs_by_name (pkg_a, pkg_b);
+			} else {
+				return -1;
+			}
+		}
+		if (pkg_b.name in temporary_ignorepkgs) {
+			if (pkg_a.name in temporary_ignorepkgs) {
+				return sort_pkgs_by_name (pkg_a, pkg_b);
+			} else {
+				return 1;
+			}
+		}
+		if (pkg_a.installed_version == "") {
+			if (pkg_b.installed_version == "") {
+				return sort_pkgs_by_name (pkg_a, pkg_b);
+			} else {
+				return 1;
+			}
+		}
+		if (pkg_b.installed_version == "") {
+			if (pkg_a.installed_version == "") {
+				return sort_pkgs_by_name (pkg_a, pkg_b);
+			} else {
+				return -1;
 			}
 		}
 		if (pkg_a.popularity > pkg_b.popularity) {
@@ -1838,6 +1880,12 @@ namespace Pamac {
 					break;
 				case 1: // name
 					pkgs.sort (sort_pkgs_by_name);
+					break;
+				case 2: // repository
+					pkgs.sort (sort_pkgs_by_repo);
+					break;
+				case 3: // size
+					pkgs.sort (sort_pkgs_by_installed_size);
 					break;
 				default:
 					break;
