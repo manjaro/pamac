@@ -2412,7 +2412,8 @@ namespace Pamac {
 				case "details":
 					Package? pkg = display_package_queue.pop_tail ();
 					if (pkg != null) {
-						display_details (pkg);
+						current_package_displayed = pkg;
+						refresh_details ();
 					} else {
 						main_stack.visible_child_name = "browse";
 					}
@@ -3414,7 +3415,7 @@ namespace Pamac {
 				scroll_to_top = false;
 				refresh_packages_list ();
 				if (main_stack.visible_child_name == "details") {
-					display_details (current_package_displayed);
+					refresh_details ();
 				}
 			}
 		}
