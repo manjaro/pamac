@@ -583,6 +583,7 @@ namespace Pamac {
 			// need to call the function twice in order to have the return path
 			// it's due to the use of a fetch callback
 			// first call to download pkg
+			start_downloading (sender);
 			alpm_handle.fetch_pkgurl (url);
 			// check for error
 			if (alpm_handle.errno () != 0) {
@@ -592,6 +593,7 @@ namespace Pamac {
 				// try to download signature
 				alpm_handle.fetch_pkgurl (url + ".sig");
 			}
+			stop_downloading (sender);
 			return alpm_handle.fetch_pkgurl (url);
 		}
 
@@ -2048,7 +2050,9 @@ void cb_multi_download (string filename, uint64 xfered, uint64 total) {
 
 void cb_download (string filename, uint64 xfered, uint64 total) {
 	if (xfered == 0) {
-		if (total_download > 0) {
+		if (filename.has_suffix (".db") || filename.has_suffix (".files")) {
+			current_action = _("Refreshing %s").printf (filename) + "...";
+		} else {
 			string? name_version_release = filename.slice (0, filename.last_index_of_char ('-'));
 			if (name_version_release == null) {
 				return;
@@ -2067,8 +2071,6 @@ void cb_download (string filename, uint64 xfered, uint64 total) {
 				return;
 			}
 			current_action = _("Downloading %s").printf ("%s (%s)".printf (name, version_release)) + "...";
-		} else if (filename.has_suffix (".db") || filename.has_suffix (".files")) {
-			current_action = _("Refreshing %s").printf (filename) + "...";
 		}
 	}
 	alpm_utils.emit_download (xfered, total);
