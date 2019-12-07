@@ -627,7 +627,6 @@ namespace Pamac {
 			var pkgs = new List<AlpmPackage> ();
 			new Thread<int> ("get_installed_pkgs", () => {
 				pkgs = initialise_pkgs (alpm_handle.localdb.pkgcache);
-				pkgs.sort (pkg_compare_name);
 				loop.quit ();
 				return 0;
 			});
@@ -672,7 +671,6 @@ namespace Pamac {
 					pkgcache.next ();
 				}
 				pkgs = initialise_pkgs (alpm_pkgs);
-				pkgs.sort (pkg_compare_name);
 				loop.quit ();
 				return 0;
 			});
@@ -704,7 +702,6 @@ namespace Pamac {
 					pkgcache.next ();
 				}
 				pkgs = initialise_pkgs (alpm_pkgs);
-				pkgs.sort (pkg_compare_name);
 				loop.quit ();
 				return 0;
 			});
@@ -735,7 +732,6 @@ namespace Pamac {
 					pkgcache.next ();
 				}
 				pkgs = initialise_pkgs (alpm_pkgs);
-				pkgs.sort (pkg_compare_name);
 				loop.quit ();
 				return 0;
 			});
@@ -1159,7 +1155,6 @@ namespace Pamac {
 					syncdbs.next ();
 				}
 				pkgs = initialise_pkgs (alpm_pkgs);
-				pkgs.sort (pkg_compare_name);
 				loop.quit ();
 				return 0;
 			});
@@ -1190,6 +1185,7 @@ namespace Pamac {
 				}
 				syncdbs.next ();
 			}
+			groups_names.sort (strcmp);
 			return groups_names;
 		}
 

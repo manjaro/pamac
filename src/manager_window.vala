@@ -807,12 +807,6 @@ namespace Pamac {
 			return row;
 		}
 
-		int sort_list_row (Gtk.ListBoxRow row1, Gtk.ListBoxRow row2) {
-			unowned Gtk.Label label1 = row1.get_child () as Gtk.Label;
-			unowned Gtk.Label label2 = row2.get_child () as Gtk.Label;
-			return strcmp (label1.label, label2.label);
-		}
-
 		void active_pending_stack (bool active) {
 			pending_listbox.visible = active;
 		}
@@ -827,7 +821,6 @@ namespace Pamac {
 			foreach (unowned string group in database.get_groups_names ()) {
 				groups_listbox.add (create_list_row (group));
 			}
-			groups_listbox.set_sort_func (sort_list_row);
 			groups_listbox.select_row (groups_listbox.get_row_at_index (0));
 
 			installed_listbox.add (create_list_row (dgettext (null, "All")));
