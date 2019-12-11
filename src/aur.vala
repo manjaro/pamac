@@ -34,6 +34,7 @@ namespace Pamac {
 
 		construct {
 			session = new Soup.Session ();
+			session.user_agent = "Pamac/%s".printf (VERSION);
 			// set a 15 seconds timeout because it is also the dbus daemon timeout
 			session.timeout = 15;
 			cached_infos = new HashTable<string, Json.Object> (str_hash, str_equal);

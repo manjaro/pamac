@@ -34,6 +34,7 @@ class DownloadServer: Object {
 
 	public DownloadServer (owned string server_url, owned GenericSet<string?> repos) {
 		soup_session = new Soup.Session ();
+		soup_session.user_agent = "Pamac/%s".printf (VERSION);
 		cachedir = alpm_utils.alpm_handle.cachedirs.nth (0).data;
 		this.server_url = server_url;
 		this.repos = repos;
@@ -155,6 +156,7 @@ namespace Pamac {
 			refresh_handle ();
 			cancellable = new Cancellable ();
 			soup_session = new Soup.Session ();
+			soup_session.user_agent = "Pamac/%s".printf (VERSION);
 			downloading_updates = false;
 			check_old_lock ();
 		}

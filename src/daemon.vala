@@ -248,12 +248,11 @@ namespace Pamac {
 		}
 
 		public void set_environment_variables (HashTable<string,string> variables) throws Error {
-			string[] keys = { "HTTP_USER_AGENT",
-							"http_proxy",
+			string[] keys = {"http_proxy",
 							"https_proxy",
 							"ftp_proxy",
 							"socks_proxy",
-							"no_proxy" };
+							"no_proxy"};
 			foreach (unowned string key in keys) {
 				unowned string val;
 				if (variables.lookup_extended (key, null, out val)) {

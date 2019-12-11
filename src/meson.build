@@ -28,7 +28,7 @@ common_sources = ['common.vala', 'package.vala', 'alpm_package.vala', 'pamac_con
 transaction_gtk_sources = ['transaction-gtk.vala', 'choose_provider_dialog.vala', 'choose_pkgs_dialog.vala', 'transaction_sum_dialog.vala', 'progress_box.vala']
 preferences_sources = ['preferences_dialog.vala']
 
-libpamac_sources = [common_sources, 'alpm_config.vala', 'aur.vala', 'database.vala', 'transaction_interface.vala', 'alpm_utils.vala', 'transaction_interface_root.vala', 'daemon_interface.vala', 'transaction_interface_daemon.vala', 'transaction.vala']
+libpamac_sources = [common_sources, 'version.vala', 'alpm_config.vala', 'aur.vala', 'database.vala', 'transaction_interface.vala', 'alpm_utils.vala', 'transaction_interface_root.vala', 'daemon_interface.vala', 'transaction_interface_daemon.vala', 'transaction.vala']
 libpamac_dependencies = [alpm_deps, math, json, appstream, libsoup]
 
 if get_option('enable-snap')
@@ -72,7 +72,7 @@ custom_target('pamac typelib', command: [g_ir_compiler, '--shared-library', 'lib
 
 libpamac_dep = declare_dependency(link_with: libpamac)
 
-daemon_sources = ['common_daemon.vala', 'alpm_utils.vala', 'alpm_config.vala', 'pamac_config_daemon.vala', 'daemon.vala']
+daemon_sources = ['version.vala', 'common_daemon.vala', 'alpm_utils.vala', 'alpm_config.vala', 'pamac_config_daemon.vala', 'daemon.vala']
 daemon_dependencies = [vala_deps, alpm_deps, json, math, libsoup, polkit, appstream]
 if get_option('enable-snap')
 	daemon_sources += ['plugin_loader.vala', 'package.vala', 'snap_interface.vala']

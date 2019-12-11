@@ -58,8 +58,6 @@ namespace Pamac {
 			//get environment variables
 			environment_variables_priv = new HashTable<string, string> (str_hash, str_equal);
 			alpm_config = new AlpmConfig ("/etc/pacman.conf");
-			var utsname = Posix.utsname();
-			environment_variables_priv.insert ("HTTP_USER_AGENT", "pamac (%s %s)".printf (utsname.sysname, utsname.machine));
 			unowned string? variable = Environment.get_variable ("http_proxy");
 			if (variable != null) {
 				environment_variables_priv.insert ("http_proxy", variable);
