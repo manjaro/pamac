@@ -12,9 +12,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2019-11-27 21:28+0100\n"
-"PO-Revision-Date: 2019-11-28 00:43+0000\n"
-"Last-Translator: philm <philm@manjaro.org>\n"
+"POT-Creation-Date: 2019-12-05 10:44+0100\n"
+"PO-Revision-Date: 2019-12-10 08:29+0000\n"
+"Last-Translator: kouros kouros <kormikg@yahoo.gr>\n"
 "Language-Team: Greek (Greece) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/el_GR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -802,6 +802,14 @@ msgid "file(s)"
 msgstr "αρχείο(α)"
 
 #: src/cli.vala
+msgid "only search for installed packages"
+msgstr "αναζήτηση μόνο για εγκατεστημένα πακέτα"
+
+#: src/cli.vala
+msgid "only search for packages in repositories"
+msgstr "αναζήτηση πακέτων μόνο σε αποθετήρια"
+
+#: src/cli.vala
 msgid "also search in AUR"
 msgstr "επιπλέον έλεγχος στο AUR "
 
@@ -1101,8 +1109,8 @@ msgstr "Κατασκευάστηκε %s από το AUR"
 #, c-format
 msgid "There is %u member in group %s"
 msgid_plural "There are %u members in group %s"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Υπάρχει %uμέλη στο γκρουπ %s"
+msgstr[1] "Υπάρχουν %uμέλη στην ομάδα %s"
 
 #: src/cli.vala
 msgid "all"
@@ -1220,7 +1228,7 @@ msgstr "Γενικά"
 msgid ""
 "Misconfiguration of these options can lead to system breakage.\n"
 "Modify them only if you know what you are doing."
-msgstr ""
+msgstr "Η λανθασμένη ρύθμιση αυτών των επιλογών μπορεί να οδηγήσει σε σπάσιμο του συστήματος. Τροποποιήστε τις μόνο αν γνωρίζετε τι κάνετε."
 
 #: resources/preferences_dialog.ui
 msgid "Check available disk space"

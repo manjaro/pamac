@@ -17,9 +17,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2019-11-27 21:28+0100\n"
-"PO-Revision-Date: 2019-11-28 05:34+0000\n"
-"Last-Translator: Sabri Ünal <libreajans@gmail.com>\n"
+"POT-Creation-Date: 2019-12-05 10:44+0100\n"
+"PO-Revision-Date: 2019-12-06 09:04+0000\n"
+"Last-Translator: Serdar Sağlam <teknomobil@msn.com>\n"
 "Language-Team: Turkish (http://www.transifex.com/manjarolinux/manjaro-pamac/language/tr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -50,7 +50,7 @@ msgstr "Veritabanları eşitlenemedi"
 #: src/alpm_utils.vala src/database.vala src/manager_window.vala src/cli.vala
 #: resources/preferences_dialog.ui
 msgid "AUR"
-msgstr "AUR"
+msgstr "AUR Depoları"
 
 #: src/alpm_utils.vala
 msgid "Failed to init transaction"
@@ -327,7 +327,7 @@ msgstr "Işlem Başarılı"
 #: src/transaction.vala
 #, c-format
 msgid "Building %s"
-msgstr "%s İnşa ediliyor"
+msgstr "%s inşa ediliyor"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
@@ -466,7 +466,7 @@ msgstr "Paket bulunamadı"
 
 #: src/manager_window.vala
 msgid "Checking for Updates"
-msgstr "Güncellemeler Kontrol Ediliyor.."
+msgstr "Güncellemeler Kontrol Ediliyor"
 
 #: src/manager_window.vala
 #, c-format
@@ -477,7 +477,7 @@ msgstr[1] "%u bekleyen işlem"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "All"
-msgstr "Tümü"
+msgstr "Tüm Paketler"
 
 #: src/manager_window.vala
 msgid "Orphans"
@@ -638,7 +638,7 @@ msgstr "Kaldır"
 
 #: src/manager_window.vala
 msgid "Featured"
-msgstr "Öne Çıkan"
+msgstr "Öne Çıkanlar"
 
 #: src/manager_window.vala
 msgid "Photo & Video"
@@ -650,7 +650,7 @@ msgstr "Müzik ve Ses"
 
 #: src/manager_window.vala
 msgid "Productivity"
-msgstr "Verimlilik"
+msgstr "Verimlilik ve Üretkenlik"
 
 #: src/manager_window.vala
 msgid "Communication & News"
@@ -662,15 +662,15 @@ msgstr "Eğitim ve Bilim"
 
 #: src/manager_window.vala
 msgid "Games"
-msgstr "Oyunlar"
+msgstr "Oyunlar ve Eğlence"
 
 #: src/manager_window.vala
 msgid "Utilities"
-msgstr "Araçlar"
+msgstr "Araçlar ve Hizmetler"
 
 #: src/manager_window.vala
 msgid "Development"
-msgstr "Gelişim"
+msgstr "Yazılım ve Gelişim"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Install Local Packages"
@@ -805,6 +805,14 @@ msgstr "Paketleri veya dosyaları arayın, birden fazla arama terimi belirtilebi
 #: src/cli.vala
 msgid "file(s)"
 msgstr "dosya(lar)"
+
+#: src/cli.vala
+msgid "only search for installed packages"
+msgstr "sadece kurulu paketleri ara"
+
+#: src/cli.vala
+msgid "only search for packages in repositories"
+msgstr "sadece depolardaki paketleri arayın"
 
 #: src/cli.vala
 msgid "also search in AUR"
@@ -948,7 +956,7 @@ msgstr "Paketleri tekrar kur"
 
 #: src/cli.vala
 msgid "remove packages only if they are not required by any other packages"
-msgstr "paketleri yalnızca başka bir paket için gerekli olmadıklarında çıkar"
+msgstr "paketleri sadece başka bir paket için gerekli olmadıklarında çıkar"
 
 #: src/cli.vala
 msgid ""
@@ -1027,7 +1035,7 @@ msgstr "Her paketin kaç sürümünün önbellek dizininde tutulacağını belir
 
 #: src/cli.vala
 msgid "only target uninstalled packages"
-msgstr "yalnızca kaldırılan paketleri hedefle"
+msgstr "sadece kaldırılan paketleri hedefle"
 
 #: src/cli.vala
 msgid ""
@@ -1037,7 +1045,7 @@ msgstr "tüm derleme dosyalarını kaldır, derleme dizini pamac.conf dosyasınd
 
 #: src/cli.vala
 msgid "do not remove files, only find candidate packages"
-msgstr "dosyaları silmeyin, yalnızca aday paketleri bulun"
+msgstr "dosyaları kaldırmayın, sadece aday paketleri bulun"
 
 #: src/cli.vala
 msgid "also display all files names"
@@ -1143,7 +1151,7 @@ msgstr "Veritabanlarını yenile"
 
 #: resources/manager_window.ui
 msgid "View History"
-msgstr "Geçmişi Gör"
+msgstr "İşlem Geçmişini Gör"
 
 #: resources/manager_window.ui resources/preferences_dialog.ui
 msgid "Preferences"
@@ -1151,7 +1159,7 @@ msgstr "Tercihler"
 
 #: resources/manager_window.ui
 msgid "About"
-msgstr "Hakkında"
+msgstr "Pamac Hakkında"
 
 #: resources/manager_window.ui
 msgid "Search"
@@ -1219,13 +1227,13 @@ msgstr "Güncelleme olmadığında tepsi simgesini gizle"
 
 #: resources/preferences_dialog.ui
 msgid "General"
-msgstr "Genel"
+msgstr "Genel Ayarlar"
 
 #: resources/preferences_dialog.ui
 msgid ""
 "Misconfiguration of these options can lead to system breakage.\n"
 "Modify them only if you know what you are doing."
-msgstr "Bu seçeneklerin yanlış yapılandırılması sistemin bozulmasına neden olabilir.\nYalnızca ne yaptığınızı biliyorsanız, onları değiştirin."
+msgstr "Bu seçeneklerin yanlış yapılandırılması sistemin bozulmasına neden olabilir.\nSadece ne yaptığınızı biliyorsanız, onları değiştirin."
 
 #: resources/preferences_dialog.ui
 msgid "Check available disk space"
@@ -1305,4 +1313,4 @@ msgstr "Snap desteğini etkinleştir"
 
 #: resources/preferences_dialog.ui
 msgid "Cache"
-msgstr "Önbellek"
+msgstr "Önbellek Ayarları"

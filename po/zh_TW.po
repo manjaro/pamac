@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2019-11-27 21:28+0100\n"
-"PO-Revision-Date: 2019-11-28 02:28+0000\n"
+"POT-Creation-Date: 2019-12-05 10:44+0100\n"
+"PO-Revision-Date: 2019-12-06 03:35+0000\n"
 "Last-Translator: 黃柏諺 <s8321414@gmail.com>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
@@ -797,6 +797,14 @@ msgstr "搜尋軟體包或檔案，可以指定多個搜尋關鍵字"
 #: src/cli.vala
 msgid "file(s)"
 msgstr "檔案"
+
+#: src/cli.vala
+msgid "only search for installed packages"
+msgstr "僅搜尋已安裝的軟體包"
+
+#: src/cli.vala
+msgid "only search for packages in repositories"
+msgstr "僅搜尋在軟體庫中的軟體包"
 
 #: src/cli.vala
 msgid "also search in AUR"

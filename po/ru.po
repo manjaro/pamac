@@ -41,8 +41,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2019-11-27 21:28+0100\n"
-"PO-Revision-Date: 2019-11-28 03:26+0000\n"
+"POT-Creation-Date: 2019-12-05 10:44+0100\n"
+"PO-Revision-Date: 2019-12-06 03:20+0000\n"
 "Last-Translator: Andrei Stepanov <adem4ik@gmail.com>\n"
 "Language-Team: Russian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/ru/)\n"
 "MIME-Version: 1.0\n"
@@ -57,7 +57,7 @@ msgstr "Установка, обновление или удаление пак�
 
 #: data/polkit/org.manjaro.pamac.policy.in
 msgid "Authentication is required to install, update, or remove packages"
-msgstr "Требуется аутентификация для установки, обновлении или удалении пакетов"
+msgstr "Требуется аутентификация для установки, обновления или удаления пакетов"
 
 #: src/alpm_utils.vala src/database.vala
 msgid "Failed to initialize alpm library"
@@ -490,7 +490,7 @@ msgstr "Подробности"
 
 #: src/manager_window.vala
 msgid "No package found"
-msgstr "Пакет не найден"
+msgstr "Пакеты не найдены"
 
 #: src/manager_window.vala
 msgid "Checking for Updates"
@@ -500,7 +500,7 @@ msgstr "Проверка обновлений"
 #, c-format
 msgid "%u pending operation"
 msgid_plural "%u pending operations"
-msgstr[0] "%u ждет обработки"
+msgstr[0] "%u ждёт обработки"
 msgstr[1] "%u ждут обработки"
 msgstr[2] "%u ждут обработки"
 msgstr[3] "%u ждут обработки"
@@ -528,7 +528,7 @@ msgstr "Репозитории"
 
 #: src/manager_window.vala src/cli.vala resources/manager_window.ui
 msgid "Installed"
-msgstr "Установлено"
+msgstr "Установленные"
 
 #: src/manager_window.vala
 msgid "Dependencies"
@@ -564,7 +564,7 @@ msgstr "Пакетная база"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Maintainer"
-msgstr "Ведущий"
+msgstr "Сопровождающий"
 
 #: src/manager_window.vala src/cli.vala
 msgid "First Submitted"
@@ -837,6 +837,14 @@ msgstr "Искать пакеты или файлы, можно задать н�
 #: src/cli.vala
 msgid "file(s)"
 msgstr "файл(-ы)"
+
+#: src/cli.vala
+msgid "only search for installed packages"
+msgstr "искать только установленные пакеты"
+
+#: src/cli.vala
+msgid "only search for packages in repositories"
+msgstr "искать только пакеты в репозиториях"
 
 #: src/cli.vala
 msgid "also search in AUR"
@@ -1243,7 +1251,7 @@ msgstr "Сбросить сборочные файлы"
 
 #: resources/preferences_dialog.ui
 msgid "Check for updates"
-msgstr "Проверить обновления"
+msgstr "Проверять обновления"
 
 #: resources/preferences_dialog.ui
 msgid "Automatically download updates"
@@ -1309,7 +1317,7 @@ msgstr "Официальные репозитории"
 msgid ""
 "AUR is a community maintained repository so it presents potential risks and problems.\n"
 "All AUR users should be familiar with the build process."
-msgstr "AUR - это поддерживаемый сообществом репозиторий, представляющий потенциальные риски и проблемы.\nВсе пользователи AUR должны быть знакомы с процессом сборки."
+msgstr "AUR — это поддерживаемый сообществом репозиторий, представляющий потенциальные риски и проблемы.\nВсе пользователи AUR должны быть знакомы с процессом сборки."
 
 #: resources/preferences_dialog.ui
 msgid "Enable AUR support"
@@ -1325,11 +1333,11 @@ msgstr "Хранить собранные пакеты в кэше"
 
 #: resources/preferences_dialog.ui
 msgid "Check for updates from AUR"
-msgstr "Проверить обновления AUR"
+msgstr "Проверять обновления из AUR"
 
 #: resources/preferences_dialog.ui
 msgid "Check for development packages updates"
-msgstr "Проверка обновлений пакетов в разработке"
+msgstr "Проверять обновления пакетов в разработке"
 
 #: resources/preferences_dialog.ui
 msgid "Snap packages are maintained by their publisher."

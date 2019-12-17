@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2019-11-27 21:28+0100\n"
-"PO-Revision-Date: 2019-11-28 15:40+0000\n"
+"POT-Creation-Date: 2019-12-05 10:44+0100\n"
+"PO-Revision-Date: 2019-12-06 16:07+0000\n"
 "Last-Translator: Lovro Kudelić <lovro.kudelic@outlook.com>\n"
 "Language-Team: Croatian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/hr/)\n"
 "MIME-Version: 1.0\n"
@@ -805,6 +805,14 @@ msgstr "Traženje paketa ili datoteka, može se navesti više pojmova za pretra�
 #: src/cli.vala
 msgid "file(s)"
 msgstr "datoteka(e)"
+
+#: src/cli.vala
+msgid "only search for installed packages"
+msgstr "pretraživanje samo po instaliranim paketima"
+
+#: src/cli.vala
+msgid "only search for packages in repositories"
+msgstr "pretraživanje samo po paketima u repozitoriju"
 
 #: src/cli.vala
 msgid "also search in AUR"

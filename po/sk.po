@@ -15,9 +15,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2019-11-27 21:28+0100\n"
-"PO-Revision-Date: 2019-11-28 00:43+0000\n"
-"Last-Translator: philm <philm@manjaro.org>\n"
+"POT-Creation-Date: 2019-12-05 10:44+0100\n"
+"PO-Revision-Date: 2019-12-08 13:32+0000\n"
+"Last-Translator: Dušan Kazik <prescott66@gmail.com>\n"
 "Language-Team: Slovak (http://www.transifex.com/manjarolinux/manjaro-pamac/language/sk/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -247,12 +247,12 @@ msgstr "Upozornenie"
 #: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
 msgid "Download of %s started"
-msgstr "Preberanie balíka %s začalo"
+msgstr "Preberanie balíka %s sa začalo"
 
 #: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
 msgid "Download of %s finished"
-msgstr "Preberanie balíka %s skončilo"
+msgstr "Preberanie balíka %s sa skončilo"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -650,7 +650,7 @@ msgstr "Fotografie a video"
 
 #: src/manager_window.vala
 msgid "Music & Audio"
-msgstr "Hudba a audio"
+msgstr "Hudba a zvuk"
 
 #: src/manager_window.vala
 msgid "Productivity"
@@ -811,6 +811,14 @@ msgstr "Vyhľadať balíčky alebo súbory. Možno zvoliť aj viac výrazov na v
 #: src/cli.vala
 msgid "file(s)"
 msgstr "súbor(-y)"
+
+#: src/cli.vala
+msgid "only search for installed packages"
+msgstr ""
+
+#: src/cli.vala
+msgid "only search for packages in repositories"
+msgstr ""
 
 #: src/cli.vala
 msgid "also search in AUR"
@@ -1235,7 +1243,7 @@ msgstr "Všeobecné"
 msgid ""
 "Misconfiguration of these options can lead to system breakage.\n"
 "Modify them only if you know what you are doing."
-msgstr ""
+msgstr "Nesprávna konfigurácia týchto volieb môže viesť k poškodeniu systému.\nUpravte ich, iba ak viete čo robíte."
 
 #: resources/preferences_dialog.ui
 msgid "Check available disk space"

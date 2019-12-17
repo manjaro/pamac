@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2019-11-27 21:28+0100\n"
-"PO-Revision-Date: 2019-11-28 00:43+0000\n"
+"POT-Creation-Date: 2019-12-05 10:44+0100\n"
+"PO-Revision-Date: 2019-12-06 01:03+0000\n"
 "Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Asturian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/ast/)\n"
 "MIME-Version: 1.0\n"
@@ -723,7 +723,7 @@ msgstr[1] "%u ficheros"
 
 #: src/preferences_dialog.vala
 msgid "Choose Ignored Upgrades"
-msgstr ""
+msgstr "Escoyeta de programes inoraos"
 
 #: src/transaction-cli.vala src/cli.vala
 #, c-format
@@ -803,6 +803,14 @@ msgstr "Gueta paquetes o ficheros, puen especificase munchos términos de gueta"
 #: src/cli.vala
 msgid "file(s)"
 msgstr "ficheru(os)"
+
+#: src/cli.vala
+msgid "only search for installed packages"
+msgstr ""
+
+#: src/cli.vala
+msgid "only search for packages in repositories"
+msgstr ""
 
 #: src/cli.vala
 msgid "also search in AUR"
@@ -1223,11 +1231,11 @@ msgstr "Xeneral"
 msgid ""
 "Misconfiguration of these options can lead to system breakage.\n"
 "Modify them only if you know what you are doing."
-msgstr ""
+msgstr "La mala configuración d'estes opciones pue producir una rotura del sistema.\nModifícales namái si sabes lo que tas faciendo."
 
 #: resources/preferences_dialog.ui
 msgid "Check available disk space"
-msgstr ""
+msgstr "Comprobar l'espaciu disponible en discu"
 
 #: resources/preferences_dialog.ui
 msgid "Remove unrequired dependencies"
@@ -1241,7 +1249,7 @@ msgstr "Al desaniciar un paquete tamién se desanicien les sos dependencies que 
 
 #: resources/preferences_dialog.ui
 msgid "Do not check for updates when installing"
-msgstr ""
+msgstr "Nun comprobar anovamientos al instalar"
 
 #: resources/preferences_dialog.ui
 msgid "Enable downgrade"
@@ -1249,11 +1257,11 @@ msgstr "Activar la baxada de versiones"
 
 #: resources/preferences_dialog.ui
 msgid "Ignore upgrades for:"
-msgstr ""
+msgstr "Inorar anovamientos pa:"
 
 #: resources/preferences_dialog.ui
 msgid "Advanced"
-msgstr ""
+msgstr "Avanzao"
 
 #: resources/preferences_dialog.ui
 msgid "Use mirrors from:"

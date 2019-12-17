@@ -6,6 +6,7 @@
 # Translators:
 # Anderson Tavares <nocturne.pe@gmail.com>, 2013
 # Anderson Tavares <nocturne.pe@gmail.com>, 2013
+# Augusto Fornitani <augusto.fornitani@outlook.com>, 2019
 # Jonathan Reeve <jon.reeve@gmail.com>, 2019
 # juanda097 <juanda097@protonmail.ch>, 2015
 # juanda097 <juanda097@protonmail.ch>, 2015
@@ -15,9 +16,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2019-11-27 21:28+0100\n"
-"PO-Revision-Date: 2019-11-28 00:43+0000\n"
-"Last-Translator: philm <philm@manjaro.org>\n"
+"POT-Creation-Date: 2019-12-05 10:44+0100\n"
+"PO-Revision-Date: 2019-12-14 21:57+0000\n"
+"Last-Translator: Augusto Fornitani <augusto.fornitani@outlook.com>\n"
 "Language-Team: Esperanto (http://www.transifex.com/manjarolinux/manjaro-pamac/language/eo/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -27,7 +28,7 @@ msgstr ""
 
 #: data/polkit/org.manjaro.pamac.policy.in
 msgid "Install, update, or remove packages"
-msgstr ""
+msgstr "Instali, ĝisdatigi aŭ forigi pakaĵojn"
 
 #: data/polkit/org.manjaro.pamac.policy.in
 msgid "Authentication is required to install, update, or remove packages"
@@ -39,11 +40,11 @@ msgstr "Malsukcesis inici alpm bibliotekon"
 
 #: src/alpm_utils.vala
 msgid "Synchronizing package databases"
-msgstr ""
+msgstr "Datumbazoj de pakaĵoj estas sinkronigataj"
 
 #: src/alpm_utils.vala
 msgid "Failed to synchronize databases"
-msgstr ""
+msgstr "Malsukcesa sinkronigo de datumbazoj"
 
 #: src/alpm_utils.vala src/database.vala src/manager_window.vala src/cli.vala
 #: resources/preferences_dialog.ui
@@ -52,7 +53,7 @@ msgstr "Arĉlinuksa Uzantrezervejo"
 
 #: src/alpm_utils.vala
 msgid "Failed to init transaction"
-msgstr ""
+msgstr "Malsukcesis komenco de transakcio"
 
 #: src/alpm_utils.vala src/transaction-gtk.vala src/installer.vala
 msgid "Failed to prepare transaction"
@@ -624,11 +625,11 @@ msgstr ""
 
 #: src/manager_window.vala
 msgid "Upgrade"
-msgstr ""
+msgstr "Promocii"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Build"
-msgstr ""
+msgstr "Kunmeti"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Remove"
@@ -636,19 +637,19 @@ msgstr "Forigi"
 
 #: src/manager_window.vala
 msgid "Featured"
-msgstr ""
+msgstr "Elstarigi"
 
 #: src/manager_window.vala
 msgid "Photo & Video"
-msgstr ""
+msgstr "Fotaĵoj kaj Videaĵoj"
 
 #: src/manager_window.vala
 msgid "Music & Audio"
-msgstr ""
+msgstr "Muzikaĵoj kaj Audaĵoj"
 
 #: src/manager_window.vala
 msgid "Productivity"
-msgstr ""
+msgstr "Produktiveco"
 
 #: src/manager_window.vala
 msgid "Communication & News"
@@ -656,7 +657,7 @@ msgstr ""
 
 #: src/manager_window.vala
 msgid "Education & Science"
-msgstr ""
+msgstr "Edukado kaj Scienco"
 
 #: src/manager_window.vala
 msgid "Games"
@@ -664,15 +665,15 @@ msgstr "Ludoj"
 
 #: src/manager_window.vala
 msgid "Utilities"
-msgstr ""
+msgstr "Utilaĵoj"
 
 #: src/manager_window.vala
 msgid "Development"
-msgstr ""
+msgstr "Programado"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Install Local Packages"
-msgstr ""
+msgstr "Instali Lokajn Pakaĵojn"
 
 #: src/manager_window.vala
 msgid "_Open"
@@ -684,7 +685,7 @@ msgstr ""
 
 #: src/manager_window.vala
 msgid "A Gtk3 frontend for libalpm"
-msgstr ""
+msgstr "GTK3-fasado por libalpm"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Categories"
@@ -692,11 +693,11 @@ msgstr ""
 
 #: src/preferences_dialog.vala resources/preferences_dialog.ui
 msgid "How often to check for updates, value in hours"
-msgstr ""
+msgstr "Kiom ofte kontroli ĝisdatigojn; valoro je horoj"
 
 #: src/preferences_dialog.vala resources/preferences_dialog.ui
 msgid "Maximum parallel downloads"
-msgstr ""
+msgstr "Maksimumaj samtempaj elŝutoj"
 
 #: src/preferences_dialog.vala src/cli.vala resources/preferences_dialog.ui
 msgid "Number of versions of each package to keep in the cache"
@@ -708,18 +709,18 @@ msgstr ""
 
 #: src/preferences_dialog.vala
 msgid "Worldwide"
-msgstr ""
+msgstr "Tuttere"
 
 #: src/preferences_dialog.vala src/cli.vala
 msgid "To delete"
-msgstr ""
+msgstr "Markitaj por forigo"
 
 #: src/preferences_dialog.vala src/cli.vala
 #, c-format
 msgid "%u file"
 msgid_plural "%u files"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%udosieroj"
+msgstr[1] "%u dosieroj"
 
 #: src/preferences_dialog.vala
 msgid "Choose Ignored Upgrades"
@@ -728,20 +729,20 @@ msgstr ""
 #: src/transaction-cli.vala src/cli.vala
 #, c-format
 msgid "Enter a selection (default=%s)"
-msgstr ""
+msgstr "Enigu elekton (defaŭlto =%s)"
 
 #: src/transaction-cli.vala
 msgid "none"
-msgstr ""
+msgstr "nenia"
 
 #: src/transaction-cli.vala
 #, c-format
 msgid "Enter a number (default=%d)"
-msgstr ""
+msgstr "Enigu numeron (defaŭlto = %d)"
 
 #: src/transaction-cli.vala src/cli.vala
 msgid "[y/N]"
-msgstr ""
+msgstr "[j/N]"
 
 #: src/transaction-cli.vala src/cli.vala
 msgid "y"
@@ -753,7 +754,7 @@ msgstr ""
 
 #: src/transaction-cli.vala resources/transaction_sum_dialog.ui
 msgid "Edit build files"
-msgstr ""
+msgstr "Modifi kunmet-dosierojn"
 
 #: src/transaction-cli.vala
 msgid "Total installed size"
@@ -765,7 +766,7 @@ msgstr ""
 
 #: src/transaction-cli.vala
 msgid "Apply transaction"
-msgstr ""
+msgstr "Validigi transakcion"
 
 #: src/transaction-cli.vala
 #, c-format
@@ -790,11 +791,11 @@ msgstr ""
 
 #: src/cli.vala
 msgid "action"
-msgstr ""
+msgstr "ago"
 
 #: src/cli.vala
 msgid "options"
-msgstr ""
+msgstr "opcio"
 
 #: src/cli.vala
 msgid "Search for packages or files, multiple search terms can be specified"
@@ -805,8 +806,16 @@ msgid "file(s)"
 msgstr ""
 
 #: src/cli.vala
-msgid "also search in AUR"
+msgid "only search for installed packages"
 msgstr ""
+
+#: src/cli.vala
+msgid "only search for packages in repositories"
+msgstr ""
+
+#: src/cli.vala
+msgid "also search in AUR"
+msgstr "ankaŭ serĉi ĉe AUR"
 
 #: src/cli.vala
 msgid ""
@@ -819,19 +828,19 @@ msgstr ""
 
 #: src/cli.vala
 msgid "List packages, groups, repositories or files"
-msgstr ""
+msgstr "Listigi pakaĵojn, grupojn, deponejojn aŭ dosierojn"
 
 #: src/cli.vala
 msgid "group(s)"
-msgstr ""
+msgstr "grupo(j)"
 
 #: src/cli.vala
 msgid "repo(s)"
-msgstr ""
+msgstr "deponejo(j)"
 
 #: src/cli.vala
 msgid "list installed packages"
-msgstr ""
+msgstr "listigi instalitajn pakaĵojn"
 
 #: src/cli.vala
 msgid ""
@@ -1051,15 +1060,15 @@ msgstr "Versio"
 
 #: src/cli.vala
 msgid "Description"
-msgstr ""
+msgstr "Priskribo"
 
 #: src/cli.vala
 msgid "URL"
-msgstr ""
+msgstr "URL"
 
 #: src/cli.vala
 msgid "Installed Size"
-msgstr ""
+msgstr "Instalo-grando"
 
 #: src/cli.vala
 #, c-format
@@ -1149,7 +1158,7 @@ msgstr "Preferoj"
 
 #: resources/manager_window.ui
 msgid "About"
-msgstr ""
+msgstr "Pri"
 
 #: resources/manager_window.ui
 msgid "Search"
@@ -1177,11 +1186,11 @@ msgstr ""
 
 #: resources/manager_window.ui
 msgid "Sort by"
-msgstr ""
+msgstr "Ordigi laŭ"
 
 #: resources/manager_window.ui
 msgid "Relevance"
-msgstr ""
+msgstr "Rilateco"
 
 #: resources/manager_window.ui
 msgid "Size"
@@ -1189,11 +1198,11 @@ msgstr "Grando"
 
 #: resources/manager_window.ui
 msgid "Browse"
-msgstr ""
+msgstr "Esplori"
 
 #: resources/manager_window.ui
 msgid "Launch"
-msgstr ""
+msgstr "Lanĉi"
 
 #: resources/manager_window.ui
 msgid "Reinstall"
@@ -1205,11 +1214,11 @@ msgstr ""
 
 #: resources/preferences_dialog.ui
 msgid "Check for updates"
-msgstr ""
+msgstr "Kontroli ĝisdatigojn"
 
 #: resources/preferences_dialog.ui
 msgid "Automatically download updates"
-msgstr ""
+msgstr "Aŭtomate elŝuti ĝisdatigojn"
 
 #: resources/preferences_dialog.ui
 msgid "Hide tray icon when no update available"
@@ -1227,7 +1236,7 @@ msgstr ""
 
 #: resources/preferences_dialog.ui
 msgid "Check available disk space"
-msgstr ""
+msgstr "Kontroli disponeblan diskospacon"
 
 #: resources/preferences_dialog.ui
 msgid "Remove unrequired dependencies"
@@ -1253,33 +1262,33 @@ msgstr ""
 
 #: resources/preferences_dialog.ui
 msgid "Advanced"
-msgstr ""
+msgstr "Altnivele"
 
 #: resources/preferences_dialog.ui
 msgid "Use mirrors from:"
-msgstr ""
+msgstr "Uzi spegulojn de:"
 
 #: resources/preferences_dialog.ui
 msgid "Refresh Mirrors List"
-msgstr ""
+msgstr "Aktualigi Liston de Speguloj"
 
 #: resources/preferences_dialog.ui
 msgid "Official Repositories"
-msgstr ""
+msgstr "Oficialaj Deponejoj"
 
 #: resources/preferences_dialog.ui
 msgid ""
 "AUR is a community maintained repository so it presents potential risks and problems.\n"
 "All AUR users should be familiar with the build process."
-msgstr ""
+msgstr "AUR estas deponejo prizorgata de komunumo, tial ĝi eble formas riskojn kaj problemojn.\nĈiuj uzantoj de AUR devas esti jam alkutimiĝintaj al la kunmeta procezo."
 
 #: resources/preferences_dialog.ui
 msgid "Enable AUR support"
-msgstr ""
+msgstr "Ŝalti AUR-aliĝon"
 
 #: resources/preferences_dialog.ui
 msgid "Allow Pamac to search and install packages from AUR"
-msgstr ""
+msgstr "Permesi al Pamac serĉi kaj instali pakaĵojn de AUR"
 
 #: resources/preferences_dialog.ui
 msgid "Keep built packages in cache"
@@ -1299,8 +1308,8 @@ msgstr ""
 
 #: resources/preferences_dialog.ui
 msgid "Enable Snap support"
-msgstr ""
+msgstr "Ŝalti Snap-aliĝon"
 
 #: resources/preferences_dialog.ui
 msgid "Cache"
-msgstr ""
+msgstr "Kaŝmemoro"

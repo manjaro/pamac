@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2019-11-27 21:28+0100\n"
-"PO-Revision-Date: 2019-11-28 13:06+0000\n"
+"POT-Creation-Date: 2019-12-05 10:44+0100\n"
+"PO-Revision-Date: 2019-12-06 22:00+0000\n"
 "Last-Translator: Moo\n"
 "Language-Team: Lithuanian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/lt/)\n"
 "MIME-Version: 1.0\n"
@@ -806,6 +806,14 @@ msgstr "Ieškoti paketų ar failų, gali būti nurodyti keli paieškos raktažod
 #: src/cli.vala
 msgid "file(s)"
 msgstr "failas(-ai)"
+
+#: src/cli.vala
+msgid "only search for installed packages"
+msgstr "ieškoti tik įdiegtų paketų"
+
+#: src/cli.vala
+msgid "only search for packages in repositories"
+msgstr "ieškoti tik paketų saugyklose"
 
 #: src/cli.vala
 msgid "also search in AUR"

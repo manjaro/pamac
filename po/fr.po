@@ -23,9 +23,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2019-11-27 21:28+0100\n"
-"PO-Revision-Date: 2019-11-30 09:11+0000\n"
-"Last-Translator: Guillaume Benoit <guillaume@manjaro.org>\n"
+"POT-Creation-Date: 2019-12-05 10:44+0100\n"
+"PO-Revision-Date: 2019-12-07 09:52+0000\n"
+"Last-Translator: Charles Monzat <c.monzat@laposte.net>\n"
 "Language-Team: French (http://www.transifex.com/manjarolinux/manjaro-pamac/language/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -371,7 +371,7 @@ msgstr "Faire confiance à %s et importer la clé PGP"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "To remove"
-msgstr "À désinstaller "
+msgstr "À désinstaller "
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "To downgrade"
@@ -379,23 +379,23 @@ msgstr "Retour à une version antérieure"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "To build"
-msgstr "À construire "
+msgstr "À construire "
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "To install"
-msgstr "À installer "
+msgstr "À installer "
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "To reinstall"
-msgstr "À réinstaller "
+msgstr "À réinstaller "
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "To upgrade"
-msgstr "À mettre à jour "
+msgstr "À mettre à jour "
 
 #: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
 msgid "Total download size"
-msgstr "Taille totale de téléchargement "
+msgstr "Taille totale de téléchargement "
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
@@ -520,7 +520,7 @@ msgstr "Fichiers de construction"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Install Reason"
-msgstr "Motif d’installation "
+msgstr "Motif d’installation "
 
 #: src/manager_window.vala
 msgid "Mark as explicitly installed"
@@ -532,7 +532,7 @@ msgstr "Licences "
 
 #: src/manager_window.vala src/cli.vala resources/manager_window.ui
 msgid "Repository"
-msgstr "Dépôt "
+msgstr "Dépôt "
 
 #: src/manager_window.vala src/cli.vala
 msgid "Package Base"
@@ -540,79 +540,79 @@ msgstr "Paquet de base"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Maintainer"
-msgstr "Mainteneur "
+msgstr "Mainteneur "
 
 #: src/manager_window.vala src/cli.vala
 msgid "First Submitted"
-msgstr "Proposé le "
+msgstr "Proposé le "
 
 #: src/manager_window.vala src/cli.vala
 msgid "Last Modified"
-msgstr "Modifié le "
+msgstr "Modifié le "
 
 #: src/manager_window.vala src/cli.vala
 msgid "Votes"
-msgstr "Votes "
+msgstr "Votes "
 
 #: src/manager_window.vala src/cli.vala
 msgid "Out of Date"
-msgstr "Obsolète "
+msgstr "Obsolète "
 
 #: src/manager_window.vala src/cli.vala resources/manager_window.ui
 msgid "Groups"
-msgstr "Groupes "
+msgstr "Groupes "
 
 #: src/manager_window.vala src/cli.vala
 msgid "Packager"
-msgstr "Paqueteur "
+msgstr "Paqueteur "
 
 #: src/manager_window.vala src/cli.vala
 msgid "Build Date"
-msgstr "Compilé le "
+msgstr "Compilé le "
 
 #: src/manager_window.vala src/cli.vala
 msgid "Install Date"
-msgstr "Installé le "
+msgstr "Installé le "
 
 #: src/manager_window.vala src/cli.vala
 msgid "Signatures"
-msgstr "Signatures "
+msgstr "Signatures "
 
 #: src/manager_window.vala src/cli.vala
 msgid "Backup files"
-msgstr "Fichiers sauvegardés "
+msgstr "Fichiers sauvegardés "
 
 #: src/manager_window.vala src/cli.vala
 msgid "Depends On"
-msgstr "Dépend de "
+msgstr "Dépend de "
 
 #: src/manager_window.vala src/cli.vala
 msgid "Optional Dependencies"
-msgstr "Dépendances optionnelles "
+msgstr "Dépendances optionnelles "
 
 #: src/manager_window.vala src/cli.vala
 msgid "Required By"
-msgstr "Requis par "
+msgstr "Requis par "
 
 #: src/manager_window.vala src/cli.vala
 msgid "Optional For"
-msgstr "Optionnel pour "
+msgstr "Optionnel pour "
 
 #: src/manager_window.vala src/cli.vala
 msgid "Provides"
-msgstr "Fournit "
+msgstr "Fournit "
 
 #: src/manager_window.vala src/cli.vala
 msgid "Replaces"
-msgstr "Remplace "
+msgstr "Remplace "
 
 #: src/manager_window.vala src/cli.vala
 msgid "Conflicts With"
-msgstr "Est en conflit avec "
+msgstr "Est en conflit avec "
 
 #: src/manager_window.vala src/cli.vala
 msgid "Make Dependencies"
-msgstr "Dépendances de construction "
+msgstr "Dépendances de construction "
 
 #: src/manager_window.vala src/cli.vala
 msgid "Check Dependencies"
@@ -813,6 +813,14 @@ msgid "file(s)"
 msgstr "fichier(s)"
 
 #: src/cli.vala
+msgid "only search for installed packages"
+msgstr "rechercher uniquement les paquets installés"
+
+#: src/cli.vala
+msgid "only search for packages in repositories"
+msgstr "rechercher uniquement les paquets dans les dépôts"
+
+#: src/cli.vala
 msgid "also search in AUR"
 msgstr "rechercher également dans AUR"
 
@@ -954,7 +962,7 @@ msgstr "Réinstaller des paquets"
 
 #: src/cli.vala
 msgid "remove packages only if they are not required by any other packages"
-msgstr "ne supprime les paquets que s'ils ne sont requis par aucun autre paquet"
+msgstr "ne supprime les paquets que s’ils ne sont requis par aucun autre paquet"
 
 #: src/cli.vala
 msgid ""
@@ -1221,7 +1229,7 @@ msgstr "Télécharger automatiquement les mises à jour"
 
 #: resources/preferences_dialog.ui
 msgid "Hide tray icon when no update available"
-msgstr "Masquer l’icône de notification lorsqu’aucune mise à jour n’est disponible"
+msgstr "Masquer l’icône de notification si aucune mise à jour n’est disponible"
 
 #: resources/preferences_dialog.ui
 msgid "General"

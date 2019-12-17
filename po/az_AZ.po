@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2019-11-27 21:28+0100\n"
-"PO-Revision-Date: 2019-11-28 00:43+0000\n"
+"POT-Creation-Date: 2019-12-05 10:44+0100\n"
+"PO-Revision-Date: 2019-12-06 01:03+0000\n"
 "Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Azerbaijani (Azerbaijan) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/az_AZ/)\n"
 "MIME-Version: 1.0\n"
@@ -796,6 +796,14 @@ msgstr ""
 
 #: src/cli.vala
 msgid "file(s)"
+msgstr ""
+
+#: src/cli.vala
+msgid "only search for installed packages"
+msgstr ""
+
+#: src/cli.vala
+msgid "only search for packages in repositories"
 msgstr ""
 
 #: src/cli.vala

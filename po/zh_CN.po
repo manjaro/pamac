@@ -24,9 +24,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2019-11-27 21:28+0100\n"
-"PO-Revision-Date: 2019-11-28 00:43+0000\n"
-"Last-Translator: philm <philm@manjaro.org>\n"
+"POT-Creation-Date: 2019-12-05 10:44+0100\n"
+"PO-Revision-Date: 2019-12-16 05:14+0000\n"
+"Last-Translator: Tramsifex <sunnycode@protonmail.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -728,7 +728,7 @@ msgstr[0] "%u 个文件"
 
 #: src/preferences_dialog.vala
 msgid "Choose Ignored Upgrades"
-msgstr ""
+msgstr "选择忽略的更新"
 
 #: src/transaction-cli.vala src/cli.vala
 #, c-format
@@ -808,6 +808,14 @@ msgstr "查找包或者文件，多个搜索行为可行"
 #: src/cli.vala
 msgid "file(s)"
 msgstr "文件"
+
+#: src/cli.vala
+msgid "only search for installed packages"
+msgstr "仅搜索已安装的更新"
+
+#: src/cli.vala
+msgid "only search for packages in repositories"
+msgstr "仅搜索仓库内的软件包"
 
 #: src/cli.vala
 msgid "also search in AUR"
@@ -931,19 +939,19 @@ msgstr "覆盖冲突文件，多个模式使用逗号分隔"
 
 #: src/cli.vala
 msgid "download all packages but do not install/upgrade anything"
-msgstr ""
+msgstr "仅下载所有软件包"
 
 #: src/cli.vala
 msgid "mark all packages installed as a dependency"
-msgstr ""
+msgstr "将已安装的所有软件包标记为依赖"
 
 #: src/cli.vala
 msgid "mark all packages explicitly installed"
-msgstr ""
+msgstr "将已安装所有软件包明确标记"
 
 #: src/cli.vala
 msgid "do not check for updates"
-msgstr ""
+msgstr "不检查更新"
 
 #: src/cli.vala
 msgid "Reinstall packages"
@@ -951,7 +959,7 @@ msgstr "重新安装包"
 
 #: src/cli.vala
 msgid "remove packages only if they are not required by any other packages"
-msgstr ""
+msgstr "仅移除不被其他软件包所需要的软件包"
 
 #: src/cli.vala
 msgid ""
@@ -961,7 +969,7 @@ msgstr "移除所有未被其他包使用的依赖，若未指定包名则移除
 
 #: src/cli.vala
 msgid "ignore files backup"
-msgstr ""
+msgstr "忽略文件备份"
 
 #: src/cli.vala
 msgid "Safely check for updates without modifiying the databases"
@@ -1080,7 +1088,7 @@ msgstr "%s 由 %s 所有"
 #, c-format
 msgid "%u ignored update"
 msgid_plural "%u ignored updates"
-msgstr[0] ""
+msgstr[0] "%u个忽略的更新"
 
 #: src/cli.vala resources/preferences_dialog.ui
 msgid "Remove only the versions of uninstalled packages"
@@ -1226,11 +1234,11 @@ msgstr "常规"
 msgid ""
 "Misconfiguration of these options can lead to system breakage.\n"
 "Modify them only if you know what you are doing."
-msgstr ""
+msgstr "这些选项的配置错误可能导致系统损坏。\n建议仅在您对其充分了解的情况下进行修改。"
 
 #: resources/preferences_dialog.ui
 msgid "Check available disk space"
-msgstr ""
+msgstr "检查可用的磁盘空间"
 
 #: resources/preferences_dialog.ui
 msgid "Remove unrequired dependencies"
@@ -1244,7 +1252,7 @@ msgstr "移除软件包时，也移除该软件包需要，但其他软件包不
 
 #: resources/preferences_dialog.ui
 msgid "Do not check for updates when installing"
-msgstr ""
+msgstr "安装时不检查更新"
 
 #: resources/preferences_dialog.ui
 msgid "Enable downgrade"
@@ -1252,11 +1260,11 @@ msgstr "启用降级"
 
 #: resources/preferences_dialog.ui
 msgid "Ignore upgrades for:"
-msgstr ""
+msgstr "忽略以下更新："
 
 #: resources/preferences_dialog.ui
 msgid "Advanced"
-msgstr ""
+msgstr "高级"
 
 #: resources/preferences_dialog.ui
 msgid "Use mirrors from:"
