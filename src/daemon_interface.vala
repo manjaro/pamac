@@ -47,7 +47,7 @@ namespace Pamac {
 											string[] temporary_ignorepkgs,
 											string[] overwrite_files) throws Error;
 		public abstract void answer_choose_provider (int provider) throws Error;
-		public abstract void aur_build_list_computed () throws Error;
+		public abstract void aur_build_list_computed (bool success) throws Error;
 		public abstract void answer_ask_edit_build_files (bool answer) throws Error;
 		public abstract void build_files_edited () throws Error;
 		public abstract void answer_ask_commit (bool answer) throws Error;
