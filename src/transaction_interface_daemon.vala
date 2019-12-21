@@ -271,9 +271,9 @@ namespace Pamac {
 			if (sender != this.sender) {
 				return;
 			}
-			compute_aur_build_list ();
+			bool success = compute_aur_build_list ();
 			try {
-				system_daemon.aur_build_list_computed ();
+				system_daemon.aur_build_list_computed (success);
 			} catch (Error e) {
 				critical ("build_files_edited: %s\n", e.message);
 			}

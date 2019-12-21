@@ -44,7 +44,7 @@ namespace Pamac {
 		public abstract void trans_cancel () throws Error;
 		public abstract void quit_daemon () throws Error;
 		public signal int choose_provider (string depend, string[] providers);
-		public signal void compute_aur_build_list ();
+		public signal bool compute_aur_build_list ();
 		public signal bool ask_edit_build_files (TransactionSummaryStruct summary);
 		public signal void edit_build_files (string[] pkgnames);
 		public signal bool ask_commit (TransactionSummaryStruct summary);

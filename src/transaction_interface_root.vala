@@ -42,7 +42,7 @@ namespace Pamac {
 				return choose_provider (depend, providers);
 			});
 			alpm_utils.compute_aur_build_list.connect ((sender) => {
-				compute_aur_build_list ();
+				return compute_aur_build_list ();
 			});
 			alpm_utils.emit_download_progress.connect ((sender, action, status, progress) => {
 				emit_download_progress (action, status, progress);

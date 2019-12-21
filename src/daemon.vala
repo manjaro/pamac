@@ -109,7 +109,7 @@ namespace Pamac {
 		Cond answer_cond;
 		Mutex answer_mutex;
 		int? choosen_provider_answer;
-		bool? compute_aur_build_list_answer;
+		bool? compute_aur_build_list_success;
 		bool? ask_edit_build_files_answer;
 		bool? edit_build_files_answer;
 		bool? ask_commit_answer;
@@ -175,7 +175,7 @@ namespace Pamac {
 				return choose_provider_callback (sender, depend, providers);
 			});
 			alpm_utils.compute_aur_build_list.connect ((sender) => {
-				compute_aur_build_list_callback (sender);
+				return compute_aur_build_list_callback (sender);
 			});
 			alpm_utils.ask_edit_build_files.connect ((sender, summary) => {
 				return ask_edit_build_files_callback (sender, summary);
@@ -678,19 +678,20 @@ namespace Pamac {
 			answer_mutex.unlock ();
 		}
 
-		void compute_aur_build_list_callback (string sender) {
-			compute_aur_build_list_answer = null;
+		bool compute_aur_build_list_callback (string sender) {
+			compute_aur_build_list_success = null;
 			compute_aur_build_list (sender);
 			answer_mutex.lock ();
-			while (compute_aur_build_list_answer == null) {
+			while (compute_aur_build_list_success == null) {
 				answer_cond.wait (answer_mutex);
 			}
 			answer_mutex.unlock ();
+			return compute_aur_build_list_success;
 		}
 
-		public void aur_build_list_computed () throws Error {
+		public void aur_build_list_computed (bool success) throws Error {
 			answer_mutex.lock ();
-			compute_aur_build_list_answer = true;
+			compute_aur_build_list_success = success;
 			answer_cond.signal ();
 			answer_mutex.unlock ();
 		}

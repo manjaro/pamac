@@ -120,7 +120,7 @@ namespace Pamac {
 		uint64 rates_nb;
 
 		public signal int choose_provider (string sender, string depend, string[] providers);
-		public signal void compute_aur_build_list (string sender);
+		public signal bool compute_aur_build_list (string sender);
 		public signal void start_preparing (string sender);
 		public signal void stop_preparing (string sender);
 		public signal void start_downloading (string sender);
@@ -869,7 +869,9 @@ namespace Pamac {
 								aur_conflicts_to_remove = new List<PackageStruct?> ();
 								aur_pkgbases_to_build = new GenericArray<string> ();
 								emit_script_output (sender, "");
-								compute_aur_build_list (sender);
+								if (!compute_aur_build_list (sender)) {
+									return false;
+								}
 								return trans_run_real ();
 							}
 							if (ask_commit (sender, summary)) {
@@ -925,7 +927,9 @@ namespace Pamac {
 					aur_conflicts_to_remove = new List<PackageStruct?> ();
 					aur_pkgbases_to_build = new GenericArray<string> ();
 					emit_script_output (sender, "");
-					compute_aur_build_list (sender);
+					if (!compute_aur_build_list (sender)) {
+						return false;
+					}
 					return trans_run_real ();
 				}
 			}

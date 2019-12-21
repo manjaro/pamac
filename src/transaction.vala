@@ -279,26 +279,33 @@ namespace Pamac {
 			}
 		}
 
-		void compute_aur_build_list () {
+		bool compute_aur_build_list () {
 			// set building to allow cancellation
 			building = true;
 			build_cancellable.reset ();
 			start_building ();
-			compute_aur_build_list_real ();
+			bool success = compute_aur_build_list_real ();
 			stop_building ();
 			building = false;
+			return success;
 		}
 
-		void launch_subprocess (string[] cmds) {
+		int launch_subprocess (string[] cmds) {
+			int status = 1;
 			try {
 				var process = new Subprocess.newv (cmds, SubprocessFlags.NONE);
 				process.wait ();
+				if (process.get_if_exited ()) {
+					status = process.get_exit_status ();
+				}
 			} catch (Error e) {
 				critical ("%s\n", e.message);
+				emit_error (dgettext (null, "Failed to prepare transaction"), {e.message});
 			}
+			return status;
 		}
 
-		void compute_aur_build_list_real () {
+		bool compute_aur_build_list_real () {
 			string tmp_path = "/tmp/pamac";
 			var file = GLib.File.new_for_path (tmp_path);
 			if (!file.query_exists ()) {
@@ -315,7 +322,9 @@ namespace Pamac {
 			foreach (unowned AURPackage aur_update in aur_updates) {
 				to_build_array.add (aur_update.name);
 			}
-			check_aur_dep_list (to_build_array.data);
+			if (!check_aur_dep_list (to_build_array.data)) {
+				return false;
+			}
 			if (aur_desc_list.length > 0) {
 				// create a fake aur db
 				launch_subprocess ({"rm", "-f", "%s/aur.db".printf (tmp_path)});
@@ -323,11 +332,14 @@ namespace Pamac {
 				foreach (unowned string name_version in aur_desc_list) {
 					cmds += name_version;
 				}
-				launch_subprocess (cmds);
+				if (launch_subprocess (cmds) != 0) {
+					return false;
+				}
 			}
+			return true;
 		}
 
-		void check_aur_dep_list (string[] pkgnames) {
+		bool check_aur_dep_list (string[] pkgnames) {
 			var dep_to_check = new GenericArray<string> ();
 			var aur_pkgs = new HashTable<string, AURPackage?> (str_hash, str_equal);
 			if (clone_build_files) {
@@ -335,7 +347,7 @@ namespace Pamac {
 			}
 			foreach (unowned string pkgname in pkgnames) {
 				if (build_cancellable.is_cancelled ()) {
-					return;
+					return false;
 				}
 				if (already_checked_aur_dep.contains (pkgname)) {
 					continue;
@@ -345,18 +357,19 @@ namespace Pamac {
 					unowned AURPackage? aur_pkg = aur_pkgs.lookup (pkgname);
 					if (aur_pkg == null) {
 						// error
-						continue;
+						return false;
 					}
 					// clone build files
 					// use packagebase in case of split package
 					emit_action (dgettext (null, "Cloning %s build files").printf (aur_pkg.packagebase) + "...");
 					clone_dir = database.clone_build_files (aur_pkg.packagebase, false, build_cancellable);
 					if (build_cancellable.is_cancelled ()) {
-						return;
+						return false;
 					}
 					if (clone_dir == null) {
 						// error
-						continue;
+						emit_error (dgettext (null, "Failed to clone %s build files").printf (aur_pkg.packagebase), {});
+						return false;
 					}
 					already_checked_aur_dep.add (aur_pkg.packagebase);
 				} else {
@@ -382,17 +395,18 @@ namespace Pamac {
 							}
 						} catch (Error e) {
 							critical ("%s\n", e.message);
+							return false;
 						}
 						continue;
 					}
 					emit_action (dgettext (null, "Generating %s informations").printf (pkgname) + "...");
 					if (!(database.regenerate_srcinfo (pkgname, build_cancellable))) {
 						// error
-						continue;
+						return false;
 					}
 				}
 				if (build_cancellable.is_cancelled ()) {
-					return;
+					return false;
 				}
 				emit_action (dgettext (null, "Checking %s dependencies").printf (pkgname) + "...");
 				var srcinfo = clone_dir.get_child (".SRCINFO");
@@ -631,12 +645,13 @@ namespace Pamac {
 					}
 				} catch (Error e) {
 					critical ("%s\n", e.message);
-					continue;
+					return false;
 				}
 			}
 			if (dep_to_check.length > 0) {
-				check_aur_dep_list (dep_to_check.data);
+				return check_aur_dep_list (dep_to_check.data);
 			}
+			return true;
 		}
 
 		void check_signature (string pkgname, SList<string> keys) {
@@ -824,7 +839,9 @@ namespace Pamac {
 				}
 			}
 			if (to_build.length > 0 || check_aur_updates_now) {
-				compute_aur_build_list ();
+				if (!compute_aur_build_list ()) {
+					return false;
+				}
 				aur_updates = new List<AURPackage> ();
 				if (build_cancellable.is_cancelled ()) {
 					return false;
@@ -1048,13 +1065,16 @@ namespace Pamac {
 				// building
 				building = true;
 				start_building ();
-				string[] cmdline = {"makepkg", "--nosign", "-cCf"};
+				string[] cmdline = {"makepkg", "-cCf"};
 				if (!database.config.keep_built_pkgs) {
+					cmdline += "--nosign";
 					cmdline += "PKGDEST=%s".printf (pkgdir);
 					cmdline += "PKGEXT=.pkg.tar";
 				}
 				int status = run_cmd_line (cmdline, pkgdir, build_cancellable);
-				if (build_cancellable.is_cancelled ()) {
+				if (status == 1) {
+					emit_error (dgettext (null, "Failed to build %s").printf (pkgname), {});
+				} else if (build_cancellable.is_cancelled ()) {
 					status = 1;
 				}
 				if (status == 0) {

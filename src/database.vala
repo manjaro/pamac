@@ -1345,6 +1345,7 @@ namespace Pamac {
 					builddir.make_directory_with_parents ();
 				} catch (Error e) {
 					critical ("%s\n", e.message);
+					return null;
 				}
 			}
 			var pkgdir = builddir.get_child (pkgname);
@@ -1428,7 +1429,7 @@ namespace Pamac {
 		public bool regenerate_srcinfo (string pkgname, Cancellable? cancellable = null) {
 			bool success = false;
 			string pkgname_copy = pkgname;
-			new Thread<int> ("clone_build_files", () => {
+			new Thread<int> ("regenerate_srcinfo", () => {
 				success = regenerate_srcinfo_real (pkgname_copy, cancellable);
 				loop.quit ();
 				return 0;

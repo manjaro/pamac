@@ -316,18 +316,18 @@ namespace Pamac {
 				return 1;
 			}
 		}
-		if (pkg_a.installed_version == "") {
-			if (pkg_b.installed_version == "") {
-				return sort_pkgs_by_name (pkg_a, pkg_b);
-			} else {
-				return 1;
-			}
-		}
-		if (pkg_b.installed_version == "") {
-			if (pkg_a.installed_version == "") {
+		if (pkg_a.installed_version != "") {
+			if (pkg_b.installed_version != "") {
 				return sort_pkgs_by_name (pkg_a, pkg_b);
 			} else {
 				return -1;
+			}
+		}
+		if (pkg_b.installed_version != "") {
+			if (pkg_a.installed_version != "") {
+				return sort_pkgs_by_name (pkg_a, pkg_b);
+			} else {
+				return 1;
 			}
 		}
 		if (pkg_a.popularity > pkg_b.popularity) {
