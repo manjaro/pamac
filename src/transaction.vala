@@ -368,7 +368,7 @@ namespace Pamac {
 					}
 					if (clone_dir == null) {
 						// error
-						emit_error (dgettext (null, "Failed to clone build files"), {});
+						emit_error (dgettext (null, "Failed to clone %s build files").printf (aur_pkg.packagebase), {});
 						return false;
 					}
 					already_checked_aur_dep.add (aur_pkg.packagebase);
@@ -1065,13 +1065,16 @@ namespace Pamac {
 				// building
 				building = true;
 				start_building ();
-				string[] cmdline = {"makepkg", "--nosign", "-cCf"};
+				string[] cmdline = {"makepkg", "-cCf"};
 				if (!database.config.keep_built_pkgs) {
+					cmdline += "--nosign";
 					cmdline += "PKGDEST=%s".printf (pkgdir);
 					cmdline += "PKGEXT=.pkg.tar";
 				}
 				int status = run_cmd_line (cmdline, pkgdir, build_cancellable);
-				if (build_cancellable.is_cancelled ()) {
+				if (status == 1) {
+					emit_error (dgettext (null, "Failed to build %s").printf (pkgname), {});
+				} else if (build_cancellable.is_cancelled ()) {
 					status = 1;
 				}
 				if (status == 0) {
