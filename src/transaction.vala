@@ -595,7 +595,7 @@ namespace Pamac {
 						// creating a DataOutputStream to the file
 						var dos = new DataOutputStream (fos);
 						// fake filename
-						dos.put_string ("%FILENAME%\n" + "%s-%s-any.pkg.tar.xz\n\n".printf (pkgname_found, aur_pkg.version));
+						dos.put_string ("%FILENAME%\n" + "%s-%s-any.pkg.tar\n\n".printf (pkgname_found, aur_pkg.version));
 						// name
 						dos.put_string ("%NAME%\n%s\n\n".printf (pkgname_found));
 						// version

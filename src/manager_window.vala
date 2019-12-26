@@ -3242,9 +3242,7 @@ namespace Pamac {
 			chooser.create_folders = false;
 			Gtk.FileFilter package_filter = new Gtk.FileFilter ();
 			package_filter.set_filter_name (dgettext (null, "Alpm Package"));
-			package_filter.add_pattern ("*.pkg.tar.xz");
-			package_filter.add_pattern ("*.pkg.tar.gz");
-			package_filter.add_pattern ("*.pkg.tar");
+			package_filter.add_mime_type ("application/x-alpm-package");
 			chooser.add_filter (package_filter);
 			if (chooser.run () == Gtk.ResponseType.ACCEPT) {
 				SList<string> packages_paths = chooser.get_filenames ();
