@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2019-12-05 10:44+0100\n"
-"PO-Revision-Date: 2019-12-06 22:00+0000\n"
+"POT-Creation-Date: 2019-12-21 18:55+0100\n"
+"PO-Revision-Date: 2019-12-22 18:58+0000\n"
 "Last-Translator: Moo\n"
 "Language-Team: Lithuanian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/lt/)\n"
 "MIME-Version: 1.0\n"
@@ -49,7 +49,8 @@ msgstr "AUR"
 msgid "Failed to init transaction"
 msgstr "Nepavyko inicijuoti operacijos"
 
-#: src/alpm_utils.vala src/transaction-gtk.vala src/installer.vala
+#: src/alpm_utils.vala src/transaction.vala src/transaction-gtk.vala
+#: src/installer.vala
 msgid "Failed to prepare transaction"
 msgstr "Nepavyko paruošti operacijos"
 
@@ -251,13 +252,13 @@ msgstr "%s atsisiuntimas užbaigtas"
 
 #: src/alpm_utils.vala
 #, c-format
-msgid "Downloading %s"
-msgstr "Atsiunčiama %s"
+msgid "Refreshing %s"
+msgstr "Įkeliama iš naujo %s"
 
 #: src/alpm_utils.vala
 #, c-format
-msgid "Refreshing %s"
-msgstr "Įkeliama iš naujo %s"
+msgid "Downloading %s"
+msgstr "Atsiunčiama %s"
 
 #: src/daemon.vala
 msgid "Authentication failed"
@@ -302,6 +303,11 @@ msgstr "Klonuojami %s kompiliavimo failai"
 
 #: src/transaction.vala
 #, c-format
+msgid "Failed to clone %s build files"
+msgstr "Nepavyko klonuoti %s kompiliavimo failų"
+
+#: src/transaction.vala
+#, c-format
 msgid "Generating %s informations"
 msgstr "Kuriama %s informacija"
 
@@ -323,6 +329,11 @@ msgstr "Operacija sėkmingai užbaigta"
 #, c-format
 msgid "Building %s"
 msgstr "Kompiliuojama %s"
+
+#: src/transaction.vala
+#, c-format
+msgid "Failed to build %s"
+msgstr "Nepavyko kompiliuoti %s"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format

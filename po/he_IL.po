@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2019-12-05 10:44+0100\n"
-"PO-Revision-Date: 2019-12-06 01:03+0000\n"
+"POT-Creation-Date: 2019-12-21 18:55+0100\n"
+"PO-Revision-Date: 2019-12-22 00:29+0000\n"
 "Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Hebrew (Israel) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/he_IL/)\n"
 "MIME-Version: 1.0\n"
@@ -47,7 +47,8 @@ msgstr ""
 msgid "Failed to init transaction"
 msgstr ""
 
-#: src/alpm_utils.vala src/transaction-gtk.vala src/installer.vala
+#: src/alpm_utils.vala src/transaction.vala src/transaction-gtk.vala
+#: src/installer.vala
 msgid "Failed to prepare transaction"
 msgstr ""
 
@@ -249,12 +250,12 @@ msgstr ""
 
 #: src/alpm_utils.vala
 #, c-format
-msgid "Downloading %s"
+msgid "Refreshing %s"
 msgstr ""
 
 #: src/alpm_utils.vala
 #, c-format
-msgid "Refreshing %s"
+msgid "Downloading %s"
 msgstr ""
 
 #: src/daemon.vala
@@ -300,6 +301,11 @@ msgstr ""
 
 #: src/transaction.vala
 #, c-format
+msgid "Failed to clone %s build files"
+msgstr ""
+
+#: src/transaction.vala
+#, c-format
 msgid "Generating %s informations"
 msgstr ""
 
@@ -320,6 +326,11 @@ msgstr ""
 #: src/transaction.vala
 #, c-format
 msgid "Building %s"
+msgstr ""
+
+#: src/transaction.vala
+#, c-format
+msgid "Failed to build %s"
 msgstr ""
 
 #: src/transaction-gtk.vala src/transaction-cli.vala

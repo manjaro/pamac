@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2019-12-05 10:44+0100\n"
-"PO-Revision-Date: 2019-12-06 16:11+0000\n"
+"POT-Creation-Date: 2019-12-21 18:55+0100\n"
+"PO-Revision-Date: 2019-12-25 23:25+0000\n"
 "Last-Translator: Pedro Delgado\n"
 "Language-Team: Spanish (Mexico) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/es_MX/)\n"
 "MIME-Version: 1.0\n"
@@ -52,7 +52,8 @@ msgstr "AUR"
 msgid "Failed to init transaction"
 msgstr "Fallo al iniciar la transacción"
 
-#: src/alpm_utils.vala src/transaction-gtk.vala src/installer.vala
+#: src/alpm_utils.vala src/transaction.vala src/transaction-gtk.vala
+#: src/installer.vala
 msgid "Failed to prepare transaction"
 msgstr "Fallo al preparar la transacción"
 
@@ -252,13 +253,13 @@ msgstr "Descarga de %s finalizada"
 
 #: src/alpm_utils.vala
 #, c-format
-msgid "Downloading %s"
-msgstr "Descargando %s"
+msgid "Refreshing %s"
+msgstr "Refrescando %s"
 
 #: src/alpm_utils.vala
 #, c-format
-msgid "Refreshing %s"
-msgstr "Refrescando %s"
+msgid "Downloading %s"
+msgstr "Descargando %s"
 
 #: src/daemon.vala
 msgid "Authentication failed"
@@ -303,6 +304,11 @@ msgstr "Clonando archivos de construcción de %s"
 
 #: src/transaction.vala
 #, c-format
+msgid "Failed to clone %s build files"
+msgstr "Fallo al clonar archivos de construcción de%s"
+
+#: src/transaction.vala
+#, c-format
 msgid "Generating %s informations"
 msgstr "Generando información de %s"
 
@@ -324,6 +330,11 @@ msgstr "Transacción finalizada con éxito"
 #, c-format
 msgid "Building %s"
 msgstr "Construyendo %s"
+
+#: src/transaction.vala
+#, c-format
+msgid "Failed to build %s"
+msgstr "Fallo al construir %s"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format

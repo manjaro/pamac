@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2019-12-05 10:44+0100\n"
-"PO-Revision-Date: 2019-12-06 03:35+0000\n"
+"POT-Creation-Date: 2019-12-21 18:55+0100\n"
+"PO-Revision-Date: 2019-12-22 03:54+0000\n"
 "Last-Translator: 黃柏諺 <s8321414@gmail.com>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
@@ -52,7 +52,8 @@ msgstr "AUR"
 msgid "Failed to init transaction"
 msgstr "初始化事務處理失敗"
 
-#: src/alpm_utils.vala src/transaction-gtk.vala src/installer.vala
+#: src/alpm_utils.vala src/transaction.vala src/transaction-gtk.vala
+#: src/installer.vala
 msgid "Failed to prepare transaction"
 msgstr "準備事務處理失敗"
 
@@ -251,13 +252,13 @@ msgstr "%s 的下載已結束"
 
 #: src/alpm_utils.vala
 #, c-format
-msgid "Downloading %s"
-msgstr "正在下載 %s"
+msgid "Refreshing %s"
+msgstr "正在更新 %s 內容"
 
 #: src/alpm_utils.vala
 #, c-format
-msgid "Refreshing %s"
-msgstr "正在更新 %s 內容"
+msgid "Downloading %s"
+msgstr "正在下載 %s"
 
 #: src/daemon.vala
 msgid "Authentication failed"
@@ -302,6 +303,11 @@ msgstr "正在再製 %s 構建檔案"
 
 #: src/transaction.vala
 #, c-format
+msgid "Failed to clone %s build files"
+msgstr "再製 %s 建構檔案失敗"
+
+#: src/transaction.vala
+#, c-format
 msgid "Generating %s informations"
 msgstr "正在生成 %s 資訊"
 
@@ -323,6 +329,11 @@ msgstr "事務處理成功完成"
 #, c-format
 msgid "Building %s"
 msgstr "正在構建 %s"
+
+#: src/transaction.vala
+#, c-format
+msgid "Failed to build %s"
+msgstr "建構 %s 失敗"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format

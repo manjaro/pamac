@@ -16,9 +16,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2019-12-05 10:44+0100\n"
-"PO-Revision-Date: 2019-12-14 21:57+0000\n"
-"Last-Translator: Augusto Fornitani <augusto.fornitani@outlook.com>\n"
+"POT-Creation-Date: 2019-12-21 18:55+0100\n"
+"PO-Revision-Date: 2019-12-22 00:29+0000\n"
+"Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Esperanto (http://www.transifex.com/manjarolinux/manjaro-pamac/language/eo/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -55,7 +55,8 @@ msgstr "Arĉlinuksa Uzantrezervejo"
 msgid "Failed to init transaction"
 msgstr "Malsukcesis komenco de transakcio"
 
-#: src/alpm_utils.vala src/transaction-gtk.vala src/installer.vala
+#: src/alpm_utils.vala src/transaction.vala src/transaction-gtk.vala
+#: src/installer.vala
 msgid "Failed to prepare transaction"
 msgstr ""
 
@@ -255,13 +256,13 @@ msgstr ""
 
 #: src/alpm_utils.vala
 #, c-format
-msgid "Downloading %s"
-msgstr "Deŝut %s"
+msgid "Refreshing %s"
+msgstr ""
 
 #: src/alpm_utils.vala
 #, c-format
-msgid "Refreshing %s"
-msgstr ""
+msgid "Downloading %s"
+msgstr "Deŝut %s"
 
 #: src/daemon.vala
 msgid "Authentication failed"
@@ -306,6 +307,11 @@ msgstr ""
 
 #: src/transaction.vala
 #, c-format
+msgid "Failed to clone %s build files"
+msgstr ""
+
+#: src/transaction.vala
+#, c-format
 msgid "Generating %s informations"
 msgstr ""
 
@@ -327,6 +333,11 @@ msgstr "Finita sukcese transakcio"
 #, c-format
 msgid "Building %s"
 msgstr "Kunmetanta %s"
+
+#: src/transaction.vala
+#, c-format
+msgid "Failed to build %s"
+msgstr ""
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format

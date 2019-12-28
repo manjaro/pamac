@@ -20,8 +20,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2019-12-05 10:44+0100\n"
-"PO-Revision-Date: 2019-12-06 01:03+0000\n"
+"POT-Creation-Date: 2019-12-21 18:55+0100\n"
+"PO-Revision-Date: 2019-12-22 00:29+0000\n"
 "Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Hungarian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/hu/)\n"
 "MIME-Version: 1.0\n"
@@ -59,7 +59,8 @@ msgstr "AUR"
 msgid "Failed to init transaction"
 msgstr "Művelet megkezdése sikertelen"
 
-#: src/alpm_utils.vala src/transaction-gtk.vala src/installer.vala
+#: src/alpm_utils.vala src/transaction.vala src/transaction-gtk.vala
+#: src/installer.vala
 msgid "Failed to prepare transaction"
 msgstr "Művelet előkészítése sikertelen"
 
@@ -259,13 +260,13 @@ msgstr "A %s letöltése befejezödött"
 
 #: src/alpm_utils.vala
 #, c-format
-msgid "Downloading %s"
-msgstr "Letöltés %s"
+msgid "Refreshing %s"
+msgstr "Frissítés %s"
 
 #: src/alpm_utils.vala
 #, c-format
-msgid "Refreshing %s"
-msgstr "Frissítés %s"
+msgid "Downloading %s"
+msgstr "Letöltés %s"
 
 #: src/daemon.vala
 msgid "Authentication failed"
@@ -310,6 +311,11 @@ msgstr "%s build fájlok klónozása"
 
 #: src/transaction.vala
 #, c-format
+msgid "Failed to clone %s build files"
+msgstr ""
+
+#: src/transaction.vala
+#, c-format
 msgid "Generating %s informations"
 msgstr "%s információk létrehozása"
 
@@ -331,6 +337,11 @@ msgstr "A tranzakció sikeresen végrehajtódott"
 #, c-format
 msgid "Building %s"
 msgstr "Telepítés %s"
+
+#: src/transaction.vala
+#, c-format
+msgid "Failed to build %s"
+msgstr ""
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format

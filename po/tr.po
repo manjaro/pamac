@@ -17,8 +17,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2019-12-05 10:44+0100\n"
-"PO-Revision-Date: 2019-12-06 09:04+0000\n"
+"POT-Creation-Date: 2019-12-21 18:55+0100\n"
+"PO-Revision-Date: 2019-12-22 02:03+0000\n"
 "Last-Translator: Serdar Sağlam <teknomobil@msn.com>\n"
 "Language-Team: Turkish (http://www.transifex.com/manjarolinux/manjaro-pamac/language/tr/)\n"
 "MIME-Version: 1.0\n"
@@ -56,7 +56,8 @@ msgstr "AUR Depoları"
 msgid "Failed to init transaction"
 msgstr "İşlem başlatılamadı"
 
-#: src/alpm_utils.vala src/transaction-gtk.vala src/installer.vala
+#: src/alpm_utils.vala src/transaction.vala src/transaction-gtk.vala
+#: src/installer.vala
 msgid "Failed to prepare transaction"
 msgstr "İşlem hazırlığı başarısız oldu"
 
@@ -256,13 +257,13 @@ msgstr "%s indirme tamamlandı"
 
 #: src/alpm_utils.vala
 #, c-format
-msgid "Downloading %s"
-msgstr "İndiriliyor %s"
+msgid "Refreshing %s"
+msgstr "Yenileniyor %s"
 
 #: src/alpm_utils.vala
 #, c-format
-msgid "Refreshing %s"
-msgstr "Yenileniyor %s"
+msgid "Downloading %s"
+msgstr "İndiriliyor %s"
 
 #: src/daemon.vala
 msgid "Authentication failed"
@@ -307,6 +308,11 @@ msgstr "%s derleme dosyaları klonlanıyor"
 
 #: src/transaction.vala
 #, c-format
+msgid "Failed to clone %s build files"
+msgstr "%s derleme dosyası klonlanamadı"
+
+#: src/transaction.vala
+#, c-format
 msgid "Generating %s informations"
 msgstr "%s bilgisi oluşturuluyor"
 
@@ -328,6 +334,11 @@ msgstr "Işlem Başarılı"
 #, c-format
 msgid "Building %s"
 msgstr "%s inşa ediliyor"
+
+#: src/transaction.vala
+#, c-format
+msgid "Failed to build %s"
+msgstr "%s derleme başarısız"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format

@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2019-12-05 10:44+0100\n"
-"PO-Revision-Date: 2019-12-14 18:25+0000\n"
+"POT-Creation-Date: 2019-12-21 18:55+0100\n"
+"PO-Revision-Date: 2019-12-23 03:48+0000\n"
 "Last-Translator: UTUMI Hirosi <utuhiro78@yahoo.co.jp>\n"
 "Language-Team: Japanese (http://www.transifex.com/manjarolinux/manjaro-pamac/language/ja/)\n"
 "MIME-Version: 1.0\n"
@@ -53,7 +53,8 @@ msgstr "AUR"
 msgid "Failed to init transaction"
 msgstr "トランザクションの初期化に失敗しました"
 
-#: src/alpm_utils.vala src/transaction-gtk.vala src/installer.vala
+#: src/alpm_utils.vala src/transaction.vala src/transaction-gtk.vala
+#: src/installer.vala
 msgid "Failed to prepare transaction"
 msgstr "トランザクションの準備に失敗しました"
 
@@ -252,13 +253,13 @@ msgstr "%s のダウンロードを完了しました"
 
 #: src/alpm_utils.vala
 #, c-format
-msgid "Downloading %s"
-msgstr "%s をダウンロードしています"
+msgid "Refreshing %s"
+msgstr "%s をアップデートしています"
 
 #: src/alpm_utils.vala
 #, c-format
-msgid "Refreshing %s"
-msgstr "%s をアップデートしています"
+msgid "Downloading %s"
+msgstr "%s をダウンロードしています"
 
 #: src/daemon.vala
 msgid "Authentication failed"
@@ -303,6 +304,11 @@ msgstr " %s のビルドファイルを複製しています"
 
 #: src/transaction.vala
 #, c-format
+msgid "Failed to clone %s build files"
+msgstr "%s ビルドファイルのクローンに失敗しました"
+
+#: src/transaction.vala
+#, c-format
 msgid "Generating %s informations"
 msgstr "%s の情報を生成しています"
 
@@ -324,6 +330,11 @@ msgstr "トランザクションが成功しました"
 #, c-format
 msgid "Building %s"
 msgstr "%s をビルドしています"
+
+#: src/transaction.vala
+#, c-format
+msgid "Failed to build %s"
+msgstr "%s のビルドに失敗しました "
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
@@ -864,7 +875,7 @@ msgstr "パッケージに属するファイルのリスト"
 
 #: src/cli.vala
 msgid "Clone or sync packages build files from AUR"
-msgstr "AURからパッケージのビルドファイルを複製あるいは同期"
+msgstr "AURからパッケージのビルドファイルをクローンまたは同期"
 
 #: src/cli.vala
 msgid "dir"
@@ -878,7 +889,7 @@ msgstr "ビルドを行うディレクトリ、もしデジレクトリが指定
 
 #: src/cli.vala
 msgid "also clone needed dependencies"
-msgstr "クローンが必要な依存パッケージも"
+msgstr "必要な依存パッケージもクローン"
 
 #: src/cli.vala
 msgid "overwrite existing files"
@@ -897,7 +908,7 @@ msgstr "ビルドディレクトリは1つ上のディレクトリとなり、--
 
 #: src/cli.vala
 msgid "and --no-clone option will be enforced"
-msgstr "--no-clone を適用します"
+msgstr "--no-clone オプションを適用します"
 
 #: src/cli.vala
 msgid "keep built packages in cache after installation"
@@ -905,7 +916,7 @@ msgstr "キャッシュ内のビルド済みパッケージをインストール
 
 #: src/cli.vala
 msgid "do not clone build files from AUR, only use local files"
-msgstr "AURからビルド用のファイルをクローンせず、ローカルファイルのみを使用する"
+msgstr "AURからビルドファイルをクローンせず、ローカルファイルのみを使用する"
 
 #: src/cli.vala
 msgid "bypass any and all confirmation messages"

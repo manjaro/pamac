@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2019-12-05 10:44+0100\n"
-"PO-Revision-Date: 2019-12-06 11:03+0000\n"
+"POT-Creation-Date: 2019-12-21 18:55+0100\n"
+"PO-Revision-Date: 2019-12-22 10:49+0000\n"
 "Last-Translator: Heimen Stoffels <vistausss@outlook.com>\n"
 "Language-Team: Dutch (Netherlands) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/nl_NL/)\n"
 "MIME-Version: 1.0\n"
@@ -53,7 +53,8 @@ msgstr "AUR"
 msgid "Failed to init transaction"
 msgstr "Het initialiseren van de overdracht is mislukt"
 
-#: src/alpm_utils.vala src/transaction-gtk.vala src/installer.vala
+#: src/alpm_utils.vala src/transaction.vala src/transaction-gtk.vala
+#: src/installer.vala
 msgid "Failed to prepare transaction"
 msgstr "Het voorbereiden van de overdracht is mislukt"
 
@@ -253,13 +254,13 @@ msgstr "%s is gedownload"
 
 #: src/alpm_utils.vala
 #, c-format
-msgid "Downloading %s"
-msgstr "Bezig met downloaden van %s"
+msgid "Refreshing %s"
+msgstr "Bezig met vernieuwen van %s"
 
 #: src/alpm_utils.vala
 #, c-format
-msgid "Refreshing %s"
-msgstr "Bezig met vernieuwen van %s"
+msgid "Downloading %s"
+msgstr "Bezig met downloaden van %s"
 
 #: src/daemon.vala
 msgid "Authentication failed"
@@ -304,6 +305,11 @@ msgstr "Bezig met klonen van %s bouwbestanden"
 
 #: src/transaction.vala
 #, c-format
+msgid "Failed to clone %s build files"
+msgstr "Kan %s bouwbestanden niet klonen"
+
+#: src/transaction.vala
+#, c-format
 msgid "Generating %s informations"
 msgstr "Bezig met genereren van informatie %s"
 
@@ -325,6 +331,11 @@ msgstr "De overdracht is succesvol afgerond"
 #, c-format
 msgid "Building %s"
 msgstr "Bezig met bouwen van %s"
+
+#: src/transaction.vala
+#, c-format
+msgid "Failed to build %s"
+msgstr "Kan %s niet compileren"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format

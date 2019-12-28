@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2019-12-05 10:44+0100\n"
-"PO-Revision-Date: 2019-12-08 13:32+0000\n"
+"POT-Creation-Date: 2019-12-21 18:55+0100\n"
+"PO-Revision-Date: 2019-12-27 06:45+0000\n"
 "Last-Translator: Dušan Kazik <prescott66@gmail.com>\n"
 "Language-Team: Slovak (http://www.transifex.com/manjarolinux/manjaro-pamac/language/sk/)\n"
 "MIME-Version: 1.0\n"
@@ -54,7 +54,8 @@ msgstr "AUR"
 msgid "Failed to init transaction"
 msgstr "Zlyhalo zahájenie transakcie"
 
-#: src/alpm_utils.vala src/transaction-gtk.vala src/installer.vala
+#: src/alpm_utils.vala src/transaction.vala src/transaction-gtk.vala
+#: src/installer.vala
 msgid "Failed to prepare transaction"
 msgstr "Zlyhalo pripravovanie transakcie"
 
@@ -256,13 +257,13 @@ msgstr "Preberanie balíka %s sa skončilo"
 
 #: src/alpm_utils.vala
 #, c-format
-msgid "Downloading %s"
-msgstr "Preberá sa %s"
+msgid "Refreshing %s"
+msgstr "Obnovuje sa %s"
 
 #: src/alpm_utils.vala
 #, c-format
-msgid "Refreshing %s"
-msgstr "Obnovuje sa %s"
+msgid "Downloading %s"
+msgstr "Preberá sa %s"
 
 #: src/daemon.vala
 msgid "Authentication failed"
@@ -307,6 +308,11 @@ msgstr "Klonujú sa súbory zostavenia balíka %s"
 
 #: src/transaction.vala
 #, c-format
+msgid "Failed to clone %s build files"
+msgstr "Zlyhalo klonovanie súborov zostavenia balíka %s"
+
+#: src/transaction.vala
+#, c-format
 msgid "Generating %s informations"
 msgstr "Generujú sa informácie o balíku %s"
 
@@ -328,6 +334,11 @@ msgstr "Transakcia bola úspešná"
 #, c-format
 msgid "Building %s"
 msgstr "Zostavuje sa %s"
+
+#: src/transaction.vala
+#, c-format
+msgid "Failed to build %s"
+msgstr "Zlyhalo zostavenie balíka %s"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
@@ -814,11 +825,11 @@ msgstr "súbor(-y)"
 
 #: src/cli.vala
 msgid "only search for installed packages"
-msgstr ""
+msgstr "hľadať iba nainštalované balíky"
 
 #: src/cli.vala
 msgid "only search for packages in repositories"
-msgstr ""
+msgstr "hľadať iba balíky v repozitároch"
 
 #: src/cli.vala
 msgid "also search in AUR"

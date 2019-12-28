@@ -14,9 +14,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2019-12-05 10:44+0100\n"
-"PO-Revision-Date: 2019-12-06 03:53+0000\n"
-"Last-Translator: Madis Otenurm\n"
+"POT-Creation-Date: 2019-12-21 18:55+0100\n"
+"PO-Revision-Date: 2019-12-22 00:29+0000\n"
+"Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Estonian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/et/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -53,7 +53,8 @@ msgstr "AUR"
 msgid "Failed to init transaction"
 msgstr "Tehingu käivitamine nurjus"
 
-#: src/alpm_utils.vala src/transaction-gtk.vala src/installer.vala
+#: src/alpm_utils.vala src/transaction.vala src/transaction-gtk.vala
+#: src/installer.vala
 msgid "Failed to prepare transaction"
 msgstr "Tehingu ettevalmistamine nurjus"
 
@@ -253,13 +254,13 @@ msgstr "%s allalaadimine lõpetatud"
 
 #: src/alpm_utils.vala
 #, c-format
-msgid "Downloading %s"
-msgstr "%s allalaadimine"
+msgid "Refreshing %s"
+msgstr "%s värskendamine"
 
 #: src/alpm_utils.vala
 #, c-format
-msgid "Refreshing %s"
-msgstr "%s värskendamine"
+msgid "Downloading %s"
+msgstr "%s allalaadimine"
 
 #: src/daemon.vala
 msgid "Authentication failed"
@@ -304,6 +305,11 @@ msgstr "%s ehitusfailide kloonimine"
 
 #: src/transaction.vala
 #, c-format
+msgid "Failed to clone %s build files"
+msgstr ""
+
+#: src/transaction.vala
+#, c-format
 msgid "Generating %s informations"
 msgstr "%s info genereerimine"
 
@@ -325,6 +331,11 @@ msgstr "Tehingud edukalt lõpetatud"
 #, c-format
 msgid "Building %s"
 msgstr "%s kompileerimine"
+
+#: src/transaction.vala
+#, c-format
+msgid "Failed to build %s"
+msgstr ""
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
