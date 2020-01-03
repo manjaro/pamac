@@ -1,7 +1,7 @@
 /*
  *  Vala bindings for libalpm
  *
- *  Copyright (C) 2014-2019 Guillaume Benoit <guillaume@manjaro.org>
+ *  Copyright (C) 2014-2020 Guillaume Benoit <guillaume@manjaro.org>
  *  Copyright (c) 2011 Rémy Oudompheng <remy@archlinux.org>
  *
  *  This program is free software; you can redistribute it and/or modify
