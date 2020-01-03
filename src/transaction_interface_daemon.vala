@@ -26,6 +26,7 @@ namespace Pamac {
 		bool clean_cache_success;
 		bool clean_build_files_success;
 		bool set_pkgreason_success;
+		bool trans_refresh_success;
 		bool trans_run_success;
 		#if ENABLE_SNAP
 		bool snap_trans_run_success;
@@ -155,34 +156,44 @@ namespace Pamac {
 			}
 		}
 
+		public bool trans_refresh (bool force) throws Error {
+			try {
+				system_daemon.start_trans_refresh (force);
+				loop.run ();
+				return trans_refresh_success;
+			} catch (Error e) {
+				throw e;
+			}
+		}
+
+		void on_trans_refresh_finished (string sender, bool success) {
+			if (sender != this.sender) {
+				return;
+			}
+			trans_refresh_success = success;
+			loop.quit ();
+		}
+
 		public bool trans_run (bool sysupgrade,
-								bool force_refresh,
 								bool enable_downgrade,
 								bool simple_install,
-								bool check_aur_updates,
-								bool no_confirm_commit,
 								bool keep_built_pkgs,
 								int trans_flags,
 								string[] to_install,
 								string[] to_remove,
 								string[] to_load,
-								string[] to_build,
 								string[] to_install_as_dep,
 								string[] temporary_ignorepkgs,
 								string[] overwrite_files) throws Error {
 			try {
 				system_daemon.start_trans_run (sysupgrade,
-												force_refresh,
 												enable_downgrade,
 												simple_install,
-												check_aur_updates,
-												no_confirm_commit,
 												keep_built_pkgs,
 												trans_flags,
 												to_install,
 												to_remove,
 												to_load,
-												to_build,
 												to_install_as_dep,
 												temporary_ignorepkgs,
 												overwrite_files);
@@ -252,66 +263,6 @@ namespace Pamac {
 				system_daemon.quit ();
 			} catch (Error e) {
 				throw e;
-			}
-		}
-
-		void on_choose_provider (string sender, string depend, string[] providers) {
-			if (sender != this.sender) {
-				return;
-			}
-			int index = choose_provider (depend, providers);
-			try {
-				system_daemon.answer_choose_provider (index);
-			} catch (Error e) {
-				critical ("answer_choose_provider: %s\n", e.message);
-			}
-		}
-
-		void on_compute_aur_build_list (string sender) {
-			if (sender != this.sender) {
-				return;
-			}
-			bool success = compute_aur_build_list ();
-			try {
-				system_daemon.aur_build_list_computed (success);
-			} catch (Error e) {
-				critical ("build_files_edited: %s\n", e.message);
-			}
-		}
-
-		void on_ask_edit_build_files (string sender, TransactionSummaryStruct summary) {
-			if (sender != this.sender) {
-				return;
-			}
-			bool answer = ask_edit_build_files (summary);
-			try {
-				system_daemon.answer_ask_edit_build_files (answer);
-			} catch (Error e) {
-				critical ("answer_ask_edit_build_files: %s\n", e.message);
-			}
-		}
-
-		void on_edit_build_files (string sender, string[] pkgnames) {
-			if (sender != this.sender) {
-				return;
-			}
-			edit_build_files (pkgnames);
-			try {
-				system_daemon.build_files_edited ();
-			} catch (Error e) {
-				critical ("build_files_edited: %s\n", e.message);
-			}
-		}
-
-		void on_ask_commit (string sender, TransactionSummaryStruct summary) {
-			if (sender != this.sender) {
-				return;
-			}
-			bool answer = ask_commit (summary);
-			try {
-				system_daemon.answer_ask_commit (answer);
-			} catch (Error e) {
-				critical ("answer_ask_commit: %s\n", e.message);
 			}
 		}
 
@@ -400,11 +351,6 @@ namespace Pamac {
 		}
 
 		void connecting_dbus_signals () {
-			system_daemon.choose_provider.connect (on_choose_provider);
-			system_daemon.compute_aur_build_list.connect (on_compute_aur_build_list);
-			system_daemon.ask_edit_build_files.connect (on_ask_edit_build_files);
-			system_daemon.edit_build_files.connect (on_edit_build_files);
-			system_daemon.ask_commit.connect (on_ask_commit);
 			system_daemon.emit_action.connect (on_emit_action);
 			system_daemon.emit_action_progress.connect (on_emit_action_progress);
 			system_daemon.emit_download_progress.connect (on_emit_download_progress);
@@ -421,6 +367,7 @@ namespace Pamac {
 			system_daemon.clean_cache_finished.connect (on_clean_cache_finished);
 			system_daemon.clean_build_files_finished.connect (on_clean_clean_build_files_finished);
 			system_daemon.set_pkgreason_finished.connect (on_set_pkgreason_finished);
+			system_daemon.trans_refresh_finished.connect (on_trans_refresh_finished);
 			system_daemon.trans_run_finished.connect (on_trans_run_finished);
 			system_daemon.download_updates_finished.connect (on_download_updates_finished );
 			system_daemon.generate_mirrors_list_data.connect (on_generate_mirrors_list_data);

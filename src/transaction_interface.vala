@@ -26,29 +26,20 @@ namespace Pamac {
 		public abstract bool clean_build_files (string aur_build_dir) throws Error;
 		public abstract bool set_pkgreason (string pkgname, uint reason) throws Error;
 		public abstract void download_updates () throws Error;
+		public abstract bool trans_refresh (bool force) throws Error;
 		public abstract bool trans_run (bool sysupgrade,
-										bool force_refresh,
 										bool enable_downgrade,
 										bool simple_install,
-										bool check_aur_updates,
-										bool no_confirm_commit,
 										bool keep_built_pkgs,
 										int trans_flags,
 										string[] to_install,
 										string[] to_remove,
 										string[] to_load,
-										string[] to_build,
 										string[] to_install_as_dep,
 										string[] temporary_ignorepkgs,
 										string[] overwrite_files) throws Error;
 		public abstract void trans_cancel () throws Error;
 		public abstract void quit_daemon () throws Error;
-		public signal int choose_provider (string depend, string[] providers);
-		public signal bool compute_aur_build_list ();
-		public signal bool ask_edit_build_files (TransactionSummaryStruct summary);
-		public signal void edit_build_files (string[] pkgnames);
-		public signal bool ask_commit (TransactionSummaryStruct summary);
-		public signal void emit_unresolvables (string[] unresolvables);
 		public signal void emit_action (string action);
 		public signal void emit_action_progress (string action, string status, double progress);
 		public signal void start_downloading ();

@@ -100,11 +100,11 @@ namespace Pamac {
 	public class TransactionSummary: Object {
 		internal List<Package> to_install_priv;
 		internal List<Package> to_upgrade_priv;
-		List<Package> to_downgrade_priv;
-		List<Package> to_reinstall_priv;
+		internal List<Package> to_downgrade_priv;
+		internal List<Package> to_reinstall_priv;
 		internal List<Package> to_remove_priv;
-		List<Package> to_build_priv;
-		List<string> aur_pkgbases_to_build_priv;
+		internal List<Package> to_build_priv;
+		internal List<string> aur_pkgbases_to_build_priv;
 		public List<Package> to_install { get {return to_install_priv;} }
 		public List<Package> to_upgrade { get {return to_upgrade_priv;} }
 		public List<Package> to_downgrade { get {return to_downgrade_priv;} }
@@ -114,36 +114,6 @@ namespace Pamac {
 		public List<string> aur_pkgbases_to_build { get {return aur_pkgbases_to_build_priv;} }
 
 		internal TransactionSummary () {}
-
-		internal TransactionSummary.from_struct (TransactionSummaryStruct summary_struct) {
-			foreach (unowned PackageStruct pkg_struct in summary_struct.to_install) {
-				to_install_priv.append (pkg_struct.to_pkg ());
-			}
-			to_install_priv.sort (compare_name_pkg);
-			foreach (unowned PackageStruct pkg_struct in summary_struct.to_upgrade) {
-				to_upgrade_priv.append (pkg_struct.to_pkg ());
-			}
-			to_upgrade_priv.sort (compare_name_pkg);
-			foreach (unowned PackageStruct pkg_struct in summary_struct.to_downgrade) {
-				to_downgrade_priv.append (pkg_struct.to_pkg ());
-			}
-			to_downgrade_priv.sort (compare_name_pkg);
-			foreach (unowned PackageStruct pkg_struct in summary_struct.to_reinstall) {
-				to_reinstall_priv.append (pkg_struct.to_pkg ());
-			}
-			to_reinstall_priv.sort (compare_name_pkg);
-			foreach (unowned PackageStruct pkg_struct in summary_struct.to_remove) {
-				to_remove_priv.append (pkg_struct.to_pkg ());
-			}
-			to_remove_priv.sort (compare_name_pkg);
-			foreach (unowned PackageStruct pkg_struct in summary_struct.to_build) {
-				to_build_priv.append (pkg_struct.to_pkg ());
-			}
-			to_build_priv.sort (compare_name_pkg);
-			foreach (unowned string str in summary_struct.aur_pkgbases_to_build) {
-				aur_pkgbases_to_build_priv.append (str);
-			}
-		}
 	}
 
 	public class Updates: Object {

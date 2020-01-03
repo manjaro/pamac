@@ -31,35 +31,21 @@ namespace Pamac {
 		public abstract void start_clean_build_files (string aur_build_dir) throws Error;
 		public abstract void start_set_pkgreason (string pkgname, uint reason) throws Error;
 		public abstract void start_download_updates () throws Error;
+		public abstract void start_trans_refresh (bool force) throws Error;
 		public abstract void start_trans_run (bool sysupgrade,
-											bool force_refresh,
 											bool enable_downgrade,
 											bool simple_install,
-											bool check_aur_updates,
-											bool no_confirm_commit,
 											bool keep_built_pkgs,
 											int trans_flags,
 											string[] to_install,
 											string[] to_remove,
 											string[] to_load,
-											string[] to_build,
 											string[] to_install_as_dep,
 											string[] temporary_ignorepkgs,
 											string[] overwrite_files) throws Error;
-		public abstract void answer_choose_provider (int provider) throws Error;
-		public abstract void aur_build_list_computed (bool success) throws Error;
-		public abstract void answer_ask_edit_build_files (bool answer) throws Error;
-		public abstract void build_files_edited () throws Error;
-		public abstract void answer_ask_commit (bool answer) throws Error;
-		public abstract TransactionSummaryStruct get_transaction_summary () throws Error;
 		public abstract void trans_cancel () throws Error;
 		[DBus (no_reply = true)]
 		public abstract void quit () throws Error;
-		public signal void choose_provider (string sender, string depend, string[] providers);
-		public signal void compute_aur_build_list (string sender);
-		public signal void ask_commit (string sender, TransactionSummaryStruct summary);
-		public signal void ask_edit_build_files (string sender, TransactionSummaryStruct summary);
-		public signal void edit_build_files (string sender, string[] pkgnames);
 		public signal void emit_action (string sender, string action);
 		public signal void emit_action_progress (string sender, string action, string status, double progress);
 		public signal void emit_download_progress (string sender, string action, string status, double progress);
@@ -73,6 +59,7 @@ namespace Pamac {
 		public signal void set_pkgreason_finished (string sender, bool success);
 		public signal void start_waiting (string sender);
 		public signal void stop_waiting (string sender);
+		public signal void trans_refresh_finished (string sender, bool success);
 		public signal void trans_run_finished (string sender, bool success);
 		public signal void download_updates_finished (string sender);
 		public signal void get_authorization_finished (string sender, bool authorized);

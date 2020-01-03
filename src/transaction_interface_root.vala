@@ -19,6 +19,7 @@
 
 namespace Pamac {
 	internal class TransactionInterfaceRoot: Object, TransactionInterface {
+		bool trans_refresh_success;
 		bool trans_run_success;
 		Cancellable trans_cancellable;
 
@@ -26,9 +27,6 @@ namespace Pamac {
 			trans_cancellable = new Cancellable ();
 			// alpm_utils global variable declared in alpm_utils.vala
 			alpm_utils = new AlpmUtils (config);
-			alpm_utils.edit_build_files.connect ((sender, pkgnames) => {
-				edit_build_files (pkgnames);
-			});
 			alpm_utils.emit_action.connect ((sender, action) => {
 				emit_action (action);
 			});
@@ -37,12 +35,6 @@ namespace Pamac {
 			});
 			alpm_utils.emit_hook_progress.connect ((sender, action, details, status, progress) => {
 				emit_hook_progress (action, details, status, progress);
-			});
-			alpm_utils.choose_provider.connect ((sender, depend, providers) => {
-				return choose_provider (depend, providers);
-			});
-			alpm_utils.compute_aur_build_list.connect ((sender) => {
-				return compute_aur_build_list ();
 			});
 			alpm_utils.emit_download_progress.connect ((sender, action, status, progress) => {
 				emit_download_progress (action, status, progress);
@@ -73,9 +65,6 @@ namespace Pamac {
 				}
 				return false;
 			});
-			alpm_utils.ask_commit.connect ((sender, summary) => {
-				return ask_commit (summary);
-			});
 			// set user agent
 			var utsname = Posix.utsname();
 			Environment.set_variable ("HTTP_USER_AGENT", "pamac (%s %s)".printf (utsname.sysname, utsname.machine), true);
@@ -104,7 +93,6 @@ namespace Pamac {
 				critical ("%s\n", e.message);
 			}
 			alpm_utils.alpm_config.reload ();
-			alpm_utils.refresh_handle ();
 		}
 
 		public bool clean_cache (string[] filenames) {
@@ -124,32 +112,85 @@ namespace Pamac {
 			alpm_utils.download_updates ();
 		}
 
-		void trans_run_real (bool sysupgrade,
-							bool force_refresh,
-							bool enable_downgrade,
-							bool simple_install,
-							bool check_aur_updates,
-							bool no_confirm_commit,
-							bool keep_built_pkgs,
-							int trans_flags,
-							string[] to_install,
-							string[] to_remove,
-							string[] to_load,
-							string[] to_build,
-							string[] to_install_as_dep,
-							string[] temporary_ignorepkgs,
-							string[] overwrite_files) {
+		void trans_refresh_real (bool force) {
 			var loop = new MainLoop ();
 			bool waiting = false;
-			var lockfile = GLib.File.new_for_path (alpm_utils.alpm_handle.lockfile);
 			trans_cancellable.reset ();
-			if (lockfile.query_exists ()) {
+			if (alpm_utils.lockfile.query_exists ()) {
 				waiting = true;
 				start_waiting ();
 				emit_action (dgettext (null, "Waiting for another package manager to quit") + "...");
 				int i = 0;
 				Timeout.add (200, () => {
-					if (!lockfile.query_exists () || trans_cancellable.is_cancelled ()) {
+					if (!alpm_utils.lockfile.query_exists () || trans_cancellable.is_cancelled ()) {
+						loop.quit ();
+						return false;
+					}
+					i++;
+					// wait 5 min max
+					if (i == 1500) {
+						emit_action ("%s: %s.".printf (dgettext (null, "Transaction cancelled"), dgettext (null, "Timeout expired")));
+						trans_cancellable.cancel ();
+						loop.quit ();
+						return false;
+					}
+					return true;
+				});
+				loop.run ();
+			}
+			if (waiting) {
+				stop_waiting ();
+			}
+			if (trans_cancellable.is_cancelled ()) {
+				// cancelled
+				return;
+			}
+			new Thread<int> ("trans_rrefresh_real", () => {
+				trans_refresh_success = alpm_utils.refresh ("root", force);
+				loop.quit ();
+				return 0;
+			});
+			loop.run ();
+		}
+
+		public bool trans_refresh (bool force) {
+			if (alpm_utils.downloading_updates) {
+				alpm_utils.cancellable.cancel ();
+				// let time to cancel download updates
+				var loop = new MainLoop ();
+				Timeout.add (1000, () => {
+					trans_refresh_real (force);
+					loop.quit ();
+					return false;
+				});
+				loop.run ();
+			} else {
+				trans_refresh_real (force);
+			}
+			return trans_refresh_success;
+		}
+
+		void trans_run_real (bool sysupgrade,
+							bool enable_downgrade,
+							bool simple_install,
+							bool keep_built_pkgs,
+							int trans_flags,
+							string[] to_install,
+							string[] to_remove,
+							string[] to_load,
+							string[] to_install_as_dep,
+							string[] temporary_ignorepkgs,
+							string[] overwrite_files) {
+			var loop = new MainLoop ();
+			bool waiting = false;
+			trans_cancellable.reset ();
+			if (alpm_utils.lockfile.query_exists ()) {
+				waiting = true;
+				start_waiting ();
+				emit_action (dgettext (null, "Waiting for another package manager to quit") + "...");
+				int i = 0;
+				Timeout.add (200, () => {
+					if (!alpm_utils.lockfile.query_exists () || trans_cancellable.is_cancelled ()) {
 						loop.quit ();
 						return false;
 					}
@@ -175,17 +216,13 @@ namespace Pamac {
 			new Thread<int> ("trans_run_real", () => {
 				trans_run_success = alpm_utils.trans_run ("root",
 														sysupgrade,
-														force_refresh,
 														enable_downgrade,
 														simple_install,
-														check_aur_updates,
-														no_confirm_commit,
 														keep_built_pkgs,
 														trans_flags,
 														to_install,
 														to_remove,
 														to_load,
-														to_build,
 														to_install_as_dep,
 														temporary_ignorepkgs,
 														overwrite_files);
@@ -196,17 +233,13 @@ namespace Pamac {
 		}
 
 		public bool trans_run (bool sysupgrade,
-								bool force_refresh,
 								bool enable_downgrade,
 								bool simple_install,
-								bool check_aur_updates,
-								bool no_confirm_commit,
 								bool keep_built_pkgs,
 								int trans_flags,
 								string[] to_install,
 								string[] to_remove,
 								string[] to_load,
-								string[] to_build,
 								string[] to_install_as_dep,
 								string[] temporary_ignorepkgs,
 								string[] overwrite_files) {
@@ -216,17 +249,13 @@ namespace Pamac {
 				var loop = new MainLoop ();
 				Timeout.add (1000, () => {
 					trans_run_real (sysupgrade,
-									force_refresh,
 									enable_downgrade,
 									simple_install,
-									check_aur_updates,
-									no_confirm_commit,
 									keep_built_pkgs,
 									trans_flags,
 									to_install,
 									to_remove,
 									to_load,
-									to_build,
 									to_install_as_dep,
 									temporary_ignorepkgs,
 									overwrite_files);
@@ -236,17 +265,13 @@ namespace Pamac {
 				loop.run ();
 			} else {
 				trans_run_real (sysupgrade,
-								force_refresh,
 								enable_downgrade,
 								simple_install,
-								check_aur_updates,
-								no_confirm_commit,
 								keep_built_pkgs,
 								trans_flags,
 								to_install,
 								to_remove,
 								to_load,
-								to_build,
 								to_install_as_dep,
 								temporary_ignorepkgs,
 								overwrite_files);

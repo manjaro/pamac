@@ -100,6 +100,24 @@ namespace Pamac {
 			temporary_ignorepkgs = new GenericSet<string?> (str_hash, str_equal);
 			overwrite_files = new GenericSet<string?> (str_hash, str_equal);
 			to_install_as_dep = new GenericSet<string?> (str_hash, str_equal);
+			// alpm_utils global variable declared in alpm_utils.vala
+			alpm_utils = new AlpmUtils (database.config);
+			alpm_utils.choose_provider.connect (choose_provider_real);
+			alpm_utils.emit_action.connect ((sender, action) => {
+				emit_action (action);
+			});
+			alpm_utils.emit_script_output.connect ((sender, message) => {
+				emit_script_output (message);
+			});
+			alpm_utils.emit_warning.connect ((sender, message) => {
+				emit_warning (message);
+			});
+			alpm_utils.emit_error.connect ((sender, message, details) => {
+				emit_error (message, details);
+			});
+			alpm_utils.important_details_outpout.connect ((sender, must_show) => {
+				important_details_outpout (must_show);
+			});
 			#if ENABLE_SNAP
 			snap_to_install = new HashTable<string, SnapPackage> (str_hash, str_equal);
 			snap_to_remove = new HashTable<string, SnapPackage> (str_hash, str_equal);
@@ -356,8 +374,8 @@ namespace Pamac {
 				if (clone_build_files) {
 					unowned AURPackage? aur_pkg = aur_pkgs.lookup (pkgname);
 					if (aur_pkg == null) {
-						// error
-						return false;
+						// make this error not fatal to propose to edit build files
+						continue;
 					}
 					// clone build files
 					// use packagebase in case of split package
@@ -368,7 +386,7 @@ namespace Pamac {
 					}
 					if (clone_dir == null) {
 						// error
-						emit_error (dgettext (null, "Failed to clone %s build files").printf (aur_pkg.packagebase), {});
+						emit_error (dgettext (null, "Failed to prepare transaction"), {dgettext (null, "Failed to clone %s build files").printf (aur_pkg.packagebase)});
 						return false;
 					}
 					already_checked_aur_dep.add (aur_pkg.packagebase);
@@ -395,6 +413,7 @@ namespace Pamac {
 							}
 						} catch (Error e) {
 							critical ("%s\n", e.message);
+							emit_error (dgettext (null, "Failed to prepare transaction"), {dgettext (null, "target not found: %s").printf (pkgname)});
 							return false;
 						}
 						continue;
@@ -402,6 +421,7 @@ namespace Pamac {
 					emit_action (dgettext (null, "Generating %s informations").printf (pkgname) + "...");
 					if (!(database.regenerate_srcinfo (pkgname, build_cancellable))) {
 						// error
+						emit_error (dgettext (null, "Failed to prepare transaction"), {dgettext (null, "Failed to generate %s informations").printf (pkgname)});
 						return false;
 					}
 				}
@@ -645,6 +665,7 @@ namespace Pamac {
 					}
 				} catch (Error e) {
 					critical ("%s\n", e.message);
+					emit_error (dgettext (null, "Failed to prepare transaction"), {dgettext (null, "Failed to check %s dependencies").printf (pkgname)});
 					return false;
 				}
 			}
@@ -705,8 +726,8 @@ namespace Pamac {
 				to_install.length > 0 ||
 				to_remove.length > 0 ||
 				to_load.length > 0 ||
-				to_build.length > 0 ) {
-				success = trans_run_real ();
+				to_build.length > 0) {
+				success = run_alpm_transaction ();
 				if (success) {
 					if (to_build_queue.get_length () != 0) {
 						success = build_aur_packages ();
@@ -828,72 +849,251 @@ namespace Pamac {
 			}
 		}
 
-		bool trans_run_real () {
+		bool run_alpm_transaction () {
+			emit_action (dgettext (null, "Preparing") + "...");
 			add_optdeps ();
-			bool check_aur_updates_now = false;
+			bool check_aur_updates = false;
 			if (sysupgrading && database.config.check_aur_updates) {
 				// add all aur updates with also ignored pkgs
 				aur_updates = database.get_all_aur_updates ();
 				if (aur_updates.length () > 0) {
-					check_aur_updates_now = true;
+					check_aur_updates = true;
 				}
 			}
-			if (to_build.length > 0 || check_aur_updates_now) {
+			if (to_build.length > 0 || check_aur_updates) {
 				if (!compute_aur_build_list ()) {
-					return false;
+					//return false;
 				}
 				aur_updates = new List<AURPackage> ();
 				if (build_cancellable.is_cancelled ()) {
 					return false;
 				}
 			}
-			try {
-				var to_install_array = new GenericArray<string> (to_install.length);
-				var to_remove_array = new GenericArray<string> (to_remove.length);
-				var to_load_array = new GenericArray<string> (to_load.length);
-				var to_build_array = new GenericArray<string> (to_build.length);
-				var to_install_as_dep_array = new GenericArray<string> (to_install_as_dep.length);
-				var temporary_ignorepkgs_array = new GenericArray<string> (temporary_ignorepkgs.length);
-				var overwrite_files_array = new GenericArray<string> (overwrite_files.length);
+			return trans_prepare_and_run (check_aur_updates);
+		}
+
+		bool trans_prepare_and_run (bool check_aur_updates) {
+			start_preparing ();
+			// check if we need to sysupgrade
+			if (!sysupgrading && !database.config.simple_install && to_install.length > 0) {
 				foreach (unowned string name in to_install) {
-					to_install_array.add (name);
+					Package? local_pkg = database.get_installed_pkg (name);
+					if (local_pkg == null) {
+						sysupgrading = true;
+						break;
+					} else {
+						Package? sync_pkg = database.get_sync_pkg (name);
+						if (sync_pkg != null) {
+							if (local_pkg.version != sync_pkg.version) {
+								sysupgrading = true;
+								break;
+							}
+						}
+					}
 				}
-				foreach (unowned string name in to_remove) {
-					to_remove_array.add (name);
+			}
+			bool success = false;
+			if (sysupgrading) {
+				try {
+					success = transaction_interface.trans_refresh (force_refresh);
+				} catch (Error e) {
+					emit_error ("Daemon Error", {"trans_refresh: %s".printf (e.message)});
+	 			}
+				if (!success) {
+					return false;
 				}
-				foreach (unowned string name in to_load) {
-					to_load_array.add (name);
+			}
+			TransactionSummary summary;
+			success = trans_prepare (check_aur_updates, out summary);
+			if (success) {
+				success = trans_run (check_aur_updates, summary);
+			}
+			return success;
+		}
+
+		bool trans_prepare (bool check_aur_updates, out TransactionSummary summary) {
+			bool success = alpm_utils.trans_check_prepare (sysupgrading,
+													database.config.enable_downgrade,
+													database.config.simple_install,
+													check_aur_updates,
+													trans_flags | Alpm.TransFlag.NOLOCK,
+													to_install,
+													to_remove,
+													to_load,
+													to_build,
+													to_install_as_dep,
+													temporary_ignorepkgs,
+													overwrite_files,
+													out summary);
+			stop_preparing ();
+			if (!success) {
+				if (to_build.length > 0) {
+					var empty_summary = new TransactionSummary ();
+					if (ask_edit_build_files_real (empty_summary)) {
+						foreach (unowned string name in to_build) {
+							// unresolvables declared in alpm_utils.vala
+							bool found = unresolvables.find_with_equal_func (name, str_equal, null);
+							if (!found) {
+								unresolvables.add (name);
+							}
+						}
+						edit_build_files (unresolvables.data);
+						unresolvables = new GenericArray<string> ();
+						emit_script_output ("");
+						if (!compute_aur_build_list ()) {
+							return false;
+						}
+						if (build_cancellable.is_cancelled ()) {
+							return false;
+						}
+						success = trans_prepare (check_aur_updates, out summary);
+					} else {
+						emit_action (dgettext (null, "Transaction cancelled") + ".");
+					}
 				}
-				foreach (unowned string name in to_build) {
-					to_build_array.add (name);
+			}
+			return success;
+		}
+
+		bool trans_run (bool check_aur_updates, TransactionSummary summary) {
+			if (summary.aur_pkgbases_to_build.length () > 0) {
+				if (ask_edit_build_files_real (summary)) {
+					var pkgbases_to_build_array = new GenericArray<string> (summary.aur_pkgbases_to_build.length ());
+					foreach (unowned string name in summary.aur_pkgbases_to_build) {
+						pkgbases_to_build_array.add (name);
+					}
+					edit_build_files (pkgbases_to_build_array.data);
+					emit_script_output ("");
+					if (!compute_aur_build_list ()) {
+						return false;
+					}
+					if (build_cancellable.is_cancelled ()) {
+						return false;
+					}
+					TransactionSummary new_summary;
+					bool success = trans_prepare (check_aur_updates, out new_summary);
+					if (success) {
+						return trans_run (check_aur_updates, new_summary);
+					}
+					return false;
 				}
-				foreach (unowned string name in to_install_as_dep) {
-					to_install_as_dep_array.add (name);
+				if (ask_commit_real (summary)) {
+					if (summary.to_install.length () > 0 ||
+						summary.to_upgrade.length () > 0 ||
+						summary.to_downgrade.length () > 0 ||
+						summary.to_reinstall.length () > 0 ||
+						summary.to_remove.length () > 0) {
+						bool success = false;
+						var to_install_array = new GenericArray<string> (to_install.length);
+						var to_remove_array = new GenericArray<string> (to_remove.length);
+						var to_load_array = new GenericArray<string> (to_load.length);
+						var to_build_array = new GenericArray<string> (to_build.length);
+						var to_install_as_dep_array = new GenericArray<string> (to_install_as_dep.length);
+						var temporary_ignorepkgs_array = new GenericArray<string> (temporary_ignorepkgs.length);
+						var overwrite_files_array = new GenericArray<string> (overwrite_files.length);
+						foreach (unowned string name in to_install) {
+							to_install_array.add (name);
+						}
+						foreach (unowned string name in to_remove) {
+							to_remove_array.add (name);
+						}
+						foreach (unowned string name in to_load) {
+							to_load_array.add (name);
+						}
+						foreach (unowned string name in to_build) {
+							to_build_array.add (name);
+						}
+						foreach (unowned string name in to_install_as_dep) {
+							to_install_as_dep_array.add (name);
+						}
+						foreach (unowned string name in temporary_ignorepkgs) {
+							temporary_ignorepkgs_array.add (name);
+						}
+						foreach (unowned string name in overwrite_files) {
+							overwrite_files_array.add (name);
+						}
+						try {
+							success = transaction_interface.trans_run (sysupgrading,
+																		database.config.enable_downgrade,
+																		database.config.simple_install,
+																		database.config.keep_built_pkgs,
+																		trans_flags,
+																		to_install_array.data,
+																		to_remove_array.data,
+																		to_load_array.data,
+																		to_install_as_dep_array.data,
+																		temporary_ignorepkgs_array.data,
+																		overwrite_files_array.data);
+						} catch (Error e) {
+							emit_error ("Daemon Error", {"trans_run: %s".printf (e.message)});
+			 			}
+			 			return success;
+					} else {
+						// only AUR packages to build
+						return true;
+					}
+				} else {
+					emit_action (dgettext (null, "Transaction cancelled") + ".");
+					return false;
 				}
-				foreach (unowned string name in temporary_ignorepkgs) {
-					temporary_ignorepkgs_array.add (name);
+			} else if (summary.to_install.length () > 0 ||
+						summary.to_upgrade.length () > 0 ||
+						summary.to_downgrade.length () > 0 ||
+						summary.to_reinstall.length () > 0 ||
+						summary.to_remove.length () > 0) {
+				if (ask_commit_real (summary)) {
+					bool success = false;
+					var to_install_array = new GenericArray<string> (to_install.length);
+					var to_remove_array = new GenericArray<string> (to_remove.length);
+					var to_load_array = new GenericArray<string> (to_load.length);
+					var to_build_array = new GenericArray<string> (to_build.length);
+					var to_install_as_dep_array = new GenericArray<string> (to_install_as_dep.length);
+					var temporary_ignorepkgs_array = new GenericArray<string> (temporary_ignorepkgs.length);
+					var overwrite_files_array = new GenericArray<string> (overwrite_files.length);
+					foreach (unowned string name in to_install) {
+						to_install_array.add (name);
+					}
+					foreach (unowned string name in to_remove) {
+						to_remove_array.add (name);
+					}
+					foreach (unowned string name in to_load) {
+						to_load_array.add (name);
+					}
+					foreach (unowned string name in to_build) {
+						to_build_array.add (name);
+					}
+					foreach (unowned string name in to_install_as_dep) {
+						to_install_as_dep_array.add (name);
+					}
+					foreach (unowned string name in temporary_ignorepkgs) {
+						temporary_ignorepkgs_array.add (name);
+					}
+					foreach (unowned string name in overwrite_files) {
+						overwrite_files_array.add (name);
+					}
+					try {
+						success = transaction_interface.trans_run (sysupgrading,
+																	database.config.enable_downgrade,
+																	database.config.simple_install,
+																	database.config.keep_built_pkgs,
+																	trans_flags,
+																	to_install_array.data,
+																	to_remove_array.data,
+																	to_load_array.data,
+																	to_install_as_dep_array.data,
+																	temporary_ignorepkgs_array.data,
+																	overwrite_files_array.data);
+					} catch (Error e) {
+						emit_error ("Daemon Error", {"trans_run: %s".printf (e.message)});
+		 			}
+		 			return success;
+				} else {
+					emit_action (dgettext (null, "Transaction cancelled") + ".");
+					return false;
 				}
-				foreach (unowned string name in overwrite_files) {
-					overwrite_files_array.add (name);
-				}
-				return transaction_interface.trans_run (sysupgrading,
-														force_refresh,
-														database.config.enable_downgrade,
-														database.config.simple_install,
-														check_aur_updates_now,
-														false, // no_confirm_commit
-														database.config.keep_built_pkgs,
-														trans_flags,
-														to_install_array.data,
-														to_remove_array.data,
-														to_load_array.data,
-														to_build_array.data,
-														to_install_as_dep_array.data,
-														temporary_ignorepkgs_array.data,
-														overwrite_files_array.data);
-			} catch (Error e) {
-				emit_error ("Daemon Error", {"trans_run: %s".printf (e.message)});
-				return false;
+			} else {
+				emit_action (dgettext (null, "Nothing to do") + ".");
+				return true;
 			}
 		}
 
@@ -1071,6 +1271,7 @@ namespace Pamac {
 					cmdline += "PKGDEST=%s".printf (pkgdir);
 					cmdline += "PKGEXT=.pkg.tar";
 				}
+				important_details_outpout (false);
 				int status = run_cmd_line (cmdline, pkgdir, build_cancellable);
 				if (status == 1) {
 					emit_error (dgettext (null, "Failed to build %s").printf (pkgname), {});
@@ -1151,17 +1352,13 @@ namespace Pamac {
 					try {
 						emit_script_output ("");
 						success = transaction_interface.trans_run (false, // sysupgrading,
-																	false, // force_refresh
 																	false, // enable_downgrade
 																	false, // simple_install
-																	false, // check_aur_updates
-																	true, // no_confirm_commit
 																	database.config.keep_built_pkgs,
 																	0, // trans_flags,
 																	{}, // to_install
 																	{}, // to_remove
 																	to_load_array.data,
-																	{}, // to_build
 																	{}, // to_install_as_dep
 																	{}, // temporary_ignorepkgs
 																	{}); // overwrite_files
@@ -1199,15 +1396,18 @@ namespace Pamac {
 			emit_script_output ("");
 		}
 
-		int on_choose_provider (string depend, string[] providers) {
-			return choose_provider (depend, providers);
+		int choose_provider_real (string depend, string[] providers) {
+			int index = choose_provider (depend, providers);
+			unowned string pkgname = providers[index];
+			to_install.add (pkgname);
+			to_install_as_dep.add (pkgname);
+			return index;
 		}
 
-		bool on_ask_commit (TransactionSummaryStruct summary_struct) {
+		bool ask_commit_real (TransactionSummary summary) {
 			if (build_cancellable.is_cancelled ()) {
 				return false;
 			} else {
-				var summary = new TransactionSummary.from_struct (summary_struct);
 				#if ENABLE_SNAP
 				if (snap_to_install.length > 0) {
 					// ask classic snaps
@@ -1239,19 +1439,18 @@ namespace Pamac {
 				#endif
 				// populate build queue
 				to_build_queue.clear ();
-				foreach (unowned string name in summary_struct.aur_pkgbases_to_build) {
+				foreach (unowned string name in summary.aur_pkgbases_to_build) {
 					to_build_queue.push_tail (name);
 				}
 				aur_pkgs_to_install.remove_all ();
-				foreach (unowned PackageStruct infos in summary_struct.to_build) {
-					aur_pkgs_to_install.add (infos.name);
+				foreach (unowned Package build_pkg in summary.to_build) {
+					aur_pkgs_to_install.add (build_pkg.name);
 				}
 				return ask_commit (summary);
 			}
 		}
 
-		bool on_ask_edit_build_files (TransactionSummaryStruct summary_struct) {
-			var summary = new TransactionSummary.from_struct (summary_struct);
+		bool ask_edit_build_files_real (TransactionSummary summary) {
 			#if ENABLE_SNAP
 			var iter = HashTableIter<string, SnapPackage> (snap_to_install);
 			SnapPackage pkg;
@@ -1264,10 +1463,6 @@ namespace Pamac {
 			}
 			#endif
 			return ask_edit_build_files (summary);
-		}
-
-		void on_edit_build_files (string[] pkgnames) {
-			edit_build_files (pkgnames);
 		}
 
 		void on_emit_action (string action) {
@@ -1319,11 +1514,6 @@ namespace Pamac {
 		}
 
 		void connecting_signals () {
-			transaction_interface.choose_provider.connect (on_choose_provider);
-			transaction_interface.compute_aur_build_list.connect (compute_aur_build_list);
-			transaction_interface.ask_commit.connect (on_ask_commit);
-			transaction_interface.ask_edit_build_files.connect (on_ask_edit_build_files);
-			transaction_interface.edit_build_files.connect (on_edit_build_files);
 			transaction_interface.emit_action.connect (on_emit_action);
 			transaction_interface.emit_action_progress.connect (on_emit_action_progress);
 			transaction_interface.emit_download_progress.connect (on_emit_download_progress);

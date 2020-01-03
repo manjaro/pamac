@@ -40,19 +40,17 @@ public class AlpmAction {
 	public bool is_set_pkgreason;
 	public string pkgname;
 	public uint reason;
+	public bool is_refresh;
+	public bool force_refresh;
 	public bool is_alpm;
 	public bool sysupgrade;
-	public bool force_refresh;
 	public bool enable_downgrade;
 	public bool simple_install;
-	public bool check_aur_updates;
-	public bool no_confirm_commit;
 	public bool keep_built_pkgs;
 	public int trans_flags;
 	public string[] to_install;
 	public string[] to_remove;
 	public string[] to_load;
-	public string[] to_build;
 	public string[] to_install_as_dep;
 	public string[] temporary_ignorepkgs;
 	public string[] overwrite_files;
@@ -68,20 +66,18 @@ public class AlpmAction {
 			pamac_daemon.set_pkgreason (sender, pkgname, reason);
 		} else if (is_write_alpm_config) {
 			pamac_daemon.write_alpm_config (sender, new_alpm_conf);
+		} else if (is_refresh) {
+			pamac_daemon.trans_refresh (sender, force_refresh, cancellable);
 		} else if (is_alpm) {
 			pamac_daemon.trans_run (sender,
 									sysupgrade,
-									force_refresh,
 									enable_downgrade,
 									simple_install,
-									check_aur_updates,
-									no_confirm_commit,
 									keep_built_pkgs,
 									trans_flags,
 									to_install,
 									to_remove,
 									to_load,
-									to_build,
 									to_install_as_dep,
 									temporary_ignorepkgs,
 									overwrite_files,
@@ -102,27 +98,16 @@ namespace Pamac {
 		Config config;
 		ThreadPool<AlpmAction> thread_pool;
 		bool authorized;
-		GLib.File lockfile;
 		FileMonitor lockfile_monitor;
 		Cond lockfile_cond;
 		Mutex lockfile_mutex;
 		Cond answer_cond;
 		Mutex answer_mutex;
-		int? choosen_provider_answer;
-		bool? compute_aur_build_list_success;
-		bool? ask_edit_build_files_answer;
-		bool? edit_build_files_answer;
-		bool? ask_commit_answer;
 		HashTable<string, Cancellable> cancellables_table;
 		#if ENABLE_SNAP
 		SnapPlugin snap_plugin;
 		#endif
 
-		public signal void choose_provider (string sender, string depend, string[] providers);
-		public signal void compute_aur_build_list (string sender);
-		public signal void ask_commit (string sender, TransactionSummaryStruct summary);
-		public signal void ask_edit_build_files (string sender, TransactionSummaryStruct summary);
-		public signal void edit_build_files (string sender, string[] pkgnames);
 		public signal void emit_action (string sender, string action);
 		public signal void emit_action_progress (string sender, string action, string status, double progress);
 		public signal void emit_download_progress (string sender, string action, string status, double progress);
@@ -136,6 +121,7 @@ namespace Pamac {
 		public signal void set_pkgreason_finished (string sender, bool success);
 		public signal void start_waiting (string sender);
 		public signal void stop_waiting (string sender);
+		public signal void trans_refresh_finished (string sender, bool success);
 		public signal void trans_run_finished (string sender, bool success);
 		public signal void download_updates_finished (string sender);
 		public signal void get_authorization_finished (string sender, bool authorized);
@@ -157,12 +143,11 @@ namespace Pamac {
 			alpm_utils = new AlpmUtils (config);
 			lockfile_cond = Cond ();
 			lockfile_mutex = Mutex ();
-			lockfile = GLib.File.new_for_path (alpm_utils.alpm_handle.lockfile);
-			if (lockfile.query_exists ()) {
+			if (alpm_utils.lockfile.query_exists ()) {
 				new Thread<int> ("set_extern_lock", set_extern_lock);
 			}
 			try {
-				lockfile_monitor = lockfile.monitor (FileMonitorFlags.NONE, null);
+				lockfile_monitor = alpm_utils.lockfile.monitor (FileMonitorFlags.NONE, null);
 				lockfile_monitor.changed.connect (check_extern_lock);
 			} catch (Error e) {
 				critical ("%s\n", e.message);
@@ -171,21 +156,6 @@ namespace Pamac {
 			answer_cond = Cond ();
 			answer_mutex = Mutex ();
 			cancellables_table = new HashTable<string, Cancellable> (str_hash, str_equal);
-			alpm_utils.choose_provider.connect ((sender, depend, providers) => {
-				return choose_provider_callback (sender, depend, providers);
-			});
-			alpm_utils.compute_aur_build_list.connect ((sender) => {
-				return compute_aur_build_list_callback (sender);
-			});
-			alpm_utils.ask_edit_build_files.connect ((sender, summary) => {
-				return ask_edit_build_files_callback (sender, summary);
-			});
-			alpm_utils.edit_build_files.connect ((sender, pkgnames) => {
-				edit_build_files_callback (sender, pkgnames);
-			});
-			alpm_utils.ask_commit.connect ((sender, summary) => {
-				return ask_commit_callback (sender, summary);
-			});
 			alpm_utils.emit_action.connect ((sender, action) => {
 				emit_action (sender, action);
 			});
@@ -266,7 +236,7 @@ namespace Pamac {
 		}
 
 		public string get_lockfile () throws Error {
-			return alpm_utils.alpm_handle.lockfile;
+			return alpm_utils.lockfile.get_path ();
 		}
 
 		void create_thread_pool () {
@@ -288,21 +258,21 @@ namespace Pamac {
 		}
 
 		int set_extern_lock () {
-//~ 			if (lockfile_mutex.trylock ()) {
-//~ 				try {
-//~ 					var tmp_loop = new MainLoop ();
-//~ 					var unlock_monitor = lockfile.monitor (FileMonitorFlags.NONE, null);
-//~ 					unlock_monitor.changed.connect ((src, dest, event_type) => {
-//~ 						if (event_type == FileMonitorEvent.DELETED) {
-//~ 							lockfile_mutex.unlock ();
-//~ 							tmp_loop.quit ();
-//~ 						}
-//~ 					});
-//~ 					tmp_loop.run ();
-//~ 				} catch (Error e) {
-//~ 					critical ("%s\n", e.message);
-//~ 				}
-//~ 			}
+			if (lockfile_mutex.trylock ()) {
+				try {
+					var tmp_loop = new MainLoop ();
+					var unlock_monitor = alpm_utils.lockfile.monitor (FileMonitorFlags.NONE, null);
+					unlock_monitor.changed.connect ((src, dest, event_type) => {
+						if (event_type == FileMonitorEvent.DELETED) {
+							lockfile_mutex.unlock ();
+							tmp_loop.quit ();
+						}
+					});
+					tmp_loop.run ();
+				} catch (Error e) {
+					critical ("%s\n", e.message);
+				}
+			}
 			return 0;
 		}
 
@@ -374,7 +344,6 @@ namespace Pamac {
 			lockfile_mutex.lock ();
 			alpm_utils.alpm_config.write (new_alpm_conf);
 			alpm_utils.alpm_config.reload ();
-			alpm_utils.refresh_handle ();
 			lockfile_mutex.unlock ();
 			write_alpm_config_finished (sender);
 		}
@@ -434,7 +403,6 @@ namespace Pamac {
 			}
 			lockfile_mutex.lock ();
 			alpm_utils.alpm_config.reload ();
-			alpm_utils.refresh_handle ();
 			lockfile_mutex.unlock ();
 			generate_mirrors_list_finished (sender);
 		}
@@ -509,19 +477,93 @@ namespace Pamac {
 		}
 
 		[DBus (visible = false)]
+		public void trans_refresh (string sender, bool force, Cancellable cancellable) {
+			bool waiting = false;
+			cancellable.reset ();
+			if (!lockfile_mutex.trylock ()) {
+				waiting = true;
+				start_waiting (sender);
+				emit_action (sender, _("Waiting for another package manager to quit") + "...");
+				answer_mutex.lock ();
+				int i = 0;
+				while (!cancellable.is_cancelled ()) {
+					// wait 200 ms for cancellation
+					int64 end_time = get_monotonic_time () + 200 * TimeSpan.MILLISECOND;
+					answer_cond.wait_until (answer_mutex, end_time);
+					if (lockfile_mutex.trylock ()) {
+						break;
+					}
+					i++;
+					// wait 5 min max
+					if (i == 1500) {
+						cancellable.cancel ();
+						emit_action (sender, "%s: %s.".printf (_("Transaction cancelled"), _("Timeout expired")));
+					}
+				}
+				answer_mutex.unlock ();
+			}
+			if (waiting) {
+				stop_waiting (sender);
+			}
+			if (cancellable.is_cancelled ()) {
+				// cancelled
+				trans_refresh_finished (sender, false);
+				return;
+			}
+			bool success = alpm_utils.refresh (sender, force);
+			lockfile_mutex.unlock ();
+			trans_refresh_finished (sender, success);
+		}
+
+		public void start_trans_refresh (bool force, BusName sender) throws Error {
+			if (alpm_utils.downloading_updates) {
+				alpm_utils.cancellable.cancel ();
+				// let time to cancel download updates
+				Timeout.add (1000, () => {
+					try {
+						var action = new AlpmAction (this, sender);
+						action.is_refresh = true;
+						action.force_refresh = force;
+						if (!cancellables_table.contains (sender)) {
+							cancellables_table.insert (sender, new Cancellable ());
+						}
+						action.cancellable = cancellables_table.lookup (sender);
+						thread_pool.add ((owned) action);
+					} catch (ThreadError e) {
+						critical ("%s\n", e.message);
+						emit_error (sender, "Daemon Error", {e.message});
+						trans_refresh_finished (sender, false);
+					}
+					return false;
+				});
+			} else {
+				try {
+					var action = new AlpmAction (this, sender);
+					action.is_refresh = true;
+					action.force_refresh = force;
+					if (!cancellables_table.contains (sender)) {
+						cancellables_table.insert (sender, new Cancellable ());
+					}
+					action.cancellable = cancellables_table.lookup (sender);
+					thread_pool.add ((owned) action);
+				} catch (ThreadError e) {
+					critical ("%s\n", e.message);
+					emit_error (sender, "Daemon Error", {e.message});
+					trans_refresh_finished (sender, false);
+				}
+			}
+		}
+
+		[DBus (visible = false)]
 		public void trans_run (string sender,
 								bool sysupgrade,
-								bool force_refresh,
 								bool enable_downgrade,
 								bool simple_install,
-								bool check_aur_updates,
-								bool no_confirm_commit,
 								bool keep_built_pkgs,
 								int trans_flags,
 								string[] to_install,
 								string[] to_remove,
 								string[] to_load,
-								string[] to_build,
 								string[] to_install_as_dep,
 								string[] temporary_ignorepkgs,
 								string[] overwrite_files,
@@ -560,17 +602,13 @@ namespace Pamac {
 			}
 			bool success = alpm_utils.trans_run (sender,
 												sysupgrade,
-												force_refresh,
 												enable_downgrade,
 												simple_install,
-												check_aur_updates,
-												no_confirm_commit,
 												keep_built_pkgs,
 												trans_flags,
 												to_install,
 												to_remove,
 												to_load,
-												to_build,
 												to_install_as_dep,
 												temporary_ignorepkgs,
 												overwrite_files);
@@ -579,17 +617,13 @@ namespace Pamac {
 		}
 
 		public void start_trans_run (bool sysupgrade,
-									bool force_refresh,
 									bool enable_downgrade,
 									bool simple_install,
-									bool check_aur_updates,
-									bool no_confirm_commit,
 									bool keep_built_pkgs,
 									int trans_flags,
 									string[] to_install,
 									string[] to_remove,
 									string[] to_load,
-									string[] to_build,
 									string[] to_install_as_dep,
 									string[] temporary_ignorepkgs,
 									string[] overwrite_files,
@@ -602,17 +636,13 @@ namespace Pamac {
 						var action = new AlpmAction (this, sender);
 						action.is_alpm = true;
 						action.sysupgrade = sysupgrade;
-						action.force_refresh = force_refresh;
 						action.enable_downgrade = enable_downgrade;
 						action.simple_install = simple_install;
-						action.check_aur_updates = check_aur_updates;
-						action.no_confirm_commit = no_confirm_commit;
 						action.keep_built_pkgs = keep_built_pkgs;
 						action.trans_flags = trans_flags;
 						action.to_install = to_install;
 						action.to_remove = to_remove;
 						action.to_load = to_load;
-						action.to_build = to_build;
 						action.to_install_as_dep = to_install_as_dep;
 						action.temporary_ignorepkgs = temporary_ignorepkgs;
 						action.overwrite_files = overwrite_files;
@@ -633,17 +663,13 @@ namespace Pamac {
 					var action = new AlpmAction (this, sender);
 					action.is_alpm = true;
 					action.sysupgrade = sysupgrade;
-					action.force_refresh = force_refresh;
 					action.enable_downgrade = enable_downgrade;
 					action.simple_install = simple_install;
-					action.check_aur_updates = check_aur_updates;
-					action.no_confirm_commit = no_confirm_commit;
 					action.keep_built_pkgs = keep_built_pkgs;
 					action.trans_flags = trans_flags;
 					action.to_install = to_install;
 					action.to_remove = to_remove;
 					action.to_load = to_load;
-					action.to_build = to_build;
 					action.to_install_as_dep = to_install_as_dep;
 					action.temporary_ignorepkgs = temporary_ignorepkgs;
 					action.overwrite_files = overwrite_files;
@@ -658,95 +684,6 @@ namespace Pamac {
 					trans_run_finished (sender, false);
 				}
 			}
-		}
-
-		int choose_provider_callback (string sender, string depend, string[] providers) {
-			choosen_provider_answer = null;
-			choose_provider (sender, depend, providers);
-			answer_mutex.lock ();
-			while (choosen_provider_answer == null) {
-				answer_cond.wait (answer_mutex);
-			}
-			answer_mutex.unlock ();
-			return choosen_provider_answer;
-		}
-
-		public void answer_choose_provider (int provider) throws Error {
-			answer_mutex.lock ();
-			choosen_provider_answer = provider;
-			answer_cond.signal ();
-			answer_mutex.unlock ();
-		}
-
-		bool compute_aur_build_list_callback (string sender) {
-			compute_aur_build_list_success = null;
-			compute_aur_build_list (sender);
-			answer_mutex.lock ();
-			while (compute_aur_build_list_success == null) {
-				answer_cond.wait (answer_mutex);
-			}
-			answer_mutex.unlock ();
-			return compute_aur_build_list_success;
-		}
-
-		public void aur_build_list_computed (bool success) throws Error {
-			answer_mutex.lock ();
-			compute_aur_build_list_success = success;
-			answer_cond.signal ();
-			answer_mutex.unlock ();
-		}
-
-		bool ask_edit_build_files_callback (string sender, TransactionSummaryStruct summary) {
-			ask_edit_build_files_answer = null;
-			ask_edit_build_files (sender, summary);
-			answer_mutex.lock ();
-			while (ask_edit_build_files_answer == null) {
-				answer_cond.wait (answer_mutex);
-			}
-			answer_mutex.unlock ();
-			return ask_edit_build_files_answer;
-		}
-
-		public void answer_ask_edit_build_files (bool answer) throws Error {
-			answer_mutex.lock ();
-			ask_edit_build_files_answer = answer;
-			answer_cond.signal ();
-			answer_mutex.unlock ();
-		}
-
-		void edit_build_files_callback (string sender, string[] pkgnames) {
-			edit_build_files_answer = null;
-			edit_build_files (sender, pkgnames);
-			answer_mutex.lock ();
-			while (edit_build_files_answer == null) {
-				answer_cond.wait (answer_mutex);
-			}
-			answer_mutex.unlock ();
-		}
-
-		public void build_files_edited () throws Error {
-			answer_mutex.lock ();
-			edit_build_files_answer = true;
-			answer_cond.signal ();
-			answer_mutex.unlock ();
-		}
-
-		bool ask_commit_callback (string sender, TransactionSummaryStruct summary) {
-			ask_commit_answer = null;
-			ask_commit (sender, summary);
-			answer_mutex.lock ();
-			while (ask_commit_answer == null) {
-				answer_cond.wait (answer_mutex);
-			}
-			answer_mutex.unlock ();
-			return ask_commit_answer;
-		}
-
-		public void answer_ask_commit (bool answer) throws Error {
-			answer_mutex.lock ();
-			ask_commit_answer = answer;
-			answer_cond.signal ();
-			answer_mutex.unlock ();
 		}
 
 		#if ENABLE_SNAP
