@@ -26,45 +26,7 @@ namespace Pamac {
 		public TransactionInterfaceRoot (Config config) {
 			trans_cancellable = new Cancellable ();
 			// alpm_utils global variable declared in alpm_utils.vala
-			alpm_utils = new AlpmUtils (config);
-			alpm_utils.emit_action.connect ((sender, action) => {
-				emit_action (action);
-			});
-			alpm_utils.emit_action_progress.connect ((sender, action, status, progress) => {
-				emit_action_progress (action, status, progress);
-			});
-			alpm_utils.emit_hook_progress.connect ((sender, action, details, status, progress) => {
-				emit_hook_progress (action, details, status, progress);
-			});
-			alpm_utils.emit_download_progress.connect ((sender, action, status, progress) => {
-				emit_download_progress (action, status, progress);
-			});
-			alpm_utils.start_downloading.connect ((sender) => {
-				start_downloading ();
-			});
-			alpm_utils.stop_downloading.connect ((sender) => {
-				stop_downloading ();
-			});
-			alpm_utils.emit_script_output.connect ((sender, message) => {
-				emit_script_output (message);
-			});
-			alpm_utils.emit_warning.connect ((sender, message) => {
-				emit_warning (message);
-			});
-			alpm_utils.emit_error.connect ((sender, message, details) => {
-				emit_error (message, details);
-			});
-			alpm_utils.important_details_outpout.connect ((sender, must_show) => {
-				important_details_outpout (must_show);
-			});
-			alpm_utils.get_authorization.connect ((sender) => {
-				try {
-					return get_authorization ();
-				} catch (Error e) {
-					critical ("get_authorization: %s\n", e.message);
-				}
-				return false;
-			});
+			// and initialzed in transaction.vala
 			// set user agent
 			var utsname = Posix.utsname();
 			Environment.set_variable ("HTTP_USER_AGENT", "pamac (%s %s)".printf (utsname.sysname, utsname.machine), true);

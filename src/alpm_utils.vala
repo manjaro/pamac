@@ -128,7 +128,6 @@ namespace Pamac {
 		public signal void emit_warning (string sender, string message);
 		public signal void emit_error (string sender, string message, string[] details);
 		public signal void important_details_outpout (string sender, bool must_show);
-		public signal bool get_authorization (string sender);
 
 		public AlpmUtils (Config config) {
 			this.config = config;

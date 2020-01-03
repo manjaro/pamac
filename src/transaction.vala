@@ -106,6 +106,21 @@ namespace Pamac {
 			alpm_utils.emit_action.connect ((sender, action) => {
 				emit_action (action);
 			});
+			alpm_utils.emit_action_progress.connect ((sender, action, status, progress) => {
+				emit_action_progress (action, status, progress);
+			});
+			alpm_utils.emit_hook_progress.connect ((sender, action, details, status, progress) => {
+				emit_hook_progress (action, details, status, progress);
+			});
+			alpm_utils.emit_download_progress.connect ((sender, action, status, progress) => {
+				emit_download_progress (action, status, progress);
+			});
+			alpm_utils.start_downloading.connect ((sender) => {
+				start_downloading ();
+			});
+			alpm_utils.stop_downloading.connect ((sender) => {
+				stop_downloading ();
+			});
 			alpm_utils.emit_script_output.connect ((sender, message) => {
 				emit_script_output (message);
 			});
