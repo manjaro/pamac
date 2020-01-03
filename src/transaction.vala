@@ -998,11 +998,19 @@ namespace Pamac {
 						summary.to_downgrade.length () > 0 ||
 						summary.to_reinstall.length () > 0 ||
 						summary.to_remove.length () > 0) {
-						bool success = false;
+						foreach (unowned Package pkg in summary.to_install) {
+							if (!to_install.contains (pkg.name) &&
+								!to_load.contains (pkg.name)) {
+								to_install.add (pkg.name);
+								to_install_as_dep.add (pkg.name);
+							}
+						}
+						foreach (unowned Package pkg in summary.to_remove) {
+							to_remove.add (pkg.name);
+						}
 						var to_install_array = new GenericArray<string> (to_install.length);
 						var to_remove_array = new GenericArray<string> (to_remove.length);
 						var to_load_array = new GenericArray<string> (to_load.length);
-						var to_build_array = new GenericArray<string> (to_build.length);
 						var to_install_as_dep_array = new GenericArray<string> (to_install_as_dep.length);
 						var temporary_ignorepkgs_array = new GenericArray<string> (temporary_ignorepkgs.length);
 						var overwrite_files_array = new GenericArray<string> (overwrite_files.length);
@@ -1015,9 +1023,6 @@ namespace Pamac {
 						foreach (unowned string name in to_load) {
 							to_load_array.add (name);
 						}
-						foreach (unowned string name in to_build) {
-							to_build_array.add (name);
-						}
 						foreach (unowned string name in to_install_as_dep) {
 							to_install_as_dep_array.add (name);
 						}
@@ -1027,6 +1032,7 @@ namespace Pamac {
 						foreach (unowned string name in overwrite_files) {
 							overwrite_files_array.add (name);
 						}
+						bool success = false;
 						try {
 							success = transaction_interface.trans_run (sysupgrading,
 																		database.config.enable_downgrade,
