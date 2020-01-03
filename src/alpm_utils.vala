@@ -861,36 +861,22 @@ namespace Pamac {
 			foreach (unowned string name in to_install_as_dep) {
 				this.to_install_as_dep.insert (name, name);
 			}
-			var alpm_handle = get_handle ();
+			// use an handle with no callback to avoid double prepare signals
+			var alpm_handle = get_handle (false, false, false);
 			if (alpm_handle == null) {
 				return false;
-			}
-			return trans_run_real (alpm_handle);
-		}
-
-		bool trans_run_real (Alpm.Handle alpm_handle) {
-			// check if we need to sysupgrade
-			if (!sysupgrade && !simple_install && to_install.length > 0) {
-				foreach (unowned string name in to_install) {
-					unowned Alpm.Package? local_pkg = alpm_handle.localdb.get_pkg (name);
-					if (local_pkg == null) {
-						sysupgrade = true;
-						break;
-					} else {
-						unowned Alpm.Package? sync_pkg = get_syncpkg (alpm_handle, name);
-						if (sync_pkg != null) {
-							if (local_pkg.version != sync_pkg.version) {
-								sysupgrade = true;
-								break;
-							}
-						}
-					}
-				}
 			}
 			bool success = trans_prepare (alpm_handle);
 			if (success) {
 				if (alpm_handle.trans_to_add ().length > 0 ||
 					alpm_handle.trans_to_remove ().length > 0) {
+					// add callbacks to have commit signals
+					alpm_handle.eventcb = (Alpm.EventCallBack) cb_event;
+					alpm_handle.progresscb = (Alpm.ProgressCallBack) cb_progress;
+					alpm_handle.questioncb = (Alpm.QuestionCallBack) cb_question;
+					alpm_handle.fetchcb = (Alpm.FetchCallBack) cb_fetch;
+					alpm_handle.totaldlcb = (Alpm.TotalDownloadCallBack) cb_totaldownload;
+					alpm_handle.logcb = (Alpm.LogCallBack) cb_log;
 					success = trans_commit (alpm_handle);
 				} else {
 					emit_action (sender, dgettext (null, "Nothing to do") + ".");
