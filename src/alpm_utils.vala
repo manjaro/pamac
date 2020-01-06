@@ -128,6 +128,7 @@ namespace Pamac {
 		public signal void emit_warning (string sender, string message);
 		public signal void emit_error (string sender, string message, string[] details);
 		public signal void important_details_outpout (string sender, bool must_show);
+		public signal bool get_authorization (string sender);
 
 		public AlpmUtils (Config config) {
 			this.config = config;
@@ -870,14 +871,19 @@ namespace Pamac {
 			if (success) {
 				if (alpm_handle.trans_to_add ().length > 0 ||
 					alpm_handle.trans_to_remove ().length > 0) {
-					// add callbacks to have commit signals
-					alpm_handle.eventcb = (Alpm.EventCallBack) cb_event;
-					alpm_handle.progresscb = (Alpm.ProgressCallBack) cb_progress;
-					alpm_handle.questioncb = (Alpm.QuestionCallBack) cb_question;
-					alpm_handle.fetchcb = (Alpm.FetchCallBack) cb_fetch;
-					alpm_handle.totaldlcb = (Alpm.TotalDownloadCallBack) cb_totaldownload;
-					alpm_handle.logcb = (Alpm.LogCallBack) cb_log;
-					success = trans_commit (alpm_handle);
+					if (get_authorization (sender)) {
+						// add callbacks to have commit signals
+						alpm_handle.eventcb = (Alpm.EventCallBack) cb_event;
+						alpm_handle.progresscb = (Alpm.ProgressCallBack) cb_progress;
+						alpm_handle.questioncb = (Alpm.QuestionCallBack) cb_question;
+						alpm_handle.fetchcb = (Alpm.FetchCallBack) cb_fetch;
+						alpm_handle.totaldlcb = (Alpm.TotalDownloadCallBack) cb_totaldownload;
+						alpm_handle.logcb = (Alpm.LogCallBack) cb_log;
+						success = trans_commit (alpm_handle);
+					} else {
+						trans_release (alpm_handle);
+						success = false;
+					}
 				} else {
 					emit_action (sender, dgettext (null, "Nothing to do") + ".");
 					trans_release (alpm_handle);

@@ -186,6 +186,9 @@ namespace Pamac {
 			alpm_utils.important_details_outpout.connect ((sender, must_show) => {
 				important_details_outpout (sender, must_show);
 			});
+			alpm_utils.get_authorization.connect ((sender) => {
+				return get_authorization_sync (sender);
+			});
 			#if ENABLE_SNAP
 			if (config.support_snap) {
 				snap_plugin = config.get_snap_plugin ();
@@ -594,6 +597,12 @@ namespace Pamac {
 			}
 			if (cancellable.is_cancelled ()) {
 				// cancelled
+				trans_run_finished (sender, false);
+				return;
+			}
+			authorized = get_authorization_sync (sender);
+			if (!authorized) {
+				// not authorized
 				trans_run_finished (sender, false);
 				return;
 			}

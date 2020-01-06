@@ -133,6 +133,13 @@ namespace Pamac {
 			alpm_utils.important_details_outpout.connect ((sender, must_show) => {
 				important_details_outpout (must_show);
 			});
+			// only used as root in transaction_interface_root.vala
+			alpm_utils.get_authorization.connect ((sender) => {
+				if (Posix.geteuid () == 0) {
+					return true;
+				}
+				return false;
+			});
 			#if ENABLE_SNAP
 			snap_to_install = new HashTable<string, SnapPackage> (str_hash, str_equal);
 			snap_to_remove = new HashTable<string, SnapPackage> (str_hash, str_equal);
