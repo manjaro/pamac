@@ -97,7 +97,6 @@ namespace Pamac {
 	public class Daemon: Object {
 		Config config;
 		ThreadPool<AlpmAction> thread_pool;
-		bool authorized;
 		FileMonitor lockfile_monitor;
 		Cond lockfile_cond;
 		Mutex lockfile_mutex;
@@ -138,7 +137,6 @@ namespace Pamac {
 
 		public Daemon () {
 			config = new Config ("/etc/pamac.conf");
-			authorized = false;
 			// alpm_utils global variable declared in alpm_utils.vala
 			alpm_utils = new AlpmUtils (config);
 			lockfile_cond = Cond ();
@@ -283,7 +281,7 @@ namespace Pamac {
 		}
 
 		async bool check_authorization (BusName sender) {
-			bool tmp_authorized = false;
+			bool authorized = false;
 			try {
 				Polkit.Authority authority = yield Polkit.Authority.get_async ();
 				Polkit.Subject subject = new Polkit.SystemBusName (sender);
@@ -292,22 +290,20 @@ namespace Pamac {
 					"org.manjaro.pamac.commit",
 					null,
 					Polkit.CheckAuthorizationFlags.ALLOW_USER_INTERACTION);
-				tmp_authorized = result.get_is_authorized ();
-				if (!tmp_authorized) {
+				authorized = result.get_is_authorized ();
+				if (!authorized) {
 					emit_error (sender, _("Authentication failed"), {});
 				}
 			} catch (Error e) {
 				critical ("%s\n", e.message);
 				emit_error (sender, _("Authentication failed"), {e.message});
 			}
-			return tmp_authorized;
+			return authorized;
 		}
 
 		bool get_authorization_sync (string sender) {
-			if (authorized) {
-				return true;
-			}
 			answer_mutex.lock ();
+			bool authorized = false;
 			try {
 				Polkit.Authority authority = Polkit.Authority.get_sync ();
 				Polkit.Subject subject = new Polkit.SystemBusName (sender);
@@ -328,14 +324,10 @@ namespace Pamac {
 			return authorized;
 		}
 
-		public void remove_authorization () throws Error {
-			authorized = false;
-		}
-
 		public void start_get_authorization (BusName sender) throws Error {
 			check_authorization.begin (sender, (obj, res) => {
-				bool tmp_authorized = check_authorization.end (res);
-				get_authorization_finished (sender, tmp_authorized);
+				bool authorized = check_authorization.end (res);
+				get_authorization_finished (sender, authorized);
 			});
 		}
 
@@ -350,8 +342,8 @@ namespace Pamac {
 
 		public void start_write_alpm_config (HashTable<string,Variant> new_alpm_conf, BusName sender) throws Error {
 			check_authorization.begin (sender, (obj, res) => {
-				bool tmp_authorized = check_authorization.end (res);
-				if (tmp_authorized) {
+				bool authorized = check_authorization.end (res);
+				if (authorized) {
 					try {
 						var action = new AlpmAction (this, sender);
 						action.is_write_alpm_config = true;
@@ -368,8 +360,8 @@ namespace Pamac {
 
 		public void start_write_pamac_config (HashTable<string,Variant> new_pamac_conf, BusName sender) throws Error {
 			check_authorization.begin (sender, (obj, res) => {
-				bool tmp_authorized = check_authorization.end (res);
-				if (tmp_authorized) {
+				bool authorized = check_authorization.end (res);
+				if (authorized) {
 					config.write (new_pamac_conf);
 					config.reload ();
 					#if ENABLE_SNAP
@@ -409,8 +401,8 @@ namespace Pamac {
 
 		public void start_generate_mirrors_list (string country, BusName sender) throws Error {
 			check_authorization.begin (sender, (obj, res) => {
-				bool tmp_authorized = check_authorization.end (res);
-				if (tmp_authorized) {
+				bool authorized = check_authorization.end (res);
+				if (authorized) {
 					try {
 						var action = new AlpmAction (this, sender);
 						action.is_generate_mirrors_list = true;
@@ -428,34 +420,33 @@ namespace Pamac {
 		public void start_clean_cache (string[] filenames, BusName sender) throws Error {
 			string[] names = filenames;
 			check_authorization.begin (sender, (obj, res) => {
-				bool tmp_authorized = check_authorization.end (res);
-				if (tmp_authorized) {
+				bool authorized = check_authorization.end (res);
+				if (authorized) {
 					alpm_utils.clean_cache (names);
 				}
-				clean_cache_finished (sender, tmp_authorized);
+				clean_cache_finished (sender, authorized);
 			});
 		}
 
 		public void start_clean_build_files (string aur_build_dir, BusName sender) throws Error {
 			check_authorization.begin (sender, (obj, res) => {
-				bool tmp_authorized = check_authorization.end (res);
-				if (tmp_authorized) {
+				bool authorized = check_authorization.end (res);
+				if (authorized) {
 					alpm_utils.clean_build_files (aur_build_dir);
 				}
-				clean_build_files_finished (sender, tmp_authorized);
+				clean_build_files_finished (sender, authorized);
 			});
 		}
 
 		[DBus (visible = false)]
 		public void set_pkgreason (string sender, string pkgname, uint reason) {
-			authorized = get_authorization_sync (sender);
+			bool authorized = get_authorization_sync (sender);
 			bool success = false;
 			if (authorized) {
 				lockfile_mutex.lock ();
 				success = alpm_utils.set_pkgreason (pkgname, reason);
 				lockfile_mutex.unlock ();
 			}
-			authorized = false;
 			set_pkgreason_finished (sender, success);
 		}
 
@@ -600,7 +591,7 @@ namespace Pamac {
 				trans_run_finished (sender, false);
 				return;
 			}
-			authorized = get_authorization_sync (sender);
+			bool authorized = get_authorization_sync (sender);
 			if (!authorized) {
 				// not authorized
 				trans_run_finished (sender, false);

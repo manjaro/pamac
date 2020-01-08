@@ -835,12 +835,6 @@ namespace Pamac {
 				}
 			#endif
 			}
-			// remove kept authorization for all the transaction
-			try {
-				transaction_interface.remove_authorization ();
-			} catch (Error e) {
-				emit_error ("Daemon Error", {"remove_authorization: %s".printf (e.message)});
-			}
 			return success;
 		}
 
@@ -1057,7 +1051,9 @@ namespace Pamac {
 			 			return success;
 					} else {
 						// only AUR packages to build
-						return true;
+						// get_authorization here before building
+						// anyway if the build is too long authorization will be re-asked
+						return get_authorization ();
 					}
 				} else {
 					emit_action (dgettext (null, "Transaction cancelled") + ".");

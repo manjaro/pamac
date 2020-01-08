@@ -61,14 +61,6 @@ namespace Pamac {
 			}
 		}
 
-		public void remove_authorization () throws Error {
-			try {
-				system_daemon.remove_authorization ();
-			} catch (Error e) {
-				throw e;
-			}
-		}
-
 		public void generate_mirrors_list (string country) throws Error {
 			try {
 				system_daemon.start_generate_mirrors_list (country);

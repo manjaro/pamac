@@ -37,10 +37,6 @@ namespace Pamac {
 			return true;
 		}
 
-		public void remove_authorization () {
-			// nothing to do
-		}
-
 		public void generate_mirrors_list (string country) {
 			try {
 				var process = new Subprocess.newv (
