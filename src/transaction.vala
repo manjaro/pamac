@@ -895,7 +895,6 @@ namespace Pamac {
 		}
 
 		bool trans_prepare_and_run (bool check_aur_updates) {
-			start_preparing ();
 			// check if we need to sysupgrade
 			if (!sysupgrading && !database.config.simple_install && to_install.length > 0) {
 				foreach (unowned string name in to_install) {
@@ -934,6 +933,7 @@ namespace Pamac {
 		}
 
 		bool trans_prepare (bool check_aur_updates, out TransactionSummary summary) {
+			start_preparing ();
 			bool success = alpm_utils.trans_check_prepare (sysupgrading,
 													database.config.enable_downgrade,
 													database.config.simple_install,
