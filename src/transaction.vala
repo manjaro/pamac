@@ -899,18 +899,18 @@ namespace Pamac {
 			// check if we need to sysupgrade
 			if (!sysupgrading && !database.config.simple_install && to_install.length > 0) {
 				foreach (unowned string name in to_install) {
-					Package? local_pkg = database.get_installed_pkg (name);
-					if (local_pkg == null) {
-						sysupgrading = true;
-						break;
-					} else {
-						Package? sync_pkg = database.get_sync_pkg (name);
-						if (sync_pkg != null) {
+					if (database.is_installed_pkg (name)) {
+						if (database.is_sync_pkg (name)) {
+							Package? local_pkg = database.get_installed_pkg (name);
+							Package? sync_pkg = database.get_sync_pkg (name);
 							if (local_pkg.version != sync_pkg.version) {
 								sysupgrading = true;
 								break;
 							}
 						}
+					} else {
+						sysupgrading = true;
+						break;
 					}
 				}
 			}
@@ -943,7 +943,6 @@ namespace Pamac {
 													to_remove,
 													to_load,
 													to_build,
-													to_install_as_dep,
 													temporary_ignorepkgs,
 													overwrite_files,
 													out summary);
