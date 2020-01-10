@@ -909,11 +909,14 @@ namespace Pamac {
 			}
 			bool success = false;
 			if (sysupgrading) {
-				try {
-					success = transaction_interface.trans_refresh (force_refresh);
-				} catch (Error e) {
-					emit_error ("Daemon Error", {"trans_refresh: %s".printf (e.message)});
-	 			}
+				success = get_authorization ();
+				if (success) {
+					try {
+						success = transaction_interface.trans_refresh (force_refresh);
+					} catch (Error e) {
+						emit_error ("Daemon Error", {"trans_refresh: %s".printf (e.message)});
+					}
+				}
 				if (!success) {
 					return false;
 				}
