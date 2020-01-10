@@ -149,137 +149,140 @@ namespace Pamac {
 
 		public CompareFunc<string> vercmp = Alpm.pkg_vercmp;
 
-		public HashTable<string, int64?> get_clean_cache_details () {
-			var filenames_size = new HashTable<string, int64?> (str_hash, str_equal);
-			var pkg_version_filenames = new HashTable<string, SList<string>> (str_hash, str_equal);
-			var pkg_versions = new HashTable<string, SList<string>> (str_hash, str_equal);
+		public HashTable<string, uint64?> get_clean_cache_details () {
+			var filenames_size = new HashTable<string, uint64?> (str_hash, str_equal);
 			// compute all infos
-			unowned Alpm.List<unowned string> cachedirs_names = alpm_handle.cachedirs;
-			while (cachedirs_names != null) {
-				unowned string cachedir_name = cachedirs_names.data;
-				var cachedir = File.new_for_path (cachedir_name);
-				try {
-					FileEnumerator enumerator = cachedir.enumerate_children ("standard::*", FileQueryInfoFlags.NONE);
-					FileInfo info;
-					while ((info = enumerator.next_file (null)) != null) {
-						unowned string filename = info.get_name ();
-						string absolute_filename = "%s%s".printf (cachedir_name, filename);
-						string? name_version_release = filename.slice (0, filename.last_index_of_char ('-'));
-						if (name_version_release == null) {
-							continue;
-						}
-						int release_index = name_version_release.last_index_of_char ('-');
-						string? name_version = name_version_release.slice (0, release_index);
-						if (name_version == null) {
-							continue;
-						}
-						int version_index = name_version.last_index_of_char ('-');
-						string? name = name_version.slice (0, version_index);
-						if (name == null) {
-							continue;
-						}
-						if (config.clean_rm_only_uninstalled && is_installed_pkg (name)) {
-							continue;
-						}
-						filenames_size.insert (absolute_filename, info.get_size ());
-						if (pkg_versions.contains (name)) {
-							if (pkg_version_filenames.contains (name_version_release)) {
-								// case of .sig file
-								unowned SList<string> filenames = pkg_version_filenames.lookup (name_version_release);
-								filenames.append (absolute_filename);
+			new Thread<int> ("get_clean_cache_details", () => {
+				var pkg_version_filenames = new HashTable<string, SList<string>> (str_hash, str_equal);
+				var pkg_versions = new HashTable<string, SList<string>> (str_hash, str_equal);
+				unowned Alpm.List<unowned string> cachedirs_names = alpm_handle.cachedirs;
+				while (cachedirs_names != null) {
+					unowned string cachedir_name = cachedirs_names.data;
+					var cachedir = File.new_for_path (cachedir_name);
+					try {
+						FileEnumerator enumerator = cachedir.enumerate_children ("standard::*", FileQueryInfoFlags.NONE);
+						FileInfo info;
+						while ((info = enumerator.next_file (null)) != null) {
+							unowned string filename = info.get_name ();
+							string absolute_filename = "%s%s".printf (cachedir_name, filename);
+							string? name_version_release = filename.slice (0, filename.last_index_of_char ('-'));
+							if (name_version_release == null) {
+								continue;
+							}
+							int release_index = name_version_release.last_index_of_char ('-');
+							string? name_version = name_version_release.slice (0, release_index);
+							if (name_version == null) {
+								continue;
+							}
+							int version_index = name_version.last_index_of_char ('-');
+							string? name = name_version.slice (0, version_index);
+							if (name == null) {
+								continue;
+							}
+							if (config.clean_rm_only_uninstalled && is_installed_pkg (name)) {
+								continue;
+							}
+							filenames_size.insert (absolute_filename, info.get_size ());
+							if (pkg_versions.contains (name)) {
+								if (pkg_version_filenames.contains (name_version_release)) {
+									// case of .sig file
+									unowned SList<string> filenames = pkg_version_filenames.lookup (name_version_release);
+									filenames.append (absolute_filename);
+								} else {
+									unowned SList<string> versions = pkg_versions.lookup (name);
+									string? version_release = name_version_release.slice (version_index + 1, name_version_release.length);
+									if (version_release == null) {
+										continue;
+									}
+									versions.append ((owned) version_release);
+									var filenames = new SList<string> ();
+									filenames.append (absolute_filename);
+									pkg_version_filenames.insert (name_version_release, (owned) filenames);
+								}
 							} else {
-								unowned SList<string> versions = pkg_versions.lookup (name);
+								var versions = new SList<string> ();
 								string? version_release = name_version_release.slice (version_index + 1, name_version_release.length);
 								if (version_release == null) {
 									continue;
 								}
 								versions.append ((owned) version_release);
+								pkg_versions.insert (name, (owned) versions);
 								var filenames = new SList<string> ();
 								filenames.append (absolute_filename);
 								pkg_version_filenames.insert (name_version_release, (owned) filenames);
 							}
-						} else {
-							var versions = new SList<string> ();
-							string? version_release = name_version_release.slice (version_index + 1, name_version_release.length);
-							if (version_release == null) {
-								continue;
+						}
+					} catch (GLib.Error e) {
+						critical ("%s\n", e.message);
+					}
+					cachedirs_names.next ();
+				}
+				if (config.clean_keep_num_pkgs == 0) {
+					loop.quit ();
+					return 0;
+				}
+				// filter candidates
+				var iter = HashTableIter<string, SList<string>> (pkg_versions);
+				unowned string name;
+				unowned SList<string> versions;
+				while (iter.next (out name, out versions)) {
+					// sort versions
+					uint length = versions.length ();
+					if (length > config.clean_keep_num_pkgs) {
+						versions.sort ((version1, version2) => {
+							// reverse version 1 and version2 to have higher versions first
+							return Alpm.pkg_vercmp (version2, version1);
+						});
+					}
+					uint i = 1;
+					foreach (unowned string version in versions) {
+						unowned SList<string>? filenames = pkg_version_filenames.lookup ("%s-%s".printf (name, version));
+						if (filenames != null) {
+							foreach (unowned string filename in filenames) {
+								filenames_size.remove (filename);
 							}
-							versions.append ((owned) version_release);
-							pkg_versions.insert (name, (owned) versions);
-							var filenames = new SList<string> ();
-							filenames.append (absolute_filename);
-							pkg_version_filenames.insert (name_version_release, (owned) filenames);
+						}
+						i++;
+						if (i > config.clean_keep_num_pkgs) {
+							break;
 						}
 					}
-				} catch (GLib.Error e) {
-					critical ("%s\n", e.message);
 				}
-				cachedirs_names.next ();
-			}
-			if (config.clean_keep_num_pkgs == 0) {
-				return filenames_size;
-			}
-			// filter candidates
-			var iter = HashTableIter<string, SList<string>> (pkg_versions);
-			unowned string name;
-			unowned SList<string> versions;
-			while (iter.next (out name, out versions)) {
-				// sort versions
-				uint length = versions.length ();
-				if (length > config.clean_keep_num_pkgs) {
-					versions.sort ((version1, version2) => {
-						// reverse version 1 and version2 to have higher versions first
-						return Alpm.pkg_vercmp (version2, version1);
-					});
-				}
-				uint i = 1;
-				foreach (unowned string version in versions) {
-					unowned SList<string>? filenames = pkg_version_filenames.lookup ("%s-%s".printf (name, version));
-					if (filenames != null) {
-						foreach (unowned string filename in filenames) {
-							filenames_size.remove (filename);
-						}
-					}
-					i++;
-					if (i > config.clean_keep_num_pkgs) {
-						break;
-					}
-				}
-			}
+				loop.quit ();
+				return 0;
+			});
+			loop.run ();
 			return filenames_size;
 		}
 
-		async void enumerate_directory (string directory_path, HashTable<string, int64?> filenames_size) {
-			var directory = GLib.File.new_for_path (directory_path);
-			if (!directory.query_exists ()) {
-				return;
-			}
-			try {
-				FileEnumerator enumerator = yield directory.enumerate_children_async ("standard::*", FileQueryInfoFlags.NONE);
-				FileInfo info;
-				while ((info = enumerator.next_file (null)) != null) {
-					string absolute_filename = Path.build_path ("/", directory.get_path (), info.get_name ());
-					if (info.get_file_type () == FileType.DIRECTORY) {
-						yield enumerate_directory (absolute_filename, filenames_size);
-					} else {
-						filenames_size.insert (absolute_filename, info.get_size ());
-					}
-				}
-			} catch (GLib.Error e) {
-				stdout.printf ("%s\n", e.message);
-			}
-		}
-
-		public HashTable<string, int64?> get_build_files_details () {
+		public HashTable<string, uint64?> get_build_files_details () {
 			string real_aur_build_dir;
 			if (config.aur_build_dir == "/var/tmp") {
 				real_aur_build_dir = Path.build_path ("/", config.aur_build_dir, "pamac-build-%s".printf (Environment.get_user_name ()));
 			} else {
 				real_aur_build_dir = Path.build_path ("/", config.aur_build_dir, "pamac-build");
 			}
-			var filenames_size = new HashTable<string, int64?> (str_hash, str_equal);
-			enumerate_directory.begin (real_aur_build_dir, filenames_size, (obj, res) => {
+			var filenames_size = new HashTable<string, uint64?> (str_hash, str_equal);
+			var build_directory = GLib.File.new_for_path (real_aur_build_dir);
+			if (!build_directory.query_exists ()) {
+				return filenames_size;
+			}
+			new Thread<int> ("get_build_files_details", () => {
+				try {
+					FileEnumerator enumerator = build_directory.enumerate_children ("standard::*", FileQueryInfoFlags.NONE);
+					FileInfo info;
+					while ((info = enumerator.next_file (null)) != null) {
+						string absolute_filename = Path.build_path ("/", build_directory.get_path (), info.get_name ());
+						var child = GLib.File.new_for_path (absolute_filename);
+						uint64 disk_usage;
+						child.measure_disk_usage (FileMeasureFlags.NONE, null, null, out disk_usage, null, null);
+						filenames_size.insert (absolute_filename, disk_usage);
+					}
+				} catch (GLib.Error e) {
+					stdout.printf ("%s\n", e.message);
+				}
 				loop.quit ();
+				return 0;
 			});
 			loop.run ();
 			return filenames_size;

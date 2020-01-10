@@ -266,8 +266,8 @@ namespace Pamac {
 		}
 
 		public void clean_cache () {
-			HashTable<string, int64?> details = database.get_clean_cache_details ();
-			var iter = HashTableIter<string, int64?> (details);
+			HashTable<string, uint64?> details = database.get_clean_cache_details ();
+			var iter = HashTableIter<string, uint64?> (details);
 			var array = new GenericArray<string> (details.length);
 			unowned string name;
 			while (iter.next (out name, null)) {

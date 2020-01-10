@@ -2019,12 +2019,12 @@ namespace Pamac {
 		}
 
 		void clean_cache (bool dry_run, bool verbose, bool no_confirm) {
-			HashTable<string, int64?> details = database.get_clean_cache_details ();
-			int64 total_size = 0;
+			HashTable<string, uint64?> details = database.get_clean_cache_details ();
+			uint64 total_size = 0;
 			var filenames = new SList<string> ();
-			var iter = HashTableIter<string, int64?> (details);
+			var iter = HashTableIter<string, uint64?> (details);
 			unowned string filename;
-			int64? size;
+			uint64? size;
 			while (iter.next (out filename, out size)) {
 				total_size += size;
 				filenames.append (filename);
@@ -2055,12 +2055,12 @@ namespace Pamac {
 		}
 
 		void clean_build_files (bool dry_run, bool verbose, bool no_confirm) {
-			HashTable<string, int64?> details = database.get_build_files_details ();
-			int64 total_size = 0;
+			HashTable<string, uint64?> details = database.get_build_files_details ();
+			uint64 total_size = 0;
 			var filenames = new SList<string> ();
-			var iter = HashTableIter<string, int64?> (details);
+			var iter = HashTableIter<string, uint64?> (details);
 			unowned string filename;
-			int64? size;
+			uint64? size;
 			while (iter.next (out filename, out size)) {
 				total_size += size;
 				filenames.append (filename);

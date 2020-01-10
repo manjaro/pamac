@@ -123,7 +123,7 @@ namespace Pamac {
 			download_updates_checkbutton.active = transaction.database.config.download_updates;
 			cache_keep_nb_spin_button.value = transaction.database.config.clean_keep_num_pkgs;
 			cache_only_uninstalled_checkbutton.active = transaction.database.config.clean_rm_only_uninstalled;
-			refresh_clean_cache_button ();
+			refresh_clean_cache_button.begin ();
 
 			// populate ignorepkgs_liststore
 			ignorepkgs_liststore = new Gtk.ListStore (1, typeof (string));
@@ -171,7 +171,7 @@ namespace Pamac {
 				critical ("%s\n", e.message);
 			}
 			aur_build_dir_file_chooser.select_filename (transaction.database.config.aur_build_dir);
-			refresh_clean_build_files_button ();
+			refresh_clean_build_files_button.begin ();
 			keep_built_pkgs_checkbutton.active = transaction.database.config.keep_built_pkgs;
 			keep_built_pkgs_checkbutton.sensitive = transaction.database.config.enable_aur;
 			check_aur_updates_checkbutton.active = transaction.database.config.check_aur_updates;
@@ -198,11 +198,13 @@ namespace Pamac {
 			#endif
 		}
 
-		void refresh_clean_cache_button () {
-			HashTable<string, int64?> details = transaction.database.get_clean_cache_details ();
-			int64 total_size = 0;
+		async void refresh_clean_cache_button () {
+			HashTable<string, uint64?> details = transaction.database.get_clean_cache_details ();
+			var iter = HashTableIter<string, uint64?> (details);
+			uint64 total_size = 0;
 			uint files_nb = 0;
-			foreach (int64 size in details.get_values ()) {
+			uint64? size;
+			while (iter.next (null, out size)) {
 				total_size += size;
 				files_nb++;
 			}
@@ -214,12 +216,14 @@ namespace Pamac {
 			}
 		}
 
-		void refresh_clean_build_files_button () {
+		async void refresh_clean_build_files_button () {
 			if (transaction.database.config.enable_aur) {
-				HashTable<string, int64?> details = transaction.database.get_build_files_details ();
-				int64 total_size = 0;
+				HashTable<string, uint64?> details = transaction.database.get_build_files_details ();
+				var iter = HashTableIter<string, uint64?> (details);
+				uint64 total_size = 0;
 				uint files_nb = 0;
-				foreach (int64 size in details.get_values ()) {
+				uint64? size;
+				while (iter.next (null, out size)) {
 					total_size += size;
 					files_nb++;
 				}
@@ -273,12 +277,12 @@ namespace Pamac {
 
 		void on_cache_keep_nb_spin_button_value_changed () {
 			transaction.database.config.clean_keep_num_pkgs = cache_keep_nb_spin_button.get_value_as_int ();
-			refresh_clean_cache_button ();
+			refresh_clean_cache_button.begin ();
 		}
 
 		void on_cache_only_uninstalled_checkbutton_toggled () {
 			transaction.database.config.clean_rm_only_uninstalled = cache_only_uninstalled_checkbutton.active;
-			refresh_clean_cache_button ();
+			refresh_clean_cache_button.begin ();
 		}
 
 		void on_no_update_hide_icon_checkbutton_toggled () {
@@ -297,7 +301,7 @@ namespace Pamac {
 			check_aur_updates_checkbutton.sensitive = new_state;
 			check_aur_vcs_updates_checkbutton.sensitive = new_state && check_aur_updates_checkbutton.active;
 			transaction.database.config.enable_aur = new_state;
-			refresh_clean_build_files_button ();
+			refresh_clean_build_files_button.begin ();
 			return true;
 		}
 
@@ -311,7 +315,7 @@ namespace Pamac {
 
 		void on_aur_build_dir_set () {
 			transaction.database.config.aur_build_dir = aur_build_dir_file_chooser.get_filename ();
-			refresh_clean_build_files_button ();
+			refresh_clean_build_files_button.begin ();
 		}
 
 		void on_keep_built_pkgs_checkbutton_toggled () {
@@ -427,13 +431,13 @@ namespace Pamac {
 		[GtkCallback]
 		void on_clean_cache_button_clicked () {
 			transaction.clean_cache ();
-			refresh_clean_cache_button ();
+			refresh_clean_cache_button.begin ();
 		}
 
 		[GtkCallback]
 		void on_clean_build_files_button_clicked () {
 			transaction.clean_build_files ();
-			refresh_clean_build_files_button ();
+			refresh_clean_build_files_button.begin ();
 		}
 	}
 }
