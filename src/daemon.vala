@@ -40,6 +40,8 @@ public class AlpmAction {
 	public bool is_set_pkgreason;
 	public string pkgname;
 	public uint reason;
+	public bool is_download;
+	public string url;
 	public bool is_refresh;
 	public bool force_refresh;
 	public bool is_alpm;
@@ -66,6 +68,8 @@ public class AlpmAction {
 			pamac_daemon.set_pkgreason (sender, pkgname, reason);
 		} else if (is_write_alpm_config) {
 			pamac_daemon.write_alpm_config (sender, new_alpm_conf);
+		} else if (is_download) {
+			pamac_daemon.download_pkg (sender, url, cancellable);
 		} else if (is_refresh) {
 			pamac_daemon.trans_refresh (sender, force_refresh, cancellable);
 		} else if (is_alpm) {
@@ -120,6 +124,7 @@ namespace Pamac {
 		public signal void set_pkgreason_finished (string sender, bool success);
 		public signal void start_waiting (string sender);
 		public signal void stop_waiting (string sender);
+		public signal void download_pkg_finished (string sender, string path);
 		public signal void trans_refresh_finished (string sender, bool success);
 		public signal void trans_run_finished (string sender, bool success);
 		public signal void download_updates_finished (string sender);
@@ -467,8 +472,7 @@ namespace Pamac {
 			});
 		}
 
-		[DBus (visible = false)]
-		public void trans_refresh (string sender, bool force, Cancellable cancellable) {
+		void wait_for_lock (string sender, Cancellable cancellable) {
 			bool waiting = false;
 			cancellable.reset ();
 			if (!lockfile_mutex.trylock ()) {
@@ -496,8 +500,19 @@ namespace Pamac {
 			if (waiting) {
 				stop_waiting (sender);
 			}
+		}
+
+		[DBus (visible = false)]
+		public void trans_refresh (string sender, bool force, Cancellable cancellable) {
+			wait_for_lock (sender, cancellable);
 			if (cancellable.is_cancelled ()) {
 				// cancelled
+				trans_refresh_finished (sender, false);
+				return;
+			}
+			bool authorized = get_authorization_sync (sender);
+			if (!authorized) {
+				// not authorized
 				trans_refresh_finished (sender, false);
 				return;
 			}
@@ -546,6 +561,64 @@ namespace Pamac {
 		}
 
 		[DBus (visible = false)]
+		public void download_pkg (string sender, string url, Cancellable cancellable) {
+			wait_for_lock (sender, cancellable);
+			if (cancellable.is_cancelled ()) {
+				// cancelled
+				download_pkg_finished (sender, "");
+				return;
+			}
+			bool authorized = get_authorization_sync (sender);
+			if (!authorized) {
+				// not authorized
+				download_pkg_finished (sender, "");
+				return;
+			}
+			string path = alpm_utils.download_pkg (sender, url);
+			lockfile_mutex.unlock ();
+			download_pkg_finished (sender, path);
+		}
+
+		public void start_download_pkg (string url, BusName sender) throws Error {
+			if (alpm_utils.downloading_updates) {
+				alpm_utils.cancellable.cancel ();
+				// let time to cancel download updates
+				Timeout.add (1000, () => {
+					try {
+						var action = new AlpmAction (this, sender);
+						action.is_download = true;
+						action.url = url;
+						if (!cancellables_table.contains (sender)) {
+							cancellables_table.insert (sender, new Cancellable ());
+						}
+						action.cancellable = cancellables_table.lookup (sender);
+						thread_pool.add ((owned) action);
+					} catch (ThreadError e) {
+						critical ("%s\n", e.message);
+						emit_error (sender, "Daemon Error", {e.message});
+						download_pkg_finished (sender, "");
+					}
+					return false;
+				});
+			} else {
+				try {
+					var action = new AlpmAction (this, sender);
+					action.is_download = true;
+					action.url = url;
+					if (!cancellables_table.contains (sender)) {
+						cancellables_table.insert (sender, new Cancellable ());
+					}
+					action.cancellable = cancellables_table.lookup (sender);
+					thread_pool.add ((owned) action);
+				} catch (ThreadError e) {
+					critical ("%s\n", e.message);
+					emit_error (sender, "Daemon Error", {e.message});
+					download_pkg_finished (sender, "");
+				}
+			}
+		}
+
+		[DBus (visible = false)]
 		public void trans_run (string sender,
 								bool sysupgrade,
 								bool enable_downgrade,
@@ -559,33 +632,7 @@ namespace Pamac {
 								string[] temporary_ignorepkgs,
 								string[] overwrite_files,
 								Cancellable cancellable) {
-			bool waiting = false;
-			cancellable.reset ();
-			if (!lockfile_mutex.trylock ()) {
-				waiting = true;
-				start_waiting (sender);
-				emit_action (sender, _("Waiting for another package manager to quit") + "...");
-				answer_mutex.lock ();
-				int i = 0;
-				while (!cancellable.is_cancelled ()) {
-					// wait 200 ms for cancellation
-					int64 end_time = get_monotonic_time () + 200 * TimeSpan.MILLISECOND;
-					answer_cond.wait_until (answer_mutex, end_time);
-					if (lockfile_mutex.trylock ()) {
-						break;
-					}
-					i++;
-					// wait 5 min max
-					if (i == 1500) {
-						cancellable.cancel ();
-						emit_action (sender, "%s: %s.".printf (_("Transaction cancelled"), _("Timeout expired")));
-					}
-				}
-				answer_mutex.unlock ();
-			}
-			if (waiting) {
-				stop_waiting (sender);
-			}
+			wait_for_lock (sender, cancellable);
 			if (cancellable.is_cancelled ()) {
 				// cancelled
 				trans_run_finished (sender, false);

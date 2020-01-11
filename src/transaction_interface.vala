@@ -25,6 +25,7 @@ namespace Pamac {
 		public abstract bool clean_build_files (string aur_build_dir) throws Error;
 		public abstract bool set_pkgreason (string pkgname, uint reason) throws Error;
 		public abstract void download_updates () throws Error;
+		public abstract string download_pkg (string url) throws Error;
 		public abstract bool trans_refresh (bool force) throws Error;
 		public abstract bool trans_run (bool sysupgrade,
 										bool enable_downgrade,

@@ -26,6 +26,7 @@ namespace Pamac {
 		bool clean_cache_success;
 		bool clean_build_files_success;
 		bool set_pkgreason_success;
+		string download_pkg_path;
 		bool trans_refresh_success;
 		bool trans_run_success;
 		#if ENABLE_SNAP
@@ -146,6 +147,24 @@ namespace Pamac {
 			if (sender == this.sender) {
 				loop.quit ();
 			}
+		}
+
+		public string download_pkg (string url) throws Error {
+			try {
+				system_daemon.start_download_pkg (url);
+				loop.run ();
+				return download_pkg_path;
+			} catch (Error e) {
+				throw e;
+			}
+		}
+
+		void on_download_pkg_finished (string sender, string path) {
+			if (sender != this.sender) {
+				return;
+			}
+			download_pkg_path = path;
+			loop.quit ();
 		}
 
 		public bool trans_refresh (bool force) throws Error {
@@ -359,6 +378,7 @@ namespace Pamac {
 			system_daemon.clean_cache_finished.connect (on_clean_cache_finished);
 			system_daemon.clean_build_files_finished.connect (on_clean_clean_build_files_finished);
 			system_daemon.set_pkgreason_finished.connect (on_set_pkgreason_finished);
+			system_daemon.download_pkg_finished.connect (on_download_pkg_finished);
 			system_daemon.trans_refresh_finished.connect (on_trans_refresh_finished);
 			system_daemon.trans_run_finished.connect (on_trans_run_finished);
 			system_daemon.download_updates_finished.connect (on_download_updates_finished );

@@ -572,7 +572,16 @@ namespace Pamac {
 			}
 		}
 
-		string? download_pkg (Alpm.Handle alpm_handle, string url) {
+		public string download_pkg (string sender, string url) {
+			this.sender = sender;
+			var alpm_handle = get_handle ();
+			if (alpm_handle == null) {
+				return "";
+			}
+			return download_pkg_priv (alpm_handle, url) ?? "";
+		}
+
+		string? download_pkg_priv (Alpm.Handle alpm_handle, string url) {
 			// need to call the function twice in order to have the return path
 			// it's due to the use of a fetch callback
 			// first call to download pkg
@@ -597,7 +606,7 @@ namespace Pamac {
 			// download pkg if an url is given
 			if ("://" in path) {
 				siglevel = alpm_handle.remotefilesiglevel;
-				pkgpath = download_pkg (alpm_handle, path);
+				pkgpath = download_pkg_priv (alpm_handle, path);
 				if (pkgpath == null) {
 					return false;
 				}

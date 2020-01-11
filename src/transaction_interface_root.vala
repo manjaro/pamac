@@ -70,8 +70,13 @@ namespace Pamac {
 			alpm_utils.download_updates ();
 		}
 
-		void trans_refresh_real (bool force) {
-			var loop = new MainLoop ();
+		public string download_pkg (string url) {
+			// return special value
+			// downloads will be done as root by alpm_utils.trans_load_pkg
+			return "root";
+		}
+
+		void wait_for_lock (MainLoop loop) {
 			bool waiting = false;
 			trans_cancellable.reset ();
 			if (alpm_utils.lockfile.query_exists ()) {
@@ -99,11 +104,16 @@ namespace Pamac {
 			if (waiting) {
 				stop_waiting ();
 			}
+		}
+
+		void trans_refresh_real (bool force) {
+			var loop = new MainLoop ();
+			wait_for_lock (loop);
 			if (trans_cancellable.is_cancelled ()) {
 				// cancelled
 				return;
 			}
-			new Thread<int> ("trans_rrefresh_real", () => {
+			new Thread<int> ("trans_refresh_real", () => {
 				trans_refresh_success = alpm_utils.refresh ("root", force);
 				loop.quit ();
 				return 0;
@@ -140,33 +150,7 @@ namespace Pamac {
 							string[] temporary_ignorepkgs,
 							string[] overwrite_files) {
 			var loop = new MainLoop ();
-			bool waiting = false;
-			trans_cancellable.reset ();
-			if (alpm_utils.lockfile.query_exists ()) {
-				waiting = true;
-				start_waiting ();
-				emit_action (dgettext (null, "Waiting for another package manager to quit") + "...");
-				int i = 0;
-				Timeout.add (200, () => {
-					if (!alpm_utils.lockfile.query_exists () || trans_cancellable.is_cancelled ()) {
-						loop.quit ();
-						return false;
-					}
-					i++;
-					// wait 5 min max
-					if (i == 1500) {
-						emit_action ("%s: %s.".printf (dgettext (null, "Transaction cancelled"), dgettext (null, "Timeout expired")));
-						trans_cancellable.cancel ();
-						loop.quit ();
-						return false;
-					}
-					return true;
-				});
-				loop.run ();
-			}
-			if (waiting) {
-				stop_waiting ();
-			}
+			wait_for_lock (loop);
 			if (trans_cancellable.is_cancelled ()) {
 				// cancelled
 				return;

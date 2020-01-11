@@ -909,13 +909,10 @@ namespace Pamac {
 			}
 			bool success = false;
 			if (sysupgrading) {
-				success = get_authorization ();
-				if (success) {
-					try {
-						success = transaction_interface.trans_refresh (force_refresh);
-					} catch (Error e) {
-						emit_error ("Daemon Error", {"trans_refresh: %s".printf (e.message)});
-					}
+				try {
+					success = transaction_interface.trans_refresh (force_refresh);
+				} catch (Error e) {
+					emit_error ("Daemon Error", {"trans_refresh: %s".printf (e.message)});
 				}
 				if (!success) {
 					return false;
@@ -930,6 +927,33 @@ namespace Pamac {
 		}
 
 		bool trans_prepare (bool check_aur_updates, out TransactionSummary summary) {
+			// download urls provided in to_load if we are not root
+			var to_load_real = new GenericSet<string?> (str_hash, str_equal);
+			if (to_load.length > 0) {
+				if (Posix.geteuid () != 0) {
+					foreach (unowned string path in to_load) {
+						if ("://" in path) {
+							try {
+								string downloaded_path = transaction_interface.download_pkg (path);
+								if (downloaded_path != "") {
+									to_load_real.add (downloaded_path);
+								} else {
+									return false;
+								}
+							} catch (Error e) {
+								emit_error ("Daemon Error", {"download_pkg: %s".printf (e.message)});
+								return false;
+							}
+						} else {
+							to_load_real.add (path);
+						}
+					}
+				} else {
+					foreach (unowned string path in to_load) {
+						to_load_real.add (path);
+					}
+				}
+			}
 			start_preparing ();
 			bool success = alpm_utils.trans_check_prepare (sysupgrading,
 													database.config.enable_downgrade,
@@ -938,7 +962,7 @@ namespace Pamac {
 													trans_flags | Alpm.TransFlag.NOLOCK,
 													to_install,
 													to_remove,
-													to_load,
+													to_load_real,
 													to_build,
 													temporary_ignorepkgs,
 													overwrite_files,
