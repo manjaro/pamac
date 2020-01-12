@@ -928,31 +928,28 @@ namespace Pamac {
 
 		bool trans_prepare (bool check_aur_updates, out TransactionSummary summary) {
 			// download urls provided in to_load if we are not root
-			var to_load_real = new GenericSet<string?> (str_hash, str_equal);
-			if (to_load.length > 0) {
-				if (Posix.geteuid () != 0) {
-					foreach (unowned string path in to_load) {
-						if ("://" in path) {
-							try {
-								string downloaded_path = transaction_interface.download_pkg (path);
-								if (downloaded_path != "") {
-									to_load_real.add (downloaded_path);
-								} else {
-									return false;
-								}
-							} catch (Error e) {
-								emit_error ("Daemon Error", {"download_pkg: %s".printf (e.message)});
+			if (to_load.length > 0 && Posix.geteuid () != 0) {
+				var to_load_real = new GenericSet<string?> (str_hash, str_equal);
+				foreach (unowned string path in to_load) {
+					if ("://" in path) {
+						try {
+							string downloaded_path = transaction_interface.download_pkg (path);
+							if (downloaded_path != "") {
+								to_load_real.add ((owned) downloaded_path);
+							} else {
+								summary = new TransactionSummary ();
 								return false;
 							}
-						} else {
-							to_load_real.add (path);
+						} catch (Error e) {
+							emit_error ("Daemon Error", {"download_pkg: %s".printf (e.message)});
+							summary = new TransactionSummary ();
+							return false;
 						}
-					}
-				} else {
-					foreach (unowned string path in to_load) {
+					} else {
 						to_load_real.add (path);
 					}
 				}
+				to_load = (owned) to_load_real;
 			}
 			start_preparing ();
 			bool success = alpm_utils.trans_check_prepare (sysupgrading,
@@ -962,7 +959,7 @@ namespace Pamac {
 													trans_flags | Alpm.TransFlag.NOLOCK,
 													to_install,
 													to_remove,
-													to_load_real,
+													to_load,
 													to_build,
 													temporary_ignorepkgs,
 													overwrite_files,
