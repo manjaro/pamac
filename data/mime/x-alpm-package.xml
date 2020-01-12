@@ -9,7 +9,7 @@
    <glob pattern="*.pkg.tar.bz2"/>
    <glob pattern="*.pkg.tar.lrz"/>
    <glob pattern="*.pkg.tar.lzo"/>
-   <glob pattern="*.pkg.tar.z"/>
+   <glob pattern="*.pkg.tar.Z"/>
    <glob pattern="*.pkg.tar.lz4"/>
    <glob pattern="*.pkg.tar.lz"/>
    <glob pattern="*.pkg.tar"/>
