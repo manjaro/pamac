@@ -42,14 +42,7 @@ namespace Pamac {
 		}
 
 		string[] search_pkgs (string[] normalized_terms) {
-			var str_builder = new StringBuilder ();
-			foreach (unowned string str in normalized_terms) {
-				if (str_builder.len > 0) {
-					str_builder.append (" ");
-				}
-				str_builder.append (str);
-			}
-			List<Package> pkgs = database.search_repos_pkgs (str_builder.str);
+			List<Package> pkgs = database.search_repos_apps_sync (normalized_terms);
 			var result = new GenericArray<string> ();
 			foreach (unowned Package pkg in pkgs) {
 				// concat data into a string

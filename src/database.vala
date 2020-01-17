@@ -931,6 +931,27 @@ namespace Pamac {
 			return result;
 		}
 
+		public List<AlpmPackage> search_repos_apps_sync (string[] search_terms) {
+			// search only in appstream
+			Alpm.List<unowned Alpm.Package> appstream_result = null;
+			app_store.get_apps ().foreach ((app) => {
+				uint match_score = app.search_matches_all (search_terms);
+				if (match_score > 0) {
+					unowned string pkgname = app.get_pkgname_default ();
+					unowned Alpm.Package? alpm_pkg = alpm_handle.localdb.get_pkg (pkgname);
+					if (alpm_pkg == null) {
+						alpm_pkg = get_syncpkg (pkgname);
+						if (alpm_pkg != null) {
+							if (appstream_result.find (alpm_pkg, (Alpm.List.CompareFunc) alpm_pkg_compare_name) == null) {
+								appstream_result.add (alpm_pkg);
+							}
+						}
+					}
+				}
+			});
+			return initialise_pkgs (appstream_result);
+		}
+
 		public List<AlpmPackage> search_pkgs (string search_string) {
 			string search_string_down = search_string.down ();
 			var pkgs = new List<AlpmPackage> ();
