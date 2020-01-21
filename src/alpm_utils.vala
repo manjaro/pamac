@@ -146,8 +146,8 @@ namespace Pamac {
 			check_old_lock ();
 		}
 
-		public void emit_warning_no_sender (string message) {
-			emit_warning (sender, message);
+		public void emit_script_output_no_sender (string message) {
+			emit_script_output (sender, message);
 		}
 
 		void check_old_lock () {
@@ -1704,7 +1704,7 @@ namespace Pamac {
 					} else {
 						line = dgettext (null, "Warning") + ": " + msg;
 					}
-					emit_warning (sender, line.replace ("\n", ""));
+					emit_script_output (sender, line.replace ("\n", ""));
 				}
 			}
 		}
@@ -2018,7 +2018,7 @@ int dload (Soup.Session soup_session, string url, string localpath, int force, D
 		if (message.status_code >= 400) {
 			// do not report error for missing sig
 			if (!url.has_suffix (".sig")) {
-				alpm_utils.emit_warning_no_sender ("%s: %s %s".printf (url, _("Error"), message.status_code.to_string ()));
+				alpm_utils.emit_script_output_no_sender ("%s: %s %s".printf (url, _("Error"), message.status_code.to_string ()));
 			}
 			return -1;
 		}
@@ -2052,7 +2052,7 @@ int dload (Soup.Session soup_session, string url, string localpath, int force, D
 	} catch (Error e) {
 		// cancelled download goes here
 		if (e.code != IOError.CANCELLED) {
-			alpm_utils.emit_warning_no_sender ("%s: %s".printf (url, e.message));
+			alpm_utils.emit_script_output_no_sender ("%s: %s".printf (url, e.message));
 		}
 		if (remove_partial_download) {
 			try {
