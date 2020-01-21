@@ -1,21 +1,21 @@
 # Translation of Pamac.
-# Copyright (C) 2013-2019 Manjaro Developers <manjaro-dev@manjaro.org>
+# Copyright (C) 2013-2020 Manjaro Developers <manjaro-dev@manjaro.org>
 # This file is distributed under the same license as the Pamac package.
-# Guillaume Benoit <guillaume@manjaro.org>, 2013-2019.
+# Guillaume Benoit <guillaume@manjaro.org>, 2013-2020.
 # 
 # Translators:
 # BALLOON a.k.a. Fu-sen., 2015
 # ふうせん Fu-sen. | BALLOON a.k.a. Fu-sen., 2015
 # philm <philm@manjaro.org>, 2015
 # Takefumi Nagata, 2013-2018
-# UTUMI Hirosi <utuhiro78@yahoo.co.jp>, 2017-2019
+# UTUMI Hirosi <utuhiro78@yahoo.co.jp>, 2017-2020
 # David Blaszyk <david@sudomail.ne.jp>, 2017
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2019-12-21 18:55+0100\n"
-"PO-Revision-Date: 2019-12-23 03:48+0000\n"
+"POT-Creation-Date: 2020-01-17 14:37+0100\n"
+"PO-Revision-Date: 2020-01-18 11:42+0000\n"
 "Last-Translator: UTUMI Hirosi <utuhiro78@yahoo.co.jp>\n"
 "Language-Team: Japanese (http://www.transifex.com/manjarolinux/manjaro-pamac/language/ja/)\n"
 "MIME-Version: 1.0\n"
@@ -58,7 +58,7 @@ msgstr "トランザクションの初期化に失敗しました"
 msgid "Failed to prepare transaction"
 msgstr "トランザクションの準備に失敗しました"
 
-#: src/alpm_utils.vala src/installer.vala src/cli.vala
+#: src/alpm_utils.vala src/transaction.vala src/installer.vala src/cli.vala
 #, c-format
 msgid "target not found: %s"
 msgstr "ターゲットが見つかりません: %s"
@@ -93,17 +93,9 @@ msgstr "%s と %s が競合しています"
 msgid "%s needs to be removed but it is a locked package"
 msgstr "%s を削除する必要がありますが、ロックされています"
 
-#: src/alpm_utils.vala src/daemon.vala src/transaction.vala
-msgid "Transaction cancelled"
-msgstr "トランザクションがキャンセルされました"
-
-#: src/alpm_utils.vala src/installer.vala src/cli.vala
+#: src/alpm_utils.vala src/transaction.vala src/installer.vala src/cli.vala
 msgid "Nothing to do"
 msgstr "何もすることがありません"
-
-#: src/alpm_utils.vala src/transaction.vala
-msgid "Preparing"
-msgstr "準備しています"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -183,8 +175,17 @@ msgid "Configuring %s"
 msgstr "%s を設定しています"
 
 #: src/alpm_utils.vala
+#, c-format
+msgid "Error while configuring %s"
+msgstr "%s の設定中にエラーが発生しました"
+
+#: src/alpm_utils.vala
 msgid "Checking available disk space"
 msgstr "使用可能なディスク容量を確認しています"
+
+#: src/alpm_utils.vala src/transaction-gtk.vala src/cli.vala
+msgid "Warning"
+msgstr "警告"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -222,6 +223,10 @@ msgstr "トランザクション前のフックを実行しています"
 msgid "Running post-transaction hooks"
 msgstr "トランザクション後のフックを実行しています"
 
+#: src/alpm_utils.vala
+msgid "Error while running hooks"
+msgstr "フックの実行中にエラーが発生しました"
+
 #: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
 msgid "About %u seconds remaining"
@@ -236,10 +241,6 @@ msgstr[0] "残り約 %lu 分"
 #: src/alpm_utils.vala src/transaction-cli.vala src/cli.vala
 msgid "Error"
 msgstr "エラー"
-
-#: src/alpm_utils.vala src/transaction-gtk.vala src/cli.vala
-msgid "Warning"
-msgstr "警告"
 
 #: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
@@ -268,6 +269,10 @@ msgstr "認証に失敗しました"
 #: src/daemon.vala
 msgid "Waiting for another package manager to quit"
 msgstr "他のパッケージマネージャが終了するのを待っています"
+
+#: src/daemon.vala src/transaction.vala
+msgid "Transaction cancelled"
+msgstr "トランザクションがキャンセルされました"
 
 #: src/daemon.vala
 msgid "Timeout expired"
@@ -314,8 +319,18 @@ msgstr "%s の情報を生成しています"
 
 #: src/transaction.vala
 #, c-format
+msgid "Failed to generate %s informations"
+msgstr "%s の情報を生成できませんでした"
+
+#: src/transaction.vala
+#, c-format
 msgid "Checking %s dependencies"
 msgstr "%s が依存するものを確認しています"
+
+#: src/transaction.vala
+#, c-format
+msgid "Failed to check %s dependencies"
+msgstr "%s の依存関係を確認できませんでした"
 
 #: src/transaction.vala
 #, c-format
@@ -325,6 +340,10 @@ msgstr "鍵 %s をインポートできませんでした"
 #: src/transaction.vala src/manager_window.vala
 msgid "Transaction successfully finished"
 msgstr "トランザクションが成功しました"
+
+#: src/transaction.vala
+msgid "Preparing"
+msgstr "準備しています"
 
 #: src/transaction.vala
 #, c-format

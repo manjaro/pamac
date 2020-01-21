@@ -1,20 +1,20 @@
 # Translation of Pamac.
-# Copyright (C) 2013-2019 Manjaro Developers <manjaro-dev@manjaro.org>
+# Copyright (C) 2013-2020 Manjaro Developers <manjaro-dev@manjaro.org>
 # This file is distributed under the same license as the Pamac package.
-# Guillaume Benoit <guillaume@manjaro.org>, 2013-2019.
+# Guillaume Benoit <guillaume@manjaro.org>, 2013-2020.
 # 
 # Translators:
 # Guillaume Benoit <guillaume@manjaro.org>, 2019
 # José Luis Castro Guerrero <jlcastrogro@gmail.com>, 2018
 # José Luis Castro Guerrero <jlcastrogro@gmail.com>, 2018
 # Omar Jair Purata Funes <omarpurataf@colegiomonclair.edu.mx>, 2016
-# Pedro Delgado, 2019
+# Pedro Delgado, 2019-2020
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2019-12-21 18:55+0100\n"
-"PO-Revision-Date: 2019-12-25 23:25+0000\n"
+"POT-Creation-Date: 2020-01-17 14:37+0100\n"
+"PO-Revision-Date: 2020-01-18 12:49+0000\n"
 "Last-Translator: Pedro Delgado\n"
 "Language-Team: Spanish (Mexico) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/es_MX/)\n"
 "MIME-Version: 1.0\n"
@@ -57,7 +57,7 @@ msgstr "Fallo al iniciar la transacción"
 msgid "Failed to prepare transaction"
 msgstr "Fallo al preparar la transacción"
 
-#: src/alpm_utils.vala src/installer.vala src/cli.vala
+#: src/alpm_utils.vala src/transaction.vala src/installer.vala src/cli.vala
 #, c-format
 msgid "target not found: %s"
 msgstr "Objetivo no encontrado: %s"
@@ -92,17 +92,9 @@ msgstr "%s y %s están en conflicto"
 msgid "%s needs to be removed but it is a locked package"
 msgstr "%s necesita ser removido pero es un paquete bloqueado"
 
-#: src/alpm_utils.vala src/daemon.vala src/transaction.vala
-msgid "Transaction cancelled"
-msgstr "Transacción cancelada"
-
-#: src/alpm_utils.vala src/installer.vala src/cli.vala
+#: src/alpm_utils.vala src/transaction.vala src/installer.vala src/cli.vala
 msgid "Nothing to do"
 msgstr "Nada que hacer"
-
-#: src/alpm_utils.vala src/transaction.vala
-msgid "Preparing"
-msgstr "Preparando"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -182,8 +174,17 @@ msgid "Configuring %s"
 msgstr "Configurando %s"
 
 #: src/alpm_utils.vala
+#, c-format
+msgid "Error while configuring %s"
+msgstr "Error al configurar %s"
+
+#: src/alpm_utils.vala
 msgid "Checking available disk space"
 msgstr "Verificando espacio disponible en el disco"
+
+#: src/alpm_utils.vala src/transaction-gtk.vala src/cli.vala
+msgid "Warning"
+msgstr "Aviso"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -221,6 +222,10 @@ msgstr "Ejecutando pretransacción hooks"
 msgid "Running post-transaction hooks"
 msgstr "Ejecutando postransacción hooks"
 
+#: src/alpm_utils.vala
+msgid "Error while running hooks"
+msgstr "Error al ejecutar hooks"
+
 #: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
 msgid "About %u seconds remaining"
@@ -236,10 +241,6 @@ msgstr[1] "Quedan alrededor de %lu minutos restantes"
 #: src/alpm_utils.vala src/transaction-cli.vala src/cli.vala
 msgid "Error"
 msgstr "Error"
-
-#: src/alpm_utils.vala src/transaction-gtk.vala src/cli.vala
-msgid "Warning"
-msgstr "Aviso"
 
 #: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
@@ -268,6 +269,10 @@ msgstr "Autenticación fallida"
 #: src/daemon.vala
 msgid "Waiting for another package manager to quit"
 msgstr "Esperando a que salga de otro gestor de paquetes"
+
+#: src/daemon.vala src/transaction.vala
+msgid "Transaction cancelled"
+msgstr "Transacción cancelada"
 
 #: src/daemon.vala
 msgid "Timeout expired"
@@ -305,7 +310,7 @@ msgstr "Clonando archivos de construcción de %s"
 #: src/transaction.vala
 #, c-format
 msgid "Failed to clone %s build files"
-msgstr "Fallo al clonar archivos de construcción de%s"
+msgstr "Fallo al clonar archivos de construcción de %s"
 
 #: src/transaction.vala
 #, c-format
@@ -314,8 +319,18 @@ msgstr "Generando información de %s"
 
 #: src/transaction.vala
 #, c-format
+msgid "Failed to generate %s informations"
+msgstr "Fallo al generar información de %s"
+
+#: src/transaction.vala
+#, c-format
 msgid "Checking %s dependencies"
 msgstr "Verificando dependencias de %s"
+
+#: src/transaction.vala
+#, c-format
+msgid "Failed to check %s dependencies"
+msgstr "Fallo al verificar dependencias de %s"
 
 #: src/transaction.vala
 #, c-format
@@ -325,6 +340,10 @@ msgstr "La llave %s no pudo ser importada"
 #: src/transaction.vala src/manager_window.vala
 msgid "Transaction successfully finished"
 msgstr "Transacción finalizada con éxito"
+
+#: src/transaction.vala
+msgid "Preparing"
+msgstr "Preparando"
 
 #: src/transaction.vala
 #, c-format

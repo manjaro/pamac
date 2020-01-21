@@ -1,20 +1,20 @@
 # Translation of Pamac.
-# Copyright (C) 2013-2019 Manjaro Developers <manjaro-dev@manjaro.org>
+# Copyright (C) 2013-2020 Manjaro Developers <manjaro-dev@manjaro.org>
 # This file is distributed under the same license as the Pamac package.
-# Guillaume Benoit <guillaume@manjaro.org>, 2013-2019.
+# Guillaume Benoit <guillaume@manjaro.org>, 2013-2020.
 # 
 # Translators:
 # Hsiu-Ming Chang <cges30901@gmail.com>, 2016
 # Hsiu-Ming Chang <cges30901@gmail.com>, 2016
 # 黃柏諺 <s8321414@gmail.com>, 2014-2019
 # 黃柏諺 <s8321414@gmail.com>, 2013-2014
-# 黃柏諺 <s8321414@gmail.com>, 2019
+# 黃柏諺 <s8321414@gmail.com>, 2019-2020
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2019-12-21 18:55+0100\n"
-"PO-Revision-Date: 2019-12-22 03:54+0000\n"
+"POT-Creation-Date: 2020-01-17 14:37+0100\n"
+"PO-Revision-Date: 2020-01-18 01:44+0000\n"
 "Last-Translator: 黃柏諺 <s8321414@gmail.com>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
@@ -57,7 +57,7 @@ msgstr "初始化事務處理失敗"
 msgid "Failed to prepare transaction"
 msgstr "準備事務處理失敗"
 
-#: src/alpm_utils.vala src/installer.vala src/cli.vala
+#: src/alpm_utils.vala src/transaction.vala src/installer.vala src/cli.vala
 #, c-format
 msgid "target not found: %s"
 msgstr "目標找不到： %s"
@@ -92,17 +92,9 @@ msgstr "%s 及 %s 衝突"
 msgid "%s needs to be removed but it is a locked package"
 msgstr "%s 需要被移除，但它是一個被鎖定的軟體包"
 
-#: src/alpm_utils.vala src/daemon.vala src/transaction.vala
-msgid "Transaction cancelled"
-msgstr "已取消事務處理"
-
-#: src/alpm_utils.vala src/installer.vala src/cli.vala
+#: src/alpm_utils.vala src/transaction.vala src/installer.vala src/cli.vala
 msgid "Nothing to do"
 msgstr "已無事可作"
-
-#: src/alpm_utils.vala src/transaction.vala
-msgid "Preparing"
-msgstr "準備中"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -182,8 +174,17 @@ msgid "Configuring %s"
 msgstr "正在設定 %s"
 
 #: src/alpm_utils.vala
+#, c-format
+msgid "Error while configuring %s"
+msgstr "設定 %s 時出錯"
+
+#: src/alpm_utils.vala
 msgid "Checking available disk space"
 msgstr "正在檢查可用磁碟空間"
+
+#: src/alpm_utils.vala src/transaction-gtk.vala src/cli.vala
+msgid "Warning"
+msgstr "警告"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -221,6 +222,10 @@ msgstr "正在執行前處理掛鉤"
 msgid "Running post-transaction hooks"
 msgstr "正在執行後處理掛鉤"
 
+#: src/alpm_utils.vala
+msgid "Error while running hooks"
+msgstr "執行掛鉤時出錯"
+
 #: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
 msgid "About %u seconds remaining"
@@ -235,10 +240,6 @@ msgstr[0] "大約剩餘 %lu 分鐘"
 #: src/alpm_utils.vala src/transaction-cli.vala src/cli.vala
 msgid "Error"
 msgstr "錯誤"
-
-#: src/alpm_utils.vala src/transaction-gtk.vala src/cli.vala
-msgid "Warning"
-msgstr "警告"
 
 #: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
@@ -267,6 +268,10 @@ msgstr "授權失敗"
 #: src/daemon.vala
 msgid "Waiting for another package manager to quit"
 msgstr "正在等待其他套件管理員結束"
+
+#: src/daemon.vala src/transaction.vala
+msgid "Transaction cancelled"
+msgstr "已取消事務處理"
 
 #: src/daemon.vala
 msgid "Timeout expired"
@@ -313,8 +318,18 @@ msgstr "正在生成 %s 資訊"
 
 #: src/transaction.vala
 #, c-format
+msgid "Failed to generate %s informations"
+msgstr "生成 %s 資訊失敗"
+
+#: src/transaction.vala
+#, c-format
 msgid "Checking %s dependencies"
 msgstr "正在檢查 %s 相依性"
+
+#: src/transaction.vala
+#, c-format
+msgid "Failed to check %s dependencies"
+msgstr "檢查 %s 依賴關係失敗"
 
 #: src/transaction.vala
 #, c-format
@@ -324,6 +339,10 @@ msgstr "金鑰 %s 無法匯入"
 #: src/transaction.vala src/manager_window.vala
 msgid "Transaction successfully finished"
 msgstr "事務處理成功完成"
+
+#: src/transaction.vala
+msgid "Preparing"
+msgstr "準備中"
 
 #: src/transaction.vala
 #, c-format

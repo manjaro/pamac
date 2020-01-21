@@ -1,7 +1,7 @@
 # Translation of Pamac.
-# Copyright (C) 2013-2019 Manjaro Developers <manjaro-dev@manjaro.org>
+# Copyright (C) 2013-2020 Manjaro Developers <manjaro-dev@manjaro.org>
 # This file is distributed under the same license as the Pamac package.
-# Guillaume Benoit <guillaume@manjaro.org>, 2013-2019.
+# Guillaume Benoit <guillaume@manjaro.org>, 2013-2020.
 # 
 # Translators:
 # Andreas Eitel, 2018
@@ -9,7 +9,7 @@
 # Bankman <inactive+dirktux@transifex.com>, 2016
 # Bankman <inactive+dirktux@transifex.com>, 2016
 # Christian G <geblerc@gmail.com>, 2018
-# Christian Spaan, 2016-2017
+# Christian Spaan, 2016-2017,2020
 # Pux Tux <puxplaying@gmail.com>, 2019
 # Guillaume Benoit <guillaume@manjaro.org>, 2013
 # Christian Spaan, 2016
@@ -36,8 +36,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2019-12-21 18:55+0100\n"
-"PO-Revision-Date: 2019-12-22 00:29+0000\n"
+"POT-Creation-Date: 2020-01-17 14:37+0100\n"
+"PO-Revision-Date: 2020-01-18 00:50+0000\n"
 "Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: German (http://www.transifex.com/manjarolinux/manjaro-pamac/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -48,11 +48,11 @@ msgstr ""
 
 #: data/polkit/org.manjaro.pamac.policy.in
 msgid "Install, update, or remove packages"
-msgstr "Installiere, erneuere oder entferne Pakete"
+msgstr "Pakete installieren, aktualisieren oder entfernen"
 
 #: data/polkit/org.manjaro.pamac.policy.in
 msgid "Authentication is required to install, update, or remove packages"
-msgstr "Autifizierung zur Installierung, Erneuerung oder Entfernung von Paketen nötig"
+msgstr "Authentifizierung wird zur Installation, Aktualisierung oder Entfernung von Paketen benötigt"
 
 #: src/alpm_utils.vala src/database.vala
 msgid "Failed to initialize alpm library"
@@ -80,7 +80,7 @@ msgstr "Vorgang konnte nicht gestartet werden"
 msgid "Failed to prepare transaction"
 msgstr "Vorgang konnte nicht erfolgreich vorbereitet werden"
 
-#: src/alpm_utils.vala src/installer.vala src/cli.vala
+#: src/alpm_utils.vala src/transaction.vala src/installer.vala src/cli.vala
 #, c-format
 msgid "target not found: %s"
 msgstr "Ziel nicht gefunden: %s"
@@ -98,12 +98,12 @@ msgstr "nicht vorhandene Abhängigkeit '%s' benötigt von %s"
 #: src/alpm_utils.vala
 #, c-format
 msgid "installing %s (%s) breaks dependency '%s' required by %s"
-msgstr "das Installieren von %s (%s) verletzt Abhängigkeit von '%s' benötigt von %s"
+msgstr "das Installieren von %s (%s) verletzt Abhängigkeit '%s' benötigt von %s"
 
 #: src/alpm_utils.vala
 #, c-format
 msgid "removing %s breaks dependency '%s' required by %s"
-msgstr "das Entfernen von %s verletzt Abhängigkeit von '%s' benötigt von %s"
+msgstr "das Entfernen von %s verletzt Abhängigkeit '%s' benötigt von %s"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -115,17 +115,9 @@ msgstr " %s und %s stehen im Konflikt zueinander"
 msgid "%s needs to be removed but it is a locked package"
 msgstr "%s soll entfernt werden, ist aber ein gesperrtes Paket "
 
-#: src/alpm_utils.vala src/daemon.vala src/transaction.vala
-msgid "Transaction cancelled"
-msgstr "Vorgang abgebrochen"
-
-#: src/alpm_utils.vala src/installer.vala src/cli.vala
+#: src/alpm_utils.vala src/transaction.vala src/installer.vala src/cli.vala
 msgid "Nothing to do"
 msgstr "Es gibt nichts zu tun"
-
-#: src/alpm_utils.vala src/transaction.vala
-msgid "Preparing"
-msgstr "Vorbereitung"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -205,8 +197,17 @@ msgid "Configuring %s"
 msgstr "Konfiguriere %s"
 
 #: src/alpm_utils.vala
+#, c-format
+msgid "Error while configuring %s"
+msgstr ""
+
+#: src/alpm_utils.vala
 msgid "Checking available disk space"
 msgstr "Überprüfe verfügbaren Speicherplatz"
+
+#: src/alpm_utils.vala src/transaction-gtk.vala src/cli.vala
+msgid "Warning"
+msgstr "Warnung"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -244,6 +245,10 @@ msgstr "Starte Pre-Transaction-Hooks"
 msgid "Running post-transaction hooks"
 msgstr "Starte Post-Transaction-Hooks"
 
+#: src/alpm_utils.vala
+msgid "Error while running hooks"
+msgstr ""
+
 #: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
 msgid "About %u seconds remaining"
@@ -254,15 +259,11 @@ msgstr "Noch %u Sekunden verbleibend"
 msgid "About %lu minute remaining"
 msgid_plural "About %lu minutes remaining"
 msgstr[0] "Noch %lu Minuten verbleibend"
-msgstr[1] "Noch %lu Minuten verbleibend"
+msgstr[1] "Ungefähr %lu Minuten verbleibend"
 
 #: src/alpm_utils.vala src/transaction-cli.vala src/cli.vala
 msgid "Error"
 msgstr "Fehler"
-
-#: src/alpm_utils.vala src/transaction-gtk.vala src/cli.vala
-msgid "Warning"
-msgstr "Warnung"
 
 #: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
@@ -291,6 +292,10 @@ msgstr "Authentifizierung fehlgeschlagen"
 #: src/daemon.vala
 msgid "Waiting for another package manager to quit"
 msgstr "Warte auf Beendigung eines anderen Paketmanagers"
+
+#: src/daemon.vala src/transaction.vala
+msgid "Transaction cancelled"
+msgstr "Vorgang abgebrochen"
 
 #: src/daemon.vala
 msgid "Timeout expired"
@@ -328,7 +333,7 @@ msgstr "Klone %s Build-Dateien"
 #: src/transaction.vala
 #, c-format
 msgid "Failed to clone %s build files"
-msgstr ""
+msgstr "Fehler beim Klonen der Build-Dateien für %s"
 
 #: src/transaction.vala
 #, c-format
@@ -337,17 +342,31 @@ msgstr "Generiere %s Informationen"
 
 #: src/transaction.vala
 #, c-format
+msgid "Failed to generate %s informations"
+msgstr ""
+
+#: src/transaction.vala
+#, c-format
 msgid "Checking %s dependencies"
 msgstr "Überprüfe %s Abhängigkeiten"
 
 #: src/transaction.vala
 #, c-format
+msgid "Failed to check %s dependencies"
+msgstr ""
+
+#: src/transaction.vala
+#, c-format
 msgid "key %s could not be imported"
-msgstr "Schlüssel %s kann nicht importiert werden"
+msgstr "Schlüssel %s konnte nicht importiert werden"
 
 #: src/transaction.vala src/manager_window.vala
 msgid "Transaction successfully finished"
 msgstr "Vorgang erfolgreich abgeschlossen"
+
+#: src/transaction.vala
+msgid "Preparing"
+msgstr "Vorbereitung"
 
 #: src/transaction.vala
 #, c-format
@@ -357,7 +376,7 @@ msgstr "Erstelle %s"
 #: src/transaction.vala
 #, c-format
 msgid "Failed to build %s"
-msgstr ""
+msgstr "Fehler beim Erstellen von %s"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
@@ -371,11 +390,11 @@ msgstr "Wähle einen Anbieter für %s"
 
 #: src/transaction-gtk.vala
 msgid "Import PGP key"
-msgstr "PGP Schlüssel importieren"
+msgstr "PGP-Schlüssel importieren"
 
 #: src/transaction-gtk.vala
 msgid "Trust and Import"
-msgstr "Vertrauen und Importieren"
+msgstr "Vertrauen und importieren"
 
 #: src/transaction-gtk.vala src/manager_window.vala
 #: resources/transaction_sum_dialog.ui resources/manager_window.ui
@@ -386,12 +405,12 @@ msgstr "_Abbrechen"
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
 msgid "The PGP key %s is needed to verify %s source files"
-msgstr "Der PGP Schlüssel %s wird benötigt um %s Quellcode-Dateien zu verifizieren"
+msgstr "Der PGP-Schlüssel %s wird benötigt, um %s Quellcode-Dateien zu verifizieren"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
 msgid "Trust %s and import the PGP key"
-msgstr "Vertraue %s und importiere den PGP Schlüssel"
+msgstr "Vertraue %s und importiere den PGP-Schlüssel"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "To remove"
@@ -755,7 +774,7 @@ msgstr[1] "%u Dateien"
 
 #: src/preferences_dialog.vala
 msgid "Choose Ignored Upgrades"
-msgstr ""
+msgstr "Wählen Sie zu ignorierende Upgrades"
 
 #: src/transaction-cli.vala src/cli.vala
 #, c-format
@@ -838,11 +857,11 @@ msgstr "Datei(en)"
 
 #: src/cli.vala
 msgid "only search for installed packages"
-msgstr ""
+msgstr "Nur nach installierten Paketen suchen"
 
 #: src/cli.vala
 msgid "only search for packages in repositories"
-msgstr ""
+msgstr "Nur nach Paketen in den Softwarequellen suchen"
 
 #: src/cli.vala
 msgid "also search in AUR"
@@ -966,19 +985,19 @@ msgstr "Konfliktdateien überschreiben, mehrere Muster können angegeben werden 
 
 #: src/cli.vala
 msgid "download all packages but do not install/upgrade anything"
-msgstr ""
+msgstr "Lade alle Pakete herunter ohne etwas zu installieren/aktualisieren"
 
 #: src/cli.vala
 msgid "mark all packages installed as a dependency"
-msgstr ""
+msgstr "Markiere alle Pakete als installiert als Abhängigkeit"
 
 #: src/cli.vala
 msgid "mark all packages explicitly installed"
-msgstr ""
+msgstr "Alle Pakete als explizit installiert markieren"
 
 #: src/cli.vala
 msgid "do not check for updates"
-msgstr ""
+msgstr "Nicht nach Aktualisierungen suchen"
 
 #: src/cli.vala
 msgid "Reinstall packages"
@@ -986,7 +1005,7 @@ msgstr "Pakete erneut installieren"
 
 #: src/cli.vala
 msgid "remove packages only if they are not required by any other packages"
-msgstr ""
+msgstr "Entfernen Sie Pakete nur dann, wenn sie nicht von anderen Paketen benötigt werden"
 
 #: src/cli.vala
 msgid ""
@@ -996,7 +1015,7 @@ msgstr "entferne Abhängigkeiten die nicht von anderen Paketen benötigt werden,
 
 #: src/cli.vala
 msgid "ignore files backup"
-msgstr ""
+msgstr "Ignoriere Sicherung der Dateien"
 
 #: src/cli.vala
 msgid "Safely check for updates without modifiying the databases"
@@ -1115,8 +1134,8 @@ msgstr "%s wird besessen von %s"
 #, c-format
 msgid "%u ignored update"
 msgid_plural "%u ignored updates"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%u ignoriertes Update"
+msgstr[1] "%u ignorierte Updates"
 
 #: src/cli.vala resources/preferences_dialog.ui
 msgid "Remove only the versions of uninstalled packages"
@@ -1263,11 +1282,11 @@ msgstr "Allgemein"
 msgid ""
 "Misconfiguration of these options can lead to system breakage.\n"
 "Modify them only if you know what you are doing."
-msgstr ""
+msgstr "Eine fehlerhafte Konfiguration dieser Einstellungen kann dazu führen, dass dieses System unbrauchbar wird.\nVerändern Sie diese nur dann, wenn Sie genau wissen, was Sie tun."
 
 #: resources/preferences_dialog.ui
 msgid "Check available disk space"
-msgstr ""
+msgstr "Verfügbaren Festplattenspeicher überprüfen"
 
 #: resources/preferences_dialog.ui
 msgid "Remove unrequired dependencies"
@@ -1281,7 +1300,7 @@ msgstr "Wenn ein Paket entfernt wird, dann entferne auch seine Abhängigkeiten w
 
 #: resources/preferences_dialog.ui
 msgid "Do not check for updates when installing"
-msgstr ""
+msgstr "Während der Installation nicht nach Aktualisierungen suchen"
 
 #: resources/preferences_dialog.ui
 msgid "Enable downgrade"
@@ -1289,11 +1308,11 @@ msgstr "Aktiviere Downgrade"
 
 #: resources/preferences_dialog.ui
 msgid "Ignore upgrades for:"
-msgstr ""
+msgstr "Ignoriere Upgrades für:"
 
 #: resources/preferences_dialog.ui
 msgid "Advanced"
-msgstr ""
+msgstr "Fortgeschritten"
 
 #: resources/preferences_dialog.ui
 msgid "Use mirrors from:"

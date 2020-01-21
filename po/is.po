@@ -1,7 +1,7 @@
 # Translation of Pamac.
-# Copyright (C) 2013-2019 Manjaro Developers <manjaro-dev@manjaro.org>
+# Copyright (C) 2013-2020 Manjaro Developers <manjaro-dev@manjaro.org>
 # This file is distributed under the same license as the Pamac package.
-# Guillaume Benoit <guillaume@manjaro.org>, 2013-2019.
+# Guillaume Benoit <guillaume@manjaro.org>, 2013-2020.
 # 
 # Translators:
 # Kristján Magnússon, 2015
@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2019-12-21 18:55+0100\n"
-"PO-Revision-Date: 2019-12-22 00:29+0000\n"
+"POT-Creation-Date: 2020-01-17 14:37+0100\n"
+"PO-Revision-Date: 2020-01-18 00:50+0000\n"
 "Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Icelandic (http://www.transifex.com/manjarolinux/manjaro-pamac/language/is/)\n"
 "MIME-Version: 1.0\n"
@@ -55,7 +55,7 @@ msgstr "Mistókst að frumstilla aðgerð"
 msgid "Failed to prepare transaction"
 msgstr "Mistókst að undirbúa aðgerð"
 
-#: src/alpm_utils.vala src/installer.vala src/cli.vala
+#: src/alpm_utils.vala src/transaction.vala src/installer.vala src/cli.vala
 #, c-format
 msgid "target not found: %s"
 msgstr "úttak fannst ekki: %s"
@@ -90,17 +90,9 @@ msgstr "%s og %s stangast á"
 msgid "%s needs to be removed but it is a locked package"
 msgstr "%s þarf að fjarlægja en sá pakki er læstur"
 
-#: src/alpm_utils.vala src/daemon.vala src/transaction.vala
-msgid "Transaction cancelled"
-msgstr "Hætt við aðgerð"
-
-#: src/alpm_utils.vala src/installer.vala src/cli.vala
+#: src/alpm_utils.vala src/transaction.vala src/installer.vala src/cli.vala
 msgid "Nothing to do"
 msgstr "Ekkert sem hægt er að gera"
-
-#: src/alpm_utils.vala src/transaction.vala
-msgid "Preparing"
-msgstr "Undirbúa"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -180,8 +172,17 @@ msgid "Configuring %s"
 msgstr "Stilli %s"
 
 #: src/alpm_utils.vala
+#, c-format
+msgid "Error while configuring %s"
+msgstr ""
+
+#: src/alpm_utils.vala
 msgid "Checking available disk space"
 msgstr "Athuga tiltækt diskpláss"
+
+#: src/alpm_utils.vala src/transaction-gtk.vala src/cli.vala
+msgid "Warning"
+msgstr "Aðvörun"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -219,6 +220,10 @@ msgstr "Keyri forathuganir fyrir aðgerðir"
 msgid "Running post-transaction hooks"
 msgstr "Keyri frágangsathuganir eftir aðgerðir"
 
+#: src/alpm_utils.vala
+msgid "Error while running hooks"
+msgstr ""
+
 #: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
 msgid "About %u seconds remaining"
@@ -234,10 +239,6 @@ msgstr[1] "Um það bil %lu mínútur eftir"
 #: src/alpm_utils.vala src/transaction-cli.vala src/cli.vala
 msgid "Error"
 msgstr "Villa"
-
-#: src/alpm_utils.vala src/transaction-gtk.vala src/cli.vala
-msgid "Warning"
-msgstr "Aðvörun"
 
 #: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
@@ -266,6 +267,10 @@ msgstr "Auðkenning mistókst"
 #: src/daemon.vala
 msgid "Waiting for another package manager to quit"
 msgstr "Bíð eftir að annar pakka framkvæmdastjórn hætti"
+
+#: src/daemon.vala src/transaction.vala
+msgid "Transaction cancelled"
+msgstr "Hætt við aðgerð"
 
 #: src/daemon.vala
 msgid "Timeout expired"
@@ -312,7 +317,17 @@ msgstr ""
 
 #: src/transaction.vala
 #, c-format
+msgid "Failed to generate %s informations"
+msgstr ""
+
+#: src/transaction.vala
+#, c-format
 msgid "Checking %s dependencies"
+msgstr ""
+
+#: src/transaction.vala
+#, c-format
+msgid "Failed to check %s dependencies"
 msgstr ""
 
 #: src/transaction.vala
@@ -323,6 +338,10 @@ msgstr ""
 #: src/transaction.vala src/manager_window.vala
 msgid "Transaction successfully finished"
 msgstr "Aðgerð lokið - tókst"
+
+#: src/transaction.vala
+msgid "Preparing"
+msgstr "Undirbúa"
 
 #: src/transaction.vala
 #, c-format

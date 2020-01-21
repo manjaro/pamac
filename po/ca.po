@@ -1,7 +1,7 @@
 # Translation of Pamac.
-# Copyright (C) 2013-2019 Manjaro Developers <manjaro-dev@manjaro.org>
+# Copyright (C) 2013-2020 Manjaro Developers <manjaro-dev@manjaro.org>
 # This file is distributed under the same license as the Pamac package.
-# Guillaume Benoit <guillaume@manjaro.org>, 2013-2019.
+# Guillaume Benoit <guillaume@manjaro.org>, 2013-2020.
 # 
 # Translators:
 # acutbal <acutbal@gmail.com>, 2017
@@ -9,7 +9,7 @@
 # Guillaume Benoit <guillaume@manjaro.org>, 2013
 # Ramon Buldó <rbuldo@gmail.com>, 2013
 # Manuel Lladosa <manolollr@gmail.com>, 2019
-# Davidmp <medipas@gmail.com>, 2015-2019
+# Davidmp <medipas@gmail.com>, 2015-2020
 # Oriol Fernandez <oriolfa@ono.com>, 2013-2014
 # philm <philm@manjaro.org>, 2015
 # Ramon Buldó <rbuldo@gmail.com>, 2013,2016
@@ -19,8 +19,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2019-12-21 18:55+0100\n"
-"PO-Revision-Date: 2019-12-24 12:41+0000\n"
+"POT-Creation-Date: 2020-01-17 14:37+0100\n"
+"PO-Revision-Date: 2020-01-20 16:34+0000\n"
 "Last-Translator: Davidmp <medipas@gmail.com>\n"
 "Language-Team: Catalan (http://www.transifex.com/manjarolinux/manjaro-pamac/language/ca/)\n"
 "MIME-Version: 1.0\n"
@@ -63,7 +63,7 @@ msgstr "Ha fallat la inicialització de la transacció."
 msgid "Failed to prepare transaction"
 msgstr "Ha fallat la preparació de la transacció."
 
-#: src/alpm_utils.vala src/installer.vala src/cli.vala
+#: src/alpm_utils.vala src/transaction.vala src/installer.vala src/cli.vala
 #, c-format
 msgid "target not found: %s"
 msgstr "Objectiu no trobat: %s"
@@ -98,17 +98,9 @@ msgstr "%s and %s tenen conflictes."
 msgid "%s needs to be removed but it is a locked package"
 msgstr "%s s'ha de suprimir però és un paquet bloquejat."
 
-#: src/alpm_utils.vala src/daemon.vala src/transaction.vala
-msgid "Transaction cancelled"
-msgstr "Transacció cancel·lada"
-
-#: src/alpm_utils.vala src/installer.vala src/cli.vala
+#: src/alpm_utils.vala src/transaction.vala src/installer.vala src/cli.vala
 msgid "Nothing to do"
 msgstr "Res per fer."
-
-#: src/alpm_utils.vala src/transaction.vala
-msgid "Preparing"
-msgstr "Es prepara"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -188,8 +180,17 @@ msgid "Configuring %s"
 msgstr "Es configura %s"
 
 #: src/alpm_utils.vala
+#, c-format
+msgid "Error while configuring %s"
+msgstr "Error en configurar %s"
+
+#: src/alpm_utils.vala
 msgid "Checking available disk space"
 msgstr "Es comprova l'espai disponible al disc."
+
+#: src/alpm_utils.vala src/transaction-gtk.vala src/cli.vala
+msgid "Warning"
+msgstr "Avís"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -227,6 +228,10 @@ msgstr "S'executen els ganxos de pretransacció."
 msgid "Running post-transaction hooks"
 msgstr "S'executen els ganxos de posttransacció."
 
+#: src/alpm_utils.vala
+msgid "Error while running hooks"
+msgstr "Error en executar els ganxos"
+
 #: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
 msgid "About %u seconds remaining"
@@ -242,10 +247,6 @@ msgstr[1] "Manquen %lu minuts."
 #: src/alpm_utils.vala src/transaction-cli.vala src/cli.vala
 msgid "Error"
 msgstr "Error"
-
-#: src/alpm_utils.vala src/transaction-gtk.vala src/cli.vala
-msgid "Warning"
-msgstr "Avís"
 
 #: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
@@ -274,6 +275,10 @@ msgstr "Autenticació fallida"
 #: src/daemon.vala
 msgid "Waiting for another package manager to quit"
 msgstr "S'espera que s'aturi un altre gestor de paquets..."
+
+#: src/daemon.vala src/transaction.vala
+msgid "Transaction cancelled"
+msgstr "Transacció cancel·lada"
 
 #: src/daemon.vala
 msgid "Timeout expired"
@@ -320,8 +325,18 @@ msgstr "Es generen informacions de %s."
 
 #: src/transaction.vala
 #, c-format
+msgid "Failed to generate %s informations"
+msgstr "Ha fallat generar les informacions de %s."
+
+#: src/transaction.vala
+#, c-format
 msgid "Checking %s dependencies"
 msgstr "Es comproven les dependències de %s."
+
+#: src/transaction.vala
+#, c-format
+msgid "Failed to check %s dependencies"
+msgstr "Ha fallat comprovar les dependències de %s."
 
 #: src/transaction.vala
 #, c-format
@@ -331,6 +346,10 @@ msgstr "La clau %s no s'ha pogut importar."
 #: src/transaction.vala src/manager_window.vala
 msgid "Transaction successfully finished"
 msgstr "Transacció acabada amb èxit"
+
+#: src/transaction.vala
+msgid "Preparing"
+msgstr "Es prepara"
 
 #: src/transaction.vala
 #, c-format
@@ -1156,7 +1175,7 @@ msgstr "Resum de la transacció"
 
 #: resources/transaction_sum_dialog.ui resources/manager_window.ui
 msgid "_Apply"
-msgstr "_Aplica"
+msgstr "_Aplica-ho"
 
 #: resources/manager_window.ui
 msgid "Refresh databases"

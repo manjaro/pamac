@@ -1,15 +1,15 @@
 # Translation of Pamac.
-# Copyright (C) 2013-2019 Manjaro Developers <manjaro-dev@manjaro.org>
+# Copyright (C) 2013-2020 Manjaro Developers <manjaro-dev@manjaro.org>
 # This file is distributed under the same license as the Pamac package.
-# Guillaume Benoit <guillaume@manjaro.org>, 2013-2019.
+# Guillaume Benoit <guillaume@manjaro.org>, 2013-2020.
 # 
 # Translators:
-# Charles Monzat <c.monzat@laposte.net>, 2018-2019
+# Charles Monzat <c.monzat@laposte.net>, 2018-2020
 # Charles Monzat <c.monzat@laposte.net>, 2015-2018
 # Charles Monzat <c.monzat@laposte.net>, 2018
 # DasFranck <franck97comics@gmail.com>, 2013
 # DasFranck <franck97comics@gmail.com>, 2013
-# Guillaume Benoit <guillaume@manjaro.org>, 2013-2019
+# Guillaume Benoit <guillaume@manjaro.org>, 2013-2020
 # Jean Delmas, 2015
 # jdelmas, 2015
 # philm <philm@manjaro.org>, 2013
@@ -23,9 +23,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2019-12-21 18:55+0100\n"
-"PO-Revision-Date: 2019-12-23 12:20+0000\n"
-"Last-Translator: Charles Monzat <c.monzat@laposte.net>\n"
+"POT-Creation-Date: 2020-01-17 14:37+0100\n"
+"PO-Revision-Date: 2020-01-21 16:51+0000\n"
+"Last-Translator: Guillaume Benoit <guillaume@manjaro.org>\n"
 "Language-Team: French (http://www.transifex.com/manjarolinux/manjaro-pamac/language/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -67,7 +67,7 @@ msgstr "L’initialisation de la transaction a échoué"
 msgid "Failed to prepare transaction"
 msgstr "La préparation de la transaction a échoué"
 
-#: src/alpm_utils.vala src/installer.vala src/cli.vala
+#: src/alpm_utils.vala src/transaction.vala src/installer.vala src/cli.vala
 #, c-format
 msgid "target not found: %s"
 msgstr "impossible de trouver la cible : %s"
@@ -102,17 +102,9 @@ msgstr "%s et %s sont en conflit"
 msgid "%s needs to be removed but it is a locked package"
 msgstr "%s doit être désinstallé mais c’est un paquet verrouillé"
 
-#: src/alpm_utils.vala src/daemon.vala src/transaction.vala
-msgid "Transaction cancelled"
-msgstr "Transaction annulée"
-
-#: src/alpm_utils.vala src/installer.vala src/cli.vala
+#: src/alpm_utils.vala src/transaction.vala src/installer.vala src/cli.vala
 msgid "Nothing to do"
 msgstr "Rien à faire"
-
-#: src/alpm_utils.vala src/transaction.vala
-msgid "Preparing"
-msgstr "Préparation"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -192,8 +184,17 @@ msgid "Configuring %s"
 msgstr "Configuration de %s"
 
 #: src/alpm_utils.vala
+#, c-format
+msgid "Error while configuring %s"
+msgstr "Erreur lors de la configuration de %s"
+
+#: src/alpm_utils.vala
 msgid "Checking available disk space"
 msgstr "Vérification de l’espace disque disponible"
+
+#: src/alpm_utils.vala src/transaction-gtk.vala src/cli.vala
+msgid "Warning"
+msgstr "Avertissement "
 
 #: src/alpm_utils.vala
 #, c-format
@@ -231,6 +232,10 @@ msgstr "Exécution des crochets de pré-transaction"
 msgid "Running post-transaction hooks"
 msgstr "Exécution des crochets de post-transaction"
 
+#: src/alpm_utils.vala
+msgid "Error while running hooks"
+msgstr "Erreur lors de l’exécution des crochets"
+
 #: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
 msgid "About %u seconds remaining"
@@ -246,10 +251,6 @@ msgstr[1] "Environ %lu minutes restantes"
 #: src/alpm_utils.vala src/transaction-cli.vala src/cli.vala
 msgid "Error"
 msgstr "Erreur"
-
-#: src/alpm_utils.vala src/transaction-gtk.vala src/cli.vala
-msgid "Warning"
-msgstr "Avertissement "
 
 #: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
@@ -278,6 +279,10 @@ msgstr "L’authentification a échoué"
 #: src/daemon.vala
 msgid "Waiting for another package manager to quit"
 msgstr "En attente de la fin d’un autre gestionnaire de paquet"
+
+#: src/daemon.vala src/transaction.vala
+msgid "Transaction cancelled"
+msgstr "Transaction annulée"
 
 #: src/daemon.vala
 msgid "Timeout expired"
@@ -324,8 +329,18 @@ msgstr "Création des informations de %s"
 
 #: src/transaction.vala
 #, c-format
+msgid "Failed to generate %s informations"
+msgstr "La création des informations de %s a échoué"
+
+#: src/transaction.vala
+#, c-format
 msgid "Checking %s dependencies"
 msgstr "Vérification des dépendances de %s"
+
+#: src/transaction.vala
+#, c-format
+msgid "Failed to check %s dependencies"
+msgstr "La vérification des dépendances de %s a échoué"
 
 #: src/transaction.vala
 #, c-format
@@ -335,6 +350,10 @@ msgstr "Impossible d’importer la clé %s"
 #: src/transaction.vala src/manager_window.vala
 msgid "Transaction successfully finished"
 msgstr "Transaction terminée avec succès"
+
+#: src/transaction.vala
+msgid "Preparing"
+msgstr "Préparation"
 
 #: src/transaction.vala
 #, c-format
@@ -386,7 +405,7 @@ msgstr "À désinstaller "
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "To downgrade"
-msgstr "Retour à une version antérieure"
+msgstr "Retour à une version antérieure "
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "To build"

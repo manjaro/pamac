@@ -1,11 +1,12 @@
 # Translation of Pamac.
-# Copyright (C) 2013-2019 Manjaro Developers <manjaro-dev@manjaro.org>
+# Copyright (C) 2013-2020 Manjaro Developers <manjaro-dev@manjaro.org>
 # This file is distributed under the same license as the Pamac package.
-# Guillaume Benoit <guillaume@manjaro.org>, 2013-2019.
+# Guillaume Benoit <guillaume@manjaro.org>, 2013-2020.
 # 
 # Translators:
 # Mario <al.manja@gmx.com>, 2017
 # ansich <mojmejlzaforume@gmail.com>, 2014
+# Boštjan Mejak <bostjan.xperia@gmail.com>, 2019
 # Nenad Latinović <inactive+holden1987@transifex.com>, 2013
 # ansich <mojmejlzaforume@gmail.com>, 2014-2015,2017
 # Nenad Latinović <inactive+holden1987@transifex.com>, 2013
@@ -15,8 +16,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2019-12-21 18:55+0100\n"
-"PO-Revision-Date: 2019-12-22 00:29+0000\n"
+"POT-Creation-Date: 2020-01-17 14:37+0100\n"
+"PO-Revision-Date: 2020-01-18 00:50+0000\n"
 "Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Slovenian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/sl/)\n"
 "MIME-Version: 1.0\n"
@@ -27,7 +28,7 @@ msgstr ""
 
 #: data/polkit/org.manjaro.pamac.policy.in
 msgid "Install, update, or remove packages"
-msgstr ""
+msgstr "Install, update, or remove packages"
 
 #: data/polkit/org.manjaro.pamac.policy.in
 msgid "Authentication is required to install, update, or remove packages"
@@ -35,15 +36,15 @@ msgstr ""
 
 #: src/alpm_utils.vala src/database.vala
 msgid "Failed to initialize alpm library"
-msgstr "Začenjanje alpm knjižnice je spodletelo"
+msgstr "Zagon knjižnice alpm je spodletelo"
 
 #: src/alpm_utils.vala
 msgid "Synchronizing package databases"
-msgstr "Sinhroniziranje podatkovnih baz"
+msgstr "Usklajevanje zbirkovnih shramb"
 
 #: src/alpm_utils.vala
 msgid "Failed to synchronize databases"
-msgstr ""
+msgstr "Usklajevanje podatkovnih shramb je spodletelo"
 
 #: src/alpm_utils.vala src/database.vala src/manager_window.vala src/cli.vala
 #: resources/preferences_dialog.ui
@@ -59,7 +60,7 @@ msgstr "Ni bilo mogoče začeti transakcije"
 msgid "Failed to prepare transaction"
 msgstr "Pripravljanje transakcije je spodletelo"
 
-#: src/alpm_utils.vala src/installer.vala src/cli.vala
+#: src/alpm_utils.vala src/transaction.vala src/installer.vala src/cli.vala
 #, c-format
 msgid "target not found: %s"
 msgstr "cilj ni bil najden: %s"
@@ -67,7 +68,7 @@ msgstr "cilj ni bil najden: %s"
 #: src/alpm_utils.vala
 #, c-format
 msgid "package %s does not have a valid architecture"
-msgstr "paket %s nima veljavne arhitekture"
+msgstr "paket %s nima veljavne sestave"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -94,17 +95,9 @@ msgstr "%s in %s sta v sporu"
 msgid "%s needs to be removed but it is a locked package"
 msgstr "%s je potrebno odstraniti, vendar je ta paket zaklenjen"
 
-#: src/alpm_utils.vala src/daemon.vala src/transaction.vala
-msgid "Transaction cancelled"
-msgstr "Transakcija preklicana"
-
-#: src/alpm_utils.vala src/installer.vala src/cli.vala
+#: src/alpm_utils.vala src/transaction.vala src/installer.vala src/cli.vala
 msgid "Nothing to do"
 msgstr "Ni nobenih opravil"
-
-#: src/alpm_utils.vala src/transaction.vala
-msgid "Preparing"
-msgstr "Pripravljam"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -184,8 +177,17 @@ msgid "Configuring %s"
 msgstr "Konfiguriranje %s"
 
 #: src/alpm_utils.vala
+#, c-format
+msgid "Error while configuring %s"
+msgstr ""
+
+#: src/alpm_utils.vala
 msgid "Checking available disk space"
 msgstr "Preverjanje razpoložljivega prostora"
+
+#: src/alpm_utils.vala src/transaction-gtk.vala src/cli.vala
+msgid "Warning"
+msgstr "Opozorilo"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -223,6 +225,10 @@ msgstr ""
 msgid "Running post-transaction hooks"
 msgstr ""
 
+#: src/alpm_utils.vala
+msgid "Error while running hooks"
+msgstr ""
+
 #: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
 msgid "About %u seconds remaining"
@@ -240,10 +246,6 @@ msgstr[3] "Še približno %lu minut"
 #: src/alpm_utils.vala src/transaction-cli.vala src/cli.vala
 msgid "Error"
 msgstr "Napaka"
-
-#: src/alpm_utils.vala src/transaction-gtk.vala src/cli.vala
-msgid "Warning"
-msgstr "Opozorilo"
 
 #: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
@@ -272,6 +274,10 @@ msgstr "Potrditev identitete ni uspela"
 #: src/daemon.vala
 msgid "Waiting for another package manager to quit"
 msgstr "Čakanje na izhod drugega paketnega upravljalnika"
+
+#: src/daemon.vala src/transaction.vala
+msgid "Transaction cancelled"
+msgstr "Transakcija preklicana"
 
 #: src/daemon.vala
 msgid "Timeout expired"
@@ -318,7 +324,17 @@ msgstr ""
 
 #: src/transaction.vala
 #, c-format
+msgid "Failed to generate %s informations"
+msgstr ""
+
+#: src/transaction.vala
+#, c-format
 msgid "Checking %s dependencies"
+msgstr ""
+
+#: src/transaction.vala
+#, c-format
+msgid "Failed to check %s dependencies"
 msgstr ""
 
 #: src/transaction.vala
@@ -329,6 +345,10 @@ msgstr ""
 #: src/transaction.vala src/manager_window.vala
 msgid "Transaction successfully finished"
 msgstr "Transakcija uspešno zaključena"
+
+#: src/transaction.vala
+msgid "Preparing"
+msgstr "Pripravljam"
 
 #: src/transaction.vala
 #, c-format

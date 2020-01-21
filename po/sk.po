@@ -1,11 +1,11 @@
 # Translation of Pamac.
-# Copyright (C) 2013-2019 Manjaro Developers <manjaro-dev@manjaro.org>
+# Copyright (C) 2013-2020 Manjaro Developers <manjaro-dev@manjaro.org>
 # This file is distributed under the same license as the Pamac package.
-# Guillaume Benoit <guillaume@manjaro.org>, 2013-2019.
+# Guillaume Benoit <guillaume@manjaro.org>, 2013-2020.
 # 
 # Translators:
 # Dušan Kazik, 2014
-# Dušan Kazik <prescott66@gmail.com>, 2014-2019
+# Dušan Kazik <prescott66@gmail.com>, 2014-2020
 # Inoki Sakaeru, 2013
 # Miroslav Ďurian <aasami@gmail.com>, 2018
 # Patrik Bubák, 2014
@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2019-12-21 18:55+0100\n"
-"PO-Revision-Date: 2019-12-27 06:45+0000\n"
+"POT-Creation-Date: 2020-01-17 14:37+0100\n"
+"PO-Revision-Date: 2020-01-18 18:45+0000\n"
 "Last-Translator: Dušan Kazik <prescott66@gmail.com>\n"
 "Language-Team: Slovak (http://www.transifex.com/manjarolinux/manjaro-pamac/language/sk/)\n"
 "MIME-Version: 1.0\n"
@@ -59,7 +59,7 @@ msgstr "Zlyhalo zahájenie transakcie"
 msgid "Failed to prepare transaction"
 msgstr "Zlyhalo pripravovanie transakcie"
 
-#: src/alpm_utils.vala src/installer.vala src/cli.vala
+#: src/alpm_utils.vala src/transaction.vala src/installer.vala src/cli.vala
 #, c-format
 msgid "target not found: %s"
 msgstr "cieľ sa nenašiel: %s"
@@ -94,17 +94,9 @@ msgstr "Balíky %s a %s sú v konflikte"
 msgid "%s needs to be removed but it is a locked package"
 msgstr "Balík %s sa musí odstrániť, ale je zablokovaný"
 
-#: src/alpm_utils.vala src/daemon.vala src/transaction.vala
-msgid "Transaction cancelled"
-msgstr "Transakcia bola zrušená"
-
-#: src/alpm_utils.vala src/installer.vala src/cli.vala
+#: src/alpm_utils.vala src/transaction.vala src/installer.vala src/cli.vala
 msgid "Nothing to do"
 msgstr "Nič na vykonanie"
-
-#: src/alpm_utils.vala src/transaction.vala
-msgid "Preparing"
-msgstr "Pripravuje sa"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -184,8 +176,17 @@ msgid "Configuring %s"
 msgstr "Nastavuje sa %s"
 
 #: src/alpm_utils.vala
+#, c-format
+msgid "Error while configuring %s"
+msgstr "Chyba počas konfigurácie %s"
+
+#: src/alpm_utils.vala
 msgid "Checking available disk space"
 msgstr "Kontroluje sa dostupné miesto na disku"
+
+#: src/alpm_utils.vala src/transaction-gtk.vala src/cli.vala
+msgid "Warning"
+msgstr "Upozornenie"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -223,6 +224,10 @@ msgstr "Spúšťajú sa predtransakčné háčiky"
 msgid "Running post-transaction hooks"
 msgstr "Spúšťajú sa potransakčné háčiky"
 
+#: src/alpm_utils.vala
+msgid "Error while running hooks"
+msgstr "Chyba počas spúšťania háčikov"
+
 #: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
 msgid "About %u seconds remaining"
@@ -240,10 +245,6 @@ msgstr[3] "Zostáva približne %lu minút"
 #: src/alpm_utils.vala src/transaction-cli.vala src/cli.vala
 msgid "Error"
 msgstr "Chyba"
-
-#: src/alpm_utils.vala src/transaction-gtk.vala src/cli.vala
-msgid "Warning"
-msgstr "Upozornenie"
 
 #: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
@@ -272,6 +273,10 @@ msgstr "Zlyhalo overenie"
 #: src/daemon.vala
 msgid "Waiting for another package manager to quit"
 msgstr "Čaká sa na ukončenie iného správcu balíkov"
+
+#: src/daemon.vala src/transaction.vala
+msgid "Transaction cancelled"
+msgstr "Transakcia bola zrušená"
 
 #: src/daemon.vala
 msgid "Timeout expired"
@@ -318,8 +323,18 @@ msgstr "Generujú sa informácie o balíku %s"
 
 #: src/transaction.vala
 #, c-format
+msgid "Failed to generate %s informations"
+msgstr "Zlyhalo generovanie informácií o balíku %s"
+
+#: src/transaction.vala
+#, c-format
 msgid "Checking %s dependencies"
 msgstr "Kontrolujú sa závislosti balíka %s"
+
+#: src/transaction.vala
+#, c-format
+msgid "Failed to check %s dependencies"
+msgstr "Zlyhala kontrola závislostí balíka %s"
 
 #: src/transaction.vala
 #, c-format
@@ -329,6 +344,10 @@ msgstr "kľúč %s sa nepodarilo importovať"
 #: src/transaction.vala src/manager_window.vala
 msgid "Transaction successfully finished"
 msgstr "Transakcia bola úspešná"
+
+#: src/transaction.vala
+msgid "Preparing"
+msgstr "Pripravuje sa"
 
 #: src/transaction.vala
 #, c-format

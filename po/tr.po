@@ -1,7 +1,7 @@
 # Translation of Pamac.
-# Copyright (C) 2013-2019 Manjaro Developers <manjaro-dev@manjaro.org>
+# Copyright (C) 2013-2020 Manjaro Developers <manjaro-dev@manjaro.org>
 # This file is distributed under the same license as the Pamac package.
-# Guillaume Benoit <guillaume@manjaro.org>, 2013-2019.
+# Guillaume Benoit <guillaume@manjaro.org>, 2013-2020.
 # 
 # Translators:
 # Cihan Alkan <cihanalk@gmail.com>, 2018
@@ -10,15 +10,15 @@
 # Guillaume Benoit <guillaume@manjaro.org>, 2013
 # philm <philm@manjaro.org>, 2015
 # Sabri Ünal <libreajans@gmail.com>, 2019
-# Serdar Sağlam <teknomobil@msn.com>, 2019
+# Serdar Sağlam <teknomobil@msn.com>, 2019-2020
 # Yusuf Faruk DOĞAN <yfdogan@gmail.com>, 2013
 # Yusuf Faruk DOĞAN <yfdogan@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2019-12-21 18:55+0100\n"
-"PO-Revision-Date: 2019-12-22 02:03+0000\n"
+"POT-Creation-Date: 2020-01-17 14:37+0100\n"
+"PO-Revision-Date: 2020-01-18 01:40+0000\n"
 "Last-Translator: Serdar Sağlam <teknomobil@msn.com>\n"
 "Language-Team: Turkish (http://www.transifex.com/manjarolinux/manjaro-pamac/language/tr/)\n"
 "MIME-Version: 1.0\n"
@@ -61,7 +61,7 @@ msgstr "İşlem başlatılamadı"
 msgid "Failed to prepare transaction"
 msgstr "İşlem hazırlığı başarısız oldu"
 
-#: src/alpm_utils.vala src/installer.vala src/cli.vala
+#: src/alpm_utils.vala src/transaction.vala src/installer.vala src/cli.vala
 #, c-format
 msgid "target not found: %s"
 msgstr "Hedef bulunamadı: %s"
@@ -96,17 +96,9 @@ msgstr "%s paketi %s ile çakışıyor"
 msgid "%s needs to be removed but it is a locked package"
 msgstr "%s paketinin kaldırılması gerekiyor fakat paket kilitli"
 
-#: src/alpm_utils.vala src/daemon.vala src/transaction.vala
-msgid "Transaction cancelled"
-msgstr "İşlemden vazgeçildi"
-
-#: src/alpm_utils.vala src/installer.vala src/cli.vala
+#: src/alpm_utils.vala src/transaction.vala src/installer.vala src/cli.vala
 msgid "Nothing to do"
 msgstr "Yapılacak Bir Şey Yok"
-
-#: src/alpm_utils.vala src/transaction.vala
-msgid "Preparing"
-msgstr "Hazırlanıyor"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -186,8 +178,17 @@ msgid "Configuring %s"
 msgstr "Ayarlanıyor %s"
 
 #: src/alpm_utils.vala
+#, c-format
+msgid "Error while configuring %s"
+msgstr "Yapılandırma hatası %s"
+
+#: src/alpm_utils.vala
 msgid "Checking available disk space"
 msgstr "Kullanılabilir disk alanı kontrol ediliyor"
+
+#: src/alpm_utils.vala src/transaction-gtk.vala src/cli.vala
+msgid "Warning"
+msgstr "Uyarı"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -225,6 +226,10 @@ msgstr "İşlem öncesi veritabanı güncelleniyor"
 msgid "Running post-transaction hooks"
 msgstr "İşlem sonrası veritabanı güncelleniyor"
 
+#: src/alpm_utils.vala
+msgid "Error while running hooks"
+msgstr "Yapılandırma çalışırken hata"
+
 #: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
 msgid "About %u seconds remaining"
@@ -240,10 +245,6 @@ msgstr[1] "Yaklaşık %lu dakika kaldı"
 #: src/alpm_utils.vala src/transaction-cli.vala src/cli.vala
 msgid "Error"
 msgstr "Hata"
-
-#: src/alpm_utils.vala src/transaction-gtk.vala src/cli.vala
-msgid "Warning"
-msgstr "Uyarı"
 
 #: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
@@ -272,6 +273,10 @@ msgstr "Doğrulama başarısız"
 #: src/daemon.vala
 msgid "Waiting for another package manager to quit"
 msgstr "Diğer paket yöneticisinin kapanması ya da durması bekleniyor"
+
+#: src/daemon.vala src/transaction.vala
+msgid "Transaction cancelled"
+msgstr "İşlemden vazgeçildi"
 
 #: src/daemon.vala
 msgid "Timeout expired"
@@ -318,8 +323,18 @@ msgstr "%s bilgisi oluşturuluyor"
 
 #: src/transaction.vala
 #, c-format
+msgid "Failed to generate %s informations"
+msgstr "Bilgi oluşturulamadı %s"
+
+#: src/transaction.vala
+#, c-format
 msgid "Checking %s dependencies"
 msgstr "%s bağımlılıkları kontrol ediliyor"
+
+#: src/transaction.vala
+#, c-format
+msgid "Failed to check %s dependencies"
+msgstr "Bağımlılıklar kontrol edilemedi %s"
 
 #: src/transaction.vala
 #, c-format
@@ -329,6 +344,10 @@ msgstr "%s anahtar içe aktarılamadı"
 #: src/transaction.vala src/manager_window.vala
 msgid "Transaction successfully finished"
 msgstr "Işlem Başarılı"
+
+#: src/transaction.vala
+msgid "Preparing"
+msgstr "Hazırlanıyor"
 
 #: src/transaction.vala
 #, c-format

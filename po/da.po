@@ -1,7 +1,7 @@
 # Translation of Pamac.
-# Copyright (C) 2013-2019 Manjaro Developers <manjaro-dev@manjaro.org>
+# Copyright (C) 2013-2020 Manjaro Developers <manjaro-dev@manjaro.org>
 # This file is distributed under the same license as the Pamac package.
-# Guillaume Benoit <guillaume@manjaro.org>, 2013-2019.
+# Guillaume Benoit <guillaume@manjaro.org>, 2013-2020.
 # 
 # Translators:
 # Andreas Martin Mørch <andreasmartinmorch@gmail.com>, 2013
@@ -25,8 +25,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2019-12-21 18:55+0100\n"
-"PO-Revision-Date: 2019-12-22 00:29+0000\n"
+"POT-Creation-Date: 2020-01-17 14:37+0100\n"
+"PO-Revision-Date: 2020-01-18 00:50+0000\n"
 "Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Danish (http://www.transifex.com/manjarolinux/manjaro-pamac/language/da/)\n"
 "MIME-Version: 1.0\n"
@@ -69,7 +69,7 @@ msgstr "Kunne ikke initialisere overførsel"
 msgid "Failed to prepare transaction"
 msgstr "Kunne ikke forberede overførsel"
 
-#: src/alpm_utils.vala src/installer.vala src/cli.vala
+#: src/alpm_utils.vala src/transaction.vala src/installer.vala src/cli.vala
 #, c-format
 msgid "target not found: %s"
 msgstr "mål ikke fundet: %s"
@@ -104,17 +104,9 @@ msgstr "%s og %s er i konflikt"
 msgid "%s needs to be removed but it is a locked package"
 msgstr "%s skal fjernes, men den er en låst pakke"
 
-#: src/alpm_utils.vala src/daemon.vala src/transaction.vala
-msgid "Transaction cancelled"
-msgstr "Overførsel annulleret"
-
-#: src/alpm_utils.vala src/installer.vala src/cli.vala
+#: src/alpm_utils.vala src/transaction.vala src/installer.vala src/cli.vala
 msgid "Nothing to do"
 msgstr "Intet at gøre"
-
-#: src/alpm_utils.vala src/transaction.vala
-msgid "Preparing"
-msgstr "Forbereder"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -194,8 +186,17 @@ msgid "Configuring %s"
 msgstr "Konfigurerer %s"
 
 #: src/alpm_utils.vala
+#, c-format
+msgid "Error while configuring %s"
+msgstr ""
+
+#: src/alpm_utils.vala
 msgid "Checking available disk space"
 msgstr "Tjekker tilgængelig diskplads"
+
+#: src/alpm_utils.vala src/transaction-gtk.vala src/cli.vala
+msgid "Warning"
+msgstr "Advarsel"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -233,6 +234,10 @@ msgstr "Kører før-overførselskroge"
 msgid "Running post-transaction hooks"
 msgstr "Kører efter-overførselskroge"
 
+#: src/alpm_utils.vala
+msgid "Error while running hooks"
+msgstr ""
+
 #: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
 msgid "About %u seconds remaining"
@@ -248,10 +253,6 @@ msgstr[1] "Omkring %lu minutter tilbage"
 #: src/alpm_utils.vala src/transaction-cli.vala src/cli.vala
 msgid "Error"
 msgstr "Fejl"
-
-#: src/alpm_utils.vala src/transaction-gtk.vala src/cli.vala
-msgid "Warning"
-msgstr "Advarsel"
 
 #: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
@@ -280,6 +281,10 @@ msgstr "Autentificering mislykket"
 #: src/daemon.vala
 msgid "Waiting for another package manager to quit"
 msgstr "Venter på at en anden pakkehåndtering skal afslutte"
+
+#: src/daemon.vala src/transaction.vala
+msgid "Transaction cancelled"
+msgstr "Overførsel annulleret"
 
 #: src/daemon.vala
 msgid "Timeout expired"
@@ -326,8 +331,18 @@ msgstr "Genererer %s informationer"
 
 #: src/transaction.vala
 #, c-format
+msgid "Failed to generate %s informations"
+msgstr ""
+
+#: src/transaction.vala
+#, c-format
 msgid "Checking %s dependencies"
 msgstr "Tjekker %s afhængigheder"
+
+#: src/transaction.vala
+#, c-format
+msgid "Failed to check %s dependencies"
+msgstr ""
 
 #: src/transaction.vala
 #, c-format
@@ -337,6 +352,10 @@ msgstr "nøgle %s kunne ikke importeres"
 #: src/transaction.vala src/manager_window.vala
 msgid "Transaction successfully finished"
 msgstr "Overførslen er færdig"
+
+#: src/transaction.vala
+msgid "Preparing"
+msgstr "Forbereder"
 
 #: src/transaction.vala
 #, c-format

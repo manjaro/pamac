@@ -1,13 +1,13 @@
 # Translation of Pamac.
-# Copyright (C) 2013-2019 Manjaro Developers <manjaro-dev@manjaro.org>
+# Copyright (C) 2013-2020 Manjaro Developers <manjaro-dev@manjaro.org>
 # This file is distributed under the same license as the Pamac package.
-# Guillaume Benoit <guillaume@manjaro.org>, 2013-2019.
+# Guillaume Benoit <guillaume@manjaro.org>, 2013-2020.
 # 
 # Translators:
 # Alexander B <beliy@yandex.ru>, 2017,2019
 # Alexander Filev, 2015
 # Alexey Ermakov <strangebrew@yandex.ru>, 2018
-# Andrei Stepanov <adem4ik@gmail.com>, 2019
+# Andrei Stepanov <adem4ik@gmail.com>, 2019-2020
 # Victor Kukshiev <andrey0bolkonsky@gmail.com>, 2013
 # Daniil <rostovslipknot@gmail.com>, 2013
 # Eugene <klyuchnikov.evgeny@gmail.com>, 2018
@@ -41,8 +41,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2019-12-21 18:55+0100\n"
-"PO-Revision-Date: 2019-12-22 02:32+0000\n"
+"POT-Creation-Date: 2020-01-17 14:37+0100\n"
+"PO-Revision-Date: 2020-01-18 17:17+0000\n"
 "Last-Translator: Andrei Stepanov <adem4ik@gmail.com>\n"
 "Language-Team: Russian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/ru/)\n"
 "MIME-Version: 1.0\n"
@@ -85,7 +85,7 @@ msgstr "Не удалось выполнить транзакцию"
 msgid "Failed to prepare transaction"
 msgstr "Ошибка подготовки транзакции"
 
-#: src/alpm_utils.vala src/installer.vala src/cli.vala
+#: src/alpm_utils.vala src/transaction.vala src/installer.vala src/cli.vala
 #, c-format
 msgid "target not found: %s"
 msgstr "объект не найден: %s"
@@ -120,17 +120,9 @@ msgstr "конфликт между %s и %s"
 msgid "%s needs to be removed but it is a locked package"
 msgstr "%s необходимо удалить, но пакет заблокирован"
 
-#: src/alpm_utils.vala src/daemon.vala src/transaction.vala
-msgid "Transaction cancelled"
-msgstr "Транзакция отменена"
-
-#: src/alpm_utils.vala src/installer.vala src/cli.vala
+#: src/alpm_utils.vala src/transaction.vala src/installer.vala src/cli.vala
 msgid "Nothing to do"
 msgstr "Нет заданий"
-
-#: src/alpm_utils.vala src/transaction.vala
-msgid "Preparing"
-msgstr "Подготовка"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -210,8 +202,17 @@ msgid "Configuring %s"
 msgstr "Настройка %s"
 
 #: src/alpm_utils.vala
+#, c-format
+msgid "Error while configuring %s"
+msgstr "Ошибка при настройке %s"
+
+#: src/alpm_utils.vala
 msgid "Checking available disk space"
 msgstr "Проверка доступного дискового пространства"
+
+#: src/alpm_utils.vala src/transaction-gtk.vala src/cli.vala
+msgid "Warning"
+msgstr "Внимание"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -243,11 +244,15 @@ msgstr "%s установлен как %s.pacsave"
 
 #: src/alpm_utils.vala
 msgid "Running pre-transaction hooks"
-msgstr "Работа pre-transaction hooks"
+msgstr "Работа обработчиков pre-transaction"
 
 #: src/alpm_utils.vala
 msgid "Running post-transaction hooks"
-msgstr "Работа post-transaction hooks"
+msgstr "Работа обработчиков post-transaction"
+
+#: src/alpm_utils.vala
+msgid "Error while running hooks"
+msgstr "Ошибка при выполнении обработчиков"
 
 #: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
@@ -266,10 +271,6 @@ msgstr[3] "Осталось примерно %lu минут"
 #: src/alpm_utils.vala src/transaction-cli.vala src/cli.vala
 msgid "Error"
 msgstr "Ошибка"
-
-#: src/alpm_utils.vala src/transaction-gtk.vala src/cli.vala
-msgid "Warning"
-msgstr "Внимание"
 
 #: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
@@ -298,6 +299,10 @@ msgstr "Ошибка авторизации"
 #: src/daemon.vala
 msgid "Waiting for another package manager to quit"
 msgstr "Ожидание выхода другого менеджера пакетов"
+
+#: src/daemon.vala src/transaction.vala
+msgid "Transaction cancelled"
+msgstr "Транзакция отменена"
 
 #: src/daemon.vala
 msgid "Timeout expired"
@@ -344,8 +349,18 @@ msgstr "Генерация информации о %s"
 
 #: src/transaction.vala
 #, c-format
+msgid "Failed to generate %s informations"
+msgstr "Не удалось сгенерировать информацию по %s"
+
+#: src/transaction.vala
+#, c-format
 msgid "Checking %s dependencies"
 msgstr "Проверка зависимостей для %s"
+
+#: src/transaction.vala
+#, c-format
+msgid "Failed to check %s dependencies"
+msgstr "Не удалось проверить зависимости %s"
 
 #: src/transaction.vala
 #, c-format
@@ -355,6 +370,10 @@ msgstr "ключ %s не может быть импортирован"
 #: src/transaction.vala src/manager_window.vala
 msgid "Transaction successfully finished"
 msgstr "Транзакция успешно завершена"
+
+#: src/transaction.vala
+msgid "Preparing"
+msgstr "Подготовка"
 
 #: src/transaction.vala
 #, c-format

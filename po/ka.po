@@ -1,7 +1,7 @@
 # Translation of Pamac.
-# Copyright (C) 2013-2019 Manjaro Developers <manjaro-dev@manjaro.org>
+# Copyright (C) 2013-2020 Manjaro Developers <manjaro-dev@manjaro.org>
 # This file is distributed under the same license as the Pamac package.
-# Guillaume Benoit <guillaume@manjaro.org>, 2013-2019.
+# Guillaume Benoit <guillaume@manjaro.org>, 2013-2020.
 # 
 # Translators:
 # arabuli <arabulibeqa@yahoo.com>, 2015
@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2019-12-21 18:55+0100\n"
-"PO-Revision-Date: 2019-12-22 00:29+0000\n"
+"POT-Creation-Date: 2020-01-17 14:37+0100\n"
+"PO-Revision-Date: 2020-01-18 00:50+0000\n"
 "Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Georgian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/ka/)\n"
 "MIME-Version: 1.0\n"
@@ -31,11 +31,11 @@ msgstr ""
 
 #: src/alpm_utils.vala src/database.vala
 msgid "Failed to initialize alpm library"
-msgstr ""
+msgstr "alpm ბიბლიოთეკის წამოწყება ვერ მოხერხდა"
 
 #: src/alpm_utils.vala
 msgid "Synchronizing package databases"
-msgstr "პაკეტების მონაცემთა ბაზის სინქრონიზაცია"
+msgstr "პაკეტების მონაცემთა ბაზები სინქრონიზირდება"
 
 #: src/alpm_utils.vala
 msgid "Failed to synchronize databases"
@@ -48,14 +48,14 @@ msgstr "AUR"
 
 #: src/alpm_utils.vala
 msgid "Failed to init transaction"
-msgstr ""
+msgstr "ტრანზაქციის წამოწყება ვერ მოხერხდა"
 
 #: src/alpm_utils.vala src/transaction.vala src/transaction-gtk.vala
 #: src/installer.vala
 msgid "Failed to prepare transaction"
-msgstr ""
+msgstr "ტრანზაქციის მომზადება ვერ მოხერხდა"
 
-#: src/alpm_utils.vala src/installer.vala src/cli.vala
+#: src/alpm_utils.vala src/transaction.vala src/installer.vala src/cli.vala
 #, c-format
 msgid "target not found: %s"
 msgstr "მიზანი ვერ მოიძებნა: %s"
@@ -63,49 +63,41 @@ msgstr "მიზანი ვერ მოიძებნა: %s"
 #: src/alpm_utils.vala
 #, c-format
 msgid "package %s does not have a valid architecture"
-msgstr ""
+msgstr "პაკეტ %s-ს არ აქვს დაშვებული არქიტექტურა"
 
 #: src/alpm_utils.vala
 #, c-format
 msgid "unable to satisfy dependency '%s' required by %s"
-msgstr ""
+msgstr "შეუძლებელია %s-ის მიერ მოთხოვნილი '%s' დამოკიდებულების დაკმაყოფილება"
 
 #: src/alpm_utils.vala
 #, c-format
 msgid "installing %s (%s) breaks dependency '%s' required by %s"
-msgstr ""
+msgstr "%s (%s)-ის დაყენება აზიანებს დამოკიდებულებას '%s', რომელსაც მოითხოვს %s"
 
 #: src/alpm_utils.vala
 #, c-format
 msgid "removing %s breaks dependency '%s' required by %s"
-msgstr ""
+msgstr "%s-ის მოცილება აზიანებს დამოკიდებულებას '%s', რომელსაც მოითხოვს %s"
 
 #: src/alpm_utils.vala
 #, c-format
 msgid "%s and %s are in conflict"
-msgstr ""
+msgstr "%s და %s არიან კონფლიქტში"
 
 #: src/alpm_utils.vala
 #, c-format
 msgid "%s needs to be removed but it is a locked package"
-msgstr ""
+msgstr "%s უნდა მოცილდეს, მაგრამ ის ჩაკეტილი პაკეტია"
 
-#: src/alpm_utils.vala src/daemon.vala src/transaction.vala
-msgid "Transaction cancelled"
-msgstr ""
-
-#: src/alpm_utils.vala src/installer.vala src/cli.vala
+#: src/alpm_utils.vala src/transaction.vala src/installer.vala src/cli.vala
 msgid "Nothing to do"
 msgstr "გასაკეთებელი არაფერია"
-
-#: src/alpm_utils.vala src/transaction.vala
-msgid "Preparing"
-msgstr ""
 
 #: src/alpm_utils.vala
 #, c-format
 msgid "%s exists in both %s and %s"
-msgstr ""
+msgstr "%s არსებობს %s-შიც და %s-შიც"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -115,7 +107,7 @@ msgstr "%s: %s უკვე არსებობს ფაილურ სი�
 #: src/alpm_utils.vala
 #, c-format
 msgid "%s is invalid or corrupted"
-msgstr ""
+msgstr "%s არასწორია ან დაზიანებულია"
 
 #: src/alpm_utils.vala
 msgid "failed to retrieve some files"
@@ -123,83 +115,92 @@ msgstr ""
 
 #: src/alpm_utils.vala
 msgid "Failed to commit transaction"
-msgstr ""
+msgstr "ტრანზაქციის განხორციელება ვერ მოხერხდა"
 
 #: src/alpm_utils.vala
 msgid "Checking dependencies"
-msgstr ""
+msgstr "მოწმდება დამოკიდებულებები"
 
 #: src/alpm_utils.vala
 msgid "Checking file conflicts"
-msgstr ""
+msgstr "მოწმდება ფაილის კონფლიქტები"
 
 #: src/alpm_utils.vala
 msgid "Resolving dependencies"
-msgstr ""
+msgstr "გვარდება დამოკიდებულებები"
 
 #: src/alpm_utils.vala
 msgid "Checking inter-conflicts"
-msgstr ""
+msgstr "მოწმდება შიდა კონფლიქტები"
 
 #: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
 msgid "Installing %s"
-msgstr ""
+msgstr "ყენდება %s"
 
 #: src/alpm_utils.vala
 #, c-format
 msgid "Upgrading %s"
-msgstr ""
+msgstr "ახლდება %s"
 
 #: src/alpm_utils.vala
 #, c-format
 msgid "Reinstalling %s"
-msgstr ""
+msgstr "ხელახლა ყენდება %s"
 
 #: src/alpm_utils.vala
 #, c-format
 msgid "Downgrading %s"
-msgstr ""
+msgstr "ქვეითდება %s"
 
 #: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
 msgid "Removing %s"
-msgstr ""
+msgstr "სცილდება %s"
 
 #: src/alpm_utils.vala
 msgid "Checking integrity"
-msgstr ""
+msgstr "მოწმდება მთლიანობა"
 
 #: src/alpm_utils.vala
 msgid "Loading packages files"
-msgstr ""
+msgstr "იტვირთება პაკეტების ფაილები"
 
 #: src/alpm_utils.vala
 #, c-format
 msgid "Configuring %s"
+msgstr "კონფიგურირდება %s"
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "Error while configuring %s"
 msgstr ""
 
 #: src/alpm_utils.vala
 msgid "Checking available disk space"
-msgstr ""
+msgstr "მოწმდება დისკზე ხელმისაწვდომი სივრცე"
+
+#: src/alpm_utils.vala src/transaction-gtk.vala src/cli.vala
+msgid "Warning"
+msgstr "გაფრთხილება"
 
 #: src/alpm_utils.vala
 #, c-format
 msgid "%s optionally requires %s"
-msgstr ""
+msgstr "%s მეორეხარისხოვნად მოითხოვს %s-ს"
 
 #: src/alpm_utils.vala
 #, c-format
 msgid "Database file for %s does not exist"
-msgstr ""
+msgstr "%s-ისთვის მონაცემთა ბაზის ფაილი არ არსებობს"
 
 #: src/alpm_utils.vala
 msgid "Checking keyring"
-msgstr ""
+msgstr "მოწმდება გასაღებების ასხმა"
 
 #: src/alpm_utils.vala
 msgid "Downloading required keys"
-msgstr ""
+msgstr "იტვირთება საჭირო გასაღებები"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -213,10 +214,14 @@ msgstr "%s დაყენდა როგორც %s.pacsave"
 
 #: src/alpm_utils.vala
 msgid "Running pre-transaction hooks"
-msgstr ""
+msgstr "ეშვება ტრანზაქციამდელი კავები"
 
 #: src/alpm_utils.vala
 msgid "Running post-transaction hooks"
+msgstr "ეშვება ტრანზაქციის შემდგომი კავები"
+
+#: src/alpm_utils.vala
+msgid "Error while running hooks"
 msgstr ""
 
 #: src/alpm_utils.vala src/snap_plugin.vala
@@ -235,10 +240,6 @@ msgstr[1] "დარჩენილია დაახლოებით %lu წ
 msgid "Error"
 msgstr "შეცდომა"
 
-#: src/alpm_utils.vala src/transaction-gtk.vala src/cli.vala
-msgid "Warning"
-msgstr "გაფრთხილება"
-
 #: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
 msgid "Download of %s started"
@@ -252,7 +253,7 @@ msgstr "%s-ის ჩამოტვირთვა დასრულდა"
 #: src/alpm_utils.vala
 #, c-format
 msgid "Refreshing %s"
-msgstr ""
+msgstr "ახლდება %s"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -261,11 +262,15 @@ msgstr "იტვირთება %s"
 
 #: src/daemon.vala
 msgid "Authentication failed"
-msgstr ""
+msgstr "ავთენტიფიკაცია ვერ მოხერდა"
 
 #: src/daemon.vala
 msgid "Waiting for another package manager to quit"
-msgstr ""
+msgstr "ვუცდით სხვა პაკეტების მმართველის მუშაობის დასრულებას"
+
+#: src/daemon.vala src/transaction.vala
+msgid "Transaction cancelled"
+msgstr "ტრანზაქცია გაუქმდა"
 
 #: src/daemon.vala
 msgid "Timeout expired"
@@ -273,11 +278,11 @@ msgstr "დრო ამოიწურა"
 
 #: src/database.vala src/manager_window.vala
 msgid "Explicitly installed"
-msgstr ""
+msgstr "განზრახ დაყენებული"
 
 #: src/database.vala src/manager_window.vala
 msgid "Installed as a dependency for another package"
-msgstr ""
+msgstr "დაყენებულია, როგორც დამოკიდებულება სხვა პაკეტისთვის"
 
 #: src/database.vala
 msgid "Unknown"
@@ -293,7 +298,7 @@ msgstr "არა"
 
 #: src/transaction.vala
 msgid "Refreshing mirrors list"
-msgstr ""
+msgstr "ახლდება საარკეების სია"
 
 #: src/transaction.vala src/cli.vala
 #, c-format
@@ -312,7 +317,17 @@ msgstr ""
 
 #: src/transaction.vala
 #, c-format
+msgid "Failed to generate %s informations"
+msgstr ""
+
+#: src/transaction.vala
+#, c-format
 msgid "Checking %s dependencies"
+msgstr ""
+
+#: src/transaction.vala
+#, c-format
+msgid "Failed to check %s dependencies"
 msgstr ""
 
 #: src/transaction.vala
@@ -322,7 +337,11 @@ msgstr ""
 
 #: src/transaction.vala src/manager_window.vala
 msgid "Transaction successfully finished"
-msgstr ""
+msgstr "ტრანზაქცია წარმატებით დასრულდა"
+
+#: src/transaction.vala
+msgid "Preparing"
+msgstr "მზადდება"
 
 #: src/transaction.vala
 #, c-format
@@ -342,7 +361,7 @@ msgstr ""
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
 msgid "Choose a provider for %s"
-msgstr ""
+msgstr "%s-ისთვის მომწოდებლის არჩევა"
 
 #: src/transaction-gtk.vala
 msgid "Import PGP key"
@@ -370,31 +389,31 @@ msgstr ""
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "To remove"
-msgstr ""
+msgstr "მოცილდება"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "To downgrade"
-msgstr ""
+msgstr "დაქვეითდება"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "To build"
-msgstr ""
+msgstr "აიგება"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "To install"
-msgstr ""
+msgstr "დაყენდება"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "To reinstall"
-msgstr ""
+msgstr "ხელახლა დაყენდება"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "To upgrade"
-msgstr ""
+msgstr "განახლდება"
 
 #: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
 msgid "Total download size"
-msgstr ""
+msgstr "ჩამოტვირთვის სრული ზომა"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
@@ -447,18 +466,18 @@ msgstr "პაკეტ(ებ)ი"
 
 #: src/tray.vala src/manager_window.vala src/cli.vala
 msgid "Your system is up-to-date"
-msgstr "თქვენი სისტემა განახლებულია"
+msgstr "თქვენი სისტემა უახლესია"
 
 #: src/tray.vala
 msgid "_Quit"
-msgstr "დატოვება"
+msgstr "გასვლა"
 
 #: src/tray.vala src/cli.vala
 #, c-format
 msgid "%u available update"
 msgid_plural "%u available updates"
-msgstr[0] "%u ხელმისაწვდომი განახლება"
-msgstr[1] "%u ხელმისაწვდომი განახლება"
+msgstr[0] "ხელმისაწვდომია %u განახლება"
+msgstr[1] "ხელმისაწვდომია %u განახლება"
 
 #: src/tray.vala src/manager_window.vala resources/progress_dialog.ui
 #: resources/manager_window.ui
@@ -477,8 +496,8 @@ msgstr "მიმდინარეობს განახლებები�
 #, c-format
 msgid "%u pending operation"
 msgid_plural "%u pending operations"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "მოლოდინშია %u ოპერაცია"
+msgstr[1] "მოლოდინშია %u ოპერაცია"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "All"
@@ -486,7 +505,7 @@ msgstr "ყველა"
 
 #: src/manager_window.vala
 msgid "Orphans"
-msgstr ""
+msgstr "ობლები"
 
 #: src/manager_window.vala
 msgid "Foreign"
@@ -499,7 +518,7 @@ msgstr ""
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Repositories"
-msgstr ""
+msgstr "საცავები"
 
 #: src/manager_window.vala src/cli.vala resources/manager_window.ui
 msgid "Installed"
@@ -507,7 +526,7 @@ msgstr "დაყენებული"
 
 #: src/manager_window.vala
 msgid "Dependencies"
-msgstr ""
+msgstr "დამოკიდებულებები"
 
 #: src/manager_window.vala
 msgid "Files"
@@ -519,31 +538,31 @@ msgstr "აგების ფაილები"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Install Reason"
-msgstr ""
+msgstr "დაყენების მიზეზი"
 
 #: src/manager_window.vala
 msgid "Mark as explicitly installed"
-msgstr ""
+msgstr "განზრახ დაყენებულად მონიშვნა"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Licenses"
-msgstr ""
+msgstr "ლიცენზიები"
 
 #: src/manager_window.vala src/cli.vala resources/manager_window.ui
 msgid "Repository"
-msgstr ""
+msgstr "საცავი"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Package Base"
-msgstr ""
+msgstr "პაკეტის ბაზა"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Maintainer"
-msgstr ""
+msgstr "შემმუშავებელი"
 
 #: src/manager_window.vala src/cli.vala
 msgid "First Submitted"
-msgstr ""
+msgstr "პირველად განთავსდა"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Last Modified"
@@ -551,7 +570,7 @@ msgstr "ბოლოს შეიცვლა"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Votes"
-msgstr ""
+msgstr "ხმები"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Out of Date"
@@ -563,7 +582,7 @@ msgstr "ჯგუფები"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Packager"
-msgstr ""
+msgstr "შემფუთავი"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Build Date"
@@ -575,47 +594,47 @@ msgstr "დაყენების თარიღი"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Signatures"
-msgstr ""
+msgstr "ხელმოწერები"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Backup files"
-msgstr ""
+msgstr "სარეზერვო ფაილები"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Depends On"
-msgstr ""
+msgstr "დამოკიდებულია"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Optional Dependencies"
-msgstr ""
+msgstr "მეორეხარისხოვანი დამოკიდებულებები"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Required By"
-msgstr ""
+msgstr "მოითხოვა შემდეგმა"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Optional For"
-msgstr ""
+msgstr "მეორეხარისხოვანია შემდეგისთვის"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Provides"
-msgstr ""
+msgstr "გვთავაზობს"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Replaces"
-msgstr ""
+msgstr "ანაცვლებს"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Conflicts With"
-msgstr ""
+msgstr "კონფლიქტშია შემდეგთან"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Make Dependencies"
-msgstr ""
+msgstr "აგებისთვის საჭირო დამოკიდებულებები"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Check Dependencies"
-msgstr ""
+msgstr "დამოკიდებულებების შემოწმება"
 
 #: src/manager_window.vala
 msgid "Publisher"
@@ -631,7 +650,7 @@ msgstr "არხები"
 
 #: src/manager_window.vala
 msgid "Upgrade"
-msgstr ""
+msgstr "განახლება"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Build"
@@ -679,7 +698,7 @@ msgstr ""
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Install Local Packages"
-msgstr ""
+msgstr "ადგილობრივი პაკეტების დაყენება"
 
 #: src/manager_window.vala
 msgid "_Open"
@@ -691,7 +710,7 @@ msgstr "Alpm პაკეტი"
 
 #: src/manager_window.vala
 msgid "A Gtk3 frontend for libalpm"
-msgstr ""
+msgstr "Gtk3 ინტერფეისი libalpm-ისთვის"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Categories"
@@ -699,7 +718,7 @@ msgstr "კატეგორიები"
 
 #: src/preferences_dialog.vala resources/preferences_dialog.ui
 msgid "How often to check for updates, value in hours"
-msgstr ""
+msgstr "რა სიხშირით შემოწმდეს განახლებები, რიცხვი საათებში"
 
 #: src/preferences_dialog.vala resources/preferences_dialog.ui
 msgid "Maximum parallel downloads"
@@ -707,7 +726,7 @@ msgstr ""
 
 #: src/preferences_dialog.vala src/cli.vala resources/preferences_dialog.ui
 msgid "Number of versions of each package to keep in the cache"
-msgstr ""
+msgstr "ქეშში დასატოვებელი თითოეული პაკეტის ვერსიების რაოდენობა"
 
 #: src/preferences_dialog.vala
 msgid "Build directory"
@@ -730,7 +749,7 @@ msgstr[1] "%u ფაილი"
 
 #: src/preferences_dialog.vala
 msgid "Choose Ignored Upgrades"
-msgstr ""
+msgstr "აირჩიეთ გამოსატოვებელი განახლებები"
 
 #: src/transaction-cli.vala src/cli.vala
 #, c-format
@@ -1074,7 +1093,7 @@ msgstr "ვებ-მისამართი"
 
 #: src/cli.vala
 msgid "Installed Size"
-msgstr ""
+msgstr "დაყენებულის ზომა"
 
 #: src/cli.vala
 #, c-format
@@ -1095,11 +1114,11 @@ msgstr[1] ""
 
 #: src/cli.vala resources/preferences_dialog.ui
 msgid "Remove only the versions of uninstalled packages"
-msgstr ""
+msgstr "მხოლოდ წაშლილი პაკეტების ვერსიების მოცილება"
 
 #: src/cli.vala resources/preferences_dialog.ui
 msgid "Clean cache"
-msgstr ""
+msgstr "ქეშის გაწმენდა"
 
 #: src/cli.vala resources/preferences_dialog.ui
 msgid "Clean build files"
@@ -1128,7 +1147,7 @@ msgstr "ყველა"
 
 #: resources/choose_provider_dialog.ui
 msgid "Choose a Provider"
-msgstr ""
+msgstr "მომწოდებლის არჩევა"
 
 #: resources/choose_provider_dialog.ui resources/choose_pkgs_dialog.ui
 msgid "Choose"
@@ -1144,15 +1163,15 @@ msgstr "Pamac-ის ისტორია"
 
 #: resources/transaction_sum_dialog.ui
 msgid "Transaction Summary"
-msgstr ""
+msgstr "ტრანზაქციის შეჯამება"
 
 #: resources/transaction_sum_dialog.ui resources/manager_window.ui
 msgid "_Apply"
-msgstr "გამოყენება"
+msgstr "დაწყება"
 
 #: resources/manager_window.ui
 msgid "Refresh databases"
-msgstr ""
+msgstr "მონაცემთა ბაზების განახლება"
 
 #: resources/manager_window.ui
 msgid "View History"
@@ -1168,11 +1187,11 @@ msgstr "შესახებ"
 
 #: resources/manager_window.ui
 msgid "Search"
-msgstr ""
+msgstr "ძებნა"
 
 #: resources/manager_window.ui
 msgid "Pending"
-msgstr ""
+msgstr "მოლოდინში"
 
 #: resources/manager_window.ui
 msgid "Updates"
@@ -1204,7 +1223,7 @@ msgstr "ზომა"
 
 #: resources/manager_window.ui
 msgid "Browse"
-msgstr "გაშვება"
+msgstr "დათვალიერება"
 
 #: resources/manager_window.ui
 msgid "Launch"
@@ -1212,7 +1231,7 @@ msgstr "გაშვება"
 
 #: resources/manager_window.ui
 msgid "Reinstall"
-msgstr ""
+msgstr "ხელახლა დაყენება"
 
 #: resources/manager_window.ui
 msgid "Reset build files"
@@ -1228,7 +1247,7 @@ msgstr "განახლებების ავტომატურად �
 
 #: resources/preferences_dialog.ui
 msgid "Hide tray icon when no update available"
-msgstr ""
+msgstr "დამალე ხატულა ლანგარზე, როდესაც განახლებები არაა ხელმისაწვდომი"
 
 #: resources/preferences_dialog.ui
 msgid "General"
@@ -1242,17 +1261,17 @@ msgstr ""
 
 #: resources/preferences_dialog.ui
 msgid "Check available disk space"
-msgstr ""
+msgstr "დისკზე ხელმისაწვდომი სივრცის შემოწმება"
 
 #: resources/preferences_dialog.ui
 msgid "Remove unrequired dependencies"
-msgstr ""
+msgstr "არასაჭირო დამოკიდებულებების მოცილება"
 
 #: resources/preferences_dialog.ui
 msgid ""
 "When removing a package, also remove its dependencies that are not required "
 "by other packages"
-msgstr ""
+msgstr "პაკეტის მოცილებისას, ასევე მოაცილე მისი ის დამოკიდებულებები, რომლებიც არ ესაჭიროება სხვა პაკეტებს"
 
 #: resources/preferences_dialog.ui
 msgid "Do not check for updates when installing"
@@ -1264,7 +1283,7 @@ msgstr ""
 
 #: resources/preferences_dialog.ui
 msgid "Ignore upgrades for:"
-msgstr ""
+msgstr "გამოტოვე მათი განახლებები:"
 
 #: resources/preferences_dialog.ui
 msgid "Advanced"
@@ -1272,21 +1291,21 @@ msgstr "დამატებითი"
 
 #: resources/preferences_dialog.ui
 msgid "Use mirrors from:"
-msgstr ""
+msgstr "გამოიყენე სარკეები:"
 
 #: resources/preferences_dialog.ui
 msgid "Refresh Mirrors List"
-msgstr ""
+msgstr "სარკეების სიის განახლება"
 
 #: resources/preferences_dialog.ui
 msgid "Official Repositories"
-msgstr ""
+msgstr "ოფიციალური საცავები"
 
 #: resources/preferences_dialog.ui
 msgid ""
 "AUR is a community maintained repository so it presents potential risks and problems.\n"
 "All AUR users should be familiar with the build process."
-msgstr ""
+msgstr "AUR არის საზოგადოების მიერ შემუშავებული საცავი, ამიტომ ის წარმოადგენს პოტენციურ რისკებს და პრობლემებს.\nAUR-ის ყველა მომხმარებელი უნდა იცნობდეს აგების პროცესს."
 
 #: resources/preferences_dialog.ui
 msgid "Enable AUR support"
@@ -1294,7 +1313,7 @@ msgstr "AUR-ის მხარდაჭერის ჩართვა"
 
 #: resources/preferences_dialog.ui
 msgid "Allow Pamac to search and install packages from AUR"
-msgstr ""
+msgstr "ნება დართეთ Pamac-ს, რომ მოძებნოს და დააყენოს პაკეტები AUR-იდან"
 
 #: resources/preferences_dialog.ui
 msgid "Keep built packages in cache"
@@ -1318,4 +1337,4 @@ msgstr ""
 
 #: resources/preferences_dialog.ui
 msgid "Cache"
-msgstr ""
+msgstr "ქეში"

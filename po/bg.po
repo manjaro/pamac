@@ -1,10 +1,10 @@
 # Translation of Pamac.
-# Copyright (C) 2013-2019 Manjaro Developers <manjaro-dev@manjaro.org>
+# Copyright (C) 2013-2020 Manjaro Developers <manjaro-dev@manjaro.org>
 # This file is distributed under the same license as the Pamac package.
-# Guillaume Benoit <guillaume@manjaro.org>, 2013-2019.
+# Guillaume Benoit <guillaume@manjaro.org>, 2013-2020.
 # 
 # Translators:
-# Galin Iskrenov <loot270@abv.bg>, 2013-2019
+# Galin Iskrenov <loot270@abv.bg>, 2013-2020
 # Georgi Georgiev <georgiev_1994@abv.bg>, 2014
 # Georgi Georgiev <georgiev_1994@abv.bg>, 2014,2016,2018
 # Galin Iskrenov <loot270@abv.bg>, 2013
@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2019-12-21 18:55+0100\n"
-"PO-Revision-Date: 2019-12-27 11:53+0000\n"
+"POT-Creation-Date: 2020-01-17 14:37+0100\n"
+"PO-Revision-Date: 2020-01-21 08:16+0000\n"
 "Last-Translator: Galin Iskrenov <loot270@abv.bg>\n"
 "Language-Team: Bulgarian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/bg/)\n"
 "MIME-Version: 1.0\n"
@@ -59,7 +59,7 @@ msgstr "Неуспешен старт на транзакцията"
 msgid "Failed to prepare transaction"
 msgstr "Неуспешно подготвяне на транзакцията"
 
-#: src/alpm_utils.vala src/installer.vala src/cli.vala
+#: src/alpm_utils.vala src/transaction.vala src/installer.vala src/cli.vala
 #, c-format
 msgid "target not found: %s"
 msgstr "неоткрита цел: %s"
@@ -94,17 +94,9 @@ msgstr "%s и %s са в конфликт"
 msgid "%s needs to be removed but it is a locked package"
 msgstr "%s трябва да се премахне, но е заключен пакет"
 
-#: src/alpm_utils.vala src/daemon.vala src/transaction.vala
-msgid "Transaction cancelled"
-msgstr "Транзакцията прекратена"
-
-#: src/alpm_utils.vala src/installer.vala src/cli.vala
+#: src/alpm_utils.vala src/transaction.vala src/installer.vala src/cli.vala
 msgid "Nothing to do"
 msgstr "Нищо за правене"
-
-#: src/alpm_utils.vala src/transaction.vala
-msgid "Preparing"
-msgstr "Подготвяне"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -184,8 +176,17 @@ msgid "Configuring %s"
 msgstr "Конфигуриране на %s"
 
 #: src/alpm_utils.vala
+#, c-format
+msgid "Error while configuring %s"
+msgstr "Грешка при конфигуриране на %s"
+
+#: src/alpm_utils.vala
 msgid "Checking available disk space"
 msgstr "Проверка за налично пространство на диска"
+
+#: src/alpm_utils.vala src/transaction-gtk.vala src/cli.vala
+msgid "Warning"
+msgstr "Внимание"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -223,6 +224,10 @@ msgstr "Изпълнение на pre-transaction hooks"
 msgid "Running post-transaction hooks"
 msgstr "Изпълнение на post-transaction hooks"
 
+#: src/alpm_utils.vala
+msgid "Error while running hooks"
+msgstr "Грешка при изпълнение на куки"
+
 #: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
 msgid "About %u seconds remaining"
@@ -238,10 +243,6 @@ msgstr[1] "Остават още %lu минути"
 #: src/alpm_utils.vala src/transaction-cli.vala src/cli.vala
 msgid "Error"
 msgstr "Грешка"
-
-#: src/alpm_utils.vala src/transaction-gtk.vala src/cli.vala
-msgid "Warning"
-msgstr "Внимание"
 
 #: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
@@ -270,6 +271,10 @@ msgstr "Неуспешно удостоверяване"
 #: src/daemon.vala
 msgid "Waiting for another package manager to quit"
 msgstr "Изчакване да завърши друг пакетен диспечер"
+
+#: src/daemon.vala src/transaction.vala
+msgid "Transaction cancelled"
+msgstr "Транзакцията прекратена"
 
 #: src/daemon.vala
 msgid "Timeout expired"
@@ -316,8 +321,18 @@ msgstr "Генерация %s информации"
 
 #: src/transaction.vala
 #, c-format
+msgid "Failed to generate %s informations"
+msgstr "Грешна при генерация %s информации"
+
+#: src/transaction.vala
+#, c-format
 msgid "Checking %s dependencies"
 msgstr "Проверка%s зависимости"
+
+#: src/transaction.vala
+#, c-format
+msgid "Failed to check %s dependencies"
+msgstr "Неуспешна проверка%s зависимости"
 
 #: src/transaction.vala
 #, c-format
@@ -327,6 +342,10 @@ msgstr "ключът %s не може да се внесе"
 #: src/transaction.vala src/manager_window.vala
 msgid "Transaction successfully finished"
 msgstr "Успешно завършена транзакция"
+
+#: src/transaction.vala
+msgid "Preparing"
+msgstr "Подготвяне"
 
 #: src/transaction.vala
 #, c-format

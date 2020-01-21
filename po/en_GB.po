@@ -1,7 +1,7 @@
 # Translation of Pamac.
-# Copyright (C) 2013-2019 Manjaro Developers <manjaro-dev@manjaro.org>
+# Copyright (C) 2013-2020 Manjaro Developers <manjaro-dev@manjaro.org>
 # This file is distributed under the same license as the Pamac package.
-# Guillaume Benoit <guillaume@manjaro.org>, 2013-2019.
+# Guillaume Benoit <guillaume@manjaro.org>, 2013-2020.
 # 
 # Translators:
 # Eilidh Martin <maxqueue93+github@gmail.com>, 2017
@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2019-12-21 18:55+0100\n"
-"PO-Revision-Date: 2019-12-22 00:29+0000\n"
+"POT-Creation-Date: 2020-01-17 14:37+0100\n"
+"PO-Revision-Date: 2020-01-18 00:50+0000\n"
 "Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: English (United Kingdom) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/en_GB/)\n"
 "MIME-Version: 1.0\n"
@@ -58,7 +58,7 @@ msgstr "Failed to init transaction"
 msgid "Failed to prepare transaction"
 msgstr "Failed to prepare transaction"
 
-#: src/alpm_utils.vala src/installer.vala src/cli.vala
+#: src/alpm_utils.vala src/transaction.vala src/installer.vala src/cli.vala
 #, c-format
 msgid "target not found: %s"
 msgstr "target not found: %s"
@@ -93,17 +93,9 @@ msgstr "%s and %s are in conflict"
 msgid "%s needs to be removed but it is a locked package"
 msgstr "%s needs to be removed but it is a locked package"
 
-#: src/alpm_utils.vala src/daemon.vala src/transaction.vala
-msgid "Transaction cancelled"
-msgstr "Transaction cancelled"
-
-#: src/alpm_utils.vala src/installer.vala src/cli.vala
+#: src/alpm_utils.vala src/transaction.vala src/installer.vala src/cli.vala
 msgid "Nothing to do"
 msgstr "Nothing to do"
-
-#: src/alpm_utils.vala src/transaction.vala
-msgid "Preparing"
-msgstr "Preparing"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -183,8 +175,17 @@ msgid "Configuring %s"
 msgstr "Configuring %s"
 
 #: src/alpm_utils.vala
+#, c-format
+msgid "Error while configuring %s"
+msgstr ""
+
+#: src/alpm_utils.vala
 msgid "Checking available disk space"
 msgstr "Checking available disc space"
+
+#: src/alpm_utils.vala src/transaction-gtk.vala src/cli.vala
+msgid "Warning"
+msgstr "Warning"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -222,6 +223,10 @@ msgstr "Running pre-transaction hooks"
 msgid "Running post-transaction hooks"
 msgstr "Running post-transaction hooks"
 
+#: src/alpm_utils.vala
+msgid "Error while running hooks"
+msgstr ""
+
 #: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
 msgid "About %u seconds remaining"
@@ -237,10 +242,6 @@ msgstr[1] "About %lu minutes remaining"
 #: src/alpm_utils.vala src/transaction-cli.vala src/cli.vala
 msgid "Error"
 msgstr "Error"
-
-#: src/alpm_utils.vala src/transaction-gtk.vala src/cli.vala
-msgid "Warning"
-msgstr "Warning"
 
 #: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
@@ -269,6 +270,10 @@ msgstr "Authentication failed"
 #: src/daemon.vala
 msgid "Waiting for another package manager to quit"
 msgstr "Waiting for another package manager to quit"
+
+#: src/daemon.vala src/transaction.vala
+msgid "Transaction cancelled"
+msgstr "Transaction cancelled"
 
 #: src/daemon.vala
 msgid "Timeout expired"
@@ -315,8 +320,18 @@ msgstr "Generating %s informations"
 
 #: src/transaction.vala
 #, c-format
+msgid "Failed to generate %s informations"
+msgstr ""
+
+#: src/transaction.vala
+#, c-format
 msgid "Checking %s dependencies"
 msgstr "Checking %s dependencies"
+
+#: src/transaction.vala
+#, c-format
+msgid "Failed to check %s dependencies"
+msgstr ""
 
 #: src/transaction.vala
 #, c-format
@@ -326,6 +341,10 @@ msgstr ""
 #: src/transaction.vala src/manager_window.vala
 msgid "Transaction successfully finished"
 msgstr "Transaction successfully finished"
+
+#: src/transaction.vala
+msgid "Preparing"
+msgstr "Preparing"
 
 #: src/transaction.vala
 #, c-format
