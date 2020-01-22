@@ -1364,17 +1364,27 @@ namespace Pamac {
 					if (aur_pkg.installed_version == "") {
 						var str_builder = new StringBuilder ();
 						str_builder.append (aur_pkg.name);
+						str_builder.append (" ");
 						if (aur_pkg.outofdate != 0) {
 							var time = GLib.Time.local ((time_t) aur_pkg.outofdate);
+							string out_of_date = "(%s: %s)".printf (dgettext (null, "Out of Date"), time.format ("%x"));
+							int out_of_date_available_width = available_width - (out_of_date.char_count () + 1);
+							str_builder.append (out_of_date);
 							str_builder.append (" ");
-							str_builder.append ("(%s: %s)".printf (dgettext (null, "Out of Date"), time.format ("%x")));
-						}
-						str_builder.append (" ");
-						int diff = available_width - aur_pkg.name.char_count ();
-						if (diff > 0) {
-							while (diff > 0) {
-								str_builder.append (" ");
-								diff--;
+							int diff = out_of_date_available_width - aur_pkg.name.char_count ();
+							if (diff > 0) {
+								while (diff > 0) {
+									str_builder.append (" ");
+									diff--;
+								}
+							}
+						} else {
+							int diff = available_width - aur_pkg.name.char_count ();
+							if (diff > 0) {
+								while (diff > 0) {
+									str_builder.append (" ");
+									diff--;
+								}
 							}
 						}
 						str_builder.append ("%-*s  %s \n".printf (version_length, aur_pkg.version, dgettext (null, "AUR")));
