@@ -36,15 +36,51 @@ namespace Pamac {
 		if (search_string != null) {
 			// display exact match first
 			if (pkg_a.app_name.down () == search_string) {
+				if (pkg_b.app_name.down () == search_string) {
+					return sort_pkgs_by_relevance (pkg_a, pkg_b);
+				}
 				return 0;
 			}
 			if (pkg_b.app_name.down () == search_string) {
+				if (pkg_a.app_name.down () == search_string) {
+					return sort_pkgs_by_relevance (pkg_a, pkg_b);
+				}
 				return 1;
 			}
 			if (pkg_a.name == search_string) {
+				if (pkg_b.name == search_string) {
+					return sort_pkgs_by_relevance (pkg_a, pkg_b);
+				}
 				return 0;
 			}
 			if (pkg_b.name == search_string) {
+				if (pkg_a.name == search_string) {
+					return sort_pkgs_by_relevance (pkg_a, pkg_b);
+				}
+				return 1;
+			}
+			if (pkg_a.app_name.down ().has_prefix (search_string)) {
+				if (pkg_b.app_name.down ().has_prefix (search_string)) {
+					return sort_pkgs_by_relevance (pkg_a, pkg_b);
+				}
+				return 0;
+			}
+			if (pkg_b.app_name.down ().has_prefix (search_string)) {
+				if (pkg_a.app_name.down ().has_prefix (search_string)) {
+					return sort_pkgs_by_relevance (pkg_a, pkg_b);
+				}
+				return 1;
+			}
+			if (pkg_a.app_name.down ().contains (search_string)) {
+				if (pkg_b.app_name.down ().contains (search_string)) {
+					return sort_pkgs_by_relevance (pkg_a, pkg_b);
+				}
+				return 0;
+			}
+			if (pkg_b.app_name.down ().contains (search_string)) {
+				if (pkg_a.app_name.down ().contains (search_string)) {
+					return sort_pkgs_by_relevance (pkg_a, pkg_b);
+				}
 				return 1;
 			}
 			if (pkg_a.name.has_prefix (search_string + "-")) {
@@ -55,30 +91,6 @@ namespace Pamac {
 			}
 			if (pkg_b.name.has_prefix (search_string + "-")) {
 				if (pkg_a.name.has_prefix (search_string + "-")) {
-					return sort_pkgs_by_relevance (pkg_a, pkg_b);
-				}
-				return 1;
-			}
-			if (pkg_a.app_name.has_prefix (search_string)) {
-				if (pkg_b.app_name.has_prefix (search_string)) {
-					return sort_pkgs_by_relevance (pkg_a, pkg_b);
-				}
-				return 0;
-			}
-			if (pkg_b.app_name.has_prefix (search_string)) {
-				if (pkg_a.app_name.has_prefix (search_string)) {
-					return sort_pkgs_by_relevance (pkg_a, pkg_b);
-				}
-				return 1;
-			}
-			if (pkg_a.app_name.contains (search_string)) {
-				if (pkg_b.app_name.contains (search_string)) {
-					return sort_pkgs_by_relevance (pkg_a, pkg_b);
-				}
-				return 0;
-			}
-			if (pkg_b.app_name.contains (search_string)) {
-				if (pkg_a.app_name.contains (search_string)) {
 					return sort_pkgs_by_relevance (pkg_a, pkg_b);
 				}
 				return 1;
@@ -216,8 +228,8 @@ namespace Pamac {
 	}
 
 	int sort_pkgs_by_name (Package pkg_a, Package pkg_b) {
-		string str_a = "%s%s".printf (pkg_a.app_name, pkg_a.name);
-		string str_b = "%s%s".printf (pkg_b.app_name, pkg_b.name);
+		string str_a = pkg_a.app_name == "" ? pkg_a.name : pkg_a.app_name.collate_key ();
+		string str_b = pkg_b.app_name == "" ? pkg_b.name : pkg_b.app_name.collate_key ();
 		return strcmp (str_a, str_b);
 	}
 
