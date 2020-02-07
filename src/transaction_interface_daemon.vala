@@ -33,15 +33,18 @@ namespace Pamac {
 		bool snap_trans_run_success;
 		bool snap_switch_channel_success;
 		#endif
+		#if ENABLE_FLATPAK
+		bool flatpak_trans_run_success;
+		#endif
 
-		public TransactionInterfaceDaemon (Config config) {
-			loop = new MainLoop ();
+		public TransactionInterfaceDaemon (Config config, MainLoop loop) {
+			this.loop = loop;
 			try {
 				connecting_system_daemon (config);
 				connecting_dbus_signals ();
 				sender = system_daemon.get_sender ();
 			} catch (Error e) {
-				critical ("failed to connect to dbus daemon: %s\n", e.message);
+				warning ("failed to connect to dbus daemon: %s\n", e.message);
 			}
 		}
 
@@ -269,6 +272,26 @@ namespace Pamac {
 		}
 		#endif
 
+		#if ENABLE_FLATPAK
+		public bool flatpak_trans_run (string[] to_install, string[] to_remove, string[] to_upgrade) throws Error {
+			try {
+				system_daemon.start_flatpak_trans_run (to_install, to_remove, to_upgrade);
+				loop.run ();
+				return flatpak_trans_run_success;
+			} catch (Error e) {
+				throw e;
+			}
+		}
+
+		void on_flatpak_trans_run_finished (string sender, bool success) {
+			if (sender != this.sender) {
+				return;
+			}
+			flatpak_trans_run_success = success;
+			loop.quit ();
+		}
+		#endif
+
 		public void quit_daemon () throws Error {
 			try {
 				system_daemon.quit ();
@@ -387,6 +410,9 @@ namespace Pamac {
 			#if ENABLE_SNAP
 			system_daemon.snap_trans_run_finished.connect (on_snap_trans_run_finished);
 			system_daemon.snap_switch_channel_finished.connect (on_snap_switch_channel_finished);
+			#endif
+			#if ENABLE_FLATPAK
+			system_daemon.flatpak_trans_run_finished.connect (on_flatpak_trans_run_finished);
 			#endif
 		}
 	}

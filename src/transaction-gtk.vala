@@ -172,7 +172,12 @@ namespace Pamac {
 		public void start_progressbar_pulse () {
 			stop_progressbar_pulse ();
 			progress_box.progressbar.visible = true;
-			pulse_timeout_id = Timeout.add (500, (GLib.SourceFunc) progress_box.progressbar.pulse);
+			var timeout = new TimeoutSource (500);
+			timeout.set_callback (() => {
+				progress_box.progressbar.pulse ();
+				return true;
+			});
+			pulse_timeout_id = timeout.attach (loop.get_context ());
 		}
 
 		public void stop_progressbar_pulse () {
@@ -562,8 +567,8 @@ namespace Pamac {
 				var label =  new Gtk.Label (file.get_basename ());
 				label.visible = true;
 				build_files_notebook.append_page (scrolled_window, label);
-			} catch (GLib.Error e) {
-				critical ("%s\n", e.message);
+			} catch (Error e) {
+				warning (e.message);
 			}
 		}
 
@@ -633,8 +638,8 @@ namespace Pamac {
 						if (build_files_notebook.get_tab_label_text (child) == "PKGBUILD") {
 							database.regenerate_srcinfo (pkgname);
 						}
-					} catch (GLib.Error e) {
-						critical ("%s\n", e.message);
+					} catch (Error e) {
+						warning (e.message);
 					}
 				}
 				index++;
@@ -729,10 +734,12 @@ namespace Pamac {
 			box.spacing = 6;
 			dialog.default_width = 600;
 			dialog.default_height = 300;
-			Timeout.add (1000, () => {
+			var timeout = new TimeoutSource (1000);
+			timeout.set_callback (() => {
 				show_notification (message);
 				return false;
 			});
+			timeout.attach (loop.get_context ());
 			dialog.run ();
 			dialog.destroy ();
 		}

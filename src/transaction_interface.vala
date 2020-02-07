@@ -57,5 +57,8 @@ namespace Pamac {
 		public abstract bool snap_trans_run (string[] to_install, string[] to_remove) throws Error;
 		public abstract bool snap_switch_channel (string snap_name, string channel) throws Error;
 		#endif
+		#if ENABLE_FLATPAK
+		public abstract bool flatpak_trans_run (string[] to_install, string[] to_remove, string[] to_upgrade) throws Error;
+		#endif
 	}
 }

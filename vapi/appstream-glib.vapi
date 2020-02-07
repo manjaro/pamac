@@ -117,7 +117,7 @@ namespace As {
 		public unowned GLib.GenericArray<string> get_categories ();
 		[CCode (cname = "as_app_get_comment")]
 		[Version (since = "0.1.0")]
-		public unowned string get_comment (string locale);
+		public unowned string get_comment (string? locale);
 		[CCode (cname = "as_app_get_comments")]
 		[Version (since = "0.1.6")]
 		public unowned GLib.HashTable<string,string> get_comments ();
@@ -132,7 +132,7 @@ namespace As {
 		public unowned GLib.GenericArray<As.ContentRating> get_content_ratings ();
 		[CCode (cname = "as_app_get_description")]
 		[Version (since = "0.1.0")]
-		public unowned string get_description (string locale);
+		public unowned string get_description (string? locale);
 		[CCode (cname = "as_app_get_descriptions")]
 		[Version (since = "0.1.6")]
 		public unowned GLib.HashTable<string,string> get_descriptions ();
@@ -222,7 +222,7 @@ namespace As {
 		public unowned GLib.GenericArray<string> get_mimetypes ();
 		[CCode (cname = "as_app_get_name")]
 		[Version (since = "0.1.0")]
-		public unowned string get_name (string locale);
+		public unowned string get_name (string? locale);
 		[CCode (cname = "as_app_get_names")]
 		[Version (since = "0.1.6")]
 		public unowned GLib.HashTable<string,string> get_names ();

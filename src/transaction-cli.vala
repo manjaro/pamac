@@ -580,7 +580,7 @@ namespace Pamac {
 						var process = new Subprocess.newv (cmds, SubprocessFlags.STDIN_INHERIT);
 						process.wait ();
 					} catch (Error e) {
-						critical ("%s\n", e.message);
+						warning (e.message);
 					}
 				}
 			}
@@ -613,7 +613,7 @@ namespace Pamac {
 							}
 						}
 					} catch (Error e) {
-						critical ("%s\n", e.message);
+						warning (e.message);
 					}
 				}
 				loop.quit ();

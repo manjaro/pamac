@@ -204,8 +204,8 @@ namespace Pamac {
 			app = new Application ("org.manjaro.pamac.manager", 0);
 			try {
 				app.register ();
-			} catch (GLib.Error e) {
-				stderr.printf ("%s\n", e.message);
+			} catch (Error e) {
+				warning (e.message);
 			}
 			run = app.get_is_remote ();
 			return run;

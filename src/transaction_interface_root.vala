@@ -22,8 +22,10 @@ namespace Pamac {
 		bool trans_refresh_success;
 		bool trans_run_success;
 		Cancellable trans_cancellable;
+		MainLoop loop;
 
-		public TransactionInterfaceRoot (Config config) {
+		public TransactionInterfaceRoot (MainLoop loop) {
+			this.loop = loop;
 			trans_cancellable = new Cancellable ();
 			// alpm_utils global variable declared in alpm_utils.vala
 			// and initialzed in transaction.vala
@@ -48,7 +50,7 @@ namespace Pamac {
 					generate_mirrors_list_data (line);
 				}
 			} catch (Error e) {
-				critical ("%s\n", e.message);
+				warning (e.message);
 			}
 			alpm_utils.alpm_config.reload ();
 		}
@@ -76,17 +78,20 @@ namespace Pamac {
 			return "root";
 		}
 
-		void wait_for_lock (MainLoop loop) {
+		bool wait_for_lock () {
 			bool waiting = false;
+			bool success = false;
 			trans_cancellable.reset ();
 			if (alpm_utils.lockfile.query_exists ()) {
 				waiting = true;
 				start_waiting ();
 				emit_action (dgettext (null, "Waiting for another package manager to quit") + "...");
 				int i = 0;
-				Timeout.add (200, () => {
+				var timeout = new TimeoutSource (200);
+				timeout.set_callback (() => {
 					if (!alpm_utils.lockfile.query_exists () || trans_cancellable.is_cancelled ()) {
 						loop.quit ();
+						success = true;
 						return false;
 					}
 					i++;
@@ -99,38 +104,47 @@ namespace Pamac {
 					}
 					return true;
 				});
+				timeout.attach (loop.get_context ());
 				loop.run ();
+			} else {
+				success = true;
 			}
 			if (waiting) {
 				stop_waiting ();
 			}
+			return success;
 		}
 
 		void trans_refresh_real (bool force) {
-			var loop = new MainLoop ();
-			wait_for_lock (loop);
-			if (trans_cancellable.is_cancelled ()) {
+			if (!wait_for_lock ()) {
 				// cancelled
+				trans_refresh_success = false;
 				return;
 			}
-			new Thread<int> ("trans_refresh_real", () => {
-				trans_refresh_success = alpm_utils.refresh ("root", force);
-				loop.quit ();
-				return 0;
-			});
-			loop.run ();
+			try {
+				new Thread<int>.try ("trans_refresh_real", () => {
+					trans_refresh_success = alpm_utils.refresh ("root", force);
+					loop.quit ();
+					return 0;
+				});
+				loop.run ();
+			} catch (Error e) {
+				warning (e.message);
+				trans_refresh_success = false;
+			}
 		}
 
 		public bool trans_refresh (bool force) {
 			if (alpm_utils.downloading_updates) {
 				alpm_utils.cancellable.cancel ();
 				// let time to cancel download updates
-				var loop = new MainLoop ();
-				Timeout.add (1000, () => {
+				var timeout = new TimeoutSource (1000);
+				timeout.set_callback (() => {
 					trans_refresh_real (force);
 					loop.quit ();
 					return false;
 				});
+				timeout.attach (loop.get_context ());
 				loop.run ();
 			} else {
 				trans_refresh_real (force);
@@ -149,29 +163,33 @@ namespace Pamac {
 							string[] to_install_as_dep,
 							string[] temporary_ignorepkgs,
 							string[] overwrite_files) {
-			var loop = new MainLoop ();
-			wait_for_lock (loop);
-			if (trans_cancellable.is_cancelled ()) {
+			if (!wait_for_lock ()) {
 				// cancelled
+				trans_run_success = false;
 				return;
 			}
-			new Thread<int> ("trans_run_real", () => {
-				trans_run_success = alpm_utils.trans_run ("root",
-														sysupgrade,
-														enable_downgrade,
-														simple_install,
-														keep_built_pkgs,
-														trans_flags,
-														to_install,
-														to_remove,
-														to_load,
-														to_install_as_dep,
-														temporary_ignorepkgs,
-														overwrite_files);
-				loop.quit ();
-				return 0;
-			});
-			loop.run ();
+			try {
+				new Thread<int>.try ("trans_run_real", () => {
+					trans_run_success = alpm_utils.trans_run ("root",
+															sysupgrade,
+															enable_downgrade,
+															simple_install,
+															keep_built_pkgs,
+															trans_flags,
+															to_install,
+															to_remove,
+															to_load,
+															to_install_as_dep,
+															temporary_ignorepkgs,
+															overwrite_files);
+					loop.quit ();
+					return 0;
+				});
+				loop.run ();
+			} catch (Error e) {
+				warning (e.message);
+				trans_run_success = false;
+			}
 		}
 
 		public bool trans_run (bool sysupgrade,
@@ -186,24 +204,31 @@ namespace Pamac {
 								string[] temporary_ignorepkgs,
 								string[] overwrite_files) {
 			if (alpm_utils.downloading_updates) {
+				string[] to_install_copy = to_install;
+				string[] to_remove_copy = to_remove;
+				string[] to_load_copy = to_load;
+				string[] to_install_as_dep_copy = to_install_as_dep;
+				string[] temporary_ignorepkgs_copy = temporary_ignorepkgs;
+				string[] overwrite_files_copy = overwrite_files;
 				alpm_utils.cancellable.cancel ();
 				// let time to cancel download updates
-				var loop = new MainLoop ();
-				Timeout.add (1000, () => {
+				var timeout = new TimeoutSource (1000);
+				timeout.set_callback (() => {
 					trans_run_real (sysupgrade,
 									enable_downgrade,
 									simple_install,
 									keep_built_pkgs,
 									trans_flags,
-									to_install,
-									to_remove,
-									to_load,
-									to_install_as_dep,
-									temporary_ignorepkgs,
-									overwrite_files);
+									to_install_copy,
+									to_remove_copy,
+									to_load_copy,
+									to_install_as_dep_copy,
+									temporary_ignorepkgs_copy,
+									overwrite_files_copy);
 					loop.quit ();
 					return false;
 				});
+				timeout.attach (loop.get_context ());
 				loop.run ();
 			} else {
 				trans_run_real (sysupgrade,
@@ -228,6 +253,13 @@ namespace Pamac {
 		}
 
 		public bool snap_switch_channel (string snap_name, string channel) {
+			// not implemented
+			return false;
+		}
+		#endif
+
+		#if ENABLE_FLATPAK
+		public bool flatpak_trans_run (string[] to_install, string[] to_remove, string[] to_upgrade) {
 			// not implemented
 			return false;
 		}

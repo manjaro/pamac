@@ -23,7 +23,7 @@ int main (string[] args) {
 	var alpm_config = new AlpmConfig ("/etc/pacman.conf");
 	Alpm.Handle? alpm_handle = alpm_config.get_handle ();
 	if (alpm_handle == null) {
-		critical ("Failed to initialize alpm library");
+		warning ("Failed to initialize alpm library");
 		return 1;
 	}
 	unowned string depend = args[1];

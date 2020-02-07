@@ -349,7 +349,7 @@ namespace Pamac {
 				}
 				if (args.length == 2) {
 					// no target
-					string[] targets = {};
+					var targets = new GenericArray<string> ();
 					var current_dir = File.new_for_path (Environment.get_current_dir ());
 					var pkgbuild = current_dir.get_child ("PKGBUILD");
 					if (!pkgbuild.query_exists ()) {
@@ -370,11 +370,11 @@ namespace Pamac {
 						bool success = database.regenerate_srcinfo (pkgbase, null);
 						if (success) {
 							foreach (unowned string pkgname in database.get_srcinfo_pkgnames (pkgbase)) {
-								targets += pkgname;
+								targets.add (pkgname);
 							}
 						}
 					}
-					build_pkgs (targets);
+					build_pkgs (targets.data);
 					return;
 				} else if (transaction.clone_build_files) {
 					// check if targets exist

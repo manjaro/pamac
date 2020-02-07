@@ -27,6 +27,11 @@ namespace Pamac {
 		public bool enable_snap { get; set; }
 		PluginLoader<SnapPlugin> snap_plugin_loader;
 		#endif
+		#if ENABLE_FLATPAK
+		public bool support_flatpak{ get; set; }
+		public bool enable_flatpak { get; set; }
+		PluginLoader<FlatpakPlugin> flatpak_plugin_loader;
+		#endif
 		public string aur_build_dir { get; set; }
 		public uint64 max_parallel_downloads { get; set; }
 
@@ -45,12 +50,23 @@ namespace Pamac {
 				support_snap = true;
 			}
 			#endif
+			#if ENABLE_FLATPAK
+			// load snap plugin
+			support_flatpak = false;
+			flatpak_plugin_loader = new PluginLoader<FlatpakPlugin> ("pamac-flatpak");
+			if (flatpak_plugin_loader.load ()) {
+				support_flatpak = true;
+			}
+			#endif
 			reload ();
 		}
 
 		public void reload () {
 			#if ENABLE_SNAP
 			enable_snap = false;
+			#endif
+			#if ENABLE_FLATPAK
+			enable_flatpak = false;
 			#endif
 			aur_build_dir = "/var/tmp";
 			max_parallel_downloads = 1;
@@ -64,12 +80,26 @@ namespace Pamac {
 				enable_snap = false;
 			}
 			#endif
+			#if ENABLE_FLATPAK
+			if (!support_flatpak) {
+				enable_flatpak = false;
+			}
+			#endif
 		}
 
 		#if ENABLE_SNAP
 		public SnapPlugin? get_snap_plugin () {
 			if (support_snap) {
 				return snap_plugin_loader.new_object ();
+			}
+			return null;
+		}
+		#endif
+
+		#if ENABLE_FLATPAK
+		public FlatpakPlugin? get_flatpak_plugin () {
+			if (support_flatpak) {
+				return flatpak_plugin_loader.new_object ();
 			}
 			return null;
 		}
@@ -104,6 +134,10 @@ namespace Pamac {
 						} else if (key == "EnableSnap") {
 							enable_snap = true;
 						#endif
+						#if ENABLE_FLATPAK
+						} else if (key == "EnableFlatpak") {
+							enable_flatpak = true;
+						#endif
 						} else if (key == "MaxParallelDownloads") {
 							if (splitted.length == 2) {
 								unowned string val = splitted[1]._strip ();
@@ -112,10 +146,10 @@ namespace Pamac {
 						}
 					}
 				} catch (GLib.Error e) {
-					GLib.stderr.printf("%s\n", e.message);
+					warning ("parse_file: %s", e.message);
 				}
 			} else {
-				GLib.stderr.printf ("File '%s' doesn't exist.\n", path);
+				warning ("File '%s' doesn't exist.", path);
 			}
 		}
 
@@ -249,6 +283,20 @@ namespace Pamac {
 								data.append ("\n");
 							}
 						#endif
+						#if ENABLE_FLATPAK
+						} else if (line.contains ("EnableFlatpak")) {
+							if (new_conf.lookup_extended ("EnableFlatpak", null, out variant)) {
+								if (variant.get_boolean ()) {
+									data.append ("EnableFlatpak\n");
+								} else {
+									data.append ("#EnableFlatpak\n");
+								}
+								new_conf.remove ("EnableFlatpak");
+							} else {
+								data.append (line);
+								data.append ("\n");
+							}
+						#endif
 						} else if (line.contains ("BuildDirectory")) {
 							if (new_conf.lookup_extended ("BuildDirectory", null, out variant)) {
 								data.append ("BuildDirectory = %s\n".printf (variant.get_string ()));
@@ -308,11 +356,11 @@ namespace Pamac {
 					}
 					// delete the file before rewrite it
 					file.delete ();
-				} catch (GLib.Error e) {
-					GLib.stderr.printf("%s\n", e.message);
+				} catch (Error e) {
+					warning ("write: %s\n", e.message);
 				}
 			} else {
-				GLib.stderr.printf ("File '%s' doesn't exist.\n", conf_path);
+				warning ("File '%s' doesn't exist", conf_path);
 			}
 			// create lines for unexisted options
 			if (new_conf.size () != 0) {
@@ -323,80 +371,88 @@ namespace Pamac {
 				while (iter.next (out key, out val)) {
 					if (key == "RemoveUnrequiredDeps") {
 						if (val.get_boolean ()) {
-							data.append ("RemoveUnrequiredDeps\n");
+							data.append ("RemoveUnrequiredDeps\n\n");
 						} else {
-							data.append ("#RemoveUnrequiredDeps\n");
+							data.append ("#RemoveUnrequiredDeps\n\n");
 						}
 					} else if (key == "EnableDowngrade") {
 						if (val.get_boolean ()) {
-							data.append ("EnableDowngrade\n");
+							data.append ("EnableDowngrade\n\n");
 						} else {
-							data.append ("#EnableDowngrade\n");
+							data.append ("#EnableDowngrade\n\n");
 						}
 					} else if (key == "SimpleInstall") {
 						if (val.get_boolean ()) {
-							data.append ("SimpleInstall\n");
+							data.append ("SimpleInstall\n\n");
 						} else {
-							data.append ("#SimpleInstall\n");
+							data.append ("#SimpleInstall\n\n");
 						}
 					} else if (key == "RefreshPeriod") {
-						data.append ("RefreshPeriod = %llu\n".printf (val.get_uint64 ()));
+						data.append ("RefreshPeriod = %llu\n\n".printf (val.get_uint64 ()));
 					} else if (key == "KeepNumPackages") {
-						data.append ("KeepNumPackages = %llu\n".printf (val.get_uint64 ()));
+						data.append ("KeepNumPackages = %llu\n\n".printf (val.get_uint64 ()));
 					} else if (key == "OnlyRmUninstalled") {
 						if (val.get_boolean ()) {
-							data.append ("OnlyRmUninstalled\n");
+							data.append ("OnlyRmUninstalled\n\n");
 						} else {
-							data.append ("#OnlyRmUninstalled\n");
+							data.append ("#OnlyRmUninstalled\n\n");
 						}
 					} else if (key =="NoUpdateHideIcon") {
 						if (val.get_boolean ()) {
-							data.append ("NoUpdateHideIcon\n");
+							data.append ("NoUpdateHideIcon\n\n");
 						} else {
-							data.append ("#NoUpdateHideIcon\n");
+							data.append ("#NoUpdateHideIcon\n\n");
 						}
 					} else if (key == "EnableAUR") {
 						if (val.get_boolean ()) {
-							data.append ("EnableAUR\n");
+							data.append ("EnableAUR\n\n");
 						} else {
-							data.append ("#EnableAUR\n");
+							data.append ("#EnableAUR\n\n");
 						}
 					} else if (key == "KeepBuiltPkgs") {
 						if (val.get_boolean ()) {
-							data.append ("KeepBuiltPkgs\n");
+							data.append ("KeepBuiltPkgs\n\n");
 						} else {
-							data.append ("#KeepBuiltPkgs\n");
+							data.append ("#KeepBuiltPkgs\n\n");
 						}
 					#if ENABLE_SNAP
 					} else if (key == "EnableSnap") {
 						if (val.get_boolean ()) {
-							data.append ("EnableSnap\n");
+							data.append ("EnableSnap\n\n");
 						} else {
-							data.append ("#EnableSnap\n");
+							data.append ("#EnableSnap\n\n");
+						}
+					#endif
+					#if ENABLE_FLATPAK
+					} else if (key == "EnableFlatpak") {
+						if (val.get_boolean ()) {
+							data.append ("EnableFlatpak\n\n");
+						} else {
+							data.append ("#EnableFlatpak\n\n");
 						}
 					#endif
 					} else if (key == "BuildDirectory") {
-						data.append ("BuildDirectory = %s\n".printf (val.get_string ()));
+						data.append ("BuildDirectory = %s\n\n".printf (val.get_string ()));
 					} else if (key == "CheckAURUpdates") {
 						if (val.get_boolean ()) {
-							data.append ("CheckAURUpdates\n");
+							data.append ("CheckAURUpdates\n\n");
 						} else {
-							data.append ("#CheckAURUpdates\n");
+							data.append ("#CheckAURUpdates\n\n");
 						}
 					} else if (key == "CheckAURVCSUpdates") {
 						if (val.get_boolean ()) {
-							data.append ("CheckAURVCSUpdates\n");
+							data.append ("CheckAURVCSUpdates\n\n");
 						} else {
-							data.append ("#CheckAURVCSUpdates\n");
+							data.append ("#CheckAURVCSUpdates\n\n");
 						}
 					} else if (key == "DownloadUpdates") {
 						if (val.get_boolean ()) {
-							data.append ("DownloadUpdates\n");
+							data.append ("DownloadUpdates\n\n");
 						} else {
-							data.append ("#DownloadUpdates\n");
+							data.append ("#DownloadUpdates\n\n");
 						}
 					} else if (key == "MaxParallelDownloads") {
-						data.append ("MaxParallelDownloads = %llu\n".printf (val.get_uint64 ()));
+						data.append ("MaxParallelDownloads = %llu\n\n".printf (val.get_uint64 ()));
 					}
 				}
 			}
@@ -405,8 +461,8 @@ namespace Pamac {
 				// creating a DataOutputStream to the file
 				var dos = new DataOutputStream (file.create (FileCreateFlags.REPLACE_DESTINATION));
 				dos.put_string (data.str);
-			} catch (GLib.Error e) {
-				GLib.stderr.printf("%s\n", e.message);
+			} catch (Error e) {
+				warning ("write: %s", e.message);
 			}
 		}
 	}

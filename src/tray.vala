@@ -59,7 +59,7 @@ namespace Pamac {
 					system_daemon.set_environment_variables (environment_variables);
 					system_daemon.write_pamac_config_finished.connect (on_write_pamac_config_finished);
 				} catch (Error e) {
-					stderr.printf ("Error: %s\n", e.message);
+					warning (e.message);
 				}
 			}
 		}
@@ -69,7 +69,7 @@ namespace Pamac {
 				try {
 					system_daemon.quit ();
 				} catch (Error e) {
-					stderr.printf ("Error: %s\n", e.message);
+					warning (e.message);
 				}
 			}
 		}
@@ -101,7 +101,7 @@ namespace Pamac {
 			try {
 				Process.spawn_command_line_async ("pamac-manager --updates");
 			} catch (SpawnError e) {
-				stderr.printf ("SpawnError: %s\n", e.message);
+				warning (e.message);
 			}
 		}
 
@@ -109,7 +109,7 @@ namespace Pamac {
 			try {
 				Process.spawn_command_line_async ("pamac-manager");
 			} catch (SpawnError e) {
-				stderr.printf ("SpawnError: %s\n", e.message);
+				warning (e.message);
 			}
 		}
 
@@ -142,7 +142,7 @@ namespace Pamac {
 										updates_nb++;
 									}
 								} catch (Error e) {
-									stderr.printf ("Error: %s\n", e.message);
+									warning (e.message);
 								}
 								show_or_update_notification ();
 							} else {
@@ -154,7 +154,7 @@ namespace Pamac {
 						}
 					});
 				} catch (Error e) {
-					stderr.printf ("Error: %s\n", e.message);
+					warning (e.message);
 				}
 			}
 			return true;
@@ -186,7 +186,7 @@ namespace Pamac {
 				notification.add_action ("default", _("Details"), execute_updater);
 				notification.show ();
 			} catch (Error e) {
-				stderr.printf ("Notify Error: %s", e.message);
+				warning (e.message);
 			}
 		}
 
@@ -201,7 +201,7 @@ namespace Pamac {
 					show_notification (info);
 				}
 			} catch (Error e) {
-				stderr.printf ("Notify Error: %s", e.message);
+				warning (e.message);
 			}
 		}
 
@@ -212,7 +212,7 @@ namespace Pamac {
 					notification = null;
 				}
 			} catch (Error e) {
-				stderr.printf ("Notify Error: %s", e.message);
+				warning (e.message);
 			}
 		}
 
@@ -223,7 +223,7 @@ namespace Pamac {
 			try {
 				app.register ();
 			} catch (GLib.Error e) {
-				stderr.printf ("%s\n", e.message);
+				warning (e.message);
 			}
 			run = app.get_is_remote ();
 			if (run) {
@@ -233,7 +233,7 @@ namespace Pamac {
 			try {
 				app.register ();
 			} catch (GLib.Error e) {
-				stderr.printf ("%s\n", e.message);
+				warning (e.message);
 			}
 			run = app.get_is_remote ();
 			return run;
@@ -305,7 +305,7 @@ namespace Pamac {
 			try {
 				lockfile_str = system_daemon.get_lockfile ();
 			} catch (Error e) {
-				stderr.printf ("Error: %s\n", e.message);
+				warning (e.message);
 			}
 			stop_system_daemon ();
 
@@ -314,7 +314,7 @@ namespace Pamac {
 				monitor = lockfile.monitor (FileMonitorFlags.NONE, null);
 				monitor.changed.connect (check_extern_lock);
 			} catch (Error e) {
-				stderr.printf ("Error: %s\n", e.message);
+				warning (e.message);
 			}
 			// wait 30 seconds before check updates
 			Timeout.add_seconds (30, () => {

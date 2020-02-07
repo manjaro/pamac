@@ -22,6 +22,7 @@ Pamac.AlpmUtils alpm_utils;
 string current_filename;
 string current_action;
 uint64 total_download;
+Mutex multi_progress_mutex;
 HashTable<string, uint64?> multi_progress;
 HashTable<string, AsyncQueue> queues_table;
 GenericArray<string> unresolvables;
@@ -86,6 +87,7 @@ namespace Pamac {
 		public AlpmConfig alpm_config;
 		string tmp_path;
 		public GLib.File lockfile;
+		MainContext context;
 		// run transaction data
 		string current_status;
 		double current_progress;
@@ -127,8 +129,10 @@ namespace Pamac {
 		public signal void important_details_outpout (string sender, bool must_show);
 		public signal bool get_authorization (string sender);
 
-		public AlpmUtils (Config config) {
+		public AlpmUtils (Config config, MainContext context) {
 			this.config = config;
+			multi_progress_mutex = Mutex ();
+			this.context = context;
 			alpm_config = config.alpm_config;
 			tmp_path = "/tmp/pamac";
 			to_syncfirst = new GenericSet<string?> (str_hash, str_equal);
@@ -146,8 +150,106 @@ namespace Pamac {
 			check_old_lock ();
 		}
 
-		public void emit_script_output_no_sender (string message) {
-			emit_script_output (sender, message);
+		public int do_choose_provider (string depend, string[] providers) {
+			string[] providers_copy = providers;
+			int index = 0;
+			var loop = new MainLoop (context);
+			var idle = new IdleSource ();
+			idle.set_priority (Priority.DEFAULT);
+			idle.set_callback (() => {
+				index = choose_provider (depend, providers_copy);
+				loop.quit ();
+				return false;
+			});
+			idle.attach (context);
+			loop.run ();
+			return index;
+		}
+
+		void do_start_downloading () {
+			context.invoke (() => {
+				start_downloading (sender);
+				return false;
+			});
+		}
+
+		void do_stop_downloading () {
+			context.invoke (() => {
+				stop_downloading (sender);
+				return false;
+			});
+		}
+
+		void do_emit_action (string action) {
+			context.invoke (() => {
+				emit_action (sender, action);
+				return false;
+			});
+		}
+
+		void do_emit_action_progress (string action, string status, double progress) {
+			context.invoke (() => {
+				emit_action_progress (sender, action, status, progress);
+				return false;
+			});
+		}
+
+		void do_emit_download_progress (string action, string status, double progress) {
+			context.invoke (() => {
+				emit_download_progress (sender, action, status, progress);
+				return false;
+			});
+		}
+
+		void do_emit_hook_progress (string action, string details, string status, double progress) {
+			context.invoke (() => {
+				emit_hook_progress (sender, action, details, status, progress);
+				return false;
+			});
+		}
+
+		public void do_emit_script_output (string message) {
+			context.invoke (() => {
+				emit_script_output (sender, message);
+				return false;
+			});
+		}
+
+		void do_emit_warning (string message) {
+			context.invoke (() => {
+				emit_warning (sender, message);
+				return false;
+			});
+		}
+
+		void do_emit_error (string message, string[] details) {
+			string[] details_copy = details;
+			context.invoke (() => {
+				emit_error (sender, message, details_copy);
+				return false;
+			});
+		}
+
+		void do_important_details_outpout (bool must_show) {
+			context.invoke (() => {
+				important_details_outpout (sender, must_show);
+				return false;
+			});
+		}
+
+		bool do_get_authorization () {
+			bool authorized = false;
+			var loop = new MainLoop (context);
+			var idle = new IdleSource ();
+			idle.set_priority (Priority.DEFAULT);
+			idle.set_callback (() => {
+				authorized = get_authorization (sender);
+				loop.quit ();
+				return false;
+			});
+			idle.attach (context);
+			loop.run ();
+			return authorized;
 		}
 
 		void check_old_lock () {
@@ -189,7 +291,7 @@ namespace Pamac {
 														try {
 															lockfile.delete ();
 														} catch (Error e) {
-															critical ("%s\n", e.message);
+															warning (e.message);
 														}
 													}
 												}
@@ -201,7 +303,7 @@ namespace Pamac {
 						}
 					}
 				} catch (SpawnError e) {
-					critical ("%s\n", e.message);
+					warning (e.message);
 				}
 			}
 		}
@@ -210,8 +312,8 @@ namespace Pamac {
 			alpm_config.reload ();
 			var alpm_handle = alpm_config.get_handle (files_db, tmp_db);
 			if (alpm_handle == null) {
-				critical ("%s\n", _("Failed to initialize alpm library"));
-				emit_error (sender, "Alpm Error", {_("Failed to initialize alpm library")});
+				warning ("%s\n", _("Failed to initialize alpm library"));
+				do_emit_error ("Alpm Error", {_("Failed to initialize alpm library")});
 			} else if (callbacks) {
 				alpm_handle.eventcb = (Alpm.EventCallBack) cb_event;
 				alpm_handle.progresscb = (Alpm.ProgressCallBack) cb_progress;
@@ -248,7 +350,7 @@ namespace Pamac {
 				}
 				return true;
 			} catch (Error e) {
-				critical ("%s\n", e.message);
+				warning (e.message);
 			}
 			return false;
 		}
@@ -258,7 +360,7 @@ namespace Pamac {
 				Process.spawn_command_line_sync ("rm -rf %s".printf (aur_build_dir));
 				return true;
 			} catch (SpawnError e) {
-				critical ("SpawnError: %s\n", e.message);
+				warning (e.message);
 			}
 			return false;
 		}
@@ -294,7 +396,7 @@ namespace Pamac {
 					if (errno != 0) {
 						// download error details are set in cb_fetch
 						if (errno != Alpm.Errno.EXTERNAL_DOWNLOAD) {
-							emit_warning (sender, Alpm.strerror (errno));
+							do_emit_warning (Alpm.strerror (errno));
 						}
 					}
 				}
@@ -305,8 +407,8 @@ namespace Pamac {
 
 		public bool refresh (string sender, bool force_refresh) {
 			this.sender = sender;
-			emit_action (sender, _("Synchronizing package databases") + "...");
-			start_downloading (sender);
+			do_emit_action (_("Synchronizing package databases") + "...");
+			do_start_downloading ();
 			write_log_file ("synchronizing package lists");
 			cancellable.reset ();
 			int force = (force_refresh) ? 1 : 0;
@@ -315,21 +417,21 @@ namespace Pamac {
 				try {
 					Process.spawn_command_line_sync ("bash -c 'rm -rf %s/dbs*'".printf (tmp_path));
 				} catch (SpawnError e) {
-					critical ("SpawnError: %s\n", e.message);
+					warning (e.message);
 				}
-//~ 			} else {
-//~ 				// try to copy refresh dbs in tmp
-//~ 				var file = GLib.File.new_for_path (tmp_path);
-//~ 				if (file.query_exists ()) {
-//~ 					try {
-//~ 						Process.spawn_command_line_sync ("bash -c 'cp -u %s/dbs*/sync/*.{db,files} %ssync'".printf (tmp_path, alpm_handle.dbpath));
-//~ 					} catch (SpawnError e) {
-//~ 						critical ("SpawnError: %s\n", e.message);
-//~ 					}
-//~ 				}
-//~ 				// a new handle is required to use copied databases
-//~ 				refresh_handle ();
+			} else {
+				// try to copy refresh dbs in tmp
+				var file = GLib.File.new_for_path (tmp_path);
+				if (file.query_exists ()) {
+					try {
+						var alpm_handle = get_handle ();
+						Process.spawn_command_line_sync ("bash -c 'cp -u %s/dbs*/sync/*.{db,files} %ssync'".printf (tmp_path, alpm_handle.dbpath));
+					} catch (SpawnError e) {
+						warning (e.message);
+					}
+				}
 			}
+			// a new handle is required to use copied databases
 			var alpm_handle = get_handle ();
 			if (alpm_handle == null) {
 				return false;
@@ -346,13 +448,12 @@ namespace Pamac {
 				if (files_handle != null) {
 					update_dbs (files_handle, force);
 				}
-				
 			}
-			stop_downloading (sender);
+			do_stop_downloading ();
 			if (cancellable.is_cancelled ()) {
 				return false;
 			} else if (!success) {
-				emit_warning (sender, _("Failed to synchronize databases"));
+				do_emit_warning (_("Failed to synchronize databases"));
 			}
 			current_filename = "";
 			// return false only if cancelled
@@ -402,7 +503,7 @@ namespace Pamac {
 					if (local_pkg != null) {
 						pkg.installed_version = local_pkg.version;
 					}
-					if (alpm_pkg.db.name == "aur") {
+					if (alpm_pkg.db.name == "pamac_aur") {
 						pkg.repo = dgettext (null, "AUR");
 					} else {
 						pkg.repo = alpm_pkg.db.name;
@@ -452,7 +553,7 @@ namespace Pamac {
 			try {
 				Process.spawn_command_line_sync ("rm -rf %s/dbs-root".printf (tmp_path));
 			} catch (SpawnError e) {
-				critical ("SpawnError: %s\n", e.message);
+				warning (e.message);
 			}
 			downloading_updates = false;
 		}
@@ -462,9 +563,9 @@ namespace Pamac {
 			if (alpm_handle.trans_init ((Alpm.TransFlag) flags) == -1) {
 				Alpm.Errno errno = alpm_handle.errno ();
 				if (errno != 0) {
-					emit_error (sender, _("Failed to init transaction"), {Alpm.strerror (errno)});
+					do_emit_error (_("Failed to init transaction"), {Alpm.strerror (errno)});
 				} else {
-					emit_error (sender, _("Failed to init transaction"), {});
+					do_emit_error (_("Failed to init transaction"), {});
 				}
 				return false;
 			}
@@ -476,9 +577,9 @@ namespace Pamac {
 			if (alpm_handle.trans_sysupgrade ((enable_downgrade) ? 1 : 0) == -1) {
 				Alpm.Errno errno = alpm_handle.errno ();
 				if (errno != 0) {
-					emit_error (sender, _("Failed to prepare transaction"), {Alpm.strerror (errno)});
+					do_emit_error (_("Failed to prepare transaction"), {Alpm.strerror (errno)});
 				} else {
-					emit_error (sender, _("Failed to prepare transaction"), {});
+					do_emit_error (_("Failed to prepare transaction"), {});
 				}
 				return false;
 			}
@@ -504,9 +605,9 @@ namespace Pamac {
 					return true;
 				} else {
 					if (errno != 0) {
-						emit_error (sender, _("Failed to prepare transaction"), {Alpm.strerror (errno)});
+						do_emit_error (_("Failed to prepare transaction"), {Alpm.strerror (errno)});
 					} else {
-						emit_error (sender, _("Failed to prepare transaction"), {});
+						do_emit_error (_("Failed to prepare transaction"), {});
 					}
 					return false;
 				}
@@ -517,7 +618,7 @@ namespace Pamac {
 		bool trans_add_pkg (Alpm.Handle alpm_handle, string pkgname) {
 			unowned Alpm.Package? pkg = alpm_handle.find_dbs_satisfier (alpm_handle.syncdbs, pkgname);
 			if (pkg == null) {
-				emit_error (sender, _("Failed to prepare transaction"), {_("target not found: %s").printf (pkgname)});
+				do_emit_error (_("Failed to prepare transaction"), {_("target not found: %s").printf (pkgname)});
 				return false;
 			} else {
 				bool success = trans_add_pkg_real (alpm_handle, pkg);
@@ -585,7 +686,7 @@ namespace Pamac {
 			// need to call the function twice in order to have the return path
 			// it's due to the use of a fetch callback
 			// first call to download pkg
-			start_downloading (sender);
+			do_start_downloading ();
 			alpm_handle.fetch_pkgurl (url);
 			// check for error
 			if (alpm_handle.errno () != 0) {
@@ -595,7 +696,7 @@ namespace Pamac {
 				// try to download signature
 				alpm_handle.fetch_pkgurl (url + ".sig");
 			}
-			stop_downloading (sender);
+			do_stop_downloading ();
 			return alpm_handle.fetch_pkgurl (url);
 		}
 
@@ -615,9 +716,9 @@ namespace Pamac {
 			if (alpm_handle.load_tarball (pkgpath, 1, siglevel, out pkg) == -1) {
 				Alpm.Errno errno = alpm_handle.errno ();
 				if (errno != 0) {
-					emit_error (sender, _("Failed to prepare transaction"), {Alpm.strerror (errno)});
+					do_emit_error (_("Failed to prepare transaction"), {Alpm.strerror (errno)});
 				} else {
-					emit_error (sender, _("Failed to prepare transaction"), {});
+					do_emit_error (_("Failed to prepare transaction"), {});
 				}
 				return false;
 			} else if (alpm_handle.trans_add_pkg (pkg) == -1) {
@@ -627,9 +728,9 @@ namespace Pamac {
 					return true;
 				} else {
 					if (errno != 0) {
-						emit_error (sender, _("Failed to prepare transaction"), {"%s: %s".printf (pkg->name, Alpm.strerror (errno))});
+						do_emit_error (_("Failed to prepare transaction"), {"%s: %s".printf (pkg->name, Alpm.strerror (errno))});
 					} else {
-						emit_error (sender, _("Failed to prepare transaction"), {});
+						do_emit_error (_("Failed to prepare transaction"), {});
 					}
 					// free the package because it will not be used
 					delete pkg;
@@ -643,16 +744,16 @@ namespace Pamac {
 			bool success = true;
 			unowned Alpm.Package? pkg =  alpm_handle.localdb.get_pkg (pkgname);
 			if (pkg == null) {
-				emit_error (sender, _("Failed to prepare transaction"), {_("target not found: %s").printf (pkgname)});
+				do_emit_error (_("Failed to prepare transaction"), {_("target not found: %s").printf (pkgname)});
 				success = false;
 			} else if (alpm_handle.trans_remove_pkg (pkg) == -1) {
 				Alpm.Errno errno = alpm_handle.errno ();
 				// just skip duplicate targets
 				if (errno != Alpm.Errno.TRANS_DUP_TARGET) {
 					if (errno != 0) {
-						emit_error (sender, _("Failed to prepare transaction"), {"%s: %s".printf (pkg.name, Alpm.strerror (errno))});
+						do_emit_error (_("Failed to prepare transaction"), {"%s: %s".printf (pkg.name, Alpm.strerror (errno))});
 					} else {
-						emit_error (sender, _("Failed to prepare transaction"), {});
+						do_emit_error (_("Failed to prepare transaction"), {});
 					}
 					success = false;
 				}
@@ -749,7 +850,7 @@ namespace Pamac {
 						details += Alpm.strerror (errno);
 						break;
 				}
-				emit_error (sender, _("Failed to prepare transaction"), details);
+				do_emit_error (_("Failed to prepare transaction"), details);
 				trans_release (alpm_handle);
 				success = false;
 			} else {
@@ -766,7 +867,7 @@ namespace Pamac {
 					to_remove.next ();
 				}
 				if (found_locked_pkg) {
-					emit_error (sender, _("Failed to prepare transaction"), details);
+					do_emit_error (_("Failed to prepare transaction"), details);
 					trans_release (alpm_handle);
 					success = false;
 				}
@@ -873,7 +974,7 @@ namespace Pamac {
 			if (success) {
 				if (alpm_handle.trans_to_add ().length > 0 ||
 					alpm_handle.trans_to_remove ().length > 0) {
-					if (get_authorization (sender)) {
+					if (do_get_authorization ()) {
 						// add callbacks to have commit signals
 						alpm_handle.eventcb = (Alpm.EventCallBack) cb_event;
 						alpm_handle.progresscb = (Alpm.ProgressCallBack) cb_progress;
@@ -887,7 +988,7 @@ namespace Pamac {
 						success = false;
 					}
 				} else {
-					emit_action (sender, dgettext (null, "Nothing to do") + ".");
+					do_emit_action (dgettext (null, "Nothing to do") + ".");
 					trans_release (alpm_handle);
 					success = true;
 				}
@@ -955,13 +1056,13 @@ namespace Pamac {
 			} else {
 				// fake aur db
 				try {
-					Process.spawn_command_line_sync ("cp %s/aur.db %ssync".printf (tmp_path, tmp_handle.dbpath));
+					Process.spawn_command_line_sync ("cp %s/pamac_aur.db %ssync".printf (tmp_path, tmp_handle.dbpath));
 				} catch (SpawnError e) {
-					emit_warning (sender, e.message);
+					do_emit_warning (e.message);
 				}
-				unowned Alpm.DB? aur_db = tmp_handle.register_syncdb ("aur", 0);
+				unowned Alpm.DB? aur_db = tmp_handle.register_syncdb ("pamac_aur", 0);
 				if (aur_db == null) {
-					emit_error (sender, _("Failed to initialize alpm library"), {});
+					do_emit_error (_("Failed to initialize alpm library"), {});
 					return false;
 				}
 				// check if we need to remove debug package to avoid dep problem
@@ -1000,9 +1101,9 @@ namespace Pamac {
 				if (tmp_handle.trans_init (trans_flags | Alpm.TransFlag.NOLOCK) == -1) {
 					Alpm.Errno errno = tmp_handle.errno ();
 					if (errno != 0) {
-						emit_error (sender, _("Failed to init transaction"), {Alpm.strerror (errno)});
+						do_emit_error (_("Failed to init transaction"), {Alpm.strerror (errno)});
 					} else {
-						emit_error (sender, _("Failed to init transaction"), {});
+						do_emit_error (_("Failed to init transaction"), {});
 					}
 					success = false;
 				}
@@ -1032,7 +1133,7 @@ namespace Pamac {
 						foreach (unowned string name in to_build) {
 							unowned Alpm.Package? pkg = aur_db.get_pkg (name);
 							if (pkg == null) {
-								emit_error (sender, _("Failed to prepare transaction"), {_("target not found: %s").printf (name)});
+								do_emit_error (_("Failed to prepare transaction"), {_("target not found: %s").printf (name)});
 								success = false;
 								break;
 							} else {
@@ -1062,7 +1163,7 @@ namespace Pamac {
 				try {
 					Process.spawn_command_line_sync ("rm -f %ssync/aur.db".printf (tmp_handle.dbpath));
 				} catch (SpawnError e) {
-					critical ("SpawnError: %s\n", e.message);
+					warning (e.message);
 				}
 				return success;
 			}
@@ -1074,7 +1175,7 @@ namespace Pamac {
 			while (pkgs_to_add != null) {
 				unowned Alpm.Package trans_pkg = pkgs_to_add.data;
 				unowned Alpm.DB? db = trans_pkg.db;
-				if (db != null && db.name == "aur") {
+				if (db != null && db.name == "pamac_aur") {
 					// it is a aur pkg to build
 					summary.aur_pkgbases_to_build_priv.append (trans_pkg.pkgbase);
 					summary.to_build_priv.append (initialise_pkg (alpm_handle, trans_pkg));
@@ -1105,6 +1206,11 @@ namespace Pamac {
 		}
 
 		public bool compute_multi_download_progress () {
+			// this will be run in this.context
+			if (alpm_utils.cancellable.is_cancelled ()) {
+				return true;
+			}
+			multi_progress_mutex.lock ();
 			uint64 total_progress = 0;
 			multi_progress.foreach ((filename, progress) => {
 				total_progress += progress;
@@ -1112,6 +1218,7 @@ namespace Pamac {
 			if (total_progress > 0) {
 				emit_download (total_progress, total_download);
 			}
+			multi_progress_mutex.unlock ();
 			return true;
 		}
 
@@ -1166,7 +1273,9 @@ namespace Pamac {
 			emit_event (Alpm.Event.Type.RETRIEVE_START, 0, {});
 			current_filename = "";
 			// use to track downloads progress
-			uint timeout_id = Timeout.add (100, compute_multi_download_progress);
+			var timeout = new TimeoutSource (500);
+			timeout.set_callback (compute_multi_download_progress);
+			uint timeout_id = timeout.attach (context);
 			// create a thread pool which will download files
 			// there will be two threads per mirror
 			try {
@@ -1186,14 +1295,14 @@ namespace Pamac {
 						dload_thread_pool.add (new DownloadServer (handle, mirror, repo_set));
 						dload_thread_pool.add (new DownloadServer (handle, mirror, repo_set));
 					} catch (ThreadError e) {
-						critical ("Thread Error %s\n", e.message);
+						warning (e.message);
 					}
 					return true;
 				});
 				// wait for all thread to finish
 				ThreadPool.free ((owned) dload_thread_pool, false, true);
 			} catch (ThreadError e) {
-				critical ("Thread Error %s\n", e.message);
+				warning (e.message);
 			}
 			// stop compute_multi_download_progress
 			Source.remove (timeout_id);
@@ -1286,14 +1395,14 @@ namespace Pamac {
 							try {
 								Process.spawn_command_line_sync ("mv -f %s %s".printf (path, cachedir));
 							} catch (SpawnError e) {
-								critical ("SpawnError: %s\n", e.message);
+								warning (e.message);
 							}
 						} else {
 							// rm built package
 							try {
 								Process.spawn_command_line_sync ("rm -f %s".printf (path));
 							} catch (SpawnError e) {
-								critical ("SpawnError: %s\n", e.message);
+								warning (e.message);
 							}
 						}
 					}
@@ -1369,7 +1478,7 @@ namespace Pamac {
 						details += Alpm.strerror (errno);
 						break;
 				}
-				emit_error (sender, _("Failed to commit transaction"), details);
+				do_emit_error (_("Failed to commit transaction"), details);
 				success = false;
 			}
 			trans_release (alpm_handle);
@@ -1407,16 +1516,16 @@ namespace Pamac {
 		public void emit_event (uint primary_event, uint secondary_event, string[] details) {
 			switch (primary_event) {
 				case 1: //Alpm.Event.Type.CHECKDEPS_START
-					emit_action (sender, dgettext (null, "Checking dependencies") + "...");
+					do_emit_action (dgettext (null, "Checking dependencies") + "...");
 					break;
 				case 3: //Alpm.Event.Type.FILECONFLICTS_START
 					current_action = dgettext (null, "Checking file conflicts") + "...";
 					break;
 				case 5: //Alpm.Event.Type.RESOLVEDEPS_START
-					emit_action (sender, dgettext (null, "Resolving dependencies") + "...");
+					do_emit_action (dgettext (null, "Resolving dependencies") + "...");
 					break;
 				case 7: //Alpm.Event.Type.INTERCONFLICTS_START
-					emit_action (sender, dgettext (null, "Checking inter-conflicts") + "...");
+					do_emit_action (dgettext (null, "Checking inter-conflicts") + "...");
 					break;
 				case 11: //Alpm.Event.Type.PACKAGE_OPERATION_START
 					switch (secondary_event) {
@@ -1452,45 +1561,45 @@ namespace Pamac {
 				case 17: //Alpm.Event.Type.SCRIPTLET_INFO
 					// hooks output are also emitted as SCRIPTLET_INFO
 					if (current_filename != "") {
-						emit_action (sender, dgettext (null, "Configuring %s").printf (current_filename) + "...");
+						do_emit_action (dgettext (null, "Configuring %s").printf (current_filename) + "...");
 						current_filename = "";
 					}
 					string msg = remove_bash_colors (details[0]).replace ("\n", "");
-					emit_script_output (sender, msg);
+					do_emit_script_output (msg);
 					if ("error" in msg.down ()) {
-						emit_warning (sender, dgettext (null, "Error while configuring %s").printf (current_filename));
-						important_details_outpout (sender, true);
+						do_emit_warning (dgettext (null, "Error while configuring %s").printf (current_filename));
+						do_important_details_outpout (true);
 					} else {
-						important_details_outpout (sender, false);
+						do_important_details_outpout (false);
 					}
 					break;
 				case 18: //Alpm.Event.Type.RETRIEVE_START
-					start_downloading (sender);
+					do_start_downloading ();
 					break;
 				case 19: //Alpm.Event.Type.RETRIEVE_DONE
 				case 20: //Alpm.Event.Type.RETRIEVE_FAILED
-					stop_downloading (sender);
+					do_stop_downloading ();
 					break;
 				case 24: //Alpm.Event.Type.DISKSPACE_START
 					current_action = dgettext (null, "Checking available disk space") + "...";
 					break;
 				case 26: //Alpm.Event.Type.OPTDEP_REMOVAL
-					emit_warning (sender, "%s: %s".printf (dgettext (null, "Warning"), dgettext (null, "%s optionally requires %s").printf (details[0], details[1])));
+					do_emit_warning ("%s: %s".printf (dgettext (null, "Warning"), dgettext (null, "%s optionally requires %s").printf (details[0], details[1])));
 					break;
 				case 27: //Alpm.Event.Type.DATABASE_MISSING
-					emit_script_output (sender, dgettext (null, "Database file for %s does not exist").printf (details[0]) + ".");
+					do_emit_script_output (dgettext (null, "Database file for %s does not exist").printf (details[0]) + ".");
 					break;
 				case 28: //Alpm.Event.Type.KEYRING_START
 					current_action = dgettext (null, "Checking keyring") + "...";
 					break;
 				case 30: //Alpm.Event.Type.KEY_DOWNLOAD_START
-					emit_action (sender, dgettext (null, "Downloading required keys") + "...");
+					do_emit_action (dgettext (null, "Downloading required keys") + "...");
 					break;
 				case 32: //Alpm.Event.Type.PACNEW_CREATED
-					emit_script_output (sender, dgettext (null, "%s installed as %s.pacnew").printf (details[0], details[0])+ ".");
+					do_emit_script_output (dgettext (null, "%s installed as %s.pacnew").printf (details[0], details[0])+ ".");
 					break;
 				case 33: //Alpm.Event.Type.PACSAVE_CREATED
-					emit_script_output (sender, dgettext (null, "%s installed as %s.pacsave").printf (details[0], details[0])+ ".");
+					do_emit_script_output (dgettext (null, "%s installed as %s.pacsave").printf (details[0], details[0])+ ".");
 					break;
 				case 34: //Alpm.Event.Type.HOOK_START
 					switch (secondary_event) {
@@ -1519,16 +1628,16 @@ namespace Pamac {
 					}
 					if (changed) {
 						if (details[1] != "") {
-							emit_hook_progress (sender, current_action, details[1], current_status, current_progress);
+							do_emit_hook_progress (current_action, details[1], current_status, current_progress);
 							if ("error" in details[1].down ()) {
-								emit_warning (sender, dgettext (null, "Error while running hooks"));
-								important_details_outpout (sender, true);
+								do_emit_warning (dgettext (null, "Error while running hooks"));
+								do_important_details_outpout (true);
 							}
 						} else {
-							emit_hook_progress (sender, current_action, details[0], current_status, current_progress);
+							do_emit_hook_progress (current_action, details[0], current_status, current_progress);
 							if ("error" in details[0].down ()) {
-								emit_warning (sender, dgettext (null, "Error while running hooks"));
-								important_details_outpout (sender, true);
+								do_emit_warning (dgettext (null, "Error while running hooks"));
+								do_important_details_outpout (true);
 							}
 						}
 					}
@@ -1569,9 +1678,16 @@ namespace Pamac {
 			}
 			if (changed) {
 				if (current_action != "") {
-					emit_action_progress (sender, current_action, current_status, current_progress);
+					do_emit_action_progress (current_action, current_status, current_progress);
 				}
 			}
+		}
+
+		public void emit_download_in_context (uint64 xfered, uint64 total, bool force_emit) {
+			context.invoke (() => {
+				emit_download (xfered, total, force_emit);
+				return false;
+			});
 		}
 
 		public void emit_download (uint64 xfered, uint64 total, bool force_emit = false) {
@@ -1662,7 +1778,7 @@ namespace Pamac {
 			if (text.str != current_status) {
 				current_status = text.str;
 			}
-			emit_download_progress (sender, current_action, current_status, current_progress);
+			do_emit_download_progress (current_action, current_status, current_progress);
 		}
 
 		public void emit_totaldownload (uint64 total) {
@@ -1671,7 +1787,7 @@ namespace Pamac {
 			if (total == 0) {
 				timer.stop ();
 				current_filename = "";
-				emit_download_progress (sender, current_action, current_status, 1);
+				do_emit_download_progress (current_action, current_status, 1);
 			}
 			download_rate = 0;
 			rates_nb = 0;
@@ -1690,8 +1806,8 @@ namespace Pamac {
 				} else {
 					line = dgettext (null, "Error") + ": " + msg;
 				}
-				important_details_outpout (sender, false);
-				emit_warning (sender, line.replace ("\n", ""));
+				do_important_details_outpout (false);
+				do_emit_warning (line.replace ("\n", ""));
 			} else if (level == (1 << 1)) { //Alpm.LogLevel.WARNING
 				// warnings when no_confirm_commit should already have been sent
 				if (alpm_utils.no_confirm_commit) {
@@ -1704,7 +1820,7 @@ namespace Pamac {
 					} else {
 						line = dgettext (null, "Warning") + ": " + msg;
 					}
-					emit_script_output (sender, line.replace ("\n", ""));
+					do_emit_script_output (line.replace ("\n", ""));
 				}
 			}
 		}
@@ -1721,7 +1837,7 @@ void write_log_file (string event) {
 		// writing a short string to the stream
 		dos.put_string (log);
 	} catch (Error e) {
-		critical ("%s\n", e.message);
+		warning (e.message);
 	}
 }
 
@@ -1843,7 +1959,7 @@ void cb_question (Alpm.Question.Data data) {
 				providers_str += pkg.name;
 				list.next ();
 			}
-			data.select_provider_use_index = alpm_utils.choose_provider (depend_str, providers_str);
+			data.select_provider_use_index = alpm_utils.do_choose_provider (depend_str, providers_str);
 			break;
 		case Alpm.Question.Type.CORRUPTED_PKG:
 			// Auto-remove corrupted pkgs in cache
@@ -1882,6 +1998,7 @@ void cb_progress (Alpm.Progress progress, string pkgname, int percent, uint n_ta
 delegate void DownloadCallback (string filename, uint64 xfered, uint64 total);
 
 void cb_multi_download (string filename, uint64 xfered, uint64 total) {
+	// this will be run in the threadpool
 	if (xfered == 0) {
 		string? name_version_release = filename.slice (0, filename.last_index_of_char ('-'));
 		if (name_version_release == null) {
@@ -1900,12 +2017,14 @@ void cb_multi_download (string filename, uint64 xfered, uint64 total) {
 		if (version_release == null) {
 			return;
 		}
+		multi_progress_mutex.lock ();
 		current_action = _("Download of %s started").printf ("%s (%s)".printf (name, version_release));
 		uint64 total_progress = 0;
 		multi_progress.foreach ((filename, progress) => {
 			total_progress += progress;
 		});
-		alpm_utils.emit_download (total_progress, total_download, true);
+		alpm_utils.emit_download_in_context (total_progress, total_download, true);
+		multi_progress_mutex.unlock ();
 	} else if (xfered == total) {
 		string? name_version_release = filename.slice (0, filename.last_index_of_char ('-'));
 		if (name_version_release == null) {
@@ -1924,15 +2043,19 @@ void cb_multi_download (string filename, uint64 xfered, uint64 total) {
 		if (version_release == null) {
 			return;
 		}
+		multi_progress_mutex.lock ();
 		current_action = _("Download of %s finished").printf ("%s (%s)".printf (name, version_release));
-		multi_progress.insert (filename, xfered);
 		uint64 total_progress = 0;
+		multi_progress.insert (filename, xfered);
 		multi_progress.foreach ((filename, progress) => {
 			total_progress += progress;
 		});
-		alpm_utils.emit_download (total_progress, total_download, true);
+		alpm_utils.emit_download_in_context (total_progress, total_download, true);
+		multi_progress_mutex.unlock ();
 	} else {
+		multi_progress_mutex.lock ();
 		multi_progress.insert (filename, xfered);
+		multi_progress_mutex.unlock ();
 	}
 }
 
@@ -1991,7 +2114,7 @@ int dload (Soup.Session soup_session, string url, string localpath, int force, D
 		if (force == 0) {
 			if (destfile.query_exists ()) {
 				// start from scratch only download if our local is out of date.
-				FileInfo info = destfile.query_info ("time::modified", 0);
+				FileInfo info = destfile.query_info (FileAttribute.TIME_MODIFIED, FileQueryInfoFlags.NONE);
 				DateTime time = info.get_modification_date_time ();
 				var date = new Soup.Date.from_string (time.to_string ());
 				message.request_headers.append ("If-Modified-Since", date.to_string (Soup.DateFormat.HTTP));
@@ -2018,7 +2141,7 @@ int dload (Soup.Session soup_session, string url, string localpath, int force, D
 		if (message.status_code >= 400) {
 			// do not report error for missing sig
 			if (!url.has_suffix (".sig")) {
-				alpm_utils.emit_script_output_no_sender ("%s: %s %s".printf (url, _("Error"), message.status_code.to_string ()));
+				alpm_utils.do_emit_script_output ("%s: %s %s".printf (url, _("Error"), message.status_code.to_string ()));
 			}
 			return -1;
 		}
@@ -2052,7 +2175,7 @@ int dload (Soup.Session soup_session, string url, string localpath, int force, D
 	} catch (Error e) {
 		// cancelled download goes here
 		if (e.code != IOError.CANCELLED) {
-			alpm_utils.emit_script_output_no_sender ("%s: %s".printf (url, e.message));
+			alpm_utils.do_emit_script_output ("%s: %s".printf (url, e.message));
 		}
 		if (remove_partial_download) {
 			try {
@@ -2060,7 +2183,7 @@ int dload (Soup.Session soup_session, string url, string localpath, int force, D
 					tempfile.delete ();
 				}
 			} catch (Error e) {
-				critical ("%s\n", e.message);
+				warning (e.message);
 			}
 		}
 		return -1;
@@ -2080,7 +2203,7 @@ int dload (Soup.Session soup_session, string url, string localpath, int force, D
 		}
 		return 0;
 	} catch (Error e) {
-		critical ("%s\n", e.message);
+		warning (e.message);
 		return -1;
 	}
 }

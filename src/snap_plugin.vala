@@ -37,8 +37,10 @@ namespace Pamac {
 		double current_progress;
 		string current_status;
 
-		public Snap () {
-			Object ();
+		public MainContext context { get; construct set; }
+
+		public Snap (MainContext context) {
+			Object (context: context);
 		}
 
 		construct {
@@ -179,7 +181,7 @@ namespace Pamac {
 				global_search_string = (owned) search_string_down;
 				result.sort (pkg_sort_search_by_relevance);
 			} catch (Error e) {
-				critical ("Search snaps: %s\n", e.message);
+				warning (e.message);
 			}
 			return (owned) result;
 		}
@@ -234,7 +236,7 @@ namespace Pamac {
 					}
 				});
 			} catch (Error e) {
-				critical ("Get installed snaps: %s\n", e.message);
+				warning (e.message);
 			}
 			return (owned) result;
 		}
@@ -257,11 +259,12 @@ namespace Pamac {
 
 		public List<SnapPackage> get_category_snaps (string category) {
 			var result = new List <SnapPackage> ();
-			string[] snap_categories = {};
+			var snap_categories = new GenericArray<string> ();
 			switch (category) {
 				case "Featured":
-					string[] featured_pkgs = {"spotify"};
-					foreach (unowned string name in featured_pkgs) {
+					var featured_pkgs = new GenericArray<string> ();
+					featured_pkgs.add ("spotify");
+					featured_pkgs.foreach ((name) => {
 						Snapd.Snap? found = get_local_snap (name);
 						if (found == null) {
 							found = get_store_snap (name);
@@ -269,38 +272,44 @@ namespace Pamac {
 								result.append (initialize_snap (found));
 							}
 						}
-					}
+					});
 					break;
 				case "Photo & Video":
-					snap_categories = {"photo-and-video", "art-and-design"};
+					snap_categories.add ("photo-and-video");
+					snap_categories.add ("art-and-design");
 					break;
 				case "Music & Audio":
-					snap_categories = {"music-and-audio"};
+					snap_categories.add ("music-and-audio");
 					break;
 				case "Productivity":
-					snap_categories = {"productivity", "finance"};
+					snap_categories.add ("productivity");
+					snap_categories.add ("finance");
 					break;
 				case "Communication & News":
-					snap_categories = {"social", "news-and-weather", "entertainment"};
+					snap_categories.add ("social");
+					snap_categories.add ("news-and-weather");
+					snap_categories.add ("entertainment");
 					break;
 				case "Education & Science":
-					snap_categories = {"education", "science"};
+					snap_categories.add ("education");
+					snap_categories.add ("science");
 					break;
 				case "Games":
-					snap_categories = {"games"};
+					snap_categories.add ("games");
 					break;
 				case "Utilities":
-					snap_categories = {"utilities", "health-and-fitness", "personalisation"};
+					snap_categories.add ("utilities");
+					snap_categories.add ("health-and-fitness");
+					snap_categories.add ("personalisation");
 					break;
 				case "Development":
-					snap_categories = {"development"};
+					snap_categories.add ("development");
 					break;
 				default:
-					snap_categories = {};
 					break;
 			}
 			if (snap_categories.length > 0) {
-				foreach (unowned string snap_category in snap_categories) {
+				snap_categories.foreach ((snap_category) => {
 					try {
 						GenericArray<unowned Snapd.Snap> found = client.find_section_sync (Snapd.FindFlags.NONE, snap_category, null, null, null);
 						found.foreach ((snap) => {
@@ -309,17 +318,75 @@ namespace Pamac {
 							}
 						});
 					} catch (Error e) {
-						critical ("Get category snaps: %s\n", e.message);
+						warning (e.message);
 					}
-				}
+				});
 			}
 			return (owned) result;
+		}
+
+		void do_start_downloading () {
+			context.invoke (() => {
+				start_downloading (sender);
+				return false;
+			});
+		}
+
+		void do_stop_downloading () {
+			context.invoke (() => {
+				stop_downloading (sender);
+				return false;
+			});
+		}
+
+		void do_emit_action_progress (string action, string status, double progress) {
+			context.invoke (() => {
+				emit_action_progress (sender, action, status, progress);
+				return false;
+			});
+		}
+
+		void do_emit_download_progress (string action, string status, double progress) {
+			context.invoke (() => {
+				emit_download_progress (sender, action, status, progress);
+				return false;
+			});
+		}
+
+		void do_emit_script_output (string message) {
+			context.invoke (() => {
+				emit_script_output (sender, message);
+				return false;
+			});
+		}
+
+		void do_emit_error (string message, string[] details) {
+			string[] details_copy = details;
+			context.invoke (() => {
+				emit_error (sender, message, details_copy);
+				return false;
+			});
+		}
+
+		bool do_get_authorization () {
+			bool authorized = false;
+			var loop = new MainLoop (context);
+			var idle = new IdleSource ();
+			idle.set_priority (Priority.DEFAULT);
+			idle.set_callback (() => {
+				authorized = get_authorization (sender);
+				loop.quit ();
+				return false;
+			});
+			idle.attach (context);
+			loop.run ();
+			return authorized;
 		}
 
 		public bool trans_run (string sender, string[] to_install, string[] to_remove) {
 			this.sender = sender;
 			cancellable.reset ();
-			if (!get_authorization (this.sender)) {
+			if (!do_get_authorization ()) {
 				return false;
 			}
 			bool success = true;
@@ -367,11 +434,11 @@ namespace Pamac {
 						return true;
 					} catch (Error e) {
 						if (!cancellable.is_cancelled ()) {
-							emit_error (sender, "Snap install error", {e.message});
+							do_emit_error ("Snap install error", {e.message});
 						}
 					}
 				} else if (!cancellable.is_cancelled ()) {
-					emit_error (sender, "Snap install error", {e.message});
+					do_emit_error ("Snap install error", {e.message});
 				}
 			}
 			return false;
@@ -386,7 +453,7 @@ namespace Pamac {
 				return true;
 			} catch (Error e) {
 				if (!cancellable.is_cancelled ()) {
-					emit_error (this.sender, "Snap switch error", {e.message});
+					do_emit_error ("Snap switch error", {e.message});
 				}
 			}
 			return false;
@@ -399,7 +466,7 @@ namespace Pamac {
 				return true;
 			} catch (Error e) {
 				if (!cancellable.is_cancelled ()) {
-					emit_error (this.sender, "Snap remove error", {e.message});
+					do_emit_error ("Snap remove error", {e.message});
 				}
 			}
 			return false;
@@ -409,7 +476,7 @@ namespace Pamac {
 			var text = new StringBuilder ();
 			double fraction;
 			if (init_download) {
-				start_downloading (sender);
+				do_start_downloading ();
 				init_download = false;
 				download_rate = 0;
 				rates_nb = 0;
@@ -453,7 +520,7 @@ namespace Pamac {
 			if (text.str != current_status) {
 				current_status = text.str;
 			}
-			emit_download_progress (sender, current_action, current_status, current_progress);
+			do_emit_download_progress (current_action, current_status, current_progress);
 		}
 
 		void progress_callback (Snapd.Client client, Snapd.Change change, void* deprecated) {
@@ -488,7 +555,7 @@ namespace Pamac {
 					done += 1;
 				} else if (task.status == "Doing" && task.summary != current_details) {
 					current_details = task.summary;
-					emit_script_output (sender, current_details);
+					do_emit_script_output (current_details);
 				}
 				total += 1;
 			});
@@ -496,10 +563,10 @@ namespace Pamac {
 				if (download_files.length == 0) {
 					downloading = false;
 					download_total = 0;
-					stop_downloading (sender);
+					do_stop_downloading ();
 				}
 			} else {
-				emit_action_progress (sender, main_action, "", (double) done / total);
+				do_emit_action_progress (main_action, "", (double) done / total);
 			}
 		}
 	}

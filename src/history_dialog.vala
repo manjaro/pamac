@@ -56,8 +56,8 @@ namespace Pamac {
 						}
 					}
 					textview.buffer.set_text (text.str, -1);
-				} catch (GLib.Error e) {
-					stderr.printf ("%s\n", e.message);
+				} catch (Error e) {
+					warning (e.message);
 				}
 			}
 			set_cursor_at_start ();

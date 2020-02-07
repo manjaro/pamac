@@ -22,6 +22,7 @@ const string GETTEXT_PACKAGE = "pamac";
 
 Pamac.Daemon system_daemon;
 MainLoop loop;
+MainContext context;
 
 [Compact]
 public class AlpmAction {
@@ -36,6 +37,9 @@ public class AlpmAction {
 	public string snap_name;
 	public string snap_channel;
 	public bool is_snap;
+	#endif
+	#if ENABLE_FLATPAK
+	public bool is_flatpak;
 	#endif
 	public bool is_set_pkgreason;
 	public string pkgname;
@@ -92,6 +96,11 @@ public class AlpmAction {
 		} else if (is_snap_switch) {
 			pamac_daemon.snap_switch_channel (sender, snap_name, snap_channel);
 		#endif
+		#if ENABLE_FLATPAK
+		} else if (is_flatpak) {
+			// to_load is used as to_upgrade
+			pamac_daemon.flatpak_trans_run (sender, to_install, to_remove, to_load);
+		#endif
 		}
 	}
 }
@@ -109,6 +118,9 @@ namespace Pamac {
 		HashTable<string, Cancellable> cancellables_table;
 		#if ENABLE_SNAP
 		SnapPlugin snap_plugin;
+		#endif
+		#if ENABLE_FLATPAK
+		FlatpakPlugin flatpak_plugin;
 		#endif
 
 		public signal void emit_action (string sender, string action);
@@ -139,21 +151,28 @@ namespace Pamac {
 		public signal void snap_trans_run_finished (string sender, bool success);
 		public signal void snap_switch_channel_finished (string sender, bool success);
 		#endif
+		#if ENABLE_FLATPAK
+		public signal void flatpak_trans_run_finished (string sender, bool success);
+		#endif
 
 		public Daemon () {
 			config = new Config ("/etc/pamac.conf");
 			// alpm_utils global variable declared in alpm_utils.vala
-			alpm_utils = new AlpmUtils (config);
+			alpm_utils = new AlpmUtils (config, context);
 			lockfile_cond = Cond ();
 			lockfile_mutex = Mutex ();
 			if (alpm_utils.lockfile.query_exists ()) {
-				new Thread<int> ("set_extern_lock", set_extern_lock);
+				try {
+					new Thread<int>.try ("set_extern_lock", set_extern_lock);
+				} catch (Error e) {
+					warning (e.message);
+				}
 			}
 			try {
 				lockfile_monitor = alpm_utils.lockfile.monitor (FileMonitorFlags.NONE, null);
 				lockfile_monitor.changed.connect (check_extern_lock);
 			} catch (Error e) {
-				critical ("%s\n", e.message);
+				warning (e.message);
 			}
 			create_thread_pool ();
 			answer_cond = Cond ();
@@ -218,6 +237,23 @@ namespace Pamac {
 				});
 			}
 			#endif
+			#if ENABLE_FLATPAK
+			if (config.support_flatpak) {
+				flatpak_plugin = config.get_flatpak_plugin ();
+				flatpak_plugin.get_authorization.connect ((sender) => {
+					return get_authorization_sync (sender);
+				});
+				flatpak_plugin.emit_action_progress.connect ((sender, action, status, progress) => {
+					emit_action_progress (sender, action, status, progress);
+				});
+				flatpak_plugin.emit_script_output.connect ((sender, message) => {
+					emit_script_output (sender, message);
+				});
+				flatpak_plugin.emit_error.connect ((sender, message,  details) => {
+					emit_error (sender, message, details);
+				});
+			}
+			#endif
 		}
 
 		public void set_environment_variables (HashTable<string,string> variables) throws Error {
@@ -256,7 +292,7 @@ namespace Pamac {
 					false
 				);
 			} catch (ThreadError e) {
-				critical ("%s\n", e.message);
+				warning (e.message);
 			}
 		}
 
@@ -273,7 +309,7 @@ namespace Pamac {
 					});
 					tmp_loop.run ();
 				} catch (Error e) {
-					critical ("%s\n", e.message);
+					warning (e.message);
 				}
 			}
 			return 0;
@@ -281,7 +317,11 @@ namespace Pamac {
 
 		void check_extern_lock (File src, File? dest, FileMonitorEvent event_type) {
 			if (event_type == FileMonitorEvent.CREATED) {
-				new Thread<int> ("set_extern_lock", set_extern_lock);
+				try {
+					new Thread<int>.try ("check_extern_lock", set_extern_lock);
+				} catch (Error e) {
+					warning (e.message);
+				}
 			}
 		}
 
@@ -300,7 +340,6 @@ namespace Pamac {
 					emit_error (sender, _("Authentication failed"), {});
 				}
 			} catch (Error e) {
-				critical ("%s\n", e.message);
 				emit_error (sender, _("Authentication failed"), {e.message});
 			}
 			return authorized;
@@ -322,7 +361,6 @@ namespace Pamac {
 					emit_error (sender, _("Authentication failed"), {});
 				}
 			} catch (Error e) {
-				critical ("%s\n", e.message);
 				emit_error (sender, _("Authentication failed"), {e.message});
 			}
 			answer_mutex.unlock ();
@@ -355,7 +393,6 @@ namespace Pamac {
 						action.new_alpm_conf = new_alpm_conf;
 						thread_pool.add ((owned) action);
 					} catch (ThreadError e) {
-						critical ("%s\n", e.message);
 						emit_error (sender, "Daemon Error", {e.message});
 						write_alpm_config_finished (sender);
 					}
@@ -374,7 +411,7 @@ namespace Pamac {
 						try {
 							Process.spawn_command_line_async ("systemctl enable --now snapd.service");
 						} catch (SpawnError e) {
-							critical ("%s\n", e.message);
+							warning (e.message);
 						}
 					}
 					#endif
@@ -395,7 +432,6 @@ namespace Pamac {
 					generate_mirrors_list_data (sender, line);
 				}
 			} catch (Error e) {
-				critical ("%s\n", e.message);
 				emit_error (sender, "Daemon Error", {e.message});
 			}
 			lockfile_mutex.lock ();
@@ -414,7 +450,6 @@ namespace Pamac {
 						action.country = country;
 						thread_pool.add ((owned) action);
 					} catch (ThreadError e) {
-						critical ("%s\n", e.message);
 						emit_error (sender, "Daemon Error", {e.message});
 						generate_mirrors_list_finished (sender);
 					}
@@ -465,15 +500,20 @@ namespace Pamac {
 
 		public void start_download_updates (BusName sender) throws Error {
 			// do not add this thread to the threadpool so it won't be queued
-			new Thread<int> ("download updates thread", () => {
-				alpm_utils.download_updates ();
-				download_updates_finished (sender);
-				return 0;
-			});
+			try {
+				new Thread<int>.try ("download updates thread", () => {
+					alpm_utils.download_updates ();
+					download_updates_finished (sender);
+					return 0;
+				});
+			} catch (Error e) {
+				warning (e.message);
+			}
 		}
 
-		void wait_for_lock (string sender, Cancellable cancellable) {
+		bool wait_for_lock (string sender, Cancellable cancellable) {
 			bool waiting = false;
+			bool success = false;
 			cancellable.reset ();
 			if (!lockfile_mutex.trylock ()) {
 				waiting = true;
@@ -486,6 +526,7 @@ namespace Pamac {
 					int64 end_time = get_monotonic_time () + 200 * TimeSpan.MILLISECOND;
 					answer_cond.wait_until (answer_mutex, end_time);
 					if (lockfile_mutex.trylock ()) {
+						success = true;
 						break;
 					}
 					i++;
@@ -496,28 +537,25 @@ namespace Pamac {
 					}
 				}
 				answer_mutex.unlock ();
+			} else {
+				success = true;
 			}
 			if (waiting) {
 				stop_waiting (sender);
 			}
+			return success;
 		}
 
 		[DBus (visible = false)]
 		public void trans_refresh (string sender, bool force, Cancellable cancellable) {
-			wait_for_lock (sender, cancellable);
-			if (cancellable.is_cancelled ()) {
-				// cancelled
-				trans_refresh_finished (sender, false);
-				return;
+			bool success = wait_for_lock (sender, cancellable);
+			if (success) {
+				success = get_authorization_sync (sender);
+				if (success) {
+					success = alpm_utils.refresh (sender, force);
+				}
+				lockfile_mutex.unlock ();
 			}
-			bool authorized = get_authorization_sync (sender);
-			if (!authorized) {
-				// not authorized
-				trans_refresh_finished (sender, false);
-				return;
-			}
-			bool success = alpm_utils.refresh (sender, force);
-			lockfile_mutex.unlock ();
 			trans_refresh_finished (sender, success);
 		}
 
@@ -525,7 +563,8 @@ namespace Pamac {
 			if (alpm_utils.downloading_updates) {
 				alpm_utils.cancellable.cancel ();
 				// let time to cancel download updates
-				Timeout.add (1000, () => {
+				var timeout = new TimeoutSource (1000);
+				timeout.set_callback (() => {
 					try {
 						var action = new AlpmAction (this, sender);
 						action.is_refresh = true;
@@ -536,12 +575,12 @@ namespace Pamac {
 						action.cancellable = cancellables_table.lookup (sender);
 						thread_pool.add ((owned) action);
 					} catch (ThreadError e) {
-						critical ("%s\n", e.message);
 						emit_error (sender, "Daemon Error", {e.message});
 						trans_refresh_finished (sender, false);
 					}
 					return false;
 				});
+				timeout.attach (context);
 			} else {
 				try {
 					var action = new AlpmAction (this, sender);
@@ -553,7 +592,6 @@ namespace Pamac {
 					action.cancellable = cancellables_table.lookup (sender);
 					thread_pool.add ((owned) action);
 				} catch (ThreadError e) {
-					critical ("%s\n", e.message);
 					emit_error (sender, "Daemon Error", {e.message});
 					trans_refresh_finished (sender, false);
 				}
@@ -562,20 +600,15 @@ namespace Pamac {
 
 		[DBus (visible = false)]
 		public void download_pkg (string sender, string url, Cancellable cancellable) {
-			wait_for_lock (sender, cancellable);
-			if (cancellable.is_cancelled ()) {
-				// cancelled
-				download_pkg_finished (sender, "");
-				return;
+			string path = "";
+			bool success = wait_for_lock (sender, cancellable);
+			if (success) {
+				success = get_authorization_sync (sender);
+				if (success) {
+					path = alpm_utils.download_pkg (sender, url);
+				}
+				lockfile_mutex.unlock ();
 			}
-			bool authorized = get_authorization_sync (sender);
-			if (!authorized) {
-				// not authorized
-				download_pkg_finished (sender, "");
-				return;
-			}
-			string path = alpm_utils.download_pkg (sender, url);
-			lockfile_mutex.unlock ();
 			download_pkg_finished (sender, path);
 		}
 
@@ -583,7 +616,8 @@ namespace Pamac {
 			if (alpm_utils.downloading_updates) {
 				alpm_utils.cancellable.cancel ();
 				// let time to cancel download updates
-				Timeout.add (1000, () => {
+				var timeout = new TimeoutSource (1000);
+				timeout.set_callback (() => {
 					try {
 						var action = new AlpmAction (this, sender);
 						action.is_download = true;
@@ -594,12 +628,12 @@ namespace Pamac {
 						action.cancellable = cancellables_table.lookup (sender);
 						thread_pool.add ((owned) action);
 					} catch (ThreadError e) {
-						critical ("%s\n", e.message);
 						emit_error (sender, "Daemon Error", {e.message});
 						download_pkg_finished (sender, "");
 					}
 					return false;
 				});
+				timeout.attach (context);
 			} else {
 				try {
 					var action = new AlpmAction (this, sender);
@@ -611,7 +645,6 @@ namespace Pamac {
 					action.cancellable = cancellables_table.lookup (sender);
 					thread_pool.add ((owned) action);
 				} catch (ThreadError e) {
-					critical ("%s\n", e.message);
 					emit_error (sender, "Daemon Error", {e.message});
 					download_pkg_finished (sender, "");
 				}
@@ -632,19 +665,11 @@ namespace Pamac {
 								string[] temporary_ignorepkgs,
 								string[] overwrite_files,
 								Cancellable cancellable) {
-			wait_for_lock (sender, cancellable);
-			if (cancellable.is_cancelled ()) {
-				// cancelled
-				trans_run_finished (sender, false);
-				return;
-			}
-			bool authorized = get_authorization_sync (sender);
-			if (!authorized) {
-				// not authorized
-				trans_run_finished (sender, false);
-				return;
-			}
-			bool success = alpm_utils.trans_run (sender,
+			bool success = wait_for_lock (sender, cancellable);
+			if (success) {
+				success = get_authorization_sync (sender);
+				if (success) {
+					success = alpm_utils.trans_run (sender,
 												sysupgrade,
 												enable_downgrade,
 												simple_install,
@@ -656,7 +681,9 @@ namespace Pamac {
 												to_install_as_dep,
 												temporary_ignorepkgs,
 												overwrite_files);
-			lockfile_mutex.unlock ();
+				}
+				lockfile_mutex.unlock ();
+			}
 			trans_run_finished (sender, success);
 		}
 
@@ -673,9 +700,16 @@ namespace Pamac {
 									string[] overwrite_files,
 									BusName sender) throws Error {
 			if (alpm_utils.downloading_updates) {
+				string[] to_install_copy = to_install;
+				string[] to_remove_copy = to_remove;
+				string[] to_load_copy = to_load;
+				string[] to_install_as_dep_copy = to_install_as_dep;
+				string[] temporary_ignorepkgs_copy = temporary_ignorepkgs;
+				string[] overwrite_files_copy = overwrite_files;
 				alpm_utils.cancellable.cancel ();
 				// let time to cancel download updates
-				Timeout.add (1000, () => {
+				var timeout = new TimeoutSource (1000);
+				timeout.set_callback (() => {
 					try {
 						var action = new AlpmAction (this, sender);
 						action.is_alpm = true;
@@ -684,24 +718,24 @@ namespace Pamac {
 						action.simple_install = simple_install;
 						action.keep_built_pkgs = keep_built_pkgs;
 						action.trans_flags = trans_flags;
-						action.to_install = to_install;
-						action.to_remove = to_remove;
-						action.to_load = to_load;
-						action.to_install_as_dep = to_install_as_dep;
-						action.temporary_ignorepkgs = temporary_ignorepkgs;
-						action.overwrite_files = overwrite_files;
+						action.to_install = (owned) to_install_copy;
+						action.to_remove = (owned) to_remove_copy;
+						action.to_load = (owned) to_load_copy;
+						action.to_install_as_dep = (owned) to_install_as_dep_copy;
+						action.temporary_ignorepkgs = (owned) temporary_ignorepkgs_copy;
+						action.overwrite_files = (owned) overwrite_files_copy;
 						if (!cancellables_table.contains (sender)) {
 							cancellables_table.insert (sender, new Cancellable ());
 						}
 						action.cancellable = cancellables_table.lookup (sender);
 						thread_pool.add ((owned) action);
 					} catch (ThreadError e) {
-						critical ("%s\n", e.message);
 						emit_error (sender, "Daemon Error", {e.message});
 						trans_run_finished (sender, false);
 					}
 					return false;
 				});
+				timeout.attach (context);
 			} else {
 				try {
 					var action = new AlpmAction (this, sender);
@@ -723,7 +757,6 @@ namespace Pamac {
 					action.cancellable = cancellables_table.lookup (sender);
 					thread_pool.add ((owned) action);
 				} catch (ThreadError e) {
-					critical ("%s\n", e.message);
 					emit_error (sender, "Daemon Error", {e.message});
 					trans_run_finished (sender, false);
 				}
@@ -739,10 +772,13 @@ namespace Pamac {
 
 		public void start_snap_trans_run (string[] to_install, string[] to_remove, BusName sender) throws Error {
 			if (!config.enable_snap) {
-				Idle.add (() => {
+				var idle = new IdleSource ();
+				idle.set_priority (Priority.DEFAULT);
+				idle.set_callback (() => {
 					snap_trans_run_finished (sender, false);
 					return false;
 				});
+				idle.attach (context);
 				return;
 			}
 			try {
@@ -752,7 +788,6 @@ namespace Pamac {
 				action.to_remove = to_remove;
 				thread_pool.add ((owned) action);
 			} catch (ThreadError e) {
-				critical ("%s\n", e.message);
 				emit_error (sender, "Daemon Error", {e.message});
 				snap_trans_run_finished (sender, false);
 			}
@@ -766,10 +801,13 @@ namespace Pamac {
 
 		public void start_snap_switch_channel (string snap_name, string snap_channel, BusName sender) throws Error {
 			if (!config.enable_snap) {
-				Idle.add (() => {
+				var idle = new IdleSource ();
+				idle.set_priority (Priority.DEFAULT);
+				idle.set_callback (() => {
 					snap_switch_channel_finished (sender, false);
 					return false;
 				});
+				idle.attach (context);
 				return;
 			}
 			try {
@@ -779,13 +817,44 @@ namespace Pamac {
 				action.snap_channel = snap_channel;
 				thread_pool.add ((owned) action);
 			} catch (ThreadError e) {
-				critical ("%s\n", e.message);
 				emit_error (sender, "Daemon Error", {e.message});
 				snap_switch_channel_finished (sender, false);
 			}
 		}
 		#endif
 
+		#if ENABLE_FLATPAK
+		[DBus (visible = false)]
+		public void flatpak_trans_run (string sender, string[] to_install, string[] to_remove, string[] to_upgrade) {
+			bool success = flatpak_plugin.trans_run (sender, to_install, to_remove, to_upgrade);
+			flatpak_trans_run_finished (sender, success);
+		}
+
+		public void start_flatpak_trans_run (string[] to_install, string[] to_remove, string[] to_upgrade, BusName sender) throws Error {
+			if (!config.enable_flatpak) {
+				var idle = new IdleSource ();
+				idle.set_priority (Priority.DEFAULT);
+				idle.set_callback (() => {
+					flatpak_trans_run_finished (sender, false);
+					return false;
+				});
+				idle.attach (context);
+				return;
+			}
+			try {
+				var action = new AlpmAction (this, sender);
+				action.is_flatpak = true;
+				action.to_install = to_install;
+				action.to_remove = to_remove;
+				// use existing to_load list
+				action.to_load = to_upgrade;
+				thread_pool.add ((owned) action);
+			} catch (ThreadError e) {
+				emit_error (sender, "Daemon Error", {e.message});
+				flatpak_trans_run_finished (sender, false);
+			}
+		}
+		#endif
 		public void trans_cancel (BusName sender) throws Error {
 			Cancellable? cancellable = cancellables_table.lookup (sender);
 			if (cancellable != null) {
@@ -824,7 +893,7 @@ void on_bus_acquired (DBusConnection conn) {
 		conn.register_object ("/org/manjaro/pamac/daemon", system_daemon);
 	}
 	catch (IOError e) {
-		stderr.printf ("Could not register service\n");
+		warning ("Could not register service\n");
 		loop.quit ();
 	}
 }
@@ -844,6 +913,7 @@ void main () {
 					loop.quit ();
 				});
 
-	loop = new MainLoop ();
+	context = MainContext.ref_thread_default ();
+	loop = new MainLoop (context);
 	loop.run ();
 }

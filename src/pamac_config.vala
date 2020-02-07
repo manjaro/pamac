@@ -37,6 +37,11 @@ namespace Pamac {
 		public bool enable_snap { get; set; }
 		PluginLoader<SnapPlugin> snap_plugin_loader;
 		#endif
+		#if ENABLE_FLATPAK
+		public bool support_flatpak { get; set; }
+		public bool enable_flatpak { get; set; }
+		PluginLoader<FlatpakPlugin> flatpak_plugin_loader;
+		#endif
 		public string aur_build_dir { get; set; }
 		public bool check_aur_updates { get; set; }
 		public bool check_aur_vcs_updates { get; set; }
@@ -88,6 +93,14 @@ namespace Pamac {
 				support_snap = true;
 			}
 			#endif
+			#if ENABLE_FLATPAK
+			// load flatpak plugin
+			support_flatpak = false;
+			flatpak_plugin_loader = new PluginLoader<FlatpakPlugin> ("pamac-flatpak");
+			if (flatpak_plugin_loader.load ()) {
+				support_flatpak = true;
+			}
+			#endif
 			reload ();
 		}
 
@@ -112,6 +125,9 @@ namespace Pamac {
 			enable_aur = false;
 			#if ENABLE_SNAP
 			enable_snap = false;
+			#endif
+			#if ENABLE_FLATPAK
+			enable_flatpak = false;
 			#endif
 			aur_build_dir = "/var/tmp";
 			check_aur_updates = false;
@@ -140,12 +156,26 @@ namespace Pamac {
 				enable_snap = false;
 			}
 			#endif
+			#if ENABLE_FLATPAK
+			if (!support_flatpak) {
+				enable_flatpak = false;
+			}
+			#endif
 		}
 
 		#if ENABLE_SNAP
 		public SnapPlugin? get_snap_plugin () {
 			if (support_snap) {
 				return snap_plugin_loader.new_object ();
+			}
+			return null;
+		}
+		#endif
+
+		#if ENABLE_FLATPAK
+		public FlatpakPlugin? get_flatpak_plugin () {
+			if (support_flatpak) {
+				return flatpak_plugin_loader.new_object ();
 			}
 			return null;
 		}
@@ -200,6 +230,10 @@ namespace Pamac {
 						} else if (key == "EnableSnap") {
 							enable_snap = true;
 						#endif
+						#if ENABLE_FLATPAK
+						} else if (key == "EnableFlatpak") {
+							enable_flatpak = true;
+						#endif
 						} else if (key == "BuildDirectory") {
 							if (splitted.length == 2) {
 								aur_build_dir = splitted[1]._strip ();
@@ -217,11 +251,11 @@ namespace Pamac {
 							}
 						}
 					}
-				} catch (GLib.Error e) {
-					GLib.stderr.printf("%s\n", e.message);
+				} catch (Error e) {
+					warning (e.message);
 				}
 			} else {
-				GLib.stderr.printf ("File '%s' doesn't exist.\n", path);
+				warning ("File '%s' doesn't exist.", path);
 			}
 		}
 
@@ -246,12 +280,12 @@ namespace Pamac {
 						try {
 							system_daemon.start_write_alpm_config (new_alpm_conf);
 						} catch (Error e) {
-							critical ("save pamac config error: %s\n", e.message);
+							warning ("save pamac config error: %s", e.message);
 							loop.quit ();
 						}
 					});
 				} catch (Error e) {
-					critical ("save pamac config error: %s\n", e.message);
+					warning ("save pamac config error: %s", e.message);
 				}
 			}
 			// write pamac config
@@ -273,11 +307,14 @@ namespace Pamac {
 			#if ENABLE_SNAP
 			new_pamac_conf.insert ("EnableSnap", new Variant.boolean (enable_snap));
 			#endif
+			#if ENABLE_FLATPAK
+			new_pamac_conf.insert ("EnableFlatpak", new Variant.boolean (enable_flatpak));
+			#endif
 			try {
 				system_daemon.start_write_pamac_config (new_pamac_conf);
 				loop.run ();
 			} catch (Error e) {
-				critical ("save pamac config error: %s\n", e.message);
+				warning ("save pamac config error: %s", e.message);
 			}
 		}
 	}

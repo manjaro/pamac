@@ -79,7 +79,7 @@ namespace Pamac {
 						}
 					}
 				} catch (Error e) {
-					stderr.printf("%s\n", e.message);
+					warning (e.message);
 				}
 			}
 		}
@@ -136,7 +136,7 @@ namespace Pamac {
 					// delete the file before rewrite it
 					file.delete ();
 				} catch (Error e) {
-					stderr.printf ("%s\n", e.message);
+					warning (e.message);
 				}
 			} else {
 				try {
@@ -145,7 +145,7 @@ namespace Pamac {
 						parent.make_directory_with_parents ();
 					}
 				} catch (Error e) {
-					stderr.printf ("%s\n", e.message);
+					warning (e.message);
 				}
 			}
 			// create lines for unexisted options
@@ -173,7 +173,7 @@ namespace Pamac {
 				var dos = new DataOutputStream (file.create (FileCreateFlags.REPLACE_DESTINATION));
 				dos.put_string (data.str);
 			} catch (Error e) {
-				stderr.printf ("%s\n", e.message);
+				warning (e.message);
 			}
 		}
 	}

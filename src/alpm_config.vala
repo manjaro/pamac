@@ -154,12 +154,12 @@ internal class AlpmConfig {
 					try {
 						Process.spawn_command_line_sync ("pacman-db-upgrade", null, null, null);
 					} catch (SpawnError e) {
-						stdout.printf ("Error: %s\n", e.message);
+						warning (e.message);
 					}
 					handle = new Alpm.Handle (rootdir, tmp_dbpath, out error);
 				}
 			} catch (SpawnError e) {
-				stderr.printf ("SpawnError: %s\n", e.message);
+				warning (e.message);
 			}
 		} else {
 			handle = new Alpm.Handle (rootdir, dbpath, out error);
@@ -167,7 +167,7 @@ internal class AlpmConfig {
 				try {
 					Process.spawn_command_line_sync ("pacman-db-upgrade", null, null, null);
 				} catch (SpawnError e) {
-					stdout.printf ("Error: %s\n", e.message);
+					warning (e.message);
 				}
 				handle = new Alpm.Handle (rootdir, dbpath, out error);
 			}
@@ -343,11 +343,11 @@ internal class AlpmConfig {
 						}
 					}
 				}
-			} catch (GLib.Error e) {
-				GLib.stderr.printf("%s\n", e.message);
+			} catch (Error e) {
+				warning (e.message);
 			}
 		} else {
-			GLib.stderr.printf ("File '%s' doesn't exist.\n", path);
+			warning ("File '%s' doesn't exist", path);
 		}
 	}
 
@@ -403,11 +403,11 @@ internal class AlpmConfig {
 				// creating a DataOutputStream to the file
 				var dos = new DataOutputStream (file.create (FileCreateFlags.REPLACE_DESTINATION));
 				dos.put_string (data.str);
-			} catch (GLib.Error e) {
-				GLib.stderr.printf("%s\n", e.message);
+			} catch (Error e) {
+				warning (e.message);
 			}
 		} else {
-			GLib.stderr.printf ("File '%s' doesn't exist.\n", conf_path);
+			warning ("File '%s' doesn't exist.", conf_path);
 		}
 	}
 

@@ -80,9 +80,15 @@ namespace Pamac {
 		Gtk.Button clean_cache_button;
 		[GtkChild]
 		Gtk.Box snap_config_box;
+		[GtkChild]
+		Gtk.Box flatpak_config_box;
 		#if ENABLE_SNAP
 		[GtkChild]
 		Gtk.Switch enable_snap_button;
+		#endif
+		#if ENABLE_FLATPAK
+		[GtkChild]
+		Gtk.Switch enable_flatpak_button;
 		#endif
 
 		Gtk.ListStore ignorepkgs_liststore;
@@ -167,8 +173,8 @@ namespace Pamac {
 				if (transaction.database.config.aur_build_dir != default_build_dir) {
 					aur_build_dir_file_chooser.add_shortcut_folder (transaction.database.config.aur_build_dir);
 				}
-			} catch (GLib.Error e) {
-				critical ("%s\n", e.message);
+			} catch (Error e) {
+				warning (e.message);
 			}
 			aur_build_dir_file_chooser.select_filename (transaction.database.config.aur_build_dir);
 			refresh_clean_build_files_button.begin ();
@@ -195,6 +201,17 @@ namespace Pamac {
 			}
 			#else
 			snap_config_box.visible = false;
+			#endif
+			#if ENABLE_FLATPAK
+			if (transaction.database.config.support_flatpak) {
+				flatpak_config_box.visible = true;
+				enable_flatpak_button.active = transaction.database.config.enable_flatpak;
+				enable_flatpak_button.state_set.connect (on_enable_flatpak_button_state_set);
+			} else {
+				flatpak_config_box.visible = false;
+			}
+			#else
+			flatpak_config_box.visible = false;
 			#endif
 		}
 
@@ -309,6 +326,14 @@ namespace Pamac {
 		bool on_enable_snap_button_state_set (bool new_state) {
 			enable_snap_button.state = new_state;
 			transaction.database.config.enable_snap = new_state;
+			return true;
+		}
+		#endif
+
+		#if ENABLE_FLATPAK
+		bool on_enable_flatpak_button_state_set (bool new_state) {
+			enable_flatpak_button.state = new_state;
+			transaction.database.config.enable_flatpak = new_state;
 			return true;
 		}
 		#endif

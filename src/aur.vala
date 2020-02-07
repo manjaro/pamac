@@ -55,7 +55,7 @@ namespace Pamac {
 					}
 				}
 			} catch (Error e) {
-				critical (e.message);
+				warning (e.message);
 				stderr.printf ("Failed to query %s from AUR\n", uri);
 			}
 			return results;
@@ -109,14 +109,14 @@ namespace Pamac {
 		}
 
 		void populate_infos (string[] pkgnames) {
-			string[] names = {};
+			var names = new GenericArray<string> ();
 			foreach (unowned string pkgname in pkgnames) {
 				if (!(pkgname in cached_infos)) {
-					names += pkgname;
+					names.add (pkgname);
 				}
 			}
 			if (names.length > 0) {
-				Json.Array results = multiinfo (names);
+				Json.Array results = multiinfo (names.data);
 				results.foreach_element ((array, index, node) => {
 					unowned Json.Object json_object = node.get_object ();
 					cached_infos.insert (json_object.get_string_member ("Name"), json_object);
@@ -181,11 +181,11 @@ namespace Pamac {
 					});
 					result = (owned) inter;
 				}
-				string[] pkgnames = {};
+				var pkgnames = new GenericArray<string> ();
 				result.foreach_element ((array, index, node) => {
-					pkgnames += node.get_object ().get_string_member ("Name");
+					pkgnames.add (node.get_object ().get_string_member ("Name"));
 				});
-				return get_multi_infos (pkgnames);
+				return get_multi_infos (pkgnames.data);
 			}
 		}
 	}

@@ -28,6 +28,7 @@ namespace Pamac {
 		TransactionInterface transaction_interface;
 		delegate void TransactionAction ();
 		bool waiting;
+		MainContext context;
 		protected MainLoop loop;
 		// run transaction data
 		bool sysupgrading;
@@ -43,6 +44,11 @@ namespace Pamac {
 		#if ENABLE_SNAP
 		HashTable<string, SnapPackage> snap_to_install;
 		HashTable<string, SnapPackage> snap_to_remove;
+		#endif
+		#if ENABLE_FLATPAK
+		HashTable<string, FlatpakPackage> flatpak_to_install;
+		HashTable<string, FlatpakPackage> flatpak_to_remove;
+		HashTable<string, FlatpakPackage> flatpak_to_upgrade;
 		#endif
 		// building data
 		string aurdb_path;
@@ -79,15 +85,16 @@ namespace Pamac {
 		}
 
 		construct {
+			context = MainContext.ref_thread_default ();
+			loop = new MainLoop (context);
 			if (Posix.geteuid () == 0) {
 				// we are root
-				transaction_interface = new TransactionInterfaceRoot (database.config);
+				transaction_interface = new TransactionInterfaceRoot (loop);
 			} else {
 				// use dbus daemon
-				transaction_interface = new TransactionInterfaceDaemon (database.config);
+				transaction_interface = new TransactionInterfaceDaemon (database.config, loop);
 			}
 			waiting = false;
-			loop = new MainLoop ();
 			// transaction options
 			clone_build_files = true;
 			// run transaction data
@@ -101,7 +108,7 @@ namespace Pamac {
 			overwrite_files = new GenericSet<string?> (str_hash, str_equal);
 			to_install_as_dep = new GenericSet<string?> (str_hash, str_equal);
 			// alpm_utils global variable declared in alpm_utils.vala
-			alpm_utils = new AlpmUtils (database.config);
+			alpm_utils = new AlpmUtils (database.config, context);
 			alpm_utils.choose_provider.connect (choose_provider_real);
 			alpm_utils.emit_action.connect ((sender, action) => {
 				emit_action (action);
@@ -144,6 +151,11 @@ namespace Pamac {
 			snap_to_install = new HashTable<string, SnapPackage> (str_hash, str_equal);
 			snap_to_remove = new HashTable<string, SnapPackage> (str_hash, str_equal);
 			#endif
+			#if ENABLE_FLATPAK
+			flatpak_to_install = new HashTable<string, FlatpakPackage> (str_hash, str_equal);
+			flatpak_to_remove = new HashTable<string, FlatpakPackage> (str_hash, str_equal);
+			flatpak_to_upgrade = new HashTable<string, FlatpakPackage> (str_hash, str_equal);
+			#endif
 			// building data
 			aurdb_path = "/tmp/pamac/aur-%s".printf (Environment.get_user_name ());
 			already_checked_aur_dep = new GenericSet<string?> (str_hash, str_equal);
@@ -159,7 +171,7 @@ namespace Pamac {
 			try {
 				transaction_interface.quit_daemon ();
 			} catch (Error e) {
-				critical ("quit_daemon: %s\n", e.message);
+				emit_error ("Daemon Error", {"quit_daemon: %s".printf (e.message)});
 			}
 		}
 
@@ -217,7 +229,7 @@ namespace Pamac {
 					}
 				}
 			} catch (Error e) {
-				critical ("%s\n", e.message);
+				warning (e.message);
 			}
 			return (owned) files;
 		}
@@ -339,7 +351,6 @@ namespace Pamac {
 					status = process.get_exit_status ();
 				}
 			} catch (Error e) {
-				critical ("%s\n", e.message);
 				emit_error (dgettext (null, "Failed to prepare transaction"), {e.message});
 			}
 			return status;
@@ -367,8 +378,8 @@ namespace Pamac {
 			}
 			if (aur_desc_list.length > 0) {
 				// create a fake aur db
-				launch_subprocess ({"rm", "-f", "%s/aur.db".printf (tmp_path)});
-				string[] cmds = {"bsdtar", "-cf", "%s/aur.db".printf (tmp_path), "-C", aurdb_path};
+				launch_subprocess ({"rm", "-f", "%s/pamac_aur.db".printf (tmp_path)});
+				string[] cmds = {"bsdtar", "-cf", "%s/pamac_aur.db".printf (tmp_path), "-C", aurdb_path};
 				foreach (unowned string name_version in aur_desc_list) {
 					cmds += name_version;
 				}
@@ -434,7 +445,6 @@ namespace Pamac {
 								}
 							}
 						} catch (Error e) {
-							critical ("%s\n", e.message);
 							emit_error (dgettext (null, "Failed to prepare transaction"), {dgettext (null, "target not found: %s").printf (pkgname)});
 							return false;
 						}
@@ -686,7 +696,6 @@ namespace Pamac {
 						check_signature (pkgname, global_validpgpkeys);
 					}
 				} catch (Error e) {
-					critical ("%s\n", e.message);
 					emit_error (dgettext (null, "Failed to prepare transaction"), {dgettext (null, "Failed to check %s dependencies").printf (pkgname)});
 					return false;
 				}
@@ -733,7 +742,7 @@ namespace Pamac {
 						}
 					}
 				} catch (Error e) {
-					critical ("%s\n", e.message);
+					warning (e.message);
 				} 
 			}
 		}
@@ -762,6 +771,15 @@ namespace Pamac {
 						}
 					}
 					#endif
+					#if ENABLE_FLATPAK
+					if (success) {
+						if (flatpak_to_install.length > 0 ||
+							flatpak_to_remove.length > 0 ||
+							flatpak_to_upgrade.length > 0) {
+							success = run_flatpak_transaction ();
+						}
+					}
+					#endif
 				}
 				database.refresh ();
 				if (success) {
@@ -771,6 +789,11 @@ namespace Pamac {
 					#if ENABLE_SNAP
 					snap_to_install.remove_all ();
 					snap_to_remove.remove_all ();
+					#endif
+					#if ENABLE_FLATPAK
+					flatpak_to_install.remove_all ();
+					flatpak_to_remove.remove_all ();
+					flatpak_to_upgrade.remove_all ();
 					#endif
 				}
 				sysupgrading = false;
@@ -782,12 +805,13 @@ namespace Pamac {
 				temporary_ignorepkgs.remove_all ();
 				overwrite_files.remove_all ();
 				to_install_as_dep.remove_all ();
-			#if ENABLE_SNAP
-			} else if (snap_to_install.length > 0 ||
-						snap_to_remove.length > 0) {
-				emit_action (dgettext (null, "Preparing") + "...");
-				start_preparing ();
+			#if ENABLE_SNAP || ENABLE_FLATPAK
+			} else {
+			#endif
+				#if ENABLE_SNAP
 				if (snap_to_install.length > 0) {
+					emit_action (dgettext (null, "Preparing") + "...");
+					start_preparing ();
 					// ask classic snaps
 					var iter = HashTableIter<string, SnapPackage> (snap_to_install);
 					var not_install = new List<unowned string> ();
@@ -803,37 +827,94 @@ namespace Pamac {
 					foreach (unowned string name in not_install) {
 						snap_to_install.remove (name);
 					}
-					if (snap_to_install.length + snap_to_remove.length == 0) {
-						stop_preparing ();
-						emit_action (dgettext (null, "Transaction cancelled") + ".");
-						return false;
-					}
+					stop_preparing ();
 				}
+				#endif
+				#if ENABLE_SNAP || ENABLE_FLATPAK
 				// ask confirmation
 				var summary = new TransactionSummary ();
-				var iter = HashTableIter<string, SnapPackage> (snap_to_install);
-				SnapPackage pkg;
-				while (iter.next (null, out pkg)) {
-					summary.to_install_priv.append (pkg);
-				}
-				iter = HashTableIter<string, SnapPackage> (snap_to_remove);
-				while (iter.next (null, out pkg)) {
-					summary.to_remove_priv.append (pkg);
-				}
-				if (ask_commit (summary)) {
+				#endif
+				#if ENABLE_SNAP
+				if (snap_to_install.length > 0 ||
+					snap_to_remove.length > 0) {
+					start_preparing ();
+					var iter = HashTableIter<string, SnapPackage> (snap_to_install);
+					SnapPackage pkg;
+					while (iter.next (null, out pkg)) {
+						summary.to_install_priv.append (pkg);
+					}
+					iter = HashTableIter<string, SnapPackage> (snap_to_remove);
+					while (iter.next (null, out pkg)) {
+						summary.to_remove_priv.append (pkg);
+					}
 					stop_preparing ();
-					success = run_snap_transaction ();
+				}
+				#endif
+				#if ENABLE_FLATPAK
+				if (flatpak_to_install.length > 0 ||
+					flatpak_to_remove.length > 0 ||
+					flatpak_to_upgrade.length > 0) {
+					start_preparing ();
+					var iter = HashTableIter<string, FlatpakPackage> (flatpak_to_install);
+					FlatpakPackage pkg;
+					while (iter.next (null, out pkg)) {
+						summary.to_install_priv.append (pkg);
+					}
+					iter = HashTableIter<string, FlatpakPackage> (flatpak_to_remove);
+					while (iter.next (null, out pkg)) {
+						summary.to_remove_priv.append (pkg);
+					}
+					iter = HashTableIter<string, FlatpakPackage> (flatpak_to_upgrade);
+					while (iter.next (null, out pkg)) {
+						summary.to_upgrade_priv.append (pkg);
+					}
+					stop_preparing ();
+				}
+				#endif
+				#if ENABLE_SNAP || ENABLE_FLATPAK
+				if (summary.to_install_priv.length () + summary.to_remove_priv.length () == 0) {
+					emit_action (dgettext (null, "Transaction cancelled") + ".");
+					return false;
+				} else if (ask_commit (summary)) {
+				#endif
+					#if ENABLE_SNAP
+					if (snap_to_install.length > 0 ||
+						snap_to_remove.length > 0) {
+						success = run_snap_transaction ();
+					}
+					#endif
+					#if ENABLE_FLATPAK
+					if (flatpak_to_install.length > 0 ||
+						flatpak_to_remove.length > 0 ||
+						flatpak_to_upgrade.length > 0) {
+						success = run_flatpak_transaction ();
+					}
+					#endif
+					#if ENABLE_SNAP || ENABLE_FLATPAK
 					if (success) {
 						emit_action (dgettext (null, "Transaction successfully finished") + ".");
 					}
+					#endif
+				#if ENABLE_SNAP || ENABLE_FLATPAK
 				} else {
+				#endif
+					#if ENABLE_SNAP
 					snap_to_install.remove_all ();
 					snap_to_remove.remove_all ();
+					#endif
+					#if ENABLE_FLATPAK
+					flatpak_to_install.remove_all ();
+					flatpak_to_remove.remove_all ();
+					flatpak_to_upgrade.remove_all ();
+					#endif
+					#if ENABLE_SNAP || ENABLE_FLATPAK
 					stop_preparing ();
 					emit_action (dgettext (null, "Transaction cancelled") + ".");
 					success = false;
+					#endif
+				#if ENABLE_SNAP || ENABLE_FLATPAK
 				}
-			#endif
+				#endif
 			}
 			return success;
 		}
@@ -1029,9 +1110,6 @@ namespace Pamac {
 								to_install_as_dep.add (pkg.name);
 							}
 						}
-						foreach (unowned Package pkg in summary.to_remove) {
-							to_remove.add (pkg.name);
-						}
 						var to_install_array = new GenericArray<string> (to_install.length);
 						var to_remove_array = new GenericArray<string> (to_remove.length);
 						var to_load_array = new GenericArray<string> (to_load.length);
@@ -1222,6 +1300,50 @@ namespace Pamac {
 		}
 		#endif
 
+		#if ENABLE_FLATPAK
+		public void add_flatpak_to_install (FlatpakPackage pkg) {
+			flatpak_to_install.insert (pkg.id, pkg);
+		}
+
+		public void add_flatpak_to_remove (FlatpakPackage pkg) {
+			flatpak_to_remove.insert (pkg.id, pkg);
+		}
+
+		public void add_flatpak_to_upgrade (FlatpakPackage pkg) {
+			flatpak_to_upgrade.insert (pkg.id, pkg);
+		}
+
+		bool run_flatpak_transaction () {
+			var flatpak_to_install_array = new GenericArray<string> (flatpak_to_install.length);
+			var flatpak_to_remove_array = new GenericArray<string> (flatpak_to_remove.length);
+			var flatpak_to_upgrade_array = new GenericArray<string> (flatpak_to_upgrade.length);
+			var iter = HashTableIter<string, FlatpakPackage> (flatpak_to_install);
+			unowned string id;
+			while (iter.next (out id, null)) {
+				flatpak_to_install_array.add (id);
+			}
+			iter = HashTableIter<string, FlatpakPackage> (flatpak_to_remove);
+			while (iter.next (out id, null)) {
+				flatpak_to_remove_array.add (id);
+			}
+			iter = HashTableIter<string, FlatpakPackage> (flatpak_to_upgrade);
+			while (iter.next (out id, null)) {
+				flatpak_to_upgrade_array.add (id);
+			}
+			flatpak_to_install.remove_all ();
+			flatpak_to_remove.remove_all ();
+			flatpak_to_upgrade.remove_all ();
+			try {
+				return transaction_interface.flatpak_trans_run (flatpak_to_install_array.data,
+																flatpak_to_remove_array.data,
+																flatpak_to_upgrade_array.data);
+			} catch (Error e) {
+				emit_error ("Daemon Error", {"flatpak_trans_run: %s".printf (e.message)});
+				return false;
+			}
+		}
+		#endif
+
 		string remove_bash_colors (string msg) {
 			Regex regex = /\x1B\[[0-9;]*[JKmsu]/;
 			try {
@@ -1247,7 +1369,7 @@ namespace Pamac {
 						line = dis.read_line_async.end (res);
 					} catch (Error e) {
 						if (!cancellable.is_cancelled ()) {
-							critical ("%s\n", e.message);
+							warning (e.message);
 						}
 					}
 					loop.quit ();
@@ -1263,7 +1385,7 @@ namespace Pamac {
 							line = dis.read_line_async.end (res);
 						} catch (Error e) {
 							if (!cancellable.is_cancelled ()) {
-								critical ("%s\n", e.message);
+								warning (e.message);
 							}
 						}
 						loop.quit ();
@@ -1289,7 +1411,7 @@ namespace Pamac {
 				});
 				loop.run ();
 			} catch (Error e) {
-				critical ("%s\n", e.message);
+				warning (e.message);
 			}
 			return status;
 		}
@@ -1350,7 +1472,7 @@ namespace Pamac {
 								try {
 									line = dis.read_line_async.end (res);
 								} catch (Error e) {
-									critical ("%s\n", e.message);
+									warning (e.message);
 								}
 								loop.quit ();
 							});
@@ -1377,7 +1499,7 @@ namespace Pamac {
 									try {
 										line = dis.read_line_async.end (res);
 									} catch (Error e) {
-										critical ("%s\n", e.message);
+										warning (e.message);
 									}
 									loop.quit ();
 								});
@@ -1385,7 +1507,7 @@ namespace Pamac {
 							}
 						}
 					} catch (Error e) {
-						critical ("%s\n", e.message);
+						warning (e.message);
 						status = 1;
 					}
 				}
@@ -1474,14 +1596,30 @@ namespace Pamac {
 					}
 				}
 				// add snaps to summary
-				var iter = HashTableIter<string, SnapPackage> (snap_to_install);
-				SnapPackage pkg;
-				while (iter.next (null, out pkg)) {
-					summary.to_install_priv.append (pkg);
+				var snap_iter = HashTableIter<string, SnapPackage> (snap_to_install);
+				SnapPackage snap_pkg;
+				while (snap_iter.next (null, out snap_pkg)) {
+					summary.to_install_priv.append (snap_pkg);
 				}
-				iter = HashTableIter<string, SnapPackage> (snap_to_remove);
-				while (iter.next (null, out pkg)) {
-					summary.to_remove_priv.append (pkg);
+				snap_iter = HashTableIter<string, SnapPackage> (snap_to_remove);
+				while (snap_iter.next (null, out snap_pkg)) {
+					summary.to_remove_priv.append (snap_pkg);
+				}
+				#endif
+				#if ENABLE_FLATPAK
+				// add flatpaks to summary
+				var flatpak_iter = HashTableIter<string, FlatpakPackage> (flatpak_to_install);
+				FlatpakPackage flatpak_pkg;
+				while (flatpak_iter.next (null, out flatpak_pkg)) {
+					summary.to_install_priv.append (flatpak_pkg);
+				}
+				flatpak_iter = HashTableIter<string, FlatpakPackage> (flatpak_to_remove);
+				while (flatpak_iter.next (null, out flatpak_pkg)) {
+					summary.to_remove_priv.append (flatpak_pkg);
+				}
+				flatpak_iter = HashTableIter<string, FlatpakPackage> (flatpak_to_upgrade);
+				while (flatpak_iter.next (null, out flatpak_pkg)) {
+					summary.to_upgrade_priv.append (flatpak_pkg);
 				}
 				#endif
 				// populate build queue

@@ -122,11 +122,17 @@ namespace Pamac {
 		List<AURPackage> aur_updates_priv;
 		List<AURPackage> ignored_aur_updates_priv;
 		List<AURPackage> outofdate_priv;
+		#if ENABLE_FLATPAK
+		List<FlatpakPackage> flatpak_updates_priv;
+		#endif
 		public List<AlpmPackage> repos_updates { get {return repos_updates_priv;} }
 		public List<AlpmPackage> ignored_repos_updates { get {return ignored_repos_updates_priv;} }
 		public List<AURPackage> aur_updates { get {return aur_updates_priv;} }
 		public List<AURPackage> ignored_aur_updates { get {return ignored_aur_updates_priv;} }
 		public List<AURPackage> outofdate { get {return outofdate_priv;} }
+		#if ENABLE_FLATPAK
+		public List<FlatpakPackage> flatpak_updates { get {return flatpak_updates_priv;} }
+		#endif
 
 		internal Updates () {}
 
@@ -141,6 +147,12 @@ namespace Pamac {
 			ignored_aur_updates_priv = (owned) ignored_aur_updates;
 			outofdate_priv = (owned) outofdate;
 		}
+		
+		#if ENABLE_FLATPAK
+		internal void set_flatpak_updates (owned List<FlatpakPackage> flatpak_updates) {
+			flatpak_updates_priv = (owned) flatpak_updates;
+		}
+		#endif
 	}
 }
 

@@ -114,7 +114,7 @@ namespace Pamac {
 			try {
 				search_provider_id = connection.register_object (object_path + "/SearchProvider", search_provider);
 			} catch (IOError error) {
-				printerr ("Could not register search provider service: %s\n", error.message);
+				warning ("Could not register search provider service: %s", error.message);
 			}
 			return true;
 		}
@@ -144,7 +144,7 @@ namespace Pamac {
 					this.register (null);
 					this.activate_action ("updates", null);
 				} catch (Error e) {
-					stderr.printf ("%s\n", e.message);
+					warning (e.message);
 					return 0;
 				}
 			}
@@ -165,8 +165,8 @@ namespace Pamac {
 			app = new Application ("org.manjaro.pamac.installer", 0);
 			try {
 				app.register ();
-			} catch (GLib.Error e) {
-				stderr.printf ("%s\n", e.message);
+			} catch (Error e) {
+				warning (e.message);
 			}
 			run = app.get_is_remote ();
 			return run;

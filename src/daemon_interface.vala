@@ -76,5 +76,9 @@ namespace Pamac {
 		public signal void snap_trans_run_finished (string sender, bool success);
 		public signal void snap_switch_channel_finished (string sender, bool success);
 		#endif
+		#if ENABLE_FLATPAK
+		public abstract void start_flatpak_trans_run (string[] to_install, string[] to_remove, string[] to_upgrade) throws Error;
+		public signal void flatpak_trans_run_finished (string sender, bool success);
+		#endif
 	}
 }
