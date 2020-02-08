@@ -2353,6 +2353,14 @@ namespace Pamac {
 		#endif
 
 		#if ENABLE_FLATPAK
+		public List<string> get_flatpak_remotes_names () {
+			var list = new List<string> ();
+			if (config.enable_flatpak) {
+				list = flatpak_plugin.get_remotes_names ();
+			}
+			return list;
+		}
+
 		public List<FlatpakPackage> get_installed_flatpaks () {
 			var pkgs = new List<FlatpakPackage> ();
 			if (config.enable_flatpak) {

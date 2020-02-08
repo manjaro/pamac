@@ -25,6 +25,7 @@ namespace Pamac {
 		public signal void emit_error (string sender, string message, string[] details);
 
 		public abstract void load_appstream_data ();
+		public abstract List<string> get_remotes_names ();
 		public abstract List<FlatpakPackage> search_flatpaks (string search_string);
 		public abstract bool is_installed_flatpak (string name);
 		public abstract FlatpakPackage? get_flatpak (string id);

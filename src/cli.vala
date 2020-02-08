@@ -133,17 +133,20 @@ namespace Pamac {
 							display_search_help ();
 							return;
 						} else {
-							search_installed_pkgs (concatenate_strings (args[2:args.length]));
+							search_string = concatenate_strings (args[2:args.length]);
+							search_installed_pkgs ();
 						}
 					} else if (repos) {
 						if (installed) {
 							display_search_help ();
 							return;
 						} else {
-							search_repos_pkgs (concatenate_strings (args[2:args.length]));
+							search_string = concatenate_strings (args[2:args.length]);
+							search_repos_pkgs ();
 						}
 					} else {
-						search_pkgs (concatenate_strings (args[2:args.length]));
+						search_string = concatenate_strings (args[2:args.length]);
+						search_pkgs ();
 					}
 				} else {
 					display_search_help ();
@@ -1288,24 +1291,17 @@ namespace Pamac {
 			}
 		}
 
-		void search_pkgs (string search_string) {
+		void search_pkgs () {
 			var pkgs = database.search_pkgs (search_string);
-			pkgs.reverse ();
-			var aur_pkgs = new List<AURPackage> ();
 			if (database.config.enable_aur) {
-				aur_pkgs = database.search_aur_pkgs (search_string);
-				// sort aur pkgs by reverse popularity
-				aur_pkgs.sort ((pkg1, pkg2) => {
-					double diff = pkg2.popularity - pkg1.popularity;
-					if (diff < 0) {
-						return 1;
-					} else if (diff > 0) {
-						return -1;
-					} else {
-						return 0;
+				var aur_pkgs = database.search_aur_pkgs (search_string);
+				foreach (unowned AURPackage aur_pkg in aur_pkgs) {
+					if (aur_pkg.installed_version == "") {
+						pkgs.append (aur_pkg);
 					}
-				});
+				}
 			}
+			pkgs.sort (sort_search_pkgs_by_relevance);
 			int version_length = 0;
 			int repo_length = 0;
 			foreach (unowned AlpmPackage pkg in pkgs) {
@@ -1316,12 +1312,7 @@ namespace Pamac {
 					repo_length = pkg.repo.length;
 				}
 			}
-			if (aur_pkgs.length () > 0) {
-				foreach (unowned AURPackage aur_pkg in aur_pkgs) {
-					if (aur_pkg.version.length > version_length) {
-						version_length = aur_pkg.version.length;
-					}
-				}
+			if (database.config.enable_aur) {
 				if (dgettext (null, "AUR").char_count () > repo_length) {
 					repo_length = dgettext (null, "AUR").char_count ();
 				}
@@ -1356,57 +1347,17 @@ namespace Pamac {
 					print_aligned ("", cut, 2);
 				}
 			}
-			if (aur_pkgs.length () > 0) {
-				if (pkgs.length () > 0) {
-					stdout.printf ("\n");
-				}
-				foreach (unowned AURPackage aur_pkg in aur_pkgs) {
-					if (aur_pkg.installed_version == "") {
-						var str_builder = new StringBuilder ();
-						str_builder.append (aur_pkg.name);
-						str_builder.append (" ");
-						if (aur_pkg.outofdate != 0) {
-							var time = GLib.Time.local ((time_t) aur_pkg.outofdate);
-							string out_of_date = "(%s: %s)".printf (dgettext (null, "Out of Date"), time.format ("%x"));
-							int out_of_date_available_width = available_width - (out_of_date.char_count () + 1);
-							str_builder.append (out_of_date);
-							str_builder.append (" ");
-							int diff = out_of_date_available_width - aur_pkg.name.char_count ();
-							if (diff > 0) {
-								while (diff > 0) {
-									str_builder.append (" ");
-									diff--;
-								}
-							}
-						} else {
-							int diff = available_width - aur_pkg.name.char_count ();
-							if (diff > 0) {
-								while (diff > 0) {
-									str_builder.append (" ");
-									diff--;
-								}
-							}
-						}
-						str_builder.append ("%-*s  %s \n".printf (version_length, aur_pkg.version, dgettext (null, "AUR")));
-						stdout.printf ("%s", str_builder.str);
-						string[] cuts = split_string (aur_pkg.desc, 2, available_width);
-						foreach (unowned string cut in cuts) {
-							print_aligned ("", cut, 2);
-						}
-					}
-				}
-			}
 		}
 
-		void search_installed_pkgs (string search_string) {
+		void search_installed_pkgs () {
 			var pkgs = database.search_installed_pkgs (search_string);
-			pkgs.reverse ();
+			pkgs.sort (sort_search_pkgs_by_relevance);
 			simple_print_pkgs (pkgs);
 		}
 
-		void search_repos_pkgs (string search_string) {
+		void search_repos_pkgs () {
 			var pkgs = database.search_repos_pkgs (search_string);
-			pkgs.reverse ();
+			pkgs.sort (sort_search_pkgs_by_relevance);
 			simple_print_pkgs (pkgs);
 		}
 
@@ -2532,6 +2483,111 @@ namespace Pamac {
 			}
 			return cli.exit_status;
 		}
+	}
+
+	string search_string;
+
+	int sort_search_pkgs_by_relevance (Pamac.Package pkg_a, Pamac.Package pkg_b) {
+		if (search_string != null) {
+			// intentionally reversed
+			// display exact match first
+			if (pkg_a.app_name.down () == search_string) {
+				if (pkg_b.app_name.down () == search_string) {
+					return sort_pkgs_by_relevance (pkg_a, pkg_b);
+				}
+				return 1;
+			}
+			if (pkg_b.app_name.down () == search_string) {
+				return -1;
+			}
+			if (pkg_a.name == search_string) {
+				if (pkg_b.name == search_string) {
+					return sort_pkgs_by_relevance (pkg_a, pkg_b);
+				}
+				return 1;
+			}
+			if (pkg_b.name == search_string) {
+				return -1;
+			}
+			if (pkg_a.app_name.down ().has_prefix (search_string)) {
+				if (pkg_b.app_name.down ().has_prefix (search_string)) {
+					return sort_pkgs_by_relevance (pkg_a, pkg_b);
+				}
+				return 1;
+			}
+			if (pkg_b.app_name.down ().has_prefix (search_string)) {
+				return -1;
+			}
+			if (pkg_a.app_name.down ().contains (search_string)) {
+				if (pkg_b.app_name.down ().contains (search_string)) {
+					return sort_pkgs_by_relevance (pkg_a, pkg_b);
+				}
+				return 1;
+			}
+			if (pkg_b.app_name.down ().contains (search_string)) {
+				return -1;
+			}
+			if (pkg_a.name.has_prefix (search_string + "-")) {
+				if (pkg_b.name.has_prefix (search_string + "-")) {
+					return sort_pkgs_by_relevance (pkg_a, pkg_b);
+				}
+				return 1;
+			}
+			if (pkg_b.name.has_prefix (search_string + "-")) {
+				return -1;
+			}
+			if (pkg_a.name.has_prefix (search_string)) {
+				if (pkg_b.name.has_prefix (search_string)) {
+					return sort_pkgs_by_relevance (pkg_a, pkg_b);
+				}
+				return 1;
+			}
+			if (pkg_b.name.has_prefix (search_string)) {
+				return -1;
+			}
+			if (pkg_a.name.contains (search_string)) {
+				if (pkg_b.name.contains (search_string)) {
+					return sort_pkgs_by_relevance (pkg_a, pkg_b);
+				}
+				return 1;
+			}
+			if (pkg_b.name.contains (search_string)) {
+				return -1;
+			}
+		}
+		return sort_pkgs_by_relevance (pkg_a, pkg_b);
+	}
+
+	int sort_pkgs_by_relevance (Package pkg_a, Package pkg_b) {
+		// intentionally reversed
+		if (pkg_a.installed_version == "") {
+			if (pkg_b.installed_version == "") {
+				return sort_pkgs_by_name (pkg_a, pkg_b);
+			} else {
+				return -1;
+			}
+		}
+		if (pkg_b.installed_version == "") {
+			return 1;
+		}
+		if (pkg_a.app_name == "") {
+			if (pkg_b.app_name == "") {
+				return sort_pkgs_by_name (pkg_a, pkg_b);
+			} else {
+				return -1;
+			}
+		}
+		if (pkg_b.app_name == "") {
+			return 1;
+		}
+		return sort_pkgs_by_name (pkg_a, pkg_b);
+	}
+
+	int sort_pkgs_by_name (Package pkg_a, Package pkg_b) {
+		// intentionally reversed
+		string str_a = pkg_a.app_name == "" ? pkg_a.name : pkg_a.app_name.collate_key ();
+		string str_b = pkg_b.app_name == "" ? pkg_b.name : pkg_b.app_name.collate_key ();
+		return strcmp (str_b, str_a);
 	}
 }
 

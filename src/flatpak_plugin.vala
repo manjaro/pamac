@@ -275,6 +275,23 @@ namespace Pamac {
 			pkg.download_size = remote_ref.download_size;
 		}
 
+		public List<string> get_remotes_names () {
+			var result = new List<string> ();
+			try {
+				GenericArray<unowned Flatpak.Remote> remotes = installation.list_remotes ();
+				for (uint i = 0; i < remotes.length; i++) {
+					unowned Flatpak.Remote remote = remotes[i];
+					if (remote.get_disabled ()) {
+						continue;
+					}
+					result.append (remote.name);
+				}
+			} catch (Error e) {
+				warning (e.message);
+			}
+			return result;
+		}
+
 		public List<FlatpakPackage> get_installed_flatpaks () {
 			var result = new List<FlatpakPackage> ();
 			try {

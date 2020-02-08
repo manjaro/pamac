@@ -43,84 +43,63 @@ namespace Pamac {
 				if (pkg_b.app_name.down () == search_string) {
 					return sort_pkgs_by_relevance (pkg_a, pkg_b);
 				}
-				return 0;
+				return -1;
 			}
 			if (pkg_b.app_name.down () == search_string) {
-				if (pkg_a.app_name.down () == search_string) {
-					return sort_pkgs_by_relevance (pkg_a, pkg_b);
-				}
 				return 1;
 			}
 			if (pkg_a.name == search_string) {
 				if (pkg_b.name == search_string) {
 					return sort_pkgs_by_relevance (pkg_a, pkg_b);
 				}
-				return 0;
+				return -1;
 			}
 			if (pkg_b.name == search_string) {
-				if (pkg_a.name == search_string) {
-					return sort_pkgs_by_relevance (pkg_a, pkg_b);
-				}
 				return 1;
 			}
 			if (pkg_a.app_name.down ().has_prefix (search_string)) {
 				if (pkg_b.app_name.down ().has_prefix (search_string)) {
 					return sort_pkgs_by_relevance (pkg_a, pkg_b);
 				}
-				return 0;
+				return -1;
 			}
 			if (pkg_b.app_name.down ().has_prefix (search_string)) {
-				if (pkg_a.app_name.down ().has_prefix (search_string)) {
-					return sort_pkgs_by_relevance (pkg_a, pkg_b);
-				}
 				return 1;
 			}
 			if (pkg_a.app_name.down ().contains (search_string)) {
 				if (pkg_b.app_name.down ().contains (search_string)) {
 					return sort_pkgs_by_relevance (pkg_a, pkg_b);
 				}
-				return 0;
+				return -1;
 			}
 			if (pkg_b.app_name.down ().contains (search_string)) {
-				if (pkg_a.app_name.down ().contains (search_string)) {
-					return sort_pkgs_by_relevance (pkg_a, pkg_b);
-				}
 				return 1;
 			}
 			if (pkg_a.name.has_prefix (search_string + "-")) {
 				if (pkg_b.name.has_prefix (search_string + "-")) {
 					return sort_pkgs_by_relevance (pkg_a, pkg_b);
 				}
-				return 0;
+				return -1;
 			}
 			if (pkg_b.name.has_prefix (search_string + "-")) {
-				if (pkg_a.name.has_prefix (search_string + "-")) {
-					return sort_pkgs_by_relevance (pkg_a, pkg_b);
-				}
 				return 1;
 			}
 			if (pkg_a.name.has_prefix (search_string)) {
 				if (pkg_b.name.has_prefix (search_string)) {
 					return sort_pkgs_by_relevance (pkg_a, pkg_b);
 				}
-				return 0;
+				return -1;
 			}
 			if (pkg_b.name.has_prefix (search_string)) {
-				if (pkg_a.name.has_prefix (search_string)) {
-					return sort_pkgs_by_relevance (pkg_a, pkg_b);
-				}
 				return 1;
 			}
 			if (pkg_a.name.contains (search_string)) {
 				if (pkg_b.name.contains (search_string)) {
 					return sort_pkgs_by_relevance (pkg_a, pkg_b);
 				}
-				return 0;
+				return -1;
 			}
 			if (pkg_b.name.contains (search_string)) {
-				if (pkg_a.name.contains (search_string)) {
-					return sort_pkgs_by_relevance (pkg_a, pkg_b);
-				}
 				return 1;
 			}
 		}
@@ -136,11 +115,7 @@ namespace Pamac {
 			}
 		}
 		if (pkg_b.name in to_remove) {
-			if (pkg_a.name in to_remove) {
-				return sort_pkgs_by_name (pkg_a, pkg_b);
-			} else {
-				return 1;
-			}
+			return 1;
 		}
 		if (pkg_a.name in to_install) {
 			if (pkg_b.name in to_install) {
@@ -150,11 +125,7 @@ namespace Pamac {
 			}
 		}
 		if (pkg_b.name in to_install) {
-			if (pkg_a.name in to_install) {
-				return sort_pkgs_by_name (pkg_a, pkg_b);
-			} else {
-				return 1;
-			}
+			return 1;
 		}
 		#if ENABLE_SNAP
 		if (pkg_a.name in snap_to_remove) {
@@ -165,11 +136,7 @@ namespace Pamac {
 			}
 		}
 		if (pkg_b.name in snap_to_remove) {
-			if (pkg_a.name in snap_to_remove) {
-				return sort_pkgs_by_name (pkg_a, pkg_b);
-			} else {
-				return 1;
-			}
+			return 1;
 		}
 		if (pkg_a.name in snap_to_install) {
 			if (pkg_b.name in snap_to_install) {
@@ -179,11 +146,7 @@ namespace Pamac {
 			}
 		}
 		if (pkg_b.name in snap_to_install) {
-			if (pkg_a.name in snap_to_install) {
-				return sort_pkgs_by_name (pkg_a, pkg_b);
-			} else {
-				return 1;
-			}
+			return 1;
 		}
 		#endif
 		#if ENABLE_FLATPAK
@@ -195,11 +158,7 @@ namespace Pamac {
 			}
 		}
 		if (pkg_b.name in flatpak_to_remove) {
-			if (pkg_a.name in flatpak_to_remove) {
-				return sort_pkgs_by_name (pkg_a, pkg_b);
-			} else {
-				return 1;
-			}
+			return 1;
 		}
 		if (pkg_a.name in flatpak_to_install) {
 			if (pkg_b.name in flatpak_to_install) {
@@ -209,11 +168,7 @@ namespace Pamac {
 			}
 		}
 		if (pkg_b.name in flatpak_to_install) {
-			if (pkg_a.name in flatpak_to_install) {
-				return sort_pkgs_by_name (pkg_a, pkg_b);
-			} else {
-				return 1;
-			}
+			return 1;
 		}
 		#endif
 		if (pkg_a.name in temporary_ignorepkgs) {
@@ -224,11 +179,7 @@ namespace Pamac {
 			}
 		}
 		if (pkg_b.name in temporary_ignorepkgs) {
-			if (pkg_a.name in temporary_ignorepkgs) {
-				return sort_pkgs_by_name (pkg_a, pkg_b);
-			} else {
-				return 1;
-			}
+			return 1;
 		}
 		if (pkg_a.installed_version == "") {
 			if (pkg_b.installed_version == "") {
@@ -238,11 +189,7 @@ namespace Pamac {
 			}
 		}
 		if (pkg_b.installed_version == "") {
-			if (pkg_a.installed_version == "") {
-				return sort_pkgs_by_name (pkg_a, pkg_b);
-			} else {
-				return -1;
-			}
+			return -1;
 		}
 		if (pkg_a.app_name == "") {
 			if (pkg_b.app_name == "") {
@@ -252,11 +199,7 @@ namespace Pamac {
 			}
 		}
 		if (pkg_b.app_name == "") {
-			if (pkg_a.app_name == "") {
-				return sort_pkgs_by_name (pkg_a, pkg_b);
-			} else {
-				return -1;
-			}
+			return -1;
 		}
 		return sort_pkgs_by_name (pkg_a, pkg_b);
 	}
@@ -272,19 +215,15 @@ namespace Pamac {
 	}
 
 	int sort_pkgs_by_repo (Package pkg_a, Package pkg_b) {
-		int index_a = -2;
-		if (pkg_a.repo == dgettext (null, "AUR")) {
-			index_a = -1;
-		} else if (pkg_a.repo != "") {
+		int index_a = 10;
+		if (pkg_a.repo != "") {
 			unowned List<string>? element = repos_names.find_custom (pkg_a.repo, strcmp);
 			if (element != null) {
 				index_a = repos_names.index (element.data);
 			}
 		}
-		int index_b = -2;
-		if (pkg_b.repo == dgettext (null, "AUR")) {
-			index_b = -1;
-		} else if (pkg_b.repo != "") {
+		int index_b = 10;
+		if (pkg_b.repo != "") {
 			unowned List<string>? element = repos_names.find_custom (pkg_b.repo, strcmp);
 			if (element != null) {
 				index_b = repos_names.index (element.data);
@@ -328,11 +267,7 @@ namespace Pamac {
 			}
 		}
 		if (pkg_b.name in to_remove) {
-			if (pkg_a.name in to_remove) {
-				return sort_pkgs_by_name (pkg_a, pkg_b);
-			} else {
-				return 1;
-			}
+			return 1;
 		}
 		if (pkg_a.name in to_build) {
 			if (pkg_b.name in to_build) {
@@ -342,11 +277,7 @@ namespace Pamac {
 			}
 		}
 		if (pkg_b.name in to_build) {
-			if (pkg_a.name in to_build) {
-				return sort_pkgs_by_name (pkg_a, pkg_b);
-			} else {
-				return 1;
-			}
+			return 1;
 		}
 		if (pkg_a.name in temporary_ignorepkgs) {
 			if (pkg_b.name in temporary_ignorepkgs) {
@@ -356,11 +287,7 @@ namespace Pamac {
 			}
 		}
 		if (pkg_b.name in temporary_ignorepkgs) {
-			if (pkg_a.name in temporary_ignorepkgs) {
-				return sort_pkgs_by_name (pkg_a, pkg_b);
-			} else {
-				return 1;
-			}
+			return 1;
 		}
 		if (pkg_a.installed_version != "") {
 			if (pkg_b.installed_version != "") {
@@ -370,11 +297,7 @@ namespace Pamac {
 			}
 		}
 		if (pkg_b.installed_version != "") {
-			if (pkg_a.installed_version != "") {
-				return sort_pkgs_by_name (pkg_a, pkg_b);
-			} else {
-				return 1;
-			}
+			return 1;
 		}
 		if (pkg_a.popularity > pkg_b.popularity) {
 			return -1;
@@ -922,6 +845,17 @@ namespace Pamac {
 				repos_listbox.add (create_list_row (repo));
 			}
 			repos_listbox.select_row (repos_listbox.get_row_at_index (0));
+
+			// use by sort_pkgs_by_repo
+			#if ENABLE_SNAP
+			repos_names.append (dgettext (null, "Snap"));
+			#endif
+			#if ENABLE_FLATPAK
+			foreach (unowned string repo in database.get_flatpak_remotes_names ()) {
+				repos_names.append (repo);
+			}
+			#endif
+			repos_names.append (dgettext (null, "AUR"));
 
 			foreach (unowned string group in database.get_groups_names ()) {
 				groups_listbox.add (create_list_row (group));
