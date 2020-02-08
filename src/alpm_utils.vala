@@ -1829,7 +1829,7 @@ namespace Pamac {
 
 void write_log_file (string event) {
 	var now = new DateTime.now_local ();
-	string log = "%s [PAMAC] %s\n".printf (now.format ("[%Y-%m-%d %H:%M]"), event);
+	string log = "%s [PAMAC] %s\n".printf (now.format ("[%Y-%m-%dT%H:%M:%S%z]"), event);
 	var file = GLib.File.new_for_path ("/var/log/pacman.log");
 	try {
 		// creating a DataOutputStream to the file
