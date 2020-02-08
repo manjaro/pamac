@@ -550,6 +550,7 @@ namespace Pamac {
 		unowned List<Gdk.Pixbuf> current_screenshots_pos;
 
 		uint search_entry_timeout_id;
+		uint search_history_timeout_id;
 		Gtk.ListBoxRow deps_row;
 		Gtk.ListBoxRow files_row;
 		Gtk.ListBoxRow build_files_row;
@@ -3476,35 +3477,42 @@ namespace Pamac {
 			//
 		}
 
-		bool search_entry_timeout_callback () {
-			// add search string in search_list if needed
-			string tmp_search_string = search_comboboxtext.get_active_text ().strip ();
-			if (tmp_search_string == "") {
-				search_entry_timeout_id = 0;
-				return false;
-			}
+		bool search_history_timeout_callback () {
 			bool found = false;
 			// check if search string exists in search list
 			search_comboboxtext.get_model ().foreach ((model, path, iter) => {
 				string line;
 				model.get (iter, 0, out line);
-				if (line == tmp_search_string) {
+				if (line == search_string) {
 					found = true;
-					// we select the iter in search list
-					// it will populate the packages list with the comboboxtext changed signal
-					search_comboboxtext.set_active_iter (iter);
 				}
 				return found;
 			});
+			// add search string in history if needed
 			if (!found) {
 				Gtk.TreeIter iter;
 				unowned Gtk.ListStore store = search_comboboxtext.get_model () as Gtk.ListStore;
-				store.insert_with_values (out iter, -1, 0, tmp_search_string);
-				// we select the iter in search list
-				// it will populate the packages list with the comboboxtext changed signal
-				search_comboboxtext.set_active_iter (iter);
+				store.insert_with_values (out iter, -1, 0, search_string);
 			}
+			search_history_timeout_id = 0;
+			return false;
+		}
+
+		bool search_entry_timeout_callback () {
+			string tmp_search_string = search_comboboxtext.get_active_text ().strip ();
+			if (tmp_search_string == "" || tmp_search_string.char_count () < 3) {
+				search_entry_timeout_id = 0;
+				return false;
+			}
+			this.get_window ().set_cursor (new Gdk.Cursor.for_display (Gdk.Display.get_default (), Gdk.CursorType.WATCH));
+			search_string = (owned) tmp_search_string;
+			on_search_listbox_row_activated (search_listbox.get_selected_row ());
 			search_entry_timeout_id = 0;
+			// wait 1s before adding the search in history
+			if (search_history_timeout_id != 0) {
+				Source.remove (search_history_timeout_id);
+			}
+			search_history_timeout_id = Timeout.add (1000, search_history_timeout_callback);
 			return false;
 		}
 
@@ -3512,11 +3520,12 @@ namespace Pamac {
 		void on_search_comboboxtext_changed () {
 			if (search_comboboxtext.get_active () == -1) {
 				// entry was edited
-				if (search_comboboxtext.get_active_text ().strip () != "") {
+				string tmp_search_string = search_comboboxtext.get_active_text ().strip ();
+				if (tmp_search_string != "" && tmp_search_string.char_count () > 2) {
 					if (search_entry_timeout_id != 0) {
 						Source.remove (search_entry_timeout_id);
 					}
-					search_entry_timeout_id = Timeout.add (1000, search_entry_timeout_callback);
+					search_entry_timeout_id = Timeout.add (200, search_entry_timeout_callback);
 				}
 			} else {
 				// a history line was choosen

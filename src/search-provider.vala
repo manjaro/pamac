@@ -48,10 +48,11 @@ namespace Pamac {
 				// concat data into a string
 				var data_builder = new StringBuilder (pkg.name);
 				data_builder.append (";");
+				data_builder.append (pkg.app_name);
+				data_builder.append (";");
 				data_builder.append (pkg.desc);
 				data_builder.append (";");
 				data_builder.append (pkg.icon);
-				data_builder.append (";");
 				result.add (data_builder.str);
 			}
 			return result.data;
@@ -73,12 +74,12 @@ namespace Pamac {
 				var meta = new HashTable<string, Variant> (str_hash, str_equal);
 				string[] pkg_data = str.split (";", 4);
 				meta.insert ("id", pkg_data[0]);
-				meta.insert ("name", pkg_data[0]);
-				meta.insert ("description", pkg_data[1]);
+				meta.insert ("name", pkg_data[1]);
+				meta.insert ("description", pkg_data[2]);
 				Icon? icon = null;
 				if (pkg_data[2] != "") {
 					try {
-						icon = new Gdk.Pixbuf.from_file (pkg_data[2]);
+						icon = new Gdk.Pixbuf.from_file (pkg_data[3]);
 					} catch (Error e) {
 						// some icons are not in the right repo
 						string icon_path = pkg_data[2];

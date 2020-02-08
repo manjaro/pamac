@@ -477,7 +477,7 @@
                                   </object>
                                   <packing>
                                     <property name="name">browse</property>
-                                    <property name="title" translatable="yes">All</property>
+                                    <property name="title" translatable="yes">Browse</property>
                                   </packing>
                                 </child>
                                 <child>

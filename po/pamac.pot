@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2020-01-17 14:37+0100\n"
+"POT-Creation-Date: 2020-02-08 11:17+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -494,7 +494,7 @@ msgid_plural "%u pending operations"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala
 msgid "All"
 msgstr ""
 
@@ -508,6 +508,10 @@ msgstr ""
 
 #: src/manager_window.vala src/snap_plugin.vala resources/preferences_dialog.ui
 msgid "Snap"
+msgstr ""
+
+#: src/manager_window.vala resources/preferences_dialog.ui
+msgid "Flatpak"
 msgstr ""
 
 #: src/manager_window.vala resources/manager_window.ui
@@ -1184,6 +1188,10 @@ msgid "Search"
 msgstr ""
 
 #: resources/manager_window.ui
+msgid "Browse"
+msgstr ""
+
+#: resources/manager_window.ui
 msgid "Pending"
 msgstr ""
 
@@ -1213,10 +1221,6 @@ msgstr ""
 
 #: resources/manager_window.ui
 msgid "Size"
-msgstr ""
-
-#: resources/manager_window.ui
-msgid "Browse"
 msgstr ""
 
 #: resources/manager_window.ui
@@ -1328,6 +1332,14 @@ msgstr ""
 
 #: resources/preferences_dialog.ui
 msgid "Enable Snap support"
+msgstr ""
+
+#: resources/preferences_dialog.ui
+msgid "Flatpak packages are maintained by their publisher."
+msgstr ""
+
+#: resources/preferences_dialog.ui
+msgid "Enable Flatpak support"
 msgstr ""
 
 #: resources/preferences_dialog.ui

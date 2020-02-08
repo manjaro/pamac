@@ -95,6 +95,8 @@ namespace Pamac {
 				app_store.set_search_match (As.AppSearchMatch.PKGNAME
 											| As.AppSearchMatch.DESCRIPTION
 											| As.AppSearchMatch.NAME
+											| As.AppSearchMatch.MIMETYPE
+											| As.AppSearchMatch.COMMENT
 											| As.AppSearchMatch.KEYWORD);
 				app_store.load_search_cache ();
 			} catch (Error e) {

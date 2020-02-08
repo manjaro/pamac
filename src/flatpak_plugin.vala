@@ -79,9 +79,12 @@ namespace Pamac {
 						warning (e.message);
 					}
 					app_store.set_search_match (As.AppSearchMatch.ID
-										| As.AppSearchMatch.DESCRIPTION
-										| As.AppSearchMatch.NAME
-										| As.AppSearchMatch.KEYWORD);
+												| As.AppSearchMatch.DESCRIPTION
+												| As.AppSearchMatch.NAME
+												| As.AppSearchMatch.MIMETYPE
+												| As.AppSearchMatch.COMMENT
+												| As.AppSearchMatch.ORIGIN
+												| As.AppSearchMatch.KEYWORD);
 					app_store.load_search_cache ();
 					stores_table.insert (remote.name, app_store);
 				}
