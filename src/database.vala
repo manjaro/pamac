@@ -96,6 +96,7 @@ namespace Pamac {
 											| As.AppSearchMatch.DESCRIPTION
 											| As.AppSearchMatch.NAME
 											| As.AppSearchMatch.KEYWORD);
+				app_store.load_search_cache ();
 			} catch (Error e) {
 				warning (e.message);
 			}
@@ -419,7 +420,9 @@ namespace Pamac {
 
 		List<string> get_app_screenshots (As.App app) {
 			var screenshots = new List<string> ();
-			app.get_screenshots ().foreach ((as_screenshot) => {
+			unowned GLib.GenericArray<As.Screenshot> as_screenshots = app.get_screenshots ();
+			for (uint i = 0; i < as_screenshots.length; i++) {
+				unowned As.Screenshot as_screenshot = as_screenshots[i];
 				As.Image? as_image = as_screenshot.get_source ();
 				if (as_image != null) {
 					string? url = as_image.get_url ();
@@ -427,8 +430,8 @@ namespace Pamac {
 						screenshots.append ((owned) url);
 					}
 				}
-			});
-			return (owned) screenshots;
+			}
+			return screenshots;
 		}
 
 		SList<As.App> get_pkgname_matching_apps (string pkgname) {
@@ -440,7 +443,7 @@ namespace Pamac {
 					matching_apps.append (app);
 				}
 			}
-			return (owned) matching_apps;
+			return matching_apps;
 		}
 
 		AlpmPackage? initialise_pkg (Alpm.Package? alpm_pkg) {
@@ -695,6 +698,7 @@ namespace Pamac {
 					}
 				}
 			}
+			pkgs.sort (pkg_compare_name);
 			return pkgs;
 		}
 
@@ -2310,7 +2314,7 @@ namespace Pamac {
 			string name_copy = name;
 			if (config.enable_snap) {
 				try {
-					new Thread<int>.try ("get_category_snaps", () => {
+					new Thread<int>.try ("get_installed_snap_icon", () => {
 						try {
 							icon = snap_plugin.get_installed_snap_icon (name_copy);
 						} catch (Error e) {

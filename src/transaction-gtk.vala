@@ -210,7 +210,7 @@ namespace Pamac {
 				});
 			}
 			choose_pkgs_dialog.hide ();
-			return (owned) optdeps_to_install.data;
+			return optdeps_to_install.data;
 		}
 
 		protected override int choose_provider (string depend, string[] providers) {

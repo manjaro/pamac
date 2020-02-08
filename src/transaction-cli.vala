@@ -246,7 +246,7 @@ namespace Pamac {
 				}
 			}
 			stdout.printf ("\n");
-			return (owned) optdeps_to_install.data;
+			return optdeps_to_install.data;
 		}
 
 		protected override int choose_provider (string depend, string[] providers) {

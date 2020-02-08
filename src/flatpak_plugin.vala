@@ -18,17 +18,18 @@
  */
 
 namespace Pamac {
-	public class Fltpak: Object, FlatpakPlugin {
+	public class FlatPak: Object, FlatpakPlugin {
 		string sender;
 		Flatpak.Installation installation;
 		bool appstream_data_loaded;
 		HashTable<string, As.Store> stores_table;
+		HashTable<string, Flatpak.RemoteRef> remote_refs_table;
 		Cancellable cancellable;
 
 		public uint64 refresh_period { get; construct set; }
 		public MainContext context { get; construct set; }
 
-		public Fltpak (uint64 refresh_period, MainContext context) {
+		public FlatPak (uint64 refresh_period, MainContext context) {
 			Object (refresh_period: refresh_period, context: context);
 		}
 
@@ -36,6 +37,7 @@ namespace Pamac {
 			cancellable = new Cancellable ();
 			appstream_data_loaded = false;
 			stores_table = new HashTable<string, As.Store> (str_hash, str_equal);
+			remote_refs_table = new HashTable<string, Flatpak.RemoteRef> (str_hash, str_equal);
 			try {
 				installation = new Flatpak.Installation.system ();
 			} catch (Error e) {
@@ -80,6 +82,7 @@ namespace Pamac {
 										| As.AppSearchMatch.DESCRIPTION
 										| As.AppSearchMatch.NAME
 										| As.AppSearchMatch.KEYWORD);
+					app_store.load_search_cache ();
 					stores_table.insert (remote.name, app_store);
 				}
 				appstream_data_loaded = true;
@@ -191,7 +194,7 @@ namespace Pamac {
 					}
 				}
 			}
-			return (owned) screenshots;
+			return screenshots;
 		}
 
 		As.App? get_installed_ref_matching_app (Flatpak.InstalledRef installed_ref) {
@@ -286,7 +289,7 @@ namespace Pamac {
 			} catch (Error e) {
 				warning (e.message);
 			}
-			return (owned) result;
+			return result;
 		}
 
 		public bool is_installed_flatpak (string name) {
@@ -315,8 +318,13 @@ namespace Pamac {
 				if (e is Flatpak.Error.NOT_INSTALLED) {
 					// try remotes
 					try {
-						Flatpak.RemoteRef? remote_ref = installation.fetch_remote_ref_sync (remote, Flatpak.RefKind.APP, app.get_id_filename (), null, app.get_branch ());
+						string remote_id = "%s/%s".printf (remote, app.get_id_filename ());
+						Flatpak.RemoteRef? remote_ref = remote_refs_table.lookup (remote_id);
+						if (remote_ref == null) {
+							remote_ref = installation.fetch_remote_ref_sync (remote, Flatpak.RefKind.APP, app.get_id_filename (), null, app.get_branch ());
+						}
 						if (remote_ref != null) {
+							remote_refs_table.insert ((owned) remote_id, remote_ref);
 							pkg = new FlatpakPackage ();
 							initialize_remote_ref (remote_ref, ref pkg);
 							As.Release? release = app.get_release_default ();
@@ -358,8 +366,13 @@ namespace Pamac {
 				if (e is Flatpak.Error.NOT_INSTALLED) {
 					// try remotes
 					try {
-						Flatpak.RemoteRef? remote_ref = installation.fetch_remote_ref_sync (remote, Flatpak.RefKind.APP, name, arch, branch);
+						string remote_id = "%s/%s".printf (remote, name);
+						Flatpak.RemoteRef? remote_ref = remote_refs_table.lookup (remote_id);
+						if (remote_ref == null) {
+							remote_ref = installation.fetch_remote_ref_sync (remote, Flatpak.RefKind.APP, name, arch, branch);
+						}
 						if (remote_ref != null) {
+							remote_refs_table.insert ((owned) remote_id, remote_ref);
 							pkg = new FlatpakPackage ();
 							initialize_remote_ref (remote_ref, ref pkg);
 							As.App? app = get_remote_ref_matching_app (remote_ref);
@@ -405,7 +418,7 @@ namespace Pamac {
 					}
 				}
 			}
-			return (owned) result;
+			return result;
 		}
 
 		public List<FlatpakPackage> get_category_flatpaks (string category) {
@@ -488,7 +501,7 @@ namespace Pamac {
 					}
 				}
 			}
-			return (owned) result;
+			return result;
 		}
 
 		public List<FlatpakPackage> get_flatpak_updates () {
@@ -515,7 +528,7 @@ namespace Pamac {
 			} catch (Error e) {
 				warning (e.message);
 			}
-			return (owned) result;
+			return result;
 		}
 
 		bool on_add_new_remote (Flatpak.TransactionRemoteReason reason, string from_id, string remote_name, string url) {
@@ -664,5 +677,5 @@ namespace Pamac {
 
 public Type register_plugin (Module module) {
 	// types are registered automatically
-	return typeof (Pamac.Fltpak);
+	return typeof (Pamac.FlatPak);
 }
