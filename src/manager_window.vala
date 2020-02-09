@@ -110,9 +110,8 @@ namespace Pamac {
 		if (pkg_a.name in to_remove) {
 			if (pkg_b.name in to_remove) {
 				return sort_pkgs_by_name (pkg_a, pkg_b);
-			} else {
-				return -1;
 			}
+			return -1;
 		}
 		if (pkg_b.name in to_remove) {
 			return 1;
@@ -120,9 +119,8 @@ namespace Pamac {
 		if (pkg_a.name in to_install) {
 			if (pkg_b.name in to_install) {
 				return sort_pkgs_by_name (pkg_a, pkg_b);
-			} else {
-				return -1;
 			}
+			return -1;
 		}
 		if (pkg_b.name in to_install) {
 			return 1;
@@ -131,9 +129,8 @@ namespace Pamac {
 		if (pkg_a.name in snap_to_remove) {
 			if (pkg_b.name in snap_to_remove) {
 				return sort_pkgs_by_name (pkg_a, pkg_b);
-			} else {
-				return -1;
 			}
+			return -1;
 		}
 		if (pkg_b.name in snap_to_remove) {
 			return 1;
@@ -141,9 +138,8 @@ namespace Pamac {
 		if (pkg_a.name in snap_to_install) {
 			if (pkg_b.name in snap_to_install) {
 				return sort_pkgs_by_name (pkg_a, pkg_b);
-			} else {
-				return -1;
 			}
+			return -1;
 		}
 		if (pkg_b.name in snap_to_install) {
 			return 1;
@@ -153,9 +149,8 @@ namespace Pamac {
 		if (pkg_a.name in flatpak_to_remove) {
 			if (pkg_b.name in flatpak_to_remove) {
 				return sort_pkgs_by_name (pkg_a, pkg_b);
-			} else {
-				return -1;
 			}
+			return -1;
 		}
 		if (pkg_b.name in flatpak_to_remove) {
 			return 1;
@@ -163,9 +158,8 @@ namespace Pamac {
 		if (pkg_a.name in flatpak_to_install) {
 			if (pkg_b.name in flatpak_to_install) {
 				return sort_pkgs_by_name (pkg_a, pkg_b);
-			} else {
-				return -1;
 			}
+			return -1;
 		}
 		if (pkg_b.name in flatpak_to_install) {
 			return 1;
@@ -174,9 +168,8 @@ namespace Pamac {
 		if (pkg_a.name in temporary_ignorepkgs) {
 			if (pkg_b.name in temporary_ignorepkgs) {
 				return sort_pkgs_by_name (pkg_a, pkg_b);
-			} else {
-				return -1;
 			}
+			return -1;
 		}
 		if (pkg_b.name in temporary_ignorepkgs) {
 			return 1;
@@ -184,9 +177,8 @@ namespace Pamac {
 		if (pkg_a.installed_version == "") {
 			if (pkg_b.installed_version == "") {
 				return sort_pkgs_by_name (pkg_a, pkg_b);
-			} else {
-				return 1;
 			}
+			return 1;
 		}
 		if (pkg_b.installed_version == "") {
 			return -1;
@@ -194,9 +186,8 @@ namespace Pamac {
 		if (pkg_a.app_name == "") {
 			if (pkg_b.app_name == "") {
 				return sort_pkgs_by_name (pkg_a, pkg_b);
-			} else {
-				return 1;
 			}
+			return 1;
 		}
 		if (pkg_b.app_name == "") {
 			return -1;
@@ -205,8 +196,8 @@ namespace Pamac {
 	}
 
 	int sort_pkgs_by_name (Package pkg_a, Package pkg_b) {
-		string str_a = pkg_a.app_name == "" ? pkg_a.name : pkg_a.app_name.collate_key ();
-		string str_b = pkg_b.app_name == "" ? pkg_b.name : pkg_b.app_name.collate_key ();
+		string str_a = pkg_a.app_name == "" ? pkg_a.name.collate_key () : pkg_a.app_name.down ().collate_key ();
+		string str_b = pkg_b.app_name == "" ? pkg_b.name.collate_key () : pkg_b.app_name.down ().collate_key ();
 		return strcmp (str_a, str_b);
 	}
 
@@ -262,9 +253,8 @@ namespace Pamac {
 		if (pkg_a.name in to_remove) {
 			if (pkg_b.name in to_remove) {
 				return sort_pkgs_by_name (pkg_a, pkg_b);
-			} else {
-				return -1;
 			}
+			return -1;
 		}
 		if (pkg_b.name in to_remove) {
 			return 1;
@@ -272,9 +262,8 @@ namespace Pamac {
 		if (pkg_a.name in to_build) {
 			if (pkg_b.name in to_build) {
 				return sort_pkgs_by_name (pkg_a, pkg_b);
-			} else {
-				return -1;
 			}
+			return -1;
 		}
 		if (pkg_b.name in to_build) {
 			return 1;
@@ -282,9 +271,8 @@ namespace Pamac {
 		if (pkg_a.name in temporary_ignorepkgs) {
 			if (pkg_b.name in temporary_ignorepkgs) {
 				return sort_pkgs_by_name (pkg_a, pkg_b);
-			} else {
-				return -1;
 			}
+			return -1;
 		}
 		if (pkg_b.name in temporary_ignorepkgs) {
 			return 1;
@@ -292,9 +280,8 @@ namespace Pamac {
 		if (pkg_a.installed_version != "") {
 			if (pkg_b.installed_version != "") {
 				return sort_pkgs_by_name (pkg_a, pkg_b);
-			} else {
-				return -1;
 			}
+			return -1;
 		}
 		if (pkg_b.installed_version != "") {
 			return 1;
@@ -2143,9 +2130,7 @@ namespace Pamac {
 			switch (sort_index) {
 				case 0: // relevance
 					if (browse_stack.visible_child_name == "search") {
-						if (search_listbox.get_selected_row ().get_index () == 0) {
-							pkgs.sort (sort_search_pkgs_by_relevance);
-						}
+						pkgs.sort (sort_search_pkgs_by_relevance);
 					} else {
 						pkgs.sort (sort_pkgs_by_relevance);
 					}

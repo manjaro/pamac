@@ -2483,25 +2483,25 @@ private int pkg_sort_search_by_relevance (Pamac.Package pkg_a, Pamac.Package pkg
 			}
 			return 1;
 		}
-		if (pkg_a.app_name.has_prefix (global_search_string)) {
+		if (pkg_a.app_name.down ().has_prefix (global_search_string)) {
 			if (pkg_b.app_name.has_prefix (global_search_string)) {
 				return strcmp (pkg_a.app_name, pkg_b.app_name);
 			}
 			return 0;
 		}
-		if (pkg_b.app_name.has_prefix (global_search_string)) {
+		if (pkg_b.app_name.down ().has_prefix (global_search_string)) {
 			if (pkg_a.app_name.has_prefix (global_search_string)) {
 				return strcmp (pkg_a.app_name, pkg_b.app_name);
 			}
 			return 1;
 		}
-		if (pkg_a.app_name.contains (global_search_string)) {
+		if (pkg_a.app_name.down ().contains (global_search_string)) {
 			if (pkg_b.app_name.contains (global_search_string)) {
 				return strcmp (pkg_a.app_name, pkg_b.app_name);
 			}
 			return 0;
 		}
-		if (pkg_b.app_name.contains (global_search_string)) {
+		if (pkg_b.app_name.down ().contains (global_search_string)) {
 			if (pkg_a.app_name.contains (global_search_string)) {
 				return strcmp (pkg_a.app_name, pkg_b.app_name);
 			}

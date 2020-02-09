@@ -703,6 +703,13 @@ namespace Pamac {
 
 		void init_database () {
 			var config = new Config ("/etc/pamac.conf");
+			// not supported yet
+			#if ENABLE_SNAP
+			config.enable_snap = false;
+			#endif
+			#if ENABLE_FLATPAK
+			config.enable_flatpak = false;
+			#endif
 			database = new Database (config);
 		}
 
