@@ -26,7 +26,7 @@ namespace Pamac {
 		bool cloning;
 		Cancellable cancellable;
 		GenericSet<string?> already_checked_aur_dep;
-		public Subprocess pkttyagent;
+		//public Subprocess pkttyagent;
 
 		public Cli () {
 			exit_status = 0;
@@ -736,14 +736,14 @@ namespace Pamac {
 			transaction.stop_building.connect (() => {
 				trans_cancellable = false;
 			});
-			if (Posix.geteuid () != 0) {
+			//if (Posix.geteuid () != 0) {
 				// Use tty polkit authentication agent
-				try {
-					pkttyagent = new Subprocess.newv ({"pkttyagent"}, SubprocessFlags.NONE);
-				} catch (Error e) {
-					stdout.printf ("%s: %s\n", dgettext (null, "Error"), e.message);
-				}
-			}
+				//try {
+					//pkttyagent = new Subprocess.newv ({"pkttyagent"}, SubprocessFlags.NONE);
+				//} catch (Error e) {
+					//stdout.printf ("%s: %s\n", dgettext (null, "Error"), e.message);
+				//}
+			//}
 		}
 
 		bool trans_cancel () {
@@ -2138,18 +2138,18 @@ namespace Pamac {
 			foreach (unowned string name in to_build) {
 				transaction.add_aur_pkg_to_build (name);
 			}
-			if (Posix.geteuid () != 0) {
-				var loop = new MainLoop ();
+			//if (Posix.geteuid () != 0) {
+				//var loop = new MainLoop ();
 				// let's time to pkttyagent to get registred
-				Timeout.add (200, () => {
-					run_transaction ();
-					loop.quit ();
-					return false;
-				});
-				loop.run ();
-			} else {
+				//Timeout.add (200, () => {
+					//run_transaction ();
+					//loop.quit ();
+					//return false;
+				//});
+				//loop.run ();
+			//} else {
 				run_transaction ();
-			}
+			//}
 		}
 
 		void ask_group_confirmation (string grpname, ref List<string> to_install) {
@@ -2291,18 +2291,18 @@ namespace Pamac {
 				flags |= (1 << 14); //Alpm.TransFlag.ALLEXPLICIT
 			}
 			transaction.set_flags (flags);
-			if (Posix.geteuid () != 0) {
-				var loop = new MainLoop ();
+			//if (Posix.geteuid () != 0) {
+				//var loop = new MainLoop ();
 				// let's time to pkttyagent to get registred
-				Timeout.add (200, () => {
-					run_transaction ();
-					loop.quit ();
-					return false;
-				});
-				loop.run ();
-			} else {
+				//Timeout.add (200, () => {
+					//run_transaction ();
+					//loop.quit ();
+					//return false;
+				//});
+				//loop.run ();
+			//} else {
 				run_transaction ();
-			}
+			//}
 		}
 
 		void remove_pkgs (string[] names, bool recurse, bool unneeded, bool no_save) {
@@ -2460,18 +2460,18 @@ namespace Pamac {
 
 		void run_sysupgrade (bool force_refresh) {
 			transaction.add_pkgs_to_upgrade (force_refresh);
-			if (Posix.geteuid () != 0) {
-				var loop = new MainLoop ();
+			//if (Posix.geteuid () != 0) {
+				//var loop = new MainLoop ();
 				// let's time to pkttyagent to get registred
-				Timeout.add (200, () => {
-					run_transaction ();
-					loop.quit ();
-					return false;
-				});
-				loop.run ();
-			} else {
+				//Timeout.add (200, () => {
+					//run_transaction ();
+					//loop.quit ();
+					//return false;
+				//});
+				//loop.run ();
+			//} else {
 				run_transaction ();
-			}
+			//}
 		}
 
 		public static int main (string[] args) {
@@ -2485,9 +2485,9 @@ namespace Pamac {
 			if (cli.transaction != null) {
 				cli.transaction.quit_daemon ();
 			}
-			if (cli.pkttyagent != null) {
-				cli.pkttyagent.force_exit ();
-			}
+			//if (cli.pkttyagent != null) {
+				//cli.pkttyagent.force_exit ();
+			//}
 			return cli.exit_status;
 		}
 	}

@@ -64,17 +64,17 @@ namespace Pamac {
 			pkg.url = this.url;
 			pkg.builddate = this.builddate;
 			pkg.installdate = this.installdate;
-			screenshots_priv = pkg.screenshots_priv.copy_deep (str_dup);
-			licenses_priv = pkg.licenses_priv.copy_deep (str_dup);
-			depends_priv = pkg.depends_priv.copy_deep (str_dup);
-			optdepends_priv = pkg.optdepends_priv.copy_deep (str_dup);
-			requiredby_priv = pkg.requiredby_priv.copy_deep (str_dup);
-			optionalfor_priv = pkg.optionalfor_priv.copy_deep (str_dup);
-			provides_priv = pkg.provides_priv.copy_deep (str_dup);
-			replaces_priv = pkg.replaces_priv.copy_deep (str_dup);
-			conflicts_priv = pkg.conflicts_priv.copy_deep (str_dup);
-			groups_priv = pkg.groups_priv.copy_deep (str_dup);
-			backups_priv = pkg.backups_priv.copy_deep (str_dup);
+			screenshots_priv = pkg.screenshots_priv.copy_deep (strdup);
+			licenses_priv = pkg.licenses_priv.copy_deep (strdup);
+			depends_priv = pkg.depends_priv.copy_deep (strdup);
+			optdepends_priv = pkg.optdepends_priv.copy_deep (strdup);
+			requiredby_priv = pkg.requiredby_priv.copy_deep (strdup);
+			optionalfor_priv = pkg.optionalfor_priv.copy_deep (strdup);
+			provides_priv = pkg.provides_priv.copy_deep (strdup);
+			replaces_priv = pkg.replaces_priv.copy_deep (strdup);
+			conflicts_priv = pkg.conflicts_priv.copy_deep (strdup);
+			groups_priv = pkg.groups_priv.copy_deep (strdup);
+			backups_priv = pkg.backups_priv.copy_deep (strdup);
 			return pkg;
 		}
 	}
@@ -114,6 +114,15 @@ namespace Pamac {
 		public List<string> aur_pkgbases_to_build { get {return aur_pkgbases_to_build_priv;} }
 
 		internal TransactionSummary () {}
+
+		internal void sort () {
+			to_install_priv.sort (compare_name_pkg);
+			to_upgrade_priv.sort (compare_name_pkg);
+			to_downgrade_priv.sort (compare_name_pkg);
+			to_reinstall_priv.sort (compare_name_pkg);
+			to_remove_priv.sort (compare_name_pkg);
+			to_build_priv.sort (compare_name_pkg);
+		}
 	}
 
 	public class Updates: Object {
@@ -158,8 +167,4 @@ namespace Pamac {
 
 int compare_name_pkg (Pamac.Package pkg_a, Pamac.Package pkg_b) {
 	return strcmp (pkg_a.name, pkg_b.name);
-}
-
-string str_dup (string str) {
-	return str.dup ();
 }

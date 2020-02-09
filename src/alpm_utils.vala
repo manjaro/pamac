@@ -1203,6 +1203,7 @@ namespace Pamac {
 				summary.to_remove_priv.append (initialise_pkg (alpm_handle, trans_pkg));
 				pkgs_to_remove.next ();
 			}
+			summary.sort ();
 			return summary;
 		}
 
