@@ -3697,6 +3697,7 @@ namespace Pamac {
 				preferences_dialog.run ();
 				database.config.save ();
 				preferences_dialog.destroy ();
+				transaction.remove_authorization ();
 				check_aur_support ();
 				#if ENABLE_SNAP
 				check_snap_support ();

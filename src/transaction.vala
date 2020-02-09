@@ -260,6 +260,14 @@ namespace Pamac {
 			return false;
 		}
 
+		public void remove_authorization () {
+			try {
+				transaction_interface.remove_authorization ();
+			} catch (Error e) {
+				emit_error ("Daemon Error", {"remove_authorization: %s".printf (e.message)});
+			}
+		}
+
 		public void generate_mirrors_list (string country) {
 			emit_action (dgettext (null, "Refreshing mirrors list") + "...");
 			important_details_outpout (false);
@@ -966,7 +974,9 @@ namespace Pamac {
 					return false;
 				}
 			}
-			return trans_prepare_and_run (check_aur_updates);
+			bool success =  trans_prepare_and_run (check_aur_updates);
+			remove_authorization ();
+			return success;
 		}
 
 		bool trans_prepare_and_run (bool check_aur_updates) {
@@ -990,6 +1000,10 @@ namespace Pamac {
 			}
 			bool success = false;
 			if (sysupgrading) {
+				success = get_authorization ();
+				if (!success) {
+					return false;
+				}
 				try {
 					success = transaction_interface.trans_refresh (force_refresh);
 				} catch (Error e) {
@@ -1013,6 +1027,10 @@ namespace Pamac {
 				var to_load_real = new GenericSet<string?> (str_hash, str_equal);
 				foreach (unowned string path in to_load) {
 					if ("://" in path) {
+						if (!get_authorization ()) {
+							summary = new TransactionSummary ();
+							return false;
+						}
 						try {
 							string downloaded_path = transaction_interface.download_pkg (path);
 							if (downloaded_path != "") {
@@ -1154,7 +1172,6 @@ namespace Pamac {
 					} else {
 						// only AUR packages to build
 						// get_authorization here before building
-						// anyway if the build is too long authorization will be re-asked
 						return get_authorization ();
 					}
 				} else {
@@ -1515,8 +1532,12 @@ namespace Pamac {
 				building = false;
 				if (status == 0 && built_pkgs.length > 0) {
 					var to_load_array = new GenericArray<string> (built_pkgs.length);
+					var to_install_as_dep_array = new GenericArray<string> ();
 					foreach (unowned string name in built_pkgs) {
 						to_load_array.add (name);
+						if (!(name in to_build)) {
+							to_install_as_dep_array.add (name);
+						}
 					}
 					try {
 						emit_script_output ("");
@@ -1528,7 +1549,7 @@ namespace Pamac {
 																	{}, // to_install
 																	{}, // to_remove
 																	to_load_array.data,
-																	{}, // to_install_as_dep
+																	to_install_as_dep_array.data,
 																	{}, // temporary_ignorepkgs
 																	{}); // overwrite_files
 					} catch (Error e) {

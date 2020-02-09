@@ -20,6 +20,7 @@
 namespace Pamac {
 	internal interface TransactionInterface : Object {
 		public abstract bool get_authorization () throws Error;
+		public abstract void remove_authorization () throws Error;
 		public abstract void generate_mirrors_list (string country) throws Error;
 		public abstract bool clean_cache (string[] filenames) throws Error;
 		public abstract bool clean_build_files (string aur_build_dir) throws Error;

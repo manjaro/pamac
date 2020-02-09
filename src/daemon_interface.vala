@@ -23,6 +23,7 @@ namespace Pamac {
 		public abstract string get_sender () throws Error;
 		public abstract void set_environment_variables (HashTable<string,string> variables) throws Error;
 		public abstract void start_get_authorization () throws Error;
+		public abstract void remove_authorization () throws Error;
 		public abstract void start_write_alpm_config (HashTable<string,Variant> new_alpm_conf) throws Error;
 		public abstract void start_write_pamac_config (HashTable<string,Variant> new_pamac_conf) throws Error;
 		public abstract void start_generate_mirrors_list (string country) throws Error;

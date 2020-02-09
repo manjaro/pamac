@@ -115,6 +115,7 @@ namespace Pamac {
 		Mutex lockfile_mutex;
 		Cond answer_cond;
 		Mutex answer_mutex;
+		GenericSet<string> authorized_senders;
 		HashTable<string, Cancellable> cancellables_table;
 		#if ENABLE_SNAP
 		SnapPlugin snap_plugin;
@@ -177,6 +178,7 @@ namespace Pamac {
 			create_thread_pool ();
 			answer_cond = Cond ();
 			answer_mutex = Mutex ();
+			authorized_senders = new GenericSet<string> (str_hash, str_equal);
 			cancellables_table = new HashTable<string, Cancellable> (str_hash, str_equal);
 			alpm_utils.emit_action.connect ((sender, action) => {
 				emit_action (sender, action);
@@ -347,6 +349,10 @@ namespace Pamac {
 
 		bool get_authorization_sync (string sender) {
 			answer_mutex.lock ();
+			if (sender in authorized_senders) {
+				answer_mutex.unlock ();
+				return true;
+			}
 			bool authorized = false;
 			try {
 				Polkit.Authority authority = Polkit.Authority.get_sync ();
@@ -368,10 +374,27 @@ namespace Pamac {
 		}
 
 		public void start_get_authorization (BusName sender) throws Error {
+			if (sender in authorized_senders) {
+				var idle = new IdleSource ();
+				idle.set_priority (Priority.DEFAULT);
+				idle.set_callback (() => {
+					get_authorization_finished (sender, true);
+					return false;
+				});
+				idle.attach (context);
+				return;
+			}
 			check_authorization.begin (sender, (obj, res) => {
 				bool authorized = check_authorization.end (res);
+				if (authorized) {
+					authorized_senders.add (sender);
+				}
 				get_authorization_finished (sender, authorized);
 			});
+		}
+
+		public void remove_authorization (BusName sender) throws Error {
+			authorized_senders.remove (sender);
 		}
 
 		[DBus (visible = false)]
