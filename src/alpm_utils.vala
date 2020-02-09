@@ -869,6 +869,8 @@ namespace Pamac {
 			if (alpm_handle == null) {
 				return false;
 			}
+			// add question callback for replaces/conflicts/corrupted pkgs and import keys
+			alpm_handle.questioncb = (Alpm.QuestionCallBack) cb_question;
 			bool success = trans_prepare (alpm_handle);
 			if (success) {
 				if (alpm_handle.trans_to_add ().length > 0 ||
@@ -877,7 +879,6 @@ namespace Pamac {
 						// add callbacks to have commit signals
 						alpm_handle.eventcb = (Alpm.EventCallBack) cb_event;
 						alpm_handle.progresscb = (Alpm.ProgressCallBack) cb_progress;
-						alpm_handle.questioncb = (Alpm.QuestionCallBack) cb_question;
 						alpm_handle.fetchcb = (Alpm.FetchCallBack) cb_fetch;
 						alpm_handle.totaldlcb = (Alpm.TotalDownloadCallBack) cb_totaldownload;
 						alpm_handle.logcb = (Alpm.LogCallBack) cb_log;
