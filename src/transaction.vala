@@ -615,13 +615,13 @@ namespace Pamac {
 						}
 						// add checkdepends and makedepends in depends
 						if (global_checkdepends.length > 0 ) {
-							for (i = 0; i < global_checkdepends.length; i++) {
-								aur_pkg.depends_priv.append (global_checkdepends[i]);
+							for (uint j = 0; j < global_checkdepends.length; j++) {
+								aur_pkg.depends_priv.append (global_checkdepends[j]);
 							}
 						}
 						if (global_makedepends.length > 0 ) {
-							for (i = 0; i < global_makedepends.length; i++) {
-								aur_pkg.depends_priv.append (global_makedepends[i]);
+							for (uint j = 0; j < global_makedepends.length; j++) {
+								aur_pkg.depends_priv.append (global_makedepends[j]);
 							}
 						}
 						// check deps
@@ -1074,6 +1074,10 @@ namespace Pamac {
 					if (ask_edit_build_files_real (empty_summary)) {
 						foreach (unowned string name in to_build) {
 							// unresolvables declared in alpm_utils.vala
+							// it can be null
+							if (unresolvables == null) {
+								unresolvables = new GenericArray<string> ();
+							}
 							bool found = unresolvables.find_with_equal_func (name, str_equal, null);
 							if (!found) {
 								unresolvables.add (name);
