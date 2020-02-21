@@ -1401,7 +1401,7 @@ namespace Pamac {
 			}
 			// make packager mail clickable
 			string[] splitted = pkg.packager.split ("<", 2);
-			string packager_name = splitted[0];
+			unowned string packager_name = splitted[0];
 			if (splitted.length > 1) {
 				string packager_mail = splitted[1].split (">", 2)[0];
 				string packager_detail = "%s <a href=\"mailto:%s\">%s</a>".printf (packager_name, packager_mail, packager_mail);
@@ -1543,7 +1543,7 @@ namespace Pamac {
 			if (aur_pkg.packager != "") {
 				// make packager mail clickable
 				string[] splitted = aur_pkg.packager.split ("<", 2);
-				string packager_name = splitted[0];
+				unowned string packager_name = splitted[0];
 				if (splitted.length > 1) {
 					string packager_mail = splitted[1].split (">", 2)[0];
 					string packager_detail = "%s <a href=\"mailto:%s\">%s</a>".printf (packager_name, packager_mail, packager_mail);
@@ -1751,7 +1751,7 @@ namespace Pamac {
 				var box = new Gtk.Box (Gtk.Orientation.VERTICAL, 12);
 				foreach (unowned string channel in snap_pkg.channels) {
 					string[] split = channel.split (": ", 2);
-					string channel_name = split[0];
+					unowned string channel_name = split[0];
 					if (snap_pkg.channel != channel_name) {
 						var box2 = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 12);
 						box2.homogeneous = false;

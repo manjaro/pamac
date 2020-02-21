@@ -805,7 +805,7 @@ namespace Pamac {
 			}
 			int remain_length = str_length;
 			int offset = 0;
-			string[] splitted = {};
+			var splitted = new GenericArray<string> ();
 			while (remain_length >= available_width) {
 				string remain_string = str.substring (offset, remain_length);
 				string cutted_string = remain_string.substring (0, available_width);
@@ -816,14 +816,14 @@ namespace Pamac {
 					cut_length = i;
 					cutted_string = remain_string.substring (0, i);
 				}
-				splitted += cutted_string;
+				splitted.add ((owned) cutted_string);
 				offset += cut_length + 1;
 				remain_length -= cut_length + 1;
 			}
 			if (remain_length > 0) {
-				splitted += str.substring (offset, remain_length);
+				splitted.add (str.substring (offset, remain_length));
 			}
-			return splitted;
+			return splitted.data;
 		}
 
 		void print_aligned (string str1, string str2, int width) {
@@ -1788,7 +1788,7 @@ namespace Pamac {
 		}
 
 		void search_files (string[] files) {
-			HashTable<string, Variant> result = database.search_files (files);
+			HashTable<string, GenericArray<string>> result = database.search_files (files);
 			if (result.size () == 0) {
 				foreach (unowned string file in files) {
 					stdout.printf ("%s\n", dgettext (null, "No package owns %s").printf (file));
@@ -1796,11 +1796,12 @@ namespace Pamac {
 				exit_status = 1;
 				return;
 			}
-			var iter = HashTableIter<string, Variant> (result);
+			var iter = HashTableIter<string, GenericArray<string>> (result);
 			unowned string pkgname;
-			unowned Variant files_list;
+			unowned GenericArray<string> files_list;
 			while (iter.next (out pkgname, out files_list)) {
-				foreach (unowned string file in (string[]) files_list) {
+				for (uint i = 0; i < files_list.length; i++) {
+					unowned string file = files_list[i];
 					stdout.printf ("%s\n", dgettext (null, "%s is owned by %s").printf (file, pkgname));
 				}
 			}
@@ -2373,7 +2374,7 @@ namespace Pamac {
 		}
 
 		void clone_build_files_real (string[] pkgnames, bool overwrite, bool recurse) {
-			string[] dep_to_check = {};
+			var dep_to_check = new GenericArray<string> ();
 			var aur_pkgs = database.get_aur_pkgs (pkgnames);
 			var iter = HashTableIter<string, AURPackage?> (aur_pkgs);
 			unowned string pkgname;
@@ -2415,7 +2416,7 @@ namespace Pamac {
 								string dep_name = database.get_alpm_dep_name (dep_string);
 								if (!(dep_name in already_checked_aur_dep)) {
 									already_checked_aur_dep.add (dep_name);
-									dep_to_check += (owned) dep_name;
+									dep_to_check.add ((owned) dep_name);
 								}
 							}
 						}
@@ -2426,7 +2427,7 @@ namespace Pamac {
 				return;
 			}
 			if (dep_to_check.length > 0) {
-				clone_build_files_real (dep_to_check, overwrite, recurse);
+				clone_build_files_real (dep_to_check.data, overwrite, recurse);
 			}
 		}
 

@@ -346,10 +346,7 @@ namespace Pamac {
 		}
 
 		public bool should_hold (string pkgname) {
-			if (alpm_config.holdpkgs.find_custom (pkgname, strcmp) != null) {
-				return true;
-			}
-			return false;
+			return pkgname in alpm_config.holdpkgs;
 		}
 
 		public uint get_pkg_reason (string pkgname) {
@@ -436,13 +433,13 @@ namespace Pamac {
 			return screenshots;
 		}
 
-		SList<As.App> get_pkgname_matching_apps (string pkgname) {
-			var matching_apps = new SList<As.App> ();
+		GenericArray<As.App> get_pkgname_matching_apps (string pkgname) {
+			var matching_apps = new GenericArray<As.App> ();
 			unowned GenericArray<As.App> apps = app_store.get_apps ();
 			for (uint i = 0; i < apps.length; i++) {
 				As.App app = apps[i];
 				if (app.get_pkgname_default () == pkgname) {
-					matching_apps.append (app);
+					matching_apps.add (app);
 				}
 			}
 			return matching_apps;
@@ -468,8 +465,8 @@ namespace Pamac {
 			}
 			// find if pkgname provides only one app
 			var matching_apps = get_pkgname_matching_apps (alpm_pkg.name);
-			if (matching_apps.length () == 1) {
-				initialize_app_data (matching_apps.nth_data (0), ref pkg);
+			if (matching_apps.length == 1) {
+				initialize_app_data (matching_apps[0], ref pkg);
 			}
 			return pkg;
 		}
@@ -612,19 +609,14 @@ namespace Pamac {
 				} else if (alpm_pkg.origin == Alpm.Package.From.SYNCDB) {
 					pkg.repo = alpm_pkg.db.name;
 					var apps = get_pkgname_matching_apps (alpm_pkg.name);
-					if (apps.length () > 0) {
+					if (apps.length > 0) {
 						// alpm_pkg provide some apps
-						unowned SList<As.App> apps_list = apps;
-						unowned As.App app = apps_list.data;
-						initialize_app_data (app, ref pkg);
+						initialize_app_data (apps[0], ref pkg);
 						pkgs.append (pkg);
-						apps_list = apps_list.next;
-						while (apps_list != null) {
-							app = apps_list.data;
+						for (uint i = 1; i < apps.length; i++) {
 							var pkg_dup = pkg.dup ();
-							initialize_app_data (app, ref pkg_dup);
+							initialize_app_data (apps[i], ref pkg_dup);
 							pkgs.append (pkg_dup);
-							apps_list = apps_list.next;
 						}
 					} else {
 						pkgs.append (pkg);
@@ -678,19 +670,14 @@ namespace Pamac {
 				while (iter.next (out pkgname, out pkg)) {
 					if (pkg.repo != "" && pkg.repo != dgettext (null, "AUR")) {
 						var apps = get_pkgname_matching_apps (pkgname);
-						if (apps.length () > 0) {
+						if (apps.length > 0) {
 							// alpm_pkg provide some apps
-							unowned SList<As.App> apps_list = apps;
-							unowned As.App app = apps_list.data;
-							initialize_app_data (app, ref pkg);
+							initialize_app_data (apps[0], ref pkg);
 							pkgs.append (pkg);
-							apps_list = apps_list.next;
-							while (apps_list != null) {
-								app = apps_list.data;
+							for (uint i = 1; i < apps.length; i++) {
 								var pkg_dup = pkg.dup ();
-								initialize_app_data (app, ref pkg_dup);
+								initialize_app_data (apps[i], ref pkg_dup);
 								pkgs.append (pkg_dup);
-								apps_list = apps_list.next;
 							}
 						} else {
 							pkgs.append (pkg);
@@ -1108,8 +1095,8 @@ namespace Pamac {
 			return (owned) pkgs;
 		}
 
-		public HashTable<string, Variant> search_files (string[] files) {
-			var result = new HashTable<string, Variant> (str_hash, str_equal);
+		public HashTable<string, GenericArray<string>> search_files (string[] files) {
+			var result = new HashTable<string, GenericArray<string>> (str_hash, str_equal);
 			foreach (unowned string file in files) {
 				// search in localdb
 				unowned Alpm.List<unowned Alpm.Package> pkgcache = alpm_handle.localdb.pkgcache;
@@ -1130,7 +1117,7 @@ namespace Pamac {
 						}
 					}
 					if (found_files.length > 0) {
-						result.insert (alpm_pkg.name, new Variant.strv (found_files.data));
+						result.insert (alpm_pkg.name, found_files);
 					}
 					pkgcache.next ();
 				}
@@ -1157,7 +1144,7 @@ namespace Pamac {
 							}
 						}
 						if (found_files.length > 0) {
-							result.insert (alpm_pkg.name, new Variant.strv (found_files.data));
+							result.insert (alpm_pkg.name, found_files);
 						}
 						pkgcache.next ();
 					}
@@ -2061,14 +2048,14 @@ namespace Pamac {
 								string pkgbase = "";
 								string desc = "";
 								string arch = Posix.utsname ().machine;
-								var pkgnames_found = new SList<string> ();
+								var pkgnames_found = new GenericArray<string> ();
 								var global_depends = new List<string> ();
 								var global_checkdepends = new List<string> ();
 								var global_makedepends = new List<string> ();
 								var global_conflicts = new List<string> ();
 								var global_provides = new List<string> ();
 								var global_replaces = new List<string> ();
-								var global_validpgpkeys = new SList<string> ();
+								var global_validpgpkeys = new GenericArray<string> ();
 								var pkgnames_table = new HashTable<string, AURPackage> (str_hash, str_equal);
 								while ((line = dis.read_line ()) != null) {
 									if ("pkgbase = " in line) {
@@ -2155,7 +2142,7 @@ namespace Pamac {
 									// grab validpgpkeys to check if they are imported
 									} else if ("validpgpkeys" in line) {
 										if ("validpgpkeys = " in line) {
-											global_validpgpkeys.append (line.split (" = ", 2)[1]);
+											global_validpgpkeys.add (line.split (" = ", 2)[1]);
 										}
 									} else if ("pkgname = " in line) {
 										string pkgname_found = line.split (" = ", 2)[1];
@@ -2169,11 +2156,12 @@ namespace Pamac {
 											aur_pkg.desc = desc;
 											aur_pkg.packagebase = pkgbase;
 											pkgnames_table.insert (pkgname_found, aur_pkg);
-											pkgnames_found.append ((owned) pkgname_found);
+											pkgnames_found.add ((owned) pkgname_found);
 										}
 									}
 								}
-								foreach (unowned string pkgname_found in pkgnames_found) {
+								for (uint i = 0; i < pkgnames_found.length; i++) {
+									unowned string pkgname_found = pkgnames_found[i];
 									AURPackage? aur_pkg = pkgnames_table.take (pkgname_found);
 									// populate empty list will global ones
 									if (global_depends.length () > 0 && aur_pkg.depends.length () == 0) {

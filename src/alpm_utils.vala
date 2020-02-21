@@ -860,7 +860,7 @@ namespace Pamac {
 				unowned Alpm.List<unowned Alpm.Package> to_remove = alpm_handle.trans_to_remove ();
 				while (to_remove != null) {
 					unowned Alpm.Package pkg = to_remove.data;
-					if (alpm_config.holdpkgs.find_custom (pkg.name, strcmp) != null) {
+					if (pkg.name in alpm_config.holdpkgs) {
 						details += _("%s needs to be removed but it is a locked package").printf (pkg.name);
 						found_locked_pkg = true;
 					}

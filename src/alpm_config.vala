@@ -23,23 +23,18 @@ class AlpmRepo {
 	public Alpm.Signature.Level siglevel;
 	public Alpm.Signature.Level siglevel_mask;
 	public Alpm.DB.Usage usage;
-	public GLib.List<string> urls;
+	public GenericArray<string> urls;
 
 	public AlpmRepo (string name) {
 		this.name = name;
 		siglevel = Alpm.Signature.Level.USE_DEFAULT;
 		usage = 0;
-		urls = new GLib.List<string> ();
+		urls = new GenericArray<string> ();
 	}
 
-	public static int compare_name (AlpmRepo a, AlpmRepo b) {
-		return strcmp (a.name, b.name);
+	public static bool equal_name (AlpmRepo a, AlpmRepo b) {
+		return str_equal (a.name, b.name);
 	}
-
-	public static int search_name (AlpmRepo a, string name) {
-		return strcmp (a.name, name);
-	}
-
 }
 
 internal class AlpmConfig {
@@ -51,21 +46,21 @@ internal class AlpmConfig {
 	string? arch;
 	int usesyslog;
 	public bool checkspace;
-	GLib.List<string> cachedirs;
-	GLib.List<string> hookdirs;
-	GLib.List<string> ignoregroups;
+	GenericArray<string> cachedirs;
+	GenericArray<string> hookdirs;
+	GenericArray<string> ignoregroups;
 	public GenericSet<string?> ignorepkgs = new GenericSet<string?> (str_hash, str_equal);
-	GLib.List<string> noextracts;
-	GLib.List<string> noupgrades;
-	public GLib.List<string> holdpkgs;
-	public GLib.List<string> syncfirsts;
+	GenericArray<string> noextracts;
+	GenericArray<string> noupgrades;
+	public GenericSet<string?> holdpkgs = new GenericSet<string?> (str_hash, str_equal);
+	public GenericSet<string?> syncfirsts = new GenericSet<string?> (str_hash, str_equal);
 	Alpm.Signature.Level siglevel;
 	Alpm.Signature.Level localfilesiglevel;
 	Alpm.Signature.Level remotefilesiglevel;
 	Alpm.Signature.Level siglevel_mask;
 	Alpm.Signature.Level localfilesiglevel_mask;
 	Alpm.Signature.Level remotefilesiglevel_mask;
-	GLib.List<AlpmRepo> repo_order;
+	GenericArray<AlpmRepo> repo_order;
 
 	public AlpmConfig (string path) {
 		conf_path = path;
@@ -74,20 +69,20 @@ internal class AlpmConfig {
 
 	public void reload () {
 		// set default options
-		cachedirs = new GLib.List<string> ();
-		hookdirs = new GLib.List<string> ();
-		ignoregroups = new GLib.List<string> ();
+		cachedirs = new GenericArray<string> ();
+		hookdirs = new GenericArray<string> ();
+		ignoregroups = new GenericArray<string> ();
 		ignorepkgs.remove_all ();
-		noextracts = new GLib.List<string> ();
-		noupgrades = new GLib.List<string> ();
-		holdpkgs = new GLib.List<string> ();
-		syncfirsts = new GLib.List<string> ();
+		noextracts = new GenericArray<string> ();
+		noupgrades = new GenericArray<string> ();
+		holdpkgs.remove_all ();
+		syncfirsts.remove_all ();
 		usesyslog = 0;
 		checkspace = false;
 		siglevel = Alpm.Signature.Level.PACKAGE | Alpm.Signature.Level.PACKAGE_OPTIONAL | Alpm.Signature.Level.DATABASE | Alpm.Signature.Level.DATABASE_OPTIONAL;
 		localfilesiglevel = Alpm.Signature.Level.USE_DEFAULT;
 		remotefilesiglevel = Alpm.Signature.Level.USE_DEFAULT;
-		repo_order = new GLib.List<AlpmRepo> ();
+		repo_order = new GenericArray<AlpmRepo> ();
 		// parse conf file
 		parse_file (conf_path);
 		// if rootdir is set and dbpath/logfile are not
@@ -108,11 +103,11 @@ internal class AlpmConfig {
 				logfile = "/var/log/pacman.log";
 			}
 		}
-		if (cachedirs.length () == 0) {
-			cachedirs.append ("/var/cache/pacman/pkg/");
+		if (cachedirs.length == 0) {
+			cachedirs.add ("/var/cache/pacman/pkg/");
 		}
-		if (hookdirs.length () == 0) {
-			hookdirs.append ("/etc/pacman.d/hooks/");
+		if (hookdirs.length == 0) {
+			hookdirs.add ("/etc/pacman.d/hooks/");
 		}
 		if (gpgdir == null) {
 			// gpgdir it is not relative to rootdir, even if
@@ -123,12 +118,8 @@ internal class AlpmConfig {
 			arch = Posix.utsname().machine;
 		}
 		// add archlinux-keyring and manjaro-keyring to syncfirsts
-		if (syncfirsts.find_custom ("archlinux-keyring", strcmp) == null) {
-			syncfirsts.append ("archlinux-keyring");
-		}
-		if (syncfirsts.find_custom ("manjaro-keyring", strcmp) == null) {
-			syncfirsts.append ("manjaro-keyring");
-		}
+		syncfirsts.add ("archlinux-keyring");
+		syncfirsts.add ("manjaro-keyring");
 	}
 
 	public Alpm.Handle? get_handle (bool files_db = false, bool tmp_db = false) {
@@ -192,29 +183,32 @@ internal class AlpmConfig {
 		remotefilesiglevel = merge_siglevel (siglevel, remotefilesiglevel, remotefilesiglevel_mask);
 		handle.localfilesiglevel = localfilesiglevel;
 		handle.remotefilesiglevel = remotefilesiglevel;
-		foreach (unowned string cachedir in cachedirs) {
-			handle.add_cachedir (cachedir);
+		uint i;
+		for (i = 0; i < cachedirs.length; i++) {
+			handle.add_cachedir (cachedirs[i]);
 		}
-		foreach (unowned string hookdir in hookdirs) {
-			handle.add_hookdir (hookdir);
+		for (i = 0; i < hookdirs.length; i++) {
+			handle.add_hookdir (hookdirs[i]);
 		}
-		foreach (unowned string ignoregroup in ignoregroups) {
-			handle.add_ignoregroup (ignoregroup);
+		for (i = 0; i < ignoregroups.length; i++) {
+			handle.add_ignoregroup (ignoregroups[i]);
 		}
 		foreach (unowned string ignorepkg in ignorepkgs) {
 			handle.add_ignorepkg (ignorepkg);
 		}
-		foreach (unowned string noextract in noextracts) {
-			handle.add_noextract (noextract);
+		for (i = 0; i < noextracts.length; i++) {
+			handle.add_noextract (noextracts[i]);
 		}
-		foreach (unowned string noupgrade in noupgrades) {
-			handle.add_noupgrade (noupgrade);
+		for (i = 0; i < noupgrades.length; i++) {
+			handle.add_noupgrade (noupgrades[i]);
 		}
 		// register dbs
-		foreach (unowned AlpmRepo repo in repo_order) {
+		for (i = 0; i < repo_order.length; i++) {
+			unowned AlpmRepo repo = repo_order[i];
 			repo.siglevel = merge_siglevel (siglevel, repo.siglevel, repo.siglevel_mask);
 			unowned Alpm.DB db = handle.register_syncdb (repo.name, repo.siglevel);
-			foreach (unowned string url in repo.urls) {
+			for (uint j = 0; j < repo.urls.length; j++) {
+				unowned string url = repo.urls[j];
 				db.add_server (url.replace ("$repo", repo.name).replace ("$arch", handle.arch));
 			}
 			if (repo.usage == 0) {
@@ -254,8 +248,8 @@ internal class AlpmConfig {
 						}
 						if (current_section != "options") {
 							var repo = new AlpmRepo (current_section);
-							if (repo_order.find_custom (repo, AlpmRepo.compare_name) == null) {
-								repo_order.append ((owned) repo);
+							if (!repo_order.find_with_equal_func (repo, AlpmRepo.equal_name)) {
+								repo_order.add ((owned) repo);
 							}
 						}
 						continue;
@@ -276,11 +270,11 @@ internal class AlpmConfig {
 							dbpath = val;
 						} else if (key == "CacheDir") {
 							foreach (unowned string dir in val.split (" ")) {
-								cachedirs.append (dir);
+								cachedirs.add (dir);
 							}
 						} else if (key == "HookDir") {
 							foreach (unowned string dir in val.split (" ")) {
-								hookdirs.append (dir);
+								hookdirs.add (dir);
 							}
 						} else if (key == "LogFile") {
 							logfile = val;
@@ -306,15 +300,15 @@ internal class AlpmConfig {
 							process_siglevel (val, ref remotefilesiglevel, ref remotefilesiglevel_mask);
 						} else if (key == "HoldPkg") {
 							foreach (unowned string name in val.split (" ")) {
-								holdpkgs.append (name);
+								holdpkgs.add (name);
 							}
 						} else if (key == "SyncFirst") {
 							foreach (unowned string name in val.split (" ")) {
-								syncfirsts.append (name);
+								syncfirsts.add (name);
 							}
 						} else if (key == "IgnoreGroup") {
 							foreach (unowned string name in val.split (" ")) {
-								ignoregroups.append (name);
+								ignoregroups.add (name);
 							}
 						} else if (key == "IgnorePkg") {
 							foreach (unowned string name in val.split (" ")) {
@@ -322,23 +316,25 @@ internal class AlpmConfig {
 							}
 						} else if (key == "Noextract") {
 							foreach (unowned string name in val.split (" ")) {
-								noextracts.append (name);
+								noextracts.add (name);
 							}
 						} else if (key == "NoUpgrade") {
 							foreach (unowned string name in val.split (" ")) {
-								noupgrades.append (name);
+								noupgrades.add (name);
 							}
 						}
 					} else {
-						unowned GLib.List<AlpmRepo>? found = repo_order.search (current_section, (SearchFunc) AlpmRepo.search_name);
-						if (found != null) {
-							unowned AlpmRepo repo = found.data;
-							if (key == "Server") {
-								repo.urls.append (val);
-							} else if (key == "SigLevel") {
-								process_siglevel (val, ref repo.siglevel, ref repo.siglevel_mask);
-							} else if (key == "Usage") {
-								repo.usage = define_usage (val);
+						for (uint i = 0; i < repo_order.length; i++) {
+							unowned AlpmRepo repo = repo_order[i];
+							if (repo.name == current_section) {
+								if (key == "Server") {
+									repo.urls.add (val);
+								} else if (key == "SigLevel") {
+									process_siglevel (val, ref repo.siglevel, ref repo.siglevel_mask);
+								} else if (key == "Usage") {
+									repo.usage = define_usage (val);
+								}
+								break;
 							}
 						}
 					}

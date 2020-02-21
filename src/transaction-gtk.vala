@@ -582,11 +582,12 @@ namespace Pamac {
 				}
 			}
 			build_files_notebook.foreach (destroy_widget);
-			var file_paths = yield get_build_files (pkgname);
-			if (file_paths.length () == 0) {
+			GenericArray<string> file_paths = yield get_build_files (pkgname);
+			if (file_paths.length == 0) {
 				return false;
 			}
-			foreach (unowned string path in file_paths) {
+			for (uint i = 0; i < file_paths.length; i++) {
+				unowned string path = file_paths[i];
 				if ("PKGBUILD" in path) {
 					yield create_build_files_tab (path);
 					// add diff after PKGBUILD, do not failed if no diff

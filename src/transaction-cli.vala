@@ -588,8 +588,8 @@ namespace Pamac {
 
 		void edit_single_build_files (string pkgname) {
 			get_build_files.begin (pkgname, (obj, res) => {
-				SList<string> files = get_build_files.end (res);
-				if (files.length () > 0) {
+				GenericArray<string> files = get_build_files.end (res);
+				if (files.length > 0) {
 					string[] cmds = {};
 					unowned string? editor = Environment.get_variable ("EDITOR");
 					if (editor == null || editor == "nano") {
@@ -601,7 +601,8 @@ namespace Pamac {
 							cmds += str;
 						}
 					}
-					foreach (unowned string file in files) {
+					for (uint i = 0; i < files.length; i++) {
+						unowned string file = files[i];
 						cmds += file;
 					}
 					try {
