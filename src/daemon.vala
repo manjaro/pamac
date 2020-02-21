@@ -374,6 +374,7 @@ namespace Pamac {
 		}
 
 		public void start_get_authorization (BusName sender) throws Error {
+			answer_mutex.lock ();
 			if (sender in authorized_senders) {
 				var idle = new IdleSource ();
 				idle.set_priority (Priority.DEFAULT);
@@ -382,19 +383,25 @@ namespace Pamac {
 					return false;
 				});
 				idle.attach (context);
+				answer_mutex.unlock ();
 				return;
 			}
+			answer_mutex.unlock ();
 			check_authorization.begin (sender, (obj, res) => {
 				bool authorized = check_authorization.end (res);
 				if (authorized) {
+					answer_mutex.lock ();
 					authorized_senders.add (sender);
+					answer_mutex.unlock ();
 				}
 				get_authorization_finished (sender, authorized);
 			});
 		}
 
 		public void remove_authorization (BusName sender) throws Error {
+			answer_mutex.lock ();
 			authorized_senders.remove (sender);
+			answer_mutex.unlock ();
 		}
 
 		[DBus (visible = false)]

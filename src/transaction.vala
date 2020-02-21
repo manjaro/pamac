@@ -793,6 +793,7 @@ namespace Pamac {
 					}
 					#endif
 				}
+				remove_authorization ();
 				database.refresh ();
 				if (success) {
 					emit_action (dgettext (null, "Transaction successfully finished") + ".");
@@ -979,7 +980,6 @@ namespace Pamac {
 				}
 			}
 			bool success =  trans_prepare_and_run (check_aur_updates);
-			remove_authorization ();
 			return success;
 		}
 
