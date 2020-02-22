@@ -21,7 +21,7 @@ namespace Pamac {
 	public class Snap: Object, SnapPlugin {
 		string sender;
 		Snapd.Client client;
-		HashTable<string, unowned Snapd.Snap> store_snaps_cache;
+		HashTable<string, Snapd.Snap> store_snaps_cache;
 		HashTable<string, GenericArray<unowned Snapd.Snap>> search_snaps_cache;
 		HashTable<string, GenericArray<unowned Snapd.Snap>> category_snaps_cache;
 		// download data
@@ -48,7 +48,7 @@ namespace Pamac {
 
 		construct {
 			client = new Snapd.Client ();
-			store_snaps_cache = new HashTable<string, unowned Snapd.Snap> (str_hash, str_equal);
+			store_snaps_cache = new HashTable<string, Snapd.Snap> (str_hash, str_equal);
 			search_snaps_cache = new HashTable<string, GenericArray<unowned Snapd.Snap>> (str_hash, str_equal);
 			category_snaps_cache = new HashTable<string, GenericArray<unowned Snapd.Snap>> (str_hash, str_equal);
 			// download data
@@ -111,9 +111,6 @@ namespace Pamac {
 			if (snap.install_date != null) {
 				installed_snap = snap;
 				store_snap = get_store_snap (snap.name);
-				if (store_snap.icon != null) {
-					snap_pkg.icon = store_snap.icon;
-				}
 			} else {
 				installed_snap = get_local_snap (snap.name);
 				store_snap = snap;
