@@ -39,6 +39,7 @@ namespace Pamac {
 		AUR aur;
 		As.Store app_store;
 		HashTable<string, AURPackage> aur_vcs_pkgs;
+		HashTable<string, unowned Alpm.Package> repos_pkgs;
 		#if ENABLE_SNAP
 		SnapPlugin snap_plugin;
 		#endif
@@ -59,6 +60,7 @@ namespace Pamac {
 			context = MainContext.ref_thread_default ();
 			loop = new MainLoop (context);
 			aur_vcs_pkgs = new HashTable<string, AURPackage>  (str_hash, str_equal);
+			repos_pkgs = new HashTable<string, unowned Alpm.Package>  (str_hash, str_equal);
 			refresh ();
 			aur = new AUR ();
 			// init appstream
@@ -133,6 +135,18 @@ namespace Pamac {
 				files_handle = alpm_config.get_handle (true);
 			}
 			aur_vcs_pkgs.remove_all ();
+			unowned Alpm.List<unowned Alpm.DB> syncdbs = alpm_handle.syncdbs;
+			syncdbs.reverse ();
+			while (syncdbs != null) {
+				unowned Alpm.DB db = syncdbs.data;
+				unowned Alpm.List<unowned Alpm.Package> pkgcache = db.pkgcache;
+				while (pkgcache != null) {
+					unowned Alpm.Package sync_pkg = pkgcache.data;
+					repos_pkgs.insert (sync_pkg.name, sync_pkg);
+					pkgcache.next ();
+				}
+				syncdbs.next ();
+			}
 		}
 
 		public List<string> get_mirrors_countries () {
@@ -599,14 +613,28 @@ namespace Pamac {
 		List<AlpmPackage> initialise_pkgs (Alpm.List<unowned Alpm.Package>? alpm_pkgs) {
 			var pkgs = new List<AlpmPackage> ();
 			var data = new HashTable<string, AlpmPackage> (str_hash, str_equal);
+			var foreign_pkgnames = new GenericArray<unowned string> ();
 			while (alpm_pkgs != null) {
 				unowned Alpm.Package alpm_pkg = alpm_pkgs.data;
 				var pkg = new AlpmPackage ();
 				initialise_pkg_common (alpm_pkg, ref pkg);
 				if (alpm_pkg.origin == Alpm.Package.From.LOCALDB) {
-					data.insert (alpm_pkg.name, pkg);
+					unowned Alpm.Package? sync_pkg = get_syncpkg (alpm_pkg.name);
+					if (sync_pkg != null) {
+						pkg.repo = sync_pkg.db.name;
+					} else if (config.enable_aur) {
+						foreign_pkgnames.add (alpm_pkg.name);
+					}
 				} else if (alpm_pkg.origin == Alpm.Package.From.SYNCDB) {
 					pkg.repo = alpm_pkg.db.name;
+				}
+				if (pkg.repo == "" ) {
+					if (config.enable_aur) {
+						data.insert (alpm_pkg.name, pkg);
+					} else {
+						pkgs.append (pkg);
+					}
+				} else {
 					var apps = get_pkgname_matching_apps (alpm_pkg.name);
 					if (apps.length > 0) {
 						// alpm_pkg provide some apps
@@ -623,67 +651,18 @@ namespace Pamac {
 				}
 				alpm_pkgs.next ();
 			}
-			if (data.length > 0) {
-				// get sync db name
-				unowned Alpm.List<unowned Alpm.DB> syncdbs = alpm_handle.syncdbs;
-				while (syncdbs != null) {
-					unowned Alpm.DB db = syncdbs.data;
-					var iter = HashTableIter<string, AlpmPackage> (data);
-					unowned string pkgname;
-					unowned AlpmPackage pkg;
-					while (iter.next (out pkgname, out pkg)) {
-						if (pkg.repo == "") {
-							unowned Alpm.Package? sync_pkg = db.get_pkg (pkgname);
-							if (sync_pkg != null) {
-								pkg.repo = sync_pkg.db.name;
-							}
-						}
-					}
-					syncdbs.next ();
-				}
-				// get foreign pkgs
-				if (config.enable_aur) {
-					var foreign_pkgnames = new GenericArray<unowned string> ();
-					var iter = HashTableIter<string, AlpmPackage> (data);
-					unowned string pkgname;
-					unowned AlpmPackage pkg;
-					while (iter.next (out pkgname, out pkg)) {
-						if (pkg.repo == "") {
-							foreign_pkgnames.add (pkgname);
-						}
-					}
-					// get aur infos
-					if (foreign_pkgnames.length > 0) {
-						foreach (unowned Json.Object json_object in aur.get_multi_infos (foreign_pkgnames.data)) {
-							unowned AlpmPackage? foreign_pkg = data.lookup (json_object.get_string_member ("Name"));
-							if (foreign_pkg != null) {
-								foreign_pkg.repo = dgettext (null, "AUR");
-							}
-						}
+			// get aur infos
+			if (foreign_pkgnames.length > 0) {
+				foreach (unowned Json.Object json_object in aur.get_multi_infos (foreign_pkgnames.data)) {
+					unowned AlpmPackage? pkg = data.lookup (json_object.get_string_member ("Name"));
+					if (pkg != null) {
+						pkg.repo = dgettext (null, "AUR");
 					}
 				}
-				// add local pkgs to result
 				var iter = HashTableIter<string, AlpmPackage> (data);
-				unowned string pkgname;
-				AlpmPackage pkg;
-				while (iter.next (out pkgname, out pkg)) {
-					if (pkg.repo != "" && pkg.repo != dgettext (null, "AUR")) {
-						var apps = get_pkgname_matching_apps (pkgname);
-						if (apps.length > 0) {
-							// alpm_pkg provide some apps
-							initialize_app_data (apps[0], ref pkg);
-							pkgs.append (pkg);
-							for (uint i = 1; i < apps.length; i++) {
-								var pkg_dup = pkg.dup ();
-								initialize_app_data (apps[i], ref pkg_dup);
-								pkgs.append (pkg_dup);
-							}
-						} else {
-							pkgs.append (pkg);
-						}
-					} else {
-						pkgs.append (pkg);
-					}
+				unowned AlpmPackage pkg;
+				while (iter.next (null, out pkg)) {
+					pkgs.append (pkg);
 				}
 			}
 			pkgs.sort (pkg_compare_name);
@@ -767,18 +746,7 @@ namespace Pamac {
 					unowned Alpm.List<unowned Alpm.Package> pkgcache = alpm_handle.localdb.pkgcache;
 					while (pkgcache != null) {
 						unowned Alpm.Package alpm_pkg = pkgcache.data;
-						bool sync_found = false;
-						unowned Alpm.List<unowned Alpm.DB> syncdbs = alpm_handle.syncdbs;
-						while (syncdbs != null) {
-							unowned Alpm.DB db = syncdbs.data;
-							unowned Alpm.Package? sync_pkg = db.get_pkg (alpm_pkg.name);
-							if (sync_pkg != null) {
-								sync_found = true;
-								break;
-							}
-							syncdbs.next ();
-						}
-						if (sync_found == false) {
+						if (!repos_pkgs.contains (alpm_pkg.name)) {
 							alpm_pkgs.add (alpm_pkg);
 						}
 						pkgcache.next ();
@@ -828,22 +796,12 @@ namespace Pamac {
 			return (owned) pkgs;
 		}
 
-		unowned Alpm.Package? get_syncpkg (string name) {
-			unowned Alpm.Package? pkg = null;
-			unowned Alpm.List<unowned Alpm.DB> syncdbs = alpm_handle.syncdbs;
-			while (syncdbs != null) {
-				unowned Alpm.DB db = syncdbs.data;
-				pkg = db.get_pkg (name);
-				if (pkg != null) {
-					break;
-				}
-				syncdbs.next ();
-			}
-			return pkg;
+		unowned Alpm.Package? get_syncpkg (string pkgname) {
+			return repos_pkgs.lookup (pkgname);
 		}
 
 		public bool is_sync_pkg (string pkgname) {
-			return get_syncpkg (pkgname) != null;
+			return repos_pkgs.contains (pkgname);
 		}
 
 		public AlpmPackage? get_sync_pkg (string pkgname) {
