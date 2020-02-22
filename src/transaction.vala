@@ -938,17 +938,17 @@ namespace Pamac {
 				// do not check if reinstall
 				if (!database.is_installed_pkg (name)) {
 					List<string> uninstalled_optdeps = database.get_uninstalled_optdeps (name);
-					string[] real_uninstalled_optdeps = {};
+					var real_uninstalled_optdeps = new GenericArray<unowned string> ();
 					foreach (unowned string optdep in uninstalled_optdeps) {
 						string optdep_name = optdep.split (": ", 2)[0];
 						if (!(optdep_name in to_install) && !(optdep_name in to_add_to_install)) {
-							real_uninstalled_optdeps += optdep;
+							real_uninstalled_optdeps.add (optdep);
 						}
 					}
 					if (real_uninstalled_optdeps.length > 0) {
-						foreach (unowned string optdep in choose_optdeps (name, real_uninstalled_optdeps)) {
+						foreach (unowned string optdep in choose_optdeps (name, real_uninstalled_optdeps.data)) {
 							string optdep_name = optdep.split (": ", 2)[0];
-							to_add_to_install.add (optdep_name);
+							to_add_to_install.add ((owned) optdep_name);
 						}
 					}
 				}

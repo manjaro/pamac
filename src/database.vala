@@ -187,8 +187,8 @@ namespace Pamac {
 			// compute all infos
 			try {
 				new Thread<int>.try ("get_clean_cache_details", () => {
-					var pkg_version_filenames = new HashTable<string, SList<string>> (str_hash, str_equal);
-					var pkg_versions = new HashTable<string, SList<string>> (str_hash, str_equal);
+					var pkg_version_filenames = new HashTable<string, GenericArray<string>> (str_hash, str_equal);
+					var pkg_versions = new HashTable<string, GenericArray<string>> (str_hash, str_equal);
 					unowned Alpm.List<unowned string> cachedirs_names = alpm_handle.cachedirs;
 					while (cachedirs_names != null) {
 						unowned string cachedir_name = cachedirs_names.data;
@@ -220,30 +220,30 @@ namespace Pamac {
 								if (pkg_versions.contains (name)) {
 									if (pkg_version_filenames.contains (name_version_release)) {
 										// case of .sig file
-										unowned SList<string> filenames = pkg_version_filenames.lookup (name_version_release);
-										filenames.append (absolute_filename);
+										unowned GenericArray<string> filenames = pkg_version_filenames.lookup (name_version_release);
+										filenames.add ((owned) absolute_filename);
 									} else {
-										unowned SList<string> versions = pkg_versions.lookup (name);
+										unowned GenericArray<string> versions = pkg_versions.lookup (name);
 										string? version_release = name_version_release.slice (version_index + 1, name_version_release.length);
 										if (version_release == null) {
 											continue;
 										}
-										versions.append ((owned) version_release);
-										var filenames = new SList<string> ();
-										filenames.append (absolute_filename);
-										pkg_version_filenames.insert (name_version_release, (owned) filenames);
+										versions.add ((owned) version_release);
+										var filenames = new GenericArray<string> ();
+										filenames.add ((owned) absolute_filename);
+										pkg_version_filenames.insert ((owned) name_version_release, (owned) filenames);
 									}
 								} else {
-									var versions = new SList<string> ();
+									var versions = new GenericArray<string> ();
 									string? version_release = name_version_release.slice (version_index + 1, name_version_release.length);
 									if (version_release == null) {
 										continue;
 									}
-									versions.append ((owned) version_release);
+									versions.add ((owned) version_release);
 									pkg_versions.insert (name, (owned) versions);
-									var filenames = new SList<string> ();
-									filenames.append (absolute_filename);
-									pkg_version_filenames.insert (name_version_release, (owned) filenames);
+									var filenames = new GenericArray<string> ();
+									filenames.add ((owned) absolute_filename);
+									pkg_version_filenames.insert ((owned) name_version_release, (owned) filenames);
 								}
 							}
 						} catch (Error e) {
@@ -256,28 +256,27 @@ namespace Pamac {
 						return 0;
 					}
 					// filter candidates
-					var iter = HashTableIter<string, SList<string>> (pkg_versions);
+					var iter = HashTableIter<string, GenericArray<string>> (pkg_versions);
 					unowned string name;
-					unowned SList<string> versions;
+					unowned GenericArray<string> versions;
 					while (iter.next (out name, out versions)) {
 						// sort versions
-						uint length = versions.length ();
-						if (length > config.clean_keep_num_pkgs) {
+						if (versions.length > config.clean_keep_num_pkgs) {
 							versions.sort ((version1, version2) => {
 								// reverse version 1 and version2 to have higher versions first
 								return Alpm.pkg_vercmp (version2, version1);
 							});
 						}
-						uint i = 1;
-						foreach (unowned string version in versions) {
-							unowned SList<string>? filenames = pkg_version_filenames.lookup ("%s-%s".printf (name, version));
+						uint i = 0;
+						while (i < versions.length) {
+							unowned GenericArray<string>? filenames = pkg_version_filenames.lookup ("%s-%s".printf (name, versions[i]));
 							if (filenames != null) {
-								foreach (unowned string filename in filenames) {
-									filenames_size.remove (filename);
+								for (uint j = 0; j < filenames.length; j++) {
+									filenames_size.remove (filenames[j]);
 								}
 							}
 							i++;
-							if (i > config.clean_keep_num_pkgs) {
+							if (i == config.clean_keep_num_pkgs) {
 								break;
 							}
 						}
@@ -1869,7 +1868,7 @@ namespace Pamac {
 			// do not check for ignore pkgs here to have a warning in alpm_utils build_prepare
 			var pkgs = new List<AURPackage> ();
 			var local_pkgs = new GenericArray<string> ();
-			string[] vcs_local_pkgs = {};
+			var vcs_local_pkgs = new GenericArray<string> ();
 			try {
 				new Thread<int>.try ("get_all_aur_updates", () => {
 					// get local pkgs
@@ -1884,7 +1883,7 @@ namespace Pamac {
 								|| installed_pkg.name.has_suffix ("-svn")
 								|| installed_pkg.name.has_suffix ("-bzr")
 								|| installed_pkg.name.has_suffix ("-hg"))) {
-								vcs_local_pkgs += installed_pkg.name;
+								vcs_local_pkgs.add (installed_pkg.name);
 							} else {
 								local_pkgs.add (installed_pkg.name);
 							}
@@ -1916,7 +1915,7 @@ namespace Pamac {
 		public Updates get_updates () {
 			var updates = new Updates ();
 			var local_pkgs = new GenericArray<string> ();
-			string[] vcs_local_pkgs = {};
+			var vcs_local_pkgs = new GenericArray<string> ();
 			var repos_updates = new List<AlpmPackage> ();
 			var ignored_updates = new List<AlpmPackage> ();
 			try {
@@ -1968,7 +1967,7 @@ namespace Pamac {
 										|| installed_pkg.name.has_suffix ("-svn")
 										|| installed_pkg.name.has_suffix ("-bzr")
 										|| installed_pkg.name.has_suffix ("-hg"))) {
-										vcs_local_pkgs += installed_pkg.name;
+										vcs_local_pkgs.add (installed_pkg.name);
 									} else {
 										local_pkgs.add (installed_pkg.name);
 									}
@@ -2015,8 +2014,9 @@ namespace Pamac {
 			return updates;
 		}
 
-		List<unowned AURPackage> get_vcs_last_version (string[] vcs_local_pkgs) {
-			foreach (unowned string pkgname in vcs_local_pkgs) {
+		List<unowned AURPackage> get_vcs_last_version (GenericArray<string> vcs_local_pkgs) {
+			for (uint i = 0; i < vcs_local_pkgs.length; i++) {
+				unowned string pkgname = vcs_local_pkgs[i];
 				if (aur_vcs_pkgs.contains (pkgname)) {
 					continue;
 				}
@@ -2148,7 +2148,7 @@ namespace Pamac {
 										string pkgname_found = line.split (" = ", 2)[1];
 										current_section = pkgname_found;
 										current_section_is_pkgbase = false;
-										if (pkgname_found in vcs_local_pkgs) {
+										if (vcs_local_pkgs.find_with_equal_func (pkgname_found, str_equal)) {
 											var aur_pkg = new AURPackage ();
 											aur_pkg.name = pkgname_found;
 											aur_pkg.version = version.str;
@@ -2160,8 +2160,8 @@ namespace Pamac {
 										}
 									}
 								}
-								for (uint i = 0; i < pkgnames_found.length; i++) {
-									unowned string pkgname_found = pkgnames_found[i];
+								for (uint j = 0; j < pkgnames_found.length; j++) {
+									unowned string pkgname_found = pkgnames_found[j];
 									AURPackage? aur_pkg = pkgnames_table.take (pkgname_found);
 									// populate empty list will global ones
 									if (global_depends.length () > 0 && aur_pkg.depends.length () == 0) {
@@ -2195,7 +2195,7 @@ namespace Pamac {
 			return aur_vcs_pkgs.get_values ();
 		}
 
-		AURUpdates get_aur_updates_real (List<unowned Json.Object> aur_infos, string[] vcs_local_pkgs, bool check_ignorepkgs) {
+		AURUpdates get_aur_updates_real (List<unowned Json.Object> aur_infos, GenericArray<string> vcs_local_pkgs, bool check_ignorepkgs) {
 			var updates = new List<AURPackage> ();
 			var outofdate = new List<AURPackage> ();
 			var ignored_updates = new List<AURPackage> ();

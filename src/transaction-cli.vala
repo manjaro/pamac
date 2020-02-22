@@ -195,7 +195,7 @@ namespace Pamac {
 								name);
 				num++;
 			}
-			var optdeps_to_install = new GenericArray<string> ();
+			var optdeps_to_install = new GenericArray<unowned string> ();
 			// get user input
 			while (true) {
 				stdout.printf ("\n");

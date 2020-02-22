@@ -790,7 +790,8 @@ namespace Pamac {
 			return str_builder.str;
 		}
 
-		string[] split_string (string str, int margin, int width = 0) {
+		GenericArray<string> split_string (string str, int margin, int width = 0) {
+			var splitted = new GenericArray<string> ();
 			int term_width = get_term_width ();
 			if (width == 0) {
 				width = term_width;
@@ -801,11 +802,11 @@ namespace Pamac {
 			int str_length = str.length;
 			int available_width = width - margin;
 			if (available_width >= str_length) {
-				return {str};
+				splitted.add (str);
+				return splitted;
 			}
 			int remain_length = str_length;
 			int offset = 0;
-			var splitted = new GenericArray<string> ();
 			while (remain_length >= available_width) {
 				string remain_string = str.substring (offset, remain_length);
 				string cutted_string = remain_string.substring (0, available_width);
@@ -823,7 +824,7 @@ namespace Pamac {
 			if (remain_length > 0) {
 				splitted.add (str.substring (offset, remain_length));
 			}
-			return splitted.data;
+			return splitted;
 		}
 
 		void print_aligned (string str1, string str2, int width) {
@@ -925,7 +926,7 @@ namespace Pamac {
 								dgettext (null, "search for packages which own the given filenames (filenames can be partial)")};
 			int i = 0;
 			foreach (unowned string option in options) {
-				string[] cuts = split_string (details[i], max_length + 3);
+				GenericArray<string> cuts = split_string (details[i], max_length + 3);
 				print_aligned (option, " : %s".printf (cuts[0]), max_length);
 				int j = 1;
 				while (j < cuts.length) {
@@ -953,7 +954,7 @@ namespace Pamac {
 			string[] details = {dgettext (null, "also search in AUR")};
 			int i = 0;
 			foreach (unowned string option in options) {
-				string[] cuts = split_string (details[i], max_length + 3);
+				GenericArray<string> cuts = split_string (details[i], max_length + 3);
 				print_aligned (option, " : %s".printf (cuts[0]), max_length);
 				int j = 1;
 				while (j < cuts.length) {
@@ -991,7 +992,7 @@ namespace Pamac {
 								dgettext (null, "list files owned by the given packages")};
 			int i = 0;
 			foreach (unowned string option in options) {
-				string[] cuts = split_string (details[i], max_length + 3);
+				GenericArray<string> cuts = split_string (details[i], max_length + 3);
 				print_aligned (option, " : %s".printf (cuts[0]), max_length);
 				int j = 1;
 				while (j < cuts.length) {
@@ -1023,7 +1024,7 @@ namespace Pamac {
 								dgettext (null, "overwrite existing files")};
 			int i = 0;
 			foreach (unowned string option in options) {
-				string[] cuts = split_string (details[i], max_length + 3);
+				GenericArray<string> cuts = split_string (details[i], max_length + 3);
 				print_aligned (option, " : %s".printf (cuts[0]), max_length);
 				int j = 1;
 				while (j < cuts.length) {
@@ -1063,7 +1064,7 @@ namespace Pamac {
 								dgettext (null, "bypass any and all confirmation messages")};
 			int i = 0;
 			foreach (unowned string option in options) {
-				string[] cuts = split_string (details[i], max_length + 3);
+				GenericArray<string> cuts = split_string (details[i], max_length + 3);
 				print_aligned (option, " : %s".printf (cuts[0]), max_length);
 				int j = 1;
 				while (j < cuts.length) {
@@ -1103,7 +1104,7 @@ namespace Pamac {
 								dgettext (null, "bypass any and all confirmation messages")};
 			int i = 0;
 			foreach (unowned string option in options) {
-				string[] cuts = split_string (details[i], max_length + 3);
+				GenericArray<string> cuts = split_string (details[i], max_length + 3);
 				print_aligned (option, " : %s".printf (cuts[0]), max_length);
 				int j = 1;
 				while (j < cuts.length) {
@@ -1137,7 +1138,7 @@ namespace Pamac {
 								dgettext (null, "bypass any and all confirmation messages")};
 			int i = 0;
 			foreach (unowned string option in options) {
-				string[] cuts = split_string (details[i], max_length + 3);
+				GenericArray<string> cuts = split_string (details[i], max_length + 3);
 				print_aligned (option, " : %s".printf (cuts[0]), max_length);
 				int j = 1;
 				while (j < cuts.length) {
@@ -1171,7 +1172,7 @@ namespace Pamac {
 								dgettext (null, "bypass any and all confirmation messages")};
 			int i = 0;
 			foreach (unowned string option in options) {
-				string[] cuts = split_string (details[i], max_length + 3);
+				GenericArray<string> cuts = split_string (details[i], max_length + 3);
 				print_aligned (option, " : %s".printf (cuts[0]), max_length);
 				int j = 1;
 				while (j < cuts.length) {
@@ -1207,7 +1208,7 @@ namespace Pamac {
 								dgettext (null, "build directory (use with --devel), if no directory is given the one specified in pamac.conf file is used")};
 			int i = 0;
 			foreach (unowned string option in options) {
-				string[] cuts = split_string (details[i], max_length + 3);
+				GenericArray<string> cuts = split_string (details[i], max_length + 3);
 				print_aligned (option, " : %s".printf (cuts[0]), max_length);
 				int j = 1;
 				while (j < cuts.length) {
@@ -1249,7 +1250,7 @@ namespace Pamac {
 								dgettext (null, "bypass any and all confirmation messages")};
 			int i = 0;
 			foreach (unowned string option in options) {
-				string[] cuts = split_string (details[i], max_length + 3);
+				GenericArray<string> cuts = split_string (details[i], max_length + 3);
 				print_aligned (option, " : %s".printf (cuts[0]), max_length);
 				int j = 1;
 				while (j < cuts.length) {
@@ -1287,7 +1288,7 @@ namespace Pamac {
 								dgettext (null, "bypass any and all confirmation messages")};
 			int i = 0;
 			foreach (unowned string option in options) {
-				string[] cuts = split_string (details[i], max_length + 3);
+				GenericArray<string> cuts = split_string (details[i], max_length + 3);
 				print_aligned (option, " : %s".printf (cuts[0]), max_length);
 				int j = 1;
 				while (j < cuts.length) {
@@ -1349,9 +1350,9 @@ namespace Pamac {
 				}
 				str_builder.append ("%-*s  %s \n".printf (version_length, pkg.version, pkg.repo));
 				stdout.printf ("%s", str_builder.str);
-				string[] cuts = split_string (pkg.desc, 2, available_width);
-				foreach (unowned string cut in cuts) {
-					print_aligned ("", cut, 2);
+				GenericArray<string> cuts = split_string (pkg.desc, 2, available_width);
+				for (uint i = 0; i < cuts.length; i++) {
+					print_aligned ("", cuts[i], 2);
 				}
 			}
 		}
@@ -1393,9 +1394,9 @@ namespace Pamac {
 				}
 				str_builder.append ("%-*s  %s \n".printf (version_length, pkg.version, pkg.repo));
 				stdout.printf ("%s", str_builder.str);
-				string[] cuts = split_string (pkg.desc, 2, available_width);
-				foreach (unowned string cut in cuts) {
-					print_aligned ("", cut, 2);
+				GenericArray<string> cuts = split_string (pkg.desc, 2, available_width);
+				for (uint i = 0; i < cuts.length; i++) {
+					print_aligned ("", cuts[i], 2);
 				}
 			}
 		}
@@ -1460,7 +1461,7 @@ namespace Pamac {
 				// Version
 				print_aligned (properties[1], ": %s".printf (pkg.version), max_length);
 				// Description
-				string[] cuts = split_string (pkg.desc, max_length + 2);
+				GenericArray<string> cuts = split_string (pkg.desc, max_length + 2);
 				print_aligned (properties[2], ": %s".printf (cuts[0]), max_length);
 				int i = 1;
 				while (i < cuts.length) {
@@ -1990,32 +1991,31 @@ namespace Pamac {
 		void clean_cache (bool dry_run, bool verbose, bool no_confirm) {
 			HashTable<string, uint64?> details = database.get_clean_cache_details ();
 			uint64 total_size = 0;
-			var filenames = new SList<string> ();
+			var filenames = new GenericArray<unowned string> ();
 			var iter = HashTableIter<string, uint64?> (details);
 			unowned string filename;
 			uint64? size;
 			while (iter.next (out filename, out size)) {
 				total_size += size;
-				filenames.append (filename);
+				filenames.add (filename);
 			}
 			if (database.config.clean_rm_only_uninstalled) {
 				stdout.printf ("%s\n", dgettext (null, "Remove only the versions of uninstalled packages"));
 			}
 			stdout.printf ("%s: %llu\n\n", dgettext (null, "Number of versions of each package to keep in the cache"), database.config.clean_keep_num_pkgs);
-			uint files_nb = filenames.length ();
-			if (verbose && files_nb > 0) {
+			if (verbose && filenames.length > 0) {
 				filenames.sort (database.vercmp);
-				foreach (unowned string name in filenames) {
-					stdout.printf ("%s\n", name);
+				for (uint i = 0; i < filenames.length; i++) {
+					stdout.printf ("%s\n", filenames[i]);
 				}
 				stdout.printf ("\n");
 			}
-			if (files_nb == 0) {
-				stdout.printf ("%s: %s\n".printf (dgettext (null, "To delete"), dngettext (null, "%u file", "%u files", files_nb).printf (files_nb)));
+			if (filenames.length == 0) {
+				stdout.printf ("%s: %s\n".printf (dgettext (null, "To delete"), dngettext (null, "%u file", "%u files", filenames.length).printf (filenames.length)));
 			} else {
-				stdout.printf ("%s: %s  (%s)\n".printf (dgettext (null, "To delete"), dngettext (null, "%u file", "%u files", files_nb).printf (files_nb), format_size (total_size)));
+				stdout.printf ("%s: %s  (%s)\n".printf (dgettext (null, "To delete"), dngettext (null, "%u file", "%u files", filenames.length).printf (filenames.length), format_size (total_size)));
 			}
-			if (files_nb == 0 || dry_run) {
+			if (filenames.length == 0 || dry_run) {
 				return;
 			}
 			if (no_confirm || ask_user ("%s ?".printf (dgettext (null, "Clean cache")))) {
@@ -2026,28 +2026,27 @@ namespace Pamac {
 		void clean_build_files (bool dry_run, bool verbose, bool no_confirm) {
 			HashTable<string, uint64?> details = database.get_build_files_details ();
 			uint64 total_size = 0;
-			var filenames = new SList<string> ();
+			var filenames = new GenericArray<unowned string> ();
 			var iter = HashTableIter<string, uint64?> (details);
 			unowned string filename;
 			uint64? size;
 			while (iter.next (out filename, out size)) {
 				total_size += size;
-				filenames.append (filename);
+				filenames.add (filename);
 			}
-			uint files_nb = filenames.length ();
-			if (verbose && files_nb > 0) {
+			if (verbose && filenames.length > 0) {
 				filenames.sort (strcmp);
-				foreach (unowned string name in filenames) {
-					stdout.printf ("%s\n", name);
+				for (uint i = 0; i < filenames.length; i++) {
+					stdout.printf ("%s\n", filenames[i]);
 				}
 				stdout.printf ("\n");
 			}
-			if (files_nb == 0) {
-				stdout.printf ("%s: %s\n".printf (dgettext (null, "To delete"), dngettext (null, "%u file", "%u files", files_nb).printf (files_nb)));
+			if (filenames.length == 0) {
+				stdout.printf ("%s: %s\n".printf (dgettext (null, "To delete"), dngettext (null, "%u file", "%u files", filenames.length).printf (filenames.length)));
 			} else {
-				stdout.printf ("%s: %s  (%s)\n".printf (dgettext (null, "To delete"), dngettext (null, "%u file", "%u files", files_nb).printf (files_nb), format_size (total_size)));
+				stdout.printf ("%s: %s  (%s)\n".printf (dgettext (null, "To delete"), dngettext (null, "%u file", "%u files", filenames.length).printf (filenames.length), format_size (total_size)));
 			}
-			if (files_nb == 0 || dry_run) {
+			if (filenames.length == 0 || dry_run) {
 				return;
 			}
 			if (no_confirm || ask_user ("%s ?".printf (dgettext (null, "Clean build files")))) {
@@ -2056,9 +2055,9 @@ namespace Pamac {
 		}
 
 		void install_pkgs (string[] targets, bool download_only, bool as_deps, bool as_explicit) {
-			var to_install = new List<string> ();
-			var to_load = new List<string> ();
-			var to_build = new List<string> ();
+			var to_install = new GenericArray<string> ();
+			var to_load = new GenericArray<string> ();
+			var to_build = new GenericArray<string> ();
 			foreach (unowned string target in targets) {
 				bool found = false;
 				// check for local or remote path
@@ -2069,12 +2068,12 @@ namespace Pamac {
 							var file = File.new_for_uri (target);
 							string? absolute_path = file.get_path ();
 							if (absolute_path != null) {
-								to_load.append (absolute_path);
+								to_load.add ((owned) absolute_path);
 								found = true;
 							}
 						} else {
 							// add url in to_load, pkg will be downloaded by system_daemon
-							to_load.append (target);
+							to_load.add (target);
 							found = true;
 						}
 					} else {
@@ -2082,13 +2081,13 @@ namespace Pamac {
 						var file = File.new_for_path (target);
 						string? absolute_path = file.get_path ();
 						if (absolute_path != null) {
-							to_load.append (absolute_path);
+							to_load.add ((owned) absolute_path);
 							found = true;
 						}
 					}
 				} else {
 					if (database.has_sync_satisfier (target)) {
-						to_install.append (target);
+						to_install.add (target);
 						found = true;
 					} else {
 						var groupnames = database.get_groups_names ();
@@ -2105,7 +2104,7 @@ namespace Pamac {
 						stdout.printf ("%s: %s\n", dgettext (null, "Warning"), dgettext (null, "%s is only available from AUR").printf (target));
 						if (!transaction.no_confirm && ask_user ("%s ?".printf (dgettext (null, "Build %s from AUR").printf (target)))) {
 							stdout.printf ("\n");
-							to_build.append (target);
+							to_build.add (target);
 							found = true;
 						}
 					}
@@ -2115,7 +2114,7 @@ namespace Pamac {
 					return;
 				}
 			}
-			if (to_install.length () == 0 && to_load.length () == 0 && to_build.length () == 0) {
+			if (to_install.length == 0 && to_load.length == 0 && to_build.length == 0) {
 				stdout.printf (dgettext (null, "Nothing to do") + ".\n");
 				return;
 			}
@@ -2130,14 +2129,15 @@ namespace Pamac {
 				flags |= (1 << 14); //Alpm.TransFlag.ALLEXPLICIT
 			}
 			transaction.set_flags (flags);
-			foreach (unowned string name in to_install) {
-				transaction.add_pkg_to_install (name);
+			uint i;
+			for (i = 0; i < to_install.length; i++) {
+				transaction.add_pkg_to_install (to_install[i]);
 			}
-			foreach (unowned string path in to_load) {
-				transaction.add_path_to_load (path);
+			for (i = 0; i < to_load.length; i++) {
+				transaction.add_path_to_load (to_load[i]);
 			}
-			foreach (unowned string name in to_build) {
-				transaction.add_aur_pkg_to_build (name);
+			for (i = 0; i < to_build.length; i++) {
+				transaction.add_aur_pkg_to_build (to_build[i]);
 			}
 			if (Posix.geteuid () != 0) {
 				var loop = new MainLoop ();
@@ -2153,11 +2153,11 @@ namespace Pamac {
 			}
 		}
 
-		void ask_group_confirmation (string grpname, ref List<string> to_install) {
+		void ask_group_confirmation (string grpname, ref GenericArray<string> to_install) {
 			var pkgs = database.get_group_pkgs (grpname);
 			if (transaction.no_confirm) {
 				foreach (unowned AlpmPackage pkg in pkgs) {
-					to_install.append (pkg.name);
+					to_install.add (pkg.name);
 				}
 				return;
 			}
@@ -2199,7 +2199,7 @@ namespace Pamac {
 				// just return use default
 				if (ans == "") {
 					foreach (unowned AlpmPackage pkg in pkgs) {
-						to_install.append (pkg.name);
+						to_install.add (pkg.name);
 					}
 					break;
 				} else {
@@ -2231,7 +2231,7 @@ namespace Pamac {
 				}
 				if (numbers.length > 0) {
 					foreach (uint64 number in numbers) {
-						to_install.append (pkgs.nth_data ((uint) number -1).name);
+						to_install.add (pkgs.nth_data ((uint) number -1).name);
 					}
 					break;
 				}
@@ -2240,7 +2240,7 @@ namespace Pamac {
 		}
 
 		void reinstall_pkgs (string[] names, bool download_only, bool as_deps, bool as_explicit) {
-			var to_install = new List<string> ();
+			var to_install = new GenericArray<string> ();
 			foreach (unowned string name in names) {
 				bool found = false;
 				string version = "";
@@ -2250,7 +2250,7 @@ namespace Pamac {
 					var sync_pkg = database.get_sync_pkg (name);
 					if (sync_pkg != null) {
 						if (local_pkg.version == sync_pkg.version) {
-							to_install.append (name);
+							to_install.add (name);
 							found = true;
 						}
 					}
@@ -2261,7 +2261,7 @@ namespace Pamac {
 						var pkgs = database.get_group_pkgs (name);
 						foreach (unowned AlpmPackage pkg in pkgs) {
 							if (pkg.version == pkg.installed_version) {
-								to_install.append (pkg.name);
+								to_install.add (pkg.name);
 							}
 						}
 					}
@@ -2275,12 +2275,12 @@ namespace Pamac {
 					return;
 				}
 			}
-			if (to_install.length () == 0) {
+			if (to_install.length == 0) {
 				stdout.printf (dgettext (null, "Nothing to do") + ".\n");
 				return;
 			}
-			foreach (unowned string name in to_install) {
-				transaction.add_pkg_to_install (name);
+			for (uint i = 0; i < to_install.length; i++) {
+				transaction.add_pkg_to_install (to_install[i]);
 			}
 			int flags = 0;
 			if (download_only) {
@@ -2307,12 +2307,12 @@ namespace Pamac {
 		}
 
 		void remove_pkgs (string[] names, bool recurse, bool unneeded, bool no_save) {
-			var to_remove = new List<string> ();
+			var to_remove = new GenericArray<string> ();
 			bool group_found = false;
 			foreach (unowned string name in names) {
 				bool found = false;
 				if (database.is_installed_pkg (name)) {
-					to_remove.append (name);
+					to_remove.add (name);
 					found = true;
 				} else {
 					var groupnames = database.get_groups_names ();
@@ -2321,7 +2321,7 @@ namespace Pamac {
 						var pkgs = database.get_group_pkgs (name);
 						foreach (unowned AlpmPackage pkg in pkgs) {
 							if (pkg.version == pkg.installed_version) {
-								to_remove.append (pkg.name);
+								to_remove.add (pkg.name);
 								group_found = true;
 							}
 						}
@@ -2332,7 +2332,7 @@ namespace Pamac {
 					return;
 				}
 			}
-			if (to_remove.length () == 0) {
+			if (to_remove.length == 0) {
 				stdout.printf (dgettext (null, "Nothing to do") + ".\n");
 				return;
 			}
@@ -2349,8 +2349,8 @@ namespace Pamac {
 				flags |= (1 << 2); //Alpm.TransFlag.NOSAVE
 			}
 			transaction.set_flags (flags);
-			foreach (unowned string name in to_remove) {
-				transaction.add_pkg_to_remove (name);
+			for (uint i = 0; i < to_remove.length; i++) {
+				transaction.add_pkg_to_remove (to_remove[i]);
 			}
 			run_transaction ();
 		}
@@ -2394,18 +2394,19 @@ namespace Pamac {
 					} else if (cancellable.is_cancelled ()) {
 						return;
 					} else if (recurse) {
-						var depends = new List<string> ();
+						var depends = new GenericArray<string> ();
 						foreach (unowned string depend in aur_pkg.depends) {
-							depends.append (depend);
+							depends.add (depend);
 						}
 						foreach (unowned string depend in aur_pkg.makedepends) {
-							depends.append (depend);
+							depends.add (depend);
 						}
 						foreach (unowned string depend in aur_pkg.checkdepends) {
-							depends.append (depend);
+							depends.add (depend);
 						}
 						// check deps
-						foreach (unowned string dep_string in depends) {
+						for (uint i = 0; i < depends.length; i++) {
+							unowned string dep_string = depends[i];
 							AlpmPackage? pkg = null;
 							if (database.has_installed_satisfier (dep_string)) {
 								pkg = database.get_installed_satisfier (dep_string);

@@ -100,11 +100,11 @@ namespace Pamac {
 		int trans_flags;
 		GenericSet<string?> to_install;
 		GenericSet<string?> to_remove;
-		string[] to_load;
-		string[] to_build;
+		GenericSet<string?> to_load;
+		GenericSet<string?> to_build;
 		HashTable<string, string> to_install_as_dep;
-		string[] temporary_ignorepkgs;
-		string[] overwrite_files;
+		GenericSet<string?> temporary_ignorepkgs;
+		GenericSet<string?> overwrite_files;
 		GenericSet<string?> to_syncfirst;
 		public Cancellable cancellable;
 		public bool downloading_updates;
@@ -138,7 +138,11 @@ namespace Pamac {
 			to_syncfirst = new GenericSet<string?> (str_hash, str_equal);
 			to_install = new GenericSet<string?> (str_hash, str_equal);
 			to_remove = new GenericSet<string?> (str_hash, str_equal);
+			to_load = new GenericSet<string?> (str_hash, str_equal);
+			to_build = new GenericSet<string?> (str_hash, str_equal);
 			to_install_as_dep = new HashTable<string, string> (str_hash, str_equal);
+			temporary_ignorepkgs = new GenericSet<string?> (str_hash, str_equal);
+			overwrite_files = new GenericSet<string?> (str_hash, str_equal);
 			current_filename = "";
 			current_action = "";
 			current_status = "";
@@ -624,19 +628,19 @@ namespace Pamac {
 				bool success = trans_add_pkg_real (alpm_handle, pkg);
 				if (success) {
 					if (("linux31" in pkg.name) || ("linux4" in pkg.name) || ("linux5" in pkg.name)) {
-						string[] installed_kernels = {};
-						string[] installed_modules = {};
+						var installed_kernels = new GenericArray<unowned string> ();
+						var installed_modules = new GenericArray<unowned string> ();
 						unowned Alpm.List<unowned Alpm.Package> pkgcache = alpm_handle.localdb.pkgcache;
 						while (pkgcache != null) {
 							unowned Alpm.Package local_pkg = pkgcache.data;
 							if (("linux31" in local_pkg.name) || ("linux4" in local_pkg.name) || ("linux5" in local_pkg.name)) {
 								string[] local_pkg_splitted = local_pkg.name.split ("-", 2);
-								if ((local_pkg_splitted[0] in installed_kernels) == false) {
-									installed_kernels += local_pkg_splitted[0];
+								if (!installed_kernels.find_with_equal_func (local_pkg_splitted[0], str_equal)) {
+									installed_kernels.add (local_pkg_splitted[0]);
 								}
 								if (local_pkg_splitted.length == 2) {
-									if ((local_pkg_splitted[1] in installed_modules) == false) {
-										installed_modules += local_pkg_splitted[1];
+									if (!installed_modules.find_with_equal_func (local_pkg_splitted[1], str_equal)) {
+										installed_modules.add (local_pkg_splitted[1]);
 									}
 								}
 							}
@@ -646,11 +650,14 @@ namespace Pamac {
 						if (splitted.length == 2) {
 							// we are adding a module
 							// add the same module for other installed kernels
-							foreach (unowned string installed_kernel in installed_kernels) {
-								string module = installed_kernel + "-" + splitted[1];
-								unowned Alpm.Package? installed_module_pkg = alpm_handle.localdb.get_pkg (module);
+							for (uint i = 0; i < installed_kernels.length; i++) {
+								var module = new StringBuilder ();
+								module.append (installed_kernels[i]);
+								module.append ("-");
+								module.append (splitted[1]);
+								unowned Alpm.Package? installed_module_pkg = alpm_handle.localdb.get_pkg (module.str);
 								if (installed_module_pkg == null) {
-									unowned Alpm.Package? module_pkg = get_syncpkg (alpm_handle, module);
+									unowned Alpm.Package? module_pkg = get_syncpkg (alpm_handle, module.str);
 									if (module_pkg != null) {
 										trans_add_pkg_real (alpm_handle, module_pkg);
 									}
@@ -659,9 +666,12 @@ namespace Pamac {
 						} else if (splitted.length == 1) {
 							// we are adding a kernel
 							// add all installed modules for other kernels
-							foreach (unowned string installed_module in installed_modules) {
-								string module = splitted[0] + "-" + installed_module;
-								unowned Alpm.Package? module_pkg = get_syncpkg (alpm_handle, module);
+							for (uint i = 0; i < installed_modules.length; i++) {
+								var module = new StringBuilder ();
+								module.append (splitted[0]);
+								module.append ("-");
+								module.append (installed_modules[i]);
+								unowned Alpm.Package? module_pkg = get_syncpkg (alpm_handle, module.str);
 								if (module_pkg != null) {
 									trans_add_pkg_real (alpm_handle, module_pkg);
 								}
@@ -904,16 +914,16 @@ namespace Pamac {
 				this.to_remove.add (name);
 			}
 			foreach (unowned string name in to_load) {
-				this.to_load += name;
+				this.to_load.add (name);
 			}
 			foreach (unowned string name in to_build) {
-				this.to_build += name;
+				this.to_build.add (name);
 			}
 			foreach (unowned string name in temporary_ignorepkgs) {
-				this.temporary_ignorepkgs += name;
+				this.temporary_ignorepkgs.add (name);
 			}
 			foreach (unowned string name in overwrite_files) {
-				this.overwrite_files += name;
+				this.overwrite_files.add (name);
 			}
 			summary = new TransactionSummary ();
 			bool success;
@@ -953,17 +963,23 @@ namespace Pamac {
 			this.no_confirm_commit = true;
 			this.keep_built_pkgs = keep_built_pkgs;
 			this.trans_flags = trans_flags;
-			this.to_load = to_load;
-			this.temporary_ignorepkgs = temporary_ignorepkgs;
-			this.overwrite_files = overwrite_files;
 			foreach (unowned string name in to_install) {
 				this.to_install.add (name);
 			}
 			foreach (unowned string name in to_remove) {
 				this.to_remove.add (name);
 			}
+			foreach (unowned string name in to_load) {
+				this.to_load.add (name);
+			}
 			foreach (unowned string name in to_install_as_dep) {
 				this.to_install_as_dep.insert (name, name);
+			}
+			foreach (unowned string name in temporary_ignorepkgs) {
+				this.temporary_ignorepkgs.add (name);
+			}
+			foreach (unowned string name in overwrite_files) {
+				this.overwrite_files.add (name);
 			}
 			// use an handle with no callback to avoid double prepare signals
 			var alpm_handle = get_handle (false, false, false);
@@ -1004,10 +1020,10 @@ namespace Pamac {
 			current_filename = "";
 			to_install.remove_all ();
 			to_remove.remove_all ();
-			to_load = {};
-			to_build = {};
-			temporary_ignorepkgs = {};
-			overwrite_files = {};
+			to_load.remove_all ();
+			to_build.remove_all ();
+			temporary_ignorepkgs.remove_all ();
+			overwrite_files.remove_all ();
 			to_install_as_dep.remove_all ();
 			no_confirm_commit = false;
 		}
