@@ -184,8 +184,8 @@ namespace Pamac {
 			return icon;
 		}
 
-		List<string> get_app_screenshots (As.App app) {
-			var screenshots = new List<string> ();
+		GenericArray<string> get_app_screenshots (As.App app) {
+			var screenshots = new GenericArray<string> ();
 			unowned GLib.GenericArray<As.Screenshot> as_screenshots = app.get_screenshots ();
 			for (uint i = 0; i < as_screenshots.length; i++) {
 				unowned As.Screenshot as_screenshot = as_screenshots[i];
@@ -193,7 +193,7 @@ namespace Pamac {
 				if (as_image != null) {
 					string? url = as_image.get_url ();
 					if (url != null) {
-						screenshots.append ((owned) url);
+						screenshots.add ((owned) url);
 					}
 				}
 			}
@@ -275,8 +275,8 @@ namespace Pamac {
 			pkg.download_size = remote_ref.download_size;
 		}
 
-		public List<string> get_remotes_names () {
-			var result = new List<string> ();
+		public GenericArray<string> get_remotes_names () {
+			var result = new GenericArray<string> ();
 			try {
 				GenericArray<unowned Flatpak.Remote> remotes = installation.list_remotes ();
 				for (uint i = 0; i < remotes.length; i++) {
@@ -284,7 +284,7 @@ namespace Pamac {
 					if (remote.get_disabled ()) {
 						continue;
 					}
-					result.append (remote.name);
+					result.add (remote.name);
 				}
 			} catch (Error e) {
 				warning (e.message);
@@ -292,8 +292,8 @@ namespace Pamac {
 			return result;
 		}
 
-		public List<FlatpakPackage> get_installed_flatpaks () {
-			var result = new List<FlatpakPackage> ();
+		public SList<FlatpakPackage> get_installed_flatpaks () {
+			var result = new SList<FlatpakPackage> ();
 			try {
 				GenericArray<unowned Flatpak.InstalledRef> installed_apps = installation.list_installed_refs_by_kind (Flatpak.RefKind.APP);
 				for (uint i = 0; i < installed_apps.length; i++) {
@@ -304,11 +304,12 @@ namespace Pamac {
 					if (app != null) {
 						initialize_app_data (app, ref pkg);
 					}
-					result.append (pkg);
+					result.prepend (pkg);
 				}
 			} catch (Error e) {
 				warning (e.message);
 			}
+			result.reverse ();
 			return result;
 		}
 
@@ -355,6 +356,7 @@ namespace Pamac {
 							}
 							pkg.desc = get_app_summary (app);
 							initialize_app_data (app, ref pkg);
+							print ("add %s\n", remote_ref.name);
 						}
 					} catch (Error e) {
 						warning (e.message);
@@ -417,8 +419,8 @@ namespace Pamac {
 			return pkg;
 		}
 
-		public List<FlatpakPackage> search_flatpaks (string search_string) {
-			var result = new List<FlatpakPackage> ();
+		public SList<FlatpakPackage> search_flatpaks (string search_string) {
+			var result = new SList<FlatpakPackage> ();
 			string[]? search_terms = As.utils_search_tokenize (search_string);
 			if (search_terms != null) {
 				var iter = HashTableIter<string, As.Store> (stores_table);
@@ -432,25 +434,28 @@ namespace Pamac {
 						if (match_score > 0) {
 							FlatpakPackage? pkg = get_flatpak_from_app (remote, app);
 							if (pkg != null) {
-								result.append (pkg);
+								result.prepend (pkg);
 							}
 						}
 					}
 				}
 			}
+			result.reverse ();
 			return result;
 		}
 
-		public List<FlatpakPackage> get_category_flatpaks (string category) {
-			var result = new List<FlatpakPackage> ();
+		public SList<FlatpakPackage> get_category_flatpaks (string category) {
+			var result = new SList<FlatpakPackage> ();
 			var appstream_categories = new GenericArray<string> ();
 			switch (category) {
 				case "Featured":
 					var featured_pkgs = new GenericArray<string> (4);
-					featured_pkgs.add ("gimp");
-					featured_pkgs.add ("shotwell");
-					featured_pkgs.add ("inkscape");
-					featured_pkgs.add ("blender");
+					featured_pkgs.add ("com.spotify.Client");
+					featured_pkgs.add ("com.valvesoftware.Steam");
+					featured_pkgs.add ("com.discordapp.Discord");
+					featured_pkgs.add ("com.skype.Client");
+					featured_pkgs.add ("com.mojang.Minecraft");
+					featured_pkgs.add ("com.slack.Slack");
 					var iter = HashTableIter<string, As.Store> (stores_table);
 					unowned string remote;
 					As.Store app_store;
@@ -461,7 +466,7 @@ namespace Pamac {
 							if (featured_pkgs.find_with_equal_func (app.get_id_filename (), str_equal)) {
 								FlatpakPackage? pkg = get_flatpak_from_app (remote, app);
 								if (pkg != null) {
-									result.append (pkg);
+									result.prepend (pkg);
 								}
 							}
 						}
@@ -513,7 +518,7 @@ namespace Pamac {
 							if (appstream_categories.find_with_equal_func (cat_name, str_equal)) {
 								FlatpakPackage? pkg = get_flatpak_from_app (remote, app);
 								if (pkg != null) {
-									result.append (pkg);
+									result.prepend (pkg);
 								}
 								break;
 							}
@@ -521,11 +526,12 @@ namespace Pamac {
 					}
 				}
 			}
+			result.reverse ();
 			return result;
 		}
 
-		public List<FlatpakPackage> get_flatpak_updates () {
-			var result = new List<FlatpakPackage> ();
+		public SList<FlatpakPackage> get_flatpak_updates () {
+			var result = new SList<FlatpakPackage> ();
 			refresh_appstream_data ();
 			try {
 				GenericArray<unowned Flatpak.InstalledRef> update_apps = installation.list_installed_refs_for_update ();
@@ -539,7 +545,7 @@ namespace Pamac {
 						As.Release? release = app.get_release_default ();
 						if (release != null) {
 							pkg.version = release.get_version ();
-							result.append (pkg);
+							result.prepend (pkg);
 						} else {
 							critical ("no version found for %s\n", app.get_id_filename ());
 						}
@@ -548,6 +554,7 @@ namespace Pamac {
 			} catch (Error e) {
 				warning (e.message);
 			}
+			result.reverse ();
 			return result;
 		}
 

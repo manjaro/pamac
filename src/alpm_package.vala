@@ -23,30 +23,42 @@ namespace Pamac {
 		public string packager { get; internal set; default = "";}
 		public string reason { get; internal set; default = "";}
 		public string has_signature { get; internal set; default = "";}
-		internal List<string> licenses_priv;
-		internal List<string> depends_priv;
-		internal List<string> optdepends_priv;
-		internal List<string> requiredby_priv;
-		internal List<string> optionalfor_priv;
-		internal List<string> provides_priv;
-		internal List<string> replaces_priv;
-		internal List<string> conflicts_priv;
-		internal List<string> groups_priv;
-		internal List<string> backups_priv;
-		internal List<string> screenshots_priv;
-		public List<string> licenses { get {return licenses_priv;} }
-		public List<string> depends { get {return depends_priv;} }
-		public List<string> optdepends { get {return optdepends_priv;} }
-		public List<string> requiredby { get {return requiredby_priv;} }
-		public List<string> optionalfor { get {return optionalfor_priv;} }
-		public List<string> provides { get {return provides_priv;} }
-		public List<string> replaces { get {return replaces_priv;} }
-		public List<string> conflicts { get {return conflicts_priv;} }
-		public List<string> groups { get {return groups_priv;} }
-		public List<string> backups { get {return backups_priv;} }
-		public List<string> screenshots { get {return screenshots_priv;} }
+		internal GenericArray<string> licenses_priv;
+		internal GenericArray<string> depends_priv;
+		internal GenericArray<string> optdepends_priv;
+		internal GenericArray<string> requiredby_priv;
+		internal GenericArray<string> optionalfor_priv;
+		internal GenericArray<string> provides_priv;
+		internal GenericArray<string> replaces_priv;
+		internal GenericArray<string> conflicts_priv;
+		internal GenericArray<string> groups_priv;
+		internal GenericArray<string> backups_priv;
+		internal GenericArray<string> screenshots_priv;
+		public GenericArray<string> licenses { get {return licenses_priv;} }
+		public GenericArray<string> depends { get {return depends_priv;} }
+		public GenericArray<string> optdepends { get {return optdepends_priv;} }
+		public GenericArray<string> requiredby { get {return requiredby_priv;} }
+		public GenericArray<string> optionalfor { get {return optionalfor_priv;} }
+		public GenericArray<string> provides { get {return provides_priv;} }
+		public GenericArray<string> replaces { get {return replaces_priv;} }
+		public GenericArray<string> conflicts { get {return conflicts_priv;} }
+		public GenericArray<string> groups { get {return groups_priv;} }
+		public GenericArray<string> backups { get {return backups_priv;} }
+		public GenericArray<string> screenshots { get {return screenshots_priv;} }
 
-		internal AlpmPackage () {}
+		internal AlpmPackage () {
+			licenses_priv = new GenericArray<string> ();
+			depends_priv = new GenericArray<string> ();
+			optdepends_priv = new GenericArray<string> ();
+			requiredby_priv = new GenericArray<string> ();
+			optionalfor_priv = new GenericArray<string> ();
+			provides_priv = new GenericArray<string> ();
+			replaces_priv = new GenericArray<string> ();
+			conflicts_priv = new GenericArray<string> ();
+			groups_priv = new GenericArray<string> ();
+			backups_priv = new GenericArray<string> ();
+			screenshots_priv = new GenericArray<string> ();
+		}
 
 		internal AlpmPackage dup () {
 			var pkg = new AlpmPackage ();
@@ -64,17 +76,17 @@ namespace Pamac {
 			pkg.url = this.url;
 			pkg.builddate = this.builddate;
 			pkg.installdate = this.installdate;
-			screenshots_priv = pkg.screenshots_priv.copy_deep (strdup);
-			licenses_priv = pkg.licenses_priv.copy_deep (strdup);
-			depends_priv = pkg.depends_priv.copy_deep (strdup);
-			optdepends_priv = pkg.optdepends_priv.copy_deep (strdup);
-			requiredby_priv = pkg.requiredby_priv.copy_deep (strdup);
-			optionalfor_priv = pkg.optionalfor_priv.copy_deep (strdup);
-			provides_priv = pkg.provides_priv.copy_deep (strdup);
-			replaces_priv = pkg.replaces_priv.copy_deep (strdup);
-			conflicts_priv = pkg.conflicts_priv.copy_deep (strdup);
-			groups_priv = pkg.groups_priv.copy_deep (strdup);
-			backups_priv = pkg.backups_priv.copy_deep (strdup);
+			screenshots_priv = pkg.screenshots_priv.copy (strdup);
+			licenses_priv = pkg.licenses_priv.copy (strdup);
+			depends_priv = pkg.depends_priv.copy (strdup);
+			optdepends_priv = pkg.optdepends_priv.copy (strdup);
+			requiredby_priv = pkg.requiredby_priv.copy (strdup);
+			optionalfor_priv = pkg.optionalfor_priv.copy (strdup);
+			provides_priv = pkg.provides_priv.copy (strdup);
+			replaces_priv = pkg.replaces_priv.copy (strdup);
+			conflicts_priv = pkg.conflicts_priv.copy (strdup);
+			groups_priv = pkg.groups_priv.copy (strdup);
+			backups_priv = pkg.backups_priv.copy (strdup);
 			return pkg;
 		}
 	}
@@ -87,33 +99,37 @@ namespace Pamac {
 		public string maintainer { get; internal set; default = "";}
 		public uint64 firstsubmitted { get; internal set; }
 		public uint64 numvotes  { get; internal set; }
- 		internal List<string> makedepends_priv;
- 		internal List<string> checkdepends_priv;
- 		public List<string> makedepends { get {return makedepends_priv;} }
- 		public List<string> checkdepends { get {return checkdepends_priv;} }
+		internal GenericArray<string> makedepends_priv;
+		internal GenericArray<string> checkdepends_priv;
+		public GenericArray<string> makedepends { get {return makedepends_priv;} }
+		public GenericArray<string> checkdepends { get {return checkdepends_priv;} }
 
 		internal AURPackage () {
 			repo = dgettext (null, "AUR");
+			makedepends_priv = new GenericArray<string> ();
+			checkdepends_priv = new GenericArray<string> ();
 		}
 	}
 
 	public class TransactionSummary: Object {
-		internal List<Package> to_install_priv;
-		internal List<Package> to_upgrade_priv;
-		internal List<Package> to_downgrade_priv;
-		internal List<Package> to_reinstall_priv;
-		internal List<Package> to_remove_priv;
-		internal List<Package> to_build_priv;
-		internal List<string> aur_pkgbases_to_build_priv;
-		public List<Package> to_install { get {return to_install_priv;} }
-		public List<Package> to_upgrade { get {return to_upgrade_priv;} }
-		public List<Package> to_downgrade { get {return to_downgrade_priv;} }
-		public List<Package> to_reinstall { get {return to_reinstall_priv;} }
-		public List<Package> to_remove { get {return to_remove_priv;} }
-		public List<Package> to_build { get {return to_build_priv;} }
-		public List<string> aur_pkgbases_to_build { get {return aur_pkgbases_to_build_priv;} }
+		internal SList<Package> to_install_priv;
+		internal SList<Package> to_upgrade_priv;
+		internal SList<Package> to_downgrade_priv;
+		internal SList<Package> to_reinstall_priv;
+		internal SList<Package> to_remove_priv;
+		internal SList<Package> to_build_priv;
+		internal GenericArray<string> aur_pkgbases_to_build_priv;
+		public SList<Package> to_install { get {return to_install_priv;} }
+		public SList<Package> to_upgrade { get {return to_upgrade_priv;} }
+		public SList<Package> to_downgrade { get {return to_downgrade_priv;} }
+		public SList<Package> to_reinstall { get {return to_reinstall_priv;} }
+		public SList<Package> to_remove { get {return to_remove_priv;} }
+		public SList<Package> to_build { get {return to_build_priv;} }
+		public GenericArray<string> aur_pkgbases_to_build { get {return aur_pkgbases_to_build_priv;} }
 
-		internal TransactionSummary () {}
+		internal TransactionSummary () {
+			aur_pkgbases_to_build_priv = new GenericArray<string> ();
+		}
 
 		internal void sort () {
 			to_install_priv.sort (compare_name_pkg);
@@ -126,30 +142,30 @@ namespace Pamac {
 	}
 
 	public class Updates: Object {
-		List<AlpmPackage> repos_updates_priv;
-		List<AlpmPackage> ignored_repos_updates_priv;
-		List<AURPackage> aur_updates_priv;
-		List<AURPackage> ignored_aur_updates_priv;
-		List<AURPackage> outofdate_priv;
+		SList<AlpmPackage> repos_updates_priv;
+		SList<AlpmPackage> ignored_repos_updates_priv;
+		SList<AURPackage> aur_updates_priv;
+		SList<AURPackage> ignored_aur_updates_priv;
+		SList<AURPackage> outofdate_priv;
 		#if ENABLE_FLATPAK
-		List<FlatpakPackage> flatpak_updates_priv;
+		SList<FlatpakPackage> flatpak_updates_priv;
 		#endif
-		public List<AlpmPackage> repos_updates { get {return repos_updates_priv;} }
-		public List<AlpmPackage> ignored_repos_updates { get {return ignored_repos_updates_priv;} }
-		public List<AURPackage> aur_updates { get {return aur_updates_priv;} }
-		public List<AURPackage> ignored_aur_updates { get {return ignored_aur_updates_priv;} }
-		public List<AURPackage> outofdate { get {return outofdate_priv;} }
+		public SList<AlpmPackage> repos_updates { get {return repos_updates_priv;} }
+		public SList<AlpmPackage> ignored_repos_updates { get {return ignored_repos_updates_priv;} }
+		public SList<AURPackage> aur_updates { get {return aur_updates_priv;} }
+		public SList<AURPackage> ignored_aur_updates { get {return ignored_aur_updates_priv;} }
+		public SList<AURPackage> outofdate { get {return outofdate_priv;} }
 		#if ENABLE_FLATPAK
-		public List<FlatpakPackage> flatpak_updates { get {return flatpak_updates_priv;} }
+		public SList<FlatpakPackage> flatpak_updates { get {return flatpak_updates_priv;} }
 		#endif
 
 		internal Updates () {}
 
-		internal Updates.from_lists (owned List<AlpmPackage> repos_updates,
-									owned List<AlpmPackage> ignored_repos_updates,
-									owned List<AURPackage> aur_updates,
-									owned List<AURPackage> ignored_aur_updates,
-									owned List<AURPackage> outofdate) {
+		internal Updates.from_lists (owned SList<AlpmPackage> repos_updates,
+									owned SList<AlpmPackage> ignored_repos_updates,
+									owned SList<AURPackage> aur_updates,
+									owned SList<AURPackage> ignored_aur_updates,
+									owned SList<AURPackage> outofdate) {
 			repos_updates_priv = (owned) repos_updates;
 			ignored_repos_updates_priv = (owned) ignored_repos_updates;
 			aur_updates_priv = (owned) aur_updates;
@@ -158,7 +174,7 @@ namespace Pamac {
 		}
 		
 		#if ENABLE_FLATPAK
-		internal void set_flatpak_updates (owned List<FlatpakPackage> flatpak_updates) {
+		internal void set_flatpak_updates (owned SList<FlatpakPackage> flatpak_updates) {
 			flatpak_updates_priv = (owned) flatpak_updates;
 		}
 		#endif

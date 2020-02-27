@@ -311,12 +311,12 @@ namespace Pamac {
 				summary_shown = false;
 				return commit_transaction_answer;
 			} else {
-				uint must_confirm_length = summary.to_downgrade.length ()
-									+ summary.to_remove.length ()
-									+ summary.to_build.length ();
+				bool must_confirm = summary.to_downgrade != null
+									|| summary.to_remove != null
+									|| summary.to_build != null;
 				if (no_confirm_upgrade
-					&& must_confirm_length == 0
-					&& summary.to_upgrade.length () > 0) {
+					&& !must_confirm
+					&& summary.to_upgrade != null) {
 					show_warnings (true);
 					return true;
 				}
@@ -335,23 +335,46 @@ namespace Pamac {
 			transaction_sum_dialog.sum_list.clear ();
 			transaction_sum_dialog.edit_button.visible = false;
 			var iter = Gtk.TreeIter ();
-			if (summary.to_remove.length () > 0) {
-				foreach (unowned Package pkg in summary.to_remove) {
+			unowned SList<Package> pkgs;
+			unowned Package pkg;
+			if (summary.to_remove != null) {
+				pkgs = summary.to_remove;
+				pkg = pkgs.data;
+				transaction_summary.add (pkg.name);
+				transaction_sum_dialog.sum_list.insert_with_values (out iter, -1,
+												0, "<b>%s</b>".printf (dgettext (null, "To remove") + ":"),
+												1, pkg.name,
+												2, pkg.version,
+												4, pkg.repo);
+				pkgs = pkgs.next;
+				while (pkgs != null) {
+					pkg = pkgs.data;
 					transaction_summary.add (pkg.name);
 					transaction_sum_dialog.sum_list.insert_with_values (out iter, -1,
 												1, pkg.name,
 												2, pkg.version,
 												4, pkg.repo);
+					pkgs = pkgs.next;
 				}
-				Gtk.TreePath path = transaction_sum_dialog.sum_list.get_path (iter);
-				uint pos = (path.get_indices ()[0]) - (summary.to_remove.length () - 1);
-				transaction_sum_dialog.sum_list.get_iter (out iter, new Gtk.TreePath.from_indices (pos));
-				transaction_sum_dialog.sum_list.set (iter, 0, "<b>%s</b>".printf (dgettext (null, "To remove") + ":"));
 			}
-			if (summary.to_downgrade.length () > 0) {
-				foreach (unowned Package pkg in summary.to_downgrade) {
+			if (summary.to_downgrade != null) {
+				pkgs = summary.to_downgrade;
+				pkg = pkgs.data;
+				dsize += pkg.download_size;
+				string size = pkg.download_size == 0 ? "" : format_size (pkg.download_size);
+				transaction_summary.add (pkg.name);
+				transaction_sum_dialog.sum_list.insert_with_values (out iter, -1,
+												0, "<b>%s</b>".printf (dgettext (null, "To downgrade") + ":"),
+												1, pkg.name,
+												2, pkg.version,
+												3, "(%s)".printf (pkg.installed_version),
+												4, pkg.repo,
+												5, size);
+				pkgs = pkgs.next;
+				while (pkgs != null) {
+					pkg = pkgs.data;
 					dsize += pkg.download_size;
-					string size = pkg.download_size == 0 ? "" : format_size (pkg.download_size);
+					size = pkg.download_size == 0 ? "" : format_size (pkg.download_size);
 					transaction_summary.add (pkg.name);
 					transaction_sum_dialog.sum_list.insert_with_values (out iter, -1,
 												1, pkg.name,
@@ -359,17 +382,29 @@ namespace Pamac {
 												3, "(%s)".printf (pkg.installed_version),
 												4, pkg.repo,
 												5, size);
+					pkgs = pkgs.next;
 				}
-				Gtk.TreePath path = transaction_sum_dialog.sum_list.get_path (iter);
-				uint pos = (path.get_indices ()[0]) - (summary.to_downgrade.length () - 1);
-				transaction_sum_dialog.sum_list.get_iter (out iter, new Gtk.TreePath.from_indices (pos));
-				transaction_sum_dialog.sum_list.set (iter, 0, "<b>%s</b>".printf (dgettext (null, "To downgrade") + ":"));
 			}
-			if (summary.to_build.length () > 0) {
+			if (summary.to_build != null) {
 				transaction_sum_dialog.edit_button.visible = true;
-				foreach (unowned Package pkg in summary.to_build) {
+				pkgs = summary.to_build;
+				pkg = pkgs.data;
+				transaction_summary.add (pkg.name);
+				string installed_version = "";
+				if (pkg.installed_version != "" && pkg.installed_version != pkg.version) {
+					installed_version = "(%s)".printf (pkg.installed_version);
+				}
+				transaction_sum_dialog.sum_list.insert_with_values (out iter, -1,
+												0, "<b>%s</b>".printf (dgettext (null, "To build") + ":"),
+												1, pkg.name,
+												2, pkg.version,
+												3, installed_version,
+												4, pkg.repo);
+				pkgs = pkgs.next;
+				while (pkgs != null) {
+					pkg = pkgs.data;
 					transaction_summary.add (pkg.name);
-					string installed_version = "";
+					installed_version = "";
 					if (pkg.installed_version != "" && pkg.installed_version != pkg.version) {
 						installed_version = "(%s)".printf (pkg.installed_version);
 					}
@@ -378,49 +413,80 @@ namespace Pamac {
 												2, pkg.version,
 												3, installed_version,
 												4, pkg.repo);
+					pkgs = pkgs.next;
 				}
-				Gtk.TreePath path = transaction_sum_dialog.sum_list.get_path (iter);
-				uint pos = (path.get_indices ()[0]) - (summary.to_build.length () - 1);
-				transaction_sum_dialog.sum_list.get_iter (out iter, new Gtk.TreePath.from_indices (pos));
-				transaction_sum_dialog.sum_list.set (iter, 0, "<b>%s</b>".printf (dgettext (null, "To build") + ":"));
 			}
-			if (summary.to_install.length () > 0) {
-				foreach (unowned Package pkg in summary.to_install) {
+			if (summary.to_install != null) {
+				pkgs = summary.to_install;
+				pkg = pkgs.data;
+				dsize += pkg.download_size;
+				string size = pkg.download_size == 0 ? "" : format_size (pkg.download_size);
+				transaction_summary.add (pkg.name);
+				transaction_sum_dialog.sum_list.insert_with_values (out iter, -1,
+												0, "<b>%s</b>".printf (dgettext (null, "To install") + ":"),
+												1, pkg.name,
+												2, pkg.version,
+												4, pkg.repo,
+												5, size);
+				pkgs = pkgs.next;
+				while (pkgs != null) {
+					pkg = pkgs.data;
 					dsize += pkg.download_size;
-					string size = pkg.download_size == 0 ? "" : format_size (pkg.download_size);
+					size = pkg.download_size == 0 ? "" : format_size (pkg.download_size);
 					transaction_summary.add (pkg.name);
 					transaction_sum_dialog.sum_list.insert_with_values (out iter, -1,
 												1, pkg.name,
 												2, pkg.version,
 												4, pkg.repo,
 												5, size);
+					pkgs = pkgs.next;
 				}
-				Gtk.TreePath path = transaction_sum_dialog.sum_list.get_path (iter);
-				uint pos = (path.get_indices ()[0]) - (summary.to_install.length () - 1);
-				transaction_sum_dialog.sum_list.get_iter (out iter, new Gtk.TreePath.from_indices (pos));
-				transaction_sum_dialog.sum_list.set (iter, 0, "<b>%s</b>".printf (dgettext (null, "To install") + ":"));
 			}
-			if (summary.to_reinstall.length () > 0) {
-				foreach (unowned Package pkg in summary.to_reinstall) {
+			if (summary.to_reinstall != null) {
+				pkgs = summary.to_reinstall;
+				pkg = pkgs.data;
+				dsize += pkg.download_size;
+				string size = pkg.download_size == 0 ? "" : format_size (pkg.download_size);
+				transaction_summary.add (pkg.name);
+				transaction_sum_dialog.sum_list.insert_with_values (out iter, -1,
+												0, "<b>%s</b>".printf (dgettext (null, "To reinstall") + ":"),
+												1, pkg.name,
+												2, pkg.version,
+												4, pkg.repo,
+												5, size);
+				pkgs = pkgs.next;
+				while (pkgs != null) {
+					pkg = pkgs.data;
 					dsize += pkg.download_size;
-					string size = pkg.download_size == 0 ? "" : format_size (pkg.download_size);
+					size = pkg.download_size == 0 ? "" : format_size (pkg.download_size);
 					transaction_summary.add (pkg.name);
 					transaction_sum_dialog.sum_list.insert_with_values (out iter, -1,
 												1, pkg.name,
 												2, pkg.version,
 												4, pkg.repo,
 												5, size);
+					pkgs = pkgs.next;
 				}
-				Gtk.TreePath path = transaction_sum_dialog.sum_list.get_path (iter);
-				uint pos = (path.get_indices ()[0]) - (summary.to_reinstall.length () - 1);
-				transaction_sum_dialog.sum_list.get_iter (out iter, new Gtk.TreePath.from_indices (pos));
-				transaction_sum_dialog.sum_list.set (iter, 0, "<b>%s</b>".printf (dgettext (null, "To reinstall") + ":"));
 			}
-			if (summary.to_upgrade.length () > 0) {
+			if (summary.to_upgrade != null) {
 				if (!no_confirm_upgrade) {
-					foreach (unowned Package pkg in summary.to_upgrade) {
+					pkgs = summary.to_upgrade;
+					pkg = pkgs.data;
+					dsize += pkg.download_size;
+					string size = pkg.download_size == 0 ? "" : format_size (pkg.download_size);
+					transaction_summary.add (pkg.name);
+					transaction_sum_dialog.sum_list.insert_with_values (out iter, -1,
+													0, "<b>%s</b>".printf (dgettext (null, "To upgrade") + ":"),
+													1, pkg.name,
+													2, pkg.version,
+													3, "(%s)".printf (pkg.installed_version),
+													4, pkg.repo,
+													5, size);
+					pkgs = pkgs.next;
+					while (pkgs != null) {
+						pkg = pkgs.data;
 						dsize += pkg.download_size;
-						string size = pkg.download_size == 0 ? "" : format_size (pkg.download_size);
+						size = pkg.download_size == 0 ? "" : format_size (pkg.download_size);
 						transaction_summary.add (pkg.name);
 						transaction_sum_dialog.sum_list.insert_with_values (out iter, -1,
 													1, pkg.name,
@@ -428,11 +494,8 @@ namespace Pamac {
 													3, "(%s)".printf (pkg.installed_version),
 													4, pkg.repo,
 													5, size);
+						pkgs = pkgs.next;
 					}
-					Gtk.TreePath path = transaction_sum_dialog.sum_list.get_path (iter);
-					uint pos = (path.get_indices ()[0]) - (summary.to_upgrade.length () - 1);
-					transaction_sum_dialog.sum_list.get_iter (out iter, new Gtk.TreePath.from_indices (pos));
-					transaction_sum_dialog.sum_list.set (iter, 0, "<b>%s</b>".printf (dgettext (null, "To upgrade") + ":"));
 				}
 			}
 			if (dsize == 0) {

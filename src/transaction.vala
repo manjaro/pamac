@@ -56,7 +56,7 @@ namespace Pamac {
 		GenericSet<string?> aur_desc_list;
 		Queue<string> to_build_queue;
 		GenericSet<string?> aur_pkgs_to_install;
-		List<AURPackage> aur_updates;
+		SList<AURPackage> aur_updates;
 		bool building;
 		Cancellable build_cancellable;
 		// transaction options
@@ -481,12 +481,12 @@ namespace Pamac {
 					string desc = "";
 					string arch = Posix.utsname ().machine;
 					var pkgnames_found = new GenericArray<string> ();
-					var global_depends = new List<string> ();
+					var global_depends = new GenericArray<string> ();
 					var global_checkdepends = new GenericArray<string> ();
 					var global_makedepends = new GenericArray<string> ();
-					var global_conflicts = new List<string> ();
-					var global_provides = new List<string> ();
-					var global_replaces = new List<string> ();
+					var global_conflicts = new GenericArray<string> ();
+					var global_provides = new GenericArray<string> ();
+					var global_replaces = new GenericArray<string> ();
 					var global_validpgpkeys = new GenericArray<string> ();
 					var pkgnames_table = new HashTable<string, AURPackage> (str_hash, str_equal);
 					while ((line = dis.read_line ()) != null) {
@@ -526,12 +526,12 @@ namespace Pamac {
 									} else if ("makedepends" in line) {
 										global_makedepends.add ((owned) depend);
 									} else {
-										global_depends.append ((owned) depend);
+										global_depends.add ((owned) depend);
 									}
 								} else {
 									unowned AURPackage? aur_pkg = pkgnames_table.get (current_section);
 									if (aur_pkg != null) {
-										aur_pkg.depends_priv.append ((owned) depend);
+										aur_pkg.depends_priv.add ((owned) depend);
 									}
 								}
 							}
@@ -539,11 +539,11 @@ namespace Pamac {
 							if ("provides = " in line || "provides_%s = ".printf (arch) in line) {
 								string provide = line.split (" = ", 2)[1];
 								if (current_section_is_pkgbase) {
-									global_provides.append ((owned) provide);
+									global_provides.add ((owned) provide);
 								} else {
 									unowned AURPackage? aur_pkg = pkgnames_table.get (current_section);
 									if (aur_pkg != null) {
-										aur_pkg.provides_priv.append ((owned) provide);
+										aur_pkg.provides_priv.add ((owned) provide);
 									}
 								}
 							}
@@ -551,11 +551,11 @@ namespace Pamac {
 							if ("conflicts = " in line || "conflicts_%s = ".printf (arch) in line) {
 								string conflict = line.split (" = ", 2)[1];
 								if (current_section_is_pkgbase) {
-									global_conflicts.append ((owned) conflict);
+									global_conflicts.add ((owned) conflict);
 								} else {
 									unowned AURPackage? aur_pkg = pkgnames_table.get (current_section);
 									if (aur_pkg != null) {
-										aur_pkg.conflicts_priv.append ((owned) conflict);
+										aur_pkg.conflicts_priv.add ((owned) conflict);
 									}
 								}
 							}
@@ -563,11 +563,11 @@ namespace Pamac {
 							if ("replaces = " in line || "replaces_%s = ".printf (arch) in line) {
 								string replace = line.split (" = ", 2)[1];
 								if (current_section_is_pkgbase) {
-									global_replaces.append ((owned) replace);
+									global_replaces.add ((owned) replace);
 								} else {
 									unowned AURPackage? aur_pkg = pkgnames_table.get (current_section);
 									if (aur_pkg != null) {
-										aur_pkg.replaces_priv.append ((owned) replace);
+										aur_pkg.replaces_priv.add ((owned) replace);
 									}
 								}
 							}
@@ -601,31 +601,29 @@ namespace Pamac {
 						unowned string pkgname_found = pkgnames_found[i];
 						unowned AURPackage? aur_pkg = pkgnames_table.get (pkgname_found);
 						// populate empty list will global ones
-						if (global_depends.length () > 0 && aur_pkg.depends.length () == 0) {
+						if (global_depends.length > 0 && aur_pkg.depends.length == 0) {
 							aur_pkg.depends_priv = (owned) global_depends;
 						}
-						if (global_provides.length () > 0 && aur_pkg.provides.length () == 0) {
+						if (global_provides.length > 0 && aur_pkg.provides.length == 0) {
 							aur_pkg.provides_priv = (owned) global_provides;
 						}
-						if (global_conflicts.length () > 0 && aur_pkg.conflicts.length () == 0) {
+						if (global_conflicts.length > 0 && aur_pkg.conflicts.length == 0) {
 							aur_pkg.conflicts_priv = (owned) global_conflicts;
 						}
-						if (global_replaces.length () > 0 && aur_pkg.replaces.length () == 0) {
+						if (global_replaces.length > 0 && aur_pkg.replaces.length == 0) {
 							aur_pkg.replaces_priv = (owned) global_replaces;
 						}
 						// add checkdepends and makedepends in depends
-						if (global_checkdepends.length > 0 ) {
-							for (uint j = 0; j < global_checkdepends.length; j++) {
-								aur_pkg.depends_priv.append (global_checkdepends[j]);
-							}
+						uint j;
+						for (j = 0; j < global_checkdepends.length; j++) {
+							aur_pkg.depends_priv.add (global_checkdepends[j]);
 						}
-						if (global_makedepends.length > 0 ) {
-							for (uint j = 0; j < global_makedepends.length; j++) {
-								aur_pkg.depends_priv.append (global_makedepends[j]);
-							}
+						for (j = 0; j < global_makedepends.length; j++) {
+							aur_pkg.depends_priv.add (global_makedepends[j]);
 						}
 						// check deps
-						foreach (unowned string dep_string in aur_pkg.depends) {
+						for (j = 0; j < aur_pkg.depends.length; j++) {
+							unowned string dep_string = aur_pkg.depends[j];
 							Package? pkg = null;
 							if (database.has_installed_satisfier (dep_string)) {
 								pkg = database.get_installed_satisfier (dep_string);
@@ -670,34 +668,34 @@ namespace Pamac {
 						// arch (double %% before ARCH to escape %A)
 						dos.put_string ("%%ARCH%\n%s\n\n".printf (arch));
 						// depends
-						if (aur_pkg.depends.length () > 0) {
+						if (aur_pkg.depends.length > 0) {
 							dos.put_string ("%DEPENDS%\n");
-							foreach (unowned string depend in aur_pkg.depends) {
-								dos.put_string ("%s\n".printf (depend));
+							for (j = 0; j < aur_pkg.depends.length; j++) {
+								dos.put_string ("%s\n".printf (aur_pkg.depends[i]));
 							}
 							dos.put_string ("\n");
 						}
 						// conflicts
-						if (aur_pkg.conflicts.length () > 0) {
+						if (aur_pkg.conflicts.length > 0) {
 							dos.put_string ("%CONFLICTS%\n");
-							foreach (unowned string conflict in aur_pkg.conflicts) {
-								dos.put_string ("%s\n".printf (conflict));
+							for (j = 0; j < aur_pkg.conflicts.length; j++) {
+								dos.put_string ("%s\n".printf (aur_pkg.conflicts[i]));
 							}
 							dos.put_string ("\n");
 						}
 						// provides
-						if (aur_pkg.provides.length () > 0) {
+						if (aur_pkg.provides.length > 0) {
 							dos.put_string ("%PROVIDES%\n");
-							foreach (unowned string provide in aur_pkg.provides) {
-								dos.put_string ("%s\n".printf (provide));
+							for (j = 0; j < aur_pkg.provides.length; j++) {
+								dos.put_string ("%s\n".printf (aur_pkg.provides[i]));
 							}
 							dos.put_string ("\n");
 						}
 						// replaces
-						if (aur_pkg.replaces.length () > 0) {
+						if (aur_pkg.replaces.length > 0) {
 							dos.put_string ("%REPLACES%\n");
-							foreach (unowned string replace in aur_pkg.replaces) {
-								dos.put_string ("%s\n".printf (replace));
+							for (j = 0; j < aur_pkg.replaces.length; j++) {
+								dos.put_string ("%s\n".printf (aur_pkg.replaces[i]));
 							}
 							dos.put_string ("\n");
 						}
@@ -885,7 +883,7 @@ namespace Pamac {
 				}
 				#endif
 				#if ENABLE_SNAP || ENABLE_FLATPAK
-				if (summary.to_install_priv.length () + summary.to_remove_priv.length () == 0) {
+				if (summary.to_install_priv == null && summary.to_remove_priv == null) {
 					emit_action (dgettext (null, "Transaction cancelled") + ".");
 					return false;
 				} else if (ask_commit (summary)) {
@@ -937,10 +935,12 @@ namespace Pamac {
 			foreach (unowned string name in to_install) {
 				// do not check if reinstall
 				if (!database.is_installed_pkg (name)) {
-					List<string> uninstalled_optdeps = database.get_uninstalled_optdeps (name);
+					GenericArray<string> uninstalled_optdeps = database.get_uninstalled_optdeps (name);
 					var real_uninstalled_optdeps = new GenericArray<unowned string> ();
-					foreach (unowned string optdep in uninstalled_optdeps) {
-						string optdep_name = optdep.split (": ", 2)[0];
+					for (uint i = 0; i < uninstalled_optdeps.length; i++) {
+						unowned string optdep = uninstalled_optdeps[i];
+						string[] splitted = optdep.split (": ", 2);
+						unowned string optdep_name = splitted[0];
 						if (!(optdep_name in to_install) && !(optdep_name in to_add_to_install)) {
 							real_uninstalled_optdeps.add (optdep);
 						}
@@ -966,7 +966,7 @@ namespace Pamac {
 			if (sysupgrading && database.config.check_aur_updates) {
 				// add all aur updates with also ignored pkgs
 				aur_updates = database.get_all_aur_updates ();
-				if (aur_updates.length () > 0) {
+				if (aur_updates != null) {
 					check_aur_updates = true;
 				}
 			}
@@ -974,7 +974,7 @@ namespace Pamac {
 				if (!compute_aur_build_list ()) {
 					//return false;
 				}
-				aur_updates = new List<AURPackage> ();
+				aur_updates = new SList<AURPackage> ();
 				if (build_cancellable.is_cancelled ()) {
 					return false;
 				}
@@ -1102,13 +1102,9 @@ namespace Pamac {
 		}
 
 		bool trans_run (bool check_aur_updates, TransactionSummary summary) {
-			if (summary.aur_pkgbases_to_build.length () > 0) {
+			if (summary.aur_pkgbases_to_build.length > 0) {
 				if (ask_edit_build_files_real (summary)) {
-					var pkgbases_to_build_array = new GenericArray<string> (summary.aur_pkgbases_to_build.length ());
-					foreach (unowned string name in summary.aur_pkgbases_to_build) {
-						pkgbases_to_build_array.add (name);
-					}
-					edit_build_files (pkgbases_to_build_array.data);
+					edit_build_files (summary.aur_pkgbases_to_build.data);
 					emit_script_output ("");
 					if (!compute_aur_build_list ()) {
 						return false;
@@ -1124,11 +1120,11 @@ namespace Pamac {
 					return false;
 				}
 				if (ask_commit_real (summary)) {
-					if (summary.to_install.length () > 0 ||
-						summary.to_upgrade.length () > 0 ||
-						summary.to_downgrade.length () > 0 ||
-						summary.to_reinstall.length () > 0 ||
-						summary.to_remove.length () > 0) {
+					if (summary.to_install != null ||
+						summary.to_upgrade != null ||
+						summary.to_downgrade != null ||
+						summary.to_reinstall != null ||
+						summary.to_remove != null) {
 						foreach (unowned Package pkg in summary.to_install) {
 							if (!to_install.contains (pkg.name) &&
 								!to_load.contains (pkg.name)) {
@@ -1186,11 +1182,11 @@ namespace Pamac {
 					emit_action (dgettext (null, "Transaction cancelled") + ".");
 					return false;
 				}
-			} else if (summary.to_install.length () > 0 ||
-						summary.to_upgrade.length () > 0 ||
-						summary.to_downgrade.length () > 0 ||
-						summary.to_reinstall.length () > 0 ||
-						summary.to_remove.length () > 0) {
+			} else if (summary.to_install != null ||
+						summary.to_upgrade != null ||
+						summary.to_downgrade != null ||
+						summary.to_reinstall != null ||
+						summary.to_remove != null) {
 				if (ask_commit_real (summary)) {
 					bool success = false;
 					var to_install_array = new GenericArray<string> (to_install.length);
@@ -1653,8 +1649,8 @@ namespace Pamac {
 				#endif
 				// populate build queue
 				to_build_queue.clear ();
-				foreach (unowned string name in summary.aur_pkgbases_to_build) {
-					to_build_queue.push_tail (name);
+				for (uint i = 0; i < summary.aur_pkgbases_to_build.length; i++) {
+					to_build_queue.push_tail (summary.aur_pkgbases_to_build[i]);
 				}
 				aur_pkgs_to_install.remove_all ();
 				foreach (unowned Package build_pkg in summary.to_build) {

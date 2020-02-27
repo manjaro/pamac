@@ -154,7 +154,9 @@ namespace Pamac {
 				mirrors_country_comboboxtext.active = 0;
 				int index = 1;
 				preferences_choosen_country = transaction.database.get_mirrors_choosen_country ();
-				foreach (unowned string country in transaction.database.get_mirrors_countries ()) {
+				var countries = transaction.database.get_mirrors_countries ();
+				for (uint i = 0; i < countries.length; i++) {
+					unowned string country = countries[i];
 					mirrors_country_comboboxtext.append_text (country);
 					if (country == preferences_choosen_country) {
 						mirrors_country_comboboxtext.active = index;

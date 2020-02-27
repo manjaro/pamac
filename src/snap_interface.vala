@@ -27,12 +27,12 @@ namespace Pamac {
 		public signal void start_downloading (string sender);
 		public signal void stop_downloading (string sender);
 
-		public abstract List<SnapPackage> search_snaps (string search_string);
+		public abstract SList<SnapPackage> search_snaps (string search_string);
 		public abstract bool is_installed_snap (string name);
 		public abstract SnapPackage? get_snap (string name);
-		public abstract List<SnapPackage> get_installed_snaps ();
+		public abstract SList<SnapPackage> get_installed_snaps ();
 		public abstract string get_installed_snap_icon (string name) throws Error;
-		public abstract List<SnapPackage> get_category_snaps (string category);
+		public abstract SList<SnapPackage> get_category_snaps (string category);
 		public abstract bool trans_run (string sender, string[] to_install, string[] to_remove);
 		public abstract bool switch_channel (string sender, string name, string channel);
 		public abstract void trans_cancel (string sender);
@@ -43,11 +43,14 @@ namespace Pamac {
 		public string publisher { get; internal set; default = "";}
 		public string license { get; internal set; default = "";}
 		public string confined { get; internal set; default = "";}
-		internal List<string> screenshots_priv;
-		public List<string> screenshots { get {return screenshots_priv;} }
-		internal List<string> channels_priv;
-		public List<string> channels { get {return channels_priv;} }
+		internal GenericArray<string> screenshots_priv;
+		public GenericArray<string> screenshots { get {return screenshots_priv;} }
+		internal GenericArray<string> channels_priv;
+		public GenericArray<string> channels { get {return channels_priv;} }
 
-		internal SnapPackage () {}
+		internal SnapPackage () {
+			screenshots_priv = new GenericArray<string> ();
+			channels_priv = new GenericArray<string> ();
+		}
 	}
 }

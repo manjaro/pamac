@@ -129,40 +129,42 @@ namespace Pamac {
 			return cached_infos.lookup (pkgname);
 		}
 
-		public List<unowned Json.Object> get_multi_infos (string[] pkgnames) {
-			var result = new List<unowned Json.Object> ();
+		public SList<unowned Json.Object> get_multi_infos (string[] pkgnames) {
+			var result = new SList<unowned Json.Object> ();
 			populate_infos (pkgnames);
 			foreach (unowned string pkgname in pkgnames) {
 				unowned Json.Object? object = cached_infos.lookup (pkgname);
 				if (object != null) {
-					result.append (object);
+					result.prepend (object);
 				}
 			}
+			result.reverse ();
 			return result;
 		}
 
-		public List<unowned Json.Object> search_aur (string search_string) {
+		public SList<unowned Json.Object> search_aur (string search_string) {
 			string[] needles = search_string.split (" ");
 			if (needles.length == 0) {
-				return new List<unowned Json.Object> ();
+				return new SList<unowned Json.Object> ();
 			} else {
 				var builder = new StringBuilder ();
 				builder.append (rpc_url);
 				builder.append (rpc_search);
-				var all_found = new SList<Json.Array> ();
+				var all_found = new GenericArray<Json.Array> ();
 				foreach (unowned string needle in needles) {
 					if (needle in search_results) {
-						all_found.append (search_results.lookup (needle));
+						all_found.add (search_results.lookup (needle));
 					} else {
 						var needle_builder = new StringBuilder (builder.str);
 						needle_builder.append (Uri.escape_string (needle));
 						Json.Array found = rpc_query (needle_builder.str);
 						search_results.insert (needle, found);
-						all_found.append (found);
+						all_found.add (found);
 					}
 				}
 				var result = new Json.Array ();
-				foreach (unowned Json.Array found in all_found) {
+				for (uint i = 0; i < all_found.length; i++) {
+					unowned Json.Array found = all_found[i];
 					if (found.get_length () == 0) {
 						continue;
 					}

@@ -151,16 +151,15 @@ namespace Pamac {
 						unowned string url = media.url;
 						string filename = Path.get_basename (url);
 						if (!is_banner_image (filename) && !is_banner_icon_image (filename)) {
-							snap_pkg.screenshots_priv.append (url);
+							snap_pkg.screenshots_priv.add (url);
 						}
 					}
 				}
 				unowned GLib.GenericArray<Snapd.Channel> channels = store_snap.get_channels ();
-				for (uint i = 0; i < channels.length; i++) {
+				for (uint i = channels.length - 1; i >= 0; i--) {
 					unowned Snapd.Channel channel = channels[i];
-					snap_pkg.channels_priv.append ("%s:  %s".printf (channel.name, channel.version));
+					snap_pkg.channels_priv.add ("%s:  %s".printf (channel.name, channel.version));
 				}
-				snap_pkg.channels_priv.reverse ();
 			} else {
 				if (snap.icon != null) {
 					snap_pkg.icon = snap.icon;
@@ -177,9 +176,9 @@ namespace Pamac {
 			return snap_pkg;
 		}
 
-		public List<SnapPackage> search_snaps (string search_string) {
+		public SList<SnapPackage> search_snaps (string search_string) {
 			string search_string_down = search_string.down ();
-			var result = new List <SnapPackage> ();
+			var result = new SList<SnapPackage> ();
 			try {
 				GenericArray<unowned Snapd.Snap>? found = search_snaps_cache.lookup (search_string_down);
 				if (found == null) {
@@ -189,14 +188,13 @@ namespace Pamac {
 				for (uint i = 0; i < found.length; i++) {
 					unowned Snapd.Snap snap = found[i];
 					if (snap.snap_type == Snapd.SnapType.APP) {
-						result.append (initialize_snap (snap));
+						result.prepend (initialize_snap (snap));
 					}
 				}
-				global_search_string = (owned) search_string_down;
-				result.sort (pkg_sort_search_by_relevance);
 			} catch (Error e) {
 				warning (e.message);
 			}
+			result.reverse ();
 			return result;
 		}
 
@@ -246,19 +244,20 @@ namespace Pamac {
 			return null;
 		}
 
-		public List<SnapPackage> get_installed_snaps () {
-			var result = new List <SnapPackage> ();
+		public SList<SnapPackage> get_installed_snaps () {
+			var result = new SList<SnapPackage> ();
 			try {
 				GenericArray<unowned Snapd.Snap> found = client.get_snaps_sync (Snapd.GetSnapsFlags.NONE, null, null);
 				for (uint i = 0; i < found.length; i++) {
 					unowned Snapd.Snap snap = found[i];
 					if (snap.snap_type == Snapd.SnapType.APP) {
-						result.append (initialize_snap (snap));
+						result.prepend (initialize_snap (snap));
 					}
 				}
 			} catch (Error e) {
 				warning (e.message);
 			}
+			result.reverse ();
 			return result;
 		}
 
@@ -278,20 +277,22 @@ namespace Pamac {
 			return cached_icon.get_path ();
 		}
 
-		public List<SnapPackage> get_category_snaps (string category) {
-			var result = new List <SnapPackage> ();
+		public SList<SnapPackage> get_category_snaps (string category) {
+			var result = new SList<SnapPackage> ();
 			var snap_categories = new GenericArray<string> ();
 			switch (category) {
 				case "Featured":
 					var featured_pkgs = new GenericArray<string> ();
 					featured_pkgs.add ("spotify");
+					featured_pkgs.add ("signal-desktop");
+					featured_pkgs.add ("discord");
 					for (uint i = 0; i < featured_pkgs.length; i++) {
 						unowned string name = featured_pkgs[i];
 						Snapd.Snap? found = get_local_snap (name);
 						if (found == null) {
 							found = get_store_snap (name);
 							if (found != null) {
-								result.append (initialize_snap (found));
+								result.prepend (initialize_snap (found));
 							}
 						}
 					}
@@ -342,7 +343,7 @@ namespace Pamac {
 						for (uint j = 0; j < found.length; j++) {
 							unowned Snapd.Snap snap = found[j];
 							if (snap.snap_type == Snapd.SnapType.APP) {
-								result.append (initialize_snap (snap));
+								result.prepend (initialize_snap (snap));
 							}
 						}
 					} catch (Error e) {
@@ -350,6 +351,7 @@ namespace Pamac {
 					}
 				}
 			}
+			result.reverse ();
 			return result;
 		}
 
@@ -606,85 +608,3 @@ public Type register_plugin (Module module) {
 	// types are registered automatically
 	return typeof (Pamac.Snap);
 }
-
-string global_search_string;
-
-int pkg_sort_search_by_relevance (Pamac.Package pkg_a, Pamac.Package pkg_b) {
-	if (global_search_string != null) {
-		// display exact match first
-		if (pkg_a.app_name.down () == global_search_string) {
-			return 0;
-		}
-		if (pkg_b.app_name.down () == global_search_string) {
-			return 1;
-		}
-		if (pkg_a.name == global_search_string) {
-			return 0;
-		}
-		if (pkg_b.name == global_search_string) {
-			return 1;
-		}
-		if (pkg_a.name.has_prefix (global_search_string + "-")) {
-			if (pkg_b.name.has_prefix (global_search_string + "-")) {
-				return strcmp (pkg_a.name, pkg_b.name);
-			}
-			return 0;
-		}
-		if (pkg_b.name.has_prefix (global_search_string + "-")) {
-			if (pkg_a.name.has_prefix (global_search_string + "-")) {
-				return strcmp (pkg_a.name, pkg_b.name);
-			}
-			return 1;
-		}
-		if (pkg_a.app_name.has_prefix (global_search_string)) {
-			if (pkg_b.app_name.has_prefix (global_search_string)) {
-				return strcmp (pkg_a.app_name, pkg_b.app_name);
-			}
-			return 0;
-		}
-		if (pkg_b.app_name.has_prefix (global_search_string)) {
-			if (pkg_a.app_name.has_prefix (global_search_string)) {
-				return strcmp (pkg_a.app_name, pkg_b.app_name);
-			}
-			return 1;
-		}
-		if (pkg_a.app_name.contains (global_search_string)) {
-			if (pkg_b.app_name.contains (global_search_string)) {
-				return strcmp (pkg_a.app_name, pkg_b.app_name);
-			}
-			return 0;
-		}
-		if (pkg_b.app_name.contains (global_search_string)) {
-			if (pkg_a.app_name.contains (global_search_string)) {
-				return strcmp (pkg_a.app_name, pkg_b.app_name);
-			}
-			return 1;
-		}
-		if (pkg_a.name.has_prefix (global_search_string)) {
-			if (pkg_b.name.has_prefix (global_search_string)) {
-				return strcmp (pkg_a.name, pkg_b.name);
-			}
-			return 0;
-		}
-		if (pkg_b.name.has_prefix (global_search_string)) {
-			if (pkg_a.name.has_prefix (global_search_string)) {
-				return strcmp (pkg_a.name, pkg_b.name);
-			}
-			return 1;
-		}
-		if (pkg_a.name.contains (global_search_string)) {
-			if (pkg_b.name.contains (global_search_string)) {
-				return strcmp (pkg_a.name, pkg_b.name);
-			}
-			return 0;
-		}
-		if (pkg_b.name.contains (global_search_string)) {
-			if (pkg_a.name.contains (global_search_string)) {
-				return strcmp (pkg_a.name, pkg_b.name);
-			}
-			return 1;
-		}
-	}
-	return strcmp (pkg_a.name, pkg_b.name);
-}
-

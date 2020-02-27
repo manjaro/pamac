@@ -25,13 +25,13 @@ namespace Pamac {
 		public signal void emit_error (string sender, string message, string[] details);
 
 		public abstract void load_appstream_data ();
-		public abstract List<string> get_remotes_names ();
-		public abstract List<FlatpakPackage> search_flatpaks (string search_string);
+		public abstract GenericArray<string> get_remotes_names ();
+		public abstract SList<FlatpakPackage> search_flatpaks (string search_string);
 		public abstract bool is_installed_flatpak (string name);
 		public abstract FlatpakPackage? get_flatpak (string id);
-		public abstract List<FlatpakPackage> get_installed_flatpaks ();
-		public abstract List<FlatpakPackage> get_category_flatpaks (string category);
-		public abstract List<FlatpakPackage> get_flatpak_updates ();
+		public abstract SList<FlatpakPackage> get_installed_flatpaks ();
+		public abstract SList<FlatpakPackage> get_category_flatpaks (string category);
+		public abstract SList<FlatpakPackage> get_flatpak_updates ();
 		public abstract bool trans_run (string sender, string[] to_install, string[] to_remove, string[] to_upgrade);
 		public abstract void trans_cancel (string sender);
 	}
@@ -40,9 +40,11 @@ namespace Pamac {
 		public string id { get; internal set; default = "";}
 		public string branch { get; internal set; default = "";}
 		public string license { get; internal set; default = "";}
-		internal List<string> screenshots_priv;
-		public List<string> screenshots { get {return screenshots_priv;} }
+		internal GenericArray<string> screenshots_priv;
+		public GenericArray<string> screenshots { get {return screenshots_priv;} }
 
-		internal FlatpakPackage () {}
+		internal FlatpakPackage () {
+			screenshots_priv = new GenericArray<string> ();
+		}
 	}
 }
