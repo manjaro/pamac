@@ -3497,7 +3497,7 @@ namespace Pamac {
 
 		[GtkCallback]
 		void on_sort_comboboxtext_changed () {
-			refresh_packages_list ();
+			populate_packages_list ((owned) current_packages_list);
 		}
 
 		SList<Package> get_category_pkgs (string category) {

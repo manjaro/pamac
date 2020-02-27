@@ -356,7 +356,6 @@ namespace Pamac {
 							}
 							pkg.desc = get_app_summary (app);
 							initialize_app_data (app, ref pkg);
-							print ("add %s\n", remote_ref.name);
 						}
 					} catch (Error e) {
 						warning (e.message);
