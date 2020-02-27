@@ -156,7 +156,7 @@ namespace Pamac {
 					}
 				}
 				unowned GLib.GenericArray<Snapd.Channel> channels = store_snap.get_channels ();
-				for (uint i = channels.length - 1; i >= 0; i--) {
+				for (int i = channels.length - 1; i >= 0; i--) {
 					unowned Snapd.Channel channel = channels[i];
 					snap_pkg.channels_priv.add ("%s:  %s".printf (channel.name, channel.version));
 				}

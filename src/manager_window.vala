@@ -457,7 +457,7 @@ namespace Pamac {
 		SList<Package> current_packages_list;
 		unowned SList<Package> current_packages_list_pos;
 		GenericArray<Gdk.Pixbuf> current_screenshots;
-		uint current_screenshots_index;
+		int current_screenshots_index;
 
 		uint search_entry_timeout_id;
 		uint search_history_timeout_id;
@@ -1073,8 +1073,8 @@ namespace Pamac {
 		[GtkCallback]
 		void on_next_screenshot_button_clicked () {
 			current_screenshots_index++;
-			next_screenshot_button.sensitive = current_screenshots_index < current_screenshots.length;
-			previous_screenshot_button.sensitive = current_screenshots_index >= 0;
+			next_screenshot_button.sensitive = current_screenshots_index < current_screenshots.length - 1;
+			previous_screenshot_button.sensitive = true;
 			if (current_screenshots_index < current_screenshots.length) {
 				screenshots_stack.visible_child_name = "%u".printf (current_screenshots_index);
 			}
@@ -1083,8 +1083,8 @@ namespace Pamac {
 		[GtkCallback]
 		void on_previous_screenshot_button_clicked () {
 			current_screenshots_index--;
-			next_screenshot_button.sensitive = current_screenshots_index < current_screenshots.length;
-			previous_screenshot_button.sensitive = current_screenshots_index >= 0;
+			next_screenshot_button.sensitive = true;
+			previous_screenshot_button.sensitive = current_screenshots_index > 0;
 			if (current_screenshots_index < current_screenshots.length) {
 				screenshots_stack.visible_child_name = "%u".printf (current_screenshots_index);
 			}
