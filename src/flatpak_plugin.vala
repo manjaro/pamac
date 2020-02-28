@@ -585,6 +585,9 @@ namespace Pamac {
 				case Flatpak.TransactionOperationType.UNINSTALL:
 					action =  dgettext (null, "Removing %s").printf (operation.get_ref ());
 					break;
+				case Flatpak.TransactionOperationType.UPDATE:
+					action =  dgettext (null, "Upgrading %s").printf (operation.get_ref ());
+					break;
 				default:
 					break;
 			}
@@ -601,6 +604,9 @@ namespace Pamac {
 						break;
 					case Flatpak.TransactionOperationType.UNINSTALL:
 						action =  dgettext (null, "Removing %s").printf (operation.get_ref ());
+						break;
+					case Flatpak.TransactionOperationType.UPDATE:
+						action =  dgettext (null, "Upgrading %s").printf (operation.get_ref ());
 						break;
 					default:
 						break;
