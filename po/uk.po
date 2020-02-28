@@ -4,7 +4,7 @@
 # Guillaume Benoit <guillaume@manjaro.org>, 2013-2020.
 # 
 # Translators:
-# dsafsadf <heneral@gmail.com>, 2017
+# dsafsadf <heneral@gmail.com>, 2017,2020
 # Oleksa Pletinskiy <opletinskiy@gmail.com>, 2018
 # Paul S <paul.smbg@gmail.com>, 2019
 # Pavliy Rostislav <pavliy.rostislav@gmail.com>, 2019
@@ -27,8 +27,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2020-01-17 14:37+0100\n"
-"PO-Revision-Date: 2020-01-18 00:50+0000\n"
+"POT-Creation-Date: 2020-02-08 11:17+0100\n"
+"PO-Revision-Date: 2020-02-22 23:10+0000\n"
 "Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Ukrainian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/uk/)\n"
 "MIME-Version: 1.0\n"
@@ -190,7 +190,7 @@ msgstr "Налаштування %s"
 #: src/alpm_utils.vala
 #, c-format
 msgid "Error while configuring %s"
-msgstr ""
+msgstr "Помилка під час налаштування %s"
 
 #: src/alpm_utils.vala
 msgid "Checking available disk space"
@@ -238,7 +238,7 @@ msgstr "Прогін післятранзакційних хуків"
 
 #: src/alpm_utils.vala
 msgid "Error while running hooks"
-msgstr ""
+msgstr "Помилка під час запуску гаків"
 
 #: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
@@ -336,7 +336,7 @@ msgstr "Створення %s інформації"
 #: src/transaction.vala
 #, c-format
 msgid "Failed to generate %s informations"
-msgstr ""
+msgstr "Не вдалося згенерувати %s інформації"
 
 #: src/transaction.vala
 #, c-format
@@ -346,7 +346,7 @@ msgstr "Перевірка %s залежностей"
 #: src/transaction.vala
 #, c-format
 msgid "Failed to check %s dependencies"
-msgstr ""
+msgstr "Не вдалося перевірити %s залежностей"
 
 #: src/transaction.vala
 #, c-format
@@ -521,7 +521,7 @@ msgstr[1] "%u операції в очікуванні"
 msgstr[2] "%u операцій в очікуванні"
 msgstr[3] "%u операцій в очікуванні"
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala
 msgid "All"
 msgstr "Всі"
 
@@ -537,6 +537,10 @@ msgstr "Із зовнішніх джерел"
 #: resources/preferences_dialog.ui
 msgid "Snap"
 msgstr "Snap"
+
+#: src/manager_window.vala resources/preferences_dialog.ui
+msgid "Flatpak"
+msgstr ""
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Repositories"
@@ -1218,6 +1222,10 @@ msgid "Search"
 msgstr "Пошук"
 
 #: resources/manager_window.ui
+msgid "Browse"
+msgstr "Огляд"
+
+#: resources/manager_window.ui
 msgid "Pending"
 msgstr "В очікуванні"
 
@@ -1248,10 +1256,6 @@ msgstr "Релевантністю\n "
 #: resources/manager_window.ui
 msgid "Size"
 msgstr "Розмір"
-
-#: resources/manager_window.ui
-msgid "Browse"
-msgstr "Огляд"
 
 #: resources/manager_window.ui
 msgid "Launch"
@@ -1362,6 +1366,14 @@ msgstr "Snap пакети підтримуються їхнім видавцем
 #: resources/preferences_dialog.ui
 msgid "Enable Snap support"
 msgstr "Включити підтримку Snap"
+
+#: resources/preferences_dialog.ui
+msgid "Flatpak packages are maintained by their publisher."
+msgstr ""
+
+#: resources/preferences_dialog.ui
+msgid "Enable Flatpak support"
+msgstr ""
 
 #: resources/preferences_dialog.ui
 msgid "Cache"

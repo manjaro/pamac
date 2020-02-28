@@ -4,6 +4,7 @@
 # Guillaume Benoit <guillaume@manjaro.org>, 2013-2020.
 # 
 # Translators:
+# Zkdc, 2020
 # CaoMu <icaomu@gmail.com>, 2018
 # Daetalus <daetalusun@gmail.com>, 2014
 # Daetalus <daetalusun@gmail.com>, 2014
@@ -24,9 +25,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2020-01-17 14:37+0100\n"
-"PO-Revision-Date: 2020-01-23 06:47+0000\n"
-"Last-Translator: Tramsifex <sunnycode@protonmail.com>\n"
+"POT-Creation-Date: 2020-02-08 11:17+0100\n"
+"PO-Revision-Date: 2020-02-22 23:10+0000\n"
+"Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -52,7 +53,7 @@ msgstr "正在同步包数据库"
 
 #: src/alpm_utils.vala
 msgid "Failed to synchronize databases"
-msgstr "无法同步数据库"
+msgstr "同步数据库失败"
 
 #: src/alpm_utils.vala src/database.vala src/manager_window.vala src/cli.vala
 #: resources/preferences_dialog.ui
@@ -240,13 +241,13 @@ msgstr "运行钩子时出错"
 #: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
 msgid "About %u seconds remaining"
-msgstr "剩余 %u 秒"
+msgstr "大约剩余 %u 秒"
 
 #: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
 msgid "About %lu minute remaining"
 msgid_plural "About %lu minutes remaining"
-msgstr[0] "剩余 %lu 分钟"
+msgstr[0] "大约剩余 %lu 分钟"
 
 #: src/alpm_utils.vala src/transaction-cli.vala src/cli.vala
 msgid "Error"
@@ -255,12 +256,12 @@ msgstr "错误"
 #: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
 msgid "Download of %s started"
-msgstr "已启动下载 %s"
+msgstr "已开始下载 %s"
 
 #: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
 msgid "Download of %s finished"
-msgstr "下载已完成的 %s"
+msgstr "已完成下载 %s"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -286,7 +287,7 @@ msgstr "事务已经取消"
 
 #: src/daemon.vala
 msgid "Timeout expired"
-msgstr "超时已过期"
+msgstr "超时时间已过"
 
 #: src/database.vala src/manager_window.vala
 msgid "Explicitly installed"
@@ -470,7 +471,7 @@ msgstr "移除软件包"
 
 #: src/installer.vala src/cli.vala
 msgid "Build packages from AUR and install them with their dependencies"
-msgstr "从 AUR 创建并安装包和依赖"
+msgstr "从 AUR 构建包并安装这些包和它们的依赖"
 
 #: src/installer.vala src/cli.vala
 msgid "package(s)"
@@ -497,7 +498,7 @@ msgstr "详情"
 
 #: src/manager_window.vala
 msgid "No package found"
-msgstr "未发现软件包"
+msgstr "未找到软件包"
 
 #: src/manager_window.vala
 msgid "Checking for Updates"
@@ -509,7 +510,7 @@ msgid "%u pending operation"
 msgid_plural "%u pending operations"
 msgstr[0] "%u 个待处理的操作"
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala
 msgid "All"
 msgstr "全部"
 
@@ -525,6 +526,10 @@ msgstr "外部"
 #: resources/preferences_dialog.ui
 msgid "Snap"
 msgstr "Snap"
+
+#: src/manager_window.vala resources/preferences_dialog.ui
+msgid "Flatpak"
+msgstr ""
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Repositories"
@@ -684,7 +689,7 @@ msgstr "音乐与音频"
 
 #: src/manager_window.vala
 msgid "Productivity"
-msgstr "团队管理"
+msgstr "生产力"
 
 #: src/manager_window.vala
 msgid "Communication & News"
@@ -809,7 +814,7 @@ msgstr "查看 %s 构建文件差异"
 
 #: src/cli.vala
 msgid "Building packages as root is not allowed"
-msgstr "不允许以管理员身份建立包"
+msgstr "不允许以管理员身份构建包"
 
 #: src/cli.vala
 msgid "No PKGBUILD file found in current directory"
@@ -833,7 +838,7 @@ msgstr "选项"
 
 #: src/cli.vala
 msgid "Search for packages or files, multiple search terms can be specified"
-msgstr "查找包或者文件，多个搜索行为可行"
+msgstr "查找包或者文件，可以指定多个搜索词"
 
 #: src/cli.vala
 msgid "file(s)"
@@ -841,7 +846,7 @@ msgstr "文件"
 
 #: src/cli.vala
 msgid "only search for installed packages"
-msgstr "仅搜索已安装的更新"
+msgstr "仅搜索已安装的软件包"
 
 #: src/cli.vala
 msgid "only search for packages in repositories"
@@ -849,12 +854,12 @@ msgstr "仅搜索仓库内的软件包"
 
 #: src/cli.vala
 msgid "also search in AUR"
-msgstr "也在 AUR 中搜索"
+msgstr "同时在 AUR 中搜索"
 
 #: src/cli.vala
 msgid ""
 "search for packages which own the given filenames (filenames can be partial)"
-msgstr "搜索包含给定文件名的包（文件名可以不完整）"
+msgstr "搜索包含给定文件名的包（可以使用部分文件名）"
 
 #: src/cli.vala
 msgid "Display package details, multiple packages can be specified"
@@ -884,19 +889,19 @@ msgstr "列出已安装的但不再被任何已安装的包依赖的软件包"
 
 #: src/cli.vala
 msgid "list packages that were not found in the repositories"
-msgstr "列出在仓库中未发现的包"
+msgstr "列出在仓库中未找到的包"
 
 #: src/cli.vala
 msgid ""
 "list all packages that are members of the given groups, if no group is given"
 " list all groups"
-msgstr "列出指定组的所有包，若未指定组则列出所有组的"
+msgstr "列出指定组的所有包，若未指定组则列出所有组"
 
 #: src/cli.vala
 msgid ""
 "list all packages available in the given repos, if no repo is given list all"
 " repos"
-msgstr "列出指定仓库里所有的包，若未指定仓库列出所有仓库"
+msgstr "列出指定仓库里所有的包，若未指定仓库则列出所有仓库"
 
 #: src/cli.vala
 msgid "list files owned by the given packages"
@@ -914,7 +919,7 @@ msgstr "文件目录"
 msgid ""
 "build directory, if no directory is given the one specified in pamac.conf "
 "file is used"
-msgstr "创建的目录，若未指定则使用 pamac.conf 中指定的"
+msgstr "构建目录，若未指定则使用 pamac.conf 中指定的"
 
 #: src/cli.vala
 msgid "also clone needed dependencies"
@@ -933,7 +938,7 @@ msgstr "如果未指定包名，将使用当前目录的 PKGBUILD 文件"
 msgid ""
 "The build directory will be the parent directory, --builddir option will be "
 "ignored"
-msgstr "构建目录将是父目录，忽略 --builddir 选项"
+msgstr "构建目录将是父目录，--builddir 选项将被忽略"
 
 #: src/cli.vala
 msgid "and --no-clone option will be enforced"
@@ -941,7 +946,7 @@ msgstr "并且 --no-clone 选项将被强制执行"
 
 #: src/cli.vala
 msgid "keep built packages in cache after installation"
-msgstr "安装后将内置包保存在缓存中"
+msgstr "安装后将构建出来的包保存在缓存中"
 
 #: src/cli.vala
 msgid "do not clone build files from AUR, only use local files"
@@ -959,13 +964,13 @@ msgstr "全局"
 msgid ""
 "ignore a package upgrade, multiple packages can be specified by separating "
 "them with a comma"
-msgstr "忽略一个包的升级，如需忽略多个包，可以在每两个包之间加入逗号分隔"
+msgstr "忽略一个包的升级，可以用逗号分隔来指定多个软件包"
 
 #: src/cli.vala
 msgid ""
 "overwrite conflicting files, multiple patterns can be specified by "
 "separating them with a comma"
-msgstr "覆盖冲突文件，多个模式使用逗号分隔"
+msgstr "覆盖冲突文件，可以通过用逗号分隔来指定多个模式"
 
 #: src/cli.vala
 msgid "download all packages but do not install/upgrade anything"
@@ -977,7 +982,7 @@ msgstr "将已安装的所有软件包标记为依赖"
 
 #: src/cli.vala
 msgid "mark all packages explicitly installed"
-msgstr "将已安装所有软件包明确标记"
+msgstr "将所有软件包标记为单独指定安装 "
 
 #: src/cli.vala
 msgid "do not check for updates"
@@ -995,7 +1000,7 @@ msgstr "仅移除不被其他软件包所需要的软件包"
 msgid ""
 "remove dependencies that are not required by other packages, if this option "
 "is used without package name remove all orphans"
-msgstr "移除所有未被其他包使用的依赖，若未指定包名则移除所有的依赖"
+msgstr "移除所有未被其他包使用的依赖，若未指定包名则移除所有的孤包"
 
 #: src/cli.vala
 msgid "ignore files backup"
@@ -1015,7 +1020,7 @@ msgstr "同时检查 AUR 更新"
 
 #: src/cli.vala
 msgid "also check development packages updates (use with --aur)"
-msgstr "同时检查开发软件包更新 (使用 --aur)"
+msgstr "同时检查开发软件包更新 (与 --aur 一起使用)"
 
 #: src/cli.vala
 msgid "only print one line per update"
@@ -1025,7 +1030,7 @@ msgstr "每行仅打印一条更新"
 msgid ""
 "build directory (use with --devel), if no directory is given the one "
 "specified in pamac.conf file is used"
-msgstr "构建目录 (使用 --devel)，若未指定则使用 pamac.conf 中指定的目录"
+msgstr "构建目录 (与 --devel 一起使用)，若未指定目录则使用 pamac.conf 中指定的目录"
 
 #: src/cli.vala
 msgid "Upgrade your system"
@@ -1037,13 +1042,13 @@ msgstr "同时更新从 AUR 安装的包"
 
 #: src/cli.vala
 msgid "also upgrade development packages (use with --aur)"
-msgstr "同时升级开发软件包 (使用 --aur)"
+msgstr "同时升级开发软件包 (与 --aur 一起使用)"
 
 #: src/cli.vala
 msgid ""
 "build directory (use with --aur), if no directory is given the one specified"
 " in pamac.conf file is used"
-msgstr "创建的目录（和 --aur 一起使用），若未指定则使用 pamac.conf 中指定的"
+msgstr "构建目录（与 --aur 一起使用），若未指定目录则使用 pamac.conf 中指定的"
 
 #: src/cli.vala
 msgid "force the refresh of the databases"
@@ -1146,7 +1151,7 @@ msgstr "从 AUR 构建 %s"
 #, c-format
 msgid "There is %u member in group %s"
 msgid_plural "There are %u members in group %s"
-msgstr[0] "组 %s 中有 %u 成员"
+msgstr[0] "组 %s 中有 %u 个成员"
 
 #: src/cli.vala
 msgid "all"
@@ -1197,8 +1202,12 @@ msgid "Search"
 msgstr "搜索"
 
 #: resources/manager_window.ui
+msgid "Browse"
+msgstr "浏览"
+
+#: resources/manager_window.ui
 msgid "Pending"
-msgstr "待定"
+msgstr "待处理"
 
 #: resources/manager_window.ui
 msgid "Updates"
@@ -1229,10 +1238,6 @@ msgid "Size"
 msgstr "大小"
 
 #: resources/manager_window.ui
-msgid "Browse"
-msgstr "浏览"
-
-#: resources/manager_window.ui
 msgid "Launch"
 msgstr "启动"
 
@@ -1254,7 +1259,7 @@ msgstr "自动下载更新"
 
 #: resources/preferences_dialog.ui
 msgid "Hide tray icon when no update available"
-msgstr "隐藏托盘图标当没有更新可用时"
+msgstr "当没有更新可用时,隐藏托盘图标"
 
 #: resources/preferences_dialog.ui
 msgid "General"
@@ -1324,7 +1329,7 @@ msgstr "允许 Pamac 从 AUR 中搜索并安装软件包"
 
 #: resources/preferences_dialog.ui
 msgid "Keep built packages in cache"
-msgstr "将内置包保留在缓存中"
+msgstr "将构建出来的保留在缓存中"
 
 #: resources/preferences_dialog.ui
 msgid "Check for updates from AUR"
@@ -1341,6 +1346,14 @@ msgstr "Snap 包由其发布者维护。"
 #: resources/preferences_dialog.ui
 msgid "Enable Snap support"
 msgstr "启用 Snap 支持"
+
+#: resources/preferences_dialog.ui
+msgid "Flatpak packages are maintained by their publisher."
+msgstr ""
+
+#: resources/preferences_dialog.ui
+msgid "Enable Flatpak support"
+msgstr ""
 
 #: resources/preferences_dialog.ui
 msgid "Cache"

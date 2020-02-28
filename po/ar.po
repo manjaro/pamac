@@ -13,13 +13,13 @@
 # mohammadA <mohammadAbdulhadi1@gmail.com>, 2018
 # mtaiba <taiba_mohamed@hotmail.com>, 2018
 # philm <philm@manjaro.org>, 2015
-# محمدأمين الصامت <mohamedamin.samet@gmail.com>, 2017
+# MohamedAmin Samet <mohamedamin.samet@gmail.com>, 2017
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2020-01-17 14:37+0100\n"
-"PO-Revision-Date: 2020-01-18 00:50+0000\n"
+"POT-Creation-Date: 2020-02-08 11:17+0100\n"
+"PO-Revision-Date: 2020-02-22 23:10+0000\n"
 "Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Arabic (http://www.transifex.com/manjarolinux/manjaro-pamac/language/ar/)\n"
 "MIME-Version: 1.0\n"
@@ -518,7 +518,7 @@ msgstr[3] "%u عمليات قيد الانتظار"
 msgstr[4] "%u عمليات قيد الانتظار"
 msgstr[5] "%u عمليات قيد الانتظار"
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala
 msgid "All"
 msgstr ""
 
@@ -533,6 +533,10 @@ msgstr "أجنبي"
 #: src/manager_window.vala src/snap_plugin.vala
 #: resources/preferences_dialog.ui
 msgid "Snap"
+msgstr ""
+
+#: src/manager_window.vala resources/preferences_dialog.ui
+msgid "Flatpak"
 msgstr ""
 
 #: src/manager_window.vala resources/manager_window.ui
@@ -1221,6 +1225,10 @@ msgid "Search"
 msgstr "بحث"
 
 #: resources/manager_window.ui
+msgid "Browse"
+msgstr "تصفح"
+
+#: resources/manager_window.ui
 msgid "Pending"
 msgstr "معلقة"
 
@@ -1251,10 +1259,6 @@ msgstr ""
 #: resources/manager_window.ui
 msgid "Size"
 msgstr "حجم"
-
-#: resources/manager_window.ui
-msgid "Browse"
-msgstr "تصفح"
 
 #: resources/manager_window.ui
 msgid "Launch"
@@ -1364,6 +1368,14 @@ msgstr ""
 
 #: resources/preferences_dialog.ui
 msgid "Enable Snap support"
+msgstr ""
+
+#: resources/preferences_dialog.ui
+msgid "Flatpak packages are maintained by their publisher."
+msgstr ""
+
+#: resources/preferences_dialog.ui
+msgid "Enable Flatpak support"
 msgstr ""
 
 #: resources/preferences_dialog.ui

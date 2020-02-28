@@ -4,7 +4,7 @@
 # Guillaume Benoit <guillaume@manjaro.org>, 2013-2020.
 # 
 # Translators:
-# enolp <enolp@softastur.org>, 2015-2016,2018-2019
+# enolp <enolp@softastur.org>, 2015-2016,2018-2020
 # enolp <enolp@softastur.org>, 2019
 # Ḷḷumex03 <tornes@opmbx.org>, 2013-2014
 # Ḷḷumex03 <tornes@opmbx.org>, 2014
@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2020-01-17 14:37+0100\n"
-"PO-Revision-Date: 2020-01-18 00:50+0000\n"
+"POT-Creation-Date: 2020-02-08 11:17+0100\n"
+"PO-Revision-Date: 2020-02-22 23:10+0000\n"
 "Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Asturian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/ast/)\n"
 "MIME-Version: 1.0\n"
@@ -178,7 +178,7 @@ msgstr "Configurando %s"
 #: src/alpm_utils.vala
 #, c-format
 msgid "Error while configuring %s"
-msgstr ""
+msgstr "Fallu mentanto se configuraba %s"
 
 #: src/alpm_utils.vala
 msgid "Checking available disk space"
@@ -226,7 +226,7 @@ msgstr "Executando los gabitos de dempués de la instalación"
 
 #: src/alpm_utils.vala
 msgid "Error while running hooks"
-msgstr ""
+msgstr "Fallu mentanto s'executaben los gabitos"
 
 #: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
@@ -355,7 +355,7 @@ msgstr "Compilando %s"
 #: src/transaction.vala
 #, c-format
 msgid "Failed to build %s"
-msgstr ""
+msgstr "Fallu al compilar %s"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
@@ -503,7 +503,7 @@ msgid_plural "%u pending operations"
 msgstr[0] "%u operación pendiente"
 msgstr[1] "%u operaciones pendientes"
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala
 msgid "All"
 msgstr "Too"
 
@@ -519,6 +519,10 @@ msgstr "Paquetes foriatos"
 #: resources/preferences_dialog.ui
 msgid "Snap"
 msgstr "Snap"
+
+#: src/manager_window.vala resources/preferences_dialog.ui
+msgid "Flatpak"
+msgstr ""
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Repositories"
@@ -1194,6 +1198,10 @@ msgid "Search"
 msgstr "Guetar"
 
 #: resources/manager_window.ui
+msgid "Browse"
+msgstr "Restolar"
+
+#: resources/manager_window.ui
 msgid "Pending"
 msgstr "Pendiente"
 
@@ -1224,10 +1232,6 @@ msgstr "Relevancia"
 #: resources/manager_window.ui
 msgid "Size"
 msgstr "Tamañu"
-
-#: resources/manager_window.ui
-msgid "Browse"
-msgstr "Restolar"
 
 #: resources/manager_window.ui
 msgid "Launch"
@@ -1338,6 +1342,14 @@ msgstr "Los paquetes Snap tán calteníos polos sos espublizadores."
 #: resources/preferences_dialog.ui
 msgid "Enable Snap support"
 msgstr "Activar el sofitu pa snap"
+
+#: resources/preferences_dialog.ui
+msgid "Flatpak packages are maintained by their publisher."
+msgstr ""
+
+#: resources/preferences_dialog.ui
+msgid "Enable Flatpak support"
+msgstr ""
 
 #: resources/preferences_dialog.ui
 msgid "Cache"

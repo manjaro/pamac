@@ -41,8 +41,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2020-01-17 14:37+0100\n"
-"PO-Revision-Date: 2020-01-18 17:17+0000\n"
+"POT-Creation-Date: 2020-02-08 11:17+0100\n"
+"PO-Revision-Date: 2020-02-23 08:24+0000\n"
 "Last-Translator: Andrei Stepanov <adem4ik@gmail.com>\n"
 "Language-Team: Russian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/ru/)\n"
 "MIME-Version: 1.0\n"
@@ -535,7 +535,7 @@ msgstr[1] "%u ждут обработки"
 msgstr[2] "%u ждут обработки"
 msgstr[3] "%u ждут обработки"
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala
 msgid "All"
 msgstr "Все"
 
@@ -551,6 +551,10 @@ msgstr "Сторонние"
 #: resources/preferences_dialog.ui
 msgid "Snap"
 msgstr "Snap"
+
+#: src/manager_window.vala resources/preferences_dialog.ui
+msgid "Flatpak"
+msgstr "Flatpak"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Repositories"
@@ -1232,6 +1236,10 @@ msgid "Search"
 msgstr "Поиск"
 
 #: resources/manager_window.ui
+msgid "Browse"
+msgstr "Обзор"
+
+#: resources/manager_window.ui
 msgid "Pending"
 msgstr "К обработке"
 
@@ -1262,10 +1270,6 @@ msgstr "Релевантность"
 #: resources/manager_window.ui
 msgid "Size"
 msgstr "Размер"
-
-#: resources/manager_window.ui
-msgid "Browse"
-msgstr "Обзор"
 
 #: resources/manager_window.ui
 msgid "Launch"
@@ -1376,6 +1380,14 @@ msgstr "Пакеты Snap поддерживаются своим же изда�
 #: resources/preferences_dialog.ui
 msgid "Enable Snap support"
 msgstr "Включить поддержку Snap"
+
+#: resources/preferences_dialog.ui
+msgid "Flatpak packages are maintained by their publisher."
+msgstr "Пакеты Flatpak поддерживаются своим же издателем."
+
+#: resources/preferences_dialog.ui
+msgid "Enable Flatpak support"
+msgstr "Включить поддержку Flatpak"
 
 #: resources/preferences_dialog.ui
 msgid "Cache"

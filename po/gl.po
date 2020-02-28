@@ -4,14 +4,15 @@
 # Guillaume Benoit <guillaume@manjaro.org>, 2013-2020.
 # 
 # Translators:
+# Bieito de la Fuente <bieitodlf@mac.com>, 2020
 # Noel Rodríguez Freire <noelrf.ou@gmail.com>, 2015-2017
 # Xosé M. Lamas <correo@xmgz.eu>, 2019
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2020-01-17 14:37+0100\n"
-"PO-Revision-Date: 2020-01-18 00:50+0000\n"
+"POT-Creation-Date: 2020-02-08 11:17+0100\n"
+"PO-Revision-Date: 2020-02-22 23:10+0000\n"
 "Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Galician (http://www.transifex.com/manjarolinux/manjaro-pamac/language/gl/)\n"
 "MIME-Version: 1.0\n"
@@ -22,11 +23,11 @@ msgstr ""
 
 #: data/polkit/org.manjaro.pamac.policy.in
 msgid "Install, update, or remove packages"
-msgstr ""
+msgstr "Installar, actualizar ou eliminar paquetes"
 
 #: data/polkit/org.manjaro.pamac.policy.in
 msgid "Authentication is required to install, update, or remove packages"
-msgstr ""
+msgstr "Autenticación precisa para instalar, actualizar ou eliminar paquetes"
 
 #: src/alpm_utils.vala src/database.vala
 msgid "Failed to initialize alpm library"
@@ -38,7 +39,7 @@ msgstr "Sincronización as bases de datos de paquetes"
 
 #: src/alpm_utils.vala
 msgid "Failed to synchronize databases"
-msgstr ""
+msgstr "Erro ao sincronizar as bases de datos"
 
 #: src/alpm_utils.vala src/database.vala src/manager_window.vala src/cli.vala
 #: resources/preferences_dialog.ui
@@ -173,7 +174,7 @@ msgstr "Configurando %s"
 #: src/alpm_utils.vala
 #, c-format
 msgid "Error while configuring %s"
-msgstr ""
+msgstr "Erro durante a configuración de %s"
 
 #: src/alpm_utils.vala
 msgid "Checking available disk space"
@@ -242,12 +243,12 @@ msgstr "Erro"
 #: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
 msgid "Download of %s started"
-msgstr ""
+msgstr "Comezou a descarga de %s"
 
 #: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
 msgid "Download of %s finished"
-msgstr ""
+msgstr "Rematou a descarga de %s"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -307,7 +308,7 @@ msgstr "Clonando %s ficheiros para construír"
 #: src/transaction.vala
 #, c-format
 msgid "Failed to clone %s build files"
-msgstr ""
+msgstr "Erro clonando os ficheiros a construír %s"
 
 #: src/transaction.vala
 #, c-format
@@ -498,7 +499,7 @@ msgid_plural "%u pending operations"
 msgstr[0] "%u operación pendente"
 msgstr[1] "%u operación pendentes"
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala
 msgid "All"
 msgstr ""
 
@@ -513,6 +514,10 @@ msgstr "Exterior"
 #: src/manager_window.vala src/snap_plugin.vala
 #: resources/preferences_dialog.ui
 msgid "Snap"
+msgstr ""
+
+#: src/manager_window.vala resources/preferences_dialog.ui
+msgid "Flatpak"
 msgstr ""
 
 #: src/manager_window.vala resources/manager_window.ui
@@ -669,7 +674,7 @@ msgstr ""
 
 #: src/manager_window.vala
 msgid "Music & Audio"
-msgstr ""
+msgstr "Música e Audio"
 
 #: src/manager_window.vala
 msgid "Productivity"
@@ -677,11 +682,11 @@ msgstr ""
 
 #: src/manager_window.vala
 msgid "Communication & News"
-msgstr ""
+msgstr "Novas e Comunicación"
 
 #: src/manager_window.vala
 msgid "Education & Science"
-msgstr ""
+msgstr "Educación e Ciencia"
 
 #: src/manager_window.vala
 msgid "Games"
@@ -1189,6 +1194,10 @@ msgid "Search"
 msgstr "Buscar"
 
 #: resources/manager_window.ui
+msgid "Browse"
+msgstr "Explorar"
+
+#: resources/manager_window.ui
 msgid "Pending"
 msgstr "Pendente"
 
@@ -1219,10 +1228,6 @@ msgstr ""
 #: resources/manager_window.ui
 msgid "Size"
 msgstr "Tamaño"
-
-#: resources/manager_window.ui
-msgid "Browse"
-msgstr "Explorar"
 
 #: resources/manager_window.ui
 msgid "Launch"
@@ -1332,6 +1337,14 @@ msgstr ""
 
 #: resources/preferences_dialog.ui
 msgid "Enable Snap support"
+msgstr ""
+
+#: resources/preferences_dialog.ui
+msgid "Flatpak packages are maintained by their publisher."
+msgstr ""
+
+#: resources/preferences_dialog.ui
+msgid "Enable Flatpak support"
 msgstr ""
 
 #: resources/preferences_dialog.ui

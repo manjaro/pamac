@@ -8,6 +8,7 @@
 # Mattias Johansson <cashew75s@gmail.com>, 2014
 # Eilidh Martin <maxqueue93+github@gmail.com>, 2017
 # Lennart Niemelä <lennart.niemela@gmail.com>, 2016
+# Luna Jernberg <bittin@cafe8bitar.se>, 2020
 # Mattias Johansson <cashew75s@gmail.com>, 2014
 # Niklas W <niklas@vividvisions.se>, 2018-2019
 # philm <philm@manjaro.org>, 2015
@@ -21,9 +22,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2020-01-17 14:37+0100\n"
-"PO-Revision-Date: 2020-01-18 00:50+0000\n"
-"Last-Translator: philm <philm@manjaro.org>\n"
+"POT-Creation-Date: 2020-02-08 11:17+0100\n"
+"PO-Revision-Date: 2020-02-26 13:40+0000\n"
+"Last-Translator: Luna Jernberg <bittin@cafe8bitar.se>\n"
 "Language-Team: Swedish (http://www.transifex.com/manjarolinux/manjaro-pamac/language/sv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -33,11 +34,11 @@ msgstr ""
 
 #: data/polkit/org.manjaro.pamac.policy.in
 msgid "Install, update, or remove packages"
-msgstr ""
+msgstr "Installera, uppdatera eller ta bort paket"
 
 #: data/polkit/org.manjaro.pamac.policy.in
 msgid "Authentication is required to install, update, or remove packages"
-msgstr ""
+msgstr "Autentisering krävs för att installera, uppdatera eller ta bort paket"
 
 #: src/alpm_utils.vala src/database.vala
 msgid "Failed to initialize alpm library"
@@ -49,7 +50,7 @@ msgstr "Synkroniserar paketdatabaser"
 
 #: src/alpm_utils.vala
 msgid "Failed to synchronize databases"
-msgstr ""
+msgstr "Misslyckades med att synkronisera databas"
 
 #: src/alpm_utils.vala src/database.vala src/manager_window.vala src/cli.vala
 #: resources/preferences_dialog.ui
@@ -184,7 +185,7 @@ msgstr "Konfigurerar %s"
 #: src/alpm_utils.vala
 #, c-format
 msgid "Error while configuring %s"
-msgstr ""
+msgstr "Fel vid konfigurering %s"
 
 #: src/alpm_utils.vala
 msgid "Checking available disk space"
@@ -253,12 +254,12 @@ msgstr "Fel"
 #: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
 msgid "Download of %s started"
-msgstr ""
+msgstr "Nedladdning av %s startad"
 
 #: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
 msgid "Download of %s finished"
-msgstr ""
+msgstr "Nedladdning av %s färdig"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -318,17 +319,17 @@ msgstr "Klonar %s byggfiler"
 #: src/transaction.vala
 #, c-format
 msgid "Failed to clone %s build files"
-msgstr ""
+msgstr "Misslyckades att klona %s byggfiler"
 
 #: src/transaction.vala
 #, c-format
 msgid "Generating %s informations"
-msgstr ""
+msgstr "Genererar %s information"
 
 #: src/transaction.vala
 #, c-format
 msgid "Failed to generate %s informations"
-msgstr ""
+msgstr "Misslyckades med att generera %s information"
 
 #: src/transaction.vala
 #, c-format
@@ -338,7 +339,7 @@ msgstr "Kontrollerar %s besittningar"
 #: src/transaction.vala
 #, c-format
 msgid "Failed to check %s dependencies"
-msgstr ""
+msgstr "Misslyckades med att kontrollera %s beroenden"
 
 #: src/transaction.vala
 #, c-format
@@ -361,7 +362,7 @@ msgstr "Bygger %s"
 #: src/transaction.vala
 #, c-format
 msgid "Failed to build %s"
-msgstr ""
+msgstr "Misslyckades med att bygga %s"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
@@ -452,7 +453,7 @@ msgstr ""
 #: src/transaction-gtk.vala
 #, c-format
 msgid "Install %s anyway"
-msgstr ""
+msgstr "Installera %s i alla fall"
 
 #: src/transaction-gtk.vala src/tray.vala
 msgid "Package Manager"
@@ -509,9 +510,9 @@ msgid_plural "%u pending operations"
 msgstr[0] "%u pågående åtgärd"
 msgstr[1] "%u pågående åtgärder"
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala
 msgid "All"
-msgstr ""
+msgstr "Alla"
 
 #: src/manager_window.vala
 msgid "Orphans"
@@ -524,7 +525,11 @@ msgstr "Främmande"
 #: src/manager_window.vala src/snap_plugin.vala
 #: resources/preferences_dialog.ui
 msgid "Snap"
-msgstr ""
+msgstr "Snap"
+
+#: src/manager_window.vala resources/preferences_dialog.ui
+msgid "Flatpak"
+msgstr "Flatpak"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Repositories"
@@ -648,15 +653,15 @@ msgstr "Kontrollera beroenden"
 
 #: src/manager_window.vala
 msgid "Publisher"
-msgstr ""
+msgstr "Utgivare"
 
 #: src/manager_window.vala
 msgid "Confined in a Sandbox"
-msgstr ""
+msgstr "Instängd i en Sandlåda"
 
 #: src/manager_window.vala
 msgid "Channels"
-msgstr ""
+msgstr "Kanaler"
 
 #: src/manager_window.vala
 msgid "Upgrade"
@@ -676,23 +681,23 @@ msgstr ""
 
 #: src/manager_window.vala
 msgid "Photo & Video"
-msgstr ""
+msgstr "Foto & Video"
 
 #: src/manager_window.vala
 msgid "Music & Audio"
-msgstr ""
+msgstr "Musik & Ljud"
 
 #: src/manager_window.vala
 msgid "Productivity"
-msgstr ""
+msgstr "Produktivitet"
 
 #: src/manager_window.vala
 msgid "Communication & News"
-msgstr ""
+msgstr "Kommunikation & Nyheter"
 
 #: src/manager_window.vala
 msgid "Education & Science"
-msgstr ""
+msgstr "Utbildning & Vetenskap"
 
 #: src/manager_window.vala
 msgid "Games"
@@ -700,7 +705,7 @@ msgstr "Spel"
 
 #: src/manager_window.vala
 msgid "Utilities"
-msgstr ""
+msgstr "Verktyg"
 
 #: src/manager_window.vala
 msgid "Development"
@@ -748,18 +753,18 @@ msgstr "Världsomspännande"
 
 #: src/preferences_dialog.vala src/cli.vala
 msgid "To delete"
-msgstr ""
+msgstr "Att ta bort"
 
 #: src/preferences_dialog.vala src/cli.vala
 #, c-format
 msgid "%u file"
 msgid_plural "%u files"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%u fil"
+msgstr[1] "%u filer"
 
 #: src/preferences_dialog.vala
 msgid "Choose Ignored Upgrades"
-msgstr ""
+msgstr "Välj ignorerade uppgraderingar"
 
 #: src/transaction-cli.vala src/cli.vala
 #, c-format
@@ -777,11 +782,11 @@ msgstr "Välj ett nummer (standard=%d)"
 
 #: src/transaction-cli.vala src/cli.vala
 msgid "[y/N]"
-msgstr ""
+msgstr "[y/N]"
 
 #: src/transaction-cli.vala src/cli.vala
 msgid "y"
-msgstr ""
+msgstr "y"
 
 #: src/transaction-cli.vala src/cli.vala
 msgid "yes"
@@ -801,7 +806,7 @@ msgstr "Total borttagen storlek"
 
 #: src/transaction-cli.vala
 msgid "Apply transaction"
-msgstr ""
+msgstr "Verkställ överföring"
 
 #: src/transaction-cli.vala
 #, c-format
@@ -954,7 +959,7 @@ msgstr ""
 
 #: src/cli.vala
 msgid "glob"
-msgstr ""
+msgstr "matchning"
 
 #: src/cli.vala
 msgid ""
@@ -978,11 +983,11 @@ msgstr ""
 
 #: src/cli.vala
 msgid "mark all packages explicitly installed"
-msgstr ""
+msgstr "markera alla paket särskilt installerade"
 
 #: src/cli.vala
 msgid "do not check for updates"
-msgstr ""
+msgstr "kolla inte efter uppdateringar "
 
 #: src/cli.vala
 msgid "Reinstall packages"
@@ -1056,11 +1061,11 @@ msgstr "aktivera paketnedgraderingar"
 
 #: src/cli.vala
 msgid "Clean packages cache or build files"
-msgstr ""
+msgstr "Rensa paket cache eller byggfiler"
 
 #: src/cli.vala
 msgid "number"
-msgstr ""
+msgstr "nummer"
 
 #: src/cli.vala
 msgid ""
@@ -1103,7 +1108,7 @@ msgstr "URL"
 
 #: src/cli.vala
 msgid "Installed Size"
-msgstr ""
+msgstr "Installerad storlek"
 
 #: src/cli.vala
 #, c-format
@@ -1119,8 +1124,8 @@ msgstr "%s ägs av %s"
 #, c-format
 msgid "%u ignored update"
 msgid_plural "%u ignored updates"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%u ignorerad uppdatering"
+msgstr[1] "%u ignorerade uppdateringar"
 
 #: src/cli.vala resources/preferences_dialog.ui
 msgid "Remove only the versions of uninstalled packages"
@@ -1132,24 +1137,24 @@ msgstr "Rensa cache"
 
 #: src/cli.vala resources/preferences_dialog.ui
 msgid "Clean build files"
-msgstr ""
+msgstr "Rensa byggfiler"
 
 #: src/cli.vala
 #, c-format
 msgid "%s is only available from AUR"
-msgstr ""
+msgstr "%s är endast tillgängligt från AUR"
 
 #: src/cli.vala
 #, c-format
 msgid "Build %s from AUR"
-msgstr ""
+msgstr "Bygg %s från AUR"
 
 #: src/cli.vala
 #, c-format
 msgid "There is %u member in group %s"
 msgid_plural "There are %u members in group %s"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Det finns %u medlemmar i grupp %s"
+msgstr[1] "Det är %u medlemmar i grupp %s"
 
 #: src/cli.vala
 msgid "all"
@@ -1200,6 +1205,10 @@ msgid "Search"
 msgstr "Sök"
 
 #: resources/manager_window.ui
+msgid "Browse"
+msgstr "Surfa"
+
+#: resources/manager_window.ui
 msgid "Pending"
 msgstr "Pågående"
 
@@ -1209,35 +1218,31 @@ msgstr "Uppdateringar"
 
 #: resources/manager_window.ui
 msgid "Remove all"
-msgstr ""
+msgstr "Ta bort alla"
 
 #: resources/manager_window.ui
 msgid "Install all"
-msgstr ""
+msgstr "Installera alla"
 
 #: resources/manager_window.ui
 msgid "Ignore all"
-msgstr ""
+msgstr "Ignorera alla"
 
 #: resources/manager_window.ui
 msgid "Sort by"
-msgstr ""
+msgstr "Sortera efter"
 
 #: resources/manager_window.ui
 msgid "Relevance"
-msgstr ""
+msgstr "Relevans"
 
 #: resources/manager_window.ui
 msgid "Size"
 msgstr "Storlek"
 
 #: resources/manager_window.ui
-msgid "Browse"
-msgstr "Surfa"
-
-#: resources/manager_window.ui
 msgid "Launch"
-msgstr ""
+msgstr "Starta"
 
 #: resources/manager_window.ui
 msgid "Reinstall"
@@ -1271,7 +1276,7 @@ msgstr ""
 
 #: resources/preferences_dialog.ui
 msgid "Check available disk space"
-msgstr ""
+msgstr "Kontrollera tillgängligt diskutrymme"
 
 #: resources/preferences_dialog.ui
 msgid "Remove unrequired dependencies"
@@ -1293,11 +1298,11 @@ msgstr "Aktivera nedgradering"
 
 #: resources/preferences_dialog.ui
 msgid "Ignore upgrades for:"
-msgstr ""
+msgstr "Ignorera uppgraderingar för:"
 
 #: resources/preferences_dialog.ui
 msgid "Advanced"
-msgstr ""
+msgstr "Avancerat"
 
 #: resources/preferences_dialog.ui
 msgid "Use mirrors from:"
@@ -1339,11 +1344,19 @@ msgstr "Leta efter uppdateringar för utvecklarpaket"
 
 #: resources/preferences_dialog.ui
 msgid "Snap packages are maintained by their publisher."
-msgstr ""
+msgstr "Snap paket underhålls av dess utgivare"
 
 #: resources/preferences_dialog.ui
 msgid "Enable Snap support"
-msgstr ""
+msgstr "Aktivera Snap-stöd "
+
+#: resources/preferences_dialog.ui
+msgid "Flatpak packages are maintained by their publisher."
+msgstr "Flatpak paket underhålls av dess utgivare"
+
+#: resources/preferences_dialog.ui
+msgid "Enable Flatpak support"
+msgstr "Aktivera Flatpak-stöd "
 
 #: resources/preferences_dialog.ui
 msgid "Cache"

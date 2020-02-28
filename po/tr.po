@@ -17,8 +17,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2020-01-17 14:37+0100\n"
-"PO-Revision-Date: 2020-01-18 01:40+0000\n"
+"POT-Creation-Date: 2020-02-08 11:17+0100\n"
+"PO-Revision-Date: 2020-02-23 02:21+0000\n"
 "Last-Translator: Serdar Sağlam <teknomobil@msn.com>\n"
 "Language-Team: Turkish (http://www.transifex.com/manjarolinux/manjaro-pamac/language/tr/)\n"
 "MIME-Version: 1.0\n"
@@ -505,7 +505,7 @@ msgid_plural "%u pending operations"
 msgstr[0] "%u bekleyen işlem"
 msgstr[1] "%u bekleyen işlem"
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala
 msgid "All"
 msgstr "Tüm Paketler"
 
@@ -521,6 +521,10 @@ msgstr "Yabancı paketler"
 #: resources/preferences_dialog.ui
 msgid "Snap"
 msgstr "Snap"
+
+#: src/manager_window.vala resources/preferences_dialog.ui
+msgid "Flatpak"
+msgstr "Flatpak"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Repositories"
@@ -1196,6 +1200,10 @@ msgid "Search"
 msgstr "Ara"
 
 #: resources/manager_window.ui
+msgid "Browse"
+msgstr "Gözat"
+
+#: resources/manager_window.ui
 msgid "Pending"
 msgstr "Kurulacak paketler"
 
@@ -1226,10 +1234,6 @@ msgstr "Uyumluluk"
 #: resources/manager_window.ui
 msgid "Size"
 msgstr "Boyut"
-
-#: resources/manager_window.ui
-msgid "Browse"
-msgstr "Gözat"
 
 #: resources/manager_window.ui
 msgid "Launch"
@@ -1340,6 +1344,14 @@ msgstr "Snap paketleri, yayıncıları tarafından sağlanır."
 #: resources/preferences_dialog.ui
 msgid "Enable Snap support"
 msgstr "Snap desteğini etkinleştir"
+
+#: resources/preferences_dialog.ui
+msgid "Flatpak packages are maintained by their publisher."
+msgstr "Flatpak paketleri yayıncıları tarafından yapılmaktadır."
+
+#: resources/preferences_dialog.ui
+msgid "Enable Flatpak support"
+msgstr "Flatpak desteğini etkinleştir"
 
 #: resources/preferences_dialog.ui
 msgid "Cache"

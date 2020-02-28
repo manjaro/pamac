@@ -4,7 +4,7 @@
 # Guillaume Benoit <guillaume@manjaro.org>, 2013-2020.
 # 
 # Translators:
-# Ammuu5, 2017-2019
+# Ammuu5, 2017-2020
 # Esa Päiviö, 2019
 # Esa Päiviö, 2015
 # EscoP, 2015
@@ -23,9 +23,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2020-01-17 14:37+0100\n"
-"PO-Revision-Date: 2020-01-18 00:50+0000\n"
-"Last-Translator: philm <philm@manjaro.org>\n"
+"POT-Creation-Date: 2020-02-08 11:17+0100\n"
+"PO-Revision-Date: 2020-02-25 13:26+0000\n"
+"Last-Translator: Ammuu5\n"
 "Language-Team: Finnish (http://www.transifex.com/manjarolinux/manjaro-pamac/language/fi/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -234,7 +234,7 @@ msgstr "Suoritetaan asennuksen jälkeiset työt"
 
 #: src/alpm_utils.vala
 msgid "Error while running hooks"
-msgstr ""
+msgstr "Virhe suorittaessa töitä"
 
 #: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
@@ -286,7 +286,7 @@ msgstr "Tapahtuma peruttiin"
 
 #: src/daemon.vala
 msgid "Timeout expired"
-msgstr ""
+msgstr "Aikakatkaisu vanhentui"
 
 #: src/database.vala src/manager_window.vala
 msgid "Explicitly installed"
@@ -363,7 +363,7 @@ msgstr "Kasataan %s"
 #: src/transaction.vala
 #, c-format
 msgid "Failed to build %s"
-msgstr ""
+msgstr "Kasaaminen epäonnistui: %s"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
@@ -454,7 +454,7 @@ msgstr ""
 #: src/transaction-gtk.vala
 #, c-format
 msgid "Install %s anyway"
-msgstr ""
+msgstr "Asenna %s joka tapauksessa"
 
 #: src/transaction-gtk.vala src/tray.vala
 msgid "Package Manager"
@@ -511,7 +511,7 @@ msgid_plural "%u pending operations"
 msgstr[0] "%u operaatio odottaa"
 msgstr[1] "%u operaatiota odottaa"
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala
 msgid "All"
 msgstr "Kaikki"
 
@@ -526,7 +526,11 @@ msgstr "Vieras"
 #: src/manager_window.vala src/snap_plugin.vala
 #: resources/preferences_dialog.ui
 msgid "Snap"
-msgstr ""
+msgstr "Snap-paketit"
+
+#: src/manager_window.vala resources/preferences_dialog.ui
+msgid "Flatpak"
+msgstr "Flatpak-paketit"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Repositories"
@@ -654,7 +658,7 @@ msgstr "Julkaisija"
 
 #: src/manager_window.vala
 msgid "Confined in a Sandbox"
-msgstr ""
+msgstr "Rajoitettu hiekkalaatikkoon"
 
 #: src/manager_window.vala
 msgid "Channels"
@@ -952,7 +956,7 @@ msgstr "älä kloonaa koontitiedostoja AUR:ista, käytä vain paikallisia tiedos
 
 #: src/cli.vala
 msgid "bypass any and all confirmation messages"
-msgstr ""
+msgstr "ohittaa kaikki vahvistusviestit"
 
 #: src/cli.vala
 msgid "glob"
@@ -972,7 +976,7 @@ msgstr ""
 
 #: src/cli.vala
 msgid "download all packages but do not install/upgrade anything"
-msgstr ""
+msgstr "lataa kaikki paketit, mutta älä asenna/päivitä mitään"
 
 #: src/cli.vala
 msgid "mark all packages installed as a dependency"
@@ -984,7 +988,7 @@ msgstr ""
 
 #: src/cli.vala
 msgid "do not check for updates"
-msgstr ""
+msgstr "älä tarkista päivityksiä"
 
 #: src/cli.vala
 msgid "Reinstall packages"
@@ -1085,7 +1089,7 @@ msgstr ""
 
 #: src/cli.vala
 msgid "also display all files names"
-msgstr ""
+msgstr "näytä myös kaikkien tiedostojen nimet"
 
 #: src/cli.vala resources/manager_window.ui
 msgid "Name"
@@ -1202,6 +1206,10 @@ msgid "Search"
 msgstr "Etsi"
 
 #: resources/manager_window.ui
+msgid "Browse"
+msgstr "Selaa"
+
+#: resources/manager_window.ui
 msgid "Pending"
 msgstr "Odottaa"
 
@@ -1223,7 +1231,7 @@ msgstr "Sivuuta kaikki"
 
 #: resources/manager_window.ui
 msgid "Sort by"
-msgstr ""
+msgstr "Lajittelutapa"
 
 #: resources/manager_window.ui
 msgid "Relevance"
@@ -1234,12 +1242,8 @@ msgid "Size"
 msgstr "Koko"
 
 #: resources/manager_window.ui
-msgid "Browse"
-msgstr "Selaa"
-
-#: resources/manager_window.ui
 msgid "Launch"
-msgstr "Laukaise"
+msgstr "Käynnistä"
 
 #: resources/manager_window.ui
 msgid "Reinstall"
@@ -1269,11 +1273,11 @@ msgstr "Yleiset"
 msgid ""
 "Misconfiguration of these options can lead to system breakage.\n"
 "Modify them only if you know what you are doing."
-msgstr ""
+msgstr "Näiden asetusten virheellinen määritys voi johtaa järjestelmän rikkoutumiseen.\nMuokkaa niitä vain, jos tiedät mitä teet."
 
 #: resources/preferences_dialog.ui
 msgid "Check available disk space"
-msgstr ""
+msgstr "Tarkista käytettävissä oleva levytila"
 
 #: resources/preferences_dialog.ui
 msgid "Remove unrequired dependencies"
@@ -1299,7 +1303,7 @@ msgstr ""
 
 #: resources/preferences_dialog.ui
 msgid "Advanced"
-msgstr ""
+msgstr "Kehittyneet"
 
 #: resources/preferences_dialog.ui
 msgid "Use mirrors from:"
@@ -1329,7 +1333,7 @@ msgstr "Anna Pamacin etsiä ja asentaa paketteja AUR:sta"
 
 #: resources/preferences_dialog.ui
 msgid "Keep built packages in cache"
-msgstr ""
+msgstr "Pidä kasatut paketit välimuistissa"
 
 #: resources/preferences_dialog.ui
 msgid "Check for updates from AUR"
@@ -1341,11 +1345,19 @@ msgstr "Tarkista kehityspakettien päivitykset"
 
 #: resources/preferences_dialog.ui
 msgid "Snap packages are maintained by their publisher."
-msgstr ""
+msgstr "Snap-paketteja ylläpitää niiden julkaisija."
 
 #: resources/preferences_dialog.ui
 msgid "Enable Snap support"
-msgstr ""
+msgstr "Ota Snap-tuki käyttöön"
+
+#: resources/preferences_dialog.ui
+msgid "Flatpak packages are maintained by their publisher."
+msgstr "Flatpak-paketteja ylläpitää julkaisija."
+
+#: resources/preferences_dialog.ui
+msgid "Enable Flatpak support"
+msgstr "Ota Flatpak-tuki käyttöön"
 
 #: resources/preferences_dialog.ui
 msgid "Cache"
