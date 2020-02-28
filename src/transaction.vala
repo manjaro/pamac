@@ -458,10 +458,10 @@ namespace Pamac {
 						}
 						continue;
 					}
-					emit_action (dgettext (null, "Generating %s informations").printf (pkgname) + "...");
+					emit_action (dgettext (null, "Generating %s information").printf (pkgname) + "...");
 					if (!(database.regenerate_srcinfo (pkgname, build_cancellable))) {
 						// error
-						emit_error (dgettext (null, "Failed to prepare transaction"), {dgettext (null, "Failed to generate %s informations").printf (pkgname)});
+						emit_error (dgettext (null, "Failed to prepare transaction"), {dgettext (null, "Failed to generate %s information").printf (pkgname)});
 						return false;
 					}
 				}

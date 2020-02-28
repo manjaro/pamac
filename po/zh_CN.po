@@ -325,12 +325,12 @@ msgstr "克隆%s构建文件失败"
 
 #: src/transaction.vala
 #, c-format
-msgid "Generating %s informations"
+msgid "Generating %s information"
 msgstr "正在生成 %s 信息"
 
 #: src/transaction.vala
 #, c-format
-msgid "Failed to generate %s informations"
+msgid "Failed to generate %s information"
 msgstr "生成 %s 信息失败"
 
 #: src/transaction.vala

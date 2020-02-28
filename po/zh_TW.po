@@ -313,12 +313,12 @@ msgstr "再製 %s 建構檔案失敗"
 
 #: src/transaction.vala
 #, c-format
-msgid "Generating %s informations"
+msgid "Generating %s information"
 msgstr "正在生成 %s 資訊"
 
 #: src/transaction.vala
 #, c-format
-msgid "Failed to generate %s informations"
+msgid "Failed to generate %s information"
 msgstr "生成 %s 資訊失敗"
 
 #: src/transaction.vala

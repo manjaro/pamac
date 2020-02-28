@@ -330,12 +330,12 @@ msgstr "Не вдалося клонувати %s файлів збирання"
 
 #: src/transaction.vala
 #, c-format
-msgid "Generating %s informations"
+msgid "Generating %s information"
 msgstr "Створення %s інформації"
 
 #: src/transaction.vala
 #, c-format
-msgid "Failed to generate %s informations"
+msgid "Failed to generate %s information"
 msgstr "Не вдалося згенерувати %s інформації"
 
 #: src/transaction.vala

@@ -337,12 +337,12 @@ msgstr "Fehler beim Klonen der Build-Dateien für %s"
 
 #: src/transaction.vala
 #, c-format
-msgid "Generating %s informations"
+msgid "Generating %s information"
 msgstr "Generiere %s Informationen"
 
 #: src/transaction.vala
 #, c-format
-msgid "Failed to generate %s informations"
+msgid "Failed to generate %s information"
 msgstr "Konnte Informationen zu %s nicht generieren"
 
 #: src/transaction.vala

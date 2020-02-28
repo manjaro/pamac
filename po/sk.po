@@ -318,12 +318,12 @@ msgstr "Zlyhalo klonovanie súborov zostavenia balíka %s"
 
 #: src/transaction.vala
 #, c-format
-msgid "Generating %s informations"
+msgid "Generating %s information"
 msgstr "Generujú sa informácie o balíku %s"
 
 #: src/transaction.vala
 #, c-format
-msgid "Failed to generate %s informations"
+msgid "Failed to generate %s information"
 msgstr "Zlyhalo generovanie informácií o balíku %s"
 
 #: src/transaction.vala

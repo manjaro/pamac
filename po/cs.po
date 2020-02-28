@@ -323,12 +323,12 @@ msgstr "Chyba klonování %s sestavovacích souborů"
 
 #: src/transaction.vala
 #, c-format
-msgid "Generating %s informations"
+msgid "Generating %s information"
 msgstr "Generování %s informací"
 
 #: src/transaction.vala
 #, c-format
-msgid "Failed to generate %s informations"
+msgid "Failed to generate %s information"
 msgstr "Selhalo generování %s informací"
 
 #: src/transaction.vala

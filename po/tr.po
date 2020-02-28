@@ -318,12 +318,12 @@ msgstr "%s derleme dosyası klonlanamadı"
 
 #: src/transaction.vala
 #, c-format
-msgid "Generating %s informations"
+msgid "Generating %s information"
 msgstr "%s bilgisi oluşturuluyor"
 
 #: src/transaction.vala
 #, c-format
-msgid "Failed to generate %s informations"
+msgid "Failed to generate %s information"
 msgstr "Bilgi oluşturulamadı %s"
 
 #: src/transaction.vala

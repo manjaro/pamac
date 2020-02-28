@@ -323,12 +323,12 @@ msgstr "Falha ao clonar %s ficheiros de compilação"
 
 #: src/transaction.vala
 #, c-format
-msgid "Generating %s informations"
+msgid "Generating %s information"
 msgstr "A gerar %s informações"
 
 #: src/transaction.vala
 #, c-format
-msgid "Failed to generate %s informations"
+msgid "Failed to generate %s information"
 msgstr "Falha ao gerar %s informações"
 
 #: src/transaction.vala

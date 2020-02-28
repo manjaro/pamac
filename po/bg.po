@@ -316,12 +316,12 @@ msgstr "Неуспешно клониране на %s изграждащи фа�
 
 #: src/transaction.vala
 #, c-format
-msgid "Generating %s informations"
+msgid "Generating %s information"
 msgstr "Генерация %s информации"
 
 #: src/transaction.vala
 #, c-format
-msgid "Failed to generate %s informations"
+msgid "Failed to generate %s information"
 msgstr "Грешна при генерация %s информации"
 
 #: src/transaction.vala

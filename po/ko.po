@@ -318,12 +318,12 @@ msgstr "%s 빌드 파일 복제에 실패함"
 
 #: src/transaction.vala
 #, c-format
-msgid "Generating %s informations"
+msgid "Generating %s information"
 msgstr "%s 정보 생성중"
 
 #: src/transaction.vala
 #, c-format
-msgid "Failed to generate %s informations"
+msgid "Failed to generate %s information"
 msgstr "%s정보 생성에 실패함"
 
 #: src/transaction.vala

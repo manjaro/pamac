@@ -313,12 +313,12 @@ msgstr "Απέτυχε η κλωνοποίηση %s αρχείων δόμηση�
 
 #: src/transaction.vala
 #, c-format
-msgid "Generating %s informations"
+msgid "Generating %s information"
 msgstr "Δημιουργούνται πληροφορίες για %s"
 
 #: src/transaction.vala
 #, c-format
-msgid "Failed to generate %s informations"
+msgid "Failed to generate %s information"
 msgstr "Απέτυχε η δημιουργία %s πληροφοριών"
 
 #: src/transaction.vala

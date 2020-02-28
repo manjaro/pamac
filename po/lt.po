@@ -313,12 +313,12 @@ msgstr "Nepavyko klonuoti %s kompiliavimo failų"
 
 #: src/transaction.vala
 #, c-format
-msgid "Generating %s informations"
+msgid "Generating %s information"
 msgstr "Kuriama %s informacija"
 
 #: src/transaction.vala
 #, c-format
-msgid "Failed to generate %s informations"
+msgid "Failed to generate %s information"
 msgstr "Nepavyko sukurti %s informacijos"
 
 #: src/transaction.vala

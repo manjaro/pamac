@@ -315,12 +315,12 @@ msgstr "Nije uspjelo kloniranje %s datoteka za stvaranje"
 
 #: src/transaction.vala
 #, c-format
-msgid "Generating %s informations"
+msgid "Generating %s information"
 msgstr "Generiram %s informacije"
 
 #: src/transaction.vala
 #, c-format
-msgid "Failed to generate %s informations"
+msgid "Failed to generate %s information"
 msgstr "Nije uspjelo generiranje %s informacija"
 
 #: src/transaction.vala

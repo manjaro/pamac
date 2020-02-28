@@ -315,12 +315,12 @@ msgstr "Kan %s bouwbestanden niet klonen"
 
 #: src/transaction.vala
 #, c-format
-msgid "Generating %s informations"
+msgid "Generating %s information"
 msgstr "Bezig met genereren van informatie %s"
 
 #: src/transaction.vala
 #, c-format
-msgid "Failed to generate %s informations"
+msgid "Failed to generate %s information"
 msgstr "Fout tijdens genereren van informatie %s"
 
 #: src/transaction.vala

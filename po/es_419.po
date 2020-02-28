@@ -317,12 +317,12 @@ msgstr "Falló la descarga de %s de los archivos de creación"
 
 #: src/transaction.vala
 #, c-format
-msgid "Generating %s informations"
+msgid "Generating %s information"
 msgstr "Generando %s de información"
 
 #: src/transaction.vala
 #, c-format
-msgid "Failed to generate %s informations"
+msgid "Failed to generate %s information"
 msgstr "Falló generar el  %s de información"
 
 #: src/transaction.vala

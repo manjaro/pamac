@@ -323,12 +323,12 @@ msgstr "Misslyckades att klona %s byggfiler"
 
 #: src/transaction.vala
 #, c-format
-msgid "Generating %s informations"
+msgid "Generating %s information"
 msgstr "Genererar %s information"
 
 #: src/transaction.vala
 #, c-format
-msgid "Failed to generate %s informations"
+msgid "Failed to generate %s information"
 msgstr "Misslyckades med att generera %s information"
 
 #: src/transaction.vala

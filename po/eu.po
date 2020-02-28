@@ -316,12 +316,12 @@ msgstr "%s eraiketa fitxategiak klonatzeak huts egin du"
 
 #: src/transaction.vala
 #, c-format
-msgid "Generating %s informations"
+msgid "Generating %s information"
 msgstr "%s informazioak sortzen"
 
 #: src/transaction.vala
 #, c-format
-msgid "Failed to generate %s informations"
+msgid "Failed to generate %s information"
 msgstr "%s informazioak sortzeak huts egin du"
 
 #: src/transaction.vala

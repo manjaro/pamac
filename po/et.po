@@ -315,12 +315,12 @@ msgstr "%s ehitusfailide kloonimisel esines viga"
 
 #: src/transaction.vala
 #, c-format
-msgid "Generating %s informations"
+msgid "Generating %s information"
 msgstr "%s info genereerimine"
 
 #: src/transaction.vala
 #, c-format
-msgid "Failed to generate %s informations"
+msgid "Failed to generate %s information"
 msgstr "%s informatsiooni genereerimisel esines viga"
 
 #: src/transaction.vala

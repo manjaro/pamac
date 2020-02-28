@@ -320,12 +320,12 @@ msgstr "Ha fallat clonar %s fitxers de construcció."
 
 #: src/transaction.vala
 #, c-format
-msgid "Generating %s informations"
+msgid "Generating %s information"
 msgstr "Es generen informacions de %s."
 
 #: src/transaction.vala
 #, c-format
-msgid "Failed to generate %s informations"
+msgid "Failed to generate %s information"
 msgstr "Ha fallat generar les informacions de %s."
 
 #: src/transaction.vala
