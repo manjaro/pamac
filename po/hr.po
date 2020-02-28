@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2020-01-17 14:37+0100\n"
-"PO-Revision-Date: 2020-01-19 17:42+0000\n"
+"POT-Creation-Date: 2020-02-08 11:17+0100\n"
+"PO-Revision-Date: 2020-02-23 08:57+0000\n"
 "Last-Translator: Lovro Kudelić <lovro.kudelic@outlook.com>\n"
 "Language-Team: Croatian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/hr/)\n"
 "MIME-Version: 1.0\n"
@@ -504,7 +504,7 @@ msgstr[0] "%u operacija na čekanju"
 msgstr[1] "%u operacije na čekanju"
 msgstr[2] "%u operacija na čekanju"
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala
 msgid "All"
 msgstr "Sve"
 
@@ -520,6 +520,10 @@ msgstr "Vanjski paketi"
 #: resources/preferences_dialog.ui
 msgid "Snap"
 msgstr "Snap"
+
+#: src/manager_window.vala resources/preferences_dialog.ui
+msgid "Flatpak"
+msgstr "Flatpak"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Repositories"
@@ -1198,6 +1202,10 @@ msgid "Search"
 msgstr "Traži"
 
 #: resources/manager_window.ui
+msgid "Browse"
+msgstr "Traži"
+
+#: resources/manager_window.ui
 msgid "Pending"
 msgstr "Na čekanju"
 
@@ -1228,10 +1236,6 @@ msgstr "Relevantnost"
 #: resources/manager_window.ui
 msgid "Size"
 msgstr "Veličina"
-
-#: resources/manager_window.ui
-msgid "Browse"
-msgstr "Traži"
 
 #: resources/manager_window.ui
 msgid "Launch"
@@ -1342,6 +1346,14 @@ msgstr "Snap pakete održava njihov izdavač."
 #: resources/preferences_dialog.ui
 msgid "Enable Snap support"
 msgstr "Omogući Snap podršku"
+
+#: resources/preferences_dialog.ui
+msgid "Flatpak packages are maintained by their publisher."
+msgstr "Flatpak pakete održava njihov izdavač."
+
+#: resources/preferences_dialog.ui
+msgid "Enable Flatpak support"
+msgstr "Omogući Flatpak podršku"
 
 #: resources/preferences_dialog.ui
 msgid "Cache"

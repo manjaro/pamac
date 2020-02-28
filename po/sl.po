@@ -6,6 +6,7 @@
 # Translators:
 # Mario <al.manja@gmx.com>, 2017
 # ansich <mojmejlzaforume@gmail.com>, 2014
+# Arnold Marko <arnold.marko@gmail.com>, 2020
 # Boštjan Mejak <bostjan.xperia@gmail.com>, 2019
 # Nenad Latinović <inactive+holden1987@transifex.com>, 2013
 # ansich <mojmejlzaforume@gmail.com>, 2014-2015,2017
@@ -16,8 +17,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2020-01-17 14:37+0100\n"
-"PO-Revision-Date: 2020-01-18 00:50+0000\n"
+"POT-Creation-Date: 2020-02-08 11:17+0100\n"
+"PO-Revision-Date: 2020-02-22 23:10+0000\n"
 "Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Slovenian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/sl/)\n"
 "MIME-Version: 1.0\n"
@@ -32,19 +33,19 @@ msgstr "Install, update, or remove packages"
 
 #: data/polkit/org.manjaro.pamac.policy.in
 msgid "Authentication is required to install, update, or remove packages"
-msgstr ""
+msgstr "Za namestitev, posodobitev ali odstranjevanje paketov je potrebna overitev"
 
 #: src/alpm_utils.vala src/database.vala
 msgid "Failed to initialize alpm library"
-msgstr "Zagon knjižnice alpm je spodletelo"
+msgstr "Zagon knjižnice alpm ni bilo uspešno"
 
 #: src/alpm_utils.vala
 msgid "Synchronizing package databases"
-msgstr "Usklajevanje zbirkovnih shramb"
+msgstr "Usklajevanje podatkovnih zbirk paketov"
 
 #: src/alpm_utils.vala
 msgid "Failed to synchronize databases"
-msgstr "Usklajevanje podatkovnih shramb je spodletelo"
+msgstr "Usklajevanje zbirk podatkov je spodletelo"
 
 #: src/alpm_utils.vala src/database.vala src/manager_window.vala src/cli.vala
 #: resources/preferences_dialog.ui
@@ -53,12 +54,12 @@ msgstr "AUR"
 
 #: src/alpm_utils.vala
 msgid "Failed to init transaction"
-msgstr "Ni bilo mogoče začeti transakcije"
+msgstr "Ni bilo mogoče začeti prenosa"
 
 #: src/alpm_utils.vala src/transaction.vala src/transaction-gtk.vala
 #: src/installer.vala
 msgid "Failed to prepare transaction"
-msgstr "Pripravljanje transakcije je spodletelo"
+msgstr "Pripravljanje prenosa je spodletelo"
 
 #: src/alpm_utils.vala src/transaction.vala src/installer.vala src/cli.vala
 #, c-format
@@ -68,12 +69,12 @@ msgstr "cilj ni bil najden: %s"
 #: src/alpm_utils.vala
 #, c-format
 msgid "package %s does not have a valid architecture"
-msgstr "paket %s nima veljavne sestave"
+msgstr "paket %s ni ustrezno zasnovan"
 
 #: src/alpm_utils.vala
 #, c-format
 msgid "unable to satisfy dependency '%s' required by %s"
-msgstr ""
+msgstr "ne morem zadostiti odvisnosti '%s', ki jo zahteva %s"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -97,7 +98,7 @@ msgstr "%s je potrebno odstraniti, vendar je ta paket zaklenjen"
 
 #: src/alpm_utils.vala src/transaction.vala src/installer.vala src/cli.vala
 msgid "Nothing to do"
-msgstr "Ni nobenih opravil"
+msgstr "Ni opravil"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -116,11 +117,11 @@ msgstr "%s je neveljaven ali pokvarjen"
 
 #: src/alpm_utils.vala
 msgid "failed to retrieve some files"
-msgstr ""
+msgstr "nekatere datoteke niso bile najdene"
 
 #: src/alpm_utils.vala
 msgid "Failed to commit transaction"
-msgstr "Ni bilo mogoče uveljaviti transakcije"
+msgstr "Ni bilo mogoče izvesti prenosa"
 
 #: src/alpm_utils.vala
 msgid "Checking dependencies"
@@ -179,7 +180,7 @@ msgstr "Konfiguriranje %s"
 #: src/alpm_utils.vala
 #, c-format
 msgid "Error while configuring %s"
-msgstr ""
+msgstr "Napaka pri konfiguriranju %s"
 
 #: src/alpm_utils.vala
 msgid "Checking available disk space"
@@ -250,12 +251,12 @@ msgstr "Napaka"
 #: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
 msgid "Download of %s started"
-msgstr ""
+msgstr "Prenos %s se je začel"
 
 #: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
 msgid "Download of %s finished"
-msgstr ""
+msgstr "Prenos %s se je zaključil"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -277,7 +278,7 @@ msgstr "Čakanje na izhod drugega paketnega upravljalnika"
 
 #: src/daemon.vala src/transaction.vala
 msgid "Transaction cancelled"
-msgstr "Transakcija preklicana"
+msgstr "Prenos je bil preklican"
 
 #: src/daemon.vala
 msgid "Timeout expired"
@@ -344,7 +345,7 @@ msgstr ""
 
 #: src/transaction.vala src/manager_window.vala
 msgid "Transaction successfully finished"
-msgstr "Transakcija uspešno zaključena"
+msgstr "Prenos je bil uspešno zaključen"
 
 #: src/transaction.vala
 msgid "Preparing"
@@ -429,7 +430,7 @@ msgstr ""
 
 #: src/transaction-gtk.vala
 msgid "Save"
-msgstr ""
+msgstr "Shrani"
 
 #: src/transaction-gtk.vala resources/progress_dialog.ui
 #: resources/history_dialog.ui resources/preferences_dialog.ui
@@ -449,7 +450,7 @@ msgstr ""
 #: src/transaction-gtk.vala
 #, c-format
 msgid "Install %s anyway"
-msgstr ""
+msgstr "Vseeno namesti %s"
 
 #: src/transaction-gtk.vala src/tray.vala
 msgid "Package Manager"
@@ -457,11 +458,11 @@ msgstr "Upravljalnik paketov"
 
 #: src/installer.vala src/cli.vala
 msgid "Install packages from repositories, path or url"
-msgstr ""
+msgstr "Namesti pakete iz skladišča, poti ali url naslova"
 
 #: src/installer.vala src/cli.vala
 msgid "Remove packages"
-msgstr ""
+msgstr "Odstrani pakete"
 
 #: src/installer.vala src/cli.vala
 msgid "Build packages from AUR and install them with their dependencies"
@@ -510,7 +511,7 @@ msgstr[1] "%u operaciji na čakanju"
 msgstr[2] "%u operacij na čakanju"
 msgstr[3] "%u operacij na čakanju"
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala
 msgid "All"
 msgstr ""
 
@@ -525,6 +526,10 @@ msgstr "Tuje"
 #: src/manager_window.vala src/snap_plugin.vala
 #: resources/preferences_dialog.ui
 msgid "Snap"
+msgstr ""
+
+#: src/manager_window.vala resources/preferences_dialog.ui
+msgid "Flatpak"
 msgstr ""
 
 #: src/manager_window.vala resources/manager_window.ui
@@ -804,7 +809,7 @@ msgstr ""
 
 #: src/transaction-cli.vala
 msgid "Apply transaction"
-msgstr ""
+msgstr "Uveljavi prenos"
 
 #: src/transaction-cli.vala
 #, c-format
@@ -1180,7 +1185,7 @@ msgstr "Zgodovina Pamac"
 
 #: resources/transaction_sum_dialog.ui
 msgid "Transaction Summary"
-msgstr "Povzetek transakcije"
+msgstr "Povzetek prenosa"
 
 #: resources/transaction_sum_dialog.ui resources/manager_window.ui
 msgid "_Apply"
@@ -1205,6 +1210,10 @@ msgstr "O programu Pamac"
 #: resources/manager_window.ui
 msgid "Search"
 msgstr "Išči"
+
+#: resources/manager_window.ui
+msgid "Browse"
+msgstr "Brskaj"
 
 #: resources/manager_window.ui
 msgid "Pending"
@@ -1237,10 +1246,6 @@ msgstr ""
 #: resources/manager_window.ui
 msgid "Size"
 msgstr "Velikost"
-
-#: resources/manager_window.ui
-msgid "Browse"
-msgstr "Brskaj"
 
 #: resources/manager_window.ui
 msgid "Launch"
@@ -1350,6 +1355,14 @@ msgstr ""
 
 #: resources/preferences_dialog.ui
 msgid "Enable Snap support"
+msgstr ""
+
+#: resources/preferences_dialog.ui
+msgid "Flatpak packages are maintained by their publisher."
+msgstr ""
+
+#: resources/preferences_dialog.ui
+msgid "Enable Flatpak support"
 msgstr ""
 
 #: resources/preferences_dialog.ui

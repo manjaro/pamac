@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2020-01-17 14:37+0100\n"
-"PO-Revision-Date: 2020-01-18 01:44+0000\n"
+"POT-Creation-Date: 2020-02-08 11:17+0100\n"
+"PO-Revision-Date: 2020-02-24 01:52+0000\n"
 "Last-Translator: 黃柏諺 <s8321414@gmail.com>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
@@ -498,7 +498,7 @@ msgid "%u pending operation"
 msgid_plural "%u pending operations"
 msgstr[0] "%u 個擱置中的動作"
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala
 msgid "All"
 msgstr "全部"
 
@@ -514,6 +514,10 @@ msgstr "外來的"
 #: resources/preferences_dialog.ui
 msgid "Snap"
 msgstr "Snap"
+
+#: src/manager_window.vala resources/preferences_dialog.ui
+msgid "Flatpak"
+msgstr "Flatpak"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Repositories"
@@ -1186,6 +1190,10 @@ msgid "Search"
 msgstr "搜尋"
 
 #: resources/manager_window.ui
+msgid "Browse"
+msgstr "瀏覽"
+
+#: resources/manager_window.ui
 msgid "Pending"
 msgstr "擱置中"
 
@@ -1216,10 +1224,6 @@ msgstr "關聯性"
 #: resources/manager_window.ui
 msgid "Size"
 msgstr "大小"
-
-#: resources/manager_window.ui
-msgid "Browse"
-msgstr "瀏覽"
 
 #: resources/manager_window.ui
 msgid "Launch"
@@ -1330,6 +1334,14 @@ msgstr "Snap 是由它們的發佈者所維護。"
 #: resources/preferences_dialog.ui
 msgid "Enable Snap support"
 msgstr "啟用 Snap 支援"
+
+#: resources/preferences_dialog.ui
+msgid "Flatpak packages are maintained by their publisher."
+msgstr "Flatpak 軟體包是由它們的發佈者維護。"
+
+#: resources/preferences_dialog.ui
+msgid "Enable Flatpak support"
+msgstr "啟用 Flatpak 支援"
 
 #: resources/preferences_dialog.ui
 msgid "Cache"

@@ -18,9 +18,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2020-01-17 14:37+0100\n"
-"PO-Revision-Date: 2020-01-18 00:50+0000\n"
-"Last-Translator: philm <philm@manjaro.org>\n"
+"POT-Creation-Date: 2020-02-08 11:17+0100\n"
+"PO-Revision-Date: 2020-02-25 14:43+0000\n"
+"Last-Translator: Hugo Carvalho <hugokarvalho@hotmail.com>\n"
 "Language-Team: Portuguese (http://www.transifex.com/manjarolinux/manjaro-pamac/language/pt/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -181,7 +181,7 @@ msgstr "A configurar %s"
 #: src/alpm_utils.vala
 #, c-format
 msgid "Error while configuring %s"
-msgstr ""
+msgstr "Erro ao configurar o %s"
 
 #: src/alpm_utils.vala
 msgid "Checking available disk space"
@@ -229,7 +229,7 @@ msgstr "A executar ganchos (hooks) pós-transacionais"
 
 #: src/alpm_utils.vala
 msgid "Error while running hooks"
-msgstr ""
+msgstr "Erro ao executar o hooks"
 
 #: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
@@ -315,7 +315,7 @@ msgstr "A clonar %s ficheiros de compilação"
 #: src/transaction.vala
 #, c-format
 msgid "Failed to clone %s build files"
-msgstr ""
+msgstr "Falha ao clonar %s ficheiros de compilação"
 
 #: src/transaction.vala
 #, c-format
@@ -325,7 +325,7 @@ msgstr "A gerar %s informações"
 #: src/transaction.vala
 #, c-format
 msgid "Failed to generate %s informations"
-msgstr ""
+msgstr "Falha ao gerar %s informações"
 
 #: src/transaction.vala
 #, c-format
@@ -335,7 +335,7 @@ msgstr "A verificar %s dependências"
 #: src/transaction.vala
 #, c-format
 msgid "Failed to check %s dependencies"
-msgstr ""
+msgstr "Falha ao verificar %s dependências"
 
 #: src/transaction.vala
 #, c-format
@@ -358,7 +358,7 @@ msgstr "Criando %s"
 #: src/transaction.vala
 #, c-format
 msgid "Failed to build %s"
-msgstr ""
+msgstr "Falha na compilação de %s"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
@@ -506,7 +506,7 @@ msgid_plural "%u pending operations"
 msgstr[0] "%u operação pendente"
 msgstr[1] "%u operações pendentes"
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala
 msgid "All"
 msgstr "Tudo"
 
@@ -522,6 +522,10 @@ msgstr "Estrangeiro"
 #: resources/preferences_dialog.ui
 msgid "Snap"
 msgstr "Snap"
+
+#: src/manager_window.vala resources/preferences_dialog.ui
+msgid "Flatpak"
+msgstr "Flatpak"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Repositories"
@@ -1049,7 +1053,7 @@ msgstr "forçar atualização das bases de dados"
 
 #: src/cli.vala
 msgid "enable package downgrades"
-msgstr "permitir downgrade de pacotes"
+msgstr "ativar desatualização de pacotes"
 
 #: src/cli.vala
 msgid "Clean packages cache or build files"
@@ -1197,6 +1201,10 @@ msgid "Search"
 msgstr "Procurar"
 
 #: resources/manager_window.ui
+msgid "Browse"
+msgstr "Navegar"
+
+#: resources/manager_window.ui
 msgid "Pending"
 msgstr "Pendente"
 
@@ -1227,10 +1235,6 @@ msgstr "Relevância"
 #: resources/manager_window.ui
 msgid "Size"
 msgstr "Tamanho"
-
-#: resources/manager_window.ui
-msgid "Browse"
-msgstr "Navegar"
 
 #: resources/manager_window.ui
 msgid "Launch"
@@ -1286,7 +1290,7 @@ msgstr "Não verificar por atualizações durante a instalação"
 
 #: resources/preferences_dialog.ui
 msgid "Enable downgrade"
-msgstr "Possibilitar substituição por versão anterior"
+msgstr "Ativar desatualização"
 
 #: resources/preferences_dialog.ui
 msgid "Ignore upgrades for:"
@@ -1316,7 +1320,7 @@ msgstr "AUR é um repositório mantido pela comunidade, pelo que apresenta risco
 
 #: resources/preferences_dialog.ui
 msgid "Enable AUR support"
-msgstr "Habilitar suporte ao AUR"
+msgstr "Ativar suporte AUR"
 
 #: resources/preferences_dialog.ui
 msgid "Allow Pamac to search and install packages from AUR"
@@ -1340,7 +1344,15 @@ msgstr "Os pacotes Snap são mantidos pelo seu publicador."
 
 #: resources/preferences_dialog.ui
 msgid "Enable Snap support"
-msgstr "Ativar o suporte do Snap"
+msgstr "Ativar suporte Snap"
+
+#: resources/preferences_dialog.ui
+msgid "Flatpak packages are maintained by their publisher."
+msgstr "Os pacotes Flatpak são mantidos pelo seu editor."
+
+#: resources/preferences_dialog.ui
+msgid "Enable Flatpak support"
+msgstr "Ativar suporte Flatpak"
 
 #: resources/preferences_dialog.ui
 msgid "Cache"

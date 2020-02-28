@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2020-01-17 14:37+0100\n"
-"PO-Revision-Date: 2020-01-18 11:42+0000\n"
+"POT-Creation-Date: 2020-02-08 11:17+0100\n"
+"PO-Revision-Date: 2020-02-27 05:57+0000\n"
 "Last-Translator: UTUMI Hirosi <utuhiro78@yahoo.co.jp>\n"
 "Language-Team: Japanese (http://www.transifex.com/manjarolinux/manjaro-pamac/language/ja/)\n"
 "MIME-Version: 1.0\n"
@@ -499,7 +499,7 @@ msgid "%u pending operation"
 msgid_plural "%u pending operations"
 msgstr[0] "%u 個の操作を保留しています"
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala
 msgid "All"
 msgstr "全て"
 
@@ -515,6 +515,10 @@ msgstr "外部のパッケージ"
 #: resources/preferences_dialog.ui
 msgid "Snap"
 msgstr "Snap"
+
+#: src/manager_window.vala resources/preferences_dialog.ui
+msgid "Flatpak"
+msgstr "Flatpak"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Repositories"
@@ -1187,6 +1191,10 @@ msgid "Search"
 msgstr "検索"
 
 #: resources/manager_window.ui
+msgid "Browse"
+msgstr "閲覧"
+
+#: resources/manager_window.ui
 msgid "Pending"
 msgstr "保留中"
 
@@ -1217,10 +1225,6 @@ msgstr "関連度"
 #: resources/manager_window.ui
 msgid "Size"
 msgstr "サイズ"
-
-#: resources/manager_window.ui
-msgid "Browse"
-msgstr "閲覧"
 
 #: resources/manager_window.ui
 msgid "Launch"
@@ -1331,6 +1335,14 @@ msgstr "Snapパッケージは発行元によって管理されています。"
 #: resources/preferences_dialog.ui
 msgid "Enable Snap support"
 msgstr "Snapサポートを有効にする"
+
+#: resources/preferences_dialog.ui
+msgid "Flatpak packages are maintained by their publisher."
+msgstr "Flatpakパッケージはパブリッシャーによって管理されています。"
+
+#: resources/preferences_dialog.ui
+msgid "Enable Flatpak support"
+msgstr "Flatpakサポートを有効にする"
 
 #: resources/preferences_dialog.ui
 msgid "Cache"

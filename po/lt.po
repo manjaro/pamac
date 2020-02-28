@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2020-01-17 14:37+0100\n"
-"PO-Revision-Date: 2020-01-18 15:15+0000\n"
+"POT-Creation-Date: 2020-02-08 11:17+0100\n"
+"PO-Revision-Date: 2020-02-24 20:39+0000\n"
 "Last-Translator: Moo\n"
 "Language-Team: Lithuanian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/lt/)\n"
 "MIME-Version: 1.0\n"
@@ -263,7 +263,7 @@ msgstr "Atsiunčiama %s"
 
 #: src/daemon.vala
 msgid "Authentication failed"
-msgstr "Nepavyko nustatyti tapatybę"
+msgstr "Nepavyko nustatyti tapatybės"
 
 #: src/daemon.vala
 msgid "Waiting for another package manager to quit"
@@ -504,7 +504,7 @@ msgstr[1] "%u laukiančios operacijos"
 msgstr[2] "%u laukiančių operacijų"
 msgstr[3] "%u laukiančių operacijų"
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala
 msgid "All"
 msgstr "Visi"
 
@@ -520,6 +520,10 @@ msgstr "Svetimi"
 #: resources/preferences_dialog.ui
 msgid "Snap"
 msgstr "Snap"
+
+#: src/manager_window.vala resources/preferences_dialog.ui
+msgid "Flatpak"
+msgstr "Flatpak"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Repositories"
@@ -1201,6 +1205,10 @@ msgid "Search"
 msgstr "Paieška"
 
 #: resources/manager_window.ui
+msgid "Browse"
+msgstr "Naršyti"
+
+#: resources/manager_window.ui
 msgid "Pending"
 msgstr "Laukiama"
 
@@ -1231,10 +1239,6 @@ msgstr "Atitikimas"
 #: resources/manager_window.ui
 msgid "Size"
 msgstr "Dydis"
-
-#: resources/manager_window.ui
-msgid "Browse"
-msgstr "Naršyti"
 
 #: resources/manager_window.ui
 msgid "Launch"
@@ -1345,6 +1349,14 @@ msgstr "Snap paketus palaiko jų leidėjas."
 #: resources/preferences_dialog.ui
 msgid "Enable Snap support"
 msgstr "Įjungti Snap palaikymą"
+
+#: resources/preferences_dialog.ui
+msgid "Flatpak packages are maintained by their publisher."
+msgstr "Flatpak paketus prižiūri jų leidėjas."
+
+#: resources/preferences_dialog.ui
+msgid "Enable Flatpak support"
+msgstr "Įjungti Flatpak palaikymą"
 
 #: resources/preferences_dialog.ui
 msgid "Cache"

@@ -4,17 +4,17 @@
 # Guillaume Benoit <guillaume@manjaro.org>, 2013-2020.
 # 
 # Translators:
-# kouros kouros <kormikg@yahoo.gr>, 2016-2017,2019
+# kouros kouros <kormikg@yahoo.gr>, 2016-2017,2019-2020
 # Nikos Lakiotakis <nikos.lakiotakis@protonmail.com>, 2018
 # Thanos Nikolaou <nikolaoutns@protonmail.com>, 2019
-# Zan Zuper <snoopycrete@gmail.com>, 2018
+# Zan Voit <snoopycrete@gmail.com>, 2018
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2020-01-17 14:37+0100\n"
-"PO-Revision-Date: 2020-01-18 00:50+0000\n"
-"Last-Translator: philm <philm@manjaro.org>\n"
+"POT-Creation-Date: 2020-02-08 11:17+0100\n"
+"PO-Revision-Date: 2020-02-25 08:21+0000\n"
+"Last-Translator: kouros kouros <kormikg@yahoo.gr>\n"
 "Language-Team: Greek (Greece) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/el_GR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -175,7 +175,7 @@ msgstr "Ρύθμιση %s"
 #: src/alpm_utils.vala
 #, c-format
 msgid "Error while configuring %s"
-msgstr ""
+msgstr "Σφάλμα κατά τη διαμόρφωση%s"
 
 #: src/alpm_utils.vala
 msgid "Checking available disk space"
@@ -223,7 +223,7 @@ msgstr "Τρέχει η μετα-διεργασία hooks"
 
 #: src/alpm_utils.vala
 msgid "Error while running hooks"
-msgstr ""
+msgstr "Σφάλμα κατά την εκτέλεση hooks"
 
 #: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
@@ -309,7 +309,7 @@ msgstr "Κλωνοποίηση αρχείων κατασκευής %s"
 #: src/transaction.vala
 #, c-format
 msgid "Failed to clone %s build files"
-msgstr ""
+msgstr "Απέτυχε η κλωνοποίηση %s αρχείων δόμησης"
 
 #: src/transaction.vala
 #, c-format
@@ -319,7 +319,7 @@ msgstr "Δημιουργούνται πληροφορίες για %s"
 #: src/transaction.vala
 #, c-format
 msgid "Failed to generate %s informations"
-msgstr ""
+msgstr "Απέτυχε η δημιουργία %s πληροφοριών"
 
 #: src/transaction.vala
 #, c-format
@@ -329,7 +329,7 @@ msgstr "Έλεγχος εξαρτήσεων %s"
 #: src/transaction.vala
 #, c-format
 msgid "Failed to check %s dependencies"
-msgstr ""
+msgstr "Απέτυχε ο έλεγχος %s εξαρτήσεων"
 
 #: src/transaction.vala
 #, c-format
@@ -352,7 +352,7 @@ msgstr "Δημιουργία %s"
 #: src/transaction.vala
 #, c-format
 msgid "Failed to build %s"
-msgstr ""
+msgstr "Απέτυχε η δημιουργία %s"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
@@ -500,7 +500,7 @@ msgid_plural "%u pending operations"
 msgstr[0] "%u εκκρεμείς διαδικασίες"
 msgstr[1] "%u εκκρεμείς διαδικασίες"
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala
 msgid "All"
 msgstr "Όλα"
 
@@ -516,6 +516,10 @@ msgstr "Εξωτερικά (AUR)"
 #: resources/preferences_dialog.ui
 msgid "Snap"
 msgstr "Snap"
+
+#: src/manager_window.vala resources/preferences_dialog.ui
+msgid "Flatpak"
+msgstr "Flatpak"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Repositories"
@@ -1191,6 +1195,10 @@ msgid "Search"
 msgstr "Αναζήτηση"
 
 #: resources/manager_window.ui
+msgid "Browse"
+msgstr "Αναζήτηση"
+
+#: resources/manager_window.ui
 msgid "Pending"
 msgstr "Εκκρεμή"
 
@@ -1221,10 +1229,6 @@ msgstr "Συνάφεια"
 #: resources/manager_window.ui
 msgid "Size"
 msgstr "Μέγεθος"
-
-#: resources/manager_window.ui
-msgid "Browse"
-msgstr "Αναζήτηση"
 
 #: resources/manager_window.ui
 msgid "Launch"
@@ -1335,6 +1339,14 @@ msgstr "Τα πακέτα Snap συντηρούνται από τον εκδότ
 #: resources/preferences_dialog.ui
 msgid "Enable Snap support"
 msgstr "Ενεργοποίηση υποστήριξης Snap"
+
+#: resources/preferences_dialog.ui
+msgid "Flatpak packages are maintained by their publisher."
+msgstr "Τα πακέτα Flatpak συντηρούνται από τον εκδότη τους."
+
+#: resources/preferences_dialog.ui
+msgid "Enable Flatpak support"
+msgstr "Ενεργοποίηση υποστήριξης Flatpak"
 
 #: resources/preferences_dialog.ui
 msgid "Cache"

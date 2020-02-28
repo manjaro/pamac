@@ -13,15 +13,16 @@
 # pavelrz, 2017
 # philm <philm@manjaro.org>, 2015
 # Scibex <kroupa@wvw.cz>, 2013
+# Tomáš Marhoun <tmarhoun@gmail.com>, 2020
 # Vendula Durakova, 2017-2018
 # halfark <vojtechprecechtel@gmail.com>, 2014,2016
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2020-01-17 14:37+0100\n"
-"PO-Revision-Date: 2020-01-18 00:50+0000\n"
-"Last-Translator: philm <philm@manjaro.org>\n"
+"POT-Creation-Date: 2020-02-08 11:17+0100\n"
+"PO-Revision-Date: 2020-02-26 06:02+0000\n"
+"Last-Translator: Tomáš Marhoun <tmarhoun@gmail.com>\n"
 "Language-Team: Czech (http://www.transifex.com/manjarolinux/manjaro-pamac/language/cs/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -31,11 +32,11 @@ msgstr ""
 
 #: data/polkit/org.manjaro.pamac.policy.in
 msgid "Install, update, or remove packages"
-msgstr ""
+msgstr "Instalovat, aktualizovat nebo odstranit balíčky"
 
 #: data/polkit/org.manjaro.pamac.policy.in
 msgid "Authentication is required to install, update, or remove packages"
-msgstr ""
+msgstr "K instalování, aktualizaci nebo odstranění balíčků je potřeba autentizace"
 
 #: src/alpm_utils.vala src/database.vala
 msgid "Failed to initialize alpm library"
@@ -47,7 +48,7 @@ msgstr "Synchronizuji databáze balíčků"
 
 #: src/alpm_utils.vala
 msgid "Failed to synchronize databases"
-msgstr ""
+msgstr "Selhala synchronizace databází"
 
 #: src/alpm_utils.vala src/database.vala src/manager_window.vala src/cli.vala
 #: resources/preferences_dialog.ui
@@ -119,7 +120,7 @@ msgstr "%s je neplatný nebo porušený"
 
 #: src/alpm_utils.vala
 msgid "failed to retrieve some files"
-msgstr ""
+msgstr "Načtení některých souborů selhalo"
 
 #: src/alpm_utils.vala
 msgid "Failed to commit transaction"
@@ -182,7 +183,7 @@ msgstr "Konfigurace %s"
 #: src/alpm_utils.vala
 #, c-format
 msgid "Error while configuring %s"
-msgstr ""
+msgstr "Chyba při konfiguraci %s"
 
 #: src/alpm_utils.vala
 msgid "Checking available disk space"
@@ -230,7 +231,7 @@ msgstr "Spouští se po-transakční nastavení"
 
 #: src/alpm_utils.vala
 msgid "Error while running hooks"
-msgstr ""
+msgstr "Chyba při nastavování"
 
 #: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
@@ -253,12 +254,12 @@ msgstr "Chyba"
 #: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
 msgid "Download of %s started"
-msgstr ""
+msgstr "Stahování %s zahájeno"
 
 #: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
 msgid "Download of %s finished"
-msgstr ""
+msgstr "Stahování %s ukončeno"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -284,7 +285,7 @@ msgstr "Transakce zrušena"
 
 #: src/daemon.vala
 msgid "Timeout expired"
-msgstr ""
+msgstr "Vypršel časový limit"
 
 #: src/database.vala src/manager_window.vala
 msgid "Explicitly installed"
@@ -313,37 +314,37 @@ msgstr "Obnova seznamu zrcadel"
 #: src/transaction.vala src/cli.vala
 #, c-format
 msgid "Cloning %s build files"
-msgstr ""
+msgstr "Klonování %s sestavovacích souborů"
 
 #: src/transaction.vala
 #, c-format
 msgid "Failed to clone %s build files"
-msgstr ""
+msgstr "Chyba klonování %s sestavovacích souborů"
 
 #: src/transaction.vala
 #, c-format
 msgid "Generating %s informations"
-msgstr ""
+msgstr "Generování %s informací"
 
 #: src/transaction.vala
 #, c-format
 msgid "Failed to generate %s informations"
-msgstr ""
+msgstr "Selhalo generování %s informací"
 
 #: src/transaction.vala
 #, c-format
 msgid "Checking %s dependencies"
-msgstr ""
+msgstr "Kontrola %s závislostí"
 
 #: src/transaction.vala
 #, c-format
 msgid "Failed to check %s dependencies"
-msgstr ""
+msgstr "Selhání při kontrole %s závislostí"
 
 #: src/transaction.vala
 #, c-format
 msgid "key %s could not be imported"
-msgstr ""
+msgstr "klíč %s nemohl být importován"
 
 #: src/transaction.vala src/manager_window.vala
 msgid "Transaction successfully finished"
@@ -361,12 +362,12 @@ msgstr "Zpracovávám %s"
 #: src/transaction.vala
 #, c-format
 msgid "Failed to build %s"
-msgstr ""
+msgstr "Selhání sestavení %s"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
 msgid "Choose optional dependencies for %s"
-msgstr ""
+msgstr "Můžete si vybrat volitelné závislosti pro %s"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
@@ -375,11 +376,11 @@ msgstr "Vyberte poskytovatele pro %s"
 
 #: src/transaction-gtk.vala
 msgid "Import PGP key"
-msgstr ""
+msgstr "Importovat PGP klíč"
 
 #: src/transaction-gtk.vala
 msgid "Trust and Import"
-msgstr ""
+msgstr "Důvěřovat a importovat"
 
 #: src/transaction-gtk.vala src/manager_window.vala
 #: resources/transaction_sum_dialog.ui resources/manager_window.ui
@@ -390,12 +391,12 @@ msgstr "_Zrušit"
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
 msgid "The PGP key %s is needed to verify %s source files"
-msgstr ""
+msgstr "PGP klíč %s je třeba k ověření %s zdrojových souborů"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
 msgid "Trust %s and import the PGP key"
-msgstr ""
+msgstr "Důvěřovat %s a importovat PGP klíč"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "To remove"
@@ -428,7 +429,7 @@ msgstr "Celková velikost ke stažení"
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
 msgid "Edit %s build files"
-msgstr ""
+msgstr "Upravit %s sestavovací soubory"
 
 #: src/transaction-gtk.vala
 msgid "Save"
@@ -447,12 +448,12 @@ msgstr "Instalace"
 #: src/transaction-gtk.vala
 #, c-format
 msgid "The snap %s was published using classic confinement"
-msgstr ""
+msgstr "Snap balíček %s může využívat zdroje systému \"classic confinement\""
 
 #: src/transaction-gtk.vala
 #, c-format
 msgid "Install %s anyway"
-msgstr ""
+msgstr "I přesto instalovat %s"
 
 #: src/transaction-gtk.vala src/tray.vala
 msgid "Package Manager"
@@ -513,7 +514,7 @@ msgstr[1] "%u nevyřízené operace"
 msgstr[2] "%u nevyřízených operací"
 msgstr[3] "%u nevyřízených operací"
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala
 msgid "All"
 msgstr "Vše"
 
@@ -528,7 +529,11 @@ msgstr "Cizí"
 #: src/manager_window.vala src/snap_plugin.vala
 #: resources/preferences_dialog.ui
 msgid "Snap"
-msgstr ""
+msgstr "Snap"
+
+#: src/manager_window.vala resources/preferences_dialog.ui
+msgid "Flatpak"
+msgstr "Flatpak"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Repositories"
@@ -548,7 +553,7 @@ msgstr "Soubory"
 
 #: src/manager_window.vala
 msgid "Build files"
-msgstr ""
+msgstr "Sestavovací soubory"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Install Reason"
@@ -652,15 +657,15 @@ msgstr "Zkontrolovat závislosti"
 
 #: src/manager_window.vala
 msgid "Publisher"
-msgstr ""
+msgstr "Vydavatel"
 
 #: src/manager_window.vala
 msgid "Confined in a Sandbox"
-msgstr ""
+msgstr "Drženo v Sandboxu"
 
 #: src/manager_window.vala
 msgid "Channels"
-msgstr ""
+msgstr "Kanály"
 
 #: src/manager_window.vala
 msgid "Upgrade"
@@ -668,7 +673,7 @@ msgstr "Aktualizovat"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Build"
-msgstr ""
+msgstr "Sestavit"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Remove"
@@ -676,27 +681,27 @@ msgstr "Odstranit"
 
 #: src/manager_window.vala
 msgid "Featured"
-msgstr ""
+msgstr "Uvádíme"
 
 #: src/manager_window.vala
 msgid "Photo & Video"
-msgstr ""
+msgstr "Foto & Video"
 
 #: src/manager_window.vala
 msgid "Music & Audio"
-msgstr ""
+msgstr "Hudba & Zvuky"
 
 #: src/manager_window.vala
 msgid "Productivity"
-msgstr ""
+msgstr "Produktivita"
 
 #: src/manager_window.vala
 msgid "Communication & News"
-msgstr ""
+msgstr "Komunikace & Zprávy"
 
 #: src/manager_window.vala
 msgid "Education & Science"
-msgstr ""
+msgstr "Věda & Vzdělání"
 
 #: src/manager_window.vala
 msgid "Games"
@@ -704,7 +709,7 @@ msgstr "Hry"
 
 #: src/manager_window.vala
 msgid "Utilities"
-msgstr ""
+msgstr "Služby"
 
 #: src/manager_window.vala
 msgid "Development"
@@ -736,7 +741,7 @@ msgstr "Jak často kontrolovat aktualizace, hodnota v hodinách"
 
 #: src/preferences_dialog.vala resources/preferences_dialog.ui
 msgid "Maximum parallel downloads"
-msgstr ""
+msgstr "Maximum paralelních stahování"
 
 #: src/preferences_dialog.vala src/cli.vala resources/preferences_dialog.ui
 msgid "Number of versions of each package to keep in the cache"
@@ -765,16 +770,16 @@ msgstr[3] "%u souborů"
 
 #: src/preferences_dialog.vala
 msgid "Choose Ignored Upgrades"
-msgstr ""
+msgstr "Vybrat ignorované aktualizace"
 
 #: src/transaction-cli.vala src/cli.vala
 #, c-format
 msgid "Enter a selection (default=%s)"
-msgstr ""
+msgstr "Zadání výběru (default=%s)"
 
 #: src/transaction-cli.vala
 msgid "none"
-msgstr ""
+msgstr "žádné"
 
 #: src/transaction-cli.vala
 #, c-format
@@ -795,7 +800,7 @@ msgstr "ano"
 
 #: src/transaction-cli.vala resources/transaction_sum_dialog.ui
 msgid "Edit build files"
-msgstr ""
+msgstr "Upravit sestavovací soubory"
 
 #: src/transaction-cli.vala
 msgid "Total installed size"
@@ -807,12 +812,12 @@ msgstr "Celková velikost odstraněných souborů"
 
 #: src/transaction-cli.vala
 msgid "Apply transaction"
-msgstr ""
+msgstr "Aplikovat změny"
 
 #: src/transaction-cli.vala
 #, c-format
 msgid "View %s build files diff"
-msgstr ""
+msgstr "Zobrazit %s sestavovací soubory diff"
 
 #: src/cli.vala
 msgid "Building packages as root is not allowed"
@@ -820,11 +825,11 @@ msgstr "Sestavovat balíčky jako root není povoleno"
 
 #: src/cli.vala
 msgid "No PKGBUILD file found in current directory"
-msgstr ""
+msgstr "PKGBUILD soubor nebyl v adresáři nalezen"
 
 #: src/cli.vala
 msgid "Check development packages updates as root is not allowed"
-msgstr ""
+msgstr "Kontrolovat vývojové balíčky jako root není povoleno"
 
 #: src/cli.vala
 msgid "Available actions"
@@ -848,15 +853,15 @@ msgstr "soubor(-y)"
 
 #: src/cli.vala
 msgid "only search for installed packages"
-msgstr ""
+msgstr "hledat pouze instalované balíčky"
 
 #: src/cli.vala
 msgid "only search for packages in repositories"
-msgstr ""
+msgstr "hledat pouze balíčky v repozitářích"
 
 #: src/cli.vala
 msgid "also search in AUR"
-msgstr ""
+msgstr "hledat také v AUR"
 
 #: src/cli.vala
 msgid ""
@@ -911,7 +916,7 @@ msgstr "vypsat soubory, které vlastní daný balíček"
 
 #: src/cli.vala
 msgid "Clone or sync packages build files from AUR"
-msgstr ""
+msgstr "Klonovat nebo synchronizovat balíky sestavovacích souborů z AUR"
 
 #: src/cli.vala
 msgid "dir"
@@ -925,7 +930,7 @@ msgstr "sestavovací adresář; pokud není žádný zvolen, je použit ten, kte
 
 #: src/cli.vala
 msgid "also clone needed dependencies"
-msgstr ""
+msgstr "naklonovat také potřebné závislosti"
 
 #: src/cli.vala
 msgid "overwrite existing files"
@@ -934,29 +939,29 @@ msgstr "přepsat existující soubory"
 #: src/cli.vala
 msgid ""
 "If no package name is given, use the PKGBUILD file in the current directory"
-msgstr ""
+msgstr "Pokud balíček nemá zadaný název, použít PKGBUILD soubor v příslušném adresáři"
 
 #: src/cli.vala
 msgid ""
 "The build directory will be the parent directory, --builddir option will be "
 "ignored"
-msgstr ""
+msgstr "Adresář zdroje bude zároveň adresář pro sestavení, --builddir volba bude ignorována"
 
 #: src/cli.vala
 msgid "and --no-clone option will be enforced"
-msgstr ""
+msgstr "a --no-clone volba bude vynucena"
 
 #: src/cli.vala
 msgid "keep built packages in cache after installation"
-msgstr ""
+msgstr "po instalaci ponechat sestavovací balíčky v cache paměti"
 
 #: src/cli.vala
 msgid "do not clone build files from AUR, only use local files"
-msgstr ""
+msgstr "neklonovat sestavovací soubory z AUR, požívat lokální soubory"
 
 #: src/cli.vala
 msgid "bypass any and all confirmation messages"
-msgstr ""
+msgstr "přeskočit potvrzovací zprávy"
 
 #: src/cli.vala
 msgid "glob"
@@ -976,19 +981,19 @@ msgstr "přepsat kolidující soubory, vícero vzorů může být specifikováno
 
 #: src/cli.vala
 msgid "download all packages but do not install/upgrade anything"
-msgstr ""
+msgstr "všechny balíčky stáhnout, ale neinstalovat/neaktualizovat"
 
 #: src/cli.vala
 msgid "mark all packages installed as a dependency"
-msgstr ""
+msgstr "označit všechny instalované balíčky jako závislosti"
 
 #: src/cli.vala
 msgid "mark all packages explicitly installed"
-msgstr ""
+msgstr "označit všechny instalované balíčky"
 
 #: src/cli.vala
 msgid "do not check for updates"
-msgstr ""
+msgstr "nekontrolovat aktualizace"
 
 #: src/cli.vala
 msgid "Reinstall packages"
@@ -996,7 +1001,7 @@ msgstr "Přeinstalovat balíčky"
 
 #: src/cli.vala
 msgid "remove packages only if they are not required by any other packages"
-msgstr ""
+msgstr "odstranit balíčky pouze pokud nejsou vyžadovány jinými balíčky"
 
 #: src/cli.vala
 msgid ""
@@ -1006,7 +1011,7 @@ msgstr "odstanit závislosti, které nejsou potřebné ostatními balíčky; pok
 
 #: src/cli.vala
 msgid "ignore files backup"
-msgstr ""
+msgstr "ignorovat zálohu souborů"
 
 #: src/cli.vala
 msgid "Safely check for updates without modifiying the databases"
@@ -1022,17 +1027,17 @@ msgstr "zkontrolovat také aktualizace AUR"
 
 #: src/cli.vala
 msgid "also check development packages updates (use with --aur)"
-msgstr ""
+msgstr "kontrolovat také vývojové balíčky (použito s --aur)"
 
 #: src/cli.vala
 msgid "only print one line per update"
-msgstr ""
+msgstr "zobrazit pouze jednu řádku pro každou aktualizaci"
 
 #: src/cli.vala
 msgid ""
 "build directory (use with --devel), if no directory is given the one "
 "specified in pamac.conf file is used"
-msgstr ""
+msgstr "sestavovací adresář (použito s --devel), pokud není žádný zadán, je použit adresář specifikovaný v souboru pamac.conf"
 
 #: src/cli.vala
 msgid "Upgrade your system"
@@ -1044,7 +1049,7 @@ msgstr "automaticky aktualizovat balíčky instalované z AUR"
 
 #: src/cli.vala
 msgid "also upgrade development packages (use with --aur)"
-msgstr ""
+msgstr "aktualizovat také vývojové balíčky (použito s --aur)"
 
 #: src/cli.vala
 msgid ""
@@ -1062,34 +1067,34 @@ msgstr "umožnit návrat balíčků k předchozí verzi"
 
 #: src/cli.vala
 msgid "Clean packages cache or build files"
-msgstr ""
+msgstr "Vyčistit cache balíčků a sestavovací soubory"
 
 #: src/cli.vala
 msgid "number"
-msgstr ""
+msgstr "číslo"
 
 #: src/cli.vala
 msgid ""
 "specify how many versions of each package are kept in the cache directory"
-msgstr ""
+msgstr "specifikovat kolik verzí balíčku zůstane v dočasném adresáři"
 
 #: src/cli.vala
 msgid "only target uninstalled packages"
-msgstr ""
+msgstr "pouze odinstalované balíčky"
 
 #: src/cli.vala
 msgid ""
 "remove all build files, the build directory is the one specified in "
 "pamac.conf"
-msgstr ""
+msgstr "odstranit všechny sestavovací soubory, sestavovací adresář je specifikovaný v pamac.conf"
 
 #: src/cli.vala
 msgid "do not remove files, only find candidate packages"
-msgstr ""
+msgstr "neodstraňovat soubory, pouze nalézt požadované balíčky"
 
 #: src/cli.vala
 msgid "also display all files names"
-msgstr ""
+msgstr "zobrazit také jména všech souborů"
 
 #: src/cli.vala resources/manager_window.ui
 msgid "Name"
@@ -1109,7 +1114,7 @@ msgstr "URL"
 
 #: src/cli.vala
 msgid "Installed Size"
-msgstr ""
+msgstr "Instalovaná velikost"
 
 #: src/cli.vala
 #, c-format
@@ -1125,10 +1130,10 @@ msgstr "%s je vlatněn balíčkem %s"
 #, c-format
 msgid "%u ignored update"
 msgid_plural "%u ignored updates"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "%u přeskočená aktualizace"
+msgstr[1] "%u přeskočených aktualizací"
+msgstr[2] "%u přeskočených aktualizací"
+msgstr[3] "%u přeskočené aktualizace"
 
 #: src/cli.vala resources/preferences_dialog.ui
 msgid "Remove only the versions of uninstalled packages"
@@ -1140,17 +1145,17 @@ msgstr "Vyčistit mezipaměť"
 
 #: src/cli.vala resources/preferences_dialog.ui
 msgid "Clean build files"
-msgstr ""
+msgstr "Vyčistit sestavovací soubory"
 
 #: src/cli.vala
 #, c-format
 msgid "%s is only available from AUR"
-msgstr ""
+msgstr "%s je dostupný pouze v AUR"
 
 #: src/cli.vala
 #, c-format
 msgid "Build %s from AUR"
-msgstr ""
+msgstr "Sestavit %s z AUR"
 
 #: src/cli.vala
 #, c-format
@@ -1163,7 +1168,7 @@ msgstr[3] "%u členů je ve skupině %s"
 
 #: src/cli.vala
 msgid "all"
-msgstr ""
+msgstr "vše"
 
 #: resources/choose_provider_dialog.ui
 msgid "Choose a Provider"
@@ -1210,6 +1215,10 @@ msgid "Search"
 msgstr "Vyhledat"
 
 #: resources/manager_window.ui
+msgid "Browse"
+msgstr "Prohlížet"
+
+#: resources/manager_window.ui
 msgid "Pending"
 msgstr "Nevyřízené"
 
@@ -1227,7 +1236,7 @@ msgstr "Nainstalovat vše"
 
 #: resources/manager_window.ui
 msgid "Ignore all"
-msgstr ""
+msgstr "Ignorovat vše"
 
 #: resources/manager_window.ui
 msgid "Sort by"
@@ -1235,19 +1244,15 @@ msgstr "Seřadit podle"
 
 #: resources/manager_window.ui
 msgid "Relevance"
-msgstr ""
+msgstr "Relevance"
 
 #: resources/manager_window.ui
 msgid "Size"
 msgstr "Velikost"
 
 #: resources/manager_window.ui
-msgid "Browse"
-msgstr "Prohlížet"
-
-#: resources/manager_window.ui
 msgid "Launch"
-msgstr ""
+msgstr "Spustit"
 
 #: resources/manager_window.ui
 msgid "Reinstall"
@@ -1255,7 +1260,7 @@ msgstr "Přeinstalovat"
 
 #: resources/manager_window.ui
 msgid "Reset build files"
-msgstr ""
+msgstr "Obnovit sestavovací soubory"
 
 #: resources/preferences_dialog.ui
 msgid "Check for updates"
@@ -1277,11 +1282,11 @@ msgstr "Obecné"
 msgid ""
 "Misconfiguration of these options can lead to system breakage.\n"
 "Modify them only if you know what you are doing."
-msgstr ""
+msgstr "Špatná konfigurace těchto voleb může vést k selhání systému.\nUpravujte je pouze pokud víte co děláte."
 
 #: resources/preferences_dialog.ui
 msgid "Check available disk space"
-msgstr ""
+msgstr "Kontrolovat volné místo na disku"
 
 #: resources/preferences_dialog.ui
 msgid "Remove unrequired dependencies"
@@ -1295,19 +1300,19 @@ msgstr "Při odebírání balíčku také odebrat jeho závislosti, které nejso
 
 #: resources/preferences_dialog.ui
 msgid "Do not check for updates when installing"
-msgstr ""
+msgstr "Při instalaci nekontrolovat aktualizace"
 
 #: resources/preferences_dialog.ui
 msgid "Enable downgrade"
-msgstr ""
+msgstr "Umožnit návrat k předchozím verzím balíčků"
 
 #: resources/preferences_dialog.ui
 msgid "Ignore upgrades for:"
-msgstr ""
+msgstr "Ignorovat aktualizace u:"
 
 #: resources/preferences_dialog.ui
 msgid "Advanced"
-msgstr ""
+msgstr "Pokročilé"
 
 #: resources/preferences_dialog.ui
 msgid "Use mirrors from:"
@@ -1337,7 +1342,7 @@ msgstr "Povolit aplikaci Pamac vyhledávat a instalovat balíčky z AUR"
 
 #: resources/preferences_dialog.ui
 msgid "Keep built packages in cache"
-msgstr ""
+msgstr "Ponechat sestavovací balíčky v cache paměti"
 
 #: resources/preferences_dialog.ui
 msgid "Check for updates from AUR"
@@ -1345,15 +1350,23 @@ msgstr "Zkontrolovat aktualizace z AUR"
 
 #: resources/preferences_dialog.ui
 msgid "Check for development packages updates"
-msgstr ""
+msgstr "Kontrolovat aktualizace vývojových balíčků"
 
 #: resources/preferences_dialog.ui
 msgid "Snap packages are maintained by their publisher."
-msgstr ""
+msgstr "Snap balíčky udržují jejich vydavatelé."
 
 #: resources/preferences_dialog.ui
 msgid "Enable Snap support"
-msgstr ""
+msgstr "Povolit podporu Snap balíčků"
+
+#: resources/preferences_dialog.ui
+msgid "Flatpak packages are maintained by their publisher."
+msgstr "Flatpak balíčky udržují jejich vydavatelé."
+
+#: resources/preferences_dialog.ui
+msgid "Enable Flatpak support"
+msgstr "Povolit podporu Flatpak balíčků"
 
 #: resources/preferences_dialog.ui
 msgid "Cache"

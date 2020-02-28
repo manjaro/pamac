@@ -7,16 +7,16 @@
 # Kus Mis <kusmis@hot.ee>, 2013
 # Kalle Kadakas <kallekadakas@gmail.com>, 2015,2018
 # Kus Mis <kusmis@hot.ee>, 2013
-# Madis Otenurm, 2019
+# Madis Otenurm, 2019-2020
 # Madis Otenurm, 2018
 # Madis Otenurm, 2018-2019
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2020-01-17 14:37+0100\n"
-"PO-Revision-Date: 2020-01-18 00:50+0000\n"
-"Last-Translator: philm <philm@manjaro.org>\n"
+"POT-Creation-Date: 2020-02-08 11:17+0100\n"
+"PO-Revision-Date: 2020-02-23 17:58+0000\n"
+"Last-Translator: Madis Otenurm\n"
 "Language-Team: Estonian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/et/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -177,7 +177,7 @@ msgstr "%s seadistamine"
 #: src/alpm_utils.vala
 #, c-format
 msgid "Error while configuring %s"
-msgstr ""
+msgstr "%s seadistamisel esines viga"
 
 #: src/alpm_utils.vala
 msgid "Checking available disk space"
@@ -225,7 +225,7 @@ msgstr "Käivitan järel-tehingu kinnitusi"
 
 #: src/alpm_utils.vala
 msgid "Error while running hooks"
-msgstr ""
+msgstr "Kinnituste käivitamisel esines viga"
 
 #: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
@@ -311,7 +311,7 @@ msgstr "%s ehitusfailide kloonimine"
 #: src/transaction.vala
 #, c-format
 msgid "Failed to clone %s build files"
-msgstr ""
+msgstr "%s ehitusfailide kloonimisel esines viga"
 
 #: src/transaction.vala
 #, c-format
@@ -321,7 +321,7 @@ msgstr "%s info genereerimine"
 #: src/transaction.vala
 #, c-format
 msgid "Failed to generate %s informations"
-msgstr ""
+msgstr "%s informatsiooni genereerimisel esines viga"
 
 #: src/transaction.vala
 #, c-format
@@ -331,7 +331,7 @@ msgstr "%s sõltuvuste kontrollimine"
 #: src/transaction.vala
 #, c-format
 msgid "Failed to check %s dependencies"
-msgstr ""
+msgstr "%s sõltuvuse kontrollimisel esines viga"
 
 #: src/transaction.vala
 #, c-format
@@ -354,7 +354,7 @@ msgstr "%s kompileerimine"
 #: src/transaction.vala
 #, c-format
 msgid "Failed to build %s"
-msgstr ""
+msgstr "%s ehitamisel esines viga"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
@@ -502,7 +502,7 @@ msgid_plural "%u pending operations"
 msgstr[0] "%u tegevus ootel"
 msgstr[1] "%u tegevust ootel"
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala
 msgid "All"
 msgstr "Kõik"
 
@@ -518,6 +518,10 @@ msgstr "Võõrad"
 #: resources/preferences_dialog.ui
 msgid "Snap"
 msgstr "Snap"
+
+#: src/manager_window.vala resources/preferences_dialog.ui
+msgid "Flatpak"
+msgstr "Flatpak"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Repositories"
@@ -752,7 +756,7 @@ msgstr[1] "%u faili"
 
 #: src/preferences_dialog.vala
 msgid "Choose Ignored Upgrades"
-msgstr ""
+msgstr "Vali ignoreeritud täiendused"
 
 #: src/transaction-cli.vala src/cli.vala
 #, c-format
@@ -835,11 +839,11 @@ msgstr "fail(id)"
 
 #: src/cli.vala
 msgid "only search for installed packages"
-msgstr ""
+msgstr "otsi vaid paigaldatud pakette"
 
 #: src/cli.vala
 msgid "only search for packages in repositories"
-msgstr ""
+msgstr "otsi vaid hoidlate pakette"
 
 #: src/cli.vala
 msgid "also search in AUR"
@@ -963,19 +967,19 @@ msgstr "kirjuta konfliktiga failid üle; võimalik sisestada mitu mustrit, erald
 
 #: src/cli.vala
 msgid "download all packages but do not install/upgrade anything"
-msgstr ""
+msgstr "laadi kõik paketid alla aga ära paigalda/täienda midagi"
 
 #: src/cli.vala
 msgid "mark all packages installed as a dependency"
-msgstr ""
+msgstr "märgi kõik paigaldatud paketid sõltuvusteks"
 
 #: src/cli.vala
 msgid "mark all packages explicitly installed"
-msgstr ""
+msgstr "märgi kõik paketid otseselt paigaldatuks"
 
 #: src/cli.vala
 msgid "do not check for updates"
-msgstr ""
+msgstr "ära kontrolli uuendusi"
 
 #: src/cli.vala
 msgid "Reinstall packages"
@@ -983,7 +987,7 @@ msgstr "Taaspaigalda paketid"
 
 #: src/cli.vala
 msgid "remove packages only if they are not required by any other packages"
-msgstr ""
+msgstr "eemalda paketid vaid siis, kui neid ei nõua teised paketid"
 
 #: src/cli.vala
 msgid ""
@@ -993,7 +997,7 @@ msgstr "eemalda sõltuvused, mis pole teistele pakettidele vajalikud; kui seda v
 
 #: src/cli.vala
 msgid "ignore files backup"
-msgstr ""
+msgstr "ignoreeri failide varundust"
 
 #: src/cli.vala
 msgid "Safely check for updates without modifiying the databases"
@@ -1193,6 +1197,10 @@ msgid "Search"
 msgstr "Otsi"
 
 #: resources/manager_window.ui
+msgid "Browse"
+msgstr "Sirvi"
+
+#: resources/manager_window.ui
 msgid "Pending"
 msgstr "Ootel"
 
@@ -1223,10 +1231,6 @@ msgstr "Asjakohasus"
 #: resources/manager_window.ui
 msgid "Size"
 msgstr "Suurus"
-
-#: resources/manager_window.ui
-msgid "Browse"
-msgstr "Sirvi"
 
 #: resources/manager_window.ui
 msgid "Launch"
@@ -1260,11 +1264,11 @@ msgstr "Üldine"
 msgid ""
 "Misconfiguration of these options can lead to system breakage.\n"
 "Modify them only if you know what you are doing."
-msgstr ""
+msgstr "Nende valikute vale seadistus võib viia süsteemi lõhkumiseni.\nMuuda neid vaid siis, kui tead mida teed."
 
 #: resources/preferences_dialog.ui
 msgid "Check available disk space"
-msgstr ""
+msgstr "Kontrolli saadaolevat kettaruumi"
 
 #: resources/preferences_dialog.ui
 msgid "Remove unrequired dependencies"
@@ -1278,7 +1282,7 @@ msgstr "Paketi eemaldamisel eemalda ka tema sõltuvused, mis ei ole enam ühegi 
 
 #: resources/preferences_dialog.ui
 msgid "Do not check for updates when installing"
-msgstr ""
+msgstr "Ära kontrolli paigalduse ajal uuendusi"
 
 #: resources/preferences_dialog.ui
 msgid "Enable downgrade"
@@ -1286,7 +1290,7 @@ msgstr "Luba vanemad versioonid"
 
 #: resources/preferences_dialog.ui
 msgid "Ignore upgrades for:"
-msgstr ""
+msgstr "Ignoreeri täiendusi:"
 
 #: resources/preferences_dialog.ui
 msgid "Advanced"
@@ -1312,7 +1316,7 @@ msgstr "AUR on kogukonna-hallatud hoidla, seega sellega kaasnevad potentsiaalsed
 
 #: resources/preferences_dialog.ui
 msgid "Enable AUR support"
-msgstr "Võimalda AURi tugi"
+msgstr "Luba AURi tugi"
 
 #: resources/preferences_dialog.ui
 msgid "Allow Pamac to search and install packages from AUR"
@@ -1337,6 +1341,14 @@ msgstr "Snapi pakette haldab nende väljastaja."
 #: resources/preferences_dialog.ui
 msgid "Enable Snap support"
 msgstr "Luba Snapi tugi"
+
+#: resources/preferences_dialog.ui
+msgid "Flatpak packages are maintained by their publisher."
+msgstr "Flatpaki pakette haldab nende väljastaja."
+
+#: resources/preferences_dialog.ui
+msgid "Enable Flatpak support"
+msgstr "Luba Flatpaki tugi"
 
 #: resources/preferences_dialog.ui
 msgid "Cache"

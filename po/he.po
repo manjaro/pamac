@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2020-01-17 14:37+0100\n"
-"PO-Revision-Date: 2020-01-18 00:50+0000\n"
+"POT-Creation-Date: 2020-02-08 11:17+0100\n"
+"PO-Revision-Date: 2020-02-22 23:10+0000\n"
 "Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Hebrew (http://www.transifex.com/manjarolinux/manjaro-pamac/language/he/)\n"
 "MIME-Version: 1.0\n"
@@ -509,7 +509,7 @@ msgstr[1] "%u פעולות תלויות ועומדות"
 msgstr[2] "%u פעולות תלויות ועומדות"
 msgstr[3] "%u פעולות תלויות ועומדות"
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala
 msgid "All"
 msgstr "הכל"
 
@@ -525,6 +525,10 @@ msgstr "זר"
 #: resources/preferences_dialog.ui
 msgid "Snap"
 msgstr "סנאפ"
+
+#: src/manager_window.vala resources/preferences_dialog.ui
+msgid "Flatpak"
+msgstr ""
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Repositories"
@@ -1206,6 +1210,10 @@ msgid "Search"
 msgstr "חיפוש"
 
 #: resources/manager_window.ui
+msgid "Browse"
+msgstr "עיין"
+
+#: resources/manager_window.ui
 msgid "Pending"
 msgstr "תלוי ועומד"
 
@@ -1236,10 +1244,6 @@ msgstr ""
 #: resources/manager_window.ui
 msgid "Size"
 msgstr "גודל"
-
-#: resources/manager_window.ui
-msgid "Browse"
-msgstr "עיין"
 
 #: resources/manager_window.ui
 msgid "Launch"
@@ -1349,6 +1353,14 @@ msgstr ""
 
 #: resources/preferences_dialog.ui
 msgid "Enable Snap support"
+msgstr ""
+
+#: resources/preferences_dialog.ui
+msgid "Flatpak packages are maintained by their publisher."
+msgstr ""
+
+#: resources/preferences_dialog.ui
+msgid "Enable Flatpak support"
 msgstr ""
 
 #: resources/preferences_dialog.ui

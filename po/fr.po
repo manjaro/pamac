@@ -23,8 +23,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2020-01-17 14:37+0100\n"
-"PO-Revision-Date: 2020-01-21 16:51+0000\n"
+"POT-Creation-Date: 2020-02-08 11:17+0100\n"
+"PO-Revision-Date: 2020-02-24 19:52+0000\n"
 "Last-Translator: Guillaume Benoit <guillaume@manjaro.org>\n"
 "Language-Team: French (http://www.transifex.com/manjarolinux/manjaro-pamac/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -511,7 +511,7 @@ msgid_plural "%u pending operations"
 msgstr[0] "%u opération en attente"
 msgstr[1] "%u opérations en attente"
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala
 msgid "All"
 msgstr "Tout"
 
@@ -527,6 +527,10 @@ msgstr "Étrangers"
 #: resources/preferences_dialog.ui
 msgid "Snap"
 msgstr "Snap"
+
+#: src/manager_window.vala resources/preferences_dialog.ui
+msgid "Flatpak"
+msgstr "Flatpak"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Repositories"
@@ -1202,6 +1206,10 @@ msgid "Search"
 msgstr "Rechercher"
 
 #: resources/manager_window.ui
+msgid "Browse"
+msgstr "Naviguer"
+
+#: resources/manager_window.ui
 msgid "Pending"
 msgstr "En attente"
 
@@ -1232,10 +1240,6 @@ msgstr "Pertinence"
 #: resources/manager_window.ui
 msgid "Size"
 msgstr "Taille"
-
-#: resources/manager_window.ui
-msgid "Browse"
-msgstr "Naviguer"
 
 #: resources/manager_window.ui
 msgid "Launch"
@@ -1346,6 +1350,14 @@ msgstr "Les paquets Snap sont maintenus par leur éditeur."
 #: resources/preferences_dialog.ui
 msgid "Enable Snap support"
 msgstr "Activer la prise en charge de Snap"
+
+#: resources/preferences_dialog.ui
+msgid "Flatpak packages are maintained by their publisher."
+msgstr "Les paquets Flatpak sont maintenus par leur éditeur."
+
+#: resources/preferences_dialog.ui
+msgid "Enable Flatpak support"
+msgstr "Activer la prise en charge de Flatpak"
 
 #: resources/preferences_dialog.ui
 msgid "Cache"

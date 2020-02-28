@@ -5,7 +5,8 @@
 # 
 # Translators:
 # Cybertramp <paran_son@outlook.com>, 2018
-# 이정희 <daemul72@gmail.com>, 2019-2020
+# MarongHappy <daemul72@gmail.com>, 2020
+# MarongHappy <daemul72@gmail.com>, 2019-2020
 # Dongyun KIm <104arb@gmail.com>, 2018
 # Eric Park <ideamaneric@gmail.com>, 2017
 # lego37yoon <lego37yoon@outlook.com>, 2013
@@ -17,8 +18,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2020-01-17 14:37+0100\n"
-"PO-Revision-Date: 2020-01-18 00:50+0000\n"
+"POT-Creation-Date: 2020-02-08 11:17+0100\n"
+"PO-Revision-Date: 2020-02-22 23:10+0000\n"
 "Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Korean (http://www.transifex.com/manjarolinux/manjaro-pamac/language/ko/)\n"
 "MIME-Version: 1.0\n"
@@ -117,7 +118,7 @@ msgstr "%s이(가) 유효하지 않거나 손상됨"
 
 #: src/alpm_utils.vala
 msgid "failed to retrieve some files"
-msgstr "일부 파일을 검색하지 못했습니다"
+msgstr "일부 파일 검색에 실패함"
 
 #: src/alpm_utils.vala
 msgid "Failed to commit transaction"
@@ -180,7 +181,7 @@ msgstr "%s 설정중"
 #: src/alpm_utils.vala
 #, c-format
 msgid "Error while configuring %s"
-msgstr ""
+msgstr "%s를 설정하는 동안 오류"
 
 #: src/alpm_utils.vala
 msgid "Checking available disk space"
@@ -228,7 +229,7 @@ msgstr "처리과정후 후크 실행중"
 
 #: src/alpm_utils.vala
 msgid "Error while running hooks"
-msgstr ""
+msgstr "후크 실행 중 오류"
 
 #: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
@@ -267,7 +268,7 @@ msgstr "%s 다운로드중"
 
 #: src/daemon.vala
 msgid "Authentication failed"
-msgstr "인증 실패"
+msgstr "인증 실패함"
 
 #: src/daemon.vala
 msgid "Waiting for another package manager to quit"
@@ -313,7 +314,7 @@ msgstr "%s 빌드 파일 복제중"
 #: src/transaction.vala
 #, c-format
 msgid "Failed to clone %s build files"
-msgstr "%s 빌드 파일 복제 실패"
+msgstr "%s 빌드 파일 복제에 실패함"
 
 #: src/transaction.vala
 #, c-format
@@ -323,7 +324,7 @@ msgstr "%s 정보 생성중"
 #: src/transaction.vala
 #, c-format
 msgid "Failed to generate %s informations"
-msgstr ""
+msgstr "%s정보 생성에 실패함"
 
 #: src/transaction.vala
 #, c-format
@@ -333,7 +334,7 @@ msgstr "%s 의존성 확인중"
 #: src/transaction.vala
 #, c-format
 msgid "Failed to check %s dependencies"
-msgstr ""
+msgstr "%s 종속성 확인에 실패함"
 
 #: src/transaction.vala
 #, c-format
@@ -502,7 +503,7 @@ msgid "%u pending operation"
 msgid_plural "%u pending operations"
 msgstr[0] "보류중인 작업 %u 개"
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala
 msgid "All"
 msgstr "모두"
 
@@ -518,6 +519,10 @@ msgstr "외부 패키지"
 #: resources/preferences_dialog.ui
 msgid "Snap"
 msgstr "스냅"
+
+#: src/manager_window.vala resources/preferences_dialog.ui
+msgid "Flatpak"
+msgstr ""
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Repositories"
@@ -765,7 +770,7 @@ msgstr "없음"
 #: src/transaction-cli.vala
 #, c-format
 msgid "Enter a number (default=%d)"
-msgstr "숫자 입력 (기본값 = %d)"
+msgstr "번호 입력 (기본값 = %d)"
 
 #: src/transaction-cli.vala src/cli.vala
 msgid "[y/N]"
@@ -901,7 +906,7 @@ msgstr "AUR에서 파일 빌드 패키지 복제 또는 동기화"
 
 #: src/cli.vala
 msgid "dir"
-msgstr "dir"
+msgstr "디렉토리"
 
 #: src/cli.vala
 msgid ""
@@ -1190,6 +1195,10 @@ msgid "Search"
 msgstr "검색"
 
 #: resources/manager_window.ui
+msgid "Browse"
+msgstr "찾아보기"
+
+#: resources/manager_window.ui
 msgid "Pending"
 msgstr "보류중"
 
@@ -1220,10 +1229,6 @@ msgstr "관련성"
 #: resources/manager_window.ui
 msgid "Size"
 msgstr "크기"
-
-#: resources/manager_window.ui
-msgid "Browse"
-msgstr "찾아보기"
 
 #: resources/manager_window.ui
 msgid "Launch"
@@ -1257,7 +1262,7 @@ msgstr "일반"
 msgid ""
 "Misconfiguration of these options can lead to system breakage.\n"
 "Modify them only if you know what you are doing."
-msgstr "이러한 옵션의 잘못된 환경설정은 시스템이 손상될 수 있습니다.\n수행중인 작업을 알고있는 경우에만 수정하십시오."
+msgstr "이러한 옵션을 잘못 설정하면 시스템이 파손될 수 있습니다.\n자신이 현재 하고 있는 작업을 알고 있는 경우에만 수정하십시오."
 
 #: resources/preferences_dialog.ui
 msgid "Check available disk space"
@@ -1287,7 +1292,7 @@ msgstr "업그레이드 무시할 대상:"
 
 #: resources/preferences_dialog.ui
 msgid "Advanced"
-msgstr "진보됨"
+msgstr "고급"
 
 #: resources/preferences_dialog.ui
 msgid "Use mirrors from:"
@@ -1334,6 +1339,14 @@ msgstr "스냅 패키지는 제작자가 유지 관리합니다."
 #: resources/preferences_dialog.ui
 msgid "Enable Snap support"
 msgstr "스냅 지원 사용"
+
+#: resources/preferences_dialog.ui
+msgid "Flatpak packages are maintained by their publisher."
+msgstr ""
+
+#: resources/preferences_dialog.ui
+msgid "Enable Flatpak support"
+msgstr ""
 
 #: resources/preferences_dialog.ui
 msgid "Cache"
