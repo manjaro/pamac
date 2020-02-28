@@ -669,6 +669,7 @@
                                           <item translatable="yes">Name</item>
                                           <item translatable="yes">Repository</item>
                                           <item translatable="yes">Size</item>
+                                          <item translatable="yes">Date</item>
                                         </items>
                                         <signal name="changed" handler="on_sort_comboboxtext_changed" swapped="no"/>
                                       </object>

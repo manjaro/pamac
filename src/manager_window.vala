@@ -295,6 +295,52 @@ namespace Pamac {
 		return sort_pkgs_by_name (pkg_a, pkg_b);
 	}
 
+	int sort_pkgs_by_date (Package pkg_a, Package pkg_b) {
+		if (pkg_a.installed_version == "") {
+			if (pkg_b.installed_version == "") {
+				AlpmPackage ? alpm_pkg_a = pkg_a as AlpmPackage;
+				AlpmPackage ? alpm_pkg_b = pkg_b as AlpmPackage;
+				if (alpm_pkg_a != null && alpm_pkg_b != null) {
+					if (alpm_pkg_a.builddate > alpm_pkg_b.builddate) {
+						return -1;
+					}
+					if (alpm_pkg_b.builddate > alpm_pkg_a.builddate) {
+						return 1;
+					}
+				}
+				return sort_pkgs_by_name (pkg_a, pkg_b);
+			} else {
+				return 1;
+			}
+		}
+		if (pkg_b.installed_version == "") {
+			return -1;
+		}
+		if (pkg_a.installdate > pkg_b.installdate) {
+			return -1;
+		}
+		if (pkg_b.installdate > pkg_a.installdate) {
+			return 1;
+		}
+		return sort_pkgs_by_name (pkg_a, pkg_b);
+	}
+
+	int sort_aur_by_date (AURPackage pkg_a, AURPackage pkg_b) {
+		if (pkg_a.outofdate > pkg_b.outofdate) {
+			return 1;
+		}
+		if (pkg_b.outofdate > pkg_a.outofdate) {
+			return -1;
+		}
+		if (pkg_a.lastmodified > pkg_b.lastmodified) {
+			return -1;
+		}
+		if (pkg_b.lastmodified > pkg_a.lastmodified) {
+			return 1;
+		}
+		return sort_pkgs_by_date (pkg_a, pkg_b);
+	}
+
 	[GtkTemplate (ui = "/org/manjaro/pamac/manager/manager_window.ui")]
 	class ManagerWindow : Gtk.ApplicationWindow {
 		// icons
@@ -2117,6 +2163,9 @@ namespace Pamac {
 				case 3: // size
 					pkgs.sort (sort_pkgs_by_installed_size);
 					break;
+				case 4: // date
+					pkgs.sort (sort_aur_by_date);
+					break;
 				default:
 					break;
 			}
@@ -2149,6 +2198,9 @@ namespace Pamac {
 					} else {
 						pkgs.sort (sort_pkgs_by_installed_size);
 					}
+					break;
+				case 4: // date
+					pkgs.sort (sort_pkgs_by_date);
 					break;
 				default:
 					break;
