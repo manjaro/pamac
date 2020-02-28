@@ -601,20 +601,28 @@ namespace Pamac {
 						unowned string pkgname_found = pkgnames_found[i];
 						unowned AURPackage? aur_pkg = pkgnames_table.get (pkgname_found);
 						// populate empty list will global ones
-						if (global_depends.length > 0 && aur_pkg.depends.length == 0) {
-							aur_pkg.depends_priv = (owned) global_depends;
+						uint j;
+						if (aur_pkg.depends.length == 0) {
+							for (j = 0; j < global_depends.length; j++) {
+								aur_pkg.depends_priv.add (global_depends[j]);
+							}
 						}
-						if (global_provides.length > 0 && aur_pkg.provides.length == 0) {
-							aur_pkg.provides_priv = (owned) global_provides;
+						if (aur_pkg.provides.length == 0) {
+							for (j = 0; j < global_provides.length; j++) {
+								aur_pkg.provides_priv.add (global_provides[j]);
+							}
 						}
-						if (global_conflicts.length > 0 && aur_pkg.conflicts.length == 0) {
-							aur_pkg.conflicts_priv = (owned) global_conflicts;
+						if (aur_pkg.conflicts.length == 0) {
+							for (j = 0; j < global_conflicts.length; j++) {
+								aur_pkg.conflicts_priv.add (global_conflicts[j]);
+							}
 						}
-						if (global_replaces.length > 0 && aur_pkg.replaces.length == 0) {
-							aur_pkg.replaces_priv = (owned) global_replaces;
+						if (aur_pkg.replaces.length == 0) {
+							for (j = 0; j < global_replaces.length; j++) {
+								aur_pkg.replaces_priv.add (global_replaces[j]);
+							}
 						}
 						// add checkdepends and makedepends in depends
-						uint j;
 						for (j = 0; j < global_checkdepends.length; j++) {
 							aur_pkg.depends_priv.add (global_checkdepends[j]);
 						}
@@ -671,7 +679,7 @@ namespace Pamac {
 						if (aur_pkg.depends.length > 0) {
 							dos.put_string ("%DEPENDS%\n");
 							for (j = 0; j < aur_pkg.depends.length; j++) {
-								dos.put_string ("%s\n".printf (aur_pkg.depends[i]));
+								dos.put_string ("%s\n".printf (aur_pkg.depends[j]));
 							}
 							dos.put_string ("\n");
 						}
@@ -679,7 +687,7 @@ namespace Pamac {
 						if (aur_pkg.conflicts.length > 0) {
 							dos.put_string ("%CONFLICTS%\n");
 							for (j = 0; j < aur_pkg.conflicts.length; j++) {
-								dos.put_string ("%s\n".printf (aur_pkg.conflicts[i]));
+								dos.put_string ("%s\n".printf (aur_pkg.conflicts[j]));
 							}
 							dos.put_string ("\n");
 						}
@@ -687,7 +695,7 @@ namespace Pamac {
 						if (aur_pkg.provides.length > 0) {
 							dos.put_string ("%PROVIDES%\n");
 							for (j = 0; j < aur_pkg.provides.length; j++) {
-								dos.put_string ("%s\n".printf (aur_pkg.provides[i]));
+								dos.put_string ("%s\n".printf (aur_pkg.provides[j]));
 							}
 							dos.put_string ("\n");
 						}
@@ -695,7 +703,7 @@ namespace Pamac {
 						if (aur_pkg.replaces.length > 0) {
 							dos.put_string ("%REPLACES%\n");
 							for (j = 0; j < aur_pkg.replaces.length; j++) {
-								dos.put_string ("%s\n".printf (aur_pkg.replaces[i]));
+								dos.put_string ("%s\n".printf (aur_pkg.replaces[j]));
 							}
 							dos.put_string ("\n");
 						}
@@ -884,7 +892,7 @@ namespace Pamac {
 				#endif
 				#if ENABLE_SNAP || ENABLE_FLATPAK
 				if (summary.to_install_priv == null && summary.to_remove_priv == null) {
-					emit_action (dgettext (null, "Transaction cancelled") + ".");
+					emit_action (dgettext (null, "Nothing to do") + ".");
 					return false;
 				} else if (ask_commit (summary)) {
 				#endif

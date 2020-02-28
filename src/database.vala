@@ -2115,23 +2115,33 @@ namespace Pamac {
 									unowned string pkgname_found = pkgnames_found[j];
 									AURPackage? aur_pkg = pkgnames_table.take (pkgname_found);
 									// populate empty list will global ones
-									if (global_depends.length > 0 && aur_pkg.depends.length == 0) {
-										aur_pkg.depends_priv = (owned) global_depends;
+									uint k;
+									if (aur_pkg.depends.length == 0) {
+										for (k = 0; k < global_depends.length; k++) {
+											aur_pkg.depends_priv.add (global_depends[k]);
+										}
 									}
-									if (global_provides.length > 0 && aur_pkg.provides.length == 0) {
-										aur_pkg.provides_priv = (owned) global_provides;
+									if (aur_pkg.provides.length == 0) {
+										for (k = 0; k < global_provides.length; k++) {
+											aur_pkg.provides_priv.add (global_provides[k]);
+										}
 									}
-									if (global_conflicts.length > 0 && aur_pkg.conflicts.length == 0) {
-										aur_pkg.conflicts_priv = (owned) global_conflicts;
+									if (aur_pkg.conflicts.length == 0) {
+										for (k = 0; k < global_conflicts.length; k++) {
+											aur_pkg.conflicts_priv.add (global_conflicts[k]);
+										}
 									}
-									if (global_replaces.length > 0 && aur_pkg.replaces.length == 0) {
-										aur_pkg.replaces_priv = (owned) global_replaces;
+									if (aur_pkg.replaces.length == 0) {
+										for (k = 0; k < global_replaces.length; k++) {
+											aur_pkg.replaces_priv.add (global_replaces[k]);
+										}
 									}
-									if (global_checkdepends.length > 0) {
-										aur_pkg.checkdepends_priv = (owned) global_checkdepends;
+									// add checkdepends and makedepends in depends
+									for (k = 0; k < global_checkdepends.length; k++) {
+										aur_pkg.depends_priv.add (global_checkdepends[k]);
 									}
-									if (global_makedepends.length > 0) {
-										aur_pkg.makedepends_priv = (owned) global_makedepends;
+									for (k = 0; k < global_makedepends.length; k++) {
+										aur_pkg.depends_priv.add (global_makedepends[k]);
 									}
 									aur_vcs_pkgs.insert (pkgname_found, aur_pkg);
 								}
