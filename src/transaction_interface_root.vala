@@ -73,7 +73,7 @@ namespace Pamac {
 		}
 
 		public void download_updates () {
-			alpm_utils.download_updates ();
+			alpm_utils.download_updates ("root");
 		}
 
 		public string download_pkg (string url) {

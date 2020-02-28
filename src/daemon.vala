@@ -28,6 +28,7 @@ MainContext context;
 public class AlpmAction {
 	public Pamac.Daemon pamac_daemon;
 	public string sender;
+	public bool is_download_updates;
 	public bool is_generate_mirrors_list;
 	public string country;
 	public bool is_write_alpm_config;
@@ -72,6 +73,8 @@ public class AlpmAction {
 			pamac_daemon.set_pkgreason (sender, pkgname, reason);
 		} else if (is_write_alpm_config) {
 			pamac_daemon.write_alpm_config (sender, new_alpm_conf);
+		} else if (is_download_updates) {
+			pamac_daemon.download_updates (sender);
 		} else if (is_download) {
 			pamac_daemon.download_pkg (sender, url, cancellable);
 		} else if (is_refresh) {
@@ -528,16 +531,20 @@ namespace Pamac {
 			thread_pool.add ((owned) action);
 		}
 
+		[DBus (visible = false)]
+		public void download_updates (string sender) {
+			alpm_utils.download_updates (sender);
+			download_updates_finished (sender);
+		}
+
 		public void start_download_updates (BusName sender) throws Error {
-			// do not add this thread to the threadpool so it won't be queued
 			try {
-				new Thread<int>.try ("download updates thread", () => {
-					alpm_utils.download_updates ();
-					download_updates_finished (sender);
-					return 0;
-				});
-			} catch (Error e) {
-				warning (e.message);
+				var action = new AlpmAction (this, sender);
+				action.is_download_updates = true;
+				thread_pool.add ((owned) action);
+			} catch (ThreadError e) {
+				emit_error (sender, "Daemon Error", {e.message});
+				download_updates_finished (sender);
 			}
 		}
 
@@ -590,41 +597,22 @@ namespace Pamac {
 		}
 
 		public void start_trans_refresh (bool force, BusName sender) throws Error {
-			if (alpm_utils.downloading_updates) {
-				alpm_utils.cancellable.cancel ();
-				// let time to cancel download updates
-				var timeout = new TimeoutSource (1000);
-				timeout.set_callback (() => {
-					try {
-						var action = new AlpmAction (this, sender);
-						action.is_refresh = true;
-						action.force_refresh = force;
-						if (!cancellables_table.contains (sender)) {
-							cancellables_table.insert (sender, new Cancellable ());
-						}
-						action.cancellable = cancellables_table.lookup (sender);
-						thread_pool.add ((owned) action);
-					} catch (ThreadError e) {
-						emit_error (sender, "Daemon Error", {e.message});
-						trans_refresh_finished (sender, false);
-					}
-					return false;
-				});
-				timeout.attach (context);
-			} else {
-				try {
-					var action = new AlpmAction (this, sender);
-					action.is_refresh = true;
-					action.force_refresh = force;
-					if (!cancellables_table.contains (sender)) {
-						cancellables_table.insert (sender, new Cancellable ());
-					}
-					action.cancellable = cancellables_table.lookup (sender);
-					thread_pool.add ((owned) action);
-				} catch (ThreadError e) {
-					emit_error (sender, "Daemon Error", {e.message});
-					trans_refresh_finished (sender, false);
+			try {
+				var action = new AlpmAction (this, sender);
+				action.is_refresh = true;
+				action.force_refresh = force;
+				if (!cancellables_table.contains (sender)) {
+					cancellables_table.insert (sender, new Cancellable ());
 				}
+				action.cancellable = cancellables_table.lookup (sender);
+				thread_pool.add ((owned) action);
+				if (alpm_utils.downloading_updates) {
+					// cancel download updates
+					alpm_utils.cancellable.cancel ();
+				}
+			} catch (ThreadError e) {
+				emit_error (sender, "Daemon Error", {e.message});
+				trans_refresh_finished (sender, false);
 			}
 		}
 
@@ -643,41 +631,22 @@ namespace Pamac {
 		}
 
 		public void start_download_pkg (string url, BusName sender) throws Error {
-			if (alpm_utils.downloading_updates) {
-				alpm_utils.cancellable.cancel ();
-				// let time to cancel download updates
-				var timeout = new TimeoutSource (1000);
-				timeout.set_callback (() => {
-					try {
-						var action = new AlpmAction (this, sender);
-						action.is_download = true;
-						action.url = url;
-						if (!cancellables_table.contains (sender)) {
-							cancellables_table.insert (sender, new Cancellable ());
-						}
-						action.cancellable = cancellables_table.lookup (sender);
-						thread_pool.add ((owned) action);
-					} catch (ThreadError e) {
-						emit_error (sender, "Daemon Error", {e.message});
-						download_pkg_finished (sender, "");
-					}
-					return false;
-				});
-				timeout.attach (context);
-			} else {
-				try {
-					var action = new AlpmAction (this, sender);
-					action.is_download = true;
-					action.url = url;
-					if (!cancellables_table.contains (sender)) {
-						cancellables_table.insert (sender, new Cancellable ());
-					}
-					action.cancellable = cancellables_table.lookup (sender);
-					thread_pool.add ((owned) action);
-				} catch (ThreadError e) {
-					emit_error (sender, "Daemon Error", {e.message});
-					download_pkg_finished (sender, "");
+			try {
+				var action = new AlpmAction (this, sender);
+				action.is_download = true;
+				action.url = url;
+				if (!cancellables_table.contains (sender)) {
+					cancellables_table.insert (sender, new Cancellable ());
 				}
+				action.cancellable = cancellables_table.lookup (sender);
+				thread_pool.add ((owned) action);
+				if (alpm_utils.downloading_updates) {
+					// cancel download updates
+					alpm_utils.cancellable.cancel ();
+				}
+			} catch (ThreadError e) {
+				emit_error (sender, "Daemon Error", {e.message});
+				download_pkg_finished (sender, "");
 			}
 		}
 
@@ -729,67 +698,32 @@ namespace Pamac {
 									string[] temporary_ignorepkgs,
 									string[] overwrite_files,
 									BusName sender) throws Error {
-			if (alpm_utils.downloading_updates) {
-				string[] to_install_copy = to_install;
-				string[] to_remove_copy = to_remove;
-				string[] to_load_copy = to_load;
-				string[] to_install_as_dep_copy = to_install_as_dep;
-				string[] temporary_ignorepkgs_copy = temporary_ignorepkgs;
-				string[] overwrite_files_copy = overwrite_files;
-				alpm_utils.cancellable.cancel ();
-				// let time to cancel download updates
-				var timeout = new TimeoutSource (1000);
-				timeout.set_callback (() => {
-					try {
-						var action = new AlpmAction (this, sender);
-						action.is_alpm = true;
-						action.sysupgrade = sysupgrade;
-						action.enable_downgrade = enable_downgrade;
-						action.simple_install = simple_install;
-						action.keep_built_pkgs = keep_built_pkgs;
-						action.trans_flags = trans_flags;
-						action.to_install = (owned) to_install_copy;
-						action.to_remove = (owned) to_remove_copy;
-						action.to_load = (owned) to_load_copy;
-						action.to_install_as_dep = (owned) to_install_as_dep_copy;
-						action.temporary_ignorepkgs = (owned) temporary_ignorepkgs_copy;
-						action.overwrite_files = (owned) overwrite_files_copy;
-						if (!cancellables_table.contains (sender)) {
-							cancellables_table.insert (sender, new Cancellable ());
-						}
-						action.cancellable = cancellables_table.lookup (sender);
-						thread_pool.add ((owned) action);
-					} catch (ThreadError e) {
-						emit_error (sender, "Daemon Error", {e.message});
-						trans_run_finished (sender, false);
-					}
-					return false;
-				});
-				timeout.attach (context);
-			} else {
-				try {
-					var action = new AlpmAction (this, sender);
-					action.is_alpm = true;
-					action.sysupgrade = sysupgrade;
-					action.enable_downgrade = enable_downgrade;
-					action.simple_install = simple_install;
-					action.keep_built_pkgs = keep_built_pkgs;
-					action.trans_flags = trans_flags;
-					action.to_install = to_install;
-					action.to_remove = to_remove;
-					action.to_load = to_load;
-					action.to_install_as_dep = to_install_as_dep;
-					action.temporary_ignorepkgs = temporary_ignorepkgs;
-					action.overwrite_files = overwrite_files;
-					if (!cancellables_table.contains (sender)) {
-						cancellables_table.insert (sender, new Cancellable ());
-					}
-					action.cancellable = cancellables_table.lookup (sender);
-					thread_pool.add ((owned) action);
-				} catch (ThreadError e) {
-					emit_error (sender, "Daemon Error", {e.message});
-					trans_run_finished (sender, false);
+			try {
+				var action = new AlpmAction (this, sender);
+				action.is_alpm = true;
+				action.sysupgrade = sysupgrade;
+				action.enable_downgrade = enable_downgrade;
+				action.simple_install = simple_install;
+				action.keep_built_pkgs = keep_built_pkgs;
+				action.trans_flags = trans_flags;
+				action.to_install = to_install;
+				action.to_remove = to_remove;
+				action.to_load = to_load;
+				action.to_install_as_dep = to_install_as_dep;
+				action.temporary_ignorepkgs = temporary_ignorepkgs;
+				action.overwrite_files = overwrite_files;
+				if (!cancellables_table.contains (sender)) {
+					cancellables_table.insert (sender, new Cancellable ());
 				}
+				action.cancellable = cancellables_table.lookup (sender);
+				thread_pool.add ((owned) action);
+				if (alpm_utils.downloading_updates) {
+					// cancel download updates
+					alpm_utils.cancellable.cancel ();
+				}
+			} catch (ThreadError e) {
+				emit_error (sender, "Daemon Error", {e.message});
+				trans_run_finished (sender, false);
 			}
 		}
 

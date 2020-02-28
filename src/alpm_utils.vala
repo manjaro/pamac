@@ -32,13 +32,15 @@ class DownloadServer: Object {
 	string cachedir;
 	string server_url;
 	GenericSet<string?> repos;
+	bool emit_signals;
 
-	public DownloadServer (Alpm.Handle handle, owned string server_url, owned GenericSet<string?> repos) {
+	public DownloadServer (Alpm.Handle handle, owned string server_url, owned GenericSet<string?> repos, bool emit_signals) {
 		soup_session = new Soup.Session ();
 		soup_session.user_agent = "Pamac/%s".printf (VERSION);
 		cachedir = handle.cachedirs.nth (0).data;
 		this.server_url = server_url;
 		this.repos = repos;
+		this.emit_signals = emit_signals;
 	}
 
 	public void download_files () {
@@ -61,11 +63,20 @@ class DownloadServer: Object {
 				dload_queue.unlock ();
 				if (filename != null) {
 					current_filename = filename;
-					int ret = dload (soup_session,
+					int ret;
+					if (emit_signals) {
+						ret = dload (soup_session,
 									"%s/%s".printf (server_url.replace ("$repo", repo), filename),
 									cachedir,
 									0,
 									cb_multi_download);
+					} else {
+						ret = dload (soup_session,
+									"%s/%s".printf (server_url.replace ("$repo", repo), filename),
+									cachedir,
+									0,
+									null);
+					}
 					if (ret == -1) {
 						// error
 						// re-add filename to queue and return to use another mirror
@@ -132,6 +143,8 @@ namespace Pamac {
 		public AlpmUtils (Config config, MainContext context) {
 			this.config = config;
 			multi_progress_mutex = Mutex ();
+			multi_progress = new HashTable<string, uint64?> (str_hash, str_equal);
+			queues_table = new HashTable<string, AsyncQueue<string>> (str_hash, str_equal);
 			this.context = context;
 			alpm_config = config.alpm_config;
 			tmp_path = "/tmp/pamac";
@@ -526,29 +539,21 @@ namespace Pamac {
 			return pkg;
 		}
 
-		public void download_updates () {
+		public void download_updates (string sender) {
+			this.sender = sender;
 			downloading_updates = true;
 			// use tmp handle
 			var alpm_handle = alpm_config.get_handle (false, true);
-			alpm_handle.fetchcb = (Alpm.FetchCallBack) cb_fetch;
 			cancellable.reset ();
-			// refresh tmp dbs
-			unowned Alpm.List<unowned Alpm.DB> syncdbs = alpm_handle.syncdbs;
-			while (syncdbs != null) {
-				unowned Alpm.DB db = syncdbs.data;
-				db.update (0);
-				syncdbs.next ();
-			}
-			int success = alpm_handle.trans_init (Alpm.TransFlag.DOWNLOADONLY);
+			int success = alpm_handle.trans_init (Alpm.TransFlag.NOLOCK);
 			if (success == 0) {
-				// can't add nolock flag with commit so remove unneeded lock
-				alpm_handle.unlock ();
 				success = alpm_handle.trans_sysupgrade (0);
 				if (success == 0) {
 					Alpm.List err_data;
 					success = alpm_handle.trans_prepare (out err_data);
 					if (success == 0) {
-						success = alpm_handle.trans_commit (out err_data);
+						// custom parallel downloads
+						download_files (alpm_handle, config.max_parallel_downloads, false);
 					}
 				}
 				alpm_handle.trans_release ();
@@ -1242,19 +1247,18 @@ namespace Pamac {
 			return true;
 		}
 
-		void download_files (Alpm.Handle handle, uint64 max_parallel_downloads) {
-			multi_progress = new HashTable<string, uint64?> (str_hash, str_equal);
+		void download_files (Alpm.Handle handle, uint64 max_parallel_downloads, bool emit_signals = true) {
 			// create the table of async queues
-			// one queue per repo
-			queues_table = new HashTable<string, AsyncQueue<string>> (str_hash, str_equal);
-			// get files to download
+			// one queue per repo with files to download
 			total_download = 0;
 			unowned Alpm.List<unowned Alpm.Package> pkgs_to_add = handle.trans_to_add ();
 			while (pkgs_to_add != null) {
 				unowned Alpm.Package trans_pkg = pkgs_to_add.data;
 				uint64 download_size = trans_pkg.download_size;
 				if (download_size > 0) {
-					total_download += trans_pkg.download_size;
+					if (emit_signals) {
+						total_download += trans_pkg.download_size;
+					}
 					if (trans_pkg.db != null) {
 						if (queues_table.contains (trans_pkg.db.name)) {
 							unowned AsyncQueue<string> queue = queues_table.lookup (trans_pkg.db.name);
@@ -1289,13 +1293,16 @@ namespace Pamac {
 				}
 				syncdbs.next ();
 			}
-			emit_totaldownload (total_download);
-			emit_event (Alpm.Event.Type.RETRIEVE_START, 0, {});
-			current_filename = "";
-			// use to track downloads progress
-			var timeout = new TimeoutSource (500);
-			timeout.set_callback (compute_multi_download_progress);
-			uint timeout_id = timeout.attach (context);
+			uint timeout_id = 0;
+			if (emit_signals) {
+				emit_totaldownload (total_download);
+				emit_event (Alpm.Event.Type.RETRIEVE_START, 0, {});
+				current_filename = "";
+				// use to track downloads progress
+				var timeout = new TimeoutSource (500);
+				timeout.set_callback (compute_multi_download_progress);
+				timeout_id = timeout.attach (context);
+			}
 			// create a thread pool which will download files
 			// there will be two threads per mirror
 			try {
@@ -1312,8 +1319,8 @@ namespace Pamac {
 				mirrors_table.foreach_steal ((mirror, repo_set) => {
 					try {
 						// two connections per mirror
-						dload_thread_pool.add (new DownloadServer (handle, mirror, repo_set));
-						dload_thread_pool.add (new DownloadServer (handle, mirror, repo_set));
+						dload_thread_pool.add (new DownloadServer (handle, mirror, repo_set, emit_signals));
+						dload_thread_pool.add (new DownloadServer (handle, mirror, repo_set, emit_signals));
 					} catch (ThreadError e) {
 						warning (e.message);
 					}
@@ -1324,10 +1331,16 @@ namespace Pamac {
 			} catch (ThreadError e) {
 				warning (e.message);
 			}
-			// stop compute_multi_download_progress
-			Source.remove (timeout_id);
-			emit_event (Alpm.Event.Type.RETRIEVE_DONE, 0, {});
-			emit_totaldownload (0);
+			if (emit_signals) {
+				// stop compute_multi_download_progress
+				Source.remove (timeout_id);
+				emit_event (Alpm.Event.Type.RETRIEVE_DONE, 0, {});
+				emit_totaldownload (0);
+				multi_progress_mutex.lock ();
+				multi_progress.remove_all ();
+				multi_progress_mutex.unlock ();
+			}
+			queues_table.remove_all ();
 		}
 
 		bool trans_commit (Alpm.Handle alpm_handle) {
@@ -2112,7 +2125,7 @@ int cb_fetch (string fileurl, string localpath, int force) {
 	return dload (alpm_utils.soup_session, fileurl, localpath, force, cb_download);
 }
 
-int dload (Soup.Session soup_session, string url, string localpath, int force, DownloadCallback dl_callback) {
+int dload (Soup.Session soup_session, string url, string localpath, int force, DownloadCallback? dl_callback) {
 	if (alpm_utils.cancellable.is_cancelled ()) {
 		return -1;
 	}
@@ -2178,7 +2191,9 @@ int dload (Soup.Session soup_session, string url, string localpath, int force, D
 		uint64 progress = 0;
 		uint8[] buf = new uint8[4096];
 		// start download
-		dl_callback (filename, 0, size);
+		if (dl_callback != null) {
+			dl_callback (filename, 0, size);
+		}
 		while (true) {
 			ssize_t read = input.read (buf, alpm_utils.cancellable);
 			if (read == 0) {
@@ -2190,7 +2205,9 @@ int dload (Soup.Session soup_session, string url, string localpath, int force, D
 				break;
 			}
 			progress += read;
-			dl_callback (filename, progress, size);
+			if (dl_callback != null) {
+				dl_callback (filename, progress, size);
+			}
 		}
 	} catch (Error e) {
 		// cancelled download goes here
@@ -2210,7 +2227,9 @@ int dload (Soup.Session soup_session, string url, string localpath, int force, D
 	}
 
 	// download succeeded
-	dl_callback (filename, size, size);
+	if (dl_callback != null) {
+		dl_callback (filename, size, size);
+	}
 	try {
 		tempfile.move (destfile, FileCopyFlags.OVERWRITE);
 		// set modification time
