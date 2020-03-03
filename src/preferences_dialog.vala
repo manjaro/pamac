@@ -388,7 +388,8 @@ namespace Pamac {
 			var pkgs = transaction.database.get_installed_pkgs ();
 			var ignorepkgs_unique = new GenericSet<string?> (str_hash, str_equal);;
 			transaction.choose_pkgs_dialog.pkgs_list.clear ();
-			foreach (unowned Package pkg in pkgs) {
+			for (uint i = 0; i < pkgs.length; i++) {
+				unowned Package pkg = pkgs[i];
 				if (pkg.name in ignorepkgs_unique) {
 					continue;
 				}

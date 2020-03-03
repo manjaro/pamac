@@ -42,9 +42,10 @@ namespace Pamac {
 		}
 
 		string[] search_pkgs (string[] normalized_terms) {
-			SList<Package> pkgs = database.search_repos_apps_sync (normalized_terms);
+			var pkgs = database.search_repos_apps_sync (normalized_terms);
 			var result = new GenericArray<string> ();
-			foreach (unowned Package pkg in pkgs) {
+			for (uint i = 0; i < pkgs.length; i++) {
+				unowned Package pkg = pkgs[i];
 				// concat data into a string
 				var data_builder = new StringBuilder (pkg.name);
 				data_builder.append (";");

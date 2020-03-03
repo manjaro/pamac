@@ -26,12 +26,12 @@ namespace Pamac {
 
 		public abstract void load_appstream_data ();
 		public abstract GenericArray<string> get_remotes_names ();
-		public abstract SList<FlatpakPackage> search_flatpaks (string search_string);
+		public abstract GenericArray<FlatpakPackage> search_flatpaks (string search_string, ref GenericArray<FlatpakPackage> pkgs);
 		public abstract bool is_installed_flatpak (string name);
 		public abstract FlatpakPackage? get_flatpak (string id);
-		public abstract SList<FlatpakPackage> get_installed_flatpaks ();
-		public abstract SList<FlatpakPackage> get_category_flatpaks (string category);
-		public abstract SList<FlatpakPackage> get_flatpak_updates ();
+		public abstract GenericArray<FlatpakPackage> get_installed_flatpaks (ref GenericArray<FlatpakPackage> pkgs);
+		public abstract GenericArray<FlatpakPackage> get_category_flatpaks (string category, ref GenericArray<FlatpakPackage> pkgs);
+		public abstract GenericArray<FlatpakPackage> get_flatpak_updates (ref GenericArray<FlatpakPackage> pkgs);
 		public abstract bool trans_run (string sender, string[] to_install, string[] to_remove, string[] to_upgrade);
 		public abstract void trans_cancel (string sender);
 	}

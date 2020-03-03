@@ -112,22 +112,28 @@ namespace Pamac {
 	}
 
 	public class TransactionSummary: Object {
-		internal SList<Package> to_install_priv;
-		internal SList<Package> to_upgrade_priv;
-		internal SList<Package> to_downgrade_priv;
-		internal SList<Package> to_reinstall_priv;
-		internal SList<Package> to_remove_priv;
-		internal SList<Package> to_build_priv;
+		internal GenericArray<Package> to_install_priv;
+		internal GenericArray<Package> to_upgrade_priv;
+		internal GenericArray<Package> to_downgrade_priv;
+		internal GenericArray<Package> to_reinstall_priv;
+		internal GenericArray<Package> to_remove_priv;
+		internal GenericArray<Package> to_build_priv;
 		internal GenericArray<string> aur_pkgbases_to_build_priv;
-		public SList<Package> to_install { get {return to_install_priv;} }
-		public SList<Package> to_upgrade { get {return to_upgrade_priv;} }
-		public SList<Package> to_downgrade { get {return to_downgrade_priv;} }
-		public SList<Package> to_reinstall { get {return to_reinstall_priv;} }
-		public SList<Package> to_remove { get {return to_remove_priv;} }
-		public SList<Package> to_build { get {return to_build_priv;} }
+		public GenericArray<Package> to_install { get {return to_install_priv;} }
+		public GenericArray<Package> to_upgrade { get {return to_upgrade_priv;} }
+		public GenericArray<Package> to_downgrade { get {return to_downgrade_priv;} }
+		public GenericArray<Package> to_reinstall { get {return to_reinstall_priv;} }
+		public GenericArray<Package> to_remove { get {return to_remove_priv;} }
+		public GenericArray<Package> to_build { get {return to_build_priv;} }
 		public GenericArray<string> aur_pkgbases_to_build { get {return aur_pkgbases_to_build_priv;} }
 
 		internal TransactionSummary () {
+			to_install_priv = new GenericArray<Package> ();
+			to_upgrade_priv = new GenericArray<Package> ();
+			to_downgrade_priv = new GenericArray<Package> ();
+			to_reinstall_priv = new GenericArray<Package> ();
+			to_remove_priv = new GenericArray<Package> ();
+			to_build_priv = new GenericArray<Package> ();
 			aur_pkgbases_to_build_priv = new GenericArray<string> ();
 		}
 
@@ -142,40 +148,40 @@ namespace Pamac {
 	}
 
 	public class Updates: Object {
-		SList<AlpmPackage> repos_updates_priv;
-		SList<AlpmPackage> ignored_repos_updates_priv;
-		SList<AURPackage> aur_updates_priv;
-		SList<AURPackage> ignored_aur_updates_priv;
-		SList<AURPackage> outofdate_priv;
+		GenericArray<AlpmPackage> repos_updates_priv;
+		GenericArray<AlpmPackage> ignored_repos_updates_priv;
+		GenericArray<AURPackage> aur_updates_priv;
+		GenericArray<AURPackage> ignored_aur_updates_priv;
+		GenericArray<AURPackage> outofdate_priv;
 		#if ENABLE_FLATPAK
-		SList<FlatpakPackage> flatpak_updates_priv;
+		GenericArray<FlatpakPackage> flatpak_updates_priv;
 		#endif
-		public SList<AlpmPackage> repos_updates { get {return repos_updates_priv;} }
-		public SList<AlpmPackage> ignored_repos_updates { get {return ignored_repos_updates_priv;} }
-		public SList<AURPackage> aur_updates { get {return aur_updates_priv;} }
-		public SList<AURPackage> ignored_aur_updates { get {return ignored_aur_updates_priv;} }
-		public SList<AURPackage> outofdate { get {return outofdate_priv;} }
+		public GenericArray<AlpmPackage> repos_updates { get {return repos_updates_priv;} }
+		public GenericArray<AlpmPackage> ignored_repos_updates { get {return ignored_repos_updates_priv;} }
+		public GenericArray<AURPackage> aur_updates { get {return aur_updates_priv;} }
+		public GenericArray<AURPackage> ignored_aur_updates { get {return ignored_aur_updates_priv;} }
+		public GenericArray<AURPackage> outofdate { get {return outofdate_priv;} }
 		#if ENABLE_FLATPAK
-		public SList<FlatpakPackage> flatpak_updates { get {return flatpak_updates_priv;} }
+		public GenericArray<FlatpakPackage> flatpak_updates { get {return flatpak_updates_priv;} }
 		#endif
 
 		internal Updates () {}
 
-		internal Updates.from_lists (owned SList<AlpmPackage> repos_updates,
-									owned SList<AlpmPackage> ignored_repos_updates,
-									owned SList<AURPackage> aur_updates,
-									owned SList<AURPackage> ignored_aur_updates,
-									owned SList<AURPackage> outofdate) {
-			repos_updates_priv = (owned) repos_updates;
-			ignored_repos_updates_priv = (owned) ignored_repos_updates;
-			aur_updates_priv = (owned) aur_updates;
-			ignored_aur_updates_priv = (owned) ignored_aur_updates;
-			outofdate_priv = (owned) outofdate;
+		internal Updates.from_lists (GenericArray<AlpmPackage> repos_updates,
+									GenericArray<AlpmPackage> ignored_repos_updates,
+									GenericArray<AURPackage> aur_updates,
+									GenericArray<AURPackage> ignored_aur_updates,
+									GenericArray<AURPackage> outofdate) {
+			repos_updates_priv = repos_updates;
+			ignored_repos_updates_priv = ignored_repos_updates;
+			aur_updates_priv = aur_updates;
+			ignored_aur_updates_priv = ignored_aur_updates;
+			outofdate_priv = outofdate;
 		}
 		
 		#if ENABLE_FLATPAK
-		internal void set_flatpak_updates (owned SList<FlatpakPackage> flatpak_updates) {
-			flatpak_updates_priv = (owned) flatpak_updates;
+		internal void set_flatpak_updates ( GenericArray<FlatpakPackage> flatpak_updates) {
+			flatpak_updates_priv = flatpak_updates;
 		}
 		#endif
 	}

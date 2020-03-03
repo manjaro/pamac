@@ -56,7 +56,7 @@ namespace Pamac {
 		GenericSet<string?> aur_desc_list;
 		Queue<string> to_build_queue;
 		GenericSet<string?> aur_pkgs_to_install;
-		SList<AURPackage> aur_updates;
+		GenericArray<AURPackage> aur_updates;
 		bool building;
 		Cancellable build_cancellable;
 		// transaction options
@@ -161,6 +161,7 @@ namespace Pamac {
 			already_checked_aur_dep = new GenericSet<string?> (str_hash, str_equal);
 			aur_desc_list = new GenericSet<string?> (str_hash, str_equal);
 			aur_pkgs_to_install = new GenericSet<string?> (str_hash, str_equal);
+			aur_updates = new GenericArray<AURPackage> ();
 			to_build_queue = new Queue<string> ();
 			build_cancellable = new Cancellable ();
 			building = false;
@@ -378,7 +379,8 @@ namespace Pamac {
 			foreach (unowned string pkgname in to_build) {
 				to_build_array.add (pkgname);
 			}
-			foreach (unowned AURPackage aur_update in aur_updates) {
+			for (uint i = 0; i < aur_updates.length; i++) {
+				unowned AURPackage aur_update = aur_updates[i];
 				to_build_array.add (aur_update.name);
 			}
 			if (!check_aur_dep_list (to_build_array.data)) {
@@ -593,8 +595,7 @@ namespace Pamac {
 					}
 					uint i;
 					for (i = 0; i < pkgnames_found.length; i++) {
-						unowned string pkgname_found = pkgnames_found[i];
-						already_checked_aur_dep.add (pkgname_found);
+						already_checked_aur_dep.add (pkgnames_found[i]);
 					}
 					// create fake aur db entries
 					for (i = 0; i < pkgnames_found.length; i++) {
@@ -833,18 +834,18 @@ namespace Pamac {
 					start_preparing ();
 					// ask classic snaps
 					var iter = HashTableIter<string, SnapPackage> (snap_to_install);
-					var not_install = new List<unowned string> ();
+					var not_install = new GenericArray<unowned string> ();
 					unowned string snap_name;
 					SnapPackage pkg;
 					while (iter.next (out snap_name, out pkg)) {
 						if (pkg.confined != dgettext (null, "Yes")) {
 							if (!ask_snap_install_classic (pkg.app_name)) {
-								not_install.append (snap_name);
+								not_install.add (snap_name);
 							}
 						}
 					}
-					foreach (unowned string name in not_install) {
-						snap_to_install.remove (name);
+					for (uint i = 0; i < not_install.length; i++) {
+						snap_to_install.remove (not_install[i]);
 					}
 					stop_preparing ();
 				}
@@ -860,11 +861,11 @@ namespace Pamac {
 					var iter = HashTableIter<string, SnapPackage> (snap_to_install);
 					SnapPackage pkg;
 					while (iter.next (null, out pkg)) {
-						summary.to_install_priv.append (pkg);
+						summary.to_install_priv.add (pkg);
 					}
 					iter = HashTableIter<string, SnapPackage> (snap_to_remove);
 					while (iter.next (null, out pkg)) {
-						summary.to_remove_priv.append (pkg);
+						summary.to_remove_priv.add (pkg);
 					}
 					stop_preparing ();
 				}
@@ -877,21 +878,21 @@ namespace Pamac {
 					var iter = HashTableIter<string, FlatpakPackage> (flatpak_to_install);
 					FlatpakPackage pkg;
 					while (iter.next (null, out pkg)) {
-						summary.to_install_priv.append (pkg);
+						summary.to_install_priv.add (pkg);
 					}
 					iter = HashTableIter<string, FlatpakPackage> (flatpak_to_remove);
 					while (iter.next (null, out pkg)) {
-						summary.to_remove_priv.append (pkg);
+						summary.to_remove_priv.add (pkg);
 					}
 					iter = HashTableIter<string, FlatpakPackage> (flatpak_to_upgrade);
 					while (iter.next (null, out pkg)) {
-						summary.to_upgrade_priv.append (pkg);
+						summary.to_upgrade_priv.add (pkg);
 					}
 					stop_preparing ();
 				}
 				#endif
 				#if ENABLE_SNAP || ENABLE_FLATPAK
-				if (summary.to_install_priv == null && summary.to_remove_priv == null) {
+				if (summary.to_install_priv.length == 0 && summary.to_remove_priv.length == 0) {
 					emit_action (dgettext (null, "Nothing to do") + ".");
 					return false;
 				} else if (ask_commit (summary)) {
@@ -974,7 +975,7 @@ namespace Pamac {
 			if (sysupgrading && database.config.check_aur_updates) {
 				// add all aur updates with also ignored pkgs
 				aur_updates = database.get_all_aur_updates ();
-				if (aur_updates != null) {
+				if (aur_updates.length > 0) {
 					check_aur_updates = true;
 				}
 			}
@@ -982,7 +983,7 @@ namespace Pamac {
 				if (!compute_aur_build_list ()) {
 					//return false;
 				}
-				aur_updates = new SList<AURPackage> ();
+				aur_updates = new GenericArray<AURPackage> ();
 				if (build_cancellable.is_cancelled ()) {
 					return false;
 				}
@@ -1128,12 +1129,13 @@ namespace Pamac {
 					return false;
 				}
 				if (ask_commit_real (summary)) {
-					if (summary.to_install != null ||
-						summary.to_upgrade != null ||
-						summary.to_downgrade != null ||
-						summary.to_reinstall != null ||
-						summary.to_remove != null) {
-						foreach (unowned Package pkg in summary.to_install) {
+					if (summary.to_install.length > 0 ||
+						summary.to_upgrade.length > 0 ||
+						summary.to_downgrade.length > 0 ||
+						summary.to_reinstall.length > 0 ||
+						summary.to_remove.length > 0) {
+						for (uint i = 0; i < summary.to_install.length; i++) {
+							unowned Package pkg = summary.to_install[i];
 							if (!to_install.contains (pkg.name) &&
 								!to_load.contains (pkg.name)) {
 								to_install.add (pkg.name);
@@ -1190,11 +1192,11 @@ namespace Pamac {
 					emit_action (dgettext (null, "Transaction cancelled") + ".");
 					return false;
 				}
-			} else if (summary.to_install != null ||
-						summary.to_upgrade != null ||
-						summary.to_downgrade != null ||
-						summary.to_reinstall != null ||
-						summary.to_remove != null) {
+			} else if (summary.to_install.length > 0 ||
+						summary.to_upgrade.length > 0 ||
+						summary.to_downgrade.length > 0 ||
+						summary.to_reinstall.length > 0 ||
+						summary.to_remove.length > 0) {
 				if (ask_commit_real (summary)) {
 					bool success = false;
 					var to_install_array = new GenericArray<string> (to_install.length);
@@ -1614,29 +1616,29 @@ namespace Pamac {
 				if (snap_to_install.length > 0) {
 					// ask classic snaps
 					var iter = HashTableIter<string, SnapPackage> (snap_to_install);
-					var not_install = new List<unowned string> ();
+					var not_install = new GenericArray<unowned string> ();
 					unowned string snap_name;
 					SnapPackage pkg;
 					while (iter.next (out snap_name, out pkg)) {
 						if (pkg.confined != dgettext (null, "Yes")) {
 							if (!ask_snap_install_classic (pkg.app_name)) {
-								not_install.append (snap_name);
+								not_install.add (snap_name);
 							}
 						}
 					}
-					foreach (unowned string name in not_install) {
-						snap_to_install.remove (name);
+					for (uint i = 0; i < not_install.length; i++) {
+						snap_to_install.remove (not_install[i]);
 					}
 				}
 				// add snaps to summary
 				var snap_iter = HashTableIter<string, SnapPackage> (snap_to_install);
 				SnapPackage snap_pkg;
 				while (snap_iter.next (null, out snap_pkg)) {
-					summary.to_install_priv.append (snap_pkg);
+					summary.to_install_priv.add (snap_pkg);
 				}
 				snap_iter = HashTableIter<string, SnapPackage> (snap_to_remove);
 				while (snap_iter.next (null, out snap_pkg)) {
-					summary.to_remove_priv.append (snap_pkg);
+					summary.to_remove_priv.add (snap_pkg);
 				}
 				#endif
 				#if ENABLE_FLATPAK
@@ -1644,24 +1646,26 @@ namespace Pamac {
 				var flatpak_iter = HashTableIter<string, FlatpakPackage> (flatpak_to_install);
 				FlatpakPackage flatpak_pkg;
 				while (flatpak_iter.next (null, out flatpak_pkg)) {
-					summary.to_install_priv.append (flatpak_pkg);
+					summary.to_install_priv.add (flatpak_pkg);
 				}
 				flatpak_iter = HashTableIter<string, FlatpakPackage> (flatpak_to_remove);
 				while (flatpak_iter.next (null, out flatpak_pkg)) {
-					summary.to_remove_priv.append (flatpak_pkg);
+					summary.to_remove_priv.add (flatpak_pkg);
 				}
 				flatpak_iter = HashTableIter<string, FlatpakPackage> (flatpak_to_upgrade);
 				while (flatpak_iter.next (null, out flatpak_pkg)) {
-					summary.to_upgrade_priv.append (flatpak_pkg);
+					summary.to_upgrade_priv.add (flatpak_pkg);
 				}
 				#endif
 				// populate build queue
 				to_build_queue.clear ();
-				for (uint i = 0; i < summary.aur_pkgbases_to_build.length; i++) {
+				uint i;
+				for (i = 0; i < summary.aur_pkgbases_to_build.length; i++) {
 					to_build_queue.push_tail (summary.aur_pkgbases_to_build[i]);
 				}
 				aur_pkgs_to_install.remove_all ();
-				foreach (unowned Package build_pkg in summary.to_build) {
+				for (i = 0; i < summary.to_build.length; i++) {
+					unowned Package build_pkg = summary.to_build[i];
 					aur_pkgs_to_install.add (build_pkg.name);
 				}
 				return ask_commit (summary);
@@ -1673,11 +1677,11 @@ namespace Pamac {
 			var iter = HashTableIter<string, SnapPackage> (snap_to_install);
 			SnapPackage pkg;
 			while (iter.next (null, out pkg)) {
-				summary.to_install_priv.append (pkg);
+				summary.to_install_priv.add (pkg);
 			}
 			iter = HashTableIter<string, SnapPackage> (snap_to_remove);
 			while (iter.next (null, out pkg)) {
-				summary.to_remove_priv.append (pkg);
+				summary.to_remove_priv.add (pkg);
 			}
 			#endif
 			return ask_edit_build_files (summary);

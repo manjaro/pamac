@@ -129,23 +129,22 @@ namespace Pamac {
 			return cached_infos.lookup (pkgname);
 		}
 
-		public SList<unowned Json.Object> get_multi_infos (string[] pkgnames) {
-			var result = new SList<unowned Json.Object> ();
+		public GenericArray<unowned Json.Object> get_multi_infos (string[] pkgnames) {
+			var result = new GenericArray<unowned Json.Object> ();
 			populate_infos (pkgnames);
 			foreach (unowned string pkgname in pkgnames) {
 				unowned Json.Object? object = cached_infos.lookup (pkgname);
 				if (object != null) {
-					result.prepend (object);
+					result.add (object);
 				}
 			}
-			result.reverse ();
 			return result;
 		}
 
-		public SList<unowned Json.Object> search_aur (string search_string) {
+		public GenericArray<unowned Json.Object> search_aur (string search_string) {
 			string[] needles = search_string.split (" ");
 			if (needles.length == 0) {
-				return new SList<unowned Json.Object> ();
+				return new GenericArray<unowned Json.Object> ();
 			} else {
 				var builder = new StringBuilder ();
 				builder.append (rpc_url);

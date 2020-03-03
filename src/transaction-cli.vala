@@ -356,9 +356,12 @@ namespace Pamac {
 			int version_length = 0;
 			int installed_version_length = 0;
 			int repo_length = 0;
+			uint i;
+			unowned Package pkg;
 			// first pass to compute pkgs size and strings length
-			if (summary.to_remove != null) {
-				foreach (unowned Package pkg in summary.to_remove) {
+			if (summary.to_remove.length > 0) {
+				for (i = 0; i < summary.to_remove.length; i++)  {
+					pkg = summary.to_remove[i];
 					rsize += pkg.installed_size;
 					if (pkg.name.length > name_length) {
 						name_length = pkg.name.length;
@@ -371,8 +374,9 @@ namespace Pamac {
 					}
 				}
 			}
-			if (summary.to_downgrade != null) {
-				foreach (unowned Package pkg in summary.to_downgrade) {
+			if (summary.to_downgrade.length > 0) {
+				for (i = 0; i < summary.to_downgrade.length; i++)  {
+					pkg = summary.to_downgrade[i];
 					dsize += pkg.download_size;
 					var installed_pkg = database.get_installed_pkg (pkg.name);
 					isize += ((int64) pkg.installed_size - (int64) installed_pkg.installed_size);
@@ -390,8 +394,9 @@ namespace Pamac {
 					}
 				}
 			}
-			if (summary.to_build != null) {
-				foreach (unowned Package pkg in summary.to_build) {
+			if (summary.to_build.length > 0) {
+				for (i = 0; i < summary.to_build.length; i++)  {
+					pkg = summary.to_build[i];
 					if (pkg.name.length > name_length) {
 						name_length = pkg.name.length;
 					}
@@ -406,8 +411,9 @@ namespace Pamac {
 					}
 				}
 			}
-			if (summary.to_install != null) {
-				foreach (unowned Package pkg in summary.to_install) {
+			if (summary.to_install.length > 0) {
+				for (i = 0; i < summary.to_install.length; i++)  {
+					pkg = summary.to_install[i];
 					dsize += pkg.download_size;
 					isize += (int64) pkg.installed_size;
 					if (pkg.name.length > name_length) {
@@ -421,8 +427,9 @@ namespace Pamac {
 					}
 				}
 			}
-			if (summary.to_reinstall != null) {
-				foreach (unowned Package pkg in summary.to_reinstall) {
+			if (summary.to_reinstall.length > 0) {
+				for (i = 0; i < summary.to_reinstall.length; i++)  {
+					pkg = summary.to_reinstall[i];
 					dsize += pkg.download_size;
 					if (pkg.name.length > name_length) {
 						name_length = pkg.name.length;
@@ -435,8 +442,9 @@ namespace Pamac {
 					}
 				}
 			}
-			if (summary.to_upgrade != null) {
-				foreach (unowned Package pkg in summary.to_upgrade) {
+			if (summary.to_upgrade.length > 0) {
+				for (i = 0; i < summary.to_upgrade.length; i++)  {
+					pkg = summary.to_upgrade[i];
 					dsize += pkg.download_size;
 					var installed_pkg = database.get_installed_pkg (pkg.name);
 					isize += ((int64) pkg.installed_size - (int64) installed_pkg.installed_size);
@@ -458,9 +466,10 @@ namespace Pamac {
 			if (installed_version_length > 0) {
 				installed_version_length += 2; // because of (%s)
 			}
-			if (summary.to_upgrade != null) {
-				stdout.printf (dgettext (null, "To upgrade") + " (%u):\n".printf (summary.to_upgrade.length ()));
-				foreach (unowned Package pkg in summary.to_upgrade) {
+			if (summary.to_upgrade.length > 0) {
+				stdout.printf (dgettext (null, "To upgrade") + " (%u):\n".printf (summary.to_upgrade.length));
+				for (i = 0; i < summary.to_upgrade.length; i++)  {
+					pkg = summary.to_upgrade[i];
 					string size = pkg.download_size == 0 ? "" : format_size (pkg.download_size);
 					stdout.printf ("  %-*s  %-*s  %-*s  %-*s  %s\n",
 									name_length, pkg.name,
@@ -470,9 +479,10 @@ namespace Pamac {
 									size);
 				}
 			}
-			if (summary.to_reinstall != null) {
-				stdout.printf (dgettext (null, "To reinstall") + " (%u):\n".printf (summary.to_reinstall.length ()));
-				foreach (unowned Package pkg in summary.to_reinstall) {
+			if (summary.to_reinstall.length > 0l) {
+				stdout.printf (dgettext (null, "To reinstall") + " (%u):\n".printf (summary.to_reinstall.length));
+				for (i = 0; i < summary.to_reinstall.length; i++)  {
+					pkg = summary.to_reinstall[i];
 					string size = pkg.download_size == 0 ? "" : format_size (pkg.download_size);
 					stdout.printf ("  %-*s  %-*s  %-*s  %-*s  %s\n",
 									name_length, pkg.name,
@@ -482,9 +492,10 @@ namespace Pamac {
 									size);
 				}
 			}
-			if (summary.to_install != null) {
-				stdout.printf (dgettext (null, "To install") + " (%u):\n".printf (summary.to_install.length ()));
-				foreach (unowned Package pkg in summary.to_install) {
+			if (summary.to_install.length > 0) {
+				stdout.printf (dgettext (null, "To install") + " (%u):\n".printf (summary.to_install.length));
+				for (i = 0; i < summary.to_install.length; i++)  {
+					pkg = summary.to_install[i];
 					string size = pkg.download_size == 0 ? "" : format_size (pkg.download_size);
 					stdout.printf ("  %-*s  %-*s  %-*s  %-*s  %s\n",
 									name_length, pkg.name,
@@ -494,9 +505,10 @@ namespace Pamac {
 									size);
 				}
 			}
-			if (summary.to_build != null) {
-				stdout.printf (dgettext (null, "To build") + " (%u):\n".printf (summary.to_build.length ()));
-				foreach (unowned Package pkg in summary.to_build) {
+			if (summary.to_build.length > 0) {
+				stdout.printf (dgettext (null, "To build") + " (%u):\n".printf (summary.to_build.length));
+				for (i = 0; i < summary.to_build.length; i++)  {
+					pkg = summary.to_build[i];
 					string installed_version = "";
 					if (pkg.installed_version != "" && pkg.installed_version != pkg.version) {
 						installed_version = "(%s)".printf (pkg.installed_version);
@@ -508,9 +520,10 @@ namespace Pamac {
 									pkg.repo);
 				}
 			}
-			if (summary.to_downgrade != null) {
-				stdout.printf (dgettext (null, "To downgrade") + " (%u):\n".printf (summary.to_downgrade.length ()));
-				foreach (unowned Package pkg in summary.to_downgrade) {
+			if (summary.to_downgrade.length > 0) {
+				stdout.printf (dgettext (null, "To downgrade") + " (%u):\n".printf (summary.to_downgrade.length));
+				for (i = 0; i < summary.to_downgrade.length; i++)  {
+					pkg = summary.to_downgrade[i];
 					string size = pkg.download_size == 0 ? "" : format_size (pkg.download_size);
 					stdout.printf ("  %-*s  %-*s  %-*s  %-*s  %s\n",
 									name_length, pkg.name,
@@ -520,9 +533,10 @@ namespace Pamac {
 									size);
 				}
 			}
-			if (summary.to_remove != null) {
-				stdout.printf (dgettext (null, "To remove") + " (%u):\n".printf (summary.to_remove.length ()));
-				foreach (unowned Package pkg in summary.to_remove) {
+			if (summary.to_remove.length > 0) {
+				stdout.printf (dgettext (null, "To remove") + " (%u):\n".printf (summary.to_remove.length));
+				for (i = 0; i < summary.to_remove.length; i++)  {
+					pkg = summary.to_remove[i];
 					stdout.printf ("  %-*s  %-*s  %-*s  %s\n",
 									name_length, pkg.name,
 									version_length , pkg.version,
