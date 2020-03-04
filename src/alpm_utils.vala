@@ -342,18 +342,21 @@ namespace Pamac {
 			return alpm_handle;
 		}
 
-		public bool set_pkgreason (string pkgname, uint reason) {
-			var alpm_handle = get_handle (false, false, false);
-			if (alpm_handle == null) {
-				return false;
-			}
-			unowned Alpm.Package? pkg = alpm_handle.localdb.get_pkg (pkgname);
-			if (pkg != null) {
-				// lock the database
-				if (alpm_handle.trans_init (0) == 0) {
-					pkg.reason = (Alpm.Package.Reason) reason;
-					alpm_handle.trans_release ();
-					return true;
+		public bool set_pkgreason (string sender, string pkgname, uint reason) {
+			this.sender = sender;
+			if (do_get_authorization ()) {
+				var alpm_handle = get_handle (false, false, false);
+				if (alpm_handle == null) {
+					return false;
+				}
+				unowned Alpm.Package? pkg = alpm_handle.localdb.get_pkg (pkgname);
+				if (pkg != null) {
+					// lock the database
+					if (alpm_handle.trans_init (0) == 0) {
+						pkg.reason = (Alpm.Package.Reason) reason;
+						alpm_handle.trans_release ();
+						return true;
+					}
 				}
 			}
 			return false;
@@ -409,11 +412,11 @@ namespace Pamac {
 					// fail later with unresolved deps, but that should be rare, and would be expected
 					success = true;
 				} else {
-					Alpm.Errno errno = alpm_handle.errno ();
-					if (errno != 0) {
+					Alpm.Errno err_no = alpm_handle.errno ();
+					if (err_no != 0) {
 						// download error details are set in cb_fetch
-						if (errno != Alpm.Errno.EXTERNAL_DOWNLOAD) {
-							do_emit_warning (Alpm.strerror (errno));
+						if (err_no != Alpm.Errno.EXTERNAL_DOWNLOAD) {
+							do_emit_warning (Alpm.strerror (err_no));
 						}
 					}
 				}
@@ -424,6 +427,9 @@ namespace Pamac {
 
 		public bool refresh (string sender, bool force_refresh) {
 			this.sender = sender;
+			if (!do_get_authorization ()) {
+				return false;
+			}
 			do_emit_action (_("Synchronizing package databases") + "...");
 			do_start_downloading ();
 			write_log_file ("synchronizing package lists");
@@ -570,9 +576,9 @@ namespace Pamac {
 		bool trans_init (Alpm.Handle alpm_handle, int flags) {
 			cancellable.reset ();
 			if (alpm_handle.trans_init ((Alpm.TransFlag) flags) == -1) {
-				Alpm.Errno errno = alpm_handle.errno ();
-				if (errno != 0) {
-					do_emit_error (_("Failed to init transaction"), {Alpm.strerror (errno)});
+				Alpm.Errno err_no = alpm_handle.errno ();
+				if (err_no != 0) {
+					do_emit_error (_("Failed to init transaction"), {Alpm.strerror (err_no)});
 				} else {
 					do_emit_error (_("Failed to init transaction"), {});
 				}
@@ -584,9 +590,9 @@ namespace Pamac {
 		bool trans_sysupgrade (Alpm.Handle alpm_handle) {
 			add_ignorepkgs (alpm_handle);
 			if (alpm_handle.trans_sysupgrade ((enable_downgrade) ? 1 : 0) == -1) {
-				Alpm.Errno errno = alpm_handle.errno ();
-				if (errno != 0) {
-					do_emit_error (_("Failed to prepare transaction"), {Alpm.strerror (errno)});
+				Alpm.Errno err_no = alpm_handle.errno ();
+				if (err_no != 0) {
+					do_emit_error (_("Failed to prepare transaction"), {Alpm.strerror (err_no)});
 				} else {
 					do_emit_error (_("Failed to prepare transaction"), {});
 				}
@@ -608,13 +614,13 @@ namespace Pamac {
 
 		bool trans_add_pkg_real (Alpm.Handle alpm_handle, Alpm.Package pkg) {
 			if (alpm_handle.trans_add_pkg (pkg) == -1) {
-				Alpm.Errno errno = alpm_handle.errno ();
-				if (errno == Alpm.Errno.TRANS_DUP_TARGET || errno == Alpm.Errno.PKG_IGNORED) {
+				Alpm.Errno err_no = alpm_handle.errno ();
+				if (err_no == Alpm.Errno.TRANS_DUP_TARGET || err_no == Alpm.Errno.PKG_IGNORED) {
 					// just skip duplicate or ignored targets
 					return true;
 				} else {
-					if (errno != 0) {
-						do_emit_error (_("Failed to prepare transaction"), {Alpm.strerror (errno)});
+					if (err_no != 0) {
+						do_emit_error (_("Failed to prepare transaction"), {Alpm.strerror (err_no)});
 					} else {
 						do_emit_error (_("Failed to prepare transaction"), {});
 					}
@@ -690,6 +696,9 @@ namespace Pamac {
 
 		public string download_pkg (string sender, string url) {
 			this.sender = sender;
+			if (!do_get_authorization ()) {
+				return "";
+			}
 			var alpm_handle = get_handle ();
 			if (alpm_handle == null) {
 				return "";
@@ -729,21 +738,21 @@ namespace Pamac {
 			}
 			// load tarball
 			if (alpm_handle.load_tarball (pkgpath, 1, siglevel, out pkg) == -1) {
-				Alpm.Errno errno = alpm_handle.errno ();
-				if (errno != 0) {
-					do_emit_error (_("Failed to prepare transaction"), {Alpm.strerror (errno)});
+				Alpm.Errno err_no = alpm_handle.errno ();
+				if (err_no != 0) {
+					do_emit_error (_("Failed to prepare transaction"), {Alpm.strerror (err_no)});
 				} else {
 					do_emit_error (_("Failed to prepare transaction"), {});
 				}
 				return false;
 			} else if (alpm_handle.trans_add_pkg (pkg) == -1) {
-				Alpm.Errno errno = alpm_handle.errno ();
-				if (errno == Alpm.Errno.TRANS_DUP_TARGET || errno == Alpm.Errno.PKG_IGNORED) {
+				Alpm.Errno err_no = alpm_handle.errno ();
+				if (err_no == Alpm.Errno.TRANS_DUP_TARGET || err_no == Alpm.Errno.PKG_IGNORED) {
 					// just skip duplicate or ignored targets
 					return true;
 				} else {
-					if (errno != 0) {
-						do_emit_error (_("Failed to prepare transaction"), {"%s: %s".printf (pkg->name, Alpm.strerror (errno))});
+					if (err_no != 0) {
+						do_emit_error (_("Failed to prepare transaction"), {"%s: %s".printf (pkg->name, Alpm.strerror (err_no))});
 					} else {
 						do_emit_error (_("Failed to prepare transaction"), {});
 					}
@@ -762,11 +771,11 @@ namespace Pamac {
 				do_emit_error (_("Failed to prepare transaction"), {_("target not found: %s").printf (pkgname)});
 				success = false;
 			} else if (alpm_handle.trans_remove_pkg (pkg) == -1) {
-				Alpm.Errno errno = alpm_handle.errno ();
+				Alpm.Errno err_no = alpm_handle.errno ();
 				// just skip duplicate targets
-				if (errno != Alpm.Errno.TRANS_DUP_TARGET) {
-					if (errno != 0) {
-						do_emit_error (_("Failed to prepare transaction"), {"%s: %s".printf (pkg.name, Alpm.strerror (errno))});
+				if (err_no != Alpm.Errno.TRANS_DUP_TARGET) {
+					if (err_no != 0) {
+						do_emit_error (_("Failed to prepare transaction"), {"%s: %s".printf (pkg.name, Alpm.strerror (err_no))});
 					} else {
 						do_emit_error (_("Failed to prepare transaction"), {});
 					}
@@ -810,12 +819,12 @@ namespace Pamac {
 			Alpm.List err_data;
 			if (alpm_handle.trans_prepare (out err_data) == -1) {
 				var details = new GenericArray<string> ();
-				Alpm.Errno errno = alpm_handle.errno ();
-				switch (errno) {
+				Alpm.Errno err_no = alpm_handle.errno ();
+				switch (err_no) {
 					case 0:
 						break;
 					case Alpm.Errno.PKG_INVALID_ARCH:
-						details.add (Alpm.strerror (errno) + ":");
+						details.add (Alpm.strerror (err_no) + ":");
 						unowned Alpm.List<string*> list = err_data;
 						while (list != null) {
 							string* pkgname = list.data;
@@ -825,7 +834,7 @@ namespace Pamac {
 						}
 						break;
 					case Alpm.Errno.UNSATISFIED_DEPS:
-						details.add (Alpm.strerror (errno) + ":");
+						details.add (Alpm.strerror (err_no) + ":");
 						unowned Alpm.List<Alpm.DepMissing*> list = err_data;
 						while (list != null) {
 							Alpm.DepMissing* miss = list.data;
@@ -847,7 +856,7 @@ namespace Pamac {
 						}
 						break;
 					case Alpm.Errno.CONFLICTING_DEPS:
-						details.add (Alpm.strerror (errno) + ":");
+						details.add (Alpm.strerror (err_no) + ":");
 						unowned Alpm.List<Alpm.Conflict*> list = err_data;
 						while (list != null) {
 							Alpm.Conflict* conflict = list.data;
@@ -862,7 +871,7 @@ namespace Pamac {
 						}
 						break;
 					default:
-						details.add (Alpm.strerror (errno));
+						details.add (Alpm.strerror (err_no));
 						break;
 				}
 				do_emit_error (_("Failed to prepare transaction"), details.data);
@@ -1121,9 +1130,9 @@ namespace Pamac {
 				// fake trans prepare
 				bool success = true;
 				if (tmp_handle.trans_init (trans_flags | Alpm.TransFlag.NOLOCK) == -1) {
-					Alpm.Errno errno = tmp_handle.errno ();
-					if (errno != 0) {
-						do_emit_error (_("Failed to init transaction"), {Alpm.strerror (errno)});
+					Alpm.Errno err_no = tmp_handle.errno ();
+					if (err_no != 0) {
+						do_emit_error (_("Failed to init transaction"), {Alpm.strerror (err_no)});
 					} else {
 						do_emit_error (_("Failed to init transaction"), {});
 					}
@@ -1465,18 +1474,18 @@ namespace Pamac {
 			// real commit
 			Alpm.List err_data;
 			if (alpm_handle.trans_commit (out err_data) == -1) {
-				Alpm.Errno errno = alpm_handle.errno ();
+				Alpm.Errno err_no = alpm_handle.errno ();
 				// cancel the download return an EXTERNAL_DOWNLOAD error
-				if (errno == Alpm.Errno.EXTERNAL_DOWNLOAD && cancellable.is_cancelled ()) {
+				if (err_no == Alpm.Errno.EXTERNAL_DOWNLOAD && cancellable.is_cancelled ()) {
 					trans_release (alpm_handle);
 					return false;
 				}
 				var details = new GenericArray<string> ();
-				switch (errno) {
+				switch (err_no) {
 					case 0:
 						break;
 					case Alpm.Errno.FILE_CONFLICTS:
-						details.add (Alpm.strerror (errno) + ":");
+						details.add (Alpm.strerror (err_no) + ":");
 						unowned Alpm.List<Alpm.FileConflict*> list = err_data;
 						while (list != null) {
 							Alpm.FileConflict* conflict = list.data;
@@ -1495,7 +1504,7 @@ namespace Pamac {
 					case Alpm.Errno.PKG_INVALID:
 					case Alpm.Errno.PKG_INVALID_CHECKSUM:
 					case Alpm.Errno.PKG_INVALID_SIG:
-						details.add (Alpm.strerror (errno) + ":");
+						details.add (Alpm.strerror (err_no) + ":");
 						unowned Alpm.List<string*> list = err_data;
 						while (list != null) {
 							string* filename = list.data;
@@ -1508,7 +1517,7 @@ namespace Pamac {
 						details.add (_("failed to retrieve some files"));
 						break;
 					default:
-						details.add (Alpm.strerror (errno));
+						details.add (Alpm.strerror (err_no));
 						break;
 				}
 				do_emit_error (_("Failed to commit transaction"), details.data);
