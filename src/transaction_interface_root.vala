@@ -28,7 +28,7 @@ namespace Pamac {
 			this.loop = loop;
 			trans_cancellable = new Cancellable ();
 			// alpm_utils global variable declared in alpm_utils.vala
-			// and initialzed in transaction.vala
+			// and initialized in transaction.vala
 			// set user agent
 			var utsname = Posix.utsname();
 			Environment.set_variable ("HTTP_USER_AGENT", "pamac (%s %s)".printf (utsname.sysname, utsname.machine), true);
@@ -68,7 +68,7 @@ namespace Pamac {
 		}
 
 		public bool set_pkgreason (string pkgname, uint reason) {
-			bool success = alpm_utils.set_pkgreason (pkgname, reason);
+			bool success = alpm_utils.set_pkgreason ("root", pkgname, reason);
 			return success;
 		}
 

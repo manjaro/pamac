@@ -24,100 +24,17 @@ Pamac.Daemon system_daemon;
 MainLoop loop;
 MainContext context;
 
-[Compact]
-public class AlpmAction {
-	public Pamac.Daemon pamac_daemon;
-	public string sender;
-	public bool is_download_updates;
-	public bool is_generate_mirrors_list;
-	public string country;
-	public bool is_write_alpm_config;
-	public HashTable<string,Variant> new_alpm_conf;
-	#if ENABLE_SNAP
-	public bool is_snap_switch;
-	public string snap_name;
-	public string snap_channel;
-	public bool is_snap;
-	#endif
-	#if ENABLE_FLATPAK
-	public bool is_flatpak;
-	#endif
-	public bool is_set_pkgreason;
-	public string pkgname;
-	public uint reason;
-	public bool is_download;
-	public string url;
-	public bool is_refresh;
-	public bool force_refresh;
-	public bool is_alpm;
-	public bool sysupgrade;
-	public bool enable_downgrade;
-	public bool simple_install;
-	public bool keep_built_pkgs;
-	public int trans_flags;
-	public string[] to_install;
-	public string[] to_remove;
-	public string[] to_load;
-	public string[] to_install_as_dep;
-	public string[] temporary_ignorepkgs;
-	public string[] overwrite_files;
-	public Cancellable cancellable;
-	public AlpmAction (Pamac.Daemon pamac_daemon, string sender) {
-		this.pamac_daemon = pamac_daemon;
-		this.sender = sender;
-	}
-	public void run () {
-		if (is_generate_mirrors_list) {
-			pamac_daemon.generate_mirrors_list (sender, country);
-		} else if (is_set_pkgreason) {
-			pamac_daemon.set_pkgreason (sender, pkgname, reason);
-		} else if (is_write_alpm_config) {
-			pamac_daemon.write_alpm_config (sender, new_alpm_conf);
-		} else if (is_download_updates) {
-			pamac_daemon.download_updates (sender);
-		} else if (is_download) {
-			pamac_daemon.download_pkg (sender, url, cancellable);
-		} else if (is_refresh) {
-			pamac_daemon.trans_refresh (sender, force_refresh, cancellable);
-		} else if (is_alpm) {
-			pamac_daemon.trans_run (sender,
-									sysupgrade,
-									enable_downgrade,
-									simple_install,
-									keep_built_pkgs,
-									trans_flags,
-									to_install,
-									to_remove,
-									to_load,
-									to_install_as_dep,
-									temporary_ignorepkgs,
-									overwrite_files,
-									cancellable);
-		#if ENABLE_SNAP
-		} else if (is_snap) {
-			pamac_daemon.snap_trans_run (sender, to_install, to_remove);
-		} else if (is_snap_switch) {
-			pamac_daemon.snap_switch_channel (sender, snap_name, snap_channel);
-		#endif
-		#if ENABLE_FLATPAK
-		} else if (is_flatpak) {
-			// to_load is used as to_upgrade
-			pamac_daemon.flatpak_trans_run (sender, to_install, to_remove, to_load);
-		#endif
-		}
-	}
-}
-
 namespace Pamac {
 	[DBus (name = "org.manjaro.pamac.daemon")]
 	public class Daemon: Object {
 		Config config;
-		ThreadPool<AlpmAction> thread_pool;
+		int running_threads;
 		FileMonitor lockfile_monitor;
 		Cond lockfile_cond;
 		Mutex lockfile_mutex;
 		Cond answer_cond;
 		Mutex answer_mutex;
+		Mutex authorization_mutex;
 		GenericSet<string> authorized_senders;
 		HashTable<string, Cancellable> cancellables_table;
 		#if ENABLE_SNAP
@@ -178,9 +95,10 @@ namespace Pamac {
 			} catch (Error e) {
 				warning (e.message);
 			}
-			create_thread_pool ();
+			running_threads = 0;
 			answer_cond = Cond ();
 			answer_mutex = Mutex ();
+			authorization_mutex = Mutex ();
 			authorized_senders = new GenericSet<string> (str_hash, str_equal);
 			cancellables_table = new HashTable<string, Cancellable> (str_hash, str_equal);
 			alpm_utils.emit_action.connect ((sender, action) => {
@@ -283,24 +201,6 @@ namespace Pamac {
 			return alpm_utils.lockfile.get_path ();
 		}
 
-		void create_thread_pool () {
-			// create a thread pool which will run alpm action one after one
-			try {
-				thread_pool = new ThreadPool<AlpmAction>.with_owned_data (
-					// call alpm_action.run () on thread start
-					(alpm_action) => {
-						alpm_action.run ();
-					},
-					// unlimited threads
-					-1,
-					// no exclusive thread
-					false
-				);
-			} catch (ThreadError e) {
-				warning (e.message);
-			}
-		}
-
 		int set_extern_lock () {
 			if (lockfile_mutex.trylock ()) {
 				try {
@@ -351,12 +251,12 @@ namespace Pamac {
 		}
 
 		bool get_authorization_sync (string sender) {
-			answer_mutex.lock ();
-			if (sender in authorized_senders) {
-				answer_mutex.unlock ();
+			authorization_mutex.lock ();
+			bool authorized = authorized_senders.contains (sender);
+			authorization_mutex.unlock ();
+			if (authorized) {
 				return true;
 			}
-			bool authorized = false;
 			try {
 				Polkit.Authority authority = Polkit.Authority.get_sync ();
 				Polkit.Subject subject = new Polkit.SystemBusName (sender);
@@ -372,13 +272,14 @@ namespace Pamac {
 			} catch (Error e) {
 				emit_error (sender, _("Authentication failed"), {e.message});
 			}
-			answer_mutex.unlock ();
 			return authorized;
 		}
 
 		public void start_get_authorization (BusName sender) throws Error {
-			answer_mutex.lock ();
-			if (sender in authorized_senders) {
+			authorization_mutex.lock ();
+			bool fast_authorized = authorized_senders.contains (sender);
+			authorization_mutex.unlock ();
+			if (fast_authorized) {
 				var idle = new IdleSource ();
 				idle.set_priority (Priority.DEFAULT);
 				idle.set_callback (() => {
@@ -386,34 +287,23 @@ namespace Pamac {
 					return false;
 				});
 				idle.attach (context);
-				answer_mutex.unlock ();
 				return;
 			}
-			answer_mutex.unlock ();
 			check_authorization.begin (sender, (obj, res) => {
 				bool authorized = check_authorization.end (res);
 				if (authorized) {
-					answer_mutex.lock ();
+					authorization_mutex.lock ();
 					authorized_senders.add (sender);
-					answer_mutex.unlock ();
+					authorization_mutex.unlock ();
 				}
 				get_authorization_finished (sender, authorized);
 			});
 		}
 
 		public void remove_authorization (BusName sender) throws Error {
-			answer_mutex.lock ();
+			authorization_mutex.lock ();
 			authorized_senders.remove (sender);
-			answer_mutex.unlock ();
-		}
-
-		[DBus (visible = false)]
-		public void write_alpm_config (string sender, HashTable<string,Variant> new_alpm_conf) {
-			lockfile_mutex.lock ();
-			alpm_utils.alpm_config.write (new_alpm_conf);
-			alpm_utils.alpm_config.reload ();
-			lockfile_mutex.unlock ();
-			write_alpm_config_finished (sender);
+			authorization_mutex.unlock ();
 		}
 
 		public void start_write_alpm_config (HashTable<string,Variant> new_alpm_conf, BusName sender) throws Error {
@@ -421,11 +311,17 @@ namespace Pamac {
 				bool authorized = check_authorization.end (res);
 				if (authorized) {
 					try {
-						var action = new AlpmAction (this, sender);
-						action.is_write_alpm_config = true;
-						action.new_alpm_conf = new_alpm_conf;
-						thread_pool.add ((owned) action);
-					} catch (ThreadError e) {
+						new Thread<int>.try ("write_alpm_config", () => {
+							AtomicInt.inc (ref running_threads);
+							lockfile_mutex.lock ();
+							alpm_utils.alpm_config.write (new_alpm_conf);
+							alpm_utils.alpm_config.reload ();
+							lockfile_mutex.unlock ();
+							write_alpm_config_finished (sender);
+							AtomicInt.dec_and_test (ref running_threads);
+							return 0;
+						});
+					} catch (Error e) {
 						emit_error (sender, "Daemon Error", {e.message});
 						write_alpm_config_finished (sender);
 					}
@@ -453,36 +349,33 @@ namespace Pamac {
 			});
 		}
 
-		[DBus (visible = false)]
-		public void generate_mirrors_list (string sender, string country) {
-			try {
-				var process = new Subprocess.newv (
-					{"pacman-mirrors", "--no-color", "-c", country},
-					SubprocessFlags.STDOUT_PIPE | SubprocessFlags.STDERR_MERGE);
-				var dis = new DataInputStream (process.get_stdout_pipe ());
-				string? line;
-				while ((line = dis.read_line ()) != null) {
-					generate_mirrors_list_data (sender, line);
-				}
-			} catch (Error e) {
-				emit_error (sender, "Daemon Error", {e.message});
-			}
-			lockfile_mutex.lock ();
-			alpm_utils.alpm_config.reload ();
-			lockfile_mutex.unlock ();
-			generate_mirrors_list_finished (sender);
-		}
-
 		public void start_generate_mirrors_list (string country, BusName sender) throws Error {
 			check_authorization.begin (sender, (obj, res) => {
 				bool authorized = check_authorization.end (res);
 				if (authorized) {
 					try {
-						var action = new AlpmAction (this, sender);
-						action.is_generate_mirrors_list = true;
-						action.country = country;
-						thread_pool.add ((owned) action);
-					} catch (ThreadError e) {
+						new Thread<int>.try ("generate_mirrors_list", () => {
+							AtomicInt.inc (ref running_threads);
+							try {
+								var process = new Subprocess.newv (
+									{"pacman-mirrors", "--no-color", "-c", country},
+									SubprocessFlags.STDOUT_PIPE | SubprocessFlags.STDERR_MERGE);
+								var dis = new DataInputStream (process.get_stdout_pipe ());
+								string? line;
+								while ((line = dis.read_line ()) != null) {
+									generate_mirrors_list_data (sender, line);
+								}
+							} catch (Error e) {
+								emit_error (sender, "Daemon Error", {e.message});
+							}
+							lockfile_mutex.lock ();
+							alpm_utils.alpm_config.reload ();
+							lockfile_mutex.unlock ();
+							generate_mirrors_list_finished (sender);
+							AtomicInt.dec_and_test (ref running_threads);
+							return 0;
+						});
+					} catch (Error e) {
 						emit_error (sender, "Daemon Error", {e.message});
 						generate_mirrors_list_finished (sender);
 					}
@@ -511,37 +404,33 @@ namespace Pamac {
 			});
 		}
 
-		[DBus (visible = false)]
-		public void set_pkgreason (string sender, string pkgname, uint reason) {
-			bool authorized = get_authorization_sync (sender);
-			bool success = false;
-			if (authorized) {
-				lockfile_mutex.lock ();
-				success = alpm_utils.set_pkgreason (pkgname, reason);
-				lockfile_mutex.unlock ();
-			}
-			set_pkgreason_finished (sender, success);
-		}
-
 		public void start_set_pkgreason (string pkgname, uint reason, BusName sender) throws Error {
-			var action = new AlpmAction (this, sender);
-			action.is_set_pkgreason = true;
-			action.pkgname = pkgname;
-			action.reason = reason;
-			thread_pool.add ((owned) action);
-		}
-
-		[DBus (visible = false)]
-		public void download_updates (string sender) {
-			alpm_utils.download_updates (sender);
-			download_updates_finished (sender);
+			try {
+				new Thread<int>.try ("set_pkgreason", () => {
+					AtomicInt.inc (ref running_threads);
+					bool success = false;
+					lockfile_mutex.lock ();
+					success = alpm_utils.set_pkgreason (sender, pkgname, reason);
+					lockfile_mutex.unlock ();
+					set_pkgreason_finished (sender, success);
+					AtomicInt.dec_and_test (ref running_threads);
+					return 0;
+				});
+			} catch (ThreadError e) {
+				emit_error (sender, "Daemon Error", {e.message});
+				set_pkgreason_finished (sender, false);
+			}
 		}
 
 		public void start_download_updates (BusName sender) throws Error {
 			try {
-				var action = new AlpmAction (this, sender);
-				action.is_download_updates = true;
-				thread_pool.add ((owned) action);
+				new Thread<int>.try ("download_updates", () => {
+					AtomicInt.inc (ref running_threads);
+					alpm_utils.download_updates (sender);
+					download_updates_finished (sender);
+					AtomicInt.dec_and_test (ref running_threads);
+					return 0;
+				});
 			} catch (ThreadError e) {
 				emit_error (sender, "Daemon Error", {e.message});
 				download_updates_finished (sender);
@@ -583,107 +472,59 @@ namespace Pamac {
 			return success;
 		}
 
-		[DBus (visible = false)]
-		public void trans_refresh (string sender, bool force, Cancellable cancellable) {
-			bool success = wait_for_lock (sender, cancellable);
-			if (success) {
-				success = get_authorization_sync (sender);
-				if (success) {
-					success = alpm_utils.refresh (sender, force);
-				}
-				lockfile_mutex.unlock ();
-			}
-			trans_refresh_finished (sender, success);
-		}
-
 		public void start_trans_refresh (bool force, BusName sender) throws Error {
 			try {
-				var action = new AlpmAction (this, sender);
-				action.is_refresh = true;
-				action.force_refresh = force;
-				if (!cancellables_table.contains (sender)) {
-					cancellables_table.insert (sender, new Cancellable ());
-				}
-				action.cancellable = cancellables_table.lookup (sender);
-				thread_pool.add ((owned) action);
 				if (alpm_utils.downloading_updates) {
 					// cancel download updates
 					alpm_utils.cancellable.cancel ();
 				}
+				if (!cancellables_table.contains (sender)) {
+					cancellables_table.insert (sender, new Cancellable ());
+				}
+				var cancellable = cancellables_table.lookup (sender);
+				new Thread<int>.try ("trans_refresh", () => {
+					AtomicInt.inc (ref running_threads);
+					bool success = wait_for_lock (sender, cancellable);
+					if (success) {
+						success = alpm_utils.refresh (sender, force);
+						lockfile_mutex.unlock ();
+					}
+					trans_refresh_finished (sender, success);
+					AtomicInt.dec_and_test (ref running_threads);
+					return 0;
+				});
 			} catch (ThreadError e) {
 				emit_error (sender, "Daemon Error", {e.message});
 				trans_refresh_finished (sender, false);
 			}
 		}
 
-		[DBus (visible = false)]
-		public void download_pkg (string sender, string url, Cancellable cancellable) {
-			string path = "";
-			bool success = wait_for_lock (sender, cancellable);
-			if (success) {
-				success = get_authorization_sync (sender);
-				if (success) {
-					path = alpm_utils.download_pkg (sender, url);
-				}
-				lockfile_mutex.unlock ();
-			}
-			download_pkg_finished (sender, path);
-		}
-
 		public void start_download_pkg (string url, BusName sender) throws Error {
 			try {
-				var action = new AlpmAction (this, sender);
-				action.is_download = true;
-				action.url = url;
-				if (!cancellables_table.contains (sender)) {
-					cancellables_table.insert (sender, new Cancellable ());
-				}
-				action.cancellable = cancellables_table.lookup (sender);
-				thread_pool.add ((owned) action);
 				if (alpm_utils.downloading_updates) {
 					// cancel download updates
 					alpm_utils.cancellable.cancel ();
 				}
+				if (!cancellables_table.contains (sender)) {
+					cancellables_table.insert (sender, new Cancellable ());
+				}
+				var cancellable = cancellables_table.lookup (sender);
+				new Thread<int>.try ("download_pkg", () => {
+					AtomicInt.inc (ref running_threads);
+					string path = "";
+					bool success = wait_for_lock (sender, cancellable);
+					if (success) {
+						path = alpm_utils.download_pkg (sender, url);
+						lockfile_mutex.unlock ();
+					}
+					download_pkg_finished (sender, path);
+					AtomicInt.dec_and_test (ref running_threads);
+					return 0;
+				});
 			} catch (ThreadError e) {
 				emit_error (sender, "Daemon Error", {e.message});
 				download_pkg_finished (sender, "");
 			}
-		}
-
-		[DBus (visible = false)]
-		public void trans_run (string sender,
-								bool sysupgrade,
-								bool enable_downgrade,
-								bool simple_install,
-								bool keep_built_pkgs,
-								int trans_flags,
-								string[] to_install,
-								string[] to_remove,
-								string[] to_load,
-								string[] to_install_as_dep,
-								string[] temporary_ignorepkgs,
-								string[] overwrite_files,
-								Cancellable cancellable) {
-			bool success = wait_for_lock (sender, cancellable);
-			if (success) {
-				success = get_authorization_sync (sender);
-				if (success) {
-					success = alpm_utils.trans_run (sender,
-												sysupgrade,
-												enable_downgrade,
-												simple_install,
-												keep_built_pkgs,
-												trans_flags,
-												to_install,
-												to_remove,
-												to_load,
-												to_install_as_dep,
-												temporary_ignorepkgs,
-												overwrite_files);
-				}
-				lockfile_mutex.unlock ();
-			}
-			trans_run_finished (sender, success);
 		}
 
 		public void start_trans_run (bool sysupgrade,
@@ -699,28 +540,42 @@ namespace Pamac {
 									string[] overwrite_files,
 									BusName sender) throws Error {
 			try {
-				var action = new AlpmAction (this, sender);
-				action.is_alpm = true;
-				action.sysupgrade = sysupgrade;
-				action.enable_downgrade = enable_downgrade;
-				action.simple_install = simple_install;
-				action.keep_built_pkgs = keep_built_pkgs;
-				action.trans_flags = trans_flags;
-				action.to_install = to_install;
-				action.to_remove = to_remove;
-				action.to_load = to_load;
-				action.to_install_as_dep = to_install_as_dep;
-				action.temporary_ignorepkgs = temporary_ignorepkgs;
-				action.overwrite_files = overwrite_files;
-				if (!cancellables_table.contains (sender)) {
-					cancellables_table.insert (sender, new Cancellable ());
-				}
-				action.cancellable = cancellables_table.lookup (sender);
-				thread_pool.add ((owned) action);
 				if (alpm_utils.downloading_updates) {
 					// cancel download updates
 					alpm_utils.cancellable.cancel ();
 				}
+				string[] to_install_copy = to_install;
+				string[] to_remove_copy = to_remove;
+				string[] to_load_copy = to_load;
+				string[] to_install_as_dep_copy = to_install_as_dep;
+				string[] temporary_ignorepkgs_copy = temporary_ignorepkgs;
+				string[] overwrite_files_copy = overwrite_files;
+				if (!cancellables_table.contains (sender)) {
+					cancellables_table.insert (sender, new Cancellable ());
+				}
+				var cancellable = cancellables_table.lookup (sender);
+				new Thread<int>.try ("trans_run", () => {
+					AtomicInt.inc (ref running_threads);
+					bool success = wait_for_lock (sender, cancellable);
+					if (success) {
+						success = alpm_utils.trans_run (sender,
+													sysupgrade,
+													enable_downgrade,
+													simple_install,
+													keep_built_pkgs,
+													trans_flags,
+													to_install_copy,
+													to_remove_copy,
+													to_load_copy,
+													to_install_as_dep_copy,
+													temporary_ignorepkgs_copy,
+													overwrite_files_copy);
+						lockfile_mutex.unlock ();
+					}
+					trans_run_finished (sender, success);
+					AtomicInt.dec_and_test (ref running_threads);
+					return 0;
+				});
 			} catch (ThreadError e) {
 				emit_error (sender, "Daemon Error", {e.message});
 				trans_run_finished (sender, false);
@@ -728,12 +583,6 @@ namespace Pamac {
 		}
 
 		#if ENABLE_SNAP
-		[DBus (visible = false)]
-		public void snap_trans_run (string sender, string[] to_install, string[] to_remove) {
-			bool success = snap_plugin.trans_run (sender, to_install, to_remove);
-			snap_trans_run_finished (sender, success);
-		}
-
 		public void start_snap_trans_run (string[] to_install, string[] to_remove, BusName sender) throws Error {
 			if (!config.enable_snap) {
 				var idle = new IdleSource ();
@@ -746,21 +595,19 @@ namespace Pamac {
 				return;
 			}
 			try {
-				var action = new AlpmAction (this, sender);
-				action.is_snap = true;
-				action.to_install = to_install;
-				action.to_remove = to_remove;
-				thread_pool.add ((owned) action);
+				string[] to_install_copy = to_install;
+				string[] to_remove_copy = to_remove;
+				new Thread<int>.try ("snap_trans_run", () => {
+					AtomicInt.inc (ref running_threads);
+					bool success = snap_plugin.trans_run (sender, to_install_copy, to_remove_copy);
+					snap_trans_run_finished (sender, success);
+					AtomicInt.dec_and_test (ref running_threads);
+					return 0;
+				});
 			} catch (ThreadError e) {
 				emit_error (sender, "Daemon Error", {e.message});
 				snap_trans_run_finished (sender, false);
 			}
-		}
-
-		[DBus (visible = false)]
-		public void snap_switch_channel (string sender, string snap_name, string snap_channel) {
-			bool success = snap_plugin.switch_channel (snap_name, snap_channel, sender);
-			snap_switch_channel_finished (sender, success);
 		}
 
 		public void start_snap_switch_channel (string snap_name, string snap_channel, BusName sender) throws Error {
@@ -775,11 +622,13 @@ namespace Pamac {
 				return;
 			}
 			try {
-				var action = new AlpmAction (this, sender);
-				action.is_snap_switch = true;
-				action.snap_name = snap_name;
-				action.snap_channel = snap_channel;
-				thread_pool.add ((owned) action);
+				new Thread<int>.try ("snap_switch_channel", () => {
+					AtomicInt.inc (ref running_threads);
+					bool success = snap_plugin.switch_channel (snap_name, snap_channel, sender);
+					snap_switch_channel_finished (sender, success);
+					AtomicInt.dec_and_test (ref running_threads);
+					return 0;
+				});
 			} catch (ThreadError e) {
 				emit_error (sender, "Daemon Error", {e.message});
 				snap_switch_channel_finished (sender, false);
@@ -788,12 +637,6 @@ namespace Pamac {
 		#endif
 
 		#if ENABLE_FLATPAK
-		[DBus (visible = false)]
-		public void flatpak_trans_run (string sender, string[] to_install, string[] to_remove, string[] to_upgrade) {
-			bool success = flatpak_plugin.trans_run (sender, to_install, to_remove, to_upgrade);
-			flatpak_trans_run_finished (sender, success);
-		}
-
 		public void start_flatpak_trans_run (string[] to_install, string[] to_remove, string[] to_upgrade, BusName sender) throws Error {
 			if (!config.enable_flatpak) {
 				var idle = new IdleSource ();
@@ -806,19 +649,23 @@ namespace Pamac {
 				return;
 			}
 			try {
-				var action = new AlpmAction (this, sender);
-				action.is_flatpak = true;
-				action.to_install = to_install;
-				action.to_remove = to_remove;
-				// use existing to_load list
-				action.to_load = to_upgrade;
-				thread_pool.add ((owned) action);
+				string[] to_install_copy = to_install;
+				string[] to_remove_copy = to_remove;
+				string[] to_upgrade_copy = to_upgrade;
+				new Thread<int>.try ("snap_trans_run", () => {
+					AtomicInt.inc (ref running_threads);
+					bool success = flatpak_plugin.trans_run (sender, to_install_copy, to_remove_copy, to_upgrade_copy);
+					flatpak_trans_run_finished (sender, success);
+					AtomicInt.dec_and_test (ref running_threads);
+					return 0;
+				});
 			} catch (ThreadError e) {
 				emit_error (sender, "Daemon Error", {e.message});
 				flatpak_trans_run_finished (sender, false);
 			}
 		}
 		#endif
+
 		public void trans_cancel (BusName sender) throws Error {
 			Cancellable? cancellable = cancellables_table.lookup (sender);
 			if (cancellable != null) {
@@ -841,10 +688,7 @@ namespace Pamac {
 			if (alpm_utils.downloading_updates) {
 				return;
 			}
-			ThreadPool.stop_unused_threads ();
-			if (thread_pool.unprocessed () == 0 && thread_pool.get_num_threads () <= 1 ) {
-				// wait for last task to be processed
-				ThreadPool.free ((owned) thread_pool, false, true);
+			if (AtomicInt.get (ref running_threads) == 0) {
 				loop.quit ();
 			}
 		}

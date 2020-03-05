@@ -2045,12 +2045,12 @@ namespace Pamac {
 					stdout.printf ("\n");
 				}
 				stdout.printf ("%s: %s  (%s)\n".printf (dgettext (null, "To delete"), dngettext (null, "%u file", "%u files", length).printf (length), format_size (total_size)));
-			}
-			if (dry_run) {
-				return;
-			}
-			if (no_confirm || ask_user ("%s ?".printf (dgettext (null, "Clean cache")))) {
-				transaction.clean_cache ();
+				if (dry_run) {
+					return;
+				}
+				if (no_confirm || ask_user ("%s ?".printf (dgettext (null, "Clean cache")))) {
+					transaction.clean_cache ();
+				}
 			}
 		}
 
@@ -2083,12 +2083,12 @@ namespace Pamac {
 					stdout.printf ("\n");
 				}
 				stdout.printf ("%s: %s  (%s)\n".printf (dgettext (null, "To delete"), dngettext (null, "%u file", "%u files", length).printf (length), format_size (total_size)));
-			}
-			if (dry_run) {
-				return;
-			}
-			if (no_confirm || ask_user ("%s ?".printf (dgettext (null, "Clean build files")))) {
-				transaction.clean_build_files ();
+				if (dry_run) {
+					return;
+				}
+				if (no_confirm || ask_user ("%s ?".printf (dgettext (null, "Clean build files")))) {
+					transaction.clean_build_files ();
+				}
 			}
 		}
 

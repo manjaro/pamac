@@ -1325,7 +1325,10 @@ namespace Pamac {
 					// exclusive threads
 					true
 				);
-				mirrors_table.foreach_steal ((mirror, repo_set) => {
+				var iter = HashTableIter<string, GenericSet<string>> (mirrors_table);
+				unowned string mirror;
+				unowned GenericSet<string> repo_set;
+				while (iter.next (out mirror, out repo_set)) {
 					try {
 						// two connections per mirror
 						dload_thread_pool.add (new DownloadServer (handle, mirror, repo_set, emit_signals));
@@ -1333,8 +1336,7 @@ namespace Pamac {
 					} catch (ThreadError e) {
 						warning (e.message);
 					}
-					return true;
-				});
+				}
 				// wait for all thread to finish
 				ThreadPool.free ((owned) dload_thread_pool, false, true);
 			} catch (ThreadError e) {
