@@ -6,7 +6,7 @@
 # Translators:
 # Morten Rene <arath.inc@gmail.com>, 2014
 # Bård Spein <baard.spein@gmail.com>, 2013
-# Elias Nykrem <bloodaxeNOR@protonmail.com>, 2019
+# Elias Nykrem <bloodaxeNOR@protonmail.com>, 2019-2020
 # Guillaume Benoit <guillaume@manjaro.org>, 2013
 # Harald H. <haarektrans@gmail.com>, 2015
 # Harald H. <haarektrans@gmail.com>, 2015
@@ -29,9 +29,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2020-02-08 11:17+0100\n"
-"PO-Revision-Date: 2020-02-22 23:10+0000\n"
-"Last-Translator: philm <philm@manjaro.org>\n"
+"POT-Creation-Date: 2020-02-28 11:30+0100\n"
+"PO-Revision-Date: 2020-03-04 14:43+0000\n"
+"Last-Translator: Elias Nykrem <bloodaxeNOR@protonmail.com>\n"
 "Language-Team: Norwegian Bokmål (http://www.transifex.com/manjarolinux/manjaro-pamac/language/nb/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -49,7 +49,7 @@ msgstr "Autentisering er påkrevd for å kunne installere, oppdatere eller fjern
 
 #: src/alpm_utils.vala src/database.vala
 msgid "Failed to initialize alpm library"
-msgstr "Kunne ikke initialisere alpm-bibliotek"
+msgstr "Mislyktes i å initialisere alpm-bibliotek"
 
 #: src/alpm_utils.vala
 msgid "Synchronizing package databases"
@@ -57,7 +57,7 @@ msgstr "Synkroniserer pakkedatabaser"
 
 #: src/alpm_utils.vala
 msgid "Failed to synchronize databases"
-msgstr ""
+msgstr "Mislyktes i å synkronisere dataaser"
 
 #: src/alpm_utils.vala src/database.vala src/manager_window.vala src/cli.vala
 #: resources/preferences_dialog.ui
@@ -66,12 +66,12 @@ msgstr "AUR"
 
 #: src/alpm_utils.vala
 msgid "Failed to init transaction"
-msgstr "Kunne ikke initiere transaksjon"
+msgstr "Mislyktes i å initiere transaksjon"
 
 #: src/alpm_utils.vala src/transaction.vala src/transaction-gtk.vala
 #: src/installer.vala
 msgid "Failed to prepare transaction"
-msgstr "Kunne ikke forberede transaksjon"
+msgstr "Mislyktes i å forberede transaksjon"
 
 #: src/alpm_utils.vala src/transaction.vala src/installer.vala src/cli.vala
 #, c-format
@@ -129,7 +129,7 @@ msgstr "%s er ugyldig eller skadet"
 
 #: src/alpm_utils.vala
 msgid "failed to retrieve some files"
-msgstr ""
+msgstr "Mislyktes i å hente noen filer"
 
 #: src/alpm_utils.vala
 msgid "Failed to commit transaction"
@@ -192,7 +192,7 @@ msgstr "Konfigurerer %s"
 #: src/alpm_utils.vala
 #, c-format
 msgid "Error while configuring %s"
-msgstr ""
+msgstr "Feil ved konfigurering av %s"
 
 #: src/alpm_utils.vala
 msgid "Checking available disk space"
@@ -261,12 +261,12 @@ msgstr "Feil"
 #: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
 msgid "Download of %s started"
-msgstr ""
+msgstr "Nedlastning av %s startet"
 
 #: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
 msgid "Download of %s finished"
-msgstr ""
+msgstr "Nedlastning av %s er fullført"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -326,17 +326,17 @@ msgstr "Kloner %s byggefiler"
 #: src/transaction.vala
 #, c-format
 msgid "Failed to clone %s build files"
-msgstr ""
+msgstr "Mislyktes i å klone %s byggefiler"
 
 #: src/transaction.vala
 #, c-format
 msgid "Generating %s information"
-msgstr ""
+msgstr "Genererer %s informasjon"
 
 #: src/transaction.vala
 #, c-format
 msgid "Failed to generate %s information"
-msgstr ""
+msgstr "Mislyktes i å generere %s informasjon"
 
 #: src/transaction.vala
 #, c-format
@@ -346,7 +346,7 @@ msgstr "Sjekker 1%s avhengigheter"
 #: src/transaction.vala
 #, c-format
 msgid "Failed to check %s dependencies"
-msgstr ""
+msgstr "Mislyktes i å sjekke %s avhengigheter"
 
 #: src/transaction.vala
 #, c-format
@@ -369,7 +369,7 @@ msgstr "Bygger %s"
 #: src/transaction.vala
 #, c-format
 msgid "Failed to build %s"
-msgstr ""
+msgstr "Mislyktes i å bygge %s"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
@@ -460,7 +460,7 @@ msgstr ""
 #: src/transaction-gtk.vala
 #, c-format
 msgid "Install %s anyway"
-msgstr ""
+msgstr "Installer %s likevel "
 
 #: src/transaction-gtk.vala src/tray.vala
 msgid "Package Manager"
@@ -468,7 +468,7 @@ msgstr "Pakke Behandler"
 
 #: src/installer.vala src/cli.vala
 msgid "Install packages from repositories, path or url"
-msgstr ""
+msgstr "Installer pakker fra oppbevaringssted, destinasjon eller url"
 
 #: src/installer.vala src/cli.vala
 msgid "Remove packages"
@@ -517,9 +517,14 @@ msgid_plural "%u pending operations"
 msgstr[0] "%u operasjoner venter"
 msgstr[1] "%u operasjoner venter"
 
+#: src/manager_window.vala src/snap_plugin.vala
+#: resources/preferences_dialog.ui
+msgid "Snap"
+msgstr ""
+
 #: src/manager_window.vala
 msgid "All"
-msgstr ""
+msgstr "Alle"
 
 #: src/manager_window.vala
 msgid "Orphans"
@@ -528,11 +533,6 @@ msgstr "Foreldreløs"
 #: src/manager_window.vala
 msgid "Foreign"
 msgstr "Fremmed"
-
-#: src/manager_window.vala src/snap_plugin.vala
-#: resources/preferences_dialog.ui
-msgid "Snap"
-msgstr ""
 
 #: src/manager_window.vala resources/preferences_dialog.ui
 msgid "Flatpak"
@@ -660,7 +660,7 @@ msgstr "Sjekk avhengigheter"
 
 #: src/manager_window.vala
 msgid "Publisher"
-msgstr ""
+msgstr "Utgiver"
 
 #: src/manager_window.vala
 msgid "Confined in a Sandbox"
@@ -668,7 +668,7 @@ msgstr ""
 
 #: src/manager_window.vala
 msgid "Channels"
-msgstr ""
+msgstr "Kanaler"
 
 #: src/manager_window.vala
 msgid "Upgrade"
@@ -688,23 +688,23 @@ msgstr ""
 
 #: src/manager_window.vala
 msgid "Photo & Video"
-msgstr ""
+msgstr "Bilde og Video"
 
 #: src/manager_window.vala
 msgid "Music & Audio"
-msgstr ""
+msgstr "Musikk og Audio"
 
 #: src/manager_window.vala
 msgid "Productivity"
-msgstr ""
+msgstr "Produktivitet"
 
 #: src/manager_window.vala
 msgid "Communication & News"
-msgstr ""
+msgstr "Kommunikasjon og Nyheter"
 
 #: src/manager_window.vala
 msgid "Education & Science"
-msgstr ""
+msgstr "Undervisning og Vitenskap"
 
 #: src/manager_window.vala
 msgid "Games"
@@ -854,11 +854,11 @@ msgstr "fil(er)"
 
 #: src/cli.vala
 msgid "only search for installed packages"
-msgstr ""
+msgstr "søk bare etter installerte pakker"
 
 #: src/cli.vala
 msgid "only search for packages in repositories"
-msgstr ""
+msgstr "søk bare etter pakker fra oppbevaringssteder"
 
 #: src/cli.vala
 msgid "also search in AUR"
@@ -1064,7 +1064,7 @@ msgstr ""
 
 #: src/cli.vala
 msgid "enable package downgrades"
-msgstr "aktiver pakke nedgradering"
+msgstr "aktiver pakkenedgraderinger"
 
 #: src/cli.vala
 msgid "Clean packages cache or build files"
@@ -1248,6 +1248,10 @@ msgid "Size"
 msgstr "Størrelse"
 
 #: resources/manager_window.ui
+msgid "Date"
+msgstr ""
+
+#: resources/manager_window.ui
 msgid "Launch"
 msgstr "Oppstart"
 
@@ -1355,7 +1359,7 @@ msgstr ""
 
 #: resources/preferences_dialog.ui
 msgid "Enable Snap support"
-msgstr ""
+msgstr "Aktiver Snap støtte"
 
 #: resources/preferences_dialog.ui
 msgid "Flatpak packages are maintained by their publisher."
@@ -1363,7 +1367,7 @@ msgstr ""
 
 #: resources/preferences_dialog.ui
 msgid "Enable Flatpak support"
-msgstr ""
+msgstr "Aktiver Flatpak støtte"
 
 #: resources/preferences_dialog.ui
 msgid "Cache"

@@ -41,9 +41,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2020-02-08 11:17+0100\n"
-"PO-Revision-Date: 2020-02-23 08:24+0000\n"
-"Last-Translator: Andrei Stepanov <adem4ik@gmail.com>\n"
+"POT-Creation-Date: 2020-02-28 11:30+0100\n"
+"PO-Revision-Date: 2020-02-28 15:22+0000\n"
+"Last-Translator: Guillaume Benoit <guillaume@manjaro.org>\n"
 "Language-Team: Russian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -345,12 +345,12 @@ msgstr "Клонирование сборочных файлов %s не уда�
 #: src/transaction.vala
 #, c-format
 msgid "Generating %s information"
-msgstr "Генерация информации о %s"
+msgstr ""
 
 #: src/transaction.vala
 #, c-format
 msgid "Failed to generate %s information"
-msgstr "Не удалось сгенерировать информацию по %s"
+msgstr ""
 
 #: src/transaction.vala
 #, c-format
@@ -535,6 +535,11 @@ msgstr[1] "%u ждут обработки"
 msgstr[2] "%u ждут обработки"
 msgstr[3] "%u ждут обработки"
 
+#: src/manager_window.vala src/snap_plugin.vala
+#: resources/preferences_dialog.ui
+msgid "Snap"
+msgstr "Snap"
+
 #: src/manager_window.vala
 msgid "All"
 msgstr "Все"
@@ -546,11 +551,6 @@ msgstr "Неиспользуемые"
 #: src/manager_window.vala
 msgid "Foreign"
 msgstr "Сторонние"
-
-#: src/manager_window.vala src/snap_plugin.vala
-#: resources/preferences_dialog.ui
-msgid "Snap"
-msgstr "Snap"
 
 #: src/manager_window.vala resources/preferences_dialog.ui
 msgid "Flatpak"
@@ -1270,6 +1270,10 @@ msgstr "Релевантность"
 #: resources/manager_window.ui
 msgid "Size"
 msgstr "Размер"
+
+#: resources/manager_window.ui
+msgid "Date"
+msgstr ""
 
 #: resources/manager_window.ui
 msgid "Launch"

@@ -20,14 +20,15 @@
 # Tramsifex <sunnycode@protonmail.com>, 2019-2020
 # taotieren <admin@taotieren.com>, 2019
 # Tramsifex <sunnycode@protonmail.com>, 2019
+# Zkdc, 2020
 # 吴会欢（Nicholas） <whhxp1028@gmail.com>, 2018
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2020-02-08 11:17+0100\n"
-"PO-Revision-Date: 2020-02-22 23:10+0000\n"
-"Last-Translator: philm <philm@manjaro.org>\n"
+"POT-Creation-Date: 2020-02-28 11:30+0100\n"
+"PO-Revision-Date: 2020-02-28 16:30+0000\n"
+"Last-Translator: taotieren <admin@taotieren.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -72,7 +73,7 @@ msgstr "准备事务失败"
 #: src/alpm_utils.vala src/transaction.vala src/installer.vala src/cli.vala
 #, c-format
 msgid "target not found: %s"
-msgstr "未找到目标： %s"
+msgstr "未找到目标：%s"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -87,12 +88,12 @@ msgstr "无法满足 %s 要求的依赖项 \"%s\""
 #: src/alpm_utils.vala
 #, c-format
 msgid "installing %s (%s) breaks dependency '%s' required by %s"
-msgstr "安装 %s (%s) 破坏了依赖关系， '%s' 被 %s 所需要"
+msgstr "安装 %s (%s) 破坏了依赖关系，'%s' 被 %s 所需要"
 
 #: src/alpm_utils.vala
 #, c-format
 msgid "removing %s breaks dependency '%s' required by %s"
-msgstr "移除 %s 破坏了依赖关系， '%s' 被 %s 所需要"
+msgstr "移除 %s 破坏了依赖关系，'%s' 被 %s 所需要"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -111,12 +112,12 @@ msgstr "无需做任何事"
 #: src/alpm_utils.vala
 #, c-format
 msgid "%s exists in both %s and %s"
-msgstr "%s 同时存在于 %s 和 %s中"
+msgstr "%s 同时存在于 %s 和 %s 中"
 
 #: src/alpm_utils.vala
 #, c-format
 msgid "%s: %s already exists in filesystem"
-msgstr "%s： %s 已经在文件系统中存在"
+msgstr "%s：%s 已经在文件系统中存在"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -188,7 +189,7 @@ msgstr "正在配置 %s"
 #: src/alpm_utils.vala
 #, c-format
 msgid "Error while configuring %s"
-msgstr "配置 %s时出错"
+msgstr "配置 %s 时出错"
 
 #: src/alpm_utils.vala
 msgid "Checking available disk space"
@@ -326,12 +327,12 @@ msgstr "克隆%s构建文件失败"
 #: src/transaction.vala
 #, c-format
 msgid "Generating %s information"
-msgstr "正在生成 %s 信息"
+msgstr "生成 %s 信息"
 
 #: src/transaction.vala
 #, c-format
 msgid "Failed to generate %s information"
-msgstr "生成 %s 信息失败"
+msgstr "无法生成 %s 信息"
 
 #: src/transaction.vala
 #, c-format
@@ -364,7 +365,7 @@ msgstr "正在构建 %s"
 #: src/transaction.vala
 #, c-format
 msgid "Failed to build %s"
-msgstr "构建%s失败"
+msgstr "构建 %s 失败"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
@@ -510,6 +511,11 @@ msgid "%u pending operation"
 msgid_plural "%u pending operations"
 msgstr[0] "%u 个待处理的操作"
 
+#: src/manager_window.vala src/snap_plugin.vala
+#: resources/preferences_dialog.ui
+msgid "Snap"
+msgstr "Snap"
+
 #: src/manager_window.vala
 msgid "All"
 msgstr "全部"
@@ -522,14 +528,9 @@ msgstr "孤包"
 msgid "Foreign"
 msgstr "外部"
 
-#: src/manager_window.vala src/snap_plugin.vala
-#: resources/preferences_dialog.ui
-msgid "Snap"
-msgstr "Snap"
-
 #: src/manager_window.vala resources/preferences_dialog.ui
 msgid "Flatpak"
-msgstr ""
+msgstr "Flatpak"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Repositories"
@@ -982,7 +983,7 @@ msgstr "将已安装的所有软件包标记为依赖"
 
 #: src/cli.vala
 msgid "mark all packages explicitly installed"
-msgstr "将所有软件包标记为单独指定安装 "
+msgstr "将所有软件包标记为单独指定安装"
 
 #: src/cli.vala
 msgid "do not check for updates"
@@ -1123,7 +1124,7 @@ msgstr "%s 由 %s 所有"
 #, c-format
 msgid "%u ignored update"
 msgid_plural "%u ignored updates"
-msgstr[0] "%u个忽略的更新"
+msgstr[0] "%u 个忽略的更新"
 
 #: src/cli.vala resources/preferences_dialog.ui
 msgid "Remove only the versions of uninstalled packages"
@@ -1151,7 +1152,7 @@ msgstr "从 AUR 构建 %s"
 #, c-format
 msgid "There is %u member in group %s"
 msgid_plural "There are %u members in group %s"
-msgstr[0] "组 %s 中有 %u 个成员"
+msgstr[0] "%s 组中有 %u 个成员"
 
 #: src/cli.vala
 msgid "all"
@@ -1236,6 +1237,10 @@ msgstr "相关性"
 #: resources/manager_window.ui
 msgid "Size"
 msgstr "大小"
+
+#: resources/manager_window.ui
+msgid "Date"
+msgstr "日期"
 
 #: resources/manager_window.ui
 msgid "Launch"
@@ -1349,11 +1354,11 @@ msgstr "启用 Snap 支持"
 
 #: resources/preferences_dialog.ui
 msgid "Flatpak packages are maintained by their publisher."
-msgstr ""
+msgstr "Flatpak 软件包由其发布者维护。"
 
 #: resources/preferences_dialog.ui
 msgid "Enable Flatpak support"
-msgstr ""
+msgstr "启用 Flatpak 支持"
 
 #: resources/preferences_dialog.ui
 msgid "Cache"

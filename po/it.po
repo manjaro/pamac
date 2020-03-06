@@ -32,9 +32,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2020-02-08 11:17+0100\n"
-"PO-Revision-Date: 2020-02-23 22:42+0000\n"
-"Last-Translator: Pietro F. Fontana\n"
+"POT-Creation-Date: 2020-02-28 11:30+0100\n"
+"PO-Revision-Date: 2020-02-28 15:22+0000\n"
+"Last-Translator: Guillaume Benoit <guillaume@manjaro.org>\n"
 "Language-Team: Italian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/it/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -334,12 +334,12 @@ msgstr "Impossibile clonare file di costruzione per %s "
 #: src/transaction.vala
 #, c-format
 msgid "Generating %s information"
-msgstr "Generazione %s informazioni in corso"
+msgstr ""
 
 #: src/transaction.vala
 #, c-format
 msgid "Failed to generate %s information"
-msgstr "Impossibile generare informazioni per %s"
+msgstr ""
 
 #: src/transaction.vala
 #, c-format
@@ -520,6 +520,11 @@ msgid_plural "%u pending operations"
 msgstr[0] "%u operazione in sospeso"
 msgstr[1] "%u operazioni in sospeso"
 
+#: src/manager_window.vala src/snap_plugin.vala
+#: resources/preferences_dialog.ui
+msgid "Snap"
+msgstr "Snap"
+
 #: src/manager_window.vala
 msgid "All"
 msgstr "Tutti"
@@ -531,11 +536,6 @@ msgstr "Orfani"
 #: src/manager_window.vala
 msgid "Foreign"
 msgstr "Esterno"
-
-#: src/manager_window.vala src/snap_plugin.vala
-#: resources/preferences_dialog.ui
-msgid "Snap"
-msgstr "Snap"
 
 #: src/manager_window.vala resources/preferences_dialog.ui
 msgid "Flatpak"
@@ -1249,6 +1249,10 @@ msgstr "Rilevanza"
 #: resources/manager_window.ui
 msgid "Size"
 msgstr "Dimensione"
+
+#: resources/manager_window.ui
+msgid "Date"
+msgstr ""
 
 #: resources/manager_window.ui
 msgid "Launch"

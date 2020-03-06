@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2020-02-08 11:17+0100\n"
-"PO-Revision-Date: 2020-02-22 23:10+0000\n"
-"Last-Translator: philm <philm@manjaro.org>\n"
+"POT-Creation-Date: 2020-02-28 11:30+0100\n"
+"PO-Revision-Date: 2020-02-28 15:22+0000\n"
+"Last-Translator: Guillaume Benoit <guillaume@manjaro.org>\n"
 "Language-Team: Hebrew (Israel) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/he_IL/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -502,6 +502,11 @@ msgstr[1] ""
 msgstr[2] ""
 msgstr[3] ""
 
+#: src/manager_window.vala src/snap_plugin.vala
+#: resources/preferences_dialog.ui
+msgid "Snap"
+msgstr ""
+
 #: src/manager_window.vala
 msgid "All"
 msgstr ""
@@ -512,11 +517,6 @@ msgstr ""
 
 #: src/manager_window.vala
 msgid "Foreign"
-msgstr ""
-
-#: src/manager_window.vala src/snap_plugin.vala
-#: resources/preferences_dialog.ui
-msgid "Snap"
 msgstr ""
 
 #: src/manager_window.vala resources/preferences_dialog.ui
@@ -1236,6 +1236,10 @@ msgstr ""
 
 #: resources/manager_window.ui
 msgid "Size"
+msgstr ""
+
+#: resources/manager_window.ui
+msgid "Date"
 msgstr ""
 
 #: resources/manager_window.ui

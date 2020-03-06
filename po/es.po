@@ -27,8 +27,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2020-02-08 11:17+0100\n"
-"PO-Revision-Date: 2020-02-26 22:17+0000\n"
+"POT-Creation-Date: 2020-02-28 11:30+0100\n"
+"PO-Revision-Date: 2020-03-03 19:37+0000\n"
 "Last-Translator: Benjamin Perez Carrillo <benperezc@gmail.com>\n"
 "Language-Team: Spanish (http://www.transifex.com/manjarolinux/manjaro-pamac/language/es/)\n"
 "MIME-Version: 1.0\n"
@@ -329,12 +329,12 @@ msgstr "Falló al descargar %s de los archivos"
 #: src/transaction.vala
 #, c-format
 msgid "Generating %s information"
-msgstr "Generando %s información"
+msgstr "Generando %s de información"
 
 #: src/transaction.vala
 #, c-format
 msgid "Failed to generate %s information"
-msgstr "Falló al generar el %s de información"
+msgstr "Falló en generar %s de información"
 
 #: src/transaction.vala
 #, c-format
@@ -515,6 +515,11 @@ msgid_plural "%u pending operations"
 msgstr[0] "%u operación pendiente"
 msgstr[1] "%u operaciones pendientes"
 
+#: src/manager_window.vala src/snap_plugin.vala
+#: resources/preferences_dialog.ui
+msgid "Snap"
+msgstr "Snap"
+
 #: src/manager_window.vala
 msgid "All"
 msgstr "Todo"
@@ -526,11 +531,6 @@ msgstr "Paquetes huérfanos"
 #: src/manager_window.vala
 msgid "Foreign"
 msgstr "Exterior"
-
-#: src/manager_window.vala src/snap_plugin.vala
-#: resources/preferences_dialog.ui
-msgid "Snap"
-msgstr "Snap"
 
 #: src/manager_window.vala resources/preferences_dialog.ui
 msgid "Flatpak"
@@ -1244,6 +1244,10 @@ msgstr "Relevancia"
 #: resources/manager_window.ui
 msgid "Size"
 msgstr "Tamaño"
+
+#: resources/manager_window.ui
+msgid "Date"
+msgstr "Fecha"
 
 #: resources/manager_window.ui
 msgid "Launch"

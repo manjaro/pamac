@@ -20,8 +20,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2020-02-08 11:17+0100\n"
-"PO-Revision-Date: 2020-02-26 06:02+0000\n"
+"POT-Creation-Date: 2020-02-28 11:30+0100\n"
+"PO-Revision-Date: 2020-03-03 05:45+0000\n"
 "Last-Translator: Tomáš Marhoun <tmarhoun@gmail.com>\n"
 "Language-Team: Czech (http://www.transifex.com/manjarolinux/manjaro-pamac/language/cs/)\n"
 "MIME-Version: 1.0\n"
@@ -324,12 +324,12 @@ msgstr "Chyba klonování %s sestavovacích souborů"
 #: src/transaction.vala
 #, c-format
 msgid "Generating %s information"
-msgstr "Generování %s informací"
+msgstr "Generování %s informace"
 
 #: src/transaction.vala
 #, c-format
 msgid "Failed to generate %s information"
-msgstr "Selhalo generování %s informací"
+msgstr "Selhalo generování %s informace"
 
 #: src/transaction.vala
 #, c-format
@@ -514,6 +514,11 @@ msgstr[1] "%u nevyřízené operace"
 msgstr[2] "%u nevyřízených operací"
 msgstr[3] "%u nevyřízených operací"
 
+#: src/manager_window.vala src/snap_plugin.vala
+#: resources/preferences_dialog.ui
+msgid "Snap"
+msgstr "Snap"
+
 #: src/manager_window.vala
 msgid "All"
 msgstr "Vše"
@@ -525,11 +530,6 @@ msgstr "Sirotci"
 #: src/manager_window.vala
 msgid "Foreign"
 msgstr "Cizí"
-
-#: src/manager_window.vala src/snap_plugin.vala
-#: resources/preferences_dialog.ui
-msgid "Snap"
-msgstr "Snap"
 
 #: src/manager_window.vala resources/preferences_dialog.ui
 msgid "Flatpak"
@@ -1249,6 +1249,10 @@ msgstr "Relevance"
 #: resources/manager_window.ui
 msgid "Size"
 msgstr "Velikost"
+
+#: resources/manager_window.ui
+msgid "Date"
+msgstr "Datum"
 
 #: resources/manager_window.ui
 msgid "Launch"

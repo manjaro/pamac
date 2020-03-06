@@ -26,9 +26,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2020-02-08 11:17+0100\n"
-"PO-Revision-Date: 2020-02-25 08:21+0000\n"
-"Last-Translator: kouros kouros <kormikg@yahoo.gr>\n"
+"POT-Creation-Date: 2020-02-28 11:30+0100\n"
+"PO-Revision-Date: 2020-02-28 15:22+0000\n"
+"Last-Translator: Guillaume Benoit <guillaume@manjaro.org>\n"
 "Language-Team: Greek (http://www.transifex.com/manjarolinux/manjaro-pamac/language/el/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -328,12 +328,12 @@ msgstr "Απέτυχε η κλωνοποίηση %s αρχείων δόμηση�
 #: src/transaction.vala
 #, c-format
 msgid "Generating %s information"
-msgstr "Δημιουργούνται πληροφορίες για %s"
+msgstr ""
 
 #: src/transaction.vala
 #, c-format
 msgid "Failed to generate %s information"
-msgstr "Απέτυχε η δημιουργία %s πληροφοριών"
+msgstr ""
 
 #: src/transaction.vala
 #, c-format
@@ -514,6 +514,11 @@ msgid_plural "%u pending operations"
 msgstr[0] "%u εκκρεμείς διαδικασίες"
 msgstr[1] "%u εκκρεμείς διαδικασίες"
 
+#: src/manager_window.vala src/snap_plugin.vala
+#: resources/preferences_dialog.ui
+msgid "Snap"
+msgstr "Snap"
+
 #: src/manager_window.vala
 msgid "All"
 msgstr "Όλα"
@@ -525,11 +530,6 @@ msgstr "Ορφανά"
 #: src/manager_window.vala
 msgid "Foreign"
 msgstr "Εξωτερικά (AUR)"
-
-#: src/manager_window.vala src/snap_plugin.vala
-#: resources/preferences_dialog.ui
-msgid "Snap"
-msgstr "Snap"
 
 #: src/manager_window.vala resources/preferences_dialog.ui
 msgid "Flatpak"
@@ -1243,6 +1243,10 @@ msgstr "Συνάφεια"
 #: resources/manager_window.ui
 msgid "Size"
 msgstr "Μέγεθος"
+
+#: resources/manager_window.ui
+msgid "Date"
+msgstr ""
 
 #: resources/manager_window.ui
 msgid "Launch"

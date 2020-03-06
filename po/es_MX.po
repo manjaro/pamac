@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2020-02-08 11:17+0100\n"
-"PO-Revision-Date: 2020-02-23 13:24+0000\n"
+"POT-Creation-Date: 2020-02-28 11:30+0100\n"
+"PO-Revision-Date: 2020-02-29 00:03+0000\n"
 "Last-Translator: Pedro Delgado\n"
 "Language-Team: Spanish (Mexico) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/es_MX/)\n"
 "MIME-Version: 1.0\n"
@@ -501,6 +501,11 @@ msgid_plural "%u pending operations"
 msgstr[0] "%u operación pendiente"
 msgstr[1] "%u operaciones pendientes"
 
+#: src/manager_window.vala src/snap_plugin.vala
+#: resources/preferences_dialog.ui
+msgid "Snap"
+msgstr "Snap"
+
 #: src/manager_window.vala
 msgid "All"
 msgstr "Todo"
@@ -512,11 +517,6 @@ msgstr "Huérfano"
 #: src/manager_window.vala
 msgid "Foreign"
 msgstr "Externo"
-
-#: src/manager_window.vala src/snap_plugin.vala
-#: resources/preferences_dialog.ui
-msgid "Snap"
-msgstr "Snap"
 
 #: src/manager_window.vala resources/preferences_dialog.ui
 msgid "Flatpak"
@@ -1230,6 +1230,10 @@ msgstr "Relevancia"
 #: resources/manager_window.ui
 msgid "Size"
 msgstr "Tamaño"
+
+#: resources/manager_window.ui
+msgid "Date"
+msgstr "Fecha"
 
 #: resources/manager_window.ui
 msgid "Launch"

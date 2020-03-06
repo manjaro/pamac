@@ -6,6 +6,7 @@
 # Translators:
 # Alexander Lindberg <alexanderlndbrg@gmail.com>, 2013-2014
 # Mattias Johansson <cashew75s@gmail.com>, 2014
+# Christer Hollsten, 2020
 # Eilidh Martin <maxqueue93+github@gmail.com>, 2017
 # Lennart Niemelä <lennart.niemela@gmail.com>, 2016
 # Luna Jernberg <bittin@cafe8bitar.se>, 2020
@@ -22,9 +23,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2020-02-08 11:17+0100\n"
-"PO-Revision-Date: 2020-02-26 13:40+0000\n"
-"Last-Translator: Luna Jernberg <bittin@cafe8bitar.se>\n"
+"POT-Creation-Date: 2020-02-28 11:30+0100\n"
+"PO-Revision-Date: 2020-02-29 23:41+0000\n"
+"Last-Translator: Christer Hollsten\n"
 "Language-Team: Swedish (http://www.transifex.com/manjarolinux/manjaro-pamac/language/sv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -122,7 +123,7 @@ msgstr "%s är ogiltig eller korrupt"
 
 #: src/alpm_utils.vala
 msgid "failed to retrieve some files"
-msgstr ""
+msgstr "misslyckades med att hämta vissa filer"
 
 #: src/alpm_utils.vala
 msgid "Failed to commit transaction"
@@ -233,7 +234,7 @@ msgstr "Kör transaktionsefterarbeten"
 
 #: src/alpm_utils.vala
 msgid "Error while running hooks"
-msgstr ""
+msgstr "Fel vid körning av hooks"
 
 #: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
@@ -285,7 +286,7 @@ msgstr "Överföring avbruten"
 
 #: src/daemon.vala
 msgid "Timeout expired"
-msgstr ""
+msgstr "Timeout har gått ut"
 
 #: src/database.vala src/manager_window.vala
 msgid "Explicitly installed"
@@ -448,7 +449,7 @@ msgstr "Installera"
 #: src/transaction-gtk.vala
 #, c-format
 msgid "The snap %s was published using classic confinement"
-msgstr ""
+msgstr "Snap %s publicerades med klassisk inneslutning"
 
 #: src/transaction-gtk.vala
 #, c-format
@@ -510,6 +511,11 @@ msgid_plural "%u pending operations"
 msgstr[0] "%u pågående åtgärd"
 msgstr[1] "%u pågående åtgärder"
 
+#: src/manager_window.vala src/snap_plugin.vala
+#: resources/preferences_dialog.ui
+msgid "Snap"
+msgstr "Snap"
+
 #: src/manager_window.vala
 msgid "All"
 msgstr "Alla"
@@ -521,11 +527,6 @@ msgstr "Föräldralösa"
 #: src/manager_window.vala
 msgid "Foreign"
 msgstr "Främmande"
-
-#: src/manager_window.vala src/snap_plugin.vala
-#: resources/preferences_dialog.ui
-msgid "Snap"
-msgstr "Snap"
 
 #: src/manager_window.vala resources/preferences_dialog.ui
 msgid "Flatpak"
@@ -677,7 +678,7 @@ msgstr "Ta bort"
 
 #: src/manager_window.vala
 msgid "Featured"
-msgstr ""
+msgstr "Funktioner"
 
 #: src/manager_window.vala
 msgid "Photo & Video"
@@ -847,11 +848,11 @@ msgstr "fil(er)"
 
 #: src/cli.vala
 msgid "only search for installed packages"
-msgstr ""
+msgstr "sök endast efter installerade paket"
 
 #: src/cli.vala
 msgid "only search for packages in repositories"
-msgstr ""
+msgstr "sök endast efter paket i förråden"
 
 #: src/cli.vala
 msgid "also search in AUR"
@@ -943,11 +944,11 @@ msgstr "Byggkatalogen kommer vara den övre katalogen, --builddir alternativet k
 
 #: src/cli.vala
 msgid "and --no-clone option will be enforced"
-msgstr ""
+msgstr "och --no-clone alternativ kommer att verkställas"
 
 #: src/cli.vala
 msgid "keep built packages in cache after installation"
-msgstr ""
+msgstr "behåll byggda paket i cache efter installationen"
 
 #: src/cli.vala
 msgid "do not clone build files from AUR, only use local files"
@@ -955,7 +956,7 @@ msgstr "klona ej byggfiler från AUR, använd enbart lokala filer"
 
 #: src/cli.vala
 msgid "bypass any and all confirmation messages"
-msgstr ""
+msgstr "kringgå alla bekräftelsemeddelanden"
 
 #: src/cli.vala
 msgid "glob"
@@ -975,11 +976,11 @@ msgstr "skriv över motstridiga filer, flera mönster kan anges genom att separe
 
 #: src/cli.vala
 msgid "download all packages but do not install/upgrade anything"
-msgstr ""
+msgstr "hämta alla paket men installera/uppdatera ej"
 
 #: src/cli.vala
 msgid "mark all packages installed as a dependency"
-msgstr ""
+msgstr "markera alla paket installerade som ett beroende"
 
 #: src/cli.vala
 msgid "mark all packages explicitly installed"
@@ -995,7 +996,7 @@ msgstr "Ominstallera paket"
 
 #: src/cli.vala
 msgid "remove packages only if they are not required by any other packages"
-msgstr ""
+msgstr "ta endast bort paket om de inte krävs av andra paket"
 
 #: src/cli.vala
 msgid ""
@@ -1005,7 +1006,7 @@ msgstr "ta bort besittningar som ej behövs av andra paket, om detta alternative
 
 #: src/cli.vala
 msgid "ignore files backup"
-msgstr ""
+msgstr "ignorera backup av filer"
 
 #: src/cli.vala
 msgid "Safely check for updates without modifiying the databases"
@@ -1043,7 +1044,7 @@ msgstr "uppgradera även paket som har installerats från AUR"
 
 #: src/cli.vala
 msgid "also upgrade development packages (use with --aur)"
-msgstr ""
+msgstr "uppgradera också utvecklingspaket (använd med --aur)"
 
 #: src/cli.vala
 msgid ""
@@ -1070,25 +1071,25 @@ msgstr "nummer"
 #: src/cli.vala
 msgid ""
 "specify how many versions of each package are kept in the cache directory"
-msgstr ""
+msgstr "ange hur många versioner av varje paket som sparas i cachekatalogen"
 
 #: src/cli.vala
 msgid "only target uninstalled packages"
-msgstr ""
+msgstr "inrikta dig bara på avinstallerade paket"
 
 #: src/cli.vala
 msgid ""
 "remove all build files, the build directory is the one specified in "
 "pamac.conf"
-msgstr ""
+msgstr "ta bort alla build-filer, build-katalogen är den som anges i pamac.conf"
 
 #: src/cli.vala
 msgid "do not remove files, only find candidate packages"
-msgstr ""
+msgstr "ta inte bort filer, bara hitta kandidatpaket"
 
 #: src/cli.vala
 msgid "also display all files names"
-msgstr ""
+msgstr "visar också alla filnamn"
 
 #: src/cli.vala resources/manager_window.ui
 msgid "Name"
@@ -1241,6 +1242,10 @@ msgid "Size"
 msgstr "Storlek"
 
 #: resources/manager_window.ui
+msgid "Date"
+msgstr "Datum"
+
+#: resources/manager_window.ui
 msgid "Launch"
 msgstr "Starta"
 
@@ -1272,7 +1277,7 @@ msgstr "Allmänt"
 msgid ""
 "Misconfiguration of these options can lead to system breakage.\n"
 "Modify them only if you know what you are doing."
-msgstr ""
+msgstr "Felkonfiguration av dessa alternativ kan leda till systembrott.\nÄndra dem bara om du vet vad du gör."
 
 #: resources/preferences_dialog.ui
 msgid "Check available disk space"
@@ -1290,7 +1295,7 @@ msgstr "När ett paket tas bort, ta även bort de beroenden paketet har, men som
 
 #: resources/preferences_dialog.ui
 msgid "Do not check for updates when installing"
-msgstr ""
+msgstr "Kolla inte efter uppdateringar vid installation"
 
 #: resources/preferences_dialog.ui
 msgid "Enable downgrade"
@@ -1332,7 +1337,7 @@ msgstr "Tillåt Pamac att söka och installera paket från AUR"
 
 #: resources/preferences_dialog.ui
 msgid "Keep built packages in cache"
-msgstr ""
+msgstr "Behåll byggda paket i cache"
 
 #: resources/preferences_dialog.ui
 msgid "Check for updates from AUR"
