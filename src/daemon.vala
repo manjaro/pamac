@@ -424,9 +424,21 @@ namespace Pamac {
 
 		public void start_download_updates (BusName sender) throws Error {
 			try {
+				if (!cancellables_table.contains (sender)) {
+					cancellables_table.insert (sender, new Cancellable ());
+				}
+				var cancellable = cancellables_table.lookup (sender);
 				new Thread<int>.try ("download_updates", () => {
 					AtomicInt.inc (ref running_threads);
-					alpm_utils.download_updates (sender);
+					if (alpm_utils.downloading_updates) {
+						// cancel download updates
+						alpm_utils.cancellable.cancel ();
+					}
+					bool success = wait_for_lock (sender, cancellable);
+					if (success) {
+						alpm_utils.download_updates (sender);
+						lockfile_mutex.unlock ();
+					}
 					download_updates_finished (sender);
 					AtomicInt.dec_and_test (ref running_threads);
 					return 0;
@@ -474,16 +486,16 @@ namespace Pamac {
 
 		public void start_trans_refresh (bool force, BusName sender) throws Error {
 			try {
-				if (alpm_utils.downloading_updates) {
-					// cancel download updates
-					alpm_utils.cancellable.cancel ();
-				}
 				if (!cancellables_table.contains (sender)) {
 					cancellables_table.insert (sender, new Cancellable ());
 				}
 				var cancellable = cancellables_table.lookup (sender);
 				new Thread<int>.try ("trans_refresh", () => {
 					AtomicInt.inc (ref running_threads);
+					if (alpm_utils.downloading_updates) {
+						// cancel download updates
+						alpm_utils.cancellable.cancel ();
+					}
 					bool success = wait_for_lock (sender, cancellable);
 					if (success) {
 						success = alpm_utils.refresh (sender, force);
@@ -501,16 +513,16 @@ namespace Pamac {
 
 		public void start_download_pkg (string url, BusName sender) throws Error {
 			try {
-				if (alpm_utils.downloading_updates) {
-					// cancel download updates
-					alpm_utils.cancellable.cancel ();
-				}
 				if (!cancellables_table.contains (sender)) {
 					cancellables_table.insert (sender, new Cancellable ());
 				}
 				var cancellable = cancellables_table.lookup (sender);
 				new Thread<int>.try ("download_pkg", () => {
 					AtomicInt.inc (ref running_threads);
+					if (alpm_utils.downloading_updates) {
+						// cancel download updates
+						alpm_utils.cancellable.cancel ();
+					}
 					string path = "";
 					bool success = wait_for_lock (sender, cancellable);
 					if (success) {
@@ -540,10 +552,6 @@ namespace Pamac {
 									string[] overwrite_files,
 									BusName sender) throws Error {
 			try {
-				if (alpm_utils.downloading_updates) {
-					// cancel download updates
-					alpm_utils.cancellable.cancel ();
-				}
 				string[] to_install_copy = to_install;
 				string[] to_remove_copy = to_remove;
 				string[] to_load_copy = to_load;
@@ -556,6 +564,10 @@ namespace Pamac {
 				var cancellable = cancellables_table.lookup (sender);
 				new Thread<int>.try ("trans_run", () => {
 					AtomicInt.inc (ref running_threads);
+					if (alpm_utils.downloading_updates) {
+						// cancel download updates
+						alpm_utils.cancellable.cancel ();
+					}
 					bool success = wait_for_lock (sender, cancellable);
 					if (success) {
 						success = alpm_utils.trans_run (sender,
