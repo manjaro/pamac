@@ -89,6 +89,8 @@ namespace Pamac {
 		#if ENABLE_FLATPAK
 		[GtkChild]
 		Gtk.Switch enable_flatpak_button;
+		[GtkChild]
+		Gtk.CheckButton check_flatpak_updates_checkbutton;
 		#endif
 
 		Gtk.ListStore ignorepkgs_liststore;
@@ -209,6 +211,9 @@ namespace Pamac {
 				flatpak_config_box.visible = true;
 				enable_flatpak_button.active = transaction.database.config.enable_flatpak;
 				enable_flatpak_button.state_set.connect (on_enable_flatpak_button_state_set);
+				check_flatpak_updates_checkbutton.active = transaction.database.config.check_flatpak_updates;
+				check_flatpak_updates_checkbutton.sensitive = transaction.database.config.enable_flatpak;
+				check_flatpak_updates_checkbutton.toggled.connect (on_check_flatpak_updates_checkbutton_toggled);
 			} else {
 				flatpak_config_box.visible = false;
 			}
@@ -335,8 +340,13 @@ namespace Pamac {
 		#if ENABLE_FLATPAK
 		bool on_enable_flatpak_button_state_set (bool new_state) {
 			enable_flatpak_button.state = new_state;
+			check_flatpak_updates_checkbutton.sensitive = new_state;
 			transaction.database.config.enable_flatpak = new_state;
 			return true;
+		}
+
+		void on_check_flatpak_updates_checkbutton_toggled () {
+			transaction.database.config.check_flatpak_updates = check_flatpak_updates_checkbutton.active;
 		}
 		#endif
 

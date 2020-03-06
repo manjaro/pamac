@@ -40,6 +40,7 @@ namespace Pamac {
 		#if ENABLE_FLATPAK
 		public bool support_flatpak { get; set; }
 		public bool enable_flatpak { get; set; }
+		public bool check_flatpak_updates { get; set; }
 		PluginLoader<FlatpakPlugin> flatpak_plugin_loader;
 		#endif
 		public string aur_build_dir { get; set; }
@@ -128,6 +129,7 @@ namespace Pamac {
 			#endif
 			#if ENABLE_FLATPAK
 			enable_flatpak = false;
+			check_flatpak_updates = false;
 			#endif
 			aur_build_dir = "/var/tmp";
 			check_aur_updates = false;
@@ -137,10 +139,10 @@ namespace Pamac {
 			clean_keep_num_pkgs = 3;
 			clean_rm_only_uninstalled = false;
 			parse_file (conf_path);
-			if (enable_aur == false) {
+			if (!enable_aur) {
 				check_aur_updates = false;
 				check_aur_vcs_updates = false;
-			} else if (check_aur_updates == false) {
+			} else if (!check_aur_updates) {
 				check_aur_vcs_updates = false;
 			}
 			// limited max_parallel_downloads
@@ -159,6 +161,9 @@ namespace Pamac {
 			#if ENABLE_FLATPAK
 			if (!support_flatpak) {
 				enable_flatpak = false;
+				check_flatpak_updates = false;
+			} else if (!enable_flatpak) {
+				check_flatpak_updates = false;
 			}
 			#endif
 		}
@@ -233,6 +238,8 @@ namespace Pamac {
 						#if ENABLE_FLATPAK
 						} else if (key == "EnableFlatpak") {
 							enable_flatpak = true;
+						} else if (key == "CheckFlatpakUpdates") {
+							check_flatpak_updates = true;
 						#endif
 						} else if (key == "BuildDirectory") {
 							if (splitted.length == 2) {
@@ -309,6 +316,7 @@ namespace Pamac {
 			#endif
 			#if ENABLE_FLATPAK
 			new_pamac_conf.insert ("EnableFlatpak", new Variant.boolean (enable_flatpak));
+			new_pamac_conf.insert ("CheckFlatpakUpdates", new Variant.boolean (check_flatpak_updates));
 			#endif
 			try {
 				system_daemon.start_write_pamac_config (new_pamac_conf);

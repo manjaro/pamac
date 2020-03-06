@@ -1926,7 +1926,7 @@ namespace Pamac {
 					}
 					#if ENABLE_FLATPAK
 					var flatpak_updates = new GenericArray<FlatpakPackage> ();
-					if (config.enable_flatpak) {
+					if (config.check_flatpak_updates) {
 						flatpak_plugin.get_flatpak_updates (ref flatpak_updates);
 					}
 					#endif

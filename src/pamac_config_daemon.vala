@@ -296,6 +296,18 @@ namespace Pamac {
 								data.append (line);
 								data.append ("\n");
 							}
+						} else if (line.contains ("CheckFlatpakUpdates")) {
+							if (new_conf.lookup_extended ("CheckFlatpakUpdates", null, out variant)) {
+								if (variant.get_boolean ()) {
+									data.append ("CheckFlatpakUpdates\n");
+								} else {
+									data.append ("#CheckFlatpakUpdates\n");
+								}
+								new_conf.remove ("CheckFlatpakUpdates");
+							} else {
+								data.append (line);
+								data.append ("\n");
+							}
 						#endif
 						} else if (line.contains ("BuildDirectory")) {
 							if (new_conf.lookup_extended ("BuildDirectory", null, out variant)) {
@@ -429,6 +441,12 @@ namespace Pamac {
 							data.append ("EnableFlatpak\n\n");
 						} else {
 							data.append ("#EnableFlatpak\n\n");
+						}
+					} else if (key == "CheckFlatpakUpdates") {
+						if (val.get_boolean ()) {
+							data.append ("CheckFlatpakUpdates\n\n");
+						} else {
+							data.append ("#CheckFlatpakUpdates\n\n");
 						}
 					#endif
 					} else if (key == "BuildDirectory") {
