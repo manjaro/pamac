@@ -17,8 +17,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2020-02-08 11:17+0100\n"
-"PO-Revision-Date: 2020-02-23 02:21+0000\n"
+"POT-Creation-Date: 2020-02-28 11:30+0100\n"
+"PO-Revision-Date: 2020-02-28 16:38+0000\n"
 "Last-Translator: Serdar Sağlam <teknomobil@msn.com>\n"
 "Language-Team: Turkish (http://www.transifex.com/manjarolinux/manjaro-pamac/language/tr/)\n"
 "MIME-Version: 1.0\n"
@@ -324,7 +324,7 @@ msgstr "%s bilgisi oluşturuluyor"
 #: src/transaction.vala
 #, c-format
 msgid "Failed to generate %s information"
-msgstr "Bilgi oluşturulamadı %s"
+msgstr "%s bilgisi oluşturulamadı"
 
 #: src/transaction.vala
 #, c-format
@@ -505,6 +505,11 @@ msgid_plural "%u pending operations"
 msgstr[0] "%u bekleyen işlem"
 msgstr[1] "%u bekleyen işlem"
 
+#: src/manager_window.vala src/snap_plugin.vala
+#: resources/preferences_dialog.ui
+msgid "Snap"
+msgstr "Snap"
+
 #: src/manager_window.vala
 msgid "All"
 msgstr "Tüm Paketler"
@@ -516,11 +521,6 @@ msgstr "Sahipsiz paketler"
 #: src/manager_window.vala
 msgid "Foreign"
 msgstr "Yabancı paketler"
-
-#: src/manager_window.vala src/snap_plugin.vala
-#: resources/preferences_dialog.ui
-msgid "Snap"
-msgstr "Snap"
 
 #: src/manager_window.vala resources/preferences_dialog.ui
 msgid "Flatpak"
@@ -1234,6 +1234,10 @@ msgstr "Uyumluluk"
 #: resources/manager_window.ui
 msgid "Size"
 msgstr "Boyut"
+
+#: resources/manager_window.ui
+msgid "Date"
+msgstr "Tarih"
 
 #: resources/manager_window.ui
 msgid "Launch"

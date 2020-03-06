@@ -19,8 +19,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2020-02-08 11:17+0100\n"
-"PO-Revision-Date: 2020-02-24 18:06+0000\n"
+"POT-Creation-Date: 2020-02-28 11:30+0100\n"
+"PO-Revision-Date: 2020-03-01 09:57+0000\n"
 "Last-Translator: Davidmp <medipas@gmail.com>\n"
 "Language-Team: Catalan (http://www.transifex.com/manjarolinux/manjaro-pamac/language/ca/)\n"
 "MIME-Version: 1.0\n"
@@ -321,12 +321,12 @@ msgstr "Ha fallat clonar %s fitxers de construcció."
 #: src/transaction.vala
 #, c-format
 msgid "Generating %s information"
-msgstr "Es generen informacions de %s."
+msgstr "Es genera la informació de %s."
 
 #: src/transaction.vala
 #, c-format
 msgid "Failed to generate %s information"
-msgstr "Ha fallat generar les informacions de %s."
+msgstr "Ha fallat generar la informació de %s."
 
 #: src/transaction.vala
 #, c-format
@@ -507,6 +507,11 @@ msgid_plural "%u pending operations"
 msgstr[0] "%u operació pendent"
 msgstr[1] "%u operacions pendents"
 
+#: src/manager_window.vala src/snap_plugin.vala
+#: resources/preferences_dialog.ui
+msgid "Snap"
+msgstr "Snap"
+
 #: src/manager_window.vala
 msgid "All"
 msgstr "Tot"
@@ -518,11 +523,6 @@ msgstr "Orfes"
 #: src/manager_window.vala
 msgid "Foreign"
 msgstr "Aliè"
-
-#: src/manager_window.vala src/snap_plugin.vala
-#: resources/preferences_dialog.ui
-msgid "Snap"
-msgstr "Snap"
 
 #: src/manager_window.vala resources/preferences_dialog.ui
 msgid "Flatpak"
@@ -1236,6 +1236,10 @@ msgstr "Rellevància"
 #: resources/manager_window.ui
 msgid "Size"
 msgstr "Mida"
+
+#: resources/manager_window.ui
+msgid "Date"
+msgstr "Data"
 
 #: resources/manager_window.ui
 msgid "Launch"

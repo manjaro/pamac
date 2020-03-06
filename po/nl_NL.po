@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2020-02-08 11:17+0100\n"
-"PO-Revision-Date: 2020-02-23 12:31+0000\n"
+"POT-Creation-Date: 2020-02-28 11:30+0100\n"
+"PO-Revision-Date: 2020-02-28 17:22+0000\n"
 "Last-Translator: Heimen Stoffels <vistausss@outlook.com>\n"
 "Language-Team: Dutch (Netherlands) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/nl_NL/)\n"
 "MIME-Version: 1.0\n"
@@ -502,6 +502,11 @@ msgid_plural "%u pending operations"
 msgstr[0] "%u opdracht in de wachtrij"
 msgstr[1] "%u opdrachten in de wachtrij"
 
+#: src/manager_window.vala src/snap_plugin.vala
+#: resources/preferences_dialog.ui
+msgid "Snap"
+msgstr "Snap"
+
 #: src/manager_window.vala
 msgid "All"
 msgstr "Alle"
@@ -513,11 +518,6 @@ msgstr "Weespakketten"
 #: src/manager_window.vala
 msgid "Foreign"
 msgstr "Derde partij-pakketten"
-
-#: src/manager_window.vala src/snap_plugin.vala
-#: resources/preferences_dialog.ui
-msgid "Snap"
-msgstr "Snap"
 
 #: src/manager_window.vala resources/preferences_dialog.ui
 msgid "Flatpak"
@@ -1231,6 +1231,10 @@ msgstr "Relevantie"
 #: resources/manager_window.ui
 msgid "Size"
 msgstr "Grootte"
+
+#: resources/manager_window.ui
+msgid "Date"
+msgstr "Datum"
 
 #: resources/manager_window.ui
 msgid "Launch"

@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2020-02-08 11:17+0100\n"
-"PO-Revision-Date: 2020-02-27 05:57+0000\n"
+"POT-Creation-Date: 2020-02-28 11:30+0100\n"
+"PO-Revision-Date: 2020-02-29 19:42+0000\n"
 "Last-Translator: UTUMI Hirosi <utuhiro78@yahoo.co.jp>\n"
 "Language-Team: Japanese (http://www.transifex.com/manjarolinux/manjaro-pamac/language/ja/)\n"
 "MIME-Version: 1.0\n"
@@ -499,6 +499,11 @@ msgid "%u pending operation"
 msgid_plural "%u pending operations"
 msgstr[0] "%u 個の操作を保留しています"
 
+#: src/manager_window.vala src/snap_plugin.vala
+#: resources/preferences_dialog.ui
+msgid "Snap"
+msgstr "Snap"
+
 #: src/manager_window.vala
 msgid "All"
 msgstr "全て"
@@ -510,11 +515,6 @@ msgstr "孤立したパッケージ"
 #: src/manager_window.vala
 msgid "Foreign"
 msgstr "外部のパッケージ"
-
-#: src/manager_window.vala src/snap_plugin.vala
-#: resources/preferences_dialog.ui
-msgid "Snap"
-msgstr "Snap"
 
 #: src/manager_window.vala resources/preferences_dialog.ui
 msgid "Flatpak"
@@ -1225,6 +1225,10 @@ msgstr "関連度"
 #: resources/manager_window.ui
 msgid "Size"
 msgstr "サイズ"
+
+#: resources/manager_window.ui
+msgid "Date"
+msgstr "日付"
 
 #: resources/manager_window.ui
 msgid "Launch"

@@ -5,8 +5,8 @@
 # 
 # Translators:
 # Cybertramp <paran_son@outlook.com>, 2018
-# MarongHappy <daemul72@gmail.com>, 2020
-# MarongHappy <daemul72@gmail.com>, 2019-2020
+# 이정희 <daemul72@gmail.com>, 2020
+# 이정희 <daemul72@gmail.com>, 2019-2020
 # Dongyun KIm <104arb@gmail.com>, 2018
 # Eric Park <ideamaneric@gmail.com>, 2017
 # lego37yoon <lego37yoon@outlook.com>, 2013
@@ -18,9 +18,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2020-02-08 11:17+0100\n"
-"PO-Revision-Date: 2020-02-22 23:10+0000\n"
-"Last-Translator: philm <philm@manjaro.org>\n"
+"POT-Creation-Date: 2020-02-28 11:30+0100\n"
+"PO-Revision-Date: 2020-03-02 07:45+0000\n"
+"Last-Translator: 이정희 <daemul72@gmail.com>\n"
 "Language-Team: Korean (http://www.transifex.com/manjarolinux/manjaro-pamac/language/ko/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -34,11 +34,11 @@ msgstr "패키지 설치, 업데이트 또는 제거"
 
 #: data/polkit/org.manjaro.pamac.policy.in
 msgid "Authentication is required to install, update, or remove packages"
-msgstr "패키지를 설치, 업데이트 또는 제거하려면 인증이 필요함"
+msgstr "패키지를 설치, 업데이트 또는 제거하려면 인증이 필요합니다"
 
 #: src/alpm_utils.vala src/database.vala
 msgid "Failed to initialize alpm library"
-msgstr "Alpm 라이브러리의 초기화에 실패함"
+msgstr "alpm 라이브러리를 초기화하지 못했습니다"
 
 #: src/alpm_utils.vala
 msgid "Synchronizing package databases"
@@ -46,7 +46,7 @@ msgstr "패키지 데이터베이스 동기화중"
 
 #: src/alpm_utils.vala
 msgid "Failed to synchronize databases"
-msgstr "데이터베이스 동기화 실패함"
+msgstr "데이터베이스를 동기화하지 못했습니다"
 
 #: src/alpm_utils.vala src/database.vala src/manager_window.vala src/cli.vala
 #: resources/preferences_dialog.ui
@@ -55,12 +55,12 @@ msgstr "AUR"
 
 #: src/alpm_utils.vala
 msgid "Failed to init transaction"
-msgstr "처리과정 초기화에 실패함"
+msgstr "트랜잭션을 초기화하지 못했습니다"
 
 #: src/alpm_utils.vala src/transaction.vala src/transaction-gtk.vala
 #: src/installer.vala
 msgid "Failed to prepare transaction"
-msgstr "처리과정 준비에 실패함"
+msgstr "트랜잭션을 준비하지 못했습니다"
 
 #: src/alpm_utils.vala src/transaction.vala src/installer.vala src/cli.vala
 #, c-format
@@ -90,7 +90,7 @@ msgstr "%s을(를) 제거하면 %s에 필요한 의존성 '%s'이(가) 깨집니
 #: src/alpm_utils.vala
 #, c-format
 msgid "%s and %s are in conflict"
-msgstr "%s 와 %s이(가) 충돌합니다"
+msgstr "%s 및 %s이(가) 충돌합니다"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -104,25 +104,25 @@ msgstr "아무 것도 할 것이 없습니다"
 #: src/alpm_utils.vala
 #, c-format
 msgid "%s exists in both %s and %s"
-msgstr "%s은(는) %s과(와) %s에 존재함"
+msgstr "%s은(는) %s과(와) %s 모두에 존재합니다"
 
 #: src/alpm_utils.vala
 #, c-format
 msgid "%s: %s already exists in filesystem"
-msgstr "%s: %s이(가) 파일 시스템에 이미 존재함"
+msgstr "%s: %s이(가) 파일 시스템에 이미 존재합니다"
 
 #: src/alpm_utils.vala
 #, c-format
 msgid "%s is invalid or corrupted"
-msgstr "%s이(가) 유효하지 않거나 손상됨"
+msgstr "%s이(가) 유효하지 않거나 손상되었습니다"
 
 #: src/alpm_utils.vala
 msgid "failed to retrieve some files"
-msgstr "일부 파일 검색에 실패함"
+msgstr "일부 파일을 검색하지 못했습니다"
 
 #: src/alpm_utils.vala
 msgid "Failed to commit transaction"
-msgstr "커밋 처리과정을 실패함"
+msgstr "트랜잭션을 커밋하지 못했습니다"
 
 #: src/alpm_utils.vala
 msgid "Checking dependencies"
@@ -212,20 +212,20 @@ msgstr "필요한 키 다운로드중"
 #: src/alpm_utils.vala
 #, c-format
 msgid "%s installed as %s.pacnew"
-msgstr "%s은(는) %s.pacnew로 설치됨"
+msgstr "%s은(는) %s.pacnew로 설치되었습니다"
 
 #: src/alpm_utils.vala
 #, c-format
 msgid "%s installed as %s.pacsave"
-msgstr "%s 는 %s.pacsave로 설치됨"
+msgstr "%s 는 %s.pacsave로 설치되었습니다"
 
 #: src/alpm_utils.vala
 msgid "Running pre-transaction hooks"
-msgstr "처리과정전 후크 실행중"
+msgstr "프리-트랜잭션 후크 실행중"
 
 #: src/alpm_utils.vala
 msgid "Running post-transaction hooks"
-msgstr "처리과정후 후크 실행중"
+msgstr "포스트-트랜잭션 후크 실행중"
 
 #: src/alpm_utils.vala
 msgid "Error while running hooks"
@@ -234,13 +234,13 @@ msgstr "후크 실행 중 오류"
 #: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
 msgid "About %u seconds remaining"
-msgstr "%u 초 정도 남음"
+msgstr "대략 %u 초 남음"
 
 #: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
 msgid "About %lu minute remaining"
 msgid_plural "About %lu minutes remaining"
-msgstr[0] "%lu 분 정도 남음"
+msgstr[0] "대략 %lu 분 남음"
 
 #: src/alpm_utils.vala src/transaction-cli.vala src/cli.vala
 msgid "Error"
@@ -249,7 +249,7 @@ msgstr "오류"
 #: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
 msgid "Download of %s started"
-msgstr "%s 다운로드 시작됨"
+msgstr "%s의 다운로드가 시작되었습니다"
 
 #: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
@@ -268,7 +268,7 @@ msgstr "%s 다운로드중"
 
 #: src/daemon.vala
 msgid "Authentication failed"
-msgstr "인증 실패함"
+msgstr "인증 실패"
 
 #: src/daemon.vala
 msgid "Waiting for another package manager to quit"
@@ -276,19 +276,19 @@ msgstr "다른 패키지 관리자가 종료되기를 기다리는 중"
 
 #: src/daemon.vala src/transaction.vala
 msgid "Transaction cancelled"
-msgstr "처리과정 취소됨"
+msgstr "트랜잭션이 취소되었습니다"
 
 #: src/daemon.vala
 msgid "Timeout expired"
-msgstr "시간 초과됨"
+msgstr "시간초과로 만료되었습니다"
 
 #: src/database.vala src/manager_window.vala
 msgid "Explicitly installed"
-msgstr "선택적으로 설치됨"
+msgstr "선택적으로 설치되었습니다"
 
 #: src/database.vala src/manager_window.vala
 msgid "Installed as a dependency for another package"
-msgstr "다른 패키지에 대한 의존성으로 설치됨"
+msgstr "다른 패키지에 대한 의존성으로 설치되었습니다"
 
 #: src/database.vala
 msgid "Unknown"
@@ -314,7 +314,7 @@ msgstr "%s 빌드 파일 복제중"
 #: src/transaction.vala
 #, c-format
 msgid "Failed to clone %s build files"
-msgstr "%s 빌드 파일 복제에 실패함"
+msgstr "%s 빌드 파일을 복제하지 못했습니다"
 
 #: src/transaction.vala
 #, c-format
@@ -324,7 +324,7 @@ msgstr "%s 정보 생성중"
 #: src/transaction.vala
 #, c-format
 msgid "Failed to generate %s information"
-msgstr "%s정보 생성에 실패함"
+msgstr "%s 정보를 생성하지 못했습니다"
 
 #: src/transaction.vala
 #, c-format
@@ -334,7 +334,7 @@ msgstr "%s 의존성 확인중"
 #: src/transaction.vala
 #, c-format
 msgid "Failed to check %s dependencies"
-msgstr "%s 종속성 확인에 실패함"
+msgstr "%s 종속성을 확인하지 못했습니다"
 
 #: src/transaction.vala
 #, c-format
@@ -343,7 +343,7 @@ msgstr "%s 키를 가져올 수 없습니다"
 
 #: src/transaction.vala src/manager_window.vala
 msgid "Transaction successfully finished"
-msgstr "처리과정을 성공적으로 완료했습니다"
+msgstr "트랜잭션이 성공적으로 완료되었습니다"
 
 #: src/transaction.vala
 msgid "Preparing"
@@ -491,7 +491,7 @@ msgstr "세부 정보"
 
 #: src/manager_window.vala
 msgid "No package found"
-msgstr "패키지를 찾을 수 없음"
+msgstr "패키지를 찾을 수 없습니다"
 
 #: src/manager_window.vala
 msgid "Checking for Updates"
@@ -502,6 +502,11 @@ msgstr "업데이트 확인중"
 msgid "%u pending operation"
 msgid_plural "%u pending operations"
 msgstr[0] "보류중인 작업 %u 개"
+
+#: src/manager_window.vala src/snap_plugin.vala
+#: resources/preferences_dialog.ui
+msgid "Snap"
+msgstr "스냅"
 
 #: src/manager_window.vala
 msgid "All"
@@ -515,14 +520,9 @@ msgstr "고립된 패키지"
 msgid "Foreign"
 msgstr "외부 패키지"
 
-#: src/manager_window.vala src/snap_plugin.vala
-#: resources/preferences_dialog.ui
-msgid "Snap"
-msgstr "스냅"
-
 #: src/manager_window.vala resources/preferences_dialog.ui
 msgid "Flatpak"
-msgstr ""
+msgstr "Flatpak"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Repositories"
@@ -530,7 +530,7 @@ msgstr "저장소"
 
 #: src/manager_window.vala src/cli.vala resources/manager_window.ui
 msgid "Installed"
-msgstr "설치됨"
+msgstr "설치되었습니다"
 
 #: src/manager_window.vala
 msgid "Dependencies"
@@ -550,7 +550,7 @@ msgstr "설치 이유"
 
 #: src/manager_window.vala
 msgid "Mark as explicitly installed"
-msgstr "선택적으로 설치됨으로 표시"
+msgstr "분명하게 설치된 것으로 표시"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Licenses"
@@ -650,7 +650,7 @@ msgstr "제작자"
 
 #: src/manager_window.vala
 msgid "Confined in a Sandbox"
-msgstr "샌드박스에 고정됨"
+msgstr "샌드박스에 고정되었습니다"
 
 #: src/manager_window.vala
 msgid "Channels"
@@ -798,7 +798,7 @@ msgstr "제거된 패키지의 전체 크기"
 
 #: src/transaction-cli.vala
 msgid "Apply transaction"
-msgstr "트랜잭션을 적용"
+msgstr "트랜잭션 적용"
 
 #: src/transaction-cli.vala
 #, c-format
@@ -935,7 +935,7 @@ msgstr "빌드 디렉토리는 상위 디렉토리가 되고, --builddir 옵션�
 
 #: src/cli.vala
 msgid "and --no-clone option will be enforced"
-msgstr "--no-clone 옵션이 강제 적용됨"
+msgstr "--no-clone 옵션이 강제 적용되었습니다"
 
 #: src/cli.vala
 msgid "keep built packages in cache after installation"
@@ -967,7 +967,7 @@ msgstr "충돌하는 파일을 덮어쓰고, 여러 패턴을 쉼표로 구분�
 
 #: src/cli.vala
 msgid "download all packages but do not install/upgrade anything"
-msgstr "모든 패키지를 다운로드하지만 아무것도 설치/업그레이드하지 않음"
+msgstr "모든 패키지를 다운로드하지만 아무것도 설치/업그레이드하지 않습니다"
 
 #: src/cli.vala
 msgid "mark all packages installed as a dependency"
@@ -979,7 +979,7 @@ msgstr "명시적으로 설치된 모든 패키지 표시"
 
 #: src/cli.vala
 msgid "do not check for updates"
-msgstr "업데이트를 확인하지 않음"
+msgstr "업데이트를 확인하지 않습니다"
 
 #: src/cli.vala
 msgid "Reinstall packages"
@@ -1076,7 +1076,7 @@ msgstr "모든 빌드 파일을 제거합니다. 빌드 디렉토리는 pamac.co
 
 #: src/cli.vala
 msgid "do not remove files, only find candidate packages"
-msgstr "파일을 제거하지 않고 후보 패키지만 찾음"
+msgstr "파일을 제거하지 않고 후보 패키지만 찾습니다"
 
 #: src/cli.vala
 msgid "also display all files names"
@@ -1105,7 +1105,7 @@ msgstr "설치된 크기"
 #: src/cli.vala
 #, c-format
 msgid "No package owns %s"
-msgstr "%s을(를) 소유하는 패키지가 없음"
+msgstr "%s을(를) 소유하는 패키지가 없습니다"
 
 #: src/cli.vala
 #, c-format
@@ -1168,7 +1168,7 @@ msgstr "Pamac 히스토리"
 
 #: resources/transaction_sum_dialog.ui
 msgid "Transaction Summary"
-msgstr "처리과정 요약"
+msgstr "트랜잭션 요약"
 
 #: resources/transaction_sum_dialog.ui resources/manager_window.ui
 msgid "_Apply"
@@ -1229,6 +1229,10 @@ msgstr "관련성"
 #: resources/manager_window.ui
 msgid "Size"
 msgstr "크기"
+
+#: resources/manager_window.ui
+msgid "Date"
+msgstr "날짜"
 
 #: resources/manager_window.ui
 msgid "Launch"
@@ -1342,11 +1346,11 @@ msgstr "스냅 지원 사용"
 
 #: resources/preferences_dialog.ui
 msgid "Flatpak packages are maintained by their publisher."
-msgstr ""
+msgstr "Flatpak 패키지는 게시자가 유지 관리합니다."
 
 #: resources/preferences_dialog.ui
 msgid "Enable Flatpak support"
-msgstr ""
+msgstr "Flatpak 지원 사용가능"
 
 #: resources/preferences_dialog.ui
 msgid "Cache"

@@ -40,9 +40,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2020-02-08 11:17+0100\n"
-"PO-Revision-Date: 2020-02-26 14:29+0000\n"
-"Last-Translator: José Elias <jose.elias.0703@gmail.com>\n"
+"POT-Creation-Date: 2020-02-28 11:30+0100\n"
+"PO-Revision-Date: 2020-03-02 01:53+0000\n"
+"Last-Translator: André Marcelo Alvarenga <alvarenga@kde.org>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -342,12 +342,12 @@ msgstr "Falha ao clonar %s compilar arquivos"
 #: src/transaction.vala
 #, c-format
 msgid "Generating %s information"
-msgstr "Gerando 1%s informações"
+msgstr "Gerando a informação %s"
 
 #: src/transaction.vala
 #, c-format
 msgid "Failed to generate %s information"
-msgstr ""
+msgstr "Ocorreu um erro ao gerar a informação %s"
 
 #: src/transaction.vala
 #, c-format
@@ -357,7 +357,7 @@ msgstr "Verificando 1%s dependências"
 #: src/transaction.vala
 #, c-format
 msgid "Failed to check %s dependencies"
-msgstr ""
+msgstr "Ocorreu um erro ao verificar %s dependências"
 
 #: src/transaction.vala
 #, c-format
@@ -528,6 +528,11 @@ msgid_plural "%u pending operations"
 msgstr[0] "%u operação pendente"
 msgstr[1] "%u operações pendentes"
 
+#: src/manager_window.vala src/snap_plugin.vala
+#: resources/preferences_dialog.ui
+msgid "Snap"
+msgstr "Snap"
+
 #: src/manager_window.vala
 msgid "All"
 msgstr "Todos"
@@ -539,11 +544,6 @@ msgstr "Orfãos"
 #: src/manager_window.vala
 msgid "Foreign"
 msgstr "Externo"
-
-#: src/manager_window.vala src/snap_plugin.vala
-#: resources/preferences_dialog.ui
-msgid "Snap"
-msgstr "Snap"
 
 #: src/manager_window.vala resources/preferences_dialog.ui
 msgid "Flatpak"
@@ -1257,6 +1257,10 @@ msgstr "Relevância"
 #: resources/manager_window.ui
 msgid "Size"
 msgstr "Tamanho"
+
+#: resources/manager_window.ui
+msgid "Date"
+msgstr "Data"
 
 #: resources/manager_window.ui
 msgid "Launch"

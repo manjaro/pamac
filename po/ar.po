@@ -18,9 +18,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2020-02-08 11:17+0100\n"
-"PO-Revision-Date: 2020-02-22 23:10+0000\n"
-"Last-Translator: philm <philm@manjaro.org>\n"
+"POT-Creation-Date: 2020-02-28 11:30+0100\n"
+"PO-Revision-Date: 2020-02-28 15:22+0000\n"
+"Last-Translator: Guillaume Benoit <guillaume@manjaro.org>\n"
 "Language-Team: Arabic (http://www.transifex.com/manjarolinux/manjaro-pamac/language/ar/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -324,7 +324,7 @@ msgstr ""
 #: src/transaction.vala
 #, c-format
 msgid "Generating %s information"
-msgstr "توليد %s المعلومات"
+msgstr ""
 
 #: src/transaction.vala
 #, c-format
@@ -518,6 +518,11 @@ msgstr[3] "%u عمليات قيد الانتظار"
 msgstr[4] "%u عمليات قيد الانتظار"
 msgstr[5] "%u عمليات قيد الانتظار"
 
+#: src/manager_window.vala src/snap_plugin.vala
+#: resources/preferences_dialog.ui
+msgid "Snap"
+msgstr ""
+
 #: src/manager_window.vala
 msgid "All"
 msgstr ""
@@ -529,11 +534,6 @@ msgstr "أيتام"
 #: src/manager_window.vala
 msgid "Foreign"
 msgstr "أجنبي"
-
-#: src/manager_window.vala src/snap_plugin.vala
-#: resources/preferences_dialog.ui
-msgid "Snap"
-msgstr ""
 
 #: src/manager_window.vala resources/preferences_dialog.ui
 msgid "Flatpak"
@@ -1259,6 +1259,10 @@ msgstr ""
 #: resources/manager_window.ui
 msgid "Size"
 msgstr "حجم"
+
+#: resources/manager_window.ui
+msgid "Date"
+msgstr ""
 
 #: resources/manager_window.ui
 msgid "Launch"

@@ -1078,7 +1078,7 @@ All AUR users should be familiar with the build process.</property>
                       <object class="GtkSwitch" id="enable_snap_button">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
-                        <property name="tooltip_text" translatable="yes">Allow Pamac to search and install packages from AUR</property>
+                        <property name="tooltip_text" translatable="yes">Allow Pamac to search and install snaps</property>
                         <property name="halign">end</property>
                         <property name="margin_left">6</property>
                         <property name="margin_right">6</property>
@@ -1206,7 +1206,7 @@ All AUR users should be familiar with the build process.</property>
                       <object class="GtkSwitch" id="enable_flatpak_button">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
-                        <property name="tooltip_text" translatable="yes">Allow Pamac to search and install packages from AUR</property>
+                        <property name="tooltip_text" translatable="yes">Allow Pamac to search and install flatpaks</property>
                         <property name="halign">end</property>
                         <property name="margin_left">6</property>
                         <property name="margin_right">6</property>

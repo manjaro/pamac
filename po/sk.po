@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2020-02-08 11:17+0100\n"
-"PO-Revision-Date: 2020-02-23 15:40+0000\n"
+"POT-Creation-Date: 2020-02-28 11:30+0100\n"
+"PO-Revision-Date: 2020-02-28 18:52+0000\n"
 "Last-Translator: Dušan Kazik <prescott66@gmail.com>\n"
 "Language-Team: Slovak (http://www.transifex.com/manjarolinux/manjaro-pamac/language/sk/)\n"
 "MIME-Version: 1.0\n"
@@ -319,12 +319,12 @@ msgstr "Zlyhalo klonovanie súborov zostavenia balíka %s"
 #: src/transaction.vala
 #, c-format
 msgid "Generating %s information"
-msgstr "Generujú sa informácie o balíku %s"
+msgstr "Generujú sa informácie o balíku %s "
 
 #: src/transaction.vala
 #, c-format
 msgid "Failed to generate %s information"
-msgstr "Zlyhalo generovanie informácií o balíku %s"
+msgstr "Zlyhalo generovanie informácií o balíku %s "
 
 #: src/transaction.vala
 #, c-format
@@ -509,6 +509,11 @@ msgstr[1] "%u operácie na vybavenie"
 msgstr[2] "%u operácií na vybavenie"
 msgstr[3] "%u operácií na vybavenie"
 
+#: src/manager_window.vala src/snap_plugin.vala
+#: resources/preferences_dialog.ui
+msgid "Snap"
+msgstr "Balíky Snap"
+
 #: src/manager_window.vala
 msgid "All"
 msgstr "Všetko"
@@ -520,11 +525,6 @@ msgstr "Osamotené balíky"
 #: src/manager_window.vala
 msgid "Foreign"
 msgstr "Externé"
-
-#: src/manager_window.vala src/snap_plugin.vala
-#: resources/preferences_dialog.ui
-msgid "Snap"
-msgstr "Balíky Snap"
 
 #: src/manager_window.vala resources/preferences_dialog.ui
 msgid "Flatpak"
@@ -1246,6 +1246,10 @@ msgid "Size"
 msgstr "Veľkosť"
 
 #: resources/manager_window.ui
+msgid "Date"
+msgstr "Dátum"
+
+#: resources/manager_window.ui
 msgid "Launch"
 msgstr "Spustiť"
 
@@ -1349,7 +1353,7 @@ msgstr "Kontrolovať aktualizácie balíkov vo vývoji"
 
 #: resources/preferences_dialog.ui
 msgid "Snap packages are maintained by their publisher."
-msgstr "Balíky Snap sú spravované svojim vydavateľom."
+msgstr "Balíky Snap sú spravované svojím vydavateľom."
 
 #: resources/preferences_dialog.ui
 msgid "Enable Snap support"
@@ -1357,7 +1361,7 @@ msgstr "Povoliť podporu balíkov Snap"
 
 #: resources/preferences_dialog.ui
 msgid "Flatpak packages are maintained by their publisher."
-msgstr ""
+msgstr "Balíky Flatpak sú spravované svojím vydavateľom."
 
 #: resources/preferences_dialog.ui
 msgid "Enable Flatpak support"
