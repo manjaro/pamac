@@ -1208,22 +1208,22 @@ namespace Pamac {
 				unowned Alpm.DB? db = trans_pkg.db;
 				if (db != null && db.name == "pamac_aur") {
 					// it is a aur pkg to build
-					if (!summary.aur_pkgbases_to_build_priv.find_with_equal_func (trans_pkg.pkgbase, str_equal)) {
-						summary.aur_pkgbases_to_build_priv.add (trans_pkg.pkgbase);
+					if (summary.aur_pkgbases_to_build_priv.find_custom (trans_pkg.pkgbase, strcmp) == null) {
+						summary.aur_pkgbases_to_build_priv.prepend (trans_pkg.pkgbase);
 					}
-					summary.to_build_priv.add (initialise_pkg (alpm_handle, trans_pkg));
+					summary.to_build_priv.prepend (initialise_pkg (alpm_handle, trans_pkg));
 				} else {
 					var pkg = initialise_pkg (alpm_handle, trans_pkg);
 					if (pkg.installed_version == "") {
-						summary.to_install_priv.add (pkg);
+						summary.to_install_priv.prepend (pkg);
 					} else {
 						int cmp = Alpm.pkg_vercmp (pkg.version, pkg.installed_version);
 						if (cmp == 1) {
-							summary.to_upgrade_priv.add (pkg);
+							summary.to_upgrade_priv.prepend (pkg);
 						} else if (cmp == 0) {
-							summary.to_reinstall_priv.add (pkg);
+							summary.to_reinstall_priv.prepend (pkg);
 						} else {
-							summary.to_downgrade_priv.add (pkg);
+							summary.to_downgrade_priv.prepend (pkg);
 						}
 					}
 				}
@@ -1232,7 +1232,7 @@ namespace Pamac {
 			unowned Alpm.List<unowned Alpm.Package> pkgs_to_remove = alpm_handle.trans_to_remove ();
 			while (pkgs_to_remove != null) {
 				unowned Alpm.Package trans_pkg = pkgs_to_remove.data;
-				summary.to_remove_priv.add (initialise_pkg (alpm_handle, trans_pkg));
+				summary.to_remove_priv.prepend (initialise_pkg (alpm_handle, trans_pkg));
 				pkgs_to_remove.next ();
 			}
 			summary.sort ();

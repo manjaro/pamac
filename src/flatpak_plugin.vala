@@ -184,19 +184,20 @@ namespace Pamac {
 			return icon;
 		}
 
-		GenericArray<string> get_app_screenshots (As.App app) {
-			var screenshots = new GenericArray<string> ();
-			unowned GLib.GenericArray<As.Screenshot> as_screenshots = app.get_screenshots ();
+		SList<string> get_app_screenshots (As.App app) {
+			var screenshots = new SList<string> ();
+			unowned GenericArray<As.Screenshot> as_screenshots = app.get_screenshots ();
 			for (uint i = 0; i < as_screenshots.length; i++) {
 				unowned As.Screenshot as_screenshot = as_screenshots[i];
 				As.Image? as_image = as_screenshot.get_source ();
 				if (as_image != null) {
 					string? url = as_image.get_url ();
 					if (url != null) {
-						screenshots.add ((owned) url);
+						screenshots.prepend ((owned) url);
 					}
 				}
 			}
+			screenshots.reverse ();
 			return screenshots;
 		}
 
@@ -207,7 +208,7 @@ namespace Pamac {
 			As.Store app_store;
 			while (iter.next (out remote, out app_store)) {
 				if (remote == installed_ref.origin) {
-					unowned GLib.GenericArray<As.App> apps = app_store.get_apps ();
+					unowned GenericArray<As.App> apps = app_store.get_apps ();
 					for (uint i = 0; i < apps.length; i++) {
 						unowned As.App app = apps[i];
 						if (app.get_id_filename () == installed_ref.name) {
@@ -275,8 +276,8 @@ namespace Pamac {
 			pkg.download_size = remote_ref.download_size;
 		}
 
-		public GenericArray<string> get_remotes_names () {
-			var result = new GenericArray<string> ();
+		public SList<string> get_remotes_names () {
+			var result = new SList<string> ();
 			try {
 				GenericArray<unowned Flatpak.Remote> remotes = installation.list_remotes ();
 				for (uint i = 0; i < remotes.length; i++) {
@@ -284,15 +285,16 @@ namespace Pamac {
 					if (remote.get_disabled ()) {
 						continue;
 					}
-					result.add (remote.name);
+					result.prepend (remote.name);
 				}
 			} catch (Error e) {
 				warning (e.message);
 			}
+			result.reverse ();
 			return result;
 		}
 
-		public GenericArray<FlatpakPackage> get_installed_flatpaks (ref GenericArray<FlatpakPackage> pkgs) {
+		public void get_installed_flatpaks (ref SList<FlatpakPackage> pkgs) {
 			try {
 				GenericArray<unowned Flatpak.InstalledRef> installed_apps = installation.list_installed_refs_by_kind (Flatpak.RefKind.APP);
 				for (uint i = 0; i < installed_apps.length; i++) {
@@ -303,12 +305,11 @@ namespace Pamac {
 					if (app != null) {
 						initialize_app_data (app, ref pkg);
 					}
-					pkgs.add (pkg);
+					pkgs.prepend (pkg);
 				}
 			} catch (Error e) {
 				warning (e.message);
 			}
-			return pkgs;
 		}
 
 		public bool is_installed_flatpak (string name) {
@@ -416,34 +417,33 @@ namespace Pamac {
 			return pkg;
 		}
 
-		public GenericArray<FlatpakPackage> search_flatpaks (string search_string, ref GenericArray<FlatpakPackage> pkgs) {
+		public void search_flatpaks (string search_string, ref SList<FlatpakPackage> pkgs) {
 			string[]? search_terms = As.utils_search_tokenize (search_string);
 			if (search_terms != null) {
 				var iter = HashTableIter<string, As.Store> (stores_table);
 				unowned string remote;
 				As.Store app_store;
 				while (iter.next (out remote, out app_store)) {
-					unowned GLib.GenericArray<As.App> apps = app_store.get_apps ();
+					unowned GenericArray<As.App> apps = app_store.get_apps ();
 					for (uint i = 0; i < apps.length; i++) {
 						unowned As.App app = apps[i];
 						uint match_score = app.search_matches_all (search_terms);
 						if (match_score > 0) {
 							FlatpakPackage? pkg = get_flatpak_from_app (remote, app);
 							if (pkg != null) {
-								pkgs.add (pkg);
+								pkgs.prepend (pkg);
 							}
 						}
 					}
 				}
 			}
-			return pkgs;
 		}
 
-		public GenericArray<FlatpakPackage> get_category_flatpaks (string category, ref GenericArray<FlatpakPackage> pkgs) {
+		public void get_category_flatpaks (string category, ref SList<FlatpakPackage> pkgs) {
 			var appstream_categories = new GenericArray<string> ();
 			switch (category) {
 				case "Featured":
-					var featured_pkgs = new GenericArray<string> (4);
+					var featured_pkgs = new GenericArray<string> (6);
 					featured_pkgs.add ("com.spotify.Client");
 					featured_pkgs.add ("com.valvesoftware.Steam");
 					featured_pkgs.add ("com.discordapp.Discord");
@@ -460,7 +460,7 @@ namespace Pamac {
 							if (featured_pkgs.find_with_equal_func (app.get_id_filename (), str_equal)) {
 								FlatpakPackage? pkg = get_flatpak_from_app (remote, app);
 								if (pkg != null) {
-									pkgs.add (pkg);
+									pkgs.prepend (pkg);
 								}
 							}
 						}
@@ -512,7 +512,7 @@ namespace Pamac {
 							if (appstream_categories.find_with_equal_func (cat_name, str_equal)) {
 								FlatpakPackage? pkg = get_flatpak_from_app (remote, app);
 								if (pkg != null) {
-									pkgs.add (pkg);
+									pkgs.prepend (pkg);
 								}
 								break;
 							}
@@ -520,10 +520,9 @@ namespace Pamac {
 					}
 				}
 			}
-			return pkgs;
 		}
 
-		public GenericArray<FlatpakPackage> get_flatpak_updates (ref GenericArray<FlatpakPackage> pkgs) {
+		public void get_flatpak_updates (ref SList<FlatpakPackage> pkgs) {
 			refresh_appstream_data ();
 			try {
 				GenericArray<unowned Flatpak.InstalledRef> update_apps = installation.list_installed_refs_for_update ();
@@ -537,7 +536,7 @@ namespace Pamac {
 						As.Release? release = app.get_release_default ();
 						if (release != null) {
 							pkg.version = release.get_version ();
-							pkgs.add (pkg);
+							pkgs.prepend (pkg);
 						} else {
 							critical ("no version found for %s\n", app.get_id_filename ());
 						}
@@ -546,7 +545,6 @@ namespace Pamac {
 			} catch (Error e) {
 				warning (e.message);
 			}
-			return pkgs;
 		}
 
 		bool on_add_new_remote (Flatpak.TransactionRemoteReason reason, string from_id, string remote_name, string url) {

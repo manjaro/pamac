@@ -311,12 +311,12 @@ namespace Pamac {
 				summary_shown = false;
 				return commit_transaction_answer;
 			} else {
-				bool must_confirm = summary.to_downgrade.length > 0
-									|| summary.to_remove.length > 0
-									|| summary.to_build.length > 0;
+				bool must_confirm = summary.to_downgrade != null
+									|| summary.to_remove != null
+									|| summary.to_build != null;
 				if (no_confirm_upgrade
 					&& !must_confirm
-					&& summary.to_upgrade.length > 0) {
+					&& summary.to_upgrade != null) {
 					show_warnings (true);
 					return true;
 				}
@@ -335,27 +335,31 @@ namespace Pamac {
 			transaction_sum_dialog.sum_list.clear ();
 			transaction_sum_dialog.edit_button.visible = false;
 			var iter = Gtk.TreeIter ();
-			uint i;
+			unowned SList<Package> pkgs;
 			unowned Package pkg;
-			if (summary.to_remove.length > 0) {
-				pkg = summary.to_remove[0];
+			if (summary.to_remove != null) {
+				pkgs = summary.to_remove;
+				pkg = pkgs.data;
 				transaction_summary.add (pkg.name);
 				transaction_sum_dialog.sum_list.insert_with_values (out iter, -1,
 												0, "<b>%s</b>".printf (dgettext (null, "To remove") + ":"),
 												1, pkg.name,
 												2, pkg.version,
 												4, pkg.repo);
-				for (i = 1; i < summary.to_remove.length; i++)  {
-					pkg = summary.to_remove[i];
+				pkgs = pkgs.next;
+				while (pkgs != null) {
+					pkg = pkgs.data;
 					transaction_summary.add (pkg.name);
 					transaction_sum_dialog.sum_list.insert_with_values (out iter, -1,
 												1, pkg.name,
 												2, pkg.version,
 												4, pkg.repo);
+					pkgs = pkgs.next;
 				}
 			}
-			if (summary.to_downgrade.length > 0) {
-				pkg = summary.to_downgrade[0];
+			if (summary.to_downgrade != null) {
+				pkgs = summary.to_downgrade;
+				pkg = pkgs.data;
 				dsize += pkg.download_size;
 				string size = pkg.download_size == 0 ? "" : format_size (pkg.download_size);
 				transaction_summary.add (pkg.name);
@@ -366,8 +370,9 @@ namespace Pamac {
 												3, "(%s)".printf (pkg.installed_version),
 												4, pkg.repo,
 												5, size);
-				for (i = 1; i < summary.to_downgrade.length; i++)  {
-					pkg = summary.to_downgrade[i];
+				pkgs = pkgs.next;
+				while (pkgs != null) {
+					pkg = pkgs.data;
 					dsize += pkg.download_size;
 					size = pkg.download_size == 0 ? "" : format_size (pkg.download_size);
 					transaction_summary.add (pkg.name);
@@ -377,11 +382,13 @@ namespace Pamac {
 												3, "(%s)".printf (pkg.installed_version),
 												4, pkg.repo,
 												5, size);
+					pkgs = pkgs.next;
 				}
 			}
-			if (summary.to_build.length > 0) {
+			if (summary.to_build != null) {
 				transaction_sum_dialog.edit_button.visible = true;
-				pkg = summary.to_build[0];
+				pkgs = summary.to_build;
+				pkg = pkgs.data;
 				transaction_summary.add (pkg.name);
 				string installed_version = "";
 				if (pkg.installed_version != "" && pkg.installed_version != pkg.version) {
@@ -393,8 +400,9 @@ namespace Pamac {
 												2, pkg.version,
 												3, installed_version,
 												4, pkg.repo);
-				for (i = 1; i < summary.to_build.length; i++)  {
-					pkg = summary.to_build[i];
+				pkgs = pkgs.next;
+				while (pkgs != null) {
+					pkg = pkgs.data;
 					transaction_summary.add (pkg.name);
 					installed_version = "";
 					if (pkg.installed_version != "" && pkg.installed_version != pkg.version) {
@@ -405,10 +413,12 @@ namespace Pamac {
 												2, pkg.version,
 												3, installed_version,
 												4, pkg.repo);
+					pkgs = pkgs.next;
 				}
 			}
-			if (summary.to_install.length > 0) {
-				pkg = summary.to_install[0];
+			if (summary.to_install != null) {
+				pkgs = summary.to_install;
+				pkg = pkgs.data;
 				dsize += pkg.download_size;
 				string size = pkg.download_size == 0 ? "" : format_size (pkg.download_size);
 				transaction_summary.add (pkg.name);
@@ -418,8 +428,9 @@ namespace Pamac {
 												2, pkg.version,
 												4, pkg.repo,
 												5, size);
-				for (i = 1; i < summary.to_install.length; i++)  {
-					pkg = summary.to_install[i];
+				pkgs = pkgs.next;
+				while (pkgs != null) {
+					pkg = pkgs.data;
 					dsize += pkg.download_size;
 					size = pkg.download_size == 0 ? "" : format_size (pkg.download_size);
 					transaction_summary.add (pkg.name);
@@ -428,10 +439,12 @@ namespace Pamac {
 												2, pkg.version,
 												4, pkg.repo,
 												5, size);
+					pkgs = pkgs.next;
 				}
 			}
-			if (summary.to_reinstall.length > 0) {
-				pkg = summary.to_reinstall[0];
+			if (summary.to_reinstall != null) {
+				pkgs = summary.to_reinstall;
+				pkg = pkgs.data;
 				dsize += pkg.download_size;
 				string size = pkg.download_size == 0 ? "" : format_size (pkg.download_size);
 				transaction_summary.add (pkg.name);
@@ -441,8 +454,9 @@ namespace Pamac {
 												2, pkg.version,
 												4, pkg.repo,
 												5, size);
-				for (i = 1; i < summary.to_reinstall.length; i++)  {
-					pkg = summary.to_reinstall[i];
+				pkgs = pkgs.next;
+				while (pkgs != null) {
+					pkg = pkgs.data;
 					dsize += pkg.download_size;
 					size = pkg.download_size == 0 ? "" : format_size (pkg.download_size);
 					transaction_summary.add (pkg.name);
@@ -451,11 +465,13 @@ namespace Pamac {
 												2, pkg.version,
 												4, pkg.repo,
 												5, size);
+					pkgs = pkgs.next;
 				}
 			}
-			if (summary.to_upgrade.length > 0) {
+			if (summary.to_upgrade != null) {
 				if (!no_confirm_upgrade) {
-					pkg = summary.to_upgrade[0];
+					pkgs = summary.to_reinstall;
+					pkg = pkgs.data;
 					dsize += pkg.download_size;
 					string size = pkg.download_size == 0 ? "" : format_size (pkg.download_size);
 					transaction_summary.add (pkg.name);
@@ -466,8 +482,9 @@ namespace Pamac {
 													3, "(%s)".printf (pkg.installed_version),
 													4, pkg.repo,
 													5, size);
-					for (i = 1; i < summary.to_upgrade.length; i++)  {
-						pkg = summary.to_upgrade[i];
+					pkgs = pkgs.next;
+					while (pkgs != null) {
+						pkg = pkgs.data;
 						dsize += pkg.download_size;
 						size = pkg.download_size == 0 ? "" : format_size (pkg.download_size);
 						transaction_summary.add (pkg.name);
@@ -477,6 +494,7 @@ namespace Pamac {
 													3, "(%s)".printf (pkg.installed_version),
 													4, pkg.repo,
 													5, size);
+						pkgs = pkgs.next;
 					}
 				}
 			}

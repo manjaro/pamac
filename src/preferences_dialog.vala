@@ -156,9 +156,7 @@ namespace Pamac {
 				mirrors_country_comboboxtext.active = 0;
 				int index = 1;
 				preferences_choosen_country = transaction.database.get_mirrors_choosen_country ();
-				var countries = transaction.database.get_mirrors_countries ();
-				for (uint i = 0; i < countries.length; i++) {
-					unowned string country = countries[i];
+				foreach (unowned string country in transaction.database.get_mirrors_countries ()) {
 					mirrors_country_comboboxtext.append_text (country);
 					if (country == preferences_choosen_country) {
 						mirrors_country_comboboxtext.active = index;
@@ -398,8 +396,7 @@ namespace Pamac {
 			var pkgs = transaction.database.get_installed_pkgs ();
 			var ignorepkgs_unique = new GenericSet<string?> (str_hash, str_equal);;
 			transaction.choose_pkgs_dialog.pkgs_list.clear ();
-			for (uint i = 0; i < pkgs.length; i++) {
-				unowned Package pkg = pkgs[i];
+			foreach (unowned Package pkg in pkgs) {
 				if (pkg.name in ignorepkgs_unique) {
 					continue;
 				}

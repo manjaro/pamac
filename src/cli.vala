@@ -373,8 +373,8 @@ namespace Pamac {
 						bool success = database.regenerate_srcinfo (pkgbase, null);
 						if (success) {
 							var srcinfo_pkgnames = database.get_srcinfo_pkgnames (pkgbase);
-							for (uint i = 0; i < srcinfo_pkgnames.length; i++) {
-								targets.add (srcinfo_pkgnames[i]);
+							foreach (unowned string name in srcinfo_pkgnames) {
+								targets.add (name);
 							}
 						}
 					}
@@ -769,13 +769,13 @@ namespace Pamac {
 			return width;
 		}
 
-		string concatenate_strings_list (GenericArray<string> list) {
+		string concatenate_strings_list (SList<string> list) {
 			var str_builder = new StringBuilder ();
-			for (uint i = 0; i < list.length; i++) {
+			foreach (unowned string name in list) {
 				if (str_builder.len > 0) {
 					str_builder.append (" ");
 				}
-				str_builder.append (list[i]);
+				str_builder.append (name);
 			}
 			return str_builder.str;
 		}
@@ -1304,18 +1304,16 @@ namespace Pamac {
 			var pkgs = database.search_pkgs (search_string);
 			if (database.config.enable_aur) {
 				var aur_pkgs = database.search_aur_pkgs (search_string);
-				for (uint i = 0; i < aur_pkgs.length; i++)  {
-					unowned AURPackage aur_pkg = aur_pkgs[i];
+				foreach (unowned AURPackage aur_pkg in aur_pkgs) {
 					if (aur_pkg.installed_version == "") {
-						pkgs.add (aur_pkg);
+						pkgs.prepend (aur_pkg);
 					}
 				}
 			}
 			pkgs.sort (sort_search_pkgs_by_relevance);
 			int version_length = 0;
 			int repo_length = 0;
-			for (uint i = 0; i < pkgs.length; i++)  {
-				unowned AlpmPackage pkg = pkgs[i];
+			foreach (unowned AlpmPackage pkg in pkgs) {
 				if (pkg.version.length > version_length) {
 					version_length = pkg.version.length;
 				}
@@ -1331,8 +1329,7 @@ namespace Pamac {
 			int available_width = get_term_width () - (version_length + repo_length + 4);
 			string installed = "[%s]".printf (dgettext (null, "Installed"));
 			int installed_available_width = available_width - (installed.char_count () + 1);
-			for (uint i = 0; i < pkgs.length; i++)  {
-				unowned AlpmPackage pkg = pkgs[i];
+			foreach (unowned AlpmPackage pkg in pkgs) {
 				var str_builder = new StringBuilder ();
 				str_builder.append (pkg.name);
 				str_builder.append (" ");
@@ -1373,12 +1370,10 @@ namespace Pamac {
 			simple_print_pkgs (pkgs);
 		}
 
-		void simple_print_pkgs (GenericArray<Package> pkgs) {
+		void simple_print_pkgs (SList<Package> pkgs) {
 			int version_length = 0;
 			int repo_length = 0;
-			uint i;
-			for (i = 0; i < pkgs.length; i++)  {
-				unowned Package pkg = pkgs[i];
+			foreach (unowned Package pkg in pkgs) {
 				if (pkg.version.length > version_length) {
 					version_length = pkg.version.length;
 				}
@@ -1387,8 +1382,7 @@ namespace Pamac {
 				}
 			}
 			int available_width = get_term_width () - (version_length + repo_length + 4);
-			for (i = 0; i < pkgs.length; i++)  {
-				unowned Package pkg = pkgs[i];
+			foreach (unowned Package pkg in pkgs) {
 				var str_builder = new StringBuilder ();
 				str_builder.append (pkg.name);
 				str_builder.append (" ");
@@ -1478,12 +1472,14 @@ namespace Pamac {
 				// URL
 				print_aligned (properties[3], ": %s".printf (pkg.url), max_length);
 				// Licenses
-				if (pkg.licenses.length > 0) {
-					print_aligned (properties[4], ": %s".printf (pkg.licenses[0]), max_length);
-					i = 1;
-					while (i < pkg.licenses.length) {
-						print_aligned ("", "%s".printf (pkg.licenses[i]), max_length + 2);
-						i++;
+				unowned SList<string> list;
+				if (pkg.licenses != null) {
+					list = pkg.licenses;
+					print_aligned (properties[4], ": %s".printf (list.data), max_length);
+					list = list.next;
+					while (list != null) {
+						print_aligned ("", "%s".printf (list.data), max_length + 2);
+						list = list.next;
 					}
 				}
 				// Repository
@@ -1495,7 +1491,7 @@ namespace Pamac {
 					print_aligned (properties[6], ": %s".printf (format_size (pkg.installed_size)), max_length);
 				}
 				// Groups
-				if (pkg.groups.length > 0) {
+				if (pkg.groups != null) {
 					cuts = split_string (concatenate_strings_list (pkg.groups), max_length + 2);
 					print_aligned (properties[7], ": %s".printf (cuts[0]), max_length);
 					i = 1;
@@ -1505,7 +1501,7 @@ namespace Pamac {
 					}
 				}
 				// Depends
-				if (pkg.depends.length > 0) {
+				if (pkg.depends != null) {
 					cuts = split_string (concatenate_strings_list (pkg.depends), max_length + 2);
 					print_aligned (properties[8], ": %s".printf (cuts[0]), max_length);
 					i = 1;
@@ -1515,8 +1511,9 @@ namespace Pamac {
 					}
 				}
 				// Opt depends
-				if (pkg.optdepends.length > 0) {
-					string depstring = pkg.optdepends[0];
+				if (pkg.optdepends != null) {
+					list = pkg.optdepends;
+					string depstring = list.data;
 					if (database.has_installed_satisfier (depstring)) {
 						depstring = "%s [%s]".printf (depstring, dgettext (null, "Installed"));
 					}
@@ -1527,24 +1524,24 @@ namespace Pamac {
 						print_aligned ("", "%s".printf (cuts[i]), max_length + 2);
 						i++;
 					}
-					i = 1;
-					while (i < pkg.optdepends.length) {
-						depstring = pkg.optdepends[i];
+					list = list.next;
+					while (list != null) {
+						depstring = list.data;
 						if (database.has_installed_satisfier (depstring)) {
 							depstring = "%s [%s]".printf (depstring, dgettext (null, "Installed"));
 						}
 						cuts = split_string (depstring, max_length + 2);
-						int j = 0;
-						while (j < cuts.length) {
-							print_aligned ("", "%s".printf (cuts[j]), max_length + 2);
-							j++;
+						i = 0;
+						while (i < cuts.length) {
+							print_aligned ("", "%s".printf (cuts[i]), max_length + 2);
+							i++;
 						}
-						i++;
+						list = list.next;
 					}
 				}
 				if (aur_pkg != null) {
 					// Make Depends
-					if (aur_pkg.makedepends.length > 0) {
+					if (aur_pkg.makedepends != null) {
 						cuts = split_string (concatenate_strings_list (aur_pkg.makedepends), max_length + 2);
 						print_aligned (properties[10], ": %s".printf (cuts[0]), max_length);
 						i = 1;
@@ -1554,7 +1551,7 @@ namespace Pamac {
 						}
 					}
 					// Check Depends
-					if (aur_pkg.checkdepends.length > 0) {
+					if (aur_pkg.checkdepends != null) {
 						cuts = split_string (concatenate_strings_list (aur_pkg.checkdepends), max_length + 2);
 						print_aligned (properties[11], ": %s".printf (cuts[0]), max_length);
 						i = 1;
@@ -1565,7 +1562,7 @@ namespace Pamac {
 					}
 				}
 				// Required by
-				if (pkg.requiredby.length > 0l) {
+				if (pkg.requiredby != null) {
 					cuts = split_string (concatenate_strings_list (pkg.requiredby), max_length + 2);
 					print_aligned (properties[12], ": %s".printf (cuts[0]), max_length);
 					i = 1;
@@ -1575,7 +1572,7 @@ namespace Pamac {
 					}
 				}
 				// Optional for
-				if (pkg.optionalfor.length > 0) {
+				if (pkg.optionalfor != null) {
 					cuts = split_string (concatenate_strings_list (pkg.optionalfor), max_length + 2);
 					print_aligned (properties[13], ": %s".printf (cuts[0]), max_length);
 					i = 1;
@@ -1585,7 +1582,7 @@ namespace Pamac {
 					}
 				}
 				// Provides
-				if (pkg.provides.length > 0) {
+				if (pkg.provides != null) {
 					cuts = split_string (concatenate_strings_list (pkg.provides), max_length + 2);
 					print_aligned (properties[14], ": %s".printf (cuts[0]), max_length);
 					i = 1;
@@ -1595,7 +1592,7 @@ namespace Pamac {
 					}
 				}
 				// Replaces
-				if (pkg.replaces.length > 0) {
+				if (pkg.replaces != null) {
 					cuts = split_string (concatenate_strings_list (pkg.replaces), max_length + 2);
 					print_aligned (properties[15], ": %s".printf (cuts[0]), max_length);
 					i = 1;
@@ -1605,7 +1602,7 @@ namespace Pamac {
 					}
 				}
 				// Conflicts
-				if (pkg.conflicts.length > 0) {
+				if (pkg.conflicts != null) {
 					cuts = split_string (concatenate_strings_list (pkg.conflicts), max_length + 2);
 					print_aligned (properties[16], ": %s".printf (cuts[0]), max_length);
 					i = 1;
@@ -1674,24 +1671,24 @@ namespace Pamac {
 					print_aligned (properties[21], ": %s".printf (pkg.has_signature), max_length);
 				}
 				// Backup files
-				if (pkg.backups.length > 0) {
-					print_aligned (properties[22], ": %s".printf (pkg.backups[0]), max_length);
-					i = 1;
-					while (i < pkg.backups.length) {
-						print_aligned ("", "%s".printf (pkg.backups[i]), max_length + 2);
-						i++;
+				if (pkg.backups != null) {
+					list = pkg.backups;
+					print_aligned (properties[22], ": %s".printf (list.data), max_length);
+					list = list.next;
+					while (list != null) {
+						print_aligned ("", "%s".printf (list.data), max_length + 2);
+						list = list.next;
 					}
 				}
 				stdout.printf ("\n");
 			}
 		}
 
-		void print_pkgs (GenericArray<AlpmPackage> pkgs, bool print_installed) {
+		void print_pkgs (SList<AlpmPackage> pkgs, bool print_installed) {
 			int name_length = 0;
 			int version_length = 0;
 			int repo_length = 0;
-			for (uint i = 0; i < pkgs.length; i++)  {
-				unowned AlpmPackage pkg = pkgs[i];
+			foreach (unowned AlpmPackage pkg in pkgs) {
 				string name = pkg.name;
 				if (print_installed && pkg.installed_version != "") {
 					name = "%s [%s]".printf (pkg.name, dgettext (null, "Installed"));
@@ -1707,8 +1704,7 @@ namespace Pamac {
 					repo_length = pkg.repo.length;
 				}
 			}
-			for (uint i = 0; i < pkgs.length; i++)  {
-				unowned AlpmPackage pkg = pkgs[i];
+			foreach (unowned AlpmPackage pkg in pkgs) {
 				// use this code to correctly aligned text with special characters
 				var str_builder = new StringBuilder ();
 				string name = pkg.name;
@@ -1749,9 +1745,9 @@ namespace Pamac {
 
 		void list_groups (string[] names) {
 			if (names.length == 0) {
-				var grpnames = database.get_groups_names ();
-				for (uint i = 0; i < grpnames.length; i++)  {
-					stdout.printf ("%s\n", grpnames[i]);
+				var group_names = database.get_groups_names ();
+				foreach (unowned string name in group_names) {
+					stdout.printf ("%s\n", name);
 				}
 				return;
 			}
@@ -1769,8 +1765,8 @@ namespace Pamac {
 		void list_repos (string[] names) {
 			if (names.length == 0) {
 				var repos_names = database.get_repos_names ();
-				for (uint i = 0; i < repos_names.length; i++) {
-					stdout.printf ("%s\n", repos_names[i]);
+				foreach (unowned string name in repos_names) {
+					stdout.printf ("%s\n", name);
 				}
 				return;
 			}
@@ -1788,11 +1784,11 @@ namespace Pamac {
 		void list_files (string[] names) {
 			foreach (unowned string name in names) {
 				var files = database.get_pkg_files (name);
-				if (files.length == 0) {
+				if (files == null) {
 					print_error (dgettext (null, "target not found: %s").printf (name));
 				} else {
-					for (uint i = 0; i < files.length; i++) {
-						stdout.printf ("%s\n", files[i]);
+					foreach (unowned string path in files) {
+						stdout.printf ("%s\n", path);
 					}
 				}
 				stdout.printf ("\n");
@@ -1800,7 +1796,7 @@ namespace Pamac {
 		}
 
 		void search_files (string[] files) {
-			HashTable<string, GenericArray<string>> result = database.search_files (files);
+			HashTable<string, SList<string>> result = database.search_files (files);
 			if (result.size () == 0) {
 				foreach (unowned string file in files) {
 					stdout.printf ("%s\n", dgettext (null, "No package owns %s").printf (file));
@@ -1808,12 +1804,11 @@ namespace Pamac {
 				exit_status = 1;
 				return;
 			}
-			var iter = HashTableIter<string, GenericArray<string>> (result);
+			var iter = HashTableIter<string, SList<string>> (result);
 			unowned string pkgname;
-			unowned GenericArray<string> files_list;
+			unowned SList<string> files_list;
 			while (iter.next (out pkgname, out files_list)) {
-				for (uint i = 0; i < files_list.length; i++) {
-					unowned string file = files_list[i];
+				foreach (unowned string file in files_list) {
 					stdout.printf ("%s\n", dgettext (null, "%s is owned by %s").printf (file, pkgname));
 				}
 			}
@@ -1821,20 +1816,18 @@ namespace Pamac {
 
 		void checkupdates (bool quiet, bool refresh_tmp_files_dbs, bool download_updates) {
 			var updates = database.get_updates ();
-			uint updates_nb = updates.repos_updates.length + updates.aur_updates.length;
+			uint updates_nb = updates.repos_updates.length () + updates.aur_updates.length ();
 			if (updates_nb == 0) {
 				if (quiet) {
 					return;
 				}
 				stdout.printf ("%s.\n", dgettext (null, "Your system is up-to-date"));
-				if (updates.outofdate.length > 0) {
+				if (updates.outofdate != null) {
 					// print out of date pkgs
 					stdout.printf ("\n%s:\n", dgettext (null, "Out of Date"));
 					int name_length = 0;
 					int version_length = 0;
-					uint i;
-					for (i = 0; i < updates.outofdate.length; i++) {
-						unowned AURPackage pkg = updates.outofdate[i];
+					foreach (unowned AURPackage pkg in updates.outofdate) {
 						if (pkg.name.length > name_length) {
 							name_length = pkg.name.length;
 						}
@@ -1842,8 +1835,7 @@ namespace Pamac {
 							version_length = pkg.version.length;
 						}
 					}
-					for (i = 0; i < updates.outofdate.length; i++) {
-						unowned AURPackage pkg = updates.outofdate[i];
+					foreach (unowned AURPackage pkg in updates.outofdate) {
 						stdout.printf ("%-*s  %-*s  %s\n",
 										name_length, pkg.name,
 										version_length, pkg.version,
@@ -1863,9 +1855,7 @@ namespace Pamac {
 					transaction.download_updates ();
 				}
 				if (quiet) {
-					uint i;
-					for (i = 0; i < updates.repos_updates.length; i++) {
-						unowned AlpmPackage pkg = updates.repos_updates[i];
+					foreach (unowned AlpmPackage pkg in updates.repos_updates) {
 						if (pkg.installed_version != "") {
 							stdout.printf ("%s  %s -> %s\n", pkg.name, pkg.installed_version, pkg.version);
 						} else {
@@ -1873,8 +1863,7 @@ namespace Pamac {
 							stdout.printf ("%s  %s\n", pkg.name, pkg.version);
 						}
 					}
-					for (i = 0; i < updates.aur_updates.length; i++) {
-						unowned AURPackage pkg = updates.aur_updates[i];
+					foreach (unowned AURPackage pkg in updates.aur_updates) {
 						stdout.printf ("%s  %s -> %s\n", pkg.name, pkg.installed_version, pkg.version);
 					}
 					return;
@@ -1883,9 +1872,7 @@ namespace Pamac {
 				int name_length = 0;
 				int installed_version_length = 0;
 				int version_length = 0;
-				uint i;
-				for (i = 0; i < updates.repos_updates.length; i++) {
-					unowned AlpmPackage pkg = updates.repos_updates[i];
+				foreach (unowned AlpmPackage pkg in updates.repos_updates) {
 					if (pkg.name.length > name_length) {
 						name_length = pkg.name.length;
 					}
@@ -1896,8 +1883,7 @@ namespace Pamac {
 						version_length = pkg.version.length;
 					}
 				}
-				for (i = 0; i < updates.ignored_repos_updates.length; i++) {
-					unowned AlpmPackage pkg = updates.ignored_repos_updates[i];
+				foreach (unowned AlpmPackage pkg in updates.ignored_repos_updates) {
 					if (pkg.name.length > name_length) {
 						name_length = pkg.name.length;
 					}
@@ -1908,8 +1894,7 @@ namespace Pamac {
 						version_length = pkg.version.length;
 					}
 				}
-				for (i = 0; i < updates.aur_updates.length; i++) {
-					unowned AURPackage pkg = updates.aur_updates[i];
+				foreach (unowned AURPackage pkg in updates.aur_updates) {
 					if (pkg.name.length > name_length) {
 						name_length = pkg.name.length;
 					}
@@ -1920,8 +1905,7 @@ namespace Pamac {
 						version_length = pkg.version.length;
 					}
 				}
-				for (i = 0; i < updates.ignored_aur_updates.length; i++) {
-					unowned AURPackage pkg = updates.ignored_aur_updates[i];
+				foreach (unowned AURPackage pkg in updates.ignored_aur_updates) {
 					if (pkg.name.length > name_length) {
 						name_length = pkg.name.length;
 					}
@@ -1932,8 +1916,7 @@ namespace Pamac {
 						version_length = pkg.version.length;
 					}
 				}
-				for (i = 0; i < updates.outofdate.length; i++) {
-					unowned AURPackage pkg = updates.outofdate[i];
+				foreach (unowned AURPackage pkg in updates.outofdate) {
 					if (pkg.name.length > name_length) {
 						name_length = pkg.name.length;
 					}
@@ -1943,37 +1926,33 @@ namespace Pamac {
 				}
 				string info = ngettext ("%u available update", "%u available updates", updates_nb).printf (updates_nb);
 				stdout.printf ("%s:\n", info);
-				for (i = 0; i < updates.repos_updates.length; i++) {
-					unowned AlpmPackage pkg = updates.repos_updates[i];
+				foreach (unowned AlpmPackage pkg in updates.repos_updates) {
 					stdout.printf ("%-*s  %-*s -> %-*s  %s\n",
 									name_length, pkg.name,
 									installed_version_length, pkg.installed_version,
 									version_length, pkg.version,
 									pkg.repo);
 				}
-				for (i = 0; i < updates.aur_updates.length; i++) {
-					unowned AURPackage pkg = updates.aur_updates[i];
+				foreach (unowned AURPackage pkg in updates.aur_updates) {
 					stdout.printf ("%-*s  %-*s -> %-*s  %s\n",
 									name_length, pkg.name,
 									installed_version_length, pkg.installed_version,
 									version_length, pkg.version,
 									dgettext (null, "AUR"));
 				}
-				uint ignored_updates_nb = updates.ignored_repos_updates.length + updates.ignored_aur_updates.length;
+				uint ignored_updates_nb = updates.ignored_repos_updates.length () + updates.ignored_aur_updates.length ();
 				if (ignored_updates_nb > 0) {
 					// print ignored pkgs
 					info = ngettext ("%u ignored update", "%u ignored updates", ignored_updates_nb).printf (ignored_updates_nb);
 					stdout.printf ("\n%s:\n", info);
-					for (i = 0; i < updates.ignored_repos_updates.length; i++) {
-						unowned AlpmPackage pkg = updates.ignored_repos_updates[i];
+					foreach (unowned AlpmPackage pkg in updates.ignored_repos_updates) {
 						stdout.printf ("%-*s  %-*s -> %-*s  %s\n",
 										name_length, pkg.name,
 										installed_version_length, pkg.installed_version,
 										version_length, pkg.version,
 										pkg.repo);
 					}
-					for (i = 0; i < updates.ignored_aur_updates.length; i++) {
-						unowned AURPackage pkg = updates.ignored_aur_updates[i];
+					foreach (unowned AURPackage pkg in updates.ignored_aur_updates) {
 						stdout.printf ("%-*s  %-*s -> %-*s  %s\n",
 										name_length, pkg.name,
 										installed_version_length, pkg.installed_version,
@@ -1981,11 +1960,10 @@ namespace Pamac {
 										pkg.repo);
 					}
 				}
-				if (updates.outofdate.length > 0) {
+				if (updates.outofdate != null) {
 					// print out of date pkgs
 					stdout.printf ("\n%s:\n", dgettext (null, "Out of Date"));
-					for (i = 0; i < updates.outofdate.length; i++) {
-						unowned AURPackage pkg = updates.outofdate[i];
+					foreach (unowned AURPackage pkg in updates.outofdate) {
 						stdout.printf ("%-*s  %-*s  %s\n",
 										name_length, pkg.name,
 										version_length, pkg.version,
@@ -2129,7 +2107,7 @@ namespace Pamac {
 						found = true;
 					} else {
 						var groupnames = database.get_groups_names ();
-						if (groupnames.find_with_equal_func (target, str_equal)) {
+						if (groupnames.find_custom (target, strcmp) != null) {
 							ask_group_confirmation (target, ref to_install);
 							found = true;
 						}
@@ -2194,8 +2172,7 @@ namespace Pamac {
 		void ask_group_confirmation (string grpname, ref GenericArray<string> to_install) {
 			var pkgs = database.get_group_pkgs (grpname);
 			if (transaction.no_confirm) {
-				for (uint i = 0; i < pkgs.length; i++) {
-					unowned AlpmPackage pkg = pkgs[i];
+				foreach (unowned AlpmPackage pkg in pkgs) {
 					to_install.add (pkg.name);
 				}
 				return;
@@ -2203,8 +2180,7 @@ namespace Pamac {
 			// print pkgs
 			int name_length = 0;
 			int version_length = 0;
-			for (uint i = 0; i < pkgs.length; i++) {
-				unowned AlpmPackage pkg = pkgs[i];
+			foreach (unowned AlpmPackage pkg in pkgs) {
 				if (pkg.name.length > name_length) {
 					name_length = pkg.name.length;
 				}
@@ -2212,16 +2188,18 @@ namespace Pamac {
 					version_length = pkg.version.length;
 				}
 			}
-			int num_length = pkgs.length.to_string ().length + 1;
+			uint pkgs_length = pkgs.length ();
+			int num_length = pkgs_length.to_string ().length + 1;
 			stdout.printf ("%s:\n".printf (dngettext (null, "There is %u member in group %s",
-						"There are %u members in group %s", pkgs.length).printf (pkgs.length, grpname)));
-			for (uint i = 0; i < pkgs.length; i++) {
-				unowned AlpmPackage pkg = pkgs[i];
+						"There are %u members in group %s", pkgs_length).printf (pkgs_length, grpname)));
+			int num = 1;
+			foreach (unowned AlpmPackage pkg in pkgs) {
 				stdout.printf ("%*s  %-*s  %-*s  %s\n",
-								num_length, "%u:".printf (i + 1),
+								num_length, "%i:".printf (num),
 								name_length, pkg.name,
 								version_length, pkg.version,
 								pkg.repo);
+				num++;
 			}
 			// get user input
 			while (true) {
@@ -2232,13 +2210,12 @@ namespace Pamac {
 					break;
 				}
 				uint64 nb;
-				var numbers = new GenericArray<uint64?> ();
+				uint64[] numbers = {};
 				// remvove trailing newline
 				ans = ans.replace ("\n", "");
 				// just return use default
 				if (ans == "") {
-					for (uint i = 0; i < pkgs.length; i++) {
-						unowned AlpmPackage pkg = pkgs[i];
+					foreach (unowned AlpmPackage pkg in pkgs) {
 						to_install.add (pkg.name);
 					}
 					break;
@@ -2255,25 +2232,27 @@ namespace Pamac {
 								if (int64.try_parse (splitted2[1], out end_num)) {
 									nb = beg_num;
 									while (nb <= end_num) {
-										if (nb >= 1 && nb <= pkgs.length) {
-											numbers.add (nb);
+										if (nb >= 1 && nb <= pkgs_length) {
+											numbers += nb;
 										}
 										nb++;
 									}
 								}
 							}
 						} else if (uint64.try_parse (part, out nb)) {
-							if (nb >= 1 && nb <= pkgs.length) {
-								numbers.add (nb);
+							if (nb >= 1 && nb <= pkgs_length) {
+								numbers += nb;
 							}
 						}
 					}
 				}
 				if (numbers.length > 0) {
-					for (uint i = 0; i < numbers.length; i++) {
-						uint index = (uint) numbers[i] - 1;
-						unowned AlpmPackage pkg = pkgs[index];
-						to_install.add (pkg.name);
+					uint64 index = 1;
+					foreach (unowned AlpmPackage pkg in pkgs) {
+						if (index in numbers) {
+							to_install.add (pkg.name);
+						}
+						index++;
 					}
 					break;
 				}
@@ -2298,11 +2277,10 @@ namespace Pamac {
 					}
 				} else {
 					var groupnames = database.get_groups_names ();
-					if (groupnames.find_with_equal_func (name, str_equal)) {
+					if (groupnames.find_custom (name, strcmp) != null) {
 						found = true;
 						var pkgs = database.get_group_pkgs (name);
-						for (uint i = 0; i < pkgs.length; i++) {
-							unowned AlpmPackage pkg = pkgs[i];
+						foreach (unowned AlpmPackage pkg in pkgs) {
 							if (pkg.version == pkg.installed_version) {
 								to_install.add (pkg.name);
 							}
@@ -2359,11 +2337,10 @@ namespace Pamac {
 					found = true;
 				} else {
 					var groupnames = database.get_groups_names ();
-					if (groupnames.find_with_equal_func (name, str_equal)) {
+					if (groupnames.find_custom (name, strcmp) != null) {
 						found = true;
 						var pkgs = database.get_group_pkgs (name);
-						for (uint i = 0; i < pkgs.length; i++) {
-							unowned AlpmPackage pkg = pkgs[i];
+						foreach (unowned AlpmPackage pkg in pkgs) {
 							if (pkg.version == pkg.installed_version) {
 								to_remove.add (pkg.name);
 								group_found = true;
@@ -2401,8 +2378,7 @@ namespace Pamac {
 
 		void remove_orphans () {
 			var pkgs = database.get_orphans ();
-			for (uint i = 0; i < pkgs.length; i++) {
-				unowned AlpmPackage pkg = pkgs[i];
+			foreach (unowned AlpmPackage pkg in pkgs) {
 				transaction.add_pkg_to_remove (pkg.name);
 			}
 			int flags = (1 << 4); //Alpm.TransFlag.CASCADE
@@ -2440,9 +2416,7 @@ namespace Pamac {
 						return;
 					} else if (recurse) {
 						// check deps
-						uint i;
-						for (i = 0; i < aur_pkg.depends.length; i++) {
-							unowned string dep_string = aur_pkg.depends[i];
+						foreach (unowned string dep_string in aur_pkg.depends) {
 							AlpmPackage? pkg = null;
 							if (database.has_installed_satisfier (dep_string)) {
 								pkg = database.get_installed_satisfier (dep_string);
@@ -2457,8 +2431,7 @@ namespace Pamac {
 								}
 							}
 						}
-						for (i = 0; i < aur_pkg.makedepends.length; i++) {
-							unowned string dep_string = aur_pkg.makedepends[i];
+						foreach (unowned string dep_string in aur_pkg.makedepends) {
 							AlpmPackage? pkg = null;
 							if (database.has_installed_satisfier (dep_string)) {
 								pkg = database.get_installed_satisfier (dep_string);
@@ -2473,8 +2446,7 @@ namespace Pamac {
 								}
 							}
 						}
-						for (i = 0; i < aur_pkg.checkdepends.length; i++) {
-							unowned string dep_string = aur_pkg.checkdepends[i];
+						foreach (unowned string dep_string in aur_pkg.checkdepends) {
 							AlpmPackage? pkg = null;
 							if (database.has_installed_satisfier (dep_string)) {
 								pkg = database.get_installed_satisfier (dep_string);

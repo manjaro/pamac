@@ -21,13 +21,13 @@ namespace Pamac {
 	public class Database: Object {
 
 		class AURUpdates {
-			public GenericArray<AURPackage> updates;
-			public GenericArray<AURPackage> ignored_updates;
-			public GenericArray<AURPackage> outofdate;
-			public AURUpdates (GenericArray<AURPackage> updates, GenericArray<AURPackage> ignored_updates, GenericArray<AURPackage> outofdate) {
-				this.updates = updates;
-				this.ignored_updates = ignored_updates;
-				this.outofdate = outofdate;
+			public SList<AURPackage> updates;
+			public SList<AURPackage> ignored_updates;
+			public SList<AURPackage> outofdate;
+			public AURUpdates (owned SList<AURPackage> updates, owned SList<AURPackage> ignored_updates, owned SList<AURPackage> outofdate) {
+				this.updates = (owned) updates;
+				this.ignored_updates = (owned) ignored_updates;
+				this.outofdate = (owned) outofdate;
 			}
 		}
 
@@ -149,8 +149,8 @@ namespace Pamac {
 			}
 		}
 
-		public GenericArray<string> get_mirrors_countries () {
-			var countries = new GenericArray<string> ();
+		public SList<string> get_mirrors_countries () {
+			var countries = new SList<string> ();
 			try {
 				string countries_str;
 				int status;
@@ -161,13 +161,14 @@ namespace Pamac {
 				if (status == 0) {
 					foreach (unowned string country in countries_str.split ("\n")) {
 						if (country != "") {
-							countries.add (country);
+							countries.prepend (country);
 						}
 					}
 				}
 			} catch (SpawnError e) {
 				warning (e.message);
 			}
+			countries.reverse ();
 			return countries;
 		}
 
@@ -366,8 +367,8 @@ namespace Pamac {
 			return 0;
 		}
 
-		public GenericArray<string> get_uninstalled_optdeps (string pkgname) {
-			var optdeps = new GenericArray<string> ();
+		public SList<string> get_uninstalled_optdeps (string pkgname) {
+			var optdeps = new SList<string> ();
 			try {
 				new Thread<int>.try ("get_uninstalled_optdeps", () => {
 					unowned Alpm.Package? pkg = get_syncpkg (pkgname);
@@ -377,11 +378,12 @@ namespace Pamac {
 							string optdep = optdepends.data.compute_string ();
 							unowned Alpm.Package? satisfier = Alpm.find_satisfier (alpm_handle.localdb.pkgcache, optdep);
 							if (satisfier == null) {
-								optdeps.add ((owned) optdep);
+								optdeps.prepend ((owned) optdep);
 							}
 							optdepends.next ();
 						}
 					}
+					optdeps.reverse ();
 					loop.quit ();
 					return 0;
 				});
@@ -389,7 +391,7 @@ namespace Pamac {
 			} catch (Error e) {
 				warning (e.message);
 			}
-			return optdeps;
+			return (owned) optdeps;
 		}
 
 		string get_app_name (As.App app) {
@@ -426,8 +428,8 @@ namespace Pamac {
 			return icon;
 		}
 
-		GenericArray<string> get_app_screenshots (As.App app) {
-			var screenshots = new GenericArray<string> ();
+		SList<string> get_app_screenshots (As.App app) {
+			var screenshots = new SList<string> ();
 			unowned GLib.GenericArray<As.Screenshot> as_screenshots = app.get_screenshots ();
 			for (uint i = 0; i < as_screenshots.length; i++) {
 				unowned As.Screenshot as_screenshot = as_screenshots[i];
@@ -435,10 +437,11 @@ namespace Pamac {
 				if (as_image != null) {
 					string? url = as_image.get_url ();
 					if (url != null) {
-						screenshots.add ((owned) url);
+						screenshots.prepend ((owned) url);
 					}
 				}
 			}
+			screenshots.reverse ();
 			return screenshots;
 		}
 
@@ -498,15 +501,17 @@ namespace Pamac {
 			// groups
 			unowned Alpm.List<unowned string> list = alpm_pkg.groups;
 			while (list != null) {
-				pkg.groups_priv.add (list.data);
+				pkg.groups_priv.prepend (list.data);
 				list.next ();
 			}
+			pkg.groups_priv.reverse ();
 			// licenses
 			list = alpm_pkg.licenses;
 			while (list != null) {
-				pkg.licenses_priv.add (list.data);
+				pkg.licenses_priv.prepend (list.data);
 				list.next ();
 			}
+			pkg.licenses_priv.reverse ();
 			// build_date
 			pkg.builddate = alpm_pkg.builddate;
 			// installed_size
@@ -532,23 +537,26 @@ namespace Pamac {
 				while (backups_list != null) {
 					var builder = new StringBuilder ("/");
 					builder.append (backups_list.data.name);
-					pkg.backups_priv.add ((owned) builder.str);
+					pkg.backups_priv.prepend ((owned) builder.str);
 					backups_list.next ();
 				}
+				pkg.backups_priv.reverse ();
 				// requiredby
 				Alpm.List<string> pkg_requiredby = alpm_pkg.compute_requiredby ();
 				unowned Alpm.List<string> string_list = pkg_requiredby;
 				while (string_list != null) {
-					pkg.requiredby_priv.add ((owned) string_list.data);
+					pkg.requiredby_priv.prepend ((owned) string_list.data);
 					string_list.next ();
 				}
+				pkg.requiredby_priv.reverse ();
 				// optionalfor
 				Alpm.List<string> pkg_optionalfor = alpm_pkg.compute_optionalfor ();
 				string_list = pkg_optionalfor;
 				while (string_list != null) {
-					pkg.optionalfor_priv.add ((owned) string_list.data);
+					pkg.optionalfor_priv.prepend ((owned) string_list.data);
 					string_list.next ();
 				}
+				pkg.optionalfor_priv.reverse ();
 			// sync pkg
 			} else if (alpm_pkg.origin == Alpm.Package.From.SYNCDB) {
 				// installed_version
@@ -566,33 +574,38 @@ namespace Pamac {
 			// depends
 			unowned Alpm.List<unowned Alpm.Depend> depends_list = alpm_pkg.depends;
 			while (depends_list != null) {
-				pkg.depends_priv.add (depends_list.data.compute_string ());
+				pkg.depends_priv.prepend (depends_list.data.compute_string ());
 				depends_list.next ();
 			}
+			pkg.depends_priv.reverse ();
 			// optdepends
 			depends_list = alpm_pkg.optdepends;
 			while (depends_list != null) {
-				pkg.optdepends_priv.add (depends_list.data.compute_string ());
+				pkg.optdepends_priv.prepend (depends_list.data.compute_string ());
 				depends_list.next ();
 			}
+			pkg.optdepends_priv.reverse ();
 			// provides
 			depends_list = alpm_pkg.provides;
 			while (depends_list != null) {
-				pkg.provides_priv.add (depends_list.data.compute_string ());
+				pkg.provides_priv.prepend (depends_list.data.compute_string ());
 				depends_list.next ();
 			}
+			pkg.provides_priv.reverse ();
 			// replaces
 			depends_list = alpm_pkg.replaces;
 			while (depends_list != null) {
-				pkg.replaces_priv.add (depends_list.data.compute_string ());
+				pkg.replaces_priv.prepend (depends_list.data.compute_string ());
 				depends_list.next ();
 			}
+			pkg.replaces_priv.reverse ();
 			// conflicts
 			depends_list = alpm_pkg.conflicts;
 			while (depends_list != null) {
-				pkg.conflicts_priv.add (depends_list.data.compute_string ());
+				pkg.conflicts_priv.prepend (depends_list.data.compute_string ());
 				depends_list.next ();
 			}
+			pkg.conflicts_priv.reverse ();
 		}
 
 		void initialize_app_data (As.App app, ref AlpmPackage pkg) {
@@ -608,7 +621,7 @@ namespace Pamac {
 			pkg.screenshots_priv = get_app_screenshots (app);
 		}
 
-		GenericArray<AlpmPackage> initialise_pkgs (Alpm.List<unowned Alpm.Package>? alpm_pkgs, ref GenericArray<AlpmPackage> pkgs) {
+		void initialise_pkgs (Alpm.List<unowned Alpm.Package>? alpm_pkgs, ref SList<AlpmPackage> pkgs) {
 			var data = new HashTable<string, AlpmPackage> (str_hash, str_equal);
 			var foreign_pkgnames = new GenericArray<unowned string> ();
 			while (alpm_pkgs != null) {
@@ -629,21 +642,21 @@ namespace Pamac {
 					if (config.enable_aur) {
 						data.insert (alpm_pkg.name, pkg);
 					} else {
-						pkgs.add (pkg);
+						pkgs.prepend (pkg);
 					}
 				} else {
 					var apps = get_pkgname_matching_apps (alpm_pkg.name);
 					if (apps.length > 0) {
 						// alpm_pkg provide some apps
 						initialize_app_data (apps[0], ref pkg);
-						pkgs.add (pkg);
+						pkgs.prepend (pkg);
 						for (uint i = 1; i < apps.length; i++) {
 							var pkg_dup = pkg.dup ();
 							initialize_app_data (apps[i], ref pkg_dup);
-							pkgs.add (pkg_dup);
+							pkgs.prepend (pkg_dup);
 						}
 					} else {
-						pkgs.add (pkg);
+						pkgs.prepend (pkg);
 					}
 				}
 				alpm_pkgs.next ();
@@ -661,14 +674,13 @@ namespace Pamac {
 				var iter = HashTableIter<string, AlpmPackage> (data);
 				unowned AlpmPackage pkg;
 				while (iter.next (null, out pkg)) {
-					pkgs.add (pkg);
+					pkgs.prepend (pkg);
 				}
 			}
-			return pkgs;
 		}
 
-		public GenericArray<AlpmPackage> get_installed_pkgs () {
-			var pkgs = new GenericArray<AlpmPackage> ();
+		public SList<AlpmPackage> get_installed_pkgs () {
+			var pkgs = new SList<AlpmPackage> ();
 			try {
 				new Thread<int>.try ("get_installed_pkgs", () => {
 					initialise_pkgs (alpm_handle.localdb.pkgcache, ref pkgs);
@@ -680,11 +692,11 @@ namespace Pamac {
 			} catch (Error e) {
 				warning (e.message);
 			}
-			return pkgs;
+			return (owned) pkgs;
 		}
 
-		public GenericArray<AlpmPackage> get_installed_apps () {
-			var pkgs = new GenericArray<AlpmPackage> ();
+		public SList<AlpmPackage> get_installed_apps () {
+			var pkgs = new SList<AlpmPackage> ();
 			try {
 				new Thread<int>.try ("get_installed_apps", () => {
 					unowned GenericArray<As.App> apps = app_store.get_apps ();
@@ -699,10 +711,11 @@ namespace Pamac {
 								initialise_pkg_common (local_pkg, ref pkg);
 								pkg.repo = sync_pkg.db.name;
 								initialize_app_data (app, ref pkg);
-								pkgs.add (pkg);
+								pkgs.prepend (pkg);
 							}
 						}
 					}
+					pkgs.reverse ();
 					loop.quit ();
 					return 0;
 				});
@@ -710,11 +723,11 @@ namespace Pamac {
 			} catch (Error e) {
 				warning (e.message);
 			}
-			return pkgs;
+			return (owned) pkgs;
 		}
 
-		public GenericArray<AlpmPackage> get_explicitly_installed_pkgs () {
-			var pkgs = new GenericArray<AlpmPackage> ();
+		public SList<AlpmPackage> get_explicitly_installed_pkgs () {
+			var pkgs = new SList<AlpmPackage> ();
 			try {
 				new Thread<int>.try ("get_explicitly_installed_pkgs", () => {
 					Alpm.List<unowned Alpm.Package> alpm_pkgs = null;
@@ -735,11 +748,11 @@ namespace Pamac {
 			} catch (Error e) {
 				warning (e.message);
 			}
-			return pkgs;
+			return (owned) pkgs;
 		}
 
-		public GenericArray<AlpmPackage> get_foreign_pkgs () {
-			var pkgs = new GenericArray<AlpmPackage> ();
+		public SList<AlpmPackage> get_foreign_pkgs () {
+			var pkgs = new SList<AlpmPackage> ();
 			try {
 				new Thread<int>.try ("get_foreign_pkgs", () => {
 					Alpm.List<unowned Alpm.Package> alpm_pkgs = null;
@@ -760,11 +773,11 @@ namespace Pamac {
 			} catch (Error e) {
 				warning (e.message);
 			}
-			return pkgs;
+			return (owned) pkgs;
 		}
 
-		public GenericArray<AlpmPackage> get_orphans () {
-			var pkgs = new GenericArray<AlpmPackage> ();
+		public SList<AlpmPackage> get_orphans () {
+			var pkgs = new SList<AlpmPackage> ();
 			try {
 				new Thread<int>.try ("get_orphans", () => {
 					Alpm.List<unowned Alpm.Package> alpm_pkgs = null;
@@ -795,7 +808,7 @@ namespace Pamac {
 			} catch (Error e) {
 				warning (e.message);
 			}
-			return pkgs;
+			return (owned) pkgs;
 		}
 
 		unowned Alpm.Package? get_syncpkg (string pkgname) {
@@ -908,9 +921,9 @@ namespace Pamac {
 			return result;
 		}
 
-		public GenericArray<AlpmPackage> search_installed_pkgs (string search_string) {
+		public SList<AlpmPackage> search_installed_pkgs (string search_string) {
 			string search_string_down = search_string.down ();
-			var pkgs = new GenericArray<AlpmPackage> ();
+			var pkgs = new SList<AlpmPackage> ();
 			try {
 				new Thread<int>.try ("search_installed_pkgs", () => {
 					initialise_pkgs (search_local_db (search_string_down), ref pkgs);
@@ -924,12 +937,12 @@ namespace Pamac {
 			} catch (Error e) {
 				warning (e.message);
 			}
-			return pkgs;
+			return (owned) pkgs;
 		}
 
-		public GenericArray<AlpmPackage> search_repos_pkgs (string search_string) {
+		public SList<AlpmPackage> search_repos_pkgs (string search_string) {
 			string search_string_down = search_string.down ();
-			var pkgs = new GenericArray<AlpmPackage> ();
+			var pkgs = new SList<AlpmPackage> ();
 			try {
 				new Thread<int>.try ("search_repos_pkgs", () => {
 					initialise_pkgs (search_sync_dbs (search_string_down), ref pkgs);
@@ -943,7 +956,7 @@ namespace Pamac {
 			} catch (Error e) {
 				warning (e.message);
 			}
-			return pkgs;
+			return (owned) pkgs;
 		}
 
 		Alpm.List<unowned Alpm.Package> search_all_dbs (string search_string) {
@@ -991,7 +1004,7 @@ namespace Pamac {
 			return result;
 		}
 
-		public GenericArray<AlpmPackage> search_repos_apps_sync (string[] search_terms) {
+		public SList<AlpmPackage> search_repos_apps_sync (string[] search_terms) {
 			// search only in appstream
 			Alpm.List<unowned Alpm.Package> appstream_result = null;
 			unowned GenericArray<As.App> apps = app_store.get_apps ();
@@ -1011,15 +1024,15 @@ namespace Pamac {
 					}
 				}
 			}
-			var pkgs = new GenericArray<AlpmPackage> ();
+			var pkgs = new SList<AlpmPackage> ();
 			initialise_pkgs (appstream_result, ref pkgs);
 			pkgs.sort (pkg_compare_name);
 			return pkgs;
 		}
 
-		public GenericArray<AlpmPackage> search_pkgs (string search_string) {
+		public SList<AlpmPackage> search_pkgs (string search_string) {
 			string search_string_down = search_string.down ();
-			var pkgs = new GenericArray<AlpmPackage> ();
+			var pkgs = new SList<AlpmPackage> ();
 			try {
 				new Thread<int>.try ("search_pkgs", () => {
 					initialise_pkgs (search_all_dbs (search_string_down), ref pkgs);
@@ -1033,12 +1046,12 @@ namespace Pamac {
 			} catch (Error e) {
 				warning (e.message);
 			}
-			return pkgs;
+			return (owned) pkgs;
 		}
 
-		public GenericArray<AURPackage> search_aur_pkgs (string search_string) {
+		public SList<AURPackage> search_aur_pkgs (string search_string) {
 			string search_string_down = search_string.down ();
-			var pkgs = new GenericArray<AURPackage> ();
+			var pkgs = new SList<AURPackage> ();
 			if (config.enable_aur) {
 				try {
 					new Thread<int>.try ("search_aur_pkgs", () => {
@@ -1046,8 +1059,9 @@ namespace Pamac {
 						for (uint i = 0; i < json_objects.length; i++) {
 							unowned Json.Object json_object = json_objects[i];
 							unowned Alpm.Package? local_pkg = alpm_handle.localdb.get_pkg (json_object.get_string_member ("Name"));
-							pkgs.add (initialise_aur_pkg (json_object, local_pkg));
+							pkgs.prepend (initialise_aur_pkg (json_object, local_pkg));
 						}
+						pkgs.reverse ();
 						loop.quit ();
 						return 0;
 					});
@@ -1056,17 +1070,17 @@ namespace Pamac {
 					warning (e.message);
 				}
 			}
-			return pkgs;
+			return (owned) pkgs;
 		}
 
-		public HashTable<string, GenericArray<string>> search_files (string[] files) {
-			var result = new HashTable<string, GenericArray<string>> (str_hash, str_equal);
+		public HashTable<string, SList<string>> search_files (string[] files) {
+			var result = new HashTable<string, SList<string>> (str_hash, str_equal);
 			foreach (unowned string file in files) {
 				// search in localdb
 				unowned Alpm.List<unowned Alpm.Package> pkgcache = alpm_handle.localdb.pkgcache;
 				while (pkgcache != null) {
 					unowned Alpm.Package alpm_pkg = pkgcache.data;
-					var found_files = new GenericArray<string> ();
+					var found_files = new SList<string> ();
 					unowned Alpm.FileList filelist = alpm_pkg.files;
 					Alpm.File* file_ptr = filelist.files;
 					for (size_t i = 0; i < filelist.count; i++, file_ptr++) {
@@ -1076,12 +1090,13 @@ namespace Pamac {
 							var real_file_name = new StringBuilder (alpm_handle.root);
 							real_file_name.append (file_ptr->name);
 							if (file in real_file_name.str) {
-								found_files.add ((owned) real_file_name.str);
+								found_files.prepend ((owned) real_file_name.str);
 							}
 						}
 					}
-					if (found_files.length > 0) {
-						result.insert (alpm_pkg.name, found_files);
+					found_files.reverse ();
+					if (found_files != null) {
+						result.insert (alpm_pkg.name, (owned) found_files);
 					}
 					pkgcache.next ();
 				}
@@ -1092,7 +1107,7 @@ namespace Pamac {
 					pkgcache = db.pkgcache;
 					while (pkgcache != null) {
 						unowned Alpm.Package alpm_pkg = pkgcache.data;
-						var found_files = new GenericArray<string> ();
+						var found_files = new SList<string> ();
 						unowned Alpm.FileList filelist = alpm_pkg.files;
 						Alpm.File* file_ptr = filelist.files;
 						for (size_t i = 0; i < filelist.count; i++, file_ptr++) {
@@ -1103,12 +1118,13 @@ namespace Pamac {
 								real_file_name.append (alpm_handle.root);
 								real_file_name.append (file_ptr->name);
 								if (file in real_file_name.str) {
-									found_files.add ((owned) real_file_name.str);
+									found_files.prepend ((owned) real_file_name.str);
 								}
 							}
 						}
-						if (found_files.length > 0) {
-							result.insert (alpm_pkg.name, found_files);
+						found_files.reverse ();
+						if (found_files != null) {
+							result.insert (alpm_pkg.name, (owned) found_files);
 						}
 						pkgcache.next ();
 					}
@@ -1118,22 +1134,23 @@ namespace Pamac {
 			return result;
 		}
 
-		public GenericArray<string> get_categories_names () {
-			var result = new GenericArray<string> ();
-			result.add ("Featured");
-			result.add ("Photo & Video");
-			result.add ("Music & Audio");
-			result.add ("Productivity");
-			result.add ("Communication & News");
-			result.add ("Education & Science");
-			result.add ("Games");
-			result.add ("Utilities");
-			result.add ("Development");
+		public SList<string> get_categories_names () {
+			var result = new SList<string> ();
+			result.prepend ("Featured");
+			result.prepend ("Photo & Video");
+			result.prepend ("Music & Audio");
+			result.prepend ("Productivity");
+			result.prepend ("Communication & News");
+			result.prepend ("Education & Science");
+			result.prepend ("Games");
+			result.prepend ("Utilities");
+			result.prepend ("Development");
+			result.reverse ();
 			return result;
 		}
 
-		public GenericArray<AlpmPackage> get_category_pkgs (string category) {
-			var result = new GenericArray<AlpmPackage> ();
+		public SList<AlpmPackage> get_category_pkgs (string category) {
+			var result = new SList<AlpmPackage> ();
 			string category_copy = category;
 			try {
 				new Thread<int>.try ("get_category_pkgs", () => {
@@ -1169,7 +1186,7 @@ namespace Pamac {
 										}
 										pkg.repo = sync_pkg.db.name;
 										initialize_app_data (app, ref pkg);
-										result.add (pkg);
+										result.prepend (pkg);
 									}
 								}
 							}
@@ -1226,13 +1243,14 @@ namespace Pamac {
 										}
 										pkg.repo = sync_pkg.db.name;
 										initialize_app_data (app, ref pkg);
-										result.add (pkg);
+										result.prepend (pkg);
 									}
 									break;
 								}
 							}
 						}
 					}
+					result.reverse ();
 					loop.quit ();
 					return 0;
 				});
@@ -1240,22 +1258,23 @@ namespace Pamac {
 			} catch (Error e) {
 				warning (e.message);
 			}
-			return result;
+			return (owned) result;
 		}
 
-		public GenericArray<string> get_repos_names () {
-			var repos_names = new GenericArray<string> ();
+		public SList<string> get_repos_names () {
+			var repos_names = new SList<string> ();
 			unowned Alpm.List<unowned Alpm.DB> syncdbs = alpm_handle.syncdbs;
 			while (syncdbs != null) {
 				unowned Alpm.DB db = syncdbs.data;
-				repos_names.add (db.name);
+				repos_names.prepend (db.name);
 				syncdbs.next ();
 			}
+			repos_names.reverse ();
 			return repos_names;
 		}
 
-		public GenericArray<AlpmPackage> get_repo_pkgs (string repo) {
-			var pkgs = new GenericArray<AlpmPackage> ();
+		public SList<AlpmPackage> get_repo_pkgs (string repo) {
+			var pkgs = new SList<AlpmPackage> ();
 			string repo_copy = repo;
 			try {
 				new Thread<int>.try ("get_repo_pkgs", () => {
@@ -1288,16 +1307,16 @@ namespace Pamac {
 			} catch (Error e) {
 				warning (e.message);
 			}
-			return pkgs;
+			return (owned) pkgs;
 		}
 
-		public GenericArray<string> get_groups_names () {
-			var groups_names = new GenericArray<string> ();
+		public SList<string> get_groups_names () {
+			var groups_names = new SList<string> ();
 			unowned Alpm.List<unowned Alpm.Group> groupcache = alpm_handle.localdb.groupcache;
 			while (groupcache != null) {
 				unowned Alpm.Group group = groupcache.data;
-				if (!groups_names.find_with_equal_func (group.name, str_equal)) {
-					groups_names.add (group.name);
+				if (groups_names.find_custom (group.name, strcmp) == null) {
+					groups_names.prepend (group.name);
 				}
 				groupcache.next ();
 			}
@@ -1307,8 +1326,8 @@ namespace Pamac {
 				groupcache = db.groupcache;
 				while (groupcache != null) {
 					unowned Alpm.Group group = groupcache.data;
-					if (!groups_names.find_with_equal_func (group.name, str_equal)) {
-						groups_names.add (group.name);
+					if (groups_names.find_custom (group.name, strcmp) == null) {
+						groups_names.prepend (group.name);
 					}
 					groupcache.next ();
 				}
@@ -1318,8 +1337,8 @@ namespace Pamac {
 			return groups_names;
 		}
 
-		public GenericArray<AlpmPackage> get_group_pkgs (string group_name) {
-			var pkgs = new GenericArray<AlpmPackage> ();
+		public SList<AlpmPackage> get_group_pkgs (string group_name) {
+			var pkgs = new SList<AlpmPackage> ();
 			string group_name_copy = group_name;
 			try {
 				new Thread<int>.try ("get_group_pkgs", () => {
@@ -1358,7 +1377,7 @@ namespace Pamac {
 			} catch (Error e) {
 				warning (e.message);
 			}
-			return pkgs;
+			return (owned) pkgs;
 		}
 
 		public AlpmPackage? get_pkg (string pkgname) {
@@ -1368,8 +1387,8 @@ namespace Pamac {
 			return get_sync_pkg (pkgname);
 		}
 
-		public GenericArray<string> get_pkg_files (string pkgname) {
-			var files = new GenericArray<string> ();
+		public SList<string> get_pkg_files (string pkgname) {
+			var files = new SList<string> ();
 			string pkgname_copy = pkgname;
 			try {
 				new Thread<int>.try ("get_pkg_files", () => {
@@ -1381,7 +1400,7 @@ namespace Pamac {
 							if (!file_ptr->name.has_suffix ("/")) {
 								var filename = new StringBuilder (alpm_handle.root);
 								filename.append (file_ptr->name);
-								files.add ((owned) filename.str);
+								files.prepend ((owned) filename.str);
 							}
 						}
 					} else {
@@ -1396,7 +1415,7 @@ namespace Pamac {
 									if (!file_ptr->name.has_suffix ("/")) {
 										var filename = new StringBuilder (alpm_handle.root);
 										filename.append (file_ptr->name);
-										files.add ((owned) filename.str);
+										files.prepend ((owned) filename.str);
 									}
 								}
 								break;
@@ -1404,6 +1423,7 @@ namespace Pamac {
 							syncdbs.next ();
 						}
 					}
+					files.reverse ();
 					loop.quit ();
 					return 0;
 				});
@@ -1411,7 +1431,7 @@ namespace Pamac {
 			} catch (Error e) {
 				warning (e.message);
 			}
-			return files;
+			return (owned) files;
 		}
 
 		int launch_subprocess (SubprocessLauncher launcher, string[] cmds, Cancellable? cancellable = null) {
@@ -1708,45 +1728,51 @@ namespace Pamac {
 				node = json_object.get_member ("License");
 				if (node != null) {
 					node.get_array ().foreach_element ((array, index, _node) => {
-						aur_pkg.licenses_priv.add (_node.get_string ());
+						aur_pkg.licenses_priv.prepend (_node.get_string ());
 					});
+					aur_pkg.licenses_priv.reverse ();
 				} else {
-					aur_pkg.licenses_priv.add (dgettext (null, "Unknown"));
+					aur_pkg.licenses_priv.append (dgettext (null, "Unknown"));
 				}
 				// depends
 				node = json_object.get_member ("Depends");
 				if (node != null) {
 					node.get_array ().foreach_element ((array, index, _node) => {
-						aur_pkg.depends_priv.add (_node.get_string ());
+						aur_pkg.optdepends_priv.prepend (_node.get_string ());
 					});
+					aur_pkg.optdepends_priv.reverse ();
 				}
 				// optdepends
 				node = json_object.get_member ("OptDepends");
 				if (node != null) {
 					node.get_array ().foreach_element ((array, index, _node) => {
-						aur_pkg.optdepends_priv.add (_node.get_string ());
+						aur_pkg.optdepends_priv.prepend (_node.get_string ());
 					});
+					aur_pkg.optdepends_priv.reverse ();
 				}
 				// provides
 				node = json_object.get_member ("Provides");
 				if (node != null) {
 					node.get_array ().foreach_element ((array, index, _node) => {
-						aur_pkg.provides_priv.add (_node.get_string ());
+						aur_pkg.provides_priv.prepend (_node.get_string ());
 					});
+					aur_pkg.provides_priv.reverse ();
 				}
 				// replaces
 				node = json_object.get_member ("Replaces");
 				if (node != null) {
 					node.get_array ().foreach_element ((array, index, _node) => {
-						aur_pkg.replaces_priv.add (_node.get_string ());
+						aur_pkg.replaces_priv.prepend (_node.get_string ());
 					});
+					aur_pkg.replaces_priv.reverse ();
 				}
 				// conflicts
 				node = json_object.get_member ("Conflicts");
 				if (node != null) {
 					node.get_array ().foreach_element ((array, index, _node) => {
-						aur_pkg.conflicts_priv.add (_node.get_string ());
+						aur_pkg.conflicts_priv.prepend (_node.get_string ());
 					});
+					aur_pkg.conflicts_priv.reverse ();
 				}
 			}
 			// popularity
@@ -1773,21 +1799,23 @@ namespace Pamac {
 			node = json_object.get_member ("MakeDepends");
 			if (node != null) {
 				node.get_array ().foreach_element ((array, index, _node) => {
-					aur_pkg.makedepends_priv.add (_node.get_string ());
+					aur_pkg.makedepends_priv.prepend (_node.get_string ());
 				});
+				aur_pkg.makedepends_priv.reverse ();
 			}
 			// checkdepends
 			node = json_object.get_member ("CheckDepends");
 			if (node != null) {
 				node.get_array ().foreach_element ((array, index, _node) => {
-					aur_pkg.checkdepends_priv.add (_node.get_string ());
+					aur_pkg.checkdepends_priv.prepend (_node.get_string ());
 				});
+				aur_pkg.checkdepends_priv.reverse ();
 			}
 			return aur_pkg;
 		}
 
-		public GenericArray<string> get_srcinfo_pkgnames (string pkgdir) {
-			var pkgnames = new GenericArray<string> ();
+		public SList<string> get_srcinfo_pkgnames (string pkgdir) {
+			var pkgnames = new SList<string> ();
 			File srcinfo;
 			if (config.aur_build_dir == "/var/tmp") {
 				srcinfo = File.new_for_path (Path.build_path ("/", config.aur_build_dir, "pamac-build-%s".printf (Environment.get_user_name ()), pkgdir, ".SRCINFO"));
@@ -1802,19 +1830,20 @@ namespace Pamac {
 					while ((line = dis.read_line ()) != null) {
 						if ("pkgname = " in line) {
 							string pkgname = line.split (" = ", 2)[1];
-							pkgnames.add ((owned) pkgname);
+							pkgnames.prepend ((owned) pkgname);
 						}
 					}
 				} catch (Error e) {
 					warning (e.message);
 				}
 			}
+			pkgnames.reverse ();
 			return pkgnames;
 		}
 
-		internal GenericArray<AURPackage> get_all_aur_updates () {
+		internal SList<AURPackage> get_all_aur_updates () {
 			// do not check for ignore pkgs here to have a warning in alpm_utils build_prepare
-			var pkgs = new GenericArray<AURPackage> ();
+			var pkgs = new SList<AURPackage> ();
 			var local_pkgs = new GenericArray<string> ();
 			var vcs_local_pkgs = new GenericArray<string> ();
 			try {
@@ -1839,7 +1868,7 @@ namespace Pamac {
 						pkgcache.next ();
 					}
 					var aur_updates = get_aur_updates_real (aur.get_multi_infos (local_pkgs.data), vcs_local_pkgs, false);
-					pkgs = aur_updates.updates;
+					pkgs = (owned) aur_updates.updates;
 					loop.quit ();
 					return 0;
 				});
@@ -1847,7 +1876,7 @@ namespace Pamac {
 			} catch (Error e) {
 				warning (e.message);
 			}
-			return pkgs;
+			return (owned) pkgs;
 		}
 
 		public void refresh_tmp_files_dbs () {
@@ -1864,8 +1893,8 @@ namespace Pamac {
 			var updates = new Updates ();
 			var local_pkgs = new GenericArray<string> ();
 			var vcs_local_pkgs = new GenericArray<string> ();
-			var repos_updates = new GenericArray<AlpmPackage> ();
-			var ignored_updates = new GenericArray<AlpmPackage> ();
+			var repos_updates = new SList<AlpmPackage> ();
+			var ignored_updates = new SList<AlpmPackage> ();
 			try {
 				new Thread<int>.try ("get_updates", () => {
 					// be sure we have the good updates
@@ -1901,9 +1930,9 @@ namespace Pamac {
 							// check if candidate is in IgnorePkg or IgnoreGroup in case of replacer
 							if (tmp_handle.should_ignore (installed_pkg) == 1 ||
 								tmp_handle.should_ignore (candidate) == 1) {
-								ignored_updates.add (initialise_pkg (candidate));
+								ignored_updates.prepend (initialise_pkg (candidate));
 							} else {
-								repos_updates.add (initialise_pkg (candidate));
+								repos_updates.prepend (initialise_pkg (candidate));
 							}
 						} else {
 							if (config.check_aur_updates) {
@@ -1925,7 +1954,7 @@ namespace Pamac {
 						pkgcache.next ();
 					}
 					#if ENABLE_FLATPAK
-					var flatpak_updates = new GenericArray<FlatpakPackage> ();
+					var flatpak_updates = new SList<FlatpakPackage> ();
 					if (config.check_flatpak_updates) {
 						flatpak_plugin.get_flatpak_updates (ref flatpak_updates);
 					}
@@ -1941,16 +1970,16 @@ namespace Pamac {
 							get_updates_progress (100);
 							return false;
 						});
-						updates = new Updates.from_lists (repos_updates, ignored_updates, aur_updates.updates, aur_updates.ignored_updates, aur_updates.outofdate);
+						updates = new Updates.from_lists ((owned) repos_updates, (owned) ignored_updates, (owned) aur_updates.updates, (owned) aur_updates.ignored_updates, (owned) aur_updates.outofdate);
 					} else {
 						context.invoke (() => {
 							get_updates_progress (100);
 							return false;
 						});
-						updates = new Updates.from_lists (repos_updates, ignored_updates, new GenericArray<AURPackage> (), new GenericArray<AURPackage> (), new GenericArray<AURPackage> ());
+						updates = new Updates.from_lists ((owned) repos_updates, (owned) ignored_updates, new SList<AURPackage> (), new SList<AURPackage> (), new SList<AURPackage> ());
 					}
 					#if ENABLE_FLATPAK
-					updates.set_flatpak_updates (flatpak_updates);
+					updates.set_flatpak_updates ((owned) flatpak_updates);
 					#endif
 					loop.quit ();
 					return 0;
@@ -1997,12 +2026,12 @@ namespace Pamac {
 								string desc = "";
 								string arch = Posix.utsname ().machine;
 								var pkgnames_found = new GenericArray<string> ();
-								var global_depends = new GenericArray<string> ();
+								var global_depends = new SList<string> ();
 								var global_checkdepends = new GenericArray<string> ();
 								var global_makedepends = new GenericArray<string> ();
-								var global_conflicts = new GenericArray<string> ();
-								var global_provides = new GenericArray<string> ();
-								var global_replaces = new GenericArray<string> ();
+								var global_conflicts = new SList<string> ();
+								var global_provides = new SList<string> ();
+								var global_replaces = new SList<string> ();
 								var global_validpgpkeys = new GenericArray<string> ();
 								var pkgnames_table = new HashTable<string, AURPackage> (str_hash, str_equal);
 								while ((line = dis.read_line ()) != null) {
@@ -2042,12 +2071,12 @@ namespace Pamac {
 												} else if ("makedepends" in line) {
 													global_makedepends.add ((owned) depend);
 												} else {
-													global_depends.add ((owned) depend);
+													global_depends.prepend ((owned) depend);
 												}
 											} else {
 												unowned AURPackage? aur_pkg = pkgnames_table.get (current_section);
 												if (aur_pkg != null) {
-													aur_pkg.depends_priv.add ((owned) depend);
+													aur_pkg.depends_priv.prepend ((owned) depend);
 												}
 											}
 										}
@@ -2055,11 +2084,11 @@ namespace Pamac {
 										if ("provides = " in line || "provides_%s = ".printf (arch) in line) {
 											string provide = line.split (" = ", 2)[1];
 											if (current_section_is_pkgbase) {
-												global_provides.add ((owned) provide);
+												global_provides.prepend ((owned) provide);
 											} else {
 												unowned AURPackage? aur_pkg = pkgnames_table.get (current_section);
 												if (aur_pkg != null) {
-													aur_pkg.provides_priv.add ((owned) provide);
+													aur_pkg.provides_priv.prepend ((owned) provide);
 												}
 											}
 										}
@@ -2067,11 +2096,11 @@ namespace Pamac {
 										if ("conflicts = " in line || "conflicts_%s = ".printf (arch) in line) {
 											string conflict = line.split (" = ", 2)[1];
 											if (current_section_is_pkgbase) {
-												global_conflicts.add ((owned) conflict);
+												global_conflicts.prepend ((owned) conflict);
 											} else {
 												unowned AURPackage? aur_pkg = pkgnames_table.get (current_section);
 												if (aur_pkg != null) {
-													aur_pkg.conflicts_priv.add ((owned) conflict);
+													aur_pkg.conflicts_priv.prepend ((owned) conflict);
 												}
 											}
 										}
@@ -2079,11 +2108,11 @@ namespace Pamac {
 										if ("replaces = " in line || "replaces_%s = ".printf (arch) in line) {
 											string replace = line.split (" = ", 2)[1];
 											if (current_section_is_pkgbase) {
-												global_replaces.add ((owned) replace);
+												global_replaces.prepend ((owned) replace);
 											} else {
 												unowned AURPackage? aur_pkg = pkgnames_table.get (current_section);
 												if (aur_pkg != null) {
-													aur_pkg.replaces_priv.add ((owned) replace);
+													aur_pkg.replaces_priv.prepend ((owned) replace);
 												}
 											}
 										}
@@ -2113,32 +2142,24 @@ namespace Pamac {
 									AURPackage? aur_pkg = pkgnames_table.take (pkgname_found);
 									// populate empty list will global ones
 									uint k;
-									if (aur_pkg.depends.length == 0) {
-										for (k = 0; k < global_depends.length; k++) {
-											aur_pkg.depends_priv.add (global_depends[k]);
-										}
+									if (aur_pkg.depends == null && global_depends.length != null) {
+										aur_pkg.depends_priv = (owned) global_depends;
 									}
-									if (aur_pkg.provides.length == 0) {
-										for (k = 0; k < global_provides.length; k++) {
-											aur_pkg.provides_priv.add (global_provides[k]);
-										}
+									if (aur_pkg.provides == null && global_provides.length != null) {
+										aur_pkg.provides_priv = (owned) global_provides;
 									}
-									if (aur_pkg.conflicts.length == 0) {
-										for (k = 0; k < global_conflicts.length; k++) {
-											aur_pkg.conflicts_priv.add (global_conflicts[k]);
-										}
+									if (aur_pkg.conflicts == null && global_conflicts.length != null) {
+										aur_pkg.conflicts_priv = (owned) global_conflicts;
 									}
-									if (aur_pkg.replaces.length == 0) {
-										for (k = 0; k < global_replaces.length; k++) {
-											aur_pkg.replaces_priv.add (global_replaces[k]);
-										}
+									if (aur_pkg.replaces == null && global_replaces.length != null) {
+										aur_pkg.replaces_priv = (owned) global_replaces;
 									}
 									// add checkdepends and makedepends in depends
 									for (k = 0; k < global_checkdepends.length; k++) {
-										aur_pkg.depends_priv.add (global_checkdepends[k]);
+										aur_pkg.depends_priv.prepend (global_checkdepends[k]);
 									}
 									for (k = 0; k < global_makedepends.length; k++) {
-										aur_pkg.depends_priv.add (global_makedepends[k]);
+										aur_pkg.depends_priv.prepend (global_makedepends[k]);
 									}
 									aur_vcs_pkgs.insert (pkgname_found, aur_pkg);
 								}
@@ -2154,9 +2175,9 @@ namespace Pamac {
 		}
 
 		AURUpdates get_aur_updates_real (GenericArray<unowned Json.Object> aur_infos, GenericArray<string> vcs_local_pkgs, bool check_ignorepkgs) {
-			var updates = new GenericArray<AURPackage> ();
-			var outofdate = new GenericArray<AURPackage> ();
-			var ignored_updates = new GenericArray<AURPackage> ();
+			var updates = new SList<AURPackage> ();
+			var outofdate = new SList<AURPackage> ();
+			var ignored_updates = new SList<AURPackage> ();
 			for (uint i = 0; i < aur_infos.length; i++) {
 				unowned Json.Object pkg_info = aur_infos[i];
 				unowned string name = pkg_info.get_string_member ("Name");
@@ -2166,16 +2187,16 @@ namespace Pamac {
 				if (Alpm.pkg_vercmp (new_version, old_version) == 1) {
 					if (check_ignorepkgs) {
 						if (alpm_handle.ignorepkgs.find_str (name) == null) {
-							updates.add (initialise_aur_pkg (pkg_info, local_pkg, true));
+							updates.prepend (initialise_aur_pkg (pkg_info, local_pkg, true));
 						} else {
-							ignored_updates.add (initialise_aur_pkg (pkg_info, local_pkg, true));
+							ignored_updates.prepend (initialise_aur_pkg (pkg_info, local_pkg, true));
 						}
 					} else {
-						updates.add (initialise_aur_pkg (pkg_info, local_pkg, true));
+						updates.prepend (initialise_aur_pkg (pkg_info, local_pkg, true));
 					}
 				} else if (!pkg_info.get_member ("OutOfDate").is_null ()) {
 					// get out of date packages
-					outofdate.add (initialise_aur_pkg (pkg_info, local_pkg));
+					outofdate.prepend (initialise_aur_pkg (pkg_info, local_pkg));
 				}
 			}
 			if (config.check_aur_vcs_updates) {
@@ -2184,23 +2205,23 @@ namespace Pamac {
 					if (Alpm.pkg_vercmp (aur_pkg.version, aur_pkg.installed_version) == 1) {
 						if (check_ignorepkgs) {
 							if (alpm_handle.ignorepkgs.find_str (aur_pkg.name) == null) {
-								updates.add (aur_pkg);
+								updates.prepend (aur_pkg);
 							} else {
-								ignored_updates.add (aur_pkg);
+								ignored_updates.prepend (aur_pkg);
 							}
 						} else {
-							updates.add (aur_pkg);
+							updates.prepend (aur_pkg);
 						}
 					}
 				}
 			}
-			return new AURUpdates (updates, ignored_updates, outofdate);
+			return new AURUpdates ((owned) updates, (owned) ignored_updates, (owned) outofdate);
 		}
 
 		#if ENABLE_SNAP
-		public GenericArray<SnapPackage> search_snaps (string search_string) {
+		public SList<SnapPackage> search_snaps (string search_string) {
 			string search_string_down = search_string.down ();
-			var pkgs = new GenericArray<SnapPackage> ();
+			var pkgs = new SList<SnapPackage> ();
 			if (config.enable_snap) {
 				try {
 					new Thread<int>.try ("search_snaps", () => {
@@ -2213,7 +2234,7 @@ namespace Pamac {
 					warning (e.message);
 				}
 			}
-			return pkgs;
+			return (owned) pkgs;
 		}
 
 		public bool is_installed_snap (string name) {
@@ -2241,8 +2262,8 @@ namespace Pamac {
 			return pkg;
 		}
 
-		public GenericArray<SnapPackage> get_installed_snaps () {
-			var pkgs = new GenericArray<SnapPackage> ();
+		public SList<SnapPackage> get_installed_snaps () {
+			var pkgs = new SList<SnapPackage> ();
 			if (config.enable_snap) {
 				try {
 					new Thread<int>.try ("get_installed_snaps", () => {
@@ -2255,7 +2276,7 @@ namespace Pamac {
 					warning (e.message);
 				}
 			}
-			return pkgs;
+			return (owned) pkgs;
 		}
 
 		public string get_installed_snap_icon (string name) {
@@ -2280,8 +2301,8 @@ namespace Pamac {
 			return icon;
 		}
 
-		public GenericArray<SnapPackage> get_category_snaps (string category) {
-			var pkgs = new GenericArray<SnapPackage> ();
+		public SList<SnapPackage> get_category_snaps (string category) {
+			var pkgs = new SList<SnapPackage> ();
 			string category_copy = category;
 			if (config.enable_snap) {
 				try {
@@ -2295,21 +2316,21 @@ namespace Pamac {
 					warning (e.message);
 				}
 			}
-			return pkgs;
+			return (owned) pkgs;
 		}
 		#endif
 
 		#if ENABLE_FLATPAK
-		public GenericArray<string> get_flatpak_remotes_names () {
-			var list = new GenericArray<string> ();
+		public SList<string> get_flatpak_remotes_names () {
+			var list = new SList<string> ();
 			if (config.enable_flatpak) {
 				list = flatpak_plugin.get_remotes_names ();
 			}
 			return list;
 		}
 
-		public GenericArray<FlatpakPackage> get_installed_flatpaks () {
-			var pkgs = new GenericArray<FlatpakPackage> ();
+		public SList<FlatpakPackage> get_installed_flatpaks () {
+			var pkgs = new SList<FlatpakPackage> ();
 			if (config.enable_flatpak) {
 				try {
 					new Thread<int>.try ("get_installed_flatpak", () => {
@@ -2322,12 +2343,12 @@ namespace Pamac {
 					warning (e.message);
 				}
 			}
-			return pkgs;
+			return (owned) pkgs;
 		}
 
-		public GenericArray<FlatpakPackage> search_flatpaks (string search_string) {
+		public SList<FlatpakPackage> search_flatpaks (string search_string) {
 			string search_string_down = search_string.down ();
-			var pkgs = new GenericArray<FlatpakPackage> ();
+			var pkgs = new SList<FlatpakPackage> ();
 			if (config.enable_flatpak) {
 				try {
 					new Thread<int>.try ("search_flatpaks", () => {
@@ -2340,7 +2361,7 @@ namespace Pamac {
 					warning (e.message);
 				}
 			}
-			return pkgs;
+			return (owned) pkgs;
 		}
 
 		public bool is_installed_flatpak (string name) {
@@ -2368,8 +2389,8 @@ namespace Pamac {
 			return pkg;
 		}
 
-		public GenericArray<FlatpakPackage> get_category_flatpaks (string category) {
-			var pkgs = new GenericArray<FlatpakPackage> ();
+		public SList<FlatpakPackage> get_category_flatpaks (string category) {
+			var pkgs = new SList<FlatpakPackage> ();
 			string category_copy = category;
 			if (config.enable_flatpak) {
 				try {
@@ -2383,7 +2404,7 @@ namespace Pamac {
 					warning (e.message);
 				}
 			}
-			return pkgs;
+			return (owned) pkgs;
 		}
 		#endif
 	}
