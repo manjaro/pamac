@@ -20,9 +20,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2020-02-28 11:30+0100\n"
-"PO-Revision-Date: 2020-03-03 05:45+0000\n"
-"Last-Translator: Tomáš Marhoun <tmarhoun@gmail.com>\n"
+"POT-Creation-Date: 2020-03-06 17:13+0100\n"
+"PO-Revision-Date: 2020-03-06 19:52+0000\n"
+"Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Czech (http://www.transifex.com/manjarolinux/manjaro-pamac/language/cs/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1365,12 +1365,20 @@ msgid "Enable Snap support"
 msgstr "Povolit podporu Snap balíčků"
 
 #: resources/preferences_dialog.ui
+msgid "Allow Pamac to search and install snaps"
+msgstr ""
+
+#: resources/preferences_dialog.ui
 msgid "Flatpak packages are maintained by their publisher."
 msgstr "Flatpak balíčky udržují jejich vydavatelé."
 
 #: resources/preferences_dialog.ui
 msgid "Enable Flatpak support"
 msgstr "Povolit podporu Flatpak balíčků"
+
+#: resources/preferences_dialog.ui
+msgid "Allow Pamac to search and install flatpaks"
+msgstr ""
 
 #: resources/preferences_dialog.ui
 msgid "Cache"
