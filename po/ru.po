@@ -41,9 +41,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2020-02-28 11:30+0100\n"
-"PO-Revision-Date: 2020-02-28 15:22+0000\n"
-"Last-Translator: Guillaume Benoit <guillaume@manjaro.org>\n"
+"POT-Creation-Date: 2020-03-06 17:13+0100\n"
+"PO-Revision-Date: 2020-03-07 10:13+0000\n"
+"Last-Translator: Andrei Stepanov <adem4ik@gmail.com>\n"
 "Language-Team: Russian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -345,12 +345,12 @@ msgstr "Клонирование сборочных файлов %s не уда�
 #: src/transaction.vala
 #, c-format
 msgid "Generating %s information"
-msgstr ""
+msgstr "Генерация информации о %s"
 
 #: src/transaction.vala
 #, c-format
 msgid "Failed to generate %s information"
-msgstr ""
+msgstr "Не удалось сгенерировать информацию по %s"
 
 #: src/transaction.vala
 #, c-format
@@ -1273,7 +1273,7 @@ msgstr "Размер"
 
 #: resources/manager_window.ui
 msgid "Date"
-msgstr ""
+msgstr "Дата"
 
 #: resources/manager_window.ui
 msgid "Launch"
@@ -1386,12 +1386,20 @@ msgid "Enable Snap support"
 msgstr "Включить поддержку Snap"
 
 #: resources/preferences_dialog.ui
+msgid "Allow Pamac to search and install snaps"
+msgstr "Разрешить Pamac искать и устанавливать пакеты snap"
+
+#: resources/preferences_dialog.ui
 msgid "Flatpak packages are maintained by their publisher."
 msgstr "Пакеты Flatpak поддерживаются своим же издателем."
 
 #: resources/preferences_dialog.ui
 msgid "Enable Flatpak support"
 msgstr "Включить поддержку Flatpak"
+
+#: resources/preferences_dialog.ui
+msgid "Allow Pamac to search and install flatpaks"
+msgstr "Разрешить Pamac искать и устанавливать пакеты flatpak"
 
 #: resources/preferences_dialog.ui
 msgid "Cache"

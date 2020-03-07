@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2020-02-28 11:30+0100\n"
-"PO-Revision-Date: 2020-02-28 15:22+0000\n"
-"Last-Translator: Guillaume Benoit <guillaume@manjaro.org>\n"
+"POT-Creation-Date: 2020-03-06 17:13+0100\n"
+"PO-Revision-Date: 2020-03-06 19:52+0000\n"
+"Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: Urdu (Pakistan) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/ur_PK/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1342,11 +1342,19 @@ msgid "Enable Snap support"
 msgstr ""
 
 #: resources/preferences_dialog.ui
+msgid "Allow Pamac to search and install snaps"
+msgstr ""
+
+#: resources/preferences_dialog.ui
 msgid "Flatpak packages are maintained by their publisher."
 msgstr ""
 
 #: resources/preferences_dialog.ui
 msgid "Enable Flatpak support"
+msgstr ""
+
+#: resources/preferences_dialog.ui
+msgid "Allow Pamac to search and install flatpaks"
 msgstr ""
 
 #: resources/preferences_dialog.ui

@@ -18,8 +18,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2020-02-28 11:30+0100\n"
-"PO-Revision-Date: 2020-03-02 07:45+0000\n"
+"POT-Creation-Date: 2020-03-06 17:13+0100\n"
+"PO-Revision-Date: 2020-03-07 16:20+0000\n"
 "Last-Translator: 이정희 <daemul72@gmail.com>\n"
 "Language-Team: Korean (http://www.transifex.com/manjarolinux/manjaro-pamac/language/ko/)\n"
 "MIME-Version: 1.0\n"
@@ -143,7 +143,7 @@ msgstr "내부문제 확인중"
 #: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
 msgid "Installing %s"
-msgstr "%s 설치중 "
+msgstr "%s 설치중"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -284,7 +284,7 @@ msgstr "시간초과로 만료되었습니다"
 
 #: src/database.vala src/manager_window.vala
 msgid "Explicitly installed"
-msgstr "선택적으로 설치되었습니다"
+msgstr "완전히 설치됨"
 
 #: src/database.vala src/manager_window.vala
 msgid "Installed as a dependency for another package"
@@ -514,7 +514,7 @@ msgstr "모두"
 
 #: src/manager_window.vala
 msgid "Orphans"
-msgstr "고립된 패키지"
+msgstr "독립 패키지"
 
 #: src/manager_window.vala
 msgid "Foreign"
@@ -530,7 +530,7 @@ msgstr "저장소"
 
 #: src/manager_window.vala src/cli.vala resources/manager_window.ui
 msgid "Installed"
-msgstr "설치되었습니다"
+msgstr "설치됨"
 
 #: src/manager_window.vala
 msgid "Dependencies"
@@ -546,11 +546,11 @@ msgstr "빌드 파일"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Install Reason"
-msgstr "설치 이유"
+msgstr "설치 근거"
 
 #: src/manager_window.vala
 msgid "Mark as explicitly installed"
-msgstr "분명하게 설치된 것으로 표시"
+msgstr "완전히 설치된 것으로 표시"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Licenses"
@@ -686,7 +686,7 @@ msgstr "생산성"
 
 #: src/manager_window.vala
 msgid "Communication & News"
-msgstr "커뮤니케이션 및 뉴스"
+msgstr "통신 및 뉴스"
 
 #: src/manager_window.vala
 msgid "Education & Science"
@@ -752,7 +752,7 @@ msgstr "삭제 대상:"
 #, c-format
 msgid "%u file"
 msgid_plural "%u files"
-msgstr[0] "%u 파일 "
+msgstr[0] "%u 파일"
 
 #: src/preferences_dialog.vala
 msgid "Choose Ignored Upgrades"
@@ -975,7 +975,7 @@ msgstr "설치된 모든 패키지를 종속성으로 표시"
 
 #: src/cli.vala
 msgid "mark all packages explicitly installed"
-msgstr "명시적으로 설치된 모든 패키지 표시"
+msgstr "완전히 설치된 모든 패키지 표시"
 
 #: src/cli.vala
 msgid "do not check for updates"
@@ -993,7 +993,7 @@ msgstr "다른 패키지에 필요하지 않은 경우에만 패키지 제거"
 msgid ""
 "remove dependencies that are not required by other packages, if this option "
 "is used without package name remove all orphans"
-msgstr "다른 패키지에 필요하지 않은 의존성을 제거하고, 패키지 이름 없이 이 옵션을 사용하는 경우 모든 고립된 패키지를 제거합니다"
+msgstr "다른 패키지에 필요하지 않은 의존성을 제거하고, 패키지 이름 없이 이 옵션을 사용하는 경우 모든 독립 패키지를 제거합니다"
 
 #: src/cli.vala
 msgid "ignore files backup"
@@ -1345,12 +1345,20 @@ msgid "Enable Snap support"
 msgstr "스냅 지원 사용"
 
 #: resources/preferences_dialog.ui
+msgid "Allow Pamac to search and install snaps"
+msgstr "Pamac이 스냅을 검색하고 설치하도록 허용"
+
+#: resources/preferences_dialog.ui
 msgid "Flatpak packages are maintained by their publisher."
 msgstr "Flatpak 패키지는 게시자가 유지 관리합니다."
 
 #: resources/preferences_dialog.ui
 msgid "Enable Flatpak support"
 msgstr "Flatpak 지원 사용가능"
+
+#: resources/preferences_dialog.ui
+msgid "Allow Pamac to search and install flatpaks"
+msgstr "Pamac이 flatpak을 검색하고 설치하도록 허용"
 
 #: resources/preferences_dialog.ui
 msgid "Cache"
