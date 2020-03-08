@@ -470,7 +470,7 @@ namespace Pamac {
 			}
 			if (summary.to_upgrade != null) {
 				if (!no_confirm_upgrade) {
-					pkgs = summary.to_reinstall;
+					pkgs = summary.to_upgrade;
 					pkg = pkgs.data;
 					dsize += pkg.download_size;
 					string size = pkg.download_size == 0 ? "" : format_size (pkg.download_size);
