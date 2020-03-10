@@ -76,16 +76,16 @@ const PamacUpdateIndicator = new Lang.Class({
 	_updateList: [],
 	_config: null,
 	_pacman_lock: null,
-	_icon_theme: null,
+	//_icon_theme: null,
 
 	_init: function() {
 		this.parent(0.0, "PamacUpdateIndicator");
 		// Set icon theme
-		let that = this;
-		this._icon_theme = Gtk.IconTheme.get_default();
-		this._icon_theme.connect('changed', function () {
-			that._icon_theme = Gtk.IconTheme.get_default();
-		});
+		//let that = this;
+		//this._icon_theme = Gtk.IconTheme.get_default();
+		//this._icon_theme.connect('changed', function () {
+			//that._icon_theme = Gtk.IconTheme.get_default();
+		//});
 
 		this.updateIcon = new St.Icon({icon_name: "pamac-tray-no-update", icon_size: 24, style_class: 'system-status-icon'});
 
