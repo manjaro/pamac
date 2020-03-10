@@ -449,14 +449,16 @@ namespace Pamac {
 			}
 		}
 
-		bool wait_for_lock (string sender, Cancellable cancellable) {
+		bool wait_for_lock (string sender, Cancellable cancellable, bool quiet = false) {
 			bool waiting = false;
 			bool success = false;
 			cancellable.reset ();
 			if (!lockfile_mutex.trylock ()) {
 				waiting = true;
 				start_waiting (sender);
-				emit_action (sender, _("Waiting for another package manager to quit") + "...");
+				if (!quiet) {
+					emit_action (sender, _("Waiting for another package manager to quit") + "...");
+				}
 				answer_mutex.lock ();
 				int i = 0;
 				while (!cancellable.is_cancelled ()) {
@@ -471,7 +473,9 @@ namespace Pamac {
 					// wait 5 min max
 					if (i == 1500) {
 						cancellable.cancel ();
-						emit_action (sender, "%s: %s.".printf (_("Transaction cancelled"), _("Timeout expired")));
+						if (!quiet) {
+							emit_action (sender, "%s: %s.".printf (_("Transaction cancelled"), _("Timeout expired")));
+						}
 					}
 				}
 				answer_mutex.unlock ();

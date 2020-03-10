@@ -49,7 +49,6 @@ let BOOT_WAIT          = 30;  // 30s
 let CHECK_INTERVAL     = 6;   // 6h
 let NOTIFY             = true;
 let TRANSIENT          = false;
-let CHECK_CMD          = ["pamac", "checkupdates", "-q", "--refresh-tmp-files-dbs"];
 let UPDATER_CMD        = "pamac-manager --updates";
 let MANAGER_CMD        = "pamac-manager";
 let PACMAN_LOCK         = "/var/lib/pacman/db.lck";
@@ -273,10 +272,11 @@ const PamacUpdateIndicator = new Lang.Class({
 		}
 		// Run asynchronously, to avoid  shell freeze - even for a 1s check
 		try {
+			let check_cmd = ["pamac", "checkupdates", "-q", "--refresh-tmp-files-dbs"];
 			if (this._config.download_updates) {
-				CHECK_CMD.push ("--download-updates");
+				check_cmd.push ("--download-updates");
 			}
-			let [res, pid, in_fd, out_fd, err_fd]  = GLib.spawn_async_with_pipes(null, CHECK_CMD, null, GLib.SpawnFlags.DO_NOT_REAP_CHILD | GLib.SpawnFlags.SEARCH_PATH, null);
+			let [res, pid, in_fd, out_fd, err_fd]  = GLib.spawn_async_with_pipes(null, check_cmd, null, GLib.SpawnFlags.DO_NOT_REAP_CHILD | GLib.SpawnFlags.SEARCH_PATH, null);
 			// Let's buffer the command's output - that's a input for us !
 			this._updateProcess_stream = new Gio.DataInputStream({
 				base_stream: new Gio.UnixInputStream({fd: out_fd})
@@ -318,6 +318,8 @@ const PamacUpdateIndicator = new Lang.Class({
 	},
 
 	_checkUpdatesEnd: function() {
+		// Close process
+		GLib.Process.close_pid (this._updateProcess_pid);
 		// Free resources
 		this._updateProcess_stream.close(null);
 		this._updateProcess_stream = null;
