@@ -21,7 +21,7 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2020-03-06 17:13+0100\n"
-"PO-Revision-Date: 2020-03-08 06:10+0000\n"
+"PO-Revision-Date: 2020-03-11 04:57+0000\n"
 "Last-Translator: Tomáš Marhoun <tmarhoun@gmail.com>\n"
 "Language-Team: Czech (http://www.transifex.com/manjarolinux/manjaro-pamac/language/cs/)\n"
 "MIME-Version: 1.0\n"
@@ -525,11 +525,11 @@ msgstr "Vše"
 
 #: src/manager_window.vala
 msgid "Orphans"
-msgstr "Sirotci"
+msgstr "Nepotřebné balíčky"
 
 #: src/manager_window.vala
 msgid "Foreign"
-msgstr "Cizí"
+msgstr "Cizí balíčky"
 
 #: src/manager_window.vala resources/preferences_dialog.ui
 msgid "Flatpak"
@@ -1007,7 +1007,7 @@ msgstr "odstranit balíčky pouze pokud nejsou vyžadovány jinými balíčky"
 msgid ""
 "remove dependencies that are not required by other packages, if this option "
 "is used without package name remove all orphans"
-msgstr "odstanit závislosti, které nejsou potřebné ostatními balíčky; pokud je tato možnost použita bez názvu balíčku, odstranit všechny sirotky"
+msgstr "odstranit závislosti, které nejsou potřebné ostatními balíčky; pokud je tato možnost použita bez názvu balíčku, odstranit všechny nepotřebné balíčky"
 
 #: src/cli.vala
 msgid "ignore files backup"
