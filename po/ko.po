@@ -19,7 +19,7 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2020-03-06 17:13+0100\n"
-"PO-Revision-Date: 2020-03-07 16:20+0000\n"
+"PO-Revision-Date: 2020-03-10 05:51+0000\n"
 "Last-Translator: 이정희 <daemul72@gmail.com>\n"
 "Language-Team: Korean (http://www.transifex.com/manjarolinux/manjaro-pamac/language/ko/)\n"
 "MIME-Version: 1.0\n"
@@ -1164,7 +1164,7 @@ msgstr "진행"
 
 #: resources/history_dialog.ui
 msgid "Pamac History"
-msgstr "Pamac 히스토리"
+msgstr "Pamac 이전기록"
 
 #: resources/transaction_sum_dialog.ui
 msgid "Transaction Summary"
@@ -1180,7 +1180,7 @@ msgstr "데이터베이스 새로고침"
 
 #: resources/manager_window.ui
 msgid "View History"
-msgstr "히스토리 보기"
+msgstr "이전기록 보기"
 
 #: resources/manager_window.ui resources/preferences_dialog.ui
 msgid "Preferences"
@@ -1188,7 +1188,7 @@ msgstr "환경 설정"
 
 #: resources/manager_window.ui
 msgid "About"
-msgstr "대하여"
+msgstr "프로그램 소개"
 
 #: resources/manager_window.ui
 msgid "Search"
