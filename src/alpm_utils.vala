@@ -168,19 +168,9 @@ namespace Pamac {
 		}
 
 		public int do_choose_provider (string depend, string[] providers) {
+			// won't send a signal in a thread
 			string[] providers_copy = providers;
-			int index = 0;
-			var loop = new MainLoop (context);
-			var idle = new IdleSource ();
-			idle.set_priority (Priority.DEFAULT);
-			idle.set_callback (() => {
-				index = choose_provider (depend, providers_copy);
-				loop.quit ();
-				return false;
-			});
-			idle.attach (context);
-			loop.run ();
-			return index;
+			return choose_provider (depend, providers_copy);
 		}
 
 		void do_start_downloading () {
@@ -255,18 +245,8 @@ namespace Pamac {
 		}
 
 		bool do_get_authorization () {
-			bool authorized = false;
-			var loop = new MainLoop (context);
-			var idle = new IdleSource ();
-			idle.set_priority (Priority.DEFAULT);
-			idle.set_callback (() => {
-				authorized = get_authorization (sender);
-				loop.quit ();
-				return false;
-			});
-			idle.attach (context);
-			loop.run ();
-			return authorized;
+			// won't send a signal in a thread
+			return get_authorization (sender);
 		}
 
 		void check_old_lock () {
