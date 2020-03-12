@@ -851,7 +851,7 @@ All AUR users should be familiar with the build process.</property>
                 </child>
                 <child>
                   <object class="GtkCheckButton" id="check_aur_updates_checkbutton">
-                    <property name="label" translatable="yes">Check for updates from AUR</property>
+                    <property name="label" translatable="yes">Check for updates</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
