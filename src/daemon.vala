@@ -719,7 +719,7 @@ void on_bus_acquired (DBusConnection conn) {
 		conn.register_object ("/org/manjaro/pamac/daemon", system_daemon);
 	}
 	catch (IOError e) {
-		warning ("Could not register service\n");
+		warning ("Could not register service");
 		loop.quit ();
 	}
 }
@@ -735,7 +735,7 @@ void main () {
 				on_bus_acquired,
 				null,
 				() => {
-					stderr.printf ("Could not acquire name\n");
+					warning ("Could not acquire name");
 					loop.quit ();
 				});
 

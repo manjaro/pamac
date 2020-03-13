@@ -309,7 +309,7 @@ namespace Pamac {
 			alpm_config.reload ();
 			var alpm_handle = alpm_config.get_handle (files_db, tmp_db);
 			if (alpm_handle == null) {
-				warning ("%s\n", _("Failed to initialize alpm library"));
+				warning (_("Failed to initialize alpm library"));
 				do_emit_error ("Alpm Error", {_("Failed to initialize alpm library")});
 			} else if (callbacks) {
 				alpm_handle.eventcb = (Alpm.EventCallBack) cb_event;

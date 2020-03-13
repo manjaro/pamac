@@ -369,7 +369,7 @@ namespace Pamac {
 					// delete the file before rewrite it
 					file.delete ();
 				} catch (Error e) {
-					warning ("write: %s\n", e.message);
+					warning (e.message);
 				}
 			} else {
 				warning ("File '%s' doesn't exist", conf_path);
@@ -480,7 +480,7 @@ namespace Pamac {
 				var dos = new DataOutputStream (file.create (FileCreateFlags.REPLACE_DESTINATION));
 				dos.put_string (data.str);
 			} catch (Error e) {
-				warning ("write: %s", e.message);
+				warning (e.message);
 			}
 		}
 	}

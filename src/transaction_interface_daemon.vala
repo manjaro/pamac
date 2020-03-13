@@ -44,7 +44,7 @@ namespace Pamac {
 				connecting_dbus_signals ();
 				sender = system_daemon.get_sender ();
 			} catch (Error e) {
-				warning ("failed to connect to dbus daemon: %s\n", e.message);
+				warning ("failed to connect to dbus daemon: %s", e.message);
 			}
 		}
 

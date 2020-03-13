@@ -354,7 +354,7 @@ namespace Pamac {
 							if (release != null) {
 								pkg.version = release.get_version ();
 							} else {
-								warning ("no version found for %s\n", app.get_id_filename ());
+								warning ("no version found for %s", app.get_id_filename ());
 							}
 							pkg.desc = get_app_summary (app);
 							initialize_app_data (app, ref pkg);
@@ -404,7 +404,7 @@ namespace Pamac {
 								if (release != null) {
 									pkg.version = release.get_version ();
 								} else {
-									warning ("no version found for %s\n", app.get_id_filename ());
+									warning ("no version found for %s", app.get_id_filename ());
 								}
 								pkg.desc = get_app_summary (app);
 								initialize_app_data (app, ref pkg);
