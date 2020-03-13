@@ -2134,9 +2134,7 @@ namespace Pamac {
 				this.get_window ().set_cursor (null);
 				return;
 			} else {
-				packages_listbox.freeze_child_notify ();
 				clear_packages_listbox ();
-				packages_listbox.thaw_child_notify ();
 				origin_stack.visible_child_name = "repos";
 			}
 			current_packages_list = (owned) pkgs;
@@ -2231,12 +2229,11 @@ namespace Pamac {
 
 		void complete_packages_list () {
 			if (current_packages_list_pos != null) {
-				packages_listbox.freeze_child_notify ();
 				uint i = 0;
 				// display the next 20 packages
 				while (i < 20) {
 					var pkg = current_packages_list_pos.data;
-					create_packagelist_row (pkg);
+					create_packagelist_row.begin (pkg);
 					i++;
 					current_packages_list_pos = current_packages_list_pos.next;
 					if (current_packages_list_pos == null) {
@@ -2247,11 +2244,10 @@ namespace Pamac {
 						break;
 					}
 				}
-				packages_listbox.thaw_child_notify ();
 			}
 		}
 
-		void create_packagelist_row (Package pkg) {
+		async void create_packagelist_row (Package pkg) {
 			bool is_update = browse_stack.visible_child_name == "updates";
 			var row = new PackageRow (pkg);
 			//populate info
