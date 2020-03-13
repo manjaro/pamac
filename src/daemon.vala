@@ -137,6 +137,7 @@ namespace Pamac {
 			#if ENABLE_SNAP
 			if (config.support_snap) {
 				snap_plugin = config.get_snap_plugin ();
+				snap_plugin.context = context;
 				snap_plugin.get_authorization.connect ((sender) => {
 					return get_authorization_sync (sender);
 				});
@@ -163,6 +164,7 @@ namespace Pamac {
 			#if ENABLE_FLATPAK
 			if (config.support_flatpak) {
 				flatpak_plugin = config.get_flatpak_plugin ();
+				flatpak_plugin.context = context;
 				flatpak_plugin.get_authorization.connect ((sender) => {
 					return get_authorization_sync (sender);
 				});

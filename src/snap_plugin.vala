@@ -40,10 +40,10 @@ namespace Pamac {
 		double current_progress;
 		string current_status;
 
-		public MainContext context { get; construct set; }
+		public MainContext context { get; set; }
 
-		public Snap (MainContext context) {
-			Object (context: context);
+		public Snap () {
+			Object ();
 		}
 
 		construct {
@@ -391,18 +391,8 @@ namespace Pamac {
 		}
 
 		bool do_get_authorization () {
-			bool authorized = false;
-			var loop = new MainLoop (context);
-			var idle = new IdleSource ();
-			idle.set_priority (Priority.DEFAULT);
-			idle.set_callback (() => {
-				authorized = get_authorization (sender);
-				loop.quit ();
-				return false;
-			});
-			idle.attach (context);
-			loop.run ();
-			return authorized;
+			// won't send a signal in a thread
+			return get_authorization (sender);
 		}
 
 		public bool trans_run (string sender, string[] to_install, string[] to_remove) {

@@ -19,6 +19,8 @@
 
 namespace Pamac {
 	public interface SnapPlugin: Object {
+		public abstract MainContext context { get; set; }
+
 		public signal bool get_authorization (string sender);
 		public signal void emit_action_progress (string sender, string action, string status, double progress);
 		public signal void emit_download_progress (string sender, string action, string status, double progress);

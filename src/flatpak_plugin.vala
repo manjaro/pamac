@@ -26,8 +26,8 @@ namespace Pamac {
 		HashTable<string, Flatpak.RemoteRef> remote_refs_table;
 		Cancellable cancellable;
 
-		public uint64 refresh_period { get; construct set; }
-		public MainContext context { get; construct set; }
+		public uint64 refresh_period { get; set; }
+		public MainContext context { get; set; }
 
 		public FlatPak (uint64 refresh_period, MainContext context) {
 			Object (refresh_period: refresh_period, context: context);
@@ -117,10 +117,13 @@ namespace Pamac {
 						continue;
 					}
 					int64 elapsed_time = get_file_age (remote.get_appstream_timestamp (null));
-					int64 elapsed_hours = elapsed_time / TimeSpan.MINUTE;
+					if (elapsed_time < TimeSpan.HOUR) {
+						continue;
+					}
+					int64 elapsed_hours = elapsed_time / TimeSpan.HOUR;
 					if (elapsed_hours > refresh_period) {
-						info ("%lli hours elapsed since last appstream refresh", elapsed_hours);
-						info ("refreshing appstream data");
+						message ("last %s appstream refresh is older than %lli", remote.name, refresh_period);
+						message ("refreshing %s appstream data", remote.name);
 						try {
 							installation.update_appstream_sync (remote.name, null, null);
 							modified = true;
@@ -641,18 +644,8 @@ namespace Pamac {
 		}
 
 		bool do_get_authorization () {
-			bool authorized = false;
-			var loop = new MainLoop (context);
-			var idle = new IdleSource ();
-			idle.set_priority (Priority.DEFAULT);
-			idle.set_callback (() => {
-				authorized = get_authorization (sender);
-				loop.quit ();
-				return false;
-			});
-			idle.attach (context);
-			loop.run ();
-			return authorized;
+			// won't send a signal in a thread
+			return get_authorization (sender);
 		}
 
 		public bool trans_run (string sender, string[] to_install, string[] to_remove, string[] to_upgrade) {
