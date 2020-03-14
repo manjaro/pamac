@@ -153,40 +153,58 @@ namespace Pamac {
 		public SList<string> get_mirrors_countries () {
 			var countries = new SList<string> ();
 			try {
-				string countries_str;
-				int status;
-				Process.spawn_command_line_sync ("pacman-mirrors -l",
-											out countries_str,
-											null,
-											out status);
-				if (status == 0) {
-					foreach (unowned string country in countries_str.split ("\n")) {
-						if (country != "") {
-							countries.prepend (country);
+				new Thread<int>.try ("get_mirrors_countries", () => {
+					try {
+						string countries_str;
+						int status;
+						Process.spawn_command_line_sync ("pacman-mirrors -l",
+													out countries_str,
+													null,
+													out status);
+						if (status == 0) {
+							foreach (unowned string country in countries_str.split ("\n")) {
+								if (country != "") {
+									countries.prepend (country);
+								}
+							}
+							countries.reverse ();
 						}
+					} catch (SpawnError e) {
+						warning (e.message);
 					}
-				}
-			} catch (SpawnError e) {
+					loop.quit ();
+					return 0;
+				});
+				loop.run ();
+			} catch (Error e) {
 				warning (e.message);
 			}
-			countries.reverse ();
-			return countries;
+			return (owned) countries;
 		}
 
 		public string get_mirrors_choosen_country () {
 			string country = "";
 			try {
-				string countries_str;
-				int status;
-				Process.spawn_command_line_sync ("pacman-mirrors -lc",
-											out countries_str,
-											null,
-											out status);
-				if (status == 0) {
-					// only take first country
-					country = countries_str.split ("\n", 2)[0];
-				}
-			} catch (SpawnError e) {
+				new Thread<int>.try ("get_mirrors_choosen_country", () => {
+					try {
+						string countries_str;
+						int status;
+						Process.spawn_command_line_sync ("pacman-mirrors -lc",
+													out countries_str,
+													null,
+													out status);
+						if (status == 0) {
+							// only take first country
+							country = countries_str.split ("\n", 2)[0];
+						}
+					} catch (SpawnError e) {
+						warning (e.message);
+					}
+					loop.quit ();
+					return 0;
+				});
+				loop.run ();
+			} catch (Error e) {
 				warning (e.message);
 			}
 			return country;
