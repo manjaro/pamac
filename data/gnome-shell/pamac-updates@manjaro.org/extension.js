@@ -318,8 +318,6 @@ const PamacUpdateIndicator = new Lang.Class({
 	},
 
 	_checkUpdatesEnd: function() {
-		// Close process
-		GLib.Process.close_pid (this._updateProcess_pid);
 		// Free resources
 		this._updateProcess_stream.close(null);
 		this._updateProcess_stream = null;
@@ -332,7 +330,6 @@ const PamacUpdateIndicator = new Lang.Class({
 			// Refresh files dbs in tmp
 			let database = new Pamac.Database({config: this._config});
 			database.start_refresh_tmp_files_dbs ();
-			
 		}
 	},
 
