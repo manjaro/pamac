@@ -27,6 +27,8 @@ namespace Pamac {
 		[GtkChild]
 		public Gtk.Button close_button;
 		[GtkChild]
+		public Gtk.Button cancel_button;
+		[GtkChild]
 		public Gtk.Expander expander;
 
 		public ProgressDialog (Gtk.Application application) {

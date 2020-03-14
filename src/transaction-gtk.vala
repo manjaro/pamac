@@ -36,7 +36,7 @@ namespace Pamac {
 		// ask_confirmation option
 		public bool no_confirm_upgrade { get; set; }
 		bool summary_shown;
-		bool commit_transaction_answer;
+		public bool commit_transaction_answer;
 
 		public signal void transaction_sum_populated ();
 
@@ -318,14 +318,17 @@ namespace Pamac {
 					&& !must_confirm
 					&& summary.to_upgrade != null) {
 					show_warnings (true);
+					commit_transaction_answer = true;
 					return true;
 				}
 				int response = show_summary (summary);
 				if (response == Gtk.ResponseType.OK) {
 					// Commit
+					commit_transaction_answer = true;
 					return true;
 				}
 			}
+			commit_transaction_answer = false;
 			return false;
 		}
 

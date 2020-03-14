@@ -25,6 +25,8 @@ namespace Pamac {
 		TransactionGtk transaction;
 		ProgressDialog progress_dialog;
 		bool important_details;
+		bool waiting;
+		bool cancelled;
 
 		public Installer () {
 			application_id = "org.manjaro.pamac.installer";
@@ -39,6 +41,8 @@ namespace Pamac {
 			base.startup ();
 
 			important_details = false;
+			waiting = false;
+			cancelled = false;
 			var config = new Config ("/etc/pamac.conf");
 			// do not remove orphans
 			config.recurse = false;
@@ -46,12 +50,19 @@ namespace Pamac {
 			// integrate progress box and term widget
 			progress_dialog = new ProgressDialog (this);
 			transaction = new TransactionGtk (database, progress_dialog as Gtk.ApplicationWindow);
+			transaction.start_waiting.connect (on_start_waiting);
+			transaction.stop_waiting.connect (on_stop_waiting);
+			transaction.start_preparing.connect (on_start_preparing);
+			transaction.stop_preparing.connect (on_stop_preparing);
+			transaction.start_downloading.connect (on_start_downloading);
+			transaction.stop_downloading.connect (on_stop_downloading);
 			transaction.important_details_outpout.connect (on_important_details_outpout);
 			progress_dialog.box.pack_start (transaction.progress_box);
 			progress_dialog.box.reorder_child (transaction.progress_box, 0);
 			transaction.details_window.height_request = 200;
 			progress_dialog.expander.add (transaction.details_window);
 			progress_dialog.close_button.clicked.connect (on_close_button_clicked);
+			progress_dialog.cancel_button.clicked.connect (on_cancel_button_clicked);
 		}
 
 		public override int command_line (ApplicationCommandLine cmd) {
@@ -141,10 +152,11 @@ namespace Pamac {
 				foreach (unowned string path in to_load) {
 					transaction.add_path_to_load (path);
 				}
+				progress_dialog.cancel_button.sensitive = false;
 				progress_dialog.close_button.visible = false;
 				progress_dialog.show ();
 				bool success = transaction.run ();
-				if (!success || important_details) {
+				if ((!success && transaction.commit_transaction_answer && !cancelled) || important_details) {
 					progress_dialog.expander.expanded = true;
 					progress_dialog.close_button.visible = true;
 				} else {
@@ -188,6 +200,43 @@ namespace Pamac {
 
 		void on_close_button_clicked () {
 			this.release ();
+		}
+
+		void on_cancel_button_clicked () {
+			cancelled = true;
+			transaction.cancel ();
+			if (waiting) {
+				waiting = false;
+				transaction.stop_progressbar_pulse ();
+			}
+		}
+
+		void on_start_waiting () {
+			waiting = true;
+			progress_dialog.cancel_button.sensitive = true;
+		}
+
+		void on_stop_waiting () {
+			waiting = false;
+			progress_dialog.cancel_button.sensitive = false;
+		}
+
+		void on_start_preparing () {
+			progress_dialog.get_window ().set_cursor (new Gdk.Cursor.for_display (Gdk.Display.get_default (), Gdk.CursorType.WATCH));
+			progress_dialog.cancel_button.sensitive = false;
+		}
+
+		void on_stop_preparing () {
+			progress_dialog.cancel_button.sensitive = false;
+			progress_dialog.get_window ().set_cursor (null);
+		}
+
+		void on_start_downloading () {
+			progress_dialog.cancel_button.sensitive = true;
+		}
+
+		void on_stop_downloading () {
+			progress_dialog.cancel_button.sensitive = false;
 		}
 
 		public override void shutdown () {
