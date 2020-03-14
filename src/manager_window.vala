@@ -3903,10 +3903,13 @@ namespace Pamac {
 			sysupgrade_running = true;
 			apply_button.sensitive = false;
 			cancel_button.sensitive = false;
-			foreach (unowned string name in temporary_ignorepkgs) {
-				transaction.add_temporary_ignore_pkg (name);
+			if (repos_updates.length > 0
+				|| aur_updates.length > 0) {
+				foreach (unowned string name in temporary_ignorepkgs) {
+					transaction.add_temporary_ignore_pkg (name);
+				}
+				transaction.add_pkgs_to_upgrade (force_refresh);
 			}
-			transaction.add_pkgs_to_upgrade (force_refresh);
 			#if ENABLE_FLATPAK
 			for (uint i = 0; i < flatpak_updates.length; i++) {
 				transaction.add_flatpak_to_upgrade (flatpak_updates[i]);
