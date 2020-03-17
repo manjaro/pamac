@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2020-03-06 17:13+0100\n"
-"PO-Revision-Date: 2020-03-10 09:10+0000\n"
+"PO-Revision-Date: 2020-03-14 18:31+0000\n"
 "Last-Translator: Davidmp <medipas@gmail.com>\n"
 "Language-Team: Catalan (http://www.transifex.com/manjarolinux/manjaro-pamac/language/ca/)\n"
 "MIME-Version: 1.0\n"
@@ -311,12 +311,12 @@ msgstr "S'actualitza la llista de rèpliques."
 #: src/transaction.vala src/cli.vala
 #, c-format
 msgid "Cloning %s build files"
-msgstr "Es clonen %s fitxers de construcció."
+msgstr "Es clonen els fitxers de construcció de %s"
 
 #: src/transaction.vala
 #, c-format
 msgid "Failed to clone %s build files"
-msgstr "Ha fallat clonar %s fitxers de construcció."
+msgstr "Ha fallat clonar els fitxers de construcció de %s."
 
 #: src/transaction.vala
 #, c-format
@@ -331,7 +331,7 @@ msgstr "Ha fallat generar la informació de %s."
 #: src/transaction.vala
 #, c-format
 msgid "Checking %s dependencies"
-msgstr "Es comproven les dependències de %s."
+msgstr "Es comproven les dependències de %s"
 
 #: src/transaction.vala
 #, c-format
@@ -426,7 +426,7 @@ msgstr "Mida total de la baixada"
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
 msgid "Edit %s build files"
-msgstr "Edita %s fitxers de construcció."
+msgstr "Edita els fitxers de construcció de %s."
 
 #: src/transaction-gtk.vala
 msgid "Save"
@@ -808,7 +808,7 @@ msgstr "Aplica la transacció"
 #: src/transaction-cli.vala
 #, c-format
 msgid "View %s build files diff"
-msgstr "Mostra les %s diferències dels fitxers de construcció."
+msgstr "Mostra les diferències dels fitxers de construcció de %s."
 
 #: src/cli.vala
 msgid "Building packages as root is not allowed"

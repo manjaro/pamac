@@ -21,7 +21,7 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2020-03-06 17:13+0100\n"
-"PO-Revision-Date: 2020-03-11 04:57+0000\n"
+"PO-Revision-Date: 2020-03-17 05:51+0000\n"
 "Last-Translator: Tomáš Marhoun <tmarhoun@gmail.com>\n"
 "Language-Team: Czech (http://www.transifex.com/manjarolinux/manjaro-pamac/language/cs/)\n"
 "MIME-Version: 1.0\n"
@@ -259,7 +259,7 @@ msgstr "Stahování %s zahájeno"
 #: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
 msgid "Download of %s finished"
-msgstr "Stahování %s ukončeno"
+msgstr "Stahování %s dokončeno"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -289,7 +289,7 @@ msgstr "Vypršel časový limit"
 
 #: src/database.vala src/manager_window.vala
 msgid "Explicitly installed"
-msgstr "Explicitně nainstalováno"
+msgstr "Nainstalované balíčky"
 
 #: src/database.vala src/manager_window.vala
 msgid "Installed as a dependency for another package"
@@ -561,7 +561,7 @@ msgstr "Důvod instalace"
 
 #: src/manager_window.vala
 msgid "Mark as explicitly installed"
-msgstr "Označit jako explicitně nainstalované"
+msgstr "Označit jako nainstalované"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Licenses"
@@ -681,11 +681,11 @@ msgstr "Odstranit"
 
 #: src/manager_window.vala
 msgid "Featured"
-msgstr "Uvádíme"
+msgstr "Doporučené"
 
 #: src/manager_window.vala
 msgid "Photo & Video"
-msgstr "Foto & Video"
+msgstr "Obrázky & Video"
 
 #: src/manager_window.vala
 msgid "Music & Audio"
@@ -745,7 +745,7 @@ msgstr "Maximum paralelních stahování"
 
 #: src/preferences_dialog.vala src/cli.vala resources/preferences_dialog.ui
 msgid "Number of versions of each package to keep in the cache"
-msgstr "Počet verzí od každého balíčku udržovaného v paměti cache."
+msgstr "Počet verzí každého balíčku udržovaného v mezipaměti."
 
 #: src/preferences_dialog.vala
 msgid "Build directory"
@@ -953,7 +953,7 @@ msgstr "a --no-clone volba bude vynucena"
 
 #: src/cli.vala
 msgid "keep built packages in cache after installation"
-msgstr "po instalaci ponechat sestavovací balíčky v cache paměti"
+msgstr "po instalaci ponechat sestavené balíčky v mezipaměti"
 
 #: src/cli.vala
 msgid "do not clone build files from AUR, only use local files"
@@ -1067,7 +1067,7 @@ msgstr "umožnit návrat balíčků k předchozí verzi"
 
 #: src/cli.vala
 msgid "Clean packages cache or build files"
-msgstr "Vyčistit cache balíčků a sestavovací soubory"
+msgstr "Vyčistit cache balíčků nebo sestavovací soubory"
 
 #: src/cli.vala
 msgid "number"
@@ -1324,7 +1324,7 @@ msgstr "Použít zrcadla z:"
 
 #: resources/preferences_dialog.ui
 msgid "Refresh Mirrors List"
-msgstr "Obnova seznamu zrcadel"
+msgstr "Obnovit seznam zrcadel"
 
 #: resources/preferences_dialog.ui
 msgid "Official Repositories"
@@ -1346,7 +1346,7 @@ msgstr "Povolit aplikaci Pamac vyhledávat a instalovat balíčky z AUR"
 
 #: resources/preferences_dialog.ui
 msgid "Keep built packages in cache"
-msgstr "Ponechat sestavovací balíčky v cache paměti"
+msgstr "Ponechat sestavené balíčky v mezipaměti"
 
 #: resources/preferences_dialog.ui
 msgid "Check for updates from AUR"
