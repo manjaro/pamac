@@ -64,17 +64,20 @@ namespace Pamac {
 			pkg.url = this.url;
 			pkg.builddate = this.builddate;
 			pkg.installdate = this.installdate;
-			screenshots_priv = pkg.screenshots_priv.copy_deep (strdup);
-			licenses_priv = pkg.licenses_priv.copy_deep (strdup);
-			depends_priv = pkg.depends_priv.copy_deep (strdup);
-			optdepends_priv = pkg.optdepends_priv.copy_deep (strdup);
-			requiredby_priv = pkg.requiredby_priv.copy_deep (strdup);
-			optionalfor_priv = pkg.optionalfor_priv.copy_deep (strdup);
-			provides_priv = pkg.provides_priv.copy_deep (strdup);
-			replaces_priv = pkg.replaces_priv.copy_deep (strdup);
-			conflicts_priv = pkg.conflicts_priv.copy_deep (strdup);
-			groups_priv = pkg.groups_priv.copy_deep (strdup);
-			backups_priv = pkg.backups_priv.copy_deep (strdup);
+			pkg.packager = this.packager;
+			pkg.reason = this.reason;
+			pkg.has_signature = this.has_signature;
+			pkg.screenshots_priv = this.screenshots_priv.copy_deep (strdup);
+			pkg.licenses_priv = this.licenses_priv.copy_deep (strdup);
+			pkg.depends_priv = this.depends_priv.copy_deep (strdup);
+			pkg.optdepends_priv = this.optdepends_priv.copy_deep (strdup);
+			pkg.requiredby_priv = this.requiredby_priv.copy_deep (strdup);
+			pkg.optionalfor_priv = this.optionalfor_priv.copy_deep (strdup);
+			pkg.provides_priv = this.provides_priv.copy_deep (strdup);
+			pkg.replaces_priv = this.replaces_priv.copy_deep (strdup);
+			pkg.conflicts_priv = this.conflicts_priv.copy_deep (strdup);
+			pkg.groups_priv = this.groups_priv.copy_deep (strdup);
+			pkg.backups_priv = this.backups_priv.copy_deep (strdup);
 			return pkg;
 		}
 	}
