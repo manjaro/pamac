@@ -25,6 +25,7 @@ namespace Pamac {
 		MainLoop loop;
 
 		public string conf_path { get; construct; }
+		public string db_path { get { return alpm_config.dbpath; } }
 		public bool recurse { get; set; }
 		public bool keep_built_pkgs { get; set; }
 		public bool enable_downgrade { get; set; }

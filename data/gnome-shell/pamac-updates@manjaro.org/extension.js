@@ -24,7 +24,7 @@ const Lang = imports.lang;
 const St = imports.gi.St;
 const GObject = imports.gi.GObject;
 const GLib = imports.gi.GLib;
-const Gtk = imports.gi.Gtk;
+//const Gtk = imports.gi.Gtk;
 const Gio = imports.gi.Gio;
 
 const Main = imports.ui.main;
@@ -51,7 +51,7 @@ let NOTIFY             = true;
 let TRANSIENT          = false;
 let UPDATER_CMD        = "pamac-manager --updates";
 let MANAGER_CMD        = "pamac-manager";
-let PACMAN_LOCK         = "/var/lib/pacman/db.lck";
+let PACMAN_DIR         = "/var/lib/pacman/local";
 let STRIP_VERSIONS     = false;
 
 /* Variables we want to keep when extension is disabled (eg during screen lock) */
@@ -86,7 +86,7 @@ const PamacUpdateIndicator = new Lang.Class({
 			//that._icon_theme = Gtk.IconTheme.get_default();
 		//});
 
-		this.updateIcon = new St.Icon({icon_name: "pamac-tray-no-update", icon_size: 24, style_class: 'system-status-icon'});
+		this.updateIcon = new St.Icon({icon_name: "pamac-tray-no-update", style_class: 'system-status-icon'});
 
 		let box = new St.BoxLayout({ vertical: false, style_class: 'panel-status-menu-box' });
 		this.label = new St.Label({ text: '',
@@ -129,14 +129,14 @@ const PamacUpdateIndicator = new Lang.Class({
 				that._checkUpdates();
 				that._FirstTimeoutId = null;
 				FIRST_BOOT = 0;
-				that._startLockMonitor();
+				that._startFolderMonitor();
 				return false; // Run once
 			});
 		} else {
 			// Restore previous state
 			this._updateList = UPDATES_LIST;
 			this._updateStatus(UPDATES_PENDING);
-			this._startLockMonitor();
+			this._startFolderMonitor();
 		}
 	},
 
@@ -151,6 +151,7 @@ const PamacUpdateIndicator = new Lang.Class({
 	_applyConfig: function() {
 		HIDE_NO_UPDATE = this._config.no_update_hide_icon;
 		CHECK_INTERVAL = this._config.refresh_period;
+		PACMAN_DIR = this._config.db_path + "local";
 		this._checkShowHide();
 		let that = this;
 		if (this._TimeoutId) GLib.source_remove(this._TimeoutId);
@@ -205,24 +206,22 @@ const PamacUpdateIndicator = new Lang.Class({
 		this.menuExpander.setSubmenuShown(false);
 	},
 
-	_startLockMonitor: function() {
-		this._pacman_lock = Gio.file_new_for_path(PACMAN_LOCK);
-		this.monitor = this._pacman_lock.monitor(0, null);
-		this.monitor.connect('changed', Lang.bind(this, this._onLockChanged));
-	},
-
-	_onLockChanged: function(object, file, other_file, event_type) {
-		if (event_type == Gio.FileMonitorEvent.DELETED) {
-			let that = this;
-			if (this._FirstTimeoutId) GLib.source_remove(this._FirstTimeoutId);
-			this._FirstTimeoutId = GLib.timeout_add(GLib.PRIORITY_DEFAULT, 500, function () {
-				if (!that._pacman_lock.query_exists(null)) {
-					that._checkUpdates();
-					that._FirstTimeoutId = null;
-					return false;
-				}
-			});
+	_startFolderMonitor: function() {
+		if (PACMAN_DIR) {
+			this.pacman_dir = Gio.file_new_for_path(PACMAN_DIR);
+			this.monitor = this.pacman_dir.monitor_directory(0, null);
+			this.monitor.connect('changed', Lang.bind(this, this._onFolderChanged));
 		}
+	},
+	_onFolderChanged: function() {
+		// Folder have changed ! Let's schedule a check in a few seconds
+		let that = this;
+		if (this._FirstTimeoutId) GLib.source_remove(this._FirstTimeoutId);
+		this._FirstTimeoutId = GLib.timeout_add_seconds(GLib.PRIORITY_DEFAULT, 5, function () {
+			that._checkUpdates();
+			that._FirstTimeoutId = null;
+			return false;
+		});
 	},
 
 	_updateStatus: function(updatesCount) {
@@ -355,7 +354,7 @@ const PamacUpdateIndicator = new Lang.Class({
 			notification.update(_("Package Manager"), message, { clear: true });
 		}
 		notification.setTransient(TRANSIENT);
-		this._notifSource.notify(notification);
+		this._notifSource.showNotification(notification);
 	},
 
 

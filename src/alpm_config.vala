@@ -40,7 +40,7 @@ class AlpmRepo {
 internal class AlpmConfig {
 	string conf_path;
 	string? rootdir;
-	string? dbpath;
+	public string? dbpath;
 	string? logfile;
 	string? gpgdir;
 	string? arch;
