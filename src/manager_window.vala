@@ -3494,7 +3494,7 @@ namespace Pamac {
 
 		bool search_entry_timeout_callback () {
 			string tmp_search_string = search_comboboxtext.get_active_text ().strip ();
-			if (tmp_search_string == "" || tmp_search_string.char_count () < 3) {
+			if (tmp_search_string == "" || tmp_search_string.char_count () < 2) {
 				search_entry_timeout_id = 0;
 				return false;
 			}
@@ -3515,7 +3515,7 @@ namespace Pamac {
 			if (search_comboboxtext.get_active () == -1) {
 				// entry was edited
 				string tmp_search_string = search_comboboxtext.get_active_text ().strip ();
-				if (tmp_search_string != "" && tmp_search_string.char_count () > 2) {
+				if (tmp_search_string != "" && tmp_search_string.char_count () > 1) {
 					if (search_entry_timeout_id != 0) {
 						Source.remove (search_entry_timeout_id);
 					}
