@@ -437,7 +437,7 @@ Modify them only if you know what you are doing.</property>
                       <object class="GtkSwitch" id="simple_install_button">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
-                        <property name="tooltip_text" translatable="yes">Enable downgrade</property>
+                        <property name="tooltip_text" translatable="yes">Do not check for updates when installing</property>
                         <property name="halign">end</property>
                       </object>
                       <packing>
