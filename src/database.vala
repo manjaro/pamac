@@ -257,10 +257,12 @@ namespace Pamac {
 										unowned GenericArray<string> filenames = pkg_version_filenames.lookup (name_version_release);
 										filenames.add ((owned) absolute_filename);
 									} else {
+										unowned GenericArray<string> versions = pkg_versions.lookup (name);
 										string? version_release = name_version_release.slice (version_index + 1, name_version_release.length);
 										if (version_release == null) {
 											continue;
 										}
+										versions.add ((owned) version_release);
 										var filenames = new GenericArray<string> ();
 										filenames.add ((owned) absolute_filename);
 										pkg_version_filenames.insert ((owned) name_version_release, (owned) filenames);
