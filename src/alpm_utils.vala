@@ -97,7 +97,7 @@ namespace Pamac {
 		Config config;
 		public AlpmConfig alpm_config;
 		string tmp_path;
-		public GLib.File lockfile;
+		public File lockfile;
 		MainContext context;
 		// run transaction data
 		string current_status;
@@ -254,7 +254,7 @@ namespace Pamac {
 			if (alpm_handle == null) {
 				return;
 			}
-			lockfile = GLib.File.new_for_path (alpm_handle.lockfile);
+			lockfile = File.new_for_path (alpm_handle.lockfile);
 			if (lockfile.query_exists ()) {
 				int exit_status;
 				string output;
@@ -345,7 +345,7 @@ namespace Pamac {
 		public bool clean_cache (string[] filenames) {
 			try {
 				foreach (unowned string filename in filenames) {
-					var file = GLib.File.new_for_path (filename);
+					var file = File.new_for_path (filename);
 					file.delete ();
 				}
 				return true;
@@ -424,7 +424,7 @@ namespace Pamac {
 				}
 			} else {
 				// try to copy refresh dbs in tmp
-				var file = GLib.File.new_for_path (tmp_path);
+				var file = File.new_for_path (tmp_path);
 				if (file.query_exists ()) {
 					try {
 						var alpm_handle = get_handle ();
@@ -1854,7 +1854,7 @@ namespace Pamac {
 void write_log_file (string event) {
 	var now = new DateTime.now_local ();
 	string log = "%s [PAMAC] %s\n".printf (now.format ("[%Y-%m-%dT%H:%M:%S%z]"), event);
-	var file = GLib.File.new_for_path ("/var/log/pacman.log");
+	var file = File.new_for_path ("/var/log/pacman.log");
 	try {
 		// creating a DataOutputStream to the file
 		var dos = new DataOutputStream (file.append_to (FileCreateFlags.NONE));
@@ -2122,8 +2122,8 @@ int dload (Soup.Session soup_session, string url, string localpath, int force, D
 	}
 
 	string filename =  Path.get_basename (url);
-	var destfile = GLib.File.new_for_path (localpath + filename); 
-	var tempfile = GLib.File.new_for_path (destfile.get_path () + ".part");
+	var destfile = File.new_for_path (localpath + filename);
+	var tempfile = File.new_for_path (destfile.get_path () + ".part");
 
 	bool remove_partial_download = true;
 	if (url.contains (".pkg.tar.") && !url.has_suffix (".sig")) {
@@ -2134,43 +2134,76 @@ int dload (Soup.Session soup_session, string url, string localpath, int force, D
 	string? last_modified = null;
 	bool continue_download = false;
 	try {
-		var message = new Soup.Message ("GET", url);
-		if (force == 0) {
-			if (destfile.query_exists ()) {
-				// start from scratch only download if our local is out of date.
-				FileInfo info = destfile.query_info (FileAttribute.TIME_MODIFIED, FileQueryInfoFlags.NONE);
-				DateTime time = info.get_modification_date_time ();
-				var date = new Soup.Date.from_string (time.to_string ());
-				message.request_headers.append ("If-Modified-Since", date.to_string (Soup.DateFormat.HTTP));
+		InputStream input;
+		if (url.has_prefix ("http")) {
+			var message = new Soup.Message ("GET", url);
+			if (force == 0) {
+				if (destfile.query_exists ()) {
+					// start from scratch only download if our local is out of date.
+					FileInfo info = destfile.query_info (FileAttribute.TIME_MODIFIED, FileQueryInfoFlags.NONE);
+					DateTime time = info.get_modification_date_time ();
+					var date = new Soup.Date.from_string (time.to_string ());
+					message.request_headers.append ("If-Modified-Since", date.to_string (Soup.DateFormat.HTTP));
+					if (tempfile.query_exists ()) {
+						tempfile.delete ();
+					}
+				} else if (tempfile.query_exists ()) {
+					// a previous partial download exists, resume from end of file.
+					FileInfo info = tempfile.query_info (FileAttribute.STANDARD_SIZE, FileQueryInfoFlags.NONE);
+					int64 downloaded_size = info.get_size ();
+					message.request_headers.set_range (downloaded_size, -1);
+					continue_download = true;
+				}
+			} else {
 				if (tempfile.query_exists ()) {
 					tempfile.delete ();
 				}
-			} else if (tempfile.query_exists ()) {
-				// a previous partial download exists, resume from end of file.
-				FileInfo info = tempfile.query_info ("standard::size", 0);
-				int64 downloaded_size = info.get_size ();
-				message.request_headers.set_range (downloaded_size, -1);
-				continue_download = true;
 			}
-		} else {
-			if (tempfile.query_exists ()) {
-				tempfile.delete ();
-			}
-		}
 
-		InputStream input = soup_session.send (message);
-		if (message.status_code == 304) {
-			return 1;
-		}
-		if (message.status_code >= 400) {
-			// do not report error for missing sig
-			if (!url.has_suffix (".sig")) {
-				alpm_utils.do_emit_script_output ("%s: %s %s".printf (url, _("Error"), message.status_code.to_string ()));
+			input = soup_session.send (message);
+			if (message.status_code == 304) {
+				// not modified, our existing file is up to date
+				return 1;
 			}
-			return -1;
+			if (message.status_code >= 400) {
+				// do not report error for missing sig
+				if (!url.has_suffix (".sig")) {
+					alpm_utils.do_emit_script_output ("%s: %s %s".printf (url, _("Error"), message.status_code.to_string ()));
+				}
+				return -1;
+			}
+			size = message.response_headers.get_content_length ();
+			last_modified = message.response_headers.get_one ("Last-Modified");
+		} else {
+			// try standard file support for file:// url
+			var file = File.new_for_uri (url);
+			FileInfo new_info = file.query_info (FileAttribute.TIME_MODIFIED, FileQueryInfoFlags.NONE);
+			DateTime new_time = new_info.get_modification_date_time ();
+			last_modified = new_time.format_iso8601 ();
+			if (force == 0) {
+				if (destfile.query_exists ()) {
+					// start from scratch only download if our local is out of date.
+					FileInfo old_info = destfile.query_info (FileAttribute.TIME_MODIFIED, FileQueryInfoFlags.NONE);
+					DateTime old_time = old_info.get_modification_date_time ();
+					TimeSpan elapsed_time = new_time.difference (old_time);
+					if (elapsed_time <= 0) {
+						// not modified, our existing file is up to date
+						return 1;
+					}
+					if (tempfile.query_exists ()) {
+						tempfile.delete ();
+					}
+				} else if (tempfile.query_exists ()) {
+					// don't support partial donwload here
+					tempfile.delete ();
+				}
+			} else {
+				if (tempfile.query_exists ()) {
+					tempfile.delete ();
+				}
+			}
+			input = file.read ();
 		}
-		size = message.response_headers.get_content_length ();
-		last_modified = message.response_headers.get_one ("Last-Modified");
 
 		FileOutputStream output;
 		if (continue_download) {
@@ -2227,7 +2260,7 @@ int dload (Soup.Session soup_session, string url, string localpath, int force, D
 		if (last_modified != null) {
 			string time_str = new Soup.Date.from_string (last_modified).to_string (Soup.DateFormat.ISO8601);
 			var datetime = new DateTime.from_iso8601 (time_str, new TimeZone.utc ());
-			FileInfo info = destfile.query_info ("time::modified", 0);
+			FileInfo info = destfile.query_info (FileAttribute.TIME_MODIFIED, FileQueryInfoFlags.NONE);
 			info.set_modification_date_time (datetime);
 			destfile.set_attributes_from_info (info, FileQueryInfoFlags.NONE);
 		}
