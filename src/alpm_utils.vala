@@ -999,7 +999,7 @@ namespace Pamac {
 						success = false;
 					}
 				} else {
-					do_emit_action (dgettext (null, "Nothing to do") + ".");
+					//do_emit_action (dgettext (null, "Nothing to do") + ".");
 					trans_release (alpm_handle);
 					success = true;
 				}

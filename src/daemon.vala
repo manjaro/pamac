@@ -214,6 +214,11 @@ namespace Pamac {
 							tmp_loop.quit ();
 						}
 					});
+					// security check that lockfile still exists
+					if (!alpm_utils.lockfile.query_exists ()) {
+						lockfile_mutex.unlock ();
+						return 0;
+					}
 					tmp_loop.run ();
 				} catch (Error e) {
 					warning (e.message);
