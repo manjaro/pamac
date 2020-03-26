@@ -501,7 +501,6 @@ namespace Pamac {
 		bool sysupgrade_running;
 		public bool generate_mirrors_list;
 		bool waiting;
-		bool force_refresh;
 
 		GenericArray<AlpmPackage> repos_updates;
 		GenericArray<AURPackage> aur_updates;
@@ -3839,9 +3838,8 @@ namespace Pamac {
 			details_button.sensitive = true;
 			if (browse_stack.visible_child_name == "updates" &&
 				main_stack.visible_child_name == "browse") {
-				force_refresh = false;
 				transaction.no_confirm_upgrade = true;
-				run_sysupgrade ();
+				run_sysupgrade (false);
 			} else if (main_stack.visible_child_name == "details" &&
 				properties_stack.visible_child_name == "build_files") {
 				transaction.save_build_files.begin (current_package_displayed.name, () => {
@@ -3898,12 +3896,13 @@ namespace Pamac {
 			on_transaction_finished (success);
 		}
 
-		void run_sysupgrade () {
+		void run_sysupgrade (bool force_refresh) {
 			this.get_window ().set_cursor (new Gdk.Cursor.for_display (Gdk.Display.get_default (), Gdk.CursorType.WATCH));
 			sysupgrade_running = true;
 			apply_button.sensitive = false;
 			cancel_button.sensitive = false;
-			if (repos_updates.length > 0
+			if (force_refresh
+				|| repos_updates.length > 0
 				|| aur_updates.length > 0) {
 				foreach (unowned string name in temporary_ignorepkgs) {
 					transaction.add_temporary_ignore_pkg (name);
@@ -3945,9 +3944,8 @@ namespace Pamac {
 
 		[GtkCallback]
 		void on_refresh_button_clicked () {
-			force_refresh = true;
 			transaction.no_confirm_upgrade = false;
-			run_sysupgrade ();
+			run_sysupgrade (true);
 		}
 
 		void on_get_updates_progress (uint percent) {
