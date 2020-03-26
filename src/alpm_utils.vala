@@ -2148,11 +2148,13 @@ int dload (Soup.Session soup_session, string url, string localpath, int force, D
 						tempfile.delete ();
 					}
 				} else if (tempfile.query_exists ()) {
+					// try if removing partial download support helps
+					tempfile.delete ();
 					// a previous partial download exists, resume from end of file.
-					FileInfo info = tempfile.query_info (FileAttribute.STANDARD_SIZE, FileQueryInfoFlags.NONE);
-					int64 downloaded_size = info.get_size ();
-					message.request_headers.set_range (downloaded_size, -1);
-					continue_download = true;
+					//FileInfo info = tempfile.query_info (FileAttribute.STANDARD_SIZE, FileQueryInfoFlags.NONE);
+					//int64 downloaded_size = info.get_size ();
+					//message.request_headers.set_range (downloaded_size, -1);
+					//continue_download = true;
 				}
 			} else {
 				if (tempfile.query_exists ()) {
