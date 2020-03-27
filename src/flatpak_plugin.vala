@@ -526,7 +526,7 @@ namespace Pamac {
 		}
 
 		public void get_flatpak_updates (ref SList<FlatpakPackage> pkgs) {
-			refresh_appstream_data ();
+			//refresh_appstream_data ();
 			try {
 				GenericArray<unowned Flatpak.InstalledRef> update_apps = installation.list_installed_refs_for_update ();
 				for (uint i = 0; i < update_apps.length; i++) {

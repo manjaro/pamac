@@ -1444,7 +1444,7 @@ namespace Pamac {
 				label.valign = Gtk.Align.START;
 				details_grid.attach_next_to (label, previous_widget, Gtk.PositionType.BOTTOM);
 				var box = new Gtk.Box (Gtk.Orientation.VERTICAL, 6);
-				foreach (unowned string name in aur_pkg.groups) {
+				foreach (unowned string name in pkg.groups) {
 					var label2 = new Gtk.Label (name);
 					label2.halign = Gtk.Align.START;
 					box.pack_start (label2);

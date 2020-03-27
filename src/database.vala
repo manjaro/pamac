@@ -81,7 +81,7 @@ namespace Pamac {
 				flatpak_plugin = config.get_flatpak_plugin ();
 				flatpak_plugin.refresh_period = config.refresh_period;
 				if (config.enable_flatpak) {
-					load_flatpak_appstream_data (true);
+					load_flatpak_appstream_data (false);
 				}
 				config.notify["enable-flatpak"].connect (() => {
 					if (config.enable_flatpak) {
