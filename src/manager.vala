@@ -24,11 +24,10 @@ namespace Pamac {
 		Database database;
 		SearchProvider search_provider;
 		uint search_provider_id;
-		const OptionEntry[] option_entries = {
-			{ "version", 0, 0, OptionArg.NONE, null, "Display version number", null },
-			{ "updates", 0, 0, OptionArg.NONE, null, "Display updates", null },
-			{ null }
-		};
+		bool version;
+		bool updates;
+		string? details;
+		OptionEntry[] options;
 
 
 		public Manager (Database database) {
@@ -36,7 +35,15 @@ namespace Pamac {
 			this.database = database;
 			database.enable_appstream ();
 
-			add_main_option_entries (option_entries);
+			version = false;
+			updates = false;
+			details = null;
+			options = new OptionEntry[4];
+			options[0] = { "version", 0, 0, OptionArg.NONE, ref version, "Display version number", null };
+			options[1] = { "updates", 0, 0, OptionArg.NONE, ref updates, "Display updates", null };
+			options[2] = { "details", 0, 0, OptionArg.STRING, ref details, "Display package details", "PACKAGE" };
+			options[3] = { "details-pkg", 0, 0, OptionArg.STRING, ref details, "Display package details", "PACKAGE" };
+			add_main_option_entries (options);
 
 			search_provider_id = 0;
 			search_provider = new SearchProvider (database);
@@ -136,16 +143,33 @@ namespace Pamac {
 		}
 
 		protected override int handle_local_options (VariantDict options) {
-			if (options.contains ("version")) {
+			if (version) {
 				stdout.printf ("Pamac  %s\n", VERSION);
 				return 0;
-			} else if (options.contains ("updates")) {
+			} else if (updates) {
 				try {
 					this.register (null);
 					this.activate_action ("updates", null);
 				} catch (Error e) {
 					warning (e.message);
 					return 0;
+				}
+			} else if (details != null) {
+				try {
+					this.register (null);
+				} catch (Error e) {
+					warning (e.message);
+					return 0;
+				}
+				if (manager_window == null) {
+					create_manager_window ();
+					manager_window.refresh_packages_list ();
+				}
+				AlpmPackage? pkg = this.database.get_pkg (details);
+				if (pkg != null) {
+					manager_window.main_stack.visible_child_name = "details";
+					manager_window.display_package_details (pkg);
+					manager_window.present ();
 				}
 			}
 			return -1;
