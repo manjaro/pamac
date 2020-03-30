@@ -2232,7 +2232,7 @@ namespace Pamac {
 				// display the next 20 packages
 				while (i < 20) {
 					var pkg = current_packages_list_pos.data;
-					create_packagelist_row.begin (pkg);
+					create_packagelist_row (pkg);
 					i++;
 					current_packages_list_pos = current_packages_list_pos.next;
 					if (current_packages_list_pos == null) {
@@ -2246,7 +2246,7 @@ namespace Pamac {
 			}
 		}
 
-		async void create_packagelist_row (Package pkg) {
+		void create_packagelist_row (Package pkg) {
 			bool is_update = browse_stack.visible_child_name == "updates";
 			var row = new PackageRow (pkg);
 			//populate info
