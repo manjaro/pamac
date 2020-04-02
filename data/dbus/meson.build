@@ -1,5 +1,6 @@
 dbusconf = configuration_data()
 dbusconf.set('bindir', join_paths(get_option('prefix'), get_option('bindir')))
+
 configure_file(
   input: 'org.manjaro.pamac.manager.service.in',
   output: 'org.manjaro.pamac.manager.service',
@@ -7,6 +8,16 @@ configure_file(
   install: true,
   install_dir: join_paths(get_option('datadir'), 'dbus-1', 'services'),
 )
+
+# for gnome integration
+configure_file(
+  input: 'org.gnome.Software.service.in',
+  output: 'org.gnome.Software.service',
+  configuration: dbusconf,
+  install: true,
+  install_dir: join_paths(get_option('datadir'), 'dbus-1', 'services'),
+)
+
 configure_file(
   input: 'org.manjaro.pamac.daemon.service.in',
   output: 'org.manjaro.pamac.daemon.service',
@@ -14,4 +25,5 @@ configure_file(
   install: true,
   install_dir: join_paths(get_option('datadir'), 'dbus-1', 'system-services'),
 )
+
 install_data('org.manjaro.pamac.daemon.conf', install_dir: join_paths(get_option('sysconfdir'), 'dbus-1', 'system.d'))

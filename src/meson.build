@@ -161,6 +161,12 @@ executable('pamac-manager',
 	c_args: common_c_args,
 	install: true)
 
+# for gnome integration
+executable('gnome-software',
+	sources: ['fake_gnome_software.vala'],
+	dependencies: [gio],
+	install: true)
+
 executable('pamac-installer',
 	sources: ['progress_dialog.vala', 'installer.vala', installer_resources],
 	dependencies: [gtk3, libpamac_dep, libpamac_gtk_dep],

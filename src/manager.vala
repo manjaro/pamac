@@ -26,7 +26,9 @@ namespace Pamac {
 		uint search_provider_id;
 		bool version;
 		bool updates;
-		string? details;
+		string? pkgname;
+		string? app_id;
+		string? search;
 		OptionEntry[] options;
 
 
@@ -37,12 +39,15 @@ namespace Pamac {
 
 			version = false;
 			updates = false;
-			details = null;
-			options = new OptionEntry[4];
+			pkgname = null;
+			app_id = null;
+			search = null;
+			options = new OptionEntry[5];
 			options[0] = { "version", 0, 0, OptionArg.NONE, ref version, "Display version number", null };
 			options[1] = { "updates", 0, 0, OptionArg.NONE, ref updates, "Display updates", null };
-			options[2] = { "details", 0, 0, OptionArg.STRING, ref details, "Display package details", "PACKAGE" };
-			options[3] = { "details-pkg", 0, 0, OptionArg.STRING, ref details, "Display package details", "PACKAGE" };
+			options[2] = { "details", 0, 0, OptionArg.STRING, ref pkgname, "Display package details", "PACKAGE_NAME" };
+			options[3] = { "details-id", 0, 0, OptionArg.STRING, ref app_id, "Display package details", "APP_ID" };
+			options[4] = { "search", 0, 0, OptionArg.STRING, ref search, "Search packages", "SEARCH" };
 			add_main_option_entries (options);
 
 			search_provider_id = 0;
@@ -71,7 +76,6 @@ namespace Pamac {
 				manager_window.search_button.active = true;
 				var entry = manager_window.search_comboboxtext.get_child () as Gtk.Entry;
 				entry.set_text (str_builder.str);
-				entry.set_position (-1);
 				manager_window.present_with_time (timestamp);
 			});
 		}
@@ -82,6 +86,7 @@ namespace Pamac {
 			Intl.setlocale (LocaleCategory.ALL, "");
 			base.startup ();
 
+			// updates
 			var action = new SimpleAction ("updates", null);
 			action.activate.connect (() => {
 				if (manager_window == null) {
@@ -90,6 +95,50 @@ namespace Pamac {
 				manager_window.display_package_queue.clear ();
 				manager_window.main_stack.visible_child_name = "browse";
 				manager_window.browse_stack.visible_child_name = "updates";
+				manager_window.present ();
+			});
+			this.add_action (action);
+			// details
+			action = new SimpleAction ("details", new VariantType ("s"));
+			action.activate.connect  ((parameter) => {
+				if (manager_window == null) {
+					create_manager_window ();
+				}
+				pkgname = parameter.get_string ();
+				AlpmPackage? pkg = this.database.get_pkg (pkgname);
+				if (pkg != null) {
+					manager_window.main_stack.visible_child_name = "details";
+					manager_window.display_package_details (pkg);
+				} else {
+					manager_window.refresh_packages_list ();
+				}
+				manager_window.present ();
+			});
+			this.add_action (action);
+			// details_id
+			action = new SimpleAction ("details-id", new VariantType ("s"));
+			action.activate.connect  ((parameter) => {
+				if (manager_window == null) {
+					create_manager_window ();
+				}
+				app_id = parameter.get_string ();
+				Package? pkg = this.database.get_installed_app_by_id (app_id);
+				#if ENABLE_FLATPAK
+				if (pkg == null && database.config.enable_flatpak) {
+					pkg = database.get_installed_flatpak_by_id (app_id);
+				}
+				#endif
+				#if ENABLE_SNAP
+				if (pkg == null && database.config.enable_snap) {
+					pkg = database.get_installed_snap_by_id (app_id);
+				}
+				#endif
+				if (pkg != null) {
+					manager_window.main_stack.visible_child_name = "details";
+					manager_window.display_details (pkg);
+				} else {
+					manager_window.refresh_packages_list ();
+				}
 				manager_window.present ();
 			});
 			this.add_action (action);
@@ -110,11 +159,11 @@ namespace Pamac {
 			accels = {"<Alt>Left"};
 			this.set_accels_for_action ("app.back", accels);
 			// search accel
-			action =  new SimpleAction ("search", null);
+			action =  new SimpleAction ("search_accel", null);
 			action.activate.connect  (() => {manager_window.search_button.activate ();});
 			this.add_action (action);
 			accels = {"<Ctrl>F"};
-			this.set_accels_for_action ("app.search", accels);
+			this.set_accels_for_action ("app.search_accel", accels);
 		}
 
 		public override bool dbus_register (DBusConnection connection, string object_path) {
@@ -154,22 +203,29 @@ namespace Pamac {
 					warning (e.message);
 					return 0;
 				}
-			} else if (details != null) {
+			} else if (pkgname != null) {
 				try {
 					this.register (null);
+					this.activate_action ("details", new Variant ("s", pkgname));
 				} catch (Error e) {
 					warning (e.message);
 					return 0;
 				}
-				if (manager_window == null) {
-					create_manager_window ();
-					manager_window.refresh_packages_list ();
+			} else if (app_id != null) {
+				try {
+					this.register (null);
+					this.activate_action ("details-id", new Variant ("s", app_id));
+				} catch (Error e) {
+					warning (e.message);
+					return 0;
 				}
-				AlpmPackage? pkg = this.database.get_pkg (details);
-				if (pkg != null) {
-					manager_window.main_stack.visible_child_name = "details";
-					manager_window.display_package_details (pkg);
-					manager_window.present ();
+			} else if (search != null) {
+				try {
+					this.register (null);
+					this.activate_action ("search", new Variant ("s", search));
+				} catch (Error e) {
+					warning (e.message);
+					return 0;
 				}
 			}
 			return -1;

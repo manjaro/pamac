@@ -716,6 +716,43 @@ namespace Pamac {
 			return (owned) pkgs;
 		}
 
+		public AlpmPackage? get_installed_app_by_id (string app_id) {
+			AlpmPackage? pkg = null;
+			try {
+				string app_id_copy;
+				if (app_id.has_suffix (".desktop")) {
+					app_id_copy = app_id;
+				} else {
+					app_id_copy = app_id + ".desktop";
+				}
+				new Thread<int>.try ("get_installed_app_by_id", () => {
+					unowned GenericArray<As.App> apps = app_store.get_apps ();
+					for (uint i = 0; i < apps.length; i++) {
+						As.App app = apps[i];
+						if (app.get_id () == app_id_copy) {
+							unowned string pkgname = app.get_pkgname_default ();
+							unowned Alpm.Package? local_pkg = alpm_handle.localdb.get_pkg (pkgname);
+							if (local_pkg != null) {
+								pkg = new AlpmPackage ();
+								initialise_pkg_common (local_pkg, ref pkg);
+								unowned Alpm.Package? sync_pkg = get_syncpkg (pkgname);
+								if (sync_pkg != null) {
+									pkg.repo = sync_pkg.db.name;
+								}
+								initialize_app_data (app, ref pkg);
+							}
+						}
+					}
+					loop.quit ();
+					return 0;
+				});
+				loop.run ();
+			} catch (Error e) {
+				warning (e.message);
+			}
+			return pkg;
+		}
+
 		public SList<AlpmPackage> get_installed_apps () {
 			var pkgs = new SList<AlpmPackage> ();
 			try {
@@ -2267,11 +2304,29 @@ namespace Pamac {
 
 		public SnapPackage? get_snap (string name) {
 			SnapPackage? pkg = null;
-			string name_copy = name;
 			if (config.enable_snap) {
+				string name_copy = name;
 				try {
 					new Thread<int>.try ("get_snap", () => {
 						pkg = snap_plugin.get_snap (name_copy);
+						loop.quit ();
+						return 0;
+					});
+					loop.run ();
+				} catch (Error e) {
+					warning (e.message);
+				}
+			}
+			return pkg;
+		}
+
+		public SnapPackage? get_installed_snap_by_id (string app_id) {
+			SnapPackage? pkg = null;
+			if (config.enable_snap) {
+				string app_id_copy = app_id;
+				try {
+					new Thread<int>.try ("get_installed_snap_by_id", () => {
+						pkg = snap_plugin.get_installed_snap_by_id (app_id_copy);
 						loop.quit ();
 						return 0;
 					});
@@ -2302,8 +2357,8 @@ namespace Pamac {
 
 		public string get_installed_snap_icon (string name) {
 			string icon = "";
-			string name_copy = name;
 			if (config.enable_snap) {
+				string name_copy = name;
 				try {
 					new Thread<int>.try ("get_installed_snap_icon", () => {
 						try {
@@ -2324,8 +2379,8 @@ namespace Pamac {
 
 		public SList<SnapPackage> get_category_snaps (string category) {
 			var pkgs = new SList<SnapPackage> ();
-			string category_copy = category;
 			if (config.enable_snap) {
+				string category_copy = category;
 				try {
 					new Thread<int>.try ("get_category_snaps", () => {
 						snap_plugin.get_category_snaps (category_copy, ref pkgs);
@@ -2368,9 +2423,9 @@ namespace Pamac {
 		}
 
 		public SList<FlatpakPackage> search_flatpaks (string search_string) {
-			string search_string_down = search_string.down ();
 			var pkgs = new SList<FlatpakPackage> ();
 			if (config.enable_flatpak) {
+				string search_string_down = search_string.down ();
 				try {
 					new Thread<int>.try ("search_flatpaks", () => {
 						flatpak_plugin.search_flatpaks (search_string_down, ref pkgs);
@@ -2394,8 +2449,8 @@ namespace Pamac {
 
 		public FlatpakPackage? get_flatpak (string id) {
 			FlatpakPackage? pkg = null;
-			string id_copy = id;
 			if (config.enable_flatpak) {
+				string id_copy = id;
 				try {
 					new Thread<int>.try ("get_flatpak", () => {
 						pkg = flatpak_plugin.get_flatpak (id_copy);
@@ -2410,10 +2465,28 @@ namespace Pamac {
 			return pkg;
 		}
 
+		public FlatpakPackage? get_installed_flatpak_by_id (string app_id) {
+			FlatpakPackage? pkg = null;
+			if (config.enable_flatpak) {
+				string app_id_copy = app_id;
+				try {
+					new Thread<int>.try ("get_installed_flatpak_by_id", () => {
+						pkg = flatpak_plugin.get_installed_flatpak_by_id (app_id_copy);
+						loop.quit ();
+						return 0;
+					});
+					loop.run ();
+				} catch (Error e) {
+					warning (e.message);
+				}
+			}
+			return pkg;
+		}
+
 		public SList<FlatpakPackage> get_category_flatpaks (string category) {
 			var pkgs = new SList<FlatpakPackage> ();
-			string category_copy = category;
 			if (config.enable_flatpak) {
+				string category_copy = category;
 				try {
 					new Thread<int>.try ("get_category_flatpaks", () => {
 						flatpak_plugin.get_category_flatpaks (category_copy, ref pkgs);
