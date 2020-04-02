@@ -1188,7 +1188,9 @@ namespace Pamac {
 				unowned Alpm.DB? db = trans_pkg.db;
 				if (db != null && db.name == "pamac_aur") {
 					// it is a aur pkg to build
-					summary.aur_pkgbases_to_build_priv.append (trans_pkg.pkgbase);
+					if (summary.aur_pkgbases_to_build_priv.find_custom (trans_pkg.pkgbase, strcmp) == null) {
+						summary.aur_pkgbases_to_build_priv.prepend (trans_pkg.pkgbase);
+					}
 					summary.to_build_priv.prepend (initialise_pkg (alpm_handle, trans_pkg));
 				} else {
 					var pkg = initialise_pkg (alpm_handle, trans_pkg);
@@ -1207,6 +1209,8 @@ namespace Pamac {
 				}
 				pkgs_to_add.next ();
 			}
+			// set correct build order
+			summary.aur_pkgbases_to_build_priv.reverse ();
 			unowned Alpm.List<unowned Alpm.Package> pkgs_to_remove = alpm_handle.trans_to_remove ();
 			while (pkgs_to_remove != null) {
 				unowned Alpm.Package trans_pkg = pkgs_to_remove.data;
