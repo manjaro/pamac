@@ -22,13 +22,14 @@
 # Tramsifex <sunnycode@protonmail.com>, 2019
 # Zkdc, 2020
 # 吴会欢（Nicholas） <whhxp1028@gmail.com>, 2018
+# 家鳖大帝 <Z4HD@outlook.com>, 2020
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2020-03-06 17:13+0100\n"
-"PO-Revision-Date: 2020-03-06 19:52+0000\n"
-"Last-Translator: philm <philm@manjaro.org>\n"
+"PO-Revision-Date: 2020-03-21 06:55+0000\n"
+"Last-Translator: 家鳖大帝 <Z4HD@outlook.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -38,11 +39,11 @@ msgstr ""
 
 #: data/polkit/org.manjaro.pamac.policy.in
 msgid "Install, update, or remove packages"
-msgstr "安装、更新或删除程序包"
+msgstr "安装、更新或删除软件包"
 
 #: data/polkit/org.manjaro.pamac.policy.in
 msgid "Authentication is required to install, update, or remove packages"
-msgstr "安装、更新或删除程序包需要身份验证"
+msgstr "安装、更新或删除软件包需要身份验证"
 
 #: src/alpm_utils.vala src/database.vala
 msgid "Failed to initialize alpm library"
@@ -50,7 +51,7 @@ msgstr "初始化 alpm 库失败"
 
 #: src/alpm_utils.vala
 msgid "Synchronizing package databases"
-msgstr "正在同步包数据库"
+msgstr "正在同步软件包数据库"
 
 #: src/alpm_utils.vala
 msgid "Failed to synchronize databases"
@@ -1354,7 +1355,7 @@ msgstr "启用 Snap 支持"
 
 #: resources/preferences_dialog.ui
 msgid "Allow Pamac to search and install snaps"
-msgstr ""
+msgstr "允许 Pamac 搜索并安装 snap 软件包"
 
 #: resources/preferences_dialog.ui
 msgid "Flatpak packages are maintained by their publisher."
@@ -1366,7 +1367,7 @@ msgstr "启用 Flatpak 支持"
 
 #: resources/preferences_dialog.ui
 msgid "Allow Pamac to search and install flatpaks"
-msgstr ""
+msgstr "允许 Pamac 搜索并安装 flatpak 软件包"
 
 #: resources/preferences_dialog.ui
 msgid "Cache"

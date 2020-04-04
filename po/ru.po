@@ -42,7 +42,7 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2020-03-06 17:13+0100\n"
-"PO-Revision-Date: 2020-03-07 10:13+0000\n"
+"PO-Revision-Date: 2020-04-04 13:18+0000\n"
 "Last-Translator: Andrei Stepanov <adem4ik@gmail.com>\n"
 "Language-Team: Russian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/ru/)\n"
 "MIME-Version: 1.0\n"
@@ -502,7 +502,7 @@ msgstr "Система обновлена"
 
 #: src/tray.vala
 msgid "_Quit"
-msgstr "_Выйти"
+msgstr "_Выход"
 
 #: src/tray.vala src/cli.vala
 #, c-format
