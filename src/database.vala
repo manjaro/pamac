@@ -729,7 +729,7 @@ namespace Pamac {
 					unowned GenericArray<As.App> apps = app_store.get_apps ();
 					for (uint i = 0; i < apps.length; i++) {
 						As.App app = apps[i];
-						if (app.get_id () == app_id_copy) {
+						if (app.get_id () == app_id_copy || get_app_launchable (app) == app_id_copy) {
 							unowned string pkgname = app.get_pkgname_default ();
 							unowned Alpm.Package? local_pkg = alpm_handle.localdb.get_pkg (pkgname);
 							if (local_pkg != null) {
@@ -741,6 +741,33 @@ namespace Pamac {
 								}
 								initialize_app_data (app, ref pkg);
 							}
+						}
+					}
+					// try in files
+					if (pkg == null) {
+						bool found = false;
+						unowned Alpm.List<unowned Alpm.Package> pkgcache = alpm_handle.localdb.pkgcache;
+						while (pkgcache != null) {
+							unowned Alpm.Package local_pkg = pkgcache.data;
+							unowned Alpm.FileList filelist = local_pkg.files;
+							Alpm.File* file_ptr = filelist.files;
+							for (size_t i = 0; i < filelist.count; i++, file_ptr++) {
+								// exclude directory name
+								if (file_ptr->name.has_suffix (app_id_copy)) {
+									found = true;
+									break;
+								}
+							}
+							if (found) {
+								pkg = new AlpmPackage ();
+								initialise_pkg_common (local_pkg, ref pkg);
+								unowned Alpm.Package? sync_pkg = get_syncpkg (local_pkg.name);
+								if (sync_pkg != null) {
+									pkg.repo = sync_pkg.db.name;
+								}
+								break;
+							}
+							pkgcache.next ();
 						}
 					}
 					loop.quit ();

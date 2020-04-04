@@ -214,7 +214,20 @@ namespace Pamac {
 
 		public SnapPackage? get_installed_snap_by_id (string app_id) {
 			SnapPackage? pkg = null;
-			// doesn't work atm because I didn't find a way to match the given app_id with a installed snap
+			try {
+				GenericArray<unowned Snapd.Snap> snaps = client.get_snaps_sync (Snapd.GetSnapsFlags.NONE, null, null);
+				for (uint i = 0; i < snaps.length; i++) {
+					unowned Snapd.Snap snap = snaps[i];
+					if (snap.snap_type == Snapd.SnapType.APP) {
+						Snapd.App? primary_app = get_primary_app (snap);
+						if (primary_app != null && primary_app.desktop_file.has_suffix (app_id)) {
+							pkg = initialize_snap (snap);
+						}
+					}
+				}
+			} catch (Error e) {
+				warning (e.message);
+			}
 			return pkg;
 		}
 
