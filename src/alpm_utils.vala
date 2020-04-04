@@ -900,7 +900,7 @@ namespace Pamac {
 			this.enable_downgrade = enable_downgrade;
 			this.simple_install = simple_install;
 			this.check_aur_updates = check_aur_updates;
-			this.trans_flags = trans_flags;
+			this.trans_flags = trans_flags | Alpm.TransFlag.NOLOCK;
 			foreach (unowned string name in to_install) {
 				this.to_install.add (name);
 			}
