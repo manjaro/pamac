@@ -1056,7 +1056,7 @@ namespace Pamac {
 													database.config.enable_downgrade,
 													database.config.simple_install,
 													check_aur_updates,
-													trans_flags | Alpm.TransFlag.NOLOCK,
+													trans_flags,
 													to_install,
 													to_remove,
 													to_load,
