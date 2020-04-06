@@ -18,7 +18,7 @@
  */
 
 namespace Pamac {
-	public class Snap: Object, SnapPlugin {
+	internal class Snap: Object, SnapPlugin {
 		string sender;
 		Snapd.Client client;
 		HashTable<string, Snapd.Snap> store_snaps_cache;

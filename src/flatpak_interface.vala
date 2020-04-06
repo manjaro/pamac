@@ -18,7 +18,7 @@
  */
 
 namespace Pamac {
-	public interface FlatpakPlugin: Object {
+	internal interface FlatpakPlugin: Object {
 		public abstract uint64 refresh_period { get; set; }
 		public abstract MainContext context { get; set; }
 

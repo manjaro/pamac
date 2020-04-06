@@ -18,7 +18,7 @@
  */
 
 namespace Pamac {
-	public interface SnapPlugin: Object {
+	internal interface SnapPlugin: Object {
 		public abstract MainContext context { get; set; }
 
 		public signal bool get_authorization (string sender);

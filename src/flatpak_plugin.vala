@@ -18,7 +18,7 @@
  */
 
 namespace Pamac {
-	public class FlatPak: Object, FlatpakPlugin {
+	internal class FlatPak: Object, FlatpakPlugin {
 		string sender;
 		Flatpak.Installation installation;
 		bool appstream_data_loaded;
