@@ -18,7 +18,7 @@
  */
 
 namespace Pamac {
-	public class Snap: Object, SnapPlugin {
+	internal class Snap: Object, SnapPlugin {
 		string sender;
 		Snapd.Client client;
 		HashTable<string, Snapd.Snap> store_snaps_cache;
@@ -212,6 +212,25 @@ namespace Pamac {
 			return pkg;
 		}
 
+		public SnapPackage? get_installed_snap_by_id (string app_id) {
+			SnapPackage? pkg = null;
+			try {
+				GenericArray<unowned Snapd.Snap> snaps = client.get_snaps_sync (Snapd.GetSnapsFlags.NONE, null, null);
+				for (uint i = 0; i < snaps.length; i++) {
+					unowned Snapd.Snap snap = snaps[i];
+					if (snap.snap_type == Snapd.SnapType.APP) {
+						Snapd.App? primary_app = get_primary_app (snap);
+						if (primary_app != null && primary_app.desktop_file.has_suffix (app_id)) {
+							pkg = initialize_snap (snap);
+						}
+					}
+				}
+			} catch (Error e) {
+				warning (e.message);
+			}
+			return pkg;
+		}
+
 		Snapd.Snap? get_local_snap (string name) {
 			try {
 				Snapd.Snap found = client.get_snap_sync (name, null);
@@ -244,9 +263,9 @@ namespace Pamac {
 
 		public void get_installed_snaps (ref SList<SnapPackage> pkgs) {
 			try {
-				GenericArray<unowned Snapd.Snap> found = client.get_snaps_sync (Snapd.GetSnapsFlags.NONE, null, null);
-				for (uint i = 0; i < found.length; i++) {
-					unowned Snapd.Snap snap = found[i];
+				GenericArray<unowned Snapd.Snap> snaps = client.get_snaps_sync (Snapd.GetSnapsFlags.NONE, null, null);
+				for (uint i = 0; i < snaps.length; i++) {
+					unowned Snapd.Snap snap = snaps[i];
 					if (snap.snap_type == Snapd.SnapType.APP) {
 						pkgs.prepend (initialize_snap (snap));
 					}

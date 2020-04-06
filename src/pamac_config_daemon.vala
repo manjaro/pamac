@@ -88,7 +88,7 @@ namespace Pamac {
 		}
 
 		#if ENABLE_SNAP
-		public SnapPlugin? get_snap_plugin () {
+		internal SnapPlugin? get_snap_plugin () {
 			if (support_snap) {
 				return snap_plugin_loader.new_object ();
 			}
@@ -97,7 +97,7 @@ namespace Pamac {
 		#endif
 
 		#if ENABLE_FLATPAK
-		public FlatpakPlugin? get_flatpak_plugin () {
+		internal FlatpakPlugin? get_flatpak_plugin () {
 			if (support_flatpak) {
 				return flatpak_plugin_loader.new_object ();
 			}

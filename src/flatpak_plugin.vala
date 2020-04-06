@@ -18,7 +18,7 @@
  */
 
 namespace Pamac {
-	public class FlatPak: Object, FlatpakPlugin {
+	internal class FlatPak: Object, FlatpakPlugin {
 		string sender;
 		Flatpak.Installation installation;
 		bool appstream_data_loaded;
@@ -328,6 +328,25 @@ namespace Pamac {
 				warning (e.message);
 			}
 			return false;
+		}
+
+		public FlatpakPackage? get_installed_flatpak_by_id (string app_id) {
+			FlatpakPackage? pkg = null;
+			var iter = HashTableIter<string, As.Store> (stores_table);
+			unowned string remote;
+			As.Store app_store;
+			// remove .desktop suffix
+			string real_app_id = app_id.replace (".desktop", "");
+			while (iter.next (out remote, out app_store)) {
+				unowned GenericArray<As.App> apps = app_store.get_apps ();
+				for (uint i = 0; i < apps.length; i++) {
+					unowned As.App app = apps[i];
+					if (app.get_id_filename () == real_app_id) {
+						pkg = get_flatpak_from_app (remote, app);
+					}
+				}
+			}
+			return pkg;
 		}
 
 		FlatpakPackage? get_flatpak_from_app (string remote, As.App app) {
