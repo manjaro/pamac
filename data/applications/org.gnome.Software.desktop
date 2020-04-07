@@ -4,3 +4,4 @@ Terminal=false
 Type=Application
 StartupNotify=true
 DBusActivatable=true
+NoDisplay=true
