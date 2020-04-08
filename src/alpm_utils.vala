@@ -113,6 +113,7 @@ namespace Pamac {
 		GenericSet<string?> to_remove;
 		GenericSet<string?> to_load;
 		GenericSet<string?> to_build;
+		GenericSet<string?> checked_deps;
 		HashTable<string, string> to_install_as_dep;
 		GenericSet<string?> temporary_ignorepkgs;
 		GenericSet<string?> overwrite_files;
@@ -153,6 +154,7 @@ namespace Pamac {
 			to_remove = new GenericSet<string?> (str_hash, str_equal);
 			to_load = new GenericSet<string?> (str_hash, str_equal);
 			to_build = new GenericSet<string?> (str_hash, str_equal);
+			checked_deps = new GenericSet<string?> (str_hash, str_equal);
 			to_install_as_dep = new HashTable<string, string> (str_hash, str_equal);
 			temporary_ignorepkgs = new GenericSet<string?> (str_hash, str_equal);
 			overwrite_files = new GenericSet<string?> (str_hash, str_equal);
@@ -762,35 +764,6 @@ namespace Pamac {
 					success = false;
 				}
 			}
-			if (success) {
-				if ((trans_flags & Alpm.TransFlag.RECURSE) != 0) {
-					// also remove uneedded optdepends
-					unowned Alpm.List<unowned Alpm.Depend> optdepends = pkg.optdepends;
-					while (optdepends != null) {
-						unowned Alpm.Depend optdep = optdepends.data;
-						unowned Alpm.Package opt_pkg = Alpm.find_satisfier (alpm_handle.localdb.pkgcache, optdep.name);
-						if (opt_pkg != null) {
-							if (opt_pkg.reason == Alpm.Package.Reason.DEPEND) {
-								Alpm.List<string> requiredby = opt_pkg.compute_requiredby ();
-								if (requiredby.length == 0) {
-									Alpm.List<string> optionalfor = opt_pkg.compute_optionalfor ();
-									// opt_pkg is at least optional for pkg
-									if (optionalfor.length == 1) {
-										success = trans_remove_pkg (alpm_handle, opt_pkg.name);
-									}
-									optionalfor.free_inner (GLib.free);
-								} else {
-									requiredby.free_inner (GLib.free);
-								}
-							}
-						}
-						if (!success) {
-							break;
-						}
-						optdepends.next ();
-					}
-				}
-			}
 			return success;
 		}
 
@@ -919,15 +892,79 @@ namespace Pamac {
 			foreach (unowned string name in overwrite_files) {
 				this.overwrite_files.add (name);
 			}
+			// use an tmp handle with no callback to avoid double prepare signals
+			var tmp_handle = get_handle (false, true, false);
+			if (tmp_handle != null) {
+				// add question callback for replaces/conflicts/corrupted pkgs and import keys
+				tmp_handle.questioncb = (Alpm.QuestionCallBack) cb_question;
+				// add log callback for warnings/errors
+				tmp_handle.logcb = (Alpm.LogCallBack) cb_log;
+				if (to_build.length > 0 || check_aur_updates) {
+					// fake aur db
+					try {
+						Process.spawn_command_line_sync ("cp %s/pamac_aur.db %ssync".printf (tmp_path, tmp_handle.dbpath));
+					} catch (SpawnError e) {
+						do_emit_warning (e.message);
+					}
+					// check if we need to remove debug package to avoid dep problem
+					foreach (unowned string name in to_build) {
+						string debug_pkg_name = "%s-debug".printf (name);
+						if (tmp_handle.localdb.get_pkg (debug_pkg_name) != null) {
+							to_remove.add (debug_pkg_name);
+						}
+					}
+					// base-devel group is needed to build pkgs
+					unowned Alpm.List<unowned Alpm.DB> syncdbs = tmp_handle.syncdbs;
+					while (syncdbs != null) {
+						unowned Alpm.DB db = syncdbs.data;
+						// base-devel group is in core
+						if (db.name == "core") {
+							unowned Alpm.Group? grp = db.get_group ("base-devel");
+							if (grp != null) {
+								unowned Alpm.List<unowned Alpm.Package> packages = grp.packages;
+								while (packages != null) {
+									unowned Alpm.Package pkg = packages.data;
+									if (Alpm.find_satisfier (tmp_handle.localdb.pkgcache, pkg.name) == null) {
+										to_install.add (pkg.name);
+									} else {
+										// remove the needed pkg from to_remove
+										to_remove.remove (pkg.name);
+									}
+									packages.next ();
+								}
+							}
+							break;
+						}
+						syncdbs.next ();
+					}
+				}
+				if (to_remove.length > 0) {
+					intern_compute_pkgs_to_remove (tmp_handle);
+				}
+				if (to_install.length > 0 || sysupgrade || to_build.length > 0 || check_aur_updates|| to_load.length > 0) {
+					intern_compute_pkgs_to_install (tmp_handle);
+				}
+				if (to_remove.length > 0 && (trans_flags & Alpm.TransFlag.RECURSE) != 0) {
+					intern_compute_orphans_to_remove (tmp_handle);
+				}
+			}
 			summary = new TransactionSummary ();
 			bool success;
 			if (to_build.length > 0 || check_aur_updates) {
 				success = build_prepare (ref summary);
+				// remove fake aur db
+				try {
+					Process.spawn_command_line_sync ("rm -f %ssync/aur.db".printf (tmp_handle.dbpath));
+				} catch (SpawnError e) {
+					warning (e.message);
+				}
 			} else {
 				var alpm_handle = get_handle ();
 				if (alpm_handle == null) {
 					return false;
 				}
+				// warnings/errors already seen
+				alpm_handle.logcb = null;
 				success = trans_prepare (alpm_handle);
 				if (success) {
 					summary = get_transaction_summary (alpm_handle);
@@ -957,6 +994,9 @@ namespace Pamac {
 			this.no_confirm_commit = true;
 			this.keep_built_pkgs = keep_built_pkgs;
 			this.trans_flags = trans_flags;
+			// CASCADE and RECURSE flags already internally handled in trans_check_prepare
+			this.trans_flags &= ~Alpm.TransFlag.CASCADE;
+			this.trans_flags &= ~Alpm.TransFlag.RECURSE;
 			foreach (unowned string name in to_install) {
 				this.to_install.add (name);
 			}
@@ -984,8 +1024,8 @@ namespace Pamac {
 			alpm_handle.questioncb = (Alpm.QuestionCallBack) cb_question;
 			bool success = trans_prepare (alpm_handle);
 			if (success) {
-				if (alpm_handle.trans_to_add ().length > 0 ||
-					alpm_handle.trans_to_remove ().length > 0) {
+				if (alpm_handle.trans_to_add () != null ||
+					alpm_handle.trans_to_remove () != null) {
 					if (do_get_authorization ()) {
 						// add callbacks to have commit signals
 						alpm_handle.eventcb = (Alpm.EventCallBack) cb_event;
@@ -1016,10 +1056,287 @@ namespace Pamac {
 			to_remove.remove_all ();
 			to_load.remove_all ();
 			to_build.remove_all ();
+			checked_deps.remove_all ();
 			temporary_ignorepkgs.remove_all ();
 			overwrite_files.remove_all ();
 			to_install_as_dep.remove_all ();
 			no_confirm_commit = false;
+		}
+
+		void intern_compute_pkgs_to_remove (Alpm.Handle alpm_handle) {
+			int tmp_trans_flags = Alpm.TransFlag.NOLOCK;
+			if ((trans_flags & Alpm.TransFlag.UNNEEDED) != 0) {
+				tmp_trans_flags |= Alpm.TransFlag.UNNEEDED;
+			} else {
+				// remove CASCADE to trans_flags
+				trans_flags &= ~Alpm.TransFlag.CASCADE;
+				tmp_trans_flags |= Alpm.TransFlag.CASCADE;
+			}
+			bool success = trans_init (alpm_handle, tmp_trans_flags);
+			if (success) {
+				foreach (unowned string name in to_remove) {
+					success = trans_remove_pkg (alpm_handle, name);
+					if (!success) {
+						break;
+					}
+				}
+				if (success) {
+					success = trans_prepare_real (alpm_handle);
+				} else {
+					trans_release (alpm_handle);
+				}
+			}
+			if (success) {
+				// copy pkgs_to_remove in this.to_remove because UNNEEDED could remove some packages
+				to_remove.remove_all ();
+				unowned Alpm.List<unowned Alpm.Package> pkgs_to_remove = alpm_handle.trans_to_remove ();
+				while (pkgs_to_remove != null) {
+					unowned Alpm.Package trans_pkg = pkgs_to_remove.data;
+					to_remove.add (trans_pkg.name);
+					pkgs_to_remove.next ();
+				}
+				trans_release (alpm_handle);
+			}
+		}
+
+		void remove_install_deps_in_to_remove (Alpm.Handle alpm_handle, Alpm.List<unowned Alpm.Package> deps_to_check) {
+			Alpm.List<unowned Alpm.Package> deps_to_check_next = null;
+			while (deps_to_check != null) {
+				unowned Alpm.Package alpm_pkg = deps_to_check.data;
+				checked_deps.add (alpm_pkg.name);
+				// deps
+				unowned Alpm.List<unowned Alpm.Depend> depends = alpm_pkg.depends;
+				while (depends != null) {
+					unowned Alpm.Package? satisfier = Alpm.find_satisfier (alpm_handle.localdb.pkgcache, depends.data.compute_string ());
+					if (satisfier != null) {
+						if (!(satisfier.name in checked_deps)) {
+							if (to_remove.remove (satisfier.name)) {
+								do_emit_script_output (dgettext (null, "Warning") + ": " + dgettext (null, "removing %s from target list").printf (satisfier.name));
+							}
+							deps_to_check_next.add (satisfier);
+						}
+					}
+					depends.next ();
+				}
+				// optdepends
+				depends = alpm_pkg.optdepends;
+				while (depends != null) {
+					unowned Alpm.Package? satisfier = Alpm.find_satisfier (alpm_handle.localdb.pkgcache, depends.data.compute_string ());
+					if (satisfier != null) {
+						if (!(satisfier.name in checked_deps)) {
+							if (to_remove.remove (satisfier.name)) {
+								do_emit_script_output (dgettext (null, "Warning") + ": " + dgettext (null, "removing %s from target list").printf (satisfier.name));
+							}
+							deps_to_check_next.add (satisfier);
+						}
+					}
+					depends.next ();
+				}
+				deps_to_check.next ();
+			}
+			if (deps_to_check_next != null) {
+				remove_install_deps_in_to_remove (alpm_handle, deps_to_check_next);
+			}
+		}
+
+		void intern_compute_pkgs_to_install (Alpm.Handle alpm_handle) {
+			unowned Alpm.DB? aur_db = null;
+			if (to_build.length > 0 || check_aur_updates) {
+				// fake aur db
+				aur_db = alpm_handle.register_syncdb ("pamac_aur", 0);
+				if (aur_db == null) {
+					return;
+				}
+			}
+			bool success = trans_init (alpm_handle, trans_flags);
+			if (success && sysupgrade) {
+				success = trans_sysupgrade (alpm_handle);
+				if (!success) {
+					trans_release (alpm_handle);
+				}
+			}
+			if (success) {
+				foreach (unowned string name in to_install) {
+					success = trans_add_pkg (alpm_handle, name);
+					if (!success) {
+						break;
+					}
+				}
+				if (success) {
+					// add to_build from fake aur db
+					foreach (unowned string name in to_build) {
+						unowned Alpm.Package? pkg = aur_db.get_pkg (name);
+						if (pkg == null) {
+							success = false;
+							break;
+						} else {
+							success = trans_add_pkg_real (alpm_handle, pkg);
+							if (!success) {
+								break;
+							}
+						}
+					}
+				}
+				if (success) {
+					foreach (unowned string path in to_load) {
+						success = trans_load_pkg (alpm_handle, path);
+						if (!success) {
+							break;
+						}
+					}
+				}
+				if (success) {
+					success = trans_prepare_real (alpm_handle);
+				} else {
+					trans_release (alpm_handle);
+				}
+			}
+			if (success) {
+				// copy pkgs_to_add in this.to_install because NEEDED could remove some packages
+				to_install.remove_all ();
+				Alpm.List<unowned Alpm.Package> deps_to_check = null;
+				unowned Alpm.List<unowned Alpm.Package> pkgs_to_add = alpm_handle.trans_to_add ();
+				while (pkgs_to_add != null) {
+					unowned Alpm.Package trans_pkg = pkgs_to_add.data;
+					if (trans_pkg.db != null && trans_pkg.db.name != "pamac_aur") {
+						to_install.add (trans_pkg.name);
+					}
+					if (to_remove.length > 0) {
+						if (to_remove.remove (trans_pkg.name)) {
+							do_emit_script_output (dgettext (null, "Warning") + ": " + dgettext (null, "removing %s from target list").printf (trans_pkg.name));
+						}
+						checked_deps.add (trans_pkg.name);
+						// deps
+						unowned Alpm.List<unowned Alpm.Depend> depends = trans_pkg.depends;
+						while (depends != null) {
+							unowned Alpm.Package? satisfier = Alpm.find_satisfier (alpm_handle.localdb.pkgcache, depends.data.compute_string ());
+							if (satisfier != null) {
+								if (!(satisfier.name in checked_deps)) {
+									if (to_remove.remove (satisfier.name)) {
+										do_emit_script_output (dgettext (null, "Warning") + ": " + dgettext (null, "removing %s from target list").printf (satisfier.name));
+									}
+									deps_to_check.add (satisfier);
+								}
+							}
+							depends.next ();
+						}
+						// optdepends
+						depends = trans_pkg.optdepends;
+						while (depends != null) {
+							unowned Alpm.Package? satisfier = Alpm.find_satisfier (alpm_handle.localdb.pkgcache, depends.data.compute_string ());
+							if (satisfier != null) {
+								if (!(satisfier.name in checked_deps)) {
+									if (to_remove.remove (satisfier.name)) {
+										do_emit_script_output (dgettext (null, "Warning") + ": " + dgettext (null, "removing %s from target list").printf (satisfier.name));
+									}
+									deps_to_check.add (satisfier);
+								}
+							}
+							depends.next ();
+						}
+					}
+					pkgs_to_add.next ();
+				}
+				trans_release (alpm_handle);
+				if (deps_to_check != null) {
+					remove_install_deps_in_to_remove (alpm_handle, deps_to_check);
+				}
+			}
+		}
+
+		bool check_orphans_to_remove (Alpm.Handle alpm_handle, Alpm.List<unowned Alpm.Package> deps_to_check) {
+			bool found = false;
+			Alpm.List<unowned Alpm.Package> deps_to_check_next = null;
+			while (deps_to_check != null) {
+				unowned Alpm.Package alpm_pkg = deps_to_check.data;
+				if (!(alpm_pkg.name in checked_deps)) {
+					if (alpm_pkg.reason == Alpm.Package.Reason.DEPEND) {
+						Alpm.List<string> requiredby = alpm_pkg.compute_requiredby ();
+						if (requiredby.length () == 1) {
+							Alpm.List<string> optionalfor = alpm_pkg.compute_optionalfor ();
+							if (optionalfor == null) {
+								found = true;
+								to_remove.add (alpm_pkg.name);
+								unowned Alpm.List<unowned Alpm.Depend> depends = alpm_pkg.depends;
+								while (depends != null) {
+									unowned Alpm.Package? satisfier = Alpm.find_satisfier (alpm_handle.localdb.pkgcache, depends.data.compute_string ());
+									if (satisfier != null) {
+										if (!(satisfier.name in to_remove)) {
+											deps_to_check_next.add (satisfier);
+										}
+									}
+									depends.next ();
+								}
+							} else {
+								optionalfor.free_inner (GLib.free);
+							}
+						} else {
+							Alpm.List<string> optionalfor = alpm_pkg.compute_optionalfor ();
+							if (optionalfor == null) {
+								// check if alpm_pkg is only required by package in to_remove
+								unowned Alpm.List<string> requiredby_pass = requiredby;
+								bool extern_dep = false;
+								while (requiredby_pass != null) {
+									unowned Alpm.Package? satisfier = Alpm.find_satisfier (alpm_handle.localdb.pkgcache, requiredby_pass.data);
+									if (satisfier != null) {
+										if (!(satisfier.name in to_remove)) {
+											extern_dep = true;
+											break;
+										}
+									}
+									requiredby_pass.next ();
+								}
+								if (!extern_dep) {
+									to_remove.add (alpm_pkg.name);
+								}
+							} else {
+								optionalfor.free_inner (GLib.free);
+							}
+							requiredby.free_inner (GLib.free);
+						}
+					}
+				}
+				deps_to_check.next ();
+			}
+			if (deps_to_check_next != null) {
+				check_orphans_to_remove (alpm_handle, deps_to_check_next);
+			}
+			return found;
+		}
+
+		void intern_compute_orphans_to_remove (Alpm.Handle alpm_handle) {
+			int tmp_trans_flags = Alpm.TransFlag.NOLOCK | Alpm.TransFlag.RECURSE;
+			// remove RECURSE to trans_flags
+			trans_flags &= ~Alpm.TransFlag.RECURSE;
+			checked_deps.remove_all ();
+			Alpm.List<unowned Alpm.Package> deps_to_check = null;
+			// need to check to_remove multiple times because it's populated by check_orphans_to_remove
+			bool found = true;
+			while (found) {
+				foreach (unowned string name in to_remove) {
+					unowned Alpm.Package? trans_pkg = alpm_handle.localdb.get_pkg (name);
+					if (trans_pkg != null) {
+						if (!(trans_pkg.name in checked_deps)) {
+							checked_deps.add (trans_pkg.name);
+							unowned Alpm.List<unowned Alpm.Depend> depends = trans_pkg.depends;
+							while (depends != null) {
+								unowned Alpm.Package? satisfier = Alpm.find_satisfier (alpm_handle.localdb.pkgcache, depends.data.compute_string ());
+								if (satisfier != null) {
+									if (!(satisfier.name in to_remove)) {
+										deps_to_check.add (satisfier);
+									}
+								}
+								depends.next ();
+							}
+						}
+					}
+				}
+				if (deps_to_check == null) {
+					found = false;
+				} else {
+					found = check_orphans_to_remove (alpm_handle, deps_to_check);
+				}
+			}
 		}
 
 		bool trans_prepare (Alpm.Handle alpm_handle) {
@@ -1066,46 +1383,10 @@ namespace Pamac {
 				return false;
 			} else {
 				// fake aur db
-				try {
-					Process.spawn_command_line_sync ("cp %s/pamac_aur.db %ssync".printf (tmp_path, tmp_handle.dbpath));
-				} catch (SpawnError e) {
-					do_emit_warning (e.message);
-				}
 				unowned Alpm.DB? aur_db = tmp_handle.register_syncdb ("pamac_aur", 0);
 				if (aur_db == null) {
 					do_emit_error (_("Failed to initialize alpm library"), {});
 					return false;
-				}
-				// check if we need to remove debug package to avoid dep problem
-				foreach (unowned string name in to_build) {
-					string debug_pkg_name = "%s-debug".printf (name);
-					if (tmp_handle.localdb.get_pkg (debug_pkg_name) != null) {
-						to_remove.add (debug_pkg_name);
-					}
-				}
-				// base-devel group is needed to build pkgs
-				unowned Alpm.List<unowned Alpm.DB> syncdbs = tmp_handle.syncdbs;
-				while (syncdbs != null) {
-					unowned Alpm.DB db = syncdbs.data;
-					// base-devel group is in core
-					if (db.name == "core") {
-						unowned Alpm.Group? grp = db.get_group ("base-devel");
-						if (grp != null) {
-							unowned Alpm.List<unowned Alpm.Package> packages = grp.packages;
-							while (packages != null) {
-								unowned Alpm.Package pkg = packages.data;
-								if (Alpm.find_satisfier (tmp_handle.localdb.pkgcache, pkg.name) == null) {
-									to_install.add (pkg.name);
-								} else {
-									// remove the needed pkg from to_remove
-									to_remove.remove (pkg.name);
-								}
-								packages.next ();
-							}
-						}
-						break;
-					}
-					syncdbs.next ();
 				}
 				// fake trans prepare
 				bool success = true;
@@ -1170,11 +1451,6 @@ namespace Pamac {
 						}
 					}
 					trans_release (tmp_handle);
-				}
-				try {
-					Process.spawn_command_line_sync ("rm -f %ssync/aur.db".printf (tmp_handle.dbpath));
-				} catch (SpawnError e) {
-					warning (e.message);
 				}
 				return success;
 			}
@@ -1392,7 +1668,7 @@ namespace Pamac {
 						if (success) {
 							success = trans_prepare_real (alpm_handle);
 							// continue if needed
-							if (success && (alpm_handle.trans_to_add ().length + alpm_handle.trans_to_remove ().length) == 0) {
+							if (success && alpm_handle.trans_to_add () == null && alpm_handle.trans_to_remove () == null) {
 								trans_release (alpm_handle);
 								return true;
 							}
@@ -1478,7 +1754,11 @@ namespace Pamac {
 									details.add (_("%s exists in both %s and %s").printf (conflict->file, conflict->target, conflict->ctarget));
 									break;
 								case Alpm.FileConflict.Type.FILESYSTEM:
-									details.add (_("%s: %s already exists in filesystem").printf (conflict->target, conflict->file));
+									if (conflict->ctarget != null) {
+										details.add (_("%s: %s already exists in filesystem (owned by %s)").printf (conflict->target, conflict->file, conflict->ctarget));
+									} else {
+										details.add (_("%s: %s already exists in filesystem").printf (conflict->target, conflict->file));
+									}
 									break;
 							}
 							delete conflict;

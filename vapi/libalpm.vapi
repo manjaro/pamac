@@ -1354,10 +1354,8 @@ namespace Alpm {
 		[CCode (cname = "alpm_list_fn_free", has_target = false)]
 		public delegate void FreeFunc<G>(G a);
 
-		/* properties */
-		public size_t length {
-		[CCode (cname = "alpm_list_count")] get;
-		}
+		[CCode (cname = "alpm_list_count")]
+		public size_t length();
 
 		/* field */
 		public G data;

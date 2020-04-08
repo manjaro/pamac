@@ -1118,78 +1118,24 @@ namespace Pamac {
 					if (success) {
 						return trans_run (check_aur_updates, new_summary);
 					}
-					return false;
 				}
+			}
+			if (summary.to_install != null ||
+				summary.to_upgrade != null ||
+				summary.to_downgrade != null ||
+				summary.to_reinstall != null ||
+				summary.to_remove != null) {
 				if (ask_commit_real (summary)) {
-					if (summary.to_install != null ||
-						summary.to_upgrade != null ||
-						summary.to_downgrade != null ||
-						summary.to_reinstall != null ||
-						summary.to_remove != null) {
-						foreach (unowned Package pkg in summary.to_install) {
-							if (!to_install.contains (pkg.name) &&
-								!to_load.contains (pkg.name)) {
-								to_install.add (pkg.name);
-								to_install_as_dep.add (pkg.name);
-							}
+					foreach (unowned Package pkg in summary.to_install) {
+						if (!to_install.contains (pkg.name) &&
+							!to_load.contains (pkg.name)) {
+							to_install.add (pkg.name);
+							to_install_as_dep.add (pkg.name);
 						}
-						var to_install_array = new GenericArray<string> (to_install.length);
-						var to_remove_array = new GenericArray<string> (to_remove.length);
-						var to_load_array = new GenericArray<string> (to_load.length);
-						var to_install_as_dep_array = new GenericArray<string> (to_install_as_dep.length);
-						var temporary_ignorepkgs_array = new GenericArray<string> (temporary_ignorepkgs.length);
-						var overwrite_files_array = new GenericArray<string> (overwrite_files.length);
-						foreach (unowned string name in to_install) {
-							to_install_array.add (name);
-						}
-						foreach (unowned string name in to_remove) {
-							to_remove_array.add (name);
-						}
-						foreach (unowned string name in to_load) {
-							to_load_array.add (name);
-						}
-						foreach (unowned string name in to_install_as_dep) {
-							to_install_as_dep_array.add (name);
-						}
-						foreach (unowned string name in temporary_ignorepkgs) {
-							temporary_ignorepkgs_array.add (name);
-						}
-						foreach (unowned string name in overwrite_files) {
-							overwrite_files_array.add (name);
-						}
-						bool success = false;
-						try {
-							success = transaction_interface.trans_run (sysupgrading,
-																		database.config.enable_downgrade,
-																		database.config.simple_install,
-																		database.config.keep_built_pkgs,
-																		trans_flags,
-																		to_install_array.data,
-																		to_remove_array.data,
-																		to_load_array.data,
-																		to_install_as_dep_array.data,
-																		temporary_ignorepkgs_array.data,
-																		overwrite_files_array.data);
-						} catch (Error e) {
-							emit_error ("Daemon Error", {"trans_run: %s".printf (e.message)});
-			 			}
-			 			return success;
-					} else {
-						// only AUR packages to build
-						// get_authorization here before building
-						return get_authorization ();
 					}
-				} else {
-					emit_action (dgettext (null, "Transaction cancelled") + ".");
-					return false;
-				}
-			} else if (summary.to_install != null ||
-						summary.to_upgrade != null ||
-						summary.to_downgrade != null ||
-						summary.to_reinstall != null ||
-						summary.to_remove != null) {
-				if (ask_commit_real (summary)) {
-					bool success = false;
+					foreach (unowned Package pkg in summary.to_remove) {
+						to_remove.add (pkg.name);
+					}
 					var to_install_array = new GenericArray<string> (to_install.length);
 					var to_remove_array = new GenericArray<string> (to_remove.length);
 					var to_load_array = new GenericArray<string> (to_load.length);
@@ -1218,6 +1164,7 @@ namespace Pamac {
 					foreach (unowned string name in overwrite_files) {
 						overwrite_files_array.add (name);
 					}
+					bool success = false;
 					try {
 						success = transaction_interface.trans_run (sysupgrading,
 																	database.config.enable_downgrade,
@@ -1238,6 +1185,10 @@ namespace Pamac {
 					emit_action (dgettext (null, "Transaction cancelled") + ".");
 					return false;
 				}
+			} else if (summary.to_build != null) {
+				// only AUR packages to build
+				// get_authorization here before building
+				return get_authorization ();
 			} else {
 				emit_action (dgettext (null, "Nothing to do") + ".");
 				return true;
@@ -1648,15 +1599,6 @@ namespace Pamac {
 					summary.to_upgrade_priv.append (flatpak_pkg);
 				}
 				#endif
-				// populate build queue
-				to_build_queue.clear ();
-				foreach (unowned string name in summary.aur_pkgbases_to_build) {
-					to_build_queue.push_tail (name);
-				}
-				aur_pkgs_to_install.remove_all ();
-				foreach (unowned Package build_pkg in summary.to_build) {
-					aur_pkgs_to_install.add (build_pkg.name);
-				}
 				return ask_commit (summary);
 			}
 		}
@@ -1673,6 +1615,15 @@ namespace Pamac {
 				summary.to_remove_priv.append (pkg);
 			}
 			#endif
+			// populate build queue
+			to_build_queue.clear ();
+			foreach (unowned string name in summary.aur_pkgbases_to_build) {
+				to_build_queue.push_tail (name);
+			}
+			aur_pkgs_to_install.remove_all ();
+			foreach (unowned Package build_pkg in summary.to_build) {
+				aur_pkgs_to_install.add (build_pkg.name);
+			}
 			return ask_edit_build_files (summary);
 		}
 

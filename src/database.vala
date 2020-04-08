@@ -2061,7 +2061,7 @@ namespace Pamac {
 					// refresh tmp dbs
 					// count this step as 90% of the total
 					unowned Alpm.List<unowned Alpm.DB> syncdbs = tmp_handle.syncdbs;
-					size_t dbs_count = syncdbs.length;
+					size_t dbs_count = syncdbs.length ();
 					size_t i = 0;
 					while (syncdbs != null) {
 						unowned Alpm.DB db = syncdbs.data;
