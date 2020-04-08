@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2020-03-06 17:13+0100\n"
-"PO-Revision-Date: 2020-04-02 14:07+0000\n"
+"PO-Revision-Date: 2020-04-06 18:04+0000\n"
 "Last-Translator: Xəyyam Qocayev <xxmn77@gmail.com>\n"
 "Language-Team: Azerbaijani (Azerbaijan) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/az_AZ/)\n"
 "MIME-Version: 1.0\n"
@@ -34,11 +34,11 @@ msgstr "Uğursuz alpm kitabxanası hazırlanması"
 
 #: src/alpm_utils.vala
 msgid "Synchronizing package databases"
-msgstr "Paket məlumat bazasının eyniləşdirilməsi"
+msgstr "Paket məlumat bazalarının eyniləşdirilməsi"
 
 #: src/alpm_utils.vala
 msgid "Failed to synchronize databases"
-msgstr "Məlumat bazası eyniləşdirilməsi alınmadı"
+msgstr "Məlumat bazaları eyniləşdirilməsi alınmadı"
 
 #: src/alpm_utils.vala src/database.vala src/manager_window.vala src/cli.vala
 #: resources/preferences_dialog.ui
