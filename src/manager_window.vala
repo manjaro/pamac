@@ -3497,17 +3497,15 @@ namespace Pamac {
 				search_entry_timeout_id = 0;
 				return false;
 			}
-			lock (search_listbox) {
-				this.get_window ().set_cursor (new Gdk.Cursor.for_display (Gdk.Display.get_default (), Gdk.CursorType.WATCH));
-				search_string = (owned) tmp_search_string;
-				on_search_listbox_row_activated (search_listbox.get_selected_row ());
-				search_entry_timeout_id = 0;
-				// wait 1s before adding the search in history
-				if (search_history_timeout_id != 0) {
-					Source.remove (search_history_timeout_id);
-				}
-				search_history_timeout_id = Timeout.add (1000, search_history_timeout_callback);
+			this.get_window ().set_cursor (new Gdk.Cursor.for_display (Gdk.Display.get_default (), Gdk.CursorType.WATCH));
+			search_string = (owned) tmp_search_string;
+			on_search_listbox_row_activated (search_listbox.get_selected_row ());
+			search_entry_timeout_id = 0;
+			// wait 1s before adding the search in history
+			if (search_history_timeout_id != 0) {
+				Source.remove (search_history_timeout_id);
 			}
+			search_history_timeout_id = Timeout.add (1000, search_history_timeout_callback);
 			return false;
 		}
 
@@ -3520,7 +3518,7 @@ namespace Pamac {
 					if (search_entry_timeout_id != 0) {
 						Source.remove (search_entry_timeout_id);
 					}
-					search_entry_timeout_id = Timeout.add (200, search_entry_timeout_callback);
+					search_entry_timeout_id = Timeout.add (500, search_entry_timeout_callback);
 				}
 			} else {
 				// a history line was choosen

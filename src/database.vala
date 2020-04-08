@@ -81,11 +81,11 @@ namespace Pamac {
 				flatpak_plugin = config.get_flatpak_plugin ();
 				flatpak_plugin.refresh_period = config.refresh_period;
 				if (config.enable_flatpak) {
-					load_flatpak_appstream_data (false);
+					load_flatpak_appstream_data ();
 				}
 				config.notify["enable-flatpak"].connect (() => {
 					if (config.enable_flatpak) {
-						load_flatpak_appstream_data (false);
+						load_flatpak_appstream_data ();
 					}
 				});
 			}
@@ -108,18 +108,12 @@ namespace Pamac {
 		}
 
 		#if ENABLE_FLATPAK
-		void load_flatpak_appstream_data (bool wait) {
+		void load_flatpak_appstream_data () {
 			try {
 				new Thread<int>.try ("load_flatpak_appstream_data", () => {
 					flatpak_plugin.load_appstream_data ();
-					if (wait) {
-						loop.quit ();
-					}
 					return 0;
 				});
-				if (wait) {
-					loop.run ();
-				}
 			} catch (Error e) {
 				warning (e.message);
 			}
@@ -151,6 +145,9 @@ namespace Pamac {
 		}
 
 		public SList<string> get_mirrors_countries () {
+			if (loop.is_running ()) {
+				loop.run ();
+			}
 			var countries = new SList<string> ();
 			try {
 				new Thread<int>.try ("get_mirrors_countries", () => {
@@ -183,6 +180,9 @@ namespace Pamac {
 		}
 
 		public string get_mirrors_choosen_country () {
+			if (loop.is_running ()) {
+				loop.run ();
+			}
 			string country = "";
 			try {
 				new Thread<int>.try ("get_mirrors_choosen_country", () => {
@@ -217,6 +217,9 @@ namespace Pamac {
 		public CompareFunc<string> vercmp = Alpm.pkg_vercmp;
 
 		public HashTable<string, uint64?> get_clean_cache_details () {
+			if (loop.is_running ()) {
+				loop.run ();
+			}
 			var filenames_size = new HashTable<string, uint64?> (str_hash, str_equal);
 			// compute all infos
 			try {
@@ -324,6 +327,9 @@ namespace Pamac {
 		}
 
 		public HashTable<string, uint64?> get_build_files_details () {
+			if (loop.is_running ()) {
+				loop.run ();
+			}
 			string real_aur_build_dir;
 			if (config.aur_build_dir == "/var/tmp") {
 				real_aur_build_dir = Path.build_path ("/", config.aur_build_dir, "pamac-build-%s".printf (Environment.get_user_name ()));
@@ -389,6 +395,9 @@ namespace Pamac {
 		}
 
 		public SList<string> get_uninstalled_optdeps (string pkgname) {
+			if (loop.is_running ()) {
+				loop.run ();
+			}
 			var optdeps = new SList<string> ();
 			try {
 				new Thread<int>.try ("get_uninstalled_optdeps", () => {
@@ -701,6 +710,9 @@ namespace Pamac {
 		}
 
 		public SList<AlpmPackage> get_installed_pkgs () {
+			if (loop.is_running ()) {
+				loop.run ();
+			}
 			var pkgs = new SList<AlpmPackage> ();
 			try {
 				new Thread<int>.try ("get_installed_pkgs", () => {
@@ -717,6 +729,9 @@ namespace Pamac {
 		}
 
 		public AlpmPackage? get_installed_app_by_id (string app_id) {
+			if (loop.is_running ()) {
+				loop.run ();
+			}
 			AlpmPackage? pkg = null;
 			try {
 				string app_id_copy;
@@ -781,6 +796,9 @@ namespace Pamac {
 		}
 
 		public SList<AlpmPackage> get_installed_apps () {
+			if (loop.is_running ()) {
+				loop.run ();
+			}
 			var pkgs = new SList<AlpmPackage> ();
 			try {
 				new Thread<int>.try ("get_installed_apps", () => {
@@ -812,6 +830,9 @@ namespace Pamac {
 		}
 
 		public SList<AlpmPackage> get_explicitly_installed_pkgs () {
+			if (loop.is_running ()) {
+				loop.run ();
+			}
 			var pkgs = new SList<AlpmPackage> ();
 			try {
 				new Thread<int>.try ("get_explicitly_installed_pkgs", () => {
@@ -837,6 +858,9 @@ namespace Pamac {
 		}
 
 		public SList<AlpmPackage> get_foreign_pkgs () {
+			if (loop.is_running ()) {
+				loop.run ();
+			}
 			var pkgs = new SList<AlpmPackage> ();
 			try {
 				new Thread<int>.try ("get_foreign_pkgs", () => {
@@ -862,6 +886,9 @@ namespace Pamac {
 		}
 
 		public SList<AlpmPackage> get_orphans () {
+			if (loop.is_running ()) {
+				loop.run ();
+			}
 			var pkgs = new SList<AlpmPackage> ();
 			try {
 				new Thread<int>.try ("get_orphans", () => {
@@ -871,9 +898,9 @@ namespace Pamac {
 						unowned Alpm.Package alpm_pkg = pkgcache.data;
 						if (alpm_pkg.reason == Alpm.Package.Reason.DEPEND) {
 							Alpm.List<string> requiredby = alpm_pkg.compute_requiredby ();
-							if (requiredby.length == 0) {
+							if (requiredby == null) {
 								Alpm.List<string> optionalfor = alpm_pkg.compute_optionalfor ();
-								if (optionalfor.length == 0) {
+								if (optionalfor == null) {
 									alpm_pkgs.add (alpm_pkg);
 								} else {
 									optionalfor.free_inner (GLib.free);
@@ -970,7 +997,7 @@ namespace Pamac {
 			unowned Alpm.List<unowned Alpm.DB> syncdbs = alpm_handle.syncdbs;
 			while (syncdbs != null) {
 				unowned Alpm.DB db = syncdbs.data;
-				if (syncpkgs.length == 0) {
+				if (syncpkgs == null) {
 					syncpkgs = db.search (needles);
 				} else {
 					syncpkgs.join (db.search (needles).diff (syncpkgs, (Alpm.List.CompareFunc) alpm_pkg_compare_name));
@@ -1007,6 +1034,9 @@ namespace Pamac {
 		}
 
 		public SList<AlpmPackage> search_installed_pkgs (string search_string) {
+			if (loop.is_running ()) {
+				loop.run ();
+			}
 			string search_string_down = search_string.down ();
 			var pkgs = new SList<AlpmPackage> ();
 			try {
@@ -1026,6 +1056,9 @@ namespace Pamac {
 		}
 
 		public SList<AlpmPackage> search_repos_pkgs (string search_string) {
+			if (loop.is_running ()) {
+				loop.run ();
+			}
 			string search_string_down = search_string.down ();
 			var pkgs = new SList<AlpmPackage> ();
 			try {
@@ -1055,7 +1088,7 @@ namespace Pamac {
 			unowned Alpm.List<unowned Alpm.DB> syncdbs = alpm_handle.syncdbs;
 			while (syncdbs != null) {
 				unowned Alpm.DB db = syncdbs.data;
-				if (syncpkgs.length == 0) {
+				if (syncpkgs == null) {
 					syncpkgs = db.search (needles);
 				} else {
 					syncpkgs.join (db.search (needles).diff (syncpkgs, (Alpm.List.CompareFunc) alpm_pkg_compare_name));
@@ -1116,6 +1149,9 @@ namespace Pamac {
 		}
 
 		public SList<AlpmPackage> search_pkgs (string search_string) {
+			if (loop.is_running ()) {
+				loop.run ();
+			}
 			string search_string_down = search_string.down ();
 			var pkgs = new SList<AlpmPackage> ();
 			try {
@@ -1135,6 +1171,9 @@ namespace Pamac {
 		}
 
 		public SList<AURPackage> search_aur_pkgs (string search_string) {
+			if (loop.is_running ()) {
+				loop.run ();
+			}
 			string search_string_down = search_string.down ();
 			var pkgs = new SList<AURPackage> ();
 			if (config.enable_aur) {
@@ -1235,6 +1274,9 @@ namespace Pamac {
 		}
 
 		public SList<AlpmPackage> get_category_pkgs (string category) {
+			if (loop.is_running ()) {
+				loop.run ();
+			}
 			var result = new SList<AlpmPackage> ();
 			string category_copy = category;
 			try {
@@ -1359,6 +1401,9 @@ namespace Pamac {
 		}
 
 		public SList<AlpmPackage> get_repo_pkgs (string repo) {
+			if (loop.is_running ()) {
+				loop.run ();
+			}
 			var pkgs = new SList<AlpmPackage> ();
 			string repo_copy = repo;
 			try {
@@ -1423,6 +1468,9 @@ namespace Pamac {
 		}
 
 		public SList<AlpmPackage> get_group_pkgs (string group_name) {
+			if (loop.is_running ()) {
+				loop.run ();
+			}
 			var pkgs = new SList<AlpmPackage> ();
 			string group_name_copy = group_name;
 			try {
@@ -1473,6 +1521,9 @@ namespace Pamac {
 		}
 
 		public SList<string> get_pkg_files (string pkgname) {
+			if (loop.is_running ()) {
+				loop.run ();
+			}
 			var files = new SList<string> ();
 			string pkgname_copy = pkgname;
 			try {
@@ -1541,6 +1592,9 @@ namespace Pamac {
 		}
 
 		public File? clone_build_files (string pkgname, bool overwrite_files, Cancellable? cancellable = null) {
+			if (loop.is_running ()) {
+				loop.run ();
+			}
 			File? file = null;
 			string pkgname_copy = pkgname;
 			try {
@@ -1654,6 +1708,9 @@ namespace Pamac {
 		}
 
 		public bool regenerate_srcinfo (string pkgname, Cancellable? cancellable = null) {
+			if (loop.is_running ()) {
+				loop.run ();
+			}
 			bool success = false;
 			string pkgname_copy = pkgname;
 			try {
@@ -1732,6 +1789,9 @@ namespace Pamac {
 		}
 
 		public AURPackage? get_aur_pkg (string pkgname) {
+			if (loop.is_running ()) {
+				loop.run ();
+			}
 			AURPackage? pkg = null;
 			if (config.enable_aur) {
 				string pkgname_copy = pkgname;
@@ -1755,6 +1815,9 @@ namespace Pamac {
 		}
 
 		public HashTable<string, AURPackage?> get_aur_pkgs (string[] pkgnames) {
+			if (loop.is_running ()) {
+				loop.run ();
+			}
 			var data = new HashTable<string, AURPackage?> (str_hash, str_equal);
 			if (!config.enable_aur) {
 				return data;
@@ -1927,6 +1990,9 @@ namespace Pamac {
 		}
 
 		internal SList<AURPackage> get_all_aur_updates () {
+			if (loop.is_running ()) {
+				loop.run ();
+			}
 			// do not check for ignore pkgs here to have a warning in alpm_utils build_prepare
 			var pkgs = new SList<AURPackage> ();
 			var local_pkgs = new GenericArray<string> ();
@@ -1975,6 +2041,9 @@ namespace Pamac {
 		}
 
 		public Updates get_updates () {
+			if (loop.is_running ()) {
+				loop.run ();
+			}
 			var updates = new Updates ();
 			var local_pkgs = new GenericArray<string> ();
 			var vcs_local_pkgs = new GenericArray<string> ();
@@ -2305,6 +2374,9 @@ namespace Pamac {
 
 		#if ENABLE_SNAP
 		public SList<SnapPackage> search_snaps (string search_string) {
+			if (loop.is_running ()) {
+				loop.run ();
+			}
 			string search_string_down = search_string.down ();
 			var pkgs = new SList<SnapPackage> ();
 			if (config.enable_snap) {
@@ -2330,6 +2402,9 @@ namespace Pamac {
 		}
 
 		public SnapPackage? get_snap (string name) {
+			if (loop.is_running ()) {
+				loop.run ();
+			}
 			SnapPackage? pkg = null;
 			if (config.enable_snap) {
 				string name_copy = name;
@@ -2348,6 +2423,9 @@ namespace Pamac {
 		}
 
 		public SnapPackage? get_installed_snap_by_id (string app_id) {
+			if (loop.is_running ()) {
+				loop.run ();
+			}
 			SnapPackage? pkg = null;
 			if (config.enable_snap) {
 				string app_id_copy = app_id;
@@ -2366,6 +2444,9 @@ namespace Pamac {
 		}
 
 		public SList<SnapPackage> get_installed_snaps () {
+			if (loop.is_running ()) {
+				loop.run ();
+			}
 			var pkgs = new SList<SnapPackage> ();
 			if (config.enable_snap) {
 				try {
@@ -2383,6 +2464,9 @@ namespace Pamac {
 		}
 
 		public string get_installed_snap_icon (string name) {
+			if (loop.is_running ()) {
+				loop.run ();
+			}
 			string icon = "";
 			if (config.enable_snap) {
 				string name_copy = name;
@@ -2405,6 +2489,9 @@ namespace Pamac {
 		}
 
 		public SList<SnapPackage> get_category_snaps (string category) {
+			if (loop.is_running ()) {
+				loop.run ();
+			}
 			var pkgs = new SList<SnapPackage> ();
 			if (config.enable_snap) {
 				string category_copy = category;
@@ -2433,6 +2520,9 @@ namespace Pamac {
 		}
 
 		public SList<FlatpakPackage> get_installed_flatpaks () {
+			if (loop.is_running ()) {
+				loop.run ();
+			}
 			var pkgs = new SList<FlatpakPackage> ();
 			if (config.enable_flatpak) {
 				try {
@@ -2450,6 +2540,9 @@ namespace Pamac {
 		}
 
 		public SList<FlatpakPackage> search_flatpaks (string search_string) {
+			if (loop.is_running ()) {
+				loop.run ();
+			}
 			var pkgs = new SList<FlatpakPackage> ();
 			if (config.enable_flatpak) {
 				string search_string_down = search_string.down ();
@@ -2475,6 +2568,9 @@ namespace Pamac {
 		}
 
 		public FlatpakPackage? get_flatpak (string id) {
+			if (loop.is_running ()) {
+				loop.run ();
+			}
 			FlatpakPackage? pkg = null;
 			if (config.enable_flatpak) {
 				string id_copy = id;
@@ -2493,6 +2589,9 @@ namespace Pamac {
 		}
 
 		public FlatpakPackage? get_installed_flatpak_by_id (string app_id) {
+			if (loop.is_running ()) {
+				loop.run ();
+			}
 			FlatpakPackage? pkg = null;
 			if (config.enable_flatpak) {
 				string app_id_copy = app_id;
@@ -2511,6 +2610,9 @@ namespace Pamac {
 		}
 
 		public SList<FlatpakPackage> get_category_flatpaks (string category) {
+			if (loop.is_running ()) {
+				loop.run ();
+			}
 			var pkgs = new SList<FlatpakPackage> ();
 			if (config.enable_flatpak) {
 				string category_copy = category;
