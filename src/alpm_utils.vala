@@ -856,6 +856,55 @@ namespace Pamac {
 			return success;
 		}
 
+		void prepare_aur_db (Alpm.Handle alpm_handle) {
+			// fake aur db
+			try {
+				Process.spawn_command_line_sync ("cp %s/pamac_aur.db %ssync".printf (tmp_path, alpm_handle.dbpath));
+			} catch (SpawnError e) {
+				do_emit_warning (e.message);
+			}
+			// check if we need to remove debug package to avoid dep problem
+			foreach (unowned string name in to_build) {
+				string debug_pkg_name = "%s-debug".printf (name);
+				if (alpm_handle.localdb.get_pkg (debug_pkg_name) != null) {
+					to_remove.add (debug_pkg_name);
+				}
+			}
+			// base-devel group is needed to build pkgs
+			unowned Alpm.List<unowned Alpm.DB> syncdbs = alpm_handle.syncdbs;
+			while (syncdbs != null) {
+				unowned Alpm.DB db = syncdbs.data;
+				// base-devel group is in core
+				if (db.name == "core") {
+					unowned Alpm.Group? grp = db.get_group ("base-devel");
+					if (grp != null) {
+						unowned Alpm.List<unowned Alpm.Package> packages = grp.packages;
+						while (packages != null) {
+							unowned Alpm.Package pkg = packages.data;
+							if (Alpm.find_satisfier (alpm_handle.localdb.pkgcache, pkg.name) == null) {
+								to_install.add (pkg.name);
+							} else {
+								// remove the needed pkg from to_remove
+								to_remove.remove (pkg.name);
+							}
+							packages.next ();
+						}
+					}
+					break;
+				}
+				syncdbs.next ();
+			}
+		}
+
+		void remove_aur_db (Alpm.Handle alpm_handle) {
+			// remove fake aur db
+			try {
+				Process.spawn_command_line_sync ("rm -f %ssync/aur.db".printf (alpm_handle.dbpath));
+			} catch (SpawnError e) {
+				warning (e.message);
+			}
+		}
+
 		public bool trans_check_prepare (bool sysupgrade,
 										bool enable_downgrade,
 										bool simple_install,
@@ -868,6 +917,17 @@ namespace Pamac {
 										GenericSet<string?> temporary_ignorepkgs,
 										GenericSet<string?> overwrite_files,
 										out TransactionSummary summary) {
+			summary = new TransactionSummary ();
+			// use an tmp handle with no callback to avoid double prepare signals
+			var tmp_handle = get_handle (false, true, false);
+			if (tmp_handle == null) {
+				return false;
+			}
+			// add question callback for replaces/conflicts/corrupted pkgs and import keys
+			tmp_handle.questioncb = (Alpm.QuestionCallBack) cb_question;
+			// add log callback for warnings/errors
+			tmp_handle.logcb = (Alpm.LogCallBack) cb_log;
+			// compute arguments
 			this.sender = "";
 			this.sysupgrade = sysupgrade;
 			this.enable_downgrade = enable_downgrade;
@@ -892,84 +952,38 @@ namespace Pamac {
 			foreach (unowned string name in overwrite_files) {
 				this.overwrite_files.add (name);
 			}
-			// use an tmp handle with no callback to avoid double prepare signals
-			var tmp_handle = get_handle (false, true, false);
-			if (tmp_handle != null) {
-				// add question callback for replaces/conflicts/corrupted pkgs and import keys
-				tmp_handle.questioncb = (Alpm.QuestionCallBack) cb_question;
-				// add log callback for warnings/errors
-				tmp_handle.logcb = (Alpm.LogCallBack) cb_log;
-				if (to_build.length > 0 || check_aur_updates) {
-					// fake aur db
-					try {
-						Process.spawn_command_line_sync ("cp %s/pamac_aur.db %ssync".printf (tmp_path, tmp_handle.dbpath));
-					} catch (SpawnError e) {
-						do_emit_warning (e.message);
-					}
-					// check if we need to remove debug package to avoid dep problem
-					foreach (unowned string name in to_build) {
-						string debug_pkg_name = "%s-debug".printf (name);
-						if (tmp_handle.localdb.get_pkg (debug_pkg_name) != null) {
-							to_remove.add (debug_pkg_name);
-						}
-					}
-					// base-devel group is needed to build pkgs
-					unowned Alpm.List<unowned Alpm.DB> syncdbs = tmp_handle.syncdbs;
-					while (syncdbs != null) {
-						unowned Alpm.DB db = syncdbs.data;
-						// base-devel group is in core
-						if (db.name == "core") {
-							unowned Alpm.Group? grp = db.get_group ("base-devel");
-							if (grp != null) {
-								unowned Alpm.List<unowned Alpm.Package> packages = grp.packages;
-								while (packages != null) {
-									unowned Alpm.Package pkg = packages.data;
-									if (Alpm.find_satisfier (tmp_handle.localdb.pkgcache, pkg.name) == null) {
-										to_install.add (pkg.name);
-									} else {
-										// remove the needed pkg from to_remove
-										to_remove.remove (pkg.name);
-									}
-									packages.next ();
-								}
-							}
-							break;
-						}
-						syncdbs.next ();
-					}
-				}
-				if (to_remove.length > 0) {
-					intern_compute_pkgs_to_remove (tmp_handle);
-				}
+			if (to_remove.length > 0) {
+				intern_compute_pkgs_to_remove (tmp_handle);
 				if (to_install.length > 0 || sysupgrade || to_build.length > 0 || check_aur_updates|| to_load.length > 0) {
+					if (to_build.length > 0 || check_aur_updates) {
+						prepare_aur_db (tmp_handle);
+					}
 					intern_compute_pkgs_to_install (tmp_handle);
 				}
-				if (to_remove.length > 0 && (trans_flags & Alpm.TransFlag.RECURSE) != 0) {
+				if ((trans_flags & Alpm.TransFlag.RECURSE) != 0) {
 					intern_compute_orphans_to_remove (tmp_handle);
 				}
 			}
-			summary = new TransactionSummary ();
-			bool success;
+			// add signals for the real prepare
+			tmp_handle.eventcb = (Alpm.EventCallBack) cb_event;
+			tmp_handle.progresscb = (Alpm.ProgressCallBack) cb_progress;
+			tmp_handle.questioncb = (Alpm.QuestionCallBack) cb_question;
+			if (to_remove.length == 0) {
+				// else warnings/errors already seen
+				tmp_handle.logcb = (Alpm.LogCallBack) cb_log;
+			}
 			if (to_build.length > 0 || check_aur_updates) {
-				success = build_prepare (ref summary);
-				// remove fake aur db
-				try {
-					Process.spawn_command_line_sync ("rm -f %ssync/aur.db".printf (tmp_handle.dbpath));
-				} catch (SpawnError e) {
-					warning (e.message);
+				if (to_remove.length == 0) {
+					prepare_aur_db (tmp_handle);
 				}
-			} else {
-				var alpm_handle = get_handle ();
-				if (alpm_handle == null) {
-					return false;
-				}
-				// warnings/errors already seen
-				alpm_handle.logcb = null;
-				success = trans_prepare (alpm_handle);
-				if (success) {
-					summary = get_transaction_summary (alpm_handle);
-					trans_release (alpm_handle);
-				}
+			}
+			bool success = trans_prepare (tmp_handle);
+			if (success) {
+				summary = get_transaction_summary (tmp_handle);
+				trans_release (tmp_handle);
+			}
+			if (to_build.length > 0 || check_aur_updates) {
+				remove_aur_db (tmp_handle);
 			}
 			trans_reset ();
 			return success;
@@ -1066,8 +1080,10 @@ namespace Pamac {
 		void intern_compute_pkgs_to_remove (Alpm.Handle alpm_handle) {
 			int tmp_trans_flags = Alpm.TransFlag.NOLOCK;
 			if ((trans_flags & Alpm.TransFlag.UNNEEDED) != 0) {
+				// remove UNNEEDED to trans_flags
+				trans_flags &= ~Alpm.TransFlag.UNNEEDED;
 				tmp_trans_flags |= Alpm.TransFlag.UNNEEDED;
-			} else {
+			} else if ((trans_flags & Alpm.TransFlag.CASCADE) != 0) {
 				// remove CASCADE to trans_flags
 				trans_flags &= ~Alpm.TransFlag.CASCADE;
 				tmp_trans_flags |= Alpm.TransFlag.CASCADE;
@@ -1148,7 +1164,13 @@ namespace Pamac {
 					return;
 				}
 			}
-			bool success = trans_init (alpm_handle, trans_flags);
+			int tmp_trans_flags = Alpm.TransFlag.NOLOCK;
+			if ((trans_flags & Alpm.TransFlag.NEEDED) != 0) {
+				// remove NEEDED to trans_flags
+				trans_flags &= ~Alpm.TransFlag.NEEDED;
+				tmp_trans_flags |= Alpm.TransFlag.NEEDED;
+			}
+			bool success = trans_init (alpm_handle, tmp_trans_flags);
 			if (success && sysupgrade) {
 				success = trans_sysupgrade (alpm_handle);
 				if (!success) {
@@ -1340,6 +1362,15 @@ namespace Pamac {
 		}
 
 		bool trans_prepare (Alpm.Handle alpm_handle) {
+			unowned Alpm.DB? aur_db = null;
+			if (to_build.length > 0 || check_aur_updates) {
+				// fake aur db
+				aur_db = alpm_handle.register_syncdb ("pamac_aur", 0);
+				if (aur_db == null) {
+					do_emit_error (_("Failed to initialize AUR database"), {});
+					return false;
+				}
+			}
 			bool success = trans_init (alpm_handle, trans_flags);
 			if (success && sysupgrade) {
 				success = trans_sysupgrade (alpm_handle);
@@ -1349,6 +1380,22 @@ namespace Pamac {
 					success = trans_add_pkg (alpm_handle, name);
 					if (!success) {
 						break;
+					}
+				}
+			}
+			if (to_build.length > 0) {
+				// add to_build from fake aur db
+				foreach (unowned string name in to_build) {
+					unowned Alpm.Package? pkg = aur_db.get_pkg (name);
+					if (pkg == null) {
+						do_emit_error (_("Failed to prepare transaction"), {_("target not found: %s").printf (name)});
+						success = false;
+						break;
+					} else {
+						success = trans_add_pkg_real (alpm_handle, pkg);
+						if (!success) {
+							break;
+						}
 					}
 				}
 			}
@@ -1376,93 +1423,18 @@ namespace Pamac {
 			return success;
 		}
 
-		bool build_prepare (ref TransactionSummary summary) {
-			// get an handle with fake aur db and without emit signal callbacks
-			var tmp_handle = get_handle (false, true);
-			if (tmp_handle == null) {
-				return false;
-			} else {
-				// fake aur db
-				unowned Alpm.DB? aur_db = tmp_handle.register_syncdb ("pamac_aur", 0);
-				if (aur_db == null) {
-					do_emit_error (_("Failed to initialize alpm library"), {});
-					return false;
-				}
-				// fake trans prepare
-				bool success = true;
-				if (tmp_handle.trans_init (trans_flags | Alpm.TransFlag.NOLOCK) == -1) {
-					Alpm.Errno err_no = tmp_handle.errno ();
-					if (err_no != 0) {
-						do_emit_error (_("Failed to init transaction"), {Alpm.strerror (err_no)});
-					} else {
-						do_emit_error (_("Failed to init transaction"), {});
-					}
-					success = false;
-				}
-				if (success && sysupgrade) {
-					success = trans_sysupgrade (tmp_handle);
-					if (!success) {
-						trans_release (tmp_handle);
-					}
-				}
-				if (success) {
-					foreach (unowned string name in to_install) {
-						success = trans_add_pkg (tmp_handle, name);
-						if (!success) {
-							break;
-						}
-					}
-					if (success) {
-						foreach (unowned string name in to_remove) {
-							success = trans_remove_pkg (tmp_handle, name);
-							if (!success) {
-								break;
-							}
-						}
-					}
-					if (success) {
-						// add to_build from fake aur db
-						foreach (unowned string name in to_build) {
-							unowned Alpm.Package? pkg = aur_db.get_pkg (name);
-							if (pkg == null) {
-								do_emit_error (_("Failed to prepare transaction"), {_("target not found: %s").printf (name)});
-								success = false;
-								break;
-							} else {
-								success = trans_add_pkg_real (tmp_handle, pkg);
-								if (!success) {
-									break;
-								}
-							}
-						}
-					}
-					if (success) {
-						foreach (unowned string path in to_load) {
-							success = trans_load_pkg (tmp_handle, path);
-							if (!success) {
-								break;
-							}
-						}
-					}
-					if (success) {
-						success = trans_prepare_real (tmp_handle);
-						if (success) {
-							summary = get_transaction_summary (tmp_handle);
-						}
-					}
-					trans_release (tmp_handle);
-				}
-				return success;
-			}
-		}
-
 		TransactionSummary get_transaction_summary (Alpm.Handle alpm_handle) {
 			var summary = new TransactionSummary ();
 			unowned Alpm.List<unowned Alpm.Package> pkgs_to_add = alpm_handle.trans_to_add ();
 			while (pkgs_to_add != null) {
 				unowned Alpm.Package trans_pkg = pkgs_to_add.data;
 				unowned Alpm.DB? db = trans_pkg.db;
-				if (db != null && db.name == "pamac_aur") {
+				if (db == null) {
+					// it a pkg in to_load
+					var pkg = initialise_pkg (alpm_handle, trans_pkg);
+					summary.to_install_priv.prepend (pkg);
+					summary.to_load_priv.prepend (trans_pkg.name);
+				} else if (db.name == "pamac_aur") {
 					// it is a aur pkg to build
 					if (summary.aur_pkgbases_to_build_priv.find_custom (trans_pkg.pkgbase, strcmp) == null) {
 						summary.aur_pkgbases_to_build_priv.prepend (trans_pkg.pkgbase);

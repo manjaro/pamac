@@ -108,6 +108,7 @@ namespace Pamac {
 		internal SList<Package> to_remove_priv;
 		internal SList<Package> to_build_priv;
 		internal SList<string> aur_pkgbases_to_build_priv;
+		internal SList<string> to_load_priv;
 		public SList<Package> to_install { get {return to_install_priv;} }
 		public SList<Package> to_upgrade { get {return to_upgrade_priv;} }
 		public SList<Package> to_downgrade { get {return to_downgrade_priv;} }
