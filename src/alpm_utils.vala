@@ -28,15 +28,12 @@ HashTable<string, AsyncQueue> queues_table;
 GenericArray<string> unresolvables;
 
 class DownloadServer: Object {
-	Soup.Session soup_session;
 	string cachedir;
 	string server_url;
 	GenericSet<string?> repos;
 	bool emit_signals;
 
 	public DownloadServer (Alpm.Handle handle, owned string server_url, owned GenericSet<string?> repos, bool emit_signals) {
-		soup_session = new Soup.Session ();
-		soup_session.user_agent = "Pamac/%s".printf (VERSION);
 		cachedir = handle.cachedirs.nth (0).data;
 		this.server_url = server_url;
 		this.repos = repos;
@@ -65,14 +62,12 @@ class DownloadServer: Object {
 					current_filename = filename;
 					int ret;
 					if (emit_signals) {
-						ret = dload (soup_session,
-									"%s/%s".printf (server_url.replace ("$repo", repo), filename),
+						ret = dload ("%s/%s".printf (server_url.replace ("$repo", repo), filename),
 									cachedir,
 									0,
 									cb_multi_download);
 					} else {
-						ret = dload (soup_session,
-									"%s/%s".printf (server_url.replace ("$repo", repo), filename),
+						ret = dload ("%s/%s".printf (server_url.replace ("$repo", repo), filename),
 									cachedir,
 									0,
 									null);
@@ -100,6 +95,7 @@ namespace Pamac {
 		public File lockfile;
 		MainContext context;
 		// run transaction data
+		uint8 commit_retries;
 		string current_status;
 		double current_progress;
 		bool sysupgrade;
@@ -781,7 +777,7 @@ namespace Pamac {
 						unowned Alpm.List<string*> list = err_data;
 						while (list != null) {
 							string* pkgname = list.data;
-							details.add (_("package %s does not have a valid architecture").printf (pkgname));
+							details.add ("- " + _("package %s does not have a valid architecture").printf (pkgname));
 							delete pkgname;
 							list.next ();
 						}
@@ -796,13 +792,14 @@ namespace Pamac {
 							unowned Alpm.Package pkg;
 							if (miss->causingpkg == null) {
 								/* package being installed/upgraded has unresolved dependency */
-								details.add (_("unable to satisfy dependency '%s' required by %s").printf (depstring, miss->target));
+								details.add ("- " + _("unable to satisfy dependency '%s' required by %s").printf (depstring, miss->target));
 							} else if ((pkg = Alpm.pkg_find (trans_add, miss->causingpkg)) != null) {
 								/* upgrading a package breaks a local dependency */
-								details.add (_("installing %s (%s) breaks dependency '%s' required by %s").printf (miss->causingpkg, pkg.version, depstring, miss->target));
+								details.add ("- " + _("installing %s (%s) breaks dependency '%s' required by %s").printf (miss->causingpkg, pkg.version, depstring, miss->target) + ",");
+								details.add ("- " + _("if possible, remove %s and retry").printf (miss->target));
 							} else {
 								/* removing a package breaks a local dependency */
-								details.add (_("removing %s breaks dependency '%s' required by %s").printf (miss->causingpkg, depstring, miss->target));
+								details.add ("- " + _("removing %s breaks dependency '%s' required by %s").printf (miss->causingpkg, depstring, miss->target));
 							}
 							delete miss;
 							list.next ();
@@ -813,7 +810,7 @@ namespace Pamac {
 						unowned Alpm.List<Alpm.Conflict*> list = err_data;
 						while (list != null) {
 							Alpm.Conflict* conflict = list.data;
-							string conflict_detail = _("%s and %s are in conflict").printf (conflict->package1, conflict->package2);
+							string conflict_detail = "- " + _("%s and %s are in conflict").printf (conflict->package1, conflict->package2);
 							// only print reason if it contains new information
 							if (conflict->reason.mod != Alpm.Depend.Mode.ANY) {
 								conflict_detail += " (%s)".printf (conflict->reason.compute_string ());
@@ -838,7 +835,7 @@ namespace Pamac {
 				while (to_remove != null) {
 					unowned Alpm.Package pkg = to_remove.data;
 					if (pkg.name in alpm_config.holdpkgs) {
-						details.add (_("%s needs to be removed but it is a locked package").printf (pkg.name));
+						details.add ("- " + _("%s needs to be removed but it is a locked package").printf (pkg.name));
 						found_locked_pkg = true;
 					}
 					to_remove.next ();
@@ -1029,6 +1026,10 @@ namespace Pamac {
 			foreach (unowned string name in overwrite_files) {
 				this.overwrite_files.add (name);
 			}
+			return trans_run_real ();
+		}
+
+		bool trans_run_real () {
 			// use an handle with no callback to avoid double prepare signals
 			var alpm_handle = get_handle (false, false, false);
 			if (alpm_handle == null) {
@@ -1586,6 +1587,7 @@ namespace Pamac {
 
 		bool trans_commit (Alpm.Handle alpm_handle) {
 			add_overwrite_files (alpm_handle);
+			bool need_retry = false;
 			bool success = false;
 			if (to_syncfirst.length > 0) {
 				trans_release (alpm_handle);
@@ -1601,7 +1603,7 @@ namespace Pamac {
 						success = trans_prepare_real (alpm_handle);
 					}
 					if (success) {
-						success = trans_commit_real (alpm_handle);
+						success = trans_commit_real (alpm_handle, ref need_retry);
 					}
 					trans_release (alpm_handle);
 					if (success) {
@@ -1648,13 +1650,19 @@ namespace Pamac {
 						if (!success) {
 							trans_release (alpm_handle);
 						}
+					} else if (need_retry) {
+						// retry
+						commit_retries++;
+						if (commit_retries <= 1) {
+							success = trans_run_real ();
+						}
 					}
 				}
 				if (!success) {
 					return false;
 				}
 			}
-			success = trans_commit_real (alpm_handle);
+			success = trans_commit_real (alpm_handle, ref need_retry);
 			if (success) {
 				foreach (unowned string path in to_load) {
 					// check tarball if it's a built package
@@ -1689,11 +1697,17 @@ namespace Pamac {
 					}
 					return false;
 				});
+			} else if (need_retry) {
+				// retry
+				commit_retries++;
+				if (commit_retries <= 1) {
+					success = trans_run_real ();
+				}
 			}
 			return success;
 		}
 
-		bool trans_commit_real (Alpm.Handle alpm_handle) {
+		bool trans_commit_real (Alpm.Handle alpm_handle, ref bool need_retry) {
 			bool success = true;
 			if (config.max_parallel_downloads >= 2) {
 				// custom parallel downloads
@@ -1723,40 +1737,82 @@ namespace Pamac {
 							Alpm.FileConflict* conflict = list.data;
 							switch (conflict->type) {
 								case Alpm.FileConflict.Type.TARGET:
-									details.add (_("%s exists in both %s and %s").printf (conflict->file, conflict->target, conflict->ctarget));
+									details.add ("- " + _("%s exists in both %s and %s").printf (conflict->file, conflict->target, conflict->ctarget));
 									break;
 								case Alpm.FileConflict.Type.FILESYSTEM:
-									if (conflict->ctarget != null) {
-										details.add (_("%s: %s already exists in filesystem (owned by %s)").printf (conflict->target, conflict->file, conflict->ctarget));
+									if (conflict->ctarget.length > 0) {
+										details.add ("- " + _("%s: %s already exists in filesystem (owned by %s)").printf (conflict->target, conflict->file, conflict->ctarget));
 									} else {
-										details.add (_("%s: %s already exists in filesystem").printf (conflict->target, conflict->file));
+										details.add ("- " + _("%s: %s already exists in filesystem").printf (conflict->target, conflict->file) + ",");
+										details.add ("  " + _("if this file is not needed, remove it and retry"));
 									}
 									break;
 							}
 							delete conflict;
 							list.next ();
 						}
+						do_emit_error (_("Failed to commit transaction"), details.data);
+						break;
+					case Alpm.Errno.PKG_INVALID_CHECKSUM:
+						unowned Alpm.List<string*> list = err_data;
+						if (commit_retries < 1) {
+							do_emit_script_output (_("Removing invalid files and retrying") + "...");
+							need_retry = true;
+						} else {
+							details.add (Alpm.strerror (err_no) + ":");
+						}
+						while (list != null) {
+							string* filename = list.data;
+							if (commit_retries == 1) {
+								details.add ("- " + _("%s is invalid or corrupted").printf (filename) + ",");
+								details.add ("- " + _("you can remove this file and retry"));
+							}
+							// question cb will remove the file
+							delete filename;
+							list.next ();
+						}
+						if (commit_retries == 1) {
+							do_emit_error (_("Failed to commit transaction"), details.data);
+						}
 						break;
 					case Alpm.Errno.PKG_INVALID:
-					case Alpm.Errno.PKG_INVALID_CHECKSUM:
 					case Alpm.Errno.PKG_INVALID_SIG:
-						details.add (Alpm.strerror (err_no) + ":");
+						if (commit_retries < 1) {
+							do_emit_script_output (_("Removing invalid files and retrying") + "...");
+							need_retry = true;
+						} else {
+							details.add (Alpm.strerror (err_no) + ":");
+						}
 						unowned Alpm.List<string*> list = err_data;
 						while (list != null) {
 							string* filename = list.data;
-							details.add (_("%s is invalid or corrupted").printf (filename));
+							if (commit_retries == 1) {
+								details.add ("- " + _("%s is invalid or corrupted").printf (filename) + ",");
+								details.add ("  " + _("you can remove this file and retry"));
+							} else {
+								// remove the invalid file
+								try {
+									Process.spawn_command_line_sync ("rm -f %s".printf (filename));
+								} catch (SpawnError e) {
+									warning (e.message);
+								}
+							}
 							delete filename;
 							list.next ();
+						}
+						if (commit_retries == 1) {
+							do_emit_error (_("Failed to commit transaction"), details.data);
 						}
 						break;
 					case Alpm.Errno.EXTERNAL_DOWNLOAD:
 						details.add (_("failed to retrieve some files"));
+						do_emit_error (_("Failed to commit transaction"), details.data);
 						break;
 					default:
 						details.add (Alpm.strerror (err_no));
+						do_emit_error (_("Failed to commit transaction"), details.data);
 						break;
 				}
-				do_emit_error (_("Failed to commit transaction"), details.data);
 				success = false;
 			}
 			trans_release (alpm_handle);
@@ -2367,10 +2423,10 @@ void cb_download (string filename, uint64 xfered, uint64 total) {
 
 int cb_fetch (string fileurl, string localpath, int force) {
 	current_filename = Path.get_basename (fileurl);
-	return dload (alpm_utils.soup_session, fileurl, localpath, force, cb_download);
+	return dload (fileurl, localpath, force, cb_download);
 }
 
-int dload (Soup.Session soup_session, string url, string localpath, int force, DownloadCallback? dl_callback) {
+int dload (string url, string localpath, int force, DownloadCallback? dl_callback) {
 	if (alpm_utils.cancellable.is_cancelled ()) {
 		return -1;
 	}
@@ -2416,7 +2472,7 @@ int dload (Soup.Session soup_session, string url, string localpath, int force, D
 				}
 			}
 
-			input = soup_session.send (message);
+			input = alpm_utils.soup_session.send (message);
 			if (message.status_code == 304) {
 				// not modified, our existing file is up to date
 				return 1;

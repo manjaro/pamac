@@ -1886,9 +1886,9 @@ namespace Pamac {
 				node = json_object.get_member ("Depends");
 				if (node != null) {
 					node.get_array ().foreach_element ((array, index, _node) => {
-						aur_pkg.optdepends_priv.prepend (_node.get_string ());
+						aur_pkg.depends_priv.prepend (_node.get_string ());
 					});
-					aur_pkg.optdepends_priv.reverse ();
+					aur_pkg.depends_priv.reverse ();
 				}
 				// optdepends
 				node = json_object.get_member ("OptDepends");
