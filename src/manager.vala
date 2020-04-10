@@ -33,7 +33,7 @@ namespace Pamac {
 
 
 		public Manager (Database database) {
-			Object (application_id: "org.manjaro.pamac.manager", flags: ApplicationFlags.FLAGS_NONE);
+			Object (application_id: "org.manjaro.pamac.manager", flags: ApplicationFlags.HANDLES_OPEN);
 			this.database = database;
 			database.enable_appstream ();
 
@@ -229,6 +229,25 @@ namespace Pamac {
 				}
 			}
 			return -1;
+		}
+
+		public override void open (File[] files, string hint) {
+			// open first file
+			unowned File file = files[0];
+			#if ENABLE_SNAP
+			if (file.has_uri_scheme ("snap")) {
+				string app_id = file.get_uri ().replace ("snap:", "").replace ("/", "");
+				this.activate_action ("details-id", new Variant ("s", app_id));
+				return;
+			}
+			#endif
+			if (file.has_uri_scheme ("appstream")) {
+				string app_id = file.get_uri ().replace ("appstream:", "").replace ("/", "");
+				this.activate_action ("details-id", new Variant ("s", app_id));
+			} else {
+				// just open pamac-manager
+				this.activate_action ("details", new Variant ("s", ""));
+			}
 		}
 
 		public override void shutdown () {
