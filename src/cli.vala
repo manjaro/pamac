@@ -457,13 +457,13 @@ namespace Pamac {
 					bool as_explicit = false;
 					string? overwrite = null;
 					try {
-						var options = new OptionEntry[5];
+						var options = new OptionEntry[6];
 						options[0] = { "help", 'h', 0, OptionArg.NONE, ref help, null, null };
 						options[1] = { "no-confirm", 0, 0, OptionArg.NONE, ref no_confirm, null, null };
-						options[3] = { "download-only", 'w', 0, OptionArg.NONE, ref download_only, null, null };
-						options[2] = { "as-deps", 0, 0, OptionArg.NONE, ref as_deps, null, null };
-						options[3] = { "as-explicit", 0, 0, OptionArg.NONE, ref as_explicit, null, null };
-						options[4] = { "overwrite", 0, 0, OptionArg.STRING, ref overwrite, null, null };
+						options[2] = { "download-only", 'w', 0, OptionArg.NONE, ref download_only, null, null };
+						options[3] = { "as-deps", 0, 0, OptionArg.NONE, ref as_deps, null, null };
+						options[4] = { "as-explicit", 0, 0, OptionArg.NONE, ref as_explicit, null, null };
+						options[5] = { "overwrite", 0, 0, OptionArg.STRING, ref overwrite, null, null };
 						var opt_context = new OptionContext (null);
 						opt_context.set_help_enabled (false);
 						opt_context.add_main_entries (options, null);
@@ -494,6 +494,8 @@ namespace Pamac {
 					if (no_confirm) {
 						transaction.no_confirm = true;
 					}
+					// no upgrade because version will be checked
+					transaction.database.config.simple_install = true;
 					reinstall_pkgs (args[2:args.length], download_only, as_deps, as_explicit);
 				} else {
 					display_reinstall_help ();
@@ -2110,6 +2112,16 @@ namespace Pamac {
 						if (groupnames.find_custom (target, strcmp) != null) {
 							ask_group_confirmation (target, ref to_install);
 							found = true;
+						} else {
+							// try regex
+							SList<AlpmPackage> pkgs = database.search_repos_pkgs ("^%s".printf (target));
+							if (pkgs != null) {
+								found = true;
+								foreach (unowned AlpmPackage pkg in pkgs) {
+									stdout.printf ("%s\n".printf (dgettext (null, "Add %s to install").printf (pkg.name)));
+									to_install.add (pkg.name);
+								}
+							}
 						}
 					}
 				}
@@ -2285,6 +2297,22 @@ namespace Pamac {
 								to_install.add (pkg.name);
 							}
 						}
+					} else {
+						// try regex
+						SList<AlpmPackage> pkgs = database.search_installed_pkgs ("^%s".printf (name));
+						if (pkgs != null) {
+							found = true;
+							foreach (unowned AlpmPackage pkg in pkgs) {
+								var sync_pkg = database.get_sync_pkg (pkg.name);
+								if (sync_pkg != null) {
+									if (pkg.version == sync_pkg.version) {
+										stdout.printf ("%s\n".printf (dgettext (null, "Add %s to reinstall").printf (pkg.name)));
+										to_install.add (pkg.name);
+										found = true;
+									}
+								}
+							}
+						}
 					}
 				}
 				if (!found) {
@@ -2344,6 +2372,16 @@ namespace Pamac {
 							if (pkg.version == pkg.installed_version) {
 								to_remove.add (pkg.name);
 								group_found = true;
+							}
+						}
+					} else {
+						// try regex
+						SList<AlpmPackage> pkgs = database.search_installed_pkgs ("^%s".printf (name));
+						if (pkgs != null) {
+							found = true;
+							foreach (unowned AlpmPackage pkg in pkgs) {
+								stdout.printf ("%s\n".printf (dgettext (null, "Add %s to remove").printf (pkg.name)));
+								to_remove.add (pkg.name);
 							}
 						}
 					}
