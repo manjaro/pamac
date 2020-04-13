@@ -1000,7 +1000,12 @@ namespace Pamac {
 				}
 				needle_match = null;
 				unowned string targ = i.data;
-				var regex = new Regex (targ);
+				Regex? regex = null;
+				try {
+					regex = new Regex (targ);
+				} catch (Error e) {
+					warning (e.message);
+				}
 				unowned Alpm.List<unowned Alpm.Package> j = all_match;
 				while (j != null) {
 					unowned Alpm.Package pkg = j.data;
@@ -1008,7 +1013,7 @@ namespace Pamac {
 					unowned string name = pkg.name;
 					unowned string desc = pkg.desc;
 					// check name as plain text AND pattern
-					if (name != null && (targ == name || regex.match (name))) {
+					if (name != null && (targ == name || (regex != null && regex.match (name)))) {
 						matched = true;
 					}
 					// check if desc contains targ
@@ -1020,7 +1025,7 @@ namespace Pamac {
 						unowned Alpm.List<unowned Alpm.Depend> provides = pkg.provides;
 						while (provides != null) {
 							unowned Alpm.Depend provide = provides.data;
-							if (targ == provide.name || regex.match (provide.name)) {
+							if (targ == provide.name || (regex != null && regex.match (provide.name))) {
 								matched = true;
 								break;
 							}
@@ -1032,14 +1037,14 @@ namespace Pamac {
 						unowned Alpm.List<unowned string> groups = pkg.groups;
 						while (groups != null) {
 							unowned string group = groups.data;
-							if (targ == group || regex.match (group)) {
+							if (targ == group || (regex != null && regex.match (group))) {
 								matched = true;
 								break;
 							}
 							groups.next ();
 						}
 					}
-					if(matched) {
+					if (matched) {
 						needle_match.add (pkg);
 					}
 					j.next ();

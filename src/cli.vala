@@ -596,13 +596,14 @@ namespace Pamac {
 				bool aur = false;
 				bool devel = false;
 				bool no_confirm = false;
+				bool download_only = false;
 				bool force_refresh = false;
 				bool enable_downgrade = false;
 				string? builddir = null;
 				string? overwrite = null;
 				string? ignore = null;
 				try {
-					var options = new OptionEntry[9];
+					var options = new OptionEntry[10];
 					options[0] = { "help", 'h', 0, OptionArg.NONE, ref help, null, null };
 					options[1] = { "aur", 'a', 0, OptionArg.NONE, ref aur, null, null };
 					options[2] = { "devel", 0, 0, OptionArg.NONE, ref devel, null, null };
@@ -612,6 +613,7 @@ namespace Pamac {
 					options[6] = { "enable-downgrade", 0, 0, OptionArg.NONE, ref enable_downgrade, null, null };
 					options[7] = { "overwrite", 0, 0, OptionArg.STRING, ref overwrite, null, null };
 					options[8] = { "ignore", 0, 0, OptionArg.STRING, ref ignore, null, null };
+					options[9] = { "download-only", 'w', 0, OptionArg.NONE, ref download_only, null, null };
 					var opt_context = new OptionContext (null);
 					opt_context.set_help_enabled (false);
 					opt_context.add_main_entries (options, null);
@@ -658,7 +660,7 @@ namespace Pamac {
 				if (no_confirm) {
 					transaction.no_confirm = true;
 				}
-				run_sysupgrade (force_refresh);
+				run_sysupgrade (force_refresh, download_only);
 			} else if (args[1] == "clean") {
 				bool verbose = false;
 				bool build_files = false;
@@ -1126,6 +1128,7 @@ namespace Pamac {
 			stdout.printf (dgettext (null, "options") + ":\n");
 			int max_length = 0;
 			string[] options = {"  %s <%s>".printf ("--overwrite", dgettext (null, "glob")),
+								"  -w, --download-only",
 								"  --as-deps",
 								"  --as-explicit",
 								"  --no-confirm"};
@@ -1136,6 +1139,7 @@ namespace Pamac {
 				}
 			}
 			string[] details = {dgettext (null, "overwrite conflicting files, multiple patterns can be specified by separating them with a comma"),
+								dgettext (null, "download all packages but do not install/upgrade anything"),
 								dgettext (null, "mark all packages installed as a dependency"),
 								dgettext (null, "mark all packages explicitly installed"),
 								dgettext (null, "bypass any and all confirmation messages")};
@@ -1236,6 +1240,7 @@ namespace Pamac {
 								"  --enable-downgrade",
 								"  %s <%s>".printf ("--ignore", dgettext (null, "package(s)")),
 								"  %s <%s>".printf ("--overwrite", dgettext (null, "glob")),
+								"  -w, --download-only",
 								"  --no-confirm"};
 			foreach (unowned string option in options) {
 				int length = option.char_count ();
@@ -1250,6 +1255,7 @@ namespace Pamac {
 								dgettext (null, "enable package downgrades"),
 								dgettext (null, "ignore a package upgrade, multiple packages can be specified by separating them with a comma"),
 								dgettext (null, "overwrite conflicting files, multiple patterns can be specified by separating them with a comma"),
+								dgettext (null, "download all packages but do not install/upgrade anything"),
 								dgettext (null, "bypass any and all confirmation messages")};
 			int i = 0;
 			foreach (unowned string option in options) {
@@ -1869,7 +1875,7 @@ namespace Pamac {
 						stdout.printf ("%s  %s -> %s\n", pkg.name, pkg.installed_version, pkg.version);
 					}
 					#if ENABLE_FLATPAK
-					foreach (unowned FlatPakPackage pkg in updates.flatpak_updates) {
+					foreach (unowned FlatpakPackage pkg in updates.flatpak_updates) {
 						stdout.printf ("%s  %s\n", pkg.app_name, pkg.version);
 					}
 					#endif
@@ -1932,7 +1938,7 @@ namespace Pamac {
 					}
 				}
 				#if ENABLE_FLATPAK
-				foreach (unowned FlatPakPackage pkg in updates.flatpak_updates) {
+				foreach (unowned FlatpakPackage pkg in updates.flatpak_updates) {
 					if (pkg.app_name.length > name_length) {
 						name_length = pkg.app_name.length;
 					}
@@ -1958,7 +1964,7 @@ namespace Pamac {
 									dgettext (null, "AUR"));
 				}
 				#if ENABLE_FLATPAK
-				foreach (unowned FlatPakPackage pkg in updates.flatpak_updates) {
+				foreach (unowned FlatpakPackage pkg in updates.flatpak_updates) {
 					stdout.printf ("%-*s  %-*s    %-*s  %s\n",
 									name_length, pkg.name,
 									installed_version_length, "",
@@ -2562,7 +2568,10 @@ namespace Pamac {
 			}
 		}
 
-		void run_sysupgrade (bool force_refresh) {
+		void run_sysupgrade (bool force_refresh, bool download_only) {
+			if (download_only) {
+				transaction.set_flags ((1 << 9)); //Alpm.TransFlag.DOWNLOADONLY
+			}
 			transaction.add_pkgs_to_upgrade (force_refresh);
 			if (Posix.geteuid () != 0) {
 				var loop = new MainLoop ();
