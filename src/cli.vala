@@ -2113,8 +2113,8 @@ namespace Pamac {
 							ask_group_confirmation (target, ref to_install);
 							found = true;
 						} else {
-							// try regex
-							SList<AlpmPackage> pkgs = database.search_repos_pkgs ("^%s".printf (target));
+							// try glob
+							SList<AlpmPackage> pkgs = database.get_sync_pkgs_by_glob (target);
 							if (pkgs != null) {
 								found = true;
 								foreach (unowned AlpmPackage pkg in pkgs) {
@@ -2298,8 +2298,8 @@ namespace Pamac {
 							}
 						}
 					} else {
-						// try regex
-						SList<AlpmPackage> pkgs = database.search_installed_pkgs ("^%s".printf (name));
+						// try glob
+						SList<AlpmPackage> pkgs = database.get_installed_pkgs_by_glob (name);
 						if (pkgs != null) {
 							found = true;
 							foreach (unowned AlpmPackage pkg in pkgs) {
@@ -2375,8 +2375,8 @@ namespace Pamac {
 							}
 						}
 					} else {
-						// try regex
-						SList<AlpmPackage> pkgs = database.search_installed_pkgs ("^%s".printf (name));
+						// try glob
+						SList<AlpmPackage> pkgs = database.get_installed_pkgs_by_glob (name);
 						if (pkgs != null) {
 							found = true;
 							foreach (unowned AlpmPackage pkg in pkgs) {

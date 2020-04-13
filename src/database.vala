@@ -382,6 +382,21 @@ namespace Pamac {
 			return initialise_pkg (Alpm.find_satisfier (alpm_handle.localdb.pkgcache, depstring));
 		}
 
+		public SList<AlpmPackage> get_installed_pkgs_by_glob (string glob) {
+			var pkgs = new SList<AlpmPackage> ();
+			unowned Alpm.List<unowned Alpm.Package> pkgcache = alpm_handle.localdb.pkgcache;
+			while (pkgcache != null) {
+				unowned Alpm.Package local_pkg = pkgcache.data;
+				// only check by name
+				if (Posix.fnmatch (glob, local_pkg.name) == 0) {
+					pkgs.prepend (initialise_pkg (local_pkg));
+				}
+				pkgcache.next ();
+			}
+			pkgs.reverse ();
+			return pkgs;
+		}
+
 		public bool should_hold (string pkgname) {
 			return pkgname in alpm_config.holdpkgs;
 		}
@@ -957,13 +972,93 @@ namespace Pamac {
 			return initialise_pkg (find_dbs_satisfier (depstring));
 		}
 
+		public SList<AlpmPackage> get_sync_pkgs_by_glob (string glob) {
+			var pkgs = new SList<AlpmPackage> ();
+			var iter = HashTableIter<string, unowned Alpm.Package> (repos_pkgs);
+			unowned Alpm.Package sync_pkg;
+			while (iter.next (null, out sync_pkg)) {
+				// only check by name
+				if (Posix.fnmatch (glob, sync_pkg.name) == 0) {
+					pkgs.prepend (initialise_pkg (sync_pkg));
+				}
+			}
+			pkgs.reverse ();
+			return pkgs;
+		}
+
+		Alpm.List<unowned Alpm.Package> custom_db_search (Alpm.DB db, Alpm.List<unowned string> needles) {
+			Alpm.List<unowned Alpm.Package> needle_match = null;
+			//if((db.usage & Alpm.DB.Usage.SEARCH) == 0) {
+				//return result;
+			//}
+			// copy the pkgcache, we will free the list var after each needle
+			Alpm.List<unowned Alpm.Package> all_match = db.pkgcache.copy ();
+			unowned Alpm.List<unowned string> i = needles;
+			while (i != null) {
+				if (i.data == null) {
+					continue;
+				}
+				needle_match = null;
+				unowned string targ = i.data;
+				var regex = new Regex (targ);
+				unowned Alpm.List<unowned Alpm.Package> j = all_match;
+				while (j != null) {
+					unowned Alpm.Package pkg = j.data;
+					bool matched = false;
+					unowned string name = pkg.name;
+					unowned string desc = pkg.desc;
+					// check name as plain text AND pattern
+					if (name != null && (targ == name || regex.match (name))) {
+						matched = true;
+					}
+					// check if desc contains targ
+					else if (desc != null && (targ in desc)) {
+						matched = true;
+					}
+					if (!matched) {
+						// check provides as plain text AND pattern
+						unowned Alpm.List<unowned Alpm.Depend> provides = pkg.provides;
+						while (provides != null) {
+							unowned Alpm.Depend provide = provides.data;
+							if (targ == provide.name || regex.match (provide.name)) {
+								matched = true;
+								break;
+							}
+							provides.next ();
+						}
+					}
+					if (!matched) {
+						// check groups as plain text AND pattern
+						unowned Alpm.List<unowned string> groups = pkg.groups;
+						while (groups != null) {
+							unowned string group = groups.data;
+							if (targ == group || regex.match (group)) {
+								matched = true;
+								break;
+							}
+							groups.next ();
+						}
+					}
+					if(matched) {
+						needle_match.add (pkg);
+					}
+					j.next ();
+				}
+				// use the returned list for the next needle
+				// this allows for AND-based package searching
+				all_match = (owned) needle_match;
+				i.next ();
+			}
+			return all_match;
+		}
+
 		Alpm.List<unowned Alpm.Package> search_local_db (string search_string) {
 			Alpm.List<unowned string> needles = null;
 			string[] splitted = search_string.split (" ");
 			foreach (unowned string part in splitted) {
 				needles.add (part);
 			}
-			Alpm.List<unowned Alpm.Package> result = alpm_handle.localdb.search (needles);
+			Alpm.List<unowned Alpm.Package> result = custom_db_search (alpm_handle.localdb, needles);
 			// search in appstream
 			string[]? search_terms = As.utils_search_tokenize (search_string);
 			if (search_terms != null) {
@@ -998,14 +1093,14 @@ namespace Pamac {
 			while (syncdbs != null) {
 				unowned Alpm.DB db = syncdbs.data;
 				if (syncpkgs == null) {
-					syncpkgs = db.search (needles);
+					syncpkgs = custom_db_search (db, needles);
 				} else {
-					syncpkgs.join (db.search (needles).diff (syncpkgs, (Alpm.List.CompareFunc) alpm_pkg_compare_name));
+					syncpkgs.join (custom_db_search (db, needles).diff (syncpkgs, (Alpm.List.CompareFunc) alpm_pkg_compare_name));
 				}
 				syncdbs.next ();
 			}
 			// remove foreign pkgs
-			Alpm.List<unowned Alpm.Package> localpkgs = alpm_handle.localdb.search (needles);
+			Alpm.List<unowned Alpm.Package> localpkgs = custom_db_search (alpm_handle.localdb, needles);
 			Alpm.List<unowned Alpm.Package> result = syncpkgs.diff (localpkgs.diff (syncpkgs, (Alpm.List.CompareFunc) alpm_pkg_compare_name), (Alpm.List.CompareFunc) alpm_pkg_compare_name);
 			// search in appstream
 			string[]? search_terms = As.utils_search_tokenize (search_string);
@@ -1083,15 +1178,15 @@ namespace Pamac {
 			foreach (unowned string part in splitted) {
 				needles.add (part);
 			}
-			Alpm.List<unowned Alpm.Package> result = alpm_handle.localdb.search (needles);
+			Alpm.List<unowned Alpm.Package> result = custom_db_search (alpm_handle.localdb, needles);
 			Alpm.List<unowned Alpm.Package> syncpkgs = null;
 			unowned Alpm.List<unowned Alpm.DB> syncdbs = alpm_handle.syncdbs;
 			while (syncdbs != null) {
 				unowned Alpm.DB db = syncdbs.data;
 				if (syncpkgs == null) {
-					syncpkgs = db.search (needles);
+					syncpkgs = custom_db_search (db, needles);
 				} else {
-					syncpkgs.join (db.search (needles).diff (syncpkgs, (Alpm.List.CompareFunc) alpm_pkg_compare_name));
+					syncpkgs.join (custom_db_search (db, needles).diff (syncpkgs, (Alpm.List.CompareFunc) alpm_pkg_compare_name));
 				}
 				syncdbs.next ();
 			}
