@@ -1868,6 +1868,11 @@ namespace Pamac {
 					foreach (unowned AURPackage pkg in updates.aur_updates) {
 						stdout.printf ("%s  %s -> %s\n", pkg.name, pkg.installed_version, pkg.version);
 					}
+					#if ENABLE_FLATPAK
+					foreach (unowned FlatPakPackage pkg in updates.flatpak_updates) {
+						stdout.printf ("%s  %s\n", pkg.app_name, pkg.version);
+					}
+					#endif
 					return;
 				}
 				// print pkgs
@@ -1926,6 +1931,16 @@ namespace Pamac {
 						version_length = pkg.version.length;
 					}
 				}
+				#if ENABLE_FLATPAK
+				foreach (unowned FlatPakPackage pkg in updates.flatpak_updates) {
+					if (pkg.app_name.length > name_length) {
+						name_length = pkg.app_name.length;
+					}
+					if (pkg.version.length > version_length) {
+						version_length = pkg.version.length;
+					}
+				}
+				#endif
 				string info = ngettext ("%u available update", "%u available updates", updates_nb).printf (updates_nb);
 				stdout.printf ("%s:\n", info);
 				foreach (unowned AlpmPackage pkg in updates.repos_updates) {
@@ -1942,6 +1957,15 @@ namespace Pamac {
 									version_length, pkg.version,
 									dgettext (null, "AUR"));
 				}
+				#if ENABLE_FLATPAK
+				foreach (unowned FlatPakPackage pkg in updates.flatpak_updates) {
+					stdout.printf ("%-*s  %-*s    %-*s  %s\n",
+									name_length, pkg.name,
+									installed_version_length, "",
+									version_length, pkg.version,
+									pkg.repo);
+				}
+				#endif
 				uint ignored_updates_nb = updates.ignored_repos_updates.length () + updates.ignored_aur_updates.length ();
 				if (ignored_updates_nb > 0) {
 					// print ignored pkgs

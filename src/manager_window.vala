@@ -3911,7 +3911,10 @@ namespace Pamac {
 			}
 			#if ENABLE_FLATPAK
 			for (uint i = 0; i < flatpak_updates.length; i++) {
-				transaction.add_flatpak_to_upgrade (flatpak_updates[i]);
+				unowned FlatpakPackage pkg = flatpak_updates[i];
+				if (!temporary_ignorepkgs.contains (pkg.name)) {
+					transaction.add_flatpak_to_upgrade (pkg);
+				}
 			}
 			#endif
 			bool success = transaction.run ();
@@ -4011,7 +4014,9 @@ namespace Pamac {
 				if (flatpak_updates.length > 0) {
 					for (uint i = 0; i < flatpak_updates.length; i++) {
 						unowned FlatpakPackage pkg = flatpak_updates[i];
-						to_update.add (pkg.name);
+						if (!temporary_ignorepkgs.contains (pkg.name)) {
+							to_update.add (pkg.name);
+						}
 					}
 					flatpak_row.activatable = true;
 					flatpak_row.selectable = true;
