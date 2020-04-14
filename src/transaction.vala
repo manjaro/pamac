@@ -1183,8 +1183,13 @@ namespace Pamac {
 				}
 			} else if (summary.to_build != null) {
 				// only AUR packages to build
-				// get_authorization here before building
-				return get_authorization ();
+				if (ask_commit_real (summary)) {
+					// get_authorization here before building
+					return get_authorization ();
+				} else {
+					emit_action (dgettext (null, "Transaction cancelled") + ".");
+					return false;
+				}
 			} else {
 				emit_action (dgettext (null, "Nothing to do") + ".");
 				return true;

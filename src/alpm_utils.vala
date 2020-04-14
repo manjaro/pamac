@@ -763,8 +763,9 @@ namespace Pamac {
 			return success;
 		}
 
-		bool trans_prepare_real (Alpm.Handle alpm_handle) {
+		bool trans_prepare_real (Alpm.Handle alpm_handle, out bool need_retry = null) {
 			bool success = true;
+			need_retry = false;
 			Alpm.List err_data;
 			if (alpm_handle.trans_prepare (out err_data) == -1) {
 				var details = new GenericArray<string> ();
@@ -795,8 +796,15 @@ namespace Pamac {
 								details.add ("- " + _("unable to satisfy dependency '%s' required by %s").printf (depstring, miss->target));
 							} else if ((pkg = Alpm.pkg_find (trans_add, miss->causingpkg)) != null) {
 								/* upgrading a package breaks a local dependency */
-								details.add ("- " + _("installing %s (%s) breaks dependency '%s' required by %s").printf (miss->causingpkg, pkg.version, depstring, miss->target) + ",");
-								details.add ("- " + _("if possible, remove %s and retry").printf (miss->target));
+								if (commit_retries < 1) {
+									do_emit_warning (_("Warning") + ": " + _("installing %s (%s) breaks dependency '%s' required by %s").printf (miss->causingpkg, pkg.version, depstring, miss->target));
+									do_emit_warning (_("Add %s to remove").printf (miss->target));
+									this.to_remove.add (miss->target);
+									need_retry = true;
+								} else {
+									details.add ("- " + _("installing %s (%s) breaks dependency '%s' required by %s").printf (miss->causingpkg, pkg.version, depstring, miss->target) + ",");
+									details.add ("- " + _("if possible, remove %s and retry").printf (miss->target));
+								}
 							} else {
 								/* removing a package breaks a local dependency */
 								details.add ("- " + _("removing %s breaks dependency '%s' required by %s").printf (miss->causingpkg, depstring, miss->target));
@@ -824,7 +832,9 @@ namespace Pamac {
 						details.add (Alpm.strerror (err_no));
 						break;
 				}
-				do_emit_error (_("Failed to prepare transaction"), details.data);
+				if (!need_retry) {
+					do_emit_error (_("Failed to prepare transaction"), details.data);
+				}
 				trans_release (alpm_handle);
 				success = false;
 			} else {
@@ -949,6 +959,10 @@ namespace Pamac {
 			foreach (unowned string name in overwrite_files) {
 				this.overwrite_files.add (name);
 			}
+			return trans_check_prepare_real (tmp_handle, ref summary);
+		}
+
+		bool trans_check_prepare_real (Alpm.Handle tmp_handle, ref TransactionSummary summary) {
 			if (to_remove.length > 0) {
 				intern_compute_pkgs_to_remove (tmp_handle);
 				if (to_install.length > 0 || sysupgrade || to_build.length > 0 || check_aur_updates|| to_load.length > 0) {
@@ -974,10 +988,17 @@ namespace Pamac {
 					prepare_aur_db (tmp_handle);
 				}
 			}
-			bool success = trans_prepare (tmp_handle);
+			bool need_retry;
+			bool success = trans_prepare (tmp_handle, out need_retry);
 			if (success) {
 				summary = get_transaction_summary (tmp_handle);
 				trans_release (tmp_handle);
+			} else if (need_retry) {
+				// retry
+				commit_retries++;
+				if (commit_retries <= 1) {
+					success = trans_check_prepare_real (tmp_handle, ref summary);
+				}
 			}
 			if (to_build.length > 0 || check_aur_updates) {
 				remove_aur_db (tmp_handle);
@@ -1064,6 +1085,7 @@ namespace Pamac {
 		}
 
 		void trans_reset () {
+			commit_retries = 0;
 			total_download = 0;
 			already_downloaded = 0;
 			current_filename = "";
@@ -1362,7 +1384,7 @@ namespace Pamac {
 			}
 		}
 
-		bool trans_prepare (Alpm.Handle alpm_handle) {
+		bool trans_prepare (Alpm.Handle alpm_handle, out bool need_retry = null) {
 			unowned Alpm.DB? aur_db = null;
 			if (to_build.length > 0 || check_aur_updates) {
 				// fake aur db
@@ -1417,7 +1439,7 @@ namespace Pamac {
 				}
 			}
 			if (success) {
-				success = trans_prepare_real (alpm_handle);
+				success = trans_prepare_real (alpm_handle, out need_retry);
 			} else {
 				trans_release (alpm_handle);
 			}
@@ -1726,6 +1748,7 @@ namespace Pamac {
 					trans_release (alpm_handle);
 					return false;
 				}
+				need_retry = false;
 				var details = new GenericArray<string> ();
 				switch (err_no) {
 					case 0:
@@ -1743,15 +1766,26 @@ namespace Pamac {
 									if (conflict->ctarget.length > 0) {
 										details.add ("- " + _("%s: %s already exists in filesystem (owned by %s)").printf (conflict->target, conflict->file, conflict->ctarget));
 									} else {
-										details.add ("- " + _("%s: %s already exists in filesystem").printf (conflict->target, conflict->file) + ",");
-										details.add ("  " + _("if this file is not needed, remove it and retry"));
+										if (commit_retries < 1) {
+											do_emit_warning (_("Warning") + ": " + _("%s: %s already exists in filesystem").printf (conflict->target, conflict->file));
+											do_emit_warning (_("It has been backup to %s").printf (conflict->file + ".old"));
+											// mv the conflict file
+											try {
+												Process.spawn_command_line_sync ("mv %s %s".printf (conflict->file, conflict->file + ".old"));
+											} catch (SpawnError e) {
+												warning (e.message);
+											}
+											need_retry = true;
+										} else {
+											details.add ("- " + _("%s: %s already exists in filesystem").printf (conflict->target, conflict->file) + ",");
+											details.add ("  " + _("if this file is not needed, remove it and retry"));
+										}
 									}
 									break;
 							}
 							delete conflict;
 							list.next ();
 						}
-						do_emit_error (_("Failed to commit transaction"), details.data);
 						break;
 					case Alpm.Errno.PKG_INVALID_CHECKSUM:
 						unowned Alpm.List<string*> list = err_data;
@@ -1763,16 +1797,13 @@ namespace Pamac {
 						}
 						while (list != null) {
 							string* filename = list.data;
-							if (commit_retries == 1) {
+							if (!need_retry) {
 								details.add ("- " + _("%s is invalid or corrupted").printf (filename) + ",");
 								details.add ("- " + _("you can remove this file and retry"));
 							}
 							// question cb will remove the file
 							delete filename;
 							list.next ();
-						}
-						if (commit_retries == 1) {
-							do_emit_error (_("Failed to commit transaction"), details.data);
 						}
 						break;
 					case Alpm.Errno.PKG_INVALID:
@@ -1786,7 +1817,7 @@ namespace Pamac {
 						unowned Alpm.List<string*> list = err_data;
 						while (list != null) {
 							string* filename = list.data;
-							if (commit_retries == 1) {
+							if (!need_retry) {
 								details.add ("- " + _("%s is invalid or corrupted").printf (filename) + ",");
 								details.add ("  " + _("you can remove this file and retry"));
 							} else {
@@ -1800,20 +1831,18 @@ namespace Pamac {
 							delete filename;
 							list.next ();
 						}
-						if (commit_retries == 1) {
-							do_emit_error (_("Failed to commit transaction"), details.data);
-						}
 						break;
 					case Alpm.Errno.EXTERNAL_DOWNLOAD:
 						details.add (_("failed to retrieve some files"));
-						do_emit_error (_("Failed to commit transaction"), details.data);
 						break;
 					default:
 						details.add (Alpm.strerror (err_no));
-						do_emit_error (_("Failed to commit transaction"), details.data);
 						break;
 				}
 				success = false;
+				if (!need_retry) {
+					do_emit_error (_("Failed to commit transaction"), details.data);
+				}
 			}
 			trans_release (alpm_handle);
 			return success;
