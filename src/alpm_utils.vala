@@ -1350,7 +1350,6 @@ namespace Pamac {
 		}
 
 		void intern_compute_orphans_to_remove (Alpm.Handle alpm_handle) {
-			int tmp_trans_flags = Alpm.TransFlag.NOLOCK | Alpm.TransFlag.RECURSE;
 			// remove RECURSE to trans_flags
 			trans_flags &= ~Alpm.TransFlag.RECURSE;
 			checked_deps.remove_all ();
@@ -1385,6 +1384,7 @@ namespace Pamac {
 		}
 
 		bool trans_prepare (Alpm.Handle alpm_handle, out bool need_retry = null) {
+			need_retry = false;
 			unowned Alpm.DB? aur_db = null;
 			if (to_build.length > 0 || check_aur_updates) {
 				// fake aur db
@@ -1729,6 +1729,29 @@ namespace Pamac {
 			return success;
 		}
 
+		string? backup_conflict_file (string file_path) {
+			var backup_file_path = new StringBuilder (file_path);
+			backup_file_path.append (".old");
+			var backup_file = File.new_for_path (backup_file_path.str);
+			if (backup_file.query_exists ()) {
+				uint i = 0;
+				do {
+					i++;
+					var new_backup_file_path = new StringBuilder (backup_file_path.str);
+					new_backup_file_path.append ("%u".printf (i));
+					backup_file = File.new_for_path (new_backup_file_path.str);
+				} while (backup_file.query_exists ());
+			}
+			// mv the conflict file
+			try {
+				Process.spawn_command_line_sync ("mv -f %s %s".printf (file_path, backup_file.get_path ()));
+				return backup_file.get_path ();
+			} catch (SpawnError e) {
+				warning (e.message);
+			}
+			return null;
+		}
+
 		bool trans_commit_real (Alpm.Handle alpm_handle, ref bool need_retry) {
 			bool success = true;
 			if (config.max_parallel_downloads >= 2) {
@@ -1767,15 +1790,15 @@ namespace Pamac {
 										details.add ("- " + _("%s: %s already exists in filesystem (owned by %s)").printf (conflict->target, conflict->file, conflict->ctarget));
 									} else {
 										if (commit_retries < 1) {
-											do_emit_warning (_("Warning") + ": " + _("%s: %s already exists in filesystem").printf (conflict->target, conflict->file));
-											do_emit_warning (_("It has been backup to %s").printf (conflict->file + ".old"));
-											// mv the conflict file
-											try {
-												Process.spawn_command_line_sync ("mv %s %s".printf (conflict->file, conflict->file + ".old"));
-											} catch (SpawnError e) {
-												warning (e.message);
+											string? backup_path = backup_conflict_file (conflict->file);
+											if (backup_path == null) {
+												details.add ("- " + _("%s: %s already exists in filesystem").printf (conflict->target, conflict->file) + ",");
+												details.add ("  " + _("if this file is not needed, remove it and retry"));
+											} else {
+												do_emit_warning (_("Warning") + ": " + _("%s: %s already existed in filesystem").printf (conflict->target, conflict->file));
+												do_emit_warning (_("It has been backup to %s").printf (backup_path));
+												need_retry = true;
 											}
-											need_retry = true;
 										} else {
 											details.add ("- " + _("%s: %s already exists in filesystem").printf (conflict->target, conflict->file) + ",");
 											details.add ("  " + _("if this file is not needed, remove it and retry"));
