@@ -243,6 +243,7 @@ namespace Pamac {
 
 		void initialize_app_data (As.App app, ref FlatpakPackage pkg) {
 			pkg.app_name = get_app_name (app);
+			pkg.app_id = app.get_id ();
 			pkg.launchable = get_app_launchable (app);
 			try {
 				pkg.long_desc = As.markup_convert_simple (get_app_description (app));
@@ -330,7 +331,7 @@ namespace Pamac {
 			return false;
 		}
 
-		public FlatpakPackage? get_installed_flatpak_by_id (string app_id) {
+		public FlatpakPackage? get_flatpak_by_app_id (string app_id) {
 			FlatpakPackage? pkg = null;
 			var iter = HashTableIter<string, As.Store> (stores_table);
 			unowned string remote;
@@ -455,6 +456,25 @@ namespace Pamac {
 							if (pkg != null) {
 								pkgs.prepend (pkg);
 							}
+						}
+					}
+				}
+			}
+		}
+
+		public void search_uninstalled_flatpaks_sync (string[] search_terms, ref SList<FlatpakPackage> pkgs) {
+			var iter = HashTableIter<string, As.Store> (stores_table);
+			unowned string remote;
+			As.Store app_store;
+			while (iter.next (out remote, out app_store)) {
+				unowned GenericArray<As.App> apps = app_store.get_apps ();
+				for (uint i = 0; i < apps.length; i++) {
+					unowned As.App app = apps[i];
+					uint match_score = app.search_matches_all (search_terms);
+					if (match_score > 0) {
+						FlatpakPackage? pkg = get_flatpak_from_app (remote, app);
+						if (pkg != null && pkg.installed_version == "") {
+							pkgs.prepend (pkg);
 						}
 					}
 				}

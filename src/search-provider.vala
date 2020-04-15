@@ -25,7 +25,7 @@ namespace Pamac {
 		Database database;
 
 		[DBus (visible = false)]
-		public signal void show_details (string pkgname, uint32 timestamp);
+		public signal void show_details (string app_id, uint32 timestamp);
 		[DBus (visible = false)]
 		public signal void search_full (string[] terms, uint32 timestamp);
 
@@ -42,11 +42,11 @@ namespace Pamac {
 		}
 
 		string[] search_pkgs (string[] normalized_terms) {
-			var pkgs = database.search_repos_apps_sync (normalized_terms);
+			SList<Package> pkgs = database.search_uninstalled_apps_sync (normalized_terms);
 			var result = new GenericArray<string> ();
-			foreach (unowned AlpmPackage pkg in pkgs) {
+			foreach (unowned Package pkg in pkgs) {
 				// concat data into a string
-				var data_builder = new StringBuilder (pkg.name);
+				var data_builder = new StringBuilder (pkg.app_id);
 				data_builder.append (";");
 				data_builder.append (pkg.app_name);
 				data_builder.append (";");
@@ -77,7 +77,7 @@ namespace Pamac {
 				meta.insert ("name", pkg_data[1]);
 				meta.insert ("description", pkg_data[2]);
 				Icon? icon = null;
-				if (pkg_data[2] != "") {
+				if (pkg_data[3] != "") {
 					try {
 						icon = new Gdk.Pixbuf.from_file (pkg_data[3]);
 					} catch (Error e) {

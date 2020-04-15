@@ -52,14 +52,8 @@ namespace Pamac {
 
 			search_provider_id = 0;
 			search_provider = new SearchProvider (database);
-			search_provider.show_details.connect ((pkgname, timestamp) => {
-				if (manager_window == null) {
-					create_manager_window ();
-					manager_window.refresh_packages_list ();
-				}
-				manager_window.main_stack.visible_child_name = "details";
-				manager_window.display_package_details (this.database.get_sync_pkg (pkgname));
-				manager_window.present_with_time (timestamp);
+			search_provider.show_details.connect ((app_id, timestamp) => {
+				this.activate_action ("details-id", new Variant ("s", app_id));
 			});
 			search_provider.search_full.connect ((terms, timestamp) => {
 				var str_builder = new StringBuilder ();
@@ -103,14 +97,13 @@ namespace Pamac {
 			action.activate.connect  ((parameter) => {
 				if (manager_window == null) {
 					create_manager_window ();
+					manager_window.refresh_packages_list ();
 				}
 				pkgname = parameter.get_string ();
 				AlpmPackage? pkg = this.database.get_pkg (pkgname);
 				if (pkg != null) {
-					manager_window.main_stack.visible_child_name = "details";
 					manager_window.display_package_details (pkg);
-				} else {
-					manager_window.refresh_packages_list ();
+					manager_window.main_stack.visible_child_name = "details";
 				}
 				manager_window.present ();
 			});
@@ -120,24 +113,13 @@ namespace Pamac {
 			action.activate.connect  ((parameter) => {
 				if (manager_window == null) {
 					create_manager_window ();
+					manager_window.refresh_packages_list ();
 				}
 				app_id = parameter.get_string ();
-				Package? pkg = this.database.get_installed_app_by_id (app_id);
-				#if ENABLE_FLATPAK
-				if (pkg == null && database.config.enable_flatpak) {
-					pkg = database.get_installed_flatpak_by_id (app_id);
-				}
-				#endif
-				#if ENABLE_SNAP
-				if (pkg == null && database.config.enable_snap) {
-					pkg = database.get_installed_snap_by_id (app_id);
-				}
-				#endif
+				Package? pkg = this.database.get_app_by_id (app_id);
 				if (pkg != null) {
-					manager_window.main_stack.visible_child_name = "details";
 					manager_window.display_details (pkg);
-				} else {
-					manager_window.refresh_packages_list ();
+					manager_window.main_stack.visible_child_name = "details";
 				}
 				manager_window.present ();
 			});

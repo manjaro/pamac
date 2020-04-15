@@ -1918,7 +1918,7 @@ namespace Pamac {
 				reinstall_togglebutton.visible = false;
 				remove_togglebutton.visible = true;
 				remove_togglebutton.sensitive = true;
-				remove_togglebutton.active = flatpak_to_remove.contains (flatpak_pkg.id);
+				remove_togglebutton.active = flatpak_to_remove.contains (flatpak_pkg.name);
 			} else {
 				launch_button.visible = false;
 				remove_togglebutton.visible = false;
@@ -1926,7 +1926,7 @@ namespace Pamac {
 				build_togglebutton.visible = false;
 				reset_files_button.visible = false;
 				install_togglebutton.visible = true;
-				install_togglebutton.active = flatpak_to_install.contains (flatpak_pkg.id);
+				install_togglebutton.active = flatpak_to_install.contains (flatpak_pkg.name);
 			}
 			// details
 			details_grid.foreach (transaction.destroy_widget);

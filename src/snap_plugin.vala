@@ -128,6 +128,7 @@ namespace Pamac {
 			Snapd.App? primary_app = get_primary_app (snap);
 			if (primary_app != null) {
 				snap_pkg.launchable = Path.get_basename (primary_app.desktop_file);
+				snap_pkg.app_id = Path.get_basename (primary_app.desktop_file);
 			}
 			if (installed_snap != null) {
 				snap_pkg.installed_version = installed_snap.version;
@@ -178,16 +179,33 @@ namespace Pamac {
 		}
 
 		public void search_snaps (string search_string, ref SList<SnapPackage> pkgs) {
-			string search_string_down = search_string.down ();
 			try {
-				GenericArray<unowned Snapd.Snap>? found = search_snaps_cache.lookup (search_string_down);
+				GenericArray<unowned Snapd.Snap>? found = search_snaps_cache.lookup (search_string);
 				if (found == null) {
-					found = client.find_sync (Snapd.FindFlags.SCOPE_WIDE, search_string_down, null, null);
-					search_snaps_cache.insert (search_string_down, found);
+					found = client.find_sync (Snapd.FindFlags.SCOPE_WIDE, search_string, null, null);
+					search_snaps_cache.insert (search_string, found);
 				}
 				for (uint i = 0; i < found.length; i++) {
 					unowned Snapd.Snap snap = found[i];
 					if (snap.snap_type == Snapd.SnapType.APP) {
+						pkgs.prepend (initialize_snap (snap));
+					}
+				}
+			} catch (Error e) {
+				warning (e.message);
+			}
+		}
+
+		public void search_uninstalled_snaps_sync (string search_string, ref SList<SnapPackage> pkgs) {
+			try {
+				GenericArray<unowned Snapd.Snap>? found = search_snaps_cache.lookup (search_string);
+				if (found == null) {
+					found = client.find_sync (Snapd.FindFlags.SCOPE_WIDE, search_string, null, null);
+					search_snaps_cache.insert (search_string, found);
+				}
+				for (uint i = 0; i < found.length; i++) {
+					unowned Snapd.Snap snap = found[i];
+					if (snap.snap_type == Snapd.SnapType.APP && snap.install_date == null) {
 						pkgs.prepend (initialize_snap (snap));
 					}
 				}
@@ -212,7 +230,7 @@ namespace Pamac {
 			return pkg;
 		}
 
-		public SnapPackage? get_installed_snap_by_id (string app_id) {
+		public SnapPackage? get_snap_by_app_id (string app_id) {
 			SnapPackage? pkg = null;
 			try {
 				GenericArray<unowned Snapd.Snap> snaps = client.get_snaps_sync (Snapd.GetSnapsFlags.NONE, null, null);

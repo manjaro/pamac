@@ -655,6 +655,7 @@ namespace Pamac {
 
 		void initialize_app_data (As.App app, ref AlpmPackage pkg) {
 			pkg.app_name = get_app_name (app);
+			pkg.app_id = app.get_id ();
 			pkg.launchable = get_app_launchable (app);
 			pkg.desc = get_app_summary (app);
 			try {
@@ -741,73 +742,6 @@ namespace Pamac {
 				warning (e.message);
 			}
 			return (owned) pkgs;
-		}
-
-		public AlpmPackage? get_installed_app_by_id (string app_id) {
-			if (loop.is_running ()) {
-				loop.run ();
-			}
-			AlpmPackage? pkg = null;
-			try {
-				string app_id_copy;
-				if (app_id.has_suffix (".desktop")) {
-					app_id_copy = app_id;
-				} else {
-					app_id_copy = app_id + ".desktop";
-				}
-				new Thread<int>.try ("get_installed_app_by_id", () => {
-					unowned GenericArray<As.App> apps = app_store.get_apps ();
-					for (uint i = 0; i < apps.length; i++) {
-						As.App app = apps[i];
-						if (app.get_id () == app_id_copy || get_app_launchable (app) == app_id_copy) {
-							unowned string pkgname = app.get_pkgname_default ();
-							unowned Alpm.Package? local_pkg = alpm_handle.localdb.get_pkg (pkgname);
-							if (local_pkg != null) {
-								pkg = new AlpmPackage ();
-								initialise_pkg_common (local_pkg, ref pkg);
-								unowned Alpm.Package? sync_pkg = get_syncpkg (pkgname);
-								if (sync_pkg != null) {
-									pkg.repo = sync_pkg.db.name;
-								}
-								initialize_app_data (app, ref pkg);
-							}
-						}
-					}
-					// try in files
-					if (pkg == null) {
-						bool found = false;
-						unowned Alpm.List<unowned Alpm.Package> pkgcache = alpm_handle.localdb.pkgcache;
-						while (pkgcache != null) {
-							unowned Alpm.Package local_pkg = pkgcache.data;
-							unowned Alpm.FileList filelist = local_pkg.files;
-							Alpm.File* file_ptr = filelist.files;
-							for (size_t i = 0; i < filelist.count; i++, file_ptr++) {
-								// exclude directory name
-								if (file_ptr->name.has_suffix (app_id_copy)) {
-									found = true;
-									break;
-								}
-							}
-							if (found) {
-								pkg = new AlpmPackage ();
-								initialise_pkg_common (local_pkg, ref pkg);
-								unowned Alpm.Package? sync_pkg = get_syncpkg (local_pkg.name);
-								if (sync_pkg != null) {
-									pkg.repo = sync_pkg.db.name;
-								}
-								break;
-							}
-							pkgcache.next ();
-						}
-					}
-					loop.quit ();
-					return 0;
-				});
-				loop.run ();
-			} catch (Error e) {
-				warning (e.message);
-			}
-			return pkg;
 		}
 
 		public SList<AlpmPackage> get_installed_apps () {
@@ -984,6 +918,94 @@ namespace Pamac {
 			}
 			pkgs.reverse ();
 			return pkgs;
+		}
+
+		public Package? get_app_by_id (string app_id) {
+			if (loop.is_running ()) {
+				loop.run ();
+			}
+			string app_id_short;
+			string app_id_long;
+			if (app_id.has_suffix (".desktop")) {
+				app_id_long = app_id;
+				app_id_short = app_id.replace (".desktop", "");
+			} else {
+				app_id_short = app_id;
+				app_id_long = app_id + ".desktop";
+			}
+			Package? pkg = null;
+			try {
+				new Thread<int>.try ("get_uninstalled_app", () => {
+					unowned GenericArray<As.App> apps = app_store.get_apps ();
+					for (uint i = 0; i < apps.length; i++) {
+						As.App app = apps[i];
+						if (app.get_id () == app_id_short || app.get_id () == app_id_long || get_app_launchable (app) == app_id_long) {
+							unowned string pkgname = app.get_pkgname_default ();
+							unowned Alpm.Package? local_pkg = alpm_handle.localdb.get_pkg (pkgname);
+							unowned Alpm.Package? sync_pkg = get_syncpkg (pkgname);
+							if (local_pkg != null) {
+								var alpmpkg = new AlpmPackage ();
+								initialise_pkg_common (local_pkg, ref alpmpkg);
+								if (sync_pkg != null) {
+									alpmpkg.repo = sync_pkg.db.name;
+								}
+								initialize_app_data (app, ref alpmpkg);
+								pkg = alpmpkg;
+							} else if (sync_pkg != null) {
+								var alpmpkg = new AlpmPackage ();
+								initialise_pkg_common (sync_pkg, ref alpmpkg);
+								alpmpkg.repo = sync_pkg.db.name;
+								initialize_app_data (app, ref alpmpkg);
+								pkg = alpmpkg;
+							}
+						}
+					}
+					// try in installed files
+					if (pkg == null) {
+						bool found = false;
+						unowned Alpm.List<unowned Alpm.Package> pkgcache = alpm_handle.localdb.pkgcache;
+						while (pkgcache != null) {
+							unowned Alpm.Package local_pkg = pkgcache.data;
+							unowned Alpm.FileList filelist = local_pkg.files;
+							Alpm.File* file_ptr = filelist.files;
+							for (size_t i = 0; i < filelist.count; i++, file_ptr++) {
+								// exclude directory name
+								if (file_ptr->name.has_suffix (app_id_long)) {
+									found = true;
+									break;
+								}
+							}
+							if (found) {
+								var alpmpkg = new AlpmPackage ();
+								initialise_pkg_common (local_pkg, ref alpmpkg);
+								unowned Alpm.Package? sync_pkg = get_syncpkg (local_pkg.name);
+								if (sync_pkg != null) {
+									pkg.repo = sync_pkg.db.name;
+								}
+								pkg = alpmpkg;
+								break;
+							}
+							pkgcache.next ();
+						}
+					}
+					#if ENABLE_FLATPAK
+					if (pkg == null && config.enable_flatpak) {
+						pkg = flatpak_plugin.get_flatpak_by_app_id (app_id);
+					}
+					#endif
+					#if ENABLE_SNAP
+					if (pkg == null && config.enable_snap) {
+						pkg = snap_plugin.get_snap_by_app_id (app_id);
+					}
+					#endif
+					loop.quit ();
+					return 0;
+				});
+				loop.run ();
+			} catch (Error e) {
+				warning (e.message);
+			}
+			return pkg;
 		}
 
 		Alpm.List<unowned Alpm.Package> custom_db_search (Alpm.DB db, Alpm.List<unowned string> needles) {
@@ -1222,7 +1244,14 @@ namespace Pamac {
 			return result;
 		}
 
-		public SList<AlpmPackage> search_repos_apps_sync (string[] search_terms) {
+		public SList<AlpmPackage> search_uninstalled_apps_sync (string[] search_terms) {
+			var search_string = new StringBuilder ();
+			foreach (unowned string term in search_terms) {
+				if (search_string.len > 0) {
+					search_string.append (" ");
+				}
+				search_string.append (term);
+			}
 			// search only in appstream
 			Alpm.List<unowned Alpm.Package> appstream_result = null;
 			unowned GenericArray<As.App> apps = app_store.get_apps ();
@@ -1244,7 +1273,35 @@ namespace Pamac {
 			}
 			var pkgs = new SList<AlpmPackage> ();
 			initialise_pkgs (appstream_result, ref pkgs);
-			pkgs.sort (pkg_compare_name);
+			// doesn't work
+			//#if ENABLE_SNAP
+			//if (config.enable_snap) {
+				//var snap_pkgs = new SList<SnapPackage> ();
+				//try {
+					//snap_plugin.search_uninstalled_snaps_sync (search_string.str, ref snap_pkgs);
+					//foreach (unowned SnapPackage pkg in snap_pkgs) {
+						//pkgs.prepend (pkg);
+					//}
+				//} catch (Error e) {
+					//warning (e.message);
+				//}
+			//}
+			//#endif
+			//#if ENABLE_FLATPAK
+			//if (config.enable_flatpak) {
+				//var flatpak_pkgs = new SList<FlatpakPackage> ();
+				//try {
+					//flatpak_plugin.search_uninstalled_flatpaks_sync (search_terms, ref flatpak_pkgs);
+					//foreach (unowned FlatpakPackage pkg in flatpak_pkgs) {
+						//pkgs.prepend (pkg);
+					//}
+				//} catch (Error e) {
+					//warning (e.message);
+				//}
+			//}
+			//#endif
+			global_search_string = (owned) search_string.str;
+			pkgs.sort (sort_search_pkgs_by_relevance);
 			return pkgs;
 		}
 
@@ -2522,27 +2579,6 @@ namespace Pamac {
 			return pkg;
 		}
 
-		public SnapPackage? get_installed_snap_by_id (string app_id) {
-			if (loop.is_running ()) {
-				loop.run ();
-			}
-			SnapPackage? pkg = null;
-			if (config.enable_snap) {
-				string app_id_copy = app_id;
-				try {
-					new Thread<int>.try ("get_installed_snap_by_id", () => {
-						pkg = snap_plugin.get_installed_snap_by_id (app_id_copy);
-						loop.quit ();
-						return 0;
-					});
-					loop.run ();
-				} catch (Error e) {
-					warning (e.message);
-				}
-			}
-			return pkg;
-		}
-
 		public SList<SnapPackage> get_installed_snaps () {
 			if (loop.is_running ()) {
 				loop.run ();
@@ -2677,27 +2713,6 @@ namespace Pamac {
 				try {
 					new Thread<int>.try ("get_flatpak", () => {
 						pkg = flatpak_plugin.get_flatpak (id_copy);
-						loop.quit ();
-						return 0;
-					});
-					loop.run ();
-				} catch (Error e) {
-					warning (e.message);
-				}
-			}
-			return pkg;
-		}
-
-		public FlatpakPackage? get_installed_flatpak_by_id (string app_id) {
-			if (loop.is_running ()) {
-				loop.run ();
-			}
-			FlatpakPackage? pkg = null;
-			if (config.enable_flatpak) {
-				string app_id_copy = app_id;
-				try {
-					new Thread<int>.try ("get_installed_flatpak_by_id", () => {
-						pkg = flatpak_plugin.get_installed_flatpak_by_id (app_id_copy);
 						loop.quit ();
 						return 0;
 					});

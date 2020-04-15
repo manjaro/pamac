@@ -30,8 +30,9 @@ namespace Pamac {
 		public abstract void load_appstream_data ();
 		public abstract SList<string> get_remotes_names ();
 		public abstract void search_flatpaks (string search_string, ref SList<FlatpakPackage> pkgs);
+		public abstract void search_uninstalled_flatpaks_sync (string[] search_terms, ref SList<FlatpakPackage> pkgs);
 		public abstract bool is_installed_flatpak (string name);
-		public abstract FlatpakPackage? get_installed_flatpak_by_id (string app_id);
+		public abstract FlatpakPackage? get_flatpak_by_app_id (string app_id);
 		public abstract FlatpakPackage? get_flatpak (string id);
 		public abstract void get_installed_flatpaks (ref SList<FlatpakPackage> pkgs);
 		public abstract void get_category_flatpaks (string category, ref SList<FlatpakPackage> pkgs);
