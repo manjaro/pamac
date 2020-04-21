@@ -141,7 +141,7 @@ namespace Pamac {
 			} else {
 				try {
 					File? parent = file.get_parent ();
-					if (parent != null) {
+					if (parent != null && !parent.query_exists ()) {
 						parent.make_directory_with_parents ();
 					}
 				} catch (Error e) {
