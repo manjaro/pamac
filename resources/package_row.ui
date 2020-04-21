@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated with glade 3.22.1 -->
+<!-- Generated with glade 3.22.2 -->
 <interface>
   <requires lib="gtk+" version="3.20"/>
   <template class="PamacPackageRow" parent="GtkListBoxRow">
@@ -46,7 +46,6 @@
                     <property name="can_focus">False</property>
                     <property name="width_chars">20</property>
                     <property name="single_line_mode">True</property>
-                    <property name="max_width_chars">20</property>
                     <property name="track_visited_links">False</property>
                     <property name="xalign">0</property>
                   </object>
@@ -60,9 +59,8 @@
                   <object class="GtkLabel" id="version_label">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="width_chars">20</property>
+                    <property name="ellipsize">middle</property>
                     <property name="single_line_mode">True</property>
-                    <property name="max_width_chars">20</property>
                     <property name="track_visited_links">False</property>
                     <property name="xalign">0</property>
                   </object>
@@ -84,9 +82,7 @@
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="ellipsize">end</property>
-                <property name="width_chars">40</property>
                 <property name="single_line_mode">True</property>
-                <property name="max_width_chars">40</property>
                 <property name="track_visited_links">False</property>
                 <property name="xalign">0</property>
               </object>
@@ -100,9 +96,7 @@
               <object class="GtkLabel" id="repo_label">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="width_chars">10</property>
                 <property name="single_line_mode">True</property>
-                <property name="max_width_chars">10</property>
                 <property name="track_visited_links">False</property>
                 <property name="xalign">0</property>
               </object>

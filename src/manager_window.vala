@@ -395,8 +395,6 @@ namespace Pamac {
 		[GtkChild]
 		public Gtk.Entry search_entry;
 		[GtkChild]
-		Gtk.MenuButton filters_button;
-		[GtkChild]
 		Gtk.Label filters_button_label;
 		[GtkChild]
 		Gtk.ListBox categories_listbox;
@@ -423,7 +421,7 @@ namespace Pamac {
 		[GtkChild]
 		Gtk.Box sort_order_box;
 		[GtkChild]
-		Gtk.ComboBoxText sort_comboboxtext;
+		Gtk.Label sortby_button_label;
 		[GtkChild]
 		Gtk.ScrolledWindow packages_scrolledwindow;
 		[GtkChild]
@@ -2152,25 +2150,17 @@ namespace Pamac {
 		}
 
 		void sort_aur_list (ref SList<AURPackage> pkgs) {
-			int sort_index = sort_comboboxtext.active;
-			switch (sort_index) {
-				case 0: // relevance
-					pkgs.sort (sort_aur_by_relevance);
-					break;
-				case 1: // name
-					pkgs.sort (sort_pkgs_by_name);
-					break;
-				case 2: // repository
-					pkgs.sort (sort_pkgs_by_repo);
-					break;
-				case 3: // size
-					pkgs.sort (sort_pkgs_by_installed_size);
-					break;
-				case 4: // date
-					pkgs.sort (sort_aur_by_date);
-					break;
-				default:
-					break;
+			unowned string sortby = sortby_button_label.label;
+			if (sortby == dgettext (null, "Relevance")) {
+				pkgs.sort (sort_aur_by_relevance);
+			} else if (sortby == dgettext (null, "Name")) {
+				pkgs.sort (sort_pkgs_by_name);
+			} else if (sortby == dgettext (null, "Repository")) {
+				pkgs.sort (sort_pkgs_by_repo);
+			} else if (sortby == dgettext (null, "Size")) {
+				pkgs.sort (sort_pkgs_by_installed_size);
+			} else if (sortby == dgettext (null, "Date")) {
+				pkgs.sort (sort_aur_by_date);
 			}
 		}
 
@@ -2180,33 +2170,25 @@ namespace Pamac {
 		}
 
 		void sort_packages_list (ref SList<Package> pkgs) {
-			int sort_index = sort_comboboxtext.active;
-			switch (sort_index) {
-				case 0: // relevance
-					if (browse_stack.visible_child_name == "search") {
-						pkgs.sort (sort_search_pkgs_by_relevance);
-					} else {
-						pkgs.sort (sort_pkgs_by_relevance);
-					}
-					break;
-				case 1: // name
-					pkgs.sort (sort_pkgs_by_name);
-					break;
-				case 2: // repository
-					pkgs.sort (sort_pkgs_by_repo);
-					break;
-				case 3: // size
-					if (browse_stack.visible_child_name == "updates") {
-						pkgs.sort (sort_pkgs_by_download_size);
-					} else {
-						pkgs.sort (sort_pkgs_by_installed_size);
-					}
-					break;
-				case 4: // date
-					pkgs.sort (sort_pkgs_by_date);
-					break;
-				default:
-					break;
+			unowned string sortby = sortby_button_label.label;
+			if (sortby == dgettext (null, "Relevance")) {
+				if (browse_stack.visible_child_name == "search") {
+					pkgs.sort (sort_search_pkgs_by_relevance);
+				} else {
+					pkgs.sort (sort_pkgs_by_relevance);
+				}
+			} else if (sortby == dgettext (null, "Name")) {
+				pkgs.sort (sort_pkgs_by_name);
+			} else if (sortby == dgettext (null, "Repository")) {
+				pkgs.sort (sort_pkgs_by_repo);
+			} else if (sortby == dgettext (null, "Size")) {
+				if (browse_stack.visible_child_name == "updates") {
+					pkgs.sort (sort_pkgs_by_download_size);
+				} else {
+					pkgs.sort (sort_pkgs_by_installed_size);
+				}
+			} else if (sortby == dgettext (null, "Date")) {
+				pkgs.sort (sort_pkgs_by_date);
 			}
 		}
 
@@ -2531,7 +2513,6 @@ namespace Pamac {
 
 		public void refresh_packages_list () {
 			button_back.visible = main_stack.visible_child_name != "browse";
-			filters_button.visible = browse_stack.visible_child_name == "browse";
 			if (browse_stack.visible_child_name == "browse") {
 				show_sidebar ();
 				search_button.visible = true;
@@ -3536,7 +3517,32 @@ namespace Pamac {
 		}
 
 		[GtkCallback]
-		void on_sort_comboboxtext_changed () {
+		void on_relevance_button_clicked () {
+			sortby_button_label.label = dgettext (null, "Relevance");
+			populate_packages_list ((owned) current_packages_list);
+		}
+
+		[GtkCallback]
+		void on_name_button_clicked () {
+			sortby_button_label.label = dgettext (null, "Name");
+			populate_packages_list ((owned) current_packages_list);
+		}
+
+		[GtkCallback]
+		void on_repository_button_clicked () {
+			sortby_button_label.label = dgettext (null, "Repository");
+			populate_packages_list ((owned) current_packages_list);
+		}
+
+		[GtkCallback]
+		void on_size_button_clicked () {
+			sortby_button_label.label = dgettext (null, "Size");
+			populate_packages_list ((owned) current_packages_list);
+		}
+
+		[GtkCallback]
+		void on_date_button_clicked () {
+			sortby_button_label.label = dgettext (null, "Date");
 			populate_packages_list ((owned) current_packages_list);
 		}
 
@@ -3670,7 +3676,6 @@ namespace Pamac {
 				case "browse":
 					main_stack_switcher.visible = true;
 					button_back.visible = false;
-					filters_button.visible = browse_stack.visible_child_name == "browse";
 					if (browse_stack.visible_child_name == "updates"
 						|| browse_stack.visible_child_name == "pending") {
 						search_button.visible = false;
@@ -3684,7 +3689,6 @@ namespace Pamac {
 				case "details":
 					main_stack_switcher.visible = false;
 					button_back.visible = true;
-					filters_button.visible = false;
 					search_button.visible = false;
 					if (transaction.details_textview.buffer.get_char_count () > 0) {
 						details_button.sensitive = true;
@@ -3693,7 +3697,6 @@ namespace Pamac {
 				case "term":
 					main_stack_switcher.visible = false;
 					button_back.visible = true;
-					filters_button.visible = false;
 					search_button.visible = false;
 					details_button.sensitive = false;
 					details_button.get_style_context ().remove_class (Gtk.STYLE_CLASS_SUGGESTED_ACTION);
