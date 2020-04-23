@@ -106,6 +106,7 @@ namespace Pamac {
 		internal SList<Package> to_downgrade_priv;
 		internal SList<Package> to_reinstall_priv;
 		internal SList<Package> to_remove_priv;
+		internal SList<Package> conflicts_to_remove_priv;
 		internal SList<Package> to_build_priv;
 		internal SList<string> aur_pkgbases_to_build_priv;
 		internal SList<string> to_load_priv;
@@ -114,6 +115,7 @@ namespace Pamac {
 		public SList<Package> to_downgrade { get {return to_downgrade_priv;} }
 		public SList<Package> to_reinstall { get {return to_reinstall_priv;} }
 		public SList<Package> to_remove { get {return to_remove_priv;} }
+		public SList<Package> conflicts_to_remove { get {return conflicts_to_remove_priv;} }
 		public SList<Package> to_build { get {return to_build_priv;} }
 		public SList<string> aur_pkgbases_to_build { get {return aur_pkgbases_to_build_priv;} }
 
@@ -125,6 +127,7 @@ namespace Pamac {
 			to_downgrade_priv.sort (compare_name_pkg);
 			to_reinstall_priv.sort (compare_name_pkg);
 			to_remove_priv.sort (compare_name_pkg);
+			conflicts_to_remove_priv.sort (compare_name_pkg);
 			to_build_priv.sort (compare_name_pkg);
 		}
 	}

@@ -371,6 +371,20 @@ namespace Pamac {
 					}
 				}
 			}
+			if (summary.conflicts_to_remove != null) {
+				foreach (unowned Package pkg in summary.conflicts_to_remove) {
+					rsize += pkg.installed_size;
+					if (pkg.name.length > name_length) {
+						name_length = pkg.name.length;
+					}
+					if (pkg.version.length > version_length) {
+						version_length = pkg.version.length;
+					}
+					if (pkg.repo.length > repo_length) {
+						repo_length = pkg.repo.length;
+					}
+				}
+			}
 			if (summary.to_downgrade != null) {
 				foreach (unowned Package pkg in summary.to_downgrade) {
 					dsize += pkg.download_size;
@@ -520,9 +534,16 @@ namespace Pamac {
 									size);
 				}
 			}
-			if (summary.to_remove != null) {
-				stdout.printf (dgettext (null, "To remove") + " (%u):\n".printf (summary.to_remove.length ()));
+			if (summary.to_remove != null || summary.conflicts_to_remove != null) {
+				stdout.printf (dgettext (null, "To remove") + " (%u):\n".printf (summary.to_remove.length () + summary.conflicts_to_remove.length ()));
 				foreach (unowned Package pkg in summary.to_remove) {
+					stdout.printf ("  %-*s  %-*s  %-*s  %s\n",
+									name_length, pkg.name,
+									version_length , pkg.version,
+									installed_version_length, "",
+									pkg.repo);
+				}
+				foreach (unowned Package pkg in summary.conflicts_to_remove) {
 					stdout.printf ("  %-*s  %-*s  %-*s  %s\n",
 									name_length, pkg.name,
 									version_length , pkg.version,

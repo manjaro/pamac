@@ -313,6 +313,7 @@ namespace Pamac {
 			} else {
 				bool must_confirm = summary.to_downgrade != null
 									|| summary.to_remove != null
+									|| summary.conflicts_to_remove != null
 									|| summary.to_build != null;
 				if (no_confirm_upgrade
 					&& !must_confirm
@@ -340,6 +341,7 @@ namespace Pamac {
 			var iter = Gtk.TreeIter ();
 			unowned SList<Package> pkgs;
 			unowned Package pkg;
+			bool to_remove_printed = false;
 			if (summary.to_remove != null) {
 				pkgs = summary.to_remove;
 				pkg = pkgs.data;
@@ -349,6 +351,35 @@ namespace Pamac {
 												1, pkg.name,
 												2, pkg.version,
 												4, pkg.repo);
+				to_remove_printed = true;
+				pkgs = pkgs.next;
+				while (pkgs != null) {
+					pkg = pkgs.data;
+					transaction_summary.add (pkg.name);
+					transaction_sum_dialog.sum_list.insert_with_values (out iter, -1,
+												1, pkg.name,
+												2, pkg.version,
+												4, pkg.repo);
+					pkgs = pkgs.next;
+				}
+			}
+			if (summary.conflicts_to_remove != null) {
+				pkgs = summary.conflicts_to_remove;
+				pkg = pkgs.data;
+				transaction_summary.add (pkg.name);
+				if (to_remove_printed) {
+					transaction_sum_dialog.sum_list.insert_with_values (out iter, -1,
+												1, pkg.name,
+												2, pkg.version,
+												4, pkg.repo);
+				} else {
+					transaction_sum_dialog.sum_list.insert_with_values (out iter, -1,
+												0, "<b>%s</b>".printf (dgettext (null, "To remove") + ":"),
+												1, pkg.name,
+												2, pkg.version,
+												4, pkg.repo);
+					to_remove_printed = true;
+				}
 				pkgs = pkgs.next;
 				while (pkgs != null) {
 					pkg = pkgs.data;

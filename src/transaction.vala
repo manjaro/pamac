@@ -1124,6 +1124,7 @@ namespace Pamac {
 				summary.to_upgrade != null ||
 				summary.to_downgrade != null ||
 				summary.to_reinstall != null ||
+				summary.conflicts_to_remove != null ||
 				summary.to_remove != null) {
 				if (ask_commit_real (summary)) {
 					foreach (unowned Package pkg in summary.to_install) {

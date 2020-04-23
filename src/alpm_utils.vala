@@ -1485,7 +1485,15 @@ namespace Pamac {
 			unowned Alpm.List<unowned Alpm.Package> pkgs_to_remove = alpm_handle.trans_to_remove ();
 			while (pkgs_to_remove != null) {
 				unowned Alpm.Package trans_pkg = pkgs_to_remove.data;
-				summary.to_remove_priv.prepend (initialise_pkg (alpm_handle, trans_pkg));
+				if (trans_pkg.name in to_remove) {
+					summary.to_remove_priv.prepend (initialise_pkg (alpm_handle, trans_pkg));
+				} else {
+					// intern_compute_pkgs_to_remove and intern_compute_orphans_to_remove
+					// already have computed all packages to_remove, so it is a conflict.
+					// Add it in a separate list because it could be a aur conflict
+					// that must not be explicilty removed
+					summary.conflicts_to_remove_priv.prepend (initialise_pkg (alpm_handle, trans_pkg));
+				}
 				pkgs_to_remove.next ();
 			}
 			summary.sort ();
