@@ -25,7 +25,7 @@ namespace Pamac {
 		const string rpc_multiinfo = "&type=info";
 		const string rpc_multiinfo_arg = "&arg[]=";
 		Soup.Session session;
-		HashTable<string, Json.Object> cached_infos;
+		HashTable<unowned string, Json.Object> cached_infos;
 		HashTable<string, Json.Array> search_results;
 
 		public AUR () {
@@ -37,45 +37,38 @@ namespace Pamac {
 			session.user_agent = "Pamac/%s".printf (VERSION);
 			// set a 15 seconds timeout because it is also the dbus daemon timeout
 			session.timeout = 15;
-			cached_infos = new HashTable<string, Json.Object> (str_hash, str_equal);
+			cached_infos = new HashTable<unowned string, Json.Object> (str_hash, str_equal);
 			search_results = new HashTable<string, Json.Array> (str_hash, str_equal);
 		}
 
-		Json.Array get_json (string data, string uri) {
-			var results = new Json.Array ();
-			var parser = new Json.Parser ();
+		Json.Array? rpc_query (string uri) {
 			try {
-				parser.load_from_data (data, -1);
+				var message = new Soup.Message ("GET", uri);
+				InputStream input_stream = session.send (message);
+				var parser = new Json.Parser.immutable_new ();
+				parser.load_from_stream (input_stream);
 				unowned Json.Node? root = parser.get_root ();
 				if (root != null) {
-					if (root.get_object ().get_string_member ("type") == "error") {
-						stderr.printf ("Failed to query %s from AUR\n", uri);
+					unowned Json.Object obj = root.get_object ();
+					if (obj.get_string_member ("type") == "error") {
+						unowned string error_details = obj.get_string_member ("error");
+						stderr.printf ("Failed to query %s from AUR: %s\n", uri, error_details);
 					} else {
-						results = root.get_object ().get_array_member ("results");
+						return obj.get_array_member ("results");
 					}
 				}
 			} catch (Error e) {
 				warning (e.message);
 				stderr.printf ("Failed to query %s from AUR\n", uri);
 			}
-			return results;
+			return null;
 		}
 
-		Json.Array rpc_query (string uri) {
-			var message = new Soup.Message ("GET", uri);
-			session.send_message (message);
-			return get_json ((string) message.response_body.flatten ().data, uri);
-		}
-
-		Json.Array multiinfo (string[] pkgnames) {
-			if (pkgnames.length == 0) {
-				return new Json.Array ();
-			}
+		Json.Array? multiinfo (string[] pkgnames) {
 			// query pkgnames hundred by hundred to avoid too long uri error
 			// example: ros-lunar-desktop
 			if (pkgnames.length <= 200) {
-				var builder = new StringBuilder ();
-				builder.append (rpc_url);
+				var builder = new StringBuilder (rpc_url);
 				builder.append (rpc_multiinfo);
 				foreach (unowned string pkgname in pkgnames) {
 					builder.append (rpc_multiinfo_arg);
@@ -87,8 +80,7 @@ namespace Pamac {
 				int index_max = pkgnames.length - 1;
 				int index = 0;
 				while (index < index_max) {
-					var builder = new StringBuilder ();
-					builder.append (rpc_url);
+					var builder = new StringBuilder (rpc_url);
 					builder.append (rpc_multiinfo);
 					for (int i = 0; i < 200; i++) {
 						unowned string pkgname = pkgnames[index];
@@ -99,93 +91,157 @@ namespace Pamac {
 							break;
 						}
 					}
-					var array = rpc_query (builder.str);
-					array.foreach_element ((array, index, node) => {
-						result.add_element (node);
-					});
+					Json.Array? array = rpc_query (builder.str);
+					if (array != null) {
+						uint array_length = array.get_length ();
+						for (uint i = 0; i < array_length; i++) {
+							result.add_element (array.get_element (i));
+						}
+					}
 				}
 				return result;
 			}
 		}
 
-		void populate_infos (string[] pkgnames) {
-			var names = new GenericArray<string> ();
-			foreach (unowned string pkgname in pkgnames) {
-				if (!(pkgname in cached_infos)) {
-					names.add (pkgname);
+		public unowned Json.Object? get_infos (string pkgname) {
+			unowned Json.Object? json_object = cached_infos.lookup (pkgname);
+			if (json_object == null) {
+				Json.Array? results = multiinfo ({pkgname});
+				if (results != null) {
+					lock (cached_infos) {
+						json_object = results.get_object_element (0);
+						if (json_object != null) {
+							cached_infos.insert (json_object.get_string_member ("Name"), json_object);
+						}
+					}
 				}
 			}
-			if (names.length > 0) {
-				Json.Array results = multiinfo (names.data);
-				results.foreach_element ((array, index, node) => {
-					unowned Json.Object json_object = node.get_object ();
-					cached_infos.insert (json_object.get_string_member ("Name"), json_object);
-				});
-			}
-		}
-
-		public unowned Json.Object? get_infos (string pkgname) {
-			populate_infos ({pkgname});
-			return cached_infos.lookup (pkgname);
+			return json_object;
 		}
 
 		public GenericArray<unowned Json.Object> get_multi_infos (string[] pkgnames) {
 			var result = new GenericArray<unowned Json.Object> ();
-			populate_infos (pkgnames);
-			foreach (unowned string pkgname in pkgnames) {
-				unowned Json.Object? object = cached_infos.lookup (pkgname);
-				if (object != null) {
-					result.add (object);
+			var to_query = new GenericArray<string> ();
+			lock (cached_infos) {
+				foreach (unowned string pkgname in pkgnames) {
+					unowned Json.Object? json_object = cached_infos.lookup (pkgname);
+					if (json_object == null) {
+						to_query.add (pkgname);
+					} else {
+						result.add (json_object);
+					}
+				}
+			}
+			if (to_query.length > 0) {
+				Json.Array? results = multiinfo (to_query.data);
+				if (results != null) {
+					lock (cached_infos) {
+						uint results_length = results.get_length ();
+						for (uint i = 0; i < results_length; i++) {
+							unowned Json.Object json_object = results.get_object_element (i);
+							result.add (json_object);
+							cached_infos.insert (json_object.get_string_member ("Name"), json_object);
+						}
+					}
 				}
 			}
 			return result;
 		}
 
-		public GenericArray<unowned Json.Object> search_aur (string search_string) {
+		public GenericArray<unowned Json.Object> search (string search_string) {
 			string[] needles = search_string.split (" ");
 			if (needles.length == 0) {
 				return new GenericArray<unowned Json.Object> ();
+			} else if (needles.length == 1) {
+				unowned string needle = needles[0];
+				Json.Array? found;
+				lock (search_results) {
+					found = search_results.lookup (needle);
+				}
+				if (found == null) {
+					var builder = new StringBuilder (rpc_url);
+					builder.append (rpc_search);
+					builder.append (Uri.escape_string (needle));
+					found = rpc_query (builder.str);
+				}
+				if (found == null) {
+					// a error occured, do not cache the result
+					return new GenericArray<unowned Json.Object> ();
+				}
+				lock (search_results) {
+					search_results.insert (needle, found);
+				}
+				var pkgnames = new GenericArray<unowned string> ();
+				uint found_length = found.get_length ();
+				for (uint i = 0; i < found_length; i++) {
+					pkgnames.add (found.get_object_element (i).get_string_member ("Name"));
+				}
+				return get_multi_infos (pkgnames.data);
 			} else {
-				var builder = new StringBuilder ();
-				builder.append (rpc_url);
+				// compute the intersection of all found packages
+				var builder = new StringBuilder (rpc_url);
 				builder.append (rpc_search);
 				var all_found = new GenericArray<Json.Array> ();
 				foreach (unowned string needle in needles) {
-					if (needle in search_results) {
-						all_found.add (search_results.lookup (needle));
-					} else {
+					Json.Array? found;
+					lock (search_results) {
+						found = search_results.lookup (needle);
+					}
+					if (found == null) {
 						var needle_builder = new StringBuilder (builder.str);
 						needle_builder.append (Uri.escape_string (needle));
-						Json.Array found = rpc_query (needle_builder.str);
+						found = rpc_query (needle_builder.str);
+					}
+					if (found == null) {
+						// a error occured, just continue
+						continue;
+					}
+					lock (search_results) {
 						search_results.insert (needle, found);
-						all_found.add (found);
 					}
-				}
-				var result = new Json.Array ();
-				for (uint i = 0; i < all_found.length; i++) {
-					unowned Json.Array found = all_found[i];
 					if (found.get_length () == 0) {
-						continue;
+						// a zero length array mean the inter length will be zero
+						return new GenericArray<unowned Json.Object> ();
 					}
-					if (result.get_length () == 0) {
-						result = found;
-						continue;
-					}
-					var inter = new Json.Array ();
-					result.foreach_element ((result_array, result_index, result_node) => {
-						found.foreach_element ((found_array, found_index, found_node) => {
-							if (strcmp (result_node.get_object ().get_string_member ("Name"),
-										found_node.get_object ().get_string_member ("Name")) == 0) {
-								inter.add_element (result_node);
-							}
-						});
-					});
-					result = (owned) inter;
+					all_found.add (found);
 				}
-				var pkgnames = new GenericArray<string> ();
-				result.foreach_element ((array, index, node) => {
-					pkgnames.add (node.get_object ().get_string_member ("Name"));
-				});
+				// in the case of errors occured and only one needle succeed
+				if (all_found.length == 1) {
+					unowned Json.Array found = all_found[0];
+					var pkgnames = new GenericArray<unowned string> ();
+					uint found_length = found.get_length ();
+					for (uint i = 0; i < found_length; i++) {
+						pkgnames.add (found.get_object_element (i).get_string_member ("Name"));
+					}
+					return get_multi_infos (pkgnames.data);
+				}
+				// add first array member in a hash set
+				var check_set = new GenericSet<unowned string?> (str_hash, str_equal);
+				unowned Json.Array found = all_found[0];
+				uint found_length = found.get_length ();
+				uint i;
+				for (i = 0; i < found_length; i++) {
+					check_set.add (found.get_object_element (i).get_string_member ("Name"));
+				}
+				var inter = new GenericSet<unowned string> (str_hash, str_equal);
+				// compare next array members with check_set
+				// and use inter as next check_set
+				uint all_found_length = all_found.length;
+				for (i = 1; i < all_found_length; i++) {
+					found = all_found[i];
+					found_length = found.get_length ();
+					for (uint j = 0; j < found_length; j++) {
+						unowned string pkgname = found.get_object_element (j).get_string_member ("Name");
+						if (pkgname in check_set) {
+							inter.add (pkgname);
+						}
+					}
+					check_set = (owned) inter;
+				}
+				var pkgnames = new GenericArray<unowned string> ();
+				foreach (unowned string pkgname in check_set) {
+					pkgnames.add (pkgname);
+				}
 				return get_multi_infos (pkgnames.data);
 			}
 		}

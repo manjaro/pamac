@@ -1336,7 +1336,7 @@ namespace Pamac {
 			if (config.enable_aur) {
 				try {
 					new Thread<int>.try ("search_aur_pkgs", () => {
-						var json_objects = aur.search_aur (search_string_down);
+						var json_objects = aur.search (search_string_down);
 						for (uint i = 0; i < json_objects.length; i++) {
 							unowned Json.Object json_object = json_objects[i];
 							unowned Alpm.Package? local_pkg = alpm_handle.localdb.get_pkg (json_object.get_string_member ("Name"));
