@@ -107,7 +107,7 @@ namespace Pamac {
 			unowned Json.Object? json_object = cached_infos.lookup (pkgname);
 			if (json_object == null) {
 				Json.Array? results = multiinfo ({pkgname});
-				if (results != null) {
+				if (results != null && results.get_length () == 1) {
 					lock (cached_infos) {
 						json_object = results.get_object_element (0);
 						if (json_object != null) {
