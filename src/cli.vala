@@ -541,6 +541,9 @@ namespace Pamac {
 						if (no_confirm) {
 							transaction.no_confirm = true;
 						}
+						if (database.config.recurse) {
+							orphans = true;
+						}
 						remove_pkgs (args[2:args.length], orphans, unneeded, no_save);
 					}
 				} else {
