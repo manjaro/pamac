@@ -39,7 +39,7 @@ namespace Pamac {
 		AUR aur;
 		As.Store app_store;
 		HashTable<string, AURPackage> aur_vcs_pkgs;
-		HashTable<string, unowned Alpm.Package> repos_pkgs;
+		HashTable<unowned string, unowned Alpm.Package> repos_pkgs;
 		#if ENABLE_SNAP
 		SnapPlugin snap_plugin;
 		#endif
@@ -60,7 +60,7 @@ namespace Pamac {
 			context = MainContext.ref_thread_default ();
 			loop = new MainLoop (context);
 			aur_vcs_pkgs = new HashTable<string, AURPackage>  (str_hash, str_equal);
-			repos_pkgs = new HashTable<string, unowned Alpm.Package>  (str_hash, str_equal);
+			repos_pkgs = new HashTable<unowned string, unowned Alpm.Package>  (str_hash, str_equal);
 			refresh ();
 			aur = new AUR ();
 			// init appstream
@@ -130,18 +130,7 @@ namespace Pamac {
 				files_handle = alpm_config.get_handle (true);
 			}
 			aur_vcs_pkgs.remove_all ();
-			unowned Alpm.List<unowned Alpm.DB> syncdbs = alpm_handle.syncdbs;
-			syncdbs.reverse ();
-			while (syncdbs != null) {
-				unowned Alpm.DB db = syncdbs.data;
-				unowned Alpm.List<unowned Alpm.Package> pkgcache = db.pkgcache;
-				while (pkgcache != null) {
-					unowned Alpm.Package sync_pkg = pkgcache.data;
-					repos_pkgs.insert (sync_pkg.name, sync_pkg);
-					pkgcache.next ();
-				}
-				syncdbs.next ();
-			}
+			repos_pkgs.remove_all ();
 		}
 
 		public SList<string> get_mirrors_countries () {
@@ -817,7 +806,7 @@ namespace Pamac {
 					unowned Alpm.List<unowned Alpm.Package> pkgcache = alpm_handle.localdb.pkgcache;
 					while (pkgcache != null) {
 						unowned Alpm.Package alpm_pkg = pkgcache.data;
-						if (!repos_pkgs.contains (alpm_pkg.name)) {
+						if (!is_sync_pkg (alpm_pkg.name)) {
 							alpm_pkgs.add (alpm_pkg);
 						}
 						pkgcache.next ();
@@ -873,11 +862,49 @@ namespace Pamac {
 		}
 
 		unowned Alpm.Package? get_syncpkg (string pkgname) {
-			return repos_pkgs.lookup (pkgname);
+			// check repos_pkgs first
+			unowned Alpm.Package? pkg;
+			if (repos_pkgs.lookup_extended (pkgname, null, out pkg)) {
+				return pkg;
+			}
+			// parse dbs and add pkg in repos_pkgs
+			unowned Alpm.List<unowned Alpm.DB> syncdbs = alpm_handle.syncdbs;
+			while (syncdbs != null) {
+				unowned Alpm.DB db = syncdbs.data;
+				pkg = db.get_pkg (pkgname);
+				if (pkg != null) {
+					break;
+				}
+				syncdbs.next ();
+			}
+			repos_pkgs.insert (pkgname, pkg);
+			return pkg;
 		}
 
 		public bool is_sync_pkg (string pkgname) {
-			return repos_pkgs.contains (pkgname);
+			// check repos_pkgs first
+			unowned Alpm.Package? pkg;
+			if (repos_pkgs.lookup_extended (pkgname, null, out pkg)) {
+				if (pkg != null) {
+					return true;
+				}
+				return false;
+			}
+			// parse dbs and add pkg in repos_pkgs
+			unowned Alpm.List<unowned Alpm.DB> syncdbs = alpm_handle.syncdbs;
+			while (syncdbs != null) {
+				unowned Alpm.DB db = syncdbs.data;
+				pkg = db.get_pkg (pkgname);
+				if (pkg != null) {
+					break;
+				}
+				syncdbs.next ();
+			}
+			repos_pkgs.insert (pkgname, pkg);
+			if (pkg != null) {
+				return true;
+			}
+			return false;
 		}
 
 		public AlpmPackage? get_sync_pkg (string pkgname) {
@@ -908,7 +935,20 @@ namespace Pamac {
 
 		public SList<AlpmPackage> get_sync_pkgs_by_glob (string glob) {
 			var pkgs = new SList<AlpmPackage> ();
-			var iter = HashTableIter<string, unowned Alpm.Package> (repos_pkgs);
+			// populate complete repos_pkgs
+			unowned Alpm.List<unowned Alpm.DB> syncdbs = alpm_handle.syncdbs;
+			syncdbs.reverse ();
+			while (syncdbs != null) {
+				unowned Alpm.DB db = syncdbs.data;
+				unowned Alpm.List<unowned Alpm.Package> pkgcache = db.pkgcache;
+				while (pkgcache != null) {
+					unowned Alpm.Package sync_pkg = pkgcache.data;
+					repos_pkgs.replace (sync_pkg.name, sync_pkg);
+					pkgcache.next ();
+				}
+				syncdbs.next ();
+			}
+			var iter = HashTableIter<unowned string, unowned Alpm.Package> (repos_pkgs);
 			unowned Alpm.Package sync_pkg;
 			while (iter.next (null, out sync_pkg)) {
 				// only check by name
