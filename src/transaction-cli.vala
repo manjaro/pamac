@@ -23,6 +23,7 @@ namespace Pamac {
 		string current_action;
 		bool summary_shown;
 		public bool no_confirm { get; set; }
+		public bool dry_run { get; set; }
 
 		public TransactionCli (Database database) {
 			Object (database: database);
@@ -33,6 +34,7 @@ namespace Pamac {
 			current_action = "";
 			summary_shown = false;
 			no_confirm = false;
+			dry_run = false;
 			// connect to signal
 			emit_action.connect (print_action);
 			emit_action_progress.connect (print_action_progress);
@@ -342,6 +344,9 @@ namespace Pamac {
 		protected override bool ask_edit_build_files (TransactionSummary summary) {
 			show_summary (summary);
 			summary_shown = true;
+			if (dry_run) {
+				return false;
+			}
 			if (no_confirm) {
 				return false;
 			}
@@ -568,6 +573,9 @@ namespace Pamac {
 		protected override bool ask_commit (TransactionSummary summary) {
 			if (!summary_shown) {
 				show_summary (summary);
+			}
+			if (dry_run) {
+				return false;
 			}
 			if (no_confirm) {
 				return true;
