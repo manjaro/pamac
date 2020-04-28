@@ -1258,7 +1258,11 @@ namespace Pamac {
 			snap_to_install.remove_all ();
 			snap_to_remove.remove_all ();
 			try {
-				return transaction_interface.snap_trans_run (snap_to_install_array.data, snap_to_remove_array.data);
+				// emit download signal to allow cancellation
+				start_downloading ();
+				bool success = transaction_interface.snap_trans_run (snap_to_install_array.data, snap_to_remove_array.data);
+				stop_downloading ();
+				return success;
 			} catch (Error e) {
 				emit_error ("Daemon Error", {"snap_trans_run: %s".printf (e.message)});
 				return false;
@@ -1309,9 +1313,13 @@ namespace Pamac {
 			flatpak_to_remove.remove_all ();
 			flatpak_to_upgrade.remove_all ();
 			try {
-				return transaction_interface.flatpak_trans_run (flatpak_to_install_array.data,
+				// emit download signal to allow cancellation
+				start_downloading ();
+				bool success = transaction_interface.flatpak_trans_run (flatpak_to_install_array.data,
 																flatpak_to_remove_array.data,
 																flatpak_to_upgrade_array.data);
+				stop_downloading ();
+				return success;
 			} catch (Error e) {
 				emit_error ("Daemon Error", {"flatpak_trans_run: %s".printf (e.message)});
 				return false;
