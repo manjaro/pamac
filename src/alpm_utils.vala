@@ -617,8 +617,8 @@ namespace Pamac {
 				bool success = trans_add_pkg_real (alpm_handle, pkg);
 				if (success) {
 					if (("linux31" in pkg.name) || ("linux4" in pkg.name) || ("linux5" in pkg.name)) {
-						var installed_kernels = new GenericArray<unowned string> ();
-						var installed_modules = new GenericArray<unowned string> ();
+						var installed_kernels = new GenericArray<string> ();
+						var installed_modules = new GenericArray<string> ();
 						unowned Alpm.List<unowned Alpm.Package> pkgcache = alpm_handle.localdb.pkgcache;
 						while (pkgcache != null) {
 							unowned Alpm.Package local_pkg = pkgcache.data;
