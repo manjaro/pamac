@@ -3844,8 +3844,7 @@ namespace Pamac {
 		[GtkCallback]
 		void on_apply_button_clicked () {
 			details_button.sensitive = true;
-			if (browse_stack.visible_child_name == "updates" &&
-				main_stack.visible_child_name == "browse") {
+			if (browse_stack.visible_child_name == "updates") {
 				transaction.no_confirm_upgrade = true;
 				run_sysupgrade (false);
 			} else if (main_stack.visible_child_name == "details" &&
