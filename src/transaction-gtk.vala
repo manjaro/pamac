@@ -128,45 +128,53 @@ namespace Pamac {
 		}
 
 		void display_action (string action) {
-			if (action != current_action) {
-				current_action = action;
-				show_details (action);
-				progress_box.action_label.label = action;
-				if (pulse_timeout_id == 0) {
-					progress_box.progressbar.fraction = 0;
+			lock (current_action) {
+				if (action != current_action) {
+					current_action = action;
+					show_details (action);
+					progress_box.action_label.label = action;
+					if (pulse_timeout_id == 0) {
+						progress_box.progressbar.fraction = 0;
+					}
+					progress_box.progressbar.text = "";
 				}
-				progress_box.progressbar.text = "";
 			}
 		}
 
 		void display_action_progress (string action, string status, double progress) {
-			if (action != current_action) {
-				current_action = action;
-				show_details (action);
-				progress_box.action_label.label = action;
+			lock (current_action) {
+				if (action != current_action) {
+					current_action = action;
+					show_details (action);
+					progress_box.action_label.label = action;
+				}
+				progress_box.progressbar.fraction = progress;
+				progress_box.progressbar.text = status;
 			}
-			progress_box.progressbar.fraction = progress;
-			progress_box.progressbar.text = status;
 		}
 
 		void display_hook_progress (string action, string details, string status, double progress) {
-			if (action != current_action) {
-				current_action = action;
-				show_details (action);
-				progress_box.action_label.label = action;
+			lock (current_action) {
+				if (action != current_action) {
+					current_action = action;
+					show_details (action);
+					progress_box.action_label.label = action;
+				}
+				show_details (details);
+				progress_box.progressbar.fraction = progress;
+				progress_box.progressbar.text = status;
 			}
-			show_details (details);
-			progress_box.progressbar.fraction = progress;
-			progress_box.progressbar.text = status;
 		}
 
 		public void reset_progress_box () {
-			current_action = "";
-			progress_box.action_label.label = "";
-			stop_progressbar_pulse ();
-			progress_box.progressbar.fraction = 0;
-			progress_box.progressbar.text = "";
-			progress_box.progressbar.visible = false;
+			lock (current_action) {
+				current_action = "";
+				progress_box.action_label.label = "";
+				stop_progressbar_pulse ();
+				progress_box.progressbar.fraction = 0;
+				progress_box.progressbar.text = "";
+				progress_box.progressbar.visible = false;
+			}
 		}
 
 		public void start_progressbar_pulse () {
