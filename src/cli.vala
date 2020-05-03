@@ -738,9 +738,6 @@ namespace Pamac {
 			#if ENABLE_SNAP
 			config.enable_snap = false;
 			#endif
-			#if ENABLE_FLATPAK
-			config.enable_flatpak = false;
-			#endif
 			database = new Database (config);
 		}
 
@@ -1896,6 +1893,9 @@ namespace Pamac {
 		void checkupdates (bool quiet, bool refresh_tmp_files_dbs, bool download_updates) {
 			var updates = database.get_updates ();
 			uint updates_nb = updates.repos_updates.length () + updates.aur_updates.length ();
+			#if ENABLE_FLATPAK
+			updates_nb += updates.flatpak_updates.length ();
+			#endif
 			if (updates_nb == 0) {
 				if (quiet) {
 					return;
@@ -2055,7 +2055,7 @@ namespace Pamac {
 				#if ENABLE_FLATPAK
 				foreach (unowned FlatpakPackage pkg in updates.flatpak_updates) {
 					stdout.printf ("%-*s  %-*s    %-*s  %s\n",
-									name_length, pkg.name,
+									name_length, pkg.app_name,
 									installed_version_length, "",
 									version_length, pkg.version,
 									pkg.repo);

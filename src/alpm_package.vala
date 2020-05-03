@@ -162,11 +162,17 @@ namespace Pamac {
 			aur_updates_priv = (owned) aur_updates;
 			ignored_aur_updates_priv = (owned) ignored_aur_updates;
 			outofdate_priv = (owned) outofdate;
+			repos_updates_priv.reverse ();
+			ignored_repos_updates_priv.reverse ();
+			aur_updates_priv.sort (compare_name_pkg);
+			ignored_aur_updates_priv.sort (compare_name_pkg);
+			outofdate_priv.sort (compare_name_pkg);
 		}
 		
 		#if ENABLE_FLATPAK
 		internal void set_flatpak_updates (owned SList<FlatpakPackage> flatpak_updates) {
 			flatpak_updates_priv = (owned) flatpak_updates;
+			flatpak_updates_priv.sort (compare_name_pkg);
 		}
 		#endif
 	}

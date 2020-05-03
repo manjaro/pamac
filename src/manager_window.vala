@@ -2239,6 +2239,11 @@ namespace Pamac {
 			}
 			row.desc_label.label = pkg.desc;
 			if (is_update) {
+				#if ENABLE_FLATPAK
+				if (pkg is FlatpakPackage)
+					row.version_label.set_markup ("<b>%s</b>".printf (pkg.version));
+				else
+				#endif
 				row.version_label.set_markup ("<b>%s  (%s)</b>".printf (pkg.version, pkg.installed_version));
 				if (pkg.download_size == 0) {
 					row.size_label.label = "";

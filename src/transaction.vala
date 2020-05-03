@@ -881,7 +881,9 @@ namespace Pamac {
 				}
 				#endif
 				#if ENABLE_SNAP || ENABLE_FLATPAK
-				if (summary.to_install_priv == null && summary.to_remove_priv == null) {
+				if (summary.to_install_priv == null &&
+					summary.to_remove_priv == null &&
+					summary.to_upgrade_priv == null) {
 					emit_action (dgettext (null, "Nothing to do") + ".");
 					return false;
 				} else if (ask_commit (summary)) {

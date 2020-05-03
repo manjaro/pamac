@@ -265,8 +265,14 @@ namespace Pamac {
 		void initialize_installed_ref (Flatpak.InstalledRef installed_ref, ref FlatpakPackage pkg) {
 			pkg.id = "%s/%s".printf (installed_ref.origin, installed_ref.format_ref ());
 			pkg.name = installed_ref.name;
-			pkg.version = installed_ref.appdata_version;
-			pkg.installed_version = installed_ref.appdata_version;
+			unowned string? installed_version = installed_ref.appdata_version;
+			if (installed_version != null) {
+				pkg.version = installed_version;
+				pkg.installed_version = installed_version;
+			} else {
+				// use commits
+				pkg.installed_version = installed_ref.commit;
+			}
 			pkg.repo = installed_ref.origin;
 			pkg.installed_size = installed_ref.installed_size;
 			pkg.desc = installed_ref.appdata_summary;
@@ -577,11 +583,11 @@ namespace Pamac {
 						initialize_app_data (app, ref pkg);
 						As.Release? release = app.get_release_default ();
 						if (release != null) {
+							// do not warning here about no version found
+							// to not add output lines to checkupdates -q
 							pkg.version = release.get_version ();
-							pkgs.prepend (pkg);
-						} else {
-							critical ("no version found for %s\n", app.get_id_filename ());
 						}
+						pkgs.prepend (pkg);
 					}
 				}
 			} catch (Error e) {
