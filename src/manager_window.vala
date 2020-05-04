@@ -2270,7 +2270,21 @@ namespace Pamac {
 					row.size_label.set_markup ("<span foreground='grey'>%s</span>".printf (GLib.format_size (pkg.installed_size)));
 				}
 			}
-			row.repo_label.set_markup ("<span foreground='grey'>%s</span>".printf (pkg.repo));
+			if (pkg is AlpmPackage) {
+				if (pkg.repo == "core" || pkg.repo == "extra" || pkg.repo == "community" || pkg.repo == "multilib") {
+					row.repo_label.set_markup ("<span foreground='grey'>%s</span>".printf (dgettext (null, "Official Repositories")));
+				} else if (pkg.repo == dgettext (null, "AUR")) {
+					row.repo_label.set_markup ("<span foreground='grey'>%s</span>".printf (pkg.repo));
+				} else {
+					row.repo_label.set_markup ("<span foreground='grey'>%s (%s)</span>".printf (dgettext (null, "Repository"), pkg.repo));
+				}
+			#if ENABLE_FLATPAK
+			} else if (pkg is FlatpakPackage) {
+				row.repo_label.set_markup ("<span foreground='grey'>%s (%s)</span>".printf (dgettext (null, "Flatpak"), pkg.repo));
+			#endif
+			} else {
+				row.repo_label.set_markup ("<span foreground='grey'>%s</span>".printf (pkg.repo));
+			}
 			Gdk.Pixbuf pixbuf;
 			if (pkg.icon != "") {
 				if ("http" in pkg.icon) {
