@@ -198,7 +198,11 @@ namespace Pamac {
 	int sort_pkgs_by_name (Package pkg_a, Package pkg_b) {
 		string str_a = pkg_a.app_name == "" ? pkg_a.name.collate_key () : pkg_a.app_name.down ().collate_key ();
 		string str_b = pkg_b.app_name == "" ? pkg_b.name.collate_key () : pkg_b.app_name.down ().collate_key ();
-		return strcmp (str_a, str_b);
+		int cmp = strcmp (str_a, str_b);
+		if (cmp == 0) {
+			cmp = sort_pkgs_by_repo_real (pkg_a, pkg_b);
+		}
+		return cmp;
 	}
 
 	int compare_pkgs_by_name (Package pkg_a, Package pkg_b) {
@@ -206,6 +210,14 @@ namespace Pamac {
 	}
 
 	int sort_pkgs_by_repo (Package pkg_a, Package pkg_b) {
+		int cmp = sort_pkgs_by_repo_real (pkg_a, pkg_b);
+		if (cmp == 0) {
+			cmp = sort_pkgs_by_name (pkg_a, pkg_b);
+		}
+		return cmp;
+	}
+
+	int sort_pkgs_by_repo_real (Package pkg_a, Package pkg_b) {
 		uint index_a = 10;
 		if (pkg_a.repo != "") {
 			uint index = 0;
@@ -234,7 +246,7 @@ namespace Pamac {
 		if (index_b > index_a) {
 			return -1;
 		}
-		return sort_pkgs_by_name (pkg_a, pkg_b);
+		return 0;
 	}
 
 	int sort_pkgs_by_installed_size (Package pkg_a, Package pkg_b) {
