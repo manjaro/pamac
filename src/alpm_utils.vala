@@ -1459,12 +1459,7 @@ namespace Pamac {
 			while (pkgs_to_add != null) {
 				unowned Alpm.Package trans_pkg = pkgs_to_add.data;
 				unowned Alpm.DB? db = trans_pkg.db;
-				if (db == null) {
-					// it a pkg in to_load
-					var pkg = initialise_pkg (alpm_handle, trans_pkg);
-					summary.to_install_priv.prepend (pkg);
-					summary.to_load_priv.prepend (trans_pkg.name);
-				} else if (db.name == "pamac_aur") {
+				if (db != null && db.name == "pamac_aur") {
 					// it is a aur pkg to build
 					if (summary.aur_pkgbases_to_build_priv.find_custom (trans_pkg.pkgbase, strcmp) == null) {
 						summary.aur_pkgbases_to_build_priv.prepend (trans_pkg.pkgbase);
@@ -1483,6 +1478,9 @@ namespace Pamac {
 						} else {
 							summary.to_downgrade_priv.prepend (pkg);
 						}
+					}
+					if (db == null) {
+						summary.to_load_priv.prepend (trans_pkg.name);
 					}
 				}
 				pkgs_to_add.next ();
