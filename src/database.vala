@@ -550,7 +550,7 @@ namespace Pamac {
 			pkg.builddate = alpm_pkg.builddate;
 			// installed_size
 			pkg.installed_size = alpm_pkg.isize;
-			// installed_size
+			// download_size
 			pkg.download_size = alpm_pkg.download_size;
 			// local pkg
 			if (alpm_pkg.origin == Alpm.Package.From.LOCALDB) {
@@ -593,16 +593,51 @@ namespace Pamac {
 				pkg.optionalfor_priv.reverse ();
 			// sync pkg
 			} else if (alpm_pkg.origin == Alpm.Package.From.SYNCDB) {
-				// installed_version
-				unowned Alpm.Package? local_pkg = alpm_handle.localdb.get_pkg (alpm_pkg.name);
-				if (local_pkg != null) {
-					pkg.installed_version = local_pkg.version;
-				}
 				// signature
 				if (alpm_pkg.base64_sig != null) {
 					pkg.has_signature = dgettext (null, "Yes");
 				} else {
 					pkg.has_signature = dgettext (null, "No");
+				}
+				// check if it is installed
+				unowned Alpm.Package? local_pkg = alpm_handle.localdb.get_pkg (alpm_pkg.name);
+				if (local_pkg != null) {
+					// installed_version
+					pkg.installed_version = local_pkg.version;
+					// compute details from local pkg, useful for updates
+					// reason
+					if (local_pkg.reason == Alpm.Package.Reason.EXPLICIT) {
+						pkg.reason = dgettext (null, "Explicitly installed");
+					} else if (local_pkg.reason == Alpm.Package.Reason.DEPEND) {
+						pkg.reason = dgettext (null, "Installed as a dependency for another package");
+					} else {
+						pkg.reason = dgettext (null, "Unknown");
+					}
+					// backups
+					unowned Alpm.List<unowned Alpm.Backup> backups_list = local_pkg.backups;
+					while (backups_list != null) {
+						var builder = new StringBuilder ("/");
+						builder.append (backups_list.data.name);
+						pkg.backups_priv.prepend ((owned) builder.str);
+						backups_list.next ();
+					}
+					pkg.backups_priv.reverse ();
+					// requiredby
+					Alpm.List<string> pkg_requiredby = local_pkg.compute_requiredby ();
+					unowned Alpm.List<string> string_list = pkg_requiredby;
+					while (string_list != null) {
+						pkg.requiredby_priv.prepend ((owned) string_list.data);
+						string_list.next ();
+					}
+					pkg.requiredby_priv.reverse ();
+					// optionalfor
+					Alpm.List<string> pkg_optionalfor = local_pkg.compute_optionalfor ();
+					string_list = pkg_optionalfor;
+					while (string_list != null) {
+						pkg.optionalfor_priv.prepend ((owned) string_list.data);
+						string_list.next ();
+					}
+					pkg.optionalfor_priv.reverse ();
 				}
 			}
 			// depends
