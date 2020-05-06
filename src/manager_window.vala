@@ -107,73 +107,6 @@ namespace Pamac {
 	}
 
 	int sort_pkgs_by_relevance (Package pkg_a, Package pkg_b) {
-		if (pkg_a.name in to_remove) {
-			if (pkg_b.name in to_remove) {
-				return sort_pkgs_by_name (pkg_a, pkg_b);
-			}
-			return -1;
-		}
-		if (pkg_b.name in to_remove) {
-			return 1;
-		}
-		if (pkg_a.name in to_install) {
-			if (pkg_b.name in to_install) {
-				return sort_pkgs_by_name (pkg_a, pkg_b);
-			}
-			return -1;
-		}
-		if (pkg_b.name in to_install) {
-			return 1;
-		}
-		#if ENABLE_SNAP
-		if (pkg_a.name in snap_to_remove) {
-			if (pkg_b.name in snap_to_remove) {
-				return sort_pkgs_by_name (pkg_a, pkg_b);
-			}
-			return -1;
-		}
-		if (pkg_b.name in snap_to_remove) {
-			return 1;
-		}
-		if (pkg_a.name in snap_to_install) {
-			if (pkg_b.name in snap_to_install) {
-				return sort_pkgs_by_name (pkg_a, pkg_b);
-			}
-			return -1;
-		}
-		if (pkg_b.name in snap_to_install) {
-			return 1;
-		}
-		#endif
-		#if ENABLE_FLATPAK
-		if (pkg_a.name in flatpak_to_remove) {
-			if (pkg_b.name in flatpak_to_remove) {
-				return sort_pkgs_by_name (pkg_a, pkg_b);
-			}
-			return -1;
-		}
-		if (pkg_b.name in flatpak_to_remove) {
-			return 1;
-		}
-		if (pkg_a.name in flatpak_to_install) {
-			if (pkg_b.name in flatpak_to_install) {
-				return sort_pkgs_by_name (pkg_a, pkg_b);
-			}
-			return -1;
-		}
-		if (pkg_b.name in flatpak_to_install) {
-			return 1;
-		}
-		#endif
-		if (pkg_a.name in temporary_ignorepkgs) {
-			if (pkg_b.name in temporary_ignorepkgs) {
-				return sort_pkgs_by_name (pkg_a, pkg_b);
-			}
-			return -1;
-		}
-		if (pkg_b.name in temporary_ignorepkgs) {
-			return 1;
-		}
 		if (pkg_a.installed_version == "") {
 			if (pkg_b.installed_version == "") {
 				return sort_pkgs_by_name (pkg_a, pkg_b);
@@ -270,33 +203,6 @@ namespace Pamac {
 	}
 
 	int sort_aur_by_relevance (AURPackage pkg_a, AURPackage pkg_b) {
-		if (pkg_a.name in to_remove) {
-			if (pkg_b.name in to_remove) {
-				return sort_pkgs_by_name (pkg_a, pkg_b);
-			}
-			return -1;
-		}
-		if (pkg_b.name in to_remove) {
-			return 1;
-		}
-		if (pkg_a.name in to_build) {
-			if (pkg_b.name in to_build) {
-				return sort_pkgs_by_name (pkg_a, pkg_b);
-			}
-			return -1;
-		}
-		if (pkg_b.name in to_build) {
-			return 1;
-		}
-		if (pkg_a.name in temporary_ignorepkgs) {
-			if (pkg_b.name in temporary_ignorepkgs) {
-				return sort_pkgs_by_name (pkg_a, pkg_b);
-			}
-			return -1;
-		}
-		if (pkg_b.name in temporary_ignorepkgs) {
-			return 1;
-		}
 		if (pkg_a.installed_version != "") {
 			if (pkg_b.installed_version != "") {
 				return sort_pkgs_by_name (pkg_a, pkg_b);
