@@ -3,4 +3,4 @@ Description=Clean packages cache
 
 [Service]
 Type=oneshot
-ExecStart=/usr/bin/pamac clean --no-confirm
+ExecStart=@bindir@/pamac clean --no-confirm

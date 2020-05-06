@@ -4,4 +4,4 @@ Description=Pamac Daemon
 [Service]
 Type=dbus
 BusName=org.manjaro.pamac.daemon
-ExecStart=/usr/bin/pamac-daemon
+ExecStart=@bindir@/pamac-daemon
