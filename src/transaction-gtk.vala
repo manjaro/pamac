@@ -341,9 +341,37 @@ namespace Pamac {
 			return false;
 		}
 
+		public void transaction_summary_remove_all () {
+			lock (transaction_summary) {
+				transaction_summary.remove_all ();
+			}
+		}
+
+		void transaction_summary_add (string pkgname) {
+			lock (transaction_summary) {
+				transaction_summary.add (pkgname);
+			}
+		}
+
+		public bool transaction_summary_contains (string pkgname) {
+			bool contains = false;
+			lock (transaction_summary){
+				contains = transaction_summary.contains (pkgname);
+			}
+			return contains;
+		}
+
+		public uint transaction_summary_length () {
+			uint length = 0;
+			lock (transaction_summary){
+				length = transaction_summary.length;
+			}
+			return length;
+		}
+
 		int show_summary (TransactionSummary summary) {
 			uint64 dsize = 0;
-			transaction_summary.remove_all ();
+			transaction_summary_remove_all ();
 			transaction_sum_dialog.sum_list.clear ();
 			transaction_sum_dialog.edit_button.visible = false;
 			var iter = Gtk.TreeIter ();
@@ -353,7 +381,7 @@ namespace Pamac {
 			if (summary.to_remove != null) {
 				pkgs = summary.to_remove;
 				pkg = pkgs.data;
-				transaction_summary.add (pkg.name);
+				transaction_summary_add (pkg.name);
 				transaction_sum_dialog.sum_list.insert_with_values (out iter, -1,
 												0, "<b>%s</b>".printf (dgettext (null, "To remove") + ":"),
 												1, pkg.name,
@@ -363,7 +391,7 @@ namespace Pamac {
 				pkgs = pkgs.next;
 				while (pkgs != null) {
 					pkg = pkgs.data;
-					transaction_summary.add (pkg.name);
+					transaction_summary_add (pkg.name);
 					transaction_sum_dialog.sum_list.insert_with_values (out iter, -1,
 												1, pkg.name,
 												2, pkg.version,
@@ -374,7 +402,7 @@ namespace Pamac {
 			if (summary.conflicts_to_remove != null) {
 				pkgs = summary.conflicts_to_remove;
 				pkg = pkgs.data;
-				transaction_summary.add (pkg.name);
+				transaction_summary_add (pkg.name);
 				if (to_remove_printed) {
 					transaction_sum_dialog.sum_list.insert_with_values (out iter, -1,
 												1, pkg.name,
@@ -391,7 +419,7 @@ namespace Pamac {
 				pkgs = pkgs.next;
 				while (pkgs != null) {
 					pkg = pkgs.data;
-					transaction_summary.add (pkg.name);
+					transaction_summary_add (pkg.name);
 					transaction_sum_dialog.sum_list.insert_with_values (out iter, -1,
 												1, pkg.name,
 												2, pkg.version,
@@ -404,7 +432,7 @@ namespace Pamac {
 				pkg = pkgs.data;
 				dsize += pkg.download_size;
 				string size = pkg.download_size == 0 ? "" : format_size (pkg.download_size);
-				transaction_summary.add (pkg.name);
+				transaction_summary_add (pkg.name);
 				transaction_sum_dialog.sum_list.insert_with_values (out iter, -1,
 												0, "<b>%s</b>".printf (dgettext (null, "To downgrade") + ":"),
 												1, pkg.name,
@@ -417,7 +445,7 @@ namespace Pamac {
 					pkg = pkgs.data;
 					dsize += pkg.download_size;
 					size = pkg.download_size == 0 ? "" : format_size (pkg.download_size);
-					transaction_summary.add (pkg.name);
+					transaction_summary_add (pkg.name);
 					transaction_sum_dialog.sum_list.insert_with_values (out iter, -1,
 												1, pkg.name,
 												2, pkg.version,
@@ -431,7 +459,7 @@ namespace Pamac {
 				transaction_sum_dialog.edit_button.visible = true;
 				pkgs = summary.to_build;
 				pkg = pkgs.data;
-				transaction_summary.add (pkg.name);
+				transaction_summary_add (pkg.name);
 				string installed_version = "";
 				if (pkg.installed_version != "" && pkg.installed_version != pkg.version) {
 					installed_version = "(%s)".printf (pkg.installed_version);
@@ -445,7 +473,7 @@ namespace Pamac {
 				pkgs = pkgs.next;
 				while (pkgs != null) {
 					pkg = pkgs.data;
-					transaction_summary.add (pkg.name);
+					transaction_summary_add (pkg.name);
 					installed_version = "";
 					if (pkg.installed_version != "" && pkg.installed_version != pkg.version) {
 						installed_version = "(%s)".printf (pkg.installed_version);
@@ -463,7 +491,7 @@ namespace Pamac {
 				pkg = pkgs.data;
 				dsize += pkg.download_size;
 				string size = pkg.download_size == 0 ? "" : format_size (pkg.download_size);
-				transaction_summary.add (pkg.name);
+				transaction_summary_add (pkg.name);
 				transaction_sum_dialog.sum_list.insert_with_values (out iter, -1,
 												0, "<b>%s</b>".printf (dgettext (null, "To install") + ":"),
 												1, pkg.name,
@@ -475,7 +503,7 @@ namespace Pamac {
 					pkg = pkgs.data;
 					dsize += pkg.download_size;
 					size = pkg.download_size == 0 ? "" : format_size (pkg.download_size);
-					transaction_summary.add (pkg.name);
+					transaction_summary_add (pkg.name);
 					transaction_sum_dialog.sum_list.insert_with_values (out iter, -1,
 												1, pkg.name,
 												2, pkg.version,
@@ -489,7 +517,7 @@ namespace Pamac {
 				pkg = pkgs.data;
 				dsize += pkg.download_size;
 				string size = pkg.download_size == 0 ? "" : format_size (pkg.download_size);
-				transaction_summary.add (pkg.name);
+				transaction_summary_add (pkg.name);
 				transaction_sum_dialog.sum_list.insert_with_values (out iter, -1,
 												0, "<b>%s</b>".printf (dgettext (null, "To reinstall") + ":"),
 												1, pkg.name,
@@ -501,7 +529,7 @@ namespace Pamac {
 					pkg = pkgs.data;
 					dsize += pkg.download_size;
 					size = pkg.download_size == 0 ? "" : format_size (pkg.download_size);
-					transaction_summary.add (pkg.name);
+					transaction_summary_add (pkg.name);
 					transaction_sum_dialog.sum_list.insert_with_values (out iter, -1,
 												1, pkg.name,
 												2, pkg.version,
@@ -516,7 +544,7 @@ namespace Pamac {
 					pkg = pkgs.data;
 					dsize += pkg.download_size;
 					string size = pkg.download_size == 0 ? "" : format_size (pkg.download_size);
-					transaction_summary.add (pkg.name);
+					transaction_summary_add (pkg.name);
 					transaction_sum_dialog.sum_list.insert_with_values (out iter, -1,
 													0, "<b>%s</b>".printf (dgettext (null, "To upgrade") + ":"),
 													1, pkg.name,
@@ -529,7 +557,7 @@ namespace Pamac {
 						pkg = pkgs.data;
 						dsize += pkg.download_size;
 						size = pkg.download_size == 0 ? "" : format_size (pkg.download_size);
-						transaction_summary.add (pkg.name);
+						transaction_summary_add (pkg.name);
 						transaction_sum_dialog.sum_list.insert_with_values (out iter, -1,
 													1, pkg.name,
 													2, pkg.version,
@@ -546,7 +574,7 @@ namespace Pamac {
 				transaction_sum_dialog.top_label.set_markup ("<b>%s: %s</b>".printf (dgettext (null, "Total download size"), format_size (dsize)));
 				transaction_sum_dialog.top_label.visible = true;
 			}
-			if (transaction_summary.length == 0) {
+			if (transaction_summary_length () == 0) {
 				// empty summary comes in case of transaction preparation failure
 				// with pkgs to build so we show warnings ans ask to edit build files
 				transaction_sum_dialog.edit_button.visible = true;
@@ -561,10 +589,12 @@ namespace Pamac {
 			} else {
 				show_warnings (true);
 			}
-			transaction_sum_populated ();
 			transaction_sum_dialog.cancel_button.grab_focus ();
 			int response = transaction_sum_dialog.run ();
 			transaction_sum_dialog.hide ();
+			if (response == Gtk.ResponseType.OK) {
+				transaction_sum_populated ();
+			}
 			return response;
 		}
 

@@ -243,15 +243,8 @@ namespace Pamac {
 		}
 
 		bool do_get_authorization () {
-			bool authorized = false;
-			var loop = new MainLoop (context);
-			context.invoke (() => {
-				authorized = get_authorization (sender);
-				loop.quit ();
-				return false;
-			});
-			loop.run ();
-			return authorized;
+			// won't send a signal in a thread
+			return get_authorization (sender);
 		}
 
 		void check_old_lock () {

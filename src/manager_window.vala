@@ -640,7 +640,7 @@ namespace Pamac {
 					if (pamac_row == null) {
 						return;
 					}
-					if (transaction.transaction_summary.contains (pamac_row.pkg.name)) {
+					if (transaction.transaction_summary_contains (pamac_row.pkg.name)) {
 						pamac_row.action_togglebutton.active = false;
 						pamac_row.action_togglebutton.sensitive = false;
 					}
@@ -2271,11 +2271,11 @@ namespace Pamac {
 				}
 			}
 			if (pkg is AlpmPackage) {
-				if (pkg.repo == "core" || pkg.repo == "extra" || pkg.repo == "community" || pkg.repo == "multilib") {
+				if (pkg.repo == "community" || pkg.repo == "extra" || pkg.repo == "core" || pkg.repo == "multilib") {
 					row.repo_label.set_markup ("<span foreground='grey'>%s</span>".printf (dgettext (null, "Official Repositories")));
 				} else if (pkg.repo == dgettext (null, "AUR")) {
 					row.repo_label.set_markup ("<span foreground='grey'>%s</span>".printf (pkg.repo));
-				} else {
+				} else if (pkg.repo != "") {
 					row.repo_label.set_markup ("<span foreground='grey'>%s (%s)</span>".printf (dgettext (null, "Repository"), pkg.repo));
 				}
 			#if ENABLE_FLATPAK
@@ -2333,7 +2333,7 @@ namespace Pamac {
 				pixbuf = package_icon.scale_simple (48, 48, Gdk.InterpType.BILINEAR);
 			}
 			row.app_icon.pixbuf = pixbuf;
-			if (transaction.transaction_summary.contains (pkg.name)) {
+			if (transaction.transaction_summary_contains (pkg.name)) {
 				row.action_togglebutton.sensitive = false;
 			}
 			if (is_update) {
@@ -3428,7 +3428,7 @@ namespace Pamac {
 		[GtkCallback]
 		void on_remove_all_button_clicked () {
 			foreach (unowned Package pkg in current_packages_list) {
-				if (!transaction.transaction_summary.contains (pkg.name) && pkg.installed_version != ""
+				if (!transaction.transaction_summary_contains (pkg.name) && pkg.installed_version != ""
 					&& !database.should_hold (pkg.name)) {
 					to_install.remove (pkg.name);
 					to_remove.add (pkg.name);
@@ -3441,7 +3441,7 @@ namespace Pamac {
 		[GtkCallback]
 		void on_install_all_button_clicked () {
 			foreach (unowned Package pkg in current_packages_list) {
-				if (!transaction.transaction_summary.contains (pkg.name) && pkg.installed_version == "") {
+				if (!transaction.transaction_summary_contains (pkg.name) && pkg.installed_version == "") {
 					to_install.add (pkg.name);
 				}
 			}
@@ -4192,9 +4192,8 @@ namespace Pamac {
 			}
 			transaction.reset_progress_box ();
 			transaction.show_details ("");
-			transaction.transaction_summary.remove_all ();
+			transaction.transaction_summary_remove_all ();
 			clear_previous_lists ();
-			scroll_to_top = false;
 			if (main_stack.visible_child_name == "term") {
 				button_back.visible = true;
 			}
