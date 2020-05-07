@@ -14,9 +14,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2020-03-06 17:13+0100\n"
-"PO-Revision-Date: 2020-03-24 19:17+0000\n"
-"Last-Translator: David Hu <david.hu.2035@gmail.com>\n"
+"POT-Creation-Date: 2020-05-06 11:12+0200\n"
+"PO-Revision-Date: 2020-05-07 02:48+0000\n"
+"Last-Translator: 黃柏諺 <s8321414@gmail.com>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -73,10 +73,24 @@ msgstr "軟體包 %s 沒有有效的架構"
 msgid "unable to satisfy dependency '%s' required by %s"
 msgstr "無法滿足依賴關係 '%s' 由 %s 所要求"
 
+#: src/alpm_utils.vala src/transaction-gtk.vala src/cli.vala
+msgid "Warning"
+msgstr "警告"
+
 #: src/alpm_utils.vala
 #, c-format
 msgid "installing %s (%s) breaks dependency '%s' required by %s"
 msgstr "正在安裝%s (%s) 破壞了依賴關係 '%s' 由 %s 所要求"
+
+#: src/alpm_utils.vala src/cli.vala
+#, c-format
+msgid "Add %s to remove"
+msgstr "新增 %s 以移除"
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "if possible, remove %s and retry"
+msgstr "如果可以的話，請移除 %s 並重試"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -93,9 +107,14 @@ msgstr "%s 及 %s 衝突"
 msgid "%s needs to be removed but it is a locked package"
 msgstr "%s 需要被移除，但它是一個被鎖定的軟體包"
 
-#: src/alpm_utils.vala src/transaction.vala src/installer.vala src/cli.vala
-msgid "Nothing to do"
-msgstr "已無事可作"
+#: src/alpm_utils.vala
+#, c-format
+msgid "removing %s from target list"
+msgstr "正在從目標清單中移除 %s"
+
+#: src/alpm_utils.vala
+msgid "Failed to initialize AUR database"
+msgstr "初始化 AUR 資料庫失敗"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -104,13 +123,40 @@ msgstr "%s 同時存在於 %s 及 %s"
 
 #: src/alpm_utils.vala
 #, c-format
+msgid "%s: %s already exists in filesystem (owned by %s)"
+msgstr "%s：%s 已存在於檔案系統中（由 %s 擁有）"
+
+#: src/alpm_utils.vala
+#, c-format
 msgid "%s: %s already exists in filesystem"
 msgstr "%s ： %s 已在檔案系統中存在"
+
+#: src/alpm_utils.vala
+msgid "if this file is not needed, remove it and retry"
+msgstr "如果不需要此檔案，移除它並重試"
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "%s: %s already existed in filesystem"
+msgstr "%s：%s 已存在於檔案系統中"
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "It has been backup to %s"
+msgstr "已備份至 %s"
+
+#: src/alpm_utils.vala
+msgid "Removing invalid files and retrying"
+msgstr "正在移除無效的檔案並重試"
 
 #: src/alpm_utils.vala
 #, c-format
 msgid "%s is invalid or corrupted"
 msgstr "%s 是無效或損毀的"
+
+#: src/alpm_utils.vala
+msgid "you can remove this file and retry"
+msgstr "您可以移除此檔案並重試"
 
 #: src/alpm_utils.vala
 msgid "failed to retrieve some files"
@@ -182,10 +228,6 @@ msgstr "設定 %s 時出錯"
 #: src/alpm_utils.vala
 msgid "Checking available disk space"
 msgstr "正在檢查可用磁碟空間"
-
-#: src/alpm_utils.vala src/transaction-gtk.vala src/cli.vala
-msgid "Warning"
-msgstr "警告"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -345,6 +387,10 @@ msgstr "事務處理成功完成"
 msgid "Preparing"
 msgstr "準備中"
 
+#: src/transaction.vala src/installer.vala src/cli.vala
+msgid "Nothing to do"
+msgstr "已無事可作"
+
 #: src/transaction.vala
 #, c-format
 msgid "Building %s"
@@ -374,8 +420,8 @@ msgid "Trust and Import"
 msgstr "信任並匯入"
 
 #: src/transaction-gtk.vala src/manager_window.vala
-#: resources/transaction_sum_dialog.ui resources/manager_window.ui
-#: resources/choose_pkgs_dialog.ui
+#: resources/progress_dialog.ui resources/transaction_sum_dialog.ui
+#: resources/manager_window.ui resources/choose_pkgs_dialog.ui
 msgid "_Cancel"
 msgstr "取消(_C)"
 
@@ -652,6 +698,26 @@ msgstr "關在沙盒中"
 msgid "Channels"
 msgstr "頻道"
 
+#: src/manager_window.vala resources/manager_window.ui
+msgid "Relevance"
+msgstr "關聯性"
+
+#: src/manager_window.vala src/cli.vala resources/manager_window.ui
+msgid "Name"
+msgstr "名稱"
+
+#: src/manager_window.vala resources/manager_window.ui
+msgid "Size"
+msgstr "大小"
+
+#: src/manager_window.vala resources/manager_window.ui
+msgid "Date"
+msgstr "日期"
+
+#: src/manager_window.vala resources/preferences_dialog.ui
+msgid "Official Repositories"
+msgstr "官方套件庫"
+
 #: src/manager_window.vala
 msgid "Upgrade"
 msgstr "升級"
@@ -851,6 +917,10 @@ msgid ""
 msgstr "搜尋擁有給定檔案名稱的軟體包（檔案名稱可以只有部份）"
 
 #: src/cli.vala
+msgid "only print names"
+msgstr "僅顯示名稱"
+
+#: src/cli.vala
 msgid "Display package details, multiple packages can be specified"
 msgstr "顯示軟體包詳細資訊，可以指定多個軟體包"
 
@@ -915,6 +985,10 @@ msgid "also clone needed dependencies"
 msgstr "也再製必要的相依性"
 
 #: src/cli.vala
+msgid "do not print any output"
+msgstr "不要顯示任何輸出"
+
+#: src/cli.vala
 msgid "overwrite existing files"
 msgstr "覆寫既有檔案"
 
@@ -936,6 +1010,10 @@ msgstr "且 --no-clone 選項將被強制執行"
 #: src/cli.vala
 msgid "keep built packages in cache after installation"
 msgstr "在安裝後將建置好的軟體包保留在快取中"
+
+#: src/cli.vala
+msgid "only print what would be done but do not run the transaction"
+msgstr "僅顯示將要執行的動作但不執行處理"
 
 #: src/cli.vala
 msgid "do not clone build files from AUR, only use local files"
@@ -1004,26 +1082,34 @@ msgid "Exit code is 100 if updates are available"
 msgstr "有可用的更新時，結束碼會是 100"
 
 #: src/cli.vala
-msgid "also check updates in AUR"
-msgstr "也檢查 AUR 中的更新"
-
-#: src/cli.vala
-msgid "also check development packages updates (use with --aur)"
-msgstr "也檢查開發軟體包更新（使用 --aur）"
-
-#: src/cli.vala
-msgid "only print one line per update"
-msgstr "每個更新僅印出一行"
-
-#: src/cli.vala
 msgid ""
 "build directory (use with --devel), if no directory is given the one "
 "specified in pamac.conf file is used"
 msgstr "構建目錄（使用 --devel），若沒有指定目錄，將會使用 pamac.conf 檔案中的目錄"
 
 #: src/cli.vala
+msgid "also check updates in AUR"
+msgstr "也檢查 AUR 中的更新"
+
+#: src/cli.vala
+msgid "only print one line per update"
+msgstr "每個更新僅印出一行"
+
+#: src/cli.vala
+msgid "also check development packages updates (use with --aur)"
+msgstr "也檢查開發軟體包更新（使用 --aur）"
+
+#: src/cli.vala
 msgid "Upgrade your system"
 msgstr "更新您的系統"
+
+#: src/cli.vala
+msgid "force the refresh of the databases"
+msgstr "強制重新整理資料庫"
+
+#: src/cli.vala
+msgid "enable package downgrades"
+msgstr "啟用軟體包降級"
 
 #: src/cli.vala
 msgid "also upgrade packages installed from AUR"
@@ -1038,14 +1124,6 @@ msgid ""
 "build directory (use with --aur), if no directory is given the one specified"
 " in pamac.conf file is used"
 msgstr "構建目錄（與 --aur 一同使用），若沒有給定的目錄，將會使用在 pamac.conf 檔案中指定的"
-
-#: src/cli.vala
-msgid "force the refresh of the databases"
-msgstr "強制重新整理資料庫"
-
-#: src/cli.vala
-msgid "enable package downgrades"
-msgstr "啟用軟體包降級"
 
 #: src/cli.vala
 msgid "Clean packages cache or build files"
@@ -1077,10 +1155,6 @@ msgstr "不要移除檔案，僅尋找候選軟體包"
 #: src/cli.vala
 msgid "also display all files names"
 msgstr "也顯示所有檔案名稱"
-
-#: src/cli.vala resources/manager_window.ui
-msgid "Name"
-msgstr "名稱"
 
 #: src/cli.vala
 msgid "Version"
@@ -1128,6 +1202,11 @@ msgstr "清除建構檔案"
 
 #: src/cli.vala
 #, c-format
+msgid "Add %s to install"
+msgstr "新增 %s 以安裝"
+
+#: src/cli.vala
+#, c-format
 msgid "%s is only available from AUR"
 msgstr "%s 僅從 AUR 提供"
 
@@ -1145,6 +1224,11 @@ msgstr[0] "在群組 %s 中有 %u 個成員"
 #: src/cli.vala
 msgid "all"
 msgstr "全部"
+
+#: src/cli.vala
+#, c-format
+msgid "Add %s to reinstall"
+msgstr "新增 %s 以重新安裝"
 
 #: resources/choose_provider_dialog.ui
 msgid "Choose a Provider"
@@ -1219,18 +1303,6 @@ msgid "Sort by"
 msgstr "排序使用"
 
 #: resources/manager_window.ui
-msgid "Relevance"
-msgstr "關聯性"
-
-#: resources/manager_window.ui
-msgid "Size"
-msgstr "大小"
-
-#: resources/manager_window.ui
-msgid "Date"
-msgstr "日期"
-
-#: resources/manager_window.ui
 msgid "Launch"
 msgstr "啟動"
 
@@ -1303,10 +1375,6 @@ msgid "Refresh Mirrors List"
 msgstr "重新整理鏡像列表"
 
 #: resources/preferences_dialog.ui
-msgid "Official Repositories"
-msgstr "官方套件庫"
-
-#: resources/preferences_dialog.ui
 msgid ""
 "AUR is a community maintained repository so it presents potential risks and problems.\n"
 "All AUR users should be familiar with the build process."
@@ -1323,10 +1391,6 @@ msgstr "允許 Pamac 搜尋及安裝 AUR 上的軟體包"
 #: resources/preferences_dialog.ui
 msgid "Keep built packages in cache"
 msgstr "將建置好的軟體包保留在快取中"
-
-#: resources/preferences_dialog.ui
-msgid "Check for updates from AUR"
-msgstr "自 AUR 檢查更新"
 
 #: resources/preferences_dialog.ui
 msgid "Check for development packages updates"

@@ -5,8 +5,8 @@
 # 
 # Translators:
 # Cybertramp <paran_son@outlook.com>, 2018
-# 이정희 <daemul72@gmail.com>, 2020
-# 이정희 <daemul72@gmail.com>, 2019-2020
+# MarongHappy <daemul72@gmail.com>, 2020
+# MarongHappy <daemul72@gmail.com>, 2019-2020
 # Dongyun KIm <104arb@gmail.com>, 2018
 # Eric Park <ideamaneric@gmail.com>, 2017
 # lego37yoon <lego37yoon@outlook.com>, 2013
@@ -18,9 +18,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2020-03-06 17:13+0100\n"
-"PO-Revision-Date: 2020-03-10 05:51+0000\n"
-"Last-Translator: 이정희 <daemul72@gmail.com>\n"
+"POT-Creation-Date: 2020-05-06 11:12+0200\n"
+"PO-Revision-Date: 2020-05-06 11:43+0000\n"
+"Last-Translator: Transifex Bot <>\n"
 "Language-Team: Korean (http://www.transifex.com/manjarolinux/manjaro-pamac/language/ko/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -77,10 +77,24 @@ msgstr "%s 패키지에 올바른 아키텍처가 없습니다"
 msgid "unable to satisfy dependency '%s' required by %s"
 msgstr "%s에 필요한 의존성 '%s'을(를) 충족시킬 수 없습니다"
 
+#: src/alpm_utils.vala src/transaction-gtk.vala src/cli.vala
+msgid "Warning"
+msgstr "경고"
+
 #: src/alpm_utils.vala
 #, c-format
 msgid "installing %s (%s) breaks dependency '%s' required by %s"
 msgstr "%s (%s)을(를) 설치하면 %s에 필요한 의존성 '%s'이(가) 깨집니다"
+
+#: src/alpm_utils.vala src/cli.vala
+#, c-format
+msgid "Add %s to remove"
+msgstr ""
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "if possible, remove %s and retry"
+msgstr ""
 
 #: src/alpm_utils.vala
 #, c-format
@@ -97,9 +111,14 @@ msgstr "%s 및 %s이(가) 충돌합니다"
 msgid "%s needs to be removed but it is a locked package"
 msgstr "%s을(를) 제거해야 하지만 잠긴 패키지입니다"
 
-#: src/alpm_utils.vala src/transaction.vala src/installer.vala src/cli.vala
-msgid "Nothing to do"
-msgstr "아무 것도 할 것이 없습니다"
+#: src/alpm_utils.vala
+#, c-format
+msgid "removing %s from target list"
+msgstr ""
+
+#: src/alpm_utils.vala
+msgid "Failed to initialize AUR database"
+msgstr ""
 
 #: src/alpm_utils.vala
 #, c-format
@@ -108,13 +127,40 @@ msgstr "%s은(는) %s과(와) %s 모두에 존재합니다"
 
 #: src/alpm_utils.vala
 #, c-format
+msgid "%s: %s already exists in filesystem (owned by %s)"
+msgstr ""
+
+#: src/alpm_utils.vala
+#, c-format
 msgid "%s: %s already exists in filesystem"
 msgstr "%s: %s이(가) 파일 시스템에 이미 존재합니다"
+
+#: src/alpm_utils.vala
+msgid "if this file is not needed, remove it and retry"
+msgstr ""
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "%s: %s already existed in filesystem"
+msgstr ""
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "It has been backup to %s"
+msgstr ""
+
+#: src/alpm_utils.vala
+msgid "Removing invalid files and retrying"
+msgstr ""
 
 #: src/alpm_utils.vala
 #, c-format
 msgid "%s is invalid or corrupted"
 msgstr "%s이(가) 유효하지 않거나 손상되었습니다"
+
+#: src/alpm_utils.vala
+msgid "you can remove this file and retry"
+msgstr ""
 
 #: src/alpm_utils.vala
 msgid "failed to retrieve some files"
@@ -186,10 +232,6 @@ msgstr "%s를 설정하는 동안 오류"
 #: src/alpm_utils.vala
 msgid "Checking available disk space"
 msgstr "사용 가능한 디스크 공간 확인중"
-
-#: src/alpm_utils.vala src/transaction-gtk.vala src/cli.vala
-msgid "Warning"
-msgstr "경고"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -349,6 +391,10 @@ msgstr "트랜잭션이 성공적으로 완료되었습니다"
 msgid "Preparing"
 msgstr "준비중"
 
+#: src/transaction.vala src/installer.vala src/cli.vala
+msgid "Nothing to do"
+msgstr "아무 것도 할 것이 없습니다"
+
 #: src/transaction.vala
 #, c-format
 msgid "Building %s"
@@ -378,8 +424,8 @@ msgid "Trust and Import"
 msgstr "신용 및 가져오기"
 
 #: src/transaction-gtk.vala src/manager_window.vala
-#: resources/transaction_sum_dialog.ui resources/manager_window.ui
-#: resources/choose_pkgs_dialog.ui
+#: resources/progress_dialog.ui resources/transaction_sum_dialog.ui
+#: resources/manager_window.ui resources/choose_pkgs_dialog.ui
 msgid "_Cancel"
 msgstr "취소 (_C)"
 
@@ -656,6 +702,26 @@ msgstr "샌드박스에 고정되었습니다"
 msgid "Channels"
 msgstr "채널"
 
+#: src/manager_window.vala resources/manager_window.ui
+msgid "Relevance"
+msgstr "관련성"
+
+#: src/manager_window.vala src/cli.vala resources/manager_window.ui
+msgid "Name"
+msgstr "이름"
+
+#: src/manager_window.vala resources/manager_window.ui
+msgid "Size"
+msgstr "크기"
+
+#: src/manager_window.vala resources/manager_window.ui
+msgid "Date"
+msgstr "날짜"
+
+#: src/manager_window.vala resources/preferences_dialog.ui
+msgid "Official Repositories"
+msgstr "공식 저장소"
+
 #: src/manager_window.vala
 msgid "Upgrade"
 msgstr "업그레이드"
@@ -855,6 +921,10 @@ msgid ""
 msgstr "지정된 파일 이름을 소유하는 패키지 검색 (파일명은 부분적으로도 가능)"
 
 #: src/cli.vala
+msgid "only print names"
+msgstr ""
+
+#: src/cli.vala
 msgid "Display package details, multiple packages can be specified"
 msgstr "패키지의 세부 정보를 표시하고, 여러 패키지를 지정할 수 있습니다"
 
@@ -919,6 +989,10 @@ msgid "also clone needed dependencies"
 msgstr "복제가 필요한 의존 패키지"
 
 #: src/cli.vala
+msgid "do not print any output"
+msgstr ""
+
+#: src/cli.vala
 msgid "overwrite existing files"
 msgstr "기존 파일 덮어쓰기"
 
@@ -940,6 +1014,10 @@ msgstr "--no-clone 옵션이 강제 적용되었습니다"
 #: src/cli.vala
 msgid "keep built packages in cache after installation"
 msgstr "설치후 빌드된 패키지를 캐시에 보관"
+
+#: src/cli.vala
+msgid "only print what would be done but do not run the transaction"
+msgstr ""
 
 #: src/cli.vala
 msgid "do not clone build files from AUR, only use local files"
@@ -1008,26 +1086,34 @@ msgid "Exit code is 100 if updates are available"
 msgstr "업데이트가 가능한 경우 종료 코드는 100입니다"
 
 #: src/cli.vala
-msgid "also check updates in AUR"
-msgstr "AUR에서 패키지 업데이트도 확인"
-
-#: src/cli.vala
-msgid "also check development packages updates (use with --aur)"
-msgstr "개발 패키지 업데이트도 확인 (--aur와 함께 사용)"
-
-#: src/cli.vala
-msgid "only print one line per update"
-msgstr "하나의 업데이트에 대해 하나의 행만 표시"
-
-#: src/cli.vala
 msgid ""
 "build directory (use with --devel), if no directory is given the one "
 "specified in pamac.conf file is used"
 msgstr "빌드 디렉토리( --devel과 함께 사용), 디렉토리가 없는 경우 pamac.conf 파일에 지정된 디렉토리가 사용됩니다"
 
 #: src/cli.vala
+msgid "also check updates in AUR"
+msgstr "AUR에서 패키지 업데이트도 확인"
+
+#: src/cli.vala
+msgid "only print one line per update"
+msgstr "하나의 업데이트에 대해 하나의 행만 표시"
+
+#: src/cli.vala
+msgid "also check development packages updates (use with --aur)"
+msgstr "개발 패키지 업데이트도 확인 (--aur와 함께 사용)"
+
+#: src/cli.vala
 msgid "Upgrade your system"
 msgstr "시스템 업그레이드"
+
+#: src/cli.vala
+msgid "force the refresh of the databases"
+msgstr "데이터베이스의 새로고침 강제 적용"
+
+#: src/cli.vala
+msgid "enable package downgrades"
+msgstr "패키지 다운 그레이드 사용"
 
 #: src/cli.vala
 msgid "also upgrade packages installed from AUR"
@@ -1042,14 +1128,6 @@ msgid ""
 "build directory (use with --aur), if no directory is given the one specified"
 " in pamac.conf file is used"
 msgstr "빌드 디렉토리 (--aur와 함께 사용), 디렉토리가 없는 경우 pamac.conf 파일에 지정된 디렉토리가 사용됩니다"
-
-#: src/cli.vala
-msgid "force the refresh of the databases"
-msgstr "데이터베이스의 새로고침 강제 적용"
-
-#: src/cli.vala
-msgid "enable package downgrades"
-msgstr "패키지 다운 그레이드 사용"
 
 #: src/cli.vala
 msgid "Clean packages cache or build files"
@@ -1081,10 +1159,6 @@ msgstr "파일을 제거하지 않고 후보 패키지만 찾습니다"
 #: src/cli.vala
 msgid "also display all files names"
 msgstr "또한 모든 파일 이름 표시"
-
-#: src/cli.vala resources/manager_window.ui
-msgid "Name"
-msgstr "이름"
 
 #: src/cli.vala
 msgid "Version"
@@ -1132,6 +1206,11 @@ msgstr "빌드 파일 정리"
 
 #: src/cli.vala
 #, c-format
+msgid "Add %s to install"
+msgstr ""
+
+#: src/cli.vala
+#, c-format
 msgid "%s is only available from AUR"
 msgstr "%s는 AUR에서만 이용 가능"
 
@@ -1149,6 +1228,11 @@ msgstr[0] "%u 개의 패키지가 %s 그룹에 있습니다"
 #: src/cli.vala
 msgid "all"
 msgstr "모두제공하는 것을 선택"
+
+#: src/cli.vala
+#, c-format
+msgid "Add %s to reinstall"
+msgstr ""
 
 #: resources/choose_provider_dialog.ui
 msgid "Choose a Provider"
@@ -1223,18 +1307,6 @@ msgid "Sort by"
 msgstr "정렬:"
 
 #: resources/manager_window.ui
-msgid "Relevance"
-msgstr "관련성"
-
-#: resources/manager_window.ui
-msgid "Size"
-msgstr "크기"
-
-#: resources/manager_window.ui
-msgid "Date"
-msgstr "날짜"
-
-#: resources/manager_window.ui
 msgid "Launch"
 msgstr "실행"
 
@@ -1307,10 +1379,6 @@ msgid "Refresh Mirrors List"
 msgstr "미러 목록 새로고침"
 
 #: resources/preferences_dialog.ui
-msgid "Official Repositories"
-msgstr "공식 저장소"
-
-#: resources/preferences_dialog.ui
 msgid ""
 "AUR is a community maintained repository so it presents potential risks and problems.\n"
 "All AUR users should be familiar with the build process."
@@ -1327,10 +1395,6 @@ msgstr "Pamac이 AUR로부터 패키지를 검색하고 설치하도록 허용"
 #: resources/preferences_dialog.ui
 msgid "Keep built packages in cache"
 msgstr "빌드된 패키지를 캐시에 보관"
-
-#: resources/preferences_dialog.ui
-msgid "Check for updates from AUR"
-msgstr "AUR에서 업데이트 확인"
 
 #: resources/preferences_dialog.ui
 msgid "Check for development packages updates"

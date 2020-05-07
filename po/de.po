@@ -36,8 +36,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2020-03-06 17:13+0100\n"
-"PO-Revision-Date: 2020-03-06 19:53+0000\n"
+"POT-Creation-Date: 2020-05-06 11:12+0200\n"
+"PO-Revision-Date: 2020-05-06 16:06+0000\n"
 "Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: German (http://www.transifex.com/manjarolinux/manjaro-pamac/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -95,10 +95,24 @@ msgstr "Paket %s hat keine gültige Architektur"
 msgid "unable to satisfy dependency '%s' required by %s"
 msgstr "nicht vorhandene Abhängigkeit '%s' benötigt von %s"
 
+#: src/alpm_utils.vala src/transaction-gtk.vala src/cli.vala
+msgid "Warning"
+msgstr "Warnung"
+
 #: src/alpm_utils.vala
 #, c-format
 msgid "installing %s (%s) breaks dependency '%s' required by %s"
 msgstr "das Installieren von %s (%s) verletzt Abhängigkeit '%s' benötigt von %s"
+
+#: src/alpm_utils.vala src/cli.vala
+#, c-format
+msgid "Add %s to remove"
+msgstr "%s zum entfernen hinzufügen"
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "if possible, remove %s and retry"
+msgstr "entferne %s wenn möglich erneut"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -115,9 +129,14 @@ msgstr " %s und %s stehen im Konflikt zueinander"
 msgid "%s needs to be removed but it is a locked package"
 msgstr "%s soll entfernt werden, ist aber ein gesperrtes Paket "
 
-#: src/alpm_utils.vala src/transaction.vala src/installer.vala src/cli.vala
-msgid "Nothing to do"
-msgstr "Es gibt nichts zu tun"
+#: src/alpm_utils.vala
+#, c-format
+msgid "removing %s from target list"
+msgstr "entferne %s von der Zielliste"
+
+#: src/alpm_utils.vala
+msgid "Failed to initialize AUR database"
+msgstr "AUR Datenbank initialisieren fehlgeschlagen"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -126,13 +145,40 @@ msgstr "%s existiert in %s und %s"
 
 #: src/alpm_utils.vala
 #, c-format
+msgid "%s: %s already exists in filesystem (owned by %s)"
+msgstr "%s: %s existiert bereits im Dateisystem (gehört zu %s)"
+
+#: src/alpm_utils.vala
+#, c-format
 msgid "%s: %s already exists in filesystem"
 msgstr "%s: %s existiert bereits im Dateisystem"
+
+#: src/alpm_utils.vala
+msgid "if this file is not needed, remove it and retry"
+msgstr "falls diese Datei nicht gebraucht wird, entfernen und erneut versuchen"
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "%s: %s already existed in filesystem"
+msgstr "%s: %s existiert bereits im Dateisystem"
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "It has been backup to %s"
+msgstr "Wurde als %s archiviert"
+
+#: src/alpm_utils.vala
+msgid "Removing invalid files and retrying"
+msgstr "Entferne ungültige Dateien und wiederhole"
 
 #: src/alpm_utils.vala
 #, c-format
 msgid "%s is invalid or corrupted"
 msgstr " %s ist ungültig oder beschädigt"
+
+#: src/alpm_utils.vala
+msgid "you can remove this file and retry"
+msgstr "entferne die Datei und versuche es erneut"
 
 #: src/alpm_utils.vala
 msgid "failed to retrieve some files"
@@ -204,10 +250,6 @@ msgstr "Fehler beim Konfigurieren von %s"
 #: src/alpm_utils.vala
 msgid "Checking available disk space"
 msgstr "Überprüfe verfügbaren Speicherplatz"
-
-#: src/alpm_utils.vala src/transaction-gtk.vala src/cli.vala
-msgid "Warning"
-msgstr "Warnung"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -368,6 +410,10 @@ msgstr "Vorgang erfolgreich abgeschlossen"
 msgid "Preparing"
 msgstr "Vorbereitung"
 
+#: src/transaction.vala src/installer.vala src/cli.vala
+msgid "Nothing to do"
+msgstr "Es gibt nichts zu tun"
+
 #: src/transaction.vala
 #, c-format
 msgid "Building %s"
@@ -397,8 +443,8 @@ msgid "Trust and Import"
 msgstr "Vertrauen und importieren"
 
 #: src/transaction-gtk.vala src/manager_window.vala
-#: resources/transaction_sum_dialog.ui resources/manager_window.ui
-#: resources/choose_pkgs_dialog.ui
+#: resources/progress_dialog.ui resources/transaction_sum_dialog.ui
+#: resources/manager_window.ui resources/choose_pkgs_dialog.ui
 msgid "_Cancel"
 msgstr "_Abbrechen"
 
@@ -677,6 +723,26 @@ msgstr "Isoliert in einer Sandbox"
 msgid "Channels"
 msgstr "Kanäle"
 
+#: src/manager_window.vala resources/manager_window.ui
+msgid "Relevance"
+msgstr "Relevanz"
+
+#: src/manager_window.vala src/cli.vala resources/manager_window.ui
+msgid "Name"
+msgstr "Name"
+
+#: src/manager_window.vala resources/manager_window.ui
+msgid "Size"
+msgstr "Größe"
+
+#: src/manager_window.vala resources/manager_window.ui
+msgid "Date"
+msgstr "Datum"
+
+#: src/manager_window.vala resources/preferences_dialog.ui
+msgid "Official Repositories"
+msgstr "Offizielle Softwarequellen"
+
 #: src/manager_window.vala
 msgid "Upgrade"
 msgstr "Aktualisierung"
@@ -877,6 +943,10 @@ msgid ""
 msgstr "suche nach Paketen mit den gegebenen Dateinamen (Dateinamen können unvollständig sein)"
 
 #: src/cli.vala
+msgid "only print names"
+msgstr "Nur Namen ausgeben"
+
+#: src/cli.vala
 msgid "Display package details, multiple packages can be specified"
 msgstr "Paketdetails anzeigen, mehrere Pakete können ausgewählt werden"
 
@@ -941,6 +1011,10 @@ msgid "also clone needed dependencies"
 msgstr "benötigte Abhängigkeiten ebenfalls klonen"
 
 #: src/cli.vala
+msgid "do not print any output"
+msgstr "Keinen Output ausgeben"
+
+#: src/cli.vala
 msgid "overwrite existing files"
 msgstr "Existierende Dateien überschreiben"
 
@@ -962,6 +1036,10 @@ msgstr "und die Option --no-clone wird erzwungen"
 #: src/cli.vala
 msgid "keep built packages in cache after installation"
 msgstr "Erstellte Pakete nach der Installation im Cache vorhalten"
+
+#: src/cli.vala
+msgid "only print what would be done but do not run the transaction"
+msgstr "nur ausgeben was ausgeführt werden würde, jedoch nicht durchführen"
 
 #: src/cli.vala
 msgid "do not clone build files from AUR, only use local files"
@@ -1030,26 +1108,34 @@ msgid "Exit code is 100 if updates are available"
 msgstr "Der Exit-Code lautet 100, wenn Aktualisierungen verfügbar sind"
 
 #: src/cli.vala
-msgid "also check updates in AUR"
-msgstr "auch im AUR nach Aktualisierungen suchen"
-
-#: src/cli.vala
-msgid "also check development packages updates (use with --aur)"
-msgstr "auch Entwicklungspakete auf Aktualisierungen prüfen (benutzen mit --aur)"
-
-#: src/cli.vala
-msgid "only print one line per update"
-msgstr "nur eine Zeile pro Aktualisierung anzeigen"
-
-#: src/cli.vala
 msgid ""
 "build directory (use with --devel), if no directory is given the one "
 "specified in pamac.conf file is used"
 msgstr "Build-Verzeichnis (benutzen mit --devel), wenn kein Verzeichnis angegeben wurde, wird das in der Datei pamac.conf verwendet"
 
 #: src/cli.vala
+msgid "also check updates in AUR"
+msgstr "auch im AUR nach Aktualisierungen suchen"
+
+#: src/cli.vala
+msgid "only print one line per update"
+msgstr "nur eine Zeile pro Aktualisierung anzeigen"
+
+#: src/cli.vala
+msgid "also check development packages updates (use with --aur)"
+msgstr "auch Entwicklungspakete auf Aktualisierungen prüfen (benutzen mit --aur)"
+
+#: src/cli.vala
 msgid "Upgrade your system"
 msgstr "Aktualisiere dein System"
+
+#: src/cli.vala
+msgid "force the refresh of the databases"
+msgstr "Aktualisierung der Datenbanken erzwingen"
+
+#: src/cli.vala
+msgid "enable package downgrades"
+msgstr "das Installieren vorheriger Paketversionen aktivieren"
 
 #: src/cli.vala
 msgid "also upgrade packages installed from AUR"
@@ -1064,14 +1150,6 @@ msgid ""
 "build directory (use with --aur), if no directory is given the one specified"
 " in pamac.conf file is used"
 msgstr "Build-Verzeichnis (benutzen mit --aur), wenn kein Verzeichnis angegeben wurde, wird das in der Datei pamac.conf verwendet"
-
-#: src/cli.vala
-msgid "force the refresh of the databases"
-msgstr "Aktualisierung der Datenbanken erzwingen"
-
-#: src/cli.vala
-msgid "enable package downgrades"
-msgstr "das Installieren vorheriger Paketversionen aktivieren"
 
 #: src/cli.vala
 msgid "Clean packages cache or build files"
@@ -1103,10 +1181,6 @@ msgstr "keine Dateien entfernen, nur potentielle Pakete finden"
 #: src/cli.vala
 msgid "also display all files names"
 msgstr "ebenfalls alle Dateinamen anzeigen"
-
-#: src/cli.vala resources/manager_window.ui
-msgid "Name"
-msgstr "Name"
 
 #: src/cli.vala
 msgid "Version"
@@ -1155,6 +1229,11 @@ msgstr "Bereinige Build-Dateien"
 
 #: src/cli.vala
 #, c-format
+msgid "Add %s to install"
+msgstr "%s zum Installieren hinzufügen"
+
+#: src/cli.vala
+#, c-format
 msgid "%s is only available from AUR"
 msgstr "%s ist nur im AUR verfügbar"
 
@@ -1173,6 +1252,11 @@ msgstr[1] "Es gibt %u Mitglieder in der Gruppe %s"
 #: src/cli.vala
 msgid "all"
 msgstr "alle"
+
+#: src/cli.vala
+#, c-format
+msgid "Add %s to reinstall"
+msgstr "%s zum Reinstallieren hinzufügen"
 
 #: resources/choose_provider_dialog.ui
 msgid "Choose a Provider"
@@ -1247,18 +1331,6 @@ msgid "Sort by"
 msgstr "Sortiere nach"
 
 #: resources/manager_window.ui
-msgid "Relevance"
-msgstr "Relevanz"
-
-#: resources/manager_window.ui
-msgid "Size"
-msgstr "Größe"
-
-#: resources/manager_window.ui
-msgid "Date"
-msgstr "Datum"
-
-#: resources/manager_window.ui
 msgid "Launch"
 msgstr "Starten"
 
@@ -1331,10 +1403,6 @@ msgid "Refresh Mirrors List"
 msgstr "Aktualisiere Liste der Spiegelserver"
 
 #: resources/preferences_dialog.ui
-msgid "Official Repositories"
-msgstr "Offizielle Softwarequellen"
-
-#: resources/preferences_dialog.ui
 msgid ""
 "AUR is a community maintained repository so it presents potential risks and problems.\n"
 "All AUR users should be familiar with the build process."
@@ -1351,10 +1419,6 @@ msgstr "Erlaube Pamac, AUR-Pakete zu suchen und zu installieren"
 #: resources/preferences_dialog.ui
 msgid "Keep built packages in cache"
 msgstr "Erstellte Pakete im Cache vorhalten"
-
-#: resources/preferences_dialog.ui
-msgid "Check for updates from AUR"
-msgstr "Das AUR auf Aktualisierungen prüfen"
 
 #: resources/preferences_dialog.ui
 msgid "Check for development packages updates"

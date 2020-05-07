@@ -19,8 +19,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2020-03-06 17:13+0100\n"
-"PO-Revision-Date: 2020-03-14 18:31+0000\n"
+"POT-Creation-Date: 2020-05-06 11:12+0200\n"
+"PO-Revision-Date: 2020-05-07 10:51+0000\n"
 "Last-Translator: Davidmp <medipas@gmail.com>\n"
 "Language-Team: Catalan (http://www.transifex.com/manjarolinux/manjaro-pamac/language/ca/)\n"
 "MIME-Version: 1.0\n"
@@ -78,10 +78,24 @@ msgstr "El paquet %s no té una arquitectura vàlida."
 msgid "unable to satisfy dependency '%s' required by %s"
 msgstr "No es pot satisfer la dependència \"%s\" requerida per %s."
 
+#: src/alpm_utils.vala src/transaction-gtk.vala src/cli.vala
+msgid "Warning"
+msgstr "Avís"
+
 #: src/alpm_utils.vala
 #, c-format
 msgid "installing %s (%s) breaks dependency '%s' required by %s"
 msgstr "Instal·lar %s (%s) trenca la dependència \"%s\" requerida per %s."
+
+#: src/alpm_utils.vala src/cli.vala
+#, c-format
+msgid "Add %s to remove"
+msgstr "Afegeix %s a la supressió"
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "if possible, remove %s and retry"
+msgstr "Si és possible, suprimiu %s i torneu-ho a intentar."
 
 #: src/alpm_utils.vala
 #, c-format
@@ -96,11 +110,16 @@ msgstr "%s and %s tenen conflictes."
 #: src/alpm_utils.vala
 #, c-format
 msgid "%s needs to be removed but it is a locked package"
-msgstr "%s s'ha de suprimir però és un paquet bloquejat."
+msgstr "%s s'ha de suprimir però és un paquet blocat."
 
-#: src/alpm_utils.vala src/transaction.vala src/installer.vala src/cli.vala
-msgid "Nothing to do"
-msgstr "Res per fer."
+#: src/alpm_utils.vala
+#, c-format
+msgid "removing %s from target list"
+msgstr "Se suprimeix %s de la llista d'objectius."
+
+#: src/alpm_utils.vala
+msgid "Failed to initialize AUR database"
+msgstr "Ha fallat iniciar la base de dades de l'AUR."
 
 #: src/alpm_utils.vala
 #, c-format
@@ -109,13 +128,40 @@ msgstr "%s existeix a %s i %s."
 
 #: src/alpm_utils.vala
 #, c-format
+msgid "%s: %s already exists in filesystem (owned by %s)"
+msgstr "%s: %s ja existeix al sistema de fitxers (pertany a %s)"
+
+#: src/alpm_utils.vala
+#, c-format
 msgid "%s: %s already exists in filesystem"
-msgstr "%s: %s ja és al sistema de fitxers."
+msgstr "%s: %s ja existeix al sistema de fitxers."
+
+#: src/alpm_utils.vala
+msgid "if this file is not needed, remove it and retry"
+msgstr "Si aquest fitxer no és necessari, suprimiu-lo i torneu-ho a intentar."
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "%s: %s already existed in filesystem"
+msgstr "%s: %s ja existia al sistema de fitxers."
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "It has been backup to %s"
+msgstr "Se n'ha fet una còpia de seguretat a %s."
+
+#: src/alpm_utils.vala
+msgid "Removing invalid files and retrying"
+msgstr "Se suprimeixen els fitxers no vàlids i es torna a intentar."
 
 #: src/alpm_utils.vala
 #, c-format
 msgid "%s is invalid or corrupted"
 msgstr "%s no és vàlid o és corrupte."
+
+#: src/alpm_utils.vala
+msgid "you can remove this file and retry"
+msgstr "Podeu suprimir aquest fitxer i tornar-ho a intentar."
 
 #: src/alpm_utils.vala
 msgid "failed to retrieve some files"
@@ -188,10 +234,6 @@ msgstr "Error en configurar %s"
 msgid "Checking available disk space"
 msgstr "Es comprova l'espai disponible al disc."
 
-#: src/alpm_utils.vala src/transaction-gtk.vala src/cli.vala
-msgid "Warning"
-msgstr "Avís"
-
 #: src/alpm_utils.vala
 #, c-format
 msgid "%s optionally requires %s"
@@ -213,12 +255,12 @@ msgstr "Es baixen les claus requerides."
 #: src/alpm_utils.vala
 #, c-format
 msgid "%s installed as %s.pacnew"
-msgstr "%s s'ha instal·lat com a %s.pacnew"
+msgstr "%s s'ha instal·lat com a %s.pacnew."
 
 #: src/alpm_utils.vala
 #, c-format
 msgid "%s installed as %s.pacsave"
-msgstr "%s s'ha instal·lat com a %s.pacsave"
+msgstr "%s s'ha instal·lat com a %s.pacsave."
 
 #: src/alpm_utils.vala
 msgid "Running pre-transaction hooks"
@@ -351,6 +393,10 @@ msgstr "Transacció acabada amb èxit"
 msgid "Preparing"
 msgstr "Es prepara"
 
+#: src/transaction.vala src/installer.vala src/cli.vala
+msgid "Nothing to do"
+msgstr "Res per fer."
+
 #: src/transaction.vala
 #, c-format
 msgid "Building %s"
@@ -380,8 +426,8 @@ msgid "Trust and Import"
 msgstr "Confia-hi i importa-la"
 
 #: src/transaction-gtk.vala src/manager_window.vala
-#: resources/transaction_sum_dialog.ui resources/manager_window.ui
-#: resources/choose_pkgs_dialog.ui
+#: resources/progress_dialog.ui resources/transaction_sum_dialog.ui
+#: resources/manager_window.ui resources/choose_pkgs_dialog.ui
 msgid "_Cancel"
 msgstr "_Cancel·la"
 
@@ -660,6 +706,26 @@ msgstr "Confinada en un Sandbox"
 msgid "Channels"
 msgstr "Canals"
 
+#: src/manager_window.vala resources/manager_window.ui
+msgid "Relevance"
+msgstr "Rellevància"
+
+#: src/manager_window.vala src/cli.vala resources/manager_window.ui
+msgid "Name"
+msgstr "Nom"
+
+#: src/manager_window.vala resources/manager_window.ui
+msgid "Size"
+msgstr "Mida"
+
+#: src/manager_window.vala resources/manager_window.ui
+msgid "Date"
+msgstr "Data"
+
+#: src/manager_window.vala resources/preferences_dialog.ui
+msgid "Official Repositories"
+msgstr "Repositoris oficials"
+
 #: src/manager_window.vala
 msgid "Upgrade"
 msgstr "Actualitza"
@@ -860,6 +926,10 @@ msgid ""
 msgstr "Cerca paquets que tinguin els noms de fitxers proporcionats (els noms poden ser parcials)."
 
 #: src/cli.vala
+msgid "only print names"
+msgstr "Imprimeix-ne només els noms."
+
+#: src/cli.vala
 msgid "Display package details, multiple packages can be specified"
 msgstr "Mostra els detalls dels paquets. Es poden especificar diversos paquets."
 
@@ -924,6 +994,10 @@ msgid "also clone needed dependencies"
 msgstr "Clona també les dependències necessàries."
 
 #: src/cli.vala
+msgid "do not print any output"
+msgstr "No n'imprimeixis cap sortida."
+
+#: src/cli.vala
 msgid "overwrite existing files"
 msgstr "Sobreescriu els fitxers existents."
 
@@ -945,6 +1019,10 @@ msgstr "i es forçarà l'opció --no-clone."
 #: src/cli.vala
 msgid "keep built packages in cache after installation"
 msgstr "Mantén els paquets construïts a la cau després de la instal·lació."
+
+#: src/cli.vala
+msgid "only print what would be done but do not run the transaction"
+msgstr "Imprimeix el que es faria però no facis la transacció."
 
 #: src/cli.vala
 msgid "do not clone build files from AUR, only use local files"
@@ -1013,26 +1091,34 @@ msgid "Exit code is 100 if updates are available"
 msgstr "El codi de sortida és 100 si hi ha actualitzacions disponibles."
 
 #: src/cli.vala
-msgid "also check updates in AUR"
-msgstr "Comprova també les actualitzacions de l'AUR."
-
-#: src/cli.vala
-msgid "also check development packages updates (use with --aur)"
-msgstr "Comprova també si hi ha actualitzacions de paquets de desenvolupament (useu-ho amb --aur)."
-
-#: src/cli.vala
-msgid "only print one line per update"
-msgstr "Imprimeix només una línia per cada actualització."
-
-#: src/cli.vala
 msgid ""
 "build directory (use with --devel), if no directory is given the one "
 "specified in pamac.conf file is used"
 msgstr "Directori de construcció (useu-ho amb --devel); si no se'n diu cap, s'usa el que s'especifica al fitxer pamac.conf."
 
 #: src/cli.vala
+msgid "also check updates in AUR"
+msgstr "Comprova també les actualitzacions de l'AUR."
+
+#: src/cli.vala
+msgid "only print one line per update"
+msgstr "Imprimeix només una línia per cada actualització."
+
+#: src/cli.vala
+msgid "also check development packages updates (use with --aur)"
+msgstr "Comprova també si hi ha actualitzacions de paquets de desenvolupament (useu-ho amb --aur)."
+
+#: src/cli.vala
 msgid "Upgrade your system"
 msgstr "Actualitza el sistema"
+
+#: src/cli.vala
+msgid "force the refresh of the databases"
+msgstr "Força el refresc de les bases de dades."
+
+#: src/cli.vala
+msgid "enable package downgrades"
+msgstr "Habilita la desactualització de paquets."
 
 #: src/cli.vala
 msgid "also upgrade packages installed from AUR"
@@ -1047,14 +1133,6 @@ msgid ""
 "build directory (use with --aur), if no directory is given the one specified"
 " in pamac.conf file is used"
 msgstr "Directori de construcció (useu-ho amb --aur). Si no se'n diu cap, s'usa el que s'especifica al fitxer pamac.conf."
-
-#: src/cli.vala
-msgid "force the refresh of the databases"
-msgstr "Força el refresc de les bases de dades."
-
-#: src/cli.vala
-msgid "enable package downgrades"
-msgstr "Habilita la desactualització de paquets."
 
 #: src/cli.vala
 msgid "Clean packages cache or build files"
@@ -1086,10 +1164,6 @@ msgstr "No suprimeixis fitxers, troba només els paquets candidats."
 #: src/cli.vala
 msgid "also display all files names"
 msgstr "Mostra també tots els noms dels fitxers."
-
-#: src/cli.vala resources/manager_window.ui
-msgid "Name"
-msgstr "Nom"
 
 #: src/cli.vala
 msgid "Version"
@@ -1138,6 +1212,11 @@ msgstr "Neteja els fitxers de construcció."
 
 #: src/cli.vala
 #, c-format
+msgid "Add %s to install"
+msgstr "Afegeix %s a la instal·lació"
+
+#: src/cli.vala
+#, c-format
 msgid "%s is only available from AUR"
 msgstr "%s només està disponible des de l'AUR."
 
@@ -1156,6 +1235,11 @@ msgstr[1] "Hi ha %u membres al grup %s."
 #: src/cli.vala
 msgid "all"
 msgstr "tot"
+
+#: src/cli.vala
+#, c-format
+msgid "Add %s to reinstall"
+msgstr "Afegeix %s a la reinstal·lació"
 
 #: resources/choose_provider_dialog.ui
 msgid "Choose a Provider"
@@ -1230,18 +1314,6 @@ msgid "Sort by"
 msgstr "Ordena per"
 
 #: resources/manager_window.ui
-msgid "Relevance"
-msgstr "Rellevància"
-
-#: resources/manager_window.ui
-msgid "Size"
-msgstr "Mida"
-
-#: resources/manager_window.ui
-msgid "Date"
-msgstr "Data"
-
-#: resources/manager_window.ui
 msgid "Launch"
 msgstr "Obre"
 
@@ -1314,10 +1386,6 @@ msgid "Refresh Mirrors List"
 msgstr "Actualitza la llista de rèpliques"
 
 #: resources/preferences_dialog.ui
-msgid "Official Repositories"
-msgstr "Repositoris oficials"
-
-#: resources/preferences_dialog.ui
 msgid ""
 "AUR is a community maintained repository so it presents potential risks and problems.\n"
 "All AUR users should be familiar with the build process."
@@ -1334,10 +1402,6 @@ msgstr "Permet que Pamac cerqui i instal·li paquets des de l'AUR."
 #: resources/preferences_dialog.ui
 msgid "Keep built packages in cache"
 msgstr "Mantén els paquets construïts a la cau."
-
-#: resources/preferences_dialog.ui
-msgid "Check for updates from AUR"
-msgstr "Comprova si hi ha actualitzacions de l'AUR."
 
 #: resources/preferences_dialog.ui
 msgid "Check for development packages updates"
