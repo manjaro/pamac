@@ -1,10 +1,10 @@
-Pamac is a Package Manager based on libalpm with AUR and Appstream support
+Pamac is a Package Manager with Alpm, AUR, Appstream, Flatpak and Snap support
 
 #### Features
 
  - libpamac: Library to access package infos and run transactions
  - Python bindings for libpamac
- - pamac: a CLI
+ - pamac: an easy CLI
  - pamac-manager: a Gtk3 GUI
  - pamac-tray: a Gtk3 tray icon with updates notifications
  - pamac-tray-appindicator: a AppIndicator tray icon with updates notifications
@@ -17,7 +17,7 @@ In the source directory run:
 
 `mkdir builddir && cd builddir`
 
-`meson --prefix=/usr --sysconfdir=/etc`
+`meson --prefix=/usr --sysconfdir=/etc -Denable-snap=true -Denable-flatpak=true --buildtype=release`
 
 `ninja`
 
